@@ -1660,6 +1660,13 @@ impl Hud {
         let pops = [Pop::Elevation, Pop::Spin];
         let bx0 = 10.0;
         let mut anchors = [0.0f32; 2];
+        // Not this player's turn: the cue settings stay in view, dimmed and
+        // quiet, so nothing jumps when the turn comes back.
+        let opacity = crate::paint::opacity();
+        let idle = (!my_turn).then(|| {
+            crate::paint::set_opacity(opacity * 0.45);
+            ui.suspend_input()
+        });
         for (k, pop) in pops.into_iter().enumerate() {
             let r = Rect::new(bx0 + k as f32 * (bw + gap), bar.y + 9.0, bw, bh);
             anchors[k] = r.x + r.w / 2.0;
@@ -1673,6 +1680,10 @@ impl Hud {
         let fw = (sw * 0.17).clamp(150.0, 210.0);
         let fine = Rect::new(bx0 + pops.len() as f32 * (bw + gap), bar.y + 9.0, fw, bh);
         self.fine_aim_inline(ui, m, fine, my_turn);
+        if let Some(saved) = idle {
+            ui.resume_input(saved);
+            crate::paint::set_opacity(opacity);
+        }
         let left_end = fine.x + fine.w + gap;
         // The power bar, centred in the space between (room for "100%" on its right).
         let room = (shoot.x - 60.0) - (left_end + 24.0);

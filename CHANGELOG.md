@@ -1,5 +1,20 @@
 # Changelog
 
+## Unreleased
+
+### Fixes
+- The overhead view with the bar around the table no longer rises into the
+  ceiling beam above the table (the screen went black); it stays under the
+  ceiling and widens its view instead. The same for the broadcast's view
+  from above.
+- The computer no longer picks a clearly worse shot just for variety (often
+  the same pot at a speed that scratches, or that sends the 8 into another
+  pocket), and on the 8 every level checks that the shot still works when
+  struck a little imperfectly: it rarely sinks the 8 in a pocket other than
+  the one it called.
+- Watching a game: the TV camera is off by default (it can be turned on in
+  the settings).
+
 ## 0.1.4 (protocol 12)
 
 Only additions to the protocol: the server still lets 0.1.2 and 0.1.3 in

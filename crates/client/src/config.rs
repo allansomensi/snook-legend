@@ -182,7 +182,7 @@ impl Default for Config {
             effect: "effect_none".into(),
             email_offer_declined: false,
             board_seen: 0,
-            tv_camera: true,
+            tv_camera: false,
             desktop_notifications: true,
         }
     }
@@ -276,7 +276,9 @@ impl Config {
                 }
                 "email_offer_declined" => c.email_offer_declined = v == "true",
                 "board_seen" => c.board_seen = v.parse().unwrap_or(0),
-                "tv_camera" => c.tv_camera = v != "false",
+                // Renamed when the default became off: the old key was
+                // saved for everyone, so it says nothing about a choice.
+                "tv_view" => c.tv_camera = v == "true",
                 "desktop_notifications" => c.desktop_notifications = v != "false",
                 _ => {}
             }
@@ -289,7 +291,7 @@ impl Config {
             "# Snookered settings\nplayer_name = {}\nsecond_player_name = {}\nguide = {}\nshow_help = {}\nshot_camera = {}\ncamera_follow = {}\ngraphics_checked = {}\nlanguage = {}\nvignette = {}\nfocused_scene = {}\nshow_fps = {}\nshow_ping = {}\naim_sensitivity = {:.2}\nui_size = {:.2}\n\
              quality = {}\nmsaa = {}\nfullscreen = {}\nvolume = {:.2}\nserver = {}\nusername = {}\ntoken = {}\n\
              difficulty = {}\nshot_clock = {}\nlan_name = {}\ncloth = {}\ncue = {}\nchalk = {}\nballs = {}\neffect = {}\nemail_offer_declined = {}\n\
-             board_seen = {}\ntv_camera = {}\ndesktop_notifications = {}\n",
+             board_seen = {}\ntv_view = {}\ndesktop_notifications = {}\n",
             self.player_name,
             self.second_player_name,
             self.guide.name(),

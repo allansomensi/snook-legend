@@ -193,16 +193,23 @@ pub fn decide(game: &EightBallGame, difficulty: Difficulty, seed: u64) -> AiDeci
     options.sort_by(|a, b| b.score.total_cmp(&a.score));
 
     // 3. Prefer shots that still work when struck a little imperfectly.
-    if prof.robustness_samples > 0 {
-        robust_rescore(&g, &mut options, me, &prof, &mut rng);
+    // On the 8 every level checks: a slip there sinks it in the wrong
+    // pocket (or scratches) and loses the game.
+    let samples = if g.needs_called_pocket() {
+        prof.robustness_samples.max(2)
+    } else {
+        prof.robustness_samples
+    };
+    if samples > 0 {
+        robust_rescore(&g, &mut options, me, &prof, samples, &mut rng);
     }
 
     // 4. When nothing is likely to drop, play safe (or at least legally).
     let best = options.first().map(|o| o.score).unwrap_or(f64::MIN);
     if best < 700.0 {
         let mut safeties = safety_options(&g, me, &prof);
-        if prof.robustness_samples > 0 {
-            robust_rescore(&g, &mut safeties, me, &prof, &mut rng);
+        if samples > 0 {
+            robust_rescore(&g, &mut safeties, me, &prof, samples, &mut rng);
         }
         options.extend(safeties);
         options.sort_by(|a, b| b.score.total_cmp(&a.score));
@@ -212,32 +219,46 @@ pub fn decide(game: &EightBallGame, difficulty: Difficulty, seed: u64) -> AiDeci
         return AiDecision { cue_ball, shot: Shot::new(0.0, 2.0), called_pocket: called };
     }
 
-    let pick = rng.below(prof.choose_among_top.min(options.len()));
+    // Variety among shots about as good as the best, never a much worse one
+    // (the runner-up is often the same pot at a speed that scratches, or
+    // that sends the 8 into another pocket).
+    let best = options[0].score;
+    let close = options
+        .iter()
+        .take(prof.choose_among_top)
+        .take_while(|o| o.score >= best - CHOICE_MARGIN)
+        .count();
+    let pick = rng.below(close.max(1));
     let o = options[pick];
     AiDecision { cue_ball, shot: perturb(o.shot, &prof, &mut rng), called_pocket: o.called }
 }
 
+/// How much worse than the best a shot may score and still be picked for
+/// variety.
+const CHOICE_MARGIN: f64 = 150.0;
+
 /// Replaces the scores of the leading options with their average over
-/// slightly perturbed executions.
+/// `samples` slightly perturbed executions.
 fn robust_rescore(
     g: &EightBallGame,
     options: &mut [Scored],
     me: usize,
     prof: &Profile,
+    samples: usize,
     rng: &mut Rng,
 ) {
     let n = options.len().min(5);
     let aim = (prof.aim_noise_deg * 2.0).max(0.15).to_radians();
     for o in options.iter_mut().take(n) {
         let mut total = o.score;
-        for k in 0..prof.robustness_samples {
+        for k in 0..samples {
             let mut s = o.shot;
             let sign = if k % 2 == 0 { 1.0 } else { -1.0 };
             s.yaw += sign * aim * (0.6 + 0.4 * rng.next_f64());
             s.speed *= 1.0 + rng.gaussian() * prof.speed_noise * 1.5;
             total += evaluate(g, &s, o.called, me, prof);
         }
-        o.score = total / (prof.robustness_samples + 1) as f64;
+        o.score = total / (samples + 1) as f64;
     }
     options[..n].sort_by(|a, b| b.score.total_cmp(&a.score));
 }
@@ -424,12 +445,21 @@ fn safety_options(g: &EightBallGame, me: usize, prof: &Profile) -> Vec<Scored> {
     let r = g.table().spec.ball_radius;
     let cue = g.ball(BallId::CUE).xy();
     let mut out = Vec::new();
-    let offsets: &[f64] = if prof.plays_safe {
+    // On the 8 every level looks for a touch that keeps it out of the other
+    // pockets (thin hits, soft speeds): sinking it there loses the game.
+    let careful = prof.plays_safe || called.is_some();
+    let offsets: &[f64] = if careful {
         &[-1.6, -1.2, -0.7, -0.3, 0.0, 0.3, 0.7, 1.2, 1.6]
     } else {
         &[-0.8, 0.0, 0.8]
     };
-    let speeds: &[f64] = if prof.plays_safe { &[0.8, 1.3, 2.0, 3.0] } else { &[1.4, 2.4] };
+    let speeds: &[f64] = if called.is_some() {
+        &[0.5, 0.8, 1.3, 2.0, 3.0]
+    } else if prof.plays_safe {
+        &[0.8, 1.3, 2.0, 3.0]
+    } else {
+        &[1.4, 2.4]
+    };
     for target in g.legal_targets() {
         let t = g.ball(target).xy();
         let dir = (t - cue).normalize_or_zero();

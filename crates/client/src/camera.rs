@@ -70,6 +70,9 @@ const ZOOM_NEAR: f32 = 0.6;
 const ZOOM_FAR: f32 = 3.2;
 /// Field of view of the overhead view: narrow, so the table looks flat.
 const TOP_FOV: f32 = 0.63;
+/// The overhead eye never rises above this (m above the floor): the bar's
+/// ceiling beams start at about 2.98 m, and one runs right over the table.
+const TOP_MAX_EYE_Y: f32 = 2.75;
 
 impl Default for CameraRig {
     fn default() -> Self {
@@ -249,7 +252,13 @@ impl CameraRig {
         };
         let look = center.lerp(vec3(action.x, TABLE_HEIGHT, action.z), 0.45);
         match st.shots % 3 {
-            0 => (center + Vec3::Y * 2.9, center, 40f32.to_radians(), 3),
+            // From above, under the ceiling (the same framing as 40° from
+            // 2.9 m over the cloth).
+            0 => {
+                let height = TOP_MAX_EYE_Y - TABLE_HEIGHT;
+                let fov = 2.0 * (2.9 * 20f32.to_radians().tan() / height).atan();
+                (center + Vec3::Y * height, center, fov, 3)
+            }
             1 => {
                 let corner = vec3(2.1 * side, TABLE_HEIGHT + 1.35, -1.35 * side);
                 (corner, look, 46f32.to_radians(), 4)
@@ -292,6 +301,7 @@ impl CameraRig {
         self.tv_state.angle = 0;
         let center = vec3(0.0, TABLE_HEIGHT, 0.0);
         let mut rate = 7.0;
+        let mut top_fov = TOP_FOV;
         let (eye, target, up) = match m {
             None => {
                 let t = elapsed * 0.07;
@@ -324,7 +334,14 @@ impl CameraRig {
                         let per_px = 2.0 * fit * zoom * tan / sh;
                         let shift = (bottom_px - top_px) / 2.0 * per_px;
                         let look = center + self.focus + vec3(0.0, 0.0, shift);
-                        (look + Vec3::Y * fit * zoom, look, Vec3::NEG_Z)
+                        // Too high would put the eye in the ceiling: stay
+                        // below it and widen the view to frame the same area.
+                        let height = fit * zoom;
+                        let max_height = TOP_MAX_EYE_Y - TABLE_HEIGHT;
+                        if height > max_height {
+                            top_fov = 2.0 * (tan * height / max_height).atan();
+                        }
+                        (look + Vec3::Y * height.min(max_height), look, Vec3::NEG_Z)
                     }
                     CameraMode::Aim if !self.follow_cue => {
                         // Fixed view around the middle of the table: it only
@@ -385,7 +402,7 @@ impl CameraRig {
         let dir = (self.target - self.eye).normalize_or(Vec3::NEG_Z);
         let up = if dir.cross(self.up).length() < 1e-3 { Vec3::NEG_Z } else { self.up };
         let fov = if matches!(m.map(|_| self.mode), Some(CameraMode::Top)) {
-            TOP_FOV
+            top_fov
         } else {
             48f32.to_radians()
         };

@@ -378,7 +378,7 @@ impl Menu {
                     let tw = ui.text_size(title, 17.0, true).x;
                     let n = ((get_time() * 2.5) as usize) % 4;
                     ui.text(&".".repeat(n), text_x + tw + 1.0, r.y + 13.0, 17.0, CREAM, true);
-                    spinner(vec2(r.x + r.w - 22.0, r.y + 32.0), 7.0);
+                    crate::ui::spinner(vec2(r.x + r.w - 22.0, r.y + 32.0), 7.0, GOLD);
                 }
                 let sub = ui.ellipsize(sub, text_w, 12.0);
                 ui.text(&sub, text_x, r.y + 37.0, 12.0, MUTED, false);
@@ -417,14 +417,4 @@ impl Menu {
 
 fn player_card_w(sw: f32) -> f32 {
     CARD_W.min(sw * 0.4)
-}
-
-/// A small spinner: dots around a circle, the brightest one turning.
-fn spinner(c: Vec2, radius: f32) {
-    let a = get_time() as f32 * 5.0;
-    for k in 0..8 {
-        let ang = a + k as f32 * std::f32::consts::TAU / 8.0;
-        let p = c + Vec2::from_angle(ang) * radius;
-        draw_circle(p.x, p.y, 1.6, Color::new(GOLD.r, GOLD.g, GOLD.b, (k as f32 + 1.0) / 8.0));
-    }
 }

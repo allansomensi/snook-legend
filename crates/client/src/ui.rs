@@ -418,7 +418,9 @@ impl Ui {
         // Soft drop shadow, body, a sheen that fades out down the top and a
         // thin gold-brown edge.
         soft_shadow(r, 8.0, 1.6);
-        rrect_gradient(r, 8.0, shade(PANEL, 0.03), shade(PANEL, -0.25));
+        // Opaque: a dialog over another panel must not let its text through.
+        let body = Color::new(PANEL.r, PANEL.g, PANEL.b, 1.0);
+        rrect_gradient(r, 8.0, shade(body, 0.03), shade(body, -0.25));
         let sheen = Rect::new(r.x + 1.0, r.y + 1.0, r.w - 2.0, (r.h * 0.5).min(64.0));
         rrect_gradient(
             sheen,
@@ -1504,6 +1506,20 @@ pub fn rrect_gradient(r: Rect, radius: f32, top: Color, bottom: Color) {
     gl.texture(None);
     gl.draw_mode(DrawMode::Triangles);
     gl.geometry(&vertices, &indices);
+}
+
+/// Dots going round: something is on its way. One look everywhere (the
+/// dots scale with `radius`).
+pub fn spinner(c: Vec2, radius: f32, color: Color) {
+    let time = get_time() as f32;
+    let n = 10;
+    let dot = (radius * 0.2).max(1.4);
+    for k in 0..n {
+        let a = k as f32 / n as f32 * std::f32::consts::TAU + time * 4.5;
+        let alpha = 0.15 + 0.85 * k as f32 / n as f32;
+        let p = c + Vec2::from_angle(a) * radius;
+        draw_circle(p.x, p.y, dot, Color::new(color.r, color.g, color.b, color.a * alpha));
+    }
 }
 
 /// The same colour, lighter (`k` > 0) or darker (`k` < 0).

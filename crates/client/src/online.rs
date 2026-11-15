@@ -1269,7 +1269,7 @@ impl Online {
         let mut y = r.y + 24.0;
         ui.text_centered(text, sw / 2.0, y, 17.0, CREAM, true);
         y += 20.0 + 16.0;
-        spinner(vec2(sw / 2.0, y + 18.0), 14.0, 2.6, GOLD);
+        crate::ui::spinner(vec2(sw / 2.0, y + 18.0), 14.0, GOLD);
         y += 36.0 + 16.0;
         for line in &hint {
             ui.text_centered(line, sw / 2.0, y, 13.0, MUTED, false);
@@ -1643,7 +1643,7 @@ impl Online {
             rrect_lines(r, 8.0, 1.5, GOLD);
             let cancel = t("Cancel");
             let bw = button_w(ui, cancel, 32.0).max(90.0);
-            spinner(vec2(r.x + 22.0, r.y + 24.0), 7.0, 1.8, GOLD);
+            crate::ui::spinner(vec2(r.x + 22.0, r.y + 24.0), 7.0, GOLD);
             let kind = if rated { t("rated") } else { t("casual") };
             let text = tw("Waiting for {to} ({kind})…", &[("to", &to), ("kind", &kind)]);
             let (text, size) = fit_text(ui, &text, 15.0, r.w - 40.0 - bw - 24.0, false);
@@ -3219,21 +3219,10 @@ fn row_card(ui: &Ui, r: Rect, clickable: bool) -> bool {
     hover
 }
 
-/// A ring of dots going round: something is on its way.
-fn spinner(c: Vec2, radius: f32, dot: f32, color: Color) {
-    let time = get_time() as f32;
-    for k in 0..10 {
-        let a = k as f32 / 10.0 * std::f32::consts::TAU + time * 4.0;
-        let alpha = 0.15 + 0.85 * k as f32 / 10.0;
-        let p = c + Vec2::from_angle(a) * radius;
-        draw_circle(p.x, p.y, dot, Color::new(color.r, color.g, color.b, alpha));
-    }
-}
-
 /// Waiting for the server: a spinner in the middle of `area`.
 fn loading(ui: &Ui, area: Rect) {
     let c = vec2(area.x + area.w / 2.0, area.y + (area.h * 0.4).min(160.0));
-    spinner(c, 14.0, 2.6, GOLD);
+    crate::ui::spinner(c, 14.0, GOLD);
     ui.text_centered(t("Loading…"), c.x, c.y + 28.0, 13.0, MUTED, false);
 }
 

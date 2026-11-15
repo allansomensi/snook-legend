@@ -171,7 +171,7 @@ impl LanScreen {
         ui.text(t("Games on your network"), x, y, 15.0, GOLD, true);
         let listening = self.discovery.listening();
         if listening {
-            spinner(vec2(x + inner - 10.0, y + 8.0), 6.0);
+            crate::ui::spinner(vec2(x + inner - 10.0, y + 8.0), 6.0, GOLD);
         }
         y += 15.0 + 12.0;
         let list = Rect::new(x, y, inner, list_h);
@@ -260,16 +260,6 @@ impl LanScreen {
             ui.text(line, x, y + k as f32 * (HINT + 3.0), HINT, note_color, false);
         }
         action
-    }
-}
-
-/// A small spinner: dots around a circle, the brightest one turning.
-fn spinner(c: Vec2, radius: f32) {
-    let a = get_time() as f32 * 5.0;
-    for k in 0..8 {
-        let ang = a + k as f32 * std::f32::consts::TAU / 8.0;
-        let p = c + Vec2::from_angle(ang) * radius;
-        draw_circle(p.x, p.y, 1.5, Color::new(GOLD.r, GOLD.g, GOLD.b, (k as f32 + 1.0) / 8.0));
     }
 }
 

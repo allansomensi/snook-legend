@@ -453,16 +453,19 @@ impl Hud {
             let o = m.online.as_ref().expect("online");
             let me = o.seat;
             let won = over.winner == me && !o.spectator;
-            let r = Rect::new(sw / 2.0 - 220.0, sh / 2.0 - 110.0 - STATS_H / 2.0, 440.0, 220.0);
-            ui.panel(r);
-            let view = &mut self.stats_view;
-            draw_match_stats(ui, m, Rect::new(r.x, r.y + r.h + 8.0, r.w, STATS_H - 8.0), view);
-            crate::ui::rrect_lines(r, 8.0, 2.0, if won { GOLD } else { BORDER });
             let title = if won {
                 t("You win!").to_string()
             } else {
                 tw("{name} wins", &[("name", &m.names[over.winner])])
             };
+            let w = (ui.text_size(&title, 28.0, true).x + 64.0).clamp(440.0, sw - 20.0);
+            let r = Rect::new((sw - w) / 2.0, sh / 2.0 - 110.0 - STATS_H / 2.0, w, 220.0);
+            ui.panel(r);
+            let view = &mut self.stats_view;
+            let stats_w = 440.0f32.min(w);
+            let stats = Rect::new((sw - stats_w) / 2.0, r.y + r.h + 8.0, stats_w, STATS_H - 8.0);
+            draw_match_stats(ui, m, stats, view);
+            crate::ui::rrect_lines(r, 8.0, 2.0, if won { GOLD } else { BORDER });
             ui.text_centered(&title, sw / 2.0, r.y + 16.0, 28.0, GOLD, true);
             ui.text_centered(
                 &crate::i18n::result_line(
@@ -539,7 +542,7 @@ impl Hud {
                 let can_rematch =
                     !o.opponent_left && !o.rematch_requested && o.tournament.is_none();
                 let label = if o.rematch_offered { t("Accept rematch") } else { t("Rematch") };
-                let rr = Rect::new(r.x + 30.0, r.y + 164.0, 180.0, 38.0);
+                let rr = Rect::new(sw / 2.0 - 190.0, r.y + 164.0, 180.0, 38.0);
                 if can_rematch {
                     if ui.primary_button(rr, label) {
                         m.rematch();
@@ -548,7 +551,7 @@ impl Hud {
                     ui.button(rr, t("Rematch"), false);
                 }
                 if ui.button(
-                    Rect::new(r.x + 230.0, r.y + 164.0, 180.0, 38.0),
+                    Rect::new(sw / 2.0 + 10.0, r.y + 164.0, 180.0, 38.0),
                     t("Back to lounge"),
                     true,
                 ) {
@@ -557,18 +560,16 @@ impl Hud {
             }
         } else if let (Phase::GameOver, Some(over)) = (&m.phase, m.game.game_over()) {
             let all_computers = m.controllers.iter().all(|c| matches!(c, Controller::Computer(_)));
-            let r = Rect::new(sw / 2.0 - 210.0, sh / 2.0 - 95.0 - STATS_H / 2.0, 420.0, 190.0);
+            let title = tw("{name} wins!", &[("name", &m.names[over.winner])]);
+            // Wide enough for the title with a margin (long computer names).
+            let w = (ui.text_size(&title, 28.0, true).x + 64.0).clamp(420.0, sw - 20.0);
+            let r = Rect::new((sw - w) / 2.0, sh / 2.0 - 95.0 - STATS_H / 2.0, w, 190.0);
             ui.panel(r);
             let view = &mut self.stats_view;
-            draw_match_stats(ui, m, Rect::new(r.x, r.y + r.h + 8.0, r.w, STATS_H - 8.0), view);
-            ui.text_centered(
-                &tw("{name} wins!", &[("name", &m.names[over.winner])]),
-                sw / 2.0,
-                r.y + 18.0,
-                28.0,
-                GOLD,
-                true,
-            );
+            let stats_w = 420.0f32.min(w);
+            let stats = Rect::new((sw - stats_w) / 2.0, r.y + r.h + 8.0, stats_w, STATS_H - 8.0);
+            draw_match_stats(ui, m, stats, view);
+            ui.text_centered(&title, sw / 2.0, r.y + 18.0, 28.0, GOLD, true);
             ui.text_centered(
                 &crate::i18n::result_line(
                     over.reason,
@@ -593,11 +594,11 @@ impl Hud {
                     false,
                 );
             } else {
-                if ui.primary_button(Rect::new(r.x + 30.0, r.y + 128.0, 170.0, 38.0), t("Rematch"))
-                {
+                let bx = sw / 2.0 - 180.0;
+                if ui.primary_button(Rect::new(bx, r.y + 128.0, 170.0, 38.0), t("Rematch")) {
                     m.rematch();
                 }
-                if ui.button(Rect::new(r.x + 220.0, r.y + 128.0, 170.0, 38.0), t("Main menu"), true)
+                if ui.button(Rect::new(bx + 190.0, r.y + 128.0, 170.0, 38.0), t("Main menu"), true)
                 {
                     action = HudAction::MainMenu;
                 }

@@ -209,6 +209,7 @@ Joining the LAN game…	Uniéndose a la partida LAN…
 Just for fun	Solo por diversión
 L	D
 LAN game	Partida LAN
+LAN game hosted by {name}.	Partida en red local de {name}.
 LAN games don't change ratings.	Las partidas LAN no cambian el rating.
 Legend	Leyenda
 Lives at the table	Vive en la mesa

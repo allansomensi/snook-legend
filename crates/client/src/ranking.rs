@@ -65,28 +65,10 @@ pub(crate) fn screen_header(
     back
 }
 
-/// Turning dots: something is on its way.
-pub(crate) fn spinner(c: Vec2, radius: f32, color: Color) {
-    let time = get_time() as f32;
-    let n = 8;
-    let head = (time * 10.0) as usize % n;
-    for k in 0..n {
-        let a = k as f32 / n as f32 * std::f32::consts::TAU - std::f32::consts::FRAC_PI_2;
-        let age = (head + n - k) % n;
-        let alpha = 1.0 - age as f32 / n as f32 * 0.85;
-        draw_circle(
-            c.x + a.cos() * radius,
-            c.y + a.sin() * radius,
-            radius * 0.22,
-            Color::new(color.r, color.g, color.b, color.a * alpha),
-        );
-    }
-}
-
 /// A spinner and a line of text, centred in `area`.
 pub(crate) fn loading(ui: &Ui, area: Rect, text: &str) {
     let cy = area.y + area.h / 2.0;
-    spinner(vec2(area.x + area.w / 2.0, cy - 14.0), 11.0, GOLD);
+    crate::ui::spinner(vec2(area.x + area.w / 2.0, cy - 14.0), 11.0, GOLD);
     ui.text_centered(text, area.x + area.w / 2.0, cy + 10.0, 14.0, MUTED, false);
 }
 

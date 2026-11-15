@@ -209,6 +209,7 @@ Joining the LAN game…	Entrando na partida da rede local…
 Just for fun	Só pela diversão
 L	D
 LAN game	rede local
+LAN game hosted by {name}.	Partida em rede local de {name}.
 LAN games don't change ratings.	Partidas na rede local não mudam o rating.
 Legend	Lenda
 Lives at the table	Mora na mesa

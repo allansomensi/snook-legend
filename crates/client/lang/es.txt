@@ -3,7 +3,8 @@
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} está en la bola 8: tronera cantada {pocket}
 On the 8-ball: {pocket} pocket	En la bola 8: tronera {pocket}
-Show ping (online)	Mostrar ping (en línea)
+Show ping	Mostrar ping
+Your connection's delay, in online games.	El retraso de tu conexión en las partidas en línea.
 Reactions	Reacciones
 Shop	Tienda
 Cloth	Paño
@@ -215,7 +216,7 @@ Loading the profile…	Cargando el perfil…
 Loading…	Cargando…
 Local network	Red local
 Locked	Bloqueado
-Looking for games…	Buscando partidas…
+Looking for games	Buscando partidas
 Make a friend.	Haz un amigo.
 Master	Maestro
 Misses now and then: good for learning.	Falla de vez en cuando: bueno para aprender.
@@ -432,7 +433,9 @@ Accept rematch	Aceptar revancha
 Accept	Aceptar
 Aim	Apuntar
 Aiming guide	Guía de puntería
-Anti-aliasing (smooth edges)	Antialiasing (bordes suaves)
+Aiming	Puntería
+Anti-aliasing	Antialiasing
+Smooths the jagged edges of lines and balls.	Suaviza los bordes dentados de líneas y bolas.
 Back to lounge	Volver al salón
 Back to menu	Volver al menú
 Balanced: smooth on most laptops.	Equilibrado: fluido en la mayoría de portátiles.
@@ -460,10 +463,16 @@ Everything, with the sharpest balls: for gaming PCs.	Todo, con las bolas más n�
 Fine aim	Puntería fina
 Finish this match first.	Termina este partido primero.
 For old or very slow computers.	Para ordenadores antiguos o muy lentos.
-Full screen (F11)	Pantalla completa (F11)
+Full screen	Pantalla completa
+Also with F11.	También con F11.
 Full	Completa
 Game server	Servidor de juego
+Change it only to play on another server.	Cámbialo solo para jugar en otro servidor.
+Advanced	Avanzado
+Custom server	Otro servidor
 Graphics quality	Calidad gráfica
+Quality	Calidad
+Display	Pantalla
 High	Alta
 Hold Space, release	Mantén Espacio y suelta
 Invite	Invitar
@@ -517,6 +526,7 @@ Shooting…	Tirando…
 Short	Corta
 Show the controls panel	Mostrar el panel de controles
 Signing in…	Iniciando sesión…
+Signing in	Iniciando sesión
 Soft shadows from every lamp, contact shading.	Sombras suaves de cada lámpara y sombreado de contacto.
 Solids (1–7)	Lisas (1–7)
 Spin ball · ↑ ↓ · Q / E	Bola de efecto · ↑ ↓ · Q / E
@@ -550,10 +560,13 @@ release Space to shoot · Esc cancels	suelta Espacio para tirar · Esc cancela
  · left english	 · efecto a la izquierda
  · right english	 · efecto a la derecha
 Language	Idioma
+General	General
 Graphics	Gráficos
 Game	Juego
 Sound	Sonido
 Reset to defaults	Restablecer valores
+Reset everything?	¿Restablecer todo?
+Click again to reset every setting	Haz clic otra vez para restablecer todos los ajustes
 Online	En línea
 Menu	Menú
 Rating	Rating
@@ -565,10 +578,14 @@ Called pocket	Tronera cantada
 Change	Cambiar
 Sinking the 8 in any other pocket loses the game.	Meter la 8 en cualquier otra tronera pierde la partida.
 Mouse aim sensitivity	Sensibilidad de puntería del ratón
-Vignette (cinematic edges)	Viñeta (bordes cinematográficos)
+How fast the cue turns with the mouse.	Velocidad del taco al mover el ratón.
+Vignette	Viñeta
+Darkens the edges of the picture, like a film.	Oscurece los bordes de la imagen, como en el cine.
 Show FPS	Mostrar FPS
+Frames per second, in a corner of the screen.	Fotogramas por segundo, en una esquina de la pantalla.
 Call a pocket for the 8-ball first: click a pocket.	Canta primero una tronera para la bola 8: haz clic en una tronera.
 Reconnecting…	Reconectando…
+Reconnecting	Reconectando
 the game is over	la partida terminó
 the cue ball cannot be placed there	la bola blanca no se puede colocar ahí
 call a pocket for the 8-ball	canta una tronera para la bola 8
@@ -646,7 +663,9 @@ a casual game	una partida amistosa
 {r} · playing	{r} · jugando
 {r} · {g} games	{r} · {g} partidas
 …and {n} more	…y {n} más
-Sound volume  {v}%	Volumen  {v}%
+Volume	Volumen
+The cue, the balls, the cushions and the pockets.	El taco, las bolas, las bandas y las troneras.
+Notifications	Notificaciones
 Could not find the server “{host}”.	No se encontró el servidor «{host}».
 Network error: {e}.	Error de red: {e}.
 Secure connection failed: {e}.	Falló la conexión segura: {e}.
@@ -689,18 +708,22 @@ No messages yet.	Todavía no hay mensajes.
 ▼ newer messages	▼ mensajes nuevos
 Right click or Esc cancels	Clic derecho o Esc cancela
 Camera follows the cue	La cámara sigue al taco
+Off: it stays where you put it.	Desactivada: se queda donde la pongas.
 Pull back for shots	Alejar en las tacadas
+Only when the camera follows the cue.	Solo si la cámara sigue al taco.
 Drag the cue around the ball	Arrastra el taco alrededor de la bola
 Drag the cue · click a spot	Arrastra el taco · haz clic en un punto
 Drag up for more power, release to shoot	Arrastra hacia arriba para más fuerza y suelta para tirar
 Drag the power bar up, release	Arrastra la barra de fuerza hacia arriba y suelta
 Time's up: {name}'s shot was played at full power.	Se acabó el tiempo: la tacada de {name} se jugó con fuerza máxima.
-Dark room (spotlight on the table)	Sala oscura (luz solo en la mesa)
+Dark room	Sala oscura
+A spotlight on the table, the room in shadow.	Luz solo en la mesa, el resto de la sala en sombra.
 Hide	Ocultar
 Hide controls	Ocultar controles
 Drag right for more power, release to shoot	Arrastra a la derecha para más fuerza y suelta para tirar
 Drag the power bar right, release	Arrastra la barra de fuerza a la derecha y suelta
-Interface size  {v}%	Tamaño de la interfaz  {v}%
+Interface size	Tamaño de la interfaz
+Text, buttons and panels.	Textos, botones y paneles.
 Drag to set the power	Arrastra para ajustar la fuerza
 Set the power, then press Shoot	Ajusta la fuerza y pulsa Tirar
 Shoot!	¡Tirar!
@@ -927,7 +950,9 @@ Win a game without a foul	Gana una partida sin cometer falta
 Pot 3 balls in a row {n} times	Mete 3 bolas seguidas {n} veces
 Win {n} games without a foul	Gana {n} partidas sin cometer falta
 TV camera when watching	Cámara de TV al mirar
+Broadcast angles for other players' games and replays.	Ángulos de retransmisión en partidas ajenas y repeticiones.
 System notifications	Avisos del sistema
+Invites, friends coming online and games starting, while you're away.	Invitaciones, amigos que se conectan y partidas que empiezan mientras no estás.
 {name} starts in a few minutes: get ready!	{name} empieza en pocos minutos: ¡prepárate!
 {name} starts in a few minutes: there is still room.	{name} empieza en pocos minutos: aún hay plazas.
 {name} has started!	¡{name} ha empezado!

@@ -289,7 +289,7 @@ impl Hud {
         if !ui.wants_keyboard {
             if is_key_pressed(KeyCode::Escape) && self.reactions_open {
                 self.reactions_open = false;
-            } else if is_key_pressed(KeyCode::Escape) && !m.aim.charging && !escape_used {
+            } else if is_key_pressed(KeyCode::Escape) && !escape_used {
                 self.paused = !self.paused;
                 self.confirm_leave = false;
             }

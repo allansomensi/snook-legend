@@ -333,7 +333,9 @@ impl Controls {
             m.aim.power = 0.0;
         }
         if m.aim.charging {
-            if is_key_pressed(KeyCode::Escape) {
+            // Esc cancels a stroke being charged with Space; a power set on
+            // the bar is no stroke (Esc opens the menu and keeps it).
+            if is_key_pressed(KeyCode::Escape) && is_key_down(KeyCode::Space) {
                 m.aim.charging = false;
                 m.aim.power = 0.0;
                 // This Esc cancelled the stroke: it doesn't open the menu too.

@@ -415,17 +415,16 @@ impl Ui {
     pub fn panel(&mut self, r: Rect) {
         self.panels.get_mut().push(r);
         self.block(r);
-        // Soft drop shadow, body, a faint top sheen and a thin gold-brown edge.
-        rrect(
-            Rect::new(r.x - 2.0, r.y + 3.0, r.w + 4.0, r.h + 5.0),
-            10.0,
-            Color::new(0.0, 0.0, 0.0, 0.28),
-        );
-        rrect(r, 8.0, PANEL);
-        rrect(
-            Rect::new(r.x + 1.0, r.y + 1.0, r.w - 2.0, (r.h * 0.5).min(40.0)),
+        // Soft drop shadow, body, a sheen that fades out down the top and a
+        // thin gold-brown edge.
+        soft_shadow(r, 8.0, 1.6);
+        rrect_gradient(r, 8.0, shade(PANEL, 0.03), shade(PANEL, -0.25));
+        let sheen = Rect::new(r.x + 1.0, r.y + 1.0, r.w - 2.0, (r.h * 0.5).min(64.0));
+        rrect_gradient(
+            sheen,
             7.0,
-            Color::new(1.0, 0.85, 0.6, 0.035),
+            Color::new(1.0, 0.85, 0.6, 0.05),
+            Color::new(1.0, 0.85, 0.6, 0.0),
         );
         rrect_lines(r, 8.0, 1.2, BORDER);
     }
@@ -433,27 +432,24 @@ impl Ui {
     pub fn button(&mut self, r: Rect, label: &str, enabled: bool) -> bool {
         self.block(r);
         let hover = enabled && r.contains(self.mouse);
-        let bg = if !enabled {
-            Color::new(0.16, 0.12, 0.09, 0.9)
-        } else if hover && self.down {
-            Color::new(0.50, 0.33, 0.15, 1.0)
-        } else if hover {
-            Color::new(0.38, 0.25, 0.12, 1.0)
+        if !enabled {
+            // Flat and quiet: clearly not something to press.
+            rrect(r, 6.0, Color::new(0.11, 0.08, 0.06, 0.9));
+            rrect_lines(r, 6.0, 1.0, Color::new(BORDER.r, BORDER.g, BORDER.b, 0.45));
         } else {
-            Color::new(0.25, 0.16, 0.09, 1.0)
-        };
-        rrect(r, 6.0, bg);
-        if enabled {
-            rrect(
-                Rect::new(r.x + 1.0, r.y + 1.0, r.w - 2.0, r.h * 0.45),
-                5.0,
-                Color::new(1.0, 0.9, 0.7, 0.06),
-            );
+            let bg = if hover && self.down {
+                Color::new(0.46, 0.30, 0.14, 1.0)
+            } else if hover {
+                Color::new(0.40, 0.27, 0.13, 1.0)
+            } else {
+                Color::new(0.28, 0.18, 0.10, 1.0)
+            };
+            raised(r, 6.0, bg, if hover { GOLD } else { BORDER }, 1.2);
         }
-        rrect_lines(r, 6.0, 1.2, if hover { GOLD } else { BORDER });
         let (label, size) = self.fitted(label, (r.h * 0.45).clamp(13.0, 22.0), r.w - 12.0, true);
-        let color = if enabled { CREAM } else { MUTED };
-        self.text_centered(&label, r.x + r.w / 2.0, r.y + (r.h - size) / 2.0, size, color, true);
+        let color = if enabled { CREAM } else { Color::new(MUTED.r, MUTED.g, MUTED.b, 0.6) };
+        let y = r.y + (r.h - size) / 2.0 + if hover && self.down { 1.0 } else { 0.0 };
+        self.text_centered(&label, r.x + r.w / 2.0, y, size, color, true);
         enabled && hover && self.released
     }
 
@@ -469,15 +465,10 @@ impl Ui {
             GREEN
         };
         rrect(Rect::new(r.x, r.y + 2.0, r.w, r.h), 7.0, Color::new(0.0, 0.0, 0.0, 0.3));
-        rrect(r, 7.0, bg);
-        rrect(
-            Rect::new(r.x + 1.0, r.y + 1.0, r.w - 2.0, r.h * 0.45),
-            6.0,
-            Color::new(1.0, 1.0, 1.0, 0.08),
-        );
-        rrect_lines(r, 7.0, 1.2, if hover { GOLD } else { Color::new(0.3, 0.7, 0.45, 1.0) });
+        raised(r, 7.0, bg, if hover { GOLD } else { Color::new(0.3, 0.7, 0.45, 1.0) }, 1.2);
         let (label, size) = self.fitted(label, (r.h * 0.45).clamp(13.0, 24.0), r.w - 12.0, true);
-        self.text_centered(&label, r.x + r.w / 2.0, r.y + (r.h - size) / 2.0, size, WHITE, true);
+        let y = r.y + (r.h - size) / 2.0 + if hover && self.down { 1.0 } else { 0.0 };
+        self.text_centered(&label, r.x + r.w / 2.0, y, size, WHITE, true);
         hover && self.released
     }
 
@@ -874,8 +865,7 @@ impl Ui {
         } else {
             Color::new(0.12, 0.08, 0.05, 1.0)
         };
-        rrect(r, 8.0, bg);
-        rrect_lines(r, 8.0, if on { 1.8 } else { 1.2 }, if hover || on { GOLD } else { BORDER });
+        raised(r, 8.0, bg, if hover || on { GOLD } else { BORDER }, if on { 1.8 } else { 1.2 });
         hover && self.released
     }
 
@@ -896,9 +886,13 @@ impl Ui {
         } else {
             Color::new(0.12, 0.08, 0.05, 1.0)
         };
-        rrect(r, 6.0, bg);
+        if selected || hover {
+            rrect_gradient(r, 6.0, shade(bg, 0.06), shade(bg, -0.15));
+        } else {
+            rrect(r, 6.0, bg);
+        }
         if selected {
-            draw_rectangle(r.x + 8.0, r.y + r.h - 3.0, r.w - 16.0, 3.0, GOLD);
+            rrect(Rect::new(r.x + 8.0, r.y + r.h - 3.0, r.w - 16.0, 3.0), 1.5, GOLD);
         }
         // Room for the count on the right; the label is centred when that
         // clears it, else moved left (and shrunk only if it must).
@@ -1172,12 +1166,23 @@ impl Ui {
             Color::new(0.38, 0.25, 0.12, 0.95)
         } else if subtle {
             Color::new(0.05, 0.035, 0.025, 0.45)
+        } else if !enabled {
+            Color::new(0.11, 0.08, 0.06, 0.9)
         } else {
-            Color::new(0.20, 0.13, 0.08, 0.95)
+            Color::new(0.24, 0.16, 0.09, 0.95)
         };
-        rrect(r, (r.h * 0.22).min(8.0), bg);
+        let radius = (r.h * 0.22).min(8.0);
         if !subtle || hover {
-            rrect_lines(r, (r.h * 0.22).min(8.0), 1.2, if hover { GOLD } else { BORDER });
+            let edge = if hover {
+                GOLD
+            } else if enabled {
+                BORDER
+            } else {
+                Color::new(BORDER.r, BORDER.g, BORDER.b, 0.45)
+            };
+            raised(r, radius, bg, edge, 1.2);
+        } else {
+            rrect(r, radius, bg);
         }
         let color = if !enabled {
             Color::new(0.5, 0.45, 0.4, 0.6)
@@ -1371,10 +1376,12 @@ impl Ui {
             let cell = Rect::new(r.x + i as f32 * w, r.y, w, r.h);
             let hover = cell.contains(self.mouse);
             if i == selected {
-                rrect(
+                let bg = Color::new(0.38, 0.25, 0.12, 1.0);
+                rrect_gradient(
                     Rect::new(cell.x + 2.0, cell.y + 2.0, cell.w - 4.0, cell.h - 4.0),
                     6.0,
-                    Color::new(0.38, 0.25, 0.12, 1.0),
+                    shade(bg, 0.08),
+                    shade(bg, -0.15),
                 );
             } else if hover {
                 rrect(
@@ -1465,6 +1472,71 @@ pub fn rrect(r: Rect, radius: f32, color: Color) {
         let b = pts[(i + 1) % pts.len()];
         draw_triangle(c, a, b, color);
     }
+}
+
+/// A rounded rectangle shaded from `top` to `bottom` (a smooth vertical
+/// gradient: per-vertex colours, so no banding and no hard edges).
+pub fn rrect_gradient(r: Rect, radius: f32, top: Color, bottom: Color) {
+    if r.w <= 0.0 || r.h <= 0.0 {
+        return;
+    }
+    let pts = rounded_points(r, radius);
+    let at = |y: f32| {
+        let k = ((y - r.y) / r.h).clamp(0.0, 1.0);
+        crate::paint::fade(Color::new(
+            top.r + (bottom.r - top.r) * k,
+            top.g + (bottom.g - top.g) * k,
+            top.b + (bottom.b - top.b) * k,
+            top.a + (bottom.a - top.a) * k,
+        ))
+    };
+    let c = vec2(r.x + r.w / 2.0, r.y + r.h / 2.0);
+    let mut vertices = Vec::with_capacity(OUTLINE + 1);
+    vertices.push(macroquad::models::Vertex::new(c.x, c.y, 0.0, 0.0, 0.0, at(c.y)));
+    for p in pts {
+        vertices.push(macroquad::models::Vertex::new(p.x, p.y, 0.0, 0.0, 0.0, at(p.y)));
+    }
+    let mut indices = Vec::with_capacity(OUTLINE * 3);
+    for i in 0..OUTLINE {
+        indices.extend_from_slice(&[0, 1 + i as u16, 1 + ((i + 1) % OUTLINE) as u16]);
+    }
+    let gl = unsafe { get_internal_gl() }.quad_gl;
+    gl.texture(None);
+    gl.draw_mode(DrawMode::Triangles);
+    gl.geometry(&vertices, &indices);
+}
+
+/// The same colour, lighter (`k` > 0) or darker (`k` < 0).
+pub fn shade(c: Color, k: f32) -> Color {
+    let f = |v: f32| if k >= 0.0 { v + (1.0 - v) * k } else { v * (1.0 + k) };
+    Color::new(f(c.r), f(c.g), f(c.b), c.a)
+}
+
+/// A soft drop shadow under a rounded rectangle (a few widening layers).
+pub fn soft_shadow(r: Rect, radius: f32, strength: f32) {
+    for (grow, drop, alpha) in [(6.0, 6.0, 0.08), (3.0, 4.0, 0.12), (1.0, 2.0, 0.16)] {
+        rrect(
+            Rect::new(r.x - grow, r.y - grow + drop, r.w + 2.0 * grow, r.h + 2.0 * grow),
+            radius + grow,
+            Color::new(0.0, 0.0, 0.0, alpha * strength),
+        );
+    }
+}
+
+/// A raised surface: gradient body, a faint highlight along the top edge
+/// and an outline. Buttons, tabs and toggles share it.
+fn raised(r: Rect, radius: f32, bg: Color, edge: Color, thickness: f32) {
+    rrect_gradient(r, radius, shade(bg, 0.07), shade(bg, -0.18));
+    let inset = radius.min(r.w / 2.0);
+    draw_line(
+        r.x + inset,
+        r.y + 1.5,
+        r.x + r.w - inset,
+        r.y + 1.5,
+        1.0,
+        Color::new(1.0, 0.92, 0.78, 0.10 * bg.a),
+    );
+    rrect_lines(r, radius, thickness, edge);
 }
 
 /// The outline of a rounded rectangle.

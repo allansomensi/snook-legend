@@ -118,11 +118,10 @@ fn left_height(width: f32) -> f32 {
     let (_, medal_rows) = balanced_grid(ACHIEVEMENTS.len(), MEDAL, MEDAL_GAP, width);
     let n = snookered_proto::REACTIONS.len();
     let (_, reaction_rows) = balanced_grid(n, REACTION, REACTION_GAP, width);
-    30.0 + medal_rows as f32 * (MEDAL + MEDAL_GAP) - MEDAL_GAP
-        + 24.0
-        + 30.0
-        + reaction_rows as f32 * (REACTION + REACTION_GAP)
-        - REACTION_GAP
+    // Heading and medals; a gap, heading and reactions (as `achievements` draws them).
+    let medals = 30.0 + medal_rows as f32 * (MEDAL + MEDAL_GAP) - MEDAL_GAP;
+    let reactions = 24.0 + 30.0 + reaction_rows as f32 * (REACTION + REACTION_GAP) - REACTION_GAP;
+    medals + reactions
 }
 
 /// Regular text of up to `size` that fits `width` (not under 11).
@@ -134,7 +133,7 @@ fn fit_regular(ui: &Ui, text: &str, size: f32, width: f32) -> f32 {
     s
 }
 
-/// A section heading with a control at its right (the panes), on one line.
+/// A section heading (15 px bold gold) with its middle on `mid`.
 fn heading(ui: &Ui, text: &str, x: f32, mid: f32) {
     ui.text(text, x, text_y(mid, 15.0), 15.0, GOLD, true);
 }
@@ -156,9 +155,13 @@ impl ProfileScreen {
         draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.5));
         let w = (sw - 40.0).min(960.0);
         let half = (w - 2.0 * PAD - 24.0) / 2.0;
+        let loaded =
+            online.profile.clone().filter(|p| p.player.username.eq_ignore_ascii_case(&self.name));
         // The panel fits its content: the header, then the achievements and
-        // reactions (the recent games scroll in the same height).
-        let h = (BODY_TOP + left_height(half) + PAD).min(sh - 40.0);
+        // reactions (the recent games scroll in the same height). Until the
+        // profile comes, just room for the wait.
+        let h = if loaded.is_some() { BODY_TOP + left_height(half) + PAD } else { 240.0 };
+        let h = h.min(sh - 40.0);
         let r = Rect::new((sw - w) / 2.0, (sh - h) / 2.0, w, h);
         ui.panel(r);
         let mut action = ProfileAction::None;
@@ -169,10 +172,8 @@ impl ProfileScreen {
         {
             action = ProfileAction::Back;
         }
-        let Some(mut p) =
-            online.profile.clone().filter(|p| p.player.username.eq_ignore_ascii_case(&self.name))
-        else {
-            let area = Rect::new(r.x, r.y + 60.0, r.w, r.h - 80.0);
+        let Some(mut p) = loaded else {
+            let area = Rect::new(r.x, r.y + 40.0, r.w, r.h - 60.0);
             match unreachable(online) {
                 Some(error) => empty_state(ui, area, Icon::Network, &error),
                 None => loading(ui, area, t("Loading the profile…")),
@@ -747,9 +748,9 @@ impl ProfileScreen {
         y += 6.0;
         let label =
             if form.confirm_delete { t("Click again to delete") } else { t("Delete account") };
-        let bw =
-            ui.text_size(label, 15.0, true).x.max(ui.text_size(t("Delete account"), 15.0, true).x)
-                + 32.0;
+        // Wide enough for both labels: the field beside it doesn't jump.
+        let both = [t("Delete account"), t("Click again to delete")];
+        let bw = both.iter().map(|l| ui.text_size(l, 15.0, true).x).fold(0.0, f32::max) + 32.0;
         let field = Rect::new(x, y, fw - bw - 10.0, 34.0);
         ui.password_input(74, field, &mut form.delete_password, 72);
         if form.delete_password.is_empty() && ui.focus != Some(74) {

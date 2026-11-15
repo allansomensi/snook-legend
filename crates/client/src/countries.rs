@@ -28,6 +28,9 @@ struct Picker {
     /// A click has started since the list opened. The click that opened it
     /// ends (is released) over the list, and must not pick anything.
     armed: bool,
+    /// Opened this frame: a press seen now belongs to the click that opened
+    /// it (a quick tap presses and releases within one frame).
+    just_opened: bool,
 }
 
 thread_local! {
@@ -88,6 +91,7 @@ pub fn open() {
         p.fresh = true;
         p.keyed = false;
         p.armed = false;
+        p.just_opened = true;
     });
 }
 
@@ -131,9 +135,10 @@ pub fn draw_picker(ui: &mut Ui) -> Option<String> {
     );
     PICKER.with(|p| {
         let mut p = p.borrow_mut();
-        if is_mouse_button_pressed(MouseButton::Left) {
+        if is_mouse_button_pressed(MouseButton::Left) && !p.just_opened {
             p.armed = true;
         }
+        p.just_opened = false;
         let armed = p.armed;
         let input = Rect::new(x, r.y + 24.0 + 28.0 + 16.0, r.w - 2.0 * PAD, 36.0);
         if ui.focus.is_none() {

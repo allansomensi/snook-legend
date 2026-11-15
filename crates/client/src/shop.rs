@@ -476,8 +476,7 @@ impl ShopScreen {
             self.confirm = Some(Confirm { code: "cloth_purple", gift_to: None });
         }
         if name == "shop-gift" {
-            self.confirm =
-                Some(Confirm { code: "cloth_purple", gift_to: Some("Bartolomeu".into()) });
+            self.confirm = Some(Confirm { code: "cloth_purple", gift_to: Some("Ana".into()) });
         }
         if name == "shop-pick" {
             self.gift_pick = Some("cloth_purple");
@@ -763,16 +762,15 @@ impl ShopScreen {
                 }
             } else {
                 match item.price {
-                    Price::Coins(_) => {
+                    Price::Coins(n) => {
                         // Too few coins: a quiet button (the price above is
                         // in red); it still opens the dialog that says how
-                        // many are missing.
-                        let afford =
-                            item.coins().is_some_and(|n| coins.is_some_and(|c| c >= n as i64));
-                        let kind = match (signed_in, afford) {
-                            (false, _) => Kind::Disabled,
-                            (true, true) => Kind::Primary,
-                            (true, false) => Kind::Short,
+                        // many are missing. Signed out, or the coins not
+                        // known yet: nothing to press.
+                        let kind = match coins {
+                            None => Kind::Disabled,
+                            Some(c) if c >= n as i64 => Kind::Primary,
+                            Some(_) => Kind::Short,
                         };
                         if kind == Kind::Short && ui.hovering(b) {
                             let text = t("Not enough coins: get more in the Coins tab.");
@@ -841,23 +839,16 @@ impl ShopScreen {
             t("It goes on right away. Items only change the look, never the game.")
         };
         let note_lines = if after < 0 { Vec::new() } else { ui.wrap(note, w - 64.0, 13.0) };
-        // The height follows what is shown.
-        let h = 24.0
-            + 28.0
-            + 16.0
-            + 120.0
-            + 14.0
-            + 26.0
-            + 22.0
-            + if try_on { 44.0 } else { 0.0 }
-            + if gift { 28.0 } else { 0.0 }
-            + 14.0
-            + 2.0 * 30.0
-            + if after < 0 { 28.0 } else { 6.0 + note_lines.len() as f32 * 17.0 }
-            + if online.shop_error.is_some() { 26.0 } else { 0.0 }
-            + 20.0
-            + 40.0
-            + 24.0;
+        // The height follows what is shown: the title, the picture, the
+        // name and category, the try-on button, the friend, the two lines
+        // of coins, the note (or what is missing), an error, the buttons.
+        let mut h = 24.0 + 28.0 + 16.0 + 120.0 + 14.0 + 26.0 + 22.0;
+        h += if try_on { 44.0 } else { 0.0 };
+        h += if gift { 28.0 } else { 0.0 };
+        h += 14.0 + 2.0 * 30.0;
+        h += if after < 0 { 28.0 } else { 6.0 + note_lines.len() as f32 * 17.0 };
+        h += if online.shop_error.is_some() { 26.0 } else { 0.0 };
+        h += 20.0 + 40.0 + 24.0;
         let r = Rect::new((sw - w) / 2.0, ((sh - h) / 2.0).max(10.0), w, h);
         ui.panel(r);
         let cx = r.x + w / 2.0;
@@ -1036,17 +1027,10 @@ impl ShopScreen {
             None => tw("{item} is yours and already in use.", &[("item", &t(item.name))]),
         };
         let lines = ui.wrap(&text, w - 56.0, 15.0);
-        let h = 24.0
-            + 52.0
-            + 16.0
-            + 26.0
-            + 16.0
-            + 110.0
-            + 16.0
-            + lines.len() as f32 * 20.0
-            + 24.0
-            + 40.0
-            + 24.0;
+        // The tick and the title, the picture, the text, the button.
+        let pic_h = 130.0;
+        let head = 24.0 + 52.0 + 16.0 + 26.0 + 16.0;
+        let h = head + pic_h + 16.0 + lines.len() as f32 * 20.0 + 24.0 + 40.0 + 24.0;
         let r = Rect::new((sw - w) / 2.0, (sh - h) / 2.0, w, h);
         ui.panel(r);
         let cx = r.x + w / 2.0;
@@ -1057,9 +1041,9 @@ impl ShopScreen {
         let title = if gift.is_some() { t("Gift sent!") } else { t("Purchase complete!") };
         ui.text_centered(title, cx, y, 22.0, GOLD, true);
         y += 26.0 + 16.0;
-        let pic = Rect::new(r.x + 48.0, y, w - 96.0, 110.0);
+        let pic = Rect::new(r.x + 48.0, y, w - 96.0, pic_h);
         preview(ui, item, pic);
-        y += 110.0 + 16.0;
+        y += pic_h + 16.0;
         for line in &lines {
             ui.text_centered(line, cx, y, 15.0, CREAM, false);
             y += 20.0;

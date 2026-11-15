@@ -2,7 +2,37 @@
 
 ## Unreleased
 
+### Interface
+A review of every screen, in the three languages and from 1024×600 to
+1920×1080 (see `docs/UX.md`).
+- Panels and buttons have smooth gradients: the hard-edged sheen that cut
+  through titles and labels is gone. Disabled controls look disabled.
+- Settings: one layout on every tab (sections of rows: label and hint on
+  the left, the control on the right), sized to its content; switches
+  instead of scattered checkboxes; the server field under "Advanced";
+  "Reset to defaults" asks once more.
+- Main menu: a player card with an avatar and the tier in its colour,
+  hover and pressed states, and a compact layout for large interface sizes.
+- Lounge: a tidy sign-in form (Enter and Esc work), a header that fits its
+  content, empty states with a way forward, toasts that are never cut, a
+  tidier tournament form, details and bracket.
+- Shop: unaffordable items read as such at a glance (price in red, how many
+  coins are missing); one way to page; ball sets drawn properly.
+- Profile and ranking: aligned columns, readable locked medals and
+  reactions, your own row highlighted, loading and empty states.
+- At the table: the pause menu and the list of controls are modal and fit
+  their content; the result panel fits long names; no cue settings when no
+  one here holds a cue (after the game, replays, the computer playing
+  itself); the cue settings dim while it is not your turn.
+- LAN: a searching state instead of "Looking for games......"; the country
+  picker searches without accents and works with the keyboard.
+
 ### Fixes
+- Esc opens the menu at the table: with a power set on the bar it reset the
+  power instead.
+- Esc in a shop, profile or account dialog closes the dialog, not the
+  screen.
+- A quick click on the country field no longer picks a country too.
 - The overhead view with the bar around the table no longer rises into the
   ceiling beam above the table (the screen went black); it stays under the
   ceiling and widens its view instead. The same for the broadcast's view

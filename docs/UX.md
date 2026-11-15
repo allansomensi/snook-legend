@@ -89,3 +89,34 @@ repeat. The LAN name field no longer refills itself when emptied.
   achievements, countries (249) and match history.
 - Gradients are textures (no banding); rounded rectangles no longer allocate
   every frame.
+
+# UI/UX review (after 0.1.4)
+
+Every screen was captured in English, Portuguese and Spanish at 1024×600,
+1280×760 and 1920×1080 (and at large interface sizes), then fixed until
+nothing overlapped, clipped or was cut short.
+
+## Toolkit
+
+- Panels, buttons, tabs and toggles are shaded with per-vertex gradients;
+  the old gloss was a hard-edged band that ran through titles and labels.
+- Disabled buttons are flat and quiet; pressed buttons sink a pixel.
+- One spinner for everything that waits; panels are opaque, so a dialog
+  over a panel never lets the text behind show through.
+
+## Screens
+
+| Screen | Before | Now |
+|---|---|---|
+| Settings | Fixed height (the Sound tab was one slider in a tall empty panel), a different layout per tab, "Português (Br…", ragged checkbox columns, a dev-looking server field. | Sections of rows on every tab, sized to the content; switches; short language names; the server under "Advanced". |
+| Sign in | "Entrar" three times (title, switch, button), a gap above a small "Back". | "Play online" with a back arrow; "I have an account / New account"; one green action; Enter and Esc. |
+| Lounge | Plain text for empty lists, a player card twice as wide as its content, toasts cut to "Voc…". | Centred empty states with the next step, a header that fits, toasts that wrap. |
+| Shop | "Buy · 1000" with 10 coins; a big green "More items" plus a scroll bar; gift/try-on icons over the picture. | Price with how much is missing, in red; one pager; the buttons under the picture. |
+| Profile, ranking | Misaligned tier pill, emoji touching, columns crammed on the right. | Shared baselines, even grids, spread columns, your own row highlighted. |
+| At the table | The pause menu let the HUD behind react; the cue settings showed after the game and in replays. | Modal pause and help; the bottom bar only offers what can be used. |
+
+## Keyboard
+
+Esc steps back everywhere (closing a dialog before its screen), Enter
+submits forms and starts a game from the setup screen, and the country
+list works with the arrows and Enter.

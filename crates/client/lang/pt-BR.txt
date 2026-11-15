@@ -3,7 +3,8 @@
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} está na bola 8: caçapa cantada {pocket}
 On the 8-ball: {pocket} pocket	Na bola 8: caçapa {pocket}
-Show ping (online)	Mostrar ping (online)
+Show ping	Mostrar ping
+Your connection's delay, in online games.	O atraso da sua conexão nas partidas online.
 Reactions	Reações
 Shop	Loja
 Cloth	Panos
@@ -215,7 +216,7 @@ Loading the profile…	Carregando o perfil…
 Loading…	Carregando…
 Local network	Rede local
 Locked	Bloqueada
-Looking for games…	Procurando partidas…
+Looking for games	Procurando partidas
 Make a friend.	Faça um amigo.
 Master	Mestre
 Misses now and then: good for learning.	Erra de vez em quando: bom para aprender.
@@ -432,7 +433,9 @@ Accept rematch	Aceitar revanche
 Accept	Aceitar
 Aim	Mirar
 Aiming guide	Guia de mira
-Anti-aliasing (smooth edges)	Anti-serrilhado (bordas suaves)
+Aiming	Mira
+Anti-aliasing	Anti-serrilhado
+Smooths the jagged edges of lines and balls.	Suaviza o serrilhado de linhas e bolas.
 Back to lounge	Voltar ao salão
 Back to menu	Voltar ao menu
 Balanced: smooth on most laptops.	Equilibrado: fluido na maioria dos notebooks.
@@ -460,10 +463,16 @@ Everything, with the sharpest balls: for gaming PCs.	Tudo no máximo, bolas mais
 Fine aim	Mira fina
 Finish this match first.	Termine esta partida primeiro.
 For old or very slow computers.	Para computadores antigos ou muito lentos.
-Full screen (F11)	Tela cheia (F11)
+Full screen	Tela cheia
+Also with F11.	Também com F11.
 Full	Completo
 Game server	Servidor
+Change it only to play on another server.	Mude só para jogar em outro servidor.
+Advanced	Avançado
+Custom server	Outro servidor
 Graphics quality	Qualidade gráfica
+Quality	Qualidade
+Display	Tela
 High	Alta
 Hold Space, release	Segure Espaço e solte
 Invite	Convidar
@@ -517,6 +526,7 @@ Shooting…	Tacando…
 Short	Curto
 Show the controls panel	Mostrar o painel de controles
 Signing in…	Entrando…
+Signing in	Entrando
 Soft shadows from every lamp, contact shading.	Sombras suaves de cada lâmpada e sombra de contato.
 Solids (1–7)	Lisas (1–7)
 Spin ball · ↑ ↓ · Q / E	Bola de efeito · ↑ ↓ · Q / E
@@ -550,10 +560,13 @@ release Space to shoot · Esc cancels	solte Espaço para tacar · Esc cancela
  · left english	 · efeito à esquerda
  · right english	 · efeito à direita
 Language	Idioma
+General	Geral
 Graphics	Gráficos
 Game	Jogo
 Sound	Som
 Reset to defaults	Restaurar padrões
+Reset everything?	Restaurar tudo?
+Click again to reset every setting	Clique de novo para restaurar todas as configurações
 Online	Online
 Menu	Menu
 Rating	Rating
@@ -565,10 +578,14 @@ Called pocket	Caçapa cantada
 Change	Trocar
 Sinking the 8 in any other pocket loses the game.	Encaçapar a 8 em outra caçapa perde a partida.
 Mouse aim sensitivity	Sensibilidade da mira (mouse)
-Vignette (cinematic edges)	Vinheta (bordas cinematográficas)
+How fast the cue turns with the mouse.	Velocidade do taco ao mover o mouse.
+Vignette	Vinheta
+Darkens the edges of the picture, like a film.	Escurece as bordas da imagem, como num filme.
 Show FPS	Mostrar FPS
+Frames per second, in a corner of the screen.	Quadros por segundo, num canto da tela.
 Call a pocket for the 8-ball first: click a pocket.	Cante a caçapa da bola 8 primeiro: clique numa caçapa.
 Reconnecting…	Reconectando…
+Reconnecting	Reconectando
 the game is over	a partida acabou
 the cue ball cannot be placed there	a bola branca não pode ficar aí
 call a pocket for the 8-ball	cante a caçapa da bola 8
@@ -646,7 +663,9 @@ a casual game	uma partida amistosa
 {r} · playing	{r} · jogando
 {r} · {g} games	{r} · {g} partidas
 …and {n} more	…e mais {n}
-Sound volume  {v}%	Volume do som  {v}%
+Volume	Volume
+The cue, the balls, the cushions and the pockets.	O taco, as bolas, as tabelas e as caçapas.
+Notifications	Notificações
 Could not find the server “{host}”.	Servidor “{host}” não encontrado.
 Network error: {e}.	Erro de rede: {e}.
 Secure connection failed: {e}.	Falha na conexão segura: {e}.
@@ -689,17 +708,21 @@ No messages yet.	Nenhuma mensagem ainda.
 ▼ newer messages	▼ mensagens novas
 Right click or Esc cancels	Botão direito ou Esc cancela
 Camera follows the cue	Câmera acompanha o taco
+Off: it stays where you put it.	Desligada: fica onde você a deixar.
 Pull back for shots	Afastar nas tacadas
+Only when the camera follows the cue.	Só quando a câmera acompanha o taco.
 Drag the cue around the ball	Arraste o taco em volta da bola
 Drag the cue · click a spot	Arraste o taco · clique num ponto
 Drag up for more power, release to shoot	Arraste para cima para mais força e solte para tacar
 Drag the power bar up, release	Arraste a barra de força para cima e solte
 Time's up: {name}'s shot was played at full power.	Tempo esgotado: a tacada de {name} foi feita com força máxima.
-Dark room (spotlight on the table)	Ambiente escuro (luz só na mesa)
+Dark room	Ambiente escuro
+A spotlight on the table, the room in shadow.	Luz só na mesa, o resto do salão na sombra.
 Hide controls	Ocultar controles
 Drag right for more power, release to shoot	Arraste para a direita para mais força e solte para tacar
 Drag the power bar right, release	Arraste a barra de força para a direita e solte
-Interface size  {v}%	Tamanho da interface  {v}%
+Interface size	Tamanho da interface
+Text, buttons and panels.	Textos, botões e painéis.
 Drag to set the power	Arraste para ajustar a força
 Set the power, then press Shoot	Ajuste a força e aperte Tacar
 Shoot!	Jogar
@@ -926,7 +949,9 @@ Win a game without a foul	Vença uma partida sem cometer falta
 Pot 3 balls in a row {n} times	Encaçape 3 bolas seguidas {n} vezes
 Win {n} games without a foul	Vença {n} partidas sem cometer falta
 TV camera when watching	Câmera de TV ao assistir
+Broadcast angles for other players' games and replays.	Ângulos de transmissão nas partidas dos outros e nos replays.
 System notifications	Avisos do sistema
+Invites, friends coming online and games starting, while you're away.	Convites, amigos que entram e partidas começando enquanto você está fora.
 {name} starts in a few minutes: get ready!	{name} começa em poucos minutos: prepare-se!
 {name} starts in a few minutes: there is still room.	{name} começa em poucos minutos: ainda há vagas.
 {name} has started!	{name} começou!

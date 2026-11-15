@@ -3,7 +3,7 @@
 use macroquad::prelude::*;
 
 #[allow(unused_imports)]
-use crate::paint::{draw_circle, draw_line, draw_rectangle};
+use crate::paint::{draw_circle, draw_circle_lines, draw_line, draw_rectangle};
 
 use crate::i18n::{t, tw};
 use crate::icons::Icon;
@@ -50,12 +50,37 @@ fn shade_texture() -> Texture2D {
     tex
 }
 
+/// Sizes of the menu, roomy or (when the window is short for the interface
+/// size) compact.
+struct Metrics {
+    emblem: f32,
+    title: f32,
+    card_h: f32,
+    gap: f32,
+    icon: f32,
+}
+
+impl Metrics {
+    fn for_height(sh: f32) -> Metrics {
+        if sh >= 600.0 {
+            Metrics { emblem: 92.0, title: 64.0, card_h: 66.0, gap: 12.0, icon: 46.0 }
+        } else {
+            Metrics { emblem: 72.0, title: 50.0, card_h: 58.0, gap: 8.0, icon: 42.0 }
+        }
+    }
+}
+
+/// Room kept for the player card at the top right.
+const CARD_W: f32 = 280.0;
+const EDGE: f32 = 20.0;
+
 impl Menu {
     /// `saved`: object balls left in the saved game against the computer.
     pub fn draw(&mut self, ui: &mut Ui, online: &Online, saved: Option<usize>) -> MenuAction {
         let sw = crate::ui::vw();
         let sh = crate::ui::vh();
         let dt = get_frame_time();
+        let m = Metrics::for_height(sh);
         let mut action = MenuAction::None;
         // Darker on the left, where the menu is, so the table stays visible.
         let shade = self.shade.get_or_insert_with(shade_texture);
@@ -69,14 +94,25 @@ impl Menu {
 
         let left = (sw * 0.06).clamp(24.0, 90.0);
         let top = (sh * 0.09).clamp(20.0, 80.0);
-        // The emblem, then the name.
-        let size = 92.0;
-        crate::icon::draw(left - 4.0, top + 2.0, size);
-        let tx = left + size + 10.0;
+        // The emblem, then the name (smaller if it would run under the
+        // player card).
+        crate::icon::draw(left - 4.0, top + 2.0, m.emblem);
+        let tx = left + m.emblem + 10.0;
         let name = snookered_proto::GAME_NAME.to_uppercase();
-        ui.text(&name, tx + 3.0, top + 3.0, 64.0, Color::new(0.0, 0.0, 0.0, 0.6), true);
-        ui.text(&name, tx, top, 64.0, GOLD, true);
-        ui.text(t("eight-ball pool"), tx + 4.0, top + 74.0, 17.0, CREAM, false);
+        let room = sw - player_card_w(sw) - EDGE - 24.0 - tx;
+        let size = ui.fit(m.title, &name, room).max(m.title * 0.6);
+        let ty = top + (m.title - size) * 0.5;
+        ui.text(&name, tx + 3.0, ty + 3.0, size, Color::new(0.0, 0.0, 0.0, 0.6), true);
+        ui.text(&name, tx, ty, size, GOLD, true);
+        let tagline = top + m.emblem * 0.8;
+        ui.text(
+            t("eight-ball pool"),
+            tx + 4.0,
+            tagline,
+            if m.emblem > 80.0 { 17.0 } else { 15.0 },
+            CREAM,
+            false,
+        );
 
         // The four ways to play.
         let resume_line = saved.map(|n| tw("Game in progress: {n} balls left", &[("n", &n)]));
@@ -90,18 +126,38 @@ impl Menu {
             (Icon::People, t("Two players"), t("Take turns on this computer")),
             (Icon::Network, t("Local network"), t("Play with friends on the same network")),
         ];
-        let w = (sw * 0.36).clamp(300.0, 440.0);
-        let h = 66.0;
-        let gap = 12.0;
-        let total = items.len() as f32 * (h + gap);
-        let mut y = ((sh - total) / 2.0 + 40.0).max(top + 120.0);
+        // Wide enough for every line (and the "Continue" button beside the
+        // saved game's), as far as the window allows.
+        let resume_w = 112.0;
+        let needed = items
+            .iter()
+            .enumerate()
+            .map(|(k, (_, title, sub))| {
+                let text = ui.text_size(title, 20.0, true).x.max(ui.text_size(sub, 13.0, false).x);
+                let button = if k == 1 && saved.is_some() { resume_w + 12.0 } else { 0.0 };
+                70.0 + text + button + 24.0
+            })
+            .fold(0.0, f32::max);
+        let w = (sw * 0.36).clamp(300.0, 440.0).max(needed).min(sw - left - EDGE);
+        let h = m.card_h;
+        let block = 4.0 * h + 3.0 * m.gap;
+        let below = 24.0 + m.icon + EDGE;
+        let mut y = ((sh - block) / 2.0 + 40.0).min(sh - below - block).max(top + m.emblem + 16.0);
         for (k, (icon, title, sub)) in items.into_iter().enumerate() {
             let r = Rect::new(left, y, w, h);
             let hover = ui.hovering(r);
             let target = if hover { 1.0 } else { 0.0 };
             self.hover[k] += (target - self.hover[k]) * (1.0 - (-dt * 14.0).exp());
             let a = self.hover[k];
-            let shifted = Rect::new(r.x + a * 8.0, r.y, r.w, r.h);
+            let resume = (k == 1 && saved.is_some()).then(|| {
+                let bw = resume_w.min(w * 0.3);
+                Rect::new(r.x + r.w - bw - 16.0 + a * 8.0, r.y + (h - 36.0) / 2.0, bw, 36.0)
+            });
+            let on_resume = resume.is_some_and(|b| ui.hovering(b));
+            // Pressed: the card sinks back a little.
+            let pressed = hover && !on_resume && is_mouse_button_down(MouseButton::Left);
+            let shift = a * 8.0 - if pressed { 3.0 } else { 0.0 };
+            let card = Rect::new(r.x + shift, r.y + if pressed { 1.0 } else { 0.0 }, r.w, r.h);
             ui.block(r);
             let primary = k == 0;
             let bg = if primary {
@@ -109,17 +165,13 @@ impl Menu {
             } else {
                 Color::new(0.10 + 0.12 * a, 0.065 + 0.08 * a, 0.04 + 0.04 * a, 0.97)
             };
+            let bg = if pressed { lighten(bg, -0.12) } else { bg };
             rrect(
-                Rect::new(shifted.x, shifted.y + 3.0, shifted.w, shifted.h),
+                Rect::new(card.x, card.y + 3.0, card.w, card.h),
                 10.0,
-                Color::new(0.0, 0.0, 0.0, 0.35),
+                Color::new(0.0, 0.0, 0.0, if pressed { 0.2 } else { 0.35 }),
             );
-            rrect(shifted, 10.0, bg);
-            rrect(
-                Rect::new(shifted.x + 1.0, shifted.y + 1.0, shifted.w - 2.0, shifted.h * 0.45),
-                9.0,
-                Color::new(1.0, 1.0, 1.0, 0.05),
-            );
+            gradient(card, 10.0, lighten(bg, 0.08), lighten(bg, -0.22));
             let edge = if hover {
                 GOLD
             } else if primary {
@@ -127,40 +179,46 @@ impl Menu {
             } else {
                 BORDER
             };
-            rrect_lines(shifted, 10.0, 1.4, edge);
+            rrect_lines(card, 10.0, 1.4, edge);
             crate::icons::draw(
                 icon,
-                vec2(shifted.x + 36.0, shifted.y + h / 2.0),
+                vec2(card.x + 36.0, card.y + h / 2.0),
                 28.0,
                 if hover { GOLD } else { CREAM },
             );
+            let text_room = card.w - 70.0 - 16.0 - resume.map_or(0.0, |b| b.w + 12.0);
+            let (title, title_size) = ui.fitted(title, 20.0, text_room, true);
+            let lines = h / 2.0 - 20.0;
             ui.text(
-                title,
-                shifted.x + 70.0,
-                shifted.y + 13.0,
-                20.0,
+                &title,
+                card.x + 70.0,
+                card.y + lines + (20.0 - title_size) / 2.0,
+                title_size,
                 if primary { WHITE } else { CREAM },
                 true,
             );
             ui.text(
-                sub,
-                shifted.x + 70.0,
-                shifted.y + 39.0,
+                &ui.ellipsize(sub, text_room, 13.0),
+                card.x + 70.0,
+                card.y + lines + 26.0,
                 13.0,
                 Color::new(0.85, 0.8, 0.72, 0.85),
                 false,
             );
+            // An arrow slides in on hover: this card leads somewhere.
+            if resume.is_none() && a > 0.02 {
+                let c = vec2(card.x + card.w - 22.0 - (1.0 - a) * 6.0, card.y + h / 2.0);
+                let col = Color::new(GOLD.r, GOLD.g, GOLD.b, a);
+                draw_line(c.x - 4.0, c.y - 7.0, c.x + 3.0, c.y, 2.2, col);
+                draw_line(c.x + 3.0, c.y, c.x - 4.0, c.y + 7.0, 2.2, col);
+            }
             // The saved game: a button of its own inside the card.
-            let resume = (k == 1 && saved.is_some()).then(|| {
-                let bw = 104.0f32.min(w * 0.3);
-                Rect::new(shifted.x + shifted.w - bw - 12.0, shifted.y + (h - 34.0) / 2.0, bw, 34.0)
-            });
             if let Some(b) = resume
                 && ui.primary_button(b, t("Continue"))
             {
                 action = MenuAction::ContinueGame;
             }
-            if hover && ui.clicked(r) && !resume.is_some_and(|b| ui.hovering(b)) {
+            if hover && ui.clicked(r) && !on_resume {
                 action = match k {
                     0 => MenuAction::Online,
                     1 => MenuAction::VsComputer,
@@ -168,10 +226,10 @@ impl Menu {
                     _ => MenuAction::Lan,
                 };
             }
-            y += h + gap;
+            y += h + m.gap;
         }
 
-        // Icons along the bottom.
+        // Icons along the bottom, lined up with the cards.
         let icons = [
             (Icon::Trophy, t("World ranking"), MenuAction::Ranking),
             (Icon::Person, t("Profile"), MenuAction::Profile),
@@ -179,39 +237,44 @@ impl Menu {
             (Icon::Gear, t("Settings"), MenuAction::Settings),
             (Icon::Power, t("Quit"), MenuAction::Quit),
         ];
-        let size = 46.0;
-        let by = (y + 14.0).min(sh - size - 20.0);
+        let by = y - m.gap + 24.0;
         for (k, (icon, tip, act)) in icons.into_iter().enumerate() {
-            let r = Rect::new(left + k as f32 * (size + 10.0), by, size, size);
+            let r = Rect::new(left + k as f32 * (m.icon + 12.0), by, m.icon, m.icon);
             if ui.icon_button(r, icon, tip, true) {
                 action = act;
             }
         }
 
         // Who is signed in, top right, and the board under it.
-        self.player_card(ui, online, &mut action);
-        self.board(ui, online, &mut action);
+        let card = self.player_card(ui, online, &mut action);
+        self.board(ui, online, left + w, card.y + card.h + 24.0, &mut action);
 
         let version = concat!("v", env!("CARGO_PKG_VERSION"));
         let vw = ui.text_size(version, 12.0, false).x;
-        ui.text(version, sw - vw - 14.0, sh - 24.0, 12.0, MUTED, false);
+        ui.text(version, sw - vw - EDGE, sh - EDGE - 12.0, 12.0, MUTED, false);
         action
     }
 
     /// The newest notes on the lounge's board (pinned first), for players
-    /// who don't go to the lounge.
-    fn board(&self, ui: &mut Ui, online: &Online, action: &mut MenuAction) {
+    /// who don't go to the lounge, beside the menu (which ends at
+    /// `menu_right`) when the window leaves room.
+    fn board(
+        &self,
+        ui: &mut Ui,
+        online: &Online,
+        menu_right: f32,
+        top: f32,
+        action: &mut MenuAction,
+    ) {
         let notes = online.board_now();
         let sw = crate::ui::vw();
         let sh = crate::ui::vh();
-        // Beside the menu, only where the window leaves room.
-        let menu_right = (sw * 0.06).clamp(24.0, 90.0) + (sw * 0.36).clamp(300.0, 440.0);
         let w = 320.0f32.min(sw * 0.3);
-        let x = sw - w - 20.0;
+        let x = sw - w - EDGE;
         if notes.is_empty() || x < menu_right + 24.0 {
             return;
         }
-        let mut y = 100.0;
+        let mut y = top;
         ui.text(t("Board"), x + 2.0, y, 15.0, GOLD, true);
         y += 24.0;
         for n in notes.iter().take(3) {
@@ -229,49 +292,95 @@ impl Menu {
         }
     }
 
-    fn player_card(&self, ui: &mut Ui, online: &Online, action: &mut MenuAction) {
+    /// The player card: who is signed in (or how to), at the top right.
+    /// Returns where it is.
+    fn player_card(&self, ui: &mut Ui, online: &Online, action: &mut MenuAction) -> Rect {
         let sw = crate::ui::vw();
-        let w = 280.0f32.min(sw * 0.4);
-        let r = Rect::new(sw - w - 20.0, 20.0, w, 64.0);
+        let w = player_card_w(sw);
+        let r = Rect::new(sw - w - EDGE, EDGE, w, 64.0);
         let hover = ui.hovering(r);
-        rrect(r, 10.0, Color::new(0.05, 0.035, 0.025, if hover { 0.92 } else { 0.78 }));
+        let pressed = hover && is_mouse_button_down(MouseButton::Left);
+        let bg = Color::new(0.05, 0.035, 0.025, if hover { 0.94 } else { 0.8 });
+        gradient(r, 10.0, lighten(bg, if pressed { 0.0 } else { 0.06 }), bg);
         rrect_lines(r, 10.0, 1.2, if hover { GOLD } else { BORDER });
         ui.block(r);
+        // The avatar: a disc with the person in it.
+        let avatar = vec2(r.x + 34.0, r.y + 32.0);
+        let ring = match &online.me {
+            Some(me) => crate::ui::name_color(me),
+            None if online.outdated => GOLD,
+            None => BORDER,
+        };
+        draw_circle(avatar.x, avatar.y, 21.0, Color::new(0.13, 0.09, 0.06, 1.0));
+        draw_circle_lines(avatar.x, avatar.y, 21.0, 1.5, ring);
+        let text_x = r.x + 66.0;
+        let text_w = r.w - 66.0 - 34.0;
+        let busy = match online.stage {
+            _ if online.me.is_some() || online.outdated => None,
+            Stage::Connecting | Stage::Authenticating if online.has_session() => {
+                Some((t("Signing in"), t("connecting to the server")))
+            }
+            Stage::Reconnecting { .. } => Some((t("Reconnecting"), t("the connection dropped"))),
+            _ => None,
+        };
         match &online.me {
             Some(me) => {
-                crate::icons::draw(
-                    Icon::Person,
-                    vec2(r.x + 30.0, r.y + 32.0),
-                    28.0,
-                    crate::ui::name_color(me),
+                crate::icons::draw(Icon::Person, avatar, 24.0, crate::ui::name_color(me));
+                // Online: a green dot on the avatar.
+                draw_circle(
+                    avatar.x + 15.0,
+                    avatar.y + 15.0,
+                    6.0,
+                    Color::new(0.05, 0.035, 0.025, 1.0),
                 );
-                ui.player_name(me, r.x + 56.0, r.y + 12.0, 17.0, r.w - 70.0);
-                let line = format!("{} · {}", me.rating, t(me.tier().name()));
-                ui.text(&line, r.x + 56.0, r.y + 36.0, 13.0, MUTED, false);
-                draw_circle(r.x + r.w - 16.0, r.y + 16.0, 4.0, Color::new(0.35, 0.85, 0.45, 1.0));
+                draw_circle(
+                    avatar.x + 15.0,
+                    avatar.y + 15.0,
+                    4.5,
+                    Color::new(0.35, 0.85, 0.45, 1.0),
+                );
+                ui.player_name(me, text_x, r.y + 13.0, 17.0, text_w);
+                let rating = me.rating.to_string();
+                let rw = ui.text_size(&rating, 13.0, true).x;
+                ui.text(&rating, text_x, r.y + 37.0, 13.0, CREAM, true);
+                ui.text(
+                    &format!("·  {}", t(me.tier().name())),
+                    text_x + rw + 6.0,
+                    r.y + 37.0,
+                    13.0,
+                    crate::ui::tier_color(me.tier()),
+                    false,
+                );
             }
             None if online.outdated => {
                 // This version is too old for the server.
-                crate::icons::draw(Icon::Refresh, vec2(r.x + 30.0, r.y + 32.0), 26.0, GOLD);
-                ui.text(t("New version out"), r.x + 56.0, r.y + 12.0, 17.0, GOLD, true);
-                let sub = ui.ellipsize(crate::online::update_label(), r.w - 70.0, 12.0);
-                ui.text(&sub, r.x + 56.0, r.y + 37.0, 12.0, CREAM, false);
+                crate::icons::draw(Icon::Refresh, avatar, 22.0, GOLD);
+                ui.text(t("New version out"), text_x, r.y + 13.0, 17.0, GOLD, true);
+                let sub = ui.ellipsize(crate::online::update_label(), text_w, 12.0);
+                ui.text(&sub, text_x, r.y + 37.0, 12.0, CREAM, false);
             }
             None => {
-                crate::icons::draw(Icon::Person, vec2(r.x + 30.0, r.y + 32.0), 28.0, MUTED);
-                let (title, sub) = match online.stage {
-                    Stage::Connecting | Stage::Authenticating if online.has_session() => {
-                        (t("Signing in…").to_string(), t("connecting to the server").to_string())
-                    }
-                    Stage::Reconnecting { .. } => {
-                        (t("Reconnecting…").to_string(), t("the connection dropped").to_string())
-                    }
-                    _ => (t("Sign in").to_string(), t("to play online").to_string()),
-                };
-                ui.text(&title, r.x + 56.0, r.y + 12.0, 17.0, CREAM, true);
-                let sub = ui.ellipsize(&sub, r.w - 70.0, 12.0);
-                ui.text(&sub, r.x + 56.0, r.y + 37.0, 12.0, MUTED, false);
+                crate::icons::draw(Icon::Person, avatar, 24.0, MUTED);
+                let (title, sub) = busy.unwrap_or((t("Sign in"), t("to play online")));
+                ui.text(title, text_x, r.y + 13.0, 17.0, CREAM, true);
+                if busy.is_some() {
+                    // Dots that keep moving: something is happening.
+                    let tw = ui.text_size(title, 17.0, true).x;
+                    let n = ((get_time() * 2.5) as usize) % 4;
+                    ui.text(&".".repeat(n), text_x + tw + 1.0, r.y + 13.0, 17.0, CREAM, true);
+                    spinner(vec2(r.x + r.w - 22.0, r.y + 32.0), 7.0);
+                }
+                let sub = ui.ellipsize(sub, text_w, 12.0);
+                ui.text(&sub, text_x, r.y + 37.0, 12.0, MUTED, false);
             }
+        }
+        // A chevron: the card opens something (the spinner stands there
+        // while signing in).
+        if busy.is_none() {
+            let c = vec2(r.x + r.w - 20.0, r.y + 32.0);
+            let col = if hover { GOLD } else { Color::new(MUTED.r, MUTED.g, MUTED.b, 0.7) };
+            draw_line(c.x - 3.0, c.y - 6.0, c.x + 3.0, c.y, 2.0, col);
+            draw_line(c.x + 3.0, c.y, c.x - 3.0, c.y + 6.0, 2.0, col);
         }
         if hover && ui.clicked(r) {
             *action = if online.me.is_some() {
@@ -292,5 +401,60 @@ impl Menu {
             };
             ui.tooltip(tip, r);
         }
+        r
+    }
+}
+
+fn player_card_w(sw: f32) -> f32 {
+    CARD_W.min(sw * 0.4)
+}
+
+/// The same colour, lighter (`k` > 0) or darker (`k` < 0).
+fn lighten(c: Color, k: f32) -> Color {
+    let f = |v: f32| if k >= 0.0 { v + (1.0 - v) * k } else { v * (1.0 + k) };
+    Color::new(f(c.r), f(c.g), f(c.b), c.a)
+}
+
+/// A rounded rectangle shaded smoothly from `top` to `bottom` (colours per
+/// vertex: no bands, no hard edge).
+fn gradient(r: Rect, radius: f32, top: Color, bottom: Color) {
+    const STEPS: usize = 6;
+    let rad = radius.min(r.w / 2.0).min(r.h / 2.0);
+    let at = |y: f32| {
+        let k = ((y - r.y) / r.h).clamp(0.0, 1.0);
+        crate::paint::fade(Color::new(
+            top.r + (bottom.r - top.r) * k,
+            top.g + (bottom.g - top.g) * k,
+            top.b + (bottom.b - top.b) * k,
+            top.a + (bottom.a - top.a) * k,
+        ))
+    };
+    let corners = [
+        (vec2(r.x + rad, r.y + rad), std::f32::consts::PI),
+        (vec2(r.x + r.w - rad, r.y + rad), 1.5 * std::f32::consts::PI),
+        (vec2(r.x + r.w - rad, r.y + r.h - rad), 0.0),
+        (vec2(r.x + rad, r.y + r.h - rad), 0.5 * std::f32::consts::PI),
+    ];
+    let c = vec2(r.x + r.w / 2.0, r.y + r.h / 2.0);
+    let mut vertices = vec![macroquad::models::Vertex::new(c.x, c.y, 0.0, 0.0, 0.0, at(c.y))];
+    for (centre, start) in corners {
+        for k in 0..=STEPS {
+            let a = start + k as f32 / STEPS as f32 * std::f32::consts::FRAC_PI_2;
+            let p = centre + vec2(a.cos(), a.sin()) * rad;
+            vertices.push(macroquad::models::Vertex::new(p.x, p.y, 0.0, 0.0, 0.0, at(p.y)));
+        }
+    }
+    let n = vertices.len() as u16 - 1;
+    let indices: Vec<u16> = (0..n).flat_map(|i| [0, 1 + i, 1 + (i + 1) % n]).collect();
+    draw_mesh(&Mesh { vertices, indices, texture: None });
+}
+
+/// A small spinner: dots around a circle, the brightest one turning.
+fn spinner(c: Vec2, radius: f32) {
+    let a = get_time() as f32 * 5.0;
+    for k in 0..8 {
+        let ang = a + k as f32 * std::f32::consts::TAU / 8.0;
+        let p = c + Vec2::from_angle(ang) * radius;
+        draw_circle(p.x, p.y, 1.6, Color::new(GOLD.r, GOLD.g, GOLD.b, (k as f32 + 1.0) / 8.0));
     }
 }

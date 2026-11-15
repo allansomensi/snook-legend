@@ -36,6 +36,9 @@ pub struct ProfileScreen {
     pane: Pane,
     /// The account dialog (own profile).
     account: Option<AccountForm>,
+    /// Asked for while signed in: the server knew who was looking (and so
+    /// sent our relation: friends, requests, blocks).
+    asked_signed_in: bool,
 }
 
 /// The account dialog: recovery e-mail, password, deletion.
@@ -146,6 +149,7 @@ impl ProfileScreen {
         self.confirm_block = false;
         self.account = None;
         self.pane = Pane::Games;
+        self.asked_signed_in = online.signed_in();
         online.request_profile(name);
     }
 
@@ -155,6 +159,12 @@ impl ProfileScreen {
         draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.5));
         let w = (sw - 40.0).min(960.0);
         let half = (w - 2.0 * PAD - 24.0) / 2.0;
+        // Opened before signing in (e.g. straight from a link): ask again
+        // once signed in, for the friend and block buttons.
+        if !self.asked_signed_in && online.signed_in() {
+            self.asked_signed_in = true;
+            online.send(ClientMsg::Profile { username: self.name.clone() });
+        }
         let loaded =
             online.profile.clone().filter(|p| p.player.username.eq_ignore_ascii_case(&self.name));
         // The panel fits its content: the header, then the achievements and

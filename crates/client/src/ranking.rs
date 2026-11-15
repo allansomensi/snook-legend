@@ -1,4 +1,7 @@
 //! The world ranking: the top 100 rated players.
+//!
+//! Also the few drawing helpers the shop, ranking and profile screens share
+//! (the screen header, loading and empty states).
 
 use macroquad::prelude::*;
 
@@ -8,7 +11,7 @@ use crate::paint::{draw_circle, draw_line, draw_rectangle};
 use crate::i18n::t;
 use crate::icons::Icon;
 use crate::online::Online;
-use crate::ui::{BORDER, CREAM, GOLD, MUTED, Ui, rrect, tier_color};
+use crate::ui::{BORDER, CREAM, GOLD, MUTED, Ui, rrect, rrect_lines, tier_color};
 
 pub enum RankingAction {
     None,
@@ -21,6 +24,102 @@ pub struct Ranking {
     first: usize,
 }
 
+/// Inner padding of the screens' panels.
+pub(crate) const PAD: f32 = 24.0;
+/// Where the content starts under a screen header (from the panel's top).
+pub(crate) const HEADER_H: f32 = 76.0;
+
+/// The `y` that centres text of `size` on `center` (the middle of its
+/// capitals and lower case, as the toolkit's buttons do).
+pub(crate) fn text_y(center: f32, size: f32) -> f32 {
+    center - size * 0.5
+}
+
+/// The `y` that centres capitals and digits of `size` on `center` (a big
+/// name or number next to an icon or a flag).
+pub(crate) fn caps_y(center: f32, size: f32) -> f32 {
+    center - size * 0.435
+}
+
+/// A screen's header: the back button, the icon and title, and a line of
+/// muted text under the title. True when the back button was clicked.
+pub(crate) fn screen_header(
+    ui: &mut Ui,
+    r: Rect,
+    icon: Icon,
+    title: &str,
+    subtitle: Option<&str>,
+) -> bool {
+    let back =
+        ui.icon_button(Rect::new(r.x + PAD, r.y + 20.0, 36.0, 36.0), Icon::Back, t("Back"), true);
+    let mid = r.y + 38.0;
+    let x = r.x + PAD + 36.0 + 16.0;
+    crate::icons::draw(icon, vec2(x + 12.0, mid), 24.0, GOLD);
+    match subtitle {
+        Some(sub) => {
+            ui.text(title, x + 34.0, r.y + 15.0, 24.0, GOLD, true);
+            ui.text(sub, x + 34.0, r.y + 44.0, 13.0, MUTED, false);
+        }
+        None => ui.text(title, x + 34.0, caps_y(mid, 24.0), 24.0, GOLD, true),
+    }
+    back
+}
+
+/// Turning dots: something is on its way.
+pub(crate) fn spinner(c: Vec2, radius: f32, color: Color) {
+    let time = get_time() as f32;
+    let n = 8;
+    let head = (time * 10.0) as usize % n;
+    for k in 0..n {
+        let a = k as f32 / n as f32 * std::f32::consts::TAU - std::f32::consts::FRAC_PI_2;
+        let age = (head + n - k) % n;
+        let alpha = 1.0 - age as f32 / n as f32 * 0.85;
+        draw_circle(
+            c.x + a.cos() * radius,
+            c.y + a.sin() * radius,
+            radius * 0.22,
+            Color::new(color.r, color.g, color.b, color.a * alpha),
+        );
+    }
+}
+
+/// A spinner and a line of text, centred in `area`.
+pub(crate) fn loading(ui: &Ui, area: Rect, text: &str) {
+    let cy = area.y + area.h / 2.0;
+    spinner(vec2(area.x + area.w / 2.0, cy - 14.0), 11.0, GOLD);
+    ui.text_centered(text, area.x + area.w / 2.0, cy + 10.0, 14.0, MUTED, false);
+}
+
+/// Nothing to show yet: a muted icon and a line of text (wrapped), centred
+/// in `area`.
+pub(crate) fn empty_state(ui: &Ui, area: Rect, icon: Icon, text: &str) {
+    let lines = ui.wrap(text, (area.w - 32.0).min(420.0), 14.0);
+    let block = 44.0 + 12.0 + lines.len() as f32 * 19.0;
+    let mut y = area.y + (area.h - block) / 2.0;
+    let cx = area.x + area.w / 2.0;
+    draw_circle(cx, y + 22.0, 26.0, Color::new(1.0, 1.0, 1.0, 0.04));
+    crate::icons::draw(icon, vec2(cx, y + 22.0), 26.0, Color::new(MUTED.r, MUTED.g, MUTED.b, 0.7));
+    y += 56.0;
+    for line in &lines {
+        ui.text_centered(line, cx, y, 14.0, MUTED, false);
+        y += 19.0;
+    }
+}
+
+/// Why the server can't be asked (the connection failed), if it can't:
+/// better said than a spinner turning for ever.
+pub(crate) fn unreachable(online: &Online) -> Option<String> {
+    let closed = matches!(online.stage, crate::online::Stage::SignIn | crate::online::Stage::Idle);
+    if closed && !online.signed_in() { online.error.clone() } else { None }
+}
+
+/// The columns, from the right edge of the rows inwards: (width, header,
+/// right-aligned).
+const COLUMNS: [(f32, &str, bool); 4] =
+    [(60.0, "Win %", true), (76.0, "Games", true), (112.0, "Tier", false), (64.0, "Rating", true)];
+const GAP: f32 = 20.0;
+const ROW_H: f32 = 36.0;
+
 impl Ranking {
     pub fn open(&mut self, online: &mut Online) {
         self.first = 0;
@@ -31,126 +130,163 @@ impl Ranking {
         let sw = crate::ui::vw();
         let sh = crate::ui::vh();
         draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.5));
+        let entries = online.leaderboard.clone();
+        // The panel fits the list (up to the screen's height); an empty or
+        // loading list gets room for its message.
+        let head = HEADER_H + 12.0 + 26.0;
+        let room = ((sh - 40.0 - head - PAD) / ROW_H).floor().max(3.0) as usize;
+        let body_h =
+            if entries.is_empty() { 200.0 } else { entries.len().min(room) as f32 * ROW_H };
         let w = (sw - 40.0).min(760.0);
-        let h = sh - 40.0;
-        let r = Rect::new((sw - w) / 2.0, 20.0, w, h);
+        let h = (head + body_h + PAD - 4.0).min(sh - 40.0);
+        let r = Rect::new((sw - w) / 2.0, (sh - h) / 2.0, w, h);
         ui.panel(r);
         let mut action = RankingAction::None;
-        if ui.icon_button(
-            Rect::new(r.x + 14.0, r.y + 14.0, 34.0, 34.0),
-            Icon::Back,
-            t("Back"),
-            true,
-        ) || (is_key_pressed(KeyCode::Escape) && ui.focus.is_none())
+        let subtitle = t("Top 100 · rated games");
+        if screen_header(ui, r, Icon::Trophy, t("World ranking"), Some(subtitle))
+            || (is_key_pressed(KeyCode::Escape) && ui.focus.is_none())
         {
             action = RankingAction::Back;
         }
-        crate::icons::draw(Icon::Trophy, vec2(r.x + 74.0, r.y + 31.0), 26.0, GOLD);
-        ui.text(t("World ranking"), r.x + 96.0, r.y + 16.0, 24.0, GOLD, true);
-        ui.text(t("Top 100 · rated games"), r.x + 96.0, r.y + 44.0, 12.0, MUTED, false);
         if ui.icon_button(
-            Rect::new(r.x + r.w - 48.0, r.y + 14.0, 34.0, 34.0),
+            Rect::new(r.x + r.w - PAD - 36.0, r.y + 20.0, 36.0, 36.0),
             Icon::Refresh,
             t("Refresh"),
             true,
         ) {
             online.request_leaderboard();
         }
-        let cols = [
-            (r.x + 24.0, "#"),
-            (r.x + 70.0, t("Player")),
-            (r.x + r.w - 300.0, t("Rating")),
-            (r.x + r.w - 210.0, t("Tier")),
-            (r.x + r.w - 130.0, t("Games")),
-            (r.x + r.w - 58.0, t("Win %")),
-        ];
-        let head_y = r.y + 76.0;
-        for (x, label) in cols {
-            ui.text(label, x, head_y, 12.0, MUTED, true);
+        // The rows run from x0 to x1; a scroll bar, when there is one, sits
+        // to the right of x1.
+        let scrolls = entries.len() > room;
+        let x0 = r.x + PAD - 8.0;
+        let x1 = r.x + r.w - PAD + 8.0 - if scrolls { 12.0 } else { 0.0 };
+        // Column positions: (left edge, width, right-aligned). A column is
+        // never narrower than its heading (long in some languages).
+        let mut cols = Vec::new();
+        let mut right = x1 - 12.0;
+        for (cw, label, ra) in COLUMNS {
+            let cw = cw.max(ui.text_size(t(label), 12.0, true).x);
+            cols.push((right - cw, cw, ra));
+            right -= cw + GAP;
         }
-        draw_line(r.x + 16.0, head_y + 20.0, r.x + r.w - 16.0, head_y + 20.0, 1.0, BORDER);
-        let list = Rect::new(r.x + 12.0, head_y + 26.0, r.w - 24.0, r.y + r.h - head_y - 40.0);
-        if online.leaderboard.is_empty() {
-            let text = if online.leaderboard_loaded {
-                t("No rated games yet. Be the first!")
+        let name_x = x0 + 52.0;
+        let name_w = right + GAP - 12.0 - name_x;
+        let head_y = r.y + HEADER_H + 12.0;
+        ui.text("#", x0 + 20.0 - ui.text_size("#", 12.0, true).x / 2.0, head_y, 12.0, MUTED, true);
+        ui.text(t("Player"), name_x, head_y, 12.0, MUTED, true);
+        for (k, (_, label, _)) in COLUMNS.iter().enumerate() {
+            let (cx, cw, ra) = cols[k];
+            let label = t(label);
+            let lw = ui.text_size(label, 12.0, true).x;
+            ui.text(label, if ra { cx + cw - lw } else { cx }, head_y, 12.0, MUTED, true);
+        }
+        let line_y = head_y + 21.0;
+        draw_line(r.x + PAD - 8.0, line_y, r.x + r.w - PAD + 8.0, line_y, 1.0, BORDER);
+        let list = Rect::new(x0, line_y + 5.0, r.x + r.w - PAD + 8.0 - x0, body_h);
+        if entries.is_empty() {
+            if online.leaderboard_loaded {
+                empty_state(ui, list, Icon::Trophy, t("No rated games yet. Be the first!"));
+            } else if let Some(error) = unreachable(online) {
+                empty_state(ui, list, Icon::Network, &error);
             } else {
-                t("Loading…")
-            };
-            ui.text_centered(text, sw / 2.0, list.y + 30.0, 15.0, MUTED, false);
+                loading(ui, list, t("Loading…"));
+            }
             return action;
         }
         let me = online.me.as_ref().map(|m| m.username.clone()).unwrap_or_default();
-        let row_h = 34.0;
-        let visible = (list.h / row_h).floor().max(1.0) as usize;
-        let entries = online.leaderboard.clone();
+        let mine = entries.iter().position(|e| e.username.eq_ignore_ascii_case(&me));
+        let visible = entries.len().min(room);
         self.first = ui.scroll_list(list, self.first, entries.len(), visible);
-        for (k, e) in entries.iter().skip(self.first).take(visible).enumerate() {
-            let y = list.y + k as f32 * row_h;
-            let row = Rect::new(list.x, y, list.w - 8.0, row_h - 3.0);
-            let mine = e.username == me;
+        // Your own row, when it is scrolled out of sight, stays pinned at
+        // the bottom (under a thin line), so you always see where you are.
+        let pinned = mine.filter(|&m| m < self.first || m >= self.first + visible);
+        let shown = if pinned.is_some() { visible - 1 } else { visible };
+        let mut rows: Vec<(usize, f32)> = (self.first..(self.first + shown).min(entries.len()))
+            .enumerate()
+            .map(|(k, i)| (i, list.y + k as f32 * ROW_H))
+            .collect();
+        if let Some(m) = pinned {
+            let y = list.y + shown as f32 * ROW_H;
+            draw_line(
+                x0 + 8.0,
+                y + 1.0,
+                x1 - 8.0,
+                y + 1.0,
+                1.0,
+                Color::new(GOLD.r, GOLD.g, GOLD.b, 0.35),
+            );
+            rows.push((m, y + 2.0));
+        }
+        for (i, y) in rows {
+            let e = &entries[i];
+            let row = Rect::new(x0, y + 2.0, x1 - x0, ROW_H - 4.0);
+            let is_me = Some(i) == mine;
             let hover = ui.hovering(row);
-            let bg = if mine {
-                Color::new(0.91, 0.75, 0.38, 0.16)
+            if is_me {
+                rrect(
+                    row,
+                    6.0,
+                    Color::new(GOLD.r, GOLD.g, GOLD.b, if hover { 0.22 } else { 0.15 }),
+                );
+                rrect_lines(row, 6.0, 1.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.55));
             } else if hover {
-                Color::new(1.0, 1.0, 1.0, 0.07)
-            } else if k % 2 == 0 {
-                Color::new(1.0, 1.0, 1.0, 0.025)
-            } else {
-                Color::new(0.0, 0.0, 0.0, 0.0)
-            };
-            rrect(row, 5.0, bg);
+                rrect(row, 6.0, Color::new(1.0, 1.0, 1.0, 0.08));
+            } else if i % 2 == 0 {
+                rrect(row, 6.0, Color::new(1.0, 1.0, 1.0, 0.025));
+            }
+            let mid = row.y + row.h / 2.0;
             let medal = match e.rank {
                 1 => Some(GOLD),
                 2 => Some(Color::new(0.82, 0.82, 0.86, 1.0)),
                 3 => Some(Color::new(0.80, 0.55, 0.33, 1.0)),
                 _ => None,
             };
-            let ty = y + 8.0;
+            let rank = e.rank.to_string();
             match medal {
                 Some(c) => {
-                    draw_circle(r.x + 30.0, y + row_h / 2.0 - 1.0, 11.0, c);
+                    draw_circle(x0 + 20.0, mid, 11.0, c);
                     ui.text_centered(
-                        &e.rank.to_string(),
-                        r.x + 30.0,
-                        ty,
+                        &rank,
+                        x0 + 20.0,
+                        text_y(mid, 13.0),
                         13.0,
                         Color::new(0.1, 0.07, 0.04, 1.0),
                         true,
                     );
                 }
-                None => ui.text(&e.rank.to_string(), r.x + 24.0, ty, 14.0, MUTED, true),
+                None => ui.text_centered(&rank, x0 + 20.0, text_y(mid, 14.0), 14.0, MUTED, true),
             }
             let tier = snookered_proto::Tier::of(e.rating);
             let color = if e.admin {
                 crate::ui::ADMIN_RED
-            } else if mine {
+            } else if is_me {
                 GOLD
             } else {
                 tier_color(tier)
             };
-            let name_w = ui.name_with_flag(
-                &e.username,
-                &e.country,
-                color,
-                r.x + 70.0,
-                ty - 1.0,
-                15.0,
-                r.w - 420.0,
-            );
+            let crown = if e.vip { 22.0 } else { 0.0 };
+            let ty = text_y(mid, 15.0);
+            let used =
+                ui.name_with_flag(&e.username, &e.country, color, name_x, ty, 15.0, name_w - crown);
             if e.vip {
                 // VIP members: the crown, as everywhere else.
-                crate::icons::draw(
-                    Icon::Crown,
-                    vec2(r.x + 70.0 + name_w + 13.0, ty + 7.0),
-                    13.0,
-                    GOLD,
-                );
+                crate::icons::draw(Icon::Crown, vec2(name_x + used + 12.0, mid), 14.0, GOLD);
             }
-            ui.text(&e.rating.to_string(), r.x + r.w - 300.0, ty, 15.0, CREAM, true);
-            ui.text(t(tier.name()), r.x + r.w - 210.0, ty + 1.0, 13.0, tier_color(tier), false);
-            ui.text(&e.games.to_string(), r.x + r.w - 130.0, ty + 1.0, 13.0, MUTED, false);
             let pct = (e.wins * 100).checked_div(e.games).unwrap_or(0);
-            ui.text(&format!("{pct}%"), r.x + r.w - 58.0, ty + 1.0, 13.0, MUTED, false);
+            let cells: [(String, f32, Color, bool); 4] = [
+                (format!("{pct}%"), 14.0, MUTED, false),
+                (e.games.to_string(), 14.0, MUTED, false),
+                (t(tier.name()).to_string(), 14.0, tier_color(tier), false),
+                (e.rating.to_string(), 15.0, CREAM, true),
+            ];
+            for (k, (text, size, c, bold)) in cells.iter().enumerate() {
+                let (cx, cw, ra) = cols[k];
+                let (text, size) = ui.fitted(text, *size, cw, *bold);
+                let tw = ui.text_size(&text, size, *bold).x;
+                let x = if ra { cx + cw - tw } else { cx };
+                ui.text(&text, x, text_y(mid, size), size, *c, *bold);
+            }
             if hover && ui.clicked(row) {
                 action = RankingAction::Profile(e.username.clone());
             }

@@ -10,6 +10,7 @@ use crate::paint::{draw_circle, draw_line, draw_rectangle};
 use crate::i18n::{t, tw};
 use crate::icons::Icon;
 use crate::online::Online;
+use crate::ranking::{PAD, caps_y, empty_state, loading, text_y, unreachable};
 use crate::ui::{ALERT, BORDER, CREAM, GOLD, MUTED, Ui, rrect, rrect_lines, tier_color};
 
 pub enum ProfileAction {
@@ -47,6 +48,16 @@ struct AccountForm {
     delete_password: String,
     confirm_delete: bool,
 }
+
+/// Where the content starts under the header (from the panel's top).
+const BODY_TOP: f32 = 220.0;
+/// The achievement medals: cell and gap.
+const MEDAL: f32 = 44.0;
+const MEDAL_GAP: f32 = 8.0;
+/// The reactions: cell and gap.
+const REACTION: f32 = 30.0;
+const REACTION_GAP: f32 = 4.0;
+const WIN: Color = Color::new(0.45, 0.95, 0.55, 1.0);
 
 /// "3 days", "2 months", "1 year".
 fn age(created_at: i64) -> String {
@@ -93,6 +104,41 @@ pub fn medal_color(level: u8) -> Color {
     }
 }
 
+/// A grid for `n` cells of `cell` (plus `gap`) in `width`: as many columns
+/// as fit, then evened out so the rows come out the same length (the last
+/// one no shorter than it must be). Returns (columns, rows).
+fn balanced_grid(n: usize, cell: f32, gap: f32, width: f32) -> (usize, usize) {
+    let most = ((width + gap) / (cell + gap)).floor().max(1.0) as usize;
+    let rows = n.div_ceil(most).max(1);
+    (n.div_ceil(rows).max(1), rows)
+}
+
+/// The height of the achievements and reactions column for `width`.
+fn left_height(width: f32) -> f32 {
+    let (_, medal_rows) = balanced_grid(ACHIEVEMENTS.len(), MEDAL, MEDAL_GAP, width);
+    let n = snookered_proto::REACTIONS.len();
+    let (_, reaction_rows) = balanced_grid(n, REACTION, REACTION_GAP, width);
+    30.0 + medal_rows as f32 * (MEDAL + MEDAL_GAP) - MEDAL_GAP
+        + 24.0
+        + 30.0
+        + reaction_rows as f32 * (REACTION + REACTION_GAP)
+        - REACTION_GAP
+}
+
+/// Regular text of up to `size` that fits `width` (not under 11).
+fn fit_regular(ui: &Ui, text: &str, size: f32, width: f32) -> f32 {
+    let mut s = size;
+    while s > 11.0 && ui.text_size(text, s, false).x > width {
+        s -= 0.5;
+    }
+    s
+}
+
+/// A section heading with a control at its right (the panes), on one line.
+fn heading(ui: &Ui, text: &str, x: f32, mid: f32) {
+    ui.text(text, x, text_y(mid, 15.0), 15.0, GOLD, true);
+}
+
 impl ProfileScreen {
     pub fn open(&mut self, name: &str, online: &mut Online) {
         self.name = name.to_string();
@@ -109,32 +155,28 @@ impl ProfileScreen {
         let sh = crate::ui::vh();
         draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.5));
         let w = (sw - 40.0).min(960.0);
-        let h = (sh - 40.0).min(680.0);
+        let half = (w - 2.0 * PAD - 24.0) / 2.0;
+        // The panel fits its content: the header, then the achievements and
+        // reactions (the recent games scroll in the same height).
+        let h = (BODY_TOP + left_height(half) + PAD).min(sh - 40.0);
         let r = Rect::new((sw - w) / 2.0, (sh - h) / 2.0, w, h);
         ui.panel(r);
         let mut action = ProfileAction::None;
-        if ui.icon_button(
-            Rect::new(r.x + 14.0, r.y + 14.0, 34.0, 34.0),
-            Icon::Back,
-            t("Back"),
-            true,
-        ) || (is_key_pressed(KeyCode::Escape)
-            && ui.focus.is_none()
-            && !crate::countries::is_open())
+        // A dialog over the page (account, report, country): Esc is its own.
+        let dialog = self.account.is_some() || self.report.is_some() || crate::countries::is_open();
+        if ui.icon_button(Rect::new(r.x + PAD, r.y + 20.0, 36.0, 36.0), Icon::Back, t("Back"), true)
+            || (is_key_pressed(KeyCode::Escape) && ui.focus.is_none() && !dialog)
         {
             action = ProfileAction::Back;
         }
         let Some(mut p) =
             online.profile.clone().filter(|p| p.player.username.eq_ignore_ascii_case(&self.name))
         else {
-            ui.text_centered(
-                t("Loading the profile…"),
-                sw / 2.0,
-                r.y + r.h / 2.0 - 10.0,
-                16.0,
-                MUTED,
-                false,
-            );
+            let area = Rect::new(r.x, r.y + 60.0, r.w, r.h - 80.0);
+            match unreachable(online) {
+                Some(error) => empty_state(ui, area, Icon::Network, &error),
+                None => loading(ui, area, t("Loading the profile…")),
+            }
             return action;
         };
         // Asked before signing in: the server didn't know who was looking.
@@ -142,25 +184,34 @@ impl ProfileScreen {
         {
             p.relation = Relation::Me;
         }
-        // A dialog over the page (account, report, country): the page under
-        // it doesn't react to the pointer (no hover hints through it).
-        let modal = self.account.is_some() || self.report.is_some() || crate::countries::is_open();
-        let saved = modal.then(|| ui.suspend_input());
+        // While a dialog is open, the page under it doesn't react to the
+        // pointer (no hover hints through it).
+        let saved = dialog.then(|| ui.suspend_input());
         self.header(ui, online, &p, r);
-        let body = Rect::new(r.x + 20.0, r.y + 204.0, r.w - 40.0, r.h - 224.0);
-        let half = (body.w - 20.0) / 2.0;
+        let body = Rect::new(r.x + PAD, r.y + BODY_TOP, r.w - 2.0 * PAD, r.h - BODY_TOP - PAD);
         self.achievements(ui, &p, Rect::new(body.x, body.y, half, body.h));
-        let right = Rect::new(body.x + half + 20.0, body.y, half, body.h);
+        let right = Rect::new(body.x + half + 24.0, body.y, half, body.h);
         let panes = [t("Games"), t("Rating"), t("Numbers")];
-        let selected = self.pane as usize;
-        let seg = Rect::new(right.x + right.w - 270.0, right.y - 4.0, 270.0, 26.0);
-        if let Some(k) = ui.segmented(seg, &panes, selected) {
+        // As narrow as the labels allow (12 px in a 28 px control), so the
+        // heading beside it keeps its room.
+        let cell = panes.iter().map(|l| ui.text_size(l, 12.0, true).x + 24.0).fold(0.0, f32::max);
+        let seg_w = cell * 3.0;
+        let seg = Rect::new(right.x + right.w - seg_w, right.y - 4.0, seg_w, 28.0);
+        if let Some(k) = ui.segmented(seg, &panes, self.pane as usize) {
             self.pane = [Pane::Games, Pane::Rating, Pane::Numbers][k];
         }
+        let title = match self.pane {
+            Pane::Games => t("Recent games"),
+            Pane::Rating => t("Rating"),
+            Pane::Numbers => t("Numbers"),
+        };
+        let (title, _) = ui.fitted(title, 15.0, seg.x - 12.0 - right.x, true);
+        heading(ui, &title, right.x, right.y + 10.0);
+        let content = Rect::new(right.x, right.y + 34.0, right.w, right.h - 34.0);
         match self.pane {
-            Pane::Games => self.history(ui, online, &p, right),
-            Pane::Rating => rating_chart(ui, &p, right),
-            Pane::Numbers => numbers(ui, &p, right),
+            Pane::Games => self.history(ui, online, &p, content),
+            Pane::Rating => rating_chart(ui, &p, content),
+            Pane::Numbers => numbers(ui, &p, content),
         }
         if let Some(saved) = saved {
             ui.resume_input(saved);
@@ -180,19 +231,23 @@ impl ProfileScreen {
             .map(|i| i.look)
             .filter(|_| player.frame != "frame_none");
         // With a frame, everything moves in a little: the frame keeps clear
-        // of the back button and of the line under it.
+        // of the back button.
         let pad = if framed.is_some() { 14.0 } else { 0.0 };
-        let x = r.x + 64.0 + pad;
-        let name_y = r.y + 18.0;
-        let flag_w = if player.country.is_empty() { 0.0 } else { crate::flags::width(26.0) + 12.0 };
+        let left = r.x + PAD + 36.0 + 16.0;
+        let x = left + pad;
+        // The name's middle lines up with the back button's.
+        let mid = r.y + 38.0;
+        let flag_h = 24.0;
+        let flag_w =
+            if player.country.is_empty() { 0.0 } else { crate::flags::width(flag_h) + 12.0 };
         let name_w = ui.text_size(&player.username, 30.0, true).x;
         let crown_w = if player.vip { 30.0 } else { 0.0 };
-        let dot_w = if p.online { 16.0 } else { 0.0 };
+        let dot_w = if p.online { 18.0 } else { 0.0 };
         if let Some(snookered_proto::shop::Look::Frame { a, b, shine }) = framed {
             // The frame from the shop, around the flag, the name, the crown
             // and the online dot.
             let w = flag_w + name_w + crown_w + dot_w + 2.0 * pad;
-            let fr = Rect::new(x - pad, r.y + 8.0, w, 48.0);
+            let fr = Rect::new(x - pad, mid - 24.0, w, 48.0);
             crate::shop::frame(fr, a, b, shine, get_time() as f32);
             rrect(
                 Rect::new(fr.x + 3.0, fr.y + 3.0, fr.w - 6.0, fr.h - 6.0),
@@ -200,27 +255,25 @@ impl ProfileScreen {
                 Color::new(0.09, 0.055, 0.035, 1.0),
             );
         }
-        crate::flags::draw(&player.country, x, r.y + 22.0, 26.0);
+        crate::flags::draw(&player.country, x, mid - flag_h / 2.0, flag_h);
         let nx = x + flag_w;
-        crate::ui::draw_name(ui, player, nx, name_y, 30.0);
+        crate::ui::draw_name(ui, player, nx, caps_y(mid, 30.0), 30.0);
         let mut after = nx + name_w + 4.0;
         if player.vip {
-            crate::icons::draw(
-                crate::icons::Icon::Crown,
-                vec2(after + 14.0, r.y + 34.0),
-                22.0,
-                GOLD,
-            );
+            crate::icons::draw(Icon::Crown, vec2(after + 14.0, mid), 22.0, GOLD);
             after += crown_w;
         }
         if p.online {
-            draw_circle(after + 8.0, r.y + 33.0, 5.0, Color::new(0.35, 0.85, 0.45, 1.0));
+            draw_circle(after + 9.0, mid, 5.0, Color::new(0.35, 0.85, 0.45, 1.0));
         }
-        let x = r.x + 64.0;
+
+        // The tier and a line about the player, under the name. The pill's
+        // text and the line share a baseline.
         let tier = player.tier();
-        let mut info_x = x;
+        let info_mid = r.y + 76.0;
+        let mut info_x = left;
         if !player.guest {
-            info_x += ui.pill(t(tier.name()), info_x, r.y + 62.0, tier_color(tier)) + 10.0;
+            info_x += tier_pill(ui, t(tier.name()), info_x, info_mid, tier_color(tier)) + 10.0;
         }
         let mut parts = Vec::new();
         if let Some(rank) = p.rank {
@@ -236,16 +289,20 @@ impl ProfileScreen {
         if !p.online && p.last_seen > 0 {
             parts.push(crate::online::last_seen(p.last_seen));
         }
-        ui.text(&parts.join("  ·  "), info_x, r.y + 63.0, 13.0, MUTED, false);
+        // The pill's 12 px text sits on `info_mid + 0.365 × 12` (see
+        // `tier_pill`); this 13 px line sits on the same baseline.
+        let baseline = info_mid + 0.365 * 12.0;
+        ui.text(&parts.join("  ·  "), info_x, baseline - 0.8 * 13.0, 13.0, MUTED, false);
 
-        // The rating, large, on the right.
+        // The rating, large, on the right, with the peak under it.
         if !player.guest {
             let rating = player.rating.to_string();
             let rw = ui.text_size(&rating, 40.0, true).x;
-            ui.text(&rating, r.x + r.w - rw - 24.0, r.y + 14.0, 40.0, tier_color(tier), true);
+            let rx = r.x + r.w - PAD;
+            ui.text(&rating, rx - rw, caps_y(mid, 40.0), 40.0, tier_color(tier), true);
             let peak = tw("peak {n}", &[("n", &p.stats.peak_rating)]);
             let pw = ui.text_size(&peak, 12.0, false).x;
-            ui.text(&peak, r.x + r.w - pw - 24.0, r.y + 62.0, 12.0, MUTED, false);
+            ui.text(&peak, rx - pw, text_y(info_mid, 12.0), 12.0, MUTED, false);
         }
 
         // Numbers.
@@ -259,20 +316,22 @@ impl ProfileScreen {
             (s.best_streak.to_string(), t("best streak")),
             (s.tournaments_won.to_string(), t("tournaments won")),
         ];
-        let cw = (r.w - 40.0 - 5.0 * 10.0) / 6.0;
+        let gap = 12.0;
+        let cw = (r.w - 2.0 * PAD - 5.0 * gap) / 6.0;
         for (k, (n, label)) in cards.iter().enumerate() {
-            let c = Rect::new(r.x + 20.0 + k as f32 * (cw + 10.0), r.y + 92.0, cw, 54.0);
+            let c = Rect::new(r.x + PAD + k as f32 * (cw + gap), r.y + 100.0, cw, 58.0);
             rrect(c, 8.0, Color::new(1.0, 1.0, 1.0, 0.04));
-            ui.text_centered(n, c.x + c.w / 2.0, c.y + 6.0, 22.0, CREAM, true);
-            let size = ui.fit(11.0, label, c.w - 6.0);
-            ui.text_centered(label, c.x + c.w / 2.0, c.y + 34.0, size, MUTED, false);
+            ui.text_centered(n, c.x + c.w / 2.0, c.y + 8.0, 22.0, CREAM, true);
+            let size = fit_regular(ui, label, 12.0, c.w - 10.0);
+            ui.text_centered(label, c.x + c.w / 2.0, c.y + 37.0, size, MUTED, false);
         }
 
-        // Progress towards the next tier.
+        // Progress towards the next tier, and the actions, on one row.
+        let row_mid = r.y + 186.0;
         if !player.guest {
             let next =
                 snookered_proto::Tier::ALL.into_iter().find(|t| t.min_rating() > player.rating);
-            let bx = r.x + 20.0;
+            let bx = r.x + PAD;
             let bw = (r.w * 0.36).min(320.0);
             match next {
                 Some(next) => {
@@ -289,8 +348,8 @@ impl ProfileScreen {
                         "{n} points to {tier}",
                         &[("n", &(next.min_rating() - player.rating)), ("tier", &t(next.name()))],
                     );
-                    ui.text(&label, bx, r.y + 156.0, 12.0, MUTED, false);
-                    let bar = Rect::new(bx, r.y + 175.0, bw, 6.0);
+                    ui.text(&label, bx, row_mid - 17.0, 12.0, MUTED, false);
+                    let bar = Rect::new(bx, row_mid + 4.0, bw, 6.0);
                     rrect(bar, 3.0, Color::new(1.0, 1.0, 1.0, 0.08));
                     if k > 0.0 {
                         rrect(
@@ -300,18 +359,26 @@ impl ProfileScreen {
                         );
                     }
                 }
-                None => ui.text(t("Top tier"), bx, r.y + 160.0, 13.0, tier_color(tier), true),
+                None => {
+                    ui.text(t("Top tier"), bx, text_y(row_mid, 13.0), 13.0, tier_color(tier), true)
+                }
             }
         }
 
-        draw_line(r.x + 20.0, r.y + 192.0, r.x + r.w - 20.0, r.y + 192.0, 1.0, BORDER);
-        // Actions.
-        let mut bx = r.x + r.w - 24.0;
-        let by = r.y + 156.0;
-        let mut button = |ui: &mut Ui, label: &str, enabled: bool| -> bool {
-            let w = ui.text_size(label, 13.0, true).x + 26.0;
+        let line_y = r.y + BODY_TOP - 14.0;
+        draw_line(r.x + PAD, line_y, r.x + r.w - PAD, line_y, 1.0, BORDER);
+        // Actions, from the right: the main one is green.
+        let mut bx = r.x + r.w - PAD;
+        let by = row_mid - 16.0;
+        let mut button = |ui: &mut Ui, label: &str, enabled: bool, primary: bool| -> bool {
+            let w = ui.text_size(label, 14.0, true).x + 32.0;
             bx -= w;
-            let hit = ui.button(Rect::new(bx, by, w, 26.0), label, enabled);
+            let b = Rect::new(bx, by, w, 32.0);
+            let hit = if primary && enabled {
+                ui.primary_button(b, label)
+            } else {
+                ui.button(b, label, enabled)
+            };
             bx -= 8.0;
             hit
         };
@@ -321,17 +388,17 @@ impl ProfileScreen {
         }
         match p.relation {
             Relation::Me => {
-                if button(ui, t("Account"), true) {
+                if button(ui, t("Account"), true, false) {
                     self.account = Some(AccountForm::default());
                     online.send(ClientMsg::Account);
                 }
-                if button(ui, t("Change country"), true) {
-                    crate::countries::open();
+                if button(ui, t("Change country"), true, false) {
+                    crate::countries::open_at(&player.country);
                 }
             }
             _ if online.me.is_none() => {}
             relation => {
-                if relation != Relation::Blocked && button(ui, t("Report"), true) {
+                if relation != Relation::Blocked && button(ui, t("Report"), true, false) {
                     self.report = Some((0, String::new()));
                 }
                 let block_label = if relation == Relation::Blocked {
@@ -341,7 +408,7 @@ impl ProfileScreen {
                 } else {
                     t("Block")
                 };
-                if button(ui, block_label, true) {
+                if button(ui, block_label, true, false) {
                     if relation == Relation::Blocked {
                         online.send(ClientMsg::Unblock { username: name.clone() });
                         online.request_profile(&name);
@@ -362,7 +429,9 @@ impl ProfileScreen {
                 };
                 if let Some(label) = friend {
                     let enabled = relation != Relation::RequestSent;
-                    if button(ui, label, enabled) {
+                    // Making friends is the way on; ending it is not.
+                    let primary = matches!(relation, Relation::None | Relation::RequestReceived);
+                    if button(ui, label, enabled, primary) {
                         let msg = match relation {
                             Relation::Friend => ClientMsg::FriendRemove { username: name.clone() },
                             Relation::RequestReceived => {
@@ -381,87 +450,51 @@ impl ProfileScreen {
     fn achievements(&self, ui: &mut Ui, p: &Profile, area: Rect) {
         let got =
             ACHIEVEMENTS.iter().filter(|a| p.achievements.iter().any(|(c, _)| c == a.code)).count();
-        ui.text(
+        heading(
+            ui,
             &tw("Achievements {n}/{total}", &[("n", &got), ("total", &ACHIEVEMENTS.len())]),
             area.x,
-            area.y,
-            15.0,
-            GOLD,
-            true,
+            area.y + 10.0,
         );
-        let cell = 40.0;
-        let cols = ((area.w + 6.0) / (cell + 6.0)).floor().max(1.0) as usize;
-        let rows = ACHIEVEMENTS.len().div_ceil(cols);
-        // The reactions this player has unlocked, under the medals.
-        let ry = area.y + 28.0 + rows as f32 * (cell + 6.0) + 14.0;
-        if ry + 60.0 < area.y + area.h {
-            let codes: Vec<&str> = p.achievements.iter().map(|(c, _)| c.as_str()).collect();
-            let vip = p.player.vip;
-            let open =
-                snookered_proto::REACTIONS.iter().filter(|r| r.available(&codes, vip)).count();
-            ui.text(
-                &tw(
-                    "Reactions {n}/{total}",
-                    &[("n", &open), ("total", &snookered_proto::REACTIONS.len())],
-                ),
-                area.x,
-                ry,
-                15.0,
-                GOLD,
-                true,
-            );
-            let size = 26.0;
-            let per_row = ((area.w + 4.0) / (size + 4.0)).floor().max(1.0) as usize;
-            for (k, r) in snookered_proto::REACTIONS.iter().enumerate() {
-                let c = vec2(
-                    area.x + size / 2.0 + (k % per_row) as f32 * (size + 4.0),
-                    ry + 26.0 + size / 2.0 + (k / per_row) as f32 * (size + 4.0),
-                );
-                if c.y + size / 2.0 > area.y + area.h {
-                    break;
-                }
-                if r.available(&codes, vip) {
-                    crate::reactions::draw(r.code, c, size, 1.0);
-                } else {
-                    crate::reactions::draw_locked(r.code, c, size * 0.9);
-                }
-            }
-        }
+        let (cols, rows) = balanced_grid(ACHIEVEMENTS.len(), MEDAL, MEDAL_GAP, area.w);
         let mut tip = None;
+        let top = area.y + 30.0;
         for (k, a) in ACHIEVEMENTS.iter().enumerate() {
             let (col, row) = (k % cols, k / cols);
             let c = Rect::new(
-                area.x + col as f32 * (cell + 6.0),
-                area.y + 28.0 + row as f32 * (cell + 6.0),
-                cell,
-                cell,
+                area.x + col as f32 * (MEDAL + MEDAL_GAP),
+                top + row as f32 * (MEDAL + MEDAL_GAP),
+                MEDAL,
+                MEDAL,
             );
-            if c.y + c.h > area.y + area.h {
-                break;
-            }
             let unlocked = p.achievements.iter().find(|(code, _)| code == a.code);
             let color = medal_color(a.level);
-            rrect(c, 8.0, Color::new(1.0, 1.0, 1.0, if unlocked.is_some() { 0.07 } else { 0.025 }));
+            let hover = ui.hovering(c);
+            let centre = vec2(c.x + MEDAL / 2.0, c.y + MEDAL / 2.0);
             if unlocked.is_some() {
-                rrect_lines(c, 8.0, 1.2, Color::new(color.r, color.g, color.b, 0.6));
-                crate::icons::draw(
-                    Icon::Medal,
-                    vec2(c.x + cell / 2.0, c.y + cell / 2.0),
-                    cell * 0.62,
-                    color,
-                );
+                rrect(c, 8.0, Color::new(color.r, color.g, color.b, 0.12));
+                rrect_lines(c, 8.0, 1.2, Color::new(color.r, color.g, color.b, 0.7));
+                crate::icons::draw(Icon::Medal, centre, MEDAL * 0.62, color);
             } else {
-                // A faint medal: the colour hints at how hard it is.
-                let ghost = Color::new(color.r * 0.5, color.g * 0.5, color.b * 0.5, 0.35);
+                // Still to win: a greyed medal (its colour hints at how hard
+                // it is) and a small lock.
+                rrect(c, 8.0, Color::new(1.0, 1.0, 1.0, 0.035));
+                rrect_lines(c, 8.0, 1.0, Color::new(1.0, 1.0, 1.0, 0.07));
+                let grey = |v: f32| v * 0.35 + 0.5 * 0.65;
+                let ghost = Color::new(grey(color.r), grey(color.g), grey(color.b), 0.45);
+                crate::icons::draw(Icon::Medal, centre, MEDAL * 0.55, ghost);
                 crate::icons::draw(
-                    Icon::Medal,
-                    vec2(c.x + cell / 2.0, c.y + cell / 2.0),
-                    cell * 0.55,
-                    ghost,
+                    Icon::Lock,
+                    vec2(c.x + c.w - 9.0, c.y + c.h - 9.0),
+                    10.0,
+                    Color::new(MUTED.r, MUTED.g, MUTED.b, 0.8),
                 );
             }
+            if hover {
+                rrect_lines(c, 8.0, 1.5, GOLD);
+            }
             ui.block(c);
-            if ui.hovering(c) {
+            if hover {
                 tip = Some((a, unlocked.map(|(_, at)| *at), c));
             }
         }
@@ -479,62 +512,104 @@ impl ProfileScreen {
                     .x
                     .max(ui.text_size(desc, 13.0, false).x)
                     .max(ui.text_size(&when, 12.0, false).x)
-                    + 24.0;
-                let below = c.y + c.h + 70.0 < crate::ui::vh();
+                    + 28.0;
+                let below = c.y + c.h + 76.0 < crate::ui::vh();
                 let tr = Rect::new(
                     (c.x + c.w / 2.0 - w / 2.0).clamp(4.0, (crate::ui::vw() - w - 4.0).max(4.0)),
-                    if below { c.y + c.h + 6.0 } else { c.y - 70.0 },
+                    if below { c.y + c.h + 6.0 } else { c.y - 76.0 },
                     w,
-                    64.0,
+                    70.0,
                 );
                 rrect(tr, 8.0, Color::new(0.0, 0.0, 0.0, 0.92));
                 rrect_lines(tr, 8.0, 1.0, medal_color(level));
-                ui.text(title, tr.x + 12.0, tr.y + 8.0, 14.0, medal_color(level), true);
-                ui.text(desc, tr.x + 12.0, tr.y + 28.0, 13.0, CREAM, false);
-                ui.text(&when, tr.x + 12.0, tr.y + 46.0, 12.0, MUTED, false);
+                ui.text(title, tr.x + 14.0, tr.y + 10.0, 14.0, medal_color(level), true);
+                ui.text(desc, tr.x + 14.0, tr.y + 30.0, 13.0, CREAM, false);
+                ui.text(&when, tr.x + 14.0, tr.y + 50.0, 12.0, MUTED, false);
             });
+        }
+
+        // The reactions this player has unlocked, under the medals.
+        let ry = top + rows as f32 * (MEDAL + MEDAL_GAP) - MEDAL_GAP + 24.0;
+        let codes: Vec<&str> = p.achievements.iter().map(|(c, _)| c.as_str()).collect();
+        let vip = p.player.vip;
+        let reactions = snookered_proto::REACTIONS;
+        let open = reactions.iter().filter(|r| r.available(&codes, vip)).count();
+        heading(
+            ui,
+            &tw("Reactions {n}/{total}", &[("n", &open), ("total", &reactions.len())]),
+            area.x,
+            ry + 10.0,
+        );
+        let (cols, _) = balanced_grid(reactions.len(), REACTION, REACTION_GAP, area.w);
+        let mut tip = None;
+        for (k, r) in reactions.iter().enumerate() {
+            let c = Rect::new(
+                area.x + (k % cols) as f32 * (REACTION + REACTION_GAP),
+                ry + 30.0 + (k / cols) as f32 * (REACTION + REACTION_GAP),
+                REACTION,
+                REACTION,
+            );
+            let centre = vec2(c.x + c.w / 2.0, c.y + c.h / 2.0);
+            let hover = ui.hovering(c);
+            if hover {
+                rrect(c, 6.0, Color::new(1.0, 1.0, 1.0, 0.08));
+            }
+            if r.available(&codes, vip) {
+                crate::reactions::draw(r.code, centre, 24.0, crate::paint::opacity());
+            } else {
+                crate::reactions::draw_locked(r.code, centre, 22.0);
+                crate::icons::draw(
+                    Icon::Lock,
+                    vec2(c.x + c.w - 6.0, c.y + c.h - 6.0),
+                    9.0,
+                    Color::new(MUTED.r, MUTED.g, MUTED.b, 0.8),
+                );
+                if hover {
+                    let how = if r.is_vip() {
+                        t("For VIP members").to_string()
+                    } else {
+                        r.unlock
+                            .and_then(|a| ACHIEVEMENTS.iter().find(|x| x.code == a))
+                            .map(|a| {
+                                tw(
+                                    "{title}: {how}",
+                                    &[("title", &t(a.title)), ("how", &t(a.description))],
+                                )
+                            })
+                            .unwrap_or_default()
+                    };
+                    tip = Some((how, c));
+                }
+            }
+            ui.block(c);
+        }
+        if let Some((text, c)) = tip
+            && !text.is_empty()
+        {
+            ui.tooltip(&text, c);
         }
     }
 
-    fn history(&mut self, ui: &mut Ui, online: &mut Online, p: &Profile, area: Rect) {
-        ui.text(t("Recent games"), area.x, area.y, 15.0, GOLD, true);
-        let list = Rect::new(area.x, area.y + 28.0, area.w, area.h - 28.0);
+    fn history(&mut self, ui: &mut Ui, online: &mut Online, p: &Profile, list: Rect) {
         if p.history.is_empty() {
-            ui.text(t("No games yet."), list.x, list.y + 6.0, 14.0, MUTED, false);
+            empty_state(ui, list, Icon::Table, t("No games yet."));
             return;
         }
-        let row_h = 44.0;
+        let row_h = 46.0;
         let visible = (list.h / row_h).floor().max(1.0) as usize;
         self.history_first = ui.scroll_list(list, self.history_first, p.history.len(), visible);
+        let scrolls = p.history.len() > visible;
         for (k, h) in p.history.iter().skip(self.history_first).take(visible).enumerate() {
-            let r = Rect::new(list.x, list.y + k as f32 * row_h, list.w - 8.0, row_h - 5.0);
+            let w = list.w - if scrolls { 12.0 } else { 0.0 };
+            let r = Rect::new(list.x, list.y + k as f32 * row_h, w, row_h - 6.0);
             rrect(r, 6.0, Color::new(1.0, 1.0, 1.0, 0.035));
-            let (mark, color) =
-                if h.won { (t("W"), Color::new(0.45, 0.95, 0.55, 1.0)) } else { (t("L"), ALERT) };
-            rrect(
-                Rect::new(r.x + 6.0, r.y + 7.0, 24.0, 24.0),
-                5.0,
-                Color::new(color.r, color.g, color.b, 0.18),
-            );
-            ui.text_centered(mark, r.x + 18.0, r.y + 11.0, 14.0, color, true);
-            let opp_color = crate::ui::name_color_of(h.opponent_admin, h.opponent_rating);
-            ui.name_with_flag(
-                &h.opponent,
-                &h.opponent_country,
-                opp_color,
-                r.x + 40.0,
-                r.y + 4.0,
-                14.0,
-                r.w - 170.0,
-            );
-            let how = crate::i18n::history_reason(h.reason, h.won);
-            let sub = if h.tournament {
-                format!("{how} · {}", t("tournament"))
-            } else {
-                how.to_string()
-            };
-            let sub = ui.ellipsize(&sub, r.w - 170.0, 12.0);
-            ui.text(&sub, r.x + 40.0, r.y + 22.0, 12.0, MUTED, false);
+            let mid = r.y + r.h / 2.0;
+            let (mark, color) = if h.won { (t("W"), WIN) } else { (t("L"), ALERT) };
+            let badge = Rect::new(r.x + 8.0, mid - 12.0, 24.0, 24.0);
+            rrect(badge, 5.0, Color::new(color.r, color.g, color.b, 0.18));
+            ui.text_centered(mark, badge.x + 12.0, text_y(mid, 14.0), 14.0, color, true);
+            // The rating change and the date, right-aligned; the replay
+            // button (own games that kept their strokes) left of both.
             let delta = if h.rated {
                 format!("{}{}", if h.delta >= 0 { "+" } else { "" }, h.delta)
             } else {
@@ -543,23 +618,44 @@ impl ProfileScreen {
             let dc = if !h.rated {
                 MUTED
             } else if h.delta >= 0 {
-                Color::new(0.45, 0.95, 0.55, 1.0)
+                WIN
             } else {
                 ALERT
             };
-            let dw = ui.text_size(&delta, 15.0, true).x;
-            ui.text(&delta, r.x + r.w - dw - 10.0, r.y + 4.0, 15.0, dc, true);
             let d = date(h.at);
-            let ddw = ui.text_size(&d, 11.0, false).x;
-            ui.text(&d, r.x + r.w - ddw - 10.0, r.y + 23.0, 11.0, MUTED, false);
-            // Watch it again (own games that kept their strokes), left of
-            // both the rating change and the date.
+            let dw = ui.text_size(&delta, 15.0, true).x;
+            let ddw = ui.text_size(&d, 12.0, false).x;
+            let rx = r.x + r.w - 12.0;
+            ui.text(&delta, rx - dw, mid - 17.0, 15.0, dc, true);
+            ui.text(&d, rx - ddw, mid + 3.0, 12.0, MUTED, false);
+            let mut text_right = rx - dw.max(ddw) - 12.0;
             if p.relation == Relation::Me && h.replay && h.match_id > 0 {
-                let br = Rect::new(r.x + r.w - dw.max(ddw) - 46.0, r.y + 6.0, 26.0, 26.0);
+                let br = Rect::new(text_right - 30.0, mid - 15.0, 30.0, 30.0);
                 if ui.icon_button(br, Icon::Replay, t("Watch again"), true) {
                     online.send(ClientMsg::Replay { match_id: h.match_id });
                 }
+                text_right = br.x - 10.0;
             }
+            let x = r.x + 42.0;
+            let room = text_right - x;
+            let opp_color = crate::ui::name_color_of(h.opponent_admin, h.opponent_rating);
+            ui.name_with_flag(
+                &h.opponent,
+                &h.opponent_country,
+                opp_color,
+                x,
+                mid - 17.0,
+                14.0,
+                room,
+            );
+            let how = crate::i18n::history_reason(h.reason, h.won);
+            let sub = if h.tournament {
+                format!("{how} · {}", t("tournament"))
+            } else {
+                how.to_string()
+            };
+            let sub = ui.ellipsize(&sub, room, 12.0);
+            ui.text(&sub, x, mid + 3.0, 12.0, MUTED, false);
         }
     }
 
@@ -575,91 +671,91 @@ impl ProfileScreen {
         let sw = crate::ui::vw();
         let sh = crate::ui::vh();
         draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.55));
-        let w = 480.0f32.min(sw - 20.0);
-        let h = 530.0f32.min(sh - 20.0);
+        let w = 500.0f32.min(sw - 20.0);
+        let fw = w - 2.0 * PAD;
+        let wrap = |ui: &Ui, text: &str| ui.wrap(text, fw, 13.0);
+        let email_note =
+            wrap(ui, t("If you forget your password, we confirm it's you by this e-mail."));
+        let delete_note = wrap(
+            ui,
+            t(
+                "Your name, e-mail, friends and items are erased for good. Your opponents keep the games you played (without your name).",
+            ),
+        );
+        // The height follows the text (it wraps differently per language):
+        // the title, the three sections as laid out below, and Close.
+        let lines = (email_note.len() + delete_note.len()) as f32 * 17.0;
+        let h = (70.0 + 89.0 + 171.0 + 64.0 + 88.0 + lines).min(sh - 20.0);
         let r = Rect::new((sw - w) / 2.0, (sh - h) / 2.0, w, h);
         ui.panel(r);
         ui.block(Rect::new(0.0, 0.0, sw, sh));
-        ui.text(t("Your account"), r.x + 20.0, r.y + 16.0, 20.0, GOLD, true);
-        let x = r.x + 20.0;
-        let fw = w - 40.0;
-        let mut y = r.y + 54.0;
+        let x = r.x + PAD;
+        crate::icons::draw(Icon::Person, vec2(x + 12.0, r.y + 24.0 + 13.0), 24.0, GOLD);
+        ui.text(t("Your account"), x + 34.0, text_y(r.y + 24.0 + 13.0, 22.0), 22.0, GOLD, true);
+        let mut y = r.y + 24.0 + 26.0 + 20.0;
         // Recovery e-mail.
-        ui.text(t("Recovery e-mail"), x, y, 15.0, CREAM, true);
-        y += 22.0;
-        let note = t("If you forget your password, we confirm it's you by this e-mail.");
-        for line in ui.wrap(note, fw, 12.0) {
-            ui.text(&line, x, y, 12.0, MUTED, false);
-            y += 16.0;
+        ui.text(t("Recovery e-mail"), x, y, 15.0, GOLD, true);
+        y += 24.0;
+        for line in &email_note {
+            ui.text(line, x, y, 13.0, MUTED, false);
+            y += 17.0;
         }
+        y += 6.0;
         let saved = online.account.as_ref().and_then(|a| a.recovery_email.clone());
-        ui.text_input(71, Rect::new(x, y + 2.0, fw - 110.0, 32.0), &mut form.email, 120);
+        ui.text_input(71, Rect::new(x, y, fw - 120.0, 34.0), &mut form.email, 120);
         if ui.button(
-            Rect::new(x + fw - 100.0, y + 2.0, 100.0, 32.0),
+            Rect::new(x + fw - 110.0, y, 110.0, 34.0),
             t("Save"),
             saved.as_deref() != Some(form.email.trim()),
         ) {
             online.send(ClientMsg::SetRecoveryEmail { email: form.email.trim().to_string() });
         }
-        y += 50.0;
+        y += 34.0 + 12.0;
         draw_line(x, y, x + fw, y, 1.0, BORDER);
-        y += 12.0;
+        y += 13.0;
         // Password.
-        ui.text(t("Change password"), x, y, 15.0, CREAM, true);
-        y += 24.0;
-        ui.text(t("Current"), x, y + 9.0, 13.0, MUTED, false);
-        ui.password_input(
-            72,
-            Rect::new(x + 110.0, y, fw - 110.0, 32.0),
-            &mut form.old_password,
-            72,
-        );
+        ui.text(t("Change password"), x, y, 15.0, GOLD, true);
+        y += 24.0 + 6.0;
+        let label_w = 120.0;
+        ui.text(t("Current"), x, text_y(y + 17.0, 13.0), 13.0, MUTED, true);
+        let field = Rect::new(x + label_w, y, fw - label_w, 34.0);
+        ui.password_input(72, field, &mut form.old_password, 72);
         y += 38.0;
-        ui.text(t("New"), x, y + 9.0, 13.0, MUTED, false);
-        ui.password_input(
-            73,
-            Rect::new(x + 110.0, y, fw - 110.0, 32.0),
-            &mut form.new_password,
-            72,
-        );
-        y += 38.0;
+        ui.text(t("New"), x, text_y(y + 17.0, 13.0), 13.0, MUTED, true);
+        let field = Rect::new(x + label_w, y, fw - label_w, 34.0);
+        ui.password_input(73, field, &mut form.new_password, 72);
+        y += 38.0 + 6.0;
         let ok =
             snookered_proto::valid_password(&form.new_password) && !form.old_password.is_empty();
-        if ui.button(Rect::new(x + fw - 160.0, y, 160.0, 32.0), t("Change password"), ok) {
+        let bw = ui.text_size(t("Change password"), 15.0, true).x + 32.0;
+        if ui.button(Rect::new(x + fw - bw, y, bw, 34.0), t("Change password"), ok) {
             online.send(ClientMsg::ChangePassword {
                 old: std::mem::take(&mut form.old_password),
                 new: std::mem::take(&mut form.new_password),
             });
         }
-        y += 48.0;
+        y += 34.0 + 12.0;
         draw_line(x, y, x + fw, y, 1.0, BORDER);
-        y += 12.0;
+        y += 13.0;
         // Deleting the account.
         ui.text(t("Delete account"), x, y, 15.0, ALERT, true);
-        y += 22.0;
-        let note = t(
-            "Your name, e-mail, friends and items are erased for good. Your opponents keep the games you played (without your name).",
-        );
-        for line in ui.wrap(note, fw, 12.0) {
-            ui.text(&line, x, y, 12.0, MUTED, false);
-            y += 16.0;
+        y += 24.0;
+        for line in &delete_note {
+            ui.text(line, x, y, 13.0, MUTED, false);
+            y += 17.0;
         }
-        ui.password_input(
-            74,
-            Rect::new(x, y + 2.0, fw - 170.0, 32.0),
-            &mut form.delete_password,
-            72,
-        );
-        if form.delete_password.is_empty() && ui.focus != Some(74) {
-            ui.text(t("Password"), x + 9.0, y + 11.0, 14.0, MUTED, false);
-        }
+        y += 6.0;
         let label =
             if form.confirm_delete { t("Click again to delete") } else { t("Delete account") };
-        if ui.button(
-            Rect::new(x + fw - 160.0, y + 2.0, 160.0, 32.0),
-            label,
-            !form.delete_password.is_empty(),
-        ) {
+        let bw =
+            ui.text_size(label, 15.0, true).x.max(ui.text_size(t("Delete account"), 15.0, true).x)
+                + 32.0;
+        let field = Rect::new(x, y, fw - bw - 10.0, 34.0);
+        ui.password_input(74, field, &mut form.delete_password, 72);
+        if form.delete_password.is_empty() && ui.focus != Some(74) {
+            ui.text(t("Password"), x + 10.0, text_y(y + 17.0, 14.0), 14.0, MUTED, false);
+        }
+        if ui.button(Rect::new(x + fw - bw, y, bw, 34.0), label, !form.delete_password.is_empty()) {
             if form.confirm_delete {
                 online.send(ClientMsg::DeleteAccount {
                     password: std::mem::take(&mut form.delete_password),
@@ -669,11 +765,8 @@ impl ProfileScreen {
                 form.confirm_delete = true;
             }
         }
-        if ui.button(
-            Rect::new(r.x + (w - 140.0) / 2.0, r.y + h - 50.0, 140.0, 34.0),
-            t("Close"),
-            true,
-        ) || (is_key_pressed(KeyCode::Escape) && ui.focus.is_none())
+        if ui.button(Rect::new(x, y + 34.0 + 24.0, 140.0, 40.0), t("Close"), true)
+            || (is_key_pressed(KeyCode::Escape) && ui.focus.is_none())
         {
             self.account = None;
             ui.focus = None;
@@ -685,32 +778,35 @@ impl ProfileScreen {
         let sw = crate::ui::vw();
         let sh = crate::ui::vh();
         draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.5));
-        let w = 420.0f32.min(sw - 20.0);
-        let r = Rect::new((sw - w) / 2.0, sh / 2.0 - 160.0, w, 320.0);
+        let w = 440.0f32.min(sw - 20.0);
+        let n = ReportReason::ALL.len() as f32;
+        let h = 24.0 + 26.0 + 20.0 + n * 28.0 + 8.0 + 34.0 + 24.0 + 40.0 + 24.0;
+        let r = Rect::new((sw - w) / 2.0, (sh - h) / 2.0, w, h);
         ui.panel(r);
         ui.block(Rect::new(0.0, 0.0, sw, sh));
-        ui.text(
-            &tw("Report {name}", &[("name", &p.player.username)]),
-            r.x + 18.0,
-            r.y + 16.0,
-            18.0,
-            GOLD,
-            true,
-        );
-        let mut y = r.y + 50.0;
+        let x = r.x + PAD;
+        let title = tw("Report {name}", &[("name", &p.player.username)]);
+        ui.text(&title, x, text_y(r.y + 24.0 + 13.0, 22.0), 22.0, GOLD, true);
+        let mut y = r.y + 24.0 + 26.0 + 20.0;
         for (k, rr) in ReportReason::ALL.iter().enumerate() {
-            if ui.radio(r.x + 20.0, y, t(rr.name()), *reason == k) {
+            if ui.radio(x, y, t(rr.name()), *reason == k) {
                 *reason = k;
             }
-            y += 26.0;
+            y += 28.0;
         }
-        ui.text_input(61, Rect::new(r.x + 18.0, y + 4.0, w - 36.0, 32.0), details, 300);
+        y += 8.0;
+        let field = Rect::new(x, y, w - 2.0 * PAD, 34.0);
+        ui.text_input(61, field, details, 300);
         if details.is_empty() && ui.focus != Some(61) {
-            ui.text(t("What happened? (optional)"), r.x + 27.0, y + 13.0, 14.0, MUTED, false);
+            let hint = t("What happened? (optional)");
+            ui.text(hint, x + 10.0, text_y(y + 17.0, 14.0), 14.0, MUTED, false);
         }
-        let by = r.y + r.h - 50.0;
+        // Cancel on the left, send on the right.
+        let by = r.y + h - PAD - 40.0;
         let mut close = false;
-        if ui.primary_button(Rect::new(r.x + w - 158.0, by, 140.0, 34.0), t("Send report")) {
+        let send_w = ui.text_size(t("Send report"), 15.0, true).x + 40.0;
+        if ui.primary_button(Rect::new(r.x + w - PAD - send_w, by, send_w, 40.0), t("Send report"))
+        {
             online.send(ClientMsg::Report {
                 username: p.player.username.clone(),
                 reason: ReportReason::ALL[*reason],
@@ -718,7 +814,9 @@ impl ProfileScreen {
             });
             close = true;
         }
-        if ui.button(Rect::new(r.x + 18.0, by, 120.0, 34.0), t("Cancel"), true) {
+        if ui.button(Rect::new(x, by, 120.0, 40.0), t("Cancel"), true)
+            || (is_key_pressed(KeyCode::Escape) && ui.focus.is_none())
+        {
             close = true;
         }
         if close {
@@ -728,22 +826,32 @@ impl ProfileScreen {
     }
 }
 
+/// A rounded tag in the tier's colour; `mid` is its vertical middle.
+/// Returns its width.
+fn tier_pill(ui: &Ui, text: &str, x: f32, mid: f32, color: Color) -> f32 {
+    let size = 12.0;
+    let w = ui.text_size(text, size, true).x + 18.0;
+    let r = Rect::new(x, mid - 10.0, w, 20.0);
+    rrect(r, 10.0, Color::new(color.r, color.g, color.b, 0.16));
+    rrect_lines(r, 10.0, 1.0, Color::new(color.r, color.g, color.b, 0.6));
+    // Capitals centred: the middle of the cap height on the pill's middle.
+    ui.text(text, x + 9.0, mid - 0.435 * size, size, color, true);
+    w
+}
+
 /// The rating after each rated game, as a line.
 fn rating_chart(ui: &mut Ui, p: &Profile, area: Rect) {
-    ui.text(t("Rating"), area.x, area.y, 15.0, GOLD, true);
     let pts = &p.rating_history;
-    let chart = Rect::new(area.x + 40.0, area.y + 36.0, area.w - 50.0, area.h - 70.0);
     if pts.len() < 2 {
-        ui.text(
-            t("Play rated games to see your rating here."),
-            area.x,
-            area.y + 36.0,
-            14.0,
-            MUTED,
-            false,
-        );
+        let text = if p.relation == Relation::Me {
+            t("Play rated games to see your rating here.")
+        } else {
+            t("No rated games yet.")
+        };
+        empty_state(ui, area, Icon::Trophy, text);
         return;
     }
+    let chart = Rect::new(area.x + 44.0, area.y + 4.0, area.w - 48.0, area.h - 28.0);
     let lo = pts.iter().map(|p| p.1).min().unwrap_or(0) - 15;
     let hi = pts.iter().map(|p| p.1).max().unwrap_or(0) + 15;
     let span = (hi - lo).max(1) as f32;
@@ -760,30 +868,36 @@ fn rating_chart(ui: &mut Ui, p: &Profile, area: Rect) {
         if m > lo && m < hi {
             let y = chart.y + chart.h * (1.0 - (m - lo) as f32 / span);
             draw_line(chart.x, y, chart.x + chart.w, y, 1.0, Color::new(1.0, 1.0, 1.0, 0.08));
-            ui.text(t(tier.name()), chart.x + 4.0, y - 14.0, 10.0, tier_color(tier), false);
+            ui.text(t(tier.name()), chart.x + 6.0, y - 15.0, 11.0, tier_color(tier), false);
         }
     }
+    // The scale, right-aligned against the chart.
     for (y, label) in [(chart.y, hi), (chart.y + chart.h - 12.0, lo)] {
-        ui.text(&label.to_string(), area.x, y, 11.0, MUTED, false);
+        let label = label.to_string();
+        let lw = ui.text_size(&label, 11.0, false).x;
+        ui.text(&label, chart.x - 8.0 - lw, y, 11.0, MUTED, false);
     }
     for k in 1..pts.len() {
         let (a, b) = (at(k - 1, pts[k - 1].1), at(k, pts[k].1));
-        let color = if pts[k].1 >= pts[k - 1].1 { Color::new(0.45, 0.9, 0.55, 1.0) } else { ALERT };
+        let color = if pts[k].1 >= pts[k - 1].1 { WIN } else { ALERT };
         draw_line(a.x, a.y, b.x, b.y, 2.0, color);
     }
     let last = at(pts.len() - 1, pts[pts.len() - 1].1);
     draw_circle(last.x, last.y, 4.0, GOLD);
     let first = date(pts[0].0);
     let now = date(pts[pts.len() - 1].0);
-    ui.text(&first, chart.x, chart.y + chart.h + 6.0, 11.0, MUTED, false);
+    ui.text(&first, chart.x, chart.y + chart.h + 8.0, 11.0, MUTED, false);
     let nw = ui.text_size(&now, 11.0, false).x;
-    ui.text(&now, chart.x + chart.w - nw, chart.y + chart.h + 6.0, 11.0, MUTED, false);
+    ui.text(&now, chart.x + chart.w - nw, chart.y + chart.h + 8.0, 11.0, MUTED, false);
 }
 
 /// Lifetime numbers from the games with statistics, and games left unfinished.
 fn numbers(ui: &mut Ui, p: &Profile, area: Rect) {
-    ui.text(t("Numbers"), area.x, area.y, 15.0, GOLD, true);
     let c = &p.career;
+    if c.games == 0 && p.abandon_rate == 0 {
+        empty_state(ui, area, Icon::Star, t("No games yet."));
+        return;
+    }
     let per_game = c.balls_per_game_x10();
     let foul_rate = (c.fouls * 100).checked_div(c.shots).unwrap_or(0);
     let cards = [
@@ -794,19 +908,21 @@ fn numbers(ui: &mut Ui, p: &Profile, area: Rect) {
         (c.games.to_string(), t("games counted")),
         (format!("{}%", p.abandon_rate), t("games left unfinished")),
     ];
-    let cols = 2;
-    let cw = (area.w - 10.0) / cols as f32;
+    let (cols, gap) = (2, 12.0);
+    let cw = (area.w - gap) / cols as f32;
+    let ch = ((area.h - 2.0 * gap) / 3.0).min(72.0);
     for (k, (n, label)) in cards.iter().enumerate() {
         let r = Rect::new(
-            area.x + (k % cols) as f32 * (cw + 10.0),
-            area.y + 34.0 + (k / cols) as f32 * 72.0,
+            area.x + (k % cols) as f32 * (cw + gap),
+            area.y + (k / cols) as f32 * (ch + gap),
             cw,
-            62.0,
+            ch,
         );
         rrect(r, 8.0, Color::new(1.0, 1.0, 1.0, 0.04));
         let color = if k == 5 && p.abandon_rate >= 15 { ALERT } else { CREAM };
-        ui.text_centered(n, r.x + r.w / 2.0, r.y + 8.0, 24.0, color, true);
-        let size = ui.fit(12.0, label, r.w - 8.0);
-        ui.text_centered(label, r.x + r.w / 2.0, r.y + 40.0, size, MUTED, false);
+        let mid = r.y + r.h / 2.0;
+        ui.text_centered(n, r.x + r.w / 2.0, mid - 22.0, 24.0, color, true);
+        let size = fit_regular(ui, label, 13.0, r.w - 12.0);
+        ui.text_centered(label, r.x + r.w / 2.0, mid + 8.0, size, MUTED, false);
     }
 }

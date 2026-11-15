@@ -15,14 +15,14 @@ coins	moedas
 Sign in to buy and use items. Here is what there is:	Entre para comprar e usar itens. Veja o que há:
 In use	Em uso
 Use	Usar
+Buy	Comprar
+{n} short	faltam {n}
 Buy for {n}?	Comprar por {n}?
 {n} coins	{n} moedas
 Not enough coins: get more in the Coins tab.	Moedas insuficientes: consiga mais na aba Moedas.
 VIP only	Só VIP
-Achievement: {a}	Conquista: {a}
 free	grátis
 yours	seu
-for coins	por moedas
 achievement	conquista
 Coins can't be bought on this server yet.	Ainda não dá para comprar moedas neste servidor.
 +{n} bonus	+{n} de bônus
@@ -173,6 +173,7 @@ Create	Criar
 Create a tournament	Criar um torneio
 Create your account	Crie sua conta
 Don't show a flag	Não mostrar bandeira
+No country found.	Nenhum país encontrado.
 Drag outside the table · Wheel · C	Arraste fora da mesa · Roda · C
 Dynasty	Dinastia
 Eight is enough	A oito basta
@@ -731,7 +732,7 @@ For {name}	Para {name}
 Format	Formato
 Frames	Molduras
 Free	Grátis
-Get coins	Comprar moedas
+Get coins	Conseguir moedas
 Gift sent!	Presente enviado!
 Give as a gift	Dar de presente
 Give it	Presentear
@@ -752,6 +753,7 @@ Nothing that wins games: VIP only changes the look	Nada que ganhe partidas: o VI
 Numbers	Números
 ON TV	NA TV
 Play rated games to see your rating here.	Jogue partidas ranqueadas para ver seu rating aqui.
+No rated games yet.	Nenhuma partida valendo rating ainda.
 Price	Preço
 Prizes {a} + {b}	Prêmios {a} + {b}
 Protect your purchases	Proteja suas compras
@@ -963,9 +965,6 @@ Shot {n} of {total}	Tacada {n} de {total}
 For VIP members	Para membros VIP
 {n} reactions of your own to send during games	{n} reações exclusivas para mandar nas partidas
 Items {a}–{b} of {n}	Itens {a}–{b} de {n}
-▲ Previous	▲ Anteriores
-More items ▼ ({n})	Mais itens ▼ ({n})
-More items ▼	Mais itens ▼
 (message deleted by its author)	(mensagem apagada pelo autor)
 (message deleted by an administrator)	(mensagem apagada por um administrador)
 Delete (it shows as deleted)	Apagar (aparece como apagada)

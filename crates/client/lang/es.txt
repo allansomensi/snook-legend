@@ -696,6 +696,7 @@ Drag up for more power, release to shoot	Arrastra hacia arriba para más fuerza 
 Drag the power bar up, release	Arrastra la barra de fuerza hacia arriba y suelta
 Time's up: {name}'s shot was played at full power.	Se acabó el tiempo: la tacada de {name} se jugó con fuerza máxima.
 Dark room (spotlight on the table)	Sala oscura (luz solo en la mesa)
+Hide	Ocultar
 Hide controls	Ocultar controles
 Drag right for more power, release to shoot	Arrastra a la derecha para más fuerza y suelta para tirar
 Drag the power bar right, release	Arrastra la barra de fuerza a la derecha y suelta

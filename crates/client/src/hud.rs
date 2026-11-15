@@ -303,7 +303,11 @@ impl Hud {
             }
         }
 
-        if !ui.wants_keyboard && is_key_pressed(KeyCode::R) {
+        // The pause menu and the list of controls are modal: nothing behind
+        // them reacts to the pointer (they are drawn last, with input back).
+        let modal = self.paused.then(|| ui.suspend_input());
+
+        if !ui.wants_keyboard && !self.paused && is_key_pressed(KeyCode::R) {
             if m.replay.is_some() {
                 m.stop_replay();
             } else {
@@ -403,12 +407,11 @@ impl Hud {
             } else {
                 t("Watch the last shot again (R)")
             };
-            if ui.icon_button_ex(
+            if ui.icon_button(
                 Rect::new(x, 12.0, 30.0, 30.0),
                 Icon::Replay,
                 tip,
                 can_replay || m.replay.is_some(),
-                true,
             ) {
                 if m.replay.is_some() {
                     m.stop_replay();
@@ -429,44 +432,6 @@ impl Hud {
             draw_circle(r.x + 14.0, r.y + 13.0, 4.5, Color::new(0.95, 0.3, 0.25, pulse));
             ui.text(label, r.x + 26.0, r.y + 6.0, 14.0, CREAM, true);
         }
-        if self.show_help && self.paused {
-            draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.45));
-            let lines = [
-                (t("Aim"), t("Drag the cue · click a spot")),
-                (t("Fine aim"), t("Shift + drag · A / D")),
-                (t("Quick aim"), t("Click a ball or a spot")),
-                (t("Shoot"), t("Set the power, then press the green button")),
-                (t("Spin"), t("Spin ball · ↑ ↓ · Q / E")),
-                (t("Elevation"), t("W / S (jump & massé)")),
-                (t("Camera"), t("Right-drag · Wheel · C")),
-                (t("Replay"), t("R: watch the last shot again")),
-                (t("Ball in hand"), t("Drag the cue ball")),
-                (t("Menu / help"), t("Esc · H")),
-            ];
-            let h = 34.0 + lines.len() as f32 * 21.0 + 52.0;
-            let label_w =
-                lines.iter().map(|(a, _)| ui.text_size(a, 13.0, true).x).fold(0.0, f32::max);
-            let value_w =
-                lines.iter().map(|(_, b)| ui.text_size(b, 13.0, false).x).fold(0.0, f32::max);
-            let w = (label_w + value_w + 50.0).min(sw - 20.0);
-            let r = Rect::new((sw - w) / 2.0, (sh - h) / 2.0, w, h);
-            ui.panel(r);
-            ui.text(t("Controls"), r.x + 14.0, r.y + 10.0, 16.0, GOLD, true);
-            for (k, (a, b)) in lines.iter().enumerate() {
-                let yy = r.y + 38.0 + k as f32 * 21.0;
-                ui.text(a, r.x + 14.0, yy, 13.0, CREAM, true);
-                let room = r.w - label_w - 40.0;
-                ui.text(&ui.ellipsize(b, room, 13.0), r.x + label_w + 28.0, yy, 13.0, MUTED, false);
-            }
-            if ui.button(
-                Rect::new(r.x + r.w / 2.0 - 70.0, r.y + r.h - 44.0, 140.0, 32.0),
-                t("Back"),
-                true,
-            ) {
-                self.show_help = false;
-            }
-        }
-
         // The elevation and spin panels open in the same corner: while one
         // is open, the chat (or history) steps aside.
         if self.popover.is_none() {
@@ -639,16 +604,74 @@ impl Hud {
             }
         }
 
+        if let Some(saved) = modal {
+            ui.resume_input(saved);
+        }
+        if self.show_help && self.paused {
+            draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.5));
+            let lines = [
+                (t("Aim"), t("Drag the cue · click a spot")),
+                (t("Fine aim"), t("Shift + drag · A / D")),
+                (t("Quick aim"), t("Click a ball or a spot")),
+                (t("Shoot"), t("Set the power, then press the green button")),
+                (t("Spin"), t("Spin ball · ↑ ↓ · Q / E")),
+                (t("Elevation"), t("W / S (jump & massé)")),
+                (t("Camera"), t("Right-drag · Wheel · C")),
+                (t("Replay"), t("R: watch the last shot again")),
+                (t("Ball in hand"), t("Drag the cue ball")),
+                (t("Menu / help"), t("Esc · H")),
+            ];
+            const ROW: f32 = 26.0;
+            const PAD: f32 = 24.0;
+            let label_w =
+                lines.iter().map(|(a, _)| ui.text_size(a, 14.0, true).x).fold(0.0, f32::max);
+            let value_w =
+                lines.iter().map(|(_, b)| ui.text_size(b, 14.0, false).x).fold(0.0, f32::max);
+            let w = (label_w + value_w + 2.0 * PAD + 40.0).clamp(320.0, sw - 20.0);
+            let h = PAD + 30.0 + 12.0 + lines.len() as f32 * ROW + 16.0 + 38.0 + PAD;
+            let r = Rect::new((sw - w) / 2.0, ((sh - h) / 2.0).max(8.0), w, h);
+            ui.panel(r);
+            ui.text_centered(t("Controls"), sw / 2.0, r.y + PAD - 2.0, 22.0, GOLD, true);
+            let top = r.y + PAD + 30.0;
+            draw_line(r.x + PAD, top, r.x + r.w - PAD, top, 1.0, BORDER);
+            for (k, (a, b)) in lines.iter().enumerate() {
+                let yy = top + 12.0 + k as f32 * ROW;
+                if k % 2 == 0 {
+                    crate::ui::rrect(
+                        Rect::new(r.x + PAD - 8.0, yy, r.w - 2.0 * PAD + 16.0, ROW),
+                        5.0,
+                        Color::new(1.0, 0.9, 0.7, 0.035),
+                    );
+                }
+                ui.text(a, r.x + PAD, yy + 5.0, 14.0, CREAM, true);
+                let x = r.x + PAD + label_w + 32.0;
+                let room = r.x + r.w - PAD - x;
+                ui.text(&ui.ellipsize(b, room, 14.0), x, yy + 5.0, 14.0, MUTED, false);
+            }
+            let back = Rect::new(sw / 2.0 - 80.0, r.y + r.h - PAD - 38.0, 160.0, 38.0);
+            if ui.button(back, t("Back"), true) {
+                self.show_help = false;
+            }
+        }
+
         // Pause menu (online the match keeps running behind it).
         if self.paused && !self.show_help {
             let online = m.is_online();
-            draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.45));
-            let r = Rect::new(sw / 2.0 - 160.0, sh / 2.0 - 172.0, 320.0, 344.0);
+            draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.5));
+            const PAD: f32 = 28.0;
+            const GAP: f32 = 10.0;
+            const BH: f32 = 38.0;
+            let w = 340.0;
+            let header = if online { 66.0 } else { 48.0 };
+            // Resume, settings, controls, resign, then the way out set apart.
+            let leave_h = if self.confirm_leave { 24.0 + BH } else { BH };
+            let h = PAD + header + 4.0 * (BH + GAP) + 10.0 + leave_h + PAD;
+            let r = Rect::new((sw - w) / 2.0, ((sh - h) / 2.0).max(8.0), w, h);
             ui.panel(r);
             ui.text_centered(
                 if online { t("Menu") } else { t("Paused") },
                 sw / 2.0,
-                r.y + 14.0,
+                r.y + PAD - 4.0,
                 24.0,
                 GOLD,
                 true,
@@ -657,52 +680,64 @@ impl Hud {
                 ui.text_centered(
                     t("The game goes on while this is open."),
                     sw / 2.0,
-                    r.y + 44.0,
+                    r.y + PAD + 30.0,
                     13.0,
                     MUTED,
                     false,
                 );
             }
-            let bx = r.x + 30.0;
-            let bw = r.w - 60.0;
-            if ui.primary_button(Rect::new(bx, r.y + 66.0, bw, 38.0), t("Resume")) {
+            let bx = r.x + PAD;
+            let bw = r.w - 2.0 * PAD;
+            let mut y = r.y + PAD + header;
+            if ui.primary_button(Rect::new(bx, y, bw, BH), t("Resume")) {
                 self.paused = false;
                 self.confirm_leave = false;
             }
-            if ui.button(Rect::new(bx, r.y + 116.0, bw, 34.0), t("Settings"), true) {
+            y += BH + GAP;
+            if ui.button(Rect::new(bx, y, bw, BH), t("Settings"), true) {
                 action = HudAction::Settings;
             }
-            if ui.button(Rect::new(bx, r.y + 160.0, bw, 34.0), t("Controls"), true) {
+            y += BH + GAP;
+            if ui.button(Rect::new(bx, y, bw, BH), t("Controls"), true) {
                 self.show_help = true;
             }
+            y += BH + GAP;
             let my_turn = m.current_controller() == Controller::Human;
             let can_resign = m.game.game_over().is_none() && (online || my_turn);
-            if ui.button(Rect::new(bx, r.y + 204.0, bw, 34.0), t("Resign this game"), can_resign) {
+            if ui.button(Rect::new(bx, y, bw, BH), t("Resign this game"), can_resign) {
                 m.resign();
                 self.paused = false;
             }
+            y += BH + GAP;
+            draw_line(
+                bx,
+                y + 4.0,
+                bx + bw,
+                y + 4.0,
+                1.0,
+                Color::new(BORDER.r, BORDER.g, BORDER.b, 0.6),
+            );
+            y += 10.0;
             let leave = if online { t("Leave to the lounge") } else { t("Main menu") };
             if self.confirm_leave {
                 ui.text_centered(
                     t("Leaving now counts as a loss."),
                     sw / 2.0,
-                    r.y + 250.0,
+                    y,
                     13.0,
                     ALERT,
                     false,
                 );
-                if ui.button(Rect::new(bx, r.y + 272.0, bw / 2.0 - 5.0, 34.0), t("Leave"), true) {
+                y += 24.0;
+                let half = (bw - GAP) / 2.0;
+                if ui.button(Rect::new(bx, y, half, BH), t("Leave"), true) {
                     self.paused = false;
                     action = if online { HudAction::Lounge } else { HudAction::MainMenu };
                 }
-                if ui.button(
-                    Rect::new(bx + bw / 2.0 + 5.0, r.y + 272.0, bw / 2.0 - 5.0, 34.0),
-                    t("Stay"),
-                    true,
-                ) {
+                if ui.button(Rect::new(bx + half + GAP, y, half, BH), t("Stay"), true) {
                     self.confirm_leave = false;
                 }
-            } else if ui.button(Rect::new(bx, r.y + 256.0, bw, 34.0), leave, true) {
+            } else if ui.button(Rect::new(bx, y, bw, BH), leave, true) {
                 if online && m.game.game_over().is_none() {
                     self.confirm_leave = true;
                 } else {
@@ -858,7 +893,8 @@ impl Hud {
         let watching = o.spectator;
         let title = if watching { t("Players' chat (administrator)") } else { t("Chat") };
         ui.text(title, r.x + 10.0, r.y + 7.0, 14.0, if watching { ADMIN_RED } else { GOLD }, true);
-        if ui.button(Rect::new(r.x + r.w - 30.0, r.y + 5.0, 24.0, 20.0), "–", true) {
+        let hide = Rect::new(r.x + r.w - 30.0, r.y + 4.0, 24.0, 24.0);
+        if ui.icon_button_ex(hide, Icon::Minus, t("Hide"), true, true) {
             self.chat_open = false;
         }
         let input_h = if watching { 0.0 } else { 40.0 };
@@ -912,7 +948,8 @@ impl Hud {
         let r = Rect::new(12.0, bottom - chat_h() - 8.0, chat_w(), chat_h());
         ui.panel(r);
         ui.text(t("Game history"), r.x + 10.0, r.y + 7.0, 14.0, GOLD, true);
-        if ui.button(Rect::new(r.x + r.w - 30.0, r.y + 5.0, 24.0, 20.0), "–", true) {
+        let hide = Rect::new(r.x + r.w - 30.0, r.y + 4.0, 24.0, 24.0);
+        if ui.icon_button_ex(hide, Icon::Minus, t("Hide"), true, true) {
             self.history_open = false;
         }
         let lines: Vec<FeedLine> = m
@@ -1241,6 +1278,16 @@ fn draw_match_stats(ui: &mut Ui, m: &Match, r: Rect, view: &mut usize) {
 const SEAT_COLORS: [Color; 2] =
     [Color::new(0.91, 0.75, 0.38, 1.0), Color::new(0.45, 0.72, 1.0, 1.0)];
 
+/// A player's name for a narrow column: "Computer (Medium)" loses the
+/// level rather than end in "…".
+fn short_name(ui: &Ui, name: &str, size: f32, room: f32) -> (String, f32) {
+    let short = match name.split_once(" (") {
+        Some((base, _)) if ui.text_size(name, size - 1.0, true).x > room => base,
+        _ => name,
+    };
+    ui.fitted(short, size, room, true)
+}
+
 fn draw_numbers(ui: &mut Ui, m: &Match, r: Rect) {
     let s = &m.stats;
     let rows = [
@@ -1255,9 +1302,9 @@ fn draw_numbers(ui: &mut Ui, m: &Match, r: Rect) {
         ),
     ];
     let label_x = r.x + 6.0;
-    let col = [r.x + r.w * 0.62, r.x + r.w * 0.86];
+    let col = [r.x + r.w * 0.6, r.x + r.w * 0.85];
     for (k, name) in m.names.iter().enumerate() {
-        let (name, size) = ui.fitted(name, 13.0, r.w * 0.22, true);
+        let (name, size) = short_name(ui, name, 13.0, r.w * 0.25);
         ui.text_centered(&name, col[k], r.y, size, GOLD, true);
     }
     for (i, (label, a, b)) in rows.iter().enumerate() {
@@ -1407,7 +1454,7 @@ fn draw_shot_map(ui: &mut Ui, m: &Match, r: Rect) {
         let made = m.timeline.iter().filter(|s| s.shooter == seat && s.made > 0).count();
         let shots = m.timeline.iter().filter(|s| s.shooter == seat).count();
         draw_circle(lx + 5.0, y + 7.0, 4.0, color);
-        let (name, size) = ui.fitted(&m.names[seat], 12.0, 96.0, true);
+        let (name, size) = short_name(ui, &m.names[seat], 12.0, 96.0);
         ui.text(&name, lx + 14.0, y, size, CREAM, true);
         ui.text(&format!("{made}/{shots}"), lx + 14.0, y + 15.0, 12.0, MUTED, false);
         y += 38.0;
@@ -1593,6 +1640,14 @@ impl Hud {
         let sh = crate::ui::vh();
         let bar = Rect::new(0.0, sh - BOTTOM_BAR, sw, BOTTOM_BAR);
         draw_bar(bar, false);
+        // The game is over (the result panel has the way on), or no one here
+        // holds a cue (a recorded game, the computer against itself): no
+        // cue to set up.
+        let anyone_here = m.controllers.contains(&Controller::Human);
+        if matches!(m.phase, Phase::GameOver) || !anyone_here {
+            self.popover = None;
+            return;
+        }
         let my_turn = m.is_human_turn() && !self.paused;
 
         // Cue settings on the left, the power bar in the middle and the shoot
@@ -1938,12 +1993,11 @@ fn shoot_button(ui: &mut Ui, r: Rect, enabled: bool) -> bool {
             Color::new(0.3, 0.9, 0.45, 0.10 + 0.14 * pulse),
         );
     }
-    crate::ui::rrect(r, 10.0, bg);
-    crate::ui::rrect(
-        Rect::new(r.x + 1.0, r.y + 1.0, r.w - 2.0, r.h * 0.45),
-        9.0,
-        Color::new(1.0, 1.0, 1.0, if enabled { 0.10 } else { 0.03 }),
-    );
+    if enabled {
+        crate::ui::rrect_gradient(r, 10.0, crate::ui::shade(bg, 0.10), crate::ui::shade(bg, -0.22));
+    } else {
+        crate::ui::rrect(r, 10.0, bg);
+    }
     let edge =
         if hover { GOLD } else { Color::new(0.35, 0.75, 0.5, if enabled { 1.0 } else { 0.3 }) };
     crate::ui::rrect_lines(r, 10.0, 1.5, edge);

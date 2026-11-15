@@ -16,14 +16,14 @@ coins	monedas
 Sign in to buy and use items. Here is what there is:	Inicia sesión para comprar y usar objetos. Esto es lo que hay:
 In use	En uso
 Use	Usar
+Buy	Comprar
+{n} short	faltan {n}
 Buy for {n}?	¿Comprar por {n}?
 {n} coins	{n} monedas
 Not enough coins: get more in the Coins tab.	No tienes monedas suficientes: consigue más en la pestaña Monedas.
 VIP only	Solo VIP
-Achievement: {a}	Logro: {a}
 free	gratis
 yours	tuyo
-for coins	por monedas
 achievement	logro
 Coins can't be bought on this server yet.	Todavía no se pueden comprar monedas en este servidor.
 +{n} bonus	+{n} de regalo
@@ -173,6 +173,7 @@ Country	País
 Create	Crear
 Create a tournament	Crear un torneo
 Don't show a flag	No mostrar bandera
+No country found.	No se encontró ningún país.
 Drag outside the table · Wheel · C	Arrastra fuera de la mesa · Rueda · C
 Dynasty	Dinastía
 Eight is enough	Con la ocho basta
@@ -778,6 +779,7 @@ Nothing that wins games: VIP only changes the look	Nada que gane partidas: el VI
 Numbers	Números
 ON TV	EN LA TELE
 Play rated games to see your rating here.	Juega partidas con rating para ver tu rating aquí.
+No rated games yet.	Todavía no hay partidas con rating.
 Price	Precio
 Prizes {a} + {b}	Premios {a} + {b}
 Protect your purchases	Protege tus compras
@@ -991,9 +993,6 @@ Shot {n} of {total}	Tiro {n} de {total}
 For VIP members	Para miembros VIP
 {n} reactions of your own to send during games	{n} reacciones exclusivas para enviar en las partidas
 Items {a}–{b} of {n}	Artículos {a}–{b} de {n}
-▲ Previous	▲ Anteriores
-More items ▼ ({n})	Más artículos ▼ ({n})
-More items ▼	Más artículos ▼
 (message deleted by its author)	(mensaje borrado por su autor)
 (message deleted by an administrator)	(mensaje borrado por un administrador)
 Delete (it shows as deleted)	Borrar (aparece como borrado)

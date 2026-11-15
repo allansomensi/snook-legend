@@ -172,7 +172,6 @@ Could not host a game: {e}	No se pudo crear la partida: {e}
 Country	País
 Create	Crear
 Create a tournament	Crear un torneo
-Create your account	Crea tu cuenta
 Don't show a flag	No mostrar bandera
 Drag outside the table · Wheel · C	Arrastra fuera de la mesa · Rueda · C
 Dynasty	Dinastía
@@ -223,12 +222,14 @@ Misses now and then: good for learning.	Falla de vez en cuando: bueno para apren
 Name	Nombre
 Names have 3–16 letters, digits or underscores.	Los nombres tienen 3–16 letras, números o guiones bajos.
 New account	Cuenta nueva
+I have an account	Ya tengo cuenta
 New here? Choose “New account”: it takes ten seconds.	¿Eres nuevo? Elige «Cuenta nueva»: tarda diez segundos.
 New tournament	Torneo nuevo
 No friends yet. Add someone you played with!	Todavía no tienes amigos. ¡Añade a alguien con quien jugaste!
 No games yet.	Todavía no hay partidas.
 No limit	Sin límite
 No open tables. Open one and others can sit down.	No hay mesas abiertas. Abre una y otros podrán sentarse.
+No other open tables right now.	No hay otras mesas abiertas ahora.
 No such player.	Ese jugador no existe.
 No tournaments right now. Create one!	No hay torneos ahora. ¡Crea uno!
 Offensive name	Nombre ofensivo
@@ -260,6 +261,7 @@ Please don't repeat the same message.	Por favor, no repitas el mismo mensaje.
 Pool hall legend	Leyenda del salón
 Popular	Popular
 Private	Privada
+for your friends to sit down	para que tus amigos se sienten
 Profile	Perfil
 R: watch the last shot again	R: ver la última tacada otra vez
 REPLAY	REPETICIÓN
@@ -742,7 +744,7 @@ Buy · {n}	Comprar · {n}
 Buying…	Comprando…
 Change password	Cambiar contraseña
 Click again to delete	Haz clic otra vez para eliminar
-Code	Código
+Got a code? Type it here	¿Tienes un código? Escríbelo aquí
 Confirm purchase	Confirmar compra
 Copied: send it to a friend.	Copiado: envíalo a un amigo.
 Copy	Copiar

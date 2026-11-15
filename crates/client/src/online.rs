@@ -21,7 +21,10 @@ use crate::config::Config;
 use crate::game::Match;
 use crate::icons::Icon;
 use crate::net::{Connection, NetEvent};
-use crate::ui::{ALERT, BORDER, CREAM, FeedLine, GOLD, MUTED, Ui, name_color, rrect, rrect_lines};
+use crate::ui::{
+    ALERT, BORDER, CREAM, FeedLine, GOLD, MUTED, Ui, name_color, rrect, rrect_gradient,
+    rrect_lines, shade,
+};
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Stage {
@@ -209,6 +212,12 @@ pub struct Online {
     clear_armed: Option<f64>,
     /// The new version's installer is on its way: the game should close.
     pub quit_for_update: bool,
+    /// The sign-in form has put the cursor in its first empty field (once
+    /// each time it is shown, so a click elsewhere is not undone).
+    form_focused: bool,
+    /// Where toasts must stay above this frame: the lounge sets it (its chat
+    /// field is at the bottom), [`Online::draw_toasts`] takes it.
+    toast_floor: std::cell::Cell<Option<f32>>,
 }
 
 /// The update button, for how this copy of the game is updated.
@@ -277,6 +286,12 @@ pub fn draw_note(
     let b = Rect::new(card.x + 14.0, by_y + 22.0, bw.min(card.w - 28.0), 28.0);
     ui.button(b, label, true).then_some(a)
 }
+
+/// Under the format of a new arena tournament.
+const ARENA_HINT: &str =
+    "30 minutes: play as many games as you can. A win is 2 points, 4 from the third win in a row.";
+/// Under a new tournament's entry fee.
+const FEE_HINT: &str = "The fees make the prize: 70% to the champion, 20% to the runner-up.";
 
 /// After this long without an opponent, "Play now" offers a game against
 /// the computer while it keeps looking.
@@ -395,7 +410,8 @@ impl Online {
             bought: None,
             shop_error: None,
             account: None,
-            email_offer: None,
+            // Development aid (screenshots): SNOOKERED_EMAIL_OFFER=<e-mail> shows the offer.
+            email_offer: crate::dev::var("SNOOKERED_EMAIL_OFFER"),
             replays: None,
             replay: None,
             featured: None,
@@ -415,6 +431,8 @@ impl Online {
             outdated: false,
             clear_armed: None,
             quit_for_update: false,
+            form_focused: false,
+            toast_floor: std::cell::Cell::new(None),
         }
     }
 
@@ -1054,39 +1072,60 @@ impl Online {
         let Some(email) = self.email_offer.clone() else { return false };
         let sw = crate::ui::vw();
         let sh = crate::ui::vh();
-        let w = 460.0f32.min(sw - 20.0);
-        let r = Rect::new((sw - w) / 2.0, sh / 2.0 - 110.0, w, 220.0);
-        draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.5));
-        ui.panel(r);
-        ui.block(Rect::new(0.0, 0.0, sw, sh));
-        ui.text(t("Protect your purchases"), r.x + 20.0, r.y + 18.0, 19.0, GOLD, true);
+        let w = 480.0f32.min(sw - 32.0);
+        let pad = 24.0;
+        let inner = w - pad * 2.0;
         let text = tw(
             "Use {email} to recover your account if you ever forget your password?",
             &[("email", &email)],
         );
-        for (k, line) in ui.wrap(&text, w - 40.0, 14.0).iter().enumerate() {
-            ui.text(line, r.x + 20.0, r.y + 56.0 + k as f32 * 19.0, 14.0, CREAM, false);
+        let lines = ui.wrap(&text, inner, 15.0);
+        let note = ui.wrap(t("You can change it any time in your profile (Account)."), inner, 13.0);
+        // Sized to its text: title, question, note and the buttons.
+        let h = pad
+            + 30.0
+            + 16.0
+            + lines.len() as f32 * 20.0
+            + 8.0
+            + note.len() as f32 * 17.0
+            + 24.0
+            + 40.0
+            + pad;
+        let r = Rect::new((sw - w) / 2.0, ((sh - h) / 2.0).max(8.0), w, h);
+        draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.55));
+        ui.panel(r);
+        ui.block(Rect::new(0.0, 0.0, sw, sh));
+        let mut y = r.y + pad;
+        crate::icons::draw(Icon::Lock, vec2(r.x + pad + 11.0, y + 15.0), 22.0, GOLD);
+        ui.text(t("Protect your purchases"), r.x + pad + 32.0, y + 2.0, 24.0, GOLD, true);
+        y += 30.0 + 16.0;
+        for line in &lines {
+            ui.text(line, r.x + pad, y, 15.0, CREAM, false);
+            y += 20.0;
         }
-        ui.text(
-            t("You can change it any time in your profile (Account)."),
-            r.x + 20.0,
-            r.y + 122.0,
-            12.0,
-            MUTED,
-            false,
-        );
-        let half = (w - 50.0) / 2.0;
+        y += 8.0;
+        for line in &note {
+            ui.text(line, r.x + pad, y, 13.0, MUTED, false);
+            y += 17.0;
+        }
+        // "Use it" bottom right; "No, thanks" (never ask again) bottom left.
+        let by = r.y + r.h - pad - 40.0;
+        let no = t("No, thanks");
+        let yes = t("Use this e-mail");
+        let half = (inner - 12.0) / 2.0;
+        let no_w = button_w(ui, no, 40.0).clamp(130.0, half);
+        let yes_w = button_w(ui, yes, 40.0).clamp(170.0, half);
         let mut changed = false;
-        if ui.button(Rect::new(r.x + 20.0, r.y + r.h - 54.0, half, 38.0), t("No, thanks"), true) {
+        if ui.button(Rect::new(r.x + pad, by, no_w, 40.0), no, true) {
             self.email_offer = None;
             config.email_offer_declined = true;
             changed = true;
         }
-        if ui.primary_button(
-            Rect::new(r.x + 30.0 + half, r.y + r.h - 54.0, half, 38.0),
-            t("Use this e-mail"),
-        ) {
+        if ui.primary_button(Rect::new(r.x + r.w - pad - yes_w, by, yes_w, 40.0), yes) {
             self.send(ClientMsg::SetRecoveryEmail { email });
+            self.email_offer = None;
+        } else if is_key_pressed(KeyCode::Escape) {
+            // Not now: asked again after the next payment.
             self.email_offer = None;
         }
         changed
@@ -1094,61 +1133,90 @@ impl Online {
 
     /// Short messages (achievements, declined invitations…), on top of everything.
     pub fn draw_toasts(&self, ui: &Ui, bottom: f32) {
+        // In the lounge they stay clear of the chat field at the bottom.
+        let bottom = self.toast_floor.take().map_or(bottom, |floor| bottom.min(floor));
         let sw = crate::ui::vw();
+        // Long messages wrap (up to three lines) rather than being cut.
+        let max_text = (sw - 72.0).min(520.0);
+        let mut toasts = Vec::new();
         let mut y = bottom;
         for (text, ttl, good) in self.toasts.iter().rev() {
-            let alpha = ttl.min(1.0);
-            let w = ui.text_size(text, 15.0, true).x + 40.0;
-            y -= 40.0;
-            let r = Rect::new((sw - w) / 2.0, y, w, 34.0);
-            rrect(r, 17.0, Color::new(0.04, 0.03, 0.02, 0.88 * alpha));
-            let edge = if *good { GOLD } else { ALERT };
-            rrect_lines(r, 17.0, 1.2, Color::new(edge.r, edge.g, edge.b, 0.7 * alpha));
-            let color = Color::new(CREAM.r, CREAM.g, CREAM.b, alpha);
-            ui.text_centered(text, sw / 2.0, r.y + 9.0, 15.0, color, true);
+            let mut lines = ui.wrap(text, max_text, 15.0);
+            lines.truncate(3);
+            let text_w = lines.iter().map(|l| ui.text_size(l, 15.0, true).x).fold(0.0, f32::max);
+            let h = lines.len() as f32 * 20.0 + 16.0;
+            y -= h + 8.0;
+            let r = Rect::new((sw - text_w - 40.0) / 2.0, y, text_w + 40.0, h);
+            toasts.push((r, lines, ttl.min(1.0), *good));
         }
+        // Drawn over everything at the end of the frame: they float above the
+        // panels and are not held to any panel's edge.
+        ui.overlay(move |ui: &Ui| {
+            for (r, lines, alpha, good) in toasts {
+                let radius = r.h.min(34.0) / 2.0;
+                crate::ui::soft_shadow(r, radius, alpha);
+                rrect(r, radius, Color::new(0.05, 0.035, 0.025, 0.94 * alpha));
+                let edge = if good { GOLD } else { ALERT };
+                rrect_lines(r, radius, 1.2, Color::new(edge.r, edge.g, edge.b, 0.75 * alpha));
+                let color = Color::new(CREAM.r, CREAM.g, CREAM.b, alpha);
+                for (k, line) in lines.iter().enumerate() {
+                    let y = r.y + 8.0 + k as f32 * 20.0 + 2.0;
+                    ui.text_centered(line, r.x + r.w / 2.0, y, 15.0, color, true);
+                }
+            }
+        });
     }
 
     /// Invitations received at the table or in the lounge: answered from a banner.
     pub fn draw_invites(&mut self, ui: &mut Ui, in_match: bool) {
         let sw = crate::ui::vw();
-        let mut y = if in_match { 64.0 } else { 74.0 };
+        let w = 520.0f32.min(sw - 32.0);
+        let y = if in_match { 64.0 } else { 74.0 };
+        self.draw_invites_at(ui, in_match, Rect::new((sw - w) / 2.0, y, w, 0.0));
+    }
+
+    /// The invitations stacked down from the top of `at` (its width).
+    fn draw_invites_at(&mut self, ui: &mut Ui, in_match: bool, at: Rect) {
+        let w = at.w;
+        let mut y = at.y;
         let mut answer = None;
         for (from, rated) in self.incoming.iter().take(3) {
-            let w = 440.0f32.min(sw - 20.0);
-            let r = Rect::new((sw - w) / 2.0, y, w, 64.0);
+            let r = Rect::new(at.x, y, w, 64.0);
             ui.panel(r);
-            rrect_lines(r, 8.0, 2.0, GOLD);
+            rrect_lines(r, 8.0, 1.6, GOLD);
             let kind = if *rated { t("a rated game") } else { t("a casual game") };
-            let color =
-                self.players.iter().find(|p| &p.username == from).map(name_color).unwrap_or(CREAM);
-            let country = self
-                .players
-                .iter()
-                .find(|p| &p.username == from)
-                .map(|p| p.country.clone())
-                .unwrap_or_default();
-            let used =
-                ui.name_with_flag(from, &country, color, r.x + 14.0, r.y + 10.0, 16.0, w - 240.0);
-            ui.text(
-                &tw("invites you to {kind}", &[("kind", &kind)]),
-                r.x + 20.0 + used,
-                r.y + 11.0,
-                14.0,
-                CREAM,
-                false,
-            );
-            if in_match {
-                ui.text(t("Finish this match first."), r.x + 14.0, r.y + 38.0, 13.0, MUTED, false);
-            } else if ui
-                .primary_button(Rect::new(r.x + w - 214.0, r.y + 30.0, 96.0, 26.0), t("Accept"))
+            let player = self.players.iter().find(|p| &p.username == from);
+            let color = player.map(name_color).unwrap_or(CREAM);
+            let country = player.map(|p| p.country.clone()).unwrap_or_default();
+            // The answers on the right, centred; who and what on the left.
+            let accept = t("Accept");
+            let decline = t("Decline");
+            let bw = button_w(ui, accept, 32.0).max(button_w(ui, decline, 32.0)).max(96.0);
+            let buttons = if in_match { bw } else { bw * 2.0 + 8.0 };
+            let text_w = w - 32.0 - buttons - 16.0;
+            ui.name_with_flag(from, &country, color, r.x + 16.0, r.y + 12.0, 16.0, text_w);
+            let line2 = if in_match {
+                format!(
+                    "{} · {}",
+                    tw("invites you to {kind}", &[("kind", &kind)]),
+                    t("Finish this match first.")
+                )
+            } else {
+                tw("invites you to {kind}", &[("kind", &kind)])
+            };
+            let (line2, size) = fit_text(ui, &line2, 13.0, text_w, false);
+            ui.text(&line2, r.x + 16.0, r.y + 36.0, size, CREAM, false);
+            let by = r.y + (r.h - 32.0) / 2.0;
+            let decline_r = Rect::new(r.x + w - 16.0 - bw, by, bw, 32.0);
+            if !in_match
+                && ui.primary_button(Rect::new(decline_r.x - 8.0 - bw, by, bw, 32.0), accept)
             {
                 answer = Some((from.clone(), true));
             }
-            if ui.button(Rect::new(r.x + w - 110.0, r.y + 30.0, 96.0, 26.0), t("Decline"), true) {
+            if ui.button(decline_r, decline, true) {
                 answer = Some((from.clone(), false));
             }
-            y += 70.0;
+            y += r.h + 8.0;
         }
         if let Some((from, accept)) = answer {
             self.incoming.retain(|(f, _)| *f != from);
@@ -1158,6 +1226,9 @@ impl Online {
 
     /// The sign-in form, a waiting message or the lounge.
     pub fn draw(&mut self, ui: &mut Ui, config: &mut Config) -> OnlineAction {
+        if self.stage != Stage::SignIn {
+            self.form_focused = false;
+        }
         match self.stage.clone() {
             Stage::Lounge => self.draw_lounge(ui, config),
             Stage::Reconnecting { attempt, .. } => {
@@ -1188,28 +1259,24 @@ impl Online {
     fn waiting_hint(&mut self, ui: &mut Ui, text: &str, hint: Option<&str>) -> OnlineAction {
         let sw = crate::ui::vw();
         let sh = crate::ui::vh();
-        let r = Rect::new(sw / 2.0 - 240.0, sh / 2.0 - 80.0, 480.0, 160.0);
+        let w = 480.0f32.min(sw - 32.0);
+        let hint = hint.map(|h| balanced_wrap(ui, h, w - 48.0, 13.0)).unwrap_or_default();
+        // Sized to its content: message, spinner, hint and the button.
+        let hint_h = if hint.is_empty() { 0.0 } else { hint.len() as f32 * 17.0 + 12.0 };
+        let h = 24.0 + 20.0 + 16.0 + 36.0 + 16.0 + hint_h + 34.0 + 24.0;
+        let r = Rect::new((sw - w) / 2.0, (sh - h) / 2.0, w, h);
         ui.panel(r);
-        ui.text_centered(text, sw / 2.0, r.y + 24.0, 17.0, CREAM, true);
-        // A spinning ring of dots.
-        let c = vec2(sw / 2.0, r.y + 66.0);
-        let time = get_time() as f32;
-        for k in 0..10 {
-            let a = k as f32 / 10.0 * std::f32::consts::TAU + time * 4.0;
-            let alpha = 0.15 + 0.85 * ((k as f32 / 10.0 + time * 0.0).fract());
-            draw_circle(
-                c.x + a.cos() * 14.0,
-                c.y + a.sin() * 14.0,
-                2.6,
-                Color::new(GOLD.r, GOLD.g, GOLD.b, alpha),
-            );
+        let mut y = r.y + 24.0;
+        ui.text_centered(text, sw / 2.0, y, 17.0, CREAM, true);
+        y += 20.0 + 16.0;
+        spinner(vec2(sw / 2.0, y + 18.0), 14.0, 2.6, GOLD);
+        y += 36.0 + 16.0;
+        for line in &hint {
+            ui.text_centered(line, sw / 2.0, y, 13.0, MUTED, false);
+            y += 17.0;
         }
-        if let Some(h) = hint {
-            for (k, line) in ui.wrap(h, r.w - 40.0, 12.0).iter().take(2).enumerate() {
-                ui.text_centered(line, sw / 2.0, r.y + 90.0 + k as f32 * 15.0, 12.0, MUTED, false);
-            }
-        }
-        if ui.button(Rect::new(sw / 2.0 - 70.0, r.y + r.h - 40.0, 140.0, 30.0), t("Back"), true) {
+        let back = Rect::new(sw / 2.0 - 75.0, r.y + r.h - 24.0 - 34.0, 150.0, 34.0);
+        if ui.button(back, t("Back"), true) || is_key_pressed(KeyCode::Escape) {
             if !self.signed_in() {
                 self.conn = None;
                 self.queue = None;
@@ -1223,63 +1290,148 @@ impl Online {
     fn draw_sign_in(&mut self, ui: &mut Ui, config: &mut Config) -> OnlineAction {
         let sw = crate::ui::vw();
         let sh = crate::ui::vh();
-        let w = 440.0f32.min(sw - 20.0);
-        let h = if self.register { 490.0 } else { 400.0 };
-        let r = Rect::new((sw - w) / 2.0, ((sh - h) / 2.0).max(10.0), w, h);
+        // The country list is a dialog of its own: while it is open it takes
+        // Esc and the keyboard.
+        let picker_open = crate::countries::is_open();
+        let pad = 24.0;
+        let w = 460.0f32.min(sw - 32.0);
+        let inner = w - pad * 2.0;
+        let connected = self.conn.is_some();
+        let outdated = self.outdated && self.error.is_some();
+        // Over the button: why the last try failed, or that a new version is needed.
+        let (message, message_color) = match &self.error {
+            Some(_) if outdated => {
+                let text = t("A new version of the game is out: update to play online.");
+                (ui.wrap(text, inner, 14.0), GOLD)
+            }
+            Some(e) => (ui.wrap(e, inner, 14.0).into_iter().take(3).collect(), ALERT),
+            None => (Vec::new(), ALERT),
+        };
+        let pass_hint = if self.register {
+            ui.wrap(
+                t("At least 8 characters. Use a password you don't use elsewhere."),
+                inner,
+                12.0,
+            )
+        } else {
+            Vec::new()
+        };
+        let welcome = if !self.register && message.is_empty() {
+            ui.wrap(t("New here? Choose “New account”: it takes ten seconds."), inner, 13.0)
+        } else {
+            Vec::new()
+        };
+        // The panel fits its content: header, choice, fields, message, button, hint.
+        const FIELD: f32 = 20.0 + 36.0 + 16.0;
+        let mut h = pad + 36.0 + 20.0 + 36.0 + 20.0 + FIELD * 2.0;
+        if self.register {
+            h += pass_hint.len() as f32 * 16.0 + 4.0 + FIELD;
+        }
+        if !message.is_empty() {
+            h += message.len() as f32 * 19.0 + 8.0;
+        }
+        h += 4.0 + 44.0;
+        if !welcome.is_empty() {
+            h += 14.0 + welcome.len() as f32 * 17.0 - 4.0;
+        }
+        h += pad;
+        let r = Rect::new((sw - w) / 2.0, ((sh - h) / 2.0).max(8.0), w, h);
         ui.panel(r);
-        let x = r.x + 28.0;
-        let inner = w - 56.0;
-        let mut y = r.y + 20.0;
-        ui.text_centered(
-            if self.register { t("Create your account") } else { t("Sign in") },
-            sw / 2.0,
-            y,
-            24.0,
-            GOLD,
-            true,
-        );
-        y += 38.0;
-        let tabs = [t("Sign in"), t("New account")];
-        if let Some(i) = ui.segmented(Rect::new(x, y, inner, 32.0), &tabs, self.register as usize) {
+        let x = r.x + pad;
+
+        // Header: back, and the title with its icon.
+        let mut y = r.y + pad;
+        let back = ui.icon_button(Rect::new(x, y, 36.0, 36.0), Icon::Back, t("Back"), true);
+        if back || (is_key_pressed(KeyCode::Escape) && !picker_open) {
+            return OnlineAction::Leave;
+        }
+        crate::icons::draw(Icon::Globe, vec2(x + 36.0 + 16.0 + 11.0, y + 18.0), 22.0, GOLD);
+        ui.text(t("Play online"), x + 36.0 + 16.0 + 30.0, y + 6.0, 24.0, GOLD, true);
+        y += 36.0 + 20.0;
+
+        let tabs = [t("I have an account"), t("New account")];
+        if let Some(i) = ui.segmented(Rect::new(x, y, inner, 36.0), &tabs, self.register as usize) {
             self.register = i == 1;
             self.error = None;
+            self.form_focused = false;
         }
-        y += 50.0;
-        let mut submit = false;
+        y += 36.0 + 20.0;
+
+        // The cursor starts in the first empty field (not on the frame of a
+        // click: that click would take it away again).
+        if !self.form_focused && !picker_open && !is_mouse_button_pressed(MouseButton::Left) {
+            ui.focus = Some(if self.username.is_empty() { 20 } else { 21 });
+            self.form_focused = true;
+        }
         ui.text(t("Username"), x, y, 13.0, MUTED, true);
-        submit |= ui.text_input(20, Rect::new(x, y + 18.0, inner, 34.0), &mut self.username, 16);
-        y += 62.0;
+        let field = Rect::new(x, y + 20.0, inner, 36.0);
+        let user_enter = ui.text_input(20, field, &mut self.username, 16);
+        // Enter in the name goes on to the password while that is empty.
+        let to_password = user_enter && self.password.is_empty();
+        if to_password {
+            ui.focus = Some(21);
+        }
+        y += FIELD;
         ui.text(t("Password"), x, y, 13.0, MUTED, true);
-        submit |=
-            ui.password_input(21, Rect::new(x, y + 18.0, inner, 34.0), &mut self.password, 72);
-        y += 62.0;
+        let field = Rect::new(x, y + 20.0, inner, 36.0);
+        let pass_enter = ui.password_input(21, field, &mut self.password, 72);
+        // (The Enter that moved the cursor here is not a submission.)
+        let submit = (user_enter || pass_enter) && !to_password;
+        let mut just_opened = false;
         if self.register {
+            y += 20.0 + 36.0 + 6.0;
+            for line in &pass_hint {
+                ui.text(line, x, y, 12.0, MUTED, false);
+                y += 16.0;
+            }
+            y += 14.0;
             ui.text(t("Country"), x, y, 13.0, MUTED, true);
             let label = if self.country.is_empty() {
                 t("Choose…").to_string()
             } else {
                 crate::flags::name(&self.country).to_string()
             };
-            let cr = Rect::new(x, y + 18.0, inner, 34.0);
-            if crate::countries::field(ui, cr, &self.country, &label) {
+            let field = Rect::new(x, y + 20.0, inner, 36.0);
+            if crate::countries::field(ui, field, &self.country, &label) {
                 crate::countries::open();
+                just_opened = true;
             }
-            y += 56.0;
-            let hint = t("At least 8 characters. Use a password you don't use elsewhere.");
-            for line in ui.wrap(hint, inner, 12.0) {
-                ui.text(&line, x, y, 12.0, MUTED, false);
-                y += 15.0;
+        }
+        y += FIELD + 4.0;
+        if !message.is_empty() {
+            for line in &message {
+                ui.text_centered(line, sw / 2.0, y, 14.0, message_color, outdated);
+                y += 19.0;
             }
-            y += 6.0;
+            y += 8.0;
         }
 
-        let name_ok = valid_username(self.username.trim());
-        let pass_ok = valid_password(&self.password);
-        let connected = self.conn.is_some();
-        let label = if self.register { t("Create account") } else { t("Sign in") };
-        if ui.primary_button(Rect::new(x, y, inner, 42.0), label) || (submit && name_ok && pass_ok)
-        {
+        // The one action: sign in, create the account, try again or update.
+        let label = if outdated {
+            update_label()
+        } else if !connected {
+            t("Retry")
+        } else if self.register {
+            t("Create account")
+        } else {
+            t("Sign in")
+        };
+        let clicked = ui.primary_button(Rect::new(x, y, inner, 44.0), label);
+        y += 44.0 + 14.0;
+        for line in &welcome {
+            ui.text_centered(line, sw / 2.0, y, 13.0, MUTED, false);
+            y += 17.0;
+        }
+        if outdated {
+            // Trying again can't help: the new version can.
+            if clicked {
+                self.quit_for_update = crate::update::start();
+            }
+        } else if clicked || submit {
+            let name_ok = valid_username(self.username.trim());
+            let pass_ok = valid_password(&self.password);
             if !connected {
+                self.server = config.server.clone();
                 self.connect();
                 self.error = None;
             } else if !name_ok {
@@ -1300,53 +1452,10 @@ impl Online {
                 self.stage = Stage::Authenticating;
             }
         }
-        y += 54.0;
-        match &self.error {
-            Some(_) if self.outdated => {
-                let msg = t("A new version of the game is out: update to play online.");
-                for (k, line) in ui.wrap(msg, inner, 14.0).iter().take(2).enumerate() {
-                    ui.text_centered(line, sw / 2.0, y + k as f32 * 18.0, 14.0, GOLD, true);
-                }
-            }
-            Some(e) => {
-                for (k, line) in ui.wrap(e, inner, 14.0).iter().take(3).enumerate() {
-                    ui.text_centered(line, sw / 2.0, y + k as f32 * 18.0, 14.0, ALERT, false);
-                }
-            }
-            None if !self.register => ui.text_centered(
-                t("New here? Choose “New account”: it takes ten seconds."),
-                sw / 2.0,
-                y,
-                13.0,
-                MUTED,
-                false,
-            ),
-            None => {}
-        }
-        if let Some(code) = crate::countries::draw_picker(ui) {
+        // Not on the frame it opens: a quick click (pressed and released in
+        // one frame) would also pick the country under the pointer.
+        if !just_opened && let Some(code) = crate::countries::draw_picker(ui) {
             self.country = code;
-        }
-        if self.outdated && self.error.is_some() {
-            // Trying again can't help: the new version can.
-            let label = update_label();
-            let w = (ui.text_size(label, 14.0, true).x + 40.0).min(inner - 130.0);
-            let b = Rect::new(x + inner - w, r.y + r.h - 46.0, w, 34.0);
-            if ui.primary_button(b, label) {
-                self.quit_for_update = crate::update::start();
-            }
-        } else if !connected
-            && ui.button(
-                Rect::new(x + inner - 110.0, r.y + r.h - 44.0, 110.0, 30.0),
-                t("Retry"),
-                true,
-            )
-        {
-            self.server = config.server.clone();
-            self.connect();
-            self.error = None;
-        }
-        if ui.button(Rect::new(x, r.y + r.h - 44.0, 110.0, 30.0), t("Back"), true) {
-            return OnlineAction::Leave;
         }
         OnlineAction::None
     }
@@ -1354,28 +1463,55 @@ impl Online {
     fn draw_lounge(&mut self, ui: &mut Ui, config: &mut Config) -> OnlineAction {
         let sw = crate::ui::vw();
         let sh = crate::ui::vh();
+        // Esc steps back: out of a form or a tournament, then (online) to the
+        // menu. Not while typing (there Esc leaves the field), nor under a dialog.
+        let esc = is_key_pressed(KeyCode::Escape)
+            && ui.focus.is_none()
+            && self.email_offer.is_none()
+            && !crate::countries::is_open();
         // A dark wash over the slowly turning table: the room is the backdrop.
         draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.42));
         let mut action = OnlineAction::None;
+        if esc {
+            if self.tournament_form.is_some() {
+                self.tournament_form = None;
+            } else if self.selected_tournament.is_some() {
+                self.selected_tournament = None;
+            } else if self.joining.is_some() {
+                self.joining = None;
+            } else if !self.lan {
+                // (Leaving a LAN lounge closes the game: only on purpose.)
+                action = OnlineAction::Leave;
+            }
+        }
         let margin = 14.0;
+        // Inside the lounge's panels: tabs, lists and fields keep this inset.
+        let pad = 12.0;
 
-        // Header.
-        let header = Rect::new(margin, margin, sw - margin * 2.0, 52.0);
+        // Header: back and the game's name on the left; who is here, the
+        // player, the coins, the ranking and signing out on the right. Every
+        // control is 36 high, centred, 8 apart.
+        let header = Rect::new(margin, margin, sw - margin * 2.0, 56.0);
         ui.panel(header);
+        let by = header.y + 10.0;
+        let gap = 8.0;
         if ui.icon_button(
-            Rect::new(header.x + 10.0, header.y + 9.0, 34.0, 34.0),
+            Rect::new(header.x + 10.0, by, 36.0, 36.0),
             Icon::Back,
             t("Main menu"),
             true,
         ) {
             action = OnlineAction::Leave;
         }
-        crate::icon::draw(header.x + 52.0, header.y + 8.0, 36.0);
+        crate::icon::draw(header.x + 10.0 + 36.0 + 10.0, by, 36.0);
         let name = snookered_proto::GAME_NAME.to_uppercase();
-        ui.text(&name, header.x + 96.0, header.y + 12.0, 24.0, GOLD, true);
+        let title_x = header.x + 10.0 + 36.0 + 10.0 + 36.0 + 10.0;
+        ui.text(&name, title_x, header.y + 15.0, 24.0, GOLD, true);
         let title_w = ui.text_size(&name, 24.0, true).x;
-        let title = if self.lan { t("LAN game") } else { t("lounge") };
-        ui.text(title, header.x + 106.0 + title_w, header.y + 19.0, 15.0, MUTED, false);
+        let subtitle = if self.lan { t("LAN game") } else { t("lounge") };
+        // On the title's baseline.
+        ui.text(subtitle, title_x + title_w + 10.0, header.y + 22.0, 15.0, MUTED, false);
+        let title_end = title_x + title_w + 10.0 + ui.text_size(subtitle, 15.0, false).x;
         let online_text = match self.rtt.filter(|_| config.show_ping) {
             Some(rtt) => tw(
                 "{n} online · ping {ms} ms",
@@ -1383,21 +1519,17 @@ impl Online {
             ),
             None => tw("{n} online", &[("n", &self.players.len())]),
         };
+        let online_w = ui.text_size(&online_text, 13.0, false).x;
         let mut right = header.x + header.w - 10.0;
         if !self.lan {
-            right -= 34.0;
-            if ui.icon_button(
-                Rect::new(right, header.y + 9.0, 34.0, 34.0),
-                Icon::Power,
-                t("Sign out"),
-                true,
-            ) {
+            right -= 36.0;
+            if ui.icon_button(Rect::new(right, by, 36.0, 36.0), Icon::Power, t("Sign out"), true) {
                 self.logout(config);
                 return OnlineAction::Leave;
             }
-            right -= 40.0;
+            right -= gap + 36.0;
             if ui.icon_button(
-                Rect::new(right, header.y + 9.0, 34.0, 34.0),
+                Rect::new(right, by, 36.0, 36.0),
                 Icon::Trophy,
                 t("World ranking"),
                 true,
@@ -1406,44 +1538,43 @@ impl Online {
             }
             // The coins, which open the shop.
             let coins = self.wallet.as_ref().map(|w| w.coins).unwrap_or(0).to_string();
-            let cw = ui.text_size(&coins, 14.0, true).x + 44.0;
-            right -= cw + 6.0;
-            let chip = Rect::new(right, header.y + 9.0, cw, 34.0);
-            let hover = ui.hovering(chip);
-            ui.block(chip);
-            rrect(chip, 8.0, Color::new(1.0, 1.0, 1.0, if hover { 0.10 } else { 0.04 }));
-            rrect_lines(chip, 8.0, 1.2, if hover { GOLD } else { BORDER });
-            crate::icons::draw(Icon::Coin, vec2(chip.x + 16.0, chip.y + 17.0), 18.0, GOLD);
-            ui.text(&coins, chip.x + 30.0, chip.y + 9.0, 14.0, CREAM, true);
-            if hover {
-                ui.tooltip(t("Shop"), chip);
+            let cw = ui.text_size(&coins, 15.0, true).x + 46.0;
+            right -= gap + cw;
+            let coins_r = Rect::new(right, by, cw, 36.0);
+            if header_chip(ui, coins_r, true) {
+                ui.tooltip(t("Shop"), coins_r);
+                if ui.clicked(coins_r) {
+                    action = OnlineAction::Shop;
+                }
             }
-            if ui.clicked(chip) {
-                action = OnlineAction::Shop;
-            }
+            crate::icons::draw(Icon::Coin, vec2(coins_r.x + 18.0, coins_r.y + 18.0), 18.0, GOLD);
+            ui.text(&coins, coins_r.x + 32.0, coins_r.y + 10.0, 15.0, CREAM, true);
         }
-        // Who am I.
+        // Who am I: as wide as the name needs, never into the title.
         if let Some(me) = self.me.clone() {
-            let card_w = 250.0f32.min(right - header.x - 300.0).max(120.0);
-            let card = Rect::new(right - card_w - 10.0, header.y + 6.0, card_w, 40.0);
-            let hover = ui.hovering(card) && !self.lan;
-            rrect(card, 8.0, Color::new(1.0, 1.0, 1.0, if hover { 0.08 } else { 0.03 }));
-            ui.player_name(&me, card.x + 10.0, card.y + 4.0, 15.0, card.w - 20.0);
             let sub = if me.guest {
                 t("guest").to_string()
             } else {
                 format!("{} · {}", me.rating, t(me.tier().name()))
             };
-            ui.text(&sub, card.x + 10.0, card.y + 22.0, 12.0, MUTED, false);
-            ui.block(card);
-            if hover && ui.clicked(card) {
-                action = OnlineAction::Profile(me.username.clone());
+            let content = name_width(ui, &me, 14.0).max(ui.text_size(&sub, 12.0, false).x);
+            let room = right - gap - (title_end + 24.0 + online_w + 26.0);
+            let card_w = (content + 24.0).min(room).clamp(110.0, 280.0);
+            right -= gap + card_w;
+            let card = Rect::new(right, by, card_w, 36.0);
+            if header_chip(ui, card, !self.lan) {
+                ui.tooltip(t("Your profile"), card);
+                if ui.clicked(card) {
+                    action = OnlineAction::Profile(me.username.clone());
+                }
             }
-            right = card.x;
+            ui.player_name(&me, card.x + 12.0, card.y + 3.0, 14.0, card.w - 24.0);
+            ui.text(&sub, card.x + 12.0, card.y + 20.0, 12.0, MUTED, false);
         }
-        let ow = ui.text_size(&online_text, 13.0, false).x;
-        draw_circle(right - ow - 22.0, header.y + 26.0, 4.0, Color::new(0.35, 0.85, 0.45, 1.0));
-        ui.text(&online_text, right - ow - 12.0, header.y + 19.0, 13.0, MUTED, false);
+        // How many are here, with a green "live" dot.
+        let ox = right - 16.0 - online_w;
+        draw_circle(ox - 10.0, header.y + 28.0, 4.0, Color::new(0.35, 0.85, 0.45, 1.0));
+        ui.text(&online_text, ox, header.y + 21.5, 13.0, MUTED, false);
 
         let body_y = header.y + header.h + 10.0;
         let body_h = sh - body_y - margin;
@@ -1462,15 +1593,15 @@ impl Online {
         if !self.lan {
             tabs.push((Tab::Friends, t("Friends")));
         }
-        let tab_w = (left.w - 20.0 - (tabs.len() - 1) as f32 * 6.0) / tabs.len() as f32;
+        let n = tabs.len() as f32;
+        let tab_w = (left.w - pad * 2.0 - (n - 1.0) * 6.0) / n;
         for (k, (tab, label)) in tabs.into_iter().enumerate() {
-            let r = Rect::new(left.x + 10.0 + k as f32 * (tab_w + 6.0), left.y + 10.0, tab_w, 32.0);
-            let label = if tab == Tab::Tables && !self.tables.is_empty() {
-                format!("{label} ({})", self.tables.len())
-            } else {
-                label.to_string()
+            let r = Rect::new(left.x + pad + k as f32 * (tab_w + 6.0), left.y + pad, tab_w, 34.0);
+            let count = match tab {
+                Tab::Tables if !self.tables.is_empty() => self.tables.len().to_string(),
+                _ => String::new(),
             };
-            if ui.tab(r, &label, self.tab == tab) {
+            if ui.tab_with_count(r, label, &count, self.tab == tab) {
                 self.tab = tab;
                 self.list_first = 0;
                 if tab == Tab::Friends {
@@ -1483,11 +1614,13 @@ impl Online {
                 _ => false,
             };
             if badge {
-                draw_circle(r.x + r.w - 8.0, r.y + 7.0, 4.5, ALERT);
+                draw_circle(r.x + r.w - 9.0, r.y + 9.0, 4.5, ALERT);
             }
         }
-        let reserve = if self.outgoing.is_some() { 60.0 } else { 0.0 };
-        let area = Rect::new(left.x + 12.0, left.y + 54.0, left.w - 24.0, left.h - 64.0 - reserve);
+        let reserve = if self.outgoing.is_some() { 48.0 + 12.0 } else { 0.0 };
+        let top = left.y + pad + 34.0 + 14.0;
+        let area =
+            Rect::new(left.x + pad, top, left.w - pad * 2.0, left.y + left.h - pad - top - reserve);
         match self.tab {
             Tab::Players => {
                 if let Some(a) = self.draw_players(ui, area) {
@@ -1505,17 +1638,18 @@ impl Online {
 
         // Outgoing invitation.
         if let Some((to, rated)) = self.outgoing.clone() {
-            let r = Rect::new(left.x + 10.0, left.y + left.h - 58.0, left.w - 20.0, 48.0);
+            let r = Rect::new(left.x + pad, left.y + left.h - pad - 48.0, left.w - pad * 2.0, 48.0);
             rrect(r, 8.0, Color::new(0.18, 0.12, 0.06, 0.95));
             rrect_lines(r, 8.0, 1.5, GOLD);
+            let cancel = t("Cancel");
+            let bw = button_w(ui, cancel, 32.0).max(90.0);
+            spinner(vec2(r.x + 22.0, r.y + 24.0), 7.0, 1.8, GOLD);
             let kind = if rated { t("rated") } else { t("casual") };
-            let text = ui.ellipsize(
-                &tw("Waiting for {to} ({kind})…", &[("to", &to), ("kind", &kind)]),
-                r.w - 120.0,
-                15.0,
-            );
-            ui.text(&text, r.x + 14.0, r.y + 15.0, 15.0, CREAM, false);
-            if ui.button(Rect::new(r.x + r.w - 98.0, r.y + 10.0, 88.0, 28.0), t("Cancel"), true) {
+            let text = tw("Waiting for {to} ({kind})…", &[("to", &to), ("kind", &kind)]);
+            let (text, size) = fit_text(ui, &text, 15.0, r.w - 40.0 - bw - 24.0, false);
+            ui.text(&text, r.x + 40.0, r.y + (r.h - size) / 2.0, size, CREAM, false);
+            let b = Rect::new(r.x + r.w - 8.0 - bw, r.y + 8.0, bw, 32.0);
+            if ui.button(b, cancel, true) {
                 self.send(ClientMsg::CancelInvite { to });
                 self.outgoing = None;
             }
@@ -1523,27 +1657,28 @@ impl Online {
 
         // Right: the chat, the missions and the board.
         ui.panel(right_panel);
-        let mut log_top = right_panel.y + 40.0;
+        let inner_x = right_panel.x + pad;
+        let inner_w = right_panel.w - pad * 2.0;
+        let bottom = right_panel.y + right_panel.h - pad;
         if self.lan {
-            ui.text(t("Lounge chat"), right_panel.x + 14.0, right_panel.y + 12.0, 16.0, GOLD, true);
+            let y = right_panel.y + pad + (34.0 - 15.0) / 2.0;
+            ui.text(t("Lounge chat"), inner_x + 2.0, y, 15.0, GOLD, true);
         } else {
             self.side_tabs(ui, right_panel, config);
-            log_top = right_panel.y + 50.0;
         }
+        let mut log_top = right_panel.y + pad + 34.0 + 14.0;
+        // Invitations float over the top of this side, under its tabs: the
+        // tabs and the lists on the left stay in reach.
+        let invites_at = Rect::new(inner_x, log_top, inner_w, 0.0);
         if !self.motd.is_empty() {
-            let lines = ui.wrap(&self.motd, right_panel.w - 40.0, 13.0);
-            let mh = lines.len().min(2) as f32 * 16.0 + 12.0;
-            let mr = Rect::new(right_panel.x + 12.0, log_top, right_panel.w - 24.0, mh);
+            let lines = ui.wrap(&self.motd, inner_w - 20.0, 13.0);
+            let lines = &lines[..lines.len().min(3)];
+            let mh = lines.len() as f32 * 17.0 + 14.0;
+            let mr = Rect::new(inner_x, log_top, inner_w, mh);
             rrect(mr, 6.0, Color::new(0.91, 0.75, 0.38, 0.08));
-            for (k, l) in lines.iter().take(2).enumerate() {
-                ui.text(
-                    l,
-                    mr.x + 10.0,
-                    mr.y + 6.0 + k as f32 * 16.0,
-                    13.0,
-                    Color::new(1.0, 0.9, 0.7, 0.9),
-                    false,
-                );
+            for (k, l) in lines.iter().enumerate() {
+                let color = Color::new(1.0, 0.9, 0.7, 0.9);
+                ui.text(l, mr.x + 10.0, mr.y + 7.0 + k as f32 * 17.0, 13.0, color, false);
             }
             log_top += mh + 8.0;
         }
@@ -1554,27 +1689,17 @@ impl Online {
                 "The server restarts in {m}:{s} for an update. Games in progress go on.",
                 &[("m", &(left / 60)), ("s", &format!("{:02}", left % 60))],
             );
-            let lines = ui.wrap(&text, right_panel.w - 44.0, 13.0);
-            let r = Rect::new(
-                right_panel.x + 12.0,
-                log_top,
-                right_panel.w - 24.0,
-                lines.len() as f32 * 16.0 + 14.0,
-            );
+            let lines = ui.wrap(&text, inner_w - 20.0, 13.0);
+            let r = Rect::new(inner_x, log_top, inner_w, lines.len() as f32 * 17.0 + 14.0);
             rrect(r, 6.0, Color::new(1.0, 0.56, 0.44, 0.14));
             rrect_lines(r, 6.0, 1.0, ALERT);
             for (k, l) in lines.iter().enumerate() {
-                ui.text(l, r.x + 10.0, r.y + 7.0 + k as f32 * 16.0, 13.0, CREAM, true);
+                ui.text(l, r.x + 10.0, r.y + 7.0 + k as f32 * 17.0, 13.0, CREAM, true);
             }
             log_top += r.h + 8.0;
         }
         if self.side != Side::Chat {
-            let area = Rect::new(
-                right_panel.x + 12.0,
-                log_top,
-                right_panel.w - 24.0,
-                right_panel.y + right_panel.h - log_top - 12.0,
-            );
+            let area = Rect::new(inner_x, log_top, inner_w, bottom - log_top);
             match self.side {
                 Side::Missions => self.draw_missions(ui, area),
                 _ => {
@@ -1583,58 +1708,77 @@ impl Online {
                     }
                 }
             }
-            self.draw_invites(ui, false);
+            self.draw_invites_at(ui, false, invites_at);
             return action;
         }
         // The featured game: anyone can watch it.
         if let Some(f) = self.featured.clone()
             && !self.lan
         {
-            let r = Rect::new(right_panel.x + 12.0, log_top, right_panel.w - 24.0, 52.0);
+            let r = Rect::new(inner_x, log_top, inner_w, 58.0);
             rrect(r, 8.0, Color::new(0.0, 0.0, 0.0, 0.3));
             rrect_lines(r, 8.0, 1.0, BORDER);
-            let live = 0.5 + 0.5 * (get_time() as f32 * 2.5).sin();
-            draw_circle(r.x + 14.0, r.y + 14.0, 4.0, Color::new(1.0, 0.3, 0.25, 0.5 + 0.5 * live));
-            let on_tv = t("ON TV");
-            ui.text(on_tv, r.x + 24.0, r.y + 7.0, 11.0, ALERT, true);
-            let avg = (f.players[0].rating + f.players[1].rating) / 2;
-            let sub = tw("{n} watching · avg {r}", &[("n", &f.spectators), ("r", &avg)]);
-            // After the label, however long it is in this language ("EN LA TELE").
-            let sub_x = r.x + 24.0 + ui.text_size(on_tv, 11.0, true).x + 12.0;
-            ui.text(&sub, sub_x, r.y + 7.0, 11.0, MUTED, false);
-            let half = (r.w - 110.0) / 2.0;
-            ui.player_name(&f.players[0], r.x + 12.0, r.y + 26.0, 14.0, half - 14.0);
-            ui.text(t("vs"), r.x + 12.0 + half - 8.0, r.y + 27.0, 12.0, MUTED, false);
-            ui.player_name(&f.players[1], r.x + 22.0 + half, r.y + 26.0, 14.0, half - 14.0);
             let mine = self
                 .me
                 .as_ref()
                 .is_some_and(|m| f.players.iter().any(|p| p.username == m.username));
+            let watch = t("Watch");
+            let bw = if mine { 0.0 } else { button_w(ui, watch, 32.0).max(84.0) };
+            let live = 0.5 + 0.5 * (get_time() as f32 * 2.5).sin();
+            draw_circle(r.x + 16.0, r.y + 16.0, 4.0, Color::new(1.0, 0.3, 0.25, 0.5 + 0.5 * live));
+            let on_tv = t("ON TV");
+            ui.text(on_tv, r.x + 26.0, r.y + 10.0, 11.0, ALERT, true);
+            let avg = (f.players[0].rating + f.players[1].rating) / 2;
+            let sub = tw("{n} watching · avg {r}", &[("n", &f.spectators), ("r", &avg)]);
+            // After the label, however long it is in this language ("EN LA TELE").
+            let sub_x = r.x + 26.0 + ui.text_size(on_tv, 11.0, true).x + 10.0;
+            let (sub, sub_size) = fit_text(ui, &sub, 12.0, r.x + r.w - bw - 24.0 - sub_x, false);
+            ui.text(&sub, sub_x, r.y + 9.5, sub_size, MUTED, false);
+            // "Ana vs Bruno", each name as long as it needs.
+            // The versus mark, set like a scoreboard's ("VS", "X"), so it
+            // reads as a separator and not a stray letter.
+            let vs = t("vs").to_uppercase();
+            let vs_w = ui.text_size(&vs, 12.0, true).x;
+            let names_w = r.w - bw - 24.0 - 12.0 - vs_w - 20.0;
+            let a = name_width(ui, &f.players[0], 14.0).min(names_w / 2.0);
+            let used = ui.player_name(&f.players[0], r.x + 12.0, r.y + 31.0, 14.0, a);
+            let vx = r.x + 12.0 + used + 10.0;
+            ui.text(&vs, vx, r.y + 32.0, 12.0, GOLD, true);
+            let bx = vx + vs_w + 10.0;
+            ui.player_name(&f.players[1], bx, r.y + 31.0, 14.0, names_w - used);
             if !mine
-                && ui.button(Rect::new(r.x + r.w - 82.0, r.y + 12.0, 72.0, 28.0), t("Watch"), true)
+                && ui.button(Rect::new(r.x + r.w - 12.0 - bw, r.y + 13.0, bw, 32.0), watch, true)
             {
                 self.send(ClientMsg::WatchMatch { match_id: f.match_id });
             }
             log_top += r.h + 8.0;
         }
         let input_h = 36.0;
-        let log = Rect::new(
-            right_panel.x + 12.0,
-            log_top,
-            right_panel.w - 24.0,
-            right_panel.y + right_panel.h - log_top - input_h - 22.0,
-        );
+        let input = Rect::new(inner_x, bottom - input_h, inner_w - input_h - 8.0, input_h);
+        let log = Rect::new(inner_x, log_top, inner_w, input.y - 10.0 - log_top);
+        // Toasts float above the chat field, not over it.
+        self.toast_floor.set(Some(input.y - 10.0));
         rrect(log, 6.0, Color::new(0.0, 0.0, 0.0, 0.25));
         let me = self.me.as_ref().map(|m| m.username.clone());
         let admin = self.me.as_ref().is_some_and(|m| m.role == snookered_proto::Role::Admin);
-        let (scroll, act) = ui.chat_log(log, &self.chat, me.as_deref(), admin, self.chat_scroll);
+        if self.chat.is_empty() {
+            ui.block(log);
+            empty_state(ui, log, Glyph::Chat, t("No messages yet."), None);
+        } else {
+            let (scroll, act) =
+                ui.chat_log(log, &self.chat, me.as_deref(), admin, self.chat_scroll);
+            self.chat_scroll = scroll;
+            if let Some(crate::ui::ChatAction::Delete { id, silent }) = act {
+                self.send(ClientMsg::DeleteChat { id, silent });
+            }
+        }
         // Administrators: clear the chat (a second click confirms).
         if admin && !self.lan {
             let now = get_time();
             let armed = self.clear_armed.is_some_and(|t| now - t < 4.0);
             let label = if armed { t("Click again to clear") } else { t("Clear the chat") };
-            let w = ui.text_size(label, 12.0, true).x + 20.0;
-            let b = Rect::new(log.x + log.w - w - 6.0, log.y + 4.0, w, 22.0);
+            let w = ui.text_size(label, 13.0, true).x + 20.0;
+            let b = Rect::new(log.x + log.w - w - 6.0, log.y + 6.0, w, 26.0);
             if ui.button(b, label, true) {
                 if armed {
                     self.send(ClientMsg::ClearChat);
@@ -1644,28 +1788,9 @@ impl Online {
                 }
             }
         }
-        self.chat_scroll = scroll;
-        if let Some(crate::ui::ChatAction::Delete { id, silent }) = act {
-            self.send(ClientMsg::DeleteChat { id, silent });
-        }
-        let input = Rect::new(
-            right_panel.x + 12.0,
-            right_panel.y + right_panel.h - input_h - 12.0,
-            right_panel.w - 24.0 - 48.0,
-            input_h,
-        );
         let sent = ui.text_input(30, input, &mut self.chat_input, MAX_CHAT_LEN);
-        if self.chat_input.is_empty() && ui.focus != Some(30) {
-            ui.text(
-                t("Say hello… (Enter to send)"),
-                input.x + 10.0,
-                input.y + 10.0,
-                15.0,
-                MUTED,
-                false,
-            );
-        }
-        let send_r = Rect::new(input.x + input.w + 8.0, input.y, 40.0, input_h);
+        placeholder(ui, 30, input, &self.chat_input, t("Say hello… (Enter to send)"));
+        let send_r = Rect::new(input.x + input.w + 8.0, input.y, input_h, input_h);
         let can_send = !self.chat_input.trim().is_empty();
         if (ui.icon_button(send_r, Icon::Play, t("Send"), can_send) || sent) && can_send {
             let text = snookered_proto::clean_chat(&self.chat_input);
@@ -1675,7 +1800,7 @@ impl Online {
             ui.focus = Some(30);
         }
 
-        self.draw_invites(ui, false);
+        self.draw_invites_at(ui, false, invites_at);
         action
     }
 
@@ -1725,7 +1850,7 @@ impl Online {
             config.save();
         }
         for (k, (side, label)) in tabs.into_iter().enumerate() {
-            let r = Rect::new(panel.x + 12.0 + k as f32 * (w + 6.0), panel.y + 10.0, w, 32.0);
+            let r = Rect::new(panel.x + 12.0 + k as f32 * (w + 6.0), panel.y + 12.0, w, 34.0);
             if ui.tab(r, label, self.side == side) {
                 self.side = side;
                 match side {
@@ -1746,7 +1871,7 @@ impl Online {
                 Side::Chat => false,
             };
             if badge {
-                draw_circle(r.x + r.w - 8.0, r.y + 7.0, 4.5, ALERT);
+                draw_circle(r.x + r.w - 9.0, r.y + 9.0, 4.5, ALERT);
             }
         }
     }
@@ -1754,7 +1879,7 @@ impl Online {
     /// Today's and this week's missions with the player's progress.
     fn draw_missions(&mut self, ui: &mut Ui, area: Rect) {
         let Some(v) = &self.missions else {
-            ui.text(t("Loading…"), area.x, area.y + 6.0, 14.0, MUTED, false);
+            loading(ui, area);
             return;
         };
         let now = crate::game::unix_now();
@@ -1768,39 +1893,40 @@ impl Online {
             (t("This week"), tw("ends in {t}", &[("t", &time_left(v.week_ends - now))]), &v.weekly),
         ];
         for (title, when, list) in sections {
-            ui.text(title, area.x, y, 16.0, GOLD, true);
-            let tw_ = ui.text_size(title, 16.0, true).x;
-            ui.text(&when, area.x + tw_ + 10.0, y + 3.0, 12.0, MUTED, false);
+            ui.text(title, area.x + 2.0, y, 15.0, GOLD, true);
+            let tw_ = ui.text_size(title, 15.0, true).x;
+            // On the heading's baseline.
+            ui.text(&when, area.x + 2.0 + tw_ + 10.0, y + 2.5, 12.0, MUTED, false);
             y += 26.0;
             for state in list {
                 let Some(m) = snookered_proto::missions::mission(&state.code) else { continue };
-                let card = Rect::new(area.x, y, area.w, 56.0);
+                let card = Rect::new(area.x, y, area.w, 58.0);
                 let done = state.progress >= m.target;
                 rrect(card, 8.0, Color::new(1.0, 1.0, 1.0, if done { 0.07 } else { 0.035 }));
                 rrect_lines(card, 8.0, 1.0, if done { GOLD } else { BORDER });
+                // The reward, on the right and centred.
+                let reward = m.reward.to_string();
+                let rw = ui.text_size(&reward, 15.0, true).x;
+                let rx = card.x + card.w - rw - 16.0;
+                let icon = if done { Icon::Check } else { Icon::Coin };
+                crate::icons::draw(icon, vec2(rx - 15.0, card.y + card.h / 2.0), 18.0, GOLD);
+                let color = if done { GOLD } else { CREAM };
+                ui.text(&reward, rx, card.y + (card.h - 15.0) / 2.0, 15.0, color, true);
+                let text_w = rx - 30.0 - (card.x + 14.0);
                 let text = tw(m.text, &[("n", &m.target)]);
-                let text = ui.ellipsize(&text, card.w - 120.0, 14.0);
-                ui.text(&text, card.x + 12.0, card.y + 9.0, 14.0, CREAM, true);
-                // Progress.
-                let bar = Rect::new(card.x + 12.0, card.y + 36.0, card.w - 130.0, 7.0);
+                let (text, size) = fit_text(ui, &text, 14.0, text_w, true);
+                ui.text(&text, card.x + 14.0, card.y + 10.0, size, CREAM, true);
+                // Progress: the bar and the count after it.
+                let count = format!("{}/{}", state.progress.min(m.target), m.target);
+                let count_w = ui.text_size(&count, 12.0, false).x;
+                let bar = Rect::new(card.x + 14.0, card.y + 38.0, text_w - count_w - 10.0, 7.0);
                 rrect(bar, 3.5, Color::new(0.0, 0.0, 0.0, 0.4));
                 let k = (state.progress as f32 / m.target.max(1) as f32).clamp(0.0, 1.0);
                 if k > 0.0 {
                     let fill = Rect::new(bar.x, bar.y, (bar.w * k).max(7.0), bar.h);
                     rrect(fill, 3.5, if done { GOLD } else { Color::new(0.35, 0.75, 0.5, 1.0) });
                 }
-                let count = format!("{}/{}", state.progress.min(m.target), m.target);
-                ui.text(&count, bar.x + bar.w + 8.0, card.y + 31.0, 12.0, MUTED, false);
-                // The reward.
-                let reward = m.reward.to_string();
-                let rw = ui.text_size(&reward, 15.0, true).x;
-                let rx = card.x + card.w - rw - 14.0;
-                if done {
-                    crate::icons::draw(Icon::Check, vec2(rx - 16.0, card.y + 28.0), 18.0, GOLD);
-                } else {
-                    crate::icons::draw(Icon::Coin, vec2(rx - 14.0, card.y + 28.0), 18.0, GOLD);
-                }
-                ui.text(&reward, rx, card.y + 19.0, 15.0, if done { GOLD } else { CREAM }, true);
+                ui.text(&count, bar.x + bar.w + 10.0, bar.y - 3.0, 12.0, MUTED, false);
                 y += card.h + 8.0;
             }
             y += 10.0;
@@ -1808,11 +1934,11 @@ impl Online {
         let note = t(
             "Missions count rated games played to the end. The coins arrive as soon as one is complete.",
         );
-        for (i, line) in ui.wrap(note, area.w, 12.0).iter().enumerate() {
+        for (i, line) in ui.wrap(note, area.w - 4.0, 12.0).iter().enumerate() {
             if y + i as f32 * 16.0 > area.y + area.h - 14.0 {
                 break;
             }
-            ui.text(line, area.x, y + i as f32 * 16.0, 12.0, MUTED, false);
+            ui.text(line, area.x + 2.0, y + i as f32 * 16.0, 12.0, MUTED, false);
         }
     }
 
@@ -1858,7 +1984,8 @@ impl Online {
             .cloned()
             .collect();
         if notes.is_empty() && open.is_empty() {
-            ui.text(t("Nothing on the board right now."), area.x, y + 4.0, 14.0, MUTED, false);
+            let text = t("Nothing on the board right now.");
+            empty_state(ui, area, Glyph::Icon(Icon::Star), text, None);
             return None;
         }
         for n in &notes {
@@ -1875,18 +2002,21 @@ impl Online {
             return action;
         }
         y += 6.0;
-        ui.text(t("Open tournaments"), area.x, y, 16.0, GOLD, true);
+        ui.text(t("Open tournaments"), area.x + 2.0, y, 15.0, GOLD, true);
         y += 26.0;
+        let see = t("See");
+        let bw = button_w(ui, see, 30.0).max(80.0);
         for tour in open {
-            if y + 50.0 > bottom {
+            if y + 52.0 > bottom {
                 break;
             }
-            let card = Rect::new(area.x, y, area.w, 50.0);
-            rrect(card, 8.0, Color::new(1.0, 1.0, 1.0, 0.035));
+            let card = Rect::new(area.x, y, area.w, 52.0);
+            let hover = ui.hovering(card);
+            rrect(card, 8.0, Color::new(1.0, 1.0, 1.0, if hover { 0.07 } else { 0.035 }));
             rrect_lines(card, 8.0, 1.0, BORDER);
-            crate::icons::draw(Icon::Trophy, vec2(card.x + 20.0, card.y + 25.0), 20.0, GOLD);
-            let name = ui.ellipsize(&tour.name, card.w - 140.0, 14.0);
-            ui.text(&name, card.x + 40.0, card.y + 8.0, 14.0, CREAM, true);
+            crate::icons::draw(Icon::Trophy, vec2(card.x + 22.0, card.y + 26.0), 20.0, GOLD);
+            let (name, size) = fit_text(ui, &tour.name, 14.0, card.w - 40.0 - bw - 24.0, true);
+            ui.text(&name, card.x + 42.0, card.y + 9.0, size, CREAM, true);
             let mut sub =
                 tw("{n}/{size} players", &[("n", &tour.players.len()), ("size", &tour.size)]);
             if let Some(at) = tour.starts_at.filter(|&a| a > now) {
@@ -1895,10 +2025,10 @@ impl Online {
             if tour.entry_fee > 0 {
                 sub = format!("{sub} · {}", tw("entry {n} coins", &[("n", &tour.entry_fee)]));
             }
-            let sub = ui.ellipsize(&sub, card.w - 140.0, 12.0);
-            ui.text(&sub, card.x + 40.0, card.y + 28.0, 12.0, MUTED, false);
-            let b = Rect::new(card.x + card.w - 90.0, card.y + 10.0, 80.0, 30.0);
-            if ui.button(b, t("See"), true) {
+            let (sub, size) = fit_text(ui, &sub, 12.0, card.w - 40.0 - bw - 24.0, false);
+            ui.text(&sub, card.x + 42.0, card.y + 29.0, size, MUTED, false);
+            let b = Rect::new(card.x + card.w - bw - 11.0, card.y + 11.0, bw, 30.0);
+            if ui.button(b, see, true) || (hover && ui.clicked(card)) {
                 self.tab = Tab::Tournaments;
                 self.selected_tournament = Some(tour.id);
             }
@@ -1909,7 +2039,8 @@ impl Online {
 
     fn rated_toggle(&mut self, ui: &mut Ui, r: Rect) {
         if self.lan {
-            ui.text(t("LAN games don't change ratings."), r.x, r.y + 8.0, 13.0, MUTED, false);
+            let y = r.y + (r.h - 13.0) / 2.0;
+            ui.text(t("LAN games don't change ratings."), r.x + 2.0, y, 13.0, MUTED, false);
             return;
         }
         let options = [t("Rated"), t("Casual")];
@@ -2021,19 +2152,19 @@ impl Online {
 
     fn draw_players(&mut self, ui: &mut Ui, area: Rect) -> Option<OnlineAction> {
         self.draw_play_now(ui, Rect::new(area.x, area.y, area.w, 44.0));
-        let mut top = 54.0;
+        let mut y = area.y + 44.0 + 12.0;
         let mut action = None;
         // Nobody yet after half a minute: a game against the computer while
         // the search goes on.
         if self.queue_secs().is_some_and(|s| s >= PRACTICE_AFTER_SECS) && !self.lan {
-            let b = Rect::new(area.x, area.y + top - 4.0, area.w, 34.0);
+            let b = Rect::new(area.x, y, area.w, 36.0);
             if ui.button(b, t("Play the computer while you wait"), true) {
                 action = Some(OnlineAction::PracticeWhileWaiting);
             }
-            top += 38.0;
+            y += 36.0 + 12.0;
         }
-        let area = Rect::new(area.x, area.y + top, area.w, area.h - top);
-        self.rated_toggle(ui, Rect::new(area.x, area.y, area.w.min(260.0), 30.0));
+        self.rated_toggle(ui, Rect::new(area.x, y, area.w.min(280.0), 32.0));
+        y += 32.0 + 12.0;
         let me = self.me.as_ref().map(|m| m.username.clone()).unwrap_or_default();
         let mut players: Vec<PlayerInfo> =
             self.players.iter().filter(|p| p.username != me).cloned().collect();
@@ -2042,51 +2173,48 @@ impl Online {
                 .cmp(&(b.status != PlayerStatus::Available))
                 .then(b.rating.cmp(&a.rating))
         });
-        let list = Rect::new(area.x, area.y + 42.0, area.w, area.h - 42.0);
+        let list = Rect::new(area.x, y, area.w, area.y + area.h - y);
         if players.is_empty() {
-            ui.text(t("Nobody else is here right now."), list.x, list.y + 10.0, 15.0, MUTED, false);
-            ui.text(
-                t("Open a table and wait, or invite a friend!"),
-                list.x,
-                list.y + 32.0,
-                14.0,
-                MUTED,
-                false,
-            );
-            let b = Rect::new(list.x, list.y + 62.0, 200.0f32.min(list.w), 36.0);
-            if ui.primary_button(b, t("Open a table")) {
+            let text = t("Nobody else is here right now.");
+            let cta = Some(t("Open a table"));
+            if empty_state(ui, list, Glyph::Icon(Icon::People), text, cta) {
                 self.tab = Tab::Tables;
+                self.list_first = 0;
             }
             return action;
         }
-        let row_h = 46.0;
+        let row_h = 48.0;
         let visible = (list.h / row_h).floor().max(1.0) as usize;
         self.list_first = ui.scroll_list(list, self.list_first, players.len(), visible);
+        let row_w = list.w - if players.len() > visible { 12.0 } else { 0.0 };
+        let invite_label = t("Invite");
+        let watch_label = t("Watch");
+        let bw = button_w(ui, invite_label, 30.0).max(button_w(ui, watch_label, 30.0)).max(96.0);
         let mut invite = None;
         let mut open = None;
         let mut watch = None;
         for (k, p) in players.iter().skip(self.list_first).take(visible).enumerate() {
-            let r = Rect::new(list.x, list.y + k as f32 * row_h, list.w - 8.0, row_h - 6.0);
-            let hover = ui.hovering(r);
-            rrect(r, 7.0, Color::new(1.0, 1.0, 1.0, if hover { 0.07 } else { 0.035 }));
-            Self::status_dot(p, r.x + 12.0, r.y + r.h / 2.0);
-            let name_r = Rect::new(r.x + 24.0, r.y + 3.0, r.w - 140.0, r.h - 6.0);
-            ui.player_name(p, name_r.x, r.y + 5.0, 15.0, name_r.w);
-            ui.text(&Self::status_text(p), name_r.x, r.y + 23.0, 12.0, MUTED, false);
-            if ui.clicked(name_r) && !p.guest {
+            let r = Rect::new(list.x, list.y + k as f32 * row_h, row_w, row_h - 6.0);
+            let button = Rect::new(r.x + r.w - bw - 6.0, r.y + 6.0, bw, r.h - 12.0);
+            // The row (but its button) opens the player's profile.
+            let hover = row_card(ui, r, !p.guest);
+            Self::status_dot(p, r.x + 14.0, r.y + r.h / 2.0);
+            let name_w = button.x - 12.0 - (r.x + 28.0);
+            ui.player_name(p, r.x + 28.0, r.y + 5.0, 15.0, name_w);
+            ui.text(&Self::status_text(p), r.x + 28.0, r.y + 23.0, 12.0, MUTED, false);
+            if hover && !p.guest && ui.clicked(r) && !button.contains(ui.mouse()) {
                 open = Some(p.username.clone());
             }
-            let button = Rect::new(r.x + r.w - 96.0, r.y + 7.0, 88.0, r.h - 14.0);
             // Friends' games (anyone's on a local network) can be watched.
             let friend =
                 self.lan || self.friends.friends.iter().any(|f| f.player.username == p.username);
             if p.status == PlayerStatus::Playing && friend {
-                if ui.icon_button(button, Icon::Eye, t("Watch the game"), true) {
+                if ui.button(button, watch_label, true) {
                     watch = Some(p.username.clone());
                 }
             } else {
                 let can = p.status == PlayerStatus::Available && self.outgoing.is_none();
-                if ui.button(button, t("Invite"), can) {
+                if ui.button(button, invite_label, can) {
                     invite = Some(p.username.clone());
                 }
             }
@@ -2106,84 +2234,105 @@ impl Online {
         let mut y = area.y;
         match mine {
             Some(table) => {
-                let r = Rect::new(area.x, y, area.w, 74.0);
+                let r = Rect::new(area.x, y, area.w, 64.0);
                 rrect(r, 8.0, Color::new(0.10, 0.30, 0.18, 0.55));
                 rrect_lines(r, 8.0, 1.5, Color::new(0.35, 0.8, 0.5, 0.8));
                 let pulse = 0.5 + 0.5 * (get_time() as f32 * 3.0).sin();
-                draw_circle(
-                    r.x + 18.0,
-                    r.y + 22.0,
-                    5.0,
-                    Color::new(0.35, 0.95, 0.5, 0.4 + 0.6 * pulse),
-                );
-                ui.text(t("Your table is open"), r.x + 32.0, r.y + 12.0, 16.0, CREAM, true);
+                let dot = Color::new(0.35, 0.95, 0.5, 0.4 + 0.6 * pulse);
+                draw_circle(r.x + 20.0, r.y + 21.0, 5.0, dot);
+                let close = t("Close");
+                let bw = button_w(ui, close, 32.0).max(96.0);
+                let text_w = r.w - 34.0 - bw - 24.0;
+                let title = t("Your table is open");
+                let (title, size) = fit_text(ui, title, 16.0, text_w, true);
+                ui.text(&title, r.x + 34.0, r.y + 13.0, size, CREAM, true);
                 let kind = match (table.rated, table.private) {
                     (true, true) => t("rated · private"),
                     (true, false) => t("rated · public"),
                     (false, true) => t("casual · private"),
                     (false, false) => t("casual · public"),
                 };
-                ui.text(
-                    &format!("{kind} — {}", t("waiting for an opponent…")),
-                    r.x + 32.0,
-                    r.y + 36.0,
-                    13.0,
-                    MUTED,
-                    false,
-                );
-                if ui.button(
-                    Rect::new(r.x + r.w - 110.0, r.y + 22.0, 100.0, 30.0),
-                    t("Close"),
-                    true,
-                ) {
+                let sub = format!("{kind} — {}", t("waiting for an opponent…"));
+                let (sub, size) = fit_text(ui, &sub, 13.0, text_w, false);
+                ui.text(&sub, r.x + 34.0, r.y + 36.0, size, MUTED, false);
+                if ui.button(Rect::new(r.x + r.w - 12.0 - bw, r.y + 16.0, bw, 32.0), close, true) {
                     self.send(ClientMsg::CloseTable);
                 }
-                y += 86.0;
+                y += r.h + 12.0;
             }
             None => {
-                self.rated_toggle(ui, Rect::new(area.x, y, 220.0f32.min(area.w * 0.5), 30.0));
-                let px = area.x + 232.0f32.min(area.w * 0.5 + 12.0);
-                ui.checkbox(px, y + 6.0, t("Private"), &mut self.table_private);
-                y += 40.0;
+                // How the table is played, then the two ways to open one.
+                // (On a local network there is no rating to choose: the
+                // Players tab says so.)
+                let seg_w = if self.lan { 0.0 } else { (area.w * 0.55).min(280.0) };
+                if !self.lan {
+                    self.rated_toggle(ui, Rect::new(area.x, y, seg_w, 32.0));
+                }
+                let cx = if self.lan { area.x + 2.0 } else { area.x + seg_w + 20.0 };
+                ui.checkbox(cx, y + 7.0, t("Private"), &mut self.table_private);
+                y += 32.0 + 12.0;
                 if self.table_private {
-                    ui.text(t("Password"), area.x, y + 9.0, 13.0, MUTED, true);
-                    ui.text_input(
-                        31,
-                        Rect::new(area.x + 80.0, y, area.w - 80.0, 32.0),
-                        &mut self.table_password,
-                        32,
-                    );
-                    y += 40.0;
+                    let label = t("Password");
+                    let lw = ui.text_size(label, 13.0, true).x;
+                    ui.text(label, area.x + 2.0, y + 11.5, 13.0, MUTED, true);
+                    let field = Rect::new(area.x + lw + 14.0, y, area.w - lw - 14.0, 36.0);
+                    ui.text_input(31, field, &mut self.table_password, 32);
+                    let hint = t("for your friends to sit down");
+                    placeholder(ui, 31, field, &self.table_password, hint);
+                    y += 36.0 + 12.0;
                 }
                 let can = !self.table_private || !self.table_password.trim().is_empty();
-                if ui.button(Rect::new(area.x, y, area.w, 36.0), t("Open a table"), can) {
+                let open_label = t("Open a table");
+                let code_label = t("Invite with a code");
+                // Side by side when both fit, else one above the other.
+                let half = (area.w - 8.0) / 2.0;
+                let both = button_w(ui, open_label, 36.0).max(button_w(ui, code_label, 36.0));
+                let (open_r, code_r) = if self.lan {
+                    (Rect::new(area.x, y, area.w, 36.0), None)
+                } else if both <= half {
+                    (
+                        Rect::new(area.x, y, half, 36.0),
+                        Some(Rect::new(area.x + half + 8.0, y, half, 36.0)),
+                    )
+                } else {
+                    let open_r = Rect::new(area.x, y, area.w, 36.0);
+                    y += 36.0 + 8.0;
+                    (open_r, Some(Rect::new(area.x, y, area.w, 36.0)))
+                };
+                let open = if can {
+                    ui.primary_button(open_r, open_label)
+                } else {
+                    ui.button(open_r, open_label, false)
+                };
+                if open {
                     let password = self.table_private.then(|| self.table_password.clone());
                     self.send(ClientMsg::OpenTable {
                         rated: self.rated_games && !self.lan,
                         password,
                     });
                 }
-                y += 44.0;
+                // A private table and a short code for someone who isn't in
+                // the lounge yet.
+                if let Some(code_r) = code_r
+                    && ui.button(code_r, code_label, true)
+                {
+                    self.send(ClientMsg::CreateInviteCode { rated: self.rated_games });
+                }
+                y += 36.0 + 12.0;
                 if !self.lan {
-                    // Invite someone who isn't in the lounge yet: a short code.
-                    let half = (area.w - 8.0) / 2.0;
-                    if ui.button(Rect::new(area.x, y, half, 32.0), t("Invite with a code"), true) {
-                        self.send(ClientMsg::CreateInviteCode { rated: self.rated_games });
-                    }
-                    let input = Rect::new(area.x + half + 8.0, y, half - 70.0, 32.0);
-                    let enter = ui.text_input(37, input, &mut self.code_input, 24);
-                    if self.code_input.is_empty() && ui.focus != Some(37) {
-                        ui.text(t("Code"), input.x + 9.0, input.y + 9.0, 13.0, MUTED, false);
-                    }
+                    // Someone sent a code: sit at their table.
+                    let join = t("Join");
+                    let jw = button_w(ui, join, 36.0).max(96.0);
+                    let field = Rect::new(area.x, y, area.w - jw - 8.0, 36.0);
+                    let enter = ui.text_input(37, field, &mut self.code_input, 24);
+                    placeholder(ui, 37, field, &self.code_input, t("Got a code? Type it here"));
                     let ok = self.code_input.trim().len() >= 6;
-                    if (ui.button(Rect::new(input.x + input.w + 6.0, y, 64.0, 32.0), t("Join"), ok)
-                        || enter)
-                        && ok
-                    {
+                    let jr = Rect::new(field.x + field.w + 8.0, y, jw, 36.0);
+                    if (ui.button(jr, join, ok) || enter) && ok {
                         let code = std::mem::take(&mut self.code_input);
                         self.send(ClientMsg::JoinByCode { code });
                     }
-                    y += 42.0;
+                    y += 36.0 + 12.0;
                 }
             }
         }
@@ -2191,89 +2340,91 @@ impl Online {
         if let Some(code) =
             self.invite_code.clone().filter(|_| self.tables.iter().any(|t| t.host.username == me))
         {
-            let r = Rect::new(area.x, y, area.w, 48.0);
+            let r = Rect::new(area.x, y, area.w, 52.0);
             rrect(r, 8.0, Color::new(0.91, 0.75, 0.38, 0.12));
-            ui.text(&code, r.x + 14.0, r.y + 10.0, 24.0, GOLD, true);
+            rrect_lines(r, 8.0, 1.0, Color::new(0.91, 0.75, 0.38, 0.4));
+            ui.text(&code, r.x + 14.0, r.y + 13.0, 24.0, GOLD, true);
             let link = format!("snookered://join/{code}");
+            let copy = t("Copy");
+            let bw = button_w(ui, copy, 32.0).max(90.0);
             let cw = ui.text_size(&code, 24.0, true).x;
-            ui.text(&link, r.x + 30.0 + cw, r.y + 17.0, 12.0, MUTED, false);
-            if ui.button(Rect::new(r.x + r.w - 92.0, r.y + 9.0, 82.0, 30.0), t("Copy"), true) {
+            let room = r.w - 14.0 - cw - 16.0 - bw - 24.0;
+            if room > 80.0 {
+                let (link, size) = fit_text(ui, &link, 12.0, room, false);
+                ui.text(&link, r.x + 30.0 + cw, r.y + 20.0, size, MUTED, false);
+            }
+            if ui.button(Rect::new(r.x + r.w - 10.0 - bw, r.y + 10.0, bw, 32.0), copy, true) {
                 macroquad::miniquad::window::clipboard_set(&format!(
                     "{} {link}",
                     t("Join my table in Snookered:")
                 ));
                 self.toast(t("Copied: send it to a friend."), true);
             }
-            y += 58.0;
+            y += r.h + 12.0;
         }
         draw_line(area.x, y, area.x + area.w, y, 1.0, BORDER);
-        y += 10.0;
+        y += 12.0;
         let others: Vec<TableInfo> =
             self.tables.iter().filter(|t| t.host.username != me).cloned().collect();
         let list = Rect::new(area.x, y, area.w, area.y + area.h - y);
         if others.is_empty() {
-            ui.text(
-                t("No open tables. Open one and others can sit down."),
-                list.x,
-                list.y + 8.0,
-                14.0,
-                MUTED,
-                false,
-            );
+            let text = if self.tables.len() > others.len() {
+                t("No other open tables right now.")
+            } else {
+                t("No open tables. Open one and others can sit down.")
+            };
+            empty_state(ui, list, Glyph::Icon(Icon::Table), text, None);
             return;
         }
-        let row_h = 50.0;
+        let row_h = 52.0;
         let visible = (list.h / row_h).floor().max(1.0) as usize;
         self.list_first = ui.scroll_list(list, self.list_first, others.len(), visible);
+        let row_w = list.w - if others.len() > visible { 12.0 } else { 0.0 };
+        let sit = t("Sit down");
+        let join_label = t("Join");
+        let bw = button_w(ui, sit, 32.0).max(button_w(ui, join_label, 32.0)).max(96.0);
         let mut join = None;
         for (k, table) in others.iter().skip(self.list_first).take(visible).enumerate() {
-            let r = Rect::new(list.x, list.y + k as f32 * row_h, list.w - 8.0, row_h - 6.0);
-            rrect(r, 7.0, Color::new(1.0, 1.0, 1.0, 0.035));
-            crate::icons::draw(Icon::Table, vec2(r.x + 20.0, r.y + r.h / 2.0), 22.0, CREAM);
-            ui.player_name(&table.host, r.x + 40.0, r.y + 5.0, 15.0, r.w - 200.0);
-            let mut px = r.x + 40.0;
+            let r = Rect::new(list.x, list.y + k as f32 * row_h, row_w, row_h - 6.0);
+            row_card(ui, r, false);
+            crate::icons::draw(Icon::Table, vec2(r.x + 22.0, r.y + r.h / 2.0), 22.0, CREAM);
+            let button = Rect::new(r.x + r.w - bw - 7.0, r.y + 7.0, bw, r.h - 14.0);
+            let joining = self.joining.as_ref().is_some_and(|(id, _)| *id == table.id);
+            // While typing a private table's password the field takes the
+            // room of the details.
+            let field_w = if joining { 160.0f32.min(r.w * 0.4) } else { 0.0 };
+            let text_right = button.x - 12.0 - if joining { field_w + 8.0 } else { 0.0 };
+            let lock_w = if table.private && !joining { 24.0 } else { 0.0 };
+            let name_w = text_right - lock_w - (r.x + 44.0);
+            ui.player_name(&table.host, r.x + 44.0, r.y + 6.0, 15.0, name_w);
+            let mut px = r.x + 44.0;
             let (label, color) = if table.rated {
                 (t("rated"), GOLD)
             } else {
                 (t("casual"), Color::new(0.6, 0.8, 1.0, 1.0))
             };
-            px += ui.pill(label, px, r.y + 24.0, color) + 6.0;
-            ui.text(&table.host.rating.to_string(), px, r.y + 25.0, 12.0, MUTED, false);
-            if table.private {
-                crate::icons::draw(
-                    Icon::Lock,
-                    vec2(r.x + r.w - 118.0, r.y + r.h / 2.0),
-                    16.0,
-                    MUTED,
-                );
+            px += ui.pill(label, px, r.y + 25.0, color) + 8.0;
+            ui.text(&table.host.rating.to_string(), px, r.y + 26.0, 12.0, MUTED, false);
+            if table.private && !joining {
+                let c = vec2(text_right - 8.0, r.y + r.h / 2.0);
+                crate::icons::draw(Icon::Lock, c, 16.0, MUTED);
             }
-            let joining = self.joining.as_ref().is_some_and(|(id, _)| *id == table.id);
-            if !joining
-                && ui.button(
-                    Rect::new(r.x + r.w - 96.0, r.y + 8.0, 88.0, r.h - 16.0),
-                    t("Sit down"),
-                    true,
-                )
-            {
-                if table.private {
-                    self.joining = Some((table.id, String::new()));
-                } else {
-                    join = Some((table.id, None));
+            if !joining {
+                if ui.button(button, sit, true) {
+                    if table.private {
+                        self.joining = Some((table.id, String::new()));
+                        ui.focus = Some(32);
+                    } else {
+                        join = Some((table.id, None));
+                    }
                 }
-            }
-            if joining {
-                let ir = Rect::new(r.x + r.w - 250.0, r.y + 8.0, 150.0, r.h - 16.0);
+            } else {
+                let ir = Rect::new(button.x - 8.0 - field_w, button.y, field_w, button.h);
                 let (_, pw) = self.joining.as_mut().expect("joining");
                 let enter = ui.password_input(32, ir, pw, 32);
-                if pw.is_empty() && ui.focus != Some(32) {
-                    ui.text(t("password"), ir.x + 8.0, ir.y + 9.0, 13.0, MUTED, false);
-                }
+                placeholder(ui, 32, ir, pw, t("password"));
                 let pw = pw.clone();
-                if ui.primary_button(
-                    Rect::new(r.x + r.w - 96.0, r.y + 8.0, 88.0, r.h - 16.0),
-                    t("Join"),
-                ) || enter
-                {
+                if ui.primary_button(button, join_label) || enter {
                     join = Some((table.id, Some(pw)));
                     self.joining = None;
                 }
@@ -2284,139 +2435,146 @@ impl Online {
         }
     }
 
-    fn draw_tournaments(&mut self, ui: &mut Ui, area: Rect) {
-        if let Some(form) = &mut self.tournament_form {
-            let mut y = area.y;
-            ui.text(t("New tournament"), area.x, y, 17.0, GOLD, true);
-            y += 32.0;
-            ui.text(t("Name"), area.x, y + 9.0, 13.0, MUTED, true);
-            ui.text_input(
-                33,
-                Rect::new(area.x + 90.0, y, area.w - 90.0, 32.0),
-                &mut form.name,
-                snookered_proto::MAX_NAME_LEN,
-            );
-            y += 44.0;
-            ui.text(t("Format"), area.x, y + 8.0, 13.0, MUTED, true);
-            let formats = [t("Knockout"), t("Arena")];
-            let arena = form.format == snookered_proto::TournamentFormat::Arena;
-            if let Some(i) =
-                ui.segmented(Rect::new(area.x + 90.0, y, 220.0, 30.0), &formats, arena as usize)
-            {
-                form.format = if i == 1 {
-                    snookered_proto::TournamentFormat::Arena
-                } else {
-                    snookered_proto::TournamentFormat::Knockout
-                };
+    /// A new tournament: the form, labels in one column and controls in the other.
+    fn draw_tournament_form(&mut self, ui: &mut Ui, area: Rect) {
+        let lan = self.lan;
+        let Some(form) = &mut self.tournament_form else { return };
+        let labels = [t("Name"), t("Format"), t("Players"), t("Entry"), t("Games"), t("Password")];
+        let lw = labels.iter().map(|l| ui.text_size(l, 13.0, true).x).fold(70.0, f32::max) + 16.0;
+        let cx = area.x + lw;
+        let cw = area.w - lw;
+        let seg_w = cw.min(280.0);
+        let arena = form.format == snookered_proto::TournamentFormat::Arena;
+        let note = t("The tournament starts when it is full (the host can start it earlier).");
+        let note = ui.wrap(note, area.w - 4.0, 12.0);
+        // When it would not fit (a large interface size), the rows close up
+        // and the footnote goes.
+        let hint_h = |text: &str| ui.wrap(text, cw, 12.0).len() as f32 * 16.0 + 2.0;
+        // Name, format, players (not in an arena), entry and games (online), password.
+        let rows = 4.0 - arena as u8 as f32 + if lan { 0.0 } else { 2.0 };
+        let mut needed = 34.0 + 16.0 + rows * 42.0 + note.len() as f32 * 16.0 + 12.0 + 36.0;
+        if arena {
+            needed += hint_h(t(ARENA_HINT));
+        }
+        if !lan && form.entry_fee > 0 {
+            needed += hint_h(t(FEE_HINT));
+        }
+        let compact = needed > area.h;
+        let gap = if compact { 6.0 } else { 10.0 };
+        let mut y = area.y;
+        let mut cancel =
+            ui.icon_button(Rect::new(area.x, y, 34.0, 34.0), Icon::Back, t("Cancel"), true);
+        crate::icons::draw(Icon::Trophy, vec2(area.x + 34.0 + 12.0 + 10.0, y + 17.0), 20.0, GOLD);
+        ui.text(t("New tournament"), area.x + 34.0 + 12.0 + 26.0, y + 8.0, 18.0, GOLD, true);
+        y += 34.0 + if compact { 10.0 } else { 16.0 };
+        let label = |ui: &Ui, text: &str, y: f32| {
+            ui.text(text, area.x + 2.0, y + (32.0 - 13.0) / 2.0, 13.0, MUTED, true);
+        };
+        // A hint under a control, in its column.
+        let hint = |ui: &Ui, text: &str, y: &mut f32| {
+            for line in ui.wrap(text, cw, 12.0) {
+                ui.text(&line, cx + 2.0, *y, 12.0, MUTED, false);
+                *y += 16.0;
             }
-            y += 42.0;
-            if arena {
-                for line in ui.wrap(t("30 minutes: play as many games as you can. A win is 2 points, 4 from the third win in a row."), area.w, 12.0) {
-                    ui.text(&line, area.x, y, 12.0, MUTED, false);
-                    y += 16.0;
-                }
-                y += 8.0;
+            *y += 6.0;
+        };
+        label(ui, t("Name"), y);
+        let name_r = Rect::new(cx, y, cw, 32.0);
+        let mut enter = ui.text_input(33, name_r, &mut form.name, snookered_proto::MAX_NAME_LEN);
+        y += 32.0 + gap;
+        label(ui, t("Format"), y);
+        let formats = [t("Knockout"), t("Arena")];
+        if let Some(i) = ui.segmented(Rect::new(cx, y, seg_w, 32.0), &formats, arena as usize) {
+            form.format = if i == 1 {
+                snookered_proto::TournamentFormat::Arena
             } else {
-                ui.text(t("Players"), area.x, y + 8.0, 13.0, MUTED, true);
-                let sizes = [4u32, 8, 16];
-                let labels = ["4", "8", "16 (VIP)"];
-                let sel = sizes.iter().position(|s| *s == form.size).unwrap_or(1);
-                if let Some(i) =
-                    ui.segmented(Rect::new(area.x + 90.0, y, 220.0, 30.0), &labels, sel)
-                {
-                    form.size = sizes[i];
-                }
-                y += 42.0;
+                snookered_proto::TournamentFormat::Knockout
+            };
+        }
+        y += 32.0 + gap;
+        if arena {
+            y -= 4.0;
+            hint(ui, t(ARENA_HINT), &mut y);
+        } else {
+            label(ui, t("Players"), y);
+            let sizes = [4u32, 8, 16];
+            let labels = ["4", "8", "16 (VIP)"];
+            let sel = sizes.iter().position(|s| *s == form.size).unwrap_or(1);
+            if let Some(i) = ui.segmented(Rect::new(cx, y, seg_w, 32.0), &labels, sel) {
+                form.size = sizes[i];
             }
-            if !self.lan {
-                ui.text(t("Entry"), area.x, y + 8.0, 13.0, MUTED, true);
-                let fees = [0u32, 50, 100, 250, 500];
-                let labels: Vec<String> = fees
-                    .iter()
-                    .map(|f| if *f == 0 { t("Free").to_string() } else { f.to_string() })
-                    .collect();
-                let labels: Vec<&str> = labels.iter().map(String::as_str).collect();
-                let sel = fees.iter().position(|f| *f == form.entry_fee).unwrap_or(0);
-                if let Some(i) =
-                    ui.segmented(Rect::new(area.x + 90.0, y, area.w - 90.0, 30.0), &labels, sel)
-                {
-                    form.entry_fee = fees[i];
-                }
-                y += 36.0;
-                if form.entry_fee > 0 {
-                    let note =
-                        t("The fees make the prize: 70% to the champion, 20% to the runner-up.");
-                    for line in ui.wrap(note, area.w, 12.0) {
-                        ui.text(&line, area.x, y, 12.0, MUTED, false);
-                        y += 16.0;
-                    }
-                }
-                y += 8.0;
+            y += 32.0 + gap;
+        }
+        if !lan {
+            label(ui, t("Entry"), y);
+            let fees = [0u32, 50, 100, 250, 500];
+            let labels: Vec<String> = fees
+                .iter()
+                .map(|f| if *f == 0 { t("Free").to_string() } else { f.to_string() })
+                .collect();
+            let labels: Vec<&str> = labels.iter().map(String::as_str).collect();
+            let sel = fees.iter().position(|f| *f == form.entry_fee).unwrap_or(0);
+            if let Some(i) = ui.segmented(Rect::new(cx, y, cw, 32.0), &labels, sel) {
+                form.entry_fee = fees[i];
             }
-            if !self.lan {
-                ui.text(t("Games"), area.x, y + 8.0, 13.0, MUTED, true);
-                let opts = [t("Rated"), t("Casual")];
-                if let Some(i) = ui.segmented(
-                    Rect::new(area.x + 90.0, y, 180.0, 30.0),
-                    &opts,
-                    if form.rated { 0 } else { 1 },
-                ) {
-                    form.rated = i == 0;
-                }
-                y += 42.0;
+            y += 32.0 + gap;
+            if form.entry_fee > 0 {
+                y -= 4.0;
+                hint(ui, t(FEE_HINT), &mut y);
             }
-            ui.text(t("Password"), area.x, y + 9.0, 13.0, MUTED, true);
-            ui.text_input(
-                34,
-                Rect::new(area.x + 90.0, y, area.w - 90.0, 32.0),
-                &mut form.password,
-                32,
-            );
-            if form.password.is_empty() && ui.focus != Some(34) {
-                ui.text(
-                    t("optional: only friends with it can join"),
-                    area.x + 98.0,
-                    y + 9.0,
-                    13.0,
-                    MUTED,
-                    false,
-                );
+            label(ui, t("Games"), y);
+            let opts = [t("Rated"), t("Casual")];
+            let r = Rect::new(cx, y, seg_w, 32.0);
+            if let Some(i) = ui.segmented(r, &opts, if form.rated { 0 } else { 1 }) {
+                form.rated = i == 0;
             }
-            y += 50.0;
-            let ok = form.name.trim().chars().count() >= 3;
-            let mut create = None;
-            if ui.primary_button(Rect::new(area.x, y, area.w / 2.0 - 5.0, 38.0), t("Create")) && ok
-            {
-                create = Some(ClientMsg::CreateTournament {
-                    name: form.name.clone(),
-                    size: form.size,
-                    rated: form.rated && !self.lan,
-                    password: (!form.password.trim().is_empty()).then(|| form.password.clone()),
-                    entry_fee: form.entry_fee,
-                    format: form.format,
-                });
+            y += 32.0 + gap;
+        }
+        label(ui, t("Password"), y);
+        let pass_r = Rect::new(cx, y, cw, 32.0);
+        enter |= ui.text_input(34, pass_r, &mut form.password, 32);
+        placeholder(ui, 34, pass_r, &form.password, t("optional: only friends with it can join"));
+        y += 32.0 + gap;
+        if !compact {
+            for line in &note {
+                ui.text(line, area.x + 2.0, y, 12.0, MUTED, false);
+                y += 16.0;
             }
-            let cancel = ui.button(
-                Rect::new(area.x + area.w / 2.0 + 5.0, y, area.w / 2.0 - 5.0, 38.0),
-                t("Cancel"),
-                true,
-            );
-            y += 50.0;
-            ui.text(
-                t("The tournament starts when it is full (the host can start it earlier)."),
-                area.x,
-                y,
-                12.0,
-                MUTED,
-                false,
-            );
-            if let Some(msg) = create {
-                self.send(msg);
-                self.tournament_form = None;
-            } else if cancel {
-                self.tournament_form = None;
-            }
-            return;
+            y += 12.0;
+        } else {
+            y += 4.0;
+        }
+        // Cancel on the left, Create on the right.
+        let ok = form.name.trim().chars().count() >= 3;
+        let create_l = t("Create");
+        let cancel_l = t("Cancel");
+        let bw = button_w(ui, create_l, 36.0).max(button_w(ui, cancel_l, 36.0)).max(140.0);
+        cancel |= ui.button(Rect::new(area.x, y, bw, 36.0), cancel_l, true);
+        let create_r = Rect::new(area.x + area.w - bw, y, bw, 36.0);
+        let create = if ok {
+            ui.primary_button(create_r, create_l) || enter
+        } else {
+            ui.button(create_r, create_l, false)
+        };
+        if create {
+            let msg = ClientMsg::CreateTournament {
+                name: form.name.trim().to_string(),
+                size: form.size,
+                rated: form.rated && !lan,
+                password: (!form.password.trim().is_empty()).then(|| form.password.clone()),
+                entry_fee: form.entry_fee,
+                format: form.format,
+            };
+            self.send(msg);
+            self.tournament_form = None;
+        } else if cancel {
+            self.tournament_form = None;
+        }
+    }
+
+    fn draw_tournaments(&mut self, ui: &mut Ui, area: Rect) {
+        if self.tournament_form.is_some() {
+            return self.draw_tournament_form(ui, area);
         }
         // Development aid (screenshots): open the first running tournament.
         if self.selected_tournament.is_none() && crate::dev::flag("SNOOKERED_OPEN_TOURNAMENT") {
@@ -2432,50 +2590,53 @@ impl Online {
         if ui.button(Rect::new(area.x, area.y, area.w, 36.0), t("Create a tournament"), true) {
             self.tournament_form =
                 Some(TournamentForm { size: 8, rated: !self.lan, ..Default::default() });
+            ui.focus = Some(33);
         }
-        let list = Rect::new(area.x, area.y + 48.0, area.w, area.h - 48.0);
+        let list = Rect::new(area.x, area.y + 36.0 + 12.0, area.w, area.h - 36.0 - 12.0);
         if self.tournaments.is_empty() {
-            ui.text(
-                t("No tournaments right now. Create one!"),
-                list.x,
-                list.y + 8.0,
-                14.0,
-                MUTED,
-                false,
-            );
+            let text = t("No tournaments right now. Create one!");
+            empty_state(ui, list, Glyph::Icon(Icon::Trophy), text, None);
             return;
         }
-        let row_h = 54.0;
+        let row_h = 58.0;
         let visible = (list.h / row_h).floor().max(1.0) as usize;
         let mut order: Vec<&TournamentInfo> = self.tournaments.iter().collect();
         order.sort_by_key(|t| {
             (t.state != TournamentState::Registering, t.state == TournamentState::Finished, t.id)
         });
         self.list_first = ui.scroll_list(list, self.list_first, order.len(), visible);
+        let row_w = list.w - if order.len() > visible { 12.0 } else { 0.0 };
         let mut open = None;
         for (k, tour) in order.iter().skip(self.list_first).take(visible).enumerate() {
-            let r = Rect::new(list.x, list.y + k as f32 * row_h, list.w - 8.0, row_h - 6.0);
-            let hover = ui.hovering(r);
-            rrect(r, 7.0, Color::new(1.0, 1.0, 1.0, if hover { 0.07 } else { 0.035 }));
-            crate::icons::draw(Icon::Trophy, vec2(r.x + 20.0, r.y + r.h / 2.0), 22.0, GOLD);
-            let name = ui.ellipsize(&tour.name, r.w - 170.0, 15.0);
-            ui.text(&name, r.x + 40.0, r.y + 6.0, 15.0, CREAM, true);
-            let sub = tw(
+            let r = Rect::new(list.x, list.y + k as f32 * row_h, row_w, row_h - 6.0);
+            let hover = row_card(ui, r, true);
+            crate::icons::draw(Icon::Trophy, vec2(r.x + 22.0, r.y + r.h / 2.0), 22.0, GOLD);
+            // On the right: the state, and a star (rated) and a lock (password).
+            let (label, color) = state_label(tour.state);
+            let pw = ui.text_size(label, 11.0, true).x + 12.0;
+            let mut ix = r.x + r.w - 12.0 - pw;
+            ui.pill(label, ix, r.y + (r.h - 17.0) / 2.0, color);
+            ix -= 4.0;
+            if tour.rated {
+                ix -= 16.0;
+                crate::icons::draw(Icon::Star, vec2(ix + 7.0, r.y + r.h / 2.0), 14.0, GOLD);
+            }
+            if tour.private {
+                ix -= 20.0;
+                crate::icons::draw(Icon::Lock, vec2(ix + 7.0, r.y + r.h / 2.0), 14.0, MUTED);
+            }
+            let text_w = ix - 12.0 - (r.x + 44.0);
+            let (name, size) = fit_text(ui, &tour.name, 15.0, text_w, true);
+            ui.text(&name, r.x + 44.0, r.y + 8.0, size, CREAM, true);
+            let mut sub = tw(
                 "by {host} · {n}/{size} players",
                 &[("host", &tour.host), ("n", &tour.players.len()), ("size", &tour.size)],
             );
-            ui.text(&sub, r.x + 40.0, r.y + 27.0, 12.0, MUTED, false);
-            let (label, color) = state_label(tour.state);
-            let pw = ui.text_size(label, 11.0, true).x + 12.0;
-            ui.pill(label, r.x + r.w - pw - 10.0, r.y + 8.0, color);
-            let mut ix = r.x + r.w - 20.0;
-            if tour.private {
-                crate::icons::draw(Icon::Lock, vec2(ix, r.y + 34.0), 13.0, MUTED);
-                ix -= 20.0;
+            if tour.entry_fee > 0 {
+                sub = format!("{sub} · {}", tw("entry {n} coins", &[("n", &tour.entry_fee)]));
             }
-            if tour.rated {
-                crate::icons::draw(Icon::Star, vec2(ix, r.y + 34.0), 13.0, GOLD);
-            }
+            let (sub, size) = fit_text(ui, &sub, 12.0, text_w, false);
+            ui.text(&sub, r.x + 44.0, r.y + 29.0, size, MUTED, false);
             if hover && ui.clicked(r) {
                 open = Some(tour.id);
             }
@@ -2489,7 +2650,7 @@ impl Online {
     fn draw_tournament(&mut self, ui: &mut Ui, area: Rect, tour: &TournamentInfo) {
         let me = self.me.as_ref().map(|m| m.username.clone()).unwrap_or_default();
         if ui.icon_button(
-            Rect::new(area.x, area.y, 30.0, 30.0),
+            Rect::new(area.x, area.y, 34.0, 34.0),
             Icon::Back,
             t("All tournaments"),
             true,
@@ -2497,12 +2658,12 @@ impl Online {
             self.selected_tournament = None;
             return;
         }
-        let name = ui.ellipsize(&tour.name, area.w - 140.0, 18.0);
-        ui.text(&name, area.x + 40.0, area.y + 4.0, 18.0, GOLD, true);
         let (label, color) = state_label(tour.state);
         let pw = ui.text_size(label, 11.0, true).x + 12.0;
-        ui.pill(label, area.x + area.w - pw, area.y + 7.0, color);
-        let mut y = area.y + 38.0;
+        ui.pill(label, area.x + area.w - pw, area.y + (34.0 - 17.0) / 2.0, color);
+        let (name, size) = fit_text(ui, &tour.name, 20.0, area.w - 46.0 - pw - 12.0, true);
+        ui.text(&name, area.x + 46.0, area.y + (34.0 - size) / 2.0, size, GOLD, true);
+        let mut y = area.y + 34.0 + 12.0;
         let kind = if tour.rated { t("rated games") } else { t("casual games") };
         let arena = tour.format == snookered_proto::TournamentFormat::Arena;
         let line = if arena {
@@ -2521,8 +2682,10 @@ impl Online {
                 ],
             )
         };
-        ui.text(&line, area.x, y, 13.0, MUTED, false);
-        y += 20.0;
+        for l in ui.wrap(&line, area.w - 4.0, 13.0).iter().take(2) {
+            ui.text(l, area.x + 2.0, y, 13.0, MUTED, false);
+            y += 18.0;
+        }
         // Entry, prizes and times.
         let mut facts = Vec::new();
         if tour.entry_fee > 0 {
@@ -2542,45 +2705,59 @@ impl Online {
             ));
         }
         if !facts.is_empty() {
-            ui.text(&facts.join("  ·  "), area.x, y, 13.0, GOLD, true);
-            y += 20.0;
+            let (facts, size) = fit_text(ui, &facts.join("  ·  "), 13.0, area.w - 4.0, true);
+            ui.text(&facts, area.x + 2.0, y, size, GOLD, true);
+            y += 18.0;
         }
-        y += 4.0;
+        y += 10.0;
         let joined = tour.players.iter().any(|p| p.username == me);
         let is_host = tour.host == me;
+        // A line of explanation over a "Withdraw" button.
+        let withdraw = |ui: &mut Ui, text: &str, y: &mut f32| {
+            for l in ui.wrap(text, area.w - 4.0, 13.0) {
+                ui.text(&l, area.x + 2.0, *y, 13.0, GOLD, false);
+                *y += 18.0;
+            }
+            *y += 6.0;
+            let label = t("Withdraw");
+            let w = button_w(ui, label, 32.0).max(140.0);
+            let clicked = ui.button(Rect::new(area.x, *y, w, 32.0), label, true);
+            *y += 32.0 + 14.0;
+            clicked
+        };
         if tour.state == TournamentState::Registering {
-            let bw = (area.w - 10.0) / 2.0;
+            let bw = (area.w - 8.0) / 2.0;
             if joined {
-                if ui.button(
-                    Rect::new(area.x, y, bw, 34.0),
-                    if is_host { t("Cancel tournament") } else { t("Leave") },
-                    true,
-                ) {
+                let leave = if is_host { t("Cancel tournament") } else { t("Leave") };
+                if ui.button(Rect::new(area.x, y, bw, 36.0), leave, true) {
                     self.send(ClientMsg::LeaveTournament { id: tour.id });
                 }
-                if is_host
-                    && ui.primary_button(Rect::new(area.x + bw + 10.0, y, bw, 34.0), t("Start now"))
-                    && tour.players.len() >= 2
-                {
-                    self.send(ClientMsg::StartTournament { id: tour.id });
+                if is_host {
+                    let start = Rect::new(area.x + bw + 8.0, y, bw, 36.0);
+                    // At least two players: before that it can't start.
+                    if tour.players.len() >= 2 {
+                        if ui.primary_button(start, t("Start now")) {
+                            self.send(ClientMsg::StartTournament { id: tour.id });
+                        }
+                    } else {
+                        ui.button(start, t("Start now"), false);
+                    }
                 }
             } else {
                 let full = tour.players.len() >= tour.size as usize;
                 if tour.private {
-                    ui.password_input(
-                        35,
-                        Rect::new(area.x, y, bw, 34.0),
-                        &mut self.tournament_password,
-                        32,
-                    );
-                    if self.tournament_password.is_empty() && ui.focus != Some(35) {
-                        ui.text(t("password"), area.x + 8.0, y + 10.0, 13.0, MUTED, false);
+                    let field = Rect::new(area.x, y, bw, 36.0);
+                    let enter = ui.password_input(35, field, &mut self.tournament_password, 32);
+                    placeholder(ui, 35, field, &self.tournament_password, t("password"));
+                    if enter {
+                        let password = Some(self.tournament_password.clone());
+                        self.send(ClientMsg::JoinTournament { id: tour.id, password });
                     }
                 }
                 let jr = if tour.private {
-                    Rect::new(area.x + bw + 10.0, y, bw, 34.0)
+                    Rect::new(area.x + bw + 8.0, y, bw, 36.0)
                 } else {
-                    Rect::new(area.x, y, area.w, 34.0)
+                    Rect::new(area.x, y, area.w, 36.0)
                 };
                 let label = match (full, tour.entry_fee) {
                     (true, _) => t("Join the waiting list").to_string(),
@@ -2592,7 +2769,7 @@ impl Online {
                     self.send(ClientMsg::JoinTournament { id: tour.id, password });
                 }
             }
-            y += 46.0;
+            y += 36.0 + 14.0;
         } else if tour.state == TournamentState::Running && arena {
             // An arena can be joined while it runs.
             if !joined {
@@ -2600,102 +2777,79 @@ impl Online {
                     0 => t("Join").to_string(),
                     fee => tw("Join · {n} coins", &[("n", &fee)]),
                 };
-                if ui.primary_button(Rect::new(area.x, y, area.w, 34.0), &label) {
+                if ui.primary_button(Rect::new(area.x, y, area.w, 36.0), &label) {
                     self.send(ClientMsg::JoinTournament { id: tour.id, password: None });
                 }
-            } else {
-                ui.text(
-                    t("You are paired as soon as you and an opponent are free."),
-                    area.x,
-                    y,
-                    13.0,
-                    GOLD,
-                    false,
-                );
-                y += 20.0;
-                if ui.button(Rect::new(area.x, y, 140.0, 28.0), t("Withdraw"), true) {
-                    self.send(ClientMsg::LeaveTournament { id: tour.id });
-                }
+                y += 36.0 + 14.0;
+            } else if withdraw(
+                ui,
+                t("You are paired as soon as you and an opponent are free."),
+                &mut y,
+            ) {
+                self.send(ClientMsg::LeaveTournament { id: tour.id });
             }
-            y += 44.0;
         } else if tour.state == TournamentState::Running && joined {
             let alive = tour.champion.is_none()
                 && !tour.rounds.iter().flatten().any(|m| {
                     m.winner.is_some_and(|w| m.players[1 - w].as_deref() == Some(me.as_str()))
                 });
-            if alive {
-                ui.text(
+            if alive
+                && withdraw(
+                    ui,
                     t("Your next match starts by itself when both players are free."),
-                    area.x,
-                    y,
-                    13.0,
-                    GOLD,
-                    false,
-                );
-                y += 20.0;
-                if ui.button(Rect::new(area.x, y, 140.0, 28.0), t("Withdraw"), true) {
-                    self.send(ClientMsg::LeaveTournament { id: tour.id });
-                }
-                y += 40.0;
+                    &mut y,
+                )
+            {
+                self.send(ClientMsg::LeaveTournament { id: tour.id });
             }
         }
         if let Some(champion) = &tour.champion {
-            let r = Rect::new(area.x, y, area.w, 40.0);
+            let r = Rect::new(area.x, y, area.w, 44.0);
             rrect(r, 8.0, Color::new(0.91, 0.75, 0.38, 0.14));
-            crate::icons::draw(Icon::Trophy, vec2(r.x + 22.0, r.y + 20.0), 22.0, GOLD);
-            ui.text(
-                &tw("Champion: {name}", &[("name", champion)]),
-                r.x + 42.0,
-                r.y + 11.0,
-                16.0,
-                GOLD,
-                true,
-            );
-            y += 50.0;
+            rrect_lines(r, 8.0, 1.0, Color::new(0.91, 0.75, 0.38, 0.4));
+            crate::icons::draw(Icon::Trophy, vec2(r.x + 24.0, r.y + 22.0), 22.0, GOLD);
+            let text = tw("Champion: {name}", &[("name", champion)]);
+            ui.text(&text, r.x + 46.0, r.y + 13.0, 16.0, GOLD, true);
+            y += r.h + 14.0;
         }
+        draw_line(area.x, y, area.x + area.w, y, 1.0, BORDER);
+        y += 12.0;
         let rest = Rect::new(area.x, y, area.w, area.y + area.h - y);
         if arena && !tour.standings.is_empty() {
             // Points, best first; a flame for a winning streak.
             for (k, s) in tour.standings.iter().enumerate() {
-                let ry = rest.y + k as f32 * 26.0;
+                let ry = rest.y + k as f32 * 28.0;
                 if ry + 24.0 > rest.y + rest.h {
                     break;
                 }
                 let color = if s.username == me { GOLD } else { CREAM };
-                ui.text(&format!("{}.", k + 1), rest.x, ry + 2.0, 13.0, MUTED, false);
-                ui.text(&s.username, rest.x + 28.0, ry, 15.0, color, true);
-                if s.streak >= 2 {
-                    let nw = ui.text_size(&s.username, 15.0, true).x;
-                    ui.text(
-                        &format!("×{}", s.streak),
-                        rest.x + 34.0 + nw,
-                        ry + 2.0,
-                        12.0,
-                        ALERT,
-                        true,
-                    );
-                }
                 let pts = tw("{n} pts · {g} games", &[("n", &s.points), ("g", &s.games)]);
                 let pw = ui.text_size(&pts, 13.0, false).x;
-                ui.text(&pts, rest.x + rest.w - pw, ry + 2.0, 13.0, MUTED, false);
+                ui.text(&format!("{}.", k + 1), rest.x + 2.0, ry + 2.0, 13.0, MUTED, false);
+                let streak = if s.streak >= 2 { format!("×{}", s.streak) } else { String::new() };
+                let sw_ =
+                    if streak.is_empty() { 0.0 } else { ui.text_size(&streak, 12.0, true).x + 8.0 };
+                let room = rest.w - 30.0 - pw - 16.0 - sw_;
+                let (name, size) = fit_text(ui, &s.username, 15.0, room, true);
+                ui.text(&name, rest.x + 30.0, ry, size, color, true);
+                if !streak.is_empty() {
+                    let nw = ui.text_size(&name, size, true).x;
+                    ui.text(&streak, rest.x + 38.0 + nw, ry + 2.0, 12.0, ALERT, true);
+                }
+                ui.text(&pts, rest.x + rest.w - pw - 2.0, ry + 2.0, 13.0, MUTED, false);
             }
         } else if tour.rounds.is_empty() {
             // Sign-up list.
             for (k, p) in tour.players.iter().enumerate() {
-                let ry = rest.y + k as f32 * 26.0;
+                let ry = rest.y + k as f32 * 28.0;
                 if ry + 24.0 > rest.y + rest.h {
                     break;
                 }
-                ui.text(&format!("{}.", k + 1), rest.x, ry + 2.0, 13.0, MUTED, false);
-                ui.player_name(p, rest.x + 28.0, ry, 15.0, rest.w - 100.0);
-                ui.text(
-                    &p.rating.to_string(),
-                    rest.x + rest.w - 50.0,
-                    ry + 2.0,
-                    13.0,
-                    MUTED,
-                    false,
-                );
+                let rating = p.rating.to_string();
+                let rw = ui.text_size(&rating, 13.0, false).x;
+                ui.text(&format!("{}.", k + 1), rest.x + 2.0, ry + 2.0, 13.0, MUTED, false);
+                ui.player_name(p, rest.x + 30.0, ry, 15.0, rest.w - 30.0 - rw - 16.0);
+                ui.text(&rating, rest.x + rest.w - rw - 2.0, ry + 2.0, 13.0, MUTED, false);
             }
         } else {
             draw_bracket(ui, rest, tour, &me);
@@ -2704,65 +2858,62 @@ impl Online {
 
     fn draw_friends(&mut self, ui: &mut Ui, area: Rect) -> Option<OnlineAction> {
         let mut y = area.y;
-        let input = Rect::new(area.x, y, area.w - 110.0, 32.0);
+        let add = t("Add");
+        let aw = button_w(ui, add, 34.0).max(110.0);
+        let input = Rect::new(area.x, y, area.w - aw - 8.0, 34.0);
         let enter = ui.text_input(36, input, &mut self.friend_input, 16);
-        if self.friend_input.is_empty() && ui.focus != Some(36) {
-            ui.text(
-                t("Add a friend by username"),
-                input.x + 9.0,
-                input.y + 9.0,
-                14.0,
-                MUTED,
-                false,
-            );
-        }
+        placeholder(ui, 36, input, &self.friend_input, t("Add a friend by username"));
         let ok = valid_username(self.friend_input.trim());
-        if (ui.button(Rect::new(area.x + area.w - 100.0, y, 100.0, 32.0), t("Add"), ok) || enter)
-            && ok
-        {
+        if (ui.button(Rect::new(input.x + input.w + 8.0, y, aw, 34.0), add, ok) || enter) && ok {
             self.send(ClientMsg::FriendRequest { username: self.friend_input.trim().to_string() });
             self.friend_input.clear();
         }
-        y += 44.0;
+        y += 34.0 + 12.0;
         let mut action = None;
         let mut answer = None;
+        let accept = t("Accept");
+        let decline = t("Decline");
+        let bw = button_w(ui, accept, 30.0).max(button_w(ui, decline, 30.0)).max(90.0);
         for from in self.friends.incoming.clone() {
-            let r = Rect::new(area.x, y, area.w, 40.0);
+            let r = Rect::new(area.x, y, area.w, 44.0);
             rrect(r, 7.0, Color::new(0.91, 0.75, 0.38, 0.12));
-            ui.text(
-                &tw("{name} wants to be friends", &[("name", &from)]),
-                r.x + 12.0,
-                r.y + 12.0,
-                14.0,
-                CREAM,
-                false,
-            );
-            if ui.primary_button(Rect::new(r.x + r.w - 180.0, r.y + 6.0, 84.0, 28.0), t("Accept")) {
+            rrect_lines(r, 7.0, 1.0, Color::new(0.91, 0.75, 0.38, 0.35));
+            let text = tw("{name} wants to be friends", &[("name", &from)]);
+            let room = r.w - 14.0 - bw * 2.0 - 8.0 - 20.0;
+            let (text, size) = fit_text(ui, &text, 14.0, room, false);
+            ui.text(&text, r.x + 14.0, r.y + (r.h - size) / 2.0, size, CREAM, false);
+            let by = r.y + 7.0;
+            let decline_r = Rect::new(r.x + r.w - 7.0 - bw, by, bw, 30.0);
+            if ui.primary_button(Rect::new(decline_r.x - 8.0 - bw, by, bw, 30.0), accept) {
                 answer = Some((from.clone(), true));
             }
-            if ui.button(Rect::new(r.x + r.w - 90.0, r.y + 6.0, 84.0, 28.0), t("Decline"), true) {
+            if ui.button(decline_r, decline, true) {
                 answer = Some((from.clone(), false));
             }
-            y += 46.0;
+            y += r.h + 8.0;
         }
         if let Some((username, accept)) = answer {
             self.send(ClientMsg::FriendAnswer { username, accept });
         }
+        if !self.friends.incoming.is_empty() {
+            y += 4.0;
+        }
         let list = Rect::new(area.x, y, area.w, area.y + area.h - y);
         let total = self.friends.friends.len() + self.friends.outgoing.len();
         if total == 0 {
-            ui.text(
-                t("No friends yet. Add someone you played with!"),
-                list.x,
-                list.y + 8.0,
-                14.0,
-                MUTED,
-                false,
-            );
+            if self.friends.incoming.is_empty() {
+                let text = t("No friends yet. Add someone you played with!");
+                empty_state(ui, list, Glyph::Icon(Icon::People), text, None);
+            }
+            return action;
         }
-        let row_h = 44.0;
+        let row_h = 48.0;
         let visible = (list.h / row_h).floor().max(1.0) as usize;
         self.list_first = ui.scroll_list(list, self.list_first, total, visible);
+        let row_w = list.w - if total > visible { 12.0 } else { 0.0 };
+        let invite_label = t("Invite");
+        let watch_label = t("Watch");
+        let bw = button_w(ui, invite_label, 30.0).max(button_w(ui, watch_label, 30.0)).max(96.0);
         let mut invite = None;
         let mut remove = None;
         let mut watch = None;
@@ -2770,74 +2921,62 @@ impl Online {
         let outgoing = self.friends.outgoing.clone();
         let rows = friends.iter().map(Some).chain(outgoing.iter().map(|_| None));
         for (k, (friend, i)) in rows.zip(0..).skip(self.list_first).take(visible).enumerate() {
-            let r = Rect::new(list.x, list.y + k as f32 * row_h, list.w - 8.0, row_h - 6.0);
-            rrect(r, 7.0, Color::new(1.0, 1.0, 1.0, 0.035));
+            let r = Rect::new(list.x, list.y + k as f32 * row_h, row_w, row_h - 6.0);
+            // Remove (×) at the far right; the main button before it.
+            let x_r = Rect::new(r.x + r.w - 6.0 - 30.0, r.y + 6.0, 30.0, r.h - 12.0);
+            let button = Rect::new(x_r.x - 8.0 - bw, r.y + 6.0, bw, r.h - 12.0);
             match friend {
                 Some(f) => {
+                    let hover = row_card(ui, r, true);
                     if f.online {
-                        Self::status_dot(&f.player, r.x + 12.0, r.y + r.h / 2.0);
+                        Self::status_dot(&f.player, r.x + 14.0, r.y + r.h / 2.0);
                     } else {
-                        draw_circle(
-                            r.x + 12.0,
-                            r.y + r.h / 2.0,
-                            4.5,
-                            Color::new(0.4, 0.4, 0.4, 1.0),
-                        );
+                        let grey = Color::new(0.4, 0.4, 0.4, 1.0);
+                        draw_circle(r.x + 14.0, r.y + r.h / 2.0, 4.5, grey);
                     }
-                    let name_r = Rect::new(r.x + 24.0, r.y, r.w - 170.0, r.h);
-                    ui.player_name(&f.player, name_r.x, r.y + 4.0, 15.0, name_r.w);
+                    let name_w = button.x - 12.0 - (r.x + 28.0);
+                    ui.player_name(&f.player, r.x + 28.0, r.y + 5.0, 15.0, name_w);
                     let sub = if f.online {
                         Self::status_text(&f.player)
                     } else {
                         last_seen(f.last_seen)
                     };
-                    ui.text(&sub, name_r.x, r.y + 22.0, 12.0, MUTED, false);
-                    if ui.clicked(name_r) {
+                    ui.text(&sub, r.x + 28.0, r.y + 23.0, 12.0, MUTED, false);
+                    if hover
+                        && ui.clicked(r)
+                        && !button.contains(ui.mouse())
+                        && !x_r.contains(ui.mouse())
+                    {
                         action = Some(OnlineAction::Profile(f.player.username.clone()));
                     }
                     if f.online && f.player.status == PlayerStatus::Playing {
                         // Watch their game.
-                        if ui.icon_button(
-                            Rect::new(r.x + r.w - 136.0, r.y + 6.0, 88.0, r.h - 12.0),
-                            Icon::Eye,
-                            t("Watch the game"),
-                            true,
-                        ) {
+                        if ui.button(button, watch_label, true) {
                             watch = Some(f.player.username.clone());
                         }
                     } else {
                         let can = f.online
                             && f.player.status == PlayerStatus::Available
                             && self.outgoing.is_none();
-                        if ui.button(
-                            Rect::new(r.x + r.w - 136.0, r.y + 6.0, 88.0, r.h - 12.0),
-                            t("Invite"),
-                            can,
-                        ) {
+                        if ui.button(button, invite_label, can) {
                             invite = Some(f.player.username.clone());
                         }
                     }
-                    if ui.icon_button_ex(
-                        Rect::new(r.x + r.w - 40.0, r.y + 6.0, 32.0, r.h - 12.0),
-                        Icon::Close,
-                        t("Remove friend"),
-                        true,
-                        true,
-                    ) {
+                    if ui.icon_button_ex(x_r, Icon::Close, t("Remove friend"), true, true) {
                         remove = Some(f.player.username.clone());
                     }
                 }
                 None => {
+                    row_card(ui, r, false);
+                    // Not a friend yet: a hollow dot.
+                    let c = vec2(r.x + 14.0, r.y + r.h / 2.0);
+                    crate::paint::draw_circle_lines(c.x, c.y, 4.5, 1.2, MUTED);
                     let name = &outgoing[i - friends.len()];
-                    ui.text(name, r.x + 24.0, r.y + 5.0, 15.0, MUTED, true);
-                    ui.text(t("request sent"), r.x + 24.0, r.y + 22.0, 12.0, MUTED, false);
-                    if ui.icon_button_ex(
-                        Rect::new(r.x + r.w - 40.0, r.y + 6.0, 32.0, r.h - 12.0),
-                        Icon::Close,
-                        t("Cancel request"),
-                        true,
-                        true,
-                    ) {
+                    let (shown, size) =
+                        fit_text(ui, name, 15.0, button.x - 12.0 - (r.x + 28.0), true);
+                    ui.text(&shown, r.x + 28.0, r.y + 5.0, size, MUTED, true);
+                    ui.text(t("request sent"), r.x + 28.0, r.y + 23.0, 12.0, MUTED, false);
+                    if ui.icon_button_ex(x_r, Icon::Close, t("Cancel request"), true, true) {
                         remove = Some(name.clone());
                     }
                 }
@@ -2892,9 +3031,21 @@ fn draw_bracket(ui: &mut Ui, area: Rect, tour: &TournamentInfo, me: &str) {
     if rounds == 0 {
         return;
     }
-    let col_w = (area.w / rounds as f32).min(200.0);
-    let card_h = 38.0f32;
+    // Columns share the width (cards no wider than reads well), with a gap
+    // between them for the connectors.
+    let gap = 24.0;
+    let col_w = ((area.w + gap) / rounds as f32).min(250.0);
+    let card_w = col_w - gap;
+    let card_h = 46.0f32;
+    let line = Color::new(0.45, 0.31, 0.16, 0.8);
     let profile = |name: &str| tour.players.iter().find(|p| p.username == name);
+    // Compact: no more than ~2.4 cards' height per first-round match.
+    let first = tour.rounds[0].len().max(1) as f32;
+    let height = (area.h - 26.0).min(first * card_h * 2.4);
+    let centre = |round: usize, i: usize| {
+        let slot_h = height / tour.rounds[round].len().max(1) as f32;
+        area.y + 26.0 + slot_h * (i as f32 + 0.5)
+    };
     for (r, round) in tour.rounds.iter().enumerate() {
         let x = area.x + r as f32 * col_w;
         let title = if r + 1 == rounds {
@@ -2904,24 +3055,38 @@ fn draw_bracket(ui: &mut Ui, area: Rect, tour: &TournamentInfo, me: &str) {
         } else {
             tw("Round {n}", &[("n", &(r + 1))])
         };
-        ui.text(&title, x + 4.0, area.y, 12.0, MUTED, true);
-        // Compact: no more than ~2.4 cards' height per first-round match.
-        let first = tour.rounds[0].len().max(1) as f32;
-        let height = (area.h - 20.0).min(first * card_h * 2.4);
-        let slot_h = height / round.len().max(1) as f32;
+        ui.text(&title, x + 2.0, area.y, 13.0, MUTED, true);
         for (i, m) in round.iter().enumerate() {
-            let cy = area.y + 20.0 + slot_h * (i as f32 + 0.5);
-            let card = Rect::new(x + 4.0, cy - card_h / 2.0, col_w - 14.0, card_h);
+            let cy = centre(r, i);
+            let card = Rect::new(x, cy - card_h / 2.0, card_w, card_h);
+            // Elbow to the match the winner goes on to.
+            if r + 1 < rounds {
+                let ny = centre(r + 1, i / 2);
+                let mx = card.x + card.w + gap / 2.0;
+                draw_line(card.x + card.w, cy, mx, cy, 1.2, line);
+                draw_line(mx, cy, mx, ny, 1.2, line);
+                draw_line(mx, ny, x + col_w, ny, 1.2, line);
+            }
             let involved = m.players.iter().any(|p| p.as_deref() == Some(me));
-            rrect(card, 5.0, Color::new(0.0, 0.0, 0.0, if involved { 0.45 } else { 0.3 }));
-            rrect_lines(
-                card,
-                5.0,
+            rrect(card, 6.0, Color::new(0.0, 0.0, 0.0, if involved { 0.5 } else { 0.32 }));
+            let edge = if m.live {
+                Color::new(1.0, 0.7, 0.3, 0.9)
+            } else if involved {
+                Color::new(GOLD.r, GOLD.g, GOLD.b, 0.7)
+            } else {
+                BORDER
+            };
+            rrect_lines(card, 6.0, 1.0, edge);
+            draw_line(
+                card.x + 6.0,
+                cy,
+                card.x + card.w - 6.0,
+                cy,
                 1.0,
-                if m.live { Color::new(1.0, 0.7, 0.3, 0.9) } else { BORDER },
+                Color::new(1.0, 1.0, 1.0, 0.06),
             );
             for seat in 0..2 {
-                let y = card.y + 2.0 + seat as f32 * 18.0;
+                let y = card.y + 4.0 + seat as f32 * 21.0;
                 let won = m.winner == Some(seat);
                 let lost = m.winner.is_some() && !won;
                 match &m.players[seat] {
@@ -2936,37 +3101,26 @@ fn draw_bracket(ui: &mut Ui, area: Rect, tour: &TournamentInfo, me: &str) {
                             name,
                             &country,
                             color,
-                            card.x + 6.0,
-                            y,
-                            12.0,
-                            card.w - 24.0,
+                            card.x + 8.0,
+                            y + 1.0,
+                            13.0,
+                            card.w - 30.0,
                         );
                         if won {
-                            draw_circle(card.x + card.w - 9.0, y + 8.0, 3.5, GOLD);
+                            let c = vec2(card.x + card.w - 12.0, y + 9.0);
+                            crate::icons::draw(Icon::Check, c, 12.0, GOLD);
                         }
                     }
-                    None => ui.text("—", card.x + 6.0, y, 12.0, MUTED, false),
+                    None => ui.text("—", card.x + 8.0, y + 1.0, 13.0, MUTED, false),
                 }
             }
             if m.live {
                 let pulse = 0.5 + 0.5 * (get_time() as f32 * 4.0).sin();
                 draw_circle(
-                    card.x + card.w - 9.0,
+                    card.x + card.w - 12.0,
                     card.y + card_h / 2.0,
-                    3.0,
+                    3.5,
                     Color::new(1.0, 0.7, 0.3, pulse),
-                );
-            }
-            // Connector to the next round.
-            if r + 1 < rounds {
-                let nx = x + col_w + 4.0;
-                draw_line(
-                    card.x + card.w,
-                    cy,
-                    nx - 2.0,
-                    cy,
-                    1.0,
-                    Color::new(0.45, 0.31, 0.16, 0.6),
                 );
             }
         }
@@ -2996,4 +3150,156 @@ pub fn draw_ping(ui: &Ui, rtt: Option<std::time::Duration>, x_right: f32, y: f32
     let w = ui.text_size(&text, 12.0, true).x;
     draw_circle(x_right - w - 10.0, y + 7.0, 3.5, color);
     ui.text(&text, x_right - w, y, 12.0, color, true);
+}
+
+/// How wide a button `h` high must be for `label` (the toolkit's label size,
+/// with room on both sides).
+fn button_w(ui: &Ui, label: &str, h: f32) -> f32 {
+    ui.text_size(label, (h * 0.45).clamp(13.0, 22.0), true).x + 32.0
+}
+
+/// `text` at `size` if it fits `width`; else smaller, down to 11 px; cut
+/// with "…" only if even that is too long.
+fn fit_text(ui: &Ui, text: &str, size: f32, width: f32, bold: bool) -> (String, f32) {
+    let min = size.min(11.0);
+    let mut s = size;
+    while s > min && ui.text_size(text, s, bold).x > width {
+        s = (s - 0.5).max(min);
+    }
+    if ui.text_size(text, s, bold).x <= width {
+        return (text.to_string(), s);
+    }
+    let mut cut: String = text.to_string();
+    while !cut.is_empty() && ui.text_size(&format!("{cut}…"), s, bold).x > width {
+        cut.pop();
+    }
+    (format!("{}…", cut.trim_end()), s)
+}
+
+/// How wide [`Ui::player_name`] draws `p` at `size`: flag, name and crown.
+fn name_width(ui: &Ui, p: &PlayerInfo, size: f32) -> f32 {
+    let flag = if crate::flags::name(&p.country).is_empty() {
+        0.0
+    } else {
+        crate::flags::width((size * 0.78).round()) + 6.0
+    };
+    let crown = if p.vip { size + 4.0 } else { 0.0 };
+    flag + ui.text_size(&p.username, size, true).x + crown
+}
+
+/// Muted text in an empty field nobody is typing in, where the typed text
+/// will be.
+fn placeholder(ui: &Ui, id: u64, field: Rect, value: &str, text: &str) {
+    if value.is_empty() && ui.focus != Some(id) {
+        let (text, size) = fit_text(ui, text, 14.0, field.w - 18.0, false);
+        ui.text(&text, field.x + 9.0, field.y + (field.h - size) / 2.0, size, MUTED, false);
+    }
+}
+
+/// A chip in the lounge's header (the player, the coins): lighter with a
+/// gold edge under the pointer when it can be clicked. Returns that hover.
+fn header_chip(ui: &mut Ui, r: Rect, active: bool) -> bool {
+    let hover = active && ui.hovering(r);
+    ui.block(r);
+    let bg = Color::new(0.20, 0.14, 0.09, if hover { 0.95 } else { 0.7 });
+    rrect_gradient(r, 8.0, shade(bg, 0.06), shade(bg, -0.2));
+    rrect_lines(r, 8.0, 1.2, if hover { GOLD } else { BORDER });
+    hover
+}
+
+/// A list row's card. Rows that open something get lighter under the
+/// pointer. Returns whether the pointer is over it.
+fn row_card(ui: &Ui, r: Rect, clickable: bool) -> bool {
+    let hover = ui.hovering(r);
+    let lit = hover && clickable;
+    rrect(r, 7.0, Color::new(1.0, 1.0, 1.0, if lit { 0.075 } else { 0.035 }));
+    if lit {
+        rrect_lines(r, 7.0, 1.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.35));
+    }
+    hover
+}
+
+/// A ring of dots going round: something is on its way.
+fn spinner(c: Vec2, radius: f32, dot: f32, color: Color) {
+    let time = get_time() as f32;
+    for k in 0..10 {
+        let a = k as f32 / 10.0 * std::f32::consts::TAU + time * 4.0;
+        let alpha = 0.15 + 0.85 * k as f32 / 10.0;
+        let p = c + Vec2::from_angle(a) * radius;
+        draw_circle(p.x, p.y, dot, Color::new(color.r, color.g, color.b, alpha));
+    }
+}
+
+/// Waiting for the server: a spinner in the middle of `area`.
+fn loading(ui: &Ui, area: Rect) {
+    let c = vec2(area.x + area.w / 2.0, area.y + (area.h * 0.4).min(160.0));
+    spinner(c, 14.0, 2.6, GOLD);
+    ui.text_centered(t("Loading…"), c.x, c.y + 28.0, 13.0, MUTED, false);
+}
+
+/// What an empty state shows over its line of text.
+#[derive(Clone, Copy)]
+enum Glyph {
+    Icon(Icon),
+    /// A speech bubble (the chat).
+    Chat,
+}
+
+/// A speech bubble `s` wide centred on `c`, drawn in outline.
+fn chat_glyph(c: Vec2, s: f32, color: Color) {
+    let body = Rect::new(c.x - s * 0.5, c.y - s * 0.42, s, s * 0.68);
+    rrect_lines(body, s * 0.2, 2.0, color);
+    // The tail, bottom left.
+    let a = vec2(body.x + s * 0.24, body.y + body.h - 1.0);
+    let tip = vec2(body.x + s * 0.14, body.y + body.h + s * 0.22);
+    draw_line(a.x, a.y, tip.x, tip.y, 2.0, color);
+    draw_line(tip.x, tip.y, a.x + s * 0.22, a.y, 2.0, color);
+    for k in -1..=1 {
+        draw_circle(c.x + k as f32 * s * 0.22, body.y + body.h / 2.0, 2.0, color);
+    }
+}
+
+/// Wraps `text` into as few lines as `width` allows, but with lines of
+/// even length (no lone word on the last line).
+fn balanced_wrap(ui: &Ui, text: &str, width: f32, size: f32) -> Vec<String> {
+    let lines = ui.wrap(text, width, size);
+    if lines.len() < 2 {
+        return lines;
+    }
+    let total = ui.text_size(text, size, false).x;
+    let mut w = (total / lines.len() as f32).max(width * 0.5);
+    while w < width {
+        let even = ui.wrap(text, w, size);
+        if even.len() == lines.len() {
+            return even;
+        }
+        w += 12.0;
+    }
+    lines
+}
+
+/// An empty list: a muted glyph, one line of muted text and, when there is
+/// an obvious next step, a button for it; centred in `area` (a little above
+/// the middle, where the eye expects it). True when the button is clicked.
+fn empty_state(ui: &mut Ui, area: Rect, glyph: Glyph, text: &str, action: Option<&str>) -> bool {
+    let lines = balanced_wrap(ui, text, (area.w - 32.0).min(400.0), 14.0);
+    let button_h = if action.is_some() { 16.0 + 36.0 } else { 0.0 };
+    let h = 60.0 + 14.0 + lines.len() as f32 * 20.0 + button_h;
+    let top = (area.y + (area.h - h) * 0.4).max(area.y + 8.0);
+    let cx = area.x + area.w / 2.0;
+    let c = vec2(cx, top + 30.0);
+    draw_circle(c.x, c.y, 30.0, Color::new(1.0, 1.0, 1.0, 0.045));
+    let color = Color::new(MUTED.r, MUTED.g, MUTED.b, 0.8);
+    match glyph {
+        Glyph::Icon(icon) => crate::icons::draw(icon, c, 30.0, color),
+        Glyph::Chat => chat_glyph(c, 30.0, color),
+    }
+    let mut y = top + 60.0 + 14.0;
+    for line in &lines {
+        ui.text_centered(line, cx, y, 14.0, MUTED, false);
+        y += 20.0;
+    }
+    let Some(label) = action else { return false };
+    let w = button_w(ui, label, 36.0).max(180.0).min(area.w - 16.0);
+    ui.button(Rect::new(cx - w / 2.0, y + 16.0, w, 36.0), label, true)
 }

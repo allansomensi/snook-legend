@@ -67,6 +67,9 @@ uniform vec4 Throats[12];    // pocket throats: 4 corners (x, z) per pocket
 uniform vec4 CueA;           // the cue's tip: xyz, w = radius (0: no cue)
 uniform vec4 CueB;           // the cue's butt: xyz, w = radius
 uniform vec4 Spot;           // xy = half size of the pool of light on the table
+uniform vec4 Clear;          // the room is left out of this box over the table when the
+                             // camera looks down on it: xy = half size, z = bottom, w = top
+                             // (w <= z: off). Extra.w marks the room's surfaces.
 
 // The pocket cut-outs. Extra.y selects what a surface loses:
 // 1 = the holes (cloth), 2 = holes and throats (rails, cushions),
@@ -129,7 +132,9 @@ float sphere_shadow(vec3 oc, float oc2, vec3 ld, float rad) {
     }
     float d = sqrt(max(oc2 - t * t, 0.0));
     float pen = 0.045 * t / ll + 0.0015;
-    return mix(0.12, 1.0, smoothstep(rad - pen, rad + pen, d));
+    // Soft and light: a shadow says where a ball is without hiding the
+    // cloth (or a ball) under it.
+    return mix(0.45, 1.0, smoothstep(rad - pen, rad + pen, d));
 }
 
 // How much of one lamp's light reaches `p` past the cue: a rod tapering
@@ -161,7 +166,7 @@ float cue_shadow(vec3 p, vec3 lamp) {
     float dist = length(p + d1 * s - (CueA.xyz + d2 * t));
     float rad = mix(CueA.w, CueB.w, t);
     float pen = 0.045 * s + 0.0015;
-    return mix(0.3, 1.0, smoothstep(rad - pen, rad + pen, dist));
+    return mix(0.6, 1.0, smoothstep(rad - pen, rad + pen, dist));
 }
 
 // Ball shadows for the three lamps (xyz) and contact occlusion (w) at `p`.
@@ -199,7 +204,7 @@ vec4 ball_terms(vec3 p, vec3 n) {
             r.z *= sphere_shadow(oc, oc2, Lamp2 - p, b.w);
         }
     }
-    r.w = clamp(1.0 - occ * 1.3, 0.2, 1.0);
+    r.w = clamp(1.0 - occ * 0.9, 0.5, 1.0);
     // The cue (not on itself: points on or next to its surface are skipped).
     if (CueA.w > 0.0) {
         vec3 ab = CueB.xyz - CueA.xyz;
@@ -238,8 +243,8 @@ vec3 environment(vec3 r) {
     return c;
 }
 
-vec3 lamp(vec3 pos, vec3 n, vec3 v, vec3 base, float shadow) {
-    vec3 l = pos - v_world;
+vec3 lamp_at(vec3 pos, vec3 at, vec3 n, vec3 v, vec3 base, float shadow) {
+    vec3 l = pos - at;
     float d = length(l);
     l /= d;
     // Downward cone of a billiard lamp.
@@ -249,6 +254,10 @@ vec3 lamp(vec3 pos, vec3 n, vec3 v, vec3 base, float shadow) {
     vec3 h = normalize(l + v);
     float spec = pow(max(dot(n, h), 0.0), Surface.y) * Surface.x;
     return LampColor.rgb * (diff * base + spec) * att * cone * shadow;
+}
+
+vec3 lamp(vec3 pos, vec3 n, vec3 v, vec3 base, float shadow) {
+    return lamp_at(pos, v_world, n, v, base, shadow);
 }
 
 // A lamp's glint on a glossy surface whose light is baked (the halls):
@@ -274,6 +283,12 @@ vec3 mirror_fade(vec3 c) {
 
 void main() {
     if (Extra.y > 0.5 && cut_away(v_world, Extra.y, v_normal.y > 0.5)) {
+        discard;
+    }
+    // Nothing of the room (a lamp's cord, a fan, a beam) between a camera
+    // looking down and the table.
+    if (Extra.w > 0.5 && Clear.w > Clear.z && abs(v_world.x) < Clear.x
+        && abs(v_world.z) < Clear.y && v_world.y > Clear.z && v_world.y < Clear.w) {
         discard;
     }
     vec4 base = texture2D(Texture, uv) * color;
@@ -326,13 +341,21 @@ void main() {
     float away = smoothstep(1.3, 3.2, length(v_world.xz));
     amb *= mix(1.0, 0.12, away * Stage.x);
     vec3 c = amb * base.rgb * bt.w;
-    // A pool of light on the table that fades towards the rails and beyond.
+    // A pool of light that covers the whole table evenly and only fades
+    // beyond the rails.
     float spot = length(v_world.xz / Spot.xy);
-    float pool = mix(1.0, mix(1.0, 0.42, smoothstep(0.3, 1.35, spot)), Stage.x);
-    c += lamp(Lamp1, n, v, base.rgb, bt.y);
+    float pool = mix(1.0, mix(1.0, 0.42, smoothstep(0.85, 1.6, spot)), Stage.x);
+    // The cloth and the rails' tops are lit as under a wide fixture: the
+    // light barely falls off from the middle to the cushions, so every
+    // ball reads the same wherever it is.
+    vec3 at = v_world;
+    if (n.y > 0.9 && abs(v_world.y - Shadows.z) < 0.08) {
+        at = vec3(v_world.x * 0.3, v_world.y, v_world.z * 0.3);
+    }
+    c += lamp_at(Lamp1, at, n, v, base.rgb, bt.y);
     if (Ambient.w > 1.5) {
-        c += lamp(Lamp0, n, v, base.rgb, bt.x);
-        c += lamp(Lamp2, n, v, base.rgb, bt.z);
+        c += lamp_at(Lamp0, at, n, v, base.rgb, bt.x);
+        c += lamp_at(Lamp2, at, n, v, base.rgb, bt.z);
     }
     c *= pool;
     // A little rim light keeps dark objects readable.
@@ -391,12 +414,15 @@ impl Surface {
         cut: 0.0,
         haze: 0.0,
     };
+    /// Resin balls with a soft sheen: a small, gentle highlight and a faint
+    /// reflection of the room, so the colours and the numbers always read
+    /// (a hard, bright glint hid them).
     pub const BALL: Surface = Surface {
-        specular: 1.5,
-        shininess: 320.0,
+        specular: 0.45,
+        shininess: 90.0,
         unlit: false,
         rim: 0.02,
-        coat: 0.5,
+        coat: 0.18,
         cut: 0.0,
         haze: 0.0,
     };
@@ -464,6 +490,7 @@ struct Uniforms {
     cue_a: [f32; 4],
     cue_b: [f32; 4],
     spot: [f32; 4],
+    clear: [f32; 4],
 }
 
 impl Default for Uniforms {
@@ -487,6 +514,7 @@ impl Default for Uniforms {
             cue_a: [0.0; 4],
             cue_b: [0.0; 4],
             spot: [1.25, 0.72, 0.0, 0.0],
+            clear: [0.0; 4],
         }
     }
 }
@@ -510,6 +538,7 @@ fn uniform_descs() -> Vec<UniformDesc> {
         UniformDesc::new("CueA", UniformType::Float4),
         UniformDesc::new("CueB", UniformType::Float4),
         UniformDesc::new("Spot", UniformType::Float4),
+        UniformDesc::new("Clear", UniformType::Float4),
     ]
 }
 
@@ -562,6 +591,8 @@ pub struct Materials {
     raw: Option<Raw>,
     state: std::cell::RefCell<Uniforms>,
     blending: std::cell::Cell<bool>,
+    /// What is drawn now is the room (see [`Materials::set_room`]).
+    room: std::cell::Cell<bool>,
 }
 
 impl Materials {
@@ -629,6 +660,7 @@ impl Materials {
             raw,
             state: Default::default(),
             blending: std::cell::Cell::new(false),
+            room: std::cell::Cell::new(false),
         }
     }
 
@@ -717,10 +749,26 @@ impl Materials {
     }
 
     pub fn use_lit(&self, s: Surface) {
-        set_surface(&self.lit, s);
+        set_surface(&self.lit, s, self.room.get());
         self.set_state_surface(s);
         self.blending.set(false);
         gl_use_material(&self.lit);
+    }
+
+    /// Marks what is drawn next as the room (left out of the box over the
+    /// table, see [`Materials::set_clear`]) or not.
+    pub fn set_room(&self, room: bool) {
+        self.room.set(room);
+    }
+
+    /// The box over the table the room is left out of while the camera looks
+    /// down on it (`None`: nothing is left out).
+    pub fn set_clear(&self, clear: Option<(Vec2, f32, f32)>) {
+        let v = match clear {
+            Some((half, bottom, top)) => vec4(half.x, half.y, bottom, top),
+            None => Vec4::ZERO,
+        };
+        self.set("Clear", v, |u| u.clear = v.to_array());
     }
 
     /// The size of the table, with its rails (`half`): the pool of light on
@@ -746,7 +794,7 @@ impl Materials {
     }
 
     pub fn use_blended(&self, s: Surface) {
-        set_surface(&self.blended, s);
+        set_surface(&self.blended, s, self.room.get());
         self.set_state_surface(s);
         self.blending.set(true);
         gl_use_material(&self.blended);
@@ -755,7 +803,7 @@ impl Materials {
     fn set_state_surface(&self, s: Surface) {
         let mut u = self.state.borrow_mut();
         u.surface = [s.specular, s.shininess, if s.unlit { 1.0 } else { 0.0 }, s.rim];
-        u.extra = [s.coat, s.cut, s.haze, 0.0];
+        u.extra = [s.coat, s.cut, s.haze, self.room.get() as u8 as f32];
     }
 
     /// Draws `model` (moved by `transform`) with the material and surface in
@@ -788,9 +836,9 @@ impl Materials {
     }
 }
 
-fn set_surface(m: &Material, s: Surface) {
+fn set_surface(m: &Material, s: Surface, room: bool) {
     m.set_uniform("Surface", vec4(s.specular, s.shininess, if s.unlit { 1.0 } else { 0.0 }, s.rim));
-    m.set_uniform("Extra", vec4(s.coat, s.cut, s.haze, 0.0));
+    m.set_uniform("Extra", vec4(s.coat, s.cut, s.haze, room as u8 as f32));
 }
 
 /// Uploads an RGBA image as a mipmapped, repeating, trilinear-filtered texture.

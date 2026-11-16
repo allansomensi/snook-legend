@@ -56,6 +56,9 @@ pub struct Scene {
     /// Cue meshes by (cue, chalk, level) design.
     cues: HashMap<(String, String, u8), (gfx::Model, Option<gfx::Model>)>,
     pub lamp_visible: bool,
+    /// The camera looks down on the table: nothing of the room (cords,
+    /// fans, beams) is drawn between it and the table.
+    pub clear_over_table: bool,
     /// The cloth and balls on the table now, and those being made.
     looks: Looks,
     wanted: Looks,
@@ -303,6 +306,7 @@ impl Scene {
             sinking: HashMap::new(),
             cues: HashMap::new(),
             lamp_visible: !focused,
+            clear_over_table: false,
             looks: looks.clone(),
             wanted: looks.clone(),
             felt_parts,
@@ -452,6 +456,11 @@ impl Scene {
         self.materials.set_shadows(self.soft_shadows, self.soft_shadows, &casters, cue);
         self.materials.set_pockets(&self.holes, &self.throats);
         self.materials.set_table(half_table(&self.table));
+        let half = half_table(&self.table);
+        self.materials.set_clear(
+            self.clear_over_table
+                .then(|| (half + Vec2::splat(0.35), TABLE_HEIGHT + 0.12, cam.eye.y + 1.0)),
+        );
         self.place_balls(balls, dt);
 
         // Ultra: a polished floor reflects the room. The scene is drawn once
@@ -472,6 +481,7 @@ impl Scene {
             // What starts higher than the reflection's fade lets through
             // (under 5%) is left out of it: the ceiling, the beams, shelves.
             let cutoff = 3.0 / mirror;
+            self.materials.set_room(true);
             for part in self.room.iter().filter(|p| p.layer == gfx::Layer::Solid && p.low < cutoff)
             {
                 self.materials.use_lit(part.surface);
@@ -480,6 +490,7 @@ impl Scene {
             if self.lamp_visible {
                 draw_layer(&self.room, gfx::Layer::Lamp, &self.materials);
             }
+            self.materials.set_room(false);
             self.draw_placed_balls();
             self.materials.set_mirror(0.0);
             self.materials.set_camera_pos(cam.eye);
@@ -487,6 +498,7 @@ impl Scene {
         set_camera(cam);
         self.materials.set_view(cam.matrix());
         if hall {
+            self.materials.set_room(true);
             for part in self.room.iter().filter(|p| p.layer == gfx::Layer::Floor) {
                 if reflect {
                     self.materials.use_blended(part.surface);
@@ -495,13 +507,18 @@ impl Scene {
                 }
                 self.materials.draw(&part.mesh, None);
             }
+            self.materials.set_room(false);
         }
         self.draw_table(false, hall);
         if hall {
+            self.materials.set_room(true);
             draw_layer(&self.room, gfx::Layer::Solid, &self.materials);
+            self.materials.set_room(false);
             self.materials.use_blended(Surface::UNLIT);
             self.materials.draw(&self.floor_shadow.mesh, None);
+            self.materials.set_room(true);
             draw_layer(&self.room, gfx::Layer::Blended, &self.materials);
+            self.materials.set_room(false);
         }
         if !self.soft_shadows {
             self.draw_ball_shadows(balls);
@@ -509,7 +526,9 @@ impl Scene {
         draw_layer(&self.table_parts, gfx::Layer::Inside, &self.materials);
         draw_layer(&self.table_parts, gfx::Layer::Detail, &self.materials);
         if self.lamp_visible && hall {
+            self.materials.set_room(true);
             draw_layer(&self.room, gfx::Layer::Lamp, &self.materials);
+            self.materials.set_room(false);
         }
         self.draw_placed_balls();
         if let Some(cue) = &overlay.cue {
@@ -547,7 +566,9 @@ impl Scene {
         // round the bulbs (they are see-through and write no useful depth).
         if hall && self.halos {
             if self.lamp_visible {
+                self.materials.set_room(true);
                 draw_layer(&self.room, gfx::Layer::Haze, &self.materials);
+                self.materials.set_room(false);
             }
             self.draw_halos(cam);
         }

@@ -276,7 +276,16 @@ fn player_card(ui: &mut Ui, m: &Match, seat: usize, x: f32, y: f32, w: f32) {
         }
         None => ui.text(t("Open table"), x + 10.0, ry + 1.0, 13.0, MUTED, false),
     }
+    // The player who isn't at the table is dimmed a little (name, picture,
+    // balls), so whose turn it is reads at a glance; not once the game is
+    // over, when nobody is.
+    if !active && !matches!(m.phase, Phase::GameOver) {
+        crate::ui::rrect(r, 8.0, Color::new(0.0, 0.0, 0.0, DIMMED));
+    }
 }
+
+/// How dark the card of the player who isn't at the table gets.
+const DIMMED: f32 = 0.42;
 
 fn status_line(m: &Match) -> Option<String> {
     if let Some(waiting) = crate::correspondence::status(m) {

@@ -706,6 +706,9 @@ async fn main() {
             cam.eye.y > scene::LAMP_Y - 0.05 && cam.eye.x.abs() < 3.5 && cam.eye.z.abs() < 3.0;
         scene.lamp_visible = !(current.is_some() && (rig.mode == CameraMode::Top || above_lamp))
             || crate::dev::var("SNOOKERED_CAM").is_some();
+        // Looking down on the table in a game: no cord, fan or beam of the
+        // hall in the way.
+        scene.clear_over_table = !scene.lamp_visible;
         // Each game on its own table: a game played under an older ruleset
         // (a correspondence game started before an update, an old replay)
         // keeps the table it began on.

@@ -1770,6 +1770,7 @@ mod tests {
             name_style: String::new(),
             effect: String::new(),
             cue_level: 0,
+            status_message: String::new(),
         };
         [p("me"), p("them")]
     }

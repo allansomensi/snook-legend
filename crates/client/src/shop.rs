@@ -70,6 +70,8 @@ pub struct ShopScreen {
     done: Option<(&'static str, Option<String>)>,
     /// The dark stage is on (the hall doesn't show around the table).
     pub dark_stage: bool,
+    /// A few words to go with a gift.
+    gift_message: String,
 }
 
 impl Default for ShopScreen {
@@ -85,6 +87,7 @@ impl Default for ShopScreen {
             gift_first: 0,
             done: None,
             dark_stage: false,
+            gift_message: String::new(),
         }
     }
 }
@@ -249,7 +252,7 @@ fn striped_ball(c: Vec2, rad: f32, color: Color, ivory: Color) {
 }
 
 /// A small picture of an item.
-fn preview(ui: &Ui, item: &Item, r: Rect) {
+pub fn preview(ui: &Ui, item: &Item, r: Rect) {
     let c = vec2(r.x + r.w / 2.0, r.y + r.h / 2.0);
     match item.look {
         Look::Cloth(col) => {
@@ -975,7 +978,8 @@ impl ShopScreen {
         // of coins, the note (or what is missing), an error, the buttons.
         let mut h = 24.0 + 28.0 + 16.0 + 120.0 + 14.0 + 26.0 + 22.0;
         h += if try_on { 44.0 } else { 0.0 };
-        h += if gift { 28.0 } else { 0.0 };
+        // The friend's name and the message field.
+        h += if gift { 28.0 + 46.0 } else { 0.0 };
         h += 14.0 + 2.0 * 30.0;
         h += if after < 0 { 28.0 } else { 6.0 + note_lines.len() as f32 * 17.0 };
         h += if online.shop_error.is_some() { 26.0 } else { 0.0 };
@@ -1014,6 +1018,17 @@ impl ShopScreen {
             let line = tw("For {name}", &[("name", friend)]);
             ui.text_centered(&line, cx, y + 4.0, 15.0, CREAM, true);
             y += 28.0;
+            // A few words with it (optional; Enter gives it).
+            const MESSAGE: u64 = 64;
+            let field = Rect::new(r.x + 32.0, y + 2.0, w - 64.0, 34.0);
+            let max = snookered_proto::MAX_GIFT_MESSAGE;
+            ui.text_input(MESSAGE, field, &mut self.gift_message, max);
+            if self.gift_message.is_empty() && ui.focus != Some(MESSAGE) {
+                let hint = t("Add a message (optional)");
+                let hint = ui.ellipsize(hint, field.w - 18.0, 14.0);
+                ui.text(&hint, field.x + 9.0, text_y(field.y + 17.0, 14.0), 14.0, MUTED, false);
+            }
+            y += 46.0;
         }
         draw_line(r.x + 32.0, y + 6.0, r.x + w - 32.0, y + 6.0, 1.0, BORDER);
         y += 14.0;
@@ -1067,8 +1082,11 @@ impl ShopScreen {
                 online.shop_error = None;
                 online.buying = Some(item.code.to_string());
                 match &confirm.gift_to {
-                    Some(to) => online
-                        .send(ClientMsg::GiftItem { to: to.clone(), code: item.code.to_string() }),
+                    Some(to) => online.send(ClientMsg::GiftItem {
+                        to: to.clone(),
+                        code: item.code.to_string(),
+                        message: self.gift_message.trim().to_string(),
+                    }),
                     None => online.send(ClientMsg::BuyItem { code: item.code.to_string() }),
                 }
             }
@@ -1254,6 +1272,7 @@ impl ShopScreen {
                     online.send(ClientMsg::GiftVip { to: f.player.username.clone() });
                 } else {
                     self.confirm = Some(Confirm { code, gift_to: Some(f.player.username.clone()) });
+                    self.gift_message.clear();
                 }
             }
         }

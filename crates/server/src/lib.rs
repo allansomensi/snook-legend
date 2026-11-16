@@ -20,6 +20,7 @@ pub mod missions;
 pub mod pages;
 pub mod payments;
 pub mod shop;
+pub mod social;
 pub mod store;
 pub mod tournament;
 
@@ -776,6 +777,7 @@ async fn authenticate(server: &Arc<Server>, msg: ClientMsg, ip: &str) -> Auth {
                 recovery_email: None,
                 deleted_at: None,
                 abandons: 0,
+                status_message: String::new(),
             };
             Auth::Ok { user: Box::new(user), token: String::new(), guest: true }
         }
@@ -807,6 +809,8 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
         let _ = tx.try_send(msg);
     };
     let mut hello = false;
+    // The protocol version the game speaks (newer messages only go to newer games).
+    let mut version = 0;
     let mut user: Option<(User, bool)> = None;
     let mut failures = 0;
     let mut token_in_use: Option<String> = None;
@@ -817,6 +821,8 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
     // Requests that read or write the database (profiles, friends, blocks,
     // reports…): plenty for a person, far too few to wear the database down.
     let mut query_bucket = Bucket::new(30.0, 2.0);
+    // Status messages (everyone in the lounge sees each change).
+    let mut status_bucket = Bucket::new(4.0, 1.0 / 15.0);
     loop {
         let next = tokio::select! {
             m = tokio::time::timeout(IDLE_TIMEOUT, stream.next()) => m,
@@ -843,10 +849,11 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
         };
         if !hello {
             match msg {
-                ClientMsg::Hello { version }
-                    if (OLDEST_PROTOCOL_VERSION..=PROTOCOL_VERSION).contains(&version) =>
+                ClientMsg::Hello { version: v }
+                    if (OLDEST_PROTOCOL_VERSION..=PROTOCOL_VERSION).contains(&v) =>
                 {
-                    hello = true
+                    hello = true;
+                    version = v;
                 }
                 ClientMsg::Hello { .. } => {
                     send(ServerMsg::AuthError {
@@ -896,7 +903,8 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                                 token.clone(),
                                 ip_text.clone(),
                                 blocked,
-                            )
+                            );
+                            l.set_protocol(&row.username, version);
                         });
                         if !guest {
                             token_in_use = Some(token);
@@ -907,6 +915,7 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                                 s.check_achievements(&r).await;
                                 account::signed_in(&s, &r).await;
                                 shop::push_wallet(&s, &r).await;
+                                social::signed_in(&s, &r).await;
                             });
                             if let Ok(friends) = server.store.friends(row.id).await
                                 && friends.iter().any(|(_, st)| *st == FriendState::Incoming)
@@ -982,6 +991,27 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                 }
             }
             ClientMsg::Missions => send(missions::message(&server, &me).await),
+            // Someone else's note on the "looking for a game" board: staff only.
+            ClientMsg::RemoveSeek { username }
+                if !username.is_empty() && !username.eq_ignore_ascii_case(&me.username) =>
+            {
+                social::handle(&server, &me, ClientMsg::RemoveSeek { username }, &send).await;
+            }
+            msg @ (ClientMsg::SetStatusMessage { .. }
+            | ClientMsg::ClearStatusMessage { .. }
+            | ClientMsg::RecentOpponents
+            | ClientMsg::Gifts
+            | ClientMsg::GiftsSeen { .. }
+            | ClientMsg::ThankGift { .. }) => {
+                // A few status changes a minute at most.
+                if matches!(msg, ClientMsg::SetStatusMessage { .. }) && !status_bucket.take() {
+                    send(ServerMsg::Error { message: "Slow down a little.".into() });
+                    continue;
+                }
+                if let Some(fresh) = social::handle(&server, &me, msg, &send).await {
+                    user = Some((fresh, guest));
+                }
+            }
             ClientMsg::Replays => {
                 let vip =
                     shop::is_vip(&server.store.wallet(me.id).await.unwrap_or_default(), now());
@@ -1191,6 +1221,12 @@ fn is_query_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::DeleteAccount { .. }
             | ClientMsg::Replays
             | ClientMsg::Replay { .. }
+            | ClientMsg::SetStatusMessage { .. }
+            | ClientMsg::ClearStatusMessage { .. }
+            | ClientMsg::RecentOpponents
+            | ClientMsg::Gifts
+            | ClientMsg::GiftsSeen { .. }
+            | ClientMsg::ThankGift { .. }
     )
 }
 
@@ -1222,6 +1258,12 @@ fn is_account_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::Missions
             | ClientMsg::Replay { .. }
             | ClientMsg::CreateInviteCode { .. }
+            | ClientMsg::SetStatusMessage { .. }
+            | ClientMsg::ClearStatusMessage { .. }
+            | ClientMsg::RecentOpponents
+            | ClientMsg::Gifts
+            | ClientMsg::GiftsSeen { .. }
+            | ClientMsg::ThankGift { .. }
     )
 }
 

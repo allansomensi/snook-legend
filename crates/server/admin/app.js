@@ -145,6 +145,27 @@ const views = {
         },
       }, "Pin to the board")), notes);
     loadNotes().catch((e) => toast(e.message));
+    // Players' notes on the "looking for a game" board (up while they are online).
+    const seeks = el("div", {});
+    const loadSeeks = async () => {
+      const d = await api("/seeks");
+      const rows = d.notes.map((n) => el("tr", {},
+        el("td", {}, el("a", { href: "#", onclick: (e) => { e.preventDefault(); showUser(n.username); } }, n.username)),
+        el("td", {}, n.text || el("span", { class: "muted" }, "(no message)")),
+        el("td", {}, n.rated ? "rated" : "casual"), el("td", {}, ago(n.at)), el("td", {}, fmtDate(n.expires_at)),
+        el("td", {}, el("button", {
+          class: "danger", onclick: async () => {
+            try { await api("/seeks/" + encodeURIComponent(n.username), { method: "DELETE" }); toast("Removed."); loadSeeks(); }
+            catch (e) { toast(e.message); }
+          },
+        }, "Remove"))));
+      seeks.replaceChildren(rows.length
+        ? table(["Player", "Note", "Game", "Posted", "Until", ""], rows)
+        : el("p", { class: "muted" }, "Nobody is looking for a game right now."));
+    };
+    box.append(el("h2", {}, "Looking for a game"), el("div", { class: "actions" },
+      el("button", { onclick: () => loadSeeks().catch((e) => toast(e.message)) }, "Refresh")), seeks);
+    loadSeeks().catch((e) => toast(e.message));
     if (me && me.role === "admin") {
       box.append(el("h2", {}, "Lounge chat"), el("div", { class: "actions" }, el("button", {
         class: "danger", onclick: async () => {
@@ -399,6 +420,8 @@ async function showUser(name) {
       u.deleted_at ? el("p", { class: "error" }, "Account deleted " + fmtDate(u.deleted_at) + " (anonymised).") : null,
       banned ? el("p", { class: "error" }, "Banned " + until(u.banned_until) + (u.ban_reason ? ": " + u.ban_reason : "")) : null,
       muted ? el("p", { class: "error" }, "Muted until " + fmtDate(u.muted_until)) : null,
+      u.status_message ? el("p", {}, "Status message: ", el("i", {}, u.status_message), " ",
+        el("button", { onclick: () => act(u.username, "clear-status") }, "Clear status")) : null,
       el("div", { class: "actions" },
         banned ? el("button", { onclick: () => act(u.username, "unban") }, "Unban") : el("button", { class: "danger", onclick: () => banDialog(u.username) }, "Ban…"),
         muted ? el("button", { onclick: () => act(u.username, "unmute") }, "Unmute") : el("button", { onclick: () => muteDialog(u.username) }, "Mute…"),

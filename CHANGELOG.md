@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.3.0 (protocol 14)
 
 The game now plays on a regulation 9-foot tournament table with heavier,
 more realistic balls and a new break rule: every shot plays out

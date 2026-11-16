@@ -3,6 +3,38 @@
 # un destacado, y las líneas siguientes son su texto. Mismas versiones y
 # mismo número de destacados en todos los idiomas.
 
+## 0.3.0
+
+### Mesa oficial de 9 pies
+La mesa ahora tiene tamaño de torneo (2,54 × 1,27 m), con bolas, troneras, bandas y taco a medidas oficiales. Las bolas pesan más y rebotan menos, como las de verdad.
+
+### Nueva regla del saque
+En el saque, la primera bola que entres define tu grupo: lisas o rayadas. Si el saque tiene falta, la mesa sigue abierta.
+
+### Salones, mesas y tacos nuevos
+Cuatro salones y cuatro mesas nuevos, y todos los anteriores renovados. Tacos premium muy distintos entre sí. En Ultra, suelos que reflejan el salón.
+
+### Desafío diario
+Una posición nueva cada día, la misma para todos, con clasificación del día: tres intentos para entrar todas las bolas que puedas.
+
+### Ejercicios con estrellas
+Siete ejercicios de tronera, efecto, banda y salida de snooker, con hasta tres estrellas cada uno, clasificación y una nota de desafío que muestra tu nivel.
+
+### Nivel de la cuenta
+Gana experiencia en cada partida, ganes o pierdas, y en los ejercicios, el desafío diario y los logros. Tu nivel aparece en tu perfil.
+
+### El Circuito
+La antigua escalera ahora es el Circuito: diez etapas, un rival en cada una. Los rivales tienen retratos nuevos y hablan durante la partida.
+
+### Juego limpio
+Abandonar una partida cuesta más que perderla. La mira completa queda solo para partidas libres contra la computadora y la práctica: nunca en línea, en el Circuito, el desafío ni los ejercicios.
+
+### Tu perfil
+Vitrina de trofeos y estadísticas de cada taco: partidas, victorias y bolas entradas con él. Ahora puedes cambiar tu nombre hasta tres veces.
+
+### En el salón
+Estado "ausente", frases rápidas traducidas al idioma del rival y una mesa de práctica mientras sigue la búsqueda de rival.
+
 ## 0.2.0
 
 ### Diez rivales con personalidad

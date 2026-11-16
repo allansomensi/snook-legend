@@ -3,6 +3,38 @@
 # destaque, e as linhas seguintes são o texto dele. Mesmas versões e mesmo
 # número de destaques em todas as línguas.
 
+## 0.3.0
+
+### Mesa oficial de 9 pés
+A mesa agora tem o tamanho de torneio (2,54 × 1,27 m), com bolas, caçapas, tabelas e taco nas medidas oficiais. As bolas ficaram mais pesadas e quicam menos, como as de verdade.
+
+### Nova regra da saída
+Na saída, a primeira bola que você encaçapar define o seu grupo: lisas ou listradas. Se a saída tiver falta, a mesa continua aberta.
+
+### Salões, mesas e tacos novos
+Quatro salões e quatro mesas novos, e todos os antigos revistos. Tacos premium com desenhos bem diferentes entre si. No Ultra, pisos que refletem o salão.
+
+### Desafio diário
+Uma posição nova por dia, a mesma para todos, com ranking do dia: três tentativas para encaçapar o máximo de bolas.
+
+### Treinos com estrelas
+Sete exercícios de caçapa, efeito, tabela e saída de sinuca, com até três estrelas cada, ranking e uma nota de desafio que mostra o seu nível.
+
+### Nível da conta
+Ganhe experiência em cada partida, ganhando ou perdendo, e nos treinos, no desafio diário e nas conquistas. O nível aparece no seu perfil.
+
+### O Circuito
+A antiga escada agora é o Circuito: dez etapas, um adversário em cada. Os adversários ganharam retratos novos e falam durante a partida.
+
+### Jogo limpo
+Abandonar uma partida custa mais do que perder. A mira completa fica só para partidas livres contra o computador e o treino: nunca online, no Circuito, no desafio ou nos treinos.
+
+### Seu perfil
+Estante de troféus e estatísticas de cada taco: partidas, vitórias e bolas encaçapadas com ele. Agora você pode trocar de nome até três vezes.
+
+### No salão
+Status "ausente", frases rápidas traduzidas para a língua do adversário e uma mesa de treino enquanto a busca por adversário continua.
+
 ## 0.2.0
 
 ### Dez adversários com personalidade

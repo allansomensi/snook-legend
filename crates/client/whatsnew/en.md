@@ -3,6 +3,38 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.3.0
+
+### A regulation 9-foot table
+The table is now tournament size (100" × 50"), with the balls, pockets, cushions and cue to official measurements. The balls are heavier and bounce less, like real ones.
+
+### A new break rule
+On the break, the first ball you pocket sets your group: solids or stripes. A foul on the break leaves the table open.
+
+### New halls, tables and cues
+Four new halls and four new tables, and every old one reworked. Premium cues that look nothing alike. On Ultra, floors that reflect the hall.
+
+### Daily challenge
+A new position every day, the same for everyone, with a ranking of the day: three attempts to make as many balls as you can.
+
+### Drills with stars
+Seven drills on potting, spin, banks and escaping snookers, up to three stars each, with rankings and a challenge rating that shows your level.
+
+### Account level
+Earn experience in every game, won or lost, and in drills, the daily challenge and achievements. Your level shows on your profile.
+
+### The Tour
+The old ladder is now the Tour: ten stages, one opponent each. The opponents have new portraits and talk during the game.
+
+### Fair play
+Leaving a game costs more than losing it. The full aiming guide is for free games against the computer and practice only: never online, in the Tour, the daily challenge or drills.
+
+### Your profile
+A trophy shelf and statistics for each cue: games, wins and balls made with it. You can now change your username up to three times.
+
+### In the lounge
+An "away" status, quick phrases translated into your opponent's language and a practice table while the search for an opponent goes on.
+
 ## 0.2.0
 
 ### Ten opponents with personality

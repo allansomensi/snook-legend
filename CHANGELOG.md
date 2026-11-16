@@ -2,8 +2,7 @@
 
 ## Unreleased
 
-Migration 0011 runs on start-up. Older games keep working: they never ask
-for the new messages and ignore the new field of the shop's offers.
+Migration 0013 runs on start-up.
 
 ### Microsoft Store
 - Coin packs can be bought in the Microsoft Store version, through the
@@ -21,6 +20,213 @@ for the new messages and ignore the new field of the shop's offers.
   refused or stuck, with Microsoft's order ids) and counts Store sales in
   the metrics.
 - The privacy policy says what is kept about Store purchases.
+### Fixes
+- A game newer than the server no longer says "a new version of the game is
+  out" (which sent players already up to date to the Store): it checks the
+  server's version and says the server is still being updated, with a Retry
+  button. Servers from this version on say so themselves.
+
+### Releases
+- The **Server image** workflow puts the new server live on Render by itself
+  when the repository secret `RENDER_DEPLOY_HOOK` holds the service's Deploy
+  Hook (see the deploy guide); without it, it reminds you to deploy by hand.
+
+## 0.3.0 (protocol 14)
+
+The game now plays on a regulation 9-foot tournament table with heavier,
+more realistic balls and a new break rule: every shot plays out
+differently, so older games (0.2.0 and before) must update to play online.
+
+### The table and the balls
+- A 9-foot tournament table to the WPA's specifications: a 100" × 50"
+  playing surface (it was a 7-foot bar table), 4 1/2" corner and 5" side
+  pockets, 2 1/4" balls of 6 oz, a 58" cue with a 13 mm tip.
+- Heavier balls, as players asked ("they felt hollow"): measured values
+  for a tournament table (the cloth takes the pace off a little sooner, the
+  balls give back 93% of a hit, the cushions about 70%), and a power bar
+  that keeps most of its length for ordinary shots: half the bar is a firm
+  shot of about 2.4 m/s for the ball (it was almost 4), the top still a
+  full break.
+- The thinnest grazes at full power always count as contact (a rare case
+  where two balls touched within one step of the simulation went unseen).
+
+### Rules
+- The break decides the groups: the first ball made on a legal break is
+  the breaker's group (solids or stripes), and they shoot again. A foul on
+  the break leaves the table open. (Until now the table stayed open after
+  the break, as in WPA rules, so the breaker could pick the easier group.)
+
+### Halls and tables
+- Four new halls in the shop: the Mountain lodge (log walls, a fieldstone
+  chimney with a fire, tall windows on snowy peaks, 6500 coins), the Neon
+  arcade (a black mirror floor, neon tubes and signs, arcade cabinets and
+  pinball machines, 7000), the Art deco lounge (a black and white marble
+  floor, emerald silk, gilt pilasters, sunburst mirrors, velvet banquettes,
+  8000) and the Skyline penthouse (glass walls on the city at night, pale
+  marble, an oak slat wall, VIP). Each has its own lamp over the table and
+  its own picture in the shop.
+- Four new tables: Steel & oak (reclaimed oak on a braced black steel
+  frame, a riveted apron, 5500), Tournament (charcoal rails, block legs,
+  chrome, 7000), Victorian walnut (figured walnut on barley-twist legs,
+  leather pockets, 8000) and Ivory deco (ivory lacquer and gold on fluted
+  columns, 8500).
+- Every hall is lit better: the table, the bar, sofas and chimneys cast
+  shadows from every light of the room (soft ones on Ultra, which also
+  bakes the light on a finer grid and darkens what is close to them),
+  varnish, brass, glass, leather and polished floors catch the lamps as the
+  camera moves (High and Ultra), and the lights glow with soft halos and a
+  faint haze under the lamp over the table (High and Ultra).
+
+### Graphics
+- Ultra: polished floors (the pool hall's planks, the club's parquet, the
+  loft's concrete, the new halls' marble and epoxy) reflect the room, the
+  table and the balls, fading with height like a real floor; the textures
+  of the halls and tables are drawn at twice the resolution.
+- The balls, the rails and the castings reflect the colours of the hall
+  around them (a sunset, neon, warm wood) instead of one brown room.
+- Faster: the halls, the table, the balls and the cues stay on the
+  graphics card instead of being copied and sent again every frame (the
+  pool hall alone was 18 000 vertices a frame on Low, 39 000 on High,
+  62 000 on Ultra, plus the table and the balls); the meshes made every
+  frame (guides, shadows) no longer allocate per quad.
+- The lamps over the table, their light and their haze span the table's
+  length, whatever its size.
+- The balls are a little less glossy: a softer highlight from the lamps
+  and a fainter reflection of the room, closer to real resin balls.
+
+### Lounge
+- While "Play now" looks for an opponent, "Practise while you wait" opens a
+  table to yourself at once: shoot as you like, a new rack when one is
+  over; the game starts as soon as an opponent is found (the game against
+  the computer is still offered after half a minute).
+- Players in a game against the computer show it in the lounge ("playing
+  the computer", a purple dot) and can still be invited: the invitation
+  appears in the top right corner of their game, with Accept and Decline.
+  Accepting starts the online game; the game against the computer stays
+  saved ("Continue" in the menu). Older servers and games are unaffected
+  (the server says its protocol in its welcome, and the game only tells a
+  server that knows the message).
+- Players who haven't touched their game for ten minutes (a minimised
+  window included) show as "away" in the lounge, with a yellow dot.
+
+### Profile
+- An account level, separate from the rating, so playing always moves you
+  forward: experience for every online game played to the end (60 for a
+  win, 30 otherwise, plus 2 a ball), the daily challenge and each
+  achievement. The level shows on the menu's player card (with its bar)
+  and on the profile; a level up is announced. Existing accounts start
+  from the games they already played (migration 0011).
+- Cue statistics: the cue card counts the online games played with the cue,
+  how many were won and the balls made with it (migration 0011; wins so far
+  count as games).
+- A trophy shelf on the profile (the Trophies tab): tournaments won (with
+  how many played), the computer tour and the days topped in the daily
+  challenge, newest first, with the date.
+- Change your username in the account dialog, up to three times in all
+  (the dialog shows how many changes are left). The same rules as a new
+  account, never someone else's name in any letter case, and not during a
+  game, at a table, in the queue or in a tournament. You stay signed in;
+  friends, games and items follow the account (migration 0012).
+
+### Against the computer
+- The ladder is now the **Tour**: ten stages, one opponent each, the same
+  exclusive cue for winning it all.
+- Marta "the Wall" plays the part again on the bigger table: she goes for
+  a pot only when it's on, and otherwise plays safe. (A careful player no
+  longer counts on a missed pot to leave nothing, only on a safety played
+  on purpose.)
+- The opponents talk: a line now and then in a speech bubble under their
+  card, about your shots and their own, in each one's voice (Bruno wants
+  more power, Kenji quotes physics, Rosa "hardly ever plays"…), in every
+  language of the game. They greet you at the start and always have a word
+  at the end; in between they speak up only some of the time.
+- New portraits for the ten opponents, each with a character of their own
+  (Leo's crooked cap and plaster, Otto's moustache and flat cap, Rosa's
+  wink, Viktor's medal and bow tie...), and a friendly robot for the
+  classic levels.
+
+### Daily challenge
+- A new tab on the "Against the computer" screen: the same table for
+  everyone, all day (UTC), with five to seven balls. Make as many as you can
+  in one visit; a miss or a foul ends the attempt. Three attempts a day,
+  the day's table (ties go to who made it first), 25 coins for clearing the
+  table and a trophy for the day's winner. The position stays secret until
+  an attempt starts, and the server plays the strokes again to count the
+  balls; the full aiming guide is never shown (it's ranked).
+
+### Chat at the table
+- Quick phrases (a button by the chat and the reactions): "Nice shot!",
+  "Good game!", "Rematch?" and more. Each player reads them in their own
+  language, whatever the other one speaks (they travel in English, so
+  older games see them in English).
+
+### Drills
+- A new tab on the "Against the computer" screen: seven short exercises on
+  fixed positions, the same for everyone (a long straight pot, a cut, draw
+  back into a circle, follow through, a bank, escaping a snooker, ten pots
+  in a row). Each earns up to three stars and has its own table of the
+  best scores; the stars and scores of every drill make the player's
+  challenge rating, with its own table. The pocket to use and the circle
+  to stop the cue ball in are marked on the cloth. The server plays the
+  strokes again to count them; new stars give experience.
+
+### Watching
+- Spectators see how hard the shot being lined up is, once the shooter's
+  aim settles: easy to very hard, the chance a good player makes it
+  (24 slightly imperfect strokes simulated on a worker thread), the cut and
+  the cushions.
+
+### Fair play
+- Leaving a game in progress (closing the game, or losing the connection
+  for good) costs more than losing it: 10 extra rating points in a rated
+  game, and a wait before the next online game (2 minutes, then 10, then
+  30 for each game left within a day). The player who stayed now gets the
+  winner's coins. Resigning is never punished.
+- The full aiming guide can never show in a game against a person over the
+  network, rated or casual (nor when watching): the guide drawn is checked
+  at the table itself, whatever the setting says. Nor in the Tour, where
+  a cue is at stake, the daily challenge or the drills: the full guide is
+  for free games against the computer and practice.
+
+### Cues
+- Six new cues that look like nothing else: Phoenix (flames), Carrara
+  marble, Dragon scale, Chrome, Galaxy (a starry sky) and the VIP Ruby
+  throne (cut stones); the Crown, Obsidian gold and Legend cues got their
+  own patterns too. The finest cues have a carbon shaft and carry their
+  pattern on the butt sleeve.
+- The shop finally shows each cue's pattern (it only showed its colours):
+  a crisp picture of the cue, lit like varnished wood, the same pattern as
+  at the table.
+
+### Staff panel
+- Metrics: retention after 30 days beside 1 and 7 (each over the last 30
+  days of sign-ups that reached that day), a table of retention by week of
+  sign-up, players and games by day (30 days) and games per day.
+
+### At the table
+- The power bar marks the power of your last shot (each player's own), to
+  repeat it or to judge the next one from it; the mouse wheel over the bar
+  sets the power one percent at a time.
+- Free practice: take the last shot back (a button, or Z) to try it again.
+- The players' cards show the balls each one has made (they showed the
+  balls left), the group's name until the first one drops.
+- Offline, the game's history opens from a small icon in the top bar (the
+  "History" button over the table is gone).
+- The tournament table at its regulation height (the rails' top at 30"),
+  the cameras framing the bigger table, and the lamp over the table out of
+  the way of a camera above it (its light stays).
+- The power bar starts the break at 90%: four balls must reach a cushion,
+  and half the bar no longer does it on the heavier table.
+
+### Fixes
+- Letting go of the power bar over the Shoot button no longer shoots (at
+  full power, as the drag past the bar's end had set it). Every button now
+  needs the press to start on it: a drag (the power, the spin, the aim)
+  that ends over a button never clicks it.
+
+### Releases
+- The Microsoft Store workflow only builds the MSIX (the `msix` artifact);
+  the package goes to the Store by hand in Partner Center.
 
 ## 0.2.0 (protocol 13)
 

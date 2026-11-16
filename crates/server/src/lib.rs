@@ -16,6 +16,8 @@ pub mod admin;
 pub mod analysis;
 pub mod computer;
 pub mod correspondence;
+pub mod daily;
+pub mod drills;
 pub mod lan;
 pub mod limits;
 pub mod lounge;
@@ -246,6 +248,12 @@ impl Server {
         self.config.admins.iter().any(|a| a.eq_ignore_ascii_case(name))
     }
 
+    /// Names nobody may take by changing theirs: the reserved ones and the
+    /// configured administrators' (signing in with one makes an admin).
+    pub(crate) fn is_reserved_name(&self, name: &str) -> bool {
+        RESERVED_NAMES.iter().any(|r| r.eq_ignore_ascii_case(name)) || self.is_admin_name(name)
+    }
+
     /// The client's address: from the first configured proxy header that is
     /// present (e.g. `cf-connecting-ip,x-forwarded-for`), else the peer.
     pub fn client_ip(&self, peer: SocketAddr, headers: &HeaderMap) -> IpAddr {
@@ -331,12 +339,14 @@ impl Server {
             Ok(new) => {
                 let all = self.store.achievements(user.id).await.unwrap_or_default();
                 let codes: Vec<String> = all.into_iter().map(|(code, _)| code).collect();
+                let xp = new.len() as u32 * snookered_proto::xp::ACHIEVEMENT;
                 self.with(|l| {
                     for code in new {
                         l.notify(&user.username, ServerMsg::AchievementUnlocked { code });
                     }
                     l.set_achievements(&user.username, codes);
                 });
+                account::award_xp(self, user, xp).await;
             }
             Err(e) => tracing::error!("achievements for {}: {e}", user.username),
         }
@@ -471,26 +481,34 @@ async fn run_effect(server: &Arc<Server>, effect: Effect) {
                     // The shot analysis replays the game: off the effect queue.
                     let (s, r) = (server.clone(), record.clone());
                     tokio::spawn(async move { analysis::after_match(&s, &r).await });
-                    // Coins for a rated game played to the end (not a walkover,
-                    // not two friends farming each other).
-                    let pays = record.rated
-                        && !farmed
-                        && record.abandoned.is_none()
-                        && record.shots >= account::MIN_SHOTS_FOR_COINS;
-                    // A game won online counts for the winner's cue, casual
-                    // too (not a walkover, nor two friends farming each other).
-                    let cue_win = !farmed
+                    // Coins for a rated game played (not two friends farming
+                    // each other); left half way, only the one who stayed
+                    // is paid.
+                    let pays =
+                        record.rated && !farmed && record.shots >= account::MIN_SHOTS_FOR_COINS;
+                    // A game played online counts for each player's cue (a
+                    // win for the winner's), casual too (not a walkover, nor
+                    // two friends farming each other).
+                    let cue_game = !farmed
                         && record.shots >= account::MIN_SHOTS_FOR_COINS
                         && !server.with(|l| l.rules.lan);
                     for (seat, user) in users.into_iter().enumerate() {
                         let Some(user) = user else { continue };
                         server.with(|l| l.refresh_user(user.clone()));
-                        if cue_win && record.winner == seat {
-                            shop::count_cue_win(server, &user).await;
+                        if cue_game {
+                            let won = record.winner == seat;
+                            let potted = record.stats[seat].balls;
+                            shop::count_cue_game(server, &user, won, potted).await;
+                            // Experience for every game played to the end
+                            // (not for the one who left it).
+                            if record.abandoned != Some(seat) {
+                                let xp = snookered_proto::xp::for_game(won, potted);
+                                account::award_xp(server, &user, xp).await;
+                            }
                         }
                         let rated_win = record.rated && record.winner == seat;
                         server.check_achievements_after(&user, rated_win).await;
-                        if pays {
+                        if pays && record.abandoned != Some(seat) {
                             account::game_coins(server, &user, record.winner == seat).await;
                             let won = record.winner == seat;
                             missions::after_game(server, &user, won, &record.stats[seat]).await;
@@ -812,6 +830,8 @@ async fn authenticate(server: &Arc<Server>, msg: ClientMsg, ip: &str) -> Auth {
                 deleted_at: None,
                 abandons: 0,
                 status_message: String::new(),
+                xp: 0,
+                name_changes: 0,
             };
             Auth::Ok { user: Box::new(user), token: String::new(), guest: true }
         }
@@ -889,6 +909,15 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                 {
                     hello = true;
                     version = v;
+                }
+                // A game newer than the server: the server hasn't been
+                // updated yet (updating the game can't help).
+                ClientMsg::Hello { version: v } if v > PROTOCOL_VERSION => {
+                    send(ServerMsg::AuthError {
+                        reason: "The server is still being updated to the new version. Try again in a few minutes."
+                            .into(),
+                    });
+                    break;
                 }
                 ClientMsg::Hello { .. } => {
                     send(ServerMsg::AuthError {
@@ -1034,10 +1063,22 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                     break;
                 }
             }
+            ClientMsg::ChangeUsername { username } => {
+                if let Some(fresh) = account::change_username(&server, &me, &username, &send).await
+                {
+                    // The lounge knows players by name: sign in again under
+                    // the new one, on this same connection.
+                    let token = token_in_use.clone().unwrap_or_default();
+                    server.with(|l| l.renamed(&me.username, fresh.clone(), token));
+                    user = Some((fresh, guest));
+                }
+            }
             ClientMsg::Missions => send(missions::message(&server, &me).await),
             msg if correspondence::is_msg(&msg) => {
                 correspondence::handle(&server, &me, msg, &send).await
             }
+            msg if daily::is_msg(&msg) => daily::handle(&server, &me, msg, &send).await,
+            msg if drills::is_msg(&msg) => drills::handle(&server, &me, msg, &send).await,
             // Seconds of simulation each: answered on their own tasks.
             ClientMsg::LadderClaim { replay } => {
                 computer::spawn_claim(server.clone(), me.clone(), replay, tx.clone())
@@ -1287,6 +1328,7 @@ fn is_query_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::ChangePassword { .. }
             | ClientMsg::SetRecoveryEmail { .. }
             | ClientMsg::DeleteAccount { .. }
+            | ClientMsg::ChangeUsername { .. }
             | ClientMsg::Replays
             | ClientMsg::Replay { .. }
             | ClientMsg::CorrList
@@ -1298,6 +1340,11 @@ fn is_query_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::CorrResign { .. }
             | ClientMsg::LadderClaim { .. }
             | ClientMsg::GhostStyle { .. }
+            | ClientMsg::Daily
+            | ClientMsg::DailyStart
+            | ClientMsg::DailySubmit { .. }
+            | ClientMsg::Drills
+            | ClientMsg::DrillSubmit { .. }
             | ClientMsg::SetStatusMessage { .. }
             | ClientMsg::ClearStatusMessage { .. }
             | ClientMsg::RecentOpponents
@@ -1312,6 +1359,11 @@ fn is_account_msg(msg: &ClientMsg) -> bool {
         msg,
         ClientMsg::LadderClaim { .. }
             | ClientMsg::GhostStyle { .. }
+            | ClientMsg::Daily
+            | ClientMsg::DailyStart
+            | ClientMsg::DailySubmit { .. }
+            | ClientMsg::Drills
+            | ClientMsg::DrillSubmit { .. }
             | ClientMsg::SetCountry { .. }
             | ClientMsg::Friends
             | ClientMsg::FriendRequest { .. }
@@ -1335,6 +1387,7 @@ fn is_account_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::ChangePassword { .. }
             | ClientMsg::SetRecoveryEmail { .. }
             | ClientMsg::DeleteAccount { .. }
+            | ClientMsg::ChangeUsername { .. }
             | ClientMsg::Replays
             | ClientMsg::Missions
             | ClientMsg::Replay { .. }
@@ -1579,6 +1632,8 @@ async fn profile_msg(server: &Server, viewer: Option<&User>, name: &str) -> Opti
                     abandon_rate: 0,
                     analysis: None,
                     cue_wins: Vec::new(),
+                    cue_stats: Vec::new(),
+                    trophies: Vec::new(),
                 }),
             });
         }
@@ -1592,10 +1647,11 @@ async fn profile_msg(server: &Server, viewer: Option<&User>, name: &str) -> Opti
         server.store.rank_of(user.id),
         server.store.friend_count(user.id),
     );
-    let (rating_history, career, wallet) = tokio::join!(
+    let (rating_history, career, wallet, trophies) = tokio::join!(
         server.store.rating_history(user.id, 100),
         server.store.career(user.id),
         server.store.wallet(user.id),
+        trophies_of(server, user.id),
     );
     let wallet = wallet.unwrap_or_default();
     let played = user.games + user.casual_games;
@@ -1671,8 +1727,47 @@ async fn profile_msg(server: &Server, viewer: Option<&User>, name: &str) -> Opti
                 cues.sort_by(|a, b| b.1.cmp(&a.1).then_with(|| a.0.cmp(&b.0)));
                 cues
             },
+            cue_stats: wallet
+                .cue_games
+                .iter()
+                .map(|(code, &(games, potted))| snookered_proto::CueStats {
+                    code: code.clone(),
+                    games,
+                    wins: wallet.cue_wins.get(code).copied().unwrap_or(0),
+                    potted,
+                })
+                .collect(),
+            trophies,
         }),
     })
+}
+
+/// A player's trophies, newest first: tournaments won, the ladder and the
+/// days they topped the daily challenge.
+async fn trophies_of(server: &Server, user_id: i64) -> Vec<snookered_proto::Trophy> {
+    use snookered_proto::{Trophy, TrophyKind};
+    let (tournaments, ladder, days) = tokio::join!(
+        server.store.tournaments_won(user_id, 50),
+        server.store.ladder_claim(user_id),
+        server.store.daily_wins(user_id, snookered_proto::daily::day_of(now())),
+    );
+    let mut trophies: Vec<Trophy> = tournaments
+        .unwrap_or_default()
+        .into_iter()
+        .map(|(name, players, at)| Trophy { kind: TrophyKind::Tournament, name, players, at })
+        .collect();
+    if let Ok(Some(at)) = ladder {
+        trophies.push(Trophy { kind: TrophyKind::Ladder, name: String::new(), players: 0, at });
+    }
+    // A day topped: dated at the day's end.
+    trophies.extend(days.unwrap_or_default().into_iter().map(|(day, players)| Trophy {
+        kind: TrophyKind::DailyChallenge,
+        name: String::new(),
+        players,
+        at: (day + 1) * 86_400 - 1,
+    }));
+    trophies.sort_by_key(|t| std::cmp::Reverse(t.at));
+    trophies
 }
 
 fn now_millis() -> u128 {

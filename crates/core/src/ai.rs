@@ -367,6 +367,8 @@ struct Scored {
     shot: Shot,
     called: Option<PocketId>,
     bank: bool,
+    /// Played to leave the opponent nothing, not to pot.
+    safety: bool,
 }
 
 /// Chooses the next action of a computer player of this level. `seed`
@@ -410,7 +412,7 @@ pub fn decide_with(game: &EightBallGame, player: &AiPlayer, seed: u64) -> AiDeci
         let mut best = f64::MIN;
         for &speed in &prof.coarse_speeds {
             let shot = Shot::new(c.yaw, speed).with_elevation(prof.elevation);
-            best = best.max(evaluate(&g, &shot, c.called, c.bank, me, &prof));
+            best = best.max(evaluate(&g, &shot, c.called, c.bank, false, me, &prof));
         }
         coarse.push((best, *c));
     }
@@ -425,8 +427,8 @@ pub fn decide_with(game: &EightBallGame, player: &AiPlayer, seed: u64) -> AiDeci
                 let shot = Shot::new(c.yaw, speed)
                     .with_tip(DVec2::new(tx, ty))
                     .with_elevation(prof.elevation);
-                let score = evaluate(&g, &shot, c.called, c.bank, me, &prof);
-                options.push(Scored { score, shot, called: c.called, bank: c.bank });
+                let score = evaluate(&g, &shot, c.called, c.bank, false, me, &prof);
+                options.push(Scored { score, shot, called: c.called, bank: c.bank, safety: false });
             }
         }
     }
@@ -497,7 +499,7 @@ fn robust_rescore(
             let sign = if k % 2 == 0 { 1.0 } else { -1.0 };
             s.yaw += sign * aim * (0.6 + 0.4 * rng.next_f64());
             s.speed *= 1.0 + rng.gaussian() * prof.speed_noise * 1.5;
-            total += evaluate(g, &s, o.called, o.bank, me, prof);
+            total += evaluate(g, &s, o.called, o.bank, o.safety, me, prof);
         }
         o.score = total / (samples + 1) as f64;
     }
@@ -515,6 +517,7 @@ fn evaluate(
     shot: &Shot,
     called: Option<PocketId>,
     bank: bool,
+    safety: bool,
     me: usize,
     prof: &Profile,
 ) -> f64 {
@@ -537,8 +540,12 @@ fn evaluate(
             score += prof.bank_bonus;
         }
     } else if !report.is_foul() && prof.plays_safe {
-        // Leave the opponent nothing easy.
-        score += 400.0 * prof.safety_value * (1.0 - opponent_quality(&trial));
+        // Leave the opponent nothing easy. A player's taste for safeties
+        // rewards the ones played on purpose: a pot that misses and happens
+        // to leave little counts no more than for anyone else, or a careful
+        // player would rather gamble on pots than play safe.
+        let value = if safety { prof.safety_value } else { prof.safety_value.min(1.0) };
+        score += 400.0 * value * (1.0 - opponent_quality(&trial));
     }
     if prof.power_bias != 0.0 {
         score += prof.power_bias * (shot.speed - 2.5);
@@ -717,8 +724,8 @@ fn safety_options(g: &EightBallGame, me: usize, prof: &Profile) -> Vec<Scored> {
             for &speed in speeds {
                 let shot =
                     Shot::new(math::atan2(aim.y, aim.x), speed).with_elevation(prof.elevation);
-                let score = evaluate(g, &shot, called, false, me, prof);
-                out.push(Scored { score, shot, called, bank: false });
+                let score = evaluate(g, &shot, called, false, true, me, prof);
+                out.push(Scored { score, shot, called, bank: false, safety: true });
             }
         }
     }

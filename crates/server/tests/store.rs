@@ -9,7 +9,7 @@ use snookered_proto::Role;
 use snookered_proto::replay::{Replay, Stroke};
 use snookered_server::store::{
     BuyOutcome, FriendOutcome, FriendState, LiveMatch, MatchRecord, NewNote, NewReport, NewUser,
-    Payment, SessionKind, Store, TournamentRecord, day_of,
+    Payment, Rename, SessionKind, Store, TournamentRecord, day_of,
 };
 
 fn new_user<'a>(name: &'a str) -> NewUser<'a> {
@@ -332,6 +332,66 @@ async fn exercise(store: Store) {
         .unwrap();
     let ua = store.user_by_id(a.id).await.unwrap().unwrap();
     assert_eq!((ua.tournaments_played, ua.tournaments_won), (1, 1));
+    // The daily challenge.
+    let d = 20_000;
+    assert_eq!(store.daily_seed(d, 42).await.unwrap(), 42);
+    assert_eq!(store.daily_seed(d, 43).await.unwrap(), 42, "drawn once");
+    assert_eq!(
+        store.daily_finish(a.id, d, t, 3, false, 60).await.unwrap(),
+        snookered_server::store::DailyFinish::NotStarted
+    );
+    assert!(store.daily_start(a.id, d, t, 2).await.unwrap());
+    assert_eq!(store.daily_row(a.id, d).await.unwrap().started_at, t);
+    assert_eq!(
+        store.daily_finish(a.id, d, t + 61, 3, false, 60).await.unwrap(),
+        snookered_server::store::DailyFinish::NotStarted,
+        "too late"
+    );
+    assert!(store.daily_start(a.id, d, t + 100, 2).await.unwrap());
+    assert!(!store.daily_start(a.id, d, t + 101, 2).await.unwrap(), "two attempts");
+    assert_eq!(
+        store.daily_finish(a.id, d, t + 110, 4, false, 60).await.unwrap(),
+        snookered_server::store::DailyFinish::Counted { improved: true, first_clear: false }
+    );
+    assert!(store.daily_start(b.id, d, t, 2).await.unwrap());
+    assert_eq!(
+        store.daily_finish(b.id, d, t + 5, 4, true, 60).await.unwrap(),
+        snookered_server::store::DailyFinish::Counted { improved: true, first_clear: true }
+    );
+    let (board, players) = store.daily_board(d, 10).await.unwrap();
+    assert_eq!(players, 2);
+    // A tie: who made it first leads.
+    assert_eq!(
+        board.iter().map(|r| (r.user_id, r.balls)).collect::<Vec<_>>(),
+        [(b.id, 4), (a.id, 4)]
+    );
+    assert_eq!(store.daily_rank(a.id, d).await.unwrap(), Some(2));
+    assert_eq!(store.daily_rank(b.id, 999).await.unwrap(), None);
+    assert_eq!(store.daily_wins(b.id, d + 1).await.unwrap(), vec![(d, 2)]);
+    assert!(store.daily_wins(a.id, d + 1).await.unwrap().is_empty());
+    let row = store.daily_row(b.id, d).await.unwrap();
+    assert_eq!((row.attempts, row.started_at, row.best, row.cleared), (1, 0, Some(4), true));
+
+    // Drills: bests, tables and the challenge rating.
+    assert_eq!(store.drill_record(a.id, "cut", 2, t).await.unwrap(), None);
+    assert_eq!(store.drill_record(a.id, "cut", 1, t + 1).await.unwrap(), Some(2));
+    assert_eq!(store.drill_record(b.id, "cut", 2, t - 5).await.unwrap(), None);
+    assert_eq!(store.drill_bests(a.id).await.unwrap(), vec![("cut".to_string(), 2)]);
+    let board = store.drill_board("cut", 5).await.unwrap();
+    assert_eq!(board.iter().map(|r| r.score).collect::<Vec<_>>(), [2, 2]);
+    assert_eq!(board[0].username, "bob", "earlier first on a tie");
+    store.set_challenge_rating(a.id, 302, 3, t).await.unwrap();
+    store.set_challenge_rating(b.id, 202, 2, t).await.unwrap();
+    let (leaders, rank) = store.challenge_board(b.id, 5).await.unwrap();
+    assert_eq!(
+        (leaders[0].username.as_str(), leaders[0].score, leaders[0].stars),
+        ("Alice", 302, 3)
+    );
+    assert_eq!(rank, Some(2));
+
+    // The trophy shelf: the tournaments won, newest first.
+    assert_eq!(store.tournaments_won(a.id, 10).await.unwrap(), vec![("Cup".to_string(), 2, t)]);
+    assert!(store.tournaments_won(b.id, 10).await.unwrap().is_empty());
     store.set_country(a.id, "PT").await.unwrap();
     assert_eq!(store.user_by_id(a.id).await.unwrap().unwrap().country, "PT");
 
@@ -392,9 +452,58 @@ async fn exercise(store: Store) {
     assert!(!store.remove_board_note(first).await.unwrap());
 }
 
+/// Retention, on a store of its own (the accounts are created now).
+async fn retention(store: Store) {
+    let now = std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_secs()
+        as i64;
+    let a = store.create_user(&new_user("ret_a")).await.unwrap().unwrap();
+    let b = store.create_user(&new_user("ret_b")).await.unwrap().unwrap();
+    let d = day_of(a.created_at);
+    store.mark_active(a.id, d + 1).await.unwrap();
+    store.mark_active(b.id, d + 7).await.unwrap();
+    store.mark_active(a.id, d + 30).await.unwrap();
+    let day = 86_400;
+    // Two days later: one of the two came back the next day; day 7 hasn't come.
+    let m = store.metrics(now + 2 * day).await.unwrap();
+    assert_eq!((m.retention_d1, m.retention_d7, m.retention_d30), (50.0, 0.0, 0.0));
+    let week = m.cohorts.iter().find(|c| c.accounts > 0).expect("their week");
+    assert_eq!((week.accounts, week.d1, week.d7, week.d30), (2, Some(50.0), None, None));
+    assert_eq!(m.cohorts.len() as i64, snookered_server::store::COHORT_WEEKS);
+    // A month later: all three measured.
+    let m = store.metrics(now + 31 * day).await.unwrap();
+    assert_eq!((m.retention_d7, m.retention_d30), (50.0, 50.0));
+    let week = m.cohorts.iter().find(|c| c.accounts > 0).expect("their week");
+    assert_eq!((week.d1, week.d7, week.d30), (Some(50.0), Some(50.0), Some(50.0)));
+}
+
+/// Username changes: a limited number, and never to someone else's name.
+async fn renames(store: &Store) {
+    let a = store.create_user(&new_user("ren_a")).await.unwrap().unwrap();
+    store.create_user(&new_user("ren_b")).await.unwrap().unwrap();
+    assert_eq!(a.name_changes, 0);
+    assert_eq!(store.change_username(a.id, "REN_B", 3).await.unwrap(), Rename::Taken);
+    assert_eq!(store.change_username(a.id, "ren_c", 3).await.unwrap(), Rename::Done);
+    // Only the letter case: the same name to the index, still a change.
+    assert_eq!(store.change_username(a.id, "Ren_C", 3).await.unwrap(), Rename::Done);
+    let u = store.user_by_name("ren_c").await.unwrap().unwrap();
+    assert_eq!((u.id, u.username.as_str(), u.name_changes), (a.id, "Ren_C", 2));
+    assert!(store.user_by_name("ren_a").await.unwrap().is_none(), "the old name is free");
+    assert_eq!(store.change_username(a.id, "ren_d", 3).await.unwrap(), Rename::Done);
+    assert_eq!(store.change_username(a.id, "ren_e", 3).await.unwrap(), Rename::NoChangesLeft);
+    assert_eq!(store.user_by_id(a.id).await.unwrap().unwrap().username, "ren_d");
+    // The old name is anyone's again.
+    assert!(store.create_user(&new_user("ren_a")).await.unwrap().is_some());
+    // A deleted account keeps its anonymous name.
+    let gone = store.create_user(&new_user("ren_gone")).await.unwrap().unwrap();
+    store.delete_account(gone.id, 1).await.unwrap();
+    assert_eq!(store.change_username(gone.id, "ren_back", 3).await.unwrap(), Rename::NoChangesLeft);
+}
+
 #[tokio::test]
 async fn memory_store() {
     exercise(Store::memory()).await;
+    retention(Store::memory()).await;
+    renames(&Store::memory()).await;
 }
 
 #[tokio::test]
@@ -410,4 +519,11 @@ async fn postgres_store() {
         pool.execute("DROP SCHEMA public CASCADE; CREATE SCHEMA public;").await.unwrap();
     }
     exercise(Store::postgres(&url, 3).await.unwrap()).await;
+    {
+        use sqlx::Executor;
+        let pool = sqlx::PgPool::connect(&url).await.unwrap();
+        pool.execute("DROP SCHEMA public CASCADE; CREATE SCHEMA public;").await.unwrap();
+    }
+    retention(Store::postgres(&url, 3).await.unwrap()).await;
+    renames(&Store::postgres(&url, 3).await.unwrap()).await;
 }

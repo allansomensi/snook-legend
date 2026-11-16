@@ -83,6 +83,34 @@ fn table_look(s: TableStyle) -> TableLook {
             metal: rgb(224, 178, 80),
             depth: 0.13,
         },
+        TableStyle::Industrial => TableLook {
+            rail: rgb(122, 98, 74),
+            apron: rgb(44, 44, 48),
+            legs: rgb(30, 30, 33),
+            metal: rgb(36, 36, 40),
+            depth: 0.12,
+        },
+        TableStyle::Tournament => TableLook {
+            rail: rgb(32, 32, 35),
+            apron: rgb(26, 26, 29),
+            legs: rgb(28, 28, 31),
+            metal: rgb(196, 200, 206),
+            depth: 0.16,
+        },
+        TableStyle::Heritage => TableLook {
+            rail: rgb(112, 62, 28),
+            apron: rgb(96, 52, 22),
+            legs: rgb(90, 48, 20),
+            metal: rgb(176, 136, 64),
+            depth: 0.16,
+        },
+        TableStyle::Deco => TableLook {
+            rail: rgb(234, 224, 202),
+            apron: rgb(222, 210, 186),
+            legs: rgb(228, 216, 192),
+            metal: rgb(224, 178, 80),
+            depth: 0.13,
+        },
     }
 }
 
@@ -191,13 +219,28 @@ pub fn table(r: Rect, style: TableStyle) {
                 rgba(120, 84, 40, 0.5),
             );
         }
-        TableStyle::Club | TableStyle::Royal => {
+        TableStyle::Industrial => {
+            // Rivets along the steel plate.
+            let n = (apron.w / 7.0).max(6.0) as i32;
+            for k in 0..n {
+                let x = apron.x + apron.w * (k as f32 + 0.5) / n as f32;
+                for y in [apron.y + 3.0, apron.y + apron.h - 2.5] {
+                    draw_circle(x, y, 0.9, rgb(120, 120, 126));
+                }
+            }
+        }
+        TableStyle::Tournament => {
+            let y = apron.y + apron.h * 0.75;
+            draw_line(apron.x, y, apron.x + apron.w, y, 1.5, lk.metal);
+        }
+        TableStyle::Club | TableStyle::Royal | TableStyle::Heritage | TableStyle::Deco => {
             let y = apron.y + apron.h * 0.55;
-            let color = if style == TableStyle::Royal {
-                lk.metal
-            } else {
-                crate::ui::shade(lk.apron, 0.12)
-            };
+            let color =
+                if matches!(style, TableStyle::Royal | TableStyle::Deco | TableStyle::Heritage) {
+                    lk.metal
+                } else {
+                    crate::ui::shade(lk.apron, 0.12)
+                };
             draw_line(apron.x, y, apron.x + apron.w, y, 1.6, color);
             draw_rectangle(apron.x - 1.5, apron.y + apron.h - 2.0, apron.w + 3.0, 2.5, lk.rail);
         }
@@ -227,6 +270,38 @@ pub fn table(r: Rect, style: TableStyle) {
     let leg_top = apron.y + apron.h;
     let leg_h = floor - leg_top;
     match style {
+        TableStyle::Industrial => {
+            let x0 = c - w1 / 2.0 + w1 * 0.07;
+            let x1 = c + w1 / 2.0 - w1 * 0.07;
+            for x in [x0, x1] {
+                draw_rectangle(x - 2.0, leg_top, 4.0, leg_h, lk.legs);
+            }
+            // The X brace.
+            draw_line(x0, leg_top + 2.0, x1, floor - 4.0, 1.5, lk.legs);
+            draw_line(x0, floor - 4.0, x1, leg_top + 2.0, 1.5, lk.legs);
+        }
+        TableStyle::Tournament => {
+            for sx in [-1.0f32, 1.0] {
+                let x = c + sx * (w1 / 2.0 - w1 * 0.07);
+                let lw = w1 * 0.07;
+                draw_rectangle(x - lw / 2.0, leg_top, lw, leg_h - 3.0, lk.legs);
+                draw_rectangle(x - lw / 2.0, floor - leg_h * 0.3, lw, 1.6, lk.metal);
+                draw_rectangle(x - lw * 0.35, floor - 3.0, lw * 0.7, 3.0, lk.metal);
+            }
+        }
+        TableStyle::Deco => {
+            for sx in [-1.0f32, 1.0] {
+                let x = c + sx * (w1 / 2.0 - w1 * 0.07);
+                let lw = w1 * 0.05;
+                draw_rectangle(x - lw / 2.0, leg_top + 3.0, lw, leg_h - 6.0, lk.legs);
+                for k in -1..=1 {
+                    let fx = x + k as f32 * lw * 0.25;
+                    draw_line(fx, leg_top + 4.0, fx, floor - 4.0, 1.0, rgba(150, 130, 100, 0.5));
+                }
+                draw_rectangle(x - lw * 0.7, leg_top, lw * 1.4, 3.0, lk.metal);
+                draw_rectangle(x - lw * 0.75, floor - 3.0, lw * 1.5, 3.0, lk.metal);
+            }
+        }
         TableStyle::Modern => {
             for sx in [-1.0f32, 1.0] {
                 let x = c + sx * w1 * 0.3;
@@ -286,6 +361,21 @@ pub fn table(r: Rect, style: TableStyle) {
                             1.0,
                             rgba(0, 0, 0, 0.35),
                         );
+                    }
+                }
+                if style == TableStyle::Heritage {
+                    // The barley twist.
+                    let mut y = leg_top + leg_h * 0.16;
+                    while y < floor - leg_h * 0.12 {
+                        draw_line(
+                            x - lw * 0.22,
+                            y,
+                            x + lw * 0.22,
+                            y + 3.0,
+                            1.0,
+                            rgba(0, 0, 0, 0.4),
+                        );
+                        y += 4.0;
                     }
                 }
                 if style == TableStyle::Royal {
@@ -653,6 +743,246 @@ pub fn hall(r: Rect, style: HallStyle) {
             );
             gradient(floor, rgb(90, 90, 94), rgb(54, 54, 58), 4);
             shades(vec2(table_c.x, wall.y + wall.h * 0.32), table_w, rgb(26, 28, 30), wall.y);
+        }
+        HallStyle::Lodge => {
+            // Log walls, a tall window on snowy peaks, a stone chimney.
+            let logs = 9;
+            for k in 0..logs {
+                let y = wall.y + wall.h * k as f32 / logs as f32;
+                let h = wall.h / logs as f32;
+                draw_rectangle(wall.x, y, wall.w, h, rgb(120, 76, 42));
+                draw_rectangle(wall.x, y + h * 0.15, wall.w, h * 0.35, rgb(150, 98, 56));
+                draw_line(wall.x, y, wall.x + wall.w, y, 1.0, rgb(50, 30, 16));
+            }
+            let win = Rect::new(
+                wall.x + wall.w * 0.5,
+                wall.y + wall.h * 0.14,
+                wall.w * 0.36,
+                wall.h * 0.62,
+            );
+            gradient(win, rgb(20, 26, 60), rgb(200, 140, 150), 6);
+            let peaks = [(0.0f32, 0.7f32), (0.3, 0.3), (0.55, 0.6), (0.8, 0.25), (1.0, 0.65)];
+            for p in peaks.windows(2) {
+                let (a, b) = (p[0], p[1]);
+                quad(
+                    vec2(win.x + win.w * a.0, win.y + win.h * a.1),
+                    vec2(win.x + win.w * b.0, win.y + win.h * b.1),
+                    vec2(win.x + win.w * b.0, win.y + win.h),
+                    vec2(win.x + win.w * a.0, win.y + win.h),
+                    rgb(220, 222, 236),
+                );
+            }
+            for k in 0..8 {
+                let x = win.x + win.w * (k as f32 + 0.5) / 8.0;
+                draw_triangle(
+                    vec2(x, win.y + win.h * 0.7),
+                    vec2(x - 3.0, win.y + win.h),
+                    vec2(x + 3.0, win.y + win.h),
+                    rgb(16, 28, 24),
+                );
+            }
+            for k in 0..=2 {
+                let x = win.x + win.w * k as f32 / 2.0;
+                draw_line(x, win.y, x, win.y + win.h, 2.0, rgb(90, 56, 30));
+            }
+            // The chimney and the fire.
+            let ch = Rect::new(wall.x + wall.w * 0.08, wall.y, wall.w * 0.28, wall.h);
+            draw_rectangle(ch.x, ch.y, ch.w, ch.h, rgb(120, 112, 104));
+            for k in 0..14 {
+                let x = ch.x + ch.w * ((k * 37 % 10) as f32 / 10.0);
+                let y = ch.y + ch.h * ((k * 53 % 14) as f32 / 14.0);
+                draw_circle(x, y, 3.0, rgba(70, 64, 58, 0.6));
+            }
+            let fire = Rect::new(ch.x + ch.w * 0.2, ch.y + ch.h * 0.6, ch.w * 0.6, ch.h * 0.4);
+            draw_rectangle(fire.x, fire.y, fire.w, fire.h, rgb(16, 10, 8));
+            draw_ellipse(
+                fire.x + fire.w / 2.0,
+                fire.y + fire.h * 0.8,
+                fire.w * 0.38,
+                fire.h * 0.32,
+                rgb(255, 130, 40),
+            );
+            draw_ellipse(
+                fire.x + fire.w / 2.0,
+                fire.y + fire.h * 0.85,
+                fire.w * 0.2,
+                fire.h * 0.18,
+                rgb(255, 214, 110),
+            );
+            gradient(floor, rgb(110, 70, 40), rgb(60, 36, 20), 4);
+            draw_ellipse(
+                table_c.x,
+                table_c.y + floor.h * 0.35,
+                table_w * 0.8,
+                floor.h * 0.3,
+                rgb(130, 30, 26),
+            );
+            shades(vec2(table_c.x, wall.y + wall.h * 0.32), table_w, rgb(40, 34, 30), wall.y);
+        }
+        HallStyle::Arcade => {
+            draw_rectangle(wall.x, wall.y, wall.w, wall.h, rgb(14, 12, 20));
+            // Neon lines and cabinets with lit screens.
+            draw_line(wall.x, wall.y + 4.0, wall.x + wall.w, wall.y + 4.0, 2.0, rgb(255, 60, 180));
+            for k in 0..5 {
+                let x = wall.x + wall.w * (0.08 + k as f32 * 0.18);
+                let cab = Rect::new(x, wall.y + wall.h * 0.3, wall.w * 0.12, wall.h * 0.7);
+                draw_rectangle(
+                    cab.x,
+                    cab.y,
+                    cab.w,
+                    cab.h,
+                    [rgb(30, 30, 90), rgb(100, 20, 40)][k % 2],
+                );
+                draw_rectangle(
+                    cab.x + 2.0,
+                    cab.y + 2.0,
+                    cab.w - 4.0,
+                    cab.h * 0.08,
+                    [rgb(255, 80, 190), rgb(80, 230, 255)][k % 2],
+                );
+                draw_rectangle(
+                    cab.x + 3.0,
+                    cab.y + cab.h * 0.16,
+                    cab.w - 6.0,
+                    cab.h * 0.28,
+                    rgb(40, 60, 200),
+                );
+                draw_circle(cab.x + cab.w * 0.6, cab.y + cab.h * 0.3, 1.5, rgb(255, 230, 60));
+            }
+            crate::paint::draw_circle_lines(
+                wall.x + wall.w * 0.85,
+                wall.y + wall.h * 0.22,
+                wall.h * 0.12,
+                1.6,
+                rgb(90, 230, 255),
+            );
+            // The black mirror floor with the neon in it.
+            gradient(floor, rgb(20, 18, 28), rgb(6, 6, 10), 4);
+            draw_line(
+                floor.x,
+                floor.y + 6.0,
+                floor.x + floor.w,
+                floor.y + 6.0,
+                1.0,
+                rgba(255, 60, 180, 0.35),
+            );
+            for k in 0..5 {
+                let x = wall.x + wall.w * (0.08 + k as f32 * 0.18) + wall.w * 0.06;
+                draw_rectangle(x - 3.0, floor.y + 2.0, 6.0, floor.h * 0.4, rgba(60, 80, 255, 0.18));
+            }
+            let y = wall.y + wall.h * 0.32;
+            draw_rectangle(table_c.x - table_w * 0.42, y, table_w * 0.84, 4.0, rgb(16, 16, 18));
+            draw_rectangle(
+                table_c.x - table_w * 0.42,
+                y + 4.0,
+                table_w * 0.84,
+                1.5,
+                rgb(255, 240, 220),
+            );
+            draw_line(
+                table_c.x - table_w * 0.43,
+                y,
+                table_c.x + table_w * 0.43,
+                y,
+                1.0,
+                rgb(255, 60, 180),
+            );
+        }
+        HallStyle::Deco => {
+            gradient(wall, rgb(14, 60, 46), rgb(8, 40, 30), 4);
+            // Gilt pilasters, a sunburst, walnut below.
+            for k in 0..5 {
+                let x = wall.x + wall.w * k as f32 / 4.0;
+                draw_rectangle(x - 3.0, wall.y, 6.0, wall.h, rgb(70, 40, 22));
+                draw_line(x, wall.y, x, wall.y + wall.h * 0.7, 1.0, rgb(214, 170, 76));
+            }
+            let c = vec2(wall.x + wall.w * 0.38, wall.y + wall.h * 0.3);
+            for k in 0..16 {
+                let a = k as f32 / 16.0 * std::f32::consts::TAU;
+                let r = if k % 2 == 0 { wall.h * 0.2 } else { wall.h * 0.15 };
+                draw_line(c.x, c.y, c.x + a.cos() * r, c.y + a.sin() * r, 1.2, rgb(220, 176, 80));
+            }
+            draw_circle(c.x, c.y, wall.h * 0.08, rgb(150, 160, 170));
+            draw_rectangle(wall.x, wall.y + wall.h * 0.7, wall.w, wall.h * 0.3, rgb(60, 32, 18));
+            draw_line(
+                wall.x,
+                wall.y + wall.h * 0.7,
+                wall.x + wall.w,
+                wall.y + wall.h * 0.7,
+                1.5,
+                rgb(214, 170, 76),
+            );
+            // The black and white floor.
+            draw_rectangle(floor.x, floor.y, floor.w, floor.h, rgb(232, 228, 220));
+            let n = 10;
+            for j in 0..4 {
+                for i in 0..n {
+                    if (i + j) % 2 == 0 {
+                        let y0 = floor.y + floor.h * j as f32 / 4.0;
+                        let y1 = floor.y + floor.h * (j + 1) as f32 / 4.0;
+                        let spread = |y: f32| 0.7 + (y - floor.y) / floor.h * 0.3;
+                        let x = |k: usize, y: f32| {
+                            let t = k as f32 / n as f32 - 0.5;
+                            table_c.x + t * floor.w * spread(y)
+                        };
+                        quad(
+                            vec2(x(i, y0), y0),
+                            vec2(x(i + 1, y0), y0),
+                            vec2(x(i + 1, y1), y1),
+                            vec2(x(i, y1), y1),
+                            rgb(18, 18, 20),
+                        );
+                    }
+                }
+            }
+            shades(vec2(table_c.x, wall.y + wall.h * 0.32), table_w, rgb(236, 226, 206), wall.y);
+        }
+        HallStyle::Penthouse => {
+            // Glass on the city at night, slim mullions.
+            gradient(wall, rgb(10, 14, 36), rgb(60, 56, 100), 6);
+            for k in 0..14 {
+                let bx = wall.x + wall.w * k as f32 / 14.0;
+                let bh = wall.h * (0.25 + ((k * 37) % 6) as f32 * 0.08);
+                draw_rectangle(bx, wall.y + wall.h - bh, wall.w / 14.0 - 1.0, bh, rgb(14, 16, 30));
+                for j in 0..5 {
+                    if (k + j) % 3 != 0 {
+                        draw_rectangle(
+                            bx + 2.0,
+                            wall.y + wall.h - bh + 3.0 + j as f32 * 4.0,
+                            1.5,
+                            1.5,
+                            rgb(255, 214, 140),
+                        );
+                    }
+                }
+            }
+            for k in 0..=5 {
+                let x = wall.x + wall.w * k as f32 / 5.0;
+                draw_line(x, wall.y, x, wall.y + wall.h, 1.5, rgb(20, 20, 22));
+            }
+            // A pale marble floor with the city's lights in it.
+            gradient(floor, rgb(200, 196, 190), rgb(150, 146, 140), 4);
+            for k in 0..8 {
+                let x = floor.x + floor.w * (k as f32 + 0.5) / 8.0;
+                draw_line(
+                    x,
+                    floor.y + 2.0,
+                    x,
+                    floor.y + floor.h * 0.3,
+                    1.0,
+                    rgba(255, 214, 140, 0.25),
+                );
+            }
+            let y = wall.y + wall.h * 0.32;
+            draw_line(table_c.x, wall.y, table_c.x, y, 1.0, rgb(30, 30, 30));
+            draw_rectangle(table_c.x - table_w * 0.45, y, table_w * 0.9, 3.0, rgb(22, 22, 24));
+            draw_rectangle(
+                table_c.x - table_w * 0.44,
+                y + 3.0,
+                table_w * 0.88,
+                1.5,
+                rgb(255, 246, 228),
+            );
         }
     }
     little_table(table_c, table_w);

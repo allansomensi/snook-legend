@@ -168,6 +168,7 @@ fn user_json(u: &User, online: bool) -> Value {
         "deleted_at": u.deleted_at,
         "abandons": u.abandons,
         "status_message": u.status_message,
+        "name_changes": u.name_changes,
     })
 }
 

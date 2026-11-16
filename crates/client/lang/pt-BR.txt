@@ -128,7 +128,7 @@ Winter league	Liga de fim de ano
 Win a rated game over the holidays (Dec 15 – Jan 6).	Vença uma partida valendo rating nas festas (15/dez – 6/jan).
 Fireworks	Fogos de artifício
 Win a rated game at the turn of the year (Dec 31 – Jan 1).	Vença uma partida valendo rating na virada do ano (31/dez – 1/jan).
-Shows where the object ball and the cue ball go (not online).	Mostra para onde vão a bola da vez e a branca (fora do online).
+Shows where the object ball and the cue ball go (only in free games and practice).	Mostra para onde vão a bola da vez e a branca (só em partidas livres e no treino).
 {n} online · ping {ms} ms	{n} online · ping {ms} ms
 Right-drag · Wheel	Arraste com o botão direito · Roda
 Win %	% vit.
@@ -402,7 +402,7 @@ The server is busy. Try again in a moment.	O servidor está ocupado. Tente de no
 The tournament starts when it is full (the host can start it earlier).	O torneio começa quando lotar (o anfitrião pode começar antes).
 There are too many tournaments right now. Join one!	Há torneios demais agora. Entre em um!
 This is a LAN server: join as a guest.	Este é um servidor de rede local: entre como convidado.
-Ten rivals, a ladder and ghosts of real players	Dez rivais, a escada e fantasmas de jogadores reais
+Ten rivals, a tour and ghosts of real players	Dez rivais, um circuito e fantasmas de jogadores reais
 Tier	Nível
 Time per shot	Tempo por tacada
 Too many failed attempts. Wait a few minutes and try again.	Muitas tentativas erradas. Espere alguns minutos e tente de novo.
@@ -478,6 +478,9 @@ optional: only friends with it can join	opcional: só quem tiver a senha entra
 password	senha
 peak {n}	máximo {n}
 playing	jogando
+playing the computer	jogando contra o computador
+away	ausente
+this game is saved	esta partida fica salva
 rated games	partidas valendo rating
 rated · private	valendo rating · privada
 rated · public	valendo rating · pública
@@ -548,7 +551,7 @@ Drag on the table: cue follows	Arraste na mesa: o taco segue
 Drag the cue ball	Arraste a bola branca
 Elevation	Elevação
 Enter the lounge	Entrar no salão
-Everything, with the sharpest balls: for gaming PCs.	Tudo no máximo, bolas mais nítidas: para PCs gamer.
+Everything, with reflections in polished floors: for gaming PCs.	Tudo no máximo, com reflexos nos pisos polidos: para PCs gamer.
 Fine aim	Mira fina
 Finish this match first.	Termine esta partida primeiro.
 For old or very slow computers.	Para computadores antigos ou muito lentos.
@@ -666,7 +669,7 @@ Short	Curto
 Show the controls panel	Mostrar o painel de controles
 Signing in…	Entrando…
 Signing in	Entrando
-Soft shadows from every lamp, contact shading.	Sombras suaves de cada lâmpada e sombra de contato.
+Soft shadows from every lamp, glossy halls, halos.	Sombras suaves de cada lâmpada, salões com brilho, halos.
 Solids (1–7)	Lisas (1–7)
 Spin ball	Bola de efeito
 Spin	Efeito
@@ -793,8 +796,8 @@ Computer ({level})	Computador ({level})
 Computer	Computador
 Each opponent has a style of their own	Cada adversário tem um estilo próprio
 Free game	Partida livre
-Ladder	Escada
-Ladder: {n} of {total} beaten	Escada: {n} de {total} vencidos
+Tour	Circuito
+Tour: {n} of {total} beaten	Circuito: {n} de {total} vencidos
 Strength {n}/5	Nível {n}/5
 Ghost	Fantasma
 Accuracy	Precisão
@@ -820,17 +823,17 @@ Play your ghost	Jogar contra seu fantasma
 Play their ghost	Jogar contra o fantasma
 Beaten	Vencido
 Next	Próximo
-Beat the rung below to unlock it.	Vença o degrau de baixo para liberar este.
-Rung {n} of {total}	Degrau {n} de {total}
+Win the previous stage to unlock this one.	Vença a etapa anterior para liberar esta.
+Stage {n} of {total}	Etapa {n} de {total}
 Challenge {name}	Desafiar {name}
-Rung {n} beaten! Next on the ladder: {name}.	Degrau {n} vencido! Próximo na escada: {name}.
-You beat the whole ladder!	Você venceu a escada inteira!
+Stage {n} won! Next on the tour: {name}.	Etapa {n} vencida! Próximo no circuito: {name}.
+You won the whole tour!	Você venceu o circuito inteiro!
 Reward	Prêmio
 {item} cue · exclusive	Taco {item} · exclusivo
 Yours: find it in the shop, under Cues.	É seu: está na loja, em Tacos.
-Beat the last rung again while signed in to claim it.	Vença o último degrau de novo, conectado, para recebê-lo.
+Win the last stage again while signed in to claim it.	Vença a última etapa de novo, conectado, para recebê-lo.
 Beat all ten opponents to earn it. It is sold nowhere.	Vença os dez adversários para ganhá-lo. Não é vendido em lugar nenhum.
-You beat the ladder! Sign in to claim your reward.	Você venceu a escada! Entre para receber seu prêmio.
+You won the tour! Sign in to claim your reward.	Você venceu o circuito! Entre para receber seu prêmio.
 The server is checking your final game…	O servidor está conferindo sua partida final…
 Try again	Tentar de novo
 The server did not answer. Try again in a moment.	O servidor não respondeu. Tente de novo em instantes.
@@ -860,10 +863,10 @@ Thinks three balls ahead: every shot leaves the cue ball where the next one is e
 The Sharpshooter	A Atiradora de Elite
 Pots from anywhere, at any angle. Her safeties are an afterthought: she doesn't need them.	Encaçapa de qualquer lugar, em qualquer ângulo. Defesa é o de menos: ela não precisa.
 The Champion	O Campeão
-Unbeaten for years. Precise, patient and merciless: the last step of the ladder.	Invicto há anos. Preciso, paciente e implacável: o último degrau da escada.
-Ladder king	Rei da escada
-King of the ladder	Rei da escada
-Beat all ten opponents of the computer ladder.	Vença os dez adversários da escada contra o computador.
+Unbeaten for years. Precise, patient and merciless: the last stage of the tour.	Invicto há anos. Preciso, paciente e implacável: a última etapa do circuito.
+Tour champion	Campeão do circuito
+Champion of the tour	Campeão do circuito
+Beat all ten opponents of the computer tour.	Vença os dez adversários do circuito contra o computador.
 Connecting to {server}…	Conectando a {server}…
 Connection lost. Reconnecting (attempt {n})…	Conexão perdida. Reconectando (tentativa {n})…
 Connection lost. Reconnecting…	Conexão perdida. Reconectando…
@@ -1113,6 +1116,7 @@ Level {n} · {w} wins	Nível {n} · {w} vitórias
 The top level: this cue has every mark.	O nível máximo: este taco tem todas as marcas.
 Your cue {cue} reached level {n}!	Seu taco {cue} chegou ao nível {n}!
 Most wins: {cue} (level {n})	Mais vitórias: {cue} (nível {n})
+{games} games · {rate}% won · {balls} balls made	{games} partidas · {rate}% de vitórias · {balls} bolas encaçapadas
 vs	x
 {from} gave you {item}!	{from} te deu {item}!
 You received a gift!	Você ganhou um presente!
@@ -1160,6 +1164,14 @@ English club	Clube inglês
 Ebony & gold	Ébano e ouro
 Pool hall	Salão de sinuca
 Industrial loft	Loft industrial
+Steel & oak	Aço e carvalho
+Tournament	Torneio
+Victorian walnut	Nogueira vitoriana
+Ivory deco	Déco marfim
+Mountain lodge	Chalé na montanha
+Neon arcade	Fliperama neon
+Art deco lounge	Salão art déco
+Skyline penthouse	Cobertura com vista
 Walnut	Nogueira
 Zebrawood	Zebrano
 Bocote	Bocote
@@ -1337,3 +1349,269 @@ Paid in the Microsoft Store, with your Microsoft account.	Pago na Microsoft Stor
 The Microsoft Store can't be reached right now. Try again in a moment.	Não foi possível falar com a Microsoft Store agora. Tente de novo em instantes.
 The Microsoft Store could not confirm the purchase.	A Microsoft Store não confirmou a compra.
 Sign in to the Microsoft Store with your Microsoft account, then open the shop again.	Entre na Microsoft Store com a sua conta Microsoft e abra a loja de novo.
+Trophies	Troféus
+No trophies yet.	Nenhum troféu ainda.
+Tournament won · {n} players	Torneio vencido · {n} jogadores
+The computer tour	O circuito contra o computador
+All ten opponents beaten	Os dez adversários vencidos
+Daily challenge	Desafio do dia
+First of {n} players	Primeiro entre {n} jogadores
+Easy shot	Tacada fácil
+Fair shot	Tacada média
+Hard shot	Tacada difícil
+Very hard shot	Tacada muito difícil
+~{n}% chance	~{n}% de chance
+No ball goes down as aimed	Nenhuma bola cai assim
+straight in	reta
+{n}° cut	corte de {n}°
+off one cushion	com uma tabela
+off {n} cushions	com {n} tabelas
+Make as many balls as you can in one visit: a miss or a foul ends the attempt.	Encaçape o máximo de bolas em uma só vez na mesa: um erro ou uma falta encerra a tentativa.
+The same table for everyone, all day	A mesma mesa para todos, o dia inteiro
+{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	{n} tentativas por dia. Limpe a mesa e ganhe {coins} moedas; o vencedor do dia ganha um troféu.
+A new table in {h} h {m} min	Nova mesa em {h} h {m} min
+Sign in to take part: the server keeps the day's table.	Entre para participar: o servidor guarda a classificação do dia.
+Balls on today's table	Bolas na mesa de hoje
+Attempts left	Tentativas restantes
+{n} balls · #{rank}	{n} bolas · {rank}º
+{n} balls	{n} bolas
+not yet	ainda não
+Your best today	Seu melhor hoje
+No attempts left today: come back tomorrow.	Sem tentativas hoje: volte amanhã.
+The attempt could not be counted.	Não foi possível contar a tentativa.
+Setting up the table…	Preparando a mesa…
+Start an attempt	Começar uma tentativa
+Starting uses an attempt, even if you leave the table.	Começar gasta uma tentativa, mesmo se você sair da mesa.
+Loading today's table…	Carregando a mesa de hoje…
+Today's table	Classificação de hoje
+{n} players	{n} jogadores
+Nobody has played today's table yet. Be the first!	Ninguém jogou a mesa de hoje ainda. Seja o primeiro!
+Table cleared!	Mesa limpa!
+{n} of {total} balls	{n} de {total} bolas
+Sending your attempt to the server…	Enviando sua tentativa ao servidor…
+Counted: {n} balls · +{coins} coins	Contado: {n} bolas · +{coins} moedas
+Counted: {n} balls	Contado: {n} bolas
+See today's table	Ver a classificação
+Table cleared! +{n} coins	Mesa limpa! +{n} moedas
+Daily challenge: {n} of {total} balls made	Desafio do dia: {n} de {total} bolas encaçapadas
+1 player	1 jogador
+Phoenix	Fênix
+Carrara marble	Mármore de Carrara
+Dragon scale	Escama de dragão
+Galaxy	Galáxia
+Ruby throne	Trono de rubi
+Closing the game now is leaving it: extra rating lost and a wait to play again.	Fechar o jogo agora é abandonar: perde rating extra e espera para jogar de novo.
+You left a game in progress: you can play online again in {n} min.	Você abandonou uma partida em andamento: poderá jogar online de novo em {n} min.
+Quick phrases	Frases rápidas
+Good luck, have fun!	Boa sorte, divirta-se!
+Nice shot!	Bela tacada!
+Great safety!	Ótima defesa!
+Unlucky!	Que azar!
+Oops!	Ops!
+Wow!	Uau!
+That was close!	Foi por pouco!
+Take your time.	Pode pensar com calma.
+Sorry!	Desculpe!
+Thanks!	Obrigado!
+Well played!	Bem jogado!
+Good game!	Boa partida!
+Rematch?	Revanche?
+I have to go, thanks for the game!	Preciso ir, obrigado pela partida!
+Practise while you wait	Treinar enquanto espera
+A new rack.	Nova rodada de bolas.
+Level {n}! (+{xp} XP)	Nível {n}! (+{xp} XP)
++{xp} XP	+{xp} XP
+Level {n} · {into} / {span} XP to the next	Nível {n} · {into} / {span} XP para o próximo
+Level {n}	Nível {n}
+Hi! I watched a lot of videos, I'm ready!	Oi! Vi um monte de vídeos, tô pronto!
+Be gentle, okay?	Pega leve, tá?
+Whoa, how did you do that?	Uau, como você fez isso?
+Teach me that one later!	Depois me ensina essa!
+Phew! My turn!	Ufa! Minha vez!
+Even you miss? Good to know.	Até você erra? Bom saber.
+Ball in hand! What do I do with it?	Bola na mão! E agora, o que eu faço com ela?
+Did you see that?! It went in!	Você viu?! Entrou!
+Beginner's luck counts too!	Sorte de principiante também vale!
+Oops. That was a practice shot.	Ops. Essa foi de treino.
+Aim, Leo, aim...	Mira, Leo, mira...
+Sorry! I touched the wrong one again.	Desculpa! Acertei a errada de novo.
+I WON? I'm calling my mum!	EU GANHEI? Vou ligar pra minha mãe!
+Good game! I'm getting better, right?	Boa partida! Tô melhorando, né?
+Saturday, a table and good company. Let's play!	Sábado, uma mesa e boa companhia. Bora jogar!
+Nice one!	Boa!
+Oh, you're good. I'll pay attention now.	Opa, você é bom. Agora vou prestar atenção.
+Happens to the best of us.	Acontece com os melhores.
+Don't worry, it's just a game!	Relaxa, é só um jogo!
+Thanks for the ball in hand!	Valeu pela bola na mão!
+Yes! Weekend skills!	Isso! Talento de fim de semana!
+Lucky me!	Que sorte a minha!
+Hm, where was I aiming?	Hum, onde eu tava mirando?
+Too much chatting, not enough aiming.	Muita conversa, pouca mira.
+Oops, my bad!	Ops, foi mal!
+That was fun! Same time next weekend?	Foi divertido! Mesmo horário no próximo fim de semana?
+Well played! Rematch over a lemonade?	Bem jogado! Revanche com uma limonada?
+Four cushions, endless possibilities.	Quatro tabelas, possibilidades infinitas.
+Straight in? So... direct.	Direto na caçapa? Que... objetivo.
+Nice, but a bank would have been prettier.	Boa, mas de tabela seria mais bonito.
+You should have used the cushion.	Devia ter usado a tabela.
+The rail was right there, asking for it.	A tabela tava ali, implorando.
+The table didn't like that.	A mesa não gostou disso.
+Off the rail and in. Art!	Na tabela e pra dentro. Arte!
+Geometry never lies.	A geometria nunca mente.
+The angle was right. The cushion disagreed.	O ângulo tava certo. A tabela discordou.
+One diamond off. Just one!	Errei por um diamante. Só um!
+Too much imagination, not enough contact.	Imaginação demais, contato de menos.
+A masterpiece, if I may say so.	Uma obra-prima, se me permite.
+Well played. Now try it off two rails.	Bem jogado. Agora tenta com duas tabelas.
+I hope these balls are made of steel.	Espero que essas bolas sejam de aço.
+Soft touch, huh? Not my style.	Toque suave, é? Não é meu estilo.
+Hit it harder next time!	Bate mais forte da próxima vez!
+Too gentle! Power solves everything.	Fraco demais! Força resolve tudo.
+HA!	HA!
+My table now. Cover your ears.	Agora a mesa é minha. Tapa os ouvidos.
+BOOM!	BUM!
+Did you hear that pocket?	Ouviu essa caçapa?
+Too much power? No such thing.	Força demais? Isso não existe.
+The pocket moved.	A caçapa mudou de lugar.
+The ball flew. It happens. A lot.	A bola voou. Acontece. Bastante.
+Power wins again! BOOM!	A força vence de novo! BUM!
+Fine, finesse works too. Sometimes.	Tá, jeitinho também funciona. Às vezes.
+Take your time. I have all day.	Pode pensar. Eu tenho o dia todo.
+Acceptable.	Aceitável.
+Enjoy it while it lasts.	Aproveite enquanto dura.
+Patience is a virtue. Not yours, apparently.	Paciência é uma virtude. Não a sua, pelo visto.
+Thank you.	Obrigada.
+Sloppy.	Desleixado.
+Steady wins.	Constância vence.
+One at a time.	Uma de cada vez.
+Hm. I'll leave you nothing anyway.	Hum. Não vou te deixar nada mesmo assim.
+Intentional. Probably.	Foi de propósito. Provavelmente.
+Unacceptable. Of me.	Inaceitável. Da minha parte.
+As I said: patience.	Como eu disse: paciência.
+You got through the wall. I'm impressed.	Você atravessou o muro. Estou impressionada.
+I've been playing since before these balls were plastic.	Jogo desde antes de essas bolas serem de plástico.
+Good stroke. Reminds me of a fellow in '78.	Boa tacada. Lembra um rapaz que conheci em 78.
+Smooth. Very smooth.	Suave. Muito suave.
+Keep your head down, kid.	Cabeça baixa, garoto.
+The cue ball doesn't lie.	A branca não mente.
+Ah, the old ball in hand. Thank you kindly.	Ah, a velha bola na mão. Muito obrigado.
+Like riding a bicycle.	É como andar de bicicleta.
+Still got it.	Ainda levo jeito.
+The eyes aren't what they used to be.	Os olhos já não são os mesmos.
+In my day the pockets were bigger.	No meu tempo as caçapas eram maiores.
+Even old pros slip.	Até os velhos profissionais escorregam.
+Experience, my friend. Experience.	Experiência, meu amigo. Experiência.
+You've got a future in this game.	Você tem futuro nesse jogo.
+Me? Oh, I hardly ever play...	Eu? Ah, eu quase nunca jogo...
+Lucky! Do it again, I dare you.	Sorte! Faz de novo, duvido.
+Ooh, someone's been practising.	Hum, alguém andou treinando.
+Aw, so close! Bless.	Ah, foi quase! Que fofo.
+Want me to show you how?	Quer que eu te mostre como é?
+Thank you, sweetie.	Obrigada, querido.
+Oops, did I do that?	Ops, fui eu que fiz isso?
+Must be beginner's luck. Again.	Deve ser sorte de principiante. De novo.
+Missed on purpose. Keeps it interesting.	Errei de propósito. Deixa mais interessante.
+Just warming up.	Só aquecendo.
+Oh dear, how clumsy of me. Wink.	Ai, que desastrada eu sou. Piscadinha.
+Hardly ever play, I said. Hardly.	Quase nunca jogo, eu disse. Quase.
+Fine, you got me. This time.	Tá, você me pegou. Desta vez.
+Friction, momentum, spin. Let us begin.	Atrito, momento, efeito. Comecemos.
+A fine cut. About thirty degrees, I'd say.	Um belo corte. Uns trinta graus, eu diria.
+Textbook.	Exemplo de livro.
+You underestimated the throw.	Você subestimou o desvio.
+Interesting. Statistically expected.	Interessante. Estatisticamente esperado.
+The cue ball followed the laws of physics, not your plan.	A branca seguiu as leis da física, não o seu plano.
+As calculated.	Conforme calculado.
+Elastic collision, elegant result.	Colisão elástica, resultado elegante.
+An error in my measurement.	Um erro na minha medição.
+I'll revise the model.	Vou revisar o modelo.
+Hm. Unexpected spin.	Hum. Efeito inesperado.
+The numbers were on my side.	Os números estavam do meu lado.
+A result outside my predictions. Well done.	Um resultado fora das minhas previsões. Muito bem.
+Focus.	Foco.
+Clean.	Limpo.
+Not bad.	Nada mal.
+Half a millimetre.	Meio milímetro.
+Breathe before you shoot.	Respire antes de bater.
+Careless.	Descuido.
+Target down.	Alvo abatido.
+Centre pocket.	Bem no meio da caçapa.
+Hm. Recalibrating.	Hum. Recalibrando.
+That never happens.	Isso nunca acontece.
+Unacceptable.	Inaceitável.
+Precision wins.	A precisão vence.
+Good shooting.	Boa pontaria.
+Welcome to my table. Enjoy the show.	Bem-vindo à minha mesa. Aproveite o show.
+Very good. You've done your homework.	Muito bem. Você fez a lição de casa.
+Applause for the challenger!	Aplausos para o desafiante!
+Pressure. It gets to everyone.	Pressão. Pega todo mundo.
+Thank you for the table.	Obrigado pela mesa.
+A champion never refuses a gift.	Um campeão nunca recusa um presente.
+Naturally.	Naturalmente.
+That's how it's done.	É assim que se faz.
+Even champions give the crowd a chance.	Até campeões dão uma chance à plateia.
+Leaving you something, out of courtesy.	Deixei algo pra você, por cortesia.
+A rare sight. Remember it.	Cena rara. Guarde na memória.
+The title stays with me. Good game.	O título fica comigo. Boa partida.
+Remarkable. You've earned my respect.	Notável. Você ganhou meu respeito.
+Calibration complete. Good luck, human.	Calibração concluída. Boa sorte, humano.
+Shot registered: successful.	Tacada registrada: sucesso.
+Probability of my victory: increasing.	Probabilidade da minha vitória: aumentando.
+Foul detected. Processing ball in hand.	Falta detectada. Processando bola na mão.
+Executed as planned.	Executado conforme o plano.
+Error. Recalculating.	Erro. Recalculando.
+Malfunction. Please disregard.	Falha. Por favor, desconsidere.
+Game complete. Thank you for playing.	Partida concluída. Obrigado por jogar.
+Defeat acknowledged. Well played.	Derrota reconhecida. Bem jogado.
+Drills	Treinos
+Exercises with stars and a ranking	Exercícios com estrelas e ranking
+Challenge rating	Rating de desafios
+{s} / {max} stars · #{rank}	{s} / {max} estrelas · {rank}º
+{s} / {max} stars	{s} / {max} estrelas
+Stars at {a}, {b} and {c}	Estrelas com {a}, {b} e {c}
+Your best: {n} of {total}	Seu melhor: {n} de {total}
+Not tried yet.	Ainda não tentou.
+Start the drill	Começar o treino
+Sign in to be ranked: the server keeps the tables.	Entre para entrar no ranking: o servidor guarda as classificações.
+{n} of {total}	{n} de {total}
+Best on this drill	Melhores neste treino
+{r} · {s}★	{r} · {s}★
+Nobody yet. Be the first!	Ninguém ainda. Seja o primeiro!
+{drill}: try {k} of {n} · {made} made	{drill}: tentativa {k} de {n} · {made} certas
+Made it! {n} of {total}	Acertou! {n} de {total}
+Missed.	Errou.
+Sending to the server…	Enviando ao servidor…
+Not signed in: this session is not ranked.	Sem login: esta sessão não entra no ranking.
+Counted on the drill's table.	Contado na classificação do treino.
+The session could not be counted.	Não foi possível contar a sessão.
+Back to the drills	Voltar aos treinos
+Straight in	Reta
+A long straight pot into the corner. Five tries.	Uma bola reta e longa na caçapa do canto. Cinco tentativas.
+The cut	O corte
+A half-ball cut into the corner. Five tries.	Um corte de meia bola na caçapa do canto. Cinco tentativas.
+Draw it back	Puxada
+Pot the ball and draw the cue ball back into the circle. Five tries.	Encaçape a bola e puxe a branca de volta para o círculo. Cinco tentativas.
+Follow through	Seguida
+Pot the ball and leave the cue ball in the circle past it. Five tries.	Encaçape a bola e deixe a branca no círculo logo depois. Cinco tentativas.
+Bank shot	Tabela
+Off one cushion into the side pocket. Five tries.	Com uma tabela na caçapa do meio. Cinco tentativas.
+Snookered	Sinuca de bico
+Hit the 1 first: it hides behind other balls. Five tries.	Acerte a 1 primeiro: ela está escondida atrás de outras bolas. Cinco tentativas.
+Ten in a row	Dez seguidas
+Ten different pots, one after another: a miss ends the session.	Dez bolas diferentes, uma após a outra: um erro encerra a sessão.
+Take back the shot (Z)	Desfazer a tacada (Z)
+Shot taken back.	Tacada desfeita.
+Your last shot: {p}%	Sua última tacada: {p}%
+Solids	Lisas
+Stripes	Listradas
+Hide the history	Esconder o histórico
+New username	Novo usuário
+Click again to confirm	Clique de novo para confirmar
+{n} of {total} name changes left	{n} de {total} trocas de nome restantes
+You can't change your username again.	Você não pode mais trocar seu nome de usuário.
+That is already your username.	Esse já é o seu nome de usuário.
+Finish your game before changing your username.	Termine sua partida antes de trocar seu nome de usuário.
+Leave your table or the queue before changing your username.	Saia da sua mesa ou da fila antes de trocar seu nome de usuário.
+Leave your tournament before changing your username.	Saia do seu torneio antes de trocar seu nome de usuário.
+Username changed.	Nome de usuário alterado.
+The server is still being updated to the new version. Try again in a few minutes.	O servidor ainda está sendo atualizado para a nova versão. Tente de novo em alguns minutos.

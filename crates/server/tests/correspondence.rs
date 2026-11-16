@@ -10,9 +10,7 @@ use std::time::Duration;
 use futures_util::{SinkExt, StreamExt};
 use snookered_core::stats::ShotStats;
 use snookered_core::{Difficulty, EightBallGame, GameOverReason, Shot, ai};
-use snookered_proto::correspondence::{
-    CorrEvent, CorrGame, MAX_SENT_CHALLENGES, SINCE_PROTOCOL, TURN_SECS,
-};
+use snookered_proto::correspondence::{CorrEvent, CorrGame, MAX_SENT_CHALLENGES, TURN_SECS};
 use snookered_proto::replay::{Replay, Stroke};
 use snookered_proto::{ClientMsg, PROTOCOL_VERSION, Role, ServerMsg, parse_server};
 use snookered_server::lounge::Rules;
@@ -560,21 +558,6 @@ async fn resigning_ends_the_game_and_old_games_never_hear_of_it() {
     assert_eq!((r.winner, r.delta), (0, [0, 0]), "casual: ratings unchanged");
     let (_, replay, _) = bia.open(id).await;
     assert_eq!(replay.strokes.last(), Some(&Stroke::Resign { seat: 1 }));
-
-    // A game of protocol 12 is challenged: it gets none of the new messages.
-    const { assert!(SINCE_PROTOCOL > 12) };
-    let mut old = rig.player_v("old", 12).await;
-    ana.send(ClientMsg::CorrChallenge { to: "old".into(), rated: true }).await;
-    ana.expect("sent", |m| matches!(m, ServerMsg::Notice { .. })).await;
-    ana.send(ClientMsg::Chat { text: "marker".into() }).await;
-    loop {
-        let m = old.expect("anything", |_| true).await;
-        let json = m.to_json();
-        assert!(!json.contains("\"type\":\"corr_"), "an old game got {json}");
-        if matches!(&m, ServerMsg::Chat { line } if line.text == "marker") {
-            break;
-        }
-    }
 }
 
 #[tokio::test]

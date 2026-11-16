@@ -6,9 +6,7 @@ use std::time::Duration;
 
 use futures_util::{SinkExt, StreamExt};
 use snookered_core::GameOverReason;
-use snookered_proto::{
-    ClientMsg, MAX_STATUS_LEN, PROTOCOL_VERSION, Role, SOCIAL_PROTOCOL, ServerMsg, parse_server,
-};
+use snookered_proto::{ClientMsg, MAX_STATUS_LEN, PROTOCOL_VERSION, Role, ServerMsg, parse_server};
 use snookered_server::lounge::Rules;
 use snookered_server::store::{BuyOutcome, MatchRecord, NewGift, NewUser, Store};
 use snookered_server::{Config, Server, serve};
@@ -405,7 +403,6 @@ async fn the_board_reaches_new_games_only_and_follows_the_players() {
     let url = start(Rules::default()).await;
     let mut ana = Client::register(&url, "ana").await;
     let mut bia = Client::register(&url, "bia").await;
-    let (mut old, _) = Client::register_as(&url, "oldgame", SOCIAL_PROTOCOL - 1).await;
 
     // A note, cleaned, for 30 minutes.
     ana.send(ClientMsg::PostSeek { text: "  treino\u{200B}   rápido ".into(), rated: false }).await;
@@ -469,11 +466,6 @@ async fn the_board_reaches_new_games_only_and_follows_the_players() {
         |m| matches!(m, ServerMsg::SeekRemoved { username } if username == "bia"),
     )
     .await;
-
-    // Older games never see any of it.
-    let seen = old.drain().await;
-    assert!(!seen.iter().any(seek_message), "{seen:?}");
-    assert!(seen.iter().any(|m| matches!(m, ServerMsg::PlayerUpdated { .. })));
 }
 
 #[tokio::test]
@@ -621,9 +613,9 @@ async fn gifts_are_kept_shown_until_seen_and_thanked() {
     let (url, host) = start_with(Rules::default(), vec!["gil".into()]).await;
     let mut gil = Client::register(&url, "gil").await;
     let (mut fia, fia_token) = Client::register_as(&url, "fia", PROTOCOL_VERSION).await;
-    let (mut old, _) = Client::register_as(&url, "oldgame", SOCIAL_PROTOCOL - 1).await;
+    let (mut other, _) = Client::register_as(&url, "other", PROTOCOL_VERSION).await;
     befriend(&mut gil, &mut fia, "gil", "fia").await;
-    befriend(&mut gil, &mut old, "gil", "oldgame").await;
+    befriend(&mut gil, &mut other, "gil", "other").await;
     let token = panel_token(&host, "gil").await;
     let (code, _) = request(
         &host,
@@ -682,7 +674,7 @@ async fn gifts_are_kept_shown_until_seen_and_thanked() {
     .await;
     fia.send(ClientMsg::ThankGift { id: first.id }).await;
     // Someone else's present can't be thanked for.
-    old.send(ClientMsg::ThankGift { id: ids[1] }).await;
+    other.send(ClientMsg::ThankGift { id: ids[1] }).await;
     let seen = gil.drain().await;
     assert!(!seen.iter().any(|m| matches!(m, ServerMsg::GiftThanked { .. })), "{seen:?}");
 
@@ -713,21 +705,6 @@ async fn gifts_are_kept_shown_until_seen_and_thanked() {
     };
     assert_eq!(gifts.len(), 2);
     assert!(gifts.iter().all(|g| g.from == "gil"));
-
-    // Older games keep getting the toast they know.
-    gil.send(ClientMsg::GiftItem {
-        to: "oldgame".into(),
-        code: items[2].0.into(),
-        message: String::new(),
-    })
-    .await;
-    old.expect(
-        "legacy gift",
-        |m| matches!(m, ServerMsg::GiftReceived { from, .. } if from == "gil"),
-    )
-    .await;
-    let seen = old.drain().await;
-    assert!(!seen.iter().any(|m| matches!(m, ServerMsg::NewGifts { .. })));
 }
 
 #[tokio::test]

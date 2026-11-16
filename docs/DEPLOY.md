@@ -92,6 +92,12 @@ but games in progress are lost, so update when it's quiet. When messages
 change incompatibly, `PROTOCOL_VERSION` in `crates/proto` is bumped and older
 games are told to update.
 
+Update the server together with (or before) each release: a game newer than
+the server can't play online until it is. On Render, the **Server image**
+workflow redeploys by itself when the repository secret `RENDER_DEPLOY_HOOK`
+holds the service's Deploy Hook URL; otherwise use **Manual Deploy → Deploy
+latest reference**. `GET /api/status` shows the version running.
+
 ## Rules enforced by the server
 
 - Usernames: 3–16 letters, digits or `_` (case-insensitive, unique, a few

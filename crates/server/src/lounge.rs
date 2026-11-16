@@ -169,6 +169,10 @@ pub struct Session {
     pub protocol: u32,
     /// Notes on the "looking for a game" board.
     seek_bucket: Bucket,
+    /// Playing a game against the computer (the game says so).
+    pub vs_computer: bool,
+    /// Away from the game (the game says so after a while untouched).
+    pub away: bool,
 }
 
 struct Room {
@@ -219,6 +223,17 @@ struct Table {
     password: Option<String>,
 }
 
+/// Extra rating lost for leaving a rated game in progress.
+pub const ABANDON_RATING: i32 = 10;
+/// Games left within this long count towards a longer wait.
+const ABANDON_WINDOW: Duration = Duration::from_secs(24 * 3600);
+
+/// "You left a game in progress: you can play online again in N min."
+fn cooldown_message(left: Duration) -> String {
+    let minutes = left.as_secs().div_ceil(60).max(1);
+    format!("You left a game in progress: you can play online again in {minutes} min.")
+}
+
 #[derive(Default)]
 pub struct Lounge {
     pub rules: Rules,
@@ -248,6 +263,8 @@ pub struct Lounge {
     last_featured: Option<Instant>,
     /// Rated games between two players (sorted keys) recently.
     pair_games: HashMap<(String, String), VecDeque<Instant>>,
+    /// When each player last left games in progress (the last day's).
+    abandoned: HashMap<String, VecDeque<Instant>>,
     /// Waits in the "Play now" queue (seconds), for the staff panel.
     pub queue_waits: VecDeque<u32>,
     /// The notes on the board (the store has them; this is what players see).
@@ -307,6 +324,9 @@ pub fn player_info(user: &User, guest: bool, status: PlayerStatus) -> PlayerInfo
         effect: String::new(),
         cue_level: 0,
         status_message: user.status_message.clone(),
+        vs_computer: false,
+        away: false,
+        level: if guest { 0 } else { snookered_proto::xp::level_of(user.xp) },
     }
 }
 
@@ -409,9 +429,14 @@ impl Lounge {
     }
 
     fn info(&self, k: &str) -> Option<PlayerInfo> {
-        self.sessions
-            .get(k)
-            .map(|s| dressed(player_info(&s.user, s.guest, self.status(k)), &s.look))
+        self.sessions.get(k).map(|s| {
+            let mut info = dressed(player_info(&s.user, s.guest, self.status(k)), &s.look);
+            // An online game comes first (the game against the computer is
+            // left behind when one starts).
+            info.vs_computer = s.vs_computer && s.room.is_none();
+            info.away = s.away && s.room.is_none();
+            info
+        })
     }
 
     fn announce(&self, k: &str) {
@@ -497,8 +522,11 @@ impl Lounge {
             if room.is_some() { PlayerStatus::Playing } else { PlayerStatus::Available },
         );
         let _ = tx.try_send(ServerMsg::AuthOk { player: info, token });
-        let _ =
-            tx.try_send(ServerMsg::Welcome { motd: self.rules.motd.clone(), lan: self.rules.lan });
+        let _ = tx.try_send(ServerMsg::Welcome {
+            motd: self.rules.motd.clone(),
+            lan: self.rules.lan,
+            protocol: snookered_proto::PROTOCOL_VERSION,
+        });
         self.sessions.insert(
             k.clone(),
             Session {
@@ -523,6 +551,8 @@ impl Lounge {
                 look: Look::default(),
                 protocol: social::UNKNOWN_PROTOCOL,
                 seek_bucket: Bucket::new(social::SEEK_BURST, social::SEEK_RATE),
+                vs_computer: false,
+                away: false,
             },
         );
         let players: Vec<PlayerInfo> = self.sessions.keys().filter_map(|k| self.info(k)).collect();
@@ -632,6 +662,65 @@ impl Lounge {
         }
     }
 
+    /// Why `name` can't change their username right now, if they can't: the
+    /// game, table, queue or tournament they are in knows them by it.
+    pub fn rename_blocker(&self, name: &str) -> Option<&'static str> {
+        let k = key(name);
+        let s = self.sessions.get(&k)?;
+        if s.room.is_some() || self.rooms.values().any(|r| !r.finished && r.keys.contains(&k)) {
+            Some("Finish your game before changing your username.")
+        } else if s.table.is_some() || self.queue.iter().any(|q| q.key == k) {
+            Some("Leave your table or the queue before changing your username.")
+        } else if self
+            .tournaments
+            .values()
+            .any(|t| t.state != TournamentState::Finished && t.players.contains(&k))
+        {
+            Some("Leave your tournament before changing your username.")
+        } else {
+            None
+        }
+    }
+
+    /// The online player `old` changed their username to `user.username`:
+    /// their session starts again under the new name on the same
+    /// connection (everyone sees the old name leave and the new one come).
+    /// Only when [`Lounge::rename_blocker`] has nothing against it.
+    pub fn renamed(&mut self, old: &str, user: User, token: String) {
+        let (old_k, new_k) = (key(old), key(&user.username));
+        let Some(s) = self.sessions.get(&old_k) else { return };
+        let (conn_id, tx, kill, ip) = (s.conn_id, s.tx.clone(), s.kill.clone(), s.ip.clone());
+        let (blocked, look, achievements) =
+            (s.blocked.clone(), s.look.clone(), s.achievements.clone());
+        let (protocol, guest) = (s.protocol, s.guest);
+        // A new name doesn't wipe the slate: games left and games against
+        // the same opponent still count.
+        if old_k != new_k {
+            if let Some(list) = self.abandoned.remove(&old_k) {
+                self.abandoned.insert(new_k.clone(), list);
+            }
+            let swap = |n: &String| if *n == old_k { new_k.clone() } else { n.clone() };
+            self.pair_games = std::mem::take(&mut self.pair_games)
+                .into_iter()
+                .map(|((a, b), list)| {
+                    let mut pair = [swap(&a), swap(&b)];
+                    pair.sort();
+                    let [a, b] = pair;
+                    ((a, b), list)
+                })
+                .collect();
+            for (a, b, _) in &mut self.recent_pairs {
+                (*a, *b) = (swap(a), swap(b));
+            }
+        }
+        let name = user.username.clone();
+        self.leave(old, conn_id);
+        self.join(conn_id, user, guest, tx, kill, token, ip, blocked);
+        self.set_protocol(&name, protocol);
+        self.set_achievements(&name, achievements);
+        self.set_look(&name, look);
+    }
+
     /// Replaces the cached account of an online player (after a change by
     /// the staff, a new country, a finished match…).
     pub fn refresh_user(&mut self, user: User) {
@@ -649,6 +738,17 @@ impl Lounge {
     }
 
     /// Sends a message to a player if they are online.
+    /// A player's experience changed: everyone sees the new level.
+    pub fn set_xp(&mut self, name: &str, xp: i64) {
+        let k = key(name);
+        let Some(s) = self.sessions.get_mut(&k) else { return };
+        let before = snookered_proto::xp::level_of(s.user.xp);
+        s.user.xp = xp;
+        if snookered_proto::xp::level_of(xp) != before {
+            self.announce(&k);
+        }
+    }
+
     pub fn notify(&self, name: &str, msg: ServerMsg) {
         self.send(&key(name), msg);
     }
@@ -891,6 +991,21 @@ impl Lounge {
                 self.shoot(&k, turn, shot, called_pocket, cue_ball)
             }
             ClientMsg::Resign => self.resign(&k),
+            ClientMsg::SetActivity { vs_computer, away } => {
+                // Everyone hears about it, so it shares the lounge actions'
+                // limit; past it the change is kept but goes unannounced
+                // (the next one tells everyone), without an error: the game
+                // sends it by itself.
+                if let Some(s) = self.sessions.get_mut(&k)
+                    && (s.vs_computer, s.away) != (vs_computer, away)
+                {
+                    s.vs_computer = vs_computer;
+                    s.away = away;
+                    if s.action_bucket.take() {
+                        self.announce(&k);
+                    }
+                }
+            }
             ClientMsg::Rematch => self.rematch(&k),
             ClientMsg::LeaveMatch => self.leave_match(&k),
             ClientMsg::Tournaments => {
@@ -950,6 +1065,7 @@ impl Lounge {
             | ClientMsg::ChangePassword { .. }
             | ClientMsg::SetRecoveryEmail { .. }
             | ClientMsg::DeleteAccount { .. }
+            | ClientMsg::ChangeUsername { .. }
             | ClientMsg::GiftItem { .. }
             | ClientMsg::Missions
             | ClientMsg::Replays
@@ -962,7 +1078,12 @@ impl Lounge {
             | ClientMsg::CorrShoot { .. }
             | ClientMsg::CorrResign { .. }
             | ClientMsg::LadderClaim { .. }
-            | ClientMsg::GhostStyle { .. } => {}
+            | ClientMsg::GhostStyle { .. }
+            | ClientMsg::Daily
+            | ClientMsg::DailyStart
+            | ClientMsg::DailySubmit { .. }
+            | ClientMsg::Drills
+            | ClientMsg::DrillSubmit { .. } => {}
             ClientMsg::SetStatusMessage { .. }
             | ClientMsg::ClearStatusMessage { .. }
             | ClientMsg::RecentOpponents
@@ -1129,6 +1250,9 @@ impl Lounge {
 
     fn queue_join(&mut self, k: &str, rated: bool) {
         if self.refuse_if_draining(k) {
+            return;
+        }
+        if self.refuse_if_cooling_down(k) {
             return;
         }
         let Some(s) = self.sessions.get(k) else { return };
@@ -1432,6 +1556,9 @@ impl Lounge {
         if from == to {
             return fail(self, "You can't invite yourself.");
         }
+        if let Some(left) = self.abandon_cooldown(from) {
+            return fail(self, &cooldown_message(left));
+        }
         if !self.sessions.contains_key(to) {
             return fail(self, "That player is not online.");
         }
@@ -1472,6 +1599,10 @@ impl Lounge {
             self.send(from, ServerMsg::InviteDeclined { by: self.display(me) });
             return;
         }
+        if let Some(left) = self.abandon_cooldown(me) {
+            self.send(from, ServerMsg::InviteDeclined { by: self.display(me) });
+            return self.send(me, ServerMsg::InviteFailed { reason: cooldown_message(left) });
+        }
         if !self.available(from) || !self.available(me) {
             return self.send(
                 me,
@@ -1491,7 +1622,7 @@ impl Lounge {
     }
 
     fn open_table(&mut self, k: &str, rated: bool, password: Option<String>) {
-        if self.refuse_if_draining(k) {
+        if self.refuse_if_draining(k) || self.refuse_if_cooling_down(k) {
             return;
         }
         if !self.available(k) {
@@ -1525,7 +1656,7 @@ impl Lounge {
     }
 
     fn join_table(&mut self, k: &str, id: u64, password: Option<String>) {
-        if self.refuse_if_draining(k) {
+        if self.refuse_if_draining(k) || self.refuse_if_cooling_down(k) {
             return;
         }
         let Some(t) = self.tables.get(&id) else {
@@ -1650,6 +1781,9 @@ impl Lounge {
             self.drop_seek(k);
             if let Some(s) = self.sessions.get_mut(k) {
                 s.room = Some(id);
+                // The game against the computer was left for this one.
+                s.vs_computer = false;
+                s.away = false;
             }
         }
         for (seat, k) in keys.iter().enumerate() {
@@ -1941,7 +2075,6 @@ impl Lounge {
         let mut new_ratings = [users[0].rating, users[1].rating];
         let keys = room.keys.clone();
         let repeats = if rated { self.count_pair_game(&keys) } else { 0 };
-        let room = &self.rooms[&id];
         if rated {
             let (w, l) = (over.winner, 1 - over.winner);
             let change =
@@ -1965,6 +2098,17 @@ impl Lounge {
             }
         }
         let loser = 1 - over.winner;
+        // Leaving a game in progress costs more than losing it: extra
+        // rating (rated games), and a while without online games.
+        if over.reason == GameOverReason::Abandoned {
+            if rated {
+                delta[loser] -= ABANDON_RATING;
+                new_ratings[loser] = users[loser].rating + delta[loser];
+            }
+            let key = keys[loser].clone();
+            self.record_abandon(&key);
+        }
+        let room = &self.rooms[&id];
         let eight_win = over.reason == GameOverReason::PocketedEight;
         let shutout = eight_win
             && room.game.group_of(loser).is_some_and(|g| room.game.remaining(g).len() == 7);
@@ -2210,6 +2354,40 @@ impl Lounge {
             self.error(k, "The server is restarting: new games start in a moment.");
         }
         self.draining.is_some()
+    }
+
+    /// Notes that `k` left a game in progress (for [`Lounge::abandon_cooldown`]).
+    fn record_abandon(&mut self, k: &str) {
+        let now = Instant::now();
+        let list = self.abandoned.entry(k.to_string()).or_default();
+        while list.front().is_some_and(|t| now.duration_since(*t) > ABANDON_WINDOW) {
+            list.pop_front();
+        }
+        list.push_back(now);
+    }
+
+    /// How long `k` must still wait before starting another online game,
+    /// after leaving one in progress: longer each time in a day.
+    pub fn abandon_cooldown(&self, k: &str) -> Option<Duration> {
+        let list = self.abandoned.get(k)?;
+        let now = Instant::now();
+        let recent: Vec<&Instant> =
+            list.iter().filter(|t| now.duration_since(**t) <= ABANDON_WINDOW).collect();
+        let last = **recent.last()?;
+        let wait = match recent.len() {
+            1 => Duration::from_secs(2 * 60),
+            2 => Duration::from_secs(10 * 60),
+            _ => Duration::from_secs(30 * 60),
+        };
+        wait.checked_sub(now.duration_since(last)).filter(|d| !d.is_zero())
+    }
+
+    /// Refuses a new game to a player still waiting after leaving one (with
+    /// a message saying how long).
+    fn refuse_if_cooling_down(&self, k: &str) -> bool {
+        let Some(left) = self.abandon_cooldown(k) else { return false };
+        self.error(k, cooldown_message(left));
+        true
     }
 
     /// Seconds a player who often leaves games waits in the queue before
@@ -2467,6 +2645,9 @@ impl Lounge {
 
     /// Sits at the table of an invitation code.
     fn join_by_code(&mut self, k: &str, code: &str) {
+        if self.refuse_if_cooling_down(k) {
+            return;
+        }
         let code: String = code
             .trim()
             .trim_start_matches("snookered://join/")

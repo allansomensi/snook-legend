@@ -13,8 +13,8 @@ mod msstore;
 use super::{
     AimRow, AuditRow, BoardNote, BuyOutcome, FriendOutcome, FriendState, GiftRow, HistoryRow,
     LedgerRow, LiveMatch, MatchRecord, Metrics, NewGift, NewNote, NewReport, NewUser, Overview,
-    Payment, RECENT_SCAN, RecentRow, ReportRow, SessionKind, StoreError, StoreResult, StoredReplay,
-    TournamentRecord, User, Wallet, day_of, hour_of,
+    Payment, RECENT_SCAN, RecentRow, Rename, ReportRow, SessionKind, StoreError, StoreResult,
+    StoredReplay, TournamentRecord, User, Wallet, day_of, hour_of,
 };
 use snookered_proto::analysis::ShotAnalysis;
 
@@ -74,7 +74,7 @@ impl From<sqlx::migrate::MigrateError> for StoreError {
 const USER_COLUMNS: &str = "id, username, password_hash, country, role, rating, peak_rating, \
     games, wins, eight_wins, casual_games, streak, best_streak, runouts, shutouts, \
     tournaments_played, tournaments_won, created_at, last_seen, banned_until, ban_reason, muted_until, \
-    recovery_email, deleted_at, abandons, status_message";
+    recovery_email, deleted_at, abandons, status_message, xp, name_changes";
 
 fn user(r: &PgRow) -> Result<User, sqlx::Error> {
     let n = |c: &str| -> Result<u32, sqlx::Error> { Ok(r.try_get::<i32, _>(c)?.max(0) as u32) };
@@ -105,6 +105,8 @@ fn user(r: &PgRow) -> Result<User, sqlx::Error> {
         deleted_at: r.try_get("deleted_at")?,
         abandons: n("abandons")?,
         status_message: r.try_get("status_message")?,
+        xp: r.try_get("xp")?,
+        name_changes: r.try_get::<i16, _>("name_changes")?.max(0) as u32,
     })
 }
 
@@ -625,23 +627,51 @@ impl PgStore {
             .iter()
             .map(|r| (r.get("day"), r.get("active"), r.get("matches"), r.get("new")))
             .collect();
-        let retention = |after: i64| async move {
+        // Accounts created from `from` to `to` (days) that came back
+        // `after` days later, among those for which that day has come.
+        let back_between = |from: i64, to: i64, after: i64| async move {
             let r = query(
                 "SELECT COUNT(*) AS eligible,
                     COUNT(*) FILTER (WHERE EXISTS (SELECT 1 FROM activity a
-                        WHERE a.user_id = u.id AND a.day = u.created_at / 86400 + $2)) AS came
-                 FROM users u WHERE u.created_at / 86400 >= $1 AND u.created_at / 86400 + $2 <= $3",
+                        WHERE a.user_id = u.id AND a.day = u.created_at / 86400 + $3)) AS came
+                 FROM users u WHERE u.created_at / 86400 BETWEEN $1 AND $2
+                    AND u.created_at / 86400 + $3 <= $4",
             )
-            .bind(today - 30)
+            .bind(from)
+            .bind(to)
             .bind(after)
             .bind(today)
             .fetch_one(&self.pool)
             .await?;
-            let (e, c): (i64, i64) = (r.get("eligible"), r.get("came"));
-            Ok::<f64, sqlx::Error>(if e == 0 { 0.0 } else { c as f64 * 100.0 / e as f64 })
+            Ok::<_, sqlx::Error>(super::percent(r.get("came"), r.get("eligible")))
         };
-        let retention_d1 = retention(1).await?;
-        let retention_d7 = retention(7).await?;
+        let back = |after: i64| async move {
+            Ok::<_, sqlx::Error>(
+                back_between(today - after - 29, today - after, after).await?.unwrap_or(0.0),
+            )
+        };
+        let retention_d1 = back(1).await?;
+        let retention_d7 = back(7).await?;
+        let retention_d30 = back(30).await?;
+        let mut cohorts = Vec::new();
+        for w in 0..super::COHORT_WEEKS {
+            let first_day = today - 6 - 7 * w;
+            let last = first_day + 6;
+            let accounts: i64 =
+                query("SELECT COUNT(*) AS n FROM users WHERE created_at / 86400 BETWEEN $1 AND $2")
+                    .bind(first_day)
+                    .bind(last)
+                    .fetch_one(&self.pool)
+                    .await?
+                    .get("n");
+            cohorts.push(super::Cohort {
+                first_day,
+                accounts,
+                d1: back_between(first_day, last, 1).await?,
+                d7: back_between(first_day, last, 7).await?,
+                d30: back_between(first_day, last, 30).await?,
+            });
+        }
         let f = query(
             "SELECT COUNT(*) AS created,
                 COUNT(*) FILTER (WHERE games + casual_games >= 1) AS one,
@@ -704,6 +734,8 @@ impl PgStore {
             days,
             retention_d1,
             retention_d7,
+            retention_d30,
+            cohorts,
             funnel: [f.get("created"), f.get("one"), f.get("five")],
             revenue,
             hours,
@@ -718,6 +750,31 @@ impl PgStore {
             .execute(&self.pool)
             .await?;
         Ok(())
+    }
+
+    pub async fn change_username(
+        &self,
+        user_id: i64,
+        name: &str,
+        limit: u32,
+    ) -> StoreResult<Rename> {
+        // One statement: two changes at once can't both get under the limit,
+        // and the unique index settles who gets a name.
+        let done = query(
+            "UPDATE users SET username = $2, name_changes = name_changes + 1
+             WHERE id = $1 AND name_changes < $3 AND deleted_at IS NULL",
+        )
+        .bind(user_id)
+        .bind(name)
+        .bind(limit as i32)
+        .execute(&self.pool)
+        .await;
+        match done {
+            Ok(r) if r.rows_affected() == 0 => Ok(Rename::NoChangesLeft),
+            Ok(_) => Ok(Rename::Done),
+            Err(sqlx::Error::Database(e)) if e.is_unique_violation() => Ok(Rename::Taken),
+            Err(e) => Err(e.into()),
+        }
     }
 
     pub async fn payment_email(&self, user_id: i64) -> StoreResult<Option<String>> {
@@ -1549,6 +1606,316 @@ impl PgStore {
         Ok(r.rows_affected())
     }
 
+    pub async fn daily_seed(&self, day: i64, fresh: u64) -> StoreResult<u64> {
+        query(
+            "INSERT INTO daily_challenges (day, seed) VALUES ($1, $2) ON CONFLICT (day) DO NOTHING",
+        )
+        .bind(day)
+        .bind(fresh as i64)
+        .execute(&self.pool)
+        .await?;
+        let seed: i64 = query("SELECT seed FROM daily_challenges WHERE day = $1")
+            .bind(day)
+            .fetch_one(&self.pool)
+            .await?
+            .get("seed");
+        Ok(seed as u64)
+    }
+
+    pub async fn daily_start(
+        &self,
+        user_id: i64,
+        day: i64,
+        now: i64,
+        max: u32,
+    ) -> StoreResult<bool> {
+        let row = query(
+            "INSERT INTO daily_scores (day, user_id, attempts, started_at) VALUES ($1, $2, 1, $3)
+             ON CONFLICT (day, user_id) DO UPDATE
+                SET attempts = daily_scores.attempts + 1, started_at = $3
+                WHERE daily_scores.attempts < $4
+             RETURNING attempts",
+        )
+        .bind(day)
+        .bind(user_id)
+        .bind(now)
+        .bind(max as i32)
+        .fetch_optional(&self.pool)
+        .await?;
+        Ok(row.is_some())
+    }
+
+    pub async fn daily_finish(
+        &self,
+        user_id: i64,
+        day: i64,
+        now: i64,
+        balls: u32,
+        cleared: bool,
+        limit: i64,
+    ) -> StoreResult<super::DailyFinish> {
+        let mut tx = self.pool.begin().await?;
+        let row = query(
+            "SELECT best, cleared FROM daily_scores
+             WHERE day = $1 AND user_id = $2 AND started_at > 0 AND $3 - started_at <= $4
+             FOR UPDATE",
+        )
+        .bind(day)
+        .bind(user_id)
+        .bind(now)
+        .bind(limit)
+        .fetch_optional(&mut *tx)
+        .await?;
+        let Some(row) = row else {
+            return Ok(super::DailyFinish::NotStarted);
+        };
+        let best: Option<i32> = row.get("best");
+        let was_cleared: bool = row.get("cleared");
+        let improved = best.is_none_or(|b| balls as i32 > b);
+        query(
+            "UPDATE daily_scores SET started_at = 0, cleared = cleared OR $3,
+                best = CASE WHEN $4 THEN $5 ELSE best END,
+                best_at = CASE WHEN $4 THEN $6 ELSE best_at END
+             WHERE day = $1 AND user_id = $2",
+        )
+        .bind(day)
+        .bind(user_id)
+        .bind(cleared)
+        .bind(improved)
+        .bind(balls as i32)
+        .bind(now)
+        .execute(&mut *tx)
+        .await?;
+        tx.commit().await?;
+        Ok(super::DailyFinish::Counted { improved, first_clear: cleared && !was_cleared })
+    }
+
+    pub async fn daily_row(&self, user_id: i64, day: i64) -> StoreResult<super::DailyRow> {
+        let row = query(
+            "SELECT attempts, started_at, best, best_at, cleared FROM daily_scores
+             WHERE day = $1 AND user_id = $2",
+        )
+        .bind(day)
+        .bind(user_id)
+        .fetch_optional(&self.pool)
+        .await?;
+        Ok(row.map_or_else(Default::default, |r| super::DailyRow {
+            attempts: r.get::<i32, _>("attempts").max(0) as u32,
+            started_at: r.get("started_at"),
+            best: r.get::<Option<i32>, _>("best").map(|b| b.max(0) as u32),
+            best_at: r.get::<Option<i64>, _>("best_at").unwrap_or(0),
+            cleared: r.get("cleared"),
+        }))
+    }
+
+    pub async fn daily_board(
+        &self,
+        day: i64,
+        limit: u32,
+    ) -> StoreResult<(Vec<super::DailyBoardRow>, u32)> {
+        let rows = query(
+            "SELECT d.user_id, u.username, u.country, d.best, d.best_at
+             FROM daily_scores d JOIN users u ON u.id = d.user_id
+             WHERE d.day = $1 AND d.best IS NOT NULL
+             ORDER BY d.best DESC, d.best_at, d.user_id LIMIT $2",
+        )
+        .bind(day)
+        .bind(limit as i64)
+        .fetch_all(&self.pool)
+        .await?;
+        let players: i64 =
+            query("SELECT COUNT(*) AS n FROM daily_scores WHERE day = $1 AND best IS NOT NULL")
+                .bind(day)
+                .fetch_one(&self.pool)
+                .await?
+                .get("n");
+        let board = rows
+            .iter()
+            .map(|r| super::DailyBoardRow {
+                user_id: r.get("user_id"),
+                username: r.get("username"),
+                country: r.get("country"),
+                balls: r.get::<i32, _>("best").max(0) as u32,
+                at: r.get("best_at"),
+            })
+            .collect();
+        Ok((board, players as u32))
+    }
+
+    pub async fn daily_rank(&self, user_id: i64, day: i64) -> StoreResult<Option<u32>> {
+        let row = query(
+            "SELECT (SELECT COUNT(*) FROM daily_scores o
+                     WHERE o.day = me.day AND o.best IS NOT NULL
+                       AND (o.best > me.best OR (o.best = me.best
+                            AND (o.best_at, o.user_id) < (me.best_at, me.user_id)))) AS ahead
+             FROM daily_scores me WHERE me.day = $1 AND me.user_id = $2 AND me.best IS NOT NULL",
+        )
+        .bind(day)
+        .bind(user_id)
+        .fetch_optional(&self.pool)
+        .await?;
+        Ok(row.map(|r| r.get::<i64, _>("ahead") as u32 + 1))
+    }
+
+    pub async fn daily_wins(&self, user_id: i64, before: i64) -> StoreResult<Vec<(i64, u32)>> {
+        let rows = query(
+            "SELECT day, n FROM (
+                SELECT day, user_id, COUNT(*) OVER (PARTITION BY day) AS n,
+                    ROW_NUMBER() OVER (PARTITION BY day ORDER BY best DESC, best_at, user_id) AS place
+                FROM daily_scores WHERE best IS NOT NULL AND day < $2
+             ) ranked WHERE user_id = $1 AND place = 1 ORDER BY day DESC LIMIT 100",
+        )
+        .bind(user_id)
+        .bind(before)
+        .fetch_all(&self.pool)
+        .await?;
+        Ok(rows.iter().map(|r| (r.get("day"), r.get::<i64, _>("n") as u32)).collect())
+    }
+
+    pub async fn drill_bests(&self, user_id: i64) -> StoreResult<Vec<(String, u32)>> {
+        let rows = query("SELECT code, best FROM drill_scores WHERE user_id = $1")
+            .bind(user_id)
+            .fetch_all(&self.pool)
+            .await?;
+        Ok(rows.iter().map(|r| (r.get("code"), r.get::<i32, _>("best").max(0) as u32)).collect())
+    }
+
+    pub async fn drill_record(
+        &self,
+        user_id: i64,
+        code: &str,
+        score: u32,
+        at: i64,
+    ) -> StoreResult<Option<u32>> {
+        let mut tx = self.pool.begin().await?;
+        let before: Option<i32> =
+            query("SELECT best FROM drill_scores WHERE user_id = $1 AND code = $2 FOR UPDATE")
+                .bind(user_id)
+                .bind(code)
+                .fetch_optional(&mut *tx)
+                .await?
+                .map(|r| r.get("best"));
+        query(
+            "INSERT INTO drill_scores (user_id, code, best, best_at) VALUES ($1, $2, $3, $4)
+             ON CONFLICT (user_id, code) DO UPDATE SET best = $3, best_at = $4
+             WHERE drill_scores.best < $3",
+        )
+        .bind(user_id)
+        .bind(code)
+        .bind(score as i32)
+        .bind(at)
+        .execute(&mut *tx)
+        .await?;
+        tx.commit().await?;
+        Ok(before.map(|b| b.max(0) as u32))
+    }
+
+    pub async fn drill_board(&self, code: &str, limit: u32) -> StoreResult<Vec<super::BoardRow>> {
+        let rows = query(
+            "SELECT u.username, u.country, d.best FROM drill_scores d JOIN users u ON u.id = d.user_id
+             WHERE d.code = $1 ORDER BY d.best DESC, d.best_at, d.user_id LIMIT $2",
+        )
+        .bind(code)
+        .bind(limit as i64)
+        .fetch_all(&self.pool)
+        .await?;
+        Ok(rows
+            .iter()
+            .map(|r| super::BoardRow {
+                username: r.get("username"),
+                country: r.get("country"),
+                score: r.get::<i32, _>("best").max(0) as u32,
+                stars: 0,
+            })
+            .collect())
+    }
+
+    pub async fn set_challenge_rating(
+        &self,
+        user_id: i64,
+        rating: u32,
+        stars: u32,
+        at: i64,
+    ) -> StoreResult<()> {
+        query(
+            "INSERT INTO challenge_ratings (user_id, rating, stars, updated_at) VALUES ($1, $2, $3, $4)
+             ON CONFLICT (user_id) DO UPDATE SET rating = $2, stars = $3, updated_at = $4",
+        )
+        .bind(user_id)
+        .bind(rating as i32)
+        .bind(stars as i32)
+        .bind(at)
+        .execute(&self.pool)
+        .await?;
+        Ok(())
+    }
+
+    pub async fn challenge_board(
+        &self,
+        user_id: i64,
+        limit: u32,
+    ) -> StoreResult<(Vec<super::BoardRow>, Option<u32>)> {
+        let rows = query(
+            "SELECT u.username, u.country, c.rating, c.stars FROM challenge_ratings c
+             JOIN users u ON u.id = c.user_id
+             ORDER BY c.rating DESC, c.updated_at, c.user_id LIMIT $1",
+        )
+        .bind(limit as i64)
+        .fetch_all(&self.pool)
+        .await?;
+        let rank: Option<i64> = query(
+            "SELECT (SELECT COUNT(*) FROM challenge_ratings o
+                     WHERE o.rating > me.rating OR (o.rating = me.rating
+                       AND (o.updated_at, o.user_id) < (me.updated_at, me.user_id))) AS ahead
+             FROM challenge_ratings me WHERE me.user_id = $1",
+        )
+        .bind(user_id)
+        .fetch_optional(&self.pool)
+        .await?
+        .map(|r| r.get("ahead"));
+        let board = rows
+            .iter()
+            .map(|r| super::BoardRow {
+                username: r.get("username"),
+                country: r.get("country"),
+                score: r.get::<i32, _>("rating").max(0) as u32,
+                stars: r.get::<i32, _>("stars").max(0) as u32,
+            })
+            .collect();
+        Ok((board, rank.map(|a| a as u32 + 1)))
+    }
+
+    pub async fn add_xp(&self, user_id: i64, amount: u32) -> StoreResult<i64> {
+        let xp: Option<i64> = query("UPDATE users SET xp = xp + $2 WHERE id = $1 RETURNING xp")
+            .bind(user_id)
+            .bind(amount as i64)
+            .fetch_optional(&self.pool)
+            .await?
+            .map(|r| r.get("xp"));
+        Ok(xp.unwrap_or(0))
+    }
+
+    pub async fn tournaments_won(
+        &self,
+        user_id: i64,
+        limit: u32,
+    ) -> StoreResult<Vec<(String, u32, i64)>> {
+        let rows = query(
+            "SELECT name, players, finished_at FROM tournaments WHERE winner_id = $1
+             ORDER BY finished_at DESC, id DESC LIMIT $2",
+        )
+        .bind(user_id)
+        .bind(limit as i64)
+        .fetch_all(&self.pool)
+        .await?;
+        Ok(rows
+            .iter()
+            .map(|r| {
+                (r.get("name"), r.get::<i32, _>("players").max(0) as u32, r.get("finished_at"))
+            })
+            .collect())
+    }
+
     pub async fn record_tournament(&self, t: &TournamentRecord) -> StoreResult<()> {
         let mut tx = self.pool.begin().await?;
         query(
@@ -1818,13 +2185,14 @@ impl PgStore {
             .iter()
             .map(|r| (r.get("category"), r.get("code")))
             .collect();
-        w.cue_wins = query("SELECT code, wins FROM cue_wins WHERE user_id = $1")
+        let cues = query("SELECT code, wins, games, potted FROM cue_wins WHERE user_id = $1")
             .bind(user_id)
             .fetch_all(&self.pool)
-            .await?
-            .iter()
-            .map(|r| (r.get("code"), r.get::<i32, _>("wins").max(0) as u32))
-            .collect();
+            .await?;
+        let n = |r: &PgRow, c: &str| r.get::<i32, _>(c).max(0) as u32;
+        w.cue_wins = cues.iter().map(|r| (r.get("code"), n(r, "wins"))).collect();
+        w.cue_games =
+            cues.iter().map(|r| (r.get("code"), (n(r, "games"), n(r, "potted")))).collect();
         Ok(w)
     }
 
@@ -1892,14 +2260,23 @@ impl PgStore {
         Ok(added > 0)
     }
 
-    pub async fn add_cue_win(&self, user_id: i64, code: &str) -> StoreResult<u32> {
+    pub async fn add_cue_game(
+        &self,
+        user_id: i64,
+        code: &str,
+        won: bool,
+        potted: u32,
+    ) -> StoreResult<u32> {
         let wins: i32 = query(
-            "INSERT INTO cue_wins (user_id, code, wins) VALUES ($1, $2, 1)
-             ON CONFLICT (user_id, code) DO UPDATE SET wins = cue_wins.wins + 1
+            "INSERT INTO cue_wins (user_id, code, wins, games, potted) VALUES ($1, $2, $3, 1, $4)
+             ON CONFLICT (user_id, code) DO UPDATE SET wins = cue_wins.wins + $3,
+                 games = cue_wins.games + 1, potted = cue_wins.potted + $4
              RETURNING wins",
         )
         .bind(user_id)
         .bind(code)
+        .bind(i32::from(won))
+        .bind(potted.min(i32::MAX as u32) as i32)
         .fetch_one(&self.pool)
         .await?
         .get("wins");

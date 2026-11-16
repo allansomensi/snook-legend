@@ -1,9 +1,8 @@
 # The Microsoft Store package (MSIX); see docs/MSSTORE.md.
 #
 # - On a release tag (v1.2.3, not betas): builds the Store version of the
-#   game, packs it and, once Partner Center access is set up, sends it to
-#   the Store as a new submission (a draft, unless MSSTORE_AUTO_SUBMIT is
-#   "true").
+#   game and packs it. The package (the `msix` artifact of the run) is sent
+#   to the Store by hand, in Partner Center, with the version's notes.
 # - When the packaging changes (any branch): builds and packs only, so a
 #   mistake shows up here and not on release day.
 # - By hand (Actions → Microsoft Store → Run workflow).
@@ -12,10 +11,7 @@
 #   MSSTORE_IDENTITY_NAME, MSSTORE_PUBLISHER, MSSTORE_PUBLISHER_DISPLAY_NAME
 #     (Partner Center → Product management → Product identity),
 #   MSSTORE_DISPLAY_NAME (the name reserved in the Store),
-#   MSSTORE_PRODUCT_ID (the Store ID, 9xxxxxxxxxxx), MSSTORE_AUTO_SUBMIT,
 #   SNOOKERED_SERVER (the game server, as for the other releases).
-# Secrets: MSSTORE_TENANT_ID, MSSTORE_SELLER_ID, MSSTORE_CLIENT_ID,
-#   MSSTORE_CLIENT_SECRET.
 name: Microsoft Store
 
 on:
@@ -28,11 +24,6 @@ on:
       - "tools/msix/**"
       - ".github/workflows/msstore.yml"
   workflow_dispatch:
-    inputs:
-      submit:
-        description: "Send the package to the Store (as a draft submission)"
-        type: boolean
-        default: false
 
 env:
   CARGO_TERM_COLOR: always
@@ -104,27 +95,3 @@ jobs:
         with:
           name: msix
           path: target/msix/*.msix
-      - name: Install the Microsoft Store CLI
-        id: cli
-        if: >-
-          vars.MSSTORE_PRODUCT_ID != '' && vars.MSSTORE_IDENTITY_NAME != '' &&
-          (startsWith(github.ref, 'refs/tags/v') || inputs.submit)
-        uses: microsoft/setup-msstore-cli@v1
-      - name: Send to the Microsoft Store
-        if: steps.cli.outcome == 'success'
-        shell: pwsh
-        env:
-          TENANT: ${{ secrets.MSSTORE_TENANT_ID }}
-          SELLER: ${{ secrets.MSSTORE_SELLER_ID }}
-          CLIENT: ${{ secrets.MSSTORE_CLIENT_ID }}
-          SECRET: ${{ secrets.MSSTORE_CLIENT_SECRET }}
-          PRODUCT: ${{ vars.MSSTORE_PRODUCT_ID }}
-          AUTO_SUBMIT: ${{ vars.MSSTORE_AUTO_SUBMIT }}
-          MSIX: ${{ steps.pack.outputs.msix }}
-        run: |
-          msstore reconfigure --tenantId $env:TENANT --sellerId $env:SELLER --clientId $env:CLIENT --clientSecret $env:SECRET
-          if ($LASTEXITCODE -ne 0) { throw "Partner Center sign-in failed: check the MSSTORE_* secrets." }
-          # A draft by default: review it in Partner Center and press Submit.
-          $draft = if ($env:AUTO_SUBMIT -eq "true") { @() } else { @("--noCommit") }
-          msstore publish $env:MSIX -id $env:PRODUCT @draft
-          if ($LASTEXITCODE -ne 0) { throw "The Store refused the package (see above)." }

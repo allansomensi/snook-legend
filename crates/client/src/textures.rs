@@ -265,7 +265,26 @@ pub(crate) fn lerp3(a: [f32; 3], b: [f32; 3], t: f32) -> [u8; 3] {
     [0, 1, 2].map(|i| ((a[i] + (b[i] - a[i]) * t) * 255.0).round().clamp(0.0, 255.0) as u8)
 }
 
+/// How much sharper the textures of the halls and tables are made (Ultra:
+/// twice as many pixels each way).
+static DETAIL: std::sync::atomic::AtomicU16 = std::sync::atomic::AtomicU16::new(1);
+
+/// Sets the texture detail for the quality preset (see [`detailed`]).
+pub fn set_detail(ultra: bool) {
+    DETAIL.store(if ultra { 2 } else { 1 }, std::sync::atomic::Ordering::Relaxed);
+}
+
+/// The size a texture of `size` pixels is made at: textures are drawn from
+/// code in 0..1 coordinates, so any size gives the same picture, sharper.
+pub(crate) fn detailed(size: u16) -> u16 {
+    if size > 512 {
+        return size;
+    }
+    size * DETAIL.load(std::sync::atomic::Ordering::Relaxed)
+}
+
 pub(crate) fn image(size: u16, f: impl Fn(f32, f32) -> [u8; 3]) -> Pixels {
+    let size = detailed(size);
     let mut rgba = Vec::with_capacity(size as usize * size as usize * 4);
     for y in 0..size {
         for x in 0..size {
@@ -604,6 +623,23 @@ pub fn label() -> Pixels {
 
 /// Soft round shadow: black with alpha falling off towards the edge.
 /// A soft white disc fading out (light on a wall).
+/// The halo round a bright light: a hot core in a wide, soft fall-off.
+pub fn halo() -> Pixels {
+    let size: u16 = 128;
+    let mut rgba = Vec::with_capacity(size as usize * size as usize * 4);
+    for y in 0..size {
+        for x in 0..size {
+            let dx = (x as f32 + 0.5) / size as f32 * 2.0 - 1.0;
+            let dy = (y as f32 + 0.5) / size as f32 * 2.0 - 1.0;
+            let d2 = dx * dx + dy * dy;
+            let edge = (1.0 - d2.sqrt()).clamp(0.0, 1.0);
+            let a = (edge * edge * 0.55 + (-d2 * 28.0).exp() * 0.45).min(1.0);
+            rgba.extend_from_slice(&[255, 255, 255, (a * 255.0) as u8]);
+        }
+    }
+    Pixels { width: size, height: size, rgba }
+}
+
 pub fn glow() -> Pixels {
     let size: u16 = 64;
     let mut rgba = Vec::with_capacity(size as usize * size as usize * 4);

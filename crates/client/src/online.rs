@@ -60,6 +60,8 @@ pub enum OnlineAction {
     ShopVip,
     /// A game against the computer while "Play now" keeps looking.
     PracticeWhileWaiting,
+    /// A table to oneself (free practice) while "Play now" keeps looking.
+    FreeTableWhileWaiting,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -214,6 +216,12 @@ pub struct Online {
     pub draining: Option<std::time::Instant>,
     /// Something happened that a player in another window should notice.
     pub attention: Option<String>,
+    /// The server's protocol version (from its welcome; 0: an older server).
+    server_protocol: u32,
+    /// What the server was last told: (playing the computer, away).
+    activity_sent: (bool, bool),
+    /// Nobody has touched the game for a while (set every frame).
+    pub away: bool,
     /// What the right side of the lounge shows.
     side: Side,
     /// Today's and this week's missions.
@@ -226,6 +234,9 @@ pub struct Online {
     told_starting: Vec<u64>,
     /// The server refused this version of the game: a newer one is out.
     pub outdated: bool,
+    /// Asking the server which version it runs, after it refused this one:
+    /// if it is older, it's the server that hasn't been updated yet.
+    version_check: Option<std::sync::mpsc::Receiver<Option<u32>>>,
     /// An administrator clicked "Clear the chat" once (at this time): a
     /// second click clears it.
     clear_armed: Option<f64>,
@@ -245,6 +256,21 @@ pub struct Online {
     pub ladder_claim: Option<snookered_proto::ladder::ClaimResult>,
     /// The style asked for a ghost opponent, and the answer once it came.
     pub ghost: Option<GhostRequest>,
+    /// Today's challenge (asked for by the challenge's tab).
+    pub daily: Option<snookered_proto::daily::Info>,
+    /// An attempt the server started: (day, seed), for the game to set up.
+    pub daily_started: Option<(i64, u64)>,
+    /// The server's answer to the attempt sent, and its coins.
+    pub daily_result:
+        Option<(Result<snookered_proto::daily::Outcome, snookered_proto::daily::Refused>, i64)>,
+    /// Why the last start was refused.
+    pub daily_refused: Option<snookered_proto::daily::Refused>,
+    /// The account level's experience (once the server said).
+    pub xp: Option<i64>,
+    /// The drills, their tables and the challenge rating.
+    pub drills: Option<snookered_proto::drills::Info>,
+    /// The server's count of the last drill session sent.
+    pub drill_result: Option<(String, Result<u32, snookered_proto::drills::Refused>)>,
 }
 
 /// A request for the style of a player's ghost.
@@ -261,6 +287,17 @@ pub const GHOST_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(45
 
 /// The update button, for how this copy of the game is updated (and how
 /// far the download is).
+/// Where invitations are answered.
+#[derive(Debug, Clone, Copy, PartialEq)]
+enum InviteSpot {
+    /// In the lounge.
+    Lounge,
+    /// At an online table: declined only (the game must end first).
+    OnlineMatch,
+    /// Over a game against the computer (`saved`: it can be continued later).
+    VsComputer { saved: bool },
+}
+
 pub fn update_label() -> String {
     crate::update::button_label()
 }
@@ -365,6 +402,8 @@ struct MissionsView {
 pub struct AccountView {
     pub recovery_email: Option<String>,
     pub payment_email: Option<String>,
+    /// Username changes left (see `snookered_proto::MAX_NAME_CHANGES`).
+    pub name_changes_left: u32,
 }
 
 const MAX_RECONNECTS: u32 = 15;
@@ -414,6 +453,9 @@ impl Online {
             leaderboard_age: f32::MAX,
             incoming: Vec::new(),
             outgoing: None,
+            server_protocol: 0,
+            activity_sent: (false, false),
+            away: false,
             motd: String::new(),
             token: String::new(),
             auto_resume: false,
@@ -467,6 +509,7 @@ impl Online {
             board: Vec::new(),
             told_starting: Vec::new(),
             outdated: false,
+            version_check: None,
             clear_armed: None,
             quit_for_update: false,
             form_focused: false,
@@ -480,6 +523,13 @@ impl Online {
             gifts: Default::default(),
             ladder_claim: None,
             ghost: None,
+            daily: None,
+            daily_started: None,
+            daily_result: None,
+            daily_refused: None,
+            xp: None,
+            drills: None,
+            drill_result: None,
         }
     }
 
@@ -568,6 +618,20 @@ impl Online {
         self.tournaments_starting();
         let effects = self.store_shop.update(dt);
         self.store_effects(effects);
+        if let Some(rx) = &self.version_check
+            && let Ok(protocol) = rx.try_recv()
+        {
+            self.version_check = None;
+            if protocol.is_some_and(|p| p < snookered_proto::PROTOCOL_VERSION) {
+                // This game is newer than the server: updating it can't
+                // help, waiting for the server can.
+                self.outdated = false;
+                self.error = Some(
+                    t("The server is still being updated to the new version. Try again in a few minutes.")
+                        .into(),
+                );
+            }
+        }
         // Outgoing match messages.
         if let Some(m) = current.as_mut()
             && let Some(o) = m.online.as_mut()
@@ -656,6 +720,20 @@ impl Online {
                 NetEvent::Message(msg) => save |= self.handle(*msg, current, config),
             }
         }
+        // The lounge shows who is playing the computer (they can still be
+        // invited: the invitation shows over their game).
+        // Away too, after a while untouched (a minimised window included).
+        let vs_computer = current
+            .as_ref()
+            .is_some_and(|m| m.is_against_computer() || (m.practice && !m.free_play));
+        let activity = (vs_computer, self.away);
+        if self.signed_in()
+            && self.server_protocol >= snookered_proto::ACTIVITY_PROTOCOL
+            && activity != self.activity_sent
+        {
+            self.activity_sent = activity;
+            self.send(ClientMsg::SetActivity { vs_computer, away: self.away });
+        }
         save
     }
 
@@ -671,6 +749,10 @@ impl Online {
                 }
                 self.username = player.username.clone();
                 self.me = Some(player);
+                // A new session: the server learns again what this player
+                // is doing (its welcome follows).
+                self.server_protocol = 0;
+                self.activity_sent = (false, false);
                 // A new session: the board comes again; the recent games may have changed.
                 self.social.seeks.clear();
                 self.social.recent_stale = true;
@@ -704,6 +786,9 @@ impl Online {
                 // This version is too old for the server: the saved session
                 // is still good for the new one.
                 self.outdated = reason.contains("out of date");
+                if self.outdated {
+                    self.version_check = Some(server_protocol(&self.server));
+                }
                 if self.auto_resume && !self.token.is_empty() && !self.outdated {
                     // The saved session expired (or the account was banned).
                     self.token.clear();
@@ -731,7 +816,10 @@ impl Online {
                 self.stage = if self.lan { Stage::Idle } else { Stage::SignIn };
                 self.error = Some(crate::i18n::server_text(&reason));
             }
-            ServerMsg::Welcome { motd, .. } => self.motd = crate::i18n::server_text(&motd),
+            ServerMsg::Welcome { motd, protocol, .. } => {
+                self.motd = crate::i18n::server_text(&motd);
+                self.server_protocol = protocol;
+            }
             ServerMsg::Lounge { players } => self.players = players,
             ServerMsg::PlayerUpdated { player } => {
                 if self.me.as_ref().is_some_and(|me| me.username == player.username) {
@@ -943,6 +1031,9 @@ impl Online {
                 self.buying = None;
                 self.shop_error = Some(crate::i18n::server_text(&message));
             }
+            // A message an older server doesn't know (a newer game asking
+            // for something new): nothing the player can do about it.
+            ServerMsg::Error { message } if message == "Malformed message." => {}
             ServerMsg::Error { message } => match current.as_mut() {
                 Some(m) if m.is_online() => m.handle_server(ServerMsg::Error { message }),
                 _ => self.toast(crate::i18n::server_text(&message), false),
@@ -977,12 +1068,13 @@ impl Online {
                 };
                 self.toast(tw("+{n} coins · {why}", &[("n", &amount), ("why", &why)]), true);
             }
-            ServerMsg::Account { recovery_email, payment_email } => {
+            ServerMsg::Account { recovery_email, payment_email, name_changes_left } => {
                 // After a payment, without a recovery e-mail: offer the one paid with.
                 if recovery_email.is_none() && !config.email_offer_declined {
                     self.email_offer = payment_email.clone();
                 }
-                self.account = Some(AccountView { recovery_email, payment_email });
+                self.account =
+                    Some(AccountView { recovery_email, payment_email, name_changes_left });
             }
             ServerMsg::AccountDeleted => {
                 self.auto_resume = false;
@@ -1111,6 +1203,37 @@ impl Online {
                 self.toast(crate::i18n::server_text(&reason), false);
             }
             ServerMsg::LadderClaim { result } => self.ladder_claim = Some(result),
+            ServerMsg::Daily { info } => self.daily = Some(info),
+            ServerMsg::Drills { info } => self.drills = Some(info),
+            ServerMsg::DrillResult { code, result } => self.drill_result = Some((code, result)),
+            ServerMsg::Xp { xp, gained } => {
+                use snookered_proto::xp::level_of;
+                let before = self.xp.map(level_of);
+                self.xp = Some(xp);
+                if gained > 0 {
+                    match before.filter(|&b| level_of(xp) > b) {
+                        Some(_) => self.toast(
+                            tw("Level {n}! (+{xp} XP)", &[("n", &level_of(xp)), ("xp", &gained)]),
+                            true,
+                        ),
+                        None => self.toast(tw("+{xp} XP", &[("xp", &gained)]), false),
+                    }
+                }
+            }
+            ServerMsg::DailyStarted { day, seed } => {
+                self.daily_refused = None;
+                self.daily_started = Some((day, seed));
+            }
+            ServerMsg::DailyResult { result: Err(e), .. } if current.is_none() => {
+                // Refused before an attempt began (none left, the day over).
+                self.daily_refused = Some(e);
+            }
+            ServerMsg::DailyResult { result, coins, .. } => {
+                if result.is_ok() && coins > 0 {
+                    self.toast(tw("Table cleared! +{n} coins", &[("n", &coins)]), true);
+                }
+                self.daily_result = Some((result, coins));
+            }
             ServerMsg::GhostStyle { username, answer } => {
                 if let Some(g) =
                     self.ghost.as_mut().filter(|g| g.username.eq_ignore_ascii_case(&username))
@@ -1324,16 +1447,31 @@ impl Online {
         });
     }
 
-    /// Invitations received at the table or in the lounge: answered from a banner.
+    /// Invitations received at an online table: answered from a banner.
     pub fn draw_invites(&mut self, ui: &mut Ui, in_match: bool) {
         let sw = crate::ui::vw();
         let w = 520.0f32.min(sw - 32.0);
         let y = if in_match { 64.0 } else { 74.0 };
-        self.draw_invites_at(ui, in_match, Rect::new((sw - w) / 2.0, y, w, 0.0));
+        let spot = if in_match { InviteSpot::OnlineMatch } else { InviteSpot::Lounge };
+        self.draw_invites_at(ui, spot, Rect::new((sw - w) / 2.0, y, w, 0.0));
+    }
+
+    /// Invitations received during a game against the computer: in the top
+    /// right corner, under the top bar (and under the "Play now" banner, `y`),
+    /// to accept straight away (the online game takes the table).
+    pub fn draw_invites_corner(&mut self, ui: &mut Ui, y: f32, saved: bool) {
+        if self.incoming.is_empty() {
+            return;
+        }
+        let sw = crate::ui::vw();
+        let w = 460.0f32.min(sw - 24.0);
+        let at = Rect::new(sw - w - 12.0, y, w, 0.0);
+        self.draw_invites_at(ui, InviteSpot::VsComputer { saved }, at);
     }
 
     /// The invitations stacked down from the top of `at` (its width).
-    fn draw_invites_at(&mut self, ui: &mut Ui, in_match: bool, at: Rect) {
+    fn draw_invites_at(&mut self, ui: &mut Ui, spot: InviteSpot, at: Rect) {
+        let in_match = spot == InviteSpot::OnlineMatch;
         let w = at.w;
         let mut y = at.y;
         let mut answer = None;
@@ -1352,14 +1490,13 @@ impl Online {
             let buttons = if in_match { bw } else { bw * 2.0 + 8.0 };
             let text_w = w - 32.0 - buttons - 16.0;
             ui.name_with_flag(from, &country, color, r.x + 16.0, r.y + 12.0, 16.0, text_w);
-            let line2 = if in_match {
-                format!(
-                    "{} · {}",
-                    tw("invites you to {kind}", &[("kind", &kind)]),
-                    t("Finish this match first.")
-                )
-            } else {
-                tw("invites you to {kind}", &[("kind", &kind)])
+            let invites = tw("invites you to {kind}", &[("kind", &kind)]);
+            let line2 = match spot {
+                InviteSpot::OnlineMatch => format!("{invites} · {}", t("Finish this match first.")),
+                InviteSpot::VsComputer { saved: true } => {
+                    format!("{invites} · {}", t("this game is saved"))
+                }
+                _ => invites,
             };
             let (line2, size) = fit_text(ui, &line2, 13.0, text_w, false);
             ui.text(&line2, r.x + 16.0, r.y + 36.0, size, CREAM, false);
@@ -1887,7 +2024,7 @@ impl Online {
                     }
                 }
             }
-            self.draw_invites_at(ui, false, invites_at);
+            self.draw_invites_at(ui, InviteSpot::Lounge, invites_at);
             return action;
         }
         // The featured game: anyone can watch it.
@@ -1979,7 +2116,7 @@ impl Online {
             ui.focus = Some(30);
         }
 
-        self.draw_invites_at(ui, false, invites_at);
+        self.draw_invites_at(ui, InviteSpot::Lounge, invites_at);
         action
     }
 
@@ -2232,6 +2369,16 @@ impl Online {
         match p.status {
             PlayerStatus::Playing => t("playing").to_string(),
             PlayerStatus::Waiting => t("at a table").to_string(),
+            // An invitation waits for them.
+            PlayerStatus::Available if p.away => t("away").to_string(),
+            // Still free for an invitation: it shows over their game.
+            PlayerStatus::Available if p.vs_computer => {
+                if p.guest {
+                    t("playing the computer").to_string()
+                } else {
+                    format!("{} · {}", p.rating, t("playing the computer"))
+                }
+            }
             PlayerStatus::Available => {
                 if p.guest {
                     t("guest").to_string()
@@ -2246,6 +2393,8 @@ impl Online {
         let color = match p.status {
             PlayerStatus::Playing => Color::new(0.9, 0.6, 0.2, 1.0),
             PlayerStatus::Waiting => Color::new(0.45, 0.7, 1.0, 1.0),
+            PlayerStatus::Available if p.away => Color::new(0.85, 0.75, 0.3, 1.0),
+            PlayerStatus::Available if p.vs_computer => Color::new(0.75, 0.55, 0.95, 1.0),
             PlayerStatus::Available => Color::new(0.35, 0.85, 0.45, 1.0),
         };
         draw_circle(x, y, 4.5, color);
@@ -2335,10 +2484,24 @@ impl Online {
         let mut action = None;
         // Nobody yet after half a minute: a game against the computer while
         // the search goes on.
-        if self.queue_secs().is_some_and(|s| s >= PRACTICE_AFTER_SECS) && !self.lan {
-            let b = Rect::new(area.x, y, area.w, 36.0);
-            if ui.button(b, t("Play the computer while you wait"), true) {
-                action = Some(OnlineAction::PracticeWhileWaiting);
+        // Searching: a table to practise on at once (the game starts as
+        // soon as an opponent is found); after half a minute, the computer
+        // too.
+        if self.queue_secs().is_some() && !self.lan {
+            let computer = self.queue_secs().is_some_and(|s| s >= PRACTICE_AFTER_SECS);
+            let half = if computer { (area.w - 8.0) / 2.0 } else { area.w };
+            let b = Rect::new(area.x, y, half, 36.0);
+            let (label, _) = ui.fitted(t("Practise while you wait"), 15.0, half - 16.0, true);
+            if ui.button(b, &label, true) {
+                action = Some(OnlineAction::FreeTableWhileWaiting);
+            }
+            if computer {
+                let b = Rect::new(area.x + half + 8.0, y, half, 36.0);
+                let (label, _) =
+                    ui.fitted(t("Play the computer while you wait"), 15.0, half - 16.0, true);
+                if ui.button(b, &label, true) {
+                    action = Some(OnlineAction::PracticeWhileWaiting);
+                }
             }
             y += 36.0 + 12.0;
         }
@@ -3565,4 +3728,55 @@ pub(crate) fn empty_state(
     let Some(label) = action else { return false };
     let w = button_w(ui, label, 36.0).max(180.0).min(area.w - 16.0);
     ui.button(Rect::new(cx - w / 2.0, y + 16.0, w, 36.0), label, true)
+}
+
+/// The address of the server's public status for its game address
+/// (`wss://host/ws` → `https://host/api/status`).
+fn status_url(server: &str) -> Option<String> {
+    let (scheme, rest) = if let Some(rest) = server.strip_prefix("wss://") {
+        ("https", rest)
+    } else {
+        ("http", server.strip_prefix("ws://")?)
+    };
+    let host = rest.split('/').next().filter(|h| !h.is_empty())?;
+    Some(format!("{scheme}://{host}/api/status"))
+}
+
+/// The protocol the server at `server` speaks, asked in the background
+/// (`None` when it can't be found out).
+fn server_protocol(server: &str) -> std::sync::mpsc::Receiver<Option<u32>> {
+    let (tx, rx) = std::sync::mpsc::channel();
+    let url = status_url(server);
+    std::thread::spawn(move || {
+        let protocol = url.and_then(|url| {
+            let agent: ureq::Agent = ureq::Agent::config_builder()
+                .timeout_global(Some(std::time::Duration::from_secs(20)))
+                .build()
+                .into();
+            let text = agent.get(&url).call().ok()?.body_mut().read_to_string().ok()?;
+            let status: serde_json::Value = serde_json::from_str(&text).ok()?;
+            u32::try_from(status.get("protocol")?.as_u64()?).ok()
+        });
+        let _ = tx.send(protocol);
+    });
+    rx
+}
+
+#[cfg(test)]
+mod tests {
+    use super::status_url;
+
+    #[test]
+    fn the_status_is_next_to_the_game_address() {
+        assert_eq!(
+            status_url("wss://snook.example.com/ws").as_deref(),
+            Some("https://snook.example.com/api/status")
+        );
+        assert_eq!(
+            status_url("ws://127.0.0.1:7878/ws").as_deref(),
+            Some("http://127.0.0.1:7878/api/status")
+        );
+        assert_eq!(status_url("https://example.com"), None);
+        assert_eq!(status_url("wss:///ws"), None);
+    }
 }

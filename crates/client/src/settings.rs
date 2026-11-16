@@ -392,8 +392,10 @@ impl SettingsScreen {
                 let hint = match config.quality {
                     Quality::Low => "For old or very slow computers.",
                     Quality::Medium => "Balanced: smooth on most laptops.",
-                    Quality::High => "Soft shadows from every lamp, contact shading.",
-                    Quality::Ultra => "Everything, with the sharpest balls: for gaming PCs.",
+                    Quality::High => "Soft shadows from every lamp, glossy halls, halos.",
+                    Quality::Ultra => {
+                        "Everything, with reflections in polished floors: for gaming PCs."
+                    }
                 };
                 if let Some((_, c)) =
                     rows.row(ui, t("Graphics quality"), t(hint), Control::Wide(32.0))
@@ -497,9 +499,9 @@ impl SettingsScreen {
 
                 rows.heading(ui, t("Aiming"), None);
                 let hint = match config.guide {
-                    AimGuide::Full => {
-                        t("Shows where the object ball and the cue ball go (not online).")
-                    }
+                    AimGuide::Full => t(
+                        "Shows where the object ball and the cue ball go (only in free games and practice).",
+                    ),
                     AimGuide::Standard => {
                         t("Shows the contact point; judging the cut is up to you.")
                     }

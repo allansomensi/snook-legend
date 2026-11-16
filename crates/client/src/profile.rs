@@ -27,6 +27,8 @@ enum Pane {
     Games,
     Rating,
     Numbers,
+    /// Tournaments won, the ladder, daily challenges topped.
+    Trophies,
     /// The shot analysis (over the whole width).
     Analysis,
     /// Presents received and given (own profile).
@@ -51,11 +53,19 @@ pub struct ProfileScreen {
     status_edit: Option<String>,
     /// The first present shown in the Gifts pane.
     gifts_first: usize,
+    /// The first trophy shown.
+    trophies_first: usize,
 }
 
-/// The account dialog: recovery e-mail, password, deletion.
+/// The account dialog: username, recovery e-mail, password, deletion.
 #[derive(Default)]
 struct AccountForm {
+    new_name: String,
+    /// The name "Change" was clicked once for (a second click sends it).
+    confirm_rename: Option<String>,
+    /// The name asked for: when the session comes back under it, the page
+    /// follows.
+    renaming: Option<String>,
     email: String,
     email_loaded: bool,
     old_password: String,
@@ -196,6 +206,22 @@ impl ProfileScreen {
             self.asked_signed_in = true;
             online.send(ClientMsg::Profile { username: self.name.clone() });
         }
+        // The username was changed in the account dialog: the page follows
+        // the new name (the server signs this session in again under it).
+        if let Some(form) = self.account.as_mut()
+            && let Some(new) = form.renaming.clone()
+            && online.me.as_ref().is_some_and(|me| me.username == new)
+        {
+            form.renaming = None;
+            form.new_name.clear();
+            if let Some(p) = online.profile.as_mut()
+                && p.player.username.eq_ignore_ascii_case(&self.name)
+            {
+                p.player.username = new.clone();
+            }
+            self.name = new.clone();
+            online.request_profile(&new);
+        }
         let loaded =
             online.profile.clone().filter(|p| p.player.username.eq_ignore_ascii_case(&self.name));
         // The panel fits its content: the header, then the achievements and
@@ -261,6 +287,7 @@ impl ProfileScreen {
         let own = p.relation == Relation::Me && !online.lan && !p.player.guest;
         let mut panes = vec![(Pane::Games, t("Games")), (Pane::Rating, t("Rating"))];
         panes.push((Pane::Numbers, t("Numbers")));
+        panes.push((Pane::Trophies, t("Trophies")));
         panes.push((Pane::Analysis, t("Analysis")));
         if own {
             panes.push((Pane::Gifts, t("Gifts")));
@@ -292,6 +319,7 @@ impl ProfileScreen {
             Pane::Games => self.history(ui, online, &p, content),
             Pane::Rating => rating_chart(ui, &p, content),
             Pane::Numbers => numbers(ui, &p, content),
+            Pane::Trophies => self.trophies(ui, &p, content),
             Pane::Analysis => crate::analysis::draw(
                 ui,
                 p.analysis.as_deref(),
@@ -373,6 +401,11 @@ impl ProfileScreen {
         let mut info_x = left;
         if !player.guest {
             info_x += tier_pill(ui, t(tier.name()), info_x, info_mid, tier_color(tier)) + 10.0;
+            // The account level (experience, not skill).
+            if player.level > 0 {
+                let level = tw("Level {n}", &[("n", &player.level)]);
+                info_x += tier_pill(ui, &level, info_x, info_mid, GOLD) + 10.0;
+            }
         }
         let mut parts = Vec::new();
         if let Some(rank) = p.rank {
@@ -880,7 +913,60 @@ impl ProfileScreen {
         }
     }
 
-    /// Recovery e-mail, password and deleting the account.
+    /// The trophy shelf: what they won, newest first, with the date.
+    fn trophies(&mut self, ui: &mut Ui, p: &Profile, list: Rect) {
+        use snookered_proto::TrophyKind;
+        let shelf: Vec<_> = p.trophies.iter().filter(|t| t.kind != TrophyKind::Other).collect();
+        if shelf.is_empty() {
+            empty_state(ui, list, Icon::Trophy, t("No trophies yet."));
+            return;
+        }
+        let row_h = 52.0;
+        let visible = (list.h / row_h).floor().max(1.0) as usize;
+        self.trophies_first = ui.scroll_list(list, self.trophies_first, shelf.len(), visible);
+        let scrolls = shelf.len() > visible;
+        for (k, trophy) in shelf.iter().skip(self.trophies_first).take(visible).enumerate() {
+            let w = list.w - if scrolls { 12.0 } else { 0.0 };
+            let r = Rect::new(list.x, list.y + k as f32 * row_h, w, row_h - 6.0);
+            rrect(r, 6.0, Color::new(1.0, 1.0, 1.0, 0.035));
+            let mid = r.y + r.h / 2.0;
+            let (icon, color, title, sub) = match trophy.kind {
+                TrophyKind::Tournament => (
+                    Icon::Trophy,
+                    GOLD,
+                    trophy.name.clone(),
+                    tw("Tournament won · {n} players", &[("n", &trophy.players)]),
+                ),
+                TrophyKind::Ladder => (
+                    Icon::Crown,
+                    Color::new(0.75, 0.55, 0.95, 1.0),
+                    t("The computer tour").to_string(),
+                    t("All ten opponents beaten").to_string(),
+                ),
+                _ => (
+                    Icon::Star,
+                    Color::new(0.45, 0.75, 1.0, 1.0),
+                    t("Daily challenge").to_string(),
+                    tw("First of {n} players", &[("n", &trophy.players)]),
+                ),
+            };
+            let badge = Rect::new(r.x + 8.0, mid - 15.0, 30.0, 30.0);
+            rrect(badge, 6.0, Color::new(color.r, color.g, color.b, 0.18));
+            crate::icons::draw(icon, vec2(badge.x + 15.0, mid), 16.0, color);
+            let d = date(trophy.at);
+            let dw = ui.text_size(&d, 12.0, false).x;
+            let rx = r.x + r.w - 12.0;
+            ui.text(&d, rx - dw, text_y(mid, 12.0), 12.0, MUTED, false);
+            let x = badge.x + badge.w + 12.0;
+            let room = rx - dw - 12.0 - x;
+            let (title, size) = ui.fitted(&title, 14.0, room, true);
+            ui.text(&title, x, mid - 17.0, size, CREAM, true);
+            let sub = ui.ellipsize(&sub, room, 12.0);
+            ui.text(&sub, x, mid + 3.0, 12.0, MUTED, false);
+        }
+    }
+
+    /// Username, recovery e-mail, password and deleting the account.
     fn account_dialog(&mut self, ui: &mut Ui, online: &mut Online) {
         let Some(form) = self.account.as_mut() else { return };
         if !form.email_loaded
@@ -904,9 +990,9 @@ impl ProfileScreen {
             ),
         );
         // The height follows the text (it wraps differently per language):
-        // the title, the three sections as laid out below, and Close.
+        // the title, the four sections as laid out below, and Close.
         let lines = (email_note.len() + delete_note.len()) as f32 * 17.0;
-        let h = (70.0 + 89.0 + 171.0 + 64.0 + 88.0 + lines).min(sh - 20.0);
+        let h = (70.0 + 106.0 + 89.0 + 171.0 + 64.0 + 88.0 + lines).min(sh - 20.0);
         let r = Rect::new((sw - w) / 2.0, (sh - h) / 2.0, w, h);
         ui.panel(r);
         ui.block(Rect::new(0.0, 0.0, sw, sh));
@@ -914,6 +1000,52 @@ impl ProfileScreen {
         crate::icons::draw(Icon::Person, vec2(x + 12.0, r.y + 24.0 + 13.0), 24.0, GOLD);
         ui.text(t("Your account"), x + 34.0, text_y(r.y + 24.0 + 13.0, 22.0), 22.0, GOLD, true);
         let mut y = r.y + 24.0 + 26.0 + 20.0;
+        // Username: a few changes in all.
+        ui.text(t("Username"), x, y, 15.0, GOLD, true);
+        y += 24.0;
+        let left = online.account.as_ref().map(|a| a.name_changes_left);
+        let note = match left {
+            Some(0) => t("You can't change your username again.").to_string(),
+            Some(n) => tw(
+                "{n} of {total} name changes left",
+                &[("n", &n), ("total", &snookered_proto::MAX_NAME_CHANGES)],
+            ),
+            None => String::new(),
+        };
+        ui.text(&note, x, y, 13.0, MUTED, false);
+        y += 17.0 + 6.0;
+        let current = online.me.as_ref().map(|me| me.username.clone()).unwrap_or_default();
+        let wanted = form.new_name.trim().to_string();
+        if form.confirm_rename.as_ref().is_some_and(|c| *c != wanted) {
+            form.confirm_rename = None;
+        }
+        let label =
+            if form.confirm_rename.is_some() { t("Click again to confirm") } else { t("Change") };
+        // Wide enough for both labels: the field beside it doesn't jump.
+        let both = [t("Change"), t("Click again to confirm")];
+        let bw = both.iter().map(|l| ui.text_size(l, 15.0, true).x).fold(0.0, f32::max) + 32.0;
+        let field = Rect::new(x, y, fw - bw - 10.0, 34.0);
+        if left.is_some_and(|n| n > 0) {
+            ui.text_input(75, field, &mut form.new_name, 16);
+            if form.new_name.is_empty() && ui.focus != Some(75) {
+                ui.text(t("New username"), x + 10.0, text_y(y + 17.0, 14.0), 14.0, MUTED, false);
+            }
+        }
+        let ok = left.is_some_and(|n| n > 0)
+            && snookered_proto::valid_username(&wanted)
+            && wanted != current;
+        if ui.button(Rect::new(x + fw - bw, y, bw, 34.0), label, ok) {
+            if form.confirm_rename.is_some() {
+                online.send(ClientMsg::ChangeUsername { username: wanted.clone() });
+                form.confirm_rename = None;
+                form.renaming = Some(wanted);
+            } else {
+                form.confirm_rename = Some(wanted);
+            }
+        }
+        y += 34.0 + 12.0;
+        draw_line(x, y, x + fw, y, 1.0, BORDER);
+        y += 13.0;
         // Recovery e-mail.
         ui.text(t("Recovery e-mail"), x, y, 15.0, GOLD, true);
         y += 24.0;
@@ -1076,10 +1208,10 @@ fn rating_chart(ui: &mut Ui, p: &Profile, area: Rect) {
 fn numbers(ui: &mut Ui, p: &Profile, area: Rect) {
     let c = &p.career;
     if c.games == 0 && p.abandon_rate == 0 {
-        if p.cue_wins.is_empty() {
+        if p.cue_wins.is_empty() && p.cue_stats.is_empty() {
             empty_state(ui, area, Icon::Star, t("No games yet."));
         } else {
-            cue_card(ui, p, Rect::new(area.x, area.y, area.w, 92.0));
+            cue_card(ui, p, Rect::new(area.x, area.y, area.w, CUE_CARD_H));
         }
         return;
     }
@@ -1096,7 +1228,7 @@ fn numbers(ui: &mut Ui, p: &Profile, area: Rect) {
     let (cols, gap) = (2, 12.0);
     let cw = (area.w - gap) / cols as f32;
     // Room under the numbers for the cue and its level.
-    let cue_h = if p.cue_wins.is_empty() { 0.0 } else { 92.0 };
+    let cue_h = if p.cue_wins.is_empty() && p.cue_stats.is_empty() { 0.0 } else { CUE_CARD_H };
     let ch = ((area.h - 2.0 * gap - cue_h - if cue_h > 0.0 { gap } else { 0.0 }) / 3.0).min(72.0);
     for (k, (n, label)) in cards.iter().enumerate() {
         let r = Rect::new(
@@ -1118,8 +1250,11 @@ fn numbers(ui: &mut Ui, p: &Profile, area: Rect) {
     }
 }
 
-/// The cue in use and its level (online wins with it); the cue with the
-/// most wins too, when it is another.
+/// Height of [`cue_card`].
+const CUE_CARD_H: f32 = 110.0;
+
+/// The cue in use, its level (online wins with it) and what it has done;
+/// the cue with the most wins too, when it is another.
 fn cue_card(ui: &mut Ui, p: &Profile, r: Rect) {
     use snookered_proto::shop::{self, Category};
     rrect(r, 8.0, Color::new(1.0, 1.0, 1.0, 0.04));
@@ -1141,11 +1276,21 @@ fn cue_card(ui: &mut Ui, p: &Profile, r: Rect) {
     let bar = Rect::new(x, r.y + 56.0, room, 4.0);
     rrect(bar, 2.0, Color::new(1.0, 1.0, 1.0, 0.1));
     rrect(Rect::new(bar.x, bar.y, bar.w * progress, bar.h), 2.0, GOLD);
+    // Its record: games, wins and balls made with it.
+    if let Some(s) = p.cue_stats.iter().find(|s| s.code == code).filter(|s| s.games > 0) {
+        let rate = s.wins * 100 / s.games;
+        let text = tw(
+            "{games} games · {rate}% won · {balls} balls made",
+            &[("games", &s.games), ("rate", &rate), ("balls", &s.potted)],
+        );
+        let (text, size) = ui.fitted(&text, 12.0, room, false);
+        ui.text(&text, x, r.y + 68.0, size, CREAM, false);
+    }
     if let Some((best, n)) = p.cue_wins.first().filter(|(c, n)| c != code && *n > wins(code)) {
         let best = shop::item(best).map_or(best.as_str(), |i| t(i.name));
         let text =
             tw("Most wins: {cue} (level {n})", &[("cue", &best), ("n", &shop::cue_level(*n))]);
         let (text, size) = ui.fitted(&text, 12.0, room, false);
-        ui.text(&text, x, r.y + 68.0, size, MUTED, false);
+        ui.text(&text, x, r.y + 88.0, size, MUTED, false);
     }
 }

@@ -60,12 +60,16 @@ impl Default for PhysicsParams {
         PhysicsParams {
             gravity: 9.81,
             sliding_friction: 0.2,
-            rolling_friction: 0.01,
+            // Measured values for a tournament table: a worsted cloth takes
+            // the pace off a rolling ball at about 1.25% of g, phenolic
+            // resin balls give back about 93% of a hit, and good cushion
+            // rubber returns about 70% at ordinary speeds.
+            rolling_friction: 0.0125,
             // Side spin on a ball turning in place dies within a few seconds.
             spin_friction: 0.022,
-            ball_restitution: 0.95,
+            ball_restitution: 0.93,
             ball_friction: 0.06,
-            cushion_restitution: 0.8,
+            cushion_restitution: 0.75,
             cushion_friction: 0.2,
             slate_restitution: 0.5,
             slate_friction: 0.2,
@@ -436,8 +440,11 @@ impl Simulation {
                 // Apart now, but they may have touched during the last
                 // sub-step (a thin cut): find when, go back to that moment,
                 // collide, and finish the sub-step with the new velocities.
+                // Overlapping now but apart when the sub-step began (a graze
+                // past its deepest point): the same, so the touch registers.
                 let mut rewind = 0.0;
-                if dist_sq >= min_dist * min_dist {
+                let apart = dist_sq >= min_dist * min_dist;
+                {
                     match touch_time(delta, bj.velocity - bi.velocity, min_dist, dt) {
                         Some(back) => {
                             rewind = back;
@@ -446,7 +453,8 @@ impl Simulation {
                             delta = self.balls[j].position - self.balls[i].position;
                             dist_sq = delta.length_squared();
                         }
-                        None => continue,
+                        None if apart => continue,
+                        None => {}
                     }
                 }
                 if dist_sq == 0.0 {
@@ -840,7 +848,7 @@ mod tests {
 
     #[test]
     fn jump_shot_clears_blocker() {
-        let r = TableSpec::BAR_BOX_7FT.ball_radius;
+        let r = TableSpec::TOURNAMENT_9FT.ball_radius;
         let mut sim = sim_with(&[(0, DVec2::new(-0.5, 0.0)), (5, DVec2::new(-0.36, 0.0))]);
         sim.strike(BallId::CUE, &Shot::new(0.0, 5.5).with_elevation(50f64.to_radians())).unwrap();
         sim.run_to_rest();
@@ -854,7 +862,7 @@ mod tests {
     /// slip between two collision checks).
     #[test]
     fn thin_cuts_at_full_power_register() {
-        let r = TableSpec::BAR_BOX_7FT.ball_radius;
+        let r = TableSpec::TOURNAMENT_9FT.ball_radius;
         for k in 0..40 {
             // Overlap of 0.02 mm, at 40 different phases along the path.
             let offset = 2.0 * r - 0.00002;

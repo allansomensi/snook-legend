@@ -92,8 +92,8 @@ pub const PERSONALITIES: &[Personality] = &[
         player: AiPlayer {
             skill: skill(0.7, 0.08, 6.0, Search::Normal, 200.0, true, false),
             style: Style {
-                safety_threshold: 1000.0,
-                safety_value: 1.8,
+                safety_threshold: 1100.0,
+                safety_value: 2.5,
                 power: -0.6,
                 spin: 0.8,
                 ..N
@@ -155,7 +155,7 @@ pub const PERSONALITIES: &[Personality] = &[
         code: "viktor",
         name: "Viktor",
         epithet: "The Champion",
-        description: "Unbeaten for years. Precise, patient and merciless: the last step of the ladder.",
+        description: "Unbeaten for years. Precise, patient and merciless: the last stage of the tour.",
         strength: 5,
         player: AiPlayer {
             skill: skill(0.2, 0.035, 7.2, Search::Wide, 520.0, true, true),

@@ -47,6 +47,8 @@ pub enum Icon {
     AddFriend,
     /// A pencil: edit.
     Pencil,
+    /// A list (three lines with bullets): a log, the game's history.
+    List,
 }
 
 fn arc(c: Vec2, r: f32, from: f32, to: f32, w: f32, color: Color) {
@@ -338,6 +340,12 @@ pub fn draw(icon: Icon, c: Vec2, s: f32, color: Color) {
             line(p(-0.32, 0.32), b, w * 2.6, color);
             line(b + vec2(0.07, -0.07) * h, p(0.68, -0.68), w * 2.6, color);
             draw_triangle(a, p(-0.5, 0.18), p(-0.18, 0.5), color);
+        }
+        Icon::List => {
+            for k in [-0.5f32, 0.0, 0.5] {
+                draw_circle(p(-0.6, k).x, p(-0.6, k).y, w * 1.3, color);
+                line(p(-0.3, k), p(0.7, k), w * 1.6, color);
+            }
         }
     }
 }

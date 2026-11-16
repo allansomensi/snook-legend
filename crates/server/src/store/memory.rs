@@ -13,7 +13,7 @@ mod msstore;
 use super::{
     AimRow, AuditRow, BoardNote, BuyOutcome, FriendOutcome, FriendState, GiftRow, HistoryRow,
     LedgerRow, LiveMatch, MatchRecord, Metrics, NewGift, NewNote, NewReport, NewUser, Overview,
-    Payment, RECENT_SCAN, RecentRow, ReportRow, SessionKind, StoreResult, StoredReplay,
+    Payment, RECENT_SCAN, RecentRow, Rename, ReportRow, SessionKind, StoreResult, StoredReplay,
     TournamentRecord, User, Wallet, day_of, hour_of,
 };
 use snookered_proto::analysis::ShotAnalysis;
@@ -72,6 +72,27 @@ struct Inner {
     gifts: Vec<GiftRow>,
     /// Microsoft Store purchases being fulfilled (see `msstore.rs`).
     ms_consumes: Vec<msstore::MsRow>,
+    /// day -> the daily challenge's seed
+    daily_seeds: HashMap<i64, u64>,
+    /// (day, user) -> their day at the challenge
+    daily: BTreeMap<(i64, i64), super::DailyRow>,
+    /// (user, drill) -> (best, when)
+    drills: BTreeMap<(i64, String), (u32, i64)>,
+    /// user -> (challenge rating, stars, when)
+    challenge: HashMap<i64, (u32, u32, i64)>,
+}
+
+impl Inner {
+    /// A day's scores, best first (earlier first on a tie).
+    fn daily_sorted(&self, day: i64) -> Vec<(i64, u32, i64)> {
+        let mut rows: Vec<(i64, u32, i64)> = self
+            .daily
+            .range((day, i64::MIN)..=(day, i64::MAX))
+            .filter_map(|(&(_, u), r)| r.best.map(|b| (u, b, r.best_at)))
+            .collect();
+        rows.sort_by(|a, b| b.1.cmp(&a.1).then(a.2.cmp(&b.2)).then(a.0.cmp(&b.0)));
+        rows
+    }
 }
 
 impl Inner {
@@ -165,6 +186,8 @@ impl MemoryStore {
             deleted_at: None,
             abandons: 0,
             status_message: String::new(),
+            xp: 0,
+            name_changes: 0,
         };
         s.users.insert(user.id, user.clone());
         Ok(Some(user))
@@ -528,15 +551,40 @@ impl MemoryStore {
             .collect();
         let recent: Vec<&User> =
             s.users.values().filter(|u| day_of(u.created_at) >= today - 30).collect();
-        let back = |after: i64| {
-            let eligible: Vec<&&User> =
-                recent.iter().filter(|u| day_of(u.created_at) + after <= today).collect();
+        // Accounts created from `from` to `to` (days) that came back
+        // `after` days later, among those for which that day has come.
+        let back_between = |from: i64, to: i64, after: i64| {
+            let eligible: Vec<&User> = s
+                .users
+                .values()
+                .filter(|u| (from..=to).contains(&day_of(u.created_at)))
+                .filter(|u| day_of(u.created_at) + after <= today)
+                .collect();
             let came = eligible
                 .iter()
                 .filter(|u| s.activity.contains(&(day_of(u.created_at) + after, u.id)))
                 .count();
-            if eligible.is_empty() { 0.0 } else { came as f64 * 100.0 / eligible.len() as f64 }
+            super::percent(came as i64, eligible.len() as i64)
         };
+        let back =
+            |after: i64| back_between(today - after - 29, today - after, after).unwrap_or(0.0);
+        let cohorts = (0..super::COHORT_WEEKS)
+            .map(|w| {
+                let first_day = today - 6 - 7 * w;
+                let last = first_day + 6;
+                super::Cohort {
+                    first_day,
+                    accounts: s
+                        .users
+                        .values()
+                        .filter(|u| (first_day..=last).contains(&day_of(u.created_at)))
+                        .count() as i64,
+                    d1: back_between(first_day, last, 1),
+                    d7: back_between(first_day, last, 7),
+                    d30: back_between(first_day, last, 30),
+                }
+            })
+            .collect();
         let games = |u: &User| u.games + u.casual_games;
         let mut revenue: BTreeMap<String, (i64, i64)> = BTreeMap::new();
         let mut revenue_days: BTreeMap<(i64, String), (i64, i64)> = BTreeMap::new();
@@ -567,6 +615,8 @@ impl MemoryStore {
             days,
             retention_d1: back(1),
             retention_d7: back(7),
+            retention_d30: back(30),
+            cohorts,
             funnel: [
                 recent.len() as i64,
                 recent.iter().filter(|u| games(u) >= 1).count() as i64,
@@ -583,6 +633,26 @@ impl MemoryStore {
             u.recovery_email = email.map(str::to_string);
         }
         Ok(())
+    }
+
+    pub fn change_username(&self, user_id: i64, name: &str, limit: u32) -> StoreResult<Rename> {
+        let mut s = self.lock();
+        if s.by_name(name).is_some_and(|u| u.id != user_id) {
+            return Ok(Rename::Taken);
+        }
+        let Some(u) = s.users.get_mut(&user_id).filter(|u| u.deleted_at.is_none()) else {
+            return Ok(Rename::NoChangesLeft);
+        };
+        if u.name_changes >= limit {
+            return Ok(Rename::NoChangesLeft);
+        }
+        let old = std::mem::replace(&mut u.username, name.to_string());
+        u.name_changes += 1;
+        // The board keeps its authors by name here (the database looks them up).
+        for n in s.board.iter_mut().filter(|n| n.author == old) {
+            n.author = name.to_string();
+        }
+        Ok(Rename::Done)
     }
 
     pub fn payment_email(&self, user_id: i64) -> StoreResult<Option<String>> {
@@ -922,6 +992,207 @@ impl MemoryStore {
         Ok(())
     }
 
+    pub fn drill_bests(&self, user_id: i64) -> StoreResult<Vec<(String, u32)>> {
+        let s = self.lock();
+        Ok(s.drills
+            .iter()
+            .filter(|((u, _), _)| *u == user_id)
+            .map(|((_, c), (b, _))| (c.clone(), *b))
+            .collect())
+    }
+
+    pub fn drill_record(
+        &self,
+        user_id: i64,
+        code: &str,
+        score: u32,
+        at: i64,
+    ) -> StoreResult<Option<u32>> {
+        let mut s = self.lock();
+        let key = (user_id, code.to_string());
+        let before = s.drills.get(&key).map(|(b, _)| *b);
+        if before.is_none_or(|b| score > b) {
+            s.drills.insert(key, (score, at));
+        }
+        Ok(before)
+    }
+
+    pub fn drill_board(&self, code: &str, limit: u32) -> StoreResult<Vec<super::BoardRow>> {
+        let s = self.lock();
+        let mut rows: Vec<(u32, i64, i64)> = s
+            .drills
+            .iter()
+            .filter(|((_, c), _)| c == code)
+            .map(|((u, _), (b, at))| (*b, *at, *u))
+            .collect();
+        rows.sort_by(|a, b| b.0.cmp(&a.0).then(a.1.cmp(&b.1)).then(a.2.cmp(&b.2)));
+        Ok(rows
+            .into_iter()
+            .take(limit as usize)
+            .filter_map(|(score, _, u)| {
+                let user = s.users.get(&u)?;
+                Some(super::BoardRow {
+                    username: user.username.clone(),
+                    country: user.country.clone(),
+                    score,
+                    stars: 0,
+                })
+            })
+            .collect())
+    }
+
+    pub fn set_challenge_rating(
+        &self,
+        user_id: i64,
+        rating: u32,
+        stars: u32,
+        at: i64,
+    ) -> StoreResult<()> {
+        self.lock().challenge.insert(user_id, (rating, stars, at));
+        Ok(())
+    }
+
+    pub fn challenge_board(
+        &self,
+        user_id: i64,
+        limit: u32,
+    ) -> StoreResult<(Vec<super::BoardRow>, Option<u32>)> {
+        let s = self.lock();
+        let mut rows: Vec<(u32, i64, i64, u32)> =
+            s.challenge.iter().map(|(u, (r, st, at))| (*r, *at, *u, *st)).collect();
+        rows.sort_by(|a, b| b.0.cmp(&a.0).then(a.1.cmp(&b.1)).then(a.2.cmp(&b.2)));
+        let rank = rows.iter().position(|r| r.2 == user_id).map(|k| k as u32 + 1);
+        let board = rows
+            .into_iter()
+            .take(limit as usize)
+            .filter_map(|(rating, _, u, stars)| {
+                let user = s.users.get(&u)?;
+                Some(super::BoardRow {
+                    username: user.username.clone(),
+                    country: user.country.clone(),
+                    score: rating,
+                    stars,
+                })
+            })
+            .collect();
+        Ok((board, rank))
+    }
+
+    pub fn add_xp(&self, user_id: i64, amount: u32) -> StoreResult<i64> {
+        let mut s = self.lock();
+        Ok(s.users.get_mut(&user_id).map_or(0, |u| {
+            u.xp = u.xp.saturating_add(amount as i64);
+            u.xp
+        }))
+    }
+
+    pub fn daily_seed(&self, day: i64, fresh: u64) -> StoreResult<u64> {
+        Ok(*self.lock().daily_seeds.entry(day).or_insert(fresh))
+    }
+
+    pub fn daily_start(&self, user_id: i64, day: i64, now: i64, max: u32) -> StoreResult<bool> {
+        let mut s = self.lock();
+        let row = s.daily.entry((day, user_id)).or_default();
+        if row.attempts >= max {
+            return Ok(false);
+        }
+        row.attempts += 1;
+        row.started_at = now;
+        Ok(true)
+    }
+
+    pub fn daily_finish(
+        &self,
+        user_id: i64,
+        day: i64,
+        now: i64,
+        balls: u32,
+        cleared: bool,
+        limit: i64,
+    ) -> StoreResult<super::DailyFinish> {
+        let mut s = self.lock();
+        let Some(row) = s.daily.get_mut(&(day, user_id)) else {
+            return Ok(super::DailyFinish::NotStarted);
+        };
+        if row.started_at == 0 || now - row.started_at > limit {
+            return Ok(super::DailyFinish::NotStarted);
+        }
+        row.started_at = 0;
+        let improved = row.best.is_none_or(|b| balls > b);
+        if improved {
+            row.best = Some(balls);
+            row.best_at = now;
+        }
+        let first_clear = cleared && !row.cleared;
+        row.cleared |= cleared;
+        Ok(super::DailyFinish::Counted { improved, first_clear })
+    }
+
+    pub fn daily_row(&self, user_id: i64, day: i64) -> StoreResult<super::DailyRow> {
+        Ok(self.lock().daily.get(&(day, user_id)).copied().unwrap_or_default())
+    }
+
+    pub fn daily_board(
+        &self,
+        day: i64,
+        limit: u32,
+    ) -> StoreResult<(Vec<super::DailyBoardRow>, u32)> {
+        let s = self.lock();
+        let rows = s.daily_sorted(day);
+        let players = rows.len() as u32;
+        let board = rows
+            .into_iter()
+            .take(limit as usize)
+            .filter_map(|(u, balls, at)| {
+                let user = s.users.get(&u)?;
+                Some(super::DailyBoardRow {
+                    user_id: u,
+                    username: user.username.clone(),
+                    country: user.country.clone(),
+                    balls,
+                    at,
+                })
+            })
+            .collect();
+        Ok((board, players))
+    }
+
+    pub fn daily_rank(&self, user_id: i64, day: i64) -> StoreResult<Option<u32>> {
+        let s = self.lock();
+        Ok(s.daily_sorted(day).iter().position(|r| r.0 == user_id).map(|k| k as u32 + 1))
+    }
+
+    pub fn daily_wins(&self, user_id: i64, before: i64) -> StoreResult<Vec<(i64, u32)>> {
+        let s = self.lock();
+        let days: std::collections::BTreeSet<i64> =
+            s.daily.keys().map(|&(d, _)| d).filter(|&d| d < before).collect();
+        Ok(days
+            .into_iter()
+            .rev()
+            .filter_map(|d| {
+                let rows = s.daily_sorted(d);
+                (rows.first()?.0 == user_id).then_some((d, rows.len() as u32))
+            })
+            .collect())
+    }
+
+    pub fn tournaments_won(
+        &self,
+        user_id: i64,
+        limit: u32,
+    ) -> StoreResult<Vec<(String, u32, i64)>> {
+        let s = self.lock();
+        let mut won: Vec<_> = s
+            .tournaments
+            .iter()
+            .filter(|t| t.winner == Some(user_id))
+            .map(|t| (t.name.clone(), t.players.len() as u32, t.finished_at))
+            .collect();
+        won.sort_by_key(|t| std::cmp::Reverse(t.2));
+        won.truncate(limit as usize);
+        Ok(won)
+    }
+
     pub fn search_users(
         &self,
         query: &str,
@@ -1116,11 +1387,22 @@ impl MemoryStore {
         Ok(())
     }
 
-    pub fn add_cue_win(&self, user_id: i64, code: &str) -> StoreResult<u32> {
+    pub fn add_cue_game(
+        &self,
+        user_id: i64,
+        code: &str,
+        won: bool,
+        potted: u32,
+    ) -> StoreResult<u32> {
         let mut s = self.lock();
-        let wins =
-            s.wallets.entry(user_id).or_default().cue_wins.entry(code.to_string()).or_default();
-        *wins = wins.saturating_add(1);
+        let w = s.wallets.entry(user_id).or_default();
+        let games = w.cue_games.entry(code.to_string()).or_default();
+        games.0 = games.0.saturating_add(1);
+        games.1 = games.1.saturating_add(potted);
+        let wins = w.cue_wins.entry(code.to_string()).or_default();
+        if won {
+            *wins = wins.saturating_add(1);
+        }
         Ok(*wins)
     }
 

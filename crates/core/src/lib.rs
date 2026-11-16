@@ -22,6 +22,7 @@ pub use rules::{
     ShotReport,
 };
 pub mod ai;
+pub mod assess;
 pub mod personalities;
 pub mod rating;
 pub mod stats;

@@ -7,13 +7,16 @@
 //! runs on practically any PC, including old integrated graphics.
 
 mod analysis;
+mod assess;
 mod audio;
+mod banter;
 mod camera;
 mod channel;
 mod config;
 mod coords;
 mod correspondence;
 mod countries;
+mod cues;
 mod dev;
 mod effects;
 mod flags;
@@ -29,6 +32,7 @@ mod keys;
 mod ladder;
 mod lan;
 mod menu;
+mod more_halls;
 mod msstore;
 mod net;
 mod notify;
@@ -451,11 +455,60 @@ async fn main() {
             break;
         }
         notifier.update();
+        // Away in the lounge after ten minutes untouched (a minimised
+        // window too: nothing moves in it).
+        let away = notifier.idle() >= std::time::Duration::from_secs(10 * 60);
+        online.away = away;
+        if let Some(l) = lan.as_mut() {
+            l.net.away = away;
+        }
         for net in [Some(&mut online), lan.as_mut().map(|l| &mut l.net)].into_iter().flatten() {
             if let Some(text) = net.attention.take()
                 && config.desktop_notifications
             {
                 notifier.tell(&text);
+            }
+        }
+        // The daily challenge: an attempt the server started begins here
+        // (unless an online game has the table); its strokes go back once
+        // the visit is over, and the server's count comes to the table.
+        if let Some((day, seed)) = online.daily_started.take()
+            && !current.as_ref().is_some_and(|m| m.is_online())
+        {
+            let name =
+                online.me.as_ref().map_or(config.player_name.clone(), |me| me.username.clone());
+            online.daily_result = None;
+            current = Some(Match::daily(day, seed, &name, config.guide));
+            hud = Hud::new(config.show_help);
+            rig.reset();
+            screen = Screen::Versus(versus::Versus::new(versus::Tab::Daily, &config));
+        }
+        if let Some(run) = current.as_mut().and_then(|m| m.daily.as_mut()) {
+            if run.over && !run.sent {
+                run.sent = true;
+                online.send(snookered_proto::ClientMsg::DailySubmit {
+                    day: run.day,
+                    strokes: run.strokes.clone(),
+                });
+            }
+            if let Some(result) = online.daily_result.take() {
+                run.result = Some(result);
+            }
+        }
+        // A drill session: sent once over (signed in), the server's count
+        // brought back to the table.
+        if let Some(run) = current.as_mut().and_then(|m| m.drill.as_mut()) {
+            if run.over && !run.sent && online.signed_in() {
+                run.sent = true;
+                online.send(snookered_proto::ClientMsg::DrillSubmit {
+                    code: run.code.to_string(),
+                    strokes: run.strokes.clone(),
+                });
+            }
+            if let Some((code, result)) = online.drill_result.take()
+                && code == run.code
+            {
+                run.result = Some(result);
             }
         }
         // A stored game to watch again (from the profile).
@@ -493,10 +546,10 @@ async fn main() {
             if ladder_progress.beaten > before {
                 let text = match snookered_proto::ladder::rung(rung + 1) {
                     Some(next) => i18n::tw(
-                        "Rung {n} beaten! Next on the ladder: {name}.",
+                        "Stage {n} won! Next on the tour: {name}.",
                         &[("n", &(rung + 1)), ("name", &next.name)],
                     ),
-                    None => i18n::t("You beat the whole ladder!").to_string(),
+                    None => i18n::t("You won the whole tour!").to_string(),
                 };
                 m.notify(text, true);
             }
@@ -646,7 +699,13 @@ async fn main() {
         } else {
             Color::new(0.03, 0.02, 0.015, 1.0)
         });
-        scene.lamp_visible = !(current.is_some() && rig.mode == CameraMode::Top);
+        // The lamp over the table hides from a camera above it (the
+        // overhead view, a high view of the whole table), as a broadcast's
+        // would: its light stays.
+        let above_lamp =
+            cam.eye.y > scene::LAMP_Y - 0.05 && cam.eye.x.abs() < 3.5 && cam.eye.z.abs() < 3.0;
+        scene.lamp_visible = !(current.is_some() && (rig.mode == CameraMode::Top || above_lamp))
+            || crate::dev::var("SNOOKERED_CAM").is_some();
         match current.as_ref() {
             Some(m) => {
                 let overlay = play::overlay(m, &scene, get_time() as f32);
@@ -791,6 +850,28 @@ async fn main() {
                             // from; from a game while waiting: to the lounge.
                             let replay = m.is_replay();
                             let practice = m.practice;
+                            // Left half way through a daily attempt: what was
+                            // made so far still counts.
+                            let daily = m.daily.is_some();
+                            // Left during a drill: the tries made still count.
+                            let drill = m.drill.is_some();
+                            if let Some(run) =
+                                m.drill.as_mut().filter(|r| !r.sent && !r.strokes.is_empty())
+                                && online.signed_in()
+                            {
+                                run.sent = true;
+                                online.send(snookered_proto::ClientMsg::DrillSubmit {
+                                    code: run.code.to_string(),
+                                    strokes: run.strokes.clone(),
+                                });
+                            }
+                            if let Some(run) = m.daily.as_mut().filter(|r| !r.sent) {
+                                run.sent = true;
+                                online.send(snookered_proto::ClientMsg::DailySubmit {
+                                    day: run.day,
+                                    strokes: run.strokes.clone(),
+                                });
+                            }
                             // From a game against the computer: back to its
                             // screen (the ladder, after a ladder game).
                             let versus = m.is_against_computer().then(|| {
@@ -804,7 +885,13 @@ async fn main() {
                             current = None;
                             hud = Hud::new(config.show_help);
                             rig.reset();
-                            screen = if replay {
+                            screen = if drill {
+                                online.send(snookered_proto::ClientMsg::Drills);
+                                Screen::Versus(versus::Versus::new(versus::Tab::Drills, &config))
+                            } else if daily {
+                                online.send(snookered_proto::ClientMsg::Daily);
+                                Screen::Versus(versus::Versus::new(versus::Tab::Daily, &config))
+                            } else if replay {
                                 Screen::Profile
                             } else if practice {
                                 Screen::Online
@@ -846,6 +933,16 @@ async fn main() {
                                     && net.pending_invites() > 0
                                 {
                                     net.draw_invites(&mut ui, true);
+                                }
+                            } else if m.is_against_computer() || m.practice {
+                                // Playing the computer: still in the lounge,
+                                // so an invitation shows in the corner and
+                                // can be accepted (the computer game is kept).
+                                let y = if online.queue_secs().is_some() { 134.0 } else { 62.0 };
+                                let saved = m.is_against_computer();
+                                online.draw_invites_corner(&mut ui, y, saved);
+                                if let Some(l) = lan.as_mut() {
+                                    l.net.draw_invites_corner(&mut ui, y, saved);
                                 }
                             }
                         }
@@ -977,6 +1074,18 @@ async fn main() {
                                 rig.reset();
                                 next = Some(Screen::Menu);
                             }
+                            versus::VersusAction::Drill(code) => {
+                                let name = online
+                                    .me
+                                    .as_ref()
+                                    .map_or(config.player_name.clone(), |me| me.username.clone());
+                                if let Some(m) = Match::drill(&code, &name, config.guide) {
+                                    online.drill_result = None;
+                                    current = Some(m);
+                                    hud = Hud::new(config.show_help);
+                                    rig.reset();
+                                }
+                            }
                             versus::VersusAction::SignIn => {
                                 online.connect();
                                 next = Some(Screen::Online);
@@ -1023,6 +1132,23 @@ async fn main() {
                                 }
                                 let mut m = Match::new(&settings, game::clock_seed());
                                 m.practice = true;
+                                current = Some(m);
+                                hud = Hud::new(config.show_help);
+                                rig.reset();
+                            }
+                            OnlineAction::FreeTableWhileWaiting => {
+                                // A table to oneself: a fresh rack, shoot as
+                                // you like, racked again when it's over.
+                                let mut settings =
+                                    MatchSettings::from_config(MatchMode::HotSeat, &config);
+                                let name = online
+                                    .me
+                                    .as_ref()
+                                    .map_or(settings.names[0].clone(), |me| me.username.clone());
+                                settings.names = [name.clone(), name];
+                                let mut m = Match::new(&settings, game::clock_seed());
+                                m.practice = true;
+                                m.free_play = true;
                                 current = Some(m);
                                 hud = Hud::new(config.show_help);
                                 rig.reset();

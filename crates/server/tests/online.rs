@@ -386,6 +386,52 @@ async fn friends_can_watch_and_react() {
 }
 
 #[tokio::test]
+async fn players_against_the_computer_show_it_and_can_be_invited() {
+    let url = start(Rules::default()).await;
+    let (mut alice, _) = Client::register(&url, "alice").await;
+    alice
+        .expect(
+            "welcome",
+            |m| matches!(m, ServerMsg::Welcome { protocol, .. } if *protocol == PROTOCOL_VERSION),
+        )
+        .await;
+    let (mut bob, _) = Client::register(&url, "bob").await;
+    // Bob starts a game against the computer: Alice sees it in the lounge.
+    bob.send(ClientMsg::SetActivity { vs_computer: true, away: false }).await;
+    let is_bob = |m: &ServerMsg, vs: bool| {
+        matches!(m, ServerMsg::PlayerUpdated { player }
+            if player.username == "bob" && player.vs_computer == vs)
+    };
+    alice.expect("bob vs the computer", |m| is_bob(m, true)).await;
+    // He leaves the game alone for a while: away, then back.
+    bob.send(ClientMsg::SetActivity { vs_computer: true, away: true }).await;
+    alice
+        .expect("bob away", |m| {
+            matches!(m, ServerMsg::PlayerUpdated { player } if player.username == "bob" && player.away)
+        })
+        .await;
+    bob.send(ClientMsg::SetActivity { vs_computer: true, away: false }).await;
+    alice
+        .expect("bob back", |m| {
+            matches!(m, ServerMsg::PlayerUpdated { player } if player.username == "bob" && !player.away)
+        })
+        .await;
+    // He can still be invited (and the online game takes over).
+    let (_, sa, sb) = start_match(&mut alice, &mut bob, "bob", "alice", false).await;
+    assert_ne!(sa, sb);
+    let ServerMsg::PlayerUpdated { player } = alice
+        .expect("bob playing", |m| {
+            matches!(m, ServerMsg::PlayerUpdated { player } if player.username == "bob"
+                && player.status == snookered_proto::PlayerStatus::Playing)
+        })
+        .await
+    else {
+        unreachable!()
+    };
+    assert!(!player.vs_computer);
+}
+
+#[tokio::test]
 async fn play_now_pairs_players_of_the_same_mode() {
     let url = start(Rules::default()).await;
     let (mut alice, _) = Client::register(&url, "alice").await;
@@ -418,8 +464,11 @@ async fn login_errors_and_validation() {
     let url = start(Rules::default()).await;
     let (_alice, token) = Client::register(&url, "Alice").await;
 
-    // The previous version still plays; anything older is told to update.
-    for (version, welcome) in [(snookered_proto::OLDEST_PROTOCOL_VERSION, true), (10, false)] {
+    // The oldest version let in plays; anything older (0.2.0 and its
+    // 7-foot table among them) is told to update.
+    for (version, welcome) in
+        [(snookered_proto::OLDEST_PROTOCOL_VERSION, true), (13, false), (10, false)]
+    {
         let (ws, _) = connect_async(&url).await.unwrap();
         let mut old = Client { ws };
         old.send(ClientMsg::Hello { version }).await;
@@ -463,9 +512,19 @@ async fn login_errors_and_validation() {
     // The older connection was replaced.
     c.expect("kicked", |m| matches!(m, ServerMsg::Kicked { .. })).await;
 
-    let mut old = Client::connect(&url).await;
-    old.send(ClientMsg::Hello { version: 0 }).await;
-    old.expect("version", |m| matches!(m, ServerMsg::AuthError { .. })).await;
+    // Too old: update the game. Newer than the server: it's the server
+    // that is behind (updating the game wouldn't help).
+    for (version, says) in [(0, "out of date"), (PROTOCOL_VERSION + 1, "being updated")] {
+        let (ws, _) = connect_async(&url).await.unwrap();
+        let mut other = Client { ws };
+        other.send(ClientMsg::Hello { version }).await;
+        let ServerMsg::AuthError { reason } =
+            other.expect("version", |m| matches!(m, ServerMsg::AuthError { .. })).await
+        else {
+            unreachable!()
+        };
+        assert!(reason.contains(says), "version {version}: {reason}");
+    }
 
     // Password guessing is throttled per account.
     let mut e = Client::connect(&url).await;
@@ -501,7 +560,7 @@ async fn disconnect_reconnect_and_abandon() {
     bob.expect("lost", |m| matches!(m, ServerMsg::OpponentConnection { connected: false, .. }))
         .await;
     let mut alice = Client::connect(&url).await;
-    alice.send(ClientMsg::Resume { token: alice_token }).await;
+    alice.send(ClientMsg::Resume { token: alice_token.clone() }).await;
     alice.expect("rejoined", |m| matches!(m, ServerMsg::MatchStarted { .. })).await;
     bob.expect("back", |m| matches!(m, ServerMsg::OpponentConnection { connected: true, .. }))
         .await;
@@ -514,6 +573,27 @@ async fn disconnect_reconnect_and_abandon() {
         unreachable!()
     };
     assert_eq!(result.reason, snookered_core::GameOverReason::Abandoned);
+    // Leaving costs more than losing: the winner gains less than she loses.
+    let alice_seat = 1 - result.winner;
+    let (alice_delta, bob_delta) =
+        (result.rating_delta[alice_seat], result.rating_delta[result.winner]);
+    assert!(
+        alice_delta <= -bob_delta - snookered_server::lounge::ABANDON_RATING,
+        "{alice_delta} {bob_delta}"
+    );
+    // Back online, she can't start another game for a while.
+    let mut alice = Client::connect(&url).await;
+    alice.send(ClientMsg::Resume { token: alice_token }).await;
+    alice.expect("signed in", |m| matches!(m, ServerMsg::AuthOk { .. })).await;
+    alice.send(ClientMsg::QueueJoin { rated: true }).await;
+    let ServerMsg::Error { message } =
+        alice.expect("refused", |m| matches!(m, ServerMsg::Error { .. })).await
+    else {
+        unreachable!()
+    };
+    assert!(message.starts_with("You left a game in progress"), "{message}");
+    alice.send(ClientMsg::Invite { to: "bob".into(), rated: false }).await;
+    alice.expect("no invitations", |m| matches!(m, ServerMsg::InviteFailed { .. })).await;
 }
 
 #[tokio::test]
@@ -684,7 +764,25 @@ async fn tournament_runs_to_a_champion() {
         };
         champion = tournament.champion;
     }
-    assert!(champion.is_some());
+    let champion = champion.expect("a champion");
+    // The cup goes on the champion's trophy shelf (once recorded).
+    let c = &mut clients[0].1;
+    let deadline = tokio::time::Instant::now() + Duration::from_secs(10);
+    loop {
+        c.send(ClientMsg::Profile { username: champion.clone() }).await;
+        let ServerMsg::Profile { profile } =
+            c.expect("profile", |m| matches!(m, ServerMsg::Profile { .. })).await
+        else {
+            unreachable!()
+        };
+        if let Some(t) = profile.trophies.first() {
+            assert_eq!(t.kind, snookered_proto::TrophyKind::Tournament);
+            assert_eq!(t.players, 4);
+            break;
+        }
+        assert!(tokio::time::Instant::now() < deadline, "no trophy");
+        tokio::time::sleep(Duration::from_millis(100)).await;
+    }
 }
 
 #[tokio::test]
@@ -1048,6 +1146,112 @@ async fn account_password_recovery_email_and_deletion() {
     c.expect("refused", |m| matches!(m, ServerMsg::AuthError { .. })).await;
     dave.send(ClientMsg::Profile { username: "carol".into() }).await;
     dave.expect("gone", |m| matches!(m, ServerMsg::Error { .. })).await;
+}
+
+impl Client {
+    /// Asks for a new username and waits for the refusal `why`.
+    async fn rename_refused(&mut self, name: &str, why: &str) {
+        self.send(ClientMsg::ChangeUsername { username: name.into() }).await;
+        let ServerMsg::Error { message } =
+            self.expect(why, |m| matches!(m, ServerMsg::Error { .. })).await
+        else {
+            unreachable!()
+        };
+        assert_eq!(message, why, "renaming to {name:?}");
+    }
+
+    /// Changes the username; returns the changes left.
+    async fn rename(&mut self, name: &str) -> u32 {
+        self.send(ClientMsg::ChangeUsername { username: name.into() }).await;
+        let ServerMsg::Account { name_changes_left, .. } =
+            self.expect("account", |m| matches!(m, ServerMsg::Account { .. })).await
+        else {
+            unreachable!()
+        };
+        // Signed in again under the new name, on the same connection.
+        let ServerMsg::AuthOk { player, .. } =
+            self.expect("signed in again", |m| matches!(m, ServerMsg::AuthOk { .. })).await
+        else {
+            unreachable!()
+        };
+        assert_eq!(player.username, name);
+        name_changes_left
+    }
+}
+
+#[tokio::test]
+async fn username_changes() {
+    let url = start(Rules::default()).await;
+    let (mut erin, token) = Client::register(&url, "erin").await;
+    let (mut frank, _) = Client::register(&url, "frank").await;
+    erin.send(ClientMsg::Account).await;
+    let ServerMsg::Account { name_changes_left, .. } =
+        erin.expect("account", |m| matches!(m, ServerMsg::Account { .. })).await
+    else {
+        unreachable!()
+    };
+    assert_eq!(name_changes_left, snookered_proto::MAX_NAME_CHANGES);
+
+    // The rules of a new account, and nobody else's name in any case.
+    let taken = "That username is taken.";
+    let invalid = "Usernames have 3–16 letters, digits or underscores.";
+    erin.rename_refused("frank", taken).await;
+    erin.rename_refused("FRANK", taken).await;
+    erin.rename_refused("Admin", taken).await;
+    erin.rename_refused("ab", invalid).await;
+    erin.rename_refused("with space", invalid).await;
+    erin.rename_refused("deleted-1", invalid).await;
+    erin.rename_refused("erin", "That is already your username.").await;
+
+    // A change: everyone in the lounge sees the old name go and the new come.
+    assert_eq!(erin.rename("Erin_2").await, 2);
+    frank
+        .expect(
+            "old name gone",
+            |m| matches!(m, ServerMsg::PlayerLeft { username } if username == "erin"),
+        )
+        .await;
+    frank
+        .expect(
+            "new name",
+            |m| matches!(m, ServerMsg::PlayerUpdated { player } if player.username == "Erin_2"),
+        )
+        .await;
+    // The lounge knows the new name: an invitation reaches it, and nobody
+    // can change their name in a game (or straight after, at the table).
+    let (_, sa, _) = start_match(&mut frank, &mut erin, "erin_2", "frank", false).await;
+    let _ = sa;
+    let in_game = "Finish your game before changing your username.";
+    erin.rename_refused("Erin_3", in_game).await;
+    erin.send(ClientMsg::Resign).await;
+    erin.expect("over", |m| matches!(m, ServerMsg::MatchEnded { .. })).await;
+    erin.rename_refused("Erin_3", in_game).await;
+    erin.send(ClientMsg::LeaveMatch).await;
+    // Nor in the queue.
+    erin.send(ClientMsg::QueueJoin { rated: false }).await;
+    let queued = "Leave your table or the queue before changing your username.";
+    erin.rename_refused("Erin_3", queued).await;
+    erin.send(ClientMsg::QueueLeave).await;
+
+    // Only the case of the letters: still a change.
+    assert_eq!(erin.rename("ERIN_2").await, 1);
+    assert_eq!(erin.rename("Erin_Last").await, 0);
+    erin.rename_refused("Erin_More", "You can't change your username again.").await;
+
+    // The session stays good, the old names are free and sign in to nothing.
+    let mut c = Client::connect(&url).await;
+    c.send(ClientMsg::Resume { token }).await;
+    let ServerMsg::AuthOk { player, .. } =
+        c.expect("resumed", |m| matches!(m, ServerMsg::AuthOk { .. })).await
+    else {
+        unreachable!()
+    };
+    assert_eq!(player.username, "Erin_Last");
+    let mut c = Client::connect(&url).await;
+    c.send(ClientMsg::Login { username: "erin".into(), password: PASSWORD.into() }).await;
+    c.expect("old name", |m| matches!(m, ServerMsg::AuthError { .. })).await;
+    Client::login(&url, "erin_last", PASSWORD).await;
+    let (_erin_again, _) = Client::register(&url, "erin").await;
 }
 
 #[tokio::test]

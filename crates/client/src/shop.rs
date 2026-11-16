@@ -164,21 +164,34 @@ pub fn cue_picture(ui: &Ui, code: &str, r: Rect, level: u8) {
     }
 }
 
+/// How a cue's picture fits `r`: the part of the cue shown (from the butt;
+/// a big picture shows the butt half, where the patterns are) and how much
+/// thicker it is drawn.
+fn cue_zoom(r: Rect) -> (f32, f32) {
+    if r.h >= 60.0 { (0.56, (r.h / 38.0).clamp(1.0, 3.2)) } else { (1.0, 1.0) }
+}
+
+/// Where a point `k` along the cue (0: the butt, 1: the tip) is drawn.
+fn cue_x(r: Rect, k: f32) -> f32 {
+    let (x0, x1) = (r.x + 10.0, r.x + r.w - 10.0);
+    x0 + (x1 - x0) * k / cue_zoom(r).0
+}
+
 /// The marks of a cue's level on its picture (see [`preview`]): bands by
 /// the joint, then inlays, then gold that glows.
 fn cue_marks(r: Rect, level: u8) {
     if level == 0 {
         return;
     }
-    let (x0, x1) = (r.x + 10.0, r.x + r.w - 10.0);
     let y = r.y + r.h / 2.0;
-    let at = |k: f32| x0 + (x1 - x0) * k;
+    let at = |k: f32| cue_x(r, k);
+    let z = cue_zoom(r).1;
     let silver = Color::new(0.86, 0.88, 0.92, 1.0);
     let gold = Color::new(0.95, 0.78, 0.38, 1.0);
     let metal = if level >= 4 { gold } else { silver };
     if level >= 6 {
-        draw_circle(at(0.43), y, 9.0, Color::new(1.0, 0.8, 0.4, 0.22));
-        draw_circle(at(0.43), y, 6.0, Color::new(1.0, 0.85, 0.5, 0.25));
+        draw_circle(at(0.43), y, 9.0 * z, Color::new(1.0, 0.8, 0.4, 0.22));
+        draw_circle(at(0.43), y, 6.0 * z, Color::new(1.0, 0.85, 0.5, 0.25));
     }
     let bands = match level {
         1 => 1,
@@ -187,19 +200,19 @@ fn cue_marks(r: Rect, level: u8) {
     };
     for k in 0..bands {
         let x = at(0.44 - k as f32 * 0.018);
-        draw_line(x, y - 4.6, x, y + 4.6, 1.6, metal);
+        draw_line(x, y - 4.6 * z, x, y + 4.6 * z, 1.6 * z, metal);
     }
     if level >= 3 {
         let x = at(0.44 - bands as f32 * 0.018 - 0.02);
-        let d = 2.2;
+        let d = 2.2 * z;
         crate::paint::draw_triangle(vec2(x - d, y), vec2(x, y - d), vec2(x + d, y), WHITE);
         crate::paint::draw_triangle(vec2(x - d, y), vec2(x, y + d), vec2(x + d, y), WHITE);
     }
     if level >= 4 {
-        draw_line(at(0.1), y - 5.6, at(0.1), y + 5.6, 1.6, gold);
+        draw_line(at(0.1), y - 5.6 * z, at(0.1), y + 5.6 * z, 1.6 * z, gold);
     }
     if level >= 5 {
-        draw_line(at(0.14), y - 5.4, at(0.14), y + 5.4, 1.6, gold);
+        draw_line(at(0.14), y - 5.4 * z, at(0.14), y + 5.4 * z, 1.6 * z, gold);
     }
 }
 
@@ -265,33 +278,24 @@ pub fn preview(ui: &Ui, item: &Item, r: Rect) {
             draw_circle(c.x + cloth.w * 0.18, c.y + 4.0, 9.0, Color::new(0.96, 0.95, 0.9, 1.0));
             draw_circle(c.x - cloth.w * 0.2, c.y - 6.0, 9.0, Color::new(0.85, 0.12, 0.1, 1.0));
         }
-        Look::Cue { butt, accent, ring, .. } => {
-            let (x0, x1) = (r.x + 10.0, r.x + r.w - 10.0);
-            let y = c.y;
-            let lerp = |k: f32| x0 + (x1 - x0) * k;
-            let part = |a: f32, b: f32, w0: f32, w1: f32, col: Color| {
-                let (xa, xb) = (lerp(a), lerp(b));
-                crate::paint::draw_triangle(
-                    vec2(xa, y - w0),
-                    vec2(xb, y - w1),
-                    vec2(xb, y + w1),
-                    col,
+        Look::Cue { .. } => {
+            // The cue, drawn once into a picture (crisp patterns, a
+            // varnished cylinder's light): the whole cue, or its butt half
+            // in a big picture.
+            let (span, z) = cue_zoom(r);
+            if let Some(tex) = crate::cues::picture(item.code, span) {
+                let h = 12.6 * z;
+                draw_texture_ex(
+                    &tex,
+                    cue_x(r, 0.0),
+                    c.y - h / 2.0,
+                    Color::new(1.0, 1.0, 1.0, crate::paint::opacity()),
+                    DrawTextureParams {
+                        dest_size: Some(vec2(cue_x(r, span) - cue_x(r, 0.0), h)),
+                        ..Default::default()
+                    },
                 );
-                crate::paint::draw_triangle(
-                    vec2(xa, y - w0),
-                    vec2(xb, y + w1),
-                    vec2(xa, y + w0),
-                    col,
-                );
-            };
-            part(0.0, 0.08, 6.0, 5.6, rgb(butt));
-            part(0.08, 0.26, 5.6, 5.0, rgb(accent));
-            part(0.26, 0.27, 5.0, 4.9, rgb(ring));
-            part(0.27, 0.45, 4.9, 4.4, rgb(butt));
-            part(0.45, 0.46, 4.4, 4.3, rgb(ring));
-            part(0.46, 0.97, 4.3, 2.4, Color::new(0.87, 0.75, 0.53, 1.0));
-            part(0.97, 0.99, 2.4, 2.3, Color::new(0.95, 0.94, 0.9, 1.0));
-            part(0.99, 1.0, 2.3, 2.2, Color::new(0.16, 0.32, 0.6, 1.0));
+            }
         }
         Look::Chalk(col) => {
             let s = r.h.min(r.w) * 0.42;

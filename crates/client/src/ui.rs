@@ -169,6 +169,8 @@ pub struct Ui {
     down: bool,
     /// The widget being dragged (sliders, the spin ball).
     active: Option<u64>,
+    /// Where the latest press of the button started.
+    press_at: Vec2,
     /// The widget whose drag ended this frame.
     released_active: Option<u64>,
     /// The text field with keyboard focus.
@@ -222,6 +224,7 @@ impl Ui {
             released: false,
             down: false,
             active: None,
+            press_at: Vec2::new(-1.0e6, -1.0e6),
             released_active: None,
             focus: None,
             hovered: false,
@@ -249,6 +252,9 @@ impl Ui {
         self.mouse = Vec2::from(mouse_position()) / ui_scale();
         self.pressed = is_mouse_button_pressed(MouseButton::Left);
         self.released = is_mouse_button_released(MouseButton::Left);
+        if self.pressed {
+            self.press_at = self.mouse;
+        }
         self.down = is_mouse_button_down(MouseButton::Left);
         self.prev_blocks = std::mem::take(&mut self.blocks);
         let over_ui = self.prev_blocks.iter().any(|r| r.contains(self.mouse));
@@ -452,7 +458,7 @@ impl Ui {
         let color = if enabled { CREAM } else { Color::new(MUTED.r, MUTED.g, MUTED.b, 0.6) };
         let y = r.y + (r.h - size) / 2.0 + if hover && self.down { 1.0 } else { 0.0 };
         self.text_centered(&label, r.x + r.w / 2.0, y, size, color, true);
-        enabled && hover && self.released
+        enabled && hover && self.released_in(r)
     }
 
     /// A button styled as the main call to action.
@@ -471,7 +477,7 @@ impl Ui {
         let (label, size) = self.fitted(label, (r.h * 0.45).clamp(13.0, 24.0), r.w - 12.0, true);
         let y = r.y + (r.h - size) / 2.0 + if hover && self.down { 1.0 } else { 0.0 };
         self.text_centered(&label, r.x + r.w / 2.0, y, size, WHITE, true);
-        hover && self.released
+        hover && self.released_in(r)
     }
 
     pub fn checkbox(&mut self, x: f32, y: f32, label: &str, value: &mut bool) -> bool {
@@ -487,7 +493,7 @@ impl Ui {
             draw_line(x + 7.5, y + 13.0, x + 14.0, y + 5.0, 2.2, GOLD);
         }
         self.text(label, x + 26.0, y + 1.0, 15.0, CREAM, false);
-        if hover && self.released {
+        if hover && self.released_in(r) {
             *value = !*value;
             return true;
         }
@@ -504,7 +510,7 @@ impl Ui {
             draw_circle(x + 9.0, y + 9.0, 4.5, GOLD);
         }
         self.text(label, x + 24.0, y + 1.0, 15.0, CREAM, false);
-        hover && self.released
+        hover && self.released_in(r)
     }
 
     /// Horizontal slider for `value` in `[min, max]`.
@@ -868,7 +874,7 @@ impl Ui {
             Color::new(0.12, 0.08, 0.05, 1.0)
         };
         raised(r, 8.0, bg, if hover || on { GOLD } else { BORDER }, if on { 1.8 } else { 1.2 });
-        hover && self.released
+        hover && self.released_in(r)
     }
 
     /// A tab header; returns true when clicked.
@@ -916,7 +922,7 @@ impl Ui {
             if selected { GOLD } else { CREAM },
             true,
         );
-        hover && self.released && !selected
+        hover && self.released_in(r) && !selected
     }
 
     /// Splits `text` into lines no wider than `width`.
@@ -1197,7 +1203,7 @@ impl Ui {
         if hover && !tip.is_empty() {
             self.tooltip(tip, r);
         }
-        enabled && hover && self.released
+        enabled && hover && self.released_in(r)
     }
 
     /// A small dark label under (or above, near the bottom) `anchor`. It is
@@ -1359,8 +1365,15 @@ impl Ui {
     }
 
     /// True if the left button was released over `r` this frame (a click).
+    /// The button was let go this frame after being pressed inside `r`:
+    /// a press that started elsewhere (dragging the power, the spin, the
+    /// aim) and ends over a button is not a click on it.
+    pub fn released_in(&self, r: Rect) -> bool {
+        self.released && r.contains(self.press_at)
+    }
+
     pub fn clicked(&self, r: Rect) -> bool {
-        self.released && r.contains(self.mouse)
+        self.released_in(r) && r.contains(self.mouse)
     }
 
     pub fn hovering(&self, r: Rect) -> bool {
@@ -1402,7 +1415,7 @@ impl Ui {
                 color,
                 true,
             );
-            if hover && self.released && i != selected {
+            if hover && self.released_in(cell) && i != selected {
                 clicked = Some(i);
             }
         }

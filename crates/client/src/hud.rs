@@ -25,6 +25,11 @@ pub struct Hud {
     chat_input: String,
     chat_open: bool,
     chat_scroll: usize,
+    /// The quick phrases are open (by the chat).
+    quick_open: bool,
+    /// Each seat's last stroke's power, and which stroke was seen last.
+    last_power: [Option<f32>; 2],
+    last_shot_seen: Option<(u32, u32)>,
     confirm_leave: bool,
     /// Identifies the turn the banner was shown for.
     banner_key: Option<(u32, u32, usize)>,
@@ -95,6 +100,9 @@ impl Default for Hud {
             // Development aid: SNOOKERED_CHAT_OPEN opens it.
             chat_open: crate::dev::flag("SNOOKERED_CHAT_OPEN"),
             chat_scroll: 0,
+            quick_open: false,
+            last_power: [None, None],
+            last_shot_seen: None,
             confirm_leave: false,
             banner_key: None,
             banner: None,
@@ -244,13 +252,24 @@ fn player_card(ui: &mut Ui, m: &Match, seat: usize, x: f32, y: f32, w: f32) {
     let ry = y + 23.0;
     match m.game.group_of(seat) {
         Some(group) => {
+            // The balls made so far (of the player's group).
             let remaining = m.game.remaining(group);
+            let made: Vec<BallId> = (1..=15u8)
+                .map(BallId)
+                .filter(|&b| group.contains(b) && !remaining.contains(&b))
+                .collect();
             if remaining.is_empty() {
                 ui.text(t("On the 8-ball"), x + 10.0, ry + 1.0, 13.0, GOLD, false);
                 let tw_ = ui.text_size(t("On the 8-ball"), 13.0, false).x;
                 ball_icon(ui, BallId::EIGHT, x + 16.0 + tw_, ry - 2.0, 20.0);
+            } else if made.is_empty() {
+                let name = match group {
+                    Group::Solids => t("Solids"),
+                    Group::Stripes => t("Stripes"),
+                };
+                ui.text(name, x + 10.0, ry + 1.0, 13.0, MUTED, false);
             } else {
-                for (k, id) in remaining.into_iter().enumerate() {
+                for (k, id) in made.into_iter().enumerate() {
                     ball_icon(ui, id, x + 10.0 + k as f32 * 22.0, ry - 2.0, 20.0);
                 }
             }
@@ -302,6 +321,26 @@ fn status_line(m: &Match) -> Option<String> {
                 return Some(tw(
                     "{name} is on the 8: click a pocket to call it",
                     &[("name", name)],
+                ));
+            }
+            // A drill: which try, and how many worked.
+            if let Some(run) = &m.drill {
+                let d = run.drill();
+                return Some(tw(
+                    "{drill}: try {k} of {n} · {made} made",
+                    &[
+                        ("drill", &t(d.name)),
+                        ("k", &(run.results.len() + 1)),
+                        ("n", &d.tries),
+                        ("made", &run.score()),
+                    ],
+                ));
+            }
+            // The daily challenge: how far the visit is.
+            if let Some(run) = &m.daily {
+                return Some(tw(
+                    "Daily challenge: {n} of {total} balls made",
+                    &[("n", &run.made), ("total", &run.balls)],
                 ));
             }
             let target = match m.game.group_of(m.game.current_player()) {
@@ -364,6 +403,22 @@ impl Hud {
         let x0 = ((sw - total) / 2.0).max(buttons_w).min(sw - total - 8.0);
         player_card(ui, m, 0, x0, 6.0, card_w);
         player_card(ui, m, 1, x0 + card_w + 10.0, 6.0, card_w);
+        // Free practice: take the last shot back (button, or Z).
+        if m.free_play && m.last_shot.is_some() && matches!(m.phase, Phase::Turn { .. }) {
+            let label = t("Take back the shot (Z)");
+            let bw = ui.text_size(label, 13.0, true).x + 24.0;
+            let b = Rect::new(12.0, TOP_BAR + 8.0, bw, 30.0);
+            let key = !ui.wants_keyboard && is_key_pressed(KeyCode::Z);
+            if (ui.button(b, label, true) || key) && m.take_back() {
+                m.notify(t("Shot taken back."), false);
+            }
+        }
+        // What the computer opponent says: a bubble under its card.
+        if let Some((text, age)) = m.banter.clone() {
+            // Below the turn's banner, which runs under the cards.
+            let anchor = vec2(x0 + card_w + 10.0 + card_w / 2.0, TOP_BAR + 40.0);
+            ui.overlay(move |ui| draw_banter(ui, &text, age, anchor));
+        }
         // How many are watching: an eye and the number, by the cards.
         let eye = vec2(x0 + total + 22.0, 27.0);
         if let Some(o) = &m.online
@@ -381,7 +436,8 @@ impl Hud {
         self.draw_support(ui, m, x0, card_w, total);
         draw_reactions(m, [x0 + 34.0, x0 + total - 34.0], eye);
         let mut y = TOP_BAR + 8.0;
-        if let Some(status) = status_line(m) {
+        // A replay has its own tag where the line goes.
+        if let Some(status) = status_line(m).filter(|_| m.replay.is_none()) {
             let w = ui.text_size(&status, 15.0, false).x + 24.0;
             crate::ui::rrect(
                 Rect::new((sw - w) / 2.0, y, w, 24.0),
@@ -415,6 +471,7 @@ impl Hud {
             if self.draw_spectator_bar(ui, m) {
                 action = HudAction::Lounge;
             }
+            draw_shot_assessment(ui, m);
         } else {
             self.draw_bottom_bar(ui, m);
             // A correspondence game: its replay, or the turn sent.
@@ -467,6 +524,15 @@ impl Hud {
                     m.start_replay();
                 }
             }
+            // Offline: the game's history, out of the way up here.
+            if !m.is_online() || crate::correspondence::is_corr(m) {
+                x += 36.0;
+                let tip = if self.history_open { t("Hide the history") } else { t("Game history") };
+                let r = Rect::new(x, 12.0, 30.0, 30.0);
+                if ui.icon_button_ex(r, Icon::List, tip, true, self.history_open) {
+                    self.history_open = !self.history_open;
+                }
+            }
             if let Some(z) = self.zoom_bar(ui) {
                 action = HudAction::Zoom(z);
             }
@@ -495,6 +561,74 @@ impl Hud {
                 self.draw_chat(ui, m);
             } else if !m.is_online() || corr {
                 self.draw_history(ui, m);
+            }
+        }
+
+        // A drill session is over.
+        if let (Phase::GameOver, Some(run)) = (&m.phase, &m.drill) {
+            let d = run.drill();
+            let w = 440.0f32.min(sw - 20.0);
+            let r = Rect::new((sw - w) / 2.0, sh / 2.0 - 120.0, w, 240.0);
+            ui.panel(r);
+            let score = match &run.result {
+                Some(Ok(n)) => *n,
+                _ => run.score(),
+            };
+            let stars = snookered_proto::drills::stars(d, score);
+            crate::ui::rrect_lines(r, 8.0, 2.0, if stars == 3 { GOLD } else { BORDER });
+            ui.text_centered(t(d.name), sw / 2.0, r.y + 16.0, 26.0, GOLD, true);
+            // The stars: gold for each earned.
+            for k in 0..3 {
+                let c = vec2(sw / 2.0 + (k as f32 - 1.0) * 46.0, r.y + 78.0);
+                let color = if (k as u32) < stars { GOLD } else { Color::new(1.0, 1.0, 1.0, 0.15) };
+                crate::icons::draw(crate::icons::Icon::Star, c, 34.0, color);
+            }
+            let line = tw("{n} of {total}", &[("n", &score), ("total", &d.tries)]);
+            ui.text_centered(&line, sw / 2.0, r.y + 108.0, 20.0, CREAM, true);
+            let (status, color) = match &run.result {
+                None if run.sent => (t("Sending to the server…").to_string(), MUTED),
+                None => (t("Not signed in: this session is not ranked.").to_string(), MUTED),
+                Some(Ok(_)) => (t("Counted on the drill's table.").to_string(), CREAM),
+                Some(Err(_)) => (t("The session could not be counted.").to_string(), ALERT),
+            };
+            ui.text_centered(&status, sw / 2.0, r.y + 140.0, 13.0, color, false);
+            let b = Rect::new(sw / 2.0 - 110.0, r.y + 176.0, 220.0, 40.0);
+            if ui.primary_button(b, t("Back to the drills")) {
+                action = HudAction::MainMenu;
+            }
+        }
+
+        // The daily challenge's visit is over.
+        if let (Phase::GameOver, Some(run)) = (&m.phase, &m.daily) {
+            let w = 440.0f32.min(sw - 20.0);
+            let r = Rect::new((sw - w) / 2.0, sh / 2.0 - 110.0, w, 220.0);
+            ui.panel(r);
+            let cleared = run.made >= run.balls;
+            crate::ui::rrect_lines(r, 8.0, 2.0, if cleared { GOLD } else { BORDER });
+            let title = if cleared { t("Table cleared!") } else { t("Daily challenge") };
+            ui.text_centered(title, sw / 2.0, r.y + 16.0, 28.0, GOLD, true);
+            let made = tw("{n} of {total} balls", &[("n", &run.made), ("total", &run.balls)]);
+            ui.text_centered(&made, sw / 2.0, r.y + 60.0, 22.0, CREAM, true);
+            let (line, color) = match &run.result {
+                None => (t("Sending your attempt to the server…").to_string(), MUTED),
+                Some((Ok(o), coins)) if *coins > 0 => (
+                    tw("Counted: {n} balls · +{coins} coins", &[("n", &o.balls), ("coins", coins)]),
+                    GOLD,
+                ),
+                Some((Ok(o), _)) => (tw("Counted: {n} balls", &[("n", &o.balls)]), CREAM),
+                Some((Err(_), _)) => (t("The attempt could not be counted.").to_string(), ALERT),
+            };
+            if run.result.is_none() {
+                crate::ui::spinner(
+                    vec2(sw / 2.0 - ui.text_size(&line, 14.0, false).x / 2.0 - 16.0, r.y + 108.0),
+                    7.0,
+                    GOLD,
+                );
+            }
+            ui.text_centered(&line, sw / 2.0, r.y + 100.0, 14.0, color, false);
+            let b = Rect::new(sw / 2.0 - 110.0, r.y + 160.0, 220.0, 40.0);
+            if ui.primary_button(b, t("See today's table")) {
+                action = HudAction::MainMenu;
             }
         }
 
@@ -764,7 +898,13 @@ impl Hud {
             const GAP: f32 = 10.0;
             const BH: f32 = 38.0;
             let w = 340.0;
-            let header = if online { 66.0 } else { 48.0 };
+            let header = if online && !corr {
+                86.0
+            } else if online {
+                66.0
+            } else {
+                48.0
+            };
             // Resume, settings, controls, resign, then the way out set apart.
             let leave_h = if self.confirm_leave { 24.0 + BH } else { BH };
             let reportable = self.reportable(m);
@@ -787,6 +927,14 @@ impl Hud {
                     t("The game goes on while this is open.")
                 };
                 ui.text_centered(note, sw / 2.0, r.y + PAD + 30.0, 13.0, MUTED, false);
+                if !corr {
+                    // Closing the game mid-match is leaving it (resigning isn't).
+                    let warn = t(
+                        "Closing the game now is leaving it: extra rating lost and a wait to play again.",
+                    );
+                    let (warn, size) = ui.fitted(warn, 12.0, w - 24.0, false);
+                    ui.text_centered(&warn, sw / 2.0, r.y + PAD + 50.0, size, ALERT, false);
+                }
             }
             let bx = r.x + PAD;
             let bw = r.w - 2.0 * PAD;
@@ -1001,6 +1149,8 @@ impl Hud {
             }
             let rb = Rect::new(button.x + button.w + 6.0, button.y, 32.0, 32.0);
             self.reaction_button(ui, m, rb);
+            let qb = Rect::new(rb.x + rb.w + 6.0, button.y, 32.0, 32.0);
+            self.quick_phrases(ui, m, qb);
             return;
         }
         o.unread = 0;
@@ -1042,6 +1192,60 @@ impl Hud {
             ui.focus = None;
         }
         self.reaction_button(ui, m, Rect::new(r.x + r.w + 6.0, r.y + r.h - 34.0, 32.0, 32.0));
+        self.quick_phrases(ui, m, Rect::new(r.x + r.w + 6.0, r.y + r.h - 72.0, 32.0, 32.0));
+    }
+
+    /// The quick phrases: a button, and the list it opens above it. A phrase
+    /// goes out in English and reads in each player's own language.
+    fn quick_phrases(&mut self, ui: &mut Ui, m: &mut Match, b: Rect) {
+        if m.is_spectating() {
+            return;
+        }
+        let label = t("Quick phrases");
+        if ui.icon_button_ex(b, Icon::Pencil, label, true, true) {
+            self.quick_open = !self.quick_open;
+            self.reactions_open = false;
+        }
+        if !self.quick_open {
+            return;
+        }
+        let phrases = snookered_proto::QUICK_CHAT;
+        let row_h = 30.0;
+        let w = phrases
+            .iter()
+            .map(|p| ui.text_size(t(p), 13.0, false).x + 24.0)
+            .fold(200.0, f32::max)
+            .min(crate::ui::vw() - b.x - 12.0);
+        let h = phrases.len() as f32 * row_h + 34.0;
+        let r = Rect::new(b.x, (b.y - h - 6.0).max(60.0), w, h);
+        ui.panel(r);
+        ui.text(label, r.x + 10.0, r.y + 8.0, 13.0, GOLD, true);
+        let mut chosen = None;
+        for (k, p) in phrases.iter().enumerate() {
+            let row = Rect::new(r.x + 4.0, r.y + 28.0 + k as f32 * row_h, r.w - 8.0, row_h - 2.0);
+            let hover = ui.hovering(row);
+            if hover {
+                crate::ui::rrect(row, 5.0, Color::new(1.0, 1.0, 1.0, 0.08));
+            }
+            let (text, size) = ui.fitted(t(p), 13.0, row.w - 16.0, false);
+            ui.text(
+                &text,
+                row.x + 8.0,
+                crate::ranking::text_y(row.y + row.h / 2.0, size),
+                size,
+                CREAM,
+                false,
+            );
+            if ui.clicked(row) {
+                chosen = Some(*p);
+            }
+        }
+        if let Some(p) = chosen {
+            m.send_chat(p);
+            self.quick_open = false;
+        } else if is_mouse_button_pressed(MouseButton::Left) && !ui.hovering(r) && !ui.hovering(b) {
+            self.quick_open = false;
+        }
     }
 
     /// Offline, what happened in the game so far, in the chat's place (no
@@ -1054,12 +1258,8 @@ impl Hud {
         } else {
             crate::ui::vh() - BOTTOM_BAR
         };
+        // Opened from its icon in the top bar.
         if !self.history_open {
-            let label = t("History");
-            let w = ui.text_size(label, 13.0, true).x + 30.0;
-            if ui.button(Rect::new(12.0, bottom - 40.0, w, 32.0), label, true) {
-                self.history_open = true;
-            }
             return;
         }
         let r = Rect::new(12.0, bottom - chat_h() - 8.0, chat_w(), chat_h());
@@ -1116,7 +1316,7 @@ impl Hud {
         if hover && !self.reactions_open {
             ui.tooltip(t("Reactions"), b);
         }
-        let clicked_button = hover && is_mouse_button_released(MouseButton::Left);
+        let clicked_button = hover && ui.released_in(b);
         if !self.reactions_open {
             if clicked_button {
                 self.reactions_open = true;
@@ -1163,7 +1363,7 @@ impl Hud {
                     if hover { 32.0 } else { 28.0 },
                     crate::paint::opacity(),
                 );
-                if hover && is_mouse_button_released(MouseButton::Left) {
+                if hover && ui.released_in(c) {
                     chosen = Some(r.code);
                 }
             } else {
@@ -1877,8 +2077,22 @@ impl Hud {
         }
         if my_turn && self.power_key != Some(key) {
             self.power_key = Some(key);
-            m.aim.power = self.power;
-            m.aim.charging = self.power > 0.02;
+            // The break wants a firm stroke (four balls must reach a
+            // cushion); other turns start from the power chosen last.
+            let power = if m.game.is_break() { BREAK_POWER.max(self.power) } else { self.power };
+            m.aim.power = power;
+            m.aim.charging = power > 0.02;
+        }
+        // Each seat's last stroke (the power it was played with), for the
+        // mark on the bar when that player's turn comes back.
+        if let Some(last) = &m.last_shot {
+            let key = (m.games_played, last.start.shots_taken());
+            if self.last_shot_seen != Some(key) {
+                self.last_shot_seen = Some(key);
+                let max = m.game.params().max_cue_speed;
+                let power = crate::game::speed_to_power(last.shot.speed, max);
+                self.last_power[last.start.current_player() % 2] = Some(power);
+            }
         }
         let can_shoot = my_turn && !m.is_placing_cue_ball();
         if shoot_button(ui, shoot, can_shoot && m.aim.power > 0.02) {
@@ -1940,7 +2154,35 @@ impl Hud {
             self.power = power;
         }
         let hot = matches!(drag, crate::ui::Drag::Held(_) | crate::ui::Drag::Hover);
+        // The wheel over the bar: one percent a notch, for fine control.
+        if matches!(drag, crate::ui::Drag::Hover) {
+            let wheel = mouse_wheel().1;
+            if wheel != 0.0 {
+                let power = (m.aim.power + wheel.signum() * 0.01).clamp(0.0, 1.0);
+                m.aim.power = power;
+                m.aim.charging = power > 0.02;
+                self.power = power;
+            }
+        }
         draw_power_track(ui, track, m.aim.power, hot, true);
+        // This player's last stroke: a mark on the bar, to repeat it or to
+        // judge the next one from it.
+        if let Some(power) = self.last_power[m.game.current_player() % 2] {
+            let x = track.x + 4.0 + power.clamp(0.0, 1.0) * (track.w - 8.0);
+            let c = Color::new(1.0, 1.0, 1.0, 0.75);
+            draw_line(x, track.y - 3.0, x, track.y + track.h + 3.0, 2.0, c);
+            crate::paint::draw_triangle(
+                vec2(x - 4.0, track.y - 7.0),
+                vec2(x + 4.0, track.y - 7.0),
+                vec2(x, track.y - 2.0),
+                c,
+            );
+            let zone = Rect::new(x - 6.0, track.y - 8.0, 12.0, track.h + 16.0);
+            if ui.hovering(zone) {
+                let tip = tw("Your last shot: {p}%", &[("p", &((power * 100.0).round() as u32))]);
+                ui.tooltip(&tip, zone);
+            }
+        }
         if hot && !matches!(drag, crate::ui::Drag::Held(_)) {
             ui.overlay(move |ui| {
                 let hint = t("Drag to set the power");
@@ -2167,6 +2409,8 @@ fn draw_bar(r: Rect, top: bool) {
 
 const TOP_BAR: f32 = 54.0;
 const BOTTOM_BAR: f32 = 78.0;
+/// Where the power bar starts on the break.
+const BREAK_POWER: f32 = 0.9;
 const CARD_H: f32 = 44.0;
 
 /// The game log inside the bottom bar: the last few things that happened.
@@ -2231,7 +2475,8 @@ fn shoot_button(ui: &mut Ui, r: Rect, enabled: bool) -> bool {
         br * 0.32,
         Color::new(1.0, 1.0, 1.0, 0.85 * a),
     );
-    let clicked = enabled && hover && is_mouse_button_released(MouseButton::Left);
+    // Pressed on the button too: a power drag let go over it is no shot.
+    let clicked = enabled && hover && ui.released_in(r);
     if hover {
         ui.overlay(move |ui| {
             let label = t("Shoot!");
@@ -2247,6 +2492,101 @@ fn shoot_button(ui: &mut Ui, r: Rect, enabled: bool) -> bool {
         });
     }
     clicked
+}
+
+/// Watching: how hard the shot being lined up is, above the bottom bar
+/// (once the shooter's aim settles).
+fn draw_shot_assessment(ui: &mut Ui, m: &Match) {
+    let Some(a) = m.online.as_ref().and_then(|o| o.assessor.current()) else { return };
+    let pct = (a.chance * 100.0).round() as u32;
+    let (word, color) = match pct {
+        80.. => (t("Easy shot"), Color::new(0.45, 0.95, 0.55, 1.0)),
+        50..=79 => (t("Fair shot"), Color::new(0.95, 0.85, 0.35, 1.0)),
+        20..=49 => (t("Hard shot"), Color::new(1.0, 0.6, 0.25, 1.0)),
+        _ => (t("Very hard shot"), Color::new(1.0, 0.4, 0.35, 1.0)),
+    };
+    let headline = if a.pot.is_some() {
+        format!("{word} · {}", tw("~{n}% chance", &[("n", &pct)]))
+    } else {
+        format!("{} · {}", t("No ball goes down as aimed"), tw("~{n}% chance", &[("n", &pct)]))
+    };
+    let mut details = Vec::new();
+    match a.cut_deg {
+        Some(cut) if cut < 3.0 => details.push(t("straight in").to_string()),
+        Some(cut) => details.push(tw("{n}° cut", &[("n", &(cut.round() as u32))])),
+        None => {}
+    }
+    match a.cushions {
+        0 => {}
+        1 => details.push(t("off one cushion").to_string()),
+        n => details.push(tw("off {n} cushions", &[("n", &n)])),
+    }
+    let details = details.join(" · ");
+    let sw = crate::ui::vw();
+    let sh = crate::ui::vh();
+    let w = (ui.text_size(&headline, 14.0, true).x.max(ui.text_size(&details, 12.0, false).x)
+        + 40.0)
+        .clamp(220.0, sw - 24.0);
+    let h = if details.is_empty() { 34.0 } else { 52.0 };
+    let r = Rect::new((sw - w) / 2.0, sh - BOTTOM_BAR - h - 10.0, w, h);
+    crate::ui::rrect(r, 8.0, Color::new(0.05, 0.06, 0.05, 0.82));
+    // The chance as a thin bar along the bottom edge.
+    let bar = Rect::new(r.x + 10.0, r.y + r.h - 5.0, r.w - 20.0, 3.0);
+    crate::ui::rrect(bar, 1.5, Color::new(1.0, 1.0, 1.0, 0.12));
+    crate::ui::rrect(Rect::new(bar.x, bar.y, bar.w * a.chance as f32, bar.h), 1.5, color);
+    let (headline, size) = ui.fitted(&headline, 14.0, r.w - 20.0, true);
+    ui.text_centered(&headline, r.x + r.w / 2.0, r.y + 8.0, size, color, true);
+    if !details.is_empty() {
+        let (details, size) = ui.fitted(&details, 12.0, r.w - 20.0, false);
+        ui.text_centered(&details, r.x + r.w / 2.0, r.y + 28.0, size, CREAM, false);
+    }
+}
+
+/// A speech bubble with `text`, its tail up at `anchor` (under the
+/// speaker's card), fading in and out over its life.
+fn draw_banter(ui: &Ui, text: &str, age: f32, anchor: Vec2) {
+    let life = crate::game::BANTER_TIME;
+    let alpha = (age / 0.25).min(1.0) * ((life - age) / 0.5).clamp(0.0, 1.0);
+    if alpha <= 0.0 {
+        return;
+    }
+    let size = 14.0;
+    let max_w = 300.0f32.min(crate::ui::vw() - 24.0);
+    let lines = ui.wrap(text, max_w - 28.0, size);
+    let w = lines.iter().map(|l| ui.text_size(l, size, false).x).fold(0.0, f32::max) + 28.0;
+    let h = lines.len() as f32 * (size + 5.0) + 18.0;
+    // Pops in: a little bounce at the start.
+    let pop = if age < 0.25 { 0.9 + 0.1 * (age / 0.25) } else { 1.0 };
+    let top = anchor.y + 16.0 + (1.0 - pop) * 10.0;
+    let x = (anchor.x - w / 2.0).clamp(12.0, crate::ui::vw() - w - 12.0);
+    let r = Rect::new(x, top, w, h);
+    let paper = Color::new(0.98, 0.96, 0.9, 0.97 * alpha);
+    let edge = Color::new(0.25, 0.18, 0.1, 0.9 * alpha);
+    // Shadow, tail, body.
+    crate::ui::rrect(
+        Rect::new(r.x + 2.0, r.y + 3.0, r.w, r.h),
+        12.0,
+        Color::new(0.0, 0.0, 0.0, 0.3 * alpha),
+    );
+    let tail_x = anchor.x.clamp(r.x + 18.0, r.x + r.w - 18.0);
+    crate::paint::draw_triangle(
+        vec2(tail_x - 9.0, r.y + 1.0),
+        vec2(tail_x + 9.0, r.y + 1.0),
+        vec2(tail_x, r.y - 11.0),
+        edge,
+    );
+    crate::ui::rrect(r, 12.0, paper);
+    crate::ui::rrect_lines(r, 12.0, 1.5, edge);
+    crate::paint::draw_triangle(
+        vec2(tail_x - 7.0, r.y + 2.0),
+        vec2(tail_x + 7.0, r.y + 2.0),
+        vec2(tail_x, r.y - 8.5),
+        paper,
+    );
+    let ink = Color::new(0.16, 0.11, 0.07, alpha);
+    for (k, l) in lines.iter().enumerate() {
+        ui.text_centered(l, r.x + r.w / 2.0, r.y + 9.0 + k as f32 * (size + 5.0), size, ink, false);
+    }
 }
 
 #[cfg(test)]

@@ -23,6 +23,10 @@ use crate::{MatchMode, MatchSettings};
 pub enum Tab {
     Free,
     Ladder,
+    /// The daily challenge.
+    Daily,
+    /// Drills: short exercises with stars.
+    Drills,
 }
 
 /// The card picked on the free game's grid.
@@ -38,6 +42,8 @@ pub enum VersusAction {
     Start(MatchSettings),
     /// To the sign-in form (for a ghost or the ladder's reward).
     SignIn,
+    /// A session of this drill.
+    Drill(String),
 }
 
 pub struct Versus {
@@ -50,6 +56,14 @@ pub struct Versus {
     ghost_focused: bool,
     /// A ghost to ask for once signed in.
     waiting: bool,
+    /// Today's challenge was asked for (the day it was asked).
+    daily_asked: Option<i64>,
+    /// "Start" was pressed: waiting for the server.
+    daily_starting: bool,
+    /// The drill picked on the list.
+    drill: usize,
+    /// The drills were asked for (once per visit).
+    drills_asked: bool,
 }
 
 /// Text field ids.
@@ -73,6 +87,10 @@ impl Versus {
             ghost_name: String::new(),
             ghost_focused: false,
             waiting: false,
+            daily_asked: None,
+            daily_starting: false,
+            drill: 0,
+            drills_asked: false,
         }
     }
 
@@ -116,23 +134,31 @@ impl Versus {
         let subtitle = match self.tab {
             Tab::Free => t("Each opponent has a style of their own").to_string(),
             Tab::Ladder => tw(
-                "Ladder: {n} of {total} beaten",
+                "Tour: {n} of {total} beaten",
                 &[("n", &progress.beaten), ("total", &ladder::RUNGS.len())],
             ),
+            Tab::Daily => t("The same table for everyone, all day").to_string(),
+            Tab::Drills => t("Exercises with stars and a ranking").to_string(),
         };
         // The tabs at the top right; the title keeps clear of them.
-        let tab_w = 150.0f32.max(
-            ui.text_size(t("Free game"), 15.0, true).x.max(ui.text_size(t("Ladder"), 15.0, true).x)
-                + 28.0,
-        );
-        let tabs_x = r.x + r.w - PAD - 2.0 * tab_w - 8.0;
+        let labels = [t("Free game"), t("Tour"), t("Daily challenge"), t("Drills")];
+        let widest = labels.iter().map(|l| ui.text_size(l, 15.0, true).x).fold(0.0, f32::max);
+        // The tabs keep to the right half, clear of the title.
+        let tab_w = (widest + 24.0).clamp(96.0, 140.0).min((r.w * 0.54 - 24.0) / 4.0);
+        let tabs_x = r.x + r.w - PAD - 4.0 * tab_w - 24.0;
         if screen_header(ui, r, Icon::Robot, t("Against the computer"), Some(&subtitle))
             || (is_key_pressed(KeyCode::Escape) && ui.focus.is_none())
         {
             action = VersusAction::Back;
         }
-        for (k, (tab, label)) in
-            [(Tab::Free, t("Free game")), (Tab::Ladder, t("Ladder"))].into_iter().enumerate()
+        for (k, (tab, label)) in [
+            (Tab::Free, labels[0]),
+            (Tab::Ladder, labels[1]),
+            (Tab::Daily, labels[2]),
+            (Tab::Drills, labels[3]),
+        ]
+        .into_iter()
+        .enumerate()
         {
             let tr = Rect::new(tabs_x + k as f32 * (tab_w + 8.0), r.y + 20.0, tab_w, 36.0);
             if ui.tab(tr, label, self.tab == tab) {
@@ -146,6 +172,8 @@ impl Versus {
         let inner = match self.tab {
             Tab::Free => self.free(ui, config, online, body),
             Tab::Ladder => self.ladder(ui, config, online, progress, claimer, body),
+            Tab::Daily => self.daily(ui, online, body),
+            Tab::Drills => self.drills(ui, online, body),
         };
         if !matches!(inner, VersusAction::None) {
             action = inner;
@@ -320,9 +348,9 @@ impl Versus {
         }
         if ui.hovering(seg) {
             let hint = match config.guide {
-                AimGuide::Full => {
-                    t("Shows where the object ball and the cue ball go (not online).")
-                }
+                AimGuide::Full => t(
+                    "Shows where the object ball and the cue ball go (only in free games and practice).",
+                ),
                 AimGuide::Standard => t("Shows the contact point; judging the cut is up to you."),
                 AimGuide::Short => t("Only a short line from the cue ball."),
             };
@@ -633,7 +661,7 @@ impl Versus {
                 self.rung = Some(rung);
             }
             if !unlocked && ui.hovering(row) {
-                tip = Some((t("Beat the rung below to unlock it.").to_string(), row));
+                tip = Some((t("Win the previous stage to unlock this one.").to_string(), row));
             }
         }
 
@@ -653,7 +681,7 @@ impl Versus {
         let play_r = Rect::new(dx, reward.y - 18.0 - 42.0, dw, 42.0);
         let p = ladder::rung(selected as usize).expect("rung");
         let rung_line =
-            tw("Rung {n} of {total}", &[("n", &(selected + 1)), ("total", &ladder::RUNGS.len())]);
+            tw("Stage {n} of {total}", &[("n", &(selected + 1)), ("total", &ladder::RUNGS.len())]);
         let area = Rect::new(dx, body.y, dw, play_r.y - 14.0 - body.y);
         let o = Opponent::personality(p.code);
         ui.text(&rung_line, dx, area.y, 12.0, MUTED, true);
@@ -728,7 +756,7 @@ impl Versus {
         }
         if progress.pending.is_none() {
             let text = if progress.complete() {
-                t("Beat the last rung again while signed in to claim it.")
+                t("Win the last stage again while signed in to claim it.")
             } else {
                 t("Beat all ten opponents to earn it. It is sold nowhere.")
             };
@@ -741,7 +769,7 @@ impl Versus {
         }
         // A won final game, waiting for the server.
         if !online.signed_in() {
-            say(ui, t("You beat the ladder! Sign in to claim your reward."), CREAM, &mut y);
+            say(ui, t("You won the tour! Sign in to claim your reward."), CREAM, &mut y);
             if ui.button(button(y), t("Sign in"), true) {
                 action = Some(VersusAction::SignIn);
             }
@@ -762,6 +790,361 @@ impl Versus {
             Claim::Granted => {}
         }
         action
+    }
+}
+
+impl Versus {
+    // -----------------------------------------------------------------------
+    // The daily challenge.
+
+    fn daily(&mut self, ui: &mut Ui, online: &mut Online, body: Rect) -> VersusAction {
+        use snookered_proto::daily;
+        let mut action = VersusAction::None;
+        let today = daily::day_of(crate::util::unix_now());
+        if online.signed_in() && self.daily_asked != Some(today) {
+            self.daily_asked = Some(today);
+            online.send(snookered_proto::ClientMsg::Daily);
+        }
+        if online.daily_refused.is_some() {
+            self.daily_starting = false;
+        }
+        let left_w = (body.w * 0.46).floor();
+        let left = Rect::new(body.x, body.y, left_w, body.h);
+        let right = Rect::new(body.x + left_w + 24.0, body.y, body.w - left_w - 24.0, body.h);
+        let x = left.x + 4.0;
+        let w = left.w - 8.0;
+        let mut y = left.y + 6.0;
+        let say = |ui: &Ui, text: &str, size: f32, color: Color, y: &mut f32| {
+            for l in ui.wrap(text, w, size) {
+                ui.text(&l, x, *y, size, color, false);
+                *y += size + 5.0;
+            }
+        };
+        ui.text(t("Daily challenge"), x, y, 20.0, GOLD, true);
+        y += 32.0;
+        say(
+            ui,
+            t("Make as many balls as you can in one visit: a miss or a foul ends the attempt."),
+            14.0,
+            CREAM,
+            &mut y,
+        );
+        y += 4.0;
+        say(
+            ui,
+            &tw(
+                "{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.",
+                &[("n", &daily::ATTEMPTS), ("coins", &daily::CLEAR_COINS)],
+            ),
+            13.0,
+            MUTED,
+            &mut y,
+        );
+        // Until the next table (UTC midnight).
+        let left_secs = 86_400 - crate::util::unix_now().rem_euclid(86_400);
+        let next = tw(
+            "A new table in {h} h {m} min",
+            &[("h", &(left_secs / 3600)), ("m", &(left_secs % 3600 / 60))],
+        );
+        say(ui, &next, 13.0, MUTED, &mut y);
+        y += 10.0;
+        if !online.signed_in() {
+            say(
+                ui,
+                t("Sign in to take part: the server keeps the day's table."),
+                14.0,
+                CREAM,
+                &mut y,
+            );
+            if ui.button(Rect::new(x, y + 4.0, 140.0, 34.0), t("Sign in"), true) {
+                action = VersusAction::SignIn;
+            }
+        } else if let Some(info) = online.daily.clone().filter(|i| i.day == today) {
+            let stat = |ui: &Ui, label: &str, value: &str, y: &mut f32| {
+                ui.text(label, x, *y, 13.0, MUTED, false);
+                let vw = ui.text_size(value, 15.0, true).x;
+                ui.text(value, x + w - vw, *y - 1.0, 15.0, CREAM, true);
+                *y += 24.0;
+            };
+            stat(ui, t("Balls on today's table"), &info.balls.to_string(), &mut y);
+            let left = format!("{} / {}", info.attempts_left, daily::ATTEMPTS);
+            stat(ui, t("Attempts left"), &left, &mut y);
+            let best = match (info.best, info.rank) {
+                (Some(b), Some(r)) => tw("{n} balls · #{rank}", &[("n", &b), ("rank", &r)]),
+                (Some(b), None) => tw("{n} balls", &[("n", &b)]),
+                _ => t("not yet").to_string(),
+            };
+            stat(ui, t("Your best today"), &best, &mut y);
+            y += 8.0;
+            if let Some(refused) = online.daily_refused {
+                let text = match refused {
+                    daily::Refused::NoAttemptsLeft => {
+                        t("No attempts left today: come back tomorrow.")
+                    }
+                    _ => t("The attempt could not be counted."),
+                };
+                say(ui, text, 13.0, ALERT, &mut y);
+            }
+            let b = Rect::new(x, y + 4.0, w.min(240.0), 40.0);
+            if self.daily_starting {
+                crate::ui::spinner(vec2(b.x + 12.0, b.y + 20.0), 8.0, GOLD);
+                ui.text(t("Setting up the table…"), b.x + 30.0, b.y + 12.0, 14.0, MUTED, false);
+            } else if info.attempts_left > 0 {
+                if ui.primary_button(b, t("Start an attempt")) {
+                    self.daily_starting = true;
+                    online.daily_refused = None;
+                    online.send(snookered_proto::ClientMsg::DailyStart);
+                }
+                y = b.y + b.h + 8.0;
+                say(
+                    ui,
+                    t("Starting uses an attempt, even if you leave the table."),
+                    12.0,
+                    MUTED,
+                    &mut y,
+                );
+            } else {
+                say(ui, t("No attempts left today: come back tomorrow."), 14.0, CREAM, &mut y);
+            }
+            self.daily_board(ui, &info, online, right);
+        } else {
+            crate::ui::spinner(vec2(x + 10.0, y + 8.0), 8.0, GOLD);
+            ui.text(t("Loading today's table…"), x + 26.0, y, 14.0, MUTED, false);
+        }
+        action
+    }
+
+    fn drills(&mut self, ui: &mut Ui, online: &mut Online, body: Rect) -> VersusAction {
+        use snookered_proto::drills::{self, DRILLS};
+        let mut action = VersusAction::None;
+        if online.signed_in() && !self.drills_asked {
+            self.drills_asked = true;
+            online.send(snookered_proto::ClientMsg::Drills);
+        }
+        let info = online.drills.clone();
+        let best_of = |code: &str| {
+            info.as_ref()
+                .and_then(|i| i.drills.iter().find(|d| d.code == code))
+                .and_then(|d| d.best)
+        };
+        let list_w = (body.w * 0.42).floor();
+        // The challenge rating, over the list.
+        let head = Rect::new(body.x, body.y, list_w, 54.0);
+        rrect(head, 8.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.08));
+        let (rating, stars, rank) =
+            info.as_ref().map_or((0, 0, None), |i| (i.rating, i.stars, i.rank));
+        ui.text(t("Challenge rating"), head.x + 12.0, head.y + 8.0, 12.0, MUTED, true);
+        ui.text(&rating.to_string(), head.x + 12.0, head.y + 24.0, 22.0, GOLD, true);
+        let sub = match rank {
+            Some(r) => tw(
+                "{s} / {max} stars · #{rank}",
+                &[("s", &stars), ("max", &drills::max_stars()), ("rank", &r)],
+            ),
+            None => tw("{s} / {max} stars", &[("s", &stars), ("max", &drills::max_stars())]),
+        };
+        let sw_ = ui.text_size(&sub, 13.0, false).x;
+        ui.text(&sub, head.x + head.w - 12.0 - sw_, head.y + 30.0, 13.0, CREAM, false);
+        // The drills.
+        let top = head.y + head.h + 10.0;
+        let row_h = ((body.y + body.h - top) / DRILLS.len() as f32).min(58.0);
+        for (k, d) in DRILLS.iter().enumerate() {
+            let row = Rect::new(body.x, top + k as f32 * row_h, list_w, row_h - 6.0);
+            let hover = ui.hovering(row);
+            card_frame(row, self.drill == k, hover);
+            ui.block(row);
+            if ui.clicked(row) {
+                self.drill = k;
+            }
+            let mid = row.y + row.h / 2.0;
+            let (name, size) = ui.fitted(t(d.name), 15.0, row.w - 110.0, true);
+            ui.text(&name, row.x + 12.0, text_y(mid, size), size, CREAM, true);
+            let earned = best_of(d.code).map_or(0, |b| drills::stars(d, b));
+            for s in 0..3 {
+                let c = vec2(row.x + row.w - 72.0 + s as f32 * 22.0, mid);
+                let color = if s < earned { GOLD } else { Color::new(1.0, 1.0, 1.0, 0.15) };
+                crate::icons::draw(Icon::Star, c, 17.0, color);
+            }
+        }
+        // The drill picked: what it asks, the player's best, its table.
+        let d = &DRILLS[self.drill.min(DRILLS.len() - 1)];
+        let right = Rect::new(body.x + list_w + 24.0, body.y, body.w - list_w - 24.0, body.h);
+        let x = right.x + 4.0;
+        let w = right.w - 8.0;
+        let mut y = right.y + 4.0;
+        ui.text(t(d.name), x, y, 20.0, GOLD, true);
+        y += 30.0;
+        for l in ui.wrap(t(d.description), w, 14.0) {
+            ui.text(&l, x, y, 14.0, CREAM, false);
+            y += 19.0;
+        }
+        y += 4.0;
+        let need = tw(
+            "Stars at {a}, {b} and {c}",
+            &[("a", &d.stars[0]), ("b", &d.stars[1]), ("c", &d.stars[2])],
+        );
+        ui.text(&need, x, y, 13.0, MUTED, false);
+        y += 20.0;
+        let best = match best_of(d.code) {
+            Some(b) => tw("Your best: {n} of {total}", &[("n", &b), ("total", &d.tries)]),
+            None => t("Not tried yet.").to_string(),
+        };
+        ui.text(&best, x, y, 14.0, CREAM, true);
+        y += 26.0;
+        let b = Rect::new(x, y, w.min(220.0), 40.0);
+        if ui.primary_button(b, t("Start the drill")) {
+            action = VersusAction::Drill(d.code.to_string());
+        }
+        y += 50.0;
+        if !online.signed_in() {
+            for l in ui.wrap(t("Sign in to be ranked: the server keeps the tables."), w, 13.0) {
+                ui.text(&l, x, y, 13.0, MUTED, false);
+                y += 18.0;
+            }
+            return action;
+        }
+        // The drill's table, then the challenge rating's leaders.
+        let half = (right.y + right.h - y - 8.0) / 2.0;
+        let board = info.as_ref().and_then(|i| i.drills.iter().find(|x| x.code == d.code));
+        let rows: Vec<(String, String, String)> = board
+            .map(|b| {
+                b.board
+                    .iter()
+                    .map(|e| {
+                        (
+                            e.username.clone(),
+                            e.country.clone(),
+                            tw("{n} of {total}", &[("n", &e.score), ("total", &d.tries)]),
+                        )
+                    })
+                    .collect()
+            })
+            .unwrap_or_default();
+        self.small_board(
+            ui,
+            online,
+            Rect::new(right.x, y, right.w, half),
+            t("Best on this drill"),
+            &rows,
+        );
+        let leaders: Vec<(String, String, String)> = info
+            .as_ref()
+            .map(|i| {
+                i.leaders
+                    .iter()
+                    .map(|e| {
+                        (
+                            e.username.clone(),
+                            e.country.clone(),
+                            tw("{r} · {s}★", &[("r", &e.rating), ("s", &e.stars)]),
+                        )
+                    })
+                    .collect()
+            })
+            .unwrap_or_default();
+        self.small_board(
+            ui,
+            online,
+            Rect::new(right.x, y + half + 8.0, right.w, half),
+            t("Challenge rating"),
+            &leaders,
+        );
+        action
+    }
+
+    /// A short table: a title and (name, country, value) rows, best first.
+    fn small_board(
+        &self,
+        ui: &mut Ui,
+        online: &Online,
+        r: Rect,
+        title: &str,
+        rows: &[(String, String, String)],
+    ) {
+        rrect(r, 8.0, Color::new(1.0, 1.0, 1.0, 0.03));
+        let x = r.x + 12.0;
+        let w = r.w - 24.0;
+        ui.text(title, x, r.y + 8.0, 14.0, GOLD, true);
+        if rows.is_empty() {
+            ui.text(t("Nobody yet. Be the first!"), x, r.y + 32.0, 13.0, MUTED, false);
+            return;
+        }
+        let me = online.me.as_ref().map(|m| m.username.as_str()).unwrap_or("");
+        let row_h = 22.0;
+        let fit = (((r.h - 32.0) / row_h).floor().max(1.0)) as usize;
+        for (k, (name, country, value)) in rows.iter().take(fit).enumerate() {
+            let y = r.y + 30.0 + k as f32 * row_h;
+            if name.eq_ignore_ascii_case(me) {
+                rrect(
+                    Rect::new(r.x + 4.0, y - 2.0, r.w - 8.0, row_h - 2.0),
+                    5.0,
+                    Color::new(GOLD.r, GOLD.g, GOLD.b, 0.12),
+                );
+            }
+            let color = if k == 0 { GOLD } else { CREAM };
+            ui.text(&format!("{}.", k + 1), x, y + 2.0, 13.0, color, true);
+            let vw = ui.text_size(value, 13.0, true).x;
+            ui.text(value, x + w - vw, y + 2.0, 13.0, color, true);
+            ui.name_with_flag(name, country, CREAM, x + 28.0, y + 2.0, 13.0, w - 28.0 - vw - 10.0);
+        }
+    }
+
+    /// The day's leaders.
+    fn daily_board(
+        &self,
+        ui: &mut Ui,
+        info: &snookered_proto::daily::Info,
+        online: &Online,
+        r: Rect,
+    ) {
+        rrect(r, 8.0, Color::new(1.0, 1.0, 1.0, 0.03));
+        let x = r.x + 14.0;
+        let w = r.w - 28.0;
+        ui.text(t("Today's table"), x, r.y + 12.0, 16.0, GOLD, true);
+        let players = if info.players == 1 {
+            t("1 player").to_string()
+        } else {
+            tw("{n} players", &[("n", &info.players)])
+        };
+        let pw = ui.text_size(&players, 12.0, false).x;
+        ui.text(&players, x + w - pw, r.y + 15.0, 12.0, MUTED, false);
+        if info.board.is_empty() {
+            let text = t("Nobody has played today's table yet. Be the first!");
+            let mut y = r.y + 52.0;
+            for l in ui.wrap(text, w, 14.0) {
+                ui.text(&l, x, y, 14.0, MUTED, false);
+                y += 19.0;
+            }
+            return;
+        }
+        let row_h = 28.0;
+        let rows = (((r.h - 52.0) / row_h).floor().max(1.0)) as usize;
+        let me = online.me.as_ref().map(|m| m.username.as_str()).unwrap_or("");
+        for (k, e) in info.board.iter().take(rows).enumerate() {
+            let y = r.y + 44.0 + k as f32 * row_h;
+            let mine = e.username.eq_ignore_ascii_case(me);
+            if mine {
+                rrect(
+                    Rect::new(r.x + 6.0, y - 2.0, r.w - 12.0, row_h - 2.0),
+                    6.0,
+                    Color::new(GOLD.r, GOLD.g, GOLD.b, 0.12),
+                );
+            }
+            let place = format!("{}.", k + 1);
+            let color = if k == 0 { GOLD } else { CREAM };
+            ui.text(&place, x, y + 4.0, 14.0, color, true);
+            let balls = tw("{n} balls", &[("n", &e.balls)]);
+            let bw = ui.text_size(&balls, 14.0, true).x;
+            ui.text(&balls, x + w - bw, y + 4.0, 14.0, color, true);
+            ui.name_with_flag(
+                &e.username,
+                &e.country,
+                CREAM,
+                x + 34.0,
+                y + 4.0,
+                14.0,
+                w - 34.0 - bw - 12.0,
+            );
+        }
     }
 }
 

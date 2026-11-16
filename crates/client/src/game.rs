@@ -268,6 +268,79 @@ pub struct Match {
     /// A game of the ladder: its rung and every stroke (the final game is
     /// sent to the server to claim the reward).
     pub ladder: Option<crate::ladder::LadderRun>,
+    /// An attempt at the daily challenge.
+    pub daily: Option<DailyRun>,
+    /// A table to oneself (practice): racked again when a rack is over.
+    pub free_play: bool,
+    /// A drill session.
+    pub drill: Option<DrillRun>,
+    /// What the computer opponent just said, and for how long it has shown.
+    pub banter: Option<(String, f32)>,
+    /// Seconds since the opponent last spoke.
+    banter_quiet: f32,
+}
+
+/// A drill session: its tries, what each gave, and every stroke (for the
+/// server, which counts them again).
+#[derive(Debug, Clone, PartialEq)]
+pub struct DrillRun {
+    pub code: &'static str,
+    pub results: Vec<bool>,
+    pub strokes: Vec<Shot>,
+    /// The table is set up for the next try once the pause is over.
+    reset: bool,
+    pub over: bool,
+    pub sent: bool,
+    /// The server's count.
+    pub result: Option<Result<u32, snookered_proto::drills::Refused>>,
+}
+
+impl DrillRun {
+    pub fn drill(&self) -> &'static snookered_proto::drills::Drill {
+        snookered_proto::drills::drill(self.code).expect("a known drill")
+    }
+
+    /// The score as the game sees it (a streak: the pots in a row).
+    pub fn score(&self) -> u32 {
+        self.results.iter().filter(|&&ok| ok).count() as u32
+    }
+}
+
+/// How the power bar maps to the cue's speed: a curve that keeps most of
+/// the bar for ordinary shots (half the bar is a firm shot of about two
+/// metres a second for the ball) and the top for the break.
+pub const POWER_CURVE: f64 = 2.0;
+
+/// The cue speed for a point of the power bar (0 to 1).
+pub fn power_to_speed(power: f32, max: f64) -> f64 {
+    (power.clamp(0.0, 1.0) as f64).powf(POWER_CURVE) * max
+}
+
+/// The point of the power bar of a cue speed.
+pub fn speed_to_power(speed: f64, max: f64) -> f32 {
+    (speed / max).clamp(0.0, 1.0).powf(1.0 / POWER_CURVE) as f32
+}
+
+/// How long the opponent's speech bubble shows (seconds).
+pub const BANTER_TIME: f32 = 4.5;
+
+/// An attempt at the daily challenge: one visit to the table, every stroke
+/// kept for the server (which plays them again to count the balls).
+#[derive(Debug, Clone, PartialEq)]
+pub struct DailyRun {
+    pub day: i64,
+    /// Object balls on the table at the start.
+    pub balls: u32,
+    pub strokes: Vec<Shot>,
+    /// Balls made so far (as the game sees them; the server's count rules).
+    pub made: u32,
+    /// The visit is over: the strokes are to be sent.
+    pub over: bool,
+    /// Sent to the server.
+    pub sent: bool,
+    /// The server's answer (and the coins it gave).
+    pub result:
+        Option<(Result<snookered_proto::daily::Outcome, snookered_proto::daily::Refused>, i64)>,
 }
 
 /// State of a match played on a server.
@@ -317,6 +390,8 @@ pub struct OnlineMatch {
     pub remote_aimed: bool,
     /// The opponent's latest aim; the cue glides towards it.
     remote_target: Option<AimState>,
+    /// Watching: how hard the shot being lined up is.
+    pub assessor: crate::assess::Assessor,
     /// The turn being animated (or awaited).
     sim_turn: Option<u32>,
     /// This player's own shot, played before the server confirmed it.
@@ -415,8 +490,110 @@ impl Match {
             demo_timer: 0.0,
             opponent,
             ladder,
+            daily: None,
+            free_play: false,
+            drill: None,
+            banter: None,
+            banter_quiet: 0.0,
         };
         m.begin_turn();
+        m.say(crate::banter::Moment::Start);
+        m
+    }
+
+    /// Free practice only: the last shot is taken back (the balls go back
+    /// where they were before it). Whether there was one to take back.
+    pub fn take_back(&mut self) -> bool {
+        if !self.free_play || !matches!(self.phase, Phase::Turn { .. } | Phase::Pause(_)) {
+            return false;
+        }
+        let Some(last) = self.last_shot.take() else { return false };
+        self.game = last.start;
+        self.replay = None;
+        self.begin_turn();
+        true
+    }
+
+    /// A session of the drill `code`.
+    pub fn drill(code: &str, name: &str, guide: AimGuide) -> Option<Match> {
+        let d = snookered_proto::drills::drill(code)?;
+        let settings = MatchSettings {
+            mode: MatchMode::HotSeat,
+            names: [name.to_string(), t(d.name).to_string()],
+            guide,
+            shot_clock: None,
+            ladder: None,
+        };
+        let mut m = Match::new(&settings, 1);
+        m.game = snookered_proto::drills::game(d);
+        m.drill = Some(DrillRun {
+            code: d.code,
+            results: Vec::new(),
+            strokes: Vec::new(),
+            reset: false,
+            over: false,
+            sent: false,
+            result: None,
+        });
+        m.begin_turn();
+        m.notify(t(d.description), true);
+        Some(m)
+    }
+
+    /// The computer opponent may say something about `moment` (a
+    /// personality's line, in a bubble by its card).
+    pub fn say(&mut self, moment: crate::banter::Moment) {
+        // Only a game against the computer, not the waiting room's practice.
+        if !(self.is_against_computer() || self.practice) || self.free_play {
+            return;
+        }
+        let Some(o) = &self.opponent else { return };
+        let code = match o {
+            crate::opponents::Opponent::Personality { code } => code.as_str(),
+            crate::opponents::Opponent::Ghost { .. } => return,
+            _ => "",
+        };
+        let turn = self.game.shots_taken() as u64 + 1000 * self.games_played as u64;
+        if !moment.always()
+            && (self.banter_quiet < 6.0
+                || crate::banter::roll(self.seed ^ turn, moment as u64) > moment.chance())
+        {
+            return;
+        }
+        let lines = crate::banter::lines(code, moment);
+        if lines.is_empty() {
+            return;
+        }
+        let k = (crate::banter::roll(turn, self.seed) * lines.len() as f32) as usize;
+        self.banter = Some((t(lines[k.min(lines.len() - 1)]).to_string(), 0.0));
+        self.banter_quiet = 0.0;
+    }
+
+    /// An attempt at the daily challenge from the position of `seed`.
+    pub fn daily(day: i64, seed: u64, name: &str, guide: AimGuide) -> Match {
+        let settings = MatchSettings {
+            mode: MatchMode::HotSeat,
+            names: [name.to_string(), t("Daily challenge").to_string()],
+            guide,
+            shot_clock: None,
+            ladder: None,
+        };
+        let mut m = Match::new(&settings, seed);
+        m.game = snookered_proto::daily::game(seed);
+        m.daily = Some(DailyRun {
+            day,
+            balls: snookered_proto::daily::balls(seed),
+            strokes: Vec::new(),
+            made: 0,
+            over: false,
+            sent: false,
+            result: None,
+        });
+        m.begin_turn();
+        m.notify(
+            t("Make as many balls as you can in one visit: a miss or a foul ends the attempt."),
+            true,
+        );
         m
     }
 
@@ -586,6 +763,7 @@ impl Match {
                 cheering: None,
                 remote_aimed: false,
                 remote_target: None,
+                assessor: Default::default(),
                 sim_turn: None,
                 predicted: None,
                 turn_start: None,
@@ -610,6 +788,11 @@ impl Match {
             demo_timer: 0.0,
             opponent: None,
             ladder: None,
+            daily: None,
+            free_play: false,
+            drill: None,
+            banter: None,
+            banter_quiet: 0.0,
         };
         m.begin_turn();
         if let Some(o) = m.online.as_mut() {
@@ -636,6 +819,24 @@ impl Match {
         self.guide = guide;
         if let Some(o) = self.online.as_mut() {
             o.feed = feed;
+        }
+    }
+
+    /// The aiming guide drawn: never the full guide in a game against a
+    /// person over the network (rated or not, watching included), whatever
+    /// `guide` says; the full one is for free games against the computer
+    /// and practice.
+    pub fn guide_in_use(&self) -> AimGuide {
+        // The daily challenge, the drills and the tour are ranked or
+        // rewarded: the same rule.
+        if self.online.is_some()
+            || self.daily.is_some()
+            || self.drill.is_some()
+            || self.ladder.is_some()
+        {
+            self.guide.online()
+        } else {
+            self.guide
         }
     }
 
@@ -762,6 +963,12 @@ impl Match {
     }
 
     fn begin_turn(&mut self) {
+        // A drill's next try starts from its position again.
+        if let Some(run) = self.drill.as_mut().filter(|r| r.reset) {
+            run.reset = false;
+            let k = run.results.len() as u32;
+            self.game = snookered_proto::drills::game_for_try(run.drill(), k);
+        }
         // A replay: the next stroke decides the turn.
         let mut scripted = None;
         while let Some(script) = self.script.as_mut() {
@@ -861,7 +1068,7 @@ impl Match {
             yaw: self.aim.yaw,
             elevation: self.aim.elevation,
             tip: self.aim.tip,
-            speed: (self.aim.power as f64).powf(1.3) * max,
+            speed: power_to_speed(self.aim.power, max),
         }
     }
 
@@ -876,6 +1083,12 @@ impl Match {
         let shot = self.forced_shot.take().unwrap_or_else(|| self.shot_from_aim());
         match self.game.prepare_shot(&shot, self.called_pocket) {
             Ok(pending) => {
+                if let Some(run) = self.daily.as_mut() {
+                    run.strokes.push(shot);
+                }
+                if let Some(run) = self.drill.as_mut() {
+                    run.strokes.push(shot);
+                }
                 if let Some(run) = self.ladder.as_mut() {
                     let cue_ball =
                         self.game.ball_in_hand().map(|_| self.game.ball(BallId::CUE).xy());
@@ -1033,6 +1246,14 @@ impl Match {
                 self.begin_turn();
             }
         }
+        // The opponent's speech bubble fades after a few seconds.
+        self.banter_quiet += dt;
+        if let Some((_, age)) = &mut self.banter {
+            *age += dt;
+            if *age > BANTER_TIME {
+                self.banter = None;
+            }
+        }
         for n in &mut self.notices {
             n.ttl -= dt;
         }
@@ -1141,7 +1362,7 @@ impl Match {
         {
             self.game.place_cue_ball(p);
         }
-        let target_power = ((decision.shot.speed / max_speed).powf(1.0 / 1.3)) as f32;
+        let target_power = speed_to_power(decision.shot.speed, max_speed);
         let first_miss = turn.first_miss;
         let ease = |k: f32| {
             let k = k.clamp(0.0, 1.0);
@@ -1248,6 +1469,87 @@ impl Match {
     }
 
     fn after_shot(&mut self, report: &ShotReport) {
+        // A drill: did the try work? Then the next try, or the end.
+        if let Some(run) = self.drill.as_mut() {
+            let d = run.drill();
+            let ok = self
+                .last_shot
+                .as_ref()
+                .and_then(|s| snookered_proto::drills::try_shot(d, &s.start, &s.shot))
+                .unwrap_or(false);
+            run.results.push(ok);
+            let done = run.results.len() as u32 >= d.tries
+                || (d.goal == snookered_proto::drills::Goal::Streak && !ok);
+            let made = run.score();
+            let text = if ok {
+                tw("Made it! {n} of {total}", &[("n", &made), ("total", &d.tries)])
+            } else {
+                t("Missed.").to_string()
+            };
+            if done {
+                run.over = true;
+            } else {
+                run.reset = true;
+            }
+            self.notify(text, ok);
+            self.last_report = Some(report.clone());
+            self.phase = if done { Phase::GameOver } else { Phase::Pause(1.2) };
+            return;
+        }
+        // The computer opponent's remark about this shot (the player has
+        // seat 0 against the computer).
+        {
+            use crate::banter::Moment;
+            let mine = report.shooter == 0;
+            let moment = match report.game_over {
+                Some(over) if over.winner == 0 => Moment::YouWin,
+                Some(_) => Moment::IWin,
+                None if report.is_foul() => {
+                    if mine {
+                        Moment::YouFoul
+                    } else {
+                        Moment::IFoul
+                    }
+                }
+                None if report.continues => {
+                    if mine {
+                        Moment::YouPot
+                    } else {
+                        Moment::IPot
+                    }
+                }
+                None => {
+                    if mine {
+                        Moment::YouMiss
+                    } else {
+                        Moment::IMiss
+                    }
+                }
+            };
+            self.say(moment);
+        }
+        // Practice on one's own: a finished rack (the 8 down, however)
+        // just starts another.
+        if self.free_play && report.game_over.is_some() {
+            self.notify(t("A new rack."), false);
+            self.rematch();
+            return;
+        }
+        // The daily challenge: the visit ends at the first stroke that
+        // doesn't keep the table, or with the table clear.
+        if let Some(run) = self.daily.as_mut() {
+            let keeps = report.continues && report.game_over.is_none();
+            if keeps {
+                run.made +=
+                    report.pocketed.iter().filter(|(b, _)| *b != BallId::CUE).count() as u32;
+            }
+            if !keeps || run.made >= run.balls {
+                run.over = true;
+                self.last_report = Some(report.clone());
+                self.phase = Phase::GameOver;
+                return;
+            }
+        }
         if let Some(over) = report.game_over
             && over.reason == snookered_core::GameOverReason::PocketedEight
             && let Some((_, pocket)) =
@@ -1434,6 +1736,22 @@ impl Match {
         } else {
             // The server's clock for the next turn already runs during playback.
             o.next_clock = (o.next_clock - dt).max(0.0);
+        }
+        // Watching: the shot as the shooter aims it, assessed once it settles
+        // (before they set the power, an ordinary stroke is assumed).
+        match o.remote_target.filter(|_| remote_turn && o.spectator) {
+            Some(target) => {
+                let power = if target.power > 0.05 { target.power } else { 0.4 };
+                let shot = Shot {
+                    yaw: target.yaw,
+                    elevation: target.elevation,
+                    tip: target.tip,
+                    speed: power_to_speed(power, self.game.params().max_cue_speed),
+                };
+                let turn = self.game.shots_taken();
+                o.assessor.update(&self.game, turn, shot, target.called_pocket, dt);
+            }
+            None => o.assessor.clear(),
         }
         if remote_turn && let Some(target) = o.remote_target {
             let k = 1.0 - (-(dt as f64) * REMOTE_AIM_RATE).exp();
@@ -1732,7 +2050,13 @@ impl FeedLine {
     pub fn chat(line: &ChatLine) -> FeedLine {
         let (from, text, kind) = match line.kind {
             ChatKind::Player => {
-                (Some((line.from.clone(), line.rating)), line.text.clone(), FeedKind::Player)
+                // A quick phrase reads in this player's language.
+                let text = if snookered_proto::QUICK_CHAT.contains(&line.text.as_str()) {
+                    crate::i18n::t(&line.text).to_string()
+                } else {
+                    line.text.clone()
+                };
+                (Some((line.from.clone(), line.rating)), text, FeedKind::Player)
             }
             ChatKind::Announcement => (None, line.text.clone(), FeedKind::Announcement),
             ChatKind::System => (None, crate::i18n::server_text(&line.text), FeedKind::Event),
@@ -1840,6 +2164,9 @@ mod tests {
             effect: String::new(),
             cue_level: 0,
             status_message: String::new(),
+            vs_computer: false,
+            away: false,
+            level: 0,
         };
         [p("me"), p("them")]
     }
@@ -1847,6 +2174,49 @@ mod tests {
     fn online_match(seat: usize) -> Match {
         let game = EightBallGame::new(4, 0);
         Match::online(1, seat, &players(), false, game, 30, 30.0, None, AimGuide::Full, false)
+    }
+
+    /// Free practice: a shot taken back leaves the table as it was; never
+    /// in a real game.
+    #[test]
+    fn free_practice_takes_shots_back() {
+        let settings =
+            MatchSettings::from_config(MatchMode::HotSeat, &crate::config::Config::default());
+        let mut m = Match::new(&settings, 9);
+        m.free_play = true;
+        let before = m.game.clone();
+        m.aim.power = 0.8;
+        assert!(m.shoot());
+        finish_animation(&mut m);
+        assert_ne!(m.game, before);
+        assert!(m.take_back());
+        assert_eq!(m.game, before);
+        assert!(!m.take_back(), "only the last shot");
+        // A real game never takes shots back.
+        let mut real = Match::new(&settings, 9);
+        real.aim.power = 0.8;
+        assert!(real.shoot());
+        finish_animation(&mut real);
+        assert!(!real.take_back());
+    }
+
+    /// Asked for the full guide (a setting, a stale value): an online game
+    /// still draws the standard one; offline keeps it.
+    #[test]
+    fn the_full_guide_never_shows_online() {
+        let mut m = online_match(0);
+        m.guide = AimGuide::Full;
+        assert_eq!(m.guide_in_use(), AimGuide::Standard);
+        let game = EightBallGame::new(4, 0);
+        let mut rated =
+            Match::online(1, 0, &players(), true, game, 30, 30.0, None, AimGuide::Full, false);
+        rated.guide = AimGuide::Full;
+        assert_eq!(rated.guide_in_use(), AimGuide::Standard);
+        let settings =
+            MatchSettings::from_config(MatchMode::HotSeat, &crate::config::Config::default());
+        let mut offline = Match::new(&settings, 1);
+        offline.guide = AimGuide::Full;
+        assert_eq!(offline.guide_in_use(), AimGuide::Full);
     }
 
     fn finish_animation(m: &mut Match) {

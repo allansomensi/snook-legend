@@ -51,14 +51,14 @@ which every desktop installation has. How releases are made is described in
   players always agree (pinned by a fingerprint test in CI).
 - **Full cue control**: aim, power, the exact point where the tip hits the cue ball,
   cue elevation, and fine aim right on the bottom bar.
-- **Eight-ball rules** (WPA): break, open table (the break never decides the
-  groups), groups, fouls (including "no cushion after contact"), ball in
+- **Eight-ball rules** (WPA-based): break, groups (the first ball made on a
+  clean break decides them; otherwise the table stays open), fouls (including "no cushion after contact"), ball in
   hand, a called pocket for the 8 that is binding once made. Every rule has
   its own test, and 60 random games are checked after every shot.
 - **Computer opponents**: ten named opponents with their own portraits and
   styles (cautious, all-out attack, bank artist, positional…) over three skill
   levels. They play with the same physics and rules: they simulate candidate
-  shots and score the outcome. **The ladder** takes you through all ten, and
+  shots and score the outcome. **The tour** takes you through all ten, and
   its final win (checked by the server, stroke by stroke) earns an exclusive
   cue. **Ghosts** play in the measured style of a real player. Games against
   the computer never touch ratings or coins.
@@ -97,7 +97,8 @@ which every desktop installation has. How releases are made is described in
   The server keeps the only wallet, confirms every purchase with the payment
   provider and credits it exactly once.
 - **Cues that level up** with the online games you win with them, and
-  **themed tables and halls** (beach bar, industrial loft, English club…).
+  **themed tables and halls** (beach bar, industrial loft, English club,
+  mountain lodge, neon arcade, art deco lounge, skyline penthouse…).
 - **Configurable shortcuts** and **automatic updates** (checked against their
   SHA-256, installed on restart) with a "What's new" window.
 - **Local network**: host a game from the game itself (no server needed);
@@ -111,7 +112,9 @@ which every desktop installation has. How releases are made is described in
   lights), or a dark stage with only the table.
 - **Graphics presets** (Low / Medium / High / Ultra; on the first run the game
   measures the frame rate and lowers the preset if needed). High and Ultra add
-  soft shadows from every lamp and contact shading plus anti-aliasing (off, 2×,
+  soft shadows from every lamp, contact shading, glossy halls with shadows
+  from the furniture and halos round the lights; Ultra adds reflections in
+  polished floors and sharper textures. Plus anti-aliasing (off, 2×,
   4×, 8×) and full screen, so it runs on old laptops and looks sharp on gaming PCs.
 - **Small and fast**: a ~5 MB executable that runs on OpenGL 2.1 / GLES 2, so it works
   on practically any PC, including old integrated GPUs. Textures and sounds

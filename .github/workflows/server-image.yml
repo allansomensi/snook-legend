@@ -30,3 +30,17 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository_owner }}/snookered-server:${{ github.ref_name }}
             ${{ !contains(github.ref_name, '-') && format('ghcr.io/{0}/snookered-server:latest', github.repository_owner) || '' }}
+      # Puts the new image live on Render (its "Deploy Hook", saved as the
+      # repository secret RENDER_DEPLOY_HOOK): until the server runs the new
+      # version, the new game can't play online. Not for pre-releases.
+      - name: Deploy on Render
+        if: ${{ !contains(github.ref_name, '-') }}
+        env:
+          HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "::warning::No RENDER_DEPLOY_HOOK secret: deploy the new image on Render by hand (Manual Deploy → Deploy latest reference)."
+            exit 0
+          fi
+          curl -fsS -X POST "$HOOK" > /dev/null
+          echo "Render is deploying the new image."

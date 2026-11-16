@@ -12,12 +12,15 @@ mod achievements;
 pub mod analysis;
 pub mod correspondence;
 mod countries;
+pub mod daily;
+pub mod drills;
 pub mod ghost;
 pub mod ladder;
 pub mod missions;
 mod reactions;
 pub mod replay;
 pub mod shop;
+pub mod xp;
 
 pub use achievements::{ACHIEVEMENTS, Achievement, Stat, Stats, month_day};
 pub use countries::{COUNTRIES, FLAG_COLUMNS, FLAG_H, FLAG_W};
@@ -133,18 +136,22 @@ pub const SPECTATOR_SEAT: usize = 2;
 pub const GAME_NAME: &str = "Snookered";
 
 /// Bumped whenever messages change incompatibly.
-pub const PROTOCOL_VERSION: u32 = 13;
+pub const PROTOCOL_VERSION: u32 = 14;
 
-/// The oldest version the server still lets in. Version 12 only added
-/// messages and fields, which older games ignore, so 0.1.2 (version 11)
-/// keeps playing while the new version reaches everyone.
-pub const OLDEST_PROTOCOL_VERSION: u32 = 11;
+/// The oldest version the server still lets in. Version 14 plays a new
+/// edition of the game (a 9-foot table, heavier balls, groups set on the
+/// break): an older game would simulate every shot differently from the
+/// server, so it must update.
+pub const OLDEST_PROTOCOL_VERSION: u32 = 14;
 
 /// Username rules: 3–16 characters, letters, digits and underscores.
 pub fn valid_username(name: &str) -> bool {
     (3..=16).contains(&name.chars().count())
         && name.chars().all(|c| c.is_ascii_alphanumeric() || c == '_')
 }
+
+/// How many times a player may change their username, in all.
+pub const MAX_NAME_CHANGES: u32 = 3;
 
 /// Password rules: 8–72 bytes (the hashing limit), any characters, not
 /// made only of digits or of one repeated character.
@@ -206,6 +213,26 @@ pub fn clean_chat(text: &str) -> String {
     clean_text(text, MAX_CHAT_LEN)
 }
 
+/// Quick phrases for the chat at the table, sent as they are written here
+/// (in English); each game shows them in its player's language, so two
+/// players without a language in common still understand each other.
+pub const QUICK_CHAT: [&str; 14] = [
+    "Good luck, have fun!",
+    "Nice shot!",
+    "Great safety!",
+    "Unlucky!",
+    "Oops!",
+    "Wow!",
+    "That was close!",
+    "Take your time.",
+    "Sorry!",
+    "Thanks!",
+    "Well played!",
+    "Good game!",
+    "Rematch?",
+    "I have to go, thanks for the game!",
+];
+
 /// Maximum length of a status message ("looking for a practice partner"),
 /// in characters.
 pub const MAX_STATUS_LEN: usize = 60;
@@ -215,6 +242,9 @@ pub const MAX_SEEK_LEN: usize = 60;
 /// the "looking for a game" board (older games are never sent their
 /// messages).
 pub const SOCIAL_PROTOCOL: u32 = 13;
+/// The first server that knows [`ClientMsg::SetActivity`] (it says
+/// so in [`ServerMsg::Welcome`]; older servers leave the field out).
+pub const ACTIVITY_PROTOCOL: u32 = 13;
 
 /// Maximum length of the message that goes with a gift.
 pub const MAX_GIFT_MESSAGE: usize = 80;
@@ -362,6 +392,20 @@ pub struct PlayerInfo {
     /// [`MAX_STATUS_LEN`].
     #[serde(default, skip_serializing_if = "String::is_empty")]
     pub status_message: String,
+    /// Playing a game against the computer (still in the lounge, and can
+    /// still be invited: the invitation shows over that game).
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub vs_computer: bool,
+    /// Nobody has touched their game for a while (an invitation may wait).
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub away: bool,
+    /// The account level (see [`xp`]; 0: not known, e.g. a guest).
+    #[serde(default, skip_serializing_if = "is_zero")]
+    pub level: u32,
+}
+
+fn is_zero(n: &u32) -> bool {
+    *n == 0
 }
 
 impl PlayerInfo {
@@ -657,6 +701,52 @@ pub struct Profile {
     /// Online games won with each cue (cue code, wins), most wins first.
     #[serde(default)]
     pub cue_wins: Vec<(String, u32)>,
+    /// What each cue has done online (only cues played with since these
+    /// were counted).
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub cue_stats: Vec<CueStats>,
+    /// What they won (tournaments, the ladder…), newest first.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub trophies: Vec<Trophy>,
+}
+
+/// Something a player won, for the profile's trophy shelf.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct Trophy {
+    pub kind: TrophyKind,
+    /// The tournament's name (empty for the others).
+    #[serde(default)]
+    pub name: String,
+    /// How many took part (a tournament's players, a day's challengers).
+    #[serde(default)]
+    pub players: u32,
+    /// When (Unix seconds).
+    pub at: i64,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum TrophyKind {
+    /// Won a tournament.
+    Tournament,
+    /// Beat the whole computer ladder.
+    Ladder,
+    /// First in a day's challenge.
+    DailyChallenge,
+    /// A kind this version doesn't know yet.
+    #[serde(other)]
+    Other,
+}
+
+/// One cue's online record.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct CueStats {
+    /// Shop code.
+    pub code: String,
+    pub games: u32,
+    pub wins: u32,
+    /// Object balls made with it.
+    pub potted: u32,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -968,6 +1058,11 @@ pub enum ClientMsg {
     SetRecoveryEmail {
         email: String,
     },
+    /// Changes the player's username (at most [`MAX_NAME_CHANGES`] times).
+    /// Refused during a game, at a table, in the queue or in a tournament.
+    ChangeUsername {
+        username: String,
+    },
     /// Deletes the account for good (it is anonymised: the opponents keep
     /// their history).
     DeleteAccount {
@@ -1049,6 +1144,15 @@ pub enum ClientMsg {
     ClearStatusMessage {
         username: String,
     },
+    /// What this player is doing outside online games, shown by their name
+    /// in the lounge: playing the computer, or away from the game. Only sent
+    /// to a server of [`ACTIVITY_PROTOCOL`] or later.
+    SetActivity {
+        #[serde(default)]
+        vs_computer: bool,
+        #[serde(default)]
+        away: bool,
+    },
     /// The people this player played recently.
     RecentOpponents,
     /// Puts (or replaces) this player's note on the "looking for a game"
@@ -1068,6 +1172,23 @@ pub enum ClientMsg {
     /// last opponent (the server plays it again to check it).
     LadderClaim {
         replay: replay::Replay,
+    },
+    /// Today's challenge: the table, attempts left and the leaders.
+    Daily,
+    /// Starts an attempt at today's challenge (one of [`daily::ATTEMPTS`]):
+    /// the server sends the position's seed.
+    DailyStart,
+    /// The strokes of the attempt under way (the server plays them again).
+    DailySubmit {
+        day: i64,
+        strokes: Vec<Shot>,
+    },
+    /// The drills: this player's bests, the tables and the challenge rating.
+    Drills,
+    /// A drill session's strokes (the server plays them again).
+    DrillSubmit {
+        code: String,
+        strokes: Vec<Shot>,
     },
     /// How a player plays (aggregated numbers), for a computer opponent in
     /// their style.
@@ -1100,6 +1221,10 @@ pub enum ServerMsg {
         /// The server runs on a local network (guests, no ratings).
         #[serde(default)]
         lan: bool,
+        /// The server's [`PROTOCOL_VERSION`] (0: a server older than
+        /// [`ACTIVITY_PROTOCOL`], which didn't send it).
+        #[serde(default)]
+        protocol: u32,
     },
     AuthOk {
         player: PlayerInfo,
@@ -1375,6 +1500,9 @@ pub enum ServerMsg {
         /// The e-mail given at the last payment, offered as the recovery
         /// e-mail when none is set.
         payment_email: Option<String>,
+        /// Username changes the player has left (see [`MAX_NAME_CHANGES`]).
+        #[serde(default)]
+        name_changes_left: u32,
     },
     /// The account was deleted: forget the saved session.
     AccountDeleted,
@@ -1504,6 +1632,39 @@ pub enum ServerMsg {
     /// The answer to a claim of the ladder's reward.
     LadderClaim {
         result: ladder::ClaimResult,
+    },
+    /// Today's challenge (the answer to [`ClientMsg::Daily`], and after an
+    /// attempt).
+    Daily {
+        info: daily::Info,
+    },
+    /// An attempt started: the day's position comes from this seed (see
+    /// [`daily::game`]).
+    DailyStarted {
+        day: i64,
+        seed: u64,
+    },
+    /// The drills as this player sees them.
+    Drills {
+        info: drills::Info,
+    },
+    /// A drill session counted (its score), or refused.
+    DrillResult {
+        code: String,
+        result: Result<u32, drills::Refused>,
+    },
+    /// Experience earned (`gained`) and the total now (see [`xp`]).
+    Xp {
+        xp: i64,
+        gained: u32,
+    },
+    /// An attempt was counted (with the coins for clearing the table, if
+    /// any) or refused.
+    DailyResult {
+        day: i64,
+        result: Result<daily::Outcome, daily::Refused>,
+        #[serde(default)]
+        coins: i64,
     },
     /// The answer to a request for a player's style.
     GhostStyle {
@@ -1662,6 +1823,9 @@ mod tests {
             effect: String::new(),
             cue_level: 0,
             status_message: String::new(),
+            vs_computer: false,
+            away: false,
+            level: 0,
         };
         let msg = ServerMsg::MatchStarted {
             match_id: 7,

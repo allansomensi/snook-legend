@@ -83,6 +83,34 @@ pub enum CueStyle {
     Spiral,
     /// A woven carbon pattern.
     Weave,
+    /// Flames rising from the butt, from the accent to the ring colour.
+    Flame,
+    /// Polished stone with veins of the accent colour.
+    Marble,
+    /// Rows of cut stones of the accent colour, set in the ring's metal.
+    Gems,
+    /// Overlapping scales, shaded from the butt to the accent colour.
+    Scales,
+    /// Polished metal with engraved bands of the accent colour.
+    Chrome,
+    /// A night sky: clouds of the accent colour and stars.
+    Nebula,
+}
+
+impl CueStyle {
+    /// Every style (the shop's tests check each one is drawn).
+    pub const ALL: [CueStyle; 10] = [
+        CueStyle::Plain,
+        CueStyle::Points,
+        CueStyle::Spiral,
+        CueStyle::Weave,
+        CueStyle::Flame,
+        CueStyle::Marble,
+        CueStyle::Gems,
+        CueStyle::Scales,
+        CueStyle::Chrome,
+        CueStyle::Nebula,
+    ];
 }
 
 /// The finish of a ball set.
@@ -129,6 +157,14 @@ pub enum TableStyle {
     Modern,
     /// Black ebony with gold castings and inlays.
     Royal,
+    /// Reclaimed oak rails on a black steel frame with riveted plates.
+    Industrial,
+    /// A pro tournament table: charcoal rails, block legs, chrome.
+    Tournament,
+    /// Figured walnut on barley-twist legs, brass and leather pockets.
+    Heritage,
+    /// Ivory lacquer and gold on fluted columns.
+    Deco,
 }
 
 /// The room around the table.
@@ -142,6 +178,14 @@ pub enum HallStyle {
     Club,
     /// An industrial loft: brick, steel windows over the city, Edison bulbs.
     Loft,
+    /// A mountain lodge: log walls, a stone fireplace, snowy peaks outside.
+    Lodge,
+    /// A neon arcade: a black mirror floor, neon tubes, arcade cabinets.
+    Arcade,
+    /// An art deco lounge: a marble chessboard floor, gold, velvet, mirrors.
+    Deco,
+    /// A penthouse at night: glass walls on the city, pale marble, oak.
+    Penthouse,
 }
 
 /// How an item looks (the game draws it; colours are sRGB).
@@ -149,12 +193,14 @@ pub enum HallStyle {
 pub enum Look {
     /// Cloth: the base colour of the felt.
     Cloth([u8; 3]),
-    /// Cue: butt, forearm accent and ring colours, and the forearm pattern.
+    /// Cue: butt, forearm accent and ring colours, the forearm pattern and
+    /// the shaft (maple, or a dark carbon shaft on the finest cues).
     Cue {
         butt: [u8; 3],
         accent: [u8; 3],
         ring: [u8; 3],
         style: CueStyle,
+        shaft: [u8; 3],
     },
     /// Chalk: the colour on the cue tip.
     Chalk([u8; 3]),
@@ -235,7 +281,32 @@ const fn cue(
         category: Category::Cue,
         name,
         price,
-        look: Look::Cue { butt, accent, ring, style },
+        look: Look::Cue { butt, accent, ring, style, shaft: MAPLE },
+    }
+}
+
+/// A maple shaft.
+pub const MAPLE: [u8; 3] = [222, 190, 135];
+/// A carbon-fibre shaft.
+pub const CARBON_SHAFT: [u8; 3] = [26, 27, 30];
+
+/// A cue with a carbon shaft (the finest ones).
+#[allow(clippy::too_many_arguments)]
+const fn cue_carbon(
+    code: &'static str,
+    name: &'static str,
+    price: Price,
+    butt: [u8; 3],
+    accent: [u8; 3],
+    ring: [u8; 3],
+    style: CueStyle,
+) -> Item {
+    Item {
+        code,
+        category: Category::Cue,
+        name,
+        price,
+        look: Look::Cue { butt, accent, ring, style, shaft: CARBON_SHAFT },
     }
 }
 
@@ -307,7 +378,7 @@ const CLASSIC: [[u8; 3]; 7] = [
 const IVORY: [u8; 3] = [246, 242, 228];
 
 use BallFinish::{Gloss, Matte, Metal, Pearl};
-use CueStyle::{Plain, Points, Spiral, Weave};
+use CueStyle::{Chrome, Flame, Gems, Marble, Nebula, Plain, Points, Scales, Spiral, Weave};
 
 /// Every item, in the order the shop shows them.
 pub const ITEMS: &[Item] = &[
@@ -481,29 +552,91 @@ pub const ITEMS: &[Item] = &[
         [235, 235, 228],
         Spiral,
     ),
-    cue("cue_royal", "Crown", Price::Vip, [24, 30, 80], [190, 150, 60], [230, 200, 110], Points),
-    cue(
+    cue_carbon(
+        "cue_phoenix",
+        "Phoenix",
+        Price::Coins(7500),
+        [18, 10, 8],
+        [255, 96, 16],
+        [255, 214, 90],
+        Flame,
+    ),
+    cue_carbon(
+        "cue_carrara",
+        "Carrara marble",
+        Price::Coins(6500),
+        [236, 234, 230],
+        [92, 96, 108],
+        [200, 204, 212],
+        Marble,
+    ),
+    cue_carbon(
+        "cue_dragon",
+        "Dragon scale",
+        Price::Coins(8000),
+        [8, 46, 30],
+        [70, 200, 120],
+        [214, 176, 72],
+        Scales,
+    ),
+    cue_carbon(
+        "cue_chrome",
+        "Chrome",
+        Price::Coins(7000),
+        [170, 176, 186],
+        [24, 26, 30],
+        [235, 238, 244],
+        Chrome,
+    ),
+    cue_carbon(
+        "cue_galaxy",
+        "Galaxy",
+        Price::Coins(9000),
+        [14, 8, 34],
+        [150, 70, 220],
+        [190, 200, 255],
+        Nebula,
+    ),
+    cue_carbon(
+        "cue_royal",
+        "Crown",
+        Price::Vip,
+        [16, 22, 70],
+        [60, 120, 255],
+        [236, 196, 96],
+        Gems,
+    ),
+    cue_carbon(
         "cue_obsidian",
         "Obsidian gold",
         Price::Vip,
         [10, 10, 12],
-        [210, 170, 70],
-        [230, 200, 110],
-        Weave,
+        [226, 180, 74],
+        [236, 200, 110],
+        Marble,
     ),
-    cue(
+    cue_carbon(
+        "cue_ruby",
+        "Ruby throne",
+        Price::Vip,
+        [30, 6, 10],
+        [235, 30, 60],
+        [236, 196, 96],
+        Gems,
+    ),
+    cue_carbon(
         "cue_legend",
         "Legend",
         Price::Achievement("rating_1900"),
         [20, 14, 10],
-        [210, 170, 60],
-        [240, 210, 120],
-        Points,
+        [230, 160, 40],
+        [250, 216, 120],
+        Flame,
     ),
     // Earned by beating the computer ladder (never sold).
     cue(
         "cue_ladder",
-        "Ladder king",
+        "Tour champion",
         Price::Achievement("ladder_champion"),
         [36, 18, 52],
         [226, 186, 84],
@@ -763,11 +896,19 @@ pub const ITEMS: &[Item] = &[
     table("table_modern", "Modern", Price::Coins(5000), TableStyle::Modern),
     table("table_club", "English club", Price::Coins(6250), TableStyle::Club),
     table("table_royal", "Ebony & gold", Price::Vip, TableStyle::Royal),
+    table("table_industrial", "Steel & oak", Price::Coins(5500), TableStyle::Industrial),
+    table("table_tournament", "Tournament", Price::Coins(7000), TableStyle::Tournament),
+    table("table_heritage", "Victorian walnut", Price::Coins(8000), TableStyle::Heritage),
+    table("table_deco", "Ivory deco", Price::Coins(8500), TableStyle::Deco),
     // Halls.
     hall("hall_pool", "Pool hall", Price::Free, HallStyle::Pool),
     hall("hall_beach", "Beach bar", Price::Coins(4500), HallStyle::Beach),
     hall("hall_loft", "Industrial loft", Price::Coins(5500), HallStyle::Loft),
     hall("hall_club", "English club", Price::Coins(6250), HallStyle::Club),
+    hall("hall_lodge", "Mountain lodge", Price::Coins(6500), HallStyle::Lodge),
+    hall("hall_arcade", "Neon arcade", Price::Coins(7000), HallStyle::Arcade),
+    hall("hall_deco", "Art deco lounge", Price::Coins(8000), HallStyle::Deco),
+    hall("hall_penthouse", "Skyline penthouse", Price::Vip, HallStyle::Penthouse),
     // Frames.
     frame("frame_none", "No frame", Price::Free, [0, 0, 0], [0, 0, 0], false),
     frame("frame_bronze", "Bronze", Price::Coins(750), [176, 112, 60], [110, 66, 34], false),

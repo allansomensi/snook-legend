@@ -166,8 +166,8 @@ pub const ACHIEVEMENTS: &[Achievement] = &[
     a("veteran_365", "Old timer", "Have an account for a year.", Stat::AccountDays, 365, 2),
     a(
         "ladder_champion",
-        "King of the ladder",
-        "Beat all ten opponents of the computer ladder.",
+        "Champion of the tour",
+        "Beat all ten opponents of the computer tour.",
         Stat::Awarded,
         1,
         3,

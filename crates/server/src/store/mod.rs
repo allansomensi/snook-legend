@@ -66,6 +66,11 @@ pub struct User {
     pub abandons: u32,
     /// The player's status message (empty: none).
     pub status_message: String,
+    /// Experience for the account level (see `snookered_proto::xp`).
+    pub xp: i64,
+    /// Times the player changed their username (see
+    /// `snookered_proto::MAX_NAME_CHANGES`).
+    pub name_changes: u32,
 }
 
 impl User {
@@ -208,10 +213,15 @@ pub struct AimRow {
 pub struct Metrics {
     /// (day, active players, matches, new accounts), oldest first.
     pub days: Vec<(i64, i64, i64, i64)>,
-    /// Players active on day N who came back on day N+1 / N+7 (percent),
-    /// over the accounts created in the last 30 days.
+    /// Accounts that came back 1 / 7 / 30 days after the day they were
+    /// created (percent), over the accounts of the last 30 days for which
+    /// that day has come.
     pub retention_d1: f64,
     pub retention_d7: f64,
+    pub retention_d30: f64,
+    /// The same, week by week of sign-ups (the last [`COHORT_WEEKS`]),
+    /// newest first.
+    pub cohorts: Vec<Cohort>,
     /// Accounts created in the last 30 days, and how many played 1 and 5 games.
     pub funnel: [i64; 3],
     /// Payments in the last 30 days by currency: (currency, cents, count).
@@ -221,6 +231,68 @@ pub struct Metrics {
     /// Payments of the last 30 days by day and currency: (day, currency,
     /// cents, count), oldest first.
     pub revenue_days: Vec<(i64, String, i64, i64)>,
+}
+
+/// A player's day at the daily challenge.
+#[derive(Debug, Clone, Copy, Default, PartialEq)]
+pub struct DailyRow {
+    pub attempts: u32,
+    /// When the attempt under way started (0: none).
+    pub started_at: i64,
+    pub best: Option<u32>,
+    pub best_at: i64,
+    pub cleared: bool,
+}
+
+/// A line of a day's challenge table.
+#[derive(Debug, Clone, PartialEq)]
+pub struct DailyBoardRow {
+    pub user_id: i64,
+    pub username: String,
+    pub country: String,
+    pub balls: u32,
+    pub at: i64,
+}
+
+/// A line of a drill's table, or of the challenge rating's.
+#[derive(Debug, Clone, PartialEq)]
+pub struct BoardRow {
+    pub username: String,
+    pub country: String,
+    pub score: u32,
+    /// The stars (the challenge rating's table only).
+    pub stars: u32,
+}
+
+/// What became of an attempt sent.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum DailyFinish {
+    /// No attempt was under way, or it started too long ago.
+    NotStarted,
+    /// Counted: whether it beat their best, and whether the table was
+    /// cleared for the first time that day.
+    Counted { improved: bool, first_clear: bool },
+}
+
+/// How many weeks of sign-ups the metrics follow.
+pub const COHORT_WEEKS: i64 = 8;
+
+/// The accounts created in one week and how many came back.
+#[derive(Debug, Clone, Default, PartialEq, serde::Serialize)]
+pub struct Cohort {
+    /// The week's first day (Unix days).
+    pub first_day: i64,
+    pub accounts: i64,
+    /// Percent back 1, 7 and 30 days after their first day (None: no
+    /// account of the week has reached that day yet).
+    pub d1: Option<f64>,
+    pub d7: Option<f64>,
+    pub d30: Option<f64>,
+}
+
+/// Percent of `came` in `eligible` (None without any).
+pub fn percent(came: i64, eligible: i64) -> Option<f64> {
+    (eligible > 0).then(|| came as f64 * 100.0 / eligible as f64)
 }
 
 /// One hour of activity (`hour` is Unix seconds / 3600).
@@ -381,6 +453,16 @@ pub enum FriendState {
     Incoming,
 }
 
+/// What became of a username change.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Rename {
+    Done,
+    /// Someone else has the name (in any letter case).
+    Taken,
+    /// The player used up their changes (or the account is gone).
+    NoChangesLeft,
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum FriendOutcome {
     Sent,
@@ -433,6 +515,8 @@ pub struct Wallet {
     pub stripe_customer: Option<String>,
     /// Cue code -> online games won with it (its level).
     pub cue_wins: BTreeMap<String, u32>,
+    /// Cue code -> (online games played with it, object balls made with it).
+    pub cue_games: BTreeMap<String, (u32, u32)>,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -734,6 +818,16 @@ impl Store {
     pub async fn set_recovery_email(&self, user_id: i64, email: Option<&str>) -> StoreResult<()> {
         dispatch!(self, s => s.set_recovery_email(user_id, email))
     }
+    /// Gives the player the username `name`, unless someone else has it or
+    /// they already changed theirs `limit` times.
+    pub async fn change_username(
+        &self,
+        user_id: i64,
+        name: &str,
+        limit: u32,
+    ) -> StoreResult<Rename> {
+        dispatch!(self, s => s.change_username(user_id, name, limit))
+    }
     /// The e-mail given at this player's latest payment.
     pub async fn payment_email(&self, user_id: i64) -> StoreResult<Option<String>> {
         dispatch!(self, s => s.payment_email(user_id))
@@ -856,6 +950,105 @@ impl Store {
     pub async fn record_tournament(&self, t: &TournamentRecord) -> StoreResult<()> {
         dispatch!(self, s => s.record_tournament(t))
     }
+    /// The seed of a day's challenge: `fresh` the first time it is asked
+    /// for, the same one ever after.
+    pub async fn daily_seed(&self, day: i64, fresh: u64) -> StoreResult<u64> {
+        dispatch!(self, s => s.daily_seed(day, fresh))
+    }
+    /// Starts an attempt (false: `max` attempts were used already).
+    pub async fn daily_start(
+        &self,
+        user_id: i64,
+        day: i64,
+        now: i64,
+        max: u32,
+    ) -> StoreResult<bool> {
+        dispatch!(self, s => s.daily_start(user_id, day, now, max))
+    }
+    /// Ends the attempt under way with its result (it must have started at
+    /// most `limit` seconds ago).
+    #[allow(clippy::too_many_arguments)]
+    pub async fn daily_finish(
+        &self,
+        user_id: i64,
+        day: i64,
+        now: i64,
+        balls: u32,
+        cleared: bool,
+        limit: i64,
+    ) -> StoreResult<DailyFinish> {
+        dispatch!(self, s => s.daily_finish(user_id, day, now, balls, cleared, limit))
+    }
+    /// A player's day at the challenge.
+    pub async fn daily_row(&self, user_id: i64, day: i64) -> StoreResult<DailyRow> {
+        dispatch!(self, s => s.daily_row(user_id, day))
+    }
+    /// A day's leaders (best first; earlier first on a tie) and how many
+    /// have a score.
+    pub async fn daily_board(
+        &self,
+        day: i64,
+        limit: u32,
+    ) -> StoreResult<(Vec<DailyBoardRow>, u32)> {
+        dispatch!(self, s => s.daily_board(day, limit))
+    }
+    /// A player's place on a day's table (None: no score).
+    pub async fn daily_rank(&self, user_id: i64, day: i64) -> StoreResult<Option<u32>> {
+        dispatch!(self, s => s.daily_rank(user_id, day))
+    }
+    /// The days before `before` a player topped, newest first: (day, players).
+    pub async fn daily_wins(&self, user_id: i64, before: i64) -> StoreResult<Vec<(i64, u32)>> {
+        dispatch!(self, s => s.daily_wins(user_id, before))
+    }
+    /// A player's best score in each drill they did: (code, best).
+    pub async fn drill_bests(&self, user_id: i64) -> StoreResult<Vec<(String, u32)>> {
+        dispatch!(self, s => s.drill_bests(user_id))
+    }
+    /// Records a drill session's score; returns the best before it (None:
+    /// the first).
+    pub async fn drill_record(
+        &self,
+        user_id: i64,
+        code: &str,
+        score: u32,
+        at: i64,
+    ) -> StoreResult<Option<u32>> {
+        dispatch!(self, s => s.drill_record(user_id, code, score, at))
+    }
+    /// A drill's best scores, best first.
+    pub async fn drill_board(&self, code: &str, limit: u32) -> StoreResult<Vec<BoardRow>> {
+        dispatch!(self, s => s.drill_board(code, limit))
+    }
+    /// Keeps a player's challenge rating (for its table).
+    pub async fn set_challenge_rating(
+        &self,
+        user_id: i64,
+        rating: u32,
+        stars: u32,
+        at: i64,
+    ) -> StoreResult<()> {
+        dispatch!(self, s => s.set_challenge_rating(user_id, rating, stars, at))
+    }
+    /// The challenge rating's leaders, and a player's place (None: no rating).
+    pub async fn challenge_board(
+        &self,
+        user_id: i64,
+        limit: u32,
+    ) -> StoreResult<(Vec<BoardRow>, Option<u32>)> {
+        dispatch!(self, s => s.challenge_board(user_id, limit))
+    }
+    /// Adds experience; returns the total now.
+    pub async fn add_xp(&self, user_id: i64, amount: u32) -> StoreResult<i64> {
+        dispatch!(self, s => s.add_xp(user_id, amount))
+    }
+    /// The tournaments a player won, newest first: (name, players, finished at).
+    pub async fn tournaments_won(
+        &self,
+        user_id: i64,
+        limit: u32,
+    ) -> StoreResult<Vec<(String, u32, i64)>> {
+        dispatch!(self, s => s.tournaments_won(user_id, limit))
+    }
 
     // Staff.
 
@@ -947,7 +1140,18 @@ impl Store {
     }
     /// Counts an online game won with the cue `code`; returns its wins now.
     pub async fn add_cue_win(&self, user_id: i64, code: &str) -> StoreResult<u32> {
-        dispatch!(self, s => s.add_cue_win(user_id, code))
+        self.add_cue_game(user_id, code, true, 0).await
+    }
+    /// Counts an online game played with the cue `code` (won or not, and
+    /// the balls made with it); returns its wins now.
+    pub async fn add_cue_game(
+        &self,
+        user_id: i64,
+        code: &str,
+        won: bool,
+        potted: u32,
+    ) -> StoreResult<u32> {
+        dispatch!(self, s => s.add_cue_game(user_id, code, won, potted))
     }
     /// Adds (or removes) coins. With a `reference`, the same change is only
     /// ever applied once; returns whether it was applied now.

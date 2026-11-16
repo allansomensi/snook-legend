@@ -72,6 +72,18 @@ pub struct Scene {
     table_style: TableStyle,
     /// Per-pixel soft shadows and contact occlusion from the balls (High, Ultra).
     soft_shadows: bool,
+    /// The polished floors of the halls reflect the room (Ultra).
+    reflections: bool,
+    /// Halos round the hall's lights and haze under the lamp (High, Ultra).
+    halos: bool,
+    /// The hall's lights that get a halo, and the order they are drawn in.
+    glows: Vec<gfx::Glow>,
+    glow_order: Vec<usize>,
+    glow_tex: Texture2D,
+    /// Where each ball is drawn this frame (ball index, transform).
+    ball_poses: Vec<(usize, Mat4)>,
+    /// The cue drawn last (its design), so the look-up is skipped.
+    cue_key: Option<(String, String, u8)>,
 }
 
 fn rgb(r: u8, g: u8, b: u8) -> Color {
@@ -85,6 +97,7 @@ fn upload(p: textures::Pixels, repeat: bool) -> Texture2D {
 impl Scene {
     /// `focused`: a dark stage around the table instead of the whole bar.
     pub fn new(table: Table, quality: Quality, focused: bool, looks: &Looks) -> Self {
+        textures::set_detail(quality == Quality::Ultra);
         let (ball_tex, ball_segments) = match quality {
             Quality::Low => (512, 24),
             Quality::Medium => (512, 32),
@@ -103,8 +116,13 @@ impl Scene {
         };
 
         // --- The hall and the table's theme ----------------------------------
-        let room =
-            if focused { Vec::new() } else { hall_kit(&table, quality, looks.hall).finish(&white) };
+        let (room, glows) = if focused {
+            (Vec::new(), Vec::new())
+        } else {
+            let mut kit = hall_kit(&table, quality, looks.hall);
+            let glows = std::mem::take(&mut kit.glows);
+            (kit.finish(&white), glows)
+        };
         let table_parts = crate::tables::build(&table, quality, looks.table).finish(&white);
 
         // --- Table ----------------------------------------------------------
@@ -260,11 +278,9 @@ impl Scene {
         let cue = cue_mesh("cue_classic", "chalk_blue", 0, &white).0;
         let ghost = gfx::sphere_mesh_tinted(r, &white, 32, Color::new(1.0, 1.0, 1.0, 0.28));
 
-        let lamps = [
-            vec3(-0.45, LAMP_Y - 0.02, 0.0),
-            vec3(0.0, LAMP_Y - 0.02, 0.0),
-            vec3(0.45, LAMP_Y - 0.02, 0.0),
-        ];
+        // The lamps span the table's length, as the halls hang them.
+        let lamps = crate::halls::lamp_xs(crate::halls::lamp_reach(half_table(&table)))
+            .map(|x| vec3(x, LAMP_Y - 0.02, 0.0));
         Scene {
             table,
             materials: Materials::new(),
@@ -297,6 +313,13 @@ impl Scene {
             lamp_count: if quality == Quality::Low { 1 } else { 3 },
             table_style: looks.table,
             soft_shadows: matches!(quality, Quality::High | Quality::Ultra),
+            reflections: quality == Quality::Ultra,
+            halos: quality >= Quality::High,
+            glows,
+            glow_order: Vec::new(),
+            glow_tex: upload(textures::halo(), false),
+            ball_poses: Vec::with_capacity(16),
+            cue_key: None,
         }
     }
 
@@ -390,7 +413,8 @@ impl Scene {
             self.table_parts = kit.finish(&self.white);
             self.table_style = style;
         }
-        if let Some((style, kit)) = made.hall.take() {
+        if let Some((style, mut kit)) = made.hall.take() {
+            self.glows = std::mem::take(&mut kit.glows);
             self.room = kit.finish(&self.white);
             self.room_style = Some(style);
         }
@@ -405,10 +429,13 @@ impl Scene {
     /// Draws the whole 3D scene.
     pub fn draw(&mut self, cam: &SceneCamera, balls: &[Ball], dt: f32, overlay: &Overlay) {
         self.update_looks();
-        set_camera(cam);
         let hall = self.hall_shown();
         let focus = if hall { 0.0 } else { 1.0 };
-        self.materials.set_frame(cam.eye, self.lamps, 1.55, self.lamp_count, focus);
+        let tint = match self.room_style.filter(|_| hall) {
+            Some(style) => crate::halls::tint(style),
+            None => vec3(0.09, 0.06, 0.045),
+        };
+        self.materials.set_frame(cam.eye, self.lamps, 1.55, self.lamp_count, focus, tint);
         let mut casters = [Vec4::ZERO; 16];
         if self.soft_shadows {
             let r = self.ball_radius();
@@ -424,6 +451,113 @@ impl Scene {
         });
         self.materials.set_shadows(self.soft_shadows, self.soft_shadows, &casters, cue);
         self.materials.set_pockets(&self.holes, &self.throats);
+        self.materials.set_table(half_table(&self.table));
+        self.place_balls(balls, dt);
+
+        // Ultra: a polished floor reflects the room. The scene is drawn once
+        // more, mirrored under the floor, and the floor is then laid over it
+        // a little see-through (see `Layer::Floor`).
+        let mirror = match self.room_style {
+            Some(style) if hall && self.reflections => crate::halls::mirror_fade(style),
+            _ => 0.0,
+        };
+        let reflect = mirror > 0.0 && self.room.iter().any(|p| p.layer == gfx::Layer::Floor);
+        if reflect {
+            let flipped = MirrorCamera(cam);
+            set_camera(&flipped);
+            self.materials.set_view(flipped.matrix());
+            self.materials.set_camera_pos(cam.eye * vec3(1.0, -1.0, 1.0));
+            self.materials.set_mirror(mirror);
+            self.draw_table(true, hall);
+            // What starts higher than the reflection's fade lets through
+            // (under 5%) is left out of it: the ceiling, the beams, shelves.
+            let cutoff = 3.0 / mirror;
+            for part in self.room.iter().filter(|p| p.layer == gfx::Layer::Solid && p.low < cutoff)
+            {
+                self.materials.use_lit(part.surface);
+                self.materials.draw(&part.mesh, None);
+            }
+            if self.lamp_visible {
+                draw_layer(&self.room, gfx::Layer::Lamp, &self.materials);
+            }
+            self.draw_placed_balls();
+            self.materials.set_mirror(0.0);
+            self.materials.set_camera_pos(cam.eye);
+        }
+        set_camera(cam);
+        self.materials.set_view(cam.matrix());
+        if hall {
+            for part in self.room.iter().filter(|p| p.layer == gfx::Layer::Floor) {
+                if reflect {
+                    self.materials.use_blended(part.surface);
+                } else {
+                    self.materials.use_lit(part.surface);
+                }
+                self.materials.draw(&part.mesh, None);
+            }
+        }
+        self.draw_table(false, hall);
+        if hall {
+            draw_layer(&self.room, gfx::Layer::Solid, &self.materials);
+            self.materials.use_blended(Surface::UNLIT);
+            self.materials.draw(&self.floor_shadow.mesh, None);
+            draw_layer(&self.room, gfx::Layer::Blended, &self.materials);
+        }
+        if !self.soft_shadows {
+            self.draw_ball_shadows(balls);
+        }
+        draw_layer(&self.table_parts, gfx::Layer::Inside, &self.materials);
+        draw_layer(&self.table_parts, gfx::Layer::Detail, &self.materials);
+        if self.lamp_visible && hall {
+            draw_layer(&self.room, gfx::Layer::Lamp, &self.materials);
+        }
+        self.draw_placed_balls();
+        if let Some(cue) = &overlay.cue {
+            // The shooter's own cue and chalk (built once per design).
+            let wanted = (&overlay.cue_look.0, &overlay.cue_look.1, overlay.cue_level);
+            let known = self.cue_key.as_ref().is_some_and(|k| (&k.0, &k.1, k.2) == wanted);
+            if !known && !wanted.0.is_empty() {
+                let key = (wanted.0.clone(), wanted.1.clone(), wanted.2);
+                if !self.cues.contains_key(&key) {
+                    let mesh = cue_mesh(&key.0, &key.1, key.2, &self.white);
+                    self.cues.insert(key.clone(), mesh);
+                }
+                self.cue_key = Some(key);
+            }
+            self.materials.use_lit(Surface::WOOD);
+            let model = Mat4::from_rotation_translation(cue.rotation, cue.tip);
+            match self.cue_key.as_ref().and_then(|k| self.cues.get(k)) {
+                Some((mesh, glow)) if !wanted.0.is_empty() => {
+                    self.materials.draw(mesh, Some(model));
+                    if let Some(glow) = glow {
+                        // The top level's gold glows softly.
+                        self.materials.use_blended(Surface::UNLIT);
+                        self.materials.draw(glow, Some(model));
+                    }
+                }
+                _ => self.materials.draw(&self.cue, Some(model)),
+            }
+        }
+        self.draw_guides(&overlay.guides, cam.eye);
+        if let Some(p) = overlay.ghost {
+            self.materials.use_blended(Surface::lit(0.6, 60.0, 0.0, 0.0));
+            self.materials.draw(&self.ghost, Some(Mat4::from_translation(p)));
+        }
+        // Last, over everything: the haze under the lamps and the halos
+        // round the bulbs (they are see-through and write no useful depth).
+        if hall && self.halos {
+            if self.lamp_visible {
+                draw_layer(&self.room, gfx::Layer::Haze, &self.materials);
+            }
+            self.draw_halos(cam);
+        }
+        gl_use_default_material();
+        set_default_camera();
+    }
+
+    /// The cloth, cushions and the table's body (`mirrored`: in the floor's
+    /// reflection, where the inside of the pockets cannot be seen).
+    fn draw_table(&self, mirrored: bool, hall: bool) {
         let skip: Option<usize> =
             crate::dev::var("SNOOKERED_SKIP_PART").and_then(|v| v.parse().ok());
         for (k, part) in self.parts.iter().enumerate() {
@@ -431,62 +565,53 @@ impl Scene {
                 continue;
             }
             self.materials.use_lit(part.surface);
-            part.mesh.draw();
+            self.materials.draw(&part.mesh, None);
         }
-        let layer = |parts: &[gfx::Built], layer: gfx::Layer, materials: &Materials| {
-            for part in parts.iter().filter(|p| p.layer == layer) {
-                if layer == gfx::Layer::Blended {
-                    materials.use_blended(part.surface);
-                } else {
-                    materials.use_lit(part.surface);
-                }
-                part.mesh.draw();
+        draw_layer(&self.table_parts, gfx::Layer::Solid, &self.materials);
+        if mirrored && hall {
+            draw_layer(&self.table_parts, gfx::Layer::Inside, &self.materials);
+            draw_layer(&self.table_parts, gfx::Layer::Detail, &self.materials);
+        }
+    }
+
+    /// Soft halos round the lights of the hall, facing the camera: the glow
+    /// a bright bulb leaves in the eye (High and Ultra).
+    fn draw_halos(&mut self, cam: &SceneCamera) {
+        if self.glows.is_empty() {
+            return;
+        }
+        let forward = (cam.target - cam.eye).normalize_or_zero();
+        let right = forward.cross(Vec3::Y).normalize_or_zero();
+        let up = right.cross(forward);
+        // Far to near, so the nearer ones blend over the farther.
+        self.glow_order.clear();
+        self.glow_order.extend(0..self.glows.len());
+        let glows = &self.glows;
+        let eye = cam.eye;
+        self.glow_order.sort_by(|&a, &b| {
+            glows[b].at.distance_squared(eye).total_cmp(&glows[a].at.distance_squared(eye))
+        });
+        let mut b = MeshBuilder::default();
+        for &k in &self.glow_order {
+            let g = &glows[k];
+            if (g.lamp && !self.lamp_visible) || (g.at - eye).dot(forward) < 0.1 {
+                continue;
             }
-        };
-        layer(&self.table_parts, gfx::Layer::Solid, &self.materials);
-        if hall {
-            layer(&self.room, gfx::Layer::Solid, &self.materials);
+            // Drawn a little towards the camera, so the bulb's own shade does
+            // not cut the halo in half.
+            let to_eye = (eye - g.at).normalize_or_zero();
+            let c = g.at + to_eye * g.size * 0.6;
+            let (r, u) = (right * g.size, up * g.size);
+            b.quad(
+                [c - r - u, c + r - u, c + r + u, c - r + u],
+                [vec2(0.0, 1.0), vec2(1.0, 1.0), vec2(1.0, 0.0), vec2(0.0, 0.0)],
+                g.color,
+            );
+        }
+        if !b.is_empty() {
             self.materials.use_blended(Surface::UNLIT);
-            self.floor_shadow.mesh.draw();
-            layer(&self.room, gfx::Layer::Blended, &self.materials);
+            b.build_dynamic(&self.glow_tex).draw();
         }
-        if !self.soft_shadows {
-            self.draw_ball_shadows(balls);
-        }
-        layer(&self.table_parts, gfx::Layer::Inside, &self.materials);
-        layer(&self.table_parts, gfx::Layer::Detail, &self.materials);
-        if self.lamp_visible && hall {
-            layer(&self.room, gfx::Layer::Lamp, &self.materials);
-        }
-        self.draw_balls(balls, dt);
-        if let Some(cue) = &overlay.cue {
-            // The shooter's own cue and chalk (built once per design).
-            let key = (overlay.cue_look.0.clone(), overlay.cue_look.1.clone(), overlay.cue_level);
-            if !key.0.is_empty() && !self.cues.contains_key(&key) {
-                let mesh = cue_mesh(&key.0, &key.1, key.2, &self.white);
-                self.cues.insert(key.clone(), mesh);
-            }
-            self.materials.use_lit(Surface::WOOD);
-            let model = Mat4::from_rotation_translation(cue.rotation, cue.tip);
-            match self.cues.get(&key) {
-                Some((mesh, glow)) => {
-                    mesh.draw_at(model);
-                    if let Some(glow) = glow {
-                        // The top level's gold glows softly.
-                        self.materials.use_blended(Surface::UNLIT);
-                        glow.draw_at(model);
-                    }
-                }
-                None => self.cue.draw_at(model),
-            }
-        }
-        self.draw_guides(&overlay.guides, cam.eye);
-        if let Some(p) = overlay.ghost {
-            self.materials.use_blended(Surface::lit(0.6, 60.0, 0.0, 0.0));
-            self.ghost.draw_at(Mat4::from_translation(p));
-        }
-        gl_use_default_material();
-        set_default_camera();
     }
 
     fn draw_ball_shadows(&self, balls: &[Ball]) {
@@ -534,14 +659,15 @@ impl Scene {
         }
         if !b.vertices.is_empty() {
             self.materials.use_blended(Surface::UNLIT.cut(1.0));
-            b.build(&self.shadow).draw();
+            b.build_dynamic(&self.shadow).draw();
         }
     }
 
-    fn draw_balls(&mut self, balls: &[Ball], dt: f32) {
-        self.materials.use_lit(Surface::BALL);
+    /// Where each ball is drawn this frame (pocketed balls roll over the lip
+    /// and drop); worked out once, as the floor's reflection draws them too.
+    fn place_balls(&mut self, balls: &[Ball], dt: f32) {
+        self.ball_poses.clear();
         for ball in balls {
-            let mesh = &self.balls[ball.id.index()];
             match ball.status {
                 BallStatus::InPlay => {
                     self.sinking.remove(&ball.id);
@@ -549,7 +675,7 @@ impl Scene {
                         ball_rotation(ball.orientation),
                         to_world(ball.position),
                     );
-                    mesh.draw_at(model);
+                    self.ball_poses.push((ball.id.index(), model));
                 }
                 BallStatus::Pocketed(pocket) => {
                     let start = to_world(ball.position);
@@ -569,10 +695,17 @@ impl Scene {
                     let pos = vec3(xz.x, start.y - fall, xz.z);
                     let model =
                         Mat4::from_rotation_translation(ball_rotation(ball.orientation), pos);
-                    mesh.draw_at(model);
+                    self.ball_poses.push((ball.id.index(), model));
                 }
                 BallStatus::OffTable => {}
             }
+        }
+    }
+
+    fn draw_placed_balls(&self) {
+        self.materials.use_lit(Surface::BALL);
+        for &(k, model) in &self.ball_poses {
+            self.materials.draw(&self.balls[k], Some(model));
         }
     }
 
@@ -608,7 +741,7 @@ impl Scene {
             }
         }
         self.materials.use_blended(Surface::UNLIT);
-        b.build(&self.white).draw();
+        b.build_dynamic(&self.white).draw();
     }
 
     /// Position and orientation of the cue for the given stroke.
@@ -648,6 +781,36 @@ impl Scene {
     }
 }
 
+/// Draws the parts of `parts` in `layer`.
+fn draw_layer(parts: &[gfx::Built], layer: gfx::Layer, materials: &Materials) {
+    for part in parts.iter().filter(|p| p.layer == layer) {
+        if matches!(layer, gfx::Layer::Blended | gfx::Layer::Haze) {
+            materials.use_blended(part.surface);
+        } else {
+            materials.use_lit(part.surface);
+        }
+        materials.draw(&part.mesh, None);
+    }
+}
+
+/// The camera seen in the floor: the world mirrored under it (y = 0).
+struct MirrorCamera<'a>(&'a SceneCamera);
+
+impl Camera for MirrorCamera<'_> {
+    fn matrix(&self) -> Mat4 {
+        self.0.matrix() * Mat4::from_scale(vec3(1.0, -1.0, 1.0))
+    }
+    fn depth_enabled(&self) -> bool {
+        true
+    }
+    fn render_pass(&self) -> Option<macroquad::texture::RenderPass> {
+        None
+    }
+    fn viewport(&self) -> Option<(i32, i32, i32, i32)> {
+        None
+    }
+}
+
 /// Textures made away from the main thread (see [`Scene::set_looks`]).
 struct Made {
     looks: Looks,
@@ -659,11 +822,15 @@ struct Made {
 
 /// The hall around `table`, with its lamp.
 fn hall_kit(table: &Table, quality: Quality, hall: HallStyle) -> gfx::Kit {
-    let half_table = vec2(
+    crate::halls::build(quality, half_table(table), hall)
+}
+
+/// The table's half length and width with its rails (and a little more).
+fn half_table(table: &Table) -> Vec2 {
+    vec2(
         table.spec.length as f32 / 2.0 + table.spec.rail_width as f32 + 0.05,
         table.spec.width as f32 / 2.0 + table.spec.rail_width as f32 + 0.05,
-    );
-    crate::halls::build(quality, half_table, hall)
+    )
 }
 
 fn felt_size(quality: Quality) -> u16 {
@@ -742,9 +909,15 @@ pub fn cue_mesh(
 ) -> (gfx::Model, Option<gfx::Model>) {
     use snookered_proto::shop::CueStyle;
     use snookered_proto::shop::{Look, item};
-    let (butt, accent, ring, style) = match item(cue).map(|i| i.look) {
-        Some(Look::Cue { butt, accent, ring, style }) => (butt, accent, ring, style),
-        _ => ([35, 20, 12], [20, 20, 24], [240, 238, 228], CueStyle::Plain),
+    let (butt, accent, ring, style, shaft) = match item(cue).map(|i| i.look) {
+        Some(Look::Cue { butt, accent, ring, style, shaft }) => (butt, accent, ring, style, shaft),
+        _ => (
+            [35, 20, 12],
+            [20, 20, 24],
+            [240, 238, 228],
+            CueStyle::Plain,
+            snookered_proto::shop::MAPLE,
+        ),
     };
     let chalk = match item(chalk).map(|i| i.look) {
         Some(Look::Chalk(c)) => c,
@@ -752,31 +925,33 @@ pub fn cue_mesh(
     };
     let c = |v: [u8; 3]| rgb(v[0], v[1], v[2]);
     let mut m = MeshBuilder::default();
-    m.frustum(-0.004, 0.0060, 0.0, 0.0061, 12, c(chalk)); // tip, chalked
-    m.frustum(0.0, 0.0062, 0.018, 0.0063, 12, rgb(240, 238, 228)); // ferrule
-    m.frustum(0.018, 0.0063, 0.80, 0.0105, 16, rgb(222, 190, 135)); // maple shaft
+    // A regulation pool cue: a 13 mm tip, 58" long, 19 oz (the physics' mass).
+    m.frustum(-0.004, 0.0064, 0.0, 0.0065, 12, c(chalk)); // tip, chalked
+    m.frustum(0.0, 0.0065, 0.022, 0.0066, 12, rgb(240, 238, 228)); // ferrule
+    m.frustum(0.022, 0.0066, 0.80, 0.0105, 16, c(shaft)); // maple (or carbon) shaft
     m.frustum(0.80, 0.0105, 0.815, 0.0106, 16, c(ring)); // joint ring
     // The forearm, with the cue's pattern in the accent colour (as in the
     // shop), so everyone at the table can tell the cue apart.
-    let (b, a) = (c(butt), c(accent));
-    match style {
-        CueStyle::Plain => m.frustum(0.815, 0.0106, 1.10, 0.0125, 16, b),
-        CueStyle::Points => m.painted_frustum(0.815, 0.0106, 1.10, 0.0125, 32, 40, |u, v| {
-            // Four points rising from the butt end towards the tip.
-            let side = ((u * 4.0).fract() - 0.5).abs() * 2.0;
-            if v > 0.12 + 0.88 * side { a } else { b }
-        }),
-        CueStyle::Spiral => m.painted_frustum(0.815, 0.0106, 1.10, 0.0125, 32, 40, |u, v| {
-            if (u * 2.0 + v * 3.0).fract() < 0.38 { a } else { b }
-        }),
-        CueStyle::Weave => m.painted_frustum(0.815, 0.0106, 1.10, 0.0125, 24, 30, |u, v| {
-            let (i, j) = ((u * 12.0) as i32, (v * 15.0) as i32);
-            if (i + j) % 2 == 0 { a } else { b }
-        }),
+    let b = c(butt);
+    let paint = crate::cues::Paint::of(butt, accent, ring);
+    let (round, along) = crate::cues::resolution(style);
+    if style == CueStyle::Plain {
+        m.frustum(0.815, 0.0106, 1.10, 0.0125, 16, b);
+    } else {
+        m.painted_frustum(0.815, 0.0106, 1.10, 0.0125, round, along, |u, v| {
+            crate::cues::pattern(style, paint, u, v)
+        });
     }
     m.frustum(1.10, 0.0125, 1.115, 0.0126, 16, c(ring)); // ring
     m.frustum(1.115, 0.0126, 1.35, 0.0138, 16, c(accent)); // wrap
-    m.frustum(1.35, 0.0138, 1.47, 0.0148, 16, c(butt)); // butt
+    if crate::cues::paints_sleeve(style) {
+        // The finest cues carry the pattern on the butt sleeve too.
+        m.painted_frustum(1.35, 0.0138, 1.47, 0.0148, round, along / 3, |u, v| {
+            crate::cues::pattern(style, paint, u, v)
+        });
+    } else {
+        m.frustum(1.35, 0.0138, 1.47, 0.0148, 16, c(butt)); // butt
+    }
     m.frustum(1.47, 0.0148, 1.48, 0.0, 16, c(ring)); // cap
     let glow = cue_marks(&mut m, level, b);
     (m.build(white), glow.map(|g| g.build(white)))

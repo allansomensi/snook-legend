@@ -124,6 +124,13 @@ fn translate(lang: Lang, en: &str) -> Option<&'static str> {
     table(lang)?.get(en).copied()
 }
 
+/// Whether `en` has a translation in `lang` (for tests of texts kept
+/// outside the code's `t` calls).
+#[cfg(test)]
+pub fn has_translation(lang: Lang, en: &str) -> bool {
+    translate(lang, en).is_some()
+}
+
 /// Translates an interface text (returns it unchanged when there is no translation).
 pub fn t(en: &str) -> &str {
     translate(lang(), en).unwrap_or(en)
@@ -154,6 +161,15 @@ pub fn server_text(text: &str) -> String {
     if let Some(rest) = text.strip_prefix("LAN game hosted by ") {
         let name = rest.trim_end_matches('.');
         return tw("LAN game hosted by {name}.", &[("name", &name)]);
+    }
+    if let Some(rest) =
+        text.strip_prefix("You left a game in progress: you can play online again in ")
+    {
+        let n = rest.split_whitespace().next().unwrap_or("?");
+        return tw(
+            "You left a game in progress: you can play online again in {n} min.",
+            &[("n", &n)],
+        );
     }
     if let Some(rest) = text.strip_prefix("You are muted for ") {
         let n = rest.split_whitespace().next().unwrap_or("?");
@@ -293,6 +309,25 @@ mod tests {
 
     /// Every translation keeps the placeholders of its English text, and
     /// every language translates the same texts.
+    #[test]
+    fn quick_phrases_are_translated_everywhere() {
+        for lang in [Lang::Portuguese, Lang::Spanish] {
+            for p in snookered_proto::QUICK_CHAT {
+                assert!(translate(lang, p).is_some(), "{lang:?}: {p}");
+            }
+        }
+    }
+
+    #[test]
+    fn drills_are_translated_everywhere() {
+        for lang in [Lang::Portuguese, Lang::Spanish] {
+            for d in snookered_proto::drills::DRILLS {
+                assert!(translate(lang, d.name).is_some(), "{lang:?}: {}", d.name);
+                assert!(translate(lang, d.description).is_some(), "{lang:?}: {}", d.description);
+            }
+        }
+    }
+
     #[test]
     fn translation_files_are_consistent() {
         let placeholders = |s: &str| {

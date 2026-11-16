@@ -951,6 +951,9 @@ mod tests {
             name_style: String::new(),
             effect: String::new(),
             status_message: String::new(),
+            vs_computer: false,
+            away: false,
+            level: 0,
             cue_level: 0,
         }
     }

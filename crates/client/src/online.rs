@@ -220,13 +220,10 @@ pub struct Online {
     toast_floor: std::cell::Cell<Option<f32>>,
 }
 
-/// The update button, for how this copy of the game is updated.
-pub fn update_label() -> &'static str {
-    match crate::update::how() {
-        crate::update::How::Store => t("Update in the Microsoft Store"),
-        crate::update::How::Installer => t("Update now"),
-        crate::update::How::Page => t("Download the new version"),
-    }
+/// The update button, for how this copy of the game is updated (and how
+/// far the download is).
+pub fn update_label() -> String {
+    crate::update::button_label()
 }
 
 /// A note's colour: gold notices, green events, blue rules.
@@ -1407,8 +1404,9 @@ impl Online {
         }
 
         // The one action: sign in, create the account, try again or update.
+        let update = update_label();
         let label = if outdated {
-            update_label()
+            update.as_str()
         } else if !connected {
             t("Retry")
         } else if self.register {

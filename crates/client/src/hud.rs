@@ -10,6 +10,7 @@ use snookered_core::{BallId, BallInHand, Group};
 
 use crate::game::{Controller, Match, Phase};
 use crate::icons::Icon;
+use crate::keys::{self, Action};
 use crate::textures::ball_color;
 use crate::ui::{ADMIN_RED, ALERT, BORDER, CREAM, FeedKind, FeedLine, GOLD, MUTED, Ui};
 
@@ -293,7 +294,7 @@ impl Hud {
                 self.paused = !self.paused;
                 self.confirm_leave = false;
             }
-            if is_key_pressed(KeyCode::H) || is_key_pressed(KeyCode::F1) {
+            if keys::pressed(Action::Help) {
                 // The list of controls, in the menu.
                 self.show_help = !(self.paused && self.show_help);
                 self.paused = self.show_help;
@@ -307,7 +308,7 @@ impl Hud {
         // them reacts to the pointer (they are drawn last, with input back).
         let modal = self.paused.then(|| ui.suspend_input());
 
-        if !ui.wants_keyboard && !self.paused && is_key_pressed(KeyCode::R) {
+        if !ui.wants_keyboard && !self.paused && keys::pressed(Action::Replay) {
             if m.replay.is_some() {
                 m.stop_replay();
             } else {
@@ -392,10 +393,11 @@ impl Hud {
                 }
             }
             let mut x = 10.0 + w + 8.0;
+            let tip = keys::tip(t("Reset the camera: top view, no zoom"), Action::ResetCamera);
             if ui.icon_button(
                 Rect::new(x, 12.0, 30.0, 30.0),
                 Icon::CameraReset,
-                t("Reset the camera: top view, no zoom (C)"),
+                &tip,
                 !self.camera_default,
             ) {
                 action = HudAction::ResetCamera;
@@ -403,14 +405,14 @@ impl Hud {
             x += 36.0;
             let can_replay = m.last_shot.is_some() && !m.shot_in_progress();
             let tip = if m.replay.is_some() {
-                t("Stop the replay (R)")
+                keys::tip(t("Stop the replay"), Action::Replay)
             } else {
-                t("Watch the last shot again (R)")
+                keys::tip(t("Watch the last shot again"), Action::Replay)
             };
             if ui.icon_button(
                 Rect::new(x, 12.0, 30.0, 30.0),
                 Icon::Replay,
-                tip,
+                &tip,
                 can_replay || m.replay.is_some(),
             ) {
                 if m.replay.is_some() {
@@ -610,18 +612,7 @@ impl Hud {
         }
         if self.show_help && self.paused {
             draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.5));
-            let lines = [
-                (t("Aim"), t("Drag the cue · click a spot")),
-                (t("Fine aim"), t("Shift + drag · A / D")),
-                (t("Quick aim"), t("Click a ball or a spot")),
-                (t("Shoot"), t("Set the power, then press the green button")),
-                (t("Spin"), t("Spin ball · ↑ ↓ · Q / E")),
-                (t("Elevation"), t("W / S (jump & massé)")),
-                (t("Camera"), t("Right-drag · Wheel · C")),
-                (t("Replay"), t("R: watch the last shot again")),
-                (t("Ball in hand"), t("Drag the cue ball")),
-                (t("Menu / help"), t("Esc · H")),
-            ];
+            let lines = controls_list();
             const ROW: f32 = 26.0;
             const PAD: f32 = 24.0;
             let label_w =
@@ -629,7 +620,7 @@ impl Hud {
             let value_w =
                 lines.iter().map(|(_, b)| ui.text_size(b, 14.0, false).x).fold(0.0, f32::max);
             let w = (label_w + value_w + 2.0 * PAD + 40.0).clamp(320.0, sw - 20.0);
-            let h = PAD + 30.0 + 12.0 + lines.len() as f32 * ROW + 16.0 + 38.0 + PAD;
+            let h = PAD + 30.0 + 12.0 + lines.len() as f32 * ROW + 12.0 + 20.0 + 16.0 + 38.0 + PAD;
             let r = Rect::new((sw - w) / 2.0, ((sh - h) / 2.0).max(8.0), w, h);
             ui.panel(r);
             ui.text_centered(t("Controls"), sw / 2.0, r.y + PAD - 2.0, 22.0, GOLD, true);
@@ -649,6 +640,10 @@ impl Hud {
                 let room = r.x + r.w - PAD - x;
                 ui.text(&ui.ellipsize(b, room, 14.0), x, yy + 5.0, 14.0, MUTED, false);
             }
+            let note = t("Keys can be changed in Settings → Controls.");
+            let note_y = top + 12.0 + lines.len() as f32 * ROW + 12.0;
+            let note = ui.ellipsize(note, r.w - 2.0 * PAD, 12.0);
+            ui.text_centered(&note, sw / 2.0, note_y, 12.0, MUTED, false);
             let back = Rect::new(sw / 2.0 - 80.0, r.y + r.h - PAD - 38.0, 160.0, 38.0);
             if ui.button(back, t("Back"), true) {
                 self.show_help = false;
@@ -1184,6 +1179,66 @@ fn video_bar_rect() -> Rect {
     let sw = crate::ui::vw();
     let w = (sw - 24.0).min(680.0);
     Rect::new((sw - w) / 2.0, crate::ui::vh() - BOTTOM_BAR - 64.0, w, 52.0)
+}
+
+/// The list of controls (H), with the keys the player has chosen (a line
+/// that would only name keys is left out when its action has none).
+fn controls_list() -> Vec<(&'static str, String)> {
+    let k = keys::short;
+    // Parts joined with " · ", leaving out the empty ones.
+    let join = |parts: &[&str]| {
+        parts.iter().filter(|p| !p.is_empty()).copied().collect::<Vec<_>>().join(" · ")
+    };
+    // Two keys ("Q / E"), or the one there is.
+    let pair = |a: Action, b: Action| {
+        [k(a), k(b)].into_iter().filter(|s| !s.is_empty()).collect::<Vec<_>>().join(" / ")
+    };
+    let with_key = |text: &str, action: Action| match k(action) {
+        "" => String::new(),
+        key => tw(text, &[("key", &key)]),
+    };
+    let with_keys = |text: &str, keys: String| {
+        if keys.is_empty() { String::new() } else { tw(text, &[("keys", &keys)]) }
+    };
+    let aim_keys = pair(Action::AimLeft, Action::AimRight);
+    let spin_keys = [k(Action::SpinUp), k(Action::SpinDown)]
+        .into_iter()
+        .filter(|s| !s.is_empty())
+        .collect::<Vec<_>>()
+        .join(" ");
+    let side_spin = pair(Action::SpinLeft, Action::SpinRight);
+    vec![
+        (t("Aim"), t("Drag the cue · click a spot").to_string()),
+        (t("Fine aim"), join(&[&with_key("{key} + drag", Action::FineAim), &aim_keys])),
+        (t("Quick aim"), t("Click a ball or a spot").to_string()),
+        (
+            t("Shoot"),
+            join(&[
+                t("Set the power, then press the green button"),
+                &with_key("hold {key} and release", Action::Shoot),
+            ]),
+        ),
+        (t("Spin"), join(&[t("Spin ball"), &spin_keys, &side_spin])),
+        (
+            t("Elevation"),
+            with_keys("{keys} (jump & massé)", pair(Action::ElevationUp, Action::ElevationDown)),
+        ),
+        (t("Camera"), join(&[t("Right-drag · Wheel"), k(Action::ResetCamera)])),
+        (
+            t("View"),
+            join(&[
+                &with_key("{key}: 3D / top view", Action::ToggleView),
+                &with_keys("{keys}: zoom", pair(Action::ZoomIn, Action::ZoomOut)),
+            ]),
+        ),
+        (t("Replay"), with_key("{key}: watch the last shot again", Action::Replay)),
+        (t("Ball in hand"), join(&[t("Drag the cue ball"), k(Action::BallInHand)])),
+        (t("Full screen"), k(Action::Fullscreen).to_string()),
+        (t("Menu / help"), join(&["Esc", k(Action::Help)])),
+    ]
+    .into_iter()
+    .filter(|(_, keys)| !keys.is_empty())
+    .collect()
 }
 
 /// Watching a stored game: play and pause, the shot before and after, the
@@ -1877,7 +1932,18 @@ fn elevation_panel(ui: &mut Ui, m: &mut Match, r: Rect) {
         GOLD,
         true,
     );
-    ui.text(t("W / S (jump & massé)"), r.x + 12.0, r.y + 30.0, 12.0, MUTED, false);
+    let keys = [keys::short(Action::ElevationUp), keys::short(Action::ElevationDown)]
+        .into_iter()
+        .filter(|k| !k.is_empty())
+        .collect::<Vec<_>>()
+        .join(" / ");
+    let hint = if keys.is_empty() {
+        t("Jump & massé").to_string()
+    } else {
+        tw("{keys} (jump & massé)", &[("keys", &keys)])
+    };
+    let hint = ui.ellipsize(&hint, r.w - 24.0, 12.0);
+    ui.text(&hint, r.x + 12.0, r.y + 30.0, 12.0, MUTED, false);
     if ui.slider(2, Rect::new(r.x + 14.0, r.y + 58.0, r.w - 28.0, 18.0), &mut elevation, 0.0, max) {
         m.aim.elevation = (elevation as f64).to_radians();
     }

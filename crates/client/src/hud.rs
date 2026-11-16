@@ -44,6 +44,11 @@ pub struct Hud {
     panel_key: Option<(u32, u32)>,
     /// Camera zoom, 0 (far) to 1 (close): set by the caller, changed by the zoom bar.
     pub zoom: f32,
+    /// Set by the caller: the opponent can be reported (signed in online,
+    /// not on a local network).
+    pub can_report: bool,
+    /// Reporting the opponent.
+    report: Option<crate::report::ReportDialog>,
     zoom_drag: bool,
     /// The reaction picker is open.
     reactions_open: bool,
@@ -98,6 +103,8 @@ impl Default for Hud {
             reactions_open: crate::dev::flag("SNOOKERED_OPEN_REACTIONS"),
             camera_default: true,
             history_open: false,
+            can_report: false,
+            report: None,
         }
     }
 }
@@ -106,6 +113,12 @@ impl Hud {
     /// The controls are only listed from the menu: never on the table.
     pub fn new(_show_help: bool) -> Self {
         Hud::default()
+    }
+
+    /// The opponent's name, when this player can report them from here.
+    fn reportable(&self, m: &Match) -> Option<String> {
+        let o = m.online.as_ref()?;
+        (self.can_report && !o.spectator).then(|| m.names[1 - o.seat].clone())
     }
 }
 
@@ -287,7 +300,9 @@ impl Hud {
 
         let escape_used = std::mem::take(&mut m.escape_used);
         if !ui.wants_keyboard {
-            if is_key_pressed(KeyCode::Escape) && self.reactions_open {
+            if self.report.is_some() {
+                // The report dialog has Esc.
+            } else if is_key_pressed(KeyCode::Escape) && self.reactions_open {
                 self.reactions_open = false;
             } else if is_key_pressed(KeyCode::Escape) && !escape_used {
                 self.paused = !self.paused;
@@ -305,7 +320,7 @@ impl Hud {
 
         // The pause menu and the list of controls are modal: nothing behind
         // them reacts to the pointer (they are drawn last, with input back).
-        let modal = self.paused.then(|| ui.suspend_input());
+        let modal = (self.paused || self.report.is_some()).then(|| ui.suspend_input());
 
         if !ui.wants_keyboard && !self.paused && is_key_pressed(KeyCode::R) {
             if m.replay.is_some() {
@@ -458,7 +473,13 @@ impl Hud {
             } else {
                 tw("{name} wins", &[("name", &m.names[over.winner])])
             };
-            let w = (ui.text_size(&title, 28.0, true).x + 64.0).clamp(440.0, sw - 20.0);
+            // Room on both sides of the centred title for the Report button.
+            let report_w = if self.reportable(m).is_some() {
+                2.0 * (ui.text_size(t("Report"), 12.0, true).x + 30.0)
+            } else {
+                0.0
+            };
+            let w = (ui.text_size(&title, 28.0, true).x + 64.0 + report_w).clamp(440.0, sw - 20.0);
             let r = Rect::new((sw - w) / 2.0, sh / 2.0 - 110.0 - STATS_H / 2.0, w, 220.0);
             ui.panel(r);
             let view = &mut self.stats_view;
@@ -467,6 +488,17 @@ impl Hud {
             draw_match_stats(ui, m, stats, view);
             crate::ui::rrect_lines(r, 8.0, 2.0, if won { GOLD } else { BORDER });
             ui.text_centered(&title, sw / 2.0, r.y + 16.0, 28.0, GOLD, true);
+            if let Some(name) = self.reportable(m) {
+                let label = t("Report");
+                let bw = ui.text_size(label, 12.0, true).x + 20.0;
+                let br = Rect::new(r.x + r.w - bw - 10.0, r.y + 10.0, bw, 24.0);
+                if ui.button(br, label, true) {
+                    self.report = Some(crate::report::ReportDialog::at_table(&name));
+                }
+                if ui.hovering(br) {
+                    ui.tooltip(&tw("Report {name}", &[("name", &name)]), br);
+                }
+            }
             ui.text_centered(
                 &crate::i18n::result_line(
                     over.reason,
@@ -608,6 +640,19 @@ impl Hud {
         if let Some(saved) = modal {
             ui.resume_input(saved);
         }
+        // The report dialog, over everything (its input is its own).
+        if let Some(dialog) = self.report.as_mut() {
+            match dialog.draw(ui) {
+                crate::report::ReportOutcome::Open => {}
+                crate::report::ReportOutcome::Cancelled => self.report = None,
+                crate::report::ReportOutcome::Send(msg) => {
+                    if let Some(o) = m.online.as_mut() {
+                        o.outbox.push(msg);
+                    }
+                    self.report = None;
+                }
+            }
+        }
         if self.show_help && self.paused {
             draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.5));
             let lines = [
@@ -666,7 +711,9 @@ impl Hud {
             let header = if online { 66.0 } else { 48.0 };
             // Resume, settings, controls, resign, then the way out set apart.
             let leave_h = if self.confirm_leave { 24.0 + BH } else { BH };
-            let h = PAD + header + 4.0 * (BH + GAP) + 10.0 + leave_h + PAD;
+            let reportable = self.reportable(m);
+            let rows = if reportable.is_some() { 5.0 } else { 4.0 };
+            let h = PAD + header + rows * (BH + GAP) + 10.0 + leave_h + PAD;
             let r = Rect::new((sw - w) / 2.0, ((sh - h) / 2.0).max(8.0), w, h);
             ui.panel(r);
             ui.text_centered(
@@ -710,6 +757,15 @@ impl Hud {
                 self.paused = false;
             }
             y += BH + GAP;
+            if let Some(name) = reportable {
+                let label = tw("Report {name}", &[("name", &name)]);
+                let (label, _) = ui.fitted(&label, 15.0, bw - 24.0, true);
+                if ui.button(Rect::new(bx, y, bw, BH), &label, true) {
+                    self.report = Some(crate::report::ReportDialog::at_table(&name));
+                    self.paused = false;
+                }
+                y += BH + GAP;
+            }
             draw_line(
                 bx,
                 y + 4.0,

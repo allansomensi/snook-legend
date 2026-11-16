@@ -454,14 +454,11 @@ fn aimed_pocket(
         (dir.y > 0.0).then(|| (hy - from.y) / dir.y),
         (dir.y < 0.0).then(|| (-hy - from.y) / dir.y),
     ];
-    let Some((rail, t)) = hit
+    let (rail, t) = hit
         .iter()
         .enumerate()
         .filter_map(|(k, t)| t.map(|t| (k, t)))
-        .min_by(|a, b| a.1.total_cmp(&b.1))
-    else {
-        return None;
-    };
+        .min_by(|a, b| a.1.total_cmp(&b.1))?;
     let at = from + dir * t;
     // Not into a pocket's mouth.
     if table.pockets.iter().any(|p| p.mouth_center.distance(at) < p.half_mouth + 2.0 * r) {

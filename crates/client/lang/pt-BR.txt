@@ -287,6 +287,9 @@ Round {n}	Rodada {n}
 Search…	Buscar…
 Semi-finals	Semifinais
 Send report	Enviar denúncia
+This game goes with the report, so the moderators can watch it.	Esta partida vai junto com a denúncia, para os moderadores assistirem.
+Your game with {name} ({date}) goes with the report, so the moderators can watch it.	Sua partida com {name} ({date}) vai junto com a denúncia, para os moderadores assistirem.
+You haven't played {name} in the last day: the moderators see the recent chat.	Você não jogou com {name} no último dia: os moderadores veem o chat recente.
 Shark	Tubarão
 Shows the contact point; judging the cut is up to you.	Mostra o ponto de contato; o corte fica por sua conta.
 Shows where the object ball and the cue ball go.	Mostra para onde vão a bola da vez e a branca.
@@ -304,6 +307,7 @@ Table runner	Limpa-mesa
 Tables	Mesas
 Take turns on this computer	Revezem neste computador
 Thank you. The moderators will look into it.	Obrigado. Os moderadores vão analisar.
+Thank you. The moderators will look into it, with your game attached.	Obrigado. Os moderadores vão analisar, com a sua partida anexada.
 That player is not accepting invitations.	Esse jogador não está aceitando convites.
 That shot was for an earlier turn.	Essa tacada era de uma vez anterior.
 That table is no longer open.	Essa mesa não está mais aberta.
@@ -811,6 +815,51 @@ entry fee back	inscrição devolvida
 for the game	pela partida
 for the win	pela vitória
 games counted	partidas contadas
+Analysis	Análise
+Shot analysis	Análise das tacadas
+The shot analysis isn't available on this server yet.	A análise das tacadas ainda não está disponível neste servidor.
+Only online accounts have a shot analysis.	Só contas online têm análise das tacadas.
+Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Jogue online para ver como você encaçapa: a análise aparece depois de mais {n} tacadas numa caçapa.
+{name} hasn't played enough online games for an analysis yet.	{name} ainda não jogou partidas online suficientes para uma análise.
+1 game	1 partida
+{n} games	{n} partidas
+{pct}% of {n} shots at a pocket potted · {games}	{pct}% de {n} tacadas numa caçapa encaçapadas · {games}
+{made} of {n} potted ({pct})	{made} de {n} encaçapadas ({pct})
+By kind of shot	Por tipo de tacada
+shots	tacadas
+Straight	Reta
+Cut 8–25°	Corte 8–25°
+Cut 25–45°	Corte 25–45°
+Thin cut 45°+	Corte fino 45°+
+Bank	Tabela
+Kick	Tabela da branca
+Combination	Combinação
+Jump	Salto
+Massé	Massé
+Break	Saída
+By distance	Por distância
+Short (under 0.75 m)	Curta (até 0,75 m)
+Medium (to 1.5 m)	Média (até 1,5 m)
+Long (over 1.5 m)	Longa (mais de 1,5 m)
+Safeties	Defesas
+left the opponent nothing	deixaram o adversário sem nada
+Breaks	Saídas
+made a ball	encaçaparam uma bola
+Potted	Encaçapadas
+Missed	Erradas
+Where and in which pocket	Onde e em qual caçapa
+{pocket}: {made} of {n} potted	{pocket}: {made} de {n} encaçapadas
+Where the potted balls were	Onde estavam as bolas encaçapadas
+Where the missed balls were	Onde estavam as bolas erradas
+few	poucas
+many	muitas
+{made} potted · {missed} missed ({pct})	{made} encaçapadas · {missed} erradas ({pct})
+Top left corner	Canto superior esquerdo
+Bottom left corner	Canto inferior esquerdo
+Top side pocket	Caçapa do meio de cima
+Bottom side pocket	Caçapa do meio de baixo
+Top right corner	Canto superior direito
+Bottom right corner	Canto inferior direito
 games left unfinished	partidas abandonadas
 potting success	aproveitamento
 shots with a foul	tacadas com falta

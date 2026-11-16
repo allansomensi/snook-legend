@@ -6,6 +6,7 @@
 //! Rendering uses macroquad (OpenGL 2.1 / GLES 2), so the game is small and
 //! runs on practically any PC, including old integrated graphics.
 
+mod analysis;
 mod audio;
 mod camera;
 mod channel;
@@ -31,6 +32,7 @@ mod play;
 mod profile;
 mod ranking;
 mod reactions;
+mod report;
 mod room;
 mod saved;
 mod scene;
@@ -432,6 +434,7 @@ async fn main() {
             rig.reset();
         }
         hud.top_view = rig.mode == CameraMode::Top;
+        hud.can_report = !match_from_lan && online.signed_in();
         hud.camera_default = rig.is_default();
         hud.aim_sensitivity = config.aim_sensitivity;
         hud.zoom = rig.zoom_level();

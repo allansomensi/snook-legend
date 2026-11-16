@@ -11,8 +11,9 @@ use super::{
     AimRow, AuditRow, BoardNote, BuyOutcome, FriendOutcome, FriendState, GiftRow, HistoryRow,
     LedgerRow, LiveMatch, MatchRecord, Metrics, NewGift, NewNote, NewReport, NewUser, Overview,
     Payment, RECENT_SCAN, RecentRow, ReportRow, SessionKind, StoreResult, StoredReplay,
-    TournamentRecord, User, Wallet, day_of,
+    TournamentRecord, User, Wallet, day_of, hour_of,
 };
+use snookered_proto::analysis::ShotAnalysis;
 
 #[derive(Default)]
 pub struct MemoryStore {
@@ -49,6 +50,12 @@ struct Inner {
     missions: HashMap<(i64, String, String), (u32, i64)>,
     board: Vec<BoardNote>,
     next_note: i64,
+    /// (user, kind, key) -> (attempts, made)
+    analysis: HashMap<(i64, i16, i16), (u32, u32)>,
+    /// hour -> (peak players, peak games, samples, players summed)
+    online_hours: BTreeMap<i64, (i64, i64, i64, i64)>,
+    /// (hour, user)
+    active_hours: HashSet<(i64, i64)>,
     /// Presents (names and countries filled in when read).
     gifts: Vec<GiftRow>,
 }
@@ -478,11 +485,30 @@ impl MemoryStore {
         };
         let games = |u: &User| u.games + u.casual_games;
         let mut revenue: BTreeMap<String, (i64, i64)> = BTreeMap::new();
+        let mut revenue_days: BTreeMap<(i64, String), (i64, i64)> = BTreeMap::new();
         for p in s.payments.iter().filter(|p| !p.refunded && !p.test && p.at > now - 30 * 86_400) {
             let e = revenue.entry(p.currency.clone()).or_default();
             e.0 += p.amount;
             e.1 += 1;
+            let e = revenue_days.entry((day_of(p.at), p.currency.clone())).or_default();
+            e.0 += p.amount;
+            e.1 += 1;
         }
+        let this_hour = hour_of(now);
+        let hours = (this_hour - 47..=this_hour)
+            .map(|h| {
+                let (peak_players, peak_games, samples, sum) =
+                    s.online_hours.get(&h).copied().unwrap_or_default();
+                super::HourRow {
+                    hour: h,
+                    active: s.active_hours.iter().filter(|(x, _)| *x == h).count() as i64,
+                    peak_players,
+                    peak_games,
+                    avg_players: if samples > 0 { sum as f64 / samples as f64 } else { 0.0 },
+                    games: s.matches.iter().filter(|m| hour_of(m.ended_at) == h).count() as i64,
+                }
+            })
+            .collect();
         Ok(Metrics {
             days,
             retention_d1: back(1),
@@ -493,6 +519,8 @@ impl MemoryStore {
                 recent.iter().filter(|u| games(u) >= 5).count() as i64,
             ],
             revenue: revenue.into_iter().map(|(c, (a, n))| (c, a, n)).collect(),
+            hours,
+            revenue_days: revenue_days.into_iter().map(|((d, c), (a, n))| (d, c, a, n)).collect(),
         })
     }
 
@@ -708,7 +736,12 @@ impl MemoryStore {
             .collect())
     }
 
-    pub fn create_report(&self, r: &NewReport) -> StoreResult<()> {
+    pub fn create_report_with_game(
+        &self,
+        r: &NewReport,
+        match_id: Option<i64>,
+        live_id: Option<i64>,
+    ) -> StoreResult<i64> {
         let mut s = self.lock();
         let id = s.reports.len() as i64 + 1;
         let row = ReportRow {
@@ -722,10 +755,100 @@ impl MemoryStore {
             created_at: r.at,
             resolved_by: None,
             resolution: None,
+            reporter_id: r.reporter,
+            target_id: r.target,
+            match_id: match_id.filter(|m| *m >= 1 && *m as usize <= s.matches.len()),
+            live_id,
         };
         s.reports.push(row);
         s.report_ids.push((r.reporter, r.target));
+        Ok(id)
+    }
+
+    pub fn report(&self, id: i64) -> StoreResult<Option<ReportRow>> {
+        Ok(self.lock().reports.iter().find(|r| r.id == id).cloned())
+    }
+
+    pub fn set_report_match(&self, id: i64, match_id: i64) -> StoreResult<()> {
+        let mut s = self.lock();
+        let known = match_id >= 1 && match_id as usize <= s.matches.len();
+        if let Some(r) = s.reports.iter_mut().find(|r| r.id == id).filter(|_| known) {
+            r.match_id = Some(match_id);
+        }
         Ok(())
+    }
+
+    pub fn matches_between(
+        &self,
+        a: i64,
+        b: i64,
+        from: i64,
+        to: i64,
+        limit: u32,
+    ) -> StoreResult<Vec<(i64, i64)>> {
+        let s = self.lock();
+        let mut list: Vec<(i64, i64)> = s
+            .matches
+            .iter()
+            .enumerate()
+            .filter(|(_, m)| {
+                m.replay.is_some()
+                    && (m.players == [a, b] || m.players == [b, a])
+                    && (from..=to).contains(&m.ended_at)
+            })
+            .map(|(k, m)| (k as i64 + 1, m.ended_at))
+            .collect();
+        list.sort_by(|x, y| y.1.cmp(&x.1).then(y.0.cmp(&x.0)));
+        list.truncate(limit as usize);
+        Ok(list)
+    }
+
+    pub fn add_shot_analysis(&self, user_id: i64, analysis: &ShotAnalysis) -> StoreResult<()> {
+        let mut s = self.lock();
+        for (kind, key, attempts, made) in analysis.rows() {
+            let e = s.analysis.entry((user_id, kind, key)).or_default();
+            e.0 = e.0.saturating_add(attempts);
+            e.1 = e.1.saturating_add(made);
+        }
+        Ok(())
+    }
+
+    pub fn shot_analysis(&self, user_id: i64) -> StoreResult<ShotAnalysis> {
+        let s = self.lock();
+        Ok(ShotAnalysis::from_rows(
+            s.analysis
+                .iter()
+                .filter(|((u, _, _), _)| *u == user_id)
+                .map(|(&(_, kind, key), &(a, m))| (kind, key, a, m)),
+        ))
+    }
+
+    pub fn sample_online(
+        &self,
+        hour: i64,
+        users: &[i64],
+        players: u32,
+        games: u32,
+    ) -> StoreResult<()> {
+        let mut s = self.lock();
+        let e = s.online_hours.entry(hour).or_default();
+        e.0 = e.0.max(players as i64);
+        e.1 = e.1.max(games as i64);
+        e.2 += 1;
+        e.3 += players as i64;
+        for u in users {
+            if s.users.contains_key(u) {
+                s.active_hours.insert((hour, *u));
+            }
+        }
+        Ok(())
+    }
+
+    pub fn purge_active_hours(&self, hour: i64) -> StoreResult<u64> {
+        let mut s = self.lock();
+        let before = s.active_hours.len();
+        s.active_hours.retain(|(h, _)| *h >= hour);
+        Ok((before - s.active_hours.len()) as u64)
     }
 
     pub fn record_tournament(&self, t: &TournamentRecord) -> StoreResult<()> {

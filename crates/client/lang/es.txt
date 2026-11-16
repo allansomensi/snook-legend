@@ -307,6 +307,9 @@ Round {n}	Ronda {n}
 Search…	Buscar…
 Semi-finals	Semifinales
 Send report	Enviar denuncia
+This game goes with the report, so the moderators can watch it.	Esta partida va con la denuncia, para que los moderadores la vean.
+Your game with {name} ({date}) goes with the report, so the moderators can watch it.	Tu partida con {name} ({date}) va con la denuncia, para que los moderadores la vean.
+You haven't played {name} in the last day: the moderators see the recent chat.	No jugaste con {name} en el último día: los moderadores ven el chat reciente.
 Shark	Tiburón
 Shows the contact point; judging the cut is up to you.	Muestra el punto de contacto; el corte lo calculas tú.
 Shows where the object ball and the cue ball go.	Muestra a dónde van la bola objetivo y la bola blanca.
@@ -324,6 +327,7 @@ Table runner	Limpiamesas
 Tables	Mesas
 Take turns on this computer	Turnaos en este ordenador
 Thank you. The moderators will look into it.	Gracias. Los moderadores lo revisarán.
+Thank you. The moderators will look into it, with your game attached.	Gracias. Los moderadores lo revisarán, con tu partida adjunta.
 That player is not accepting invitations.	Ese jugador no acepta invitaciones.
 That shot was for an earlier turn.	Esa tacada era de un turno anterior.
 That table is no longer open.	Esa mesa ya no está abierta.
@@ -915,6 +919,50 @@ entry fee back	inscripción devuelta
 for the game	por la partida
 for the win	por la victoria
 games counted	partidas contadas
+Analysis	Análisis
+Shot analysis	Análisis de tiros
+The shot analysis isn't available on this server yet.	El análisis de tiros todavía no está disponible en este servidor.
+Only online accounts have a shot analysis.	Solo las cuentas en línea tienen análisis de tiros.
+Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Juega en línea para ver cómo embocas: el análisis aparece después de {n} tiros más a una tronera.
+{name} hasn't played enough online games for an analysis yet.	{name} todavía no jugó suficientes partidas en línea para un análisis.
+1 game	1 partida
+{pct}% of {n} shots at a pocket potted · {games}	{pct}% de {n} tiros a una tronera embocados · {games}
+{made} of {n} potted ({pct})	{made} de {n} embocados ({pct})
+By kind of shot	Por tipo de tiro
+shots	tiros
+Straight	Recta
+Cut 8–25°	Corte 8–25°
+Cut 25–45°	Corte 25–45°
+Thin cut 45°+	Corte fino 45°+
+Bank	Banda
+Kick	Retruque
+Combination	Combinación
+Jump	Salto
+Massé	Massé
+Break	Saque
+By distance	Por distancia
+Short (under 0.75 m)	Corta (hasta 0,75 m)
+Medium (to 1.5 m)	Media (hasta 1,5 m)
+Long (over 1.5 m)	Larga (más de 1,5 m)
+Safeties	Defensas
+left the opponent nothing	dejaron al rival sin nada
+Breaks	Saques
+made a ball	embocaron una bola
+Potted	Embocadas
+Missed	Falladas
+Where and in which pocket	Dónde y en qué tronera
+{pocket}: {made} of {n} potted	{pocket}: {made} de {n} embocadas
+Where the potted balls were	Dónde estaban las bolas embocadas
+Where the missed balls were	Dónde estaban las bolas falladas
+few	pocas
+many	muchas
+{made} potted · {missed} missed ({pct})	{made} embocadas · {missed} falladas ({pct})
+Top left corner	Esquina superior izquierda
+Bottom left corner	Esquina inferior izquierda
+Top side pocket	Tronera central de arriba
+Bottom side pocket	Tronera central de abajo
+Top right corner	Esquina superior derecha
+Bottom right corner	Esquina inferior derecha
 games left unfinished	partidas abandonadas
 potting success	acierto
 shots with a foul	tiros con falta

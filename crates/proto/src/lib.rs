@@ -9,6 +9,7 @@
 //! bit-identical on every machine.
 
 mod achievements;
+pub mod analysis;
 mod countries;
 pub mod missions;
 mod reactions;
@@ -629,6 +630,10 @@ pub struct Profile {
     /// Share of rated and casual games left unfinished, 0..=100.
     #[serde(default)]
     pub abandon_rate: u32,
+    /// How this player pots (pockets, distances, kinds of shot, the table).
+    /// Only sent to games of protocol 13 or later.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub analysis: Option<Box<analysis::ShotAnalysis>>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -641,6 +646,9 @@ pub struct FriendInfo {
     pub last_seen: i64,
 }
 
+/// A report goes with the game being played between the two players or,
+/// failing that, their latest game that ended this long ago at most (seconds).
+pub const REPORT_GAME_WINDOW_SECS: i64 = 24 * 60 * 60;
 /// Someone this player played online recently (the latest game against them).
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct RecentOpponent {

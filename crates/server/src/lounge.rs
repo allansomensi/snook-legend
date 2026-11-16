@@ -2259,6 +2259,38 @@ impl Lounge {
         self.rooms.values().filter(|r| !r.finished).count()
     }
 
+    /// The game being played between two players, if any (its room id).
+    pub fn live_game_between(&self, a: &str, b: &str) -> Option<u64> {
+        let (a, b) = (key(a), key(b));
+        self.rooms
+            .values()
+            .find(|r| !r.finished && r.keys.contains(&a) && r.keys.contains(&b))
+            .map(|r| r.id)
+    }
+
+    /// A game still in this server (playing or just finished): the players,
+    /// whether it is rated, finished, and the strokes so far.
+    pub fn room_replay(&self, id: u64) -> Option<([String; 2], bool, bool, Replay)> {
+        self.rooms.get(&id).map(|r| {
+            (
+                [r.users[0].username.clone(), r.users[1].username.clone()],
+                r.rated,
+                r.finished,
+                r.replay.clone(),
+            )
+        })
+    }
+
+    /// The accounts online (not guests), for the hourly activity.
+    pub fn online_user_ids(&self) -> Vec<i64> {
+        self.sessions.values().filter(|s| !s.guest && s.user.id > 0).map(|s| s.user.id).collect()
+    }
+
+    /// Who is waiting in "Play now": (rated, seconds waited so far).
+    pub fn queue_now(&self) -> Vec<(bool, u32)> {
+        self.queue.iter().map(|q| (q.rated, q.since.elapsed().as_secs() as u32)).collect()
+    }
+
     /// Hands a game in progress to the next server: it stays saved, both
     /// players are disconnected (their game reconnects to the new server,
     /// which rebuilds the table) and the room is closed here.

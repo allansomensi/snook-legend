@@ -49,6 +49,8 @@ pub fn router() -> Router<Arc<Server>> {
         .route("/admin/api/metrics", get(metrics))
         .route("/admin/api/aim", get(aim_review))
         .route("/admin/api/replay/{id}", get(replay))
+        .route("/admin/api/replay/{id}/view", get(replay_view))
+        .route("/admin/api/live/{id}/view", get(live_view))
         .route("/admin/api/announce", post(announce))
         .route("/admin/api/motd", post(motd))
         .route("/admin/api/chat/clear", post(clear_chat))
@@ -179,9 +181,21 @@ async fn metrics(State(server): State<Arc<Server>>, headers: HeaderMap) -> ApiRe
     let mut sorted = waits.clone();
     sorted.sort_unstable();
     let median = sorted.get(sorted.len() / 2).copied().unwrap_or(0);
+    let (online, games, waiting) =
+        server.with(|l| (l.online_count(), l.running_games(), l.queue_now()));
+    // The latest waits, oldest first (each pairing counts both players).
+    let recent: Vec<u32> = waits.iter().rev().take(60).rev().copied().collect();
     Ok(Json(json!({
         "metrics": m,
-        "queue": { "pairs": waits.len() / 2, "avg_wait_secs": avg_wait, "median_wait_secs": median },
+        "queue": {
+            "pairs": waits.len() / 2, "avg_wait_secs": avg_wait, "median_wait_secs": median,
+            "size": waiting.len(),
+            "waiting": waiting.iter().map(|(rated, secs)| json!({ "rated": rated, "secs": secs })).collect::<Vec<_>>(),
+            "recent": recent,
+        },
+        "online": online,
+        "games": games,
+        "now": now(),
         "draining": server.with(|l| l.is_draining()),
     })))
 }
@@ -267,6 +281,48 @@ async fn replay(
         "rated": r.rated, "at": r.at, "seed": r.replay.seed, "breaker": r.replay.breaker,
         "strokes": r.replay.strokes,
     })))
+}
+
+/// A stored game as frames for the panel's replay viewer.
+async fn replay_view(
+    State(server): State<Arc<Server>>,
+    headers: HeaderMap,
+    Path(id): Path<i64>,
+) -> ApiResult {
+    staff(&server, &headers).await?;
+    let r = server
+        .store
+        .replay(id)
+        .await?
+        .ok_or_else(|| err(StatusCode::NOT_FOUND, "No replay for that match."))?;
+    let replay = r.replay.clone();
+    let mut v = tokio::task::spawn_blocking(move || crate::replay_view::view(&replay))
+        .await
+        .map_err(|_| err(StatusCode::INTERNAL_SERVER_ERROR, "The replay could not be rebuilt."))?;
+    v["match"] = json!({
+        "id": r.id, "players": r.players, "countries": r.countries, "ratings": r.ratings,
+        "winner": r.winner, "rated": r.rated, "at": r.at, "live": false,
+    });
+    Ok(Json(v))
+}
+
+/// A game being played on this server, so far, for the replay viewer.
+async fn live_view(
+    State(server): State<Arc<Server>>,
+    headers: HeaderMap,
+    Path(id): Path<u64>,
+) -> ApiResult {
+    staff(&server, &headers).await?;
+    let (players, rated, finished, replay) = server
+        .with(|l| l.room_replay(id))
+        .ok_or_else(|| err(StatusCode::NOT_FOUND, "That game is no longer on this server."))?;
+    let mut v = tokio::task::spawn_blocking(move || crate::replay_view::view(&replay))
+        .await
+        .map_err(|_| err(StatusCode::INTERNAL_SERVER_ERROR, "The game could not be rebuilt."))?;
+    v["match"] = json!({
+        "id": id, "players": players, "rated": rated, "live": !finished, "at": now(),
+    });
+    Ok(Json(v))
 }
 
 #[derive(Deserialize)]
@@ -420,7 +476,7 @@ async fn user_detail(
     Ok(Json(json!({
         "user": user_json(&u, online),
         "history": history,
-        "reports": reports?,
+        "reports": with_games(&server, reports?).await,
         "achievements": achievements?,
         "wallet": wallet?,
         "ledger": ledger?,
@@ -632,7 +688,20 @@ async fn reports(
         "dismissed" => Some(2),
         _ => Some(0),
     };
-    Ok(Json(json!({ "reports": server.store.reports(status, 200).await? })))
+    let list = server.store.reports(status, 200).await?;
+    Ok(Json(json!({ "reports": with_games(&server, list).await })))
+}
+
+/// Reports with the game each one is about (see [`crate::reports::game_json`]).
+async fn with_games(server: &Server, list: Vec<crate::store::ReportRow>) -> Vec<Value> {
+    let mut out = Vec::with_capacity(list.len());
+    for mut r in list {
+        let game = crate::reports::game_json(server, &mut r).await;
+        let mut v = serde_json::to_value(&r).unwrap_or_default();
+        v["game"] = game;
+        out.push(v);
+    }
+    out
 }
 
 #[derive(Deserialize)]

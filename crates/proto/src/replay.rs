@@ -65,17 +65,23 @@ impl Replay {
     }
 }
 
+/// Puts the cue ball where a shot with the ball in hand had it.
+pub fn place_cue_ball(game: &mut EightBallGame, cue_ball: Option<DVec2>) -> Result<(), String> {
+    if let Some(p) = cue_ball
+        && game.ball_in_hand().is_some()
+        && game.ball(BallId::CUE).xy() != p
+        && !game.place_cue_ball(p)
+    {
+        return Err("cue ball placement refused".into());
+    }
+    Ok(())
+}
+
 /// Applies one stroke (shots are simulated to rest).
 pub fn apply(game: &mut EightBallGame, stroke: &Stroke) -> Result<Option<ShotReport>, String> {
     match *stroke {
         Stroke::Shot { shot, called, cue_ball, .. } => {
-            if let Some(p) = cue_ball
-                && game.ball_in_hand().is_some()
-                && game.ball(BallId::CUE).xy() != p
-                && !game.place_cue_ball(p)
-            {
-                return Err("cue ball placement refused".into());
-            }
+            place_cue_ball(game, cue_ball)?;
             let mut pending = game.prepare_shot(&shot, called).map_err(|e| format!("{e:?}"))?;
             pending.simulation.run_to_rest();
             Ok(Some(game.finish_shot(pending)))

@@ -1829,7 +1829,13 @@ impl FeedLine {
     pub fn chat(line: &ChatLine) -> FeedLine {
         let (from, text, kind) = match line.kind {
             ChatKind::Player => {
-                (Some((line.from.clone(), line.rating)), line.text.clone(), FeedKind::Player)
+                // A quick phrase reads in this player's language.
+                let text = if snookered_proto::QUICK_CHAT.contains(&line.text.as_str()) {
+                    crate::i18n::t(&line.text).to_string()
+                } else {
+                    line.text.clone()
+                };
+                (Some((line.from.clone(), line.rating)), text, FeedKind::Player)
             }
             ChatKind::Announcement => (None, line.text.clone(), FeedKind::Announcement),
             ChatKind::System => (None, crate::i18n::server_text(&line.text), FeedKind::Event),

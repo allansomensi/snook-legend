@@ -196,6 +196,26 @@ pub fn clean_chat(text: &str) -> String {
     clean_text(text, MAX_CHAT_LEN)
 }
 
+/// Quick phrases for the chat at the table, sent as they are written here
+/// (in English); each game shows them in its player's language, so two
+/// players without a language in common still understand each other.
+pub const QUICK_CHAT: [&str; 14] = [
+    "Good luck, have fun!",
+    "Nice shot!",
+    "Great safety!",
+    "Unlucky!",
+    "Oops!",
+    "Wow!",
+    "That was close!",
+    "Take your time.",
+    "Sorry!",
+    "Thanks!",
+    "Well played!",
+    "Good game!",
+    "Rematch?",
+    "I have to go, thanks for the game!",
+];
+
 /// Maximum length of a status message ("looking for a practice partner"),
 /// in characters.
 pub const MAX_STATUS_LEN: usize = 60;

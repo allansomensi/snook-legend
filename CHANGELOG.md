@@ -30,6 +30,12 @@
   an attempt starts, and the server plays the strokes again to count the
   balls; the full aiming guide is never shown (it's ranked).
 
+### Chat at the table
+- Quick phrases (a button by the chat and the reactions): "Nice shot!",
+  "Good game!", "Rematch?" and more. Each player reads them in their own
+  language, whatever the other one speaks (they travel in English, so
+  older games see them in English).
+
 ### Watching
 - Spectators see how hard the shot being lined up is, once the shooter's
   aim settles: easy to very hard, the chance a good player makes it

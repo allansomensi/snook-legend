@@ -1380,3 +1380,18 @@ Galaxy	Galáxia
 Ruby throne	Trono de rubi
 Closing the game now is leaving it: extra rating lost and a wait to play again.	Fechar o jogo agora é abandonar: perde rating extra e espera para jogar de novo.
 You left a game in progress: you can play online again in {n} min.	Você abandonou uma partida em andamento: poderá jogar online de novo em {n} min.
+Quick phrases	Frases rápidas
+Good luck, have fun!	Boa sorte, divirta-se!
+Nice shot!	Bela tacada!
+Great safety!	Ótima defesa!
+Unlucky!	Que azar!
+Oops!	Ops!
+Wow!	Uau!
+That was close!	Foi por pouco!
+Take your time.	Pode pensar com calma.
+Sorry!	Desculpe!
+Thanks!	Obrigado!
+Well played!	Bem jogado!
+Good game!	Boa partida!
+Rematch?	Revanche?
+I have to go, thanks for the game!	Preciso ir, obrigado pela partida!

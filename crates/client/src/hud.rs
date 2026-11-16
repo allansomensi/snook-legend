@@ -25,6 +25,8 @@ pub struct Hud {
     chat_input: String,
     chat_open: bool,
     chat_scroll: usize,
+    /// The quick phrases are open (by the chat).
+    quick_open: bool,
     confirm_leave: bool,
     /// Identifies the turn the banner was shown for.
     banner_key: Option<(u32, u32, usize)>,
@@ -95,6 +97,7 @@ impl Default for Hud {
             // Development aid: SNOOKERED_CHAT_OPEN opens it.
             chat_open: crate::dev::flag("SNOOKERED_CHAT_OPEN"),
             chat_scroll: 0,
+            quick_open: false,
             confirm_leave: false,
             banner_key: None,
             banner: None,
@@ -1057,6 +1060,8 @@ impl Hud {
             }
             let rb = Rect::new(button.x + button.w + 6.0, button.y, 32.0, 32.0);
             self.reaction_button(ui, m, rb);
+            let qb = Rect::new(rb.x + rb.w + 6.0, button.y, 32.0, 32.0);
+            self.quick_phrases(ui, m, qb);
             return;
         }
         o.unread = 0;
@@ -1098,6 +1103,60 @@ impl Hud {
             ui.focus = None;
         }
         self.reaction_button(ui, m, Rect::new(r.x + r.w + 6.0, r.y + r.h - 34.0, 32.0, 32.0));
+        self.quick_phrases(ui, m, Rect::new(r.x + r.w + 6.0, r.y + r.h - 72.0, 32.0, 32.0));
+    }
+
+    /// The quick phrases: a button, and the list it opens above it. A phrase
+    /// goes out in English and reads in each player's own language.
+    fn quick_phrases(&mut self, ui: &mut Ui, m: &mut Match, b: Rect) {
+        if m.is_spectating() {
+            return;
+        }
+        let label = t("Quick phrases");
+        if ui.icon_button_ex(b, Icon::Pencil, label, true, true) {
+            self.quick_open = !self.quick_open;
+            self.reactions_open = false;
+        }
+        if !self.quick_open {
+            return;
+        }
+        let phrases = snookered_proto::QUICK_CHAT;
+        let row_h = 30.0;
+        let w = phrases
+            .iter()
+            .map(|p| ui.text_size(t(p), 13.0, false).x + 24.0)
+            .fold(200.0, f32::max)
+            .min(crate::ui::vw() - b.x - 12.0);
+        let h = phrases.len() as f32 * row_h + 34.0;
+        let r = Rect::new(b.x, (b.y - h - 6.0).max(60.0), w, h);
+        ui.panel(r);
+        ui.text(label, r.x + 10.0, r.y + 8.0, 13.0, GOLD, true);
+        let mut chosen = None;
+        for (k, p) in phrases.iter().enumerate() {
+            let row = Rect::new(r.x + 4.0, r.y + 28.0 + k as f32 * row_h, r.w - 8.0, row_h - 2.0);
+            let hover = ui.hovering(row);
+            if hover {
+                crate::ui::rrect(row, 5.0, Color::new(1.0, 1.0, 1.0, 0.08));
+            }
+            let (text, size) = ui.fitted(t(p), 13.0, row.w - 16.0, false);
+            ui.text(
+                &text,
+                row.x + 8.0,
+                crate::ranking::text_y(row.y + row.h / 2.0, size),
+                size,
+                CREAM,
+                false,
+            );
+            if ui.clicked(row) {
+                chosen = Some(*p);
+            }
+        }
+        if let Some(p) = chosen {
+            m.send_chat(p);
+            self.quick_open = false;
+        } else if is_mouse_button_pressed(MouseButton::Left) && !ui.hovering(r) && !ui.hovering(b) {
+            self.quick_open = false;
+        }
     }
 
     /// Offline, what happened in the game so far, in the chat's place (no

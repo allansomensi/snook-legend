@@ -303,6 +303,15 @@ mod tests {
     /// Every translation keeps the placeholders of its English text, and
     /// every language translates the same texts.
     #[test]
+    fn quick_phrases_are_translated_everywhere() {
+        for lang in [Lang::Portuguese, Lang::Spanish] {
+            for p in snookered_proto::QUICK_CHAT {
+                assert!(translate(lang, p).is_some(), "{lang:?}: {p}");
+            }
+        }
+    }
+
+    #[test]
     fn translation_files_are_consistent() {
         let placeholders = |s: &str| {
             let mut v: Vec<String> = s

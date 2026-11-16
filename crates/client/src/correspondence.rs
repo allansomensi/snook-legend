@@ -952,6 +952,7 @@ mod tests {
             effect: String::new(),
             status_message: String::new(),
             vs_computer: false,
+            away: false,
             cue_level: 0,
         }
     }

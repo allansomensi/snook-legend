@@ -397,12 +397,25 @@ async fn players_against_the_computer_show_it_and_can_be_invited() {
         .await;
     let (mut bob, _) = Client::register(&url, "bob").await;
     // Bob starts a game against the computer: Alice sees it in the lounge.
-    bob.send(ClientMsg::SetPlayingComputer { playing: true }).await;
+    bob.send(ClientMsg::SetActivity { vs_computer: true, away: false }).await;
     let is_bob = |m: &ServerMsg, vs: bool| {
         matches!(m, ServerMsg::PlayerUpdated { player }
             if player.username == "bob" && player.vs_computer == vs)
     };
     alice.expect("bob vs the computer", |m| is_bob(m, true)).await;
+    // He leaves the game alone for a while: away, then back.
+    bob.send(ClientMsg::SetActivity { vs_computer: true, away: true }).await;
+    alice
+        .expect("bob away", |m| {
+            matches!(m, ServerMsg::PlayerUpdated { player } if player.username == "bob" && player.away)
+        })
+        .await;
+    bob.send(ClientMsg::SetActivity { vs_computer: true, away: false }).await;
+    alice
+        .expect("bob back", |m| {
+            matches!(m, ServerMsg::PlayerUpdated { player } if player.username == "bob" && !player.away)
+        })
+        .await;
     // He can still be invited (and the online game takes over).
     let (_, sa, sb) = start_match(&mut alice, &mut bob, "bob", "alice", false).await;
     assert_ne!(sa, sb);

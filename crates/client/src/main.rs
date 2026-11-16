@@ -450,6 +450,13 @@ async fn main() {
             break;
         }
         notifier.update();
+        // Away in the lounge after ten minutes untouched (a minimised
+        // window too: nothing moves in it).
+        let away = notifier.idle() >= std::time::Duration::from_secs(10 * 60);
+        online.away = away;
+        if let Some(l) = lan.as_mut() {
+            l.net.away = away;
+        }
         for net in [Some(&mut online), lan.as_mut().map(|l| &mut l.net)].into_iter().flatten() {
             if let Some(text) = net.attention.take()
                 && config.desktop_notifications

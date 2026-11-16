@@ -10,6 +10,8 @@
   saved ("Continue" in the menu). Older servers and games are unaffected
   (the server says its protocol in its welcome, and the game only tells a
   server that knows the message).
+- Players who haven't touched their game for ten minutes (a minimised
+  window included) show as "away" in the lounge, with a yellow dot.
 
 ### Releases
 - The Microsoft Store workflow only builds the MSIX (the `msix` artifact);

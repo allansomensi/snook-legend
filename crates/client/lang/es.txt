@@ -479,6 +479,7 @@ password	contraseña
 peak {n}	máximo {n}
 playing	jugando
 playing the computer	jugando contra el ordenador
+away	ausente
 this game is saved	esta partida queda guardada
 rated games	partidas con rating
 rated · private	con rating · privada

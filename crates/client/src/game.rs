@@ -1841,6 +1841,7 @@ mod tests {
             cue_level: 0,
             status_message: String::new(),
             vs_computer: false,
+            away: false,
         };
         [p("me"), p("them")]
     }

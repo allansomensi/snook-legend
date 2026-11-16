@@ -204,7 +204,7 @@ pub const MAX_SEEK_LEN: usize = 60;
 /// the "looking for a game" board (older games are never sent their
 /// messages).
 pub const SOCIAL_PROTOCOL: u32 = 13;
-/// The first server that knows [`ClientMsg::SetPlayingComputer`] (it says
+/// The first server that knows [`ClientMsg::SetActivity`] (it says
 /// so in [`ServerMsg::Welcome`]; older servers leave the field out).
 pub const ACTIVITY_PROTOCOL: u32 = 13;
 
@@ -358,6 +358,9 @@ pub struct PlayerInfo {
     /// still be invited: the invitation shows over that game).
     #[serde(default, skip_serializing_if = "std::ops::Not::not")]
     pub vs_computer: bool,
+    /// Nobody has touched their game for a while (an invitation may wait).
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub away: bool,
 }
 
 impl PlayerInfo {
@@ -1034,11 +1037,14 @@ pub enum ClientMsg {
     ClearStatusMessage {
         username: String,
     },
-    /// This player started (or stopped) a game against the computer: the
-    /// lounge shows it by their name. Only sent to a server of
-    /// [`ACTIVITY_PROTOCOL`] or later.
-    SetPlayingComputer {
-        playing: bool,
+    /// What this player is doing outside online games, shown by their name
+    /// in the lounge: playing the computer, or away from the game. Only sent
+    /// to a server of [`ACTIVITY_PROTOCOL`] or later.
+    SetActivity {
+        #[serde(default)]
+        vs_computer: bool,
+        #[serde(default)]
+        away: bool,
     },
     /// The people this player played recently.
     RecentOpponents,
@@ -1616,6 +1622,7 @@ mod tests {
             cue_level: 0,
             status_message: String::new(),
             vs_computer: false,
+            away: false,
         };
         let msg = ServerMsg::MatchStarted {
             match_id: 7,

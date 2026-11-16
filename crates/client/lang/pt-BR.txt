@@ -479,6 +479,7 @@ password	senha
 peak {n}	máximo {n}
 playing	jogando
 playing the computer	jogando contra o computador
+away	ausente
 this game is saved	esta partida fica salva
 rated games	partidas valendo rating
 rated · private	valendo rating · privada

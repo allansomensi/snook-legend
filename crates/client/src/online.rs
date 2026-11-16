@@ -212,8 +212,10 @@ pub struct Online {
     pub attention: Option<String>,
     /// The server's protocol version (from its welcome; 0: an older server).
     server_protocol: u32,
-    /// What the server was last told: playing a game against the computer.
-    vs_computer_sent: bool,
+    /// What the server was last told: (playing the computer, away).
+    activity_sent: (bool, bool),
+    /// Nobody has touched the game for a while (set every frame).
+    pub away: bool,
     /// What the right side of the lounge shows.
     side: Side,
     /// Today's and this week's missions.
@@ -426,7 +428,8 @@ impl Online {
             incoming: Vec::new(),
             outgoing: None,
             server_protocol: 0,
-            vs_computer_sent: false,
+            activity_sent: (false, false),
+            away: false,
             motd: String::new(),
             token: String::new(),
             auto_resume: false,
@@ -658,13 +661,15 @@ impl Online {
         }
         // The lounge shows who is playing the computer (they can still be
         // invited: the invitation shows over their game).
+        // Away too, after a while untouched (a minimised window included).
         let vs_computer = current.as_ref().is_some_and(|m| m.is_against_computer() || m.practice);
+        let activity = (vs_computer, self.away);
         if self.signed_in()
             && self.server_protocol >= snookered_proto::ACTIVITY_PROTOCOL
-            && vs_computer != self.vs_computer_sent
+            && activity != self.activity_sent
         {
-            self.vs_computer_sent = vs_computer;
-            self.send(ClientMsg::SetPlayingComputer { playing: vs_computer });
+            self.activity_sent = activity;
+            self.send(ClientMsg::SetActivity { vs_computer, away: self.away });
         }
         save
     }
@@ -684,7 +689,7 @@ impl Online {
                 // A new session: the server learns again what this player
                 // is doing (its welcome follows).
                 self.server_protocol = 0;
-                self.vs_computer_sent = false;
+                self.activity_sent = (false, false);
                 // A new session: the board comes again; the recent games may have changed.
                 self.social.seeks.clear();
                 self.social.recent_stale = true;
@@ -2250,6 +2255,8 @@ impl Online {
         match p.status {
             PlayerStatus::Playing => t("playing").to_string(),
             PlayerStatus::Waiting => t("at a table").to_string(),
+            // An invitation waits for them.
+            PlayerStatus::Available if p.away => t("away").to_string(),
             // Still free for an invitation: it shows over their game.
             PlayerStatus::Available if p.vs_computer => {
                 if p.guest {
@@ -2272,6 +2279,7 @@ impl Online {
         let color = match p.status {
             PlayerStatus::Playing => Color::new(0.9, 0.6, 0.2, 1.0),
             PlayerStatus::Waiting => Color::new(0.45, 0.7, 1.0, 1.0),
+            PlayerStatus::Available if p.away => Color::new(0.85, 0.75, 0.3, 1.0),
             PlayerStatus::Available if p.vs_computer => Color::new(0.75, 0.55, 0.95, 1.0),
             PlayerStatus::Available => Color::new(0.35, 0.85, 0.45, 1.0),
         };

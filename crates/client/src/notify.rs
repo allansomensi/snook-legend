@@ -41,6 +41,11 @@ impl Notifier {
         }
     }
 
+    /// How long nobody has touched the game.
+    pub fn idle(&self) -> Duration {
+        self.last_input.elapsed()
+    }
+
     /// Shows `text` from the system if the player seems to be away.
     pub fn tell(&mut self, text: &str) {
         if self.last_input.elapsed() < AWAY_AFTER {

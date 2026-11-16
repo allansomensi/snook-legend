@@ -171,6 +171,8 @@ pub struct Session {
     seek_bucket: Bucket,
     /// Playing a game against the computer (the game says so).
     pub vs_computer: bool,
+    /// Away from the game (the game says so after a while untouched).
+    pub away: bool,
 }
 
 struct Room {
@@ -310,6 +312,7 @@ pub fn player_info(user: &User, guest: bool, status: PlayerStatus) -> PlayerInfo
         cue_level: 0,
         status_message: user.status_message.clone(),
         vs_computer: false,
+        away: false,
     }
 }
 
@@ -417,6 +420,7 @@ impl Lounge {
             // An online game comes first (the game against the computer is
             // left behind when one starts).
             info.vs_computer = s.vs_computer && s.room.is_none();
+            info.away = s.away && s.room.is_none();
             info
         })
     }
@@ -534,6 +538,7 @@ impl Lounge {
                 protocol: social::UNKNOWN_PROTOCOL,
                 seek_bucket: Bucket::new(social::SEEK_BURST, social::SEEK_RATE),
                 vs_computer: false,
+                away: false,
             },
         );
         let players: Vec<PlayerInfo> = self.sessions.keys().filter_map(|k| self.info(k)).collect();
@@ -902,15 +907,16 @@ impl Lounge {
                 self.shoot(&k, turn, shot, called_pocket, cue_ball)
             }
             ClientMsg::Resign => self.resign(&k),
-            ClientMsg::SetPlayingComputer { playing } => {
+            ClientMsg::SetActivity { vs_computer, away } => {
                 // Everyone hears about it, so it shares the lounge actions'
                 // limit; past it the change is kept but goes unannounced
                 // (the next one tells everyone), without an error: the game
                 // sends it by itself.
                 if let Some(s) = self.sessions.get_mut(&k)
-                    && s.vs_computer != playing
+                    && (s.vs_computer, s.away) != (vs_computer, away)
                 {
-                    s.vs_computer = playing;
+                    s.vs_computer = vs_computer;
+                    s.away = away;
                     if s.action_bucket.take() {
                         self.announce(&k);
                     }
@@ -1675,6 +1681,7 @@ impl Lounge {
                 s.room = Some(id);
                 // The game against the computer was left for this one.
                 s.vs_computer = false;
+                s.away = false;
             }
         }
         for (seat, k) in keys.iter().enumerate() {

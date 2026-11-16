@@ -18,6 +18,12 @@
   window included) show as "away" in the lounge, with a yellow dot.
 
 ### Profile
+- An account level, separate from the rating, so playing always moves you
+  forward: experience for every online game played to the end (60 for a
+  win, 30 otherwise, plus 2 a ball), the daily challenge and each
+  achievement. The level shows on the menu's player card (with its bar)
+  and on the profile; a level up is announced. Existing accounts start
+  from the games they already played (migration 0011).
 - Cue statistics: the cue card counts the online games played with the cue,
   how many were won and the balls made with it (migration 0011; wins so far
   count as games).

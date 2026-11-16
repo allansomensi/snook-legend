@@ -27,3 +27,8 @@ CREATE TABLE daily_scores (
     PRIMARY KEY (day, user_id)
 );
 CREATE INDEX daily_scores_board ON daily_scores (day, best DESC, best_at);
+
+-- The account level's experience (see snookered_proto::xp). Accounts start
+-- from the games they played so far: 60 a win, 30 any other game.
+ALTER TABLE users ADD COLUMN xp BIGINT NOT NULL DEFAULT 0;
+UPDATE users SET xp = 60 * wins + 30 * GREATEST(games + casual_games - wins, 0);

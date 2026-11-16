@@ -1397,3 +1397,7 @@ Rematch?	Revanche?
 I have to go, thanks for the game!	Preciso ir, obrigado pela partida!
 Practise while you wait	Treinar enquanto espera
 A new rack.	Nova rodada de bolas.
+Level {n}! (+{xp} XP)	Nível {n}! (+{xp} XP)
++{xp} XP	+{xp} XP
+Level {n} · {into} / {span} XP to the next	Nível {n} · {into} / {span} XP para o próximo
+Level {n}	Nível {n}

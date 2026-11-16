@@ -379,6 +379,11 @@ impl ProfileScreen {
         let mut info_x = left;
         if !player.guest {
             info_x += tier_pill(ui, t(tier.name()), info_x, info_mid, tier_color(tier)) + 10.0;
+            // The account level (experience, not skill).
+            if player.level > 0 {
+                let level = tw("Level {n}", &[("n", &player.level)]);
+                info_x += tier_pill(ui, &level, info_x, info_mid, GOLD) + 10.0;
+            }
         }
         let mut parts = Vec::new();
         if let Some(rank) = p.rank {

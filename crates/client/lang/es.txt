@@ -1397,3 +1397,7 @@ Rematch?	¿Revancha?
 I have to go, thanks for the game!	Tengo que irme, ¡gracias por la partida!
 Practise while you wait	Practicar mientras esperas
 A new rack.	Nueva tanda de bolas.
+Level {n}! (+{xp} XP)	¡Nivel {n}! (+{xp} XP)
++{xp} XP	+{xp} XP
+Level {n} · {into} / {span} XP to the next	Nivel {n} · {into} / {span} XP para el siguiente
+Level {n}	Nivel {n}

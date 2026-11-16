@@ -324,12 +324,14 @@ impl Server {
             Ok(new) => {
                 let all = self.store.achievements(user.id).await.unwrap_or_default();
                 let codes: Vec<String> = all.into_iter().map(|(code, _)| code).collect();
+                let xp = new.len() as u32 * snookered_proto::xp::ACHIEVEMENT;
                 self.with(|l| {
                     for code in new {
                         l.notify(&user.username, ServerMsg::AchievementUnlocked { code });
                     }
                     l.set_achievements(&user.username, codes);
                 });
+                account::award_xp(self, user, xp).await;
             }
             Err(e) => tracing::error!("achievements for {}: {e}", user.username),
         }
@@ -478,6 +480,12 @@ async fn run_effect(server: &Arc<Server>, effect: Effect) {
                             let won = record.winner == seat;
                             let potted = record.stats[seat].balls;
                             shop::count_cue_game(server, &user, won, potted).await;
+                            // Experience for every game played to the end
+                            // (not for the one who left it).
+                            if record.abandoned != Some(seat) {
+                                let xp = snookered_proto::xp::for_game(won, potted);
+                                account::award_xp(server, &user, xp).await;
+                            }
                         }
                         let rated_win = record.rated && record.winner == seat;
                         server.check_achievements_after(&user, rated_win).await;
@@ -803,6 +811,7 @@ async fn authenticate(server: &Arc<Server>, msg: ClientMsg, ip: &str) -> Auth {
                 deleted_at: None,
                 abandons: 0,
                 status_message: String::new(),
+                xp: 0,
             };
             Auth::Ok { user: Box::new(user), token: String::new(), guest: true }
         }

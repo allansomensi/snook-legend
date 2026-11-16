@@ -134,6 +134,9 @@ async fn submit(
     };
     let outcome = outcome?;
     tracing::info!(user = %me.username, day, balls = outcome.balls, "daily challenge");
+    let xp =
+        snookered_proto::xp::DAILY_ATTEMPT + snookered_proto::xp::DAILY_PER_BALL * outcome.balls;
+    crate::account::award_xp(server, me, xp).await;
     let mut coins = 0;
     if first_clear {
         let reference = format!("daily:{day}:{}", me.id);

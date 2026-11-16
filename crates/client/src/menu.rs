@@ -417,6 +417,35 @@ impl Menu {
                     Color::new(0.35, 0.85, 0.45, 1.0),
                 );
                 ui.player_name(me, text_x, r.y + 13.0, 17.0, text_w);
+                // The account level: a badge on the avatar and its bar along
+                // the bottom of the card.
+                if let Some(xp) = online.xp.filter(|_| !me.guest) {
+                    let (level, into, span) = snookered_proto::xp::progress(xp);
+                    let badge = vec2(avatar.x - 15.0, avatar.y + 15.0);
+                    draw_circle(badge.x, badge.y, 9.5, Color::new(0.05, 0.035, 0.025, 1.0));
+                    draw_circle(badge.x, badge.y, 8.0, GOLD);
+                    let n = level.to_string();
+                    let size = if level >= 10 { 9.0 } else { 11.0 };
+                    ui.text_centered(
+                        &n,
+                        badge.x,
+                        badge.y - size / 2.0 - 1.0,
+                        size,
+                        Color::new(0.1, 0.06, 0.02, 1.0),
+                        true,
+                    );
+                    let bar = Rect::new(r.x + 10.0, r.y + r.h - 6.0, r.w - 20.0, 3.0);
+                    crate::ui::rrect(bar, 1.5, Color::new(1.0, 1.0, 1.0, 0.08));
+                    let k = if span == 0 { 1.0 } else { into as f32 / span as f32 };
+                    crate::ui::rrect(Rect::new(bar.x, bar.y, bar.w * k, bar.h), 1.5, GOLD);
+                    if hover {
+                        let tip = tw(
+                            "Level {n} · {into} / {span} XP to the next",
+                            &[("n", &level), ("into", &into), ("span", &span)],
+                        );
+                        ui.tooltip(&tip, r);
+                    }
+                }
                 let rating = me.rating.to_string();
                 let rw = ui.text_size(&rating, 13.0, true).x;
                 ui.text(&rating, text_x, r.y + 37.0, 13.0, CREAM, true);

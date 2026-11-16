@@ -326,6 +326,7 @@ pub fn player_info(user: &User, guest: bool, status: PlayerStatus) -> PlayerInfo
         status_message: user.status_message.clone(),
         vs_computer: false,
         away: false,
+        level: if guest { 0 } else { snookered_proto::xp::level_of(user.xp) },
     }
 }
 
@@ -678,6 +679,17 @@ impl Lounge {
     }
 
     /// Sends a message to a player if they are online.
+    /// A player's experience changed: everyone sees the new level.
+    pub fn set_xp(&mut self, name: &str, xp: i64) {
+        let k = key(name);
+        let Some(s) = self.sessions.get_mut(&k) else { return };
+        let before = snookered_proto::xp::level_of(s.user.xp);
+        s.user.xp = xp;
+        if snookered_proto::xp::level_of(xp) != before {
+            self.announce(&k);
+        }
+    }
+
     pub fn notify(&self, name: &str, msg: ServerMsg) {
         self.send(&key(name), msg);
     }

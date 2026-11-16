@@ -73,7 +73,7 @@ impl From<sqlx::migrate::MigrateError> for StoreError {
 const USER_COLUMNS: &str = "id, username, password_hash, country, role, rating, peak_rating, \
     games, wins, eight_wins, casual_games, streak, best_streak, runouts, shutouts, \
     tournaments_played, tournaments_won, created_at, last_seen, banned_until, ban_reason, muted_until, \
-    recovery_email, deleted_at, abandons, status_message";
+    recovery_email, deleted_at, abandons, status_message, xp";
 
 fn user(r: &PgRow) -> Result<User, sqlx::Error> {
     let n = |c: &str| -> Result<u32, sqlx::Error> { Ok(r.try_get::<i32, _>(c)?.max(0) as u32) };
@@ -104,6 +104,7 @@ fn user(r: &PgRow) -> Result<User, sqlx::Error> {
         deleted_at: r.try_get("deleted_at")?,
         abandons: n("abandons")?,
         status_message: r.try_get("status_message")?,
+        xp: r.try_get("xp")?,
     })
 }
 
@@ -1742,6 +1743,16 @@ impl PgStore {
         .fetch_all(&self.pool)
         .await?;
         Ok(rows.iter().map(|r| (r.get("day"), r.get::<i64, _>("n") as u32)).collect())
+    }
+
+    pub async fn add_xp(&self, user_id: i64, amount: u32) -> StoreResult<i64> {
+        let xp: Option<i64> = query("UPDATE users SET xp = xp + $2 WHERE id = $1 RETURNING xp")
+            .bind(user_id)
+            .bind(amount as i64)
+            .fetch_optional(&self.pool)
+            .await?
+            .map(|r| r.get("xp"));
+        Ok(xp.unwrap_or(0))
     }
 
     pub async fn tournaments_won(

@@ -258,6 +258,8 @@ pub struct Online {
         Option<(Result<snookered_proto::daily::Outcome, snookered_proto::daily::Refused>, i64)>,
     /// Why the last start was refused.
     pub daily_refused: Option<snookered_proto::daily::Refused>,
+    /// The account level's experience (once the server said).
+    pub xp: Option<i64>,
 }
 
 /// A request for the style of a player's ghost.
@@ -510,6 +512,7 @@ impl Online {
             daily_started: None,
             daily_result: None,
             daily_refused: None,
+            xp: None,
         }
     }
 
@@ -1140,6 +1143,20 @@ impl Online {
             }
             ServerMsg::LadderClaim { result } => self.ladder_claim = Some(result),
             ServerMsg::Daily { info } => self.daily = Some(info),
+            ServerMsg::Xp { xp, gained } => {
+                use snookered_proto::xp::level_of;
+                let before = self.xp.map(level_of);
+                self.xp = Some(xp);
+                if gained > 0 {
+                    match before.filter(|&b| level_of(xp) > b) {
+                        Some(_) => self.toast(
+                            tw("Level {n}! (+{xp} XP)", &[("n", &level_of(xp)), ("xp", &gained)]),
+                            true,
+                        ),
+                        None => self.toast(tw("+{xp} XP", &[("xp", &gained)]), false),
+                    }
+                }
+            }
             ServerMsg::DailyStarted { day, seed } => {
                 self.daily_refused = None;
                 self.daily_started = Some((day, seed));

@@ -953,6 +953,7 @@ mod tests {
             status_message: String::new(),
             vs_computer: false,
             away: false,
+            level: 0,
             cue_level: 0,
         }
     }

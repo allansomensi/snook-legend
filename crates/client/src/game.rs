@@ -1956,6 +1956,7 @@ mod tests {
             status_message: String::new(),
             vs_computer: false,
             away: false,
+            level: 0,
         };
         [p("me"), p("them")]
     }

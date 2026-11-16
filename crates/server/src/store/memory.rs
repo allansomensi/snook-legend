@@ -179,6 +179,7 @@ impl MemoryStore {
             deleted_at: None,
             abandons: 0,
             status_message: String::new(),
+            xp: 0,
         };
         s.users.insert(user.id, user.clone());
         Ok(Some(user))
@@ -961,6 +962,14 @@ impl MemoryStore {
         }
         s.tournaments.push(t.clone());
         Ok(())
+    }
+
+    pub fn add_xp(&self, user_id: i64, amount: u32) -> StoreResult<i64> {
+        let mut s = self.lock();
+        Ok(s.users.get_mut(&user_id).map_or(0, |u| {
+            u.xp = u.xp.saturating_add(amount as i64);
+            u.xp
+        }))
     }
 
     pub fn daily_seed(&self, day: i64, fresh: u64) -> StoreResult<u64> {

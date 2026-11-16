@@ -158,6 +158,9 @@ async fn attempts_are_scored_by_the_server() {
     assert_eq!(coins, 0);
     let info = a.info().await;
     assert_eq!((info.attempts_left, info.best, info.rank), (daily::ATTEMPTS - 1, Some(0), Some(1)));
+    // Experience for trying, even with nothing made.
+    let alice = server.store.user_by_name("alice").await.unwrap().unwrap();
+    assert_eq!(alice.xp, snookered_proto::xp::DAILY_ATTEMPT as i64);
     // The attempt is closed: sending it again counts nothing.
     let (result, _) = a.submit(day, vec![a_miss(seed)]).await;
     assert_eq!(result, Err(Refused::NotStarted));

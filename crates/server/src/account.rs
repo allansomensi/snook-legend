@@ -147,6 +147,8 @@ pub async fn signed_in(server: &Server, user: &User) {
         });
     }
     crate::missions::push(server, user).await;
+    // Where the account level stands (for its bar in the game).
+    server.with(|l| l.notify(&user.username, ServerMsg::Xp { xp: user.xp, gained: 0 }));
 }
 
 /// Coins for a finished rated game (capped per day). `won`: the player won.
@@ -165,6 +167,21 @@ pub async fn game_coins(server: &Server, user: &User, won: bool) {
         }),
         Ok(_) => {}
         Err(e) => tracing::error!("coins for a game: {e}"),
+    }
+}
+
+/// Experience for `user` (the account level): sent to them, and their level
+/// shown to others when it goes up. Never on a local network.
+pub async fn award_xp(server: &Server, user: &User, amount: u32) {
+    if amount == 0 || server.with(|l| l.rules.lan) {
+        return;
+    }
+    match server.store.add_xp(user.id, amount).await {
+        Ok(xp) => server.with(|l| {
+            l.notify(&user.username, snookered_proto::ServerMsg::Xp { xp, gained: amount });
+            l.set_xp(&user.username, xp);
+        }),
+        Err(e) => tracing::warn!("xp for {}: {e}", user.username),
     }
 }
 

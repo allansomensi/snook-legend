@@ -28,7 +28,7 @@ const APPLIED: &[(&str, &str)] = &[
     ),
     (
         "0011_cue_stats_daily.sql",
-        "cdbee778155df88367217ab7670d5115ddd8f475a1e559702774b1a5c27554c3",
+        "2dc773d214d01f43ff64b94adc689958c485dd41dffb30db28c97c5f07c5a554",
     ),
 ];
 

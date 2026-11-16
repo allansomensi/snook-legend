@@ -19,6 +19,7 @@ pub mod missions;
 mod reactions;
 pub mod replay;
 pub mod shop;
+pub mod xp;
 
 pub use achievements::{ACHIEVEMENTS, Achievement, Stat, Stats, month_day};
 pub use countries::{COUNTRIES, FLAG_COLUMNS, FLAG_H, FLAG_W};
@@ -382,6 +383,13 @@ pub struct PlayerInfo {
     /// Nobody has touched their game for a while (an invitation may wait).
     #[serde(default, skip_serializing_if = "std::ops::Not::not")]
     pub away: bool,
+    /// The account level (see [`xp`]; 0: not known, e.g. a guest).
+    #[serde(default, skip_serializing_if = "is_zero")]
+    pub level: u32,
+}
+
+fn is_zero(n: &u32) -> bool {
+    *n == 0
 }
 
 impl PlayerInfo {
@@ -1572,6 +1580,11 @@ pub enum ServerMsg {
         day: i64,
         seed: u64,
     },
+    /// Experience earned (`gained`) and the total now (see [`xp`]).
+    Xp {
+        xp: i64,
+        gained: u32,
+    },
     /// An attempt was counted (with the coins for clearing the table, if
     /// any) or refused.
     DailyResult {
@@ -1719,6 +1732,7 @@ mod tests {
             status_message: String::new(),
             vs_computer: false,
             away: false,
+            level: 0,
         };
         let msg = ServerMsg::MatchStarted {
             match_id: 7,

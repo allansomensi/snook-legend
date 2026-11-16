@@ -66,6 +66,8 @@ pub struct User {
     pub abandons: u32,
     /// The player's status message (empty: none).
     pub status_message: String,
+    /// Experience for the account level (see `snookered_proto::xp`).
+    pub xp: i64,
 }
 
 impl User {
@@ -896,6 +898,10 @@ impl Store {
     /// The days before `before` a player topped, newest first: (day, players).
     pub async fn daily_wins(&self, user_id: i64, before: i64) -> StoreResult<Vec<(i64, u32)>> {
         dispatch!(self, s => s.daily_wins(user_id, before))
+    }
+    /// Adds experience; returns the total now.
+    pub async fn add_xp(&self, user_id: i64, amount: u32) -> StoreResult<i64> {
+        dispatch!(self, s => s.add_xp(user_id, amount))
     }
     /// The tournaments a player won, newest first: (name, players, finished at).
     pub async fn tournaments_won(

@@ -787,6 +787,7 @@ Entry	Inscripción
 Entry {n} coins	Inscripción {n} monedas
 Every replay kept (free players keep their last 10 games)	Todas las repeticiones guardadas (los gratuitos guardan sus últimas 10 partidas)
 For {name}	Para {name}
+Add a message (optional)	Añade un mensaje (opcional)
 Format	Formato
 Frames	Marcos
 Free	Gratis
@@ -850,6 +851,22 @@ tournament prize	premio de torneo
 turning around the table	girando alrededor de la mesa
 vs	vs
 {from} gave you {item}!	¡{from} te regaló {item}!
+You received a gift!	¡Recibiste un regalo!
+From	De
+To	Para
+someone	alguien
+A month of VIP	Un mes de VIP
+Thank	Agradecer
+Thanked	Agradecido
+They thanked you	Te lo agradeció
+Use it now	Usar ahora
+Later	Después
+OK	OK
+Next ({n} more)	Siguiente ({n} más)
+{from} gave you {item}! It's waiting for you in the lounge.	¡{from} te regaló {item}! Te espera en el salón.
+{name} thanked you for {item}.	{name} te agradeció por {item}.
+Gifts	Regalos
+No gifts yet. Friends can give you items from the shop.	Todavía no hay regalos. Tus amigos pueden regalarte objetos de la tienda.
 {item} is yours and already in use.	{item} es tuyo y ya está en uso.
 {m}:{s} left	quedan {m}:{s}
 {name} invites you to play.	{name} te invita a jugar.

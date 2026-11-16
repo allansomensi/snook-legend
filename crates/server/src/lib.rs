@@ -907,6 +907,7 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                                 s.check_achievements(&r).await;
                                 account::signed_in(&s, &r).await;
                                 shop::push_wallet(&s, &r).await;
+                                social::signed_in(&s, &r).await;
                             });
                             if let Ok(friends) = server.store.friends(row.id).await
                                 && friends.iter().any(|(_, st)| *st == FriendState::Incoming)
@@ -990,7 +991,10 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
             }
             msg @ (ClientMsg::SetStatusMessage { .. }
             | ClientMsg::ClearStatusMessage { .. }
-            | ClientMsg::RecentOpponents) => {
+            | ClientMsg::RecentOpponents
+            | ClientMsg::Gifts
+            | ClientMsg::GiftsSeen { .. }
+            | ClientMsg::ThankGift { .. }) => {
                 // A few status changes a minute at most.
                 if matches!(msg, ClientMsg::SetStatusMessage { .. }) && !status_bucket.take() {
                     send(ServerMsg::Error { message: "Slow down a little.".into() });
@@ -1212,6 +1216,9 @@ fn is_query_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::SetStatusMessage { .. }
             | ClientMsg::ClearStatusMessage { .. }
             | ClientMsg::RecentOpponents
+            | ClientMsg::Gifts
+            | ClientMsg::GiftsSeen { .. }
+            | ClientMsg::ThankGift { .. }
     )
 }
 
@@ -1246,6 +1253,9 @@ fn is_account_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::SetStatusMessage { .. }
             | ClientMsg::ClearStatusMessage { .. }
             | ClientMsg::RecentOpponents
+            | ClientMsg::Gifts
+            | ClientMsg::GiftsSeen { .. }
+            | ClientMsg::ThankGift { .. }
     )
 }
 

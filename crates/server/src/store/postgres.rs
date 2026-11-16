@@ -8,11 +8,36 @@ use snookered_proto::CareerNumbers;
 use snookered_proto::replay::Replay;
 
 use super::{
-    AimRow, AuditRow, BoardNote, BuyOutcome, FriendOutcome, FriendState, HistoryRow, LedgerRow,
-    LiveMatch, MatchRecord, Metrics, NewNote, NewReport, NewUser, Overview, Payment, RECENT_SCAN,
-    RecentRow, ReportRow, SessionKind, StoreError, StoreResult, StoredReplay, TournamentRecord,
-    User, Wallet, day_of,
+    AimRow, AuditRow, BoardNote, BuyOutcome, FriendOutcome, FriendState, GiftRow, HistoryRow,
+    LedgerRow, LiveMatch, MatchRecord, Metrics, NewGift, NewNote, NewReport, NewUser, Overview,
+    Payment, RECENT_SCAN, RecentRow, ReportRow, SessionKind, StoreError, StoreResult, StoredReplay,
+    TournamentRecord, User, Wallet, day_of,
 };
+
+/// A present with the players' names and countries as they are now.
+const GIFT_SELECT: &str = "SELECT g.id, g.from_id, COALESCE(f.username, '') AS from_name,
+        COALESCE(f.country, '') AS from_country, g.to_id, t.username AS to_name,
+        t.country AS to_country, g.code, g.message, g.at, g.seen, g.thanked
+    FROM gifts g LEFT JOIN users f ON f.id = g.from_id JOIN users t ON t.id = g.to_id";
+
+fn gift_row(r: &PgRow) -> Result<GiftRow, sqlx::Error> {
+    Ok(GiftRow {
+        id: r.try_get("id")?,
+        from_id: r.try_get("from_id")?,
+        from: r.try_get("from_name")?,
+        from_country: r.try_get("from_country")?,
+        to_id: r.try_get("to_id")?,
+        to: r.try_get("to_name")?,
+        to_country: r.try_get("to_country")?,
+        code: r.try_get("code")?,
+        message: r.try_get("message")?,
+        at: r.try_get("at")?,
+        seen: r.try_get("seen")?,
+        thanked: r.try_get("thanked")?,
+    })
+}
+
+const INSERT_GIFT: &str = "INSERT INTO gifts (from_id, to_id, code, message, at) VALUES ($1, $2, $3, $4, $5) RETURNING id";
 
 fn replay_json(r: &Replay) -> String {
     serde_json::to_string(&r.strokes).unwrap_or_else(|_| "[]".into())
@@ -615,6 +640,7 @@ impl PgStore {
             "DELETE FROM friendships WHERE user_id = $1 OR friend_id = $1",
             "DELETE FROM blocks WHERE user_id = $1 OR blocked_id = $1",
             "DELETE FROM achievements WHERE user_id = $1",
+            "UPDATE gifts SET message = '' WHERE from_id = $1",
             "DELETE FROM equipped WHERE user_id = $1",
             "DELETE FROM shot_stats WHERE user_id = $1",
             "DELETE FROM live_matches WHERE player0 = $1 OR player1 = $1",
@@ -811,14 +837,12 @@ impl PgStore {
         Ok(given)
     }
 
-    pub async fn gift_item(
+    pub async fn give_item(
         &self,
-        from: i64,
-        to: i64,
-        code: &str,
+        gift: &NewGift<'_>,
         price: i64,
-        at: i64,
-    ) -> StoreResult<BuyOutcome> {
+    ) -> StoreResult<(BuyOutcome, Option<i64>)> {
+        let (from, to, code, at) = (gift.from, gift.to, gift.code, gift.at);
         let mut tx = self.pool.begin().await?;
         let added = query(
             "INSERT INTO owned_items (user_id, code, acquired_at, source) VALUES ($1, $2, $3, $4)
@@ -832,7 +856,7 @@ impl PgStore {
         .await?
         .rows_affected();
         if added == 0 {
-            return Ok(BuyOutcome::AlreadyOwned);
+            return Ok((BuyOutcome::AlreadyOwned, None));
         }
         let paid =
             query("UPDATE wallets SET coins = coins - $2 WHERE user_id = $1 AND coins >= $2")
@@ -842,7 +866,7 @@ impl PgStore {
                 .await?
                 .rows_affected();
         if paid == 0 {
-            return Ok(BuyOutcome::NotEnoughCoins);
+            return Ok((BuyOutcome::NotEnoughCoins, None));
         }
         query(
             "INSERT INTO coin_ledger (user_id, delta, reason, reference, at)
@@ -854,8 +878,82 @@ impl PgStore {
         .bind(at)
         .execute(&mut *tx)
         .await?;
+        let id: i64 = query(INSERT_GIFT)
+            .bind(from)
+            .bind(to)
+            .bind(code)
+            .bind(gift.message)
+            .bind(at)
+            .fetch_one(&mut *tx)
+            .await?
+            .try_get("id")?;
         tx.commit().await?;
-        Ok(BuyOutcome::Bought)
+        Ok((BuyOutcome::Bought, Some(id)))
+    }
+
+    pub async fn record_gift(&self, gift: &NewGift<'_>) -> StoreResult<i64> {
+        let row = query(INSERT_GIFT)
+            .bind(gift.from)
+            .bind(gift.to)
+            .bind(gift.code)
+            .bind(gift.message)
+            .bind(gift.at)
+            .fetch_one(&self.pool)
+            .await?;
+        Ok(row.try_get("id")?)
+    }
+
+    pub async fn gift(&self, id: i64) -> StoreResult<Option<GiftRow>> {
+        let row = query(&format!("{GIFT_SELECT} WHERE g.id = $1"))
+            .bind(id)
+            .fetch_optional(&self.pool)
+            .await?;
+        Ok(row.map(|r| gift_row(&r)).transpose()?)
+    }
+
+    pub async fn gifts_of(&self, user_id: i64, limit: u32) -> StoreResult<Vec<GiftRow>> {
+        let rows = query(&format!(
+            "{GIFT_SELECT} WHERE g.to_id = $1 OR g.from_id = $1 ORDER BY g.at DESC, g.id DESC LIMIT $2"
+        ))
+        .bind(user_id)
+        .bind(limit as i64)
+        .fetch_all(&self.pool)
+        .await?;
+        Ok(rows.iter().map(gift_row).collect::<Result<_, _>>()?)
+    }
+
+    pub async fn unseen_gifts(&self, user_id: i64) -> StoreResult<Vec<GiftRow>> {
+        let rows = query(&format!(
+            "{GIFT_SELECT} WHERE g.to_id = $1 AND NOT g.seen ORDER BY g.at, g.id LIMIT 100"
+        ))
+        .bind(user_id)
+        .fetch_all(&self.pool)
+        .await?;
+        Ok(rows.iter().map(gift_row).collect::<Result<_, _>>()?)
+    }
+
+    pub async fn mark_gifts_seen(&self, user_id: i64, ids: &[i64]) -> StoreResult<u64> {
+        let done =
+            query("UPDATE gifts SET seen = TRUE WHERE to_id = $1 AND id = ANY($2) AND NOT seen")
+                .bind(user_id)
+                .bind(ids)
+                .execute(&self.pool)
+                .await?;
+        Ok(done.rows_affected())
+    }
+
+    pub async fn thank_gift(&self, user_id: i64, id: i64) -> StoreResult<Option<GiftRow>> {
+        let done = query(
+            "UPDATE gifts SET thanked = TRUE, seen = TRUE WHERE id = $1 AND to_id = $2 AND NOT thanked",
+        )
+        .bind(id)
+        .bind(user_id)
+        .execute(&self.pool)
+        .await?;
+        if done.rows_affected() == 0 {
+            return Ok(None);
+        }
+        self.gift(id).await
     }
 
     pub async fn add_achievements(

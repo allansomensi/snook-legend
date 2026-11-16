@@ -25,6 +25,8 @@ enum Pane {
     Games,
     Rating,
     Numbers,
+    /// Presents received and given (own profile).
+    Gifts,
 }
 
 #[derive(Default)]
@@ -41,6 +43,8 @@ pub struct ProfileScreen {
     asked_signed_in: bool,
     /// The status message being written (own profile).
     status_edit: Option<String>,
+    /// The first present shown in the Gifts pane.
+    gifts_first: usize,
 }
 
 /// The account dialog: recovery e-mail, password, deletion.
@@ -152,8 +156,13 @@ impl ProfileScreen {
         self.account = None;
         self.status_edit = None;
         self.pane = Pane::Games;
+        self.gifts_first = 0;
         self.asked_signed_in = online.signed_in();
         online.request_profile(name);
+        // Presents put off with "Later": they are shown again here.
+        if online.me.as_ref().is_some_and(|me| me.username.eq_ignore_ascii_case(name)) {
+            online.show_gifts_again();
+        }
     }
 
     pub fn draw(&mut self, ui: &mut Ui, online: &mut Online) -> ProfileAction {
@@ -208,27 +217,50 @@ impl ProfileScreen {
         let body = Rect::new(r.x + PAD, r.y + BODY_TOP, r.w - 2.0 * PAD, r.h - BODY_TOP - PAD);
         self.achievements(ui, &p, Rect::new(body.x, body.y, half, body.h));
         let right = Rect::new(body.x + half + 24.0, body.y, half, body.h);
-        let panes = [t("Games"), t("Rating"), t("Numbers")];
+        // One's own profile also keeps the presents.
+        let own = p.relation == Relation::Me && !online.lan && !p.player.guest;
+        let mut panes = vec![(Pane::Games, t("Games")), (Pane::Rating, t("Rating"))];
+        panes.push((Pane::Numbers, t("Numbers")));
+        if own {
+            panes.push((Pane::Gifts, t("Gifts")));
+        } else if self.pane == Pane::Gifts {
+            self.pane = Pane::Games;
+        }
+        let labels: Vec<&str> = panes.iter().map(|(_, l)| *l).collect();
         // As narrow as the labels allow (12 px in a 28 px control), so the
         // heading beside it keeps its room.
-        let cell = panes.iter().map(|l| ui.text_size(l, 12.0, true).x + 24.0).fold(0.0, f32::max);
-        let seg_w = cell * 3.0;
+        let cell = labels.iter().map(|l| ui.text_size(l, 12.0, true).x + 24.0).fold(0.0, f32::max);
+        let seg_w = (cell * labels.len() as f32).min(right.w);
         let seg = Rect::new(right.x + right.w - seg_w, right.y - 4.0, seg_w, 28.0);
-        if let Some(k) = ui.segmented(seg, &panes, self.pane as usize) {
-            self.pane = [Pane::Games, Pane::Rating, Pane::Numbers][k];
+        let selected = panes.iter().position(|(pane, _)| *pane == self.pane).unwrap_or(0);
+        if let Some(k) = ui.segmented(seg, &labels, selected) {
+            self.pane = panes[k].0;
+            if self.pane == Pane::Gifts {
+                online.request_gifts();
+            }
+        }
+        if own && online.gift_badge() {
+            // Presents waiting: a dot on Gifts.
+            draw_circle(seg.x + seg.w - 8.0, seg.y + 7.0, 4.0, ALERT);
         }
         let title = match self.pane {
             Pane::Games => t("Recent games"),
             Pane::Rating => t("Rating"),
             Pane::Numbers => t("Numbers"),
+            Pane::Gifts => t("Gifts"),
         };
-        let (title, _) = ui.fitted(title, 15.0, seg.x - 12.0 - right.x, true);
-        heading(ui, &title, right.x, right.y + 10.0);
+        // The heading only where it fits beside the switch.
+        let room = seg.x - 12.0 - right.x;
+        if room >= 60.0 {
+            let (title, _) = ui.fitted(title, 15.0, room, true);
+            heading(ui, &title, right.x, right.y + 10.0);
+        }
         let content = Rect::new(right.x, right.y + 34.0, right.w, right.h - 34.0);
         match self.pane {
             Pane::Games => self.history(ui, online, &p, content),
             Pane::Rating => rating_chart(ui, &p, content),
             Pane::Numbers => numbers(ui, &p, content),
+            Pane::Gifts => online.draw_gift_history(ui, content, &mut self.gifts_first),
         }
         if let Some(saved) = saved {
             ui.resume_input(saved);

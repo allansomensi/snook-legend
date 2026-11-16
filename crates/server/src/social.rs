@@ -3,11 +3,17 @@
 
 use std::collections::HashSet;
 
-use snookered_proto::{ClientMsg, PlayerStatus, RecentOpponent, Role, ServerMsg, clean_status};
+use snookered_proto::{
+    ClientMsg, GiftInfo, PlayerStatus, RecentOpponent, Role, SOCIAL_PROTOCOL, ServerMsg,
+    clean_status,
+};
 
 use crate::lounge::{key, player_info};
-use crate::store::User;
+use crate::store::{GiftRow, User};
 use crate::{Server, now};
+
+/// How many presents the history shows.
+pub const GIFT_HISTORY: u32 = 100;
 
 /// How many different recent opponents a player is shown.
 pub const RECENT_OPPONENTS: u32 = 20;
@@ -96,7 +102,88 @@ pub async fn handle(
             send(recent_msg(server, me).await);
             None
         }
+        ClientMsg::Gifts => {
+            match server.store.gifts_of(me.id, GIFT_HISTORY).await {
+                Ok(rows) => {
+                    send(ServerMsg::Gifts { gifts: rows.into_iter().map(gift_info).collect() })
+                }
+                Err(e) => tracing::error!("gifts: {e}"),
+            }
+            None
+        }
+        ClientMsg::GiftsSeen { mut ids } => {
+            ids.truncate(100);
+            if let Err(e) = server.store.mark_gifts_seen(me.id, &ids).await {
+                tracing::error!("gifts seen: {e}");
+            }
+            None
+        }
+        ClientMsg::ThankGift { id } => {
+            match server.store.thank_gift(me.id, id).await {
+                Ok(Some(gift)) => {
+                    tracing::info!(from = me.id, gift = id, "thanked for a gift");
+                    let msg = ServerMsg::GiftThanked { by: me.username.clone(), code: gift.code };
+                    server.with(|l| {
+                        if l.protocol_of(&gift.from).is_some_and(|v| v >= SOCIAL_PROTOCOL) {
+                            l.notify(&gift.from, msg);
+                        }
+                    });
+                }
+                Ok(None) => {}
+                Err(e) => tracing::error!("thanks for gift {id}: {e}"),
+            }
+            None
+        }
         _ => None,
+    }
+}
+
+pub fn gift_info(g: GiftRow) -> GiftInfo {
+    GiftInfo {
+        id: g.id,
+        from: g.from,
+        from_country: g.from_country,
+        to: g.to,
+        to_country: g.to_country,
+        code: g.code,
+        message: g.message,
+        at: g.at,
+        seen: g.seen,
+        thanked: g.thanked,
+    }
+}
+
+/// Tells `to` about present `id` if they are online: the gift dialog in
+/// newer games, `legacy` (a toast) in older ones.
+pub async fn deliver_gift(server: &Server, to: &User, id: i64, legacy: ServerMsg) {
+    let Some(version) = server.with(|l| l.protocol_of(&to.username)) else { return };
+    if version < SOCIAL_PROTOCOL {
+        return server.with(|l| l.notify(&to.username, legacy));
+    }
+    match server.store.gift(id).await {
+        Ok(Some(gift)) => {
+            let msg = ServerMsg::NewGifts { gifts: vec![gift_info(gift)] };
+            server.with(|l| l.notify(&to.username, msg));
+        }
+        Ok(None) => {}
+        Err(e) => tracing::error!("gift {id}: {e}"),
+    }
+}
+
+/// After signing in: the presents that arrived meanwhile (newer games).
+pub async fn signed_in(server: &Server, user: &User) {
+    let newer =
+        server.with(|l| l.protocol_of(&user.username)).is_some_and(|v| v >= SOCIAL_PROTOCOL);
+    if !newer {
+        return;
+    }
+    match server.store.unseen_gifts(user.id).await {
+        Ok(gifts) if !gifts.is_empty() => {
+            let msg = ServerMsg::NewGifts { gifts: gifts.into_iter().map(gift_info).collect() };
+            server.with(|l| l.notify(&user.username, msg));
+        }
+        Ok(_) => {}
+        Err(e) => tracing::error!("unseen gifts: {e}"),
     }
 }
 

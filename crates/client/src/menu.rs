@@ -248,6 +248,10 @@ impl Menu {
             if ui.icon_button(r, icon, tip, true) {
                 action = act;
             }
+            // Presents waiting: a dot on the profile.
+            if k == 1 && online.gift_badge() {
+                draw_circle(r.x + r.w - 7.0, r.y + 7.0, 4.5, crate::ui::ALERT);
+            }
         }
 
         // Who is signed in, top right, and the board under it.

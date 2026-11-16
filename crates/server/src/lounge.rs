@@ -942,7 +942,10 @@ impl Lounge {
             | ClientMsg::Replay { .. }
             | ClientMsg::SetStatusMessage { .. }
             | ClientMsg::ClearStatusMessage { .. }
-            | ClientMsg::RecentOpponents => {}
+            | ClientMsg::RecentOpponents
+            | ClientMsg::Gifts
+            | ClientMsg::GiftsSeen { .. }
+            | ClientMsg::ThankGift { .. } => {}
         }
     }
 

@@ -10,7 +10,7 @@ use snookered_proto::{
     ClientMsg, MAX_STATUS_LEN, PROTOCOL_VERSION, Role, SOCIAL_PROTOCOL, ServerMsg, parse_server,
 };
 use snookered_server::lounge::Rules;
-use snookered_server::store::{MatchRecord, NewUser, Store};
+use snookered_server::store::{BuyOutcome, MatchRecord, NewGift, NewUser, Store};
 use snookered_server::{Config, Server, serve};
 use tokio::net::{TcpListener, TcpStream};
 use tokio_tungstenite::tungstenite::Message;
@@ -113,6 +113,81 @@ async fn exercise(store: Store) {
         .collect();
     assert_eq!(names, ["Bia", "Caio"]);
     assert_eq!(store.user_by_id(d.id).await.unwrap().unwrap().status_message, "");
+
+    gifts(&store, t).await;
+}
+
+/// Coin items to give in the tests.
+fn coin_items() -> Vec<(&'static str, i64)> {
+    snookered_proto::shop::ITEMS
+        .iter()
+        .filter_map(|i| Some((i.code, i.coins()? as i64)))
+        .take(3)
+        .collect()
+}
+
+async fn gifts(store: &Store, t: i64) {
+    let giver = store.create_user(&new_user("Gil")).await.unwrap().unwrap();
+    let friend = store.create_user(&new_user("Fia")).await.unwrap().unwrap();
+    let other = store.create_user(&new_user("Oto")).await.unwrap().unwrap();
+    let items = coin_items();
+    let (code, price) = items[0];
+    store.credit(giver.id, price + 5, "test", None, t).await.unwrap();
+    let gift = |code, message, at| NewGift { from: giver.id, to: friend.id, code, message, at };
+
+    // Paid, owned and recorded together.
+    let (outcome, id) = store.give_item(&gift(code, "parabéns!", t), price).await.unwrap();
+    assert_eq!(outcome, BuyOutcome::Bought);
+    let id = id.unwrap();
+    assert_eq!(store.wallet(giver.id).await.unwrap().coins, 5);
+    assert!(store.wallet(friend.id).await.unwrap().owned.iter().any(|c| c == code));
+    // Not twice, and not without the coins: nothing is recorded then.
+    let again = store.give_item(&gift(code, "", t + 1), price).await.unwrap();
+    assert_eq!(again, (BuyOutcome::AlreadyOwned, None));
+    let (code2, price2) = items[1];
+    let poor = store.give_item(&gift(code2, "", t + 1), price2.max(6)).await.unwrap();
+    assert_eq!(poor, (BuyOutcome::NotEnoughCoins, None));
+    // A VIP month (paid elsewhere) is recorded too.
+    let vip = store.record_gift(&gift(snookered_proto::shop::VIP_GIFT, "", t + 2)).await.unwrap();
+
+    let got = store.gift(id).await.unwrap().unwrap();
+    assert_eq!((got.from.as_str(), got.from_country.as_str()), ("Gil", "BR"));
+    assert_eq!(
+        (got.to.as_str(), got.code.as_str(), got.message.as_str()),
+        ("Fia", code, "parabéns!")
+    );
+    assert!(!got.seen && !got.thanked);
+    let unseen: Vec<i64> =
+        store.unseen_gifts(friend.id).await.unwrap().iter().map(|g| g.id).collect();
+    assert_eq!(unseen, [id, vip], "oldest first");
+    assert!(store.unseen_gifts(giver.id).await.unwrap().is_empty());
+    // Both sides see them in the history, newest first.
+    let of_friend: Vec<i64> =
+        store.gifts_of(friend.id, 10).await.unwrap().iter().map(|g| g.id).collect();
+    assert_eq!(of_friend, [vip, id]);
+    assert_eq!(store.gifts_of(giver.id, 1).await.unwrap()[0].id, vip);
+    assert!(store.gifts_of(other.id, 10).await.unwrap().is_empty());
+
+    // Seen: only by whom received them.
+    assert_eq!(store.mark_gifts_seen(other.id, &[id]).await.unwrap(), 0);
+    assert_eq!(store.mark_gifts_seen(friend.id, &[id, 999]).await.unwrap(), 1);
+    assert_eq!(store.mark_gifts_seen(friend.id, &[id]).await.unwrap(), 0);
+    let unseen: Vec<i64> =
+        store.unseen_gifts(friend.id).await.unwrap().iter().map(|g| g.id).collect();
+    assert_eq!(unseen, [vip]);
+    // Thanks: once, by whom received it (and that counts as seen).
+    assert!(store.thank_gift(other.id, vip).await.unwrap().is_none());
+    let thanked = store.thank_gift(friend.id, vip).await.unwrap().unwrap();
+    assert!(thanked.thanked && thanked.seen);
+    assert_eq!(thanked.from, "Gil");
+    assert!(store.thank_gift(friend.id, vip).await.unwrap().is_none());
+    assert!(store.unseen_gifts(friend.id).await.unwrap().is_empty());
+
+    // A deleted giver: the present stays, without their words or name.
+    store.delete_account(giver.id, t + 10).await.unwrap();
+    let kept = store.gift(id).await.unwrap().unwrap();
+    assert_eq!(kept.message, "");
+    assert!(kept.from.starts_with("deleted-"));
 }
 
 #[tokio::test]
@@ -517,6 +592,142 @@ fn json_of(body: &str) -> serde_json::Value {
     let start = body.find('{').unwrap();
     let end = body.rfind('}').unwrap();
     serde_json::from_str(&body[start..=end]).unwrap()
+}
+
+/// Signs `name` in to the staff panel (they must be in the server's admins).
+async fn panel_token(host: &str, name: &str) -> String {
+    let (code, body) = request(
+        host,
+        "POST",
+        "/admin/api/login",
+        "",
+        &format!(r#"{{"username":"{name}","password":"{PASSWORD}"}}"#),
+    )
+    .await;
+    assert_eq!(code, 200, "{body}");
+    json_of(&body)["token"].as_str().unwrap().to_string()
+}
+
+async fn befriend(a: &mut Client, b: &mut Client, a_name: &str, b_name: &str) {
+    a.send(ClientMsg::FriendRequest { username: b_name.into() }).await;
+    b.expect("request", |m| matches!(m, ServerMsg::FriendRequestReceived { .. })).await;
+    b.send(ClientMsg::FriendAnswer { username: a_name.into(), accept: true }).await;
+    a.expect("friends", |m| matches!(m, ServerMsg::Friends { friends, .. } if !friends.is_empty()))
+        .await;
+}
+
+#[tokio::test]
+async fn gifts_are_kept_shown_until_seen_and_thanked() {
+    let (url, host) = start_with(Rules::default(), vec!["gil".into()]).await;
+    let mut gil = Client::register(&url, "gil").await;
+    let (mut fia, fia_token) = Client::register_as(&url, "fia", PROTOCOL_VERSION).await;
+    let (mut old, _) = Client::register_as(&url, "oldgame", SOCIAL_PROTOCOL - 1).await;
+    befriend(&mut gil, &mut fia, "gil", "fia").await;
+    befriend(&mut gil, &mut old, "gil", "oldgame").await;
+    let token = panel_token(&host, "gil").await;
+    let (code, _) = request(
+        &host,
+        "POST",
+        "/admin/api/users/gil/coins",
+        &token,
+        r#"{"coins":100000,"reason":"test"}"#,
+    )
+    .await;
+    assert_eq!(code, 200);
+    let items = coin_items();
+
+    // Online: the present arrives at once, with the (cleaned) message.
+    let message = format!("  parabéns\u{202E}  pelo torneio! {}", "x".repeat(100));
+    gil.send(ClientMsg::GiftItem { to: "fia".into(), code: items[0].0.into(), message }).await;
+    gil.expect("bought", |m| matches!(m, ServerMsg::ItemBought { gift_to: Some(_), .. })).await;
+    let ServerMsg::NewGifts { gifts } =
+        fia.expect("gift", |m| matches!(m, ServerMsg::NewGifts { .. })).await
+    else {
+        unreachable!()
+    };
+    assert_eq!(gifts.len(), 1);
+    let first = gifts[0].clone();
+    assert_eq!((first.from.as_str(), first.code.as_str()), ("gil", items[0].0));
+    assert!(first.message.starts_with("parabéns pelo torneio! x"));
+    assert_eq!(first.message.chars().count(), snookered_proto::MAX_GIFT_MESSAGE);
+
+    // Not seen yet: it comes again on the next sign-in, with one given meanwhile.
+    drop(fia);
+    gil.expect("fia left", |m| matches!(m, ServerMsg::PlayerLeft { .. })).await;
+    gil.send(ClientMsg::GiftItem {
+        to: "fia".into(),
+        code: items[1].0.into(),
+        message: String::new(),
+    })
+    .await;
+    gil.expect("bought", |m| matches!(m, ServerMsg::ItemBought { .. })).await;
+    let mut fia = Client::connect_as(&url, PROTOCOL_VERSION).await;
+    fia.send(ClientMsg::Resume { token: fia_token.clone() }).await;
+    let ServerMsg::NewGifts { gifts } =
+        fia.expect("unseen gifts", |m| matches!(m, ServerMsg::NewGifts { .. })).await
+    else {
+        unreachable!()
+    };
+    let ids: Vec<i64> = gifts.iter().map(|g| g.id).collect();
+    assert_eq!(ids.len(), 2);
+    assert_eq!(ids[0], first.id, "oldest first");
+
+    // Seen and thanked: the giver hears it, once.
+    fia.send(ClientMsg::GiftsSeen { ids: ids.clone() }).await;
+    fia.send(ClientMsg::ThankGift { id: first.id }).await;
+    gil.expect(
+        "thanks",
+        |m| matches!(m, ServerMsg::GiftThanked { by, code } if by == "fia" && code == items[0].0),
+    )
+    .await;
+    fia.send(ClientMsg::ThankGift { id: first.id }).await;
+    // Someone else's present can't be thanked for.
+    old.send(ClientMsg::ThankGift { id: ids[1] }).await;
+    let seen = gil.drain().await;
+    assert!(!seen.iter().any(|m| matches!(m, ServerMsg::GiftThanked { .. })), "{seen:?}");
+
+    // Seen: not shown again.
+    drop(fia);
+    gil.expect("fia left", |m| matches!(m, ServerMsg::PlayerLeft { .. })).await;
+    let mut fia = Client::connect_as(&url, PROTOCOL_VERSION).await;
+    fia.send(ClientMsg::Resume { token: fia_token }).await;
+    fia.expect("auth", |m| matches!(m, ServerMsg::AuthOk { .. })).await;
+    let seen = fia.drain().await;
+    assert!(!seen.iter().any(|m| matches!(m, ServerMsg::NewGifts { .. })), "{seen:?}");
+
+    // The history, on both sides.
+    fia.send(ClientMsg::Gifts).await;
+    let ServerMsg::Gifts { gifts } =
+        fia.expect("history", |m| matches!(m, ServerMsg::Gifts { .. })).await
+    else {
+        unreachable!()
+    };
+    assert_eq!(gifts.len(), 2);
+    assert!(gifts.iter().all(|g| g.seen && g.to == "fia"));
+    assert!(gifts[1].thanked && !gifts[0].thanked, "newest first");
+    gil.send(ClientMsg::Gifts).await;
+    let ServerMsg::Gifts { gifts } =
+        gil.expect("history", |m| matches!(m, ServerMsg::Gifts { .. })).await
+    else {
+        unreachable!()
+    };
+    assert_eq!(gifts.len(), 2);
+    assert!(gifts.iter().all(|g| g.from == "gil"));
+
+    // Older games keep getting the toast they know.
+    gil.send(ClientMsg::GiftItem {
+        to: "oldgame".into(),
+        code: items[2].0.into(),
+        message: String::new(),
+    })
+    .await;
+    old.expect(
+        "legacy gift",
+        |m| matches!(m, ServerMsg::GiftReceived { from, .. } if from == "gil"),
+    )
+    .await;
+    let seen = old.drain().await;
+    assert!(!seen.iter().any(|m| matches!(m, ServerMsg::NewGifts { .. })));
 }
 
 #[tokio::test]

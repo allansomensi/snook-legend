@@ -201,6 +201,9 @@ pub const MAX_SEEK_LEN: usize = 60;
 /// messages).
 pub const SOCIAL_PROTOCOL: u32 = 13;
 
+/// Maximum length of the message that goes with a gift.
+pub const MAX_GIFT_MESSAGE: usize = 80;
+
 /// Cleans a status message (see [`clean_text`]).
 pub fn clean_status(text: &str) -> String {
     clean_text(text, MAX_STATUS_LEN)
@@ -654,6 +657,32 @@ pub struct RecentOpponent {
     pub games: u32,
 }
 
+/// A present between friends (received or given).
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct GiftInfo {
+    pub id: i64,
+    /// The giver (empty if the account is gone) and their country.
+    pub from: String,
+    #[serde(default)]
+    pub from_country: String,
+    pub to: String,
+    #[serde(default)]
+    pub to_country: String,
+    /// An item code (see [`shop::item`]), or [`shop::VIP_GIFT`]: a month of VIP.
+    pub code: String,
+    /// A few words from the giver (may be empty).
+    #[serde(default)]
+    pub message: String,
+    /// Unix seconds.
+    pub at: i64,
+    /// The receiver has seen it.
+    #[serde(default)]
+    pub seen: bool,
+    /// The receiver said thank you.
+    #[serde(default)]
+    pub thanked: bool,
+}
+
 /// A note on the lounge's "looking for a game" board: one per player, up
 /// until they start a game, leave or it expires.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -906,6 +935,19 @@ pub enum ClientMsg {
     GiftItem {
         to: String,
         code: String,
+        /// A few words for the friend (see [`MAX_GIFT_MESSAGE`]).
+        #[serde(default)]
+        message: String,
+    },
+    /// The presents this player received and gave.
+    Gifts,
+    /// The player saw these presents (they are not shown again).
+    GiftsSeen {
+        ids: Vec<i64>,
+    },
+    /// Thanks the giver of a present (once per present).
+    ThankGift {
+        id: i64,
     },
     /// Today's and this week's missions, with this player's progress.
     Missions,
@@ -1300,6 +1342,20 @@ pub enum ServerMsg {
     /// A player's note was taken off the board.
     SeekRemoved {
         username: String,
+    },
+    /// Presents this player has not seen yet, oldest first (after signing
+    /// in, and when one arrives).
+    NewGifts {
+        gifts: Vec<GiftInfo>,
+    },
+    /// The presents this player received and gave, newest first.
+    Gifts {
+        gifts: Vec<GiftInfo>,
+    },
+    /// `by` thanked this player for a present (`code`).
+    GiftThanked {
+        by: String,
+        code: String,
     },
     Pong,
 }

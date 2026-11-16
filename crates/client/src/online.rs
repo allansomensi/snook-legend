@@ -8,6 +8,7 @@ use std::collections::VecDeque;
 
 use macroquad::prelude::*;
 
+mod gifts;
 mod social;
 pub use social::{STATUS_COLOR, sub_line};
 
@@ -223,6 +224,8 @@ pub struct Online {
     toast_floor: std::cell::Cell<Option<f32>>,
     /// Recent opponents and the "looking for a game" board.
     social: social::Social,
+    /// Presents from friends.
+    gifts: gifts::Gifts,
 }
 
 /// The update button, for how this copy of the game is updated.
@@ -444,6 +447,7 @@ impl Online {
                 recent_view: crate::dev::flag("SNOOKERED_RECENT"),
                 ..Default::default()
             },
+            gifts: Default::default(),
         }
     }
 
@@ -1023,6 +1027,9 @@ impl Online {
             }
             ServerMsg::SeekPosted { note } => self.social.posted(note),
             ServerMsg::SeekRemoved { username } => self.social.removed(&username),
+            ServerMsg::NewGifts { gifts } => self.gifts_arrived(gifts, current.is_some()),
+            ServerMsg::Gifts { gifts } => self.gifts.history = Some(gifts),
+            ServerMsg::GiftThanked { by, code } => self.gift_thanked(&by, &code),
             other => {
                 if let Some(m) = current.as_mut().filter(|m| m.is_online()) {
                     m.handle_server(other);
@@ -1084,6 +1091,7 @@ impl Online {
         self.auto_resume = false;
         self.friends = FriendsData::default();
         self.social = Default::default();
+        self.gifts = Default::default();
         config.token.clear();
         config.save();
         self.stage = Stage::Idle;
@@ -1596,6 +1604,10 @@ impl Online {
             }
             ui.player_name(&me, card.x + 12.0, card.y + 3.0, 14.0, card.w - 24.0);
             ui.text(&sub, card.x + 12.0, card.y + 20.0, 12.0, MUTED, false);
+            // Presents waiting: a dot (the profile shows them).
+            if self.gift_badge() {
+                draw_circle(card.x + card.w - 7.0, card.y + 7.0, 4.5, ALERT);
+            }
         }
         // How many are here, with a green "live" dot.
         let ox = right - 16.0 - online_w;

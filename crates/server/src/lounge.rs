@@ -28,8 +28,10 @@ use crate::limits::Bucket;
 use crate::now;
 use crate::store::{LiveMatch, MatchRecord, TournamentRecord, User};
 
+mod social;
 mod tournaments;
 
+pub use social::SEEK_LIFETIME;
 pub use tournaments::{Cup, Joined};
 
 pub fn tournaments_max_fee() -> u32 {
@@ -55,6 +57,8 @@ pub struct Rules {
     pub max_open_tournaments: usize,
     /// The weekly cup the server organises (none if not configured).
     pub cup: Option<Cup>,
+    /// How long a note stays on the "looking for a game" board.
+    pub seek_lifetime: Duration,
 }
 
 impl Default for Rules {
@@ -69,6 +73,7 @@ impl Default for Rules {
             tournament_no_show: Duration::from_secs(120),
             max_open_tournaments: 20,
             cup: None,
+            seek_lifetime: SEEK_LIFETIME,
         }
     }
 }
@@ -160,9 +165,10 @@ pub struct Session {
     watching: Option<String>,
     /// VIP badge, cue and chalk (from the wallet).
     pub look: Look,
-    /// The protocol version of the player's game (messages newer than it
-    /// are not sent).
+    /// The protocol version of the player's game (see [`Lounge::set_protocol`]).
     pub protocol: u32,
+    /// Notes on the "looking for a game" board.
+    seek_bucket: Bucket,
 }
 
 struct Room {
@@ -253,6 +259,8 @@ pub struct Lounge {
     chat_deleted: HashMap<u64, snookered_proto::Deleted>,
     /// Lounge chat lines taken away without a trace (or cleared).
     chat_removed: HashSet<u64>,
+    /// The "looking for a game" board.
+    seeks: social::Seeks,
 }
 
 struct Queued {
@@ -297,6 +305,7 @@ pub fn player_info(user: &User, guest: bool, status: PlayerStatus) -> PlayerInfo
         frame: String::new(),
         name_style: String::new(),
         effect: String::new(),
+        status_message: user.status_message.clone(),
     }
 }
 
@@ -508,7 +517,8 @@ impl Lounge {
                 reaction_bucket: Bucket::new(3.0, 0.5),
                 watching: None,
                 look: Look::default(),
-                protocol: snookered_proto::OLDEST_PROTOCOL_VERSION,
+                protocol: social::UNKNOWN_PROTOCOL,
+                seek_bucket: Bucket::new(social::SEEK_BURST, social::SEEK_RATE),
             },
         );
         let players: Vec<PlayerInfo> = self.sessions.keys().filter_map(|k| self.info(k)).collect();
@@ -564,6 +574,7 @@ impl Lounge {
         self.drop_invites_of(&k);
         self.stop_watching(&k);
         self.queue.retain(|q| q.key != k);
+        self.drop_seek(&k);
         let session = self.sessions.remove(&k).expect("checked");
         if let Some(id) = session.room
             && let Some(room) = self.rooms.get_mut(&id)
@@ -636,18 +647,6 @@ impl Lounge {
     /// Sends a message to a player if they are online.
     pub fn notify(&self, name: &str, msg: ServerMsg) {
         self.send(&key(name), msg);
-    }
-
-    /// Records the protocol version the player's game spoke at `hello`.
-    pub fn set_protocol(&mut self, name: &str, version: u32) {
-        if let Some(s) = self.sessions.get_mut(&key(name)) {
-            s.protocol = version;
-        }
-    }
-
-    /// The protocol version of an online player's game.
-    pub fn protocol_of(&self, name: &str) -> Option<u32> {
-        self.sessions.get(&key(name)).map(|s| s.protocol)
     }
 
     /// Sends a message that only games of protocol `since` and later know,
@@ -844,6 +843,8 @@ impl Lounge {
                 | ClientMsg::StartTournament { .. }
                 | ClientMsg::CreateInviteCode { .. }
                 | ClientMsg::JoinByCode { .. }
+                | ClientMsg::PostSeek { .. }
+                | ClientMsg::RemoveSeek { .. }
         );
         if announced && !self.sessions.get_mut(&k).is_some_and(|s| s.action_bucket.take()) {
             return self.error(&k, "Slow down a little.");
@@ -905,6 +906,13 @@ impl Lounge {
             }
             ClientMsg::LeaveTournament { id } => self.leave_tournament(&k, id),
             ClientMsg::StartTournament { id } => self.start_tournament(&k, id),
+            ClientMsg::PostSeek { text, rated } => self.post_seek(&k, &text, rated),
+            // Someone else's note: the staff, through the connection.
+            ClientMsg::RemoveSeek { username } => {
+                if username.is_empty() || key(&username) == k {
+                    self.drop_seek(&k);
+                }
+            }
             ClientMsg::Ping => self.send(&k, ServerMsg::Pong),
             // Handled by the connection (they need the database).
             ClientMsg::Hello { .. }
@@ -946,7 +954,13 @@ impl Lounge {
             | ClientMsg::CorrCancel { .. }
             | ClientMsg::CorrOpen { .. }
             | ClientMsg::CorrShoot { .. }
-            | ClientMsg::CorrResign { .. } => {}
+            | ClientMsg::CorrResign { .. }
+            | ClientMsg::SetStatusMessage { .. }
+            | ClientMsg::ClearStatusMessage { .. }
+            | ClientMsg::RecentOpponents
+            | ClientMsg::Gifts
+            | ClientMsg::GiftsSeen { .. }
+            | ClientMsg::ThankGift { .. } => {}
         }
     }
 
@@ -1624,6 +1638,8 @@ impl Lounge {
         let clock = self.rules.shot_clock.as_secs() as u32;
         for k in &keys {
             self.stop_watching(k);
+            // Found a game: off the "looking for a game" board.
+            self.drop_seek(k);
             if let Some(s) = self.sessions.get_mut(k) {
                 s.room = Some(id);
             }
@@ -2084,6 +2100,7 @@ impl Lounge {
         if !self.queue.is_empty() {
             self.match_queue();
         }
+        self.expire_seeks();
         let nowi = Instant::now();
         let grace = self.rules.reconnect_grace;
         let mut finished = Vec::new();

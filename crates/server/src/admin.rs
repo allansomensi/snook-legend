@@ -55,6 +55,8 @@ pub fn router() -> Router<Arc<Server>> {
         .route("/admin/api/board", get(board).post(pin_note))
         .route("/admin/api/payments/{id}/test", post(payment_test))
         .route("/admin/api/board/{id}", axum::routing::delete(unpin_note))
+        .route("/admin/api/seeks", get(seeks))
+        .route("/admin/api/seeks/{name}", axum::routing::delete(remove_seek))
         .layer(middleware::from_fn(security_headers))
 }
 
@@ -162,6 +164,7 @@ fn user_json(u: &User, online: bool) -> Value {
         "recovery_email": u.recovery_email,
         "deleted_at": u.deleted_at,
         "abandons": u.abandons,
+        "status_message": u.status_message,
     })
 }
 
@@ -522,6 +525,22 @@ async fn user_action(
             }
             log(&server, &s, "kick", &target.username, &reason).await;
         }
+        "clear-status" => {
+            if target.status_message.is_empty() {
+                return Err(err(StatusCode::BAD_REQUEST, "No status message to clear."));
+            }
+            server.store.set_status_message(target.id, "").await?;
+            refresh(&server, &target).await;
+            server.with(|l| {
+                l.notify(
+                    &target.username,
+                    snookered_proto::ServerMsg::Notice {
+                        text: "A moderator cleared your status message.".into(),
+                    },
+                )
+            });
+            log(&server, &s, "clear-status", &target.username, &target.status_message).await;
+        }
         "logout-all" => {
             server.store.delete_user_sessions(target.id).await?;
             server.with(|l| l.kick(&target.username, "Please sign in again."));
@@ -794,6 +813,29 @@ async fn unpin_note(
     }
     server.refresh_board().await;
     log(&server, &s, "unpin", "board", &format!("note {id}")).await;
+    Ok(Json(json!({ "ok": true })))
+}
+
+/// The "looking for a game" board (notes of players online now).
+async fn seeks(State(server): State<Arc<Server>>, headers: HeaderMap) -> ApiResult {
+    staff(&server, &headers).await?;
+    Ok(Json(json!({ "notes": server.with(|l| l.seeks()) })))
+}
+
+async fn remove_seek(
+    State(server): State<Arc<Server>>,
+    headers: HeaderMap,
+    Path(name): Path<String>,
+) -> ApiResult {
+    let s = staff(&server, &headers).await?;
+    let role = server.store.user_by_name(&name).await?.map(|u| u.role).unwrap_or_default();
+    if !crate::social::may_moderate(s.user.role, role) {
+        return Err(err(StatusCode::FORBIDDEN, "Only administrators can act on staff."));
+    }
+    if !server.with(|l| l.remove_seek_of(&name)) {
+        return Err(err(StatusCode::NOT_FOUND, "That player has no note on the board."));
+    }
+    log(&server, &s, "remove-seek", &name, "").await;
     Ok(Json(json!({ "ok": true })))
 }
 

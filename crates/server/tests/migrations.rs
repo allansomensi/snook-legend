@@ -16,6 +16,7 @@ const APPLIED: &[(&str, &str)] = &[
     ),
     ("0005_missions_board.sql", "f0035662896f3ed9e38f377c9bdd48cf481855c60d71f30ff077203360204d85"),
     ("0006_correspondence.sql", "2cc3447332fe8ccb9fb24f184b39eb667fb82aee7109cdb763bef3936594a438"),
+    ("0007_social.sql", "5e7da4eb56a2cefcdcc009850d2b3ae354474faa1ca4ee7f0f81fa2ef90b3639"),
 ];
 
 #[test]

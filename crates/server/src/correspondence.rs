@@ -249,6 +249,7 @@ fn unknown_player() -> PlayerInfo {
         frame: String::new(),
         name_style: String::new(),
         effect: String::new(),
+        status_message: String::new(),
     }
 }
 

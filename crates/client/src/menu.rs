@@ -16,8 +16,13 @@ pub enum MenuAction {
     VsComputer,
     /// Picks up the saved game against the computer.
     ContinueGame,
-    /// Get the new version (the server refused this one).
+    /// Get the new version (the server refused this one, or the updater
+    /// can't install it here: the releases page).
     Update,
+    /// Start the new version the updater installed.
+    Restart,
+    /// The notes of this version (the version label).
+    WhatsNew,
     /// The button under a note on the board.
     Note(snookered_proto::NoteAction),
     /// The lounge's daily games (some are waiting for the player).
@@ -289,15 +294,34 @@ impl Menu {
             if ui.icon_button(r, icon, tip, true) {
                 action = act;
             }
+            // Presents waiting: a dot on the profile.
+            if k == 1 && online.gift_badge() {
+                draw_circle(r.x + r.w - 7.0, r.y + 7.0, 4.5, crate::ui::ALERT);
+            }
         }
 
         // Who is signed in, top right, and the board under it.
         let card = self.player_card(ui, online, &mut action);
-        self.board(ui, online, left + w, card.y + card.h + 24.0, &mut action);
+        // A new version, bottom right (never in the way of a game).
+        let notice_top = update_notice(ui, left + w, &mut action);
+        let bottom = notice_top.unwrap_or(sh - 60.0);
+        self.board(ui, online, left + w, card.y + card.h + 24.0, bottom, &mut action);
 
+        // The version: a click shows what's new in it.
         let version = concat!("v", env!("CARGO_PKG_VERSION"));
-        let vw = ui.text_size(version, 12.0, false).x;
-        ui.text(version, sw - vw - EDGE, sh - EDGE - 12.0, 12.0, MUTED, false);
+        let size = ui.text_size(version, 12.0, false);
+        let at = vec2(sw - size.x - EDGE, sh - EDGE - 12.0);
+        let hit = Rect::new(at.x - 6.0, at.y - 5.0, size.x + 12.0, 24.0);
+        let hover = ui.hovering(hit);
+        ui.block(hit);
+        ui.text(version, at.x, at.y, 12.0, if hover { GOLD } else { MUTED }, false);
+        if hover {
+            draw_line(at.x, at.y + 15.0, at.x + size.x, at.y + 15.0, 1.0, GOLD);
+            ui.tooltip(t("What's new"), hit);
+            if ui.clicked(hit) {
+                action = MenuAction::WhatsNew;
+            }
+        }
         action
     }
 
@@ -310,11 +334,11 @@ impl Menu {
         online: &Online,
         menu_right: f32,
         top: f32,
+        bottom: f32,
         action: &mut MenuAction,
     ) {
         let notes = online.board_now();
         let sw = crate::ui::vw();
-        let sh = crate::ui::vh();
         let w = 320.0f32.min(sw * 0.3);
         let x = sw - w - EDGE;
         if notes.is_empty() || x < menu_right + 24.0 {
@@ -325,7 +349,7 @@ impl Menu {
         y += 24.0;
         for n in notes.iter().take(3) {
             let h = crate::online::note_height(ui, n, w);
-            if y + h > sh - 60.0 {
+            if y + h > bottom {
                 break;
             }
             let card = Rect::new(x, y, w, h);
@@ -407,7 +431,7 @@ impl Menu {
                 // This version is too old for the server.
                 crate::icons::draw(Icon::Refresh, avatar, 22.0, GOLD);
                 ui.text(t("New version out"), text_x, r.y + 13.0, 17.0, GOLD, true);
-                let sub = ui.ellipsize(crate::online::update_label(), text_w, 12.0);
+                let sub = ui.ellipsize(&crate::online::update_label(), text_w, 12.0);
                 ui.text(&sub, text_x, r.y + 37.0, 12.0, CREAM, false);
             }
             None => {
@@ -453,6 +477,84 @@ impl Menu {
             ui.tooltip(tip, r);
         }
         r
+    }
+}
+
+/// The updater's news at the bottom right: a card with "Restart now" (or
+/// the releases page) once a new version is there, a quiet line while it
+/// downloads. Returns the top of what it drew. `menu_right`: where the
+/// menu's cards end (the card goes above them if it would cover them).
+fn update_notice(ui: &mut Ui, menu_right: f32, action: &mut MenuAction) -> Option<f32> {
+    use crate::update::Status;
+    let sw = crate::ui::vw();
+    let sh = crate::ui::vh();
+    let status = crate::update::status();
+    let line_y = sh - EDGE - 12.0;
+    let version_w = ui.text_size(concat!("v", env!("CARGO_PKG_VERSION")), 12.0, false).x;
+    match &status {
+        Status::Downloading { version, done, total } => {
+            let p = crate::update::percent(*done, *total);
+            let text = tw("Downloading version {v}… {p}%", &[("v", version), ("p", &p)]);
+            let tw_ = ui.text_size(&text, 12.0, false).x;
+            let x = sw - EDGE - version_w - 18.0 - tw_;
+            ui.text(&text, x, line_y, 12.0, MUTED, false);
+            let bar = Rect::new(x, line_y + 17.0, tw_, 3.0);
+            rrect(bar, 1.5, Color::new(1.0, 1.0, 1.0, 0.08));
+            rrect(Rect::new(bar.x, bar.y, bar.w * p as f32 / 100.0, bar.h), 1.5, GOLD);
+            Some(line_y - 12.0)
+        }
+        Status::Installing { version } => {
+            let text = tw("Installing version {v}…", &[("v", version)]);
+            let x = sw - EDGE - version_w - 18.0 - ui.text_size(&text, 12.0, false).x;
+            ui.text(&text, x, line_y, 12.0, MUTED, false);
+            Some(line_y - 12.0)
+        }
+        Status::Ready { version } | Status::Available { version } => {
+            let ready = matches!(status, Status::Ready { .. });
+            let (title, sub, button) = if ready {
+                (
+                    tw("Version {v} is ready", &[("v", version)]),
+                    t("Restart to play it; nothing is lost."),
+                    t("Restart now"),
+                )
+            } else {
+                (
+                    tw("Version {v} is out", &[("v", version)]),
+                    t("Get it from the releases page."),
+                    t("Download"),
+                )
+            };
+            let bw = ui.text_size(button, 15.0, true).x.max(90.0) + 28.0;
+            let text_w =
+                ui.text_size(&title, 14.0, true).x.max(ui.text_size(sub, 12.0, false).x).min(260.0);
+            // Beside the menu's cards, never over them.
+            let w = (46.0 + text_w + 14.0 + bw + 12.0)
+                .min((sw - EDGE - menu_right - 12.0).max(280.0))
+                .min(sw - 2.0 * EDGE);
+            let h = 56.0;
+            let r = Rect::new(sw - EDGE - w, line_y - 10.0 - h, w, h);
+            crate::ui::rrect_gradient(
+                r,
+                10.0,
+                Color::new(0.09, 0.065, 0.045, 0.96),
+                Color::new(0.05, 0.035, 0.025, 0.96),
+            );
+            rrect_lines(r, 10.0, 1.2, if ready { GOLD } else { BORDER });
+            ui.block(r);
+            crate::icons::draw(Icon::Refresh, vec2(r.x + 24.0, r.y + h / 2.0), 20.0, GOLD);
+            let room = r.w - 46.0 - 14.0 - bw - 12.0;
+            let (title, size) = ui.fitted(&title, 14.0, room, true);
+            ui.text(&title, r.x + 46.0, r.y + 11.0, size, CREAM, true);
+            ui.text(&ui.ellipsize(sub, room, 12.0), r.x + 46.0, r.y + 31.0, 12.0, MUTED, false);
+            let b = Rect::new(r.x + r.w - 12.0 - bw, r.y + (h - 34.0) / 2.0, bw, 34.0);
+            let clicked =
+                if ready { ui.primary_button(b, button) } else { ui.button(b, button, true) };
+            if clicked {
+                *action = if ready { MenuAction::Restart } else { MenuAction::Update };
+            }
+            Some(r.y)
+        }
+        _ => None,
     }
 }
 

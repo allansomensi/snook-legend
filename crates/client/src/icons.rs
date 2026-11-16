@@ -43,6 +43,10 @@ pub enum Icon {
     Check,
     /// An hourglass: correspondence ("daily") games, a turn at a time.
     Hourglass,
+    /// A person with a plus: ask to be friends.
+    AddFriend,
+    /// A pencil: edit.
+    Pencil,
 }
 
 fn arc(c: Vec2, r: f32, from: f32, to: f32, w: f32, color: Color) {
@@ -320,6 +324,20 @@ pub fn draw(icon: Icon, c: Vec2, s: f32, color: Color) {
             arc(c + vec2(0.0, 0.62 * h), r, -2.10, -1.04, w, color);
             arc(c - vec2(0.0, 0.62 * h), r, 1.04, 2.10, w, color);
             draw_circle(c.x, c.y, 0.30 * h, color);
+        }
+        Icon::AddFriend => {
+            draw_circle(c.x - 0.2 * h, c.y - 0.38 * h, 0.32 * h, color);
+            half_disc(c + vec2(-0.2 * h, 0.85 * h), 0.62 * h, color);
+            line(p(0.42, -0.2), p(0.98, -0.2), w * 1.2, color);
+            line(p(0.7, -0.48), p(0.7, 0.08), w * 1.2, color);
+        }
+        Icon::Pencil => {
+            // The body on a diagonal, the tip bottom left.
+            let a = p(-0.62, 0.62);
+            let b = p(0.42, -0.42);
+            line(p(-0.32, 0.32), b, w * 2.6, color);
+            line(b + vec2(0.07, -0.07) * h, p(0.68, -0.68), w * 2.6, color);
+            draw_triangle(a, p(-0.5, 0.18), p(-0.18, 0.5), color);
         }
     }
 }

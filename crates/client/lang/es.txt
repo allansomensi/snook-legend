@@ -478,6 +478,8 @@ optional: only friends with it can join	opcional: solo pueden unirse los amigos 
 password	contraseña
 peak {n}	máximo {n}
 playing	jugando
+playing the computer	jugando contra el ordenador
+this game is saved	esta partida queda guardada
 rated games	partidas con rating
 rated · private	con rating · privada
 rated · public	con rating · pública

@@ -478,6 +478,8 @@ optional: only friends with it can join	opcional: só quem tiver a senha entra
 password	senha
 peak {n}	máximo {n}
 playing	jogando
+playing the computer	jogando contra o computador
+this game is saved	esta partida fica salva
 rated games	partidas valendo rating
 rated · private	valendo rating · privada
 rated · public	valendo rating · pública

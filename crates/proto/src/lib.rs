@@ -204,6 +204,9 @@ pub const MAX_SEEK_LEN: usize = 60;
 /// the "looking for a game" board (older games are never sent their
 /// messages).
 pub const SOCIAL_PROTOCOL: u32 = 13;
+/// The first server that knows [`ClientMsg::SetPlayingComputer`] (it says
+/// so in [`ServerMsg::Welcome`]; older servers leave the field out).
+pub const ACTIVITY_PROTOCOL: u32 = 13;
 
 /// Maximum length of the message that goes with a gift.
 pub const MAX_GIFT_MESSAGE: usize = 80;
@@ -351,6 +354,10 @@ pub struct PlayerInfo {
     /// [`MAX_STATUS_LEN`].
     #[serde(default, skip_serializing_if = "String::is_empty")]
     pub status_message: String,
+    /// Playing a game against the computer (still in the lounge, and can
+    /// still be invited: the invitation shows over that game).
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub vs_computer: bool,
 }
 
 impl PlayerInfo {
@@ -1027,6 +1034,12 @@ pub enum ClientMsg {
     ClearStatusMessage {
         username: String,
     },
+    /// This player started (or stopped) a game against the computer: the
+    /// lounge shows it by their name. Only sent to a server of
+    /// [`ACTIVITY_PROTOCOL`] or later.
+    SetPlayingComputer {
+        playing: bool,
+    },
     /// The people this player played recently.
     RecentOpponents,
     /// Puts (or replaces) this player's note on the "looking for a game"
@@ -1078,6 +1091,10 @@ pub enum ServerMsg {
         /// The server runs on a local network (guests, no ratings).
         #[serde(default)]
         lan: bool,
+        /// The server's [`PROTOCOL_VERSION`] (0: a server older than
+        /// [`ACTIVITY_PROTOCOL`], which didn't send it).
+        #[serde(default)]
+        protocol: u32,
     },
     AuthOk {
         player: PlayerInfo,
@@ -1598,6 +1615,7 @@ mod tests {
             effect: String::new(),
             cue_level: 0,
             status_message: String::new(),
+            vs_computer: false,
         };
         let msg = ServerMsg::MatchStarted {
             match_id: 7,

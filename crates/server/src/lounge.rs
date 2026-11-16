@@ -169,6 +169,8 @@ pub struct Session {
     pub protocol: u32,
     /// Notes on the "looking for a game" board.
     seek_bucket: Bucket,
+    /// Playing a game against the computer (the game says so).
+    pub vs_computer: bool,
 }
 
 struct Room {
@@ -307,6 +309,7 @@ pub fn player_info(user: &User, guest: bool, status: PlayerStatus) -> PlayerInfo
         effect: String::new(),
         cue_level: 0,
         status_message: user.status_message.clone(),
+        vs_computer: false,
     }
 }
 
@@ -409,9 +412,13 @@ impl Lounge {
     }
 
     fn info(&self, k: &str) -> Option<PlayerInfo> {
-        self.sessions
-            .get(k)
-            .map(|s| dressed(player_info(&s.user, s.guest, self.status(k)), &s.look))
+        self.sessions.get(k).map(|s| {
+            let mut info = dressed(player_info(&s.user, s.guest, self.status(k)), &s.look);
+            // An online game comes first (the game against the computer is
+            // left behind when one starts).
+            info.vs_computer = s.vs_computer && s.room.is_none();
+            info
+        })
     }
 
     fn announce(&self, k: &str) {
@@ -497,8 +504,11 @@ impl Lounge {
             if room.is_some() { PlayerStatus::Playing } else { PlayerStatus::Available },
         );
         let _ = tx.try_send(ServerMsg::AuthOk { player: info, token });
-        let _ =
-            tx.try_send(ServerMsg::Welcome { motd: self.rules.motd.clone(), lan: self.rules.lan });
+        let _ = tx.try_send(ServerMsg::Welcome {
+            motd: self.rules.motd.clone(),
+            lan: self.rules.lan,
+            protocol: snookered_proto::PROTOCOL_VERSION,
+        });
         self.sessions.insert(
             k.clone(),
             Session {
@@ -523,6 +533,7 @@ impl Lounge {
                 look: Look::default(),
                 protocol: social::UNKNOWN_PROTOCOL,
                 seek_bucket: Bucket::new(social::SEEK_BURST, social::SEEK_RATE),
+                vs_computer: false,
             },
         );
         let players: Vec<PlayerInfo> = self.sessions.keys().filter_map(|k| self.info(k)).collect();
@@ -891,6 +902,20 @@ impl Lounge {
                 self.shoot(&k, turn, shot, called_pocket, cue_ball)
             }
             ClientMsg::Resign => self.resign(&k),
+            ClientMsg::SetPlayingComputer { playing } => {
+                // Everyone hears about it, so it shares the lounge actions'
+                // limit; past it the change is kept but goes unannounced
+                // (the next one tells everyone), without an error: the game
+                // sends it by itself.
+                if let Some(s) = self.sessions.get_mut(&k)
+                    && s.vs_computer != playing
+                {
+                    s.vs_computer = playing;
+                    if s.action_bucket.take() {
+                        self.announce(&k);
+                    }
+                }
+            }
             ClientMsg::Rematch => self.rematch(&k),
             ClientMsg::LeaveMatch => self.leave_match(&k),
             ClientMsg::Tournaments => {
@@ -1648,6 +1673,8 @@ impl Lounge {
             self.drop_seek(k);
             if let Some(s) = self.sessions.get_mut(k) {
                 s.room = Some(id);
+                // The game against the computer was left for this one.
+                s.vs_computer = false;
             }
         }
         for (seat, k) in keys.iter().enumerate() {

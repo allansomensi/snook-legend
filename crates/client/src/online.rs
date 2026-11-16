@@ -210,6 +210,10 @@ pub struct Online {
     pub draining: Option<std::time::Instant>,
     /// Something happened that a player in another window should notice.
     pub attention: Option<String>,
+    /// The server's protocol version (from its welcome; 0: an older server).
+    server_protocol: u32,
+    /// What the server was last told: playing a game against the computer.
+    vs_computer_sent: bool,
     /// What the right side of the lounge shows.
     side: Side,
     /// Today's and this week's missions.
@@ -257,6 +261,17 @@ pub const GHOST_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(45
 
 /// The update button, for how this copy of the game is updated (and how
 /// far the download is).
+/// Where invitations are answered.
+#[derive(Debug, Clone, Copy, PartialEq)]
+enum InviteSpot {
+    /// In the lounge.
+    Lounge,
+    /// At an online table: declined only (the game must end first).
+    OnlineMatch,
+    /// Over a game against the computer (`saved`: it can be continued later).
+    VsComputer { saved: bool },
+}
+
 pub fn update_label() -> String {
     crate::update::button_label()
 }
@@ -410,6 +425,8 @@ impl Online {
             leaderboard_age: f32::MAX,
             incoming: Vec::new(),
             outgoing: None,
+            server_protocol: 0,
+            vs_computer_sent: false,
             motd: String::new(),
             token: String::new(),
             auto_resume: false,
@@ -639,6 +656,16 @@ impl Online {
                 NetEvent::Message(msg) => save |= self.handle(*msg, current, config),
             }
         }
+        // The lounge shows who is playing the computer (they can still be
+        // invited: the invitation shows over their game).
+        let vs_computer = current.as_ref().is_some_and(|m| m.is_against_computer() || m.practice);
+        if self.signed_in()
+            && self.server_protocol >= snookered_proto::ACTIVITY_PROTOCOL
+            && vs_computer != self.vs_computer_sent
+        {
+            self.vs_computer_sent = vs_computer;
+            self.send(ClientMsg::SetPlayingComputer { playing: vs_computer });
+        }
         save
     }
 
@@ -654,6 +681,10 @@ impl Online {
                 }
                 self.username = player.username.clone();
                 self.me = Some(player);
+                // A new session: the server learns again what this player
+                // is doing (its welcome follows).
+                self.server_protocol = 0;
+                self.vs_computer_sent = false;
                 // A new session: the board comes again; the recent games may have changed.
                 self.social.seeks.clear();
                 self.social.recent_stale = true;
@@ -714,7 +745,10 @@ impl Online {
                 self.stage = if self.lan { Stage::Idle } else { Stage::SignIn };
                 self.error = Some(crate::i18n::server_text(&reason));
             }
-            ServerMsg::Welcome { motd, .. } => self.motd = crate::i18n::server_text(&motd),
+            ServerMsg::Welcome { motd, protocol, .. } => {
+                self.motd = crate::i18n::server_text(&motd);
+                self.server_protocol = protocol;
+            }
             ServerMsg::Lounge { players } => self.players = players,
             ServerMsg::PlayerUpdated { player } => {
                 if self.me.as_ref().is_some_and(|me| me.username == player.username) {
@@ -1294,16 +1328,31 @@ impl Online {
         });
     }
 
-    /// Invitations received at the table or in the lounge: answered from a banner.
+    /// Invitations received at an online table: answered from a banner.
     pub fn draw_invites(&mut self, ui: &mut Ui, in_match: bool) {
         let sw = crate::ui::vw();
         let w = 520.0f32.min(sw - 32.0);
         let y = if in_match { 64.0 } else { 74.0 };
-        self.draw_invites_at(ui, in_match, Rect::new((sw - w) / 2.0, y, w, 0.0));
+        let spot = if in_match { InviteSpot::OnlineMatch } else { InviteSpot::Lounge };
+        self.draw_invites_at(ui, spot, Rect::new((sw - w) / 2.0, y, w, 0.0));
+    }
+
+    /// Invitations received during a game against the computer: in the top
+    /// right corner, under the top bar (and under the "Play now" banner, `y`),
+    /// to accept straight away (the online game takes the table).
+    pub fn draw_invites_corner(&mut self, ui: &mut Ui, y: f32, saved: bool) {
+        if self.incoming.is_empty() {
+            return;
+        }
+        let sw = crate::ui::vw();
+        let w = 460.0f32.min(sw - 24.0);
+        let at = Rect::new(sw - w - 12.0, y, w, 0.0);
+        self.draw_invites_at(ui, InviteSpot::VsComputer { saved }, at);
     }
 
     /// The invitations stacked down from the top of `at` (its width).
-    fn draw_invites_at(&mut self, ui: &mut Ui, in_match: bool, at: Rect) {
+    fn draw_invites_at(&mut self, ui: &mut Ui, spot: InviteSpot, at: Rect) {
+        let in_match = spot == InviteSpot::OnlineMatch;
         let w = at.w;
         let mut y = at.y;
         let mut answer = None;
@@ -1322,14 +1371,13 @@ impl Online {
             let buttons = if in_match { bw } else { bw * 2.0 + 8.0 };
             let text_w = w - 32.0 - buttons - 16.0;
             ui.name_with_flag(from, &country, color, r.x + 16.0, r.y + 12.0, 16.0, text_w);
-            let line2 = if in_match {
-                format!(
-                    "{} · {}",
-                    tw("invites you to {kind}", &[("kind", &kind)]),
-                    t("Finish this match first.")
-                )
-            } else {
-                tw("invites you to {kind}", &[("kind", &kind)])
+            let invites = tw("invites you to {kind}", &[("kind", &kind)]);
+            let line2 = match spot {
+                InviteSpot::OnlineMatch => format!("{invites} · {}", t("Finish this match first.")),
+                InviteSpot::VsComputer { saved: true } => {
+                    format!("{invites} · {}", t("this game is saved"))
+                }
+                _ => invites,
             };
             let (line2, size) = fit_text(ui, &line2, 13.0, text_w, false);
             ui.text(&line2, r.x + 16.0, r.y + 36.0, size, CREAM, false);
@@ -1857,7 +1905,7 @@ impl Online {
                     }
                 }
             }
-            self.draw_invites_at(ui, false, invites_at);
+            self.draw_invites_at(ui, InviteSpot::Lounge, invites_at);
             return action;
         }
         // The featured game: anyone can watch it.
@@ -1949,7 +1997,7 @@ impl Online {
             ui.focus = Some(30);
         }
 
-        self.draw_invites_at(ui, false, invites_at);
+        self.draw_invites_at(ui, InviteSpot::Lounge, invites_at);
         action
     }
 
@@ -2202,6 +2250,14 @@ impl Online {
         match p.status {
             PlayerStatus::Playing => t("playing").to_string(),
             PlayerStatus::Waiting => t("at a table").to_string(),
+            // Still free for an invitation: it shows over their game.
+            PlayerStatus::Available if p.vs_computer => {
+                if p.guest {
+                    t("playing the computer").to_string()
+                } else {
+                    format!("{} · {}", p.rating, t("playing the computer"))
+                }
+            }
             PlayerStatus::Available => {
                 if p.guest {
                     t("guest").to_string()
@@ -2216,6 +2272,7 @@ impl Online {
         let color = match p.status {
             PlayerStatus::Playing => Color::new(0.9, 0.6, 0.2, 1.0),
             PlayerStatus::Waiting => Color::new(0.45, 0.7, 1.0, 1.0),
+            PlayerStatus::Available if p.vs_computer => Color::new(0.75, 0.55, 0.95, 1.0),
             PlayerStatus::Available => Color::new(0.35, 0.85, 0.45, 1.0),
         };
         draw_circle(x, y, 4.5, color);

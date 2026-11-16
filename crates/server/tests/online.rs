@@ -386,6 +386,39 @@ async fn friends_can_watch_and_react() {
 }
 
 #[tokio::test]
+async fn players_against_the_computer_show_it_and_can_be_invited() {
+    let url = start(Rules::default()).await;
+    let (mut alice, _) = Client::register(&url, "alice").await;
+    alice
+        .expect(
+            "welcome",
+            |m| matches!(m, ServerMsg::Welcome { protocol, .. } if *protocol == PROTOCOL_VERSION),
+        )
+        .await;
+    let (mut bob, _) = Client::register(&url, "bob").await;
+    // Bob starts a game against the computer: Alice sees it in the lounge.
+    bob.send(ClientMsg::SetPlayingComputer { playing: true }).await;
+    let is_bob = |m: &ServerMsg, vs: bool| {
+        matches!(m, ServerMsg::PlayerUpdated { player }
+            if player.username == "bob" && player.vs_computer == vs)
+    };
+    alice.expect("bob vs the computer", |m| is_bob(m, true)).await;
+    // He can still be invited (and the online game takes over).
+    let (_, sa, sb) = start_match(&mut alice, &mut bob, "bob", "alice", false).await;
+    assert_ne!(sa, sb);
+    let ServerMsg::PlayerUpdated { player } = alice
+        .expect("bob playing", |m| {
+            matches!(m, ServerMsg::PlayerUpdated { player } if player.username == "bob"
+                && player.status == snookered_proto::PlayerStatus::Playing)
+        })
+        .await
+    else {
+        unreachable!()
+    };
+    assert!(!player.vs_computer);
+}
+
+#[tokio::test]
 async fn play_now_pairs_players_of_the_same_mode() {
     let url = start(Rules::default()).await;
     let (mut alice, _) = Client::register(&url, "alice").await;

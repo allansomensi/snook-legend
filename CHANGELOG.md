@@ -1,5 +1,20 @@
 # Changelog
 
+## Unreleased
+
+### Lounge
+- Players in a game against the computer show it in the lounge ("playing
+  the computer", a purple dot) and can still be invited: the invitation
+  appears in the top right corner of their game, with Accept and Decline.
+  Accepting starts the online game; the game against the computer stays
+  saved ("Continue" in the menu). Older servers and games are unaffected
+  (the server says its protocol in its welcome, and the game only tells a
+  server that knows the message).
+
+### Releases
+- The Microsoft Store workflow only builds the MSIX (the `msix` artifact);
+  the package goes to the Store by hand in Partner Center.
+
 ## 0.2.0 (protocol 13)
 
 The server still lets 0.1.2 to 0.1.4 in (protocols 11 and 12): they keep

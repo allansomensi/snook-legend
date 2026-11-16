@@ -846,6 +846,16 @@ async fn main() {
                                 {
                                     net.draw_invites(&mut ui, true);
                                 }
+                            } else if m.is_against_computer() || m.practice {
+                                // Playing the computer: still in the lounge,
+                                // so an invitation shows in the corner and
+                                // can be accepted (the computer game is kept).
+                                let y = if online.queue_secs().is_some() { 134.0 } else { 62.0 };
+                                let saved = m.is_against_computer();
+                                online.draw_invites_corner(&mut ui, y, saved);
+                                if let Some(l) = lan.as_mut() {
+                                    l.net.draw_invites_corner(&mut ui, y, saved);
+                                }
                             }
                         }
                     }

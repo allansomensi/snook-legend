@@ -25,7 +25,7 @@ O build da Store usa a feature `store` do jogo (`crates/client/src/channel.rs`):
 | `crates/client/msix/AppxManifest.xml` | o manifesto do pacote (identidade, ícones, firewall) |
 | `crates/client/msix/Assets/` | os ícones do pacote (`cargo test --release -p snookered export_msix_assets -- --ignored` os refaz a partir do emblema) |
 | `tools/msix/make-msix.ps1` | preenche o manifesto e monta o `.msix` |
-| `.github/workflows/msstore.yml` | gera o MSIX e o envia à Store |
+| `.github/workflows/msstore.yml` | gera o MSIX (o envio à Store é manual) |
 | `crates/server/pages/` | a política de privacidade (`/privacidade` e `/privacy`) |
 
 ## Uma vez só: preparar a Store
@@ -44,7 +44,6 @@ Actions → Variables**):
 | `MSSTORE_PUBLISHER` | `Package/Identity/Publisher` (começa com `CN=`) |
 | `MSSTORE_PUBLISHER_DISPLAY_NAME` | `Package/Properties/PublisherDisplayName` |
 | `MSSTORE_DISPLAY_NAME` | o nome reservado |
-| `MSSTORE_PRODUCT_ID` | o **Store ID** (`9...`, em Product identity) |
 
 ### 2. Política de privacidade
 
@@ -92,29 +91,19 @@ página da loja, a classificação etária e o preço:
      suporte.
 3. Envie para certificação (até três dias úteis).
 
-### 5. Envio automático das próximas versões
-
-Para o workflow enviar sozinho, o GitHub precisa de acesso à sua conta:
-
-1. Em [Microsoft Entra ID](https://entra.microsoft.com): **App registrations →
-   New registration** (nome livre, sem URL). Anote o **Application (client)
-   ID** e o **Directory (tenant) ID**; em **Certificates & secrets**, crie um
-   *client secret* e anote o valor.
-2. No Partner Center: **Account settings → User management → Microsoft Entra
-   applications → Add**, escolha esse aplicativo, papel **Manager**. O
-   **Seller ID** está em **Account settings → Legal info → Developer**.
-3. No GitHub, crie os *secrets* (**Settings → Secrets and variables → Actions
-   → Secrets**): `MSSTORE_TENANT_ID`, `MSSTORE_CLIENT_ID`,
-   `MSSTORE_CLIENT_SECRET`, `MSSTORE_SELLER_ID`.
-
 ## Lançar uma versão
 
 Do mesmo jeito de sempre (veja `RELEASING.md`): versão no `Cargo.toml`,
 seção no `CHANGELOG.md`, tag `vX.Y.Z`. O workflow *Microsoft Store* gera o
-MSIX (a versão `0.1.2` vira `0.1.2.0`, como a Store exige) e cria uma
-**submissão em rascunho** com ele. Confira no Partner Center e clique em
-**Submit to the Store**. Com a variável `MSSTORE_AUTO_SUBMIT` = `true` o
-envio para certificação é direto.
+MSIX (a versão `0.1.2` vira `0.1.2.0`, como a Store exige) e o deixa como
+o artefato `msix` da execução. O envio à Store é feito à mão:
+
+1. Baixe o artefato `msix` da execução do workflow *Microsoft Store* da tag.
+2. No Partner Center: o produto → **Start update** (nova submissão).
+3. Em **Packages**, envie o `.msix` (e remova o da versão anterior).
+4. Em **Store listings**, escreva as novidades da versão em **What's new in
+   this version** (o texto de `crates/client/whatsnew/` serve).
+5. **Submit to the Store**.
 
 Betas (`v0.2.0-beta.1`) não vão para a Store.
 

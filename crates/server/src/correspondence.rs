@@ -250,6 +250,7 @@ fn unknown_player() -> PlayerInfo {
         name_style: String::new(),
         effect: String::new(),
         status_message: String::new(),
+        vs_computer: false,
         cue_level: 0,
     }
 }

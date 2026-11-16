@@ -1840,6 +1840,7 @@ mod tests {
             effect: String::new(),
             cue_level: 0,
             status_message: String::new(),
+            vs_computer: false,
         };
         [p("me"), p("them")]
     }

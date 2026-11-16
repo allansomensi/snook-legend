@@ -103,6 +103,21 @@ Os quatro pacotes de moedas (`coins_500`, `coins_1200`, `coins_2800`,
 Microsoft (que repassa pelo Partner Center, menos a comissão dela); o jogo
 nunca vê dados de pagamento.
 
+**Roteiro, na ordem** (detalhes de cada passo abaixo):
+
+1. Partner Center: criar os 4 *add-ons* como *developer-managed
+   consumable* e enviá-los para certificação; anotar o Store ID de cada um.
+2. Microsoft Entra: registrar uma aplicação para o servidor, criar um
+   *client secret* e pôr o *Application (client) ID* em **Services →
+   Product collections and purchases** do jogo.
+3. Render: definir as quatro variáveis `SNOOKERED_MSSTORE_*` e publicar o
+   servidor novo (as migrações 0013 e 0014 rodam sozinhas); conferir no
+   log `Microsoft Store purchases on (4 packs)`.
+4. Atualizar o questionário IARC (compras no jogo) e a descrição da loja
+   (faixa de preços).
+5. Gerar o MSIX da versão nova, publicá-lo para um público privado e testar
+   uma compra de verdade; depois liberar para todos.
+
 ### Como funciona (e por que é seguro)
 
 1. O jogador clica num pacote; o jogo abre a **janela de compra da própria

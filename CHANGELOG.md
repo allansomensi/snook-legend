@@ -1,8 +1,46 @@
 # Changelog
 
-## Unreleased
+## 0.4.0 (protocol 15)
 
-Migration 0013 runs on start-up.
+A new edition of the rules (ruleset 2): an 8-foot table with open side
+pockets, balls that roll a little more freely, and a new rule. Every shot
+plays out differently, so games older than this one (0.3.0 and before) must
+update to play online. Games already recorded (replays, games saved during
+a restart, daily games in progress) keep the rules, the physics and the
+table they started with, shot for shot. Migrations 0013 and 0014 run on
+start-up.
+
+### The table and the rules
+- An 8-foot table (88" × 44"; it was 9-foot), with open, forgiving side
+  pockets: a 6.1" mouth whose facings open out, a hole that starts right
+  behind it and a liner behind the hole. Measured with the physics, they
+  take paths about 118 mm wide from straight in to 35° (the 9-foot table's:
+  80–96 mm), and no ball can come to rest in the throat.
+- The balls roll a little more freely (the cloth takes 1.1% of g off a
+  rolling ball, it was 1.25%) and the cushions give back a little more.
+- New rule: making one of the opponent's balls passes the turn, even with
+  one of your own on the same shot (not on the break). It is not a foul:
+  no ball in hand. The game says why the turn passed.
+- Every game records its ruleset; the server keeps it with every game, and
+  the game draws each game on its own table.
+
+### Easier to see
+- The cloth is lit evenly: its edges get 87% of the middle's light (they
+  got 54%), so every ball reads the same wherever it is.
+- The balls have a soft sheen instead of a hard glint: their colours and
+  numbers always read. Shadows (balls, contact, the cue) are lighter.
+- Looking down on the table, nothing of the hall comes between the camera
+  and the table (some halls showed cords, ropes and lamp parts across it).
+- The player card of whoever isn't at the table is dimmed a little.
+
+### Against the computer
+- Five more opponents, each with a portrait and a voice of their own: Tito
+  the Gambler, Inês the Soft Touch, Diego the Showman, Amara the Tactician
+  and Yuri the Machine.
+- The tour has fifteen stages; the champion's cue needs all fifteen. A tour
+  played before keeps every win, and an earned cue stays earned.
+- Settings → Game → "Opponents' remarks" turns the opponents' speech
+  bubbles off.
 
 ### Microsoft Store
 - Coin packs can be bought in the Microsoft Store version, through the
@@ -20,6 +58,7 @@ Migration 0013 runs on start-up.
   refused or stuck, with Microsoft's order ids) and counts Store sales in
   the metrics.
 - The privacy policy says what is kept about Store purchases.
+
 ### Fixes
 - A game newer than the server no longer says "a new version of the game is
   out" (which sent players already up to date to the Store): it checks the

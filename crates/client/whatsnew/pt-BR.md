@@ -3,6 +3,26 @@
 # destaque, e as linhas seguintes são o texto dele. Mesmas versões e mesmo
 # número de destaques em todas as línguas.
 
+## 0.4.0
+
+### Mesa de 8 pés, caçapas do meio abertas
+Uma mesa menor (8 pés) e caçapas do meio que perdoam uma bola fora do centro ou chegando em ângulo. As bolas correm um pouco mais soltas.
+
+### Nova regra: a bola do adversário
+Encaçapar uma bola do adversário passa a vez, mesmo que uma sua também tenha caído. Não é falta: não há bola na mão.
+
+### Mais fácil de ver
+O pano tem luz por igual, as bolas têm um brilho suave para os números serem lidos, as sombras ficaram mais leves e nada do salão atrapalha a vista de cima. Nos placares, quem está na vez fica em destaque.
+
+### Quinze adversários
+Tito, Inês, Diego, Amara e Yuri chegam aos adversários do computador, cada um com seu estilo e seu jeito de falar. O Circuito agora tem quinze etapas; as vitórias que você já tinha continuam valendo.
+
+### Adversários em silêncio
+Configurações → Jogo → Comentários dos adversários desliga os balões de fala.
+
+### Seus jogos estão a salvo
+Replays e jogos diários que começaram antes desta atualização continuam com a mesa e as regras antigas até o fim.
+
 ## 0.3.0
 
 ### Mesa oficial de 9 pés

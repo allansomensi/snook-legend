@@ -3,6 +3,26 @@
 # un destacado, y las líneas siguientes son su texto. Mismas versiones y
 # mismo número de destacados en todos los idiomas.
 
+## 0.4.0
+
+### Mesa de 8 pies, troneras del medio abiertas
+Una mesa más pequeña (8 pies) y troneras del medio que perdonan una bola fuera del centro o que entra en ángulo. Las bolas ruedan un poco más sueltas.
+
+### Nueva regla: la bola del rival
+Meter una bola del rival pasa el turno, aunque una tuya también haya entrado. No es falta: no hay bola en mano.
+
+### Más fácil de ver
+El paño está iluminado por igual, las bolas tienen un brillo suave para leer sus números, las sombras son más ligeras y nada de la sala estorba la vista desde arriba. En los marcadores destaca quién tiene el turno.
+
+### Quince rivales
+Tito, Inês, Diego, Amara y Yuri se suman a los rivales de la computadora, cada uno con su estilo y su manera de hablar. El Circuito tiene ahora quince etapas; las victorias que ya tenías se conservan.
+
+### Rivales en silencio
+Ajustes → Juego → Comentarios de los rivales apaga sus bocadillos.
+
+### Tus partidas, a salvo
+Las repeticiones y las partidas diarias que empezaron antes de esta actualización siguen con la mesa y las reglas antiguas hasta el final.
+
 ## 0.3.0
 
 ### Mesa oficial de 9 pies

@@ -3,6 +3,26 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.4.0
+
+### 8-foot table, open side pockets
+A smaller table (8 feet) and side pockets that forgive a ball off the centre or rolling in at an angle. The balls roll a little more freely.
+
+### New rule: the opponent's ball
+Making one of your opponent's balls passes the turn, even if one of yours went down too. It is not a foul: no ball in hand.
+
+### Easier to see
+The cloth is lit evenly, the balls have a soft sheen so their numbers read, shadows are lighter, and nothing of the hall gets in the way of the view from above. Whose turn it is stands out on the score cards.
+
+### Fifteen opponents
+Tito, Inês, Diego, Amara and Yuri join the computer opponents, each with a style and a voice of their own. The Tour now has fifteen stages; your wins so far are kept.
+
+### Quieter opponents
+Settings → Game → Opponents' remarks turns their speech bubbles off.
+
+### Your games are safe
+Replays and daily games that started before this update keep the old table and rules until they end.
+
 ## 0.3.0
 
 ### A regulation 9-foot table

@@ -51,8 +51,8 @@ which every desktop installation has. How releases are made is described in
   players always agree (pinned by a fingerprint test in CI).
 - **Full cue control**: aim, power, the exact point where the tip hits the cue ball,
   cue elevation, and fine aim right on the bottom bar.
-- **Eight-ball rules** (WPA): break, open table (the break never decides the
-  groups), groups, fouls (including "no cushion after contact"), ball in
+- **Eight-ball rules** (WPA-based): break, groups (the first ball made on a
+  clean break decides them; otherwise the table stays open), fouls (including "no cushion after contact"), ball in
   hand, a called pocket for the 8 that is binding once made. Every rule has
   its own test, and 60 random games are checked after every shot.
 - **Computer opponents**: ten named opponents with their own portraits and

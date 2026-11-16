@@ -16,6 +16,7 @@ pub mod admin;
 pub mod analysis;
 pub mod computer;
 pub mod correspondence;
+pub mod daily;
 pub mod lan;
 pub mod limits;
 pub mod lounge;
@@ -1028,6 +1029,7 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
             msg if correspondence::is_msg(&msg) => {
                 correspondence::handle(&server, &me, msg, &send).await
             }
+            msg if daily::is_msg(&msg) => daily::handle(&server, &me, msg, &send).await,
             // Seconds of simulation each: answered on their own tasks.
             ClientMsg::LadderClaim { replay } => {
                 computer::spawn_claim(server.clone(), me.clone(), replay, tx.clone())
@@ -1274,6 +1276,9 @@ fn is_query_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::CorrResign { .. }
             | ClientMsg::LadderClaim { .. }
             | ClientMsg::GhostStyle { .. }
+            | ClientMsg::Daily
+            | ClientMsg::DailyStart
+            | ClientMsg::DailySubmit { .. }
             | ClientMsg::SetStatusMessage { .. }
             | ClientMsg::ClearStatusMessage { .. }
             | ClientMsg::RecentOpponents
@@ -1288,6 +1293,9 @@ fn is_account_msg(msg: &ClientMsg) -> bool {
         msg,
         ClientMsg::LadderClaim { .. }
             | ClientMsg::GhostStyle { .. }
+            | ClientMsg::Daily
+            | ClientMsg::DailyStart
+            | ClientMsg::DailySubmit { .. }
             | ClientMsg::SetCountry { .. }
             | ClientMsg::Friends
             | ClientMsg::FriendRequest { .. }
@@ -1667,9 +1675,10 @@ async fn profile_msg(server: &Server, viewer: Option<&User>, name: &str) -> Opti
 /// days they topped the daily challenge.
 async fn trophies_of(server: &Server, user_id: i64) -> Vec<snookered_proto::Trophy> {
     use snookered_proto::{Trophy, TrophyKind};
-    let (tournaments, ladder) = tokio::join!(
+    let (tournaments, ladder, days) = tokio::join!(
         server.store.tournaments_won(user_id, 50),
         server.store.ladder_claim(user_id),
+        server.store.daily_wins(user_id, snookered_proto::daily::day_of(now())),
     );
     let mut trophies: Vec<Trophy> = tournaments
         .unwrap_or_default()
@@ -1679,6 +1688,13 @@ async fn trophies_of(server: &Server, user_id: i64) -> Vec<snookered_proto::Trop
     if let Ok(Some(at)) = ladder {
         trophies.push(Trophy { kind: TrophyKind::Ladder, name: String::new(), players: 0, at });
     }
+    // A day topped: dated at the day's end.
+    trophies.extend(days.unwrap_or_default().into_iter().map(|(day, players)| Trophy {
+        kind: TrophyKind::DailyChallenge,
+        name: String::new(),
+        players,
+        at: (day + 1) * 86_400 - 1,
+    }));
     trophies.sort_by_key(|t| std::cmp::Reverse(t.at));
     trophies
 }

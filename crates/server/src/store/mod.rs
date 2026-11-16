@@ -228,6 +228,37 @@ pub struct Metrics {
     pub revenue_days: Vec<(i64, String, i64, i64)>,
 }
 
+/// A player's day at the daily challenge.
+#[derive(Debug, Clone, Copy, Default, PartialEq)]
+pub struct DailyRow {
+    pub attempts: u32,
+    /// When the attempt under way started (0: none).
+    pub started_at: i64,
+    pub best: Option<u32>,
+    pub best_at: i64,
+    pub cleared: bool,
+}
+
+/// A line of a day's challenge table.
+#[derive(Debug, Clone, PartialEq)]
+pub struct DailyBoardRow {
+    pub user_id: i64,
+    pub username: String,
+    pub country: String,
+    pub balls: u32,
+    pub at: i64,
+}
+
+/// What became of an attempt sent.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum DailyFinish {
+    /// No attempt was under way, or it started too long ago.
+    NotStarted,
+    /// Counted: whether it beat their best, and whether the table was
+    /// cleared for the first time that day.
+    Counted { improved: bool, first_clear: bool },
+}
+
 /// How many weeks of sign-ups the metrics follow.
 pub const COHORT_WEEKS: i64 = 8;
 
@@ -815,6 +846,56 @@ impl Store {
     }
     pub async fn record_tournament(&self, t: &TournamentRecord) -> StoreResult<()> {
         dispatch!(self, s => s.record_tournament(t))
+    }
+    /// The seed of a day's challenge: `fresh` the first time it is asked
+    /// for, the same one ever after.
+    pub async fn daily_seed(&self, day: i64, fresh: u64) -> StoreResult<u64> {
+        dispatch!(self, s => s.daily_seed(day, fresh))
+    }
+    /// Starts an attempt (false: `max` attempts were used already).
+    pub async fn daily_start(
+        &self,
+        user_id: i64,
+        day: i64,
+        now: i64,
+        max: u32,
+    ) -> StoreResult<bool> {
+        dispatch!(self, s => s.daily_start(user_id, day, now, max))
+    }
+    /// Ends the attempt under way with its result (it must have started at
+    /// most `limit` seconds ago).
+    #[allow(clippy::too_many_arguments)]
+    pub async fn daily_finish(
+        &self,
+        user_id: i64,
+        day: i64,
+        now: i64,
+        balls: u32,
+        cleared: bool,
+        limit: i64,
+    ) -> StoreResult<DailyFinish> {
+        dispatch!(self, s => s.daily_finish(user_id, day, now, balls, cleared, limit))
+    }
+    /// A player's day at the challenge.
+    pub async fn daily_row(&self, user_id: i64, day: i64) -> StoreResult<DailyRow> {
+        dispatch!(self, s => s.daily_row(user_id, day))
+    }
+    /// A day's leaders (best first; earlier first on a tie) and how many
+    /// have a score.
+    pub async fn daily_board(
+        &self,
+        day: i64,
+        limit: u32,
+    ) -> StoreResult<(Vec<DailyBoardRow>, u32)> {
+        dispatch!(self, s => s.daily_board(day, limit))
+    }
+    /// A player's place on a day's table (None: no score).
+    pub async fn daily_rank(&self, user_id: i64, day: i64) -> StoreResult<Option<u32>> {
+        dispatch!(self, s => s.daily_rank(user_id, day))
+    }
+    /// The days before `before` a player topped, newest first: (day, players).
+    pub async fn daily_wins(&self, user_id: i64, before: i64) -> StoreResult<Vec<(i64, u32)>> {
+        dispatch!(self, s => s.daily_wins(user_id, before))
     }
     /// The tournaments a player won, newest first: (name, players, finished at).
     pub async fn tournaments_won(

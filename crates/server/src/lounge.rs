@@ -991,7 +991,10 @@ impl Lounge {
             | ClientMsg::CorrShoot { .. }
             | ClientMsg::CorrResign { .. }
             | ClientMsg::LadderClaim { .. }
-            | ClientMsg::GhostStyle { .. } => {}
+            | ClientMsg::GhostStyle { .. }
+            | ClientMsg::Daily
+            | ClientMsg::DailyStart
+            | ClientMsg::DailySubmit { .. } => {}
             ClientMsg::SetStatusMessage { .. }
             | ClientMsg::ClearStatusMessage { .. }
             | ClientMsg::RecentOpponents

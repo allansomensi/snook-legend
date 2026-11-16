@@ -69,6 +69,23 @@ struct Inner {
     ladder_claims: HashMap<i64, (u64, u32, i64)>,
     /// Presents (names and countries filled in when read).
     gifts: Vec<GiftRow>,
+    /// day -> the daily challenge's seed
+    daily_seeds: HashMap<i64, u64>,
+    /// (day, user) -> their day at the challenge
+    daily: BTreeMap<(i64, i64), super::DailyRow>,
+}
+
+impl Inner {
+    /// A day's scores, best first (earlier first on a tie).
+    fn daily_sorted(&self, day: i64) -> Vec<(i64, u32, i64)> {
+        let mut rows: Vec<(i64, u32, i64)> = self
+            .daily
+            .range((day, i64::MIN)..=(day, i64::MAX))
+            .filter_map(|(&(_, u), r)| r.best.map(|b| (u, b, r.best_at)))
+            .collect();
+        rows.sort_by(|a, b| b.1.cmp(&a.1).then(a.2.cmp(&b.2)).then(a.0.cmp(&b.0)));
+        rows
+    }
 }
 
 impl Inner {
@@ -944,6 +961,96 @@ impl MemoryStore {
         }
         s.tournaments.push(t.clone());
         Ok(())
+    }
+
+    pub fn daily_seed(&self, day: i64, fresh: u64) -> StoreResult<u64> {
+        Ok(*self.lock().daily_seeds.entry(day).or_insert(fresh))
+    }
+
+    pub fn daily_start(&self, user_id: i64, day: i64, now: i64, max: u32) -> StoreResult<bool> {
+        let mut s = self.lock();
+        let row = s.daily.entry((day, user_id)).or_default();
+        if row.attempts >= max {
+            return Ok(false);
+        }
+        row.attempts += 1;
+        row.started_at = now;
+        Ok(true)
+    }
+
+    pub fn daily_finish(
+        &self,
+        user_id: i64,
+        day: i64,
+        now: i64,
+        balls: u32,
+        cleared: bool,
+        limit: i64,
+    ) -> StoreResult<super::DailyFinish> {
+        let mut s = self.lock();
+        let Some(row) = s.daily.get_mut(&(day, user_id)) else {
+            return Ok(super::DailyFinish::NotStarted);
+        };
+        if row.started_at == 0 || now - row.started_at > limit {
+            return Ok(super::DailyFinish::NotStarted);
+        }
+        row.started_at = 0;
+        let improved = row.best.is_none_or(|b| balls > b);
+        if improved {
+            row.best = Some(balls);
+            row.best_at = now;
+        }
+        let first_clear = cleared && !row.cleared;
+        row.cleared |= cleared;
+        Ok(super::DailyFinish::Counted { improved, first_clear })
+    }
+
+    pub fn daily_row(&self, user_id: i64, day: i64) -> StoreResult<super::DailyRow> {
+        Ok(self.lock().daily.get(&(day, user_id)).copied().unwrap_or_default())
+    }
+
+    pub fn daily_board(
+        &self,
+        day: i64,
+        limit: u32,
+    ) -> StoreResult<(Vec<super::DailyBoardRow>, u32)> {
+        let s = self.lock();
+        let rows = s.daily_sorted(day);
+        let players = rows.len() as u32;
+        let board = rows
+            .into_iter()
+            .take(limit as usize)
+            .filter_map(|(u, balls, at)| {
+                let user = s.users.get(&u)?;
+                Some(super::DailyBoardRow {
+                    user_id: u,
+                    username: user.username.clone(),
+                    country: user.country.clone(),
+                    balls,
+                    at,
+                })
+            })
+            .collect();
+        Ok((board, players))
+    }
+
+    pub fn daily_rank(&self, user_id: i64, day: i64) -> StoreResult<Option<u32>> {
+        let s = self.lock();
+        Ok(s.daily_sorted(day).iter().position(|r| r.0 == user_id).map(|k| k as u32 + 1))
+    }
+
+    pub fn daily_wins(&self, user_id: i64, before: i64) -> StoreResult<Vec<(i64, u32)>> {
+        let s = self.lock();
+        let days: std::collections::BTreeSet<i64> =
+            s.daily.keys().map(|&(d, _)| d).filter(|&d| d < before).collect();
+        Ok(days
+            .into_iter()
+            .rev()
+            .filter_map(|d| {
+                let rows = s.daily_sorted(d);
+                (rows.first()?.0 == user_id).then_some((d, rows.len() as u32))
+            })
+            .collect())
     }
 
     pub fn tournaments_won(

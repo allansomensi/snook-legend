@@ -26,7 +26,10 @@ const APPLIED: &[(&str, &str)] = &[
         "0010_computer_ladder.sql",
         "0c128ebef825b75734f7102eebd87f6a13e5159ec83236a4ca681aa42f190842",
     ),
-    ("0011_cue_stats.sql", "11193d09fa8781adcec83997b15cd8316c03379da469b97ce7faf62f94283128"),
+    (
+        "0011_cue_stats_daily.sql",
+        "cdbee778155df88367217ab7670d5115ddd8f475a1e559702774b1a5c27554c3",
+    ),
 ];
 
 #[test]

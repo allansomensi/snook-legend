@@ -12,6 +12,7 @@ mod achievements;
 pub mod analysis;
 pub mod correspondence;
 mod countries;
+pub mod daily;
 pub mod ghost;
 pub mod ladder;
 pub mod missions;
@@ -1112,6 +1113,16 @@ pub enum ClientMsg {
     LadderClaim {
         replay: replay::Replay,
     },
+    /// Today's challenge: the table, attempts left and the leaders.
+    Daily,
+    /// Starts an attempt at today's challenge (one of [`daily::ATTEMPTS`]):
+    /// the server sends the position's seed.
+    DailyStart,
+    /// The strokes of the attempt under way (the server plays them again).
+    DailySubmit {
+        day: i64,
+        strokes: Vec<Shot>,
+    },
     /// How a player plays (aggregated numbers), for a computer opponent in
     /// their style.
     GhostStyle {
@@ -1529,6 +1540,25 @@ pub enum ServerMsg {
     /// The answer to a claim of the ladder's reward.
     LadderClaim {
         result: ladder::ClaimResult,
+    },
+    /// Today's challenge (the answer to [`ClientMsg::Daily`], and after an
+    /// attempt).
+    Daily {
+        info: daily::Info,
+    },
+    /// An attempt started: the day's position comes from this seed (see
+    /// [`daily::game`]).
+    DailyStarted {
+        day: i64,
+        seed: u64,
+    },
+    /// An attempt was counted (with the coins for clearing the table, if
+    /// any) or refused.
+    DailyResult {
+        day: i64,
+        result: Result<daily::Outcome, daily::Refused>,
+        #[serde(default)]
+        coins: i64,
     },
     /// The answer to a request for a player's style.
     GhostStyle {

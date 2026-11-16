@@ -332,6 +332,46 @@ async fn exercise(store: Store) {
         .unwrap();
     let ua = store.user_by_id(a.id).await.unwrap().unwrap();
     assert_eq!((ua.tournaments_played, ua.tournaments_won), (1, 1));
+    // The daily challenge.
+    let d = 20_000;
+    assert_eq!(store.daily_seed(d, 42).await.unwrap(), 42);
+    assert_eq!(store.daily_seed(d, 43).await.unwrap(), 42, "drawn once");
+    assert_eq!(
+        store.daily_finish(a.id, d, t, 3, false, 60).await.unwrap(),
+        snookered_server::store::DailyFinish::NotStarted
+    );
+    assert!(store.daily_start(a.id, d, t, 2).await.unwrap());
+    assert_eq!(store.daily_row(a.id, d).await.unwrap().started_at, t);
+    assert_eq!(
+        store.daily_finish(a.id, d, t + 61, 3, false, 60).await.unwrap(),
+        snookered_server::store::DailyFinish::NotStarted,
+        "too late"
+    );
+    assert!(store.daily_start(a.id, d, t + 100, 2).await.unwrap());
+    assert!(!store.daily_start(a.id, d, t + 101, 2).await.unwrap(), "two attempts");
+    assert_eq!(
+        store.daily_finish(a.id, d, t + 110, 4, false, 60).await.unwrap(),
+        snookered_server::store::DailyFinish::Counted { improved: true, first_clear: false }
+    );
+    assert!(store.daily_start(b.id, d, t, 2).await.unwrap());
+    assert_eq!(
+        store.daily_finish(b.id, d, t + 5, 4, true, 60).await.unwrap(),
+        snookered_server::store::DailyFinish::Counted { improved: true, first_clear: true }
+    );
+    let (board, players) = store.daily_board(d, 10).await.unwrap();
+    assert_eq!(players, 2);
+    // A tie: who made it first leads.
+    assert_eq!(
+        board.iter().map(|r| (r.user_id, r.balls)).collect::<Vec<_>>(),
+        [(b.id, 4), (a.id, 4)]
+    );
+    assert_eq!(store.daily_rank(a.id, d).await.unwrap(), Some(2));
+    assert_eq!(store.daily_rank(b.id, 999).await.unwrap(), None);
+    assert_eq!(store.daily_wins(b.id, d + 1).await.unwrap(), vec![(d, 2)]);
+    assert!(store.daily_wins(a.id, d + 1).await.unwrap().is_empty());
+    let row = store.daily_row(b.id, d).await.unwrap();
+    assert_eq!((row.attempts, row.started_at, row.best, row.cleared), (1, 0, Some(4), true));
+
     // The trophy shelf: the tournaments won, newest first.
     assert_eq!(store.tournaments_won(a.id, 10).await.unwrap(), vec![("Cup".to_string(), 2, t)]);
     assert!(store.tournaments_won(b.id, 10).await.unwrap().is_empty());

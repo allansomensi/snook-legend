@@ -1578,6 +1578,172 @@ impl PgStore {
         Ok(r.rows_affected())
     }
 
+    pub async fn daily_seed(&self, day: i64, fresh: u64) -> StoreResult<u64> {
+        query(
+            "INSERT INTO daily_challenges (day, seed) VALUES ($1, $2) ON CONFLICT (day) DO NOTHING",
+        )
+        .bind(day)
+        .bind(fresh as i64)
+        .execute(&self.pool)
+        .await?;
+        let seed: i64 = query("SELECT seed FROM daily_challenges WHERE day = $1")
+            .bind(day)
+            .fetch_one(&self.pool)
+            .await?
+            .get("seed");
+        Ok(seed as u64)
+    }
+
+    pub async fn daily_start(
+        &self,
+        user_id: i64,
+        day: i64,
+        now: i64,
+        max: u32,
+    ) -> StoreResult<bool> {
+        let row = query(
+            "INSERT INTO daily_scores (day, user_id, attempts, started_at) VALUES ($1, $2, 1, $3)
+             ON CONFLICT (day, user_id) DO UPDATE
+                SET attempts = daily_scores.attempts + 1, started_at = $3
+                WHERE daily_scores.attempts < $4
+             RETURNING attempts",
+        )
+        .bind(day)
+        .bind(user_id)
+        .bind(now)
+        .bind(max as i32)
+        .fetch_optional(&self.pool)
+        .await?;
+        Ok(row.is_some())
+    }
+
+    pub async fn daily_finish(
+        &self,
+        user_id: i64,
+        day: i64,
+        now: i64,
+        balls: u32,
+        cleared: bool,
+        limit: i64,
+    ) -> StoreResult<super::DailyFinish> {
+        let mut tx = self.pool.begin().await?;
+        let row = query(
+            "SELECT best, cleared FROM daily_scores
+             WHERE day = $1 AND user_id = $2 AND started_at > 0 AND $3 - started_at <= $4
+             FOR UPDATE",
+        )
+        .bind(day)
+        .bind(user_id)
+        .bind(now)
+        .bind(limit)
+        .fetch_optional(&mut *tx)
+        .await?;
+        let Some(row) = row else {
+            return Ok(super::DailyFinish::NotStarted);
+        };
+        let best: Option<i32> = row.get("best");
+        let was_cleared: bool = row.get("cleared");
+        let improved = best.is_none_or(|b| balls as i32 > b);
+        query(
+            "UPDATE daily_scores SET started_at = 0, cleared = cleared OR $3,
+                best = CASE WHEN $4 THEN $5 ELSE best END,
+                best_at = CASE WHEN $4 THEN $6 ELSE best_at END
+             WHERE day = $1 AND user_id = $2",
+        )
+        .bind(day)
+        .bind(user_id)
+        .bind(cleared)
+        .bind(improved)
+        .bind(balls as i32)
+        .bind(now)
+        .execute(&mut *tx)
+        .await?;
+        tx.commit().await?;
+        Ok(super::DailyFinish::Counted { improved, first_clear: cleared && !was_cleared })
+    }
+
+    pub async fn daily_row(&self, user_id: i64, day: i64) -> StoreResult<super::DailyRow> {
+        let row = query(
+            "SELECT attempts, started_at, best, best_at, cleared FROM daily_scores
+             WHERE day = $1 AND user_id = $2",
+        )
+        .bind(day)
+        .bind(user_id)
+        .fetch_optional(&self.pool)
+        .await?;
+        Ok(row.map_or_else(Default::default, |r| super::DailyRow {
+            attempts: r.get::<i32, _>("attempts").max(0) as u32,
+            started_at: r.get("started_at"),
+            best: r.get::<Option<i32>, _>("best").map(|b| b.max(0) as u32),
+            best_at: r.get::<Option<i64>, _>("best_at").unwrap_or(0),
+            cleared: r.get("cleared"),
+        }))
+    }
+
+    pub async fn daily_board(
+        &self,
+        day: i64,
+        limit: u32,
+    ) -> StoreResult<(Vec<super::DailyBoardRow>, u32)> {
+        let rows = query(
+            "SELECT d.user_id, u.username, u.country, d.best, d.best_at
+             FROM daily_scores d JOIN users u ON u.id = d.user_id
+             WHERE d.day = $1 AND d.best IS NOT NULL
+             ORDER BY d.best DESC, d.best_at, d.user_id LIMIT $2",
+        )
+        .bind(day)
+        .bind(limit as i64)
+        .fetch_all(&self.pool)
+        .await?;
+        let players: i64 =
+            query("SELECT COUNT(*) AS n FROM daily_scores WHERE day = $1 AND best IS NOT NULL")
+                .bind(day)
+                .fetch_one(&self.pool)
+                .await?
+                .get("n");
+        let board = rows
+            .iter()
+            .map(|r| super::DailyBoardRow {
+                user_id: r.get("user_id"),
+                username: r.get("username"),
+                country: r.get("country"),
+                balls: r.get::<i32, _>("best").max(0) as u32,
+                at: r.get("best_at"),
+            })
+            .collect();
+        Ok((board, players as u32))
+    }
+
+    pub async fn daily_rank(&self, user_id: i64, day: i64) -> StoreResult<Option<u32>> {
+        let row = query(
+            "SELECT (SELECT COUNT(*) FROM daily_scores o
+                     WHERE o.day = me.day AND o.best IS NOT NULL
+                       AND (o.best > me.best OR (o.best = me.best
+                            AND (o.best_at, o.user_id) < (me.best_at, me.user_id)))) AS ahead
+             FROM daily_scores me WHERE me.day = $1 AND me.user_id = $2 AND me.best IS NOT NULL",
+        )
+        .bind(day)
+        .bind(user_id)
+        .fetch_optional(&self.pool)
+        .await?;
+        Ok(row.map(|r| r.get::<i64, _>("ahead") as u32 + 1))
+    }
+
+    pub async fn daily_wins(&self, user_id: i64, before: i64) -> StoreResult<Vec<(i64, u32)>> {
+        let rows = query(
+            "SELECT day, n FROM (
+                SELECT day, user_id, COUNT(*) OVER (PARTITION BY day) AS n,
+                    ROW_NUMBER() OVER (PARTITION BY day ORDER BY best DESC, best_at, user_id) AS place
+                FROM daily_scores WHERE best IS NOT NULL AND day < $2
+             ) ranked WHERE user_id = $1 AND place = 1 ORDER BY day DESC LIMIT 100",
+        )
+        .bind(user_id)
+        .bind(before)
+        .fetch_all(&self.pool)
+        .await?;
+        Ok(rows.iter().map(|r| (r.get("day"), r.get::<i64, _>("n") as u32)).collect())
+    }
+
     pub async fn tournaments_won(
         &self,
         user_id: i64,

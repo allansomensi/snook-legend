@@ -1,8 +1,9 @@
-//! The settings screen: graphics, game and sound, in tabs. Every tab is laid
-//! out the same way: section headings over grouped rows, each row a label
-//! (with a short hint where it helps) on the left and its control on the
-//! right. The panel is sized to the tab shown, and its top stays put when
-//! the tab changes, so the tabs never move under the pointer.
+//! The settings screen: graphics, game, controls and sound, in tabs. Every
+//! tab is laid out the same way: section headings over grouped rows, each
+//! row a label (with a short hint where it helps) on the left and its control
+//! on the right. The panel is sized to the tab shown, and its top stays put
+//! when the tab changes, so the tabs never move under the pointer (the long
+//! Controls tab grows downwards from there and scrolls).
 
 use macroquad::prelude::*;
 
@@ -10,13 +11,18 @@ use macroquad::prelude::*;
 use crate::paint::{draw_circle, draw_circle_lines, draw_line, draw_rectangle, draw_triangle};
 
 use crate::config::{AimGuide, Config, DEFAULT_SERVER, Quality};
-use crate::i18n::{Lang, t};
+use crate::i18n::{Lang, t, tw};
 use crate::icons::Icon;
+use crate::keys::{self, Action, Bindings, Conflict};
 use crate::ui::{ALERT, BORDER, CREAM, Drag, GOLD, MUTED, Ui, rrect, rrect_lines};
+use crate::update::{self, Status};
+use crate::whatsnew::WhatsNew;
 
 pub enum SettingsAction {
     None,
     Close,
+    /// Start the new version that was downloaded.
+    Restart,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
@@ -24,10 +30,32 @@ enum Tab {
     #[default]
     Graphics,
     Game,
+    Controls,
     Sound,
 }
 
-const TABS: [Tab; 3] = [Tab::Graphics, Tab::Game, Tab::Sound];
+const TABS: [Tab; 4] = [Tab::Graphics, Tab::Game, Tab::Controls, Tab::Sound];
+
+/// The Controls tab's sections.
+const KEY_SECTIONS: [(&str, &[Action]); 4] = [
+    (
+        "Aiming and shooting",
+        &[Action::AimLeft, Action::AimRight, Action::FineAim, Action::Shoot, Action::BallInHand],
+    ),
+    (
+        "Spin and elevation",
+        &[
+            Action::SpinUp,
+            Action::SpinDown,
+            Action::SpinLeft,
+            Action::SpinRight,
+            Action::ElevationUp,
+            Action::ElevationDown,
+        ],
+    ),
+    ("Camera", &[Action::ToggleView, Action::ResetCamera, Action::ZoomIn, Action::ZoomOut]),
+    ("Game", &[Action::Replay, Action::Help, Action::Fullscreen]),
+];
 
 /// Panel width and its inner padding.
 const WIDTH: f32 = 700.0;
@@ -64,6 +92,18 @@ pub struct SettingsScreen {
     /// "Reset to defaults" was pressed once, at this time: a second press
     /// within a few seconds resets.
     reset_armed: Option<f64>,
+    /// The key slot waiting for a key (Controls tab).
+    capture: Option<(Action, usize)>,
+    /// A note under an action's keys (what a change did), and since when.
+    key_note: Option<(Action, String, f64)>,
+    /// An action whose keys just changed because of another one, lit up.
+    flash: Option<(Action, f64)>,
+    /// Where the key caps were drawn (a click elsewhere stops waiting).
+    cap_rects: Vec<Rect>,
+    /// The "What's new" dialog, over the settings.
+    whats_new: Option<WhatsNew>,
+    /// "Restart now" was pressed in the Updates section.
+    restart: bool,
 }
 
 impl SettingsScreen {
@@ -71,12 +111,101 @@ impl SettingsScreen {
     pub fn dev_tab(&mut self) {
         match crate::dev::var("SNOOKERED_SETTINGS_TAB").as_deref() {
             Some("game") => self.tab = Tab::Game,
+            Some("controls") => self.tab = Tab::Controls,
             Some("sound") => self.tab = Tab::Sound,
             _ => {}
         }
         if crate::dev::flag("SNOOKERED_SETTINGS_ADVANCED") {
             self.advanced = true;
         }
+        // SNOOKERED_SETTINGS_CAPTURE=shoot: waiting for a key for that action.
+        if let Some(a) = crate::dev::var("SNOOKERED_SETTINGS_CAPTURE")
+            .and_then(|code| Action::ALL.into_iter().find(|a| a.code() == code))
+        {
+            self.capture = Some((a, 0));
+        }
+        // SNOOKERED_SETTINGS_NOTE=shoot: a conflict note on that action.
+        if let Some(a) = crate::dev::var("SNOOKERED_SETTINGS_NOTE")
+            .and_then(|code| Action::ALL.into_iter().find(|a| a.code() == code))
+        {
+            self.key_note = Some((
+                a,
+                tw(
+                    "Swapped: {action} is now on {key}.",
+                    &[("action", &t(Action::Replay.label())), ("key", &"F5")],
+                ),
+                f64::MAX / 2.0,
+            ));
+        }
+        if crate::dev::flag("SNOOKERED_SETTINGS_WHATS_NEW") {
+            self.whats_new = Some(WhatsNew::all());
+        }
+    }
+
+    /// Stops waiting for a key (the settings are closing).
+    pub fn stop_capture(&mut self) {
+        self.capture = None;
+        keys::set_capturing(false);
+    }
+
+    /// Waiting for a key: Esc cancels, Backspace or Delete clears the slot,
+    /// a key that can be bound is bound (taking it from another action if
+    /// needed), a click elsewhere cancels. Returns true when Esc was used.
+    fn capture_keys(&mut self, ui: &mut Ui, keys: &mut Bindings) -> bool {
+        let last_caps = std::mem::take(&mut self.cap_rects);
+        let Some((action, slot)) = self.capture else { return false };
+        let now = get_time();
+        if is_key_pressed(KeyCode::Escape) {
+            self.capture = None;
+            return true;
+        }
+        let pressed = get_keys_pressed();
+        let key = if is_key_pressed(KeyCode::Backspace) || is_key_pressed(KeyCode::Delete) {
+            Some(None)
+        } else {
+            // Several keys in one frame: the one that can be bound.
+            let mut list: Vec<KeyCode> =
+                pressed.iter().copied().filter(|k| keys::bindable(*k)).collect();
+            list.sort_by_key(|k| *k as u32);
+            list.first().map(|k| Some(*k))
+        };
+        match key {
+            Some(key) => {
+                let conflict = keys.bind(action, slot, key);
+                self.capture = None;
+                self.key_note = match conflict {
+                    Conflict::None => None,
+                    Conflict::Swapped { other, given } => {
+                        self.flash = Some((other, now));
+                        let name = t(other.label());
+                        let text = match given {
+                            Some(g) => tw(
+                                "Swapped: {action} is now on {key}.",
+                                &[("action", &name), ("key", &keys::key_label(g))],
+                            ),
+                            None if keys.get(other).iter().all(Option::is_none) => tw(
+                                "Taken from {action}, which now has no key.",
+                                &[("action", &name)],
+                            ),
+                            None => tw("Taken from {action}.", &[("action", &name)]),
+                        };
+                        Some((action, text, now))
+                    }
+                };
+            }
+            None if !pressed.is_empty() => {
+                self.key_note =
+                    Some((action, t("That key can't be used: try another.").into(), now));
+            }
+            None => {
+                if is_mouse_button_pressed(MouseButton::Left)
+                    && !last_caps.iter().any(|r| r.contains(ui.mouse()))
+                {
+                    self.capture = None;
+                }
+            }
+        }
+        false
     }
 
     pub fn draw(&mut self, ui: &mut Ui, config: &mut Config, in_match: bool) -> SettingsAction {
@@ -84,15 +213,20 @@ impl SettingsScreen {
         let sh = crate::ui::vh();
         let startup_msaa = *self.startup_msaa.get_or_insert(config.msaa);
         let advanced = self.advanced;
+        // "What's new" is over the settings: nothing under it reacts.
+        let dialog = self.whats_new.is_some().then(|| ui.suspend_input());
+        let esc_used = dialog.is_none() && self.capture_keys(ui, &mut config.keys);
         draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.5));
 
         let w = WIDTH.min(sw - 2.0 * MARGIN);
         let inner = w - 2.0 * PAD;
         // Measure every tab (with "Advanced" open): the tallest one fixes
         // where the panel's top is, so neither changing tabs nor opening that
-        // section moves it. The tab shown sets the panel's height.
+        // section moves it. The tab shown sets the panel's height. The
+        // Controls tab, much longer, takes the room below that top and
+        // scrolls.
         let mut tallest = 0.0f32;
-        for tab in TABS {
+        for tab in TABS.into_iter().filter(|t| *t != Tab::Controls) {
             let mut rows = Rows::measure(inner);
             self.rows(tab, ui, config, in_match, startup_msaa, true, &mut rows);
             tallest = tallest.max(rows.finish());
@@ -102,8 +236,13 @@ impl SettingsScreen {
         let content = rows.finish();
         let cards = rows.cards;
         let room = (sh - 2.0 * MARGIN - HEADER_H - FOOTER_H).max(80.0);
-        let body_h = content.min(room);
         let top = ((sh - HEADER_H - FOOTER_H - tallest.min(room)) / 2.0).max(MARGIN);
+        let room = if self.tab == Tab::Controls {
+            (sh - MARGIN - top - HEADER_H - FOOTER_H).max(80.0)
+        } else {
+            room
+        };
+        let body_h = content.min(room);
         let r = Rect::new((sw - w) / 2.0, top, w, HEADER_H + body_h + FOOTER_H);
         ui.panel(r);
         let x = r.x + PAD;
@@ -113,14 +252,19 @@ impl SettingsScreen {
         ui.text(t("Settings"), x + 38.0, r.y + 20.0, 24.0, GOLD, true);
 
         // Tabs.
-        let tabs =
-            [(Tab::Graphics, t("Graphics")), (Tab::Game, t("Game")), (Tab::Sound, t("Sound"))];
-        let tab_w = (inner - 16.0) / 3.0;
+        let tabs = [
+            (Tab::Graphics, t("Graphics")),
+            (Tab::Game, t("Game")),
+            (Tab::Controls, t("Controls")),
+            (Tab::Sound, t("Sound")),
+        ];
+        let tab_w = (inner - 8.0 * (tabs.len() - 1) as f32) / tabs.len() as f32;
         for (k, (tab, label)) in tabs.into_iter().enumerate() {
             let tr = Rect::new(x + k as f32 * (tab_w + 8.0), r.y + 60.0, tab_w, 34.0);
-            if ui.tab(tr, label, self.tab == tab) {
+            if ui.tab(tr, label, self.tab == tab) && self.tab != tab {
                 self.tab = tab;
                 self.scroll = 0.0;
+                self.capture = None;
             }
         }
 
@@ -157,25 +301,37 @@ impl SettingsScreen {
             rrect(Rect::new(track.x, y, 4.0, h), 2.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.7));
         }
 
-        // Buttons.
+        // Buttons. On the Controls tab, the reset is for the keys only.
         let by = r.y + r.h - 22.0 - 40.0;
         let armed = self.reset_armed.is_some_and(|at| get_time() - at < 4.0);
-        let reset_label = if armed { t("Reset everything?") } else { t("Reset to defaults") };
+        let (ask, idle) = if self.tab == Tab::Controls {
+            (t("Reset every key?"), t("Reset all keys"))
+        } else {
+            (t("Reset everything?"), t("Reset to defaults"))
+        };
+        let reset_label = if armed { ask } else { idle };
         // As wide as the longer of its two labels, so it doesn't jump.
-        let reset_w = [t("Reset everything?"), t("Reset to defaults")]
+        let reset_w = [ask, idle]
             .iter()
             .map(|l| ui.text_size(l, 17.0, true).x + 40.0)
             .fold(190.0, f32::max)
             .min(280.0);
         let reset = Rect::new(x, by, reset_w, 40.0);
-        let pressed = ui.button(reset, reset_label, true);
+        let nothing_to_reset = self.tab == Tab::Controls && config.keys == Bindings::default();
+        let pressed = ui.button(reset, reset_label, !nothing_to_reset);
         if armed {
             rrect_lines(reset, 6.0, 1.6, ALERT);
         }
         if pressed {
             if armed {
                 self.reset_armed = None;
-                reset_defaults(config);
+                if self.tab == Tab::Controls {
+                    config.keys = Bindings::default();
+                    self.key_note = None;
+                    self.capture = None;
+                } else {
+                    reset_defaults(config);
+                }
             } else {
                 self.reset_armed = Some(get_time());
             }
@@ -183,18 +339,38 @@ impl SettingsScreen {
             self.reset_armed = None;
         }
         if armed && ui.hovering(reset) {
-            ui.tooltip(t("Click again to reset every setting"), reset);
+            let tip = if self.tab == Tab::Controls {
+                t("Click again to put every key back")
+            } else {
+                t("Click again to reset every setting")
+            };
+            ui.tooltip(tip, reset);
         }
+        let mut action = SettingsAction::None;
         if ui.primary_button(Rect::new(x + inner - 190.0, by, 190.0, 40.0), t("Done"))
-            || (is_key_pressed(KeyCode::Escape) && ui.focus.is_none())
+            || (is_key_pressed(KeyCode::Escape)
+                && ui.focus.is_none()
+                && !esc_used
+                && dialog.is_none())
         {
             if config.server.trim().is_empty() {
                 config.server = DEFAULT_SERVER.into();
             }
             config.server = config.server.trim().to_string();
-            return SettingsAction::Close;
+            self.stop_capture();
+            action = SettingsAction::Close;
         }
-        SettingsAction::None
+        if std::mem::take(&mut self.restart) {
+            action = SettingsAction::Restart;
+        }
+        if let Some(saved) = dialog {
+            ui.resume_input(saved);
+            if self.whats_new.as_mut().is_some_and(|w| w.draw(ui)) {
+                self.whats_new = None;
+            }
+        }
+        keys::set_capturing(self.capture.is_some());
+        action
     }
 
     /// The rows of `tab`. Measuring and drawing share this code: while
@@ -255,13 +431,11 @@ impl SettingsScreen {
                 }
 
                 rows.heading(ui, t("Display"), None);
-                if switch_row(
-                    rows,
-                    ui,
-                    t("Full screen"),
-                    t("Also with F11."),
-                    &mut config.fullscreen,
-                ) {
+                let hint = match config.keys.short(Action::Fullscreen) {
+                    "" => String::new(),
+                    key => tw("Also with {key}.", &[("key", &key)]),
+                };
+                if switch_row(rows, ui, t("Full screen"), &hint, &mut config.fullscreen) {
                     set_fullscreen(config.fullscreen);
                 }
                 let size = self.pending_size.unwrap_or(config.ui_size);
@@ -383,6 +557,8 @@ impl SettingsScreen {
                     &mut config.tv_camera,
                 );
 
+                self.updates_rows(ui, config, in_match, rows);
+
                 // The server, out of the way: few players ever change it.
                 if !in_match {
                     // Closed, it still says when another server is in use.
@@ -413,6 +589,28 @@ impl SettingsScreen {
                     }
                 }
             }
+            Tab::Controls => {
+                for (heading, actions) in KEY_SECTIONS {
+                    rows.heading(ui, t(heading), None);
+                    for action in actions {
+                        self.key_row(rows, ui, &mut config.keys, *action);
+                    }
+                }
+                rows.heading(ui, t("Fixed keys"), None);
+                for (label, key) in [
+                    (t("Menu, back and cancel"), KeyCode::Escape),
+                    (t("Confirm (forms, the cue ball in hand)"), KeyCode::Enter),
+                ] {
+                    if let Some((_, c)) = rows.row(ui, label, "", Control::Keys) {
+                        let cap = Rect::new(c.x, c.y, (c.w - 46.0) / 2.0, c.h);
+                        let name = if key == KeyCode::Escape { "Esc" } else { "Enter" };
+                        key_cap(ui, cap, name, false, false);
+                        if ui.hovering(cap) {
+                            ui.tooltip(t("This key can't be changed."), cap);
+                        }
+                    }
+                }
+            }
             Tab::Sound => {
                 rows.heading(ui, t("Sound"), None);
                 if let Some((_, c)) = rows.row(
@@ -439,6 +637,164 @@ impl SettingsScreen {
     }
 }
 
+impl SettingsScreen {
+    /// An action's row on the Controls tab: its two keys (click one to
+    /// change it) and a button back to the defaults.
+    fn key_row(&mut self, rows: &mut Rows, ui: &mut Ui, keys: &mut Bindings, action: Action) {
+        let now = get_time();
+        let waiting = self.capture.filter(|(a, _)| *a == action).map(|(_, s)| s);
+        let note = self
+            .key_note
+            .as_ref()
+            .filter(|(a, _, at)| *a == action && now - at < 6.0)
+            .map(|(_, n, _)| n.clone());
+        let (hint, color) = match (&note, waiting) {
+            (Some(n), _) => (n.as_str(), GOLD),
+            (None, Some(_)) => (t("Press a key · Esc cancels · Backspace clears"), GOLD),
+            (None, None) => ("", MUTED),
+        };
+        let Some((row, c)) =
+            rows.row_ex(ui, t(action.label()), hint, color, Control::Keys, true, false)
+        else {
+            return;
+        };
+        if let Some((a, at)) = self.flash
+            && a == action
+            && now - at < 2.0
+        {
+            let k = (1.0 - (now - at) / 2.0) as f32;
+            rrect(
+                Rect::new(row.x + 3.0, row.y + 3.0, row.w - 6.0, row.h - 6.0),
+                6.0,
+                Color::new(GOLD.r, GOLD.g, GOLD.b, 0.14 * k),
+            );
+        }
+        let reset = Rect::new(c.x + c.w - 30.0, c.y, 30.0, 30.0);
+        let cap_w = (c.w - 46.0) / 2.0;
+        let slots = keys.get(action);
+        for (slot, key) in slots.into_iter().enumerate() {
+            let r = Rect::new(c.x + slot as f32 * (cap_w + 8.0), c.y, cap_w, c.h);
+            self.cap_rects.push(r);
+            let on = waiting == Some(slot);
+            let label = match key {
+                _ if on => t("Press a key…"),
+                Some(k) => keys::key_label(k),
+                None => "—",
+            };
+            if key_cap(ui, r, label, on, true) {
+                self.capture = if on { None } else { Some((action, slot)) };
+                self.key_note = None;
+                ui.focus = None;
+            }
+            if !on && ui.hovering(r) {
+                let tip =
+                    if key.is_some() { t("Click to change") } else { t("Click to add a key") };
+                ui.tooltip(tip, r);
+            }
+        }
+        let defaults = Bindings::default().label(action);
+        let tip = if defaults.is_empty() {
+            t("Back to no key").to_string()
+        } else {
+            tw("Back to {keys}", &[("keys", &defaults)])
+        };
+        if ui.icon_button(reset, Icon::Refresh, &tip, !keys.is_default(action)) {
+            keys.reset(action);
+            self.key_note = None;
+            if self.capture.is_some_and(|(a, _)| a == action) {
+                self.capture = None;
+            }
+        }
+    }
+
+    /// The Updates section (Game tab): automatic updates, this version,
+    /// what the updater is doing, and "What's new".
+    fn updates_rows(&mut self, ui: &mut Ui, config: &mut Config, in_match: bool, rows: &mut Rows) {
+        rows.heading(ui, t("Updates"), None);
+        if !crate::channel::STORE {
+            switch_row(
+                rows,
+                ui,
+                t("Update automatically"),
+                t("New versions download in the background and install when you restart."),
+                &mut config.auto_update,
+            );
+        }
+        let status = update::status();
+        let (line, bad) = update::describe(&status);
+        let label = tw("Version {v}", &[("v", &update::VERSION)]);
+        let color = if bad { ALERT } else { MUTED };
+        let Some((_, c)) = rows.row_ex(ui, &label, &line, color, Control::Wide(32.0), true, false)
+        else {
+            return;
+        };
+        let half = (c.w - 8.0) / 2.0;
+        if ui.button(Rect::new(c.x, c.y, half, c.h), t("What's new"), true) {
+            self.whats_new = Some(WhatsNew::all());
+        }
+        let second = Rect::new(c.x + half + 8.0, c.y, half, c.h);
+        match status {
+            Status::Ready { .. } if !in_match => {
+                if ui.primary_button(second, t("Restart now")) {
+                    self.restart = true;
+                }
+            }
+            Status::Ready { .. } => {
+                ui.button(second, t("Restart now"), false);
+                if ui.hovering(second) {
+                    ui.tooltip(t("After the game, from the main menu."), second);
+                }
+            }
+            Status::Available { .. } => {
+                if ui.button(second, t("Download"), true) {
+                    crate::util::open_url(update::RELEASES);
+                }
+            }
+            _ => {
+                let can = update::allowed() && !update::busy();
+                if ui.button(second, t("Check now"), can) {
+                    update::check_now();
+                }
+            }
+        }
+    }
+}
+
+/// A key on its cap: `label`, waiting for a key (`waiting`, pulsing), or
+/// greyed out (`enabled` false: a fixed key). Returns true when clicked.
+fn key_cap(ui: &mut Ui, r: Rect, label: &str, waiting: bool, enabled: bool) -> bool {
+    ui.block(r);
+    let hover = enabled && ui.hovering(r);
+    let a = if enabled { 1.0 } else { 0.5 };
+    // A key: a darker edge underneath, a slightly lighter face.
+    rrect(Rect::new(r.x, r.y + 2.0, r.w, r.h), 6.0, Color::new(0.0, 0.0, 0.0, 0.4 * a));
+    let face = if hover || waiting {
+        Color::new(0.20, 0.14, 0.09, a)
+    } else {
+        Color::new(0.13, 0.09, 0.06, a)
+    };
+    crate::ui::rrect_gradient(r, 6.0, crate::ui::shade(face, 0.06), crate::ui::shade(face, -0.12));
+    let edge = if waiting {
+        let pulse = ((get_time() * 4.0).sin() * 0.5 + 0.5) as f32;
+        Color::new(GOLD.r, GOLD.g, GOLD.b, 0.45 + 0.55 * pulse)
+    } else if hover {
+        GOLD
+    } else {
+        Color::new(BORDER.r, BORDER.g, BORDER.b, a)
+    };
+    rrect_lines(r, 6.0, if waiting { 1.8 } else { 1.2 }, edge);
+    let (size, bold, color) = if waiting {
+        (13.0, false, GOLD)
+    } else if label == "—" {
+        (15.0, false, MUTED)
+    } else {
+        (15.0, true, Color::new(CREAM.r, CREAM.g, CREAM.b, a))
+    };
+    let (text, size) = ui.fitted(label, size, r.w - 12.0, bold);
+    ui.text_centered(&text, r.x + r.w / 2.0, r.y + (r.h - size) / 2.0 - 1.0, size, color, bold);
+    hover && ui.clicked(r)
+}
+
 /// Everything back to how it was on the first run, except who is playing
 /// and the language.
 fn reset_defaults(config: &mut Config) {
@@ -449,6 +805,7 @@ fn reset_defaults(config: &mut Config) {
         username: keep.username,
         token: keep.token,
         language: keep.language,
+        last_version: keep.last_version,
         graphics_checked: true,
         ..Config::default()
     };
@@ -470,6 +827,8 @@ enum Control {
     Wide(f32),
     /// An on/off switch (the text gets the rest of the row).
     Switch,
+    /// Two key caps and a reset button (Controls tab).
+    Keys,
 }
 
 impl Control {
@@ -478,6 +837,7 @@ impl Control {
         match self {
             Control::Wide(h) => vec2((w * 0.5).min(330.0), h),
             Control::Switch => vec2(44.0, 24.0),
+            Control::Keys => vec2((w * 0.5).min(330.0), 30.0),
         }
     }
 }
@@ -738,7 +1098,7 @@ fn switch(track: Rect, on: bool, enabled: bool, hover: bool) {
 
 /// Clips what is drawn from now on to `r` (in interface units), or stops
 /// clipping.
-fn clip(r: Option<Rect>) {
+pub(crate) fn clip(r: Option<Rect>) {
     let k = crate::ui::ui_scale();
     let gl = unsafe { get_internal_gl() }.quad_gl;
     gl.scissor(r.map(|r| {

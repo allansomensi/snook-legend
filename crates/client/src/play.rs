@@ -1,6 +1,6 @@
 //! Player controls and the per-frame table overlay (cue, aim line, markers).
 //!
-//! | Action | Mouse | Keyboard |
+//! | Action | Mouse | Keyboard (defaults, see `keys.rs`) |
 //! |---|---|---|
 //! | Aim | left-drag on the table or the cue, click a spot (Shift: fine) | A / D or ← / → |
 //! | Spin | spin ball in the panel | ↑ / ↓, Q / E |
@@ -8,7 +8,7 @@
 //! | Shoot | power slider + Shoot | hold Space, release |
 //! | Ball in hand | drag the cue ball | B toggles, Enter confirms |
 //! | Call the 8-ball pocket | click a pocket | |
-//! | Camera | right-drag turns the table (3D), wheel zoom | Tab 3D/top, C top view |
+//! | Camera | right-drag turns the table (3D), wheel zoom | Tab 3D/top, C top view, = / - zoom |
 
 use ::glam::DVec2;
 use macroquad::prelude::*;
@@ -19,6 +19,7 @@ use crate::config::AimGuide;
 use crate::coords::{TABLE_HEIGHT, surface, to_table};
 use crate::game::{Controller, Match, Phase};
 use crate::gfx::SceneCamera;
+use crate::keys::{self, Action};
 use crate::scene::{Guide, Overlay, RAIL_HEIGHT, Scene};
 
 /// Fraction of a full charge gained per second while Space is held.
@@ -140,7 +141,7 @@ impl Controls {
             self.orbiting = false;
         }
         if !typing {
-            if is_key_pressed(KeyCode::Tab) || is_key_pressed(KeyCode::T) {
+            if keys::pressed(Action::ToggleView) {
                 rig.tv_paused = true;
                 if rig.mode == CameraMode::Top {
                     rig.enter_3d();
@@ -148,8 +149,15 @@ impl Controls {
                     rig.reset();
                 }
             }
-            if is_key_pressed(KeyCode::C) {
+            if keys::pressed(Action::ResetCamera) {
                 rig.reset();
+            }
+            // Keyboard zoom: steps while held, like the wheel turning.
+            let zoom_in = keys::down(Action::ZoomIn);
+            if zoom_in != keys::down(Action::ZoomOut) {
+                let rate = 1.6f32.powf(get_frame_time());
+                rig.tv_paused = true;
+                rig.zoom(if zoom_in { 1.0 / rate } else { rate }, None);
             }
         }
         if !ui_hovered {
@@ -191,14 +199,14 @@ impl Controls {
             return;
         }
         let dt = get_frame_time() as f64;
-        let fine = is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift);
+        let fine = keys::down(Action::FineAim);
         let pointer_free = !ui_hovered;
         let radius = scene.ball_radius();
         let pointer = pointer_on_table(cam, radius);
         let cue = m.game.ball(BallId::CUE).xy();
 
         // Ball in hand: B toggles placing, Enter confirms.
-        if is_key_pressed(KeyCode::B) && m.game.ball_in_hand().is_some() {
+        if keys::pressed(Action::BallInHand) && m.game.ball_in_hand().is_some() {
             let placing = m.is_placing_cue_ball();
             m.set_placing(!placing);
         }
@@ -284,15 +292,15 @@ impl Controls {
             self.mode = DragMode::None;
         }
         if m.is_placing_cue_ball() {
-            if !is_key_pressed(KeyCode::Space) {
+            if !keys::pressed(Action::Shoot) {
                 return;
             }
             m.set_placing(false);
         }
 
         // Keyboard aim: starts very fine and speeds up while held.
-        let left = is_key_down(KeyCode::A) || is_key_down(KeyCode::Left);
-        let right = is_key_down(KeyCode::D) || is_key_down(KeyCode::Right);
+        let left = keys::down(Action::AimLeft);
+        let right = keys::down(Action::AimRight);
         if left || right {
             self.key_hold += dt;
             let rate =
@@ -306,43 +314,43 @@ impl Controls {
         // Spin and elevation.
         let tip_rate = 1.2 * dt;
         let mut tip = m.aim.tip;
-        if is_key_down(KeyCode::Up) {
+        if keys::down(Action::SpinUp) {
             tip.y += tip_rate;
         }
-        if is_key_down(KeyCode::Down) {
+        if keys::down(Action::SpinDown) {
             tip.y -= tip_rate;
         }
-        if is_key_down(KeyCode::Q) {
+        if keys::down(Action::SpinLeft) {
             tip.x -= tip_rate;
         }
-        if is_key_down(KeyCode::E) {
+        if keys::down(Action::SpinRight) {
             tip.x += tip_rate;
         }
         m.aim.tip = if tip.length() > 1.0 { tip.normalize() } else { tip };
         let max_elevation = m.game.params().max_elevation;
-        if is_key_down(KeyCode::W) {
+        if keys::down(Action::ElevationUp) {
             m.aim.elevation = (m.aim.elevation + 0.6 * dt).min(max_elevation);
         }
-        if is_key_down(KeyCode::S) {
+        if keys::down(Action::ElevationDown) {
             m.aim.elevation = (m.aim.elevation - 0.6 * dt).max(0.0);
         }
 
-        // Power: hold Space, release to shoot.
-        if is_key_pressed(KeyCode::Space) {
+        // Power: hold Space (or the shoot key), release to shoot.
+        if keys::pressed(Action::Shoot) {
             m.aim.charging = true;
             m.aim.power = 0.0;
         }
         if m.aim.charging {
             // Esc cancels a stroke being charged with Space; a power set on
             // the bar is no stroke (Esc opens the menu and keeps it).
-            if is_key_pressed(KeyCode::Escape) && is_key_down(KeyCode::Space) {
+            if is_key_pressed(KeyCode::Escape) && keys::down(Action::Shoot) {
                 m.aim.charging = false;
                 m.aim.power = 0.0;
                 // This Esc cancelled the stroke: it doesn't open the menu too.
                 m.escape_used = true;
-            } else if is_key_down(KeyCode::Space) {
+            } else if keys::down(Action::Shoot) {
                 m.aim.power = (m.aim.power + CHARGE_RATE * dt as f32).min(1.0);
-            } else if is_key_released(KeyCode::Space) {
+            } else if keys::released(Action::Shoot) {
                 if m.aim.power > 0.01 {
                     m.shoot();
                 } else {

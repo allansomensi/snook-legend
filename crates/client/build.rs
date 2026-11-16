@@ -1,4 +1,5 @@
-//! On Windows: the emblem as the executable's icon, and the version details
+//! The platform the game is built for (the updater's download), and on
+//! Windows: the emblem as the executable's icon, and the version details
 //! Explorer and the Task Manager show ("Snookered" instead of "snookered.exe").
 
 use std::path::PathBuf;
@@ -6,6 +7,9 @@ use std::path::PathBuf;
 fn main() {
     println!("cargo::rerun-if-changed=build.rs");
     println!("cargo::rerun-if-changed=assets/icon/snookered.ico");
+    // The platform this copy is built for: the updater downloads the
+    // release archive made for it (`snookered-<target>.tar.xz`).
+    println!("cargo::rustc-env=SNOOKERED_TARGET={}", std::env::var("TARGET").unwrap());
     if std::env::var("CARGO_CFG_TARGET_OS").as_deref() != Ok("windows") {
         return;
     }

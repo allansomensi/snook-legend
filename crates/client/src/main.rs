@@ -21,6 +21,7 @@ mod hud;
 mod i18n;
 mod icon;
 mod icons;
+mod keys;
 mod lan;
 mod menu;
 mod net;
@@ -41,6 +42,7 @@ mod textures;
 mod ui;
 mod update;
 mod util;
+mod whatsnew;
 
 use macroquad::prelude::*;
 use snookered_core::{Difficulty, Table};
@@ -150,6 +152,13 @@ fn parse_args() -> LaunchOptions {
 }
 
 fn window_conf() -> macroquad::conf::Conf {
+    // Before any window: the updater runs `--version` on a new executable
+    // to make sure it works (see update.rs). Keep this answer as it is.
+    if std::env::args().skip(1).any(|a| a == "--version" || a == "-V") {
+        println!("snookered {}", env!("CARGO_PKG_VERSION"));
+        std::process::exit(0);
+    }
+    update::init();
     let config = Config::load();
     // `--window WxH` (development): start with this window size.
     let args: Vec<String> = std::env::args().collect();
@@ -234,6 +243,19 @@ async fn main() {
 
     let mut config = Config::load();
     i18n::set_lang(config.language);
+    // The first start on a new version: what changed (on the main menu).
+    let mut whats_new = whatsnew::WhatsNew::after_update(&config.last_version);
+    // Development aid: SNOOKERED_WHATS_NEW=1 shows the notes, =0.2.0 that
+    // version's.
+    if let Some(v) = crate::dev::var("SNOOKERED_WHATS_NEW") {
+        whats_new = whatsnew::WhatsNew::of(&v).or_else(|| Some(whatsnew::WhatsNew::all()));
+    } else if options.screenshot.is_some() {
+        whats_new = None;
+    }
+    if config.last_version != update::VERSION {
+        config.last_version = update::VERSION.to_string();
+        config.save();
+    }
     let mut scene = Scene::new(
         Table::default(),
         config.quality,
@@ -349,8 +371,14 @@ async fn main() {
         let dt = get_frame_time().min(0.1);
         ui::update_scale(config.ui_size);
         ui.begin();
+        keys::install(&config.keys);
+        // The settings may close without their Done button (an online game
+        // starting): no key stays waited for.
+        if !settings_open {
+            settings_screen.stop_capture();
+        }
 
-        if is_key_pressed(KeyCode::F11) {
+        if keys::pressed_anywhere(keys::Action::Fullscreen, ui.wants_keyboard) {
             config.fullscreen = !config.fullscreen;
             set_fullscreen(config.fullscreen);
             config.save();
@@ -380,6 +408,7 @@ async fn main() {
                 match_from_lan = true;
             }
         }
+        update::tick(config.auto_update);
         // The new version's installer is running: it replaces this copy.
         if online.quit_for_update {
             config.save();
@@ -594,8 +623,15 @@ async fn main() {
 
         // 2D interface. The e-mail offer is drawn over the page at the end:
         // until then the page doesn't react to the pointer.
-        let offer_saved = (current.is_none() && !settings_open && online.email_offer.is_some())
-            .then(|| ui.suspend_input());
+        // "What's new" waits for the main menu, and is drawn over it.
+        let show_news = whats_new.is_some()
+            && current.is_none()
+            && !settings_open
+            && matches!(screen, Screen::Menu);
+        let offer_saved =
+            (current.is_none() && !settings_open && !show_news && online.email_offer.is_some())
+                .then(|| ui.suspend_input());
+        let news_saved = show_news.then(|| ui.suspend_input());
         if settings_open {
             let before = config.clone();
             let action = settings_screen.draw(&mut ui, &mut config, current.is_some());
@@ -624,9 +660,18 @@ async fn main() {
                     None => config.guide,
                 };
             }
-            if let SettingsAction::Close = action {
-                settings_open = false;
-                config.save();
+            match action {
+                SettingsAction::Close => {
+                    settings_open = false;
+                    config.save();
+                }
+                SettingsAction::Restart => {
+                    config.save();
+                    if update::restart() {
+                        break;
+                    }
+                }
+                SettingsAction::None => {}
             }
         } else {
             match current.as_mut() {
@@ -772,6 +817,15 @@ async fn main() {
                                 }
                             },
                             MenuAction::Settings => settings_open = true,
+                            MenuAction::WhatsNew => {
+                                whats_new = Some(whatsnew::WhatsNew::all());
+                            }
+                            MenuAction::Restart => {
+                                config.save();
+                                if update::restart() {
+                                    break;
+                                }
+                            }
                             MenuAction::Quit => break,
                             MenuAction::None => {}
                         },
@@ -969,6 +1023,12 @@ async fn main() {
                 config.save();
             }
         }
+        if let Some(saved) = news_saved {
+            ui.resume_input(saved);
+            if whats_new.as_mut().is_some_and(|w| w.draw(&mut ui)) {
+                whats_new = None;
+            }
+        }
         if let Some(saved) = offer_saved {
             ui.resume_input(saved);
         }
@@ -998,7 +1058,11 @@ async fn main() {
         }
         // Achievements, friend requests, declined invitations…
         let toast_bottom = if current.is_some() { ui::vh() - 92.0 } else { ui::vh() - 20.0 };
-        if current.is_none() && !settings_open && online.draw_email_offer(&mut ui, &mut config) {
+        if current.is_none()
+            && !settings_open
+            && !show_news
+            && online.draw_email_offer(&mut ui, &mut config)
+        {
             config.save();
         }
         online.draw_toasts(&ui, toast_bottom);

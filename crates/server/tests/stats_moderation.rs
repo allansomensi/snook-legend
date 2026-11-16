@@ -50,6 +50,7 @@ fn record(players: [i64; 2], ended_at: i64, replay: bool) -> MatchRecord {
         replay: replay.then(|| Replay {
             seed: 9,
             breaker: 0,
+            ruleset: snookered_core::RULESET,
             strokes: vec![Stroke::Resign { seat: 1 }],
         }),
         stats: [ShotStats::default(); 2],

@@ -7,7 +7,7 @@ use sqlx::{Row, query};
 use super::super::{AsyncChallenge, AsyncGame, MatchRecord, NewAsyncGame, StoreResult, User};
 use super::{PgStore, replay_json, replay_of};
 
-const GAME_COLUMNS: &str = "id, player0, player1, rated, seed, breaker, strokes::text AS strokes, \
+const GAME_COLUMNS: &str = "id, player0, player1, rated, seed, breaker, strokes::text AS strokes, ruleset, \
     turn, deadline, seen0, seen1, group0, group1, left0, left1, started_at, updated_at, \
     finished_at, winner, reason, timeout, delta0, delta1, rating0, rating1, match_id";
 
@@ -32,8 +32,9 @@ const CHALLENGE_COLUMNS: &str = "id, from_id, to_id, rated, created_at";
 
 fn game(r: &PgRow) -> Result<AsyncGame, sqlx::Error> {
     let strokes: String = r.try_get("strokes")?;
-    let replay = replay_of(r.try_get("seed")?, r.try_get("breaker")?, &strokes)
-        .ok_or_else(|| sqlx::Error::Decode("unreadable strokes".into()))?;
+    let replay =
+        replay_of(r.try_get("seed")?, r.try_get("breaker")?, &strokes, r.try_get("ruleset")?)
+            .ok_or_else(|| sqlx::Error::Decode("unreadable strokes".into()))?;
     let n = |c: &str| -> Result<u32, sqlx::Error> { Ok(r.try_get::<i32, _>(c)?.max(0) as u32) };
     let small = |c: &str| -> Result<i16, sqlx::Error> { r.try_get::<i16, _>(c) };
     Ok(AsyncGame {
@@ -134,8 +135,8 @@ impl PgStore {
         let c = challenge(&c)?;
         let breaker = (new.breaker % 2) as i16;
         let row = query(&format!(
-            "INSERT INTO async_games (player0, player1, rated, seed, breaker, turn, deadline, started_at, updated_at)
-             VALUES ($1, $2, $3, $4, $5, $5, $6, $7, $7) RETURNING {GAME_COLUMNS}"
+            "INSERT INTO async_games (player0, player1, rated, seed, breaker, turn, deadline, started_at, updated_at, ruleset)
+             VALUES ($1, $2, $3, $4, $5, $5, $6, $7, $7, $8) RETURNING {GAME_COLUMNS}"
         ))
         .bind(c.from)
         .bind(c.to)
@@ -144,6 +145,8 @@ impl PgStore {
         .bind(breaker)
         .bind(new.deadline)
         .bind(new.at)
+        // New games are played under the current rules.
+        .bind(snookered_core::RULESET as i16)
         .fetch_one(&mut *tx)
         .await?;
         let game = game(&row)?;

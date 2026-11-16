@@ -90,14 +90,14 @@ impl Fnv {
 }
 
 /// Decisions of several computer players on a few tables, hashed bit by bit.
-fn fingerprint() -> u64 {
+fn fingerprint(ruleset: u8) -> u64 {
     let mut h = Fnv(0xcbf2_9ce4_8422_2325);
     let players: Vec<AiPlayer> = ["leo", "lola", "bruno", "marta", "otto", "viktor"]
         .iter()
         .map(|c| personality(c).expect("exists").player)
         .collect();
     for seed in 0..3u64 {
-        let mut g = EightBallGame::new(seed, 0);
+        let mut g = EightBallGame::with_ruleset(seed, 0, ruleset);
         // The break (with the cue ball in hand behind the head string).
         let d = decide_with(&g, &players[(seed % 2) as usize], seed);
         if let Some(p) = d.cue_ball {
@@ -127,11 +127,17 @@ fn fingerprint() -> u64 {
 
 #[test]
 fn decisions_are_bit_identical_everywhere() {
-    let got = fingerprint();
-    println!("ai fingerprint {got:#x}");
-    assert_eq!(got, EXPECTED, "the computer decided differently on this platform");
+    for (ruleset, expected) in EXPECTED {
+        let got = fingerprint(ruleset);
+        println!("ruleset {ruleset}: ai fingerprint {got:#x}");
+        assert_eq!(
+            got, expected,
+            "the computer decided differently on this platform (ruleset {ruleset})"
+        );
+    }
 }
 
-/// Update only on purpose (a change to the AI or the physics), from the
-/// value printed above.
-const EXPECTED: u64 = 0x5f9e_be78_d9d8_361f;
+/// Update only on purpose (a change to the physics, the rules or the AI of
+/// the current ruleset), from the values printed above. An older ruleset's
+/// value never changes: games recorded under it must replay the same.
+const EXPECTED: [(u8, u64); 2] = [(1, 0x5f9e_be78_d9d8_361f), (2, 0x0b68_fc4c_5ce8_4046)];

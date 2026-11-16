@@ -20,10 +20,10 @@ impl Fnv {
     }
 }
 
-fn fingerprint() -> u64 {
+fn fingerprint(ruleset: u8) -> u64 {
     let mut h = Fnv(0xcbf2_9ce4_8422_2325);
     for seed in 0..6u64 {
-        let mut g = EightBallGame::new(seed, (seed % 2) as usize);
+        let mut g = EightBallGame::with_ruleset(seed, (seed % 2) as usize, ruleset);
         // Breaks with spin and elevation, then the computer plays on.
         let tip = DVec2::new((seed as f64 - 2.5) * 0.15, 0.2);
         let shot = Shot::new(0.003 * seed as f64, 6.5).with_tip(tip).with_elevation(0.05);
@@ -73,10 +73,17 @@ fn fingerprint() -> u64 {
 
 #[test]
 fn simulation_is_bit_identical_everywhere() {
-    let got = fingerprint();
-    println!("fingerprint {got:#x}");
-    assert_eq!(got, EXPECTED, "the physics gave different bits on this platform");
+    for (ruleset, expected) in EXPECTED {
+        let got = fingerprint(ruleset);
+        println!("ruleset {ruleset}: fingerprint {got:#x}");
+        assert_eq!(
+            got, expected,
+            "the physics gave different bits on this platform (ruleset {ruleset})"
+        );
+    }
 }
 
-/// Update only on purpose (a physics change), from the value printed above.
-const EXPECTED: u64 = 0xb7c0_baa6_646d_027c;
+/// Update only on purpose (a change to the physics, the rules or the AI of
+/// the current ruleset), from the values printed above. An older ruleset's
+/// value never changes: games recorded under it must replay the same.
+const EXPECTED: [(u8, u64); 2] = [(1, 0xb7c0_baa6_646d_027c), (2, 0x488d_fa89_9acb_bba9)];

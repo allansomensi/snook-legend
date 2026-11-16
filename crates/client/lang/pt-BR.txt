@@ -1615,3 +1615,4 @@ Leave your table or the queue before changing your username.	Saia da sua mesa ou
 Leave your tournament before changing your username.	Saia do seu torneio antes de trocar seu nome de usuário.
 Username changed.	Nome de usuário alterado.
 The server is still being updated to the new version. Try again in a few minutes.	O servidor ainda está sendo atualizado para a nova versão. Tente de novo em alguns minutos.
+{shooter} made an opponent's ball: {next} to shoot.	{shooter} encaçapou uma bola do adversário: vez de {next}.

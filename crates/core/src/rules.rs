@@ -141,6 +141,10 @@ pub struct ShotReport {
     /// True if the shooter keeps the table.
     pub continues: bool,
     pub game_over: Option<GameOver>,
+    /// The shooter made one of the opponent's balls, which passed the turn
+    /// (from ruleset 2), even if they made one of their own too.
+    #[serde(default)]
+    pub opponent_ball: bool,
 }
 
 impl ShotReport {
@@ -181,16 +185,17 @@ pub struct PendingShot {
 /// Complete state of an eight-ball game between players `0` and `1`.
 ///
 /// Serializable so the game server can send authoritative snapshots. The
-/// table and the physics parameters are not part of a snapshot (they are the
-/// standard ones on every machine), which keeps snapshots small: a
-/// deserialized game always uses [`Table::default`] and
-/// [`PhysicsParams::default`].
+/// table and the physics parameters are not part of a snapshot, only the
+/// game's ruleset (see [`crate::RULESET`]): a deserialized game gets the
+/// table and the physics of its ruleset (1 when a snapshot names none).
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(from = "GameData")]
 pub struct EightBallGame {
     #[serde(skip)]
     table: Table,
     #[serde(skip)]
     params: PhysicsParams,
+    ruleset: u8,
     balls: Vec<Ball>,
     current: usize,
     groups: [Option<Group>; 2],
@@ -204,17 +209,72 @@ pub struct EightBallGame {
     called: [Option<PocketId>; 2],
 }
 
+/// What a snapshot holds (see [`EightBallGame`]).
+#[derive(Deserialize)]
+struct GameData {
+    #[serde(default = "first_ruleset")]
+    ruleset: u8,
+    balls: Vec<Ball>,
+    current: usize,
+    groups: [Option<Group>; 2],
+    is_break: bool,
+    ball_in_hand: Option<BallInHand>,
+    game_over: Option<GameOver>,
+    shots_taken: u32,
+    #[serde(default)]
+    called: [Option<PocketId>; 2],
+}
+
+fn first_ruleset() -> u8 {
+    1
+}
+
+impl From<GameData> for EightBallGame {
+    fn from(d: GameData) -> Self {
+        let ruleset = crate::known_ruleset(d.ruleset);
+        EightBallGame {
+            table: Table::of_ruleset(ruleset),
+            params: PhysicsParams::of_ruleset(ruleset),
+            ruleset,
+            balls: d.balls,
+            current: d.current,
+            groups: d.groups,
+            is_break: d.is_break,
+            ball_in_hand: d.ball_in_hand,
+            game_over: d.game_over,
+            shots_taken: d.shots_taken,
+            called: d.called,
+        }
+    }
+}
+
 impl EightBallGame {
-    /// A freshly racked game on the default table. `seed` randomises the rack.
+    /// A freshly racked game under the current rules. `seed` randomises the rack.
     pub fn new(seed: u64, breaker: usize) -> Self {
-        Self::with_table(Table::default(), PhysicsParams::default(), seed, breaker)
+        Self::with_ruleset(seed, breaker, crate::RULESET)
     }
 
+    /// A freshly racked game under `ruleset` (see [`crate::RULESET`]): its
+    /// table, its physics and its rules.
+    pub fn with_ruleset(seed: u64, breaker: usize, ruleset: u8) -> Self {
+        let ruleset = crate::known_ruleset(ruleset);
+        let mut game = Self::with_table(
+            Table::of_ruleset(ruleset),
+            PhysicsParams::of_ruleset(ruleset),
+            seed,
+            breaker,
+        );
+        game.ruleset = ruleset;
+        game
+    }
+
+    /// A game on a table and with physics of one's own (the current rules).
     pub fn with_table(table: Table, params: PhysicsParams, seed: u64, breaker: usize) -> Self {
         let balls = rack(&table, seed);
         EightBallGame {
             table,
             params,
+            ruleset: crate::RULESET,
             balls,
             current: breaker % 2,
             groups: [None, None],
@@ -228,6 +288,11 @@ impl EightBallGame {
 
     pub fn table(&self) -> &Table {
         &self.table
+    }
+
+    /// The rules, physics and table this game is played with.
+    pub fn ruleset(&self) -> u8 {
+        self.ruleset
     }
 
     pub fn params(&self) -> &PhysicsParams {
@@ -558,8 +623,15 @@ impl EightBallGame {
             spotted.push(b);
         }
 
+        // From ruleset 2, making one of the opponent's balls passes the turn
+        // even when one of one's own went down too (not on the break).
+        let opponent_ball = self.ruleset >= 2
+            && !was_break
+            && self.groups[shooter]
+                .is_some_and(|g| object_pocketed.iter().any(|b| g.opposite().contains(*b)));
         let continues = game_over.is_none()
             && fouls.is_empty()
+            && !opponent_ball
             && if was_break {
                 !object_pocketed.is_empty()
             } else {
@@ -606,6 +678,7 @@ impl EightBallGame {
             group_assigned,
             continues,
             game_over,
+            opponent_ball,
         }
     }
 
@@ -742,6 +815,7 @@ pub fn rack(table: &Table, seed: u64) -> Vec<Ball> {
 mod tests {
     use super::*;
     use crate::ball::BallStatus;
+    use crate::table::TableSpec;
 
     /// Puts the table into an arbitrary layout (test helper).
     fn layout(game: &mut EightBallGame, positions: &[(u8, DVec2)]) {
@@ -1146,6 +1220,62 @@ mod tests {
         assert_eq!(g.current_player(), 1);
     }
 
+    /// From ruleset 2: one's own ball and one of the opponent's made on the
+    /// same shot pass the turn (no foul, no ball in hand); ruleset 1 kept
+    /// the table.
+    #[test]
+    fn making_an_opponents_ball_with_ones_own_passes_the_turn() {
+        // The 3 (solids) sends the 12 (stripes) into the corner and follows
+        // it in: a combination that makes both.
+        let setup = |ruleset: u8| {
+            let mut g = after_break(3);
+            g.ruleset = ruleset;
+            g.groups = [Some(Group::Solids), Some(Group::Stripes)];
+            let aim = g.table.pocket(PocketId::FootLeft).aim_point();
+            let dir = (aim - DVec2::new(0.2, 0.0)).normalize();
+            let r = g.table.spec.ball_radius;
+            let twelve = aim - dir * 0.12;
+            let three = twelve - dir * (2.0 * r + 0.15);
+            let cue = three - dir * 0.35;
+            layout(&mut g, &[(0, cue), (3, three), (12, twelve), (8, DVec2::new(-0.6, 0.3))]);
+            g
+        };
+        let both = |r: &ShotReport| {
+            r.fouls.is_empty()
+                && [3u8, 12].iter().all(|n| r.pocketed.iter().any(|(b, _)| b.0 == *n))
+        };
+        let shot = (0..60)
+            .map(|k| straight_shot(&setup(2), BallId(3), PocketId::FootLeft, 1.5 + k as f64 * 0.08))
+            .find(|s| setup(2).play_shot(s, None).is_ok_and(|r| both(&r)))
+            .expect("a stroke that makes the 3 and the 12");
+        let mut g = setup(2);
+        let report = g.play_shot(&shot, None).unwrap();
+        assert!(report.opponent_ball && !report.continues, "{report:?}");
+        assert_eq!((g.current_player(), g.ball_in_hand()), (1, None), "no foul, no ball in hand");
+        // The same shot under ruleset 1: the shooter stays at the table.
+        let mut old = setup(1);
+        let report = old.play_shot(&shot, None).unwrap();
+        assert!(both(&report) && !report.opponent_ball && report.continues, "{report:?}");
+        assert_eq!(old.current_player(), 0);
+    }
+
+    /// A snapshot names its ruleset and brings back that ruleset's table and
+    /// physics; one from before rulesets existed is ruleset 1.
+    #[test]
+    fn snapshots_keep_their_ruleset() {
+        let g = EightBallGame::with_ruleset(4, 1, 1);
+        let back: EightBallGame =
+            serde_json::from_str(&serde_json::to_string(&g).unwrap()).unwrap();
+        assert_eq!(back, g);
+        assert_eq!(back.table().spec, TableSpec::TOURNAMENT_9FT);
+        let mut v = serde_json::to_value(EightBallGame::new(4, 1)).unwrap();
+        assert_eq!(v["ruleset"], crate::RULESET);
+        v.as_object_mut().unwrap().remove("ruleset");
+        let old: EightBallGame = serde_json::from_value(v).unwrap();
+        assert_eq!((old.ruleset(), old.params().rolling_friction), (1, 0.0125));
+        assert_eq!(EightBallGame::new(4, 1).table().spec, TableSpec::TOURNAMENT_8FT);
+    }
+
     #[test]
     fn scratch_on_the_eight_without_pocketing_it_is_only_a_foul() {
         let mut g = after_break(3);
@@ -1198,7 +1328,11 @@ mod tests {
                 })
                 .find(|s| {
                     let mut t = g.clone();
-                    t.play_shot(s, None).is_ok_and(|r| r.first_contact == Some(BallId(3)))
+                    // (One that doesn't scratch: that is another foul.)
+                    t.play_shot(s, None).is_ok_and(|r| {
+                        r.first_contact == Some(BallId(3))
+                            && !r.fouls.contains(&Foul::CueBallPocketed)
+                    })
                 })
                 .unwrap_or_else(|| panic!("no {rails}-rail kick reaches the 3"));
             let report = g.play_shot(&shot, None).unwrap();

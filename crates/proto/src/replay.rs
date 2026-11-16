@@ -39,16 +39,30 @@ pub struct Replay {
     pub seed: u64,
     pub breaker: usize,
     pub strokes: Vec<Stroke>,
+    /// The rules, physics and table it was played with (see
+    /// [`snookered_core::RULESET`]); games recorded before rulesets existed
+    /// are ruleset 1.
+    #[serde(default = "first_ruleset")]
+    pub ruleset: u8,
+}
+
+fn first_ruleset() -> u8 {
+    1
 }
 
 impl Replay {
+    /// A new game under the current rules.
     pub fn new(seed: u64, breaker: usize) -> Replay {
-        Replay { seed, breaker, strokes: Vec::new() }
+        Replay::with_ruleset(seed, breaker, snookered_core::RULESET)
+    }
+
+    pub fn with_ruleset(seed: u64, breaker: usize, ruleset: u8) -> Replay {
+        Replay { seed, breaker, strokes: Vec::new(), ruleset }
     }
 
     /// The game before any stroke.
     pub fn start(&self) -> EightBallGame {
-        EightBallGame::new(self.seed, self.breaker)
+        EightBallGame::with_ruleset(self.seed, self.breaker, self.ruleset)
     }
 
     /// The game after the first `upto` strokes (all of them if `None`), and

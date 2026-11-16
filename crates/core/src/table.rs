@@ -72,11 +72,31 @@ impl TableSpec {
         corner_hole_radius: 0.057,
         side_hole_radius: 0.0625,
     };
+
+    /// A regulation 8-foot table (WPA: an 88" × 44" playing surface) with
+    /// the side pockets as open as the rules allow: a 5 5/8" mouth whose
+    /// facings open wider, so a ball rolling in at an angle still drops.
+    pub const TOURNAMENT_8FT: TableSpec = TableSpec {
+        length: 2.235,
+        width: 1.118,
+        side_mouth: 0.1429,
+        side_facing_open: 22.0 * std::f64::consts::PI / 180.0,
+        side_hole_radius: 0.0665,
+        ..Self::TOURNAMENT_9FT
+    };
+
+    /// The table of a ruleset (see [`crate::RULESET`]).
+    pub fn of_ruleset(ruleset: u8) -> TableSpec {
+        match crate::known_ruleset(ruleset) {
+            1 => Self::TOURNAMENT_9FT,
+            _ => Self::TOURNAMENT_8FT,
+        }
+    }
 }
 
 impl Default for TableSpec {
     fn default() -> Self {
-        Self::TOURNAMENT_9FT
+        Self::of_ruleset(crate::RULESET)
     }
 }
 
@@ -314,6 +334,13 @@ impl Table {
 impl Default for Table {
     fn default() -> Self {
         Table::new(TableSpec::default())
+    }
+}
+
+impl Table {
+    /// The table of a ruleset (see [`crate::RULESET`]).
+    pub fn of_ruleset(ruleset: u8) -> Table {
+        Table::new(TableSpec::of_ruleset(ruleset))
     }
 }
 

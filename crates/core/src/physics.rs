@@ -57,6 +57,25 @@ pub struct PhysicsParams {
 
 impl Default for PhysicsParams {
     fn default() -> Self {
+        Self::of_ruleset(crate::RULESET)
+    }
+}
+
+impl PhysicsParams {
+    /// The physics of a ruleset (see [`crate::RULESET`]).
+    pub fn of_ruleset(ruleset: u8) -> Self {
+        let measured = Self::measured();
+        match crate::known_ruleset(ruleset) {
+            1 => measured,
+            // The measured cloth made the balls feel heavy: they roll a
+            // little more freely (about 14% further on the same stroke) and
+            // the cushions give back a little more.
+            _ => PhysicsParams { rolling_friction: 0.011, cushion_restitution: 0.77, ..measured },
+        }
+    }
+
+    /// Ruleset 1 (0.3.0).
+    fn measured() -> Self {
         PhysicsParams {
             gravity: 9.81,
             sliding_friction: 0.2,

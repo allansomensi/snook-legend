@@ -6,6 +6,23 @@
 //! This crate has no rendering or networking dependencies so that the desktop
 //! client and the game server run exactly the same simulation.
 
+/// The version of the rules, the physics and the table a game is played
+/// with. Every game records its own (see [`EightBallGame::ruleset`]), so a
+/// replay, a saved game or a correspondence game that started under older
+/// rules plays on under them, shot for shot.
+///
+/// - 1: 0.3.0. A 9-foot table, the measured "heavy" physics, the first ball
+///   made on a legal break sets the groups.
+/// - 2: a 8-foot table with wider side pockets, balls that roll a little
+///   more freely, and making an opponent's ball along with one's own
+///   passes the turn.
+pub const RULESET: u8 = 2;
+
+/// A ruleset this version knows (unknown ones play as the newest).
+pub fn known_ruleset(ruleset: u8) -> u8 {
+    ruleset.clamp(1, RULESET)
+}
+
 pub mod ball;
 pub mod math;
 pub mod physics;

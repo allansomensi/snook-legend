@@ -706,6 +706,23 @@ async fn main() {
             cam.eye.y > scene::LAMP_Y - 0.05 && cam.eye.x.abs() < 3.5 && cam.eye.z.abs() < 3.0;
         scene.lamp_visible = !(current.is_some() && (rig.mode == CameraMode::Top || above_lamp))
             || crate::dev::var("SNOOKERED_CAM").is_some();
+        // Each game on its own table: a game played under an older ruleset
+        // (a correspondence game started before an update, an old replay)
+        // keeps the table it began on.
+        let wanted = current.as_ref().map_or_else(Table::default, |m| m.game.table().clone());
+        if wanted.spec != scene.table.spec {
+            retired.push(std::mem::replace(
+                &mut scene,
+                Scene::new(
+                    wanted.clone(),
+                    config.quality,
+                    config.focused_scene,
+                    &scene::Looks::of(&config.cloth, &config.balls)
+                        .themed(&config.table, &config.hall),
+                ),
+            ));
+        }
+        camera::set_table(wanted.spec);
         match current.as_ref() {
             Some(m) => {
                 let overlay = play::overlay(m, &scene, get_time() as f32);
@@ -799,10 +816,11 @@ async fn main() {
             if config.quality != before.quality || config.focused_scene != before.focused_scene {
                 // The old scene's materials may still be referenced by draw calls
                 // queued this frame: drop it after the frame is shown.
+                let table = scene.table.clone();
                 retired.push(std::mem::replace(
                     &mut scene,
                     Scene::new(
-                        Table::default(),
+                        table,
                         config.quality,
                         config.focused_scene,
                         &scene::Looks::of(&config.cloth, &config.balls)
@@ -1243,10 +1261,11 @@ async fn main() {
                                 // As in the settings: the room around the table.
                                 config.focused_scene = false;
                                 config.save();
+                                let table = scene.table.clone();
                                 retired.push(std::mem::replace(
                                     &mut scene,
                                     Scene::new(
-                                        Table::default(),
+                                        table,
                                         config.quality,
                                         config.focused_scene,
                                         &scene::Looks::of(&config.cloth, &config.balls)
@@ -1307,10 +1326,11 @@ async fn main() {
                 if let Some(q) = pick {
                     config.quality = q;
                     config.msaa = config.msaa.min(q.default_msaa());
+                    let table = scene.table.clone();
                     retired.push(std::mem::replace(
                         &mut scene,
                         Scene::new(
-                            Table::default(),
+                            table,
                             q,
                             config.focused_scene,
                             &scene::Looks::of(&config.cloth, &config.balls)

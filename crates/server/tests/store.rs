@@ -55,6 +55,7 @@ async fn exercise(store: Store) {
         replay: Some(Replay {
             seed: u64::MAX - 5,
             breaker: 1,
+            ruleset: snookered_core::RULESET,
             strokes: vec![
                 Stroke::Shot {
                     shot: Shot::new(0.25, 3.5),

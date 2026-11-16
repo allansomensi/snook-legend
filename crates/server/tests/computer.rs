@@ -178,8 +178,8 @@ async fn exercise(store: Store) {
 
     // A player's latest games with their seat, newest first.
     assert!(store.recent_replays(a.id, 10).await.unwrap().is_empty());
-    let r1 = Replay { seed: 1, breaker: 0, strokes: vec![Stroke::TimeFoul] };
-    let r2 = Replay { seed: u64::MAX, breaker: 1, strokes: vec![Stroke::TimeFoul; 2] };
+    let r1 = Replay { strokes: vec![Stroke::TimeFoul], ..Replay::new(1, 0) };
+    let r2 = Replay { strokes: vec![Stroke::TimeFoul; 2], ..Replay::new(u64::MAX, 1) };
     let (_, first) = store.record_match(&record([a.id, b.id], r1.clone(), 0, 10)).await.unwrap();
     let (_, second) = store.record_match(&record([b.id, a.id], r2.clone(), 1, 20)).await.unwrap();
     // A game without a replay is left out.

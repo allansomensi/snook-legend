@@ -52,9 +52,13 @@ which every desktop installation has. How releases are made is described in
 - **Full cue control**: aim, power, the exact point where the tip hits the cue ball,
   cue elevation, and fine aim right on the bottom bar.
 - **Eight-ball rules** (WPA-based): break, groups (the first ball made on a
-  clean break decides them; otherwise the table stays open), fouls (including "no cushion after contact"), ball in
-  hand, a called pocket for the 8 that is binding once made. Every rule has
-  its own test, and 60 random games are checked after every shot.
+  clean break decides them; otherwise the table stays open), making one of
+  the opponent's balls passes the turn (even with one of one's own), fouls
+  (including "no cushion after contact"), ball in hand, a called pocket for
+  the 8 that is binding once made. Every rule has its own test, and 60
+  random games are checked after every shot. Each game records the version
+  of the rules, the physics and the table it was played with, so replays
+  and games in progress never change under an update.
 - **Computer opponents**: ten named opponents with their own portraits and
   styles (cautious, all-out attack, bank artist, positional…) over three skill
   levels. They play with the same physics and rules: they simulate candidate

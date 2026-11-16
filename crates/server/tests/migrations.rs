@@ -32,6 +32,7 @@ const APPLIED: &[(&str, &str)] = &[
     ),
     ("0012_name_changes.sql", "068d8947c160821a6ef153933c32784a5d5ad2ea7b7b7b9b774d8a73d64484ce"),
     ("0013_msstore.sql", "77fa92f18e167e9cd96fcd8739b523a35a58244a2aae5587b9128506379ce5c6"),
+    ("0014_rulesets.sql", "59ffb18ee9c3a82724a92fe0396f453c6aa8cf4009b3cd092a9dd7f4fa9a7422"),
 ];
 
 #[test]

@@ -1214,6 +1214,17 @@ impl Match {
                     tw("{next} has ball in hand{where}.", &[("next", &next), ("where", &where_)]),
                     false,
                 );
+            } else if report.opponent_ball {
+                // The new rule: an opponent's ball made passes the turn, even
+                // with one's own.
+                let shooter = self.names[report.shooter].clone();
+                self.notify(
+                    tw(
+                        "{shooter} made an opponent's ball: {next} to shoot.",
+                        &[("shooter", &shooter), ("next", &next)],
+                    ),
+                    false,
+                );
             }
         }
     }
@@ -2091,6 +2102,7 @@ mod tests {
             group_assigned: None,
             continues,
             game_over: None,
+            opponent_ball: false,
         };
         let mut s = ShotStats::default();
         s.add(&report(&[1, 2], false, true), false);

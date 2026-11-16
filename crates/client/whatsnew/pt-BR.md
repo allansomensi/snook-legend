@@ -5,35 +5,35 @@
 
 ## 0.2.0
 
-### Adversários com personalidade
-O computador agora joga com estilos diferentes, do jogador cauteloso que vive de defesa ao que arrisca tudo. Suba a escada um adversário por vez ou dispute contra o fantasma de uma partida anterior.
+### Dez adversários com personalidade
+Escolha contra quem jogar: do Leo, que ainda está aprendendo, à Marta, que vive de defesa, e à Lola, que encaçapa tudo de tabela. Cada um tem estilo, retrato e força próprios.
 
-### Partidas por correspondência
-Comece uma partida e dê suas tacadas quando tiver tempo: o adversário joga as dele quando voltar. Dá para ter várias partidas ao mesmo tempo.
+### A escada
+Vença os dez adversários, um por vez, até o último. Quem chega ao topo ganha o taco exclusivo "Rei da escada" e uma conquista nova.
 
-### Encontrar partida
-Veja com quem você jogou há pouco, diga se está livre para jogar e anuncie no quadro "procurando partida" do salão.
+### Jogue contra o fantasma
+O computador aprende o estilo de um jogador real pelas partidas online dele. Desafie o fantasma de um amigo, ou o seu, no perfil ou na tela contra o computador.
+
+### Partidas diárias
+Desafie alguém e jogue sua vez quando puder: cada um tem até 3 dias por vez. Você é avisado quando chega a sua vez, e pode ter várias partidas ao mesmo tempo.
+
+### Amigos e presentes
+Veja com quem você jogou há pouco, escreva um status no perfil e anuncie no mural "procuro jogo" do salão. Presentes de amigos agora chegam com aviso, mensagem e um "obrigado".
 
 ### Tacos, mesas e salões
-Seu taco sobe de nível conforme você joga com ele, e novas mesas e salões temáticos mudam todo o visual da partida.
+Seu taco ganha anéis e incrustações conforme vence com ele. Na loja, mesas e salões temáticos: bar de praia, loft industrial e clube inglês.
 
-### Seu perfil, analisado
-O perfil agora mostra como você joga: encaçapadas, defesas, saídas e como seu jogo evolui com o tempo.
-
-### Denúncias com replay
-Ao denunciar um jogador, o replay da partida vai junto, e os moderadores veem exatamente o que aconteceu.
+### Seu jogo, analisado
+A nova aba Análise do perfil mostra o aproveitamento por caçapa, distância e tipo de tacada, com um mapa de calor da mesa.
 
 ### Suas teclas
-Todos os atalhos de teclado podem ser trocados em Configurações → Controles, e as dicas do jogo seguem as suas escolhas.
+Todos os atalhos podem ser trocados em Configurações → Controles, e as dicas do jogo seguem as suas escolhas.
 
 ### Atualizações automáticas
 As novas versões baixam em segundo plano e são instaladas quando você reinicia, nunca durante uma partida. Esta janela conta o que mudou.
 
-### Interface mais limpa
-Todas as telas foram revistas nas três línguas e em todos os tamanhos de janela: painéis e botões mais suaves, configurações em seções claras, salão, loja e perfil mais organizados.
-
-### Correções
-Esc na mesa volta a abrir o menu, o computador escolhe melhor as tacadas na bola 8 e a visão de cima não fica mais preta.
+### Interface revista
+Todas as telas foram revistas nas três línguas e em todos os tamanhos de janela. Correções: Esc na mesa abre o menu, o computador acerta mais a caçapa cantada da bola 8 e a visão de cima não fica mais preta.
 
 ## 0.1.4
 

@@ -5,35 +5,35 @@
 
 ## 0.2.0
 
-### Opponents with personality
-The computer now plays in different styles, from the careful safety player to the one who goes for everything. Climb the ladder one opponent at a time, or race the ghost of a previous game.
+### Ten opponents with personality
+Choose who to play: from Leo, still learning, to Marta, who lives on safeties, and Lola, who banks everything. Each has their own style, portrait and strength.
 
-### Correspondence games
-Start a game and take your shots whenever you have time: your opponent plays theirs when they come back. Several games can run at once.
+### The ladder
+Beat the ten opponents one by one, up to the last. Reach the top to earn the exclusive "Ladder king" cue and a new achievement.
 
-### Finding a game
-See the people you played recently, tell others whether you are free to play, and post on the "looking for a game" board in the lounge.
+### Play the ghost
+The computer learns a real player's style from their online games. Challenge a friend's ghost, or your own, from the profile or the vs-computer screen.
+
+### Daily games
+Challenge someone and play your turn when you can: each player has up to 3 days per turn. You are told when it's your turn, and you can have several games at once.
+
+### Friends and gifts
+See who you played recently, write a status on your profile and post on the lounge's "looking for a game" board. Gifts from friends now arrive with a notice, a message and a "thank you".
 
 ### Cues, tables and halls
-Your cue gains levels as you play with it, and new themed tables and halls change the whole look of a game.
+Your cue earns bands and inlays as you win with it. In the shop, themed tables and halls: beach bar, industrial loft and English club.
 
-### Your profile, analysed
-The profile now shows how you play: potting, safeties, breaks and how your game is changing over time.
-
-### Reports with replays
-Reporting a player now sends the replay of the game with it, so moderators see exactly what happened.
+### Your game, analysed
+The profile's new Analysis tab shows your potting by pocket, distance and kind of shot, with a heat map of the table.
 
 ### Your keys
-Every keyboard shortcut can be changed in Settings → Controls, and the hints in the game follow your choices.
+Every shortcut can be changed in Settings → Controls, and the game's hints follow your choices.
 
 ### Automatic updates
 New versions download in the background and install when you restart, never during a game. This window tells you what changed.
 
-### A cleaner interface
-Every screen was reviewed in the three languages and at every window size: smoother panels and buttons, settings in clear sections, tidier lounge, shop and profile.
-
-### Fixes
-Esc at the table opens the menu again, the computer chooses its shots more sensibly on the 8-ball, and the overhead view no longer goes black.
+### A reviewed interface
+Every screen was reviewed in the three languages and at every window size. Fixes: Esc opens the menu at the table, the computer sinks the 8 in its called pocket more reliably, and the overhead view no longer goes black.
 
 ## 0.1.4
 

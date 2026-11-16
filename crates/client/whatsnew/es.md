@@ -5,35 +5,35 @@
 
 ## 0.2.0
 
-### Rivales con personalidad
-La computadora ahora juega con estilos distintos, desde el jugador prudente que vive de la defensa hasta el que lo arriesga todo. Sube la escalera rival a rival o compite contra el fantasma de una partida anterior.
+### Diez rivales con personalidad
+Elige contra quién jugar: desde Leo, que todavía está aprendiendo, hasta Marta, que vive de la defensa, y Lola, que lo mete todo a banda. Cada uno tiene su estilo, su retrato y su fuerza.
 
-### Partidas por correspondencia
-Empieza una partida y haz tus tiros cuando tengas tiempo: tu rival juega los suyos cuando vuelva. Puedes tener varias partidas a la vez.
+### La escalera
+Vence a los diez rivales, uno a uno, hasta el último. Quien llega a la cima gana el taco exclusivo "Rey de la escalera" y un logro nuevo.
 
-### Encontrar partida
-Mira con quién jugaste hace poco, di si estás libre para jugar y publica en el tablón "buscando partida" del salón.
+### Juega contra el fantasma
+El ordenador aprende el estilo de un jugador real a partir de sus partidas en línea. Desafía al fantasma de un amigo, o al tuyo, desde el perfil o la pantalla contra el ordenador.
+
+### Partidas diarias
+Desafía a alguien y juega tu turno cuando puedas: cada jugador tiene hasta 3 días por turno. Te avisamos cuando te toca, y puedes tener varias partidas a la vez.
+
+### Amigos y regalos
+Mira con quién jugaste hace poco, escribe un estado en tu perfil y publica en el tablón "busco partida" del salón. Los regalos de amigos ahora llegan con aviso, mensaje y un "gracias".
 
 ### Tacos, mesas y salones
-Tu taco sube de nivel a medida que juegas con él, y nuevas mesas y salones temáticos cambian todo el aspecto de la partida.
+Tu taco gana anillos e incrustaciones a medida que ganas con él. En la tienda, mesas y salones temáticos: bar de playa, loft industrial y club inglés.
 
-### Tu perfil, analizado
-El perfil ahora muestra cómo juegas: bolas embocadas, defensas, saques y cómo evoluciona tu juego con el tiempo.
-
-### Denuncias con repetición
-Al denunciar a un jugador, la repetición de la partida va con la denuncia, y los moderadores ven exactamente lo que pasó.
+### Tu juego, analizado
+La nueva pestaña Análisis del perfil muestra tu acierto por tronera, distancia y tipo de tiro, con un mapa de calor de la mesa.
 
 ### Tus teclas
-Todos los atajos de teclado se pueden cambiar en Ajustes → Controles, y las pistas del juego siguen tus elecciones.
+Todos los atajos se pueden cambiar en Ajustes → Controles, y las pistas del juego siguen tus elecciones.
 
 ### Actualizaciones automáticas
 Las nuevas versiones se descargan en segundo plano y se instalan al reiniciar, nunca durante una partida. Esta ventana te cuenta qué cambió.
 
-### Una interfaz más limpia
-Todas las pantallas se revisaron en los tres idiomas y en todos los tamaños de ventana: paneles y botones más suaves, ajustes en secciones claras, salón, tienda y perfil más ordenados.
-
-### Correcciones
-Esc en la mesa vuelve a abrir el menú, la computadora elige mejor sus tiros en la bola 8 y la vista cenital ya no se pone negra.
+### Interfaz revisada
+Todas las pantallas se revisaron en los tres idiomas y en todos los tamaños de ventana. Arreglos: Esc abre el menú en la mesa, el ordenador mete la 8 en la tronera cantada con más acierto y la vista cenital ya no se pone negra.
 
 ## 0.1.4
 

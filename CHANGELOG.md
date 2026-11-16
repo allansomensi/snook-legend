@@ -1,6 +1,68 @@
 # Changelog
 
-## Unreleased
+## 0.2.0 (protocol 13)
+
+The server still lets 0.1.2 to 0.1.4 in (protocols 11 and 12): they keep
+playing as before and never receive the new messages. Migrations 0006 to
+0010 run on start-up.
+
+### Against the computer
+- Ten opponents with names, portraits and styles (from Leo, still learning,
+  to Marta, who lives on safeties, Lola, who banks everything, and Viktor at
+  the top), built on a style layer over the AI's skill. Easy, Medium and
+  Hard still exist underneath.
+- The ladder: beat the ten one by one. The last win, checked by the server
+  by replaying the game and every one of the computer's strokes, earns the
+  "Ladder king" cue and a new achievement.
+- Play the ghost: the server measures a player's habits from their online
+  games (power, spin, safeties, banks, potting) and the computer plays in
+  that style.
+- The AI only uses the physics' portable maths, so its decisions are the
+  same on every system (pinned by a test).
+
+### Daily games
+- Correspondence games: challenge anyone (online or not), rated or casual;
+  each turn (a whole visit) has 72 hours. Live notices, desktop
+  notifications and a badge on the menu; the opponent's strokes replay when
+  you open the game. Up to 10 at once. Finished games go into the history
+  and, when rated, count for ratings and achievements (not for coins or
+  missions).
+
+### Friends
+- Recent players (the last 20 opponents) with add friend, invite and watch;
+  "Add friend" on the result panel of an online game.
+- A status message on the profile, shown in the lounge and the friends list.
+- A "looking for a game" board on the Players tab: post a note, others
+  challenge you from it; notes expire after 30 minutes.
+- Gifts are kept: a "You received a gift!" dialog (also for gifts received
+  while away) with "Use it now" and "Thank", an optional message with a
+  gift, and a Gifts tab on your own profile.
+
+### Shop
+- Cues level up with the online games won with them (10 to 500 wins): bands,
+  inlays and, at the top, a gold scroll with a soft glow, seen by everyone.
+- Themed tables (beach bar, modern, English club; ebony & gold for VIP) and
+  halls (beach bar, industrial loft, English club), drawn procedurally and
+  scaled by the graphics preset. Each player sees their own.
+- The rosewood cue is "Jacarandá" in Portuguese.
+
+### Profile and moderation
+- Analysis tab on the profile: potting by pocket, distance and kind of shot,
+  safeties and breaks, and a heat map of the table (from games after this
+  version).
+- Reports carry the game between the two players (live or recent); the
+  staff panel has a replay viewer for them and for any game.
+- Staff metrics: players and games per hour for 48 hours, revenue per day,
+  the queue and its waits, sampled every minute and kept across restarts.
+
+### Settings and updates
+- Every keyboard shortcut can be changed (Settings → Controls); the game's
+  hints show your keys.
+- Automatic updates on every platform: the new version downloads in the
+  background, is checked against its SHA-256 and replaces the game safely
+  (with a backup); "Restart now" from the menu, never during a game. Store
+  builds are updated by the Store.
+- "What's new" after an update (and from the version label).
 
 ### Interface
 A review of every screen, in the three languages and from 1024×600 to

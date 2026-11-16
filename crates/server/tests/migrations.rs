@@ -19,6 +19,7 @@ const APPLIED: &[(&str, &str)] = &[
         "0010_computer_ladder.sql",
         "0c128ebef825b75734f7102eebd87f6a13e5159ec83236a4ca681aa42f190842",
     ),
+    ("0007_social.sql", "5e7da4eb56a2cefcdcc009850d2b3ae354474faa1ca4ee7f0f81fa2ef90b3639"),
 ];
 
 #[test]

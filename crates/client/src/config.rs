@@ -146,6 +146,13 @@ pub struct Config {
     /// Windows notifications when a friend comes online or a tournament
     /// is about to start (while the game is in the background).
     pub desktop_notifications: bool,
+    /// Keyboard shortcuts (Settings → Controls).
+    pub keys: crate::keys::Bindings,
+    /// Download and install new versions in the background.
+    pub auto_update: bool,
+    /// The newest version whose "What's new" the player has seen (empty:
+    /// a settings file from before the notes, i.e. before 0.2.0).
+    pub last_version: String,
 }
 
 impl Default for Config {
@@ -187,6 +194,10 @@ impl Default for Config {
             board_seen: 0,
             tv_camera: false,
             desktop_notifications: true,
+            keys: crate::keys::Bindings::default(),
+            auto_update: true,
+            // A first run has nothing new to tell.
+            last_version: env!("CARGO_PKG_VERSION").into(),
         }
     }
 }
@@ -219,10 +230,13 @@ impl Config {
     }
 
     pub fn parse(text: &str) -> Config {
-        let mut c = Config::default();
+        let mut c = Config { last_version: String::new(), ..Config::default() };
         for line in text.lines() {
             let Some((k, v)) = line.split_once('=') else { continue };
             let (k, v) = (k.trim(), v.trim());
+            if c.keys.parse_line(k, v) {
+                continue;
+            }
             match k {
                 "player_name" if !v.is_empty() => c.player_name = v.chars().take(20).collect(),
                 "second_player_name" if !v.is_empty() => {
@@ -284,9 +298,12 @@ impl Config {
                 // saved for everyone, so it says nothing about a choice.
                 "tv_view" => c.tv_camera = v == "true",
                 "desktop_notifications" => c.desktop_notifications = v != "false",
+                "auto_update" => c.auto_update = v != "false",
+                "last_version" => c.last_version = v.chars().take(32).collect(),
                 _ => {}
             }
         }
+        c.keys.dedup();
         c
     }
 
@@ -295,7 +312,7 @@ impl Config {
             "# Snookered settings\nplayer_name = {}\nsecond_player_name = {}\nguide = {}\nshow_help = {}\nshot_camera = {}\ncamera_follow = {}\ngraphics_checked = {}\nlanguage = {}\nvignette = {}\nfocused_scene = {}\nshow_fps = {}\nshow_ping = {}\naim_sensitivity = {:.2}\nui_size = {:.2}\n\
              quality = {}\nmsaa = {}\nfullscreen = {}\nvolume = {:.2}\nserver = {}\nusername = {}\ntoken = {}\n\
              difficulty = {}\nopponent = {}\nshot_clock = {}\nlan_name = {}\ncloth = {}\ncue = {}\nchalk = {}\nballs = {}\neffect = {}\nemail_offer_declined = {}\n\
-             board_seen = {}\ntv_view = {}\ndesktop_notifications = {}\n",
+             board_seen = {}\ntv_view = {}\ndesktop_notifications = {}\nauto_update = {}\nlast_version = {}\n{}",
             self.player_name,
             self.second_player_name,
             self.guide.name(),
@@ -329,7 +346,10 @@ impl Config {
             self.email_offer_declined,
             self.board_seen,
             self.tv_camera,
-            self.desktop_notifications
+            self.desktop_notifications,
+            self.auto_update,
+            self.last_version,
+            self.keys.to_text()
         )
     }
 
@@ -392,5 +412,30 @@ mod tests {
         assert_eq!(bad.msaa, Config::default().msaa);
         assert_eq!(bad.volume, 1.0);
         assert_eq!(bad.quality, Quality::High);
+    }
+
+    #[test]
+    fn keys_updates_and_old_files() {
+        use crate::keys::Action;
+        use macroquad::prelude::KeyCode;
+        let mut c =
+            Config { auto_update: false, last_version: "0.2.0".into(), ..Config::default() };
+        c.keys.bind(Action::Replay, 0, Some(KeyCode::F5));
+        c.keys.bind(Action::Shoot, 0, Some(KeyCode::W));
+        let back = Config::parse(&c.to_text());
+        assert_eq!(back, c);
+        assert_eq!(back.keys.get(Action::ElevationUp), [Some(KeyCode::Space), None]);
+
+        // A file from an older version: default keys, updates on, and the
+        // notes of this version still to show.
+        let old = Config::parse("# Snookered settings\nvolume = 0.50\nfullscreen = true\n");
+        assert_eq!(old.keys, crate::keys::Bindings::default());
+        assert!(old.auto_update);
+        assert_eq!(old.last_version, "");
+        assert_eq!(Config::default().last_version, env!("CARGO_PKG_VERSION"));
+        // Nonsense keys fall back to the defaults.
+        let bad = Config::parse("key.shoot = warp\nkey.nothing = a\nkey.replay = ,\n");
+        assert_eq!(bad.keys.get(Action::Shoot), Action::Shoot.defaults());
+        assert_eq!(bad.keys.get(Action::Replay), [None, None]);
     }
 }

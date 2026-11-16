@@ -49,7 +49,7 @@ Camel	Caramelo
 Midnight	Meia-noite
 Champion's red	Vermelho campeão
 Classic	Clássico
-Rosewood	Pau-rosa
+Rosewood	Jacarandá
 Ebony & silver	Ébano e prata
 Carbon	Carbono
 Ivory inlay	Marchetado de marfim
@@ -79,6 +79,11 @@ The page could not be opened. Try again in a moment.	Não foi possível abrir a 
 Coins added to your wallet.	Moedas adicionadas à sua carteira.
 Welcome to VIP!	Bem-vindo ao VIP!
 Slow down a little.	Vá com calma.
+You can't do that.	Você não pode fazer isso.
+There are too many notes right now. Try again in a few minutes.	Há recados demais agora. Tente de novo daqui a alguns minutos.
+A moderator took down your note.	Um moderador retirou seu recado.
+A moderator cleared your status message.	Um moderador apagou seu status.
+Status message cleared.	Status apagado.
 VIP	VIP
 Play now	Jogar agora
 Find an opponent of your level automatically	Encontra automaticamente um adversário do seu nível
@@ -95,6 +100,11 @@ seen {n} h ago	visto há {n} h
 seen yesterday	visto ontem
 seen {n} days ago	visto há {n} dias
 seen {n} months ago	visto há {n} meses
+just now	agora há pouco
+{n} min ago	há {n} min
+{n} h ago	há {n} h
+yesterday	ontem
+{n} days ago	há {n} dias
 History	Histórico
 Game history	Histórico da partida
 Nothing yet.	Nada ainda.
@@ -120,9 +130,9 @@ Fireworks	Fogos de artifício
 Win a rated game at the turn of the year (Dec 31 – Jan 1).	Vença uma partida valendo rating na virada do ano (31/dez – 1/jan).
 Shows where the object ball and the cue ball go (not online).	Mostra para onde vão a bola da vez e a branca (fora do online).
 {n} online · ping {ms} ms	{n} online · ping {ms} ms
-Right-drag · Wheel · C	Arraste com o botão direito · Roda · C
+Right-drag · Wheel	Arraste com o botão direito · Roda
 Win %	% vit.
-Reset the camera: top view, no zoom (C)	Voltar a câmera: visão de cima, sem zoom (C)
+Reset the camera: top view, no zoom	Voltar a câmera: visão de cima, sem zoom
 Drag the table to turn it · Wheel · C	Arraste a mesa para girar · Roda · C
 Drag the cue · click a ball or a spot	Arraste o taco · clique numa bola ou ponto
 {name} sank the 8-ball	{name} encaçapou a bola 8
@@ -160,6 +170,12 @@ Centurion	Centurião
 Champion	Campeão
 Champion: {name}	Campeão: {name}
 Change country	Mudar país
+Add a status message	Adicionar um status
+A line about you	Uma frase sobre você
+Save (Enter)	Salvar (Enter)
+Cancel (Esc)	Cancelar (Esc)
+Change your status message	Mudar seu status
+Clear the status message	Apagar o status
 Cheating or abuse	Trapaça ou abuso
 Choose…	Escolher…
 Click again to block	Clique de novo para bloquear
@@ -262,7 +278,7 @@ Popular	Popular
 Private	Privada
 for your friends to sit down	para seus amigos se sentarem
 Profile	Perfil
-R: watch the last shot again	R: rever a última tacada
+{key}: watch the last shot again	{key}: rever a última tacada
 REPLAY	REPLAY
 Rated	Valendo rating
 Rated games, tables, tournaments and friends	Partidas valendo rating, mesas, torneios e amigos
@@ -279,6 +295,10 @@ Replay	Replay
 Report	Denunciar
 Report {name}	Denunciar {name}
 Request sent	Pedido enviado
+Friend	Amigo
+Recent	Recentes
+Nobody yet. The people you play online will show up here.	Ninguém ainda. Quem você enfrentar online aparece aqui.
+{n} games	{n} partidas
 Rookie	Novato
 Round {n}	Rodada {n}
 Search…	Buscar…
@@ -296,7 +316,7 @@ Skilled	Habilidoso
 Someone with that name is already here.	Já tem alguém com esse nome aqui.
 Spam	Spam
 Start now	Começar agora
-Stop the replay (R)	Parar o replay (R)
+Stop the replay	Parar o replay
 Table runner	Limpa-mesa
 Tables	Mesas
 Take turns on this computer	Revezem neste computador
@@ -331,7 +351,7 @@ Unblock	Desbloquear
 Unlocked {date}	Desbloqueada em {date}
 Unstoppable	Imparável
 W	V
-Watch the last shot again (R)	Rever a última tacada (R)
+Watch the last shot again	Rever a última tacada
 What happened? (optional)	O que aconteceu? (opcional)
 When time runs out, the opponent gets ball in hand.	Quando o tempo acaba, o adversário ganha bola na mão.
 Whitewash	Atropelo
@@ -465,7 +485,7 @@ Fine aim	Mira fina
 Finish this match first.	Termine esta partida primeiro.
 For old or very slow computers.	Para computadores antigos ou muito lentos.
 Full screen	Tela cheia
-Also with F11.	Também com F11.
+Also with {key}.	Também com {key}.
 Full	Completo
 Game server	Servidor
 Change it only to play on another server.	Mude só para jogar em outro servidor.
@@ -491,6 +511,17 @@ New here? Pick a name and password, then Create account.	Novo aqui? Escolha um n
 Next game starts in a moment…	A próxima partida começa em instantes…
 No rated games yet. Be the first!	Nenhuma partida valendo rating ainda. Seja o primeiro!
 Nobody else is here right now.	Ninguém mais por aqui agora.
+Looking for a game?	Procurando partida?
+Looking for a game	Procurando partida
+Post a note	Publicar recado
+Everyone in the lounge sees it for 30 minutes	Todos no salão veem por 30 minutos
+What are you after? ({kind})	O que você procura? ({kind})
+Post	Publicar
+Your note: {text}	Seu recado: {text}
+{mode} · {left} left	{mode} · faltam {left}
+Take down	Retirar
+Challenge	Desafiar
+Take the note down	Retirar o recado
 Off	Desligado
 On the 8-ball: call a pocket	Na bola 8: cante a caçapa
 On the 8-ball	Na bola 8
@@ -521,7 +552,46 @@ Say hello… (Enter to send)	Diga oi… (Enter envia)
 Say hi in the chat, or invite a friend!	Diga oi no chat ou convide um amigo!
 Send	Enviar
 Settings	Configurações
-Shift + drag · A / D	Shift + arrastar · A / D
+{key} + drag	{key} + arrastar
+{key}: 3D / top view	{key}: 3D / visão de cima
+{keys}: zoom	{keys}: zoom
+View	Visão
+Aim left	Mirar à esquerda
+Aim right	Mirar à direita
+Fine aim (hold)	Mira fina (segurar)
+Shoot (hold, release)	Tacar (segurar e soltar)
+Top spin	Efeito alto
+Back spin	Efeito baixo
+Left spin	Efeito à esquerda
+Right spin	Efeito à direita
+Raise the cue	Levantar o taco
+Lower the cue	Abaixar o taco
+Pick up the cue ball in hand	Pegar a bola branca na mão
+3D / top view	3D / visão de cima
+Reset the camera	Voltar a câmera
+Replay the last shot	Rever a última tacada
+List of controls	Lista de controles
+Keys can be changed in Settings → Controls.	As teclas podem ser trocadas em Configurações → Controles.
+Space	Espaço
+Right Shift	Shift direito
+Right Ctrl	Ctrl direito
+Right Alt	Alt direito
+Aiming and shooting	Mira e tacada
+Spin and elevation	Efeito e elevação
+Fixed keys	Teclas fixas
+Menu, back and cancel	Menu, voltar e cancelar
+Confirm (forms, the cue ball in hand)	Confirmar (formulários, bola branca na mão)
+This key can't be changed.	Esta tecla não pode ser trocada.
+Press a key · Esc cancels · Backspace clears	Aperte uma tecla · Esc cancela · Backspace apaga
+Press a key…	Aperte uma tecla…
+Click to change	Clique para trocar
+Click to add a key	Clique para pôr uma tecla
+Back to no key	Voltar a nenhuma tecla
+Back to {keys}	Voltar para {keys}
+Swapped: {action} is now on {key}.	Trocadas: {action} agora usa {key}.
+Taken from {action}, which now has no key.	Tirada de {action}, que ficou sem tecla.
+Taken from {action}.	Tirada de {action}.
+That key can't be used: try another.	Essa tecla não pode ser usada: tente outra.
 Shoot	Tacada
 Shooting…	Tacando…
 Short	Curto
@@ -530,7 +600,7 @@ Signing in…	Entrando…
 Signing in	Entrando
 Soft shadows from every lamp, contact shading.	Sombras suaves de cada lâmpada e sombra de contato.
 Solids (1–7)	Lisas (1–7)
-Spin ball · ↑ ↓ · Q / E	Bola de efeito · ↑ ↓ · Q / E
+Spin ball	Bola de efeito
 Spin	Efeito
 Standard	Padrão
 Stay	Ficar
@@ -541,7 +611,8 @@ Two players on this computer	Dois jogadores neste computador
 Use default	Usar padrão
 Username	Usuário
 Usernames have 3–16 letters, digits or underscores.	O usuário deve ter de 3 a 16 letras, números ou _.
-W / S (jump & massé)	W / S (pulo e massé)
+{keys} (jump & massé)	{keys} (pulo e massé)
+Jump & massé	Pulo e massé
 Watch demo	Ver demonstração
 Won	Vitórias
 You signed in from another window or computer.	Você entrou em outra janela ou computador.
@@ -566,13 +637,45 @@ Graphics	Gráficos
 Game	Jogo
 Sound	Som
 Reset to defaults	Restaurar padrões
+Reset all keys	Restaurar todas as teclas
+Reset every key?	Restaurar todas as teclas?
+Click again to put every key back	Clique de novo para voltar todas as teclas
+Updates	Atualizações
+Update automatically	Atualizar automaticamente
+New versions download in the background and install when you restart.	As novas versões baixam em segundo plano e são instaladas quando você reinicia.
+Version {v}	Versão {v}
+What's new	Novidades
+What's new in version {v}	Novidades da versão {v}
+No notes for this version.	Não há notas para esta versão.
+Got it	Entendi
+Restart now	Reiniciar agora
+After the game, from the main menu.	Depois da partida, pelo menu principal.
+Download	Baixar
+Check now	Verificar agora
+Couldn't reach the update server.	Não foi possível falar com o servidor de atualizações.
+The download was damaged. It will be tried again later.	O download veio corrompido. Será tentado de novo mais tarde.
+The new version couldn't be installed. This one stays.	Não foi possível instalar a nova versão. Esta continua.
+Downloading… {p}%	Baixando… {p}%
+Updating…	Atualizando…
+The Microsoft Store keeps the game up to date.	A Microsoft Store mantém o jogo atualizado.
+Development build: no automatic updates.	Versão de desenvolvimento: sem atualizações automáticas.
+Looking for a new version…	Procurando uma nova versão…
+This is the latest version.	Esta é a versão mais recente.
+Downloading version {v}… {p}%	Baixando a versão {v}… {p}%
+Installing version {v}…	Instalando a versão {v}…
+Version {v} is ready: restart the game to use it.	A versão {v} está pronta: reinicie o jogo para usá-la.
+Version {v} is out: download it from the releases page.	A versão {v} saiu: baixe-a na página de versões.
+Version {v} is ready	A versão {v} está pronta
+Restart to play it; nothing is lost.	Reinicie para jogá-la; nada se perde.
+Version {v} is out	Saiu a versão {v}
+Get it from the releases page.	Baixe na página de versões.
 Reset everything?	Restaurar tudo?
 Click again to reset every setting	Clique de novo para restaurar todas as configurações
 Online	Online
 Menu	Menu
 Rating	Rating
 Ultra	Ultra
-Esc · H	Esc · H
+hold {key} and release	segure {key} e solte
 Call the pocket for the 8-ball	Cante a caçapa da bola 8
 Click a pocket on the table, or pick one here:	Clique numa caçapa na mesa ou escolha aqui:
 Called pocket	Caçapa cantada
@@ -827,6 +930,7 @@ Entry	Inscrição
 Entry {n} coins	Inscrição {n} moedas
 Every replay kept (free players keep their last 10 games)	Todos os replays guardados (gratuitos guardam as últimas 10 partidas)
 For {name}	Para {name}
+Add a message (optional)	Escreva uma mensagem (opcional)
 Format	Formato
 Frames	Molduras
 Free	Grátis
@@ -890,6 +994,22 @@ tournament prize	prêmio de torneio
 turning around the table	girando em volta da mesa
 vs	x
 {from} gave you {item}!	{from} te deu {item}!
+You received a gift!	Você ganhou um presente!
+From	De
+To	Para
+someone	alguém
+A month of VIP	Um mês de VIP
+Thank	Agradecer
+Thanked	Agradecido
+They thanked you	Agradeceu a você
+Use it now	Usar agora
+Later	Depois
+OK	OK
+Next ({n} more)	Próximo (mais {n})
+{from} gave you {item}! It's waiting for you in the lounge.	{from} te deu {item}! Está esperando por você no salão.
+{name} thanked you for {item}.	{name} agradeceu por {item}.
+Gifts	Presentes
+No gifts yet. Friends can give you items from the shop.	Nenhum presente ainda. Amigos podem te dar itens da loja.
 {item} is yours and already in use.	{item} é seu e já está em uso.
 {m}:{s} left	faltam {m}:{s}
 {name} invites you to play.	{name} te convidou para jogar.

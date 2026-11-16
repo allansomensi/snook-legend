@@ -1814,6 +1814,7 @@ mod tests {
             frame: String::new(),
             name_style: String::new(),
             effect: String::new(),
+            status_message: String::new(),
         };
         [p("me"), p("them")]
     }

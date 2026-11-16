@@ -230,6 +230,16 @@ pub async fn ghost_style(server: &Server, me: &User, username: &str) -> GhostAns
     GhostAnswer::Ready { style }
 }
 
+/// The protocol that added the ladder's and the ghosts' messages.
+const COMPUTER_PROTOCOL: u32 = 13;
+
+/// Whether `me`'s game understands the answers (only games that speak
+/// protocol 13 ask, but the server never sends an older game a message it
+/// doesn't know).
+fn speaks_computer_messages(server: &Server, me: &User) -> bool {
+    server.with(|l| l.protocol_of(&me.username)).is_none_or(|v| v >= COMPUTER_PROTOCOL)
+}
+
 /// Answers a claim on its own task (it can take seconds), so the player's
 /// other messages are not held up.
 pub fn spawn_claim(
@@ -240,7 +250,9 @@ pub fn spawn_claim(
 ) {
     tokio::spawn(async move {
         let result = claim(&server, &me, replay).await;
-        let _ = tx.send(ServerMsg::LadderClaim { result }).await;
+        if speaks_computer_messages(&server, &me) {
+            let _ = tx.send(ServerMsg::LadderClaim { result }).await;
+        }
     });
 }
 
@@ -254,6 +266,8 @@ pub fn spawn_ghost(
     tokio::spawn(async move {
         let answer = ghost_style(&server, &me, &username).await;
         let username = username.trim().to_string();
-        let _ = tx.send(ServerMsg::GhostStyle { username, answer }).await;
+        if speaks_computer_messages(&server, &me) {
+            let _ = tx.send(ServerMsg::GhostStyle { username, answer }).await;
+        }
     });
 }

@@ -13,6 +13,11 @@
 - Players who haven't touched their game for ten minutes (a minimised
   window included) show as "away" in the lounge, with a yellow dot.
 
+### Profile
+- Cue statistics: the cue card counts the online games played with the cue,
+  how many were won and the balls made with it (migration 0011; wins so far
+  count as games).
+
 ### Releases
 - The Microsoft Store workflow only builds the MSIX (the `msix` artifact);
   the package goes to the Store by hand in Partner Center.

@@ -1076,10 +1076,10 @@ fn rating_chart(ui: &mut Ui, p: &Profile, area: Rect) {
 fn numbers(ui: &mut Ui, p: &Profile, area: Rect) {
     let c = &p.career;
     if c.games == 0 && p.abandon_rate == 0 {
-        if p.cue_wins.is_empty() {
+        if p.cue_wins.is_empty() && p.cue_stats.is_empty() {
             empty_state(ui, area, Icon::Star, t("No games yet."));
         } else {
-            cue_card(ui, p, Rect::new(area.x, area.y, area.w, 92.0));
+            cue_card(ui, p, Rect::new(area.x, area.y, area.w, CUE_CARD_H));
         }
         return;
     }
@@ -1096,7 +1096,7 @@ fn numbers(ui: &mut Ui, p: &Profile, area: Rect) {
     let (cols, gap) = (2, 12.0);
     let cw = (area.w - gap) / cols as f32;
     // Room under the numbers for the cue and its level.
-    let cue_h = if p.cue_wins.is_empty() { 0.0 } else { 92.0 };
+    let cue_h = if p.cue_wins.is_empty() && p.cue_stats.is_empty() { 0.0 } else { CUE_CARD_H };
     let ch = ((area.h - 2.0 * gap - cue_h - if cue_h > 0.0 { gap } else { 0.0 }) / 3.0).min(72.0);
     for (k, (n, label)) in cards.iter().enumerate() {
         let r = Rect::new(
@@ -1118,8 +1118,11 @@ fn numbers(ui: &mut Ui, p: &Profile, area: Rect) {
     }
 }
 
-/// The cue in use and its level (online wins with it); the cue with the
-/// most wins too, when it is another.
+/// Height of [`cue_card`].
+const CUE_CARD_H: f32 = 110.0;
+
+/// The cue in use, its level (online wins with it) and what it has done;
+/// the cue with the most wins too, when it is another.
 fn cue_card(ui: &mut Ui, p: &Profile, r: Rect) {
     use snookered_proto::shop::{self, Category};
     rrect(r, 8.0, Color::new(1.0, 1.0, 1.0, 0.04));
@@ -1141,11 +1144,21 @@ fn cue_card(ui: &mut Ui, p: &Profile, r: Rect) {
     let bar = Rect::new(x, r.y + 56.0, room, 4.0);
     rrect(bar, 2.0, Color::new(1.0, 1.0, 1.0, 0.1));
     rrect(Rect::new(bar.x, bar.y, bar.w * progress, bar.h), 2.0, GOLD);
+    // Its record: games, wins and balls made with it.
+    if let Some(s) = p.cue_stats.iter().find(|s| s.code == code).filter(|s| s.games > 0) {
+        let rate = s.wins * 100 / s.games;
+        let text = tw(
+            "{games} games · {rate}% won · {balls} balls made",
+            &[("games", &s.games), ("rate", &rate), ("balls", &s.potted)],
+        );
+        let (text, size) = ui.fitted(&text, 12.0, room, false);
+        ui.text(&text, x, r.y + 68.0, size, CREAM, false);
+    }
     if let Some((best, n)) = p.cue_wins.first().filter(|(c, n)| c != code && *n > wins(code)) {
         let best = shop::item(best).map_or(best.as_str(), |i| t(i.name));
         let text =
             tw("Most wins: {cue} (level {n})", &[("cue", &best), ("n", &shop::cue_level(*n))]);
         let (text, size) = ui.fitted(&text, 12.0, room, false);
-        ui.text(&text, x, r.y + 68.0, size, MUTED, false);
+        ui.text(&text, x, r.y + 88.0, size, MUTED, false);
     }
 }

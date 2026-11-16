@@ -96,18 +96,23 @@ pub async fn push_wallet(server: &Server, user: &User) {
     });
 }
 
-/// A game won online by `user` (rated or casual, never on a LAN or against
-/// the computer): one more win for the cue they had in use, which may raise
-/// its level. Sends them their wallet (with the count) and shows the new
-/// level to others.
+/// A game won online by `user` (see [`count_cue_game`]).
 pub async fn count_cue_win(server: &Server, user: &User) {
+    count_cue_game(server, user, true, 0).await
+}
+
+/// A game played online by `user` (rated or casual, never on a LAN or
+/// against the computer): one more game for the cue they had in use, with
+/// the balls they made; a win may raise its level. Sends them their wallet
+/// (with the count) and shows the new level to others.
+pub async fn count_cue_game(server: &Server, user: &User, won: bool, potted: u32) {
     let (w, achievements) =
         tokio::join!(server.store.wallet(user.id), achievements_of(server, user.id));
     let Ok(w) = w else { return };
     let cue = effective(&w, &achievements, Category::Cue, now());
-    match server.store.add_cue_win(user.id, cue).await {
+    match server.store.add_cue_game(user.id, cue, won, potted).await {
         Ok(wins) => {
-            if shop::cue_level(wins) > shop::cue_level(wins - 1) {
+            if won && shop::cue_level(wins) > shop::cue_level(wins - 1) {
                 tracing::info!(user = user.id, cue, wins, "cue levelled up");
             }
             push_wallet(server, user).await;

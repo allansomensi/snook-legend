@@ -465,16 +465,19 @@ async fn run_effect(server: &Arc<Server>, effect: Effect) {
                         && !farmed
                         && record.abandoned.is_none()
                         && record.shots >= account::MIN_SHOTS_FOR_COINS;
-                    // A game won online counts for the winner's cue, casual
-                    // too (not a walkover, nor two friends farming each other).
-                    let cue_win = !farmed
+                    // A game played online counts for each player's cue (a
+                    // win for the winner's), casual too (not a walkover, nor
+                    // two friends farming each other).
+                    let cue_game = !farmed
                         && record.shots >= account::MIN_SHOTS_FOR_COINS
                         && !server.with(|l| l.rules.lan);
                     for (seat, user) in users.into_iter().enumerate() {
                         let Some(user) = user else { continue };
                         server.with(|l| l.refresh_user(user.clone()));
-                        if cue_win && record.winner == seat {
-                            shop::count_cue_win(server, &user).await;
+                        if cue_game {
+                            let won = record.winner == seat;
+                            let potted = record.stats[seat].balls;
+                            shop::count_cue_game(server, &user, won, potted).await;
                         }
                         let rated_win = record.rated && record.winner == seat;
                         server.check_achievements_after(&user, rated_win).await;
@@ -1550,6 +1553,7 @@ async fn profile_msg(server: &Server, viewer: Option<&User>, name: &str) -> Opti
                     abandon_rate: 0,
                     analysis: None,
                     cue_wins: Vec::new(),
+                    cue_stats: Vec::new(),
                 }),
             });
         }
@@ -1642,6 +1646,16 @@ async fn profile_msg(server: &Server, viewer: Option<&User>, name: &str) -> Opti
                 cues.sort_by(|a, b| b.1.cmp(&a.1).then_with(|| a.0.cmp(&b.0)));
                 cues
             },
+            cue_stats: wallet
+                .cue_games
+                .iter()
+                .map(|(code, &(games, potted))| snookered_proto::CueStats {
+                    code: code.clone(),
+                    games,
+                    wins: wallet.cue_wins.get(code).copied().unwrap_or(0),
+                    potted,
+                })
+                .collect(),
         }),
     })
 }

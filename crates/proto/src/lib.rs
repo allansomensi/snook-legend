@@ -656,6 +656,21 @@ pub struct Profile {
     /// Online games won with each cue (cue code, wins), most wins first.
     #[serde(default)]
     pub cue_wins: Vec<(String, u32)>,
+    /// What each cue has done online (only cues played with since these
+    /// were counted).
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub cue_stats: Vec<CueStats>,
+}
+
+/// One cue's online record.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct CueStats {
+    /// Shop code.
+    pub code: String,
+    pub games: u32,
+    pub wins: u32,
+    /// Object balls made with it.
+    pub potted: u32,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

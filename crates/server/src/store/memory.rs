@@ -1113,11 +1113,22 @@ impl MemoryStore {
         Ok(())
     }
 
-    pub fn add_cue_win(&self, user_id: i64, code: &str) -> StoreResult<u32> {
+    pub fn add_cue_game(
+        &self,
+        user_id: i64,
+        code: &str,
+        won: bool,
+        potted: u32,
+    ) -> StoreResult<u32> {
         let mut s = self.lock();
-        let wins =
-            s.wallets.entry(user_id).or_default().cue_wins.entry(code.to_string()).or_default();
-        *wins = wins.saturating_add(1);
+        let w = s.wallets.entry(user_id).or_default();
+        let games = w.cue_games.entry(code.to_string()).or_default();
+        games.0 = games.0.saturating_add(1);
+        games.1 = games.1.saturating_add(potted);
+        let wins = w.cue_wins.entry(code.to_string()).or_default();
+        if won {
+            *wins = wins.saturating_add(1);
+        }
         Ok(*wins)
     }
 

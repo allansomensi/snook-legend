@@ -1817,13 +1817,14 @@ impl PgStore {
             .iter()
             .map(|r| (r.get("category"), r.get("code")))
             .collect();
-        w.cue_wins = query("SELECT code, wins FROM cue_wins WHERE user_id = $1")
+        let cues = query("SELECT code, wins, games, potted FROM cue_wins WHERE user_id = $1")
             .bind(user_id)
             .fetch_all(&self.pool)
-            .await?
-            .iter()
-            .map(|r| (r.get("code"), r.get::<i32, _>("wins").max(0) as u32))
-            .collect();
+            .await?;
+        let n = |r: &PgRow, c: &str| r.get::<i32, _>(c).max(0) as u32;
+        w.cue_wins = cues.iter().map(|r| (r.get("code"), n(r, "wins"))).collect();
+        w.cue_games =
+            cues.iter().map(|r| (r.get("code"), (n(r, "games"), n(r, "potted")))).collect();
         Ok(w)
     }
 
@@ -1891,14 +1892,23 @@ impl PgStore {
         Ok(added > 0)
     }
 
-    pub async fn add_cue_win(&self, user_id: i64, code: &str) -> StoreResult<u32> {
+    pub async fn add_cue_game(
+        &self,
+        user_id: i64,
+        code: &str,
+        won: bool,
+        potted: u32,
+    ) -> StoreResult<u32> {
         let wins: i32 = query(
-            "INSERT INTO cue_wins (user_id, code, wins) VALUES ($1, $2, 1)
-             ON CONFLICT (user_id, code) DO UPDATE SET wins = cue_wins.wins + 1
+            "INSERT INTO cue_wins (user_id, code, wins, games, potted) VALUES ($1, $2, $3, 1, $4)
+             ON CONFLICT (user_id, code) DO UPDATE SET wins = cue_wins.wins + $3,
+                 games = cue_wins.games + 1, potted = cue_wins.potted + $4
              RETURNING wins",
         )
         .bind(user_id)
         .bind(code)
+        .bind(i32::from(won))
+        .bind(potted.min(i32::MAX as u32) as i32)
         .fetch_one(&self.pool)
         .await?
         .get("wins");

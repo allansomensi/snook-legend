@@ -202,6 +202,15 @@ async fn online_wins_level_up_the_cue_in_use() {
     if !counted {
         return;
     }
+    // The loser's cue counts the game played (nine wins, ten games).
+    loop {
+        let w = server.store.wallet(loser_id).await.unwrap();
+        if w.cue_games.get("cue_classic").is_some_and(|g| g.0 == 10) {
+            break;
+        }
+        assert!(tokio::time::Instant::now() < deadline, "the game was not counted: {w:?}");
+        tokio::time::sleep(Duration::from_millis(50)).await;
+    }
     // Everyone sees the level: on the profile and on the player card.
     let winner_name = if winner == sa { "alice" } else { "bob" };
     a.send(ClientMsg::Profile { username: winner_name.into() }).await;
@@ -212,6 +221,8 @@ async fn online_wins_level_up_the_cue_in_use() {
     };
     assert_eq!(profile.player.cue_level, 1);
     assert_eq!(profile.cue_wins, vec![("cue_classic".to_string(), 10)]);
+    let stats = &profile.cue_stats;
+    assert!(stats.iter().any(|c| c.code == "cue_classic" && c.games == 10 && c.wins == 10));
     // The winner's wallet says so too.
     let w = server.store.wallet(winner_id).await.unwrap();
     assert_eq!(snookered_server::shop::cue_level_of(&w, "cue_classic"), 1);
@@ -343,6 +354,12 @@ async fn exercise(store: Store) {
     assert_eq!(w.cue_wins.get("cue_maple"), Some(&2));
     assert_eq!(w.cue_wins.get("cue_carbon"), Some(&1));
     assert_eq!(w.cue_wins.len(), 2);
+    // Games are counted with the balls made, won or lost.
+    assert_eq!(store.add_cue_game(user.id, "cue_maple", false, 4).await.unwrap(), 2);
+    assert_eq!(store.add_cue_game(user.id, "cue_maple", true, 7).await.unwrap(), 3);
+    let w = store.wallet(user.id).await.unwrap();
+    assert_eq!(w.cue_games.get("cue_maple"), Some(&(4, 11)));
+    assert_eq!(w.cue_wins.get("cue_maple"), Some(&3));
     // Equipped tables and halls are kept by category.
     store.equip(user.id, "table", "table_beach").await.unwrap();
     store.equip(user.id, "hall", "hall_loft").await.unwrap();

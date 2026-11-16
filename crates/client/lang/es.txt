@@ -1116,6 +1116,7 @@ Level {n} · {w} wins	Nivel {n} · {w} victorias
 The top level: this cue has every mark.	El nivel máximo: este taco tiene todas las marcas.
 Your cue {cue} reached level {n}!	¡Tu taco {cue} llegó al nivel {n}!
 Most wins: {cue} (level {n})	Más victorias: {cue} (nivel {n})
+{games} games · {rate}% won · {balls} balls made	{games} partidas · {rate}% ganadas · {balls} bolas metidas
 vs	vs
 {from} gave you {item}!	¡{from} te regaló {item}!
 You received a gift!	¡Recibiste un regalo!

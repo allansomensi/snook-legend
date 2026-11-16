@@ -433,6 +433,8 @@ pub struct Wallet {
     pub stripe_customer: Option<String>,
     /// Cue code -> online games won with it (its level).
     pub cue_wins: BTreeMap<String, u32>,
+    /// Cue code -> (online games played with it, object balls made with it).
+    pub cue_games: BTreeMap<String, (u32, u32)>,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -879,7 +881,18 @@ impl Store {
     }
     /// Counts an online game won with the cue `code`; returns its wins now.
     pub async fn add_cue_win(&self, user_id: i64, code: &str) -> StoreResult<u32> {
-        dispatch!(self, s => s.add_cue_win(user_id, code))
+        self.add_cue_game(user_id, code, true, 0).await
+    }
+    /// Counts an online game played with the cue `code` (won or not, and
+    /// the balls made with it); returns its wins now.
+    pub async fn add_cue_game(
+        &self,
+        user_id: i64,
+        code: &str,
+        won: bool,
+        potted: u32,
+    ) -> StoreResult<u32> {
+        dispatch!(self, s => s.add_cue_game(user_id, code, won, potted))
     }
     /// Adds (or removes) coins. With a `reference`, the same change is only
     /// ever applied once; returns whether it was applied now.

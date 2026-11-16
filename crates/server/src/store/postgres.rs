@@ -1548,6 +1548,27 @@ impl PgStore {
         Ok(r.rows_affected())
     }
 
+    pub async fn tournaments_won(
+        &self,
+        user_id: i64,
+        limit: u32,
+    ) -> StoreResult<Vec<(String, u32, i64)>> {
+        let rows = query(
+            "SELECT name, players, finished_at FROM tournaments WHERE winner_id = $1
+             ORDER BY finished_at DESC, id DESC LIMIT $2",
+        )
+        .bind(user_id)
+        .bind(limit as i64)
+        .fetch_all(&self.pool)
+        .await?;
+        Ok(rows
+            .iter()
+            .map(|r| {
+                (r.get("name"), r.get::<i32, _>("players").max(0) as u32, r.get("finished_at"))
+            })
+            .collect())
+    }
+
     pub async fn record_tournament(&self, t: &TournamentRecord) -> StoreResult<()> {
         let mut tx = self.pool.begin().await?;
         query(

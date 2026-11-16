@@ -27,6 +27,8 @@ enum Pane {
     Games,
     Rating,
     Numbers,
+    /// Tournaments won, the ladder, daily challenges topped.
+    Trophies,
     /// The shot analysis (over the whole width).
     Analysis,
     /// Presents received and given (own profile).
@@ -51,6 +53,8 @@ pub struct ProfileScreen {
     status_edit: Option<String>,
     /// The first present shown in the Gifts pane.
     gifts_first: usize,
+    /// The first trophy shown.
+    trophies_first: usize,
 }
 
 /// The account dialog: recovery e-mail, password, deletion.
@@ -261,6 +265,7 @@ impl ProfileScreen {
         let own = p.relation == Relation::Me && !online.lan && !p.player.guest;
         let mut panes = vec![(Pane::Games, t("Games")), (Pane::Rating, t("Rating"))];
         panes.push((Pane::Numbers, t("Numbers")));
+        panes.push((Pane::Trophies, t("Trophies")));
         panes.push((Pane::Analysis, t("Analysis")));
         if own {
             panes.push((Pane::Gifts, t("Gifts")));
@@ -292,6 +297,7 @@ impl ProfileScreen {
             Pane::Games => self.history(ui, online, &p, content),
             Pane::Rating => rating_chart(ui, &p, content),
             Pane::Numbers => numbers(ui, &p, content),
+            Pane::Trophies => self.trophies(ui, &p, content),
             Pane::Analysis => crate::analysis::draw(
                 ui,
                 p.analysis.as_deref(),
@@ -875,6 +881,59 @@ impl ProfileScreen {
             } else {
                 how.to_string()
             };
+            let sub = ui.ellipsize(&sub, room, 12.0);
+            ui.text(&sub, x, mid + 3.0, 12.0, MUTED, false);
+        }
+    }
+
+    /// The trophy shelf: what they won, newest first, with the date.
+    fn trophies(&mut self, ui: &mut Ui, p: &Profile, list: Rect) {
+        use snookered_proto::TrophyKind;
+        let shelf: Vec<_> = p.trophies.iter().filter(|t| t.kind != TrophyKind::Other).collect();
+        if shelf.is_empty() {
+            empty_state(ui, list, Icon::Trophy, t("No trophies yet."));
+            return;
+        }
+        let row_h = 52.0;
+        let visible = (list.h / row_h).floor().max(1.0) as usize;
+        self.trophies_first = ui.scroll_list(list, self.trophies_first, shelf.len(), visible);
+        let scrolls = shelf.len() > visible;
+        for (k, trophy) in shelf.iter().skip(self.trophies_first).take(visible).enumerate() {
+            let w = list.w - if scrolls { 12.0 } else { 0.0 };
+            let r = Rect::new(list.x, list.y + k as f32 * row_h, w, row_h - 6.0);
+            rrect(r, 6.0, Color::new(1.0, 1.0, 1.0, 0.035));
+            let mid = r.y + r.h / 2.0;
+            let (icon, color, title, sub) = match trophy.kind {
+                TrophyKind::Tournament => (
+                    Icon::Trophy,
+                    GOLD,
+                    trophy.name.clone(),
+                    tw("Tournament won · {n} players", &[("n", &trophy.players)]),
+                ),
+                TrophyKind::Ladder => (
+                    Icon::Crown,
+                    Color::new(0.75, 0.55, 0.95, 1.0),
+                    t("The computer ladder").to_string(),
+                    t("All ten opponents beaten").to_string(),
+                ),
+                _ => (
+                    Icon::Star,
+                    Color::new(0.45, 0.75, 1.0, 1.0),
+                    t("Daily challenge").to_string(),
+                    tw("First of {n} players", &[("n", &trophy.players)]),
+                ),
+            };
+            let badge = Rect::new(r.x + 8.0, mid - 15.0, 30.0, 30.0);
+            rrect(badge, 6.0, Color::new(color.r, color.g, color.b, 0.18));
+            crate::icons::draw(icon, vec2(badge.x + 15.0, mid), 16.0, color);
+            let d = date(trophy.at);
+            let dw = ui.text_size(&d, 12.0, false).x;
+            let rx = r.x + r.w - 12.0;
+            ui.text(&d, rx - dw, text_y(mid, 12.0), 12.0, MUTED, false);
+            let x = badge.x + badge.w + 12.0;
+            let room = rx - dw - 12.0 - x;
+            let (title, size) = ui.fitted(&title, 14.0, room, true);
+            ui.text(&title, x, mid - 17.0, size, CREAM, true);
             let sub = ui.ellipsize(&sub, room, 12.0);
             ui.text(&sub, x, mid + 3.0, 12.0, MUTED, false);
         }

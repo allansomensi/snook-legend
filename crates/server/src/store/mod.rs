@@ -790,6 +790,14 @@ impl Store {
     pub async fn record_tournament(&self, t: &TournamentRecord) -> StoreResult<()> {
         dispatch!(self, s => s.record_tournament(t))
     }
+    /// The tournaments a player won, newest first: (name, players, finished at).
+    pub async fn tournaments_won(
+        &self,
+        user_id: i64,
+        limit: u32,
+    ) -> StoreResult<Vec<(String, u32, i64)>> {
+        dispatch!(self, s => s.tournaments_won(user_id, limit))
+    }
 
     // Staff.
 

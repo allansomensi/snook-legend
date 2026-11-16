@@ -1327,3 +1327,10 @@ Players' chat (administrator)	Chat dos jogadores (administrador)
 Play the computer while you wait	Jogar contra o computador enquanto espera
 Looking for an opponent… {t} · the game starts as soon as one is found	Procurando adversário… {t} · a partida começa assim que alguém aparecer
 Stop	Parar
+Trophies	Troféus
+No trophies yet.	Nenhum troféu ainda.
+Tournament won · {n} players	Torneio vencido · {n} jogadores
+The computer ladder	A escada contra o computador
+All ten opponents beaten	Os dez adversários vencidos
+Daily challenge	Desafio do dia
+First of {n} players	Primeiro entre {n} jogadores

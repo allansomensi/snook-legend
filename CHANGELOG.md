@@ -17,6 +17,9 @@
 - Cue statistics: the cue card counts the online games played with the cue,
   how many were won and the balls made with it (migration 0011; wins so far
   count as games).
+- A trophy shelf on the profile (the Trophies tab): tournaments won (with
+  how many played), the computer ladder and the days topped in the daily
+  challenge, newest first, with the date.
 
 ### Releases
 - The Microsoft Store workflow only builds the MSIX (the `msix` artifact);

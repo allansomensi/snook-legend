@@ -1554,6 +1554,7 @@ async fn profile_msg(server: &Server, viewer: Option<&User>, name: &str) -> Opti
                     analysis: None,
                     cue_wins: Vec::new(),
                     cue_stats: Vec::new(),
+                    trophies: Vec::new(),
                 }),
             });
         }
@@ -1567,10 +1568,11 @@ async fn profile_msg(server: &Server, viewer: Option<&User>, name: &str) -> Opti
         server.store.rank_of(user.id),
         server.store.friend_count(user.id),
     );
-    let (rating_history, career, wallet) = tokio::join!(
+    let (rating_history, career, wallet, trophies) = tokio::join!(
         server.store.rating_history(user.id, 100),
         server.store.career(user.id),
         server.store.wallet(user.id),
+        trophies_of(server, user.id),
     );
     let wallet = wallet.unwrap_or_default();
     let played = user.games + user.casual_games;
@@ -1656,8 +1658,29 @@ async fn profile_msg(server: &Server, viewer: Option<&User>, name: &str) -> Opti
                     potted,
                 })
                 .collect(),
+            trophies,
         }),
     })
+}
+
+/// A player's trophies, newest first: tournaments won, the ladder and the
+/// days they topped the daily challenge.
+async fn trophies_of(server: &Server, user_id: i64) -> Vec<snookered_proto::Trophy> {
+    use snookered_proto::{Trophy, TrophyKind};
+    let (tournaments, ladder) = tokio::join!(
+        server.store.tournaments_won(user_id, 50),
+        server.store.ladder_claim(user_id),
+    );
+    let mut trophies: Vec<Trophy> = tournaments
+        .unwrap_or_default()
+        .into_iter()
+        .map(|(name, players, at)| Trophy { kind: TrophyKind::Tournament, name, players, at })
+        .collect();
+    if let Ok(Some(at)) = ladder {
+        trophies.push(Trophy { kind: TrophyKind::Ladder, name: String::new(), players: 0, at });
+    }
+    trophies.sort_by_key(|t| std::cmp::Reverse(t.at));
+    trophies
 }
 
 fn now_millis() -> u128 {

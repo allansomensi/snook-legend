@@ -730,7 +730,25 @@ async fn tournament_runs_to_a_champion() {
         };
         champion = tournament.champion;
     }
-    assert!(champion.is_some());
+    let champion = champion.expect("a champion");
+    // The cup goes on the champion's trophy shelf (once recorded).
+    let c = &mut clients[0].1;
+    let deadline = tokio::time::Instant::now() + Duration::from_secs(10);
+    loop {
+        c.send(ClientMsg::Profile { username: champion.clone() }).await;
+        let ServerMsg::Profile { profile } =
+            c.expect("profile", |m| matches!(m, ServerMsg::Profile { .. })).await
+        else {
+            unreachable!()
+        };
+        if let Some(t) = profile.trophies.first() {
+            assert_eq!(t.kind, snookered_proto::TrophyKind::Tournament);
+            assert_eq!(t.players, 4);
+            break;
+        }
+        assert!(tokio::time::Instant::now() < deadline, "no trophy");
+        tokio::time::sleep(Duration::from_millis(100)).await;
+    }
 }
 
 #[tokio::test]

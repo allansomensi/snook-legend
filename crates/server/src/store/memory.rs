@@ -919,6 +919,23 @@ impl MemoryStore {
         Ok(())
     }
 
+    pub fn tournaments_won(
+        &self,
+        user_id: i64,
+        limit: u32,
+    ) -> StoreResult<Vec<(String, u32, i64)>> {
+        let s = self.lock();
+        let mut won: Vec<_> = s
+            .tournaments
+            .iter()
+            .filter(|t| t.winner == Some(user_id))
+            .map(|t| (t.name.clone(), t.players.len() as u32, t.finished_at))
+            .collect();
+        won.sort_by_key(|t| std::cmp::Reverse(t.2));
+        won.truncate(limit as usize);
+        Ok(won)
+    }
+
     pub fn search_users(
         &self,
         query: &str,

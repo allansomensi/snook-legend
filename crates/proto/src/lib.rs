@@ -660,6 +660,37 @@ pub struct Profile {
     /// were counted).
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub cue_stats: Vec<CueStats>,
+    /// What they won (tournaments, the ladder…), newest first.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub trophies: Vec<Trophy>,
+}
+
+/// Something a player won, for the profile's trophy shelf.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct Trophy {
+    pub kind: TrophyKind,
+    /// The tournament's name (empty for the others).
+    #[serde(default)]
+    pub name: String,
+    /// How many took part (a tournament's players, a day's challengers).
+    #[serde(default)]
+    pub players: u32,
+    /// When (Unix seconds).
+    pub at: i64,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum TrophyKind {
+    /// Won a tournament.
+    Tournament,
+    /// Beat the whole computer ladder.
+    Ladder,
+    /// First in a day's challenge.
+    DailyChallenge,
+    /// A kind this version doesn't know yet.
+    #[serde(other)]
+    Other,
 }
 
 /// One cue's online record.

@@ -332,6 +332,9 @@ async fn exercise(store: Store) {
         .unwrap();
     let ua = store.user_by_id(a.id).await.unwrap().unwrap();
     assert_eq!((ua.tournaments_played, ua.tournaments_won), (1, 1));
+    // The trophy shelf: the tournaments won, newest first.
+    assert_eq!(store.tournaments_won(a.id, 10).await.unwrap(), vec![("Cup".to_string(), 2, t)]);
+    assert!(store.tournaments_won(b.id, 10).await.unwrap().is_empty());
     store.set_country(a.id, "PT").await.unwrap();
     assert_eq!(store.user_by_id(a.id).await.unwrap().unwrap().country, "PT");
 

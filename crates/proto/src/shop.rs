@@ -157,6 +157,14 @@ pub enum TableStyle {
     Modern,
     /// Black ebony with gold castings and inlays.
     Royal,
+    /// Reclaimed oak rails on a black steel frame with riveted plates.
+    Industrial,
+    /// A pro tournament table: charcoal rails, block legs, chrome.
+    Tournament,
+    /// Figured walnut on barley-twist legs, brass and leather pockets.
+    Heritage,
+    /// Ivory lacquer and gold on fluted columns.
+    Deco,
 }
 
 /// The room around the table.
@@ -170,6 +178,14 @@ pub enum HallStyle {
     Club,
     /// An industrial loft: brick, steel windows over the city, Edison bulbs.
     Loft,
+    /// A mountain lodge: log walls, a stone fireplace, snowy peaks outside.
+    Lodge,
+    /// A neon arcade: a black mirror floor, neon tubes, arcade cabinets.
+    Arcade,
+    /// An art deco lounge: a marble chessboard floor, gold, velvet, mirrors.
+    Deco,
+    /// A penthouse at night: glass walls on the city, pale marble, oak.
+    Penthouse,
 }
 
 /// How an item looks (the game draws it; colours are sRGB).
@@ -880,11 +896,19 @@ pub const ITEMS: &[Item] = &[
     table("table_modern", "Modern", Price::Coins(5000), TableStyle::Modern),
     table("table_club", "English club", Price::Coins(6250), TableStyle::Club),
     table("table_royal", "Ebony & gold", Price::Vip, TableStyle::Royal),
+    table("table_industrial", "Steel & oak", Price::Coins(5500), TableStyle::Industrial),
+    table("table_tournament", "Tournament", Price::Coins(7000), TableStyle::Tournament),
+    table("table_heritage", "Victorian walnut", Price::Coins(8000), TableStyle::Heritage),
+    table("table_deco", "Ivory deco", Price::Coins(8500), TableStyle::Deco),
     // Halls.
     hall("hall_pool", "Pool hall", Price::Free, HallStyle::Pool),
     hall("hall_beach", "Beach bar", Price::Coins(4500), HallStyle::Beach),
     hall("hall_loft", "Industrial loft", Price::Coins(5500), HallStyle::Loft),
     hall("hall_club", "English club", Price::Coins(6250), HallStyle::Club),
+    hall("hall_lodge", "Mountain lodge", Price::Coins(6500), HallStyle::Lodge),
+    hall("hall_arcade", "Neon arcade", Price::Coins(7000), HallStyle::Arcade),
+    hall("hall_deco", "Art deco lounge", Price::Coins(8000), HallStyle::Deco),
+    hall("hall_penthouse", "Skyline penthouse", Price::Vip, HallStyle::Penthouse),
     // Frames.
     frame("frame_none", "No frame", Price::Free, [0, 0, 0], [0, 0, 0], false),
     frame("frame_bronze", "Bronze", Price::Coins(750), [176, 112, 60], [110, 66, 34], false),

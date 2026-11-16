@@ -34,6 +34,14 @@ enum Legs {
     Carved,
     /// Two slabs across the table on a metal plinth.
     Slab,
+    /// Heavy square legs with a chrome band and levelling feet (pro tables).
+    Block,
+    /// Barley-twist legs: a double spiral turned between square blocks.
+    Twist,
+    /// A black steel frame: square tube legs braced with an X.
+    Steel,
+    /// Fluted columns with a gilt base and capital.
+    Column,
 }
 
 /// What the side of the table below the rail is made of.
@@ -47,6 +55,10 @@ enum Apron {
     Beaded,
     /// A slim slab with a metal strip and a light under it.
     Slim,
+    /// Plain and deep, with a chrome band near the bottom.
+    Plain,
+    /// A riveted steel plate.
+    Plate,
 }
 
 /// The metal (or leather) on the rail around the pockets.
@@ -173,6 +185,74 @@ fn style(s: TableStyle) -> Style {
             apron_h: 0.2,
             pockets: Pockets::Plates,
         },
+        TableStyle::Industrial => Style {
+            rail: ([0.47, 0.38, 0.29], [0.20, 0.15, 0.11], 71),
+            body: ([0.47, 0.38, 0.29], [0.20, 0.15, 0.11], 73),
+            wood: Surface::lit(0.25, 24.0, 0.05, 0.15),
+            cast: Color::new(0.10, 0.10, 0.11, 1.0),
+            cast_surface: Surface::lit(0.9, 40.0, 0.12, 0.3),
+            lip: rgb(14, 14, 15),
+            lip_surface: Surface::lit(0.3, 16.0, 0.0, 0.05),
+            sights: Color::new(0.70, 0.72, 0.74, 1.0),
+            diamonds: false,
+            trim: Color::new(0.11, 0.11, 0.12, 1.0),
+            legs: Legs::Steel,
+            leg_rings: false,
+            apron: Apron::Plate,
+            apron_h: 0.2,
+            pockets: Pockets::Plates,
+        },
+        TableStyle::Tournament => Style {
+            rail: ([0.115, 0.115, 0.125], [0.06, 0.06, 0.066], 79),
+            body: ([0.10, 0.10, 0.11], [0.05, 0.05, 0.056], 83),
+            wood: Surface::lit(0.6, 70.0, 0.06, 0.4),
+            cast: Color::new(0.42, 0.44, 0.47, 1.0),
+            cast_surface: chrome,
+            lip: rgb(16, 16, 18),
+            lip_surface: Surface::lit(0.3, 20.0, 0.0, 0.1),
+            sights: rgb(238, 240, 244),
+            diamonds: true,
+            trim: Color::new(0.74, 0.76, 0.79, 1.0),
+            legs: Legs::Block,
+            leg_rings: false,
+            apron: Apron::Plain,
+            apron_h: 0.25,
+            pockets: Pockets::Plates,
+        },
+        TableStyle::Heritage => Style {
+            rail: ([0.40, 0.22, 0.10], [0.13, 0.065, 0.03], 89),
+            body: ([0.36, 0.20, 0.09], [0.12, 0.06, 0.028], 97),
+            wood: Surface::lit(0.8, 80.0, 0.07, 0.65),
+            cast: Color::new(0.62, 0.46, 0.20, 1.0),
+            cast_surface: brass,
+            lip: rgb(60, 34, 18),
+            lip_surface: leather,
+            sights: rgb(240, 232, 214),
+            diamonds: true,
+            trim: Color::new(0.62, 0.46, 0.20, 1.0),
+            legs: Legs::Twist,
+            leg_rings: false,
+            apron: Apron::Beaded,
+            apron_h: 0.24,
+            pockets: Pockets::Nets,
+        },
+        TableStyle::Deco => Style {
+            rail: ([0.88, 0.84, 0.76], [0.74, 0.69, 0.60], 101),
+            body: ([0.86, 0.82, 0.74], [0.72, 0.67, 0.58], 103),
+            wood: Surface::lit(1.3, 140.0, 0.08, 0.85),
+            cast: Color::new(0.85, 0.65, 0.27, 1.0),
+            cast_surface: Surface::lit(2.2, 120.0, 0.15, 0.9),
+            lip: rgb(20, 18, 18),
+            lip_surface: leather,
+            sights: Color::new(0.88, 0.70, 0.32, 1.0),
+            diamonds: true,
+            trim: Color::new(0.85, 0.65, 0.27, 1.0),
+            legs: Legs::Column,
+            leg_rings: true,
+            apron: Apron::Beaded,
+            apron_h: 0.21,
+            pockets: Pockets::Plates,
+        },
     }
 }
 
@@ -203,6 +283,7 @@ pub fn build(table: &Table, quality: Quality, theme: TableStyle) -> Kit {
     let mut cast = MeshBuilder::default();
     let mut trim = MeshBuilder::default();
     let mut glow = MeshBuilder::default();
+    let mut plate = MeshBuilder::default();
     let n = outer.len();
     let mut along = vec![0.0f32; n + 1];
     for k in 0..n {
@@ -298,7 +379,11 @@ pub fn build(table: &Table, quality: Quality, theme: TableStyle) -> Kit {
             Apron::Lip | Apron::Beaded if !low => 0.035,
             _ => 0.0,
         };
-        let apron_mesh = if st.apron == Apron::Bamboo { &mut skirt } else { &mut rail };
+        let apron_mesh = match st.apron {
+            Apron::Bamboo => &mut skirt,
+            Apron::Plate => &mut plate,
+            _ => &mut rail,
+        };
         let vh = |h: f32| (split - h) * apron_uv;
         quad(
             apron_mesh,
@@ -360,7 +445,8 @@ pub fn build(table: &Table, quality: Quality, theme: TableStyle) -> Kit {
             let bead_y = split - 0.03;
             let r = 0.009;
             let steps = 4;
-            let target = if theme == TableStyle::Royal { &mut trim } else { &mut rail };
+            let gilt = matches!(theme, TableStyle::Royal | TableStyle::Deco | TableStyle::Heritage);
+            let target = if gilt { &mut trim } else { &mut rail };
             for s in 0..steps {
                 let b0 =
                     -std::f32::consts::FRAC_PI_2 + s as f32 / steps as f32 * std::f32::consts::PI;
@@ -411,6 +497,36 @@ pub fn build(table: &Table, quality: Quality, theme: TableStyle) -> Kit {
                         normal_out,
                         Color::new(0.62, 0.82, 1.0, 1.0),
                     );
+                }
+            }
+            Apron::Plain => {
+                // A chrome band a hand above the bottom of the apron.
+                let (m0, m1) = (out2(o0, 0.0015), out2(o1, 0.0015));
+                quad(
+                    &mut trim,
+                    [
+                        v3(m0, bottom + 0.035),
+                        v3(m1, bottom + 0.035),
+                        v3(m1, bottom + 0.05),
+                        v3(m0, bottom + 0.05),
+                    ],
+                    [Vec2::ZERO; 4],
+                    normal_out,
+                    st.trim,
+                );
+            }
+            Apron::Plate if !low => {
+                // Rivets along the top and the bottom of the plate, every
+                // 12 cm or so on the straight runs.
+                let len = o0.distance(o1);
+                let count = (len / 0.12).floor() as i32;
+                for r in 0..count {
+                    let t = (r as f32 + 0.5) / count as f32;
+                    let p = o0.lerp(o1, t);
+                    for h in [split - 0.025, bottom + 0.025] {
+                        let c = v3(out2(p, 0.0012), h);
+                        crate::room::disc_facing(&mut trim, c, normal_out, 0.0055, 6, st.trim);
+                    }
                 }
             }
             Apron::Bamboo if !low => {
@@ -497,6 +613,12 @@ pub fn build(table: &Table, quality: Quality, theme: TableStyle) -> Kit {
     }
     kit.add(rail, Some(rail_tex), st.wood.cut(2.0), Layer::Solid);
     kit.add(skirt, Some(apron_tex), Surface::lit(0.35, 30.0, 0.06, 0.3), Layer::Solid);
+    if !plate.is_empty() {
+        // Blackened steel, brushed: the grain of the steel texture.
+        let steel =
+            kit.texture(textures::fine_wood([0.17, 0.17, 0.18], [0.09, 0.09, 0.10], 107), true);
+        kit.add(plate, Some(steel), Surface::lit(0.9, 50.0, 0.1, 0.35), Layer::Solid);
+    }
     kit.add(cast, None, st.cast_surface.cut(2.0), Layer::Solid);
     kit.add(trim, None, Surface::lit(1.8, 90.0, 0.12, 0.7), Layer::Solid);
     kit.add(glow, None, Surface::UNLIT, Layer::Solid);
@@ -578,7 +700,7 @@ fn legs(kit: &mut Kit, st: &Style, quality: Quality, l: f32, w: f32, bottom: f32
     let segs = if quality == Quality::Ultra { 36 } else { 20 };
     let corners = [(1.0f32, 1.0f32), (1.0, -1.0), (-1.0, 1.0), (-1.0, -1.0)];
     match st.legs {
-        Legs::Turned | Legs::Carved if low => {
+        Legs::Turned | Legs::Carved | Legs::Twist | Legs::Column if low => {
             for (sx, sz) in corners {
                 let at = vec3(sx * (l / 2.0 - 0.02), 0.0, sz * (w / 2.0 - 0.02));
                 let size = if st.legs == Legs::Carved { 0.24 } else { 0.19 };
@@ -708,6 +830,9 @@ fn legs(kit: &mut Kit, st: &Style, quality: Quality, l: f32, w: f32, bottom: f32
                 }
             }
         }
+        Legs::Block | Legs::Twist | Legs::Steel | Legs::Column => {
+            more_legs(&mut legs, &mut metal, st, quality, l, w, leg_h);
+        }
         Legs::Slab => {
             for sx in [1.0f32, -1.0] {
                 let at = vec3(sx * (l / 2.0 - 0.32), 0.0, 0.0);
@@ -739,6 +864,182 @@ fn legs(kit: &mut Kit, st: &Style, quality: Quality, l: f32, w: f32, bottom: f32
     }
     kit.add(legs, Some(tex), st.wood, Layer::Solid);
     kit.add(metal, None, Surface::lit(2.0, 110.0, 0.15, 0.8), Layer::Solid);
+}
+
+/// The legs of the newer tables (see [`Legs`]).
+#[allow(clippy::too_many_arguments)]
+fn more_legs(
+    legs: &mut MeshBuilder,
+    metal: &mut MeshBuilder,
+    st: &Style,
+    quality: Quality,
+    l: f32,
+    w: f32,
+    leg_h: f32,
+) {
+    let segs = if quality == Quality::Ultra { 40 } else { 24 };
+    let corners = [(1.0f32, 1.0f32), (1.0, -1.0), (-1.0, 1.0), (-1.0, -1.0)];
+    match st.legs {
+        Legs::Block => {
+            for (sx, sz) in corners {
+                let at = vec3(sx * (l / 2.0 - 0.05), 0.0, sz * (w / 2.0 - 0.05));
+                tapered_post(legs, at + Vec3::Y * 0.05, leg_h - 0.05, 0.17, 0.2, WHITE);
+                // A chrome band and a levelling foot.
+                metal.cuboid(at + Vec3::Y * 0.16, vec3(0.178, 0.022, 0.178), 0.0, st.trim, 1.0);
+                metal.lathe(
+                    at,
+                    &[(0.0, 0.07), (0.02, 0.07), (0.03, 0.03), (0.05, 0.03)],
+                    20,
+                    st.trim,
+                );
+            }
+        }
+        Legs::Twist => {
+            for (sx, sz) in corners {
+                let at = vec3(sx * (l / 2.0 - 0.05), 0.0, sz * (w / 2.0 - 0.05));
+                // Square blocks at the top and the bottom, the twist between.
+                let (foot, block) = (0.12, 0.17);
+                legs.cuboid(at + Vec3::Y * (foot / 2.0), vec3(0.15, foot, 0.15), 0.0, WHITE, 1.2);
+                legs.cuboid(
+                    at + Vec3::Y * (leg_h - block / 2.0),
+                    vec3(0.18, block, 0.18),
+                    0.0,
+                    WHITE,
+                    1.2,
+                );
+                let h = leg_h - foot - block;
+                let base = at + Vec3::Y * foot;
+                let profile = [
+                    (0.0, 0.055),
+                    (0.02, 0.07),
+                    (0.04, 0.06),
+                    (0.06, 0.068),
+                    (h - 0.06, 0.068),
+                    (h - 0.04, 0.06),
+                    (h - 0.02, 0.07),
+                    (h, 0.055),
+                ];
+                twisted_lathe(legs, base, &profile, segs, 0.06, h - 0.06, 2.6 / h, WHITE);
+                // Brass collars where the twist meets the blocks.
+                for y in [foot - 0.004, leg_h - block - 0.004] {
+                    metal.lathe(
+                        at + Vec3::Y * y,
+                        &[(0.0, 0.074), (0.004, 0.078), (0.008, 0.074)],
+                        segs,
+                        st.trim,
+                    );
+                }
+            }
+        }
+        Legs::Steel => {
+            let (x, z) = (l / 2.0 - 0.08, w / 2.0 - 0.08);
+            let black = Color::new(0.13, 0.13, 0.14, 1.0);
+            for (sx, sz) in corners {
+                let at = vec3(sx * x, 0.0, sz * z);
+                metal.cuboid(
+                    at + Vec3::Y * (leg_h / 2.0),
+                    vec3(0.08, leg_h, 0.08),
+                    0.0,
+                    black,
+                    1.0,
+                );
+                metal.cuboid(at + Vec3::Y * 0.006, vec3(0.13, 0.012, 0.13), 0.0, black, 1.0);
+            }
+            // An X of flat bar across each long side and a stretcher
+            // down the middle, a hand above the floor.
+            for sz in [1.0f32, -1.0] {
+                for (a, b) in [
+                    (vec3(-x, 0.12, sz * z), vec3(0.0, leg_h - 0.1, sz * z)),
+                    (vec3(0.0, leg_h - 0.1, sz * z), vec3(x, 0.12, sz * z)),
+                    (vec3(-x, leg_h - 0.1, sz * z), vec3(0.0, 0.12, sz * z)),
+                    (vec3(0.0, 0.12, sz * z), vec3(x, leg_h - 0.1, sz * z)),
+                ] {
+                    crate::room::tube(metal, a, b, 0.016, 6, black);
+                }
+            }
+            for sx in [1.0f32, -1.0] {
+                metal.cuboid(vec3(sx * x, 0.14, 0.0), vec3(0.05, 0.05, 2.0 * z), 0.0, black, 1.0);
+            }
+            metal.cuboid(vec3(0.0, 0.14, 0.0), vec3(2.0 * x, 0.05, 0.05), 0.0, black, 1.0);
+        }
+        Legs::Column => {
+            for (sx, sz) in corners {
+                let at = vec3(sx * (l / 2.0 - 0.06), 0.0, sz * (w / 2.0 - 0.06));
+                // A stepped gilt base, the fluted shaft, a gilt capital.
+                metal.cuboid(at + Vec3::Y * 0.02, vec3(0.2, 0.04, 0.2), 0.0, st.trim, 1.0);
+                metal.lathe(
+                    at + Vec3::Y * 0.04,
+                    &[(0.0, 0.09), (0.03, 0.09), (0.045, 0.075), (0.06, 0.08)],
+                    segs,
+                    st.trim,
+                );
+                let h = leg_h - 0.16;
+                let shaft = [(0.0, 0.072), (h * 0.5, 0.068), (h, 0.062)];
+                fluted_lathe(
+                    legs,
+                    at + Vec3::Y * 0.1,
+                    &shaft,
+                    segs.max(36),
+                    16,
+                    0.02,
+                    h - 0.02,
+                    WHITE,
+                );
+                metal.lathe(
+                    at + Vec3::Y * (0.1 + h),
+                    &[(0.0, 0.066), (0.02, 0.08), (0.04, 0.095), (0.06, 0.1)],
+                    segs,
+                    st.trim,
+                );
+            }
+        }
+        _ => {}
+    }
+}
+
+/// A turned shape twisted into a double spiral (barley twist) between
+/// heights `y0` and `y1`: `turns` per metre.
+#[allow(clippy::too_many_arguments)]
+fn twisted_lathe(
+    mb: &mut MeshBuilder,
+    at: Vec3,
+    profile: &[(f32, f32)],
+    segments: u32,
+    y0: f32,
+    y1: f32,
+    turns: f32,
+    color: Color,
+) {
+    // Many rings along the twist, so the spiral is smooth.
+    let mut fine: Vec<(f32, f32)> = Vec::new();
+    for w in profile.windows(2) {
+        let (a, b) = (w[0], w[1]);
+        let steps = (((b.0 - a.0) / 0.012).ceil() as usize).max(1);
+        for k in 0..steps {
+            let t = k as f32 / steps as f32;
+            fine.push((a.0 + (b.0 - a.0) * t, a.1 + (b.1 - a.1) * t));
+        }
+    }
+    fine.push(*profile.last().unwrap_or(&(0.0, 0.0)));
+    let first = mb.vertices.len();
+    mb.lathe(at, &fine, segments, color);
+    for v in &mut mb.vertices[first..] {
+        let p = v.position - at;
+        if p.y <= y0 || p.y >= y1 {
+            continue;
+        }
+        let fade = ((p.y - y0) / 0.04).min((y1 - p.y) / 0.04).clamp(0.0, 1.0);
+        let a = p.z.atan2(p.x);
+        let phase = 2.0 * a - p.y * turns * std::f32::consts::TAU;
+        let groove = (0.5 - 0.5 * phase.cos()) * 0.32 * fade;
+        let k = 1.0 - groove;
+        v.position = at + vec3(p.x * k, p.y, p.z * k);
+        // The groove's slope tilts the normal round and along the leg.
+        let slope = phase.sin() * 0.32 * fade;
+        let side = vec3(-a.sin(), 0.0, a.cos());
+        let n = v.normal.truncate() - side * slope * 0.9 + Vec3::Y * slope * 0.4;
+        v.normal = n.normalize_or_zero().extend(0.0);
+    }
 }
 
 fn sights(kit: &mut Kit, st: &Style, table: &Table) {
@@ -905,6 +1206,10 @@ mod tests {
             TableStyle::Club,
             TableStyle::Modern,
             TableStyle::Royal,
+            TableStyle::Industrial,
+            TableStyle::Tournament,
+            TableStyle::Heritage,
+            TableStyle::Deco,
         ] {
             for q in [Quality::Low, Quality::Ultra] {
                 let kit = build(&table, q, theme);

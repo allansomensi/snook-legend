@@ -392,8 +392,10 @@ impl SettingsScreen {
                 let hint = match config.quality {
                     Quality::Low => "For old or very slow computers.",
                     Quality::Medium => "Balanced: smooth on most laptops.",
-                    Quality::High => "Soft shadows from every lamp, contact shading.",
-                    Quality::Ultra => "Everything, with the sharpest balls: for gaming PCs.",
+                    Quality::High => "Soft shadows from every lamp, glossy halls, halos.",
+                    Quality::Ultra => {
+                        "Everything, with reflections in polished floors: for gaming PCs."
+                    }
                 };
                 if let Some((_, c)) =
                     rows.row(ui, t("Graphics quality"), t(hint), Control::Wide(32.0))

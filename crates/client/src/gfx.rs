@@ -4,7 +4,7 @@
 //! practically any PC, including old integrated GPUs.
 
 use macroquad::miniquad::{
-    BlendFactor, BlendState, BlendValue, Comparison, CullFace, Equation, FilterMode,
+    self as mq, BlendFactor, BlendState, BlendValue, Comparison, CullFace, Equation, FilterMode,
     MipmapFilterMode, PipelineParams, TextureWrap, UniformDesc, UniformType,
 };
 use macroquad::prelude::*;
@@ -55,14 +55,18 @@ uniform highp vec3 Lamp2;
 uniform vec4 LampColor;      // rgb, w = intensity
 uniform vec4 Ambient;        // rgb, w = number of lamps (1 or 3)
 uniform vec4 Surface;        // x = specular, y = shininess, z = unlit, w = rim
-uniform vec4 Extra;          // x = clear coat (glossy reflection of the room)
-uniform vec4 Shadows;        // x = soft shadows on, y = occlusion on, z = cloth height
+uniform vec4 Extra;          // x = clear coat (glossy reflection of the room), y = cut-outs,
+                             // z = haze (unlit: fades where seen edge on)
+uniform vec4 Shadows;        // x = soft shadows on, y = occlusion on, z = cloth height,
+                             // w = reflection pass (fade with height)
 uniform vec4 Balls[16];      // xyz = centre, w = radius (0 = empty slot)
-uniform vec4 Stage;          // x = focus: the room fades into darkness away from the table
+uniform vec4 Stage;          // x = focus: the room fades into darkness away from the table,
+                             // yzw = the hall's colour in reflections
 uniform vec4 Holes[6];       // pocket holes: x, z (world), radius
 uniform vec4 Throats[12];    // pocket throats: 4 corners (x, z) per pocket
 uniform vec4 CueA;           // the cue's tip: xyz, w = radius (0: no cue)
 uniform vec4 CueB;           // the cue's butt: xyz, w = radius
+uniform vec4 Spot;           // xy = half size of the pool of light on the table
 
 // The pocket cut-outs. Extra.y selects what a surface loses:
 // 1 = the holes (cloth), 2 = holes and throats (rails, cushions),
@@ -221,7 +225,8 @@ vec3 lamp_reflection(vec3 pos, vec3 r) {
 }
 
 vec3 environment(vec3 r) {
-    vec3 room = vec3(0.09, 0.06, 0.045);
+    // The hall's own colour (warm wood, a sunset, a cold loft…).
+    vec3 room = Stage.yzw;
     vec3 cloth = vec3(0.03, 0.17, 0.08);
     vec3 c = mix(room, cloth, smoothstep(-0.05, -0.45, r.y));
     c += vec3(0.05, 0.035, 0.02) * smoothstep(0.2, 0.9, r.y);
@@ -246,13 +251,61 @@ vec3 lamp(vec3 pos, vec3 n, vec3 v, vec3 base, float shadow) {
     return LampColor.rgb * (diff * base + spec) * att * cone * shadow;
 }
 
+// A lamp's glint on a glossy surface whose light is baked (the halls):
+// only the highlight, the diffuse light is already in the colour.
+vec3 glint(vec3 pos, vec3 n, vec3 v) {
+    vec3 l = pos - v_world;
+    float d = length(l);
+    l /= d;
+    float cone = smoothstep(0.25, 0.75, l.y);
+    vec3 h = normalize(l + v);
+    float spec = pow(max(dot(n, h), 0.0), Surface.y) * Surface.x;
+    return LampColor.rgb * spec * LampColor.w / (1.0 + 0.9 * d * d) * cone;
+}
+
+// The reflection pass (a glossy floor): what is seen in the floor fades
+// with its height above it, like a real polished floor.
+vec3 mirror_fade(vec3 c) {
+    if (Shadows.w > 0.0) {
+        c *= exp(-max(v_world.y, 0.0) * Shadows.w);
+    }
+    return c;
+}
+
 void main() {
     if (Extra.y > 0.5 && cut_away(v_world, Extra.y, v_normal.y > 0.5)) {
         discard;
     }
     vec4 base = texture2D(Texture, uv) * color;
     if (Surface.z > 0.5) {
-        gl_FragColor = base;
+        // Unlit: the light is baked into the colour (the halls) or the
+        // surface shines by itself.
+        vec3 c = base.rgb;
+        float alpha = base.a;
+        if (Extra.z > 0.0 || Surface.x > 0.0 || Extra.x > 0.0) {
+            vec3 n = normalize(v_normal);
+            vec3 v = normalize(CameraPos - v_world);
+            // Haze (light cones, shafts): see-through where it is seen
+            // edge on, so it has no hard outline.
+            if (Extra.z > 0.0) {
+                alpha *= pow(abs(dot(n, v)), Extra.z);
+            }
+            // Baked gloss: varnish, brass, glass and polished floors catch
+            // the lamps and the room as the camera moves.
+            if (Surface.x > 0.0 || Extra.x > 0.0) {
+                if (dot(n, v) < 0.0) {
+                    n = -n;
+                }
+                c += glint(Lamp1, n, v);
+                if (Ambient.w > 1.5) {
+                    c += glint(Lamp0, n, v) + glint(Lamp2, n, v);
+                }
+                float ndv = max(dot(n, v), 0.0);
+                float fresnel = 0.04 + 0.96 * pow(1.0 - ndv, 5.0);
+                c += environment(reflect(-v, n)) * Extra.x * (0.03 + 0.6 * fresnel);
+            }
+        }
+        gl_FragColor = vec4(mirror_fade(c), alpha);
         return;
     }
     vec3 n = normalize(v_normal);
@@ -274,7 +327,7 @@ void main() {
     amb *= mix(1.0, 0.12, away * Stage.x);
     vec3 c = amb * base.rgb * bt.w;
     // A pool of light on the table that fades towards the rails and beyond.
-    float spot = length(v_world.xz / vec2(1.25, 0.72));
+    float spot = length(v_world.xz / Spot.xy);
     float pool = mix(1.0, mix(1.0, 0.42, smoothstep(0.3, 1.35, spot)), Stage.x);
     c += lamp(Lamp1, n, v, base.rgb, bt.y);
     if (Ambient.w > 1.5) {
@@ -299,7 +352,7 @@ void main() {
     // Filmic-style exposure curve: highlights (white balls under the lamps)
     // roll off smoothly instead of burning out to flat white.
     c = vec3(1.0) - exp(-c * 1.45);
-    gl_FragColor = vec4(c, base.a);
+    gl_FragColor = vec4(mirror_fade(c), base.a);
 }
 "#;
 
@@ -314,19 +367,71 @@ pub struct Surface {
     pub coat: f32,
     /// Pocket cut-out mode (see `cut_away` in the shader); 0 = none.
     pub cut: f32,
+    /// Unlit haze (light cones, shafts): fades where seen edge on (the
+    /// power of the fade; 0 = none).
+    pub haze: f32,
 }
 
 impl Surface {
-    pub const MATTE: Surface =
-        Surface { specular: 0.04, shininess: 8.0, unlit: false, rim: 0.0, coat: 0.0, cut: 0.0 };
-    pub const WOOD: Surface =
-        Surface { specular: 0.35, shininess: 40.0, unlit: false, rim: 0.05, coat: 0.35, cut: 0.0 };
-    pub const BALL: Surface =
-        Surface { specular: 2.2, shininess: 380.0, unlit: false, rim: 0.03, coat: 0.8, cut: 0.0 };
-    pub const UNLIT: Surface =
-        Surface { specular: 0.0, shininess: 1.0, unlit: true, rim: 0.0, coat: 0.0, cut: 0.0 };
+    pub const MATTE: Surface = Surface {
+        specular: 0.04,
+        shininess: 8.0,
+        unlit: false,
+        rim: 0.0,
+        coat: 0.0,
+        cut: 0.0,
+        haze: 0.0,
+    };
+    pub const WOOD: Surface = Surface {
+        specular: 0.35,
+        shininess: 40.0,
+        unlit: false,
+        rim: 0.05,
+        coat: 0.35,
+        cut: 0.0,
+        haze: 0.0,
+    };
+    pub const BALL: Surface = Surface {
+        specular: 2.2,
+        shininess: 380.0,
+        unlit: false,
+        rim: 0.03,
+        coat: 0.8,
+        cut: 0.0,
+        haze: 0.0,
+    };
+    pub const UNLIT: Surface = Surface {
+        specular: 0.0,
+        shininess: 1.0,
+        unlit: true,
+        rim: 0.0,
+        coat: 0.0,
+        cut: 0.0,
+        haze: 0.0,
+    };
     pub const fn lit(specular: f32, shininess: f32, rim: f32, coat: f32) -> Surface {
-        Surface { specular, shininess, unlit: false, rim, coat, cut: 0.0 }
+        Surface { specular, shininess, unlit: false, rim, coat, cut: 0.0, haze: 0.0 }
+    }
+
+    /// A surface whose light is baked into its colours (the halls) but which
+    /// still catches the lamps (`specular`, `shininess`) and the room
+    /// (`coat`) as the camera moves: varnish, brass, glass, polished floors.
+    pub const fn baked(specular: f32, shininess: f32, coat: f32) -> Surface {
+        Surface { specular, shininess, unlit: true, rim: 0.0, coat, cut: 0.0, haze: 0.0 }
+    }
+
+    /// See-through light (a cone under a lamp, a shaft from a window) that
+    /// fades out where it is seen edge on.
+    pub const fn haze(power: f32) -> Surface {
+        Surface {
+            specular: 0.0,
+            shininess: 1.0,
+            unlit: true,
+            rim: 0.0,
+            coat: 0.0,
+            cut: 0.0,
+            haze: power,
+        }
     }
 
     /// The same surface with pocket cut-outs (see the shader's `cut_away`).
@@ -336,91 +441,216 @@ impl Surface {
     }
 }
 
+/// The values of the shader's uniforms, in the order they are declared in
+/// [`Raw::new`] (tightly packed floats, as miniquad uploads them).
+#[repr(C)]
+#[derive(Clone, Copy)]
+struct Uniforms {
+    projection: [f32; 16],
+    model: [f32; 16],
+    camera_pos: [f32; 3],
+    lamp0: [f32; 3],
+    lamp1: [f32; 3],
+    lamp2: [f32; 3],
+    lamp_color: [f32; 4],
+    ambient: [f32; 4],
+    surface: [f32; 4],
+    extra: [f32; 4],
+    shadows: [f32; 4],
+    balls: [[f32; 4]; 16],
+    stage: [f32; 4],
+    holes: [[f32; 4]; 6],
+    throats: [[f32; 4]; 12],
+    cue_a: [f32; 4],
+    cue_b: [f32; 4],
+    spot: [f32; 4],
+}
+
+impl Default for Uniforms {
+    fn default() -> Self {
+        Uniforms {
+            projection: Mat4::IDENTITY.to_cols_array(),
+            model: Mat4::IDENTITY.to_cols_array(),
+            camera_pos: [0.0; 3],
+            lamp0: [0.0; 3],
+            lamp1: [0.0; 3],
+            lamp2: [0.0; 3],
+            lamp_color: [0.0; 4],
+            ambient: [0.0; 4],
+            surface: [0.0; 4],
+            extra: [0.0; 4],
+            shadows: [0.0; 4],
+            balls: [[0.0; 4]; 16],
+            stage: [0.0; 4],
+            holes: [[0.0; 4]; 6],
+            throats: [[0.0; 4]; 12],
+            cue_a: [0.0; 4],
+            cue_b: [0.0; 4],
+            spot: [1.25, 0.72, 0.0, 0.0],
+        }
+    }
+}
+
+/// The scene's own uniforms (macroquad adds Projection and Model itself).
+fn uniform_descs() -> Vec<UniformDesc> {
+    vec![
+        UniformDesc::new("CameraPos", UniformType::Float3),
+        UniformDesc::new("Lamp0", UniformType::Float3),
+        UniformDesc::new("Lamp1", UniformType::Float3),
+        UniformDesc::new("Lamp2", UniformType::Float3),
+        UniformDesc::new("LampColor", UniformType::Float4),
+        UniformDesc::new("Ambient", UniformType::Float4),
+        UniformDesc::new("Surface", UniformType::Float4),
+        UniformDesc::new("Extra", UniformType::Float4),
+        UniformDesc::new("Shadows", UniformType::Float4),
+        UniformDesc::new("Balls", UniformType::Float4).array(16),
+        UniformDesc::new("Stage", UniformType::Float4),
+        UniformDesc::new("Holes", UniformType::Float4).array(6),
+        UniformDesc::new("Throats", UniformType::Float4).array(12),
+        UniformDesc::new("CueA", UniformType::Float4),
+        UniformDesc::new("CueB", UniformType::Float4),
+        UniformDesc::new("Spot", UniformType::Float4),
+    ]
+}
+
+/// The same shader as the materials, driven straight through miniquad, for
+/// meshes whose vertices live on the GPU (see [`Model`]): the halls and the
+/// table are drawn every frame without sending their vertices again.
+struct Raw {
+    lit: mq::Pipeline,
+    blended: mq::Pipeline,
+}
+
+impl Raw {
+    fn new(fragment: &str, lit: PipelineParams, blended: PipelineParams) -> Option<Raw> {
+        let ctx = unsafe { get_internal_gl() }.quad_context;
+        let mut uniforms = vec![
+            UniformDesc::new("Projection", UniformType::Mat4),
+            UniformDesc::new("Model", UniformType::Mat4),
+        ];
+        uniforms.extend(uniform_descs());
+        let meta = mq::ShaderMeta {
+            images: vec!["Texture".to_string()],
+            uniforms: mq::UniformBlockLayout { uniforms },
+        };
+        let shader = ctx
+            .new_shader(mq::ShaderSource::Glsl { vertex: VERTEX, fragment }, meta)
+            .map_err(|e| eprintln!("static meshes off (shader): {e:?}"))
+            .ok()?;
+        let layout = [mq::BufferLayout::default()];
+        let attributes = [
+            mq::VertexAttribute::new("position", mq::VertexFormat::Float3),
+            mq::VertexAttribute::new("texcoord", mq::VertexFormat::Float2),
+            mq::VertexAttribute::new("color0", mq::VertexFormat::Byte4),
+            mq::VertexAttribute::new("normal", mq::VertexFormat::Float4),
+        ];
+        Some(Raw {
+            lit: ctx.new_pipeline(&layout, &attributes, shader, lit),
+            blended: ctx.new_pipeline(&layout, &attributes, shader, blended),
+        })
+    }
+}
+
 /// The shared lit material plus a blended variant for decals and shadows.
+///
+/// The uniforms are kept here too: meshes on the GPU are drawn with the same
+/// shader straight through miniquad (see [`Materials::draw`]), the small
+/// meshes made every frame (guides, shadows) through macroquad's materials.
 pub struct Materials {
     pub lit: Material,
     pub blended: Material,
+    raw: Option<Raw>,
+    state: std::cell::RefCell<Uniforms>,
+    blending: std::cell::Cell<bool>,
 }
 
 impl Materials {
     pub fn new() -> Self {
-        let uniforms = vec![
-            UniformDesc::new("CameraPos", UniformType::Float3),
-            UniformDesc::new("Lamp0", UniformType::Float3),
-            UniformDesc::new("Lamp1", UniformType::Float3),
-            UniformDesc::new("Lamp2", UniformType::Float3),
-            UniformDesc::new("LampColor", UniformType::Float4),
-            UniformDesc::new("Ambient", UniformType::Float4),
-            UniformDesc::new("Surface", UniformType::Float4),
-            UniformDesc::new("Extra", UniformType::Float4),
-            UniformDesc::new("Shadows", UniformType::Float4),
-            UniformDesc::new("Balls", UniformType::Float4).array(16),
-            UniformDesc::new("Stage", UniformType::Float4),
-            UniformDesc::new("Holes", UniformType::Float4).array(6),
-            UniformDesc::new("Throats", UniformType::Float4).array(12),
-            UniformDesc::new("CueA", UniformType::Float4),
-            UniformDesc::new("CueB", UniformType::Float4),
-        ];
+        let uniforms = uniform_descs();
         // Some old drivers reject the shadow loop; fall back to a shader
         // without it rather than failing to start.
         static SIMPLE: std::sync::OnceLock<String> = std::sync::OnceLock::new();
         let simple: &'static str = SIMPLE.get_or_init(|| {
             FRAGMENT.replacen("#version 100\n", "#version 100\n#define NO_SHADOWS\n", 1)
         });
-        let load = |vertex: &'static str, pipeline_params: PipelineParams| -> Material {
+        static DEBUG: std::sync::OnceLock<String> = std::sync::OnceLock::new();
+        let debug: &'static str = DEBUG.get_or_init(|| {
+            FRAGMENT.replacen("#version 100\n", "#version 100\n#define DEBUG_NORMALS\n", 1)
+        });
+        // SNOOKERED_SAFE_GRAPHICS=1 forces the basic shader (for troubleshooting).
+        let safe = crate::dev::flag("SNOOKERED_SAFE_GRAPHICS");
+        let first = if safe {
+            simple
+        } else if crate::dev::flag("SNOOKERED_DEBUG_NORMALS") {
+            debug
+        } else {
+            FRAGMENT
+        };
+        let mut used = first;
+        let mut load = |vertex: &'static str, pipeline_params: PipelineParams| -> Material {
             let params =
                 || MaterialParams { pipeline_params, uniforms: uniforms.clone(), textures: vec![] };
-            // SNOOKERED_SAFE_GRAPHICS=1 forces the basic shader (for troubleshooting).
-            static DEBUG: std::sync::OnceLock<String> = std::sync::OnceLock::new();
-            let debug: &'static str = DEBUG.get_or_init(|| {
-                FRAGMENT.replacen("#version 100\n", "#version 100\n#define DEBUG_NORMALS\n", 1)
-            });
-            let first = if crate::dev::flag("SNOOKERED_SAFE_GRAPHICS") {
-                simple
-            } else if crate::dev::flag("SNOOKERED_DEBUG_NORMALS") {
-                debug
-            } else {
-                FRAGMENT
-            };
             match load_material(ShaderSource::Glsl { vertex, fragment: first }, params()) {
                 Ok(m) => m,
                 Err(e) => {
                     eprintln!("shader fallback (no ball shadows): {e:?}");
+                    used = simple;
                     load_material(ShaderSource::Glsl { vertex, fragment: simple }, params())
                         .expect("basic shader compiles")
                 }
             }
         };
-        let lit = load(
-            VERTEX,
-            PipelineParams {
-                depth_test: Comparison::LessOrEqual,
-                depth_write: true,
-                cull_face: CullFace::Nothing,
-                ..Default::default()
-            },
-        );
-        let blended = load(
-            VERTEX,
-            PipelineParams {
-                // miniquad disables the depth *test* when depth writes are off,
-                // so decals write depth too (they lie flat on surfaces).
-                depth_test: Comparison::LessOrEqual,
-                depth_write: true,
-                cull_face: CullFace::Nothing,
-                color_blend: Some(BlendState::new(
-                    Equation::Add,
-                    BlendFactor::Value(BlendValue::SourceAlpha),
-                    BlendFactor::OneMinusValue(BlendValue::SourceAlpha),
-                )),
-                ..Default::default()
-            },
-        );
-        Materials { lit, blended }
+        let lit_params = PipelineParams {
+            depth_test: Comparison::LessOrEqual,
+            depth_write: true,
+            cull_face: CullFace::Nothing,
+            ..Default::default()
+        };
+        let blended_params = PipelineParams {
+            // miniquad disables the depth *test* when depth writes are off,
+            // so decals write depth too (they lie flat on surfaces).
+            depth_test: Comparison::LessOrEqual,
+            depth_write: true,
+            cull_face: CullFace::Nothing,
+            color_blend: Some(BlendState::new(
+                Equation::Add,
+                BlendFactor::Value(BlendValue::SourceAlpha),
+                BlendFactor::OneMinusValue(BlendValue::SourceAlpha),
+            )),
+            ..Default::default()
+        };
+        let lit = load(VERTEX, lit_params);
+        let blended = load(VERTEX, blended_params);
+        // The safe mode keeps everything on macroquad's own path.
+        let raw = if safe { None } else { Raw::new(used, lit_params, blended_params) };
+        Materials {
+            lit,
+            blended,
+            raw,
+            state: Default::default(),
+            blending: std::cell::Cell::new(false),
+        }
+    }
+
+    /// Sets a uniform on both materials and in the state of GPU meshes.
+    fn set<T>(&self, name: &str, value: T, write: impl FnOnce(&mut Uniforms))
+    where
+        T: Copy,
+    {
+        self.lit.set_uniform(name, value);
+        self.blended.set_uniform(name, value);
+        write(&mut self.state.borrow_mut());
+    }
+
+    /// The camera's view and projection (for the meshes on the GPU).
+    pub fn set_view(&self, matrix: Mat4) {
+        self.state.borrow_mut().projection = matrix.to_cols_array();
     }
 
     /// Sets the per-frame lighting uniforms on both materials.
     /// `lamp_count` is 1 (cheap) or 3; a single lamp is brighter to compensate.
+    /// `tint`: the hall's colour, seen in reflections on balls and varnish.
+    #[allow(clippy::too_many_arguments)]
     pub fn set_frame(
         &self,
         camera: Vec3,
@@ -428,17 +658,24 @@ impl Materials {
         intensity: f32,
         lamp_count: u32,
         focus: f32,
+        tint: Vec3,
     ) {
         let intensity = if lamp_count == 1 { intensity * 2.3 } else { intensity };
-        for m in [&self.lit, &self.blended] {
-            m.set_uniform("CameraPos", camera);
-            m.set_uniform("Lamp0", lamps[0]);
-            m.set_uniform("Lamp1", lamps[1]);
-            m.set_uniform("Lamp2", lamps[2]);
-            m.set_uniform("LampColor", vec4(1.0, 0.88, 0.70, intensity));
-            m.set_uniform("Ambient", vec4(0.30, 0.25, 0.21, lamp_count as f32));
-            m.set_uniform("Stage", vec4(focus, 0.0, 0.0, 0.0));
-        }
+        self.set_camera_pos(camera);
+        self.set("Lamp0", lamps[0], |u| u.lamp0 = lamps[0].to_array());
+        self.set("Lamp1", lamps[1], |u| u.lamp1 = lamps[1].to_array());
+        self.set("Lamp2", lamps[2], |u| u.lamp2 = lamps[2].to_array());
+        let color = vec4(1.0, 0.88, 0.70, intensity);
+        self.set("LampColor", color, |u| u.lamp_color = color.to_array());
+        let ambient = vec4(0.30, 0.25, 0.21, lamp_count as f32);
+        self.set("Ambient", ambient, |u| u.ambient = ambient.to_array());
+        let stage = vec4(focus, tint.x, tint.y, tint.z);
+        self.set("Stage", stage, |u| u.stage = stage.to_array());
+    }
+
+    /// Moves the viewpoint only (the reflection pass sees from under the floor).
+    pub fn set_camera_pos(&self, camera: Vec3) {
+        self.set("CameraPos", camera, |u| u.camera_pos = camera.to_array());
     }
 
     /// Turns the analytic ball shadows / contact occlusion on or off and sets
@@ -452,25 +689,45 @@ impl Materials {
         cue: Option<(Vec4, Vec4)>,
     ) {
         let (cue_a, cue_b) = cue.filter(|_| soft_shadows).unwrap_or((Vec4::ZERO, Vec4::ZERO));
+        self.set("CueA", cue_a, |u| u.cue_a = cue_a.to_array());
+        self.set("CueB", cue_b, |u| u.cue_b = cue_b.to_array());
+        let shadows = vec4(
+            soft_shadows as u8 as f32,
+            occlusion as u8 as f32,
+            crate::coords::TABLE_HEIGHT,
+            0.0,
+        );
+        self.set("Shadows", shadows, |u| u.shadows = shadows.to_array());
         for m in [&self.lit, &self.blended] {
-            m.set_uniform("CueA", cue_a);
-            m.set_uniform("CueB", cue_b);
-            m.set_uniform(
-                "Shadows",
-                vec4(
-                    soft_shadows as u8 as f32,
-                    occlusion as u8 as f32,
-                    crate::coords::TABLE_HEIGHT,
-                    0.0,
-                ),
-            );
             m.set_uniform_array("Balls", &balls[..]);
         }
+        let mut u = self.state.borrow_mut();
+        for (slot, b) in u.balls.iter_mut().zip(balls) {
+            *slot = b.to_array();
+        }
+    }
+
+    /// The reflection pass: `fade` > 0 is how fast what the floor reflects
+    /// fades with its height above it; 0 is the normal pass.
+    pub fn set_mirror(&self, fade: f32) {
+        let mut shadows = self.state.borrow().shadows;
+        shadows[3] = fade;
+        let v = Vec4::from_array(shadows);
+        self.set("Shadows", v, |u| u.shadows = shadows);
     }
 
     pub fn use_lit(&self, s: Surface) {
         set_surface(&self.lit, s);
+        self.set_state_surface(s);
+        self.blending.set(false);
         gl_use_material(&self.lit);
+    }
+
+    /// The size of the table, with its rails (`half`): the pool of light on
+    /// the dark stage fits it, whatever its size.
+    pub fn set_table(&self, half: Vec2) {
+        let spot = vec4(half.x * 1.08, half.y * 1.18, 0.0, 0.0);
+        self.set("Spot", spot, |u| u.spot = spot.to_array());
     }
 
     /// The pocket holes and throats cut out of the table (see `cut_away`).
@@ -479,17 +736,61 @@ impl Materials {
             m.set_uniform_array("Holes", &holes[..]);
             m.set_uniform_array("Throats", &throats[..]);
         }
+        let mut u = self.state.borrow_mut();
+        for (slot, h) in u.holes.iter_mut().zip(holes) {
+            *slot = h.to_array();
+        }
+        for (slot, t) in u.throats.iter_mut().zip(throats) {
+            *slot = t.to_array();
+        }
     }
 
     pub fn use_blended(&self, s: Surface) {
         set_surface(&self.blended, s);
+        self.set_state_surface(s);
+        self.blending.set(true);
         gl_use_material(&self.blended);
+    }
+
+    fn set_state_surface(&self, s: Surface) {
+        let mut u = self.state.borrow_mut();
+        u.surface = [s.specular, s.shininess, if s.unlit { 1.0 } else { 0.0 }, s.rim];
+        u.extra = [s.coat, s.cut, s.haze, 0.0];
+    }
+
+    /// Draws `model` (moved by `transform`) with the material and surface in
+    /// use. Meshes on the GPU go straight to it; the rest through macroquad.
+    pub fn draw(&self, model: &Model, transform: Option<Mat4>) {
+        let Some(raw) = self.raw.as_ref().filter(|_| !model.gpu.is_empty()) else {
+            match transform {
+                Some(m) => model.draw_at(m),
+                None => model.draw(),
+            }
+            return;
+        };
+        let mut gl = unsafe { get_internal_gl() };
+        // Whatever macroquad has batched goes first, to keep the order.
+        gl.flush();
+        let ctx = gl.quad_context;
+        let mut u = self.state.borrow_mut();
+        u.model = transform.unwrap_or(Mat4::IDENTITY).to_cols_array();
+        let (w, h) = mq::window::screen_size();
+        ctx.begin_default_pass(mq::PassAction::Nothing);
+        ctx.apply_pipeline(if self.blending.get() { &raw.blended } else { &raw.lit });
+        ctx.apply_viewport(0, 0, w as i32, h as i32);
+        ctx.apply_scissor_rect(0, 0, w as i32, h as i32);
+        for g in &model.gpu {
+            ctx.apply_bindings(&g.bindings);
+            ctx.apply_uniforms(mq::UniformsSource::table(&*u));
+            ctx.draw(0, g.count, 1);
+        }
+        ctx.end_render_pass();
     }
 }
 
 fn set_surface(m: &Material, s: Surface) {
     m.set_uniform("Surface", vec4(s.specular, s.shininess, if s.unlit { 1.0 } else { 0.0 }, s.rim));
-    m.set_uniform("Extra", vec4(s.coat, s.cut, 0.0, 0.0));
+    m.set_uniform("Extra", vec4(s.coat, s.cut, s.haze, 0.0));
 }
 
 /// Uploads an RGBA image as a mipmapped, repeating, trilinear-filtered texture.
@@ -542,7 +843,8 @@ impl MeshBuilder {
     /// Quad `a b c d` (counter-clockwise) with a flat normal.
     pub fn quad(&mut self, p: [Vec3; 4], uv: [Vec2; 4], color: Color) {
         let n = (p[1] - p[0]).cross(p[2] - p[0]).normalize_or_zero();
-        let i: Vec<u16> = (0..4).map(|k| self.push(p[k], uv[k], n, color)).collect();
+        // No allocation: guides and shadows are made of quads every frame.
+        let i: [u16; 4] = std::array::from_fn(|k| self.push(p[k], uv[k], n, color));
         self.indices.extend_from_slice(&[i[0], i[1], i[2], i[0], i[2], i[3]]);
     }
 
@@ -696,13 +998,27 @@ impl MeshBuilder {
 
     /// Multiplies every vertex colour by `light(position, normal)` (baked
     /// lighting for the room, which is drawn unlit).
-    pub fn bake(&mut self, light: impl Fn(Vec3, Vec3) -> Vec3) {
-        for v in &mut self.vertices {
-            let l = light(v.position, v.normal.truncate());
-            for (k, c) in v.color.iter_mut().take(3).enumerate() {
-                *c = (*c as f32 * l[k].clamp(0.0, 1.0)).round() as u8;
+    /// Big meshes are baked on every core (shadows make each vertex dear).
+    pub fn bake(&mut self, light: impl Fn(Vec3, Vec3) -> Vec3 + Sync) {
+        let bake_all = |vertices: &mut [Vertex]| {
+            for v in vertices {
+                let l = light(v.position, v.normal.truncate());
+                for (k, c) in v.color.iter_mut().take(3).enumerate() {
+                    *c = (*c as f32 * l[k].clamp(0.0, 1.0)).round() as u8;
+                }
             }
+        };
+        let threads = std::thread::available_parallelism().map(|n| n.get()).unwrap_or(1).min(8);
+        if threads < 2 || self.vertices.len() < 4000 {
+            bake_all(&mut self.vertices);
+            return;
         }
+        let chunk = self.vertices.len().div_ceil(threads);
+        std::thread::scope(|s| {
+            for part in self.vertices.chunks_mut(chunk) {
+                s.spawn(|| bake_all(part));
+            }
+        });
     }
 
     pub fn len(&self) -> usize {
@@ -883,10 +1199,40 @@ impl MeshBuilder {
         }
     }
 
-    /// Finishes the geometry. Big meshes are split into pieces that fit
-    /// macroquad's default per-draw-call buffers (5000 indices, 10000
-    /// vertices); keeping those buffers small matters on some drivers.
+    /// Finishes the geometry and sends it to the GPU once: drawn through
+    /// [`Materials::draw`], it costs no copying per frame.
     pub fn build(self, texture: &Texture2D) -> Model {
+        let gpu = if self.indices.is_empty() {
+            Vec::new()
+        } else {
+            let ctx = unsafe { get_internal_gl() }.quad_context;
+            let vb = ctx.new_buffer(
+                mq::BufferType::VertexBuffer,
+                mq::BufferUsage::Immutable,
+                mq::BufferSource::slice(&self.vertices),
+            );
+            let ib = ctx.new_buffer(
+                mq::BufferType::IndexBuffer,
+                mq::BufferUsage::Immutable,
+                mq::BufferSource::slice(&self.indices),
+            );
+            let bindings = mq::Bindings {
+                vertex_buffers: vec![vb],
+                index_buffer: ib,
+                images: vec![texture.raw_miniquad_id()],
+            };
+            vec![Gpu { bindings, count: self.indices.len() as i32 }]
+        };
+        let mut model = self.build_dynamic(texture);
+        model.gpu = gpu;
+        model
+    }
+
+    /// Finishes geometry made for one frame (guides, shadows): it goes
+    /// through macroquad's batches. Big meshes are split into pieces that
+    /// fit macroquad's default per-draw-call buffers (5000 indices, 10000
+    /// vertices); keeping those buffers small matters on some drivers.
+    pub fn build_dynamic(self, texture: &Texture2D) -> Model {
         const MAX_INDICES: usize = 4800;
         const MAX_VERTICES: usize = 9000;
         // A strong clone keeps the GPU texture alive as long as the mesh.
@@ -894,13 +1240,14 @@ impl MeshBuilder {
         if self.indices.len() <= MAX_INDICES && self.vertices.len() <= MAX_VERTICES {
             return Model {
                 parts: vec![Mesh { vertices: self.vertices, indices: self.indices, texture }],
+                gpu: Vec::new(),
             };
         }
         let parts = split_mesh(&self.vertices, &self.indices, MAX_VERTICES, MAX_INDICES)
             .into_iter()
             .map(|(vertices, indices)| Mesh { vertices, indices, texture: texture.clone() })
             .collect();
-        Model { parts }
+        Model { parts, gpu: Vec::new() }
     }
 }
 
@@ -936,9 +1283,29 @@ fn split_mesh(
     parts
 }
 
+/// Geometry kept on the GPU (see [`MeshBuilder::build`]).
+struct Gpu {
+    bindings: mq::Bindings,
+    count: i32,
+}
+
 /// One or more meshes drawn together (see [`MeshBuilder::build`]).
 pub struct Model {
     parts: Vec<Mesh>,
+    gpu: Vec<Gpu>,
+}
+
+impl Drop for Model {
+    fn drop(&mut self) {
+        if self.gpu.is_empty() {
+            return;
+        }
+        let ctx = unsafe { get_internal_gl() }.quad_context;
+        for g in &self.gpu {
+            ctx.delete_buffer(g.bindings.vertex_buffers[0]);
+            ctx.delete_buffer(g.bindings.index_buffer);
+        }
+    }
 }
 
 impl Model {
@@ -946,6 +1313,9 @@ impl Model {
     pub fn set_texture(&mut self, texture: &Texture2D) {
         for m in &mut self.parts {
             m.texture = Some(texture.clone());
+        }
+        for g in &mut self.gpu {
+            g.bindings.images[0] = texture.raw_miniquad_id();
         }
     }
 
@@ -1189,6 +1559,23 @@ pub enum Layer {
     Blended,
     /// The lamp over the table (hidden from above and on the dark stage).
     Lamp,
+    /// The floor of a hall: drawn first, and laid a little see-through over
+    /// its own reflection where the floor is polished (Ultra). Its vertex
+    /// alpha is how much of the floor shows over the reflection.
+    Floor,
+    /// Haze under the lamp (High, Ultra): see-through, drawn last.
+    Haze,
+}
+
+/// A light of a hall that gets a soft halo facing the camera (High, Ultra).
+#[derive(Clone, Copy, Debug)]
+pub struct Glow {
+    pub at: Vec3,
+    /// Half the halo's width (metres).
+    pub size: f32,
+    pub color: Color,
+    /// Part of the lamp over the table (hidden with it).
+    pub lamp: bool,
 }
 
 /// A part of a [`Kit`]: geometry, the kit texture it uses (`None`: plain
@@ -1206,6 +1593,8 @@ pub struct KitPart {
 pub struct Kit {
     pub textures: Vec<(crate::textures::Pixels, bool)>,
     pub parts: Vec<KitPart>,
+    /// Lights that get a halo (see [`Glow`]).
+    pub glows: Vec<Glow>,
 }
 
 /// A part ready to draw.
@@ -1213,6 +1602,9 @@ pub struct Built {
     pub mesh: Model,
     pub surface: Surface,
     pub layer: Layer,
+    /// The height of its lowest point (what is high up hardly shows in a
+    /// floor's reflection, so that pass skips it).
+    pub low: f32,
 }
 
 impl Kit {
@@ -1229,6 +1621,11 @@ impl Kit {
         }
     }
 
+    /// A halo round a light (see [`Glow`]).
+    pub fn glow(&mut self, at: Vec3, size: f32, color: Color, lamp: bool) {
+        self.glows.push(Glow { at, size, color, lamp });
+    }
+
     /// Uploads the textures and builds the meshes.
     pub fn finish(self, white: &Texture2D) -> Vec<Built> {
         let textures: Vec<Texture2D> = self
@@ -1238,10 +1635,14 @@ impl Kit {
             .collect();
         self.parts
             .into_iter()
-            .map(|p| Built {
-                mesh: p.mesh.build(p.tex.map_or(white, |k| &textures[k])),
-                surface: p.surface,
-                layer: p.layer,
+            .map(|p| {
+                let low = p.mesh.vertices.iter().map(|v| v.position.y).fold(f32::MAX, f32::min);
+                Built {
+                    mesh: p.mesh.build(p.tex.map_or(white, |k| &textures[k])),
+                    surface: p.surface,
+                    layer: p.layer,
+                    low,
+                }
             })
             .collect()
     }

@@ -13,41 +13,184 @@ use crate::config::Quality;
 use crate::coords::TABLE_HEIGHT;
 use crate::gfx::{Kit, Layer, MeshBuilder, Surface};
 use crate::hall_textures as tx;
+use crate::more_halls as more;
 use crate::room::{HEIGHT, HX, HZ, disc_facing, hoop, picture, tube};
 use crate::scene::LAMP_Y;
 use crate::textures;
 
-fn rgb(r: u8, g: u8, b: u8) -> Color {
+pub(crate) fn rgb(r: u8, g: u8, b: u8) -> Color {
     Color::from_rgba(r, g, b, 255)
 }
 
 /// The hall `style` around a table of half size `table` (with its rails).
 pub fn build(quality: Quality, table: Vec2, style: HallStyle) -> Kit {
     let mut kit = Kit::default();
+    let reach = lamp_reach(table);
+    let grow = reach - 0.45;
     match style {
         HallStyle::Pool => {
             crate::room::build(&mut kit, quality, table);
-            pool_lamp(&mut kit, quality);
+            pool_lamp(&mut kit, quality, reach);
         }
         HallStyle::Beach => {
             beach(&mut kit, quality, table);
-            rattan_lamp(&mut kit, quality);
+            rattan_lamp(&mut kit, quality, reach);
         }
         HallStyle::Club => {
             club(&mut kit, quality, table);
-            club_lamp(&mut kit, quality);
+            club_lamp(&mut kit, quality, reach);
         }
         HallStyle::Loft => {
             loft(&mut kit, quality, table);
-            loft_lamp(&mut kit, quality);
+            loft_lamp(&mut kit, quality, reach);
+        }
+        HallStyle::Lodge => {
+            more::lodge(&mut kit, quality, table);
+            more::lodge_lamp(&mut kit, quality, reach);
+        }
+        HallStyle::Arcade => {
+            more::arcade(&mut kit, quality, table);
+            more::arcade_lamp(&mut kit, reach);
+        }
+        HallStyle::Deco => {
+            more::deco(&mut kit, quality, table);
+            more::deco_lamp(&mut kit, quality, reach);
+        }
+        HallStyle::Penthouse => {
+            more::penthouse(&mut kit, quality, table);
+            more::penthouse_lamp(&mut kit, reach);
+        }
+    }
+    if quality >= Quality::High {
+        let (shade, warm) = match style {
+            HallStyle::Club => (0.3, Color::new(1.0, 0.86, 0.62, 1.0)),
+            HallStyle::Loft => (0.13, Color::new(1.0, 0.8, 0.55, 1.0)),
+            HallStyle::Beach => (0.17, Color::new(1.0, 0.8, 0.55, 1.0)),
+            HallStyle::Pool => (0.16, Color::new(1.0, 0.88, 0.66, 1.0)),
+            HallStyle::Lodge => (0.17, Color::new(1.0, 0.82, 0.58, 1.0)),
+            HallStyle::Arcade => (0.2, Color::new(0.95, 0.92, 1.0, 1.0)),
+            HallStyle::Deco => (0.16, Color::new(1.0, 0.88, 0.68, 1.0)),
+            HallStyle::Penthouse => (0.1, Color::new(1.0, 0.95, 0.85, 1.0)),
+        };
+        match style {
+            // Long lamps (a canopy, a box, a bar) light a long block of haze.
+            HallStyle::Club => box_haze(&mut kit, vec2(0.85 + grow, 0.3), warm),
+            HallStyle::Arcade => box_haze(&mut kit, vec2(0.83 + grow, 0.19), warm),
+            HallStyle::Penthouse => box_haze(&mut kit, vec2(0.87 + grow, 0.05), warm),
+            _ => lamp_haze(&mut kit, quality, reach, shade, warm),
         }
     }
     kit
 }
 
+/// The haze under a long lamp of half size `half`: four soft sheets that
+/// spread down to the cloth, fading at their ends and towards the cloth.
+fn box_haze(kit: &mut Kit, half: Vec2, color: Color) {
+    let mut haze = MeshBuilder::default();
+    let (top, bottom) = (LAMP_Y - 0.01, TABLE_HEIGHT + 0.04);
+    let spread = 0.4;
+    let c = |sx: f32, sz: f32, y: f32| {
+        let t = (y - bottom) / (top - bottom);
+        let k = spread * (1.0 - t);
+        vec3(sx * (half.x + k), y, sz * (half.y + k))
+    };
+    for (a, b) in [
+        ((-1.0, 1.0), (1.0, 1.0)),
+        ((1.0, 1.0), (1.0, -1.0)),
+        ((1.0, -1.0), (-1.0, -1.0)),
+        ((-1.0, -1.0), (-1.0, 1.0)),
+    ] {
+        let (nu, nv) = (10, 4);
+        let first = haze.len() as u16;
+        for j in 0..=nv {
+            let y = bottom + (top - bottom) * j as f32 / nv as f32;
+            for i in 0..=nu {
+                let u = i as f32 / nu as f32;
+                let p = c(a.0, a.1, y).lerp(c(b.0, b.1, y), u);
+                let n = vec3(p.x, 0.0, p.z).normalize_or_zero();
+                let t = j as f32 / nv as f32;
+                let alpha = t.powf(1.2) * (u * std::f32::consts::PI).sin() * 0.12;
+                haze.push(p, Vec2::ZERO, n, Color::new(color.r, color.g, color.b, alpha));
+            }
+        }
+        let row = nu as u16 + 1;
+        for j in 0..nv as u16 {
+            for i in 0..nu as u16 {
+                let k = first + j * row + i;
+                haze.indices.extend_from_slice(&[k, k + 1, k + row + 1, k, k + row + 1, k + row]);
+            }
+        }
+    }
+    kit.add(haze, None, Surface::haze(1.0), Layer::Haze);
+    for x in [-0.5f32, 0.0, 0.5] {
+        kit.glow(
+            vec3(x * half.x * 1.4, LAMP_Y - 0.02, 0.0),
+            0.25,
+            Color::new(1.0, 0.9, 0.7, 0.3),
+            true,
+        );
+    }
+}
+
+/// The haze in the light under the lamp over the table: a soft cone from
+/// each shade down to the cloth, and a halo under each shade (High, Ultra).
+/// `shade`: the shade's radius.
+fn lamp_haze(kit: &mut Kit, quality: Quality, reach: f32, shade: f32, color: Color) {
+    let mut haze = MeshBuilder::default();
+    let segs = if quality == Quality::Ultra { 40 } else { 24 };
+    let (top, bottom) = (LAMP_Y - 0.01, TABLE_HEIGHT + 0.04);
+    for x in lamp_xs(reach) {
+        let at = vec3(x, bottom, 0.0);
+        let first = haze.len();
+        // In bands, so the haze can thin out towards the cloth.
+        let bands = 4;
+        for k in 0..bands {
+            let (t0, t1) = (k as f32 / bands as f32, (k + 1) as f32 / bands as f32);
+            let r = |t: f32| shade * 0.95 + (0.62 - shade) * (1.0 - t);
+            let y = |t: f32| (top - bottom) * t;
+            haze.frustum_at(at, y(1.0 - t1), r(1.0 - t1), y(1.0 - t0), r(1.0 - t0), segs, color);
+        }
+        for v in &mut haze.vertices[first..] {
+            let t = ((v.position.y - bottom) / (top - bottom)).clamp(0.0, 1.0);
+            v.color[3] = (t.powf(1.2) * 0.12 * 255.0) as u8;
+        }
+        kit.glow(vec3(x, LAMP_Y - 0.02, 0.0), shade * 1.8, Color::new(1.0, 0.86, 0.6, 0.5), true);
+    }
+    kit.add(haze, None, Surface::haze(2.0), Layer::Haze);
+}
+
+/// The hall's colour as the balls, the varnish and the brass reflect it.
+pub fn tint(style: HallStyle) -> Vec3 {
+    match style {
+        HallStyle::Pool => vec3(0.07, 0.075, 0.05),
+        HallStyle::Beach => vec3(0.22, 0.13, 0.10),
+        HallStyle::Club => vec3(0.10, 0.05, 0.035),
+        HallStyle::Loft => vec3(0.08, 0.08, 0.09),
+        HallStyle::Lodge => vec3(0.12, 0.07, 0.04),
+        HallStyle::Arcade => vec3(0.08, 0.03, 0.10),
+        HallStyle::Deco => vec3(0.09, 0.08, 0.06),
+        HallStyle::Penthouse => vec3(0.10, 0.11, 0.15),
+    }
+}
+
+/// How fast what a polished floor reflects fades with height above it
+/// (0: the floor does not reflect). See `Layer::Floor`.
+pub fn mirror_fade(style: HallStyle) -> f32 {
+    match style {
+        HallStyle::Pool => 1.4,
+        HallStyle::Beach => 0.0,
+        HallStyle::Club => 1.2,
+        HallStyle::Loft => 0.9,
+        HallStyle::Lodge => 1.6,
+        HallStyle::Arcade => 0.5,
+        HallStyle::Deco => 0.7,
+        HallStyle::Penthouse => 0.8,
+    }
+}
+
 // --- Baked light ---------------------------------------------------------------
 
-struct Light {
+pub(crate) struct Light {
     pos: Vec3,
     color: Vec3,
     power: f32,
@@ -55,38 +198,188 @@ struct Light {
     down: bool,
 }
 
-fn light(pos: Vec3, color: Vec3, power: f32, down: bool) -> Light {
+pub(crate) fn light(pos: Vec3, color: Vec3, power: f32, down: bool) -> Light {
     Light { pos, color, power, down }
 }
 
-/// The three lamps over the table (every hall has them).
-fn table_lights(color: Vec3) -> Vec<Light> {
-    [-0.45f32, 0.0, 0.45]
+/// The half length (with its rails) of the 7-foot table the lamps were
+/// first drawn over: they hang 0.45 m apart over it.
+const SEVEN_FOOT: f32 = 1.981 / 2.0 + 0.115 + 0.05;
+
+/// How far from the middle the outer lamps over the table hang, for a
+/// table of half size `table` (with its rails): the lamps span its length,
+/// whatever its size.
+pub(crate) fn lamp_reach(table: Vec2) -> f32 {
+    0.45 * table.x / SEVEN_FOOT
+}
+
+/// Where the three lamps over the table hang along it.
+pub(crate) fn lamp_xs(reach: f32) -> [f32; 3] {
+    [-reach, 0.0, reach]
+}
+
+/// The three lamps over the table (every hall has them), for a table of
+/// half size `table`.
+pub(crate) fn table_lights(color: Vec3, table: Vec2) -> Vec<Light> {
+    lamp_xs(lamp_reach(table))
         .into_iter()
         .map(|x| light(vec3(x, TABLE_HEIGHT + 0.93, 0.0), color, 1.0, true))
         .collect()
 }
 
-fn smooth(a: f32, b: f32, x: f32) -> f32 {
+pub(crate) fn smooth(a: f32, b: f32, x: f32) -> f32 {
     let t = ((x - a) / (b - a)).clamp(0.0, 1.0);
     t * t * (3.0 - 2.0 * t)
 }
 
+/// The size of the cells the light is baked on: finer cells give softer,
+/// truer shadows and corners (Ultra bakes on a 10 cm grid).
+pub(crate) fn cell(quality: Quality) -> f32 {
+    match quality {
+        Quality::Ultra => 0.1,
+        Quality::High => 0.2,
+        _ => 0.4,
+    }
+}
+
+/// A box that stops light (the table, the bar, a sofa): it casts shadows
+/// from every light of the hall and darkens what is near it.
+#[derive(Clone, Copy)]
+pub(crate) struct Occluder {
+    min: Vec3,
+    max: Vec3,
+}
+
+/// The ways the light from the hall's lamps is worked out per vertex.
+#[derive(Clone, Copy, PartialEq)]
+enum Shadows {
+    /// Low, Medium: the floor under the table is darkened, nothing else.
+    Simple,
+    /// High: a hard shadow per light (soft enough on 20 cm cells).
+    Hard,
+    /// Ultra: soft shadows (several points on each light) and occlusion
+    /// near every box.
+    Soft,
+}
+
 /// How a hall is lit: its lights, the light that is everywhere, and the
-/// table (which shades the floor under it).
-struct Lighting {
+/// boxes that cast shadows (the table first).
+pub(crate) struct Lighting {
     lights: Vec<Light>,
     ambient: Vec3,
     table: Vec2,
     exposure: f32,
+    occluders: Vec<Occluder>,
+    shadows: Shadows,
+    /// Glossy surfaces catch the lamps (High, Ultra).
+    gloss: bool,
 }
 
 impl Lighting {
+    /// `table`: the table's half size with its rails.
+    pub(crate) fn new(
+        quality: Quality,
+        lights: Vec<Light>,
+        ambient: Vec3,
+        table: Vec2,
+        exposure: f32,
+    ) -> Lighting {
+        let shadows = match quality {
+            Quality::Ultra => Shadows::Soft,
+            Quality::High => Shadows::Hard,
+            _ => Shadows::Simple,
+        };
+        let mut lit = Lighting {
+            lights,
+            ambient,
+            table: table + vec2(0.12, 0.12),
+            exposure,
+            occluders: Vec::new(),
+            shadows,
+            gloss: quality >= Quality::High,
+        };
+        // The table's body: the slate, the rails and the apron.
+        lit.occlude(
+            vec3(-table.x, TABLE_HEIGHT - 0.24, -table.y),
+            vec3(table.x, TABLE_HEIGHT + 0.05, table.y),
+        );
+        // Its legs, near the corners.
+        for (sx, sz) in [(1.0f32, 1.0f32), (1.0, -1.0), (-1.0, 1.0), (-1.0, -1.0)] {
+            let c = vec3(sx * (table.x - 0.25), 0.0, sz * (table.y - 0.22));
+            lit.occlude(c + vec3(-0.08, 0.0, -0.08), c + vec3(0.08, TABLE_HEIGHT - 0.24, 0.08));
+        }
+        lit
+    }
+
+    /// Adds a box that casts shadows (before anything is baked).
+    pub(crate) fn occlude(&mut self, min: Vec3, max: Vec3) {
+        self.occluders.push(Occluder { min: min.min(max), max: min.max(max) });
+    }
+
+    /// Adds a box from its centre and size.
+    pub(crate) fn occlude_box(&mut self, center: Vec3, size: Vec3) {
+        self.occlude(center - size / 2.0, center + size / 2.0);
+    }
+
+    /// How much of the way from `p` to `to` is clear of the boxes (0 or 1).
+    fn clear(&self, p: Vec3, to: Vec3) -> bool {
+        let d = to - p;
+        let inv = Vec3::ONE / d;
+        self.occluders.iter().all(|o| {
+            let t0 = (o.min - p) * inv;
+            let t1 = (o.max - p) * inv;
+            let near = t0.min(t1).max_element();
+            let far = t0.max(t1).min_element();
+            // The segment misses the box, or only touches it beyond its ends.
+            near > far || far < 0.0 || near > 1.0
+        })
+    }
+
+    /// How much light from `l` gets past the boxes to `p` (0..1).
+    fn visible(&self, l: &Light, p: Vec3) -> f32 {
+        match self.shadows {
+            Shadows::Simple => 1.0,
+            Shadows::Hard => self.clear(p, l.pos) as u8 as f32,
+            Shadows::Soft => {
+                // Five points across a shade about 25 cm wide.
+                const SPOTS: [(f32, f32); 5] =
+                    [(0.0, 0.0), (0.12, 0.03), (-0.12, -0.03), (0.03, -0.12), (-0.03, 0.12)];
+                let seen =
+                    SPOTS.iter().filter(|(x, z)| self.clear(p, l.pos + vec3(*x, 0.0, *z))).count();
+                seen as f32 / SPOTS.len() as f32
+            }
+        }
+    }
+
+    /// Light kept from `p` by the boxes nearby: soft dark contact shadows
+    /// where the table, a sofa or the bar meet the floor and the walls.
+    fn occlusion(&self, p: Vec3, n: Vec3) -> f32 {
+        if self.shadows != Shadows::Soft {
+            return 1.0;
+        }
+        let mut ao = 1.0;
+        for o in &self.occluders {
+            let closest = p.clamp(o.min, o.max);
+            let to = closest - p;
+            let d = to.length();
+            if !(0.01..=0.7).contains(&d) {
+                continue;
+            }
+            let facing = (n.dot(to / d) * 0.5 + 0.5).max(0.2);
+            let k = (1.0 - d / 0.7).powi(2) * facing * 0.5;
+            ao *= 1.0 - k;
+        }
+        ao
+    }
+
     /// The light reaching a point of the room (with soft corners), tone mapped.
-    fn at(&self, p: Vec3, n: Vec3) -> Vec3 {
+    pub(crate) fn at(&self, p: Vec3, n: Vec3) -> Vec3 {
         let hemi = 0.72 + 0.28 * n.y;
-        let mut c = self.ambient * hemi;
+        let occlusion = self.occlusion(p, n);
+        let mut c = self.ambient * hemi * occlusion;
         let under_table = p.y < 0.75 && p.x.abs() < self.table.x && p.z.abs() < self.table.y;
+        // Off the surface a little, so a face does not shadow itself.
+        let from = p + n * 0.012;
         for l in &self.lights {
             let d = l.pos - p;
             let dist = d.length().max(0.05);
@@ -94,8 +387,13 @@ impl Lighting {
             let ndl = (n.dot(dir) * 0.85 + 0.15).max(0.0);
             let cone = if l.down { 0.2 + 0.8 * smooth(0.15, 0.75, dir.y) } else { 1.0 };
             let mut att = l.power / (1.0 + dist * dist * 0.7);
-            if under_table && l.pos.y < 2.2 {
-                att *= 0.15;
+            if self.shadows == Shadows::Simple {
+                if under_table && l.pos.y < 2.2 {
+                    att *= 0.15;
+                }
+            } else if ndl * att * cone > 0.004 {
+                // Some light still gets round (it bounces off the walls).
+                att *= 0.12 + 0.88 * self.visible(l, from);
             }
             c += l.color * ndl * att * cone;
         }
@@ -112,14 +410,94 @@ impl Lighting {
     }
 
     /// Bakes the light into `b` and adds it to the kit (drawn unlit).
-    fn add(&self, kit: &mut Kit, mut b: MeshBuilder, tex: Option<usize>) {
+    pub(crate) fn add(&self, kit: &mut Kit, b: MeshBuilder, tex: Option<usize>) {
+        self.add_as(kit, b, tex, Surface::UNLIT, Layer::Solid);
+    }
+
+    /// Like [`Lighting::add`], for a glossy surface: on High and Ultra it
+    /// catches the lamps (`specular`, `shininess`) and the room (`coat`).
+    pub(crate) fn shiny(
+        &self,
+        kit: &mut Kit,
+        b: MeshBuilder,
+        tex: Option<usize>,
+        (specular, shininess, coat): (f32, f32, f32),
+    ) {
+        let surface =
+            if self.gloss { Surface::baked(specular, shininess, coat) } else { Surface::UNLIT };
+        self.add_as(kit, b, tex, surface, Layer::Solid);
+    }
+
+    /// The floor: drawn first, and on Ultra laid over its own reflection,
+    /// `reflect` (0..1) being how much of it is seen (see `mirror_fade`).
+    pub(crate) fn floor(
+        &self,
+        kit: &mut Kit,
+        mut b: MeshBuilder,
+        tex: Option<usize>,
+        reflect: f32,
+        gloss: (f32, f32, f32),
+    ) {
+        let alpha = ((1.0 - reflect) * 255.0).round() as u8;
+        for v in &mut b.vertices {
+            v.color[3] = alpha;
+        }
+        let (specular, shininess, coat) = gloss;
+        // The floor fills much of the screen: its gloss is for Ultra only,
+        // so High stays light on integrated graphics.
+        let surface = if self.shadows == Shadows::Soft {
+            Surface::baked(specular, shininess, coat)
+        } else {
+            Surface::UNLIT
+        };
+        self.add_as(kit, b, tex, surface, Layer::Floor);
+    }
+
+    /// Adds `b` with the finish `f` (see [`Finish`]).
+    pub(crate) fn put(&self, kit: &mut Kit, b: MeshBuilder, tex: Option<usize>, f: Finish) {
+        match f {
+            Finish::Matte => self.add(kit, b, tex),
+            Finish::Glow => add_glow(kit, b, tex),
+            Finish::Shiny(g) => self.shiny(kit, b, tex, g),
+            Finish::Floor(reflect, g) => self.floor(kit, b, tex, reflect, g),
+        }
+    }
+
+    fn add_as(
+        &self,
+        kit: &mut Kit,
+        mut b: MeshBuilder,
+        tex: Option<usize>,
+        surface: Surface,
+        layer: Layer,
+    ) {
         b.bake(|p, n| self.at(p, n));
-        kit.add(b, tex, Surface::UNLIT, Layer::Solid);
+        kit.add(b, tex, surface, layer);
     }
 }
 
+/// How a part of a hall is finished (see [`Lighting::put`]).
+#[derive(Clone, Copy)]
+pub(crate) enum Finish {
+    /// Baked light only.
+    Matte,
+    /// It shines by itself.
+    Glow,
+    /// Baked, and glossy on High and Ultra.
+    Shiny((f32, f32, f32)),
+    /// The floor: how much of it reflects (Ultra), and its gloss.
+    Floor(f32, (f32, f32, f32)),
+}
+
+/// Glossy finishes for [`Lighting::shiny`]: (specular, shininess, coat).
+pub(crate) const VARNISH: (f32, f32, f32) = (0.5, 60.0, 0.35);
+pub(crate) const BRASS: (f32, f32, f32) = (1.6, 90.0, 0.6);
+pub(crate) const GLASS: (f32, f32, f32) = (2.0, 160.0, 0.8);
+pub(crate) const LEATHER: (f32, f32, f32) = (0.3, 24.0, 0.12);
+pub(crate) const SATIN: (f32, f32, f32) = (0.18, 20.0, 0.1);
+
 /// Things that shine by themselves (bulbs, flames, the sky outside).
-fn add_glow(kit: &mut Kit, b: MeshBuilder, tex: Option<usize>) {
+pub(crate) fn add_glow(kit: &mut Kit, b: MeshBuilder, tex: Option<usize>) {
     kit.add(b, tex, Surface::UNLIT, Layer::Solid);
 }
 
@@ -127,14 +505,14 @@ fn add_glow(kit: &mut Kit, b: MeshBuilder, tex: Option<usize>) {
 
 /// A wall: a point on its floor line, the direction along it (so that
 /// `along × Y` faces into the room), its length.
-struct Wall {
-    start: Vec3,
-    along: Vec3,
-    length: f32,
-    inward: Vec3,
+pub(crate) struct Wall {
+    pub(crate) start: Vec3,
+    pub(crate) along: Vec3,
+    pub(crate) length: f32,
+    pub(crate) inward: Vec3,
 }
 
-fn walls() -> [Wall; 4] {
+pub(crate) fn walls() -> [Wall; 4] {
     [
         // Back (-Z), front (+Z), left (-X), right (+X).
         Wall { start: vec3(-HX, 0.0, -HZ), along: Vec3::X, length: 2.0 * HX, inward: Vec3::Z },
@@ -146,7 +524,7 @@ fn walls() -> [Wall; 4] {
 
 /// A band of wall between two heights, from `a` to `b` along it (metres).
 #[allow(clippy::too_many_arguments)]
-fn band(
+pub(crate) fn band(
     mb: &mut MeshBuilder,
     w: &Wall,
     a: f32,
@@ -178,7 +556,7 @@ fn band(
 }
 
 /// The floor and the ceiling.
-fn floor_and_ceiling(
+pub(crate) fn floor_and_ceiling(
     floor: &mut MeshBuilder,
     ceiling: &mut MeshBuilder,
     cell: f32,
@@ -208,7 +586,7 @@ fn floor_and_ceiling(
 }
 
 /// A rug lying on the floor (the whole texture once).
-fn rug(mb: &mut MeshBuilder, rx: f32, rz: f32) {
+pub(crate) fn rug(mb: &mut MeshBuilder, rx: f32, rz: f32) {
     let first = mb.len();
     mb.grid(
         vec3(-rx, 0.004, rz),
@@ -227,7 +605,15 @@ fn rug(mb: &mut MeshBuilder, rx: f32, rz: f32) {
 /// A picture seen through an opening: the whole texture on a big quad
 /// `out` metres behind the wall.
 /// `repeat`: how many times the picture goes across (it must tile then).
-fn backdrop(mb: &mut MeshBuilder, w: &Wall, out: f32, y0: f32, y1: f32, flip: bool, repeat: f32) {
+pub(crate) fn backdrop(
+    mb: &mut MeshBuilder,
+    w: &Wall,
+    out: f32,
+    y0: f32,
+    y1: f32,
+    flip: bool,
+    repeat: f32,
+) {
     let center = w.start + w.along * (w.length / 2.0) - w.inward * out + Vec3::Y * (y0 + y1) / 2.0;
     let right = if flip { -w.along } else { w.along };
     let first = mb.len();
@@ -238,7 +624,7 @@ fn backdrop(mb: &mut MeshBuilder, w: &Wall, out: f32, y0: f32, y1: f32, flip: bo
 }
 
 /// A soft cushion or seat: a box with rounded vertical edges.
-fn cushion(mb: &mut MeshBuilder, center: Vec3, size: Vec3, yaw: f32, color: Color) {
+pub(crate) fn cushion(mb: &mut MeshBuilder, center: Vec3, size: Vec3, yaw: f32, color: Color) {
     let r = (size.x.min(size.z) * 0.25).min(size.y * 0.5);
     mb.cuboid(center, size - vec3(2.0 * r, 0.0, 0.0), yaw, color, 1.0);
     mb.cuboid(center, size - vec3(0.0, 0.0, 2.0 * r), yaw, color, 1.0);
@@ -251,7 +637,14 @@ fn cushion(mb: &mut MeshBuilder, center: Vec3, size: Vec3, yaw: f32, color: Colo
 }
 
 /// A sofa: a base, a seat, a back and two rolled arms. `yaw` 0 faces +Z.
-fn sofa(mb: &mut MeshBuilder, at: Vec3, yaw: f32, width: f32, color: Color, tufted: bool) {
+pub(crate) fn sofa(
+    mb: &mut MeshBuilder,
+    at: Vec3,
+    yaw: f32,
+    width: f32,
+    color: Color,
+    tufted: bool,
+) {
     let rot = Quat::from_rotation_y(yaw);
     let p = |x: f32, y: f32, z: f32| at + rot * vec3(x, y, z);
     let dark = Color::new(color.r * 0.7, color.g * 0.7, color.b * 0.7, 1.0);
@@ -297,7 +690,7 @@ fn sofa(mb: &mut MeshBuilder, at: Vec3, yaw: f32, width: f32, color: Color, tuft
 }
 
 /// Bottles standing in a row from `at` along `along`.
-fn bottles(mb: &mut MeshBuilder, at: Vec3, along: Vec3, count: usize, segs: u32) {
+pub(crate) fn bottles(mb: &mut MeshBuilder, at: Vec3, along: Vec3, count: usize, segs: u32) {
     let colors = [
         rgb(40, 110, 40),
         rgb(150, 85, 25),
@@ -329,7 +722,7 @@ fn bottles(mb: &mut MeshBuilder, at: Vec3, along: Vec3, count: usize, segs: u32)
 }
 
 /// A plant in a pot: a trunk and fronds (`palm`) or a bushy crown of leaves.
-fn potted_plant(
+pub(crate) fn potted_plant(
     leaves: &mut MeshBuilder,
     pots: &mut MeshBuilder,
     at: Vec3,
@@ -386,7 +779,7 @@ fn potted_plant(
 }
 
 /// A light shaft from an opening in a wall, falling across the floor.
-fn shaft(mb: &mut MeshBuilder, corners: [Vec3; 4], floor: [Vec3; 4], color: Color) {
+pub(crate) fn shaft(mb: &mut MeshBuilder, corners: [Vec3; 4], floor: [Vec3; 4], color: Color) {
     // Bright at the window, fading to nothing on the floor.
     let fade = Color::new(color.r, color.g, color.b, 0.0);
     for k in 0..4 {
@@ -403,21 +796,22 @@ fn shaft(mb: &mut MeshBuilder, corners: [Vec3; 4], floor: [Vec3; 4], color: Colo
 }
 
 /// A pool of light on a wall (the glow texture).
-fn pool(mb: &mut MeshBuilder, center: Vec3, normal: Vec3, w: f32, h: f32, color: Color) {
+pub(crate) fn pool(mb: &mut MeshBuilder, center: Vec3, normal: Vec3, w: f32, h: f32, color: Color) {
     let right = Vec3::Y.cross(normal).normalize_or_zero();
     picture(mb, center + normal * 0.006, right, Vec3::Y, w, h, color);
 }
 
 /// A string of light bulbs hanging between two points (sagging `sag`).
-fn string_lights(
+pub(crate) fn string_lights(
     wire: &mut MeshBuilder,
     bulbs: &mut MeshBuilder,
     a: Vec3,
     b: Vec3,
     sag: f32,
     count: usize,
-) {
+) -> Vec<Vec3> {
     let p = |t: f32| a.lerp(b, t) - Vec3::Y * sag * 4.0 * t * (1.0 - t);
+    let mut at_bulbs = Vec::with_capacity(count);
     let steps = count * 2;
     for k in 0..steps {
         let (t0, t1) = (k as f32 / steps as f32, (k + 1) as f32 / steps as f32);
@@ -434,7 +828,9 @@ fn string_lights(
             8,
             warm[k % 3],
         );
+        at_bulbs.push(at - Vec3::Y * 0.01);
     }
+    at_bulbs
 }
 
 // --- The beach bar -------------------------------------------------------------
@@ -476,7 +872,7 @@ fn beach(kit: &mut Kit, quality: Quality, table: Vec2) {
         Some(kit.texture(textures::fine_wood([0.55, 0.36, 0.19], [0.30, 0.17, 0.08], 29), true));
 
     // The sun sets beyond the left wall: warm light low through the windows.
-    let mut lights = table_lights(vec3(1.0, 0.84, 0.62));
+    let mut lights = table_lights(vec3(1.0, 0.84, 0.62), table);
     for z in [-2.6f32, -0.9, 0.9, 2.6] {
         lights.push(light(vec3(-HX - 1.2, 1.5, z), vec3(1.0, 0.55, 0.28), 2.0, false));
     }
@@ -489,18 +885,15 @@ fn beach(kit: &mut Kit, quality: Quality, table: Vec2) {
         }
     }
     lights.push(light(vec3(0.0, 2.2, -3.3), vec3(1.0, 0.75, 0.45), 0.6, true));
-    let lit = Lighting {
-        lights,
-        ambient: vec3(0.34, 0.24, 0.24),
-        table: table + vec2(0.12, 0.12),
-        exposure: 2.4,
-    };
-    let cell = if detailed { 0.2 } else { 0.4 };
+    let mut lit = Lighting::new(quality, lights, vec3(0.34, 0.24, 0.24), table, 2.4);
+    // The bar casts a shadow.
+    lit.occlude_box(vec3(0.0, 0.53, -3.35), vec3(4.1, 1.06, 0.74));
+    let cell = cell(quality);
 
     let mut floor = MeshBuilder::default();
     let mut ceiling = MeshBuilder::default();
     floor_and_ceiling(&mut floor, &mut ceiling, cell, 0.45, 1.0 / 0.7, WHITE);
-    lit.add(kit, floor, deck_tex);
+    lit.floor(kit, floor, deck_tex, 0.0, SATIN);
     lit.add(kit, ceiling, thatch_tex);
     if medium {
         // A woven mat under the table.
@@ -718,9 +1111,9 @@ fn beach(kit: &mut Kit, quality: Quality, table: Vec2) {
         }
     }
 
-    lit.add(kit, teak, teak_tex);
+    lit.shiny(kit, teak, teak_tex, VARNISH);
     lit.add(kit, poles, None);
-    lit.add(kit, glass, None);
+    lit.shiny(kit, glass, None, GLASS);
     lit.add(kit, fruit, None);
     lit.add(kit, stools, None);
     lit.add(kit, leaves, None);
@@ -731,29 +1124,33 @@ fn beach(kit: &mut Kit, quality: Quality, table: Vec2) {
     let mut wire = MeshBuilder::default();
     let mut bulbs = MeshBuilder::default();
     let strands = if medium { 4 } else { 2 };
+    let mut lit_bulbs = Vec::new();
     for k in 0..strands {
         let z = -2.7 + k as f32 * 5.4 / (strands - 1) as f32;
-        string_lights(
+        lit_bulbs.extend(string_lights(
             &mut wire,
             &mut bulbs,
             vec3(-HX + 0.1, 2.85, z),
             vec3(HX - 0.1, 2.85, z * 0.6),
             0.35,
             if detailed { 22 } else { 12 },
-        );
+        ));
     }
     if medium {
-        string_lights(
+        lit_bulbs.extend(string_lights(
             &mut wire,
             &mut bulbs,
             vec3(-HX + 0.1, 2.9, -HZ + 0.1),
             vec3(HX - 0.1, 2.9, HZ - 0.1),
             0.45,
             if detailed { 26 } else { 14 },
-        );
+        ));
     }
     lit.add(kit, wire, None);
     add_glow(kit, bulbs, None);
+    for at in lit_bulbs {
+        kit.glow(at, 0.11, Color::new(1.0, 0.75, 0.42, 0.5), false);
+    }
     if medium {
         kit.add(shafts, None, Surface::UNLIT, Layer::Blended);
         // Warm pools of light around the bulbs on the walls.
@@ -773,13 +1170,14 @@ fn beach(kit: &mut Kit, quality: Quality, table: Vec2) {
 }
 
 /// Three woven rattan domes on a driftwood bar.
-fn rattan_lamp(kit: &mut Kit, quality: Quality) {
+fn rattan_lamp(kit: &mut Kit, quality: Quality, reach: f32) {
+    let grow = reach - 0.45;
     let tex = kit.texture(tx::rattan(), true);
     let segs = if quality != Quality::Low { 32 } else { 18 };
     let mut shades = MeshBuilder::default();
     let mut wood = MeshBuilder::default();
     let mut glow = MeshBuilder::default();
-    for x in [-0.45f32, 0.0, 0.45] {
+    for x in lamp_xs(reach) {
         let at = vec3(x, LAMP_Y - 0.02, 0.0);
         let profile =
             [(0.0, 0.19), (0.04, 0.185), (0.09, 0.16), (0.14, 0.115), (0.18, 0.06), (0.2, 0.02)];
@@ -797,13 +1195,13 @@ fn rattan_lamp(kit: &mut Kit, quality: Quality) {
     // A bleached driftwood bar and ropes to the ceiling.
     tube(
         &mut wood,
-        vec3(-0.7, LAMP_Y + 0.3, 0.0),
-        vec3(0.72, LAMP_Y + 0.31, 0.01),
+        vec3(-0.7 - grow, LAMP_Y + 0.3, 0.0),
+        vec3(0.72 + grow, LAMP_Y + 0.31, 0.01),
         0.035,
         10,
         rgb(180, 160, 130),
     );
-    for x in [-0.6f32, 0.6] {
+    for x in [-0.6 - grow, 0.6 + grow] {
         tube(
             &mut wood,
             vec3(x, LAMP_Y + 0.3, 0.0),
@@ -850,8 +1248,9 @@ fn club(kit: &mut Kit, quality: Quality, table: Vec2) {
     let glow_tex = Some(kit.texture(textures::glow(), false));
 
     let fire = vec3(-HX + 0.35, 0.35, 0.0);
-    let mut lights = table_lights(vec3(1.0, 0.86, 0.66));
+    let mut lights = table_lights(vec3(1.0, 0.86, 0.66), table);
     lights.push(light(fire, vec3(1.0, 0.45, 0.15), 1.5, false));
+    kit.glow(fire + vec3(0.1, 0.05, 0.0), 0.55, Color::new(1.0, 0.5, 0.18, 0.4), false);
     for z in [-2.4f32, 2.4] {
         lights.push(light(vec3(-HX + 0.2, 1.9, z), vec3(1.0, 0.72, 0.42), 0.5, false));
     }
@@ -862,18 +1261,17 @@ fn club(kit: &mut Kit, quality: Quality, table: Vec2) {
         lights.push(light(vec3(x, 1.0, HZ - 0.9), vec3(0.9, 0.85, 0.55), 0.35, false));
     }
     lights.push(light(vec3(0.0, 2.6, -HZ + 0.8), vec3(1.0, 0.78, 0.5), 0.5, true));
-    let lit = Lighting {
-        lights,
-        ambient: vec3(0.24, 0.18, 0.13),
-        table: table + vec2(0.12, 0.12),
-        exposure: 3.1,
-    };
-    let cell = if detailed { 0.2 } else { 0.4 };
+    let mut lit = Lighting::new(quality, lights, vec3(0.24, 0.18, 0.13), table, 3.1);
+    // The fireplace's surround, the bookshelves and the sofa cast shadows.
+    lit.occlude_box(vec3(-HX + 0.2, 0.62, 0.0), vec3(0.42, 1.24, 2.0));
+    lit.occlude_box(vec3(0.0, 1.45, -HZ + 0.19), vec3(7.0, 2.9, 0.34));
+    lit.occlude_box(vec3(0.0, 0.4, HZ - 0.6), vec3(2.3, 0.8, 0.9));
+    let cell = cell(quality);
 
     let mut floor = MeshBuilder::default();
     let mut ceiling = MeshBuilder::default();
     floor_and_ceiling(&mut floor, &mut ceiling, cell, 0.5, 1.0, rgb(150, 132, 110));
-    lit.add(kit, floor, parquet_tex);
+    lit.floor(kit, floor, parquet_tex, 0.2, VARNISH);
     lit.add(kit, ceiling, None);
     if medium {
         let mut r = MeshBuilder::default();
@@ -1174,6 +1572,7 @@ fn club(kit: &mut Kit, quality: Quality, table: Vec2) {
             14,
             rgb(255, 220, 170),
         );
+        kit.glow(at + vec3(0.13, 0.09, 0.0), 0.22, Color::new(1.0, 0.72, 0.42, 0.5), false);
     }
 
     // Chesterfields and leather armchairs, side tables with banker's lamps.
@@ -1215,19 +1614,20 @@ fn club(kit: &mut Kit, quality: Quality, table: Vec2) {
         );
         let shade = c + vec3(0.0, 0.88, 0.0);
         glow.cuboid(shade - Vec3::Y * 0.035, vec3(0.24, 0.01, 0.09), 0.0, rgb(255, 236, 190), 1.0);
+        kit.glow(shade - Vec3::Y * 0.05, 0.2, Color::new(1.0, 0.85, 0.6, 0.35), false);
         frames.cuboid(shade, vec3(0.26, 0.06, 0.12), 0.0, rgb(30, 110, 60), 1.0);
     }
 
-    lit.add(kit, panels, wood_tex);
+    lit.shiny(kit, panels, wood_tex, SATIN);
     lit.add(kit, beams, wood_tex);
     lit.add(kit, shelves, wood_tex);
     lit.add(kit, book_rows, books_tex);
-    lit.add(kit, tables, wood_tex);
-    lit.add(kit, marble, None);
+    lit.shiny(kit, tables, wood_tex, VARNISH);
+    lit.shiny(kit, marble, None, (0.8, 90.0, 0.3));
     lit.add(kit, dark, None);
-    lit.add(kit, brass, None);
-    lit.add(kit, frames, None);
-    lit.add(kit, leather, None);
+    lit.shiny(kit, brass, None, BRASS);
+    lit.shiny(kit, frames, None, BRASS);
+    lit.shiny(kit, leather, None, LEATHER);
     for (k, m) in pictures.into_iter().enumerate() {
         lit.add(kit, m, paint_tex[k]);
     }
@@ -1272,12 +1672,12 @@ fn club(kit: &mut Kit, quality: Quality, table: Vec2) {
 
 /// A long mahogany canopy over the table, lit from below, with a brass rim
 /// and a fringe.
-fn club_lamp(kit: &mut Kit, quality: Quality) {
+fn club_lamp(kit: &mut Kit, quality: Quality, reach: f32) {
     let wood = kit.texture(textures::fine_wood([0.26, 0.10, 0.05], [0.07, 0.025, 0.014], 47), true);
     let mut canopy = MeshBuilder::default();
     let mut brass = MeshBuilder::default();
     let mut glow = MeshBuilder::default();
-    let (l, w, h) = (1.75f32, 0.62f32, 0.12f32);
+    let (l, w, h) = (1.75 + 2.0 * (reach - 0.45), 0.62f32, 0.12f32);
     let y = LAMP_Y + 0.12;
     canopy.cuboid(vec3(0.0, y + h / 2.0, 0.0), vec3(l, h, w), 0.0, WHITE, 1.6);
     canopy.cuboid(vec3(0.0, y + h + 0.02, 0.0), vec3(l - 0.12, 0.04, w - 0.12), 0.0, WHITE, 1.6);
@@ -1314,7 +1714,7 @@ fn club_lamp(kit: &mut Kit, quality: Quality) {
             }
         }
     }
-    for x in [-0.6f32, 0.6] {
+    for x in [-l / 2.0 + 0.275, l / 2.0 - 0.275] {
         tube(&mut brass, vec3(x, y + h + 0.04, 0.0), vec3(x, HEIGHT, 0.0), 0.006, 6, gold);
     }
     kit.add(canopy, Some(wood), Surface::lit(0.6, 60.0, 0.06, 0.5), Layer::Lamp);
@@ -1346,7 +1746,7 @@ fn loft(kit: &mut Kit, quality: Quality, table: Vec2) {
     let wood_tex =
         Some(kit.texture(textures::fine_wood([0.42, 0.28, 0.17], [0.20, 0.12, 0.07], 163), true));
 
-    let mut lights = table_lights(vec3(1.0, 0.86, 0.66));
+    let mut lights = table_lights(vec3(1.0, 0.86, 0.66), table);
     for x in [-3.3f32, 0.0, 3.3] {
         lights.push(light(vec3(x, 1.9, -HZ - 0.8), vec3(0.45, 0.55, 0.95), 1.0, false));
     }
@@ -1355,18 +1755,16 @@ fn loft(kit: &mut Kit, quality: Quality, table: Vec2) {
     }
     lights.push(light(vec3(-HX + 0.2, 2.0, 0.6), vec3(0.3, 0.9, 1.0), 0.35, false));
     lights.push(light(vec3(-2.6, 1.2, HZ - 1.2), vec3(1.0, 0.72, 0.45), 0.4, false));
-    let lit = Lighting {
-        lights,
-        ambient: vec3(0.2, 0.2, 0.24),
-        table: table + vec2(0.12, 0.12),
-        exposure: 2.6,
-    };
-    let cell = if detailed { 0.2 } else { 0.4 };
+    let mut lit = Lighting::new(quality, lights, vec3(0.2, 0.2, 0.24), table, 2.6);
+    // The bar along the right wall and the sofa cast shadows.
+    lit.occlude_box(vec3(HX - 0.7, 0.53, 0.0), vec3(0.7, 1.06, 3.6));
+    lit.occlude_box(vec3(-HX + 0.65, 0.4, -1.6), vec3(0.9, 0.8, 2.2));
+    let cell = cell(quality);
 
     let mut floor = MeshBuilder::default();
     let mut ceiling = MeshBuilder::default();
     floor_and_ceiling(&mut floor, &mut ceiling, cell, 0.25, 0.4, rgb(110, 110, 114));
-    lit.add(kit, floor, concrete_tex);
+    lit.floor(kit, floor, concrete_tex, 0.24, (0.35, 40.0, 0.25));
     lit.add(kit, ceiling, concrete_tex);
 
     // Brick walls; tall windows in the back wall.
@@ -1501,6 +1899,7 @@ fn loft(kit: &mut Kit, quality: Quality, table: Vec2) {
             12,
             rgb(255, 196, 110),
         );
+        kit.glow(at - Vec3::Y * 0.01, 0.2, Color::new(1.0, 0.68, 0.35, 0.55), false);
     }
 
     // A worn leather sofa, a rug and a crate table on the left; a neon sign.
@@ -1551,6 +1950,7 @@ fn loft(kit: &mut Kit, quality: Quality, table: Vec2) {
             }
         };
         ring(&mut neon, nc, 0.32, cyan);
+        kit.glow(nc + Vec3::X * 0.05, 0.7, Color::new(0.35, 0.85, 1.0, 0.3), false);
         ring(&mut neon, nc + Vec3::Y * 0.075, 0.065, pink);
         ring(&mut neon, nc - Vec3::Y * 0.065, 0.08, pink);
         for (a, b) in [
@@ -1594,12 +1994,12 @@ fn loft(kit: &mut Kit, quality: Quality, table: Vec2) {
         }
     }
 
-    lit.add(kit, steel, None);
-    lit.add(kit, ducts, None);
-    lit.add(kit, wood, wood_tex);
-    lit.add(kit, glass, None);
+    lit.shiny(kit, steel, None, (0.5, 40.0, 0.2));
+    lit.shiny(kit, ducts, None, (0.9, 50.0, 0.4));
+    lit.shiny(kit, wood, wood_tex, SATIN);
+    lit.shiny(kit, glass, None, GLASS);
     lit.add(kit, stools, None);
-    lit.add(kit, leather, None);
+    lit.shiny(kit, leather, None, LEATHER);
     lit.add(kit, plants, None);
     lit.add(kit, pots, None);
     add_glow(kit, glow, None);
@@ -1609,7 +2009,7 @@ fn loft(kit: &mut Kit, quality: Quality, table: Vec2) {
 }
 
 /// A ring round a duct running along X.
-fn hoop_x(mb: &mut MeshBuilder, center: Vec3, radius: f32, r: f32, color: Color) {
+pub(crate) fn hoop_x(mb: &mut MeshBuilder, center: Vec3, radius: f32, r: f32, color: Color) {
     for k in 0..16 {
         let a0 = k as f32 / 16.0 * std::f32::consts::TAU;
         let a1 = (k + 1) as f32 / 16.0 * std::f32::consts::TAU;
@@ -1619,12 +2019,13 @@ fn hoop_x(mb: &mut MeshBuilder, center: Vec3, radius: f32, r: f32, color: Color)
 }
 
 /// Black enamelled factory shades with bare Edison bulbs.
-fn loft_lamp(kit: &mut Kit, quality: Quality) {
+fn loft_lamp(kit: &mut Kit, quality: Quality, reach: f32) {
+    let grow = reach - 0.45;
     let segs = if quality != Quality::Low { 32 } else { 18 };
     let mut metal = MeshBuilder::default();
     let mut inside = MeshBuilder::default();
     let mut glow = MeshBuilder::default();
-    for x in [-0.5f32, 0.0, 0.5] {
+    for x in lamp_xs(reach + 0.05) {
         let at = vec3(x, LAMP_Y, 0.0);
         let profile = [
             (0.0, 0.2),
@@ -1648,13 +2049,13 @@ fn loft_lamp(kit: &mut Kit, quality: Quality) {
     // A black pipe and chains to the ceiling.
     tube(
         &mut metal,
-        vec3(-0.75, LAMP_Y + 0.44, 0.0),
-        vec3(0.75, LAMP_Y + 0.44, 0.0),
+        vec3(-0.75 - grow, LAMP_Y + 0.44, 0.0),
+        vec3(0.75 + grow, LAMP_Y + 0.44, 0.0),
         0.018,
         10,
         rgb(24, 24, 26),
     );
-    for x in [-0.7f32, 0.7] {
+    for x in [-0.7 - grow, 0.7 + grow] {
         tube(
             &mut metal,
             vec3(x, LAMP_Y + 0.44, 0.0),
@@ -1670,12 +2071,13 @@ fn loft_lamp(kit: &mut Kit, quality: Quality) {
 }
 
 /// The pool hall's lamp: three green glass shades on a brass bar.
-fn pool_lamp(kit: &mut Kit, quality: Quality) {
+fn pool_lamp(kit: &mut Kit, quality: Quality, reach: f32) {
+    let grow = reach - 0.45;
     let mut glass = MeshBuilder::default();
     let mut brass = MeshBuilder::default();
     let mut glow = MeshBuilder::default();
     let shade_seg = if quality != Quality::Low { 32 } else { 18 };
-    for x in [-0.45f32, 0.0, 0.45] {
+    for x in lamp_xs(reach) {
         let at = vec3(x, LAMP_Y, 0.0);
         // Bell: wide at the bottom, curving in to a small neck.
         let profile = [(0.0, 0.165), (0.05, 0.150), (0.11, 0.115), (0.16, 0.070), (0.19, 0.040)];
@@ -1694,12 +2096,12 @@ fn pool_lamp(kit: &mut Kit, quality: Quality) {
     // The bar that holds the shades and the rods to the ceiling.
     brass.cuboid(
         vec3(0.0, LAMP_Y + 0.25, 0.0),
-        vec3(1.24, 0.028, 0.04),
+        vec3(1.24 + 2.0 * grow, 0.028, 0.04),
         0.0,
         rgb(150, 112, 50),
         1.0,
     );
-    for x in [-0.55f32, 0.55] {
+    for x in [-0.55 - grow, 0.55 + grow] {
         brass.cuboid(
             vec3(x, LAMP_Y + 0.25 + 0.75, 0.0),
             vec3(0.008, 1.5, 0.008),
@@ -1728,7 +2130,15 @@ mod tests {
         };
         for q in [Quality::Low, Quality::Medium, Quality::High, Quality::Ultra] {
             let pool = budget(q);
-            for style in [HallStyle::Beach, HallStyle::Club, HallStyle::Loft] {
+            for style in [
+                HallStyle::Beach,
+                HallStyle::Club,
+                HallStyle::Loft,
+                HallStyle::Lodge,
+                HallStyle::Arcade,
+                HallStyle::Deco,
+                HallStyle::Penthouse,
+            ] {
                 let kit = build(q, table, style);
                 let verts: usize = kit.parts.iter().map(|p| p.mesh.len()).sum();
                 eprintln!("{style:?} {q:?}: {verts} vertices (pool hall {pool})");

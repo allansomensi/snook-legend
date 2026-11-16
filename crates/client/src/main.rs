@@ -32,6 +32,7 @@ mod keys;
 mod ladder;
 mod lan;
 mod menu;
+mod more_halls;
 mod net;
 mod notify;
 mod online;
@@ -697,7 +698,8 @@ async fn main() {
         } else {
             Color::new(0.03, 0.02, 0.015, 1.0)
         });
-        scene.lamp_visible = !(current.is_some() && rig.mode == CameraMode::Top);
+        scene.lamp_visible = !(current.is_some() && rig.mode == CameraMode::Top)
+            || crate::dev::var("SNOOKERED_CAM").is_some();
         match current.as_ref() {
             Some(m) => {
                 let overlay = play::overlay(m, &scene, get_time() as f32);

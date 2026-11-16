@@ -10,8 +10,10 @@
 use macroquad::prelude::*;
 
 use crate::config::Quality;
-use crate::coords::TABLE_HEIGHT;
 use crate::gfx::{Kit, Layer, MeshBuilder, Surface};
+use crate::halls::{
+    BRASS, Finish, GLASS, LEATHER, Light, Lighting, SATIN, VARNISH, cell, light, table_lights,
+};
 use crate::textures;
 
 /// Half sizes of the room and its height.
@@ -22,93 +24,21 @@ pub(crate) const HEIGHT: f32 = 3.2;
 const WAINSCOT: f32 = 1.0;
 const CROWN: f32 = 3.0;
 
-struct Light {
-    pos: Vec3,
-    color: Vec3,
-    power: f32,
-    /// A shade that only lights downwards.
-    down: bool,
-}
-
 /// The lights of the room (for the baked lighting): the lamp over the table,
 /// the wall sconces, the pendants over the bar, the jukebox and the neon sign.
-fn lights() -> Vec<Light> {
-    let mut l = Vec::new();
-    for x in [-0.45f32, 0.0, 0.45] {
-        l.push(Light {
-            pos: vec3(x, TABLE_HEIGHT + 0.93, 0.0),
-            color: vec3(1.0, 0.86, 0.66),
-            power: 1.0,
-            down: true,
-        });
-    }
+fn lights(table: Vec2) -> Vec<Light> {
+    let mut l = table_lights(vec3(1.0, 0.86, 0.66), table);
     for side in [-1.0f32, 1.0] {
         for z in [-1.55f32, 1.55] {
-            l.push(Light {
-                pos: vec3(side * (HX - 0.16), 1.95, z),
-                color: vec3(1.0, 0.72, 0.42),
-                power: 0.8,
-                down: false,
-            });
+            l.push(light(vec3(side * (HX - 0.16), 1.95, z), vec3(1.0, 0.72, 0.42), 0.8, false));
         }
     }
     for x in [-1.3f32, 0.0, 1.3] {
-        l.push(Light {
-            pos: vec3(x, 2.25, -3.3),
-            color: vec3(1.0, 0.78, 0.5),
-            power: 0.9,
-            down: true,
-        });
+        l.push(light(vec3(x, 2.25, -3.3), vec3(1.0, 0.78, 0.5), 0.9, true));
     }
-    l.push(Light {
-        pos: vec3(2.6, 1.2, HZ - 0.5),
-        color: vec3(1.0, 0.5, 0.25),
-        power: 0.25,
-        down: false,
-    });
-    l.push(Light {
-        pos: vec3(-0.6, 2.1, HZ - 0.1),
-        color: vec3(0.95, 0.25, 0.55),
-        power: 0.22,
-        down: false,
-    });
+    l.push(light(vec3(2.6, 1.2, HZ - 0.5), vec3(1.0, 0.5, 0.25), 0.25, false));
+    l.push(light(vec3(-0.6, 2.1, HZ - 0.1), vec3(0.95, 0.25, 0.55), 0.22, false));
     l
-}
-
-fn smooth(a: f32, b: f32, x: f32) -> f32 {
-    let t = ((x - a) / (b - a)).clamp(0.0, 1.0);
-    t * t * (3.0 - 2.0 * t)
-}
-
-/// The light reaching a point of the room (with soft corners), tone mapped.
-fn bake_light(lights: &[Light], table: Vec2, p: Vec3, n: Vec3) -> Vec3 {
-    let hemi = 0.72 + 0.28 * n.y;
-    let mut c = vec3(0.30, 0.25, 0.21) * hemi;
-    let under_table = p.y < 0.75 && p.x.abs() < table.x && p.z.abs() < table.y;
-    for l in lights {
-        let d = l.pos - p;
-        let dist = d.length().max(0.05);
-        let dir = d / dist;
-        // A little wrap-around keeps faces turned away from going black.
-        let ndl = (n.dot(dir) * 0.85 + 0.15).max(0.0);
-        let cone = if l.down { 0.2 + 0.8 * smooth(0.15, 0.75, dir.y) } else { 1.0 };
-        let mut att = l.power / (1.0 + dist * dist * 0.7);
-        if under_table && l.down && l.pos.y < 2.0 {
-            att *= 0.12;
-        }
-        c += l.color * ndl * att * cone;
-    }
-    // Corners and the edges of the floor and ceiling get less light.
-    let to_wall = (HX - p.x.abs()).min(HZ - p.z.abs());
-    let ao = 0.55
-        + 0.45
-            * smooth(0.0, 0.45, p.y).min(smooth(0.0, 0.5, to_wall)).min(smooth(
-                0.0,
-                0.35,
-                HEIGHT - p.y,
-            ));
-    let c = c * ao * 2.6;
-    vec3(1.0 - (-c.x).exp(), 1.0 - (-c.y).exp(), 1.0 - (-c.z).exp())
 }
 
 fn rgb(r: u8, g: u8, b: u8) -> Color {
@@ -258,16 +188,16 @@ pub fn build(kit: &mut Kit, quality: Quality, table: Vec2) {
     let glow_tex = Some(kit.texture(textures::glow(), false));
     let white = None;
 
-    let lights = lights();
-    let table_shadow = table + vec2(0.12, 0.12);
-    let mut add = |mut b: MeshBuilder, tex: Option<usize>, baked: bool| {
-        if baked {
-            b.bake(|p, n| bake_light(&lights, table_shadow, p, n));
-        }
-        kit.add(b, tex, Surface::UNLIT, Layer::Solid);
-    };
+    let mut lit = Lighting::new(quality, lights(table), vec3(0.30, 0.25, 0.21), table, 2.6);
+    // The bar, the back bar and the jukebox cast shadows too.
+    lit.occlude_box(vec3(0.0, 0.53, -3.5), vec3(4.3, 1.06, 0.7));
+    lit.occlude_box(vec3(0.0, 0.5, -HZ + 0.25), vec3(4.0, 1.0, 0.45));
+    lit.occlude_box(vec3(2.0, 0.6, HZ - 0.35), vec3(0.8, 1.2, 0.5));
+    let mut add = |b: MeshBuilder, tex: Option<usize>, f: Finish| lit.put(kit, b, tex, f);
     let mut night: Option<MeshBuilder> = None;
-    let cell = if detailed { 0.2 } else { 0.4 };
+    // Halos round the lights (High, Ultra): where, how big, what colour.
+    let mut halos: Vec<(Vec3, f32, Color)> = Vec::new();
+    let cell = cell(quality);
 
     // --- Floor, rug -------------------------------------------------------
     let mut floor = MeshBuilder::default();
@@ -281,7 +211,7 @@ pub fn build(kit: &mut Kit, quality: Quality, table: Vec2) {
         WHITE,
         0.32,
     );
-    add(floor, floor_tex, true);
+    add(floor, floor_tex, Finish::Floor(0.22, VARNISH));
     if medium {
         let mut rug = MeshBuilder::default();
         let (rx, rz) = (2.4f32, 1.75f32);
@@ -298,7 +228,7 @@ pub fn build(kit: &mut Kit, quality: Quality, table: Vec2) {
         for v in &mut rug.vertices[first..] {
             v.uv = vec2((v.position.x + rx) / (2.0 * rx), (v.position.z + rz) / (2.0 * rz));
         }
-        add(rug, rug_tex, true);
+        add(rug, rug_tex, Finish::Matte);
     }
 
     // --- Walls: panelling, paper, moldings ---------------------------------
@@ -398,9 +328,9 @@ pub fn build(kit: &mut Kit, quality: Quality, table: Vec2) {
             );
         }
     }
-    add(paper, paper_tex, true);
-    add(panelling, wood, true);
-    add(trim, wood, true);
+    add(paper, paper_tex, Finish::Matte);
+    add(panelling, wood, Finish::Shiny(SATIN));
+    add(trim, wood, Finish::Shiny(VARNISH));
 
     // --- Ceiling and beams -------------------------------------------------
     let mut ceiling = MeshBuilder::default();
@@ -413,7 +343,7 @@ pub fn build(kit: &mut Kit, quality: Quality, table: Vec2) {
         WHITE,
         1.0 / 0.6,
     );
-    add(ceiling, tin_tex, true);
+    add(ceiling, tin_tex, Finish::Matte);
     if medium {
         let mut beams = MeshBuilder::default();
         for k in -2..=2 {
@@ -426,7 +356,7 @@ pub fn build(kit: &mut Kit, quality: Quality, table: Vec2) {
                 0.8,
             );
         }
-        add(beams, wood, true);
+        add(beams, wood, Finish::Matte);
     }
 
     // --- The bar -------------------------------------------------------------
@@ -544,6 +474,7 @@ pub fn build(kit: &mut Kit, quality: Quality, table: Vec2) {
         let shade = [(0.0, 0.17), (0.03, 0.16), (0.08, 0.11), (0.12, 0.05), (0.13, 0.02)];
         brass.lathe(at, &shade, 24, rgb(40, 70, 50));
         glow.disc(at + Vec3::Y * 0.002, 0.15, 24, rgb(255, 222, 170));
+        halos.push((at - Vec3::Y * 0.02, 0.3, Color::new(1.0, 0.8, 0.55, 0.45)));
     }
     // Stools along the bar.
     for k in 0..5 {
@@ -589,6 +520,7 @@ pub fn build(kit: &mut Kit, quality: Quality, table: Vec2) {
             tube(&mut brass, at, at + vec3(-side * 0.12, 0.05, 0.0), 0.008, 8, rgb(180, 140, 70));
             let shade = [(0.0, 0.02), (0.02, 0.05), (0.09, 0.07), (0.12, 0.072)];
             glow.lathe(at + vec3(-side * 0.13, 0.04, 0.0), &shade, 18, rgb(255, 214, 160));
+            halos.push((at + vec3(-side * 0.13, 0.12, 0.0), 0.2, Color::new(1.0, 0.7, 0.4, 0.55)));
             let c = vec3(wall_x - side * 0.006, 1.95, z);
             let (h, w) = (1.1, 0.9);
             let p = [
@@ -800,6 +732,7 @@ pub fn build(kit: &mut Kit, quality: Quality, table: Vec2) {
             );
         }
         dark.cuboid(jc + vec3(0.0, 0.3, -0.256), vec3(0.5, 0.3, 0.01), 0.0, rgb(40, 30, 28), 1.0);
+        halos.push((jc + vec3(0.0, 0.9, -0.3), 0.6, Color::new(1.0, 0.55, 0.25, 0.25)));
         // A neon eight-ball sign.
         let nc = vec3(-0.6, 2.15, HZ - 0.06);
         let neon = rgb(255, 80, 170);
@@ -812,6 +745,7 @@ pub fn build(kit: &mut Kit, quality: Quality, table: Vec2) {
             }
         };
         ring(nc, 0.3);
+        halos.push((nc - Vec3::Z * 0.05, 0.6, Color::new(1.0, 0.3, 0.65, 0.35)));
         ring(nc + vec3(0.0, 0.07, 0.0), 0.06);
         ring(nc + vec3(0.0, -0.06, 0.0), 0.075);
         dark.cuboid(nc + Vec3::Z * 0.03, vec3(0.7, 0.7, 0.01), 0.0, rgb(20, 18, 20), 1.0);
@@ -840,20 +774,23 @@ pub fn build(kit: &mut Kit, quality: Quality, table: Vec2) {
             );
         }
     }
-    add(bar_wood, wood, true);
-    add(brass, white, true);
-    add(dark, white, true);
-    add(glass, white, true);
-    add(labels, label_tex, true);
-    add(boards, chalk_tex, true);
-    add(darts, dart_tex, true);
+    add(bar_wood, wood, Finish::Shiny(VARNISH));
+    add(brass, white, Finish::Shiny(BRASS));
+    add(dark, white, Finish::Shiny(LEATHER));
+    add(glass, white, Finish::Shiny(GLASS));
+    add(labels, label_tex, Finish::Matte);
+    add(boards, chalk_tex, Finish::Matte);
+    add(darts, dart_tex, Finish::Matte);
     for (k, m) in poster_meshes.into_iter().enumerate() {
-        add(m, poster_tex[k], true);
+        add(m, poster_tex[k], Finish::Matte);
     }
     // Lights (and the night outside) glow by themselves.
-    add(glow, white, false);
+    add(glow, white, Finish::Glow);
     if let Some(sky) = night {
-        add(sky, white, false);
+        add(sky, white, Finish::Glow);
     }
     kit.add(pools, glow_tex, Surface::UNLIT, Layer::Blended);
+    for (at, size, color) in halos {
+        kit.glow(at, size, color, false);
+    }
 }

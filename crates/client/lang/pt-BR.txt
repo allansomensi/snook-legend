@@ -551,7 +551,7 @@ Drag on the table: cue follows	Arraste na mesa: o taco segue
 Drag the cue ball	Arraste a bola branca
 Elevation	Elevação
 Enter the lounge	Entrar no salão
-Everything, with the sharpest balls: for gaming PCs.	Tudo no máximo, bolas mais nítidas: para PCs gamer.
+Everything, with reflections in polished floors: for gaming PCs.	Tudo no máximo, com reflexos nos pisos polidos: para PCs gamer.
 Fine aim	Mira fina
 Finish this match first.	Termine esta partida primeiro.
 For old or very slow computers.	Para computadores antigos ou muito lentos.
@@ -669,7 +669,7 @@ Short	Curto
 Show the controls panel	Mostrar o painel de controles
 Signing in…	Entrando…
 Signing in	Entrando
-Soft shadows from every lamp, contact shading.	Sombras suaves de cada lâmpada e sombra de contato.
+Soft shadows from every lamp, glossy halls, halos.	Sombras suaves de cada lâmpada, salões com brilho, halos.
 Solids (1–7)	Lisas (1–7)
 Spin ball	Bola de efeito
 Spin	Efeito
@@ -1164,6 +1164,14 @@ English club	Clube inglês
 Ebony & gold	Ébano e ouro
 Pool hall	Salão de sinuca
 Industrial loft	Loft industrial
+Steel & oak	Aço e carvalho
+Tournament	Torneio
+Victorian walnut	Nogueira vitoriana
+Ivory deco	Déco marfim
+Mountain lodge	Chalé na montanha
+Neon arcade	Fliperama neon
+Art deco lounge	Salão art déco
+Skyline penthouse	Cobertura com vista
 Walnut	Nogueira
 Zebrawood	Zebrano
 Bocote	Bocote

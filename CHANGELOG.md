@@ -3,6 +3,10 @@
 ## Unreleased
 
 ### Lounge
+- While "Play now" looks for an opponent, "Practise while you wait" opens a
+  table to yourself at once: shoot as you like, a new rack when one is
+  over; the game starts as soon as an opponent is found (the game against
+  the computer is still offered after half a minute).
 - Players in a game against the computer show it in the lounge ("playing
   the computer", a purple dot) and can still be invited: the invitation
   appears in the top right corner of their game, with Accept and Decline.

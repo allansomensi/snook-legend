@@ -270,6 +270,8 @@ pub struct Match {
     pub ladder: Option<crate::ladder::LadderRun>,
     /// An attempt at the daily challenge.
     pub daily: Option<DailyRun>,
+    /// A table to oneself (practice): racked again when a rack is over.
+    pub free_play: bool,
 }
 
 /// An attempt at the daily challenge: one visit to the table, every stroke
@@ -439,6 +441,7 @@ impl Match {
             opponent,
             ladder,
             daily: None,
+            free_play: false,
         };
         m.begin_turn();
         m
@@ -664,6 +667,7 @@ impl Match {
             opponent: None,
             ladder: None,
             daily: None,
+            free_play: false,
         };
         m.begin_turn();
         if let Some(o) = m.online.as_mut() {
@@ -1314,6 +1318,13 @@ impl Match {
     }
 
     fn after_shot(&mut self, report: &ShotReport) {
+        // Practice on one's own: a finished rack (the 8 down, however)
+        // just starts another.
+        if self.free_play && report.game_over.is_some() {
+            self.notify(t("A new rack."), false);
+            self.rematch();
+            return;
+        }
         // The daily challenge: the visit ends at the first stroke that
         // doesn't keep the table, or with the table clear.
         if let Some(run) = self.daily.as_mut() {

@@ -1084,6 +1084,23 @@ async fn main() {
                                 hud = Hud::new(config.show_help);
                                 rig.reset();
                             }
+                            OnlineAction::FreeTableWhileWaiting => {
+                                // A table to oneself: a fresh rack, shoot as
+                                // you like, racked again when it's over.
+                                let mut settings =
+                                    MatchSettings::from_config(MatchMode::HotSeat, &config);
+                                let name = online
+                                    .me
+                                    .as_ref()
+                                    .map_or(settings.names[0].clone(), |me| me.username.clone());
+                                settings.names = [name.clone(), name];
+                                let mut m = Match::new(&settings, game::clock_seed());
+                                m.practice = true;
+                                m.free_play = true;
+                                current = Some(m);
+                                hud = Hud::new(config.show_help);
+                                rig.reset();
+                            }
                             OnlineAction::ShopVip => {
                                 shop.open(&mut online);
                                 shop.show_tab("shop-vip");

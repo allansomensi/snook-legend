@@ -1395,3 +1395,5 @@ Well played!	¡Bien jugado!
 Good game!	¡Buena partida!
 Rematch?	¿Revancha?
 I have to go, thanks for the game!	Tengo que irme, ¡gracias por la partida!
+Practise while you wait	Practicar mientras esperas
+A new rack.	Nueva tanda de bolas.

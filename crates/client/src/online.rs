@@ -60,6 +60,8 @@ pub enum OnlineAction {
     ShopVip,
     /// A game against the computer while "Play now" keeps looking.
     PracticeWhileWaiting,
+    /// A table to oneself (free practice) while "Play now" keeps looking.
+    FreeTableWhileWaiting,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -675,7 +677,9 @@ impl Online {
         // The lounge shows who is playing the computer (they can still be
         // invited: the invitation shows over their game).
         // Away too, after a while untouched (a minimised window included).
-        let vs_computer = current.as_ref().is_some_and(|m| m.is_against_computer() || m.practice);
+        let vs_computer = current
+            .as_ref()
+            .is_some_and(|m| m.is_against_computer() || (m.practice && !m.free_play));
         let activity = (vs_computer, self.away);
         if self.signed_in()
             && self.server_protocol >= snookered_proto::ACTIVITY_PROTOCOL
@@ -2398,10 +2402,24 @@ impl Online {
         let mut action = None;
         // Nobody yet after half a minute: a game against the computer while
         // the search goes on.
-        if self.queue_secs().is_some_and(|s| s >= PRACTICE_AFTER_SECS) && !self.lan {
-            let b = Rect::new(area.x, y, area.w, 36.0);
-            if ui.button(b, t("Play the computer while you wait"), true) {
-                action = Some(OnlineAction::PracticeWhileWaiting);
+        // Searching: a table to practise on at once (the game starts as
+        // soon as an opponent is found); after half a minute, the computer
+        // too.
+        if self.queue_secs().is_some() && !self.lan {
+            let computer = self.queue_secs().is_some_and(|s| s >= PRACTICE_AFTER_SECS);
+            let half = if computer { (area.w - 8.0) / 2.0 } else { area.w };
+            let b = Rect::new(area.x, y, half, 36.0);
+            let (label, _) = ui.fitted(t("Practise while you wait"), 15.0, half - 16.0, true);
+            if ui.button(b, &label, true) {
+                action = Some(OnlineAction::FreeTableWhileWaiting);
+            }
+            if computer {
+                let b = Rect::new(area.x + half + 8.0, y, half, 36.0);
+                let (label, _) =
+                    ui.fitted(t("Play the computer while you wait"), 15.0, half - 16.0, true);
+                if ui.button(b, &label, true) {
+                    action = Some(OnlineAction::PracticeWhileWaiting);
+                }
             }
             y += 36.0 + 12.0;
         }

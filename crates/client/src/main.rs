@@ -503,10 +503,10 @@ async fn main() {
                     strokes: run.strokes.clone(),
                 });
             }
-            if let Some((code, result)) = online.drill_result.take() {
-                if code == run.code {
-                    run.result = Some(result);
-                }
+            if let Some((code, result)) = online.drill_result.take()
+                && code == run.code
+            {
+                run.result = Some(result);
             }
         }
         // A stored game to watch again (from the profile).

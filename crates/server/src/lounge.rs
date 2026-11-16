@@ -653,6 +653,14 @@ impl Lounge {
         self.send(&key(name), msg);
     }
 
+    /// Sends a message that only games of protocol `since` and later know,
+    /// if the player is online with one.
+    pub fn notify_since(&self, name: &str, since: u32, msg: ServerMsg) {
+        if self.protocol_of(name).is_some_and(|v| v >= since) {
+            self.send(&key(name), msg);
+        }
+    }
+
     /// A message from the staff in the lounge chat.
     pub fn announce_text(&mut self, text: &str) {
         let text = clean_chat(text);
@@ -944,6 +952,13 @@ impl Lounge {
             | ClientMsg::Missions
             | ClientMsg::Replays
             | ClientMsg::Replay { .. }
+            | ClientMsg::CorrList
+            | ClientMsg::CorrChallenge { .. }
+            | ClientMsg::CorrAnswer { .. }
+            | ClientMsg::CorrCancel { .. }
+            | ClientMsg::CorrOpen { .. }
+            | ClientMsg::CorrShoot { .. }
+            | ClientMsg::CorrResign { .. }
             | ClientMsg::LadderClaim { .. }
             | ClientMsg::GhostStyle { .. } => {}
             ClientMsg::SetStatusMessage { .. }
@@ -2211,7 +2226,7 @@ impl Lounge {
 
     /// Counts a rated game between these two; returns how many they played
     /// in the last day before this one.
-    fn count_pair_game(&mut self, keys: &[String; 2]) -> usize {
+    pub(crate) fn count_pair_game(&mut self, keys: &[String; 2]) -> usize {
         let mut pair = [keys[0].clone(), keys[1].clone()];
         pair.sort();
         let now = Instant::now();

@@ -10,6 +10,7 @@
 
 mod achievements;
 pub mod analysis;
+pub mod correspondence;
 mod countries;
 pub mod ghost;
 pub mod ladder;
@@ -548,6 +549,9 @@ pub struct HistoryEntry {
     /// The replay can be watched (seed and strokes were kept).
     #[serde(default)]
     pub replay: bool,
+    /// A correspondence game (played a turn at a time).
+    #[serde(default)]
+    pub correspondence: bool,
 }
 
 /// Lifetime numbers from every game with stored statistics.
@@ -984,6 +988,37 @@ pub enum ClientMsg {
     JoinByCode {
         code: String,
     },
+    /// Correspondence games: this player's games and challenges.
+    CorrList,
+    /// Challenges a player (online or not) to a correspondence game.
+    CorrChallenge {
+        to: String,
+        rated: bool,
+    },
+    /// Accepts or declines a challenge sent to this player.
+    CorrAnswer {
+        id: i64,
+        accept: bool,
+    },
+    /// Withdraws a challenge this player sent.
+    CorrCancel {
+        id: i64,
+    },
+    /// The whole game, to look at it or play a turn.
+    CorrOpen {
+        id: i64,
+    },
+    /// A shot of this player's visit (like [`ClientMsg::Shoot`]).
+    CorrShoot {
+        id: i64,
+        turn: u32,
+        shot: Shot,
+        called_pocket: Option<PocketId>,
+        cue_ball: Option<DVec2>,
+    },
+    CorrResign {
+        id: i64,
+    },
     /// Sets this player's status message (empty clears it).
     SetStatusMessage {
         text: String,
@@ -1354,6 +1389,42 @@ pub enum ServerMsg {
     Draining {
         /// Seconds until the restart.
         secs: u32,
+    },
+    /// This player's correspondence games (active ones and the latest
+    /// finished) and challenges (sent after signing in, when asked and
+    /// whenever they change). Never sent to games older than protocol 13.
+    CorrList {
+        games: Vec<correspondence::CorrGame>,
+        challenges: Vec<correspondence::CorrChallenge>,
+    },
+    /// A correspondence game in full (the answer to `corr_open`): rebuild the
+    /// table from `replay`; `seen` strokes were already shown to this player.
+    CorrState {
+        game: correspondence::CorrGame,
+        replay: replay::Replay,
+        seen: u32,
+    },
+    /// The authoritative outcome of this player's shot `turn` (like
+    /// [`ServerMsg::ShotResult`]).
+    CorrShot {
+        id: i64,
+        turn: u32,
+        end: EightBallGame,
+        report: ShotReport,
+    },
+    /// A correspondence shot was refused: back to this table.
+    CorrShotRejected {
+        id: i64,
+        turn: u32,
+        reason: String,
+        game: EightBallGame,
+    },
+    /// Something happened in a correspondence game of this player.
+    CorrNotice {
+        id: i64,
+        /// The other player.
+        opponent: String,
+        event: correspondence::CorrEvent,
     },
     /// The people this player played recently, latest first.
     RecentOpponents {

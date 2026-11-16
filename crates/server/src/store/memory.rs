@@ -7,6 +7,8 @@ use snookered_proto::{LeaderboardEntry, Role};
 
 use snookered_proto::CareerNumbers;
 
+mod correspondence;
+
 use super::{
     AimRow, AuditRow, BoardNote, BuyOutcome, FriendOutcome, FriendState, GiftRow, HistoryRow,
     LedgerRow, LiveMatch, MatchRecord, Metrics, NewGift, NewNote, NewReport, NewUser, Overview,
@@ -50,6 +52,13 @@ struct Inner {
     missions: HashMap<(i64, String, String), (u32, i64)>,
     board: Vec<BoardNote>,
     next_note: i64,
+    /// Correspondence games and challenges (see `correspondence.rs`).
+    async_games: BTreeMap<i64, super::AsyncGame>,
+    next_async_game: i64,
+    async_challenges: BTreeMap<i64, super::AsyncChallenge>,
+    next_async_challenge: i64,
+    /// Ids of the matches that were correspondence games.
+    correspondence_matches: HashSet<i64>,
     /// (user, kind, key) -> (attempts, made)
     analysis: HashMap<(i64, i16, i16), (u32, u32)>,
     /// hour -> (peak players, peak games, samples, players summed)
@@ -69,6 +78,17 @@ impl Inner {
 
     fn name(&self, id: i64) -> String {
         self.users.get(&id).map(|u| u.username.clone()).unwrap_or_default()
+    }
+
+    fn record_match(&mut self, m: &MatchRecord) -> ([Option<User>; 2], i64) {
+        for seat in 0..2 {
+            if let Some(u) = self.users.get_mut(&m.players[seat]) {
+                super::apply_match_numbers(u, m, seat);
+            }
+        }
+        self.matches.push(m.clone());
+        let id = self.matches.len() as i64;
+        ([self.users.get(&m.players[0]).cloned(), self.users.get(&m.players[1]).cloned()], id)
     }
 
     /// A stored present with the players' names and countries as they are now.
@@ -317,15 +337,7 @@ impl MemoryStore {
     }
 
     pub fn record_match(&self, m: &MatchRecord) -> StoreResult<([Option<User>; 2], i64)> {
-        let mut s = self.lock();
-        for seat in 0..2 {
-            if let Some(u) = s.users.get_mut(&m.players[seat]) {
-                super::apply_match_numbers(u, m, seat);
-            }
-        }
-        s.matches.push(m.clone());
-        let id = s.matches.len() as i64;
-        Ok(([s.users.get(&m.players[0]).cloned(), s.users.get(&m.players[1]).cloned()], id))
+        Ok(self.lock().record_match(m))
     }
 
     pub fn career(&self, user_id: i64) -> StoreResult<CareerNumbers> {
@@ -596,6 +608,7 @@ impl MemoryStore {
         }
         s.shot_stats.retain(|(u, _), _| *u != user_id);
         s.live.retain(|_, m| !m.players.contains(&user_id));
+        s.async_challenges.retain(|_, c| c.from != user_id && c.to != user_id);
         if let Some(w) = s.wallets.get_mut(&user_id) {
             w.stripe_customer = None;
             w.equipped.clear();
@@ -651,6 +664,7 @@ impl MemoryStore {
                     at: m.ended_at,
                     match_id: index as i64 + 1,
                     replay: m.replay.is_some(),
+                    correspondence: s.correspondence_matches.contains(&(index as i64 + 1)),
                 })
             })
             .take(limit as usize)

@@ -201,6 +201,70 @@ First blood	Primera sangre
 First break	Primer saque
 Friend request sent.	Solicitud de amistad enviada.
 Friends	Amigos
+# Daily (correspondence) games.
+daily game	partida diaria
+Daily	Diarias
+Daily game	Partida diaria
+Daily games	Partidas diarias
+Challenge a player by username	Desafía a un jugador por su nombre de usuario
+Challenge to a daily game	Desafiar a una partida diaria
+3 days for each turn	3 días para cada turno
+No daily games yet. Challenge a friend: each of you plays a turn whenever you can.	Todavía no hay partidas diarias. Desafía a un amigo: cada uno juega su turno cuando puede.
+challenges you · {kind}	te desafía · {kind}
+waiting for an answer · {kind} · {time} left	esperando respuesta · {kind} · quedan {time}
+your turn · {time} left	tu turno · quedan {time}
+their turn · {time} left	turno del rival · quedan {time}
+won · {how}	victoria · {how}
+lost · {how}	derrota · {how}
+ran out of time	se te acabó el tiempo
+the opponent ran out of time	al rival se le acabó el tiempo
+open table	mesa abierta
+You: {mine}, {a} left · {name}: {theirs}, {b} left	Tú: {mine}, quedan {a} · {name}: {theirs}, quedan {b}
+Look	Ver
+Skip	Saltar
+Replaying {name}'s turn	Repitiendo el turno de {name}
+Stroke {n} of {total}	Jugada {n} de {total}
+Turn sent	Turno enviado
+Turn sent.	Turno enviado.
+Waiting for {name} to play	Esperando a que juegue {name}
+{name} has {time} to play. You'll be told when it's your turn.	{name} tiene {time} para jugar. Te avisaremos cuando sea tu turno.
+{time} left to play. You'll be told when it's your turn.	Quedan {time} para jugar. Te avisaremos cuando sea tu turno.
+Back to daily games	Volver a las partidas diarias
+Your game is saved: come back whenever you like.	Tu partida queda guardada: vuelve cuando quieras.
+{d} d {h} h	{d} d {h} h
+{name} ran out of time	a {name} se le acabó el tiempo
+This game can't be shown.	No se puede mostrar esta partida.
+A daily game is waiting for you	Una partida diaria te espera
+{n} daily games are waiting for you	{n} partidas diarias te esperan
+{name} challenges you to a rated daily game.	{name} te desafía a una partida diaria con rating.
+{name} challenges you to a casual daily game.	{name} te desafía a una partida diaria amistosa.
+{name} accepted your daily game.	{name} aceptó tu partida diaria.
+{name} declined your daily game.	{name} rechazó tu partida diaria.
+{name} withdrew their daily game challenge.	{name} retiró su desafío a una partida diaria.
+Your turn in the daily game against {name}.	Tu turno en la partida diaria contra {name}.
+{name} ran out of time: you won the daily game.	A {name} se le acabó el tiempo: ganaste la partida diaria.
+You won the daily game against {name}!	¡Ganaste la partida diaria contra {name}!
+You ran out of time in the daily game against {name}.	Se te acabó el tiempo en la partida diaria contra {name}.
+You lost the daily game against {name}.	Perdiste la partida diaria contra {name}.
+Challenge sent.	Desafío enviado.
+Daily games need an account.	Las partidas diarias necesitan una cuenta.
+No such game.	Esa partida no existe.
+That challenge is no longer valid.	Ese desafío ya no es válido.
+That player already challenged you: answer their challenge.	Ese jugador ya te desafió: responde a su desafío.
+That player has too many challenges waiting.	Ese jugador ya tiene demasiados desafíos pendientes.
+That player has too many daily games going on.	Ese jugador ya tiene demasiadas partidas diarias en curso.
+That player is not accepting challenges.	Ese jugador no acepta desafíos.
+This game can't be played right now.	No se puede jugar esta partida ahora.
+This game changed meanwhile: open it again.	La partida cambió mientras tanto: ábrela de nuevo.
+This game is over.	Esta partida terminó.
+You already challenged that player.	Ya desafiaste a ese jugador.
+You already have a game going on against that player.	Ya tienes una partida en curso contra ese jugador.
+You blocked that player.	Bloqueaste a ese jugador.
+You can't challenge yourself.	No puedes desafiarte a ti mismo.
+You have as many daily games as you can play at once.	Ya tienes el máximo de partidas diarias a la vez.
+You have too many challenges waiting for an answer.	Tienes demasiados desafíos esperando respuesta.
+You're sending challenges too quickly.	Estás enviando desafíos demasiado rápido.
+Your time for this turn ran out.	Se te acabó el tiempo de este turno.
 Games	Partidas
 Games on your network	Partidas en tu red
 Give the tournament a name (at least 3 characters).	Ponle un nombre al torneo (al menos 3 caracteres).

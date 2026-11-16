@@ -258,6 +258,71 @@ pub struct HistoryRow {
     pub at: i64,
     pub match_id: i64,
     pub replay: bool,
+    /// A correspondence game.
+    pub correspondence: bool,
+}
+
+/// A correspondence game, as stored: its seed and strokes (the table is
+/// rebuilt by replaying them) and what the list shows without replaying.
+#[derive(Debug, Clone, PartialEq)]
+pub struct AsyncGame {
+    pub id: i64,
+    pub players: [i64; 2],
+    pub rated: bool,
+    pub replay: Replay,
+    /// The seat to play.
+    pub turn: usize,
+    /// When that turn runs out (Unix seconds).
+    pub deadline: i64,
+    /// Strokes each seat has watched.
+    pub seen: [u32; 2],
+    pub groups: [Option<snookered_core::Group>; 2],
+    pub left: [u8; 2],
+    pub started_at: i64,
+    pub updated_at: i64,
+    /// Set once the game is over (with the winner and how).
+    pub finished_at: Option<i64>,
+    pub winner: Option<usize>,
+    pub reason: Option<String>,
+    /// The loser ran out of time.
+    pub timeout: bool,
+    /// Each seat's rating change and rating after the game (once over).
+    pub delta: [i32; 2],
+    pub ratings: [i32; 2],
+    /// The match it was recorded as.
+    pub match_id: Option<i64>,
+}
+
+impl AsyncGame {
+    /// The seat of `user_id`, if they play this game.
+    pub fn seat_of(&self, user_id: i64) -> Option<usize> {
+        self.players.iter().position(|p| *p == user_id)
+    }
+
+    pub fn is_active(&self) -> bool {
+        self.finished_at.is_none()
+    }
+}
+
+/// A challenge to a correspondence game.
+#[derive(Debug, Clone, PartialEq)]
+pub struct AsyncChallenge {
+    pub id: i64,
+    pub from: i64,
+    pub to: i64,
+    pub rated: bool,
+    pub created_at: i64,
+}
+
+/// The game that starts when a challenge is accepted (the challenger is
+/// seat 0).
+#[derive(Debug, Clone, Copy)]
+pub struct NewAsyncGame {
+    pub seed: u64,
+    pub breaker: usize,
+    /// The breaker's deadline.
+    pub deadline: i64,
+    pub at: i64,
 }
 
 /// Someone a player played recently: their account and the latest game
@@ -982,6 +1047,75 @@ impl Store {
     /// this was the first thanks.
     pub async fn thank_gift(&self, user_id: i64, id: i64) -> StoreResult<Option<GiftRow>> {
         dispatch!(self, s => s.thank_gift(user_id, id))
+    }
+
+    // Correspondence games.
+
+    /// A challenge from `from` to `to`; `None` if one is already waiting.
+    pub async fn create_async_challenge(
+        &self,
+        from: i64,
+        to: i64,
+        rated: bool,
+        at: i64,
+    ) -> StoreResult<Option<i64>> {
+        dispatch!(self, s => s.create_async_challenge(from, to, rated, at))
+    }
+    pub async fn async_challenge(&self, id: i64) -> StoreResult<Option<AsyncChallenge>> {
+        dispatch!(self, s => s.async_challenge(id))
+    }
+    /// The challenges this player sent or received, oldest first.
+    pub async fn async_challenges_of(&self, user_id: i64) -> StoreResult<Vec<AsyncChallenge>> {
+        dispatch!(self, s => s.async_challenges_of(user_id))
+    }
+    /// Withdraws or declines a challenge; false if there was none.
+    pub async fn delete_async_challenge(&self, id: i64) -> StoreResult<bool> {
+        dispatch!(self, s => s.delete_async_challenge(id))
+    }
+    /// Takes the challenge away and starts its game, atomically (the
+    /// challenger is seat 0); `None` if the challenge is gone.
+    pub async fn accept_async_challenge(
+        &self,
+        id: i64,
+        new: &NewAsyncGame,
+    ) -> StoreResult<Option<AsyncGame>> {
+        dispatch!(self, s => s.accept_async_challenge(id, new))
+    }
+    /// Removes the challenges sent before `before`; returns them.
+    pub async fn purge_async_challenges(&self, before: i64) -> StoreResult<Vec<AsyncChallenge>> {
+        dispatch!(self, s => s.purge_async_challenges(before))
+    }
+    pub async fn async_game(&self, id: i64) -> StoreResult<Option<AsyncGame>> {
+        dispatch!(self, s => s.async_game(id))
+    }
+    /// This player's games in progress and their latest `finished` ones.
+    pub async fn async_games_of(&self, user_id: i64, finished: u32) -> StoreResult<Vec<AsyncGame>> {
+        dispatch!(self, s => s.async_games_of(user_id, finished))
+    }
+    /// Saves a game in progress if it still has `expected` strokes and is
+    /// not over (a change made against an older version is refused):
+    /// strokes, turn, deadline, seen, groups and balls left.
+    pub async fn update_async_game(&self, game: &AsyncGame, expected: usize) -> StoreResult<bool> {
+        dispatch!(self, s => s.update_async_game(game, expected))
+    }
+    /// `seat` has watched the first `seen` strokes (never goes back).
+    pub async fn set_async_seen(&self, id: i64, seat: usize, seen: u32) -> StoreResult<()> {
+        dispatch!(self, s => s.set_async_seen(id, seat, seen))
+    }
+    /// Ends a game that still has `expected` strokes and records it as a
+    /// match (history, ratings, the replay), atomically. `None` if the game
+    /// changed or was already over.
+    pub async fn finish_async_game(
+        &self,
+        game: &AsyncGame,
+        expected: usize,
+        record: &MatchRecord,
+    ) -> StoreResult<Option<([Option<User>; 2], i64)>> {
+        dispatch!(self, s => s.finish_async_game(game, expected, record))
+    }
+    /// Games in progress whose turn ran out before `now`, oldest first.
+    pub async fn expired_async_games(&self, now: i64, limit: u32) -> StoreResult<Vec<AsyncGame>> {
+        dispatch!(self, s => s.expired_async_games(now, limit))
     }
 }
 

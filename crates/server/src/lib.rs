@@ -15,6 +15,7 @@ pub mod account;
 pub mod admin;
 pub mod analysis;
 pub mod computer;
+pub mod correspondence;
 pub mod lan;
 pub mod limits;
 pub mod lounge;
@@ -146,6 +147,8 @@ pub struct Server {
     leaderboard: Mutex<Option<(Instant, Vec<LeaderboardEntry>)>>,
     connections: Mutex<HashMap<IpAddr, usize>>,
     pub stripe: Option<payments::Stripe>,
+    /// Correspondence games being changed (see [`correspondence`]).
+    pub(crate) corr: correspondence::State,
     /// The ladder's reward and ghosts' styles (see [`computer`]).
     pub computer: computer::Computer,
 }
@@ -205,6 +208,7 @@ impl Server {
             hashing: Semaphore::new(2),
             leaderboard: Mutex::new(None),
             connections: Mutex::new(HashMap::new()),
+            corr: correspondence::State::default(),
             computer: computer::Computer::default(),
         })
     }
@@ -415,6 +419,10 @@ pub fn spawn_background(server: Arc<Server>) {
             }
         }
     });
+    // Correspondence games: turns that ran out (also right after a restart).
+    if !server.config.rules.lan {
+        tokio::spawn(correspondence::run(server.clone()));
+    }
     let rx = server.effects.lock().unwrap_or_else(|e| e.into_inner()).take();
     if let Some(mut rx) = rx {
         tokio::spawn(async move {
@@ -930,6 +938,11 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                                 account::signed_in(&s, &r).await;
                                 shop::push_wallet(&s, &r).await;
                                 social::signed_in(&s, &r).await;
+                                if version >= snookered_proto::correspondence::SINCE_PROTOCOL
+                                    && !s.config.rules.lan
+                                {
+                                    correspondence::signed_in(&s, &r).await;
+                                }
                             });
                             if let Ok(friends) = server.store.friends(row.id).await
                                 && friends.iter().any(|(_, st)| *st == FriendState::Incoming)
@@ -1009,6 +1022,9 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                 }
             }
             ClientMsg::Missions => send(missions::message(&server, &me).await),
+            msg if correspondence::is_msg(&msg) => {
+                correspondence::handle(&server, &me, msg, &send).await
+            }
             // Seconds of simulation each: answered on their own tasks.
             ClientMsg::LadderClaim { replay } => {
                 computer::spawn_claim(server.clone(), me.clone(), replay, tx.clone())
@@ -1246,6 +1262,13 @@ fn is_query_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::DeleteAccount { .. }
             | ClientMsg::Replays
             | ClientMsg::Replay { .. }
+            | ClientMsg::CorrList
+            | ClientMsg::CorrChallenge { .. }
+            | ClientMsg::CorrAnswer { .. }
+            | ClientMsg::CorrCancel { .. }
+            | ClientMsg::CorrOpen { .. }
+            | ClientMsg::CorrShoot { .. }
+            | ClientMsg::CorrResign { .. }
             | ClientMsg::LadderClaim { .. }
             | ClientMsg::GhostStyle { .. }
             | ClientMsg::SetStatusMessage { .. }
@@ -1287,6 +1310,13 @@ fn is_account_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::Missions
             | ClientMsg::Replay { .. }
             | ClientMsg::CreateInviteCode { .. }
+            | ClientMsg::CorrList
+            | ClientMsg::CorrChallenge { .. }
+            | ClientMsg::CorrAnswer { .. }
+            | ClientMsg::CorrCancel { .. }
+            | ClientMsg::CorrOpen { .. }
+            | ClientMsg::CorrShoot { .. }
+            | ClientMsg::CorrResign { .. }
             | ClientMsg::SetStatusMessage { .. }
             | ClientMsg::ClearStatusMessage { .. }
             | ClientMsg::RecentOpponents
@@ -1327,6 +1357,7 @@ fn history_entry(h: crate::store::HistoryRow) -> HistoryEntry {
         at: h.at,
         match_id: h.match_id,
         replay: h.replay,
+        correspondence: h.correspondence,
     }
 }
 

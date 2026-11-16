@@ -543,6 +543,10 @@ impl ProfileScreen {
                         online.request_profile(&name);
                     }
                 }
+                // A daily game: one turn at a time, even while they are away.
+                if relation != Relation::Blocked && button(ui, t("Daily game"), true, false) {
+                    crate::correspondence::challenge(online, &name);
+                }
             }
         }
     }
@@ -856,9 +860,18 @@ impl ProfileScreen {
                 14.0,
                 room,
             );
-            let how = crate::i18n::history_reason(h.reason, h.won);
+            // A daily game lost on time was not left: it ran out.
+            let how = match (h.correspondence, h.reason, h.won) {
+                (true, snookered_core::GameOverReason::Abandoned, true) => {
+                    t("the opponent ran out of time")
+                }
+                (true, snookered_core::GameOverReason::Abandoned, false) => t("ran out of time"),
+                _ => crate::i18n::history_reason(h.reason, h.won),
+            };
             let sub = if h.tournament {
                 format!("{how} · {}", t("tournament"))
+            } else if h.correspondence {
+                format!("{how} · {}", t("daily game"))
             } else {
                 how.to_string()
             };

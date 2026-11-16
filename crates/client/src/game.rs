@@ -332,6 +332,8 @@ pub struct OnlineMatch {
     last_cue: Option<DVec2>,
     /// Shot clock for the next turn, from the server.
     next_clock: f32,
+    /// A correspondence game (a turn at a time; see [`crate::correspondence`]).
+    pub corr: Option<crate::correspondence::CorrTable>,
 }
 
 /// A sound-worthy collision during playback.
@@ -593,6 +595,7 @@ impl Match {
                 last_aim: None,
                 last_cue: None,
                 next_clock: clock_left,
+                corr: None,
             }),
             clock: None,
             last_shot: None,
@@ -719,6 +722,10 @@ impl Match {
     /// The shot clock for the current turn: (seconds left, seconds per shot).
     pub fn shot_clock(&self) -> Option<(f32, f32)> {
         if let Some(o) = &self.online {
+            // A correspondence turn has days, not seconds (shown elsewhere).
+            if o.corr.is_some() {
+                return None;
+            }
             return Some((o.clock_left, o.shot_clock));
         }
         self.clock.map(|(total, left)| (left, total))
@@ -739,6 +746,19 @@ impl Match {
 
     pub fn stop_replay(&mut self) {
         self.replay = None;
+    }
+
+    /// Shows `game` at once, ending whatever is on screen (skipping the
+    /// replay of a correspondence game's strokes).
+    pub fn jump_to(&mut self, game: EightBallGame) {
+        self.replay = None;
+        self.last_shot = None;
+        self.game = game;
+        if self.game.game_over().is_some() {
+            self.phase = Phase::GameOver;
+        } else {
+            self.begin_turn();
+        }
     }
 
     fn begin_turn(&mut self) {

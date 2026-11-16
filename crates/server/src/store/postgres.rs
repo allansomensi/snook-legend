@@ -7,6 +7,8 @@ use sqlx::{Row, query};
 use snookered_proto::CareerNumbers;
 use snookered_proto::replay::Replay;
 
+mod correspondence;
+
 use super::{
     AimRow, AuditRow, BoardNote, BuyOutcome, FriendOutcome, FriendState, GiftRow, HistoryRow,
     LedgerRow, LiveMatch, MatchRecord, Metrics, NewGift, NewNote, NewReport, NewUser, Overview,
@@ -252,6 +254,16 @@ impl PgStore {
 
     pub async fn record_match(&self, m: &MatchRecord) -> StoreResult<([Option<User>; 2], i64)> {
         let mut tx = self.pool.begin().await?;
+        let out = Self::record_match_in(&mut tx, m).await?;
+        tx.commit().await?;
+        Ok(out)
+    }
+
+    /// Stores a match inside a transaction (see [`PgStore::record_match`]).
+    async fn record_match_in(
+        tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
+        m: &MatchRecord,
+    ) -> StoreResult<([Option<User>; 2], i64)> {
         let mut out = [None, None];
         for (seat, slot) in out.iter_mut().enumerate() {
             let won = seat == m.winner;
@@ -282,7 +294,7 @@ impl PgStore {
             .bind(bonus(m.runout))
             .bind(bonus(m.shutout))
             .bind((m.abandoned == Some(seat)) as i32)
-            .fetch_optional(&mut *tx)
+            .fetch_optional(&mut **tx)
             .await?;
             *slot = row.map(|r| user(&r)).transpose()?;
         }
@@ -305,7 +317,7 @@ impl PgStore {
         .bind(m.replay.as_ref().map(|r| r.seed as i64))
         .bind(m.replay.as_ref().map(|r| r.breaker as i16))
         .bind(m.replay.as_ref().map(replay_json))
-        .fetch_one(&mut *tx)
+        .fetch_one(&mut **tx)
         .await?
         .get("id");
         for seat in 0..2 {
@@ -325,10 +337,9 @@ impl PgStore {
             .bind(st.fouls as i32)
             .bind(st.best_run as i32)
             .bind(st.in_hand as i32)
-            .execute(&mut *tx)
+            .execute(&mut **tx)
             .await?;
         }
-        tx.commit().await?;
         Ok((out, id))
     }
 
@@ -741,6 +752,7 @@ impl PgStore {
             "DELETE FROM equipped WHERE user_id = $1",
             "DELETE FROM shot_stats WHERE user_id = $1",
             "DELETE FROM live_matches WHERE player0 = $1 OR player1 = $1",
+            "DELETE FROM async_challenges WHERE from_id = $1 OR to_id = $1",
             "UPDATE wallets SET stripe_customer = NULL WHERE user_id = $1",
             "UPDATE payments SET email = NULL WHERE user_id = $1",
         ] {
@@ -1169,6 +1181,7 @@ impl PgStore {
                     at: r.try_get("ended_at")?,
                     match_id: r.try_get("id")?,
                     replay: r.try_get::<Option<i64>, _>("seed")?.is_some(),
+                    correspondence: r.try_get("correspondence")?,
                 })
             })
             .collect::<Result<_, sqlx::Error>>()

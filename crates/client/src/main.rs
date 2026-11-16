@@ -12,6 +12,7 @@ mod camera;
 mod channel;
 mod config;
 mod coords;
+mod correspondence;
 mod countries;
 mod dev;
 mod effects;
@@ -365,11 +366,12 @@ async fn main() {
             ranking.open(&mut online);
             screen = Screen::Ranking;
         }
-        Some(tab @ ("tables" | "tournaments" | "friends")) => {
+        Some(tab @ ("tables" | "tournaments" | "friends" | "daily")) => {
             online.connect();
             online.tab = match tab {
                 "tables" => online::Tab::Tables,
                 "tournaments" => online::Tab::Tournaments,
+                "daily" => online::Tab::Daily,
                 _ => online::Tab::Friends,
             };
             screen = Screen::Online;
@@ -515,6 +517,7 @@ async fn main() {
         if let Some(m) = current.as_mut() {
             if !hud.paused || m.is_online() {
                 m.update(dt);
+                correspondence::drive(m, dt);
             }
             sounds.play(&mut m.sounds, config.volume);
         }
@@ -881,6 +884,12 @@ async fn main() {
                             },
                             MenuAction::Online => {
                                 online.connect();
+                                next = Some(Screen::Online);
+                            }
+                            MenuAction::Daily => {
+                                online.connect();
+                                online.tab = online::Tab::Daily;
+                                online.send(snookered_proto::ClientMsg::CorrList);
                                 next = Some(Screen::Online);
                             }
                             MenuAction::Lan => {

@@ -451,9 +451,17 @@ async fn run_effect(server: &Arc<Server>, effect: Effect) {
                         && !farmed
                         && record.abandoned.is_none()
                         && record.shots >= account::MIN_SHOTS_FOR_COINS;
+                    // A game won online counts for the winner's cue, casual
+                    // too (not a walkover, nor two friends farming each other).
+                    let cue_win = !farmed
+                        && record.shots >= account::MIN_SHOTS_FOR_COINS
+                        && !server.with(|l| l.rules.lan);
                     for (seat, user) in users.into_iter().enumerate() {
                         let Some(user) = user else { continue };
                         server.with(|l| l.refresh_user(user.clone()));
+                        if cue_win && record.winner == seat {
+                            shop::count_cue_win(server, &user).await;
+                        }
                         let rated_win = record.rated && record.winner == seat;
                         server.check_achievements_after(&user, rated_win).await;
                         if pays {
@@ -1493,6 +1501,7 @@ async fn profile_msg(server: &Server, viewer: Option<&User>, name: &str) -> Opti
                     career: Default::default(),
                     abandon_rate: 0,
                     analysis: None,
+                    cue_wins: Vec::new(),
                 }),
             });
         }
@@ -1579,6 +1588,12 @@ async fn profile_msg(server: &Server, viewer: Option<&User>, name: &str) -> Opti
             career: career.unwrap_or_default(),
             abandon_rate,
             analysis: None,
+            cue_wins: {
+                let mut cues: Vec<(String, u32)> =
+                    wallet.cue_wins.iter().map(|(c, n)| (c.clone(), *n)).collect();
+                cues.sort_by(|a, b| b.1.cmp(&a.1).then_with(|| a.0.cmp(&b.0)));
+                cues
+            },
         }),
     })
 }

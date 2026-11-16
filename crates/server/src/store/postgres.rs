@@ -1749,6 +1749,13 @@ impl PgStore {
             .iter()
             .map(|r| (r.get("category"), r.get("code")))
             .collect();
+        w.cue_wins = query("SELECT code, wins FROM cue_wins WHERE user_id = $1")
+            .bind(user_id)
+            .fetch_all(&self.pool)
+            .await?
+            .iter()
+            .map(|r| (r.get("code"), r.get::<i32, _>("wins").max(0) as u32))
+            .collect();
         Ok(w)
     }
 
@@ -1814,6 +1821,20 @@ impl PgStore {
         .await?
         .rows_affected();
         Ok(added > 0)
+    }
+
+    pub async fn add_cue_win(&self, user_id: i64, code: &str) -> StoreResult<u32> {
+        let wins: i32 = query(
+            "INSERT INTO cue_wins (user_id, code, wins) VALUES ($1, $2, 1)
+             ON CONFLICT (user_id, code) DO UPDATE SET wins = cue_wins.wins + 1
+             RETURNING wins",
+        )
+        .bind(user_id)
+        .bind(code)
+        .fetch_one(&self.pool)
+        .await?
+        .get("wins");
+        Ok(wins.max(0) as u32)
     }
 
     pub async fn equip(&self, user_id: i64, category: &str, code: &str) -> StoreResult<()> {

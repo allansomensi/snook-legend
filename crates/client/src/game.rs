@@ -215,6 +215,8 @@ pub struct ShotMark {
 pub struct Match {
     /// Each player's cue and chalk (shop codes).
     pub cue_looks: [(String, String); 2],
+    /// Each player's cue level (marks on the cue).
+    pub cue_levels: [u8; 2],
     /// Each player's winning effect (shop codes).
     pub effects: [String; 2],
     /// A game just won on the 8: (winner, the pocket), for the effect.
@@ -370,6 +372,7 @@ impl Match {
             stats: [ShotStats::default(); 2],
             timeline: Vec::new(),
             cue_looks: Default::default(),
+            cue_levels: [0; 2],
             effects: Default::default(),
             win_effect: None,
             shot_in_hand: false,
@@ -506,6 +509,7 @@ impl Match {
                 (players[0].cue.clone(), players[0].chalk.clone()),
                 (players[1].cue.clone(), players[1].chalk.clone()),
             ],
+            cue_levels: [players[0].cue_level, players[1].cue_level],
             effects: [players[0].effect.clone(), players[1].effect.clone()],
             win_effect: None,
             game,
@@ -1765,6 +1769,7 @@ mod tests {
             frame: String::new(),
             name_style: String::new(),
             effect: String::new(),
+            cue_level: 0,
             status_message: String::new(),
         };
         [p("me"), p("them")]

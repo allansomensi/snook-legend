@@ -268,6 +268,27 @@ pub struct Match {
     /// A game of the ladder: its rung and every stroke (the final game is
     /// sent to the server to claim the reward).
     pub ladder: Option<crate::ladder::LadderRun>,
+    /// An attempt at the daily challenge.
+    pub daily: Option<DailyRun>,
+}
+
+/// An attempt at the daily challenge: one visit to the table, every stroke
+/// kept for the server (which plays them again to count the balls).
+#[derive(Debug, Clone, PartialEq)]
+pub struct DailyRun {
+    pub day: i64,
+    /// Object balls on the table at the start.
+    pub balls: u32,
+    pub strokes: Vec<Shot>,
+    /// Balls made so far (as the game sees them; the server's count rules).
+    pub made: u32,
+    /// The visit is over: the strokes are to be sent.
+    pub over: bool,
+    /// Sent to the server.
+    pub sent: bool,
+    /// The server's answer (and the coins it gave).
+    pub result:
+        Option<(Result<snookered_proto::daily::Outcome, snookered_proto::daily::Refused>, i64)>,
 }
 
 /// State of a match played on a server.
@@ -417,8 +438,37 @@ impl Match {
             demo_timer: 0.0,
             opponent,
             ladder,
+            daily: None,
         };
         m.begin_turn();
+        m
+    }
+
+    /// An attempt at the daily challenge from the position of `seed`.
+    pub fn daily(day: i64, seed: u64, name: &str, guide: AimGuide) -> Match {
+        let settings = MatchSettings {
+            mode: MatchMode::HotSeat,
+            names: [name.to_string(), t("Daily challenge").to_string()],
+            guide,
+            shot_clock: None,
+            ladder: None,
+        };
+        let mut m = Match::new(&settings, seed);
+        m.game = snookered_proto::daily::game(seed);
+        m.daily = Some(DailyRun {
+            day,
+            balls: snookered_proto::daily::balls(seed),
+            strokes: Vec::new(),
+            made: 0,
+            over: false,
+            sent: false,
+            result: None,
+        });
+        m.begin_turn();
+        m.notify(
+            t("Make as many balls as you can in one visit: a miss or a foul ends the attempt."),
+            true,
+        );
         m
     }
 
@@ -613,6 +663,7 @@ impl Match {
             demo_timer: 0.0,
             opponent: None,
             ladder: None,
+            daily: None,
         };
         m.begin_turn();
         if let Some(o) = m.online.as_mut() {
@@ -647,7 +698,8 @@ impl Match {
     /// `guide` says; the full one is for games against the computer and
     /// practice.
     pub fn guide_in_use(&self) -> AimGuide {
-        if self.online.is_some() { self.guide.online() } else { self.guide }
+        // The daily challenge is ranked: the same rule.
+        if self.online.is_some() || self.daily.is_some() { self.guide.online() } else { self.guide }
     }
 
     pub fn is_online(&self) -> bool {
@@ -887,6 +939,9 @@ impl Match {
         let shot = self.forced_shot.take().unwrap_or_else(|| self.shot_from_aim());
         match self.game.prepare_shot(&shot, self.called_pocket) {
             Ok(pending) => {
+                if let Some(run) = self.daily.as_mut() {
+                    run.strokes.push(shot);
+                }
                 if let Some(run) = self.ladder.as_mut() {
                     let cue_ball =
                         self.game.ball_in_hand().map(|_| self.game.ball(BallId::CUE).xy());
@@ -1259,6 +1314,21 @@ impl Match {
     }
 
     fn after_shot(&mut self, report: &ShotReport) {
+        // The daily challenge: the visit ends at the first stroke that
+        // doesn't keep the table, or with the table clear.
+        if let Some(run) = self.daily.as_mut() {
+            let keeps = report.continues && report.game_over.is_none();
+            if keeps {
+                run.made +=
+                    report.pocketed.iter().filter(|(b, _)| *b != BallId::CUE).count() as u32;
+            }
+            if !keeps || run.made >= run.balls {
+                run.over = true;
+                self.last_report = Some(report.clone());
+                self.phase = Phase::GameOver;
+                return;
+            }
+        }
         if let Some(over) = report.game_over
             && over.reason == snookered_core::GameOverReason::PocketedEight
             && let Some((_, pocket)) =

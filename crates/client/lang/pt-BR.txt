@@ -1344,3 +1344,32 @@ straight in	reta
 {n}° cut	corte de {n}°
 off one cushion	com uma tabela
 off {n} cushions	com {n} tabelas
+Make as many balls as you can in one visit: a miss or a foul ends the attempt.	Encaçape o máximo de bolas em uma só vez na mesa: um erro ou uma falta encerra a tentativa.
+The same table for everyone, all day	A mesma mesa para todos, o dia inteiro
+{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	{n} tentativas por dia. Limpe a mesa e ganhe {coins} moedas; o vencedor do dia ganha um troféu.
+A new table in {h} h {m} min	Nova mesa em {h} h {m} min
+Sign in to take part: the server keeps the day's table.	Entre para participar: o servidor guarda a classificação do dia.
+Balls on today's table	Bolas na mesa de hoje
+Attempts left	Tentativas restantes
+{n} balls · #{rank}	{n} bolas · {rank}º
+{n} balls	{n} bolas
+not yet	ainda não
+Your best today	Seu melhor hoje
+No attempts left today: come back tomorrow.	Sem tentativas hoje: volte amanhã.
+The attempt could not be counted.	Não foi possível contar a tentativa.
+Setting up the table…	Preparando a mesa…
+Start an attempt	Começar uma tentativa
+Starting uses an attempt, even if you leave the table.	Começar gasta uma tentativa, mesmo se você sair da mesa.
+Loading today's table…	Carregando a mesa de hoje…
+Today's table	Classificação de hoje
+{n} players	{n} jogadores
+Nobody has played today's table yet. Be the first!	Ninguém jogou a mesa de hoje ainda. Seja o primeiro!
+Table cleared!	Mesa limpa!
+{n} of {total} balls	{n} de {total} bolas
+Sending your attempt to the server…	Enviando sua tentativa ao servidor…
+Counted: {n} balls · +{coins} coins	Contado: {n} bolas · +{coins} moedas
+Counted: {n} balls	Contado: {n} bolas
+See today's table	Ver a classificação
+Table cleared! +{n} coins	Mesa limpa! +{n} moedas
+Daily challenge: {n} of {total} balls made	Desafio do dia: {n} de {total} bolas encaçapadas
+1 player	1 jogador

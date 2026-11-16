@@ -58,6 +58,13 @@ fn open_default(url: &str) -> bool {
     Command::new(program).arg(url).spawn().is_ok()
 }
 
+/// Now, in Unix seconds.
+pub fn unix_now() -> i64 {
+    std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map_or(0, |d| d.as_secs() as i64)
+}
+
 #[cfg(test)]
 mod tests {
     #[test]

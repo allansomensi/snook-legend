@@ -465,6 +465,32 @@ async fn main() {
                 notifier.tell(&text);
             }
         }
+        // The daily challenge: an attempt the server started begins here
+        // (unless an online game has the table); its strokes go back once
+        // the visit is over, and the server's count comes to the table.
+        if let Some((day, seed)) = online.daily_started.take()
+            && !current.as_ref().is_some_and(|m| m.is_online())
+        {
+            let name =
+                online.me.as_ref().map_or(config.player_name.clone(), |me| me.username.clone());
+            online.daily_result = None;
+            current = Some(Match::daily(day, seed, &name, config.guide));
+            hud = Hud::new(config.show_help);
+            rig.reset();
+            screen = Screen::Versus(versus::Versus::new(versus::Tab::Daily, &config));
+        }
+        if let Some(run) = current.as_mut().and_then(|m| m.daily.as_mut()) {
+            if run.over && !run.sent {
+                run.sent = true;
+                online.send(snookered_proto::ClientMsg::DailySubmit {
+                    day: run.day,
+                    strokes: run.strokes.clone(),
+                });
+            }
+            if let Some(result) = online.daily_result.take() {
+                run.result = Some(result);
+            }
+        }
         // A stored game to watch again (from the profile).
         if let Some(replay) = online.replay.take()
             && !current.as_ref().is_some_and(|m| m.is_online())
@@ -798,6 +824,16 @@ async fn main() {
                             // from; from a game while waiting: to the lounge.
                             let replay = m.is_replay();
                             let practice = m.practice;
+                            // Left half way through a daily attempt: what was
+                            // made so far still counts.
+                            let daily = m.daily.is_some();
+                            if let Some(run) = m.daily.as_mut().filter(|r| !r.sent) {
+                                run.sent = true;
+                                online.send(snookered_proto::ClientMsg::DailySubmit {
+                                    day: run.day,
+                                    strokes: run.strokes.clone(),
+                                });
+                            }
                             // From a game against the computer: back to its
                             // screen (the ladder, after a ladder game).
                             let versus = m.is_against_computer().then(|| {
@@ -811,7 +847,10 @@ async fn main() {
                             current = None;
                             hud = Hud::new(config.show_help);
                             rig.reset();
-                            screen = if replay {
+                            screen = if daily {
+                                online.send(snookered_proto::ClientMsg::Daily);
+                                Screen::Versus(versus::Versus::new(versus::Tab::Daily, &config))
+                            } else if replay {
                                 Screen::Profile
                             } else if practice {
                                 Screen::Online

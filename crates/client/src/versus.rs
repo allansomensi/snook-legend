@@ -23,6 +23,8 @@ use crate::{MatchMode, MatchSettings};
 pub enum Tab {
     Free,
     Ladder,
+    /// The daily challenge.
+    Daily,
 }
 
 /// The card picked on the free game's grid.
@@ -50,6 +52,10 @@ pub struct Versus {
     ghost_focused: bool,
     /// A ghost to ask for once signed in.
     waiting: bool,
+    /// Today's challenge was asked for (the day it was asked).
+    daily_asked: Option<i64>,
+    /// "Start" was pressed: waiting for the server.
+    daily_starting: bool,
 }
 
 /// Text field ids.
@@ -73,6 +79,8 @@ impl Versus {
             ghost_name: String::new(),
             ghost_focused: false,
             waiting: false,
+            daily_asked: None,
+            daily_starting: false,
         }
     }
 
@@ -119,20 +127,22 @@ impl Versus {
                 "Ladder: {n} of {total} beaten",
                 &[("n", &progress.beaten), ("total", &ladder::RUNGS.len())],
             ),
+            Tab::Daily => t("The same table for everyone, all day").to_string(),
         };
         // The tabs at the top right; the title keeps clear of them.
-        let tab_w = 150.0f32.max(
-            ui.text_size(t("Free game"), 15.0, true).x.max(ui.text_size(t("Ladder"), 15.0, true).x)
-                + 28.0,
-        );
-        let tabs_x = r.x + r.w - PAD - 2.0 * tab_w - 8.0;
+        let labels = [t("Free game"), t("Ladder"), t("Daily challenge")];
+        let widest = labels.iter().map(|l| ui.text_size(l, 15.0, true).x).fold(0.0, f32::max);
+        let tab_w = (widest + 28.0).clamp(120.0, 150.0);
+        let tabs_x = r.x + r.w - PAD - 3.0 * tab_w - 16.0;
         if screen_header(ui, r, Icon::Robot, t("Against the computer"), Some(&subtitle))
             || (is_key_pressed(KeyCode::Escape) && ui.focus.is_none())
         {
             action = VersusAction::Back;
         }
         for (k, (tab, label)) in
-            [(Tab::Free, t("Free game")), (Tab::Ladder, t("Ladder"))].into_iter().enumerate()
+            [(Tab::Free, labels[0]), (Tab::Ladder, labels[1]), (Tab::Daily, labels[2])]
+                .into_iter()
+                .enumerate()
         {
             let tr = Rect::new(tabs_x + k as f32 * (tab_w + 8.0), r.y + 20.0, tab_w, 36.0);
             if ui.tab(tr, label, self.tab == tab) {
@@ -146,6 +156,7 @@ impl Versus {
         let inner = match self.tab {
             Tab::Free => self.free(ui, config, online, body),
             Tab::Ladder => self.ladder(ui, config, online, progress, claimer, body),
+            Tab::Daily => self.daily(ui, online, body),
         };
         if !matches!(inner, VersusAction::None) {
             action = inner;
@@ -762,6 +773,187 @@ impl Versus {
             Claim::Granted => {}
         }
         action
+    }
+}
+
+impl Versus {
+    // -----------------------------------------------------------------------
+    // The daily challenge.
+
+    fn daily(&mut self, ui: &mut Ui, online: &mut Online, body: Rect) -> VersusAction {
+        use snookered_proto::daily;
+        let mut action = VersusAction::None;
+        let today = daily::day_of(crate::util::unix_now());
+        if online.signed_in() && self.daily_asked != Some(today) {
+            self.daily_asked = Some(today);
+            online.send(snookered_proto::ClientMsg::Daily);
+        }
+        if online.daily_refused.is_some() {
+            self.daily_starting = false;
+        }
+        let left_w = (body.w * 0.46).floor();
+        let left = Rect::new(body.x, body.y, left_w, body.h);
+        let right = Rect::new(body.x + left_w + 24.0, body.y, body.w - left_w - 24.0, body.h);
+        let x = left.x + 4.0;
+        let w = left.w - 8.0;
+        let mut y = left.y + 6.0;
+        let say = |ui: &Ui, text: &str, size: f32, color: Color, y: &mut f32| {
+            for l in ui.wrap(text, w, size) {
+                ui.text(&l, x, *y, size, color, false);
+                *y += size + 5.0;
+            }
+        };
+        ui.text(t("Daily challenge"), x, y, 20.0, GOLD, true);
+        y += 32.0;
+        say(
+            ui,
+            t("Make as many balls as you can in one visit: a miss or a foul ends the attempt."),
+            14.0,
+            CREAM,
+            &mut y,
+        );
+        y += 4.0;
+        say(
+            ui,
+            &tw(
+                "{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.",
+                &[("n", &daily::ATTEMPTS), ("coins", &daily::CLEAR_COINS)],
+            ),
+            13.0,
+            MUTED,
+            &mut y,
+        );
+        // Until the next table (UTC midnight).
+        let left_secs = 86_400 - crate::util::unix_now().rem_euclid(86_400);
+        let next = tw(
+            "A new table in {h} h {m} min",
+            &[("h", &(left_secs / 3600)), ("m", &(left_secs % 3600 / 60))],
+        );
+        say(ui, &next, 13.0, MUTED, &mut y);
+        y += 10.0;
+        if !online.signed_in() {
+            say(
+                ui,
+                t("Sign in to take part: the server keeps the day's table."),
+                14.0,
+                CREAM,
+                &mut y,
+            );
+            if ui.button(Rect::new(x, y + 4.0, 140.0, 34.0), t("Sign in"), true) {
+                action = VersusAction::SignIn;
+            }
+        } else if let Some(info) = online.daily.clone().filter(|i| i.day == today) {
+            let stat = |ui: &Ui, label: &str, value: &str, y: &mut f32| {
+                ui.text(label, x, *y, 13.0, MUTED, false);
+                let vw = ui.text_size(value, 15.0, true).x;
+                ui.text(value, x + w - vw, *y - 1.0, 15.0, CREAM, true);
+                *y += 24.0;
+            };
+            stat(ui, t("Balls on today's table"), &info.balls.to_string(), &mut y);
+            let left = format!("{} / {}", info.attempts_left, daily::ATTEMPTS);
+            stat(ui, t("Attempts left"), &left, &mut y);
+            let best = match (info.best, info.rank) {
+                (Some(b), Some(r)) => tw("{n} balls · #{rank}", &[("n", &b), ("rank", &r)]),
+                (Some(b), None) => tw("{n} balls", &[("n", &b)]),
+                _ => t("not yet").to_string(),
+            };
+            stat(ui, t("Your best today"), &best, &mut y);
+            y += 8.0;
+            if let Some(refused) = online.daily_refused {
+                let text = match refused {
+                    daily::Refused::NoAttemptsLeft => {
+                        t("No attempts left today: come back tomorrow.")
+                    }
+                    _ => t("The attempt could not be counted."),
+                };
+                say(ui, text, 13.0, ALERT, &mut y);
+            }
+            let b = Rect::new(x, y + 4.0, w.min(240.0), 40.0);
+            if self.daily_starting {
+                crate::ui::spinner(vec2(b.x + 12.0, b.y + 20.0), 8.0, GOLD);
+                ui.text(t("Setting up the table…"), b.x + 30.0, b.y + 12.0, 14.0, MUTED, false);
+            } else if info.attempts_left > 0 {
+                if ui.primary_button(b, t("Start an attempt")) {
+                    self.daily_starting = true;
+                    online.daily_refused = None;
+                    online.send(snookered_proto::ClientMsg::DailyStart);
+                }
+                y = b.y + b.h + 8.0;
+                say(
+                    ui,
+                    t("Starting uses an attempt, even if you leave the table."),
+                    12.0,
+                    MUTED,
+                    &mut y,
+                );
+            } else {
+                say(ui, t("No attempts left today: come back tomorrow."), 14.0, CREAM, &mut y);
+            }
+            self.daily_board(ui, &info, online, right);
+        } else {
+            crate::ui::spinner(vec2(x + 10.0, y + 8.0), 8.0, GOLD);
+            ui.text(t("Loading today's table…"), x + 26.0, y, 14.0, MUTED, false);
+        }
+        action
+    }
+
+    /// The day's leaders.
+    fn daily_board(
+        &self,
+        ui: &mut Ui,
+        info: &snookered_proto::daily::Info,
+        online: &Online,
+        r: Rect,
+    ) {
+        rrect(r, 8.0, Color::new(1.0, 1.0, 1.0, 0.03));
+        let x = r.x + 14.0;
+        let w = r.w - 28.0;
+        ui.text(t("Today's table"), x, r.y + 12.0, 16.0, GOLD, true);
+        let players = if info.players == 1 {
+            t("1 player").to_string()
+        } else {
+            tw("{n} players", &[("n", &info.players)])
+        };
+        let pw = ui.text_size(&players, 12.0, false).x;
+        ui.text(&players, x + w - pw, r.y + 15.0, 12.0, MUTED, false);
+        if info.board.is_empty() {
+            let text = t("Nobody has played today's table yet. Be the first!");
+            let mut y = r.y + 52.0;
+            for l in ui.wrap(text, w, 14.0) {
+                ui.text(&l, x, y, 14.0, MUTED, false);
+                y += 19.0;
+            }
+            return;
+        }
+        let row_h = 28.0;
+        let rows = (((r.h - 52.0) / row_h).floor().max(1.0)) as usize;
+        let me = online.me.as_ref().map(|m| m.username.as_str()).unwrap_or("");
+        for (k, e) in info.board.iter().take(rows).enumerate() {
+            let y = r.y + 44.0 + k as f32 * row_h;
+            let mine = e.username.eq_ignore_ascii_case(me);
+            if mine {
+                rrect(
+                    Rect::new(r.x + 6.0, y - 2.0, r.w - 12.0, row_h - 2.0),
+                    6.0,
+                    Color::new(GOLD.r, GOLD.g, GOLD.b, 0.12),
+                );
+            }
+            let place = format!("{}.", k + 1);
+            let color = if k == 0 { GOLD } else { CREAM };
+            ui.text(&place, x, y + 4.0, 14.0, color, true);
+            let balls = tw("{n} balls", &[("n", &e.balls)]);
+            let bw = ui.text_size(&balls, 14.0, true).x;
+            ui.text(&balls, x + w - bw, y + 4.0, 14.0, color, true);
+            ui.name_with_flag(
+                &e.username,
+                &e.country,
+                CREAM,
+                x + 34.0,
+                y + 4.0,
+                14.0,
+                w - 34.0 - bw - 12.0,
+            );
+        }
     }
 }
 

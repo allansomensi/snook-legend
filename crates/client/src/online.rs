@@ -247,6 +247,15 @@ pub struct Online {
     pub ladder_claim: Option<snookered_proto::ladder::ClaimResult>,
     /// The style asked for a ghost opponent, and the answer once it came.
     pub ghost: Option<GhostRequest>,
+    /// Today's challenge (asked for by the challenge's tab).
+    pub daily: Option<snookered_proto::daily::Info>,
+    /// An attempt the server started: (day, seed), for the game to set up.
+    pub daily_started: Option<(i64, u64)>,
+    /// The server's answer to the attempt sent, and its coins.
+    pub daily_result:
+        Option<(Result<snookered_proto::daily::Outcome, snookered_proto::daily::Refused>, i64)>,
+    /// Why the last start was refused.
+    pub daily_refused: Option<snookered_proto::daily::Refused>,
 }
 
 /// A request for the style of a player's ghost.
@@ -495,6 +504,10 @@ impl Online {
             gifts: Default::default(),
             ladder_claim: None,
             ghost: None,
+            daily: None,
+            daily_started: None,
+            daily_result: None,
+            daily_refused: None,
         }
     }
 
@@ -1122,6 +1135,21 @@ impl Online {
                 self.toast(crate::i18n::server_text(&reason), false);
             }
             ServerMsg::LadderClaim { result } => self.ladder_claim = Some(result),
+            ServerMsg::Daily { info } => self.daily = Some(info),
+            ServerMsg::DailyStarted { day, seed } => {
+                self.daily_refused = None;
+                self.daily_started = Some((day, seed));
+            }
+            ServerMsg::DailyResult { result: Err(e), .. } if current.is_none() => {
+                // Refused before an attempt began (none left, the day over).
+                self.daily_refused = Some(e);
+            }
+            ServerMsg::DailyResult { result, coins, .. } => {
+                if result.is_ok() && coins > 0 {
+                    self.toast(tw("Table cleared! +{n} coins", &[("n", &coins)]), true);
+                }
+                self.daily_result = Some((result, coins));
+            }
             ServerMsg::GhostStyle { username, answer } => {
                 if let Some(g) =
                     self.ghost.as_mut().filter(|g| g.username.eq_ignore_ascii_case(&username))

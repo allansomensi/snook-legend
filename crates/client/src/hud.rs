@@ -304,6 +304,13 @@ fn status_line(m: &Match) -> Option<String> {
                     &[("name", name)],
                 ));
             }
+            // The daily challenge: how far the visit is.
+            if let Some(run) = &m.daily {
+                return Some(tw(
+                    "Daily challenge: {n} of {total} balls made",
+                    &[("n", &run.made), ("total", &run.balls)],
+                ));
+            }
             let target = match m.game.group_of(m.game.current_player()) {
                 Some(Group::Solids) => t("solids"),
                 Some(Group::Stripes) => t("stripes"),
@@ -496,6 +503,40 @@ impl Hud {
                 self.draw_chat(ui, m);
             } else if !m.is_online() || corr {
                 self.draw_history(ui, m);
+            }
+        }
+
+        // The daily challenge's visit is over.
+        if let (Phase::GameOver, Some(run)) = (&m.phase, &m.daily) {
+            let w = 440.0f32.min(sw - 20.0);
+            let r = Rect::new((sw - w) / 2.0, sh / 2.0 - 110.0, w, 220.0);
+            ui.panel(r);
+            let cleared = run.made >= run.balls;
+            crate::ui::rrect_lines(r, 8.0, 2.0, if cleared { GOLD } else { BORDER });
+            let title = if cleared { t("Table cleared!") } else { t("Daily challenge") };
+            ui.text_centered(title, sw / 2.0, r.y + 16.0, 28.0, GOLD, true);
+            let made = tw("{n} of {total} balls", &[("n", &run.made), ("total", &run.balls)]);
+            ui.text_centered(&made, sw / 2.0, r.y + 60.0, 22.0, CREAM, true);
+            let (line, color) = match &run.result {
+                None => (t("Sending your attempt to the server…").to_string(), MUTED),
+                Some((Ok(o), coins)) if *coins > 0 => (
+                    tw("Counted: {n} balls · +{coins} coins", &[("n", &o.balls), ("coins", coins)]),
+                    GOLD,
+                ),
+                Some((Ok(o), _)) => (tw("Counted: {n} balls", &[("n", &o.balls)]), CREAM),
+                Some((Err(_), _)) => (t("The attempt could not be counted.").to_string(), ALERT),
+            };
+            if run.result.is_none() {
+                crate::ui::spinner(
+                    vec2(sw / 2.0 - ui.text_size(&line, 14.0, false).x / 2.0 - 16.0, r.y + 108.0),
+                    7.0,
+                    GOLD,
+                );
+            }
+            ui.text_centered(&line, sw / 2.0, r.y + 100.0, 14.0, color, false);
+            let b = Rect::new(sw / 2.0 - 110.0, r.y + 160.0, 220.0, 40.0);
+            if ui.primary_button(b, t("See today's table")) {
+                action = HudAction::MainMenu;
             }
         }
 

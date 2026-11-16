@@ -21,6 +21,15 @@
   how many played), the computer ladder and the days topped in the daily
   challenge, newest first, with the date.
 
+### Daily challenge
+- A new tab on the "Against the computer" screen: the same table for
+  everyone, all day (UTC), with five to seven balls. Make as many as you can
+  in one visit; a miss or a foul ends the attempt. Three attempts a day,
+  the day's table (ties go to who made it first), 25 coins for clearing the
+  table and a trophy for the day's winner. The position stays secret until
+  an attempt starts, and the server plays the strokes again to count the
+  balls; the full aiming guide is never shown (it's ranked).
+
 ### Watching
 - Spectators see how hard the shot being lined up is, once the shooter's
   aim settles: easy to very hard, the chance a good player makes it

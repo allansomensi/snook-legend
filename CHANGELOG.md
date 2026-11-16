@@ -37,6 +37,12 @@
   days of sign-ups that reached that day), a table of retention by week of
   sign-up, players and games by day (30 days) and games per day.
 
+### Fixes
+- Letting go of the power bar over the Shoot button no longer shoots (at
+  full power, as the drag past the bar's end had set it). Every button now
+  needs the press to start on it: a drag (the power, the spin, the aim)
+  that ends over a button never clicks it.
+
 ### Releases
 - The Microsoft Store workflow only builds the MSIX (the `msix` artifact);
   the package goes to the Store by hand in Partner Center.

@@ -1117,7 +1117,7 @@ impl Hud {
         if hover && !self.reactions_open {
             ui.tooltip(t("Reactions"), b);
         }
-        let clicked_button = hover && is_mouse_button_released(MouseButton::Left);
+        let clicked_button = hover && ui.released_in(b);
         if !self.reactions_open {
             if clicked_button {
                 self.reactions_open = true;
@@ -1164,7 +1164,7 @@ impl Hud {
                     if hover { 32.0 } else { 28.0 },
                     crate::paint::opacity(),
                 );
-                if hover && is_mouse_button_released(MouseButton::Left) {
+                if hover && ui.released_in(c) {
                     chosen = Some(r.code);
                 }
             } else {
@@ -2232,7 +2232,8 @@ fn shoot_button(ui: &mut Ui, r: Rect, enabled: bool) -> bool {
         br * 0.32,
         Color::new(1.0, 1.0, 1.0, 0.85 * a),
     );
-    let clicked = enabled && hover && is_mouse_button_released(MouseButton::Left);
+    // Pressed on the button too: a power drag let go over it is no shot.
+    let clicked = enabled && hover && ui.released_in(r);
     if hover {
         ui.overlay(move |ui| {
             let label = t("Shoot!");

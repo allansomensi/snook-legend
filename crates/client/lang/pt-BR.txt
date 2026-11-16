@@ -1080,7 +1080,6 @@ By distance	Por distância
 Short (under 0.75 m)	Curta (até 0,75 m)
 Medium (to 1.5 m)	Média (até 1,5 m)
 Long (over 1.5 m)	Longa (mais de 1,5 m)
-Safeties	Defesas
 left the opponent nothing	deixaram o adversário sem nada
 Breaks	Saídas
 made a ball	encaçaparam uma bola

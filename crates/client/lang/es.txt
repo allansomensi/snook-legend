@@ -1080,7 +1080,6 @@ By distance	Por distancia
 Short (under 0.75 m)	Corta (hasta 0,75 m)
 Medium (to 1.5 m)	Media (hasta 1,5 m)
 Long (over 1.5 m)	Larga (más de 1,5 m)
-Safeties	Defensas
 left the opponent nothing	dejaron al rival sin nada
 Breaks	Saques
 made a ball	embocaron una bola

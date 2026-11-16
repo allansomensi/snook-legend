@@ -55,10 +55,15 @@ which every desktop installation has. How releases are made is described in
   groups), groups, fouls (including "no cushion after contact"), ball in
   hand, a called pocket for the 8 that is binding once made. Every rule has
   its own test, and 60 random games are checked after every shot.
-- **Computer opponent** with three levels. It plays with the same physics and rules:
-  it simulates candidate shots and scores the outcome. Harder levels plan cue-ball
-  position, play safeties and aim more accurately. Games against it never
-  touch ratings, achievements or the shop.
+- **Computer opponents**: ten named opponents with their own portraits and
+  styles (cautious, all-out attack, bank artist, positional…) over three skill
+  levels. They play with the same physics and rules: they simulate candidate
+  shots and score the outcome. **The ladder** takes you through all ten, and
+  its final win (checked by the server, stroke by stroke) earns an exclusive
+  cue. **Ghosts** play in the measured style of a real player. Games against
+  the computer never touch ratings or coins.
+- **Daily games**: correspondence games with up to 72 hours per turn, live
+  notices and desktop notifications, several at once, rated or casual.
 - **Online lounge**: accounts with a country flag, players online with names
   coloured by rating tier, lounge chat, **Play now** (a queue that pairs
   players by rating, widening with time), invitations to **rated** or
@@ -76,16 +81,23 @@ which every desktop installation has. How releases are made is described in
   prediction of the deterministic physics), the opponent's as soon as the
   server announces it; the server's result is authoritative.
 - **Profiles and progress**: rating, tier and how far the next one is, world
-  rank, numbers, match history with rating changes, **37 achievements**, the
+  rank, numbers, match history with rating changes, **38 achievements**, an **analysis** of how you pot (by pocket, distance and kind of shot, with a heat map),, the
   reactions collected and the **world top 100**. Ratings move slowly (Elo,
   K 24 for the first 10 games, then 14, 8 from 1900).
 - **End-of-game numbers**: potting success, balls made, best run, fouls and
   how often each player had ball in hand.
+- **Social**: recent opponents, a status message on the profile, a
+  "looking for a game" board in the lounge, and gifts that arrive with a
+  message and a thank-you.
 - **The shop**: cloth colours, cues, chalk and ball sets, shown on the table
   (opponents see your cue and chalk). Some are free, some come with
   achievements, some cost coins, some are for **VIP** members. Coins and the
   monthly VIP are paid through Stripe (card, Pix, boleto) on its hosted page;
   the server keeps the only wallet and credits every payment exactly once.
+- **Cues that level up** with the online games you win with them, and
+  **themed tables and halls** (beach bar, industrial loft, English club…).
+- **Configurable shortcuts** and **automatic updates** (checked against their
+  SHA-256, installed on restart) with a "What's new" window.
 - **Local network**: host a game from the game itself (no server needed);
   others find it automatically or join by address.
 - **Replay** of the last shot, a discreet **zoom bar**, a read-only game

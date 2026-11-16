@@ -9,6 +9,7 @@
 //! bit-identical on every machine.
 
 mod achievements;
+pub mod analysis;
 mod countries;
 pub mod missions;
 mod reactions;
@@ -118,7 +119,7 @@ pub const SPECTATOR_SEAT: usize = 2;
 pub const GAME_NAME: &str = "Snookered";
 
 /// Bumped whenever messages change incompatibly.
-pub const PROTOCOL_VERSION: u32 = 12;
+pub const PROTOCOL_VERSION: u32 = 13;
 
 /// The oldest version the server still lets in. Version 12 only added
 /// messages and fields, which older games ignore, so 0.1.2 (version 11)
@@ -602,6 +603,10 @@ pub struct Profile {
     /// Share of rated and casual games left unfinished, 0..=100.
     #[serde(default)]
     pub abandon_rate: u32,
+    /// How this player pots (pockets, distances, kinds of shot, the table).
+    /// Only sent to games of protocol 13 or later.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub analysis: Option<Box<analysis::ShotAnalysis>>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -613,6 +618,10 @@ pub struct FriendInfo {
     #[serde(default)]
     pub last_seen: i64,
 }
+
+/// A report goes with the game being played between the two players or,
+/// failing that, their latest game that ended this long ago at most (seconds).
+pub const REPORT_GAME_WINDOW_SECS: i64 = 24 * 60 * 60;
 
 /// What a player may report another for.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]

@@ -11,7 +11,9 @@ use super::{
     AimRow, AuditRow, BoardNote, BuyOutcome, FriendOutcome, FriendState, HistoryRow, LedgerRow,
     LiveMatch, MatchRecord, Metrics, NewNote, NewReport, NewUser, Overview, Payment, ReportRow,
     SessionKind, StoreError, StoreResult, StoredReplay, TournamentRecord, User, Wallet, day_of,
+    hour_of,
 };
+use snookered_proto::analysis::ShotAnalysis;
 
 fn replay_json(r: &Replay) -> String {
     serde_json::to_string(&r.strokes).unwrap_or_else(|_| "[]".into())
@@ -567,12 +569,53 @@ impl PgStore {
         .iter()
         .map(|r| (r.get("currency"), r.get("cents"), r.get("n")))
         .collect();
+        let revenue_days = query(
+            "SELECT at / 86400 AS day, currency, SUM(amount)::bigint AS cents, COUNT(*) AS n
+             FROM payments WHERE NOT refunded AND NOT test AND at > $1
+             GROUP BY day, currency ORDER BY day, currency",
+        )
+        .bind(now - 30 * 86_400)
+        .fetch_all(&self.pool)
+        .await?
+        .iter()
+        .map(|r| (r.get("day"), r.get("currency"), r.get("cents"), r.get("n")))
+        .collect();
+        let this_hour = hour_of(now);
+        let hours = query(
+            "SELECT h.hour,
+                (SELECT COUNT(*) FROM active_hours a WHERE a.hour = h.hour) AS active,
+                COALESCE(o.peak_players, 0)::bigint AS peak_players,
+                COALESCE(o.peak_games, 0)::bigint AS peak_games,
+                CASE WHEN COALESCE(o.samples, 0) > 0
+                     THEN o.player_sum::float8 / o.samples ELSE 0 END AS avg_players,
+                (SELECT COUNT(*) FROM matches m
+                  WHERE m.ended_at >= h.hour * 3600 AND m.ended_at < (h.hour + 1) * 3600) AS games
+             FROM generate_series($1::bigint, $2::bigint) AS h(hour)
+             LEFT JOIN online_hours o ON o.hour = h.hour
+             ORDER BY h.hour",
+        )
+        .bind(this_hour - 47)
+        .bind(this_hour)
+        .fetch_all(&self.pool)
+        .await?
+        .iter()
+        .map(|r| super::HourRow {
+            hour: r.get("hour"),
+            active: r.get("active"),
+            peak_players: r.get("peak_players"),
+            peak_games: r.get("peak_games"),
+            avg_players: r.get("avg_players"),
+            games: r.get("games"),
+        })
+        .collect();
         Ok(Metrics {
             days,
             retention_d1,
             retention_d7,
             funnel: [f.get("created"), f.get("one"), f.get("five")],
             revenue,
+            hours,
+            revenue_days,
         })
     }
 
@@ -1131,10 +1174,16 @@ impl PgStore {
         Ok(rows.iter().map(user).collect::<Result<_, _>>()?)
     }
 
-    pub async fn create_report(&self, r: &NewReport) -> StoreResult<()> {
-        query(
-            "INSERT INTO reports (reporter_id, target_id, reason, details, context, created_at)
-             VALUES ($1, $2, $3, $4, $5, $6)",
+    pub async fn create_report_with_game(
+        &self,
+        r: &NewReport,
+        match_id: Option<i64>,
+        live_id: Option<i64>,
+    ) -> StoreResult<i64> {
+        let id = query(
+            "INSERT INTO reports (reporter_id, target_id, reason, details, context, created_at, match_id, live_id)
+             VALUES ($1, $2, $3, $4, $5, $6, (SELECT id FROM matches WHERE id = $7), $8)
+             RETURNING id",
         )
         .bind(r.reporter)
         .bind(r.target)
@@ -1142,9 +1191,146 @@ impl PgStore {
         .bind(&r.details)
         .bind(&r.context)
         .bind(r.at)
+        .bind(match_id)
+        .bind(live_id)
+        .fetch_one(&self.pool)
+        .await?
+        .get("id");
+        Ok(id)
+    }
+
+    pub async fn report(&self, id: i64) -> StoreResult<Option<ReportRow>> {
+        let row = query(&format!("{} WHERE r.id = $1", Self::REPORT_SELECT))
+            .bind(id)
+            .fetch_optional(&self.pool)
+            .await?;
+        Ok(row.as_ref().map(Self::report_row).transpose()?)
+    }
+
+    pub async fn set_report_match(&self, id: i64, match_id: i64) -> StoreResult<()> {
+        query(
+            "UPDATE reports SET match_id = $2 WHERE id = $1 AND EXISTS (SELECT 1 FROM matches WHERE id = $2)",
+        )
+        .bind(id)
+        .bind(match_id)
         .execute(&self.pool)
         .await?;
         Ok(())
+    }
+
+    pub async fn matches_between(
+        &self,
+        a: i64,
+        b: i64,
+        from: i64,
+        to: i64,
+        limit: u32,
+    ) -> StoreResult<Vec<(i64, i64)>> {
+        let rows = query(
+            "SELECT id, ended_at FROM matches
+             WHERE LEAST(player0, player1) = LEAST($1::bigint, $2::bigint)
+               AND GREATEST(player0, player1) = GREATEST($1::bigint, $2::bigint)
+               AND ended_at BETWEEN $3 AND $4 AND strokes IS NOT NULL
+             ORDER BY ended_at DESC, id DESC LIMIT $5",
+        )
+        .bind(a)
+        .bind(b)
+        .bind(from)
+        .bind(to)
+        .bind(limit as i64)
+        .fetch_all(&self.pool)
+        .await?;
+        Ok(rows.iter().map(|r| (r.get("id"), r.get("ended_at"))).collect())
+    }
+
+    pub async fn add_shot_analysis(
+        &self,
+        user_id: i64,
+        analysis: &ShotAnalysis,
+    ) -> StoreResult<()> {
+        let rows = analysis.rows();
+        if rows.is_empty() {
+            return Ok(());
+        }
+        let kinds: Vec<i16> = rows.iter().map(|r| r.0).collect();
+        let keys: Vec<i16> = rows.iter().map(|r| r.1).collect();
+        let attempts: Vec<i32> = rows.iter().map(|r| r.2.min(i32::MAX as u32) as i32).collect();
+        let made: Vec<i32> = rows.iter().map(|r| r.3.min(i32::MAX as u32) as i32).collect();
+        query(
+            "INSERT INTO shot_analysis (user_id, kind, key, attempts, made)
+             SELECT $1, k, y, a, m FROM UNNEST($2::smallint[], $3::smallint[], $4::int[], $5::int[]) AS t(k, y, a, m)
+             ON CONFLICT (user_id, kind, key) DO UPDATE SET
+                attempts = shot_analysis.attempts + EXCLUDED.attempts,
+                made = shot_analysis.made + EXCLUDED.made",
+        )
+        .bind(user_id)
+        .bind(&kinds)
+        .bind(&keys)
+        .bind(&attempts)
+        .bind(&made)
+        .execute(&self.pool)
+        .await?;
+        Ok(())
+    }
+
+    pub async fn shot_analysis(&self, user_id: i64) -> StoreResult<ShotAnalysis> {
+        let rows = query("SELECT kind, key, attempts, made FROM shot_analysis WHERE user_id = $1")
+            .bind(user_id)
+            .fetch_all(&self.pool)
+            .await?;
+        Ok(ShotAnalysis::from_rows(rows.iter().map(|r| {
+            (
+                r.get::<i16, _>("kind"),
+                r.get::<i16, _>("key"),
+                r.get::<i32, _>("attempts").max(0) as u32,
+                r.get::<i32, _>("made").max(0) as u32,
+            )
+        })))
+    }
+
+    pub async fn sample_online(
+        &self,
+        hour: i64,
+        users: &[i64],
+        players: u32,
+        games: u32,
+    ) -> StoreResult<()> {
+        let mut tx = self.pool.begin().await?;
+        query(
+            "INSERT INTO online_hours (hour, peak_players, peak_games, samples, player_sum)
+             VALUES ($1, $2, $3, 1, $2)
+             ON CONFLICT (hour) DO UPDATE SET
+                peak_players = GREATEST(online_hours.peak_players, EXCLUDED.peak_players),
+                peak_games = GREATEST(online_hours.peak_games, EXCLUDED.peak_games),
+                samples = online_hours.samples + 1,
+                player_sum = online_hours.player_sum + EXCLUDED.player_sum",
+        )
+        .bind(hour)
+        .bind(players as i32)
+        .bind(games as i32)
+        .execute(&mut *tx)
+        .await?;
+        if !users.is_empty() {
+            query(
+                "INSERT INTO active_hours (hour, user_id)
+                 SELECT $1, u.id FROM users u WHERE u.id = ANY($2)
+                 ON CONFLICT DO NOTHING",
+            )
+            .bind(hour)
+            .bind(users)
+            .execute(&mut *tx)
+            .await?;
+        }
+        tx.commit().await?;
+        Ok(())
+    }
+
+    pub async fn purge_active_hours(&self, hour: i64) -> StoreResult<u64> {
+        let r = query("DELETE FROM active_hours WHERE hour < $1")
+            .bind(hour)
+            .execute(&self.pool)
+            .await?;
+        Ok(r.rows_affected())
     }
 
     pub async fn record_tournament(&self, t: &TournamentRecord) -> StoreResult<()> {
@@ -1276,7 +1462,7 @@ impl PgStore {
         Ok(())
     }
 
-    fn report(r: &PgRow) -> Result<ReportRow, sqlx::Error> {
+    fn report_row(r: &PgRow) -> Result<ReportRow, sqlx::Error> {
         Ok(ReportRow {
             id: r.try_get("id")?,
             reporter: r.try_get("reporter")?,
@@ -1288,12 +1474,17 @@ impl PgStore {
             created_at: r.try_get("created_at")?,
             resolved_by: r.try_get("resolver")?,
             resolution: r.try_get("resolution")?,
+            reporter_id: r.try_get("reporter_id")?,
+            target_id: r.try_get("target_id")?,
+            match_id: r.try_get("match_id")?,
+            live_id: r.try_get("live_id")?,
         })
     }
 
     const REPORT_SELECT: &str =
         "SELECT r.id, a.username AS reporter, t.username AS target, r.reason, r.details,
-            r.context, r.status, r.created_at, s.username AS resolver, r.resolution
+            r.context, r.status, r.created_at, s.username AS resolver, r.resolution,
+            r.reporter_id, r.target_id, r.match_id, r.live_id
          FROM reports r JOIN users a ON a.id = r.reporter_id JOIN users t ON t.id = r.target_id
          LEFT JOIN users s ON s.id = r.resolved_by";
 
@@ -1306,7 +1497,7 @@ impl PgStore {
         .bind(limit as i64)
         .fetch_all(&self.pool)
         .await?;
-        Ok(rows.iter().map(Self::report).collect::<Result<_, _>>()?)
+        Ok(rows.iter().map(Self::report_row).collect::<Result<_, _>>()?)
     }
 
     pub async fn reports_about(&self, user_id: i64, limit: u32) -> StoreResult<Vec<ReportRow>> {
@@ -1318,7 +1509,7 @@ impl PgStore {
         .bind(limit as i64)
         .fetch_all(&self.pool)
         .await?;
-        Ok(rows.iter().map(Self::report).collect::<Result<_, _>>()?)
+        Ok(rows.iter().map(Self::report_row).collect::<Result<_, _>>()?)
     }
 
     pub async fn resolve_report(

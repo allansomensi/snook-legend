@@ -395,9 +395,34 @@ async fn exercise(store: Store) {
     assert!(!store.remove_board_note(first).await.unwrap());
 }
 
+/// Retention, on a store of its own (the accounts are created now).
+async fn retention(store: Store) {
+    let now = std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_secs()
+        as i64;
+    let a = store.create_user(&new_user("ret_a")).await.unwrap().unwrap();
+    let b = store.create_user(&new_user("ret_b")).await.unwrap().unwrap();
+    let d = day_of(a.created_at);
+    store.mark_active(a.id, d + 1).await.unwrap();
+    store.mark_active(b.id, d + 7).await.unwrap();
+    store.mark_active(a.id, d + 30).await.unwrap();
+    let day = 86_400;
+    // Two days later: one of the two came back the next day; day 7 hasn't come.
+    let m = store.metrics(now + 2 * day).await.unwrap();
+    assert_eq!((m.retention_d1, m.retention_d7, m.retention_d30), (50.0, 0.0, 0.0));
+    let week = m.cohorts.iter().find(|c| c.accounts > 0).expect("their week");
+    assert_eq!((week.accounts, week.d1, week.d7, week.d30), (2, Some(50.0), None, None));
+    assert_eq!(m.cohorts.len() as i64, snookered_server::store::COHORT_WEEKS);
+    // A month later: all three measured.
+    let m = store.metrics(now + 31 * day).await.unwrap();
+    assert_eq!((m.retention_d7, m.retention_d30), (50.0, 50.0));
+    let week = m.cohorts.iter().find(|c| c.accounts > 0).expect("their week");
+    assert_eq!((week.d1, week.d7, week.d30), (Some(50.0), Some(50.0), Some(50.0)));
+}
+
 #[tokio::test]
 async fn memory_store() {
     exercise(Store::memory()).await;
+    retention(Store::memory()).await;
 }
 
 #[tokio::test]
@@ -413,4 +438,10 @@ async fn postgres_store() {
         pool.execute("DROP SCHEMA public CASCADE; CREATE SCHEMA public;").await.unwrap();
     }
     exercise(Store::postgres(&url, 3).await.unwrap()).await;
+    {
+        use sqlx::Executor;
+        let pool = sqlx::PgPool::connect(&url).await.unwrap();
+        pool.execute("DROP SCHEMA public CASCADE; CREATE SCHEMA public;").await.unwrap();
+    }
+    retention(Store::postgres(&url, 3).await.unwrap()).await;
 }

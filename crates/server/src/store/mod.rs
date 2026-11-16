@@ -208,10 +208,15 @@ pub struct AimRow {
 pub struct Metrics {
     /// (day, active players, matches, new accounts), oldest first.
     pub days: Vec<(i64, i64, i64, i64)>,
-    /// Players active on day N who came back on day N+1 / N+7 (percent),
-    /// over the accounts created in the last 30 days.
+    /// Accounts that came back 1 / 7 / 30 days after the day they were
+    /// created (percent), over the accounts of the last 30 days for which
+    /// that day has come.
     pub retention_d1: f64,
     pub retention_d7: f64,
+    pub retention_d30: f64,
+    /// The same, week by week of sign-ups (the last [`COHORT_WEEKS`]),
+    /// newest first.
+    pub cohorts: Vec<Cohort>,
     /// Accounts created in the last 30 days, and how many played 1 and 5 games.
     pub funnel: [i64; 3],
     /// Payments in the last 30 days by currency: (currency, cents, count).
@@ -221,6 +226,27 @@ pub struct Metrics {
     /// Payments of the last 30 days by day and currency: (day, currency,
     /// cents, count), oldest first.
     pub revenue_days: Vec<(i64, String, i64, i64)>,
+}
+
+/// How many weeks of sign-ups the metrics follow.
+pub const COHORT_WEEKS: i64 = 8;
+
+/// The accounts created in one week and how many came back.
+#[derive(Debug, Clone, Default, PartialEq, serde::Serialize)]
+pub struct Cohort {
+    /// The week's first day (Unix days).
+    pub first_day: i64,
+    pub accounts: i64,
+    /// Percent back 1, 7 and 30 days after their first day (None: no
+    /// account of the week has reached that day yet).
+    pub d1: Option<f64>,
+    pub d7: Option<f64>,
+    pub d30: Option<f64>,
+}
+
+/// Percent of `came` in `eligible` (None without any).
+pub fn percent(came: i64, eligible: i64) -> Option<f64> {
+    (eligible > 0).then(|| came as f64 * 100.0 / eligible as f64)
 }
 
 /// One hour of activity (`hour` is Unix seconds / 3600).

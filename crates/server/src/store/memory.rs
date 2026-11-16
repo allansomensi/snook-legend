@@ -525,15 +525,40 @@ impl MemoryStore {
             .collect();
         let recent: Vec<&User> =
             s.users.values().filter(|u| day_of(u.created_at) >= today - 30).collect();
-        let back = |after: i64| {
-            let eligible: Vec<&&User> =
-                recent.iter().filter(|u| day_of(u.created_at) + after <= today).collect();
+        // Accounts created from `from` to `to` (days) that came back
+        // `after` days later, among those for which that day has come.
+        let back_between = |from: i64, to: i64, after: i64| {
+            let eligible: Vec<&User> = s
+                .users
+                .values()
+                .filter(|u| (from..=to).contains(&day_of(u.created_at)))
+                .filter(|u| day_of(u.created_at) + after <= today)
+                .collect();
             let came = eligible
                 .iter()
                 .filter(|u| s.activity.contains(&(day_of(u.created_at) + after, u.id)))
                 .count();
-            if eligible.is_empty() { 0.0 } else { came as f64 * 100.0 / eligible.len() as f64 }
+            super::percent(came as i64, eligible.len() as i64)
         };
+        let back =
+            |after: i64| back_between(today - after - 29, today - after, after).unwrap_or(0.0);
+        let cohorts = (0..super::COHORT_WEEKS)
+            .map(|w| {
+                let first_day = today - 6 - 7 * w;
+                let last = first_day + 6;
+                super::Cohort {
+                    first_day,
+                    accounts: s
+                        .users
+                        .values()
+                        .filter(|u| (first_day..=last).contains(&day_of(u.created_at)))
+                        .count() as i64,
+                    d1: back_between(first_day, last, 1),
+                    d7: back_between(first_day, last, 7),
+                    d30: back_between(first_day, last, 30),
+                }
+            })
+            .collect();
         let games = |u: &User| u.games + u.casual_games;
         let mut revenue: BTreeMap<String, (i64, i64)> = BTreeMap::new();
         let mut revenue_days: BTreeMap<(i64, String), (i64, i64)> = BTreeMap::new();
@@ -564,6 +589,8 @@ impl MemoryStore {
             days,
             retention_d1: back(1),
             retention_d7: back(7),
+            retention_d30: back(30),
+            cohorts,
             funnel: [
                 recent.len() as i64,
                 recent.iter().filter(|u| games(u) >= 1).count() as i64,

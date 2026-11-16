@@ -316,6 +316,23 @@ const views = {
         bars: { values: recent, name: "Wait (s)", cls: "c-gold" }, every: 0, height: 130, unit: " s",
       })
       : empty("Nobody has been paired by \"Play now\" since the server started.");
+    // Players and games day by day (30 days).
+    const dailyChart = m.days.some((x) => x[1] > 0 || x[2] > 0)
+      ? chart({
+        labels: m.days.map((x) => dayLabel(x[0])), titles: m.days.map((x) => new Date(x[0] * 86400 * 1000).toLocaleDateString()),
+        bars: { values: m.days.map((x) => x[1]), name: "Active players", cls: "c-gold" },
+        line: { values: m.days.map((x) => x[2]), name: "Games", cls: "c-green" },
+        every: 6,
+      })
+      : empty("Nobody played in the last 30 days.");
+    const week = m.days.slice(-7);
+    const perDay = week.length ? week.reduce((a, x) => a + x[2], 0) / week.length : 0;
+    const activeWeek = week.length ? week.reduce((a, x) => a + x[1], 0) / week.length : 0;
+    // Sign-ups week by week and how many came back.
+    const opt = (x) => x === null || x === undefined ? "—" : pct(x);
+    const cohortRows = (m.cohorts || []).map((c) => el("tr", {},
+      el("td", {}, dayLabel(c.first_day) + " – " + dayLabel(c.first_day + 6)),
+      el("td", {}, c.accounts), el("td", {}, opt(c.d1)), el("td", {}, opt(c.d7)), el("td", {}, opt(c.d30))));
     const maxActive = Math.max(1, ...m.days.map((x) => x[1]));
     const bars = m.days.map(([day, active, games, accounts]) => el("tr", {},
       el("td", {}, fmtDate(day * 86400).split(",")[0]),
@@ -330,7 +347,13 @@ const views = {
         stat(q.size, "In the queue now", q.size ? waitingRated + " rated · longest " + longest + " s" : "nobody waiting"),
         stat(q.median_wait_secs + " s", "Median wait", "average " + Math.round(q.avg_wait_secs) + " s · " + q.pairs + " pairings"),
         stat(pct(m.retention_d1), "Back the next day"), stat(pct(m.retention_d7), "Back after 7 days"),
+        stat(pct(m.retention_d30), "Back after 30 days"),
+        stat(Math.round(perDay * 10) / 10, "Games per day", "last 7 days · " + Math.round(activeWeek) + " players a day"),
         stat(f[0], "Accounts (30 days)"), stat(funnel(f[1]), "Played 1 game"), stat(funnel(f[2]), "Played 5 games")),
+      el("h2", {}, "Players and games by day (30 days)"), el("div", { class: "card chart-card" }, dailyChart),
+      el("h2", {}, "Retention by week of sign-up"),
+      el("div", { class: "card" }, table(["Accounts created", "Accounts", "Day 1", "Day 7", "Day 30"], cohortRows)),
+      el("p", { class: "muted" }, "Back on day N: the account was active exactly N days after the day it was created. \"—\": that day hasn't come yet for anyone in the week."),
       el("h2", {}, "Players by hour (48 h)"), el("div", { class: "card chart-card" }, playersChart),
       el("h2", {}, "Games by hour (48 h)"), el("div", { class: "card chart-card" }, gamesChart),
       el("h2", {}, "Revenue by day (30 days)"), el("div", { class: "charts" }, revenueCharts),

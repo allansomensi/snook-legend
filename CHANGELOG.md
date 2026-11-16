@@ -21,6 +21,11 @@
   how many played), the computer ladder and the days topped in the daily
   challenge, newest first, with the date.
 
+### Staff panel
+- Metrics: retention after 30 days beside 1 and 7 (each over the last 30
+  days of sign-ups that reached that day), a table of retention by week of
+  sign-up, players and games by day (30 days) and games per day.
+
 ### Releases
 - The Microsoft Store workflow only builds the MSIX (the `msix` artifact);
   the package goes to the Store by hand in Partner Center.

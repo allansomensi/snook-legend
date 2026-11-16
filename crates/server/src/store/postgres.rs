@@ -624,23 +624,51 @@ impl PgStore {
             .iter()
             .map(|r| (r.get("day"), r.get("active"), r.get("matches"), r.get("new")))
             .collect();
-        let retention = |after: i64| async move {
+        // Accounts created from `from` to `to` (days) that came back
+        // `after` days later, among those for which that day has come.
+        let back_between = |from: i64, to: i64, after: i64| async move {
             let r = query(
                 "SELECT COUNT(*) AS eligible,
                     COUNT(*) FILTER (WHERE EXISTS (SELECT 1 FROM activity a
-                        WHERE a.user_id = u.id AND a.day = u.created_at / 86400 + $2)) AS came
-                 FROM users u WHERE u.created_at / 86400 >= $1 AND u.created_at / 86400 + $2 <= $3",
+                        WHERE a.user_id = u.id AND a.day = u.created_at / 86400 + $3)) AS came
+                 FROM users u WHERE u.created_at / 86400 BETWEEN $1 AND $2
+                    AND u.created_at / 86400 + $3 <= $4",
             )
-            .bind(today - 30)
+            .bind(from)
+            .bind(to)
             .bind(after)
             .bind(today)
             .fetch_one(&self.pool)
             .await?;
-            let (e, c): (i64, i64) = (r.get("eligible"), r.get("came"));
-            Ok::<f64, sqlx::Error>(if e == 0 { 0.0 } else { c as f64 * 100.0 / e as f64 })
+            Ok::<_, sqlx::Error>(super::percent(r.get("came"), r.get("eligible")))
         };
-        let retention_d1 = retention(1).await?;
-        let retention_d7 = retention(7).await?;
+        let back = |after: i64| async move {
+            Ok::<_, sqlx::Error>(
+                back_between(today - after - 29, today - after, after).await?.unwrap_or(0.0),
+            )
+        };
+        let retention_d1 = back(1).await?;
+        let retention_d7 = back(7).await?;
+        let retention_d30 = back(30).await?;
+        let mut cohorts = Vec::new();
+        for w in 0..super::COHORT_WEEKS {
+            let first_day = today - 6 - 7 * w;
+            let last = first_day + 6;
+            let accounts: i64 =
+                query("SELECT COUNT(*) AS n FROM users WHERE created_at / 86400 BETWEEN $1 AND $2")
+                    .bind(first_day)
+                    .bind(last)
+                    .fetch_one(&self.pool)
+                    .await?
+                    .get("n");
+            cohorts.push(super::Cohort {
+                first_day,
+                accounts,
+                d1: back_between(first_day, last, 1).await?,
+                d7: back_between(first_day, last, 7).await?,
+                d30: back_between(first_day, last, 30).await?,
+            });
+        }
         let f = query(
             "SELECT COUNT(*) AS created,
                 COUNT(*) FILTER (WHERE games + casual_games >= 1) AS one,
@@ -703,6 +731,8 @@ impl PgStore {
             days,
             retention_d1,
             retention_d7,
+            retention_d30,
+            cohorts,
             funnel: [f.get("created"), f.get("one"), f.get("five")],
             revenue,
             hours,

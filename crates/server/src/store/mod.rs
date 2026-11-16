@@ -216,6 +216,31 @@ pub struct Metrics {
     pub funnel: [i64; 3],
     /// Payments in the last 30 days by currency: (currency, cents, count).
     pub revenue: Vec<(String, i64, i64)>,
+    /// The last 48 hours, oldest first (the current hour last).
+    pub hours: Vec<HourRow>,
+    /// Payments of the last 30 days by day and currency: (day, currency,
+    /// cents, count), oldest first.
+    pub revenue_days: Vec<(i64, String, i64, i64)>,
+}
+
+/// One hour of activity (`hour` is Unix seconds / 3600).
+#[derive(Debug, Clone, Default, PartialEq, serde::Serialize)]
+pub struct HourRow {
+    pub hour: i64,
+    /// Signed-in players seen online during the hour.
+    pub active: i64,
+    /// The most players (guests too) and games online at once.
+    pub peak_players: i64,
+    pub peak_games: i64,
+    /// Players online on average over the samples (0 without samples).
+    pub avg_players: f64,
+    /// Games that ended in the hour.
+    pub games: i64,
+}
+
+/// Seconds in an hour bucket.
+pub fn hour_of(t: i64) -> i64 {
+    t.div_euclid(3600)
 }
 
 #[derive(Debug, Clone)]
@@ -388,6 +413,12 @@ pub struct ReportRow {
     pub created_at: i64,
     pub resolved_by: Option<String>,
     pub resolution: Option<String>,
+    pub reporter_id: i64,
+    pub target_id: i64,
+    /// The finished game the report is about.
+    pub match_id: Option<i64>,
+    /// The game that was being played when the report was sent (a room id).
+    pub live_id: Option<i64>,
 }
 
 /// A player's coins, VIP time, cosmetics and payment customer.
@@ -400,6 +431,8 @@ pub struct Wallet {
     /// Category code -> equipped item code.
     pub equipped: BTreeMap<String, String>,
     pub stripe_customer: Option<String>,
+    /// Cue code -> online games won with it (its level).
+    pub cue_wins: BTreeMap<String, u32>,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -692,7 +725,65 @@ impl Store {
         dispatch!(self, s => s.blocked(user_id))
     }
     pub async fn create_report(&self, r: &NewReport) -> StoreResult<()> {
-        dispatch!(self, s => s.create_report(r))
+        self.create_report_with_game(r, None, None).await.map(|_| ())
+    }
+    /// A report with the game it is about (a stored match, or the room of
+    /// the game being played); returns its id.
+    pub async fn create_report_with_game(
+        &self,
+        r: &NewReport,
+        match_id: Option<i64>,
+        live_id: Option<i64>,
+    ) -> StoreResult<i64> {
+        dispatch!(self, s => s.create_report_with_game(r, match_id, live_id))
+    }
+    pub async fn report(&self, id: i64) -> StoreResult<Option<ReportRow>> {
+        dispatch!(self, s => s.report(id))
+    }
+    /// Links a report to the stored match it is about.
+    pub async fn set_report_match(&self, id: i64, match_id: i64) -> StoreResult<()> {
+        dispatch!(self, s => s.set_report_match(id, match_id))
+    }
+    /// Stored games (with their replay) between two players that ended in
+    /// `from..=to`, newest first: (match id, ended at).
+    pub async fn matches_between(
+        &self,
+        a: i64,
+        b: i64,
+        from: i64,
+        to: i64,
+        limit: u32,
+    ) -> StoreResult<Vec<(i64, i64)>> {
+        dispatch!(self, s => s.matches_between(a, b, from, to, limit))
+    }
+    /// Adds a game's shots to a player's analysis.
+    pub async fn add_shot_analysis(
+        &self,
+        user_id: i64,
+        analysis: &snookered_proto::analysis::ShotAnalysis,
+    ) -> StoreResult<()> {
+        dispatch!(self, s => s.add_shot_analysis(user_id, analysis))
+    }
+    pub async fn shot_analysis(
+        &self,
+        user_id: i64,
+    ) -> StoreResult<snookered_proto::analysis::ShotAnalysis> {
+        dispatch!(self, s => s.shot_analysis(user_id))
+    }
+    /// One sample of who is online: the signed-in accounts, and how many
+    /// players (guests too) and games, into `hour`'s bucket.
+    pub async fn sample_online(
+        &self,
+        hour: i64,
+        users: &[i64],
+        players: u32,
+        games: u32,
+    ) -> StoreResult<()> {
+        dispatch!(self, s => s.sample_online(hour, users, players, games))
+    }
+    /// Forgets who was online before `hour` (the hourly peaks stay).
+    pub async fn purge_active_hours(&self, hour: i64) -> StoreResult<u64> {
+        dispatch!(self, s => s.purge_active_hours(hour))
     }
     pub async fn record_tournament(&self, t: &TournamentRecord) -> StoreResult<()> {
         dispatch!(self, s => s.record_tournament(t))
@@ -785,6 +876,10 @@ impl Store {
     }
     pub async fn equip(&self, user_id: i64, category: &str, code: &str) -> StoreResult<()> {
         dispatch!(self, s => s.equip(user_id, category, code))
+    }
+    /// Counts an online game won with the cue `code`; returns its wins now.
+    pub async fn add_cue_win(&self, user_id: i64, code: &str) -> StoreResult<u32> {
+        dispatch!(self, s => s.add_cue_win(user_id, code))
     }
     /// Adds (or removes) coins. With a `reference`, the same change is only
     /// ever applied once; returns whether it was applied now.
@@ -882,6 +977,30 @@ impl Store {
         at: i64,
     ) -> StoreResult<i64> {
         dispatch!(self, s => s.earn(user_id, day, amount, cap, reason, at))
+    }
+    /// Records that `user_id` won the ladder's reward with this game; false
+    /// if they had it already (once per account).
+    pub async fn record_ladder_claim(
+        &self,
+        user_id: i64,
+        rack_seed: u64,
+        strokes: u32,
+        at: i64,
+    ) -> StoreResult<bool> {
+        dispatch!(self, s => s.record_ladder_claim(user_id, rack_seed, strokes, at))
+    }
+    /// When `user_id` won the ladder's reward, if they have.
+    pub async fn ladder_claim(&self, user_id: i64) -> StoreResult<Option<i64>> {
+        dispatch!(self, s => s.ladder_claim(user_id))
+    }
+    /// The latest recorded games of `user_id` with a replay, newest first,
+    /// with the seat they played: (match id, seat, replay).
+    pub async fn recent_replays(
+        &self,
+        user_id: i64,
+        limit: u32,
+    ) -> StoreResult<Vec<(i64, usize, Replay)>> {
+        dispatch!(self, s => s.recent_replays(user_id, limit))
     }
     /// `from` pays `price` and `to` gets the item, atomically (the present
     /// is recorded, without a message).

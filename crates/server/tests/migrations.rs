@@ -17,6 +17,15 @@ const APPLIED: &[(&str, &str)] = &[
     ("0005_missions_board.sql", "f0035662896f3ed9e38f377c9bdd48cf481855c60d71f30ff077203360204d85"),
     ("0006_correspondence.sql", "2cc3447332fe8ccb9fb24f184b39eb667fb82aee7109cdb763bef3936594a438"),
     ("0007_social.sql", "5e7da4eb56a2cefcdcc009850d2b3ae354474faa1ca4ee7f0f81fa2ef90b3639"),
+    ("0008_cue_wins.sql", "c1611ee249580ccdb2bafaa77c27a143f9f1a396d7264a452d96086ef813ed1a"),
+    (
+        "0009_analysis_reports_metrics.sql",
+        "dae527dd3e2b0771de471633291d4c98daef1f2047d8ec7706890b693bb5967a",
+    ),
+    (
+        "0010_computer_ladder.sql",
+        "0c128ebef825b75734f7102eebd87f6a13e5159ec83236a4ca681aa42f190842",
+    ),
 ];
 
 #[test]

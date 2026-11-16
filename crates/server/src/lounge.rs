@@ -305,6 +305,7 @@ pub fn player_info(user: &User, guest: bool, status: PlayerStatus) -> PlayerInfo
         frame: String::new(),
         name_style: String::new(),
         effect: String::new(),
+        cue_level: 0,
         status_message: user.status_message.clone(),
     }
 }
@@ -314,6 +315,8 @@ pub fn player_info(user: &User, guest: bool, status: PlayerStatus) -> PlayerInfo
 pub struct Look {
     pub vip: bool,
     pub cue: String,
+    /// The cue's level (online wins with it).
+    pub cue_level: u8,
     pub chalk: String,
     /// The table they bring (as the host, or the higher rated player).
     pub cloth: String,
@@ -326,6 +329,7 @@ pub struct Look {
 pub fn dressed(mut info: PlayerInfo, look: &Look) -> PlayerInfo {
     info.vip = look.vip;
     info.cue = look.cue.clone();
+    info.cue_level = look.cue_level;
     info.chalk = look.chalk.clone();
     info.frame = look.frame.clone();
     info.name_style = look.name_style.clone();
@@ -955,7 +959,9 @@ impl Lounge {
             | ClientMsg::CorrOpen { .. }
             | ClientMsg::CorrShoot { .. }
             | ClientMsg::CorrResign { .. }
-            | ClientMsg::SetStatusMessage { .. }
+            | ClientMsg::LadderClaim { .. }
+            | ClientMsg::GhostStyle { .. } => {}
+            ClientMsg::SetStatusMessage { .. }
             | ClientMsg::ClearStatusMessage { .. }
             | ClientMsg::RecentOpponents
             | ClientMsg::Gifts
@@ -2272,6 +2278,38 @@ impl Lounge {
     /// Games not finished yet.
     pub fn running_games(&self) -> usize {
         self.rooms.values().filter(|r| !r.finished).count()
+    }
+
+    /// The game being played between two players, if any (its room id).
+    pub fn live_game_between(&self, a: &str, b: &str) -> Option<u64> {
+        let (a, b) = (key(a), key(b));
+        self.rooms
+            .values()
+            .find(|r| !r.finished && r.keys.contains(&a) && r.keys.contains(&b))
+            .map(|r| r.id)
+    }
+
+    /// A game still in this server (playing or just finished): the players,
+    /// whether it is rated, finished, and the strokes so far.
+    pub fn room_replay(&self, id: u64) -> Option<([String; 2], bool, bool, Replay)> {
+        self.rooms.get(&id).map(|r| {
+            (
+                [r.users[0].username.clone(), r.users[1].username.clone()],
+                r.rated,
+                r.finished,
+                r.replay.clone(),
+            )
+        })
+    }
+
+    /// The accounts online (not guests), for the hourly activity.
+    pub fn online_user_ids(&self) -> Vec<i64> {
+        self.sessions.values().filter(|s| !s.guest && s.user.id > 0).map(|s| s.user.id).collect()
+    }
+
+    /// Who is waiting in "Play now": (rated, seconds waited so far).
+    pub fn queue_now(&self) -> Vec<(bool, u32)> {
+        self.queue.iter().map(|q| (q.rated, q.since.elapsed().as_secs() as u32)).collect()
     }
 
     /// Hands a game in progress to the next server: it stays saved, both

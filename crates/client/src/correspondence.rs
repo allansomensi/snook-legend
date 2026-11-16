@@ -951,6 +951,7 @@ mod tests {
             name_style: String::new(),
             effect: String::new(),
             status_message: String::new(),
+            cue_level: 0,
         }
     }
 

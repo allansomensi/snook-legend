@@ -2,7 +2,7 @@
 //! the friend, block and report actions.
 
 use macroquad::prelude::*;
-use snookered_proto::{ACHIEVEMENTS, ClientMsg, Profile, Relation, ReportReason};
+use snookered_proto::{ACHIEVEMENTS, ClientMsg, Profile, Relation};
 
 #[allow(unused_imports)]
 use crate::paint::{draw_circle, draw_line, draw_rectangle};
@@ -16,6 +16,8 @@ use crate::ui::{ALERT, BORDER, CREAM, GOLD, MUTED, Ui, rrect, rrect_lines, tier_
 pub enum ProfileAction {
     None,
     Back,
+    /// Play the computer in this player's style.
+    Ghost(String),
 }
 
 /// What the right-hand side of the profile shows.
@@ -25,6 +27,8 @@ enum Pane {
     Games,
     Rating,
     Numbers,
+    /// The shot analysis (over the whole width).
+    Analysis,
     /// Presents received and given (own profile).
     Gifts,
 }
@@ -33,7 +37,7 @@ enum Pane {
 pub struct ProfileScreen {
     pub name: String,
     history_first: usize,
-    report: Option<(usize, String)>,
+    report: Option<crate::report::ReportDialog>,
     confirm_block: bool,
     pane: Pane,
     /// The account dialog (own profile).
@@ -41,6 +45,8 @@ pub struct ProfileScreen {
     /// Asked for while signed in: the server knew who was looking (and so
     /// sent our relation: friends, requests, blocks).
     asked_signed_in: bool,
+    /// What the analysis's heat map shows.
+    heat: crate::analysis::Heat,
     /// The status message being written (own profile).
     status_edit: Option<String>,
     /// The first present shown in the Gifts pane.
@@ -60,6 +66,8 @@ struct AccountForm {
 
 /// Where the content starts under the header (from the panel's top).
 const BODY_TOP: f32 = 220.0;
+/// The body's height for the shot analysis (at least).
+const ANALYSIS_H: f32 = 352.0;
 /// The achievement medals: cell and gap.
 const MEDAL: f32 = 44.0;
 const MEDAL_GAP: f32 = 8.0;
@@ -68,12 +76,17 @@ const REACTION: f32 = 30.0;
 const REACTION_GAP: f32 = 4.0;
 const WIN: Color = Color::new(0.45, 0.95, 0.55, 1.0);
 
-/// "3 days", "2 months", "1 year".
-fn age(created_at: i64) -> String {
-    let now = std::time::SystemTime::now()
+/// Unix seconds.
+fn now() -> i64 {
+    std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
         .map(|d| d.as_secs() as i64)
-        .unwrap_or(0);
+        .unwrap_or(0)
+}
+
+/// "3 days", "2 months", "1 year".
+fn age(created_at: i64) -> String {
+    let now = now();
     let days = ((now - created_at).max(0) / 86_400) as u32;
     if days < 1 {
         t("joined today").to_string()
@@ -154,8 +167,14 @@ impl ProfileScreen {
         self.report = None;
         self.confirm_block = false;
         self.account = None;
+        // Development aid: SNOOKERED_PROFILE_PANE=analysis opens the analysis.
+        self.pane = match crate::dev::var("SNOOKERED_PROFILE_PANE").as_deref() {
+            Some("analysis") => Pane::Analysis,
+            Some("numbers") => Pane::Numbers,
+            Some("rating") => Pane::Rating,
+            _ => Pane::Games,
+        };
         self.status_edit = None;
-        self.pane = Pane::Games;
         self.gifts_first = 0;
         self.asked_signed_in = online.signed_in();
         online.request_profile(name);
@@ -182,7 +201,9 @@ impl ProfileScreen {
         // The panel fits its content: the header, then the achievements and
         // reactions (the recent games scroll in the same height). Until the
         // profile comes, just room for the wait.
-        let h = if loaded.is_some() { BODY_TOP + left_height(half) + PAD } else { 240.0 };
+        let wide = self.pane == Pane::Analysis;
+        let body_h = if wide { left_height(half).max(ANALYSIS_H) } else { left_height(half) };
+        let h = if loaded.is_some() { BODY_TOP + body_h + PAD } else { 240.0 };
         let h = h.min(sh - 40.0);
         let r = Rect::new((sw - w) / 2.0, (sh - h) / 2.0, w, h);
         ui.panel(r);
@@ -214,24 +235,43 @@ impl ProfileScreen {
         // pointer (no hover hints through it).
         let saved = dialog.then(|| ui.suspend_input());
         self.header(ui, online, &p, r);
+        // Their ghost: the computer in their style (signed in only: the
+        // server measures it).
+        if online.signed_in() && !online.lan && !p.player.guest {
+            let label = if p.relation == Relation::Me {
+                t("Play your ghost")
+            } else {
+                t("Play their ghost")
+            };
+            let bw = ui.text_size(label, 14.0, true).x + 32.0 + 22.0;
+            let b = Rect::new(r.x + r.w - PAD - bw, r.y + 20.0, bw, 36.0);
+            if ui.button(b, "", true) {
+                action = ProfileAction::Ghost(p.player.username.clone());
+            }
+            let mid = b.y + b.h / 2.0;
+            crate::opponents::draw_ghost(&p.player.username, vec2(b.x + 26.0, mid), 11.0);
+            ui.text(label, b.x + 44.0, text_y(mid, 14.0), 14.0, CREAM, true);
+        }
         let body = Rect::new(r.x + PAD, r.y + BODY_TOP, r.w - 2.0 * PAD, r.h - BODY_TOP - PAD);
-        self.achievements(ui, &p, Rect::new(body.x, body.y, half, body.h));
+        if !wide {
+            self.achievements(ui, &p, Rect::new(body.x, body.y, half, body.h));
+        }
         let right = Rect::new(body.x + half + 24.0, body.y, half, body.h);
         // One's own profile also keeps the presents.
         let own = p.relation == Relation::Me && !online.lan && !p.player.guest;
         let mut panes = vec![(Pane::Games, t("Games")), (Pane::Rating, t("Rating"))];
         panes.push((Pane::Numbers, t("Numbers")));
+        panes.push((Pane::Analysis, t("Analysis")));
         if own {
             panes.push((Pane::Gifts, t("Gifts")));
         } else if self.pane == Pane::Gifts {
             self.pane = Pane::Games;
         }
         let labels: Vec<&str> = panes.iter().map(|(_, l)| *l).collect();
-        // As narrow as the labels allow (12 px in a 28 px control), so the
-        // heading beside it keeps its room.
-        let cell = labels.iter().map(|l| ui.text_size(l, 12.0, true).x + 24.0).fold(0.0, f32::max);
-        let seg_w = (cell * labels.len() as f32).min(right.w);
-        let seg = Rect::new(right.x + right.w - seg_w, right.y - 4.0, seg_w, 28.0);
+        // The switch fills the right column and names the pane itself; it
+        // stays put when the analysis takes the whole width (its heading
+        // then goes on the left).
+        let seg = Rect::new(right.x, right.y - 4.0, right.w, 28.0);
         let selected = panes.iter().position(|(pane, _)| *pane == self.pane).unwrap_or(0);
         if let Some(k) = ui.segmented(seg, &labels, selected) {
             self.pane = panes[k].0;
@@ -243,23 +283,24 @@ impl ProfileScreen {
             // Presents waiting: a dot on Gifts.
             draw_circle(seg.x + seg.w - 8.0, seg.y + 7.0, 4.0, ALERT);
         }
-        let title = match self.pane {
-            Pane::Games => t("Recent games"),
-            Pane::Rating => t("Rating"),
-            Pane::Numbers => t("Numbers"),
-            Pane::Gifts => t("Gifts"),
-        };
-        // The heading only where it fits beside the switch.
-        let room = seg.x - 12.0 - right.x;
-        if room >= 60.0 {
-            let (title, _) = ui.fitted(title, 15.0, room, true);
-            heading(ui, &title, right.x, right.y + 10.0);
+        if wide {
+            let (title, _) = ui.fitted(t("Shot analysis"), 15.0, seg.x - 12.0 - body.x, true);
+            heading(ui, &title, body.x, right.y + 10.0);
         }
         let content = Rect::new(right.x, right.y + 34.0, right.w, right.h - 34.0);
         match self.pane {
             Pane::Games => self.history(ui, online, &p, content),
             Pane::Rating => rating_chart(ui, &p, content),
             Pane::Numbers => numbers(ui, &p, content),
+            Pane::Analysis => crate::analysis::draw(
+                ui,
+                p.analysis.as_deref(),
+                p.relation == Relation::Me,
+                p.player.guest,
+                &p.player.username,
+                Rect::new(body.x, content.y, body.w, content.h),
+                &mut self.heat,
+            ),
             Pane::Gifts => online.draw_gift_history(ui, content, &mut self.gifts_first),
         }
         if let Some(saved) = saved {
@@ -269,7 +310,7 @@ impl ProfileScreen {
             online.send(ClientMsg::SetCountry { country: code });
             online.request_profile(&p.player.username);
         }
-        self.report_dialog(ui, online, &p);
+        self.report_dialog(ui, online);
         self.account_dialog(ui, online);
         action
     }
@@ -457,7 +498,8 @@ impl ProfileScreen {
             _ if online.me.is_none() => {}
             relation => {
                 if relation != Relation::Blocked && button(ui, t("Report"), true, false) {
-                    self.report = Some((0, String::new()));
+                    let me = online.me.as_ref().map(|m| m.username.as_str());
+                    self.report = Some(crate::report::ReportDialog::from_profile(p, me, now()));
                 }
                 let block_label = if relation == Relation::Blocked {
                     t("Unblock")
@@ -952,55 +994,15 @@ impl ProfileScreen {
         }
     }
 
-    fn report_dialog(&mut self, ui: &mut Ui, online: &mut Online, p: &Profile) {
-        let Some((reason, details)) = &mut self.report else { return };
-        let sw = crate::ui::vw();
-        let sh = crate::ui::vh();
-        draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.5));
-        let w = 440.0f32.min(sw - 20.0);
-        let n = ReportReason::ALL.len() as f32;
-        let h = 24.0 + 26.0 + 20.0 + n * 28.0 + 8.0 + 34.0 + 24.0 + 40.0 + 24.0;
-        let r = Rect::new((sw - w) / 2.0, (sh - h) / 2.0, w, h);
-        ui.panel(r);
-        ui.block(Rect::new(0.0, 0.0, sw, sh));
-        let x = r.x + PAD;
-        let title = tw("Report {name}", &[("name", &p.player.username)]);
-        ui.text(&title, x, text_y(r.y + 24.0 + 13.0, 22.0), 22.0, GOLD, true);
-        let mut y = r.y + 24.0 + 26.0 + 20.0;
-        for (k, rr) in ReportReason::ALL.iter().enumerate() {
-            if ui.radio(x, y, t(rr.name()), *reason == k) {
-                *reason = k;
+    fn report_dialog(&mut self, ui: &mut Ui, online: &mut Online) {
+        let Some(dialog) = self.report.as_mut() else { return };
+        match dialog.draw(ui) {
+            crate::report::ReportOutcome::Open => {}
+            crate::report::ReportOutcome::Cancelled => self.report = None,
+            crate::report::ReportOutcome::Send(msg) => {
+                online.send(msg);
+                self.report = None;
             }
-            y += 28.0;
-        }
-        y += 8.0;
-        let field = Rect::new(x, y, w - 2.0 * PAD, 34.0);
-        ui.text_input(61, field, details, 300);
-        if details.is_empty() && ui.focus != Some(61) {
-            let hint = t("What happened? (optional)");
-            ui.text(hint, x + 10.0, text_y(y + 17.0, 14.0), 14.0, MUTED, false);
-        }
-        // Cancel on the left, send on the right.
-        let by = r.y + h - PAD - 40.0;
-        let mut close = false;
-        let send_w = ui.text_size(t("Send report"), 15.0, true).x + 40.0;
-        if ui.primary_button(Rect::new(r.x + w - PAD - send_w, by, send_w, 40.0), t("Send report"))
-        {
-            online.send(ClientMsg::Report {
-                username: p.player.username.clone(),
-                reason: ReportReason::ALL[*reason],
-                details: details.clone(),
-            });
-            close = true;
-        }
-        if ui.button(Rect::new(x, by, 120.0, 40.0), t("Cancel"), true)
-            || (is_key_pressed(KeyCode::Escape) && ui.focus.is_none())
-        {
-            close = true;
-        }
-        if close {
-            self.report = None;
-            ui.focus = None;
         }
     }
 }
@@ -1074,7 +1076,11 @@ fn rating_chart(ui: &mut Ui, p: &Profile, area: Rect) {
 fn numbers(ui: &mut Ui, p: &Profile, area: Rect) {
     let c = &p.career;
     if c.games == 0 && p.abandon_rate == 0 {
-        empty_state(ui, area, Icon::Star, t("No games yet."));
+        if p.cue_wins.is_empty() {
+            empty_state(ui, area, Icon::Star, t("No games yet."));
+        } else {
+            cue_card(ui, p, Rect::new(area.x, area.y, area.w, 92.0));
+        }
         return;
     }
     let per_game = c.balls_per_game_x10();
@@ -1089,7 +1095,9 @@ fn numbers(ui: &mut Ui, p: &Profile, area: Rect) {
     ];
     let (cols, gap) = (2, 12.0);
     let cw = (area.w - gap) / cols as f32;
-    let ch = ((area.h - 2.0 * gap) / 3.0).min(72.0);
+    // Room under the numbers for the cue and its level.
+    let cue_h = if p.cue_wins.is_empty() { 0.0 } else { 92.0 };
+    let ch = ((area.h - 2.0 * gap - cue_h - if cue_h > 0.0 { gap } else { 0.0 }) / 3.0).min(72.0);
     for (k, (n, label)) in cards.iter().enumerate() {
         let r = Rect::new(
             area.x + (k % cols) as f32 * (cw + gap),
@@ -1103,5 +1111,41 @@ fn numbers(ui: &mut Ui, p: &Profile, area: Rect) {
         ui.text_centered(n, r.x + r.w / 2.0, mid - 22.0, 24.0, color, true);
         let size = fit_regular(ui, label, 13.0, r.w - 12.0);
         ui.text_centered(label, r.x + r.w / 2.0, mid + 8.0, size, MUTED, false);
+    }
+    if cue_h > 0.0 {
+        let r = Rect::new(area.x, area.y + 3.0 * (ch + gap), area.w, cue_h);
+        cue_card(ui, p, r);
+    }
+}
+
+/// The cue in use and its level (online wins with it); the cue with the
+/// most wins too, when it is another.
+fn cue_card(ui: &mut Ui, p: &Profile, r: Rect) {
+    use snookered_proto::shop::{self, Category};
+    rrect(r, 8.0, Color::new(1.0, 1.0, 1.0, 0.04));
+    let code = shop::item(&p.player.cue)
+        .filter(|i| i.category == Category::Cue)
+        .map_or(Category::Cue.default_item(), |i| i.code);
+    let wins = |c: &str| p.cue_wins.iter().find(|(x, _)| x == c).map_or(0, |(_, n)| *n);
+    let pic_w = (r.w * 0.36).min(170.0);
+    let pic = Rect::new(r.x + 8.0, r.y + 8.0, pic_w, r.h - 16.0);
+    crate::shop::cue_picture(ui, code, pic, shop::cue_level(wins(code)));
+    let x = pic.x + pic.w + 14.0;
+    let room = r.x + r.w - 12.0 - x;
+    let name = shop::item(code).map_or(code, |i| t(i.name));
+    let (name, size) = ui.fitted(name, 16.0, room, true);
+    ui.text(&name, x, r.y + 12.0, size, CREAM, true);
+    let (line, progress, _) = crate::shop::cue_level_text(wins(code));
+    let (line, size) = ui.fitted(&line, 13.0, room, false);
+    ui.text(&line, x, r.y + 36.0, size, GOLD, false);
+    let bar = Rect::new(x, r.y + 56.0, room, 4.0);
+    rrect(bar, 2.0, Color::new(1.0, 1.0, 1.0, 0.1));
+    rrect(Rect::new(bar.x, bar.y, bar.w * progress, bar.h), 2.0, GOLD);
+    if let Some((best, n)) = p.cue_wins.first().filter(|(c, n)| c != code && *n > wins(code)) {
+        let best = shop::item(best).map_or(best.as_str(), |i| t(i.name));
+        let text =
+            tw("Most wins: {cue} (level {n})", &[("cue", &best), ("n", &shop::cue_level(*n))]);
+        let (text, size) = ui.fitted(&text, 12.0, room, false);
+        ui.text(&text, x, r.y + 68.0, size, MUTED, false);
     }
 }

@@ -22,7 +22,8 @@ pub use rules::{
     ShotReport,
 };
 pub mod ai;
+pub mod personalities;
 pub mod rating;
 pub mod stats;
 
-pub use ai::{AiDecision, Difficulty};
+pub use ai::{AiDecision, AiPlayer, Difficulty, Skill, Style};

@@ -53,15 +53,23 @@ fn wallet_msg(w: &Wallet) -> ServerMsg {
         vip_until: w.vip_until,
         owned: w.owned.clone(),
         equipped: w.equipped.iter().map(|(c, i)| (c.clone(), i.clone())).collect(),
+        cue_wins: w.cue_wins.iter().map(|(c, n)| (c.clone(), *n)).collect(),
     }
+}
+
+/// The level of the cue `code` in this wallet.
+pub fn cue_level_of(w: &Wallet, code: &str) -> u8 {
+    shop::cue_level(w.cue_wins.get(code).copied().unwrap_or(0))
 }
 
 /// What others see of a player: the VIP crown and the items in use.
 pub fn look_of(w: &Wallet, achievements: &[String], t: i64) -> Look {
     let item = |c: Category| effective(w, achievements, c, t).to_string();
+    let cue = item(Category::Cue);
     Look {
         vip: is_vip(w, t),
-        cue: item(Category::Cue),
+        cue_level: cue_level_of(w, &cue),
+        cue,
         chalk: item(Category::Chalk),
         cloth: item(Category::Cloth),
         balls: item(Category::Balls),
@@ -86,6 +94,26 @@ pub async fn push_wallet(server: &Server, user: &User) {
         l.notify(&user.username, msg);
         l.set_look(&user.username, look);
     });
+}
+
+/// A game won online by `user` (rated or casual, never on a LAN or against
+/// the computer): one more win for the cue they had in use, which may raise
+/// its level. Sends them their wallet (with the count) and shows the new
+/// level to others.
+pub async fn count_cue_win(server: &Server, user: &User) {
+    let (w, achievements) =
+        tokio::join!(server.store.wallet(user.id), achievements_of(server, user.id));
+    let Ok(w) = w else { return };
+    let cue = effective(&w, &achievements, Category::Cue, now());
+    match server.store.add_cue_win(user.id, cue).await {
+        Ok(wins) => {
+            if shop::cue_level(wins) > shop::cue_level(wins - 1) {
+                tracing::info!(user = user.id, cue, wins, "cue levelled up");
+            }
+            push_wallet(server, user).await;
+        }
+        Err(e) => tracing::warn!("cue win of {}: {e}", user.username),
+    }
 }
 
 fn shop_info(server: &Server) -> ServerMsg {

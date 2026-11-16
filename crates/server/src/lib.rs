@@ -13,13 +13,18 @@
 
 pub mod account;
 pub mod admin;
+pub mod analysis;
+pub mod computer;
 pub mod correspondence;
 pub mod lan;
 pub mod limits;
 pub mod lounge;
+pub mod metrics;
 pub mod missions;
 pub mod pages;
 pub mod payments;
+pub mod replay_view;
+pub mod reports;
 pub mod shop;
 pub mod social;
 pub mod store;
@@ -144,11 +149,15 @@ pub struct Server {
     pub stripe: Option<payments::Stripe>,
     /// Correspondence games being changed (see [`correspondence`]).
     pub(crate) corr: correspondence::State,
+    /// The ladder's reward and ghosts' styles (see [`computer`]).
+    pub computer: computer::Computer,
 }
 
 /// Drops connections that send nothing (clients ping every ~15 s).
 const IDLE_TIMEOUT: Duration = Duration::from_secs(75);
-const MAX_MESSAGE_BYTES: usize = 16 * 1024;
+/// Room for the longest message: a whole game sent to claim the ladder's
+/// reward (a few hundred strokes).
+const MAX_MESSAGE_BYTES: usize = 128 * 1024;
 const OUTGOING_QUEUE: usize = 512;
 /// Game sessions last this long; they are renewed when used after a day.
 pub(crate) const SESSION_LIFETIME: i64 = 60 * 60 * 24 * 30;
@@ -200,6 +209,7 @@ impl Server {
             leaderboard: Mutex::new(None),
             connections: Mutex::new(HashMap::new()),
             corr: correspondence::State::default(),
+            computer: computer::Computer::default(),
         })
     }
 
@@ -391,6 +401,7 @@ pub async fn drain(server: Arc<Server>, secs: u64) {
 
 /// The ticker (shot clocks, tournaments), the effect worker and housekeeping.
 pub fn spawn_background(server: Arc<Server>) {
+    metrics::spawn(server.clone());
     let ticker = server.clone();
     tokio::spawn(async move {
         let mut interval = tokio::time::interval(Duration::from_millis(250));
@@ -445,15 +456,26 @@ async fn run_effect(server: &Arc<Server>, effect: Effect) {
             match server.store.record_match(&record).await {
                 Ok((users, _)) => {
                     server.invalidate_leaderboard();
+                    // The shot analysis replays the game: off the effect queue.
+                    let (s, r) = (server.clone(), record.clone());
+                    tokio::spawn(async move { analysis::after_match(&s, &r).await });
                     // Coins for a rated game played to the end (not a walkover,
                     // not two friends farming each other).
                     let pays = record.rated
                         && !farmed
                         && record.abandoned.is_none()
                         && record.shots >= account::MIN_SHOTS_FOR_COINS;
+                    // A game won online counts for the winner's cue, casual
+                    // too (not a walkover, nor two friends farming each other).
+                    let cue_win = !farmed
+                        && record.shots >= account::MIN_SHOTS_FOR_COINS
+                        && !server.with(|l| l.rules.lan);
                     for (seat, user) in users.into_iter().enumerate() {
                         let Some(user) = user else { continue };
                         server.with(|l| l.refresh_user(user.clone()));
+                        if cue_win && record.winner == seat {
+                            shop::count_cue_win(server, &user).await;
+                        }
                         let rated_win = record.rated && record.winner == seat;
                         server.check_achievements_after(&user, rated_win).await;
                         if pays {
@@ -943,7 +965,8 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                     send(ServerMsg::Leaderboard { entries: server.leaderboard().await })
                 }
                 ClientMsg::Profile { username } => {
-                    if let Some(msg) = profile_msg(&server, None, &username).await {
+                    if let Some(mut msg) = profile_msg(&server, None, &username).await {
+                        analysis::attach(&server, &mut msg, version).await;
                         send(msg);
                     }
                 }
@@ -964,7 +987,10 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
             ClientMsg::Profile { username } => {
                 let viewer = (!guest).then_some(&me);
                 match profile_msg(&server, viewer, &username).await {
-                    Some(msg) => send(msg),
+                    Some(mut msg) => {
+                        analysis::attach(&server, &mut msg, version).await;
+                        send(msg)
+                    }
                     None => send(ServerMsg::Error { message: "No such player.".into() }),
                 }
             }
@@ -998,6 +1024,13 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
             ClientMsg::Missions => send(missions::message(&server, &me).await),
             msg if correspondence::is_msg(&msg) => {
                 correspondence::handle(&server, &me, msg, &send).await
+            }
+            // Seconds of simulation each: answered on their own tasks.
+            ClientMsg::LadderClaim { replay } => {
+                computer::spawn_claim(server.clone(), me.clone(), replay, tx.clone())
+            }
+            ClientMsg::GhostStyle { username } => {
+                computer::spawn_ghost(server.clone(), me.clone(), username, tx.clone())
             }
             // Someone else's note on the "looking for a game" board: staff only.
             ClientMsg::RemoveSeek { username }
@@ -1122,7 +1155,7 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                 }
             }
             ClientMsg::Report { username, reason, details } => {
-                report(&server, &me, &username, reason, &details, &send).await
+                report(&server, &me, &username, reason, &details, version, &send).await
             }
             ClientMsg::JoinTournament { id, password } if !guest => {
                 let fee = server.with(|l| l.tournament_fee(id)) as i64;
@@ -1236,6 +1269,8 @@ fn is_query_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::CorrOpen { .. }
             | ClientMsg::CorrShoot { .. }
             | ClientMsg::CorrResign { .. }
+            | ClientMsg::LadderClaim { .. }
+            | ClientMsg::GhostStyle { .. }
             | ClientMsg::SetStatusMessage { .. }
             | ClientMsg::ClearStatusMessage { .. }
             | ClientMsg::RecentOpponents
@@ -1248,7 +1283,9 @@ fn is_query_msg(msg: &ClientMsg) -> bool {
 fn is_account_msg(msg: &ClientMsg) -> bool {
     matches!(
         msg,
-        ClientMsg::SetCountry { .. }
+        ClientMsg::LadderClaim { .. }
+            | ClientMsg::GhostStyle { .. }
+            | ClientMsg::SetCountry { .. }
             | ClientMsg::Friends
             | ClientMsg::FriendRequest { .. }
             | ClientMsg::FriendAnswer { .. }
@@ -1444,6 +1481,7 @@ async fn report(
     name: &str,
     reason: snookered_proto::ReportReason,
     details: &str,
+    protocol: u32,
     send: &impl Fn(ServerMsg),
 ) {
     let Ok(Some(target)) = server.store.user_by_name(name).await else {
@@ -1462,26 +1500,29 @@ async fn report(
         }
         auth.registered(&key_);
     }
-    let mut context = server.with(|l| l.report_context(&me.username, &target.username));
-    // The latest game between the two goes with the report: the staff can
-    // watch it again instead of taking anyone's word for it.
-    if let Ok(history) = server.store.history(me.id, 30).await
-        && let Some(game) =
-            history.iter().find(|h| h.opponent.eq_ignore_ascii_case(&target.username) && h.replay)
-    {
-        context = format!("{context}\nReplay: match #{} ({})", game.match_id, game.at);
-    }
+    let context = server.with(|l| l.report_context(&me.username, &target.username));
+    // The game between the two goes with the report: the staff can watch
+    // it again instead of taking anyone's word for it.
+    let at = now();
+    let (match_id, live_id) = reports::game_for(server, me, &target, at).await;
     let r = NewReport {
         reporter: me.id,
         target: target.id,
         reason: reason.name().to_string(),
         details: clean_text(details, 500),
         context,
-        at: now(),
+        at,
     };
-    match server.store.create_report(&r).await {
-        Ok(()) => {
-            send(ServerMsg::Notice { text: "Thank you. The moderators will look into it.".into() })
+    match server.store.create_report_with_game(&r, match_id, live_id).await {
+        Ok(_) => {
+            // Older games have no translation of the newer line.
+            let attached = match_id.is_some() || live_id.is_some();
+            let text = if attached && protocol >= analysis::ANALYSIS_PROTOCOL {
+                "Thank you. The moderators will look into it, with your game attached."
+            } else {
+                "Thank you. The moderators will look into it."
+            };
+            send(ServerMsg::Notice { text: text.into() })
         }
         Err(e) => tracing::error!("report: {e}"),
     }
@@ -1507,6 +1548,8 @@ async fn profile_msg(server: &Server, viewer: Option<&User>, name: &str) -> Opti
                     rating_history: Vec::new(),
                     career: Default::default(),
                     abandon_rate: 0,
+                    analysis: None,
+                    cue_wins: Vec::new(),
                 }),
             });
         }
@@ -1592,6 +1635,13 @@ async fn profile_msg(server: &Server, viewer: Option<&User>, name: &str) -> Opti
             rating_history: rating_history.unwrap_or_default(),
             career: career.unwrap_or_default(),
             abandon_rate,
+            analysis: None,
+            cue_wins: {
+                let mut cues: Vec<(String, u32)> =
+                    wallet.cue_wins.iter().map(|(c, n)| (c.clone(), *n)).collect();
+                cues.sort_by(|a, b| b.1.cmp(&a.1).then_with(|| a.0.cmp(&b.0)));
+                cues
+            },
         }),
     })
 }

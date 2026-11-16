@@ -9,8 +9,11 @@
 //! bit-identical on every machine.
 
 mod achievements;
+pub mod analysis;
 pub mod correspondence;
 mod countries;
+pub mod ghost;
+pub mod ladder;
 pub mod missions;
 mod reactions;
 pub mod replay;
@@ -341,6 +344,9 @@ pub struct PlayerInfo {
     /// What happens when they win on the 8 (shop code; empty: nothing).
     #[serde(default)]
     pub effect: String,
+    /// The level of their cue (online wins with it; marks on the cue).
+    #[serde(default)]
+    pub cue_level: u8,
     /// A short line the player wrote about themself (empty: none). See
     /// [`MAX_STATUS_LEN`].
     #[serde(default, skip_serializing_if = "String::is_empty")]
@@ -633,6 +639,13 @@ pub struct Profile {
     /// Share of rated and casual games left unfinished, 0..=100.
     #[serde(default)]
     pub abandon_rate: u32,
+    /// How this player pots (pockets, distances, kinds of shot, the table).
+    /// Only sent to games of protocol 13 or later.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub analysis: Option<Box<analysis::ShotAnalysis>>,
+    /// Online games won with each cue (cue code, wins), most wins first.
+    #[serde(default)]
+    pub cue_wins: Vec<(String, u32)>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -645,6 +658,9 @@ pub struct FriendInfo {
     pub last_seen: i64,
 }
 
+/// A report goes with the game being played between the two players or,
+/// failing that, their latest game that ended this long ago at most (seconds).
+pub const REPORT_GAME_WINDOW_SECS: i64 = 24 * 60 * 60;
 /// Someone this player played online recently (the latest game against them).
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct RecentOpponent {
@@ -1026,6 +1042,16 @@ pub enum ClientMsg {
         #[serde(default)]
         username: String,
     },
+    /// Claims the ladder's reward with the recorded game won against its
+    /// last opponent (the server plays it again to check it).
+    LadderClaim {
+        replay: replay::Replay,
+    },
+    /// How a player plays (aggregated numbers), for a computer opponent in
+    /// their style.
+    GhostStyle {
+        username: String,
+    },
     Ping,
 }
 
@@ -1212,6 +1238,9 @@ pub enum ServerMsg {
         owned: Vec<String>,
         /// (category, item) pairs.
         equipped: Vec<(String, String)>,
+        /// Online games won with each cue (cue code, wins).
+        #[serde(default)]
+        cue_wins: Vec<(String, u32)>,
     },
     /// A payment page to open in the browser.
     PaymentPage {
@@ -1428,6 +1457,15 @@ pub enum ServerMsg {
         by: String,
         code: String,
     },
+    /// The answer to a claim of the ladder's reward.
+    LadderClaim {
+        result: ladder::ClaimResult,
+    },
+    /// The answer to a request for a player's style.
+    GhostStyle {
+        username: String,
+        answer: ghost::GhostAnswer,
+    },
     Pong,
 }
 
@@ -1505,6 +1543,41 @@ mod tests {
         assert_eq!(Tier::of(1500), Tier::Expert);
     }
 
+    /// Cue levels (version 13) travel in fields older games ignore, and
+    /// messages from older servers still parse.
+    #[test]
+    fn cue_levels_are_compatible() {
+        let wallet = ServerMsg::Wallet {
+            coins: 5,
+            vip_until: 0,
+            owned: vec!["table_club".into()],
+            equipped: vec![("table".into(), "table_club".into())],
+            cue_wins: vec![("cue_classic".into(), 57)],
+        };
+        assert_eq!(parse_server(&wallet.to_json()).unwrap(), wallet);
+        // A version 12 game reads the wallet without the new field.
+        #[derive(Deserialize)]
+        #[serde(tag = "type", rename_all = "snake_case")]
+        #[allow(dead_code)]
+        enum Old {
+            Wallet {
+                coins: i64,
+                vip_until: i64,
+                owned: Vec<String>,
+                equipped: Vec<(String, String)>,
+            },
+        }
+        assert!(serde_json::from_str::<Old>(&wallet.to_json()).is_ok());
+        // A version 12 server's player card: level 0.
+        let old = r#"{"username":"a","rating":1200,"games":0,"wins":0,"status":"available","cue":"cue_maple"}"#;
+        let p: PlayerInfo = serde_json::from_str(old).unwrap();
+        assert_eq!((p.cue.as_str(), p.cue_level), ("cue_maple", 0));
+        let old = r#"{"type":"wallet","coins":1,"vip_until":0,"owned":[],"equipped":[]}"#;
+        assert!(
+            matches!(parse_server(old), Ok(ServerMsg::Wallet { cue_wins, .. }) if cue_wins.is_empty())
+        );
+    }
+
     #[test]
     fn messages_round_trip() {
         let game = EightBallGame::new(3, 0);
@@ -1523,6 +1596,7 @@ mod tests {
             frame: String::new(),
             name_style: String::new(),
             effect: String::new(),
+            cue_level: 0,
             status_message: String::new(),
         };
         let msg = ServerMsg::MatchStarted {

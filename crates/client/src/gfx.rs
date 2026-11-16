@@ -1175,3 +1175,74 @@ mod orientation_tests {
         }
     }
 }
+
+/// Where a part of a [`Kit`] is drawn in the frame.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Layer {
+    /// Opaque, with the table.
+    Solid,
+    /// The inside of the pockets (after the ball shadows).
+    Inside,
+    /// On the rails, after the pockets: sights, leathers.
+    Detail,
+    /// See-through (pools of light), not on the dark stage.
+    Blended,
+    /// The lamp over the table (hidden from above and on the dark stage).
+    Lamp,
+}
+
+/// A part of a [`Kit`]: geometry, the kit texture it uses (`None`: plain
+/// white) and how it is lit.
+pub struct KitPart {
+    pub mesh: MeshBuilder,
+    pub tex: Option<usize>,
+    pub surface: Surface,
+    pub layer: Layer,
+}
+
+/// Geometry and textures made away from the main thread (themed tables and
+/// halls), sent to the GPU later with [`Kit::finish`].
+#[derive(Default)]
+pub struct Kit {
+    pub textures: Vec<(crate::textures::Pixels, bool)>,
+    pub parts: Vec<KitPart>,
+}
+
+/// A part ready to draw.
+pub struct Built {
+    pub mesh: Model,
+    pub surface: Surface,
+    pub layer: Layer,
+}
+
+impl Kit {
+    /// Adds a texture (`repeat`: tiles); returns its index.
+    pub fn texture(&mut self, pixels: crate::textures::Pixels, repeat: bool) -> usize {
+        self.textures.push((pixels, repeat));
+        self.textures.len() - 1
+    }
+
+    /// Adds a part (nothing if the geometry is empty).
+    pub fn add(&mut self, mesh: MeshBuilder, tex: Option<usize>, surface: Surface, layer: Layer) {
+        if !mesh.is_empty() {
+            self.parts.push(KitPart { mesh, tex, surface, layer });
+        }
+    }
+
+    /// Uploads the textures and builds the meshes.
+    pub fn finish(self, white: &Texture2D) -> Vec<Built> {
+        let textures: Vec<Texture2D> = self
+            .textures
+            .into_iter()
+            .map(|(p, repeat)| texture(p.width, p.height, &p.rgba, repeat))
+            .collect();
+        self.parts
+            .into_iter()
+            .map(|p| Built {
+                mesh: p.mesh.build(p.tex.map_or(white, |k| &textures[k])),
+                surface: p.surface,
+                layer: p.layer,
+            })
+            .collect()
+    }
+}

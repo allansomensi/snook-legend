@@ -50,6 +50,9 @@ pub enum Stat {
     /// 1 while today (month * 100 + day) is in this range, both ends
     /// included; a range that wraps (Dec–Jan) works.
     Season(u16, u16),
+    /// Never from numbers: the server awards it for a feat it has checked
+    /// (beating the computer ladder).
+    Awarded,
 }
 
 impl Stat {
@@ -79,6 +82,7 @@ impl Stats {
                 let inside = if from <= to { d >= from && d <= to } else { d >= from || d <= to };
                 (d != 0 && inside) as i64
             }
+            Stat::Awarded => 0,
         }
     }
 
@@ -160,6 +164,14 @@ pub const ACHIEVEMENTS: &[Achievement] = &[
     a("tournament_win_5", "Dynasty", "Win 5 tournaments.", Stat::TournamentsWon, 5, 3),
     a("veteran_30", "Familiar face", "Have an account for 30 days.", Stat::AccountDays, 30, 0),
     a("veteran_365", "Old timer", "Have an account for a year.", Stat::AccountDays, 365, 2),
+    a(
+        "ladder_champion",
+        "King of the ladder",
+        "Beat all ten opponents of the computer ladder.",
+        Stat::Awarded,
+        1,
+        3,
+    ),
     // Events: being online at the right time. Each one unlocks a reaction.
     a(
         "event_halloween",
@@ -216,6 +228,25 @@ mod tests {
         assert!(earned.contains(&"games_10") && earned.contains(&"rating_1300"));
         assert!(!earned.contains(&"games_100"));
         assert!(!earned.iter().any(|c| c.starts_with("event_")));
+        // Awarded achievements never come from numbers.
+        let all = Stats {
+            games: 9999,
+            wins: 9999,
+            eight_wins: 9999,
+            casual_games: 9999,
+            peak_rating: 9999,
+            streak: 99,
+            best_streak: 99,
+            runouts: 99,
+            shutouts: 99,
+            friends: 99,
+            tournaments_played: 99,
+            tournaments_won: 99,
+            account_days: 9999,
+            today: 1031,
+        };
+        assert!(!all.earned().any(|c| c == crate::ladder::ACHIEVEMENT));
+        assert!(ACHIEVEMENTS.iter().any(|a| a.code == crate::ladder::ACHIEVEMENT));
     }
 
     #[test]

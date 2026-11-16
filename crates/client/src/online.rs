@@ -98,11 +98,18 @@ pub struct WalletView {
     pub vip_until: i64,
     pub owned: Vec<String>,
     pub equipped: Vec<(String, String)>,
+    /// Online games won with each cue.
+    pub cue_wins: Vec<(String, u32)>,
 }
 
 impl WalletView {
     pub fn is_vip(&self) -> bool {
         self.vip_until > crate::game::unix_now()
+    }
+
+    /// Online games won with the cue `code`.
+    pub fn cue_wins(&self, code: &str) -> u32 {
+        self.cue_wins.iter().find(|(c, _)| c == code).map_or(0, |(_, n)| *n)
     }
 }
 
@@ -230,7 +237,23 @@ pub struct Online {
     social: social::Social,
     /// Presents from friends.
     gifts: gifts::Gifts,
+    /// The server's verdict on the ladder's reward (taken by the ladder).
+    pub ladder_claim: Option<snookered_proto::ladder::ClaimResult>,
+    /// The style asked for a ghost opponent, and the answer once it came.
+    pub ghost: Option<GhostRequest>,
 }
+
+/// A request for the style of a player's ghost.
+#[derive(Debug, Clone)]
+pub struct GhostRequest {
+    pub username: String,
+    pub sent: std::time::Instant,
+    pub answer: Option<snookered_proto::ghost::GhostAnswer>,
+}
+
+/// How long to wait for a ghost's style before saying the server is not
+/// answering (measuring a player takes a moment).
+pub const GHOST_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(45);
 
 /// The update button, for how this copy of the game is updated (and how
 /// far the download is).
@@ -450,6 +473,8 @@ impl Online {
                 ..Default::default()
             },
             gifts: Default::default(),
+            ladder_claim: None,
+            ghost: None,
         }
     }
 
@@ -493,6 +518,20 @@ impl Online {
         self.connect();
         self.send(ClientMsg::Leaderboard);
         self.leaderboard_age = 0.0;
+    }
+
+    /// Whether this account has the achievement `code`.
+    pub fn has_achievement(&self, code: &str) -> bool {
+        self.signed_in() && self.achievements.iter().any(|c| c == code)
+    }
+
+    /// Asks the server how `name` plays (for their ghost).
+    pub fn request_ghost(&mut self, name: &str) {
+        let name = name.trim().to_string();
+        self.connect();
+        self.send(ClientMsg::GhostStyle { username: name.clone() });
+        self.ghost =
+            Some(GhostRequest { username: name, sent: std::time::Instant::now(), answer: None });
     }
 
     pub fn request_profile(&mut self, name: &str) {
@@ -686,6 +725,7 @@ impl Online {
                     && let Some(seat) = m.names.iter().position(|n| *n == player.username)
                 {
                     m.cue_looks[seat] = (player.cue.clone(), player.chalk.clone());
+                    m.cue_levels[seat] = player.cue_level;
                     m.effects[seat] = player.effect.clone();
                 }
                 for f in &mut self.friends.friends {
@@ -950,8 +990,28 @@ impl Online {
                 self.draining =
                     Some(std::time::Instant::now() + std::time::Duration::from_secs(secs as u64));
             }
-            ServerMsg::Wallet { coins, vip_until, owned, equipped } => {
-                let wallet = WalletView { coins, vip_until, owned, equipped };
+            ServerMsg::Wallet { coins, vip_until, owned, equipped, cue_wins } => {
+                let wallet = WalletView { coins, vip_until, owned, equipped, cue_wins };
+                // A cue that just reached a new level (a game was won).
+                use snookered_proto::shop::{Category, cue_level};
+                let cue = self.effective(&wallet, Category::Cue);
+                if let Some(old) = &self.wallet {
+                    let (before, now) = (old.cue_wins(cue), wallet.cue_wins(cue));
+                    if now > before && cue_level(now) > cue_level(before) {
+                        let name = snookered_proto::shop::item(cue).map_or(cue, |i| t(i.name));
+                        let text = tw(
+                            "Your cue {cue} reached level {n}!",
+                            &[("cue", &name), ("n", &cue_level(now))],
+                        );
+                        self.toast(text, true);
+                    }
+                }
+                let level = cue_level(wallet.cue_wins(cue));
+                if config.cue_level != level {
+                    config.cue_level = level;
+                    self.looks_changed = true;
+                    save = true;
+                }
                 // The items in use, as the server allows them now.
                 for c in snookered_proto::shop::Category::ALL {
                     let code = self.effective(&wallet, c).to_string();
@@ -961,6 +1021,8 @@ impl Online {
                         snookered_proto::shop::Category::Chalk => &mut config.chalk,
                         snookered_proto::shop::Category::Balls => &mut config.balls,
                         snookered_proto::shop::Category::Effect => &mut config.effect,
+                        snookered_proto::shop::Category::Table => &mut config.table,
+                        snookered_proto::shop::Category::Hall => &mut config.hall,
                         // Only seen online.
                         snookered_proto::shop::Category::Frame
                         | snookered_proto::shop::Category::Name => {
@@ -1019,6 +1081,14 @@ impl Online {
                     *current = None;
                 }
                 self.toast(crate::i18n::server_text(&reason), false);
+            }
+            ServerMsg::LadderClaim { result } => self.ladder_claim = Some(result),
+            ServerMsg::GhostStyle { username, answer } => {
+                if let Some(g) =
+                    self.ghost.as_mut().filter(|g| g.username.eq_ignore_ascii_case(&username))
+                {
+                    g.answer = Some(answer);
+                }
             }
             ServerMsg::MyAchievements { codes } => {
                 if let Some(o) = current.as_mut().and_then(|m| m.online.as_mut()) {

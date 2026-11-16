@@ -130,7 +130,7 @@ const views = {
       .map(([v, l]) => el("option", { value: v }, l)));
     const action = el("select", {}, [["", "No button"], ["tournaments", "Button: tournaments"], ["shop", "Button: shop"],
       ["vip", "Button: VIP"], ["missions", "Button: missions"]].map(([v, l]) => el("option", { value: v }, l)));
-    const pinned = el("input", { type: "checkbox", style: "width:auto" });
+    const pinned = el("input", { type: "checkbox", class: "check" });
     box.append(el("h2", {}, "Board"), note, days,
       el("div", { class: "actions" }, kind, action, el("label", {}, pinned, " Pinned at the top")),
       el("div", { class: "actions" }, el("button", {
@@ -226,6 +226,7 @@ const views = {
       el("p", {}, el("a", { href: "#", onclick: (e) => { e.preventDefault(); showUser(r.target); } }, r.target),
         " reported by ", el("a", { href: "#", onclick: (e) => { e.preventDefault(); showUser(r.reporter); } }, r.reporter)),
       r.details ? el("p", {}, r.details) : null,
+      gameBlock(r),
       r.context ? el("pre", {}, r.context) : null,
       r.status === 0
         ? el("div", { class: "actions" },
@@ -241,7 +242,8 @@ const views = {
     const rooms = d.rooms.map((r) => el("tr", {},
       el("td", {}, "#" + r.id), el("td", {}, r.players[0] + " vs " + r.players[1]),
       el("td", {}, r.rated ? "rated" : "casual"), el("td", {}, r.tournament ? "yes" : ""),
-      el("td", {}, r.shots), el("td", {}, r.finished ? "finished" : "playing")));
+      el("td", {}, r.shots), el("td", {}, r.finished ? "finished" : "playing"),
+      el("td", {}, el("button", { onclick: () => openViewer("/live/" + r.id + "/view") }, "Watch"))));
     const players = d.players.map((p) => el("tr", { class: "click", onclick: () => showUser(p.username) },
       el("td", {}, p.username), el("td", {}, p.rating), el("td", {}, p.status), el("td", {}, p.country || "—")));
     const tournaments = d.tournaments.map((t) => el("tr", {},
@@ -249,7 +251,7 @@ const views = {
       el("td", {}, t.state), el("td", {}, t.champion || "")));
     return el("div", {},
       el("div", { class: "actions" }, el("button", { onclick: render }, "Refresh")),
-      el("h2", {}, "Games (" + d.rooms.length + ")"), table(["", "Players", "", "Tournament", "Shots", ""], rooms),
+      el("h2", {}, "Games (" + d.rooms.length + ")"), table(["", "Players", "", "Tournament", "Shots", "", ""], rooms),
       el("h2", {}, "Tournaments (" + d.tournaments.length + ")"), table(["Name", "Host", "Players", "State", "Champion"], tournaments),
       el("h2", {}, "Online (" + d.players.length + ")"), table(["Player", "Rating", "Status", "Country"], players));
   },
@@ -257,26 +259,85 @@ const views = {
   async metrics() {
     const d = await api("/metrics");
     const m = d.metrics;
-    const stat = (n, l) => el("div", { class: "card stat" }, el("div", { class: "n" }, n), el("div", { class: "l" }, l));
+    const stat = (n, l, sub) => el("div", { class: "card stat" }, el("div", { class: "n" }, n), el("div", { class: "l" }, l),
+      sub ? el("div", { class: "sub muted" }, sub) : null);
     const pct = (x) => (Math.round(x * 10) / 10) + "%";
     const f = m.funnel;
     const funnel = (n) => f[0] ? Math.round(n * 100 / f[0]) + "%" : "—";
+    const q = d.queue;
+    const waitingRated = q.waiting.filter((w) => w.rated).length;
+    const longest = q.waiting.reduce((a, w) => Math.max(a, w.secs), 0);
+    const hours = m.hours;
+    const hourLabel = (h) => {
+      const t = new Date(h * 3600 * 1000);
+      return String(t.getHours()).padStart(2, "0") + "h";
+    };
+    const hourTitle = (h) => new Date(h * 3600 * 1000).toLocaleString([], { weekday: "short", hour: "2-digit", minute: "2-digit" });
+    const sampled = hours.some((h) => h.peak_players > 0 || h.active > 0);
+    const playersChart = sampled
+      ? chart({
+        labels: hours.map((h) => hourLabel(h.hour)), titles: hours.map((h) => hourTitle(h.hour)),
+        bars: { values: hours.map((h) => h.active), name: "Active players", cls: "c-gold" },
+        line: { values: hours.map((h) => h.peak_players), name: "Peak online at once", cls: "c-blue" },
+        every: 6,
+      })
+      : empty("No samples yet: the server counts who is online every minute, so the first hour shows up shortly.");
+    const gamesChart = hours.some((h) => h.games > 0 || h.peak_games > 0)
+      ? chart({
+        labels: hours.map((h) => hourLabel(h.hour)), titles: hours.map((h) => hourTitle(h.hour)),
+        bars: { values: hours.map((h) => h.games), name: "Games finished", cls: "c-green" },
+        line: { values: hours.map((h) => h.peak_games), name: "Peak games at once", cls: "c-blue" },
+        every: 6,
+      })
+      : empty("No games in the last 48 hours.");
+    // Revenue: one chart per currency (amounts in different currencies don't add up).
+    const today = Math.floor(d.now / 86400);
+    const days = Array.from({ length: 30 }, (_, k) => today - 29 + k);
+    const dayLabel = (day) => new Date(day * 86400 * 1000).toLocaleDateString([], { day: "2-digit", month: "2-digit" });
+    const currencies = [...new Set(m.revenue_days.map((r) => r[1]))].sort();
+    const revenueCharts = currencies.length
+      ? currencies.map((cur) => {
+        const by = new Map(m.revenue_days.filter((r) => r[1] === cur).map((r) => [r[0], r]));
+        const total = m.revenue.find((r) => r[0] === cur) || [cur, 0, 0];
+        return el("div", { class: "card chart-card" },
+          el("div", { class: "chart-head" }, el("b", {}, cur.toUpperCase()),
+            el("span", { class: "muted" }, money(total[1], cur) + " · " + total[2] + (total[2] === 1 ? " payment" : " payments"))),
+          chart({
+            labels: days.map(dayLabel), titles: days.map((day) => new Date(day * 86400 * 1000).toLocaleDateString()),
+            bars: { values: days.map((day) => (by.get(day) || [0, 0, 0, 0])[2] / 100), name: "Revenue (" + cur.toUpperCase() + ")", cls: "c-green", format: (v) => v.toFixed(2) },
+            every: 6, height: 190, width: 520,
+          }));
+      })
+      : [empty("No payments in the last 30 days (test payments are left out).")];
+    const recent = q.recent || [];
+    const waitsChart = recent.length
+      ? chart({
+        labels: recent.map(() => ""), titles: recent.map((s, k) => "Pairing " + (k + 1) + " of the latest " + recent.length),
+        bars: { values: recent, name: "Wait (s)", cls: "c-gold" }, every: 0, height: 130, unit: " s",
+      })
+      : empty("Nobody has been paired by \"Play now\" since the server started.");
     const maxActive = Math.max(1, ...m.days.map((x) => x[1]));
     const bars = m.days.map(([day, active, games, accounts]) => el("tr", {},
       el("td", {}, fmtDate(day * 86400).split(",")[0]),
       el("td", {}, barOf(active / maxActive), " " + active),
       el("td", {}, games), el("td", {}, accounts)));
-    const revenue = m.revenue.map(([cur, cents, n]) => el("tr", {},
-      el("td", {}, cur.toUpperCase()), el("td", {}, (cents / 100).toFixed(2)), el("td", {}, n)));
-    return el("div", {},
+    return el("div", { class: "metrics" },
       d.draining ? el("p", { class: "error" }, "The server is restarting (draining): no new games.") : null,
+      el("div", { class: "row refresh" }, el("span", { class: "muted" }, "Updated " + new Date(d.now * 1000).toLocaleTimeString() + " · refreshes every minute"),
+        el("button", { onclick: render }, "Refresh")),
       el("div", { class: "grid" },
+        stat(d.online, "Online now"), stat(d.games, "Games now"),
+        stat(q.size, "In the queue now", q.size ? waitingRated + " rated · longest " + longest + " s" : "nobody waiting"),
+        stat(q.median_wait_secs + " s", "Median wait", "average " + Math.round(q.avg_wait_secs) + " s · " + q.pairs + " pairings"),
         stat(pct(m.retention_d1), "Back the next day"), stat(pct(m.retention_d7), "Back after 7 days"),
-        stat(Math.round(d.queue.avg_wait_secs) + " s", "Avg wait in the queue"), stat(d.queue.median_wait_secs + " s", "Median wait"),
         stat(f[0], "Accounts (30 days)"), stat(funnel(f[1]), "Played 1 game"), stat(funnel(f[2]), "Played 5 games")),
-      el("p", { class: "muted" }, "The funnel starts at the account: installs are not counted (the game sends nothing before signing in)."),
-      el("h2", {}, "Last 30 days"), table(["Day", "Active players", "Games", "New accounts"], bars),
-      el("h2", {}, "Revenue (30 days)"), revenue.length ? table(["Currency", "Amount", "Payments"], revenue) : el("p", { class: "muted" }, "No payments."));
+      el("h2", {}, "Players by hour (48 h)"), el("div", { class: "card chart-card" }, playersChart),
+      el("h2", {}, "Games by hour (48 h)"), el("div", { class: "card chart-card" }, gamesChart),
+      el("h2", {}, "Revenue by day (30 days)"), el("div", { class: "charts" }, revenueCharts),
+      el("h2", {}, "\"Play now\": latest waits"), el("div", { class: "card chart-card" }, waitsChart),
+      el("p", { class: "muted" }, "The funnel starts at the account: installs are not counted (the game sends nothing before signing in). Active players per hour are signed-in accounts seen online; peaks count guests too."),
+      el("details", { class: "days" }, el("summary", {}, "Last 30 days, day by day"),
+        table(["Day", "Active players", "Games", "New accounts"], bars)));
   },
 
   async aim() {
@@ -404,10 +465,12 @@ async function showUser(name) {
     el("td", {}, fmtDate(h.at)), el("td", {}, h.opponent), el("td", {}, h.won ? "won" : "lost"),
     el("td", {}, h.reason.replaceAll("_", " ")), el("td", {}, h.rated ? (h.delta > 0 ? "+" : "") + h.delta : "casual"),
     el("td", {}, h.rating_after),
-    el("td", {}, h.replay ? el("a", { href: "#", onclick: (e) => { e.preventDefault(); downloadReplay(h.match_id); } }, "#" + h.match_id) : "")));
+    el("td", {}, h.replay ? el("span", { class: "links" },
+      el("a", { href: "#", onclick: (e) => { e.preventDefault(); openViewer("/replay/" + h.match_id + "/view"); } }, "Watch"),
+      el("a", { href: "#", title: "Download the strokes (JSON)", onclick: (e) => { e.preventDefault(); downloadReplay(h.match_id); } }, "#" + h.match_id)) : "")));
   const reports = d.reports.map((r) => el("div", { class: "card report" },
     el("div", { class: "head" }, el("b", {}, r.reason + " · by " + r.reporter), el("span", { class: "muted" }, fmtDate(r.created_at))),
-    r.details ? el("p", {}, r.details) : null, r.context ? el("pre", {}, r.context) : null));
+    r.details ? el("p", {}, r.details) : null, gameBlock(r), r.context ? el("pre", {}, r.context) : null));
   $("#main").replaceChildren(el("div", {},
     el("div", { class: "actions" }, el("button", { onclick: () => setView("users") }, "← Players")),
     el("div", { class: "card" },
@@ -457,6 +520,356 @@ async function showUser(name) {
     el("p", { class: "muted" }, d.achievements.map((a) => a[0]).join(", ") || "None.")));
 }
 
+/// An amount in a currency's smallest unit, for people.
+function money(cents, currency) {
+  try { return new Intl.NumberFormat(undefined, { style: "currency", currency: currency.toUpperCase() }).format(cents / 100); }
+  catch (_) { return (cents / 100).toFixed(2) + " " + currency.toUpperCase(); }
+}
+
+/// A quiet note where a chart would be.
+function empty(text) {
+  return el("p", { class: "muted empty" }, text);
+}
+
+const SVG = "http://www.w3.org/2000/svg";
+function svg(tag, attrs = {}, ...children) {
+  const e = document.createElementNS(SVG, tag);
+  for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
+  for (const c of children.flat()) {
+    if (c === null || c === undefined || c === false) continue;
+    e.append(c instanceof Node ? c : document.createTextNode(String(c)));
+  }
+  return e;
+}
+
+/// The smallest 1, 2 or 5 × 10ⁿ at or above `v`.
+function niceMax(v) {
+  if (!(v > 0)) return 1;
+  const p = Math.pow(10, Math.floor(Math.log10(v)));
+  for (const k of [1, 2, 5, 10]) if (k * p >= v) return k * p;
+  return 10 * p;
+}
+
+/// Bars (and optionally a line) over evenly spaced columns, in SVG. Each
+/// column has a tooltip with its values.
+function chart({ labels, titles, bars, line, every = 6, height = 190, unit = "", width = 960 }) {
+  const W = width, H = height, left = 46, right = 14, top = 12, bottom = every ? 24 : 8;
+  const n = labels.length;
+  const values = bars.values.concat(line ? line.values : []);
+  const max = niceMax(Math.max(0, ...values));
+  const fmt = bars.format || ((v) => String(Math.round(v * 10) / 10));
+  const step = (W - left - right) / Math.max(1, n);
+  const x = (k) => left + step * k + step / 2;
+  const y = (v) => top + (H - top - bottom) * (1 - v / max);
+  const g = svg("svg", { viewBox: "0 0 " + W + " " + H, class: "chart", role: "img", "aria-label": bars.name + (line ? " and " + line.name : "") });
+  for (const t of [0, 0.5, 1]) {
+    const yy = y(max * t);
+    g.append(svg("line", { x1: left, x2: W - right, y1: yy, y2: yy, class: "grid-line" }),
+      svg("text", { x: left - 8, y: yy + 4, class: "axis", "text-anchor": "end" }, fmt(max * t)));
+  }
+  const bw = Math.max(1.5, step * 0.68);
+  bars.values.forEach((v, k) => {
+    if (v > 0) {
+      const h = Math.max(1.5, y(0) - y(v));
+      g.append(svg("rect", { x: x(k) - bw / 2, y: y(0) - h, width: bw, height: h, rx: Math.min(3, bw / 3), class: "col " + bars.cls }));
+    }
+  });
+  if (line) {
+    const pts = line.values.map((v, k) => x(k).toFixed(1) + "," + y(v).toFixed(1)).join(" ");
+    g.append(svg("polyline", { points: pts, class: "line " + line.cls }));
+    line.values.forEach((v, k) => { if (v > 0) g.append(svg("circle", { cx: x(k), cy: y(v), r: 2.6, class: "dot " + line.cls })); });
+  }
+  if (every) {
+    labels.forEach((l, k) => {
+      if (k % every === 0 || k === n - 1) g.append(svg("text", { x: x(k), y: H - 6, class: "axis", "text-anchor": "middle" }, l));
+    });
+  }
+  // Tooltips over whole columns.
+  labels.forEach((_, k) => {
+    let tip = (titles[k] || labels[k]) + "\n" + bars.name + ": " + fmt(bars.values[k]) + unit;
+    if (line) tip += "\n" + line.name + ": " + fmt(line.values[k]);
+    g.append(svg("rect", { x: left + step * k, y: top, width: step, height: H - top - bottom, class: "hit" }, svg("title", {}, tip)));
+  });
+  const key = (name, cls, kind) => el("span", { class: "key" }, el("i", { class: kind + " " + cls }), name);
+  return el("div", { class: "chart-wrap" },
+    el("div", { class: "legend" }, key(bars.name, bars.cls, "sw-bar"), line ? key(line.name, line.cls, "sw-line") : null),
+    g);
+}
+
+/// The game that came with a report.
+function gameBlock(r) {
+  const g = r.game;
+  if (!g) return el("div", { class: "game none" }, el("span", { class: "muted" }, "No game between them in the 24 hours before the report."));
+  if (g.kind === "gone") {
+    return el("div", { class: "game gone" }, el("span", { class: "muted" },
+      "They were playing when this was sent, but that game was never stored (the server restarted and nobody came back to it)."));
+  }
+  const live = g.kind === "live";
+  const when = live ? (g.finished ? "just ended" : "in progress when reported") : "ended " + fmtDate(g.at);
+  return el("div", { class: "game" },
+    el("div", { class: "game-info" },
+      el("b", {}, live ? "Game in progress attached" : "Game attached"),
+      el("span", {}, g.players[0] + " vs " + g.players[1]),
+      el("span", { class: "muted" }, [when, g.rated ? "rated" : "casual", g.shots + (g.shots === 1 ? " stroke" : " strokes")].join(" · "))),
+    el("div", { class: "game-actions" },
+      el("button", { class: "primary", onclick: () => openViewer(live ? "/live/" + g.id + "/view" : "/replay/" + g.id + "/view") },
+        live ? "Watch so far" : "Watch replay"),
+      live ? null : el("button", { class: "ghost", title: "The strokes as a JSON file", onclick: () => downloadReplay(g.id) }, "Download")));
+}
+
+// ---------------------------------------------------------------------------
+// The replay viewer: the table from above, every shot as the server played it.
+
+let viewer = null;
+const BALL_COLORS = ["#f4efe2", "#f2c200", "#2051c9", "#d42a2a", "#6c2fa3", "#f07a1a", "#1d8a3a", "#8a2323", "#141414"];
+const ballColor = (n) => BALL_COLORS[n > 8 ? n - 8 : n];
+
+function closeViewer() {
+  if (!viewer) return;
+  cancelAnimationFrame(viewer.raf);
+  clearTimeout(viewer.hold);
+  viewer.box.remove();
+  viewer = null;
+}
+
+async function openViewer(path) {
+  closeViewer();
+  const card = el("div", { class: "viewer-card card" }, el("div", { class: "viewer-wait" }, el("span", { class: "spinner" }), "Rebuilding the game…"));
+  const box = el("div", { class: "viewer", role: "dialog", "aria-modal": "true" }, card);
+  box.addEventListener("click", (e) => { if (e.target === box) closeViewer(); });
+  document.body.append(box);
+  viewer = { box, raf: 0 };
+  let data;
+  try { data = await api(path); } catch (e) {
+    if (viewer && viewer.box === box) {
+      card.replaceChildren(el("p", { class: "error" }, e.message), el("div", { class: "actions" }, el("button", { onclick: closeViewer }, "Close")));
+    }
+    return;
+  }
+  if (!viewer || viewer.box !== box) return;
+  buildViewer(card, data, path);
+}
+
+function strokeSummary(s, names) {
+  const who = names[s.seat] || "Player " + (s.seat + 1);
+  if (s.kind === "resign") return [who, "resigned"];
+  if (s.kind === "abandon") return [who, "left the game"];
+  if (s.kind === "time_foul") return [who, "ran out of time"];
+  const made = s.pocketed.filter((p) => p.ball !== 0).map((p) => p.ball);
+  const parts = [];
+  if (s.break) parts.push("break");
+  parts.push(made.length ? "made " + made.join(", ") : s.first === null ? "hit nothing" : "made nothing");
+  if (s.fouls.length) parts.push("foul");
+  return [who, parts.join(" · ")];
+}
+
+function strokeDetails(s) {
+  if (s.kind !== "shot") return [];
+  const out = [];
+  for (const p of s.pocketed) out.push((p.ball === 0 ? "Cue ball" : p.ball + "-ball") + " in the " + p.pocket);
+  for (const f of s.fouls) out.push("Foul: " + f);
+  if (s.called) out.push("8-ball called in the " + s.called);
+  if (s.in_hand) out.push("ball in hand");
+  if (s.timeout) out.push("played by the shot clock");
+  out.push("power " + s.power + "%");
+  return out;
+}
+
+function buildViewer(card, data, path) {
+  const t = data.table;
+  const m = data.match;
+  const names = m.players;
+  const R = t.ball_radius;
+  const rail = 120, L = t.length, Wd = t.width;
+  const vb = [-L / 2 - rail, -Wd / 2 - rail, L + 2 * rail, Wd + 2 * rail];
+  const board = svg("svg", { viewBox: vb.join(" "), class: "table-svg", role: "img", "aria-label": "The table from above" });
+  const defs = svg("defs");
+  board.append(defs,
+    svg("rect", { x: vb[0], y: vb[1], width: vb[2], height: vb[3], rx: 70, class: "t-rail" }),
+    svg("rect", { x: -L / 2 - 38, y: -Wd / 2 - 38, width: L + 76, height: Wd + 76, rx: 18, class: "t-cushion" }),
+    svg("rect", { x: -L / 2, y: -Wd / 2, width: L, height: Wd, class: "t-cloth" }),
+    svg("line", { x1: -L / 4, x2: -L / 4, y1: -Wd / 2, y2: Wd / 2, class: "t-string" }),
+    svg("circle", { cx: L / 4, cy: 0, r: 7, class: "t-spot" }));
+  for (let k = 1; k < 8; k++) {
+    if (k === 4) continue;
+    for (const sy of [-1, 1]) board.append(svg("circle", { cx: -L / 2 + k * L / 8, cy: sy * (Wd / 2 + rail * 0.62), r: 7, class: "t-diamond" }));
+  }
+  for (let k = 1; k < 4; k++) {
+    for (const sx of [-1, 1]) board.append(svg("circle", { cx: sx * (L / 2 + rail * 0.62), cy: -Wd / 2 + k * Wd / 4, r: 7, class: "t-diamond" }));
+  }
+  for (const c of t.cushions) board.append(svg("line", { x1: c[0], y1: -c[1], x2: c[2], y2: -c[3], class: "t-jaw" }));
+  for (const p of t.pockets) board.append(svg("circle", { cx: p.x, cy: -p.y, r: p.r, class: "t-pocket" }, svg("title", {}, p.name)));
+  const balls = [];
+  for (let n = 0; n < 16; n++) {
+    const g = svg("g", { class: "ball" });
+    const color = ballColor(n);
+    if (n > 8) {
+      defs.append(svg("clipPath", { id: "vb" + n }, svg("circle", { r: R })));
+      g.append(svg("circle", { r: R, fill: "#f4efe2" }),
+        svg("rect", { x: -R, y: -R * 0.55, width: 2 * R, height: R * 1.1, fill: color, "clip-path": "url(#vb" + n + ")" }));
+    } else {
+      g.append(svg("circle", { r: R, fill: color }));
+    }
+    g.append(svg("circle", { r: R, class: "ball-edge" }));
+    if (n > 0) {
+      g.append(svg("circle", { r: R * 0.5, class: "ball-disc" }),
+        svg("text", { y: R * 0.22, "text-anchor": "middle", class: "ball-num" }, n));
+    }
+    g.append(svg("title", {}, n === 0 ? "Cue ball" : n + "-ball"));
+    balls.push(g);
+    board.append(g);
+  }
+
+  const strokes = data.strokes;
+  const st = { k: 0, f: 0, pos: [], playing: false, speed: 1, acc: 0, last: 0 };
+  const startOf = (k) => (k < strokes.length ? strokes[k].start : data.end).map((p) => (p ? p.slice() : null));
+  const apply = (frame) => {
+    for (let i = 0; i + 2 < frame.length; i += 3) {
+      const b = frame[i];
+      st.pos[b] = frame[i + 1] === null ? null : [frame[i + 1], frame[i + 2]];
+    }
+  };
+  const frames = (k) => (k < strokes.length ? strokes[k].frames : []);
+  const draw = () => {
+    st.pos.forEach((p, n) => {
+      if (p) {
+        balls[n].setAttribute("transform", "translate(" + p[0] + "," + -p[1] + ")");
+        balls[n].removeAttribute("visibility");
+      } else {
+        balls[n].setAttribute("visibility", "hidden");
+      }
+    });
+    const fr = frames(st.k);
+    scrub.max = String(fr.length);
+    scrub.value = String(st.f);
+    scrub.disabled = fr.length === 0;
+    play.textContent = st.playing ? "❚❚ Pause" : "▶ Play";
+    prev.disabled = st.k === 0 && st.f === 0;
+    next.disabled = st.k >= strokes.length;
+    const s = strokes[st.k];
+    if (s) {
+      const [who, what] = strokeSummary(s, names);
+      status.replaceChildren(el("b", {}, "Stroke " + (st.k + 1) + " of " + strokes.length), " · ", who, " · ", what,
+        el("div", { class: "muted details" }, strokeDetails(s).join(" · ")));
+    } else {
+      status.replaceChildren(el("b", {}, "End of the game"), " · ", over());
+    }
+    list.querySelectorAll("li").forEach((li, k) => li.classList.toggle("current", k === st.k));
+    const cur = list.children[Math.min(st.k, list.children.length - 1)];
+    if (cur && st.playing) cur.scrollIntoView({ block: "nearest" });
+  };
+  const over = () => {
+    if (data.over) return (names[data.over.winner] || "?") + " won (" + data.over.reason.replaceAll("_", " ") + ")";
+    return m.live ? "still being played" : "unfinished";
+  };
+  const seek = (k, f) => {
+    st.k = Math.max(0, Math.min(k, strokes.length));
+    st.pos = startOf(st.k);
+    const fr = frames(st.k);
+    st.f = Math.max(0, Math.min(f, fr.length));
+    for (let i = 0; i < st.f; i++) apply(fr[i]);
+    draw();
+  };
+  const pause = () => { st.playing = false; clearTimeout(viewer.hold); draw(); };
+  const tick = (now) => {
+    if (!viewer || !st.playing) return;
+    const dt = st.last ? Math.min(0.1, (now - st.last) / 1000) : 0;
+    st.last = now;
+    st.acc += dt * data.fps * st.speed;
+    const fr = frames(st.k);
+    let moved = false;
+    while (st.acc >= 1 && st.f < fr.length) {
+      apply(fr[st.f]);
+      st.f++;
+      st.acc -= 1;
+      moved = true;
+    }
+    if (moved) draw();
+    if (st.f >= fr.length) {
+      // A breath between strokes, then the next one.
+      st.acc = 0;
+      if (st.k >= strokes.length) { pause(); return; }
+      clearTimeout(viewer.hold);
+      viewer.hold = setTimeout(() => {
+        if (!viewer || !st.playing) return;
+        seek(st.k + 1, 0);
+        st.last = 0;
+        viewer.raf = requestAnimationFrame(tick);
+      }, 650 / st.speed);
+      return;
+    }
+    viewer.raf = requestAnimationFrame(tick);
+  };
+  const start = () => {
+    if (st.k >= strokes.length) seek(0, 0);
+    st.playing = true;
+    st.last = 0;
+    st.acc = 0;
+    draw();
+    cancelAnimationFrame(viewer.raf);
+    viewer.raf = requestAnimationFrame(tick);
+  };
+  const toggle = () => (st.playing ? pause() : start());
+  const stepFrame = (d) => {
+    pause();
+    const fr = frames(st.k);
+    if (d > 0) {
+      if (st.f < fr.length) seek(st.k, st.f + 1);
+      else if (st.k < strokes.length) seek(st.k + 1, 0);
+    } else if (st.f > 0) seek(st.k, st.f - 1);
+    else if (st.k > 0) seek(st.k - 1, frames(st.k - 1).length);
+  };
+  const stepStroke = (d) => {
+    pause();
+    if (d < 0 && st.f > 0) seek(st.k, 0);
+    else seek(st.k + d, 0);
+  };
+
+  const prev = el("button", { title: "Previous stroke (←)", onclick: () => stepStroke(-1) }, "⏮");
+  const back = el("button", { title: "One frame back (,)", onclick: () => stepFrame(-1) }, "‹");
+  const play = el("button", { class: "primary play", title: "Play / pause (space)", onclick: toggle }, "▶ Play");
+  const fwd = el("button", { title: "One frame forward (.)", onclick: () => stepFrame(1) }, "›");
+  const next = el("button", { title: "Next stroke (→)", onclick: () => stepStroke(1) }, "⏭");
+  const speed = el("select", { title: "Speed", onchange: () => { st.speed = Number(speed.value); } },
+    [["0.25", "¼×"], ["0.5", "½×"], ["1", "1×"], ["2", "2×"], ["4", "4×"]].map(([v, l]) => el("option", { value: v }, l)));
+  speed.value = "1";
+  const scrub = el("input", { type: "range", min: "0", max: "0", value: "0", class: "scrub", "aria-label": "Position in the stroke" });
+  scrub.addEventListener("input", () => { pause(); seek(st.k, Number(scrub.value)); });
+  const status = el("div", { class: "viewer-status" });
+  const list = el("ol", { class: "stroke-list" }, strokes.map((s, k) => {
+    const [who, what] = strokeSummary(s, names);
+    const foul = s.kind !== "shot" || s.fouls.length > 0;
+    return el("li", { class: foul ? "foul" : "", onclick: () => { pause(); seek(k, 0); } },
+      el("span", { class: "num" }, k + 1), el("span", { class: "who seat" + s.seat }, who), el("span", { class: "what" }, what));
+  }));
+  const title = el("div", { class: "viewer-title" },
+    el("b", {}, names[0] + " vs " + names[1]),
+    el("span", { class: "muted" }, [m.live ? "in progress" : m.rated ? "rated" : "casual", m.live ? "so far" : fmtDate(m.at),
+      m.id ? "#" + m.id : null].filter(Boolean).join(" · ")));
+  const close = el("button", { class: "ghost", title: "Close (Esc)", onclick: closeViewer }, "✕");
+  card.replaceChildren(
+    el("div", { class: "viewer-head" }, title, close),
+    el("div", { class: "viewer-body" },
+      el("div", { class: "viewer-stage" }, board, scrub,
+        el("div", { class: "viewer-controls" }, prev, back, play, fwd, next, speed), status),
+      el("div", { class: "viewer-side" }, el("div", { class: "muted side-head" }, strokes.length + " strokes · " + over()), list)),
+    ...(data.error ? [el("p", { class: "error" }, "The replay stops early: " + data.error)] : []));
+  viewer.keys = (e) => {
+    if (e.target && ["INPUT", "SELECT", "TEXTAREA"].includes(e.target.tagName) && e.target !== scrub) return;
+    if (e.key === "Escape") closeViewer();
+    else if (e.key === " ") { e.preventDefault(); toggle(); }
+    else if (e.key === "ArrowLeft") { e.preventDefault(); stepStroke(-1); }
+    else if (e.key === "ArrowRight") { e.preventDefault(); stepStroke(1); }
+    else if (e.key === ",") stepFrame(-1);
+    else if (e.key === ".") stepFrame(1);
+    else return;
+  };
+  seek(0, 0);
+  play.focus();
+}
+
+document.addEventListener("keydown", (e) => { if (viewer && viewer.keys) viewer.keys(e); else if (viewer && e.key === "Escape") closeViewer(); });
+
 function signOut(callServer = true) {
   if (callServer && token) api("/logout", { method: "POST" }).catch(() => {});
   token = "";
@@ -490,5 +903,9 @@ $("#login-form").addEventListener("submit", async (e) => {
   } catch (err) { $("#login-error").textContent = err.message; }
 });
 $("#logout").addEventListener("click", () => signOut(true));
+// The metrics page keeps itself current.
+setInterval(() => {
+  if (token && view === "metrics" && !viewer && document.visibilityState === "visible" && $("#main .metrics")) render();
+}, 60000);
 document.querySelectorAll("nav button").forEach((b) => b.addEventListener("click", () => setView(b.dataset.view)));
 start();

@@ -146,7 +146,6 @@ Drag the cue · click a ball or a spot	Arraste o taco · clique numa bola ou pon
 #{n} in the world	#{n} no mundo
 3–16 letters, digits or underscores.	3 a 16 letras, números ou sublinhados.
 Only a short line from the cue ball.	Só uma linha curta saindo da branca.
-A solid club player.	Um jogador de clube sólido.
 Accept friend	Aceitar amizade
 Achievement unlocked: {title}	Conquista desbloqueada: {title}
 Achievements {n}/{total}	Conquistas {n}/{total}
@@ -300,7 +299,6 @@ Locked	Bloqueada
 Looking for games	Procurando partidas
 Make a friend.	Faça um amigo.
 Master	Mestre
-Misses now and then: good for learning.	Erra de vez em quando: bom para aprender.
 Name	Nome
 Names have 3–16 letters, digits or underscores.	Nomes têm de 3 a 16 letras, números ou sublinhados.
 New account	Nova conta
@@ -326,7 +324,6 @@ Or join by address	Ou entre pelo endereço
 Other	Outro
 Others can join at {ip}:{port}	Outros podem entrar em {ip}:{port}
 Passwords need at least 8 characters (not only digits).	A senha precisa de pelo menos 8 caracteres (não só números).
-Plans position and plays safeties.	Planeja a posição e joga defensivo.
 Play 1,000 rated games.	Jogue 1.000 partidas valendo rating.
 Play 10 rated games.	Jogue 10 partidas valendo rating.
 Play 100 rated games.	Jogue 100 partidas valendo rating.
@@ -371,6 +368,9 @@ Round {n}	Rodada {n}
 Search…	Buscar…
 Semi-finals	Semifinais
 Send report	Enviar denúncia
+This game goes with the report, so the moderators can watch it.	Esta partida vai junto com a denúncia, para os moderadores assistirem.
+Your game with {name} ({date}) goes with the report, so the moderators can watch it.	Sua partida com {name} ({date}) vai junto com a denúncia, para os moderadores assistirem.
+You haven't played {name} in the last day: the moderators see the recent chat.	Você não jogou com {name} no último dia: os moderadores veem o chat recente.
 Shark	Tubarão
 Shows the contact point; judging the cut is up to you.	Mostra o ponto de contato; o corte fica por sua conta.
 Shows where the object ball and the cue ball go.	Mostra para onde vão a bola da vez e a branca.
@@ -388,6 +388,7 @@ Table runner	Limpa-mesa
 Tables	Mesas
 Take turns on this computer	Revezem neste computador
 Thank you. The moderators will look into it.	Obrigado. Os moderadores vão analisar.
+Thank you. The moderators will look into it, with your game attached.	Obrigado. Os moderadores vão analisar, com a sua partida anexada.
 That player is not accepting invitations.	Esse jogador não está aceitando convites.
 That shot was for an earlier turn.	Essa tacada era de uma vez anterior.
 That table is no longer open.	Essa mesa não está mais aberta.
@@ -401,7 +402,7 @@ The server is busy. Try again in a moment.	O servidor está ocupado. Tente de no
 The tournament starts when it is full (the host can start it earlier).	O torneio começa quando lotar (o anfitrião pode começar antes).
 There are too many tournaments right now. Join one!	Há torneios demais agora. Entre em um!
 This is a LAN server: join as a guest.	Este é um servidor de rede local: entre como convidado.
-Three levels, from relaxed to ruthless	Três níveis, do tranquilo ao implacável
+Ten rivals, a ladder and ghosts of real players	Dez rivais, a escada e fantasmas de jogadores reais
 Tier	Nível
 Time per shot	Tempo por tacada
 Too many failed attempts. Wait a few minutes and try again.	Muitas tentativas erradas. Espere alguns minutos e tente de novo.
@@ -789,6 +790,80 @@ Ball in hand  ·  {group}	Bola na mão  ·  {group}
 Can't shoot: {e}.	Não dá para tacar: {e}.
 Chat ({n})	Chat ({n})
 Computer ({level})	Computador ({level})
+Computer	Computador
+Each opponent has a style of their own	Cada adversário tem um estilo próprio
+Free game	Partida livre
+Ladder	Escada
+Ladder: {n} of {total} beaten	Escada: {n} de {total} vencidos
+Strength {n}/5	Nível {n}/5
+Ghost	Fantasma
+Accuracy	Precisão
+Safeties	Defesas
+Banks	Tabelas
+Position	Posição
+Ghost of {name}	Fantasma de {name}
+A player's ghost	Fantasma de um jogador
+Plays like a real player	Joga como um jogador de verdade
+The computer plays in the style of a real player, measured on their online games.	O computador joga no estilo de um jogador de verdade, medido nas partidas online dele.
+Sign in to play the ghost of a real player.	Entre para jogar contra o fantasma de um jogador de verdade.
+Load	Carregar
+Friends:	Amigos:
+Type a username or pick a friend, then Load.	Digite um nome de usuário ou escolha um amigo e toque em Carregar.
+Measuring how {name} plays…	Medindo como {name} joga…
+Pots {pots}% · safeties {safe}% · banks {banks}% · {shots} shots	Encaçapa {pots}% · defesas {safe}% · tabelas {banks}% · {shots} tacadas
+{name} has only {shots} recorded shots; a ghost needs {needed}. More online games will do it.	{name} tem só {shots} tacadas registradas; um fantasma precisa de {needed}. Mais partidas online resolvem.
+There is no player called {name}.	Não há nenhum jogador chamado {name}.
+The server can't be reached right now. Try again later.	Não foi possível falar com o servidor agora. Tente de novo mais tarde.
+Wait a moment before asking again.	Espere um pouco antes de pedir de novo.
+Something went wrong on the server. Try again later.	Algo deu errado no servidor. Tente de novo mais tarde.
+Play your ghost	Jogar contra seu fantasma
+Play their ghost	Jogar contra o fantasma
+Beaten	Vencido
+Next	Próximo
+Beat the rung below to unlock it.	Vença o degrau de baixo para liberar este.
+Rung {n} of {total}	Degrau {n} de {total}
+Challenge {name}	Desafiar {name}
+Rung {n} beaten! Next on the ladder: {name}.	Degrau {n} vencido! Próximo na escada: {name}.
+You beat the whole ladder!	Você venceu a escada inteira!
+Reward	Prêmio
+{item} cue · exclusive	Taco {item} · exclusivo
+Yours: find it in the shop, under Cues.	É seu: está na loja, em Tacos.
+Beat the last rung again while signed in to claim it.	Vença o último degrau de novo, conectado, para recebê-lo.
+Beat all ten opponents to earn it. It is sold nowhere.	Vença os dez adversários para ganhá-lo. Não é vendido em lugar nenhum.
+You beat the ladder! Sign in to claim your reward.	Você venceu a escada! Entre para receber seu prêmio.
+The server is checking your final game…	O servidor está conferindo sua partida final…
+Try again	Tentar de novo
+The server did not answer. Try again in a moment.	O servidor não respondeu. Tente de novo em instantes.
+The server is busy checking other games. Try again in a moment.	O servidor está conferindo outras partidas. Tente de novo em instantes.
+Wait a minute before trying again.	Espere um minuto antes de tentar de novo.
+That game is too long to be checked.	Essa partida é longa demais para ser conferida.
+That game has a move the rules don't allow.	Essa partida tem uma jogada que as regras não permitem.
+That game was not played to the end.	Essa partida não foi jogada até o fim.
+That game was not a win.	Essa partida não foi uma vitória.
+The computer's shots in that game don't match how it plays (another version of the game?).	As tacadas do computador nessa partida não batem com o jeito dele jogar (outra versão do jogo?).
+The Rookie	O Novato
+Still learning: aims at the nearest pocket, centre ball, and hopes. Never plays safe.	Ainda aprendendo: mira na caçapa mais perto, bate no centro e torce. Nunca joga defensivo.
+The Weekend Player	A Jogadora de Fim de Semana
+Knows the basics and drops the easy ones, but rarely thinks about where the cue ball goes.	Sabe o básico e mata as fáceis, mas quase nunca pensa em onde a bola branca vai parar.
+The Bank Artist	A Artista da Tabela
+Sees angles nobody else does: whenever a ball can go off a cushion and in, she banks it.	Vê ângulos que ninguém vê: sempre que uma bola pode entrar de tabela, ela joga de tabela.
+The Cannon	O Canhão
+Goes for everything, as hard as he can: long pots, thunderous breaks, hardly ever a safety.	Vai em tudo, com toda a força: bolas longas, saídas estrondosas, quase nunca uma defesa.
+The Wall	A Muralha
+Only shoots when the pot is on. Otherwise she tucks the cue ball away and waits for your mistake.	Só ataca quando a bola está feita. Fora isso, esconde a branca e espera o seu erro.
+The Old Pro	O Veterano
+Forty years at the table: a smooth stroke, a raised cue, side spin, and never in a hurry.	Quarenta anos de mesa: tacada macia, taco levantado, efeito lateral e nenhuma pressa.
+The Hustler	A Astuta
+Plays just well enough to win, then a little better. Balanced, sharp and hard to read.	Joga só o bastante para ganhar, e depois um pouco melhor. Equilibrada, afiada e difícil de ler.
+The Professor	O Professor
+Thinks three balls ahead: every shot leaves the cue ball where the next one is easy.	Pensa três bolas à frente: cada tacada deixa a branca onde a próxima fica fácil.
+The Sharpshooter	A Atiradora de Elite
+Pots from anywhere, at any angle. Her safeties are an afterthought: she doesn't need them.	Encaçapa de qualquer lugar, em qualquer ângulo. Defesa é o de menos: ela não precisa.
+The Champion	O Campeão
+Unbeaten for years. Precise, patient and merciless: the last step of the ladder.	Invicto há anos. Preciso, paciente e implacável: o último degrau da escada.
+Ladder king	Rei da escada
+King of the ladder	Rei da escada
+Beat all ten opponents of the computer ladder.	Vença os dez adversários da escada contra o computador.
 Connecting to {server}…	Conectando a {server}…
 Connection lost. Reconnecting (attempt {n})…	Conexão perdida. Reconectando (tentativa {n})…
 Connection lost. Reconnecting…	Conexão perdida. Reconectando…
@@ -963,6 +1038,7 @@ Use {email} to recover your account if you ever forget your password?	Usar {emai
 Watch	Assistir
 Watch again	Assistir de novo
 Winning effects	Efeitos de vitória
+Halls	Salões
 You are paired as soon as you and an opponent are free.	Você é pareado assim que você e um adversário estiverem livres.
 You can change it any time in your profile (Account).	Você pode mudar quando quiser no seu perfil (Conta).
 You need {n} more coins.	Faltam {n} moedas.
@@ -979,12 +1055,65 @@ entry fee back	inscrição devolvida
 for the game	pela partida
 for the win	pela vitória
 games counted	partidas contadas
+Analysis	Análise
+Shot analysis	Análise das tacadas
+The shot analysis isn't available on this server yet.	A análise das tacadas ainda não está disponível neste servidor.
+Only online accounts have a shot analysis.	Só contas online têm análise das tacadas.
+Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Jogue online para ver como você encaçapa: a análise aparece depois de mais {n} tacadas numa caçapa.
+{name} hasn't played enough online games for an analysis yet.	{name} ainda não jogou partidas online suficientes para uma análise.
+1 game	1 partida
+{pct}% of {n} shots at a pocket potted · {games}	{pct}% de {n} tacadas numa caçapa encaçapadas · {games}
+{made} of {n} potted ({pct})	{made} de {n} encaçapadas ({pct})
+By kind of shot	Por tipo de tacada
+shots	tacadas
+Straight	Reta
+Cut 8–25°	Corte 8–25°
+Cut 25–45°	Corte 25–45°
+Thin cut 45°+	Corte fino 45°+
+Bank	Tabela
+Kick	Tabela da branca
+Combination	Combinação
+Jump	Salto
+Massé	Massé
+Break	Saída
+By distance	Por distância
+Short (under 0.75 m)	Curta (até 0,75 m)
+Medium (to 1.5 m)	Média (até 1,5 m)
+Long (over 1.5 m)	Longa (mais de 1,5 m)
+Safeties	Defesas
+left the opponent nothing	deixaram o adversário sem nada
+Breaks	Saídas
+made a ball	encaçaparam uma bola
+Potted	Encaçapadas
+Missed	Erradas
+Where and in which pocket	Onde e em qual caçapa
+{pocket}: {made} of {n} potted	{pocket}: {made} de {n} encaçapadas
+Where the potted balls were	Onde estavam as bolas encaçapadas
+Where the missed balls were	Onde estavam as bolas erradas
+few	poucas
+many	muitas
+{made} potted · {missed} missed ({pct})	{made} encaçapadas · {missed} erradas ({pct})
+Top left corner	Canto superior esquerdo
+Bottom left corner	Canto inferior esquerdo
+Top side pocket	Caçapa do meio de cima
+Bottom side pocket	Caçapa do meio de baixo
+Top right corner	Canto superior direito
+Bottom right corner	Canto inferior direito
 games left unfinished	partidas abandonadas
 potting success	aproveitamento
 shots with a foul	tacadas com falta
 starts in {n} min	começa em {n} min
 tournament prize	prêmio de torneio
 turning around the table	girando em volta da mesa
+looking around the hall	olhando em volta do salão
+The dark room hides the hall around the table.	O ambiente escuro esconde o salão em volta da mesa.
+Show the hall	Mostrar o salão
+Level {n} · 1 win	Nível {n} · 1 vitória
+Level {n} · {w} wins	Nível {n} · {w} vitórias
+{left} more online wins with this cue for level {n}. Levels only add marks to the cue.	Mais {left} vitórias online com este taco para o nível {n}. Os níveis só acrescentam marcas ao taco.
+The top level: this cue has every mark.	O nível máximo: este taco tem todas as marcas.
+Your cue {cue} reached level {n}!	Seu taco {cue} chegou ao nível {n}!
+Most wins: {cue} (level {n})	Mais vitórias: {cue} (nível {n})
 vs	x
 {from} gave you {item}!	{from} te deu {item}!
 You received a gift!	Você ganhou um presente!
@@ -1026,6 +1155,12 @@ Black tie	Black tie
 Cobalt	Cobalto
 Emerald	Esmeralda
 Natural maple	Maple natural
+Beach bar	Bar de praia
+Modern	Moderna
+English club	Clube inglês
+Ebony & gold	Ébano e ouro
+Pool hall	Salão de sinuca
+Industrial loft	Loft industrial
 Walnut	Nogueira
 Zebrawood	Zebrano
 Bocote	Bocote

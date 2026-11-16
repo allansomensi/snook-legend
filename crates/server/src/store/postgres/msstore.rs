@@ -1,5 +1,5 @@
 //! Microsoft Store purchases in PostgreSQL (table `msstore_consumes`,
-//! migration 0011). See `crate::msstore` for the whole flow.
+//! migration 0013). See `crate::msstore` for the whole flow.
 
 use sqlx::postgres::PgRow;
 use sqlx::{Row, query};

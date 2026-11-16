@@ -1,5 +1,5 @@
 //! Microsoft Store purchases in memory (the same rules as the database:
-//! see `store/postgres/msstore.rs` and migration 0011).
+//! see `store/postgres/msstore.rs` and migration 0013).
 
 use super::super::{
     MS_CURRENCY, MS_FIRST_RETRY, MS_LEASE, MsConsume, MsRecord, MsState, Payment, StoreError,

@@ -562,7 +562,7 @@ async fn resigning_ends_the_game_and_old_games_never_hear_of_it() {
     assert_eq!(replay.strokes.last(), Some(&Stroke::Resign { seat: 1 }));
 
     // A game of protocol 12 is challenged: it gets none of the new messages.
-    assert!(SINCE_PROTOCOL > 12);
+    const { assert!(SINCE_PROTOCOL > 12) };
     let mut old = rig.player_v("old", 12).await;
     ana.send(ClientMsg::CorrChallenge { to: "old".into(), rated: true }).await;
     ana.expect("sent", |m| matches!(m, ServerMsg::Notice { .. })).await;

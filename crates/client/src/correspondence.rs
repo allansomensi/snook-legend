@@ -487,7 +487,7 @@ pub fn drive(m: &mut Match, dt: f32) {
     let c = table_mut(m).expect("checked");
     if c.played && !c.sent && passed && !c.replaying() {
         c.sent = true;
-        m.notify(t("Turn sent."), true);
+        m.notify(t("Turn sent."), false);
     }
 }
 

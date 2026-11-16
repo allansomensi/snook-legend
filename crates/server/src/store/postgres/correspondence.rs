@@ -221,7 +221,7 @@ impl PgStore {
     }
 
     pub async fn set_async_seen(&self, id: i64, seat: usize, seen: u32) -> StoreResult<()> {
-        let sql = if seat % 2 == 0 {
+        let sql = if seat.is_multiple_of(2) {
             "UPDATE async_games SET seen0 = GREATEST(seen0, $2) WHERE id = $1"
         } else {
             "UPDATE async_games SET seen1 = GREATEST(seen1, $2) WHERE id = $1"

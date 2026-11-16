@@ -2,6 +2,29 @@
 
 ## Unreleased
 
+The game now plays on a regulation 9-foot tournament table with heavier,
+more realistic balls and a new break rule: every shot plays out
+differently, so older games (0.2.0 and before) must update to play online.
+
+### The table and the balls
+- A 9-foot tournament table to the WPA's specifications: a 100" × 50"
+  playing surface (it was a 7-foot bar table), 4 1/2" corner and 5" side
+  pockets, 2 1/4" balls of 6 oz, a 58" cue with a 13 mm tip.
+- Heavier balls, as players asked ("they felt hollow"): measured values
+  for a tournament table (the cloth takes the pace off a little sooner, the
+  balls give back 93% of a hit, the cushions about 70%), and a power bar
+  that keeps most of its length for ordinary shots: half the bar is a firm
+  shot of about 2.4 m/s for the ball (it was almost 4), the top still a
+  full break.
+- The thinnest grazes at full power always count as contact (a rare case
+  where two balls touched within one step of the simulation went unseen).
+
+### Rules
+- The break decides the groups: the first ball made on a legal break is
+  the breaker's group (solids or stripes), and they shoot again. A foul on
+  the break leaves the table open. (Until now the table stayed open after
+  the break, as in WPA rules, so the breaker could pick the easier group.)
+
 ### Lounge
 - While "Play now" looks for an opponent, "Practise while you wait" opens a
   table to yourself at once: shoot as you like, a new rack when one is

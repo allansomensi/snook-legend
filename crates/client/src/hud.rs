@@ -2070,7 +2070,7 @@ impl Hud {
             if self.last_shot_seen != Some(key) {
                 self.last_shot_seen = Some(key);
                 let max = m.game.params().max_cue_speed;
-                let power = (last.shot.speed / max).max(0.0).powf(1.0 / 1.3) as f32;
+                let power = crate::game::speed_to_power(last.shot.speed, max);
                 self.last_power[last.start.current_player() % 2] = Some(power);
             }
         }

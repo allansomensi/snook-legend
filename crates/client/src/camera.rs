@@ -64,10 +64,10 @@ pub const DEFAULT_PITCH: f32 = 0.42;
 pub const DEFAULT_DISTANCE: f32 = 1.75;
 /// The fixed view: from behind the head of the table, the whole table in sight.
 pub const FIXED_PITCH: f32 = 0.70;
-pub const FIXED_DISTANCE: f32 = 2.45;
+pub const FIXED_DISTANCE: f32 = 3.1;
 /// The zoom bar's range of camera distances.
 const ZOOM_NEAR: f32 = 0.6;
-const ZOOM_FAR: f32 = 3.2;
+const ZOOM_FAR: f32 = 4.1;
 /// Field of view of the overhead view: narrow, so the table looks flat.
 const TOP_FOV: f32 = 0.63;
 /// The overhead eye never rises above this (m above the floor): the bar's
@@ -98,8 +98,12 @@ impl Default for CameraRig {
     }
 }
 
-/// Half extents of the table including rails (m).
-const TABLE_HALF: Vec2 = Vec2::new(1.16, 0.665);
+/// Half extents of the table including rails (m), with a little room.
+fn table_half() -> Vec2 {
+    let spec = snookered_core::TableSpec::default();
+    let rail = spec.rail_width as f32 + 0.055;
+    Vec2::new(spec.length as f32 / 2.0 + rail, spec.width as f32 / 2.0 + rail)
+}
 /// Never let the eye drop below this height while over the table.
 const MIN_HEIGHT_OVER_TABLE: f32 = TABLE_HEIGHT + 0.32;
 
@@ -198,7 +202,7 @@ impl CameraRig {
         e.x = e.x.clamp(-4.8, 4.8);
         e.z = e.z.clamp(-3.4, 3.4);
         e.y = e.y.clamp(0.9, 2.9);
-        let over_table = e.x.abs() < TABLE_HALF.x + 0.25 && e.z.abs() < TABLE_HALF.y + 0.25;
+        let over_table = e.x.abs() < table_half().x + 0.25 && e.z.abs() < table_half().y + 0.25;
         if over_table && e.y < MIN_HEIGHT_OVER_TABLE {
             e.y = MIN_HEIGHT_OVER_TABLE;
         }
@@ -327,8 +331,8 @@ impl CameraRig {
                         let free = (sh - top_px - bottom_px).max(100.0) / sh;
                         let tan = (TOP_FOV / 2.0).tan();
                         let aspect = sw / sh;
-                        let fit = (TABLE_HALF.y + 0.03) / (tan * free);
-                        let fit = fit.max((TABLE_HALF.x + 0.05) / (tan * aspect));
+                        let fit = (table_half().y + 0.03) / (tan * free);
+                        let fit = fit.max((table_half().x + 0.05) / (tan * aspect));
                         let zoom = (self.distance / FIXED_DISTANCE).clamp(0.25, 1.3);
                         // Centre the table between the bars.
                         let per_px = 2.0 * fit * zoom * tan / sh;

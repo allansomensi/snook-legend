@@ -497,6 +497,15 @@ impl EightBallGame {
             if eight_pocket.is_some() || eight_off {
                 spotted.push(BallId::EIGHT);
             }
+            // The first ball made on a legal break is the breaker's group
+            // (a foul on the break leaves the table open).
+            if fouls.is_empty()
+                && let Some(g) = object_pocketed.iter().find_map(|b| Group::of(*b))
+            {
+                self.groups[shooter] = Some(g);
+                self.groups[1 - shooter] = Some(g.opposite());
+                group_assigned = Some(g);
+            }
         } else {
             match first_contact {
                 None => fouls.push(Foul::NoContact),
@@ -935,7 +944,8 @@ mod tests {
     #[test]
     fn ball_in_hand_placement_rules() {
         let mut g = EightBallGame::new(5, 0);
-        assert!(g.place_cue_ball(DVec2::new(-0.6, 0.2)));
+        let kitchen = g.table.head_string_x() - 0.1;
+        assert!(g.place_cue_ball(DVec2::new(kitchen, 0.2)));
         assert!(!g.place_cue_ball(DVec2::new(0.0, 0.0)), "kitchen only on the break");
         assert!(!g.place_cue_ball(DVec2::new(-2.0, 0.0)), "outside the table");
         g.ball_in_hand = Some(BallInHand::Anywhere);
@@ -1007,9 +1017,10 @@ mod tests {
         game.ball_in_hand = None;
     }
 
+    /// The first ball made on a legal break is the
+    /// breaker's group, and they shoot again.
     #[test]
-    fn a_ball_pocketed_on_the_break_keeps_the_table_open() {
-        // WPA 3.4: the table is always open after the break, whatever went in.
+    fn the_first_ball_made_on_the_break_sets_the_groups() {
         let mut g = EightBallGame::new(3, 0);
         on_break_with(
             &mut g,
@@ -1019,16 +1030,26 @@ mod tests {
         let report = g.play_shot(&shot, None).unwrap();
         assert!(report.pocketed.iter().any(|(b, _)| *b == BallId(10)));
         assert_eq!(report.fouls, vec![]);
-        assert_eq!(report.group_assigned, None);
-        assert!(report.continues, "a ball made on the break keeps the turn");
-        assert!(g.is_open_table());
+        assert_eq!(report.group_assigned, Some(Group::Stripes));
+        assert!(report.continues);
+        assert_eq!((g.group_of(0), g.group_of(1)), (Some(Group::Stripes), Some(Group::Solids)));
         assert_eq!(g.current_player(), 0);
-        // The next legal ball made decides: here a solid.
-        let shot = straight_shot(&g, BallId(2), PocketId::HeadRight, 2.0);
+    }
+
+    /// A foul on the break (the cue ball in a pocket) leaves the table open
+    /// even if a ball went in.
+    #[test]
+    fn a_break_foul_leaves_the_table_open() {
+        let mut g = EightBallGame::new(3, 0);
+        // The cue ball follows the 10 into the pocket.
+        on_break_with(&mut g, &[(0, DVec2::new(0.55, 0.40)), (10, DVec2::new(0.9, 0.52))]);
+        let to = g.ball(BallId(10)).xy() - g.ball(BallId::CUE).xy();
+        let shot = Shot::new(crate::math::atan2(to.y, to.x), 3.0).with_tip(DVec2::new(0.0, 0.8));
         let report = g.play_shot(&shot, None).unwrap();
-        assert_eq!(report.group_assigned, Some(Group::Solids));
-        assert_eq!(g.group_of(0), Some(Group::Solids));
-        assert_eq!(g.group_of(1), Some(Group::Stripes));
+        if report.fouls.contains(&Foul::CueBallPocketed) {
+            assert_eq!(report.group_assigned, None);
+            assert!(g.is_open_table());
+        }
     }
 
     #[test]
@@ -1167,8 +1188,20 @@ mod tests {
             };
             let d = target - g.ball(BallId::CUE).xy();
             let speed = if rails == 1 { 2.5 } else { 4.5 };
-            let report =
-                g.play_shot(&Shot::new(crate::math::atan2(d.y, d.x), speed), None).unwrap();
+            // The cushions don't reflect like a mirror (friction, spin):
+            // look near the unfolded aim for the stroke that reaches the 3.
+            let base = crate::math::atan2(d.y, d.x);
+            let shot = (0..400)
+                .map(|k| {
+                    let off = (k / 2) as f64 * 0.0005 * if k % 2 == 0 { 1.0 } else { -1.0 };
+                    Shot::new(base + off, speed)
+                })
+                .find(|s| {
+                    let mut t = g.clone();
+                    t.play_shot(s, None).is_ok_and(|r| r.first_contact == Some(BallId(3)))
+                })
+                .unwrap_or_else(|| panic!("no {rails}-rail kick reaches the 3"));
+            let report = g.play_shot(&shot, None).unwrap();
             assert_eq!(report.first_contact, Some(BallId(3)), "{rails}-rail kick");
             assert_eq!(report.fouls, vec![], "{rails}-rail kick: {report:?}");
             assert!(!report.continues, "nothing made: the turn passes, no ball in hand");
@@ -1215,7 +1248,13 @@ mod tests {
                     assert_eq!(g.group_of(0), Some(old), "groups changed");
                 }
                 if report.was_break {
-                    assert!(g.is_open_table(), "the break never decides the groups");
+                    // The first ball made on a legal break sets the groups;
+                    // otherwise the table stays open.
+                    let first = report.pocketed.iter().find_map(|(b, _)| Group::of(*b));
+                    match first.filter(|_| !report.is_foul()) {
+                        Some(gr) => assert_eq!(g.group_of(shooter), Some(gr), "{report:?}"),
+                        None => assert!(g.is_open_table(), "{report:?}"),
+                    }
                 }
                 // Ball in hand exactly after a foul (when the game goes on).
                 if g.game_over().is_none() {

@@ -758,9 +758,10 @@ pub fn cue_mesh(
     };
     let c = |v: [u8; 3]| rgb(v[0], v[1], v[2]);
     let mut m = MeshBuilder::default();
-    m.frustum(-0.004, 0.0060, 0.0, 0.0061, 12, c(chalk)); // tip, chalked
-    m.frustum(0.0, 0.0062, 0.018, 0.0063, 12, rgb(240, 238, 228)); // ferrule
-    m.frustum(0.018, 0.0063, 0.80, 0.0105, 16, c(shaft)); // maple (or carbon) shaft
+    // A regulation pool cue: a 13 mm tip, 58" long, 19 oz (the physics' mass).
+    m.frustum(-0.004, 0.0064, 0.0, 0.0065, 12, c(chalk)); // tip, chalked
+    m.frustum(0.0, 0.0065, 0.022, 0.0066, 12, rgb(240, 238, 228)); // ferrule
+    m.frustum(0.022, 0.0066, 0.80, 0.0105, 16, c(shaft)); // maple (or carbon) shaft
     m.frustum(0.80, 0.0105, 0.815, 0.0106, 16, c(ring)); // joint ring
     // The forearm, with the cue's pattern in the accent colour (as in the
     // shop), so everyone at the table can tell the cue apart.

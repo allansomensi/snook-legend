@@ -387,20 +387,6 @@ async fn profiles_carry_the_shot_analysis_for_new_games_only() {
     assert!(both.attempts().attempts + both.safeties.attempts >= 1, "{both:?}");
     let p = ana.profile("ana").await;
     assert_eq!(p.analysis.as_deref(), Some(&analysis));
-
-    // A game of protocol 12 gets the profile without it.
-    let mut old = Client::connect(&s.url, 12).await;
-    let p = old.profile("ana").await;
-    assert!(p.analysis.is_none());
-    // On the wire it is left out altogether.
-    old.send(ClientMsg::Profile { username: "ana".into() }).await;
-    let raw = loop {
-        let Some(Ok(Message::Text(t))) = old.ws.next().await else { panic!("closed") };
-        if t.contains("\"profile\"") {
-            break t.to_string();
-        }
-    };
-    assert!(!raw.contains("analysis"), "{raw}");
 }
 
 #[tokio::test]

@@ -464,8 +464,11 @@ async fn login_errors_and_validation() {
     let url = start(Rules::default()).await;
     let (_alice, token) = Client::register(&url, "Alice").await;
 
-    // The previous version still plays; anything older is told to update.
-    for (version, welcome) in [(snookered_proto::OLDEST_PROTOCOL_VERSION, true), (10, false)] {
+    // The oldest version let in plays; anything older (0.2.0 and its
+    // 7-foot table among them) is told to update.
+    for (version, welcome) in
+        [(snookered_proto::OLDEST_PROTOCOL_VERSION, true), (13, false), (10, false)]
+    {
         let (ws, _) = connect_async(&url).await.unwrap();
         let mut old = Client { ws };
         old.send(ClientMsg::Hello { version }).await;

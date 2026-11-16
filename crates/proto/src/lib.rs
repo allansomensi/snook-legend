@@ -125,12 +125,13 @@ pub const SPECTATOR_SEAT: usize = 2;
 pub const GAME_NAME: &str = "Snookered";
 
 /// Bumped whenever messages change incompatibly.
-pub const PROTOCOL_VERSION: u32 = 13;
+pub const PROTOCOL_VERSION: u32 = 14;
 
-/// The oldest version the server still lets in. Version 12 only added
-/// messages and fields, which older games ignore, so 0.1.2 (version 11)
-/// keeps playing while the new version reaches everyone.
-pub const OLDEST_PROTOCOL_VERSION: u32 = 11;
+/// The oldest version the server still lets in. Version 14 plays a new
+/// edition of the game (a 9-foot table, heavier balls, groups set on the
+/// break): an older game would simulate every shot differently from the
+/// server, so it must update.
+pub const OLDEST_PROTOCOL_VERSION: u32 = 14;
 
 /// Username rules: 3–16 characters, letters, digits and underscores.
 pub fn valid_username(name: &str) -> bool {

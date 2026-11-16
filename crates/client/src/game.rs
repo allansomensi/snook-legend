@@ -306,6 +306,21 @@ impl DrillRun {
     }
 }
 
+/// How the power bar maps to the cue's speed: a curve that keeps most of
+/// the bar for ordinary shots (half the bar is a firm shot of about two
+/// metres a second for the ball) and the top for the break.
+pub const POWER_CURVE: f64 = 2.0;
+
+/// The cue speed for a point of the power bar (0 to 1).
+pub fn power_to_speed(power: f32, max: f64) -> f64 {
+    (power.clamp(0.0, 1.0) as f64).powf(POWER_CURVE) * max
+}
+
+/// The point of the power bar of a cue speed.
+pub fn speed_to_power(speed: f64, max: f64) -> f32 {
+    (speed / max).clamp(0.0, 1.0).powf(1.0 / POWER_CURVE) as f32
+}
+
 /// How long the opponent's speech bubble shows (seconds).
 pub const BANTER_TIME: f32 = 4.5;
 
@@ -1048,7 +1063,7 @@ impl Match {
             yaw: self.aim.yaw,
             elevation: self.aim.elevation,
             tip: self.aim.tip,
-            speed: (self.aim.power as f64).powf(1.3) * max,
+            speed: power_to_speed(self.aim.power, max),
         }
     }
 
@@ -1342,7 +1357,7 @@ impl Match {
         {
             self.game.place_cue_ball(p);
         }
-        let target_power = ((decision.shot.speed / max_speed).powf(1.0 / 1.3)) as f32;
+        let target_power = speed_to_power(decision.shot.speed, max_speed);
         let first_miss = turn.first_miss;
         let ease = |k: f32| {
             let k = k.clamp(0.0, 1.0);
@@ -1726,7 +1741,7 @@ impl Match {
                     yaw: target.yaw,
                     elevation: target.elevation,
                     tip: target.tip,
-                    speed: (power as f64).powf(1.3) * self.game.params().max_cue_speed,
+                    speed: power_to_speed(power, self.game.params().max_cue_speed),
                 };
                 let turn = self.game.shots_taken();
                 o.assessor.update(&self.game, turn, shot, target.called_pocket, dt);

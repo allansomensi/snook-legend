@@ -51,14 +51,17 @@ pub struct TableSpec {
 }
 
 impl TableSpec {
-    /// A classic 7-foot "bar box" table with regulation 2 1/4" balls.
-    pub const BAR_BOX_7FT: TableSpec = TableSpec {
-        length: 1.981,
-        width: 0.991,
+    /// A regulation 9-foot tournament table, to the WPA's equipment
+    /// specifications: a 100" × 50" playing surface, 2 1/4" balls of 6 oz,
+    /// 4 1/2" corner and 5" side pocket mouths, cushion noses at 63.5% of a
+    /// ball's height, regulation shelves and facing angles.
+    pub const TOURNAMENT_9FT: TableSpec = TableSpec {
+        length: 2.540,
+        width: 1.270,
         ball_radius: 0.028_575,
         ball_mass: 0.170,
-        corner_mouth: 0.110,
-        side_mouth: 0.124,
+        corner_mouth: 0.1143,
+        side_mouth: 0.1270,
         cushion_height: 0.036_5,
         rail_width: 0.115,
         jaw_length: 0.075,
@@ -73,7 +76,7 @@ impl TableSpec {
 
 impl Default for TableSpec {
     fn default() -> Self {
-        Self::BAR_BOX_7FT
+        Self::TOURNAMENT_9FT
     }
 }
 

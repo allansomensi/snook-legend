@@ -372,6 +372,23 @@ async fn exercise(store: Store) {
     let row = store.daily_row(b.id, d).await.unwrap();
     assert_eq!((row.attempts, row.started_at, row.best, row.cleared), (1, 0, Some(4), true));
 
+    // Drills: bests, tables and the challenge rating.
+    assert_eq!(store.drill_record(a.id, "cut", 2, t).await.unwrap(), None);
+    assert_eq!(store.drill_record(a.id, "cut", 1, t + 1).await.unwrap(), Some(2));
+    assert_eq!(store.drill_record(b.id, "cut", 2, t - 5).await.unwrap(), None);
+    assert_eq!(store.drill_bests(a.id).await.unwrap(), vec![("cut".to_string(), 2)]);
+    let board = store.drill_board("cut", 5).await.unwrap();
+    assert_eq!(board.iter().map(|r| r.score).collect::<Vec<_>>(), [2, 2]);
+    assert_eq!(board[0].username, "bob", "earlier first on a tie");
+    store.set_challenge_rating(a.id, 302, 3, t).await.unwrap();
+    store.set_challenge_rating(b.id, 202, 2, t).await.unwrap();
+    let (leaders, rank) = store.challenge_board(b.id, 5).await.unwrap();
+    assert_eq!(
+        (leaders[0].username.as_str(), leaders[0].score, leaders[0].stars),
+        ("Alice", 302, 3)
+    );
+    assert_eq!(rank, Some(2));
+
     // The trophy shelf: the tournaments won, newest first.
     assert_eq!(store.tournaments_won(a.id, 10).await.unwrap(), vec![("Cup".to_string(), 2, t)]);
     assert!(store.tournaments_won(b.id, 10).await.unwrap().is_empty());

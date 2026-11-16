@@ -1019,7 +1019,9 @@ impl Lounge {
             | ClientMsg::GhostStyle { .. }
             | ClientMsg::Daily
             | ClientMsg::DailyStart
-            | ClientMsg::DailySubmit { .. } => {}
+            | ClientMsg::DailySubmit { .. }
+            | ClientMsg::Drills
+            | ClientMsg::DrillSubmit { .. } => {}
             ClientMsg::SetStatusMessage { .. }
             | ClientMsg::ClearStatusMessage { .. }
             | ClientMsg::RecentOpponents

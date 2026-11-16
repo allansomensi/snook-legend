@@ -10,6 +10,8 @@ pub const PER_BALL: u32 = 2;
 /// An attempt at the daily challenge, and each ball made in it.
 pub const DAILY_ATTEMPT: u32 = 10;
 pub const DAILY_PER_BALL: u32 = 5;
+/// Each new star in a drill.
+pub const DRILL_STAR: u32 = 40;
 /// An achievement unlocked.
 pub const ACHIEVEMENT: u32 = 100;
 /// The highest level.

@@ -32,3 +32,23 @@ CREATE INDEX daily_scores_board ON daily_scores (day, best DESC, best_at);
 -- from the games they played so far: 60 a win, 30 any other game.
 ALTER TABLE users ADD COLUMN xp BIGINT NOT NULL DEFAULT 0;
 UPDATE users SET xp = 60 * wins + 30 * GREATEST(games + casual_games - wins, 0);
+
+-- Drills (see snookered_proto::drills): each player's best score per drill
+-- (on a tie, who made it first leads), and their challenge rating (from
+-- the stars of every drill), kept for its table.
+CREATE TABLE drill_scores (
+    user_id BIGINT  NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+    code    TEXT    NOT NULL,
+    best    INTEGER NOT NULL,
+    best_at BIGINT  NOT NULL,
+    PRIMARY KEY (user_id, code)
+);
+CREATE INDEX drill_scores_board ON drill_scores (code, best DESC, best_at);
+
+CREATE TABLE challenge_ratings (
+    user_id    BIGINT  PRIMARY KEY REFERENCES users (id) ON DELETE CASCADE,
+    rating     INTEGER NOT NULL,
+    stars      INTEGER NOT NULL,
+    updated_at BIGINT  NOT NULL
+);
+CREATE INDEX challenge_ratings_board ON challenge_ratings (rating DESC, updated_at);

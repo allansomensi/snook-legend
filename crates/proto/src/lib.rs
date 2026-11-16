@@ -13,6 +13,7 @@ pub mod analysis;
 pub mod correspondence;
 mod countries;
 pub mod daily;
+pub mod drills;
 pub mod ghost;
 pub mod ladder;
 pub mod missions;
@@ -1151,6 +1152,13 @@ pub enum ClientMsg {
         day: i64,
         strokes: Vec<Shot>,
     },
+    /// The drills: this player's bests, the tables and the challenge rating.
+    Drills,
+    /// A drill session's strokes (the server plays them again).
+    DrillSubmit {
+        code: String,
+        strokes: Vec<Shot>,
+    },
     /// How a player plays (aggregated numbers), for a computer opponent in
     /// their style.
     GhostStyle {
@@ -1579,6 +1587,15 @@ pub enum ServerMsg {
     DailyStarted {
         day: i64,
         seed: u64,
+    },
+    /// The drills as this player sees them.
+    Drills {
+        info: drills::Info,
+    },
+    /// A drill session counted (its score), or refused.
+    DrillResult {
+        code: String,
+        result: Result<u32, drills::Refused>,
     },
     /// Experience earned (`gained`) and the total now (see [`xp`]).
     Xp {

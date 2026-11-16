@@ -251,6 +251,16 @@ pub struct DailyBoardRow {
     pub at: i64,
 }
 
+/// A line of a drill's table, or of the challenge rating's.
+#[derive(Debug, Clone, PartialEq)]
+pub struct BoardRow {
+    pub username: String,
+    pub country: String,
+    pub score: u32,
+    /// The stars (the challenge rating's table only).
+    pub stars: u32,
+}
+
 /// What became of an attempt sent.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum DailyFinish {
@@ -898,6 +908,43 @@ impl Store {
     /// The days before `before` a player topped, newest first: (day, players).
     pub async fn daily_wins(&self, user_id: i64, before: i64) -> StoreResult<Vec<(i64, u32)>> {
         dispatch!(self, s => s.daily_wins(user_id, before))
+    }
+    /// A player's best score in each drill they did: (code, best).
+    pub async fn drill_bests(&self, user_id: i64) -> StoreResult<Vec<(String, u32)>> {
+        dispatch!(self, s => s.drill_bests(user_id))
+    }
+    /// Records a drill session's score; returns the best before it (None:
+    /// the first).
+    pub async fn drill_record(
+        &self,
+        user_id: i64,
+        code: &str,
+        score: u32,
+        at: i64,
+    ) -> StoreResult<Option<u32>> {
+        dispatch!(self, s => s.drill_record(user_id, code, score, at))
+    }
+    /// A drill's best scores, best first.
+    pub async fn drill_board(&self, code: &str, limit: u32) -> StoreResult<Vec<BoardRow>> {
+        dispatch!(self, s => s.drill_board(code, limit))
+    }
+    /// Keeps a player's challenge rating (for its table).
+    pub async fn set_challenge_rating(
+        &self,
+        user_id: i64,
+        rating: u32,
+        stars: u32,
+        at: i64,
+    ) -> StoreResult<()> {
+        dispatch!(self, s => s.set_challenge_rating(user_id, rating, stars, at))
+    }
+    /// The challenge rating's leaders, and a player's place (None: no rating).
+    pub async fn challenge_board(
+        &self,
+        user_id: i64,
+        limit: u32,
+    ) -> StoreResult<(Vec<BoardRow>, Option<u32>)> {
+        dispatch!(self, s => s.challenge_board(user_id, limit))
     }
     /// Adds experience; returns the total now.
     pub async fn add_xp(&self, user_id: i64, amount: u32) -> StoreResult<i64> {

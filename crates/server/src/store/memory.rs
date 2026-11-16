@@ -73,6 +73,10 @@ struct Inner {
     daily_seeds: HashMap<i64, u64>,
     /// (day, user) -> their day at the challenge
     daily: BTreeMap<(i64, i64), super::DailyRow>,
+    /// (user, drill) -> (best, when)
+    drills: BTreeMap<(i64, String), (u32, i64)>,
+    /// user -> (challenge rating, stars, when)
+    challenge: HashMap<i64, (u32, u32, i64)>,
 }
 
 impl Inner {
@@ -962,6 +966,92 @@ impl MemoryStore {
         }
         s.tournaments.push(t.clone());
         Ok(())
+    }
+
+    pub fn drill_bests(&self, user_id: i64) -> StoreResult<Vec<(String, u32)>> {
+        let s = self.lock();
+        Ok(s.drills
+            .iter()
+            .filter(|((u, _), _)| *u == user_id)
+            .map(|((_, c), (b, _))| (c.clone(), *b))
+            .collect())
+    }
+
+    pub fn drill_record(
+        &self,
+        user_id: i64,
+        code: &str,
+        score: u32,
+        at: i64,
+    ) -> StoreResult<Option<u32>> {
+        let mut s = self.lock();
+        let key = (user_id, code.to_string());
+        let before = s.drills.get(&key).map(|(b, _)| *b);
+        if before.is_none_or(|b| score > b) {
+            s.drills.insert(key, (score, at));
+        }
+        Ok(before)
+    }
+
+    pub fn drill_board(&self, code: &str, limit: u32) -> StoreResult<Vec<super::BoardRow>> {
+        let s = self.lock();
+        let mut rows: Vec<(u32, i64, i64)> = s
+            .drills
+            .iter()
+            .filter(|((_, c), _)| c == code)
+            .map(|((u, _), (b, at))| (*b, *at, *u))
+            .collect();
+        rows.sort_by(|a, b| b.0.cmp(&a.0).then(a.1.cmp(&b.1)).then(a.2.cmp(&b.2)));
+        Ok(rows
+            .into_iter()
+            .take(limit as usize)
+            .filter_map(|(score, _, u)| {
+                let user = s.users.get(&u)?;
+                Some(super::BoardRow {
+                    username: user.username.clone(),
+                    country: user.country.clone(),
+                    score,
+                    stars: 0,
+                })
+            })
+            .collect())
+    }
+
+    pub fn set_challenge_rating(
+        &self,
+        user_id: i64,
+        rating: u32,
+        stars: u32,
+        at: i64,
+    ) -> StoreResult<()> {
+        self.lock().challenge.insert(user_id, (rating, stars, at));
+        Ok(())
+    }
+
+    pub fn challenge_board(
+        &self,
+        user_id: i64,
+        limit: u32,
+    ) -> StoreResult<(Vec<super::BoardRow>, Option<u32>)> {
+        let s = self.lock();
+        let mut rows: Vec<(u32, i64, i64, u32)> =
+            s.challenge.iter().map(|(u, (r, st, at))| (*r, *at, *u, *st)).collect();
+        rows.sort_by(|a, b| b.0.cmp(&a.0).then(a.1.cmp(&b.1)).then(a.2.cmp(&b.2)));
+        let rank = rows.iter().position(|r| r.2 == user_id).map(|k| k as u32 + 1);
+        let board = rows
+            .into_iter()
+            .take(limit as usize)
+            .filter_map(|(rating, _, u, stars)| {
+                let user = s.users.get(&u)?;
+                Some(super::BoardRow {
+                    username: user.username.clone(),
+                    country: user.country.clone(),
+                    score: rating,
+                    stars,
+                })
+            })
+            .collect();
+        Ok((board, rank))
     }
 
     pub fn add_xp(&self, user_id: i64, amount: u32) -> StoreResult<i64> {

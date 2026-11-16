@@ -1745,6 +1745,119 @@ impl PgStore {
         Ok(rows.iter().map(|r| (r.get("day"), r.get::<i64, _>("n") as u32)).collect())
     }
 
+    pub async fn drill_bests(&self, user_id: i64) -> StoreResult<Vec<(String, u32)>> {
+        let rows = query("SELECT code, best FROM drill_scores WHERE user_id = $1")
+            .bind(user_id)
+            .fetch_all(&self.pool)
+            .await?;
+        Ok(rows.iter().map(|r| (r.get("code"), r.get::<i32, _>("best").max(0) as u32)).collect())
+    }
+
+    pub async fn drill_record(
+        &self,
+        user_id: i64,
+        code: &str,
+        score: u32,
+        at: i64,
+    ) -> StoreResult<Option<u32>> {
+        let mut tx = self.pool.begin().await?;
+        let before: Option<i32> =
+            query("SELECT best FROM drill_scores WHERE user_id = $1 AND code = $2 FOR UPDATE")
+                .bind(user_id)
+                .bind(code)
+                .fetch_optional(&mut *tx)
+                .await?
+                .map(|r| r.get("best"));
+        query(
+            "INSERT INTO drill_scores (user_id, code, best, best_at) VALUES ($1, $2, $3, $4)
+             ON CONFLICT (user_id, code) DO UPDATE SET best = $3, best_at = $4
+             WHERE drill_scores.best < $3",
+        )
+        .bind(user_id)
+        .bind(code)
+        .bind(score as i32)
+        .bind(at)
+        .execute(&mut *tx)
+        .await?;
+        tx.commit().await?;
+        Ok(before.map(|b| b.max(0) as u32))
+    }
+
+    pub async fn drill_board(&self, code: &str, limit: u32) -> StoreResult<Vec<super::BoardRow>> {
+        let rows = query(
+            "SELECT u.username, u.country, d.best FROM drill_scores d JOIN users u ON u.id = d.user_id
+             WHERE d.code = $1 ORDER BY d.best DESC, d.best_at, d.user_id LIMIT $2",
+        )
+        .bind(code)
+        .bind(limit as i64)
+        .fetch_all(&self.pool)
+        .await?;
+        Ok(rows
+            .iter()
+            .map(|r| super::BoardRow {
+                username: r.get("username"),
+                country: r.get("country"),
+                score: r.get::<i32, _>("best").max(0) as u32,
+                stars: 0,
+            })
+            .collect())
+    }
+
+    pub async fn set_challenge_rating(
+        &self,
+        user_id: i64,
+        rating: u32,
+        stars: u32,
+        at: i64,
+    ) -> StoreResult<()> {
+        query(
+            "INSERT INTO challenge_ratings (user_id, rating, stars, updated_at) VALUES ($1, $2, $3, $4)
+             ON CONFLICT (user_id) DO UPDATE SET rating = $2, stars = $3, updated_at = $4",
+        )
+        .bind(user_id)
+        .bind(rating as i32)
+        .bind(stars as i32)
+        .bind(at)
+        .execute(&self.pool)
+        .await?;
+        Ok(())
+    }
+
+    pub async fn challenge_board(
+        &self,
+        user_id: i64,
+        limit: u32,
+    ) -> StoreResult<(Vec<super::BoardRow>, Option<u32>)> {
+        let rows = query(
+            "SELECT u.username, u.country, c.rating, c.stars FROM challenge_ratings c
+             JOIN users u ON u.id = c.user_id
+             ORDER BY c.rating DESC, c.updated_at, c.user_id LIMIT $1",
+        )
+        .bind(limit as i64)
+        .fetch_all(&self.pool)
+        .await?;
+        let rank: Option<i64> = query(
+            "SELECT (SELECT COUNT(*) FROM challenge_ratings o
+                     WHERE o.rating > me.rating OR (o.rating = me.rating
+                       AND (o.updated_at, o.user_id) < (me.updated_at, me.user_id))) AS ahead
+             FROM challenge_ratings me WHERE me.user_id = $1",
+        )
+        .bind(user_id)
+        .fetch_optional(&self.pool)
+        .await?
+        .map(|r| r.get("ahead"));
+        let board = rows
+            .iter()
+            .map(|r| super::BoardRow {
+                username: r.get("username"),
+                country: r.get("country"),
+                score: r.get::<i32, _>("rating").max(0) as u32,
+                stars: r.get::<i32, _>("stars").max(0) as u32,
+            })
+            .collect();
+        Ok((board, rank.map(|a| a as u32 + 1)))
+    }
+
     pub async fn add_xp(&self, user_id: i64, amount: u32) -> StoreResult<i64> {
         let xp: Option<i64> = query("UPDATE users SET xp = xp + $2 WHERE id = $1 RETURNING xp")
             .bind(user_id)

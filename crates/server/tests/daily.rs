@@ -198,3 +198,66 @@ async fn attempts_are_scored_by_the_server() {
     }
     assert!(server.store.daily_wins(bob.id, day).await.unwrap().is_empty(), "today isn't over");
 }
+
+#[tokio::test]
+async fn drills_keep_the_best_and_the_challenge_rating() {
+    use snookered_proto::drills;
+    let (url, server) = start().await;
+    let mut a = Client::register(&url, "alice").await;
+    a.send(ClientMsg::Drills).await;
+    let ServerMsg::Drills { info } =
+        a.expect("drills", |m| matches!(m, ServerMsg::Drills { .. })).await
+    else {
+        unreachable!()
+    };
+    assert_eq!(info.drills.len(), drills::DRILLS.len());
+    assert_eq!((info.rating, info.stars, info.rank), (0, 0, None));
+
+    // Straight at the 1: a straight pot.
+    let d = drills::drill("straight").unwrap();
+    let g = drills::game(d);
+    let to = g.ball(BallId(1)).xy() - g.ball(BallId::CUE).xy();
+    let shot = (0..400)
+        .flat_map(|k| {
+            [1.5, 2.2, 3.0].map(|v| Shot::new(to.y.atan2(to.x) + (k as f64 - 200.0) * 0.0001, v))
+        })
+        .find(|s| drills::try_shot(d, &g, s) == Some(true))
+        .expect("a way to pot it");
+    let strokes = vec![shot; d.tries as usize];
+    let expected = drills::score("straight", &strokes).unwrap();
+    assert!(expected > 0);
+    a.send(ClientMsg::DrillSubmit { code: "straight".into(), strokes }).await;
+    let ServerMsg::DrillResult { result, .. } =
+        a.expect("result", |m| matches!(m, ServerMsg::DrillResult { .. })).await
+    else {
+        unreachable!()
+    };
+    assert_eq!(result, Ok(expected));
+    let ServerMsg::Drills { info } =
+        a.expect("drills", |m| matches!(m, ServerMsg::Drills { .. })).await
+    else {
+        unreachable!()
+    };
+    let mine = info.drills.iter().find(|x| x.code == "straight").unwrap();
+    assert_eq!(mine.best, Some(expected));
+    assert_eq!(mine.board[0].username, "alice");
+    let stars = drills::stars(d, expected);
+    assert_eq!(info.stars, stars);
+    assert_eq!(info.rating, stars * 100 + expected);
+    assert_eq!(info.rank, Some(1));
+    assert_eq!(info.leaders[0].username, "alice");
+    // New stars give experience.
+    let alice = server.store.user_by_name("alice").await.unwrap().unwrap();
+    assert_eq!(alice.xp, (stars * snookered_proto::xp::DRILL_STAR) as i64);
+
+    // A worse session keeps the best; a bad one is refused.
+    a.send(ClientMsg::DrillSubmit { code: "straight".into(), strokes: vec![] }).await;
+    a.expect("result", |m| matches!(m, ServerMsg::DrillResult { result: Ok(0), .. })).await;
+    a.send(ClientMsg::DrillSubmit { code: "straight".into(), strokes: vec![shot; 9] }).await;
+    a.expect("refused", |m| {
+        matches!(m, ServerMsg::DrillResult { result: Err(drills::Refused::BadStroke), .. })
+    })
+    .await;
+    let bests = server.store.drill_bests(alice.id).await.unwrap();
+    assert_eq!(bests, vec![("straight".to_string(), expected)]);
+}

@@ -930,8 +930,12 @@ mod tests {
         if RELEASED_TARGETS.contains(&TARGET) && !crate::channel::STORE {
             assert_eq!(how(), How::Replace);
         }
-        assert!(development_build(), "tests are development builds");
-        // The test runs from Cargo's target folder: never replaced.
+        // Debug builds never update themselves; release ones (`cargo test
+        // --release`, as in CI) are kept safe by where they run from: the
+        // test runs from Cargo's target folder, never replaced.
+        if cfg!(debug_assertions) {
+            assert!(development_build());
+        }
         assert!(in_cargo_target() && !allowed());
         let me = std::env::current_exe().unwrap();
         assert_eq!(replace_exe(&me, b"x", "9.9.9"), Err(Replace::NotWritable));

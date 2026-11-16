@@ -233,7 +233,23 @@ pub struct Online {
     social: social::Social,
     /// Presents from friends.
     gifts: gifts::Gifts,
+    /// The server's verdict on the ladder's reward (taken by the ladder).
+    pub ladder_claim: Option<snookered_proto::ladder::ClaimResult>,
+    /// The style asked for a ghost opponent, and the answer once it came.
+    pub ghost: Option<GhostRequest>,
 }
+
+/// A request for the style of a player's ghost.
+#[derive(Debug, Clone)]
+pub struct GhostRequest {
+    pub username: String,
+    pub sent: std::time::Instant,
+    pub answer: Option<snookered_proto::ghost::GhostAnswer>,
+}
+
+/// How long to wait for a ghost's style before saying the server is not
+/// answering (measuring a player takes a moment).
+pub const GHOST_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(45);
 
 /// The update button, for how this copy of the game is updated (and how
 /// far the download is).
@@ -452,6 +468,8 @@ impl Online {
                 ..Default::default()
             },
             gifts: Default::default(),
+            ladder_claim: None,
+            ghost: None,
         }
     }
 
@@ -495,6 +513,20 @@ impl Online {
         self.connect();
         self.send(ClientMsg::Leaderboard);
         self.leaderboard_age = 0.0;
+    }
+
+    /// Whether this account has the achievement `code`.
+    pub fn has_achievement(&self, code: &str) -> bool {
+        self.signed_in() && self.achievements.iter().any(|c| c == code)
+    }
+
+    /// Asks the server how `name` plays (for their ghost).
+    pub fn request_ghost(&mut self, name: &str) {
+        let name = name.trim().to_string();
+        self.connect();
+        self.send(ClientMsg::GhostStyle { username: name.clone() });
+        self.ghost =
+            Some(GhostRequest { username: name, sent: std::time::Instant::now(), answer: None });
     }
 
     pub fn request_profile(&mut self, name: &str) {
@@ -1035,6 +1067,14 @@ impl Online {
                     *current = None;
                 }
                 self.toast(crate::i18n::server_text(&reason), false);
+            }
+            ServerMsg::LadderClaim { result } => self.ladder_claim = Some(result),
+            ServerMsg::GhostStyle { username, answer } => {
+                if let Some(g) =
+                    self.ghost.as_mut().filter(|g| g.username.eq_ignore_ascii_case(&username))
+                {
+                    g.answer = Some(answer);
+                }
             }
             ServerMsg::MyAchievements { codes } => {
                 if let Some(o) = current.as_mut().and_then(|m| m.online.as_mut()) {

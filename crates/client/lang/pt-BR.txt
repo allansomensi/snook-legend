@@ -146,7 +146,6 @@ Drag the cue · click a ball or a spot	Arraste o taco · clique numa bola ou pon
 #{n} in the world	#{n} no mundo
 3–16 letters, digits or underscores.	3 a 16 letras, números ou sublinhados.
 Only a short line from the cue ball.	Só uma linha curta saindo da branca.
-A solid club player.	Um jogador de clube sólido.
 Accept friend	Aceitar amizade
 Achievement unlocked: {title}	Conquista desbloqueada: {title}
 Achievements {n}/{total}	Conquistas {n}/{total}
@@ -236,7 +235,6 @@ Locked	Bloqueada
 Looking for games	Procurando partidas
 Make a friend.	Faça um amigo.
 Master	Mestre
-Misses now and then: good for learning.	Erra de vez em quando: bom para aprender.
 Name	Nome
 Names have 3–16 letters, digits or underscores.	Nomes têm de 3 a 16 letras, números ou sublinhados.
 New account	Nova conta
@@ -262,7 +260,6 @@ Or join by address	Ou entre pelo endereço
 Other	Outro
 Others can join at {ip}:{port}	Outros podem entrar em {ip}:{port}
 Passwords need at least 8 characters (not only digits).	A senha precisa de pelo menos 8 caracteres (não só números).
-Plans position and plays safeties.	Planeja a posição e joga defensivo.
 Play 1,000 rated games.	Jogue 1.000 partidas valendo rating.
 Play 10 rated games.	Jogue 10 partidas valendo rating.
 Play 100 rated games.	Jogue 100 partidas valendo rating.
@@ -341,7 +338,7 @@ The server is busy. Try again in a moment.	O servidor está ocupado. Tente de no
 The tournament starts when it is full (the host can start it earlier).	O torneio começa quando lotar (o anfitrião pode começar antes).
 There are too many tournaments right now. Join one!	Há torneios demais agora. Entre em um!
 This is a LAN server: join as a guest.	Este é um servidor de rede local: entre como convidado.
-Three levels, from relaxed to ruthless	Três níveis, do tranquilo ao implacável
+Ten rivals, a ladder and ghosts of real players	Dez rivais, a escada e fantasmas de jogadores reais
 Tier	Nível
 Time per shot	Tempo por tacada
 Too many failed attempts. Wait a few minutes and try again.	Muitas tentativas erradas. Espere alguns minutos e tente de novo.
@@ -729,6 +726,80 @@ Ball in hand  ·  {group}	Bola na mão  ·  {group}
 Can't shoot: {e}.	Não dá para tacar: {e}.
 Chat ({n})	Chat ({n})
 Computer ({level})	Computador ({level})
+Computer	Computador
+Each opponent has a style of their own	Cada adversário tem um estilo próprio
+Free game	Partida livre
+Ladder	Escada
+Ladder: {n} of {total} beaten	Escada: {n} de {total} vencidos
+Strength {n}/5	Nível {n}/5
+Ghost	Fantasma
+Accuracy	Precisão
+Safeties	Defesas
+Banks	Tabelas
+Position	Posição
+Ghost of {name}	Fantasma de {name}
+A player's ghost	Fantasma de um jogador
+Plays like a real player	Joga como um jogador de verdade
+The computer plays in the style of a real player, measured on their online games.	O computador joga no estilo de um jogador de verdade, medido nas partidas online dele.
+Sign in to play the ghost of a real player.	Entre para jogar contra o fantasma de um jogador de verdade.
+Load	Carregar
+Friends:	Amigos:
+Type a username or pick a friend, then Load.	Digite um nome de usuário ou escolha um amigo e toque em Carregar.
+Measuring how {name} plays…	Medindo como {name} joga…
+Pots {pots}% · safeties {safe}% · banks {banks}% · {shots} shots	Encaçapa {pots}% · defesas {safe}% · tabelas {banks}% · {shots} tacadas
+{name} has only {shots} recorded shots; a ghost needs {needed}. More online games will do it.	{name} tem só {shots} tacadas registradas; um fantasma precisa de {needed}. Mais partidas online resolvem.
+There is no player called {name}.	Não há nenhum jogador chamado {name}.
+The server can't be reached right now. Try again later.	Não foi possível falar com o servidor agora. Tente de novo mais tarde.
+Wait a moment before asking again.	Espere um pouco antes de pedir de novo.
+Something went wrong on the server. Try again later.	Algo deu errado no servidor. Tente de novo mais tarde.
+Play your ghost	Jogar contra seu fantasma
+Play their ghost	Jogar contra o fantasma
+Beaten	Vencido
+Next	Próximo
+Beat the rung below to unlock it.	Vença o degrau de baixo para liberar este.
+Rung {n} of {total}	Degrau {n} de {total}
+Challenge {name}	Desafiar {name}
+Rung {n} beaten! Next on the ladder: {name}.	Degrau {n} vencido! Próximo na escada: {name}.
+You beat the whole ladder!	Você venceu a escada inteira!
+Reward	Prêmio
+{item} cue · exclusive	Taco {item} · exclusivo
+Yours: find it in the shop, under Cues.	É seu: está na loja, em Tacos.
+Beat the last rung again while signed in to claim it.	Vença o último degrau de novo, conectado, para recebê-lo.
+Beat all ten opponents to earn it. It is sold nowhere.	Vença os dez adversários para ganhá-lo. Não é vendido em lugar nenhum.
+You beat the ladder! Sign in to claim your reward.	Você venceu a escada! Entre para receber seu prêmio.
+The server is checking your final game…	O servidor está conferindo sua partida final…
+Try again	Tentar de novo
+The server did not answer. Try again in a moment.	O servidor não respondeu. Tente de novo em instantes.
+The server is busy checking other games. Try again in a moment.	O servidor está conferindo outras partidas. Tente de novo em instantes.
+Wait a minute before trying again.	Espere um minuto antes de tentar de novo.
+That game is too long to be checked.	Essa partida é longa demais para ser conferida.
+That game has a move the rules don't allow.	Essa partida tem uma jogada que as regras não permitem.
+That game was not played to the end.	Essa partida não foi jogada até o fim.
+That game was not a win.	Essa partida não foi uma vitória.
+The computer's shots in that game don't match how it plays (another version of the game?).	As tacadas do computador nessa partida não batem com o jeito dele jogar (outra versão do jogo?).
+The Rookie	O Novato
+Still learning: aims at the nearest pocket, centre ball, and hopes. Never plays safe.	Ainda aprendendo: mira na caçapa mais perto, bate no centro e torce. Nunca joga defensivo.
+The Weekend Player	A Jogadora de Fim de Semana
+Knows the basics and drops the easy ones, but rarely thinks about where the cue ball goes.	Sabe o básico e mata as fáceis, mas quase nunca pensa em onde a bola branca vai parar.
+The Bank Artist	A Artista da Tabela
+Sees angles nobody else does: whenever a ball can go off a cushion and in, she banks it.	Vê ângulos que ninguém vê: sempre que uma bola pode entrar de tabela, ela joga de tabela.
+The Cannon	O Canhão
+Goes for everything, as hard as he can: long pots, thunderous breaks, hardly ever a safety.	Vai em tudo, com toda a força: bolas longas, saídas estrondosas, quase nunca uma defesa.
+The Wall	A Muralha
+Only shoots when the pot is on. Otherwise she tucks the cue ball away and waits for your mistake.	Só ataca quando a bola está feita. Fora isso, esconde a branca e espera o seu erro.
+The Old Pro	O Veterano
+Forty years at the table: a smooth stroke, a raised cue, side spin, and never in a hurry.	Quarenta anos de mesa: tacada macia, taco levantado, efeito lateral e nenhuma pressa.
+The Hustler	A Astuta
+Plays just well enough to win, then a little better. Balanced, sharp and hard to read.	Joga só o bastante para ganhar, e depois um pouco melhor. Equilibrada, afiada e difícil de ler.
+The Professor	O Professor
+Thinks three balls ahead: every shot leaves the cue ball where the next one is easy.	Pensa três bolas à frente: cada tacada deixa a branca onde a próxima fica fácil.
+The Sharpshooter	A Atiradora de Elite
+Pots from anywhere, at any angle. Her safeties are an afterthought: she doesn't need them.	Encaçapa de qualquer lugar, em qualquer ângulo. Defesa é o de menos: ela não precisa.
+The Champion	O Campeão
+Unbeaten for years. Precise, patient and merciless: the last step of the ladder.	Invicto há anos. Preciso, paciente e implacável: o último degrau da escada.
+Ladder king	Rei da escada
+King of the ladder	Rei da escada
+Beat all ten opponents of the computer ladder.	Vença os dez adversários da escada contra o computador.
 Connecting to {server}…	Conectando a {server}…
 Connection lost. Reconnecting (attempt {n})…	Conexão perdida. Reconectando (tentativa {n})…
 Connection lost. Reconnecting…	Conexão perdida. Reconectando…

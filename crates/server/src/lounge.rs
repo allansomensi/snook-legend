@@ -944,7 +944,9 @@ impl Lounge {
             | ClientMsg::Missions
             | ClientMsg::Replays
             | ClientMsg::Replay { .. }
-            | ClientMsg::SetStatusMessage { .. }
+            | ClientMsg::LadderClaim { .. }
+            | ClientMsg::GhostStyle { .. } => {}
+            ClientMsg::SetStatusMessage { .. }
             | ClientMsg::ClearStatusMessage { .. }
             | ClientMsg::RecentOpponents
             | ClientMsg::Gifts

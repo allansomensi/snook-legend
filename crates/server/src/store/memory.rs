@@ -56,6 +56,8 @@ struct Inner {
     online_hours: BTreeMap<i64, (i64, i64, i64, i64)>,
     /// (hour, user)
     active_hours: HashSet<(i64, i64)>,
+    /// user -> (rack seed, strokes, claimed at)
+    ladder_claims: HashMap<i64, (u64, u32, i64)>,
     /// Presents (names and countries filled in when read).
     gifts: Vec<GiftRow>,
 }
@@ -381,6 +383,43 @@ impl MemoryStore {
         }))
     }
 
+    pub fn recent_replays(
+        &self,
+        user_id: i64,
+        limit: u32,
+    ) -> StoreResult<Vec<(i64, usize, snookered_proto::replay::Replay)>> {
+        let s = self.lock();
+        Ok(s.matches
+            .iter()
+            .enumerate()
+            .rev()
+            .filter_map(|(index, m)| {
+                let seat = m.players.iter().position(|p| *p == user_id)?;
+                Some((index as i64 + 1, seat, m.replay.clone()?))
+            })
+            .take(limit as usize)
+            .collect())
+    }
+
+    pub fn record_ladder_claim(
+        &self,
+        user_id: i64,
+        rack_seed: u64,
+        strokes: u32,
+        at: i64,
+    ) -> StoreResult<bool> {
+        let mut s = self.lock();
+        if s.ladder_claims.contains_key(&user_id) {
+            return Ok(false);
+        }
+        s.ladder_claims.insert(user_id, (rack_seed, strokes, at));
+        Ok(true)
+    }
+
+    pub fn ladder_claim(&self, user_id: i64) -> StoreResult<Option<i64>> {
+        Ok(self.lock().ladder_claims.get(&user_id).map(|c| c.2))
+    }
+
     pub fn save_live(&self, m: &LiveMatch) -> StoreResult<()> {
         self.lock().live.insert(m.id, m.clone());
         Ok(())
@@ -550,6 +589,7 @@ impl MemoryStore {
         s.friendships.retain(|(a, b), _| *a != user_id && *b != user_id);
         s.blocks.retain(|(a, b)| *a != user_id && *b != user_id);
         s.achievements.remove(&user_id);
+        s.ladder_claims.remove(&user_id);
         // What they wrote with their presents goes with them.
         for g in s.gifts.iter_mut().filter(|g| g.from_id == Some(user_id)) {
             g.message.clear();

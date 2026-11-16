@@ -11,6 +11,8 @@
 mod achievements;
 pub mod analysis;
 mod countries;
+pub mod ghost;
+pub mod ladder;
 pub mod missions;
 mod reactions;
 pub mod replay;
@@ -1005,6 +1007,16 @@ pub enum ClientMsg {
         #[serde(default)]
         username: String,
     },
+    /// Claims the ladder's reward with the recorded game won against its
+    /// last opponent (the server plays it again to check it).
+    LadderClaim {
+        replay: replay::Replay,
+    },
+    /// How a player plays (aggregated numbers), for a computer opponent in
+    /// their style.
+    GhostStyle {
+        username: String,
+    },
     Ping,
 }
 
@@ -1373,6 +1385,15 @@ pub enum ServerMsg {
     GiftThanked {
         by: String,
         code: String,
+    },
+    /// The answer to a claim of the ladder's reward.
+    LadderClaim {
+        result: ladder::ClaimResult,
+    },
+    /// The answer to a request for a player's style.
+    GhostStyle {
+        username: String,
+        answer: ghost::GhostAnswer,
     },
     Pong,
 }

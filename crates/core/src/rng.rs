@@ -33,11 +33,13 @@ impl Rng {
         (self.next_f64() * n as f64) as usize % n.max(1)
     }
 
-    /// Standard normal sample (Box-Muller).
+    /// Standard normal sample (Box-Muller), with the portable maths: the
+    /// computer's choices are checked by the server, so they must give the
+    /// same bits everywhere.
     pub fn gaussian(&mut self) -> f64 {
         let u1 = self.next_f64().max(1e-12);
         let u2 = self.next_f64();
-        (-2.0 * u1.ln()).sqrt() * (std::f64::consts::TAU * u2).cos()
+        (-2.0 * crate::math::ln(u1)).sqrt() * crate::math::cos(std::f64::consts::TAU * u2)
     }
 
     pub fn shuffle<T>(&mut self, items: &mut [T]) {

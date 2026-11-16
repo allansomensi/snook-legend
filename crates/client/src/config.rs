@@ -123,6 +123,8 @@ pub struct Config {
     pub token: String,
     /// Last difficulty chosen against the computer (0 easy, 1 medium, 2 hard).
     pub difficulty: u8,
+    /// The computer opponent last picked (a personality's code).
+    pub opponent: String,
     /// Offline shot clock in seconds (0: no clock).
     pub shot_clock: u32,
     /// Name used on local network games.
@@ -185,6 +187,7 @@ impl Default for Config {
             username: String::new(),
             token: String::new(),
             difficulty: 1,
+            opponent: crate::opponents::DEFAULT_PERSONALITY.to_string(),
             shot_clock: 0,
             lan_name: String::new(),
             cloth: "cloth_green".into(),
@@ -277,6 +280,7 @@ impl Config {
                 "username" => c.username = v.to_string(),
                 "token" => c.token = v.to_string(),
                 "difficulty" => c.difficulty = v.parse::<u8>().map(|d| d.min(2)).unwrap_or(1),
+                "opponent" => c.opponent = crate::opponents::chosen(v).code.to_string(),
                 "shot_clock" => {
                     c.shot_clock =
                         v.parse::<u32>().ok().filter(|s| [0, 30, 60].contains(s)).unwrap_or(0)
@@ -321,7 +325,7 @@ impl Config {
         format!(
             "# Snookered settings\nplayer_name = {}\nsecond_player_name = {}\nguide = {}\nshow_help = {}\nshot_camera = {}\ncamera_follow = {}\ngraphics_checked = {}\nlanguage = {}\nvignette = {}\nfocused_scene = {}\nshow_fps = {}\nshow_ping = {}\naim_sensitivity = {:.2}\nui_size = {:.2}\n\
              quality = {}\nmsaa = {}\nfullscreen = {}\nvolume = {:.2}\nserver = {}\nusername = {}\ntoken = {}\n\
-             difficulty = {}\nshot_clock = {}\nlan_name = {}\ncloth = {}\ncue = {}\nchalk = {}\nballs = {}\neffect = {}\ntable = {}\nhall = {}\ncue_level = {}\nemail_offer_declined = {}\n\
+             difficulty = {}\nopponent = {}\nshot_clock = {}\nlan_name = {}\ncloth = {}\ncue = {}\nchalk = {}\nballs = {}\neffect = {}\ntable = {}\nhall = {}\ncue_level = {}\nemail_offer_declined = {}\n\
              board_seen = {}\ntv_view = {}\ndesktop_notifications = {}\nauto_update = {}\nlast_version = {}\n{}",
             self.player_name,
             self.second_player_name,
@@ -345,6 +349,7 @@ impl Config {
             self.username,
             self.token,
             self.difficulty,
+            self.opponent,
             self.shot_clock,
             self.lan_name,
             self.cloth,

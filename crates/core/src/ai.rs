@@ -1,14 +1,25 @@
 //! Computer opponent.
 //!
 //! The AI enumerates candidate shots with the "ghost ball" method, simulates each
-//! one with the real physics engine and scores the result with the real rules. The
-//! difficulty levels differ in how many options they consider, whether they plan
-//! the cue ball's position for the next shot, and how accurately they execute.
+//! one with the real physics engine and scores the result with the real rules.
+//!
+//! A computer player ([`AiPlayer`]) is a [`Skill`], how well it plays (how
+//! accurately it strikes, how widely it searches, whether it plans the cue
+//! ball's position and plays safeties), and a [`Style`], how it likes to play
+//! (power or touch, spin, bank shots, how soon it settles for a safety). The
+//! three [`Difficulty`] levels are skills with the neutral style; the named
+//! opponents of [`crate::personalities`] mix the two.
+//!
+//! Decisions are reproducible: the same game, player and seed give the same
+//! shot, bit for bit, on every platform. The server relies on it to check
+//! games won against the computer, so this module, like the physics, uses
+//! only [`crate::math`] for anything beyond the basic operations.
 
 use glam::DVec2;
 use serde::{Deserialize, Serialize};
 
 use crate::ball::BallId;
+use crate::math;
 use crate::physics::Shot;
 use crate::rng::Rng;
 use crate::rules::EightBallGame;
@@ -31,6 +42,162 @@ impl Difficulty {
             Difficulty::Hard => "Hard",
         }
     }
+
+    /// How well a computer player of this level plays.
+    pub const fn skill(self) -> Skill {
+        match self {
+            Difficulty::Easy => Skill {
+                aim_noise_deg: 1.6,
+                speed_noise: 0.2,
+                break_speed: 5.5,
+                search: Search::Narrow,
+                position_weight: 0.0,
+                plays_safe: false,
+                banks: false,
+            },
+            Difficulty::Medium => Skill {
+                aim_noise_deg: 0.75,
+                speed_noise: 0.1,
+                break_speed: 6.3,
+                search: Search::Normal,
+                position_weight: 180.0,
+                plays_safe: true,
+                banks: false,
+            },
+            Difficulty::Hard => Skill {
+                aim_noise_deg: 0.35,
+                speed_noise: 0.05,
+                break_speed: 7.2,
+                search: Search::Wide,
+                position_weight: 450.0,
+                plays_safe: true,
+                banks: true,
+            },
+        }
+    }
+
+    /// The computer player of this level: its skill with the neutral style.
+    pub const fn player(self) -> AiPlayer {
+        AiPlayer { skill: self.skill(), style: Style::NEUTRAL }
+    }
+}
+
+/// How widely the computer looks for its shot: how many speeds, spins and
+/// aim points it tries, how carefully it checks that a shot still works
+/// when struck a little off, and how often it settles for a lesser one.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum Search {
+    Narrow,
+    Normal,
+    Wide,
+}
+
+/// How well a computer player plays.
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+pub struct Skill {
+    /// Execution error (standard deviation) in aim, degrees.
+    pub aim_noise_deg: f64,
+    /// Relative execution error in speed.
+    pub speed_noise: f64,
+    /// Cue speed of the break (m/s).
+    pub break_speed: f64,
+    pub search: Search,
+    /// How much the cue ball's position for the next shot counts (0: not at all).
+    pub position_weight: f64,
+    /// Values leaving the opponent in trouble when nothing is on.
+    pub plays_safe: bool,
+    /// Sees one-cushion bank shots.
+    pub banks: bool,
+}
+
+impl Skill {
+    /// Every number finite and within its range.
+    pub fn clamped(self) -> Skill {
+        let f = |v: f64, lo: f64, hi: f64| if v.is_finite() { v.clamp(lo, hi) } else { hi };
+        Skill {
+            aim_noise_deg: f(self.aim_noise_deg, 0.0, 5.0),
+            speed_noise: f(self.speed_noise, 0.0, 0.5),
+            break_speed: f(self.break_speed, 3.0, 7.5),
+            position_weight: f(self.position_weight, 0.0, 1000.0),
+            ..self
+        }
+    }
+}
+
+/// How a computer player likes to play, whatever its skill. The neutral
+/// style ([`Style::NEUTRAL`]) leaves the skill's own choices as they are.
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+pub struct Style {
+    /// Below this score the best pot is "not likely", and safeties are
+    /// weighed against it (a sure pot scores about 1000, a miss about 0;
+    /// neutral 700). Low: goes for everything; high: plays safe at the
+    /// first doubt.
+    pub safety_threshold: f64,
+    /// How much a safety that leaves nothing is worth (neutral 1).
+    pub safety_value: f64,
+    /// Bank shots: below -0.25 never, above 0.25 always looked for and
+    /// preferred (more, the closer to 1), otherwise as the skill allows.
+    pub banks: f64,
+    /// Power (up to 1) or touch (down to -1): scales the speeds tried and
+    /// leans towards the harder (softer) ones. Neutral 0.
+    pub power: f64,
+    /// Spin: 0 only centre ball, 1 the skill's own spins, up to 1.5 bigger
+    /// spins with side English as well.
+    pub spin: f64,
+    /// Multiplies the skill's care for position (neutral 1).
+    pub position: f64,
+    /// Cue elevation on ordinary shots (radians, 0 to 0.15).
+    pub elevation: f64,
+}
+
+impl Style {
+    pub const NEUTRAL: Style = Style {
+        safety_threshold: 700.0,
+        safety_value: 1.0,
+        banks: 0.0,
+        power: 0.0,
+        spin: 1.0,
+        position: 1.0,
+        elevation: 0.0,
+    };
+
+    /// Every number finite and within its range (a style can come from the
+    /// network: the ghost of a real player).
+    pub fn clamped(self) -> Style {
+        let n = Style::NEUTRAL;
+        let f = |v: f64, lo: f64, hi: f64, neutral: f64| {
+            if v.is_finite() { v.clamp(lo, hi) } else { neutral }
+        };
+        Style {
+            safety_threshold: f(self.safety_threshold, 150.0, 1100.0, n.safety_threshold),
+            safety_value: f(self.safety_value, 0.0, 2.5, n.safety_value),
+            banks: f(self.banks, -1.0, 1.0, n.banks),
+            power: f(self.power, -1.0, 1.0, n.power),
+            spin: f(self.spin, 0.0, 1.5, n.spin),
+            position: f(self.position, 0.0, 2.5, n.position),
+            elevation: f(self.elevation, 0.0, 0.15, n.elevation),
+        }
+    }
+}
+
+impl Default for Style {
+    fn default() -> Self {
+        Style::NEUTRAL
+    }
+}
+
+/// A computer player: how well it plays and how it likes to play.
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+pub struct AiPlayer {
+    pub skill: Skill,
+    pub style: Style,
+}
+
+impl From<Difficulty> for AiPlayer {
+    fn from(d: Difficulty) -> Self {
+        d.player()
+    }
 }
 
 /// What the AI wants to do on its turn.
@@ -42,17 +209,16 @@ pub struct AiDecision {
     pub called_pocket: Option<PocketId>,
 }
 
+/// Everything the search needs, worked out from an [`AiPlayer`].
 struct Profile {
-    /// Execution error (standard deviation) in aim, degrees.
     aim_noise_deg: f64,
-    /// Relative execution error in speed.
     speed_noise: f64,
     break_speed: f64,
     /// Speeds tried for every candidate in the first pass.
-    coarse_speeds: &'static [f64],
+    coarse_speeds: Vec<f64>,
     /// Speeds and tips tried for the most promising candidates.
-    refine_speeds: &'static [f64],
-    tips: &'static [(f64, f64)],
+    refine_speeds: Vec<f64>,
+    tips: Vec<(f64, f64)>,
     /// Candidates kept for refinement.
     keep: usize,
     /// Aim points across the pocket mouth (fractions of the half-mouth).
@@ -60,49 +226,55 @@ struct Profile {
     position_weight: f64,
     plays_safe: bool,
     banks: bool,
+    /// Extra score for a bank shot that drops.
+    bank_bonus: f64,
     /// Simulated imperfect executions used to judge how safe a shot is.
     robustness_samples: usize,
     choose_among_top: usize,
+    safety_threshold: f64,
+    safety_value: f64,
+    /// Extra score per m/s above (below, when negative) a medium pace.
+    power_bias: f64,
+    elevation: f64,
 }
 
-fn profile(d: Difficulty) -> Profile {
-    match d {
-        Difficulty::Easy => Profile {
-            aim_noise_deg: 1.6,
-            speed_noise: 0.2,
-            break_speed: 5.5,
-            coarse_speeds: &[2.0],
-            refine_speeds: &[1.6, 2.6],
+/// The fastest the computer strikes an ordinary shot (m/s).
+const MAX_PLAYED_SPEED: f64 = 6.5;
+
+/// How widely each [`Search`] looks.
+struct Breadth {
+    coarse: &'static [f64],
+    refine: &'static [f64],
+    tips: &'static [(f64, f64)],
+    keep: usize,
+    aim_spread: &'static [f64],
+    robustness: usize,
+    top: usize,
+}
+
+fn breadth(search: Search) -> Breadth {
+    match search {
+        Search::Narrow => Breadth {
+            coarse: &[2.0],
+            refine: &[1.6, 2.6],
             tips: &[(0.0, 0.0)],
             keep: 2,
             aim_spread: &[0.0],
-            position_weight: 0.0,
-            plays_safe: false,
-            banks: false,
-            robustness_samples: 0,
-            choose_among_top: 4,
+            robustness: 0,
+            top: 4,
         },
-        Difficulty::Medium => Profile {
-            aim_noise_deg: 0.75,
-            speed_noise: 0.1,
-            break_speed: 6.3,
-            coarse_speeds: &[1.6, 2.8],
-            refine_speeds: &[1.2, 1.7, 2.4, 3.3, 4.4],
+        Search::Normal => Breadth {
+            coarse: &[1.6, 2.8],
+            refine: &[1.2, 1.7, 2.4, 3.3, 4.4],
             tips: &[(0.0, 0.0), (0.0, 0.5), (0.0, -0.5)],
             keep: 4,
             aim_spread: &[-0.3, 0.0, 0.3],
-            position_weight: 180.0,
-            plays_safe: true,
-            banks: false,
-            robustness_samples: 1,
-            choose_among_top: 2,
+            robustness: 1,
+            top: 2,
         },
-        Difficulty::Hard => Profile {
-            aim_noise_deg: 0.35,
-            speed_noise: 0.05,
-            break_speed: 7.2,
-            coarse_speeds: &[1.4, 2.4, 3.8],
-            refine_speeds: &[0.9, 1.25, 1.7, 2.2, 2.9, 3.8, 5.0],
+        Search::Wide => Breadth {
+            coarse: &[1.4, 2.4, 3.8],
+            refine: &[0.9, 1.25, 1.7, 2.2, 2.9, 3.8, 5.0],
             tips: &[
                 (0.0, 0.0),
                 (0.0, 0.35),
@@ -116,12 +288,67 @@ fn profile(d: Difficulty) -> Profile {
             ],
             keep: 6,
             aim_spread: &[-0.35, 0.0, 0.35],
-            position_weight: 450.0,
-            plays_safe: true,
-            banks: true,
-            robustness_samples: 3,
-            choose_among_top: 1,
+            robustness: 3,
+            top: 1,
         },
+    }
+}
+
+fn profile(player: &AiPlayer) -> Profile {
+    let skill = player.skill.clamped();
+    let style = player.style.clamped();
+    let b = breadth(skill.search);
+    // Power scales every speed (the neutral style leaves them exactly as
+    // they are).
+    let scale = 1.0 + 0.3 * style.power;
+    let speeds = |list: &[f64]| -> Vec<f64> {
+        list.iter().map(|s| (s * scale).clamp(0.4, MAX_PLAYED_SPEED)).collect()
+    };
+    // Spin: none, the skill's own, or bigger (with side English as well).
+    let tips: Vec<(f64, f64)> = if style.spin < 0.05 {
+        vec![(0.0, 0.0)]
+    } else {
+        let mut tips: Vec<(f64, f64)> = b
+            .tips
+            .iter()
+            .map(|&(x, y)| {
+                let (x, y) = (x * style.spin, y * style.spin);
+                let len = (x * x + y * y).sqrt();
+                if len > 0.95 { (x * 0.95 / len, y * 0.95 / len) } else { (x, y) }
+            })
+            .collect();
+        if style.spin > 1.05 && b.tips.len() > 1 {
+            let side = 0.5 * style.spin;
+            tips.extend([(side, 0.0), (-side, 0.0)]);
+        }
+        tips
+    };
+    let banks = if style.banks < -0.25 {
+        false
+    } else if style.banks > 0.25 {
+        true
+    } else {
+        skill.banks
+    };
+    Profile {
+        aim_noise_deg: skill.aim_noise_deg,
+        speed_noise: skill.speed_noise,
+        break_speed: skill.break_speed * (1.0 + 0.1 * style.power),
+        coarse_speeds: speeds(b.coarse),
+        refine_speeds: speeds(b.refine),
+        tips,
+        keep: b.keep,
+        aim_spread: b.aim_spread,
+        position_weight: skill.position_weight * style.position,
+        plays_safe: skill.plays_safe,
+        banks,
+        bank_bonus: 300.0 * style.banks.max(0.0),
+        robustness_samples: b.robustness,
+        choose_among_top: b.top,
+        safety_threshold: style.safety_threshold,
+        safety_value: style.safety_value,
+        power_bias: 45.0 * style.power,
+        elevation: style.elevation,
     }
 }
 
@@ -130,6 +357,8 @@ fn profile(d: Difficulty) -> Profile {
 struct Candidate {
     yaw: f64,
     called: Option<PocketId>,
+    /// Off a cushion first.
+    bank: bool,
 }
 
 #[derive(Clone, Copy)]
@@ -137,11 +366,19 @@ struct Scored {
     score: f64,
     shot: Shot,
     called: Option<PocketId>,
+    bank: bool,
 }
 
-/// Chooses the computer's next action. `seed` makes the decision reproducible.
+/// Chooses the next action of a computer player of this level. `seed`
+/// makes the decision reproducible.
 pub fn decide(game: &EightBallGame, difficulty: Difficulty, seed: u64) -> AiDecision {
-    let prof = profile(difficulty);
+    decide_with(game, &difficulty.player(), seed)
+}
+
+/// Chooses the next action of `player`. The same game, player and seed
+/// always give the same decision, on every platform.
+pub fn decide_with(game: &EightBallGame, player: &AiPlayer, seed: u64) -> AiDecision {
+    let prof = profile(player);
     let mut rng = Rng::new(seed);
     let mut g = game.clone();
     let me = g.current_player();
@@ -158,7 +395,8 @@ pub fn decide(game: &EightBallGame, difficulty: Difficulty, seed: u64) -> AiDeci
         let cue = g.ball(BallId::CUE).xy();
         let d = g.table().foot_spot() - cue;
         // A touch of follow keeps the cue ball near the middle of the table.
-        let shot = Shot::new(d.y.atan2(d.x), prof.break_speed).with_tip(DVec2::new(0.0, 0.15));
+        let shot =
+            Shot::new(math::atan2(d.y, d.x), prof.break_speed).with_tip(DVec2::new(0.0, 0.15));
         return AiDecision { cue_ball, shot: perturb(shot, &prof, &mut rng), called_pocket: None };
     }
 
@@ -170,9 +408,9 @@ pub fn decide(game: &EightBallGame, difficulty: Difficulty, seed: u64) -> AiDeci
     let mut coarse: Vec<(f64, Candidate)> = Vec::new();
     for c in &candidates {
         let mut best = f64::MIN;
-        for &speed in prof.coarse_speeds {
-            let shot = Shot::new(c.yaw, speed);
-            best = best.max(evaluate(&g, &shot, c.called, me, &prof));
+        for &speed in &prof.coarse_speeds {
+            let shot = Shot::new(c.yaw, speed).with_elevation(prof.elevation);
+            best = best.max(evaluate(&g, &shot, c.called, c.bank, me, &prof));
         }
         coarse.push((best, *c));
     }
@@ -182,11 +420,13 @@ pub fn decide(game: &EightBallGame, difficulty: Difficulty, seed: u64) -> AiDeci
     // 2. The best ones with every speed and spin, for position.
     let mut options: Vec<Scored> = Vec::new();
     for &(_, c) in coarse.iter().filter(|(s, _)| *s > 0.0) {
-        for &speed in prof.refine_speeds {
-            for &(tx, ty) in prof.tips {
-                let shot = Shot::new(c.yaw, speed).with_tip(DVec2::new(tx, ty));
-                let score = evaluate(&g, &shot, c.called, me, &prof);
-                options.push(Scored { score, shot, called: c.called });
+        for &speed in &prof.refine_speeds {
+            for &(tx, ty) in &prof.tips {
+                let shot = Shot::new(c.yaw, speed)
+                    .with_tip(DVec2::new(tx, ty))
+                    .with_elevation(prof.elevation);
+                let score = evaluate(&g, &shot, c.called, c.bank, me, &prof);
+                options.push(Scored { score, shot, called: c.called, bank: c.bank });
             }
         }
     }
@@ -204,9 +444,10 @@ pub fn decide(game: &EightBallGame, difficulty: Difficulty, seed: u64) -> AiDeci
         robust_rescore(&g, &mut options, me, &prof, samples, &mut rng);
     }
 
-    // 4. When nothing is likely to drop, play safe (or at least legally).
+    // 4. When nothing is likely enough to drop (for this player's taste),
+    // weigh safeties too (or at least a legal hit).
     let best = options.first().map(|o| o.score).unwrap_or(f64::MIN);
-    if best < 700.0 {
+    if best < prof.safety_threshold {
         let mut safeties = safety_options(&g, me, &prof);
         if samples > 0 {
             robust_rescore(&g, &mut safeties, me, &prof, samples, &mut rng);
@@ -256,7 +497,7 @@ fn robust_rescore(
             let sign = if k % 2 == 0 { 1.0 } else { -1.0 };
             s.yaw += sign * aim * (0.6 + 0.4 * rng.next_f64());
             s.speed *= 1.0 + rng.gaussian() * prof.speed_noise * 1.5;
-            total += evaluate(g, &s, o.called, me, prof);
+            total += evaluate(g, &s, o.called, o.bank, me, prof);
         }
         o.score = total / (samples + 1) as f64;
     }
@@ -273,6 +514,7 @@ fn evaluate(
     g: &EightBallGame,
     shot: &Shot,
     called: Option<PocketId>,
+    bank: bool,
     me: usize,
     prof: &Profile,
 ) -> f64 {
@@ -291,9 +533,15 @@ fn evaluate(
     if report.continues {
         score += 1_000.0 + prof.position_weight * position_quality(&trial);
         score += 30.0 * report.pocketed.len() as f64;
+        if bank {
+            score += prof.bank_bonus;
+        }
     } else if !report.is_foul() && prof.plays_safe {
         // Leave the opponent nothing easy.
-        score += 400.0 * (1.0 - opponent_quality(&trial));
+        score += 400.0 * prof.safety_value * (1.0 - opponent_quality(&trial));
+    }
+    if prof.power_bias != 0.0 {
+        score += prof.power_bias * (shot.speed - 2.5);
     }
     score
 }
@@ -390,7 +638,7 @@ fn pocket_candidates(g: &EightBallGame, prof: &Profile) -> Vec<Candidate> {
                 let aim_at = p.aim_point() + p.outward.perp() * (k * p.half_mouth);
                 let dir = (aim_at - t).normalize();
                 let aim = t - dir * 2.0 * r - cue;
-                out.push(Candidate { yaw: aim.y.atan2(aim.x), called });
+                out.push(Candidate { yaw: math::atan2(aim.y, aim.x), called, bank: false });
             }
         }
     }
@@ -430,7 +678,8 @@ fn bank_candidates(g: &EightBallGame) -> Vec<Candidate> {
                     continue;
                 }
                 let called = (target == BallId::EIGHT).then_some(pocket);
-                out.push(Candidate { yaw: to_ghost.y.atan2(to_ghost.x), called });
+                let yaw = math::atan2(to_ghost.y, to_ghost.x);
+                out.push(Candidate { yaw, called, bank: true });
             }
         }
     }
@@ -466,9 +715,10 @@ fn safety_options(g: &EightBallGame, me: usize, prof: &Profile) -> Vec<Scored> {
         for &offset in offsets {
             let aim = t + dir.perp() * offset * r - cue;
             for &speed in speeds {
-                let shot = Shot::new(aim.y.atan2(aim.x), speed);
-                let score = evaluate(g, &shot, called, me, prof);
-                out.push(Scored { score, shot, called });
+                let shot =
+                    Shot::new(math::atan2(aim.y, aim.x), speed).with_elevation(prof.elevation);
+                let score = evaluate(g, &shot, called, false, me, prof);
+                out.push(Scored { score, shot, called, bank: false });
             }
         }
     }
@@ -509,7 +759,7 @@ fn choose_cue_ball_position(g: &EightBallGame, prof: &Profile, rng: &mut Rng) ->
             let ghost = t - dir * 2.0 * r;
             for dist in [0.12, 0.2, 0.3, 0.45] {
                 for angle in [0.0f64, 12.0, -12.0, 25.0, -25.0] {
-                    let back = DVec2::from_angle(angle.to_radians()).rotate(dir);
+                    let back = math::from_angle(angle.to_radians()).rotate(dir);
                     let p = ghost - back * dist;
                     if g.can_place_cue_ball(p) {
                         let ease = shot_ease(g, p, target, pocket);
@@ -540,14 +790,14 @@ fn choose_cue_ball_position(g: &EightBallGame, prof: &Profile, rng: &mut Rng) ->
 mod tests {
     use super::*;
 
-    fn play_game(a: Difficulty, b: Difficulty, seed: u64) -> (Option<usize>, u32) {
+    fn play_game(a: AiPlayer, b: AiPlayer, seed: u64) -> (Option<usize>, u32) {
         let mut g = EightBallGame::new(seed, 0);
-        let levels = [a, b];
+        let players = [a, b];
         for turn in 0..300u64 {
             if g.game_over().is_some() {
                 break;
             }
-            let d = decide(&g, levels[g.current_player()], seed * 1000 + turn);
+            let d = decide_with(&g, &players[g.current_player()], seed * 1000 + turn);
             if let Some(p) = d.cue_ball {
                 assert!(g.place_cue_ball(p));
             }
@@ -559,21 +809,23 @@ mod tests {
     #[test]
     fn ai_finishes_games() {
         for seed in 1..=3 {
-            let (winner, shots) = play_game(Difficulty::Medium, Difficulty::Medium, seed);
+            let medium = Difficulty::Medium.player();
+            let (winner, shots) = play_game(medium, medium, seed);
             assert!(winner.is_some(), "seed {seed}: no winner after {shots} shots");
         }
     }
 
     #[test]
     fn hard_beats_easy_most_of_the_time() {
+        let (hard, easy) = (Difficulty::Hard.player(), Difficulty::Easy.player());
         let mut hard_wins = 0;
         let games = 6;
         for seed in 0..games {
             // Alternate who breaks.
             let (winner, _) = if seed % 2 == 0 {
-                play_game(Difficulty::Hard, Difficulty::Easy, seed)
+                play_game(hard, easy, seed)
             } else {
-                let (w, s) = play_game(Difficulty::Easy, Difficulty::Hard, seed);
+                let (w, s) = play_game(easy, hard, seed);
                 (w.map(|w| 1 - w), s)
             };
             if winner == Some(0) {
@@ -581,5 +833,70 @@ mod tests {
             }
         }
         assert!(hard_wins >= 4, "hard won only {hard_wins}/{games}");
+    }
+
+    #[test]
+    fn decisions_are_reproducible() {
+        let g = EightBallGame::new(5, 0);
+        let p = Difficulty::Medium.player();
+        let mut g2 = g.clone();
+        let first = decide_with(&g, &p, 99);
+        assert_eq!(first, decide_with(&g, &p, 99));
+        // After the break too (a position with pots and safeties).
+        if let Some(c) = first.cue_ball {
+            g2.place_cue_ball(c);
+        }
+        g2.play_shot(&first.shot, first.called_pocket).unwrap();
+        if g2.game_over().is_none() {
+            assert_eq!(decide_with(&g2, &p, 7), decide_with(&g2, &p, 7));
+        }
+        // The level and its player are the same thing.
+        assert_eq!(decide(&g2, Difficulty::Easy, 3), decide_with(&g2, &Difficulty::Easy.into(), 3));
+    }
+
+    #[test]
+    fn the_neutral_style_changes_nothing() {
+        for d in Difficulty::ALL {
+            let p = profile(&d.player());
+            let b = breadth(d.skill().search);
+            assert_eq!(p.coarse_speeds, b.coarse);
+            assert_eq!(p.refine_speeds, b.refine);
+            assert_eq!(p.tips, b.tips);
+            assert_eq!(p.break_speed, d.skill().break_speed);
+            assert_eq!(p.banks, d.skill().banks);
+            assert_eq!((p.bank_bonus, p.power_bias, p.elevation), (0.0, 0.0, 0.0));
+            assert_eq!(p.position_weight, d.skill().position_weight);
+        }
+    }
+
+    #[test]
+    fn styles_are_kept_in_range() {
+        let wild = Style {
+            safety_threshold: f64::NAN,
+            safety_value: 99.0,
+            banks: -7.0,
+            power: f64::INFINITY,
+            spin: -1.0,
+            position: 3.0,
+            elevation: 1.0,
+        }
+        .clamped();
+        assert_eq!(wild.safety_threshold, Style::NEUTRAL.safety_threshold);
+        assert_eq!((wild.safety_value, wild.banks, wild.power), (2.5, -1.0, 0.0));
+        assert_eq!((wild.spin, wild.position, wild.elevation), (0.0, 2.5, 0.15));
+        // A style that loves spin and power tries bigger spins, harder.
+        let p = profile(&AiPlayer {
+            skill: Difficulty::Medium.skill(),
+            style: Style { spin: 1.4, power: 1.0, ..Style::NEUTRAL },
+        });
+        assert!(p.tips.len() > 3 && p.tips.iter().all(|(x, y)| (x * x + y * y).sqrt() <= 0.951));
+        assert!(p.refine_speeds.iter().all(|s| *s <= MAX_PLAYED_SPEED));
+        assert!(p.refine_speeds[0] > 1.2);
+        let none = profile(&AiPlayer {
+            skill: Difficulty::Hard.skill(),
+            style: Style { spin: 0.0, banks: -1.0, ..Style::NEUTRAL },
+        });
+        assert_eq!(none.tips, vec![(0.0, 0.0)]);
+        assert!(!none.banks);
     }
 }

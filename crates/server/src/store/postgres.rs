@@ -397,6 +397,60 @@ impl PgStore {
         }))
     }
 
+    pub async fn recent_replays(
+        &self,
+        user_id: i64,
+        limit: u32,
+    ) -> StoreResult<Vec<(i64, usize, Replay)>> {
+        let rows = query(
+            "SELECT id, CASE WHEN player0 = $1 THEN 0 ELSE 1 END AS seat, seed, breaker,
+                    strokes::text AS strokes
+             FROM matches WHERE (player0 = $1 OR player1 = $1) AND strokes IS NOT NULL
+             ORDER BY ended_at DESC, id DESC LIMIT $2",
+        )
+        .bind(user_id)
+        .bind(limit as i64)
+        .fetch_all(&self.pool)
+        .await?;
+        Ok(rows
+            .iter()
+            .filter_map(|r| {
+                let strokes: String = r.get("strokes");
+                let replay = replay_of(r.get("seed"), r.get("breaker"), &strokes)?;
+                Some((r.get("id"), r.get::<i32, _>("seat") as usize, replay))
+            })
+            .collect())
+    }
+
+    pub async fn record_ladder_claim(
+        &self,
+        user_id: i64,
+        rack_seed: u64,
+        strokes: u32,
+        at: i64,
+    ) -> StoreResult<bool> {
+        let added = query(
+            "INSERT INTO ladder_claims (user_id, rack_seed, strokes, claimed_at)
+             VALUES ($1, $2, $3, $4) ON CONFLICT (user_id) DO NOTHING",
+        )
+        .bind(user_id)
+        .bind(rack_seed as i64)
+        .bind(strokes as i32)
+        .bind(at)
+        .execute(&self.pool)
+        .await?
+        .rows_affected();
+        Ok(added > 0)
+    }
+
+    pub async fn ladder_claim(&self, user_id: i64) -> StoreResult<Option<i64>> {
+        let row = query("SELECT claimed_at FROM ladder_claims WHERE user_id = $1")
+            .bind(user_id)
+            .fetch_optional(&self.pool)
+            .await?;
+        Ok(row.map(|r| r.get("claimed_at")))
+    }
+
     pub async fn save_live(&self, m: &LiveMatch) -> StoreResult<()> {
         query(
             "INSERT INTO live_matches (id, player0, player1, rated, seed, breaker, strokes, updated_at)
@@ -682,6 +736,7 @@ impl PgStore {
             "DELETE FROM friendships WHERE user_id = $1 OR friend_id = $1",
             "DELETE FROM blocks WHERE user_id = $1 OR blocked_id = $1",
             "DELETE FROM achievements WHERE user_id = $1",
+            "DELETE FROM ladder_claims WHERE user_id = $1",
             "UPDATE gifts SET message = '' WHERE from_id = $1",
             "DELETE FROM equipped WHERE user_id = $1",
             "DELETE FROM shot_stats WHERE user_id = $1",

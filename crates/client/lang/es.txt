@@ -146,7 +146,6 @@ Drag the cue · click a ball or a spot	Arrastra el taco · haz clic en una bola 
 #{n} in the world	#{n} del mundo
 3–16 letters, digits or underscores.	3–16 letras, números o guiones bajos.
 Only a short line from the cue ball.	Solo una línea corta desde la bola blanca.
-A solid club player.	Un jugador de club sólido.
 Accept friend	Aceptar amistad
 Achievement unlocked: {title}	Logro desbloqueado: {title}
 Achievements {n}/{total}	Logros {n}/{total}
@@ -236,7 +235,6 @@ Locked	Bloqueado
 Looking for games	Buscando partidas
 Make a friend.	Haz un amigo.
 Master	Maestro
-Misses now and then: good for learning.	Falla de vez en cuando: bueno para aprender.
 Name	Nombre
 Names have 3–16 letters, digits or underscores.	Los nombres tienen 3–16 letras, números o guiones bajos.
 New account	Cuenta nueva
@@ -262,7 +260,6 @@ Or join by address	O únete por dirección
 Other	Otro
 Others can join at {ip}:{port}	Otros pueden unirse en {ip}:{port}
 Passwords need at least 8 characters (not only digits).	La contraseña necesita al menos 8 caracteres (no solo números).
-Plans position and plays safeties.	Planifica la posición y juega defensivas.
 Play 1,000 rated games.	Juega 1.000 partidas con rating.
 Play 10 rated games.	Juega 10 partidas con rating.
 Play 100 rated games.	Juega 100 partidas con rating.
@@ -341,7 +338,7 @@ The server is busy. Try again in a moment.	El servidor está ocupado. Inténtalo
 The tournament starts when it is full (the host can start it earlier).	El torneo empieza cuando se llena (el anfitrión puede empezarlo antes).
 There are too many tournaments right now. Join one!	Hay demasiados torneos ahora. ¡Únete a uno!
 This is a LAN server: join as a guest.	Este es un servidor LAN: únete como invitado.
-Three levels, from relaxed to ruthless	Tres niveles, de relajado a implacable
+Ten rivals, a ladder and ghosts of real players	Diez rivales, la escalera y fantasmas de jugadores reales
 Tier	Categoría
 Time per shot	Tiempo por tacada
 Too many failed attempts. Wait a few minutes and try again.	Demasiados intentos fallidos. Espera unos minutos e inténtalo de nuevo.
@@ -729,6 +726,80 @@ Ball in hand  ·  {group}	Bola en mano  ·  {group}
 Can't shoot: {e}.	No se puede tirar: {e}.
 Chat ({n})	Chat ({n})
 Computer ({level})	Ordenador ({level})
+Computer	Computadora
+Each opponent has a style of their own	Cada rival tiene un estilo propio
+Free game	Partida libre
+Ladder	Escalera
+Ladder: {n} of {total} beaten	Escalera: {n} de {total} vencidos
+Strength {n}/5	Nivel {n}/5
+Ghost	Fantasma
+Accuracy	Precisión
+Safeties	Defensas
+Banks	Bandas
+Position	Posición
+Ghost of {name}	Fantasma de {name}
+A player's ghost	Fantasma de un jugador
+Plays like a real player	Juega como un jugador real
+The computer plays in the style of a real player, measured on their online games.	La computadora juega con el estilo de un jugador real, medido en sus partidas en línea.
+Sign in to play the ghost of a real player.	Inicia sesión para jugar contra el fantasma de un jugador real.
+Load	Cargar
+Friends:	Amigos:
+Type a username or pick a friend, then Load.	Escribe un nombre de usuario o elige un amigo y pulsa Cargar.
+Measuring how {name} plays…	Midiendo cómo juega {name}…
+Pots {pots}% · safeties {safe}% · banks {banks}% · {shots} shots	Emboca {pots}% · defensas {safe}% · bandas {banks}% · {shots} tiros
+{name} has only {shots} recorded shots; a ghost needs {needed}. More online games will do it.	{name} solo tiene {shots} tiros registrados; un fantasma necesita {needed}. Con más partidas en línea, lo tendrá.
+There is no player called {name}.	No hay ningún jugador llamado {name}.
+The server can't be reached right now. Try again later.	No se puede contactar con el servidor ahora. Inténtalo más tarde.
+Wait a moment before asking again.	Espera un momento antes de volver a pedirlo.
+Something went wrong on the server. Try again later.	Algo salió mal en el servidor. Inténtalo más tarde.
+Play your ghost	Jugar contra tu fantasma
+Play their ghost	Jugar contra su fantasma
+Beaten	Vencido
+Next	Siguiente
+Beat the rung below to unlock it.	Vence el escalón de abajo para desbloquearlo.
+Rung {n} of {total}	Escalón {n} de {total}
+Challenge {name}	Desafiar a {name}
+Rung {n} beaten! Next on the ladder: {name}.	¡Escalón {n} superado! Siguiente en la escalera: {name}.
+You beat the whole ladder!	¡Superaste toda la escalera!
+Reward	Premio
+{item} cue · exclusive	Taco {item} · exclusivo
+Yours: find it in the shop, under Cues.	Es tuyo: está en la tienda, en Tacos.
+Beat the last rung again while signed in to claim it.	Vence el último escalón otra vez, con la sesión iniciada, para recibirlo.
+Beat all ten opponents to earn it. It is sold nowhere.	Vence a los diez rivales para ganarlo. No se vende en ningún sitio.
+You beat the ladder! Sign in to claim your reward.	¡Superaste la escalera! Inicia sesión para recibir tu premio.
+The server is checking your final game…	El servidor está comprobando tu partida final…
+Try again	Reintentar
+The server did not answer. Try again in a moment.	El servidor no respondió. Inténtalo de nuevo en un momento.
+The server is busy checking other games. Try again in a moment.	El servidor está comprobando otras partidas. Inténtalo de nuevo en un momento.
+Wait a minute before trying again.	Espera un minuto antes de volver a intentarlo.
+That game is too long to be checked.	Esa partida es demasiado larga para comprobarla.
+That game has a move the rules don't allow.	Esa partida tiene una jugada que las reglas no permiten.
+That game was not played to the end.	Esa partida no se jugó hasta el final.
+That game was not a win.	Esa partida no fue una victoria.
+The computer's shots in that game don't match how it plays (another version of the game?).	Los tiros de la computadora en esa partida no coinciden con su forma de jugar (¿otra versión del juego?).
+The Rookie	El Novato
+Still learning: aims at the nearest pocket, centre ball, and hopes. Never plays safe.	Todavía aprendiendo: apunta a la tronera más cercana, golpea al centro y reza. Nunca juega a la defensiva.
+The Weekend Player	La Jugadora de Fin de Semana
+Knows the basics and drops the easy ones, but rarely thinks about where the cue ball goes.	Sabe lo básico y mete las fáciles, pero casi nunca piensa en dónde queda la bola blanca.
+The Bank Artist	La Maga de las Bandas
+Sees angles nobody else does: whenever a ball can go off a cushion and in, she banks it.	Ve ángulos que nadie ve: siempre que una bola puede entrar por banda, la juega por banda.
+The Cannon	El Cañón
+Goes for everything, as hard as he can: long pots, thunderous breaks, hardly ever a safety.	Va a por todo, con toda su fuerza: tiros largos, saques atronadores y casi nunca una defensa.
+The Wall	La Muralla
+Only shoots when the pot is on. Otherwise she tucks the cue ball away and waits for your mistake.	Solo ataca cuando la bola está hecha. Si no, esconde la blanca y espera tu error.
+The Old Pro	El Veterano
+Forty years at the table: a smooth stroke, a raised cue, side spin, and never in a hurry.	Cuarenta años de mesa: golpe suave, taco levantado, efecto lateral y ninguna prisa.
+The Hustler	La Astuta
+Plays just well enough to win, then a little better. Balanced, sharp and hard to read.	Juega lo justo para ganar, y luego un poco mejor. Equilibrada, afilada y difícil de leer.
+The Professor	El Profesor
+Thinks three balls ahead: every shot leaves the cue ball where the next one is easy.	Piensa tres bolas por delante: cada tiro deja la blanca donde el siguiente es fácil.
+The Sharpshooter	La Francotiradora
+Pots from anywhere, at any angle. Her safeties are an afterthought: she doesn't need them.	Emboca desde cualquier sitio y con cualquier ángulo. Las defensas le dan igual: no las necesita.
+The Champion	El Campeón
+Unbeaten for years. Precise, patient and merciless: the last step of the ladder.	Invicto desde hace años. Preciso, paciente e implacable: el último escalón de la escalera.
+Ladder king	Rey de la escalera
+King of the ladder	Rey de la escalera
+Beat all ten opponents of the computer ladder.	Vence a los diez rivales de la escalera contra la computadora.
 Connecting to {server}…	Conectando con {server}…
 Connection lost. Reconnecting (attempt {n})…	Se perdió la conexión. Reconectando (intento {n})…
 Connection lost. Reconnecting…	Se perdió la conexión. Reconectando…

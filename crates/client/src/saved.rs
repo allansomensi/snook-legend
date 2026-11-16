@@ -5,6 +5,8 @@ use serde::{Deserialize, Serialize};
 use snookered_core::{Difficulty, EightBallGame};
 
 use crate::game::{Controller, Match, ShotMark, ShotStats};
+use crate::ladder::LadderRun;
+use crate::opponents::Opponent;
 
 /// Bumped when the saved fields change (an older file is then ignored).
 const VERSION: u32 = 1;
@@ -13,7 +15,16 @@ const VERSION: u32 = 1;
 pub struct SavedGame {
     version: u32,
     pub names: [String; 2],
+    /// The nearest classic level (what versions before the personalities
+    /// read).
     pub level: Difficulty,
+    /// Who the computer is (none in files from before the personalities:
+    /// then `level`).
+    #[serde(default)]
+    pub opponent: Option<Opponent>,
+    /// A ladder game: its rung and the strokes so far.
+    #[serde(default)]
+    pub ladder: Option<LadderRun>,
     pub seed: u64,
     pub game: EightBallGame,
     pub stats: [ShotStats; 2],
@@ -32,7 +43,8 @@ impl SavedGame {
     /// What to keep of `m`: only a game against the computer, between shots,
     /// still being played.
     pub fn of(m: &Match) -> Option<SavedGame> {
-        let Controller::Computer(level) = m.controllers[1] else { return None };
+        let Controller::Computer(_) = m.controllers[1] else { return None };
+        let opponent = m.opponent.clone()?;
         if m.controllers[0] != Controller::Human
             || m.practice
             || m.is_online()
@@ -45,7 +57,9 @@ impl SavedGame {
         Some(SavedGame {
             version: VERSION,
             names: m.names.clone(),
-            level,
+            level: opponent.level(),
+            opponent: Some(opponent),
+            ladder: m.ladder.clone(),
             seed: m.seed(),
             game: m.game.clone(),
             stats: m.stats,
@@ -55,6 +69,11 @@ impl SavedGame {
             shot_clock: m.clock.map(|(s, _)| s.round() as u32),
             saved_at: crate::game::unix_now(),
         })
+    }
+
+    /// Who the computer is.
+    pub fn opponent(&self) -> Opponent {
+        self.opponent.clone().unwrap_or(Opponent::Level { level: self.level })
     }
 
     /// Object balls still on the table (both groups and the 8).
@@ -100,10 +119,11 @@ mod tests {
     #[test]
     fn a_game_against_the_computer_comes_back_as_it_was() {
         let settings = MatchSettings {
-            mode: MatchMode::VsComputer(Difficulty::Medium),
+            mode: MatchMode::VsComputer(Opponent::Level { level: Difficulty::Medium }),
             names: ["Ana".into(), "CPU".into()],
             guide: crate::config::AimGuide::Standard,
             shot_clock: Some(45),
+            ladder: None,
         };
         let mut m = Match::new(&settings, 77);
         m.wins = [2, 1];
@@ -121,5 +141,38 @@ mod tests {
         // Two players on one computer: nothing to keep.
         let hot = MatchSettings { mode: MatchMode::HotSeat, ..settings };
         assert!(SavedGame::of(&Match::new(&hot, 1)).is_none());
+    }
+
+    #[test]
+    fn the_personality_and_the_ladder_are_kept() {
+        let settings = MatchSettings {
+            mode: MatchMode::VsComputer(Opponent::personality("marta")),
+            names: ["Ana".into(), String::new()],
+            guide: crate::config::AimGuide::Standard,
+            shot_clock: None,
+            ladder: Some(4),
+        };
+        let mut m = Match::new(&settings, 99);
+        assert_eq!(m.names[1], "Marta");
+        // A stroke on the record (as if the break had been played).
+        m.ladder.as_mut().unwrap().record.strokes.push(snookered_proto::replay::Stroke::TimeFoul);
+        let saved = SavedGame::of(&m).expect("saved");
+        let back: SavedGame =
+            serde_json::from_str(&serde_json::to_string(&saved).unwrap()).unwrap();
+        assert_eq!(back.opponent(), Opponent::personality("marta"));
+        let r = Match::resume(&back, settings.guide);
+        assert_eq!(r.names[1], "Marta");
+        assert_eq!(r.opponent, m.opponent);
+        assert_eq!(r.ladder, m.ladder);
+        assert_eq!(r.controllers, m.controllers);
+        // A file from before the personalities: the level.
+        let old = r#"{"version":1,"names":["Ana","Computer (Hard)"],"level":"Hard","seed":5,
+            "game":GAME,"stats":[STATS,STATS],"wins":[0,0],"games_played":0,"shot_clock":null,
+            "saved_at":0}"#
+            .replace("GAME", &serde_json::to_string(&m.game).unwrap())
+            .replace("STATS", &serde_json::to_string(&ShotStats::default()).unwrap());
+        let old: SavedGame = serde_json::from_str(&old).unwrap();
+        assert_eq!(old.opponent(), Opponent::Level { level: Difficulty::Hard });
+        assert!(old.ladder.is_none());
     }
 }

@@ -500,6 +500,16 @@ pub const ITEMS: &[Item] = &[
         [240, 210, 120],
         Points,
     ),
+    // Earned by beating the computer ladder (never sold).
+    cue(
+        "cue_ladder",
+        "Ladder king",
+        Price::Achievement("ladder_champion"),
+        [36, 18, 52],
+        [226, 186, 84],
+        [250, 236, 190],
+        Spiral,
+    ),
     // Chalk.
     chalk("chalk_blue", "Blue chalk", Price::Free, [40, 80, 150]),
     chalk("chalk_green", "Green chalk", Price::Coins(400), [40, 130, 70]),
@@ -926,6 +936,12 @@ mod tests {
         assert!(!can_use(item("cloth_blue").unwrap(), &none, &none, false));
         assert!(can_use(item("cloth_blue").unwrap(), &["cloth_blue".into()], &none, false));
         assert!(can_use(item("cue_royal").unwrap(), &none, &none, true));
+        // The ladder's reward: never for coins, only with its achievement.
+        let reward = item(crate::ladder::REWARD_ITEM).unwrap();
+        assert_eq!(reward.price, Price::Achievement(crate::ladder::ACHIEVEMENT));
+        assert!(reward.coins().is_none());
+        assert!(!can_use(reward, &[reward.code.to_string()], &none, true));
+        assert!(can_use(reward, &none, &[crate::ladder::ACHIEVEMENT.to_string()], false));
         // Every category has items to sell besides its default.
         for c in Category::ALL {
             assert!(ITEMS.iter().filter(|i| i.category == c).count() > 1, "{c:?}");

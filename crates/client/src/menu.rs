@@ -126,7 +126,9 @@ impl Menu {
             (
                 Icon::Robot,
                 t("Against the computer"),
-                resume_line.as_deref().unwrap_or(t("Three levels, from relaxed to ruthless")),
+                resume_line
+                    .as_deref()
+                    .unwrap_or(t("Ten rivals, a ladder and ghosts of real players")),
             ),
             (Icon::People, t("Two players"), t("Take turns on this computer")),
             (Icon::Network, t("Local network"), t("Play with friends on the same network")),

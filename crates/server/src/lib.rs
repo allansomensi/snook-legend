@@ -13,6 +13,7 @@
 
 pub mod account;
 pub mod admin;
+pub mod computer;
 pub mod lan;
 pub mod limits;
 pub mod lounge;
@@ -140,11 +141,15 @@ pub struct Server {
     leaderboard: Mutex<Option<(Instant, Vec<LeaderboardEntry>)>>,
     connections: Mutex<HashMap<IpAddr, usize>>,
     pub stripe: Option<payments::Stripe>,
+    /// The ladder's reward and ghosts' styles (see [`computer`]).
+    pub computer: computer::Computer,
 }
 
 /// Drops connections that send nothing (clients ping every ~15 s).
 const IDLE_TIMEOUT: Duration = Duration::from_secs(75);
-const MAX_MESSAGE_BYTES: usize = 16 * 1024;
+/// Room for the longest message: a whole game sent to claim the ladder's
+/// reward (a few hundred strokes).
+const MAX_MESSAGE_BYTES: usize = 128 * 1024;
 const OUTGOING_QUEUE: usize = 512;
 /// Game sessions last this long; they are renewed when used after a day.
 pub(crate) const SESSION_LIFETIME: i64 = 60 * 60 * 24 * 30;
@@ -195,6 +200,7 @@ impl Server {
             hashing: Semaphore::new(2),
             leaderboard: Mutex::new(None),
             connections: Mutex::new(HashMap::new()),
+            computer: computer::Computer::default(),
         })
     }
 
@@ -974,6 +980,13 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                 }
             }
             ClientMsg::Missions => send(missions::message(&server, &me).await),
+            // Seconds of simulation each: answered on their own tasks.
+            ClientMsg::LadderClaim { replay } => {
+                computer::spawn_claim(server.clone(), me.clone(), replay, tx.clone())
+            }
+            ClientMsg::GhostStyle { username } => {
+                computer::spawn_ghost(server.clone(), me.clone(), username, tx.clone())
+            }
             ClientMsg::Replays => {
                 let vip =
                     shop::is_vip(&server.store.wallet(me.id).await.unwrap_or_default(), now());
@@ -1183,13 +1196,17 @@ fn is_query_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::DeleteAccount { .. }
             | ClientMsg::Replays
             | ClientMsg::Replay { .. }
+            | ClientMsg::LadderClaim { .. }
+            | ClientMsg::GhostStyle { .. }
     )
 }
 
 fn is_account_msg(msg: &ClientMsg) -> bool {
     matches!(
         msg,
-        ClientMsg::SetCountry { .. }
+        ClientMsg::LadderClaim { .. }
+            | ClientMsg::GhostStyle { .. }
+            | ClientMsg::SetCountry { .. }
             | ClientMsg::Friends
             | ClientMsg::FriendRequest { .. }
             | ClientMsg::FriendAnswer { .. }

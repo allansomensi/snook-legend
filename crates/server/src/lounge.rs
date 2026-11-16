@@ -915,7 +915,9 @@ impl Lounge {
             | ClientMsg::GiftItem { .. }
             | ClientMsg::Missions
             | ClientMsg::Replays
-            | ClientMsg::Replay { .. } => {}
+            | ClientMsg::Replay { .. }
+            | ClientMsg::LadderClaim { .. }
+            | ClientMsg::GhostStyle { .. } => {}
         }
     }
 

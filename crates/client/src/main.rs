@@ -21,11 +21,13 @@ mod hud;
 mod i18n;
 mod icon;
 mod icons;
+mod ladder;
 mod lan;
 mod menu;
 mod net;
 mod notify;
 mod online;
+mod opponents;
 mod paint;
 mod play;
 mod profile;
@@ -41,6 +43,7 @@ mod textures;
 mod ui;
 mod update;
 mod util;
+mod versus;
 
 use macroquad::prelude::*;
 use snookered_core::{Difficulty, Table};
@@ -57,13 +60,13 @@ use crate::profile::{ProfileAction, ProfileScreen};
 use crate::ranking::{Ranking, RankingAction};
 use crate::scene::{Overlay, Scene};
 use crate::settings::{SettingsAction, SettingsScreen};
-use crate::setup::{Setup, SetupAction, SetupKind};
+use crate::setup::{Setup, SetupAction};
 use crate::ui::Ui;
 
 /// Who plays a match.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum MatchMode {
-    VsComputer(Difficulty),
+    VsComputer(opponents::Opponent),
     HotSeat,
     /// Computer against computer (attract mode and testing).
     Demo,
@@ -77,10 +80,12 @@ pub struct MatchSettings {
     pub guide: config::AimGuide,
     /// Seconds per shot, if timed.
     pub shot_clock: Option<u32>,
+    /// A game of the ladder: its rung (0 is the first).
+    pub ladder: Option<u8>,
 }
 
 impl MatchSettings {
-    fn from_config(mode: MatchMode, c: &Config) -> Self {
+    pub(crate) fn from_config(mode: MatchMode, c: &Config) -> Self {
         MatchSettings {
             mode,
             // An empty name field means the default name (the field itself is
@@ -88,6 +93,7 @@ impl MatchSettings {
             names: [name_or(&c.player_name, "Player"), name_or(&c.second_player_name, "Player 2")],
             guide: c.guide,
             shot_clock: (c.shot_clock > 0).then_some(c.shot_clock),
+            ladder: None,
         }
     }
 }
@@ -114,12 +120,16 @@ fn parse_args() -> LaunchOptions {
             "--demo" => o.start = Some(MatchMode::Demo),
             "--hotseat" => o.start = Some(MatchMode::HotSeat),
             "--vs" => {
-                let level = match args.next().as_deref() {
-                    Some("easy") => Difficulty::Easy,
-                    Some("hard") => Difficulty::Hard,
-                    _ => Difficulty::Medium,
+                let who = args.next().unwrap_or_default();
+                let opponent = match who.as_str() {
+                    "easy" => opponents::Opponent::Level { level: Difficulty::Easy },
+                    "hard" => opponents::Opponent::Level { level: Difficulty::Hard },
+                    code if snookered_core::personalities::personality(code).is_some() => {
+                        opponents::Opponent::personality(code)
+                    }
+                    _ => opponents::Opponent::Level { level: Difficulty::Medium },
                 };
-                o.start = Some(MatchMode::VsComputer(level));
+                o.start = Some(MatchMode::VsComputer(opponent));
             }
             "--top-view" => o.top_view = true,
             "--fps" => o.show_fps = true,
@@ -134,7 +144,7 @@ fn parse_args() -> LaunchOptions {
             "--frames" => o.frames = args.next().and_then(|s| s.parse().ok()).unwrap_or(120),
             "--help" | "-h" => {
                 println!(
-                    "Snookered\n\n  --vs <easy|medium|hard>  play the computer\n  --hotseat                two players\n  \
+                    "Snookered\n\n  --vs <easy|medium|hard|name>  play the computer (a level or a personality)\n  --hotseat                two players\n  \
                      --demo                   computer vs computer\n  --top-view               overhead camera\n  \
                      --online                 open the online lounge\n  \
                      --settings               open the settings\n  \
@@ -196,6 +206,8 @@ fn window_conf() -> macroquad::conf::Conf {
 enum Screen {
     Menu,
     Setup(Setup),
+    /// Playing the computer: a free game or the ladder.
+    Versus(versus::Versus),
     /// The online lounge (or the sign-in form).
     Online,
     Lan,
@@ -302,7 +314,19 @@ async fn main() {
             lan_screen = Some(LanScreen::new());
             screen = Screen::Lan;
         }
-        Some("setup") => screen = Screen::Setup(Setup::new(SetupKind::VsComputer)),
+        Some("setup") => screen = Screen::Versus(versus::Versus::new(versus::Tab::Free, &config)),
+        Some("ladder") => {
+            screen = Screen::Versus(versus::Versus::new(versus::Tab::Ladder, &config))
+        }
+        Some("hotseat") => screen = Screen::Setup(Setup::new()),
+        Some(name) if name.starts_with("ghost:") => {
+            online.connect();
+            screen = Screen::Versus(versus::Versus::ghost_of(
+                &name["ghost:".len()..],
+                &config,
+                &mut online,
+            ));
+        }
         Some(tab) if tab.starts_with("shop") => {
             online.connect();
             shop.open(&mut online);
@@ -328,6 +352,9 @@ async fn main() {
         }
         _ => {}
     }
+    // The ladder against the computer, and the claim of its reward.
+    let mut ladder_progress = ladder::Progress::load();
+    let mut claimer = ladder::Claimer::default();
     let menu_rack = snookered_core::rules::rack(&scene.table, 2024);
     let vignette = vignette_texture();
 
@@ -408,6 +435,42 @@ async fn main() {
             if in_online_match {
                 settings_open = false;
             }
+        }
+
+        // A ladder game just ended: count it (a win on the last rung is
+        // sent to the server for the reward).
+        if let Some(m) = current.as_mut()
+            && let Some(run) = m.ladder.as_mut()
+            && !run.reported
+            && let Some(over) = m.game.game_over()
+        {
+            run.reported = true;
+            let won = over.winner == snookered_proto::ladder::PLAYER_SEAT;
+            let rung = run.rung as usize;
+            let before = ladder_progress.beaten;
+            if ladder_progress.record(run, won) {
+                ladder_progress.save();
+            }
+            // A new rung: say what comes next.
+            if ladder_progress.beaten > before {
+                let text = match snookered_proto::ladder::rung(rung + 1) {
+                    Some(next) => i18n::tw(
+                        "Rung {n} beaten! Next on the ladder: {name}.",
+                        &[("n", &(rung + 1)), ("name", &next.name)],
+                    ),
+                    None => i18n::t("You beat the whole ladder!").to_string(),
+                };
+                m.notify(text, true);
+            }
+        }
+        if claimer.update(&mut ladder_progress, &mut online, get_time()) {
+            ladder_progress.save();
+        }
+        // A ghost asked for while the game was waiting to sign in.
+        if online.signed_in()
+            && let Screen::Versus(v) = &mut screen
+        {
+            v.send_waiting(&mut online);
         }
 
         // VIP reactions follow the wallet.
@@ -643,6 +706,16 @@ async fn main() {
                             // from; from a game while waiting: to the lounge.
                             let replay = m.is_replay();
                             let practice = m.practice;
+                            // From a game against the computer: back to its
+                            // screen (the ladder, after a ladder game).
+                            let versus = m.is_against_computer().then(|| {
+                                let tab = if m.ladder.is_some() {
+                                    versus::Tab::Ladder
+                                } else {
+                                    versus::Tab::Free
+                                };
+                                versus::Versus::new(tab, &config)
+                            });
                             current = None;
                             hud = Hud::new(config.show_help);
                             rig.reset();
@@ -650,6 +723,8 @@ async fn main() {
                                 Screen::Profile
                             } else if practice {
                                 Screen::Online
+                            } else if let Some(v) = versus {
+                                Screen::Versus(v)
                             } else {
                                 Screen::Menu
                             };
@@ -699,12 +774,11 @@ async fn main() {
                                 if let Some(me) = online.me.as_ref().filter(|m| !m.guest) {
                                     config.player_name = me.username.clone();
                                 }
-                                let kind = if matches!(action, MenuAction::VsComputer) {
-                                    SetupKind::VsComputer
+                                next = Some(if matches!(action, MenuAction::VsComputer) {
+                                    Screen::Versus(versus::Versus::new(versus::Tab::Free, &config))
                                 } else {
-                                    SetupKind::TwoPlayers
-                                };
-                                next = Some(Screen::Setup(Setup::new(kind)))
+                                    Screen::Setup(Setup::new())
+                                });
                             }
                             MenuAction::ContinueGame => match saved::load() {
                                 Some(s) => {
@@ -775,6 +849,31 @@ async fn main() {
                             MenuAction::Quit => break,
                             MenuAction::None => {}
                         },
+                        Screen::Versus(v) => match v.draw(
+                            &mut ui,
+                            &mut config,
+                            &mut online,
+                            &ladder_progress,
+                            &mut claimer,
+                        ) {
+                            versus::VersusAction::Back => {
+                                config.save();
+                                next = Some(Screen::Menu);
+                            }
+                            versus::VersusAction::Start(settings) => {
+                                config.save();
+                                current = Some(Match::new(&settings, game::clock_seed()));
+                                save_key = None;
+                                hud = Hud::new(config.show_help);
+                                rig.reset();
+                                next = Some(Screen::Menu);
+                            }
+                            versus::VersusAction::SignIn => {
+                                online.connect();
+                                next = Some(Screen::Online);
+                            }
+                            versus::VersusAction::None => {}
+                        },
                         Screen::Setup(setup) => match setup.draw(&mut ui, &mut config) {
                             SetupAction::Back => next = Some(Screen::Menu),
                             SetupAction::Start(settings) => {
@@ -804,13 +903,10 @@ async fn main() {
                                 next = Some(Screen::Shop);
                             }
                             OnlineAction::PracticeWhileWaiting => {
-                                let level = match config.difficulty {
-                                    0 => Difficulty::Easy,
-                                    2 => Difficulty::Hard,
-                                    _ => Difficulty::Medium,
-                                };
+                                // The opponent last picked against the computer.
+                                let code = opponents::chosen(&config.opponent).code;
                                 let mut settings = MatchSettings::from_config(
-                                    MatchMode::VsComputer(level),
+                                    MatchMode::VsComputer(opponents::Opponent::personality(code)),
                                     &config,
                                 );
                                 if let Some(me) = online.me.as_ref() {
@@ -917,6 +1013,13 @@ async fn main() {
                                 } else {
                                     Screen::Menu
                                 })
+                            }
+                            ProfileAction::Ghost(name) => {
+                                next = Some(Screen::Versus(versus::Versus::ghost_of(
+                                    &name,
+                                    &config,
+                                    &mut online,
+                                )));
                             }
                             ProfileAction::None => {}
                         },

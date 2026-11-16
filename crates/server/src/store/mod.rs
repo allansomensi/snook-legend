@@ -760,6 +760,30 @@ impl Store {
     ) -> StoreResult<i64> {
         dispatch!(self, s => s.earn(user_id, day, amount, cap, reason, at))
     }
+    /// Records that `user_id` won the ladder's reward with this game; false
+    /// if they had it already (once per account).
+    pub async fn record_ladder_claim(
+        &self,
+        user_id: i64,
+        rack_seed: u64,
+        strokes: u32,
+        at: i64,
+    ) -> StoreResult<bool> {
+        dispatch!(self, s => s.record_ladder_claim(user_id, rack_seed, strokes, at))
+    }
+    /// When `user_id` won the ladder's reward, if they have.
+    pub async fn ladder_claim(&self, user_id: i64) -> StoreResult<Option<i64>> {
+        dispatch!(self, s => s.ladder_claim(user_id))
+    }
+    /// The latest recorded games of `user_id` with a replay, newest first,
+    /// with the seat they played: (match id, seat, replay).
+    pub async fn recent_replays(
+        &self,
+        user_id: i64,
+        limit: u32,
+    ) -> StoreResult<Vec<(i64, usize, Replay)>> {
+        dispatch!(self, s => s.recent_replays(user_id, limit))
+    }
     /// `from` pays `price` and `to` gets the item, atomically.
     pub async fn gift_item(
         &self,

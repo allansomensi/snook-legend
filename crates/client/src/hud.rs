@@ -181,8 +181,15 @@ fn player_card(ui: &mut Ui, m: &Match, seat: usize, x: f32, y: f32, w: f32) {
             );
         }
         None => {
-            let name = ui.ellipsize(&m.names[seat], w - reserve, 15.0);
-            ui.text(&name, x + 10.0, y + 4.0, 15.0, if active { GOLD } else { CREAM }, true);
+            // The computer's portrait by its name.
+            let face = m.opponent.as_ref().filter(|_| seat == 1);
+            let indent = if face.is_some() { 22.0 } else { 0.0 };
+            if let Some(o) = face {
+                crate::opponents::draw_portrait(o, vec2(x + 19.0, y + 13.0), 9.0);
+            }
+            let name = ui.ellipsize(&m.names[seat], w - reserve - indent, 15.0);
+            let color = if active { GOLD } else { CREAM };
+            ui.text(&name, x + 10.0 + indent, y + 4.0, 15.0, color, true);
         }
     }
     let wins = m.wins[seat].to_string();

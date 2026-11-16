@@ -10,6 +10,8 @@
 
 mod achievements;
 mod countries;
+pub mod ghost;
+pub mod ladder;
 pub mod missions;
 mod reactions;
 pub mod replay;
@@ -118,7 +120,7 @@ pub const SPECTATOR_SEAT: usize = 2;
 pub const GAME_NAME: &str = "Snookered";
 
 /// Bumped whenever messages change incompatibly.
-pub const PROTOCOL_VERSION: u32 = 12;
+pub const PROTOCOL_VERSION: u32 = 13;
 
 /// The oldest version the server still lets in. Version 12 only added
 /// messages and fields, which older games ignore, so 0.1.2 (version 11)
@@ -872,6 +874,16 @@ pub enum ClientMsg {
     JoinByCode {
         code: String,
     },
+    /// Claims the ladder's reward with the recorded game won against its
+    /// last opponent (the server plays it again to check it).
+    LadderClaim {
+        replay: replay::Replay,
+    },
+    /// How a player plays (aggregated numbers), for a computer opponent in
+    /// their style.
+    GhostStyle {
+        username: String,
+    },
     Ping,
 }
 
@@ -1206,6 +1218,15 @@ pub enum ServerMsg {
     Draining {
         /// Seconds until the restart.
         secs: u32,
+    },
+    /// The answer to a claim of the ladder's reward.
+    LadderClaim {
+        result: ladder::ClaimResult,
+    },
+    /// The answer to a request for a player's style.
+    GhostStyle {
+        username: String,
+        answer: ghost::GhostAnswer,
     },
     Pong,
 }

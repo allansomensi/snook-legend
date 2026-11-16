@@ -15,6 +15,10 @@ const APPLIED: &[(&str, &str)] = &[
         "80f780c14dc752c522e2f5f49e17763d09cf062bf048e5f30c33845f2b963708",
     ),
     ("0005_missions_board.sql", "f0035662896f3ed9e38f377c9bdd48cf481855c60d71f30ff077203360204d85"),
+    (
+        "0010_computer_ladder.sql",
+        "0c128ebef825b75734f7102eebd87f6a13e5159ec83236a4ca681aa42f190842",
+    ),
 ];
 
 #[test]

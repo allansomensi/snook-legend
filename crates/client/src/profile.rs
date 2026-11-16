@@ -16,6 +16,8 @@ use crate::ui::{ALERT, BORDER, CREAM, GOLD, MUTED, Ui, rrect, rrect_lines, tier_
 pub enum ProfileAction {
     None,
     Back,
+    /// Play the computer in this player's style.
+    Ghost(String),
 }
 
 /// What the right-hand side of the profile shows.
@@ -199,6 +201,23 @@ impl ProfileScreen {
         // pointer (no hover hints through it).
         let saved = dialog.then(|| ui.suspend_input());
         self.header(ui, online, &p, r);
+        // Their ghost: the computer in their style (signed in only: the
+        // server measures it).
+        if online.signed_in() && !online.lan && !p.player.guest {
+            let label = if p.relation == Relation::Me {
+                t("Play your ghost")
+            } else {
+                t("Play their ghost")
+            };
+            let bw = ui.text_size(label, 14.0, true).x + 32.0 + 22.0;
+            let b = Rect::new(r.x + r.w - PAD - bw, r.y + 20.0, bw, 36.0);
+            if ui.button(b, "", true) {
+                action = ProfileAction::Ghost(p.player.username.clone());
+            }
+            let mid = b.y + b.h / 2.0;
+            crate::opponents::draw_ghost(&p.player.username, vec2(b.x + 26.0, mid), 11.0);
+            ui.text(label, b.x + 44.0, text_y(mid, 14.0), 14.0, CREAM, true);
+        }
         let body = Rect::new(r.x + PAD, r.y + BODY_TOP, r.w - 2.0 * PAD, r.h - BODY_TOP - PAD);
         self.achievements(ui, &p, Rect::new(body.x, body.y, half, body.h));
         let right = Rect::new(body.x + half + 24.0, body.y, half, body.h);

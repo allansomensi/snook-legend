@@ -25,6 +25,11 @@ pub fn atan2(y: f64, x: f64) -> f64 {
     libm::atan2(y, x)
 }
 
+/// Natural logarithm.
+pub fn ln(x: f64) -> f64 {
+    libm::log(x)
+}
+
 /// The unit vector at `angle` radians (portable `DVec2::from_angle`).
 pub fn from_angle(angle: f64) -> DVec2 {
     DVec2::new(cos(angle), sin(angle))
@@ -38,5 +43,7 @@ mod tests {
         assert_eq!(super::cos(0.0), 1.0);
         assert!((super::atan2(1.0, 1.0) - std::f64::consts::FRAC_PI_4).abs() < 1e-15);
         assert!((super::tan(0.25) - 0.25f64.tan()).abs() < 1e-15);
+        assert_eq!(super::ln(1.0), 0.0);
+        assert!((super::ln(std::f64::consts::E) - 1.0).abs() < 1e-15);
     }
 }

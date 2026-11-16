@@ -166,7 +166,7 @@ fn striped_ball(c: Vec2, rad: f32, color: Color, ivory: Color) {
 }
 
 /// A small picture of an item.
-fn preview(ui: &Ui, item: &Item, r: Rect) {
+pub(crate) fn preview(ui: &Ui, item: &Item, r: Rect) {
     let c = vec2(r.x + r.w / 2.0, r.y + r.h / 2.0);
     match item.look {
         Look::Cloth(col) => {

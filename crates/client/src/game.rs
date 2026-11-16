@@ -4,7 +4,7 @@
 use std::sync::{Arc, Mutex};
 
 use ::glam::DVec2;
-use snookered_core::ai::{self, AiDecision};
+use snookered_core::ai::{self, AiDecision, AiPlayer};
 use snookered_core::{
     BallId, Difficulty, EightBallGame, Event, GameOverReason, PendingShot, PocketId, Shot,
     ShotError, ShotReport, Simulation,
@@ -20,10 +20,10 @@ use crate::ui::{FeedKind, FeedLine};
 use crate::{MatchMode, MatchSettings};
 
 /// Who controls a seat.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub enum Controller {
     Human,
-    Computer(Difficulty),
+    Computer(AiPlayer),
     /// The opponent in an online match.
     Remote,
 }
@@ -261,6 +261,11 @@ pub struct Match {
     forced_shot: Option<Shot>,
     events_seen: usize,
     demo_timer: f32,
+    /// Who the computer is, in a game against it.
+    pub opponent: Option<crate::opponents::Opponent>,
+    /// A game of the ladder: its rung and every stroke (the final game is
+    /// sent to the server to claim the reward).
+    pub ladder: Option<crate::ladder::LadderRun>,
 }
 
 /// State of a match played on a server.
@@ -346,17 +351,31 @@ pub enum ImpactKind {
 impl Match {
     pub fn new(settings: &MatchSettings, seed: u64) -> Self {
         let level_name = |d| tw("Computer ({level})", &[("level", &crate::i18n::difficulty(d))]);
-        let (names, controllers) = match settings.mode {
-            MatchMode::VsComputer(d) => (
-                [settings.names[0].clone(), level_name(d)],
-                [Controller::Human, Controller::Computer(d)],
+        let (names, controllers) = match &settings.mode {
+            MatchMode::VsComputer(o) => (
+                [settings.names[0].clone(), o.display_name()],
+                [Controller::Human, Controller::Computer(o.player())],
             ),
             MatchMode::HotSeat => (settings.names.clone(), [Controller::Human, Controller::Human]),
             MatchMode::Demo => (
                 [level_name(Difficulty::Hard), level_name(Difficulty::Medium)],
-                [Controller::Computer(Difficulty::Hard), Controller::Computer(Difficulty::Medium)],
+                [
+                    Controller::Computer(Difficulty::Hard.player()),
+                    Controller::Computer(Difficulty::Medium.player()),
+                ],
             ),
         };
+        let opponent = match &settings.mode {
+            MatchMode::VsComputer(o) => Some(o.clone()),
+            _ => None,
+        };
+        // A ladder game records every stroke from the break.
+        let ladder =
+            settings.ladder.filter(|_| opponent.is_some()).map(|rung| crate::ladder::LadderRun {
+                rung,
+                record: snookered_proto::replay::Replay::new(seed, 0),
+                reported: false,
+            });
         let mut m = Match {
             game: EightBallGame::new(seed, 0),
             names,
@@ -389,6 +408,8 @@ impl Match {
             forced_shot: None,
             events_seen: 0,
             demo_timer: 0.0,
+            opponent,
+            ladder,
         };
         m.begin_turn();
         m
@@ -401,6 +422,7 @@ impl Match {
             names: info.players.clone(),
             guide,
             shot_clock: None,
+            ladder: None,
         };
         let mut m = Match::new(&settings, info.replay.seed);
         m.game = info.replay.start();
@@ -437,14 +459,20 @@ impl Match {
     /// A game against the computer saved by [`crate::saved`], picked up again.
     pub fn resume(saved: &crate::saved::SavedGame, guide: AimGuide) -> Match {
         let settings = MatchSettings {
-            mode: MatchMode::VsComputer(saved.level),
+            mode: MatchMode::VsComputer(saved.opponent()),
             names: saved.names.clone(),
             guide,
             shot_clock: saved.shot_clock,
+            ladder: None,
         };
         let mut m = Match::new(&settings, saved.seed);
+        m.ladder = saved.ladder.clone();
         m.game = saved.game.clone();
         m.names = saved.names.clone();
+        // In the language of today (a ghost is "Ghost of …").
+        if let Some(o) = &saved.opponent {
+            m.names[1] = o.display_name();
+        }
         m.stats = saved.stats;
         m.timeline = saved.timeline.clone();
         m.wins = saved.wins;
@@ -496,7 +524,7 @@ impl Match {
         // A spectator only watches: both seats are played from the server.
         if !spectating {
             controllers[seat] = if crate::dev::flag("SNOOKERED_AUTOPLAY") {
-                Controller::Computer(Difficulty::Hard)
+                Controller::Computer(Difficulty::Hard.player())
             } else {
                 Controller::Human
             };
@@ -573,6 +601,8 @@ impl Match {
             forced_shot: None,
             events_seen: 0,
             demo_timer: 0.0,
+            opponent: None,
+            ladder: None,
         };
         m.begin_turn();
         if let Some(o) = m.online.as_mut() {
@@ -624,6 +654,10 @@ impl Match {
         self.seed = self.seed.wrapping_mul(6364136223846793005).wrapping_add(1442695040888963407);
         let breaker = (self.games_played % 2) as usize;
         self.game = EightBallGame::new(self.seed, breaker);
+        if let Some(run) = self.ladder.as_mut() {
+            run.record = snookered_proto::replay::Replay::new(self.seed, breaker);
+            run.reported = false;
+        }
         self.stats = [ShotStats::default(); 2];
         self.timeline.clear();
         self.last_report = None;
@@ -745,16 +779,18 @@ impl Match {
                 waited: 0.0,
                 first_miss: 0.0,
             }),
-            Controller::Computer(level) => {
+            Controller::Computer(player) => {
                 let result = Arc::new(Mutex::new(None));
                 let slot = result.clone();
                 let game = self.game.clone();
-                let seed = self.seed ^ ((self.game.shots_taken() as u64) << 32);
+                // The seed the server uses to check a ladder game.
+                let seed = snookered_proto::ladder::ai_seed(self.seed, self.game.shots_taken());
                 std::thread::spawn(move || {
                     // Never leave the computer "thinking" forever: if the search
                     // fails, play a plain shot at a legal ball.
-                    let decision = std::panic::catch_unwind(|| ai::decide(&game, level, seed))
-                        .unwrap_or_else(|_| fallback_decision(&game));
+                    let decision =
+                        std::panic::catch_unwind(|| ai::decide_with(&game, &player, seed))
+                            .unwrap_or_else(|_| fallback_decision(&game));
                     *slot.lock().unwrap_or_else(|e| e.into_inner()) = Some(decision);
                 });
                 // Pseudo-random pacing from the seed: 1.0–2.8 s of thinking.
@@ -816,6 +852,16 @@ impl Match {
         let shot = self.forced_shot.take().unwrap_or_else(|| self.shot_from_aim());
         match self.game.prepare_shot(&shot, self.called_pocket) {
             Ok(pending) => {
+                if let Some(run) = self.ladder.as_mut() {
+                    let cue_ball =
+                        self.game.ball_in_hand().map(|_| self.game.ball(BallId::CUE).xy());
+                    run.record.strokes.push(snookered_proto::replay::Stroke::Shot {
+                        shot,
+                        called: self.called_pocket,
+                        cue_ball,
+                        timeout: false,
+                    });
+                }
                 if let Some(o) = self.online.as_mut() {
                     let turn = self.game.shots_taken();
                     let cue_ball =
@@ -1017,6 +1063,9 @@ impl Match {
         }
         let who = self.names[self.game.current_player()].clone();
         self.game.time_foul();
+        if let Some(run) = self.ladder.as_mut() {
+            run.record.strokes.push(snookered_proto::replay::Stroke::TimeFoul);
+        }
         self.notify(
             tw("{who} ran out of time: ball in hand for the opponent.", &[("who", &who)]),
             true,
@@ -1898,6 +1947,7 @@ mod tests {
             names: ["a".into(), "b".into()],
             guide: AimGuide::Full,
             shot_clock: None,
+            ladder: None,
         };
         let mut m = Match::new(&settings, 3);
         m.aim.power = 0.9;
@@ -1954,5 +2004,65 @@ mod video_tests {
             m.update(0.1);
         }
         assert_eq!(m.game, before);
+    }
+}
+
+#[cfg(test)]
+mod ladder_tests {
+    use super::*;
+    use crate::opponents::Opponent;
+    use snookered_proto::ladder::{ClaimFailure, PLAYER_SEAT, verify_against};
+
+    /// A whole ladder game played through the match (the computer thinking
+    /// on its thread, the animations), recorded exactly as the server will
+    /// check it.
+    #[test]
+    fn a_ladder_game_is_recorded_as_the_server_checks_it() {
+        let opponent = Opponent::personality("leo");
+        let settings = MatchSettings {
+            mode: MatchMode::VsComputer(opponent.clone()),
+            names: ["Ana".into(), String::new()],
+            guide: AimGuide::Standard,
+            shot_clock: None,
+            ladder: Some(9),
+        };
+        let mut m = Match::new(&settings, 11);
+        assert_eq!(m.names[1], "Leo");
+        // The person is played by a steady computer player here.
+        let me = Difficulty::Medium.player();
+        for _ in 0..200_000 {
+            if m.game.game_over().is_some() {
+                break;
+            }
+            if m.is_human_turn() {
+                let d = ai::decide_with(&m.game, &me, 77 + m.game.shots_taken() as u64);
+                if let Some(p) = d.cue_ball {
+                    m.game.place_cue_ball(p);
+                }
+                if d.called_pocket.is_some() {
+                    m.called_pocket = d.called_pocket;
+                }
+                m.forced_shot = Some(d.shot);
+                assert!(m.shoot());
+            } else if matches!(m.phase, Phase::Turn { .. }) {
+                // Give the computer's thread a moment.
+                std::thread::sleep(std::time::Duration::from_millis(1));
+            }
+            m.update(0.1);
+        }
+        let over = m.game.game_over().expect("the game ends");
+        let run = m.ladder.as_ref().expect("a ladder game");
+        assert!(!run.record.strokes.is_empty());
+        let verdict = verify_against(&run.record, &opponent.player());
+        if over.winner == PLAYER_SEAT {
+            assert_eq!(verdict.map(|g| g.game_over()), Ok(Some(over)));
+        } else {
+            assert_eq!(verdict.unwrap_err(), ClaimFailure::NotWon);
+        }
+        // A rematch starts a new record.
+        m.rematch();
+        let run = m.ladder.as_ref().unwrap();
+        assert!(run.record.strokes.is_empty() && !run.reported);
+        assert_eq!(run.record.seed, m.seed());
     }
 }

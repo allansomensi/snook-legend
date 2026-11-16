@@ -1,19 +1,13 @@
-//! Setting up an offline game: names, the computer's level, the aiming
-//! guide and the shot clock.
+//! Setting up a game of two players on one computer: the names, the
+//! aiming guide and the shot clock. (Games against the computer are set up
+//! on [`crate::versus`].)
 
 use macroquad::prelude::*;
-use snookered_core::Difficulty;
 
 use crate::config::{AimGuide, Config};
 use crate::i18n::t;
 use crate::ui::{GOLD, MUTED, Ui};
 use crate::{MatchMode, MatchSettings};
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum SetupKind {
-    VsComputer,
-    TwoPlayers,
-}
 
 pub enum SetupAction {
     None,
@@ -21,17 +15,8 @@ pub enum SetupAction {
     Start(MatchSettings),
 }
 
-pub struct Setup {
-    pub kind: SetupKind,
-}
-
-fn difficulty(i: u8) -> Difficulty {
-    match i {
-        0 => Difficulty::Easy,
-        2 => Difficulty::Hard,
-        _ => Difficulty::Medium,
-    }
-}
+#[derive(Default)]
+pub struct Setup;
 
 /// Panel width and inner padding.
 const WIDTH: f32 = 520.0;
@@ -47,8 +32,8 @@ const FOOTER_H: f32 = 28.0 + 42.0 + 24.0;
 const HINT: f32 = 12.0;
 
 impl Setup {
-    pub fn new(kind: SetupKind) -> Setup {
-        Setup { kind }
+    pub fn new() -> Setup {
+        Setup
     }
 
     pub fn draw(&mut self, ui: &mut Ui, config: &mut Config) -> SetupAction {
@@ -59,18 +44,12 @@ impl Setup {
         let inner = w - 2.0 * PAD;
 
         // The hints under the choices, which set how tall the panel is.
-        let level_hint = match config.difficulty {
-            0 => t("Misses now and then: good for learning."),
-            2 => t("Plans position and plays safeties."),
-            _ => t("A solid club player."),
-        };
         let guide_hint = match config.guide {
             AimGuide::Full => t("Shows where the object ball and the cue ball go (not online)."),
             AimGuide::Standard => t("Shows the contact point; judging the cut is up to you."),
             AimGuide::Short => t("Only a short line from the cue ball."),
         };
         let clock_hint = t("When time runs out, the opponent gets ball in hand.");
-        let level_lines = ui.wrap(level_hint, inner, HINT);
         let guide_lines = ui.wrap(guide_hint, inner, HINT);
         let clock_lines = ui.wrap(clock_hint, inner, HINT);
         let field_h = |hint: &[String]| {
@@ -78,19 +57,12 @@ impl Setup {
                 + CONTROL_H
                 + if hint.is_empty() { 0.0 } else { 6.0 + hint.len() as f32 * (HINT + 3.0) - 3.0 }
         };
-        let mut body = field_h(&[]) + field_h(&guide_lines) + field_h(&clock_lines);
-        body += 2.0 * FIELD_GAP;
-        if self.kind == SetupKind::VsComputer {
-            body += field_h(&level_lines) + FIELD_GAP;
-        }
+        let body = field_h(&[]) + field_h(&guide_lines) + field_h(&clock_lines) + 2.0 * FIELD_GAP;
         let h = HEADER_H + body + FOOTER_H;
         let r = Rect::new((sw - w) / 2.0, ((sh - h) / 2.0).max(8.0), w, h);
         ui.panel(r);
         let x = r.x + PAD;
-        let (icon, title) = match self.kind {
-            SetupKind::VsComputer => (crate::icons::Icon::Robot, t("Against the computer")),
-            SetupKind::TwoPlayers => (crate::icons::Icon::People, t("Two players")),
-        };
+        let (icon, title) = (crate::icons::Icon::People, t("Two players"));
         crate::icons::draw(icon, vec2(x + 13.0, r.y + 35.0), 26.0, GOLD);
         ui.text(title, x + 38.0, r.y + 22.0, 24.0, GOLD, true);
         let mut y = r.y + HEADER_H;
@@ -104,49 +76,20 @@ impl Setup {
         let mut enter = is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::KpEnter);
 
         // Names.
-        match self.kind {
-            SetupKind::VsComputer => {
-                label(ui, t("Your name"), x, y);
-                let field = Rect::new(x, y + LABEL_H, inner, CONTROL_H);
-                enter |= ui.text_input(10, field, &mut config.player_name, 20);
-                if config.player_name.is_empty() && ui.focus != Some(10) {
-                    placeholder(ui, field, t("Player"));
-                }
-                y += field_h(&[]) + FIELD_GAP;
-
-                label(ui, t("Opponent"), x, y);
-                let levels = [
-                    crate::i18n::difficulty(Difficulty::Easy),
-                    crate::i18n::difficulty(Difficulty::Medium),
-                    crate::i18n::difficulty(Difficulty::Hard),
-                ];
-                if let Some(i) = ui.segmented(
-                    Rect::new(x, y + LABEL_H, inner, CONTROL_H),
-                    &levels,
-                    config.difficulty as usize,
-                ) {
-                    config.difficulty = i as u8;
-                }
-                hint(ui, &level_lines, y + LABEL_H + CONTROL_H);
-                y += field_h(&level_lines) + FIELD_GAP;
-            }
-            SetupKind::TwoPlayers => {
-                let half = (inner - 12.0) / 2.0;
-                label(ui, t("Player 1"), x, y);
-                let first = Rect::new(x, y + LABEL_H, half, CONTROL_H);
-                enter |= ui.text_input(10, first, &mut config.player_name, 20);
-                if config.player_name.is_empty() && ui.focus != Some(10) {
-                    placeholder(ui, first, t("Player"));
-                }
-                label(ui, t("Player 2"), x + half + 12.0, y);
-                let second = Rect::new(x + half + 12.0, y + LABEL_H, half, CONTROL_H);
-                enter |= ui.text_input(11, second, &mut config.second_player_name, 20);
-                if config.second_player_name.is_empty() && ui.focus != Some(11) {
-                    placeholder(ui, second, t("Player 2"));
-                }
-                y += field_h(&[]) + FIELD_GAP;
-            }
+        let half = (inner - 12.0) / 2.0;
+        label(ui, t("Player 1"), x, y);
+        let first = Rect::new(x, y + LABEL_H, half, CONTROL_H);
+        enter |= ui.text_input(10, first, &mut config.player_name, 20);
+        if config.player_name.is_empty() && ui.focus != Some(10) {
+            placeholder(ui, first, t("Player"));
         }
+        label(ui, t("Player 2"), x + half + 12.0, y);
+        let second = Rect::new(x + half + 12.0, y + LABEL_H, half, CONTROL_H);
+        enter |= ui.text_input(11, second, &mut config.second_player_name, 20);
+        if config.second_player_name.is_empty() && ui.focus != Some(11) {
+            placeholder(ui, second, t("Player 2"));
+        }
+        y += field_h(&[]) + FIELD_GAP;
 
         // Aiming help.
         label(ui, t("Aiming guide"), x, y);
@@ -179,11 +122,7 @@ impl Setup {
             action = SetupAction::Back;
         }
         if ui.primary_button(Rect::new(x + inner - 220.0, by, 220.0, 42.0), t("Play")) || enter {
-            let mode = match self.kind {
-                SetupKind::VsComputer => MatchMode::VsComputer(difficulty(config.difficulty)),
-                SetupKind::TwoPlayers => MatchMode::HotSeat,
-            };
-            action = SetupAction::Start(MatchSettings::from_config(mode, config));
+            action = SetupAction::Start(MatchSettings::from_config(MatchMode::HotSeat, config));
         }
         action
     }

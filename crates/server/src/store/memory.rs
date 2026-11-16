@@ -9,8 +9,9 @@ use snookered_proto::CareerNumbers;
 
 use super::{
     AimRow, AuditRow, BoardNote, BuyOutcome, FriendOutcome, FriendState, HistoryRow, LedgerRow,
-    LiveMatch, MatchRecord, Metrics, NewNote, NewReport, NewUser, Overview, Payment, ReportRow,
-    SessionKind, StoreResult, StoredReplay, TournamentRecord, User, Wallet, day_of,
+    LiveMatch, MatchRecord, Metrics, NewNote, NewReport, NewUser, Overview, Payment, RECENT_SCAN,
+    RecentRow, ReportRow, SessionKind, StoreResult, StoredReplay, TournamentRecord, User, Wallet,
+    day_of,
 };
 
 #[derive(Default)]
@@ -98,6 +99,7 @@ impl MemoryStore {
             recovery_email: None,
             deleted_at: None,
             abandons: 0,
+            status_message: String::new(),
         };
         s.users.insert(user.id, user.clone());
         Ok(Some(user))
@@ -233,6 +235,43 @@ impl MemoryStore {
             u.last_seen = now;
         }
         Ok(())
+    }
+
+    pub fn set_status_message(&self, user_id: i64, text: &str) -> StoreResult<()> {
+        if let Some(u) = self.lock().users.get_mut(&user_id) {
+            u.status_message = text.to_string();
+        }
+        Ok(())
+    }
+
+    pub fn recent_opponents(&self, user_id: i64, limit: u32) -> StoreResult<Vec<RecentRow>> {
+        let s = self.lock();
+        // The player's latest games, as the database orders them.
+        let mut games: Vec<(usize, &MatchRecord)> =
+            s.matches.iter().enumerate().filter(|(_, m)| m.players.contains(&user_id)).collect();
+        games.sort_by_key(|(i, m)| std::cmp::Reverse((m.ended_at, *i)));
+        games.truncate(RECENT_SCAN as usize);
+        let mut out: Vec<RecentRow> = Vec::new();
+        for (_, m) in games {
+            let seat = if m.players[0] == user_id { 0 } else { 1 };
+            let other = m.players[1 - seat];
+            if let Some(row) = out.iter_mut().find(|r| r.user.id == other) {
+                row.games += 1;
+                continue;
+            }
+            let Some(u) = s.users.get(&other).filter(|u| u.deleted_at.is_none()) else {
+                continue;
+            };
+            out.push(RecentRow {
+                user: u.clone(),
+                at: m.ended_at,
+                won: m.winner == seat,
+                rated: m.rated,
+                games: 1,
+            });
+        }
+        out.truncate(limit as usize);
+        Ok(out)
     }
 
     pub fn record_match(&self, m: &MatchRecord) -> StoreResult<([Option<User>; 2], i64)> {
@@ -443,6 +482,7 @@ impl MemoryStore {
             u.password_hash = String::new();
             u.country = String::new();
             u.recovery_email = None;
+            u.status_message = String::new();
             u.deleted_at = Some(now);
         }
         s.sessions.retain(|_, v| v.0 != user_id);

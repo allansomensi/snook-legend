@@ -118,7 +118,7 @@ pub const SPECTATOR_SEAT: usize = 2;
 pub const GAME_NAME: &str = "Snookered";
 
 /// Bumped whenever messages change incompatibly.
-pub const PROTOCOL_VERSION: u32 = 12;
+pub const PROTOCOL_VERSION: u32 = 13;
 
 /// The oldest version the server still lets in. Version 12 only added
 /// messages and fields, which older games ignore, so 0.1.2 (version 11)
@@ -189,6 +189,26 @@ fn is_invisible(c: char) -> bool {
 /// Cleans a chat message (see [`clean_text`]).
 pub fn clean_chat(text: &str) -> String {
     clean_text(text, MAX_CHAT_LEN)
+}
+
+/// Maximum length of a status message ("looking for a practice partner"),
+/// in characters.
+pub const MAX_STATUS_LEN: usize = 60;
+/// Maximum length of a note on the "looking for a game" board.
+pub const MAX_SEEK_LEN: usize = 60;
+/// The first protocol version with status messages, recent opponents and
+/// the "looking for a game" board (older games are never sent their
+/// messages).
+pub const SOCIAL_PROTOCOL: u32 = 13;
+
+/// Cleans a status message (see [`clean_text`]).
+pub fn clean_status(text: &str) -> String {
+    clean_text(text, MAX_STATUS_LEN)
+}
+
+/// Cleans a note for the "looking for a game" board (see [`clean_text`]).
+pub fn clean_seek(text: &str) -> String {
+    clean_text(text, MAX_SEEK_LEN)
 }
 
 /// Rating tiers: shown as the colour of a player's name everywhere.
@@ -317,6 +337,10 @@ pub struct PlayerInfo {
     /// What happens when they win on the 8 (shop code; empty: nothing).
     #[serde(default)]
     pub effect: String,
+    /// A short line the player wrote about themself (empty: none). See
+    /// [`MAX_STATUS_LEN`].
+    #[serde(default, skip_serializing_if = "String::is_empty")]
+    pub status_message: String,
 }
 
 impl PlayerInfo {
@@ -614,6 +638,36 @@ pub struct FriendInfo {
     pub last_seen: i64,
 }
 
+/// Someone this player played online recently (the latest game against them).
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct RecentOpponent {
+    /// As they are now (rating, country, status message).
+    pub player: PlayerInfo,
+    pub online: bool,
+    /// When the latest game against them ended (Unix seconds).
+    pub at: i64,
+    /// This player won that game.
+    pub won: bool,
+    pub rated: bool,
+    /// Games against them (among the latest few hundred).
+    #[serde(default)]
+    pub games: u32,
+}
+
+/// A note on the lounge's "looking for a game" board: one per player, up
+/// until they start a game, leave or it expires.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct SeekNote {
+    pub username: String,
+    /// What they are after (may be empty: just "looking for a game").
+    pub text: String,
+    pub rated: bool,
+    /// Posted at (Unix seconds).
+    pub at: i64,
+    /// Taken down at (Unix seconds).
+    pub expires_at: i64,
+}
+
 /// What a player may report another for.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
@@ -871,6 +925,29 @@ pub enum ClientMsg {
     },
     JoinByCode {
         code: String,
+    },
+    /// Sets this player's status message (empty clears it).
+    SetStatusMessage {
+        text: String,
+    },
+    /// Clears another player's status message (staff).
+    ClearStatusMessage {
+        username: String,
+    },
+    /// The people this player played recently.
+    RecentOpponents,
+    /// Puts (or replaces) this player's note on the "looking for a game"
+    /// board.
+    PostSeek {
+        #[serde(default)]
+        text: String,
+        rated: bool,
+    },
+    /// Takes a note off the board: this player's own (empty `username`), or
+    /// anyone's (staff).
+    RemoveSeek {
+        #[serde(default)]
+        username: String,
     },
     Ping,
 }
@@ -1207,6 +1284,23 @@ pub enum ServerMsg {
         /// Seconds until the restart.
         secs: u32,
     },
+    /// The people this player played recently, latest first.
+    RecentOpponents {
+        players: Vec<RecentOpponent>,
+    },
+    /// Every note on the "looking for a game" board, newest first (after
+    /// signing in).
+    SeekBoard {
+        notes: Vec<SeekNote>,
+    },
+    /// A note was put on the board (or replaced the player's earlier one).
+    SeekPosted {
+        note: SeekNote,
+    },
+    /// A player's note was taken off the board.
+    SeekRemoved {
+        username: String,
+    },
     Pong,
 }
 
@@ -1302,6 +1396,7 @@ mod tests {
             frame: String::new(),
             name_style: String::new(),
             effect: String::new(),
+            status_message: String::new(),
         };
         let msg = ServerMsg::MatchStarted {
             match_id: 7,
@@ -1324,5 +1419,37 @@ mod tests {
         };
         assert_eq!(parse_client(&c.to_json()).unwrap(), c);
         assert!(c.to_json().contains("\"type\":\"shoot\""));
+    }
+
+    #[test]
+    fn status_and_seek_text_are_cleaned() {
+        let long = "a".repeat(200);
+        assert_eq!(clean_status(&long).chars().count(), MAX_STATUS_LEN);
+        assert_eq!(clean_status("  treino\u{202E} \n à noite "), "treino à noite");
+        assert_eq!(clean_seek(&long).chars().count(), MAX_SEEK_LEN);
+        assert_eq!(clean_seek("\u{200B}"), "");
+    }
+
+    #[test]
+    fn social_messages_stay_readable_by_older_games() {
+        // A player card without a status message looks exactly as before.
+        let json = r#"{"username":"ana","rating":1300,"games":3,"wins":2,"status":"available"}"#;
+        let p: PlayerInfo = serde_json::from_str(json).unwrap();
+        assert!(p.status_message.is_empty());
+        assert!(!serde_json::to_string(&p).unwrap().contains("status_message"));
+        // Fields a game may leave out default.
+        let c = parse_client(r#"{"type":"post_seek","rated":true}"#).unwrap();
+        assert_eq!(c, ClientMsg::PostSeek { text: String::new(), rated: true });
+        let c = parse_client(r#"{"type":"remove_seek"}"#).unwrap();
+        assert_eq!(c, ClientMsg::RemoveSeek { username: String::new() });
+        let note = SeekNote {
+            username: "ana".into(),
+            text: "treino".into(),
+            rated: false,
+            at: 1,
+            expires_at: 2,
+        };
+        let msg = ServerMsg::SeekPosted { note };
+        assert_eq!(parse_server(&msg.to_json()).unwrap(), msg);
     }
 }

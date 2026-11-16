@@ -9,8 +9,9 @@ use snookered_proto::replay::Replay;
 
 use super::{
     AimRow, AuditRow, BoardNote, BuyOutcome, FriendOutcome, FriendState, HistoryRow, LedgerRow,
-    LiveMatch, MatchRecord, Metrics, NewNote, NewReport, NewUser, Overview, Payment, ReportRow,
-    SessionKind, StoreError, StoreResult, StoredReplay, TournamentRecord, User, Wallet, day_of,
+    LiveMatch, MatchRecord, Metrics, NewNote, NewReport, NewUser, Overview, Payment, RECENT_SCAN,
+    RecentRow, ReportRow, SessionKind, StoreError, StoreResult, StoredReplay, TournamentRecord,
+    User, Wallet, day_of,
 };
 
 fn replay_json(r: &Replay) -> String {
@@ -44,7 +45,7 @@ impl From<sqlx::migrate::MigrateError> for StoreError {
 const USER_COLUMNS: &str = "id, username, password_hash, country, role, rating, peak_rating, \
     games, wins, eight_wins, casual_games, streak, best_streak, runouts, shutouts, \
     tournaments_played, tournaments_won, created_at, last_seen, banned_until, ban_reason, muted_until, \
-    recovery_email, deleted_at, abandons";
+    recovery_email, deleted_at, abandons, status_message";
 
 fn user(r: &PgRow) -> Result<User, sqlx::Error> {
     let n = |c: &str| -> Result<u32, sqlx::Error> { Ok(r.try_get::<i32, _>(c)?.max(0) as u32) };
@@ -74,6 +75,7 @@ fn user(r: &PgRow) -> Result<User, sqlx::Error> {
         recovery_email: r.try_get("recovery_email")?,
         deleted_at: r.try_get("deleted_at")?,
         abandons: n("abandons")?,
+        status_message: r.try_get("status_message")?,
     })
 }
 
@@ -600,7 +602,7 @@ impl PgStore {
         let mut tx = self.pool.begin().await?;
         query(
             "UPDATE users SET username = $2, password_hash = '', country = '',
-                recovery_email = NULL, deleted_at = $3, register_ip = ''
+                recovery_email = NULL, deleted_at = $3, register_ip = '', status_message = ''
              WHERE id = $1",
         )
         .bind(user_id)
@@ -887,6 +889,54 @@ impl PgStore {
         .fetch_all(&self.pool)
         .await?;
         Ok(rows.iter().map(|r| (r.get("code"), r.get("unlocked_at"))).collect())
+    }
+
+    pub async fn set_status_message(&self, user_id: i64, text: &str) -> StoreResult<()> {
+        query("UPDATE users SET status_message = $2 WHERE id = $1")
+            .bind(user_id)
+            .bind(text)
+            .execute(&self.pool)
+            .await?;
+        Ok(())
+    }
+
+    pub async fn recent_opponents(&self, user_id: i64, limit: u32) -> StoreResult<Vec<RecentRow>> {
+        // The player's latest games; of those, the latest against each
+        // opponent (and how many there were).
+        let rows = query(&format!(
+            "WITH mine AS (
+                SELECT id, ended_at, rated,
+                       CASE WHEN player0 = $1 THEN player1 ELSE player0 END AS opp,
+                       winner_seat = CASE WHEN player0 = $1 THEN 0 ELSE 1 END AS won
+                FROM matches WHERE player0 = $1 OR player1 = $1
+                ORDER BY ended_at DESC, id DESC LIMIT $3
+             ), latest AS (
+                SELECT DISTINCT ON (opp) opp, ended_at AS m_at, id AS m_id, rated AS m_rated,
+                       won AS m_won, COUNT(*) OVER (PARTITION BY opp) AS m_games
+                FROM mine ORDER BY opp, ended_at DESC, id DESC
+             )
+             SELECT {USER_COLUMNS}, l.m_at, l.m_rated, l.m_won, l.m_games
+             FROM latest l JOIN users ON users.id = l.opp
+             WHERE users.deleted_at IS NULL
+             ORDER BY l.m_at DESC, l.m_id DESC LIMIT $2"
+        ))
+        .bind(user_id)
+        .bind(limit as i64)
+        .bind(RECENT_SCAN as i64)
+        .fetch_all(&self.pool)
+        .await?;
+        rows.iter()
+            .map(|r| {
+                Ok(RecentRow {
+                    user: user(r)?,
+                    at: r.try_get("m_at")?,
+                    won: r.try_get("m_won")?,
+                    rated: r.try_get("m_rated")?,
+                    games: r.try_get::<i64, _>("m_games")?.max(0) as u32,
+                })
+            })
+            .collect::<Result<_, sqlx::Error>>()
+            .map_err(Into::into)
     }
 
     pub async fn history(&self, user_id: i64, limit: u32) -> StoreResult<Vec<HistoryRow>> {

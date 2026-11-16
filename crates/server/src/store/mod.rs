@@ -64,6 +64,8 @@ pub struct User {
     pub deleted_at: Option<i64>,
     /// Games lost by leaving or by running out of reconnection time.
     pub abandons: u32,
+    /// The player's status message (empty: none).
+    pub status_message: String,
 }
 
 impl User {
@@ -232,6 +234,24 @@ pub struct HistoryRow {
     pub match_id: i64,
     pub replay: bool,
 }
+
+/// Someone a player played recently: their account and the latest game
+/// against them.
+#[derive(Debug, Clone)]
+pub struct RecentRow {
+    pub user: User,
+    /// When the latest game ended.
+    pub at: i64,
+    /// The player (not the opponent) won it.
+    pub won: bool,
+    pub rated: bool,
+    /// Games between the two among the player's latest [`RECENT_SCAN`].
+    pub games: u32,
+}
+
+/// How many of a player's latest games are looked through for their recent
+/// opponents.
+pub const RECENT_SCAN: u32 = 500;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum FriendState {
@@ -442,6 +462,15 @@ impl Store {
     }
     pub async fn touch(&self, user_id: i64, now: i64) -> StoreResult<()> {
         dispatch!(self, s => s.touch(user_id, now))
+    }
+    /// Sets (or clears, when empty) a player's status message.
+    pub async fn set_status_message(&self, user_id: i64, text: &str) -> StoreResult<()> {
+        dispatch!(self, s => s.set_status_message(user_id, text))
+    }
+    /// The last `limit` different people a player played, latest first
+    /// (deleted accounts left out), from their latest [`RECENT_SCAN`] games.
+    pub async fn recent_opponents(&self, user_id: i64, limit: u32) -> StoreResult<Vec<RecentRow>> {
+        dispatch!(self, s => s.recent_opponents(user_id, limit))
     }
     /// Stores a match and updates both players' numbers; returns them
     /// updated and the match id.

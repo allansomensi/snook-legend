@@ -320,9 +320,9 @@ impl Versus {
         }
         if ui.hovering(seg) {
             let hint = match config.guide {
-                AimGuide::Full => {
-                    t("Shows where the object ball and the cue ball go (not online).")
-                }
+                AimGuide::Full => t(
+                    "Shows where the object ball and the cue ball go (never online or in rated games).",
+                ),
                 AimGuide::Standard => t("Shows the contact point; judging the cut is up to you."),
                 AimGuide::Short => t("Only a short line from the cue ball."),
             };

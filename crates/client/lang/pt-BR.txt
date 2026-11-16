@@ -128,7 +128,7 @@ Winter league	Liga de fim de ano
 Win a rated game over the holidays (Dec 15 – Jan 6).	Vença uma partida valendo rating nas festas (15/dez – 6/jan).
 Fireworks	Fogos de artifício
 Win a rated game at the turn of the year (Dec 31 – Jan 1).	Vença uma partida valendo rating na virada do ano (31/dez – 1/jan).
-Shows where the object ball and the cue ball go (not online).	Mostra para onde vão a bola da vez e a branca (fora do online).
+Shows where the object ball and the cue ball go (never online or in rated games).	Mostra para onde vão a bola da vez e a branca (nunca no online nem em partidas com rating).
 {n} online · ping {ms} ms	{n} online · ping {ms} ms
 Right-drag · Wheel	Arraste com o botão direito · Roda
 Win %	% vit.

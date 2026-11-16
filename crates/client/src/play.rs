@@ -612,7 +612,8 @@ pub fn overlay(m: &Match, scene: &Scene, time: f32) -> Overlay {
     };
     let white = Color::new(1.0, 1.0, 1.0, 0.5);
     let start = cue + dir * r;
-    if m.guide == AimGuide::Short {
+    let guide = m.guide_in_use();
+    if guide == AimGuide::Short {
         let len = t.min(0.35);
         out.guides.push(Guide::Line {
             from: surface(start, line_y),
@@ -632,7 +633,7 @@ pub fn overlay(m: &Match, scene: &Scene, time: f32) -> Overlay {
         color: Color::new(1.0, 1.0, 1.0, 0.42),
     });
     out.ghost = Some(surface(ghost, r as f32));
-    if m.guide != AimGuide::Full {
+    if guide != AimGuide::Full {
         return out;
     }
     if let Some(id) = target {

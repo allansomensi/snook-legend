@@ -642,6 +642,14 @@ impl Match {
         }
     }
 
+    /// The aiming guide drawn: never the full guide in a game against a
+    /// person over the network (rated or not, watching included), whatever
+    /// `guide` says; the full one is for games against the computer and
+    /// practice.
+    pub fn guide_in_use(&self) -> AimGuide {
+        if self.online.is_some() { self.guide.online() } else { self.guide }
+    }
+
     pub fn is_online(&self) -> bool {
         self.online.is_some()
     }
@@ -1868,6 +1876,25 @@ mod tests {
     fn online_match(seat: usize) -> Match {
         let game = EightBallGame::new(4, 0);
         Match::online(1, seat, &players(), false, game, 30, 30.0, None, AimGuide::Full, false)
+    }
+
+    /// Asked for the full guide (a setting, a stale value): an online game
+    /// still draws the standard one; offline keeps it.
+    #[test]
+    fn the_full_guide_never_shows_online() {
+        let mut m = online_match(0);
+        m.guide = AimGuide::Full;
+        assert_eq!(m.guide_in_use(), AimGuide::Standard);
+        let game = EightBallGame::new(4, 0);
+        let mut rated =
+            Match::online(1, 0, &players(), true, game, 30, 30.0, None, AimGuide::Full, false);
+        rated.guide = AimGuide::Full;
+        assert_eq!(rated.guide_in_use(), AimGuide::Standard);
+        let settings =
+            MatchSettings::from_config(MatchMode::HotSeat, &crate::config::Config::default());
+        let mut offline = Match::new(&settings, 1);
+        offline.guide = AimGuide::Full;
+        assert_eq!(offline.guide_in_use(), AimGuide::Full);
     }
 
     fn finish_animation(m: &mut Match) {

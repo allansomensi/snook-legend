@@ -497,9 +497,9 @@ impl SettingsScreen {
 
                 rows.heading(ui, t("Aiming"), None);
                 let hint = match config.guide {
-                    AimGuide::Full => {
-                        t("Shows where the object ball and the cue ball go (not online).")
-                    }
+                    AimGuide::Full => t(
+                        "Shows where the object ball and the cue ball go (never online or in rated games).",
+                    ),
                     AimGuide::Standard => {
                         t("Shows the contact point; judging the cut is up to you.")
                     }

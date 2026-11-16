@@ -27,6 +27,11 @@
   (24 slightly imperfect strokes simulated on a worker thread), the cut and
   the cushions.
 
+### Fair play
+- The full aiming guide can never show in a game against a person over the
+  network, rated or casual (nor when watching): the guide drawn is checked
+  at the table itself, whatever the setting says.
+
 ### Staff panel
 - Metrics: retention after 30 days beside 1 and 7 (each over the last 30
   days of sign-ups that reached that day), a table of retention by week of

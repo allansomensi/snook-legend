@@ -5,6 +5,7 @@ use std::collections::HashMap;
 use ::glam::{DVec2, DVec3};
 use macroquad::prelude::*;
 use snookered_core::{Ball, BallId, BallStatus, PhysicsParams, PocketId, Table};
+use snookered_proto::shop::{HallStyle, TableStyle};
 
 use crate::config::Quality;
 use crate::coords::{TABLE_HEIGHT, ball_rotation, dir_to_world, surface, to_world};
@@ -12,20 +13,17 @@ use crate::gfx::{self, LAMP_COUNT, Materials, MeshBuilder, SceneCamera, Surface}
 use crate::textures;
 
 /// Height of the cushion top above the cloth.
-const CUSHION_TOP: f32 = 0.043;
+pub(crate) const CUSHION_TOP: f32 = 0.043;
 /// How far the cushion extends behind its nose.
-const CUSHION_DEPTH: f32 = 0.05;
+pub(crate) const CUSHION_DEPTH: f32 = 0.05;
 /// Height of the wooden rail top above the cloth.
-const RAIL_TOP: f32 = 0.046;
-/// Colour of the brass pocket castings (and the jaws cut through the rail).
-const CAST_COLOR: Color = Color::new(0.47, 0.35, 0.17, 1.0);
-
+pub(crate) const RAIL_TOP: f32 = 0.046;
 /// Thickness of the metal pocket castings on the rail.
-const CAST_H: f32 = 0.006;
-const LAMP_Y: f32 = TABLE_HEIGHT + 0.95;
+pub(crate) const CAST_H: f32 = 0.006;
+pub(crate) const LAMP_Y: f32 = TABLE_HEIGHT + 0.95;
 const SINK_TIME: f32 = 0.42;
 
-struct Part {
+pub(crate) struct Part {
     mesh: gfx::Model,
     surface: Surface,
 }
@@ -34,17 +32,20 @@ pub struct Scene {
     pub table: Table,
     pub materials: Materials,
     parts: Vec<Part>,
-    lamp_glow: Part,
-    lamp_parts: Vec<Part>,
-    /// The inside of the pockets.
-    pocket_inside: gfx::Model,
+    /// The table's theme: body, rails, legs, pockets (see [`crate::tables`]).
+    table_parts: Vec<gfx::Built>,
     holes: [Vec4; 6],
     throats: [Vec4; 12],
-    /// Drawn after the pockets: leather rims and diamond sights.
-    rail_details: Vec<Part>,
     floor_shadow: Part,
-    /// The pool hall around the table (none on the dark stage).
-    room: Vec<crate::room::RoomPart>,
+    /// The hall around the table and its lamp (see [`crate::halls`]), and
+    /// which hall it is (none until it is first shown).
+    room: Vec<gfx::Built>,
+    room_style: Option<HallStyle>,
+    /// The dark stage was chosen (no hall around the table)...
+    stage: bool,
+    /// ...but the shop shows a hall all the same.
+    pub hall_preview: bool,
+    quality: Quality,
     balls: Vec<gfx::Model>,
     cue: gfx::Model,
     ghost: gfx::Model,
@@ -52,8 +53,8 @@ pub struct Scene {
     shadow: Texture2D,
     lamps: [Vec3; LAMP_COUNT],
     sinking: HashMap<BallId, (f32, Vec3)>,
-    /// Cue meshes by (cue, chalk) design.
-    cues: HashMap<(String, String), gfx::Model>,
+    /// Cue meshes by (cue, chalk, level) design.
+    cues: HashMap<(String, String, u8), (gfx::Model, Option<gfx::Model>)>,
     pub lamp_visible: bool,
     /// The cloth and balls on the table now, and those being made.
     looks: Looks,
@@ -67,8 +68,8 @@ pub struct Scene {
     /// Made textures waiting to go to the GPU, a few per frame.
     uploading: Option<(Made, Vec<Texture2D>)>,
     lamp_count: u32,
-    /// Dark stage around the table (see `Scene::new`).
-    focus: f32,
+    /// The table built now.
+    table_style: TableStyle,
     /// Per-pixel soft shadows and contact occlusion from the balls (High, Ultra).
     soft_shadows: bool,
 }
@@ -84,7 +85,6 @@ fn upload(p: textures::Pixels, repeat: bool) -> Texture2D {
 impl Scene {
     /// `focused`: a dark stage around the table instead of the whole bar.
     pub fn new(table: Table, quality: Quality, focused: bool, looks: &Looks) -> Self {
-        let detailed_room = quality != Quality::Low;
         let (ball_tex, ball_segments) = match quality {
             Quality::Low => (512, 24),
             Quality::Medium => (512, 32),
@@ -94,11 +94,6 @@ impl Scene {
         let white = gfx::white_texture();
         let felt_size = felt_size(quality);
         let felt = upload(textures::felt_sized(looks.cloth, felt_size), true);
-        // Dark mahogany rails and body.
-        let rail_wood =
-            upload(textures::fine_wood([0.17, 0.075, 0.045], [0.05, 0.022, 0.014], 11), true);
-        let body_wood =
-            upload(textures::fine_wood([0.13, 0.06, 0.035], [0.04, 0.018, 0.012], 17), true);
         let shadow = upload(textures::shadow(), false);
 
         let mut parts = Vec::new();
@@ -107,70 +102,13 @@ impl Scene {
             parts.len() - 1
         };
 
-        // --- Room (not on the dark stage) ------------------------------------
-        let half_table = vec2(
-            table.spec.length as f32 / 2.0 + table.spec.rail_width as f32 + 0.05,
-            table.spec.width as f32 / 2.0 + table.spec.rail_width as f32 + 0.05,
-        );
-        let room = if focused {
-            Vec::new()
-        } else {
-            crate::room::build(quality, half_table, &white, &body_wood)
-        };
-        // Billiard lamp: three green glass shades on a brass bar, glowing inside.
-        let mut glass = MeshBuilder::default();
-        let mut brass = MeshBuilder::default();
-        let mut glow = MeshBuilder::default();
-        let shade_seg = if detailed_room { 32 } else { 18 };
-        for x in [-0.45f32, 0.0, 0.45] {
-            let at = vec3(x, LAMP_Y, 0.0);
-            // Bell: wide at the bottom, curving in to a small neck.
-            let profile =
-                [(0.0, 0.165), (0.05, 0.150), (0.11, 0.115), (0.16, 0.070), (0.19, 0.040)];
-            for w in profile.windows(2) {
-                glass.frustum_at(at, w[0].0, w[0].1, w[1].0, w[1].1, shade_seg, rgb(44, 140, 82));
-            }
-            // Inside of the shade: bright near the bulb, warm towards the rim.
-            glow.frustum_at(at, 0.001, 0.161, 0.06, 0.143, shade_seg, rgb(255, 214, 150));
-            glow.frustum_at(at, 0.06, 0.143, 0.15, 0.073, shade_seg, rgb(255, 236, 196));
-            glow.disc(at + Vec3::Y * 0.15, 0.073, shade_seg, rgb(255, 246, 225));
-            glow.disc(at + Vec3::Y * 0.07, 0.042, 20, rgb(255, 255, 245));
-            // Brass rim and neck.
-            brass.frustum_at(at, -0.006, 0.168, 0.006, 0.168, shade_seg, rgb(176, 136, 62));
-            brass.frustum_at(at, 0.19, 0.040, 0.24, 0.022, 16, rgb(176, 136, 62));
-        }
-        // The bar that holds the shades and the rods to the ceiling.
-        brass.cuboid(
-            vec3(0.0, LAMP_Y + 0.25, 0.0),
-            vec3(1.24, 0.028, 0.04),
-            0.0,
-            rgb(150, 112, 50),
-            1.0,
-        );
-        for x in [-0.55f32, 0.55] {
-            brass.cuboid(
-                vec3(x, LAMP_Y + 0.25 + 0.75, 0.0),
-                vec3(0.008, 1.5, 0.008),
-                0.0,
-                rgb(60, 50, 40),
-                1.0,
-            );
-        }
-        let mut lamp_parts = vec![
-            Part { mesh: glass.build(&white), surface: Surface::lit(0.9, 90.0, 0.35, 0.8) },
-            Part { mesh: brass.build(&white), surface: Surface::lit(1.0, 50.0, 0.1, 0.6) },
-        ];
-        let lamp_glow = Part { mesh: glow.build(&white), surface: Surface::UNLIT };
-        if focused {
-            // No ceiling and no lamp fixture on the dark stage: only its light.
-            lamp_parts.clear();
-        }
+        // --- The hall and the table's theme ----------------------------------
+        let room = if focused { Vec::new() } else { hall_kit(&table, quality, looks.hall).finish(&white) };
+        let table_parts = crate::tables::build(&table, quality, looks.table).finish(&white);
 
         // --- Table ----------------------------------------------------------
         let spec = table.spec;
         let (l, w) = (spec.length as f32, spec.width as f32);
-        // Wide, solid rails (the physics only needs `rail_width`).
-        let rail_outer = spec.rail_width as f32 + 0.05;
 
         // Cloth bed.
         let mut bed = MeshBuilder::default();
@@ -200,7 +138,6 @@ impl Scene {
         // Jaw rubbers are drawn after the pocket holes are opened, so their
         // ends stay whole where they meet the hole.
         let mut jaws = MeshBuilder::default();
-        let mut jaw_rails = MeshBuilder::default();
         for seg in &table.cushions {
             let mid = (seg.a + seg.b) / 2.0;
             let dir = (seg.b - seg.a).normalize();
@@ -225,24 +162,7 @@ impl Scene {
             }
             let out3 = vec3(out.x as f32, 0.0, -out.y as f32);
             if !axis_aligned {
-                let end = clip_to_hole(&table, seg.a, seg.b);
-                // The facing looks across the throat, towards the pocket's
-                // axis (from the middle of its mouth to the hole): what side
-                // the mouth's centre is on is not reliable for side pockets.
-                let pocket = table
-                    .pockets
-                    .iter()
-                    .min_by(|x, y| {
-                        x.mouth_center.distance(mid).total_cmp(&y.mouth_center.distance(mid))
-                    })
-                    .expect("a jaw belongs to a pocket");
-                let axis =
-                    (pocket_center_of(&table, pocket.id) - pocket.mouth_center).normalize_or_zero();
-                let rel = mid - pocket.mouth_center;
-                let toward_axis = pocket.mouth_center + axis * rel.dot(axis) - mid;
-                let across =
-                    if dir.perp().dot(toward_axis) >= 0.0 { dir.perp() } else { -dir.perp() };
-                jaw_wall(&mut jaws, &mut jaw_rails, &table, seg.a, end, across);
+                // The jaws are drawn below (see `jaw_lines`).
                 continue;
             }
             // Rail cushions run on into the pocket corners (the throat and hole
@@ -272,282 +192,17 @@ impl Scene {
                 rgb(205, 215, 205),
             );
         }
+        for (a, end, across) in jaw_lines(&table) {
+            // The part through the rail belongs to the table's theme.
+            jaw_wall(&mut jaws, &mut MeshBuilder::default(), &table, a, end, across, WHITE);
+        }
         felt_parts.push(add(cushions, &felt, Surface::MATTE.cut(2.0)));
         felt_parts.push(add(jaws, &felt, Surface::MATTE));
-        add(jaw_rails, &white, Surface::lit(0.6, 50.0, 0.1, 0.3));
-
-        // Table body: one solid piece with rounded outer corners: the rail
-        // ring on top (between the cushions and the outer edge) and the apron
-        // below it, plus metal castings on the rail around every pocket.
-        let depth = rail_outer - CUSHION_DEPTH;
-        let off = CUSHION_DEPTH + depth / 2.0;
-        let (bi, bo) = (CUSHION_DEPTH, rail_outer);
-        let apron = 0.2;
-        let bottom = y - apron;
-        let outer = rounded_loop(l / 2.0 + bo, w / 2.0 + bo, 0.075);
-        let inner = rounded_loop(l / 2.0 + bi, w / 2.0 + bi, 0.0);
-        let mut body = MeshBuilder::default();
-        let mut cast = MeshBuilder::default();
-        // Polished antique brass, like the lamp (cream plates read as paper).
-        let cast_color = CAST_COLOR;
-        let n = outer.len();
-        // Arc length along the loop (for wood grain that follows the rail).
-        let mut along = vec![0.0f32; n + 1];
-        for k in 0..n {
-            along[k + 1] = along[k] + outer[k].distance(outer[(k + 1) % n]);
-        }
-        let in_casting = |p: Vec2| {
-            let corner = p.x.abs() > l / 2.0 - 0.10 && p.y.abs() > w / 2.0 - 0.10;
-            let side = p.x.abs() < 0.11 && p.y.abs() > w / 2.0;
-            corner || side
-        };
-        let top = y + RAIL_TOP;
-        let ctop = top + CAST_H;
-        let wood = WHITE;
-        for k in 0..n {
-            let k1 = (k + 1) % n;
-            let (o0, o1, i0, i1) = (outer[k], outer[k1], inner[k], inner[k1]);
-            let (u0, u1) = (along[k] * 0.7, along[k + 1] * 0.7);
-            let v3 = |p: Vec2, h: f32| vec3(p.x, h, p.y);
-            let normal_out = {
-                let t = o1 - o0;
-                vec3(t.y, 0.0, -t.x).normalize_or_zero()
-            };
-            let normal_out =
-                if normal_out.dot(v3(o0, 0.0)) < 0.0 { -normal_out } else { normal_out };
-            let quad = |mb: &mut MeshBuilder, p: [Vec3; 4], uv: [Vec2; 4], nrm: Vec3, c: Color| {
-                let idx: Vec<u16> = (0..4).map(|q| mb.push(p[q], uv[q], nrm, c)).collect();
-                mb.indices.extend_from_slice(&[idx[0], idx[1], idx[2], idx[0], idx[2], idx[3]]);
-            };
-            let across = (bo - bi) * 1.2;
-            // The outer edge of the rail is rounded (a quarter circle of
-            // radius `round`), and the apron ends in a small lip.
-            let round = if quality == Quality::Low { 0.0 } else { 0.014 };
-            let out2 = |p: Vec2, d: f32| p + vec2(normal_out.x, normal_out.z) * d;
-            let (oi0, oi1) = (out2(o0, -round), out2(o1, -round));
-            // Rail top.
-            quad(
-                &mut body,
-                [v3(i0, top), v3(i1, top), v3(oi1, top), v3(oi0, top)],
-                [vec2(u0, 0.0), vec2(u1, 0.0), vec2(u1, across), vec2(u0, across)],
-                Vec3::Y,
-                wood,
-            );
-            if round > 0.0 {
-                let steps = if quality == Quality::Ultra { 5 } else { 3 };
-                for s in 0..steps {
-                    let a0 = s as f32 / steps as f32 * std::f32::consts::FRAC_PI_2;
-                    let a1 = (s + 1) as f32 / steps as f32 * std::f32::consts::FRAC_PI_2;
-                    // From the top (a = 0) down to the side (a = 90°).
-                    let at = |p: Vec2, a: f32| {
-                        let q = out2(p, -round + round * a.sin());
-                        vec3(q.x, top - round + round * a.cos(), q.y)
-                    };
-                    let n = |a: f32| (Vec3::Y * a.cos() + normal_out * a.sin()).normalize_or_zero();
-                    let v = |a: f32| across + a * round;
-                    let idx = [
-                        body.push(at(o0, a0), vec2(u0, v(a0)), n(a0), wood),
-                        body.push(at(o1, a0), vec2(u1, v(a0)), n(a0), wood),
-                        body.push(at(o1, a1), vec2(u1, v(a1)), n(a1), wood),
-                        body.push(at(o0, a1), vec2(u0, v(a1)), n(a1), wood),
-                    ];
-                    body.indices
-                        .extend_from_slice(&[idx[0], idx[1], idx[2], idx[0], idx[2], idx[3]]);
-                }
-            }
-            // Outer side, rail and apron in one.
-            let lip = if quality == Quality::Low { 0.0 } else { 0.035 };
-            quad(
-                &mut body,
-                [
-                    v3(o0, bottom + lip),
-                    v3(o1, bottom + lip),
-                    v3(o1, top - round),
-                    v3(o0, top - round),
-                ],
-                [vec2(u0, 0.0), vec2(u1, 0.0), vec2(u1, apron * 1.2), vec2(u0, apron * 1.2)],
-                normal_out,
-                wood,
-            );
-            if lip > 0.0 {
-                // A rounded lip standing a little proud at the bottom of the apron.
-                let (l0, l1) = (out2(o0, 0.012), out2(o1, 0.012));
-                quad(
-                    &mut body,
-                    [
-                        v3(o0, bottom + lip),
-                        v3(o1, bottom + lip),
-                        v3(l1, bottom + lip - 0.008),
-                        v3(l0, bottom + lip - 0.008),
-                    ],
-                    [vec2(u0, 0.0), vec2(u1, 0.0), vec2(u1, 0.02), vec2(u0, 0.02)],
-                    (Vec3::Y + normal_out).normalize_or_zero(),
-                    wood,
-                );
-                quad(
-                    &mut body,
-                    [
-                        v3(l0, bottom),
-                        v3(l1, bottom),
-                        v3(l1, bottom + lip - 0.008),
-                        v3(l0, bottom + lip - 0.008),
-                    ],
-                    [vec2(u0, 0.0), vec2(u1, 0.0), vec2(u1, 0.04), vec2(u0, 0.04)],
-                    normal_out,
-                    wood,
-                );
-                quad(
-                    &mut body,
-                    [v3(o0, bottom), v3(o1, bottom), v3(l1, bottom), v3(l0, bottom)],
-                    [Vec2::ZERO; 4],
-                    -Vec3::Y,
-                    wood,
-                );
-            }
-            // Inner side of the rail (behind the cushions; open at the pockets).
-            quad(
-                &mut body,
-                [v3(i0, y), v3(i1, y), v3(i1, top), v3(i0, top)],
-                [vec2(u0, 0.0), vec2(u1, 0.0), vec2(u1, 0.05), vec2(u0, 0.05)],
-                -normal_out,
-                wood,
-            );
-            // Castings.
-            let mid = (o0 + o1) / 2.0;
-            if in_casting(mid) {
-                let z = [Vec2::ZERO; 4];
-                quad(
-                    &mut cast,
-                    [v3(i0, ctop), v3(i1, ctop), v3(o1, ctop), v3(o0, ctop)],
-                    z,
-                    Vec3::Y,
-                    cast_color,
-                );
-                quad(
-                    &mut cast,
-                    [v3(o0, top), v3(o1, top), v3(o1, ctop), v3(o0, ctop)],
-                    z,
-                    normal_out,
-                    cast_color,
-                );
-                quad(
-                    &mut cast,
-                    [v3(i0, top), v3(i1, top), v3(i1, ctop), v3(i0, ctop)],
-                    z,
-                    -normal_out,
-                    cast_color,
-                );
-                let prev = (outer[(k + n - 1) % n] + o0) / 2.0;
-                let next = (o1 + outer[(k + 2) % n]) / 2.0;
-                let tangent = (o1 - o0).normalize_or_zero();
-                let tn = vec3(tangent.x, 0.0, tangent.y);
-                if !in_casting(prev) {
-                    quad(
-                        &mut cast,
-                        [v3(i0, top), v3(o0, top), v3(o0, ctop), v3(i0, ctop)],
-                        z,
-                        -tn,
-                        cast_color,
-                    );
-                }
-                if !in_casting(next) {
-                    quad(
-                        &mut cast,
-                        [v3(i1, top), v3(o1, top), v3(o1, ctop), v3(i1, ctop)],
-                        z,
-                        tn,
-                        cast_color,
-                    );
-                }
-            }
-        }
-        add(body, &rail_wood, Surface::WOOD.cut(2.0));
-        add(cast, &white, Surface::lit(1.6, 90.0, 0.12, 0.7).cut(2.0));
-
-        // Legs: turned balusters with a square block under the apron, a
-        // ring and a foot (square posts on Low).
-        let mut legs = MeshBuilder::default();
-        let leg_h = bottom;
-        for sx in [1.0f32, -1.0] {
-            for sz in [1.0f32, -1.0] {
-                let at = vec3(sx * (l / 2.0 - 0.02), 0.0, sz * (w / 2.0 - 0.02));
-                if quality == Quality::Low {
-                    legs.cuboid(
-                        at + Vec3::Y * leg_h / 2.0,
-                        vec3(0.19, leg_h, 0.19),
-                        0.0,
-                        WHITE,
-                        1.2,
-                    );
-                    continue;
-                }
-                let block = 0.16;
-                legs.cuboid(
-                    at + Vec3::Y * (leg_h - block / 2.0),
-                    vec3(0.2, block, 0.2),
-                    0.0,
-                    WHITE,
-                    1.2,
-                );
-                let h = leg_h - block;
-                let profile = [
-                    (0.0, 0.0),
-                    (0.0, 0.105),
-                    (0.025, 0.11),
-                    (0.05, 0.1),
-                    (0.07, 0.075),
-                    (0.11, 0.07),
-                    (0.16, 0.085),
-                    (0.22, 0.1),
-                    (0.30, 0.105),
-                    (0.36, 0.095),
-                    (0.40, 0.07),
-                    (h * 0.75, 0.058),
-                    (h * 0.8, 0.068),
-                    (h * 0.84, 0.072),
-                    (h * 0.88, 0.06),
-                    (h - 0.015, 0.068),
-                    (h, 0.085),
-                ];
-                legs.lathe(at, &profile, if quality == Quality::Ultra { 36 } else { 20 }, WHITE);
-            }
-        }
-        add(legs, &body_wood, Surface::WOOD);
-
-        // Diamond sights.
-        let mut sights = MeshBuilder::default();
-        let rail_mid = off as f64;
-        for k in (1..8).filter(|k| *k != 4) {
-            let x = -spec.length / 2.0 + k as f64 * spec.length / 8.0;
-            for sy in [1.0, -1.0] {
-                sights.disc(
-                    surface(DVec2::new(x, sy * (spec.width / 2.0 + rail_mid)), RAIL_TOP + 0.0006),
-                    0.0065,
-                    12,
-                    rgb(235, 228, 205),
-                );
-            }
-        }
-        for k in 1..4 {
-            let yy = -spec.width / 2.0 + k as f64 * spec.width / 4.0;
-            for sx in [1.0, -1.0] {
-                sights.disc(
-                    surface(DVec2::new(sx * (spec.length / 2.0 + rail_mid), yy), RAIL_TOP + 0.0006),
-                    0.0065,
-                    12,
-                    rgb(235, 228, 205),
-                );
-            }
-        }
-        let mut rail_details =
-            vec![Part { mesh: sights.build(&white), surface: Surface::lit(0.8, 60.0, 0.0, 0.3) }];
 
         // Pockets. The cloth, cushions and rails are cut by the shader along
         // the throat (between the jaws) and the hole; the hole's wall closes
         // the cut: it rises to the rail top on the rail side and starts at the
         // cloth on the throat side.
-        let mut inside = MeshBuilder::default();
-        let mut leather = MeshBuilder::default();
         let mut holes = [Vec4::ZERO; 6];
         let mut throats = [Vec4::ZERO; 12];
         for (k, pocket) in table.pockets.iter().enumerate() {
@@ -578,27 +233,7 @@ impl Scene {
                 throats[2 * k] = vec4(p0.x, p0.y, p1.x, p1.y);
                 throats[2 * k + 1] = vec4(p2.x, p2.y, p3.x, p3.y);
             }
-            let top = RAIL_TOP + CAST_H + 0.0008;
-            let bands = [
-                (top, rgb(36, 24, 17)),
-                (0.0, rgb(24, 16, 11)),
-                (-0.04, rgb(9, 7, 6)),
-                (-0.11, rgb(4, 3, 3)),
-            ];
-            for w in bands.windows(2) {
-                let (y0, c0) = w[0];
-                let (y1, _) = w[1];
-                inside.tube_inside(center + Vec3::Y * y1, r, y0 - y1, 48, c0);
-            }
-            inside.disc(center - Vec3::Y * 0.11, r, 48, rgb(3, 3, 3));
-            // Leather lip around the hole on the rail (cut away at the throat).
-            leather.ring(center + Vec3::Y * (top + 0.0004), r, r + 0.011, 48, rgb(46, 28, 18));
         }
-        let pocket_inside = inside.build(&white);
-        rail_details.push(Part {
-            mesh: leather.build(&white),
-            surface: Surface::lit(0.5, 30.0, 0.0, 0.2).cut(2.0),
-        });
 
         // Soft shadow of the table on the floor.
         let mut fs = MeshBuilder::default();
@@ -621,7 +256,7 @@ impl Scene {
             .into_iter()
             .map(|p| gfx::sphere_mesh(r, &upload(p, false), ball_segments))
             .collect();
-        let cue = cue_mesh("cue_classic", "chalk_blue", &white);
+        let cue = cue_mesh("cue_classic", "chalk_blue", 0, &white).0;
         let ghost = gfx::sphere_mesh_tinted(r, &white, 32, Color::new(1.0, 1.0, 1.0, 0.28));
 
         let lamps = [
@@ -633,14 +268,15 @@ impl Scene {
             table,
             materials: Materials::new(),
             parts,
-            lamp_glow,
-            lamp_parts,
-            pocket_inside,
+            table_parts,
             holes,
             throats,
-            rail_details,
             floor_shadow,
+            room_style: (!focused).then_some(looks.hall),
             room,
+            stage: focused,
+            hall_preview: false,
+            quality,
             balls,
             cue,
             ghost,
@@ -658,28 +294,56 @@ impl Scene {
             making: None,
             uploading: None,
             lamp_count: if quality == Quality::Low { 1 } else { 3 },
-            focus: if focused { 1.0 } else { 0.0 },
+            table_style: looks.table,
             soft_shadows: matches!(quality, Quality::High | Quality::Ultra),
         }
     }
 
-    /// Dresses the table with another cloth or ball set. The textures are
-    /// made on another thread and sent to the GPU a few at a time, so the
-    /// game never stops (buying an item used to freeze it for a second).
+    /// Dresses the table with another cloth, ball set, table or hall. The
+    /// textures and meshes are made on another thread and sent to the GPU a
+    /// few at a time, so the game never stops (buying an item used to freeze
+    /// it for a second).
     pub fn set_looks(&mut self, looks: &Looks) {
         if *looks == self.wanted {
             return;
         }
         self.wanted = looks.clone();
+        self.request();
+    }
+
+    /// Shows the hall around the table even on the dark stage (the shop's
+    /// preview of a hall).
+    pub fn preview_hall(&mut self, on: bool) {
+        if self.hall_preview != on {
+            self.hall_preview = on;
+            if on && self.room_style != Some(self.wanted.hall) {
+                self.request();
+            }
+        }
+    }
+
+    /// Whether the hall is shown (not the dark stage).
+    fn hall_shown(&self) -> bool {
+        (!self.stage || self.hall_preview) && self.room_style.is_some()
+    }
+
+    /// Starts making what differs between the table now and the one wanted.
+    fn request(&mut self) {
+        let looks = self.wanted.clone();
         let (tx, rx) = std::sync::mpsc::channel();
         let cloth = (looks.cloth != self.looks.cloth).then_some(looks.cloth);
         let balls = (looks.balls != self.looks.balls).then_some(looks.balls);
+        let theme = (looks.table != self.table_style).then_some(looks.table);
+        let hall = ((!self.stage || self.hall_preview) && self.room_style != Some(looks.hall))
+            .then_some(looks.hall);
         let (felt_size, ball_size) = (self.felt_size, self.ball_tex_size);
-        let target = looks.clone();
+        let (table, quality) = (self.table.clone(), self.quality);
         std::thread::spawn(move || {
             let felt = cloth.map(|c| textures::felt_sized(c, felt_size));
             let balls = balls.map(|p| ball_pixels(ball_size, &p));
-            let _ = tx.send(Made { looks: target, felt, balls });
+            let theme = theme.map(|t| (t, crate::tables::build(&table, quality, t)));
+            let hall = hall.map(|h| (h, hall_kit(&table, quality, h)));
+            let _ = tx.send(Made { looks, felt, balls, theme, hall });
         });
         // A newer request replaces one still being made.
         self.making = Some(rx);
@@ -721,6 +385,14 @@ impl Scene {
                 mesh.set_texture(tex);
             }
         }
+        if let Some((style, kit)) = made.theme.take() {
+            self.table_parts = kit.finish(&self.white);
+            self.table_style = style;
+        }
+        if let Some((style, kit)) = made.hall.take() {
+            self.room = kit.finish(&self.white);
+            self.room_style = Some(style);
+        }
         self.looks = made.looks.clone();
         self.uploading = None;
     }
@@ -733,7 +405,9 @@ impl Scene {
     pub fn draw(&mut self, cam: &SceneCamera, balls: &[Ball], dt: f32, overlay: &Overlay) {
         self.update_looks();
         set_camera(cam);
-        self.materials.set_frame(cam.eye, self.lamps, 1.55, self.lamp_count, self.focus);
+        let hall = self.hall_shown();
+        let focus = if hall { 0.0 } else { 1.0 };
+        self.materials.set_frame(cam.eye, self.lamps, 1.55, self.lamp_count, focus);
         let mut casters = [Vec4::ZERO; 16];
         if self.soft_shadows {
             let r = self.ball_radius();
@@ -758,45 +432,52 @@ impl Scene {
             self.materials.use_lit(part.surface);
             part.mesh.draw();
         }
-        for part in self.room.iter().filter(|p| !p.blended) {
-            self.materials.use_lit(part.surface);
-            part.mesh.draw();
-        }
-        if self.focus < 0.5 {
-            self.materials.use_blended(Surface::UNLIT);
-            self.floor_shadow.mesh.draw();
-            for part in self.room.iter().filter(|p| p.blended) {
+        let layer = |parts: &[gfx::Built], layer: gfx::Layer, materials: &Materials| {
+            for part in parts.iter().filter(|p| p.layer == layer) {
+                if layer == gfx::Layer::Blended {
+                    materials.use_blended(part.surface);
+                } else {
+                    materials.use_lit(part.surface);
+                }
                 part.mesh.draw();
             }
+        };
+        layer(&self.table_parts, gfx::Layer::Solid, &self.materials);
+        if hall {
+            layer(&self.room, gfx::Layer::Solid, &self.materials);
+            self.materials.use_blended(Surface::UNLIT);
+            self.floor_shadow.mesh.draw();
+            layer(&self.room, gfx::Layer::Blended, &self.materials);
         }
         if !self.soft_shadows {
             self.draw_ball_shadows(balls);
         }
-        self.materials.use_lit(Surface::UNLIT.cut(3.0));
-        self.pocket_inside.draw();
-        for part in &self.rail_details {
-            self.materials.use_lit(part.surface);
-            part.mesh.draw();
-        }
-        if self.lamp_visible && self.focus < 0.5 {
-            for part in &self.lamp_parts {
-                self.materials.use_lit(part.surface);
-                part.mesh.draw();
-            }
-            self.materials.use_lit(self.lamp_glow.surface);
-            self.lamp_glow.mesh.draw();
+        layer(&self.table_parts, gfx::Layer::Inside, &self.materials);
+        layer(&self.table_parts, gfx::Layer::Detail, &self.materials);
+        if self.lamp_visible && hall {
+            layer(&self.room, gfx::Layer::Lamp, &self.materials);
         }
         self.draw_balls(balls, dt);
         if let Some(cue) = &overlay.cue {
             // The shooter's own cue and chalk (built once per design).
-            let key = (overlay.cue_look.0.clone(), overlay.cue_look.1.clone());
+            let key = (overlay.cue_look.0.clone(), overlay.cue_look.1.clone(), overlay.cue_level);
             if !key.0.is_empty() && !self.cues.contains_key(&key) {
-                let mesh = cue_mesh(&key.0, &key.1, &self.white);
+                let mesh = cue_mesh(&key.0, &key.1, key.2, &self.white);
                 self.cues.insert(key.clone(), mesh);
             }
             self.materials.use_lit(Surface::WOOD);
             let model = Mat4::from_rotation_translation(cue.rotation, cue.tip);
-            self.cues.get(&key).unwrap_or(&self.cue).draw_at(model);
+            match self.cues.get(&key) {
+                Some((mesh, glow)) => {
+                    mesh.draw_at(model);
+                    if let Some(glow) = glow {
+                        // The top level's gold glows softly.
+                        self.materials.use_blended(Surface::UNLIT);
+                        glow.draw_at(model);
+                    }
+                }
+                None => self.cue.draw_at(model),
+            }
         }
         self.draw_guides(&overlay.guides, cam.eye);
         if let Some(p) = overlay.ghost {
@@ -971,6 +652,17 @@ struct Made {
     looks: Looks,
     felt: Option<textures::Pixels>,
     balls: Option<Vec<textures::Pixels>>,
+    theme: Option<(TableStyle, gfx::Kit)>,
+    hall: Option<(HallStyle, gfx::Kit)>,
+}
+
+/// The hall around `table`, with its lamp.
+fn hall_kit(table: &Table, quality: Quality, hall: HallStyle) -> gfx::Kit {
+    let half_table = vec2(
+        table.spec.length as f32 / 2.0 + table.spec.rail_width as f32 + 0.05,
+        table.spec.width as f32 / 2.0 + table.spec.rail_width as f32 + 0.05,
+    );
+    crate::halls::build(quality, half_table, hall)
 }
 
 fn felt_size(quality: Quality) -> u16 {
@@ -1000,6 +692,8 @@ fn ball_pixels(size: u16, palette: &textures::Palette) -> Vec<textures::Pixels> 
 pub struct Looks {
     pub cloth: [u8; 3],
     pub balls: textures::Palette,
+    pub table: TableStyle,
+    pub hall: HallStyle,
 }
 
 impl Looks {
@@ -1009,7 +703,24 @@ impl Looks {
             Some(snookered_proto::shop::Look::Cloth(c)) => c,
             _ => [24, 96, 48],
         };
-        Looks { cloth, balls: textures::Palette::of(balls) }
+        Looks {
+            cloth,
+            balls: textures::Palette::of(balls),
+            table: TableStyle::Classic,
+            hall: HallStyle::Pool,
+        }
+    }
+
+    /// With the table and hall of these codes (the defaults if unknown).
+    pub fn themed(mut self, table: &str, hall: &str) -> Looks {
+        use snookered_proto::shop::{Look, item};
+        if let Some(Look::Table(t)) = item(table).map(|i| i.look) {
+            self.table = t;
+        }
+        if let Some(Look::Hall(h)) = item(hall).map(|i| i.look) {
+            self.hall = h;
+        }
+        self
     }
 }
 
@@ -1019,8 +730,15 @@ impl Default for Looks {
     }
 }
 
-/// A cue of the given design, chalked with `chalk` (shop codes).
-pub fn cue_mesh(cue: &str, chalk: &str, white: &Texture2D) -> gfx::Model {
+/// A cue of the given design, chalked with `chalk` (shop codes), with the
+/// marks of its `level` (see [`cue_marks`]); and, at the top level, a soft
+/// glow drawn see-through over its gold.
+pub fn cue_mesh(
+    cue: &str,
+    chalk: &str,
+    level: u8,
+    white: &Texture2D,
+) -> (gfx::Model, Option<gfx::Model>) {
     use snookered_proto::shop::CueStyle;
     use snookered_proto::shop::{Look, item};
     let (butt, accent, ring, style) = match item(cue).map(|i| i.look) {
@@ -1059,7 +777,87 @@ pub fn cue_mesh(cue: &str, chalk: &str, white: &Texture2D) -> gfx::Model {
     m.frustum(1.115, 0.0126, 1.35, 0.0138, 16, c(accent)); // wrap
     m.frustum(1.35, 0.0138, 1.47, 0.0148, 16, c(butt)); // butt
     m.frustum(1.47, 0.0148, 1.48, 0.0, 16, c(ring)); // cap
-    m.build(white)
+    let glow = cue_marks(&mut m, level, b);
+    (m.build(white), glow.map(|g| g.build(white)))
+}
+
+/// The radius of the cue at `y` (from the tip), for marks laid on it.
+fn cue_radius(y: f32) -> f32 {
+    let lerp = |y0: f32, r0: f32, y1: f32, r1: f32| r0 + (r1 - r0) * ((y - y0) / (y1 - y0));
+    if y < 1.10 {
+        lerp(0.815, 0.0106, 1.10, 0.0125)
+    } else if y < 1.35 {
+        lerp(1.115, 0.0126, 1.35, 0.0138)
+    } else {
+        lerp(1.35, 0.0138, 1.47, 0.0148)
+    }
+}
+
+/// The marks of a cue's level, purely for show: metal bands near the joint
+/// (silver, then gold), then pearl inlays, then an engraved gold band; the
+/// top level's gold glows (the see-through glow is returned).
+fn cue_marks(m: &mut MeshBuilder, level: u8, wood: Color) -> Option<MeshBuilder> {
+    if level == 0 {
+        return None;
+    }
+    let silver = rgb(214, 218, 226);
+    let gold = rgb(236, 194, 92);
+    let pearl = rgb(244, 240, 228);
+    let metal = if level >= 4 { gold } else { silver };
+    // Laid a hair above the wood, so nothing flickers.
+    let lift = 0.00025;
+    let band = |m: &mut MeshBuilder, y: f32, h: f32, color: Color| {
+        m.frustum(y, cue_radius(y) + lift, y + h, cue_radius(y + h) + lift, 16, color);
+    };
+    // Bands just below the joint: one at level 1, two from level 2, three
+    // from level 5.
+    let bands = match level {
+        1 => 1,
+        2..=4 => 2,
+        _ => 3,
+    };
+    for k in 0..bands {
+        band(m, 0.826 + k as f32 * 0.012, 0.005, metal);
+    }
+    // Pearl diamonds round the forearm from level 3 (and on the butt sleeve
+    // from level 5).
+    let diamonds = |m: &mut MeshBuilder, y0: f32, y1: f32, count: f32, inlay: Color| {
+        let (r0, r1) = (cue_radius(y0) + lift * 0.6, cue_radius(y1) + lift * 0.6);
+        m.painted_frustum(y0, r0, y1, r1, 48, 10, |u, v| {
+            let d = ((u * count).fract() - 0.5).abs() * 2.0 + (v - 0.5).abs() * 2.0;
+            if d < 0.8 { inlay } else { wood }
+        });
+    };
+    if level >= 3 {
+        let y = 0.826 + bands as f32 * 0.012 + 0.004;
+        diamonds(m, y, y + 0.03, 6.0, pearl);
+    }
+    if level >= 4 {
+        // A gold ring on the butt sleeve.
+        band(m, 1.13, 0.006, gold);
+    }
+    if level >= 5 {
+        diamonds(m, 1.145, 1.18, 8.0, pearl);
+        band(m, 1.19, 0.006, gold);
+    }
+    if level < 6 {
+        return None;
+    }
+    // The top level: a wide engraved gold band at the joint (a running
+    // scroll cut into the gold) and a soft glow around it.
+    let (y0, y1) = (0.815, 0.824);
+    let deep = rgb(150, 104, 36);
+    m.painted_frustum(y0, cue_radius(y0) + lift, y1, cue_radius(y1) + lift, 48, 6, |u, v| {
+        let wave = ((u * 12.0 * std::f32::consts::TAU).sin() * 0.35 + 0.5 - v).abs();
+        if wave < 0.12 { deep } else { gold }
+    });
+    let mut glow = MeshBuilder::default();
+    for (spread, alpha) in [(1.5f32, 0.22f32), (2.3, 0.1)] {
+        let color = Color::new(1.0, 0.82, 0.42, alpha);
+        let (a, b) = (0.812, 0.89);
+        glow.frustum(a, cue_radius(a) * spread, b, cue_radius(b) * spread, 20, color);
+    }
+    Some(glow)
 }
 
 pub struct CuePose {
@@ -1079,6 +877,8 @@ pub struct Overlay {
     pub cue: Option<CuePose>,
     /// The shooter's cue and chalk (shop codes; empty: the classic ones).
     pub cue_look: (String, String),
+    /// The level of the shooter's cue (its marks).
+    pub cue_level: u8,
     /// Where the cue ball will touch the first ball: drawn as a see-through ball.
     pub ghost: Option<Vec3>,
     pub guides: Vec<Guide>,
@@ -1090,17 +890,17 @@ pub const RAIL_HEIGHT: f32 = RAIL_TOP;
 const CUE_LENGTH: f32 = 1.48;
 
 /// Radius of the hole drawn for a pocket: exactly where balls drop.
-fn pocket_radius_of(table: &Table, pocket: PocketId) -> f32 {
+pub(crate) fn pocket_radius_of(table: &Table, pocket: PocketId) -> f32 {
     table.pocket(pocket).hole_radius as f32
 }
 
 /// Centre of the hole drawn for a pocket.
-fn pocket_center_of(table: &Table, pocket: PocketId) -> DVec2 {
+pub(crate) fn pocket_center_of(table: &Table, pocket: PocketId) -> DVec2 {
     table.pocket(pocket).hole_center
 }
 
 /// Shortens the segment `a`→`b` so it ends where it enters the nearest pocket hole.
-fn clip_to_hole(table: &Table, a: DVec2, b: DVec2) -> DVec2 {
+pub(crate) fn clip_to_hole(table: &Table, a: DVec2, b: DVec2) -> DVec2 {
     let Some(pocket) = table
         .pockets
         .iter()
@@ -1127,7 +927,32 @@ fn clip_to_hole(table: &Table, a: DVec2, b: DVec2) -> DVec2 {
     a + d * t
 }
 
-fn is_axis_aligned(a: DVec2, b: DVec2) -> bool {
+/// The pocket jaws: (the cushion nose end, where it meets the hole, the
+/// direction across the throat).
+pub(crate) fn jaw_lines(table: &Table) -> Vec<(DVec2, DVec2, DVec2)> {
+    let mut out = Vec::new();
+    for seg in table.cushions.iter().filter(|c| !is_axis_aligned(c.a, c.b)) {
+        let mid = (seg.a + seg.b) / 2.0;
+        let dir = (seg.b - seg.a).normalize();
+        let end = clip_to_hole(table, seg.a, seg.b);
+        // The facing looks across the throat, towards the pocket's axis
+        // (from the middle of its mouth to the hole): what side the mouth's
+        // centre is on is not reliable for side pockets.
+        let Some(pocket) = table.pockets.iter().min_by(|x, y| {
+            x.mouth_center.distance(mid).total_cmp(&y.mouth_center.distance(mid))
+        }) else {
+            continue;
+        };
+        let axis = (pocket_center_of(table, pocket.id) - pocket.mouth_center).normalize_or_zero();
+        let rel = mid - pocket.mouth_center;
+        let toward_axis = pocket.mouth_center + axis * rel.dot(axis) - mid;
+        let across = if dir.perp().dot(toward_axis) >= 0.0 { dir.perp() } else { -dir.perp() };
+        out.push((seg.a, end, across));
+    }
+    out
+}
+
+pub(crate) fn is_axis_aligned(a: DVec2, b: DVec2) -> bool {
     let d = b - a;
     d.x.abs() < 1e-6 || d.y.abs() < 1e-6
 }
@@ -1135,13 +960,14 @@ fn is_axis_aligned(a: DVec2, b: DVec2) -> bool {
 /// The face of a pocket jaw: the vertical cut through the cushion rubber and
 /// the rail along the jaw line, from `a` (the cushion nose) to `b` (the hole).
 /// Its top follows what was cut: the nose slope, the cushion top, then the rail.
-fn jaw_wall(
+pub(crate) fn jaw_wall(
     mb: &mut MeshBuilder,
     rail: &mut MeshBuilder,
     table: &Table,
     a: DVec2,
     b: DVec2,
     into_throat: DVec2,
+    cast: Color,
 ) {
     let along = b - a;
     let len = along.length();
@@ -1191,8 +1017,7 @@ fn jaw_wall(
     let n = (n.normalize_or_zero() + Vec3::Y * 0.6).normalize_or_zero();
     let felt = rgb(170, 180, 170);
     // Where the jaw cuts through the rail, the facing is the pocket casting
-    // (only the rubber part is covered in cloth).
-    let cast = CAST_COLOR;
+    // (`cast`; only the rubber part is covered in cloth).
     for w in ds.windows(2) {
         let (d0, d1) = (w[0], w[1]);
         let p0 = a + dir * (d0 / rate);
@@ -1210,7 +1035,7 @@ fn jaw_wall(
 /// A rounded rectangle around the origin in the world XZ plane (as `Vec2`
 /// x, z), densely sampled. Loops with different radii have matching points,
 /// so rings can be built between them.
-fn rounded_loop(ex: f32, ez: f32, radius: f32) -> Vec<Vec2> {
+pub(crate) fn rounded_loop(ex: f32, ez: f32, radius: f32) -> Vec<Vec2> {
     const CORNER: usize = 12;
     const STEP: f32 = 0.02;
     let r = radius.min(ex).min(ez);

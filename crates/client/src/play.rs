@@ -498,6 +498,7 @@ fn ray_ball(start: DVec2, dir: DVec2, other: DVec2, r: f64) -> Option<f64> {
 pub fn overlay(m: &Match, scene: &Scene, time: f32) -> Overlay {
     let mut out = Overlay {
         cue_look: m.cue_looks[m.game.current_player() % 2].clone(),
+        cue_level: m.cue_levels[m.game.current_player() % 2],
         ..Default::default()
     };
     let table = &scene.table;

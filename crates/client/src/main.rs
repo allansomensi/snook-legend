@@ -17,6 +17,8 @@ mod effects;
 mod flags;
 mod game;
 mod gfx;
+mod hall_textures;
+mod halls;
 mod hud;
 mod i18n;
 mod icon;
@@ -37,7 +39,9 @@ mod scene;
 mod settings;
 mod setup;
 mod shop;
+mod tables;
 mod textures;
+mod theme_art;
 mod ui;
 mod update;
 mod util;
@@ -238,7 +242,7 @@ async fn main() {
         Table::default(),
         config.quality,
         config.focused_scene,
-        &scene::Looks::of(&config.cloth, &config.balls),
+        &scene::Looks::of(&config.cloth, &config.balls).themed(&config.table, &config.hall),
     );
     let mut retired: Vec<Scene> = Vec::new();
     let sounds = audio::Sounds::load().await;
@@ -447,18 +451,24 @@ async fn main() {
             .filter(|m| m.is_online() && !match_from_lan)
             .map(|_| &online.table_look)
             .filter(|l| !l[0].is_empty());
+        // The table and the hall are always this player's own.
         let mut looks = match table_look {
             Some(l) => scene::Looks::of(&l[0], &l[1]),
             None => scene::Looks::of(&config.cloth, &config.balls),
-        };
+        }
+        .themed(&config.table, &config.hall);
         // Trying an item from the shop on the table.
         let previewing =
             shop_preview.filter(|_| matches!(screen, Screen::Shop) && current.is_none());
         if let Some((code, _)) = previewing {
-            let cloth = if code.starts_with("cloth") { code } else { config.cloth.as_str() };
-            let balls = if code.starts_with("balls") { code } else { config.balls.as_str() };
-            looks = scene::Looks::of(cloth, balls);
+            let pick = |prefix: &str, own: &str| -> String {
+                if code.starts_with(prefix) { code.to_string() } else { own.to_string() }
+            };
+            looks = scene::Looks::of(&pick("cloth", &config.cloth), &pick("balls", &config.balls))
+                .themed(&pick("table", &config.table), &pick("hall", &config.hall));
         }
+        // A hall tried on shows even on the dark stage.
+        scene.preview_hall(previewing.is_some_and(|(c, _)| c.starts_with("hall")));
         scene.set_looks(&looks);
         // Offline, the people at the table play with this player's cue
         // (and win with their effect).
@@ -469,6 +479,7 @@ async fn main() {
                     if m.cue_looks[seat] != look {
                         m.cue_looks[seat] = look;
                     }
+                    m.cue_levels[seat] = config.cue_level;
                     if m.effects[seat] != config.effect {
                         m.effects[seat] = config.effect.clone();
                     }
@@ -486,14 +497,22 @@ async fn main() {
         // The shop's 3D preview: the camera turns slowly around the table.
         if let Some((_, since)) = previewing {
             let a = (get_time() as f32 - since) * 0.22 + 0.6;
-            let close =
-                shop_preview.is_some_and(|(c, _)| c.starts_with("cue") || c.starts_with("chalk"));
-            let (radius, height) = if close { (1.35, 1.25) } else { (2.9, 1.75) };
+            let kind = shop_preview.map(|(c, _)| c.split('_').next().unwrap_or("")).unwrap_or("");
+            let close = matches!(kind, "cue" | "chalk");
+            // A table: a little lower, to see its legs; a hall: from further
+            // away, looking across the room.
+            let (radius, height) = match kind {
+                "cue" | "chalk" => (1.35, 1.25),
+                "table" => (2.7, 1.45),
+                "hall" => (3.7, 1.75),
+                _ => (2.9, 1.75),
+            };
             cam.eye = vec3(a.cos() * radius * 1.15, height, a.sin() * radius * 0.8);
-            cam.target = if close {
-                vec3(-0.55, coords::TABLE_HEIGHT + 0.05, 0.0)
-            } else {
-                vec3(0.0, coords::TABLE_HEIGHT - 0.1, 0.0)
+            cam.target = match kind {
+                _ if close => vec3(-0.55, coords::TABLE_HEIGHT + 0.05, 0.0),
+                "table" => vec3(0.0, coords::TABLE_HEIGHT - 0.3, 0.0),
+                "hall" => vec3(-a.cos() * 1.2, 1.25, -a.sin() * 0.9),
+                _ => vec3(0.0, coords::TABLE_HEIGHT - 0.1, 0.0),
             };
             cam.up = Vec3::Y;
         }
@@ -552,6 +571,10 @@ async fn main() {
                         );
                         overlay.cue = Some(pose);
                         overlay.cue_look = (cue.to_string(), chalk.to_string());
+                        // The marks this cue has earned.
+                        overlay.cue_level = snookered_proto::shop::cue_level(
+                            online.wallet.as_ref().map_or(0, |w| w.cue_wins(cue)),
+                        );
                     }
                 }
                 scene.draw(&cam, &menu_rack, dt, &overlay)
@@ -608,7 +631,7 @@ async fn main() {
                         Table::default(),
                         config.quality,
                         config.focused_scene,
-                        &scene::Looks::of(&config.cloth, &config.balls),
+                        &scene::Looks::of(&config.cloth, &config.balls).themed(&config.table, &config.hall),
                     ),
                 ));
             }
@@ -954,7 +977,7 @@ async fn main() {
                             Table::default(),
                             q,
                             config.focused_scene,
-                            &scene::Looks::of(&config.cloth, &config.balls),
+                            &scene::Looks::of(&config.cloth, &config.balls).themed(&config.table, &config.hall),
                         ),
                     ));
                     toast = Some((

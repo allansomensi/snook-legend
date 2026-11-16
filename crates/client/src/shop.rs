@@ -109,6 +109,8 @@ pub fn category_name(c: Category) -> &'static str {
         Category::Frame => t("Frames"),
         Category::Name => t("Name colour"),
         Category::Effect => t("Winning effects"),
+        Category::Table => t("Tables"),
+        Category::Hall => t("Halls"),
     }
 }
 
@@ -265,6 +267,8 @@ fn preview(ui: &Ui, item: &Item, r: Rect) {
             rrect(r, 8.0, Color::new(0.03, 0.08, 0.05, 1.0));
             crate::effects::draw_preview(kind, color, r, get_time() as f32);
         }
+        Look::Table(style) => crate::theme_art::table(r, style),
+        Look::Hall(style) => crate::theme_art::hall(r, style),
     }
 }
 

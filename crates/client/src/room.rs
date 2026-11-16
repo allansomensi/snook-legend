@@ -11,23 +11,16 @@ use macroquad::prelude::*;
 
 use crate::config::Quality;
 use crate::coords::TABLE_HEIGHT;
-use crate::gfx::{self, MeshBuilder, Surface};
-use crate::textures::{self, Pixels};
+use crate::gfx::{Kit, Layer, MeshBuilder, Surface};
+use crate::textures;
 
 /// Half sizes of the room and its height.
-const HX: f32 = 5.5;
-const HZ: f32 = 4.0;
-const HEIGHT: f32 = 3.2;
+pub(crate) const HX: f32 = 5.5;
+pub(crate) const HZ: f32 = 4.0;
+pub(crate) const HEIGHT: f32 = 3.2;
 /// Top of the wood panelling, and of the paper (the crown molding above).
 const WAINSCOT: f32 = 1.0;
 const CROWN: f32 = 3.0;
-
-pub struct RoomPart {
-    pub mesh: gfx::Model,
-    pub surface: Surface,
-    /// Drawn see-through (pools of light on the walls).
-    pub blended: bool,
-}
 
 struct Light {
     pos: Vec3,
@@ -122,12 +115,8 @@ fn rgb(r: u8, g: u8, b: u8) -> Color {
     Color::from_rgba(r, g, b, 255)
 }
 
-fn upload(p: Pixels, repeat: bool) -> Texture2D {
-    gfx::texture(p.width, p.height, &p.rgba, repeat)
-}
-
 /// A cylinder between two points.
-fn tube(b: &mut MeshBuilder, a: Vec3, c: Vec3, r: f32, segments: u32, color: Color) {
+pub(crate) fn tube(b: &mut MeshBuilder, a: Vec3, c: Vec3, r: f32, segments: u32, color: Color) {
     let axis = (c - a).normalize_or_zero();
     let side = if axis.y.abs() < 0.9 { Vec3::Y } else { Vec3::X };
     let u = axis.cross(side).normalize_or_zero();
@@ -148,7 +137,7 @@ fn tube(b: &mut MeshBuilder, a: Vec3, c: Vec3, r: f32, segments: u32, color: Col
 }
 
 /// A ring of tube (a torus) lying flat.
-fn hoop(b: &mut MeshBuilder, center: Vec3, radius: f32, r: f32, segments: u32, color: Color) {
+pub(crate) fn hoop(b: &mut MeshBuilder, center: Vec3, radius: f32, r: f32, segments: u32, color: Color) {
     for k in 0..segments {
         let a0 = k as f32 / segments as f32 * std::f32::consts::TAU;
         let a1 = (k + 1) as f32 / segments as f32 * std::f32::consts::TAU;
@@ -159,7 +148,7 @@ fn hoop(b: &mut MeshBuilder, center: Vec3, radius: f32, r: f32, segments: u32, c
 }
 
 /// A disc facing `normal`, with polar texture coordinates (0..1).
-fn disc_facing(
+pub(crate) fn disc_facing(
     b: &mut MeshBuilder,
     center: Vec3,
     normal: Vec3,
@@ -183,7 +172,7 @@ fn disc_facing(
 }
 
 /// A rectangle (a picture, a board) on a wall, with 0..1 texture coordinates.
-fn picture(b: &mut MeshBuilder, center: Vec3, right: Vec3, up: Vec3, w: f32, h: f32, color: Color) {
+pub(crate) fn picture(b: &mut MeshBuilder, center: Vec3, right: Vec3, up: Vec3, w: f32, h: f32, color: Color) {
     let (r, u) = (right * w / 2.0, up * h / 2.0);
     b.quad(
         [center - r - u, center + r - u, center + r + u, center - r + u],
@@ -213,7 +202,7 @@ fn walls() -> [Wall; 4] {
 
 /// Everything in the room. `table`: the table's half length and width (for
 /// its shadow on the floor light).
-pub fn build(quality: Quality, table: Vec2, white: &Texture2D, wood: &Texture2D) -> Vec<RoomPart> {
+pub fn build(kit: &mut Kit, quality: Quality, table: Vec2) {
     let detailed = quality >= Quality::High;
     let medium = quality >= Quality::Medium;
     let big = quality == Quality::Ultra;
@@ -239,26 +228,30 @@ pub fn build(quality: Quality, table: Vec2, white: &Texture2D, wood: &Texture2D)
                 label.join().expect("label"),
             )
         });
-    let floor_tex = upload(floor_px, true);
-    let paper_tex = upload(paper_px, true);
-    let tin_tex = upload(tin_px, true);
-    let rug_tex = upload(rug_px, false);
-    let chalk_tex = upload(chalk_px, false);
-    let dart_tex = upload(dart_px, false);
-    let poster_tex: Vec<Texture2D> = posters_px.into_iter().map(|p| upload(p, false)).collect();
-    let label_tex = upload(label_px, false);
+    let floor_tex = Some(kit.texture(floor_px, true));
+    let paper_tex = Some(kit.texture(paper_px, true));
+    let tin_tex = Some(kit.texture(tin_px, true));
+    let rug_tex = Some(kit.texture(rug_px, false));
+    let chalk_tex = Some(kit.texture(chalk_px, false));
+    let dart_tex = Some(kit.texture(dart_px, false));
+    let poster_tex: Vec<Option<usize>> =
+        posters_px.into_iter().map(|p| Some(kit.texture(p, false))).collect();
+    let label_tex = Some(kit.texture(label_px, false));
+    // The wood of the panelling, the bar and the furniture.
+    let wood = Some(kit.texture(
+        textures::fine_wood([0.13, 0.06, 0.035], [0.04, 0.018, 0.012], 17),
+        true,
+    ));
+    let glow_tex = Some(kit.texture(textures::glow(), false));
+    let white = None;
 
     let lights = lights();
     let table_shadow = table + vec2(0.12, 0.12);
-    let mut parts = Vec::new();
-    let mut add = |mut b: MeshBuilder, tex: &Texture2D, baked: bool| {
-        if b.is_empty() {
-            return;
-        }
+    let mut add = |mut b: MeshBuilder, tex: Option<usize>, baked: bool| {
         if baked {
             b.bake(|p, n| bake_light(&lights, table_shadow, p, n));
         }
-        parts.push(RoomPart { mesh: b.build(tex), surface: Surface::UNLIT, blended: false });
+        kit.add(b, tex, Surface::UNLIT, Layer::Solid);
     };
     let mut night: Option<MeshBuilder> = None;
     let cell = if detailed { 0.2 } else { 0.4 };
@@ -275,7 +268,7 @@ pub fn build(quality: Quality, table: Vec2, white: &Texture2D, wood: &Texture2D)
         WHITE,
         0.32,
     );
-    add(floor, &floor_tex, true);
+    add(floor, floor_tex, true);
     if medium {
         let mut rug = MeshBuilder::default();
         let (rx, rz) = (2.4f32, 1.75f32);
@@ -292,7 +285,7 @@ pub fn build(quality: Quality, table: Vec2, white: &Texture2D, wood: &Texture2D)
         for v in &mut rug.vertices[first..] {
             v.uv = vec2((v.position.x + rx) / (2.0 * rx), (v.position.z + rz) / (2.0 * rz));
         }
-        add(rug, &rug_tex, true);
+        add(rug, rug_tex, true);
     }
 
     // --- Walls: panelling, paper, moldings ---------------------------------
@@ -392,7 +385,7 @@ pub fn build(quality: Quality, table: Vec2, white: &Texture2D, wood: &Texture2D)
             );
         }
     }
-    add(paper, &paper_tex, true);
+    add(paper, paper_tex, true);
     add(panelling, wood, true);
     add(trim, wood, true);
 
@@ -407,7 +400,7 @@ pub fn build(quality: Quality, table: Vec2, white: &Texture2D, wood: &Texture2D)
         WHITE,
         1.0 / 0.6,
     );
-    add(ceiling, &tin_tex, true);
+    add(ceiling, tin_tex, true);
     if medium {
         let mut beams = MeshBuilder::default();
         for k in -2..=2 {
@@ -838,21 +831,16 @@ pub fn build(quality: Quality, table: Vec2, white: &Texture2D, wood: &Texture2D)
     add(brass, white, true);
     add(dark, white, true);
     add(glass, white, true);
-    add(labels, &label_tex, true);
-    add(boards, &chalk_tex, true);
-    add(darts, &dart_tex, true);
+    add(labels, label_tex, true);
+    add(boards, chalk_tex, true);
+    add(darts, dart_tex, true);
     for (k, m) in poster_meshes.into_iter().enumerate() {
-        add(m, &poster_tex[k], true);
+        add(m, poster_tex[k], true);
     }
     // Lights (and the night outside) glow by themselves.
     add(glow, white, false);
     if let Some(sky) = night {
         add(sky, white, false);
     }
-    parts.push(RoomPart {
-        mesh: pools.build(&upload(textures::glow(), false)),
-        surface: Surface::UNLIT,
-        blended: true,
-    });
-    parts
+    kit.add(pools, glow_tex, Surface::UNLIT, Layer::Blended);
 }

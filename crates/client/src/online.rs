@@ -92,11 +92,18 @@ pub struct WalletView {
     pub vip_until: i64,
     pub owned: Vec<String>,
     pub equipped: Vec<(String, String)>,
+    /// Online games won with each cue.
+    pub cue_wins: Vec<(String, u32)>,
 }
 
 impl WalletView {
     pub fn is_vip(&self) -> bool {
         self.vip_until > crate::game::unix_now()
+    }
+
+    /// Online games won with the cue `code`.
+    pub fn cue_wins(&self, code: &str) -> u32 {
+        self.cue_wins.iter().find(|(c, _)| c == code).map_or(0, |(_, n)| *n)
     }
 }
 
@@ -657,6 +664,7 @@ impl Online {
                     && let Some(seat) = m.names.iter().position(|n| *n == player.username)
                 {
                     m.cue_looks[seat] = (player.cue.clone(), player.chalk.clone());
+                    m.cue_levels[seat] = player.cue_level;
                     m.effects[seat] = player.effect.clone();
                 }
                 for f in &mut self.friends.friends {
@@ -921,8 +929,28 @@ impl Online {
                 self.draining =
                     Some(std::time::Instant::now() + std::time::Duration::from_secs(secs as u64));
             }
-            ServerMsg::Wallet { coins, vip_until, owned, equipped } => {
-                let wallet = WalletView { coins, vip_until, owned, equipped };
+            ServerMsg::Wallet { coins, vip_until, owned, equipped, cue_wins } => {
+                let wallet = WalletView { coins, vip_until, owned, equipped, cue_wins };
+                // A cue that just reached a new level (a game was won).
+                use snookered_proto::shop::{Category, cue_level};
+                let cue = self.effective(&wallet, Category::Cue);
+                if let Some(old) = &self.wallet {
+                    let (before, now) = (old.cue_wins(cue), wallet.cue_wins(cue));
+                    if now > before && cue_level(now) > cue_level(before) {
+                        let name = snookered_proto::shop::item(cue).map_or(cue, |i| t(i.name));
+                        let text = tw(
+                            "Your cue {cue} reached level {n}!",
+                            &[("cue", &name), ("n", &cue_level(now))],
+                        );
+                        self.toast(text, true);
+                    }
+                }
+                let level = cue_level(wallet.cue_wins(cue));
+                if config.cue_level != level {
+                    config.cue_level = level;
+                    self.looks_changed = true;
+                    save = true;
+                }
                 // The items in use, as the server allows them now.
                 for c in snookered_proto::shop::Category::ALL {
                     let code = self.effective(&wallet, c).to_string();
@@ -932,6 +960,8 @@ impl Online {
                         snookered_proto::shop::Category::Chalk => &mut config.chalk,
                         snookered_proto::shop::Category::Balls => &mut config.balls,
                         snookered_proto::shop::Category::Effect => &mut config.effect,
+                        snookered_proto::shop::Category::Table => &mut config.table,
+                        snookered_proto::shop::Category::Hall => &mut config.hall,
                         // Only seen online.
                         snookered_proto::shop::Category::Frame
                         | snookered_proto::shop::Category::Name => {

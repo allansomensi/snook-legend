@@ -229,7 +229,7 @@ pub fn ball(id: BallId, width: u16, palette: &Palette) -> Pixels {
     Pixels { width: w_px, height: h_px, rgba }
 }
 
-fn hash(x: i32, y: i32, seed: u32) -> f32 {
+pub(crate) fn hash(x: i32, y: i32, seed: u32) -> f32 {
     let mut h = (x as u32).wrapping_mul(374_761_393)
         ^ (y as u32).wrapping_mul(668_265_263)
         ^ seed.wrapping_mul(2_246_822_519);
@@ -238,7 +238,7 @@ fn hash(x: i32, y: i32, seed: u32) -> f32 {
 }
 
 /// Smooth value noise, tileable with period `period` cells.
-fn noise(x: f32, y: f32, period: i32, seed: u32) -> f32 {
+pub(crate) fn noise(x: f32, y: f32, period: i32, seed: u32) -> f32 {
     let (x0, y0) = (x.floor() as i32, y.floor() as i32);
     let (fx, fy) = (x - x0 as f32, y - y0 as f32);
     let s = |t: f32| t * t * (3.0 - 2.0 * t);
@@ -249,7 +249,7 @@ fn noise(x: f32, y: f32, period: i32, seed: u32) -> f32 {
     top + (bottom - top) * s(fy)
 }
 
-fn fbm(x: f32, y: f32, period: i32, seed: u32, octaves: u32) -> f32 {
+pub(crate) fn fbm(x: f32, y: f32, period: i32, seed: u32, octaves: u32) -> f32 {
     let (mut sum, mut amp, mut freq, mut norm) = (0.0, 0.5, 1.0, 0.0);
     for o in 0..octaves {
         sum += amp * noise(x * freq, y * freq, period * freq as i32, seed + o);
@@ -260,12 +260,12 @@ fn fbm(x: f32, y: f32, period: i32, seed: u32, octaves: u32) -> f32 {
     sum / norm
 }
 
-fn lerp3(a: [f32; 3], b: [f32; 3], t: f32) -> [u8; 3] {
+pub(crate) fn lerp3(a: [f32; 3], b: [f32; 3], t: f32) -> [u8; 3] {
     let t = t.clamp(0.0, 1.0);
     [0, 1, 2].map(|i| ((a[i] + (b[i] - a[i]) * t) * 255.0).round().clamp(0.0, 255.0) as u8)
 }
 
-fn image(size: u16, f: impl Fn(f32, f32) -> [u8; 3]) -> Pixels {
+pub(crate) fn image(size: u16, f: impl Fn(f32, f32) -> [u8; 3]) -> Pixels {
     let mut rgba = Vec::with_capacity(size as usize * size as usize * 4);
     for y in 0..size {
         for x in 0..size {

@@ -64,6 +64,8 @@ pub enum Tab {
     Tables,
     Tournaments,
     Friends,
+    /// Correspondence ("daily") games.
+    Daily,
 }
 
 #[derive(Default)]
@@ -149,7 +151,7 @@ pub struct Online {
     motd: String,
     token: String,
     auto_resume: bool,
-    rated_games: bool,
+    pub rated_games: bool,
     pub tab: Tab,
     list_first: usize,
     tables: Vec<TableInfo>,
@@ -169,6 +171,8 @@ pub struct Online {
     /// Searching in "Play now": rated, seconds waited and the rating range
     /// when the server last said so, and when that was.
     queue: Option<(bool, u32, u32, std::time::Instant)>,
+    /// Correspondence ("daily") games and challenges.
+    pub corr: crate::correspondence::Corr,
     /// Round trip to the server, measured with a ping every few seconds.
     pub rtt: Option<std::time::Duration>,
     ping_sent: Option<std::time::Instant>,
@@ -298,7 +302,7 @@ const FEE_HINT: &str = "The fees make the prize: 70% to the champion, 20% to the
 const PRACTICE_AFTER_SECS: u32 = 30;
 
 /// "5 h", "3 days", "12 min": how long until something.
-fn time_left(secs: i64) -> String {
+pub(crate) fn time_left(secs: i64) -> String {
     let secs = secs.max(0);
     if secs >= 2 * 86_400 {
         tw("{n} days", &[("n", &(secs / 86_400))])
@@ -398,6 +402,7 @@ impl Online {
             profile: None,
             unread_friend_requests: false,
             queue: None,
+            corr: Default::default(),
             wallet: None,
             offers: None,
             looks_changed: false,
@@ -503,7 +508,16 @@ impl Online {
             if let Some(c) = &self.conn
                 && self.signed_in()
             {
-                for msg in o.outbox.drain(..) {
+                let outbox: Vec<ClientMsg> = o.outbox.drain(..).collect();
+                for msg in outbox {
+                    // A correspondence game says which game it is.
+                    let msg = match o.corr.as_mut() {
+                        Some(table) => match crate::correspondence::outgoing(table, msg) {
+                            Some(msg) => msg,
+                            None => continue,
+                        },
+                        None => msg,
+                    };
                     c.send(msg);
                 }
             }
@@ -997,6 +1011,13 @@ impl Online {
                 }
                 self.achievements = codes;
             }
+            msg @ (ServerMsg::CorrList { .. }
+            | ServerMsg::CorrState { .. }
+            | ServerMsg::CorrShot { .. }
+            | ServerMsg::CorrShotRejected { .. }
+            | ServerMsg::CorrNotice { .. }) => {
+                crate::correspondence::handle(self, msg, current, config.guide);
+            }
             ServerMsg::Pong => {
                 if let Some(sent) = self.ping_sent.take() {
                     self.rtt = Some(sent.elapsed());
@@ -1042,6 +1063,12 @@ impl Online {
     }
 
     pub fn leave_match(&mut self, m: &Match) {
+        // A correspondence game waits for the next turn: back to the list.
+        if crate::correspondence::is_corr(m) {
+            self.tab = Tab::Daily;
+            self.send(ClientMsg::CorrList);
+            return;
+        }
         if m.is_spectating() {
             self.send(ClientMsg::StopSpectating);
             return;
@@ -1060,6 +1087,7 @@ impl Online {
         self.token.clear();
         self.auto_resume = false;
         self.friends = FriendsData::default();
+        self.corr = Default::default();
         config.token.clear();
         config.save();
         self.stage = Stage::Idle;
@@ -1592,11 +1620,14 @@ impl Online {
         ];
         if !self.lan {
             tabs.push((Tab::Friends, t("Friends")));
+            tabs.push((Tab::Daily, t("Daily")));
         }
         let n = tabs.len() as f32;
         let tab_w = (left.w - pad * 2.0 - (n - 1.0) * 6.0) / n;
         for (k, (tab, label)) in tabs.into_iter().enumerate() {
             let r = Rect::new(left.x + pad + k as f32 * (tab_w + 6.0), left.y + pad, tab_w, 34.0);
+            let me = self.me.as_ref().map(|m| m.username.as_str()).unwrap_or("");
+            let waiting = self.corr.waiting(me);
             let count = match tab {
                 Tab::Tables if !self.tables.is_empty() => self.tables.len().to_string(),
                 _ => String::new(),
@@ -1608,9 +1639,13 @@ impl Online {
                     self.send(ClientMsg::Friends);
                     self.unread_friend_requests = false;
                 }
+                if tab == Tab::Daily {
+                    self.send(ClientMsg::CorrList);
+                }
             }
             let badge = match tab {
                 Tab::Friends => self.unread_friend_requests || !self.friends.incoming.is_empty(),
+                Tab::Daily => waiting > 0,
                 _ => false,
             };
             if badge {
@@ -1631,6 +1666,11 @@ impl Online {
             Tab::Tournaments => self.draw_tournaments(ui, area),
             Tab::Friends => {
                 if let Some(a) = self.draw_friends(ui, area) {
+                    action = a;
+                }
+            }
+            Tab::Daily => {
+                if let Some(a) = crate::correspondence::draw_tab(self, ui, area) {
                     action = a;
                 }
             }
@@ -2037,7 +2077,7 @@ impl Online {
         action
     }
 
-    fn rated_toggle(&mut self, ui: &mut Ui, r: Rect) {
+    pub(crate) fn rated_toggle(&mut self, ui: &mut Ui, r: Rect) {
         if self.lan {
             let y = r.y + (r.h - 13.0) / 2.0;
             ui.text(t("LAN games don't change ratings."), r.x + 2.0, y, 13.0, MUTED, false);
@@ -2193,17 +2233,27 @@ impl Online {
         let mut invite = None;
         let mut open = None;
         let mut watch = None;
+        let mut daily = None;
         for (k, p) in players.iter().skip(self.list_first).take(visible).enumerate() {
             let r = Rect::new(list.x, list.y + k as f32 * row_h, row_w, row_h - 6.0);
             let button = Rect::new(r.x + r.w - bw - 6.0, r.y + 6.0, bw, r.h - 12.0);
-            // The row (but its button) opens the player's profile.
+            // A daily game (played a turn at a time), for players with an account.
+            let corr = (!p.guest && !self.lan)
+                .then(|| Rect::new(button.x - 6.0 - 30.0, r.y + 6.0, 30.0, r.h - 12.0));
+            // The row (but its buttons) opens the player's profile.
             let hover = row_card(ui, r, !p.guest);
             Self::status_dot(p, r.x + 14.0, r.y + r.h / 2.0);
-            let name_w = button.x - 12.0 - (r.x + 28.0);
+            let name_w = corr.map_or(button.x, |c| c.x) - 12.0 - (r.x + 28.0);
             ui.player_name(p, r.x + 28.0, r.y + 5.0, 15.0, name_w);
             ui.text(&Self::status_text(p), r.x + 28.0, r.y + 23.0, 12.0, MUTED, false);
-            if hover && !p.guest && ui.clicked(r) && !button.contains(ui.mouse()) {
+            let on_corr = corr.is_some_and(|c| c.contains(ui.mouse()));
+            if hover && !p.guest && ui.clicked(r) && !button.contains(ui.mouse()) && !on_corr {
                 open = Some(p.username.clone());
+            }
+            if let Some(c) = corr
+                && ui.icon_button_ex(c, Icon::Hourglass, t("Challenge to a daily game"), true, true)
+            {
+                daily = Some(p.username.clone());
             }
             // Friends' games (anyone's on a local network) can be watched.
             let friend =
@@ -2224,6 +2274,9 @@ impl Online {
         }
         if let Some(name) = watch {
             self.spectate(&name);
+        }
+        if let Some(to) = daily {
+            crate::correspondence::challenge(self, &to);
         }
         open.map(OnlineAction::Profile).or(action)
     }
@@ -2917,14 +2970,17 @@ impl Online {
         let mut invite = None;
         let mut remove = None;
         let mut watch = None;
+        let mut daily = None;
         let friends = self.friends.friends.clone();
         let outgoing = self.friends.outgoing.clone();
         let rows = friends.iter().map(Some).chain(outgoing.iter().map(|_| None));
         for (k, (friend, i)) in rows.zip(0..).skip(self.list_first).take(visible).enumerate() {
             let r = Rect::new(list.x, list.y + k as f32 * row_h, row_w, row_h - 6.0);
-            // Remove (×) at the far right; the main button before it.
+            // Remove (×) at the far right; the main button before it, and a
+            // daily game (friends who are away too) before that.
             let x_r = Rect::new(r.x + r.w - 6.0 - 30.0, r.y + 6.0, 30.0, r.h - 12.0);
             let button = Rect::new(x_r.x - 8.0 - bw, r.y + 6.0, bw, r.h - 12.0);
+            let corr = Rect::new(button.x - 6.0 - 30.0, r.y + 6.0, 30.0, r.h - 12.0);
             match friend {
                 Some(f) => {
                     let hover = row_card(ui, r, true);
@@ -2934,7 +2990,7 @@ impl Online {
                         let grey = Color::new(0.4, 0.4, 0.4, 1.0);
                         draw_circle(r.x + 14.0, r.y + r.h / 2.0, 4.5, grey);
                     }
-                    let name_w = button.x - 12.0 - (r.x + 28.0);
+                    let name_w = corr.x - 12.0 - (r.x + 28.0);
                     ui.player_name(&f.player, r.x + 28.0, r.y + 5.0, 15.0, name_w);
                     let sub = if f.online {
                         Self::status_text(&f.player)
@@ -2946,8 +3002,13 @@ impl Online {
                         && ui.clicked(r)
                         && !button.contains(ui.mouse())
                         && !x_r.contains(ui.mouse())
+                        && !corr.contains(ui.mouse())
                     {
                         action = Some(OnlineAction::Profile(f.player.username.clone()));
+                    }
+                    let tip = t("Challenge to a daily game");
+                    if ui.icon_button_ex(corr, Icon::Hourglass, tip, true, true) {
+                        daily = Some(f.player.username.clone());
                     }
                     if f.online && f.player.status == PlayerStatus::Playing {
                         // Watch their game.
@@ -2990,6 +3051,9 @@ impl Online {
         }
         if let Some(name) = watch {
             self.spectate(&name);
+        }
+        if let Some(to) = daily {
+            crate::correspondence::challenge(self, &to);
         }
         action
     }
@@ -3154,13 +3218,13 @@ pub fn draw_ping(ui: &Ui, rtt: Option<std::time::Duration>, x_right: f32, y: f32
 
 /// How wide a button `h` high must be for `label` (the toolkit's label size,
 /// with room on both sides).
-fn button_w(ui: &Ui, label: &str, h: f32) -> f32 {
+pub(crate) fn button_w(ui: &Ui, label: &str, h: f32) -> f32 {
     ui.text_size(label, (h * 0.45).clamp(13.0, 22.0), true).x + 32.0
 }
 
 /// `text` at `size` if it fits `width`; else smaller, down to 11 px; cut
 /// with "…" only if even that is too long.
-fn fit_text(ui: &Ui, text: &str, size: f32, width: f32, bold: bool) -> (String, f32) {
+pub(crate) fn fit_text(ui: &Ui, text: &str, size: f32, width: f32, bold: bool) -> (String, f32) {
     let min = size.min(11.0);
     let mut s = size;
     while s > min && ui.text_size(text, s, bold).x > width {
@@ -3189,7 +3253,7 @@ fn name_width(ui: &Ui, p: &PlayerInfo, size: f32) -> f32 {
 
 /// Muted text in an empty field nobody is typing in, where the typed text
 /// will be.
-fn placeholder(ui: &Ui, id: u64, field: Rect, value: &str, text: &str) {
+pub(crate) fn placeholder(ui: &Ui, id: u64, field: Rect, value: &str, text: &str) {
     if value.is_empty() && ui.focus != Some(id) {
         let (text, size) = fit_text(ui, text, 14.0, field.w - 18.0, false);
         ui.text(&text, field.x + 9.0, field.y + (field.h - size) / 2.0, size, MUTED, false);
@@ -3209,7 +3273,7 @@ fn header_chip(ui: &mut Ui, r: Rect, active: bool) -> bool {
 
 /// A list row's card. Rows that open something get lighter under the
 /// pointer. Returns whether the pointer is over it.
-fn row_card(ui: &Ui, r: Rect, clickable: bool) -> bool {
+pub(crate) fn row_card(ui: &Ui, r: Rect, clickable: bool) -> bool {
     let hover = ui.hovering(r);
     let lit = hover && clickable;
     rrect(r, 7.0, Color::new(1.0, 1.0, 1.0, if lit { 0.075 } else { 0.035 }));
@@ -3220,7 +3284,7 @@ fn row_card(ui: &Ui, r: Rect, clickable: bool) -> bool {
 }
 
 /// Waiting for the server: a spinner in the middle of `area`.
-fn loading(ui: &Ui, area: Rect) {
+pub(crate) fn loading(ui: &Ui, area: Rect) {
     let c = vec2(area.x + area.w / 2.0, area.y + (area.h * 0.4).min(160.0));
     crate::ui::spinner(c, 14.0, GOLD);
     ui.text_centered(t("Loading…"), c.x, c.y + 28.0, 13.0, MUTED, false);
@@ -3228,7 +3292,7 @@ fn loading(ui: &Ui, area: Rect) {
 
 /// What an empty state shows over its line of text.
 #[derive(Clone, Copy)]
-enum Glyph {
+pub(crate) enum Glyph {
     Icon(Icon),
     /// A speech bubble (the chat).
     Chat,
@@ -3270,7 +3334,13 @@ fn balanced_wrap(ui: &Ui, text: &str, width: f32, size: f32) -> Vec<String> {
 /// An empty list: a muted glyph, one line of muted text and, when there is
 /// an obvious next step, a button for it; centred in `area` (a little above
 /// the middle, where the eye expects it). True when the button is clicked.
-fn empty_state(ui: &mut Ui, area: Rect, glyph: Glyph, text: &str, action: Option<&str>) -> bool {
+pub(crate) fn empty_state(
+    ui: &mut Ui,
+    area: Rect,
+    glyph: Glyph,
+    text: &str,
+    action: Option<&str>,
+) -> bool {
     let lines = balanced_wrap(ui, text, (area.w - 32.0).min(400.0), 14.0);
     let button_h = if action.is_some() { 16.0 + 36.0 } else { 0.0 };
     let h = 60.0 + 14.0 + lines.len() as f32 * 20.0 + button_h;

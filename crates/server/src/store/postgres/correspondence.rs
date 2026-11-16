@@ -4,15 +4,29 @@
 use sqlx::postgres::PgRow;
 use sqlx::{Row, query};
 
-use super::super::{
-    AsyncChallenge, AsyncGame, MatchRecord, NewAsyncGame, StoreResult, User, group_code,
-    group_of_code,
-};
+use super::super::{AsyncChallenge, AsyncGame, MatchRecord, NewAsyncGame, StoreResult, User};
 use super::{PgStore, replay_json, replay_of};
 
 const GAME_COLUMNS: &str = "id, player0, player1, rated, seed, breaker, strokes::text AS strokes, \
     turn, deadline, seen0, seen1, group0, group1, left0, left1, started_at, updated_at, \
     finished_at, winner, reason, timeout, delta0, delta1, rating0, rating1, match_id";
+
+/// How a group is stored (0: open table).
+fn group_code(g: Option<snookered_core::Group>) -> i16 {
+    match g {
+        None => 0,
+        Some(snookered_core::Group::Solids) => 1,
+        Some(snookered_core::Group::Stripes) => 2,
+    }
+}
+
+fn group_of_code(c: i16) -> Option<snookered_core::Group> {
+    match c {
+        1 => Some(snookered_core::Group::Solids),
+        2 => Some(snookered_core::Group::Stripes),
+        _ => None,
+    }
+}
 
 const CHALLENGE_COLUMNS: &str = "id, from_id, to_id, rated, created_at";
 

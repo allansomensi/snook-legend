@@ -298,23 +298,6 @@ pub struct NewAsyncGame {
     pub at: i64,
 }
 
-/// How a group is stored (0: open table).
-pub(crate) fn group_code(g: Option<snookered_core::Group>) -> i16 {
-    match g {
-        None => 0,
-        Some(snookered_core::Group::Solids) => 1,
-        Some(snookered_core::Group::Stripes) => 2,
-    }
-}
-
-pub(crate) fn group_of_code(c: i16) -> Option<snookered_core::Group> {
-    match c {
-        1 => Some(snookered_core::Group::Solids),
-        2 => Some(snookered_core::Group::Stripes),
-        _ => None,
-    }
-}
-
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum FriendState {
     Friends,

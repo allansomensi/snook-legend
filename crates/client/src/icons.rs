@@ -41,6 +41,8 @@ pub enum Icon {
     Gift,
     /// A tick.
     Check,
+    /// An hourglass: correspondence ("daily") games, a turn at a time.
+    Hourglass,
 }
 
 fn arc(c: Vec2, r: f32, from: f32, to: f32, w: f32, color: Color) {
@@ -296,6 +298,17 @@ pub fn draw(icon: Icon, c: Vec2, s: f32, color: Color) {
             draw_rectangle(c.x - 0.12 * h, c.y - 0.45 * h, 0.24 * h, 1.2 * h, ribbon);
             arc(p(-0.28, -0.62), 0.24 * h, 0.0, std::f32::consts::TAU, w, color);
             arc(p(0.28, -0.62), 0.24 * h, 0.0, std::f32::consts::TAU, w, color);
+        }
+        Icon::Hourglass => {
+            // Two frames, glass in outline, sand at the bottom.
+            line(p(-0.6, -0.9), p(0.6, -0.9), w * 1.3, color);
+            line(p(-0.6, 0.9), p(0.6, 0.9), w * 1.3, color);
+            line(p(-0.45, -0.9), p(0.45, 0.9), w, color);
+            line(p(0.45, -0.9), p(-0.45, 0.9), w, color);
+            line(p(-0.45, -0.9), p(-0.45, -0.75), w, color);
+            line(p(0.45, -0.9), p(0.45, -0.75), w, color);
+            draw_triangle(p(0.0, 0.25), p(-0.38, 0.85), p(0.38, 0.85), color);
+            draw_triangle(p(-0.22, -0.48), p(0.22, -0.48), p(0.0, -0.1), color);
         }
         Icon::Check => {
             line(p(-0.62, 0.0), p(-0.18, 0.48), w * 1.5, color);

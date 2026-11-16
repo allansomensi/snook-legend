@@ -206,6 +206,11 @@ fn player_card(ui: &mut Ui, m: &Match, seat: usize, x: f32, y: f32, w: f32) {
         let sw_ = ui.text_size(&secs, 13.0, true).x;
         ui.text(&secs, x + w - sw_ - 10.0, y + 24.0, 13.0, color, true);
     }
+    // A correspondence turn: the days and hours left.
+    if let Some((left, color)) = crate::correspondence::card_clock(m, seat) {
+        let lw = ui.text_size(&left, 13.0, true).x;
+        ui.text(&left, x + w - lw - 10.0, y + 24.0, 13.0, color, true);
+    }
     let ry = y + 23.0;
     match m.game.group_of(seat) {
         Some(group) => {
@@ -225,6 +230,9 @@ fn player_card(ui: &mut Ui, m: &Match, seat: usize, x: f32, y: f32, w: f32) {
 }
 
 fn status_line(m: &Match) -> Option<String> {
+    if let Some(waiting) = crate::correspondence::status(m) {
+        return Some(waiting);
+    }
     let name = &m.names[m.game.current_player()];
     match &m.phase {
         Phase::Turn { placing_cue_ball, computer } => {
@@ -377,6 +385,13 @@ impl Hud {
             }
         } else {
             self.draw_bottom_bar(ui, m);
+            // A correspondence game: its replay, or the turn sent.
+            let bar = Rect::new(0.0, sh - BOTTOM_BAR, sw, BOTTOM_BAR);
+            if let crate::correspondence::BarAction::Back =
+                crate::correspondence::draw_bar(ui, m, bar)
+            {
+                action = HudAction::Lounge;
+            }
         }
 
         // Menu, the overhead view and the replay, in the top bar.
@@ -441,9 +456,11 @@ impl Hud {
                 .online
                 .as_ref()
                 .is_some_and(|o| o.spectator && o.feed.iter().any(|f| f.kind == FeedKind::Player));
-            if m.is_online() && (!m.is_spectating() || players_chat) {
+            // A correspondence game has no one to chat with: its history.
+            let corr = crate::correspondence::is_corr(m);
+            if m.is_online() && !corr && (!m.is_spectating() || players_chat) {
                 self.draw_chat(ui, m);
-            } else if !m.is_online() {
+            } else if !m.is_online() || corr {
                 self.draw_history(ui, m);
             }
         }
@@ -467,18 +484,14 @@ impl Hud {
             draw_match_stats(ui, m, stats, view);
             crate::ui::rrect_lines(r, 8.0, 2.0, if won { GOLD } else { BORDER });
             ui.text_centered(&title, sw / 2.0, r.y + 16.0, 28.0, GOLD, true);
-            ui.text_centered(
-                &crate::i18n::result_line(
+            let how = crate::correspondence::result_line(m, over).unwrap_or_else(|| {
+                crate::i18n::result_line(
                     over.reason,
                     &m.names[over.winner],
                     &m.names[1 - over.winner],
-                ),
-                sw / 2.0,
-                r.y + 56.0,
-                15.0,
-                CREAM,
-                false,
-            );
+                )
+            });
+            ui.text_centered(&how, sw / 2.0, r.y + 56.0, 15.0, CREAM, false);
             let score = format!("{}  {} – {}  {}", m.names[0], m.wins[0], m.wins[1], m.names[1]);
             ui.text_centered(&score, sw / 2.0, r.y + 82.0, 15.0, CREAM, true);
             match &o.result {
@@ -538,7 +551,13 @@ impl Hud {
                     action = HudAction::Lounge;
                 }
             }
-            if !o.spectator {
+            if crate::correspondence::is_corr(m) {
+                // A daily game: no rematch here, the list has the rest.
+                let b = Rect::new(sw / 2.0 - 120.0, r.y + 164.0, 240.0, 38.0);
+                if ui.primary_button(b, t("Back to daily games")) {
+                    action = HudAction::Lounge;
+                }
+            } else if !o.spectator {
                 let can_rematch =
                     !o.opponent_left && !o.rematch_requested && o.tournament.is_none();
                 let label = if o.rematch_offered { t("Accept rematch") } else { t("Rematch") };
@@ -658,6 +677,8 @@ impl Hud {
         // Pause menu (online the match keeps running behind it).
         if self.paused && !self.show_help {
             let online = m.is_online();
+            // A correspondence game waits: leaving loses nothing.
+            let corr = crate::correspondence::is_corr(m);
             draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.5));
             const PAD: f32 = 28.0;
             const GAP: f32 = 10.0;
@@ -678,14 +699,12 @@ impl Hud {
                 true,
             );
             if online {
-                ui.text_centered(
-                    t("The game goes on while this is open."),
-                    sw / 2.0,
-                    r.y + PAD + 30.0,
-                    13.0,
-                    MUTED,
-                    false,
-                );
+                let note = if corr {
+                    t("Your game is saved: come back whenever you like.")
+                } else {
+                    t("The game goes on while this is open.")
+                };
+                ui.text_centered(note, sw / 2.0, r.y + PAD + 30.0, 13.0, MUTED, false);
             }
             let bx = r.x + PAD;
             let bw = r.w - 2.0 * PAD;
@@ -719,7 +738,13 @@ impl Hud {
                 Color::new(BORDER.r, BORDER.g, BORDER.b, 0.6),
             );
             y += 10.0;
-            let leave = if online { t("Leave to the lounge") } else { t("Main menu") };
+            let leave = if corr {
+                t("Back to daily games")
+            } else if online {
+                t("Leave to the lounge")
+            } else {
+                t("Main menu")
+            };
             if self.confirm_leave {
                 ui.text_centered(
                     t("Leaving now counts as a loss."),
@@ -739,7 +764,7 @@ impl Hud {
                     self.confirm_leave = false;
                 }
             } else if ui.button(Rect::new(bx, y, bw, BH), leave, true) {
-                if online && m.game.game_over().is_none() {
+                if online && !corr && m.game.game_over().is_none() {
                     self.confirm_leave = true;
                 } else {
                     self.paused = false;

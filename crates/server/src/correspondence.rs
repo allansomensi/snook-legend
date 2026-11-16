@@ -151,7 +151,8 @@ pub async fn run(server: Arc<Server>) {
 /// Settles every turn that ran out before `now` and withdraws challenges
 /// older than [`CHALLENGE_SECS`].
 pub async fn sweep(server: &Arc<Server>, now: i64) {
-    loop {
+    // In batches (a game that can't be settled is tried again next time).
+    for _ in 0..20 {
         let due = match server.store.expired_async_games(now, 50).await {
             Ok(list) => list,
             Err(e) => {

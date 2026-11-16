@@ -20,6 +20,8 @@ pub enum MenuAction {
     Update,
     /// The button under a note on the board.
     Note(snookered_proto::NoteAction),
+    /// The lounge's daily games (some are waiting for the player).
+    Daily,
     TwoPlayers,
     Lan,
     Ranking,
@@ -116,8 +118,22 @@ impl Menu {
 
         // The four ways to play.
         let resume_line = saved.map(|n| tw("Game in progress: {n} balls left", &[("n", &n)]));
+        // Daily games waiting for the player (their turn, or a challenge).
+        let me = online.me.as_ref().map(|m| m.username.as_str()).unwrap_or("");
+        let waiting = if online.signed_in() { online.corr.waiting(me) } else { 0 };
+        let waiting_line = match waiting {
+            0 => None,
+            1 => Some(t("A daily game is waiting for you").to_string()),
+            n => Some(tw("{n} daily games are waiting for you", &[("n", &n)])),
+        };
         let items = [
-            (Icon::Globe, t("Play online"), t("Rated games, tables, tournaments and friends")),
+            (
+                Icon::Globe,
+                t("Play online"),
+                waiting_line
+                    .as_deref()
+                    .unwrap_or(t("Rated games, tables, tournaments and friends")),
+            ),
             (
                 Icon::Robot,
                 t("Against the computer"),
@@ -129,12 +145,17 @@ impl Menu {
         // Wide enough for every line (and the "Continue" button beside the
         // saved game's), as far as the window allows.
         let resume_w = 112.0;
+        let daily_w = (ui.text_size(t("Daily games"), 14.0, true).x + 40.0).max(resume_w);
         let needed = items
             .iter()
             .enumerate()
             .map(|(k, (_, title, sub))| {
                 let text = ui.text_size(title, 20.0, true).x.max(ui.text_size(sub, 13.0, false).x);
-                let button = if k == 1 && saved.is_some() { resume_w + 12.0 } else { 0.0 };
+                let button = match k {
+                    0 if waiting > 0 => daily_w + 12.0,
+                    1 if saved.is_some() => resume_w + 12.0,
+                    _ => 0.0,
+                };
                 70.0 + text + button + 24.0
             })
             .fold(0.0, f32::max);
@@ -149,8 +170,15 @@ impl Menu {
             let target = if hover { 1.0 } else { 0.0 };
             self.hover[k] += (target - self.hover[k]) * (1.0 - (-dt * 14.0).exp());
             let a = self.hover[k];
-            let resume = (k == 1 && saved.is_some()).then(|| {
-                let bw = resume_w.min(w * 0.3);
+            // A button of its own inside the card: the saved game, or the
+            // daily games waiting.
+            let side = match k {
+                0 if waiting > 0 => Some(daily_w),
+                1 if saved.is_some() => Some(resume_w),
+                _ => None,
+            };
+            let resume = side.map(|bw| {
+                let bw = bw.min(w * 0.4);
                 Rect::new(r.x + r.w - bw - 16.0 + a * 8.0, r.y + (h - 36.0) / 2.0, bw, 36.0)
             });
             let on_resume = resume.is_some_and(|b| ui.hovering(b));
@@ -202,12 +230,14 @@ impl Menu {
                 if primary { WHITE } else { CREAM },
                 true,
             );
+            let sub_color =
+                if k == 0 && waiting > 0 { GOLD } else { Color::new(0.85, 0.8, 0.72, 0.85) };
             ui.text(
                 &ui.ellipsize(sub, text_room, 13.0),
                 card.x + 70.0,
                 card.y + lines + 26.0,
                 13.0,
-                Color::new(0.85, 0.8, 0.72, 0.85),
+                sub_color,
                 false,
             );
             // An arrow slides in on hover: this card leads somewhere.
@@ -217,11 +247,22 @@ impl Menu {
                 draw_line(c.x - 4.0, c.y - 7.0, c.x + 3.0, c.y, 2.2, col);
                 draw_line(c.x + 3.0, c.y, c.x - 4.0, c.y + 7.0, 2.2, col);
             }
-            // The saved game: a button of its own inside the card.
-            if let Some(b) = resume
-                && ui.primary_button(b, t("Continue"))
-            {
-                action = MenuAction::ContinueGame;
+            // The saved game (or the daily games): a button of its own.
+            if let Some(b) = resume {
+                let label = if k == 0 { t("Daily games") } else { t("Continue") };
+                if k == 0 {
+                    if ui.button(b, label, true) {
+                        action = MenuAction::Daily;
+                    }
+                    // How many, in a red badge on its corner.
+                    let n = waiting.to_string();
+                    let bw = (ui.text_size(&n, 11.0, true).x + 10.0).max(18.0);
+                    let badge = Rect::new(b.x + b.w - bw + 6.0, b.y - 6.0, bw, 18.0);
+                    rrect(badge, 9.0, crate::ui::ALERT);
+                    ui.text_centered(&n, badge.x + bw / 2.0, badge.y + 3.0, 11.0, WHITE, true);
+                } else if ui.primary_button(b, label) {
+                    action = MenuAction::ContinueGame;
+                }
             }
             if hover && ui.clicked(r) && !on_resume {
                 action = match k {

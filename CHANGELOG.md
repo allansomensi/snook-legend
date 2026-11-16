@@ -41,6 +41,16 @@
   network, rated or casual (nor when watching): the guide drawn is checked
   at the table itself, whatever the setting says.
 
+### Cues
+- Six new cues that look like nothing else: Phoenix (flames), Carrara
+  marble, Dragon scale, Chrome, Galaxy (a starry sky) and the VIP Ruby
+  throne (cut stones); the Crown, Obsidian gold and Legend cues got their
+  own patterns too. The finest cues have a carbon shaft and carry their
+  pattern on the butt sleeve.
+- The shop finally shows each cue's pattern (it only showed its colours):
+  a crisp picture of the cue, lit like varnished wood, the same pattern as
+  at the table.
+
 ### Staff panel
 - Metrics: retention after 30 days beside 1 and 7 (each over the last 30
   days of sign-ups that reached that day), a table of retention by week of

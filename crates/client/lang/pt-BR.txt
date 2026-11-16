@@ -1373,3 +1373,8 @@ See today's table	Ver a classificação
 Table cleared! +{n} coins	Mesa limpa! +{n} moedas
 Daily challenge: {n} of {total} balls made	Desafio do dia: {n} de {total} bolas encaçapadas
 1 player	1 jogador
+Phoenix	Fênix
+Carrara marble	Mármore de Carrara
+Dragon scale	Escama de dragão
+Galaxy	Galáxia
+Ruby throne	Trono de rubi

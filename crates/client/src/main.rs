@@ -15,6 +15,7 @@ mod config;
 mod coords;
 mod correspondence;
 mod countries;
+mod cues;
 mod dev;
 mod effects;
 mod flags;

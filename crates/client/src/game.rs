@@ -1765,6 +1765,7 @@ mod tests {
             frame: String::new(),
             name_style: String::new(),
             effect: String::new(),
+            cue_level: 0,
         };
         [p("me"), p("them")]
     }

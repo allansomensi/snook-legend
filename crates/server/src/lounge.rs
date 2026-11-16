@@ -294,6 +294,7 @@ pub fn player_info(user: &User, guest: bool, status: PlayerStatus) -> PlayerInfo
         frame: String::new(),
         name_style: String::new(),
         effect: String::new(),
+        cue_level: 0,
     }
 }
 
@@ -302,6 +303,8 @@ pub fn player_info(user: &User, guest: bool, status: PlayerStatus) -> PlayerInfo
 pub struct Look {
     pub vip: bool,
     pub cue: String,
+    /// The cue's level (online wins with it).
+    pub cue_level: u8,
     pub chalk: String,
     /// The table they bring (as the host, or the higher rated player).
     pub cloth: String,
@@ -314,6 +317,7 @@ pub struct Look {
 pub fn dressed(mut info: PlayerInfo, look: &Look) -> PlayerInfo {
     info.vip = look.vip;
     info.cue = look.cue.clone();
+    info.cue_level = look.cue_level;
     info.chalk = look.chalk.clone();
     info.frame = look.frame.clone();
     info.name_style = look.name_style.clone();

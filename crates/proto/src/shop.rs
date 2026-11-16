@@ -1,5 +1,5 @@
-//! The shop: cosmetic items (cloth, cue, chalk, balls), coin packs and the
-//! VIP subscription. Shared by the server (which owns the wallets and sells)
+//! The shop: cosmetic items (cloth, cue, chalk, balls, tables, halls…),
+//! coin packs and the VIP subscription. Shared by the server (which owns the wallets and sells)
 //! and the game (which shows and draws the items).
 //!
 //! Every category has a free default that everyone owns. Other items are
@@ -18,14 +18,21 @@ pub enum Category {
     Name,
     /// What happens when this player wins on the 8.
     Effect,
+    /// The table itself: wood, rails, legs, castings and pockets (only the
+    /// player who owns it sees it).
+    Table,
+    /// The room around the table (only its owner sees it).
+    Hall,
 }
 
 impl Category {
-    pub const ALL: [Category; 7] = [
+    pub const ALL: [Category; 9] = [
         Category::Cloth,
         Category::Cue,
         Category::Chalk,
         Category::Balls,
+        Category::Table,
+        Category::Hall,
         Category::Frame,
         Category::Name,
         Category::Effect,
@@ -40,6 +47,8 @@ impl Category {
             Category::Frame => "frame",
             Category::Name => "name",
             Category::Effect => "effect",
+            Category::Table => "table",
+            Category::Hall => "hall",
         }
     }
 
@@ -57,6 +66,8 @@ impl Category {
             Category::Frame => "frame_none",
             Category::Name => "name_tier",
             Category::Effect => "effect_none",
+            Category::Table => "table_classic",
+            Category::Hall => "hall_pool",
         }
     }
 }
@@ -105,6 +116,34 @@ pub enum EffectKind {
     Fireworks,
 }
 
+/// The design of a table (the game builds it from code).
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum TableStyle {
+    /// Dark mahogany, turned legs, brass castings.
+    Classic,
+    /// A beach bar's table: light teak, square legs, chrome castings.
+    Beach,
+    /// An English club's: deep mahogany, carved legs, leather pocket nets.
+    Club,
+    /// Black lacquer and brushed aluminium on two slab legs.
+    Modern,
+    /// Black ebony with gold castings and inlays.
+    Royal,
+}
+
+/// The room around the table.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum HallStyle {
+    /// The pool hall: panelling, the bar, cue racks, posters, neon.
+    Pool,
+    /// A beach bar at sunset: a deck, open windows, palms, string lights.
+    Beach,
+    /// An English club: panelling, bookshelves, leather sofas, a fireplace.
+    Club,
+    /// An industrial loft: brick, steel windows over the city, Edison bulbs.
+    Loft,
+}
+
 /// How an item looks (the game draws it; colours are sRGB).
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Look {
@@ -140,6 +179,8 @@ pub enum Look {
         kind: EffectKind,
         color: [u8; 3],
     },
+    Table(TableStyle),
+    Hall(HallStyle),
 }
 
 /// How an item is obtained.
@@ -243,6 +284,14 @@ const fn effect(
     color: [u8; 3],
 ) -> Item {
     Item { code, category: Category::Effect, name, price, look: Look::Effect { kind, color } }
+}
+
+const fn table(code: &'static str, name: &'static str, price: Price, style: TableStyle) -> Item {
+    Item { code, category: Category::Table, name, price, look: Look::Table(style) }
+}
+
+const fn hall(code: &'static str, name: &'static str, price: Price, style: HallStyle) -> Item {
+    Item { code, category: Category::Hall, name, price, look: Look::Hall(style) }
 }
 
 const CLASSIC: [[u8; 3]; 7] = [
@@ -698,6 +747,17 @@ pub const ITEMS: &[Item] = &[
         [250, 240, 210],
         Metal,
     ),
+    // Tables.
+    table("table_classic", "Classic", Price::Free, TableStyle::Classic),
+    table("table_beach", "Beach bar", Price::Coins(4000), TableStyle::Beach),
+    table("table_modern", "Modern", Price::Coins(5000), TableStyle::Modern),
+    table("table_club", "English club", Price::Coins(6250), TableStyle::Club),
+    table("table_royal", "Ebony & gold", Price::Vip, TableStyle::Royal),
+    // Halls.
+    hall("hall_pool", "Pool hall", Price::Free, HallStyle::Pool),
+    hall("hall_beach", "Beach bar", Price::Coins(4500), HallStyle::Beach),
+    hall("hall_loft", "Industrial loft", Price::Coins(5500), HallStyle::Loft),
+    hall("hall_club", "English club", Price::Coins(6250), HallStyle::Club),
     // Frames.
     frame("frame_none", "No frame", Price::Free, [0, 0, 0], [0, 0, 0], false),
     frame("frame_bronze", "Bronze", Price::Coins(750), [176, 112, 60], [110, 66, 34], false),
@@ -801,6 +861,30 @@ pub fn has_welcome_pack(owned: &[String]) -> bool {
     owned.iter().any(|o| o == WELCOME_ITEMS[0])
 }
 
+/// Online wins a cue needs for each of its levels (purely cosmetic marks:
+/// rings near the joint, then inlays, then gold).
+pub const CUE_LEVELS: [u32; 6] = [10, 25, 50, 100, 250, 500];
+/// The highest level a cue reaches.
+pub const MAX_CUE_LEVEL: u8 = CUE_LEVELS.len() as u8;
+
+/// The level of a cue that has won `wins` games (0 to [`MAX_CUE_LEVEL`]).
+pub fn cue_level(wins: u32) -> u8 {
+    CUE_LEVELS.iter().filter(|&&n| wins >= n).count() as u8
+}
+
+/// Wins needed for the level after `wins` (`None` at the top level).
+pub fn next_cue_level_at(wins: u32) -> Option<u32> {
+    CUE_LEVELS.iter().copied().find(|&n| wins < n)
+}
+
+/// How far a cue is from its current level to the next, 0..=1 (1 at the top).
+pub fn cue_level_progress(wins: u32) -> f32 {
+    let level = cue_level(wins) as usize;
+    let Some(next) = next_cue_level_at(wins) else { return 1.0 };
+    let from = if level == 0 { 0 } else { CUE_LEVELS[level - 1] };
+    (wins - from) as f32 / (next - from) as f32
+}
+
 /// Whether a player owns or may use `item`.
 pub fn can_use(item: &Item, owned: &[String], achievements: &[String], vip: bool) -> bool {
     match item.price {
@@ -842,5 +926,33 @@ mod tests {
         assert!(!can_use(item("cloth_blue").unwrap(), &none, &none, false));
         assert!(can_use(item("cloth_blue").unwrap(), &["cloth_blue".into()], &none, false));
         assert!(can_use(item("cue_royal").unwrap(), &none, &none, true));
+        // Every category has items to sell besides its default.
+        for c in Category::ALL {
+            assert!(ITEMS.iter().filter(|i| i.category == c).count() > 1, "{c:?}");
+            assert_eq!(Category::parse(c.code()), Some(c));
+        }
+        assert!(matches!(item("table_club").unwrap().look, Look::Table(TableStyle::Club)));
+        assert!(matches!(item("hall_beach").unwrap().look, Look::Hall(HallStyle::Beach)));
+    }
+
+    #[test]
+    fn cue_levels() {
+        assert_eq!(cue_level(0), 0);
+        assert_eq!(cue_level(9), 0);
+        assert_eq!(cue_level(10), 1);
+        assert_eq!(cue_level(24), 1);
+        assert_eq!(cue_level(25), 2);
+        assert_eq!(cue_level(57), 3);
+        assert_eq!(cue_level(499), 5);
+        assert_eq!(cue_level(500), MAX_CUE_LEVEL);
+        assert_eq!(cue_level(u32::MAX), MAX_CUE_LEVEL);
+        assert_eq!(next_cue_level_at(0), Some(10));
+        assert_eq!(next_cue_level_at(57), Some(100));
+        assert_eq!(next_cue_level_at(500), None);
+        assert_eq!(cue_level_progress(0), 0.0);
+        assert_eq!(cue_level_progress(5), 0.5);
+        assert_eq!(cue_level_progress(75), 0.5, "halfway from 50 to 100");
+        assert_eq!(cue_level_progress(900), 1.0);
+        assert!(CUE_LEVELS.windows(2).all(|w| w[0] < w[1]));
     }
 }

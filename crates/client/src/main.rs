@@ -493,6 +493,22 @@ async fn main() {
                 run.result = Some(result);
             }
         }
+        // A drill session: sent once over (signed in), the server's count
+        // brought back to the table.
+        if let Some(run) = current.as_mut().and_then(|m| m.drill.as_mut()) {
+            if run.over && !run.sent && online.signed_in() {
+                run.sent = true;
+                online.send(snookered_proto::ClientMsg::DrillSubmit {
+                    code: run.code.to_string(),
+                    strokes: run.strokes.clone(),
+                });
+            }
+            if let Some((code, result)) = online.drill_result.take() {
+                if code == run.code {
+                    run.result = Some(result);
+                }
+            }
+        }
         // A stored game to watch again (from the profile).
         if let Some(replay) = online.replay.take()
             && !current.as_ref().is_some_and(|m| m.is_online())
@@ -829,6 +845,18 @@ async fn main() {
                             // Left half way through a daily attempt: what was
                             // made so far still counts.
                             let daily = m.daily.is_some();
+                            // Left during a drill: the tries made still count.
+                            let drill = m.drill.is_some();
+                            if let Some(run) =
+                                m.drill.as_mut().filter(|r| !r.sent && !r.strokes.is_empty())
+                                && online.signed_in()
+                            {
+                                run.sent = true;
+                                online.send(snookered_proto::ClientMsg::DrillSubmit {
+                                    code: run.code.to_string(),
+                                    strokes: run.strokes.clone(),
+                                });
+                            }
                             if let Some(run) = m.daily.as_mut().filter(|r| !r.sent) {
                                 run.sent = true;
                                 online.send(snookered_proto::ClientMsg::DailySubmit {
@@ -849,7 +877,10 @@ async fn main() {
                             current = None;
                             hud = Hud::new(config.show_help);
                             rig.reset();
-                            screen = if daily {
+                            screen = if drill {
+                                online.send(snookered_proto::ClientMsg::Drills);
+                                Screen::Versus(versus::Versus::new(versus::Tab::Drills, &config))
+                            } else if daily {
                                 online.send(snookered_proto::ClientMsg::Daily);
                                 Screen::Versus(versus::Versus::new(versus::Tab::Daily, &config))
                             } else if replay {
@@ -1034,6 +1065,18 @@ async fn main() {
                                 hud = Hud::new(config.show_help);
                                 rig.reset();
                                 next = Some(Screen::Menu);
+                            }
+                            versus::VersusAction::Drill(code) => {
+                                let name = online
+                                    .me
+                                    .as_ref()
+                                    .map_or(config.player_name.clone(), |me| me.username.clone());
+                                if let Some(m) = Match::drill(&code, &name, config.guide) {
+                                    online.drill_result = None;
+                                    current = Some(m);
+                                    hud = Hud::new(config.show_help);
+                                    rig.reset();
+                                }
                             }
                             versus::VersusAction::SignIn => {
                                 online.connect();

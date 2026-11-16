@@ -307,6 +307,19 @@ fn status_line(m: &Match) -> Option<String> {
                     &[("name", name)],
                 ));
             }
+            // A drill: which try, and how many worked.
+            if let Some(run) = &m.drill {
+                let d = run.drill();
+                return Some(tw(
+                    "{drill}: try {k} of {n} · {made} made",
+                    &[
+                        ("drill", &t(d.name)),
+                        ("k", &(run.results.len() + 1)),
+                        ("n", &d.tries),
+                        ("made", &run.score()),
+                    ],
+                ));
+            }
             // The daily challenge: how far the visit is.
             if let Some(run) = &m.daily {
                 return Some(tw(
@@ -512,6 +525,40 @@ impl Hud {
                 self.draw_chat(ui, m);
             } else if !m.is_online() || corr {
                 self.draw_history(ui, m);
+            }
+        }
+
+        // A drill session is over.
+        if let (Phase::GameOver, Some(run)) = (&m.phase, &m.drill) {
+            let d = run.drill();
+            let w = 440.0f32.min(sw - 20.0);
+            let r = Rect::new((sw - w) / 2.0, sh / 2.0 - 120.0, w, 240.0);
+            ui.panel(r);
+            let score = match &run.result {
+                Some(Ok(n)) => *n,
+                _ => run.score(),
+            };
+            let stars = snookered_proto::drills::stars(d, score);
+            crate::ui::rrect_lines(r, 8.0, 2.0, if stars == 3 { GOLD } else { BORDER });
+            ui.text_centered(t(d.name), sw / 2.0, r.y + 16.0, 26.0, GOLD, true);
+            // The stars: gold for each earned.
+            for k in 0..3 {
+                let c = vec2(sw / 2.0 + (k as f32 - 1.0) * 46.0, r.y + 78.0);
+                let color = if (k as u32) < stars { GOLD } else { Color::new(1.0, 1.0, 1.0, 0.15) };
+                crate::icons::draw(crate::icons::Icon::Star, c, 34.0, color);
+            }
+            let line = tw("{n} of {total}", &[("n", &score), ("total", &d.tries)]);
+            ui.text_centered(&line, sw / 2.0, r.y + 108.0, 20.0, CREAM, true);
+            let (status, color) = match &run.result {
+                None if run.sent => (t("Sending to the server…").to_string(), MUTED),
+                None => (t("Not signed in: this session is not ranked.").to_string(), MUTED),
+                Some(Ok(_)) => (t("Counted on the drill's table.").to_string(), CREAM),
+                Some(Err(_)) => (t("The session could not be counted.").to_string(), ALERT),
+            };
+            ui.text_centered(&status, sw / 2.0, r.y + 140.0, 13.0, color, false);
+            let b = Rect::new(sw / 2.0 - 110.0, r.y + 176.0, 220.0, 40.0);
+            if ui.primary_button(b, t("Back to the drills")) {
+                action = HudAction::MainMenu;
             }
         }
 

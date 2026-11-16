@@ -25,6 +25,8 @@ pub enum Tab {
     Ladder,
     /// The daily challenge.
     Daily,
+    /// Drills: short exercises with stars.
+    Drills,
 }
 
 /// The card picked on the free game's grid.
@@ -40,6 +42,8 @@ pub enum VersusAction {
     Start(MatchSettings),
     /// To the sign-in form (for a ghost or the ladder's reward).
     SignIn,
+    /// A session of this drill.
+    Drill(String),
 }
 
 pub struct Versus {
@@ -56,6 +60,10 @@ pub struct Versus {
     daily_asked: Option<i64>,
     /// "Start" was pressed: waiting for the server.
     daily_starting: bool,
+    /// The drill picked on the list.
+    drill: usize,
+    /// The drills were asked for (once per visit).
+    drills_asked: bool,
 }
 
 /// Text field ids.
@@ -81,6 +89,8 @@ impl Versus {
             waiting: false,
             daily_asked: None,
             daily_starting: false,
+            drill: 0,
+            drills_asked: false,
         }
     }
 
@@ -128,21 +138,27 @@ impl Versus {
                 &[("n", &progress.beaten), ("total", &ladder::RUNGS.len())],
             ),
             Tab::Daily => t("The same table for everyone, all day").to_string(),
+            Tab::Drills => t("Exercises with stars and a ranking").to_string(),
         };
         // The tabs at the top right; the title keeps clear of them.
-        let labels = [t("Free game"), t("Ladder"), t("Daily challenge")];
+        let labels = [t("Free game"), t("Ladder"), t("Daily challenge"), t("Drills")];
         let widest = labels.iter().map(|l| ui.text_size(l, 15.0, true).x).fold(0.0, f32::max);
-        let tab_w = (widest + 28.0).clamp(120.0, 150.0);
-        let tabs_x = r.x + r.w - PAD - 3.0 * tab_w - 16.0;
+        // The tabs keep to the right half, clear of the title.
+        let tab_w = (widest + 24.0).clamp(96.0, 140.0).min((r.w * 0.54 - 24.0) / 4.0);
+        let tabs_x = r.x + r.w - PAD - 4.0 * tab_w - 24.0;
         if screen_header(ui, r, Icon::Robot, t("Against the computer"), Some(&subtitle))
             || (is_key_pressed(KeyCode::Escape) && ui.focus.is_none())
         {
             action = VersusAction::Back;
         }
-        for (k, (tab, label)) in
-            [(Tab::Free, labels[0]), (Tab::Ladder, labels[1]), (Tab::Daily, labels[2])]
-                .into_iter()
-                .enumerate()
+        for (k, (tab, label)) in [
+            (Tab::Free, labels[0]),
+            (Tab::Ladder, labels[1]),
+            (Tab::Daily, labels[2]),
+            (Tab::Drills, labels[3]),
+        ]
+        .into_iter()
+        .enumerate()
         {
             let tr = Rect::new(tabs_x + k as f32 * (tab_w + 8.0), r.y + 20.0, tab_w, 36.0);
             if ui.tab(tr, label, self.tab == tab) {
@@ -157,6 +173,7 @@ impl Versus {
             Tab::Free => self.free(ui, config, online, body),
             Tab::Ladder => self.ladder(ui, config, online, progress, claimer, body),
             Tab::Daily => self.daily(ui, online, body),
+            Tab::Drills => self.drills(ui, online, body),
         };
         if !matches!(inner, VersusAction::None) {
             action = inner;
@@ -895,6 +912,180 @@ impl Versus {
             ui.text(t("Loading today's table…"), x + 26.0, y, 14.0, MUTED, false);
         }
         action
+    }
+
+    fn drills(&mut self, ui: &mut Ui, online: &mut Online, body: Rect) -> VersusAction {
+        use snookered_proto::drills::{self, DRILLS};
+        let mut action = VersusAction::None;
+        if online.signed_in() && !self.drills_asked {
+            self.drills_asked = true;
+            online.send(snookered_proto::ClientMsg::Drills);
+        }
+        let info = online.drills.clone();
+        let best_of = |code: &str| {
+            info.as_ref()
+                .and_then(|i| i.drills.iter().find(|d| d.code == code))
+                .and_then(|d| d.best)
+        };
+        let list_w = (body.w * 0.42).floor();
+        // The challenge rating, over the list.
+        let head = Rect::new(body.x, body.y, list_w, 54.0);
+        rrect(head, 8.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.08));
+        let (rating, stars, rank) =
+            info.as_ref().map_or((0, 0, None), |i| (i.rating, i.stars, i.rank));
+        ui.text(t("Challenge rating"), head.x + 12.0, head.y + 8.0, 12.0, MUTED, true);
+        ui.text(&rating.to_string(), head.x + 12.0, head.y + 24.0, 22.0, GOLD, true);
+        let sub = match rank {
+            Some(r) => tw(
+                "{s} / {max} stars · #{rank}",
+                &[("s", &stars), ("max", &drills::max_stars()), ("rank", &r)],
+            ),
+            None => tw("{s} / {max} stars", &[("s", &stars), ("max", &drills::max_stars())]),
+        };
+        let sw_ = ui.text_size(&sub, 13.0, false).x;
+        ui.text(&sub, head.x + head.w - 12.0 - sw_, head.y + 30.0, 13.0, CREAM, false);
+        // The drills.
+        let top = head.y + head.h + 10.0;
+        let row_h = ((body.y + body.h - top) / DRILLS.len() as f32).min(58.0);
+        for (k, d) in DRILLS.iter().enumerate() {
+            let row = Rect::new(body.x, top + k as f32 * row_h, list_w, row_h - 6.0);
+            let hover = ui.hovering(row);
+            card_frame(row, self.drill == k, hover);
+            ui.block(row);
+            if ui.clicked(row) {
+                self.drill = k;
+            }
+            let mid = row.y + row.h / 2.0;
+            let (name, size) = ui.fitted(t(d.name), 15.0, row.w - 110.0, true);
+            ui.text(&name, row.x + 12.0, text_y(mid, size), size, CREAM, true);
+            let earned = best_of(d.code).map_or(0, |b| drills::stars(d, b));
+            for s in 0..3 {
+                let c = vec2(row.x + row.w - 72.0 + s as f32 * 22.0, mid);
+                let color = if s < earned { GOLD } else { Color::new(1.0, 1.0, 1.0, 0.15) };
+                crate::icons::draw(Icon::Star, c, 17.0, color);
+            }
+        }
+        // The drill picked: what it asks, the player's best, its table.
+        let d = &DRILLS[self.drill.min(DRILLS.len() - 1)];
+        let right = Rect::new(body.x + list_w + 24.0, body.y, body.w - list_w - 24.0, body.h);
+        let x = right.x + 4.0;
+        let w = right.w - 8.0;
+        let mut y = right.y + 4.0;
+        ui.text(t(d.name), x, y, 20.0, GOLD, true);
+        y += 30.0;
+        for l in ui.wrap(t(d.description), w, 14.0) {
+            ui.text(&l, x, y, 14.0, CREAM, false);
+            y += 19.0;
+        }
+        y += 4.0;
+        let need = tw(
+            "Stars at {a}, {b} and {c}",
+            &[("a", &d.stars[0]), ("b", &d.stars[1]), ("c", &d.stars[2])],
+        );
+        ui.text(&need, x, y, 13.0, MUTED, false);
+        y += 20.0;
+        let best = match best_of(d.code) {
+            Some(b) => tw("Your best: {n} of {total}", &[("n", &b), ("total", &d.tries)]),
+            None => t("Not tried yet.").to_string(),
+        };
+        ui.text(&best, x, y, 14.0, CREAM, true);
+        y += 26.0;
+        let b = Rect::new(x, y, w.min(220.0), 40.0);
+        if ui.primary_button(b, t("Start the drill")) {
+            action = VersusAction::Drill(d.code.to_string());
+        }
+        y += 50.0;
+        if !online.signed_in() {
+            for l in ui.wrap(t("Sign in to be ranked: the server keeps the tables."), w, 13.0) {
+                ui.text(&l, x, y, 13.0, MUTED, false);
+                y += 18.0;
+            }
+            return action;
+        }
+        // The drill's table, then the challenge rating's leaders.
+        let half = (right.y + right.h - y - 8.0) / 2.0;
+        let board = info.as_ref().and_then(|i| i.drills.iter().find(|x| x.code == d.code));
+        let rows: Vec<(String, String, String)> = board
+            .map(|b| {
+                b.board
+                    .iter()
+                    .map(|e| {
+                        (
+                            e.username.clone(),
+                            e.country.clone(),
+                            tw("{n} of {total}", &[("n", &e.score), ("total", &d.tries)]),
+                        )
+                    })
+                    .collect()
+            })
+            .unwrap_or_default();
+        self.small_board(
+            ui,
+            online,
+            Rect::new(right.x, y, right.w, half),
+            t("Best on this drill"),
+            &rows,
+        );
+        let leaders: Vec<(String, String, String)> = info
+            .as_ref()
+            .map(|i| {
+                i.leaders
+                    .iter()
+                    .map(|e| {
+                        (
+                            e.username.clone(),
+                            e.country.clone(),
+                            tw("{r} · {s}★", &[("r", &e.rating), ("s", &e.stars)]),
+                        )
+                    })
+                    .collect()
+            })
+            .unwrap_or_default();
+        self.small_board(
+            ui,
+            online,
+            Rect::new(right.x, y + half + 8.0, right.w, half),
+            t("Challenge rating"),
+            &leaders,
+        );
+        action
+    }
+
+    /// A short table: a title and (name, country, value) rows, best first.
+    fn small_board(
+        &self,
+        ui: &mut Ui,
+        online: &Online,
+        r: Rect,
+        title: &str,
+        rows: &[(String, String, String)],
+    ) {
+        rrect(r, 8.0, Color::new(1.0, 1.0, 1.0, 0.03));
+        let x = r.x + 12.0;
+        let w = r.w - 24.0;
+        ui.text(title, x, r.y + 8.0, 14.0, GOLD, true);
+        if rows.is_empty() {
+            ui.text(t("Nobody yet. Be the first!"), x, r.y + 32.0, 13.0, MUTED, false);
+            return;
+        }
+        let me = online.me.as_ref().map(|m| m.username.as_str()).unwrap_or("");
+        let row_h = 22.0;
+        let fit = (((r.h - 32.0) / row_h).floor().max(1.0)) as usize;
+        for (k, (name, country, value)) in rows.iter().take(fit).enumerate() {
+            let y = r.y + 30.0 + k as f32 * row_h;
+            if name.eq_ignore_ascii_case(me) {
+                rrect(
+                    Rect::new(r.x + 4.0, y - 2.0, r.w - 8.0, row_h - 2.0),
+                    5.0,
+                    Color::new(GOLD.r, GOLD.g, GOLD.b, 0.12),
+                );
+            }
+            let color = if k == 0 { GOLD } else { CREAM };
+            ui.text(&format!("{}.", k + 1), x, y + 2.0, 13.0, color, true);
+            let vw = ui.text_size(value, 13.0, true).x;
+            ui.text(value, x + w - vw, y + 2.0, 13.0, color, true);
+            ui.name_with_flag(name, country, CREAM, x + 28.0, y + 2.0, 13.0, w - 28.0 - vw - 10.0);
+        }
     }
 
     /// The day's leaders.

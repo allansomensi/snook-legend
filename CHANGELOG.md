@@ -53,6 +53,16 @@
   language, whatever the other one speaks (they travel in English, so
   older games see them in English).
 
+### Drills
+- A new tab on the "Against the computer" screen: seven short exercises on
+  fixed positions, the same for everyone (a long straight pot, a cut, draw
+  back into a circle, follow through, a bank, escaping a snooker, ten pots
+  in a row). Each earns up to three stars and has its own table of the
+  best scores; the stars and scores of every drill make the player's
+  challenge rating, with its own table. The pocket to use and the circle
+  to stop the cue ball in are marked on the cloth. The server plays the
+  strokes again to count them; new stars give experience.
+
 ### Watching
 - Spectators see how hard the shot being lined up is, once the shooter's
   aim settles: easy to very hard, the chance a good player makes it

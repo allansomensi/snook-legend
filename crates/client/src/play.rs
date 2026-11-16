@@ -541,6 +541,36 @@ pub fn overlay(m: &Match, scene: &Scene, time: f32) -> Overlay {
         ));
     }
 
+    // A drill: the pocket to use, and the circle to leave the cue ball in.
+    if let Some(run) = &m.drill {
+        use snookered_proto::drills::Goal;
+        let pulse = 0.5 + 0.5 * (time * 3.0).sin();
+        let gold = Color::new(1.0, 0.82, 0.25, 0.55 + 0.35 * pulse);
+        let pocket = match run.drill().goal {
+            Goal::Pot { pocket, .. }
+            | Goal::Bank { pocket, .. }
+            | Goal::Position { pocket, .. } => Some(pocket),
+            _ => None,
+        };
+        if let Some(id) = pocket {
+            out.guides.push(Guide::Ring {
+                center: surface(scene.pocket_center(id), RAIL_HEIGHT + 0.004),
+                radius: scene.pocket_radius(id) + 0.018,
+                width: 0.008,
+                color: gold,
+            });
+        }
+        if let Goal::Position { zone, radius, .. } = run.drill().goal {
+            let green = Color::new(0.35, 1.0, 0.5, 0.55 + 0.25 * pulse);
+            out.guides.push(Guide::Ring {
+                center: surface(zone, line_y),
+                radius: radius as f32,
+                width: 0.006,
+                color: green,
+            });
+        }
+    }
+
     let Phase::Turn { placing_cue_ball, .. } = m.phase else { return out };
 
     if placing_cue_ball {

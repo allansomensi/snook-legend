@@ -1541,3 +1541,39 @@ Error. Recalculating.	Error. Recalculando.
 Malfunction. Please disregard.	Fallo. Por favor, ignórelo.
 Game complete. Thank you for playing.	Partida completada. Gracias por jugar.
 Defeat acknowledged. Well played.	Derrota reconocida. Bien jugado.
+Drills	Ejercicios
+Exercises with stars and a ranking	Ejercicios con estrellas y ranking
+Challenge rating	Ranking de desafíos
+{s} / {max} stars · #{rank}	{s} / {max} estrellas · {rank}º
+{s} / {max} stars	{s} / {max} estrellas
+Stars at {a}, {b} and {c}	Estrellas con {a}, {b} y {c}
+Your best: {n} of {total}	Tu mejor: {n} de {total}
+Not tried yet.	Todavía no lo intentaste.
+Start the drill	Empezar el ejercicio
+Sign in to be ranked: the server keeps the tables.	Inicia sesión para entrar en el ranking: el servidor guarda las clasificaciones.
+{n} of {total}	{n} de {total}
+Best on this drill	Mejores en este ejercicio
+{r} · {s}★	{r} · {s}★
+Nobody yet. Be the first!	Nadie todavía. ¡Sé el primero!
+{drill}: try {k} of {n} · {made} made	{drill}: intento {k} de {n} · {made} logrados
+Made it! {n} of {total}	¡Lo lograste! {n} de {total}
+Missed.	Fallaste.
+Sending to the server…	Enviando al servidor…
+Not signed in: this session is not ranked.	Sin sesión: esta sesión no entra en el ranking.
+Counted on the drill's table.	Contado en la clasificación del ejercicio.
+The session could not be counted.	No se pudo contar la sesión.
+Back to the drills	Volver a los ejercicios
+Straight in	Recta
+A long straight pot into the corner. Five tries.	Una bola recta y larga a la tronera de esquina. Cinco intentos.
+The cut	El corte
+A half-ball cut into the corner. Five tries.	Un corte de media bola a la tronera de esquina. Cinco intentos.
+Draw it back	Retroceso
+Pot the ball and draw the cue ball back into the circle. Five tries.	Mete la bola y haz retroceder la blanca hasta el círculo. Cinco intentos.
+Follow through	Seguimiento
+Pot the ball and leave the cue ball in the circle past it. Five tries.	Mete la bola y deja la blanca en el círculo de más allá. Cinco intentos.
+Bank shot	Tiro a banda
+Off one cushion into the side pocket. Five tries.	A una banda a la tronera del centro. Cinco intentos.
+Snookered	Bola tapada
+Hit the 1 first: it hides behind other balls. Five tries.	Toca primero la 1: está escondida detrás de otras bolas. Cinco intentos.
+Ten in a row	Diez seguidas
+Ten different pots, one after another: a miss ends the session.	Diez tiros distintos, uno tras otro: un fallo termina la sesión.

@@ -272,10 +272,38 @@ pub struct Match {
     pub daily: Option<DailyRun>,
     /// A table to oneself (practice): racked again when a rack is over.
     pub free_play: bool,
+    /// A drill session.
+    pub drill: Option<DrillRun>,
     /// What the computer opponent just said, and for how long it has shown.
     pub banter: Option<(String, f32)>,
     /// Seconds since the opponent last spoke.
     banter_quiet: f32,
+}
+
+/// A drill session: its tries, what each gave, and every stroke (for the
+/// server, which counts them again).
+#[derive(Debug, Clone, PartialEq)]
+pub struct DrillRun {
+    pub code: &'static str,
+    pub results: Vec<bool>,
+    pub strokes: Vec<Shot>,
+    /// The table is set up for the next try once the pause is over.
+    reset: bool,
+    pub over: bool,
+    pub sent: bool,
+    /// The server's count.
+    pub result: Option<Result<u32, snookered_proto::drills::Refused>>,
+}
+
+impl DrillRun {
+    pub fn drill(&self) -> &'static snookered_proto::drills::Drill {
+        snookered_proto::drills::drill(self.code).expect("a known drill")
+    }
+
+    /// The score as the game sees it (a streak: the pots in a row).
+    pub fn score(&self) -> u32 {
+        self.results.iter().filter(|&&ok| ok).count() as u32
+    }
 }
 
 /// How long the opponent's speech bubble shows (seconds).
@@ -449,12 +477,39 @@ impl Match {
             ladder,
             daily: None,
             free_play: false,
+            drill: None,
             banter: None,
             banter_quiet: 0.0,
         };
         m.begin_turn();
         m.say(crate::banter::Moment::Start);
         m
+    }
+
+    /// A session of the drill `code`.
+    pub fn drill(code: &str, name: &str, guide: AimGuide) -> Option<Match> {
+        let d = snookered_proto::drills::drill(code)?;
+        let settings = MatchSettings {
+            mode: MatchMode::HotSeat,
+            names: [name.to_string(), t(d.name).to_string()],
+            guide,
+            shot_clock: None,
+            ladder: None,
+        };
+        let mut m = Match::new(&settings, 1);
+        m.game = snookered_proto::drills::game(d);
+        m.drill = Some(DrillRun {
+            code: d.code,
+            results: Vec::new(),
+            strokes: Vec::new(),
+            reset: false,
+            over: false,
+            sent: false,
+            result: None,
+        });
+        m.begin_turn();
+        m.notify(t(d.description), true);
+        Some(m)
     }
 
     /// The computer opponent may say something about `moment` (a
@@ -707,6 +762,7 @@ impl Match {
             ladder: None,
             daily: None,
             free_play: false,
+            drill: None,
             banter: None,
             banter_quiet: 0.0,
         };
@@ -743,8 +799,12 @@ impl Match {
     /// `guide` says; the full one is for games against the computer and
     /// practice.
     pub fn guide_in_use(&self) -> AimGuide {
-        // The daily challenge is ranked: the same rule.
-        if self.online.is_some() || self.daily.is_some() { self.guide.online() } else { self.guide }
+        // The daily challenge and the drills are ranked: the same rule.
+        if self.online.is_some() || self.daily.is_some() || self.drill.is_some() {
+            self.guide.online()
+        } else {
+            self.guide
+        }
     }
 
     pub fn is_online(&self) -> bool {
@@ -870,6 +930,12 @@ impl Match {
     }
 
     fn begin_turn(&mut self) {
+        // A drill's next try starts from its position again.
+        if let Some(run) = self.drill.as_mut().filter(|r| r.reset) {
+            run.reset = false;
+            let k = run.results.len() as u32;
+            self.game = snookered_proto::drills::game_for_try(run.drill(), k);
+        }
         // A replay: the next stroke decides the turn.
         let mut scripted = None;
         while let Some(script) = self.script.as_mut() {
@@ -985,6 +1051,9 @@ impl Match {
         match self.game.prepare_shot(&shot, self.called_pocket) {
             Ok(pending) => {
                 if let Some(run) = self.daily.as_mut() {
+                    run.strokes.push(shot);
+                }
+                if let Some(run) = self.drill.as_mut() {
                     run.strokes.push(shot);
                 }
                 if let Some(run) = self.ladder.as_mut() {
@@ -1367,6 +1436,33 @@ impl Match {
     }
 
     fn after_shot(&mut self, report: &ShotReport) {
+        // A drill: did the try work? Then the next try, or the end.
+        if let Some(run) = self.drill.as_mut() {
+            let d = run.drill();
+            let ok = self
+                .last_shot
+                .as_ref()
+                .and_then(|s| snookered_proto::drills::try_shot(d, &s.start, &s.shot))
+                .unwrap_or(false);
+            run.results.push(ok);
+            let done = run.results.len() as u32 >= d.tries
+                || (d.goal == snookered_proto::drills::Goal::Streak && !ok);
+            let made = run.score();
+            let text = if ok {
+                tw("Made it! {n} of {total}", &[("n", &made), ("total", &d.tries)])
+            } else {
+                t("Missed.").to_string()
+            };
+            if done {
+                run.over = true;
+            } else {
+                run.reset = true;
+            }
+            self.notify(text, ok);
+            self.last_report = Some(report.clone());
+            self.phase = if done { Phase::GameOver } else { Phase::Pause(1.2) };
+            return;
+        }
         // The computer opponent's remark about this shot (the player has
         // seat 0 against the computer).
         {

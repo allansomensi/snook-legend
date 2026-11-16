@@ -260,6 +260,10 @@ pub struct Online {
     pub daily_refused: Option<snookered_proto::daily::Refused>,
     /// The account level's experience (once the server said).
     pub xp: Option<i64>,
+    /// The drills, their tables and the challenge rating.
+    pub drills: Option<snookered_proto::drills::Info>,
+    /// The server's count of the last drill session sent.
+    pub drill_result: Option<(String, Result<u32, snookered_proto::drills::Refused>)>,
 }
 
 /// A request for the style of a player's ghost.
@@ -513,6 +517,8 @@ impl Online {
             daily_result: None,
             daily_refused: None,
             xp: None,
+            drills: None,
+            drill_result: None,
         }
     }
 
@@ -985,6 +991,9 @@ impl Online {
                 self.buying = None;
                 self.shop_error = Some(crate::i18n::server_text(&message));
             }
+            // A message an older server doesn't know (a newer game asking
+            // for something new): nothing the player can do about it.
+            ServerMsg::Error { message } if message == "Malformed message." => {}
             ServerMsg::Error { message } => match current.as_mut() {
                 Some(m) if m.is_online() => m.handle_server(ServerMsg::Error { message }),
                 _ => self.toast(crate::i18n::server_text(&message), false),
@@ -1143,6 +1152,8 @@ impl Online {
             }
             ServerMsg::LadderClaim { result } => self.ladder_claim = Some(result),
             ServerMsg::Daily { info } => self.daily = Some(info),
+            ServerMsg::Drills { info } => self.drills = Some(info),
+            ServerMsg::DrillResult { code, result } => self.drill_result = Some((code, result)),
             ServerMsg::Xp { xp, gained } => {
                 use snookered_proto::xp::level_of;
                 let before = self.xp.map(level_of);

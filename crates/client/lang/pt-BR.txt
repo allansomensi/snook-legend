@@ -1541,3 +1541,39 @@ Error. Recalculating.	Erro. Recalculando.
 Malfunction. Please disregard.	Falha. Por favor, desconsidere.
 Game complete. Thank you for playing.	Partida concluída. Obrigado por jogar.
 Defeat acknowledged. Well played.	Derrota reconhecida. Bem jogado.
+Drills	Treinos
+Exercises with stars and a ranking	Exercícios com estrelas e ranking
+Challenge rating	Rating de desafios
+{s} / {max} stars · #{rank}	{s} / {max} estrelas · {rank}º
+{s} / {max} stars	{s} / {max} estrelas
+Stars at {a}, {b} and {c}	Estrelas com {a}, {b} e {c}
+Your best: {n} of {total}	Seu melhor: {n} de {total}
+Not tried yet.	Ainda não tentou.
+Start the drill	Começar o treino
+Sign in to be ranked: the server keeps the tables.	Entre para entrar no ranking: o servidor guarda as classificações.
+{n} of {total}	{n} de {total}
+Best on this drill	Melhores neste treino
+{r} · {s}★	{r} · {s}★
+Nobody yet. Be the first!	Ninguém ainda. Seja o primeiro!
+{drill}: try {k} of {n} · {made} made	{drill}: tentativa {k} de {n} · {made} certas
+Made it! {n} of {total}	Acertou! {n} de {total}
+Missed.	Errou.
+Sending to the server…	Enviando ao servidor…
+Not signed in: this session is not ranked.	Sem login: esta sessão não entra no ranking.
+Counted on the drill's table.	Contado na classificação do treino.
+The session could not be counted.	Não foi possível contar a sessão.
+Back to the drills	Voltar aos treinos
+Straight in	Reta
+A long straight pot into the corner. Five tries.	Uma bola reta e longa na caçapa do canto. Cinco tentativas.
+The cut	O corte
+A half-ball cut into the corner. Five tries.	Um corte de meia bola na caçapa do canto. Cinco tentativas.
+Draw it back	Puxada
+Pot the ball and draw the cue ball back into the circle. Five tries.	Encaçape a bola e puxe a branca de volta para o círculo. Cinco tentativas.
+Follow through	Seguida
+Pot the ball and leave the cue ball in the circle past it. Five tries.	Encaçape a bola e deixe a branca no círculo logo depois. Cinco tentativas.
+Bank shot	Tabela
+Off one cushion into the side pocket. Five tries.	Com uma tabela na caçapa do meio. Cinco tentativas.
+Snookered	Sinuca de bico
+Hit the 1 first: it hides behind other balls. Five tries.	Acerte a 1 primeiro: ela está escondida atrás de outras bolas. Cinco tentativas.
+Ten in a row	Dez seguidas
+Ten different pots, one after another: a miss ends the session.	Dez bolas diferentes, uma após a outra: um erro encerra a sessão.

@@ -319,6 +319,16 @@ mod tests {
     }
 
     #[test]
+    fn drills_are_translated_everywhere() {
+        for lang in [Lang::Portuguese, Lang::Spanish] {
+            for d in snookered_proto::drills::DRILLS {
+                assert!(translate(lang, d.name).is_some(), "{lang:?}: {}", d.name);
+                assert!(translate(lang, d.description).is_some(), "{lang:?}: {}", d.description);
+            }
+        }
+    }
+
+    #[test]
     fn translation_files_are_consistent() {
         let placeholders = |s: &str| {
             let mut v: Vec<String> = s

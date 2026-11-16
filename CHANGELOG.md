@@ -47,6 +47,12 @@
   an attempt starts, and the server plays the strokes again to count the
   balls; the full aiming guide is never shown (it's ranked).
 
+### Against the computer
+- New portraits for the ten opponents, each with a character of their own
+  (Leo's crooked cap and plaster, Otto's moustache and flat cap, Rosa's
+  wink, Viktor's medal and bow tie...), and a friendly robot for the
+  classic levels.
+
 ### Chat at the table
 - Quick phrases (a button by the chat and the reactions): "Nice shot!",
   "Good game!", "Rematch?" and more. Each player reads them in their own

@@ -37,6 +37,10 @@
   more power, Kenji quotes physics, Rosa "hardly ever plays"…), in every
   language of the game. They greet you at the start and always have a word
   at the end; in between they speak up only some of the time.
+- New portraits for the ten opponents, each with a character of their own
+  (Leo's crooked cap and plaster, Otto's moustache and flat cap, Rosa's
+  wink, Viktor's medal and bow tie...), and a friendly robot for the
+  classic levels.
 
 ### Daily challenge
 - A new tab on the "Against the computer" screen: the same table for
@@ -46,12 +50,6 @@
   table and a trophy for the day's winner. The position stays secret until
   an attempt starts, and the server plays the strokes again to count the
   balls; the full aiming guide is never shown (it's ranked).
-
-### Against the computer
-- New portraits for the ten opponents, each with a character of their own
-  (Leo's crooked cap and plaster, Otto's moustache and flat cap, Rosa's
-  wink, Viktor's medal and bow tie...), and a friendly robot for the
-  classic levels.
 
 ### Chat at the table
 - Quick phrases (a button by the chat and the reactions): "Nice shot!",

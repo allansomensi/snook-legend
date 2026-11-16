@@ -12,8 +12,8 @@ mod correspondence;
 use super::{
     AimRow, AuditRow, BoardNote, BuyOutcome, FriendOutcome, FriendState, GiftRow, HistoryRow,
     LedgerRow, LiveMatch, MatchRecord, Metrics, NewGift, NewNote, NewReport, NewUser, Overview,
-    Payment, RECENT_SCAN, RecentRow, ReportRow, SessionKind, StoreError, StoreResult, StoredReplay,
-    TournamentRecord, User, Wallet, day_of, hour_of,
+    Payment, RECENT_SCAN, RecentRow, Rename, ReportRow, SessionKind, StoreError, StoreResult,
+    StoredReplay, TournamentRecord, User, Wallet, day_of, hour_of,
 };
 use snookered_proto::analysis::ShotAnalysis;
 
@@ -73,7 +73,7 @@ impl From<sqlx::migrate::MigrateError> for StoreError {
 const USER_COLUMNS: &str = "id, username, password_hash, country, role, rating, peak_rating, \
     games, wins, eight_wins, casual_games, streak, best_streak, runouts, shutouts, \
     tournaments_played, tournaments_won, created_at, last_seen, banned_until, ban_reason, muted_until, \
-    recovery_email, deleted_at, abandons, status_message, xp";
+    recovery_email, deleted_at, abandons, status_message, xp, name_changes";
 
 fn user(r: &PgRow) -> Result<User, sqlx::Error> {
     let n = |c: &str| -> Result<u32, sqlx::Error> { Ok(r.try_get::<i32, _>(c)?.max(0) as u32) };
@@ -105,6 +105,7 @@ fn user(r: &PgRow) -> Result<User, sqlx::Error> {
         abandons: n("abandons")?,
         status_message: r.try_get("status_message")?,
         xp: r.try_get("xp")?,
+        name_changes: r.try_get::<i16, _>("name_changes")?.max(0) as u32,
     })
 }
 
@@ -748,6 +749,31 @@ impl PgStore {
             .execute(&self.pool)
             .await?;
         Ok(())
+    }
+
+    pub async fn change_username(
+        &self,
+        user_id: i64,
+        name: &str,
+        limit: u32,
+    ) -> StoreResult<Rename> {
+        // One statement: two changes at once can't both get under the limit,
+        // and the unique index settles who gets a name.
+        let done = query(
+            "UPDATE users SET username = $2, name_changes = name_changes + 1
+             WHERE id = $1 AND name_changes < $3 AND deleted_at IS NULL",
+        )
+        .bind(user_id)
+        .bind(name)
+        .bind(limit as i32)
+        .execute(&self.pool)
+        .await;
+        match done {
+            Ok(r) if r.rows_affected() == 0 => Ok(Rename::NoChangesLeft),
+            Ok(_) => Ok(Rename::Done),
+            Err(sqlx::Error::Database(e)) if e.is_unique_violation() => Ok(Rename::Taken),
+            Err(e) => Err(e.into()),
+        }
     }
 
     pub async fn payment_email(&self, user_id: i64) -> StoreResult<Option<String>> {

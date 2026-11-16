@@ -128,7 +128,7 @@ Winter league	Liga de invierno
 Win a rated game over the holidays (Dec 15 – Jan 6).	Gana una partida con rating en las fiestas (15 dic – 6 ene).
 Fireworks	Fuegos artificiales
 Win a rated game at the turn of the year (Dec 31 – Jan 1).	Gana una partida con rating en el cambio de año (31 dic – 1 ene).
-Shows where the object ball and the cue ball go (never online or in rated games).	Muestra a dónde van la bola objetivo y la bola blanca (nunca en línea ni en partidas con ranking).
+Shows where the object ball and the cue ball go (only in free games and practice).	Muestra a dónde van la bola objetivo y la bola blanca (solo en partidas libres y en la práctica).
 {n} online · ping {ms} ms	{n} en línea · ping {ms} ms
 Right-drag · Wheel	Arrastre derecho · Rueda
 Win %	% victorias
@@ -402,7 +402,7 @@ The server is busy. Try again in a moment.	El servidor está ocupado. Inténtalo
 The tournament starts when it is full (the host can start it earlier).	El torneo empieza cuando se llena (el anfitrión puede empezarlo antes).
 There are too many tournaments right now. Join one!	Hay demasiados torneos ahora. ¡Únete a uno!
 This is a LAN server: join as a guest.	Este es un servidor LAN: únete como invitado.
-Ten rivals, a ladder and ghosts of real players	Diez rivales, la escalera y fantasmas de jugadores reales
+Ten rivals, a tour and ghosts of real players	Diez rivales, un circuito y fantasmas de jugadores reales
 Tier	Categoría
 Time per shot	Tiempo por tacada
 Too many failed attempts. Wait a few minutes and try again.	Demasiados intentos fallidos. Espera unos minutos e inténtalo de nuevo.
@@ -796,8 +796,8 @@ Computer ({level})	Ordenador ({level})
 Computer	Computadora
 Each opponent has a style of their own	Cada rival tiene un estilo propio
 Free game	Partida libre
-Ladder	Escalera
-Ladder: {n} of {total} beaten	Escalera: {n} de {total} vencidos
+Tour	Circuito
+Tour: {n} of {total} beaten	Circuito: {n} de {total} superados
 Strength {n}/5	Nivel {n}/5
 Ghost	Fantasma
 Accuracy	Precisión
@@ -823,17 +823,17 @@ Play your ghost	Jugar contra tu fantasma
 Play their ghost	Jugar contra su fantasma
 Beaten	Vencido
 Next	Siguiente
-Beat the rung below to unlock it.	Vence el escalón de abajo para desbloquearlo.
-Rung {n} of {total}	Escalón {n} de {total}
+Win the previous stage to unlock this one.	Gana la etapa anterior para desbloquear esta.
+Stage {n} of {total}	Etapa {n} de {total}
 Challenge {name}	Desafiar a {name}
-Rung {n} beaten! Next on the ladder: {name}.	¡Escalón {n} superado! Siguiente en la escalera: {name}.
-You beat the whole ladder!	¡Superaste toda la escalera!
+Stage {n} won! Next on the tour: {name}.	¡Etapa {n} superada! Siguiente en el circuito: {name}.
+You won the whole tour!	¡Ganaste todo el circuito!
 Reward	Premio
 {item} cue · exclusive	Taco {item} · exclusivo
 Yours: find it in the shop, under Cues.	Es tuyo: está en la tienda, en Tacos.
-Beat the last rung again while signed in to claim it.	Vence el último escalón otra vez, con la sesión iniciada, para recibirlo.
+Win the last stage again while signed in to claim it.	Gana la última etapa otra vez, con la sesión iniciada, para recibirlo.
 Beat all ten opponents to earn it. It is sold nowhere.	Vence a los diez rivales para ganarlo. No se vende en ningún sitio.
-You beat the ladder! Sign in to claim your reward.	¡Superaste la escalera! Inicia sesión para recibir tu premio.
+You won the tour! Sign in to claim your reward.	¡Ganaste el circuito! Inicia sesión para recibir tu premio.
 The server is checking your final game…	El servidor está comprobando tu partida final…
 Try again	Reintentar
 The server did not answer. Try again in a moment.	El servidor no respondió. Inténtalo de nuevo en un momento.
@@ -863,10 +863,10 @@ Thinks three balls ahead: every shot leaves the cue ball where the next one is e
 The Sharpshooter	La Francotiradora
 Pots from anywhere, at any angle. Her safeties are an afterthought: she doesn't need them.	Emboca desde cualquier sitio y con cualquier ángulo. Las defensas le dan igual: no las necesita.
 The Champion	El Campeón
-Unbeaten for years. Precise, patient and merciless: the last step of the ladder.	Invicto desde hace años. Preciso, paciente e implacable: el último escalón de la escalera.
-Ladder king	Rey de la escalera
-King of the ladder	Rey de la escalera
-Beat all ten opponents of the computer ladder.	Vence a los diez rivales de la escalera contra la computadora.
+Unbeaten for years. Precise, patient and merciless: the last stage of the tour.	Invicto desde hace años. Preciso, paciente e implacable: la última etapa del circuito.
+Tour champion	Campeón del circuito
+Champion of the tour	Campeón del circuito
+Beat all ten opponents of the computer tour.	Vence a los diez rivales del circuito contra la computadora.
 Connecting to {server}…	Conectando con {server}…
 Connection lost. Reconnecting (attempt {n})…	Se perdió la conexión. Reconectando (intento {n})…
 Connection lost. Reconnecting…	Se perdió la conexión. Reconectando…
@@ -1338,7 +1338,7 @@ Stop	Detener
 Trophies	Trofeos
 No trophies yet.	Aún no hay trofeos.
 Tournament won · {n} players	Torneo ganado · {n} jugadores
-The computer ladder	La escalera contra el ordenador
+The computer tour	El circuito contra la computadora
 All ten opponents beaten	Los diez rivales vencidos
 Daily challenge	Desafío del día
 First of {n} players	Primero de {n} jugadores
@@ -1591,3 +1591,12 @@ Your last shot: {p}%	Tu último tiro: {p}%
 Solids	Lisas
 Stripes	Rayadas
 Hide the history	Ocultar el historial
+New username	Nuevo nombre de usuario
+Click again to confirm	Haz clic otra vez para confirmar
+{n} of {total} name changes left	Te quedan {n} de {total} cambios de nombre
+You can't change your username again.	Ya no puedes cambiar tu nombre de usuario.
+That is already your username.	Ese ya es tu nombre de usuario.
+Finish your game before changing your username.	Termina tu partida antes de cambiar tu nombre de usuario.
+Leave your table or the queue before changing your username.	Sal de tu mesa o de la cola antes de cambiar tu nombre de usuario.
+Leave your tournament before changing your username.	Sal de tu torneo antes de cambiar tu nombre de usuario.
+Username changed.	Nombre de usuario cambiado.

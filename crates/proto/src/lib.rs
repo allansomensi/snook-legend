@@ -139,6 +139,9 @@ pub fn valid_username(name: &str) -> bool {
         && name.chars().all(|c| c.is_ascii_alphanumeric() || c == '_')
 }
 
+/// How many times a player may change their username, in all.
+pub const MAX_NAME_CHANGES: u32 = 3;
+
 /// Password rules: 8–72 bytes (the hashing limit), any characters, not
 /// made only of digits or of one repeated character.
 pub fn valid_password(password: &str) -> bool {
@@ -1033,6 +1036,11 @@ pub enum ClientMsg {
     SetRecoveryEmail {
         email: String,
     },
+    /// Changes the player's username (at most [`MAX_NAME_CHANGES`] times).
+    /// Refused during a game, at a table, in the queue or in a tournament.
+    ChangeUsername {
+        username: String,
+    },
     /// Deletes the account for good (it is anonymised: the opponents keep
     /// their history).
     DeleteAccount {
@@ -1448,6 +1456,9 @@ pub enum ServerMsg {
         /// The e-mail given at the last payment, offered as the recovery
         /// e-mail when none is set.
         payment_email: Option<String>,
+        /// Username changes the player has left (see [`MAX_NAME_CHANGES`]).
+        #[serde(default)]
+        name_changes_left: u32,
     },
     /// The account was deleted: forget the saved session.
     AccountDeleted,

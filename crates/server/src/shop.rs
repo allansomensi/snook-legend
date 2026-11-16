@@ -415,7 +415,7 @@ async fn offer_email(server: &Server, user: &User) {
         return;
     }
     if let Ok(Some(email)) = server.store.payment_email(user.id).await {
-        let msg = ServerMsg::Account { recovery_email: None, payment_email: Some(email) };
+        let msg = crate::account::account_msg(user, Some(email));
         server.with(|l| l.notify(&user.username, msg));
     }
 }

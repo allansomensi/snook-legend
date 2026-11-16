@@ -57,9 +57,15 @@ pub struct ProfileScreen {
     trophies_first: usize,
 }
 
-/// The account dialog: recovery e-mail, password, deletion.
+/// The account dialog: username, recovery e-mail, password, deletion.
 #[derive(Default)]
 struct AccountForm {
+    new_name: String,
+    /// The name "Change" was clicked once for (a second click sends it).
+    confirm_rename: Option<String>,
+    /// The name asked for: when the session comes back under it, the page
+    /// follows.
+    renaming: Option<String>,
     email: String,
     email_loaded: bool,
     old_password: String,
@@ -199,6 +205,22 @@ impl ProfileScreen {
         if !self.asked_signed_in && online.signed_in() {
             self.asked_signed_in = true;
             online.send(ClientMsg::Profile { username: self.name.clone() });
+        }
+        // The username was changed in the account dialog: the page follows
+        // the new name (the server signs this session in again under it).
+        if let Some(form) = self.account.as_mut()
+            && let Some(new) = form.renaming.clone()
+            && online.me.as_ref().is_some_and(|me| me.username == new)
+        {
+            form.renaming = None;
+            form.new_name.clear();
+            if let Some(p) = online.profile.as_mut()
+                && p.player.username.eq_ignore_ascii_case(&self.name)
+            {
+                p.player.username = new.clone();
+            }
+            self.name = new.clone();
+            online.request_profile(&new);
         }
         let loaded =
             online.profile.clone().filter(|p| p.player.username.eq_ignore_ascii_case(&self.name));
@@ -918,7 +940,7 @@ impl ProfileScreen {
                 TrophyKind::Ladder => (
                     Icon::Crown,
                     Color::new(0.75, 0.55, 0.95, 1.0),
-                    t("The computer ladder").to_string(),
+                    t("The computer tour").to_string(),
                     t("All ten opponents beaten").to_string(),
                 ),
                 _ => (
@@ -944,7 +966,7 @@ impl ProfileScreen {
         }
     }
 
-    /// Recovery e-mail, password and deleting the account.
+    /// Username, recovery e-mail, password and deleting the account.
     fn account_dialog(&mut self, ui: &mut Ui, online: &mut Online) {
         let Some(form) = self.account.as_mut() else { return };
         if !form.email_loaded
@@ -968,9 +990,9 @@ impl ProfileScreen {
             ),
         );
         // The height follows the text (it wraps differently per language):
-        // the title, the three sections as laid out below, and Close.
+        // the title, the four sections as laid out below, and Close.
         let lines = (email_note.len() + delete_note.len()) as f32 * 17.0;
-        let h = (70.0 + 89.0 + 171.0 + 64.0 + 88.0 + lines).min(sh - 20.0);
+        let h = (70.0 + 106.0 + 89.0 + 171.0 + 64.0 + 88.0 + lines).min(sh - 20.0);
         let r = Rect::new((sw - w) / 2.0, (sh - h) / 2.0, w, h);
         ui.panel(r);
         ui.block(Rect::new(0.0, 0.0, sw, sh));
@@ -978,6 +1000,52 @@ impl ProfileScreen {
         crate::icons::draw(Icon::Person, vec2(x + 12.0, r.y + 24.0 + 13.0), 24.0, GOLD);
         ui.text(t("Your account"), x + 34.0, text_y(r.y + 24.0 + 13.0, 22.0), 22.0, GOLD, true);
         let mut y = r.y + 24.0 + 26.0 + 20.0;
+        // Username: a few changes in all.
+        ui.text(t("Username"), x, y, 15.0, GOLD, true);
+        y += 24.0;
+        let left = online.account.as_ref().map(|a| a.name_changes_left);
+        let note = match left {
+            Some(0) => t("You can't change your username again.").to_string(),
+            Some(n) => tw(
+                "{n} of {total} name changes left",
+                &[("n", &n), ("total", &snookered_proto::MAX_NAME_CHANGES)],
+            ),
+            None => String::new(),
+        };
+        ui.text(&note, x, y, 13.0, MUTED, false);
+        y += 17.0 + 6.0;
+        let current = online.me.as_ref().map(|me| me.username.clone()).unwrap_or_default();
+        let wanted = form.new_name.trim().to_string();
+        if form.confirm_rename.as_ref().is_some_and(|c| *c != wanted) {
+            form.confirm_rename = None;
+        }
+        let label =
+            if form.confirm_rename.is_some() { t("Click again to confirm") } else { t("Change") };
+        // Wide enough for both labels: the field beside it doesn't jump.
+        let both = [t("Change"), t("Click again to confirm")];
+        let bw = both.iter().map(|l| ui.text_size(l, 15.0, true).x).fold(0.0, f32::max) + 32.0;
+        let field = Rect::new(x, y, fw - bw - 10.0, 34.0);
+        if left.is_some_and(|n| n > 0) {
+            ui.text_input(75, field, &mut form.new_name, 16);
+            if form.new_name.is_empty() && ui.focus != Some(75) {
+                ui.text(t("New username"), x + 10.0, text_y(y + 17.0, 14.0), 14.0, MUTED, false);
+            }
+        }
+        let ok = left.is_some_and(|n| n > 0)
+            && snookered_proto::valid_username(&wanted)
+            && wanted != current;
+        if ui.button(Rect::new(x + fw - bw, y, bw, 34.0), label, ok) {
+            if form.confirm_rename.is_some() {
+                online.send(ClientMsg::ChangeUsername { username: wanted.clone() });
+                form.confirm_rename = None;
+                form.renaming = Some(wanted);
+            } else {
+                form.confirm_rename = Some(wanted);
+            }
+        }
+        y += 34.0 + 12.0;
+        draw_line(x, y, x + fw, y, 1.0, BORDER);
+        y += 13.0;
         // Recovery e-mail.
         ui.text(t("Recovery e-mail"), x, y, 15.0, GOLD, true);
         y += 24.0;

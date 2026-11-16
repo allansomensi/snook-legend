@@ -134,14 +134,14 @@ impl Versus {
         let subtitle = match self.tab {
             Tab::Free => t("Each opponent has a style of their own").to_string(),
             Tab::Ladder => tw(
-                "Ladder: {n} of {total} beaten",
+                "Tour: {n} of {total} beaten",
                 &[("n", &progress.beaten), ("total", &ladder::RUNGS.len())],
             ),
             Tab::Daily => t("The same table for everyone, all day").to_string(),
             Tab::Drills => t("Exercises with stars and a ranking").to_string(),
         };
         // The tabs at the top right; the title keeps clear of them.
-        let labels = [t("Free game"), t("Ladder"), t("Daily challenge"), t("Drills")];
+        let labels = [t("Free game"), t("Tour"), t("Daily challenge"), t("Drills")];
         let widest = labels.iter().map(|l| ui.text_size(l, 15.0, true).x).fold(0.0, f32::max);
         // The tabs keep to the right half, clear of the title.
         let tab_w = (widest + 24.0).clamp(96.0, 140.0).min((r.w * 0.54 - 24.0) / 4.0);
@@ -349,7 +349,7 @@ impl Versus {
         if ui.hovering(seg) {
             let hint = match config.guide {
                 AimGuide::Full => t(
-                    "Shows where the object ball and the cue ball go (never online or in rated games).",
+                    "Shows where the object ball and the cue ball go (only in free games and practice).",
                 ),
                 AimGuide::Standard => t("Shows the contact point; judging the cut is up to you."),
                 AimGuide::Short => t("Only a short line from the cue ball."),
@@ -661,7 +661,7 @@ impl Versus {
                 self.rung = Some(rung);
             }
             if !unlocked && ui.hovering(row) {
-                tip = Some((t("Beat the rung below to unlock it.").to_string(), row));
+                tip = Some((t("Win the previous stage to unlock this one.").to_string(), row));
             }
         }
 
@@ -681,7 +681,7 @@ impl Versus {
         let play_r = Rect::new(dx, reward.y - 18.0 - 42.0, dw, 42.0);
         let p = ladder::rung(selected as usize).expect("rung");
         let rung_line =
-            tw("Rung {n} of {total}", &[("n", &(selected + 1)), ("total", &ladder::RUNGS.len())]);
+            tw("Stage {n} of {total}", &[("n", &(selected + 1)), ("total", &ladder::RUNGS.len())]);
         let area = Rect::new(dx, body.y, dw, play_r.y - 14.0 - body.y);
         let o = Opponent::personality(p.code);
         ui.text(&rung_line, dx, area.y, 12.0, MUTED, true);
@@ -756,7 +756,7 @@ impl Versus {
         }
         if progress.pending.is_none() {
             let text = if progress.complete() {
-                t("Beat the last rung again while signed in to claim it.")
+                t("Win the last stage again while signed in to claim it.")
             } else {
                 t("Beat all ten opponents to earn it. It is sold nowhere.")
             };
@@ -769,7 +769,7 @@ impl Versus {
         }
         // A won final game, waiting for the server.
         if !online.signed_in() {
-            say(ui, t("You beat the ladder! Sign in to claim your reward."), CREAM, &mut y);
+            say(ui, t("You won the tour! Sign in to claim your reward."), CREAM, &mut y);
             if ui.button(button(y), t("Sign in"), true) {
                 action = Some(VersusAction::SignIn);
             }

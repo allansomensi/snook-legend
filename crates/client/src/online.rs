@@ -395,6 +395,8 @@ struct MissionsView {
 pub struct AccountView {
     pub recovery_email: Option<String>,
     pub payment_email: Option<String>,
+    /// Username changes left (see `snookered_proto::MAX_NAME_CHANGES`).
+    pub name_changes_left: u32,
 }
 
 const MAX_RECONNECTS: u32 = 15;
@@ -1028,12 +1030,13 @@ impl Online {
                 };
                 self.toast(tw("+{n} coins · {why}", &[("n", &amount), ("why", &why)]), true);
             }
-            ServerMsg::Account { recovery_email, payment_email } => {
+            ServerMsg::Account { recovery_email, payment_email, name_changes_left } => {
                 // After a payment, without a recovery e-mail: offer the one paid with.
                 if recovery_email.is_none() && !config.email_offer_declined {
                     self.email_offer = payment_email.clone();
                 }
-                self.account = Some(AccountView { recovery_email, payment_email });
+                self.account =
+                    Some(AccountView { recovery_email, payment_email, name_changes_left });
             }
             ServerMsg::AccountDeleted => {
                 self.auto_resume = false;

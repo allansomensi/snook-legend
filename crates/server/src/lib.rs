@@ -240,6 +240,12 @@ impl Server {
         self.config.admins.iter().any(|a| a.eq_ignore_ascii_case(name))
     }
 
+    /// Names nobody may take by changing theirs: the reserved ones and the
+    /// configured administrators' (signing in with one makes an admin).
+    pub(crate) fn is_reserved_name(&self, name: &str) -> bool {
+        RESERVED_NAMES.iter().any(|r| r.eq_ignore_ascii_case(name)) || self.is_admin_name(name)
+    }
+
     /// The client's address: from the first configured proxy header that is
     /// present (e.g. `cf-connecting-ip,x-forwarded-for`), else the peer.
     pub fn client_ip(&self, peer: SocketAddr, headers: &HeaderMap) -> IpAddr {
@@ -813,6 +819,7 @@ async fn authenticate(server: &Arc<Server>, msg: ClientMsg, ip: &str) -> Auth {
                 abandons: 0,
                 status_message: String::new(),
                 xp: 0,
+                name_changes: 0,
             };
             Auth::Ok { user: Box::new(user), token: String::new(), guest: true }
         }
@@ -1032,6 +1039,16 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
             | ClientMsg::DeleteAccount { .. }) => {
                 if account::handle(&server, &me, token_in_use.as_deref(), msg, &send).await {
                     break;
+                }
+            }
+            ClientMsg::ChangeUsername { username } => {
+                if let Some(fresh) = account::change_username(&server, &me, &username, &send).await
+                {
+                    // The lounge knows players by name: sign in again under
+                    // the new one, on this same connection.
+                    let token = token_in_use.clone().unwrap_or_default();
+                    server.with(|l| l.renamed(&me.username, fresh.clone(), token));
+                    user = Some((fresh, guest));
                 }
             }
             ClientMsg::Missions => send(missions::message(&server, &me).await),
@@ -1275,6 +1292,7 @@ fn is_query_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::ChangePassword { .. }
             | ClientMsg::SetRecoveryEmail { .. }
             | ClientMsg::DeleteAccount { .. }
+            | ClientMsg::ChangeUsername { .. }
             | ClientMsg::Replays
             | ClientMsg::Replay { .. }
             | ClientMsg::CorrList
@@ -1331,6 +1349,7 @@ fn is_account_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::ChangePassword { .. }
             | ClientMsg::SetRecoveryEmail { .. }
             | ClientMsg::DeleteAccount { .. }
+            | ClientMsg::ChangeUsername { .. }
             | ClientMsg::Replays
             | ClientMsg::Missions
             | ClientMsg::Replay { .. }

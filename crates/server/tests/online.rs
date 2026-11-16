@@ -1138,6 +1138,112 @@ async fn account_password_recovery_email_and_deletion() {
     dave.expect("gone", |m| matches!(m, ServerMsg::Error { .. })).await;
 }
 
+impl Client {
+    /// Asks for a new username and waits for the refusal `why`.
+    async fn rename_refused(&mut self, name: &str, why: &str) {
+        self.send(ClientMsg::ChangeUsername { username: name.into() }).await;
+        let ServerMsg::Error { message } =
+            self.expect(why, |m| matches!(m, ServerMsg::Error { .. })).await
+        else {
+            unreachable!()
+        };
+        assert_eq!(message, why, "renaming to {name:?}");
+    }
+
+    /// Changes the username; returns the changes left.
+    async fn rename(&mut self, name: &str) -> u32 {
+        self.send(ClientMsg::ChangeUsername { username: name.into() }).await;
+        let ServerMsg::Account { name_changes_left, .. } =
+            self.expect("account", |m| matches!(m, ServerMsg::Account { .. })).await
+        else {
+            unreachable!()
+        };
+        // Signed in again under the new name, on the same connection.
+        let ServerMsg::AuthOk { player, .. } =
+            self.expect("signed in again", |m| matches!(m, ServerMsg::AuthOk { .. })).await
+        else {
+            unreachable!()
+        };
+        assert_eq!(player.username, name);
+        name_changes_left
+    }
+}
+
+#[tokio::test]
+async fn username_changes() {
+    let url = start(Rules::default()).await;
+    let (mut erin, token) = Client::register(&url, "erin").await;
+    let (mut frank, _) = Client::register(&url, "frank").await;
+    erin.send(ClientMsg::Account).await;
+    let ServerMsg::Account { name_changes_left, .. } =
+        erin.expect("account", |m| matches!(m, ServerMsg::Account { .. })).await
+    else {
+        unreachable!()
+    };
+    assert_eq!(name_changes_left, snookered_proto::MAX_NAME_CHANGES);
+
+    // The rules of a new account, and nobody else's name in any case.
+    let taken = "That username is taken.";
+    let invalid = "Usernames have 3–16 letters, digits or underscores.";
+    erin.rename_refused("frank", taken).await;
+    erin.rename_refused("FRANK", taken).await;
+    erin.rename_refused("Admin", taken).await;
+    erin.rename_refused("ab", invalid).await;
+    erin.rename_refused("with space", invalid).await;
+    erin.rename_refused("deleted-1", invalid).await;
+    erin.rename_refused("erin", "That is already your username.").await;
+
+    // A change: everyone in the lounge sees the old name go and the new come.
+    assert_eq!(erin.rename("Erin_2").await, 2);
+    frank
+        .expect(
+            "old name gone",
+            |m| matches!(m, ServerMsg::PlayerLeft { username } if username == "erin"),
+        )
+        .await;
+    frank
+        .expect(
+            "new name",
+            |m| matches!(m, ServerMsg::PlayerUpdated { player } if player.username == "Erin_2"),
+        )
+        .await;
+    // The lounge knows the new name: an invitation reaches it, and nobody
+    // can change their name in a game (or straight after, at the table).
+    let (_, sa, _) = start_match(&mut frank, &mut erin, "erin_2", "frank", false).await;
+    let _ = sa;
+    let in_game = "Finish your game before changing your username.";
+    erin.rename_refused("Erin_3", in_game).await;
+    erin.send(ClientMsg::Resign).await;
+    erin.expect("over", |m| matches!(m, ServerMsg::MatchEnded { .. })).await;
+    erin.rename_refused("Erin_3", in_game).await;
+    erin.send(ClientMsg::LeaveMatch).await;
+    // Nor in the queue.
+    erin.send(ClientMsg::QueueJoin { rated: false }).await;
+    let queued = "Leave your table or the queue before changing your username.";
+    erin.rename_refused("Erin_3", queued).await;
+    erin.send(ClientMsg::QueueLeave).await;
+
+    // Only the case of the letters: still a change.
+    assert_eq!(erin.rename("ERIN_2").await, 1);
+    assert_eq!(erin.rename("Erin_Last").await, 0);
+    erin.rename_refused("Erin_More", "You can't change your username again.").await;
+
+    // The session stays good, the old names are free and sign in to nothing.
+    let mut c = Client::connect(&url).await;
+    c.send(ClientMsg::Resume { token }).await;
+    let ServerMsg::AuthOk { player, .. } =
+        c.expect("resumed", |m| matches!(m, ServerMsg::AuthOk { .. })).await
+    else {
+        unreachable!()
+    };
+    assert_eq!(player.username, "Erin_Last");
+    let mut c = Client::connect(&url).await;
+    c.send(ClientMsg::Login { username: "erin".into(), password: PASSWORD.into() }).await;
+    c.expect("old name", |m| matches!(m, ServerMsg::AuthError { .. })).await;
+    Client::login(&url, "erin_last", PASSWORD).await;
+    let (_erin_again, _) = Client::register(&url, "erin").await;
+}
+
 #[tokio::test]
 async fn replays_coins_featured_table_and_codes() {
     let url = start(Rules::default()).await;

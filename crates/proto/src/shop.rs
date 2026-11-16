@@ -636,7 +636,7 @@ pub const ITEMS: &[Item] = &[
     // Earned by beating the computer ladder (never sold).
     cue(
         "cue_ladder",
-        "Ladder king",
+        "Tour champion",
         Price::Achievement("ladder_champion"),
         [36, 18, 52],
         [226, 186, 84],

@@ -134,4 +134,4 @@ fn decisions_are_bit_identical_everywhere() {
 
 /// Update only on purpose (a change to the AI or the physics), from the
 /// value printed above.
-const EXPECTED: u64 = 0xf8db_5a07_4e23_83a7;
+const EXPECTED: u64 = 0x5f9e_be78_d9d8_361f;

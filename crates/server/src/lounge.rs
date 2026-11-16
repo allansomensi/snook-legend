@@ -662,6 +662,65 @@ impl Lounge {
         }
     }
 
+    /// Why `name` can't change their username right now, if they can't: the
+    /// game, table, queue or tournament they are in knows them by it.
+    pub fn rename_blocker(&self, name: &str) -> Option<&'static str> {
+        let k = key(name);
+        let s = self.sessions.get(&k)?;
+        if s.room.is_some() || self.rooms.values().any(|r| !r.finished && r.keys.contains(&k)) {
+            Some("Finish your game before changing your username.")
+        } else if s.table.is_some() || self.queue.iter().any(|q| q.key == k) {
+            Some("Leave your table or the queue before changing your username.")
+        } else if self
+            .tournaments
+            .values()
+            .any(|t| t.state != TournamentState::Finished && t.players.contains(&k))
+        {
+            Some("Leave your tournament before changing your username.")
+        } else {
+            None
+        }
+    }
+
+    /// The online player `old` changed their username to `user.username`:
+    /// their session starts again under the new name on the same
+    /// connection (everyone sees the old name leave and the new one come).
+    /// Only when [`Lounge::rename_blocker`] has nothing against it.
+    pub fn renamed(&mut self, old: &str, user: User, token: String) {
+        let (old_k, new_k) = (key(old), key(&user.username));
+        let Some(s) = self.sessions.get(&old_k) else { return };
+        let (conn_id, tx, kill, ip) = (s.conn_id, s.tx.clone(), s.kill.clone(), s.ip.clone());
+        let (blocked, look, achievements) =
+            (s.blocked.clone(), s.look.clone(), s.achievements.clone());
+        let (protocol, guest) = (s.protocol, s.guest);
+        // A new name doesn't wipe the slate: games left and games against
+        // the same opponent still count.
+        if old_k != new_k {
+            if let Some(list) = self.abandoned.remove(&old_k) {
+                self.abandoned.insert(new_k.clone(), list);
+            }
+            let swap = |n: &String| if *n == old_k { new_k.clone() } else { n.clone() };
+            self.pair_games = std::mem::take(&mut self.pair_games)
+                .into_iter()
+                .map(|((a, b), list)| {
+                    let mut pair = [swap(&a), swap(&b)];
+                    pair.sort();
+                    let [a, b] = pair;
+                    ((a, b), list)
+                })
+                .collect();
+            for (a, b, _) in &mut self.recent_pairs {
+                (*a, *b) = (swap(a), swap(b));
+            }
+        }
+        let name = user.username.clone();
+        self.leave(old, conn_id);
+        self.join(conn_id, user, guest, tx, kill, token, ip, blocked);
+        self.set_protocol(&name, protocol);
+        self.set_achievements(&name, achievements);
+        self.set_look(&name, look);
+    }
+
     /// Replaces the cached account of an online player (after a change by
     /// the staff, a new country, a finished match…).
     pub fn refresh_user(&mut self, user: User) {
@@ -1004,6 +1063,7 @@ impl Lounge {
             | ClientMsg::ChangePassword { .. }
             | ClientMsg::SetRecoveryEmail { .. }
             | ClientMsg::DeleteAccount { .. }
+            | ClientMsg::ChangeUsername { .. }
             | ClientMsg::GiftItem { .. }
             | ClientMsg::Missions
             | ClientMsg::Replays

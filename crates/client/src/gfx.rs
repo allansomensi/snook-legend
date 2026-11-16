@@ -392,11 +392,11 @@ impl Surface {
         haze: 0.0,
     };
     pub const BALL: Surface = Surface {
-        specular: 2.2,
-        shininess: 380.0,
+        specular: 1.5,
+        shininess: 320.0,
         unlit: false,
-        rim: 0.03,
-        coat: 0.8,
+        rim: 0.02,
+        coat: 0.5,
         cut: 0.0,
         haze: 0.0,
     };

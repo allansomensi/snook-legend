@@ -9,7 +9,7 @@ use snookered_proto::Role;
 use snookered_proto::replay::{Replay, Stroke};
 use snookered_server::store::{
     BuyOutcome, FriendOutcome, FriendState, LiveMatch, MatchRecord, NewNote, NewReport, NewUser,
-    Payment, SessionKind, Store, TournamentRecord, day_of,
+    Payment, Rename, SessionKind, Store, TournamentRecord, day_of,
 };
 
 fn new_user<'a>(name: &'a str) -> NewUser<'a> {
@@ -476,10 +476,34 @@ async fn retention(store: Store) {
     assert_eq!((week.d1, week.d7, week.d30), (Some(50.0), Some(50.0), Some(50.0)));
 }
 
+/// Username changes: a limited number, and never to someone else's name.
+async fn renames(store: &Store) {
+    let a = store.create_user(&new_user("ren_a")).await.unwrap().unwrap();
+    store.create_user(&new_user("ren_b")).await.unwrap().unwrap();
+    assert_eq!(a.name_changes, 0);
+    assert_eq!(store.change_username(a.id, "REN_B", 3).await.unwrap(), Rename::Taken);
+    assert_eq!(store.change_username(a.id, "ren_c", 3).await.unwrap(), Rename::Done);
+    // Only the letter case: the same name to the index, still a change.
+    assert_eq!(store.change_username(a.id, "Ren_C", 3).await.unwrap(), Rename::Done);
+    let u = store.user_by_name("ren_c").await.unwrap().unwrap();
+    assert_eq!((u.id, u.username.as_str(), u.name_changes), (a.id, "Ren_C", 2));
+    assert!(store.user_by_name("ren_a").await.unwrap().is_none(), "the old name is free");
+    assert_eq!(store.change_username(a.id, "ren_d", 3).await.unwrap(), Rename::Done);
+    assert_eq!(store.change_username(a.id, "ren_e", 3).await.unwrap(), Rename::NoChangesLeft);
+    assert_eq!(store.user_by_id(a.id).await.unwrap().unwrap().username, "ren_d");
+    // The old name is anyone's again.
+    assert!(store.create_user(&new_user("ren_a")).await.unwrap().is_some());
+    // A deleted account keeps its anonymous name.
+    let gone = store.create_user(&new_user("ren_gone")).await.unwrap().unwrap();
+    store.delete_account(gone.id, 1).await.unwrap();
+    assert_eq!(store.change_username(gone.id, "ren_back", 3).await.unwrap(), Rename::NoChangesLeft);
+}
+
 #[tokio::test]
 async fn memory_store() {
     exercise(Store::memory()).await;
     retention(Store::memory()).await;
+    renames(&Store::memory()).await;
 }
 
 #[tokio::test]
@@ -501,4 +525,5 @@ async fn postgres_store() {
         pool.execute("DROP SCHEMA public CASCADE; CREATE SCHEMA public;").await.unwrap();
     }
     retention(Store::postgres(&url, 3).await.unwrap()).await;
+    renames(&Store::postgres(&url, 3).await.unwrap()).await;
 }

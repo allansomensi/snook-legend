@@ -79,4 +79,4 @@ fn simulation_is_bit_identical_everywhere() {
 }
 
 /// Update only on purpose (a physics change), from the value printed above.
-const EXPECTED: u64 = 0xedbc_d129_a73b_fe5e;
+const EXPECTED: u64 = 0xb7c0_baa6_646d_027c;

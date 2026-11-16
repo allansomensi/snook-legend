@@ -58,7 +58,7 @@ which every desktop installation has. How releases are made is described in
 - **Computer opponents**: ten named opponents with their own portraits and
   styles (cautious, all-out attack, bank artist, positional…) over three skill
   levels. They play with the same physics and rules: they simulate candidate
-  shots and score the outcome. **The ladder** takes you through all ten, and
+  shots and score the outcome. **The tour** takes you through all ten, and
   its final win (checked by the server, stroke by stroke) earns an exclusive
   cue. **Ghosts** play in the measured style of a real player. Games against
   the computer never touch ratings or coins.

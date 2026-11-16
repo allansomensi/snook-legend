@@ -824,11 +824,16 @@ impl Match {
 
     /// The aiming guide drawn: never the full guide in a game against a
     /// person over the network (rated or not, watching included), whatever
-    /// `guide` says; the full one is for games against the computer and
-    /// practice.
+    /// `guide` says; the full one is for free games against the computer
+    /// and practice.
     pub fn guide_in_use(&self) -> AimGuide {
-        // The daily challenge and the drills are ranked: the same rule.
-        if self.online.is_some() || self.daily.is_some() || self.drill.is_some() {
+        // The daily challenge, the drills and the tour are ranked or
+        // rewarded: the same rule.
+        if self.online.is_some()
+            || self.daily.is_some()
+            || self.drill.is_some()
+            || self.ladder.is_some()
+        {
             self.guide.online()
         } else {
             self.guide

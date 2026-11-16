@@ -60,6 +60,8 @@ differently, so older games (0.2.0 and before) must update to play online.
   frame (guides, shadows) no longer allocate per quad.
 - The lamps over the table, their light and their haze span the table's
   length, whatever its size.
+- The balls are a little less glossy: a softer highlight from the lamps
+  and a fainter reflection of the room, closer to real resin balls.
 
 ### Lounge
 - While "Play now" looks for an opponent, "Practise while you wait" opens a
@@ -87,10 +89,21 @@ differently, so older games (0.2.0 and before) must update to play online.
   how many were won and the balls made with it (migration 0011; wins so far
   count as games).
 - A trophy shelf on the profile (the Trophies tab): tournaments won (with
-  how many played), the computer ladder and the days topped in the daily
+  how many played), the computer tour and the days topped in the daily
   challenge, newest first, with the date.
+- Change your username in the account dialog, up to three times in all
+  (the dialog shows how many changes are left). The same rules as a new
+  account, never someone else's name in any letter case, and not during a
+  game, at a table, in the queue or in a tournament. You stay signed in;
+  friends, games and items follow the account (migration 0012).
 
 ### Against the computer
+- The ladder is now the **Tour**: ten stages, one opponent each, the same
+  exclusive cue for winning it all.
+- Marta "the Wall" plays the part again on the bigger table: she goes for
+  a pot only when it's on, and otherwise plays safe. (A careful player no
+  longer counts on a missed pot to leave nothing, only on a safety played
+  on purpose.)
 - The opponents talk: a line now and then in a speech bubble under their
   card, about your shots and their own, in each one's voice (Bruno wants
   more power, Kenji quotes physics, Rosa "hardly ever plays"…), in every
@@ -140,7 +153,9 @@ differently, so older games (0.2.0 and before) must update to play online.
   winner's coins. Resigning is never punished.
 - The full aiming guide can never show in a game against a person over the
   network, rated or casual (nor when watching): the guide drawn is checked
-  at the table itself, whatever the setting says.
+  at the table itself, whatever the setting says. Nor in the Tour, where
+  a cue is at stake, the daily challenge or the drills: the full guide is
+  for free games against the computer and practice.
 
 ### Cues
 - Six new cues that look like nothing else: Phoenix (flames), Carrara

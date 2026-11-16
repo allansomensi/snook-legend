@@ -545,10 +545,10 @@ async fn main() {
             if ladder_progress.beaten > before {
                 let text = match snookered_proto::ladder::rung(rung + 1) {
                     Some(next) => i18n::tw(
-                        "Rung {n} beaten! Next on the ladder: {name}.",
+                        "Stage {n} won! Next on the tour: {name}.",
                         &[("n", &(rung + 1)), ("name", &next.name)],
                     ),
-                    None => i18n::t("You beat the whole ladder!").to_string(),
+                    None => i18n::t("You won the whole tour!").to_string(),
                 };
                 m.notify(text, true);
             }

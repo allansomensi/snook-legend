@@ -30,6 +30,7 @@ const APPLIED: &[(&str, &str)] = &[
         "0011_cue_stats_daily.sql",
         "bcf9a4b6ead472b0d1d3140ec53c9fc574223c9234cdd72f9be8c17b98cda6f1",
     ),
+    ("0012_name_changes.sql", "068d8947c160821a6ef153933c32784a5d5ad2ea7b7b7b9b774d8a73d64484ce"),
 ];
 
 #[test]

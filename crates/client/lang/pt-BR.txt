@@ -128,7 +128,7 @@ Winter league	Liga de fim de ano
 Win a rated game over the holidays (Dec 15 – Jan 6).	Vença uma partida valendo rating nas festas (15/dez – 6/jan).
 Fireworks	Fogos de artifício
 Win a rated game at the turn of the year (Dec 31 – Jan 1).	Vença uma partida valendo rating na virada do ano (31/dez – 1/jan).
-Shows where the object ball and the cue ball go (never online or in rated games).	Mostra para onde vão a bola da vez e a branca (nunca no online nem em partidas com rating).
+Shows where the object ball and the cue ball go (only in free games and practice).	Mostra para onde vão a bola da vez e a branca (só em partidas livres e no treino).
 {n} online · ping {ms} ms	{n} online · ping {ms} ms
 Right-drag · Wheel	Arraste com o botão direito · Roda
 Win %	% vit.
@@ -402,7 +402,7 @@ The server is busy. Try again in a moment.	O servidor está ocupado. Tente de no
 The tournament starts when it is full (the host can start it earlier).	O torneio começa quando lotar (o anfitrião pode começar antes).
 There are too many tournaments right now. Join one!	Há torneios demais agora. Entre em um!
 This is a LAN server: join as a guest.	Este é um servidor de rede local: entre como convidado.
-Ten rivals, a ladder and ghosts of real players	Dez rivais, a escada e fantasmas de jogadores reais
+Ten rivals, a tour and ghosts of real players	Dez rivais, um circuito e fantasmas de jogadores reais
 Tier	Nível
 Time per shot	Tempo por tacada
 Too many failed attempts. Wait a few minutes and try again.	Muitas tentativas erradas. Espere alguns minutos e tente de novo.
@@ -796,8 +796,8 @@ Computer ({level})	Computador ({level})
 Computer	Computador
 Each opponent has a style of their own	Cada adversário tem um estilo próprio
 Free game	Partida livre
-Ladder	Escada
-Ladder: {n} of {total} beaten	Escada: {n} de {total} vencidos
+Tour	Circuito
+Tour: {n} of {total} beaten	Circuito: {n} de {total} vencidos
 Strength {n}/5	Nível {n}/5
 Ghost	Fantasma
 Accuracy	Precisão
@@ -823,17 +823,17 @@ Play your ghost	Jogar contra seu fantasma
 Play their ghost	Jogar contra o fantasma
 Beaten	Vencido
 Next	Próximo
-Beat the rung below to unlock it.	Vença o degrau de baixo para liberar este.
-Rung {n} of {total}	Degrau {n} de {total}
+Win the previous stage to unlock this one.	Vença a etapa anterior para liberar esta.
+Stage {n} of {total}	Etapa {n} de {total}
 Challenge {name}	Desafiar {name}
-Rung {n} beaten! Next on the ladder: {name}.	Degrau {n} vencido! Próximo na escada: {name}.
-You beat the whole ladder!	Você venceu a escada inteira!
+Stage {n} won! Next on the tour: {name}.	Etapa {n} vencida! Próximo no circuito: {name}.
+You won the whole tour!	Você venceu o circuito inteiro!
 Reward	Prêmio
 {item} cue · exclusive	Taco {item} · exclusivo
 Yours: find it in the shop, under Cues.	É seu: está na loja, em Tacos.
-Beat the last rung again while signed in to claim it.	Vença o último degrau de novo, conectado, para recebê-lo.
+Win the last stage again while signed in to claim it.	Vença a última etapa de novo, conectado, para recebê-lo.
 Beat all ten opponents to earn it. It is sold nowhere.	Vença os dez adversários para ganhá-lo. Não é vendido em lugar nenhum.
-You beat the ladder! Sign in to claim your reward.	Você venceu a escada! Entre para receber seu prêmio.
+You won the tour! Sign in to claim your reward.	Você venceu o circuito! Entre para receber seu prêmio.
 The server is checking your final game…	O servidor está conferindo sua partida final…
 Try again	Tentar de novo
 The server did not answer. Try again in a moment.	O servidor não respondeu. Tente de novo em instantes.
@@ -863,10 +863,10 @@ Thinks three balls ahead: every shot leaves the cue ball where the next one is e
 The Sharpshooter	A Atiradora de Elite
 Pots from anywhere, at any angle. Her safeties are an afterthought: she doesn't need them.	Encaçapa de qualquer lugar, em qualquer ângulo. Defesa é o de menos: ela não precisa.
 The Champion	O Campeão
-Unbeaten for years. Precise, patient and merciless: the last step of the ladder.	Invicto há anos. Preciso, paciente e implacável: o último degrau da escada.
-Ladder king	Rei da escada
-King of the ladder	Rei da escada
-Beat all ten opponents of the computer ladder.	Vença os dez adversários da escada contra o computador.
+Unbeaten for years. Precise, patient and merciless: the last stage of the tour.	Invicto há anos. Preciso, paciente e implacável: a última etapa do circuito.
+Tour champion	Campeão do circuito
+Champion of the tour	Campeão do circuito
+Beat all ten opponents of the computer tour.	Vença os dez adversários do circuito contra o computador.
 Connecting to {server}…	Conectando a {server}…
 Connection lost. Reconnecting (attempt {n})…	Conexão perdida. Reconectando (tentativa {n})…
 Connection lost. Reconnecting…	Conexão perdida. Reconectando…
@@ -1338,7 +1338,7 @@ Stop	Parar
 Trophies	Troféus
 No trophies yet.	Nenhum troféu ainda.
 Tournament won · {n} players	Torneio vencido · {n} jogadores
-The computer ladder	A escada contra o computador
+The computer tour	O circuito contra o computador
 All ten opponents beaten	Os dez adversários vencidos
 Daily challenge	Desafio do dia
 First of {n} players	Primeiro entre {n} jogadores
@@ -1591,3 +1591,12 @@ Your last shot: {p}%	Sua última tacada: {p}%
 Solids	Lisas
 Stripes	Listradas
 Hide the history	Esconder o histórico
+New username	Novo usuário
+Click again to confirm	Clique de novo para confirmar
+{n} of {total} name changes left	{n} de {total} trocas de nome restantes
+You can't change your username again.	Você não pode mais trocar seu nome de usuário.
+That is already your username.	Esse já é o seu nome de usuário.
+Finish your game before changing your username.	Termine sua partida antes de trocar seu nome de usuário.
+Leave your table or the queue before changing your username.	Saia da sua mesa ou da fila antes de trocar seu nome de usuário.
+Leave your tournament before changing your username.	Saia do seu torneio antes de trocar seu nome de usuário.
+Username changed.	Nome de usuário alterado.

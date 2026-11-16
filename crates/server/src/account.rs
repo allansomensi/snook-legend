@@ -1,11 +1,11 @@
-//! The player's own account: password, recovery e-mail, deletion, the daily
-//! bonus and coins earned by playing.
+//! The player's own account: username, password, recovery e-mail, deletion,
+//! the daily bonus and coins earned by playing.
 
 use std::sync::Arc;
 
-use snookered_proto::{ClientMsg, ServerMsg, valid_password};
+use snookered_proto::{ClientMsg, MAX_NAME_CHANGES, ServerMsg, valid_password, valid_username};
 
-use crate::store::{User, day_of};
+use crate::store::{Rename, User, day_of};
 use crate::{Server, now, token_hash};
 
 /// Coins for a finished rated game, and extra for winning it.
@@ -29,8 +29,12 @@ pub fn valid_email(e: &str) -> bool {
         && e.chars().all(|c| c.is_ascii_graphic())
 }
 
-fn account_msg(user: &User, payment_email: Option<String>) -> ServerMsg {
-    ServerMsg::Account { recovery_email: user.recovery_email.clone(), payment_email }
+pub(crate) fn account_msg(user: &User, payment_email: Option<String>) -> ServerMsg {
+    ServerMsg::Account {
+        recovery_email: user.recovery_email.clone(),
+        payment_email,
+        name_changes_left: MAX_NAME_CHANGES.saturating_sub(user.name_changes),
+    }
 }
 
 /// An account message from a signed-in player (never a guest).
@@ -128,6 +132,70 @@ pub async fn handle(
         _ => {}
     }
     false
+}
+
+/// Changes a signed-in player's username (at most [`MAX_NAME_CHANGES`]
+/// times, never during a game, at a table, in the queue or in a
+/// tournament). Returns the account under its new name; the caller moves
+/// the player's session in the lounge to it.
+pub async fn change_username(
+    server: &Server,
+    me: &User,
+    username: &str,
+    send: &impl Fn(ServerMsg),
+) -> Option<User> {
+    let error = |text: &str| send(ServerMsg::Error { message: text.to_string() });
+    let name = username.trim();
+    let Ok(Some(mut fresh)) = server.store.user_by_id(me.id).await else {
+        error("Something went wrong. Please try again.");
+        return None;
+    };
+    if fresh.name_changes >= MAX_NAME_CHANGES {
+        error("You can't change your username again.");
+        return None;
+    }
+    if name == fresh.username {
+        error("That is already your username.");
+        return None;
+    }
+    // The same rules as for a new account (a deleted account's name has a
+    // dash, so it is never valid).
+    if !valid_username(name) {
+        error("Usernames have 3–16 letters, digits or underscores.");
+        return None;
+    }
+    if server.is_reserved_name(name) && !name.eq_ignore_ascii_case(&fresh.username) {
+        error("That username is taken.");
+        return None;
+    }
+    if let Some(why) = server.with(|l| l.rename_blocker(&me.username)) {
+        error(why);
+        return None;
+    }
+    match server.store.change_username(me.id, name, MAX_NAME_CHANGES).await {
+        Ok(Rename::Done) => {}
+        Ok(Rename::Taken) => {
+            error("That username is taken.");
+            return None;
+        }
+        Ok(Rename::NoChangesLeft) => {
+            error("You can't change your username again.");
+            return None;
+        }
+        Err(e) => {
+            tracing::error!("username change: {e}");
+            error("Something went wrong. Please try again.");
+            return None;
+        }
+    }
+    tracing::info!(user = me.id, from = %fresh.username, to = name, "username changed");
+    fresh.username = name.to_string();
+    fresh.name_changes += 1;
+    server.invalidate_leaderboard();
+    let payment = server.store.payment_email(me.id).await.ok().flatten();
+    send(account_msg(&fresh, payment));
+    send(ServerMsg::Notice { text: "Username changed.".into() });
+    Some(fresh)
 }
 
 /// Signing in: marks the day as active and pays the daily bonus once a day.

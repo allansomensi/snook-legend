@@ -12,7 +12,7 @@ mod correspondence;
 use super::{
     AimRow, AuditRow, BoardNote, BuyOutcome, FriendOutcome, FriendState, GiftRow, HistoryRow,
     LedgerRow, LiveMatch, MatchRecord, Metrics, NewGift, NewNote, NewReport, NewUser, Overview,
-    Payment, RECENT_SCAN, RecentRow, ReportRow, SessionKind, StoreResult, StoredReplay,
+    Payment, RECENT_SCAN, RecentRow, Rename, ReportRow, SessionKind, StoreResult, StoredReplay,
     TournamentRecord, User, Wallet, day_of, hour_of,
 };
 use snookered_proto::analysis::ShotAnalysis;
@@ -184,6 +184,7 @@ impl MemoryStore {
             abandons: 0,
             status_message: String::new(),
             xp: 0,
+            name_changes: 0,
         };
         s.users.insert(user.id, user.clone());
         Ok(Some(user))
@@ -629,6 +630,26 @@ impl MemoryStore {
             u.recovery_email = email.map(str::to_string);
         }
         Ok(())
+    }
+
+    pub fn change_username(&self, user_id: i64, name: &str, limit: u32) -> StoreResult<Rename> {
+        let mut s = self.lock();
+        if s.by_name(name).is_some_and(|u| u.id != user_id) {
+            return Ok(Rename::Taken);
+        }
+        let Some(u) = s.users.get_mut(&user_id).filter(|u| u.deleted_at.is_none()) else {
+            return Ok(Rename::NoChangesLeft);
+        };
+        if u.name_changes >= limit {
+            return Ok(Rename::NoChangesLeft);
+        }
+        let old = std::mem::replace(&mut u.username, name.to_string());
+        u.name_changes += 1;
+        // The board keeps its authors by name here (the database looks them up).
+        for n in s.board.iter_mut().filter(|n| n.author == old) {
+            n.author = name.to_string();
+        }
+        Ok(Rename::Done)
     }
 
     pub fn payment_email(&self, user_id: i64) -> StoreResult<Option<String>> {

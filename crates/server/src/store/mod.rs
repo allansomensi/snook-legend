@@ -68,6 +68,9 @@ pub struct User {
     pub status_message: String,
     /// Experience for the account level (see `snookered_proto::xp`).
     pub xp: i64,
+    /// Times the player changed their username (see
+    /// `snookered_proto::MAX_NAME_CHANGES`).
+    pub name_changes: u32,
 }
 
 impl User {
@@ -450,6 +453,16 @@ pub enum FriendState {
     Incoming,
 }
 
+/// What became of a username change.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Rename {
+    Done,
+    /// Someone else has the name (in any letter case).
+    Taken,
+    /// The player used up their changes (or the account is gone).
+    NoChangesLeft,
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum FriendOutcome {
     Sent,
@@ -736,6 +749,16 @@ impl Store {
 
     pub async fn set_recovery_email(&self, user_id: i64, email: Option<&str>) -> StoreResult<()> {
         dispatch!(self, s => s.set_recovery_email(user_id, email))
+    }
+    /// Gives the player the username `name`, unless someone else has it or
+    /// they already changed theirs `limit` times.
+    pub async fn change_username(
+        &self,
+        user_id: i64,
+        name: &str,
+        limit: u32,
+    ) -> StoreResult<Rename> {
+        dispatch!(self, s => s.change_username(user_id, name, limit))
     }
     /// The e-mail given at this player's latest payment.
     pub async fn payment_email(&self, user_id: i64) -> StoreResult<Option<String>> {

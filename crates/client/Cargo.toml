@@ -17,10 +17,10 @@ license = false
 eula = false
 
 [features]
-# The Microsoft Store build (see docs/MSSTORE.md): no real-money purchases
-# through the game's own payment pages (Store policy for games); coins come
-# from playing.
-store = []
+# The Microsoft Store build (see docs/MSSTORE.md): coin packs are bought
+# through the Store itself (Store policy for games), never through the
+# game's own payment pages; the Store's purchase API comes with it (Windows).
+store = ["dep:windows", "dep:windows-collections"]
 
 [build-dependencies]
 # The executable's icon and version details on Windows (see build.rs).
@@ -61,6 +61,17 @@ lzma-rust2 = { version = "0.25", default-features = false, features = ["std", "x
 [target.'cfg(windows)'.dependencies]
 zip = { version = "9", default-features = false, features = ["deflate-flate2"] }
 flate2 = "1"
+# The Store build only: Windows.Services.Store (prices, the purchase dialog
+# and the key the server checks purchases with; see src/msstore.rs).
+windows = { version = "0.62", optional = true, features = [
+    "Services_Store",
+    "Foundation",
+    "Foundation_Collections",
+    "Win32_Foundation",
+    "Win32_System_WinRT",
+    "Win32_UI_Shell",
+] }
+windows-collections = { version = "0.3", optional = true }
 
 [dev-dependencies]
 # Exporting the emblem as PNG and .ico files (see src/icon.rs).

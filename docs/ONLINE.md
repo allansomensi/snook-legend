@@ -80,6 +80,15 @@ shooter                     server                         opponent
   `subscribe_vip` and `manage_vip` answer `payment_page { url }` (Stripe).
   Payments arrive through `POST /stripe/webhook` (see
   `crates/server/src/shop.rs`).
+- Microsoft Store purchases (the Store build): `shop_info.store_packs` lists
+  the coin packs and their add-ons' Store IDs. After a purchase in the
+  Store's dialog (and once per session), the game sends `store_ticket`; the
+  server answers `store_ticket { ticket, user_id }`, the Store makes a key
+  from them and the game sends `store_redeem { key }`. The server asks
+  Microsoft for the purchases, consumes and credits them, and answers
+  `store_redeemed { coins, pending, error }` (also sent by itself when a
+  purchase that was waiting for Microsoft is credited later). See
+  `crates/server/src/msstore.rs`.
 - `queue_join { rated }` / `queue_leave`: "Play now"; the server sends
   `queue { searching, waited_secs, range }` and then `match_started`.
 - `react { code }` sends a reaction to the table (`reaction { seat, code }`

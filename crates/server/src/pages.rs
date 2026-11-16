@@ -13,7 +13,7 @@ use crate::Server;
 const PRIVACY_PT: &str = include_str!("../pages/privacy.pt-BR.html");
 const PRIVACY_EN: &str = include_str!("../pages/privacy.en.html");
 /// The date shown at the top of the policy: change it with the text.
-const PRIVACY_UPDATED: &str = "2026-11-12";
+const PRIVACY_UPDATED: &str = "2026-11-16";
 
 /// Who the policy names (from `SNOOKERED_GAME_NAME`, `SNOOKERED_PRIVACY_CONTROLLER`
 /// and `SNOOKERED_PRIVACY_CONTACT`).

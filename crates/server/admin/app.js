@@ -294,7 +294,10 @@ const views = {
     const today = Math.floor(d.now / 86400);
     const days = Array.from({ length: 30 }, (_, k) => today - 29 + k);
     const dayLabel = (day) => new Date(day * 86400 * 1000).toLocaleDateString([], { day: "2-digit", month: "2-digit" });
-    const currencies = [...new Set(m.revenue_days.map((r) => r[1]))].sort();
+    // Microsoft Store purchases carry no amount (Microsoft keeps the price
+    // and pays out through Partner Center): counted apart.
+    const msstore = m.revenue.find((r) => r[0] === "msstore");
+    const currencies = [...new Set(m.revenue_days.map((r) => r[1]))].filter((c) => c !== "msstore").sort();
     const revenueCharts = currencies.length
       ? currencies.map((cur) => {
         const by = new Map(m.revenue_days.filter((r) => r[1] === cur).map((r) => [r[0], r]));
@@ -334,6 +337,7 @@ const views = {
       el("h2", {}, "Players by hour (48 h)"), el("div", { class: "card chart-card" }, playersChart),
       el("h2", {}, "Games by hour (48 h)"), el("div", { class: "card chart-card" }, gamesChart),
       el("h2", {}, "Revenue by day (30 days)"), el("div", { class: "charts" }, revenueCharts),
+      msstore ? el("p", { class: "muted" }, "Microsoft Store: " + msstore[2] + (msstore[2] === 1 ? " coin pack" : " coin packs") + " in 30 days (amounts and payouts are in Partner Center).") : null,
       el("h2", {}, "\"Play now\": latest waits"), el("div", { class: "card chart-card" }, waitsChart),
       el("p", { class: "muted" }, "The funnel starts at the account: installs are not counted (the game sends nothing before signing in). Active players per hour are signed-in accounts seen online; peaks count guests too."),
       el("details", { class: "days" }, el("summary", {}, "Last 30 days, day by day"),
@@ -500,7 +504,7 @@ async function showUser(name) {
     d.payments.length ? table(["When", "Kind", "Coins", "Amount", "Refunded", "Id", ""], d.payments.map((p) => el("tr", {},
       el("td", {}, fmtDate(p.at)), el("td", {}, p.kind, p.test ? el("span", { class: "tag mute" }, " test") : null),
       el("td", {}, p.coins),
-      el("td", {}, (p.amount / 100).toFixed(2) + " " + p.currency.toUpperCase()), el("td", {}, p.refunded ? "yes" : ""),
+      el("td", {}, p.currency === "msstore" ? "Microsoft Store" : (p.amount / 100).toFixed(2) + " " + p.currency.toUpperCase()), el("td", {}, p.refunded ? "yes" : ""),
       el("td", {}, p.id),
       el("td", {}, me && me.role === "admin" ? el("button", {
         onclick: async () => {
@@ -510,6 +514,20 @@ async function showUser(name) {
           } catch (e) { toast(e.message); }
         },
       }, p.test ? "Mark as real" : "Mark as test") : null)))) : el("p", { class: "muted" }, "No payments."),
+    (d.msstore || []).length ? el("h2", {}, "Microsoft Store purchases") : null,
+    (d.msstore || []).length ? table(["Found", "Pack", "Coins", "State", "Tries", "Last error", "Purchase", "Orders", ""], d.msstore.map((r) => el("tr", {},
+      el("td", {}, fmtDate(r.created_at)), el("td", {}, r.pack), el("td", {}, r.coins),
+      el("td", {}, el("span", { class: "tag" + (r.state === "done" ? " on" : r.state === "pending" ? " mute" : " ban") }, r.state)),
+      el("td", {}, r.attempts), el("td", {}, r.last_error || ""),
+      el("td", {}, r.transaction_id), el("td", {}, r.order_ids || ""),
+      el("td", {}, r.state === "stuck" && me && me.role === "admin" ? el("button", {
+        onclick: async () => {
+          try {
+            await api("/msstore/" + encodeURIComponent(r.tracking_id) + "/retry", { method: "POST" });
+            toast("Sent to Microsoft again."); showUser(name);
+          } catch (e) { toast(e.message); }
+        },
+      }, "Send again") : null)))) : null,
     d.ledger.length ? table(["When", "Coins", "Why"], d.ledger.map((l) => el("tr", {},
       el("td", {}, fmtDate(l.at)), el("td", {}, (l.delta > 0 ? "+" : "") + l.delta), el("td", {}, l.reason)))) : null,
     el("h2", {}, "Reports about this player (" + d.reports.length + ")"),

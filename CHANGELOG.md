@@ -1,5 +1,27 @@
 # Changelog
 
+## Unreleased
+
+Migration 0011 runs on start-up. Older games keep working: they never ask
+for the new messages and ignore the new field of the shop's offers.
+
+### Microsoft Store
+- Coin packs can be bought in the Microsoft Store version, through the
+  Store's own purchase dialog and with prices in the player's currency (the
+  Store's policy for games). VIP and the welcome pack are still not sold
+  there.
+- The server never takes the game's word for a purchase: it asks Microsoft
+  which packs the player's Microsoft account bought, has Microsoft consume
+  each one under a tracking id saved beforehand, and credits the coins only
+  on Microsoft's confirmation, once. Answers lost on the way are asked again
+  (on the next visit to the shop and every minute in the background) until
+  Microsoft answers; a purchase paid while the game closed arrives the next
+  time the shop opens.
+- The staff panel lists each player's Store purchases (pending, done,
+  refused or stuck, with Microsoft's order ids) and counts Store sales in
+  the metrics.
+- The privacy policy says what is kept about Store purchases.
+
 ## 0.2.0 (protocol 13)
 
 The server still lets 0.1.2 to 0.1.4 in (protocols 11 and 12): they keep

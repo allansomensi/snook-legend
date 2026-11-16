@@ -15,6 +15,8 @@
 //! | `SNOOKERED_SHOT_CLOCK` | `30` | seconds per shot |
 //! | `SNOOKERED_STRIPE_SECRET` | — | Stripe secret key (payments; see `payments.rs`) |
 //! | `SNOOKERED_STRIPE_WEBHOOK_SECRET` | — | Stripe webhook signing secret |
+//! | `SNOOKERED_MSSTORE_TENANT_ID`, `_CLIENT_ID`, `_CLIENT_SECRET` | — | Microsoft Entra app for Store purchases (see `msstore.rs`) |
+//! | `SNOOKERED_MSSTORE_PRODUCTS` | — | `coins_500=9XXXXXXXXXXX;…`: the Store add-on of each coin pack |
 //! | `SNOOKERED_STRIPE_PRICES` | — | `code=price_id\|label;…` for coin packs and `vip_monthly` |
 //! | `SNOOKERED_PUBLIC_URL` | — | the server's public address (payment return pages) |
 //! | `SNOOKERED_GAME_NAME` | `Snookered` | the game's name on the privacy policy (`/privacidade`, `/privacy`) |
@@ -80,6 +82,7 @@ async fn main() {
         client_ip_header: env("SNOOKERED_CLIENT_IP_HEADER").map(|h| h.to_lowercase()),
         proxy_hops: env("SNOOKERED_PROXY_HOPS").and_then(|v| v.parse().ok()).unwrap_or(1),
         stripe: snookered_server::payments::StripeConfig::from_env(),
+        msstore: snookered_server::msstore::MsStoreConfig::from_env(),
         privacy: {
             let mut p = snookered_server::pages::PrivacyInfo::default();
             if let Some(v) = env("SNOOKERED_GAME_NAME") {
@@ -97,6 +100,10 @@ async fn main() {
     match &config.stripe {
         Some(s) => tracing::info!("payments on ({} prices)", s.prices.len()),
         None => tracing::info!("payments off (SNOOKERED_STRIPE_* not set)"),
+    }
+    match &config.msstore {
+        Some(m) => tracing::info!("Microsoft Store purchases on ({} packs)", m.products.len()),
+        None => tracing::info!("Microsoft Store purchases off (SNOOKERED_MSSTORE_* not set)"),
     }
     if in_memory {
         tracing::warn!("running in memory: accounts and games are lost when the server stops");

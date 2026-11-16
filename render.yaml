@@ -17,6 +17,17 @@ services:
       # Neon connection string (the direct one, not "-pooler"). Set it in the dashboard.
       - key: DATABASE_URL
         sync: false
+      # Coin packs sold in the Microsoft Store (docs/MSSTORE.md, "Venda de
+      # moedas pela Store"). Set them in the dashboard; without them the
+      # Store version only earns coins by playing.
+      - key: SNOOKERED_MSSTORE_TENANT_ID
+        sync: false
+      - key: SNOOKERED_MSSTORE_CLIENT_ID
+        sync: false
+      - key: SNOOKERED_MSSTORE_CLIENT_SECRET
+        sync: false
+      - key: SNOOKERED_MSSTORE_PRODUCTS
+        sync: false
       # Your username: you become an administrator the next time you sign in.
       - key: SNOOKERED_ADMINS
         sync: false

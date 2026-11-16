@@ -8,6 +8,7 @@ use snookered_proto::{LeaderboardEntry, Role};
 use snookered_proto::CareerNumbers;
 
 mod correspondence;
+mod msstore;
 
 use super::{
     AimRow, AuditRow, BoardNote, BuyOutcome, FriendOutcome, FriendState, GiftRow, HistoryRow,
@@ -69,6 +70,8 @@ struct Inner {
     ladder_claims: HashMap<i64, (u64, u32, i64)>,
     /// Presents (names and countries filled in when read).
     gifts: Vec<GiftRow>,
+    /// Microsoft Store purchases being fulfilled (see `msstore.rs`).
+    ms_consumes: Vec<msstore::MsRow>,
 }
 
 impl Inner {

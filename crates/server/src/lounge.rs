@@ -938,6 +938,8 @@ impl Lounge {
             | ClientMsg::ManageVip
             | ClientMsg::GiftVip { .. }
             | ClientMsg::BuyWelcomePack
+            | ClientMsg::StoreTicket
+            | ClientMsg::StoreRedeem { .. }
             | ClientMsg::FriendRequest { .. }
             | ClientMsg::FriendAnswer { .. }
             | ClientMsg::FriendRemove { .. }

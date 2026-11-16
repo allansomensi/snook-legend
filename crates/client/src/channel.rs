@@ -1,15 +1,16 @@
 //! Where this copy of the game was distributed, and what that changes.
 //!
 //! The same code makes every build. The Microsoft Store build (feature
-//! `store`, see `docs/MSSTORE.md`) sells nothing for real money through the
-//! game's own payment pages: the Store's policies ask games to sell digital
-//! items through the Store, so until that is wired up, coins there come
-//! from playing (rated games and the daily bonus) and VIP is not offered.
+//! `store`, see `docs/MSSTORE.md`) sells nothing through the game's own
+//! payment pages: the Store's policies ask games to sell digital items
+//! through the Store, so coin packs there are Store add-ons (see
+//! `msstore.rs`), and VIP and the welcome pack are not offered.
 
 /// This is the Microsoft Store build.
 pub const STORE: bool = cfg!(feature = "store");
 
-/// Coin packs and VIP may be bought through the game's payment pages.
+/// Coin packs and VIP may be bought through the game's own payment pages
+/// (Stripe); the Store build buys coin packs in the Store instead.
 pub const fn real_money_purchases() -> bool {
     !STORE
 }

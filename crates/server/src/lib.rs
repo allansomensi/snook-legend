@@ -21,6 +21,7 @@ pub mod limits;
 pub mod lounge;
 pub mod metrics;
 pub mod missions;
+pub mod msstore;
 pub mod pages;
 pub mod payments;
 pub mod replay_view;
@@ -114,6 +115,8 @@ pub struct Config {
     pub proxy_hops: usize,
     /// Real-money payments (none when not configured).
     pub stripe: Option<payments::StripeConfig>,
+    /// Coin packs sold in the Microsoft Store (none when not configured).
+    pub msstore: Option<msstore::MsStoreConfig>,
     /// Who the privacy policy names (`/privacidade`, `/privacy`).
     pub privacy: pages::PrivacyInfo,
 }
@@ -129,6 +132,7 @@ impl Default for Config {
             client_ip_header: None,
             proxy_hops: 1,
             stripe: None,
+            msstore: None,
             privacy: pages::PrivacyInfo::default(),
         }
     }
@@ -147,6 +151,8 @@ pub struct Server {
     leaderboard: Mutex<Option<(Instant, Vec<LeaderboardEntry>)>>,
     connections: Mutex<HashMap<IpAddr, usize>>,
     pub stripe: Option<payments::Stripe>,
+    /// Microsoft Store purchases (see [`msstore`]).
+    pub msstore: Option<msstore::MsStore>,
     /// Correspondence games being changed (see [`correspondence`]).
     pub(crate) corr: correspondence::State,
     /// The ladder's reward and ghosts' styles (see [`computer`]).
@@ -192,12 +198,14 @@ impl Server {
         let _ = store.purge_missions(now()).await;
         let (tx, rx) = mpsc::unbounded_channel();
         let stripe = config.stripe.clone().map(payments::Stripe::new);
+        let msstore = config.msstore.clone().map(msstore::MsStore::new);
         let mut lounge = Lounge::new(config.rules.clone(), tx);
         if let Ok(notes) = store.board_notes(now()).await {
             lounge.set_board(notes.into_iter().map(board_note).collect());
         }
         Arc::new(Server {
             stripe,
+            msstore,
             store,
             lounge: Mutex::new(lounge),
             next_conn: AtomicU64::new(1),
@@ -422,6 +430,10 @@ pub fn spawn_background(server: Arc<Server>) {
     // Correspondence games: turns that ran out (also right after a restart).
     if !server.config.rules.lan {
         tokio::spawn(correspondence::run(server.clone()));
+    }
+    // Microsoft Store purchases whose answer was lost on the way.
+    if server.msstore.is_some() {
+        tokio::spawn(msstore::run(server.clone()));
     }
     let rx = server.effects.lock().unwrap_or_else(|e| e.into_inner()).take();
     if let Some(mut rx) = rx {
@@ -840,6 +852,7 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
     let mut flood = Bucket::new(120.0, 40.0);
     // Shop actions (some open payment pages at the provider).
     let mut shop_bucket = Bucket::new(6.0, 0.1);
+    let mut store_bucket = Bucket::new(12.0, 0.2);
     // Requests that read or write the database (profiles, friends, blocks,
     // reports…): plenty for a person, far too few to wear the database down.
     let mut query_bucket = Bucket::new(30.0, 2.0);
@@ -1089,6 +1102,20 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                     send(ServerMsg::Error { message: "Slow down a little.".into() });
                 }
             }
+            msg @ (ClientMsg::StoreTicket | ClientMsg::StoreRedeem { .. }) => {
+                // Each one costs calls to Microsoft: a few per minute at most
+                // (a purchase and the looks after it fit). The answer is one
+                // the Store's buttons understand, so they don't keep waiting.
+                if store_bucket.take() {
+                    msstore::handle(&server, &me, msg, &send).await;
+                } else {
+                    send(ServerMsg::StoreRedeemed {
+                        coins: 0,
+                        pending: false,
+                        error: "Slow down a little.".into(),
+                    });
+                }
+            }
             ClientMsg::SetCountry { country } => {
                 let country = country.trim().to_uppercase();
                 if valid_country(&country)
@@ -1301,6 +1328,8 @@ fn is_account_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::ManageVip
             | ClientMsg::GiftVip { .. }
             | ClientMsg::BuyWelcomePack
+            | ClientMsg::StoreTicket
+            | ClientMsg::StoreRedeem { .. }
             | ClientMsg::GiftItem { .. }
             | ClientMsg::Account
             | ClientMsg::ChangePassword { .. }

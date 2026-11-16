@@ -56,6 +56,7 @@ pub fn router() -> Router<Arc<Server>> {
         .route("/admin/api/chat/clear", post(clear_chat))
         .route("/admin/api/board", get(board).post(pin_note))
         .route("/admin/api/payments/{id}/test", post(payment_test))
+        .route("/admin/api/msstore/{tracking}/retry", post(msstore_retry))
         .route("/admin/api/board/{id}", axum::routing::delete(unpin_note))
         .route("/admin/api/seeks", get(seeks))
         .route("/admin/api/seeks/{name}", axum::routing::delete(remove_seek))
@@ -462,6 +463,7 @@ async fn user_detail(
         server.store.ledger(u.id, 50),
         server.store.payments_of(u.id, 50),
     );
+    let msstore = server.store.ms_consumes_of(u.id, 50).await?;
     let online = server.with(|l| l.is_online(&u.username));
     let history: Vec<Value> = history?
         .into_iter()
@@ -481,6 +483,7 @@ async fn user_detail(
         "wallet": wallet?,
         "ledger": ledger?,
         "payments": payments?,
+        "msstore": msstore,
         "career": career?,
         "payment_email": recovery?,
     })))
@@ -797,6 +800,31 @@ async fn payment_test(
     }
     let what = if body.test { "test" } else { "real" };
     log(&server, &s, "payment", &id, what).await;
+    Ok(Json(json!({ "ok": true })))
+}
+
+/// A stuck Microsoft Store purchase is sent to Microsoft again (with the
+/// same tracking id: if it was consumed, Microsoft says so and the coins are
+/// credited; if not, it is consumed now). Never credits anything by itself.
+async fn msstore_retry(
+    State(server): State<Arc<Server>>,
+    headers: HeaderMap,
+    Path(tracking): Path<String>,
+) -> ApiResult {
+    let s = staff(&server, &headers).await?;
+    require_admin(&s)?;
+    match server.store.ms_reopen(&tracking, now()).await {
+        Ok(true) => {}
+        Ok(false) => return Err(err(StatusCode::NOT_FOUND, "No stuck purchase with this id.")),
+        Err(_) => {
+            return Err(err(
+                StatusCode::CONFLICT,
+                "Another request is already receiving this purchase.",
+            ));
+        }
+    }
+    crate::msstore::retry_due(&server, now()).await;
+    log(&server, &s, "msstore-retry", &tracking, "").await;
     Ok(Json(json!({ "ok": true })))
 }
 

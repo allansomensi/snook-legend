@@ -1323,3 +1323,17 @@ Players' chat (administrator)	Chat dos jogadores (administrador)
 Play the computer while you wait	Jogar contra o computador enquanto espera
 Looking for an opponent… {t} · the game starts as soon as one is found	Procurando adversário… {t} · a partida começa assim que alguém aparecer
 Stop	Parar
+# Coin packs bought in the Microsoft Store (the Store build).
+The Microsoft Store couldn't complete the purchase.	A Microsoft Store não conseguiu concluir a compra.
+The Microsoft Store couldn't confirm the purchase right now. Its coins arrive the next time you open the shop.	A Microsoft Store não conseguiu confirmar a compra agora. As moedas chegam da próxima vez que você abrir a loja.
+{n} coins added to your wallet.	{n} moedas adicionadas à sua carteira.
+Microsoft is confirming your purchase: the coins arrive in a moment.	A Microsoft está confirmando a sua compra: as moedas chegam em instantes.
+The purchase hasn't reached us yet. Its coins arrive the next time you open the shop.	A compra ainda não chegou até nós. As moedas chegam da próxima vez que você abrir a loja.
+Loading prices from the Microsoft Store…	Carregando os preços da Microsoft Store…
+Coins can't be bought in this version yet.	Ainda não dá para comprar moedas nesta versão.
+Finish the purchase in the Microsoft Store window…	Conclua a compra na janela da Microsoft Store…
+Confirming your purchase…	Confirmando a sua compra…
+Paid in the Microsoft Store, with your Microsoft account.	Pago na Microsoft Store, com a sua conta Microsoft.
+The Microsoft Store can't be reached right now. Try again in a moment.	Não foi possível falar com a Microsoft Store agora. Tente de novo em instantes.
+The Microsoft Store could not confirm the purchase.	A Microsoft Store não confirmou a compra.
+Sign in to the Microsoft Store with your Microsoft account, then open the shop again.	Entre na Microsoft Store com a sua conta Microsoft e abra a loja de novo.

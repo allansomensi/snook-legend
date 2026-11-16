@@ -1303,7 +1303,7 @@ impl ShopScreen {
         }
         // Every version earns coins the same way; buying them is only extra.
         let store = !crate::channel::real_money_purchases();
-        let how = if store {
+        let how = if store && offers.store_packs.is_empty() {
             t("In this version of the game, coins are earned by playing:")
         } else {
             t("Coins are earned by playing:")
@@ -1322,6 +1322,7 @@ impl ShopScreen {
             y += 21.0;
         }
         if store {
+            self.store_coins(ui, online, &offers, area, y + 14.0);
             return;
         }
         let below = y + 14.0;
@@ -1372,50 +1373,12 @@ impl ShopScreen {
             top += card.h + GAP;
         }
         let area = Rect::new(area.x, top, area.w, area.h - (top - area.y));
-        let signed_in = online.signed_in();
-        let n = offers.packs.len();
-        let cols = n.min(((area.w + GAP) / (180.0 + GAP)).floor().max(1.0) as usize).max(1);
-        let cw = (area.w - (cols - 1) as f32 * GAP) / cols as f32;
-        let card_h = 168.0;
-        for (k, p) in offers.packs.iter().enumerate() {
-            let c = Rect::new(
-                area.x + (k % cols) as f32 * (cw + GAP),
-                area.y + (k / cols) as f32 * (card_h + GAP),
-                cw,
-                card_h,
-            );
-            rrect(c, 10.0, Color::new(1.0, 1.0, 1.0, 0.035));
-            rrect_lines(c, 10.0, 1.0, BORDER);
-            // A small pile of coins, bigger for bigger packs.
-            let pile = (k + 2).min(5);
-            for i in 0..pile {
-                let x = c.x + c.w / 2.0 + (i as f32 - (pile - 1) as f32 / 2.0) * 10.0;
-                crate::icons::draw(Icon::Coin, vec2(x, c.y + 32.0 - i as f32 * 3.0), 26.0, GOLD);
-            }
-            let total = (p.coins + p.bonus).to_string();
-            ui.text_centered(&total, c.x + c.w / 2.0, c.y + 56.0, 24.0, CREAM, true);
-            ui.text_centered(t("coins"), c.x + c.w / 2.0, c.y + 84.0, 13.0, MUTED, false);
-            if p.bonus > 0 {
-                ui.text_centered(
-                    &tw("+{n} bonus", &[("n", &p.bonus)]),
-                    c.x + c.w / 2.0,
-                    c.y + 102.0,
-                    13.0,
-                    GOLD,
-                    true,
-                );
-            }
-            let b = Rect::new(c.x + 12.0, c.y + c.h - 46.0, c.w - 24.0, 34.0);
-            if signed_in {
-                if ui.primary_button(b, &p.price) {
-                    online.send(ClientMsg::BuyCoins { pack: p.code.clone() });
-                }
-            } else {
-                ui.button(b, &p.price, false);
-            }
+        let cards: Vec<(u32, u32, String)> =
+            offers.packs.iter().map(|p| (p.coins, p.bonus, p.price.clone())).collect();
+        let (clicked, y) = pack_cards(ui, area, &cards, online.signed_in());
+        if let Some(k) = clicked {
+            online.send(ClientMsg::BuyCoins { pack: offers.packs[k].code.clone() });
         }
-        let rows = n.div_ceil(cols) as f32;
-        let y = area.y + rows * (card_h + GAP) + 4.0;
         for (i, line) in [
             t("Payment opens in your browser (card, Pix…), on Stripe's secure page."),
             t("Coins arrive in a moment; they are only used for items in the game."),
@@ -1424,6 +1387,77 @@ impl ShopScreen {
         .enumerate()
         {
             ui.text(line, area.x, y + i as f32 * 20.0, 13.0, MUTED, false);
+        }
+    }
+
+    /// The Microsoft Store build: coin packs bought in the Store (prices
+    /// from the Store, in the player's currency), from `below` down.
+    fn store_coins(
+        &mut self,
+        ui: &mut Ui,
+        online: &mut Online,
+        offers: &crate::online::ShopOffers,
+        area: Rect,
+        below: f32,
+    ) {
+        if offers.store_packs.is_empty() {
+            return;
+        }
+        let Some(prices) = online.store_shop.prices.clone() else {
+            ui.text(
+                t("Loading prices from the Microsoft Store…"),
+                area.x,
+                below,
+                14.0,
+                MUTED,
+                false,
+            );
+            return;
+        };
+        let on_sale: Vec<(&snookered_proto::StorePack, String)> = offers
+            .store_packs
+            .iter()
+            .filter_map(|p| Some((p, prices.get(&p.store_id)?.clone())))
+            .collect();
+        if on_sale.is_empty() {
+            ui.text(
+                t("Coins can't be bought in this version yet."),
+                area.x,
+                below,
+                14.0,
+                MUTED,
+                false,
+            );
+            return;
+        }
+        ui.text(t("If you like, you can also buy them:"), area.x, below, 15.0, MUTED, false);
+        let top = below + 32.0;
+        let area = Rect::new(area.x, top, area.w, area.h - (top - area.y));
+        let cards: Vec<(u32, u32, String)> =
+            on_sale.iter().map(|(p, price)| (p.coins, p.bonus, price.clone())).collect();
+        // One purchase at a time: the buttons wait for the Store and the server.
+        let waiting = online.store_shop.waiting();
+        let (clicked, y) = pack_cards(ui, area, &cards, online.signed_in() && !waiting);
+        if let Some(k) = clicked {
+            online.store_shop.buy(&on_sale[k].0.store_id);
+        }
+        let status = match &online.store_shop.busy {
+            Some(crate::msstore::Busy::Buying(_)) => {
+                Some(t("Finish the purchase in the Microsoft Store window…"))
+            }
+            _ if waiting => Some(t("Confirming your purchase…")),
+            _ => None,
+        };
+        let mut lines = vec![
+            t("Paid in the Microsoft Store, with your Microsoft account."),
+            t("Coins arrive in a moment; they are only used for items in the game."),
+        ];
+        if let Some(status) = status {
+            lines.insert(0, status);
+        }
+        for (i, line) in lines.iter().enumerate() {
+            let color = if status.is_some() && i == 0 { GOLD } else { MUTED };
+            ui.text(line, area.x, y + i as f32 * 20.0, 13.0, color, status.is_some() && i == 0);
         }
     }
 
@@ -1522,4 +1556,59 @@ impl ShopScreen {
             }
         }
     }
+}
+
+/// Cards for coin packs (coins, bonus, price) in rows across `area`, with a
+/// button each (pressable when `enabled`). Returns the card pressed and the
+/// height below the cards.
+fn pack_cards(
+    ui: &mut Ui,
+    area: Rect,
+    packs: &[(u32, u32, String)],
+    enabled: bool,
+) -> (Option<usize>, f32) {
+    let n = packs.len();
+    let cols = n.min(((area.w + GAP) / (180.0 + GAP)).floor().max(1.0) as usize).max(1);
+    let cw = (area.w - (cols - 1) as f32 * GAP) / cols as f32;
+    let card_h = 168.0;
+    let mut clicked = None;
+    for (k, (coins, bonus, price)) in packs.iter().enumerate() {
+        let c = Rect::new(
+            area.x + (k % cols) as f32 * (cw + GAP),
+            area.y + (k / cols) as f32 * (card_h + GAP),
+            cw,
+            card_h,
+        );
+        rrect(c, 10.0, Color::new(1.0, 1.0, 1.0, 0.035));
+        rrect_lines(c, 10.0, 1.0, BORDER);
+        // A small pile of coins, bigger for bigger packs.
+        let pile = (k + 2).min(5);
+        for i in 0..pile {
+            let x = c.x + c.w / 2.0 + (i as f32 - (pile - 1) as f32 / 2.0) * 10.0;
+            crate::icons::draw(Icon::Coin, vec2(x, c.y + 32.0 - i as f32 * 3.0), 26.0, GOLD);
+        }
+        let total = (coins + bonus).to_string();
+        ui.text_centered(&total, c.x + c.w / 2.0, c.y + 56.0, 24.0, CREAM, true);
+        ui.text_centered(t("coins"), c.x + c.w / 2.0, c.y + 84.0, 13.0, MUTED, false);
+        if *bonus > 0 {
+            ui.text_centered(
+                &tw("+{n} bonus", &[("n", bonus)]),
+                c.x + c.w / 2.0,
+                c.y + 102.0,
+                13.0,
+                GOLD,
+                true,
+            );
+        }
+        let b = Rect::new(c.x + 12.0, c.y + c.h - 46.0, c.w - 24.0, 34.0);
+        if enabled {
+            if ui.primary_button(b, price) {
+                clicked = Some(k);
+            }
+        } else {
+            ui.button(b, price, false);
+        }
+    }
+    let rows = n.div_ceil(cols) as f32;
+    (clicked, area.y + rows * (card_h + GAP) + 4.0)
 }

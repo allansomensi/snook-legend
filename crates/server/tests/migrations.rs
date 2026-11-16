@@ -26,6 +26,7 @@ const APPLIED: &[(&str, &str)] = &[
         "0010_computer_ladder.sql",
         "0c128ebef825b75734f7102eebd87f6a13e5159ec83236a4ca681aa42f190842",
     ),
+    ("0011_msstore.sql", "77fa92f18e167e9cd96fcd8739b523a35a58244a2aae5587b9128506379ce5c6"),
 ];
 
 #[test]

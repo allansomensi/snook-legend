@@ -124,12 +124,16 @@ pub struct ShopOffers {
     pub vip_gift_price: String,
     /// The price of the welcome pack (empty: not on sale).
     pub welcome_price: String,
+    /// Coin packs sold in the Microsoft Store (the Store build shows them).
+    pub store_packs: Vec<snookered_proto::StorePack>,
 }
 
 pub struct Online {
     conn: Option<Connection>,
     pub wallet: Option<WalletView>,
     pub offers: Option<ShopOffers>,
+    /// The Microsoft Store build's coin packs (see msstore.rs).
+    pub store_shop: crate::msstore::StoreShop,
     /// Set when the items in use changed (the table must be redrawn).
     pub looks_changed: bool,
     /// The cloth and ball set of the current online table (shop codes;
@@ -433,6 +437,7 @@ impl Online {
             corr: Default::default(),
             wallet: None,
             offers: None,
+            store_shop: Default::default(),
             looks_changed: false,
             table_look: Default::default(),
             achievements: Vec::new(),
@@ -507,6 +512,16 @@ impl Online {
         self.incoming.len()
     }
 
+    /// Carries out what the Store part of the shop asked for.
+    fn store_effects(&mut self, effects: Vec<crate::msstore::Effect>) {
+        for effect in effects {
+            match effect {
+                crate::msstore::Effect::Send(msg) => self.send(msg),
+                crate::msstore::Effect::Toast(text, good) => self.toast(text, good),
+            }
+        }
+    }
+
     pub fn toast(&mut self, text: impl Into<String>, good: bool) {
         self.toasts.push_back((text.into(), 5.0, good));
         while self.toasts.len() > 3 {
@@ -551,6 +566,8 @@ impl Online {
         }
         self.toasts.retain(|t| t.1 > 0.0);
         self.tournaments_starting();
+        let effects = self.store_shop.update(dt);
+        self.store_effects(effects);
         // Outgoing match messages.
         if let Some(m) = current.as_mut()
             && let Some(o) = m.online.as_mut()
@@ -1044,7 +1061,10 @@ impl Online {
                 vip_coins,
                 vip_gift_price,
                 welcome_price,
+                store_packs,
             } => {
+                let ids = store_packs.iter().map(|p| p.store_id.clone()).collect();
+                let effects = self.store_shop.offers(ids, self.signed_in());
                 self.offers = Some(ShopOffers {
                     payments,
                     packs,
@@ -1052,7 +1072,15 @@ impl Online {
                     vip_coins,
                     vip_gift_price,
                     welcome_price,
+                    store_packs,
                 });
+                self.store_effects(effects);
+            }
+            // Only the Store build asks for these.
+            ServerMsg::StoreTicket { ticket, user_id } => self.store_shop.ticket(ticket, user_id),
+            ServerMsg::StoreRedeemed { coins, pending, error } => {
+                let effects = self.store_shop.redeemed(coins, pending, &error);
+                self.store_effects(effects);
             }
             ServerMsg::VipGift { from, to } => {
                 let text = if self.me.as_ref().is_some_and(|me| me.username == to) {
@@ -1187,6 +1215,8 @@ impl Online {
         self.corr = Default::default();
         self.social = Default::default();
         self.gifts = Default::default();
+        // The next account checks its own Store purchases.
+        self.store_shop.signed_out();
         config.token.clear();
         config.save();
         self.stage = Stage::Idle;

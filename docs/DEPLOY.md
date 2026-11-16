@@ -21,6 +21,8 @@ A step-by-step guide for **Render + Neon (free plans)**, in Portuguese, is in
 | `SNOOKERED_PROXY_HOPS` | `1` | with `x-forwarded-for`: proxies that append to it (the address is taken that many entries from the right) |
 | `SNOOKERED_MOTD` | a welcome line | message shown in the lounge |
 | `SNOOKERED_SHOT_CLOCK` | `30` | seconds per shot (10–120) |
+| `SNOOKERED_STRIPE_*` | — | real-money purchases through Stripe (see `crates/server/src/payments.rs`) |
+| `SNOOKERED_MSSTORE_*` | — | coin packs bought in the Microsoft Store (see [MSSTORE.md](MSSTORE.md)) |
 | `RUST_LOG` | `info` | log filter |
 
 Endpoints: `GET /ws` (the game), `GET /health` (`ok`), `GET /api/status` and

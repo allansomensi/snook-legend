@@ -93,7 +93,9 @@ which every desktop installation has. How releases are made is described in
   (opponents see your cue and chalk). Some are free, some come with
   achievements, some cost coins, some are for **VIP** members. Coins and the
   monthly VIP are paid through Stripe (card, Pix, boleto) on its hosted page;
-  the server keeps the only wallet and credits every payment exactly once.
+  in the Microsoft Store version, coin packs are bought in the Store itself.
+  The server keeps the only wallet, confirms every purchase with the payment
+  provider and credits it exactly once.
 - **Cues that level up** with the online games you win with them, and
   **themed tables and halls** (beach bar, industrial loft, English club…).
 - **Configurable shortcuts** and **automatic updates** (checked against their

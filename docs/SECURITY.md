@@ -53,6 +53,22 @@ without consequence, take over accounts, or take the server down cheaply.
   `textContent`.
 - Container: distroless image, unprivileged user, no shell.
 - CI: `cargo audit` checks dependencies against the RustSec advisories.
+- Microsoft Store purchases (`crates/server/src/msstore.rs`): the game never
+  says what was bought. The server checks the player's Microsoft Store ID key
+  (a collections key, not expired, made for this player's anonymous id, an
+  HMAC of the account id), asks Microsoft for the purchases, saves each
+  consume request (with its tracking id) before sending it, and credits only
+  on Microsoft's confirmation of that very request, in the transaction that
+  closes it (the ledger reference keeps it single). Lost answers are sent
+  again with the same tracking id (Microsoft answers it the same way every
+  time), by one server at a time (a lease in the database); a refusal (4xx)
+  of the first request consumed nothing and credits nothing, while a
+  refusal of a resend proves nothing and the request keeps going out. A
+  confirmation that arrives after a request was closed still credits it,
+  once; stuck requests keep their key so the staff can send them again. The Entra
+  token that calls the API never leaves the server; the game only gets the
+  one that lets the Store make a key. Tested against a stand-in for
+  Microsoft that loses answers on purpose, and with two servers at once.
 
 ## Remaining risks
 
@@ -76,5 +92,10 @@ without consequence, take over accounts, or take the server down cheaply.
 - **macroquad soundness advisory (RUSTSEC-2025-0035).** The game's engine
   has known unsound internal APIs; they affect memory safety in edge cases of
   its own code, not network input. The server doesn't use it. Track upstream.
+- **Microsoft Store refunds.** Microsoft doesn't tell the server about
+  refunds or chargebacks the way Stripe's webhook does, so coins from a
+  refunded Store purchase stay until the staff remove them (each purchase
+  keeps Microsoft's order ids to match the Partner Center reports). The
+  Clawback API could automate it.
 - **Unsigned Windows executable.** SmartScreen warns on first run until the
   game is code-signed or distributed through the Microsoft Store.

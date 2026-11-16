@@ -8,6 +8,7 @@ use snookered_proto::CareerNumbers;
 use snookered_proto::replay::Replay;
 
 mod correspondence;
+mod msstore;
 
 use super::{
     AimRow, AuditRow, BoardNote, BuyOutcome, FriendOutcome, FriendState, GiftRow, HistoryRow,

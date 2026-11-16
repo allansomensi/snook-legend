@@ -29,6 +29,7 @@ mod keys;
 mod ladder;
 mod lan;
 mod menu;
+mod msstore;
 mod net;
 mod notify;
 mod online;

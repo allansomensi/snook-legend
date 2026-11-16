@@ -222,10 +222,10 @@ Como funciona por dentro (e por que é seguro):
   horas de folga) e dá as moedas do mês. Cancelado, vale até o fim do mês pago.
 
 **Lojas de aplicativos:** a Steam e a Microsoft Store exigem os sistemas de
-pagamento delas para compras dentro do jogo. Para publicar lá, desligue a
-venda pela Stripe nessas versões (sem as variáveis acima num servidor
-separado) ou integre o pagamento da loja. No site próprio, itch.io e
-GitHub, a Stripe é permitida.
+pagamento delas para compras dentro do jogo. A versão da Microsoft Store já
+não oferece a Stripe e vende os pacotes de moedas pela própria Store (veja
+[MSSTORE.md](MSSTORE.md), "Venda de moedas pela Store"). No site próprio,
+itch.io e GitHub, a Stripe é permitida.
 
 ## Problemas comuns
 

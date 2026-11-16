@@ -36,6 +36,17 @@ pub struct PackOffer {
     pub price: String,
 }
 
+/// A coin pack sold in the Microsoft Store (the Store build of the game).
+/// The price comes from the Store itself, in the player's currency.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct StorePack {
+    pub code: String,
+    pub coins: u32,
+    pub bonus: u32,
+    /// The add-on's Store ID (12 characters, `9…`).
+    pub store_id: String,
+}
+
 /// A note the staff pinned on the lounge's board.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct BoardNote {
@@ -825,6 +836,17 @@ pub enum ClientMsg {
     GiftVip {
         to: String,
     },
+    /// The Microsoft Store build, after a purchase (or to finish earlier
+    /// ones): asks for the ticket the Store needs to name the player to the
+    /// server (answered with [`ServerMsg::StoreTicket`]).
+    StoreTicket,
+    /// The player's Microsoft Store ID key (made by the Store from the
+    /// ticket): the server finds the coin packs bought and not yet received,
+    /// has Microsoft consume them and credits the coins (answered with
+    /// [`ServerMsg::StoreRedeemed`]).
+    StoreRedeem {
+        key: String,
+    },
     /// "Play now": wait for an opponent of a similar rating.
     QueueJoin {
         rated: bool,
@@ -1229,6 +1251,10 @@ pub enum ServerMsg {
         /// The price of the welcome pack (empty: not on sale).
         #[serde(default)]
         welcome_price: String,
+        /// Coin packs sold in the Microsoft Store (only the Store build
+        /// shows them; empty when the server doesn't take Store purchases).
+        #[serde(default)]
+        store_packs: Vec<StorePack>,
     },
     /// This player's coins, VIP time, items and what they use (after
     /// signing in and whenever it changes).
@@ -1245,6 +1271,24 @@ pub enum ServerMsg {
     /// A payment page to open in the browser.
     PaymentPage {
         url: String,
+    },
+    /// What the Microsoft Store needs to make the player's Store ID key: a
+    /// short-lived ticket from the server's Microsoft account, and the
+    /// anonymous id the key will carry (it binds the key to this player).
+    StoreTicket {
+        ticket: String,
+        user_id: String,
+    },
+    /// The Store purchases were checked: `coins` were credited now (0: none
+    /// new). `pending`: a purchase is still waiting for Microsoft's answer
+    /// (its coins arrive by themselves once it comes). `error`: why the
+    /// check could not be made (empty when it was).
+    StoreRedeemed {
+        coins: i64,
+        #[serde(default)]
+        pending: bool,
+        #[serde(default)]
+        error: String,
     },
     /// The player's place in the "Play now" queue (sent when it changes and
     /// every few seconds while searching). `range` is how far from their
@@ -1509,6 +1553,26 @@ pub struct LanBeacon {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// The Microsoft Store messages: a server from before them (no
+    /// `store_packs`) is understood, and their JSON is what the server reads.
+    #[test]
+    fn store_messages_are_compatible() {
+        let old =
+            r#"{"type":"shop_info","payments":true,"packs":[],"vip_price":"","vip_coins":400}"#;
+        match parse_server(old).unwrap() {
+            ServerMsg::ShopInfo { store_packs, .. } => assert!(store_packs.is_empty()),
+            other => panic!("{other:?}"),
+        }
+        let redeemed = parse_server(r#"{"type":"store_redeemed","coins":500}"#).unwrap();
+        assert_eq!(
+            redeemed,
+            ServerMsg::StoreRedeemed { coins: 500, pending: false, error: String::new() }
+        );
+        assert_eq!(ClientMsg::StoreTicket.to_json(), r#"{"type":"store_ticket"}"#);
+        let key = ClientMsg::StoreRedeem { key: "k".into() };
+        assert_eq!(serde_json::from_str::<ClientMsg>(&key.to_json()).unwrap(), key);
+    }
 
     #[test]
     fn names_and_passwords() {

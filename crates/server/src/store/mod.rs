@@ -462,6 +462,74 @@ pub struct Payment {
     pub test: bool,
 }
 
+/// A Microsoft Store purchase being fulfilled (see `crate::msstore`).
+#[derive(Debug, Clone, PartialEq)]
+pub struct MsConsume {
+    /// Our GUID for the consume request.
+    pub tracking_id: String,
+    pub user_id: i64,
+    /// The add-on's Store ID.
+    pub product_id: String,
+    /// The coin pack it stands for, and its coins.
+    pub pack: String,
+    pub coins: i64,
+    /// The purchase, as the Store's collection names it.
+    pub transaction_id: String,
+    /// The player's Microsoft Store ID key, to send the request again.
+    pub store_key: String,
+    pub attempts: i32,
+    pub created_at: i64,
+}
+
+/// How a Store purchase was settled without coins.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum MsState {
+    /// Microsoft refused the request: nothing was consumed.
+    Failed,
+    /// No answer for days: for the staff to look at.
+    Stuck,
+}
+
+impl MsState {
+    pub fn code(self) -> &'static str {
+        match self {
+            MsState::Failed => "failed",
+            MsState::Stuck => "stuck",
+        }
+    }
+}
+
+/// A Store purchase as the staff see it.
+#[derive(Debug, Clone, PartialEq, serde::Serialize)]
+pub struct MsRecord {
+    pub tracking_id: String,
+    pub pack: String,
+    pub coins: i64,
+    pub transaction_id: String,
+    pub state: String,
+    pub attempts: i32,
+    pub last_error: Option<String>,
+    pub order_ids: Option<String>,
+    pub created_at: i64,
+    pub settled_at: Option<i64>,
+}
+
+/// A new Store purchase is sent at once by whoever opened it; the
+/// background task only sends it again after this many seconds.
+pub const MS_FIRST_RETRY: i64 = 60;
+/// How long a server keeps a Store purchase to itself while it sends the
+/// request (longer than the request can take).
+pub const MS_LEASE: i64 = 120;
+
+/// The payment id of a Store purchase (the ledger uses the same reference).
+pub fn ms_payment_id(tracking_id: &str) -> String {
+    format!("ms:{tracking_id}")
+}
+
+/// What a Store purchase records in `payments.currency`: Microsoft keeps the
+/// price (and pays out through Partner Center), so the amount is 0.
+pub const MS_CURRENCY: &str = "msstore";
+
 #[derive(Debug, Clone, PartialEq, serde::Serialize)]
 pub struct LedgerRow {
     pub delta: i64,
@@ -923,6 +991,68 @@ impl Store {
     }
     pub async fn payments_of(&self, user_id: i64, limit: u32) -> StoreResult<Vec<Payment>> {
         dispatch!(self, s => s.payments_of(user_id, limit))
+    }
+    /// Starts fulfilling a Microsoft Store purchase (see `crate::msstore`):
+    /// records the consume request before it is sent. False when the same
+    /// purchase is already being fulfilled or was credited.
+    pub async fn ms_open(&self, c: &MsConsume) -> StoreResult<bool> {
+        dispatch!(self, s => s.ms_open(c))
+    }
+    /// Takes a pending Store purchase to send its request now: counts the
+    /// attempt and keeps it from other servers for [`MS_LEASE`] seconds.
+    /// `None` when it isn't pending or someone else is sending it.
+    pub async fn ms_lease(&self, tracking_id: &str, now: i64) -> StoreResult<Option<MsConsume>> {
+        dispatch!(self, s => s.ms_lease(tracking_id, now))
+    }
+    /// The staff send a stuck Store purchase again (it keeps its key).
+    /// False if it isn't stuck; an error if another row holds the purchase.
+    pub async fn ms_reopen(&self, tracking_id: &str, now: i64) -> StoreResult<bool> {
+        dispatch!(self, s => s.ms_reopen(tracking_id, now))
+    }
+    /// This player's Store purchases still waiting for Microsoft's answer.
+    pub async fn ms_pending_of(&self, user_id: i64) -> StoreResult<Vec<MsConsume>> {
+        dispatch!(self, s => s.ms_pending_of(user_id))
+    }
+    /// Store purchases waiting for an answer whose next try is due.
+    pub async fn ms_due(&self, now: i64, limit: u32) -> StoreResult<Vec<MsConsume>> {
+        dispatch!(self, s => s.ms_due(now, limit))
+    }
+    /// Microsoft consumed the purchase: in one step, the row is done, the
+    /// payment recorded and the coins credited. Microsoft's confirmation of
+    /// the row's own request counts even if the row was closed meanwhile
+    /// (failed or stuck); false (nothing changes) when it was done already.
+    pub async fn ms_fulfil(
+        &self,
+        tracking_id: &str,
+        order_ids: &str,
+        at: i64,
+    ) -> StoreResult<bool> {
+        dispatch!(self, s => s.ms_fulfil(tracking_id, order_ids, at))
+    }
+    /// No answer yet: try again at `next_try_at`.
+    pub async fn ms_retry_later(
+        &self,
+        tracking_id: &str,
+        error: &str,
+        next_try_at: i64,
+    ) -> StoreResult<()> {
+        dispatch!(self, s => s.ms_retry_later(tracking_id, error, next_try_at))
+    }
+    /// Settles a pending row without coins: `failed` (Microsoft refused the
+    /// first request, so nothing was consumed) or `stuck` (no answer for
+    /// days; the key is kept to send it again).
+    pub async fn ms_close(
+        &self,
+        tracking_id: &str,
+        state: MsState,
+        error: &str,
+        at: i64,
+    ) -> StoreResult<bool> {
+        dispatch!(self, s => s.ms_close(tracking_id, state, error, at))
+    }
+    /// This player's Store purchases (newest first), for the staff.
+    pub async fn ms_consumes_of(&self, user_id: i64, limit: u32) -> StoreResult<Vec<MsRecord>> {
+        dispatch!(self, s => s.ms_consumes_of(user_id, limit))
     }
     /// This player's progress on missions: (period, code, progress) for
     /// the given periods.

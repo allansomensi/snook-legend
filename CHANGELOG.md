@@ -25,6 +25,42 @@ differently, so older games (0.2.0 and before) must update to play online.
   the break leaves the table open. (Until now the table stayed open after
   the break, as in WPA rules, so the breaker could pick the easier group.)
 
+### Halls and tables
+- Four new halls in the shop: the Mountain lodge (log walls, a fieldstone
+  chimney with a fire, tall windows on snowy peaks, 6500 coins), the Neon
+  arcade (a black mirror floor, neon tubes and signs, arcade cabinets and
+  pinball machines, 7000), the Art deco lounge (a black and white marble
+  floor, emerald silk, gilt pilasters, sunburst mirrors, velvet banquettes,
+  8000) and the Skyline penthouse (glass walls on the city at night, pale
+  marble, an oak slat wall, VIP). Each has its own lamp over the table and
+  its own picture in the shop.
+- Four new tables: Steel & oak (reclaimed oak on a braced black steel
+  frame, a riveted apron, 5500), Tournament (charcoal rails, block legs,
+  chrome, 7000), Victorian walnut (figured walnut on barley-twist legs,
+  leather pockets, 8000) and Ivory deco (ivory lacquer and gold on fluted
+  columns, 8500).
+- Every hall is lit better: the table, the bar, sofas and chimneys cast
+  shadows from every light of the room (soft ones on Ultra, which also
+  bakes the light on a finer grid and darkens what is close to them),
+  varnish, brass, glass, leather and polished floors catch the lamps as the
+  camera moves (High and Ultra), and the lights glow with soft halos and a
+  faint haze under the lamp over the table (High and Ultra).
+
+### Graphics
+- Ultra: polished floors (the pool hall's planks, the club's parquet, the
+  loft's concrete, the new halls' marble and epoxy) reflect the room, the
+  table and the balls, fading with height like a real floor; the textures
+  of the halls and tables are drawn at twice the resolution.
+- The balls, the rails and the castings reflect the colours of the hall
+  around them (a sunset, neon, warm wood) instead of one brown room.
+- Faster: the halls, the table, the balls and the cues stay on the
+  graphics card instead of being copied and sent again every frame (the
+  pool hall alone was 18 000 vertices a frame on Low, 39 000 on High,
+  62 000 on Ultra, plus the table and the balls); the meshes made every
+  frame (guides, shadows) no longer allocate per quad.
+- The lamps over the table, their light and their haze span the table's
+  length, whatever its size.
+
 ### Lounge
 - While "Play now" looks for an opponent, "Practise while you wait" opens a
   table to yourself at once: shoot as you like, a new rack when one is

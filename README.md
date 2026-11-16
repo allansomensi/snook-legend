@@ -95,7 +95,8 @@ which every desktop installation has. How releases are made is described in
   monthly VIP are paid through Stripe (card, Pix, boleto) on its hosted page;
   the server keeps the only wallet and credits every payment exactly once.
 - **Cues that level up** with the online games you win with them, and
-  **themed tables and halls** (beach bar, industrial loft, English club…).
+  **themed tables and halls** (beach bar, industrial loft, English club,
+  mountain lodge, neon arcade, art deco lounge, skyline penthouse…).
 - **Configurable shortcuts** and **automatic updates** (checked against their
   SHA-256, installed on restart) with a "What's new" window.
 - **Local network**: host a game from the game itself (no server needed);
@@ -109,7 +110,9 @@ which every desktop installation has. How releases are made is described in
   lights), or a dark stage with only the table.
 - **Graphics presets** (Low / Medium / High / Ultra; on the first run the game
   measures the frame rate and lowers the preset if needed). High and Ultra add
-  soft shadows from every lamp and contact shading plus anti-aliasing (off, 2×,
+  soft shadows from every lamp, contact shading, glossy halls with shadows
+  from the furniture and halos round the lights; Ultra adds reflections in
+  polished floors and sharper textures. Plus anti-aliasing (off, 2×,
   4×, 8×) and full screen, so it runs on old laptops and looks sharp on gaming PCs.
 - **Small and fast**: a ~5 MB executable that runs on OpenGL 2.1 / GLES 2, so it works
   on practically any PC, including old integrated GPUs. Textures and sounds

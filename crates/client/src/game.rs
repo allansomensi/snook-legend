@@ -317,6 +317,8 @@ pub struct OnlineMatch {
     pub remote_aimed: bool,
     /// The opponent's latest aim; the cue glides towards it.
     remote_target: Option<AimState>,
+    /// Watching: how hard the shot being lined up is.
+    pub assessor: crate::assess::Assessor,
     /// The turn being animated (or awaited).
     sim_turn: Option<u32>,
     /// This player's own shot, played before the server confirmed it.
@@ -586,6 +588,7 @@ impl Match {
                 cheering: None,
                 remote_aimed: false,
                 remote_target: None,
+                assessor: Default::default(),
                 sim_turn: None,
                 predicted: None,
                 turn_start: None,
@@ -1434,6 +1437,22 @@ impl Match {
         } else {
             // The server's clock for the next turn already runs during playback.
             o.next_clock = (o.next_clock - dt).max(0.0);
+        }
+        // Watching: the shot as the shooter aims it, assessed once it settles
+        // (before they set the power, an ordinary stroke is assumed).
+        match o.remote_target.filter(|_| remote_turn && o.spectator) {
+            Some(target) => {
+                let power = if target.power > 0.05 { target.power } else { 0.4 };
+                let shot = Shot {
+                    yaw: target.yaw,
+                    elevation: target.elevation,
+                    tip: target.tip,
+                    speed: (power as f64).powf(1.3) * self.game.params().max_cue_speed,
+                };
+                let turn = self.game.shots_taken();
+                o.assessor.update(&self.game, turn, shot, target.called_pocket, dt);
+            }
+            None => o.assessor.clear(),
         }
         if remote_turn && let Some(target) = o.remote_target {
             let k = 1.0 - (-(dt as f64) * REMOTE_AIM_RATE).exp();

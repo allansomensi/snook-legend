@@ -1334,3 +1334,13 @@ The computer ladder	La escalera contra el ordenador
 All ten opponents beaten	Los diez rivales vencidos
 Daily challenge	Desafío del día
 First of {n} players	Primero de {n} jugadores
+Easy shot	Tiro fácil
+Fair shot	Tiro medio
+Hard shot	Tiro difícil
+Very hard shot	Tiro muy difícil
+~{n}% chance	~{n}% de probabilidad
+No ball goes down as aimed	Ninguna bola entra así
+straight in	recta
+{n}° cut	corte de {n}°
+off one cushion	a una banda
+off {n} cushions	a {n} bandas

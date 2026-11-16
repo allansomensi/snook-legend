@@ -21,6 +21,12 @@
   how many played), the computer ladder and the days topped in the daily
   challenge, newest first, with the date.
 
+### Watching
+- Spectators see how hard the shot being lined up is, once the shooter's
+  aim settles: easy to very hard, the chance a good player makes it
+  (24 slightly imperfect strokes simulated on a worker thread), the cut and
+  the cushions.
+
 ### Staff panel
 - Metrics: retention after 30 days beside 1 and 7 (each over the last 30
   days of sign-ups that reached that day), a table of retention by week of

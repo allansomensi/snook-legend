@@ -7,6 +7,7 @@
 //! runs on practically any PC, including old integrated graphics.
 
 mod analysis;
+mod assess;
 mod audio;
 mod camera;
 mod channel;

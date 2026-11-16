@@ -372,6 +372,21 @@ impl EightBallGame {
         true
     }
 
+    /// Development and tests: an open table past the break with only these
+    /// balls on it (the others are put away in a pocket).
+    #[doc(hidden)]
+    pub fn set_up_test_position(&mut self, balls: &[(BallId, DVec2)]) {
+        let r = self.table.spec.ball_radius;
+        for b in &mut self.balls {
+            match balls.iter().find(|(id, _)| *id == b.id) {
+                Some(&(id, p)) => *b = Ball::at_rest(id, p, r),
+                None => b.status = crate::BallStatus::Pocketed(PocketId::HeadLeft),
+            }
+        }
+        self.is_break = false;
+        self.ball_in_hand = None;
+    }
+
     /// Validates a shot and starts simulating it.
     pub fn prepare_shot(
         &self,

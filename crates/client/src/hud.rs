@@ -415,6 +415,7 @@ impl Hud {
             if self.draw_spectator_bar(ui, m) {
                 action = HudAction::Lounge;
             }
+            draw_shot_assessment(ui, m);
         } else {
             self.draw_bottom_bar(ui, m);
             // A correspondence game: its replay, or the turn sent.
@@ -2247,6 +2248,54 @@ fn shoot_button(ui: &mut Ui, r: Rect, enabled: bool) -> bool {
         });
     }
     clicked
+}
+
+/// Watching: how hard the shot being lined up is, above the bottom bar
+/// (once the shooter's aim settles).
+fn draw_shot_assessment(ui: &mut Ui, m: &Match) {
+    let Some(a) = m.online.as_ref().and_then(|o| o.assessor.current()) else { return };
+    let pct = (a.chance * 100.0).round() as u32;
+    let (word, color) = match pct {
+        80.. => (t("Easy shot"), Color::new(0.45, 0.95, 0.55, 1.0)),
+        50..=79 => (t("Fair shot"), Color::new(0.95, 0.85, 0.35, 1.0)),
+        20..=49 => (t("Hard shot"), Color::new(1.0, 0.6, 0.25, 1.0)),
+        _ => (t("Very hard shot"), Color::new(1.0, 0.4, 0.35, 1.0)),
+    };
+    let headline = if a.pot.is_some() {
+        format!("{word} · {}", tw("~{n}% chance", &[("n", &pct)]))
+    } else {
+        format!("{} · {}", t("No ball goes down as aimed"), tw("~{n}% chance", &[("n", &pct)]))
+    };
+    let mut details = Vec::new();
+    match a.cut_deg {
+        Some(cut) if cut < 3.0 => details.push(t("straight in").to_string()),
+        Some(cut) => details.push(tw("{n}° cut", &[("n", &(cut.round() as u32))])),
+        None => {}
+    }
+    match a.cushions {
+        0 => {}
+        1 => details.push(t("off one cushion").to_string()),
+        n => details.push(tw("off {n} cushions", &[("n", &n)])),
+    }
+    let details = details.join(" · ");
+    let sw = crate::ui::vw();
+    let sh = crate::ui::vh();
+    let w = (ui.text_size(&headline, 14.0, true).x.max(ui.text_size(&details, 12.0, false).x)
+        + 40.0)
+        .clamp(220.0, sw - 24.0);
+    let h = if details.is_empty() { 34.0 } else { 52.0 };
+    let r = Rect::new((sw - w) / 2.0, sh - BOTTOM_BAR - h - 10.0, w, h);
+    crate::ui::rrect(r, 8.0, Color::new(0.05, 0.06, 0.05, 0.82));
+    // The chance as a thin bar along the bottom edge.
+    let bar = Rect::new(r.x + 10.0, r.y + r.h - 5.0, r.w - 20.0, 3.0);
+    crate::ui::rrect(bar, 1.5, Color::new(1.0, 1.0, 1.0, 0.12));
+    crate::ui::rrect(Rect::new(bar.x, bar.y, bar.w * a.chance as f32, bar.h), 1.5, color);
+    let (headline, size) = ui.fitted(&headline, 14.0, r.w - 20.0, true);
+    ui.text_centered(&headline, r.x + r.w / 2.0, r.y + 8.0, size, color, true);
+    if !details.is_empty() {
+        let (details, size) = ui.fitted(&details, 12.0, r.w - 20.0, false);
+        ui.text_centered(&details, r.x + r.w / 2.0, r.y + 28.0, size, CREAM, false);
+    }
 }
 
 #[cfg(test)]

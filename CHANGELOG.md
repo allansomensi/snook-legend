@@ -31,6 +31,13 @@
   how many played), the computer ladder and the days topped in the daily
   challenge, newest first, with the date.
 
+### Against the computer
+- The opponents talk: a line now and then in a speech bubble under their
+  card, about your shots and their own, in each one's voice (Bruno wants
+  more power, Kenji quotes physics, Rosa "hardly ever plays"…), in every
+  language of the game. They greet you at the start and always have a word
+  at the end; in between they speak up only some of the time.
+
 ### Daily challenge
 - A new tab on the "Against the computer" screen: the same table for
   everyone, all day (UTC), with five to seven balls. Make as many as you can

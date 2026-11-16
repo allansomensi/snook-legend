@@ -124,6 +124,13 @@ fn translate(lang: Lang, en: &str) -> Option<&'static str> {
     table(lang)?.get(en).copied()
 }
 
+/// Whether `en` has a translation in `lang` (for tests of texts kept
+/// outside the code's `t` calls).
+#[cfg(test)]
+pub fn has_translation(lang: Lang, en: &str) -> bool {
+    translate(lang, en).is_some()
+}
+
 /// Translates an interface text (returns it unchanged when there is no translation).
 pub fn t(en: &str) -> &str {
     translate(lang(), en).unwrap_or(en)

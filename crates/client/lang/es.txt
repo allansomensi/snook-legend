@@ -1401,3 +1401,143 @@ Level {n}! (+{xp} XP)	¡Nivel {n}! (+{xp} XP)
 +{xp} XP	+{xp} XP
 Level {n} · {into} / {span} XP to the next	Nivel {n} · {into} / {span} XP para el siguiente
 Level {n}	Nivel {n}
+Hi! I watched a lot of videos, I'm ready!	¡Hola! Vi un montón de vídeos, ¡estoy listo!
+Be gentle, okay?	Ten piedad, ¿vale?
+Whoa, how did you do that?	¡Guau! ¿Cómo hiciste eso?
+Teach me that one later!	¡Luego me enseñas esa!
+Phew! My turn!	¡Uf! ¡Me toca!
+Even you miss? Good to know.	¿Hasta tú fallas? Bueno saberlo.
+Ball in hand! What do I do with it?	¡Bola en mano! ¿Y qué hago con ella?
+Did you see that?! It went in!	¿Lo viste? ¡Entró!
+Beginner's luck counts too!	¡La suerte del principiante también cuenta!
+Oops. That was a practice shot.	Uy. Ese era de práctica.
+Aim, Leo, aim...	Apunta, Leo, apunta...
+Sorry! I touched the wrong one again.	¡Perdón! Toqué la que no era otra vez.
+I WON? I'm calling my mum!	¿GANÉ? ¡Voy a llamar a mi madre!
+Good game! I'm getting better, right?	¡Buena partida! Estoy mejorando, ¿no?
+Saturday, a table and good company. Let's play!	Sábado, una mesa y buena compañía. ¡A jugar!
+Nice one!	¡Buena!
+Oh, you're good. I'll pay attention now.	Vaya, eres bueno. Ahora voy a prestar atención.
+Happens to the best of us.	Le pasa a los mejores.
+Don't worry, it's just a game!	¡Tranquilo, es solo un juego!
+Thanks for the ball in hand!	¡Gracias por la bola en mano!
+Yes! Weekend skills!	¡Sí! ¡Talento de fin de semana!
+Lucky me!	¡Qué suerte la mía!
+Hm, where was I aiming?	Mmm, ¿adónde estaba apuntando?
+Too much chatting, not enough aiming.	Mucha charla, poca puntería.
+Oops, my bad!	¡Uy, culpa mía!
+That was fun! Same time next weekend?	¡Qué divertido! ¿A la misma hora el próximo finde?
+Well played! Rematch over a lemonade?	¡Bien jugado! ¿Revancha con una limonada?
+Four cushions, endless possibilities.	Cuatro bandas, posibilidades infinitas.
+Straight in? So... direct.	¿Directa? Qué... directo.
+Nice, but a bank would have been prettier.	Bien, pero a la banda habría sido más bonito.
+You should have used the cushion.	Tenías que haber usado la banda.
+The rail was right there, asking for it.	La banda estaba ahí, pidiéndolo.
+The table didn't like that.	A la mesa no le gustó eso.
+Off the rail and in. Art!	A la banda y dentro. ¡Arte!
+Geometry never lies.	La geometría nunca miente.
+The angle was right. The cushion disagreed.	El ángulo era bueno. La banda no estuvo de acuerdo.
+One diamond off. Just one!	Fallé por un diamante. ¡Solo uno!
+Too much imagination, not enough contact.	Demasiada imaginación, poco contacto.
+A masterpiece, if I may say so.	Una obra maestra, si me permites.
+Well played. Now try it off two rails.	Bien jugado. Ahora pruébalo a dos bandas.
+I hope these balls are made of steel.	Espero que estas bolas sean de acero.
+Soft touch, huh? Not my style.	Toque suave, ¿eh? No es mi estilo.
+Hit it harder next time!	¡La próxima, dale más fuerte!
+Too gentle! Power solves everything.	¡Muy suave! La fuerza lo resuelve todo.
+HA!	¡JA!
+My table now. Cover your ears.	Ahora la mesa es mía. Tápate los oídos.
+BOOM!	¡BUM!
+Did you hear that pocket?	¿Oíste esa tronera?
+Too much power? No such thing.	¿Demasiada fuerza? Eso no existe.
+The pocket moved.	La tronera se movió.
+The ball flew. It happens. A lot.	La bola voló. Pasa. Mucho.
+Power wins again! BOOM!	¡La fuerza gana otra vez! ¡BUM!
+Fine, finesse works too. Sometimes.	Vale, la delicadeza también funciona. A veces.
+Take your time. I have all day.	Tómate tu tiempo. Tengo todo el día.
+Acceptable.	Aceptable.
+Enjoy it while it lasts.	Disfrútalo mientras dure.
+Patience is a virtue. Not yours, apparently.	La paciencia es una virtud. No la tuya, por lo visto.
+Thank you.	Gracias.
+Sloppy.	Descuidado.
+Steady wins.	La constancia gana.
+One at a time.	Una a la vez.
+Hm. I'll leave you nothing anyway.	Mmm. Igual no te voy a dejar nada.
+Intentional. Probably.	Intencionado. Probablemente.
+Unacceptable. Of me.	Inaceptable. Por mi parte.
+As I said: patience.	Como dije: paciencia.
+You got through the wall. I'm impressed.	Atravesaste el muro. Estoy impresionada.
+I've been playing since before these balls were plastic.	Juego desde antes de que estas bolas fueran de plástico.
+Good stroke. Reminds me of a fellow in '78.	Buen golpe. Me recuerda a un muchacho del 78.
+Smooth. Very smooth.	Suave. Muy suave.
+Keep your head down, kid.	Cabeza abajo, chaval.
+The cue ball doesn't lie.	La blanca no miente.
+Ah, the old ball in hand. Thank you kindly.	Ah, la vieja bola en mano. Muy amable.
+Like riding a bicycle.	Es como montar en bicicleta.
+Still got it.	Todavía lo tengo.
+The eyes aren't what they used to be.	La vista ya no es lo que era.
+In my day the pockets were bigger.	En mis tiempos las troneras eran más grandes.
+Even old pros slip.	Hasta los viejos profesionales resbalan.
+Experience, my friend. Experience.	Experiencia, amigo mío. Experiencia.
+You've got a future in this game.	Tienes futuro en este juego.
+Me? Oh, I hardly ever play...	¿Yo? Ay, casi nunca juego...
+Lucky! Do it again, I dare you.	¡Suerte! A que no lo repites.
+Ooh, someone's been practising.	Vaya, alguien ha estado practicando.
+Aw, so close! Bless.	¡Ay, casi! Qué tierno.
+Want me to show you how?	¿Quieres que te enseñe cómo?
+Thank you, sweetie.	Gracias, cariño.
+Oops, did I do that?	Uy, ¿eso lo hice yo?
+Must be beginner's luck. Again.	Será la suerte del principiante. Otra vez.
+Missed on purpose. Keeps it interesting.	Fallé a propósito. Así es más interesante.
+Just warming up.	Solo estoy calentando.
+Oh dear, how clumsy of me. Wink.	Ay, qué torpe soy. Guiño.
+Hardly ever play, I said. Hardly.	Casi nunca juego, dije. Casi.
+Fine, you got me. This time.	Vale, me ganaste. Esta vez.
+Friction, momentum, spin. Let us begin.	Fricción, momento, efecto. Comencemos.
+A fine cut. About thirty degrees, I'd say.	Un buen corte. Unos treinta grados, diría yo.
+Textbook.	De manual.
+You underestimated the throw.	Subestimaste el desvío.
+Interesting. Statistically expected.	Interesante. Estadísticamente esperado.
+The cue ball followed the laws of physics, not your plan.	La blanca siguió las leyes de la física, no tu plan.
+As calculated.	Según lo calculado.
+Elastic collision, elegant result.	Choque elástico, resultado elegante.
+An error in my measurement.	Un error en mi medición.
+I'll revise the model.	Revisaré el modelo.
+Hm. Unexpected spin.	Mmm. Efecto inesperado.
+The numbers were on my side.	Los números estaban de mi lado.
+A result outside my predictions. Well done.	Un resultado fuera de mis predicciones. Bien hecho.
+Focus.	Concentración.
+Clean.	Limpio.
+Not bad.	Nada mal.
+Half a millimetre.	Medio milímetro.
+Breathe before you shoot.	Respira antes de tirar.
+Careless.	Descuido.
+Target down.	Objetivo abatido.
+Centre pocket.	Justo en el centro de la tronera.
+Hm. Recalibrating.	Mmm. Recalibrando.
+That never happens.	Eso nunca pasa.
+Unacceptable.	Inaceptable.
+Precision wins.	La precisión gana.
+Good shooting.	Buena puntería.
+Welcome to my table. Enjoy the show.	Bienvenido a mi mesa. Disfruta del espectáculo.
+Very good. You've done your homework.	Muy bien. Has hecho los deberes.
+Applause for the challenger!	¡Aplausos para el aspirante!
+Pressure. It gets to everyone.	La presión. Le llega a todos.
+Thank you for the table.	Gracias por la mesa.
+A champion never refuses a gift.	Un campeón nunca rechaza un regalo.
+Naturally.	Naturalmente.
+That's how it's done.	Así se hace.
+Even champions give the crowd a chance.	Hasta los campeones le dan una oportunidad al público.
+Leaving you something, out of courtesy.	Te dejo algo, por cortesía.
+A rare sight. Remember it.	Algo poco común. Recuérdalo.
+The title stays with me. Good game.	El título se queda conmigo. Buena partida.
+Remarkable. You've earned my respect.	Notable. Te has ganado mi respeto.
+Calibration complete. Good luck, human.	Calibración completa. Buena suerte, humano.
+Shot registered: successful.	Tiro registrado: éxito.
+Probability of my victory: increasing.	Probabilidad de mi victoria: en aumento.
+Foul detected. Processing ball in hand.	Falta detectada. Procesando bola en mano.
+Executed as planned.	Ejecutado según lo previsto.
+Error. Recalculating.	Error. Recalculando.
+Malfunction. Please disregard.	Fallo. Por favor, ignórelo.
+Game complete. Thank you for playing.	Partida completada. Gracias por jugar.
+Defeat acknowledged. Well played.	Derrota reconocida. Bien jugado.

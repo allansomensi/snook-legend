@@ -272,7 +272,14 @@ pub struct Match {
     pub daily: Option<DailyRun>,
     /// A table to oneself (practice): racked again when a rack is over.
     pub free_play: bool,
+    /// What the computer opponent just said, and for how long it has shown.
+    pub banter: Option<(String, f32)>,
+    /// Seconds since the opponent last spoke.
+    banter_quiet: f32,
 }
+
+/// How long the opponent's speech bubble shows (seconds).
+pub const BANTER_TIME: f32 = 4.5;
 
 /// An attempt at the daily challenge: one visit to the table, every stroke
 /// kept for the server (which plays them again to count the balls).
@@ -442,9 +449,41 @@ impl Match {
             ladder,
             daily: None,
             free_play: false,
+            banter: None,
+            banter_quiet: 0.0,
         };
         m.begin_turn();
+        m.say(crate::banter::Moment::Start);
         m
+    }
+
+    /// The computer opponent may say something about `moment` (a
+    /// personality's line, in a bubble by its card).
+    pub fn say(&mut self, moment: crate::banter::Moment) {
+        // Only a game against the computer, not the waiting room's practice.
+        if !(self.is_against_computer() || self.practice) || self.free_play {
+            return;
+        }
+        let Some(o) = &self.opponent else { return };
+        let code = match o {
+            crate::opponents::Opponent::Personality { code } => code.as_str(),
+            crate::opponents::Opponent::Ghost { .. } => return,
+            _ => "",
+        };
+        let turn = self.game.shots_taken() as u64 + 1000 * self.games_played as u64;
+        if !moment.always()
+            && (self.banter_quiet < 6.0
+                || crate::banter::roll(self.seed ^ turn, moment as u64) > moment.chance())
+        {
+            return;
+        }
+        let lines = crate::banter::lines(code, moment);
+        if lines.is_empty() {
+            return;
+        }
+        let k = (crate::banter::roll(turn, self.seed) * lines.len() as f32) as usize;
+        self.banter = Some((t(lines[k.min(lines.len() - 1)]).to_string(), 0.0));
+        self.banter_quiet = 0.0;
     }
 
     /// An attempt at the daily challenge from the position of `seed`.
@@ -668,6 +707,8 @@ impl Match {
             ladder: None,
             daily: None,
             free_play: false,
+            banter: None,
+            banter_quiet: 0.0,
         };
         m.begin_turn();
         if let Some(o) = m.online.as_mut() {
@@ -1103,6 +1144,14 @@ impl Match {
                 self.begin_turn();
             }
         }
+        // The opponent's speech bubble fades after a few seconds.
+        self.banter_quiet += dt;
+        if let Some((_, age)) = &mut self.banter {
+            *age += dt;
+            if *age > BANTER_TIME {
+                self.banter = None;
+            }
+        }
         for n in &mut self.notices {
             n.ttl -= dt;
         }
@@ -1318,6 +1367,38 @@ impl Match {
     }
 
     fn after_shot(&mut self, report: &ShotReport) {
+        // The computer opponent's remark about this shot (the player has
+        // seat 0 against the computer).
+        {
+            use crate::banter::Moment;
+            let mine = report.shooter == 0;
+            let moment = match report.game_over {
+                Some(over) if over.winner == 0 => Moment::YouWin,
+                Some(_) => Moment::IWin,
+                None if report.is_foul() => {
+                    if mine {
+                        Moment::YouFoul
+                    } else {
+                        Moment::IFoul
+                    }
+                }
+                None if report.continues => {
+                    if mine {
+                        Moment::YouPot
+                    } else {
+                        Moment::IPot
+                    }
+                }
+                None => {
+                    if mine {
+                        Moment::YouMiss
+                    } else {
+                        Moment::IMiss
+                    }
+                }
+            };
+            self.say(moment);
+        }
         // Practice on one's own: a finished rack (the 8 down, however)
         // just starts another.
         if self.free_play && report.game_over.is_some() {

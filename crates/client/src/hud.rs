@@ -374,6 +374,12 @@ impl Hud {
         let x0 = ((sw - total) / 2.0).max(buttons_w).min(sw - total - 8.0);
         player_card(ui, m, 0, x0, 6.0, card_w);
         player_card(ui, m, 1, x0 + card_w + 10.0, 6.0, card_w);
+        // What the computer opponent says: a bubble under its card.
+        if let Some((text, age)) = m.banter.clone() {
+            // Below the turn's banner, which runs under the cards.
+            let anchor = vec2(x0 + card_w + 10.0 + card_w / 2.0, TOP_BAR + 40.0);
+            ui.overlay(move |ui| draw_banter(ui, &text, age, anchor));
+        }
         // How many are watching: an eye and the number, by the cards.
         let eye = vec2(x0 + total + 22.0, 27.0);
         if let Some(o) = &m.online
@@ -2410,6 +2416,53 @@ fn draw_shot_assessment(ui: &mut Ui, m: &Match) {
     if !details.is_empty() {
         let (details, size) = ui.fitted(&details, 12.0, r.w - 20.0, false);
         ui.text_centered(&details, r.x + r.w / 2.0, r.y + 28.0, size, CREAM, false);
+    }
+}
+
+/// A speech bubble with `text`, its tail up at `anchor` (under the
+/// speaker's card), fading in and out over its life.
+fn draw_banter(ui: &Ui, text: &str, age: f32, anchor: Vec2) {
+    let life = crate::game::BANTER_TIME;
+    let alpha = (age / 0.25).min(1.0) * ((life - age) / 0.5).clamp(0.0, 1.0);
+    if alpha <= 0.0 {
+        return;
+    }
+    let size = 14.0;
+    let max_w = 300.0f32.min(crate::ui::vw() - 24.0);
+    let lines = ui.wrap(text, max_w - 28.0, size);
+    let w = lines.iter().map(|l| ui.text_size(l, size, false).x).fold(0.0, f32::max) + 28.0;
+    let h = lines.len() as f32 * (size + 5.0) + 18.0;
+    // Pops in: a little bounce at the start.
+    let pop = if age < 0.25 { 0.9 + 0.1 * (age / 0.25) } else { 1.0 };
+    let top = anchor.y + 16.0 + (1.0 - pop) * 10.0;
+    let x = (anchor.x - w / 2.0).clamp(12.0, crate::ui::vw() - w - 12.0);
+    let r = Rect::new(x, top, w, h);
+    let paper = Color::new(0.98, 0.96, 0.9, 0.97 * alpha);
+    let edge = Color::new(0.25, 0.18, 0.1, 0.9 * alpha);
+    // Shadow, tail, body.
+    crate::ui::rrect(
+        Rect::new(r.x + 2.0, r.y + 3.0, r.w, r.h),
+        12.0,
+        Color::new(0.0, 0.0, 0.0, 0.3 * alpha),
+    );
+    let tail_x = anchor.x.clamp(r.x + 18.0, r.x + r.w - 18.0);
+    crate::paint::draw_triangle(
+        vec2(tail_x - 9.0, r.y + 1.0),
+        vec2(tail_x + 9.0, r.y + 1.0),
+        vec2(tail_x, r.y - 11.0),
+        edge,
+    );
+    crate::ui::rrect(r, 12.0, paper);
+    crate::ui::rrect_lines(r, 12.0, 1.5, edge);
+    crate::paint::draw_triangle(
+        vec2(tail_x - 7.0, r.y + 2.0),
+        vec2(tail_x + 7.0, r.y + 2.0),
+        vec2(tail_x, r.y - 8.5),
+        paper,
+    );
+    let ink = Color::new(0.16, 0.11, 0.07, alpha);
+    for (k, l) in lines.iter().enumerate() {
+        ui.text_centered(l, r.x + r.w / 2.0, r.y + 9.0 + k as f32 * (size + 5.0), size, ink, false);
     }
 }
 

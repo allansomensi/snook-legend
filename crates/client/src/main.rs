@@ -9,6 +9,7 @@
 mod analysis;
 mod assess;
 mod audio;
+mod banter;
 mod camera;
 mod channel;
 mod config;

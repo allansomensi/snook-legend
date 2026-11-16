@@ -13,6 +13,7 @@
 
 pub mod account;
 pub mod admin;
+pub mod correspondence;
 pub mod lan;
 pub mod limits;
 pub mod lounge;
@@ -140,6 +141,8 @@ pub struct Server {
     leaderboard: Mutex<Option<(Instant, Vec<LeaderboardEntry>)>>,
     connections: Mutex<HashMap<IpAddr, usize>>,
     pub stripe: Option<payments::Stripe>,
+    /// Correspondence games being changed (see [`correspondence`]).
+    pub(crate) corr: correspondence::State,
 }
 
 /// Drops connections that send nothing (clients ping every ~15 s).
@@ -195,6 +198,7 @@ impl Server {
             hashing: Semaphore::new(2),
             leaderboard: Mutex::new(None),
             connections: Mutex::new(HashMap::new()),
+            corr: correspondence::State::default(),
         })
     }
 
@@ -403,6 +407,10 @@ pub fn spawn_background(server: Arc<Server>) {
             }
         }
     });
+    // Correspondence games: turns that ran out (also right after a restart).
+    if !server.config.rules.lan {
+        tokio::spawn(correspondence::run(server.clone()));
+    }
     let rx = server.effects.lock().unwrap_or_else(|e| e.into_inner()).take();
     if let Some(mut rx) = rx {
         tokio::spawn(async move {
@@ -799,6 +807,8 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
         let _ = tx.try_send(msg);
     };
     let mut hello = false;
+    // The game's protocol version (newer messages are not sent to it).
+    let mut protocol = OLDEST_PROTOCOL_VERSION;
     let mut user: Option<(User, bool)> = None;
     let mut failures = 0;
     let mut token_in_use: Option<String> = None;
@@ -838,7 +848,8 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                 ClientMsg::Hello { version }
                     if (OLDEST_PROTOCOL_VERSION..=PROTOCOL_VERSION).contains(&version) =>
                 {
-                    hello = true
+                    hello = true;
+                    protocol = version;
                 }
                 ClientMsg::Hello { .. } => {
                     send(ServerMsg::AuthError {
@@ -888,7 +899,8 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                                 token.clone(),
                                 ip_text.clone(),
                                 blocked,
-                            )
+                            );
+                            l.set_protocol(&row.username, protocol);
                         });
                         if !guest {
                             token_in_use = Some(token);
@@ -899,6 +911,11 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                                 s.check_achievements(&r).await;
                                 account::signed_in(&s, &r).await;
                                 shop::push_wallet(&s, &r).await;
+                                if protocol >= snookered_proto::correspondence::SINCE_PROTOCOL
+                                    && !s.config.rules.lan
+                                {
+                                    correspondence::signed_in(&s, &r).await;
+                                }
                             });
                             if let Ok(friends) = server.store.friends(row.id).await
                                 && friends.iter().any(|(_, st)| *st == FriendState::Incoming)
@@ -974,6 +991,9 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                 }
             }
             ClientMsg::Missions => send(missions::message(&server, &me).await),
+            msg if correspondence::is_msg(&msg) => {
+                correspondence::handle(&server, &me, msg, &send).await
+            }
             ClientMsg::Replays => {
                 let vip =
                     shop::is_vip(&server.store.wallet(me.id).await.unwrap_or_default(), now());
@@ -1183,6 +1203,13 @@ fn is_query_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::DeleteAccount { .. }
             | ClientMsg::Replays
             | ClientMsg::Replay { .. }
+            | ClientMsg::CorrList
+            | ClientMsg::CorrChallenge { .. }
+            | ClientMsg::CorrAnswer { .. }
+            | ClientMsg::CorrCancel { .. }
+            | ClientMsg::CorrOpen { .. }
+            | ClientMsg::CorrShoot { .. }
+            | ClientMsg::CorrResign { .. }
     )
 }
 
@@ -1214,6 +1241,13 @@ fn is_account_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::Missions
             | ClientMsg::Replay { .. }
             | ClientMsg::CreateInviteCode { .. }
+            | ClientMsg::CorrList
+            | ClientMsg::CorrChallenge { .. }
+            | ClientMsg::CorrAnswer { .. }
+            | ClientMsg::CorrCancel { .. }
+            | ClientMsg::CorrOpen { .. }
+            | ClientMsg::CorrShoot { .. }
+            | ClientMsg::CorrResign { .. }
     )
 }
 
@@ -1248,6 +1282,7 @@ fn history_entry(h: crate::store::HistoryRow) -> HistoryEntry {
         at: h.at,
         match_id: h.match_id,
         replay: h.replay,
+        correspondence: h.correspondence,
     }
 }
 

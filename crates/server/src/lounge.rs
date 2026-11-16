@@ -160,6 +160,9 @@ pub struct Session {
     watching: Option<String>,
     /// VIP badge, cue and chalk (from the wallet).
     pub look: Look,
+    /// The protocol version of the player's game (messages newer than it
+    /// are not sent).
+    pub protocol: u32,
 }
 
 struct Room {
@@ -505,6 +508,7 @@ impl Lounge {
                 reaction_bucket: Bucket::new(3.0, 0.5),
                 watching: None,
                 look: Look::default(),
+                protocol: snookered_proto::OLDEST_PROTOCOL_VERSION,
             },
         );
         let players: Vec<PlayerInfo> = self.sessions.keys().filter_map(|k| self.info(k)).collect();
@@ -632,6 +636,26 @@ impl Lounge {
     /// Sends a message to a player if they are online.
     pub fn notify(&self, name: &str, msg: ServerMsg) {
         self.send(&key(name), msg);
+    }
+
+    /// Records the protocol version the player's game spoke at `hello`.
+    pub fn set_protocol(&mut self, name: &str, version: u32) {
+        if let Some(s) = self.sessions.get_mut(&key(name)) {
+            s.protocol = version;
+        }
+    }
+
+    /// The protocol version of an online player's game.
+    pub fn protocol_of(&self, name: &str) -> Option<u32> {
+        self.sessions.get(&key(name)).map(|s| s.protocol)
+    }
+
+    /// Sends a message that only games of protocol `since` and later know,
+    /// if the player is online with one.
+    pub fn notify_since(&self, name: &str, since: u32, msg: ServerMsg) {
+        if self.protocol_of(name).is_some_and(|v| v >= since) {
+            self.send(&key(name), msg);
+        }
     }
 
     /// A message from the staff in the lounge chat.
@@ -915,7 +939,14 @@ impl Lounge {
             | ClientMsg::GiftItem { .. }
             | ClientMsg::Missions
             | ClientMsg::Replays
-            | ClientMsg::Replay { .. } => {}
+            | ClientMsg::Replay { .. }
+            | ClientMsg::CorrList
+            | ClientMsg::CorrChallenge { .. }
+            | ClientMsg::CorrAnswer { .. }
+            | ClientMsg::CorrCancel { .. }
+            | ClientMsg::CorrOpen { .. }
+            | ClientMsg::CorrShoot { .. }
+            | ClientMsg::CorrResign { .. } => {}
         }
     }
 
@@ -2172,7 +2203,7 @@ impl Lounge {
 
     /// Counts a rated game between these two; returns how many they played
     /// in the last day before this one.
-    fn count_pair_game(&mut self, keys: &[String; 2]) -> usize {
+    pub(crate) fn count_pair_game(&mut self, keys: &[String; 2]) -> usize {
         let mut pair = [keys[0].clone(), keys[1].clone()];
         pair.sort();
         let now = Instant::now();

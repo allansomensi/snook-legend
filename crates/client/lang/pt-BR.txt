@@ -795,6 +795,7 @@ Use {email} to recover your account if you ever forget your password?	Usar {emai
 Watch	Assistir
 Watch again	Assistir de novo
 Winning effects	Efeitos de vitória
+Halls	Salões
 You are paired as soon as you and an opponent are free.	Você é pareado assim que você e um adversário estiverem livres.
 You can change it any time in your profile (Account).	Você pode mudar quando quiser no seu perfil (Conta).
 You need {n} more coins.	Faltam {n} moedas.
@@ -817,6 +818,15 @@ shots with a foul	tacadas com falta
 starts in {n} min	começa em {n} min
 tournament prize	prêmio de torneio
 turning around the table	girando em volta da mesa
+looking around the hall	olhando em volta do salão
+The dark room hides the hall around the table.	O ambiente escuro esconde o salão em volta da mesa.
+Show the hall	Mostrar o salão
+Level {n} · 1 win	Nível {n} · 1 vitória
+Level {n} · {w} wins	Nível {n} · {w} vitórias
+{left} more online wins with this cue for level {n}. Levels only add marks to the cue.	Mais {left} vitórias online com este taco para o nível {n}. Os níveis só acrescentam marcas ao taco.
+The top level: this cue has every mark.	O nível máximo: este taco tem todas as marcas.
+Your cue {cue} reached level {n}!	Seu taco {cue} chegou ao nível {n}!
+Most wins: {cue} (level {n})	Mais vitórias: {cue} (nível {n})
 vs	x
 {from} gave you {item}!	{from} te deu {item}!
 {item} is yours and already in use.	{item} é seu e já está em uso.
@@ -842,6 +852,12 @@ Black tie	Black tie
 Cobalt	Cobalto
 Emerald	Esmeralda
 Natural maple	Maple natural
+Beach bar	Bar de praia
+Modern	Moderna
+English club	Clube inglês
+Ebony & gold	Ébano e ouro
+Pool hall	Salão de sinuca
+Industrial loft	Loft industrial
 Walnut	Nogueira
 Zebrawood	Zebrano
 Bocote	Bocote

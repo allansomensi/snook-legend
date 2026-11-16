@@ -688,9 +688,8 @@ impl ShopScreen {
             }
             y += pitch;
         }
+        draw_line(side.x + 12.0, y - 1.0, side.x + side.w - 12.0, y - 1.0, 1.0, BORDER);
         y += 4.0;
-        draw_line(side.x + 12.0, y - 4.0, side.x + side.w - 12.0, y - 4.0, 1.0, BORDER);
-        y += 2.0;
         for (tab, label, icon) in
             [(Tab::Coins, t("Coins"), Icon::Coin), (Tab::Vip, "VIP", Icon::Crown)]
         {

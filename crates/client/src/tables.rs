@@ -85,7 +85,7 @@ struct Style {
 
 fn style(s: TableStyle) -> Style {
     let brass = Surface::lit(1.6, 90.0, 0.12, 0.7);
-    let chrome = Surface::lit(2.4, 160.0, 0.2, 1.0);
+    let chrome = Surface::lit(1.3, 120.0, 0.1, 0.55);
     let leather = Surface::lit(0.5, 30.0, 0.0, 0.2);
     match s {
         TableStyle::Classic => Style {
@@ -109,9 +109,9 @@ fn style(s: TableStyle) -> Style {
             rail: ([0.62, 0.40, 0.21], [0.36, 0.20, 0.09], 23),
             body: ([0.55, 0.36, 0.19], [0.30, 0.17, 0.08], 29),
             wood: Surface::lit(0.3, 30.0, 0.05, 0.25),
-            cast: Color::new(0.80, 0.82, 0.86, 1.0),
+            cast: Color::new(0.44, 0.46, 0.50, 1.0),
             cast_surface: chrome,
-            lip: Color::new(0.72, 0.74, 0.78, 1.0),
+            lip: Color::new(0.40, 0.42, 0.46, 1.0),
             lip_surface: chrome,
             sights: rgb(225, 238, 245),
             diamonds: false,
@@ -310,7 +310,12 @@ pub fn build(table: &Table, quality: Quality, theme: TableStyle) -> Kit {
         // The underside of the apron.
         quad(
             apron_mesh,
-            [v3(s0, bottom), v3(s1, bottom), v3(out2(i1, 0.05), bottom), v3(out2(i0, 0.05), bottom)],
+            [
+                v3(s0, bottom),
+                v3(s1, bottom),
+                v3(out2(i1, 0.05), bottom),
+                v3(out2(i0, 0.05), bottom),
+            ],
             [Vec2::ZERO; 4],
             -Vec3::Y,
             wood,
@@ -320,14 +325,24 @@ pub fn build(table: &Table, quality: Quality, theme: TableStyle) -> Kit {
             let (l0, l1) = (out2(o0, 0.012), out2(o1, 0.012));
             quad(
                 &mut rail,
-                [v3(o0, bottom + lip), v3(o1, bottom + lip), v3(l1, bottom + lip - 0.008), v3(l0, bottom + lip - 0.008)],
+                [
+                    v3(o0, bottom + lip),
+                    v3(o1, bottom + lip),
+                    v3(l1, bottom + lip - 0.008),
+                    v3(l0, bottom + lip - 0.008),
+                ],
                 [vec2(u0, 0.0), vec2(u1, 0.0), vec2(u1, 0.02), vec2(u0, 0.02)],
                 (Vec3::Y + normal_out).normalize_or_zero(),
                 wood,
             );
             quad(
                 &mut rail,
-                [v3(l0, bottom), v3(l1, bottom), v3(l1, bottom + lip - 0.008), v3(l0, bottom + lip - 0.008)],
+                [
+                    v3(l0, bottom),
+                    v3(l1, bottom),
+                    v3(l1, bottom + lip - 0.008),
+                    v3(l0, bottom + lip - 0.008),
+                ],
                 [vec2(u0, 0.0), vec2(u1, 0.0), vec2(u1, 0.04), vec2(u0, 0.04)],
                 normal_out,
                 wood,
@@ -347,8 +362,8 @@ pub fn build(table: &Table, quality: Quality, theme: TableStyle) -> Kit {
             let steps = 4;
             let target = if theme == TableStyle::Royal { &mut trim } else { &mut rail };
             for s in 0..steps {
-                let b0 = -std::f32::consts::FRAC_PI_2
-                    + s as f32 / steps as f32 * std::f32::consts::PI;
+                let b0 =
+                    -std::f32::consts::FRAC_PI_2 + s as f32 / steps as f32 * std::f32::consts::PI;
                 let b1 = -std::f32::consts::FRAC_PI_2
                     + (s + 1) as f32 / steps as f32 * std::f32::consts::PI;
                 let at = |p: Vec2, a: f32| {
@@ -372,7 +387,12 @@ pub fn build(table: &Table, quality: Quality, theme: TableStyle) -> Kit {
                 let (m0, m1) = (out2(o0, 0.002), out2(o1, 0.002));
                 quad(
                     &mut trim,
-                    [v3(m0, split - 0.002), v3(m1, split - 0.002), v3(m1, split + 0.01), v3(m0, split + 0.01)],
+                    [
+                        v3(m0, split - 0.002),
+                        v3(m1, split - 0.002),
+                        v3(m1, split + 0.01),
+                        v3(m0, split + 0.01),
+                    ],
                     [Vec2::ZERO; 4],
                     normal_out,
                     st.trim,
@@ -381,7 +401,12 @@ pub fn build(table: &Table, quality: Quality, theme: TableStyle) -> Kit {
                     let (g0, g1) = (out2(o0, -inset + 0.002), out2(o1, -inset + 0.002));
                     quad(
                         &mut glow,
-                        [v3(g0, bottom + 0.004), v3(g1, bottom + 0.004), v3(g1, bottom + 0.011), v3(g0, bottom + 0.011)],
+                        [
+                            v3(g0, bottom + 0.004),
+                            v3(g1, bottom + 0.004),
+                            v3(g1, bottom + 0.011),
+                            v3(g0, bottom + 0.011),
+                        ],
                         [Vec2::ZERO; 4],
                         normal_out,
                         Color::new(0.62, 0.82, 1.0, 1.0),
@@ -400,7 +425,12 @@ pub fn build(table: &Table, quality: Quality, theme: TableStyle) -> Kit {
                 );
                 quad(
                     &mut rail,
-                    [v3(s0, bottom + 0.03), v3(s1, bottom + 0.03), v3(m1, bottom + 0.03), v3(m0, bottom + 0.03)],
+                    [
+                        v3(s0, bottom + 0.03),
+                        v3(s1, bottom + 0.03),
+                        v3(m1, bottom + 0.03),
+                        v3(m0, bottom + 0.03),
+                    ],
                     [Vec2::ZERO; 4],
                     Vec3::Y,
                     wood,
@@ -421,9 +451,27 @@ pub fn build(table: &Table, quality: Quality, theme: TableStyle) -> Kit {
         if in_casting(mid) {
             let z = [Vec2::ZERO; 4];
             let c = st.cast;
-            quad(&mut cast, [v3(i0, ctop), v3(i1, ctop), v3(o1, ctop), v3(o0, ctop)], z, Vec3::Y, c);
-            quad(&mut cast, [v3(o0, top), v3(o1, top), v3(o1, ctop), v3(o0, ctop)], z, normal_out, c);
-            quad(&mut cast, [v3(i0, top), v3(i1, top), v3(i1, ctop), v3(i0, ctop)], z, -normal_out, c);
+            quad(
+                &mut cast,
+                [v3(i0, ctop), v3(i1, ctop), v3(o1, ctop), v3(o0, ctop)],
+                z,
+                Vec3::Y,
+                c,
+            );
+            quad(
+                &mut cast,
+                [v3(o0, top), v3(o1, top), v3(o1, ctop), v3(o0, ctop)],
+                z,
+                normal_out,
+                c,
+            );
+            quad(
+                &mut cast,
+                [v3(i0, top), v3(i1, top), v3(i1, ctop), v3(i0, ctop)],
+                z,
+                -normal_out,
+                c,
+            );
             let prev = (outer[(k + n - 1) % n] + o0) / 2.0;
             let next = (o1 + outer[(k + 2) % n]) / 2.0;
             let tangent = (o1 - o0).normalize_or_zero();
@@ -541,7 +589,13 @@ fn legs(kit: &mut Kit, st: &Style, quality: Quality, l: f32, w: f32, bottom: f32
             for (sx, sz) in corners {
                 let at = vec3(sx * (l / 2.0 - 0.02), 0.0, sz * (w / 2.0 - 0.02));
                 let block = 0.16;
-                legs.cuboid(at + Vec3::Y * (leg_h - block / 2.0), vec3(0.2, block, 0.2), 0.0, WHITE, 1.2);
+                legs.cuboid(
+                    at + Vec3::Y * (leg_h - block / 2.0),
+                    vec3(0.2, block, 0.2),
+                    0.0,
+                    WHITE,
+                    1.2,
+                );
                 let h = leg_h - block;
                 let profile = [
                     (0.0, 0.0),
@@ -566,7 +620,12 @@ fn legs(kit: &mut Kit, st: &Style, quality: Quality, l: f32, w: f32, bottom: f32
                 if st.leg_rings {
                     // Gold rings where the turning narrows (the ebony table).
                     for (yy, r) in [(0.055, 0.103), (h * 0.84, 0.074), (h - 0.012, 0.072)] {
-                        metal.lathe(at + Vec3::Y * yy, &[(0.0, r), (0.006, r + 0.004), (0.012, r)], segs, st.trim);
+                        metal.lathe(
+                            at + Vec3::Y * yy,
+                            &[(0.0, r), (0.006, r + 0.004), (0.012, r)],
+                            segs,
+                            st.trim,
+                        );
                     }
                 }
             }
@@ -576,8 +635,20 @@ fn legs(kit: &mut Kit, st: &Style, quality: Quality, l: f32, w: f32, bottom: f32
                 let at = vec3(sx * (l / 2.0 - 0.04), 0.0, sz * (w / 2.0 - 0.04));
                 let block = 0.2;
                 // A square block under the apron with a moulded cap.
-                legs.cuboid(at + Vec3::Y * (leg_h - block / 2.0), vec3(0.27, block, 0.27), 0.0, WHITE, 1.2);
-                legs.cuboid(at + Vec3::Y * (leg_h - block - 0.012), vec3(0.24, 0.024, 0.24), 0.0, WHITE, 1.2);
+                legs.cuboid(
+                    at + Vec3::Y * (leg_h - block / 2.0),
+                    vec3(0.27, block, 0.27),
+                    0.0,
+                    WHITE,
+                    1.2,
+                );
+                legs.cuboid(
+                    at + Vec3::Y * (leg_h - block - 0.012),
+                    vec3(0.24, 0.024, 0.24),
+                    0.0,
+                    WHITE,
+                    1.2,
+                );
                 let h = leg_h - block - 0.024;
                 // Bun foot, a collar, the fluted "cup", a neck and a capital.
                 let profile = [
@@ -616,10 +687,24 @@ fn legs(kit: &mut Kit, st: &Style, quality: Quality, l: f32, w: f32, bottom: f32
                 let cane = Color::new(0.80, 0.66, 0.40, 1.0);
                 let (x, z) = (l / 2.0 - 0.06, w / 2.0 - 0.06);
                 for sz in [1.0f32, -1.0] {
-                    crate::room::tube(&mut legs, vec3(-x, 0.16, sz * z), vec3(x, 0.16, sz * z), 0.02, 10, cane);
+                    crate::room::tube(
+                        &mut legs,
+                        vec3(-x, 0.16, sz * z),
+                        vec3(x, 0.16, sz * z),
+                        0.02,
+                        10,
+                        cane,
+                    );
                 }
                 for sx in [1.0f32, -1.0] {
-                    crate::room::tube(&mut legs, vec3(sx * x, 0.16, -z), vec3(sx * x, 0.16, z), 0.02, 10, cane);
+                    crate::room::tube(
+                        &mut legs,
+                        vec3(sx * x, 0.16, -z),
+                        vec3(sx * x, 0.16, z),
+                        0.02,
+                        10,
+                        cane,
+                    );
                 }
             }
         }
@@ -627,7 +712,13 @@ fn legs(kit: &mut Kit, st: &Style, quality: Quality, l: f32, w: f32, bottom: f32
             for sx in [1.0f32, -1.0] {
                 let at = vec3(sx * (l / 2.0 - 0.32), 0.0, 0.0);
                 // A wide slab across the table, set on a metal plinth.
-                legs.cuboid(at + Vec3::Y * (leg_h / 2.0 + 0.03), vec3(0.11, leg_h - 0.06, w * 0.86), 0.0, WHITE, 1.2);
+                legs.cuboid(
+                    at + Vec3::Y * (leg_h / 2.0 + 0.03),
+                    vec3(0.11, leg_h - 0.06, w * 0.86),
+                    0.0,
+                    WHITE,
+                    1.2,
+                );
                 metal.cuboid(at + Vec3::Y * 0.015, vec3(0.16, 0.03, w * 0.92), 0.0, st.trim, 1.0);
                 if !low {
                     // A metal reveal line up each face.
@@ -661,7 +752,12 @@ fn sights(kit: &mut Kit, st: &Style, table: &Table) {
             // A diamond, long across the rail.
             let (a, b) = if along_x { (0.006, 0.011) } else { (0.011, 0.006) };
             sights.quad(
-                [c + vec3(-a, 0.0, 0.0), c + vec3(0.0, 0.0, b), c + vec3(a, 0.0, 0.0), c + vec3(0.0, 0.0, -b)],
+                [
+                    c + vec3(-a, 0.0, 0.0),
+                    c + vec3(0.0, 0.0, b),
+                    c + vec3(a, 0.0, 0.0),
+                    c + vec3(0.0, 0.0, -b),
+                ],
                 [Vec2::ZERO; 4],
                 st.sights,
             );
@@ -682,7 +778,8 @@ fn sights(kit: &mut Kit, st: &Style, table: &Table) {
         }
     }
     let shiny = st.sights.r > 0.7 && st.sights.b < 0.5;
-    let surface = if shiny { Surface::lit(2.0, 100.0, 0.1, 0.7) } else { Surface::lit(0.8, 60.0, 0.0, 0.3) };
+    let surface =
+        if shiny { Surface::lit(2.0, 100.0, 0.1, 0.7) } else { Surface::lit(0.8, 60.0, 0.0, 0.3) };
     kit.add(sights, None, surface, Layer::Detail);
 }
 
@@ -710,8 +807,13 @@ fn pockets(kit: &mut Kit, st: &Style, table: &Table) {
                 let ra = r * (1.0 - 0.35 * t0 * t0);
                 let rb = r * (1.0 - 0.35 * t1 * t1);
                 for k in 0..32 {
-                    let (a0, a1) = (k as f32 / 32.0 * std::f32::consts::TAU, (k + 1) as f32 / 32.0 * std::f32::consts::TAU);
-                    let p = |a: f32, rr: f32, t: f32| center + vec3(a.cos() * rr, -depth * t, a.sin() * rr);
+                    let (a0, a1) = (
+                        k as f32 / 32.0 * std::f32::consts::TAU,
+                        (k + 1) as f32 / 32.0 * std::f32::consts::TAU,
+                    );
+                    let p = |a: f32, rr: f32, t: f32| {
+                        center + vec3(a.cos() * rr, -depth * t, a.sin() * rr)
+                    };
                     let uv = |a: f32, t: f32| vec2(a / std::f32::consts::TAU * 6.0, t * 1.4);
                     let n = |a: f32| -vec3(a.cos(), -0.4, a.sin()).normalize();
                     let i = [

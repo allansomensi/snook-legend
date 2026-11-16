@@ -88,9 +88,10 @@ impl Client {
         pred: impl Fn(&[String], &[(String, String)]) -> bool,
     ) -> (Vec<String>, Vec<(String, String)>, Vec<(String, u32)>) {
         let m = self
-            .expect("wallet", |m| {
-                matches!(m, ServerMsg::Wallet { owned, equipped, .. } if pred(owned, equipped))
-            })
+            .expect(
+                "wallet",
+                |m| matches!(m, ServerMsg::Wallet { owned, equipped, .. } if pred(owned, equipped)),
+            )
             .await;
         match m {
             ServerMsg::Wallet { owned, equipped, cue_wins, .. } => (owned, equipped, cue_wins),
@@ -128,7 +129,12 @@ async fn start_match(
 
 /// Plays a whole game with the computer's shots on both sides; returns the
 /// winner's seat and the number of shots.
-async fn play_out(a: &mut Client, b: &mut Client, mut game: EightBallGame, sa: usize) -> (usize, u32) {
+async fn play_out(
+    a: &mut Client,
+    b: &mut Client,
+    mut game: EightBallGame,
+    sa: usize,
+) -> (usize, u32) {
     for k in 0..400u64 {
         let d = ai::decide(&game, Difficulty::Hard, k);
         let msg = ClientMsg::Shoot {
@@ -137,7 +143,11 @@ async fn play_out(a: &mut Client, b: &mut Client, mut game: EightBallGame, sa: u
             called_pocket: d.called_pocket,
             cue_ball: d.cue_ball,
         };
-        if game.current_player() == sa { a.send(msg).await } else { b.send(msg).await }
+        if game.current_player() == sa {
+            a.send(msg).await
+        } else {
+            b.send(msg).await
+        }
         let ServerMsg::ShotResult { end, .. } =
             a.expect("result", |m| matches!(m, ServerMsg::ShotResult { .. })).await
         else {
@@ -174,8 +184,7 @@ async fn online_wins_level_up_the_cue_in_use() {
     let (game, sa, players) = start_match(&mut a, &mut b, "bob", "alice", false).await;
     assert_eq!(players.map(|p| p.cue_level), [0, 0], "nine wins: no level yet");
     let (winner, shots) = play_out(&mut a, &mut b, game, sa).await;
-    let (winner_id, loser_id) =
-        if winner == sa { (ids[0], ids[1]) } else { (ids[1], ids[0]) };
+    let (winner_id, loser_id) = if winner == sa { (ids[0], ids[1]) } else { (ids[1], ids[0]) };
     let counted = shots >= 8;
     let want = if counted { 10 } else { 9 };
     // Counted once the game is recorded (in the background).

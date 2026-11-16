@@ -137,7 +137,14 @@ pub(crate) fn tube(b: &mut MeshBuilder, a: Vec3, c: Vec3, r: f32, segments: u32,
 }
 
 /// A ring of tube (a torus) lying flat.
-pub(crate) fn hoop(b: &mut MeshBuilder, center: Vec3, radius: f32, r: f32, segments: u32, color: Color) {
+pub(crate) fn hoop(
+    b: &mut MeshBuilder,
+    center: Vec3,
+    radius: f32,
+    r: f32,
+    segments: u32,
+    color: Color,
+) {
     for k in 0..segments {
         let a0 = k as f32 / segments as f32 * std::f32::consts::TAU;
         let a1 = (k + 1) as f32 / segments as f32 * std::f32::consts::TAU;
@@ -172,7 +179,15 @@ pub(crate) fn disc_facing(
 }
 
 /// A rectangle (a picture, a board) on a wall, with 0..1 texture coordinates.
-pub(crate) fn picture(b: &mut MeshBuilder, center: Vec3, right: Vec3, up: Vec3, w: f32, h: f32, color: Color) {
+pub(crate) fn picture(
+    b: &mut MeshBuilder,
+    center: Vec3,
+    right: Vec3,
+    up: Vec3,
+    w: f32,
+    h: f32,
+    color: Color,
+) {
     let (r, u) = (right * w / 2.0, up * h / 2.0);
     b.quad(
         [center - r - u, center + r - u, center + r + u, center - r + u],
@@ -238,10 +253,8 @@ pub fn build(kit: &mut Kit, quality: Quality, table: Vec2) {
         posters_px.into_iter().map(|p| Some(kit.texture(p, false))).collect();
     let label_tex = Some(kit.texture(label_px, false));
     // The wood of the panelling, the bar and the furniture.
-    let wood = Some(kit.texture(
-        textures::fine_wood([0.13, 0.06, 0.035], [0.04, 0.018, 0.012], 17),
-        true,
-    ));
+    let wood =
+        Some(kit.texture(textures::fine_wood([0.13, 0.06, 0.035], [0.04, 0.018, 0.012], 17), true));
     let glow_tex = Some(kit.texture(textures::glow(), false));
     let white = None;
 

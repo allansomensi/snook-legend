@@ -1323,7 +1323,9 @@ mod tests {
         let p: PlayerInfo = serde_json::from_str(old).unwrap();
         assert_eq!((p.cue.as_str(), p.cue_level), ("cue_maple", 0));
         let old = r#"{"type":"wallet","coins":1,"vip_until":0,"owned":[],"equipped":[]}"#;
-        assert!(matches!(parse_server(old), Ok(ServerMsg::Wallet { cue_wins, .. }) if cue_wins.is_empty()));
+        assert!(
+            matches!(parse_server(old), Ok(ServerMsg::Wallet { cue_wins, .. }) if cue_wins.is_empty())
+        );
     }
 
     #[test]

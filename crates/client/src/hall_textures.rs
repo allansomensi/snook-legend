@@ -47,7 +47,8 @@ pub fn deck(size: u16) -> Pixels {
         if !(0.035..=0.965).contains(&within) {
             t = 1.25;
         }
-        let end = (along - 0.02).abs() < 0.006 && ((within - 0.3).abs() < 0.05 || (within - 0.7).abs() < 0.05);
+        let end = (along - 0.02).abs() < 0.006
+            && ((within - 0.3).abs() < 0.05 || (within - 0.7).abs() < 0.05);
         if end {
             t = 0.95;
         }
@@ -88,7 +89,8 @@ pub fn sunset(sun: Option<f32>, palms: bool, seed: u32) -> Pixels {
             c = mix(c, [1.0, 0.80, 0.45], smooth(0.9, 1.0, h));
             // Long, thin clouds lit from below.
             let cloud = fbm(u * 3.0, v * 14.0, 3, seed, 4);
-            let band = smooth(0.55, 0.75, cloud) * smooth(0.15, 0.4, h) * (1.0 - smooth(0.85, 0.98, h));
+            let band =
+                smooth(0.55, 0.75, cloud) * smooth(0.15, 0.4, h) * (1.0 - smooth(0.85, 0.98, h));
             c = mix(c, [1.0, 0.62, 0.48], band * 0.65);
             if let Some(su) = sun {
                 let d = (((u - su) * 2.0).powi(2) + (v - horizon + 0.05).powi(2)).sqrt();
@@ -103,7 +105,8 @@ pub fn sunset(sun: Option<f32>, palms: bool, seed: u32) -> Pixels {
             let d = (v - horizon) / (1.0 - horizon);
             let mut c = mix([0.55, 0.32, 0.30], [0.10, 0.10, 0.20], smooth(0.0, 0.5, d));
             // Long, flat ripples (stretched along the horizon).
-            let ripple = noise(u * 24.0, v * 70.0, 24, seed + 5) * 0.7 + noise(u * 48.0, v * 140.0, 48, seed + 6) * 0.3;
+            let ripple = noise(u * 24.0, v * 70.0, 24, seed + 5) * 0.7
+                + noise(u * 48.0, v * 140.0, 48, seed + 6) * 0.3;
             if let Some(su) = sun {
                 let path = smooth(0.08 + d * 0.25, 0.0, (u - su).abs());
                 c = mix(c, [1.0, 0.75, 0.45], path * smooth(0.45, 0.8, ripple) * 0.9);
@@ -225,11 +228,13 @@ pub fn books() -> Pixels {
         let mut c = base.map(|c| c * (0.55 + 0.6 * round));
         // Gilt bands near the top and bottom of the spine.
         let rel = (within - top) / height;
-        if (rel - 0.12).abs() < 0.02 || (rel - 0.82).abs() < 0.02 || (rel - 0.3).abs() < 0.05 && hash(id, 3, 97) > 0.5
+        if (rel - 0.12).abs() < 0.02
+            || (rel - 0.82).abs() < 0.02
+            || (rel - 0.3).abs() < 0.05 && hash(id, 3, 97) > 0.5
         {
             c = mix(c, [0.75, 0.58, 0.25], 0.8);
         }
-        if across < 0.06 || across > 0.94 {
+        if !(0.06..=0.94).contains(&across) {
             c = c.map(|c| c * 0.5);
         }
         to8(c)
@@ -240,9 +245,10 @@ pub fn books() -> Pixels {
 pub fn painting(k: u32) -> Pixels {
     image(256, move |u, v| {
         let age = fbm(u * 5.0, v * 5.0, 5, 101 + k, 3);
-        let c = if k % 2 == 0 {
+        let c = if k.is_multiple_of(2) {
             // A landscape: sky, hills, a lake.
-            let hill = 0.55 + (u * 7.0 + k as f32).sin() * 0.05 + fbm(u * 3.0, 1.0, 3, 103, 2) * 0.1;
+            let hill =
+                0.55 + (u * 7.0 + k as f32).sin() * 0.05 + fbm(u * 3.0, 1.0, 3, 103, 2) * 0.1;
             if v < hill - 0.1 {
                 mix([0.55, 0.50, 0.36], [0.30, 0.36, 0.38], v * 1.5)
             } else if v < hill {
@@ -328,7 +334,8 @@ pub fn city(seed: u32) -> Pixels {
             let width = [0.05, 0.035, 0.025][layer];
             let col = (u / width).floor();
             let id = col as i32 * 7 + layer as i32 * 1000;
-            let h = [0.35, 0.5, 0.62][layer] + (hash(id, 0, seed) - 0.5) * [0.35, 0.25, 0.12][layer];
+            let h =
+                [0.35, 0.5, 0.62][layer] + (hash(id, 0, seed) - 0.5) * [0.35, 0.25, 0.12][layer];
             if v > h {
                 let tone = [[0.03, 0.035, 0.06], [0.06, 0.07, 0.12], [0.12, 0.13, 0.22]][layer];
                 c = tone;

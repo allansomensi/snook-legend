@@ -467,6 +467,7 @@ async fn main() {
             looks = scene::Looks::of(&pick("cloth", &config.cloth), &pick("balls", &config.balls))
                 .themed(&pick("table", &config.table), &pick("hall", &config.hall));
         }
+        shop.dark_stage = config.focused_scene;
         // A hall tried on shows even on the dark stage.
         scene.preview_hall(previewing.is_some_and(|(c, _)| c.starts_with("hall")));
         scene.set_looks(&looks);
@@ -631,7 +632,8 @@ async fn main() {
                         Table::default(),
                         config.quality,
                         config.focused_scene,
-                        &scene::Looks::of(&config.cloth, &config.balls).themed(&config.table, &config.hall),
+                        &scene::Looks::of(&config.cloth, &config.balls)
+                            .themed(&config.table, &config.hall),
                     ),
                 ));
             }
@@ -920,10 +922,7 @@ async fn main() {
                                 }
                             }
                         }
-                        Screen::Shop => match {
-                            shop.dark_stage = config.focused_scene;
-                            shop.draw(&mut ui, &mut online)
-                        } {
+                        Screen::Shop => match shop.draw(&mut ui, &mut online) {
                             shop::ShopAction::Back => {
                                 next = Some(if back_to_lounge && online.signed_in() {
                                     Screen::Online
@@ -995,7 +994,8 @@ async fn main() {
                             Table::default(),
                             q,
                             config.focused_scene,
-                            &scene::Looks::of(&config.cloth, &config.balls).themed(&config.table, &config.hall),
+                            &scene::Looks::of(&config.cloth, &config.balls)
+                                .themed(&config.table, &config.hall),
                         ),
                     ));
                     toast = Some((

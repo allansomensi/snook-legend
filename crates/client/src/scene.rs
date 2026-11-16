@@ -103,7 +103,8 @@ impl Scene {
         };
 
         // --- The hall and the table's theme ----------------------------------
-        let room = if focused { Vec::new() } else { hall_kit(&table, quality, looks.hall).finish(&white) };
+        let room =
+            if focused { Vec::new() } else { hall_kit(&table, quality, looks.hall).finish(&white) };
         let table_parts = crate::tables::build(&table, quality, looks.table).finish(&white);
 
         // --- Table ----------------------------------------------------------
@@ -851,11 +852,37 @@ fn cue_marks(m: &mut MeshBuilder, level: u8, wood: Color) -> Option<MeshBuilder>
         let wave = ((u * 12.0 * std::f32::consts::TAU).sin() * 0.35 + 0.5 - v).abs();
         if wave < 0.12 { deep } else { gold }
     });
+    // The glow: the gold lit from within (drawn over it, see-through), and
+    // a faint haze round it that fades out along the cue.
     let mut glow = MeshBuilder::default();
-    for (spread, alpha) in [(1.5f32, 0.22f32), (2.3, 0.1)] {
-        let color = Color::new(1.0, 0.82, 0.42, alpha);
-        let (a, b) = (0.812, 0.89);
-        glow.frustum(a, cue_radius(a) * spread, b, cue_radius(b) * spread, 20, color);
+    glow.frustum(
+        y0,
+        cue_radius(y0) + lift * 2.0,
+        y1,
+        cue_radius(y1) + lift * 2.0,
+        24,
+        Color::new(1.0, 0.86, 0.5, 0.35),
+    );
+    let rings = [(0.79f32, 0.0f32), (0.812, 0.1), (0.828, 0.1), (0.86, 0.0)];
+    for w in rings.windows(2) {
+        let ((ya, aa), (yb, ab)) = (w[0], w[1]);
+        let (ra, rb) = (cue_radius(ya.max(0.815)) * 1.3, cue_radius(yb.max(0.815)) * 1.3);
+        for k in 0..20 {
+            let (t0, t1) = (
+                k as f32 / 20.0 * std::f32::consts::TAU,
+                (k + 1) as f32 / 20.0 * std::f32::consts::TAU,
+            );
+            let d = |t: f32| vec3(t.cos(), 0.0, t.sin());
+            let ca = Color::new(1.0, 0.8, 0.4, aa);
+            let cb = Color::new(1.0, 0.8, 0.4, ab);
+            let i = [
+                glow.push(d(t0) * ra + Vec3::Y * ya, Vec2::ZERO, d(t0), ca),
+                glow.push(d(t1) * ra + Vec3::Y * ya, Vec2::ZERO, d(t1), ca),
+                glow.push(d(t1) * rb + Vec3::Y * yb, Vec2::ZERO, d(t1), cb),
+                glow.push(d(t0) * rb + Vec3::Y * yb, Vec2::ZERO, d(t0), cb),
+            ];
+            glow.indices.extend_from_slice(&[i[0], i[1], i[2], i[0], i[2], i[3]]);
+        }
     }
     Some(glow)
 }
@@ -938,9 +965,11 @@ pub(crate) fn jaw_lines(table: &Table) -> Vec<(DVec2, DVec2, DVec2)> {
         // The facing looks across the throat, towards the pocket's axis
         // (from the middle of its mouth to the hole): what side the mouth's
         // centre is on is not reliable for side pockets.
-        let Some(pocket) = table.pockets.iter().min_by(|x, y| {
-            x.mouth_center.distance(mid).total_cmp(&y.mouth_center.distance(mid))
-        }) else {
+        let Some(pocket) = table
+            .pockets
+            .iter()
+            .min_by(|x, y| x.mouth_center.distance(mid).total_cmp(&y.mouth_center.distance(mid)))
+        else {
             continue;
         };
         let axis = (pocket_center_of(table, pocket.id) - pocket.mouth_center).normalize_or_zero();

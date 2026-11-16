@@ -285,7 +285,8 @@ impl Config {
                     }
                 }
                 "cue_level" => {
-                    c.cue_level = v.parse::<u8>().unwrap_or(0).min(snookered_proto::shop::MAX_CUE_LEVEL)
+                    c.cue_level =
+                        v.parse::<u8>().unwrap_or(0).min(snookered_proto::shop::MAX_CUE_LEVEL)
                 }
                 "email_offer_declined" => c.email_offer_declined = v == "true",
                 "board_seen" => c.board_seen = v.parse().unwrap_or(0),

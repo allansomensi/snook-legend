@@ -102,9 +102,11 @@ impl Lighting {
         let to_wall = (HX - p.x.abs()).min(HZ - p.z.abs());
         let ao = 0.55
             + 0.45
-                * smooth(0.0, 0.45, p.y)
-                    .min(smooth(0.0, 0.5, to_wall))
-                    .min(smooth(0.0, 0.35, HEIGHT - p.y));
+                * smooth(0.0, 0.45, p.y).min(smooth(0.0, 0.5, to_wall)).min(smooth(
+                    0.0,
+                    0.35,
+                    HEIGHT - p.y,
+                ));
         let c = c * ao * self.exposure;
         vec3(1.0 - (-c.x).exp(), 1.0 - (-c.y).exp(), 1.0 - (-c.z).exp())
     }
@@ -166,8 +168,9 @@ fn band(
         uv,
     );
     // World-aligned texture coordinates, so bands of one wall line up.
-    let first = mb.vertices.len() - ((len / cell).ceil().max(1.0) as usize + 1)
-        * (((y1 - y0) / cell).ceil().max(1.0) as usize + 1);
+    let first = mb.vertices.len()
+        - ((len / cell).ceil().max(1.0) as usize + 1)
+            * (((y1 - y0) / cell).ceil().max(1.0) as usize + 1);
     for v in &mut mb.vertices[first..] {
         let along = (v.position - w.start).dot(w.along);
         v.uv = vec2(along * uv, -v.position.y * uv);
@@ -241,7 +244,8 @@ fn cushion(mb: &mut MeshBuilder, center: Vec3, size: Vec3, yaw: f32, color: Colo
     mb.cuboid(center, size - vec3(0.0, 0.0, 2.0 * r), yaw, color, 1.0);
     let rot = Quat::from_rotation_y(yaw);
     for (sx, sz) in [(1.0f32, 1.0f32), (1.0, -1.0), (-1.0, 1.0), (-1.0, -1.0)] {
-        let c = center + rot * vec3(sx * (size.x / 2.0 - r), -size.y / 2.0, sz * (size.z / 2.0 - r));
+        let c =
+            center + rot * vec3(sx * (size.x / 2.0 - r), -size.y / 2.0, sz * (size.z / 2.0 - r));
         mb.lathe(c, &[(0.0, r), (size.y, r)], 10, color);
     }
 }
@@ -283,7 +287,12 @@ fn sofa(mb: &mut MeshBuilder, at: Vec3, yaw: f32, width: f32, color: Color, tuft
     }
     // Short turned feet.
     for (sx, sz) in [(1.0f32, 1.0f32), (1.0, -1.0), (-1.0, 1.0), (-1.0, -1.0)] {
-        mb.lathe(p(sx * (width / 2.0 - 0.08), 0.0, sz * 0.36), &[(0.0, 0.025), (0.08, 0.035)], 8, dark);
+        mb.lathe(
+            p(sx * (width / 2.0 - 0.08), 0.0, sz * 0.36),
+            &[(0.0, 0.025), (0.08, 0.035)],
+            8,
+            dark,
+        );
     }
 }
 
@@ -310,12 +319,24 @@ fn bottles(mb: &mut MeshBuilder, at: Vec3, along: Vec3, count: usize, segs: u32)
             (h + 0.065, r * 0.42),
             (h + 0.075, r * 0.38),
         ];
-        mb.lathe(at + along * (k as f32 * 0.11), &profile, segs, colors[(k * 7 + 3) % colors.len()]);
+        mb.lathe(
+            at + along * (k as f32 * 0.11),
+            &profile,
+            segs,
+            colors[(k * 7 + 3) % colors.len()],
+        );
     }
 }
 
 /// A plant in a pot: a trunk and fronds (`palm`) or a bushy crown of leaves.
-fn potted_plant(leaves: &mut MeshBuilder, pots: &mut MeshBuilder, at: Vec3, height: f32, palm: bool, pot: Color) {
+fn potted_plant(
+    leaves: &mut MeshBuilder,
+    pots: &mut MeshBuilder,
+    at: Vec3,
+    height: f32,
+    palm: bool,
+    pot: Color,
+) {
     pots.lathe(
         at,
         &[(0.0, 0.0), (0.0, 0.16), (0.36, 0.22), (0.38, 0.24), (0.42, 0.24), (0.42, 0.2)],
@@ -346,10 +367,17 @@ fn potted_plant(leaves: &mut MeshBuilder, pots: &mut MeshBuilder, at: Vec3, heig
         let point = |t: f32| base + dir * len * t + Vec3::Y * (lift * t - t * t * len * 0.9);
         for s in 0..steps {
             let (t0, t1) = (s as f32 / steps as f32, (s + 1) as f32 / steps as f32);
-            let w = |t: f32| width * (1.0 - t).max(0.05) * if palm { 1.0 } else { (t * 3.0).min(1.0) };
-            let color = Color::new(green.r * (0.8 + t0 * 0.4), green.g * (0.8 + t0 * 0.4), green.b, 1.0);
+            let w =
+                |t: f32| width * (1.0 - t).max(0.05) * if palm { 1.0 } else { (t * 3.0).min(1.0) };
+            let color =
+                Color::new(green.r * (0.8 + t0 * 0.4), green.g * (0.8 + t0 * 0.4), green.b, 1.0);
             leaves.quad(
-                [point(t0) - side * w(t0), point(t1) - side * w(t1), point(t1) + side * w(t1), point(t0) + side * w(t0)],
+                [
+                    point(t0) - side * w(t0),
+                    point(t1) - side * w(t1),
+                    point(t1) + side * w(t1),
+                    point(t0) + side * w(t0),
+                ],
                 [Vec2::ZERO; 4],
                 color,
             );
@@ -381,7 +409,14 @@ fn pool(mb: &mut MeshBuilder, center: Vec3, normal: Vec3, w: f32, h: f32, color:
 }
 
 /// A string of light bulbs hanging between two points (sagging `sag`).
-fn string_lights(wire: &mut MeshBuilder, bulbs: &mut MeshBuilder, a: Vec3, b: Vec3, sag: f32, count: usize) {
+fn string_lights(
+    wire: &mut MeshBuilder,
+    bulbs: &mut MeshBuilder,
+    a: Vec3,
+    b: Vec3,
+    sag: f32,
+    count: usize,
+) {
     let p = |t: f32| a.lerp(b, t) - Vec3::Y * sag * 4.0 * t * (1.0 - t);
     let steps = count * 2;
     for k in 0..steps {
@@ -393,7 +428,12 @@ fn string_lights(wire: &mut MeshBuilder, bulbs: &mut MeshBuilder, a: Vec3, b: Ve
         let t = (k as f32 + 0.5) / count as f32;
         let at = p(t) - Vec3::Y * 0.05;
         tube(wire, p(t), at + Vec3::Y * 0.02, 0.004, 4, rgb(30, 26, 22));
-        bulbs.lathe(at - Vec3::Y * 0.035, &[(0.0, 0.0), (0.01, 0.02), (0.035, 0.024), (0.05, 0.012), (0.055, 0.0)], 8, warm[k % 3]);
+        bulbs.lathe(
+            at - Vec3::Y * 0.035,
+            &[(0.0, 0.0), (0.01, 0.02), (0.035, 0.024), (0.05, 0.012), (0.055, 0.0)],
+            8,
+            warm[k % 3],
+        );
     }
 }
 
@@ -405,24 +445,25 @@ fn beach(kit: &mut Kit, quality: Quality, table: Vec2) {
     let detailed = quality >= Quality::High;
     let medium = quality >= Quality::Medium;
     let big = quality == Quality::Ultra;
-    let (deck_px, wall_px, sun_px, palms_px, thatch_px, bamboo_px, rug_px) = std::thread::scope(|s| {
-        let deck = s.spawn(move || tx::deck(if big { 512 } else { 256 }));
-        let wall = s.spawn(|| tx::planks([0.86, 0.82, 0.72], [0.46, 0.40, 0.33], 141));
-        let sun = s.spawn(|| tx::sunset(Some(0.42), true, 7));
-        let palms = s.spawn(|| tx::sunset(None, true, 11));
-        let thatch = s.spawn(tx::thatch);
-        let bamboo = s.spawn(crate::tables::bamboo);
-        let rug = s.spawn(tx::rattan);
-        (
-            deck.join().expect("deck"),
-            wall.join().expect("wall"),
-            sun.join().expect("sun"),
-            palms.join().expect("palms"),
-            thatch.join().expect("thatch"),
-            bamboo.join().expect("bamboo"),
-            rug.join().expect("mat"),
-        )
-    });
+    let (deck_px, wall_px, sun_px, palms_px, thatch_px, bamboo_px, rug_px) =
+        std::thread::scope(|s| {
+            let deck = s.spawn(move || tx::deck(if big { 512 } else { 256 }));
+            let wall = s.spawn(|| tx::planks([0.86, 0.82, 0.72], [0.46, 0.40, 0.33], 141));
+            let sun = s.spawn(|| tx::sunset(Some(0.42), true, 7));
+            let palms = s.spawn(|| tx::sunset(None, true, 11));
+            let thatch = s.spawn(tx::thatch);
+            let bamboo = s.spawn(crate::tables::bamboo);
+            let rug = s.spawn(tx::rattan);
+            (
+                deck.join().expect("deck"),
+                wall.join().expect("wall"),
+                sun.join().expect("sun"),
+                palms.join().expect("palms"),
+                thatch.join().expect("thatch"),
+                bamboo.join().expect("bamboo"),
+                rug.join().expect("mat"),
+            )
+        });
     let deck_tex = Some(kit.texture(deck_px, true));
     let wall_tex = Some(kit.texture(wall_px, true));
     let sun_tex = Some(kit.texture(sun_px, false));
@@ -431,7 +472,8 @@ fn beach(kit: &mut Kit, quality: Quality, table: Vec2) {
     let bamboo_tex = Some(kit.texture(bamboo_px, true));
     let mat_tex = Some(kit.texture(rug_px, true));
     let glow_tex = Some(kit.texture(textures::glow(), false));
-    let teak_tex = Some(kit.texture(textures::fine_wood([0.55, 0.36, 0.19], [0.30, 0.17, 0.08], 29), true));
+    let teak_tex =
+        Some(kit.texture(textures::fine_wood([0.55, 0.36, 0.19], [0.30, 0.17, 0.08], 29), true));
 
     // The sun sets beyond the left wall: warm light low through the windows.
     let mut lights = table_lights(vec3(1.0, 0.84, 0.62));
@@ -447,7 +489,12 @@ fn beach(kit: &mut Kit, quality: Quality, table: Vec2) {
         }
     }
     lights.push(light(vec3(0.0, 2.2, -3.3), vec3(1.0, 0.75, 0.45), 0.6, true));
-    let lit = Lighting { lights, ambient: vec3(0.34, 0.24, 0.24), table: table + vec2(0.12, 0.12), exposure: 2.4 };
+    let lit = Lighting {
+        lights,
+        ambient: vec3(0.34, 0.24, 0.24),
+        table: table + vec2(0.12, 0.12),
+        exposure: 2.4,
+    };
     let cell = if detailed { 0.2 } else { 0.4 };
 
     let mut floor = MeshBuilder::default();
@@ -488,8 +535,20 @@ fn beach(kit: &mut Kit, quality: Quality, table: Vec2) {
         }
         // The sill and the lintel.
         let mid = w.start + w.along * (w.length / 2.0) + w.inward * 0.08;
-        teak.cuboid(mid + Vec3::Y * SILL, w.along.abs() * w.length + Vec3::Y * 0.05 + w.inward.abs() * 0.22, 0.0, post, 1.2);
-        teak.cuboid(mid + Vec3::Y * HEAD, w.along.abs() * w.length + Vec3::Y * 0.1 + w.inward.abs() * 0.18, 0.0, post, 1.2);
+        teak.cuboid(
+            mid + Vec3::Y * SILL,
+            w.along.abs() * w.length + Vec3::Y * 0.05 + w.inward.abs() * 0.22,
+            0.0,
+            post,
+            1.2,
+        );
+        teak.cuboid(
+            mid + Vec3::Y * HEAD,
+            w.along.abs() * w.length + Vec3::Y * 0.1 + w.inward.abs() * 0.18,
+            0.0,
+            post,
+            1.2,
+        );
         // The sea and the sky beyond: the sun sets on the left.
         if i == 2 {
             backdrop(&mut sky_sun, w, 0.9, 0.0, 3.6, false, 1.0);
@@ -501,8 +560,10 @@ fn beach(kit: &mut Kit, quality: Quality, table: Vec2) {
             for k in 0..bays {
                 let a = k as f32 * bay + 0.15;
                 let b = (k + 1) as f32 * bay - 0.15;
-                let p = |along: f32, y: f32| w.start + w.along * along + Vec3::Y * y + w.inward * 0.07;
-                let corners = [p(a, SILL + 0.05), p(b, SILL + 0.05), p(b, HEAD - 0.05), p(a, HEAD - 0.05)];
+                let p =
+                    |along: f32, y: f32| w.start + w.along * along + Vec3::Y * y + w.inward * 0.07;
+                let corners =
+                    [p(a, SILL + 0.05), p(b, SILL + 0.05), p(b, HEAD - 0.05), p(a, HEAD - 0.05)];
                 let reach = |c: Vec3| vec3(c.x + (c.y - 0.02) * 1.6, 0.02, c.z + 0.25);
                 let floor = corners.map(reach);
                 shaft(&mut shafts, corners, floor, Color::new(1.0, 0.72, 0.45, 0.085));
@@ -547,37 +608,74 @@ fn beach(kit: &mut Kit, quality: Quality, table: Vec2) {
         );
     }
     lit.add(kit, front, bamboo_tex);
-    teak.cuboid(vec3(0.0, 1.03, bar_z), vec3(counter + 0.12, 0.06, 0.74), 0.0, rgb(200, 150, 100), 1.0);
+    teak.cuboid(
+        vec3(0.0, 1.03, bar_z),
+        vec3(counter + 0.12, 0.06, 0.74),
+        0.0,
+        rgb(200, 150, 100),
+        1.0,
+    );
     let mut glass = MeshBuilder::default();
     bottles(&mut glass, vec3(-1.6, 1.06, bar_z - 0.2), Vec3::X, 7, if detailed { 14 } else { 8 });
     bottles(&mut glass, vec3(0.9, 1.06, bar_z - 0.22), Vec3::X, 6, if detailed { 14 } else { 8 });
     // Coconut cups and a pineapple on the counter.
     let mut fruit = MeshBuilder::default();
     for (x, z) in [(-0.6f32, 0.1f32), (0.2, 0.15)] {
-        fruit.lathe(vec3(x, 1.06, bar_z + z), &[(0.0, 0.0), (0.0, 0.04), (0.04, 0.06), (0.08, 0.055), (0.085, 0.0)], 12, rgb(110, 70, 36));
+        fruit.lathe(
+            vec3(x, 1.06, bar_z + z),
+            &[(0.0, 0.0), (0.0, 0.04), (0.04, 0.06), (0.08, 0.055), (0.085, 0.0)],
+            12,
+            rgb(110, 70, 36),
+        );
     }
-    fruit.lathe(vec3(0.5, 1.06, bar_z - 0.1), &[(0.0, 0.0), (0.0, 0.05), (0.08, 0.065), (0.16, 0.05), (0.17, 0.0)], 12, rgb(200, 150, 50));
+    fruit.lathe(
+        vec3(0.5, 1.06, bar_z - 0.1),
+        &[(0.0, 0.0), (0.0, 0.05), (0.08, 0.065), (0.16, 0.05), (0.17, 0.0)],
+        12,
+        rgb(200, 150, 50),
+    );
     for f in 0..6 {
         let a = f as f32 / 6.0 * std::f32::consts::TAU;
         let base = vec3(0.5, 1.22, bar_z - 0.1);
-        tube(&mut fruit, base, base + vec3(a.cos() * 0.06, 0.12, a.sin() * 0.06), 0.008, 4, rgb(60, 120, 50));
+        tube(
+            &mut fruit,
+            base,
+            base + vec3(a.cos() * 0.06, 0.12, a.sin() * 0.06),
+            0.008,
+            4,
+            rgb(60, 120, 50),
+        );
     }
     let mut stools = MeshBuilder::default();
     for k in 0..5 {
         let c = vec3(-1.6 + k as f32 * 0.8, 0.0, bar_z + 0.75);
         for a in 0..4 {
             let t = a as f32 / 4.0 * std::f32::consts::TAU + 0.4;
-            tube(&mut stools, c + vec3(t.cos() * 0.16, 0.0, t.sin() * 0.16), c + vec3(t.cos() * 0.12, 0.7, t.sin() * 0.12), 0.016, 6, cane);
+            tube(
+                &mut stools,
+                c + vec3(t.cos() * 0.16, 0.0, t.sin() * 0.16),
+                c + vec3(t.cos() * 0.12, 0.7, t.sin() * 0.12),
+                0.016,
+                6,
+                cane,
+            );
         }
         hoop(&mut stools, c + Vec3::Y * 0.3, 0.145, 0.012, 14, cane);
-        stools.lathe(c + Vec3::Y * 0.7, &[(0.0, 0.0), (0.0, 0.19), (0.04, 0.2), (0.06, 0.18), (0.065, 0.0)], 18, rgb(120, 170, 165));
+        stools.lathe(
+            c + Vec3::Y * 0.7,
+            &[(0.0, 0.0), (0.0, 0.19), (0.04, 0.2), (0.06, 0.18), (0.065, 0.0)],
+            18,
+            rgb(120, 170, 165),
+        );
     }
 
     // Palms in pots in the corners, a surfboard, a hammock-coloured flag.
     let mut leaves = MeshBuilder::default();
     let mut pots = MeshBuilder::default();
     if medium {
-        for (x, z, h) in [(-4.9f32, -3.4f32, 1.9f32), (4.9, -3.4, 1.6), (-4.9, 3.4, 1.7), (4.9, 3.4, 2.0)] {
+        for (x, z, h) in
+            [(-4.9f32, -3.4f32, 1.9f32), (4.9, -3.4, 1.6), (-4.9, 3.4, 1.7), (4.9, 3.4, 2.0)]
+        {
             potted_plant(&mut leaves, &mut pots, vec3(x, 0.0, z), h, true, rgb(176, 96, 60));
         }
     }
@@ -591,7 +689,9 @@ fn beach(kit: &mut Kit, quality: Quality, table: Vec2) {
         let n = 24;
         let outline = |t: f32| {
             let y = t * 2.1;
-            let w = (std::f32::consts::PI * t).sin().powf(0.6) * 0.27 * if t > 0.7 { 1.0 - (t - 0.7) * 1.4 } else { 1.0 };
+            let w = (std::f32::consts::PI * t).sin().powf(0.6)
+                * 0.27
+                * if t > 0.7 { 1.0 - (t - 0.7) * 1.4 } else { 1.0 };
             (y, w)
         };
         for k in 0..n {
@@ -601,8 +701,18 @@ fn beach(kit: &mut Kit, quality: Quality, table: Vec2) {
                 let off = normal * (side * 0.05 - 0.025);
                 let p = |y: f32, x: f32| base + up * y + across * x + off;
                 for (xa, xb) in [(-1.0f32, -0.13f32), (-0.13, 0.13), (0.13, 1.0)] {
-                    let c = if side > 0.5 && xa.abs() < 0.2 { rgb(244, 240, 228) } else if side > 0.5 { rgb(36, 168, 178) } else { rgb(232, 228, 214) };
-                    board.quad([p(y0, w0 * xa), p(y0, w0 * xb), p(y1, w1 * xb), p(y1, w1 * xa)], [Vec2::ZERO; 4], c);
+                    let c = if side > 0.5 && xa.abs() < 0.2 {
+                        rgb(244, 240, 228)
+                    } else if side > 0.5 {
+                        rgb(36, 168, 178)
+                    } else {
+                        rgb(232, 228, 214)
+                    };
+                    board.quad(
+                        [p(y0, w0 * xa), p(y0, w0 * xb), p(y1, w1 * xb), p(y1, w1 * xa)],
+                        [Vec2::ZERO; 4],
+                        c,
+                    );
                 }
             }
         }
@@ -623,10 +733,24 @@ fn beach(kit: &mut Kit, quality: Quality, table: Vec2) {
     let strands = if medium { 4 } else { 2 };
     for k in 0..strands {
         let z = -2.7 + k as f32 * 5.4 / (strands - 1) as f32;
-        string_lights(&mut wire, &mut bulbs, vec3(-HX + 0.1, 2.85, z), vec3(HX - 0.1, 2.85, z * 0.6), 0.35, if detailed { 22 } else { 12 });
+        string_lights(
+            &mut wire,
+            &mut bulbs,
+            vec3(-HX + 0.1, 2.85, z),
+            vec3(HX - 0.1, 2.85, z * 0.6),
+            0.35,
+            if detailed { 22 } else { 12 },
+        );
     }
     if medium {
-        string_lights(&mut wire, &mut bulbs, vec3(-HX + 0.1, 2.9, -HZ + 0.1), vec3(HX - 0.1, 2.9, HZ - 0.1), 0.45, if detailed { 26 } else { 14 });
+        string_lights(
+            &mut wire,
+            &mut bulbs,
+            vec3(-HX + 0.1, 2.9, -HZ + 0.1),
+            vec3(HX - 0.1, 2.9, HZ - 0.1),
+            0.45,
+            if detailed { 26 } else { 14 },
+        );
     }
     lit.add(kit, wire, None);
     add_glow(kit, bulbs, None);
@@ -635,7 +759,14 @@ fn beach(kit: &mut Kit, quality: Quality, table: Vec2) {
         // Warm pools of light around the bulbs on the walls.
         let mut pools = MeshBuilder::default();
         for z in [-2.7f32, 2.7] {
-            pool(&mut pools, vec3(-HX + 0.08, 2.4, z), Vec3::X, 1.6, 1.1, Color::new(1.0, 0.75, 0.45, 0.12));
+            pool(
+                &mut pools,
+                vec3(-HX + 0.08, 2.4, z),
+                Vec3::X,
+                1.6,
+                1.1,
+                Color::new(1.0, 0.75, 0.45, 0.12),
+            );
         }
         kit.add(pools, glow_tex, Surface::UNLIT, Layer::Blended);
     }
@@ -650,7 +781,8 @@ fn rattan_lamp(kit: &mut Kit, quality: Quality) {
     let mut glow = MeshBuilder::default();
     for x in [-0.45f32, 0.0, 0.45] {
         let at = vec3(x, LAMP_Y - 0.02, 0.0);
-        let profile = [(0.0, 0.19), (0.04, 0.185), (0.09, 0.16), (0.14, 0.115), (0.18, 0.06), (0.2, 0.02)];
+        let profile =
+            [(0.0, 0.19), (0.04, 0.185), (0.09, 0.16), (0.14, 0.115), (0.18, 0.06), (0.2, 0.02)];
         let first = shades.len();
         shades.lathe(at, &profile, segs, WHITE);
         for v in &mut shades.vertices[first..] {
@@ -663,9 +795,23 @@ fn rattan_lamp(kit: &mut Kit, quality: Quality) {
         tube(&mut wood, at + Vec3::Y * 0.2, at + Vec3::Y * 0.3, 0.007, 6, rgb(170, 140, 100));
     }
     // A bleached driftwood bar and ropes to the ceiling.
-    tube(&mut wood, vec3(-0.7, LAMP_Y + 0.3, 0.0), vec3(0.72, LAMP_Y + 0.31, 0.01), 0.035, 10, rgb(180, 160, 130));
+    tube(
+        &mut wood,
+        vec3(-0.7, LAMP_Y + 0.3, 0.0),
+        vec3(0.72, LAMP_Y + 0.31, 0.01),
+        0.035,
+        10,
+        rgb(180, 160, 130),
+    );
     for x in [-0.6f32, 0.6] {
-        tube(&mut wood, vec3(x, LAMP_Y + 0.3, 0.0), vec3(x, HEIGHT, 0.0), 0.008, 6, rgb(170, 140, 100));
+        tube(
+            &mut wood,
+            vec3(x, LAMP_Y + 0.3, 0.0),
+            vec3(x, HEIGHT, 0.0),
+            0.008,
+            6,
+            rgb(170, 140, 100),
+        );
     }
     kit.add(shades, Some(tex), Surface::lit(0.3, 20.0, 0.25, 0.0), Layer::Lamp);
     kit.add(wood, None, Surface::lit(0.2, 20.0, 0.05, 0.0), Layer::Lamp);
@@ -696,8 +842,10 @@ fn club(kit: &mut Kit, quality: Quality, table: Vec2) {
     let parquet_tex = Some(kit.texture(parquet_px, true));
     let books_tex = Some(kit.texture(books_px, true));
     let rug_tex = Some(kit.texture(rug_px, false));
-    let paint_tex: Vec<Option<usize>> = paint_px.into_iter().map(|p| Some(kit.texture(p, false))).collect();
-    let wood_tex = Some(kit.texture(textures::fine_wood([0.26, 0.10, 0.05], [0.07, 0.025, 0.014], 47), true));
+    let paint_tex: Vec<Option<usize>> =
+        paint_px.into_iter().map(|p| Some(kit.texture(p, false))).collect();
+    let wood_tex =
+        Some(kit.texture(textures::fine_wood([0.26, 0.10, 0.05], [0.07, 0.025, 0.014], 47), true));
     let silk_tex = Some(kit.texture(silk_px, true));
     let glow_tex = Some(kit.texture(textures::glow(), false));
 
@@ -714,7 +862,12 @@ fn club(kit: &mut Kit, quality: Quality, table: Vec2) {
         lights.push(light(vec3(x, 1.0, HZ - 0.9), vec3(0.9, 0.85, 0.55), 0.35, false));
     }
     lights.push(light(vec3(0.0, 2.6, -HZ + 0.8), vec3(1.0, 0.78, 0.5), 0.5, true));
-    let lit = Lighting { lights, ambient: vec3(0.24, 0.18, 0.13), table: table + vec2(0.12, 0.12), exposure: 3.1 };
+    let lit = Lighting {
+        lights,
+        ambient: vec3(0.24, 0.18, 0.13),
+        table: table + vec2(0.12, 0.12),
+        exposure: 3.1,
+    };
     let cell = if detailed { 0.2 } else { 0.4 };
 
     let mut floor = MeshBuilder::default();
@@ -748,10 +901,17 @@ fn club(kit: &mut Kit, quality: Quality, table: Vec2) {
                 let c0 = w.start + w.along * (k as f32 * pw) + w.inward * 0.012;
                 let frame = 0.07;
                 let depth = 0.02;
-                let box_at = |m: &mut MeshBuilder, along: f32, y: f32, len: f32, h: f32, c: Color| {
-                    let center = c0 + w.along * along + Vec3::Y * y;
-                    m.cuboid(center, w.along.abs() * len + Vec3::Y * h + w.inward.abs() * depth, 0.0, c, 0.9);
-                };
+                let box_at =
+                    |m: &mut MeshBuilder, along: f32, y: f32, len: f32, h: f32, c: Color| {
+                        let center = c0 + w.along * along + Vec3::Y * y;
+                        m.cuboid(
+                            center,
+                            w.along.abs() * len + Vec3::Y * h + w.inward.abs() * depth,
+                            0.0,
+                            c,
+                            0.9,
+                        );
+                    };
                 box_at(&mut panels, frame / 2.0, 0.6, frame, 0.92, wood);
                 box_at(&mut panels, pw / 2.0, 0.18, pw, frame, wood);
                 box_at(&mut panels, pw / 2.0, 1.03, pw, frame, wood);
@@ -759,8 +919,21 @@ fn club(kit: &mut Kit, quality: Quality, table: Vec2) {
                     box_at(&mut panels, pw / 2.0, 0.6, pw - 2.6 * frame, 0.66, light_wood);
                 }
             }
-            let rail = [vec2(0.0, 0.0), vec2(0.03, 0.0), vec2(0.04, 0.015), vec2(0.04, 0.04), vec2(0.025, 0.06), vec2(0.0, 0.065)];
-            panels.extrude(a + Vec3::Y * (DADO - 0.03), b + Vec3::Y * (DADO - 0.03), w.inward, &rail, wood);
+            let rail = [
+                vec2(0.0, 0.0),
+                vec2(0.03, 0.0),
+                vec2(0.04, 0.015),
+                vec2(0.04, 0.04),
+                vec2(0.025, 0.06),
+                vec2(0.0, 0.065),
+            ];
+            panels.extrude(
+                a + Vec3::Y * (DADO - 0.03),
+                b + Vec3::Y * (DADO - 0.03),
+                w.inward,
+                &rail,
+                wood,
+            );
             let crown: Vec<Vec2> = (0..=6)
                 .map(|k| {
                     let t = k as f32 / 6.0 * std::f32::consts::FRAC_PI_2;
@@ -769,7 +942,13 @@ fn club(kit: &mut Kit, quality: Quality, table: Vec2) {
                 .chain([vec2(0.0, 0.22), vec2(0.0, 0.0)])
                 .collect();
             panels.extrude(a + Vec3::Y * CROWN, b + Vec3::Y * CROWN, w.inward, &crown, wood);
-            let base = [vec2(0.0, 0.0), vec2(0.03, 0.0), vec2(0.03, 0.16), vec2(0.015, 0.19), vec2(0.0, 0.2)];
+            let base = [
+                vec2(0.0, 0.0),
+                vec2(0.03, 0.0),
+                vec2(0.03, 0.16),
+                vec2(0.015, 0.19),
+                vec2(0.0, 0.2),
+            ];
             panels.extrude(a, b, w.inward, &base, wood);
         }
     }
@@ -800,15 +979,35 @@ fn club(kit: &mut Kit, quality: Quality, table: Vec2) {
         let xa = x0 + k as f32 * bw;
         // Two shelves of books per tile (0.7 m), from 0.9 m up to 2.8 m;
         // cabinets with doors below.
-        book_rows.grid(vec3(xa + 0.04, 0.95, back + depth - 0.05), vec3(bw - 0.08, 0.0, 0.0), vec3(0.0, 1.82, 0.0), 4, 6, WHITE, 1.0);
+        book_rows.grid(
+            vec3(xa + 0.04, 0.95, back + depth - 0.05),
+            vec3(bw - 0.08, 0.0, 0.0),
+            vec3(0.0, 1.82, 0.0),
+            4,
+            6,
+            WHITE,
+            1.0,
+        );
         let first = book_rows.len() - 35;
         for v in &mut book_rows.vertices[first..] {
             v.uv = vec2((v.position.x - x0) / 0.9, (2.77 - v.position.y) / 0.7);
         }
-        shelves.cuboid(vec3(xa + bw / 2.0, 0.45, back + depth / 2.0 + 0.03), vec3(bw - 0.02, 0.9, depth + 0.06), 0.0, wood, 0.8);
+        shelves.cuboid(
+            vec3(xa + bw / 2.0, 0.45, back + depth / 2.0 + 0.03),
+            vec3(bw - 0.02, 0.9, depth + 0.06),
+            0.0,
+            wood,
+            0.8,
+        );
         if detailed {
             for d in [-1.0f32, 1.0] {
-                shelves.cuboid(vec3(xa + bw / 2.0 + d * bw / 4.0, 0.47, back + depth + 0.065), vec3(bw / 2.0 - 0.07, 0.7, 0.012), 0.0, light_wood, 0.8);
+                shelves.cuboid(
+                    vec3(xa + bw / 2.0 + d * bw / 4.0, 0.47, back + depth + 0.065),
+                    vec3(bw / 2.0 - 0.07, 0.7, 0.012),
+                    0.0,
+                    light_wood,
+                    0.8,
+                );
             }
         }
     }
@@ -817,14 +1016,33 @@ fn club(kit: &mut Kit, quality: Quality, table: Vec2) {
         shelves.cuboid(vec3(x, 1.4, back + depth / 2.0), vec3(0.05, 2.8, depth), 0.0, wood, 0.8);
     }
     for y in [0.93f32, 1.28, 1.63, 1.98, 2.33, 2.68] {
-        shelves.cuboid(vec3(0.0, y, back + depth / 2.0), vec3(x1 - x0, 0.03, depth), 0.0, wood, 0.8);
+        shelves.cuboid(
+            vec3(0.0, y, back + depth / 2.0),
+            vec3(x1 - x0, 0.03, depth),
+            0.0,
+            wood,
+            0.8,
+        );
     }
-    shelves.cuboid(vec3(0.0, 2.84, back + depth / 2.0 + 0.02), vec3(x1 - x0 + 0.1, 0.1, depth + 0.06), 0.0, wood, 0.8);
+    shelves.cuboid(
+        vec3(0.0, 2.84, back + depth / 2.0 + 0.02),
+        vec3(x1 - x0 + 0.1, 0.1, depth + 0.06),
+        0.0,
+        wood,
+        0.8,
+    );
     // A library ladder on a brass rail.
     let mut brass = MeshBuilder::default();
     let gold = rgb(200, 160, 80);
     if detailed {
-        tube(&mut brass, vec3(x0, 2.55, back + depth + 0.08), vec3(x1, 2.55, back + depth + 0.08), 0.012, 8, gold);
+        tube(
+            &mut brass,
+            vec3(x0, 2.55, back + depth + 0.08),
+            vec3(x1, 2.55, back + depth + 0.08),
+            0.012,
+            8,
+            gold,
+        );
         let (lx, top, foot) = (1.7f32, back + depth + 0.08, back + depth + 0.75);
         for d in [-0.22f32, 0.22] {
             tube(&mut shelves, vec3(lx + d, 2.55, top), vec3(lx + d, 0.0, foot), 0.022, 8, wood);
@@ -848,7 +1066,13 @@ fn club(kit: &mut Kit, quality: Quality, table: Vec2) {
     // opening 0.9 m wide; the firebox behind it is black.
     for sz in [-1.0f32, 1.0] {
         marble.cuboid(vec3(fx + 0.15, 0.6, sz * 0.66), vec3(0.3, 1.2, 0.42), 0.0, stone, 1.0);
-        dark.cuboid(vec3(fx + 0.12, 0.44, sz * 0.46), vec3(0.24, 0.88, 0.02), 0.0, rgb(16, 12, 10), 1.0);
+        dark.cuboid(
+            vec3(fx + 0.12, 0.44, sz * 0.46),
+            vec3(0.24, 0.88, 0.02),
+            0.0,
+            rgb(16, 12, 10),
+            1.0,
+        );
     }
     marble.cuboid(vec3(fx + 0.15, 1.04, 0.0), vec3(0.3, 0.32, 0.9), 0.0, stone, 1.0);
     marble.cuboid(vec3(fx + 0.21, 1.235, 0.0), vec3(0.42, 0.07, 1.95), 0.0, stone, 1.0);
@@ -856,11 +1080,32 @@ fn club(kit: &mut Kit, quality: Quality, table: Vec2) {
     dark.cuboid(vec3(fx + 0.01, 0.44, 0.0), vec3(0.02, 0.88, 0.92), 0.0, rgb(20, 14, 10), 1.0);
     // A grate with logs, and the flames.
     for dz in [-0.25f32, 0.25] {
-        tube(&mut dark, vec3(fx + 0.24, 0.0, dz), vec3(fx + 0.24, 0.16, dz), 0.012, 6, rgb(30, 30, 30));
+        tube(
+            &mut dark,
+            vec3(fx + 0.24, 0.0, dz),
+            vec3(fx + 0.24, 0.16, dz),
+            0.012,
+            6,
+            rgb(30, 30, 30),
+        );
     }
-    tube(&mut dark, vec3(fx + 0.24, 0.12, -0.3), vec3(fx + 0.24, 0.12, 0.3), 0.01, 6, rgb(30, 30, 30));
+    tube(
+        &mut dark,
+        vec3(fx + 0.24, 0.12, -0.3),
+        vec3(fx + 0.24, 0.12, 0.3),
+        0.01,
+        6,
+        rgb(30, 30, 30),
+    );
     for (dx, dy, dz) in [(0.14f32, 0.08f32, -0.1f32), (0.18, 0.08, 0.12), (0.15, 0.14, 0.0)] {
-        tube(&mut dark, vec3(fx + dx, dy, dz - 0.24), vec3(fx + dx + 0.03, dy, dz + 0.24), 0.04, 8, rgb(52, 30, 16));
+        tube(
+            &mut dark,
+            vec3(fx + dx, dy, dz - 0.24),
+            vec3(fx + dx + 0.03, dy, dz + 0.24),
+            0.04,
+            8,
+            rgb(52, 30, 16),
+        );
     }
     let flame_colors = [rgb(255, 150, 40), rgb(255, 200, 90), rgb(255, 112, 32)];
     for k in 0..9 {
@@ -868,14 +1113,24 @@ fn club(kit: &mut Kit, quality: Quality, table: Vec2) {
         let h = 0.16 + ((k * 37 % 5) as f32) * 0.05;
         let base = vec3(fx + 0.14 + (k % 2) as f32 * 0.05, 0.1, z);
         flames.quad(
-            [base + vec3(0.0, 0.0, -0.055), base + vec3(0.0, 0.0, 0.055), base + vec3(0.0, h, 0.012), base + vec3(0.0, h, -0.012)],
+            [
+                base + vec3(0.0, 0.0, -0.055),
+                base + vec3(0.0, 0.0, 0.055),
+                base + vec3(0.0, h, 0.012),
+                base + vec3(0.0, h, -0.012),
+            ],
             [Vec2::ZERO; 4],
             flame_colors[k % 3],
         );
     }
     // Embers glowing under the logs.
     flames.quad(
-        [vec3(fx + 0.06, 0.045, -0.3), vec3(fx + 0.06, 0.045, 0.3), vec3(fx + 0.26, 0.045, 0.3), vec3(fx + 0.26, 0.045, -0.3)],
+        [
+            vec3(fx + 0.06, 0.045, -0.3),
+            vec3(fx + 0.06, 0.045, 0.3),
+            vec3(fx + 0.26, 0.045, 0.3),
+            vec3(fx + 0.26, 0.045, -0.3),
+        ],
         [Vec2::ZERO; 4],
         rgb(220, 70, 20),
     );
@@ -883,8 +1138,21 @@ fn club(kit: &mut Kit, quality: Quality, table: Vec2) {
     let mut pictures: Vec<MeshBuilder> = (0..4).map(|_| MeshBuilder::default()).collect();
     let mut frames = MeshBuilder::default();
     let frame_gold = rgb(190, 150, 70);
-    let hang = |pics: &mut Vec<MeshBuilder>, frames: &mut MeshBuilder, k: usize, c: Vec3, right: Vec3, normal: Vec3, w: f32, h: f32| {
-        frames.cuboid(c - normal * 0.015, right.abs() * (w + 0.14) + Vec3::Y * (h + 0.14) + normal.abs() * 0.05, 0.0, frame_gold, 1.0);
+    let hang = |pics: &mut Vec<MeshBuilder>,
+                frames: &mut MeshBuilder,
+                k: usize,
+                c: Vec3,
+                right: Vec3,
+                normal: Vec3,
+                w: f32,
+                h: f32| {
+        frames.cuboid(
+            c - normal * 0.015,
+            right.abs() * (w + 0.14) + Vec3::Y * (h + 0.14) + normal.abs() * 0.05,
+            0.0,
+            frame_gold,
+            1.0,
+        );
         picture(&mut pics[k], c + normal * 0.012, right, Vec3::Y, w, h, WHITE);
     };
     hang(&mut pictures, &mut frames, 0, vec3(fx + 0.06, 2.05, 0.0), -Vec3::Z, Vec3::X, 1.1, 0.8);
@@ -900,7 +1168,12 @@ fn club(kit: &mut Kit, quality: Quality, table: Vec2) {
         let at = vec3(fx + 0.05, 1.85, z);
         brass.cuboid(at, vec3(0.03, 0.16, 0.08), 0.0, gold, 1.0);
         tube(&mut brass, at, at + vec3(0.12, 0.05, 0.0), 0.007, 6, gold);
-        glow.lathe(at + vec3(0.13, 0.04, 0.0), &[(0.0, 0.03), (0.08, 0.05), (0.1, 0.05)], 14, rgb(255, 220, 170));
+        glow.lathe(
+            at + vec3(0.13, 0.04, 0.0),
+            &[(0.0, 0.03), (0.08, 0.05), (0.1, 0.05)],
+            14,
+            rgb(255, 220, 170),
+        );
     }
 
     // Chesterfields and leather armchairs, side tables with banker's lamps.
@@ -909,13 +1182,37 @@ fn club(kit: &mut Kit, quality: Quality, table: Vec2) {
     let oxblood = rgb(120, 32, 26);
     let tan = rgb(98, 54, 30);
     sofa(&mut leather, vec3(0.0, 0.0, HZ - 0.6), std::f32::consts::PI, 2.3, oxblood, detailed);
-    sofa(&mut leather, vec3(-HX + 1.6, 0.0, -2.3), std::f32::consts::FRAC_PI_2 + 0.5, 0.95, tan, detailed);
-    sofa(&mut leather, vec3(-HX + 1.6, 0.0, 2.3), std::f32::consts::FRAC_PI_2 - 0.5, 0.95, tan, detailed);
+    sofa(
+        &mut leather,
+        vec3(-HX + 1.6, 0.0, -2.3),
+        std::f32::consts::FRAC_PI_2 + 0.5,
+        0.95,
+        tan,
+        detailed,
+    );
+    sofa(
+        &mut leather,
+        vec3(-HX + 1.6, 0.0, 2.3),
+        std::f32::consts::FRAC_PI_2 - 0.5,
+        0.95,
+        tan,
+        detailed,
+    );
     for x in [-1.75f32, 1.75] {
         let c = vec3(x, 0.0, HZ - 0.55);
-        tables.lathe(c, &[(0.0, 0.15), (0.03, 0.15), (0.05, 0.03), (0.55, 0.03), (0.56, 0.24), (0.6, 0.24)], 18, rgb(80, 34, 20));
+        tables.lathe(
+            c,
+            &[(0.0, 0.15), (0.03, 0.15), (0.05, 0.03), (0.55, 0.03), (0.56, 0.24), (0.6, 0.24)],
+            18,
+            rgb(80, 34, 20),
+        );
         // A banker's lamp: a brass stem and a green glass shade.
-        brass.lathe(c + Vec3::Y * 0.6, &[(0.0, 0.07), (0.02, 0.07), (0.03, 0.012), (0.3, 0.012)], 12, gold);
+        brass.lathe(
+            c + Vec3::Y * 0.6,
+            &[(0.0, 0.07), (0.02, 0.07), (0.03, 0.012), (0.3, 0.012)],
+            12,
+            gold,
+        );
         let shade = c + vec3(0.0, 0.88, 0.0);
         glow.cuboid(shade - Vec3::Y * 0.035, vec3(0.24, 0.01, 0.09), 0.0, rgb(255, 236, 190), 1.0);
         frames.cuboid(shade, vec3(0.26, 0.06, 0.12), 0.0, rgb(30, 110, 60), 1.0);
@@ -940,15 +1237,34 @@ fn club(kit: &mut Kit, quality: Quality, table: Vec2) {
     let mut pools = MeshBuilder::default();
     let mut floor_glow = MeshBuilder::default();
     floor_glow.quad(
-        [vec3(fx + 0.2, 0.045, -1.1), vec3(fx + 0.2, 0.045, 1.1), vec3(fx + 1.8, 0.045, 1.1), vec3(fx + 1.8, 0.045, -1.1)],
+        [
+            vec3(fx + 0.2, 0.045, -1.1),
+            vec3(fx + 0.2, 0.045, 1.1),
+            vec3(fx + 1.8, 0.045, 1.1),
+            vec3(fx + 1.8, 0.045, -1.1),
+        ],
         [vec2(0.5, 0.0), vec2(0.5, 1.0), vec2(1.0, 1.0), vec2(1.0, 0.0)],
         Color::new(1.0, 0.5, 0.2, 0.22),
     );
     for z in [-1.4f32, 1.4] {
-        pool(&mut pools, vec3(fx + 0.02, 2.0, z), Vec3::X, 0.9, 1.0, Color::new(1.0, 0.75, 0.45, 0.16));
+        pool(
+            &mut pools,
+            vec3(fx + 0.02, 2.0, z),
+            Vec3::X,
+            0.9,
+            1.0,
+            Color::new(1.0, 0.75, 0.45, 0.16),
+        );
     }
     for z in [-1.6f32, 0.0, 1.6] {
-        pool(&mut pools, vec3(HX - 0.02, 2.0, z), -Vec3::X, 0.9, 0.9, Color::new(1.0, 0.8, 0.55, 0.12));
+        pool(
+            &mut pools,
+            vec3(HX - 0.02, 2.0, z),
+            -Vec3::X,
+            0.9,
+            0.9,
+            Color::new(1.0, 0.8, 0.55, 0.12),
+        );
     }
     kit.add(pools, glow_tex, Surface::UNLIT, Layer::Blended);
     kit.add(floor_glow, glow_tex, Surface::UNLIT, Layer::Blended);
@@ -967,7 +1283,12 @@ fn club_lamp(kit: &mut Kit, quality: Quality) {
     canopy.cuboid(vec3(0.0, y + h + 0.02, 0.0), vec3(l - 0.12, 0.04, w - 0.12), 0.0, WHITE, 1.6);
     // The diffuser under it.
     glow.quad(
-        [vec3(-l / 2.0 + 0.05, y - 0.001, w / 2.0 - 0.05), vec3(l / 2.0 - 0.05, y - 0.001, w / 2.0 - 0.05), vec3(l / 2.0 - 0.05, y - 0.001, -w / 2.0 + 0.05), vec3(-l / 2.0 + 0.05, y - 0.001, -w / 2.0 + 0.05)],
+        [
+            vec3(-l / 2.0 + 0.05, y - 0.001, w / 2.0 - 0.05),
+            vec3(l / 2.0 - 0.05, y - 0.001, w / 2.0 - 0.05),
+            vec3(l / 2.0 - 0.05, y - 0.001, -w / 2.0 + 0.05),
+            vec3(-l / 2.0 + 0.05, y - 0.001, -w / 2.0 + 0.05),
+        ],
         [Vec2::ZERO; 4],
         rgb(255, 240, 205),
     );
@@ -984,7 +1305,11 @@ fn club_lamp(kit: &mut Kit, quality: Quality) {
             let n = ((b - a).length() / 0.025) as i32;
             for k in 0..n {
                 let p = a.lerp(b, (k as f32 + 0.5) / n as f32);
-                let out = vec3(p.x.signum() * (p.x.abs() >= l / 2.0 - 1e-3) as i32 as f32, 0.0, p.z.signum() * (p.z.abs() >= w / 2.0 - 1e-3) as i32 as f32) * 0.01;
+                let out = vec3(
+                    p.x.signum() * (p.x.abs() >= l / 2.0 - 1e-3) as i32 as f32,
+                    0.0,
+                    p.z.signum() * (p.z.abs() >= w / 2.0 - 1e-3) as i32 as f32,
+                ) * 0.01;
                 tube(&mut brass, p + out, p + out - Vec3::Y * 0.05, 0.003, 3, rgb(150, 110, 50));
             }
         }
@@ -1008,13 +1333,18 @@ fn loft(kit: &mut Kit, quality: Quality, table: Vec2) {
         let brick = s.spawn(tx::brick);
         let concrete = s.spawn(tx::concrete);
         let city = s.spawn(|| tx::city(5));
-        (brick.join().expect("brick"), concrete.join().expect("concrete"), city.join().expect("city"))
+        (
+            brick.join().expect("brick"),
+            concrete.join().expect("concrete"),
+            city.join().expect("city"),
+        )
     });
     let brick_tex = Some(kit.texture(brick_px, true));
     let concrete_tex = Some(kit.texture(concrete_px, true));
     let city_tex = Some(kit.texture(city_px, false));
     let glow_tex = Some(kit.texture(textures::glow(), false));
-    let wood_tex = Some(kit.texture(textures::fine_wood([0.42, 0.28, 0.17], [0.20, 0.12, 0.07], 163), true));
+    let wood_tex =
+        Some(kit.texture(textures::fine_wood([0.42, 0.28, 0.17], [0.20, 0.12, 0.07], 163), true));
 
     let mut lights = table_lights(vec3(1.0, 0.86, 0.66));
     for x in [-3.3f32, 0.0, 3.3] {
@@ -1025,7 +1355,12 @@ fn loft(kit: &mut Kit, quality: Quality, table: Vec2) {
     }
     lights.push(light(vec3(-HX + 0.2, 2.0, 0.6), vec3(0.3, 0.9, 1.0), 0.35, false));
     lights.push(light(vec3(-2.6, 1.2, HZ - 1.2), vec3(1.0, 0.72, 0.45), 0.4, false));
-    let lit = Lighting { lights, ambient: vec3(0.2, 0.2, 0.24), table: table + vec2(0.12, 0.12), exposure: 2.6 };
+    let lit = Lighting {
+        lights,
+        ambient: vec3(0.2, 0.2, 0.24),
+        table: table + vec2(0.12, 0.12),
+        exposure: 2.6,
+    };
     let cell = if detailed { 0.2 } else { 0.4 };
 
     let mut floor = MeshBuilder::default();
@@ -1051,23 +1386,35 @@ fn loft(kit: &mut Kit, quality: Quality, table: Vec2) {
                 band(&mut bricks, w, x, a, sill, head, cell, WHITE, 1.0 / 1.2);
                 x = b;
                 // The steel frame: a grid of mullions and transoms.
-                let p = |along: f32, y: f32| w.start + w.along * along + Vec3::Y * y + w.inward * 0.03;
+                let p =
+                    |along: f32, y: f32| w.start + w.along * along + Vec3::Y * y + w.inward * 0.03;
                 for k in 0..=4 {
                     let along = a + (b - a) * k as f32 / 4.0;
-                    steel.cuboid(p(along, (sill + head) / 2.0), vec3(0.04, head - sill, 0.06), 0.0, black, 1.0);
+                    steel.cuboid(
+                        p(along, (sill + head) / 2.0),
+                        vec3(0.04, head - sill, 0.06),
+                        0.0,
+                        black,
+                        1.0,
+                    );
                 }
                 for k in 0..=6 {
                     let y = sill + (head - sill) * k as f32 / 6.0;
                     steel.cuboid(p((a + b) / 2.0, y), vec3(b - a, 0.035, 0.06), 0.0, black, 1.0);
                 }
                 // A deep sill.
-                steel.cuboid(p((a + b) / 2.0, sill - 0.02) + w.inward * 0.06, vec3(b - a + 0.1, 0.04, 0.2), 0.0, rgb(90, 90, 92), 1.0);
+                steel.cuboid(
+                    p((a + b) / 2.0, sill - 0.02) + w.inward * 0.06,
+                    vec3(b - a + 0.1, 0.04, 0.2),
+                    0.0,
+                    rgb(90, 90, 92),
+                    1.0,
+                );
             }
             band(&mut bricks, w, x, w.length, sill, head, cell, WHITE, 1.0 / 1.2);
             backdrop(&mut sky, w, 1.2, -0.6, 4.6, false, 1.0);
         } else {
             band(&mut bricks, w, 0.0, w.length, 0.0, HEIGHT, cell, WHITE, 1.0 / 1.2);
-
         }
     }
     lit.add(kit, bricks, brick_tex);
@@ -1080,11 +1427,24 @@ fn loft(kit: &mut Kit, quality: Quality, table: Vec2) {
             let x = k as f32 * 2.3;
             steel.cuboid(vec3(x, HEIGHT - 0.2, 0.0), vec3(0.03, 0.36, 2.0 * HZ), 0.0, black, 1.0);
             for dy in [-0.37f32, -0.02] {
-                steel.cuboid(vec3(x, HEIGHT + dy, 0.0), vec3(0.18, 0.025, 2.0 * HZ), 0.0, black, 1.0);
+                steel.cuboid(
+                    vec3(x, HEIGHT + dy, 0.0),
+                    vec3(0.18, 0.025, 2.0 * HZ),
+                    0.0,
+                    black,
+                    1.0,
+                );
             }
         }
         for z in [-2.9f32, 2.9] {
-            tube(&mut ducts, vec3(-HX, HEIGHT - 0.6, z), vec3(HX, HEIGHT - 0.6, z), 0.22, 18, rgb(170, 174, 180));
+            tube(
+                &mut ducts,
+                vec3(-HX, HEIGHT - 0.6, z),
+                vec3(HX, HEIGHT - 0.6, z),
+                0.22,
+                18,
+                rgb(170, 174, 180),
+            );
             if detailed {
                 for k in 0..10 {
                     let x = -HX + 0.5 + k as f32 * 1.1;
@@ -1114,7 +1474,20 @@ fn loft(kit: &mut Kit, quality: Quality, table: Vec2) {
     let mut stools = MeshBuilder::default();
     for k in 0..4 {
         let c = vec3(bx - 0.65, 0.0, -1.2 + k as f32 * 0.8);
-        stools.lathe(c, &[(0.0, 0.18), (0.02, 0.18), (0.03, 0.03), (0.7, 0.025), (0.72, 0.17), (0.76, 0.17), (0.77, 0.0)], 16, if k % 2 == 0 { rgb(40, 40, 42) } else { rgb(110, 60, 30) });
+        stools.lathe(
+            c,
+            &[
+                (0.0, 0.18),
+                (0.02, 0.18),
+                (0.03, 0.03),
+                (0.7, 0.025),
+                (0.72, 0.17),
+                (0.76, 0.17),
+                (0.77, 0.0),
+            ],
+            16,
+            if k % 2 == 0 { rgb(40, 40, 42) } else { rgb(110, 60, 30) },
+        );
         hoop(&mut stools, c + Vec3::Y * 0.28, 0.14, 0.01, 14, rgb(50, 50, 52));
     }
     // Pendants over the bar: cloth cords and bare bulbs.
@@ -1122,19 +1495,45 @@ fn loft(kit: &mut Kit, quality: Quality, table: Vec2) {
         let at = vec3(bx, 2.1 + (z * 3.0).sin() * 0.06, z);
         tube(&mut steel, at + Vec3::Y * 0.12, vec3(at.x, HEIGHT, at.z), 0.005, 4, rgb(30, 28, 26));
         steel.lathe(at + Vec3::Y * 0.08, &[(0.0, 0.02), (0.05, 0.02)], 8, rgb(150, 120, 60));
-        glow.lathe(at - Vec3::Y * 0.06, &[(0.0, 0.0), (0.02, 0.03), (0.09, 0.05), (0.13, 0.02), (0.14, 0.02)], 12, rgb(255, 196, 110));
+        glow.lathe(
+            at - Vec3::Y * 0.06,
+            &[(0.0, 0.0), (0.02, 0.03), (0.09, 0.05), (0.13, 0.02), (0.14, 0.02)],
+            12,
+            rgb(255, 196, 110),
+        );
     }
 
     // A worn leather sofa, a rug and a crate table on the left; a neon sign.
     let mut leather = MeshBuilder::default();
-    sofa(&mut leather, vec3(-HX + 0.65, 0.0, -1.6), std::f32::consts::FRAC_PI_2, 2.2, rgb(120, 70, 38), false);
+    sofa(
+        &mut leather,
+        vec3(-HX + 0.65, 0.0, -1.6),
+        std::f32::consts::FRAC_PI_2,
+        2.2,
+        rgb(120, 70, 38),
+        false,
+    );
     wood.cuboid(vec3(-HX + 1.75, 0.2, -1.6), vec3(0.6, 0.4, 1.0), 0.0, WHITE, 1.0);
     let mut plants = MeshBuilder::default();
     let mut pots = MeshBuilder::default();
     if medium {
-        potted_plant(&mut plants, &mut pots, vec3(-HX + 0.5, 0.0, -3.4), 1.5, false, rgb(30, 30, 32));
+        potted_plant(
+            &mut plants,
+            &mut pots,
+            vec3(-HX + 0.5, 0.0, -3.4),
+            1.5,
+            false,
+            rgb(30, 30, 32),
+        );
         potted_plant(&mut plants, &mut pots, vec3(HX - 0.5, 0.0, 3.3), 1.7, false, rgb(30, 30, 32));
-        potted_plant(&mut plants, &mut pots, vec3(-HX + 0.5, 0.0, 3.3), 1.2, true, rgb(160, 150, 140));
+        potted_plant(
+            &mut plants,
+            &mut pots,
+            vec3(-HX + 0.5, 0.0, 3.3),
+            1.2,
+            true,
+            rgb(160, 150, 140),
+        );
     }
     let mut neon = MeshBuilder::default();
     let mut pools = MeshBuilder::default();
@@ -1154,7 +1553,11 @@ fn loft(kit: &mut Kit, quality: Quality, table: Vec2) {
         ring(&mut neon, nc, 0.32, cyan);
         ring(&mut neon, nc + Vec3::Y * 0.075, 0.065, pink);
         ring(&mut neon, nc - Vec3::Y * 0.065, 0.08, pink);
-        for (a, b) in [(vec3(0.0, -0.55, -0.6), vec3(0.0, -0.55, 0.6)), (vec3(0.0, -0.55, 0.6), vec3(0.0, -0.45, 0.48)), (vec3(0.0, -0.55, 0.6), vec3(0.0, -0.65, 0.48))] {
+        for (a, b) in [
+            (vec3(0.0, -0.55, -0.6), vec3(0.0, -0.55, 0.6)),
+            (vec3(0.0, -0.55, 0.6), vec3(0.0, -0.45, 0.48)),
+            (vec3(0.0, -0.55, 0.6), vec3(0.0, -0.65, 0.48)),
+        ] {
             tube(&mut neon, nc + a, nc + b, 0.01, 6, cyan);
         }
         pool(&mut pools, nc, Vec3::X, 2.0, 2.0, Color::new(0.3, 0.85, 1.0, 0.16));
@@ -1165,7 +1568,13 @@ fn loft(kit: &mut Kit, quality: Quality, table: Vec2) {
         for k in 0..12 {
             let a = k as f32 / 12.0 * std::f32::consts::TAU;
             let p = cc + vec3(a.cos() * 0.35, a.sin() * 0.35, -0.02);
-            steel.cuboid(p, vec3(0.02, 0.02, 0.01) * if k % 3 == 0 { 1.8 } else { 1.0 }, 0.0, black, 1.0);
+            steel.cuboid(
+                p,
+                vec3(0.02, 0.02, 0.01) * if k % 3 == 0 { 1.8 } else { 1.0 },
+                0.0,
+                black,
+                1.0,
+            );
         }
         tube(&mut steel, cc - Vec3::Z * 0.025, cc + vec3(0.0, 0.3, -0.025), 0.008, 4, black);
         tube(&mut steel, cc - Vec3::Z * 0.025, cc + vec3(0.2, -0.08, -0.025), 0.01, 4, black);
@@ -1174,7 +1583,12 @@ fn loft(kit: &mut Kit, quality: Quality, table: Vec2) {
     let mut shafts = MeshBuilder::default();
     if medium {
         for (a, b) in windows {
-            let corners = [vec3(a, sill, -HZ + 0.04), vec3(b, sill, -HZ + 0.04), vec3(b, head, -HZ + 0.04), vec3(a, head, -HZ + 0.04)];
+            let corners = [
+                vec3(a, sill, -HZ + 0.04),
+                vec3(b, sill, -HZ + 0.04),
+                vec3(b, head, -HZ + 0.04),
+                vec3(a, head, -HZ + 0.04),
+            ];
             let floor = corners.map(|c| vec3(c.x, 0.02, c.z + c.y * 0.9));
             shaft(&mut shafts, corners, floor, Color::new(0.55, 0.65, 1.0, 0.05));
         }
@@ -1212,16 +1626,43 @@ fn loft_lamp(kit: &mut Kit, quality: Quality) {
     let mut glow = MeshBuilder::default();
     for x in [-0.5f32, 0.0, 0.5] {
         let at = vec3(x, LAMP_Y, 0.0);
-        let profile = [(0.0, 0.2), (0.015, 0.19), (0.07, 0.13), (0.15, 0.07), (0.2, 0.05), (0.25, 0.04), (0.26, 0.0)];
+        let profile = [
+            (0.0, 0.2),
+            (0.015, 0.19),
+            (0.07, 0.13),
+            (0.15, 0.07),
+            (0.2, 0.05),
+            (0.25, 0.04),
+            (0.26, 0.0),
+        ];
         metal.lathe(at, &profile, segs, rgb(24, 26, 28));
         inside.frustum_at(at, 0.003, 0.186, 0.14, 0.072, segs, rgb(240, 236, 226));
-        glow.lathe(at + Vec3::Y * 0.02, &[(0.0, 0.0), (0.02, 0.025), (0.08, 0.04), (0.12, 0.016), (0.14, 0.016)], 14, rgb(255, 196, 110));
+        glow.lathe(
+            at + Vec3::Y * 0.02,
+            &[(0.0, 0.0), (0.02, 0.025), (0.08, 0.04), (0.12, 0.016), (0.14, 0.016)],
+            14,
+            rgb(255, 196, 110),
+        );
         metal.lathe(at + Vec3::Y * 0.26, &[(0.0, 0.014), (0.18, 0.014)], 8, rgb(20, 20, 20));
     }
     // A black pipe and chains to the ceiling.
-    tube(&mut metal, vec3(-0.75, LAMP_Y + 0.44, 0.0), vec3(0.75, LAMP_Y + 0.44, 0.0), 0.018, 10, rgb(24, 24, 26));
+    tube(
+        &mut metal,
+        vec3(-0.75, LAMP_Y + 0.44, 0.0),
+        vec3(0.75, LAMP_Y + 0.44, 0.0),
+        0.018,
+        10,
+        rgb(24, 24, 26),
+    );
     for x in [-0.7f32, 0.7] {
-        tube(&mut metal, vec3(x, LAMP_Y + 0.44, 0.0), vec3(x, HEIGHT, 0.0), 0.006, 4, rgb(30, 30, 30));
+        tube(
+            &mut metal,
+            vec3(x, LAMP_Y + 0.44, 0.0),
+            vec3(x, HEIGHT, 0.0),
+            0.006,
+            4,
+            rgb(30, 30, 30),
+        );
     }
     kit.add(metal, None, Surface::lit(1.2, 70.0, 0.15, 0.5), Layer::Lamp);
     kit.add(inside, None, Surface::lit(0.4, 30.0, 0.0, 0.1), Layer::Lamp);
@@ -1251,9 +1692,21 @@ fn pool_lamp(kit: &mut Kit, quality: Quality) {
         brass.frustum_at(at, 0.19, 0.040, 0.24, 0.022, 16, rgb(176, 136, 62));
     }
     // The bar that holds the shades and the rods to the ceiling.
-    brass.cuboid(vec3(0.0, LAMP_Y + 0.25, 0.0), vec3(1.24, 0.028, 0.04), 0.0, rgb(150, 112, 50), 1.0);
+    brass.cuboid(
+        vec3(0.0, LAMP_Y + 0.25, 0.0),
+        vec3(1.24, 0.028, 0.04),
+        0.0,
+        rgb(150, 112, 50),
+        1.0,
+    );
     for x in [-0.55f32, 0.55] {
-        brass.cuboid(vec3(x, LAMP_Y + 0.25 + 0.75, 0.0), vec3(0.008, 1.5, 0.008), 0.0, rgb(60, 50, 40), 1.0);
+        brass.cuboid(
+            vec3(x, LAMP_Y + 0.25 + 0.75, 0.0),
+            vec3(0.008, 1.5, 0.008),
+            0.0,
+            rgb(60, 50, 40),
+            1.0,
+        );
     }
     kit.add(glass, None, Surface::lit(0.9, 90.0, 0.35, 0.8), Layer::Lamp);
     kit.add(brass, None, Surface::lit(1.0, 50.0, 0.1, 0.6), Layer::Lamp);

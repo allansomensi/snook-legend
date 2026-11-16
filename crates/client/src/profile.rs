@@ -906,7 +906,11 @@ fn rating_chart(ui: &mut Ui, p: &Profile, area: Rect) {
 fn numbers(ui: &mut Ui, p: &Profile, area: Rect) {
     let c = &p.career;
     if c.games == 0 && p.abandon_rate == 0 {
-        empty_state(ui, area, Icon::Star, t("No games yet."));
+        if p.cue_wins.is_empty() {
+            empty_state(ui, area, Icon::Star, t("No games yet."));
+        } else {
+            cue_card(ui, p, Rect::new(area.x, area.y, area.w, 92.0));
+        }
         return;
     }
     let per_game = c.balls_per_game_x10();
@@ -969,7 +973,8 @@ fn cue_card(ui: &mut Ui, p: &Profile, r: Rect) {
     rrect(Rect::new(bar.x, bar.y, bar.w * progress, bar.h), 2.0, GOLD);
     if let Some((best, n)) = p.cue_wins.first().filter(|(c, n)| c != code && *n > wins(code)) {
         let best = shop::item(best).map_or(best.as_str(), |i| t(i.name));
-        let text = tw("Most wins: {cue} (level {n})", &[("cue", &best), ("n", &shop::cue_level(*n))]);
+        let text =
+            tw("Most wins: {cue} (level {n})", &[("cue", &best), ("n", &shop::cue_level(*n))]);
         let (text, size) = ui.fitted(&text, 12.0, room, false);
         ui.text(&text, x, r.y + 68.0, size, MUTED, false);
     }

@@ -1231,8 +1231,11 @@ impl Kit {
 
     /// Uploads the textures and builds the meshes.
     pub fn finish(self, white: &Texture2D) -> Vec<Built> {
-        let textures: Vec<Texture2D> =
-            self.textures.into_iter().map(|(p, repeat)| texture(p.width, p.height, &p.rgba, repeat)).collect();
+        let textures: Vec<Texture2D> = self
+            .textures
+            .into_iter()
+            .map(|(p, repeat)| texture(p.width, p.height, &p.rgba, repeat))
+            .collect();
         self.parts
             .into_iter()
             .map(|p| Built {

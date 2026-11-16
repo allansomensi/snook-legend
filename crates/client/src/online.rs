@@ -230,6 +230,9 @@ pub struct Online {
     told_starting: Vec<u64>,
     /// The server refused this version of the game: a newer one is out.
     pub outdated: bool,
+    /// Asking the server which version it runs, after it refused this one:
+    /// if it is older, it's the server that hasn't been updated yet.
+    version_check: Option<std::sync::mpsc::Receiver<Option<u32>>>,
     /// An administrator clicked "Clear the chat" once (at this time): a
     /// second click clears it.
     clear_armed: Option<f64>,
@@ -501,6 +504,7 @@ impl Online {
             board: Vec::new(),
             told_starting: Vec::new(),
             outdated: false,
+            version_check: None,
             clear_armed: None,
             quit_for_update: false,
             form_focused: false,
@@ -597,6 +601,20 @@ impl Online {
         }
         self.toasts.retain(|t| t.1 > 0.0);
         self.tournaments_starting();
+        if let Some(rx) = &self.version_check
+            && let Ok(protocol) = rx.try_recv()
+        {
+            self.version_check = None;
+            if protocol.is_some_and(|p| p < snookered_proto::PROTOCOL_VERSION) {
+                // This game is newer than the server: updating it can't
+                // help, waiting for the server can.
+                self.outdated = false;
+                self.error = Some(
+                    t("The server is still being updated to the new version. Try again in a few minutes.")
+                        .into(),
+                );
+            }
+        }
         // Outgoing match messages.
         if let Some(m) = current.as_mut()
             && let Some(o) = m.online.as_mut()
@@ -751,6 +769,9 @@ impl Online {
                 // This version is too old for the server: the saved session
                 // is still good for the new one.
                 self.outdated = reason.contains("out of date");
+                if self.outdated {
+                    self.version_check = Some(server_protocol(&self.server));
+                }
                 if self.auto_resume && !self.token.is_empty() && !self.outdated {
                     // The saved session expired (or the account was banned).
                     self.token.clear();
@@ -3677,4 +3698,55 @@ pub(crate) fn empty_state(
     let Some(label) = action else { return false };
     let w = button_w(ui, label, 36.0).max(180.0).min(area.w - 16.0);
     ui.button(Rect::new(cx - w / 2.0, y + 16.0, w, 36.0), label, true)
+}
+
+/// The address of the server's public status for its game address
+/// (`wss://host/ws` → `https://host/api/status`).
+fn status_url(server: &str) -> Option<String> {
+    let (scheme, rest) = if let Some(rest) = server.strip_prefix("wss://") {
+        ("https", rest)
+    } else {
+        ("http", server.strip_prefix("ws://")?)
+    };
+    let host = rest.split('/').next().filter(|h| !h.is_empty())?;
+    Some(format!("{scheme}://{host}/api/status"))
+}
+
+/// The protocol the server at `server` speaks, asked in the background
+/// (`None` when it can't be found out).
+fn server_protocol(server: &str) -> std::sync::mpsc::Receiver<Option<u32>> {
+    let (tx, rx) = std::sync::mpsc::channel();
+    let url = status_url(server);
+    std::thread::spawn(move || {
+        let protocol = url.and_then(|url| {
+            let agent: ureq::Agent = ureq::Agent::config_builder()
+                .timeout_global(Some(std::time::Duration::from_secs(20)))
+                .build()
+                .into();
+            let text = agent.get(&url).call().ok()?.body_mut().read_to_string().ok()?;
+            let status: serde_json::Value = serde_json::from_str(&text).ok()?;
+            u32::try_from(status.get("protocol")?.as_u64()?).ok()
+        });
+        let _ = tx.send(protocol);
+    });
+    rx
+}
+
+#[cfg(test)]
+mod tests {
+    use super::status_url;
+
+    #[test]
+    fn the_status_is_next_to_the_game_address() {
+        assert_eq!(
+            status_url("wss://snook.example.com/ws").as_deref(),
+            Some("https://snook.example.com/api/status")
+        );
+        assert_eq!(
+            status_url("ws://127.0.0.1:7878/ws").as_deref(),
+            Some("http://127.0.0.1:7878/api/status")
+        );
+        assert_eq!(status_url("https://example.com"), None);
+        assert_eq!(status_url("wss:///ws"), None);
+    }
 }

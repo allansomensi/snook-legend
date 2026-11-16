@@ -1600,3 +1600,4 @@ Finish your game before changing your username.	Termina tu partida antes de camb
 Leave your table or the queue before changing your username.	Sal de tu mesa o de la cola antes de cambiar tu nombre de usuario.
 Leave your tournament before changing your username.	Sal de tu torneo antes de cambiar tu nombre de usuario.
 Username changed.	Nombre de usuario cambiado.
+The server is still being updated to the new version. Try again in a few minutes.	El servidor todavía se está actualizando a la nueva versión. Inténtalo de nuevo en unos minutos.

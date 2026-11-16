@@ -512,9 +512,19 @@ async fn login_errors_and_validation() {
     // The older connection was replaced.
     c.expect("kicked", |m| matches!(m, ServerMsg::Kicked { .. })).await;
 
-    let mut old = Client::connect(&url).await;
-    old.send(ClientMsg::Hello { version: 0 }).await;
-    old.expect("version", |m| matches!(m, ServerMsg::AuthError { .. })).await;
+    // Too old: update the game. Newer than the server: it's the server
+    // that is behind (updating the game wouldn't help).
+    for (version, says) in [(0, "out of date"), (PROTOCOL_VERSION + 1, "being updated")] {
+        let (ws, _) = connect_async(&url).await.unwrap();
+        let mut other = Client { ws };
+        other.send(ClientMsg::Hello { version }).await;
+        let ServerMsg::AuthError { reason } =
+            other.expect("version", |m| matches!(m, ServerMsg::AuthError { .. })).await
+        else {
+            unreachable!()
+        };
+        assert!(reason.contains(says), "version {version}: {reason}");
+    }
 
     // Password guessing is throttled per account.
     let mut e = Client::connect(&url).await;

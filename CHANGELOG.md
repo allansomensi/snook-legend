@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased
+
+### Fixes
+- A game newer than the server no longer says "a new version of the game is
+  out" (which sent players already up to date to the Store): it checks the
+  server's version and says the server is still being updated, with a Retry
+  button. Servers from this version on say so themselves.
+
+### Releases
+- The **Server image** workflow puts the new server live on Render by itself
+  when the repository secret `RENDER_DEPLOY_HOOK` holds the service's Deploy
+  Hook (see the deploy guide); without it, it reminds you to deploy by hand.
+
 ## 0.3.0 (protocol 14)
 
 The game now plays on a regulation 9-foot tournament table with heavier,

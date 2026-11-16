@@ -897,6 +897,15 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                     hello = true;
                     version = v;
                 }
+                // A game newer than the server: the server hasn't been
+                // updated yet (updating the game can't help).
+                ClientMsg::Hello { version: v } if v > PROTOCOL_VERSION => {
+                    send(ServerMsg::AuthError {
+                        reason: "The server is still being updated to the new version. Try again in a few minutes."
+                            .into(),
+                    });
+                    break;
+                }
                 ClientMsg::Hello { .. } => {
                     send(ServerMsg::AuthError {
                         reason: "This version of Snookered is out of date. Please update the game."

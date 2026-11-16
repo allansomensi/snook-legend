@@ -37,6 +37,11 @@
   the cushions.
 
 ### Fair play
+- Leaving a game in progress (closing the game, or losing the connection
+  for good) costs more than losing it: 10 extra rating points in a rated
+  game, and a wait before the next online game (2 minutes, then 10, then
+  30 for each game left within a day). The player who stayed now gets the
+  winner's coins. Resigning is never punished.
 - The full aiming guide can never show in a game against a person over the
   network, rated or casual (nor when watching): the guide drawn is checked
   at the table itself, whatever the setting says.

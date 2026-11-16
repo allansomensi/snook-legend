@@ -155,6 +155,15 @@ pub fn server_text(text: &str) -> String {
         let name = rest.trim_end_matches('.');
         return tw("LAN game hosted by {name}.", &[("name", &name)]);
     }
+    if let Some(rest) =
+        text.strip_prefix("You left a game in progress: you can play online again in ")
+    {
+        let n = rest.split_whitespace().next().unwrap_or("?");
+        return tw(
+            "You left a game in progress: you can play online again in {n} min.",
+            &[("n", &n)],
+        );
+    }
     if let Some(rest) = text.strip_prefix("You are muted for ") {
         let n = rest.split_whitespace().next().unwrap_or("?");
         return tw("You are muted for {n} more minutes.", &[("n", &n)]);

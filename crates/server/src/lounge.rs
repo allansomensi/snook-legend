@@ -223,6 +223,17 @@ struct Table {
     password: Option<String>,
 }
 
+/// Extra rating lost for leaving a rated game in progress.
+pub const ABANDON_RATING: i32 = 10;
+/// Games left within this long count towards a longer wait.
+const ABANDON_WINDOW: Duration = Duration::from_secs(24 * 3600);
+
+/// "You left a game in progress: you can play online again in N min."
+fn cooldown_message(left: Duration) -> String {
+    let minutes = left.as_secs().div_ceil(60).max(1);
+    format!("You left a game in progress: you can play online again in {minutes} min.")
+}
+
 #[derive(Default)]
 pub struct Lounge {
     pub rules: Rules,
@@ -252,6 +263,8 @@ pub struct Lounge {
     last_featured: Option<Instant>,
     /// Rated games between two players (sorted keys) recently.
     pair_games: HashMap<(String, String), VecDeque<Instant>>,
+    /// When each player last left games in progress (the last day's).
+    abandoned: HashMap<String, VecDeque<Instant>>,
     /// Waits in the "Play now" queue (seconds), for the staff panel.
     pub queue_waits: VecDeque<u32>,
     /// The notes on the board (the store has them; this is what players see).
@@ -1163,6 +1176,9 @@ impl Lounge {
         if self.refuse_if_draining(k) {
             return;
         }
+        if self.refuse_if_cooling_down(k) {
+            return;
+        }
         let Some(s) = self.sessions.get(k) else { return };
         if s.room.is_some() {
             return self.error(k, "Finish your game first.");
@@ -1464,6 +1480,9 @@ impl Lounge {
         if from == to {
             return fail(self, "You can't invite yourself.");
         }
+        if let Some(left) = self.abandon_cooldown(from) {
+            return fail(self, &cooldown_message(left));
+        }
         if !self.sessions.contains_key(to) {
             return fail(self, "That player is not online.");
         }
@@ -1504,6 +1523,10 @@ impl Lounge {
             self.send(from, ServerMsg::InviteDeclined { by: self.display(me) });
             return;
         }
+        if let Some(left) = self.abandon_cooldown(me) {
+            self.send(from, ServerMsg::InviteDeclined { by: self.display(me) });
+            return self.send(me, ServerMsg::InviteFailed { reason: cooldown_message(left) });
+        }
         if !self.available(from) || !self.available(me) {
             return self.send(
                 me,
@@ -1523,7 +1546,7 @@ impl Lounge {
     }
 
     fn open_table(&mut self, k: &str, rated: bool, password: Option<String>) {
-        if self.refuse_if_draining(k) {
+        if self.refuse_if_draining(k) || self.refuse_if_cooling_down(k) {
             return;
         }
         if !self.available(k) {
@@ -1557,7 +1580,7 @@ impl Lounge {
     }
 
     fn join_table(&mut self, k: &str, id: u64, password: Option<String>) {
-        if self.refuse_if_draining(k) {
+        if self.refuse_if_draining(k) || self.refuse_if_cooling_down(k) {
             return;
         }
         let Some(t) = self.tables.get(&id) else {
@@ -1976,7 +1999,6 @@ impl Lounge {
         let mut new_ratings = [users[0].rating, users[1].rating];
         let keys = room.keys.clone();
         let repeats = if rated { self.count_pair_game(&keys) } else { 0 };
-        let room = &self.rooms[&id];
         if rated {
             let (w, l) = (over.winner, 1 - over.winner);
             let change =
@@ -2000,6 +2022,17 @@ impl Lounge {
             }
         }
         let loser = 1 - over.winner;
+        // Leaving a game in progress costs more than losing it: extra
+        // rating (rated games), and a while without online games.
+        if over.reason == GameOverReason::Abandoned {
+            if rated {
+                delta[loser] -= ABANDON_RATING;
+                new_ratings[loser] = users[loser].rating + delta[loser];
+            }
+            let key = keys[loser].clone();
+            self.record_abandon(&key);
+        }
+        let room = &self.rooms[&id];
         let eight_win = over.reason == GameOverReason::PocketedEight;
         let shutout = eight_win
             && room.game.group_of(loser).is_some_and(|g| room.game.remaining(g).len() == 7);
@@ -2245,6 +2278,40 @@ impl Lounge {
             self.error(k, "The server is restarting: new games start in a moment.");
         }
         self.draining.is_some()
+    }
+
+    /// Notes that `k` left a game in progress (for [`Lounge::abandon_cooldown`]).
+    fn record_abandon(&mut self, k: &str) {
+        let now = Instant::now();
+        let list = self.abandoned.entry(k.to_string()).or_default();
+        while list.front().is_some_and(|t| now.duration_since(*t) > ABANDON_WINDOW) {
+            list.pop_front();
+        }
+        list.push_back(now);
+    }
+
+    /// How long `k` must still wait before starting another online game,
+    /// after leaving one in progress: longer each time in a day.
+    pub fn abandon_cooldown(&self, k: &str) -> Option<Duration> {
+        let list = self.abandoned.get(k)?;
+        let now = Instant::now();
+        let recent: Vec<&Instant> =
+            list.iter().filter(|t| now.duration_since(**t) <= ABANDON_WINDOW).collect();
+        let last = **recent.last()?;
+        let wait = match recent.len() {
+            1 => Duration::from_secs(2 * 60),
+            2 => Duration::from_secs(10 * 60),
+            _ => Duration::from_secs(30 * 60),
+        };
+        wait.checked_sub(now.duration_since(last)).filter(|d| !d.is_zero())
+    }
+
+    /// Refuses a new game to a player still waiting after leaving one (with
+    /// a message saying how long).
+    fn refuse_if_cooling_down(&self, k: &str) -> bool {
+        let Some(left) = self.abandon_cooldown(k) else { return false };
+        self.error(k, cooldown_message(left));
+        true
     }
 
     /// Seconds a player who often leaves games waits in the queue before
@@ -2502,6 +2569,9 @@ impl Lounge {
 
     /// Sits at the table of an invitation code.
     fn join_by_code(&mut self, k: &str, code: &str) {
+        if self.refuse_if_cooling_down(k) {
+            return;
+        }
         let code: String = code
             .trim()
             .trim_start_matches("snookered://join/")

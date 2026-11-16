@@ -1378,3 +1378,5 @@ Carrara marble	Mármol de Carrara
 Dragon scale	Escama de dragón
 Galaxy	Galaxia
 Ruby throne	Trono de rubí
+Closing the game now is leaving it: extra rating lost and a wait to play again.	Cerrar el juego ahora es abandonar: pierdes ranking extra y esperas para volver a jugar.
+You left a game in progress: you can play online again in {n} min.	Abandonaste una partida en curso: podrás volver a jugar en línea en {n} min.

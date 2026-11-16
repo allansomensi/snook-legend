@@ -547,7 +547,7 @@ async fn disconnect_reconnect_and_abandon() {
     bob.expect("lost", |m| matches!(m, ServerMsg::OpponentConnection { connected: false, .. }))
         .await;
     let mut alice = Client::connect(&url).await;
-    alice.send(ClientMsg::Resume { token: alice_token }).await;
+    alice.send(ClientMsg::Resume { token: alice_token.clone() }).await;
     alice.expect("rejoined", |m| matches!(m, ServerMsg::MatchStarted { .. })).await;
     bob.expect("back", |m| matches!(m, ServerMsg::OpponentConnection { connected: true, .. }))
         .await;
@@ -560,6 +560,27 @@ async fn disconnect_reconnect_and_abandon() {
         unreachable!()
     };
     assert_eq!(result.reason, snookered_core::GameOverReason::Abandoned);
+    // Leaving costs more than losing: the winner gains less than she loses.
+    let alice_seat = 1 - result.winner;
+    let (alice_delta, bob_delta) =
+        (result.rating_delta[alice_seat], result.rating_delta[result.winner]);
+    assert!(
+        alice_delta <= -bob_delta - snookered_server::lounge::ABANDON_RATING,
+        "{alice_delta} {bob_delta}"
+    );
+    // Back online, she can't start another game for a while.
+    let mut alice = Client::connect(&url).await;
+    alice.send(ClientMsg::Resume { token: alice_token }).await;
+    alice.expect("signed in", |m| matches!(m, ServerMsg::AuthOk { .. })).await;
+    alice.send(ClientMsg::QueueJoin { rated: true }).await;
+    let ServerMsg::Error { message } =
+        alice.expect("refused", |m| matches!(m, ServerMsg::Error { .. })).await
+    else {
+        unreachable!()
+    };
+    assert!(message.starts_with("You left a game in progress"), "{message}");
+    alice.send(ClientMsg::Invite { to: "bob".into(), rated: false }).await;
+    alice.expect("no invitations", |m| matches!(m, ServerMsg::InviteFailed { .. })).await;
 }
 
 #[tokio::test]

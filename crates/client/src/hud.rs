@@ -806,7 +806,13 @@ impl Hud {
             const GAP: f32 = 10.0;
             const BH: f32 = 38.0;
             let w = 340.0;
-            let header = if online { 66.0 } else { 48.0 };
+            let header = if online && !corr {
+                86.0
+            } else if online {
+                66.0
+            } else {
+                48.0
+            };
             // Resume, settings, controls, resign, then the way out set apart.
             let leave_h = if self.confirm_leave { 24.0 + BH } else { BH };
             let reportable = self.reportable(m);
@@ -829,6 +835,14 @@ impl Hud {
                     t("The game goes on while this is open.")
                 };
                 ui.text_centered(note, sw / 2.0, r.y + PAD + 30.0, 13.0, MUTED, false);
+                if !corr {
+                    // Closing the game mid-match is leaving it (resigning isn't).
+                    let warn = t(
+                        "Closing the game now is leaving it: extra rating lost and a wait to play again.",
+                    );
+                    let (warn, size) = ui.fitted(warn, 12.0, w - 24.0, false);
+                    ui.text_centered(&warn, sw / 2.0, r.y + PAD + 50.0, size, ALERT, false);
+                }
             }
             let bx = r.x + PAD;
             let bw = r.w - 2.0 * PAD;

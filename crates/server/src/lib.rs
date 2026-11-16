@@ -460,12 +460,11 @@ async fn run_effect(server: &Arc<Server>, effect: Effect) {
                     // The shot analysis replays the game: off the effect queue.
                     let (s, r) = (server.clone(), record.clone());
                     tokio::spawn(async move { analysis::after_match(&s, &r).await });
-                    // Coins for a rated game played to the end (not a walkover,
-                    // not two friends farming each other).
-                    let pays = record.rated
-                        && !farmed
-                        && record.abandoned.is_none()
-                        && record.shots >= account::MIN_SHOTS_FOR_COINS;
+                    // Coins for a rated game played (not two friends farming
+                    // each other); left half way, only the one who stayed
+                    // is paid.
+                    let pays =
+                        record.rated && !farmed && record.shots >= account::MIN_SHOTS_FOR_COINS;
                     // A game played online counts for each player's cue (a
                     // win for the winner's), casual too (not a walkover, nor
                     // two friends farming each other).
@@ -482,7 +481,7 @@ async fn run_effect(server: &Arc<Server>, effect: Effect) {
                         }
                         let rated_win = record.rated && record.winner == seat;
                         server.check_achievements_after(&user, rated_win).await;
-                        if pays {
+                        if pays && record.abandoned != Some(seat) {
                             account::game_coins(server, &user, record.winner == seat).await;
                             let won = record.winner == seat;
                             missions::after_game(server, &user, won, &record.stats[seat]).await;

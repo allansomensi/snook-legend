@@ -8,9 +8,10 @@ use snookered_proto::{LeaderboardEntry, Role};
 use snookered_proto::CareerNumbers;
 
 use super::{
-    AimRow, AuditRow, BoardNote, BuyOutcome, FriendOutcome, FriendState, HistoryRow, LedgerRow,
-    LiveMatch, MatchRecord, Metrics, NewNote, NewReport, NewUser, Overview, Payment, ReportRow,
-    SessionKind, StoreResult, StoredReplay, TournamentRecord, User, Wallet, day_of, hour_of,
+    AimRow, AuditRow, BoardNote, BuyOutcome, FriendOutcome, FriendState, GiftRow, HistoryRow,
+    LedgerRow, LiveMatch, MatchRecord, Metrics, NewGift, NewNote, NewReport, NewUser, Overview,
+    Payment, RECENT_SCAN, RecentRow, ReportRow, SessionKind, StoreResult, StoredReplay,
+    TournamentRecord, User, Wallet, day_of, hour_of,
 };
 use snookered_proto::analysis::ShotAnalysis;
 
@@ -55,6 +56,8 @@ struct Inner {
     online_hours: BTreeMap<i64, (i64, i64, i64, i64)>,
     /// (hour, user)
     active_hours: HashSet<(i64, i64)>,
+    /// Presents (names and countries filled in when read).
+    gifts: Vec<GiftRow>,
 }
 
 impl Inner {
@@ -64,6 +67,37 @@ impl Inner {
 
     fn name(&self, id: i64) -> String {
         self.users.get(&id).map(|u| u.username.clone()).unwrap_or_default()
+    }
+
+    /// A stored present with the players' names and countries as they are now.
+    fn gift_row(&self, g: &GiftRow) -> GiftRow {
+        let who = |id: Option<i64>| {
+            id.and_then(|id| self.users.get(&id))
+                .map(|u| (u.username.clone(), u.country.clone()))
+                .unwrap_or_default()
+        };
+        let (from, from_country) = who(g.from_id);
+        let (to, to_country) = who(Some(g.to_id));
+        GiftRow { from, from_country, to, to_country, ..g.clone() }
+    }
+
+    fn add_gift(&mut self, gift: &NewGift<'_>) -> i64 {
+        let id = self.gifts.len() as i64 + 1;
+        self.gifts.push(GiftRow {
+            id,
+            from_id: Some(gift.from),
+            from: String::new(),
+            from_country: String::new(),
+            to_id: gift.to,
+            to: String::new(),
+            to_country: String::new(),
+            code: gift.code.to_string(),
+            message: gift.message.to_string(),
+            at: gift.at,
+            seen: false,
+            thanked: false,
+        });
+        id
     }
 }
 
@@ -105,6 +139,7 @@ impl MemoryStore {
             recovery_email: None,
             deleted_at: None,
             abandons: 0,
+            status_message: String::new(),
         };
         s.users.insert(user.id, user.clone());
         Ok(Some(user))
@@ -240,6 +275,43 @@ impl MemoryStore {
             u.last_seen = now;
         }
         Ok(())
+    }
+
+    pub fn set_status_message(&self, user_id: i64, text: &str) -> StoreResult<()> {
+        if let Some(u) = self.lock().users.get_mut(&user_id) {
+            u.status_message = text.to_string();
+        }
+        Ok(())
+    }
+
+    pub fn recent_opponents(&self, user_id: i64, limit: u32) -> StoreResult<Vec<RecentRow>> {
+        let s = self.lock();
+        // The player's latest games, as the database orders them.
+        let mut games: Vec<(usize, &MatchRecord)> =
+            s.matches.iter().enumerate().filter(|(_, m)| m.players.contains(&user_id)).collect();
+        games.sort_by_key(|(i, m)| std::cmp::Reverse((m.ended_at, *i)));
+        games.truncate(RECENT_SCAN as usize);
+        let mut out: Vec<RecentRow> = Vec::new();
+        for (_, m) in games {
+            let seat = if m.players[0] == user_id { 0 } else { 1 };
+            let other = m.players[1 - seat];
+            if let Some(row) = out.iter_mut().find(|r| r.user.id == other) {
+                row.games += 1;
+                continue;
+            }
+            let Some(u) = s.users.get(&other).filter(|u| u.deleted_at.is_none()) else {
+                continue;
+            };
+            out.push(RecentRow {
+                user: u.clone(),
+                at: m.ended_at,
+                won: m.winner == seat,
+                rated: m.rated,
+                games: 1,
+            });
+        }
+        out.truncate(limit as usize);
+        Ok(out)
     }
 
     pub fn record_match(&self, m: &MatchRecord) -> StoreResult<([Option<User>; 2], i64)> {
@@ -471,12 +543,17 @@ impl MemoryStore {
             u.password_hash = String::new();
             u.country = String::new();
             u.recovery_email = None;
+            u.status_message = String::new();
             u.deleted_at = Some(now);
         }
         s.sessions.retain(|_, v| v.0 != user_id);
         s.friendships.retain(|(a, b), _| *a != user_id && *b != user_id);
         s.blocks.retain(|(a, b)| *a != user_id && *b != user_id);
         s.achievements.remove(&user_id);
+        // What they wrote with their presents goes with them.
+        for g in s.gifts.iter_mut().filter(|g| g.from_id == Some(user_id)) {
+            g.message.clear();
+        }
         s.shot_stats.retain(|(u, _), _| *u != user_id);
         s.live.retain(|_, m| !m.players.contains(&user_id));
         if let Some(w) = s.wallets.get_mut(&user_id) {
@@ -1116,25 +1193,82 @@ impl MemoryStore {
         Ok(given)
     }
 
-    pub fn gift_item(
+    pub fn give_item(
         &self,
-        from: i64,
-        to: i64,
-        code: &str,
+        gift: &NewGift<'_>,
         price: i64,
-        at: i64,
-    ) -> StoreResult<BuyOutcome> {
+    ) -> StoreResult<(BuyOutcome, Option<i64>)> {
+        let (from, to, code, at) = (gift.from, gift.to, gift.code, gift.at);
         let mut s = self.lock();
         if s.wallets.get(&to).is_some_and(|w| w.owned.iter().any(|o| o == code)) {
-            return Ok(BuyOutcome::AlreadyOwned);
+            return Ok((BuyOutcome::AlreadyOwned, None));
         }
         let payer = s.wallets.entry(from).or_default();
         if payer.coins < price {
-            return Ok(BuyOutcome::NotEnoughCoins);
+            return Ok((BuyOutcome::NotEnoughCoins, None));
         }
         payer.coins -= price;
         s.wallets.entry(to).or_default().owned.push(code.to_string());
         s.ledger.push((from, -price, format!("gift {code} to {to}"), None, at));
-        Ok(BuyOutcome::Bought)
+        let id = s.add_gift(gift);
+        Ok((BuyOutcome::Bought, Some(id)))
+    }
+
+    pub fn record_gift(&self, gift: &NewGift<'_>) -> StoreResult<i64> {
+        Ok(self.lock().add_gift(gift))
+    }
+
+    pub fn gift(&self, id: i64) -> StoreResult<Option<GiftRow>> {
+        let s = self.lock();
+        Ok(s.gifts.iter().find(|g| g.id == id).map(|g| s.gift_row(g)))
+    }
+
+    pub fn gifts_of(&self, user_id: i64, limit: u32) -> StoreResult<Vec<GiftRow>> {
+        let s = self.lock();
+        let mut list: Vec<GiftRow> = s
+            .gifts
+            .iter()
+            .filter(|g| g.to_id == user_id || g.from_id == Some(user_id))
+            .map(|g| s.gift_row(g))
+            .collect();
+        list.sort_by_key(|g| std::cmp::Reverse((g.at, g.id)));
+        list.truncate(limit as usize);
+        Ok(list)
+    }
+
+    pub fn unseen_gifts(&self, user_id: i64) -> StoreResult<Vec<GiftRow>> {
+        let s = self.lock();
+        let mut list: Vec<GiftRow> = s
+            .gifts
+            .iter()
+            .filter(|g| g.to_id == user_id && !g.seen)
+            .map(|g| s.gift_row(g))
+            .collect();
+        list.sort_by_key(|g| (g.at, g.id));
+        Ok(list)
+    }
+
+    pub fn mark_gifts_seen(&self, user_id: i64, ids: &[i64]) -> StoreResult<u64> {
+        let mut s = self.lock();
+        let mut n = 0;
+        for g in s.gifts.iter_mut() {
+            if g.to_id == user_id && !g.seen && ids.contains(&g.id) {
+                g.seen = true;
+                n += 1;
+            }
+        }
+        Ok(n)
+    }
+
+    pub fn thank_gift(&self, user_id: i64, id: i64) -> StoreResult<Option<GiftRow>> {
+        let mut s = self.lock();
+        let Some(g) = s.gifts.iter_mut().find(|g| g.id == id && g.to_id == user_id && !g.thanked)
+        else {
+            return Ok(None);
+        };
+        g.thanked = true;
+        g.seen = true;
+        let g = g.clone();
+        Ok(Some(s.gift_row(&g)))
     }
 }

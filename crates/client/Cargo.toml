@@ -46,7 +46,26 @@ sys-locale = "0.3"
 fontdue = "0.9"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
+# Automatic updates (src/update.rs): the release on GitHub over HTTPS (rustls
+# with ring and the bundled roots, like the WebSocket client; proxies from
+# the environment), checked against its published SHA-256.
+ureq = { version = "3", default-features = false, features = ["rustls"] }
+sha2 = "0.10"
+
+# The new version's executable, out of the release archive: .tar.xz on
+# macOS and Linux, .zip on Windows (pure Rust, only what each needs).
+[target.'cfg(not(windows))'.dependencies]
+tar = { version = "0.4", default-features = false }
+lzma-rust2 = { version = "0.25", default-features = false, features = ["std", "xz"] }
+
+[target.'cfg(windows)'.dependencies]
+zip = { version = "9", default-features = false, features = ["deflate-flate2"] }
+flate2 = "1"
 
 [dev-dependencies]
 # Exporting the emblem as PNG and .ico files (see src/icon.rs).
 png = "0.17"
+
+[target.'cfg(not(windows))'.dev-dependencies]
+# Fake releases for the updater's tests.
+lzma-rust2 = { version = "0.25", default-features = false, features = ["std", "xz", "encoder"] }

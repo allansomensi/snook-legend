@@ -148,7 +148,7 @@ pub async fn handle(server: &Arc<Server>, me: &User, msg: ClientMsg, send: &impl
                 }
             }
         }
-        ClientMsg::GiftItem { to, code } => {
+        ClientMsg::GiftItem { to, code, message } => {
             let Some(item) = shop::item(&code) else { return error("No such item.") };
             let Some(price) = item.coins() else {
                 return error("Only items sold for coins can be given.");
@@ -157,8 +157,32 @@ pub async fn handle(server: &Arc<Server>, me: &User, msg: ClientMsg, send: &impl
                 Ok(f) => f,
                 Err(e) => return error(e),
             };
-            match server.store.gift_item(me.id, friend.id, item.code, price as i64, now()).await {
-                Ok(BuyOutcome::Bought) => {
+            // A message is player text: filtered, and not from the muted.
+            let message = snookered_proto::clean_text(&message, snookered_proto::MAX_GIFT_MESSAGE);
+            let t = now();
+            // (The lounge's copy of the account follows mutes by the staff.)
+            let muted_until = server
+                .with(|l| l.session_user(&me.username).map(|u| u.muted_until))
+                .unwrap_or(me.muted_until)
+                .filter(|until| *until > t);
+            if let Some(until) = muted_until.filter(|_| !message.is_empty()) {
+                let mins = (until - t + 59) / 60;
+                return error(&format!("You are muted for {mins} more minutes."));
+            }
+            let gift = crate::store::NewGift {
+                from: me.id,
+                to: friend.id,
+                code: item.code,
+                message: &message,
+                at: t,
+            };
+            match server
+                .store
+                .give_item(&gift, price as i64)
+                .await
+                .map(|(o, id)| (o, id.unwrap_or(0)))
+            {
+                Ok((BuyOutcome::Bought, gift_id)) => {
                     tracing::info!(from = me.id, to = friend.id, item = item.code, "item given");
                     send(ServerMsg::ItemBought {
                         code: item.code.to_string(),
@@ -169,11 +193,11 @@ pub async fn handle(server: &Arc<Server>, me: &User, msg: ClientMsg, send: &impl
                         from: me.username.clone(),
                         code: item.code.to_string(),
                     };
-                    server.with(|l| l.notify(&friend.username, msg));
+                    crate::social::deliver_gift(server, &friend, gift_id, msg).await;
                     push_wallet(server, &friend).await;
                 }
-                Ok(BuyOutcome::AlreadyOwned) => error("Your friend already has this item."),
-                Ok(BuyOutcome::NotEnoughCoins) => error("Not enough coins."),
+                Ok((BuyOutcome::AlreadyOwned, _)) => error("Your friend already has this item."),
+                Ok((BuyOutcome::NotEnoughCoins, _)) => error("Not enough coins."),
                 Err(e) => {
                     tracing::error!("gift {code} from {}: {e}", me.username);
                     error("The purchase failed; no coins were taken.")
@@ -515,10 +539,21 @@ async fn vip_gift_paid(
     if first {
         tracing::info!(from = giver.id, to = friend.id, "VIP given");
         let msg = ServerMsg::VipGift { from: giver.username.clone(), to: friend.username.clone() };
-        server.with(|l| {
-            l.notify(&friend.username, msg.clone());
-            l.notify(&giver.username, msg);
-        });
+        server.with(|l| l.notify(&giver.username, msg.clone()));
+        let gift = crate::store::NewGift {
+            from: giver.id,
+            to: friend.id,
+            code: VIP_GIFT,
+            message: "",
+            at: now(),
+        };
+        match server.store.record_gift(&gift).await {
+            Ok(id) => crate::social::deliver_gift(server, &friend, id, msg).await,
+            Err(e) => {
+                tracing::error!("recording a VIP gift: {e}");
+                server.with(|l| l.notify(&friend.username, msg));
+            }
+        }
         offer_email(server, giver).await;
     }
     push_wallet(server, &friend).await;

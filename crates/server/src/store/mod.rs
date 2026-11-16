@@ -64,6 +64,8 @@ pub struct User {
     pub deleted_at: Option<i64>,
     /// Games lost by leaving or by running out of reconnection time.
     pub abandons: u32,
+    /// The player's status message (empty: none).
+    pub status_message: String,
 }
 
 impl User {
@@ -257,6 +259,53 @@ pub struct HistoryRow {
     pub match_id: i64,
     pub replay: bool,
 }
+
+/// Someone a player played recently: their account and the latest game
+/// against them.
+#[derive(Debug, Clone)]
+pub struct RecentRow {
+    pub user: User,
+    /// When the latest game ended.
+    pub at: i64,
+    /// The player (not the opponent) won it.
+    pub won: bool,
+    pub rated: bool,
+    /// Games between the two among the player's latest [`RECENT_SCAN`].
+    pub games: u32,
+}
+
+/// A present from one player to another, as stored.
+#[derive(Debug, Clone, PartialEq)]
+pub struct GiftRow {
+    pub id: i64,
+    /// The giver (None if the account is gone) and their name and country
+    /// now (empty if gone).
+    pub from_id: Option<i64>,
+    pub from: String,
+    pub from_country: String,
+    pub to_id: i64,
+    pub to: String,
+    pub to_country: String,
+    /// An item code, or [`snookered_proto::shop::VIP_GIFT`].
+    pub code: String,
+    pub message: String,
+    pub at: i64,
+    pub seen: bool,
+    pub thanked: bool,
+}
+
+/// A present to record.
+pub struct NewGift<'a> {
+    pub from: i64,
+    pub to: i64,
+    pub code: &'a str,
+    pub message: &'a str,
+    pub at: i64,
+}
+
+/// How many of a player's latest games are looked through for their recent
+/// opponents.
+pub const RECENT_SCAN: u32 = 500;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum FriendState {
@@ -473,6 +522,15 @@ impl Store {
     }
     pub async fn touch(&self, user_id: i64, now: i64) -> StoreResult<()> {
         dispatch!(self, s => s.touch(user_id, now))
+    }
+    /// Sets (or clears, when empty) a player's status message.
+    pub async fn set_status_message(&self, user_id: i64, text: &str) -> StoreResult<()> {
+        dispatch!(self, s => s.set_status_message(user_id, text))
+    }
+    /// The last `limit` different people a player played, latest first
+    /// (deleted accounts left out), from their latest [`RECENT_SCAN`] games.
+    pub async fn recent_opponents(&self, user_id: i64, limit: u32) -> StoreResult<Vec<RecentRow>> {
+        dispatch!(self, s => s.recent_opponents(user_id, limit))
     }
     /// Stores a match and updates both players' numbers; returns them
     /// updated and the match id.
@@ -849,7 +907,8 @@ impl Store {
     ) -> StoreResult<i64> {
         dispatch!(self, s => s.earn(user_id, day, amount, cap, reason, at))
     }
-    /// `from` pays `price` and `to` gets the item, atomically.
+    /// `from` pays `price` and `to` gets the item, atomically (the present
+    /// is recorded, without a message).
     pub async fn gift_item(
         &self,
         from: i64,
@@ -858,7 +917,41 @@ impl Store {
         price: i64,
         at: i64,
     ) -> StoreResult<BuyOutcome> {
-        dispatch!(self, s => s.gift_item(from, to, code, price, at))
+        let gift = NewGift { from, to, code, message: "", at };
+        Ok(self.give_item(&gift, price).await?.0)
+    }
+    /// `gift.from` pays `price` and `gift.to` gets the item, and the present
+    /// is recorded, atomically. Returns the present's id when it was given.
+    pub async fn give_item(
+        &self,
+        gift: &NewGift<'_>,
+        price: i64,
+    ) -> StoreResult<(BuyOutcome, Option<i64>)> {
+        dispatch!(self, s => s.give_item(gift, price))
+    }
+    /// Records a present paid some other way (a VIP month).
+    pub async fn record_gift(&self, gift: &NewGift<'_>) -> StoreResult<i64> {
+        dispatch!(self, s => s.record_gift(gift))
+    }
+    pub async fn gift(&self, id: i64) -> StoreResult<Option<GiftRow>> {
+        dispatch!(self, s => s.gift(id))
+    }
+    /// Presents a player received and gave, newest first.
+    pub async fn gifts_of(&self, user_id: i64, limit: u32) -> StoreResult<Vec<GiftRow>> {
+        dispatch!(self, s => s.gifts_of(user_id, limit))
+    }
+    /// Presents a player received and has not seen yet, oldest first.
+    pub async fn unseen_gifts(&self, user_id: i64) -> StoreResult<Vec<GiftRow>> {
+        dispatch!(self, s => s.unseen_gifts(user_id))
+    }
+    /// Marks presents `user_id` received as seen; returns how many changed.
+    pub async fn mark_gifts_seen(&self, user_id: i64, ids: &[i64]) -> StoreResult<u64> {
+        dispatch!(self, s => s.mark_gifts_seen(user_id, ids))
+    }
+    /// `user_id` thanks for present `id` (theirs, once): the present, when
+    /// this was the first thanks.
+    pub async fn thank_gift(&self, user_id: i64, id: i64) -> StoreResult<Option<GiftRow>> {
+        dispatch!(self, s => s.thank_gift(user_id, id))
     }
 }
 

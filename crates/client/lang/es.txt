@@ -1577,3 +1577,6 @@ Snookered	Bola tapada
 Hit the 1 first: it hides behind other balls. Five tries.	Toca primero la 1: está escondida detrás de otras bolas. Cinco intentos.
 Ten in a row	Diez seguidas
 Ten different pots, one after another: a miss ends the session.	Diez tiros distintos, uno tras otro: un fallo termina la sesión.
+Take back the shot (Z)	Deshacer el tiro (Z)
+Shot taken back.	Tiro deshecho.
+Your last shot: {p}%	Tu último tiro: {p}%

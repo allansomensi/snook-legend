@@ -27,6 +27,9 @@ pub struct Hud {
     chat_scroll: usize,
     /// The quick phrases are open (by the chat).
     quick_open: bool,
+    /// Each seat's last stroke's power, and which stroke was seen last.
+    last_power: [Option<f32>; 2],
+    last_shot_seen: Option<(u32, u32)>,
     confirm_leave: bool,
     /// Identifies the turn the banner was shown for.
     banner_key: Option<(u32, u32, usize)>,
@@ -98,6 +101,8 @@ impl Default for Hud {
             chat_open: crate::dev::flag("SNOOKERED_CHAT_OPEN"),
             chat_scroll: 0,
             quick_open: false,
+            last_power: [None, None],
+            last_shot_seen: None,
             confirm_leave: false,
             banner_key: None,
             banner: None,
@@ -387,6 +392,16 @@ impl Hud {
         let x0 = ((sw - total) / 2.0).max(buttons_w).min(sw - total - 8.0);
         player_card(ui, m, 0, x0, 6.0, card_w);
         player_card(ui, m, 1, x0 + card_w + 10.0, 6.0, card_w);
+        // Free practice: take the last shot back (button, or Z).
+        if m.free_play && m.last_shot.is_some() && matches!(m.phase, Phase::Turn { .. }) {
+            let label = t("Take back the shot (Z)");
+            let bw = ui.text_size(label, 13.0, true).x + 24.0;
+            let b = Rect::new(12.0, TOP_BAR + 8.0, bw, 30.0);
+            let key = !ui.wants_keyboard && is_key_pressed(KeyCode::Z);
+            if (ui.button(b, label, true) || key) && m.take_back() {
+                m.notify(t("Shot taken back."), false);
+            }
+        }
         // What the computer opponent says: a bubble under its card.
         if let Some((text, age)) = m.banter.clone() {
             // Below the turn's banner, which runs under the cards.
@@ -2048,6 +2063,17 @@ impl Hud {
             m.aim.power = self.power;
             m.aim.charging = self.power > 0.02;
         }
+        // Each seat's last stroke (the power it was played with), for the
+        // mark on the bar when that player's turn comes back.
+        if let Some(last) = &m.last_shot {
+            let key = (m.games_played, last.start.shots_taken());
+            if self.last_shot_seen != Some(key) {
+                self.last_shot_seen = Some(key);
+                let max = m.game.params().max_cue_speed;
+                let power = (last.shot.speed / max).max(0.0).powf(1.0 / 1.3) as f32;
+                self.last_power[last.start.current_player() % 2] = Some(power);
+            }
+        }
         let can_shoot = my_turn && !m.is_placing_cue_ball();
         if shoot_button(ui, shoot, can_shoot && m.aim.power > 0.02) {
             if m.game.needs_called_pocket() && m.called_pocket.is_none() {
@@ -2108,7 +2134,35 @@ impl Hud {
             self.power = power;
         }
         let hot = matches!(drag, crate::ui::Drag::Held(_) | crate::ui::Drag::Hover);
+        // The wheel over the bar: one percent a notch, for fine control.
+        if matches!(drag, crate::ui::Drag::Hover) {
+            let wheel = mouse_wheel().1;
+            if wheel != 0.0 {
+                let power = (m.aim.power + wheel.signum() * 0.01).clamp(0.0, 1.0);
+                m.aim.power = power;
+                m.aim.charging = power > 0.02;
+                self.power = power;
+            }
+        }
         draw_power_track(ui, track, m.aim.power, hot, true);
+        // This player's last stroke: a mark on the bar, to repeat it or to
+        // judge the next one from it.
+        if let Some(power) = self.last_power[m.game.current_player() % 2] {
+            let x = track.x + 4.0 + power.clamp(0.0, 1.0) * (track.w - 8.0);
+            let c = Color::new(1.0, 1.0, 1.0, 0.75);
+            draw_line(x, track.y - 3.0, x, track.y + track.h + 3.0, 2.0, c);
+            crate::paint::draw_triangle(
+                vec2(x - 4.0, track.y - 7.0),
+                vec2(x + 4.0, track.y - 7.0),
+                vec2(x, track.y - 2.0),
+                c,
+            );
+            let zone = Rect::new(x - 6.0, track.y - 8.0, 12.0, track.h + 16.0);
+            if ui.hovering(zone) {
+                let tip = tw("Your last shot: {p}%", &[("p", &((power * 100.0).round() as u32))]);
+                ui.tooltip(&tip, zone);
+            }
+        }
         if hot && !matches!(drag, crate::ui::Drag::Held(_)) {
             ui.overlay(move |ui| {
                 let hint = t("Drag to set the power");

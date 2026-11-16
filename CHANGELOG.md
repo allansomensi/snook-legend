@@ -98,6 +98,12 @@
   days of sign-ups that reached that day), a table of retention by week of
   sign-up, players and games by day (30 days) and games per day.
 
+### At the table
+- The power bar marks the power of your last shot (each player's own), to
+  repeat it or to judge the next one from it; the mouse wheel over the bar
+  sets the power one percent at a time.
+- Free practice: take the last shot back (a button, or Z) to try it again.
+
 ### Fixes
 - Letting go of the power bar over the Shoot button no longer shoots (at
   full power, as the drag past the bar's end had set it). Every button now

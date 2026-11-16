@@ -1577,3 +1577,6 @@ Snookered	Sinuca de bico
 Hit the 1 first: it hides behind other balls. Five tries.	Acerte a 1 primeiro: ela está escondida atrás de outras bolas. Cinco tentativas.
 Ten in a row	Dez seguidas
 Ten different pots, one after another: a miss ends the session.	Dez bolas diferentes, uma após a outra: um erro encerra a sessão.
+Take back the shot (Z)	Desfazer a tacada (Z)
+Shot taken back.	Tacada desfeita.
+Your last shot: {p}%	Sua última tacada: {p}%

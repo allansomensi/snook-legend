@@ -486,6 +486,19 @@ impl Match {
         m
     }
 
+    /// Free practice only: the last shot is taken back (the balls go back
+    /// where they were before it). Whether there was one to take back.
+    pub fn take_back(&mut self) -> bool {
+        if !self.free_play || !matches!(self.phase, Phase::Turn { .. } | Phase::Pause(_)) {
+            return false;
+        }
+        let Some(last) = self.last_shot.take() else { return false };
+        self.game = last.start;
+        self.replay = None;
+        self.begin_turn();
+        true
+    }
+
     /// A session of the drill `code`.
     pub fn drill(code: &str, name: &str, guide: AimGuide) -> Option<Match> {
         let d = snookered_proto::drills::drill(code)?;
@@ -2141,6 +2154,30 @@ mod tests {
     fn online_match(seat: usize) -> Match {
         let game = EightBallGame::new(4, 0);
         Match::online(1, seat, &players(), false, game, 30, 30.0, None, AimGuide::Full, false)
+    }
+
+    /// Free practice: a shot taken back leaves the table as it was; never
+    /// in a real game.
+    #[test]
+    fn free_practice_takes_shots_back() {
+        let settings =
+            MatchSettings::from_config(MatchMode::HotSeat, &crate::config::Config::default());
+        let mut m = Match::new(&settings, 9);
+        m.free_play = true;
+        let before = m.game.clone();
+        m.aim.power = 0.8;
+        assert!(m.shoot());
+        finish_animation(&mut m);
+        assert_ne!(m.game, before);
+        assert!(m.take_back());
+        assert_eq!(m.game, before);
+        assert!(!m.take_back(), "only the last shot");
+        // A real game never takes shots back.
+        let mut real = Match::new(&settings, 9);
+        real.aim.power = 0.8;
+        assert!(real.shoot());
+        finish_animation(&mut real);
+        assert!(!real.take_back());
     }
 
     /// Asked for the full guide (a setting, a stale value): an online game

@@ -252,13 +252,24 @@ fn player_card(ui: &mut Ui, m: &Match, seat: usize, x: f32, y: f32, w: f32) {
     let ry = y + 23.0;
     match m.game.group_of(seat) {
         Some(group) => {
+            // The balls made so far (of the player's group).
             let remaining = m.game.remaining(group);
+            let made: Vec<BallId> = (1..=15u8)
+                .map(BallId)
+                .filter(|&b| group.contains(b) && !remaining.contains(&b))
+                .collect();
             if remaining.is_empty() {
                 ui.text(t("On the 8-ball"), x + 10.0, ry + 1.0, 13.0, GOLD, false);
                 let tw_ = ui.text_size(t("On the 8-ball"), 13.0, false).x;
                 ball_icon(ui, BallId::EIGHT, x + 16.0 + tw_, ry - 2.0, 20.0);
+            } else if made.is_empty() {
+                let name = match group {
+                    Group::Solids => t("Solids"),
+                    Group::Stripes => t("Stripes"),
+                };
+                ui.text(name, x + 10.0, ry + 1.0, 13.0, MUTED, false);
             } else {
-                for (k, id) in remaining.into_iter().enumerate() {
+                for (k, id) in made.into_iter().enumerate() {
                     ball_icon(ui, id, x + 10.0 + k as f32 * 22.0, ry - 2.0, 20.0);
                 }
             }
@@ -425,7 +436,8 @@ impl Hud {
         self.draw_support(ui, m, x0, card_w, total);
         draw_reactions(m, [x0 + 34.0, x0 + total - 34.0], eye);
         let mut y = TOP_BAR + 8.0;
-        if let Some(status) = status_line(m) {
+        // A replay has its own tag where the line goes.
+        if let Some(status) = status_line(m).filter(|_| m.replay.is_none()) {
             let w = ui.text_size(&status, 15.0, false).x + 24.0;
             crate::ui::rrect(
                 Rect::new((sw - w) / 2.0, y, w, 24.0),
@@ -510,6 +522,15 @@ impl Hud {
                     m.stop_replay();
                 } else {
                     m.start_replay();
+                }
+            }
+            // Offline: the game's history, out of the way up here.
+            if !m.is_online() || crate::correspondence::is_corr(m) {
+                x += 36.0;
+                let tip = if self.history_open { t("Hide the history") } else { t("Game history") };
+                let r = Rect::new(x, 12.0, 30.0, 30.0);
+                if ui.icon_button_ex(r, Icon::List, tip, true, self.history_open) {
+                    self.history_open = !self.history_open;
                 }
             }
             if let Some(z) = self.zoom_bar(ui) {
@@ -1237,12 +1258,8 @@ impl Hud {
         } else {
             crate::ui::vh() - BOTTOM_BAR
         };
+        // Opened from its icon in the top bar.
         if !self.history_open {
-            let label = t("History");
-            let w = ui.text_size(label, 13.0, true).x + 30.0;
-            if ui.button(Rect::new(12.0, bottom - 40.0, w, 32.0), label, true) {
-                self.history_open = true;
-            }
             return;
         }
         let r = Rect::new(12.0, bottom - chat_h() - 8.0, chat_w(), chat_h());
@@ -2060,8 +2077,11 @@ impl Hud {
         }
         if my_turn && self.power_key != Some(key) {
             self.power_key = Some(key);
-            m.aim.power = self.power;
-            m.aim.charging = self.power > 0.02;
+            // The break wants a firm stroke (four balls must reach a
+            // cushion); other turns start from the power chosen last.
+            let power = if m.game.is_break() { BREAK_POWER.max(self.power) } else { self.power };
+            m.aim.power = power;
+            m.aim.charging = power > 0.02;
         }
         // Each seat's last stroke (the power it was played with), for the
         // mark on the bar when that player's turn comes back.
@@ -2389,6 +2409,8 @@ fn draw_bar(r: Rect, top: bool) {
 
 const TOP_BAR: f32 = 54.0;
 const BOTTOM_BAR: f32 = 78.0;
+/// Where the power bar starts on the break.
+const BREAK_POWER: f32 = 0.9;
 const CARD_H: f32 = 44.0;
 
 /// The game log inside the bottom bar: the last few things that happened.

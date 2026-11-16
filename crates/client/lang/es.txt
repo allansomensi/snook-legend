@@ -1588,3 +1588,6 @@ Ten different pots, one after another: a miss ends the session.	Diez tiros disti
 Take back the shot (Z)	Deshacer el tiro (Z)
 Shot taken back.	Tiro deshecho.
 Your last shot: {p}%	Tu último tiro: {p}%
+Solids	Lisas
+Stripes	Rayadas
+Hide the history	Ocultar el historial

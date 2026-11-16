@@ -162,6 +162,15 @@ differently, so older games (0.2.0 and before) must update to play online.
   repeat it or to judge the next one from it; the mouse wheel over the bar
   sets the power one percent at a time.
 - Free practice: take the last shot back (a button, or Z) to try it again.
+- The players' cards show the balls each one has made (they showed the
+  balls left), the group's name until the first one drops.
+- Offline, the game's history opens from a small icon in the top bar (the
+  "History" button over the table is gone).
+- The tournament table at its regulation height (the rails' top at 30"),
+  the cameras framing the bigger table, and the lamp over the table out of
+  the way of a camera above it (its light stays).
+- The power bar starts the break at 90%: four balls must reach a cushion,
+  and half the bar no longer does it on the heavier table.
 
 ### Fixes
 - Letting go of the power bar over the Shoot button no longer shoots (at

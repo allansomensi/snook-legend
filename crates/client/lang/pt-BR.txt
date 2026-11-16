@@ -1588,3 +1588,6 @@ Ten different pots, one after another: a miss ends the session.	Dez bolas difere
 Take back the shot (Z)	Desfazer a tacada (Z)
 Shot taken back.	Tacada desfeita.
 Your last shot: {p}%	Sua última tacada: {p}%
+Solids	Lisas
+Stripes	Listradas
+Hide the history	Esconder o histórico

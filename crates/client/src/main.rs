@@ -698,7 +698,12 @@ async fn main() {
         } else {
             Color::new(0.03, 0.02, 0.015, 1.0)
         });
-        scene.lamp_visible = !(current.is_some() && rig.mode == CameraMode::Top)
+        // The lamp over the table hides from a camera above it (the
+        // overhead view, a high view of the whole table), as a broadcast's
+        // would: its light stays.
+        let above_lamp =
+            cam.eye.y > scene::LAMP_Y - 0.05 && cam.eye.x.abs() < 3.5 && cam.eye.z.abs() < 3.0;
+        scene.lamp_visible = !(current.is_some() && (rig.mode == CameraMode::Top || above_lamp))
             || crate::dev::var("SNOOKERED_CAM").is_some();
         match current.as_ref() {
             Some(m) => {

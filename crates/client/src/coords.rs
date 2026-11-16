@@ -4,7 +4,9 @@
 use ::glam::{DQuat, DVec2, DVec3};
 use macroquad::math::{Quat, Vec3};
 
-pub const TABLE_HEIGHT: f32 = 0.80;
+/// The cloth's height: the rails' top at 30" (0.762 m), mid-way in the WPA's
+/// 29 1/4"–31" for a tournament table.
+pub const TABLE_HEIGHT: f32 = 0.762 - crate::scene::RAIL_TOP;
 
 pub fn to_world(p: DVec3) -> Vec3 {
     Vec3::new(p.x as f32, p.z as f32 + TABLE_HEIGHT, -p.y as f32)

@@ -563,9 +563,10 @@ async fn the_staff_panel_clears_statuses_and_notes_and_mutes_posting() {
         |m| matches!(m, ServerMsg::SeekRemoved { username } if username == "eve"),
     )
     .await;
-    eve.expect("told", |m| {
-        matches!(m, ServerMsg::Notice { text } if text == "A moderator took your note off the board.")
-    })
+    eve.expect(
+        "told",
+        |m| matches!(m, ServerMsg::Notice { text } if text == "A moderator took down your note."),
+    )
     .await;
     let (code, _) = request(&host, "DELETE", "/admin/api/seeks/eve", &token, "").await;
     assert_eq!(code, 404);

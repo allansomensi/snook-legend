@@ -39,6 +39,8 @@ pub struct ProfileScreen {
     /// Asked for while signed in: the server knew who was looking (and so
     /// sent our relation: friends, requests, blocks).
     asked_signed_in: bool,
+    /// The status message being written (own profile).
+    status_edit: Option<String>,
 }
 
 /// The account dialog: recovery e-mail, password, deletion.
@@ -148,6 +150,7 @@ impl ProfileScreen {
         self.report = None;
         self.confirm_block = false;
         self.account = None;
+        self.status_edit = None;
         self.pane = Pane::Games;
         self.asked_signed_in = online.signed_in();
         online.request_profile(name);
@@ -178,7 +181,10 @@ impl ProfileScreen {
         // A dialog over the page (account, report, country): Esc is its own.
         let dialog = self.account.is_some() || self.report.is_some() || crate::countries::is_open();
         if ui.icon_button(Rect::new(r.x + PAD, r.y + 20.0, 36.0, 36.0), Icon::Back, t("Back"), true)
-            || (is_key_pressed(KeyCode::Escape) && ui.focus.is_none() && !dialog)
+            || (is_key_pressed(KeyCode::Escape)
+                && ui.focus.is_none()
+                && !dialog
+                && self.status_edit.is_none())
         {
             action = ProfileAction::Back;
         }
@@ -277,6 +283,15 @@ impl ProfileScreen {
         if p.online {
             draw_circle(after + 9.0, mid, 5.0, Color::new(0.35, 0.85, 0.45, 1.0));
         }
+        // The status message, between the name and the rating.
+        let status_x = after + dot_w + 18.0 + pad;
+        let status_end = if player.guest {
+            r.x + r.w - PAD
+        } else {
+            let rw = ui.text_size(&player.rating.to_string(), 40.0, true).x;
+            r.x + r.w - PAD - rw - 24.0
+        };
+        self.status_message(ui, online, p, status_x, status_end, mid);
 
         // The tier and a line about the player, under the name. The pill's
         // text and the line share a baseline.
@@ -453,6 +468,114 @@ impl ProfileScreen {
                         online.send(msg);
                         online.request_profile(&name);
                     }
+                }
+            }
+        }
+    }
+
+    /// The status message on the name's line (`x` to `end`, centred on
+    /// `mid`): written by its owner here (Enter saves, Esc cancels), and
+    /// cleared by the staff.
+    fn status_message(
+        &mut self,
+        ui: &mut Ui,
+        online: &mut Online,
+        p: &Profile,
+        x: f32,
+        end: f32,
+        mid: f32,
+    ) {
+        const FIELD: u64 = 62;
+        let width = end - x;
+        if width < 90.0 || online.lan || p.player.guest {
+            return;
+        }
+        let own = p.relation == Relation::Me;
+        let text = p.player.status_message.clone();
+        if let Some(draft) = self.status_edit.as_mut().filter(|_| own) {
+            let w = width.min(440.0);
+            let field = Rect::new(x, mid - 16.0, w - 2.0 * 34.0, 32.0);
+            let enter = ui.text_input(FIELD, field, draft, snookered_proto::MAX_STATUS_LEN);
+            if draft.is_empty() {
+                // Shown while typing too: the field was opened for it.
+                let hint = ui.ellipsize(t("A line about you"), field.w - 24.0, 14.0);
+                ui.text(&hint, field.x + 12.0, text_y(mid, 14.0), 14.0, MUTED, false);
+            }
+            let draft = draft.clone();
+            let save = Rect::new(field.x + field.w + 4.0, mid - 15.0, 30.0, 30.0);
+            let cancel = Rect::new(save.x + 34.0, mid - 15.0, 30.0, 30.0);
+            if ui.icon_button(save, Icon::Check, t("Save (Enter)"), true) || enter {
+                let clean = snookered_proto::clean_status(&draft);
+                online.send(ClientMsg::SetStatusMessage { text: clean.clone() });
+                // Shown at once; the lounge hears it from the server.
+                if let Some(shown) = online.profile.as_mut() {
+                    shown.player.status_message = clean;
+                }
+                self.status_edit = None;
+                ui.focus = None;
+            } else if ui.icon_button(cancel, Icon::Close, t("Cancel (Esc)"), true)
+                || (is_key_pressed(KeyCode::Escape) && ui.focus.is_none())
+            {
+                self.status_edit = None;
+            }
+            return;
+        }
+        let size = 15.0;
+        let ty = text_y(mid, size);
+        let edit_w = if own { 30.0 } else { 0.0 };
+        let staff = online.me.as_ref().map(|m| m.role).unwrap_or_default();
+        // The staff may clear what players wrote (only administrators other staff's).
+        let may_clear = !own
+            && online.me.is_some()
+            && staff.is_staff()
+            && (!p.player.role.is_staff() || staff == snookered_proto::Role::Admin);
+        if text.is_empty() {
+            if !own {
+                return;
+            }
+            // Nothing yet: an invitation to write one.
+            let label = t("Add a status message");
+            let lw = ui.text_size(label, 13.0, false).x;
+            let b = Rect::new(x, mid - 14.0, (lw + 36.0).min(width), 28.0);
+            let hover = ui.hovering(b);
+            ui.block(b);
+            if hover {
+                rrect(b, 7.0, Color::new(1.0, 1.0, 1.0, 0.06));
+            }
+            rrect_lines(b, 7.0, 1.0, if hover { GOLD } else { BORDER });
+            let color = if hover { GOLD } else { MUTED };
+            crate::icons::draw(Icon::Pencil, vec2(b.x + 14.0, mid), 13.0, color);
+            let label = ui.ellipsize(label, b.w - 34.0, 13.0);
+            ui.text(&label, b.x + 26.0, text_y(mid, 13.0), 13.0, color, false);
+            if hover && ui.clicked(b) {
+                self.status_edit = Some(String::new());
+                ui.focus = Some(FIELD);
+            }
+            return;
+        }
+        let clear_w = if may_clear { 30.0 } else { 0.0 };
+        let room = width - edit_w - clear_w - 8.0;
+        let shown = format!("“{text}”");
+        let cut = ui.ellipsize(&shown, room, size);
+        ui.text(&cut, x, ty, size, crate::online::STATUS_COLOR, false);
+        let tw_ = ui.text_size(&cut, size, false).x;
+        let area = Rect::new(x, mid - 12.0, tw_, 24.0);
+        if cut != shown && ui.hovering(area) {
+            ui.tooltip(&text, area);
+        }
+        let bx = x + tw_ + 8.0;
+        if own {
+            let b = Rect::new(bx, mid - 13.0, 26.0, 26.0);
+            if ui.icon_button_ex(b, Icon::Pencil, t("Change your status message"), true, true) {
+                self.status_edit = Some(text.clone());
+                ui.focus = Some(FIELD);
+            }
+        } else if may_clear {
+            let b = Rect::new(bx, mid - 13.0, 26.0, 26.0);
+            if ui.icon_button_ex(b, Icon::Close, t("Clear the status message"), true, true) {
+                online.send(ClientMsg::ClearStatusMessage { username: p.player.username.clone() });
+                if let Some(shown) = online.profile.as_mut() {
+                    shown.player.status_message.clear();
                 }
             }
         }

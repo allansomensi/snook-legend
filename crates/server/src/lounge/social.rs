@@ -95,7 +95,8 @@ impl Lounge {
             return self.error(k, "Players in a tournament can't start other games.");
         }
         if !self.seeks.notes.contains_key(k) && self.seeks.notes.len() >= MAX_SEEKS {
-            return self.error(k, "The board is full. Try again in a few minutes.");
+            return self
+                .error(k, "There are too many notes right now. Try again in a few minutes.");
         }
         if !self.sessions.get_mut(k).is_some_and(|s| s.seek_bucket.take()) {
             return self.error(k, "Slow down a little.");
@@ -136,7 +137,7 @@ impl Lounge {
         let k = key(name);
         let removed = self.drop_seek(&k);
         if removed {
-            let text = "A moderator took your note off the board.";
+            let text = "A moderator took down your note.";
             self.send(&k, ServerMsg::Notice { text: text.into() });
         }
         removed

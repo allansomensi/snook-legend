@@ -79,6 +79,11 @@ The page could not be opened. Try again in a moment.	Não foi possível abrir a 
 Coins added to your wallet.	Moedas adicionadas à sua carteira.
 Welcome to VIP!	Bem-vindo ao VIP!
 Slow down a little.	Vá com calma.
+You can't do that.	Você não pode fazer isso.
+There are too many notes right now. Try again in a few minutes.	Há recados demais agora. Tente de novo daqui a alguns minutos.
+A moderator took down your note.	Um moderador retirou seu recado.
+A moderator cleared your status message.	Um moderador apagou seu status.
+Status message cleared.	Status apagado.
 VIP	VIP
 Play now	Jogar agora
 Find an opponent of your level automatically	Encontra automaticamente um adversário do seu nível
@@ -95,6 +100,11 @@ seen {n} h ago	visto há {n} h
 seen yesterday	visto ontem
 seen {n} days ago	visto há {n} dias
 seen {n} months ago	visto há {n} meses
+just now	agora há pouco
+{n} min ago	há {n} min
+{n} h ago	há {n} h
+yesterday	ontem
+{n} days ago	há {n} dias
 History	Histórico
 Game history	Histórico da partida
 Nothing yet.	Nada ainda.
@@ -161,6 +171,12 @@ Centurion	Centurião
 Champion	Campeão
 Champion: {name}	Campeão: {name}
 Change country	Mudar país
+Add a status message	Adicionar um status
+A line about you	Uma frase sobre você
+Save (Enter)	Salvar (Enter)
+Cancel (Esc)	Cancelar (Esc)
+Change your status message	Mudar seu status
+Clear the status message	Apagar o status
 Cheating or abuse	Trapaça ou abuso
 Choose…	Escolher…
 Click again to block	Clique de novo para bloquear
@@ -282,6 +298,10 @@ Replay	Replay
 Report	Denunciar
 Report {name}	Denunciar {name}
 Request sent	Pedido enviado
+Friend	Amigo
+Recent	Recentes
+Nobody yet. The people you play online will show up here.	Ninguém ainda. Quem você enfrentar online aparece aqui.
+{n} games	{n} partidas
 Rookie	Novato
 Round {n}	Rodada {n}
 Search…	Buscar…
@@ -494,6 +514,17 @@ New here? Pick a name and password, then Create account.	Novo aqui? Escolha um n
 Next game starts in a moment…	A próxima partida começa em instantes…
 No rated games yet. Be the first!	Nenhuma partida valendo rating ainda. Seja o primeiro!
 Nobody else is here right now.	Ninguém mais por aqui agora.
+Looking for a game?	Procurando partida?
+Looking for a game	Procurando partida
+Post a note	Publicar recado
+Everyone in the lounge sees it for 30 minutes	Todos no salão veem por 30 minutos
+What are you after? ({kind})	O que você procura? ({kind})
+Post	Publicar
+Your note: {text}	Seu recado: {text}
+{mode} · {left} left	{mode} · faltam {left}
+Take down	Retirar
+Challenge	Desafiar
+Take the note down	Retirar o recado
 Off	Desligado
 On the 8-ball: call a pocket	Na bola 8: cante a caçapa
 On the 8-ball	Na bola 8

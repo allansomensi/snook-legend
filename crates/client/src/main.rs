@@ -433,6 +433,14 @@ async fn main() {
         }
         hud.top_view = rig.mode == CameraMode::Top;
         hud.camera_default = rig.is_default();
+        // Online (not on a local network): "Add friend" after the game.
+        hud.opponent_relation = current
+            .as_ref()
+            .filter(|m| m.is_online() && !match_from_lan && !m.is_spectating())
+            .and_then(|m| {
+                let seat = m.online.as_ref()?.seat;
+                online.relation_to(&m.names[1 - seat])
+            });
         hud.aim_sensitivity = config.aim_sensitivity;
         hud.zoom = rig.zoom_level();
         controls.sensitivity = config.aim_sensitivity;
@@ -669,6 +677,7 @@ async fn main() {
                             rig.reset();
                         }
                         HudAction::Settings => settings_open = true,
+                        HudAction::AddFriend(name) => online.befriend(&name),
                         HudAction::ResetCamera => rig.reset(),
                         HudAction::Zoom(z) => {
                             rig.tv_paused = true;

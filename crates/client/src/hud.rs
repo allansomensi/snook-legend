@@ -12,6 +12,7 @@ use crate::game::{Controller, Match, Phase};
 use crate::icons::Icon;
 use crate::textures::ball_color;
 use crate::ui::{ADMIN_RED, ALERT, BORDER, CREAM, FeedKind, FeedLine, GOLD, MUTED, Ui};
+use snookered_proto::Relation;
 
 pub struct Hud {
     /// The pause menu is open (online, the game keeps running behind it).
@@ -51,6 +52,10 @@ pub struct Hud {
     history_open: bool,
     /// Set by the caller: the camera is already in its default place.
     pub camera_default: bool,
+    /// Set by the caller, online: how the player relates to the opponent
+    /// (None: no friends here, e.g. a local network). Offers "Add friend"
+    /// after the game.
+    pub opponent_relation: Option<Relation>,
 }
 
 /// What the player asked for through the HUD.
@@ -64,6 +69,9 @@ pub enum HudAction {
     ResetCamera,
     /// The zoom bar moved (0 far … 1 close).
     Zoom(f32),
+    /// Online, after the game: ask the opponent (or accept their request)
+    /// to be friends.
+    AddFriend(String),
 }
 
 impl Default for Hud {
@@ -97,6 +105,7 @@ impl Default for Hud {
             // Development aid: SNOOKERED_OPEN_REACTIONS opens the picker.
             reactions_open: crate::dev::flag("SNOOKERED_OPEN_REACTIONS"),
             camera_default: true,
+            opponent_relation: None,
             history_open: false,
         }
     }
@@ -458,7 +467,27 @@ impl Hud {
             } else {
                 tw("{name} wins", &[("name", &m.names[over.winner])])
             };
-            let w = (ui.text_size(&title, 28.0, true).x + 64.0).clamp(440.0, sw - 20.0);
+            // "Add friend" by Rematch and Back to lounge while the opponent
+            // isn't one yet: three buttons, as wide as the longest label.
+            let friend = match self.opponent_relation.filter(|_| !o.spectator) {
+                Some(Relation::None) => Some((t("Add friend"), true)),
+                Some(Relation::RequestReceived) => Some((t("Accept friend"), true)),
+                Some(Relation::RequestSent) => Some((t("Request sent"), false)),
+                _ => None,
+            };
+            let label_w = |l: &str| ui.text_size(l, 17.0, true).x + 32.0;
+            let bw = match friend {
+                Some((f, _)) => [f, t("Rematch"), t("Accept rematch"), t("Back to lounge")]
+                    .iter()
+                    .map(|l| label_w(l))
+                    .fold(150.0, f32::max),
+                None => 180.0,
+            };
+            let row_w = if friend.is_some() { bw * 3.0 + 20.0 } else { 370.0 };
+            let w = (ui.text_size(&title, 28.0, true).x + 64.0)
+                .max(row_w + 40.0)
+                .clamp(440.0, sw - 20.0);
+            let bw = bw.min((w - 60.0) / if friend.is_some() { 3.0 } else { 2.0 });
             let r = Rect::new((sw - w) / 2.0, sh / 2.0 - 110.0 - STATS_H / 2.0, w, 220.0);
             ui.panel(r);
             let view = &mut self.stats_view;
@@ -542,7 +571,10 @@ impl Hud {
                 let can_rematch =
                     !o.opponent_left && !o.rematch_requested && o.tournament.is_none();
                 let label = if o.rematch_offered { t("Accept rematch") } else { t("Rematch") };
-                let rr = Rect::new(sw / 2.0 - 190.0, r.y + 164.0, 180.0, 38.0);
+                let n = if friend.is_some() { 3.0 } else { 2.0 };
+                let x0 = sw / 2.0 - (bw * n + 10.0 * (n - 1.0)) / 2.0;
+                let at = |k: f32| Rect::new(x0 + k * (bw + 10.0), r.y + 164.0, bw, 38.0);
+                let rr = at(0.0);
                 if can_rematch {
                     if ui.primary_button(rr, label) {
                         m.rematch();
@@ -550,11 +582,12 @@ impl Hud {
                 } else {
                     ui.button(rr, t("Rematch"), false);
                 }
-                if ui.button(
-                    Rect::new(sw / 2.0 + 10.0, r.y + 164.0, 180.0, 38.0),
-                    t("Back to lounge"),
-                    true,
-                ) {
+                if let Some((label, enabled)) = friend
+                    && ui.button(at(1.0), label, enabled)
+                {
+                    action = HudAction::AddFriend(m.names[1 - me].clone());
+                }
+                if ui.button(at(n - 1.0), t("Back to lounge"), true) {
                     action = HudAction::Lounge;
                 }
             }

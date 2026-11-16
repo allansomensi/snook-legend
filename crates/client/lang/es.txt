@@ -79,6 +79,11 @@ The page could not be opened. Try again in a moment.	No se pudo abrir la página
 Coins added to your wallet.	Monedas añadidas a tu cartera.
 Welcome to VIP!	¡Bienvenido al VIP!
 Slow down a little.	Más despacio.
+You can't do that.	No puedes hacer eso.
+There are too many notes right now. Try again in a few minutes.	Hay demasiadas notas ahora. Inténtalo de nuevo en unos minutos.
+A moderator took down your note.	Un moderador retiró tu nota.
+A moderator cleared your status message.	Un moderador borró tu mensaje de estado.
+Status message cleared.	Mensaje de estado borrado.
 VIP	VIP
 Play now	Jugar ahora
 Find an opponent of your level automatically	Encuentra automáticamente un rival de tu nivel
@@ -95,6 +100,11 @@ seen {n} h ago	visto hace {n} h
 seen yesterday	visto ayer
 seen {n} days ago	visto hace {n} días
 seen {n} months ago	visto hace {n} meses
+just now	hace un momento
+{n} min ago	hace {n} min
+{n} h ago	hace {n} h
+yesterday	ayer
+{n} days ago	hace {n} días
 History	Historial
 Game history	Historial de la partida
 Nothing yet.	Nada todavía.
@@ -161,6 +171,12 @@ Centurion	Centurión
 Champion	Campeón
 Champion: {name}	Campeón: {name}
 Change country	Cambiar país
+Add a status message	Añadir un mensaje de estado
+A line about you	Una frase sobre ti
+Save (Enter)	Guardar (Enter)
+Cancel (Esc)	Cancelar (Esc)
+Change your status message	Cambiar tu mensaje de estado
+Clear the status message	Borrar el mensaje de estado
 Cheating or abuse	Trampas o abuso
 Choose…	Elegir…
 Click again to block	Haz clic otra vez para bloquear
@@ -282,6 +298,10 @@ Replay	Repetición
 Report	Denunciar
 Report {name}	Denunciar a {name}
 Request sent	Solicitud enviada
+Friend	Amigo
+Recent	Recientes
+Nobody yet. The people you play online will show up here.	Nadie todavía. Las personas con las que juegues en línea aparecerán aquí.
+{n} games	{n} partidas
 Rookie	Novato
 Round {n}	Ronda {n}
 Search…	Buscar…
@@ -494,6 +514,17 @@ New here? Pick a name and password, then Create account.	¿Eres nuevo? Elige un 
 Next game starts in a moment…	La siguiente partida empieza en un momento…
 No rated games yet. Be the first!	Todavía no hay partidas con rating. ¡Sé el primero!
 Nobody else is here right now.	No hay nadie más aquí ahora.
+Looking for a game?	¿Buscas partida?
+Looking for a game	Busca partida
+Post a note	Publicar nota
+Everyone in the lounge sees it for 30 minutes	Todos en el salón la ven durante 30 minutos
+What are you after? ({kind})	¿Qué buscas? ({kind})
+Post	Publicar
+Your note: {text}	Tu nota: {text}
+{mode} · {left} left	{mode} · quedan {left}
+Take down	Retirar
+Challenge	Desafiar
+Take the note down	Retirar la nota
 Off	No
 On the 8-ball: call a pocket	En la bola 8: canta una tronera
 On the 8-ball	En la bola 8
@@ -828,6 +859,7 @@ Entry	Inscripción
 Entry {n} coins	Inscripción {n} monedas
 Every replay kept (free players keep their last 10 games)	Todas las repeticiones guardadas (los gratuitos guardan sus últimas 10 partidas)
 For {name}	Para {name}
+Add a message (optional)	Añade un mensaje (opcional)
 Format	Formato
 Frames	Marcos
 Free	Gratis
@@ -891,6 +923,22 @@ tournament prize	premio de torneo
 turning around the table	girando alrededor de la mesa
 vs	vs
 {from} gave you {item}!	¡{from} te regaló {item}!
+You received a gift!	¡Recibiste un regalo!
+From	De
+To	Para
+someone	alguien
+A month of VIP	Un mes de VIP
+Thank	Agradecer
+Thanked	Agradecido
+They thanked you	Te lo agradeció
+Use it now	Usar ahora
+Later	Después
+OK	OK
+Next ({n} more)	Siguiente ({n} más)
+{from} gave you {item}! It's waiting for you in the lounge.	¡{from} te regaló {item}! Te espera en el salón.
+{name} thanked you for {item}.	{name} te agradeció por {item}.
+Gifts	Regalos
+No gifts yet. Friends can give you items from the shop.	Todavía no hay regalos. Tus amigos pueden regalarte objetos de la tienda.
 {item} is yours and already in use.	{item} es tuyo y ya está en uso.
 {m}:{s} left	quedan {m}:{s}
 {name} invites you to play.	{name} te invita a jugar.

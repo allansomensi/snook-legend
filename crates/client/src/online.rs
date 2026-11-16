@@ -8,6 +8,10 @@ use std::collections::VecDeque;
 
 use macroquad::prelude::*;
 
+mod gifts;
+mod social;
+pub use social::{STATUS_COLOR, sub_line};
+
 use crate::i18n::{t, tw};
 use snookered_proto::{
     ClientMsg, FriendInfo, LeaderboardEntry, MAX_CHAT_LEN, PlayerInfo, PlayerStatus, Profile,
@@ -218,6 +222,10 @@ pub struct Online {
     /// Where toasts must stay above this frame: the lounge sets it (its chat
     /// field is at the bottom), [`Online::draw_toasts`] takes it.
     toast_floor: std::cell::Cell<Option<f32>>,
+    /// Recent opponents and the "looking for a game" board.
+    social: social::Social,
+    /// Presents from friends.
+    gifts: gifts::Gifts,
 }
 
 /// The update button, for how this copy of the game is updated (and how
@@ -430,6 +438,13 @@ impl Online {
             quit_for_update: false,
             form_focused: false,
             toast_floor: std::cell::Cell::new(None),
+            social: social::Social {
+                // Development aid (screenshots): SNOOKERED_RECENT=1 opens
+                // the Friends tab on the people played recently.
+                recent_view: crate::dev::flag("SNOOKERED_RECENT"),
+                ..Default::default()
+            },
+            gifts: Default::default(),
         }
     }
 
@@ -586,6 +601,9 @@ impl Online {
                 }
                 self.username = player.username.clone();
                 self.me = Some(player);
+                // A new session: the board comes again; the recent games may have changed.
+                self.social.seeks.clear();
+                self.social.recent_stale = true;
                 self.auto_resume = true;
                 self.password.clear();
                 self.error = None;
@@ -999,6 +1017,16 @@ impl Online {
                     self.rtt = Some(sent.elapsed());
                 }
             }
+            ServerMsg::RecentOpponents { players } => self.social.recent = Some(players),
+            ServerMsg::SeekBoard { mut notes } => {
+                notes.sort_by_key(|n| std::cmp::Reverse((n.at, n.username.to_lowercase())));
+                self.social.seeks = notes;
+            }
+            ServerMsg::SeekPosted { note } => self.social.posted(note),
+            ServerMsg::SeekRemoved { username } => self.social.removed(&username),
+            ServerMsg::NewGifts { gifts } => self.gifts_arrived(gifts, current.is_some()),
+            ServerMsg::Gifts { gifts } => self.gifts.history = Some(gifts),
+            ServerMsg::GiftThanked { by, code } => self.gift_thanked(&by, &code),
             other => {
                 if let Some(m) = current.as_mut().filter(|m| m.is_online()) {
                     m.handle_server(other);
@@ -1039,6 +1067,8 @@ impl Online {
     }
 
     pub fn leave_match(&mut self, m: &Match) {
+        // A game was played: who was played recently has changed.
+        self.social.recent_stale = true;
         if m.is_spectating() {
             self.send(ClientMsg::StopSpectating);
             return;
@@ -1057,6 +1087,8 @@ impl Online {
         self.token.clear();
         self.auto_resume = false;
         self.friends = FriendsData::default();
+        self.social = Default::default();
+        self.gifts = Default::default();
         config.token.clear();
         config.save();
         self.stage = Stage::Idle;
@@ -1477,6 +1509,8 @@ impl Online {
                 self.selected_tournament = None;
             } else if self.joining.is_some() {
                 self.joining = None;
+            } else if self.social.composing.is_some() {
+                self.social.composing = None;
             } else if !self.lan {
                 // (Leaving a LAN lounge closes the game: only on purpose.)
                 action = OnlineAction::Leave;
@@ -1568,6 +1602,10 @@ impl Online {
             }
             ui.player_name(&me, card.x + 12.0, card.y + 3.0, 14.0, card.w - 24.0);
             ui.text(&sub, card.x + 12.0, card.y + 20.0, 12.0, MUTED, false);
+            // Presents waiting: a dot (the profile shows them).
+            if self.gift_badge() {
+                draw_circle(card.x + card.w - 7.0, card.y + 7.0, 4.5, ALERT);
+            }
         }
         // How many are here, with a green "live" dot.
         let ox = right - 16.0 - online_w;
@@ -1605,6 +1643,9 @@ impl Online {
                 if tab == Tab::Friends {
                     self.send(ClientMsg::Friends);
                     self.unread_friend_requests = false;
+                    if self.social.recent_view {
+                        self.request_recent();
+                    }
                 }
             }
             let badge = match tab {
@@ -2163,12 +2204,20 @@ impl Online {
         }
         self.rated_toggle(ui, Rect::new(area.x, y, area.w.min(280.0), 32.0));
         y += 32.0 + 12.0;
+        y += self.draw_seek_bar(ui, Rect::new(area.x, y, area.w, 40.0));
         let me = self.me.as_ref().map(|m| m.username.clone()).unwrap_or_default();
         let mut players: Vec<PlayerInfo> =
             self.players.iter().filter(|p| p.username != me).cloned().collect();
+        // Those looking for a game first (newest note first), then who is free.
+        let now = crate::game::unix_now();
+        let note_at = |p: &PlayerInfo| self.social.note_of(&p.username, now).map(|n| n.at);
         players.sort_by(|a, b| {
-            (a.status != PlayerStatus::Available)
-                .cmp(&(b.status != PlayerStatus::Available))
+            note_at(b)
+                .cmp(&note_at(a))
+                .then(
+                    (a.status != PlayerStatus::Available)
+                        .cmp(&(b.status != PlayerStatus::Available)),
+                )
                 .then(b.rating.cmp(&a.rating))
         });
         let list = Rect::new(area.x, y, area.w, area.y + area.h - y);
@@ -2187,26 +2236,73 @@ impl Online {
         let row_w = list.w - if players.len() > visible { 12.0 } else { 0.0 };
         let invite_label = t("Invite");
         let watch_label = t("Watch");
-        let bw = button_w(ui, invite_label, 30.0).max(button_w(ui, watch_label, 30.0)).max(96.0);
+        let challenge_label = t("Challenge");
+        let bw = button_w(ui, invite_label, 30.0)
+            .max(button_w(ui, watch_label, 30.0))
+            .max(button_w(ui, challenge_label, 30.0))
+            .max(96.0);
+        let staff = self.me.as_ref().is_some_and(|m| m.role.is_staff());
         let mut invite = None;
         let mut open = None;
         let mut watch = None;
+        let mut take_down = None;
         for (k, p) in players.iter().skip(self.list_first).take(visible).enumerate() {
             let r = Rect::new(list.x, list.y + k as f32 * row_h, row_w, row_h - 6.0);
+            let note = self.social.note_of(&p.username, now).cloned();
             let button = Rect::new(r.x + r.w - bw - 6.0, r.y + 6.0, bw, r.h - 12.0);
-            // The row (but its button) opens the player's profile.
+            // The staff can take a note down (×, before the button).
+            let x_r = Rect::new(button.x - 8.0 - 28.0, r.y + 7.0, 28.0, r.h - 14.0);
+            let staff_x = staff && note.is_some();
+            // The row (but its buttons) opens the player's profile.
             let hover = row_card(ui, r, !p.guest);
+            if note.is_some() {
+                // Looking for a game: a gold edge.
+                rrect(Rect::new(r.x + 1.0, r.y + 6.0, 3.0, r.h - 12.0), 1.5, GOLD);
+            }
             Self::status_dot(p, r.x + 14.0, r.y + r.h / 2.0);
-            let name_w = button.x - 12.0 - (r.x + 28.0);
+            let right = if staff_x { x_r.x } else { button.x };
+            let name_w = right - 12.0 - (r.x + 28.0);
             ui.player_name(p, r.x + 28.0, r.y + 5.0, 15.0, name_w);
-            ui.text(&Self::status_text(p), r.x + 28.0, r.y + 23.0, 12.0, MUTED, false);
-            if hover && !p.guest && ui.clicked(r) && !button.contains(ui.mouse()) {
+            match &note {
+                Some(n) => {
+                    Self::rating_after_name(ui, p, r.x + 28.0, r.y + 5.0, name_w);
+                    Self::note_line(ui, n, r.x + 28.0, r.y + 23.0, name_w);
+                }
+                None => sub_line(
+                    ui,
+                    &Self::status_text(p),
+                    &p.status_message,
+                    r.x + 28.0,
+                    r.y + 23.0,
+                    name_w,
+                ),
+            }
+            if hover
+                && !p.guest
+                && ui.clicked(r)
+                && !button.contains(ui.mouse())
+                && !(staff_x && x_r.contains(ui.mouse()))
+            {
                 open = Some(p.username.clone());
+            }
+            if staff_x && ui.icon_button_ex(x_r, Icon::Close, t("Take the note down"), true, true) {
+                take_down = Some(p.username.clone());
             }
             // Friends' games (anyone's on a local network) can be watched.
             let friend =
                 self.lan || self.friends.friends.iter().any(|f| f.player.username == p.username);
-            if p.status == PlayerStatus::Playing && friend {
+            if let Some(n) = note.as_ref().filter(|_| p.status != PlayerStatus::Playing) {
+                // A challenge is an invitation, rated as the note says.
+                let can = p.status == PlayerStatus::Available && self.outgoing.is_none();
+                let hit = if can {
+                    ui.primary_button(button, challenge_label)
+                } else {
+                    ui.button(button, challenge_label, false)
+                };
+                if hit {
+                    self.send(ClientMsg::Invite { to: p.username.clone(), rated: n.rated });
+                }
+            } else if p.status == PlayerStatus::Playing && friend {
                 if ui.button(button, watch_label, true) {
                     watch = Some(p.username.clone());
                 }
@@ -2222,6 +2318,9 @@ impl Online {
         }
         if let Some(name) = watch {
             self.spectate(&name);
+        }
+        if let Some(username) = take_down {
+            self.send(ClientMsg::RemoveSeek { username });
         }
         open.map(OnlineAction::Profile).or(action)
     }
@@ -2855,6 +2954,10 @@ impl Online {
     }
 
     fn draw_friends(&mut self, ui: &mut Ui, area: Rect) -> Option<OnlineAction> {
+        let area = self.friends_switch(ui, area);
+        if self.social.recent_view {
+            return self.draw_recent(ui, area);
+        }
         let mut y = area.y;
         let add = t("Add");
         let aw = button_w(ui, add, 34.0).max(110.0);
@@ -2939,7 +3042,8 @@ impl Online {
                     } else {
                         last_seen(f.last_seen)
                     };
-                    ui.text(&sub, r.x + 28.0, r.y + 23.0, 12.0, MUTED, false);
+                    let status = &f.player.status_message;
+                    sub_line(ui, &sub, status, r.x + 28.0, r.y + 23.0, name_w);
                     if hover
                         && ui.clicked(r)
                         && !button.contains(ui.mouse())

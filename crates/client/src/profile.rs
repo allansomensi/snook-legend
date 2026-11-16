@@ -25,6 +25,8 @@ enum Pane {
     Games,
     Rating,
     Numbers,
+    /// Presents received and given (own profile).
+    Gifts,
 }
 
 #[derive(Default)]
@@ -39,6 +41,10 @@ pub struct ProfileScreen {
     /// Asked for while signed in: the server knew who was looking (and so
     /// sent our relation: friends, requests, blocks).
     asked_signed_in: bool,
+    /// The status message being written (own profile).
+    status_edit: Option<String>,
+    /// The first present shown in the Gifts pane.
+    gifts_first: usize,
 }
 
 /// The account dialog: recovery e-mail, password, deletion.
@@ -148,9 +154,15 @@ impl ProfileScreen {
         self.report = None;
         self.confirm_block = false;
         self.account = None;
+        self.status_edit = None;
         self.pane = Pane::Games;
+        self.gifts_first = 0;
         self.asked_signed_in = online.signed_in();
         online.request_profile(name);
+        // Presents put off with "Later": they are shown again here.
+        if online.me.as_ref().is_some_and(|me| me.username.eq_ignore_ascii_case(name)) {
+            online.show_gifts_again();
+        }
     }
 
     pub fn draw(&mut self, ui: &mut Ui, online: &mut Online) -> ProfileAction {
@@ -178,7 +190,10 @@ impl ProfileScreen {
         // A dialog over the page (account, report, country): Esc is its own.
         let dialog = self.account.is_some() || self.report.is_some() || crate::countries::is_open();
         if ui.icon_button(Rect::new(r.x + PAD, r.y + 20.0, 36.0, 36.0), Icon::Back, t("Back"), true)
-            || (is_key_pressed(KeyCode::Escape) && ui.focus.is_none() && !dialog)
+            || (is_key_pressed(KeyCode::Escape)
+                && ui.focus.is_none()
+                && !dialog
+                && self.status_edit.is_none())
         {
             action = ProfileAction::Back;
         }
@@ -202,27 +217,50 @@ impl ProfileScreen {
         let body = Rect::new(r.x + PAD, r.y + BODY_TOP, r.w - 2.0 * PAD, r.h - BODY_TOP - PAD);
         self.achievements(ui, &p, Rect::new(body.x, body.y, half, body.h));
         let right = Rect::new(body.x + half + 24.0, body.y, half, body.h);
-        let panes = [t("Games"), t("Rating"), t("Numbers")];
+        // One's own profile also keeps the presents.
+        let own = p.relation == Relation::Me && !online.lan && !p.player.guest;
+        let mut panes = vec![(Pane::Games, t("Games")), (Pane::Rating, t("Rating"))];
+        panes.push((Pane::Numbers, t("Numbers")));
+        if own {
+            panes.push((Pane::Gifts, t("Gifts")));
+        } else if self.pane == Pane::Gifts {
+            self.pane = Pane::Games;
+        }
+        let labels: Vec<&str> = panes.iter().map(|(_, l)| *l).collect();
         // As narrow as the labels allow (12 px in a 28 px control), so the
         // heading beside it keeps its room.
-        let cell = panes.iter().map(|l| ui.text_size(l, 12.0, true).x + 24.0).fold(0.0, f32::max);
-        let seg_w = cell * 3.0;
+        let cell = labels.iter().map(|l| ui.text_size(l, 12.0, true).x + 24.0).fold(0.0, f32::max);
+        let seg_w = (cell * labels.len() as f32).min(right.w);
         let seg = Rect::new(right.x + right.w - seg_w, right.y - 4.0, seg_w, 28.0);
-        if let Some(k) = ui.segmented(seg, &panes, self.pane as usize) {
-            self.pane = [Pane::Games, Pane::Rating, Pane::Numbers][k];
+        let selected = panes.iter().position(|(pane, _)| *pane == self.pane).unwrap_or(0);
+        if let Some(k) = ui.segmented(seg, &labels, selected) {
+            self.pane = panes[k].0;
+            if self.pane == Pane::Gifts {
+                online.request_gifts();
+            }
+        }
+        if own && online.gift_badge() {
+            // Presents waiting: a dot on Gifts.
+            draw_circle(seg.x + seg.w - 8.0, seg.y + 7.0, 4.0, ALERT);
         }
         let title = match self.pane {
             Pane::Games => t("Recent games"),
             Pane::Rating => t("Rating"),
             Pane::Numbers => t("Numbers"),
+            Pane::Gifts => t("Gifts"),
         };
-        let (title, _) = ui.fitted(title, 15.0, seg.x - 12.0 - right.x, true);
-        heading(ui, &title, right.x, right.y + 10.0);
+        // The heading only where it fits beside the switch.
+        let room = seg.x - 12.0 - right.x;
+        if room >= 60.0 {
+            let (title, _) = ui.fitted(title, 15.0, room, true);
+            heading(ui, &title, right.x, right.y + 10.0);
+        }
         let content = Rect::new(right.x, right.y + 34.0, right.w, right.h - 34.0);
         match self.pane {
             Pane::Games => self.history(ui, online, &p, content),
             Pane::Rating => rating_chart(ui, &p, content),
             Pane::Numbers => numbers(ui, &p, content),
+            Pane::Gifts => online.draw_gift_history(ui, content, &mut self.gifts_first),
         }
         if let Some(saved) = saved {
             ui.resume_input(saved);
@@ -277,6 +315,15 @@ impl ProfileScreen {
         if p.online {
             draw_circle(after + 9.0, mid, 5.0, Color::new(0.35, 0.85, 0.45, 1.0));
         }
+        // The status message, between the name and the rating.
+        let status_x = after + dot_w + 18.0 + pad;
+        let status_end = if player.guest {
+            r.x + r.w - PAD
+        } else {
+            let rw = ui.text_size(&player.rating.to_string(), 40.0, true).x;
+            r.x + r.w - PAD - rw - 24.0
+        };
+        self.status_message(ui, online, p, status_x, status_end, mid);
 
         // The tier and a line about the player, under the name. The pill's
         // text and the line share a baseline.
@@ -453,6 +500,114 @@ impl ProfileScreen {
                         online.send(msg);
                         online.request_profile(&name);
                     }
+                }
+            }
+        }
+    }
+
+    /// The status message on the name's line (`x` to `end`, centred on
+    /// `mid`): written by its owner here (Enter saves, Esc cancels), and
+    /// cleared by the staff.
+    fn status_message(
+        &mut self,
+        ui: &mut Ui,
+        online: &mut Online,
+        p: &Profile,
+        x: f32,
+        end: f32,
+        mid: f32,
+    ) {
+        const FIELD: u64 = 62;
+        let width = end - x;
+        if width < 90.0 || online.lan || p.player.guest {
+            return;
+        }
+        let own = p.relation == Relation::Me;
+        let text = p.player.status_message.clone();
+        if let Some(draft) = self.status_edit.as_mut().filter(|_| own) {
+            let w = width.min(440.0);
+            let field = Rect::new(x, mid - 16.0, w - 2.0 * 34.0, 32.0);
+            let enter = ui.text_input(FIELD, field, draft, snookered_proto::MAX_STATUS_LEN);
+            if draft.is_empty() {
+                // Shown while typing too: the field was opened for it.
+                let hint = ui.ellipsize(t("A line about you"), field.w - 24.0, 14.0);
+                ui.text(&hint, field.x + 12.0, text_y(mid, 14.0), 14.0, MUTED, false);
+            }
+            let draft = draft.clone();
+            let save = Rect::new(field.x + field.w + 4.0, mid - 15.0, 30.0, 30.0);
+            let cancel = Rect::new(save.x + 34.0, mid - 15.0, 30.0, 30.0);
+            if ui.icon_button(save, Icon::Check, t("Save (Enter)"), true) || enter {
+                let clean = snookered_proto::clean_status(&draft);
+                online.send(ClientMsg::SetStatusMessage { text: clean.clone() });
+                // Shown at once; the lounge hears it from the server.
+                if let Some(shown) = online.profile.as_mut() {
+                    shown.player.status_message = clean;
+                }
+                self.status_edit = None;
+                ui.focus = None;
+            } else if ui.icon_button(cancel, Icon::Close, t("Cancel (Esc)"), true)
+                || (is_key_pressed(KeyCode::Escape) && ui.focus.is_none())
+            {
+                self.status_edit = None;
+            }
+            return;
+        }
+        let size = 15.0;
+        let ty = text_y(mid, size);
+        let edit_w = if own { 30.0 } else { 0.0 };
+        let staff = online.me.as_ref().map(|m| m.role).unwrap_or_default();
+        // The staff may clear what players wrote (only administrators other staff's).
+        let may_clear = !own
+            && online.me.is_some()
+            && staff.is_staff()
+            && (!p.player.role.is_staff() || staff == snookered_proto::Role::Admin);
+        if text.is_empty() {
+            if !own {
+                return;
+            }
+            // Nothing yet: an invitation to write one.
+            let label = t("Add a status message");
+            let lw = ui.text_size(label, 13.0, false).x;
+            let b = Rect::new(x, mid - 14.0, (lw + 36.0).min(width), 28.0);
+            let hover = ui.hovering(b);
+            ui.block(b);
+            if hover {
+                rrect(b, 7.0, Color::new(1.0, 1.0, 1.0, 0.06));
+            }
+            rrect_lines(b, 7.0, 1.0, if hover { GOLD } else { BORDER });
+            let color = if hover { GOLD } else { MUTED };
+            crate::icons::draw(Icon::Pencil, vec2(b.x + 14.0, mid), 13.0, color);
+            let label = ui.ellipsize(label, b.w - 34.0, 13.0);
+            ui.text(&label, b.x + 26.0, text_y(mid, 13.0), 13.0, color, false);
+            if hover && ui.clicked(b) {
+                self.status_edit = Some(String::new());
+                ui.focus = Some(FIELD);
+            }
+            return;
+        }
+        let clear_w = if may_clear { 30.0 } else { 0.0 };
+        let room = width - edit_w - clear_w - 8.0;
+        let shown = format!("“{text}”");
+        let cut = ui.ellipsize(&shown, room, size);
+        ui.text(&cut, x, ty, size, crate::online::STATUS_COLOR, false);
+        let tw_ = ui.text_size(&cut, size, false).x;
+        let area = Rect::new(x, mid - 12.0, tw_, 24.0);
+        if cut != shown && ui.hovering(area) {
+            ui.tooltip(&text, area);
+        }
+        let bx = x + tw_ + 8.0;
+        if own {
+            let b = Rect::new(bx, mid - 13.0, 26.0, 26.0);
+            if ui.icon_button_ex(b, Icon::Pencil, t("Change your status message"), true, true) {
+                self.status_edit = Some(text.clone());
+                ui.focus = Some(FIELD);
+            }
+        } else if may_clear {
+            let b = Rect::new(bx, mid - 13.0, 26.0, 26.0);
+            if ui.icon_button_ex(b, Icon::Close, t("Clear the status message"), true, true) {
+                online.send(ClientMsg::ClearStatusMessage { username: p.player.username.clone() });
+                if let Some(shown) = online.profile.as_mut() {
+                    shown.player.status_message.clear();
                 }
             }
         }

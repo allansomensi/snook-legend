@@ -462,6 +462,14 @@ async fn main() {
         }
         hud.top_view = rig.mode == CameraMode::Top;
         hud.camera_default = rig.is_default();
+        // Online (not on a local network): "Add friend" after the game.
+        hud.opponent_relation = current
+            .as_ref()
+            .filter(|m| m.is_online() && !match_from_lan && !m.is_spectating())
+            .and_then(|m| {
+                let seat = m.online.as_ref()?.seat;
+                online.relation_to(&m.names[1 - seat])
+            });
         hud.aim_sensitivity = config.aim_sensitivity;
         hud.zoom = rig.zoom_level();
         controls.sensitivity = config.aim_sensitivity;
@@ -714,6 +722,7 @@ async fn main() {
                             rig.reset();
                         }
                         HudAction::Settings => settings_open = true,
+                        HudAction::AddFriend(name) => online.befriend(&name),
                         HudAction::ResetCamera => rig.reset(),
                         HudAction::Zoom(z) => {
                             rig.tv_paused = true;
@@ -737,6 +746,14 @@ async fn main() {
                 }
                 None => {
                     let mut next: Option<Screen> = None;
+                    // A gift is on screen (drawn over it below): the screen
+                    // gets neither the pointer nor Esc (screens leave Esc
+                    // alone while a field has the keyboard).
+                    let gift_modal = online.gift_dialog_open() && !settings_open;
+                    let under_gift = gift_modal.then(|| {
+                        ui.focus = Some(GIFT_DIALOG_FOCUS);
+                        ui.suspend_input()
+                    });
                     match &mut screen {
                         Screen::Menu => match menu.draw(&mut ui, &online, saved_balls) {
                             action @ (MenuAction::VsComputer | MenuAction::TwoPlayers) => {
@@ -975,6 +992,12 @@ async fn main() {
                             ProfileAction::None => {}
                         },
                     }
+                    if let Some(saved) = under_gift {
+                        ui.resume_input(saved);
+                        if ui.focus == Some(GIFT_DIALOG_FOCUS) {
+                            ui.focus = None;
+                        }
+                    }
                     if let Some(n) = next {
                         screen = n;
                     }
@@ -1064,6 +1087,10 @@ async fn main() {
             && online.draw_email_offer(&mut ui, &mut config)
         {
             config.save();
+        }
+        // Presents from friends, one after another (never over a game).
+        if current.is_none() && !settings_open && online.email_offer.is_none() {
+            online.draw_gift_dialog(&mut ui);
         }
         online.draw_toasts(&ui, toast_bottom);
         if let Some(l) = &lan {
@@ -1161,6 +1188,10 @@ fn vignette_texture() -> Texture2D {
     tex.set_filter(FilterMode::Linear);
     tex
 }
+
+/// The keyboard "focus" the gift dialog holds while it is up, so the
+/// screen under it leaves Esc alone (no field has this id).
+const GIFT_DIALOG_FOCUS: u64 = 9_000;
 
 fn name_or(name: &str, default: &str) -> String {
     match name.trim() {

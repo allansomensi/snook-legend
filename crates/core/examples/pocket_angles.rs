@@ -9,7 +9,7 @@ use snookered_core::{
 /// still drop at `speed`.
 fn width(spec: TableSpec, params: PhysicsParams, pocket: PocketId, deg: f64, speed: f64) -> f64 {
     let table = Table::new(spec);
-    let p = table.pocket(pocket).clone();
+    let p = *table.pocket(pocket);
     let aim = p.aim_point();
     let a = deg.to_radians();
     let inward = -p.outward;

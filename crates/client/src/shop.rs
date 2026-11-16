@@ -1,7 +1,8 @@
-//! The shop: cloth, cues, chalk, ball sets, frames, name styles and winning
-//! effects (for coins, with achievements or for VIP members), coin packs and
-//! the VIP subscription. Items can be tried on the 3D table before buying,
-//! and given to friends.
+//! The shop: cloth, cues, chalk, ball sets, tables, halls, frames, name
+//! styles and winning effects (for coins, with achievements or for VIP
+//! members), coin packs and the VIP subscription. Items can be tried on the
+//! 3D table before buying, and given to friends. Cues show their level
+//! (online wins with them).
 //!
 //! The server is the authority: this screen only asks it to buy, use or
 //! open a payment page, and shows what it answers.
@@ -38,6 +39,8 @@ pub enum ShopAction {
     Back,
     /// Try an item on the 3D table.
     Preview(&'static str),
+    /// Turn the dark stage off, so the hall shows around the table.
+    ShowHall,
 }
 
 /// A purchase waiting for the player to confirm it.
@@ -65,6 +68,8 @@ pub struct ShopScreen {
     gift_first: usize,
     /// The purchase that just went through: (item, given to).
     done: Option<(&'static str, Option<String>)>,
+    /// The dark stage is on (the hall doesn't show around the table).
+    pub dark_stage: bool,
 }
 
 impl Default for ShopScreen {
@@ -79,6 +84,7 @@ impl Default for ShopScreen {
             gift_pick: None,
             gift_first: 0,
             done: None,
+            dark_stage: false,
         }
     }
 }
@@ -116,7 +122,82 @@ pub fn category_name(c: Category) -> &'static str {
 
 /// Items that can be tried on the 3D table.
 pub fn has_3d_preview(item: &Item) -> bool {
-    matches!(item.category, Category::Cloth | Category::Balls | Category::Cue | Category::Chalk)
+    matches!(
+        item.category,
+        Category::Cloth
+            | Category::Balls
+            | Category::Cue
+            | Category::Chalk
+            | Category::Table
+            | Category::Hall
+    )
+}
+
+/// "Level 3 · 57 wins", the progress to the next level (0..1) and what the
+/// next level needs.
+pub fn cue_level_text(wins: u32) -> (String, f32, String) {
+    use snookered_proto::shop::{cue_level, cue_level_progress, next_cue_level_at};
+    let level = cue_level(wins);
+    let line = if wins == 1 {
+        tw("Level {n} · 1 win", &[("n", &level)])
+    } else {
+        tw("Level {n} · {w} wins", &[("n", &level), ("w", &wins)])
+    };
+    let tip = match next_cue_level_at(wins) {
+        Some(at) => tw(
+            "{left} more online wins with this cue for level {n}. Levels only add marks to the cue.",
+            &[("left", &(at - wins)), ("n", &(level + 1))],
+        ),
+        None => t("The top level: this cue has every mark.").to_string(),
+    };
+    (line, cue_level_progress(wins), tip)
+}
+
+/// A cue's picture with the marks of its level (the profile shows it).
+pub fn cue_picture(ui: &Ui, code: &str, r: Rect, level: u8) {
+    if let Some(item) = snookered_proto::shop::item(code) {
+        preview(ui, item, r);
+        cue_marks(r, level);
+    }
+}
+
+/// The marks of a cue's level on its picture (see [`preview`]): bands by
+/// the joint, then inlays, then gold that glows.
+fn cue_marks(r: Rect, level: u8) {
+    if level == 0 {
+        return;
+    }
+    let (x0, x1) = (r.x + 10.0, r.x + r.w - 10.0);
+    let y = r.y + r.h / 2.0;
+    let at = |k: f32| x0 + (x1 - x0) * k;
+    let silver = Color::new(0.86, 0.88, 0.92, 1.0);
+    let gold = Color::new(0.95, 0.78, 0.38, 1.0);
+    let metal = if level >= 4 { gold } else { silver };
+    if level >= 6 {
+        draw_circle(at(0.43), y, 9.0, Color::new(1.0, 0.8, 0.4, 0.22));
+        draw_circle(at(0.43), y, 6.0, Color::new(1.0, 0.85, 0.5, 0.25));
+    }
+    let bands = match level {
+        1 => 1,
+        2..=4 => 2,
+        _ => 3,
+    };
+    for k in 0..bands {
+        let x = at(0.44 - k as f32 * 0.018);
+        draw_line(x, y - 4.6, x, y + 4.6, 1.6, metal);
+    }
+    if level >= 3 {
+        let x = at(0.44 - bands as f32 * 0.018 - 0.02);
+        let d = 2.2;
+        crate::paint::draw_triangle(vec2(x - d, y), vec2(x, y - d), vec2(x + d, y), WHITE);
+        crate::paint::draw_triangle(vec2(x - d, y), vec2(x, y + d), vec2(x + d, y), WHITE);
+    }
+    if level >= 4 {
+        draw_line(at(0.1), y - 5.6, at(0.1), y + 5.6, 1.6, gold);
+    }
+    if level >= 5 {
+        draw_line(at(0.14), y - 5.4, at(0.14), y + 5.4, 1.6, gold);
+    }
 }
 
 /// A frame of two colours (and a moving shine) around `r`.
@@ -473,6 +554,8 @@ impl ShopScreen {
             "shop-frames" => Tab::Items(Category::Frame),
             "shop-names" => Tab::Items(Category::Name),
             "shop-effects" => Tab::Items(Category::Effect),
+            "shop-tables" => Tab::Items(Category::Table),
+            "shop-halls" => Tab::Items(Category::Hall),
             _ => Tab::Items(Category::Cloth),
         };
         self.page = 0;
@@ -585,6 +668,10 @@ impl ShopScreen {
         // The categories, down the left side.
         let top = r.y + HEADER_H + 12.0;
         let side = Rect::new(r.x + PAD - 4.0, top, SIDE_W, r.y + r.h - PAD - top);
+        // Rows shrink a little when the window is short (eleven of them).
+        let rows = Category::ALL.len() as f32 + 2.0;
+        let pitch = ((side.h - 12.0) / rows).clamp(31.0, 40.0);
+        let row_h = pitch - 4.0;
         let mut y = side.y;
         for c in Category::ALL {
             let tab = Tab::Items(c);
@@ -593,26 +680,26 @@ impl ShopScreen {
                 .filter(|i| i.category == c && (i.price == Price::Free || online.can_use(i)))
                 .count();
             let total = ITEMS.iter().filter(|i| i.category == c && listed(i, online)).count();
-            let tr = Rect::new(side.x, y, side.w, 36.0);
+            let tr = Rect::new(side.x, y, side.w, row_h);
             let count = if signed_in { format!("{owned}/{total}") } else { total.to_string() };
             if side_tab(ui, tr, category_name(c), SideNote::Count(&count), self.tab == tab) {
                 self.tab = tab;
                 self.page = 0;
             }
-            y += 40.0;
+            y += pitch;
         }
-        y += 8.0;
-        draw_line(side.x + 12.0, y - 6.0, side.x + side.w - 12.0, y - 6.0, 1.0, BORDER);
         y += 4.0;
+        draw_line(side.x + 12.0, y - 4.0, side.x + side.w - 12.0, y - 4.0, 1.0, BORDER);
+        y += 2.0;
         for (tab, label, icon) in
             [(Tab::Coins, t("Coins"), Icon::Coin), (Tab::Vip, "VIP", Icon::Crown)]
         {
-            let tr = Rect::new(side.x, y, side.w, 36.0);
+            let tr = Rect::new(side.x, y, side.w, row_h);
             if side_tab(ui, tr, label, SideNote::Icon(icon), self.tab == tab) {
                 self.tab = tab;
                 self.page = 0;
             }
-            y += 40.0;
+            y += pitch;
         }
         let bx = side.x + side.w + 20.0;
         let mut body = Rect::new(bx, top, r.x + r.w - PAD - bx, r.y + r.h - PAD + 4.0 - top);
@@ -643,6 +730,26 @@ impl ShopScreen {
     ) -> Option<ShopAction> {
         let items: Vec<&'static Item> =
             ITEMS.iter().filter(|i| i.category == category && listed(i, online)).collect();
+        let mut area = area;
+        let mut action = None;
+        if category == Category::Hall && self.dark_stage {
+            // The dark stage hides the hall: say so, with the way out.
+            let note = Rect::new(area.x, area.y, area.w, 44.0);
+            rrect(note, 8.0, Color::new(1.0, 1.0, 1.0, 0.05));
+            rrect_lines(note, 8.0, 1.0, BORDER);
+            let label = t("Show the hall");
+            let bw = (ui.text_size(label, 14.0, true).x + 28.0).min(note.w * 0.45);
+            let b = Rect::new(note.x + note.w - bw - 6.0, note.y + 6.0, bw, 32.0);
+            let text = t("The dark room hides the hall around the table.");
+            crate::icons::draw(Icon::Eye, vec2(note.x + 18.0, note.y + 22.0), 16.0, GOLD);
+            let room = b.x - note.x - 44.0;
+            let (text, size) = ui.fitted(text, 14.0, room, false);
+            ui.text(&text, note.x + 34.0, text_y(note.y + 22.0, size), size, CREAM, false);
+            if button(ui, b, Kind::Normal, None, label, 14.0) && !modal {
+                action = Some(ShopAction::ShowHall);
+            }
+            area = Rect::new(area.x, area.y + 54.0, area.w, area.h - 54.0);
+        }
         let signed_in = online.signed_in();
         let wallet = online.wallet.clone().unwrap_or_default();
         let coins = (signed_in && online.wallet.is_some()).then_some(wallet.coins);
@@ -708,7 +815,6 @@ impl ShopScreen {
             self.page = (self.page as i32 + turn).clamp(0, pages as i32 - 1) as usize;
         }
         let mut tip = None;
-        let mut action = None;
         for (k, item) in items.iter().enumerate().skip(self.page * per_page).take(per_page) {
             let k = k - self.page * per_page;
             let c = Rect::new(
@@ -727,7 +833,29 @@ impl ShopScreen {
             }
             let inner = c.w - 24.0;
             let pic = Rect::new(c.x + 12.0, c.y + 12.0, inner, (c.h - 120.0).max(40.0));
-            preview(ui, item, pic);
+            // A cue's level, under its picture (what it has won online).
+            let level_info = (item.category == Category::Cue && signed_in)
+                .then(|| wallet.cue_wins(item.code))
+                .filter(|&w| w > 0 || usable);
+            match level_info {
+                Some(wins) => {
+                    let art = Rect::new(pic.x, pic.y, pic.w, pic.h - 18.0);
+                    preview(ui, item, art);
+                    cue_marks(art, snookered_proto::shop::cue_level(wins));
+                    let (line, progress, how) = cue_level_text(wins);
+                    let mid = pic.y + pic.h - 12.0;
+                    let (line, size) = ui.fitted(&line, 12.0, pic.w, false);
+                    ui.text(&line, pic.x, text_y(mid, size), size, MUTED, false);
+                    let bar = Rect::new(pic.x, pic.y + pic.h - 3.0, pic.w, 3.0);
+                    rrect(bar, 1.5, Color::new(1.0, 1.0, 1.0, 0.1));
+                    rrect(Rect::new(bar.x, bar.y, bar.w * progress, bar.h), 1.5, GOLD);
+                    let zone = Rect::new(pic.x, pic.y + pic.h - 20.0, pic.w, 20.0);
+                    if ui.hovering(zone) {
+                        tip = Some((how, zone));
+                    }
+                }
+                None => preview(ui, item, pic),
+            }
             let name_y = pic.y + pic.h + 10.0;
             let size = ui.fit(15.0, t(item.name), inner).max(12.0);
             let (name, size) = ui.fitted(t(item.name), size, inner, true);
@@ -1008,7 +1136,12 @@ impl ShopScreen {
         let room = text_right - x;
         let (name, size) = ui.fitted(t(item.name), 20.0, room, true);
         ui.text(&name, x, r.y + 18.0, size, GOLD, true);
-        let sub = format!("{} · {}", category_name(item.category), t("turning around the table"));
+        let what = if item.category == Category::Hall {
+            t("looking around the hall")
+        } else {
+            t("turning around the table")
+        };
+        let sub = format!("{} · {}", category_name(item.category), what);
         let (sub, size) = ui.fitted(&sub, 13.0, room, false);
         ui.text(&sub, x, r.y + 50.0, size, MUTED, false);
         action

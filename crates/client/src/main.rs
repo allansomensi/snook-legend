@@ -920,7 +920,10 @@ async fn main() {
                                 }
                             }
                         }
-                        Screen::Shop => match shop.draw(&mut ui, &mut online) {
+                        Screen::Shop => match {
+                            shop.dark_stage = config.focused_scene;
+                            shop.draw(&mut ui, &mut online)
+                        } {
                             shop::ShopAction::Back => {
                                 next = Some(if back_to_lounge && online.signed_in() {
                                     Screen::Online
@@ -930,6 +933,21 @@ async fn main() {
                             }
                             shop::ShopAction::Preview(code) => {
                                 shop_preview = Some((code, get_time() as f32));
+                            }
+                            shop::ShopAction::ShowHall => {
+                                // As in the settings: the room around the table.
+                                config.focused_scene = false;
+                                config.save();
+                                retired.push(std::mem::replace(
+                                    &mut scene,
+                                    Scene::new(
+                                        Table::default(),
+                                        config.quality,
+                                        config.focused_scene,
+                                        &scene::Looks::of(&config.cloth, &config.balls)
+                                            .themed(&config.table, &config.hall),
+                                    ),
+                                ));
                             }
                             shop::ShopAction::None => {}
                         },

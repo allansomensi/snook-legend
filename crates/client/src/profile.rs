@@ -921,7 +921,9 @@ fn numbers(ui: &mut Ui, p: &Profile, area: Rect) {
     ];
     let (cols, gap) = (2, 12.0);
     let cw = (area.w - gap) / cols as f32;
-    let ch = ((area.h - 2.0 * gap) / 3.0).min(72.0);
+    // Room under the numbers for the cue and its level.
+    let cue_h = if p.cue_wins.is_empty() { 0.0 } else { 92.0 };
+    let ch = ((area.h - 2.0 * gap - cue_h - if cue_h > 0.0 { gap } else { 0.0 }) / 3.0).min(72.0);
     for (k, (n, label)) in cards.iter().enumerate() {
         let r = Rect::new(
             area.x + (k % cols) as f32 * (cw + gap),
@@ -935,5 +937,40 @@ fn numbers(ui: &mut Ui, p: &Profile, area: Rect) {
         ui.text_centered(n, r.x + r.w / 2.0, mid - 22.0, 24.0, color, true);
         let size = fit_regular(ui, label, 13.0, r.w - 12.0);
         ui.text_centered(label, r.x + r.w / 2.0, mid + 8.0, size, MUTED, false);
+    }
+    if cue_h > 0.0 {
+        let r = Rect::new(area.x, area.y + 3.0 * (ch + gap), area.w, cue_h);
+        cue_card(ui, p, r);
+    }
+}
+
+/// The cue in use and its level (online wins with it); the cue with the
+/// most wins too, when it is another.
+fn cue_card(ui: &mut Ui, p: &Profile, r: Rect) {
+    use snookered_proto::shop::{self, Category};
+    rrect(r, 8.0, Color::new(1.0, 1.0, 1.0, 0.04));
+    let code = shop::item(&p.player.cue)
+        .filter(|i| i.category == Category::Cue)
+        .map_or(Category::Cue.default_item(), |i| i.code);
+    let wins = |c: &str| p.cue_wins.iter().find(|(x, _)| x == c).map_or(0, |(_, n)| *n);
+    let pic_w = (r.w * 0.36).min(170.0);
+    let pic = Rect::new(r.x + 8.0, r.y + 8.0, pic_w, r.h - 16.0);
+    crate::shop::cue_picture(ui, code, pic, shop::cue_level(wins(code)));
+    let x = pic.x + pic.w + 14.0;
+    let room = r.x + r.w - 12.0 - x;
+    let name = shop::item(code).map_or(code, |i| t(i.name));
+    let (name, size) = ui.fitted(name, 16.0, room, true);
+    ui.text(&name, x, r.y + 12.0, size, CREAM, true);
+    let (line, progress, _) = crate::shop::cue_level_text(wins(code));
+    let (line, size) = ui.fitted(&line, 13.0, room, false);
+    ui.text(&line, x, r.y + 36.0, size, GOLD, false);
+    let bar = Rect::new(x, r.y + 56.0, room, 4.0);
+    rrect(bar, 2.0, Color::new(1.0, 1.0, 1.0, 0.1));
+    rrect(Rect::new(bar.x, bar.y, bar.w * progress, bar.h), 2.0, GOLD);
+    if let Some((best, n)) = p.cue_wins.first().filter(|(c, n)| c != code && *n > wins(code)) {
+        let best = shop::item(best).map_or(best.as_str(), |i| t(i.name));
+        let text = tw("Most wins: {cue} (level {n})", &[("cue", &best), ("n", &shop::cue_level(*n))]);
+        let (text, size) = ui.fitted(&text, 12.0, room, false);
+        ui.text(&text, x, r.y + 68.0, size, MUTED, false);
     }
 }

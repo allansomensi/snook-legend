@@ -278,6 +278,8 @@ pub struct Match {
     pub banter: Option<(String, f32)>,
     /// Seconds since the opponent last spoke.
     banter_quiet: f32,
+    /// The computer opponent speaks up now and then (a setting).
+    pub talk: bool,
 }
 
 /// A drill session: its tries, what each gave, and every stroke (for the
@@ -495,6 +497,7 @@ impl Match {
             drill: None,
             banter: None,
             banter_quiet: 0.0,
+            talk: true,
         };
         m.begin_turn();
         m.say(crate::banter::Moment::Start);
@@ -543,8 +546,9 @@ impl Match {
     /// The computer opponent may say something about `moment` (a
     /// personality's line, in a bubble by its card).
     pub fn say(&mut self, moment: crate::banter::Moment) {
-        // Only a game against the computer, not the waiting room's practice.
-        if !(self.is_against_computer() || self.practice) || self.free_play {
+        // Only a game against the computer, not the waiting room's practice,
+        // and only when the player wants the remarks.
+        if !self.talk || !(self.is_against_computer() || self.practice) || self.free_play {
             return;
         }
         let Some(o) = &self.opponent else { return };
@@ -793,6 +797,7 @@ impl Match {
             drill: None,
             banter: None,
             banter_quiet: 0.0,
+            talk: true,
         };
         m.begin_turn();
         if let Some(o) = m.online.as_mut() {

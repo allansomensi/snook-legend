@@ -59,10 +59,10 @@ which every desktop installation has. How releases are made is described in
   random games are checked after every shot. Each game records the version
   of the rules, the physics and the table it was played with, so replays
   and games in progress never change under an update.
-- **Computer opponents**: ten named opponents with their own portraits and
+- **Computer opponents**: fifteen named opponents with their own portraits and
   styles (cautious, all-out attack, bank artist, positional…) over three skill
   levels. They play with the same physics and rules: they simulate candidate
-  shots and score the outcome. **The tour** takes you through all ten, and
+  shots and score the outcome. **The tour** takes you through all fifteen, and
   its final win (checked by the server, stroke by stroke) earns an exclusive
   cue. **Ghosts** play in the measured style of a real player. Games against
   the computer never touch ratings or coins.

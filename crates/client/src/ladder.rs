@@ -11,7 +11,9 @@ use crate::online::Online;
 
 /// Bumped when the file changes incompatibly (an older file is then read
 /// as far as it goes: unknown fields are ignored, missing ones default).
-const VERSION: u32 = 1;
+/// Version 2 keeps the opponents beaten by name: the ladder grew from ten
+/// to fifteen, the new ones between the old.
+const VERSION: u32 = 2;
 
 /// A ladder game being played: the rung and every stroke so far (the
 /// final rung's game is what the server checks).
@@ -30,9 +32,12 @@ pub struct LadderRun {
 pub struct Progress {
     #[serde(default)]
     version: u32,
-    /// Rungs beaten (the next opponent is this one).
+    /// How many opponents are beaten (kept from `won`).
     #[serde(default)]
     pub beaten: u8,
+    /// The opponents beaten (personality codes, in no order).
+    #[serde(default)]
+    pub won: Vec<String>,
     /// The game won on the last rung, waiting to be sent to the server.
     #[serde(default)]
     pub pending: Option<Replay>,
@@ -122,7 +127,16 @@ impl Progress {
     /// Reads a saved progress; nonsense values are brought back into range.
     pub fn parse(text: &str) -> Option<Progress> {
         let mut p: Progress = serde_json::from_str(text).ok()?;
-        p.beaten = p.beaten.min(ladder::RUNGS.len() as u8);
+        // A file from the ladder of ten counted the rungs beaten, in order:
+        // those opponents are still beaten.
+        if p.version < 2 && p.won.is_empty() {
+            let n = (p.beaten as usize).min(ladder::RUNGS_OF_TEN.len());
+            p.won = ladder::RUNGS_OF_TEN[..n].iter().map(|c| c.to_string()).collect();
+        }
+        p.won.retain(|c| ladder::RUNGS.contains(&c.as_str()));
+        p.won.sort();
+        p.won.dedup();
+        p.beaten = p.won.len() as u8;
         if p.pending.as_ref().is_some_and(|r| r.strokes.len() > ladder::MAX_STROKES) {
             p.pending = None;
         }
@@ -148,19 +162,28 @@ impl Progress {
         }
     }
 
+    /// The opponent on rung `k` is beaten.
+    pub fn is_beaten(&self, k: u8) -> bool {
+        ladder::RUNGS.get(k as usize).is_some_and(|code| self.won.iter().any(|w| w == code))
+    }
+
     /// Every rung beaten.
     pub fn complete(&self) -> bool {
-        self.beaten as usize >= ladder::RUNGS.len()
+        (0..ladder::RUNGS.len() as u8).all(|k| self.is_beaten(k))
     }
 
-    /// The rung played next (the last one again once the ladder is done).
+    /// The rung played next: the first not beaten yet (the last one again
+    /// once the ladder is done).
     pub fn next(&self) -> u8 {
-        self.beaten.min(ladder::RUNGS.len() as u8 - 1)
+        (0..ladder::RUNGS.len() as u8)
+            .find(|k| !self.is_beaten(*k))
+            .unwrap_or(ladder::RUNGS.len() as u8 - 1)
     }
 
-    /// Rung `k` can be played: beaten already, or the next one.
+    /// Rung `k` can be played: every rung before it is beaten (so it is
+    /// beaten already, or the next one).
     pub fn unlocked(&self, k: u8) -> bool {
-        k <= self.beaten && (k as usize) < ladder::RUNGS.len()
+        (k as usize) < ladder::RUNGS.len() && (0..k).all(|j| self.is_beaten(j))
     }
 
     /// Counts a finished ladder game. True if it changed the progress.
@@ -168,7 +191,13 @@ impl Progress {
         if !won || !self.unlocked(run.rung) {
             return false;
         }
-        self.beaten = self.beaten.max(run.rung + 1);
+        if let Some(code) = ladder::RUNGS.get(run.rung as usize)
+            && !self.is_beaten(run.rung)
+        {
+            self.won.push(code.to_string());
+            self.won.sort();
+        }
+        self.beaten = self.won.len() as u8;
         // The last rung: the game that earns the reward (unless it is in
         // hand already).
         if run.rung as usize == ladder::RUNGS.len() - 1 && !self.claimed {
@@ -271,19 +300,45 @@ mod tests {
         // Beating an earlier rung again changes nothing.
         p.record(&run(0), true);
         assert_eq!(p.beaten, 1);
-        for k in 1..9 {
+        let last = ladder::RUNGS.len() as u8 - 1;
+        for k in 1..last {
             assert!(p.record(&run(k), true));
         }
         assert!(p.pending.is_none());
-        assert!(p.record(&run(9), true));
+        assert!(p.record(&run(last), true));
         assert!(p.complete());
-        assert_eq!(p.next(), 9);
-        assert_eq!(p.pending.as_ref().map(|r| r.seed), Some(9));
+        assert_eq!(p.next(), last);
+        assert_eq!(p.pending.as_ref().map(|r| r.seed), Some(last as u64));
         // Once claimed, a new win on the last rung is not sent again.
         p.pending = None;
         p.claimed = true;
-        p.record(&run(9), true);
+        p.record(&run(last), true);
         assert!(p.pending.is_none());
+    }
+
+    /// A progress saved when the ladder had ten opponents: those beaten stay
+    /// beaten, the new ones wait their turn, and nothing claimed is lost.
+    #[test]
+    fn a_ladder_of_ten_carries_over() {
+        let p = Progress::parse(r#"{"version":1,"beaten":10,"claimed":true}"#).unwrap();
+        assert_eq!(p.beaten, 10);
+        assert!(p.claimed);
+        assert!(!p.complete(), "five new opponents to beat");
+        assert_eq!(ladder::RUNGS[p.next() as usize], "tito");
+        for code in ladder::RUNGS_OF_TEN {
+            let k = ladder::RUNGS.iter().position(|c| *c == code).unwrap() as u8;
+            assert!(p.is_beaten(k), "{code}");
+        }
+        // Four of the old rungs beaten: Leo, Nina, Lola, Bruno.
+        let mut p = Progress::parse(r#"{"version":1,"beaten":4}"#).unwrap();
+        assert_eq!(ladder::RUNGS[p.next() as usize], "tito");
+        assert!(p.record(&run(2), true));
+        // Lola and Bruno were beaten already: next is Inês.
+        assert_eq!(ladder::RUNGS[p.next() as usize], "ines");
+        assert!(p.unlocked(5) && !p.unlocked(6));
+        // A saved progress is read back as it was.
+        let again = Progress::parse(&serde_json::to_string(&p).unwrap()).unwrap();
+        assert_eq!((again.won.clone(), again.beaten), (p.won.clone(), p.beaten));
     }
 
     #[test]
@@ -291,12 +346,15 @@ mod tests {
         assert!(Progress::parse("{not json").is_none());
         assert_eq!(Progress::parse("{}"), Some(Progress::default()));
         let p = Progress::parse(r#"{"version":1,"beaten":250,"claimed":false,"extra":3}"#).unwrap();
-        assert_eq!(p.beaten, 10);
+        assert_eq!(p.beaten, 10, "the ten of the old ladder");
+        let p = Progress::parse(r#"{"version":2,"won":["leo","nobody","leo"]}"#).unwrap();
+        assert_eq!((p.won, p.beaten), (vec!["leo".to_string()], 1));
         let mut long = Replay::new(1, 0);
         long.strokes = vec![snookered_proto::replay::Stroke::TimeFoul; ladder::MAX_STROKES + 1];
         let text = serde_json::to_string(&Progress {
             version: 1,
             beaten: 10,
+            won: Vec::new(),
             pending: Some(long),
             claimed: false,
         })

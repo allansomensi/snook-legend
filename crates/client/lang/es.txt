@@ -832,7 +832,7 @@ Reward	Premio
 {item} cue · exclusive	Taco {item} · exclusivo
 Yours: find it in the shop, under Cues.	Es tuyo: está en la tienda, en Tacos.
 Win the last stage again while signed in to claim it.	Gana la última etapa otra vez, con la sesión iniciada, para recibirlo.
-Beat all ten opponents to earn it. It is sold nowhere.	Vence a los diez rivales para ganarlo. No se vende en ningún sitio.
+Beat all fifteen opponents to earn it. It is sold nowhere.	Vence a los quince rivales para ganarlo. No se vende en ningún sitio.
 You won the tour! Sign in to claim your reward.	¡Ganaste el circuito! Inicia sesión para recibir tu premio.
 The server is checking your final game…	El servidor está comprobando tu partida final…
 Try again	Reintentar
@@ -866,7 +866,7 @@ The Champion	El Campeón
 Unbeaten for years. Precise, patient and merciless: the last stage of the tour.	Invicto desde hace años. Preciso, paciente e implacable: la última etapa del circuito.
 Tour champion	Campeón del circuito
 Champion of the tour	Campeón del circuito
-Beat all ten opponents of the computer tour.	Vence a los diez rivales del circuito contra la computadora.
+Beat all fifteen opponents of the computer tour.	Vence a los quince rivales del circuito contra la computadora.
 Connecting to {server}…	Conectando con {server}…
 Connection lost. Reconnecting (attempt {n})…	Se perdió la conexión. Reconectando (intento {n})…
 Connection lost. Reconnecting…	Se perdió la conexión. Reconectando…
@@ -1353,7 +1353,7 @@ Trophies	Trofeos
 No trophies yet.	Aún no hay trofeos.
 Tournament won · {n} players	Torneo ganado · {n} jugadores
 The computer tour	El circuito contra la computadora
-All ten opponents beaten	Los diez rivales vencidos
+All fifteen opponents beaten	Los quince rivales vencidos
 Daily challenge	Desafío del día
 First of {n} players	Primero de {n} jugadores
 Easy shot	Tiro fácil
@@ -1616,3 +1616,71 @@ Leave your tournament before changing your username.	Sal de tu torneo antes de c
 Username changed.	Nombre de usuario cambiado.
 The server is still being updated to the new version. Try again in a few minutes.	El servidor todavía se está actualizando a la nueva versión. Inténtalo de nuevo en unos minutos.
 {shooter} made an opponent's ball: {next} to shoot.	{shooter} metió una bola del rival: le toca a {next}.
+# Five more computer opponents: Tito, Inês, Diego, Amara and Yuri.
+The Gambler	El Apostador
+Bets on every shot: as hard as the cue allows, with all the spin he can find. Safe play bores him.	Apuesta en cada tiro: tan fuerte como permite el taco y con todo el efecto que encuentre. Jugar a la defensiva le aburre.
+The Soft Touch	La Mano Suave
+Never hits harder than she must: the balls die at the pocket's edge and the cue ball stops where she wants it.	Nunca golpea más fuerte de lo necesario: las bolas mueren en la boca de la tronera y la blanca se para donde ella quiere.
+The Showman	El Showman
+Plays to the crowd: a raised cue, swerving spin and a bank whenever there's one. It works more often than it should.	Juega para el público: taco levantado, efectos que curvan y banda siempre que se puede. Funciona más a menudo de lo que debería.
+The Tactician	La Estratega
+Plans the whole rack: snookers you when the pot isn't sure, and runs out when it is.	Planea toda la mesa: te deja sin tiro cuando la bola no es segura, y limpia la mesa cuando lo es.
+The Machine	La Máquina
+No nerves, no flair: centre ball, measured pace, the same perfect stroke every time.	Sin nervios ni adornos: bola al centro, fuerza medida, el mismo golpe perfecto cada vez.
+Place your bets! Mine's on me.	¡Hagan sus apuestas! La mía va por mí.
+Lucky roll. Let it ride!	Buena tirada. ¡Que siga!
+Okay, okay. Double or nothing?	Vale, vale. ¿Doble o nada?
+The house always wins!	¡La casa siempre gana!
+Free chips! Thank you!	¡Fichas gratis! ¡Gracias!
+All in, and it paid!	¡Todo al rojo, y pagó!
+That's how you play the odds!	¡Así se juega con las probabilidades!
+Bad beat. Next hand.	Mala suerte. Siguiente mano.
+Too much spin? There's no such thing.	¿Demasiado efecto? Eso no existe.
+Busted. Worth the risk!	Me pasé. ¡Valió el riesgo!
+Jackpot! Same stakes again?	¡Premio gordo! ¿Otra con la misma apuesta?
+You beat the odds. Respect.	Venciste a las probabilidades. Respeto.
+Softly, now. The table likes a gentle hand.	Con calma. A la mesa le gusta una mano suave.
+Nicely done.	Bien hecho.
+A little hard, but it went in.	Un poco fuerte, pero entró.
+Less power, more feel.	Menos fuerza, más tacto.
+Oh dear. Ball in hand for me.	Vaya. Bola en mano para mí.
+Just enough to drop.	Lo justo para caer.
+See? No need to hit it hard.	¿Ves? No hace falta darle fuerte.
+A touch too soft.	Un pelín floja.
+Clumsy of me. Sorry.	Qué torpe. Perdona.
+Slow and steady. Thank you for the game.	Despacio y con calma. Gracias por la partida.
+Beautifully played. Well deserved.	Muy bien jugado. Merecido.
+Ladies and gentlemen... the show begins!	Damas y caballeros... ¡empieza el espectáculo!
+Not bad! Bow to the crowd!	¡Nada mal! ¡Saluda al público!
+You stole my applause!	¡Me robaste los aplausos!
+The crowd wanted more!	¡El público quería más!
+Ooh, a plot twist!	¡Uy, un giro inesperado!
+Ta-da!	¡Tachán!
+And for my next trick...	Y para mi siguiente truco...
+Even magicians have off nights.	Hasta los magos tienen noches malas.
+That was... part of the act.	Eso fue... parte del número.
+Thank you, thank you! Encore?	¡Gracias, gracias! ¿Otra?
+Take a bow, champion. You earned it.	Haz una reverencia, campeón. Te lo ganaste.
+Every rack is a puzzle. Let's solve this one.	Cada mesa es un rompecabezas. Resolvamos este.
+Good. Now where is your cue ball?	Bien. ¿Y ahora dónde quedó tu blanca?
+I saw that coming.	Me lo esperaba.
+That left me something. Thank you.	Eso me dejó algo. Gracias.
+As planned.	Tal como lo planeé.
+Exactly as I calculated.	Exactamente como lo calculé.
+Three moves ahead.	Tres jugadas por delante.
+A variable I missed.	Una variable que se me escapó.
+Hm. Recalculating.	Mm. Recalculando.
+Checkmate.	Jaque mate.
+You out-thought me. That's rare.	Pensaste mejor que yo. Eso es raro.
+Game initialised.	Partida iniciada.
+Noted.	Anotado.
+Error margin exceeded.	Margen de error superado.
+Penalty applied.	Penalización aplicada.
+As expected.	Como se esperaba.
+Next.	Siguiente.
+Deviation logged.	Desviación registrada.
+Malfunction. It will not repeat.	Fallo. No se repetirá.
+Result: win. Thank you for the data.	Resultado: victoria. Gracias por los datos.
+Unexpected outcome. Impressive.	Resultado inesperado. Impresionante.
+Opponents' remarks	Comentarios de los rivales
+The computer opponents comment on the game in speech bubbles.	Los rivales de la computadora comentan la partida en bocadillos.

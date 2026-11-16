@@ -62,6 +62,17 @@ pub const PERSONALITIES: &[Personality] = &[
         },
     },
     Personality {
+        code: "tito",
+        name: "Tito",
+        epithet: "The Gambler",
+        description: "Bets on every shot: as hard as the cue allows, with all the spin he can find. Safe play bores him.",
+        strength: 1,
+        player: AiPlayer {
+            skill: skill(1.35, 0.22, 7.0, Search::Normal, 0.0, false, true),
+            style: Style { safety_threshold: 150.0, power: 0.9, spin: 1.5, banks: 0.35, ..N },
+        },
+    },
+    Personality {
         code: "lola",
         name: "Lola",
         epithet: "The Bank Artist",
@@ -81,6 +92,17 @@ pub const PERSONALITIES: &[Personality] = &[
         player: AiPlayer {
             skill: skill(0.85, 0.14, 7.2, Search::Normal, 120.0, true, false),
             style: Style { safety_threshold: 250.0, safety_value: 0.4, power: 1.0, spin: 0.7, ..N },
+        },
+    },
+    Personality {
+        code: "ines",
+        name: "Inês",
+        epithet: "The Soft Touch",
+        description: "Never hits harder than she must: the balls die at the pocket's edge and the cue ball stops where she wants it.",
+        strength: 2,
+        player: AiPlayer {
+            skill: skill(0.9, 0.07, 5.8, Search::Normal, 180.0, true, false),
+            style: Style { power: -1.0, position: 1.5, spin: 0.6, safety_threshold: 760.0, ..N },
         },
     },
     Personality {
@@ -119,6 +141,17 @@ pub const PERSONALITIES: &[Personality] = &[
         },
     },
     Personality {
+        code: "diego",
+        name: "Diego",
+        epithet: "The Showman",
+        description: "Plays to the crowd: a raised cue, swerving spin and a bank whenever there's one. It works more often than it should.",
+        strength: 3,
+        player: AiPlayer {
+            skill: skill(0.65, 0.09, 6.8, Search::Normal, 220.0, true, true),
+            style: Style { spin: 1.5, elevation: 0.13, banks: 0.6, power: 0.3, ..N },
+        },
+    },
+    Personality {
         code: "rosa",
         name: "Rosa",
         epithet: "The Hustler",
@@ -141,6 +174,23 @@ pub const PERSONALITIES: &[Personality] = &[
         },
     },
     Personality {
+        code: "amara",
+        name: "Amara",
+        epithet: "The Tactician",
+        description: "Plans the whole rack: snookers you when the pot isn't sure, and runs out when it is.",
+        strength: 4,
+        player: AiPlayer {
+            skill: skill(0.45, 0.05, 6.6, Search::Wide, 420.0, true, true),
+            style: Style {
+                safety_threshold: 950.0,
+                safety_value: 2.0,
+                position: 1.6,
+                power: -0.4,
+                ..N
+            },
+        },
+    },
+    Personality {
         code: "sofia",
         name: "Sofia",
         epithet: "The Sharpshooter",
@@ -149,6 +199,17 @@ pub const PERSONALITIES: &[Personality] = &[
         player: AiPlayer {
             skill: skill(0.3, 0.05, 7.0, Search::Wide, 300.0, true, true),
             style: Style { safety_threshold: 450.0, safety_value: 0.7, power: 0.3, ..N },
+        },
+    },
+    Personality {
+        code: "yuri",
+        name: "Yuri",
+        epithet: "The Machine",
+        description: "No nerves, no flair: centre ball, measured pace, the same perfect stroke every time.",
+        strength: 5,
+        player: AiPlayer {
+            skill: skill(0.24, 0.02, 6.8, Search::Wide, 380.0, true, false),
+            style: Style { spin: 0.35, power: -0.1, ..N },
         },
     },
     Personality {
@@ -182,6 +243,7 @@ mod tests {
         for p in PERSONALITIES {
             assert!((1..=5).contains(&p.strength), "{}", p.code);
             assert!(p.code.chars().all(|c| c.is_ascii_lowercase()), "{}", p.code);
+            assert!(p.description.len() < 140, "{}: keep it to a line or two", p.code);
             assert_eq!(p.player.style.clamped(), p.player.style, "{}", p.code);
             assert_eq!(p.player.skill.clamped(), p.player.skill, "{}", p.code);
             assert_eq!(personality(p.code), Some(p));
@@ -189,5 +251,27 @@ mod tests {
         // Weakest first.
         assert!(PERSONALITIES.windows(2).all(|w| w[0].strength <= w[1].strength));
         assert!(personality("nobody").is_none());
+    }
+
+    /// Every opponent plays real, legal strokes on a fresh table: the break
+    /// and the two strokes after it.
+    #[test]
+    fn every_opponent_plays_legal_strokes() {
+        use crate::EightBallGame;
+        for (k, p) in PERSONALITIES.iter().enumerate() {
+            let mut g = EightBallGame::new(k as u64 + 1, 0);
+            for turn in 0..3u64 {
+                if g.game_over().is_some() {
+                    break;
+                }
+                let d = crate::ai::decide_with(&g, &p.player, turn * 31 + k as u64);
+                if let Some(at) = d.cue_ball {
+                    assert!(g.place_cue_ball(at), "{}: a cue ball placement it can't make", p.code);
+                }
+                g.play_shot(&d.shot, d.called_pocket)
+                    .unwrap_or_else(|e| panic!("{}: a stroke the rules refuse: {e}", p.code));
+            }
+            assert!(g.shots_taken() > 0, "{}", p.code);
+        }
     }
 }

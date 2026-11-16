@@ -167,7 +167,7 @@ pub const ACHIEVEMENTS: &[Achievement] = &[
     a(
         "ladder_champion",
         "Champion of the tour",
-        "Beat all ten opponents of the computer tour.",
+        "Beat all fifteen opponents of the computer tour.",
         Stat::Awarded,
         1,
         3,

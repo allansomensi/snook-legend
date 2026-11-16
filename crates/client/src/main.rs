@@ -709,6 +709,9 @@ async fn main() {
         // Looking down on the table in a game: no cord, fan or beam of the
         // hall in the way.
         scene.clear_over_table = !scene.lamp_visible;
+        if let Some(m) = current.as_mut() {
+            m.talk = config.opponent_talk;
+        }
         // Each game on its own table: a game played under an older ruleset
         // (a correspondence game started before an update, an old replay)
         // keeps the table it began on.

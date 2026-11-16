@@ -497,6 +497,14 @@ impl SettingsScreen {
                     }
                 }
 
+                switch_row(
+                    rows,
+                    ui,
+                    t("Opponents' remarks"),
+                    t("The computer opponents comment on the game in speech bubbles."),
+                    &mut config.opponent_talk,
+                );
+
                 rows.heading(ui, t("Aiming"), None);
                 let hint = match config.guide {
                     AimGuide::Full => t(

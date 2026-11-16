@@ -577,8 +577,8 @@ impl Versus {
             let row = Rect::new(body.x, top + (n - 1 - k) as f32 * (row_h + gap), list_w, row_h);
             let rung = k as u8;
             let unlocked = progress.unlocked(rung);
-            let beaten = rung < progress.beaten;
-            let is_next = rung == progress.beaten && !progress.complete();
+            let beaten = progress.is_beaten(rung);
+            let is_next = rung == progress.next() && !progress.complete();
             let is_sel = rung == selected;
             let hover = unlocked && ui.hovering(row);
             card_frame(row, is_sel, hover);
@@ -758,7 +758,7 @@ impl Versus {
             let text = if progress.complete() {
                 t("Win the last stage again while signed in to claim it.")
             } else {
-                t("Beat all ten opponents to earn it. It is sold nowhere.")
+                t("Beat all fifteen opponents to earn it. It is sold nowhere.")
             };
             // Why the last claim was refused (the game can't be sent again).
             if let Claim::Failed(f) = claimer.state {

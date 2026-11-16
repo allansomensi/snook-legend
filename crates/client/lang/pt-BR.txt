@@ -832,7 +832,7 @@ Reward	Prêmio
 {item} cue · exclusive	Taco {item} · exclusivo
 Yours: find it in the shop, under Cues.	É seu: está na loja, em Tacos.
 Win the last stage again while signed in to claim it.	Vença a última etapa de novo, conectado, para recebê-lo.
-Beat all ten opponents to earn it. It is sold nowhere.	Vença os dez adversários para ganhá-lo. Não é vendido em lugar nenhum.
+Beat all fifteen opponents to earn it. It is sold nowhere.	Vença os quinze adversários para ganhá-lo. Não é vendido em lugar nenhum.
 You won the tour! Sign in to claim your reward.	Você venceu o circuito! Entre para receber seu prêmio.
 The server is checking your final game…	O servidor está conferindo sua partida final…
 Try again	Tentar de novo
@@ -866,7 +866,7 @@ The Champion	O Campeão
 Unbeaten for years. Precise, patient and merciless: the last stage of the tour.	Invicto há anos. Preciso, paciente e implacável: a última etapa do circuito.
 Tour champion	Campeão do circuito
 Champion of the tour	Campeão do circuito
-Beat all ten opponents of the computer tour.	Vença os dez adversários do circuito contra o computador.
+Beat all fifteen opponents of the computer tour.	Vença os quinze adversários do circuito contra o computador.
 Connecting to {server}…	Conectando a {server}…
 Connection lost. Reconnecting (attempt {n})…	Conexão perdida. Reconectando (tentativa {n})…
 Connection lost. Reconnecting…	Conexão perdida. Reconectando…
@@ -1353,7 +1353,7 @@ Trophies	Troféus
 No trophies yet.	Nenhum troféu ainda.
 Tournament won · {n} players	Torneio vencido · {n} jogadores
 The computer tour	O circuito contra o computador
-All ten opponents beaten	Os dez adversários vencidos
+All fifteen opponents beaten	Os quinze adversários vencidos
 Daily challenge	Desafio do dia
 First of {n} players	Primeiro entre {n} jogadores
 Easy shot	Tacada fácil
@@ -1616,3 +1616,71 @@ Leave your tournament before changing your username.	Saia do seu torneio antes d
 Username changed.	Nome de usuário alterado.
 The server is still being updated to the new version. Try again in a few minutes.	O servidor ainda está sendo atualizado para a nova versão. Tente de novo em alguns minutos.
 {shooter} made an opponent's ball: {next} to shoot.	{shooter} encaçapou uma bola do adversário: vez de {next}.
+# Five more computer opponents: Tito, Inês, Diego, Amara and Yuri.
+The Gambler	O Apostador
+Bets on every shot: as hard as the cue allows, with all the spin he can find. Safe play bores him.	Aposta em toda tacada: com toda a força que o taco permite e todo o efeito que encontrar. Jogar na defesa o entedia.
+The Soft Touch	A Mão Leve
+Never hits harder than she must: the balls die at the pocket's edge and the cue ball stops where she wants it.	Nunca bate mais forte do que precisa: as bolas morrem na boca da caçapa e a branca para onde ela quer.
+The Showman	O Showman
+Plays to the crowd: a raised cue, swerving spin and a bank whenever there's one. It works more often than it should.	Joga para a plateia: taco levantado, efeitos que fazem curva e tabela sempre que dá. Funciona mais vezes do que deveria.
+The Tactician	A Estrategista
+Plans the whole rack: snookers you when the pot isn't sure, and runs out when it is.	Planeja a mesa inteira: te deixa sem jogada quando a bola não é certa, e limpa a mesa quando é.
+The Machine	A Máquina
+No nerves, no flair: centre ball, measured pace, the same perfect stroke every time.	Sem nervos, sem firula: bola no centro, força medida, a mesma tacada perfeita toda vez.
+Place your bets! Mine's on me.	Façam suas apostas! A minha é em mim.
+Lucky roll. Let it ride!	Sorte nos dados. Deixa correr!
+Okay, okay. Double or nothing?	Tá bom, tá bom. Dobro ou nada?
+The house always wins!	A casa sempre ganha!
+Free chips! Thank you!	Fichas grátis! Obrigado!
+All in, and it paid!	Apostei tudo, e pagou!
+That's how you play the odds!	É assim que se joga com as chances!
+Bad beat. Next hand.	Azar. Próxima mão.
+Too much spin? There's no such thing.	Efeito demais? Isso não existe.
+Busted. Worth the risk!	Quebrei. Valeu o risco!
+Jackpot! Same stakes again?	Bolada! Mesma aposta de novo?
+You beat the odds. Respect.	Você venceu as probabilidades. Respeito.
+Softly, now. The table likes a gentle hand.	Com calma. A mesa gosta de mão leve.
+Nicely done.	Muito bem feito.
+A little hard, but it went in.	Um pouco forte, mas entrou.
+Less power, more feel.	Menos força, mais toque.
+Oh dear. Ball in hand for me.	Ai, ai. Bola na mão para mim.
+Just enough to drop.	Só o suficiente para cair.
+See? No need to hit it hard.	Viu? Não precisa bater forte.
+A touch too soft.	Um pouquinho fraca demais.
+Clumsy of me. Sorry.	Que descuido o meu. Desculpe.
+Slow and steady. Thank you for the game.	Devagar e sempre. Obrigada pelo jogo.
+Beautifully played. Well deserved.	Lindamente jogado. Merecido.
+Ladies and gentlemen... the show begins!	Senhoras e senhores... o show vai começar!
+Not bad! Bow to the crowd!	Nada mal! Agradeça ao público!
+You stole my applause!	Você roubou meus aplausos!
+The crowd wanted more!	O público queria mais!
+Ooh, a plot twist!	Uh, uma reviravolta!
+Ta-da!	Tcharam!
+And for my next trick...	E para o meu próximo truque...
+Even magicians have off nights.	Até mágicos têm noites ruins.
+That was... part of the act.	Isso foi... parte do número.
+Thank you, thank you! Encore?	Obrigado, obrigado! Bis?
+Take a bow, champion. You earned it.	Faça uma reverência, campeão. Você mereceu.
+Every rack is a puzzle. Let's solve this one.	Cada mesa é um quebra-cabeça. Vamos resolver este.
+Good. Now where is your cue ball?	Bom. E agora, onde ficou a sua branca?
+I saw that coming.	Eu já esperava essa.
+That left me something. Thank you.	Isso me deixou uma chance. Obrigada.
+As planned.	Como planejado.
+Exactly as I calculated.	Exatamente como calculei.
+Three moves ahead.	Três jogadas à frente.
+A variable I missed.	Uma variável que deixei passar.
+Hm. Recalculating.	Hm. Recalculando.
+Checkmate.	Xeque-mate.
+You out-thought me. That's rare.	Você pensou melhor que eu. Isso é raro.
+Game initialised.	Partida iniciada.
+Noted.	Anotado.
+Error margin exceeded.	Margem de erro excedida.
+Penalty applied.	Penalidade aplicada.
+As expected.	Como esperado.
+Next.	Próxima.
+Deviation logged.	Desvio registrado.
+Malfunction. It will not repeat.	Falha. Não vai se repetir.
+Result: win. Thank you for the data.	Resultado: vitória. Obrigado pelos dados.
+Unexpected outcome. Impressive.	Resultado inesperado. Impressionante.
+Opponents' remarks	Comentários dos adversários
+The computer opponents comment on the game in speech bubbles.	Os adversários do computador comentam o jogo em balões de fala.

@@ -1,5 +1,6 @@
-//! The ladder: ten computer opponents of increasing strength, beaten one
-//! after the other. Beating the last one earns an item sold nowhere else.
+//! The ladder (the computer tour): fifteen computer opponents of
+//! increasing strength, beaten one after the other. Beating the last one,
+//! once all the others are beaten, earns an item sold nowhere else.
 //!
 //! The ladder is played offline, so the game keeps the progress; the reward
 //! is the server's to give. The game sends the recorded final game and the
@@ -17,7 +18,14 @@ use snookered_core::{BallId, EightBallGame};
 use crate::replay::{Replay, Stroke, apply};
 
 /// The opponents, from the first rung to the last (personality codes).
-pub const RUNGS: [&str; 10] =
+pub const RUNGS: [&str; 15] = [
+    "leo", "nina", "tito", "lola", "bruno", "ines", "marta", "otto", "diego", "rosa", "kenji",
+    "amara", "sofia", "yuri", "viktor",
+];
+
+/// The ladder before it grew to fifteen (a saved progress from then counts
+/// rungs of this list).
+pub const RUNGS_OF_TEN: [&str; 10] =
     ["leo", "nina", "lola", "bruno", "marta", "otto", "rosa", "kenji", "sofia", "viktor"];
 
 /// The shop item for beating the whole ladder.
@@ -194,12 +202,16 @@ mod tests {
     }
 
     #[test]
-    fn the_ladder_is_ten_personalities_getting_stronger() {
+    fn the_ladder_is_fifteen_personalities_getting_stronger() {
         let rungs: Vec<_> = (0..RUNGS.len()).map(|k| rung(k).expect("exists")).collect();
-        assert_eq!(rungs.len(), 10);
+        assert_eq!(rungs.len(), 15);
+        assert_eq!(rungs.len(), personalities::PERSONALITIES.len(), "every opponent is on it");
         assert!(rungs.windows(2).all(|w| w[0].strength <= w[1].strength));
         assert_eq!(final_opponent().code, "viktor");
-        assert!(rung(10).is_none());
+        assert!(rung(15).is_none());
+        // The ladder of ten, in its order, inside the new one.
+        let old: Vec<_> = RUNGS.iter().filter(|c| RUNGS_OF_TEN.contains(c)).collect();
+        assert!(old.iter().zip(RUNGS_OF_TEN.iter()).all(|(a, b)| *a == b));
         assert_ne!(ai_seed(7, 1), ai_seed(7, 2));
     }
 

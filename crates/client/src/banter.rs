@@ -168,6 +168,61 @@ pub fn lines(code: &str, moment: Moment) -> &'static [&'static str] {
         ("viktor", IWin) => &["The title stays with me. Good game."],
         ("viktor", YouWin) => &["Remarkable. You've earned my respect."],
 
+        // Tito, the gambler: everything on red, risk is the fun.
+        ("tito", Start) => &["Place your bets! Mine's on me."],
+        ("tito", YouPot) => &["Lucky roll. Let it ride!", "Okay, okay. Double or nothing?"],
+        ("tito", YouMiss) => &["The house always wins!"],
+        ("tito", YouFoul) => &["Free chips! Thank you!"],
+        ("tito", IPot) => &["All in, and it paid!", "That's how you play the odds!"],
+        ("tito", IMiss) => &["Bad beat. Next hand.", "Too much spin? There's no such thing."],
+        ("tito", IFoul) => &["Busted. Worth the risk!"],
+        ("tito", IWin) => &["Jackpot! Same stakes again?"],
+        ("tito", YouWin) => &["You beat the odds. Respect."],
+
+        // Inês, the soft touch: quiet, kind, precise.
+        ("ines", Start) => &["Softly, now. The table likes a gentle hand."],
+        ("ines", YouPot) => &["Nicely done.", "A little hard, but it went in."],
+        ("ines", YouMiss) => &["Less power, more feel."],
+        ("ines", YouFoul) => &["Oh dear. Ball in hand for me."],
+        ("ines", IPot) => &["Just enough to drop.", "See? No need to hit it hard."],
+        ("ines", IMiss) => &["A touch too soft."],
+        ("ines", IFoul) => &["Clumsy of me. Sorry."],
+        ("ines", IWin) => &["Slow and steady. Thank you for the game."],
+        ("ines", YouWin) => &["Beautifully played. Well deserved."],
+
+        // Diego, the showman: plays to the crowd.
+        ("diego", Start) => &["Ladies and gentlemen... the show begins!"],
+        ("diego", YouPot) => &["Not bad! Bow to the crowd!", "You stole my applause!"],
+        ("diego", YouMiss) => &["The crowd wanted more!"],
+        ("diego", YouFoul) => &["Ooh, a plot twist!"],
+        ("diego", IPot) => &["Ta-da!", "And for my next trick..."],
+        ("diego", IMiss) => &["Even magicians have off nights."],
+        ("diego", IFoul) => &["That was... part of the act."],
+        ("diego", IWin) => &["Thank you, thank you! Encore?"],
+        ("diego", YouWin) => &["Take a bow, champion. You earned it."],
+
+        // Amara, the tactician: thinks in moves, like chess.
+        ("amara", Start) => &["Every rack is a puzzle. Let's solve this one."],
+        ("amara", YouPot) => &["Good. Now where is your cue ball?", "I saw that coming."],
+        ("amara", YouMiss) => &["That left me something. Thank you."],
+        ("amara", YouFoul) => &["As planned."],
+        ("amara", IPot) => &["Exactly as I calculated.", "Three moves ahead."],
+        ("amara", IMiss) => &["A variable I missed."],
+        ("amara", IFoul) => &["Hm. Recalculating."],
+        ("amara", IWin) => &["Checkmate."],
+        ("amara", YouWin) => &["You out-thought me. That's rare."],
+
+        // Yuri, the machine: no emotion, only results.
+        ("yuri", Start) => &["Game initialised."],
+        ("yuri", YouPot) => &["Acceptable.", "Noted."],
+        ("yuri", YouMiss) => &["Error margin exceeded."],
+        ("yuri", YouFoul) => &["Penalty applied."],
+        ("yuri", IPot) => &["As expected.", "Next."],
+        ("yuri", IMiss) => &["Deviation logged."],
+        ("yuri", IFoul) => &["Malfunction. It will not repeat."],
+        ("yuri", IWin) => &["Result: win. Thank you for the data."],
+        ("yuri", YouWin) => &["Unexpected outcome. Impressive."],
+
         // The classic levels: a polite machine.
         (_, Start) => &["Calibration complete. Good luck, human."],
         (_, YouPot) => &["Shot registered: successful."],
@@ -186,12 +241,9 @@ pub fn lines(code: &str, moment: Moment) -> &'static [&'static str] {
 pub fn all_lines() -> Vec<&'static str> {
     use Moment::*;
     let moments = [Start, YouPot, YouMiss, YouFoul, IPot, IMiss, IFoul, IWin, YouWin];
-    let codes =
-        ["leo", "nina", "lola", "bruno", "marta", "otto", "rosa", "kenji", "sofia", "viktor", ""];
-    codes
-        .iter()
-        .flat_map(|c| moments.iter().flat_map(move |m| lines(c, *m).iter().copied()))
-        .collect()
+    // Every named opponent, and the classic levels ("").
+    let codes = snookered_core::personalities::PERSONALITIES.iter().map(|p| p.code).chain([""]);
+    codes.flat_map(|c| moments.iter().flat_map(move |m| lines(c, *m).iter().copied())).collect()
 }
 
 /// A number from 0 to 1 that changes with each input (deterministic, so a

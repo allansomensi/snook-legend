@@ -925,13 +925,18 @@ pub fn draw_person(code: &str, c: Vec2, r: f32) {
     let bg = rgb(match code {
         "leo" => [70, 140, 90],
         "nina" => [150, 110, 170],
+        "tito" => [40, 120, 80],
         "lola" => [60, 120, 150],
         "bruno" => [170, 70, 40],
+        "ines" => [170, 120, 140],
         "marta" => [80, 90, 110],
         "otto" => [110, 80, 50],
+        "diego" => [150, 30, 40],
         "rosa" => [150, 40, 70],
         "kenji" => [50, 100, 110],
+        "amara" => [30, 110, 100],
         "sofia" => [40, 60, 120],
+        "yuri" => [60, 70, 80],
         "viktor" => [92, 70, 120],
         _ => [70, 74, 90],
     });
@@ -940,17 +945,219 @@ pub fn draw_person(code: &str, c: Vec2, r: f32) {
     match code {
         "leo" => leo(&f),
         "nina" => nina(&f),
+        "tito" => tito(&f),
         "lola" => lola(&f),
         "bruno" => bruno(&f),
+        "ines" => ines(&f),
         "marta" => marta(&f),
         "otto" => otto(&f),
+        "diego" => diego(&f),
         "rosa" => rosa(&f),
         "kenji" => kenji(&f),
+        "amara" => amara(&f),
         "sofia" => sofia(&f),
+        "yuri" => yuri(&f),
         "viktor" => viktor(&f),
         _ => robot(&f),
     }
     rim(&p, bg);
+}
+
+/// Tito, the gambler: a tipped-back fedora, a loud palm-print shirt open
+/// at the collar, a toothpick and one eyebrow up: "double or nothing?"
+fn tito(p: &Pen) {
+    let f = Face { jaw: 0.18, ..Face::new([222, 172, 130]) };
+    let hair = rgb([58, 40, 30]);
+    let shirt = rgb([235, 120, 60]);
+    torso(p, 0.8, shirt);
+    if p.shows(22.0) {
+        // Palm leaves on the shirt.
+        for (x, y, a) in
+            [(-0.45, 0.75, 0.6), (0.4, 0.8, -0.5), (-0.2, 0.95, 0.2), (0.15, 0.68, -0.9)]
+        {
+            p.fill(p.oval_rot(x, y, 0.11, 0.04, a), rgb([40, 150, 90]));
+            p.fill(p.oval_rot(x + 0.04, y + 0.03, 0.09, 0.03, a + 0.7), rgb([30, 120, 70]));
+        }
+    }
+    neck(p, &f, 0.11);
+    // The open collar.
+    for s in [-1.0f32, 1.0] {
+        p.fill(p.poly(&[(s * 0.04, 0.55), (s * 0.24, 0.5), (s * 0.18, 0.72)]), shade(shirt, 0.15));
+    }
+    head(p, &f);
+    sideburns(p, &f, hair, -0.1, 0.25, 0.05);
+    // The fedora, pushed back: the crown, a black band, the brim.
+    let felt = rgb([200, 180, 140]);
+    let crown = p.round_rect(-0.25, -0.58, 0.25, -0.27, 0.1);
+    p.shaded(crown, (-0.03, -0.02), 0.15, felt);
+    p.fill(p.rect(-0.25, -0.36, 0.25, -0.28), rgb([40, 34, 30]));
+    p.oval(0.0, -0.265, 0.43, 0.068, shade(felt, -0.2));
+    p.oval(0.0, -0.28, 0.42, 0.06, shade(felt, -0.05));
+    if p.shows(24.0) {
+        p.line((0.12, -0.36), (0.19, -0.44), 0.03, rgb([220, 60, 50]));
+    }
+    // One brow up, one eye narrowed: the bluff.
+    eyes(p, &f, &Eye { open: 0.8, look: (0.35, 0.0), ..Eye::new([70, 110, 60]) });
+    brow(p, -0.125, f.y - 0.06, -1.0, 0.0, 0.02, 0.02, 0.035, hair);
+    brow(p, 0.125, f.y - 0.12, 1.0, 0.0, -0.05, 0.06, 0.035, hair);
+    nose(p, &f, 1.05);
+    // A lopsided smile with a toothpick.
+    smile(p, 0.03, f.y + 0.24, 0.1, 0.03, -0.04, 0.03, rgb([140, 70, 60]));
+    p.line((0.1, f.y + 0.23), (0.28, f.y + 0.17), 0.018, rgb([230, 205, 160]));
+    blush(p, &f, 0.4);
+}
+
+/// Inês, the soft touch: dark hair in a low bun, pearl earrings, a lilac
+/// cardigan over a white blouse and a calm, quiet smile.
+fn ines(p: &Pen) {
+    let f = Face { jaw: 0.27, ears: 0.9, ..Face::new([236, 196, 168]) };
+    let hair = rgb([46, 30, 26]);
+    let cardigan = rgb([170, 140, 200]);
+    // The bun, low at the back.
+    p.oval(0.0, 0.18, 0.2, 0.15, shade(hair, -0.2));
+    torso(p, 0.7, cardigan);
+    p.fill(p.poly(&[(-0.16, 0.5), (0.16, 0.5), (0.0, 0.95)]), SHIRT_WHITE);
+    if p.shows(20.0) {
+        for y in [0.68, 0.82, 0.96] {
+            p.oval(0.13, y, 0.018, 0.018, shade(cardigan, 0.3));
+        }
+    }
+    neck(p, &f, 0.09);
+    head(p, &f);
+    // Hair parted in the middle, smoothed back.
+    let top = p.oval_poly(0.0, -0.14, 0.34, 0.31);
+    let top = above(p, top, (-0.4, -0.04), (0.4, -0.04));
+    p.shaded(top, (-0.03, -0.03), 0.15, hair);
+    for s in [-1.0f32, 1.0] {
+        p.fill(p.oval_rot(s * 0.27, -0.06, 0.07, 0.17, s * 0.2), hair);
+    }
+    if p.shows(22.0) {
+        p.line((0.0, -0.44), (0.0, -0.26), 0.012, shade(hair, 0.25));
+        shine(p, &p.arc(0.0, -0.15, 0.26, 0.24, 1.15 * PI, 1.4 * PI), 0.025, hair);
+    }
+    // Pearls.
+    for s in [-1.0f32, 1.0] {
+        p.oval(s * 0.3, f.y + 0.1, 0.025, 0.025, rgb([245, 240, 230]));
+    }
+    eyes(p, &f, &Eye { open: 0.75, lashes: true, look: (0.0, 0.25), ..Eye::new([90, 60, 40]) });
+    brows(p, &f, -0.065, -0.07, 0.03, 0.022, shade(hair, 0.1));
+    nose(p, &f, 0.8);
+    smile(p, 0.0, f.y + 0.24, 0.08, 0.025, 0.0, 0.025, rgb([170, 80, 90]));
+    blush(p, &f, 0.9);
+}
+
+/// Diego, the showman: a high glossy quiff, a red stage jacket with a bow
+/// tie, a wink and the widest grin in the hall.
+fn diego(p: &Pen) {
+    let f = Face { jaw: 0.2, ..Face::new([206, 150, 108]) };
+    let hair = rgb([24, 20, 22]);
+    let jacket = rgb([190, 30, 45]);
+    torso(p, 0.85, jacket);
+    p.fill(p.poly(&[(-0.17, 0.5), (0.17, 0.5), (0.0, 0.9)]), SHIRT_WHITE);
+    for s in [-1.0f32, 1.0] {
+        // Satin lapels.
+        p.fill(p.poly(&[(s * 0.17, 0.5), (s * 0.3, 0.6), (s * 0.05, 0.98)]), shade(jacket, -0.25));
+    }
+    if p.shows(22.0) {
+        for (x, y) in [(-0.5, 0.8), (0.48, 0.85), (-0.35, 0.95), (0.33, 0.7)] {
+            p.star((x, y), 0.025, 0.01, 4, 0.0, rgb([255, 220, 150]));
+        }
+    }
+    neck(p, &f, 0.11);
+    // The bow tie.
+    let tie = rgb([20, 20, 24]);
+    p.fill(p.poly(&[(0.0, 0.57), (-0.12, 0.51), (-0.12, 0.63)]), tie);
+    p.fill(p.poly(&[(0.0, 0.57), (0.12, 0.51), (0.12, 0.63)]), tie);
+    p.oval(0.0, 0.57, 0.03, 0.03, shade(tie, 0.2));
+    head(p, &f);
+    // The quiff: swept up and forward.
+    short_hair(p, &f, hair, f.y - 0.22, 0.02);
+    p.shaded(p.oval_rot(0.05, -0.43, 0.27, 0.13, -0.25), (-0.03, -0.03), 0.2, hair);
+    if p.shows(20.0) {
+        shine(p, &p.quad((-0.15, -0.45), (0.05, -0.55), (0.25, -0.45)), 0.03, hair);
+    }
+    // A wink.
+    eye(p, -0.125, f.y + 0.07, -1.0, &Eye { look: (0.3, 0.0), ..Eye::new([60, 40, 30]) });
+    happy_eye(p, 0.125, f.y + 0.07, 1.0, false);
+    brows(p, &f, -0.08, -0.1, 0.06, 0.035, hair);
+    nose(p, &f, 1.0);
+    grin(p, &f, 0.0, f.y + 0.23, 0.15, 0.065, -0.02, 0.4, true);
+    // A thin moustache.
+    let mo = p.quad((-0.1, f.y + 0.205), (0.0, f.y + 0.18), (0.1, f.y + 0.205));
+    p.stroke(&mo, 0.018, hair);
+}
+
+/// Amara, the tactician: a patterned head wrap, a teal blazer with a chess
+/// knight pin, and a steady, calculating look.
+fn amara(p: &Pen) {
+    let f = Face { jaw: 0.25, ears: 0.0, ..Face::new([128, 84, 58]) };
+    let wrap = rgb([235, 170, 50]);
+    let blazer = rgb([30, 120, 120]);
+    torso(p, 0.76, blazer);
+    p.fill(p.poly(&[(-0.15, 0.5), (0.15, 0.5), (0.0, 0.85)]), rgb([30, 30, 36]));
+    for s in [-1.0f32, 1.0] {
+        p.fill(p.poly(&[(s * 0.15, 0.5), (s * 0.28, 0.62), (s * 0.06, 0.95)]), shade(blazer, -0.2));
+    }
+    if p.shows(20.0) {
+        // The knight: a little silver horse head.
+        let (x, y) = (-0.3, 0.72);
+        p.fill(
+            p.poly(&[
+                (x - 0.04, y + 0.06),
+                (x - 0.03, y - 0.04),
+                (x + 0.03, y - 0.06),
+                (x + 0.05, y),
+            ]),
+            rgb([215, 215, 225]),
+        );
+        p.fill(p.rect(x - 0.05, y + 0.05, x + 0.05, y + 0.08), rgb([215, 215, 225]));
+    }
+    neck(p, &f, 0.1);
+    head(p, &f);
+    // The wrap, tall at the back, with a pattern.
+    let wrap_poly = p.oval_poly(0.0, -0.3, 0.36, 0.26);
+    let wrap_poly = above(p, wrap_poly, (-0.42, -0.1), (0.42, -0.14));
+    p.shaded(wrap_poly, (-0.03, -0.03), 0.18, wrap);
+    p.oval(0.12, -0.5, 0.15, 0.1, shade(wrap, -0.1));
+    if p.shows(22.0) {
+        for (x, y) in [(-0.2, -0.3), (-0.05, -0.38), (0.12, -0.3), (0.25, -0.22), (-0.1, -0.2)] {
+            p.oval(x, y, 0.028, 0.028, rgb([170, 40, 50]));
+        }
+    }
+    // Gold hoops.
+    for s in [-1.0f32, 1.0] {
+        p.ring(s * 0.31, f.y + 0.13, 0.04, 0.012, GOLD_METAL);
+    }
+    eyes(p, &f, &Eye { open: 0.82, slant: 0.2, lashes: true, ..Eye::new([60, 36, 24]) });
+    brows(p, &f, -0.04, -0.07, 0.02, 0.03, rgb([30, 20, 18]));
+    nose(p, &f, 1.0);
+    smile(p, 0.0, f.y + 0.245, 0.075, 0.01, 0.0, 0.03, rgb([120, 50, 50]));
+}
+
+/// Yuri, the machine: a platinum buzz cut, a black turtleneck, an earpiece
+/// and a face that shows nothing at all.
+fn yuri(p: &Pen) {
+    let f = Face { w: 0.29, h: 0.36, jaw: 0.14, ..Face::new([238, 214, 200]) };
+    let hair = rgb([225, 222, 210]);
+    let sweater = rgb([30, 30, 34]);
+    torso(p, 0.72, sweater);
+    // The turtleneck.
+    p.fill(p.round_rect(-0.15, 0.4, 0.15, 0.6, 0.05), shade(sweater, 0.12));
+    if p.shows(20.0) {
+        for y in [0.45, 0.5, 0.55] {
+            p.line((-0.14, y), (0.14, y), 0.008, shade(sweater, 0.25));
+        }
+    }
+    head(p, &f);
+    short_hair(p, &f, hair, f.y - 0.24, 0.0);
+    // The earpiece.
+    p.oval(0.31, f.y + 0.05, 0.03, 0.045, rgb([40, 40, 46]));
+    p.line((0.31, f.y + 0.09), (0.26, f.y + 0.3), 0.012, rgb([60, 60, 66]));
+    eyes(p, &f, &Eye { open: 0.7, slant: 0.1, size: 0.9, ..Eye::new([120, 140, 150]) });
+    brows(p, &f, -0.08, -0.08, 0.0, 0.025, shade(hair, -0.25));
+    nose(p, &f, 0.9);
+    // A straight line of a mouth.
+    p.line((-0.07, f.y + 0.245), (0.07, f.y + 0.245), 0.022, rgb([150, 100, 100]));
 }
 
 /// Leo, the rookie: a cap worn a little crooked, freckles, a plaster on

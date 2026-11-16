@@ -941,7 +941,7 @@ impl ProfileScreen {
                     Icon::Crown,
                     Color::new(0.75, 0.55, 0.95, 1.0),
                     t("The computer tour").to_string(),
-                    t("All ten opponents beaten").to_string(),
+                    t("All fifteen opponents beaten").to_string(),
                 ),
                 _ => (
                     Icon::Star,

@@ -48,6 +48,11 @@ pub struct TableSpec {
     /// Radius of the corner and side holes in the slate (m).
     pub corner_hole_radius: f64,
     pub side_hole_radius: f64,
+    /// The side pockets have a liner behind the hole, as real ones do: a
+    /// ball that gets as deep as the hole's centre drops, wherever it is
+    /// across the throat (no resting in the throat beside the hole).
+    #[serde(default)]
+    pub side_liner: bool,
 }
 
 impl TableSpec {
@@ -71,17 +76,23 @@ impl TableSpec {
         side_facing_open: 14.0 * std::f64::consts::PI / 180.0,
         corner_hole_radius: 0.057,
         side_hole_radius: 0.0625,
+        side_liner: false,
     };
 
-    /// A regulation 8-foot table (WPA: an 88" × 44" playing surface) with
-    /// the side pockets as open as the rules allow: a 5 5/8" mouth whose
-    /// facings open wider, so a ball rolling in at an angle still drops.
+    /// An 8-foot table (WPA: an 88" × 44" playing surface) with open, more
+    /// forgiving side pockets: a 6.1" mouth (a little past the WPA's 5 5/8")
+    /// whose facings open out at 22°, a hole that starts right behind the
+    /// mouth and spans the throat, and a liner behind it, so a ball off the
+    /// centre or rolling in at an angle still drops, and none can rest in
+    /// the throat (see `tests/pockets.rs` and `examples/pocket_angles.rs`).
     pub const TOURNAMENT_8FT: TableSpec = TableSpec {
         length: 2.235,
         width: 1.118,
-        side_mouth: 0.1429,
+        side_mouth: 0.155,
+        side_shelf: 0.0,
         side_facing_open: 22.0 * std::f64::consts::PI / 180.0,
-        side_hole_radius: 0.0665,
+        side_hole_radius: 0.085,
+        side_liner: true,
         ..Self::TOURNAMENT_9FT
     };
 
@@ -161,12 +172,20 @@ pub struct Pocket {
     pub hole_center: DVec2,
     /// Radius of the hole: a ball whose centre is inside it drops.
     pub hole_radius: f64,
+    /// A liner behind the hole: a ball as deep as the hole's centre drops
+    /// (see [`TableSpec::side_liner`]).
+    pub liner: bool,
 }
 
 impl Pocket {
     /// Returns true if a ball centred at `p` has dropped into this pocket.
     pub fn captures(&self, p: DVec2) -> bool {
         p.distance(self.hole_center) < self.hole_radius
+            || self.liner && {
+                let rel = p - self.mouth_center;
+                let deep = (self.hole_center - self.mouth_center).dot(self.outward);
+                rel.dot(self.outward) >= deep && rel.dot(self.outward.perp()).abs() < 2.0 * deep
+            }
     }
 
     /// True if `p` is past the mouth line, in this pocket's throat or hole.
@@ -247,6 +266,7 @@ impl Table {
                 shelf: spec.corner_shelf,
                 hole_center: mouth_center + outward * (spec.corner_shelf + hole_radius),
                 hole_radius,
+                liner: false,
             });
         }
 
@@ -273,6 +293,7 @@ impl Table {
                 shelf: spec.side_shelf,
                 hole_center: DVec2::new(0.0, sy * (hw + spec.side_shelf + hole_radius)),
                 hole_radius,
+                liner: spec.side_liner,
             });
         }
 

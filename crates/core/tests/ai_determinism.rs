@@ -140,4 +140,4 @@ fn decisions_are_bit_identical_everywhere() {
 /// Update only on purpose (a change to the physics, the rules or the AI of
 /// the current ruleset), from the values printed above. An older ruleset's
 /// value never changes: games recorded under it must replay the same.
-const EXPECTED: [(u8, u64); 2] = [(1, 0x5f9e_be78_d9d8_361f), (2, 0x0b68_fc4c_5ce8_4046)];
+const EXPECTED: [(u8, u64); 2] = [(1, 0x5f9e_be78_d9d8_361f), (2, 0x7f8d_52de_242c_eb40)];

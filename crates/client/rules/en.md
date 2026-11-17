@@ -40,7 +40,7 @@ Every foul passes the turn, and most of them give your opponent balls: the lowes
 Hitting none of your balls: your opponent's lowest ball on the table comes off (it counts for them), and you lose the turn. Hitting the 8 first before your group is cleared costs the same. Missing and pocketing the cue ball as well: your opponent's two lowest balls.
 
 ### Hitting your opponent's ball
-Hitting one of your opponent's balls first, directly: their two lowest balls come off, and you lose the turn. If the cue ball went to a cushion first: one ball. Hitting your opponent's ball directly and pocketing the cue ball as well: their three lowest.
+Hitting one of your opponent's balls first, directly: their two lowest balls come off, and you lose the turn. If the ball you hit goes down, it stays down and the two come off all the same. If the cue ball went to a cushion first: one ball. Hitting your opponent's ball directly and pocketing the cue ball as well: their three lowest.
 
 ### Pocketing the cue ball
 One ball to your opponent, who gets the cue ball in hand and may place it anywhere on the table (behind the head string after a break). Only a cue ball that went down or left the table is in hand; after any other foul it is played from where it stopped.

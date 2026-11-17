@@ -1889,6 +1889,37 @@ mod tests {
         assert_eq!(g.ball_in_hand(), Some(BallInHand::Anywhere));
     }
 
+    /// The opponent's ball hit directly and made: it stays down, and two
+    /// more of theirs come off as well (the one that fell doesn't count
+    /// towards the two).
+    #[test]
+    fn potting_the_opponents_ball_hit_directly_still_gives_two_more() {
+        let mut g = house(&[(0, DVec2::new(-0.2, 0.0))]);
+        let pocket = g.table.pocket(PocketId::FootLeft).aim_point();
+        let back = (DVec2::ZERO - pocket).normalize();
+        layout(
+            &mut g,
+            &[
+                (0, pocket + back * 0.6),
+                (3, pocket + back * 0.15),
+                (1, DVec2::new(-0.5, 0.3)),
+                (4, DVec2::new(-0.6, -0.3)),
+                (6, DVec2::new(-0.3, -0.3)),
+                (12, DVec2::new(0.0, -0.4)),
+                (8, DVec2::new(-0.8, -0.2)),
+            ],
+        );
+        // A stop shot: the 3 goes in, the cue ball stays up.
+        let shot =
+            straight_shot(&g, BallId(3), PocketId::FootLeft, 2.0).with_tip(DVec2::new(0.0, -0.4));
+        let report = g.play_shot(&shot, None).unwrap();
+        assert_eq!(report.fouls, vec![Foul::WrongBallFirst(BallId(3))], "{report:?}");
+        assert!(report.pocketed.iter().any(|(b, _)| *b == BallId(3)), "{report:?}");
+        assert_eq!(report.penalty, vec![BallId(1), BallId(4)]);
+        assert_eq!(on_table(&g, Group::Solids), vec![6], "the 3 that fell and two more");
+        assert_eq!((g.current_player(), g.ball_in_hand()), (1, None));
+    }
+
     #[test]
     fn hitting_the_eight_too_soon_counts_as_a_miss() {
         let mut g = house(&[

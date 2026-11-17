@@ -23,6 +23,8 @@ pub enum MenuAction {
     Restart,
     /// The notes of this version (the version label).
     WhatsNew,
+    /// The rules of the game.
+    Rules,
     /// The button under a note on the board.
     Note(snook_legend_proto::NoteAction),
     /// The lounge's daily games (some are waiting for the player).
@@ -287,6 +289,7 @@ impl Menu {
             (Icon::Trophy, t("World ranking"), MenuAction::Ranking),
             (Icon::Person, t("Profile"), MenuAction::Profile),
             (Icon::Shop, t("Shop"), MenuAction::Shop),
+            (Icon::Book, t("Rules of the game"), MenuAction::Rules),
             (Icon::Gear, t("Settings"), MenuAction::Settings),
             (Icon::Power, t("Quit"), MenuAction::Quit),
         ];

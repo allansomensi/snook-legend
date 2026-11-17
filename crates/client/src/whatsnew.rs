@@ -5,6 +5,9 @@
 //! The notes live in `whatsnew/<language>.md`: `## <version>` starts a
 //! version (newest first), `### <title>` a highlight, and the lines after it
 //! are its text. Lines starting with a single `#` are comments.
+//!
+//! The same dialog shows the rules of the game, from `rules/<language>.md`
+//! (`## <part>`, then `### <rule>`).
 
 use std::sync::OnceLock;
 
@@ -59,6 +62,20 @@ pub fn parse(text: &str) -> Vec<Notes> {
     out
 }
 
+fn rules_source(lang: Lang) -> &'static str {
+    match lang {
+        Lang::English => include_str!("../rules/en.md"),
+        Lang::Portuguese => include_str!("../rules/pt-BR.md"),
+        Lang::Spanish => include_str!("../rules/es.md"),
+    }
+}
+
+/// The rules in `lang`, part by part.
+fn rules(lang: Lang) -> &'static [Notes] {
+    static CACHE: [OnceLock<Vec<Notes>>; 3] = [OnceLock::new(), OnceLock::new(), OnceLock::new()];
+    CACHE[lang as usize].get_or_init(|| parse(rules_source(lang)))
+}
+
 /// Every version's notes in `lang`, newest first.
 fn notes(lang: Lang) -> &'static [Notes] {
     static CACHE: [OnceLock<Vec<Notes>>; 3] = [OnceLock::new(), OnceLock::new(), OnceLock::new()];
@@ -86,13 +103,15 @@ fn unseen(seen: &str) -> Vec<String> {
 pub struct WhatsNew {
     versions: Vec<String>,
     scroll: f32,
+    /// The rules of the game instead of the notes.
+    rules: bool,
 }
 
 impl WhatsNew {
     /// After an update: the notes the player hasn't seen, if any.
     pub fn after_update(seen: &str) -> Option<WhatsNew> {
         let versions = unseen(seen);
-        (!versions.is_empty()).then_some(WhatsNew { versions, scroll: 0.0 })
+        (!versions.is_empty()).then_some(WhatsNew { versions, scroll: 0.0, rules: false })
     }
 
     /// From the menu or the settings: this version's notes and the ones
@@ -103,13 +122,18 @@ impl WhatsNew {
             .map(|n| n.version.clone())
             .filter(|v| !newer(v, VERSION))
             .collect();
-        WhatsNew { versions, scroll: 0.0 }
+        WhatsNew { versions, scroll: 0.0, rules: false }
     }
 
     /// One version's notes (development aid: SNOOK_LEGEND_WHATS_NEW=0.2.0
     /// shows the notes written for the next version).
     pub fn of(version: &str) -> Option<WhatsNew> {
-        version_notes(version).map(|n| WhatsNew { versions: vec![n.version.clone()], scroll: 0.0 })
+        version_notes(version).map(|n| WhatsNew { versions: vec![n.version.clone()], scroll: 0.0, rules: false })
+    }
+
+    /// The rules of the game, in the player's language.
+    pub fn rules() -> WhatsNew {
+        WhatsNew { versions: Vec::new(), scroll: 0.0, rules: true }
     }
 
     /// Draws the dialog over everything; returns true when it is closed
@@ -123,8 +147,12 @@ impl WhatsNew {
         const FOOTER: f32 = 92.0;
         let w = 600.0f32.min(sw - 16.0);
         let inner = w - 2.0 * PAD;
-        let several = self.versions.len() > 1;
-        let shown: Vec<&Notes> = self.versions.iter().filter_map(|v| version_notes(v)).collect();
+        let several = self.versions.len() > 1 || self.rules;
+        let shown: Vec<&Notes> = if self.rules {
+            rules(crate::i18n::lang()).iter().collect()
+        } else {
+            self.versions.iter().filter_map(|v| version_notes(v)).collect()
+        };
 
         // Lay the text out once to know its height.
         let mut blocks: Vec<(f32, Vec<String>, f32, Color, bool)> = Vec::new();
@@ -134,7 +162,11 @@ impl WhatsNew {
                 if k > 0 {
                     y += 10.0;
                 }
-                let title = tw("Version {v}", &[("v", &n.version)]);
+                let title = if self.rules {
+                    n.version.clone()
+                } else {
+                    tw("Version {v}", &[("v", &n.version)])
+                };
                 blocks.push((y, vec![title], 17.0, GOLD, true));
                 y += 30.0;
             }
@@ -155,12 +187,14 @@ impl WhatsNew {
         ui.panel(r);
 
         crate::icons::draw(
-            crate::icons::Icon::Star,
+            if self.rules { crate::icons::Icon::Book } else { crate::icons::Icon::Star },
             vec2(r.x + PAD + 12.0, r.y + 36.0),
             24.0,
             GOLD,
         );
-        let title = if several || shown.is_empty() {
+        let title = if self.rules {
+            t("Rules of the game").to_string()
+        } else if several || shown.is_empty() {
             t("What's new").to_string()
         } else {
             tw("What's new in version {v}", &[("v", &shown[0].version)])
@@ -235,7 +269,7 @@ impl WhatsNew {
 
         let bw = 180.0f32.min(inner);
         let button = Rect::new(r.x + r.w - PAD - bw, r.y + r.h - PAD - 40.0, bw, 40.0);
-        ui.primary_button(button, t("Got it"))
+        ui.primary_button(button, if self.rules { t("Close") } else { t("Got it") })
             || is_key_pressed(KeyCode::Escape)
             || is_key_pressed(KeyCode::Enter)
             || is_key_pressed(KeyCode::KpEnter)
@@ -274,6 +308,22 @@ mod tests {
             // Newest first.
             for pair in versions.windows(2) {
                 assert!(newer(pair[0], pair[1]), "{lang:?}: {} before {}", pair[0], pair[1]);
+            }
+        }
+    }
+
+    #[test]
+    fn every_language_has_the_same_rules() {
+        let en = rules(Lang::English);
+        assert!(en.len() >= 3);
+        for lang in Lang::ALL {
+            let r = rules(lang);
+            assert_eq!(r.len(), en.len(), "{lang:?}: as many parts");
+            for (a, b) in r.iter().zip(en) {
+                assert_eq!(a.items.len(), b.items.len(), "{lang:?} {}: as many rules", a.version);
+                for item in &a.items {
+                    assert!(!item.title.is_empty() && !item.text.is_empty(), "{lang:?}: {item:?}");
+                }
             }
         }
     }

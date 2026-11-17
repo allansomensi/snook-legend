@@ -1688,3 +1688,5 @@ Top view only	Solo vista superior
 The table is always seen from above: no 3D view, no turning.	La mesa siempre se ve desde arriba: sin vista 3D, sin girar.
 Not with the top view only.	No con la vista solo superior.
 Wheel	Rueda del ratón
+Rules	Reglas
+Rules of the game	Reglas del juego

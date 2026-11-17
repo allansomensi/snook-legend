@@ -272,9 +272,13 @@ async fn main() {
     // The first start on a new version: what changed (on the main menu).
     let mut whats_new = whatsnew::WhatsNew::after_update(&config.last_version);
     // Development aid: SNOOK_LEGEND_WHATS_NEW=1 shows the notes, =0.2.0 that
-    // version's.
+    // version's, =rules the rules.
     if let Some(v) = crate::dev::var("SNOOK_LEGEND_WHATS_NEW") {
-        whats_new = whatsnew::WhatsNew::of(&v).or_else(|| Some(whatsnew::WhatsNew::all()));
+        whats_new = if v == "rules" {
+            Some(whatsnew::WhatsNew::rules())
+        } else {
+            whatsnew::WhatsNew::of(&v).or_else(|| Some(whatsnew::WhatsNew::all()))
+        };
     } else if options.screenshot.is_some() {
         whats_new = None;
     }
@@ -1076,6 +1080,9 @@ async fn main() {
                             MenuAction::Settings => settings_open = true,
                             MenuAction::WhatsNew => {
                                 whats_new = Some(whatsnew::WhatsNew::all());
+                            }
+                            MenuAction::Rules => {
+                                whats_new = Some(whatsnew::WhatsNew::rules());
                             }
                             MenuAction::Restart => {
                                 config.save();

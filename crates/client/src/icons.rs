@@ -49,6 +49,8 @@ pub enum Icon {
     Pencil,
     /// A list (three lines with bullets): a log, the game's history.
     List,
+    /// An open book: the rules.
+    Book,
 }
 
 fn arc(c: Vec2, r: f32, from: f32, to: f32, w: f32, color: Color) {
@@ -345,6 +347,20 @@ pub fn draw(icon: Icon, c: Vec2, s: f32, color: Color) {
             for k in [-0.5f32, 0.0, 0.5] {
                 draw_circle(p(-0.6, k).x, p(-0.6, k).y, w * 1.3, color);
                 line(p(-0.3, k), p(0.7, k), w * 1.6, color);
+            }
+        }
+        Icon::Book => {
+            // Two pages opening from the spine, a few lines of text on each.
+            for side in [-1.0f32, 1.0] {
+                let s = side;
+                draw_triangle(p(0.0, -0.55), p(0.92 * s, -0.72), p(0.92 * s, 0.55), color);
+                draw_triangle(p(0.0, -0.55), p(0.92 * s, 0.55), p(0.0, 0.72), color);
+            }
+            let ink = Color::new(0.0, 0.0, 0.0, 0.45 * color.a);
+            line(p(0.0, -0.55), p(0.0, 0.72), w * 0.9, ink);
+            for k in [-0.3f32, 0.0, 0.3] {
+                line(p(-0.72, k - 0.08), p(-0.2, k), w * 0.7, ink);
+                line(p(0.2, k), p(0.72, k - 0.08), w * 0.7, ink);
             }
         }
     }

@@ -59,6 +59,8 @@ pub struct Hud {
     pub can_report: bool,
     /// Reporting the opponent.
     report: Option<crate::report::ReportDialog>,
+    /// The rules of the game, opened from the pause menu.
+    rules: Option<crate::whatsnew::WhatsNew>,
     zoom_drag: bool,
     /// The reaction picker is open.
     reactions_open: bool,
@@ -128,6 +130,7 @@ impl Default for Hud {
             history_open: false,
             can_report: false,
             report: None,
+            rules: None,
         }
     }
 }
@@ -234,8 +237,8 @@ impl Hud {
 
         let escape_used = std::mem::take(&mut m.escape_used);
         if !ui.wants_keyboard {
-            if self.report.is_some() {
-                // The report dialog has Esc.
+            if self.report.is_some() || self.rules.is_some() {
+                // The dialog has Esc.
             } else if is_key_pressed(KeyCode::Escape) && self.reactions_open {
                 self.reactions_open = false;
             } else if is_key_pressed(KeyCode::Escape) && !escape_used {
@@ -718,6 +721,12 @@ impl Hud {
                 }
             }
         }
+        // The rules, from the pause menu (back to it when closed).
+        if let Some(rules) = self.rules.as_mut()
+            && (!self.paused || rules.draw(ui))
+        {
+            self.rules = None;
+        }
         if self.show_help && self.paused {
             draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.5));
             let lines = controls_list(self.top_only);
@@ -759,7 +768,7 @@ impl Hud {
         }
 
         // Pause menu (online the match keeps running behind it).
-        if self.paused && !self.show_help {
+        if self.paused && !self.show_help && self.rules.is_none() {
             let online = m.is_online();
             // A correspondence game waits: leaving loses nothing.
             let corr = crate::correspondence::is_corr(m);
@@ -818,8 +827,13 @@ impl Hud {
                 action = HudAction::Settings;
             }
             y += BH + GAP;
-            if ui.button(Rect::new(bx, y, bw, BH), t("Controls"), true) {
+            // The controls and the rules, side by side.
+            let half = (bw - GAP) / 2.0;
+            if ui.button(Rect::new(bx, y, half, BH), t("Controls"), true) {
                 self.show_help = true;
+            }
+            if ui.button(Rect::new(bx + half + GAP, y, half, BH), t("Rules"), true) {
+                self.rules = Some(crate::whatsnew::WhatsNew::rules());
             }
             y += BH + GAP;
             let my_turn = m.current_controller() == Controller::Human;

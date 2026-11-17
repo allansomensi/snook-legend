@@ -13,9 +13,9 @@ world ranking that keeps everyone coming back.
 |---|---|
 | ![Menu](docs/screenshots/menu.png) | ![3D view](docs/screenshots/3d-view.png) |
 
-| Lounge | Profile |
+| Lounge | From above |
 |---|---|
-| ![Lounge](docs/screenshots/lounge.png) | ![Profile](docs/screenshots/profile.png) |
+| ![Lounge](docs/screenshots/lounge.png) | ![From above](docs/screenshots/top-view.png) |
 
 ## Download
 

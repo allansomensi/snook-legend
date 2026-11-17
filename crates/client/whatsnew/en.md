@@ -3,6 +3,20 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.6.0
+
+### A Brazilian rule, with penalty balls
+The game now plays the regional Brazilian rule of eight-ball, the one of bars and pool halls (not the official tournament rule). A foul passes the turn and takes your opponent's lowest balls off the table, only a pocketed cue ball gives ball in hand, and the 8 alone on the break wins. The full rules are in the menu.
+
+### Heavier balls
+The cloth holds the ball more and the break is less violent: the balls no longer scatter all over the table.
+
+### Tournaments against the computer and more drills
+Play a knockout of sixteen or an arena on points against the fifteen opponents. And there are eight new drills, fifteen in all.
+
+### Aiming and the cue
+The cue's elevation can be set by dragging with the mouse, the aiming line points at the centre of the ghost ball, faint arrows show when the cue ball can be moved, and the shadows can be turned off.
+
 ## 0.5.1
 
 ### Cleaner balls

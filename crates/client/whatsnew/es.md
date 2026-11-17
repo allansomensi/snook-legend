@@ -3,6 +3,20 @@
 # un destacado, y las líneas siguientes son su texto. Mismas versiones y
 # mismo número de destacados en todos los idiomas.
 
+## 0.6.0
+
+### Regla brasileña, con bolas de penalización
+El juego ahora sigue la regla brasileña regional de bola 8, la de los bares y salones (no es la regla oficial de torneo). La falta pasa el turno y elimina las bolas más bajas del rival, solo la blanca metida da bola en mano, y solo la 8 en el saque gana. Las reglas completas están en el menú.
+
+### Bolas más pesadas
+El paño frena más la bola y el saque es menos violento: las bolas ya no se desparraman por toda la mesa.
+
+### Torneos contra la computadora y más entrenamientos
+Juega una eliminatoria de dieciséis o una arena por puntos contra los quince rivales. Y hay ocho entrenamientos nuevos, quince en total.
+
+### Puntería y taco
+La elevación del taco se puede ajustar arrastrando con el ratón, la línea de puntería apunta al centro de la bola fantasma, unas flechas discretas muestran cuándo se puede mover la blanca, y las sombras se pueden desactivar.
+
 ## 0.5.1
 
 ### Bolas más limpias

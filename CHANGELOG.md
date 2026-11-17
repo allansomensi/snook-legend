@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased (protocol 17)
+## 0.6.0 (protocol 17)
 
 The game now plays a **regional Brazilian rule** of eight-ball (the rule of
 bars and pool halls, with penalty balls), not the official tournament rule,

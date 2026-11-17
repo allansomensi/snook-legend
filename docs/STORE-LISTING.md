@@ -50,7 +50,14 @@ Em português, inglês e espanhol.
 
 ### Novidades desta versão
 
-Versão 0.5.1: gráficos mais limpos.
+Versão 0.6.0: regra brasileira, torneios e treinos!
+• Regra brasileira regional de bola 8 (a dos bares e salões, não a oficial de torneio): falta elimina as menores bolas do adversário, só a branca encaçapada dá bola na mão.
+• Bolas mais pesadas: a saída não espalha mais as bolas pela mesa toda.
+• Torneios contra o computador: mata-mata de dezesseis ou arena por pontos.
+• Oito treinos novos, quinze ao todo.
+• Elevação do taco arrastando com o mouse, mira no centro da bola fantasma, opção de desligar as sombras.
+
+Da versão 0.5.1: gráficos mais limpos.
 • As bolas não têm mais o disco claro em cima: luz por igual e um único ponto de brilho.
 • A barra de força não marca mais a última tacada e sempre começa do meio.
 • De quem é a vez aparece na barra de cima: nada cobre a caçapa do meio.
@@ -126,7 +133,14 @@ In English, Portuguese and Spanish.
 
 ### What's new in this version
 
-Version 0.5.1: cleaner graphics.
+Version 0.6.0: a Brazilian rule, tournaments and drills!
+• The regional Brazilian rule of eight-ball (the one of bars and pool halls, not the official tournament rule): a foul takes your opponent's lowest balls off the table, only a pocketed cue ball gives ball in hand.
+• Heavier balls: the break no longer scatters the balls all over the table.
+• Tournaments against the computer: a knockout of sixteen or an arena on points.
+• Eight new drills, fifteen in all.
+• Drag to set the cue's elevation, an aiming line that meets the centre of the ghost ball, a setting to turn off the shadows.
+
+From version 0.5.1: cleaner graphics.
 • The balls no longer have a pale disc on top: even light and a single dot of shine.
 • The power bar no longer marks your last stroke and always starts from the middle.
 • Whose turn it is reads in the top bar: nothing covers the side pocket.
@@ -202,7 +216,14 @@ En español, inglés y portugués.
 
 ### Novedades de esta versión
 
-Versión 0.5.1: gráficos más limpios.
+Versión 0.6.0: ¡regla brasileña, torneos y entrenamientos!
+• Regla brasileña regional de bola 8 (la de los bares y salones, no la oficial de torneo): la falta elimina las bolas más bajas del rival, solo la blanca metida da bola en mano.
+• Bolas más pesadas: el saque ya no desparrama las bolas por toda la mesa.
+• Torneos contra la computadora: eliminatoria de dieciséis o arena por puntos.
+• Ocho entrenamientos nuevos, quince en total.
+• Elevación del taco arrastrando con el ratón, puntería al centro de la bola fantasma, opción de desactivar las sombras.
+
+De la versión 0.5.1: gráficos más limpios.
 • Las bolas ya no tienen el disco claro encima: luz pareja y un único punto de brillo.
 • La barra de fuerza ya no marca el último tiro y siempre empieza desde el medio.
 • De quién es el turno se lee en la barra de arriba: nada tapa la tronera del medio.

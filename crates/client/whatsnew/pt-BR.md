@@ -3,6 +3,20 @@
 # destaque, e as linhas seguintes são o texto dele. Mesmas versões e mesmo
 # número de destaques em todas as línguas.
 
+## 0.6.0
+
+### Regra brasileira, com bolas de penalidade
+O jogo agora segue a regra brasileira regional de bola 8, a dos bares e salões (não é a regra oficial de torneio). Falta passa a vez e elimina as menores bolas do adversário, só a branca encaçapada dá bola na mão, e só a 8 na saída vence. As regras completas estão no menu.
+
+### Bolas mais pesadas
+O pano segura mais a bola e a saída é menos violenta: as bolas não se espalham mais pela mesa toda.
+
+### Torneios contra o computador e mais treinos
+Jogue um mata-mata de dezesseis ou uma arena por pontos contra os quinze adversários. E há oito treinos novos, quinze ao todo.
+
+### Mira e taco
+A elevação do taco pode ser ajustada arrastando com o mouse, a linha de mira aponta para o centro da bola fantasma, setas discretas mostram quando a branca pode ser movida, e as sombras podem ser desligadas.
+
 ## 0.5.1
 
 ### Bolas mais limpas

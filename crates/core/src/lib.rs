@@ -20,7 +20,7 @@
 ///   and a tournament table's physics as measured: cushions that soak up a hard hit, ball friction and
 ///   restitution that depend on speed, and strokes at real speeds (an
 ///   ordinary stroke tops out well below a break).
-/// - 4: after 0.5.1. The Brazilian house rules (a foul gives the opponent balls,
+/// - 4: 0.6.0. The Brazilian house rules (a foul gives the opponent balls,
 ///   only a scratch gives ball in hand, the 8 alone on the break wins: see
 ///   [`EightBallGame::finish_shot`]) on the same table, with heavier-feeling
 ///   balls: a slower cloth, a rack that soaks up more of the break and a

@@ -96,7 +96,9 @@ impl LanScreen {
         // The note at the bottom: what went wrong, or the firewall tip.
         let (note, note_color) = match &self.error {
             Some(e) => (e.as_str(), ALERT),
-            None => (t("The first time, allow Snookered through the firewall when asked."), MUTED),
+            None => {
+                (t("The first time, allow Snook Legend through the firewall when asked."), MUTED)
+            }
         };
         let note_lines = ui.wrap(note, inner, HINT);
         let hosting_line = hosting.map(|port| {

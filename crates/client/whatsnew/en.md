@@ -1,9 +1,12 @@
-# Snookered: what's new, shown in the game after an update.
+# Snook Legend: what's new, shown in the game after an update.
 # "## <version>" starts a version (newest first), "### <title>" a highlight,
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
 ## 0.4.0
+
+### A new name: Snook Legend
+The game is now called Snook Legend. Your account, coins, items, settings and progress are all here, as before.
 
 ### 8-foot table, open side pockets
 A smaller table (8 feet) and side pockets that forgive a ball off the centre or rolling in at an angle. The balls roll a little more freely.

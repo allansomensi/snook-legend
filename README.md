@@ -1,10 +1,10 @@
-<p align="center"><img src="crates/client/assets/icon/snookered-256.png" width="128" alt="Snookered"></p>
+<p align="center"><img src="crates/client/assets/icon/snookered-256.png" width="128" alt="Snook Legend"></p>
 
-# Snookered
+# Snook Legend
 
 A lightweight 3D eight-ball pool game for the desktop, written in Rust.
 
-Snookered is built around what made the old online pool rooms special: a realistic
+Snook Legend is built around what made the old online pool rooms special: a realistic
 cue (spin, draw, follow, jump and massé shots), a lounge where you meet people and
 chat, invitations, open tables and tournaments, friends, achievements, and a
 world ranking that keeps everyone coming back.
@@ -146,10 +146,15 @@ The interface is available in English, Brazilian Portuguese and Spanish (Setting
 | Menu / list of controls | **Menu** button (the controls are listed there, never on the table) | Esc / H |
 | Full screen | | F11 |
 
-Settings are saved in `%APPDATA%\Snookered\settings.ini` (Windows),
-`~/Library/Application Support/Snookered` (macOS) or `~/.config/snookered` (Linux).
+Settings are saved in `%APPDATA%\Snook Legend\settings.ini` (Windows),
+`~/Library/Application Support/Snook Legend` (macOS) or `~/.config/snook-legend` (Linux). A folder from before the rename
+(`Snookered`, `snookered`) is moved there the first time the game starts.
 
 ## Building
+
+The game was called Snookered until 0.3.0: the crates, the executable and the
+release files keep the name `snookered`, so every installed copy keeps
+updating itself.
 
 Requires a recent stable Rust toolchain (see `rust-version` in `Cargo.toml`).
 
@@ -184,7 +189,7 @@ server. To build a release that points at another server, set `SNOOKERED_SERVER`
 build time:
 
 ```bash
-SNOOKERED_SERVER=wss://snookered.example.com/ws cargo build --release -p snookered
+SNOOKERED_SERVER=wss://snooklegend.example.com/ws cargo build --release -p snookered
 ```
 
 Putting the server on the internet is described in [docs/DEPLOY.md](docs/DEPLOY.md)

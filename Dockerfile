@@ -1,4 +1,4 @@
-# Snookered game server.
+# Snook Legend game server.
 #   docker build -t snookered-server .
 #   docker run -p 7878:7878 -e DATABASE_URL=postgres://… snookered-server
 

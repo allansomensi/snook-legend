@@ -264,16 +264,29 @@ desenvolvedores), no PowerShell, na pasta do projeto:
 ```powershell
 $env:RUSTFLAGS = "-C target-feature=+crt-static"
 cargo build --release --locked -p snookered --features store
-./tools/msix/make-msix.ps1 -IdentityName Snookered.Teste -Publisher "CN=Teste" `
-  -PublisherDisplayName "Teste" -DisplayName "Snookered (teste)" -Register
+./tools/msix/make-msix.ps1 -IdentityName SnookLegend.Teste -Publisher "CN=Teste" `
+  -PublisherDisplayName "Teste" -DisplayName "Snook Legend (teste)" -Register
 ```
 
-O jogo aparece no menu Iniciar como "Snookered (teste)". Para remover:
-**Configurações → Aplicativos → Snookered (teste) → Desinstalar**.
+O jogo aparece no menu Iniciar como "Snook Legend (teste)". Para remover:
+**Configurações → Aplicativos → Snook Legend (teste) → Desinstalar**.
 
 ## O nome
 
-O nome que o jogador vê vem de `snookered_proto::GAME_NAME` (janela, menu,
-salão, notificações, mensagens do servidor, páginas web). Na Store, ele vem
-das variáveis `MSSTORE_DISPLAY_NAME` (GitHub) e `SNOOKERED_GAME_NAME` (Render,
-para a política de privacidade): use **Snookered** nas duas.
+O jogo se chama **Snook Legend** (até a 0.3.0, Snookered). O nome que o
+jogador vê vem de `snookered_proto::GAME_NAME` (janela, menu, salão,
+notificações, instalador, mensagens do servidor, páginas web). Fora do
+código, ele está em três lugares, que precisam dizer **Snook Legend**:
+
+| Onde | O que fazer |
+|---|---|
+| Partner Center | **Product management → Product identity → Reserve more names**: reserve "Snook Legend". Depois, na submissão, escolha esse nome nas listagens e no pacote. O antigo pode ser liberado depois. |
+| GitHub (**Settings → Secrets and variables → Actions → Variables**) | `MSSTORE_DISPLAY_NAME` = `Snook Legend` (o nome reservado). A identidade do pacote (`MSSTORE_IDENTITY_NAME`, `MSSTORE_PUBLISHER`) **não muda**: é ela que faz a Store atualizar o jogo de quem já o tem. |
+| Render (**Environment**) | `SNOOKERED_GAME_NAME` = `Snook Legend`, ou apague a variável (sem ela, vale o nome do código). |
+
+Continuam com o nome antigo, de propósito, os identificadores técnicos: os
+crates (`snookered_*`), o executável e os arquivos das versões
+(`snookered-….zip/.msi`, que o atualizador automático das versões
+instaladas procura), o repositório, a imagem do servidor e as variáveis
+`SNOOKERED_*`. O jogador não vê nenhum deles. A pasta de configurações já
+tem o nome novo; a antiga é movida sozinha na primeira vez.

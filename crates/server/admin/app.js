@@ -1,4 +1,4 @@
-// Snookered staff panel. Plain JavaScript, no dependencies; every value from the
+// Snook Legend staff panel. Plain JavaScript, no dependencies; every value from the
 // server is inserted with textContent (never as HTML).
 "use strict";
 

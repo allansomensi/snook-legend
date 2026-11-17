@@ -2771,7 +2771,7 @@ impl Online {
             if ui.button(Rect::new(r.x + r.w - 10.0 - bw, r.y + 10.0, bw, 32.0), copy, true) {
                 macroquad::miniquad::window::clipboard_set(&format!(
                     "{} {link}",
-                    t("Join my table in Snookered:")
+                    t("Join my table in Snook Legend:")
                 ));
                 self.toast(t("Copied: send it to a friend."), true);
             }

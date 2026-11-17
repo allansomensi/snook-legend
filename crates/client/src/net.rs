@@ -1,4 +1,4 @@
-//! Connection to the Snookered server: a WebSocket client on a background
+//! Connection to the Snook Legend server: a WebSocket client on a background
 //! thread, talking to the game through channels.
 //!
 //! The thread runs a small single-threaded async runtime and waits on both

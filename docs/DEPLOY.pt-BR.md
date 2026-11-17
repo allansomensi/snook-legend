@@ -1,10 +1,10 @@
-# Colocando o servidor do Snookered no ar (Render + Neon, grátis)
+# Colocando o servidor do Snook Legend no ar (Render + Neon, grátis)
 
 Este guia leva o servidor do zero até o jogo conectando nele, usando apenas
 planos gratuitos. Leva uns 20 minutos.
 
 ```
- Jogadores ──wss──▶  Render (servidor Snookered, Docker)  ──TLS──▶  Neon (PostgreSQL)
+ Jogadores ──wss──▶  Render (servidor Snook Legend, Docker)  ──TLS──▶  Neon (PostgreSQL)
                          └─ /admin  (painel da equipe)
 ```
 
@@ -247,5 +247,5 @@ itch.io e GitHub, a Stripe é permitida.
 | `… prepared statement … already exists` | Usou a string com `-pooler`. Use a conexão direta. |
 | Jogadores recebem "Muitas contas novas desta rede" sem motivo | `SNOOKERED_CLIENT_IP_HEADER` ausente. O painel mostra o aviso "Every player comes from the same address". |
 | "Saiu uma nova versão do jogo" com o jogo já atualizado | O servidor ainda roda a versão anterior: faça o deploy da imagem nova (passo 6.4). A partir da 0.3.1 o jogo percebe isso sozinho e diz que o servidor está sendo atualizado. |
-| "Esta versão do Snookered está desatualizada" | O jogo é mais antigo que o servidor: atualize o jogo. |
+| "Esta versão do Snook Legend está desatualizada" | O jogo é mais antigo que o servidor: atualize o jogo. |
 | Partida em andamento sumiu | Deploy ou o Render reiniciou a instância (o salão e as partidas ficam na memória; contas e resultados ficam no banco). |

@@ -1,6 +1,6 @@
 [package]
 name = "snookered_server"
-description = "Snookered game server: accounts, lounge, tables, tournaments, rated matches, leaderboard, admin panel"
+description = "Snook Legend game server: accounts, lounge, tables, tournaments, rated matches, leaderboard, admin panel"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true

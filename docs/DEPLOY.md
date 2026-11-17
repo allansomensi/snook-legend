@@ -1,4 +1,4 @@
-# Running the Snookered server
+# Running the Snook Legend server
 
 The server is a single executable (`snookered-server`) that keeps the lounge and
 running matches in memory and stores accounts, ratings, history,
@@ -56,7 +56,7 @@ sudo cp target/release/snookered-server /usr/local/bin/
 
 ```ini
 [Unit]
-Description=Snookered game server
+Description=Snook Legend game server
 After=network.target postgresql.service
 
 [Service]
@@ -74,8 +74,8 @@ ProtectSystem=strict
 WantedBy=multi-user.target
 ```
 
-Put it behind TLS (Caddy: `snookered.example.com { reverse_proxy 127.0.0.1:7878 }`);
-the game's address is then `wss://snookered.example.com/ws`.
+Put it behind TLS (Caddy: `snooklegend.example.com { reverse_proxy 127.0.0.1:7878 }`);
+the game's address is then `wss://snooklegend.example.com/ws`.
 
 ## Point the game at the server
 

@@ -1,7 +1,7 @@
 // No console window behind the game on Windows (release builds).
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-//! Snookered desktop client.
+//! Snook Legend desktop client.
 //!
 //! Rendering uses macroquad (OpenGL 2.1 / GLES 2), so the game is small and
 //! runs on practically any PC, including old integrated graphics.
@@ -158,7 +158,7 @@ fn parse_args() -> LaunchOptions {
             "--frames" => o.frames = args.next().and_then(|s| s.parse().ok()).unwrap_or(120),
             "--help" | "-h" => {
                 println!(
-                    "Snookered\n\n  --vs <easy|medium|hard|name>  play the computer (a level or a personality)\n  --hotseat                two players\n  \
+                    "Snook Legend\n\n  --vs <easy|medium|hard|name>  play the computer (a level or a personality)\n  --hotseat                two players\n  \
                      --demo                   computer vs computer\n  --top-view               overhead camera\n  \
                      --online                 open the online lounge\n  \
                      --settings               open the settings\n  \

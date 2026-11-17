@@ -10,6 +10,17 @@ a restart, daily games in progress) keep the rules, the physics and the
 table they started with, shot for shot. Migrations 0013 and 0014 run on
 start-up.
 
+### The game is called Snook Legend
+- The new name everywhere players see it: the window, the menus, the
+  installer and its shortcuts, the Microsoft Store, the server's messages
+  and pages, the staff panel, the store art and the documents.
+- The settings folder takes the new name (`Snook Legend`, `snook-legend` on
+  Linux); the old one is moved there the first time the game starts, so the
+  settings, the session, the tour and the saved games come along.
+- The crates, the executable and the release files keep the name
+  `snookered`: every installed copy keeps updating itself.
+- "SnookLegend" and "Snook_Legend" are reserved usernames.
+
 ### The table and the rules
 - An 8-foot table (88" × 44"; it was 9-foot), with open, forgiving side
   pockets: a 6.1" mouth whose facings open out, a hole that starts right

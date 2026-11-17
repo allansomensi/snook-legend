@@ -1,6 +1,6 @@
 //! # snookered_proto
 //!
-//! Messages exchanged between the Snookered client and server over a
+//! Messages exchanged between the Snook Legend client and server over a
 //! WebSocket, encoded as JSON (one message per text frame), plus the data
 //! both sides must agree on: name rules, countries, rating tiers and the
 //! achievement catalogue.
@@ -133,7 +133,7 @@ pub const SPECTATOR_SEAT: usize = 2;
 
 /// The game's name, as players see it (window, menus, notifications, the
 /// server's messages and web pages).
-pub const GAME_NAME: &str = "Snookered";
+pub const GAME_NAME: &str = "Snook Legend";
 
 /// Bumped whenever messages change incompatibly.
 pub const PROTOCOL_VERSION: u32 = 15;

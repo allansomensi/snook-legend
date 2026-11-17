@@ -1,4 +1,4 @@
-//! The Snookered emblem, drawn procedurally: a pool table seen from above
+//! The Snook Legend emblem, drawn procedurally: a pool table seen from above
 //! (walnut rails, brass pocket castings, green cloth) with a black ball
 //! whose number circle carries an "S".
 //!

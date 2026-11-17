@@ -1,6 +1,6 @@
 //! # snookered_server
 //!
-//! The Snookered game server: accounts, the lounge (who's online, chat,
+//! The Snook Legend game server: accounts, the lounge (who's online, chat,
 //! invitations, open tables), authoritative eight-ball matches with a shot
 //! clock and reconnection, tournaments, friends, achievements, Elo ratings,
 //! the global leaderboard and a web panel for the staff.
@@ -173,7 +173,10 @@ const SESSION_RENEW_AFTER: i64 = 60 * 60 * 24;
 const RESERVED_NAMES: &[&str] = &[
     "admin",
     "administrator",
+    // The game's name, then and now.
     "snookered",
+    "snooklegend",
+    "snook_legend",
     "moderator",
     "mod",
     "system",
@@ -921,8 +924,9 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                 }
                 ClientMsg::Hello { .. } => {
                     send(ServerMsg::AuthError {
-                        reason: "This version of Snookered is out of date. Please update the game."
-                            .into(),
+                        reason:
+                            "This version of Snook Legend is out of date. Please update the game."
+                                .into(),
                     });
                     break;
                 }

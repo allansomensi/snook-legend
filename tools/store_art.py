@@ -23,7 +23,7 @@ EMBLEM = ROOT / "crates/client/assets/icon/snookered-1024.png"
 SCENE = ROOT / "store-art/scene-3840x2160.png"
 FONT = ROOT / "crates/client/assets/DejaVuSans-Bold.ttf"
 OUT = ROOT / "store-art"
-NAME = "SNOOKERED"
+NAME = "SNOOK LEGEND"
 
 GOLD = (232, 191, 97)
 FELT = (34, 120, 62)

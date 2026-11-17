@@ -1,9 +1,12 @@
-# Snookered: novidades, mostradas no jogo depois de uma atualização.
+# Snook Legend: novidades, mostradas no jogo depois de uma atualização.
 # "## <versão>" começa uma versão (a mais nova primeiro), "### <título>" um
 # destaque, e as linhas seguintes são o texto dele. Mesmas versões e mesmo
 # número de destaques em todas as línguas.
 
 ## 0.4.0
+
+### Nome novo: Snook Legend
+O jogo agora se chama Snook Legend. Sua conta, moedas, itens, configurações e progresso continuam aqui, como antes.
 
 ### Mesa de 8 pés, caçapas do meio abertas
 Uma mesa menor (8 pés) e caçapas do meio que perdoam uma bola fora do centro ou chegando em ângulo. As bolas correm um pouco mais soltas.

@@ -16,7 +16,7 @@ without consequence, take over accounts, or take the server down cheaply.
 |---|---|---|---|
 | 1 | Session tokens stored in plain text: a leaked database would sign anyone in. | High | Tokens are 256-bit random values stored as SHA-256 hashes; sessions renew after a day of use and expire after 30 days; staff sessions are separate and last 8 hours. |
 | 2 | Password guessing limited only per connection (reconnect to reset). | High | Failures are counted per account (8 / 15 min) and per address (20 / 15 min) across connections; unknown usernames still run Argon2 (no timing difference). |
-| 3 | Unlimited account creation. | Medium | 5 new accounts per address per hour; reserved names (`admin`, `snookered`, `moderator`…). |
+| 3 | Unlimited account creation. | Medium | 5 new accounts per address per hour; reserved names (`admin`, the game's name, `moderator`…). |
 | 4 | Outgoing queues unbounded: a client that stops reading made the server buffer every broadcast forever (memory exhaustion). | High | Bounded queues (512 messages); a client that can't keep up is disconnected. |
 | 5 | No message rate limit per connection. | Medium | 40 messages/s sustained, bursts of 120; 16 KiB per message; 12 connections per address. |
 | 6 | Shot simulation ran inside the lounge lock: every shot froze the whole server for its duration (×10 on a small shared CPU). | High | Simulation runs on a blocking worker; the lounge only validates and commits. Password hashing is limited to two at a time. |

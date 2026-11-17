@@ -1,6 +1,6 @@
 //! The platform the game is built for (the updater's download), and on
 //! Windows: the emblem as the executable's icon, and the version details
-//! Explorer and the Task Manager show ("Snookered" instead of "snookered.exe").
+//! Explorer and the Task Manager show ("Snook Legend" instead of "snookered.exe").
 
 use std::path::PathBuf;
 
@@ -43,12 +43,12 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "FileDescription", "Snookered"
+            VALUE "FileDescription", "Snook Legend"
             VALUE "FileVersion", "{version}"
             VALUE "InternalName", "snookered"
             VALUE "LegalCopyright", "MIT License"
             VALUE "OriginalFilename", "snookered.exe"
-            VALUE "ProductName", "Snookered"
+            VALUE "ProductName", "Snook Legend"
             VALUE "ProductVersion", "{version}"
         END
     END

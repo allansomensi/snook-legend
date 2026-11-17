@@ -1,4 +1,4 @@
-//! Snookered server executable.
+//! Snook Legend server executable.
 //!
 //! Configuration (environment variables):
 //!
@@ -19,7 +19,7 @@
 //! | `SNOOKERED_MSSTORE_PRODUCTS` | — | `coins_500=9XXXXXXXXXXX;…`: the Store add-on of each coin pack |
 //! | `SNOOKERED_STRIPE_PRICES` | — | `code=price_id\|label;…` for coin packs and `vip_monthly` |
 //! | `SNOOKERED_PUBLIC_URL` | — | the server's public address (payment return pages) |
-//! | `SNOOKERED_GAME_NAME` | `Snookered` | the game's name on the privacy policy (`/privacidade`, `/privacy`) |
+//! | `SNOOKERED_GAME_NAME` | `Snook Legend` | the game's name on the privacy policy (`/privacidade`, `/privacy`) |
 //! | `SNOOKERED_PRIVACY_CONTROLLER` | the developer | who is responsible for the data, on the policy |
 //! | `SNOOKERED_PRIVACY_CONTACT` | the repository's issues | e-mail or web address for privacy requests |
 //! | `SNOOKERED_DRAIN_SECS` | `240` | on SIGTERM: how long games in progress may go on before they are handed to the next server |

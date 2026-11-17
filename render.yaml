@@ -1,4 +1,4 @@
-# Render Blueprint for the Snookered server (free plan). See docs/DEPLOY.pt-BR.md.
+# Render Blueprint for the Snook Legend server (free plan). See docs/DEPLOY.pt-BR.md.
 services:
   - type: web
     name: snook-server

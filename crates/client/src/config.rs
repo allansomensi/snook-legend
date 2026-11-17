@@ -213,17 +213,59 @@ impl Default for Config {
     }
 }
 
+/// Where the settings, the session, the tour and the saved games live.
+/// The game was called Snookered until 0.4.0: its folder is moved over the
+/// first time (see [`move_old_folder`]), so nobody loses anything.
 pub fn config_dir() -> Option<PathBuf> {
+    let (new, old) = folders()?;
+    static MOVED: std::sync::Once = std::sync::Once::new();
+    MOVED.call_once(|| move_old_folder(&old, &new));
+    Some(new)
+}
+
+/// The folder (named after the game) and the one before the rename.
+fn folders() -> Option<(PathBuf, PathBuf)> {
     if cfg!(windows) {
-        std::env::var_os("APPDATA").map(|p| PathBuf::from(p).join("Snookered"))
+        let base = PathBuf::from(std::env::var_os("APPDATA")?);
+        Some((base.join("Snook Legend"), base.join("Snookered")))
     } else if cfg!(target_os = "macos") {
-        std::env::var_os("HOME")
-            .map(|h| PathBuf::from(h).join("Library/Application Support/Snookered"))
+        let base = PathBuf::from(std::env::var_os("HOME")?).join("Library/Application Support");
+        Some((base.join("Snook Legend"), base.join("Snookered")))
     } else {
-        std::env::var_os("XDG_CONFIG_HOME")
+        let base = std::env::var_os("XDG_CONFIG_HOME")
             .map(PathBuf::from)
-            .or_else(|| std::env::var_os("HOME").map(|h| PathBuf::from(h).join(".config")))
-            .map(|p| p.join("snookered"))
+            .or_else(|| std::env::var_os("HOME").map(|h| PathBuf::from(h).join(".config")))?;
+        Some((base.join("snook-legend"), base.join("snookered")))
+    }
+}
+
+/// Moves the folder of the old name to the new one, once: only when the new
+/// one doesn't exist yet. A folder that can't be moved (another copy of the
+/// game has it open on Windows) is copied instead and left where it was.
+fn move_old_folder(old: &std::path::Path, new: &std::path::Path) {
+    if new.exists() || !old.is_dir() {
+        return;
+    }
+    if std::fs::rename(old, new).is_ok() {
+        return;
+    }
+    fn copy(from: &std::path::Path, to: &std::path::Path) -> std::io::Result<()> {
+        std::fs::create_dir_all(to)?;
+        for entry in std::fs::read_dir(from)? {
+            let entry = entry?;
+            let target = to.join(entry.file_name());
+            if entry.file_type()?.is_dir() {
+                copy(&entry.path(), &target)?;
+            } else {
+                std::fs::copy(entry.path(), &target)?;
+            }
+        }
+        Ok(())
+    }
+    if copy(old, new).is_err() {
+        // Half a copy is worse than none: the old folder is read again
+        // next time.
+        let _ = std::fs::remove_dir_all(new);
     }
 }
 
@@ -327,7 +369,7 @@ impl Config {
 
     pub fn to_text(&self) -> String {
         format!(
-            "# Snookered settings\nplayer_name = {}\nsecond_player_name = {}\nguide = {}\nshow_help = {}\nshot_camera = {}\ncamera_follow = {}\ngraphics_checked = {}\nlanguage = {}\nvignette = {}\nfocused_scene = {}\nshow_fps = {}\nshow_ping = {}\nopponent_talk = {}\naim_sensitivity = {:.2}\nui_size = {:.2}\n\
+            "# Snook Legend settings\nplayer_name = {}\nsecond_player_name = {}\nguide = {}\nshow_help = {}\nshot_camera = {}\ncamera_follow = {}\ngraphics_checked = {}\nlanguage = {}\nvignette = {}\nfocused_scene = {}\nshow_fps = {}\nshow_ping = {}\nopponent_talk = {}\naim_sensitivity = {:.2}\nui_size = {:.2}\n\
              quality = {}\nmsaa = {}\nfullscreen = {}\nvolume = {:.2}\nserver = {}\nusername = {}\ntoken = {}\n\
              difficulty = {}\nopponent = {}\nshot_clock = {}\nlan_name = {}\ncloth = {}\ncue = {}\nchalk = {}\nballs = {}\neffect = {}\ntable = {}\nhall = {}\ncue_level = {}\nemail_offer_declined = {}\n\
              board_seen = {}\ntv_view = {}\ndesktop_notifications = {}\nauto_update = {}\nlast_version = {}\n{}",
@@ -418,6 +460,25 @@ fn write_private(path: &std::path::Path, data: &[u8]) -> std::io::Result<()> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn the_old_folder_moves_once() {
+        let base = std::env::temp_dir().join(format!("snook-move-{}", std::process::id()));
+        let (old, new) = (base.join("Snookered"), base.join("Snook Legend"));
+        let _ = std::fs::remove_dir_all(&base);
+        std::fs::create_dir_all(old.join("replays")).unwrap();
+        std::fs::write(old.join("settings.ini"), "volume = 0.5\n").unwrap();
+        std::fs::write(old.join("replays/1.json"), "{}").unwrap();
+        move_old_folder(&old, &new);
+        assert_eq!(std::fs::read_to_string(new.join("settings.ini")).unwrap(), "volume = 0.5\n");
+        assert!(new.join("replays/1.json").exists());
+        // Never over a folder of the new name.
+        std::fs::create_dir_all(&old).unwrap();
+        std::fs::write(old.join("settings.ini"), "volume = 0.9\n").unwrap();
+        move_old_folder(&old, &new);
+        assert_eq!(std::fs::read_to_string(new.join("settings.ini")).unwrap(), "volume = 0.5\n");
+        let _ = std::fs::remove_dir_all(&base);
+    }
 
     #[test]
     fn round_trip_and_validation() {

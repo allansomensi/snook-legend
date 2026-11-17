@@ -111,7 +111,7 @@ nunca vê dados de pagamento.
    *client secret* e pôr o *Application (client) ID* em **Services →
    Product collections and purchases** do jogo.
 3. Render: definir as quatro variáveis `SNOOK_LEGEND_MSSTORE_*` e publicar o
-   servidor novo (as migrações 0013 e 0014 rodam sozinhas); conferir no
+   servidor novo (as migrações 0013, 0014 e 0015 rodam sozinhas); conferir no
    log `Microsoft Store purchases on (4 packs)`.
 4. Atualizar o questionário IARC (compras no jogo) e a descrição da loja
    (faixa de preços).
@@ -203,7 +203,7 @@ servidor **não** liga as compras da Store e diz o motivo no log: um
 mapeamento errado creditaria o pacote errado. Pode ligar só alguns pacotes:
 os que não estiverem na lista não aparecem no jogo.
 
-**Ordem:** primeiro o servidor (com a migração 0011, que roda sozinha no
+**Ordem:** primeiro o servidor (com as migrações novas, que rodam sozinhas no
 início), depois a versão do jogo. Um servidor sem estas variáveis faz a aba
 Moedas da versão da Store voltar ao texto de antes; nada quebra.
 

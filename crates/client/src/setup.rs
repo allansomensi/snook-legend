@@ -96,7 +96,8 @@ impl Setup {
 
         // Aiming help.
         label(ui, t("Aiming guide"), x, y);
-        let guides = [t("Full"), t("Standard"), t("Short")];
+        // Every guide, "No guide" too (with it chosen, nothing was lit here).
+        let guides: Vec<&str> = AimGuide::ALL.iter().map(|g| t(g.name())).collect();
         let sel = AimGuide::ALL.iter().position(|g| *g == config.guide).unwrap_or(1);
         if let Some(i) = ui.segmented(Rect::new(x, y + LABEL_H, inner, CONTROL_H), &guides, sel) {
             config.guide = AimGuide::ALL[i];

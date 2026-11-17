@@ -26,7 +26,7 @@ pub struct Board {
 /// The height of an avatar box, and of the whole panel.
 pub const AVATAR: f32 = 54.0;
 /// The width of an avatar box (room for a name under the picture).
-const AVATAR_W: f32 = 70.0;
+const AVATAR_W: f32 = 86.0;
 const GAP: f32 = 8.0;
 const RAIL_H: f32 = 24.0;
 
@@ -158,8 +158,8 @@ fn avatar(ui: &mut Ui, m: &Match, seat: usize, r: Rect, active: bool) {
         None if active => GOLD,
         None => CREAM,
     };
-    let size = 11.0;
-    let name = ui.ellipsize(&m.names[seat], r.w - 8.0, size);
+    // Whole when it fits (a little smaller if it must), else cut short.
+    let (name, size) = ui.fitted(&m.names[seat], 11.0, r.w - 10.0, true);
     let w = ui.text_size(&name, size, true).x;
     ui.text(&name, r.x + (r.w - w) / 2.0, r.y + r.h - size - 6.5, size, color, true);
     // Online: the country's flag in the top left corner.

@@ -16,6 +16,28 @@ pub(crate) fn image_wh(w: u16, h: u16, f: impl Fn(f32, f32) -> [u8; 3]) -> Pixel
     Pixels { width: w, height: h, rgba }
 }
 
+/// [`image_wh`] with every pixel the mean of four samples: patterns with
+/// hard edges (a rug's motifs and lines) get smooth outlines instead of
+/// steps, which show on anything as large as a rug seen from the table.
+pub(crate) fn image_wh_smooth(w: u16, h: u16, f: impl Fn(f32, f32) -> [u8; 3]) -> Pixels {
+    let (w, h) = (crate::textures::detailed(w), crate::textures::detailed(h));
+    let mut rgba = Vec::with_capacity(w as usize * h as usize * 4);
+    for y in 0..h {
+        for x in 0..w {
+            let mut sum = [0u32; 3];
+            for (dx, dy) in [(0.25, 0.25), (0.75, 0.25), (0.25, 0.75), (0.75, 0.75)] {
+                let c = f((x as f32 + dx) / w as f32, (y as f32 + dy) / h as f32);
+                for k in 0..3 {
+                    sum[k] += c[k] as u32;
+                }
+            }
+            let c = sum.map(|s| ((s + 2) / 4) as u8);
+            rgba.extend_from_slice(&[c[0], c[1], c[2], 255]);
+        }
+    }
+    Pixels { width: w, height: h, rgba }
+}
+
 pub(crate) fn mix(a: [f32; 3], b: [f32; 3], t: f32) -> [f32; 3] {
     let t = t.clamp(0.0, 1.0);
     [0, 1, 2].map(|i| a[i] + (b[i] - a[i]) * t)
@@ -373,7 +395,7 @@ pub fn rattan() -> Pixels {
 
 /// A Persian rug (2:1): a deep red field with a navy border and a medallion.
 pub fn persian_rug() -> Pixels {
-    image_wh(512, 256, |u, v| {
+    image_wh_smooth(1024, 512, |u, v| {
         let edge = (u.min(1.0 - u) * 2.0).min(v.min(1.0 - v));
         let red = [0.42, 0.07, 0.07];
         let navy = [0.07, 0.09, 0.22];
@@ -699,9 +721,12 @@ mod tests {
             assert_eq!(p.rgba.len(), p.width as usize * p.height as usize * 4);
             assert_eq!(p.width, p.height, "square, tileable");
         }
-        for p in [sunset(Some(0.5), true, 1), city(3), persian_rug(), mountains(2)] {
+        for p in [sunset(Some(0.5), true, 1), city(3), mountains(2)] {
             assert_eq!((p.width, p.height), (512, 256));
         }
+        // A rug is seen from close by: twice the pixels each way.
+        let rug = persian_rug();
+        assert_eq!((rug.width, rug.height), (1024, 512));
         // The sunset is brighter at the horizon than high up.
         let s = sunset(None, false, 1);
         let px = |x: usize, y: usize| s.rgba[(y * 512 + x) * 4] as i32;

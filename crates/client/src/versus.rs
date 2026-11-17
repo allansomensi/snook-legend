@@ -237,13 +237,9 @@ impl Versus {
             let (name, size) = ui.fitted(&name, 16.0, room, true);
             ui.text(&name, tx, cell.y + 10.0, size, name_color, true);
             let lines = ui.wrap(&epithet, room, 12.0);
-            let max_lines = if card_h >= 96.0 {
-                3
-            } else if card_h >= 84.0 {
-                2
-            } else {
-                1
-            };
+            // As many lines as fit above the strength pips (a nickname cut
+            // short with room to spare under it read as a mistake).
+            let max_lines = (((card_h - 17.0 - 31.0) / 15.0).floor() as usize).clamp(1, 3);
             for (n, line) in lines.iter().take(max_lines).enumerate() {
                 let line = if n + 1 == max_lines && lines.len() > max_lines {
                     ui.ellipsize(&format!("{line}…"), room, 12.0)
@@ -340,7 +336,8 @@ impl Versus {
         }
         y += LABEL_H + CONTROL_H + GAP;
         label(ui, t("Aiming guide"), y);
-        let guides = [t("Full"), t("Standard"), t("Short")];
+        // Every guide, "No guide" too (with it chosen, nothing was lit here).
+        let guides: Vec<&str> = AimGuide::ALL.iter().map(|g| t(g.name())).collect();
         let sel = AimGuide::ALL.iter().position(|g| *g == config.guide).unwrap_or(1);
         let seg = Rect::new(area.x, y + LABEL_H, area.w, CONTROL_H);
         if let Some(i) = ui.segmented(seg, &guides, sel) {

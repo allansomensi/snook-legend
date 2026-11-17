@@ -28,9 +28,6 @@ pub struct Hud {
     chat_scroll: usize,
     /// The quick phrases are open (by the chat).
     quick_open: bool,
-    /// Each seat's last stroke's power, and which stroke was seen last.
-    last_power: [Option<f32>; 2],
-    last_shot_seen: Option<(u32, u32)>,
     confirm_leave: bool,
     /// Identifies the turn the banner was shown for.
     banner_key: Option<(u32, u32, usize)>,
@@ -48,8 +45,7 @@ pub struct Hud {
     stroking: bool,
     /// The cue-setting panel that is open above the bottom bar.
     popover: Option<Pop>,
-    /// The power the player last chose (kept from one turn to the next).
-    power: f32,
+    /// The turn the power bar was last set to its starting place for.
     power_key: Option<(u32, u32)>,
     panel_key: Option<(u32, u32)>,
     /// Camera zoom, 0 (far) to 1 (close): set by the caller, changed by the zoom bar.
@@ -93,7 +89,9 @@ pub enum HudAction {
 impl Default for Hud {
     fn default() -> Self {
         Hud {
-            paused: false,
+            // Development aid (screenshots): SNOOK_LEGEND_PAUSED opens the
+            // pause menu.
+            paused: crate::dev::flag("SNOOK_LEGEND_PAUSED"),
             made: Default::default(),
             // Development aid: SNOOK_LEGEND_STATS_VIEW=1|2 opens the charts.
             stats_view: crate::dev::var("SNOOK_LEGEND_STATS_VIEW")
@@ -107,8 +105,6 @@ impl Default for Hud {
             chat_open: crate::dev::flag("SNOOK_LEGEND_CHAT_OPEN"),
             chat_scroll: 0,
             quick_open: false,
-            last_power: [None, None],
-            last_shot_seen: None,
             confirm_leave: false,
             banner_key: None,
             banner: None,
@@ -118,7 +114,6 @@ impl Default for Hud {
             fine_last: None,
             stroking: false,
             popover: None,
-            power: 0.5,
             power_key: None,
             panel_key: None,
             zoom: 0.5,
@@ -149,6 +144,48 @@ impl Hud {
 }
 
 const CHAT_FIELD: u64 = 40;
+
+/// The status line in the top bar, from `x`, at most `width` wide: what is
+/// in brackets at its end ("… to shoot (stripes)") goes on a second, quieter
+/// line; a long line without them wraps onto two.
+fn draw_status(ui: &Ui, status: &str, x: f32, width: f32) {
+    if width < 80.0 {
+        return;
+    }
+    let (head, detail) = match status.strip_suffix(')').and_then(|s| s.rsplit_once(" (")) {
+        Some((head, detail)) => (head, Some(detail)),
+        None => (status, None),
+    };
+    let mut lines: Vec<(String, f32, Color, bool)> = Vec::new();
+    let mut wrapped = |text: &str, size: f32, color: Color, bold: bool, most: usize| {
+        let mut parts = ui.wrap(text, width, size);
+        if parts.len() > most {
+            // What does not fit ends in an ellipsis.
+            let rest = parts.split_off(most - 1).join(" ");
+            parts.push(ui.ellipsize(&rest, width, size));
+        }
+        lines.extend(parts.into_iter().map(|line| (line, size, color, bold)));
+    };
+    match detail {
+        Some(detail) => {
+            wrapped(head, 14.0, CREAM, false, 1);
+            // "stripes" → "Stripes": a line of its own starts with a capital.
+            let mut chars = detail.chars();
+            let detail = match chars.next() {
+                Some(c) => c.to_uppercase().collect::<String>() + chars.as_str(),
+                None => String::new(),
+            };
+            wrapped(&detail, 12.0, MUTED, false, 2);
+        }
+        None => wrapped(head, 14.0, CREAM, false, 2),
+    }
+    let height: f32 = lines.iter().map(|l| l.1 + 4.0).sum::<f32>() - 4.0;
+    let mut y = (TOP_BAR - height) / 2.0 - 1.0;
+    for (line, size, color, bold) in &lines {
+        ui.text(line, x, y, *size, *color, *bold);
+        y += size + 4.0;
+    }
+}
 
 fn status_line(m: &Match) -> Option<String> {
     if let Some(waiting) = crate::correspondence::status(m) {
@@ -286,9 +323,8 @@ impl Hud {
         }
         // What the computer opponent says: a bubble under its card.
         if let Some((text, age)) = m.banter.clone() {
-            // Below the turn's banner, which runs under the cards.
             let a = board.avatars[1];
-            let anchor = vec2(a.x + a.w / 2.0, TOP_BAR + 40.0);
+            let anchor = vec2(a.x + a.w / 2.0, TOP_BAR - 4.0);
             ui.overlay(move |ui| draw_banter(ui, &text, age, anchor));
         }
         // How many are watching: an eye and the number, by the cards.
@@ -308,16 +344,13 @@ impl Hud {
         self.draw_support(ui, m, &board);
         draw_reactions(m, [x0 + 34.0, x0 + total - 34.0], eye);
         let mut y = TOP_BAR + 8.0;
-        // A replay has its own tag where the line goes.
+        // Whose turn it is and what they are on: in the top bar, beside the
+        // score panel. Nothing lies over the table (a line across the top
+        // rail hid the side pocket from above).
         if let Some(status) = status_line(m).filter(|_| m.replay.is_none()) {
-            let w = ui.text_size(&status, 15.0, false).x + 24.0;
-            crate::ui::rrect(
-                Rect::new((sw - w) / 2.0, y, w, 24.0),
-                12.0,
-                Color::new(0.0, 0.0, 0.0, 0.6),
-            );
-            ui.text_centered(&status, sw / 2.0, y + 4.0, 15.0, CREAM, false);
-            y += 30.0;
+            let watched = m.online.as_ref().is_some_and(|o| o.spectators > 0 || o.spectator);
+            let left = x0 + total + if watched { 72.0 } else { 18.0 };
+            draw_status(ui, &status, left, sw - 14.0 - left);
         }
         // Only important messages float on the table; everything is in the log.
         for n in m.notices.iter().filter(|n| n.important) {
@@ -1969,7 +2002,6 @@ impl Hud {
         let px0 = left_end + 24.0 + (room - tw) / 2.0;
         let track = Rect::new(px0, bar.y + bar.h / 2.0 - 9.0, tw, 18.0);
 
-        // A new turn starts with the power the player chose last time.
         let key = (m.games_played, m.game.shots_taken());
         // Any shot (by anyone) closes the open cue-setting panel.
         if self.panel_key != Some(key) {
@@ -1978,22 +2010,13 @@ impl Hud {
         }
         if my_turn && self.power_key != Some(key) {
             self.power_key = Some(key);
-            // The break wants a firm stroke (four balls must reach a
-            // cushion); other turns start from the power chosen last.
-            let power = if m.game.is_break() { BREAK_POWER.max(self.power) } else { self.power };
+            // Every turn starts from the same place, the middle of the bar
+            // (the break from a firm stroke: four balls must reach a
+            // cushion). Nothing on the bar tells what the last stroke was
+            // played with: judging the pace is part of the game.
+            let power = if m.game.is_break() { BREAK_POWER } else { START_POWER };
             m.aim.power = power;
             m.aim.charging = power > 0.02;
-        }
-        // Each seat's last stroke (the power it was played with), for the
-        // mark on the bar when that player's turn comes back.
-        if let Some(last) = &m.last_shot {
-            let key = (m.games_played, last.start.shots_taken());
-            if self.last_shot_seen != Some(key) {
-                self.last_shot_seen = Some(key);
-                let max = last.start.max_cue_speed();
-                let power = crate::game::speed_to_power(last.shot.speed, max);
-                self.last_power[last.start.current_player() % 2] = Some(power);
-            }
         }
         let can_shoot = my_turn && !m.is_placing_cue_ball();
         if shoot_button(ui, shoot, can_shoot && m.aim.power > 0.02) {
@@ -2052,7 +2075,6 @@ impl Hud {
             let power = ((p.x - track.x) / track.w).clamp(0.0, 1.0);
             m.aim.power = power;
             m.aim.charging = power > 0.02;
-            self.power = power;
         }
         let hot = matches!(drag, crate::ui::Drag::Held(_) | crate::ui::Drag::Hover);
         // The wheel over the bar: one percent a notch, for fine control.
@@ -2062,27 +2084,9 @@ impl Hud {
                 let power = (m.aim.power + wheel.signum() * 0.01).clamp(0.0, 1.0);
                 m.aim.power = power;
                 m.aim.charging = power > 0.02;
-                self.power = power;
             }
         }
         draw_power_track(track, m.aim.power, hot, true);
-        // This player's last stroke: a mark on the bar, to repeat it or to
-        // judge the next one from it.
-        if let Some(power) = self.last_power[m.game.current_player() % 2] {
-            let x = track.x + 4.0 + power.clamp(0.0, 1.0) * (track.w - 8.0);
-            let c = Color::new(1.0, 1.0, 1.0, 0.75);
-            draw_line(x, track.y - 3.0, x, track.y + track.h + 3.0, 2.0, c);
-            crate::paint::draw_triangle(
-                vec2(x - 4.0, track.y - 7.0),
-                vec2(x + 4.0, track.y - 7.0),
-                vec2(x, track.y - 2.0),
-                c,
-            );
-            let zone = Rect::new(x - 6.0, track.y - 8.0, 12.0, track.h + 16.0);
-            if ui.hovering(zone) {
-                ui.tooltip(t("Your last shot"), zone);
-            }
-        }
         if hot && !matches!(drag, crate::ui::Drag::Held(_)) {
             ui.overlay(move |ui| {
                 let hint = t("Drag to set the power");
@@ -2349,15 +2353,20 @@ fn draw_pop_icon(ui: &mut Ui, m: &Match, pop: Pop, r: Rect) {
 
 fn draw_power_track(track: Rect, p: f32, hot: bool, enabled: bool) {
     crate::ui::rrect(track, 9.0, Color::new(0.04, 0.03, 0.02, 1.0));
-    // Ramp from green to red underneath, faint; bright where filled.
-    let slices = 40;
+    // Ramp from green to red underneath, faint; bright where filled. Fine
+    // slices, so the colours run into each other without steps, and the
+    // strip's ends are round like the track it lies in.
+    let inner = Rect::new(track.x + 4.0, track.y + 5.0, track.w - 8.0, track.h - 10.0);
+    let round = inner.h / 2.0;
+    let slices = (inner.w / 2.0).ceil().max(1.0) as usize;
     for k in 0..slices {
         let t0 = k as f32 / slices as f32;
         let t1 = (k + 1) as f32 / slices as f32;
-        let color = if t0 < 0.5 {
-            Color::new(0.25 + 1.3 * t0, 0.85, 0.3, 1.0)
+        let mid = (t0 + t1) / 2.0;
+        let color = if mid < 0.5 {
+            Color::new(0.25 + 1.3 * mid, 0.85, 0.3, 1.0)
         } else {
-            Color::new(0.95, 0.85 - 1.2 * (t0 - 0.5), 0.25, 1.0)
+            Color::new(0.95, 0.85 - 1.2 * (mid - 0.5), 0.25, 1.0)
         };
         let a = if t0 < p {
             1.0
@@ -2366,13 +2375,20 @@ fn draw_power_track(track: Rect, p: f32, hot: bool, enabled: bool) {
         } else {
             0.1
         };
-        let x0 = track.x + 4.0 + t0 * (track.w - 8.0);
-        let x1 = track.x + 4.0 + t1.min(if t0 < p { p } else { t1 }) * (track.w - 8.0);
+        let x0 = inner.x + t0 * inner.w;
+        let x1 = inner.x + t1.min(if t0 < p { p.max(t0) } else { t1 }) * inner.w;
+        // How far this slice is from the nearer end, for the round ends.
+        let from_end = (mid * inner.w).min((1.0 - mid) * inner.w);
+        let half = if from_end < round {
+            (round * round - (round - from_end) * (round - from_end)).max(0.0).sqrt()
+        } else {
+            round
+        };
         draw_rectangle(
             x0,
-            track.y + 5.0,
+            inner.y + round - half,
             (x1 - x0).max(0.0),
-            track.h - 10.0,
+            2.0 * half,
             Color::new(color.r, color.g, color.b, a),
         );
     }
@@ -2403,6 +2419,8 @@ const TOP_BAR: f32 = crate::scoreboard::AVATAR + 8.0;
 const BOTTOM_BAR: f32 = 78.0;
 /// Where the power bar starts on the break.
 const BREAK_POWER: f32 = 0.9;
+/// Where it starts on every other turn.
+const START_POWER: f32 = 0.5;
 
 /// The game log inside the bottom bar: the last few things that happened.
 /// The shoot button: a cue striking a ball, on green. Unmistakable, no text.

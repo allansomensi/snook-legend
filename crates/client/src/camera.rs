@@ -217,7 +217,9 @@ impl CameraRig {
         let mut e = eye;
         e.x = e.x.clamp(-4.8, 4.8);
         e.z = e.z.clamp(-3.4, 3.4);
-        e.y = e.y.clamp(0.9, 2.9);
+        // Under the lowest beams of every hall (the loft's steel beams start
+        // at 2.82 m, and one runs across the middle of the room).
+        e.y = e.y.clamp(0.9, 2.78);
         let over_table = e.x.abs() < table_half().x + 0.25 && e.z.abs() < table_half().y + 0.25;
         if over_table && e.y < MIN_HEIGHT_OVER_TABLE {
             e.y = MIN_HEIGHT_OVER_TABLE;
@@ -353,7 +355,11 @@ impl CameraRig {
                         let tan = (TOP_FOV / 2.0).tan();
                         let aspect = sw / sh;
                         let fit = (table_half().y + 0.03) / (tan * free);
-                        let fit = fit.max((table_half().x + 0.05) / (tan * aspect));
+                        // Room at each side for the zoom bar (it sat on
+                        // the rail in a narrow window).
+                        let side_px = 44.0 * k;
+                        let free_w = ((sw - 2.0 * side_px) / sw).max(0.5);
+                        let fit = fit.max((table_half().x + 0.02) / (tan * aspect * free_w));
                         let zoom = (self.distance / FIXED_DISTANCE).clamp(0.25, 1.3);
                         // Centre the table between the bars.
                         let per_px = 2.0 * fit * zoom * tan / sh;

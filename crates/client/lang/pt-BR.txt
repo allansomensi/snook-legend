@@ -1602,7 +1602,6 @@ Ten in a row	Dez seguidas
 Ten different pots, one after another: a miss ends the session.	Dez bolas diferentes, uma após a outra: um erro encerra a sessão.
 Take back the shot (Z)	Desfazer a tacada (Z)
 Shot taken back.	Tacada desfeita.
-Your last shot	Sua última tacada
 Solids	Lisas
 Stripes	Listradas
 Hide the history	Esconder o histórico

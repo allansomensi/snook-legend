@@ -56,7 +56,8 @@ uniform vec4 LampColor;      // rgb, w = intensity
 uniform vec4 Ambient;        // rgb, w = number of lamps (1 or 3)
 uniform vec4 Surface;        // x = specular, y = shininess, z = unlit, w = rim
 uniform vec4 Extra;          // x = clear coat (glossy reflection of the room), y = cut-outs,
-                             // z = haze (unlit: fades where seen edge on)
+                             // z = haze (unlit: fades where seen edge on),
+                             // w = 1 the room (see Clear), 2 a ball
 uniform vec4 Shadows;        // x = soft shadows on, y = occlusion on, z = cloth height,
                              // w = reflection pass (fade with height)
 uniform vec4 Balls[16];      // xyz = centre, w = radius (0 = empty slot)
@@ -66,7 +67,9 @@ uniform vec4 Holes[6];       // pocket holes: x, z (world), radius
 uniform vec4 Throats[12];    // pocket throats: 4 corners (x, z) per pocket
 uniform vec4 CueA;           // the cue's tip: xyz, w = radius (0: no cue)
 uniform vec4 CueB;           // the cue's butt: xyz, w = radius
-uniform vec4 Spot;           // xy = half size of the pool of light on the table
+uniform vec4 Spot;           // xy = half size of the pool of light on the table,
+                             // z = the angle a lamp's glint on a ball must span, per
+                             // metre from the camera, to cover a pixel or two
 uniform vec4 Clear;          // the room is left out of this box over the table when the
                              // camera looks down on it: xy = half size, z = bottom, w = top
                              // (w <= z: off). Extra.w marks the room's surfaces.
@@ -226,9 +229,24 @@ vec4 ball_terms(vec3 p, vec3 n) {
 vec3 lamp_reflection(vec3 pos, vec3 r) {
     vec3 l = normalize(pos - v_world);
     float d = dot(r, l);
-    // A lamp seen in a polished ball: a small, crisp glint (a wide soft one
-    // read as a pale disc painted on top of the ball).
+    // A lamp seen in a polished surface: a small, crisp glint in a faint,
+    // wide sheen.
     return LampColor.rgb * LampColor.w * (smoothstep(0.9935, 0.9985, d) * 1.5 + smoothstep(0.95, 0.997, d) * 0.03);
+}
+
+// A lamp seen in a ball: a crisp dot of light. Seen from far away it would
+// be smaller than a pixel (a speck that flickers as the ball rolls and
+// reads as a scratch): it is never drawn smaller than a clean dot.
+float ball_glint(vec3 pos, vec3 r) {
+    vec3 l = normalize(pos - v_world);
+    // 1 - cos of the angle between the reflection and the lamp (about half
+    // the angle squared).
+    float e = 1.0 - dot(r, l);
+    float least = Spot.z * length(CameraPos - v_world);
+    float edge = max(0.0065, 0.5 * least * least);
+    // The dot, in a faint glow: the bloom of a bright light on a polish.
+    float glow = 1.0 - smoothstep(edge, edge * 9.0, e);
+    return 1.0 - smoothstep(edge * 0.35, edge, e) + 0.22 * glow * glow;
 }
 
 vec3 environment(vec3 r) {
@@ -289,14 +307,23 @@ void main() {
     }
     // Nothing of the room (a lamp's cord, a fan, a beam) between a camera
     // looking down and the table.
-    if (Extra.w > 0.5 && Clear.w > Clear.z && abs(v_world.x) < Clear.x
+    if (Extra.w > 0.5 && Extra.w < 1.5 && Clear.w > Clear.z && abs(v_world.x) < Clear.x
         && abs(v_world.z) < Clear.y && v_world.y > Clear.z && v_world.y < Clear.w) {
         discard;
     }
-    // Clear-coated surfaces (the balls above all) are read from a sharper
-    // level of their texture: a ball a few dozen pixels across keeps a
-    // crisp number instead of a smear, anti-aliasing or not.
-    vec4 base = texture2D(Texture, uv, Extra.x > 0.0 ? -1.0 : 0.0) * color;
+    // The balls are read from a sharper level of their texture: a ball a
+    // few dozen pixels across keeps a crisp number instead of a smear,
+    // anti-aliasing or not. (Only the balls: wood grain, floors and rugs
+    // read sharper than their size on screen shimmer as the camera moves.)
+    // Nothing of the room right against the lens either: a beam, a duct or
+    // a lamp the camera has moved into would black out the whole view.
+    if (Extra.w > 0.5 && Extra.w < 1.5 && Shadows.w <= 0.0) {
+        vec3 near = v_world - CameraPos;
+        if (dot(near, near) < 0.09) {
+            discard;
+        }
+    }
+    vec4 base = texture2D(Texture, uv, Extra.w > 1.5 ? -1.0 : 0.0) * color;
     if (Surface.z > 0.5) {
         // Unlit: the light is baked into the colour (the halls) or the
         // surface shines by itself.
@@ -352,15 +379,26 @@ void main() {
     float pool = mix(1.0, mix(1.0, 0.42, smoothstep(0.85, 1.6, spot)), Stage.x);
     // The cloth and the rails' tops are lit as under a wide fixture: the
     // light barely falls off from the middle to the cushions, so every
-    // ball reads the same wherever it is.
+    // ball reads the same wherever it is. Only the table's own surfaces
+    // (the ones the pockets are cut out of): on anything round standing on
+    // the cloth this drew a pale disc with a hard edge, the cap of a ball
+    // lit from another place than the rest of it.
     vec3 at = v_world;
-    if (n.y > 0.9 && abs(v_world.y - Shadows.z) < 0.08) {
+    if (Extra.y > 0.5 && Extra.y < 2.5 && n.y > 0.9 && abs(v_world.y - Shadows.z) < 0.08) {
         at = vec3(v_world.x * 0.3, v_world.y, v_world.z * 0.3);
     }
-    c += lamp_at(Lamp1, at, n, v, base.rgb, bt.y);
     if (Ambient.w > 1.5) {
+        c += lamp_at(Lamp1, at, n, v, base.rgb, bt.y);
         c += lamp_at(Lamp0, at, n, v, base.rgb, bt.x);
         c += lamp_at(Lamp2, at, n, v, base.rgb, bt.z);
+    } else {
+        // One lamp standing in for the three (Low quality): it shines from
+        // the nearest point of the row they hang in, as bright as all of
+        // them. (Left in the middle, what faced it from the side, the end
+        // of a casting or a pocket's facing, took the light of three lamps
+        // and burnt out to white.)
+        vec3 row = vec3(clamp(at.x, min(Lamp0.x, Lamp2.x), max(Lamp0.x, Lamp2.x)), Lamp1.yz);
+        c += lamp_at(row, at, n, v, base.rgb, bt.y);
     }
     c *= pool;
     // A little rim light keeps dark objects readable.
@@ -371,6 +409,12 @@ void main() {
         float fresnel = 0.04 + 0.96 * pow(1.0 - ndv, 5.0);
         vec3 r = reflect(-v, n);
         c += environment(r) * Extra.x * (0.05 + 0.75 * fresnel);
+    }
+    if (Extra.w > 1.5) {
+        // The light over the table, mirrored in the ball's polish: one
+        // clean dot (the three lamps side by side made a ragged bar across
+        // a small ball).
+        c += LampColor.rgb * ball_glint(Lamp1, reflect(-v, n)) * 1.1;
     }
     // The cloth darkens where it rolls over into a pocket.
     if (Extra.y > 0.5 && Extra.y < 1.5) {
@@ -409,6 +453,9 @@ pub struct Surface {
     /// Unlit haze (light cones, shafts): fades where seen edge on (the
     /// power of the fade; 0 = none).
     pub haze: f32,
+    /// A ball: its lamp glints never get smaller than a clean dot and its
+    /// texture is read sharp (see the shader).
+    pub ball: bool,
 }
 
 impl Surface {
@@ -420,6 +467,7 @@ impl Surface {
         coat: 0.0,
         cut: 0.0,
         haze: 0.0,
+        ball: false,
     };
     pub const WOOD: Surface = Surface {
         specular: 0.35,
@@ -429,18 +477,20 @@ impl Surface {
         coat: 0.35,
         cut: 0.0,
         haze: 0.0,
+        ball: false,
     };
     /// Polished phenolic balls, as a tournament set looks under the lamps:
     /// each lamp is a small, crisp glint and the room a faint reflection,
     /// so the colours and the numbers always read.
     pub const BALL: Surface = Surface {
-        specular: 0.55,
-        shininess: 420.0,
+        specular: 0.10,
+        shininess: 56.0,
         unlit: false,
         rim: 0.02,
         coat: 0.18,
         cut: 0.0,
         haze: 0.0,
+        ball: true,
     };
     pub const UNLIT: Surface = Surface {
         specular: 0.0,
@@ -450,16 +500,26 @@ impl Surface {
         coat: 0.0,
         cut: 0.0,
         haze: 0.0,
+        ball: false,
     };
     pub const fn lit(specular: f32, shininess: f32, rim: f32, coat: f32) -> Surface {
-        Surface { specular, shininess, unlit: false, rim, coat, cut: 0.0, haze: 0.0 }
+        Surface { specular, shininess, unlit: false, rim, coat, cut: 0.0, haze: 0.0, ball: false }
     }
 
     /// A surface whose light is baked into its colours (the halls) but which
     /// still catches the lamps (`specular`, `shininess`) and the room
     /// (`coat`) as the camera moves: varnish, brass, glass, polished floors.
     pub const fn baked(specular: f32, shininess: f32, coat: f32) -> Surface {
-        Surface { specular, shininess, unlit: true, rim: 0.0, coat, cut: 0.0, haze: 0.0 }
+        Surface {
+            specular,
+            shininess,
+            unlit: true,
+            rim: 0.0,
+            coat,
+            cut: 0.0,
+            haze: 0.0,
+            ball: false,
+        }
     }
 
     /// See-through light (a cone under a lamp, a shaft from a window) that
@@ -473,6 +533,7 @@ impl Surface {
             coat: 0.0,
             cut: 0.0,
             haze: power,
+            ball: false,
         }
     }
 
@@ -788,9 +849,11 @@ impl Materials {
     }
 
     /// The size of the table, with its rails (`half`): the pool of light on
-    /// the dark stage fits it, whatever its size.
-    pub fn set_table(&self, half: Vec2) {
-        let spot = vec4(half.x * 1.08, half.y * 1.18, 0.0, 0.0);
+    /// the dark stage fits it, whatever its size. `glint`: the angle a
+    /// lamp's glint on a ball spans at least, per metre from the camera
+    /// (see [`glint_angle`]).
+    pub fn set_table(&self, half: Vec2, glint: f32) {
+        let spot = vec4(half.x * 1.08, half.y * 1.18, glint, 0.0);
         self.set("Spot", spot, |u| u.spot = spot.to_array());
     }
 
@@ -819,7 +882,7 @@ impl Materials {
     fn set_state_surface(&self, s: Surface) {
         let mut u = self.state.borrow_mut();
         u.surface = [s.specular, s.shininess, if s.unlit { 1.0 } else { 0.0 }, s.rim];
-        u.extra = [s.coat, s.cut, s.haze, self.room.get() as u8 as f32];
+        u.extra = [s.coat, s.cut, s.haze, kind(s, self.room.get())];
     }
 
     /// Draws `model` (moved by `transform`) with the material and surface in
@@ -854,7 +917,32 @@ impl Materials {
 
 fn set_surface(m: &Material, s: Surface, room: bool) {
     m.set_uniform("Surface", vec4(s.specular, s.shininess, if s.unlit { 1.0 } else { 0.0 }, s.rim));
-    m.set_uniform("Extra", vec4(s.coat, s.cut, s.haze, room as u8 as f32));
+    m.set_uniform("Extra", vec4(s.coat, s.cut, s.haze, kind(s, room)));
+}
+
+/// What a surface is to the shader (`Extra.w`): 2 a ball, 1 the room, 0 the
+/// rest.
+fn kind(s: Surface, room: bool) -> f32 {
+    if s.ball {
+        2.0
+    } else if room {
+        1.0
+    } else {
+        0.0
+    }
+}
+
+/// The angle (radians, between a lamp and its reflection) a lamp's glint on
+/// a ball of radius `ball_radius` must span, per metre between the ball and
+/// the camera, to be a dot of about a pixel and a half across the radius
+/// in a window `screen_height` pixels high seen with the field of view
+/// `fovy`.
+pub fn glint_angle(fovy: f32, screen_height: f32, ball_radius: f32) -> f32 {
+    const PIXELS: f32 = 1.5;
+    // The size of a pixel a metre away; the reflection turns twice as fast
+    // as the ball's surface.
+    let pixel = 2.0 * (fovy / 2.0).tan() / screen_height.max(1.0);
+    2.0 * PIXELS * pixel / ball_radius.max(1e-4)
 }
 
 /// Uploads an RGBA image as a mipmapped, repeating, trilinear-filtered texture.
@@ -1154,6 +1242,72 @@ impl MeshBuilder {
             let i1 =
                 self.push(p1, vec2(0.5 + a1.cos() * 0.5, 0.5 + a1.sin() * 0.5), Vec3::Y, color);
             self.indices.extend_from_slice(&[c, i1, i0]);
+        }
+    }
+
+    /// A flat strip from `a` to `c` on the cloth (facing up), `wa` and `wc`
+    /// wide at its ends, whose long edges fade out over `fa` and `fc`: a
+    /// line that is smooth on any screen, anti-aliased or not.
+    #[allow(clippy::too_many_arguments)]
+    pub fn soft_line(
+        &mut self,
+        a: Vec3,
+        c: Vec3,
+        wa: f32,
+        wc: f32,
+        fa: f32,
+        fc: f32,
+        color: Color,
+    ) {
+        let d = c - a;
+        let side = vec3(-d.z, 0.0, d.x).normalize_or_zero();
+        let clear = Color::new(color.r, color.g, color.b, 0.0);
+        // Across the strip: clear, solid, solid, clear.
+        let mut row = |p: Vec3, w: f32, f: f32| -> [u16; 4] {
+            [
+                self.push(p - side * (w / 2.0 + f), Vec2::ZERO, Vec3::Y, clear),
+                self.push(p - side * (w / 2.0), Vec2::ZERO, Vec3::Y, color),
+                self.push(p + side * (w / 2.0), Vec2::ZERO, Vec3::Y, color),
+                self.push(p + side * (w / 2.0 + f), Vec2::ZERO, Vec3::Y, clear),
+            ]
+        };
+        let (r0, r1) = (row(a, wa, fa), row(c, wc, fc));
+        for k in 0..3 {
+            self.indices.extend_from_slice(&[r0[k], r1[k], r1[k + 1], r0[k], r1[k + 1], r0[k + 1]]);
+        }
+    }
+
+    /// A flat ring facing up, `width` wide round `radius`, whose edges fade
+    /// out over `feather` (see [`MeshBuilder::soft_line`]).
+    pub fn soft_ring(
+        &mut self,
+        center: Vec3,
+        radius: f32,
+        width: f32,
+        feather: f32,
+        segments: u32,
+        color: Color,
+    ) {
+        let clear = Color::new(color.r, color.g, color.b, 0.0);
+        let radii = [
+            (radius - width / 2.0 - feather, clear),
+            (radius - width / 2.0, color),
+            (radius + width / 2.0, color),
+            (radius + width / 2.0 + feather, clear),
+        ];
+        let first = self.vertices.len() as u16;
+        for k in 0..=segments {
+            let a = k as f32 / segments as f32 * std::f32::consts::TAU;
+            let d = vec3(a.cos(), 0.0, a.sin());
+            for (r, c) in radii {
+                self.push(center + d * r.max(0.0), Vec2::ZERO, Vec3::Y, c);
+            }
+        }
+        for k in 0..segments as u16 {
+            for j in 0..3 {
+                let (p, q) = (first + k * 4 + j, first + (k + 1) * 4 + j);
+                self.indices.extend_from_slice(&[p, q, q + 1, p, q + 1, p + 1]);
+            }
         }
     }
 

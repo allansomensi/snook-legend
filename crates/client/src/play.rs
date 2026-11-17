@@ -594,6 +594,10 @@ fn first_stop(game: &snook_legend_core::EightBallGame, cue: DVec2, dir: DVec2) -
     stop
 }
 
+/// How high above the cloth the ring round a pocket is drawn (m): over the
+/// rail and the casting (or leather) on it, which hid most of the ring.
+const POCKET_RING_HEIGHT: f32 = RAIL_HEIGHT + 0.012;
+
 /// Builds the cue and the markings for this frame.
 pub fn overlay(m: &Match, scene: &Scene, time: f32) -> Overlay {
     let mut out = Overlay {
@@ -646,7 +650,7 @@ pub fn overlay(m: &Match, scene: &Scene, time: f32) -> Overlay {
         };
         if let Some(id) = pocket {
             out.guides.push(Guide::Ring {
-                center: surface(scene.pocket_center(id), RAIL_HEIGHT + 0.004),
+                center: surface(scene.pocket_center(id), POCKET_RING_HEIGHT),
                 radius: scene.pocket_radius(id) + 0.018,
                 width: 0.008,
                 color: gold,
@@ -696,7 +700,7 @@ pub fn overlay(m: &Match, scene: &Scene, time: f32) -> Overlay {
             if called || m.called_pocket.is_none() {
                 let alpha = if called { 1.0 } else { 0.3 + 0.5 * pulse };
                 out.guides.push(Guide::Ring {
-                    center: surface(scene.pocket_center(id), RAIL_HEIGHT + 0.004),
+                    center: surface(scene.pocket_center(id), POCKET_RING_HEIGHT),
                     radius: scene.pocket_radius(id) + 0.018,
                     width: 0.008,
                     color: Color::new(1.0, 0.82, 0.25, alpha),

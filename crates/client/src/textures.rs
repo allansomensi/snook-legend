@@ -431,59 +431,53 @@ pub fn tin_ceiling() -> Pixels {
 /// A rug for under the table (not tiled: the whole rug, 2:1): a dark red
 /// border with a gold line, a deep green field and a medallion.
 pub fn rug() -> Pixels {
-    const W: u16 = 1024;
-    const H: u16 = 512;
-    let mut rgba = Vec::with_capacity(W as usize * H as usize * 4);
-    for y in 0..H {
-        for x in 0..W {
-            let (u, v) = (x as f32 / W as f32, y as f32 / H as f32);
-            // Distance to the edge, in rug units (the rug is 2:1).
-            let edge = (u.min(1.0 - u) * 2.0).min(v.min(1.0 - v));
-            let field = [0.07, 0.17, 0.12];
-            let border = [0.32, 0.06, 0.05];
-            let gold = [0.52, 0.40, 0.18];
-            let wool = fbm(u * 64.0, v * 32.0, 32, 77, 2) - 0.5;
-            let mut c = if edge < 0.012 {
-                // Fringe-ish dark edge.
-                [0.18, 0.05, 0.04]
-            } else if edge < 0.09 {
-                // Border with a running diamond pattern.
-                let t = ((u + v) * 60.0).sin() * ((u - v) * 60.0).sin();
-                let k = (t > 0.3) as u8 as f32;
-                [0, 1, 2].map(|i| border[i] + (gold[i] - border[i]) * k * 0.45)
-            } else if (edge - 0.095).abs() < 0.006 || (edge - 0.13).abs() < 0.004 {
+    // Four samples a pixel: the motifs and the fine gold lines get smooth
+    // outlines (sampled once, they were stepped, and the lines of the
+    // corners broke up into dots seen from above).
+    crate::hall_textures::image_wh_smooth(1024, 512, |u, v| {
+        // Distance to the edge, in rug units (the rug is 2:1).
+        let edge = (u.min(1.0 - u) * 2.0).min(v.min(1.0 - v));
+        let field = [0.07, 0.17, 0.12];
+        let border = [0.32, 0.06, 0.05];
+        let gold = [0.52, 0.40, 0.18];
+        let wool = fbm(u * 64.0, v * 32.0, 32, 77, 2) - 0.5;
+        let c = if edge < 0.012 {
+            // Fringe-ish dark edge.
+            [0.18, 0.05, 0.04]
+        } else if edge < 0.09 {
+            // Border with a running diamond pattern.
+            let t = ((u + v) * 60.0).sin() * ((u - v) * 60.0).sin();
+            let k = (t > 0.3) as u8 as f32;
+            [0, 1, 2].map(|i| border[i] + (gold[i] - border[i]) * k * 0.45)
+        } else if (edge - 0.095).abs() < 0.006 || (edge - 0.13).abs() < 0.004 {
+            gold
+        } else {
+            // The field, with a medallion in the middle.
+            let (cx, cy) = ((u - 0.5) * 2.0, v - 0.5);
+            let r = (cx * cx + cy * cy).sqrt();
+            let a = cy.atan2(cx);
+            let star = 0.17 + 0.025 * (a * 8.0).cos() + 0.01 * (a * 16.0).cos();
+            if r < star {
+                let inner = r / star;
+                if (inner - 0.55).abs() < 0.05 || inner < 0.18 {
+                    gold
+                } else if inner < 0.55 {
+                    field
+                } else {
+                    border
+                }
+            } else if (r - star - 0.02).abs() < 0.006 {
                 gold
             } else {
-                // The field, with a medallion in the middle.
-                let (cx, cy) = ((u - 0.5) * 2.0, v - 0.5);
-                let r = (cx * cx + cy * cy).sqrt();
-                let a = cy.atan2(cx);
-                let star = 0.17 + 0.025 * (a * 8.0).cos() + 0.01 * (a * 16.0).cos();
-                if r < star {
-                    let inner = r / star;
-                    if (inner - 0.55).abs() < 0.05 || inner < 0.18 {
-                        gold
-                    } else if inner < 0.55 {
-                        field
-                    } else {
-                        border
-                    }
-                } else if (r - star - 0.02).abs() < 0.006 {
-                    gold
-                } else {
-                    let corner =
-                        ((u - 0.5).abs() * 2.0 - 0.72).max(0.0) + ((v - 0.5).abs() - 0.28).max(0.0);
-                    if corner > 0.0 && (corner * 40.0).fract() < 0.18 { gold } else { field }
-                }
-            };
-            for ch in c.iter_mut() {
-                *ch = (*ch * (1.0 + wool * 0.25)).clamp(0.0, 1.0);
+                // A few gold lines round each corner of the field (many
+                // fine ones shimmered).
+                let corner =
+                    ((u - 0.5).abs() * 2.0 - 0.72).max(0.0) + ((v - 0.5).abs() - 0.28).max(0.0);
+                if corner > 0.0 && (corner * 22.0).fract() < 0.2 { gold } else { field }
             }
-            let px = c.map(|x| (x * 255.0) as u8);
-            rgba.extend_from_slice(&[px[0], px[1], px[2], 255]);
-        }
-    }
-    Pixels { width: W, height: H, rgba }
+        };
+        c.map(|x| ((x * (1.0 + wool * 0.25)).clamp(0.0, 1.0) * 255.0) as u8)
+    })
 }
 
 /// A chalkboard with the scores of the night (tally marks and lines).

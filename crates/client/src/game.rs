@@ -1740,6 +1740,11 @@ pub fn unix_now() -> i64 {
 }
 
 pub fn clock_seed() -> u64 {
+    // Development aid (screenshots): SNOOK_LEGEND_SEED=<n> racks and breaks
+    // the same way every time.
+    if let Some(seed) = crate::dev::var("SNOOK_LEGEND_SEED").and_then(|v| v.parse().ok()) {
+        return seed;
+    }
     std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
         .map(|d| d.as_nanos() as u64)

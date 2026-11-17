@@ -454,8 +454,9 @@ impl Scene {
         });
         self.materials.set_shadows(self.soft_shadows, self.soft_shadows, &casters, cue);
         self.materials.set_pockets(&self.holes, &self.throats);
-        self.materials.set_table(half_table(&self.table));
         let half = half_table(&self.table);
+        let glint = gfx::glint_angle(cam.fovy, screen_height(), self.ball_radius());
+        self.materials.set_table(half, glint);
         self.materials.set_clear(
             self.clear_over_table
                 .then(|| (half + Vec2::splat(0.35), TABLE_HEIGHT + 0.12, cam.eye.y + 1.0)),
@@ -556,7 +557,7 @@ impl Scene {
                 _ => self.materials.draw(&self.cue, Some(model)),
             }
         }
-        self.draw_guides(&overlay.guides, cam.eye);
+        self.draw_guides(&overlay.guides, cam);
         if let Some(p) = overlay.ghost {
             self.materials.use_blended(Surface::lit(0.6, 60.0, 0.0, 0.0));
             self.materials.draw(&self.ghost, Some(Mat4::from_translation(p)));
@@ -721,12 +722,15 @@ impl Scene {
         }
     }
 
-    fn draw_guides(&self, guides: &[Guide], eye: Vec3) {
-        // Keep lines at least ~1.5 px wide however far the camera is.
-        let px = |p: Vec3, w: f32| w.max(p.distance(eye) * 0.0016);
+    fn draw_guides(&self, guides: &[Guide], cam: &SceneCamera) {
         if guides.is_empty() {
             return;
         }
+        // The size of a pixel at `p` (m): lines are never thinner than a
+        // pixel, and their edges fade out over most of one, so they are
+        // smooth however far the camera is and whatever the screen.
+        let pixel = 2.0 * (cam.fovy / 2.0).tan() / screen_height().max(1.0);
+        let px = |p: Vec3| p.distance(cam.eye) * pixel;
         let mut b = MeshBuilder::default();
         for g in guides {
             match *g {
@@ -737,18 +741,16 @@ impl Scene {
                     }
                     // Split long lines so the width can grow with distance.
                     let steps = (d.length() / 0.1).ceil().max(1.0) as usize;
-                    let dir = vec3(-d.z, 0.0, d.x).normalize();
                     for k in 0..steps {
                         let a = from + d * (k as f32 / steps as f32);
                         let c = from + d * ((k + 1) as f32 / steps as f32);
-                        let wa = dir * px(a, width) / 2.0;
-                        let wc = dir * px(c, width) / 2.0;
-                        b.quad([a - wa, c - wc, c + wc, a + wa], [Vec2::ZERO; 4], color);
+                        let (pa, pc) = (px(a), px(c));
+                        b.soft_line(a, c, width.max(pa), width.max(pc), pa * 0.8, pc * 0.8, color);
                     }
                 }
                 Guide::Ring { center, radius, width, color } => {
-                    let w = px(center, width);
-                    b.ring(center, radius - w / 2.0, radius + w / 2.0, 40, color);
+                    let p = px(center);
+                    b.soft_ring(center, radius, width.max(p), p * 0.8, 64, color);
                 }
             }
         }

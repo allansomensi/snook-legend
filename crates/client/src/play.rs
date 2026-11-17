@@ -172,6 +172,9 @@ impl Controls {
     }
 
     fn orbit(&self, rig: &mut CameraRig, delta: Vec2) {
+        if rig.top_only {
+            return;
+        }
         if rig.mode == CameraMode::Top {
             rig.enter_3d();
         }

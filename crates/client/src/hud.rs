@@ -38,6 +38,8 @@ pub struct Hud {
     banner: Option<(String, String, f32)>,
     /// Set by the caller: the camera is in the overhead view.
     pub top_view: bool,
+    /// The camera stays above the table (a setting): no 3D help lines.
+    pub top_only: bool,
     /// Set by the caller: multiplier for fine aiming.
     pub aim_sensitivity: f32,
     /// Last pointer x while dragging the fine-aim strip.
@@ -109,6 +111,7 @@ impl Default for Hud {
             banner_key: None,
             banner: None,
             top_view: false,
+            top_only: false,
             aim_sensitivity: 1.0,
             fine_last: None,
             stroking: false,
@@ -717,7 +720,7 @@ impl Hud {
         }
         if self.show_help && self.paused {
             draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.5));
-            let lines = controls_list();
+            let lines = controls_list(self.top_only);
             const ROW: f32 = 26.0;
             const PAD: f32 = 24.0;
             let label_w =
@@ -1378,7 +1381,7 @@ fn video_bar_rect() -> Rect {
 
 /// The list of controls (H), with the keys the player has chosen (a line
 /// that would only name keys is left out when its action has none).
-fn controls_list() -> Vec<(&'static str, String)> {
+fn controls_list(top_only: bool) -> Vec<(&'static str, String)> {
     let k = keys::short;
     // Parts joined with " · ", leaving out the empty ones.
     let join = |parts: &[&str]| {
@@ -1418,11 +1421,18 @@ fn controls_list() -> Vec<(&'static str, String)> {
             t("Elevation"),
             with_keys("{keys} (jump & massé)", pair(Action::ElevationUp, Action::ElevationDown)),
         ),
-        (t("Camera"), join(&[t("Right-drag · Wheel"), k(Action::ResetCamera)])),
+        (
+            t("Camera"),
+            if top_only {
+                join(&[t("Wheel"), k(Action::ResetCamera)])
+            } else {
+                join(&[t("Right-drag · Wheel"), k(Action::ResetCamera)])
+            },
+        ),
         (
             t("View"),
             join(&[
-                &with_key("{key}: 3D / top view", Action::ToggleView),
+                &if top_only { String::new() } else { with_key("{key}: 3D / top view", Action::ToggleView) },
                 &with_keys("{keys}: zoom", pair(Action::ZoomIn, Action::ZoomOut)),
             ]),
         ),

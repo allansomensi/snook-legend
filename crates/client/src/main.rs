@@ -584,11 +584,16 @@ async fn main() {
             && current.as_ref().is_some_and(|m| {
                 m.is_spectating() || m.is_replay() || crate::dev::flag("SNOOK_LEGEND_TV")
             });
+        if rig.top_only != config.top_view_only {
+            rig.top_only = config.top_view_only;
+            rig.reset();
+        }
         if rig.follow_cue != config.camera_follow {
             rig.follow_cue = config.camera_follow;
             rig.reset();
         }
         hud.top_view = rig.mode == CameraMode::Top;
+        hud.top_only = rig.top_only;
         hud.can_report = !match_from_lan && online.signed_in();
         hud.camera_default = rig.is_default();
         // Online (not on a local network): "Add friend" after the game.

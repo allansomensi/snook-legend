@@ -110,6 +110,8 @@ pub struct Config {
     pub show_ping: bool,
     /// Computer opponents make remarks during a game.
     pub opponent_talk: bool,
+    /// The table only ever seen from above (no 3D view).
+    pub top_view_only: bool,
     /// Interface size (1.0 = automatic for the window size).
     pub ui_size: f32,
     /// Multiplier for fine aiming with the mouse.
@@ -180,6 +182,7 @@ impl Default for Config {
             show_fps: false,
             show_ping: false,
             opponent_talk: true,
+            top_view_only: false,
             aim_sensitivity: 1.0,
             ui_size: 1.0,
             quality: Quality::High,
@@ -307,6 +310,7 @@ impl Config {
                 "show_fps" => c.show_fps = v == "true",
                 "show_ping" => c.show_ping = v == "true",
                 "opponent_talk" => c.opponent_talk = v != "false",
+                "top_view_only" => c.top_view_only = v == "true",
                 "ui_size" => {
                     c.ui_size = v.parse::<f32>().map(|x| x.clamp(0.7, 1.5)).unwrap_or(c.ui_size)
                 }
@@ -370,7 +374,7 @@ impl Config {
 
     pub fn to_text(&self) -> String {
         format!(
-            "# Snook Legend settings\nplayer_name = {}\nsecond_player_name = {}\nguide = {}\nshow_help = {}\nshot_camera = {}\ncamera_follow = {}\ngraphics_checked = {}\nlanguage = {}\nvignette = {}\nfocused_scene = {}\nshow_fps = {}\nshow_ping = {}\nopponent_talk = {}\naim_sensitivity = {:.2}\nui_size = {:.2}\n\
+            "# Snook Legend settings\nplayer_name = {}\nsecond_player_name = {}\nguide = {}\nshow_help = {}\nshot_camera = {}\ncamera_follow = {}\ngraphics_checked = {}\nlanguage = {}\nvignette = {}\nfocused_scene = {}\nshow_fps = {}\nshow_ping = {}\nopponent_talk = {}\ntop_view_only = {}\naim_sensitivity = {:.2}\nui_size = {:.2}\n\
              quality = {}\nmsaa = {}\nfullscreen = {}\nvolume = {:.2}\nserver = {}\nusername = {}\ntoken = {}\n\
              difficulty = {}\nopponent = {}\nshot_clock = {}\nlan_name = {}\ncloth = {}\ncue = {}\nchalk = {}\nballs = {}\neffect = {}\ntable = {}\nhall = {}\ncue_level = {}\nemail_offer_declined = {}\n\
              board_seen = {}\ntv_view = {}\ndesktop_notifications = {}\nauto_update = {}\nlast_version = {}\n{}",
@@ -387,6 +391,7 @@ impl Config {
             self.show_fps,
             self.show_ping,
             self.opponent_talk,
+            self.top_view_only,
             self.aim_sensitivity,
             self.ui_size,
             self.quality.name(),

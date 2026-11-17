@@ -1684,3 +1684,7 @@ Result: win. Thank you for the data.	Resultado: victoria. Gracias por los datos.
 Unexpected outcome. Impressive.	Resultado inesperado. Impresionante.
 Opponents' remarks	Comentarios de los rivales
 The computer opponents comment on the game in speech bubbles.	Los rivales de la computadora comentan la partida en bocadillos.
+Top view only	Solo vista superior
+The table is always seen from above: no 3D view, no turning.	La mesa siempre se ve desde arriba: sin vista 3D, sin girar.
+Not with the top view only.	No con la vista solo superior.
+Wheel	Rueda del ratón

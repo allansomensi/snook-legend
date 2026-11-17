@@ -537,12 +537,26 @@ impl SettingsScreen {
                 switch_row(
                     rows,
                     ui,
-                    t("Camera follows the cue"),
-                    t("Off: it stays where you put it."),
-                    &mut config.camera_follow,
+                    t("Top view only"),
+                    t("The table is always seen from above: no 3D view, no turning."),
+                    &mut config.top_view_only,
                 );
+                // The 3D camera's own settings, idle while it is locked above.
+                let free = !config.top_view_only;
+                let hint = if free { t("Off: it stays where you put it.") } else { t("Not with the top view only.") };
+                if let Some((row, c)) = rows.row_ex(
+                    ui,
+                    t("Camera follows the cue"),
+                    hint,
+                    MUTED,
+                    Control::Switch,
+                    free,
+                    true,
+                ) {
+                    toggle_on_click(ui, row, c, &mut config.camera_follow, free);
+                }
                 // Only the camera that follows the cue pulls back.
-                let follows = config.camera_follow;
+                let follows = config.camera_follow && free;
                 let hint = if follows {
                     t("Camera pulls back to watch each shot")
                 } else {
@@ -559,13 +573,22 @@ impl SettingsScreen {
                 ) {
                     toggle_on_click(ui, row, c, &mut config.shot_camera, follows);
                 }
-                switch_row(
-                    rows,
+                let hint = if free {
+                    t("Broadcast angles for other players' games and replays.")
+                } else {
+                    t("Not with the top view only.")
+                };
+                if let Some((row, c)) = rows.row_ex(
                     ui,
                     t("TV camera when watching"),
-                    t("Broadcast angles for other players' games and replays."),
-                    &mut config.tv_camera,
-                );
+                    hint,
+                    MUTED,
+                    Control::Switch,
+                    free,
+                    true,
+                ) {
+                    toggle_on_click(ui, row, c, &mut config.tv_camera, free);
+                }
 
                 self.updates_rows(ui, config, in_match, rows);
 

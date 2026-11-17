@@ -42,6 +42,9 @@ pub struct CameraRig {
     /// The viewer moved the camera: the broadcast waits until the view is
     /// reset.
     pub tv_paused: bool,
+    /// The player chose to see the table only from above: no 3D view, no
+    /// turning (zooming still works).
+    pub top_only: bool,
     tv_state: TvState,
 }
 
@@ -93,6 +96,7 @@ impl Default for CameraRig {
             fovy: 36f32.to_radians(),
             tv: false,
             tv_paused: false,
+            top_only: false,
             tv_state: TvState::default(),
         }
     }
@@ -167,7 +171,7 @@ impl CameraRig {
     /// From the overhead view to the 3D view, seen from the same side, so a
     /// drag can turn the table straight away.
     pub fn enter_3d(&mut self) {
-        if self.mode == CameraMode::Top {
+        if self.mode == CameraMode::Top && !self.top_only {
             self.mode = CameraMode::Aim;
             if !self.follow_cue {
                 self.orbit = -std::f32::consts::FRAC_PI_2;
@@ -288,7 +292,12 @@ impl CameraRig {
     }
 
     pub fn update(&mut self, dt: f32, m: Option<&Match>, elapsed: f32) -> SceneCamera {
+        if self.top_only {
+            self.mode = CameraMode::Top;
+            self.orbit = 0.0;
+        }
         if self.tv
+            && !self.top_only
             && !self.tv_paused
             && let Some(m) = m
         {
@@ -438,5 +447,20 @@ mod tests {
         let outside = CameraRig::constrain(vec3(2.0, 1.0, 0.0));
         assert_eq!(outside.y, 1.0);
         assert!(CameraRig::constrain(vec3(0.0, -3.0, 0.0)).y >= 0.9);
+    }
+
+    #[test]
+    fn the_top_view_only_never_goes_3d() {
+        let mut rig = CameraRig { top_only: true, ..Default::default() };
+        rig.enter_3d();
+        assert_eq!(rig.mode, CameraMode::Top);
+        // Even if something put it in 3D, the next frame is from above.
+        rig.mode = CameraMode::Aim;
+        rig.orbit = 1.0;
+        rig.tv = true;
+        let cam = rig.update(0.016, None, 0.0);
+        assert_eq!(rig.mode, CameraMode::Top);
+        assert_eq!(rig.orbit, 0.0);
+        assert!(cam.eye.is_finite());
     }
 }

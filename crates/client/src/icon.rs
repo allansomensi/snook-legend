@@ -1,10 +1,11 @@
-//! The Snook Legend emblem, drawn procedurally: a pool table seen from above
-//! (walnut rails, brass pocket castings, green cloth) with a black ball
-//! whose number circle carries an "S".
+//! The Snook Legend emblem, drawn procedurally: an 8 ball seen at an angle,
+//! its number circle turned up and to the right (so it reads as a sphere, in
+//! perspective), resting on a tile of green cloth edged in brass.
 //!
 //! The same picture is the window icon, the menu's emblem and, exported to
-//! files, the executable's and the installer's icon (`assets/icon/`; see
-//! the `export_icons` test to regenerate them after a change here).
+//! files, the executable's, the installer's and the Store's icons
+//! (`assets/icon/`, `msix/Assets/`; see the `export_icons` and
+//! `export_msix_assets` tests to make them again after a change here).
 
 use macroquad::miniquad::conf::Icon;
 
@@ -59,117 +60,88 @@ fn rounded_square(x: f32, y: f32, b: f32, r: f32) -> f32 {
     len(qx.max(0.0), qy.max(0.0)) + qx.max(qy).min(0.0) - r
 }
 
-const WALNUT_LIGHT: Rgba = Rgba::rgb(0.47, 0.26, 0.12);
-const WALNUT_DARK: Rgba = Rgba::rgb(0.20, 0.10, 0.045);
-const BRASS_LIGHT: Rgba = Rgba::rgb(1.0, 0.88, 0.58);
-const BRASS_DARK: Rgba = Rgba::rgb(0.62, 0.42, 0.16);
-const CLOTH_LIGHT: Rgba = Rgba::rgb(0.16, 0.56, 0.33);
-const CLOTH_DARK: Rgba = Rgba::rgb(0.035, 0.22, 0.12);
-const IVORY: Rgba = Rgba::rgb(0.97, 0.94, 0.86);
-const INK: Rgba = Rgba::rgb(0.06, 0.05, 0.05);
+const CLOTH_LIGHT: Rgba = Rgba::rgb(0.19, 0.60, 0.35);
+const CLOTH_DARK: Rgba = Rgba::rgb(0.03, 0.20, 0.11);
+const BRASS_LIGHT: Rgba = Rgba::rgb(1.0, 0.86, 0.52);
+const BRASS_DARK: Rgba = Rgba::rgb(0.58, 0.38, 0.13);
+const IVORY: Rgba = Rgba::rgb(0.98, 0.96, 0.90);
+const BLACK: Rgba = Rgba::rgb(0.035, 0.04, 0.05);
+const INK: Rgba = Rgba::rgb(0.05, 0.05, 0.06);
 
-/// Half size of the table (the picture spans -1..1).
-const OUTER: f32 = 0.94;
-/// Where the cloth starts (the rails are between this and `OUTER`).
-const CLOTH: f32 = 0.70;
+/// Half size of the tile (the picture spans -1..1) and its corner radius.
+const TILE: f32 = 0.94;
+const CORNER: f32 = 0.30;
 /// The ball: centre and radius.
-const BALL: (f32, f32, f32) = (0.0, 0.0, 0.47);
+const BALL: (f32, f32, f32) = (-0.02, -0.04, 0.62);
+/// Where the number circle faces: up and to the right, towards the viewer.
+const FACE: [f32; 3] = [0.40, -0.36, 0.84];
+/// The number circle's radius on the ball (as a share of the ball's).
+const DISC: f32 = 0.47;
 
 /// The colour of the emblem at `(x, y)` (-1..1, y down), with alpha.
 fn shade(x: f32, y: f32, px: f32) -> Rgba {
     let mut c = Rgba([0.0; 4]);
-    let d = rounded_square(x, y, OUTER, 0.30);
+    let d = rounded_square(x, y, TILE, CORNER);
     if d > px {
         return c;
     }
-    // Walnut rails: lighter at the top, a soft bevel along the edge.
-    let grain = 0.5 + 0.5 * ((x * 9.0 + y * 2.0).sin() * 0.5 + (x * 23.0 - y * 5.0).sin() * 0.5);
-    let wood = WALNUT_LIGHT.mix(WALNUT_DARK, 0.35 + 0.45 * (y + 1.0) / 2.0 + 0.12 * grain);
-    let bevel = smoothstep(-0.10, 0.0, d);
-    c = c.over(wood.mix(Rgba::rgb(0.10, 0.05, 0.02), bevel * 0.6), smoothstep(px, -px, d));
-    // A thin brass inlay around the cloth.
-    let inner = rounded_square(x, y, CLOTH + 0.045, 0.16);
-    let brass = BRASS_LIGHT.mix(BRASS_DARK, (y + x * 0.4 + 1.0) / 2.0);
-    let ring = smoothstep(px, -px, inner) * smoothstep(-px, px, inner + 0.035);
-    c = c.over(brass, ring);
-    // The cloth: lit from the upper left, darker towards the cushions.
-    let cloth_d = rounded_square(x, y, CLOTH, 0.12);
-    let lit = len(x + 0.30, y + 0.35) / 1.25;
-    let mut cloth = CLOTH_LIGHT.mix(CLOTH_DARK, smoothstep(0.0, 1.0, lit));
-    // Cushion shade along the edge.
-    cloth = cloth.scale(0.75 + 0.25 * smoothstep(0.0, -0.10, cloth_d));
-    // The ball's shadow, down and to the right.
+    // The cloth: a pool of light around the ball, darker to the edges.
+    let lit = len(x + 0.15, y + 0.25) / 1.35;
+    let mut cloth = CLOTH_LIGHT.mix(CLOTH_DARK, smoothstep(0.05, 1.0, lit));
+    // The ball's soft shadow, down and to the right.
     let (bx, by, br) = BALL;
-    let s = len((x - bx - 0.09) / 1.05, (y - by - 0.12) / 0.95) / br;
-    cloth = cloth.scale(1.0 - 0.55 * (1.0 - smoothstep(0.75, 1.12, s)));
-    c = c.over(cloth, smoothstep(px, -px, cloth_d));
-    // Brass pocket castings in the corners, with the dark pocket inside.
-    for (sx, sy) in [(-1.0, -1.0), (1.0, -1.0), (-1.0, 1.0), (1.0, 1.0)] {
-        let (cx, cy) = (sx * 0.675, sy * 0.675);
-        let pd = len(x - cx, y - cy);
-        let shine = 0.5 + 0.5 * (-(x - cx) - (y - cy)) / pd.max(1e-4);
-        c = c.over(BRASS_DARK.mix(BRASS_LIGHT, shine), smoothstep(0.165 + px, 0.165 - px, pd));
-        let hole = Rgba::rgb(0.02, 0.015, 0.01).mix(Rgba::rgb(0.10, 0.07, 0.05), pd / 0.115);
-        c = c.over(hole, smoothstep(0.115 + px, 0.115 - px, pd));
-    }
+    let s = len((x - bx - 0.16) / 1.1, (y - by - 0.20) / 0.85) / br;
+    cloth = cloth.scale(1.0 - 0.6 * (1.0 - smoothstep(0.55, 1.15, s)));
+    c = c.over(cloth, smoothstep(px, -px, d));
+    // A thin brass edge.
+    let brass = BRASS_LIGHT.mix(BRASS_DARK, (y + x * 0.5 + 1.0) / 2.0);
+    let edge = smoothstep(px, -px, d) * smoothstep(-0.05 - px, -0.05 + px, d);
+    c = c.over(brass, edge);
     // The ball.
     let (u, v) = ((x - bx) / br, (y - by) / br);
-    let r2 = u * u + v * v;
-    let edge = smoothstep(1.0 + px / br, 1.0 - px / br, r2.sqrt());
-    if edge > 0.0 {
-        let n = [u, v, (1.0 - r2.min(1.0)).sqrt()];
-        let light = norm([-0.80, -0.95, 0.55]);
-        let diffuse = dot(n, light).max(0.0);
-        // The number circle faces the viewer, a little up and to the left.
-        let face = norm([-0.10, -0.13, 0.98]);
-        let t1 = norm(cross([0.0, 1.0, 0.0], face));
-        let t2 = cross(face, t1);
-        let (lu, lv) = (dot(n, t1), dot(n, t2));
-        let on_face = dot(n, face);
-        let radius = 0.52;
-        let fpx = px / br / radius * 1.4;
-        let face_a = if on_face > 0.0 {
-            smoothstep(radius + fpx * radius, radius - fpx * radius, len(lu, lv))
-        } else {
-            0.0
-        };
-        let mut base = INK.over(IVORY, face_a);
-        let s = letter_s(lu / radius, -lv / radius, fpx);
-        base = base.over(INK, s * face_a);
-        let mut col = base.scale(0.30 + 0.80 * diffuse);
-        // Rim light from the cloth and a sharp highlight.
-        col = col.over(
-            Rgba::rgb(0.20, 0.55, 0.35),
-            0.25 * smoothstep(0.7, 1.0, r2.sqrt()) * (v.max(0.0)),
-        );
-        let half = norm([light[0], light[1], light[2] + 1.0]);
-        let spec = dot(n, half).max(0.0).powf(90.0);
-        col = col.over(Rgba::rgb(1.0, 1.0, 1.0), spec * 0.95);
-        let soft = dot(n, half).max(0.0).powf(8.0);
-        col = col.over(Rgba::rgb(1.0, 1.0, 1.0), soft * 0.10);
-        c = c.over(col, edge);
+    let r = (u * u + v * v).sqrt();
+    let inside = smoothstep(1.0 + px / br, 1.0 - px / br, r);
+    if inside <= 0.0 {
+        return c;
     }
-    c
+    let n = [u, v, (1.0 - (r * r).min(1.0)).sqrt()];
+    let light = norm([-0.55, -0.80, 0.70]);
+    let diffuse = dot(n, light).max(0.0);
+    // The number circle, on the sphere: a disc around `FACE`, seen at an
+    // angle (an ellipse), with an "8" that follows the curve.
+    let face = norm(FACE);
+    let t1 = norm(cross([0.0, 1.0, 0.0], face));
+    let t2 = cross(face, t1);
+    let on_face = dot(n, face);
+    let (lu, lv) = (dot(n, t1) / DISC, dot(n, t2) / DISC);
+    let dpx = px / br / DISC * 1.6;
+    let disc = if on_face > 0.0 { smoothstep(1.0 + dpx, 1.0 - dpx, len(lu, lv)) } else { 0.0 };
+    let mut base = BLACK.over(IVORY, disc);
+    base = base.over(INK, eight(lu, -lv, dpx) * disc);
+    // Light: a soft key from the upper left, the cloth's green bounce from
+    // below, a clear highlight and a window-like glint.
+    let mut col = base.scale(0.22 + 0.85 * diffuse);
+    col = col.over(Rgba::rgb(0.18, 0.55, 0.32), 0.28 * smoothstep(0.55, 1.0, r) * v.max(0.0));
+    let view = [0.0, 0.0, 1.0];
+    let half = norm([light[0] + view[0], light[1] + view[1], light[2] + view[2]]);
+    let nh = dot(n, half).max(0.0);
+    col = col.over(Rgba::rgb(1.0, 1.0, 1.0), nh.powf(120.0) * 0.9 + nh.powf(10.0) * 0.12);
+    // Fresnel: the rim catches a little of the room.
+    let rim = (1.0 - n[2]).powf(3.0);
+    col = col.over(Rgba::rgb(0.55, 0.62, 0.70), rim * 0.22);
+    c.over(col, inside)
 }
 
-/// Coverage of an "S" in a unit circle (x right, y up), `px` the pixel size.
-fn letter_s(x: f32, y: f32, px: f32) -> f32 {
-    let r = 0.29;
-    let w = 0.12;
-    let arc = |cx: f32, cy: f32, keep: &dyn Fn(f32) -> bool| -> f32 {
-        let (dx, dy) = (x - cx, y - cy);
-        let a = dy.atan2(dx).to_degrees();
-        if !keep(a) {
-            return 0.0;
-        }
-        let d = (len(dx, dy) - r).abs() - w;
-        smoothstep(px, -px, d)
+/// Coverage of an "8" in a unit disc (x right, y up), `px` the pixel size:
+/// two rings, the lower one a little larger.
+fn eight(x: f32, y: f32, px: f32) -> f32 {
+    let w = 0.105;
+    let ring = |cy: f32, rx: f32, ry: f32| -> f32 {
+        let (dx, dy) = (x / rx, (y - cy) / ry);
+        let d = (len(dx, dy) - 1.0) * rx.min(ry);
+        smoothstep(px, -px, d.abs() - w)
     };
-    // Upper bowl: open on the lower right (angles counter-clockwise, y up).
-    let top = arc(0.0, r * 0.95, &|a| !(-90.0..38.0).contains(&a));
-    // Lower bowl: open on the upper left.
-    let bottom = arc(0.0, -r * 0.95, &|a| !(90.0..180.1).contains(&a) && a > -142.0);
-    top.max(bottom)
+    ring(0.27, 0.25, 0.22).max(ring(-0.25, 0.30, 0.27))
 }
 
 fn dot(a: [f32; 3], b: [f32; 3]) -> f32 {

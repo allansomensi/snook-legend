@@ -336,6 +336,10 @@ async fn main() {
     if options.top_view {
         rig.mode = CameraMode::Top;
     }
+    // Development aid (screenshots): SNOOK_LEGEND_VIEW=3d starts in the 3D view.
+    if crate::dev::var("SNOOK_LEGEND_VIEW").is_some_and(|v| v == "3d") {
+        rig.enter_3d();
+    }
     // Development aid: SNOOK_LEGEND_SAMPLE_REPLAY=1 watches a recorded game.
     if crate::dev::flag("SNOOK_LEGEND_SAMPLE_REPLAY") {
         current = Some(Match::replay_of(&game::Video::sample(11, 30), config.guide));

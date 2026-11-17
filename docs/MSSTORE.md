@@ -91,9 +91,10 @@ página da loja, a classificação etária e o preço:
      moedas ligada, **compras com dinheiro**: veja
      [Venda de moedas pela Store](#venda-de-moedas-pela-store)).
    - **Packages:** envie o `.msix` baixado.
-   - **Store listings** (português e inglês): descrição, capturas de tela
-     (as de `docs/screenshots/` servem; o mínimo é 1366×768) e o link de
-     suporte.
+   - **Store listings** (português, inglês e espanhol): os textos de
+     [STORE-LISTING.md](STORE-LISTING.md), as capturas de tela de
+     `store-art/screenshots/<idioma>/` (1920×1080, na ordem dos nomes) e o
+     link de suporte.
 3. Envie para certificação (até três dias úteis).
 
 ## Venda de moedas pela Store

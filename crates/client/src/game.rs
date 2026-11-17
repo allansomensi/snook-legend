@@ -979,6 +979,24 @@ impl Match {
     }
 
     fn begin_turn(&mut self) {
+        // Development aid (screenshots): SNOOK_LEGEND_AUTOPLAY_SHOTS=<n> lets
+        // the computer play the first player's turns of an offline game for
+        // its first n shots, then hands the cue back.
+        if self.online.is_none()
+            && let Some(n) =
+                crate::dev::var("SNOOK_LEGEND_AUTOPLAY_SHOTS").and_then(|v| v.parse::<u32>().ok())
+        {
+            self.controllers[0] = if self.game.shots_taken() < n {
+                Controller::Computer(Difficulty::Hard.player())
+            } else {
+                Controller::Human
+            };
+            // The player's cue level and centred, whatever the computer did.
+            if self.game.current_player() == 0 && self.controllers[0] == Controller::Human {
+                self.aim.elevation = 0.0;
+                self.aim.tip = DVec2::ZERO;
+            }
+        }
         // A drill's next try starts from its position again.
         if let Some(run) = self.drill.as_mut().filter(|r| r.reset) {
             run.reset = false;

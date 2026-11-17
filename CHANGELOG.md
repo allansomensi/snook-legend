@@ -85,6 +85,9 @@ on start-up.
   bubbles off.
 
 ### Microsoft Store
+- Ready, and off until the server is set up for it (see `docs/MSSTORE.md`):
+  without it the Store version's Coins tab says coins come from playing, as
+  before.
 - Coin packs can be bought in the Microsoft Store version, through the
   Store's own purchase dialog and with prices in the player's currency (the
   Store's policy for games). VIP and the welcome pack are still not sold

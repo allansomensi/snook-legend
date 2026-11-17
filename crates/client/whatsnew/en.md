@@ -3,16 +3,21 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
-## 0.4.0
-
-### A new name: Snook Legend
-The game is now called Snook Legend. Your account, coins, items, settings and progress are all here, as before.
+## 0.5.0
 
 ### Tournament-table physics
 The balls weigh what they do on a real table: the power bar goes up to a hard stroke (only the break uses full power), cushions give back less the harder they are hit, and a ball made falls into the pocket at the pace it arrived with.
 
 ### An official tournament table
 The table is the regulation 8-foot one, measure for measure: balls, corner and side pockets with the official mouths and angles. The cloth is a deep green under the lamps and the balls shine like polished ones, their numbers crisp.
+
+### A truer guide, or none
+The ghost ball now stops where the cue ball really would, the mouths of the pockets included. And a new choice: play with no aiming guide at all.
+
+## 0.4.0
+
+### A new name: Snook Legend
+The game is now called Snook Legend. Your account, coins, items, settings and progress are all here, as before.
 
 ### 8-foot table, open side pockets
 A smaller table (8 feet) and side pockets that forgive a ball off the centre or rolling in at an angle. The balls roll a little more freely.

@@ -3,16 +3,21 @@
 # un destacado, y las líneas siguientes son su texto. Mismas versiones y
 # mismo número de destacados en todos los idiomas.
 
-## 0.4.0
-
-### Nombre nuevo: Snook Legend
-El juego ahora se llama Snook Legend. Tu cuenta, monedas, objetos, ajustes y progreso siguen aquí, como antes.
+## 0.5.0
 
 ### Física de mesa de torneo
 Las bolas pesan como en una mesa de verdad: la barra de fuerza llega hasta un tiro fuerte (solo el saque usa toda la fuerza), las bandas devuelven menos cuanto más fuerte es el golpe, y la bola embocada cae en la tronera con la velocidad con la que llegó.
 
 ### Mesa oficial de torneo
 La mesa es la reglamentaria de 8 pies, medida por medida: bolas, troneras de esquina y del medio con las bocas y los ángulos oficiales. El paño es de un verde profundo bajo la luz y las bolas brillan como bolas pulidas, con los números nítidos.
+
+### Guía más fiel, o sin guía
+La bola fantasma ahora se detiene donde la blanca se detendría de verdad, también en la boca de las troneras. Y una opción nueva: jugar sin ninguna guía de puntería.
+
+## 0.4.0
+
+### Nombre nuevo: Snook Legend
+El juego ahora se llama Snook Legend. Tu cuenta, monedas, objetos, ajustes y progreso siguen aquí, como antes.
 
 ### Mesa de 8 pies, troneras del medio abiertas
 Una mesa más pequeña (8 pies) y troneras del medio que perdonan una bola fuera del centro o que entra en ángulo. Las bolas ruedan un poco más sueltas.

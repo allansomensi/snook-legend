@@ -13,10 +13,10 @@
 ///
 /// - 1: 0.3.0. A 9-foot table, the measured "heavy" physics, the first ball
 ///   made on a legal break sets the groups.
-/// - 2: a 8-foot table with wider side pockets, balls that roll a little
+/// - 2: 0.4.0. A 8-foot table with wider side pockets, balls that roll a little
 ///   more freely, and making an opponent's ball along with one's own
 ///   passes the turn.
-/// - 3: the WPA's 8-foot tournament table (92" × 46", regulation pockets),
+/// - 3: 0.5.0. The WPA's 8-foot tournament table (92" × 46", regulation pockets),
 ///   and a tournament table's physics as measured: cushions that soak up a hard hit, ball friction and
 ///   restitution that depend on speed, and strokes at real speeds (an
 ///   ordinary stroke tops out well below a break).

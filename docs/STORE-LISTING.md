@@ -50,17 +50,15 @@ Em português, inglês e espanhol.
 
 ### Novidades desta versão
 
-Versão 0.4.0: agora o jogo se chama Snook Legend!
-• Mesa de 8 pés e caçapas do meio bem mais abertas: a bola que chega fora do centro ou em ângulo agora cai. As bolas correm um pouco mais soltas.
-• Regra nova: encaçapar uma bola do adversário passa a vez, mesmo que uma sua também caia.
-• Placar novo: fotos, nomes e as bolas de cada jogador rolando até o seu lugar, na ordem em que caíram.
-• Mire no olho: levante o taco arrastando-o numa vista de lado; nada de números na força ou na elevação.
-• 32 fotos de perfil para escolher.
-• As regras do jogo no menu e na pausa.
-• Opção "Só visão de cima", que trava a câmera.
-• Mais fácil de ver: luz por igual na mesa, bolas com números legíveis e sombras mais leves.
-• Cinco adversários novos (Tito, Inês, Diego, Amara e Yuri) e um Circuito de quinze etapas; as vitórias que você já tinha continuam valendo. Os comentários deles podem ser desligados.
-• Replays e partidas diárias que começaram antes continuam com as regras antigas até o fim.
+Versão 0.5.0: física e mesa de torneio!
+• Física de mesa de torneio: as bolas pesam como na mesa de verdade, as tabelas devolvem menos quanto mais forte a batida, e os efeitos seguem os valores medidos.
+• Tacadas em velocidade real: a barra de força vai até uma tacada forte, e só a saída usa a força toda.
+• A mesa oficial de 8 pés, medida por medida, com as caçapas de canto e do meio no regulamento.
+• A bola encaçapada cai na caçapa com a velocidade em que chegou.
+• Pano de um verde profundo sob a luz e bolas com brilho de bola polida, com os números nítidos.
+• No placar, o número fica no centro de cada bola, fácil de ler.
+• A guia de mira para onde a bola pararia de verdade, e pode ser desligada.
+• Replays e partidas diárias que começaram antes mantêm a física antiga até terminarem.
 
 ### Recursos do produto
 
@@ -122,17 +120,15 @@ In English, Portuguese and Spanish.
 
 ### What's new in this version
 
-Version 0.4.0: the game is now called Snook Legend!
-• An 8-foot table with much more open side pockets: a ball off the centre or coming in at an angle now drops. The balls roll a little more freely.
-• New rule: making one of your opponent's balls passes the turn, even if one of yours goes down too.
-• A new score panel: pictures, names and each player's balls rolling into place, in the order they went down.
-• Aim by eye: raise the cue by dragging it in a side view; no more numbers on the power or the elevation.
-• 32 profile pictures to choose from.
-• The rules of the game in the menu and in the pause menu.
-• A "Top view only" option that locks the camera.
-• Easier to see: an evenly lit table, readable ball numbers and lighter shadows.
-• Five new opponents (Tito, Inês, Diego, Amara and Yuri) and a fifteen-stage Tour; your earlier wins still count. Their remarks can be turned off.
-• Replays and daily games that started before keep the old rules until they end.
+Version 0.5.0: tournament physics on a tournament table!
+• Tournament-table physics: the balls weigh what they do on a real table, cushions give back less the harder they are hit, and spin follows measured figures.
+• Strokes at real speeds: the power bar goes up to a hard stroke, and only the break uses full power.
+• The official 8-foot table, measure for measure, with regulation corner and side pockets.
+• A ball made falls into the pocket at the pace it arrived with.
+• A deep green cloth under the lamps and balls that shine like polished ones, their numbers crisp.
+• In the score panel, the number sits in the middle of each ball, easy to read.
+• The aiming guide stops where the ball really would, and can be turned off.
+• Replays and daily games that started before keep the old physics until they end.
 
 ### Product features
 
@@ -194,17 +190,15 @@ En español, inglés y portugués.
 
 ### Novedades de esta versión
 
-Versión 0.4.0: ¡el juego ahora se llama Snook Legend!
-• Mesa de 8 pies y troneras del medio mucho más abiertas: la bola que llega fuera del centro o en ángulo ahora entra. Las bolas ruedan un poco más sueltas.
-• Regla nueva: meter una bola del rival pasa el turno, aunque una tuya también entre.
-• Marcador nuevo: fotos, nombres y las bolas de cada jugador rodando hasta su lugar, en el orden en que entraron.
-• Apunta a ojo: levanta el taco arrastrándolo en una vista de lado; sin números en la fuerza ni en la elevación.
-• 32 fotos de perfil para elegir.
-• Las reglas del juego en el menú y en la pausa.
-• Opción "Solo vista superior", que fija la cámara.
-• Más fácil de ver: mesa iluminada por igual, números de las bolas legibles y sombras más ligeras.
-• Cinco rivales nuevos (Tito, Inês, Diego, Amara y Yuri) y un Circuito de quince etapas; las victorias que ya tenías se conservan. Sus comentarios se pueden desactivar.
-• Las repeticiones y partidas diarias que empezaron antes siguen con las reglas antiguas hasta el final.
+Versión 0.5.0: ¡física y mesa de torneo!
+• Física de mesa de torneo: las bolas pesan como en una mesa de verdad, las bandas devuelven menos cuanto más fuerte es el golpe, y los efectos siguen valores medidos.
+• Tiros a velocidad real: la barra de fuerza llega hasta un tiro fuerte, y solo el saque usa toda la fuerza.
+• La mesa oficial de 8 pies, medida por medida, con troneras de esquina y del medio reglamentarias.
+• La bola embocada cae en la tronera con la velocidad con la que llegó.
+• Paño de un verde profundo bajo la luz y bolas que brillan como bolas pulidas, con los números nítidos.
+• En el marcador, el número queda en el centro de cada bola, fácil de leer.
+• La guía de puntería se detiene donde la bola se detendría de verdad, y se puede desactivar.
+• Las repeticiones y partidas diarias que empezaron antes conservan la física anterior hasta terminar.
 
 ### Características del producto
 

@@ -1,14 +1,14 @@
 # Changelog
 
-## 0.4.0 (protocol 16)
+## 0.5.0 (protocol 16)
 
-A new edition of the rules (rulesets 2 and 3): an 8-foot table with open side
-pockets, a new rule, and the physics of a tournament table as measured. Every shot
-plays out differently, so games older than this one (0.3.0 and before) must
-update to play online. Games already recorded (replays, games saved during
-a restart, daily games in progress) keep the rules, the physics and the
-table they started with, shot for shot. Migrations 0013, 0014 and 0015 run
-on start-up.
+A new edition of the physics and the table (ruleset 3): the WPA's 8-foot
+tournament table, measure for measure, played with a tournament table's
+physics as measured. Every shot plays out differently, so games older than
+this one (0.4.0 and before) must update to play online. Games already
+recorded (replays, games saved during a restart, daily games in progress)
+keep the rules, the physics and the table they started with, shot for shot.
+No migrations.
 
 ### Tournament-table physics (ruleset 3)
 - The physics of a tournament table as measured (Alciatore's and Marlow's
@@ -66,6 +66,16 @@ on start-up.
 - Rulesets 1 and 2 play exactly as before (replays and games in progress);
   `cargo run --release -p snook_legend_core --example break_stats` prints
   the numbers of the break, the cushions and the cloth for each ruleset.
+
+## 0.4.0 (protocol 15)
+
+A new edition of the rules (ruleset 2): an 8-foot table with open side
+pockets, balls that roll a little more freely, and a new rule. Every shot
+plays out differently, so games older than this one (0.3.0 and before) must
+update to play online. Games already recorded (replays, games saved during
+a restart, daily games in progress) keep the rules, the physics and the
+table they started with, shot for shot. Migrations 0013, 0014 and 0015 run
+on start-up.
 
 ### The game is called Snook Legend
 - The new name everywhere: the window, the menus, the installer and its

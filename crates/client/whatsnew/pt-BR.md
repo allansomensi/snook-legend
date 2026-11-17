@@ -3,16 +3,21 @@
 # destaque, e as linhas seguintes são o texto dele. Mesmas versões e mesmo
 # número de destaques em todas as línguas.
 
-## 0.4.0
-
-### Nome novo: Snook Legend
-O jogo agora se chama Snook Legend. Sua conta, moedas, itens, configurações e progresso continuam aqui, como antes.
+## 0.5.0
 
 ### Física de mesa de torneio
 As bolas pesam como na mesa de verdade: a barra de força vai até uma tacada forte (só a saída usa a força toda), as tabelas devolvem menos quanto mais forte a batida, e a bola encaçapada cai na caçapa com a velocidade em que chegou.
 
 ### Mesa oficial de torneio
 A mesa é a de 8 pés do regulamento, medida por medida: bolas, caçapas de canto e do meio com as bocas e os ângulos oficiais. O pano ficou de um verde profundo sob a luz e as bolas têm brilho de bola polida, com os números nítidos.
+
+### Mira mais fiel, ou sem mira
+A bola fantasma agora para onde a branca pararia de verdade, inclusive na boca das caçapas. E há uma opção nova: jogar sem nenhuma guia de mira.
+
+## 0.4.0
+
+### Nome novo: Snook Legend
+O jogo agora se chama Snook Legend. Sua conta, moedas, itens, configurações e progresso continuam aqui, como antes.
 
 ### Mesa de 8 pés, caçapas do meio abertas
 Uma mesa menor (8 pés) e caçapas do meio que perdoam uma bola fora do centro ou chegando em ângulo. As bolas correm um pouco mais soltas.

@@ -1960,8 +1960,8 @@ impl Hud {
             crate::paint::set_opacity(opacity);
         }
         let left_end = fine.x + fine.w + gap;
-        // The power bar, centred in the space between (room for "100%" on its right).
-        let room = (shoot.x - 60.0) - (left_end + 24.0);
+        // The power bar, centred in the space between.
+        let room = (shoot.x - 24.0) - (left_end + 24.0);
         let tw = room.clamp(120.0, 560.0);
         let px0 = left_end + 24.0 + (room - tw) / 2.0;
         let track = Rect::new(px0, bar.y + bar.h / 2.0 - 9.0, tw, 18.0);
@@ -2005,7 +2005,6 @@ impl Hud {
         } else {
             self.stroking = false;
             draw_power_track(
-                ui,
                 track,
                 if m.aim.charging { m.aim.power } else { 0.0 },
                 false,
@@ -2013,6 +2012,12 @@ impl Hud {
             );
         }
 
+        // Development aid: SNOOK_LEGEND_ELEVATION=<degrees> keeps the
+        // elevation panel open at that elevation.
+        if my_turn && let Some(deg) = crate::dev::var("SNOOK_LEGEND_ELEVATION") {
+            self.popover = Some(Pop::Elevation);
+            m.aim.elevation = deg.parse::<f64>().unwrap_or(0.0).to_radians();
+        }
         // The open panel.
         if let Some(pop) = self.popover {
             // Closed as soon as the shot is taken (button, Space or online),
@@ -2024,7 +2029,7 @@ impl Hud {
             let w = 250.0;
             let h = match pop {
                 Pop::Spin => 186.0,
-                Pop::Elevation => 92.0,
+                Pop::Elevation => 158.0,
             };
             let k = match pop {
                 Pop::Elevation => 0,
@@ -2062,7 +2067,7 @@ impl Hud {
                 self.power = power;
             }
         }
-        draw_power_track(ui, track, m.aim.power, hot, true);
+        draw_power_track(track, m.aim.power, hot, true);
         // This player's last stroke: a mark on the bar, to repeat it or to
         // judge the next one from it.
         if let Some(power) = self.last_power[m.game.current_player() % 2] {
@@ -2077,8 +2082,7 @@ impl Hud {
             );
             let zone = Rect::new(x - 6.0, track.y - 8.0, 12.0, track.h + 16.0);
             if ui.hovering(zone) {
-                let tip = tw("Your last shot: {p}%", &[("p", &((power * 100.0).round() as u32))]);
-                ui.tooltip(&tip, zone);
+                ui.tooltip(t("Your last shot"), zone);
             }
         }
         if hot && !matches!(drag, crate::ui::Drag::Held(_)) {
@@ -2182,31 +2186,126 @@ impl Hud {
     }
 }
 
+/// The cue's elevation, seen from the side: the cue ball on the cloth and
+/// the cue behind it, with a curved arrow around the ball. Dragging (the
+/// cue, or anywhere in the picture) raises or lowers the cue; the wheel
+/// nudges it. No numbers: the player judges by eye.
 fn elevation_panel(ui: &mut Ui, m: &mut Match, r: Rect) {
-    let max = m.game.params().max_elevation.to_degrees() as f32;
-    let mut elevation = m.aim.elevation.to_degrees() as f32;
-    ui.text(
-        &tw("Elevation {deg}°", &[("deg", &format!("{elevation:.0}"))]),
-        r.x + 12.0,
-        r.y + 8.0,
-        14.0,
-        GOLD,
-        true,
-    );
+    let max = m.game.params().max_elevation as f32;
+    ui.text(t("Elevation"), r.x + 12.0, r.y + 8.0, 14.0, GOLD, true);
     let keys = [keys::short(Action::ElevationUp), keys::short(Action::ElevationDown)]
         .into_iter()
         .filter(|k| !k.is_empty())
         .collect::<Vec<_>>()
         .join(" / ");
     let hint = if keys.is_empty() {
-        t("Jump & massé").to_string()
+        t("Drag the cue: jump & massé").to_string()
     } else {
-        tw("{keys} (jump & massé)", &[("keys", &keys)])
+        tw("Drag the cue · {keys}", &[("keys", &keys)])
     };
     let hint = ui.ellipsize(&hint, r.w - 24.0, 12.0);
-    ui.text(&hint, r.x + 12.0, r.y + 30.0, 12.0, MUTED, false);
-    if ui.slider(2, Rect::new(r.x + 14.0, r.y + 58.0, r.w - 28.0, 18.0), &mut elevation, 0.0, max) {
-        m.aim.elevation = (elevation as f64).to_radians();
+    ui.text(&hint, r.x + 12.0, r.y + 28.0, 12.0, MUTED, false);
+
+    // The picture.
+    let scene = Rect::new(r.x + 8.0, r.y + 48.0, r.w - 16.0, r.h - 56.0);
+    let ball_r = 15.0;
+    let floor = scene.y + scene.h - 10.0;
+    let ball = vec2(scene.x + scene.w - 46.0, floor - ball_r);
+    let drag = ui.drag_area(2, scene);
+    if let crate::ui::Drag::Held(p) | crate::ui::Drag::Released(p) = drag {
+        // The cue points from the pointer to the ball.
+        let d = ball - p;
+        let a = if d.x <= 1.0 { max } else { (-(d.y) / d.x).atan().max(0.0) };
+        // Below the cloth line, or the pointer in front of the ball: level.
+        let a = if p.y > ball.y && d.x > 0.0 { 0.0 } else { a };
+        m.aim.elevation = (a.clamp(0.0, max)) as f64;
+    }
+    let hot = !matches!(drag, crate::ui::Drag::Idle);
+    if matches!(drag, crate::ui::Drag::Hover) {
+        let wheel = mouse_wheel().1;
+        if wheel != 0.0 {
+            let a = m.aim.elevation as f32 + wheel.signum() * 1f32.to_radians();
+            m.aim.elevation = a.clamp(0.0, max) as f64;
+        }
+    }
+    let a = (m.aim.elevation as f32).clamp(0.0, max);
+
+    // The cloth and the cushion's shadow line.
+    crate::ui::rrect(
+        Rect::new(scene.x, floor, scene.w, 6.0),
+        2.0,
+        Color::new(0.16, 0.45, 0.24, 1.0),
+    );
+    draw_line(scene.x, floor, scene.x + scene.w, floor, 1.0, Color::new(0.35, 0.7, 0.42, 1.0));
+
+    // The curved arrow: from level up to the steepest the cue goes.
+    let arc_r = ball_r + 34.0;
+    let gold = Color::new(GOLD.r, GOLD.g, GOLD.b, if hot { 0.9 } else { 0.55 });
+    let steps = 28;
+    let point = |ang: f32| ball + vec2(-ang.cos(), -ang.sin()) * arc_r;
+    for k in 0..steps {
+        let a0 = 0.04 + (max - 0.04) * k as f32 / steps as f32;
+        let a1 = 0.04 + (max - 0.04) * (k + 1) as f32 / steps as f32;
+        let (p0, p1) = (point(a0), point(a1));
+        draw_line(p0.x, p0.y, p1.x, p1.y, 2.0, gold);
+    }
+    // Arrowheads at both ends (it goes both ways).
+    for (ang, dir) in [(max, 1.0f32), (0.04, -1.0)] {
+        let tip = point(ang);
+        // Along the arc, the way it is travelling at this end.
+        let along = vec2(ang.sin(), -ang.cos()) * dir;
+        let side = vec2(-along.y, along.x);
+        let back = tip - along * 8.0;
+        crate::paint::draw_triangle(tip + along * 2.0, back + side * 5.0, back - side * 5.0, gold);
+    }
+
+    // The cue, from just behind the ball, raised by `a` (its butt runs out
+    // of the picture).
+    crate::settings::clip(Some(scene));
+    let dir = vec2(-a.cos(), -a.sin());
+    let tip = ball + dir * (ball_r + 4.0);
+    let length = (scene.w - 30.0).min(200.0);
+    let butt = tip + dir * length;
+    let normal = vec2(-dir.y, dir.x);
+    // Shadow on the cloth.
+    let shadow = Color::new(0.0, 0.0, 0.0, 0.25);
+    draw_line(tip.x, floor + 2.0, butt.x.max(scene.x), floor + 2.0, 3.0, shadow);
+    // The shaft tapers from the butt to the tip: a quad in two triangles.
+    let (wt, wb) = (2.0, 4.5);
+    let wood = Color::new(0.86, 0.70, 0.46, 1.0);
+    let dark = Color::new(0.30, 0.17, 0.09, 1.0);
+    let ferrule = tip + dir * 7.0;
+    let joint = tip + dir * (length * 0.62);
+    let quad = |a: Vec2, b: Vec2, wa: f32, wb: f32, c: Color| {
+        crate::paint::draw_triangle(a + normal * wa, a - normal * wa, b + normal * wb, c);
+        crate::paint::draw_triangle(a - normal * wa, b - normal * wb, b + normal * wb, c);
+    };
+    let w_at = |p: Vec2| wt + (wb - wt) * (p - tip).length() / length;
+    quad(ferrule, joint, w_at(ferrule), w_at(joint), wood);
+    quad(joint, butt, w_at(joint), wb, dark);
+    quad(tip, ferrule, wt, w_at(ferrule), Color::new(0.96, 0.95, 0.9, 1.0));
+    // The chalked tip.
+    draw_circle(tip.x, tip.y, wt + 0.6, Color::new(0.25, 0.45, 0.8, 1.0));
+    // A soft highlight along the shaft.
+    let hl = Color::new(1.0, 1.0, 1.0, 0.25);
+    let h0 = ferrule + normal * 1.0;
+    let h1 = joint + normal * (w_at(joint) * 0.5);
+    draw_line(h0.x, h0.y, h1.x, h1.y, 1.0, hl);
+    crate::settings::clip(None);
+
+    // The cue ball, over the cue's end.
+    draw_circle(ball.x + 2.0, floor - 1.0, ball_r * 0.9, Color::new(0.0, 0.0, 0.0, 0.25));
+    draw_circle(ball.x, ball.y, ball_r, Color::new(0.95, 0.93, 0.88, 1.0));
+    draw_circle(ball.x - 5.0, ball.y - 5.0, 4.5, Color::new(1.0, 1.0, 1.0, 0.75));
+    draw_circle_lines(ball.x, ball.y, ball_r, 1.0, Color::new(0.45, 0.4, 0.33, 1.0));
+
+    // Back to level.
+    let level = Rect::new(r.x + r.w - 70.0, r.y + 6.0, 58.0, 20.0);
+    if ui.button(level, t("Level"), a > 0.001) {
+        m.aim.elevation = 0.0;
+    }
+    if hot {
+        ui.tooltip(t("Drag to raise or lower the cue"), scene);
     }
 }
 
@@ -2250,7 +2349,7 @@ fn draw_pop_icon(ui: &mut Ui, m: &Match, pop: Pop, r: Rect) {
     ui.text_centered(label, r.x + r.w / 2.0, r.y + r.h - size - 6.0, size, CREAM, true);
 }
 
-fn draw_power_track(ui: &mut Ui, track: Rect, p: f32, hot: bool, enabled: bool) {
+fn draw_power_track(track: Rect, p: f32, hot: bool, enabled: bool) {
     crate::ui::rrect(track, 9.0, Color::new(0.04, 0.03, 0.02, 1.0));
     // Ramp from green to red underneath, faint; bright where filled.
     let slices = 40;
@@ -2292,10 +2391,7 @@ fn draw_power_track(ui: &mut Ui, track: Rect, p: f32, hot: bool, enabled: bool) 
         if enabled { Color::new(0.93, 0.92, 0.88, 1.0) } else { Color::new(0.5, 0.48, 0.45, 1.0) },
     );
     draw_circle(kx - 3.5, ky - 3.5, 4.0, Color::new(1.0, 1.0, 1.0, 0.7));
-    if p > 0.0 {
-        let text = format!("{:.0}%", p * 100.0);
-        ui.text(&text, track.x + track.w + 8.0, track.y + 1.0, 14.0, CREAM, true);
-    }
+    // No number: the player judges the power by eye.
 }
 
 /// A full-width bar at the top or bottom of the screen.

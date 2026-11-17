@@ -870,7 +870,6 @@ Beat all fifteen opponents of the computer tour.	Vence a los quince rivales del 
 Connecting to {server}…	Conectando con {server}…
 Connection lost. Reconnecting (attempt {n})…	Se perdió la conexión. Reconectando (intento {n})…
 Connection lost. Reconnecting…	Se perdió la conexión. Reconectando…
-Elevation {deg}°	Elevación {deg}°
 Power {pct}%	Fuerza {pct}%
 Foul by {shooter}: {foul}.	Falta de {shooter}: {foul}.
 Graphics set to {q} for smooth play. You can change this in Settings.	Gráficos en {q} para jugar con fluidez. Puedes cambiarlo en Ajustes.
@@ -1601,7 +1600,7 @@ Ten in a row	Diez seguidas
 Ten different pots, one after another: a miss ends the session.	Diez tiros distintos, uno tras otro: un fallo termina la sesión.
 Take back the shot (Z)	Deshacer el tiro (Z)
 Shot taken back.	Tiro deshecho.
-Your last shot: {p}%	Tu último tiro: {p}%
+Your last shot	Tu último tiro
 Solids	Lisas
 Stripes	Rayadas
 Hide the history	Ocultar el historial
@@ -1690,3 +1689,7 @@ Not with the top view only.	No con la vista solo superior.
 Wheel	Rueda del ratón
 Rules	Reglas
 Rules of the game	Reglas del juego
+Level	Nivelar
+Drag the cue: jump & massé	Arrastra el taco: salto y massé
+Drag to raise or lower the cue	Arrastra para subir o bajar el taco
+Drag the cue · {keys}	Arrastra el taco · {keys}

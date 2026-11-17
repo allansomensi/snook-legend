@@ -712,7 +712,8 @@ impl EightBallGame {
     ///   had made them. One for missing every ball, one for a scratch, two
     ///   for hitting a ball that isn't one's own first, or one when the cue
     ///   ball went to a cushion before it. The counts add up (a miss that
-    ///   scratches gives two). While the table is open there is no
+    ///   scratches gives two; the 8 hit first before one's group is
+    ///   cleared counts as a miss: one). While the table is open there is no
     ///   opponent's group yet, and a foul costs the turn alone.
     /// - Only a cue ball that went down or left the table is in hand;
     ///   after any other foul it is played from where it lies.
@@ -795,7 +796,12 @@ impl EightBallGame {
                 };
                 if !legal {
                     fouls.push(Foul::WrongBallFirst(hit));
-                    owed += if cushion_first { 1 } else { 2 };
+                    // One of the opponent's balls hit directly costs two.
+                    // Off a cushion it costs one, and so does the 8 hit
+                    // too soon (it is nobody's ball: the same as hitting
+                    // none of one's own).
+                    let theirs = self.groups[opponent].is_some_and(|g| g.contains(hit));
+                    owed += if theirs && !cushion_first { 2 } else { 1 };
                 }
             }
         }
@@ -1819,6 +1825,56 @@ mod tests {
         assert_eq!(on_table(&g, Group::Solids), vec![6]);
         assert_eq!(g.current_player(), 1);
         assert_eq!(g.ball_in_hand(), None);
+    }
+
+    #[test]
+    fn hitting_the_opponents_ball_and_scratching_gives_three_balls() {
+        let mut g = house(&[(0, DVec2::new(-0.2, 0.0))]);
+        // The opponent's 3 near the corner, the cue ball straight behind it
+        // on the line to the pocket: struck high and hard, it follows the 3
+        // in. Their 1, 4 and 6 are elsewhere.
+        let pocket = g.table.pocket(PocketId::FootLeft).aim_point();
+        let back = (DVec2::ZERO - pocket).normalize();
+        layout(
+            &mut g,
+            &[
+                (0, pocket + back * 0.55),
+                (3, pocket + back * 0.12),
+                (1, DVec2::new(-0.5, 0.3)),
+                (4, DVec2::new(-0.6, -0.3)),
+                (6, DVec2::new(-0.3, -0.3)),
+                (7, DVec2::new(-0.7, 0.1)),
+                (12, DVec2::new(0.0, -0.4)),
+                (8, DVec2::new(-0.8, -0.2)),
+            ],
+        );
+        let shot =
+            straight_shot(&g, BallId(3), PocketId::FootLeft, 4.0).with_tip(DVec2::new(0.0, 0.9));
+        let report = g.play_shot(&shot, None).unwrap();
+        assert_eq!(report.first_contact, Some(BallId(3)));
+        assert!(report.fouls.contains(&Foul::WrongBallFirst(BallId(3))), "{report:?}");
+        assert!(report.fouls.contains(&Foul::CueBallPocketed), "{report:?}");
+        // The 3 went down by itself; three more come off, lowest first.
+        assert_eq!(report.penalty, vec![BallId(1), BallId(4), BallId(6)]);
+        assert_eq!(on_table(&g, Group::Solids), vec![7]);
+        assert_eq!(g.current_player(), 1);
+        assert_eq!(g.ball_in_hand(), Some(BallInHand::Anywhere));
+    }
+
+    #[test]
+    fn hitting_the_eight_too_soon_counts_as_a_miss() {
+        let mut g = house(&[
+            (0, DVec2::new(-0.2, 0.0)),
+            (8, DVec2::new(0.3, 0.0)),
+            (1, DVec2::new(0.5, 0.3)),
+            (6, DVec2::new(0.6, -0.3)),
+            (12, DVec2::new(0.0, -0.4)),
+        ]);
+        let report = g.play_shot(&Shot::new(0.0, 1.0), None).unwrap();
+        assert_eq!(report.fouls, vec![Foul::WrongBallFirst(BallId::EIGHT)]);
+        assert_eq!(report.penalty, vec![BallId(1)], "one ball, not two: the 8 is nobody's");
+        assert_eq!(on_table(&g, Group::Solids), vec![6]);
+        assert_eq!((g.current_player(), g.ball_in_hand(), g.game_over()), (1, None, None));
     }
 
     #[test]

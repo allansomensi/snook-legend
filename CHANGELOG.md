@@ -11,9 +11,11 @@ updated with the game). No migrations.
 ### The rules (ruleset 4)
 - A foul passes the turn and gives the opponent balls: the lowest numbers
   of their group still on the table come off it, as if they had made them.
-  One for missing every ball, one for a scratch (a miss that scratches: two),
-  two for hitting a ball that isn't one's own first, one if the cue ball
-  went to a cushion before it. The 8 never comes off; on an open table a
+  One for hitting none of one's own balls (the 8 hit too soon included), one
+  for a scratch, two for hitting one of the opponent's balls first, directly
+  (one if the cue ball went to a cushion before it). They add up: a miss
+  that scratches gives two, the opponent's ball hit directly and a scratch
+  give three. The 8 never comes off; on an open table a
   foul costs the turn alone.
 - Only a cue ball that went down or left the table is in hand. After any
   other foul it is played from where it lies.

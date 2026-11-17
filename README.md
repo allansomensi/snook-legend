@@ -58,7 +58,7 @@ which every desktop installation has. How releases are made is described in
   or of a federation): a foul passes the turn and gives the opponent balls
   (the lowest numbers of their group come off the table: one for a miss or
   a scratch, two for hitting the opponent's ball first, one if the cue ball
-  went to a cushion before it), only a scratch gives ball in hand, a ball
+  went to a cushion before it, and they add up), only a scratch gives ball in hand, a ball
   of one's own knocked off the table comes back and one of the opponent's
   stays off, the 8 alone on the break wins and the 8 with any other ball
   loses, a called pocket for the 8 that is binding once made. The rules

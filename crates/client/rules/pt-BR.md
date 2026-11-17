@@ -34,10 +34,10 @@ Enquanto os grupos não estão decididos, a mesa está aberta: você pode acerta
 Toda falta passa a vez, e a maioria dá bolas ao adversário: as de menor número do grupo dele que estiverem na mesa saem dela, como se ele as tivesse encaçapado. As penalidades se somam. A bola 8 nunca sai por penalidade: se o adversário ficar sem bolas, ele passa a jogar na 8.
 
 ### Errar a bola
-Não acertar nenhuma bola: uma bola para o adversário. Errar a bola e ainda encaçapar a branca: duas bolas.
+Não acertar nenhuma bola sua: a menor bola do adversário que estiver na mesa é eliminada (conta para ele), e você perde a vez. Acertar primeiro a bola 8 antes de acabar o seu grupo vale o mesmo. Errar a bola e ainda encaçapar a branca: as duas menores bolas do adversário.
 
 ### Acertar a bola do adversário
-Acertar primeiro uma bola que não é do seu grupo, diretamente: duas bolas para o adversário. Se a branca bateu antes na tabela: uma bola.
+Acertar primeiro uma bola do adversário, diretamente: as duas menores bolas dele são eliminadas, e você perde a vez. Se a branca bateu antes na tabela: uma bola. Acertar direto a bola do adversário e ainda encaçapar a branca: as três menores.
 
 ### Encaçapar a branca
 Uma bola para o adversário, e ele recebe a branca na mão: pode colocá-la em qualquer lugar da mesa (atrás da linha de cabeceira, se foi na saída). Só a branca encaçapada ou fora da mesa dá bola na mão; depois de qualquer outra falta, joga-se de onde ela parou.

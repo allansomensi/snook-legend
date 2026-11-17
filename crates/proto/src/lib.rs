@@ -1,4 +1,4 @@
-//! # snookered_proto
+//! # snook_legend_proto
 //!
 //! Messages exchanged between the Snook Legend client and server over a
 //! WebSocket, encoded as JSON (one message per text frame), plus the data
@@ -28,7 +28,7 @@ pub use reactions::{REACTIONS, Reaction, reaction};
 
 use glam::DVec2;
 use serde::{Deserialize, Serialize};
-use snookered_core::{EightBallGame, GameOverReason, PocketId, Shot, ShotReport};
+use snook_legend_core::{EightBallGame, GameOverReason, PocketId, Shot, ShotReport};
 
 /// A coin pack on sale, with its price as shown to players.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -139,7 +139,7 @@ pub const GAME_NAME: &str = "Snook Legend";
 pub const PROTOCOL_VERSION: u32 = 15;
 
 /// The oldest version the server still lets in. Version 15 plays ruleset 2
-/// (see [`snookered_core::RULESET`]: an 8-foot table with wider side
+/// (see [`snook_legend_core::RULESET`]: an 8-foot table with wider side
 /// pockets, balls that roll more freely, an opponent's ball made passes the
 /// turn) and carries each game's ruleset: an older game would simulate every
 /// shot differently from the server, so it must update.
@@ -1703,7 +1703,7 @@ pub const LAN_GAME_PORT: u16 = 47879;
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct LanBeacon {
-    /// Always "snookered".
+    /// Always "snook-legend".
     pub game: String,
     pub version: u32,
     /// Name of the host.

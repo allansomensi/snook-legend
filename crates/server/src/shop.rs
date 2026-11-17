@@ -11,11 +11,11 @@ use axum::extract::State;
 use axum::http::{HeaderMap, StatusCode};
 use axum::response::{Html, IntoResponse, Response};
 use serde_json::Value;
-use snookered_proto::shop::{
+use snook_legend_proto::shop::{
     self, COIN_PACKS, Category, Price, VIP_GIFT, VIP_GIFT_SECS, VIP_MONTHLY_COINS, VIP_PLAN,
     WELCOME_COINS, WELCOME_ITEMS, WELCOME_PACK,
 };
-use snookered_proto::{ClientMsg, PackOffer, ServerMsg};
+use snook_legend_proto::{ClientMsg, PackOffer, ServerMsg};
 
 use crate::lounge::Look;
 use crate::store::{BuyOutcome, Payment, User, Wallet};
@@ -195,7 +195,8 @@ pub async fn handle(server: &Arc<Server>, me: &User, msg: ClientMsg, send: &impl
                 Err(e) => return error(e),
             };
             // A message is player text: filtered, and not from the muted.
-            let message = snookered_proto::clean_text(&message, snookered_proto::MAX_GIFT_MESSAGE);
+            let message =
+                snook_legend_proto::clean_text(&message, snook_legend_proto::MAX_GIFT_MESSAGE);
             let t = now();
             // (The lounge's copy of the account follows mutes by the staff.)
             let muted_until = server

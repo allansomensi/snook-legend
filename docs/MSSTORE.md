@@ -26,7 +26,7 @@ O build da Store usa a feature `store` do jogo (`crates/client/src/channel.rs`):
 | Arquivo | O que é |
 |---|---|
 | `crates/client/msix/AppxManifest.xml` | o manifesto do pacote (identidade, ícones, firewall) |
-| `crates/client/msix/Assets/` | os ícones do pacote (`cargo test --release -p snookered export_msix_assets -- --ignored` os refaz a partir do emblema) |
+| `crates/client/msix/Assets/` | os ícones do pacote (`cargo test --release -p snook-legend export_msix_assets -- --ignored` os refaz a partir do emblema) |
 | `tools/msix/make-msix.ps1` | preenche o manifesto e monta o `.msix` |
 | `.github/workflows/msstore.yml` | gera o MSIX (o envio à Store é manual) |
 | `crates/server/pages/` | a política de privacidade (`/privacidade` e `/privacy`) |
@@ -59,9 +59,9 @@ Na Render (**Environment**), defina:
 
 | Variável | Exemplo |
 |---|---|
-| `SNOOKERED_GAME_NAME` | o nome do jogo na Store |
-| `SNOOKERED_PRIVACY_CONTROLLER` | seu nome ou o da sua empresa |
-| `SNOOKERED_PRIVACY_CONTACT` | um e-mail para pedidos de privacidade (sem ele, a página aponta para as *issues* do GitHub) |
+| `SNOOK_LEGEND_GAME_NAME` | o nome do jogo na Store |
+| `SNOOK_LEGEND_PRIVACY_CONTROLLER` | seu nome ou o da sua empresa |
+| `SNOOK_LEGEND_PRIVACY_CONTACT` | um e-mail para pedidos de privacidade (sem ele, a página aponta para as *issues* do GitHub) |
 
 No Partner Center, use `https://<seu-servidor>/privacy` como **Privacy policy
 URL**.
@@ -69,7 +69,7 @@ URL**.
 ### 3. Servidor sempre acordado
 
 No plano gratuito da Render o servidor dorme e o primeiro jogador espera
-cerca de um minuto. Defina a variável do repositório `SNOOKERED_HEALTH_URL` como
+cerca de um minuto. Defina a variável do repositório `SNOOK_LEGEND_HEALTH_URL` como
 `https://<seu-servidor>/health` (o workflow *Keep the server awake* passa a
 acordá-lo a cada 10 minutos) ou use um plano pago.
 
@@ -110,7 +110,7 @@ nunca vê dados de pagamento.
 2. Microsoft Entra: registrar uma aplicação para o servidor, criar um
    *client secret* e pôr o *Application (client) ID* em **Services →
    Product collections and purchases** do jogo.
-3. Render: definir as quatro variáveis `SNOOKERED_MSSTORE_*` e publicar o
+3. Render: definir as quatro variáveis `SNOOK_LEGEND_MSSTORE_*` e publicar o
    servidor novo (as migrações 0013 e 0014 rodam sozinhas); conferir no
    log `Microsoft Store purchases on (4 packs)`.
 4. Atualizar o questionário IARC (compras no jogo) e a descrição da loja
@@ -186,16 +186,16 @@ compras: não a use para mais nada.
    and purchases**, ponha o *Application (client) ID* num dos campos
    **Client ID**.
 3. O *client secret* expira (no máximo em 2 anos): anote a data e troque a
-   variável `SNOOKERED_MSSTORE_CLIENT_SECRET` antes disso.
+   variável `SNOOK_LEGEND_MSSTORE_CLIENT_SECRET` antes disso.
 
 ### 3. Configurar o servidor (Render → Environment)
 
 | Variável | Valor |
 |---|---|
-| `SNOOKERED_MSSTORE_TENANT_ID` | o *Directory (tenant) ID* |
-| `SNOOKERED_MSSTORE_CLIENT_ID` | o *Application (client) ID* |
-| `SNOOKERED_MSSTORE_CLIENT_SECRET` | o *client secret* (marque como secreto) |
-| `SNOOKERED_MSSTORE_PRODUCTS` | `coins_500=9XXXXXXXXXXX;coins_1200=9XXXXXXXXXXX;coins_2800=9XXXXXXXXXXX;coins_7000=9XXXXXXXXXXX` |
+| `SNOOK_LEGEND_MSSTORE_TENANT_ID` | o *Directory (tenant) ID* |
+| `SNOOK_LEGEND_MSSTORE_CLIENT_ID` | o *Application (client) ID* |
+| `SNOOK_LEGEND_MSSTORE_CLIENT_SECRET` | o *client secret* (marque como secreto) |
+| `SNOOK_LEGEND_MSSTORE_PRODUCTS` | `coins_500=9XXXXXXXXXXX;coins_1200=9XXXXXXXXXXX;coins_2800=9XXXXXXXXXXX;coins_7000=9XXXXXXXXXXX` |
 
 No log de início deve aparecer `Microsoft Store purchases on (4 packs)`. Se a
 lista tiver um erro (pacote desconhecido, Store ID inválido, repetido), o
@@ -263,7 +263,7 @@ desenvolvedores), no PowerShell, na pasta do projeto:
 
 ```powershell
 $env:RUSTFLAGS = "-C target-feature=+crt-static"
-cargo build --release --locked -p snookered --features store
+cargo build --release --locked -p snook-legend --features store
 ./tools/msix/make-msix.ps1 -IdentityName SnookLegend.Teste -Publisher "CN=Teste" `
   -PublisherDisplayName "Teste" -DisplayName "Snook Legend (teste)" -Register
 ```
@@ -273,20 +273,12 @@ O jogo aparece no menu Iniciar como "Snook Legend (teste)". Para remover:
 
 ## O nome
 
-O jogo se chama **Snook Legend** (até a 0.3.0, Snookered). O nome que o
-jogador vê vem de `snookered_proto::GAME_NAME` (janela, menu, salão,
-notificações, instalador, mensagens do servidor, páginas web). Fora do
-código, ele está em três lugares, que precisam dizer **Snook Legend**:
+O nome que o jogador vê vem de `snook_legend_proto::GAME_NAME` (janela,
+menu, salão, notificações, instalador, mensagens do servidor, páginas web).
+Fora do código, ele precisa estar igual em três lugares:
 
 | Onde | O que fazer |
 |---|---|
-| Partner Center | **Product management → Product identity → Reserve more names**: reserve "Snook Legend". Depois, na submissão, escolha esse nome nas listagens e no pacote. O antigo pode ser liberado depois. |
-| GitHub (**Settings → Secrets and variables → Actions → Variables**) | `MSSTORE_DISPLAY_NAME` = `Snook Legend` (o nome reservado). A identidade do pacote (`MSSTORE_IDENTITY_NAME`, `MSSTORE_PUBLISHER`) **não muda**: é ela que faz a Store atualizar o jogo de quem já o tem. |
-| Render (**Environment**) | `SNOOKERED_GAME_NAME` = `Snook Legend`, ou apague a variável (sem ela, vale o nome do código). |
-
-Continuam com o nome antigo, de propósito, os identificadores técnicos: os
-crates (`snookered_*`), o executável e os arquivos das versões
-(`snookered-….zip/.msi`, que o atualizador automático das versões
-instaladas procura), o repositório, a imagem do servidor e as variáveis
-`SNOOKERED_*`. O jogador não vê nenhum deles. A pasta de configurações já
-tem o nome novo; a antiga é movida sozinha na primeira vez.
+| Partner Center | **Product management → Product identity → Reserve more names**: reserve "Snook Legend" e use esse nome nas listagens e no pacote. |
+| GitHub (**Settings → Secrets and variables → Actions → Variables**) | `MSSTORE_DISPLAY_NAME` = `Snook Legend`. A identidade do pacote (`MSSTORE_IDENTITY_NAME`, `MSSTORE_PUBLISHER`) **não muda**: é ela que faz a Store atualizar o jogo de quem já o tem. |
+| Render (**Environment**) | `SNOOK_LEGEND_GAME_NAME` = `Snook Legend`, ou não defina a variável (sem ela, vale o nome do código). |

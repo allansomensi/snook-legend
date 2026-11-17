@@ -24,7 +24,7 @@ pub enum MenuAction {
     /// The notes of this version (the version label).
     WhatsNew,
     /// The button under a note on the board.
-    Note(snookered_proto::NoteAction),
+    Note(snook_legend_proto::NoteAction),
     /// The lounge's daily games (some are waiting for the player).
     Daily,
     TwoPlayers,
@@ -105,7 +105,7 @@ impl Menu {
         // player card).
         crate::icon::draw(left - 4.0, top + 2.0, m.emblem);
         let tx = left + m.emblem + 10.0;
-        let name = snookered_proto::GAME_NAME.to_uppercase();
+        let name = snook_legend_proto::GAME_NAME.to_uppercase();
         let room = sw - player_card_w(sw) - EDGE - 24.0 - tx;
         let size = ui.fit(m.title, &name, room).max(m.title * 0.6);
         let ty = top + (m.title - size) * 0.5;
@@ -420,7 +420,7 @@ impl Menu {
                 // The account level: a badge on the avatar and its bar along
                 // the bottom of the card.
                 if let Some(xp) = online.xp.filter(|_| !me.guest) {
-                    let (level, into, span) = snookered_proto::xp::progress(xp);
+                    let (level, into, span) = snook_legend_proto::xp::progress(xp);
                     let badge = vec2(avatar.x - 15.0, avatar.y + 15.0);
                     draw_circle(badge.x, badge.y, 9.5, Color::new(0.05, 0.035, 0.025, 1.0));
                     draw_circle(badge.x, badge.y, 8.0, GOLD);

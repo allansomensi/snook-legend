@@ -6,14 +6,14 @@ use macroquad::prelude::*;
 use crate::paint::{draw_circle, draw_circle_lines, draw_line, draw_rectangle, draw_triangle};
 
 use crate::i18n::{t, tw};
-use snookered_core::{BallId, BallInHand, Group};
+use snook_legend_core::{BallId, BallInHand, Group};
 
 use crate::game::{Controller, Match, Phase};
 use crate::icons::Icon;
 use crate::keys::{self, Action};
 use crate::textures::ball_color;
 use crate::ui::{ADMIN_RED, ALERT, BORDER, CREAM, FeedKind, FeedLine, GOLD, MUTED, Ui};
-use snookered_proto::Relation;
+use snook_legend_proto::Relation;
 
 pub struct Hud {
     /// The pause menu is open (online, the game keeps running behind it).
@@ -89,16 +89,16 @@ impl Default for Hud {
     fn default() -> Self {
         Hud {
             paused: false,
-            // Development aid: SNOOKERED_STATS_VIEW=1|2 opens the charts.
-            stats_view: crate::dev::var("SNOOKERED_STATS_VIEW")
+            // Development aid: SNOOK_LEGEND_STATS_VIEW=1|2 opens the charts.
+            stats_view: crate::dev::var("SNOOK_LEGEND_STATS_VIEW")
                 .and_then(|v| v.parse().ok())
                 .unwrap_or(0),
             show_help: false,
             chat_input: String::new(),
-            // Development aid: SNOOKERED_CHAT_CLOSED starts with the chat folded.
+            // Development aid: SNOOK_LEGEND_CHAT_CLOSED starts with the chat folded.
             // Folded at the start (a dot and a preview announce new messages).
-            // Development aid: SNOOKERED_CHAT_OPEN opens it.
-            chat_open: crate::dev::flag("SNOOKERED_CHAT_OPEN"),
+            // Development aid: SNOOK_LEGEND_CHAT_OPEN opens it.
+            chat_open: crate::dev::flag("SNOOK_LEGEND_CHAT_OPEN"),
             chat_scroll: 0,
             quick_open: false,
             last_power: [None, None],
@@ -116,8 +116,8 @@ impl Default for Hud {
             panel_key: None,
             zoom: 0.5,
             zoom_drag: false,
-            // Development aid: SNOOKERED_OPEN_REACTIONS opens the picker.
-            reactions_open: crate::dev::flag("SNOOKERED_OPEN_REACTIONS"),
+            // Development aid: SNOOK_LEGEND_OPEN_REACTIONS opens the picker.
+            reactions_open: crate::dev::flag("SNOOK_LEGEND_OPEN_REACTIONS"),
             camera_default: true,
             opponent_relation: None,
             history_open: false,
@@ -583,7 +583,7 @@ impl Hud {
                 Some(Ok(n)) => *n,
                 _ => run.score(),
             };
-            let stars = snookered_proto::drills::stars(d, score);
+            let stars = snook_legend_proto::drills::stars(d, score);
             crate::ui::rrect_lines(r, 8.0, 2.0, if stars == 3 { GOLD } else { BORDER });
             ui.text_centered(t(d.name), sw / 2.0, r.y + 16.0, 26.0, GOLD, true);
             // The stars: gold for each earned.
@@ -1182,8 +1182,12 @@ impl Hud {
             return;
         }
         let input = Rect::new(r.x + 6.0, r.y + r.h - 36.0, r.w - 12.0, 30.0);
-        let sent =
-            ui.text_input(CHAT_FIELD, input, &mut self.chat_input, snookered_proto::MAX_CHAT_LEN);
+        let sent = ui.text_input(
+            CHAT_FIELD,
+            input,
+            &mut self.chat_input,
+            snook_legend_proto::MAX_CHAT_LEN,
+        );
         if self.chat_input.is_empty() && ui.focus != Some(CHAT_FIELD) {
             ui.text(
                 t("Click to chat, Enter to send"),
@@ -1218,7 +1222,7 @@ impl Hud {
         if !self.quick_open {
             return;
         }
-        let phrases = snookered_proto::QUICK_CHAT;
+        let phrases = snook_legend_proto::QUICK_CHAT;
         let row_h = 30.0;
         let w = phrases
             .iter()
@@ -1334,14 +1338,16 @@ impl Hud {
         }
         const COLS: usize = 7;
         const CELL: f32 = 40.0;
-        let n = snookered_proto::REACTIONS.len();
+        let n = snook_legend_proto::REACTIONS.len();
         let rows = n.div_ceil(COLS);
         let w = COLS as f32 * CELL + 16.0;
         let h = rows as f32 * CELL + 40.0;
         let p = Rect::new(b.x.min(crate::ui::vw() - w - 8.0), b.y - h - 8.0, w, h);
         ui.panel(p);
-        let open =
-            snookered_proto::REACTIONS.iter().filter(|r| r.available(&o.unlocked, o.vip)).count();
+        let open = snook_legend_proto::REACTIONS
+            .iter()
+            .filter(|r| r.available(&o.unlocked, o.vip))
+            .count();
         ui.text(
             &tw("Reactions {n}/{total}", &[("n", &open), ("total", &n)]),
             p.x + 10.0,
@@ -1352,7 +1358,7 @@ impl Hud {
         );
         let mut chosen = None;
         let mut tip: Option<(String, Rect)> = None;
-        for (k, r) in snookered_proto::REACTIONS.iter().enumerate() {
+        for (k, r) in snook_legend_proto::REACTIONS.iter().enumerate() {
             let c = Rect::new(
                 p.x + 8.0 + (k % COLS) as f32 * CELL,
                 p.y + 32.0 + (k / COLS) as f32 * CELL,
@@ -1388,7 +1394,7 @@ impl Hud {
                 } else if hover {
                     let how = r
                         .unlock
-                        .and_then(|a| snookered_proto::ACHIEVEMENTS.iter().find(|x| x.code == a))
+                        .and_then(|a| snook_legend_proto::ACHIEVEMENTS.iter().find(|x| x.code == a))
                         .map(|a| {
                             tw(
                                 "{title}: {how}",

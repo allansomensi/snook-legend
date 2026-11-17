@@ -1,9 +1,9 @@
-//! The daily challenge (see `snookered_proto::daily`): the day's seed, the
+//! The daily challenge (see `snook_legend_proto::daily`): the day's seed, the
 //! attempts, checking an attempt's strokes and the day's table.
 
 use rand::RngCore;
-use snookered_proto::daily::{self, Info, Outcome, Refused};
-use snookered_proto::{ClientMsg, ServerMsg};
+use snook_legend_proto::daily::{self, Info, Outcome, Refused};
+use snook_legend_proto::{ClientMsg, ServerMsg};
 
 use crate::store::{DailyFinish, User};
 use crate::{Server, now};
@@ -104,7 +104,7 @@ async fn submit(
     server: &Server,
     me: &User,
     day: i64,
-    strokes: Vec<snookered_core::Shot>,
+    strokes: Vec<snook_legend_core::Shot>,
 ) -> Result<(Outcome, i64), Refused> {
     let t = now();
     if day != daily::day_of(t) {
@@ -134,8 +134,8 @@ async fn submit(
     };
     let outcome = outcome?;
     tracing::info!(user = %me.username, day, balls = outcome.balls, "daily challenge");
-    let xp =
-        snookered_proto::xp::DAILY_ATTEMPT + snookered_proto::xp::DAILY_PER_BALL * outcome.balls;
+    let xp = snook_legend_proto::xp::DAILY_ATTEMPT
+        + snook_legend_proto::xp::DAILY_PER_BALL * outcome.balls;
     crate::account::award_xp(server, me, xp).await;
     let mut coins = 0;
     if first_clear {

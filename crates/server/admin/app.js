@@ -3,7 +3,7 @@
 "use strict";
 
 const $ = (sel) => document.querySelector(sel);
-let token = sessionStorage.getItem("snookered-admin") || "";
+let token = sessionStorage.getItem("snook-legend-admin") || "";
 let me = null;
 let view = "dashboard";
 
@@ -97,7 +97,7 @@ const views = {
         stat(o.stored.matches_total, "Games (all)"), stat(o.stored.open_reports, "Open reports"),
         stat(o.stored.banned, "Banned"), stat(h + "h " + m + "m", "Uptime · v" + o.version)),
       o.persistent ? null : el("p", { class: "error" }, "This server keeps everything in memory: nothing is saved."),
-      o.online >= 4 && o.addresses === 1 ? el("p", { class: "error" }, "Every player comes from the same address: set SNOOKERED_CLIENT_IP_HEADER (see DEPLOY), or the per-address limits will block players.") : null);
+      o.online >= 4 && o.addresses === 1 ? el("p", { class: "error" }, "Every player comes from the same address: set SNOOK_LEGEND_CLIENT_IP_HEADER (see DEPLOY), or the per-address limits will block players.") : null);
     const announce = el("textarea", { rows: "2", maxlength: "200", placeholder: "Message to everyone in the lounge" });
     box.append(el("h2", {}, "Announcement"), announce,
       el("div", { class: "actions" }, el("button", {
@@ -471,7 +471,7 @@ async function downloadReplay(id) {
   try {
     const r = await api("/replay/" + id);
     const blob = new Blob([JSON.stringify(r, null, 2)], { type: "application/json" });
-    const a = el("a", { href: URL.createObjectURL(blob), download: "snookered-match-" + id + ".json" });
+    const a = el("a", { href: URL.createObjectURL(blob), download: "snook-legend-match-" + id + ".json" });
     document.body.append(a);
     a.click();
     a.remove();
@@ -915,7 +915,7 @@ function signOut(callServer = true) {
   if (callServer && token) api("/logout", { method: "POST" }).catch(() => {});
   token = "";
   me = null;
-  sessionStorage.removeItem("snookered-admin");
+  sessionStorage.removeItem("snook-legend-admin");
   $("#app").classList.add("hidden");
   $("#login").classList.remove("hidden");
 }
@@ -938,7 +938,7 @@ $("#login-form").addEventListener("submit", async (e) => {
   try {
     const d = await api("/login", { method: "POST", body: { username: $("#login-user").value, password: $("#login-pass").value } });
     token = d.token;
-    sessionStorage.setItem("snookered-admin", token);
+    sessionStorage.setItem("snook-legend-admin", token);
     $("#login-pass").value = "";
     start();
   } catch (err) { $("#login-error").textContent = err.message; }

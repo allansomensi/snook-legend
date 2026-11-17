@@ -14,9 +14,9 @@ pub use postgres::PgStore;
 
 use std::collections::BTreeMap;
 
-use snookered_core::stats::ShotStats;
-use snookered_proto::replay::Replay;
-use snookered_proto::{CareerNumbers, LeaderboardEntry, Role, Stats};
+use snook_legend_core::stats::ShotStats;
+use snook_legend_proto::replay::Replay;
+use snook_legend_proto::{CareerNumbers, LeaderboardEntry, Role, Stats};
 
 #[derive(Debug, Clone)]
 pub struct StoreError(pub String);
@@ -66,16 +66,16 @@ pub struct User {
     pub abandons: u32,
     /// The player's status message (empty: none).
     pub status_message: String,
-    /// Experience for the account level (see `snookered_proto::xp`).
+    /// Experience for the account level (see `snook_legend_proto::xp`).
     pub xp: i64,
     /// Times the player changed their username (see
-    /// `snookered_proto::MAX_NAME_CHANGES`).
+    /// `snook_legend_proto::MAX_NAME_CHANGES`).
     pub name_changes: u32,
 }
 
 impl User {
-    pub fn rating(&self) -> snookered_core::rating::Rating {
-        snookered_core::rating::Rating { rating: self.rating, games: self.games }
+    pub fn rating(&self) -> snook_legend_core::rating::Rating {
+        snook_legend_core::rating::Rating { rating: self.rating, games: self.games }
     }
 
     pub fn is_banned(&self, now: i64) -> bool {
@@ -154,7 +154,7 @@ pub enum SessionKind {
 pub struct MatchRecord {
     pub players: [i64; 2],
     pub winner: usize,
-    pub reason: snookered_core::GameOverReason,
+    pub reason: snook_legend_core::GameOverReason,
     pub rated: bool,
     pub delta: [i32; 2],
     pub ratings_after: [i32; 2],
@@ -348,7 +348,7 @@ pub struct AsyncGame {
     pub deadline: i64,
     /// Strokes each seat has watched.
     pub seen: [u32; 2],
-    pub groups: [Option<snookered_core::Group>; 2],
+    pub groups: [Option<snook_legend_core::Group>; 2],
     pub left: [u8; 2],
     pub started_at: i64,
     pub updated_at: i64,
@@ -423,7 +423,7 @@ pub struct GiftRow {
     pub to_id: i64,
     pub to: String,
     pub to_country: String,
-    /// An item code, or [`snookered_proto::shop::VIP_GIFT`].
+    /// An item code, or [`snook_legend_proto::shop::VIP_GIFT`].
     pub code: String,
     pub message: String,
     pub at: i64,
@@ -922,14 +922,14 @@ impl Store {
     pub async fn add_shot_analysis(
         &self,
         user_id: i64,
-        analysis: &snookered_proto::analysis::ShotAnalysis,
+        analysis: &snook_legend_proto::analysis::ShotAnalysis,
     ) -> StoreResult<()> {
         dispatch!(self, s => s.add_shot_analysis(user_id, analysis))
     }
     pub async fn shot_analysis(
         &self,
         user_id: i64,
-    ) -> StoreResult<snookered_proto::analysis::ShotAnalysis> {
+    ) -> StoreResult<snook_legend_proto::analysis::ShotAnalysis> {
         dispatch!(self, s => s.shot_analysis(user_id))
     }
     /// One sample of who is online: the signed-in accounts, and how many

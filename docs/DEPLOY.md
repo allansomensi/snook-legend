@@ -1,6 +1,6 @@
 # Running the Snook Legend server
 
-The server is a single executable (`snookered-server`) that keeps the lounge and
+The server is a single executable (`snook-legend-server`) that keeps the lounge and
 running matches in memory and stores accounts, ratings, history,
 achievements, friends, reports and the staff audit log in PostgreSQL. It also
 serves the staff panel at `/admin`.
@@ -12,17 +12,17 @@ A step-by-step guide for **Render + Neon (free plans)**, in Portuguese, is in
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `PORT` / `SNOOKERED_BIND` | `0.0.0.0:7878` | port to listen on (`PORT`, as set by hosts like Render) or a full address |
-| `DATABASE_URL` | — | PostgreSQL connection string (required unless `SNOOKERED_IN_MEMORY=1`); migrations run at start |
-| `SNOOKERED_DB_POOL` | `5` | database connections |
-| `SNOOKERED_IN_MEMORY` | — | `1`: keep everything in memory (development only) |
-| `SNOOKERED_ADMINS` | — | comma-separated usernames that become administrators when they sign in |
-| `SNOOKERED_CLIENT_IP_HEADER` | — | headers with the client's real address behind a proxy, tried in order, e.g. `cf-connecting-ip,true-client-ip,x-forwarded-for` |
-| `SNOOKERED_PROXY_HOPS` | `1` | with `x-forwarded-for`: proxies that append to it (the address is taken that many entries from the right) |
-| `SNOOKERED_MOTD` | a welcome line | message shown in the lounge |
-| `SNOOKERED_SHOT_CLOCK` | `30` | seconds per shot (10–120) |
-| `SNOOKERED_STRIPE_*` | — | real-money purchases through Stripe (see `crates/server/src/payments.rs`) |
-| `SNOOKERED_MSSTORE_*` | — | coin packs bought in the Microsoft Store (see [MSSTORE.md](MSSTORE.md)) |
+| `PORT` / `SNOOK_LEGEND_BIND` | `0.0.0.0:7878` | port to listen on (`PORT`, as set by hosts like Render) or a full address |
+| `DATABASE_URL` | — | PostgreSQL connection string (required unless `SNOOK_LEGEND_IN_MEMORY=1`); migrations run at start |
+| `SNOOK_LEGEND_DB_POOL` | `5` | database connections |
+| `SNOOK_LEGEND_IN_MEMORY` | — | `1`: keep everything in memory (development only) |
+| `SNOOK_LEGEND_ADMINS` | — | comma-separated usernames that become administrators when they sign in |
+| `SNOOK_LEGEND_CLIENT_IP_HEADER` | — | headers with the client's real address behind a proxy, tried in order, e.g. `cf-connecting-ip,true-client-ip,x-forwarded-for` |
+| `SNOOK_LEGEND_PROXY_HOPS` | `1` | with `x-forwarded-for`: proxies that append to it (the address is taken that many entries from the right) |
+| `SNOOK_LEGEND_MOTD` | a welcome line | message shown in the lounge |
+| `SNOOK_LEGEND_SHOT_CLOCK` | `30` | seconds per shot (10–120) |
+| `SNOOK_LEGEND_STRIPE_*` | — | real-money purchases through Stripe (see `crates/server/src/payments.rs`) |
+| `SNOOK_LEGEND_MSSTORE_*` | — | coin packs bought in the Microsoft Store (see [MSSTORE.md](MSSTORE.md)) |
 | `RUST_LOG` | `info` | log filter |
 
 Endpoints: `GET /ws` (the game), `GET /health` (`ok`), `GET /api/status` and
@@ -31,28 +31,28 @@ Endpoints: `GET /ws` (the game), `GET /health` (`ok`), `GET /api/status` and
 ## Docker
 
 ```bash
-docker build -t snookered-server .
+docker build -t snook-legend-server .
 ```
 
 ```bash
-docker run -p 7878:7878 -e DATABASE_URL=postgres://user:pass@host/db snookered-server
+docker run -p 7878:7878 -e DATABASE_URL=postgres://user:pass@host/db snook-legend-server
 ```
 
 The image is distroless (no shell, unprivileged user, ~50 MB). The Server
-image workflow publishes it as `ghcr.io/<owner>/snookered-server:<tag>` when a
+image workflow publishes it as `ghcr.io/<owner>/snook-legend-server:<tag>` when a
 release tag is pushed (see [RELEASING.md](RELEASING.md)).
 
 ## Without Docker (a VPS with systemd)
 
 ```bash
-cargo build --release -p snookered_server
+cargo build --release -p snook_legend_server
 ```
 
 ```bash
-sudo cp target/release/snookered-server /usr/local/bin/
+sudo cp target/release/snook-legend-server /usr/local/bin/
 ```
 
-`/etc/systemd/system/snookered.service`:
+`/etc/systemd/system/snook-legend.service`:
 
 ```ini
 [Unit]
@@ -61,10 +61,10 @@ After=network.target postgresql.service
 
 [Service]
 DynamicUser=yes
-Environment=SNOOKERED_BIND=127.0.0.1:7878
-Environment=DATABASE_URL=postgres://snookered:secret@localhost/snookered
-Environment=SNOOKERED_CLIENT_IP_HEADER=x-forwarded-for
-ExecStart=/usr/local/bin/snookered-server
+Environment=SNOOK_LEGEND_BIND=127.0.0.1:7878
+Environment=DATABASE_URL=postgres://snook-legend:secret@localhost/snook-legend
+Environment=SNOOK_LEGEND_CLIENT_IP_HEADER=x-forwarded-for
+ExecStart=/usr/local/bin/snook-legend-server
 Restart=always
 RestartSec=2
 NoNewPrivileges=true
@@ -80,7 +80,7 @@ the game's address is then `wss://snooklegend.example.com/ws`.
 ## Point the game at the server
 
 ```bash
-SNOOKERED_SERVER=wss://snookered.example.com/ws cargo build --release -p snookered
+SNOOK_LEGEND_SERVER=wss://snook-legend.example.com/ws cargo build --release -p snook-legend
 ```
 
 Players can also change it under **Settings → Game → Game server**.

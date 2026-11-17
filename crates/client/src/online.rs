@@ -13,7 +13,7 @@ mod social;
 pub use social::{STATUS_COLOR, sub_line};
 
 use crate::i18n::{t, tw};
-use snookered_proto::{
+use snook_legend_proto::{
     ClientMsg, FriendInfo, LeaderboardEntry, MAX_CHAT_LEN, PlayerInfo, PlayerStatus, Profile,
     ServerMsg, TableInfo, TournamentInfo, TournamentState, valid_password, valid_username,
 };
@@ -82,7 +82,7 @@ struct TournamentForm {
     password: String,
     /// Coins to enter (0: free).
     entry_fee: u32,
-    format: snookered_proto::TournamentFormat,
+    format: snook_legend_proto::TournamentFormat,
 }
 
 #[derive(Default)]
@@ -119,7 +119,7 @@ impl WalletView {
 #[derive(Debug, Clone, Default)]
 pub struct ShopOffers {
     pub payments: bool,
-    pub packs: Vec<snookered_proto::PackOffer>,
+    pub packs: Vec<snook_legend_proto::PackOffer>,
     pub vip_price: String,
     pub vip_coins: u32,
     /// The price of a VIP month given to a friend (empty: not on sale).
@@ -127,7 +127,7 @@ pub struct ShopOffers {
     /// The price of the welcome pack (empty: not on sale).
     pub welcome_price: String,
     /// Coin packs sold in the Microsoft Store (the Store build shows them).
-    pub store_packs: Vec<snookered_proto::StorePack>,
+    pub store_packs: Vec<snook_legend_proto::StorePack>,
 }
 
 pub struct Online {
@@ -205,11 +205,11 @@ pub struct Online {
     /// The e-mail of a payment, offered as the recovery e-mail.
     pub email_offer: Option<String>,
     /// Games that can be watched again, and how many are kept (0: all).
-    pub replays: Option<(Vec<snookered_proto::HistoryEntry>, u32)>,
+    pub replays: Option<(Vec<snook_legend_proto::HistoryEntry>, u32)>,
     /// A replay to watch (opened by the replays screen).
-    pub replay: Option<Box<snookered_proto::ReplayInfo>>,
+    pub replay: Option<Box<snook_legend_proto::ReplayInfo>>,
     /// The game on the lounge's TV.
-    pub featured: Option<snookered_proto::FeaturedMatch>,
+    pub featured: Option<snook_legend_proto::FeaturedMatch>,
     /// A code friends can use to sit at this player's table.
     pub invite_code: Option<String>,
     /// The server restarts at this time (no new games until then).
@@ -229,7 +229,7 @@ pub struct Online {
     /// A mission was finished since the missions were last looked at.
     mission_done: bool,
     /// The notes on the lounge's board, newest first.
-    board: Vec<snookered_proto::BoardNote>,
+    board: Vec<snook_legend_proto::BoardNote>,
     /// Scheduled tournaments the player was already told are about to start.
     told_starting: Vec<u64>,
     /// The server refused this version of the game: a newer one is out.
@@ -253,24 +253,26 @@ pub struct Online {
     /// Presents from friends.
     gifts: gifts::Gifts,
     /// The server's verdict on the ladder's reward (taken by the ladder).
-    pub ladder_claim: Option<snookered_proto::ladder::ClaimResult>,
+    pub ladder_claim: Option<snook_legend_proto::ladder::ClaimResult>,
     /// The style asked for a ghost opponent, and the answer once it came.
     pub ghost: Option<GhostRequest>,
     /// Today's challenge (asked for by the challenge's tab).
-    pub daily: Option<snookered_proto::daily::Info>,
+    pub daily: Option<snook_legend_proto::daily::Info>,
     /// An attempt the server started: (day, seed), for the game to set up.
     pub daily_started: Option<(i64, u64)>,
     /// The server's answer to the attempt sent, and its coins.
-    pub daily_result:
-        Option<(Result<snookered_proto::daily::Outcome, snookered_proto::daily::Refused>, i64)>,
+    pub daily_result: Option<(
+        Result<snook_legend_proto::daily::Outcome, snook_legend_proto::daily::Refused>,
+        i64,
+    )>,
     /// Why the last start was refused.
-    pub daily_refused: Option<snookered_proto::daily::Refused>,
+    pub daily_refused: Option<snook_legend_proto::daily::Refused>,
     /// The account level's experience (once the server said).
     pub xp: Option<i64>,
     /// The drills, their tables and the challenge rating.
-    pub drills: Option<snookered_proto::drills::Info>,
+    pub drills: Option<snook_legend_proto::drills::Info>,
     /// The server's count of the last drill session sent.
-    pub drill_result: Option<(String, Result<u32, snookered_proto::drills::Refused>)>,
+    pub drill_result: Option<(String, Result<u32, snook_legend_proto::drills::Refused>)>,
 }
 
 /// A request for the style of a player's ghost.
@@ -278,7 +280,7 @@ pub struct Online {
 pub struct GhostRequest {
     pub username: String,
     pub sent: std::time::Instant,
-    pub answer: Option<snookered_proto::ghost::GhostAnswer>,
+    pub answer: Option<snook_legend_proto::ghost::GhostAnswer>,
 }
 
 /// How long to wait for a ghost's style before saying the server is not
@@ -303,16 +305,16 @@ pub fn update_label() -> String {
 }
 
 /// A note's colour: gold notices, green events, blue rules.
-pub fn note_color(kind: snookered_proto::NoteKind) -> Color {
+pub fn note_color(kind: snook_legend_proto::NoteKind) -> Color {
     match kind {
-        snookered_proto::NoteKind::Notice => GOLD,
-        snookered_proto::NoteKind::Event => Color::new(0.38, 0.8, 0.5, 1.0),
-        snookered_proto::NoteKind::Rule => Color::new(0.48, 0.72, 1.0, 1.0),
+        snook_legend_proto::NoteKind::Notice => GOLD,
+        snook_legend_proto::NoteKind::Event => Color::new(0.38, 0.8, 0.5, 1.0),
+        snook_legend_proto::NoteKind::Rule => Color::new(0.48, 0.72, 1.0, 1.0),
     }
 }
 
-fn note_button(a: snookered_proto::NoteAction) -> &'static str {
-    use snookered_proto::NoteAction;
+fn note_button(a: snook_legend_proto::NoteAction) -> &'static str {
+    use snook_legend_proto::NoteAction;
     match a {
         NoteAction::Tournaments => t("See the tournaments"),
         NoteAction::Shop => t("Open the shop"),
@@ -322,7 +324,7 @@ fn note_button(a: snookered_proto::NoteAction) -> &'static str {
 }
 
 /// How tall a note is drawn `w` wide.
-pub fn note_height(ui: &Ui, n: &snookered_proto::BoardNote, w: f32) -> f32 {
+pub fn note_height(ui: &Ui, n: &snook_legend_proto::BoardNote, w: f32) -> f32 {
     let lines = ui.wrap(&n.text, w - 44.0, 14.0).len() as f32;
     lines * 19.0 + 38.0 + if n.action.is_some() { 36.0 } else { 0.0 }
 }
@@ -330,9 +332,9 @@ pub fn note_height(ui: &Ui, n: &snookered_proto::BoardNote, w: f32) -> f32 {
 /// Draws a note in `card`; returns its button's action when clicked.
 pub fn draw_note(
     ui: &mut Ui,
-    n: &snookered_proto::BoardNote,
+    n: &snook_legend_proto::BoardNote,
     card: Rect,
-) -> Option<snookered_proto::NoteAction> {
+) -> Option<snook_legend_proto::NoteAction> {
     let color = note_color(n.kind);
     let tint = Color::new(color.r, color.g, color.b, if n.pinned { 0.13 } else { 0.07 });
     rrect(card, 8.0, tint);
@@ -391,8 +393,8 @@ enum Side {
 }
 
 struct MissionsView {
-    daily: Vec<snookered_proto::missions::MissionState>,
-    weekly: Vec<snookered_proto::missions::MissionState>,
+    daily: Vec<snook_legend_proto::missions::MissionState>,
+    weekly: Vec<snook_legend_proto::missions::MissionState>,
     day_ends: i64,
     week_ends: i64,
 }
@@ -402,7 +404,7 @@ struct MissionsView {
 pub struct AccountView {
     pub recovery_email: Option<String>,
     pub payment_email: Option<String>,
-    /// Username changes left (see `snookered_proto::MAX_NAME_CHANGES`).
+    /// Username changes left (see `snook_legend_proto::MAX_NAME_CHANGES`).
     pub name_changes_left: u32,
 }
 
@@ -490,16 +492,16 @@ impl Online {
             bought: None,
             shop_error: None,
             account: None,
-            // Development aid (screenshots): SNOOKERED_EMAIL_OFFER=<e-mail> shows the offer.
-            email_offer: crate::dev::var("SNOOKERED_EMAIL_OFFER"),
+            // Development aid (screenshots): SNOOK_LEGEND_EMAIL_OFFER=<e-mail> shows the offer.
+            email_offer: crate::dev::var("SNOOK_LEGEND_EMAIL_OFFER"),
             replays: None,
             replay: None,
             featured: None,
             invite_code: None,
             draining: None,
             attention: None,
-            // Development aid: SNOOKERED_LOUNGE_SIDE=missions|board.
-            side: match crate::dev::var("SNOOKERED_LOUNGE_SIDE").as_deref() {
+            // Development aid: SNOOK_LEGEND_LOUNGE_SIDE=missions|board.
+            side: match crate::dev::var("SNOOK_LEGEND_LOUNGE_SIDE").as_deref() {
                 Some("missions") => Side::Missions,
                 Some("board") => Side::Board,
                 _ => Side::Chat,
@@ -515,9 +517,9 @@ impl Online {
             form_focused: false,
             toast_floor: std::cell::Cell::new(None),
             social: social::Social {
-                // Development aid (screenshots): SNOOKERED_RECENT=1 opens
+                // Development aid (screenshots): SNOOK_LEGEND_RECENT=1 opens
                 // the Friends tab on the people played recently.
-                recent_view: crate::dev::flag("SNOOKERED_RECENT"),
+                recent_view: crate::dev::flag("SNOOK_LEGEND_RECENT"),
                 ..Default::default()
             },
             gifts: Default::default(),
@@ -622,7 +624,7 @@ impl Online {
             && let Ok(protocol) = rx.try_recv()
         {
             self.version_check = None;
-            if protocol.is_some_and(|p| p < snookered_proto::PROTOCOL_VERSION) {
+            if protocol.is_some_and(|p| p < snook_legend_proto::PROTOCOL_VERSION) {
                 // This game is newer than the server: updating it can't
                 // help, waiting for the server can.
                 self.outdated = false;
@@ -728,7 +730,7 @@ impl Online {
             .is_some_and(|m| m.is_against_computer() || (m.practice && !m.free_play));
         let activity = (vs_computer, self.away);
         if self.signed_in()
-            && self.server_protocol >= snookered_proto::ACTIVITY_PROTOCOL
+            && self.server_protocol >= snook_legend_proto::ACTIVITY_PROTOCOL
             && activity != self.activity_sent
         {
             self.activity_sent = activity;
@@ -768,16 +770,16 @@ impl Online {
                     save = true;
                     self.send(ClientMsg::Friends);
                     self.send(ClientMsg::Leaderboard);
-                    // Development aid: SNOOKERED_AUTOINVITE=<name> invites that player.
-                    if let Some(to) = crate::dev::var("SNOOKERED_AUTOINVITE") {
+                    // Development aid: SNOOK_LEGEND_AUTOINVITE=<name> invites that player.
+                    if let Some(to) = crate::dev::var("SNOOK_LEGEND_AUTOINVITE") {
                         self.send(ClientMsg::Invite { to, rated: true });
                     }
-                    // SNOOKERED_AUTOQUEUE=1 joins "Play now".
-                    if crate::dev::flag("SNOOKERED_AUTOQUEUE") {
+                    // SNOOK_LEGEND_AUTOQUEUE=1 joins "Play now".
+                    if crate::dev::flag("SNOOK_LEGEND_AUTOQUEUE") {
                         self.send(ClientMsg::QueueJoin { rated: true });
                     }
-                    // SNOOKERED_AUTOWATCH=<name> watches that friend's game.
-                    if let Some(username) = crate::dev::var("SNOOKERED_AUTOWATCH") {
+                    // SNOOK_LEGEND_AUTOWATCH=<name> watches that friend's game.
+                    if let Some(username) = crate::dev::var("SNOOK_LEGEND_AUTOWATCH") {
                         self.send(ClientMsg::Spectate { username });
                     }
                 }
@@ -897,7 +899,7 @@ impl Online {
                 }
             }
             ServerMsg::Invited { from, rated } => {
-                if crate::dev::flag("SNOOKERED_AUTOPLAY") && current.is_none() {
+                if crate::dev::flag("SNOOK_LEGEND_AUTOPLAY") && current.is_none() {
                     // Development aid: accept at once.
                     self.send(ClientMsg::AnswerInvite { from, accept: true });
                     return save;
@@ -960,7 +962,7 @@ impl Online {
                 self.toast(tw("{name} wants to be your friend.", &[("name", &from)]), true);
             }
             ServerMsg::AchievementUnlocked { code } => {
-                let title = snookered_proto::ACHIEVEMENTS
+                let title = snook_legend_proto::ACHIEVEMENTS
                     .iter()
                     .find(|a| a.code == code)
                     .map(|a| t(a.title).to_string())
@@ -991,12 +993,13 @@ impl Online {
                 if !spectating {
                     self.incoming.clear();
                 }
-                // Development aid: SNOOKERED_AUTOCHAT="text" says it at the start of a match.
-                if let Some(text) = crate::dev::var("SNOOKERED_AUTOCHAT").filter(|_| !spectating) {
+                // Development aid: SNOOK_LEGEND_AUTOCHAT="text" says it at the start of a match.
+                if let Some(text) = crate::dev::var("SNOOK_LEGEND_AUTOCHAT").filter(|_| !spectating)
+                {
                     self.send(ClientMsg::MatchChat { text });
                 }
-                // SNOOKERED_AUTOREACT="code" sends that reaction.
-                if let Some(code) = crate::dev::var("SNOOKERED_AUTOREACT") {
+                // SNOOK_LEGEND_AUTOREACT="code" sends that reaction.
+                if let Some(code) = crate::dev::var("SNOOK_LEGEND_AUTOREACT") {
                     self.send(ClientMsg::React { code });
                 }
                 let next = Match::online(
@@ -1043,7 +1046,8 @@ impl Online {
                 self.bought = Some((code, gift_to));
             }
             ServerMsg::GiftReceived { from, code } => {
-                let name = snookered_proto::shop::item(&code).map(|i| t(i.name)).unwrap_or(&code);
+                let name =
+                    snook_legend_proto::shop::item(&code).map(|i| t(i.name)).unwrap_or(&code);
                 self.toast(
                     tw("{from} gave you {item}!", &[("from", &from), ("item", &name)]),
                     true,
@@ -1102,12 +1106,12 @@ impl Online {
             ServerMsg::Wallet { coins, vip_until, owned, equipped, cue_wins } => {
                 let wallet = WalletView { coins, vip_until, owned, equipped, cue_wins };
                 // A cue that just reached a new level (a game was won).
-                use snookered_proto::shop::{Category, cue_level};
+                use snook_legend_proto::shop::{Category, cue_level};
                 let cue = self.effective(&wallet, Category::Cue);
                 if let Some(old) = &self.wallet {
                     let (before, now) = (old.cue_wins(cue), wallet.cue_wins(cue));
                     if now > before && cue_level(now) > cue_level(before) {
-                        let name = snookered_proto::shop::item(cue).map_or(cue, |i| t(i.name));
+                        let name = snook_legend_proto::shop::item(cue).map_or(cue, |i| t(i.name));
                         let text = tw(
                             "Your cue {cue} reached level {n}!",
                             &[("cue", &name), ("n", &cue_level(now))],
@@ -1122,19 +1126,19 @@ impl Online {
                     save = true;
                 }
                 // The items in use, as the server allows them now.
-                for c in snookered_proto::shop::Category::ALL {
+                for c in snook_legend_proto::shop::Category::ALL {
                     let code = self.effective(&wallet, c).to_string();
                     let slot = match c {
-                        snookered_proto::shop::Category::Cloth => &mut config.cloth,
-                        snookered_proto::shop::Category::Cue => &mut config.cue,
-                        snookered_proto::shop::Category::Chalk => &mut config.chalk,
-                        snookered_proto::shop::Category::Balls => &mut config.balls,
-                        snookered_proto::shop::Category::Effect => &mut config.effect,
-                        snookered_proto::shop::Category::Table => &mut config.table,
-                        snookered_proto::shop::Category::Hall => &mut config.hall,
+                        snook_legend_proto::shop::Category::Cloth => &mut config.cloth,
+                        snook_legend_proto::shop::Category::Cue => &mut config.cue,
+                        snook_legend_proto::shop::Category::Chalk => &mut config.chalk,
+                        snook_legend_proto::shop::Category::Balls => &mut config.balls,
+                        snook_legend_proto::shop::Category::Effect => &mut config.effect,
+                        snook_legend_proto::shop::Category::Table => &mut config.table,
+                        snook_legend_proto::shop::Category::Hall => &mut config.hall,
                         // Only seen online.
-                        snookered_proto::shop::Category::Frame
-                        | snookered_proto::shop::Category::Name => {
+                        snook_legend_proto::shop::Category::Frame
+                        | snook_legend_proto::shop::Category::Name => {
                             continue;
                         }
                     };
@@ -1207,7 +1211,7 @@ impl Online {
             ServerMsg::Drills { info } => self.drills = Some(info),
             ServerMsg::DrillResult { code, result } => self.drill_result = Some((code, result)),
             ServerMsg::Xp { xp, gained } => {
-                use snookered_proto::xp::level_of;
+                use snook_legend_proto::xp::level_of;
                 let before = self.xp.map(level_of);
                 self.xp = Some(xp);
                 if gained > 0 {
@@ -1283,9 +1287,9 @@ impl Online {
     pub fn effective(
         &self,
         w: &WalletView,
-        category: snookered_proto::shop::Category,
+        category: snook_legend_proto::shop::Category,
     ) -> &'static str {
-        use snookered_proto::shop;
+        use snook_legend_proto::shop;
         w.equipped
             .iter()
             .find(|(c, _)| c == category.code())
@@ -1298,9 +1302,9 @@ impl Online {
     }
 
     /// Whether this player may use `item` now.
-    pub fn can_use(&self, item: &snookered_proto::shop::Item) -> bool {
+    pub fn can_use(&self, item: &snook_legend_proto::shop::Item) -> bool {
         let w = self.wallet.clone().unwrap_or_default();
-        snookered_proto::shop::can_use(item, &w.owned, &self.achievements, w.is_vip())
+        snook_legend_proto::shop::can_use(item, &w.owned, &self.achievements, w.is_vip())
     }
 
     /// Starts watching a friend's game.
@@ -1801,7 +1805,7 @@ impl Online {
             action = OnlineAction::Leave;
         }
         crate::icon::draw(header.x + 10.0 + 36.0 + 10.0, by, 36.0);
-        let name = snookered_proto::GAME_NAME.to_uppercase();
+        let name = snook_legend_proto::GAME_NAME.to_uppercase();
         let title_x = header.x + 10.0 + 36.0 + 10.0 + 36.0 + 10.0;
         ui.text(&name, title_x, header.y + 15.0, 24.0, GOLD, true);
         let title_w = ui.text_size(&name, 24.0, true).x;
@@ -2076,7 +2080,7 @@ impl Online {
         self.toast_floor.set(Some(input.y - 10.0));
         rrect(log, 6.0, Color::new(0.0, 0.0, 0.0, 0.25));
         let me = self.me.as_ref().map(|m| m.username.clone());
-        let admin = self.me.as_ref().is_some_and(|m| m.role == snookered_proto::Role::Admin);
+        let admin = self.me.as_ref().is_some_and(|m| m.role == snook_legend_proto::Role::Admin);
         if self.chat.is_empty() {
             ui.block(log);
             empty_state(ui, log, Glyph::Chat, t("No messages yet."), None);
@@ -2109,7 +2113,7 @@ impl Online {
         let send_r = Rect::new(input.x + input.w + 8.0, input.y, input_h, input_h);
         let can_send = !self.chat_input.trim().is_empty();
         if (ui.icon_button(send_r, Icon::Play, t("Send"), can_send) || sent) && can_send {
-            let text = snookered_proto::clean_chat(&self.chat_input);
+            let text = snook_legend_proto::clean_chat(&self.chat_input);
             self.send(ClientMsg::Chat { text });
             self.chat_input.clear();
             self.chat_scroll = 0;
@@ -2215,7 +2219,7 @@ impl Online {
             ui.text(&when, area.x + 2.0 + tw_ + 10.0, y + 2.5, 12.0, MUTED, false);
             y += 26.0;
             for state in list {
-                let Some(m) = snookered_proto::missions::mission(&state.code) else { continue };
+                let Some(m) = snook_legend_proto::missions::mission(&state.code) else { continue };
                 let card = Rect::new(area.x, y, area.w, 58.0);
                 let done = state.progress >= m.target;
                 rrect(card, 8.0, Color::new(1.0, 1.0, 1.0, if done { 0.07 } else { 0.035 }));
@@ -2259,8 +2263,8 @@ impl Online {
     }
 
     /// Follows a note's button: lounge pages here, the rest for the caller.
-    pub fn note_action(&mut self, a: snookered_proto::NoteAction) -> Option<OnlineAction> {
-        use snookered_proto::NoteAction;
+    pub fn note_action(&mut self, a: snook_legend_proto::NoteAction) -> Option<OnlineAction> {
+        use snook_legend_proto::NoteAction;
         match a {
             NoteAction::Tournaments => {
                 self.tab = Tab::Tournaments;
@@ -2278,7 +2282,7 @@ impl Online {
     }
 
     /// The notes on the board that are up now, pinned first.
-    pub fn board_now(&self) -> Vec<snookered_proto::BoardNote> {
+    pub fn board_now(&self) -> Vec<snook_legend_proto::BoardNote> {
         let now = crate::game::unix_now();
         let mut notes: Vec<_> =
             self.board.iter().filter(|n| n.expires_at.is_none_or(|e| e > now)).cloned().collect();
@@ -2759,7 +2763,7 @@ impl Online {
             rrect(r, 8.0, Color::new(0.91, 0.75, 0.38, 0.12));
             rrect_lines(r, 8.0, 1.0, Color::new(0.91, 0.75, 0.38, 0.4));
             ui.text(&code, r.x + 14.0, r.y + 13.0, 24.0, GOLD, true);
-            let link = format!("snookered://join/{code}");
+            let link = format!("snook-legend://join/{code}");
             let copy = t("Copy");
             let bw = button_w(ui, copy, 32.0).max(90.0);
             let cw = ui.text_size(&code, 24.0, true).x;
@@ -2859,7 +2863,7 @@ impl Online {
         let cx = area.x + lw;
         let cw = area.w - lw;
         let seg_w = cw.min(280.0);
-        let arena = form.format == snookered_proto::TournamentFormat::Arena;
+        let arena = form.format == snook_legend_proto::TournamentFormat::Arena;
         let note = t("The tournament starts when it is full (the host can start it earlier).");
         let note = ui.wrap(note, area.w - 4.0, 12.0);
         // When it would not fit (a large interface size), the rows close up
@@ -2895,15 +2899,15 @@ impl Online {
         };
         label(ui, t("Name"), y);
         let name_r = Rect::new(cx, y, cw, 32.0);
-        let mut enter = ui.text_input(33, name_r, &mut form.name, snookered_proto::MAX_NAME_LEN);
+        let mut enter = ui.text_input(33, name_r, &mut form.name, snook_legend_proto::MAX_NAME_LEN);
         y += 32.0 + gap;
         label(ui, t("Format"), y);
         let formats = [t("Knockout"), t("Arena")];
         if let Some(i) = ui.segmented(Rect::new(cx, y, seg_w, 32.0), &formats, arena as usize) {
             form.format = if i == 1 {
-                snookered_proto::TournamentFormat::Arena
+                snook_legend_proto::TournamentFormat::Arena
             } else {
-                snookered_proto::TournamentFormat::Knockout
+                snook_legend_proto::TournamentFormat::Knockout
             };
         }
         y += 32.0 + gap;
@@ -2992,7 +2996,7 @@ impl Online {
             return self.draw_tournament_form(ui, area);
         }
         // Development aid (screenshots): open the first running tournament.
-        if self.selected_tournament.is_none() && crate::dev::flag("SNOOKERED_OPEN_TOURNAMENT") {
+        if self.selected_tournament.is_none() && crate::dev::flag("SNOOK_LEGEND_OPEN_TOURNAMENT") {
             self.selected_tournament =
                 self.tournaments.iter().find(|t| t.state == TournamentState::Running).map(|t| t.id);
         }
@@ -3080,7 +3084,7 @@ impl Online {
         ui.text(&name, area.x + 46.0, area.y + (34.0 - size) / 2.0, size, GOLD, true);
         let mut y = area.y + 34.0 + 12.0;
         let kind = if tour.rated { t("rated games") } else { t("casual games") };
-        let arena = tour.format == snookered_proto::TournamentFormat::Arena;
+        let arena = tour.format == snook_legend_proto::TournamentFormat::Arena;
         let line = if arena {
             tw(
                 "Arena · host {host} · {n} players · {kind}",

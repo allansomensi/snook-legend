@@ -12,18 +12,18 @@ const GAME_COLUMNS: &str = "id, player0, player1, rated, seed, breaker, strokes:
     finished_at, winner, reason, timeout, delta0, delta1, rating0, rating1, match_id";
 
 /// How a group is stored (0: open table).
-fn group_code(g: Option<snookered_core::Group>) -> i16 {
+fn group_code(g: Option<snook_legend_core::Group>) -> i16 {
     match g {
         None => 0,
-        Some(snookered_core::Group::Solids) => 1,
-        Some(snookered_core::Group::Stripes) => 2,
+        Some(snook_legend_core::Group::Solids) => 1,
+        Some(snook_legend_core::Group::Stripes) => 2,
     }
 }
 
-fn group_of_code(c: i16) -> Option<snookered_core::Group> {
+fn group_of_code(c: i16) -> Option<snook_legend_core::Group> {
     match c {
-        1 => Some(snookered_core::Group::Solids),
-        2 => Some(snookered_core::Group::Stripes),
+        1 => Some(snook_legend_core::Group::Solids),
+        2 => Some(snook_legend_core::Group::Stripes),
         _ => None,
     }
 }
@@ -146,7 +146,7 @@ impl PgStore {
         .bind(new.deadline)
         .bind(new.at)
         // New games are played under the current rules.
-        .bind(snookered_core::RULESET as i16)
+        .bind(snook_legend_core::RULESET as i16)
         .fetch_one(&mut *tx)
         .await?;
         let game = game(&row)?;

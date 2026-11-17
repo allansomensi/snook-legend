@@ -2,7 +2,7 @@
 //! the friend, block and report actions.
 
 use macroquad::prelude::*;
-use snookered_proto::{ACHIEVEMENTS, ClientMsg, Profile, Relation};
+use snook_legend_proto::{ACHIEVEMENTS, ClientMsg, Profile, Relation};
 
 #[allow(unused_imports)]
 use crate::paint::{draw_circle, draw_line, draw_rectangle};
@@ -148,7 +148,7 @@ fn balanced_grid(n: usize, cell: f32, gap: f32, width: f32) -> (usize, usize) {
 /// The height of the achievements and reactions column for `width`.
 fn left_height(width: f32) -> f32 {
     let (_, medal_rows) = balanced_grid(ACHIEVEMENTS.len(), MEDAL, MEDAL_GAP, width);
-    let n = snookered_proto::REACTIONS.len();
+    let n = snook_legend_proto::REACTIONS.len();
     let (_, reaction_rows) = balanced_grid(n, REACTION, REACTION_GAP, width);
     // Heading and medals; a gap, heading and reactions (as `achievements` draws them).
     let medals = 30.0 + medal_rows as f32 * (MEDAL + MEDAL_GAP) - MEDAL_GAP;
@@ -177,8 +177,8 @@ impl ProfileScreen {
         self.report = None;
         self.confirm_block = false;
         self.account = None;
-        // Development aid: SNOOKERED_PROFILE_PANE=analysis opens the analysis.
-        self.pane = match crate::dev::var("SNOOKERED_PROFILE_PANE").as_deref() {
+        // Development aid: SNOOK_LEGEND_PROFILE_PANE=analysis opens the analysis.
+        self.pane = match crate::dev::var("SNOOK_LEGEND_PROFILE_PANE").as_deref() {
             Some("analysis") => Pane::Analysis,
             Some("numbers") => Pane::Numbers,
             Some("rating") => Pane::Rating,
@@ -345,7 +345,7 @@ impl ProfileScreen {
 
     fn header(&mut self, ui: &mut Ui, online: &mut Online, p: &Profile, r: Rect) {
         let player = &p.player;
-        let framed = snookered_proto::shop::item(&player.frame)
+        let framed = snook_legend_proto::shop::item(&player.frame)
             .map(|i| i.look)
             .filter(|_| player.frame != "frame_none");
         // With a frame, everything moves in a little: the frame keeps clear
@@ -361,7 +361,7 @@ impl ProfileScreen {
         let name_w = ui.text_size(&player.username, 30.0, true).x;
         let crown_w = if player.vip { 30.0 } else { 0.0 };
         let dot_w = if p.online { 18.0 } else { 0.0 };
-        if let Some(snookered_proto::shop::Look::Frame { a, b, shine }) = framed {
+        if let Some(snook_legend_proto::shop::Look::Frame { a, b, shine }) = framed {
             // The frame from the shop, around the flag, the name, the crown
             // and the online dot.
             let w = flag_w + name_w + crown_w + dot_w + 2.0 * pad;
@@ -462,13 +462,13 @@ impl ProfileScreen {
         let row_mid = r.y + 186.0;
         if !player.guest {
             let next =
-                snookered_proto::Tier::ALL.into_iter().find(|t| t.min_rating() > player.rating);
+                snook_legend_proto::Tier::ALL.into_iter().find(|t| t.min_rating() > player.rating);
             let bx = r.x + PAD;
             let bw = (r.w * 0.36).min(320.0);
             match next {
                 Some(next) => {
-                    let from = if tier == snookered_proto::Tier::Rookie {
-                        snookered_core::rating::EloConfig::default()
+                    let from = if tier == snook_legend_proto::Tier::Rookie {
+                        snook_legend_core::rating::EloConfig::default()
                             .initial_rating
                             .min(player.rating)
                     } else {
@@ -606,7 +606,7 @@ impl ProfileScreen {
         if let Some(draft) = self.status_edit.as_mut().filter(|_| own) {
             let w = width.min(440.0);
             let field = Rect::new(x, mid - 16.0, w - 2.0 * 34.0, 32.0);
-            let enter = ui.text_input(FIELD, field, draft, snookered_proto::MAX_STATUS_LEN);
+            let enter = ui.text_input(FIELD, field, draft, snook_legend_proto::MAX_STATUS_LEN);
             if draft.is_empty() {
                 // Shown while typing too: the field was opened for it.
                 let hint = ui.ellipsize(t("A line about you"), field.w - 24.0, 14.0);
@@ -616,7 +616,7 @@ impl ProfileScreen {
             let save = Rect::new(field.x + field.w + 4.0, mid - 15.0, 30.0, 30.0);
             let cancel = Rect::new(save.x + 34.0, mid - 15.0, 30.0, 30.0);
             if ui.icon_button(save, Icon::Check, t("Save (Enter)"), true) || enter {
-                let clean = snookered_proto::clean_status(&draft);
+                let clean = snook_legend_proto::clean_status(&draft);
                 online.send(ClientMsg::SetStatusMessage { text: clean.clone() });
                 // Shown at once; the lounge hears it from the server.
                 if let Some(shown) = online.profile.as_mut() {
@@ -639,7 +639,7 @@ impl ProfileScreen {
         let may_clear = !own
             && online.me.is_some()
             && staff.is_staff()
-            && (!p.player.role.is_staff() || staff == snookered_proto::Role::Admin);
+            && (!p.player.role.is_staff() || staff == snook_legend_proto::Role::Admin);
         if text.is_empty() {
             if !own {
                 return;
@@ -777,7 +777,7 @@ impl ProfileScreen {
         let ry = top + rows as f32 * (MEDAL + MEDAL_GAP) - MEDAL_GAP + 24.0;
         let codes: Vec<&str> = p.achievements.iter().map(|(c, _)| c.as_str()).collect();
         let vip = p.player.vip;
-        let reactions = snookered_proto::REACTIONS;
+        let reactions = snook_legend_proto::REACTIONS;
         let open = reactions.iter().filter(|r| r.available(&codes, vip)).count();
         heading(
             ui,
@@ -895,10 +895,10 @@ impl ProfileScreen {
             );
             // A daily game lost on time was not left: it ran out.
             let how = match (h.correspondence, h.reason, h.won) {
-                (true, snookered_core::GameOverReason::Abandoned, true) => {
+                (true, snook_legend_core::GameOverReason::Abandoned, true) => {
                     t("the opponent ran out of time")
                 }
-                (true, snookered_core::GameOverReason::Abandoned, false) => t("ran out of time"),
+                (true, snook_legend_core::GameOverReason::Abandoned, false) => t("ran out of time"),
                 _ => crate::i18n::history_reason(h.reason, h.won),
             };
             let sub = if h.tournament {
@@ -915,7 +915,7 @@ impl ProfileScreen {
 
     /// The trophy shelf: what they won, newest first, with the date.
     fn trophies(&mut self, ui: &mut Ui, p: &Profile, list: Rect) {
-        use snookered_proto::TrophyKind;
+        use snook_legend_proto::TrophyKind;
         let shelf: Vec<_> = p.trophies.iter().filter(|t| t.kind != TrophyKind::Other).collect();
         if shelf.is_empty() {
             empty_state(ui, list, Icon::Trophy, t("No trophies yet."));
@@ -1008,7 +1008,7 @@ impl ProfileScreen {
             Some(0) => t("You can't change your username again.").to_string(),
             Some(n) => tw(
                 "{n} of {total} name changes left",
-                &[("n", &n), ("total", &snookered_proto::MAX_NAME_CHANGES)],
+                &[("n", &n), ("total", &snook_legend_proto::MAX_NAME_CHANGES)],
             ),
             None => String::new(),
         };
@@ -1032,7 +1032,7 @@ impl ProfileScreen {
             }
         }
         let ok = left.is_some_and(|n| n > 0)
-            && snookered_proto::valid_username(&wanted)
+            && snook_legend_proto::valid_username(&wanted)
             && wanted != current;
         if ui.button(Rect::new(x + fw - bw, y, bw, 34.0), label, ok) {
             if form.confirm_rename.is_some() {
@@ -1079,7 +1079,7 @@ impl ProfileScreen {
         ui.password_input(73, field, &mut form.new_password, 72);
         y += 38.0 + 6.0;
         let ok =
-            snookered_proto::valid_password(&form.new_password) && !form.old_password.is_empty();
+            snook_legend_proto::valid_password(&form.new_password) && !form.old_password.is_empty();
         let bw = ui.text_size(t("Change password"), 15.0, true).x + 32.0;
         if ui.button(Rect::new(x + fw - bw, y, bw, 34.0), t("Change password"), ok) {
             online.send(ClientMsg::ChangePassword {
@@ -1176,7 +1176,7 @@ fn rating_chart(ui: &mut Ui, p: &Profile, area: Rect) {
     };
     rrect(chart, 6.0, Color::new(1.0, 1.0, 1.0, 0.03));
     // Tier lines that fall inside the chart.
-    for tier in snookered_proto::Tier::ALL {
+    for tier in snook_legend_proto::Tier::ALL {
         let m = tier.min_rating();
         if m > lo && m < hi {
             let y = chart.y + chart.h * (1.0 - (m - lo) as f32 / span);
@@ -1256,7 +1256,7 @@ const CUE_CARD_H: f32 = 110.0;
 /// The cue in use, its level (online wins with it) and what it has done;
 /// the cue with the most wins too, when it is another.
 fn cue_card(ui: &mut Ui, p: &Profile, r: Rect) {
-    use snookered_proto::shop::{self, Category};
+    use snook_legend_proto::shop::{self, Category};
     rrect(r, 8.0, Color::new(1.0, 1.0, 1.0, 0.04));
     let code = shop::item(&p.player.cue)
         .filter(|i| i.category == Category::Cue)

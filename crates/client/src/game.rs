@@ -4,13 +4,13 @@
 use std::sync::{Arc, Mutex};
 
 use ::glam::DVec2;
-use snookered_core::ai::{self, AiDecision, AiPlayer};
-use snookered_core::{
+use snook_legend_core::ai::{self, AiDecision, AiPlayer};
+use snook_legend_core::{
     BallId, Difficulty, EightBallGame, Event, GameOverReason, PendingShot, PocketId, Shot,
     ShotError, ShotReport, Simulation,
 };
 
-use snookered_proto::{
+use snook_legend_proto::{
     AimState, ChatKind, ChatLine, ClientMsg, MatchResult, PlayerInfo, SPECTATOR_SEAT, ServerMsg,
 };
 
@@ -96,12 +96,12 @@ pub struct Notice {
     pub ttl: f32,
 }
 
-pub use snookered_core::stats::ShotStats;
+pub use snook_legend_core::stats::ShotStats;
 
 /// A stored game, worked out shot by shot once, so it can be watched like
 /// a video: the table before every stroke is known, and seeking is instant.
 pub struct Video {
-    pub strokes: Vec<snookered_proto::replay::Stroke>,
+    pub strokes: Vec<snook_legend_proto::replay::Stroke>,
     /// The table before stroke `i` (and after the last one).
     pub states: Vec<EightBallGame>,
     /// Each player's numbers before stroke `i`.
@@ -114,8 +114,8 @@ pub struct Video {
 }
 
 impl Video {
-    pub fn of(replay: &snookered_proto::replay::Replay) -> Option<Video> {
-        use snookered_proto::replay::{Stroke, apply};
+    pub fn of(replay: &snook_legend_proto::replay::Replay) -> Option<Video> {
+        use snook_legend_proto::replay::{Stroke, apply};
         let mut game = replay.start();
         let mut stats = [ShotStats::default(); 2];
         let mut v = Video {
@@ -161,8 +161,8 @@ impl Video {
 
     /// Development aid and tests: a game the computer plays against itself,
     /// recorded (`shots` strokes at most).
-    pub fn sample(seed: u64, shots: usize) -> snookered_proto::ReplayInfo {
-        use snookered_proto::replay::{Replay, Stroke};
+    pub fn sample(seed: u64, shots: usize) -> snook_legend_proto::ReplayInfo {
+        use snook_legend_proto::replay::{Replay, Stroke};
         let mut replay = Replay::new(seed, 0);
         let mut game = replay.start();
         while replay.strokes.len() < shots && game.game_over().is_none() {
@@ -173,12 +173,12 @@ impl Video {
                 cue_ball: d.cue_ball,
                 timeout: false,
             };
-            if snookered_proto::replay::apply(&mut game, &stroke).is_err() {
+            if snook_legend_proto::replay::apply(&mut game, &stroke).is_err() {
                 break;
             }
             replay.strokes.push(stroke);
         }
-        snookered_proto::ReplayInfo {
+        snook_legend_proto::ReplayInfo {
             match_id: 0,
             players: ["Ana".into(), "Bia".into()],
             countries: ["BR".into(), "AR".into()],
@@ -220,7 +220,7 @@ pub struct Match {
     /// Each player's winning effect (shop codes).
     pub effects: [String; 2],
     /// A game just won on the 8: (winner, the pocket), for the effect.
-    pub win_effect: Option<(usize, snookered_core::PocketId)>,
+    pub win_effect: Option<(usize, snook_legend_core::PocketId)>,
     /// Each player's numbers this game.
     pub stats: [ShotStats; 2],
     /// Every shot of this game, in order (the momentum and the shot map).
@@ -252,7 +252,7 @@ pub struct Match {
     pub escape_used: bool,
     seed: u64,
     /// A stored game being watched again: the strokes still to play.
-    pub script: Option<std::collections::VecDeque<snookered_proto::replay::Stroke>>,
+    pub script: Option<std::collections::VecDeque<snook_legend_proto::replay::Stroke>>,
     /// A stored game watched like a video: pause, speed and seeking.
     pub video: Option<Video>,
     /// A game against the computer to pass the time while "Play now"
@@ -294,12 +294,12 @@ pub struct DrillRun {
     pub over: bool,
     pub sent: bool,
     /// The server's count.
-    pub result: Option<Result<u32, snookered_proto::drills::Refused>>,
+    pub result: Option<Result<u32, snook_legend_proto::drills::Refused>>,
 }
 
 impl DrillRun {
-    pub fn drill(&self) -> &'static snookered_proto::drills::Drill {
-        snookered_proto::drills::drill(self.code).expect("a known drill")
+    pub fn drill(&self) -> &'static snook_legend_proto::drills::Drill {
+        snook_legend_proto::drills::drill(self.code).expect("a known drill")
     }
 
     /// The score as the game sees it (a streak: the pots in a row).
@@ -341,8 +341,10 @@ pub struct DailyRun {
     /// Sent to the server.
     pub sent: bool,
     /// The server's answer (and the coins it gave).
-    pub result:
-        Option<(Result<snookered_proto::daily::Outcome, snookered_proto::daily::Refused>, i64)>,
+    pub result: Option<(
+        Result<snook_legend_proto::daily::Outcome, snook_legend_proto::daily::Refused>,
+        i64,
+    )>,
 }
 
 /// State of a match played on a server.
@@ -454,7 +456,7 @@ impl Match {
         let ladder =
             settings.ladder.filter(|_| opponent.is_some()).map(|rung| crate::ladder::LadderRun {
                 rung,
-                record: snookered_proto::replay::Replay::new(seed, 0),
+                record: snook_legend_proto::replay::Replay::new(seed, 0),
                 reported: false,
             });
         let mut m = Match {
@@ -519,7 +521,7 @@ impl Match {
 
     /// A session of the drill `code`.
     pub fn drill(code: &str, name: &str, guide: AimGuide) -> Option<Match> {
-        let d = snookered_proto::drills::drill(code)?;
+        let d = snook_legend_proto::drills::drill(code)?;
         let settings = MatchSettings {
             mode: MatchMode::HotSeat,
             names: [name.to_string(), t(d.name).to_string()],
@@ -528,7 +530,7 @@ impl Match {
             ladder: None,
         };
         let mut m = Match::new(&settings, 1);
-        m.game = snookered_proto::drills::game(d);
+        m.game = snook_legend_proto::drills::game(d);
         m.drill = Some(DrillRun {
             code: d.code,
             results: Vec::new(),
@@ -583,10 +585,10 @@ impl Match {
             ladder: None,
         };
         let mut m = Match::new(&settings, seed);
-        m.game = snookered_proto::daily::game(seed);
+        m.game = snook_legend_proto::daily::game(seed);
         m.daily = Some(DailyRun {
             day,
-            balls: snookered_proto::daily::balls(seed),
+            balls: snook_legend_proto::daily::balls(seed),
             strokes: Vec::new(),
             made: 0,
             over: false,
@@ -602,7 +604,7 @@ impl Match {
     }
 
     /// Watches a stored game again, stroke by stroke.
-    pub fn replay_of(info: &snookered_proto::ReplayInfo, guide: AimGuide) -> Match {
+    pub fn replay_of(info: &snook_legend_proto::ReplayInfo, guide: AimGuide) -> Match {
         let settings = MatchSettings {
             mode: MatchMode::Demo,
             names: info.players.clone(),
@@ -705,11 +707,11 @@ impl Match {
         spectating: bool,
     ) -> Self {
         let mut controllers = [Controller::Remote; 2];
-        // Development aid: SNOOKERED_AUTOPLAY=1 lets the computer play this seat
+        // Development aid: SNOOK_LEGEND_AUTOPLAY=1 lets the computer play this seat
         // (two such games can play a whole online match by themselves).
         // A spectator only watches: both seats are played from the server.
         if !spectating {
-            controllers[seat] = if crate::dev::flag("SNOOKERED_AUTOPLAY") {
+            controllers[seat] = if crate::dev::flag("SNOOK_LEGEND_AUTOPLAY") {
                 Controller::Computer(Difficulty::Hard.player())
             } else {
                 Controller::Human
@@ -744,7 +746,7 @@ impl Match {
                 seat,
                 rated,
                 ratings: [players[0].rating, players[1].rating],
-                admins: players.each_ref().map(|p| p.role == snookered_proto::Role::Admin),
+                admins: players.each_ref().map(|p| p.role == snook_legend_proto::Role::Admin),
                 countries: [players[0].country.clone(), players[1].country.clone()],
                 tournament,
                 shot_clock: shot_clock_secs as f32,
@@ -868,7 +870,7 @@ impl Match {
         let breaker = (self.games_played % 2) as usize;
         self.game = EightBallGame::new(self.seed, breaker);
         if let Some(run) = self.ladder.as_mut() {
-            run.record = snookered_proto::replay::Replay::new(self.seed, breaker);
+            run.record = snook_legend_proto::replay::Replay::new(self.seed, breaker);
             run.reported = false;
         }
         self.stats = [ShotStats::default(); 2];
@@ -902,7 +904,7 @@ impl Match {
     }
 
     /// Balls as currently displayed (a replay, mid-shot or at rest).
-    pub fn balls(&self) -> &[snookered_core::Ball] {
+    pub fn balls(&self) -> &[snook_legend_core::Ball] {
         if let Some(r) = &self.replay {
             return &r.simulation.balls;
         }
@@ -972,12 +974,12 @@ impl Match {
         if let Some(run) = self.drill.as_mut().filter(|r| r.reset) {
             run.reset = false;
             let k = run.results.len() as u32;
-            self.game = snookered_proto::drills::game_for_try(run.drill(), k);
+            self.game = snook_legend_proto::drills::game_for_try(run.drill(), k);
         }
         // A replay: the next stroke decides the turn.
         let mut scripted = None;
         while let Some(script) = self.script.as_mut() {
-            use snookered_proto::replay::Stroke;
+            use snook_legend_proto::replay::Stroke;
             match script.pop_front() {
                 Some(Stroke::Shot { shot, called, cue_ball, .. }) => {
                     scripted = Some(AiDecision { shot, called_pocket: called, cue_ball });
@@ -1020,7 +1022,7 @@ impl Match {
                 let slot = result.clone();
                 let game = self.game.clone();
                 // The seed the server uses to check a ladder game.
-                let seed = snookered_proto::ladder::ai_seed(self.seed, self.game.shots_taken());
+                let seed = snook_legend_proto::ladder::ai_seed(self.seed, self.game.shots_taken());
                 std::thread::spawn(move || {
                     // Never leave the computer "thinking" forever: if the search
                     // fails, play a plain shot at a legal ball.
@@ -1097,7 +1099,7 @@ impl Match {
                 if let Some(run) = self.ladder.as_mut() {
                     let cue_ball =
                         self.game.ball_in_hand().map(|_| self.game.ball(BallId::CUE).xy());
-                    run.record.strokes.push(snookered_proto::replay::Stroke::Shot {
+                    run.record.strokes.push(snook_legend_proto::replay::Stroke::Shot {
                         shot,
                         called: self.called_pocket,
                         cue_ball,
@@ -1212,8 +1214,8 @@ impl Match {
             let next = self.names[self.game.current_player()].clone();
             if let Some(bih) = self.game.ball_in_hand() {
                 let where_ = match bih {
-                    snookered_core::BallInHand::Kitchen => t(" behind the head string"),
-                    snookered_core::BallInHand::Anywhere => "",
+                    snook_legend_core::BallInHand::Kitchen => t(" behind the head string"),
+                    snook_legend_core::BallInHand::Anywhere => "",
                 };
                 self.notify(
                     tw("{next} has ball in hand{where}.", &[("next", &next), ("where", &where_)]),
@@ -1325,7 +1327,7 @@ impl Match {
         let who = self.names[self.game.current_player()].clone();
         self.game.time_foul();
         if let Some(run) = self.ladder.as_mut() {
-            run.record.strokes.push(snookered_proto::replay::Stroke::TimeFoul);
+            run.record.strokes.push(snook_legend_proto::replay::Stroke::TimeFoul);
         }
         self.notify(
             tw("{who} ran out of time: ball in hand for the opponent.", &[("who", &who)]),
@@ -1449,7 +1451,7 @@ impl Match {
         let report = match self.online.as_mut() {
             Some(o) => match o.pending_end.take() {
                 Some((end, report)) => {
-                    if crate::dev::flag("SNOOKERED_NET_DEBUG") {
+                    if crate::dev::flag("SNOOK_LEGEND_NET_DEBUG") {
                         let mut local = self.game.clone();
                         local.finish_shot((*pending).clone());
                         let same = local == end;
@@ -1491,11 +1493,11 @@ impl Match {
             let ok = self
                 .last_shot
                 .as_ref()
-                .and_then(|s| snookered_proto::drills::try_shot(d, &s.start, &s.shot))
+                .and_then(|s| snook_legend_proto::drills::try_shot(d, &s.start, &s.shot))
                 .unwrap_or(false);
             run.results.push(ok);
             let done = run.results.len() as u32 >= d.tries
-                || (d.goal == snookered_proto::drills::Goal::Streak && !ok);
+                || (d.goal == snook_legend_proto::drills::Goal::Streak && !ok);
             let made = run.score();
             let text = if ok {
                 tw("Made it! {n} of {total}", &[("n", &made), ("total", &d.tries)])
@@ -1567,9 +1569,9 @@ impl Match {
             }
         }
         if let Some(over) = report.game_over
-            && over.reason == snookered_core::GameOverReason::PocketedEight
+            && over.reason == snook_legend_core::GameOverReason::PocketedEight
             && let Some((_, pocket)) =
-                report.pocketed.iter().find(|(b, _)| *b == snookered_core::BallId::EIGHT)
+                report.pocketed.iter().find(|(b, _)| *b == snook_legend_core::BallId::EIGHT)
         {
             self.win_effect = Some((over.winner, *pocket));
         }
@@ -1617,7 +1619,7 @@ impl Match {
     /// Development aid (`--on-eight`): clears the solids so player 0 is on the
     /// 8-ball, to try the pocket call.
     /// Development aid: a made-up game's worth of shots for the end-of-game
-    /// charts (with SNOOKERED_RESIGN).
+    /// charts (with SNOOK_LEGEND_RESIGN).
     pub fn debug_shots(&mut self) {
         let mut x = self.seed | 1;
         let mut next = || {
@@ -2005,7 +2007,7 @@ impl Match {
                 o.push_feed(feed);
             }
             ServerMsg::Reaction { seat, code } => {
-                if let Some(r) = snookered_proto::reaction(&code) {
+                if let Some(r) = snook_legend_proto::reaction(&code) {
                     if seat < 2 {
                         // One at a time per player: a new one replaces the last.
                         o.reactions.retain(|(s, ..)| *s != seat);
@@ -2052,7 +2054,7 @@ impl Match {
 
     /// Sends a chat line to the opponent.
     pub fn send_chat(&mut self, text: &str) {
-        let text = snookered_proto::clean_chat(text);
+        let text = snook_legend_proto::clean_chat(text);
         if let Some(o) = self.online.as_mut()
             && !o.spectator
             && !text.is_empty()
@@ -2067,7 +2069,7 @@ impl FeedLine {
         let (from, text, kind) = match line.kind {
             ChatKind::Player => {
                 // A quick phrase reads in this player's language.
-                let text = if snookered_proto::QUICK_CHAT.contains(&line.text.as_str()) {
+                let text = if snook_legend_proto::QUICK_CHAT.contains(&line.text.as_str()) {
                     crate::i18n::t(&line.text).to_string()
                 } else {
                     line.text.clone()
@@ -2096,7 +2098,7 @@ mod tests {
 
     #[test]
     fn match_stats_count_runs_fouls_and_ball_in_hand() {
-        use snookered_core::{Foul, PocketId};
+        use snook_legend_core::{Foul, PocketId};
         let report = |made: &[u8], foul: bool, continues: bool| ShotReport {
             shooter: 0,
             was_break: false,
@@ -2123,7 +2125,7 @@ mod tests {
 
     #[test]
     fn a_replay_plays_the_stored_game_exactly() {
-        use snookered_proto::replay::{Replay, Stroke};
+        use snook_legend_proto::replay::{Replay, Stroke};
         // A game played by the computer, recorded stroke by stroke.
         let mut replay = Replay::new(77, 0);
         let mut game = replay.start();
@@ -2138,10 +2140,10 @@ mod tests {
                 cue_ball: d.cue_ball,
                 timeout: false,
             };
-            snookered_proto::replay::apply(&mut game, &stroke).unwrap();
+            snook_legend_proto::replay::apply(&mut game, &stroke).unwrap();
             replay.strokes.push(stroke);
         }
-        let info = snookered_proto::ReplayInfo {
+        let info = snook_legend_proto::ReplayInfo {
             match_id: 1,
             players: ["a".into(), "b".into()],
             countries: Default::default(),
@@ -2169,9 +2171,9 @@ mod tests {
             rating: 1200,
             games: 0,
             wins: 0,
-            status: snookered_proto::PlayerStatus::Playing,
+            status: snook_legend_proto::PlayerStatus::Playing,
             country: String::new(),
-            role: snookered_proto::Role::Player,
+            role: snook_legend_proto::Role::Player,
             guest: false,
             vip: false,
             cue: String::new(),
@@ -2424,7 +2426,7 @@ mod video_tests {
 mod ladder_tests {
     use super::*;
     use crate::opponents::Opponent;
-    use snookered_proto::ladder::{ClaimFailure, PLAYER_SEAT, verify_against};
+    use snook_legend_proto::ladder::{ClaimFailure, PLAYER_SEAT, verify_against};
 
     /// A whole ladder game played through the match (the computer thinking
     /// on its thread, the animations), recorded exactly as the server will

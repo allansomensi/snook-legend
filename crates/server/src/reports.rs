@@ -4,7 +4,7 @@
 //! stored match once it has ended, the first time the staff look at it.
 
 use serde_json::{Value, json};
-use snookered_proto::REPORT_GAME_WINDOW_SECS;
+use snook_legend_proto::REPORT_GAME_WINDOW_SECS;
 
 use crate::Server;
 use crate::store::{ReportRow, User};
@@ -41,7 +41,7 @@ pub async fn game_json(server: &Server, r: &mut ReportRow) -> Value {
     {
         let room = server.with(|l| l.room_replay(live as u64));
         let live_json = |(players, rated, finished, replay): &([String; 2], bool, bool, _)| {
-            let replay: &snookered_proto::replay::Replay = replay;
+            let replay: &snook_legend_proto::replay::Replay = replay;
             json!({
                 "kind": "live", "id": live, "players": players, "rated": rated,
                 "finished": finished, "shots": replay.strokes.len(),

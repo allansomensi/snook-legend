@@ -7,7 +7,7 @@
 //! per frame. Every hall has the same size, so the cameras fit them all.
 
 use macroquad::prelude::*;
-use snookered_proto::shop::HallStyle;
+use snook_legend_proto::shop::HallStyle;
 
 use crate::config::Quality;
 use crate::coords::TABLE_HEIGHT;

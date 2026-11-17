@@ -784,7 +784,7 @@ Lost contact with the server.	Se perdió el contacto con el servidor.
 The server closed the connection.	El servidor cerró la conexión.
 The server took too long to answer.	El servidor tardó demasiado en responder.
 The server is not answering (connection refused).	El servidor no responde (conexión rechazada).
-The server address is not valid (example: wss://snookered.example.com/ws).	La dirección del servidor no es válida (ejemplo: wss://snookered.example.com/ws).
+The server address is not valid (example: wss://snook-legend.example.com/ws).	La dirección del servidor no es válida (ejemplo: wss://snook-legend.example.com/ws).
 The server address has no host name.	La dirección del servidor no tiene nombre de host.
 Welcome to Snook Legend! Be kind, play fair.	¡Bienvenido a Snook Legend! Sé amable y juega limpio.
 Ball in hand: drag the cue ball{zone} to move it	Bola en mano: arrastra la bola blanca{zone} para moverla
@@ -1595,7 +1595,7 @@ Follow through	Seguimiento
 Pot the ball and leave the cue ball in the circle past it. Five tries.	Mete la bola y deja la blanca en el círculo de más allá. Cinco intentos.
 Bank shot	Tiro a banda
 Off one cushion into the side pocket. Five tries.	A una banda a la tronera del centro. Cinco intentos.
-Snookered	Bola tapada
+Snooker escape	Bola tapada
 Hit the 1 first: it hides behind other balls. Five tries.	Toca primero la 1: está escondida detrás de otras bolas. Cinco intentos.
 Ten in a row	Diez seguidas
 Ten different pots, one after another: a miss ends the session.	Diez tiros distintos, uno tras otro: un fallo termina la sesión.

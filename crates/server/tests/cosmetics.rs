@@ -2,17 +2,17 @@
 //! (bought, equipped and kept like any other item).
 //!
 //! The store tests run on the in-memory store always, and on PostgreSQL when
-//! `SNOOKERED_TEST_DATABASE_URL` points at a database that may be wiped.
+//! `SNOOK_LEGEND_TEST_DATABASE_URL` points at a database that may be wiped.
 
 use std::time::Duration;
 
 use futures_util::{SinkExt, StreamExt};
-use snookered_core::{Difficulty, EightBallGame, ai};
-use snookered_proto::shop::{self, Category};
-use snookered_proto::{ClientMsg, PROTOCOL_VERSION, Role, ServerMsg, parse_server};
-use snookered_server::lounge::Rules;
-use snookered_server::store::{NewUser, Store};
-use snookered_server::{Config, Server, now, serve};
+use snook_legend_core::{Difficulty, EightBallGame, ai};
+use snook_legend_proto::shop::{self, Category};
+use snook_legend_proto::{ClientMsg, PROTOCOL_VERSION, Role, ServerMsg, parse_server};
+use snook_legend_server::lounge::Rules;
+use snook_legend_server::store::{NewUser, Store};
+use snook_legend_server::{Config, Server, now, serve};
 use tokio::net::{TcpListener, TcpStream};
 use tokio_tungstenite::tungstenite::Message;
 use tokio_tungstenite::{MaybeTlsStream, WebSocketStream, connect_async};
@@ -114,7 +114,7 @@ async fn start_match(
     b_name: &str,
     a_name: &str,
     rated: bool,
-) -> (EightBallGame, usize, [snookered_proto::PlayerInfo; 2]) {
+) -> (EightBallGame, usize, [snook_legend_proto::PlayerInfo; 2]) {
     a.send(ClientMsg::Invite { to: b_name.into(), rated }).await;
     b.expect("invite", |m| matches!(m, ServerMsg::Invited { .. })).await;
     b.send(ClientMsg::AnswerInvite { from: a_name.into(), accept: true }).await;
@@ -225,7 +225,7 @@ async fn online_wins_level_up_the_cue_in_use() {
     assert!(stats.iter().any(|c| c.code == "cue_classic" && c.games == 10 && c.wins == 10));
     // The winner's wallet says so too.
     let w = server.store.wallet(winner_id).await.unwrap();
-    assert_eq!(snookered_server::shop::cue_level_of(&w, "cue_classic"), 1);
+    assert_eq!(snook_legend_server::shop::cue_level_of(&w, "cue_classic"), 1);
 }
 
 /// Wins with one cue stay with that cue: changing cues starts another count.
@@ -246,19 +246,19 @@ async fn wins_belong_to_each_cue() {
         .unwrap()
         .unwrap();
     for _ in 0..3 {
-        snookered_server::shop::count_cue_win(&server, &user).await;
+        snook_legend_server::shop::count_cue_win(&server, &user).await;
     }
     server.store.credit(user.id, 1000, "test", None, now()).await.unwrap();
     server.store.buy_item(user.id, "cue_maple", 750, now()).await.unwrap();
     server.store.equip(user.id, "cue", "cue_maple").await.unwrap();
-    snookered_server::shop::count_cue_win(&server, &user).await;
+    snook_legend_server::shop::count_cue_win(&server, &user).await;
     let w = server.store.wallet(user.id).await.unwrap();
     assert_eq!(w.cue_wins.get("cue_classic"), Some(&3));
     assert_eq!(w.cue_wins.get("cue_maple"), Some(&1));
     // A cue no longer allowed (a VIP cue after VIP ended) never counts:
     // the win goes to the cue actually in use, the default.
     server.store.equip(user.id, "cue", "cue_royal").await.unwrap();
-    snookered_server::shop::count_cue_win(&server, &user).await;
+    snook_legend_server::shop::count_cue_win(&server, &user).await;
     let w = server.store.wallet(user.id).await.unwrap();
     assert_eq!(w.cue_wins.get("cue_classic"), Some(&4));
     assert_eq!(w.cue_wins.get("cue_royal"), None);
@@ -293,7 +293,7 @@ async fn tables_and_halls_are_bought_and_used() {
     // (Less the prices; the daily bonus may have come on signing in.)
     let spent = 20_000 - w.coins;
     assert!(
-        [6250 + 4500, 6250 + 4500 - snookered_server::account::DAILY_BONUS].contains(&spent),
+        [6250 + 4500, 6250 + 4500 - snook_legend_server::account::DAILY_BONUS].contains(&spent),
         "{spent}"
     );
     // The free defaults can always be used.
@@ -313,8 +313,11 @@ async fn tables_and_halls_are_bought_and_used() {
     // VIP over: the classic table is the one in use again.
     server.store.set_vip(id, now() - 10, true).await.unwrap();
     let w = server.store.wallet(id).await.unwrap();
-    assert_eq!(snookered_server::shop::effective(&w, &[], Category::Table, now()), "table_classic");
-    assert_eq!(snookered_server::shop::effective(&w, &[], Category::Hall, now()), "hall_pool");
+    assert_eq!(
+        snook_legend_server::shop::effective(&w, &[], Category::Table, now()),
+        "table_classic"
+    );
+    assert_eq!(snook_legend_server::shop::effective(&w, &[], Category::Hall, now()), "hall_pool");
 }
 
 /// The prices of tables and halls sit with the dearest items of the shop.
@@ -376,8 +379,8 @@ async fn memory_store() {
 
 #[tokio::test]
 async fn postgres_store() {
-    let Ok(url) = std::env::var("SNOOKERED_TEST_DATABASE_URL") else {
-        eprintln!("SNOOKERED_TEST_DATABASE_URL not set: skipping");
+    let Ok(url) = std::env::var("SNOOK_LEGEND_TEST_DATABASE_URL") else {
+        eprintln!("SNOOK_LEGEND_TEST_DATABASE_URL not set: skipping");
         return;
     };
     {

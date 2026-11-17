@@ -608,11 +608,11 @@ impl Materials {
         let debug: &'static str = DEBUG.get_or_init(|| {
             FRAGMENT.replacen("#version 100\n", "#version 100\n#define DEBUG_NORMALS\n", 1)
         });
-        // SNOOKERED_SAFE_GRAPHICS=1 forces the basic shader (for troubleshooting).
-        let safe = crate::dev::flag("SNOOKERED_SAFE_GRAPHICS");
+        // SNOOK_LEGEND_SAFE_GRAPHICS=1 forces the basic shader (for troubleshooting).
+        let safe = crate::dev::flag("SNOOK_LEGEND_SAFE_GRAPHICS");
         let first = if safe {
             simple
-        } else if crate::dev::flag("SNOOKERED_DEBUG_NORMALS") {
+        } else if crate::dev::flag("SNOOK_LEGEND_DEBUG_NORMALS") {
             debug
         } else {
             FRAGMENT

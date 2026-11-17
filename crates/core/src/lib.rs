@@ -1,4 +1,4 @@
-//! # snookered_core
+//! # snook_legend_core
 //!
 //! Engine-agnostic core of **Snook Legend**: ball physics, table geometry, the
 //! eight-ball rules, the computer opponent and the rating system.

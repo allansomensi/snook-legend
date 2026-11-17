@@ -12,7 +12,7 @@
 //!   and Linux .tar.xz): the new executable is taken out of the archive,
 //!   written next to the running one, tried (`--version` must answer with
 //!   the new version) and swapped in with a rename, keeping the old one as
-//!   `snookered.old` (`snookered.old.exe`). On Windows the running file is
+//!   `snook-legend.old` (`snook-legend.old.exe`). On Windows the running file is
 //!   renamed aside first and put back if anything fails. "Restart now"
 //!   starts the new one with the same arguments.
 //! - **Anything else** (no archive for this platform, a folder the game
@@ -20,8 +20,8 @@
 //!   page instead.
 //!
 //! The Microsoft Store build never updates itself (the Store does it), nor
-//! do development builds, unless `SNOOKERED_UPDATE_FORCE` is set or
-//! `SNOOKERED_UPDATE_API` points at a test release (a URL that answers like
+//! do development builds, unless `SNOOK_LEGEND_UPDATE_FORCE` is set or
+//! `SNOOK_LEGEND_UPDATE_API` points at a test release (a URL that answers like
 //! GitHub's `releases/latest`, e.g. a file served by `python3 -m http.server`).
 //!
 //! Nothing here interrupts a game: the notice waits in the main menu.
@@ -43,7 +43,7 @@ pub const RELEASES: &str = concat!(env!("CARGO_PKG_REPOSITORY"), "/releases/late
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 
 /// The platform this copy was built for (from `build.rs`).
-const TARGET: &str = env!("SNOOKERED_TARGET");
+const TARGET: &str = env!("SNOOK_LEGEND_TARGET");
 
 /// The platforms releases have archives for (`dist-workspace.toml`).
 const RELEASED_TARGETS: [&str; 5] = [
@@ -55,7 +55,7 @@ const RELEASED_TARGETS: [&str; 5] = [
 ];
 
 /// The executable's name inside the archives.
-const EXE_NAME: &str = if cfg!(windows) { "snookered.exe" } else { "snookered" };
+const EXE_NAME: &str = if cfg!(windows) { "snook-legend.exe" } else { "snook-legend" };
 
 /// How often to look again while the game runs.
 const RECHECK: Duration = Duration::from_secs(6 * 3600);
@@ -121,7 +121,7 @@ fn development_build() -> bool {
 
 /// The address that answers with the latest release.
 fn api_url() -> String {
-    crate::dev::var("SNOOKERED_UPDATE_API")
+    crate::dev::var("SNOOK_LEGEND_UPDATE_API")
         .unwrap_or_else(|| RELEASES.replace("https://github.com/", "https://api.github.com/repos/"))
 }
 
@@ -147,8 +147,8 @@ pub fn allowed() -> bool {
         !crate::channel::STORE
             && !in_cargo_target()
             && (!development_build()
-                || crate::dev::flag("SNOOKERED_UPDATE_FORCE")
-                || crate::dev::flag("SNOOKERED_UPDATE_API"))
+                || crate::dev::flag("SNOOK_LEGEND_UPDATE_FORCE")
+                || crate::dev::flag("SNOOK_LEGEND_UPDATE_API"))
     })
 }
 
@@ -467,7 +467,7 @@ struct Asset {
 
 fn agent() -> ureq::Agent {
     ureq::Agent::config_builder()
-        .user_agent(concat!("snookered/", env!("CARGO_PKG_VERSION")))
+        .user_agent(concat!("snook-legend/", env!("CARGO_PKG_VERSION")))
         .timeout_connect(Some(Duration::from_secs(20)))
         .timeout_recv_response(Some(Duration::from_secs(30)))
         // A stalled download gives up; a slow one goes on.
@@ -502,9 +502,9 @@ fn run(
         return Ok(Outcome::UpToDate);
     }
     let wanted = match how {
-        How::Installer => format!("snookered-{TARGET}.msi"),
+        How::Installer => format!("snook-legend-{TARGET}.msi"),
         How::Replace => {
-            format!("snookered-{TARGET}.{}", if cfg!(windows) { "zip" } else { "tar.xz" })
+            format!("snook-legend-{TARGET}.{}", if cfg!(windows) { "zip" } else { "tar.xz" })
         }
         How::Store | How::Page => return Ok(Outcome::Available(version)),
     };
@@ -916,7 +916,7 @@ mod tests {
         assert!(RELEASES.ends_with("/releases/latest"));
         assert_eq!(
             RELEASES.replace("https://github.com/", "https://api.github.com/repos/"),
-            "https://api.github.com/repos/allansomensi/snookered/releases/latest"
+            "https://api.github.com/repos/allansomensi/snook-legend/releases/latest"
         );
         // The platforms with archives are the ones dist builds.
         let dist = include_str!("../../../dist-workspace.toml");
@@ -962,18 +962,18 @@ mod tests {
     fn checksums() {
         let h = "a".repeat(64);
         assert_eq!(
-            parse_checksum(&format!("{h}  snookered.tar.xz\n"), "snookered.tar.xz"),
+            parse_checksum(&format!("{h}  snook-legend.tar.xz\n"), "snook-legend.tar.xz"),
             Some(h.clone())
         );
         assert_eq!(
-            parse_checksum(&format!("{h} *snookered.tar.xz"), "snookered.tar.xz"),
+            parse_checksum(&format!("{h} *snook-legend.tar.xz"), "snook-legend.tar.xz"),
             Some(h.clone())
         );
         assert_eq!(parse_checksum(&h.to_uppercase(), "x"), Some(h.clone()));
-        let sum = format!("{}  other.zip\n{h}  ./dir/snookered.tar.xz\n", "b".repeat(64));
-        assert_eq!(parse_checksum(&sum, "snookered.tar.xz"), Some(h.clone()));
+        let sum = format!("{}  other.zip\n{h}  ./dir/snook-legend.tar.xz\n", "b".repeat(64));
+        assert_eq!(parse_checksum(&sum, "snook-legend.tar.xz"), Some(h.clone()));
         assert_eq!(parse_checksum(&sum, "missing.msi"), None);
-        assert_eq!(parse_checksum("abc  snookered.tar.xz", "snookered.tar.xz"), None);
+        assert_eq!(parse_checksum("abc  snook-legend.tar.xz", "snook-legend.tar.xz"), None);
         assert_eq!(parse_checksum(&"z".repeat(64), "x"), None);
     }
 
@@ -999,7 +999,7 @@ mod tests {
     /// A folder of its own under the system's temporary folder.
     fn temp_dir(name: &str) -> PathBuf {
         let dir = std::env::temp_dir()
-            .join(format!("snookered-update-test-{name}-{}", std::process::id()));
+            .join(format!("snook-legend-update-test-{name}-{}", std::process::id()));
         let _ = std::fs::remove_dir_all(&dir);
         std::fs::create_dir_all(&dir).unwrap();
         dir
@@ -1008,7 +1008,7 @@ mod tests {
     /// A script that answers `--version` like the game.
     #[cfg(unix)]
     fn fake_game(version: &str) -> Vec<u8> {
-        format!("#!/bin/sh\nif [ \"$1\" = --version ]; then echo \"snookered {version}\"; fi\n")
+        format!("#!/bin/sh\nif [ \"$1\" = --version ]; then echo \"snook-legend {version}\"; fi\n")
             .into_bytes()
     }
 
@@ -1017,24 +1017,24 @@ mod tests {
     fn replaces_the_executable_and_keeps_a_backup() {
         use std::os::unix::fs::PermissionsExt;
         let dir = temp_dir("replace");
-        let exe = dir.join("snookered");
+        let exe = dir.join("snook-legend");
         std::fs::write(&exe, fake_game("0.1.0")).unwrap();
         std::fs::set_permissions(&exe, std::fs::Permissions::from_mode(0o755)).unwrap();
         // A file that doesn't answer with the announced version is refused.
         assert_eq!(replace_exe(&exe, &fake_game("0.1.5"), "0.2.0"), Err(Replace::Failed));
         assert_eq!(std::fs::read(&exe).unwrap(), fake_game("0.1.0"));
-        assert!(!dir.join("snookered.new").exists());
+        assert!(!dir.join("snook-legend.new").exists());
         // The right one goes in; the old one is kept.
         replace_exe(&exe, &fake_game("0.2.0"), "0.2.0").unwrap();
         assert_eq!(std::fs::read(&exe).unwrap(), fake_game("0.2.0"));
-        assert_eq!(std::fs::read(dir.join("snookered.old")).unwrap(), fake_game("0.1.0"));
+        assert_eq!(std::fs::read(dir.join("snook-legend.old")).unwrap(), fake_game("0.1.0"));
         assert!(answers_with(&exe, "0.2.0"));
         let mode = std::fs::metadata(&exe).unwrap().permissions().mode();
         assert_eq!(mode & 0o777, 0o755);
         // A folder that can't be written (unless the tests run as root).
         let locked = dir.join("locked");
         std::fs::create_dir(&locked).unwrap();
-        let exe2 = locked.join("snookered");
+        let exe2 = locked.join("snook-legend");
         std::fs::write(&exe2, fake_game("0.1.0")).unwrap();
         std::fs::set_permissions(&locked, std::fs::Permissions::from_mode(0o555)).unwrap();
         let can_write = std::fs::write(locked.join("probe"), b"").is_ok();
@@ -1067,13 +1067,13 @@ mod tests {
     #[test]
     fn takes_the_game_out_of_the_archive() {
         let dir = temp_dir("extract");
-        let archive = dir.join("snookered-x86_64-unknown-linux-gnu.tar.xz");
+        let archive = dir.join("snook-legend-x86_64-unknown-linux-gnu.tar.xz");
         std::fs::write(
             &archive,
             tar_xz(&[
-                ("snookered-x86_64-unknown-linux-gnu/README.md", b"readme"),
-                ("snookered-x86_64-unknown-linux-gnu/extra/snookered", b"deeper"),
-                ("snookered-x86_64-unknown-linux-gnu/snookered", b"the game"),
+                ("snook-legend-x86_64-unknown-linux-gnu/README.md", b"readme"),
+                ("snook-legend-x86_64-unknown-linux-gnu/extra/snook-legend", b"deeper"),
+                ("snook-legend-x86_64-unknown-linux-gnu/snook-legend", b"the game"),
             ]),
         )
         .unwrap();
@@ -1093,15 +1093,16 @@ mod tests {
     fn updates_from_a_local_release() {
         use std::net::TcpListener;
         let dir = temp_dir("release");
-        let exe = dir.join("game").join("snookered");
+        let exe = dir.join("game").join("snook-legend");
         std::fs::create_dir_all(exe.parent().unwrap()).unwrap();
         std::fs::write(&exe, fake_game(VERSION)).unwrap();
         {
             use std::os::unix::fs::PermissionsExt;
             std::fs::set_permissions(&exe, std::fs::Permissions::from_mode(0o755)).unwrap();
         }
-        let archive_name = format!("snookered-{TARGET}.tar.xz");
-        let archive = tar_xz(&[(&format!("snookered-{TARGET}/snookered"), &fake_game("9.0.0"))]);
+        let archive_name = format!("snook-legend-{TARGET}.tar.xz");
+        let archive =
+            tar_xz(&[(&format!("snook-legend-{TARGET}/snook-legend"), &fake_game("9.0.0"))]);
         let good = hex(&Sha256::digest(&archive));
 
         // A tiny HTTP server: path → body.
@@ -1210,7 +1211,7 @@ mod tests {
         assert!(seen.lock().unwrap().iter().any(|s| matches!(s,
             Status::Downloading { done, total, .. } if *done == archive.len() as u64 && *total == *done)));
         assert!(answers_with(&exe, "9.0.0"));
-        assert!(answers_with(&exe.with_file_name("snookered.old"), VERSION));
+        assert!(answers_with(&exe.with_file_name("snook-legend.old"), VERSION));
         // The archive is not kept.
         assert_eq!(std::fs::read_dir(&downloads).unwrap().count(), 0);
         let _ = std::fs::remove_dir_all(&dir);

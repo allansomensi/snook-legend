@@ -3,7 +3,7 @@
 
 use std::collections::HashSet;
 
-use snookered_proto::{
+use snook_legend_proto::{
     ClientMsg, GiftInfo, PlayerStatus, RecentOpponent, Role, SOCIAL_PROTOCOL, ServerMsg,
     clean_status,
 };

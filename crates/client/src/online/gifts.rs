@@ -3,8 +3,8 @@
 //! received and given (on one's own profile).
 
 use macroquad::prelude::*;
-use snookered_proto::shop::{self, VIP_GIFT};
-use snookered_proto::{ClientMsg, GiftInfo};
+use snook_legend_proto::shop::{self, VIP_GIFT};
+use snook_legend_proto::{ClientMsg, GiftInfo};
 
 #[allow(unused_imports)]
 use crate::paint::{draw_circle, draw_line, draw_rectangle};

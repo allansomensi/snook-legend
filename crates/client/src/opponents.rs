@@ -7,10 +7,10 @@ use std::f32::consts::{PI, TAU};
 
 use macroquad::prelude::*;
 use serde::{Deserialize, Serialize};
-use snookered_core::Difficulty;
-use snookered_core::ai::AiPlayer;
-use snookered_core::personalities::{self, PERSONALITIES, Personality};
-use snookered_proto::ghost::GhostStyle;
+use snook_legend_core::Difficulty;
+use snook_legend_core::ai::AiPlayer;
+use snook_legend_core::personalities::{self, PERSONALITIES, Personality};
+use snook_legend_proto::ghost::GhostStyle;
 
 use crate::paint::{draw_circle, draw_circle_lines, draw_ellipse, draw_triangle};
 
@@ -113,7 +113,7 @@ pub fn ghost_strength(style: &GhostStyle) -> u8 {
 /// labels, translated by the game): what the style and skill numbers mean
 /// at the table.
 pub fn traits(p: &AiPlayer) -> [(&'static str, f32); 6] {
-    use snookered_core::ai::Search;
+    use snook_legend_core::ai::Search;
     let (skill, style) = (p.skill.clamped(), p.style.clamped());
     let k = |v: f64| v.clamp(0.0, 1.0) as f32;
     let accuracy = k((1.8 - skill.aim_noise_deg) / 1.6);

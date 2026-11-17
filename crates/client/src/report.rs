@@ -4,7 +4,7 @@
 //! one, so the moderators can watch it).
 
 use macroquad::prelude::*;
-use snookered_proto::{ClientMsg, Profile, REPORT_GAME_WINDOW_SECS, ReportReason};
+use snook_legend_proto::{ClientMsg, Profile, REPORT_GAME_WINDOW_SECS, ReportReason};
 
 #[allow(unused_imports)]
 use crate::paint::{draw_circle, draw_line, draw_rectangle};

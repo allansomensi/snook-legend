@@ -4,7 +4,7 @@
 //! empty seats are byes, and a player whose opponent is a bye goes through
 //! at once.
 
-use snookered_proto::BracketMatch;
+use snook_legend_proto::BracketMatch;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Slot {

@@ -3,9 +3,9 @@
 use std::collections::{BTreeMap, HashMap, HashSet};
 use std::sync::Mutex;
 
-use snookered_proto::{LeaderboardEntry, Role};
+use snook_legend_proto::{LeaderboardEntry, Role};
 
-use snookered_proto::CareerNumbers;
+use snook_legend_proto::CareerNumbers;
 
 mod correspondence;
 mod msstore;
@@ -16,7 +16,7 @@ use super::{
     Payment, RECENT_SCAN, RecentRow, Rename, ReportRow, SessionKind, StoreResult, StoredReplay,
     TournamentRecord, User, Wallet, day_of, hour_of,
 };
-use snookered_proto::analysis::ShotAnalysis;
+use snook_legend_proto::analysis::ShotAnalysis;
 
 #[derive(Default)]
 pub struct MemoryStore {
@@ -425,7 +425,7 @@ impl MemoryStore {
         &self,
         user_id: i64,
         limit: u32,
-    ) -> StoreResult<Vec<(i64, usize, snookered_proto::replay::Replay)>> {
+    ) -> StoreResult<Vec<(i64, usize, snook_legend_proto::replay::Replay)>> {
         let s = self.lock();
         Ok(s.matches
             .iter()

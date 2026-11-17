@@ -13,7 +13,7 @@
 
 use glam::DVec2;
 use serde::{Deserialize, Serialize};
-use snookered_core::{BallId, EightBallGame, Event, Shot, ShotReport, Simulation};
+use snook_legend_core::{BallId, EightBallGame, Event, Shot, ShotReport, Simulation};
 
 use crate::replay::{Replay, Stroke, place_cue_ball};
 
@@ -151,7 +151,7 @@ impl ShotKind {
 pub struct ShotAnalysis {
     /// Games counted.
     pub games: u32,
-    /// Pots and misses per pocket ([`snookered_core::PocketId`] order).
+    /// Pots and misses per pocket ([`snook_legend_core::PocketId`] order).
     pub pockets: [Tally; POCKETS],
     /// Short, medium, long.
     pub distances: [Tally; DISTANCES],
@@ -611,7 +611,7 @@ pub fn analyse(replay: &Replay) -> Result<[ShotAnalysis; 2], String> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use snookered_core::{Difficulty, PocketId, ai};
+    use snook_legend_core::{Difficulty, PocketId, ai};
 
     fn ai_game(seed: u64) -> Replay {
         let mut replay = Replay::new(seed, (seed % 2) as usize);
@@ -715,7 +715,7 @@ mod tests {
             } else if b.id == BallId::EIGHT {
                 b.position = DVec2::new(-0.8, 0.4).extend(b.position.z);
             } else {
-                b.status = snookered_core::BallStatus::Pocketed(PocketId::HeadLeft);
+                b.status = snook_legend_core::BallStatus::Pocketed(PocketId::HeadLeft);
             }
         }
         // Past the break, open table, nobody in hand (through the wire

@@ -8,8 +8,8 @@
 //! open a payment page, and shows what it answers.
 
 use macroquad::prelude::*;
-use snookered_proto::ClientMsg;
-use snookered_proto::shop::{Category, ITEMS, Item, Look, Price, VIP_GIFT};
+use snook_legend_proto::ClientMsg;
+use snook_legend_proto::shop::{Category, ITEMS, Item, Look, Price, VIP_GIFT};
 
 #[allow(unused_imports)]
 use crate::paint::{draw_circle, draw_circle_lines, draw_line, draw_rectangle};
@@ -139,7 +139,7 @@ pub fn has_3d_preview(item: &Item) -> bool {
 /// "Level 3 · 57 wins", the progress to the next level (0..1) and what the
 /// next level needs.
 pub fn cue_level_text(wins: u32) -> (String, f32, String) {
-    use snookered_proto::shop::{cue_level, cue_level_progress, next_cue_level_at};
+    use snook_legend_proto::shop::{cue_level, cue_level_progress, next_cue_level_at};
     let level = cue_level(wins);
     let line = if wins == 1 {
         tw("Level {n} · 1 win", &[("n", &level)])
@@ -158,7 +158,7 @@ pub fn cue_level_text(wins: u32) -> (String, f32, String) {
 
 /// A cue's picture with the marks of its level (the profile shows it).
 pub fn cue_picture(ui: &Ui, code: &str, r: Rect, level: u8) {
-    if let Some(item) = snookered_proto::shop::item(code) {
+    if let Some(item) = snook_legend_proto::shop::item(code) {
         preview(ui, item, r);
         cue_marks(r, level);
     }
@@ -238,7 +238,7 @@ fn draw_styled_name_preview(ui: &Ui, label: &str, c: Vec2, style: Option<([u8; 3
             ui.styled_text(label, c.x - w / 2.0, c.y - 11.0, 22.0, rgb(a), rgb(b), true)
         }
         None => {
-            let color = crate::ui::tier_color(snookered_proto::Tier::Expert);
+            let color = crate::ui::tier_color(snook_legend_proto::Tier::Expert);
             ui.text(label, c.x - w / 2.0, c.y - 11.0, 22.0, color, true)
         }
     }
@@ -485,7 +485,7 @@ fn listed(item: &Item, online: &Online) -> bool {
 
 /// The achievement an item comes with: (title, description).
 fn achievement_of(code: &str) -> Option<(&'static str, &'static str)> {
-    snookered_proto::ACHIEVEMENTS
+    snook_legend_proto::ACHIEVEMENTS
         .iter()
         .find(|x| x.code == code)
         .map(|x| (t(x.title), t(x.description)))
@@ -538,7 +538,7 @@ impl ShopScreen {
 
     /// Opens on the tab of an item (back from the 3D preview), at its page.
     pub fn show_item(&mut self, code: &str) {
-        if let Some(item) = snookered_proto::shop::item(code) {
+        if let Some(item) = snook_legend_proto::shop::item(code) {
             self.tab = Tab::Items(item.category);
             self.page = 0;
             self.focus = Some(item.code);
@@ -590,7 +590,7 @@ impl ShopScreen {
         }
         // The server confirmed a purchase: show it.
         if let Some((code, gift)) = online.bought.take()
-            && let Some(item) = snookered_proto::shop::item(&code)
+            && let Some(item) = snook_legend_proto::shop::item(&code)
         {
             self.confirm = None;
             self.done = Some((item.code, gift));
@@ -847,7 +847,7 @@ impl ShopScreen {
                 Some(wins) => {
                     let art = Rect::new(pic.x, pic.y, pic.w, pic.h - 18.0);
                     preview(ui, item, art);
-                    cue_marks(art, snookered_proto::shop::cue_level(wins));
+                    cue_marks(art, snook_legend_proto::shop::cue_level(wins));
                     let (line, progress, how) = cue_level_text(wins);
                     let mid = pic.y + pic.h - 12.0;
                     let (line, size) = ui.fitted(&line, 12.0, pic.w, false);
@@ -961,7 +961,7 @@ impl ShopScreen {
     /// "Buy this?": the item, what it costs, the coins before and after.
     fn confirm_dialog(&mut self, ui: &mut Ui, online: &mut Online) -> Option<ShopAction> {
         let confirm = self.confirm.clone()?;
-        let item = snookered_proto::shop::item(confirm.code)?;
+        let item = snook_legend_proto::shop::item(confirm.code)?;
         let price = item.coins().unwrap_or(0) as i64;
         let coins = online.wallet.as_ref().map(|w| w.coins).unwrap_or(0);
         let after = coins - price;
@@ -1025,7 +1025,7 @@ impl ShopScreen {
             // A few words with it (optional; Enter gives it).
             const MESSAGE: u64 = 64;
             let field = Rect::new(r.x + 32.0, y + 2.0, w - 64.0, 34.0);
-            let max = snookered_proto::MAX_GIFT_MESSAGE;
+            let max = snook_legend_proto::MAX_GIFT_MESSAGE;
             ui.text_input(MESSAGE, field, &mut self.gift_message, max);
             if self.gift_message.is_empty() && ui.focus != Some(MESSAGE) {
                 let hint = t("Add a message (optional)");
@@ -1109,7 +1109,7 @@ impl ShopScreen {
         online: &mut Online,
         code: &'static str,
     ) -> PreviewAction {
-        let Some(item) = snookered_proto::shop::item(code) else { return PreviewAction::Close };
+        let Some(item) = snook_legend_proto::shop::item(code) else { return PreviewAction::Close };
         let sw = crate::ui::vw();
         let sh = crate::ui::vh();
         let w = 640.0f32.min(sw - 30.0);
@@ -1171,7 +1171,7 @@ impl ShopScreen {
     /// The purchase went through.
     fn done_dialog(&mut self, ui: &mut Ui) {
         let Some((code, gift)) = self.done.clone() else { return };
-        let Some(item) = snookered_proto::shop::item(code) else {
+        let Some(item) = snook_legend_proto::shop::item(code) else {
             self.done = None;
             return;
         };
@@ -1233,9 +1233,9 @@ impl ShopScreen {
         ui.text(t("Give to a friend"), r.x + 24.0 + 34.0, r.y + 22.0, 22.0, GOLD, true);
         let vip = code == VIP_GIFT;
         let what = if vip {
-            format!("{} VIP · {}", snookered_proto::GAME_NAME, t("one month"))
+            format!("{} VIP · {}", snook_legend_proto::GAME_NAME, t("one month"))
         } else {
-            snookered_proto::shop::item(code).map(|i| t(i.name).to_string()).unwrap_or_default()
+            snook_legend_proto::shop::item(code).map(|i| t(i.name).to_string()).unwrap_or_default()
         };
         ui.text(&what, r.x + 24.0 + 34.0, r.y + 52.0, 14.0, MUTED, false);
         let line_y = r.y + 24.0 + 52.0 + 8.0;
@@ -1345,15 +1345,15 @@ impl ShopScreen {
         let mut top = below + 32.0;
         // The welcome pack, once per account.
         let owned = online.wallet.as_ref().map(|w| w.owned.clone()).unwrap_or_default();
-        if !offers.welcome_price.is_empty() && !snookered_proto::shop::has_welcome_pack(&owned) {
+        if !offers.welcome_price.is_empty() && !snook_legend_proto::shop::has_welcome_pack(&owned) {
             let card = Rect::new(area.x, top, area.w, 74.0);
             rrect(card, 10.0, Color::new(0.91, 0.75, 0.38, 0.10));
             rrect_lines(card, 10.0, 1.6, GOLD);
             crate::icons::draw(Icon::Gift, vec2(card.x + 30.0, card.y + 37.0), 30.0, GOLD);
             ui.text(t("Welcome pack"), card.x + 58.0, card.y + 14.0, 17.0, GOLD, true);
-            let names: Vec<String> = snookered_proto::shop::WELCOME_ITEMS
+            let names: Vec<String> = snook_legend_proto::shop::WELCOME_ITEMS
                 .iter()
-                .filter_map(|c| snookered_proto::shop::item(c))
+                .filter_map(|c| snook_legend_proto::shop::item(c))
                 .map(|i| t(i.name).to_string())
                 .collect();
             let what = tw(
@@ -1361,7 +1361,7 @@ impl ShopScreen {
                 &[
                     ("cue", &names.first().cloned().unwrap_or_default()),
                     ("cloth", &names.get(1).cloned().unwrap_or_default()),
-                    ("n", &snookered_proto::shop::WELCOME_COINS),
+                    ("n", &snook_legend_proto::shop::WELCOME_COINS),
                 ],
             );
             let b = Rect::new(card.x + card.w - 150.0, card.y + 18.0, 136.0, 38.0);
@@ -1418,7 +1418,7 @@ impl ShopScreen {
             );
             return;
         };
-        let on_sale: Vec<(&snookered_proto::StorePack, String)> = offers
+        let on_sale: Vec<(&snook_legend_proto::StorePack, String)> = offers
             .store_packs
             .iter()
             .filter_map(|p| Some((p, prices.get(&p.store_id)?.clone())))
@@ -1478,7 +1478,7 @@ impl ShopScreen {
             tw("Exclusive items: {list}", &[("list", &exclusives.join(", "))]),
             tw(
                 "{n} reactions of your own to send during games",
-                &[("n", &snookered_proto::REACTIONS.iter().filter(|r| r.is_vip()).count())],
+                &[("n", &snook_legend_proto::REACTIONS.iter().filter(|r| r.is_vip()).count())],
             ),
             t("Every replay kept (free players keep their last 10 games)").to_string(),
             t("16-player tournaments, and first place on the waiting list of a full one")
@@ -1501,7 +1501,7 @@ impl ShopScreen {
         rrect_lines(card, 10.0, 1.2, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.55));
         let (x, mid) = (card.x + pad, card.y + pad + 15.0);
         crate::icons::draw(Icon::Crown, vec2(x + 14.0, mid), 28.0, GOLD);
-        let title = format!("{} VIP", snookered_proto::GAME_NAME);
+        let title = format!("{} VIP", snook_legend_proto::GAME_NAME);
         ui.text(&title, x + 38.0, text_y(mid, 22.0), 22.0, GOLD, true);
         let mut y = card.y + pad + 30.0 + 14.0;
         for lines in &wrapped {

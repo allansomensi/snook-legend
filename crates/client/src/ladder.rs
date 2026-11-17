@@ -3,9 +3,9 @@
 //! gives after checking the final game.
 
 use serde::{Deserialize, Serialize};
-use snookered_proto::ClientMsg;
-use snookered_proto::ladder::{self, ClaimFailure, ClaimResult};
-use snookered_proto::replay::Replay;
+use snook_legend_proto::ClientMsg;
+use snook_legend_proto::ladder::{self, ClaimFailure, ClaimResult};
+use snook_legend_proto::replay::Replay;
 
 use crate::online::Online;
 
@@ -350,7 +350,7 @@ mod tests {
         let p = Progress::parse(r#"{"version":2,"won":["leo","nobody","leo"]}"#).unwrap();
         assert_eq!((p.won, p.beaten), (vec!["leo".to_string()], 1));
         let mut long = Replay::new(1, 0);
-        long.strokes = vec![snookered_proto::replay::Stroke::TimeFoul; ladder::MAX_STROKES + 1];
+        long.strokes = vec![snook_legend_proto::replay::Stroke::TimeFoul; ladder::MAX_STROKES + 1];
         let text = serde_json::to_string(&Progress {
             version: 1,
             beaten: 10,

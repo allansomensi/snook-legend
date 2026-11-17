@@ -1292,7 +1292,7 @@ mod tests {
         assert_eq!(g.current_player(), 1);
     }
 
-    /// Snookered: a kick off the cushions that then hits one's own ball is
+    /// Hidden behind another ball: a kick off the cushions that then hits one's own ball is
     /// legal (if a ball reaches a cushion or a pocket afterwards).
     #[test]
     fn kicks_off_the_cushions_are_legal() {

@@ -2,14 +2,14 @@
 //! by asking the AI for every one of its strokes again: a decision must be
 //! bit-identical on the player's computer and on the server, whatever the
 //! platform. So the AI may only use the portable maths of
-//! `snookered_core::math` (like the physics), never the platform's own
+//! `snook_legend_core::math` (like the physics), never the platform's own
 //! `sin`, `cos`, `atan2`, `ln`…, and CI pins its decisions to one
 //! fingerprint on Linux, Windows and macOS.
 
 use glam::DVec2;
-use snookered_core::ai::{AiPlayer, decide_with};
-use snookered_core::personalities::personality;
-use snookered_core::{BallId, EightBallGame};
+use snook_legend_core::ai::{AiPlayer, decide_with};
+use snook_legend_core::personalities::personality;
+use snook_legend_core::{BallId, EightBallGame};
 
 /// Calls that come from the platform's maths library (or that use it) and
 /// may round differently from one system to another.
@@ -69,7 +69,7 @@ fn the_ai_uses_only_portable_maths() {
         for call in NOT_PORTABLE {
             assert!(
                 !code.contains(call),
-                "{name} calls `{call}`: use snookered_core::math so every platform agrees"
+                "{name} calls `{call}`: use snook_legend_core::math so every platform agrees"
             );
         }
     }

@@ -1,8 +1,8 @@
-//! Drills (see `snookered_proto::drills`): checking a session's strokes,
+//! Drills (see `snook_legend_proto::drills`): checking a session's strokes,
 //! the best scores, the tables and the challenge rating.
 
-use snookered_proto::drills::{self, DrillInfo, Entry, Info, RatingEntry, Refused};
-use snookered_proto::{ClientMsg, ServerMsg};
+use snook_legend_proto::drills::{self, DrillInfo, Entry, Info, RatingEntry, Refused};
+use snook_legend_proto::{ClientMsg, ServerMsg};
 
 use crate::store::User;
 use crate::{Server, now};
@@ -72,7 +72,7 @@ async fn submit(
     server: &Server,
     me: &User,
     code: &str,
-    strokes: Vec<snookered_core::Shot>,
+    strokes: Vec<snook_legend_core::Shot>,
 ) -> Result<u32, Refused> {
     let d = drills::drill(code).ok_or(Refused::UnknownDrill)?;
     if strokes.len() > d.tries as usize {
@@ -96,7 +96,7 @@ async fn submit(
         }
         let gained =
             drills::stars(d, score).saturating_sub(before.map_or(0, |b| drills::stars(d, b)));
-        crate::account::award_xp(server, me, gained * snookered_proto::xp::DRILL_STAR).await;
+        crate::account::award_xp(server, me, gained * snook_legend_proto::xp::DRILL_STAR).await;
     }
     Ok(score)
 }

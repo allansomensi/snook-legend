@@ -100,13 +100,13 @@ impl Default for CameraRig {
 
 thread_local! {
     /// The table being shown (see [`set_table`]).
-    static TABLE: std::cell::Cell<snookered_core::TableSpec> =
-        std::cell::Cell::new(snookered_core::TableSpec::default());
+    static TABLE: std::cell::Cell<snook_legend_core::TableSpec> =
+        std::cell::Cell::new(snook_legend_core::TableSpec::default());
 }
 
 /// The table the camera frames: the game's own (a game played under an
 /// older ruleset keeps its table), else the current one.
-pub fn set_table(spec: snookered_core::TableSpec) {
+pub fn set_table(spec: snook_legend_core::TableSpec) {
     TABLE.with(|t| t.set(spec));
 }
 
@@ -238,7 +238,7 @@ impl CameraRig {
             }
         }
         st.time += dt;
-        let cue = to_world(m.game.ball(snookered_core::BallId::CUE).position);
+        let cue = to_world(m.game.ball(snook_legend_core::BallId::CUE).position);
         let yaw = -(m.aim.yaw as f32);
         let forward = vec3(yaw.cos(), 0.0, yaw.sin());
         let side = if m.game.current_player() == 0 { 1.0 } else { -1.0 };
@@ -325,7 +325,7 @@ impl CameraRig {
             }
             Some(m) => {
                 let moving = matches!(m.phase, Phase::Simulating(_) | Phase::Pause(_));
-                let cue = to_world(m.game.ball(snookered_core::BallId::CUE).position);
+                let cue = to_world(m.game.ball(snook_legend_core::BallId::CUE).position);
                 let aim = -(m.aim.yaw as f32);
                 let (focus, base) = if moving || self.hold {
                     *self.frozen.get_or_insert((cue, aim))

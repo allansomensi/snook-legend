@@ -1,5 +1,5 @@
 [package]
-name = "snookered_core"
+name = "snook_legend_core"
 description = "Engine-agnostic physics, 8-ball rules, AI and rating for Snook Legend"
 version.workspace = true
 edition.workspace = true

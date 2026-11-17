@@ -242,7 +242,7 @@ pub fn all_lines() -> Vec<&'static str> {
     use Moment::*;
     let moments = [Start, YouPot, YouMiss, YouFoul, IPot, IMiss, IFoul, IWin, YouWin];
     // Every named opponent, and the classic levels ("").
-    let codes = snookered_core::personalities::PERSONALITIES.iter().map(|p| p.code).chain([""]);
+    let codes = snook_legend_core::personalities::PERSONALITIES.iter().map(|p| p.code).chain([""]);
     codes.flat_map(|c| moments.iter().flat_map(move |m| lines(c, *m).iter().copied())).collect()
 }
 

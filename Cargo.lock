@@ -2130,7 +2130,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "snookered"
+name = "snook-legend"
 version = "0.4.0"
 dependencies = [
  "embed-resource",
@@ -2145,9 +2145,9 @@ dependencies = [
  "serde",
  "serde_json",
  "sha2 0.10.9",
- "snookered_core",
- "snookered_proto",
- "snookered_server",
+ "snook_legend_core",
+ "snook_legend_proto",
+ "snook_legend_server",
  "sys-locale",
  "tar",
  "tokio",
@@ -2160,7 +2160,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "snookered_core"
+name = "snook_legend_core"
 version = "0.4.0"
 dependencies = [
  "glam 0.33.12",
@@ -2170,17 +2170,17 @@ dependencies = [
 ]
 
 [[package]]
-name = "snookered_proto"
+name = "snook_legend_proto"
 version = "0.4.0"
 dependencies = [
  "glam 0.33.12",
  "serde",
  "serde_json",
- "snookered_core",
+ "snook_legend_core",
 ]
 
 [[package]]
-name = "snookered_server"
+name = "snook_legend_server"
 version = "0.4.0"
 dependencies = [
  "argon2",
@@ -2194,8 +2194,8 @@ dependencies = [
  "serde",
  "serde_json",
  "sha2 0.10.9",
- "snookered_core",
- "snookered_proto",
+ "snook_legend_core",
+ "snook_legend_proto",
  "sqlx",
  "tokio",
  "tokio-tungstenite 0.30.0",

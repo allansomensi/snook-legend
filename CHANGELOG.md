@@ -11,14 +11,22 @@ table they started with, shot for shot. Migrations 0013 and 0014 run on
 start-up.
 
 ### The game is called Snook Legend
-- The new name everywhere players see it: the window, the menus, the
-  installer and its shortcuts, the Microsoft Store, the server's messages
-  and pages, the staff panel, the store art and the documents.
+- The new name everywhere: the window, the menus, the installer and its
+  shortcuts, the Microsoft Store, the server's messages and pages, the
+  staff panel, the store art and the documents, and every technical name:
+  the crates (`snook_legend_core`, `snook_legend_proto`,
+  `snook_legend_server`), the executables (`snook-legend`,
+  `snook-legend-server`), the release files (`snook-legend-<platform>`),
+  the server image, the repository's address and every setting
+  (`SNOOK_LEGEND_*`, which replace the old prefix: rename them on the host
+  before deploying).
 - The settings folder takes the new name (`Snook Legend`, `snook-legend` on
   Linux); the old one is moved there the first time the game starts, so the
   settings, the session, the tour and the saved games come along.
-- The crates, the executable and the release files keep the name
-  `snookered`: every installed copy keeps updating itself.
+- Copies of 0.3.0 installed from GitHub can't find the new release files by
+  themselves: they show the button that opens the releases page (the
+  installer upgrades the old installation in place). The Microsoft Store
+  updates its copies as usual.
 - "SnookLegend" and "Snook_Legend" are reserved usernames.
 
 ### The table and the rules

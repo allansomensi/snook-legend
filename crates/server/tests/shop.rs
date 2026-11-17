@@ -1,11 +1,11 @@
 //! The shop's payment events (as Stripe sends them) and purchases.
 
 use serde_json::json;
-use snookered_proto::Role;
-use snookered_proto::shop::VIP_MONTHLY_COINS;
-use snookered_server::shop::apply_event;
-use snookered_server::store::NewUser;
-use snookered_server::{Config, Server, now};
+use snook_legend_proto::Role;
+use snook_legend_proto::shop::VIP_MONTHLY_COINS;
+use snook_legend_server::shop::apply_event;
+use snook_legend_server::store::NewUser;
+use snook_legend_server::{Config, Server, now};
 
 async fn setup() -> (std::sync::Arc<Server>, i64) {
     let server = Server::new(Config::default()).await.unwrap();
@@ -215,7 +215,7 @@ async fn a_vip_month_given_to_a_friend_is_theirs_once_and_taken_back_on_refund()
     });
     apply_event(&server, &gift).await.unwrap();
     apply_event(&server, &gift).await.unwrap(); // delivered twice
-    let month = snookered_proto::shop::VIP_GIFT_SECS;
+    let month = snook_legend_proto::shop::VIP_GIFT_SECS;
     let w = server.store.wallet(friend).await.unwrap();
     assert_eq!(w.vip_until, paid_at + month, "one month, once");
     assert_eq!(w.coins, VIP_MONTHLY_COINS as i64);
@@ -235,7 +235,7 @@ async fn a_vip_month_given_to_a_friend_is_theirs_once_and_taken_back_on_refund()
 
 #[tokio::test]
 async fn the_welcome_pack_brings_its_items_and_coins_once() {
-    use snookered_proto::shop::{WELCOME_COINS, WELCOME_ITEMS, has_welcome_pack};
+    use snook_legend_proto::shop::{WELCOME_COINS, WELCOME_ITEMS, has_welcome_pack};
     let (server, id) = setup().await;
     let mut paid = checkout(id, "paid", "checkout.session.completed");
     paid["data"]["object"]["metadata"]["pack"] = json!("welcome_pack");

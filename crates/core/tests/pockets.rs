@@ -3,7 +3,7 @@
 //! pockets again (players found them too tight).
 
 use glam::DVec2;
-use snookered_core::{
+use snook_legend_core::{
     Ball, BallId, BallStatus, PhysicsParams, PocketId, RULESET, Shot, Simulation, Table, TableSpec,
 };
 

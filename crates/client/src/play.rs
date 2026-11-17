@@ -12,7 +12,7 @@
 
 use ::glam::DVec2;
 use macroquad::prelude::*;
-use snookered_core::{BallId, BallInHand, PocketId};
+use snook_legend_core::{BallId, BallInHand, PocketId};
 
 use crate::camera::{CameraMode, CameraRig};
 use crate::config::AimGuide;
@@ -543,7 +543,7 @@ pub fn overlay(m: &Match, scene: &Scene, time: f32) -> Overlay {
 
     // A drill: the pocket to use, and the circle to leave the cue ball in.
     if let Some(run) = &m.drill {
-        use snookered_proto::drills::Goal;
+        use snook_legend_proto::drills::Goal;
         let pulse = 0.5 + 0.5 * (time * 3.0).sin();
         let gold = Color::new(1.0, 0.82, 0.25, 0.55 + 0.35 * pulse);
         let pocket = match run.drill().goal {

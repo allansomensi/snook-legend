@@ -4,11 +4,11 @@
 use std::time::Duration;
 
 use futures_util::{SinkExt, StreamExt};
-use snookered_core::{BallId, Difficulty, Shot, ai};
-use snookered_proto::daily::{self, Refused};
-use snookered_proto::{ClientMsg, PROTOCOL_VERSION, ServerMsg, parse_server};
-use snookered_server::lounge::Rules;
-use snookered_server::{Config, Server, serve};
+use snook_legend_core::{BallId, Difficulty, Shot, ai};
+use snook_legend_proto::daily::{self, Refused};
+use snook_legend_proto::{ClientMsg, PROTOCOL_VERSION, ServerMsg, parse_server};
+use snook_legend_server::lounge::Rules;
+use snook_legend_server::{Config, Server, serve};
 use tokio::net::{TcpListener, TcpStream};
 use tokio_tungstenite::tungstenite::Message;
 use tokio_tungstenite::{MaybeTlsStream, WebSocketStream, connect_async};
@@ -160,7 +160,7 @@ async fn attempts_are_scored_by_the_server() {
     assert_eq!((info.attempts_left, info.best, info.rank), (daily::ATTEMPTS - 1, Some(0), Some(1)));
     // Experience for trying, even with nothing made.
     let alice = server.store.user_by_name("alice").await.unwrap().unwrap();
-    assert_eq!(alice.xp, snookered_proto::xp::DAILY_ATTEMPT as i64);
+    assert_eq!(alice.xp, snook_legend_proto::xp::DAILY_ATTEMPT as i64);
     // The attempt is closed: sending it again counts nothing.
     let (result, _) = a.submit(day, vec![a_miss(seed)]).await;
     assert_eq!(result, Err(Refused::NotStarted));
@@ -201,7 +201,7 @@ async fn attempts_are_scored_by_the_server() {
 
 #[tokio::test]
 async fn drills_keep_the_best_and_the_challenge_rating() {
-    use snookered_proto::drills;
+    use snook_legend_proto::drills;
     let (url, server) = start().await;
     let mut a = Client::register(&url, "alice").await;
     a.send(ClientMsg::Drills).await;
@@ -248,7 +248,7 @@ async fn drills_keep_the_best_and_the_challenge_rating() {
     assert_eq!(info.leaders[0].username, "alice");
     // New stars give experience.
     let alice = server.store.user_by_name("alice").await.unwrap().unwrap();
-    assert_eq!(alice.xp, (stars * snookered_proto::xp::DRILL_STAR) as i64);
+    assert_eq!(alice.xp, (stars * snook_legend_proto::xp::DRILL_STAR) as i64);
 
     // A worse session keeps the best; a bad one is refused.
     a.send(ClientMsg::DrillSubmit { code: "straight".into(), strokes: vec![] }).await;

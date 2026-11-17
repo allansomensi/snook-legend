@@ -12,10 +12,10 @@ use std::collections::HashMap;
 use std::sync::Mutex;
 use std::time::{Duration, Instant};
 
-use snookered_proto::ghost::{self, GhostAnswer, GhostStyle, Tally};
-use snookered_proto::ladder::{self, ClaimFailure, ClaimResult};
-use snookered_proto::replay::Replay;
-use snookered_proto::{ServerMsg, valid_username};
+use snook_legend_proto::ghost::{self, GhostAnswer, GhostStyle, Tally};
+use snook_legend_proto::ladder::{self, ClaimFailure, ClaimResult};
+use snook_legend_proto::replay::Replay;
+use snook_legend_proto::{ServerMsg, valid_username};
 use tokio::sync::Semaphore;
 
 use crate::store::User;

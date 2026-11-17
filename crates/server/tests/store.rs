@@ -1,13 +1,13 @@
 //! The storage back ends behave the same. The in-memory store is always
-//! tested; PostgreSQL when `SNOOKERED_TEST_DATABASE_URL` points at an empty
+//! tested; PostgreSQL when `SNOOK_LEGEND_TEST_DATABASE_URL` points at an empty
 //! database (it is wiped first), e.g.
-//! `SNOOKERED_TEST_DATABASE_URL=postgres://snookered:snookered@localhost/snookered_test`.
+//! `SNOOK_LEGEND_TEST_DATABASE_URL=postgres://snook-legend:snook-legend@localhost/snook_legend_test`.
 
-use snookered_core::stats::ShotStats;
-use snookered_core::{GameOverReason, Shot};
-use snookered_proto::Role;
-use snookered_proto::replay::{Replay, Stroke};
-use snookered_server::store::{
+use snook_legend_core::stats::ShotStats;
+use snook_legend_core::{GameOverReason, Shot};
+use snook_legend_proto::Role;
+use snook_legend_proto::replay::{Replay, Stroke};
+use snook_legend_server::store::{
     BuyOutcome, FriendOutcome, FriendState, LiveMatch, MatchRecord, NewNote, NewReport, NewUser,
     Payment, Rename, SessionKind, Store, TournamentRecord, day_of,
 };
@@ -55,7 +55,7 @@ async fn exercise(store: Store) {
         replay: Some(Replay {
             seed: u64::MAX - 5,
             breaker: 1,
-            ruleset: snookered_core::RULESET,
+            ruleset: snook_legend_core::RULESET,
             strokes: vec![
                 Stroke::Shot {
                     shot: Shot::new(0.25, 3.5),
@@ -287,7 +287,7 @@ async fn exercise(store: Store) {
     // ended long ago).
     assert!(
         store
-            .leaderboard(10, snookered_server::now())
+            .leaderboard(10, snook_legend_server::now())
             .await
             .unwrap()
             .iter()
@@ -296,7 +296,7 @@ async fn exercise(store: Store) {
     store.set_ban(a.id, Some(i64::MAX), Some("cheating")).await.unwrap();
     assert!(
         !store
-            .leaderboard(10, snookered_server::now())
+            .leaderboard(10, snook_legend_server::now())
             .await
             .unwrap()
             .iter()
@@ -339,25 +339,25 @@ async fn exercise(store: Store) {
     assert_eq!(store.daily_seed(d, 43).await.unwrap(), 42, "drawn once");
     assert_eq!(
         store.daily_finish(a.id, d, t, 3, false, 60).await.unwrap(),
-        snookered_server::store::DailyFinish::NotStarted
+        snook_legend_server::store::DailyFinish::NotStarted
     );
     assert!(store.daily_start(a.id, d, t, 2).await.unwrap());
     assert_eq!(store.daily_row(a.id, d).await.unwrap().started_at, t);
     assert_eq!(
         store.daily_finish(a.id, d, t + 61, 3, false, 60).await.unwrap(),
-        snookered_server::store::DailyFinish::NotStarted,
+        snook_legend_server::store::DailyFinish::NotStarted,
         "too late"
     );
     assert!(store.daily_start(a.id, d, t + 100, 2).await.unwrap());
     assert!(!store.daily_start(a.id, d, t + 101, 2).await.unwrap(), "two attempts");
     assert_eq!(
         store.daily_finish(a.id, d, t + 110, 4, false, 60).await.unwrap(),
-        snookered_server::store::DailyFinish::Counted { improved: true, first_clear: false }
+        snook_legend_server::store::DailyFinish::Counted { improved: true, first_clear: false }
     );
     assert!(store.daily_start(b.id, d, t, 2).await.unwrap());
     assert_eq!(
         store.daily_finish(b.id, d, t + 5, 4, true, 60).await.unwrap(),
-        snookered_server::store::DailyFinish::Counted { improved: true, first_clear: true }
+        snook_legend_server::store::DailyFinish::Counted { improved: true, first_clear: true }
     );
     let (board, players) = store.daily_board(d, 10).await.unwrap();
     assert_eq!(players, 2);
@@ -469,7 +469,7 @@ async fn retention(store: Store) {
     assert_eq!((m.retention_d1, m.retention_d7, m.retention_d30), (50.0, 0.0, 0.0));
     let week = m.cohorts.iter().find(|c| c.accounts > 0).expect("their week");
     assert_eq!((week.accounts, week.d1, week.d7, week.d30), (2, Some(50.0), None, None));
-    assert_eq!(m.cohorts.len() as i64, snookered_server::store::COHORT_WEEKS);
+    assert_eq!(m.cohorts.len() as i64, snook_legend_server::store::COHORT_WEEKS);
     // A month later: all three measured.
     let m = store.metrics(now + 31 * day).await.unwrap();
     assert_eq!((m.retention_d7, m.retention_d30), (50.0, 50.0));
@@ -509,8 +509,8 @@ async fn memory_store() {
 
 #[tokio::test]
 async fn postgres_store() {
-    let Ok(url) = std::env::var("SNOOKERED_TEST_DATABASE_URL") else {
-        eprintln!("SNOOKERED_TEST_DATABASE_URL not set: skipping");
+    let Ok(url) = std::env::var("SNOOK_LEGEND_TEST_DATABASE_URL") else {
+        eprintln!("SNOOK_LEGEND_TEST_DATABASE_URL not set: skipping");
         return;
     };
     // Start from an empty database.

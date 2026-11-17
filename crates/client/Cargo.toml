@@ -1,5 +1,5 @@
 [package]
-name = "snookered"
+name = "snook-legend"
 description = "Snook Legend: a lightweight 3D eight-ball pool game with an online lounge"
 authors = ["Allan Somensi"]
 version.workspace = true
@@ -7,7 +7,7 @@ edition.workspace = true
 rust-version.workspace = true
 license.workspace = true
 repository.workspace = true
-homepage = "https://github.com/allansomensi/snookered"
+homepage = "https://github.com/allansomensi/snook-legend"
 readme = "../../README.md"
 
 [package.metadata.wix]
@@ -27,13 +27,13 @@ store = ["dep:windows", "dep:windows-collections"]
 embed-resource = "3"
 
 [dependencies]
-snookered_core = { path = "../core" }
-# Same glam version as snookered_core (macroquad bundles an older one).
+snook_legend_core = { path = "../core" }
+# Same glam version as snook_legend_core (macroquad bundles an older one).
 glam.workspace = true
 macroquad = { version = "0.4.16", default-features = false, features = ["audio"] }
-snookered_proto = { path = "../proto" }
+snook_legend_proto = { path = "../proto" }
 # Hosting LAN games (in memory, no database).
-snookered_server = { path = "../server", default-features = false }
+snook_legend_server = { path = "../server", default-features = false }
 # Online play: an event-driven WebSocket client on a background thread
 # (ws:// and wss://): it wakes the moment a message comes in or goes out.
 tungstenite = { version = "0.30", default-features = false, features = ["handshake", "rustls-tls-webpki-roots"] }

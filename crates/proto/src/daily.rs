@@ -9,8 +9,8 @@
 
 use glam::DVec2;
 use serde::{Deserialize, Serialize};
-use snookered_core::rng::Rng;
-use snookered_core::{BallId, EightBallGame, Shot};
+use snook_legend_core::rng::Rng;
+use snook_legend_core::{BallId, EightBallGame, Shot};
 
 /// Attempts per day.
 pub const ATTEMPTS: u32 = 3;
@@ -33,7 +33,7 @@ pub fn day_of(t: i64) -> i64 {
 /// The position for a seed: the cue ball and five to seven solids, apart
 /// from each other, the cushions and the pockets' mouths.
 pub fn position(seed: u64) -> Vec<(BallId, DVec2)> {
-    let table = snookered_core::Table::default();
+    let table = snook_legend_core::Table::default();
     let r = table.spec.ball_radius;
     let (hl, hw) = (table.spec.length / 2.0 - 2.5 * r, table.spec.width / 2.0 - 2.5 * r);
     let mut rng = Rng::new(seed ^ 0xDA11_C4A1_1E46_E000);
@@ -46,7 +46,7 @@ pub fn position(seed: u64) -> Vec<(BallId, DVec2)> {
             let p =
                 DVec2::new((rng.next_f64() * 2.0 - 1.0) * hl, (rng.next_f64() * 2.0 - 1.0) * hw);
             let clear_of_balls = placed.iter().all(|(_, q)| q.distance(p) > 4.0 * r);
-            let clear_of_pockets = snookered_core::PocketId::ALL
+            let clear_of_pockets = snook_legend_core::PocketId::ALL
                 .iter()
                 .all(|&k| table.pocket(k).aim_point().distance(p) > 0.12);
             if clear_of_balls && clear_of_pockets {
@@ -172,7 +172,7 @@ mod tests {
             let g = game(seed);
             assert!(!g.is_break());
             assert!(g.ball_in_hand().is_none());
-            assert!(g.ball(BallId::EIGHT).status != snookered_core::BallStatus::InPlay);
+            assert!(g.ball(BallId::EIGHT).status != snook_legend_core::BallStatus::InPlay);
         }
         assert_ne!(position(1), position(2));
     }
@@ -203,7 +203,7 @@ mod tests {
         let nan = Shot::new(f64::NAN, 1.0);
         assert_eq!(score(seed, &[nan]), Err(Refused::BadStroke));
         // The computer's best pot keeps the table and counts.
-        let decision = snookered_core::ai::decide(&g, snookered_core::Difficulty::Hard, 3);
+        let decision = snook_legend_core::ai::decide(&g, snook_legend_core::Difficulty::Hard, 3);
         let mut after = g.clone();
         let report = after.play_shot(&decision.shot, None).unwrap();
         if report.continues {

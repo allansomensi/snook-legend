@@ -7,8 +7,8 @@
 
 use ::glam::DVec2;
 use macroquad::prelude::*;
-use snookered_core::Table;
-use snookered_proto::shop::TableStyle;
+use snook_legend_core::Table;
+use snook_legend_proto::shop::TableStyle;
 
 use crate::config::Quality;
 use crate::coords::{TABLE_HEIGHT, surface};

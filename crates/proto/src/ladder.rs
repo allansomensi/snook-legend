@@ -6,14 +6,14 @@
 //! is the server's to give. The game sends the recorded final game and the
 //! server plays it again ([`verify`]): it must be a legal, complete game the
 //! player won, and every stroke of the computer must be exactly what
-//! [`snookered_core::ai::decide_with`] plays on that table with the seed of
+//! [`snook_legend_core::ai::decide_with`] plays on that table with the seed of
 //! [`ai_seed`]. The computer's choices are deterministic on every platform,
 //! so a genuine game always passes and an edited one never does.
 
 use serde::{Deserialize, Serialize};
-use snookered_core::ai::{self, AiPlayer};
-use snookered_core::personalities::{self, Personality};
-use snookered_core::{BallId, EightBallGame};
+use snook_legend_core::ai::{self, AiPlayer};
+use snook_legend_core::personalities::{self, Personality};
+use snook_legend_core::{BallId, EightBallGame};
 
 use crate::replay::{Replay, Stroke, apply};
 
@@ -176,7 +176,7 @@ pub fn verify_against(replay: &Replay, opponent: &AiPlayer) -> Result<EightBallG
 #[cfg(test)]
 mod tests {
     use super::*;
-    use snookered_core::Difficulty;
+    use snook_legend_core::Difficulty;
 
     /// A game the player (played by a strong computer here) wins against
     /// `opponent`, recorded as the game records it.
@@ -279,9 +279,9 @@ mod tests {
                     Stroke::TimeFoul
                 } else {
                     let called =
-                        game.needs_called_pocket().then_some(snookered_core::PocketId::FootLeft);
+                        game.needs_called_pocket().then_some(snook_legend_core::PocketId::FootLeft);
                     Stroke::Shot {
-                        shot: snookered_core::Shot::new(1.0, 0.6),
+                        shot: snook_legend_core::Shot::new(1.0, 0.6),
                         called,
                         cue_ball: None,
                         timeout: false,

@@ -11,11 +11,11 @@
 use std::collections::VecDeque;
 
 use macroquad::prelude::*;
-use snookered_core::stats::ShotStats;
-use snookered_core::{BallId, EightBallGame, GameOver, GameOverReason, Group, ShotReport};
-use snookered_proto::correspondence::{CorrChallenge, CorrEvent, CorrGame, CorrResult};
-use snookered_proto::replay::{Replay, Stroke, apply};
-use snookered_proto::{AimState, ClientMsg, MatchResult, ServerMsg, valid_username};
+use snook_legend_core::stats::ShotStats;
+use snook_legend_core::{BallId, EightBallGame, GameOver, GameOverReason, Group, ShotReport};
+use snook_legend_proto::correspondence::{CorrChallenge, CorrEvent, CorrGame, CorrResult};
+use snook_legend_proto::replay::{Replay, Stroke, apply};
+use snook_legend_proto::{AimState, ClientMsg, MatchResult, ServerMsg, valid_username};
 
 #[allow(unused_imports)]
 use crate::paint::{draw_circle, draw_circle_lines, draw_line, draw_rectangle};
@@ -224,8 +224,8 @@ pub fn handle(o: &mut Online, msg: ServerMsg, current: &mut Option<Match>, guide
             if viewing && matches!(event, CorrEvent::YourTurn | CorrEvent::Ended { .. }) {
                 o.send(ClientMsg::CorrOpen { id });
             }
-            // Development aid: SNOOKERED_AUTODAILY=1 accepts challenges.
-            if crate::dev::flag("SNOOKERED_AUTODAILY")
+            // Development aid: SNOOK_LEGEND_AUTODAILY=1 accepts challenges.
+            if crate::dev::flag("SNOOK_LEGEND_AUTODAILY")
                 && matches!(event, CorrEvent::Challenged { .. })
             {
                 o.send(ClientMsg::CorrAnswer { id, accept: true });
@@ -931,8 +931,8 @@ fn finished_line(g: &CorrGame, r: &CorrResult) -> (Color, String, Color) {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use snookered_core::{Difficulty, ai};
-    use snookered_proto::{PlayerInfo, PlayerStatus};
+    use snook_legend_core::{Difficulty, ai};
+    use snook_legend_proto::{PlayerInfo, PlayerStatus};
 
     fn player(name: &str) -> PlayerInfo {
         PlayerInfo {
@@ -1038,7 +1038,7 @@ mod tests {
         let replay = recorded(0);
         let mut m = open(info(0, 0, 0), &replay, 0, AimGuide::Standard).unwrap();
         let c = m.online.as_mut().unwrap().corr.as_mut().unwrap();
-        let shot = snookered_core::Shot::new(0.1, 2.0);
+        let shot = snook_legend_core::Shot::new(0.1, 2.0);
         let out =
             outgoing(c, ClientMsg::Shoot { turn: 0, shot, called_pocket: None, cue_ball: None });
         assert!(matches!(out, Some(ClientMsg::CorrShoot { id: 5, turn: 0, .. })));

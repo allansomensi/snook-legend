@@ -4,8 +4,8 @@ use std::collections::HashMap;
 
 use ::glam::{DVec2, DVec3};
 use macroquad::prelude::*;
-use snookered_core::{Ball, BallId, BallStatus, PhysicsParams, PocketId, Table};
-use snookered_proto::shop::{HallStyle, TableStyle};
+use snook_legend_core::{Ball, BallId, BallStatus, PhysicsParams, PocketId, Table};
+use snook_legend_proto::shop::{HallStyle, TableStyle};
 
 use crate::config::Quality;
 use crate::coords::{TABLE_HEIGHT, ball_rotation, dir_to_world, surface, to_world};
@@ -580,7 +580,7 @@ impl Scene {
     /// reflection, where the inside of the pockets cannot be seen).
     fn draw_table(&self, mirrored: bool, hall: bool) {
         let skip: Option<usize> =
-            crate::dev::var("SNOOKERED_SKIP_PART").and_then(|v| v.parse().ok());
+            crate::dev::var("SNOOK_LEGEND_SKIP_PART").and_then(|v| v.parse().ok());
         for (k, part) in self.parts.iter().enumerate() {
             if skip == Some(k) {
                 continue;
@@ -888,8 +888,8 @@ pub struct Looks {
 impl Looks {
     /// From the codes of the equipped cloth and ball set.
     pub fn of(cloth: &str, balls: &str) -> Looks {
-        let cloth = match snookered_proto::shop::item(cloth).map(|i| i.look) {
-            Some(snookered_proto::shop::Look::Cloth(c)) => c,
+        let cloth = match snook_legend_proto::shop::item(cloth).map(|i| i.look) {
+            Some(snook_legend_proto::shop::Look::Cloth(c)) => c,
             _ => [24, 96, 48],
         };
         Looks {
@@ -902,7 +902,7 @@ impl Looks {
 
     /// With the table and hall of these codes (the defaults if unknown).
     pub fn themed(mut self, table: &str, hall: &str) -> Looks {
-        use snookered_proto::shop::{Look, item};
+        use snook_legend_proto::shop::{Look, item};
         if let Some(Look::Table(t)) = item(table).map(|i| i.look) {
             self.table = t;
         }
@@ -928,8 +928,8 @@ pub fn cue_mesh(
     level: u8,
     white: &Texture2D,
 ) -> (gfx::Model, Option<gfx::Model>) {
-    use snookered_proto::shop::CueStyle;
-    use snookered_proto::shop::{Look, item};
+    use snook_legend_proto::shop::CueStyle;
+    use snook_legend_proto::shop::{Look, item};
     let (butt, accent, ring, style, shaft) = match item(cue).map(|i| i.look) {
         Some(Look::Cue { butt, accent, ring, style, shaft }) => (butt, accent, ring, style, shaft),
         _ => (
@@ -937,7 +937,7 @@ pub fn cue_mesh(
             [20, 20, 24],
             [240, 238, 228],
             CueStyle::Plain,
-            snookered_proto::shop::MAPLE,
+            snook_legend_proto::shop::MAPLE,
         ),
     };
     let chalk = match item(chalk).map(|i| i.look) {

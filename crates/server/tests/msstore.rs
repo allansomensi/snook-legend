@@ -5,7 +5,7 @@
 //! consumed once) and can lose answers or fail on purpose.
 //!
 //! The store tests run on the in-memory store always, and on PostgreSQL when
-//! `SNOOKERED_TEST_DATABASE_URL` points at a database that may be wiped.
+//! `SNOOK_LEGEND_TEST_DATABASE_URL` points at a database that may be wiped.
 
 use std::collections::{HashMap, VecDeque};
 use std::sync::{Arc, Mutex};
@@ -18,11 +18,11 @@ use axum::response::{IntoResponse, Response};
 use axum::routing::post;
 use futures_util::{SinkExt, StreamExt};
 use serde_json::{Value, json};
-use snookered_proto::{ClientMsg, PROTOCOL_VERSION, Role, ServerMsg, parse_server};
-use snookered_server::lounge::Rules;
-use snookered_server::msstore::{self, MsStoreConfig, parse_products};
-use snookered_server::store::{MsConsume, MsState, NewUser, Store};
-use snookered_server::{Config, Server, now, serve};
+use snook_legend_proto::{ClientMsg, PROTOCOL_VERSION, Role, ServerMsg, parse_server};
+use snook_legend_server::lounge::Rules;
+use snook_legend_server::msstore::{self, MsStoreConfig, parse_products};
+use snook_legend_server::store::{MsConsume, MsState, NewUser, Store};
+use snook_legend_server::{Config, Server, now, serve};
 use tokio::net::{TcpListener, TcpStream};
 use tokio_tungstenite::tungstenite::Message;
 use tokio_tungstenite::{MaybeTlsStream, WebSocketStream, connect_async};
@@ -686,8 +686,8 @@ async fn memory_store() {
 
 #[tokio::test]
 async fn postgres_store() {
-    let Ok(url) = std::env::var("SNOOKERED_TEST_DATABASE_URL") else {
-        eprintln!("SNOOKERED_TEST_DATABASE_URL not set: skipping");
+    let Ok(url) = std::env::var("SNOOK_LEGEND_TEST_DATABASE_URL") else {
+        eprintln!("SNOOK_LEGEND_TEST_DATABASE_URL not set: skipping");
         return;
     };
     {

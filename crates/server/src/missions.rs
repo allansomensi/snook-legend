@@ -1,10 +1,10 @@
-//! Daily and weekly missions (the list is in `snookered_proto::missions`):
+//! Daily and weekly missions (the list is in `snook_legend_proto::missions`):
 //! progress from rated games that pay coins, and the coins a finished
 //! mission brings.
 
-use snookered_core::stats::ShotStats;
-use snookered_proto::ServerMsg;
-use snookered_proto::missions::{self, Mission, MissionState};
+use snook_legend_core::stats::ShotStats;
+use snook_legend_proto::ServerMsg;
+use snook_legend_proto::missions::{self, Mission, MissionState};
 
 use crate::store::User;
 use crate::{Server, now};

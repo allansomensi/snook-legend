@@ -4,8 +4,8 @@
 //! based on.
 
 use macroquad::prelude::*;
-use snookered_core::{PocketId, Table};
-use snookered_proto::analysis::{GRID_H, GRID_W, ShotAnalysis, ShotKind, Tally};
+use snook_legend_core::{PocketId, Table};
+use snook_legend_proto::analysis::{GRID_H, GRID_W, ShotAnalysis, ShotKind, Tally};
 
 #[allow(unused_imports)]
 use crate::paint::{draw_circle, draw_line, draw_rectangle};
@@ -59,7 +59,7 @@ pub fn draw(
     };
     let pots = a.attempts();
     if !a.is_enough() {
-        let more = snookered_proto::analysis::MIN_ATTEMPTS - pots.attempts;
+        let more = snook_legend_proto::analysis::MIN_ATTEMPTS - pots.attempts;
         let text = if own {
             tw(
                 "Play online to see how you pot: the analysis appears after {n} more shots at a pocket.",

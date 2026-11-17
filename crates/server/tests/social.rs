@@ -1,15 +1,17 @@
 //! Status messages, recent opponents and the "looking for a game" board:
-//! the stores (memory always; PostgreSQL when `SNOOKERED_TEST_DATABASE_URL`
+//! the stores (memory always; PostgreSQL when `SNOOK_LEGEND_TEST_DATABASE_URL`
 //! points at a database that may be wiped) and the server end to end.
 
 use std::time::Duration;
 
 use futures_util::{SinkExt, StreamExt};
-use snookered_core::GameOverReason;
-use snookered_proto::{ClientMsg, MAX_STATUS_LEN, PROTOCOL_VERSION, Role, ServerMsg, parse_server};
-use snookered_server::lounge::Rules;
-use snookered_server::store::{BuyOutcome, MatchRecord, NewGift, NewUser, Store};
-use snookered_server::{Config, Server, serve};
+use snook_legend_core::GameOverReason;
+use snook_legend_proto::{
+    ClientMsg, MAX_STATUS_LEN, PROTOCOL_VERSION, Role, ServerMsg, parse_server,
+};
+use snook_legend_server::lounge::Rules;
+use snook_legend_server::store::{BuyOutcome, MatchRecord, NewGift, NewUser, Store};
+use snook_legend_server::{Config, Server, serve};
 use tokio::net::{TcpListener, TcpStream};
 use tokio_tungstenite::tungstenite::Message;
 use tokio_tungstenite::{MaybeTlsStream, WebSocketStream, connect_async};
@@ -117,7 +119,7 @@ async fn exercise(store: Store) {
 
 /// Coin items to give in the tests.
 fn coin_items() -> Vec<(&'static str, i64)> {
-    snookered_proto::shop::ITEMS
+    snook_legend_proto::shop::ITEMS
         .iter()
         .filter_map(|i| Some((i.code, i.coins()? as i64)))
         .take(3)
@@ -146,7 +148,8 @@ async fn gifts(store: &Store, t: i64) {
     let poor = store.give_item(&gift(code2, "", t + 1), price2.max(6)).await.unwrap();
     assert_eq!(poor, (BuyOutcome::NotEnoughCoins, None));
     // A VIP month (paid elsewhere) is recorded too.
-    let vip = store.record_gift(&gift(snookered_proto::shop::VIP_GIFT, "", t + 2)).await.unwrap();
+    let vip =
+        store.record_gift(&gift(snook_legend_proto::shop::VIP_GIFT, "", t + 2)).await.unwrap();
 
     let got = store.gift(id).await.unwrap().unwrap();
     assert_eq!((got.from.as_str(), got.from_country.as_str()), ("Gil", "BR"));
@@ -195,8 +198,8 @@ async fn memory_store() {
 
 #[tokio::test]
 async fn postgres_store() {
-    let Ok(url) = std::env::var("SNOOKERED_TEST_DATABASE_URL") else {
-        eprintln!("SNOOKERED_TEST_DATABASE_URL not set: skipping");
+    let Ok(url) = std::env::var("SNOOK_LEGEND_TEST_DATABASE_URL") else {
+        eprintln!("SNOOK_LEGEND_TEST_DATABASE_URL not set: skipping");
         return;
     };
     {
@@ -641,7 +644,7 @@ async fn gifts_are_kept_shown_until_seen_and_thanked() {
     let first = gifts[0].clone();
     assert_eq!((first.from.as_str(), first.code.as_str()), ("gil", items[0].0));
     assert!(first.message.starts_with("parabéns pelo torneio! x"));
-    assert_eq!(first.message.chars().count(), snookered_proto::MAX_GIFT_MESSAGE);
+    assert_eq!(first.message.chars().count(), snook_legend_proto::MAX_GIFT_MESSAGE);
 
     // Not seen yet: it comes again on the next sign-in, with one given meanwhile.
     drop(fia);

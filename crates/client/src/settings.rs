@@ -107,25 +107,25 @@ pub struct SettingsScreen {
 }
 
 impl SettingsScreen {
-    /// Development aid (`--settings` with SNOOKERED_SETTINGS_TAB=game): opens on a tab.
+    /// Development aid (`--settings` with SNOOK_LEGEND_SETTINGS_TAB=game): opens on a tab.
     pub fn dev_tab(&mut self) {
-        match crate::dev::var("SNOOKERED_SETTINGS_TAB").as_deref() {
+        match crate::dev::var("SNOOK_LEGEND_SETTINGS_TAB").as_deref() {
             Some("game") => self.tab = Tab::Game,
             Some("controls") => self.tab = Tab::Controls,
             Some("sound") => self.tab = Tab::Sound,
             _ => {}
         }
-        if crate::dev::flag("SNOOKERED_SETTINGS_ADVANCED") {
+        if crate::dev::flag("SNOOK_LEGEND_SETTINGS_ADVANCED") {
             self.advanced = true;
         }
-        // SNOOKERED_SETTINGS_CAPTURE=shoot: waiting for a key for that action.
-        if let Some(a) = crate::dev::var("SNOOKERED_SETTINGS_CAPTURE")
+        // SNOOK_LEGEND_SETTINGS_CAPTURE=shoot: waiting for a key for that action.
+        if let Some(a) = crate::dev::var("SNOOK_LEGEND_SETTINGS_CAPTURE")
             .and_then(|code| Action::ALL.into_iter().find(|a| a.code() == code))
         {
             self.capture = Some((a, 0));
         }
-        // SNOOKERED_SETTINGS_NOTE=shoot: a conflict note on that action.
-        if let Some(a) = crate::dev::var("SNOOKERED_SETTINGS_NOTE")
+        // SNOOK_LEGEND_SETTINGS_NOTE=shoot: a conflict note on that action.
+        if let Some(a) = crate::dev::var("SNOOK_LEGEND_SETTINGS_NOTE")
             .and_then(|code| Action::ALL.into_iter().find(|a| a.code() == code))
         {
             self.key_note = Some((
@@ -137,7 +137,7 @@ impl SettingsScreen {
                 f64::MAX / 2.0,
             ));
         }
-        if crate::dev::flag("SNOOKERED_SETTINGS_WHATS_NEW") {
+        if crate::dev::flag("SNOOK_LEGEND_SETTINGS_WHATS_NEW") {
             self.whats_new = Some(WhatsNew::all());
         }
     }

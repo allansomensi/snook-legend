@@ -1,21 +1,21 @@
 //! Games against the computer, server side: the ladder's reward (granted
 //! only for a final game the server plays again and finds genuine) and the
 //! style of a player's ghost. Store tests run on the in-memory store, and
-//! on PostgreSQL when `SNOOKERED_TEST_DATABASE_URL` points at a database
+//! on PostgreSQL when `SNOOK_LEGEND_TEST_DATABASE_URL` points at a database
 //! that may be wiped.
 
 use std::sync::Arc;
 use std::time::Duration;
 
 use futures_util::{SinkExt, StreamExt};
-use snookered_core::{Difficulty, GameOverReason, ai};
-use snookered_proto::ghost::{self, GhostAnswer};
-use snookered_proto::ladder::{self, ClaimFailure, ClaimResult};
-use snookered_proto::replay::{Replay, Stroke, apply};
-use snookered_proto::{ClientMsg, PROTOCOL_VERSION, Role, ServerMsg, parse_server};
-use snookered_server::lounge::Rules;
-use snookered_server::store::{MatchRecord, NewUser, Store};
-use snookered_server::{Config, Server, serve};
+use snook_legend_core::{Difficulty, GameOverReason, ai};
+use snook_legend_proto::ghost::{self, GhostAnswer};
+use snook_legend_proto::ladder::{self, ClaimFailure, ClaimResult};
+use snook_legend_proto::replay::{Replay, Stroke, apply};
+use snook_legend_proto::{ClientMsg, PROTOCOL_VERSION, Role, ServerMsg, parse_server};
+use snook_legend_server::lounge::Rules;
+use snook_legend_server::store::{MatchRecord, NewUser, Store};
+use snook_legend_server::{Config, Server, serve};
 use tokio::net::{TcpListener, TcpStream};
 use tokio_tungstenite::tungstenite::Message;
 use tokio_tungstenite::{MaybeTlsStream, WebSocketStream, connect_async};
@@ -204,8 +204,8 @@ async fn memory_store() {
 
 #[tokio::test]
 async fn postgres_store() {
-    let Ok(url) = std::env::var("SNOOKERED_TEST_DATABASE_URL") else {
-        eprintln!("SNOOKERED_TEST_DATABASE_URL not set: skipping");
+    let Ok(url) = std::env::var("SNOOK_LEGEND_TEST_DATABASE_URL") else {
+        eprintln!("SNOOK_LEGEND_TEST_DATABASE_URL not set: skipping");
         return;
     };
     {
@@ -248,7 +248,7 @@ async fn the_reward_needs_a_genuine_win() {
     let mut other = Client::register(&url, "Forger").await;
     let mut forged = Replay::new(3, 1);
     forged.strokes.push(Stroke::Shot {
-        shot: snookered_core::Shot::new(0.0, 1.0),
+        shot: snook_legend_core::Shot::new(0.0, 1.0),
         called: None,
         cue_ball: None,
         timeout: false,
@@ -286,10 +286,10 @@ async fn a_genuine_win_earns_the_item_once() {
     let me = server.store.user_by_name("Champion").await.unwrap().unwrap();
     assert!(server.store.ladder_claim(me.id).await.unwrap().is_some());
     // The item comes with the achievement: the shop lets them use it.
-    let item = snookered_proto::shop::item(ladder::REWARD_ITEM).unwrap();
+    let item = snook_legend_proto::shop::item(ladder::REWARD_ITEM).unwrap();
     let codes: Vec<String> =
         server.store.achievements(me.id).await.unwrap().into_iter().map(|(c, _)| c).collect();
-    assert!(snookered_proto::shop::can_use(item, &[], &codes, false));
+    assert!(snook_legend_proto::shop::can_use(item, &[], &codes, false));
     c.send(ClientMsg::Equip { code: ladder::REWARD_ITEM.into() }).await;
     c.expect("equipped", |m| {
         matches!(m, ServerMsg::Wallet { equipped, .. }
@@ -352,7 +352,7 @@ async fn ghosts_need_recorded_games() {
     assert!(style.speed > 0.5 && style.speed < 7.0);
     // Only numbers: the style plays.
     let player = style.player();
-    let game = snookered_core::EightBallGame::new(1, 0);
+    let game = snook_legend_core::EightBallGame::new(1, 0);
     let d = ai::decide_with(&game, &player, 1);
     assert!(d.shot.speed > 0.0);
 }
@@ -363,11 +363,11 @@ async fn ghosts_need_recorded_games() {
 /// Records a game won against the ladder's last opponent into
 /// `tests/data/ladder_final_win.json`. Run it after changing the AI or the
 /// physics (the claim tests then fail on the old file):
-/// `cargo test --release -p snookered_server --test computer -- --ignored record_the_fixture`
+/// `cargo test --release -p snook_legend_server --test computer -- --ignored record_the_fixture`
 #[test]
 #[ignore]
 fn record_the_fixture() {
-    use snookered_core::ai::{AiPlayer, Search, Skill, Style};
+    use snook_legend_core::ai::{AiPlayer, Search, Skill, Style};
     // The person: a flawless, far-sighted player.
     let me = AiPlayer {
         skill: Skill {

@@ -10,7 +10,7 @@ use std::collections::HashMap;
 use std::sync::OnceLock;
 use std::sync::atomic::{AtomicU8, Ordering};
 
-use snookered_core::{BallId, Difficulty, Foul, GameOverReason, Group, PocketId, ShotError};
+use snook_legend_core::{BallId, Difficulty, Foul, GameOverReason, Group, PocketId, ShotError};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Lang {
@@ -312,7 +312,7 @@ mod tests {
     #[test]
     fn quick_phrases_are_translated_everywhere() {
         for lang in [Lang::Portuguese, Lang::Spanish] {
-            for p in snookered_proto::QUICK_CHAT {
+            for p in snook_legend_proto::QUICK_CHAT {
                 assert!(translate(lang, p).is_some(), "{lang:?}: {p}");
             }
         }
@@ -321,7 +321,7 @@ mod tests {
     #[test]
     fn drills_are_translated_everywhere() {
         for lang in [Lang::Portuguese, Lang::Spanish] {
-            for d in snookered_proto::drills::DRILLS {
+            for d in snook_legend_proto::drills::DRILLS {
                 assert!(translate(lang, d.name).is_some(), "{lang:?}: {}", d.name);
                 assert!(translate(lang, d.description).is_some(), "{lang:?}: {}", d.description);
             }

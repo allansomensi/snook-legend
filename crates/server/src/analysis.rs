@@ -1,11 +1,11 @@
-//! The shot analysis on profiles (see [`snookered_proto::analysis`]): each
+//! The shot analysis on profiles (see [`snook_legend_proto::analysis`]): each
 //! stored game is replayed once when it ends and its shots are added to both
 //! players' sums.
 
 use std::sync::Arc;
 
-use snookered_proto::ServerMsg;
-use snookered_proto::analysis::analyse;
+use snook_legend_proto::ServerMsg;
+use snook_legend_proto::analysis::analyse;
 
 use crate::Server;
 use crate::store::MatchRecord;

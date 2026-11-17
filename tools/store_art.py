@@ -3,12 +3,12 @@
 
     python3 tools/store_art.py
 
-Reads crates/client/assets/icon/snookered-1024.png (made by the
+Reads crates/client/assets/icon/snook-legend-1024.png (made by the
 `export_icons` test) and store-art/scene-3840x2160.png, the pool hall drawn
 by the game without its interface (a debug build):
 
-    SNOOKERED_SCENE_ONLY=1 SNOOKERED_CAM="1.6,1.25,-1.4,-0.2,0.75,0" \
-      snookered --window 3840x2160 --screenshot store-art/scene-3840x2160.png --frames 240
+    SNOOK_LEGEND_SCENE_ONLY=1 SNOOK_LEGEND_CAM="1.6,1.25,-1.4,-0.2,0.75,0" \
+      snook-legend --window 3840x2160 --screenshot store-art/scene-3840x2160.png --frames 240
 
 (with `focused_scene = false` and `quality = Ultra` in the settings, so the
 whole room is lit). Writes store-art/. Needs Pillow.
@@ -19,7 +19,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 ROOT = Path(__file__).resolve().parent.parent
-EMBLEM = ROOT / "crates/client/assets/icon/snookered-1024.png"
+EMBLEM = ROOT / "crates/client/assets/icon/snook-legend-1024.png"
 SCENE = ROOT / "store-art/scene-3840x2160.png"
 FONT = ROOT / "crates/client/assets/DejaVuSans-Bold.ttf"
 OUT = ROOT / "store-art"

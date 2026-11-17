@@ -26,16 +26,16 @@ use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
 use rand::Rng;
-use snookered_core::rating::{self, EloConfig};
-use snookered_core::stats::ShotStats;
-use snookered_core::{BallId, EightBallGame, GameOver, GameOverReason, PocketId, Shot};
-use snookered_proto::correspondence::{
+use snook_legend_core::rating::{self, EloConfig};
+use snook_legend_core::stats::ShotStats;
+use snook_legend_core::{BallId, EightBallGame, GameOver, GameOverReason, PocketId, Shot};
+use snook_legend_proto::correspondence::{
     CHALLENGE_SECS, CorrChallenge, CorrEvent, CorrGame, CorrResult, MAX_GAMES,
     MAX_RECEIVED_CHALLENGES, MAX_SENT_CHALLENGES, RECENT_FINISHED, SINCE_PROTOCOL, TURN_SECS,
     summary,
 };
-use snookered_proto::replay::{Replay, Stroke, apply};
-use snookered_proto::{ClientMsg, PlayerInfo, PlayerStatus, ServerMsg};
+use snook_legend_proto::replay::{Replay, Stroke, apply};
+use snook_legend_proto::{ClientMsg, PlayerInfo, PlayerStatus, ServerMsg};
 
 use crate::limits::Bucket;
 use crate::lounge::{key, player_info};

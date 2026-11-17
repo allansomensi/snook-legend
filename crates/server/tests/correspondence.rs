@@ -1,5 +1,5 @@
 //! Correspondence ("daily") games: the store on memory (and on PostgreSQL
-//! when `SNOOKERED_TEST_DATABASE_URL` points at a database it may wipe), and
+//! when `SNOOK_LEGEND_TEST_DATABASE_URL` points at a database it may wipe), and
 //! the whole flow through real WebSocket clients: challenges, visits, shots
 //! refused, turns that run out, resignations, the history and the gating of
 //! games too old to know these messages.
@@ -8,14 +8,14 @@ use std::sync::Arc;
 use std::time::Duration;
 
 use futures_util::{SinkExt, StreamExt};
-use snookered_core::stats::ShotStats;
-use snookered_core::{Difficulty, EightBallGame, GameOverReason, Shot, ai};
-use snookered_proto::correspondence::{CorrEvent, CorrGame, MAX_SENT_CHALLENGES, TURN_SECS};
-use snookered_proto::replay::{Replay, Stroke};
-use snookered_proto::{ClientMsg, PROTOCOL_VERSION, Role, ServerMsg, parse_server};
-use snookered_server::lounge::Rules;
-use snookered_server::store::{AsyncGame, MatchRecord, NewAsyncGame, NewUser, Store};
-use snookered_server::{Config, Server, serve};
+use snook_legend_core::stats::ShotStats;
+use snook_legend_core::{Difficulty, EightBallGame, GameOverReason, Shot, ai};
+use snook_legend_proto::correspondence::{CorrEvent, CorrGame, MAX_SENT_CHALLENGES, TURN_SECS};
+use snook_legend_proto::replay::{Replay, Stroke};
+use snook_legend_proto::{ClientMsg, PROTOCOL_VERSION, Role, ServerMsg, parse_server};
+use snook_legend_server::lounge::Rules;
+use snook_legend_server::store::{AsyncGame, MatchRecord, NewAsyncGame, NewUser, Store};
+use snook_legend_server::{Config, Server, serve};
 use tokio::net::{TcpListener, TcpStream};
 use tokio_tungstenite::tungstenite::Message;
 use tokio_tungstenite::{MaybeTlsStream, WebSocketStream, connect_async};
@@ -83,7 +83,7 @@ async fn exercise(store: Store) {
     next.turn = 0;
     next.deadline = t + 900;
     next.seen = [0, 1];
-    next.groups = [Some(snookered_core::Group::Stripes), Some(snookered_core::Group::Solids)];
+    next.groups = [Some(snook_legend_core::Group::Stripes), Some(snook_legend_core::Group::Solids)];
     next.left = [6, 7];
     next.updated_at = t + 5;
     assert!(store.update_async_game(&next, 0).await.unwrap());
@@ -172,8 +172,8 @@ async fn memory_store() {
 
 #[tokio::test]
 async fn postgres_store() {
-    let Ok(url) = std::env::var("SNOOKERED_TEST_DATABASE_URL") else {
-        eprintln!("SNOOKERED_TEST_DATABASE_URL not set: skipping");
+    let Ok(url) = std::env::var("SNOOK_LEGEND_TEST_DATABASE_URL") else {
+        eprintln!("SNOOK_LEGEND_TEST_DATABASE_URL not set: skipping");
         return;
     };
     {
@@ -236,7 +236,7 @@ impl Client {
 
     async fn list(
         &mut self,
-    ) -> (Vec<CorrGame>, Vec<snookered_proto::correspondence::CorrChallenge>) {
+    ) -> (Vec<CorrGame>, Vec<snook_legend_proto::correspondence::CorrChallenge>) {
         match self.expect("list", |m| matches!(m, ServerMsg::CorrList { .. })).await {
             ServerMsg::CorrList { games, challenges } => (games, challenges),
             _ => unreachable!(),
@@ -340,7 +340,7 @@ async fn a_rated_game_is_played_turn_by_turn_to_the_end() {
     let g = &games[0];
     assert_eq!((g.id, g.seat, g.rated, g.strokes, g.result.is_some()), (id, 0, true, 0, false));
     assert_eq!(g.players[1].username, "bia");
-    assert!(g.deadline > snookered_server::now() + TURN_SECS - 60);
+    assert!(g.deadline > snook_legend_server::now() + TURN_SECS - 60);
 
     let (info, replay, seen) = ana.open(id).await;
     assert_eq!(seen, 0);
@@ -569,10 +569,10 @@ async fn a_turn_that_runs_out_loses_the_game() {
     let (info, _, _) = ana.open(id).await;
     let to_move = info.turn;
     // Not yet.
-    snookered_server::correspondence::sweep(&rig.server, info.deadline - 1).await;
+    snook_legend_server::correspondence::sweep(&rig.server, info.deadline - 1).await;
     assert!(rig.store.async_game(id).await.unwrap().unwrap().is_active());
     // The timer finds it.
-    snookered_server::correspondence::sweep(&rig.server, info.deadline + 1).await;
+    snook_legend_server::correspondence::sweep(&rig.server, info.deadline + 1).await;
     let g = rig.store.async_game(id).await.unwrap().unwrap();
     assert!(!g.is_active() && g.timeout);
     assert_eq!(g.winner, Some(1 - to_move));
@@ -603,7 +603,7 @@ async fn a_turn_that_ran_out_is_settled_when_the_game_is_opened() {
     let id = rig.start(&mut ana, &mut bia, "bia", false).await;
     // The deadline passes while the server is not looking.
     let mut g = rig.store.async_game(id).await.unwrap().unwrap();
-    g.deadline = snookered_server::now() - 5;
+    g.deadline = snook_legend_server::now() - 5;
     assert!(rig.store.update_async_game(&g, 0).await.unwrap());
     let mover = if g.turn == 0 { &mut ana } else { &mut bia };
     // A shot is refused: too late.

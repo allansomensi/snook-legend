@@ -2,7 +2,7 @@
 //! picked up again after the game is closed.
 
 use serde::{Deserialize, Serialize};
-use snookered_core::{Difficulty, EightBallGame};
+use snook_legend_core::{Difficulty, EightBallGame};
 
 use crate::game::{Controller, Match, ShotMark, ShotStats};
 use crate::ladder::LadderRun;
@@ -155,7 +155,12 @@ mod tests {
         let mut m = Match::new(&settings, 99);
         assert_eq!(m.names[1], "Marta");
         // A stroke on the record (as if the break had been played).
-        m.ladder.as_mut().unwrap().record.strokes.push(snookered_proto::replay::Stroke::TimeFoul);
+        m.ladder
+            .as_mut()
+            .unwrap()
+            .record
+            .strokes
+            .push(snook_legend_proto::replay::Stroke::TimeFoul);
         let saved = SavedGame::of(&m).expect("saved");
         let back: SavedGame =
             serde_json::from_str(&serde_json::to_string(&saved).unwrap()).unwrap();

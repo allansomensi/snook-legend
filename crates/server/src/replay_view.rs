@@ -7,14 +7,14 @@
 //! `null` coordinates once a ball has left the table.
 
 use serde_json::{Value, json};
-use snookered_core::{EightBallGame, Foul, PocketId, Simulation};
-use snookered_proto::replay::{Replay, Stroke, place_cue_ball};
+use snook_legend_core::{EightBallGame, Foul, PocketId, Simulation};
+use snook_legend_proto::replay::{Replay, Stroke, place_cue_ball};
 
 pub const FPS: f64 = 30.0;
 
 type Spot = Option<(i32, i32)>;
 
-fn spots_of(balls: &[snookered_core::Ball]) -> [Spot; 16] {
+fn spots_of(balls: &[snook_legend_core::Ball]) -> [Spot; 16] {
     let mut out = [None; 16];
     for b in balls {
         if b.in_play() && b.id.index() < 16 {
@@ -128,7 +128,7 @@ pub fn view(replay: &Replay) -> Value {
                 }));
             }
             other => {
-                if let Err(e) = snookered_proto::replay::apply(&mut game, &other) {
+                if let Err(e) = snook_legend_proto::replay::apply(&mut game, &other) {
                     error = json!(e);
                     break;
                 }

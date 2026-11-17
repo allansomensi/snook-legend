@@ -3,12 +3,12 @@
 use std::time::Duration;
 
 use futures_util::{SinkExt, StreamExt};
-use snookered_core::{Difficulty, EightBallGame, ai};
-use snookered_proto::{
+use snook_legend_core::{Difficulty, EightBallGame, ai};
+use snook_legend_proto::{
     ClientMsg, PROTOCOL_VERSION, ReportReason, ServerMsg, TournamentState, parse_server,
 };
-use snookered_server::lounge::Rules;
-use snookered_server::{Config, Server, serve};
+use snook_legend_server::lounge::Rules;
+use snook_legend_server::{Config, Server, serve};
 use tokio::net::{TcpListener, TcpStream};
 use tokio_tungstenite::tungstenite::Message;
 use tokio_tungstenite::{MaybeTlsStream, WebSocketStream, connect_async};
@@ -116,7 +116,7 @@ async fn play_out(
     b: &mut Client,
     mut game: EightBallGame,
     sa: usize,
-) -> snookered_proto::MatchResult {
+) -> snook_legend_proto::MatchResult {
     let mut shots = 0;
     loop {
         assert!(shots < 400, "game did not finish");
@@ -358,7 +358,7 @@ async fn friends_can_watch_and_react() {
     carol.send(ClientMsg::React { code: "clap".into() }).await;
     bob.expect(
         "crowd",
-        |m| matches!(m, ServerMsg::Reaction { seat, .. } if *seat == snookered_proto::SPECTATOR_SEAT),
+        |m| matches!(m, ServerMsg::Reaction { seat, .. } if *seat == snook_legend_proto::SPECTATOR_SEAT),
     )
     .await;
     // Carol cheers for Bob's seat: both players see the crowd's side.
@@ -422,7 +422,7 @@ async fn players_against_the_computer_show_it_and_can_be_invited() {
     let ServerMsg::PlayerUpdated { player } = alice
         .expect("bob playing", |m| {
             matches!(m, ServerMsg::PlayerUpdated { player } if player.username == "bob"
-                && player.status == snookered_proto::PlayerStatus::Playing)
+                && player.status == snook_legend_proto::PlayerStatus::Playing)
         })
         .await
     else {
@@ -467,7 +467,7 @@ async fn login_errors_and_validation() {
     // The oldest version let in plays; anything older (0.2.0 and its
     // 7-foot table among them) is told to update.
     for (version, welcome) in
-        [(snookered_proto::OLDEST_PROTOCOL_VERSION, true), (13, false), (10, false)]
+        [(snook_legend_proto::OLDEST_PROTOCOL_VERSION, true), (13, false), (10, false)]
     {
         let (ws, _) = connect_async(&url).await.unwrap();
         let mut old = Client { ws };
@@ -572,13 +572,13 @@ async fn disconnect_reconnect_and_abandon() {
     else {
         unreachable!()
     };
-    assert_eq!(result.reason, snookered_core::GameOverReason::Abandoned);
+    assert_eq!(result.reason, snook_legend_core::GameOverReason::Abandoned);
     // Leaving costs more than losing: the winner gains less than she loses.
     let alice_seat = 1 - result.winner;
     let (alice_delta, bob_delta) =
         (result.rating_delta[alice_seat], result.rating_delta[result.winner]);
     assert!(
-        alice_delta <= -bob_delta - snookered_server::lounge::ABANDON_RATING,
+        alice_delta <= -bob_delta - snook_legend_server::lounge::ABANDON_RATING,
         "{alice_delta} {bob_delta}"
     );
     // Back online, she can't start another game for a while.
@@ -776,7 +776,7 @@ async fn tournament_runs_to_a_champion() {
             unreachable!()
         };
         if let Some(t) = profile.trophies.first() {
-            assert_eq!(t.kind, snookered_proto::TrophyKind::Tournament);
+            assert_eq!(t.kind, snook_legend_proto::TrophyKind::Tournament);
             assert_eq!(t.players, 4);
             break;
         }
@@ -1014,7 +1014,7 @@ async fn lounge_actions_are_rate_limited() {
 }
 
 /// A server on its own port over `store`; returns its address and handle.
-async fn start_on(store: snookered_server::store::Store) -> (String, std::sync::Arc<Server>) {
+async fn start_on(store: snook_legend_server::store::Store) -> (String, std::sync::Arc<Server>) {
     let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
     let addr = listener.local_addr().unwrap();
     let rules = Rules { max_connections_per_ip: 100, ..Rules::default() };
@@ -1084,7 +1084,7 @@ async fn play_shots(
 
 #[tokio::test]
 async fn a_restart_hands_the_game_to_the_next_server() {
-    let store = snookered_server::store::Store::memory();
+    let store = snook_legend_server::store::Store::memory();
     let (url_a, server_a) = start_on(store.share().unwrap()).await;
     let (mut alice, _) = Client::register(&url_a, "alice").await;
     let (mut bob, _) = Client::register(&url_a, "bob").await;
@@ -1094,7 +1094,7 @@ async fn a_restart_hands_the_game_to_the_next_server() {
 
     // The first server is told to stop: no new games, a notice, and after
     // the drain time the game is handed over (the connections close).
-    let drain = tokio::spawn(snookered_server::drain(server_a.clone(), 1));
+    let drain = tokio::spawn(snook_legend_server::drain(server_a.clone(), 1));
     alice.expect("draining", |m| matches!(m, ServerMsg::Draining { .. })).await;
     alice.closed().await;
     bob.closed().await;
@@ -1190,7 +1190,7 @@ async fn username_changes() {
     else {
         unreachable!()
     };
-    assert_eq!(name_changes_left, snookered_proto::MAX_NAME_CHANGES);
+    assert_eq!(name_changes_left, snook_legend_proto::MAX_NAME_CHANGES);
 
     // The rules of a new account, and nobody else's name in any case.
     let taken = "That username is taken.";
@@ -1262,7 +1262,7 @@ async fn replays_coins_featured_table_and_codes() {
     let (mut bob, _) = Client::register(&url, "bob").await;
     let (mut eve, _) = Client::register(&url, "eve").await;
 
-    // An invitation code: "snookered://join/abc123" works as well as "ABC123".
+    // An invitation code: "snook-legend://join/abc123" works as well as "ABC123".
     alice.send(ClientMsg::CreateInviteCode { rated: true }).await;
     let ServerMsg::InviteCode { code } =
         alice.expect("code", |m| matches!(m, ServerMsg::InviteCode { .. })).await
@@ -1270,8 +1270,10 @@ async fn replays_coins_featured_table_and_codes() {
         unreachable!()
     };
     assert_eq!(code.len(), 6);
-    bob.send(ClientMsg::JoinByCode { code: format!("snookered://join/{}", code.to_lowercase()) })
-        .await;
+    bob.send(ClientMsg::JoinByCode {
+        code: format!("snook-legend://join/{}", code.to_lowercase()),
+    })
+    .await;
     let ServerMsg::MatchStarted { game, seat: sa, match_id, table_look, .. } =
         alice.expect("match", |m| matches!(m, ServerMsg::MatchStarted { .. })).await
     else {
@@ -1303,7 +1305,7 @@ async fn replays_coins_featured_table_and_codes() {
         unreachable!()
     };
     let alice_won = result.winner == sa;
-    use snookered_server::account::{COINS_PER_GAME, COINS_PER_WIN};
+    use snook_legend_server::account::{COINS_PER_GAME, COINS_PER_WIN};
     let expected = COINS_PER_GAME + if alice_won { COINS_PER_WIN } else { 0 };
     assert_eq!(amount as i64, expected);
     // The game moved the missions on: one game played, one won (or not).
@@ -1313,10 +1315,10 @@ async fn replays_coins_featured_table_and_codes() {
         unreachable!()
     };
     assert_eq!((daily.len(), weekly.len()), (3, 2));
-    assert!(day_ends > snookered_server::now() && week_ends >= day_ends);
+    assert!(day_ends > snook_legend_server::now() && week_ends >= day_ends);
     for m in daily.iter().chain(&weekly) {
-        let goal = snookered_proto::missions::mission(&m.code).unwrap().goal;
-        use snookered_proto::missions::Goal;
+        let goal = snook_legend_proto::missions::mission(&m.code).unwrap().goal;
+        use snook_legend_proto::missions::Goal;
         match goal {
             Goal::Play => assert_eq!(m.progress, 1, "{}", m.code),
             Goal::Win => assert_eq!(m.progress, alice_won as u32, "{}", m.code),
@@ -1372,7 +1374,7 @@ async fn arenas_with_an_entry_fee() {
             rated: false,
             password: None,
             entry_fee: 1000,
-            format: snookered_proto::TournamentFormat::Arena,
+            format: snook_legend_proto::TournamentFormat::Arena,
         })
         .await;
     alice.expect("too dear", |m| matches!(m, ServerMsg::Error { .. })).await;
@@ -1383,7 +1385,7 @@ async fn arenas_with_an_entry_fee() {
             rated: false,
             password: None,
             entry_fee: 10,
-            format: snookered_proto::TournamentFormat::Arena,
+            format: snook_legend_proto::TournamentFormat::Arena,
         })
         .await;
     let ServerMsg::TournamentUpdated { tournament } =
@@ -1475,12 +1477,12 @@ async fn withdrawing_while_waiting_for_an_opponent_frees_the_player() {
 
 #[tokio::test]
 async fn vip_members_have_their_own_reactions() {
-    let (url, server) = start_on(snookered_server::store::Store::memory()).await;
+    let (url, server) = start_on(snook_legend_server::store::Store::memory()).await;
     let (mut alice, _) = Client::register(&url, "alice").await;
     let (mut bob, _) = Client::register(&url, "bob").await;
     let user = server.store.user_by_name("alice").await.unwrap().unwrap();
-    server.store.set_vip(user.id, snookered_server::now() + 86_400, false).await.unwrap();
-    snookered_server::shop::push_wallet(&server, &user).await;
+    server.store.set_vip(user.id, snook_legend_server::now() + 86_400, false).await.unwrap();
+    snook_legend_server::shop::push_wallet(&server, &user).await;
     alice.expect("wallet", |m| matches!(m, ServerMsg::Wallet { .. })).await;
     start_match(&mut alice, &mut bob, "bob", "alice", false).await;
     alice.send(ClientMsg::React { code: "gem".into() }).await;
@@ -1494,7 +1496,7 @@ async fn vip_members_have_their_own_reactions() {
 
 #[tokio::test]
 async fn chat_lines_can_be_deleted_and_the_chat_cleared() {
-    use snookered_proto::Deleted;
+    use snook_legend_proto::Deleted;
     let (url, _) = start_with(Rules::default(), vec!["boss".into()]).await;
     let (mut boss, _) = Client::register(&url, "boss").await;
     let (mut bob, _) = Client::register(&url, "bob").await;
@@ -1545,7 +1547,7 @@ async fn chat_lines_can_be_deleted_and_the_chat_cleared() {
     assert!(lines[0].text.contains("boss"));
 }
 
-async fn said(c: &mut Client, text: &str) -> snookered_proto::ChatLine {
+async fn said(c: &mut Client, text: &str) -> snook_legend_proto::ChatLine {
     let ServerMsg::Chat { line } =
         c.expect("line", |m| matches!(m, ServerMsg::Chat { line } if line.text == text)).await
     else {

@@ -1,29 +1,30 @@
 //! The platform the game is built for (the updater's download), and on
 //! Windows: the emblem as the executable's icon, and the version details
-//! Explorer and the Task Manager show ("Snook Legend" instead of "snookered.exe").
+//! Explorer and the Task Manager show ("Snook Legend" instead of "snook-legend.exe").
 
 use std::path::PathBuf;
 
 fn main() {
     println!("cargo::rerun-if-changed=build.rs");
-    println!("cargo::rerun-if-changed=assets/icon/snookered.ico");
+    println!("cargo::rerun-if-changed=assets/icon/snook-legend.ico");
     // The platform this copy is built for: the updater downloads the
-    // release archive made for it (`snookered-<target>.tar.xz`).
-    println!("cargo::rustc-env=SNOOKERED_TARGET={}", std::env::var("TARGET").unwrap());
+    // release archive made for it (`snook-legend-<target>.tar.xz`).
+    println!("cargo::rustc-env=SNOOK_LEGEND_TARGET={}", std::env::var("TARGET").unwrap());
     if std::env::var("CARGO_CFG_TARGET_OS").as_deref() != Ok("windows") {
         return;
     }
     let version = std::env::var("CARGO_PKG_VERSION").unwrap();
     // major.minor.patch, then the pre-release number (0.1.1-beta.2 is
     // 0.1.1.2, as in the .msi), so each build has its own file version: the
-    // installer doesn't replace a snookered.exe whose version is the same.
+    // installer doesn't replace a snook-legend.exe whose version is the same.
     let (core, pre) = version.split_once('-').unwrap_or((&version, ""));
     let mut parts = core.split('.').map(|p| p.parse::<u16>().unwrap_or(0));
     let mut next = || parts.next().unwrap_or(0);
     let pre = pre.rsplit('.').next().and_then(|n| n.parse::<u16>().ok()).unwrap_or(0);
     let numeric = format!("{},{},{},{pre}", next(), next(), next());
     let manifest = PathBuf::from(std::env::var("CARGO_MANIFEST_DIR").unwrap());
-    let icon = manifest.join("assets/icon/snookered.ico").display().to_string().replace('\\', "/");
+    let icon =
+        manifest.join("assets/icon/snook-legend.ico").display().to_string().replace('\\', "/");
     // Written out with the values in place: no macros to quote for rc.exe or windres.
     let rc = format!(
         r#"#include <winver.h>
@@ -45,9 +46,9 @@ BEGIN
         BEGIN
             VALUE "FileDescription", "Snook Legend"
             VALUE "FileVersion", "{version}"
-            VALUE "InternalName", "snookered"
+            VALUE "InternalName", "snook-legend"
             VALUE "LegalCopyright", "MIT License"
-            VALUE "OriginalFilename", "snookered.exe"
+            VALUE "OriginalFilename", "snook-legend.exe"
             VALUE "ProductName", "Snook Legend"
             VALUE "ProductVersion", "{version}"
         END
@@ -59,7 +60,7 @@ BEGIN
 END
 "#
     );
-    let path = PathBuf::from(std::env::var("OUT_DIR").unwrap()).join("snookered.rc");
+    let path = PathBuf::from(std::env::var("OUT_DIR").unwrap()).join("snook-legend.rc");
     std::fs::write(&path, rc).unwrap();
     embed_resource::compile(&path, embed_resource::NONE).manifest_optional().unwrap();
 }

@@ -35,11 +35,11 @@
 //! Rows without an answer for a week are marked *stuck* for the staff.
 //!
 //! Configuration (all required to take Store purchases):
-//! - `SNOOKERED_MSSTORE_TENANT_ID`, `SNOOKERED_MSSTORE_CLIENT_ID`,
-//!   `SNOOKERED_MSSTORE_CLIENT_SECRET`: the Entra application associated
+//! - `SNOOK_LEGEND_MSSTORE_TENANT_ID`, `SNOOK_LEGEND_MSSTORE_CLIENT_ID`,
+//!   `SNOOK_LEGEND_MSSTORE_CLIENT_SECRET`: the Entra application associated
 //!   with the game in Partner Center (Services → Product collections and
 //!   purchases);
-//! - `SNOOKERED_MSSTORE_PRODUCTS`: `pack=StoreID` pairs separated by `;`, one
+//! - `SNOOK_LEGEND_MSSTORE_PRODUCTS`: `pack=StoreID` pairs separated by `;`, one
 //!   per coin pack sold in the Store, e.g. `coins_500=9NXXXXXXXXXX`.
 //!
 //! See `docs/MSSTORE.md` for setting it up.
@@ -51,8 +51,8 @@ use std::time::{Duration, Instant};
 use hmac::{Hmac, Mac};
 use serde_json::{Value, json};
 use sha2::Sha256;
-use snookered_proto::shop::{self, CoinPack};
-use snookered_proto::{ClientMsg, ServerMsg, StorePack};
+use snook_legend_proto::shop::{self, CoinPack};
+use snook_legend_proto::{ClientMsg, ServerMsg, StorePack};
 
 use crate::store::{MsConsume, MsState, User};
 use crate::{Server, now};
@@ -108,18 +108,18 @@ impl MsStoreConfig {
     pub fn from_env() -> Option<MsStoreConfig> {
         let var =
             |k: &str| std::env::var(k).ok().map(|v| v.trim().to_string()).filter(|v| !v.is_empty());
-        let products = var("SNOOKERED_MSSTORE_PRODUCTS")?;
+        let products = var("SNOOK_LEGEND_MSSTORE_PRODUCTS")?;
         let products = match parse_products(&products) {
             Ok(p) => p,
             Err(e) => {
-                tracing::error!("SNOOKERED_MSSTORE_PRODUCTS: {e}; Store purchases are off");
+                tracing::error!("SNOOK_LEGEND_MSSTORE_PRODUCTS: {e}; Store purchases are off");
                 return None;
             }
         };
         Some(MsStoreConfig {
-            tenant_id: var("SNOOKERED_MSSTORE_TENANT_ID")?,
-            client_id: var("SNOOKERED_MSSTORE_CLIENT_ID")?,
-            client_secret: var("SNOOKERED_MSSTORE_CLIENT_SECRET")?,
+            tenant_id: var("SNOOK_LEGEND_MSSTORE_TENANT_ID")?,
+            client_id: var("SNOOK_LEGEND_MSSTORE_CLIENT_ID")?,
+            client_secret: var("SNOOK_LEGEND_MSSTORE_CLIENT_SECRET")?,
             products,
             login_url: LOGIN_URL.into(),
             collections_url: COLLECTIONS_URL.into(),
@@ -266,7 +266,7 @@ impl MsStore {
     pub fn publisher_user_id(&self, user_id: i64) -> String {
         let key = format!("{}/{}", self.cfg.tenant_id, self.cfg.client_id);
         let mut mac = Hmac::<Sha256>::new_from_slice(key.as_bytes()).expect("HMAC takes any key");
-        mac.update(b"snookered/msstore/user:");
+        mac.update(b"snook-legend/msstore/user:");
         mac.update(user_id.to_string().as_bytes());
         mac.finalize().into_bytes()[..16].iter().map(|b| format!("{b:02x}")).collect()
     }

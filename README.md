@@ -1,4 +1,4 @@
-<p align="center"><img src="crates/client/assets/icon/snookered-256.png" width="128" alt="Snook Legend"></p>
+<p align="center"><img src="crates/client/assets/icon/snook-legend-256.png" width="128" alt="Snook Legend"></p>
 
 # Snook Legend
 
@@ -20,21 +20,21 @@ world ranking that keeps everyone coming back.
 ## Download
 
 Get the latest version from the
-[Releases page](https://github.com/allansomensi/snookered/releases/latest):
+[Releases page](https://github.com/allansomensi/snook-legend/releases/latest):
 
-- **Windows**: `snookered-x86_64-pc-windows-msvc.msi` installs the game with a
+- **Windows**: `snook-legend-x86_64-pc-windows-msvc.msi` installs the game with a
   Start menu (and optional desktop) shortcut; the `.zip` is a portable copy.
 - **macOS** (Apple Silicon or Intel) and **Linux** (x64 or ARM64): the
   `.tar.xz` for your computer, or install from a terminal:
 
   ```bash
-  curl --proto '=https' --tlsv1.2 -LsSf https://github.com/allansomensi/snookered/releases/latest/download/snookered-installer.sh | sh
+  curl --proto '=https' --tlsv1.2 -LsSf https://github.com/allansomensi/snook-legend/releases/latest/download/snook-legend-installer.sh | sh
   ```
 
 - **Windows from PowerShell**:
 
   ```powershell
-  powershell -ExecutionPolicy Bypass -c "irm https://github.com/allansomensi/snookered/releases/latest/download/snookered-installer.ps1 | iex"
+  powershell -ExecutionPolicy Bypass -c "irm https://github.com/allansomensi/snook-legend/releases/latest/download/snook-legend-installer.ps1 | iex"
   ```
 
 On Linux the game needs the usual desktop libraries (ALSA, X11, OpenGL),
@@ -147,14 +147,10 @@ The interface is available in English, Brazilian Portuguese and Spanish (Setting
 | Full screen | | F11 |
 
 Settings are saved in `%APPDATA%\Snook Legend\settings.ini` (Windows),
-`~/Library/Application Support/Snook Legend` (macOS) or `~/.config/snook-legend` (Linux). A folder from before the rename
-(`Snookered`, `snookered`) is moved there the first time the game starts.
+`~/Library/Application Support/Snook Legend` (macOS) or `~/.config/snook-legend` (Linux). A folder from before 0.4.0 is moved
+there the first time the game starts.
 
 ## Building
-
-The game was called Snookered until 0.3.0: the crates, the executable and the
-release files keep the name `snookered`, so every installed copy keeps
-updating itself.
 
 Requires a recent stable Rust toolchain (see `rust-version` in `Cargo.toml`).
 
@@ -167,29 +163,29 @@ sudo apt-get install libasound2-dev libx11-dev libxi-dev libgl1-mesa-dev
 Run the game:
 
 ```bash
-cargo run --release -p snookered
+cargo run --release -p snook-legend
 ```
 
 Run a local server (in memory) and play online against yourself (start the
 game twice, with different `HOME` folders so the sessions don't collide):
 
 ```bash
-SNOOKERED_IN_MEMORY=1 cargo run --release -p snookered_server
+SNOOK_LEGEND_IN_MEMORY=1 cargo run --release -p snook_legend_server
 ```
 
 With PostgreSQL instead (what production uses):
 
 ```bash
-DATABASE_URL=postgres://user:pass@localhost/snookered cargo run --release -p snookered_server
+DATABASE_URL=postgres://user:pass@localhost/snook-legend cargo run --release -p snook_legend_server
 ```
 
 The game connects to the public server (`wss://snook-server.onrender.com/ws`) by
 default; for a local server, enter `ws://127.0.0.1:7878/ws` under Settings → Game
-server. To build a release that points at another server, set `SNOOKERED_SERVER` at
+server. To build a release that points at another server, set `SNOOK_LEGEND_SERVER` at
 build time:
 
 ```bash
-SNOOKERED_SERVER=wss://snooklegend.example.com/ws cargo build --release -p snookered
+SNOOK_LEGEND_SERVER=wss://snooklegend.example.com/ws cargo build --release -p snook-legend
 ```
 
 Putting the server on the internet is described in [docs/DEPLOY.md](docs/DEPLOY.md)
@@ -202,21 +198,21 @@ The staff panel is described in [docs/ADMIN.md](docs/ADMIN.md), the protocol in
 Useful flags (for development):
 
 ```bash
-cargo run --release -p snookered -- --vs hard        # straight into a game
-cargo run --release -p snookered -- --demo           # computer vs computer
-cargo run --release -p snookered -- --window 900x600 # start with this window size
-cargo run --release -p snookered -- --screenshot shot.png --frames 200
-cargo run --release -p snookered -- --demo --fps     # print frames per second
-cargo run --release -p snookered -- --online         # open the lounge directly
-cargo run --release -p snookered -- --screen shop    # or lan, setup, ranking, profile:<name>, …
+cargo run --release -p snook-legend -- --vs hard        # straight into a game
+cargo run --release -p snook-legend -- --demo           # computer vs computer
+cargo run --release -p snook-legend -- --window 900x600 # start with this window size
+cargo run --release -p snook-legend -- --screenshot shot.png --frames 200
+cargo run --release -p snook-legend -- --demo --fps     # print frames per second
+cargo run --release -p snook-legend -- --online         # open the lounge directly
+cargo run --release -p snook-legend -- --screen shop    # or lan, setup, ranking, profile:<name>, …
 ```
 
 Development builds also read a few switches from the environment to drive
-automated matches and screenshots (`SNOOKERED_AUTOPLAY`, `SNOOKERED_AUTOINVITE`,
-`SNOOKERED_PROFILE`…, see `crates/client/src/dev.rs`); release builds ignore them.
+automated matches and screenshots (`SNOOK_LEGEND_AUTOPLAY`, `SNOOK_LEGEND_AUTOINVITE`,
+`SNOOK_LEGEND_PROFILE`…, see `crates/client/src/dev.rs`); release builds ignore them.
 
 Run the tests (the PostgreSQL store test runs when
-`SNOOKERED_TEST_DATABASE_URL` points at an empty database):
+`SNOOK_LEGEND_TEST_DATABASE_URL` points at an empty database):
 
 ```bash
 cargo test --workspace --release
@@ -226,16 +222,16 @@ cargo test --workspace --release
 
 ```
 crates/
-  core/     snookered_core: physics, table geometry, 8-ball rules, AI, Elo rating
+  core/     snook_legend_core: physics, table geometry, 8-ball rules, AI, Elo rating
             (no engine dependencies; shared by the client and the server)
-  proto/    snookered_proto: the client/server messages (JSON over WebSocket),
+  proto/    snook_legend_proto: the client/server messages (JSON over WebSocket),
             countries, rating tiers, achievements, reactions and the shop
             catalogue
-  server/   snookered_server: accounts, lounge, Play now, tables, tournaments,
+  server/   snook_legend_server: accounts, lounge, Play now, tables, tournaments,
             friends, spectators, authoritative matches, ratings,
             achievements, wallets and Stripe payments, the staff panel
             (Axum; PostgreSQL, or in memory for LAN games and tests)
-  client/   snookered: the desktop client built on macroquad (3D scene with a
+  client/   snook-legend: the desktop client built on macroquad (3D scene with a
             custom lighting shader, input, HUD, sound, online and LAN screens);
             assets/icon/ holds the emblem's files (made by src/icon.rs) and
             wix/ the Windows installer

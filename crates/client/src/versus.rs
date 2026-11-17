@@ -2,9 +2,9 @@
 //! or a real player's ghost), or the ladder of ten.
 
 use macroquad::prelude::*;
-use snookered_core::personalities::PERSONALITIES;
-use snookered_proto::ghost::GhostAnswer;
-use snookered_proto::ladder;
+use snook_legend_core::personalities::PERSONALITIES;
+use snook_legend_proto::ghost::GhostAnswer;
+use snook_legend_proto::ladder;
 
 #[allow(unused_imports)]
 use crate::paint::{draw_circle, draw_line, draw_rectangle};
@@ -421,7 +421,7 @@ impl Versus {
         if self.ghost_name.is_empty() && ui.focus != Some(GHOST_FIELD) {
             placeholder(ui, field, t("Username"));
         }
-        let name_ok = snookered_proto::valid_username(self.ghost_name.trim());
+        let name_ok = snook_legend_proto::valid_username(self.ghost_name.trim());
         let load = ui.button(Rect::new(x + w - load_w, y, load_w, CONTROL_H), t("Load"), name_ok);
         if (load || entered) && name_ok {
             used_enter = entered;
@@ -721,7 +721,7 @@ impl Versus {
         let mut action = None;
         rrect(r, 8.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.07));
         rrect_lines(r, 8.0, 1.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.45));
-        let item = snookered_proto::shop::item(ladder::REWARD_ITEM)?;
+        let item = snook_legend_proto::shop::item(ladder::REWARD_ITEM)?;
         let pad = 12.0;
         let x = r.x + pad;
         let w = r.w - 2.0 * pad;
@@ -798,12 +798,12 @@ impl Versus {
     // The daily challenge.
 
     fn daily(&mut self, ui: &mut Ui, online: &mut Online, body: Rect) -> VersusAction {
-        use snookered_proto::daily;
+        use snook_legend_proto::daily;
         let mut action = VersusAction::None;
         let today = daily::day_of(crate::util::unix_now());
         if online.signed_in() && self.daily_asked != Some(today) {
             self.daily_asked = Some(today);
-            online.send(snookered_proto::ClientMsg::Daily);
+            online.send(snook_legend_proto::ClientMsg::Daily);
         }
         if online.daily_refused.is_some() {
             self.daily_starting = false;
@@ -893,7 +893,7 @@ impl Versus {
                 if ui.primary_button(b, t("Start an attempt")) {
                     self.daily_starting = true;
                     online.daily_refused = None;
-                    online.send(snookered_proto::ClientMsg::DailyStart);
+                    online.send(snook_legend_proto::ClientMsg::DailyStart);
                 }
                 y = b.y + b.h + 8.0;
                 say(
@@ -915,11 +915,11 @@ impl Versus {
     }
 
     fn drills(&mut self, ui: &mut Ui, online: &mut Online, body: Rect) -> VersusAction {
-        use snookered_proto::drills::{self, DRILLS};
+        use snook_legend_proto::drills::{self, DRILLS};
         let mut action = VersusAction::None;
         if online.signed_in() && !self.drills_asked {
             self.drills_asked = true;
-            online.send(snookered_proto::ClientMsg::Drills);
+            online.send(snook_legend_proto::ClientMsg::Drills);
         }
         let info = online.drills.clone();
         let best_of = |code: &str| {
@@ -1092,7 +1092,7 @@ impl Versus {
     fn daily_board(
         &self,
         ui: &mut Ui,
-        info: &snookered_proto::daily::Info,
+        info: &snook_legend_proto::daily::Info,
         online: &Online,
         r: Rect,
     ) {

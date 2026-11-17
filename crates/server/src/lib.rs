@@ -1,4 +1,4 @@
-//! # snookered_server
+//! # snook_legend_server
 //!
 //! The Snook Legend game server: accounts, the lounge (who's online, chat,
 //! invitations, open tables), authoritative eight-ball matches with a shot
@@ -6,7 +6,7 @@
 //! the global leaderboard and a web panel for the staff.
 //!
 //! Endpoints:
-//! - `GET /ws`: the game (WebSocket, JSON messages from [`snookered_proto`]);
+//! - `GET /ws`: the game (WebSocket, JSON messages from [`snook_legend_proto`]);
 //! - `GET /health`: `ok`, for monitoring;
 //! - `GET /api/status`, `GET /api/leaderboard`: public JSON;
 //! - `/admin`: the staff panel (see [`admin`]).
@@ -52,9 +52,9 @@ use axum::routing::get;
 use futures_util::{SinkExt, StreamExt};
 use rand::RngCore;
 use sha2::{Digest, Sha256};
-use snookered_core::GameOverReason;
-use snookered_core::rating::EloConfig;
-use snookered_proto::{
+use snook_legend_core::GameOverReason;
+use snook_legend_core::rating::EloConfig;
+use snook_legend_proto::{
     ACHIEVEMENTS, ClientMsg, FriendInfo, HistoryEntry, LeaderboardEntry, OLDEST_PROTOCOL_VERSION,
     PROTOCOL_VERSION, PlayerStatus, Profile, Relation, Role, ServerMsg, clean_text, parse_client,
     valid_country, valid_password, valid_username,
@@ -174,7 +174,7 @@ const RESERVED_NAMES: &[&str] = &[
     "admin",
     "administrator",
     // The game's name, then and now.
-    "snookered",
+    "snook-legend",
     "snooklegend",
     "snook_legend",
     "moderator",
@@ -335,14 +335,14 @@ impl Server {
         let mut stats = user.stats(now());
         stats.friends = friends;
         if rated_win {
-            stats.today = snookered_proto::month_day(now());
+            stats.today = snook_legend_proto::month_day(now());
         }
         let earned: Vec<&str> = stats.earned().collect();
         match self.store.add_achievements(user.id, &earned, now()).await {
             Ok(new) => {
                 let all = self.store.achievements(user.id).await.unwrap_or_default();
                 let codes: Vec<String> = all.into_iter().map(|(code, _)| code).collect();
-                let xp = new.len() as u32 * snookered_proto::xp::ACHIEVEMENT;
+                let xp = new.len() as u32 * snook_legend_proto::xp::ACHIEVEMENT;
                 self.with(|l| {
                     for code in new {
                         l.notify(&user.username, ServerMsg::AchievementUnlocked { code });
@@ -505,7 +505,7 @@ async fn run_effect(server: &Arc<Server>, effect: Effect) {
                             // Experience for every game played to the end
                             // (not for the one who left it).
                             if record.abandoned != Some(seat) {
-                                let xp = snookered_proto::xp::for_game(won, potted);
+                                let xp = snook_legend_proto::xp::for_game(won, potted);
                                 account::award_xp(server, &user, xp).await;
                             }
                         }
@@ -984,7 +984,7 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                                 account::signed_in(&s, &r).await;
                                 shop::push_wallet(&s, &r).await;
                                 social::signed_in(&s, &r).await;
-                                if version >= snookered_proto::correspondence::SINCE_PROTOCOL
+                                if version >= snook_legend_proto::correspondence::SINCE_PROTOCOL
                                     && !s.config.rules.lan
                                 {
                                     correspondence::signed_in(&s, &r).await;
@@ -1412,16 +1412,16 @@ fn is_account_msg(msg: &ClientMsg) -> bool {
     )
 }
 
-fn board_note(n: crate::store::BoardNote) -> snookered_proto::BoardNote {
-    snookered_proto::BoardNote {
+fn board_note(n: crate::store::BoardNote) -> snook_legend_proto::BoardNote {
+    snook_legend_proto::BoardNote {
         id: n.id,
         text: n.text,
         author: n.author,
         at: n.created_at,
         expires_at: n.expires_at,
-        kind: snookered_proto::NoteKind::from_code(&n.kind),
+        kind: snook_legend_proto::NoteKind::from_code(&n.kind),
         pinned: n.pinned,
-        action: n.action.as_deref().and_then(snookered_proto::NoteAction::from_code),
+        action: n.action.as_deref().and_then(snook_legend_proto::NoteAction::from_code),
     }
 }
 
@@ -1453,7 +1453,7 @@ async fn replay_for(
     server: &Server,
     me: &User,
     match_id: i64,
-) -> Option<snookered_proto::ReplayInfo> {
+) -> Option<snook_legend_proto::ReplayInfo> {
     let r = server.store.replay(match_id).await.ok().flatten()?;
     if !me.role.is_staff() {
         let mine = r.players.iter().any(|p| p.eq_ignore_ascii_case(&me.username));
@@ -1468,7 +1468,7 @@ async fn replay_for(
             }
         }
     }
-    Some(snookered_proto::ReplayInfo {
+    Some(snook_legend_proto::ReplayInfo {
         match_id: r.id,
         players: r.players,
         countries: r.countries,
@@ -1565,7 +1565,7 @@ async fn report(
     server: &Server,
     me: &User,
     name: &str,
-    reason: snookered_proto::ReportReason,
+    reason: snook_legend_proto::ReportReason,
     details: &str,
     protocol: u32,
     send: &impl Fn(ServerMsg),
@@ -1734,7 +1734,7 @@ async fn profile_msg(server: &Server, viewer: Option<&User>, name: &str) -> Opti
             cue_stats: wallet
                 .cue_games
                 .iter()
-                .map(|(code, &(games, potted))| snookered_proto::CueStats {
+                .map(|(code, &(games, potted))| snook_legend_proto::CueStats {
                     code: code.clone(),
                     games,
                     wins: wallet.cue_wins.get(code).copied().unwrap_or(0),
@@ -1748,12 +1748,12 @@ async fn profile_msg(server: &Server, viewer: Option<&User>, name: &str) -> Opti
 
 /// A player's trophies, newest first: tournaments won, the ladder and the
 /// days they topped the daily challenge.
-async fn trophies_of(server: &Server, user_id: i64) -> Vec<snookered_proto::Trophy> {
-    use snookered_proto::{Trophy, TrophyKind};
+async fn trophies_of(server: &Server, user_id: i64) -> Vec<snook_legend_proto::Trophy> {
+    use snook_legend_proto::{Trophy, TrophyKind};
     let (tournaments, ladder, days) = tokio::join!(
         server.store.tournaments_won(user_id, 50),
         server.store.ladder_claim(user_id),
-        server.store.daily_wins(user_id, snookered_proto::daily::day_of(now())),
+        server.store.daily_wins(user_id, snook_legend_proto::daily::day_of(now())),
     );
     let mut trophies: Vec<Trophy> = tournaments
         .unwrap_or_default()

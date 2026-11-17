@@ -11,7 +11,7 @@
 #   MSSTORE_IDENTITY_NAME, MSSTORE_PUBLISHER, MSSTORE_PUBLISHER_DISPLAY_NAME
 #     (Partner Center → Product management → Product identity),
 #   MSSTORE_DISPLAY_NAME (the name reserved in the Store),
-#   SNOOKERED_SERVER (the game server, as for the other releases).
+#   SNOOK_LEGEND_SERVER (the game server, as for the other releases).
 name: Microsoft Store
 
 on:
@@ -76,10 +76,10 @@ jobs:
       - name: Build the Store version of the game
         shell: pwsh
         env:
-          SNOOKERED_SERVER: ${{ vars.SNOOKERED_SERVER }}
+          SNOOK_LEGEND_SERVER: ${{ vars.SNOOK_LEGEND_SERVER }}
           # The C runtime inside the executable: nothing else to install.
           RUSTFLAGS: -C target-feature=+crt-static
-        run: cargo build --release --locked -p snookered --features store
+        run: cargo build --release --locked -p snook-legend --features store
       - name: Pack the MSIX
         id: pack
         shell: pwsh

@@ -1,7 +1,7 @@
 //! How forgiving the pockets play: for paths at several angles from straight
-//! in, the width of the band that still drops, for each ruleset's table. `cargo run --release -p snookered_core --example pocket_angles`
+//! in, the width of the band that still drops, for each ruleset's table. `cargo run --release -p snook_legend_core --example pocket_angles`
 use glam::DVec2;
-use snookered_core::{
+use snook_legend_core::{
     Ball, BallId, BallStatus, PhysicsParams, PocketId, Shot, Simulation, Table, TableSpec,
 };
 

@@ -9,8 +9,8 @@
 
 use glam::DVec2;
 use serde::{Deserialize, Serialize};
-use snookered_core::rng::Rng;
-use snookered_core::{BallId, EightBallGame, Event, PocketId, Shot, ShotReport};
+use snook_legend_core::rng::Rng;
+use snook_legend_core::{BallId, EightBallGame, Event, PocketId, Shot, ShotReport};
 
 /// What a drill asks for.
 #[derive(Debug, Clone, Copy, PartialEq)]
@@ -101,7 +101,7 @@ pub const DRILLS: &[Drill] = &[
     },
     Drill {
         code: "escape",
-        name: "Snookered",
+        name: "Snooker escape",
         description: "Hit the 1 first: it hides behind other balls. Five tries.",
         tries: 5,
         stars: [1, 3, 5],
@@ -141,12 +141,12 @@ pub fn challenge_rating(best: &[(String, u32)]) -> u32 {
 }
 
 fn aim(pocket: PocketId) -> DVec2 {
-    snookered_core::Table::default().pocket(pocket).aim_point()
+    snook_legend_core::Table::default().pocket(pocket).aim_point()
 }
 
 /// The balls of a drill's position.
 pub fn position(d: &Drill) -> Vec<(BallId, DVec2)> {
-    let r = snookered_core::Table::default().spec.ball_radius;
+    let r = snook_legend_core::Table::default().spec.ball_radius;
     let eight = (BallId::EIGHT, DVec2::new(-0.80, 0.40));
     match (d.code, d.goal) {
         ("straight", Goal::Pot { pocket, .. }) => {
@@ -201,7 +201,7 @@ pub fn position(d: &Drill) -> Vec<(BallId, DVec2)> {
 /// The pot of try `k` of a streak: a pocket in turn, the 1 some way out
 /// from it, the cue ball for a cut of up to about 35 degrees.
 fn streak_position(k: u32) -> Vec<(BallId, DVec2)> {
-    let table = snookered_core::Table::default();
+    let table = snook_legend_core::Table::default();
     let r = table.spec.ball_radius;
     let mut rng = Rng::new(0x57EA_C000 + k as u64);
     let pocket = PocketId::ALL[k as usize % PocketId::ALL.len()];
@@ -210,12 +210,12 @@ fn streak_position(k: u32) -> Vec<(BallId, DVec2)> {
     // Out from the pocket into the table, a little to either side.
     let into = -p.outward;
     let turn = (rng.next_f64() - 0.5) * if pocket.is_side() { 0.7 } else { 0.5 };
-    let dir = snookered_core::math::from_angle(turn).rotate(into);
+    let dir = snook_legend_core::math::from_angle(turn).rotate(into);
     let ball = aim + dir * (0.25 + 0.3 * rng.next_f64());
     let line = (aim - ball).normalize();
     let ghost = ball - line * 2.0 * r;
     let cut = (rng.next_f64() * 2.0 - 1.0) * 35f64.to_radians();
-    let from = snookered_core::math::from_angle(cut).rotate(line);
+    let from = snook_legend_core::math::from_angle(cut).rotate(line);
     let cue = ghost - from * (0.45 + 0.4 * rng.next_f64());
     let (hl, hw) = (table.spec.length / 2.0 - 2.0 * r, table.spec.width / 2.0 - 2.0 * r);
     let cue = DVec2::new(cue.x.clamp(-hl, hl), cue.y.clamp(-hw, hw));
@@ -250,7 +250,7 @@ fn play(g: &EightBallGame, shot: &Shot) -> Option<(ShotReport, Vec<Event>, Eight
     sim.run_to_rest();
     let events = sim.events().to_vec();
     let mut after = g.clone();
-    let report = after.finish_shot(snookered_core::PendingShot { simulation: sim, ..pending });
+    let report = after.finish_shot(snook_legend_core::PendingShot { simulation: sim, ..pending });
     Some((report, events, after))
 }
 
@@ -378,7 +378,7 @@ mod tests {
     /// A stroke that works for try `k` of `d`, from a small search over aim,
     /// speed and spin (so no drill, and no pot of the streak, is impossible).
     fn a_way(d: &Drill, k: u32) -> Option<Shot> {
-        let r = snookered_core::Table::default().spec.ball_radius;
+        let r = snook_legend_core::Table::default().spec.ball_radius;
         let g = game_for_try(d, k);
         let t = g.ball(ONE).xy();
         let pocket = match d.goal {

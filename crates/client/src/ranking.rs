@@ -239,7 +239,7 @@ impl Ranking {
                 }
                 None => ui.text_centered(&rank, x0 + 20.0, text_y(mid, 14.0), 14.0, MUTED, true),
             }
-            let tier = snookered_proto::Tier::of(e.rating);
+            let tier = snook_legend_proto::Tier::of(e.rating);
             let color = if e.admin {
                 crate::ui::ADMIN_RED
             } else if is_me {

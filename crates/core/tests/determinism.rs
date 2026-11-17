@@ -4,7 +4,7 @@
 //! this on all of them against one fingerprint.
 
 use glam::DVec2;
-use snookered_core::{BallId, EightBallGame, Event, PocketId, Shot};
+use snook_legend_core::{BallId, EightBallGame, Event, PocketId, Shot};
 
 struct Fnv(u64);
 

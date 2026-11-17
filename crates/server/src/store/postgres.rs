@@ -1,11 +1,11 @@
 //! PostgreSQL storage (production; works with Neon, Supabase, RDS…).
 
-use snookered_proto::{LeaderboardEntry, Role};
+use snook_legend_proto::{LeaderboardEntry, Role};
 use sqlx::postgres::{PgPool, PgPoolOptions, PgRow};
 use sqlx::{Row, query};
 
-use snookered_proto::CareerNumbers;
-use snookered_proto::replay::Replay;
+use snook_legend_proto::CareerNumbers;
+use snook_legend_proto::replay::Replay;
 
 mod correspondence;
 mod msstore;
@@ -16,7 +16,7 @@ use super::{
     Payment, RECENT_SCAN, RecentRow, Rename, ReportRow, SessionKind, StoreError, StoreResult,
     StoredReplay, TournamentRecord, User, Wallet, day_of, hour_of,
 };
-use snookered_proto::analysis::ShotAnalysis;
+use snook_legend_proto::analysis::ShotAnalysis;
 
 /// A present with the players' names and countries as they are now.
 const GIFT_SELECT: &str = "SELECT g.id, g.from_id, COALESCE(f.username, '') AS from_name,
@@ -321,7 +321,7 @@ impl PgStore {
         .bind(m.replay.as_ref().map(|r| r.seed as i64))
         .bind(m.replay.as_ref().map(|r| r.breaker as i16))
         .bind(m.replay.as_ref().map(replay_json))
-        .bind(m.replay.as_ref().map_or(snookered_core::RULESET, |r| r.ruleset) as i16)
+        .bind(m.replay.as_ref().map_or(snook_legend_core::RULESET, |r| r.ruleset) as i16)
         .fetch_one(&mut **tx)
         .await?
         .get("id");

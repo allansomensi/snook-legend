@@ -5,7 +5,7 @@
 //! (played to the end, not between two players farming each other).
 
 use serde::{Deserialize, Serialize};
-use snookered_core::stats::ShotStats;
+use snook_legend_core::stats::ShotStats;
 
 /// What a mission counts.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

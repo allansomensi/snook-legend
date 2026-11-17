@@ -7,11 +7,11 @@
 //! by Stripe's own ids, so a webhook delivered twice changes nothing.
 //!
 //! Configuration (all required to take payments):
-//! - `SNOOKERED_STRIPE_SECRET`: the secret API key (`sk_live_…` / `sk_test_…`);
-//! - `SNOOKERED_STRIPE_WEBHOOK_SECRET`: the webhook signing secret (`whsec_…`);
-//! - `SNOOKERED_PUBLIC_URL`: the server's public address (for the pages Stripe
+//! - `SNOOK_LEGEND_STRIPE_SECRET`: the secret API key (`sk_live_…` / `sk_test_…`);
+//! - `SNOOK_LEGEND_STRIPE_WEBHOOK_SECRET`: the webhook signing secret (`whsec_…`);
+//! - `SNOOK_LEGEND_PUBLIC_URL`: the server's public address (for the pages Stripe
 //!   sends the player back to);
-//! - `SNOOKERED_STRIPE_PRICES`: `code=price_id|label` pairs separated by `;`,
+//! - `SNOOK_LEGEND_STRIPE_PRICES`: `code=price_id|label` pairs separated by `;`,
 //!   one per coin pack, `vip_monthly` and `vip_gift` (a one-off price: a
 //!   month of VIP given to a friend), e.g.
 //!   `coins_500=price_1Abc|R$ 4,90;vip_monthly=price_9Xyz|R$ 14,90/mês`.
@@ -40,10 +40,10 @@ impl StripeConfig {
         let var =
             |k: &str| std::env::var(k).ok().map(|v| v.trim().to_string()).filter(|v| !v.is_empty());
         let cfg = StripeConfig {
-            secret: var("SNOOKERED_STRIPE_SECRET")?,
-            webhook_secret: var("SNOOKERED_STRIPE_WEBHOOK_SECRET")?,
-            public_url: var("SNOOKERED_PUBLIC_URL")?.trim_end_matches('/').to_string(),
-            prices: parse_prices(&var("SNOOKERED_STRIPE_PRICES")?),
+            secret: var("SNOOK_LEGEND_STRIPE_SECRET")?,
+            webhook_secret: var("SNOOK_LEGEND_STRIPE_WEBHOOK_SECRET")?,
+            public_url: var("SNOOK_LEGEND_PUBLIC_URL")?.trim_end_matches('/').to_string(),
+            prices: parse_prices(&var("SNOOK_LEGEND_STRIPE_PRICES")?),
         };
         (!cfg.prices.is_empty()).then_some(cfg)
     }
@@ -157,7 +157,7 @@ impl Stripe {
         customer: Option<&str>,
     ) -> Result<String, String> {
         let (price, _) =
-            self.cfg.prices.get(snookered_proto::shop::VIP_PLAN).ok_or("VIP is not on sale.")?;
+            self.cfg.prices.get(snook_legend_proto::shop::VIP_PLAN).ok_or("VIP is not on sale.")?;
         let mut form = vec![
             ("mode".to_string(), "subscription".to_string()),
             ("line_items[0][price]".into(), price.clone()),
@@ -184,7 +184,7 @@ impl Stripe {
         friend_id: i64,
     ) -> Result<String, String> {
         let (price, _) =
-            self.cfg.prices.get(snookered_proto::shop::VIP_GIFT).ok_or("VIP can't be given.")?;
+            self.cfg.prices.get(snook_legend_proto::shop::VIP_GIFT).ok_or("VIP can't be given.")?;
         let mut form = vec![
             ("mode".to_string(), "payment".to_string()),
             ("line_items[0][price]".into(), price.clone()),

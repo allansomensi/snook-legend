@@ -4,7 +4,7 @@
 
 use glam::DVec2;
 use serde::{Deserialize, Serialize};
-use snookered_core::{BallId, EightBallGame, PocketId, Shot, ShotReport};
+use snook_legend_core::{BallId, EightBallGame, PocketId, Shot, ShotReport};
 
 /// One thing that changed the game.
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
@@ -40,7 +40,7 @@ pub struct Replay {
     pub breaker: usize,
     pub strokes: Vec<Stroke>,
     /// The rules, physics and table it was played with (see
-    /// [`snookered_core::RULESET`]); games recorded before rulesets existed
+    /// [`snook_legend_core::RULESET`]); games recorded before rulesets existed
     /// are ruleset 1.
     #[serde(default = "first_ruleset")]
     pub ruleset: u8,
@@ -53,7 +53,7 @@ fn first_ruleset() -> u8 {
 impl Replay {
     /// A new game under the current rules.
     pub fn new(seed: u64, breaker: usize) -> Replay {
-        Replay::with_ruleset(seed, breaker, snookered_core::RULESET)
+        Replay::with_ruleset(seed, breaker, snook_legend_core::RULESET)
     }
 
     pub fn with_ruleset(seed: u64, breaker: usize, ruleset: u8) -> Replay {

@@ -99,11 +99,11 @@ fn worker(requests: Receiver<Request>, answers: Sender<Reply>) {
 }
 
 /// Anywhere else there is no Store: nothing is on sale. (Development builds
-/// can show made-up prices for screenshots: `SNOOKERED_STORE_PRICES`, one
+/// can show made-up prices for screenshots: `SNOOK_LEGEND_STORE_PRICES`, one
 /// per pack separated by `;`. Nothing can be bought with them.)
 #[cfg(not(all(windows, feature = "store")))]
 fn worker(requests: Receiver<Request>, answers: Sender<Reply>) {
-    let shown = crate::dev::var("SNOOKERED_STORE_PRICES").unwrap_or_default();
+    let shown = crate::dev::var("SNOOK_LEGEND_STORE_PRICES").unwrap_or_default();
     for request in requests {
         let reply = match request {
             Request::Prices(ids) => Reply::Prices(
@@ -201,7 +201,7 @@ mod store {
 /// What the shop does next (applied by `Online`).
 #[derive(Debug, Clone, PartialEq)]
 pub enum Effect {
-    Send(snookered_proto::ClientMsg),
+    Send(snook_legend_proto::ClientMsg),
     /// A toast: its text (already translated) and whether it is good news.
     Toast(String, bool),
 }
@@ -277,7 +277,7 @@ impl StoreShop {
     fn check(&mut self, loud: bool) -> Vec<Effect> {
         self.busy = Some(Busy::Checking { loud });
         self.check_age = 0.0;
-        vec![Effect::Send(snookered_proto::ClientMsg::StoreTicket)]
+        vec![Effect::Send(snook_legend_proto::ClientMsg::StoreTicket)]
     }
 
     /// The Store's answers, and the looks that are due.
@@ -351,7 +351,7 @@ impl StoreShop {
                 }
             }
             Reply::Key(Ok(key)) => {
-                vec![Effect::Send(snookered_proto::ClientMsg::StoreRedeem { key })]
+                vec![Effect::Send(snook_legend_proto::ClientMsg::StoreRedeem { key })]
             }
             Reply::Key(Err(why)) => {
                 eprintln!("store: key: {why}");
@@ -486,7 +486,7 @@ fn game_window() -> Option<*mut core::ffi::c_void> {
 
     let mut search = Search {
         pid: std::process::id(),
-        title: snookered_proto::GAME_NAME.encode_utf16().collect(),
+        title: snook_legend_proto::GAME_NAME.encode_utf16().collect(),
         found: std::ptr::null_mut(),
     };
     // SAFETY: the callback only touches `search`, which outlives the call.
@@ -507,14 +507,14 @@ mod tests {
         let mut shop =
             StoreShop { busy: Some(Busy::Buying("9AAAAAAAAAAA".into())), ..Default::default() };
         let effects = shop.reply(Reply::Bought(Purchase::Paid));
-        assert_eq!(effects, [Effect::Send(snookered_proto::ClientMsg::StoreTicket)]);
+        assert_eq!(effects, [Effect::Send(snook_legend_proto::ClientMsg::StoreTicket)]);
         assert_eq!(shop.busy, Some(Busy::Checking { loud: true }));
         // Not in the collection yet: looked for again, three times.
         for _ in 0..RECHECKS.len() {
             assert!(shop.redeemed(0, false, "").is_empty());
             assert!(shop.waiting());
             let effects = shop.update(60.0);
-            assert_eq!(effects, [Effect::Send(snookered_proto::ClientMsg::StoreTicket)]);
+            assert_eq!(effects, [Effect::Send(snook_legend_proto::ClientMsg::StoreTicket)]);
         }
         let effects = shop.redeemed(0, false, "");
         assert_eq!(toasts(&effects), 1);

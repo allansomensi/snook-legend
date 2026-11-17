@@ -4,8 +4,8 @@
 
 use std::sync::{Arc, Mutex};
 
-use snookered_core::assess::{ShotAssessment, assess};
-use snookered_core::{EightBallGame, PocketId, Shot};
+use snook_legend_core::assess::{ShotAssessment, assess};
+use snook_legend_core::{EightBallGame, PocketId, Shot};
 
 /// The aim must stay put this long before it is assessed (seconds).
 const SETTLE: f32 = 0.35;

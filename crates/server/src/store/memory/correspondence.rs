@@ -1,6 +1,6 @@
 //! Correspondence games in memory (the same rules as the database).
 
-use snookered_proto::replay::Replay;
+use snook_legend_proto::replay::Replay;
 
 use super::super::{AsyncChallenge, AsyncGame, MatchRecord, NewAsyncGame, StoreResult, User};
 use super::MemoryStore;

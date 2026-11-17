@@ -1,6 +1,6 @@
 //! The shot analysis on profiles, reports with the game attached and the
 //! staff panel's hourly metrics: the stores (memory always, PostgreSQL when
-//! `SNOOKERED_TEST_DATABASE_URL` points at a database that may be wiped)
+//! `SNOOK_LEGEND_TEST_DATABASE_URL` points at a database that may be wiped)
 //! and the server end to end.
 
 use std::sync::Arc;
@@ -8,14 +8,16 @@ use std::time::Duration;
 
 use futures_util::{SinkExt, StreamExt};
 use serde_json::Value;
-use snookered_core::stats::ShotStats;
-use snookered_core::{Difficulty, EightBallGame, GameOverReason, ai};
-use snookered_proto::analysis::{ShotAnalysis, ShotKind, Tally};
-use snookered_proto::replay::{Replay, Stroke};
-use snookered_proto::{ClientMsg, PROTOCOL_VERSION, ReportReason, Role, ServerMsg, parse_server};
-use snookered_server::lounge::Rules;
-use snookered_server::store::{MatchRecord, NewReport, NewUser, Payment, Store, hour_of};
-use snookered_server::{Config, Server, serve};
+use snook_legend_core::stats::ShotStats;
+use snook_legend_core::{Difficulty, EightBallGame, GameOverReason, ai};
+use snook_legend_proto::analysis::{ShotAnalysis, ShotKind, Tally};
+use snook_legend_proto::replay::{Replay, Stroke};
+use snook_legend_proto::{
+    ClientMsg, PROTOCOL_VERSION, ReportReason, Role, ServerMsg, parse_server,
+};
+use snook_legend_server::lounge::Rules;
+use snook_legend_server::store::{MatchRecord, NewReport, NewUser, Payment, Store, hour_of};
+use snook_legend_server::{Config, Server, serve};
 use tokio::net::{TcpListener, TcpStream};
 use tokio_tungstenite::tungstenite::Message;
 use tokio_tungstenite::{MaybeTlsStream, WebSocketStream, connect_async};
@@ -50,7 +52,7 @@ fn record(players: [i64; 2], ended_at: i64, replay: bool) -> MatchRecord {
         replay: replay.then(|| Replay {
             seed: 9,
             breaker: 0,
-            ruleset: snookered_core::RULESET,
+            ruleset: snook_legend_core::RULESET,
             strokes: vec![Stroke::Resign { seat: 1 }],
         }),
         stats: [ShotStats::default(); 2],
@@ -171,8 +173,8 @@ async fn memory_store() {
 
 #[tokio::test]
 async fn postgres_store() {
-    let Ok(url) = std::env::var("SNOOKERED_TEST_DATABASE_URL") else {
-        eprintln!("SNOOKERED_TEST_DATABASE_URL not set: skipping");
+    let Ok(url) = std::env::var("SNOOK_LEGEND_TEST_DATABASE_URL") else {
+        eprintln!("SNOOK_LEGEND_TEST_DATABASE_URL not set: skipping");
         return;
     };
     {
@@ -251,7 +253,7 @@ impl Client {
         c
     }
 
-    async fn profile(&mut self, name: &str) -> snookered_proto::Profile {
+    async fn profile(&mut self, name: &str) -> snook_legend_proto::Profile {
         self.send(ClientMsg::Profile { username: name.into() }).await;
         let ServerMsg::Profile { profile } =
             self.expect("profile", |m| matches!(m, ServerMsg::Profile { .. })).await
@@ -505,7 +507,7 @@ async fn metrics_sample_who_is_online_by_the_hour() {
     let mut bia = Client::register(&s.url, "bia").await;
     let token = staff_token(&s.host).await;
     start_match(&mut ana, &mut bia, "bia", "ana").await;
-    snookered_server::metrics::sample(&s.server, snookered_server::now()).await;
+    snook_legend_server::metrics::sample(&s.server, snook_legend_server::now()).await;
     let (code, v) = request(&s.host, "GET", "/admin/api/metrics", &token, "").await;
     assert_eq!(code, 200, "{v}");
     let hours = v["metrics"]["hours"].as_array().unwrap();

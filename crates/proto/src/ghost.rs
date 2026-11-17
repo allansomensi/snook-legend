@@ -5,8 +5,8 @@
 
 use glam::DVec2;
 use serde::{Deserialize, Serialize};
-use snookered_core::ai::{AiPlayer, Search, Skill, Style};
-use snookered_core::{EightBallGame, Shot, ShotReport, math};
+use snook_legend_core::ai::{AiPlayer, Search, Skill, Style};
+use snook_legend_core::{EightBallGame, Shot, ShotReport, math};
 
 use crate::replay::{Replay, Stroke, apply};
 
@@ -163,7 +163,7 @@ pub fn intent(before: &EightBallGame, shot: &Shot, report: &ShotReport) -> Inten
     let Some(target) = report.first_contact else { return Intent::Unknown };
     let table = before.table();
     let r = table.spec.ball_radius;
-    let cue = before.ball(snookered_core::BallId::CUE).xy();
+    let cue = before.ball(snook_legend_core::BallId::CUE).xy();
     let object = before.ball(target).xy();
     let dir = math::from_angle(shot.yaw);
     let to_obj = object - cue;
@@ -290,8 +290,8 @@ impl Tally {
 mod tests {
     use super::*;
     use crate::ladder::computer_stroke;
-    use snookered_core::Difficulty;
-    use snookered_core::personalities::personality;
+    use snook_legend_core::Difficulty;
+    use snook_legend_core::personalities::personality;
 
     /// The style of seat 0 over a few games of `who` against a medium player.
     fn measured(who: &AiPlayer, games: u64) -> GhostStyle {

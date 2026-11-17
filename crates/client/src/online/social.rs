@@ -3,7 +3,7 @@
 //! Players tab) and status messages in the player rows.
 
 use macroquad::prelude::*;
-use snookered_proto::{ClientMsg, PlayerInfo, PlayerStatus, RecentOpponent, Relation, SeekNote};
+use snook_legend_proto::{ClientMsg, PlayerInfo, PlayerStatus, RecentOpponent, Relation, SeekNote};
 
 #[allow(unused_imports)]
 use crate::paint::{draw_circle, draw_line, draw_rectangle};
@@ -170,8 +170,8 @@ impl Online {
     /// Asks for the people played recently (shown on the Friends tab).
     pub(super) fn request_recent(&mut self) {
         self.social.recent_stale = false;
-        // Development aid (screenshots): SNOOKERED_RECENT=loading never asks.
-        if crate::dev::var("SNOOKERED_RECENT").as_deref() == Some("loading") {
+        // Development aid (screenshots): SNOOK_LEGEND_RECENT=loading never asks.
+        if crate::dev::var("SNOOK_LEGEND_RECENT").as_deref() == Some("loading") {
             return;
         }
         self.send(ClientMsg::RecentOpponents);
@@ -343,7 +343,7 @@ impl Online {
             let close = Rect::new(r.x + r.w - ch, cy, ch, ch);
             let post_r = Rect::new(close.x - 8.0 - pw, cy, pw, ch);
             let field = Rect::new(r.x, cy, post_r.x - 8.0 - r.x, ch);
-            let enter = ui.text_input(SEEK_FIELD, field, text, snookered_proto::MAX_SEEK_LEN);
+            let enter = ui.text_input(SEEK_FIELD, field, text, snook_legend_proto::MAX_SEEK_LEN);
             let text = text.clone();
             let kind = if self.rated_games { t("rated") } else { t("casual") };
             let hint = tw("What are you after? ({kind})", &[("kind", &kind)]);
@@ -354,7 +354,7 @@ impl Online {
                 ui.text(&hint, field.x + 12.0, y, size, MUTED, false);
             }
             if ui.primary_button(post_r, post) || enter {
-                let text = snookered_proto::clean_seek(&text);
+                let text = snook_legend_proto::clean_seek(&text);
                 self.send(ClientMsg::PostSeek { text, rated: self.rated_games });
                 self.social.composing = None;
                 ui.focus = None;

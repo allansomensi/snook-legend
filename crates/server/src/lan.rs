@@ -6,7 +6,7 @@ use std::sync::Arc;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::time::{Duration, Instant};
 
-use snookered_proto::{LAN_DISCOVERY_PORT, LAN_GAME_PORT, LanBeacon, PROTOCOL_VERSION};
+use snook_legend_proto::{LAN_DISCOVERY_PORT, LAN_GAME_PORT, LanBeacon, PROTOCOL_VERSION};
 
 use crate::lounge::Rules;
 use crate::{Config, Server};
@@ -31,7 +31,7 @@ impl LanHost {
         let runtime = tokio::runtime::Builder::new_multi_thread()
             .worker_threads(2)
             .enable_all()
-            .thread_name("snookered-lan")
+            .thread_name("snook-legend-lan")
             .build()?;
         let rules = Rules {
             lan: true,
@@ -40,7 +40,7 @@ impl LanHost {
             reconnect_grace: Duration::from_secs(90),
             ..Rules::default()
         };
-        std::thread::Builder::new().name("snookered-lan".into()).spawn(move || {
+        std::thread::Builder::new().name("snook-legend-lan".into()).spawn(move || {
             runtime.block_on(async move {
                 let config = Config {
                     bind: SocketAddr::from((Ipv4Addr::UNSPECIFIED, port)),
@@ -58,11 +58,11 @@ impl LanHost {
         // The beacon.
         let beacon_stop = stop.clone();
         let name = host.to_string();
-        std::thread::Builder::new().name("snookered-lan-beacon".into()).spawn(move || {
+        std::thread::Builder::new().name("snook-legend-lan-beacon".into()).spawn(move || {
             let Ok(sock) = UdpSocket::bind((Ipv4Addr::UNSPECIFIED, 0)) else { return };
             let _ = sock.set_broadcast(true);
             let beacon = LanBeacon {
-                game: "snookered".into(),
+                game: "snook-legend".into(),
                 version: PROTOCOL_VERSION,
                 host: name,
                 port,
@@ -126,7 +126,7 @@ impl Discovery {
         let mut buf = [0u8; 1024];
         while let Ok((n, from)) = sock.recv_from(&mut buf) {
             let Ok(b) = serde_json::from_slice::<LanBeacon>(&buf[..n]) else { continue };
-            if b.game != "snookered" || b.version != PROTOCOL_VERSION {
+            if b.game != "snook-legend" || b.version != PROTOCOL_VERSION {
                 continue;
             }
             let address = SocketAddr::new(from.ip(), b.port);

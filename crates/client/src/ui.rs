@@ -30,7 +30,7 @@ pub struct FeedLine {
     /// Written by an administrator (the name is red).
     pub admin: bool,
     /// Deleted, and by whom (the text is gone).
-    pub deleted: Option<snookered_proto::Deleted>,
+    pub deleted: Option<snook_legend_proto::Deleted>,
 }
 
 /// What the reader did with a line of [`Ui::chat_log`].
@@ -54,8 +54,8 @@ pub enum FeedKind {
 }
 
 /// The colour of a rating tier (used for player names everywhere).
-pub fn tier_color(tier: snookered_proto::Tier) -> Color {
-    use snookered_proto::Tier;
+pub fn tier_color(tier: snook_legend_proto::Tier) -> Color {
+    use snook_legend_proto::Tier;
     match tier {
         Tier::Rookie => Color::new(0.72, 0.72, 0.74, 1.0),
         Tier::Amateur => Color::new(0.93, 0.89, 0.80, 1.0),
@@ -73,22 +73,22 @@ pub const ADMIN_RED: Color = Color::new(1.0, 0.32, 0.27, 1.0);
 
 /// The colour of a name: red for administrators, else the rating tier's.
 pub fn name_color_of(admin: bool, rating: i32) -> Color {
-    if admin { ADMIN_RED } else { tier_color(snookered_proto::Tier::of(rating)) }
+    if admin { ADMIN_RED } else { tier_color(snook_legend_proto::Tier::of(rating)) }
 }
 
 /// The colour of a player's name.
-pub fn name_color(p: &snookered_proto::PlayerInfo) -> Color {
-    if p.role == snookered_proto::Role::Admin { ADMIN_RED } else { tier_color(p.tier()) }
+pub fn name_color(p: &snook_legend_proto::PlayerInfo) -> Color {
+    if p.role == snook_legend_proto::Role::Admin { ADMIN_RED } else { tier_color(p.tier()) }
 }
 
 /// A VIP name style (two colours), if the player has one (administrators
 /// keep their red).
-pub fn name_style(p: &snookered_proto::PlayerInfo) -> Option<(Color, Color)> {
-    if !p.vip || p.role == snookered_proto::Role::Admin {
+pub fn name_style(p: &snook_legend_proto::PlayerInfo) -> Option<(Color, Color)> {
+    if !p.vip || p.role == snook_legend_proto::Role::Admin {
         return None;
     }
-    match snookered_proto::shop::item(&p.name_style)?.look {
-        snookered_proto::shop::Look::Name(Some((a, b))) => {
+    match snook_legend_proto::shop::item(&p.name_style)?.look {
+        snook_legend_proto::shop::Look::Name(Some((a, b))) => {
             Some((Color::from_rgba(a[0], a[1], a[2], 255), Color::from_rgba(b[0], b[1], b[2], 255)))
         }
         _ => None,
@@ -96,7 +96,7 @@ pub fn name_style(p: &snookered_proto::PlayerInfo) -> Option<(Color, Color)> {
 }
 
 /// A player's name in their colour (their VIP style, else their tier's).
-pub fn draw_name(ui: &Ui, p: &snookered_proto::PlayerInfo, x: f32, y: f32, size: f32) {
+pub fn draw_name(ui: &Ui, p: &snook_legend_proto::PlayerInfo, x: f32, y: f32, size: f32) {
     match name_style(p) {
         Some((a, b)) => ui.styled_text(&p.username, x, y, size, a, b, true),
         None => ui.text(&p.username, x, y, size, name_color(p), true),
@@ -1002,7 +1002,7 @@ impl Ui {
                     } else if mine {
                         GOLD
                     } else if *rating > 0 {
-                        tier_color(snookered_proto::Tier::of(*rating))
+                        tier_color(snook_legend_proto::Tier::of(*rating))
                     } else {
                         Color::new(0.55, 0.78, 0.95, 1.0)
                     };
@@ -1012,10 +1012,10 @@ impl Ui {
                 _ => (Some("• ".to_string()), MUTED),
             };
             let text = match l.deleted {
-                Some(snookered_proto::Deleted::Author) => {
+                Some(snook_legend_proto::Deleted::Author) => {
                     crate::i18n::t("(message deleted by its author)").to_string()
                 }
-                Some(snookered_proto::Deleted::Admin) => {
+                Some(snook_legend_proto::Deleted::Admin) => {
                     crate::i18n::t("(message deleted by an administrator)").to_string()
                 }
                 None => l.text.clone(),
@@ -1258,7 +1258,7 @@ impl Ui {
     /// A flag (if any) and a player name in their tier colour. Returns the width used.
     pub fn player_name(
         &self,
-        p: &snookered_proto::PlayerInfo,
+        p: &snook_legend_proto::PlayerInfo,
         x: f32,
         y: f32,
         size: f32,
@@ -1287,8 +1287,8 @@ impl Ui {
             ),
         };
         // The shop frame: a thin line of its colours under the name.
-        if let Some(snookered_proto::shop::Look::Frame { a, b, .. }) =
-            snookered_proto::shop::item(&p.frame).map(|i| i.look)
+        if let Some(snook_legend_proto::shop::Look::Frame { a, b, .. }) =
+            snook_legend_proto::shop::item(&p.frame).map(|i| i.look)
             && p.frame != "frame_none"
         {
             let ca = Color::from_rgba(a[0], a[1], a[2], 220);

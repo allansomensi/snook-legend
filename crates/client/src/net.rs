@@ -13,7 +13,7 @@ use std::sync::mpsc::{Receiver, Sender, TryRecvError, channel};
 use std::time::Duration;
 
 use futures_util::{SinkExt, StreamExt};
-use snookered_proto::{ClientMsg, PROTOCOL_VERSION, ServerMsg, parse_server};
+use snook_legend_proto::{ClientMsg, PROTOCOL_VERSION, ServerMsg, parse_server};
 use tokio::sync::mpsc::{UnboundedReceiver, UnboundedSender, unbounded_channel};
 use tungstenite::Message;
 use tungstenite::client::IntoClientRequest;
@@ -46,7 +46,7 @@ impl Connection {
         let (in_tx, rx) = channel::<NetEvent>();
         let url = url.trim().to_string();
         std::thread::Builder::new()
-            .name("snookered-net".into())
+            .name("snook-legend-net".into())
             .spawn(move || {
                 let runtime = tokio::runtime::Builder::new_current_thread().enable_all().build();
                 let reason = match runtime {
@@ -102,7 +102,7 @@ fn friendly(e: &tungstenite::Error) -> String {
             crate::i18n::tw("Secure connection failed: {e}.", &[("e", &t)])
         }
         tungstenite::Error::Url(_) | tungstenite::Error::HttpFormat(_) => {
-            "The server address is not valid (example: wss://snookered.example.com/ws).".into()
+            "The server address is not valid (example: wss://snook-legend.example.com/ws).".into()
         }
         tungstenite::Error::Http(r) => crate::i18n::tw(
             "The server refused the connection (HTTP {code}).",
@@ -251,7 +251,7 @@ mod tests {
     /// milliseconds (it used to wait on socket read timeouts).
     #[test]
     fn messages_cross_the_server_at_once() {
-        let host = snookered_server::lan::LanHost::start("test").expect("host");
+        let host = snook_legend_server::lan::LanHost::start("test").expect("host");
         let url = format!("ws://127.0.0.1:{}/ws", host.port);
         let mut a = Connection::open(&url);
         let mut b = Connection::open(&url);

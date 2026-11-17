@@ -76,10 +76,10 @@ impl AimGuide {
     }
 }
 
-/// The default game server; change it in Settings or with `SNOOKERED_SERVER`
-/// when building (an empty `SNOOKERED_SERVER`, as CI passes when the variable
+/// The default game server; change it in Settings or with `SNOOK_LEGEND_SERVER`
+/// when building (an empty `SNOOK_LEGEND_SERVER`, as CI passes when the variable
 /// isn't set, keeps the public server).
-pub const DEFAULT_SERVER: &str = match option_env!("SNOOKERED_SERVER") {
+pub const DEFAULT_SERVER: &str = match option_env!("SNOOK_LEGEND_SERVER") {
     Some(s) if !s.is_empty() => s,
     _ => "wss://snook-server.onrender.com/ws",
 };
@@ -214,7 +214,7 @@ impl Default for Config {
 }
 
 /// Where the settings, the session, the tour and the saved games live.
-/// The game was called Snookered until 0.4.0: its folder is moved over the
+/// The folder of the game's earlier name ([`folders`]) is moved over the
 /// first time (see [`move_old_folder`]), so nobody loses anything.
 pub fn config_dir() -> Option<PathBuf> {
     let (new, old) = folders()?;
@@ -223,7 +223,8 @@ pub fn config_dir() -> Option<PathBuf> {
     Some(new)
 }
 
-/// The folder (named after the game) and the one before the rename.
+/// The folder (named after the game) and the one of its earlier name,
+/// before 0.4.0. The earlier name stays here only to find that folder.
 fn folders() -> Option<(PathBuf, PathBuf)> {
     if cfg!(windows) {
         let base = PathBuf::from(std::env::var_os("APPDATA")?);
@@ -335,7 +336,7 @@ impl Config {
                 // Only real items of the right kind (a typo means the default).
                 "cloth" | "cue" | "chalk" | "balls" | "effect" | "table" | "hall" => {
                     let fits =
-                        snookered_proto::shop::item(v).is_some_and(|i| i.category.code() == k);
+                        snook_legend_proto::shop::item(v).is_some_and(|i| i.category.code() == k);
                     if fits {
                         match k {
                             "cloth" => c.cloth = v.to_string(),
@@ -350,7 +351,7 @@ impl Config {
                 }
                 "cue_level" => {
                     c.cue_level =
-                        v.parse::<u8>().unwrap_or(0).min(snookered_proto::shop::MAX_CUE_LEVEL)
+                        v.parse::<u8>().unwrap_or(0).min(snook_legend_proto::shop::MAX_CUE_LEVEL)
                 }
                 "email_offer_declined" => c.email_offer_declined = v == "true",
                 "board_seen" => c.board_seen = v.parse().unwrap_or(0),
@@ -510,7 +511,7 @@ mod tests {
         let bad = Config::parse("table = hall_beach\nhall = cue_maple\ncue_level = 99");
         assert_eq!(bad.table, "table_classic");
         assert_eq!(bad.hall, "hall_pool");
-        assert_eq!(bad.cue_level, snookered_proto::shop::MAX_CUE_LEVEL);
+        assert_eq!(bad.cue_level, snook_legend_proto::shop::MAX_CUE_LEVEL);
     }
 
     #[test]
@@ -527,7 +528,7 @@ mod tests {
 
         // A file from an older version: default keys, updates on, and the
         // notes of this version still to show.
-        let old = Config::parse("# Snookered settings\nvolume = 0.50\nfullscreen = true\n");
+        let old = Config::parse("# Snook Legend settings\nvolume = 0.50\nfullscreen = true\n");
         assert_eq!(old.keys, crate::keys::Bindings::default());
         assert!(old.auto_update);
         assert_eq!(old.last_version, "");

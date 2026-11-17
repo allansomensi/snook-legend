@@ -3,7 +3,7 @@
 
 use std::sync::Arc;
 
-use snookered_proto::{ClientMsg, MAX_NAME_CHANGES, ServerMsg, valid_password, valid_username};
+use snook_legend_proto::{ClientMsg, MAX_NAME_CHANGES, ServerMsg, valid_password, valid_username};
 
 use crate::store::{Rename, User, day_of};
 use crate::{Server, now, token_hash};
@@ -246,7 +246,7 @@ pub async fn award_xp(server: &Server, user: &User, amount: u32) {
     }
     match server.store.add_xp(user.id, amount).await {
         Ok(xp) => server.with(|l| {
-            l.notify(&user.username, snookered_proto::ServerMsg::Xp { xp, gained: amount });
+            l.notify(&user.username, snook_legend_proto::ServerMsg::Xp { xp, gained: amount });
             l.set_xp(&user.username, xp);
         }),
         Err(e) => tracing::warn!("xp for {}: {e}", user.username),

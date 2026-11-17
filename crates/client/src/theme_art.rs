@@ -3,7 +3,7 @@
 //! of each hall with its light.
 
 use macroquad::prelude::*;
-use snookered_proto::shop::{HallStyle, TableStyle};
+use snook_legend_proto::shop::{HallStyle, TableStyle};
 
 #[allow(unused_imports)]
 use crate::paint::{draw_circle, draw_ellipse, draw_line, draw_rectangle, draw_triangle};

@@ -8,7 +8,9 @@
 use std::collections::HashMap;
 use std::time::Duration;
 
-use snookered_proto::{OLDEST_PROTOCOL_VERSION, SOCIAL_PROTOCOL, SeekNote, ServerMsg, clean_seek};
+use snook_legend_proto::{
+    OLDEST_PROTOCOL_VERSION, SOCIAL_PROTOCOL, SeekNote, ServerMsg, clean_seek,
+};
 
 use super::{Lounge, key};
 use crate::now;

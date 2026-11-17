@@ -60,7 +60,7 @@ mod versus;
 mod whatsnew;
 
 use macroquad::prelude::*;
-use snookered_core::{Difficulty, Table};
+use snook_legend_core::{Difficulty, Table};
 
 use crate::camera::{CameraMode, CameraRig};
 use crate::config::Config;
@@ -138,7 +138,7 @@ fn parse_args() -> LaunchOptions {
                 let opponent = match who.as_str() {
                     "easy" => opponents::Opponent::Level { level: Difficulty::Easy },
                     "hard" => opponents::Opponent::Level { level: Difficulty::Hard },
-                    code if snookered_core::personalities::personality(code).is_some() => {
+                    code if snook_legend_core::personalities::personality(code).is_some() => {
                         opponents::Opponent::personality(code)
                     }
                     _ => opponents::Opponent::Level { level: Difficulty::Medium },
@@ -177,7 +177,7 @@ fn window_conf() -> macroquad::conf::Conf {
     // Before any window: the updater runs `--version` on a new executable
     // to make sure it works (see update.rs). Keep this answer as it is.
     if std::env::args().skip(1).any(|a| a == "--version" || a == "-V") {
-        println!("snookered {}", env!("CARGO_PKG_VERSION"));
+        println!("snook-legend {}", env!("CARGO_PKG_VERSION"));
         std::process::exit(0);
     }
     update::init();
@@ -192,11 +192,11 @@ fn window_conf() -> macroquad::conf::Conf {
         .and_then(|(w, h)| Some((w.parse().ok()?, h.parse().ok()?)))
         .unwrap_or((1280, 760));
     let window = Conf {
-        window_title: snookered_proto::GAME_NAME.into(),
+        window_title: snook_legend_proto::GAME_NAME.into(),
         window_width: size.0,
         window_height: size.1,
         // Safe graphics mode (troubleshooting) also turns multisampling off.
-        sample_count: if std::env::var_os("SNOOKERED_SAFE_GRAPHICS").is_some() {
+        sample_count: if std::env::var_os("SNOOK_LEGEND_SAFE_GRAPHICS").is_some() {
             1
         } else {
             config.msaa
@@ -241,7 +241,7 @@ enum Screen {
 
 /// A LAN game: the server this computer hosts (if any) and the connection.
 struct LanSession {
-    host: Option<snookered_server::lan::LanHost>,
+    host: Option<snook_legend_server::lan::LanHost>,
     net: Online,
 }
 
@@ -255,7 +255,7 @@ async fn main() {
         let size = (screen_height() * 0.22).clamp(96.0, 220.0);
         icon::draw((screen_width() - size) / 2.0, screen_height() / 2.0 - size * 0.75, size);
         ui.text_centered(
-            &snookered_proto::GAME_NAME.to_uppercase(),
+            &snook_legend_proto::GAME_NAME.to_uppercase(),
             screen_width() / 2.0,
             screen_height() / 2.0 + size * 0.35,
             32.0,
@@ -269,9 +269,9 @@ async fn main() {
     i18n::set_lang(config.language);
     // The first start on a new version: what changed (on the main menu).
     let mut whats_new = whatsnew::WhatsNew::after_update(&config.last_version);
-    // Development aid: SNOOKERED_WHATS_NEW=1 shows the notes, =0.2.0 that
+    // Development aid: SNOOK_LEGEND_WHATS_NEW=1 shows the notes, =0.2.0 that
     // version's.
-    if let Some(v) = crate::dev::var("SNOOKERED_WHATS_NEW") {
+    if let Some(v) = crate::dev::var("SNOOK_LEGEND_WHATS_NEW") {
         whats_new = whatsnew::WhatsNew::of(&v).or_else(|| Some(whatsnew::WhatsNew::all()));
     } else if options.screenshot.is_some() {
         whats_new = None;
@@ -323,8 +323,8 @@ async fn main() {
     if options.top_view {
         rig.mode = CameraMode::Top;
     }
-    // Development aid: SNOOKERED_SAMPLE_REPLAY=1 watches a recorded game.
-    if crate::dev::flag("SNOOKERED_SAMPLE_REPLAY") {
+    // Development aid: SNOOK_LEGEND_SAMPLE_REPLAY=1 watches a recorded game.
+    if crate::dev::flag("SNOOK_LEGEND_SAMPLE_REPLAY") {
         current = Some(Match::replay_of(&game::Video::sample(11, 30), config.guide));
     }
     if let Some(mode) = options.start {
@@ -332,8 +332,8 @@ async fn main() {
         if options.on_eight {
             m.debug_on_eight();
         }
-        // Development aid: SNOOKERED_RESIGN=1 resigns at once (the game-over panel).
-        if crate::dev::flag("SNOOKERED_RESIGN") {
+        // Development aid: SNOOK_LEGEND_RESIGN=1 resigns at once (the game-over panel).
+        if crate::dev::flag("SNOOK_LEGEND_RESIGN") {
             m.debug_shots();
             m.resign();
         }
@@ -390,7 +390,7 @@ async fn main() {
     // The ladder against the computer, and the claim of its reward.
     let mut ladder_progress = ladder::Progress::load();
     let mut claimer = ladder::Claimer::default();
-    let menu_rack = snookered_core::rules::rack(&scene.table, 2024);
+    let menu_rack = snook_legend_core::rules::rack(&scene.table, 2024);
     let vignette = vignette_texture();
 
     // First run: measure the frame rate on the menu and pick graphics that
@@ -402,9 +402,9 @@ async fn main() {
     let mut was_in_match = current.is_some();
     let mut hud_opacity = 1.0f32;
     let mut frame = 0u32;
-    // Development aid: SNOOKERED_PROFILE prints the CPU time of a frame (without
+    // Development aid: SNOOK_LEGEND_PROFILE prints the CPU time of a frame (without
     // waiting for the GPU) every 300 frames.
-    let profiling = crate::dev::flag("SNOOKERED_PROFILE");
+    let profiling = crate::dev::flag("SNOOK_LEGEND_PROFILE");
     let mut cpu = (0.0f64, 0.0f64, 0u32);
     loop {
         let frame_start = std::time::Instant::now();
@@ -486,7 +486,7 @@ async fn main() {
         if let Some(run) = current.as_mut().and_then(|m| m.daily.as_mut()) {
             if run.over && !run.sent {
                 run.sent = true;
-                online.send(snookered_proto::ClientMsg::DailySubmit {
+                online.send(snook_legend_proto::ClientMsg::DailySubmit {
                     day: run.day,
                     strokes: run.strokes.clone(),
                 });
@@ -500,7 +500,7 @@ async fn main() {
         if let Some(run) = current.as_mut().and_then(|m| m.drill.as_mut()) {
             if run.over && !run.sent && online.signed_in() {
                 run.sent = true;
-                online.send(snookered_proto::ClientMsg::DrillSubmit {
+                online.send(snook_legend_proto::ClientMsg::DrillSubmit {
                     code: run.code.to_string(),
                     strokes: run.strokes.clone(),
                 });
@@ -536,7 +536,7 @@ async fn main() {
             && let Some(over) = m.game.game_over()
         {
             run.reported = true;
-            let won = over.winner == snookered_proto::ladder::PLAYER_SEAT;
+            let won = over.winner == snook_legend_proto::ladder::PLAYER_SEAT;
             let rung = run.rung as usize;
             let before = ladder_progress.beaten;
             if ladder_progress.record(run, won) {
@@ -544,7 +544,7 @@ async fn main() {
             }
             // A new rung: say what comes next.
             if ladder_progress.beaten > before {
-                let text = match snookered_proto::ladder::rung(rung + 1) {
+                let text = match snook_legend_proto::ladder::rung(rung + 1) {
                     Some(next) => i18n::tw(
                         "Stage {n} won! Next on the tour: {name}.",
                         &[("n", &(rung + 1)), ("name", &next.name)],
@@ -580,7 +580,7 @@ async fn main() {
         // Watching someone else's game (live or a replay): the broadcast camera.
         rig.tv = config.tv_camera
             && current.as_ref().is_some_and(|m| {
-                m.is_spectating() || m.is_replay() || crate::dev::flag("SNOOKERED_TV")
+                m.is_spectating() || m.is_replay() || crate::dev::flag("SNOOK_LEGEND_TV")
             });
         if rig.follow_cue != config.camera_follow {
             rig.follow_cue = config.camera_follow;
@@ -677,8 +677,8 @@ async fn main() {
             };
             cam.up = Vec3::Y;
         }
-        // Development aid: SNOOKERED_CAM="eye x,y,z,target x,y,z" fixes the camera.
-        if let Some(v) = crate::dev::var("SNOOKERED_CAM")
+        // Development aid: SNOOK_LEGEND_CAM="eye x,y,z,target x,y,z" fixes the camera.
+        if let Some(v) = crate::dev::var("SNOOK_LEGEND_CAM")
             .map(|v| v.split(',').filter_map(|x| x.trim().parse::<f32>().ok()).collect::<Vec<_>>())
             && v.len() == 6
         {
@@ -705,7 +705,7 @@ async fn main() {
         let above_lamp =
             cam.eye.y > scene::LAMP_Y - 0.05 && cam.eye.x.abs() < 3.5 && cam.eye.z.abs() < 3.0;
         scene.lamp_visible = !(current.is_some() && (rig.mode == CameraMode::Top || above_lamp))
-            || crate::dev::var("SNOOKERED_CAM").is_some();
+            || crate::dev::var("SNOOK_LEGEND_CAM").is_some();
         // Looking down on the table in a game: no cord, fan or beam of the
         // hall in the way.
         scene.clear_over_table = !scene.lamp_visible;
@@ -748,9 +748,9 @@ async fn main() {
                     let chalk =
                         if code.starts_with("chalk") { code } else { config.chalk.as_str() };
                     if let Some(ball) =
-                        menu_rack.iter().find(|b| b.id == snookered_core::BallId::CUE)
+                        menu_rack.iter().find(|b| b.id == snook_legend_core::BallId::CUE)
                     {
-                        let params = snookered_core::PhysicsParams::default();
+                        let params = snook_legend_core::PhysicsParams::default();
                         let pose = scene.cue_pose(
                             &params,
                             ball.position,
@@ -762,7 +762,7 @@ async fn main() {
                         overlay.cue = Some(pose);
                         overlay.cue_look = (cue.to_string(), chalk.to_string());
                         // The marks this cue has earned.
-                        overlay.cue_level = snookered_proto::shop::cue_level(
+                        overlay.cue_level = snook_legend_proto::shop::cue_level(
                             online.wallet.as_ref().map_or(0, |w| w.cue_wins(cue)),
                         );
                     }
@@ -771,9 +771,9 @@ async fn main() {
             }
         }
 
-        // Development aid: with SNOOKERED_SCENE_ONLY, --screenshot saves the 3D
+        // Development aid: with SNOOK_LEGEND_SCENE_ONLY, --screenshot saves the 3D
         // scene without the interface (pictures for the store pages).
-        if crate::dev::flag("SNOOKERED_SCENE_ONLY")
+        if crate::dev::flag("SNOOK_LEGEND_SCENE_ONLY")
             && let Some(path) = &options.screenshot
             && frame + 1 == options.frames
         {
@@ -884,14 +884,14 @@ async fn main() {
                                 && online.signed_in()
                             {
                                 run.sent = true;
-                                online.send(snookered_proto::ClientMsg::DrillSubmit {
+                                online.send(snook_legend_proto::ClientMsg::DrillSubmit {
                                     code: run.code.to_string(),
                                     strokes: run.strokes.clone(),
                                 });
                             }
                             if let Some(run) = m.daily.as_mut().filter(|r| !r.sent) {
                                 run.sent = true;
-                                online.send(snookered_proto::ClientMsg::DailySubmit {
+                                online.send(snook_legend_proto::ClientMsg::DailySubmit {
                                     day: run.day,
                                     strokes: run.strokes.clone(),
                                 });
@@ -910,10 +910,10 @@ async fn main() {
                             hud = Hud::new(config.show_help);
                             rig.reset();
                             screen = if drill {
-                                online.send(snookered_proto::ClientMsg::Drills);
+                                online.send(snook_legend_proto::ClientMsg::Drills);
                                 Screen::Versus(versus::Versus::new(versus::Tab::Drills, &config))
                             } else if daily {
-                                online.send(snookered_proto::ClientMsg::Daily);
+                                online.send(snook_legend_proto::ClientMsg::Daily);
                                 Screen::Versus(versus::Versus::new(versus::Tab::Daily, &config))
                             } else if replay {
                                 Screen::Profile
@@ -1011,7 +1011,7 @@ async fn main() {
                             MenuAction::Daily => {
                                 online.connect();
                                 online.tab = online::Tab::Daily;
-                                online.send(snookered_proto::ClientMsg::CorrList);
+                                online.send(snook_legend_proto::ClientMsg::CorrList);
                                 next = Some(Screen::Online);
                             }
                             MenuAction::Lan => {
@@ -1428,8 +1428,9 @@ async fn main() {
         if options.show_fps && frame.is_multiple_of(120) {
             println!("fps {}", get_fps());
         }
-        // Development aid: SNOOKERED_SHOTS="300,900" also saves `<name>-300.png`… on the way.
-        if let (Some(path), Some(list)) = (&options.screenshot, crate::dev::var("SNOOKERED_SHOTS"))
+        // Development aid: SNOOK_LEGEND_SHOTS="300,900" also saves `<name>-300.png`… on the way.
+        if let (Some(path), Some(list)) =
+            (&options.screenshot, crate::dev::var("SNOOK_LEGEND_SHOTS"))
             && list.split(',').filter_map(|n| n.trim().parse::<u32>().ok()).any(|n| n == frame)
         {
             let mut image = get_screen_data();

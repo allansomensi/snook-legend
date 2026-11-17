@@ -6,7 +6,7 @@
 //! joint end, 1 at the butt end).
 
 use macroquad::prelude::Color;
-use snookered_proto::shop::CueStyle;
+use snook_legend_proto::shop::CueStyle;
 
 /// The colours a cue is painted with (from its shop look).
 #[derive(Debug, Clone, Copy)]
@@ -212,7 +212,7 @@ pub struct Design {
 
 impl Design {
     pub fn of(code: &str) -> Option<Design> {
-        use snookered_proto::shop::{Look, item};
+        use snook_legend_proto::shop::{Look, item};
         match item(code)?.look {
             Look::Cue { butt, accent, ring, style, shaft } => Some(Design {
                 paint: Paint::of(butt, accent, ring),
@@ -339,7 +339,7 @@ mod tests {
     /// middle solid.
     #[test]
     fn pictures_of_every_cue() {
-        use snookered_proto::shop::{Category, ITEMS};
+        use snook_legend_proto::shop::{Category, ITEMS};
         for item in ITEMS.iter().filter(|i| i.category == Category::Cue) {
             let d = Design::of(item.code).expect("a cue");
             let img = image(&d, 0.62, 120, 32);

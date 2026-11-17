@@ -7,7 +7,7 @@
 //! messages: the server never sends them to older games.
 
 use serde::{Deserialize, Serialize};
-use snookered_core::{EightBallGame, GameOverReason, Group};
+use snook_legend_core::{EightBallGame, GameOverReason, Group};
 
 use crate::PlayerInfo;
 
@@ -150,7 +150,7 @@ mod tests {
         let c = ClientMsg::CorrShoot {
             id: 9,
             turn: 4,
-            shot: snookered_core::Shot::new(0.5, 2.0),
+            shot: snook_legend_core::Shot::new(0.5, 2.0),
             called_pocket: None,
             cue_ball: Some(glam::DVec2::new(0.1, -0.2)),
         };

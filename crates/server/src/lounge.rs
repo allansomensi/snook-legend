@@ -12,11 +12,11 @@ use std::time::{Duration, Instant};
 
 use glam::DVec2;
 use rand::Rng;
-use snookered_core::rating::{self, EloConfig, Rating};
-use snookered_core::stats::ShotStats;
-use snookered_core::{BallId, EightBallGame, GameOverReason, PocketId, Shot, ShotReport};
-use snookered_proto::replay::{Replay, Stroke, shot_difficulty};
-use snookered_proto::{
+use snook_legend_core::rating::{self, EloConfig, Rating};
+use snook_legend_core::stats::ShotStats;
+use snook_legend_core::{BallId, EightBallGame, GameOverReason, PocketId, Shot, ShotReport};
+use snook_legend_proto::replay::{Replay, Stroke, shot_difficulty};
+use snook_legend_proto::{
     AimState, ChatKind, ChatLine, ClientMsg, FeaturedMatch, MAX_ROOM_PASSWORD, MatchResult,
     PlayerInfo, PlayerStatus, SPECTATOR_SEAT, ServerMsg, TableInfo, TournamentInfo,
     TournamentState, clean_chat, clean_text,
@@ -67,7 +67,7 @@ impl Default for Rules {
             shot_clock: Duration::from_secs(30),
             reconnect_grace: Duration::from_secs(60),
             chat_history: 60,
-            motd: format!("Welcome to {}! Be kind, play fair.", snookered_proto::GAME_NAME),
+            motd: format!("Welcome to {}! Be kind, play fair.", snook_legend_proto::GAME_NAME),
             lan: false,
             max_connections_per_ip: 12,
             tournament_no_show: Duration::from_secs(120),
@@ -268,12 +268,12 @@ pub struct Lounge {
     /// Waits in the "Play now" queue (seconds), for the staff panel.
     pub queue_waits: VecDeque<u32>,
     /// The notes on the board (the store has them; this is what players see).
-    board: Vec<snookered_proto::BoardNote>,
+    board: Vec<snook_legend_proto::BoardNote>,
     /// The last lounge chat line's number.
     chat_id: u64,
     /// Lounge chat lines deleted (shown as such), and by whom. The text is
     /// kept for reports.
-    chat_deleted: HashMap<u64, snookered_proto::Deleted>,
+    chat_deleted: HashMap<u64, snook_legend_proto::Deleted>,
     /// Lounge chat lines taken away without a trace (or cleared).
     chat_removed: HashSet<u64>,
     /// The "looking for a game" board.
@@ -326,7 +326,7 @@ pub fn player_info(user: &User, guest: bool, status: PlayerStatus) -> PlayerInfo
         status_message: user.status_message.clone(),
         vs_computer: false,
         away: false,
-        level: if guest { 0 } else { snookered_proto::xp::level_of(user.xp) },
+        level: if guest { 0 } else { snook_legend_proto::xp::level_of(user.xp) },
     }
 }
 
@@ -525,7 +525,7 @@ impl Lounge {
         let _ = tx.try_send(ServerMsg::Welcome {
             motd: self.rules.motd.clone(),
             lan: self.rules.lan,
-            protocol: snookered_proto::PROTOCOL_VERSION,
+            protocol: snook_legend_proto::PROTOCOL_VERSION,
         });
         self.sessions.insert(
             k.clone(),
@@ -742,9 +742,9 @@ impl Lounge {
     pub fn set_xp(&mut self, name: &str, xp: i64) {
         let k = key(name);
         let Some(s) = self.sessions.get_mut(&k) else { return };
-        let before = snookered_proto::xp::level_of(s.user.xp);
+        let before = snook_legend_proto::xp::level_of(s.user.xp);
         s.user.xp = xp;
-        if snookered_proto::xp::level_of(xp) != before {
+        if snook_legend_proto::xp::level_of(xp) != before {
             self.announce(&k);
         }
     }
@@ -768,7 +768,7 @@ impl Lounge {
             return;
         }
         let line = ChatLine {
-            from: snookered_proto::GAME_NAME.into(),
+            from: snook_legend_proto::GAME_NAME.into(),
             text,
             at: now(),
             kind: ChatKind::Announcement,
@@ -782,7 +782,7 @@ impl Lounge {
     }
 
     /// New notes on the board: everyone sees them at once.
-    pub fn set_board(&mut self, notes: Vec<snookered_proto::BoardNote>) {
+    pub fn set_board(&mut self, notes: Vec<snook_legend_proto::BoardNote>) {
         self.board = notes;
         self.broadcast(&ServerMsg::Board { notes: self.board.clone() });
     }
@@ -823,7 +823,7 @@ impl Lounge {
     /// any (`silent`: without a trace).
     fn delete_chat(&mut self, k: &str, id: u64, silent: bool) {
         let Some(s) = self.sessions.get(k) else { return };
-        let admin = s.user.role == snookered_proto::Role::Admin;
+        let admin = s.user.role == snook_legend_proto::Role::Admin;
         let Some(line) = self.chat.iter().find(|l| l.id == id && l.kind == ChatKind::Player) else {
             return;
         };
@@ -838,9 +838,9 @@ impl Lounge {
             self.broadcast(&ServerMsg::ChatRemoved { id });
         } else {
             let by = if own {
-                snookered_proto::Deleted::Author
+                snook_legend_proto::Deleted::Author
             } else {
-                snookered_proto::Deleted::Admin
+                snook_legend_proto::Deleted::Admin
             };
             self.chat_deleted.insert(id, by);
             self.broadcast(&ServerMsg::ChatDeleted { id, by });
@@ -854,7 +854,7 @@ impl Lounge {
         self.chat_deleted.clear();
         self.broadcast(&ServerMsg::ChatCleared { by: by.to_string() });
         let line = ChatLine {
-            from: snookered_proto::GAME_NAME.into(),
+            from: snook_legend_proto::GAME_NAME.into(),
             text: format!("The chat was cleared by {by}."),
             at: now(),
             kind: ChatKind::System,
@@ -958,7 +958,7 @@ impl Lounge {
             ClientMsg::DeleteChat { id, silent } => self.delete_chat(&k, id, silent),
             ClientMsg::ClearChat => {
                 if let Some(s) =
-                    self.sessions.get(&k).filter(|s| s.user.role == snookered_proto::Role::Admin)
+                    self.sessions.get(&k).filter(|s| s.user.role == snook_legend_proto::Role::Admin)
                 {
                     let by = s.user.username.clone();
                     tracing::info!(by = %by, "lounge chat cleared");
@@ -1134,7 +1134,7 @@ impl Lounge {
             kind: ChatKind::Player,
             rating: if s.guest { 0 } else { s.user.rating },
             id: 0,
-            admin: s.user.role == snookered_proto::Role::Admin,
+            admin: s.user.role == snook_legend_proto::Role::Admin,
             deleted: None,
         };
         let line = self.push_chat(line);
@@ -1159,7 +1159,7 @@ impl Lounge {
             kind: ChatKind::Player,
             rating: if s.guest { 0 } else { s.user.rating },
             id: 0,
-            admin: s.user.role == snookered_proto::Role::Admin,
+            admin: s.user.role == snook_legend_proto::Role::Admin,
             deleted: None,
         };
         let sender = s.user.id;
@@ -1187,7 +1187,7 @@ impl Lounge {
         self.spectators(id)
             .into_iter()
             .filter(|w| {
-                self.sessions.get(w).is_some_and(|s| s.user.role == snookered_proto::Role::Admin)
+                self.sessions.get(w).is_some_and(|s| s.user.role == snook_legend_proto::Role::Admin)
             })
             .collect()
     }
@@ -1213,7 +1213,7 @@ impl Lounge {
     /// A reaction to everyone at the table (it must be unlocked; a few a
     /// second at most; muted players and blocked senders are not shown).
     fn react(&mut self, k: &str, code: &str) {
-        let Some(r) = snookered_proto::reaction(code) else { return };
+        let Some(r) = snook_legend_proto::reaction(code) else { return };
         let Some(s) = self.sessions.get_mut(k) else { return };
         if !r.available(&s.achievements, s.look.vip) || !s.reaction_bucket.take() {
             return;
@@ -1445,7 +1445,8 @@ impl Lounge {
             let clock = self.rules.shot_clock.as_secs() as u32;
             self.send(w, room.started_msg(seat, &self.sessions, clock, true));
             // An administrator also gets what the players said so far.
-            if self.sessions.get(w).is_some_and(|s| s.user.role == snookered_proto::Role::Admin) {
+            if self.sessions.get(w).is_some_and(|s| s.user.role == snook_legend_proto::Role::Admin)
+            {
                 for line in &room.chat {
                     self.send(w, ServerMsg::MatchChat { line: line.clone() });
                 }
@@ -2650,7 +2651,7 @@ impl Lounge {
         }
         let code: String = code
             .trim()
-            .trim_start_matches("snookered://join/")
+            .trim_start_matches("snook-legend://join/")
             .chars()
             .filter(|c| c.is_ascii_alphanumeric())
             .collect::<String>()
@@ -2682,7 +2683,7 @@ impl Rebuilt {
             let before = game.clone();
             let shooter = game.current_player();
             let in_hand = game.ball_in_hand().is_some();
-            let report = snookered_proto::replay::apply(&mut game, stroke)?;
+            let report = snook_legend_proto::replay::apply(&mut game, stroke)?;
             if let (Some(report), Stroke::Shot { shot, .. }) = (report, stroke) {
                 stats[shooter].add(&report, in_hand);
                 stats[shooter].add_spin(shot, &report);

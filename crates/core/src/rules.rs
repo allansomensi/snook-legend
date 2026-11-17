@@ -157,6 +157,10 @@ pub struct ShotReport {
     /// fouls, lowest number first (ruleset 4).
     #[serde(default)]
     pub penalty: Vec<BallId>,
+    /// The break went wrong (only the cue ball went down): the balls were
+    /// racked again and the opponent breaks (ruleset 4).
+    #[serde(default)]
+    pub reracked: bool,
 }
 
 impl ShotReport {
@@ -219,6 +223,11 @@ pub struct EightBallGame {
     /// the first shot taken with it until the end of the game.
     #[serde(default)]
     called: [Option<PocketId>; 2],
+    /// What the rack was shuffled from (a rack made again after a break
+    /// that only made the cue ball is shuffled from it and the shots
+    /// taken, the same on the server and in every game).
+    #[serde(default)]
+    rack_seed: u64,
 }
 
 /// What a snapshot holds (see [`EightBallGame`]).
@@ -235,6 +244,8 @@ struct GameData {
     shots_taken: u32,
     #[serde(default)]
     called: [Option<PocketId>; 2],
+    #[serde(default)]
+    rack_seed: u64,
 }
 
 fn first_ruleset() -> u8 {
@@ -256,6 +267,7 @@ impl From<GameData> for EightBallGame {
             game_over: d.game_over,
             shots_taken: d.shots_taken,
             called: d.called,
+            rack_seed: d.rack_seed,
         }
     }
 }
@@ -295,6 +307,7 @@ impl EightBallGame {
             game_over: None,
             shots_taken: 0,
             called: [None, None],
+            rack_seed: seed,
         }
     }
 
@@ -701,6 +714,7 @@ impl EightBallGame {
             game_over,
             opponent_ball,
             penalty: Vec::new(),
+            reracked: false,
         }
     }
 
@@ -719,6 +733,8 @@ impl EightBallGame {
     ///   after any other foul it is played from where it lies.
     /// - A ball of the shooter's knocked off the table comes back to it;
     ///   one of the opponent's stays off, made for them.
+    /// - A break that makes only the cue ball is played again by the
+    ///   opponent: the balls go back in the rack and they break.
     /// - The 8 alone on the break wins; the 8 on the break with any other
     ///   ball loses. At the end, the 8 loses if the cue ball or one of the
     ///   opponent's balls goes down with it.
@@ -900,7 +916,18 @@ impl EightBallGame {
         self.is_break = false;
         self.game_over = game_over;
         self.ball_in_hand = None;
-        if game_over.is_none() {
+        // Only the cue ball down on the break: racked again, and the
+        // opponent breaks.
+        let reracked = was_break && cue_pocketed && object_pocketed.is_empty() && !eight_off;
+        if reracked {
+            let seed = self.rack_seed.wrapping_add(self.shots_taken as u64);
+            self.balls = rack(&self.table, seed);
+            self.is_break = true;
+            self.ball_in_hand = Some(BallInHand::Kitchen);
+            self.current = opponent;
+            spotted.clear();
+            penalty.clear();
+        } else if game_over.is_none() {
             if cue_pocketed || cue_off {
                 self.ball_in_hand =
                     Some(if was_break { BallInHand::Kitchen } else { BallInHand::Anywhere });
@@ -923,6 +950,7 @@ impl EightBallGame {
             game_over,
             opponent_ball,
             penalty,
+            reracked,
         }
     }
 
@@ -1987,6 +2015,54 @@ mod tests {
         assert_eq!(report.fouls, vec![]);
         assert_eq!(g.current_player(), 1);
         assert_eq!(g.ball_in_hand(), None);
+    }
+
+    #[test]
+    fn a_break_that_only_makes_the_cue_ball_goes_to_the_opponent() {
+        let mut g = EightBallGame::new(3, 0);
+        // Only the cue ball goes down: straight into a corner.
+        let aim = g.table.pocket(PocketId::FootLeft).aim_point();
+        on_break_with(
+            &mut g,
+            &[(0, aim + (DVec2::ZERO - aim).normalize() * 0.4), (5, DVec2::new(-0.3, 0.0))],
+        );
+        let d = aim - g.ball(BallId::CUE).xy();
+        let report = g.play_shot(&Shot::new(d.y.atan2(d.x), 2.0), None).unwrap();
+        assert!(report.fouls.contains(&Foul::CueBallPocketed), "{report:?}");
+        assert!(report.reracked && !report.continues && report.game_over.is_none());
+        // The opponent breaks a full rack, the cue ball in hand behind the line.
+        assert_eq!(g.current_player(), 1);
+        assert!(g.is_break());
+        assert_eq!(g.ball_in_hand(), Some(BallInHand::Kitchen));
+        assert!(g.balls().iter().all(|b| b.in_play()), "all sixteen are back");
+        assert!(g.is_open_table());
+        let fresh = rack(&g.table, 0);
+        for b in g.balls().iter().filter(|b| b.id.is_object()) {
+            assert!(
+                fresh.iter().any(|f| f.id.is_object() && f.xy().distance(b.xy()) < 1e-9),
+                "the {} is in the rack",
+                b.id
+            );
+        }
+        // The same on every machine: a snapshot plays the same re-rack.
+        let json = serde_json::to_string(&g).unwrap();
+        let copy: EightBallGame = serde_json::from_str(&json).unwrap();
+        assert_eq!(copy, g);
+        // The opponent's break is an ordinary break.
+        let report = g.play_shot(&Shot::new(g.default_aim(), 6.0), None).unwrap();
+        assert!(report.was_break && !report.reracked);
+
+        // The cue ball down with another ball: an ordinary scratch, no rack.
+        let mut g = EightBallGame::new(3, 0);
+        let aim = g.table.pocket(PocketId::FootLeft).aim_point();
+        let back = (DVec2::ZERO - aim).normalize();
+        on_break_with(&mut g, &[(0, aim + back * 0.5), (5, aim + back * 0.08)]);
+        let shot =
+            straight_shot(&g, BallId(5), PocketId::FootLeft, 4.0).with_tip(DVec2::new(0.0, 0.9));
+        let report = g.play_shot(&shot, None).unwrap();
+        assert!(report.fouls.contains(&Foul::CueBallPocketed), "{report:?}");
+        assert!(!report.reracked && !g.is_break());
+        assert_eq!(g.ball_in_hand(), Some(BallInHand::Kitchen));
     }
 
     #[test]

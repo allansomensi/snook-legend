@@ -1740,3 +1740,4 @@ Cross-corner bank	Banda cruzada
 Off the long cushion and across the table into the corner. Five tries.	A la banda larga y cruzando la mesa hasta la tronera de la esquina. Cinco intentos.
 Kick shot	Tiro a banda
 The 1 is walled off: send the cue ball off a cushion to hit it first. Five tries.	La 1 está tapada: manda la blanca a una banda para tocarla primero. Cinco intentos.
+Only the cue ball went down on the break: the balls are racked again and {next} breaks.	Solo entró la blanca en el saque: las bolas vuelven al triángulo y {next} hace el saque.

@@ -1234,6 +1234,17 @@ impl Match {
         for b in &report.spotted {
             self.notify(tw("The {ball} was spotted.", &[("ball", &crate::i18n::ball(*b))]), false);
         }
+        if report.reracked {
+            // Only the cue ball went down on the break: racked again.
+            let next = self.names[self.game.current_player()].clone();
+            self.notify(
+                tw(
+                    "Only the cue ball went down on the break: the balls are racked again and {next} breaks.",
+                    &[("next", &next)],
+                ),
+                true,
+            );
+        }
         if !report.penalty.is_empty() {
             // The house rules: a foul gives the opponent balls.
             let given: Vec<String> = report.penalty.iter().map(|b| crate::i18n::ball(*b)).collect();
@@ -2156,6 +2167,7 @@ mod tests {
             game_over: None,
             opponent_ball: false,
             penalty: vec![],
+            reracked: false,
         };
         let mut s = ShotStats::default();
         s.add(&report(&[1, 2], false, true), false);

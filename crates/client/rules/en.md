@@ -22,6 +22,9 @@ The cue ball starts behind the head string. There is no illegal break: no ball h
 ### The 8-ball on the break
 Pocketing only the 8 on the break wins the game on the spot. Pocketing the 8 together with any other ball (the cue ball or any other) loses the game.
 
+### Only the cue ball on the break
+If only the cue ball goes down on the break, you lose the turn, the balls are racked again and your opponent breaks.
+
 ### After the break
 If you pocket a ball on the break without a foul, the first ball that went down decides your group and you shoot again.
 

@@ -24,6 +24,8 @@ updated with the game). No migrations.
 - The 8 alone on the break wins; the 8 on the break with any other ball
   loses. At the end, the 8 loses when the cue ball or one of the opponent's
   balls goes down with it.
+- A break that makes only the cue ball goes to the opponent: the balls are
+  racked again and they break.
 - No illegal break, and nothing has to reach a cushion after a contact.
 - The rules are written in the game (three languages) and say plainly that
   this is a regional rule; the README says so too.

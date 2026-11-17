@@ -22,6 +22,9 @@ A branca começa atrás da linha de cabeceira. Não há saída irregular: nenhum
 ### A bola 8 na saída
 Encaçapar somente a 8 na saída vence a partida na hora. Encaçapar a 8 junto com qualquer outra bola (a branca ou qualquer uma) perde a partida.
 
+### Só a branca na saída
+Se na saída cair somente a bola branca, você perde a vez, as bolas voltam ao triângulo e o adversário dá a saída.
+
 ### Depois da saída
 Se você encaçapar na saída sem falta, a primeira bola que cair decide o seu grupo e você joga de novo.
 

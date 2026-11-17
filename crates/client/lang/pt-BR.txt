@@ -1740,3 +1740,4 @@ Cross-corner bank	Tabela cruzada
 Off the long cushion and across the table into the corner. Five tries.	Na tabela comprida e cruzando a mesa até a caçapa do canto. Cinco tentativas.
 Kick shot	Tabelada na bola
 The 1 is walled off: send the cue ball off a cushion to hit it first. Five tries.	A 1 está cercada: mande a branca na tabela para acertá-la primeiro. Cinco tentativas.
+Only the cue ball went down on the break: the balls are racked again and {next} breaks.	Só a branca caiu na saída: as bolas voltam ao triângulo e {next} dá a saída.

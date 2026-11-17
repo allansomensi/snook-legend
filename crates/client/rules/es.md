@@ -22,6 +22,9 @@ La blanca empieza detrás de la línea de cabecera. No hay saque ilegal: ninguna
 ### La bola 8 en el saque
 Meter solo la 8 en el saque gana la partida al momento. Meter la 8 junto con cualquier otra bola (la blanca o cualquiera) pierde la partida.
 
+### Solo la blanca en el saque
+Si en el saque entra solo la bola blanca, pierdes el turno, las bolas vuelven al triángulo y el rival hace el saque.
+
 ### Después del saque
 Si metes una bola en el saque sin falta, la primera que entre decide tu grupo y tiras otra vez.
 

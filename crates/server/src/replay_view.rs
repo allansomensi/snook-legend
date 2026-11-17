@@ -96,6 +96,7 @@ pub fn view(replay: &Replay) -> Value {
                     break;
                 }
                 let start = spots_of(game.balls());
+                let top_speed = game.max_cue_speed();
                 let mut pending = match game.prepare_shot(&shot, called) {
                     Ok(p) => p,
                     Err(e) => {
@@ -122,7 +123,7 @@ pub fn view(replay: &Replay) -> Value {
                     "pocketed": pocketed,
                     "fouls": report.fouls.iter().map(foul_text).collect::<Vec<_>>(),
                     "continues": report.continues,
-                    "power": (shot.speed / game.params().max_cue_speed * 100.0).round(),
+                    "power": (shot.speed / top_speed * 100.0).round(),
                     "start": spots_json(&start),
                     "frames": frames,
                 }));

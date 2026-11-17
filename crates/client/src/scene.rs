@@ -21,7 +21,6 @@ pub(crate) const RAIL_TOP: f32 = 0.046;
 /// Thickness of the metal pocket castings on the rail.
 pub(crate) const CAST_H: f32 = 0.006;
 pub(crate) const LAMP_Y: f32 = TABLE_HEIGHT + 0.95;
-const SINK_TIME: f32 = 0.42;
 
 pub(crate) struct Part {
     mesh: gfx::Model,
@@ -52,7 +51,7 @@ pub struct Scene {
     white: Texture2D,
     shadow: Texture2D,
     lamps: [Vec3; LAMP_COUNT],
-    sinking: HashMap<BallId, (f32, Vec3)>,
+    sinking: HashMap<BallId, Sinking>,
     /// Cue meshes by (cue, chalk, level) design.
     cues: HashMap<(String, String, u8), (gfx::Model, Option<gfx::Model>)>,
     pub lamp_visible: bool,
@@ -699,23 +698,15 @@ impl Scene {
                     self.ball_poses.push((ball.id.index(), model));
                 }
                 BallStatus::Pocketed(pocket) => {
-                    let start = to_world(ball.position);
-                    let entry = self.sinking.entry(ball.id).or_insert((0.0, start));
-                    if entry.0 >= SINK_TIME {
+                    let sink = self.sinking.entry(ball.id).or_insert_with(|| Sinking::new(ball));
+                    let p = self.table.pocket(pocket);
+                    if !sink.fall(p, self.table.spec.ball_radius, dt as f64) {
                         continue;
                     }
-                    entry.0 += dt;
-                    let k = (entry.0 / SINK_TIME).clamp(0.0, 1.0);
-                    // Roll over the lip into the hole, then drop to the bottom.
-                    let hole = surface(pocket_center_of(&self.table, pocket), 0.0);
-                    let start = entry.1;
-                    let r = self.table.spec.ball_radius as f32;
-                    let across = (k / 0.45).min(1.0);
-                    let xz = start.lerp(hole, across * across * (3.0 - 2.0 * across) * 0.8);
-                    let fall = (k * k) * (0.11 - r + 0.012);
-                    let pos = vec3(xz.x, start.y - fall, xz.z);
-                    let model =
-                        Mat4::from_rotation_translation(ball_rotation(ball.orientation), pos);
+                    let model = Mat4::from_rotation_translation(
+                        ball_rotation(sink.orientation),
+                        to_world(sink.position),
+                    );
                     self.ball_poses.push((ball.id.index(), model));
                 }
                 BallStatus::OffTable => {}
@@ -1113,6 +1104,85 @@ pub const RAIL_HEIGHT: f32 = RAIL_TOP;
 const CUE_LENGTH: f32 = 1.48;
 
 /// Radius of the hole drawn for a pocket: exactly where balls drop.
+/// A ball that has gone over the lip of a pocket: it keeps the velocity it
+/// came in with and falls under gravity, held by the lip it rolls over and
+/// by the pocket's liner, until it is out of sight.
+struct Sinking {
+    position: DVec3,
+    velocity: DVec3,
+    spin: DVec3,
+    orientation: ::glam::DQuat,
+    time: f64,
+}
+
+/// How deep below the cloth a ball's centre is when it is out of sight (m).
+const SINK_DEPTH: f64 = 0.065;
+
+impl Sinking {
+    fn new(ball: &Ball) -> Sinking {
+        Sinking {
+            position: ball.position,
+            velocity: ball.velocity,
+            spin: ball.angular_velocity,
+            orientation: ball.orientation,
+            time: 0.0,
+        }
+    }
+
+    /// Moves the ball on by `dt`; false once it is out of sight.
+    fn fall(&mut self, pocket: &snook_legend_core::Pocket, r: f64, dt: f64) -> bool {
+        const GRAVITY: f64 = 9.81;
+        // The liner (leather or rubber) takes nearly all of a ball's pace.
+        const LINER_RESTITUTION: f64 = 0.2;
+        if self.position.z < -SINK_DEPTH || self.time > 2.0 {
+            return false;
+        }
+        let mut left = dt.min(0.1);
+        while left > 0.0 {
+            let h = left.min(0.002);
+            left -= h;
+            self.time += h;
+            self.velocity.z -= GRAVITY * h;
+            self.position += self.velocity * h;
+            // The room the centre has around the hole's axis: the whole hole
+            // while the ball still rides the lip, less and less as it goes
+            // down past it, a ball's radius from the liner at the back.
+            let rel = self.position.truncate() - pocket.hole_center;
+            let d = rel.length();
+            if d > 1e-9 {
+                let out = rel / d;
+                let z = self.position.z.clamp(0.0, r);
+                let over_lip = pocket.hole_radius - (r * r - z * z).max(0.0).sqrt();
+                let at_liner = pocket.hole_radius - r;
+                let back = ((out.dot(pocket.outward) + 0.5) / 0.5).clamp(0.0, 1.0);
+                let back = back * back * (3.0 - 2.0 * back);
+                let room = (over_lip + (at_liner - over_lip) * back).max(0.0);
+                if d > room {
+                    // Never snapped: eased back in (a ball can come in beside
+                    // the hole of a lined side pocket).
+                    let pull = (d - room).min(1.5 * h + (d - room) * 0.2);
+                    self.position -= (out * pull).extend(0.0);
+                    let vr = self.velocity.truncate().dot(out);
+                    if vr > 0.0 {
+                        self.velocity -= (out * vr * (1.0 + LINER_RESTITUTION)).extend(0.0);
+                        // The rub against the liner takes the rest down too.
+                        self.velocity.x *= 0.9;
+                        self.velocity.y *= 0.9;
+                        self.spin *= 0.8;
+                    }
+                }
+            }
+            let rot = self.spin * h;
+            let angle = rot.length();
+            if angle > 0.0 {
+                let q = ::glam::DQuat::from_axis_angle(rot / angle, angle);
+                self.orientation = (q * self.orientation).normalize();
+            }
+        }
+        self.position.z >= -SINK_DEPTH
+    }
+}
+
 pub(crate) fn pocket_radius_of(table: &Table, pocket: PocketId) -> f32 {
     table.pocket(pocket).hole_radius as f32
 }

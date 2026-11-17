@@ -145,6 +145,8 @@ Drag the cue · click a ball or a spot	Arraste o taco · clique numa bola ou pon
 {winner} wins! ({how})	{winner} vence! ({how})
 #{n} in the world	#{n} no mundo
 3–16 letters, digits or underscores.	3 a 16 letras, números ou sublinhados.
+No lines on the table: aim by eye, along the cue.	Nenhuma linha na mesa: mire a olho, pelo taco.
+No guide	Sem mira
 Only a short line from the cue ball.	Só uma linha curta saindo da branca.
 Accept friend	Aceitar amizade
 Achievement unlocked: {title}	Conquista desbloqueada: {title}

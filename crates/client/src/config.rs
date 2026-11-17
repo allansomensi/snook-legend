@@ -48,6 +48,8 @@ pub enum AimGuide {
     Standard,
     /// A short line from the cue ball (always used in rated games).
     Short,
+    /// Nothing on the table: the shot is aimed by eye, along the cue.
+    Off,
 }
 
 impl AimGuide {
@@ -61,18 +63,23 @@ impl AimGuide {
         }
     }
 
-    pub const ALL: [AimGuide; 3] = [AimGuide::Full, AimGuide::Standard, AimGuide::Short];
+    pub const ALL: [AimGuide; 4] =
+        [AimGuide::Full, AimGuide::Standard, AimGuide::Short, AimGuide::Off];
 
     pub fn name(self) -> &'static str {
         match self {
             AimGuide::Full => "Full",
             AimGuide::Standard => "Standard",
             AimGuide::Short => "Short",
+            AimGuide::Off => "No guide",
         }
     }
 
     fn parse(s: &str) -> Option<AimGuide> {
-        AimGuide::ALL.into_iter().find(|g| g.name().eq_ignore_ascii_case(s))
+        AimGuide::ALL
+            .into_iter()
+            .find(|g| g.name().eq_ignore_ascii_case(s))
+            .or_else(|| s.eq_ignore_ascii_case("off").then_some(AimGuide::Off))
     }
 }
 

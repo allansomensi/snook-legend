@@ -8,6 +8,12 @@
 ### A new name: Snook Legend
 The game is now called Snook Legend. Your account, coins, items, settings and progress are all here, as before.
 
+### Tournament-table physics
+The balls weigh what they do on a real table: the power bar goes up to a hard stroke (only the break uses full power), cushions give back less the harder they are hit, and a ball made falls into the pocket at the pace it arrived with.
+
+### Official table, funnel pockets
+The table has the official 8-foot measures, the side pockets open like a funnel towards the table and take balls at an angle, and the cloth is a deep green under the lamps.
+
 ### 8-foot table, open side pockets
 A smaller table (8 feet) and side pockets that forgive a ball off the centre or rolling in at an angle. The balls roll a little more freely.
 

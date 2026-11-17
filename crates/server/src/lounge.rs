@@ -2021,7 +2021,7 @@ impl Lounge {
             yaw: aim.map(|a| a.yaw).unwrap_or_else(|| game.default_aim()),
             elevation: aim.map(|a| a.elevation).unwrap_or(0.0),
             tip: aim.map(|a| a.tip).unwrap_or(DVec2::ZERO),
-            speed: game.params().max_cue_speed,
+            speed: game.max_cue_speed(),
         };
         let called = game.needs_called_pocket().then(|| {
             aim.and_then(|a| a.called_pocket).unwrap_or_else(|| game.nearest_pocket(BallId::EIGHT))

@@ -1,14 +1,63 @@
 # Changelog
 
-## 0.4.0 (protocol 15)
+## 0.4.0 (protocol 16)
 
-A new edition of the rules (ruleset 2): an 8-foot table with open side
-pockets, balls that roll a little more freely, and a new rule. Every shot
+A new edition of the rules (rulesets 2 and 3): an 8-foot table with open side
+pockets, a new rule, and the physics of a tournament table as measured. Every shot
 plays out differently, so games older than this one (0.3.0 and before) must
 update to play online. Games already recorded (replays, games saved during
 a restart, daily games in progress) keep the rules, the physics and the
 table they started with, shot for shot. Migrations 0013, 0014 and 0015 run
 on start-up.
+
+### Tournament-table physics (ruleset 3)
+- The physics of a tournament table as measured (Alciatore's and Marlow's
+  figures for phenolic balls, worsted cloth and K-66 cushions): rolling
+  resistance of 1% of g, side spin that dies at 10 rad/s², ball friction
+  that falls with the rubbing speed (0.118 to 0.01: slow cuts throw more),
+  balls that give back 95% of a soft hit and 85% of a break.
+- Cushions give back less the harder they are hit: a ball rolling straight
+  in rolls away at about 60% of its pace on a lag (it was 46% at every
+  speed) and at under 40% at break speed.
+- Strokes at real speeds. A 19 oz cue with a leather tip (the ball leaves at
+  1.32 times the cue's speed); the power bar of an ordinary stroke tops out
+  at a power shot (12 mph, 5.4 m/s for the ball: it was 21 mph on every
+  stroke, so pots were played at break speed and the balls looked light),
+  and only the break gets the whole cue (23 mph, 10.5 m/s). Half the bar is
+  a stroke of medium pace (3 mph). The server enforces the same limits.
+- A ball made falls in: it keeps the velocity it went over the lip with,
+  drops under gravity, rolls over the lip or hits the liner at the back and
+  goes down (it used to float over the hole and sink slowly).
+- The table has the WPA's measures for 8 feet: a 92" × 46" playing surface
+  (it was the 88" × 44" of a home table) and cushion noses at 63.5% of a
+  ball's height. Balls (2 1/4", 6 oz) and corner pockets (4 1/2" mouths)
+  already had theirs.
+- Side pockets cut like a funnel: the facings turn in towards the hole
+  from a mouth flared to 7 1/2" down to a regulation 5" throat (they opened
+  out behind two points that hooked towards the pocket), over a hole of a
+  real size (140 mm across, it was 170). A ball that catches a facing is
+  turned in: the band of paths that drop is 154 mm straight in and 138 mm
+  at 35° (it was 118 and 120).
+- Spin and elevation checked against a real table, and kept by tests: the
+  tip at the miscue limit gives a spin of 1.25 times the ball's speed, a
+  rolling cue ball leaves a half-ball hit at 34° (the 30° rule), full side
+  spin comes 25° off a cushion hit square, a slow cut throws 3°, a cue
+  raised 5° swerves a few centimetres in a metre and a massé hooks round
+  (`--example spin_stats` prints them all).
+- The cloth is a deep green under the lamps, brightest in the middle and a
+  little darker towards the cushions (it washed out to a pale pastel); the
+  balls keep all their light, so they stand out and their numbers read.
+- The aiming guide stops where the ball would: it is traced against every
+  cushion, pocket facing and hole (it used the rectangle of the cushion
+  lines, so the ghost ball hung in the mouth of a pocket or went wrong
+  beside one), and nothing of it is drawn inside a ball when the contact is
+  closer than a ball's width or the cue ball is touching what it is aimed
+  at. Aimed into a pocket, the line runs to the lip with no ghost ball.
+- A fourth aiming guide, "No guide": nothing on the table, in Settings and
+  when setting up a game.
+- Rulesets 1 and 2 play exactly as before (replays and games in progress);
+  `cargo run --release -p snook_legend_core --example break_stats` prints
+  the numbers of the break, the cushions and the cloth for each ruleset.
 
 ### The game is called Snook Legend
 - The new name everywhere: the window, the menus, the installer and its

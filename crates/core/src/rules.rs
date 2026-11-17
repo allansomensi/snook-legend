@@ -291,6 +291,12 @@ impl EightBallGame {
     }
 
     /// The rules, physics and table this game is played with.
+    /// The fastest the cue may move on the stroke about to be played (m/s):
+    /// the top of the power bar.
+    pub fn max_cue_speed(&self) -> f64 {
+        self.params.cue_speed_limit(self.is_break)
+    }
+
     pub fn ruleset(&self) -> u8 {
         self.ruleset
     }
@@ -472,7 +478,7 @@ impl EightBallGame {
         if self.needs_called_pocket() && called_pocket.is_none() {
             return Err(ShotError::MustCallPocket);
         }
-        let shot = shot.sanitized(&self.params);
+        let shot = shot.sanitized_for(&self.params, self.is_break);
         let mut simulation = Simulation::new(self.table.clone(), self.params, self.balls.clone());
         simulation
             .strike(BallId::CUE, &shot)
@@ -1245,7 +1251,8 @@ mod tests {
                 && [3u8, 12].iter().all(|n| r.pocketed.iter().any(|(b, _)| b.0 == *n))
         };
         let shot = (0..60)
-            .map(|k| straight_shot(&setup(2), BallId(3), PocketId::FootLeft, 1.5 + k as f64 * 0.08))
+            .map(|k| straight_shot(&setup(2), BallId(3), PocketId::FootLeft, 1.5 + k as f64 * 0.04))
+            .map(|s| s.with_tip(DVec2::new(0.0, 0.8)))
             .find(|s| setup(2).play_shot(s, None).is_ok_and(|r| both(&r)))
             .expect("a stroke that makes the 3 and the 12");
         let mut g = setup(2);
@@ -1273,7 +1280,8 @@ mod tests {
         v.as_object_mut().unwrap().remove("ruleset");
         let old: EightBallGame = serde_json::from_value(v).unwrap();
         assert_eq!((old.ruleset(), old.params().rolling_friction), (1, 0.0125));
-        assert_eq!(EightBallGame::new(4, 1).table().spec, TableSpec::TOURNAMENT_8FT);
+        assert_eq!(EightBallGame::with_ruleset(4, 1, 2).table().spec, TableSpec::TOURNAMENT_8FT);
+        assert_eq!(EightBallGame::new(4, 1).table().spec, TableSpec::WPA_8FT);
     }
 
     #[test]

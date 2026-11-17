@@ -372,6 +372,17 @@ void main() {
         float drop = pocket_drop(v_world);
         c *= 1.0 - 0.82 * drop * drop;
     }
+    // The cloth and the cushions under the table's lamps: a deep, saturated
+    // colour (lit as hard as the balls it would wash out to a pale pastel),
+    // brightest in the middle and a little darker towards the cushions.
+    // The balls keep all their light, so they stand out and their numbers
+    // read at a glance.
+    if (Extra.y > 0.5 && Extra.y < 2.5) {
+        // (A dark cloth keeps most of its light: it has none to spare.)
+        float luma = dot(c, vec3(0.3, 0.6, 0.1));
+        float deep = mix(0.9, 0.54, smoothstep(0.08, 0.7, luma));
+        c *= deep * mix(1.0, 0.76, smoothstep(0.15, 1.0, spot));
+    }
     // Filmic-style exposure curve: highlights (white balls under the lamps)
     // roll off smoothly instead of burning out to flat white.
     c = vec3(1.0) - exp(-c * 1.45);

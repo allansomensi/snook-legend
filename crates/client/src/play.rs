@@ -505,6 +505,95 @@ fn ray_ball(start: DVec2, dir: DVec2, other: DVec2, r: f64) -> Option<f64> {
     (perp_sq <= reach).then(|| along - (reach - perp_sq).sqrt())
 }
 
+/// Where the cue ball, sent from `cue` along `dir`, first stops going
+/// straight.
+struct Stop {
+    /// How far the cue ball's centre travels (m).
+    t: f64,
+    /// The ball it meets there, if it is a ball.
+    target: Option<BallId>,
+    /// It goes over the lip of a pocket there.
+    in_pocket: bool,
+}
+
+/// Distance along `dir` from `start` to the circle of `radius` round
+/// `centre`: where it is entered (None when already inside, or missed).
+fn ray_circle(start: DVec2, dir: DVec2, centre: DVec2, radius: f64) -> Option<f64> {
+    let rel = centre - start;
+    let along = rel.dot(dir);
+    let perp_sq = rel.length_squared() - along * along;
+    if along <= 0.0 || perp_sq > radius * radius || rel.length_squared() < radius * radius {
+        return None;
+    }
+    Some(along - (radius * radius - perp_sq).sqrt())
+}
+
+/// Distance along `dir` until a ball at `start` comes within `reach` of the
+/// segment `a`–`b` (a cushion nose or a pocket facing), moving towards it.
+fn ray_segment(start: DVec2, dir: DVec2, a: DVec2, b: DVec2, reach: f64) -> Option<f64> {
+    let e = b - a;
+    let len = e.length();
+    if len < 1e-9 {
+        return ray_circle(start, dir, a, reach);
+    }
+    let n = e.perp() / len;
+    let side = (start - a).dot(n);
+    let n = if side < 0.0 { -n } else { n };
+    let (dist, closing) = (side.abs(), -dir.dot(n));
+    let mut best: Option<f64> = None;
+    if closing > 1e-9 {
+        // Already against it (a ball frozen to the cushion): stopped at once.
+        let t = ((dist - reach) / closing).max(0.0);
+        let u = (start + dir * t - a).dot(e) / (len * len);
+        if (0.0..=1.0).contains(&u) {
+            best = Some(t);
+        }
+    }
+    // The rounded ends (a cushion's point at a pocket).
+    for end in [a, b] {
+        if let Some(t) = ray_circle(start, dir, end, reach)
+            && best.is_none_or(|k| t < k)
+        {
+            best = Some(t);
+        }
+    }
+    best
+}
+
+/// The first thing the cue ball meets going straight along `dir`: what the
+/// simulation itself would stop it with (the balls, every cushion and
+/// pocket facing, the holes), so the guide is right all over the table —
+/// in a pocket's mouth, along a facing, frozen to a ball or a cushion.
+fn first_stop(game: &snook_legend_core::EightBallGame, cue: DVec2, dir: DVec2) -> Option<Stop> {
+    let table = game.table();
+    let r = table.spec.ball_radius;
+    let mut stop: Option<Stop> = None;
+    let mut closer = |t: f64, target: Option<BallId>, in_pocket: bool| {
+        if stop.as_ref().is_none_or(|s| t < s.t) {
+            stop = Some(Stop { t: t.max(0.0), target, in_pocket });
+        }
+    };
+    for b in game.balls().iter().filter(|b| b.in_play() && b.id != BallId::CUE) {
+        if let Some(t) = ray_ball(cue, dir, b.xy(), r) {
+            closer(t, Some(b.id), false);
+        }
+    }
+    // A ball touches a cushion's nose below its own widest point.
+    let dh = table.spec.cushion_height - r;
+    let reach = (r * r - dh * dh).max(0.0).sqrt();
+    for seg in &table.cushions {
+        if let Some(t) = ray_segment(cue, dir, seg.a, seg.b, reach) {
+            closer(t, None, false);
+        }
+    }
+    for p in &table.pockets {
+        if let Some(t) = ray_circle(cue, dir, p.hole_center, p.hole_radius) {
+            closer(t, None, true);
+        }
+    }
+    stop
+}
+
 /// Builds the cue and the markings for this frame.
 pub fn overlay(m: &Match, scene: &Scene, time: f32) -> Overlay {
     let mut out = Overlay {
@@ -620,51 +709,47 @@ pub fn overlay(m: &Match, scene: &Scene, time: f32) -> Overlay {
         return out;
     }
 
-    // Aim line to the first contact.
+    let guide = m.guide_in_use();
+    if guide == AimGuide::Off {
+        return out;
+    }
+    // Aim line to the first contact: a ball, a cushion or a pocket's
+    // facing, or the hole of a pocket (the cue ball would go in).
     let dir = DVec2::from_angle(m.aim.yaw);
-    let mut hit: Option<(f64, BallId)> = None;
-    for b in m.game.balls().iter().filter(|b| b.in_play() && b.id != BallId::CUE) {
-        if let Some(t) = ray_ball(cue, dir, b.xy(), r)
-            && hit.is_none_or(|(best, _)| t < best)
-        {
-            hit = Some((t, b.id));
-        }
-    }
-    let bound = DVec2::new(table.spec.length / 2.0 - r, table.spec.width / 2.0 - r);
-    let mut wall = f64::MAX;
-    for (d, lim, p) in [(dir.x, bound.x, cue.x), (dir.y, bound.y, cue.y)] {
-        if d > 1e-9 {
-            wall = wall.min((lim - p) / d);
-        } else if d < -1e-9 {
-            wall = wall.min((-lim - p) / d);
-        }
-    }
-    let (t, target) = match hit {
-        Some((t, id)) if t < wall => (t, Some(id)),
-        _ => (wall.max(0.0), None),
+    let Some(Stop { t, target, in_pocket }) = first_stop(&m.game, cue, dir) else {
+        return out;
     };
     let white = Color::new(1.0, 1.0, 1.0, 0.5);
     let start = cue + dir * r;
-    let guide = m.guide_in_use();
     if guide == AimGuide::Short {
         let len = t.min(0.35);
-        out.guides.push(Guide::Line {
-            from: surface(start, line_y),
-            to: surface(cue + dir * len, line_y),
-            width: 0.0025,
-            color: white,
-        });
+        if len > r + 0.005 {
+            out.guides.push(Guide::Line {
+                from: surface(start, line_y),
+                to: surface(cue + dir * len, line_y),
+                width: 0.0025,
+                color: white,
+            });
+        }
         return out;
     }
     let ghost = cue + dir * t;
     // A fine, discreet line to a see-through "ghost" ball where the cue ball
-    // will make contact.
-    out.guides.push(Guide::Line {
-        from: surface(start, line_y),
-        to: surface(ghost - dir * r, line_y),
-        width: 0.0012,
-        color: Color::new(1.0, 1.0, 1.0, 0.42),
-    });
+    // will make contact. Nothing of it is drawn inside either ball: when
+    // the contact is closer than a ball's width there is no line, and when
+    // the cue ball is already touching what it is aimed at, no ghost
+    // either (it would sit on the cue ball itself).
+    if t > 2.0 * r {
+        out.guides.push(Guide::Line {
+            from: surface(start, line_y),
+            to: surface(if in_pocket { ghost } else { ghost - dir * r }, line_y),
+            width: 0.0012,
+            color: Color::new(1.0, 1.0, 1.0, 0.42),
+        });
+    }
+    if in_pocket || t < 0.004 {
+        return out;
+    }
     out.ghost = Some(surface(ghost, r as f32));
     if guide != AimGuide::Full {
         return out;
@@ -698,6 +783,45 @@ pub fn overlay(m: &Match, scene: &Scene, time: f32) -> Overlay {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// The guide stops where the simulation would: on a cushion's nose, on
+    /// a pocket's facing, over a hole, or at once against a touching ball.
+    #[test]
+    fn the_guide_stops_where_the_ball_would() {
+        use snook_legend_core::{EightBallGame, PocketId};
+        let mut g = EightBallGame::new(1, 0);
+        let (spec, r) = (g.table().spec, g.table().spec.ball_radius);
+        let cue = DVec2::new(-0.4, 0.1);
+        g.set_up_test_position(&[(BallId::CUE, cue), (BallId(3), cue + DVec2::new(2.0 * r, 0.0))]);
+        // Straight at a long cushion: the nose is met a little before the
+        // ball's own radius (it sits above the ball's widest point).
+        let s = first_stop(&g, cue, DVec2::Y).unwrap();
+        let gap = spec.width / 2.0 - cue.y - s.t;
+        assert!(s.target.is_none() && !s.in_pocket && gap < r && gap > r - 0.003, "{gap}");
+        // Into each pocket along its axis: over the lip, no ghost ball.
+        for id in PocketId::ALL {
+            let p = *g.table().pocket(id);
+            let from = p.mouth_center - p.outward * 0.4;
+            let s = first_stop(&g, from, p.outward).unwrap();
+            assert!(s.in_pocket, "{id:?}");
+            let end = from + p.outward * s.t;
+            assert!((end.distance(p.hole_center) - p.hole_radius).abs() < 1e-6, "{id:?}");
+        }
+        // Past a corner pocket's mouth, at its facing: stopped before the
+        // rectangle of the cushion lines would say.
+        let p = *g.table().pocket(PocketId::FootLeft);
+        let from = p.mouth_center - p.outward * 0.3 + p.outward.perp() * 0.03;
+        let dir = (p.mouth_center + p.outward.perp() * 0.075 - from).normalize();
+        let s = first_stop(&g, from, dir).unwrap();
+        assert!(!s.in_pocket && s.target.is_none());
+        let end = from + dir * s.t;
+        assert!(end.x < spec.length / 2.0 && end.y < spec.width / 2.0, "{end}");
+        // Frozen to a ball and aimed at it: stopped at once, on that ball.
+        let s = first_stop(&g, cue, DVec2::X).unwrap();
+        assert!(s.t < 1e-6 && s.target == Some(BallId(3)));
+        // Aimed away from it: the far cushion.
+        assert!(first_stop(&g, cue, -DVec2::X).unwrap().target.is_none());
+    }
 
     #[test]
     fn ray_hits_ball_in_front() {

@@ -43,7 +43,9 @@ pub struct TableSpec {
     /// narrows and balls that hit a point rattle out.
     pub corner_facing_turn: f64,
     /// How much each side-pocket facing opens out from the perpendicular
-    /// (radians); 14° gives the regulation 104° facing angle.
+    /// (radians), the throat widening behind the mouth; negative, it turns
+    /// in and the throat narrows like a funnel (14° in gives the regulation
+    /// 104° facing angle).
     pub side_facing_open: f64,
     /// Radius of the corner and side holes in the slate (m).
     pub corner_hole_radius: f64,
@@ -96,11 +98,34 @@ impl TableSpec {
         ..Self::TOURNAMENT_9FT
     };
 
+    /// The WPA's 8-foot tournament table: a 92" × 46" playing surface,
+    /// 2 1/4" balls of 6 oz, 4 1/2" corner mouths, cushion noses at 63.5%
+    /// of a ball's height. Its side pockets are cut like a funnel: the
+    /// facings turn in towards the hole, as a real side pocket's do (the
+    /// 8-foot table before it had them opening out behind two sharp
+    /// points), from a mouth flared to 7 1/2" down to a regulation 5"
+    /// throat, over a hole of the size of a real one with its liner behind.
+    /// A ball that catches a facing is turned into the pocket, not back
+    /// out, so the pocket takes balls rolling in at an angle or along the
+    /// cushion (see `tests/pockets.rs` and `examples/pocket_angles.rs`).
+    pub const WPA_8FT: TableSpec = TableSpec {
+        length: 2.3368,
+        width: 1.1684,
+        cushion_height: 0.0363,
+        side_mouth: 0.190,
+        side_shelf: 0.0,
+        side_facing_open: -24.0 * std::f64::consts::PI / 180.0,
+        side_hole_radius: 0.070,
+        side_liner: true,
+        ..Self::TOURNAMENT_9FT
+    };
+
     /// The table of a ruleset (see [`crate::RULESET`]).
     pub fn of_ruleset(ruleset: u8) -> TableSpec {
         match crate::known_ruleset(ruleset) {
             1 => Self::TOURNAMENT_9FT,
-            _ => Self::TOURNAMENT_8FT,
+            2 => Self::TOURNAMENT_8FT,
+            _ => Self::WPA_8FT,
         }
     }
 }

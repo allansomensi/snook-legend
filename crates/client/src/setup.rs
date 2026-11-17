@@ -50,6 +50,7 @@ impl Setup {
             ),
             AimGuide::Standard => t("Shows the contact point; judging the cut is up to you."),
             AimGuide::Short => t("Only a short line from the cue ball."),
+            AimGuide::Off => t("No lines on the table: aim by eye, along the cue."),
         };
         let clock_hint = t("When time runs out, the opponent gets ball in hand.");
         let guide_lines = ui.wrap(guide_hint, inner, HINT);

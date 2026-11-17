@@ -310,9 +310,10 @@ impl DrillRun {
     }
 }
 
-/// How the power bar maps to the cue's speed: a curve that keeps most of
-/// the bar for ordinary shots (half the bar is a firm shot of about two
-/// metres a second for the ball) and the top for the break.
+/// How the power bar maps to the cue's speed, up to the limit of the stroke
+/// (see `EightBallGame::max_cue_speed`: a power shot, or the break's own):
+/// a curve that keeps most of the bar for the paces most strokes are played
+/// at (half the bar is a medium stroke, about 1.4 m/s for the ball).
 pub const POWER_CURVE: f64 = 2.0;
 
 /// The cue speed for a point of the power bar (0 to 1).
@@ -1097,7 +1098,7 @@ impl Match {
     }
 
     pub fn shot_from_aim(&self) -> Shot {
-        let max = self.game.params().max_cue_speed;
+        let max = self.game.max_cue_speed();
         Shot {
             yaw: self.aim.yaw,
             elevation: self.aim.elevation,
@@ -1364,7 +1365,7 @@ impl Match {
     }
 
     fn run_computer_turn(&mut self, dt: f32) {
-        let max_speed = self.game.params().max_cue_speed;
+        let max_speed = self.game.max_cue_speed();
         let current_yaw = self.aim.yaw;
         if self.replay.is_some() {
             return;
@@ -1791,7 +1792,7 @@ impl Match {
                     yaw: target.yaw,
                     elevation: target.elevation,
                     tip: target.tip,
-                    speed: power_to_speed(power, self.game.params().max_cue_speed),
+                    speed: power_to_speed(power, self.game.max_cue_speed()),
                 };
                 let turn = self.game.shots_taken();
                 o.assessor.update(&self.game, turn, shot, target.called_pocket, dt);

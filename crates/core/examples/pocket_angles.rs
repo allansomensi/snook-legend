@@ -40,8 +40,12 @@ fn width(spec: TableSpec, params: PhysicsParams, pocket: PocketId, deg: f64, spe
 fn main() {
     let v1 = (TableSpec::of_ruleset(1), PhysicsParams::of_ruleset(1));
     let v2 = (TableSpec::of_ruleset(2), PhysicsParams::of_ruleset(2));
-    let rows: Vec<(String, TableSpec, PhysicsParams)> =
-        vec![("ruleset 1".into(), v1.0, v1.1), ("ruleset 2".into(), v2.0, v2.1)];
+    let v3 = (TableSpec::of_ruleset(3), PhysicsParams::of_ruleset(3));
+    let rows: Vec<(String, TableSpec, PhysicsParams)> = vec![
+        ("ruleset 1".into(), v1.0, v1.1),
+        ("ruleset 2".into(), v2.0, v2.1),
+        ("ruleset 3".into(), v3.0, v3.1),
+    ];
     for (name, spec, params) in rows {
         let s: Vec<String> = [0.0, 20.0, 35.0, 45.0]
             .iter()

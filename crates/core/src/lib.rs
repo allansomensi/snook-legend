@@ -16,7 +16,11 @@
 /// - 2: a 8-foot table with wider side pockets, balls that roll a little
 ///   more freely, and making an opponent's ball along with one's own
 ///   passes the turn.
-pub const RULESET: u8 = 2;
+/// - 3: the WPA's 8-foot table (92" × 46") with funnel-shaped side
+///   pockets, and a tournament table's physics as measured: cushions that soak up a hard hit, ball friction and
+///   restitution that depend on speed, and strokes at real speeds (an
+///   ordinary stroke tops out well below a break).
+pub const RULESET: u8 = 3;
 
 /// A ruleset this version knows (unknown ones play as the newest).
 pub fn known_ruleset(ruleset: u8) -> u8 {

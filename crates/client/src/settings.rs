@@ -530,6 +530,7 @@ impl SettingsScreen {
                         t("Shows the contact point; judging the cut is up to you.")
                     }
                     AimGuide::Short => t("Only a short line from the cue ball."),
+                    AimGuide::Off => t("No lines on the table: aim by eye, along the cue."),
                 };
                 if let Some((_, c)) = rows.row(ui, t("Aiming guide"), hint, Control::Wide(32.0)) {
                     let names: Vec<&str> = AimGuide::ALL.iter().map(|g| t(g.name())).collect();

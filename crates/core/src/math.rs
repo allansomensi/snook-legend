@@ -25,6 +25,10 @@ pub fn atan2(y: f64, x: f64) -> f64 {
     libm::atan2(y, x)
 }
 
+pub fn exp(x: f64) -> f64 {
+    libm::exp(x)
+}
+
 /// Natural logarithm.
 pub fn ln(x: f64) -> f64 {
     libm::log(x)

@@ -53,6 +53,31 @@ pub struct PhysicsParams {
     pub time_step: f64,
     /// Safety limit on the duration of a single shot (s).
     pub max_shot_duration: f64,
+    /// How much of its restitution a cushion loses per m/s of impact: the
+    /// rubber gives back most of a soft hit and much less of a hard one.
+    #[serde(default)]
+    pub cushion_restitution_slope: f64,
+    /// The least a cushion gives back, however hard the hit.
+    #[serde(default)]
+    pub cushion_restitution_min: f64,
+    /// How much of their restitution two balls lose per m/s of impact.
+    #[serde(default)]
+    pub ball_restitution_slope: f64,
+    /// The least two balls give back, however hard the hit.
+    #[serde(default)]
+    pub ball_restitution_min: f64,
+    /// Friction between two balls depends on how fast their surfaces rub:
+    /// `ball_friction + ball_friction_low * exp(-ball_friction_decay * v)`
+    /// (`v` in m/s), the fit to Marlow's measurements. Zero: constant.
+    #[serde(default)]
+    pub ball_friction_low: f64,
+    #[serde(default)]
+    pub ball_friction_decay: f64,
+    /// The fastest the cue moves on a stroke other than the break (m/s): a
+    /// player puts their whole body into a break and never into a pot.
+    /// Zero: [`Self::max_cue_speed`] on every stroke.
+    #[serde(default)]
+    pub max_stroke_speed: f64,
 }
 
 impl Default for PhysicsParams {
@@ -70,7 +95,56 @@ impl PhysicsParams {
             // The measured cloth made the balls feel heavy: they roll a
             // little more freely (about 14% further on the same stroke) and
             // the cushions give back a little more.
-            _ => PhysicsParams { rolling_friction: 0.011, cushion_restitution: 0.77, ..measured },
+            2 => PhysicsParams { rolling_friction: 0.011, cushion_restitution: 0.77, ..measured },
+            _ => Self::tournament(),
+        }
+    }
+
+    /// Ruleset 3: a tournament table as measured (Alciatore's and Marlow's
+    /// figures for phenolic balls on worsted cloth with K-66 cushions),
+    /// including what depends on speed, and strokes at the speeds people
+    /// really play them.
+    fn tournament() -> Self {
+        PhysicsParams {
+            // Worsted cloth: 1% of g for a rolling ball, 0.2 for a sliding
+            // one; a ball turning in place loses about 10 rad/s every second.
+            rolling_friction: 0.010,
+            sliding_friction: 0.2,
+            spin_friction: 0.0117,
+            // Phenolic balls give back 95% of a soft hit and less of a hard
+            // one (the rack takes a good part of a break's energy).
+            ball_restitution: 0.955,
+            ball_restitution_slope: 0.011,
+            ball_restitution_min: 0.85,
+            // Marlow's fit: 0.118 for surfaces barely rubbing (a slow cut
+            // throws the object ball), 0.01 at speed.
+            ball_friction: 0.009_951,
+            ball_friction_low: 0.108,
+            ball_friction_decay: 1.088,
+            // A cushion returns a soft hit almost whole and soaks up a hard
+            // one: a ball rolling straight in comes back rolling at about
+            // 60% of its pace on a lag and at 40% of it at break speed.
+            cushion_restitution: 0.95,
+            cushion_restitution_slope: 0.05,
+            cushion_restitution_min: 0.55,
+            cushion_friction: 0.2,
+            // A 19 oz cue with a leather tip: the ball leaves at 1.32 times
+            // the cue's speed. A power stroke sends it at 12 mph (5.4 m/s),
+            // a strong break at 23 mph (10.5 m/s).
+            cue_mass: 0.54,
+            cue_restitution: 0.73,
+            max_cue_speed: 8.0,
+            max_stroke_speed: 4.1,
+            ..Self::measured()
+        }
+    }
+
+    /// The fastest the cue may move on this stroke (m/s).
+    pub fn cue_speed_limit(&self, is_break: bool) -> f64 {
+        if is_break || self.max_stroke_speed <= 0.0 {
+            self.max_cue_speed
+        } else {
+            self.max_stroke_speed.min(self.max_cue_speed)
         }
     }
 
@@ -100,6 +174,13 @@ impl PhysicsParams {
             squirt: 1.6f64.to_radians(),
             time_step: 1.0 / 1000.0,
             max_shot_duration: 40.0,
+            cushion_restitution_slope: 0.0,
+            cushion_restitution_min: 0.0,
+            ball_restitution_slope: 0.0,
+            ball_restitution_min: 0.0,
+            ball_friction_low: 0.0,
+            ball_friction_decay: 0.0,
+            max_stroke_speed: 0.0,
         }
     }
 }
@@ -138,13 +219,19 @@ impl Shot {
 
     /// Returns a copy with every field clamped to what the cue can physically do.
     pub fn sanitized(&self, params: &PhysicsParams) -> Shot {
+        self.sanitized_for(params, true)
+    }
+
+    /// The same, for a break (`is_break`) or an ordinary stroke, which has
+    /// a lower speed limit (see [`PhysicsParams::max_stroke_speed`]).
+    pub fn sanitized_for(&self, params: &PhysicsParams, is_break: bool) -> Shot {
         let finite = |v: f64| if v.is_finite() { v } else { 0.0 };
         let tip = DVec2::new(finite(self.tip.x), finite(self.tip.y));
         Shot {
             yaw: finite(self.yaw).rem_euclid(std::f64::consts::TAU),
             elevation: finite(self.elevation).clamp(0.0, params.max_elevation),
             tip: if tip.length() > 1.0 { tip.normalize() } else { tip },
-            speed: finite(self.speed).clamp(0.0, params.max_cue_speed),
+            speed: finite(self.speed).clamp(0.0, params.cue_speed_limit(is_break)),
         }
     }
 }
@@ -505,13 +592,21 @@ impl Simulation {
                     continue;
                 }
                 any = true;
-                let jn = (1.0 + p.ball_restitution) * vn / (2.0 / m);
+                let restitution = (p.ball_restitution - p.ball_restitution_slope * vn)
+                    .max(p.ball_restitution_min);
+                let jn = (1.0 + restitution) * vn / (2.0 / m);
                 let mut impulse_i = -n * jn;
                 let tangential = rel - n * vn;
                 let t_len = tangential.length();
                 if t_len > 1e-9 {
                     let jt_max = t_len / (2.0 * (1.0 / m + r * r / inertia));
-                    let jt = (p.ball_friction * jn).min(jt_max);
+                    let friction = if p.ball_friction_low > 0.0 {
+                        p.ball_friction
+                            + p.ball_friction_low * crate::math::exp(-p.ball_friction_decay * t_len)
+                    } else {
+                        p.ball_friction
+                    };
+                    let jt = (friction * jn).min(jt_max);
                     impulse_i -= tangential / t_len * jt;
                 }
                 let impulse_j = -impulse_i;
@@ -581,7 +676,9 @@ impl Simulation {
             if vn >= 0.0 {
                 continue;
             }
-            let jn = -(1.0 + p.cushion_restitution) * m * vn;
+            let restitution = (p.cushion_restitution + p.cushion_restitution_slope * vn)
+                .max(p.cushion_restitution_min);
+            let jn = -(1.0 + restitution) * m * vn;
             let mut impulse = normal * jn;
             let tangential = vc - normal * vn;
             let t_len = tangential.length();
@@ -652,8 +749,12 @@ impl Simulation {
     fn drop_ball(&mut self, i: usize, status: BallStatus) {
         let b = &mut self.balls[i];
         b.status = status;
-        b.velocity = DVec3::ZERO;
-        b.angular_velocity = DVec3::ZERO;
+        // A ball made keeps the velocity it went in with (it is out of play:
+        // nothing here moves it again), so it can be shown falling in.
+        if !matches!(status, BallStatus::Pocketed(_)) {
+            b.velocity = DVec3::ZERO;
+            b.angular_velocity = DVec3::ZERO;
+        }
         b.motion = Motion::Stationary;
     }
 
@@ -892,6 +993,212 @@ mod tests {
             let hit = sim.events().iter().any(|e| matches!(e, Event::BallBall { .. }));
             assert!(hit, "graze missed at phase {k}");
         }
+    }
+
+    /// A ball rolling straight into a cushion: the speed it rolls away
+    /// with, as a fraction of the speed it came in with.
+    fn rebound(speed: f64) -> f64 {
+        let table = Table::default();
+        let r = table.spec.ball_radius;
+        let mut ball =
+            Ball::at_rest(BallId::CUE, DVec2::new(table.spec.length / 2.0 - 0.1, 0.0), r);
+        ball.velocity = DVec3::new(speed, 0.0, 0.0);
+        ball.angular_velocity = DVec3::new(0.0, speed / r, 0.0);
+        ball.motion = Motion::Rolling;
+        let mut sim = Simulation::new(table, PhysicsParams::default(), vec![ball]);
+        let mut arriving = speed;
+        while sim.balls[0].velocity.x > 0.0 {
+            arriving = sim.balls[0].velocity.x;
+            sim.step();
+        }
+        let b = &sim.balls[0];
+        let slip = contact_slip(b.velocity.truncate(), b.angular_velocity, r);
+        (b.velocity.truncate() - slip * (2.0 / 7.0)).length() / arriving
+    }
+
+    /// Cushions as measured: a soft hit comes back at about 60% of its
+    /// pace, a hard one at much less (the rubber soaks it up).
+    #[test]
+    fn cushions_soak_up_hard_hits() {
+        let (soft, firm, hard) = (rebound(1.0), rebound(3.0), rebound(8.0));
+        assert!((0.55..0.66).contains(&soft), "soft {soft}");
+        assert!(firm < soft - 0.03 && hard < firm - 0.05, "{soft} {firm} {hard}");
+        assert!((0.3..0.45).contains(&hard), "hard {hard}");
+    }
+
+    /// The pace of a tournament cloth: a lag (the ball just reaching the
+    /// far cushion and back) is a stroke of medium pace, and the hardest
+    /// ordinary stroke goes round the table three to four times.
+    #[test]
+    fn strokes_travel_as_far_as_on_a_real_table() {
+        let p = PhysicsParams::default();
+        let lengths = |cue_speed: f64| {
+            let mut sim = sim_with(&[(0, DVec2::new(-0.5, 0.0))]);
+            let shot = Shot::new(0.0, cue_speed).sanitized_for(&p, false);
+            sim.strike(BallId::CUE, &shot).unwrap();
+            let mut dist = 0.0;
+            while !sim.is_settled() {
+                sim.step();
+                dist += sim.balls[0].velocity.length() * p.time_step;
+            }
+            dist / sim.table.spec.length
+        };
+        let lag = lengths(1.5);
+        assert!((1.5..2.2).contains(&lag), "lag {lag}");
+        let hardest = lengths(99.0);
+        assert!((3.0..4.2).contains(&hardest), "hardest stroke {hardest}");
+    }
+
+    /// An ordinary stroke tops out at a power shot (12 mph for the ball);
+    /// only the break gets the whole cue speed (23 mph).
+    #[test]
+    fn only_the_break_is_played_at_break_speed() {
+        let p = PhysicsParams::default();
+        let table = Table::default();
+        let ball_speed = |is_break: bool| {
+            let shot = Shot::new(0.0, 99.0).sanitized_for(&p, is_break);
+            cue_impulse(&p, &table, &shot).0.length()
+        };
+        assert!((5.0..5.8).contains(&ball_speed(false)), "{}", ball_speed(false));
+        assert!((10.0..11.0).contains(&ball_speed(true)), "{}", ball_speed(true));
+        // Older rulesets have one limit.
+        let old = PhysicsParams::of_ruleset(2);
+        assert_eq!(old.cue_speed_limit(false), old.cue_speed_limit(true));
+    }
+
+    /// A slow cut throws the object ball off the line of centres more than
+    /// a fast one (ball friction falls with speed).
+    #[test]
+    fn slow_cuts_throw_more() {
+        let throw = |speed: f64| {
+            let r = Table::default().spec.ball_radius;
+            // A half-ball hit: the line of centres is 30° off the stroke.
+            let mut sim = sim_with(&[(0, DVec2::new(-0.3, r)), (1, DVec2::new(0.0, 0.0))]);
+            sim.strike(BallId::CUE, &Shot::new(0.0, speed)).unwrap();
+            while !sim.events().iter().any(|e| matches!(e, Event::BallBall { .. })) {
+                sim.step();
+            }
+            let v = sim.ball(BallId(1)).unwrap().velocity;
+            (crate::math::atan2(v.y, v.x).to_degrees() + 30.0).abs()
+        };
+        let (slow, fast) = (throw(0.6), throw(4.0));
+        assert!(slow > fast + 0.5, "slow {slow}°, fast {fast}°");
+        assert!(slow < 7.0, "slow {slow}°");
+    }
+
+    /// The tip at the miscue limit (half a radius off centre) gives the
+    /// most spin a cue can: the surface turning at 1.25 times the ball's
+    /// speed. Side spin squirts the ball a little the other way.
+    #[test]
+    fn the_tip_gives_as_much_spin_as_a_real_one() {
+        let (p, t) = (PhysicsParams::default(), Table::default());
+        let r = t.spec.ball_radius;
+        for tip in [DVec2::X, DVec2::Y, -DVec2::Y, DVec2::new(0.6, -0.8)] {
+            let (v, w) = cue_impulse(&p, &t, &Shot::new(0.0, 2.0).with_tip(tip));
+            assert!((w.length() * r / v.length() - 1.25).abs() < 0.01);
+        }
+        let (v, w) = cue_impulse(&p, &t, &Shot::new(0.0, 2.0).with_tip(DVec2::X));
+        // Right english: anticlockwise from above, the ball squirts left.
+        assert!(w.z > 0.0 && v.y > 0.0 && v.y / v.x < 0.05);
+    }
+
+    /// The 30° rule: a rolling cue ball leaves a half-ball hit at about
+    /// 34° from its line, and the object ball goes close to the line of
+    /// centres (30°), thrown a little by the cut.
+    #[test]
+    fn a_rolling_cue_ball_follows_the_thirty_degree_rule() {
+        let r = Table::default().spec.ball_radius;
+        let mut sim = sim_with(&[(0, DVec2::new(-0.9, r)), (1, DVec2::new(0.0, 0.0))]);
+        sim.strike(BallId::CUE, &Shot::new(0.0, 1.0)).unwrap();
+        while !sim.events().iter().any(|e| matches!(e, Event::BallBall { .. })) {
+            sim.step();
+        }
+        let object = sim.ball(BallId(1)).unwrap().velocity;
+        let thrown = crate::math::atan2(object.y, object.x).to_degrees() + 30.0;
+        assert!((0.3..4.0).contains(&thrown), "throw {thrown}°");
+        // Once the cue ball rolls again (its path has curved forward).
+        while sim.balls[0].motion != Motion::Rolling {
+            sim.step();
+        }
+        let v = sim.balls[0].velocity;
+        let angle = crate::math::atan2(v.y, v.x).to_degrees();
+        assert!((31.0..37.0).contains(&angle), "cue ball leaves at {angle}°");
+    }
+
+    /// Side spin, square into a cushion: the ball comes off some 25° to
+    /// the side the spin runs to, and half the spin gives less.
+    #[test]
+    fn side_spin_throws_the_ball_off_a_cushion() {
+        let off = |side: f64| {
+            let mut sim = sim_with(&[(0, DVec2::new(0.5, 0.0))]);
+            sim.strike(BallId::CUE, &Shot::new(PI / 2.0, 2.0).with_tip(DVec2::new(side, 0.0)))
+                .unwrap();
+            while !sim.events().iter().any(|e| matches!(e, Event::Cushion { .. })) {
+                sim.step();
+            }
+            for _ in 0..300 {
+                sim.step();
+            }
+            let v = sim.balls[0].velocity;
+            crate::math::atan2(v.x, -v.y).to_degrees()
+        };
+        let (full, half) = (off(1.0), off(0.5));
+        assert!((20.0..35.0).contains(&full), "full side {full}°");
+        assert!(half > 8.0 && half < full - 4.0, "half side {half}°");
+        assert!((off(-1.0) + full).abs() < 0.5);
+    }
+
+    /// Raising the cue with side spin curves the ball to the side of the
+    /// spin: nothing with a level cue, a swerve of a few centimetres at
+    /// 5°, a massé that turns right round at 70°.
+    #[test]
+    fn an_elevated_cue_curves_the_ball() {
+        // Where the ball is across the table after a metre along its line
+        // (right english: the right is -y), and where it is heading.
+        let run = |elevation: f64, speed: f64| {
+            let mut sim = sim_with(&[(0, DVec2::new(-0.9, 0.0))]);
+            let shot = Shot::new(0.0, speed)
+                .with_tip(DVec2::new(1.0, 0.0))
+                .with_elevation(elevation.to_radians());
+            sim.strike(BallId::CUE, &shot).unwrap();
+            let squirt = sim.balls[0].velocity.y / sim.balls[0].velocity.x;
+            let mut across = None;
+            while !sim.is_settled() && sim.time() < 6.0 {
+                sim.step();
+                let b = &sim.balls[0];
+                if across.is_none() && b.position.x > 0.1 {
+                    across = Some(b.position.y - squirt);
+                }
+                if sim.events().iter().any(|e| matches!(e, Event::Cushion { .. })) {
+                    break;
+                }
+            }
+            (across, sim.balls[0].position)
+        };
+        let level = run(0.0, 2.0).0.unwrap();
+        assert!(level.abs() < 0.002, "level cue: {level}");
+        let swerve = run(5.0, 2.0).0.unwrap();
+        assert!((-0.06..-0.015).contains(&swerve), "5°: {swerve}");
+        let more = run(15.0, 2.0).0.unwrap();
+        assert!(more < 2.0 * swerve, "15°: {more}");
+        // The massé never gets a metre down the table: it hooks to the right.
+        let (across, end) = run(70.0, 3.0);
+        assert!(across.is_none() && end.y < -0.3 && end.x < 0.0, "massé ends at {end}");
+    }
+
+    /// A ball made keeps the velocity it went in with, to be shown falling.
+    #[test]
+    fn a_ball_made_keeps_its_velocity() {
+        let t = Table::default();
+        let pocket = t.pocket(PocketId::FootLeft).aim_point();
+        let start = DVec2::new(0.4, 0.2);
+        let dir = (pocket - start).normalize();
+        let mut sim = sim_with(&[(0, start)]);
+        sim.strike(BallId::CUE, &Shot::new(dir.y.atan2(dir.x), 2.0)).unwrap();
+        sim.run_to_rest();
+        let b = &sim.balls[0];
+        assert!(matches!(b.status, BallStatus::Pocketed(_)));
+        assert!(b.velocity.truncate().dot(dir) > 0.5 && !b.is_moving());
     }
 
     #[test]

@@ -8,6 +8,12 @@
 ### Nombre nuevo: Snook Legend
 El juego ahora se llama Snook Legend. Tu cuenta, monedas, objetos, ajustes y progreso siguen aquí, como antes.
 
+### Física de mesa de torneo
+Las bolas pesan como en una mesa de verdad: la barra de fuerza llega hasta un tiro fuerte (solo el saque usa toda la fuerza), las bandas devuelven menos cuanto más fuerte es el golpe, y la bola embocada cae en la tronera con la velocidad con la que llegó.
+
+### Mesa oficial, troneras en embudo
+La mesa tiene las medidas oficiales de 8 pies, las troneras del medio se abren en embudo hacia la mesa y aceptan bolas en ángulo, y el paño es de un verde profundo bajo la luz.
+
 ### Mesa de 8 pies, troneras del medio abiertas
 Una mesa más pequeña (8 pies) y troneras del medio que perdonan una bola fuera del centro o que entra en ángulo. Las bolas ruedan un poco más sueltas.
 

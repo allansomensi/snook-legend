@@ -1990,7 +1990,7 @@ impl Hud {
             let key = (m.games_played, last.start.shots_taken());
             if self.last_shot_seen != Some(key) {
                 self.last_shot_seen = Some(key);
-                let max = m.game.params().max_cue_speed;
+                let max = last.start.max_cue_speed();
                 let power = crate::game::speed_to_power(last.shot.speed, max);
                 self.last_power[last.start.current_player() % 2] = Some(power);
             }

@@ -50,6 +50,18 @@ fn side_pockets_forgive_more_than_the_nine_foot_table() {
     assert!(width(RULESET, PocketId::SideLeft, 70.0, 1.5) < 40.0);
 }
 
+/// The funnel-shaped side pockets (ruleset 3) take more than the ones that
+/// opened out behind two points did, at every angle.
+#[test]
+fn funnel_side_pockets_are_the_most_open() {
+    for deg in [0.0, 20.0, 35.0, 45.0] {
+        let now = width(RULESET, PocketId::SideLeft, deg, 1.5);
+        let before = width(2, PocketId::SideLeft, deg, 1.5);
+        assert!(now >= before + 5.0, "{deg}°: {now} mm (ruleset 2: {before} mm)");
+    }
+    assert!(width(RULESET, PocketId::SideLeft, 0.0, 1.5) >= 140.0);
+}
+
 #[test]
 fn corner_pockets_take_a_ball_straight_in() {
     assert!(width(RULESET, PocketId::FootLeft, 0.0, 1.5) >= 60.0);

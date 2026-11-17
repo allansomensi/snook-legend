@@ -353,6 +353,7 @@ impl Versus {
                 ),
                 AimGuide::Standard => t("Shows the contact point; judging the cut is up to you."),
                 AimGuide::Short => t("Only a short line from the cue ball."),
+                AimGuide::Off => t("No lines on the table: aim by eye, along the cue."),
             };
             ui.tooltip(hint, seg);
         }

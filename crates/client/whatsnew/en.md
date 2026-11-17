@@ -23,6 +23,15 @@ Tito, Inês, Diego, Amara and Yuri join the computer opponents, each with a styl
 ### Quieter opponents
 Settings → Game → Opponents' remarks turns their speech bubbles off.
 
+### A new score panel
+Pictures and names in boxes, and the balls each player made rolling into place along their rail, in the order they went down.
+
+### Aim by eye
+Raise the cue by dragging it in a side view of the shot. No more numbers on the power or the elevation: judge them by eye. Prefer it flat? Settings → Game → Top view only.
+
+### Rules and pictures
+The rules of the game are a click away (the book on the main menu, or Rules in the pause menu). Pick one of 32 profile pictures in your profile.
+
 ### Your games are safe
 Replays and daily games that started before this update keep the old table and rules until they end.
 

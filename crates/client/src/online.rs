@@ -750,7 +750,18 @@ impl Online {
                     m.notify(t("Reconnected."), false);
                 }
                 self.username = player.username.clone();
+                // The profile picture: the account's, or else the one chosen
+                // here before signing in becomes the account's.
+                let account_picture = player.avatar.clone();
+                let guest = player.guest;
                 self.me = Some(player);
+                if !account_picture.is_empty() {
+                    crate::avatars::set_mine(&account_picture);
+                    config.avatar = account_picture;
+                    save = true;
+                } else if !config.avatar.is_empty() && !guest && !self.lan {
+                    self.send(ClientMsg::SetAvatar { avatar: config.avatar.clone() });
+                }
                 // A new session: the server learns again what this player
                 // is doing (its welcome follows).
                 self.server_protocol = 0;
@@ -2572,23 +2583,25 @@ impl Online {
                 // Looking for a game: a gold edge.
                 rrect(Rect::new(r.x + 1.0, r.y + 6.0, 3.0, r.h - 12.0), 1.5, GOLD);
             }
-            Self::status_dot(p, r.x + 14.0, r.y + r.h / 2.0);
+            // The picture, with the status dot on its edge.
+            let pic_r = ((r.h - 12.0) / 2.0).min(17.0);
+            let pic = vec2(r.x + 10.0 + pic_r, r.y + r.h / 2.0);
+            crate::avatars::draw(&p.avatar, pic, pic_r);
+            let dot = pic + vec2(pic_r * 0.72, pic_r * 0.72);
+            draw_circle(dot.x, dot.y, 6.5, Color::new(0.08, 0.05, 0.03, 1.0));
+            Self::status_dot(p, dot.x, dot.y);
+            let nx = pic.x + pic_r + 10.0;
             let right = corr.map_or(if staff_x { x_r.x } else { button.x }, |c| c.x);
-            let name_w = right - 12.0 - (r.x + 28.0);
-            ui.player_name(p, r.x + 28.0, r.y + 5.0, 15.0, name_w);
+            let name_w = right - 12.0 - nx;
+            ui.player_name(p, nx, r.y + 5.0, 15.0, name_w);
             match &note {
                 Some(n) => {
-                    Self::rating_after_name(ui, p, r.x + 28.0, r.y + 5.0, name_w);
-                    Self::note_line(ui, n, r.x + 28.0, r.y + 23.0, name_w);
+                    Self::rating_after_name(ui, p, nx, r.y + 5.0, name_w);
+                    Self::note_line(ui, n, nx, r.y + 23.0, name_w);
                 }
-                None => sub_line(
-                    ui,
-                    &Self::status_text(p),
-                    &p.status_message,
-                    r.x + 28.0,
-                    r.y + 23.0,
-                    name_w,
-                ),
+                None => {
+                    sub_line(ui, &Self::status_text(p), &p.status_message, nx, r.y + 23.0, name_w)
+                }
             }
             if hover
                 && !p.guest

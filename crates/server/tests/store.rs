@@ -38,6 +38,16 @@ async fn exercise(store: Store) {
     assert!(store.session_user("hash1", SessionKind::Game, t + 200).await.unwrap().is_none());
     assert_eq!(store.purge_sessions(t + 200).await.unwrap(), 1);
 
+    // The profile picture, kept with the account (and in its session).
+    assert_eq!(a.avatar, "");
+    store.set_avatar(a.id, "zuri").await.unwrap();
+    assert_eq!(store.user_by_id(a.id).await.unwrap().unwrap().avatar, "zuri");
+    store.create_session("hash2", a.id, SessionKind::Game, t, t + 100).await.unwrap();
+    let (u, _) = store.session_user("hash2", SessionKind::Game, t).await.unwrap().unwrap();
+    assert_eq!(u.avatar, "zuri");
+    store.set_avatar(a.id, "").await.unwrap();
+    assert_eq!(store.user_by_id(a.id).await.unwrap().unwrap().avatar, "");
+
     // A rated match.
     let m = MatchRecord {
         players: [a.id, b.id],

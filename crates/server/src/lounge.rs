@@ -324,6 +324,7 @@ pub fn player_info(user: &User, guest: bool, status: PlayerStatus) -> PlayerInfo
         effect: String::new(),
         cue_level: 0,
         status_message: user.status_message.clone(),
+        avatar: user.avatar.clone(),
         vs_computer: false,
         away: false,
         level: if guest { 0 } else { snook_legend_proto::xp::level_of(user.xp) },
@@ -1043,6 +1044,7 @@ impl Lounge {
             | ClientMsg::Leaderboard
             | ClientMsg::Profile { .. }
             | ClientMsg::SetCountry { .. }
+            | ClientMsg::SetAvatar { .. }
             | ClientMsg::Friends
             | ClientMsg::Spectate { .. }
             | ClientMsg::Shop

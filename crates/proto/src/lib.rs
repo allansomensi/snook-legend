@@ -168,6 +168,19 @@ pub fn valid_country(code: &str) -> bool {
     code.is_empty() || country_index(code).is_some()
 }
 
+/// The profile pictures a player can choose (the client draws each one;
+/// the empty code is no picture: a plain silhouette).
+pub const AVATARS: [&str; 32] = [
+    "sunny", "marco", "zuri", "kai", "mei", "omar", "lena", "theo", "nia", "raul", "ana", "joe",
+    "iris", "sam", "hugo", "lua", "duda", "bento", "rex", "yuki", "malik", "clara", "dante",
+    "flor", "gus", "tati", "nico", "jade", "beto", "vera", "leon", "kiara",
+];
+
+/// A picture from [`AVATARS`] (or the empty string: none).
+pub fn valid_avatar(code: &str) -> bool {
+    code.is_empty() || AVATARS.contains(&code)
+}
+
 /// Position of `code` in [`COUNTRIES`] (and in the flag atlas).
 pub fn country_index(code: &str) -> Option<usize> {
     COUNTRIES.iter().position(|(c, _, _)| c.eq_ignore_ascii_case(code))
@@ -403,6 +416,9 @@ pub struct PlayerInfo {
     /// The account level (see [`xp`]; 0: not known, e.g. a guest).
     #[serde(default, skip_serializing_if = "is_zero")]
     pub level: u32,
+    /// Their profile picture (a code from [`AVATARS`]; empty: none).
+    #[serde(default, skip_serializing_if = "String::is_empty")]
+    pub avatar: String,
 }
 
 fn is_zero(n: &u32) -> bool {
@@ -999,6 +1015,10 @@ pub enum ClientMsg {
     },
     SetCountry {
         country: String,
+    },
+    /// Choose a profile picture (a code from [`AVATARS`]; empty: none).
+    SetAvatar {
+        avatar: String,
     },
     Friends,
     FriendRequest {
@@ -1824,6 +1844,7 @@ mod tests {
             effect: String::new(),
             cue_level: 0,
             status_message: String::new(),
+            avatar: String::new(),
             vs_computer: false,
             away: false,
             level: 0,

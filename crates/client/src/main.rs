@@ -7,9 +7,9 @@
 //! runs on practically any PC, including old integrated graphics.
 
 mod analysis;
-mod avatars;
 mod assess;
 mod audio;
+mod avatars;
 mod banter;
 mod camera;
 mod channel;
@@ -269,6 +269,13 @@ async fn main() {
 
     let mut config = Config::load();
     i18n::set_lang(config.language);
+    avatars::set_mine(&config.avatar);
+    // Development aid: SNOOK_LEGEND_AVATARS opens the settings with the
+    // picture picker.
+    let pick_avatar = crate::dev::flag("SNOOK_LEGEND_AVATARS");
+    if pick_avatar {
+        avatars::open();
+    }
     // The first start on a new version: what changed (on the main menu).
     let mut whats_new = whatsnew::WhatsNew::after_update(&config.last_version);
     // Development aid: SNOOK_LEGEND_WHATS_NEW=1 shows the notes, =0.2.0 that
@@ -323,7 +330,7 @@ async fn main() {
     let mut notifier = notify::Notifier::default();
     // Where the profile and ranking go back to.
     let mut back_to_lounge = false;
-    let mut settings_open = options.settings;
+    let mut settings_open = options.settings || pick_avatar;
     let mut settings_screen = SettingsScreen::default();
     settings_screen.dev_tab();
     if options.top_view {
@@ -720,8 +727,24 @@ async fn main() {
         // Looking down on the table in a game: no cord, fan or beam of the
         // hall in the way.
         scene.clear_over_table = !scene.lamp_visible;
+        // A profile picture chosen (in the profile or the settings): kept,
+        // and the account's too.
+        let picture = avatars::mine();
+        if picture != config.avatar {
+            config.avatar = picture;
+            config.save();
+            if online.signed_in() && online.me.as_ref().is_some_and(|me| !me.guest) {
+                online.send(snook_legend_proto::ClientMsg::SetAvatar {
+                    avatar: config.avatar.clone(),
+                });
+            }
+        }
         if let Some(m) = current.as_mut() {
             m.talk = config.opponent_talk;
+            // Offline, the first player is this one.
+            if m.online.is_none() && m.avatars[0] != config.avatar {
+                m.avatars[0] = config.avatar.clone();
+            }
         }
         // Each game on its own table: a game played under an older ruleset
         // (a correspondence game started before an update, an old replay)

@@ -89,12 +89,8 @@ impl Made {
             self.key = key;
             self.order.clear();
         }
-        let down: Vec<BallId> = m
-            .balls()
-            .iter()
-            .filter(|b| b.id.is_object() && !b.in_play())
-            .map(|b| b.id)
-            .collect();
+        let down: Vec<BallId> =
+            m.balls().iter().filter(|b| b.id.is_object() && !b.in_play()).map(|b| b.id).collect();
         if down.is_empty() {
             self.order.clear();
             return;
@@ -176,7 +172,14 @@ fn avatar(ui: &mut Ui, m: &Match, seat: usize, r: Rect, active: bool) {
         let bw = ui.text_size(&n, 11.0, true).x + 9.0;
         let b = Rect::new(r.x + r.w - bw - 2.0, r.y + 2.0, bw.max(16.0), 15.0);
         rrect(b, 7.5, Color::new(0.0, 0.0, 0.0, 0.55));
-        ui.text(&n, b.x + (b.w - ui.text_size(&n, 11.0, true).x) / 2.0, b.y + 1.5, 11.0, GOLD, true);
+        ui.text(
+            &n,
+            b.x + (b.w - ui.text_size(&n, 11.0, true).x) / 2.0,
+            b.y + 1.5,
+            11.0,
+            GOLD,
+            true,
+        );
     }
     if ui.hovering(r) {
         let mut tip = m.names[seat].clone();
@@ -192,8 +195,17 @@ fn avatar(ui: &mut Ui, m: &Match, seat: usize, r: Rect, active: bool) {
 /// right), and at the far end their clock or rating.
 fn rail(ui: &mut Ui, m: &Match, made: &Made, seat: usize, r: Rect, active: bool, now: f64) {
     // A glossy dark tube.
-    rrect_gradient(r, r.h / 2.0, Color::new(0.16, 0.14, 0.13, 0.95), Color::new(0.04, 0.035, 0.03, 0.95));
-    rrect(Rect::new(r.x + r.h / 2.0, r.y + 2.0, r.w - r.h, 1.5), 0.75, Color::new(1.0, 1.0, 1.0, 0.07));
+    rrect_gradient(
+        r,
+        r.h / 2.0,
+        Color::new(0.16, 0.14, 0.13, 0.95),
+        Color::new(0.04, 0.035, 0.03, 0.95),
+    );
+    rrect(
+        Rect::new(r.x + r.h / 2.0, r.y + 2.0, r.w - r.h, 1.5),
+        0.75,
+        Color::new(1.0, 1.0, 1.0, 0.07),
+    );
     rrect_lines(r, r.h / 2.0, if active { 1.8 } else { 1.0 }, if active { GOLD } else { BORDER });
     let size = r.h - 4.0;
     let step = size + 2.5;
@@ -201,7 +213,11 @@ fn rail(ui: &mut Ui, m: &Match, made: &Made, seat: usize, r: Rect, active: bool,
     let from_left = seat == 0;
     // Slot k's left edge.
     let slot = |k: usize| {
-        if from_left { r.x + pad + k as f32 * step } else { r.x + r.w - pad - size - k as f32 * step }
+        if from_left {
+            r.x + pad + k as f32 * step
+        } else {
+            r.x + r.w - pad - size - k as f32 * step
+        }
     };
     // Where a ball comes in: the far end of the rail.
     let entry = if from_left { r.x + r.w - pad - size } else { r.x + pad };
@@ -223,7 +239,13 @@ fn rail(ui: &mut Ui, m: &Match, made: &Made, seat: usize, r: Rect, active: bool,
                 let x = slot(used);
                 let c = vec2(x + size / 2.0, cy);
                 let pulse = 0.5 + 0.5 * (now as f32 * 3.0).sin();
-                crate::paint::draw_circle_lines(c.x, c.y, size / 2.0 + 2.0, 1.5, with_alpha(GOLD, 0.4 + 0.4 * pulse));
+                crate::paint::draw_circle_lines(
+                    c.x,
+                    c.y,
+                    size / 2.0 + 2.0,
+                    1.5,
+                    with_alpha(GOLD, 0.4 + 0.4 * pulse),
+                );
                 ball(ui, BallId::EIGHT, c, size / 2.0, 0.0, 1.0);
                 used += 1;
                 let hit = Rect::new(x - 2.0, r.y, size + 4.0, r.h);
@@ -246,7 +268,11 @@ fn rail(ui: &mut Ui, m: &Match, made: &Made, seat: usize, r: Rect, active: bool,
         let w = ui.text_size(text, 11.5, true).x;
         let x = if from_left { r.x + r.w - w - 10.0 } else { r.x + 10.0 };
         // Not over the balls.
-        let clear = if from_left { x > slot(used.max(1) - 1) + size + 4.0 } else { x + w < slot(used.max(1) - 1) - 4.0 };
+        let clear = if from_left {
+            x > slot(used.max(1) - 1) + size + 4.0
+        } else {
+            x + w < slot(used.max(1) - 1) - 4.0
+        };
         if clear || used == 0 {
             ui.text(text, x, cy - 7.0, 11.5, color, true);
         }
@@ -300,7 +326,13 @@ pub fn ball(ui: &Ui, id: BallId, c: Vec2, r: f32, roll: f32, alpha: f32) {
     let color = with_alpha(Color::from_rgba(col[0], col[1], col[2], 255), alpha);
     let ivory = with_alpha(Color::from_rgba(247, 243, 230, 255), alpha);
     // A soft shadow on the rail.
-    crate::paint::draw_ellipse(c.x + r * 0.12, c.y + r * 0.82, r * 0.85, r * 0.28, with_alpha(BLACK, 0.35 * alpha));
+    crate::paint::draw_ellipse(
+        c.x + r * 0.12,
+        c.y + r * 0.82,
+        r * 0.85,
+        r * 0.28,
+        with_alpha(BLACK, 0.35 * alpha),
+    );
     let turn = REST_TURN + roll;
     if id.kind() == BallKind::Stripe {
         draw_circle(c.x, c.y, r, ivory);
@@ -327,7 +359,15 @@ pub fn ball(ui: &Ui, id: BallId, c: Vec2, r: f32, roll: f32, alpha: f32) {
         let fs = if id.0 >= 10 { r * 0.86 } else { r * 1.05 };
         let aspect = d.z.max(0.35);
         let w = ui.text_size(&label, fs, true).x * aspect;
-        ui.text_aspect(&label, p.x - w / 2.0, p.y - fs * 0.56, fs, with_alpha(BLACK, 0.92 * alpha), true, aspect);
+        ui.text_aspect(
+            &label,
+            p.x - w / 2.0,
+            p.y - fs * 0.56,
+            fs,
+            with_alpha(BLACK, 0.92 * alpha),
+            true,
+            aspect,
+        );
     }
     // Light: a darker rim and a soft highlight, from a shading picture.
     let tex = shading();

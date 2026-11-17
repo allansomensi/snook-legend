@@ -57,7 +57,7 @@ use snook_legend_core::rating::EloConfig;
 use snook_legend_proto::{
     ACHIEVEMENTS, ClientMsg, FriendInfo, HistoryEntry, LeaderboardEntry, OLDEST_PROTOCOL_VERSION,
     PROTOCOL_VERSION, PlayerStatus, Profile, Relation, Role, ServerMsg, clean_text, parse_client,
-    valid_country, valid_password, valid_username,
+    valid_avatar, valid_country, valid_password, valid_username,
 };
 use tokio::net::TcpListener;
 use tokio::sync::{Notify, Semaphore, mpsc};
@@ -835,6 +835,7 @@ async fn authenticate(server: &Arc<Server>, msg: ClientMsg, ip: &str) -> Auth {
                 status_message: String::new(),
                 xp: 0,
                 name_changes: 0,
+                avatar: String::new(),
             };
             Auth::Ok { user: Box::new(user), token: String::new(), guest: true }
         }
@@ -1161,6 +1162,24 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                     });
                 }
             }
+            ClientMsg::SetAvatar { avatar } => {
+                let avatar = avatar.trim().to_string();
+                if valid_avatar(&avatar)
+                    && avatar != me.avatar
+                    && server.store.set_avatar(me.id, &avatar).await.is_ok()
+                {
+                    let mut fresh = me.clone();
+                    fresh.avatar = avatar;
+                    server.with(|l| {
+                        if let Some(u) = l.session_user(&fresh.username) {
+                            let mut u = u.clone();
+                            u.avatar = fresh.avatar.clone();
+                            l.refresh_user(u);
+                        }
+                    });
+                    user = Some((fresh, guest));
+                }
+            }
             ClientMsg::SetCountry { country } => {
                 let country = country.trim().to_uppercase();
                 if valid_country(&country)
@@ -1321,6 +1340,7 @@ fn is_query_msg(msg: &ClientMsg) -> bool {
         ClientMsg::Profile { .. }
             | ClientMsg::Spectate { .. }
             | ClientMsg::SetCountry { .. }
+            | ClientMsg::SetAvatar { .. }
             | ClientMsg::Friends
             | ClientMsg::FriendRequest { .. }
             | ClientMsg::FriendAnswer { .. }
@@ -1369,6 +1389,7 @@ fn is_account_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::Drills
             | ClientMsg::DrillSubmit { .. }
             | ClientMsg::SetCountry { .. }
+            | ClientMsg::SetAvatar { .. }
             | ClientMsg::Friends
             | ClientMsg::FriendRequest { .. }
             | ClientMsg::FriendAnswer { .. }

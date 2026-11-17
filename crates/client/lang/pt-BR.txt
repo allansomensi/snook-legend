@@ -1693,3 +1693,7 @@ Level	Nivelar
 Drag the cue: jump & massé	Arraste o taco: pulo e massé
 Drag to raise or lower the cue	Arraste para levantar ou baixar o taco
 Drag the cue · {keys}	Arraste o taco · {keys}
+Profile picture	Foto do perfil
+Shown by your name at the table and in your profile.	Aparece junto ao seu nome na mesa e no seu perfil.
+No picture	Sem foto
+Change your picture	Trocar sua foto

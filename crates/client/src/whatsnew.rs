@@ -128,7 +128,11 @@ impl WhatsNew {
     /// One version's notes (development aid: SNOOK_LEGEND_WHATS_NEW=0.2.0
     /// shows the notes written for the next version).
     pub fn of(version: &str) -> Option<WhatsNew> {
-        version_notes(version).map(|n| WhatsNew { versions: vec![n.version.clone()], scroll: 0.0, rules: false })
+        version_notes(version).map(|n| WhatsNew {
+            versions: vec![n.version.clone()],
+            scroll: 0.0,
+            rules: false,
+        })
     }
 
     /// The rules of the game, in the player's language.

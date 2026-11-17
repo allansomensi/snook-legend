@@ -23,6 +23,15 @@ Tito, Inês, Diego, Amara e Yuri chegam aos adversários do computador, cada um 
 ### Adversários em silêncio
 Configurações → Jogo → Comentários dos adversários desliga os balões de fala.
 
+### Um placar novo
+Fotos e nomes em quadros, e as bolas que cada jogador fez rolando até o seu lugar no trilho, na ordem em que caíram.
+
+### Mire no olho
+Levante o taco arrastando-o numa vista de lado da tacada. Nada de números na força ou na elevação: julgue no olho. Prefere tudo de cima? Configurações → Jogo → Só visão de cima.
+
+### Regras e fotos
+As regras do jogo estão a um clique (o livro no menu principal, ou Regras no menu de pausa). Escolha uma de 32 fotos de perfil no seu perfil.
+
 ### Seus jogos estão a salvo
 Replays e jogos diários que começaram antes desta atualização continuam com a mesa e as regras antigas até o fim.
 

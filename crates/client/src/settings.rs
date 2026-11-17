@@ -214,7 +214,8 @@ impl SettingsScreen {
         let startup_msaa = *self.startup_msaa.get_or_insert(config.msaa);
         let advanced = self.advanced;
         // "What's new" is over the settings: nothing under it reacts.
-        let dialog = self.whats_new.is_some().then(|| ui.suspend_input());
+        let dialog =
+            (self.whats_new.is_some() || crate::avatars::is_open()).then(|| ui.suspend_input());
         let esc_used = dialog.is_none() && self.capture_keys(ui, &mut config.keys);
         draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.5));
 
@@ -368,6 +369,8 @@ impl SettingsScreen {
             if self.whats_new.as_mut().is_some_and(|w| w.draw(ui)) {
                 self.whats_new = None;
             }
+            // The chosen picture is saved (and sent to the account) by the game.
+            crate::avatars::draw_picker(ui);
         }
         keys::set_capturing(self.capture.is_some());
         action
@@ -489,6 +492,19 @@ impl SettingsScreen {
             }
             Tab::Game => {
                 rows.heading(ui, t("General"), None);
+                if let Some((_, c)) = rows.row(
+                    ui,
+                    t("Profile picture"),
+                    t("Shown by your name at the table and in your profile."),
+                    Control::Wide(44.0),
+                ) {
+                    let mine = crate::avatars::mine();
+                    crate::avatars::draw(&mine, vec2(c.x + 22.0, c.y + 22.0), 21.0);
+                    let b = Rect::new(c.x + 54.0, c.y + 6.0, (c.w - 54.0).min(150.0), 32.0);
+                    if ui.button(b, t("Choose…"), true) {
+                        crate::avatars::open();
+                    }
+                }
                 if let Some((_, c)) = rows.row(ui, t("Language"), "", Control::Wide(32.0)) {
                     let names: Vec<&str> = Lang::ALL.iter().map(|l| short_name(*l)).collect();
                     let sel = Lang::ALL.iter().position(|l| *l == config.language).unwrap_or(0);
@@ -543,7 +559,11 @@ impl SettingsScreen {
                 );
                 // The 3D camera's own settings, idle while it is locked above.
                 let free = !config.top_view_only;
-                let hint = if free { t("Off: it stays where you put it.") } else { t("Not with the top view only.") };
+                let hint = if free {
+                    t("Off: it stays where you put it.")
+                } else {
+                    t("Not with the top view only.")
+                };
                 if let Some((row, c)) = rows.row_ex(
                     ui,
                     t("Camera follows the cue"),

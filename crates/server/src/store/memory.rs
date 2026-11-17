@@ -188,6 +188,7 @@ impl MemoryStore {
             status_message: String::new(),
             xp: 0,
             name_changes: 0,
+            avatar: String::new(),
         };
         s.users.insert(user.id, user.clone());
         Ok(Some(user))
@@ -321,6 +322,13 @@ impl MemoryStore {
     pub fn touch(&self, user_id: i64, now: i64) -> StoreResult<()> {
         if let Some(u) = self.lock().users.get_mut(&user_id) {
             u.last_seen = now;
+        }
+        Ok(())
+    }
+
+    pub fn set_avatar(&self, user_id: i64, avatar: &str) -> StoreResult<()> {
+        if let Some(u) = self.lock().users.get_mut(&user_id) {
+            u.avatar = avatar.to_string();
         }
         Ok(())
     }
@@ -668,6 +676,7 @@ impl MemoryStore {
             u.country = String::new();
             u.recovery_email = None;
             u.status_message = String::new();
+            u.avatar = String::new();
             u.deleted_at = Some(now);
         }
         s.sessions.retain(|_, v| v.0 != user_id);

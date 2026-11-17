@@ -71,6 +71,8 @@ pub struct User {
     /// Times the player changed their username (see
     /// `snook_legend_proto::MAX_NAME_CHANGES`).
     pub name_changes: u32,
+    /// The profile picture (a code from `snook_legend_proto::AVATARS`).
+    pub avatar: String,
 }
 
 impl User {
@@ -741,6 +743,10 @@ impl Store {
     }
     pub async fn touch(&self, user_id: i64, now: i64) -> StoreResult<()> {
         dispatch!(self, s => s.touch(user_id, now))
+    }
+    /// Sets (or clears, when empty) a player's profile picture.
+    pub async fn set_avatar(&self, user_id: i64, avatar: &str) -> StoreResult<()> {
+        dispatch!(self, s => s.set_avatar(user_id, avatar))
     }
     /// Sets (or clears, when empty) a player's status message.
     pub async fn set_status_message(&self, user_id: i64, text: &str) -> StoreResult<()> {

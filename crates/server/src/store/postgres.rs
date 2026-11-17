@@ -75,7 +75,7 @@ impl From<sqlx::migrate::MigrateError> for StoreError {
 const USER_COLUMNS: &str = "id, username, password_hash, country, role, rating, peak_rating, \
     games, wins, eight_wins, casual_games, streak, best_streak, runouts, shutouts, \
     tournaments_played, tournaments_won, created_at, last_seen, banned_until, ban_reason, muted_until, \
-    recovery_email, deleted_at, abandons, status_message, xp, name_changes";
+    recovery_email, deleted_at, abandons, status_message, xp, name_changes, avatar";
 
 fn user(r: &PgRow) -> Result<User, sqlx::Error> {
     let n = |c: &str| -> Result<u32, sqlx::Error> { Ok(r.try_get::<i32, _>(c)?.max(0) as u32) };
@@ -108,6 +108,7 @@ fn user(r: &PgRow) -> Result<User, sqlx::Error> {
         status_message: r.try_get("status_message")?,
         xp: r.try_get("xp")?,
         name_changes: r.try_get::<i16, _>("name_changes")?.max(0) as u32,
+        avatar: r.try_get("avatar")?,
     })
 }
 
@@ -798,7 +799,8 @@ impl PgStore {
         let mut tx = self.pool.begin().await?;
         query(
             "UPDATE users SET username = $2, password_hash = '', country = '',
-                recovery_email = NULL, deleted_at = $3, register_ip = '', status_message = ''
+                recovery_email = NULL, deleted_at = $3, register_ip = '', status_message = '',
+                avatar = ''
              WHERE id = $1",
         )
         .bind(user_id)
@@ -1160,6 +1162,15 @@ impl PgStore {
         .fetch_all(&self.pool)
         .await?;
         Ok(rows.iter().map(|r| (r.get("code"), r.get("unlocked_at"))).collect())
+    }
+
+    pub async fn set_avatar(&self, user_id: i64, avatar: &str) -> StoreResult<()> {
+        query("UPDATE users SET avatar = $2 WHERE id = $1")
+            .bind(user_id)
+            .bind(avatar)
+            .execute(&self.pool)
+            .await?;
+        Ok(())
     }
 
     pub async fn set_status_message(&self, user_id: i64, text: &str) -> StoreResult<()> {

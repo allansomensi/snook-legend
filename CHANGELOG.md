@@ -7,8 +7,8 @@ pockets, balls that roll a little more freely, and a new rule. Every shot
 plays out differently, so games older than this one (0.3.0 and before) must
 update to play online. Games already recorded (replays, games saved during
 a restart, daily games in progress) keep the rules, the physics and the
-table they started with, shot for shot. Migrations 0013 and 0014 run on
-start-up.
+table they started with, shot for shot. Migrations 0013, 0014 and 0015 run
+on start-up.
 
 ### The game is called Snook Legend
 - The new name everywhere: the window, the menus, the installer and its
@@ -50,7 +50,30 @@ start-up.
   numbers always read. Shadows (balls, contact, the cue) are lighter.
 - Looking down on the table, nothing of the hall comes between the camera
   and the table (some halls showed cords, ropes and lamp parts across it).
-- The player card of whoever isn't at the table is dimmed a little.
+- A new score panel at the top: each player's picture and name in a box,
+  and a rail with the balls of their group in the order they went down
+  (the first player's from the left, the second's from the right), drawn
+  as spheres seen slightly from above. A ball just pocketed rolls in from
+  the far end of the rail into its place. Whoever isn't at the table is
+  dimmed a little; the shot clock runs along the active rail.
+- Settings → Game → "Top view only": the table is always seen from
+  above (no 3D view, no turning, no TV camera); zooming still works.
+
+### Aiming by eye
+- The elevation panel shows the cue and the cue ball from the side, with a
+  curved arrow: drag the cue (or anywhere in the picture) to raise or
+  lower it, the wheel nudges it, "Level" puts it back.
+- No numbers for the power or the elevation any more (the percentage by
+  the power bar and on the last-shot mark, the degrees of the elevation):
+  the player judges them by eye.
+
+### Rules and profile pictures
+- The rules of the game, as this game plays them, in the three languages:
+  the book on the main menu, or "Rules" in the pause menu.
+- Thirty-two profile pictures to choose from (in the profile, or Settings
+  → Game when playing offline), shown in the score panel, in the profile and
+  in the lounge's list of players. The account keeps the choice (migration
+  0015; protocol: `SetAvatar` and `PlayerInfo.avatar`).
 
 ### Against the computer
 - Five more opponents, each with a portrait and a voice of their own: Tito

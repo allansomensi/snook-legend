@@ -803,7 +803,7 @@ impl Match {
             banter: None,
             banter_quiet: 0.0,
             talk: true,
-            avatars: Default::default(),
+            avatars: [players[0].avatar.clone(), players[1].avatar.clone()],
         };
         m.begin_turn();
         if let Some(o) = m.online.as_mut() {
@@ -2192,6 +2192,7 @@ mod tests {
             effect: String::new(),
             cue_level: 0,
             status_message: String::new(),
+            avatar: String::new(),
             vs_computer: false,
             away: false,
             level: 0,

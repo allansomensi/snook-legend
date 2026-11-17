@@ -235,7 +235,10 @@ impl ProfileScreen {
         ui.panel(r);
         let mut action = ProfileAction::None;
         // A dialog over the page (account, report, country): Esc is its own.
-        let dialog = self.account.is_some() || self.report.is_some() || crate::countries::is_open();
+        let dialog = self.account.is_some()
+            || self.report.is_some()
+            || crate::countries::is_open()
+            || crate::avatars::is_open();
         if ui.icon_button(Rect::new(r.x + PAD, r.y + 20.0, 36.0, 36.0), Icon::Back, t("Back"), true)
             || (is_key_pressed(KeyCode::Escape)
                 && ui.focus.is_none()
@@ -338,6 +341,16 @@ impl ProfileScreen {
             online.send(ClientMsg::SetCountry { country: code });
             online.request_profile(&p.player.username);
         }
+        // A new picture: the game sends it to the server (see main); shown
+        // here at once.
+        if let Some(code) = crate::avatars::draw_picker(ui) {
+            if let Some(prof) = online.profile.as_mut() {
+                prof.player.avatar = code.clone();
+            }
+            if let Some(me) = online.me.as_mut() {
+                me.avatar = code;
+            }
+        }
         self.report_dialog(ui, online);
         self.account_dialog(ui, online);
         action
@@ -351,7 +364,34 @@ impl ProfileScreen {
         // With a frame, everything moves in a little: the frame keeps clear
         // of the back button.
         let pad = if framed.is_some() { 14.0 } else { 0.0 };
-        let left = r.x + PAD + 36.0 + 16.0;
+        // The picture, by the name and the line under it; one's own can be
+        // changed with a click.
+        let pic_r = 31.0;
+        let pic = vec2(r.x + PAD + 36.0 + 16.0 + pic_r, r.y + 57.0);
+        crate::avatars::draw(&player.avatar, pic, pic_r);
+        let own = p.relation == Relation::Me && !online.lan && !player.guest;
+        if own {
+            let hit = Rect::new(pic.x - pic_r, pic.y - pic_r, 2.0 * pic_r, 2.0 * pic_r);
+            let hover = ui.hovering(hit);
+            // A pencil badge says it can be changed.
+            let b = pic + vec2(pic_r * 0.72, pic_r * 0.72);
+            draw_circle(
+                b.x,
+                b.y,
+                10.0,
+                if hover { GOLD } else { Color::new(0.2, 0.14, 0.09, 1.0) },
+            );
+            draw_circle_lines(b.x, b.y, 10.0, 1.2, GOLD);
+            crate::icons::draw(Icon::Pencil, b, 11.0, if hover { BLACK } else { GOLD });
+            if hover {
+                draw_circle_lines(pic.x, pic.y, pic_r + 1.5, 2.0, GOLD);
+                ui.tooltip(t("Change your picture"), hit);
+                if ui.clicked(hit) {
+                    crate::avatars::open();
+                }
+            }
+        }
+        let left = r.x + PAD + 36.0 + 16.0 + 2.0 * pic_r + 16.0;
         let x = left + pad;
         // The name's middle lines up with the back button's.
         let mid = r.y + 38.0;

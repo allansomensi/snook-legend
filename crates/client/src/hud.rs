@@ -150,7 +150,6 @@ impl Hud {
 
 const CHAT_FIELD: u64 = 40;
 
-
 fn status_line(m: &Match) -> Option<String> {
     if let Some(waiting) = crate::correspondence::status(m) {
         return Some(waiting);
@@ -1446,7 +1445,11 @@ fn controls_list(top_only: bool) -> Vec<(&'static str, String)> {
         (
             t("View"),
             join(&[
-                &if top_only { String::new() } else { with_key("{key}: 3D / top view", Action::ToggleView) },
+                &if top_only {
+                    String::new()
+                } else {
+                    with_key("{key}: 3D / top view", Action::ToggleView)
+                },
                 &with_keys("{keys}: zoom", pair(Action::ZoomIn, Action::ZoomOut)),
             ]),
         ),
@@ -2004,12 +2007,7 @@ impl Hud {
             self.stroke(ui, m, track);
         } else {
             self.stroking = false;
-            draw_power_track(
-                track,
-                if m.aim.charging { m.aim.power } else { 0.0 },
-                false,
-                false,
-            );
+            draw_power_track(track, if m.aim.charging { m.aim.power } else { 0.0 }, false, false);
         }
 
         // Development aid: SNOOK_LEGEND_ELEVATION=<degrees> keeps the

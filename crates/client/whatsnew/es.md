@@ -23,6 +23,15 @@ Tito, Inês, Diego, Amara y Yuri se suman a los rivales de la computadora, cada 
 ### Rivales en silencio
 Ajustes → Juego → Comentarios de los rivales apaga sus bocadillos.
 
+### Un marcador nuevo
+Fotos y nombres en recuadros, y las bolas que metió cada jugador rodando hasta su lugar en el riel, en el orden en que entraron.
+
+### Apunta a ojo
+Levanta el taco arrastrándolo en una vista de lado del tiro. Sin números en la fuerza ni en la elevación: júzgalas a ojo. ¿Lo prefieres desde arriba? Ajustes → Juego → Solo vista superior.
+
+### Reglas y fotos
+Las reglas del juego están a un clic (el libro en el menú principal, o Reglas en el menú de pausa). Elige una de 32 fotos de perfil en tu perfil.
+
 ### Tus partidas, a salvo
 Las repeticiones y las partidas diarias que empezaron antes de esta actualización siguen con la mesa y las reglas antiguas hasta el final.
 

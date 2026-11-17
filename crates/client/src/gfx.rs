@@ -226,7 +226,9 @@ vec4 ball_terms(vec3 p, vec3 n) {
 vec3 lamp_reflection(vec3 pos, vec3 r) {
     vec3 l = normalize(pos - v_world);
     float d = dot(r, l);
-    return LampColor.rgb * LampColor.w * (smoothstep(0.975, 0.995, d) * 1.6 + smoothstep(0.80, 0.99, d) * 0.08);
+    // A lamp seen in a polished ball: a small, crisp glint (a wide soft one
+    // read as a pale disc painted on top of the ball).
+    return LampColor.rgb * LampColor.w * (smoothstep(0.9935, 0.9985, d) * 1.5 + smoothstep(0.95, 0.997, d) * 0.03);
 }
 
 vec3 environment(vec3 r) {
@@ -291,7 +293,10 @@ void main() {
         && abs(v_world.z) < Clear.y && v_world.y > Clear.z && v_world.y < Clear.w) {
         discard;
     }
-    vec4 base = texture2D(Texture, uv) * color;
+    // Clear-coated surfaces (the balls above all) are read from a sharper
+    // level of their texture: a ball a few dozen pixels across keeps a
+    // crisp number instead of a smear, anti-aliasing or not.
+    vec4 base = texture2D(Texture, uv, Extra.x > 0.0 ? -1.0 : 0.0) * color;
     if (Surface.z > 0.5) {
         // Unlit: the light is baked into the colour (the halls) or the
         // surface shines by itself.
@@ -425,12 +430,12 @@ impl Surface {
         cut: 0.0,
         haze: 0.0,
     };
-    /// Resin balls with a soft sheen: a small, gentle highlight and a faint
-    /// reflection of the room, so the colours and the numbers always read
-    /// (a hard, bright glint hid them).
+    /// Polished phenolic balls, as a tournament set looks under the lamps:
+    /// each lamp is a small, crisp glint and the room a faint reflection,
+    /// so the colours and the numbers always read.
     pub const BALL: Surface = Surface {
-        specular: 0.45,
-        shininess: 90.0,
+        specular: 0.55,
+        shininess: 420.0,
         unlit: false,
         rim: 0.02,
         coat: 0.18,

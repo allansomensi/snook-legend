@@ -37,7 +37,7 @@ impl Board {
         let room = sw - 2.0 * left;
         // Just long enough for a group and its 8 (eight balls) plus the
         // clock at the far end: no empty stretch of rail.
-        let step = RAIL_H - 4.0 + 2.5;
+        let step = RAIL_H - 2.0 + 2.5;
         let full = 8.0 + 8.0 * step + 40.0;
         let rail_w = (room - 2.0 * (AVATAR_W + GAP)).clamp(190.0, full);
         let total = rail_w + 2.0 * (AVATAR_W + GAP);
@@ -132,7 +132,7 @@ pub fn draw(ui: &mut Ui, m: &Match, made: &Made, board: &Board, now: f64) {
         rail(ui, m, made, seat, board.rails[seat], active, now);
         // The player who isn't at the table is dimmed a little.
         if !active && !over {
-            let dim = Color::new(0.0, 0.0, 0.0, 0.42);
+            let dim = Color::new(0.0, 0.0, 0.0, 0.22);
             rrect(board.avatars[seat], 9.0, dim);
             rrect(board.rails[seat], RAIL_H / 2.0, dim);
         }
@@ -207,7 +207,7 @@ fn rail(ui: &mut Ui, m: &Match, made: &Made, seat: usize, r: Rect, active: bool,
         Color::new(1.0, 1.0, 1.0, 0.07),
     );
     rrect_lines(r, r.h / 2.0, if active { 1.8 } else { 1.0 }, if active { GOLD } else { BORDER });
-    let size = r.h - 4.0;
+    let size = r.h - 2.0;
     let step = size + 2.5;
     let pad = 4.0;
     let from_left = seat == 0;
@@ -313,11 +313,12 @@ fn with_alpha(c: Color, a: f32) -> Color {
     Color::new(c.r, c.g, c.b, c.a * a)
 }
 
-/// The tilt of every ball's number towards the viewer: up a little, so
-/// the balls read as spheres seen from slightly above.
-const TILT: f32 = 0.26;
-/// The number's place when the ball is at rest: turned to the left.
-const REST_TURN: f32 = -0.30;
+/// The tilt of every ball's number towards the viewer: none, so the
+/// number sits in the very middle of its ball.
+const TILT: f32 = 0.0;
+/// The number's place when the ball is at rest: facing the viewer squarely,
+/// so it reads at a glance (turned aside, it was squashed to a few pixels).
+const REST_TURN: f32 = 0.0;
 
 /// A pool ball at `c` with radius `r`, seen at an angle, turned by `roll`
 /// (radians about the vertical: a ball rolling sideways).
@@ -338,7 +339,7 @@ pub fn ball(ui: &Ui, id: BallId, c: Vec2, r: f32, roll: f32, alpha: f32) {
         draw_circle(c.x, c.y, r, ivory);
         // The band around the ball, through the number.
         let centre = -r * TILT.sin() * 0.9;
-        band(c, r, centre - r * 0.48, centre + r * 0.48, color);
+        band(c, r, centre - r * 0.62, centre + r * 0.62, color);
     } else {
         draw_circle(c.x, c.y, r, color);
     }
@@ -350,21 +351,23 @@ pub fn ball(ui: &Ui, id: BallId, c: Vec2, r: f32, roll: f32, alpha: f32) {
         if d.z <= 0.08 {
             continue;
         }
-        let rho = r * 0.56;
+        let rho = r * 0.60;
         let p = vec2(c.x + d.x * r * 0.9, c.y + d.y * r * 0.9);
         let angle = d.y.atan2(d.x).to_degrees();
         // Squashed along the direction it faces, by how much it faces away.
         macroquad::shapes::draw_ellipse(p.x, p.y, rho * d.z, rho, angle, fade(ivory));
         let label = id.0.to_string();
-        let fs = if id.0 >= 10 { r * 0.86 } else { r * 1.05 };
+        let fs = if id.0 >= 10 { r * 0.86 } else { r * 1.10 };
         let aspect = d.z.max(0.35);
         let w = ui.text_size(&label, fs, true).x * aspect;
         ui.text_aspect(
             &label,
             p.x - w / 2.0,
-            p.y - fs * 0.56,
+            // The digits stand 0.73 em tall on a baseline 0.8 em down: their
+            // middle, not the line's, goes on the circle's centre.
+            p.y - fs * 0.435,
             fs,
-            with_alpha(BLACK, 0.92 * alpha),
+            with_alpha(BLACK, alpha),
             true,
             aspect,
         );
@@ -425,7 +428,7 @@ fn shading() -> Texture2D {
                     let light = vec3(-0.5, -0.7, 0.75).normalize();
                     let diffuse = n.dot(light).max(0.0);
                     // Darkness to lay over (black with alpha) …
-                    let dark = (0.62 - 0.62 * diffuse).clamp(0.0, 0.6) + 0.18 * (1.0 - z).powf(2.0);
+                    let dark = (0.5 - 0.5 * diffuse).clamp(0.0, 0.5) + 0.18 * (1.0 - z).powf(2.0);
                     // … and a highlight (white with alpha).
                     let h = (light + vec3(0.0, 0.0, 1.0)).normalize();
                     let spec = n.dot(h).max(0.0);

@@ -101,7 +101,7 @@ impl Scene {
     pub fn new(table: Table, quality: Quality, focused: bool, looks: &Looks) -> Self {
         textures::set_detail(quality == Quality::Ultra);
         let (ball_tex, ball_segments) = match quality {
-            Quality::Low => (512, 24),
+            Quality::Low => (512, 32),
             Quality::Medium => (512, 32),
             Quality::High => (512, 48),
             Quality::Ultra => (1024, 64),

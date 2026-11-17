@@ -28,16 +28,24 @@ on start-up.
 - A ball made falls in: it keeps the velocity it went over the lip with,
   drops under gravity, rolls over the lip or hits the liner at the back and
   goes down (it used to float over the hole and sink slowly).
-- The table has the WPA's measures for 8 feet: a 92" × 46" playing surface
-  (it was the 88" × 44" of a home table) and cushion noses at 63.5% of a
-  ball's height. Balls (2 1/4", 6 oz) and corner pockets (4 1/2" mouths)
-  already had theirs.
-- Side pockets cut like a funnel: the facings turn in towards the hole
-  from a mouth flared to 7 1/2" down to a regulation 5" throat (they opened
-  out behind two points that hooked towards the pocket), over a hole of a
-  real size (140 mm across, it was 170). A ball that catches a facing is
-  turned in: the band of paths that drop is 154 mm straight in and 138 mm
-  at 35° (it was 118 and 120).
+- The table is the WPA's 8-foot tournament table, measure for measure
+  (a test holds every figure): a 92" × 46" playing surface (it was the
+  88" × 44" of a home table), 2 1/4" balls of 6 oz, cushion noses at 63.5%
+  of a ball's height, 4 1/2" corner mouths with 142° facings and a 1 1/2"
+  shelf, 5" side mouths with 104° facings and a 1/4" shelf. The side
+  pockets' facings turn in towards the hole (they opened out behind two
+  points that hooked towards the pocket, round a hole 170 mm across); the
+  band of paths that drop is 86 mm straight into a side pocket and 66 mm
+  into a corner.
+- The balls shine like polished phenolic: each lamp is a small, crisp
+  glint (a wide soft one read as a pale disc painted on top of the ball),
+  and small balls are read from a sharper level of their texture, so the
+  numbers stay crisp from the top view and on Low quality (which also
+  gets rounder balls).
+- In the score panel a ball's number sits in the middle of its ball,
+  facing the viewer, larger and black on ivory (turned aside and tilted,
+  it was squashed to a few pixels); the waiting player's rail is dimmed
+  less.
 - Spin and elevation checked against a real table, and kept by tests: the
   tip at the miscue limit gives a spin of 1.25 times the ball's speed, a
   rolling cue ball leaves a half-ball hit at 34° (the 30° rule), full side

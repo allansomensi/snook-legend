@@ -398,8 +398,8 @@ mod tests {
                 }
                 None => i as f64 * std::f64::consts::TAU / 720.0,
             };
-            for speed in [1.2, 2.0, 3.0, 4.5] {
-                for tip_y in [-0.6, 0.0, 0.5] {
+            for speed in [1.2, 2.0, 2.5, 3.0, 3.5, 4.1] {
+                for tip_y in [-0.9, -0.6, 0.0, 0.5] {
                     let shot = Shot::new(yaw, speed).with_tip(DVec2::new(0.0, tip_y));
                     if try_shot(d, &g, &shot) == Some(true) {
                         return Some(shot);

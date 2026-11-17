@@ -11,8 +11,8 @@ O jogo agora se chama Snook Legend. Sua conta, moedas, itens, configurações e 
 ### Física de mesa de torneio
 As bolas pesam como na mesa de verdade: a barra de força vai até uma tacada forte (só a saída usa a força toda), as tabelas devolvem menos quanto mais forte a batida, e a bola encaçapada cai na caçapa com a velocidade em que chegou.
 
-### Mesa oficial, caçapas em funil
-A mesa tem as medidas oficiais de 8 pés, as caçapas do meio abrem em funil para a mesa e aceitam bolas em ângulo, e o pano ficou de um verde profundo sob a luz.
+### Mesa oficial de torneio
+A mesa é a de 8 pés do regulamento, medida por medida: bolas, caçapas de canto e do meio com as bocas e os ângulos oficiais. O pano ficou de um verde profundo sob a luz e as bolas têm brilho de bola polida, com os números nítidos.
 
 ### Mesa de 8 pés, caçapas do meio abertas
 Uma mesa menor (8 pés) e caçapas do meio que perdoam uma bola fora do centro ou chegando em ângulo. As bolas correm um pouco mais soltas.

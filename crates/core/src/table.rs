@@ -98,24 +98,25 @@ impl TableSpec {
         ..Self::TOURNAMENT_9FT
     };
 
-    /// The WPA's 8-foot tournament table: a 92" × 46" playing surface,
-    /// 2 1/4" balls of 6 oz, 4 1/2" corner mouths, cushion noses at 63.5%
-    /// of a ball's height. Its side pockets are cut like a funnel: the
-    /// facings turn in towards the hole, as a real side pocket's do (the
-    /// 8-foot table before it had them opening out behind two sharp
-    /// points), from a mouth flared to 7 1/2" down to a regulation 5"
-    /// throat, over a hole of the size of a real one with its liner behind.
-    /// A ball that catches a facing is turned into the pocket, not back
-    /// out, so the pocket takes balls rolling in at an angle or along the
-    /// cushion (see `tests/pockets.rs` and `examples/pocket_angles.rs`).
+    /// The WPA's 8-foot tournament table, to its equipment specifications
+    /// throughout: a 92" × 46" playing surface, 2 1/4" balls of 6 oz,
+    /// cushion noses at 63.5% of a ball's height, 4 1/2" corner mouths with
+    /// 142° facings and a 1 1/2" shelf, 5" side mouths with 104° facings
+    /// (turned in 14°, the throat narrowing towards the hole) and a 1/4"
+    /// shelf. The slate is cut to a 2 1/4" radius at the corners and
+    /// 2 1/2" at the sides, with the pocket's liner behind.
     pub const WPA_8FT: TableSpec = TableSpec {
         length: 2.3368,
         width: 1.1684,
         cushion_height: 0.0363,
-        side_mouth: 0.190,
-        side_shelf: 0.0,
-        side_facing_open: -24.0 * std::f64::consts::PI / 180.0,
-        side_hole_radius: 0.070,
+        corner_mouth: 0.1143,
+        corner_shelf: 0.0381,
+        corner_facing_turn: 7.0 * std::f64::consts::PI / 180.0,
+        corner_hole_radius: 0.05715,
+        side_mouth: 0.1270,
+        side_shelf: 0.00635,
+        side_facing_open: -14.0 * std::f64::consts::PI / 180.0,
+        side_hole_radius: 0.0635,
         side_liner: true,
         ..Self::TOURNAMENT_9FT
     };

@@ -1,5 +1,65 @@
 # Changelog
 
+## 0.5.1 (protocol 16)
+
+A pass over the graphics, from the balls to the menus. Nothing changes in
+the rules, the physics or the protocol: 0.5.0 and 0.5.1 play together. No
+migrations.
+
+### The balls and the table
+- No more pale disc on top of the balls. The cap of every ball (what faces
+  up) was lit as the cloth is, as if from a wide fixture, and the rest of
+  the ball from where it stands: a paler circle with a hard edge sat on each
+  one, the ghost ball included. Only the table's own surfaces are lit that
+  way now, and a ball is shaded as one round thing.
+- A ball shows the light over the table as one clean dot in a faint glow.
+  It is never drawn smaller than a pixel or two: seen from above it was a
+  speck that flickered as the ball rolled and read as a scratch (and the
+  three lamps side by side as a ragged dash).
+- Only the balls are read from a sharper level of their texture; wood grain,
+  floors and rugs, read sharper than their size on screen, shimmered as the
+  camera moved.
+- The castings (and the leathers) round the pockets are shaded as plates
+  with eased edges: the light runs across them (they were cut-outs of one
+  flat colour).
+- Low quality is lit from the row the three lamps hang in. Its single lamp
+  stood in the middle, as bright as all three: the ends of the castings and
+  the facings of the side pockets burnt out to white.
+- The rugs of the halls have smooth outlines (four samples a pixel, and the
+  English club's at twice the size); the fine gold lines of the pool hall's
+  rug no longer break up into dots seen from above.
+
+### Aiming and the power bar
+- The power bar no longer marks the last stroke, and it no longer starts a
+  turn where the last one left it: every turn starts from the middle of the
+  bar (the break from a firm stroke). Nothing tells what the last stroke was
+  played with: judging the pace is part of the game.
+- The bar's colours run into each other without steps and its ends are
+  round, like the track it lies in.
+- The aiming line, the lines of the full guide and every ring on the table
+  have soft edges and are never thinner than a pixel, whatever the screen
+  and the anti-aliasing (the line to the ghost ball was a stepped hairline).
+- The rings round the pockets (calling the 8, a drill's pocket) are whole:
+  they lay under the castings, which hid all but an arc over the cloth.
+- Setting up a game (against the computer, two players) offers all four
+  aiming guides; "No guide" was missing there, and with it chosen in the
+  settings none was lit.
+
+### The view
+- Whose turn it is, and what they are on, is written in the top bar beside
+  the score panel. The line used to lie across the top rail and hid the side
+  pocket from above; a long line wraps onto two there.
+- The 3D view of the industrial loft was black: the camera sat inside one
+  of its steel beams. The camera stays below the beams of every hall, and
+  nothing of a hall is drawn right against the lens (a beam, a duct or a
+  lamp the camera has moved into no longer blacks out the view).
+- From above, the table leaves room for the zoom bar at the side; in a
+  narrow window the bar sat on the rail.
+- In the score panel, a name is shown whole when it fits (in slightly
+  smaller type if it must) in a wider box; "Computer" was cut short.
+- Choosing an opponent, a nickname takes the lines that fit on its card
+  instead of being cut after the first.
+
 ## 0.5.0 (protocol 16)
 
 A new edition of the physics and the table (ruleset 3): the WPA's 8-foot

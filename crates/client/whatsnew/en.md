@@ -3,6 +3,17 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.5.1
+
+### Cleaner balls
+The pale disc on top of every ball is gone: a ball is lit as one round thing and shows the lamp as a single clean dot. Castings, rugs and Low quality look better too.
+
+### The power bar keeps no memory
+No more mark for your last stroke, and every turn starts from the middle of the bar: judging the pace is part of the game.
+
+### Nothing over the table
+Whose turn it is now reads in the top bar, beside the score panel, so the side pocket is always in sight. Aiming lines are smooth, and the rings round the pockets are whole.
+
 ## 0.5.0
 
 ### Tournament-table physics

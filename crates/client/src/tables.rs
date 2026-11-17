@@ -573,10 +573,10 @@ pub fn build(table: &Table, quality: Quality, theme: TableStyle) -> Kit {
             // cut-out of plain colour).
             let lean = |k: f32| (Vec3::Y + normal_out * k).normalize_or_zero();
             let idx = [
-                cast.push(v3(i0, ctop), Vec2::ZERO, lean(-0.38), c),
-                cast.push(v3(i1, ctop), Vec2::ZERO, lean(-0.38), c),
-                cast.push(v3(o1, ctop), Vec2::ZERO, lean(0.38), c),
-                cast.push(v3(o0, ctop), Vec2::ZERO, lean(0.38), c),
+                cast.push(v3(i0, ctop), Vec2::ZERO, lean(-0.16), c),
+                cast.push(v3(i1, ctop), Vec2::ZERO, lean(-0.16), c),
+                cast.push(v3(o1, ctop), Vec2::ZERO, lean(0.26), c),
+                cast.push(v3(o0, ctop), Vec2::ZERO, lean(0.26), c),
             ];
             cast.indices.extend_from_slice(&[idx[0], idx[1], idx[2], idx[0], idx[2], idx[3]]);
             quad(

@@ -3,6 +3,17 @@
 # destaque, e as linhas seguintes são o texto dele. Mesmas versões e mesmo
 # número de destaques em todas as línguas.
 
+## 0.5.1
+
+### Bolas mais limpas
+O disco claro em cima de cada bola sumiu: a bola recebe luz como uma coisa só e mostra a lâmpada como um único ponto de brilho. Cantoneiras, tapetes e a qualidade Baixa também ficaram melhores.
+
+### A barra de força não guarda memória
+Não há mais a marca da última tacada, e toda vez a barra começa do meio: medir a força faz parte do jogo.
+
+### Nada em cima da mesa
+De quem é a vez agora aparece na barra de cima, ao lado do placar, e a caçapa do meio fica sempre à vista. As linhas da mira são suaves e os anéis em volta das caçapas aparecem inteiros.
+
 ## 0.5.0
 
 ### Física de mesa de torneio

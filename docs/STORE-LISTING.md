@@ -50,7 +50,13 @@ Em português, inglês e espanhol.
 
 ### Novidades desta versão
 
-Versão 0.5.0: física e mesa de torneio!
+Versão 0.5.1: gráficos mais limpos.
+• As bolas não têm mais o disco claro em cima: luz por igual e um único ponto de brilho.
+• A barra de força não marca mais a última tacada e sempre começa do meio.
+• De quem é a vez aparece na barra de cima: nada cobre a caçapa do meio.
+• Linhas de mira suaves, anéis das caçapas inteiros, cantoneiras e tapetes mais bonitos.
+
+Da versão 0.5.0: física e mesa de torneio!
 • Física de mesa de torneio: as bolas pesam como na mesa de verdade, as tabelas devolvem menos quanto mais forte a batida, e os efeitos seguem os valores medidos.
 • Tacadas em velocidade real: a barra de força vai até uma tacada forte, e só a saída usa a força toda.
 • A mesa oficial de 8 pés, medida por medida, com as caçapas de canto e do meio no regulamento.
@@ -120,7 +126,13 @@ In English, Portuguese and Spanish.
 
 ### What's new in this version
 
-Version 0.5.0: tournament physics on a tournament table!
+Version 0.5.1: cleaner graphics.
+• The balls no longer have a pale disc on top: even light and a single dot of shine.
+• The power bar no longer marks your last stroke and always starts from the middle.
+• Whose turn it is reads in the top bar: nothing covers the side pocket.
+• Smooth aiming lines, whole rings round the pockets, better-looking castings and rugs.
+
+From version 0.5.0: tournament physics on a tournament table!
 • Tournament-table physics: the balls weigh what they do on a real table, cushions give back less the harder they are hit, and spin follows measured figures.
 • Strokes at real speeds: the power bar goes up to a hard stroke, and only the break uses full power.
 • The official 8-foot table, measure for measure, with regulation corner and side pockets.
@@ -190,7 +202,13 @@ En español, inglés y portugués.
 
 ### Novedades de esta versión
 
-Versión 0.5.0: ¡física y mesa de torneo!
+Versión 0.5.1: gráficos más limpios.
+• Las bolas ya no tienen el disco claro encima: luz pareja y un único punto de brillo.
+• La barra de fuerza ya no marca el último tiro y siempre empieza desde el medio.
+• De quién es el turno se lee en la barra de arriba: nada tapa la tronera del medio.
+• Líneas de puntería suaves, anillos de las troneras enteros, cantoneras y alfombras más bonitas.
+
+De la versión 0.5.0: ¡física y mesa de torneo!
 • Física de mesa de torneo: las bolas pesan como en una mesa de verdad, las bandas devuelven menos cuanto más fuerte es el golpe, y los efectos siguen valores medidos.
 • Tiros a velocidad real: la barra de fuerza llega hasta un tiro fuerte, y solo el saque usa toda la fuerza.
 • La mesa oficial de 8 pies, medida por medida, con troneras de esquina y del medio reglamentarias.

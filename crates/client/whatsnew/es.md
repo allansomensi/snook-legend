@@ -3,6 +3,17 @@
 # un destacado, y las líneas siguientes son su texto. Mismas versiones y
 # mismo número de destacados en todos los idiomas.
 
+## 0.5.1
+
+### Bolas más limpias
+El disco claro encima de cada bola desapareció: la bola recibe la luz como una sola cosa y muestra la lámpara como un único punto de brillo. Las cantoneras, las alfombras y la calidad Baja también se ven mejor.
+
+### La barra de fuerza no guarda memoria
+Ya no hay marca del último tiro, y cada turno empieza desde el medio de la barra: medir la fuerza es parte del juego.
+
+### Nada encima de la mesa
+De quién es el turno ahora se lee en la barra de arriba, junto al marcador, y la tronera del medio queda siempre a la vista. Las líneas de puntería son suaves y los anillos alrededor de las troneras se ven enteros.
+
 ## 0.5.0
 
 ### Física de mesa de torneo

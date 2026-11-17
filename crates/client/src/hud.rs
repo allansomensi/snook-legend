@@ -6,18 +6,19 @@ use macroquad::prelude::*;
 use crate::paint::{draw_circle, draw_circle_lines, draw_line, draw_rectangle, draw_triangle};
 
 use crate::i18n::{t, tw};
-use snook_legend_core::{BallId, BallInHand, Group};
+use snook_legend_core::{BallInHand, Group};
 
 use crate::game::{Controller, Match, Phase};
 use crate::icons::Icon;
 use crate::keys::{self, Action};
-use crate::textures::ball_color;
 use crate::ui::{ADMIN_RED, ALERT, BORDER, CREAM, FeedKind, FeedLine, GOLD, MUTED, Ui};
 use snook_legend_proto::Relation;
 
 pub struct Hud {
     /// The pause menu is open (online, the game keeps running behind it).
     pub paused: bool,
+    /// The balls made, in order, for the score panel.
+    made: crate::scoreboard::Made,
     /// What the panel under the game-over panel shows: 0 numbers,
     /// 1 momentum, 2 the shot map.
     stats_view: usize,
@@ -89,6 +90,7 @@ impl Default for Hud {
     fn default() -> Self {
         Hud {
             paused: false,
+            made: Default::default(),
             // Development aid: SNOOK_LEGEND_STATS_VIEW=1|2 opens the charts.
             stats_view: crate::dev::var("SNOOK_LEGEND_STATS_VIEW")
                 .and_then(|v| v.parse().ok())
@@ -142,150 +144,6 @@ impl Hud {
 
 const CHAT_FIELD: u64 = 40;
 
-fn ball_icon(ui: &Ui, id: BallId, x: f32, y: f32, size: f32) {
-    let c = ball_color(id);
-    let color = Color::from_rgba(c[0], c[1], c[2], 255);
-    let ivory = Color::from_rgba(246, 242, 228, 255);
-    let r = size / 2.0;
-    let (cx, cy) = (x + r, y + r);
-    if id.0 > 8 {
-        // Stripe: ivory ball with a coloured band, clipped to the circle.
-        draw_circle(cx, cy, r, ivory);
-        // The band is the part of the disc with |y| < band: a convex shape
-        // (two arcs joined by straight edges), filled as a fan.
-        let band = size * 0.27;
-        let a = (band / r).clamp(0.0, 1.0).asin();
-        let mut pts: Vec<Vec2> = Vec::with_capacity(20);
-        for k in 0..=8 {
-            let t = -a + 2.0 * a * k as f32 / 8.0;
-            pts.push(vec2(cx + r * t.cos(), cy + r * t.sin()));
-        }
-        for k in 0..=8 {
-            let t = std::f32::consts::PI - a + 2.0 * a * k as f32 / 8.0;
-            pts.push(vec2(cx + r * t.cos(), cy + r * t.sin()));
-        }
-        let center = vec2(cx, cy);
-        for i in 0..pts.len() {
-            draw_triangle(center, pts[i], pts[(i + 1) % pts.len()], color);
-        }
-    } else {
-        draw_circle(cx, cy, r, color);
-    }
-    draw_circle(cx, cy, r * 0.62, ivory);
-    draw_circle_lines(cx, cy, r, 1.2, Color::new(0.0, 0.0, 0.0, 0.7));
-    let label = id.0.to_string();
-    let fs = if id.0 >= 10 { size * 0.44 } else { size * 0.56 };
-    let w = ui.text_size(&label, fs, true).x;
-    ui.text(&label, cx - w / 2.0, cy - fs * 0.55, fs, BLACK, true);
-}
-
-fn player_card(ui: &mut Ui, m: &Match, seat: usize, x: f32, y: f32, w: f32) {
-    let active = m.game.current_player() == seat && !matches!(m.phase, Phase::GameOver);
-    let r = Rect::new(x, y, w, CARD_H);
-    crate::ui::rrect(
-        r,
-        8.0,
-        if active {
-            Color::new(0.20, 0.13, 0.06, 0.95)
-        } else {
-            Color::new(0.07, 0.045, 0.03, 0.9)
-        },
-    );
-    crate::ui::rrect_lines(
-        r,
-        8.0,
-        if active { 2.0 } else { 1.0 },
-        if active { GOLD } else { crate::ui::BORDER },
-    );
-    let reserve = if m.online.is_some() || m.clock.is_some() { 96.0 } else { 40.0 };
-    match &m.online {
-        Some(o) => {
-            let color = crate::ui::name_color_of(o.admins[seat], o.ratings[seat]);
-            ui.name_with_flag(
-                &m.names[seat],
-                &o.countries[seat],
-                color,
-                x + 10.0,
-                y + 4.0,
-                15.0,
-                w - reserve,
-            );
-        }
-        None => {
-            // The computer's portrait by its name.
-            let face = m.opponent.as_ref().filter(|_| seat == 1);
-            let indent = if face.is_some() { 22.0 } else { 0.0 };
-            if let Some(o) = face {
-                crate::opponents::draw_portrait(o, vec2(x + 19.0, y + 13.0), 9.0);
-            }
-            let name = ui.ellipsize(&m.names[seat], w - reserve - indent, 15.0);
-            let color = if active { GOLD } else { CREAM };
-            ui.text(&name, x + 10.0 + indent, y + 4.0, 15.0, color, true);
-        }
-    }
-    let wins = m.wins[seat].to_string();
-    let ww = ui.text_size(&wins, 18.0, true).x;
-    ui.text(&wins, x + w - ww - 10.0, y + 3.0, 18.0, CREAM, true);
-    if let Some(o) = &m.online {
-        let rating = o.ratings[seat].to_string();
-        let rw = ui.text_size(&rating, 12.0, false).x;
-        ui.text(&rating, x + w - ww - rw - 20.0, y + 7.0, 12.0, MUTED, false);
-    }
-    if let Some((left, total)) = m.shot_clock()
-        && active
-        && matches!(m.phase, Phase::Turn { .. })
-        && m.replay.is_none()
-    {
-        // Shot clock along the bottom of the card.
-        let frac = (left / total.max(1.0)).clamp(0.0, 1.0);
-        let color = if left < 10.0 { ALERT } else { GOLD };
-        crate::ui::rrect(Rect::new(x + 6.0, y + CARD_H - 4.0, (w - 12.0) * frac, 2.5), 1.2, color);
-        let secs = format!("{:.0}s", left.ceil());
-        let sw_ = ui.text_size(&secs, 13.0, true).x;
-        ui.text(&secs, x + w - sw_ - 10.0, y + 24.0, 13.0, color, true);
-    }
-    // A correspondence turn: the days and hours left.
-    if let Some((left, color)) = crate::correspondence::card_clock(m, seat) {
-        let lw = ui.text_size(&left, 13.0, true).x;
-        ui.text(&left, x + w - lw - 10.0, y + 24.0, 13.0, color, true);
-    }
-    let ry = y + 23.0;
-    match m.game.group_of(seat) {
-        Some(group) => {
-            // The balls made so far (of the player's group).
-            let remaining = m.game.remaining(group);
-            let made: Vec<BallId> = (1..=15u8)
-                .map(BallId)
-                .filter(|&b| group.contains(b) && !remaining.contains(&b))
-                .collect();
-            if remaining.is_empty() {
-                ui.text(t("On the 8-ball"), x + 10.0, ry + 1.0, 13.0, GOLD, false);
-                let tw_ = ui.text_size(t("On the 8-ball"), 13.0, false).x;
-                ball_icon(ui, BallId::EIGHT, x + 16.0 + tw_, ry - 2.0, 20.0);
-            } else if made.is_empty() {
-                let name = match group {
-                    Group::Solids => t("Solids"),
-                    Group::Stripes => t("Stripes"),
-                };
-                ui.text(name, x + 10.0, ry + 1.0, 13.0, MUTED, false);
-            } else {
-                for (k, id) in made.into_iter().enumerate() {
-                    ball_icon(ui, id, x + 10.0 + k as f32 * 22.0, ry - 2.0, 20.0);
-                }
-            }
-        }
-        None => ui.text(t("Open table"), x + 10.0, ry + 1.0, 13.0, MUTED, false),
-    }
-    // The player who isn't at the table is dimmed a little (name, picture,
-    // balls), so whose turn it is reads at a glance; not once the game is
-    // over, when nobody is.
-    if !active && !matches!(m.phase, Phase::GameOver) {
-        crate::ui::rrect(r, 8.0, Color::new(0.0, 0.0, 0.0, DIMMED));
-    }
-}
-
-/// How dark the card of the player who isn't at the table gets.
-const DIMMED: f32 = 0.42;
 
 fn status_line(m: &Match) -> Option<String> {
     if let Some(waiting) = crate::correspondence::status(m) {
@@ -404,14 +262,13 @@ impl Hud {
         }
         // Top bar: menu and camera on the left, the players in the middle.
         draw_bar(Rect::new(0.0, 0.0, sw, TOP_BAR), true);
-        // Cards centred, but never under the buttons on the left.
+        // The score panel centred, but never under the buttons on the left.
         let buttons_w = ui.text_size(t("Menu"), 13.0, true).x + 22.0 + 2.0 * 36.0 + 30.0;
-        let room = sw - 2.0 * buttons_w;
-        let card_w = ((room - 10.0) / 2.0).clamp(150.0, 270.0);
-        let total = card_w * 2.0 + 10.0;
-        let x0 = ((sw - total) / 2.0).max(buttons_w).min(sw - total - 8.0);
-        player_card(ui, m, 0, x0, 6.0, card_w);
-        player_card(ui, m, 1, x0 + card_w + 10.0, 6.0, card_w);
+        let board = crate::scoreboard::Board::layout(sw, buttons_w, 4.0);
+        let now = get_time();
+        self.made.update(m, now);
+        crate::scoreboard::draw(ui, m, &self.made, &board, now);
+        let (x0, total) = (board.all.x, board.all.w);
         // Free practice: take the last shot back (button, or Z).
         if m.free_play && m.last_shot.is_some() && matches!(m.phase, Phase::Turn { .. }) {
             let label = t("Take back the shot (Z)");
@@ -425,11 +282,12 @@ impl Hud {
         // What the computer opponent says: a bubble under its card.
         if let Some((text, age)) = m.banter.clone() {
             // Below the turn's banner, which runs under the cards.
-            let anchor = vec2(x0 + card_w + 10.0 + card_w / 2.0, TOP_BAR + 40.0);
+            let a = board.avatars[1];
+            let anchor = vec2(a.x + a.w / 2.0, TOP_BAR + 40.0);
             ui.overlay(move |ui| draw_banter(ui, &text, age, anchor));
         }
         // How many are watching: an eye and the number, by the cards.
-        let eye = vec2(x0 + total + 22.0, 27.0);
+        let eye = vec2(x0 + total + 22.0, TOP_BAR / 2.0);
         if let Some(o) = &m.online
             && (o.spectators > 0 || o.spectator)
         {
@@ -442,7 +300,7 @@ impl Hud {
                 ui.tooltip(&tw("{n} watching", &[("n", &n)]), tip);
             }
         }
-        self.draw_support(ui, m, x0, card_w, total);
+        self.draw_support(ui, m, &board);
         draw_reactions(m, [x0 + 34.0, x0 + total - 34.0], eye);
         let mut y = TOP_BAR + 8.0;
         // A replay has its own tag where the line goes.
@@ -1426,12 +1284,13 @@ impl Hud {
 impl Hud {
     /// The crowd: a spectator clicks a player's card to cheer for them; a
     /// thin bar under the cards shows how the spectators are split.
-    fn draw_support(&mut self, ui: &mut Ui, m: &mut Match, x0: f32, card_w: f32, total: f32) {
+    fn draw_support(&mut self, ui: &mut Ui, m: &mut Match, board: &crate::scoreboard::Board) {
+        let (x0, total) = (board.all.x, board.all.w);
         let Some(o) = m.online.as_ref() else { return };
         let (support, spectator, cheering) = (o.support, o.spectator, o.cheering);
         if spectator {
             for (seat, color) in SEAT_COLORS.into_iter().enumerate() {
-                let card = Rect::new(x0 + seat as f32 * (card_w + 10.0), 6.0, card_w, 42.0);
+                let card = board.seat(seat);
                 if cheering == Some(seat) {
                     crate::icons::draw(
                         Icon::Star,
@@ -2422,11 +2281,10 @@ fn draw_bar(r: Rect, top: bool) {
     draw_line(r.x, edge, r.x + r.w, edge, 1.5, Color::new(0.45, 0.31, 0.16, 0.9));
 }
 
-const TOP_BAR: f32 = 54.0;
+const TOP_BAR: f32 = crate::scoreboard::AVATAR + 8.0;
 const BOTTOM_BAR: f32 = 78.0;
 /// Where the power bar starts on the break.
 const BREAK_POWER: f32 = 0.9;
-const CARD_H: f32 = 44.0;
 
 /// The game log inside the bottom bar: the last few things that happened.
 /// The shoot button: a cue striking a ball, on green. Unmistakable, no text.

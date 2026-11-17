@@ -7,6 +7,7 @@
 //! runs on practically any PC, including old integrated graphics.
 
 mod analysis;
+mod avatars;
 mod assess;
 mod audio;
 mod banter;
@@ -47,6 +48,7 @@ mod report;
 mod room;
 mod saved;
 mod scene;
+mod scoreboard;
 mod settings;
 mod setup;
 mod shop;

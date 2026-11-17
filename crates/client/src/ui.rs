@@ -368,6 +368,35 @@ impl Ui {
         self.draw_text_raw(text, x, y, size, color, bold);
     }
 
+    /// Text squeezed (or stretched) sideways by `aspect` (a number seen at
+    /// an angle on a ball).
+    #[allow(clippy::too_many_arguments)]
+    pub fn text_aspect(
+        &self,
+        text: &str,
+        x: f32,
+        y: f32,
+        size: f32,
+        color: Color,
+        bold: bool,
+        aspect: f32,
+    ) {
+        let font = if bold { &self.bold } else { &self.regular };
+        draw_text_ex(
+            text,
+            x,
+            y + size * 0.8,
+            TextParams {
+                font: Some(font),
+                font_size: (size * ui_scale()).round().max(1.0) as u16,
+                font_scale: 1.0 / ui_scale(),
+                font_scale_aspect: aspect,
+                color: crate::paint::fade(color),
+                ..Default::default()
+            },
+        );
+    }
+
     fn draw_text_raw(&self, text: &str, x: f32, y: f32, size: f32, color: Color, bold: bool) {
         let font = if bold { &self.bold } else { &self.regular };
         draw_text_ex(

@@ -280,6 +280,8 @@ pub struct Match {
     banter_quiet: f32,
     /// The computer opponent speaks up now and then (a setting).
     pub talk: bool,
+    /// Each player's picture (an avatar code; empty: none chosen).
+    pub avatars: [String; 2],
 }
 
 /// A drill session: its tries, what each gave, and every stroke (for the
@@ -500,6 +502,7 @@ impl Match {
             banter: None,
             banter_quiet: 0.0,
             talk: true,
+            avatars: Default::default(),
         };
         m.begin_turn();
         m.say(crate::banter::Moment::Start);
@@ -800,6 +803,7 @@ impl Match {
             banter: None,
             banter_quiet: 0.0,
             talk: true,
+            avatars: Default::default(),
         };
         m.begin_turn();
         if let Some(o) = m.online.as_mut() {
@@ -904,6 +908,11 @@ impl Match {
     }
 
     /// Balls as currently displayed (a replay, mid-shot or at rest).
+    /// Tells this game from another one (its rack's seed).
+    pub fn identity(&self) -> u64 {
+        self.seed
+    }
+
     pub fn balls(&self) -> &[snook_legend_core::Ball] {
         if let Some(r) = &self.replay {
             return &r.simulation.balls;

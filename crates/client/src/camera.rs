@@ -339,7 +339,7 @@ impl CameraRig {
                         // The space between the top and bottom bars of the HUD.
                         let (sw, sh) = (screen_width(), screen_height().max(1.0));
                         let k = crate::ui::ui_scale();
-                        let (top_px, bottom_px) = (54.0 * k, 78.0 * k);
+                        let (top_px, bottom_px) = ((crate::scoreboard::AVATAR + 8.0) * k, 78.0 * k);
                         let free = (sh - top_px - bottom_px).max(100.0) / sh;
                         let tan = (TOP_FOV / 2.0).tan();
                         let aspect = sw / sh;

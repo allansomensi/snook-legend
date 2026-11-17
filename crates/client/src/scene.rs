@@ -47,7 +47,6 @@ pub struct Scene {
     quality: Quality,
     balls: Vec<gfx::Model>,
     cue: gfx::Model,
-    ghost: gfx::Model,
     white: Texture2D,
     shadow: Texture2D,
     lamps: [Vec3; LAMP_COUNT],
@@ -74,6 +73,9 @@ pub struct Scene {
     table_style: TableStyle,
     /// Per-pixel soft shadows and contact occlusion from the balls (High, Ultra).
     soft_shadows: bool,
+    /// The balls and the cue cast shadows on the table (a setting; the
+    /// soft ones on High and Ultra, a blob under each ball otherwise).
+    pub ball_shadows: bool,
     /// The polished floors of the halls reflect the room (Ultra).
     reflections: bool,
     /// Halos round the hall's lights and haze under the lamp (High, Ultra).
@@ -278,7 +280,6 @@ impl Scene {
             .map(|p| gfx::sphere_mesh(r, &upload(p, false), ball_segments))
             .collect();
         let cue = cue_mesh("cue_classic", "chalk_blue", 0, &white).0;
-        let ghost = gfx::sphere_mesh_tinted(r, &white, 32, Color::new(1.0, 1.0, 1.0, 0.28));
 
         // The lamps span the table's length, as the halls hang them.
         let lamps = crate::halls::lamp_xs(crate::halls::lamp_reach(half_table(&table)))
@@ -298,7 +299,6 @@ impl Scene {
             quality,
             balls,
             cue,
-            ghost,
             white,
             shadow,
             lamps,
@@ -316,6 +316,7 @@ impl Scene {
             lamp_count: if quality == Quality::Low { 1 } else { 3 },
             table_style: looks.table,
             soft_shadows: matches!(quality, Quality::High | Quality::Ultra),
+            ball_shadows: true,
             reflections: quality == Quality::Ultra,
             halos: quality >= Quality::High,
             glows,
@@ -439,8 +440,9 @@ impl Scene {
             None => vec3(0.09, 0.06, 0.045),
         };
         self.materials.set_frame(cam.eye, self.lamps, 1.55, self.lamp_count, focus, tint);
+        let soft_shadows = self.soft_shadows && self.ball_shadows;
         let mut casters = [Vec4::ZERO; 16];
-        if self.soft_shadows {
+        if soft_shadows {
             let r = self.ball_radius();
             for (slot, b) in casters.iter_mut().zip(balls.iter().filter(|b| b.in_play())) {
                 let p = to_world(b.position);
@@ -452,7 +454,7 @@ impl Scene {
             let butt = c.tip + c.rotation * (Vec3::Y * CUE_LENGTH);
             (c.tip.extend(0.0061), butt.extend(0.0148))
         });
-        self.materials.set_shadows(self.soft_shadows, self.soft_shadows, &casters, cue);
+        self.materials.set_shadows(soft_shadows, soft_shadows, &casters, cue);
         self.materials.set_pockets(&self.holes, &self.throats);
         let half = half_table(&self.table);
         let glint = gfx::glint_angle(cam.fovy, screen_height(), self.ball_radius());
@@ -520,7 +522,7 @@ impl Scene {
             draw_layer(&self.room, gfx::Layer::Blended, &self.materials);
             self.materials.set_room(false);
         }
-        if !self.soft_shadows {
+        if !self.soft_shadows && self.ball_shadows {
             self.draw_ball_shadows(balls);
         }
         draw_layer(&self.table_parts, gfx::Layer::Inside, &self.materials);
@@ -559,8 +561,7 @@ impl Scene {
         }
         self.draw_guides(&overlay.guides, cam);
         if let Some(p) = overlay.ghost {
-            self.materials.use_blended(Surface::lit(0.6, 60.0, 0.0, 0.0));
-            self.materials.draw(&self.ghost, Some(Mat4::from_translation(p)));
+            self.draw_ghost_ball(p, cam);
         }
         // Last, over everything: the haze under the lamps and the halos
         // round the bulbs (they are see-through and write no useful depth).
@@ -699,8 +700,8 @@ impl Scene {
                     self.ball_poses.push((ball.id.index(), model));
                 }
                 BallStatus::Pocketed(pocket) => {
-                    let sink = self.sinking.entry(ball.id).or_insert_with(|| Sinking::new(ball));
                     let p = self.table.pocket(pocket);
+                    let sink = self.sinking.entry(ball.id).or_insert_with(|| Sinking::new(ball, p));
                     if !sink.fall(p, self.table.spec.ball_radius, dt as f64) {
                         continue;
                     }
@@ -720,6 +721,44 @@ impl Scene {
         for &(k, model) in &self.ball_poses {
             self.materials.draw(&self.balls[k], Some(model));
         }
+    }
+
+    /// The ghost ball (where the cue ball will be at its first contact): a
+    /// see-through ball, lit like the others. Only the half that faces the
+    /// viewer is drawn: as a whole sphere its far side showed through the
+    /// near one in patches (whichever triangles happened to come first),
+    /// and whatever stood over it (a cushion's nose, a pocket's casting)
+    /// cut it off, so it read as a squashed ball. It is drawn a little
+    /// towards the viewer and smaller by as much (the same picture on
+    /// screen), so nothing at the table's height cuts into it.
+    fn draw_ghost_ball(&self, center: Vec3, cam: &SceneCamera) {
+        let to_eye = cam.eye - center;
+        let dist = to_eye.length();
+        if dist < 1e-3 {
+            return;
+        }
+        let toward = to_eye / dist;
+        let mut right = cam.up.cross(toward);
+        if right.length_squared() < 1e-6 {
+            right = Vec3::X.cross(toward);
+        }
+        let right = right.normalize();
+        let up = toward.cross(right).normalize();
+        let lift = (dist * 0.5).min(0.06);
+        let scale = (dist - lift) / dist;
+        let mut b = MeshBuilder::default();
+        b.dome(
+            center + toward * lift,
+            self.ball_radius() * scale,
+            right,
+            up,
+            toward,
+            40,
+            12,
+            Color::new(1.0, 1.0, 1.0, 0.30),
+        );
+        self.materials.use_blended(Surface::lit(0.6, 60.0, 0.0, 0.0));
+        b.build_dynamic(&self.white).draw();
     }
 
     fn draw_guides(&self, guides: &[Guide], cam: &SceneCamera) {
@@ -1115,19 +1154,26 @@ struct Sinking {
     spin: DVec3,
     orientation: ::glam::DQuat,
     time: f64,
+    /// A ball taken off the table where it lay (a penalty ball of the
+    /// house rules): it rolls to the pocket before it drops.
+    rolling: bool,
 }
 
 /// How deep below the cloth a ball's centre is when it is out of sight (m).
 const SINK_DEPTH: f64 = 0.065;
 
 impl Sinking {
-    fn new(ball: &Ball) -> Sinking {
+    fn new(ball: &Ball, pocket: &snook_legend_core::Pocket) -> Sinking {
+        // A ball that fell in is at the pocket; one resting out on the
+        // cloth was taken off as a penalty.
+        let away = ball.xy().distance(pocket.hole_center) > pocket.hole_radius + 0.06;
         Sinking {
             position: ball.position,
             velocity: ball.velocity,
             spin: ball.angular_velocity,
             orientation: ball.orientation,
             time: 0.0,
+            rolling: away && ball.velocity.length() < 1e-3,
         }
     }
 
@@ -1138,6 +1184,25 @@ impl Sinking {
         const LINER_RESTITUTION: f64 = 0.2;
         if self.position.z < -SINK_DEPTH || self.time > 2.0 {
             return false;
+        }
+        if self.rolling {
+            // Across the cloth to the pocket at a brisk roll, then in.
+            const PACE: f64 = 1.8;
+            let to = pocket.hole_center - self.position.truncate();
+            let d = to.length();
+            let step = PACE * dt.min(0.1);
+            if d <= step + pocket.hole_radius * 0.5 {
+                self.rolling = false;
+                self.velocity = (to / d.max(1e-9) * PACE * 0.6).extend(0.0);
+            } else {
+                let dir = to / d;
+                self.position += (dir * step).extend(0.0);
+                let axis = ::glam::DVec3::new(-dir.y, dir.x, 0.0);
+                self.spin = axis * (PACE / r);
+                let q = ::glam::DQuat::from_axis_angle(axis, step / r);
+                self.orientation = (q * self.orientation).normalize();
+                return true;
+            }
         }
         let mut left = dt.min(0.1);
         while left > 0.0 {

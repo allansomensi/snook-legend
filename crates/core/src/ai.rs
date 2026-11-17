@@ -530,8 +530,20 @@ fn evaluate(
     }
     let mut score = 0.0;
     if report.is_foul() {
-        // Ball in hand for the opponent is about as bad as it gets.
-        score -= 800.0 + 400.0 * opponent_quality(&trial);
+        if g.ruleset() >= 4 {
+            // The house rules: every ball a foul gives away is a ball the
+            // opponent no longer has to make, and only a scratch leaves
+            // them the cue ball in hand.
+            score -= 500.0 + 350.0 * report.penalty.len() as f64;
+            score -= if trial.ball_in_hand().is_some() {
+                300.0 + 400.0 * opponent_quality(&trial)
+            } else {
+                200.0 * opponent_quality(&trial)
+            };
+        } else {
+            // Ball in hand for the opponent is about as bad as it gets.
+            score -= 800.0 + 400.0 * opponent_quality(&trial);
+        }
     }
     if report.continues {
         score += 1_000.0 + prof.position_weight * position_quality(&trial);

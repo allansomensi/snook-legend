@@ -86,5 +86,9 @@ fn simulation_is_bit_identical_everywhere() {
 /// Update only on purpose (a change to the physics, the rules or the AI of
 /// the current ruleset), from the values printed above. An older ruleset's
 /// value never changes: games recorded under it must replay the same.
-const EXPECTED: [(u8, u64); 3] =
-    [(1, 0xb7c0_baa6_646d_027c), (2, 0x7b1a_f1d3_d312_aa3a), (3, 0x4871_c5a2_44a0_108f)];
+const EXPECTED: [(u8, u64); 4] = [
+    (1, 0xb7c0_baa6_646d_027c),
+    (2, 0x7b1a_f1d3_d312_aa3a),
+    (3, 0x4871_c5a2_44a0_108f),
+    (4, 0x2b81_f294_7386_0f2a),
+];

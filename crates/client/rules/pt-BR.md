@@ -5,44 +5,56 @@
 
 ## O jogo
 
+### Regra brasileira regional
+O Snook Legend segue uma regra brasileira regional de bola 8, a dos bares e salões, com bolas de penalidade. Não é a regra oficial de torneio (WPA nem das confederações): se você conhece a regra oficial, leia as faltas e a bola 8 abaixo, porque mudam bastante.
+
 ### O objetivo
 Cada jogador tem um grupo de sete bolas: as lisas (1 a 7) ou as listradas (9 a 15). Encaçape todas as suas e depois a bola 8, antes do adversário.
 
 ### Sua vez
-Você continua jogando enquanto encaçapar uma bola do seu grupo numa tacada válida. Se errar, cometer falta ou encaçapar uma bola do adversário, a vez passa.
+Você continua jogando enquanto encaçapar uma bola do seu grupo numa tacada sem falta. Se errar, cometer falta ou encaçapar uma bola do adversário, a vez passa.
 
 ## A saída
 
 ### A tacada de saída
-A branca começa atrás da linha de cabeceira. Uma saída válida encaçapa uma bola ou leva pelo menos quatro bolas às tabelas; senão é falta, e o adversário recebe a branca na mão atrás da linha de cabeceira.
+A branca começa atrás da linha de cabeceira. Não há saída irregular: nenhuma bola precisa cair nem tocar a tabela.
+
+### A bola 8 na saída
+Encaçapar somente a 8 na saída vence a partida na hora. Encaçapar a 8 junto com qualquer outra bola (a branca ou qualquer uma) perde a partida.
 
 ### Depois da saída
-Se você encaçapar numa saída válida, a primeira bola que cair decide o seu grupo e você joga de novo. A bola 8 encaçapada na saída volta para a marca do pé da mesa: ninguém perde.
+Se você encaçapar na saída sem falta, a primeira bola que cair decide o seu grupo e você joga de novo.
 
 ### Mesa aberta
-Enquanto os grupos não estão decididos, a mesa está aberta: você pode acertar primeiro qualquer bola, menos a 8. A primeira bola que você encaçapar numa tacada válida lhe dá o grupo dela, e ao adversário o outro.
+Enquanto os grupos não estão decididos, a mesa está aberta: você pode acertar primeiro qualquer bola, menos a 8. A primeira bola que você encaçapar numa tacada sem falta lhe dá o grupo dela, e ao adversário o outro. Com a mesa aberta ainda não há bola do adversário: uma falta custa só a vez.
 
-## Tacadas válidas e faltas
+## Faltas e penalidades
 
-### Uma tacada válida
-A branca deve acertar primeiro uma bola do seu grupo (a 8, quando o seu grupo acabou). Depois, uma bola deve cair na caçapa ou alguma bola deve tocar uma tabela.
+### Bolas de penalidade
+Toda falta passa a vez, e a maioria dá bolas ao adversário: as de menor número do grupo dele que estiverem na mesa saem dela, como se ele as tivesse encaçapado. As penalidades se somam. A bola 8 nunca sai por penalidade: se o adversário ficar sem bolas, ele passa a jogar na 8.
 
-### Faltas
-Não acertar nenhuma bola, acertar primeiro a bola errada, nenhuma bola tocar a tabela depois do contato, encaçapar a branca ou jogar qualquer bola para fora da mesa.
+### Errar a bola
+Não acertar nenhuma bola: uma bola para o adversário. Errar a bola e ainda encaçapar a branca: duas bolas.
 
-### Bola na mão
-Depois de uma falta, o adversário recebe a branca na mão e pode colocá-la em qualquer lugar da mesa (atrás da linha de cabeceira, se a falta foi na saída). Uma bola que saiu da mesa volta para a marca do pé.
+### Acertar a bola do adversário
+Acertar primeiro uma bola que não é do seu grupo, diretamente: duas bolas para o adversário. Se a branca bateu antes na tabela: uma bola.
+
+### Encaçapar a branca
+Uma bola para o adversário, e ele recebe a branca na mão: pode colocá-la em qualquer lugar da mesa (atrás da linha de cabeceira, se foi na saída). Só a branca encaçapada ou fora da mesa dá bola na mão; depois de qualquer outra falta, joga-se de onde ela parou.
+
+### Bolas fora da mesa
+A branca fora da mesa: perde a vez, e o adversário a recebe na mão. Uma bola do seu grupo fora da mesa volta para a mesa, e você perde a vez. Uma bola do adversário fora da mesa é eliminada (conta para ele), e você perde a vez.
 
 ### A bola do adversário
-Encaçapar uma bola do adversário passa a vez, mesmo que uma sua também tenha caído. Não é falta: não há bola na mão.
+Encaçapar uma bola do adversário passa a vez, mesmo que uma sua também tenha caído. Ela fica encaçapada, a favor dele.
 
 ### O tempo de tacada
-Quando a partida tem tempo de tacada e ele acaba, a vez passa e o adversário recebe a bola na mão.
+Quando a partida tem tempo de tacada e ele acaba, a vez passa.
 
 ## A bola 8
 
 ### Cantar a caçapa
-Quando o seu grupo acabar, escolha a caçapa da 8 antes de tacar. Encaçape-a ali numa tacada válida e você vence.
+Quando o seu grupo acabar, escolha a caçapa da 8 antes de tacar. Encaçape somente a 8 ali, sem falta, e você vence.
 
 ### Perder na 8
-Você perde se encaçapar a 8 antes de acabar o seu grupo, numa caçapa diferente da cantada, numa falta (encaçapando a branca, por exemplo) ou se jogá-la para fora da mesa.
+Você perde se encaçapar a 8 antes de acabar o seu grupo, numa caçapa diferente da cantada, junto com a branca ou com uma bola do adversário, numa falta, ou se jogá-la para fora da mesa.

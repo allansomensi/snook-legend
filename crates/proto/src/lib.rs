@@ -136,13 +136,13 @@ pub const SPECTATOR_SEAT: usize = 2;
 pub const GAME_NAME: &str = "Snook Legend";
 
 /// Bumped whenever messages change incompatibly.
-pub const PROTOCOL_VERSION: u32 = 16;
+pub const PROTOCOL_VERSION: u32 = 17;
 
-/// The oldest version the server still lets in. Version 16 plays ruleset 3
-/// (see [`snook_legend_core::RULESET`]: the WPA's 8-foot table, a tournament
-/// table's physics as measured, strokes at real speeds): an older game would simulate every
-/// shot differently from the server, so it must update.
-pub const OLDEST_PROTOCOL_VERSION: u32 = 16;
+/// The oldest version the server still lets in. Version 17 plays ruleset 4
+/// (see [`snook_legend_core::RULESET`]: the Brazilian house rules and
+/// heavier-feeling balls): an older game would simulate every shot and apply
+/// every foul differently from the server, so it must update.
+pub const OLDEST_PROTOCOL_VERSION: u32 = 17;
 
 /// Username rules: 3–16 characters, letters, digits and underscores.
 pub fn valid_username(name: &str) -> bool {

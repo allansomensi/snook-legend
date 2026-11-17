@@ -669,6 +669,29 @@ pub fn overlay(m: &Match, scene: &Scene, time: f32) -> Overlay {
 
     let Phase::Turn { placing_cue_ball, .. } = m.phase else { return out };
 
+    // The cue ball in hand: a small arrowhead on each of its four sides
+    // says it can be moved (faint, breathing a little; in the manner of
+    // the ghost ball, nothing that takes the eye off the table).
+    if m.game.ball_in_hand().is_some() && m.is_human_turn() {
+        let breathe = 0.5 + 0.5 * (time * 2.2).sin();
+        let color = Color::new(1.0, 1.0, 1.0, 0.30 + 0.16 * breathe);
+        let h = r as f32;
+        let reach = r * (1.75 + 0.12 * breathe as f64);
+        let size = r * 0.42;
+        for out_dir in [DVec2::X, DVec2::NEG_X, DVec2::Y, DVec2::NEG_Y] {
+            let tip = cue + out_dir * (reach + size);
+            let side = out_dir.perp();
+            for wing in [side, -side] {
+                out.guides.push(Guide::Line {
+                    from: surface(tip, h),
+                    to: surface(tip - out_dir * size + wing * size, h),
+                    width: 0.0022,
+                    color,
+                });
+            }
+        }
+    }
+
     if placing_cue_ball {
         let ok = m.game.can_place_cue_ball(cue);
         let color =
@@ -725,6 +748,10 @@ pub fn overlay(m: &Match, scene: &Scene, time: f32) -> Overlay {
     };
     let white = Color::new(1.0, 1.0, 1.0, 0.5);
     let start = cue + dir * r;
+    // The lines of the aim run at the height of the balls' centres, from
+    // centre to centre: on the cloth they passed beside the ghost ball's
+    // centre from any view that is not straight above it.
+    let line_y = r as f32;
     if guide == AimGuide::Short {
         let len = t.min(0.35);
         if len > r + 0.005 {

@@ -2,7 +2,9 @@
 
 # Snook Legend
 
-A lightweight 3D eight-ball pool game for the desktop, written in Rust.
+A lightweight 3D eight-ball pool game for the desktop, written in Rust. It plays
+a **regional Brazilian rule** of eight-ball (bar rules with penalty balls), not the
+official tournament rule.
 
 Snook Legend is built around what made the old online pool rooms special: a realistic
 cue (spin, draw, follow, jump and massé shots), a lounge where you meet people and
@@ -51,14 +53,19 @@ which every desktop installation has. How releases are made is described in
   players always agree (pinned by a fingerprint test in CI).
 - **Full cue control**: aim, power, the exact point where the tip hits the cue ball,
   cue elevation, and fine aim right on the bottom bar.
-- **Eight-ball rules** (WPA-based): break, groups (the first ball made on a
-  clean break decides them; otherwise the table stays open), making one of
-  the opponent's balls passes the turn (even with one of one's own), fouls
-  (including "no cushion after contact"), ball in hand, a called pocket for
-  the 8 that is binding once made. Every rule has its own test, and 60
-  random games are checked after every shot. Each game records the version
-  of the rules, the physics and the table it was played with, so replays
-  and games in progress never change under an update.
+- **Eight-ball by a regional Brazilian rule** (the rule of bars and pool
+  halls, with penalty balls; **not the official tournament rule** of the WPA
+  or of a federation): a foul passes the turn and gives the opponent balls
+  (the lowest numbers of their group come off the table: one for a miss or
+  a scratch, two for hitting the opponent's ball first, one if the cue ball
+  went to a cushion before it), only a scratch gives ball in hand, a ball
+  of one's own knocked off the table comes back and one of the opponent's
+  stays off, the 8 alone on the break wins and the 8 with any other ball
+  loses, a called pocket for the 8 that is binding once made. The rules
+  are in the game (Menu → Rules), in three languages. Every rule has its
+  own test, and 120 random games are checked after every shot. Each game
+  records the version of the rules, the physics and the table it was played
+  with, so replays and games in progress never change under an update.
 - **Computer opponents**: fifteen named opponents with their own portraits and
   styles (cautious, all-out attack, bank artist, positional…) over three skill
   levels. They play with the same physics and rules: they simulate candidate

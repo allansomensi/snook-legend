@@ -27,6 +27,8 @@ pub enum Tab {
     Daily,
     /// Drills: short exercises with stars.
     Drills,
+    /// A tournament against the computer's opponents.
+    Cup,
 }
 
 /// The card picked on the free game's grid.
@@ -44,6 +46,8 @@ pub enum VersusAction {
     SignIn,
     /// A session of this drill.
     Drill(String),
+    /// The player's game of the tournament's round.
+    StartCup(MatchSettings),
 }
 
 pub struct Versus {
@@ -64,6 +68,8 @@ pub struct Versus {
     drill: usize,
     /// The drills were asked for (once per visit).
     drills_asked: bool,
+    /// "Abandon the tournament" was pressed this frame.
+    cup_abandon: bool,
 }
 
 /// Text field ids.
@@ -91,6 +97,7 @@ impl Versus {
             daily_starting: false,
             drill: 0,
             drills_asked: false,
+            cup_abandon: false,
         }
     }
 
@@ -122,6 +129,7 @@ impl Versus {
         online: &mut Online,
         progress: &Progress,
         claimer: &mut Claimer,
+        cup: &mut Option<crate::cup::Cup>,
     ) -> VersusAction {
         let sw = crate::ui::vw();
         let sh = crate::ui::vh();
@@ -139,13 +147,18 @@ impl Versus {
             ),
             Tab::Daily => t("The same table for everyone, all day").to_string(),
             Tab::Drills => t("Exercises with stars and a ranking").to_string(),
+            Tab::Cup => t("Sixteen players: knockout or arena").to_string(),
         };
         // The tabs at the top right; the title keeps clear of them.
-        let labels = [t("Free game"), t("Tour"), t("Daily challenge"), t("Drills")];
+        let labels =
+            [t("Free game"), t("Tour"), t("Tournament"), t("Daily challenge"), t("Drills")];
         let widest = labels.iter().map(|l| ui.text_size(l, 15.0, true).x).fold(0.0, f32::max);
         // The tabs keep to the right half, clear of the title.
-        let tab_w = (widest + 24.0).clamp(96.0, 140.0).min((r.w * 0.54 - 24.0) / 4.0);
-        let tabs_x = r.x + r.w - PAD - 4.0 * tab_w - 24.0;
+        let count = labels.len() as f32;
+        let tab_gap = 6.0;
+        let tab_w =
+            (widest + 16.0).clamp(80.0, 108.0).min((r.w * 0.56 - (count - 1.0) * tab_gap) / count);
+        let tabs_x = r.x + r.w - PAD - count * tab_w - (count - 1.0) * tab_gap;
         if screen_header(ui, r, Icon::Robot, t("Against the computer"), Some(&subtitle))
             || (is_key_pressed(KeyCode::Escape) && ui.focus.is_none())
         {
@@ -154,13 +167,16 @@ impl Versus {
         for (k, (tab, label)) in [
             (Tab::Free, labels[0]),
             (Tab::Ladder, labels[1]),
-            (Tab::Daily, labels[2]),
-            (Tab::Drills, labels[3]),
+            (Tab::Cup, labels[2]),
+            (Tab::Daily, labels[3]),
+            (Tab::Drills, labels[4]),
         ]
         .into_iter()
         .enumerate()
         {
-            let tr = Rect::new(tabs_x + k as f32 * (tab_w + 8.0), r.y + 20.0, tab_w, 36.0);
+            let tr = Rect::new(tabs_x + k as f32 * (tab_w + tab_gap), r.y + 20.0, tab_w, 36.0);
+            let (label, _) = ui.fitted(label, 15.0, tab_w - 12.0, true);
+            let label = label.as_str();
             if ui.tab(tr, label, self.tab == tab) {
                 self.tab = tab;
                 ui.focus = None;
@@ -174,6 +190,7 @@ impl Versus {
             Tab::Ladder => self.ladder(ui, config, online, progress, claimer, body),
             Tab::Daily => self.daily(ui, online, body),
             Tab::Drills => self.drills(ui, online, body),
+            Tab::Cup => self.cup(ui, config, cup, body),
         };
         if !matches!(inner, VersusAction::None) {
             action = inner;
@@ -912,6 +929,197 @@ impl Versus {
         action
     }
 
+    // -----------------------------------------------------------------------
+    // The tournament against the computer's opponents.
+
+    fn cup(
+        &mut self,
+        ui: &mut Ui,
+        config: &Config,
+        cup: &mut Option<crate::cup::Cup>,
+        body: Rect,
+    ) -> VersusAction {
+        use crate::cup::{Cup, Format};
+        let mut action = VersusAction::None;
+        let side_w = (body.w * 0.30).clamp(200.0, 290.0);
+        let side = Rect::new(body.x + body.w - side_w, body.y, side_w, body.h);
+        let board = Rect::new(body.x, body.y, body.w - side_w - 18.0, body.h);
+        let x = side.x;
+        let w = side.w;
+        let mut y = side.y + 2.0;
+        let say = |ui: &mut Ui, text: &str, size: f32, color: Color, bold: bool, y: &mut f32| {
+            for l in ui.wrap(text, w, size) {
+                ui.text(&l, x, *y, size, color, bold);
+                *y += size + 5.0;
+            }
+        };
+        // What starting one of each would be.
+        let mut start: Option<Format> = None;
+        let mut new_buttons = |ui: &mut Ui, y: f32| {
+            let knock = Rect::new(x, y, w, 40.0);
+            if ui.primary_button(knock, t("New knockout")) {
+                start = Some(Format::Knockout);
+            }
+            let arena = Rect::new(x, y + 48.0, w, 40.0);
+            if ui.button(arena, t("New arena"), true) {
+                start = Some(Format::Arena);
+            }
+        };
+        match cup.as_ref() {
+            None => {
+                say(ui, t("Tournament"), 20.0, GOLD, true, &mut y);
+                y += 4.0;
+                say(
+                    ui,
+                    t("Knockout: sixteen players, four rounds. Lose a game and you are out."),
+                    14.0,
+                    CREAM,
+                    false,
+                    &mut y,
+                );
+                y += 6.0;
+                say(
+                    ui,
+                    t(
+                        "Arena: five rounds for everyone. A win is 2 points, 3 from the third win in a row. The most points wins.",
+                    ),
+                    14.0,
+                    CREAM,
+                    false,
+                    &mut y,
+                );
+                y += 6.0;
+                say(
+                    ui,
+                    t(
+                        "The games between the other players are decided by their strength and a draw.",
+                    ),
+                    13.0,
+                    MUTED,
+                    false,
+                    &mut y,
+                );
+                new_buttons(ui, y + 12.0);
+                // The sixteen, as a preview of who is in.
+                self.cup_field(ui, config, board);
+            }
+            Some(c) => {
+                let round = c.rounds.len();
+                let title = match c.format {
+                    Format::Knockout => t("Knockout"),
+                    Format::Arena => t("Arena"),
+                };
+                say(ui, title, 20.0, GOLD, true, &mut y);
+                if c.finished() {
+                    let champion = c.champion().unwrap_or(0);
+                    let name = cup_name(c, champion, config);
+                    let line = if c.is_player(champion) {
+                        t("You won the tournament!").to_string()
+                    } else {
+                        tw("{name} won the tournament.", &[("name", &name)])
+                    };
+                    y += 4.0;
+                    say(ui, &line, 15.0, CREAM, true, &mut y);
+                    if let Some(place) = c.player_place().filter(|p| *p > 1) {
+                        let line = tw("You finished in place {n}.", &[("n", &place)]);
+                        say(ui, &line, 14.0, MUTED, false, &mut y);
+                    }
+                    new_buttons(ui, y + 14.0);
+                } else {
+                    let stage = match c.format {
+                        Format::Knockout => t(match round {
+                            0 => "Round of 16",
+                            1 => "Quarter-finals",
+                            2 => "Semi-finals",
+                            _ => "Final",
+                        })
+                        .to_string(),
+                        Format::Arena => tw(
+                            "Round {n} of {total}",
+                            &[("n", &(round + 1)), ("total", &c.total_rounds())],
+                        ),
+                    };
+                    say(ui, &stage, 13.0, MUTED, true, &mut y);
+                    y += 6.0;
+                    if let Some(p) = c.next_opponent().and_then(|o| c.personality(o)) {
+                        let o = Opponent::personality(p.code);
+                        let play_r = Rect::new(x, side.y + side.h - 42.0 - 34.0, w, 42.0);
+                        details(
+                            ui,
+                            &o,
+                            p.name,
+                            t(p.epithet),
+                            t(p.description),
+                            p.strength,
+                            Rect::new(x, y, w, play_r.y - 12.0 - y),
+                        );
+                        let label = tw("Play {name}", &[("name", &p.name)]);
+                        let enter = (is_key_pressed(KeyCode::Enter)
+                            || is_key_pressed(KeyCode::KpEnter))
+                            && ui.focus.is_none();
+                        if ui.primary_button(play_r, &label) || enter {
+                            action = VersusAction::StartCup(settings(config, o, None));
+                        }
+                        let give_up = Rect::new(x, play_r.y + 48.0, w, 26.0);
+                        if ui.button(give_up, t("Abandon the tournament"), true) {
+                            start = Some(c.format);
+                            self.cup_abandon = true;
+                        }
+                    }
+                }
+                match c.format {
+                    Format::Knockout => cup_bracket(ui, c, config, board),
+                    Format::Arena => cup_table(ui, c, config, board),
+                }
+            }
+        }
+        if let Some(format) = start {
+            if std::mem::take(&mut self.cup_abandon) {
+                // Abandoned: back to choosing one.
+                *cup = None;
+                Cup::discard();
+            } else {
+                let fresh = Cup::new(format, crate::game::clock_seed());
+                fresh.save();
+                *cup = Some(fresh);
+            }
+        }
+        action
+    }
+
+    /// The sixteen who play, before a tournament is drawn.
+    fn cup_field(&self, ui: &mut Ui, config: &Config, board: Rect) {
+        let cols = 4;
+        let rows = 4;
+        let cw = (board.w - (cols - 1) as f32 * 10.0) / cols as f32;
+        let ch = ((board.h - (rows - 1) as f32 * 10.0) / rows as f32).min(120.0);
+        for k in 0..16 {
+            let cell = Rect::new(
+                board.x + (k % cols) as f32 * (cw + 10.0),
+                board.y + (k / cols) as f32 * (ch + 10.0),
+                cw,
+                ch,
+            );
+            card_frame(cell, k == 0, false);
+            let pr = (ch * 0.26).min(24.0);
+            let c = vec2(cell.x + cell.w / 2.0, cell.y + ch * 0.38);
+            let name = if k == 0 {
+                // The player: a gold disc with their initial.
+                let name = crate::name_or(&config.player_name, "Player");
+                let initial: String = name.chars().take(1).flat_map(char::to_uppercase).collect();
+                draw_circle(c.x, c.y, pr, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.25));
+                ui.text_centered(&initial, c.x, text_y(c.y, pr), pr, GOLD, true);
+                name
+            } else {
+                let p = &PERSONALITIES[k - 1];
+                opponents::draw_person(p.code, c, pr);
+                p.name.to_string()
+            };
+            let (name, size) = ui.fitted(&name, 13.0, cell.w - 10.0, true);
+            ui.text_centered(&name, c.x, cell.y + ch * 0.38 + pr + 8.0, size, CREAM, true);
+        }
+    }
+
     fn drills(&mut self, ui: &mut Ui, online: &mut Online, body: Rect) -> VersusAction {
         use snook_legend_proto::drills::{self, DRILLS};
         let mut action = VersusAction::None;
@@ -945,8 +1153,12 @@ impl Versus {
         // The drills.
         let top = head.y + head.h + 10.0;
         let row_h = ((body.y + body.h - top) / DRILLS.len() as f32).min(58.0);
+        // Many drills: the rows close up and their stars shrink.
+        let compact = row_h < 40.0;
+        let (row_gap, star, star_step) =
+            if compact { (3.0, 13.0, 17.0) } else { (6.0, 17.0, 22.0) };
         for (k, d) in DRILLS.iter().enumerate() {
-            let row = Rect::new(body.x, top + k as f32 * row_h, list_w, row_h - 6.0);
+            let row = Rect::new(body.x, top + k as f32 * row_h, list_w, row_h - row_gap);
             let hover = ui.hovering(row);
             card_frame(row, self.drill == k, hover);
             ui.block(row);
@@ -954,13 +1166,14 @@ impl Versus {
                 self.drill = k;
             }
             let mid = row.y + row.h / 2.0;
-            let (name, size) = ui.fitted(t(d.name), 15.0, row.w - 110.0, true);
+            let size = if compact { 13.0 } else { 15.0 };
+            let (name, size) = ui.fitted(t(d.name), size, row.w - 110.0, true);
             ui.text(&name, row.x + 12.0, text_y(mid, size), size, CREAM, true);
             let earned = best_of(d.code).map_or(0, |b| drills::stars(d, b));
             for s in 0..3 {
-                let c = vec2(row.x + row.w - 72.0 + s as f32 * 22.0, mid);
+                let c = vec2(row.x + row.w - 14.0 - (2 - s) as f32 * star_step - star / 2.0, mid);
                 let color = if s < earned { GOLD } else { Color::new(1.0, 1.0, 1.0, 0.15) };
-                crate::icons::draw(Icon::Star, c, 17.0, color);
+                crate::icons::draw(Icon::Star, c, star, color);
             }
         }
         // The drill picked: what it asks, the player's best, its table.
@@ -1151,6 +1364,111 @@ fn settings(config: &Config, o: Opponent, rung: Option<u8>) -> MatchSettings {
     let mut s = MatchSettings::from_config(MatchMode::VsComputer(o), config);
     s.ladder = rung;
     s
+}
+
+/// An entrant's name in a tournament: the player's own, or the opponent's.
+fn cup_name(c: &crate::cup::Cup, entrant: u8, config: &Config) -> String {
+    match c.personality(entrant) {
+        Some(p) => p.name.to_string(),
+        None => crate::name_or(&config.player_name, "Player"),
+    }
+}
+
+/// A knockout's bracket: a column for each round and one for the champion.
+fn cup_bracket(ui: &mut Ui, c: &crate::cup::Cup, config: &Config, board: Rect) {
+    let cols = 5;
+    let col_w = board.w / cols as f32;
+    let cell_w = col_w - 14.0;
+    let line = Color::new(1.0, 1.0, 1.0, 0.16);
+    for round in 0..cols {
+        let alive = if round <= c.rounds.len() { c.alive(round) } else { Vec::new() };
+        let slots = 16usize >> round;
+        let slot_h = board.h / slots as f32;
+        let cell_h = (slot_h - 4.0).min(30.0);
+        let x = board.x + round as f32 * col_w;
+        for k in 0..slots {
+            let mid = board.y + (k as f32 + 0.5) * slot_h;
+            let cell = Rect::new(x, mid - cell_h / 2.0, cell_w, cell_h);
+            // The line on to the next round.
+            if round + 1 < cols {
+                let next_mid = board.y + ((k / 2) as f32 + 0.5) * slot_h * 2.0;
+                let jx = x + cell_w + 7.0;
+                draw_line(x + cell_w, mid, jx, mid, 1.0, line);
+                draw_line(jx, mid, jx, next_mid, 1.0, line);
+                draw_line(jx, next_mid, x + col_w, next_mid, 1.0, line);
+            }
+            let Some(&entrant) = alive.get(k) else {
+                rrect(cell, 6.0, Color::new(1.0, 1.0, 1.0, 0.025));
+                continue;
+            };
+            let me = c.is_player(entrant);
+            // Went through this round, went out in it, or still to play.
+            let through =
+                c.rounds.get(round).map(|games| games.iter().any(|g| g.winner == entrant));
+            let champion = round == cols - 1;
+            let (fill, text) = match through {
+                _ if champion => (Color::new(GOLD.r, GOLD.g, GOLD.b, 0.22), GOLD),
+                Some(false) => (Color::new(1.0, 1.0, 1.0, 0.03), MUTED),
+                _ if me => (Color::new(GOLD.r, GOLD.g, GOLD.b, 0.16), GOLD),
+                _ => (Color::new(1.0, 1.0, 1.0, 0.07), CREAM),
+            };
+            rrect(cell, 6.0, fill);
+            if me || champion {
+                rrect_lines(cell, 6.0, 1.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.7));
+            }
+            let mut tx = cell.x + 8.0;
+            if cell_h >= 20.0
+                && let Some(p) = c.personality(entrant)
+            {
+                let pr = (cell_h * 0.38).min(11.0);
+                opponents::draw_person(p.code, vec2(tx + pr, mid), pr);
+                tx += 2.0 * pr + 6.0;
+            }
+            let size = if cell_h >= 20.0 { 13.0 } else { 11.0 };
+            let (name, size) =
+                ui.fitted(&cup_name(c, entrant, config), size, cell.x + cell.w - 6.0 - tx, me);
+            ui.text(&name, tx, text_y(mid, size), size, text, me || champion);
+        }
+    }
+}
+
+/// An arena's table.
+fn cup_table(ui: &mut Ui, c: &crate::cup::Cup, config: &Config, board: Rect) {
+    let table = c.standings();
+    let row_h = (board.h / (table.len() as f32 + 1.0)).min(34.0);
+    let cols = [board.x + 8.0, board.x + 44.0, board.x + board.w - 150.0, board.x + board.w - 62.0];
+    let head_y = text_y(board.y + row_h / 2.0, 12.0);
+    ui.text("#", cols[0], head_y, 12.0, MUTED, true);
+    ui.text(t("Player"), cols[1], head_y, 12.0, MUTED, true);
+    ui.text(t("W - L"), cols[2], head_y, 12.0, MUTED, true);
+    ui.text(t("Points"), cols[3], head_y, 12.0, MUTED, true);
+    for (k, s) in table.iter().enumerate() {
+        let row = Rect::new(board.x, board.y + (k as f32 + 1.0) * row_h, board.w, row_h - 3.0);
+        let mid = row.y + row.h / 2.0;
+        let me = c.is_player(s.entrant);
+        let leader = k == 0 && (s.wins + s.losses) > 0;
+        if me {
+            rrect(row, 6.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.14));
+            rrect_lines(row, 6.0, 1.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.7));
+        } else if k % 2 == 0 {
+            rrect(row, 6.0, Color::new(1.0, 1.0, 1.0, 0.03));
+        }
+        let color = if me || leader { GOLD } else { CREAM };
+        let size = if row.h >= 22.0 { 14.0 } else { 12.0 };
+        ui.text(&(k + 1).to_string(), cols[0], text_y(mid, size), size, MUTED, true);
+        let mut tx = cols[1];
+        if let Some(p) = c.personality(s.entrant) {
+            let pr = (row.h * 0.4).min(12.0);
+            opponents::draw_person(p.code, vec2(tx + pr, mid), pr);
+            tx += 2.0 * pr + 8.0;
+        }
+        let (name, size) =
+            ui.fitted(&cup_name(c, s.entrant, config), size, cols[2] - 12.0 - tx, me);
+        ui.text(&name, tx, text_y(mid, size), size, color, me);
+        let record = format!("{} - {}", s.wins, s.losses);
+        ui.text(&record, cols[2], text_y(mid, size), size, CREAM, false);
+        ui.text(&s.points.to_string(), cols[3], text_y(mid, size), size, color, true);
+    }
 }
 
 /// A card's background: picked, under the pointer, or plain.

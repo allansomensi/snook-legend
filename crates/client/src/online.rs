@@ -415,7 +415,8 @@ impl Online {
     pub fn new(config: &Config) -> Online {
         let mut o = Online::empty(&config.server, false);
         o.username = config.username.clone();
-        o.token = config.token.clone();
+        // Only the session this server gave (see `Config::session_token`).
+        o.token = config.session_token().to_string();
         o.auto_resume = !o.token.is_empty();
         o.country = crate::flags::system_country();
         if o.auto_resume {
@@ -778,6 +779,7 @@ impl Online {
                     config.username = self.username.clone();
                     config.token = token;
                     config.server = self.server.clone();
+                    config.token_server = self.server.clone();
                     save = true;
                     self.send(ClientMsg::Friends);
                     self.send(ClientMsg::Leaderboard);
@@ -1741,6 +1743,11 @@ impl Online {
             let name_ok = valid_username(self.username.trim());
             let pass_ok = valid_password(&self.password);
             if !connected {
+                if self.server != config.server {
+                    // Another server: the session of the last one stays home.
+                    self.token.clear();
+                    self.auto_resume = false;
+                }
                 self.server = config.server.clone();
                 self.connect();
                 self.error = None;

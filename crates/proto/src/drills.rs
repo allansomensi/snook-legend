@@ -108,6 +108,75 @@ pub const DRILLS: &[Drill] = &[
         goal: Goal::Escape { ball: ONE },
     },
     Drill {
+        code: "side",
+        name: "Side pocket",
+        description: "A cut into the side pocket, where the angle is tight. Five tries.",
+        tries: 5,
+        stars: [2, 3, 5],
+        goal: Goal::Pot { ball: ONE, pocket: PocketId::SideRight },
+    },
+    Drill {
+        code: "long",
+        name: "The long cut",
+        description: "A cut from the far end of the table into the corner. Five tries.",
+        tries: 5,
+        stars: [1, 3, 5],
+        goal: Goal::Pot { ball: ONE, pocket: PocketId::FootRight },
+    },
+    Drill {
+        code: "thin",
+        name: "Thin cut",
+        description: "Barely graze the ball: a thin cut into the corner. Five tries.",
+        tries: 5,
+        stars: [1, 2, 4],
+        goal: Goal::Pot { ball: ONE, pocket: PocketId::FootLeft },
+    },
+    Drill {
+        code: "rail",
+        name: "Along the cushion",
+        description: "The ball sits by the cushion: run it along into the corner. Five tries.",
+        tries: 5,
+        stars: [1, 3, 5],
+        goal: Goal::Pot { ball: ONE, pocket: PocketId::FootLeft },
+    },
+    Drill {
+        code: "stop",
+        name: "Stop shot",
+        description: "Pot the ball and stop the cue ball dead where the ball was. Five tries.",
+        tries: 5,
+        stars: [1, 3, 5],
+        goal: Goal::Position {
+            ball: ONE,
+            pocket: PocketId::FootLeft,
+            zone: DVec2::new(0.45, 0.20),
+            radius: 0.07,
+        },
+    },
+    Drill {
+        code: "combo",
+        name: "The combination",
+        description: "Pot the 1 by playing the 2 into it. Five tries.",
+        tries: 5,
+        stars: [1, 2, 4],
+        goal: Goal::Pot { ball: ONE, pocket: PocketId::FootRight },
+    },
+    Drill {
+        code: "cross",
+        name: "Cross-corner bank",
+        description: "Off the long cushion and across the table into the corner. Five tries.",
+        tries: 5,
+        stars: [1, 2, 3],
+        goal: Goal::Bank { ball: ONE, pocket: PocketId::FootRight },
+    },
+    Drill {
+        code: "kick",
+        name: "Kick shot",
+        description: "The 1 is walled off: send the cue ball off a cushion to hit it first. Five tries.",
+        tries: 5,
+        stars: [1, 3, 5],
+        goal: Goal::Escape { ball: ONE },
+    },
+    Drill {
         code: "ten",
         name: "Ten in a row",
         description: "Ten different pots, one after another: a miss ends the session.",
@@ -193,9 +262,74 @@ pub fn position(d: &Drill) -> Vec<(BallId, DVec2)> {
                 eight,
             ]
         }
+        ("side", Goal::Pot { pocket, .. }) => {
+            // About a 25-degree cut into the side pocket.
+            cut_position(DVec2::new(0.30, -0.24), pocket, 25.0, 0.6, eight)
+        }
+        ("long", Goal::Pot { pocket, .. }) => {
+            // A gentle cut from the other end of the table.
+            cut_position(DVec2::new(0.80, -0.36), pocket, 14.0, 1.3, eight)
+        }
+        ("thin", Goal::Pot { pocket, .. }) => {
+            // A cut of about 58 degrees.
+            cut_position(DVec2::new(0.74, 0.26), pocket, 58.0, 0.55, eight)
+        }
+        ("rail", Goal::Pot { pocket, .. }) => {
+            // The ball a finger from the long cushion, the cue ball a
+            // little further out: along the cushion into the corner.
+            let hw = snook_legend_core::Table::default().spec.width / 2.0;
+            cut_position(DVec2::new(0.35, hw - r - 0.012), pocket, 9.0, 0.55, eight)
+        }
+        ("stop", Goal::Position { pocket, zone, .. }) => {
+            // Straight in: struck low and firm, the cue ball takes the
+            // ball's place.
+            let back = (zone - aim(pocket)).normalize();
+            vec![(BallId::CUE, zone + back * 0.55), (ONE, zone), eight]
+        }
+        ("combo", Goal::Pot { pocket, .. }) => {
+            // The cue ball, the 2 and the 1 in a line with the pocket.
+            let ball = DVec2::new(0.78, -0.33);
+            let back = (ball - aim(pocket)).normalize();
+            let two = ball + back * 0.22;
+            vec![(BallId::CUE, two + back * 0.45), (ONE, ball), (BallId(2), two), eight]
+        }
+        ("cross", _) => {
+            // The ball goes to the long cushion beside it and across the
+            // table into the far corner.
+            vec![(BallId::CUE, DVec2::new(0.22, -0.20)), (ONE, DVec2::new(0.46, 0.30)), eight]
+        }
+        ("kick", _) => {
+            // The 1 behind a wall: off the cushion beside it, or the far one.
+            let cue = DVec2::new(-0.50, 0.30);
+            vec![
+                (BallId::CUE, cue),
+                (ONE, DVec2::new(0.50, 0.30)),
+                (BallId(2), DVec2::new(0.0, 0.30)),
+                (BallId(3), DVec2::new(0.0, 0.30 + 2.2 * r)),
+                (BallId(4), DVec2::new(0.0, 0.30 - 2.2 * r)),
+                (BallId(5), DVec2::new(0.0, 0.30 - 4.4 * r)),
+                eight,
+            ]
+        }
         ("ten", _) => streak_position(0),
         _ => vec![(BallId::CUE, DVec2::new(-0.5, 0.0)), (ONE, DVec2::new(0.5, 0.0)), eight],
     }
+}
+
+/// A pot of `ball` into `pocket` with the cue ball `distance` behind the
+/// ghost ball, turned `cut_deg` off the line to the pocket.
+fn cut_position(
+    ball: DVec2,
+    pocket: PocketId,
+    cut_deg: f64,
+    distance: f64,
+    eight: (BallId, DVec2),
+) -> Vec<(BallId, DVec2)> {
+    let r = snook_legend_core::Table::default().spec.ball_radius;
+    let line = (aim(pocket) - ball).normalize();
+    let ghost = ball - line * 2.0 * r;
+    let from = snook_legend_core::math::from_angle(cut_deg.to_radians()).rotate(line);
+    vec![(BallId::CUE, ghost - from * distance), (ONE, ball), eight]
 }
 
 /// The pot of try `k` of a streak: a pocket in turn, the 1 some way out
@@ -423,6 +557,25 @@ mod tests {
             let shot = a_way(d, 0).unwrap_or_else(|| panic!("{} can't be done", d.code));
             assert_eq!(score(d.code, &[shot, shot]), Ok(2), "{}", d.code);
         }
+    }
+
+    #[test]
+    fn every_position_is_on_the_table_without_overlaps() {
+        let table = snook_legend_core::Table::default();
+        let r = table.spec.ball_radius;
+        for d in DRILLS {
+            let balls = position(d);
+            for (k, (id, p)) in balls.iter().enumerate() {
+                assert!(table.is_inside_playing_area(*p), "{}: {id} off the cloth", d.code);
+                for (other, q) in &balls[k + 1..] {
+                    assert!(p.distance(*q) > 2.0 * r, "{}: {id} and {other} overlap", d.code);
+                }
+            }
+        }
+        let mut codes: Vec<&str> = DRILLS.iter().map(|d| d.code).collect();
+        codes.sort();
+        codes.dedup();
+        assert_eq!(codes.len(), DRILLS.len(), "codes are unique");
     }
 
     #[test]

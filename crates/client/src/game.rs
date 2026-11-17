@@ -1234,6 +1234,18 @@ impl Match {
         for b in &report.spotted {
             self.notify(tw("The {ball} was spotted.", &[("ball", &crate::i18n::ball(*b))]), false);
         }
+        if !report.penalty.is_empty() {
+            // The house rules: a foul gives the opponent balls.
+            let given: Vec<String> = report.penalty.iter().map(|b| crate::i18n::ball(*b)).collect();
+            let other = self.names[1 - report.shooter % 2].clone();
+            self.notify(
+                tw(
+                    "Penalty: {balls} off the table for {name}.",
+                    &[("balls", &given.join(", ")), ("name", &other)],
+                ),
+                true,
+            );
+        }
         if let Some(over) = report.game_over {
             let winner = self.names[over.winner].clone();
             let how = crate::i18n::result_line(over.reason, &winner, &self.names[1 - over.winner]);
@@ -2143,6 +2155,7 @@ mod tests {
             continues,
             game_over: None,
             opponent_ball: false,
+            penalty: vec![],
         };
         let mut s = ShotStats::default();
         s.add(&report(&[1, 2], false, true), false);

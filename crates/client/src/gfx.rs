@@ -1311,6 +1311,45 @@ impl MeshBuilder {
         }
     }
 
+    /// The half of a sphere that faces the viewer (`toward` points at the
+    /// eye, `right` and `up` span the plane across it), with the sphere's
+    /// own normals: lit, it is the ball the viewer would see, and there is
+    /// no far side to show through a see-through one. The ghost ball.
+    #[allow(clippy::too_many_arguments)]
+    pub fn dome(
+        &mut self,
+        center: Vec3,
+        radius: f32,
+        right: Vec3,
+        up: Vec3,
+        toward: Vec3,
+        segments: u32,
+        rings: u32,
+        color: Color,
+    ) {
+        let first = self.vertices.len() as u16;
+        // From the pole (nearest the eye) out to the rim, a little past the
+        // half so the outline is the sphere's from close by too.
+        let reach = std::f32::consts::FRAC_PI_2 * 1.04;
+        for ring in 0..=rings {
+            let t = ring as f32 / rings as f32 * reach;
+            let (st, ct) = t.sin_cos();
+            for k in 0..=segments {
+                let a = k as f32 / segments as f32 * std::f32::consts::TAU;
+                let n = (right * a.cos() + up * a.sin()) * st + toward * ct;
+                self.push(center + n * radius, Vec2::ZERO, n, color);
+            }
+        }
+        let stride = (segments + 1) as u16;
+        for ring in 0..rings as u16 {
+            for k in 0..segments as u16 {
+                let a = first + ring * stride + k;
+                let c = a + stride;
+                self.indices.extend_from_slice(&[a, a + 1, c, a + 1, c + 1, c]);
+            }
+        }
+    }
+
     /// Flat ring facing up.
     pub fn ring(&mut self, center: Vec3, inner: f32, outer: f32, segments: u32, color: Color) {
         for k in 0..segments {

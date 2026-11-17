@@ -91,6 +91,17 @@ pub const DEFAULT_SERVER: &str = match option_env!("SNOOK_LEGEND_SERVER") {
     _ => "wss://snook-server.onrender.com/ws",
 };
 
+impl Config {
+    /// The saved session, if the server in use is the one that gave it. A
+    /// session is a key to the account on its own server: pointing the game
+    /// at another server (Settings → Game server) must not hand it over.
+    pub fn session_token(&self) -> &str {
+        let owner =
+            if self.token_server.is_empty() { DEFAULT_SERVER } else { self.token_server.trim() };
+        if owner == self.server.trim() { &self.token } else { "" }
+    }
+}
+
 /// What earlier builds saved as the default; read as "the default" so they
 /// move to the public server (a local test server is `ws://127.0.0.1:7878/ws`).
 const OLD_DEFAULT_SERVER: &str = "ws://localhost:7878/ws";
@@ -115,6 +126,9 @@ pub struct Config {
     pub show_fps: bool,
     /// Show the round trip to the server (lounge and online matches).
     pub show_ping: bool,
+    /// The shadows of the balls and of the cue on the table (some players
+    /// read the table better without them).
+    pub shadows: bool,
     /// Computer opponents make remarks during a game.
     pub opponent_talk: bool,
     /// The table only ever seen from above (no 3D view).
@@ -134,6 +148,9 @@ pub struct Config {
     pub username: String,
     /// Login token for automatic sign-in (empty when logged out).
     pub token: String,
+    /// The server that gave the token (empty in files from before this was
+    /// kept: the default server). The token is never sent to another one.
+    pub token_server: String,
     /// Last difficulty chosen against the computer (0 easy, 1 medium, 2 hard).
     pub difficulty: u8,
     /// The computer opponent last picked (a personality's code).
@@ -190,6 +207,7 @@ impl Default for Config {
             focused_scene: true,
             show_fps: false,
             show_ping: false,
+            shadows: true,
             opponent_talk: true,
             top_view_only: false,
             avatar: String::new(),
@@ -202,6 +220,7 @@ impl Default for Config {
             server: DEFAULT_SERVER.into(),
             username: String::new(),
             token: String::new(),
+            token_server: String::new(),
             difficulty: 1,
             opponent: crate::opponents::DEFAULT_PERSONALITY.to_string(),
             shot_clock: 0,
@@ -319,6 +338,7 @@ impl Config {
                 "focused_scene" => c.focused_scene = v == "true",
                 "show_fps" => c.show_fps = v == "true",
                 "show_ping" => c.show_ping = v == "true",
+                "shadows" => c.shadows = v != "false",
                 "opponent_talk" => c.opponent_talk = v != "false",
                 "top_view_only" => c.top_view_only = v == "true",
                 "avatar" if snook_legend_proto::valid_avatar(v) => c.avatar = v.to_string(),
@@ -341,6 +361,7 @@ impl Config {
                 "server" if !v.is_empty() && v != OLD_DEFAULT_SERVER => c.server = v.to_string(),
                 "username" => c.username = v.to_string(),
                 "token" => c.token = v.to_string(),
+                "token_server" => c.token_server = v.to_string(),
                 "difficulty" => c.difficulty = v.parse::<u8>().map(|d| d.min(2)).unwrap_or(1),
                 "opponent" => c.opponent = crate::opponents::chosen(v).code.to_string(),
                 "shot_clock" => {
@@ -385,8 +406,8 @@ impl Config {
 
     pub fn to_text(&self) -> String {
         format!(
-            "# Snook Legend settings\nplayer_name = {}\nsecond_player_name = {}\nguide = {}\nshow_help = {}\nshot_camera = {}\ncamera_follow = {}\ngraphics_checked = {}\nlanguage = {}\nvignette = {}\nfocused_scene = {}\nshow_fps = {}\nshow_ping = {}\nopponent_talk = {}\ntop_view_only = {}\navatar = {}\naim_sensitivity = {:.2}\nui_size = {:.2}\n\
-             quality = {}\nmsaa = {}\nfullscreen = {}\nvolume = {:.2}\nserver = {}\nusername = {}\ntoken = {}\n\
+            "# Snook Legend settings\nplayer_name = {}\nsecond_player_name = {}\nguide = {}\nshow_help = {}\nshot_camera = {}\ncamera_follow = {}\ngraphics_checked = {}\nlanguage = {}\nvignette = {}\nfocused_scene = {}\nshow_fps = {}\nshow_ping = {}\nshadows = {}\nopponent_talk = {}\ntop_view_only = {}\navatar = {}\naim_sensitivity = {:.2}\nui_size = {:.2}\n\
+             quality = {}\nmsaa = {}\nfullscreen = {}\nvolume = {:.2}\nserver = {}\nusername = {}\ntoken = {}\ntoken_server = {}\n\
              difficulty = {}\nopponent = {}\nshot_clock = {}\nlan_name = {}\ncloth = {}\ncue = {}\nchalk = {}\nballs = {}\neffect = {}\ntable = {}\nhall = {}\ncue_level = {}\nemail_offer_declined = {}\n\
              board_seen = {}\ntv_view = {}\ndesktop_notifications = {}\nauto_update = {}\nlast_version = {}\n{}",
             self.player_name,
@@ -401,6 +422,7 @@ impl Config {
             self.focused_scene,
             self.show_fps,
             self.show_ping,
+            self.shadows,
             self.opponent_talk,
             self.top_view_only,
             self.avatar,
@@ -413,6 +435,7 @@ impl Config {
             self.server,
             self.username,
             self.token,
+            self.token_server,
             self.difficulty,
             self.opponent,
             self.shot_clock,
@@ -513,6 +536,21 @@ mod tests {
         assert_eq!(bad.msaa, Config::default().msaa);
         assert_eq!(bad.volume, 1.0);
         assert_eq!(bad.quality, Quality::High);
+    }
+
+    /// A saved session goes only to the server that gave it.
+    #[test]
+    fn the_session_stays_with_its_server() {
+        let mut c = Config { token: "abc".into(), ..Config::default() };
+        // A file from before the server was kept: the default server's.
+        assert_eq!(c.session_token(), "abc");
+        c.server = "wss://elsewhere.example/ws".into();
+        assert_eq!(c.session_token(), "", "never sent to another server");
+        c.token_server = "wss://elsewhere.example/ws".into();
+        assert_eq!(c.session_token(), "abc");
+        c.server = DEFAULT_SERVER.into();
+        assert_eq!(c.session_token(), "");
+        assert_eq!(Config::parse(&c.to_text()), c);
     }
 
     #[test]

@@ -478,6 +478,13 @@ impl SettingsScreen {
                 switch_row(
                     rows,
                     ui,
+                    t("Shadows"),
+                    t("The shadows of the balls and of the cue on the table."),
+                    &mut config.shadows,
+                );
+                switch_row(
+                    rows,
+                    ui,
                     t("Show FPS"),
                     t("Frames per second, in a corner of the screen."),
                     &mut config.show_fps,

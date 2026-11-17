@@ -87,8 +87,10 @@ Players can also change it under **Settings → Game → Game server**.
 
 ## Updating
 
-A restart keeps every account and result; players reconnect by themselves,
-but games in progress are lost, so update when it's quiet. When messages
+A restart keeps every account and result; players reconnect by themselves.
+On SIGTERM the server stops starting games, lets the games in progress go
+on for `SNOOK_LEGEND_DRAIN_SECS` and saves what is left, which the next
+server picks up when the players reconnect. When messages
 change incompatibly, `PROTOCOL_VERSION` in `crates/proto` is bumped and older
 games are told to update.
 
@@ -106,6 +108,9 @@ latest reference**. `GET /api/status` shows the version running.
   renewed when used after a day; staff panel sessions last 8 hours.
 - Sign-in throttling: 8 failures per account or 20 per address in 15 minutes;
   5 new accounts per address per hour; 5 bad sign-ins close the connection.
+- An account is live in one place at a time: signing in again closes the
+  connection that was there.
+- An IPv6 address is counted as its /64 for every limit "per address".
 - Connections: 12 per address; 40 messages a second per connection (bursts of
   120) or the connection is closed; 16 KiB per message; outgoing queues are
   bounded (a client that stops reading is disconnected).

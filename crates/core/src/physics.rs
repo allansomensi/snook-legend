@@ -96,7 +96,28 @@ impl PhysicsParams {
             // little more freely (about 14% further on the same stroke) and
             // the cushions give back a little more.
             2 => PhysicsParams { rolling_friction: 0.011, cushion_restitution: 0.77, ..measured },
-            _ => Self::tournament(),
+            3 => Self::tournament(),
+            _ => Self::house(),
+        }
+    }
+
+    /// Ruleset 4: the tournament table's physics with balls that feel
+    /// heavier. On the tournament figures a break scattered the balls all
+    /// over the table at a pace that read as light balls; here the cloth is
+    /// slower (a bar table's napped cloth: 1.6% of g against 1%), the balls
+    /// give back less of a hard hit (the rack soaks up more of the break),
+    /// the cushions a little less, and the break is struck at 18 mph for the
+    /// cue ball, not 23.
+    fn house() -> Self {
+        PhysicsParams {
+            rolling_friction: 0.016,
+            ball_restitution: 0.94,
+            ball_restitution_slope: 0.016,
+            ball_restitution_min: 0.78,
+            cushion_restitution: 0.90,
+            cushion_restitution_min: 0.50,
+            max_cue_speed: 6.2,
+            ..Self::tournament()
         }
     }
 
@@ -296,6 +317,19 @@ impl Simulation {
 
     pub fn events(&self) -> &[Event] {
         &self.events
+    }
+
+    /// Tests of the rules: `id` leaves the table at the end of the shot.
+    #[cfg(test)]
+    pub(crate) fn knock_off_for_tests(&mut self, id: BallId) {
+        let time = self.time;
+        if let Some(b) = self.balls.iter_mut().find(|b| b.id == id) {
+            b.status = BallStatus::OffTable;
+            b.velocity = DVec3::ZERO;
+            b.angular_velocity = DVec3::ZERO;
+            b.motion = Motion::Stationary;
+        }
+        self.events.push(Event::OffTable { time, ball: id });
     }
 
     pub fn ball(&self, id: BallId) -> Option<&Ball> {
@@ -1005,7 +1039,7 @@ mod tests {
         ball.velocity = DVec3::new(speed, 0.0, 0.0);
         ball.angular_velocity = DVec3::new(0.0, speed / r, 0.0);
         ball.motion = Motion::Rolling;
-        let mut sim = Simulation::new(table, PhysicsParams::default(), vec![ball]);
+        let mut sim = Simulation::new(table, PhysicsParams::of_ruleset(3), vec![ball]);
         let mut arriving = speed;
         while sim.balls[0].velocity.x > 0.0 {
             arriving = sim.balls[0].velocity.x;
@@ -1031,9 +1065,10 @@ mod tests {
     /// ordinary stroke goes round the table three to four times.
     #[test]
     fn strokes_travel_as_far_as_on_a_real_table() {
-        let p = PhysicsParams::default();
+        let p = PhysicsParams::of_ruleset(3);
         let lengths = |cue_speed: f64| {
             let mut sim = sim_with(&[(0, DVec2::new(-0.5, 0.0))]);
+            sim.params = p;
             let shot = Shot::new(0.0, cue_speed).sanitized_for(&p, false);
             sim.strike(BallId::CUE, &shot).unwrap();
             let mut dist = 0.0;
@@ -1049,11 +1084,58 @@ mod tests {
         assert!((3.0..4.2).contains(&hardest), "hardest stroke {hardest}");
     }
 
+    /// Ruleset 4: the balls feel heavier than on the tournament figures. A
+    /// break is struck less hard and scatters the rack less, and a rolling
+    /// ball stops sooner.
+    #[test]
+    fn house_balls_feel_heavier_than_the_tournament_ones() {
+        let (house, tournament) = (PhysicsParams::of_ruleset(4), PhysicsParams::of_ruleset(3));
+        let table = Table::default();
+        let break_speed = |p: &PhysicsParams| {
+            let shot = Shot::new(0.0, 99.0).sanitized_for(p, true);
+            cue_impulse(p, &table, &shot).0.length()
+        };
+        assert!((7.8..8.5).contains(&break_speed(&house)), "{}", break_speed(&house));
+        assert!(break_speed(&house) < break_speed(&tournament) - 1.5);
+        // The same stroke rolls a good deal less far.
+        let travel = |p: PhysicsParams| {
+            let mut sim = sim_with(&[(0, DVec2::new(-0.5, 0.0))]);
+            sim.params = p;
+            sim.strike(BallId::CUE, &Shot::new(0.0, 1.5)).unwrap();
+            let mut dist = 0.0;
+            while !sim.is_settled() {
+                sim.step();
+                dist += sim.balls[0].velocity.length() * p.time_step;
+            }
+            dist
+        };
+        let (h, t) = (travel(house), travel(tournament));
+        assert!(h < 0.85 * t && h > 0.55 * t, "house {h} m, tournament {t} m");
+        // How far the rack scatters on a full break: cushions reached.
+        let scatter = |ruleset: u8| {
+            let mut hits = 0;
+            for seed in 0..8 {
+                let g = crate::EightBallGame::with_ruleset(seed, 0, ruleset);
+                let shot = Shot::new(g.default_aim(), 99.0);
+                let mut p = g.prepare_shot(&shot, None).unwrap();
+                p.simulation.run_to_rest();
+                hits += p
+                    .simulation
+                    .events()
+                    .iter()
+                    .filter(|e| matches!(e, Event::Cushion { .. }))
+                    .count();
+            }
+            hits
+        };
+        assert!(scatter(4) * 4 < scatter(3) * 3, "{} vs {}", scatter(4), scatter(3));
+    }
+
     /// An ordinary stroke tops out at a power shot (12 mph for the ball);
     /// only the break gets the whole cue speed (23 mph).
     #[test]
     fn only_the_break_is_played_at_break_speed() {
-        let p = PhysicsParams::default();
+        let p = PhysicsParams::of_ruleset(3);
         let table = Table::default();
         let ball_speed = |is_break: bool| {
             let shot = Shot::new(0.0, 99.0).sanitized_for(&p, is_break);

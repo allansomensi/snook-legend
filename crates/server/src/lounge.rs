@@ -650,6 +650,14 @@ impl Lounge {
         self.broadcast(&ServerMsg::PlayerLeft { username: session.user.username });
     }
 
+    /// Whether connection `conn_id` is still the one `name` is signed in
+    /// on. An account is used from one place at a time: signing in again
+    /// replaces the session, and the connection it replaced may do nothing
+    /// more in the account's name.
+    pub fn is_current(&self, name: &str, conn_id: u64) -> bool {
+        self.sessions.get(&key(name)).is_some_and(|s| s.conn_id == conn_id)
+    }
+
     /// Disconnects a player (signed in elsewhere, banned…).
     pub fn kick(&mut self, name: &str, reason: &str) -> bool {
         let k = key(name);

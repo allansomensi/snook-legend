@@ -1698,3 +1698,45 @@ Profile picture	Foto do perfil
 Shown by your name at the table and in your profile.	Aparece junto ao seu nome na mesa e no seu perfil.
 No picture	Sem foto
 Change your picture	Trocar sua foto
+{name} sank the 8 together with another ball	{name} encaçapou a 8 junto com outra bola
+the opponent sank the 8 with another ball	o adversário encaçapou a 8 junto com outra bola
+sank the 8 with another ball	encaçapou a 8 junto com outra bola
+opponent pocketed the 8-ball together with another ball	o adversário encaçapou a bola 8 junto com outra bola
+Penalty: {balls} off the table for {name}.	Penalidade: {balls} sai da mesa a favor de {name}.
+Shadows	Sombras
+The shadows of the balls and of the cue on the table.	As sombras das bolas e do taco na mesa.
+Sixteen players: knockout or arena	Dezesseis jogadores: mata-mata ou arena
+New knockout	Novo mata-mata
+New arena	Nova arena
+Knockout: sixteen players, four rounds. Lose a game and you are out.	Mata-mata: dezesseis jogadores, quatro fases. Perdeu uma partida, está fora.
+Arena: five rounds for everyone. A win is 2 points, 3 from the third win in a row. The most points wins.	Arena: cinco rodadas para todos. Vitória vale 2 pontos, e 3 a partir da terceira seguida. Quem somar mais pontos vence.
+The games between the other players are decided by their strength and a draw.	As partidas entre os outros jogadores são decididas pela força de cada um e por sorteio.
+You won the tournament!	Você venceu o torneio!
+{name} won the tournament.	{name} venceu o torneio.
+You finished in place {n}.	Você terminou em {n}º lugar.
+Round of 16	Oitavas de final
+Quarter-finals	Quartas de final
+Round {n} of {total}	Rodada {n} de {total}
+Play {name}	Jogar contra {name}
+Abandon the tournament	Abandonar o torneio
+W - L	V - D
+Points	Pontos
+The tournament is over.	O torneio acabou.
+The round is over: see who you play next.	A rodada acabou: veja contra quem você joga agora.
+You are out of the tournament.	Você está fora do torneio.
+Side pocket	Caçapa do meio
+A cut into the side pocket, where the angle is tight. Five tries.	Um corte na caçapa do meio, onde o ângulo é apertado. Cinco tentativas.
+The long cut	Corte longo
+A cut from the far end of the table into the corner. Five tries.	Um corte do outro lado da mesa até a caçapa do canto. Cinco tentativas.
+Thin cut	Corte fino
+Barely graze the ball: a thin cut into the corner. Five tries.	Só raspe a bola: um corte fino na caçapa do canto. Cinco tentativas.
+Along the cushion	Rente à tabela
+The ball sits by the cushion: run it along into the corner. Five tries.	A bola está colada na tabela: leve-a rente até a caçapa do canto. Cinco tentativas.
+Stop shot	Bola parada
+Pot the ball and stop the cue ball dead where the ball was. Five tries.	Encaçape a bola e pare a branca no lugar onde a bola estava. Cinco tentativas.
+The combination	Combinação
+Pot the 1 by playing the 2 into it. Five tries.	Encaçape a 1 jogando a 2 nela. Cinco tentativas.
+Cross-corner bank	Tabela cruzada
+Off the long cushion and across the table into the corner. Five tries.	Na tabela comprida e cruzando a mesa até a caçapa do canto. Cinco tentativas.
+Kick shot	Tabelada na bola
+The 1 is walled off: send the cue ball off a cushion to hit it first. Five tries.	A 1 está cercada: mande a branca na tabela para acertá-la primeiro. Cinco tentativas.

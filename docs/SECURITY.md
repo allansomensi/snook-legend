@@ -35,6 +35,28 @@ without consequence, take over accounts, or take the server down cheaply.
 | 19 | A refunded VIP month was looked up by the payment id only (VIP months are recorded by invoice): VIP and its coins stayed after the refund. A refund interrupted half-way could leave the coins behind. | Medium | Found by payment or invoice; the coins are taken back exactly once, keyed by the payment; partial refunds leave the purchase alone. |
 | 20 | The first invoice of a subscription can arrive before the checkout that links the customer to the player: the paid month was dropped. | Medium | The checkout grants the first month as well (once per invoice), and the invoice finds the player through the subscription's metadata. |
 
+## Later reviews
+
+| # | Finding | Severity | Fix |
+|---|---|---|---|
+| 21 | The saved session was sent to whatever server the game was pointed at: with a third-party address typed under Settings → Game server, the game signed in there with the token of the official server, which whoever runs that server could then use on the official one. | Medium | The settings keep which server gave the session (`token_server`); it is only ever sent to that one, and signing in on another server starts from the form. |
+| 22 | Limits "per address" (connections, new accounts, wrong passwords) were kept by the full IPv6 address. One home or phone is given a /64 and picks its addresses freely, so those limits limited nothing for IPv6 clients. | Medium | An IPv6 address is counted as its /64 (an IPv4 one as it is, also when written as IPv6). |
+| 23 | A connection replaced by a new sign-in was told so and closed, but a message it had already sent could still be read first, and acted in the name of the account's new session (the lounge knows sessions by name). | Low | The notice to go is checked before anything is read, and every message of a signed-in connection is checked against the session that owns the account: an account is live in one place at a time. |
+
+Open, for the operator to decide:
+
+- **Administrators are made by name.** `SNOOK_LEGEND_ADMINS` makes whoever
+  signs in with a listed name an administrator, and a listed name that has
+  no account yet can be registered by anyone (as can the name of a listed
+  account that was deleted). Create the account first, list the name
+  after, and take a name off the list before its account is deleted.
+- **Updates are checked against a SHA-256 published with the release**: it
+  proves the download is whole, not who made it. Whoever can publish a
+  release on the repository (the account, or a workflow action that was
+  tampered with: actions are pinned by tag, not by commit) can ship a
+  game. Signing releases with a key kept off GitHub (minisign) and pinning
+  actions by commit would close it.
+
 ## Built in from the start
 
 - The server is authoritative: clients send strokes only; the server checks

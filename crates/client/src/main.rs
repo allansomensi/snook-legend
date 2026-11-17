@@ -18,6 +18,7 @@ mod coords;
 mod correspondence;
 mod countries;
 mod cues;
+mod cup;
 mod dev;
 mod effects;
 mod flags;
@@ -369,6 +370,10 @@ async fn main() {
         Some("ladder") => {
             screen = Screen::Versus(versus::Versus::new(versus::Tab::Ladder, &config))
         }
+        Some("cup") => screen = Screen::Versus(versus::Versus::new(versus::Tab::Cup, &config)),
+        Some("drills") => {
+            screen = Screen::Versus(versus::Versus::new(versus::Tab::Drills, &config))
+        }
         Some("hotseat") => screen = Screen::Setup(Setup::new()),
         Some(name) if name.starts_with("ghost:") => {
             online.connect();
@@ -407,6 +412,8 @@ async fn main() {
     // The ladder against the computer, and the claim of its reward.
     let mut ladder_progress = ladder::Progress::load();
     let mut claimer = ladder::Claimer::default();
+    // The tournament against the computer's opponents, if one is going on.
+    let mut cup = cup::Cup::load();
     let menu_rack = snook_legend_core::rules::rack(&scene.table, 2024);
     let vignette = vignette_texture();
 
@@ -571,6 +578,33 @@ async fn main() {
                 m.notify(text, true);
             }
         }
+        // The player's game of the tournament just ended: the round is
+        // played out and the tournament moves on.
+        if let Some(m) = current.as_mut()
+            && let Some(c) = cup.as_mut()
+            && m.is_against_computer()
+            && c.playing == Some(m.seed())
+            && let Some(over) = m.game.game_over()
+        {
+            let won = over.winner == snook_legend_proto::ladder::PLAYER_SEAT;
+            c.report(won);
+            c.save();
+            let text = if c.finished() {
+                if c.champion().is_some_and(|w| c.is_player(w)) {
+                    i18n::t("You won the tournament!").to_string()
+                } else {
+                    match c.player_place() {
+                        Some(n) => i18n::tw("You finished in place {n}.", &[("n", &n)]),
+                        None => i18n::t("The tournament is over.").to_string(),
+                    }
+                }
+            } else if c.player_in() {
+                i18n::t("The round is over: see who you play next.").to_string()
+            } else {
+                i18n::t("You are out of the tournament.").to_string()
+            };
+            m.notify(text, true);
+        }
         if claimer.update(&mut ladder_progress, &mut online, get_time()) {
             ladder_progress.save();
         }
@@ -731,6 +765,7 @@ async fn main() {
         // Looking down on the table in a game: no cord, fan or beam of the
         // hall in the way.
         scene.clear_over_table = !scene.lamp_visible;
+        scene.ball_shadows = config.shadows;
         // A profile picture chosen (in the profile or the settings): kept,
         // and the account's too.
         let picture = avatars::mine();
@@ -939,6 +974,11 @@ async fn main() {
                             let versus = m.is_against_computer().then(|| {
                                 let tab = if m.ladder.is_some() {
                                     versus::Tab::Ladder
+                                } else if cup.as_ref().is_some_and(|c| {
+                                    let seed = Some(m.seed());
+                                    c.playing == seed || c.counted == seed
+                                }) {
+                                    versus::Tab::Cup
                                 } else {
                                     versus::Tab::Free
                                 };
@@ -1126,6 +1166,7 @@ async fn main() {
                             &mut online,
                             &ladder_progress,
                             &mut claimer,
+                            &mut cup,
                         ) {
                             versus::VersusAction::Back => {
                                 config.save();
@@ -1134,6 +1175,19 @@ async fn main() {
                             versus::VersusAction::Start(settings) => {
                                 config.save();
                                 current = Some(Match::new(&settings, game::clock_seed()));
+                                save_key = None;
+                                hud = Hud::new(config.show_help);
+                                rig.reset();
+                                next = Some(Screen::Menu);
+                            }
+                            versus::VersusAction::StartCup(settings) => {
+                                config.save();
+                                let seed = game::clock_seed();
+                                if let Some(c) = cup.as_mut() {
+                                    c.begin(seed);
+                                    c.save();
+                                }
+                                current = Some(Match::new(&settings, seed));
                                 save_key = None;
                                 hud = Hud::new(config.show_help);
                                 rig.reset();

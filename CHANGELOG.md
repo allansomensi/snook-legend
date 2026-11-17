@@ -1,5 +1,72 @@
 # Changelog
 
+## Unreleased (protocol 17)
+
+The game now plays a **regional Brazilian rule** of eight-ball (the rule of
+bars and pool halls, with penalty balls), not the official tournament rule,
+with heavier-feeling balls (ruleset 4). Every shot and every foul plays out
+differently, so older games must update to play online (the server must be
+updated with the game). No migrations.
+
+### The rules (ruleset 4)
+- A foul passes the turn and gives the opponent balls: the lowest numbers
+  of their group still on the table come off it, as if they had made them.
+  One for missing every ball, one for a scratch (a miss that scratches: two),
+  two for hitting a ball that isn't one's own first, one if the cue ball
+  went to a cushion before it. The 8 never comes off; on an open table a
+  foul costs the turn alone.
+- Only a cue ball that went down or left the table is in hand. After any
+  other foul it is played from where it lies.
+- A ball of one's own knocked off the table comes back to it; one of the
+  opponent's stays off, made for them.
+- The 8 alone on the break wins; the 8 on the break with any other ball
+  loses. At the end, the 8 loses when the cue ball or one of the opponent's
+  balls goes down with it.
+- No illegal break, and nothing has to reach a cushion after a contact.
+- The rules are written in the game (three languages) and say plainly that
+  this is a regional rule; the README says so too.
+
+### The balls
+- Heavier-feeling balls: a slower cloth (a rolling ball stops about a
+  quarter sooner), a rack that soaks up more of the break, cushions that
+  give back a little less, and a break struck at 18 mph for the cue ball
+  (it was 23): the break no longer scatters the balls all over the table.
+
+### Against the computer
+- **Tournaments** with the fifteen opponents: a knockout (sixteen players,
+  four rounds) or an arena (five rounds for everyone, on points, with a
+  bonus for a run of wins). The player plays their own games; the others'
+  are decided by their strength and a draw. A tournament is kept between
+  sessions.
+- Eight more **drills** (fifteen in all): the side pocket, the long cut, the
+  thin cut, along the cushion, the stop shot, the combination, the
+  cross-corner bank and the kick shot.
+
+### At the table
+- The cue's elevation can be set by dragging in its panel: an angle with
+  the wrong sign made every drag come out level (only the keys and the
+  wheel worked).
+- The aiming line runs from the cue ball's centre to the ghost ball's: it
+  lay on the cloth and passed beside the ghost ball from any view not
+  straight above it. The ghost ball is still a see-through ball, drawn so
+  that its far side no longer shows through in patches and a cushion or a
+  pocket's casting no longer cuts it off (it looked squashed).
+- With the cue ball in hand, four faint arrowheads round it say it can be
+  moved.
+- A setting to turn off the shadows of the balls and the cue (Settings →
+  Graphics → Shadows).
+- A shorter power bar.
+
+### Accounts and the server
+- The saved session is only ever sent to the server that gave it: pointing
+  the game at another server no longer signs in there with it.
+- IPv6 clients are counted by their /64 for the limits per address
+  (connections, new accounts, wrong passwords).
+- An account is used in one place at a time. Signing in again already
+  closed the connection that was there; now the server also refuses
+  anything a replaced connection still sends, and reads nothing more from
+  a connection once it is told to go.
+
 ## 0.5.1 (protocol 16)
 
 A pass over the graphics, from the balls to the menus. Nothing changes in

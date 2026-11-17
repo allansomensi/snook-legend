@@ -82,6 +82,7 @@ pub fn reason_code(r: GameOverReason) -> &'static str {
         GameOverReason::EightInWrongPocket => "eight_in_wrong_pocket",
         GameOverReason::EightPocketedOnFoul => "eight_pocketed_on_foul",
         GameOverReason::EightOffTable => "eight_off_table",
+        GameOverReason::EightWithAnotherBall => "eight_with_another_ball",
         GameOverReason::Resignation => "resignation",
         GameOverReason::Abandoned => "abandoned",
     }
@@ -94,6 +95,7 @@ pub fn parse_reason(code: &str) -> GameOverReason {
         "eight_in_wrong_pocket" | "EightInWrongPocket" => GameOverReason::EightInWrongPocket,
         "eight_pocketed_on_foul" | "EightPocketedOnFoul" => GameOverReason::EightPocketedOnFoul,
         "eight_off_table" | "EightOffTable" => GameOverReason::EightOffTable,
+        "eight_with_another_ball" | "EightWithAnotherBall" => GameOverReason::EightWithAnotherBall,
         "abandoned" | "Abandoned" => GameOverReason::Abandoned,
         _ => GameOverReason::Resignation,
     }
@@ -259,7 +261,16 @@ impl Server {
 
     /// The client's address: from the first configured proxy header that is
     /// present (e.g. `cf-connecting-ip,x-forwarded-for`), else the peer.
+    /// The address a connection is counted under. An IPv6 address stands
+    /// for its /64: that is what one home or one phone is given, and its
+    /// owner can pick any of its 2^64 addresses, so limits "per address"
+    /// (connections, new accounts, wrong passwords) kept by the full
+    /// address limited nothing.
     pub fn client_ip(&self, peer: SocketAddr, headers: &HeaderMap) -> IpAddr {
+        counted_address(self.claimed_ip(peer, headers))
+    }
+
+    fn claimed_ip(&self, peer: SocketAddr, headers: &HeaderMap) -> IpAddr {
         let Some(names) = &self.config.client_ip_header else { return peer.ip() };
         for name in names.split(',').map(str::trim).filter(|n| !n.is_empty()) {
             let Some(value) = headers.get(name).and_then(|v| v.to_str().ok()) else { continue };
@@ -884,8 +895,12 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
     let mut status_bucket = Bucket::new(4.0, 1.0 / 15.0);
     loop {
         let next = tokio::select! {
-            m = tokio::time::timeout(IDLE_TIMEOUT, stream.next()) => m,
+            // Checked first: a connection that was told to go (signed in
+            // elsewhere, banned) reads nothing more, even with messages
+            // already waiting.
+            biased;
             _ = kill.notified() => break,
+            m = tokio::time::timeout(IDLE_TIMEOUT, stream.next()) => m,
         };
         let next = match next {
             Ok(Some(Ok(m))) => m,
@@ -1021,6 +1036,13 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
             }
             continue;
         };
+        // One place at a time: once the account has signed in on another
+        // connection, this one acts for nobody (whatever the game on the
+        // other end does with the notice it was sent).
+        if !server.with(|l| l.is_current(&me.username, conn_id)) {
+            send(ServerMsg::Kicked { reason: "You signed in from another place.".into() });
+            break;
+        }
         match msg {
             ClientMsg::Logout => {
                 if let Some(t) = token_in_use.take() {
@@ -1834,6 +1856,21 @@ async fn restore_live(server: &Arc<Server>, user: &User) {
     }
 }
 
+/// The address limits are kept under: an IPv4 address as it is (also when
+/// written as an IPv6 one), an IPv6 address as its /64.
+pub fn counted_address(ip: IpAddr) -> IpAddr {
+    match ip {
+        IpAddr::V6(a) => match a.to_ipv4_mapped() {
+            Some(v4) => IpAddr::V4(v4),
+            None => {
+                let s = a.segments();
+                IpAddr::V6(std::net::Ipv6Addr::new(s[0], s[1], s[2], s[3], 0, 0, 0, 0))
+            }
+        },
+        v4 => v4,
+    }
+}
+
 /// Lower-case key of a username (re-exported for the admin panel).
 pub fn user_key(name: &str) -> String {
     key(name)
@@ -1849,5 +1886,16 @@ mod tests {
     fn dummy_hash_is_a_real_argon2_hash() {
         let hash = PasswordHash::new(DUMMY_HASH).expect("parses");
         assert!(Argon2::default().verify_password(b"guess", &hash).is_err());
+    }
+
+    /// Every address of an IPv6 /64 counts as one (its owner picks among
+    /// them freely); IPv4 addresses stay apart.
+    #[test]
+    fn an_ipv6_network_counts_as_one_address() {
+        let ip = |s: &str| counted_address(s.parse().unwrap());
+        assert_eq!(ip("2001:db8:1:2:aaaa:bbbb:cccc:dddd"), ip("2001:db8:1:2::1"));
+        assert_ne!(ip("2001:db8:1:2::1"), ip("2001:db8:1:3::1"));
+        assert_eq!(ip("::ffff:203.0.113.7"), ip("203.0.113.7"));
+        assert_ne!(ip("203.0.113.7"), ip("203.0.113.8"));
     }
 }

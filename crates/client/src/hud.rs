@@ -1998,7 +1998,9 @@ impl Hud {
         let left_end = fine.x + fine.w + gap;
         // The power bar, centred in the space between.
         let room = (shoot.x - 24.0) - (left_end + 24.0);
-        let tw = room.clamp(120.0, 560.0);
+        // Shorter than the room there is: a long bar made a small change
+        // of pace a long drag.
+        let tw = (room * 0.78).clamp(120.0, 400.0);
         let px0 = left_end + 24.0 + (room - tw) / 2.0;
         let track = Rect::new(px0, bar.y + bar.h / 2.0 - 9.0, tw, 18.0);
 
@@ -2011,8 +2013,7 @@ impl Hud {
         if my_turn && self.power_key != Some(key) {
             self.power_key = Some(key);
             // Every turn starts from the same place, the middle of the bar
-            // (the break from a firm stroke: four balls must reach a
-            // cushion). Nothing on the bar tells what the last stroke was
+            // (the break from a firm stroke). Nothing on the bar tells what the last stroke was
             // played with: judging the pace is part of the game.
             let power = if m.game.is_break() { BREAK_POWER } else { START_POWER };
             m.aim.power = power;
@@ -2215,9 +2216,10 @@ fn elevation_panel(ui: &mut Ui, m: &mut Match, r: Rect) {
     let ball = vec2(scene.x + scene.w - 46.0, floor - ball_r);
     let drag = ui.drag_area(2, scene);
     if let crate::ui::Drag::Held(p) | crate::ui::Drag::Released(p) = drag {
-        // The cue points from the pointer to the ball.
+        // The cue points from the pointer to the ball: the pointer above
+        // the ball's centre (screen y grows downwards) raises the butt.
         let d = ball - p;
-        let a = if d.x <= 1.0 { max } else { (-(d.y) / d.x).atan().max(0.0) };
+        let a = if d.x <= 1.0 { max } else { (d.y / d.x).atan().max(0.0) };
         // Below the cloth line, or the pointer in front of the ball: level.
         let a = if p.y > ball.y && d.x > 0.0 { 0.0 } else { a };
         m.aim.elevation = (a.clamp(0.0, max)) as f64;

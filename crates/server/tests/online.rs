@@ -968,6 +968,71 @@ async fn a_replaced_session_leaves_no_table_or_queue_behind() {
     bob.expect("error", |m| matches!(m, ServerMsg::Error { .. })).await;
 }
 
+/// An account is live in one place at a time: signing in again (by
+/// password or by a saved session, on another device or in another window)
+/// closes the connection that was there, which can do nothing more.
+#[tokio::test]
+async fn an_account_is_used_in_one_place_at_a_time() {
+    let url = start(Rules::default()).await;
+    let (mut first, token) = Client::register(&url, "alice").await;
+    let (mut bob, _) = Client::register(&url, "bob").await;
+    for by_password in [true, false] {
+        let mut second = Client::connect(&url).await;
+        if by_password {
+            second
+                .send(ClientMsg::Login { username: "alice".into(), password: PASSWORD.into() })
+                .await;
+        } else {
+            second.send(ClientMsg::Resume { token: token.clone() }).await;
+        }
+        second.expect("auth", |m| matches!(m, ServerMsg::AuthOk { .. })).await;
+        // The lounge the new connection is shown has alice once.
+        let ServerMsg::Lounge { players } =
+            second.expect("lounge", |m| matches!(m, ServerMsg::Lounge { .. })).await
+        else {
+            unreachable!()
+        };
+        assert_eq!(players.iter().filter(|p| p.username == "alice").count(), 1);
+        // The connection that was there is told and closed by the server.
+        first.expect("kicked", |m| matches!(m, ServerMsg::Kicked { .. })).await;
+        let mut closed = false;
+        for _ in 0..50 {
+            match tokio::time::timeout(Duration::from_secs(5), first.ws.next()).await {
+                Ok(None) | Ok(Some(Err(_))) | Ok(Some(Ok(Message::Close(_)))) => {
+                    closed = true;
+                    break;
+                }
+                Ok(Some(Ok(_))) => {}
+                Err(_) => break,
+            }
+        }
+        assert!(closed, "the replaced connection is closed");
+        // Whatever it still sends reaches nobody.
+        let _ = first
+            .ws
+            .send(Message::Text(
+                ClientMsg::Chat { text: "from the old place".into() }.to_json().into(),
+            ))
+            .await;
+        second.send(ClientMsg::Chat { text: "from the new place".into() }).await;
+        let ServerMsg::Chat { line } =
+            bob.expect("chat", |m| matches!(m, ServerMsg::Chat { .. })).await
+        else {
+            unreachable!()
+        };
+        assert_eq!(line.text, "from the new place");
+        first = second;
+        // Chat is rate limited and repeated lines are refused: a pause.
+        tokio::time::sleep(Duration::from_millis(1200)).await;
+        first.send(ClientMsg::Chat { text: format!("still here {by_password}") }).await;
+        bob.expect(
+            "chat",
+            |m| matches!(m, ServerMsg::Chat { line } if line.text.starts_with("still here")),
+        )
+        .await;
+    }
+}
+
 /// Lounge actions that everyone hears about can't be used to flood the lounge.
 #[tokio::test]
 async fn lounge_actions_are_rate_limited() {

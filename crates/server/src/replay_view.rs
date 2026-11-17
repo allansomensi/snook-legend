@@ -122,6 +122,7 @@ pub fn view(replay: &Replay) -> Value {
                     "first": report.first_contact.map(|b| b.0),
                     "pocketed": pocketed,
                     "fouls": report.fouls.iter().map(foul_text).collect::<Vec<_>>(),
+                    "penalty": report.penalty.iter().map(|b| b.0).collect::<Vec<_>>(),
                     "continues": report.continues,
                     "power": (shot.speed / top_speed * 100.0).round(),
                     "start": spots_json(&start),

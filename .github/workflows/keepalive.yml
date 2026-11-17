@@ -9,6 +9,9 @@ on:
     - cron: "*/10 * * * *"
   workflow_dispatch:
 
+# A plain HTTP call: the token is given nothing.
+permissions: {}
+
 jobs:
   ping:
     if: vars.SNOOK_LEGEND_HEALTH_URL != ''

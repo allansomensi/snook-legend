@@ -1698,3 +1698,45 @@ Profile picture	Foto de perfil
 Shown by your name at the table and in your profile.	Aparece junto a tu nombre en la mesa y en tu perfil.
 No picture	Sin foto
 Change your picture	Cambiar tu foto
+{name} sank the 8 together with another ball	{name} metió la 8 junto con otra bola
+the opponent sank the 8 with another ball	el rival metió la 8 junto con otra bola
+sank the 8 with another ball	metió la 8 junto con otra bola
+opponent pocketed the 8-ball together with another ball	el rival metió la bola 8 junto con otra bola
+Penalty: {balls} off the table for {name}.	Penalización: {balls} sale de la mesa a favor de {name}.
+Shadows	Sombras
+The shadows of the balls and of the cue on the table.	Las sombras de las bolas y del taco en la mesa.
+Sixteen players: knockout or arena	Dieciséis jugadores: eliminatoria o arena
+New knockout	Nueva eliminatoria
+New arena	Nueva arena
+Knockout: sixteen players, four rounds. Lose a game and you are out.	Eliminatoria: dieciséis jugadores, cuatro rondas. Si pierdes una partida, quedas fuera.
+Arena: five rounds for everyone. A win is 2 points, 3 from the third win in a row. The most points wins.	Arena: cinco rondas para todos. La victoria vale 2 puntos, y 3 a partir de la tercera seguida. Gana quien sume más puntos.
+The games between the other players are decided by their strength and a draw.	Las partidas entre los demás jugadores se deciden por la fuerza de cada uno y por sorteo.
+You won the tournament!	¡Ganaste el torneo!
+{name} won the tournament.	{name} ganó el torneo.
+You finished in place {n}.	Terminaste en el puesto {n}.
+Round of 16	Octavos de final
+Quarter-finals	Cuartos de final
+Round {n} of {total}	Ronda {n} de {total}
+Play {name}	Jugar contra {name}
+Abandon the tournament	Abandonar el torneo
+W - L	V - D
+Points	Puntos
+The tournament is over.	El torneo terminó.
+The round is over: see who you play next.	La ronda terminó: mira contra quién juegas ahora.
+You are out of the tournament.	Quedaste fuera del torneo.
+Side pocket	Tronera central
+A cut into the side pocket, where the angle is tight. Five tries.	Un corte a la tronera central, donde el ángulo es estrecho. Cinco intentos.
+The long cut	Corte largo
+A cut from the far end of the table into the corner. Five tries.	Un corte desde el otro extremo de la mesa a la tronera de la esquina. Cinco intentos.
+Thin cut	Corte fino
+Barely graze the ball: a thin cut into the corner. Five tries.	Apenas roza la bola: un corte fino a la tronera de la esquina. Cinco intentos.
+Along the cushion	Pegada a la banda
+The ball sits by the cushion: run it along into the corner. Five tries.	La bola está junto a la banda: llévala pegada hasta la tronera de la esquina. Cinco intentos.
+Stop shot	Bola parada
+Pot the ball and stop the cue ball dead where the ball was. Five tries.	Mete la bola y deja la blanca parada donde estaba la bola. Cinco intentos.
+The combination	Combinación
+Pot the 1 by playing the 2 into it. Five tries.	Mete la 1 jugando la 2 contra ella. Cinco intentos.
+Cross-corner bank	Banda cruzada
+Off the long cushion and across the table into the corner. Five tries.	A la banda larga y cruzando la mesa hasta la tronera de la esquina. Cinco intentos.
+Kick shot	Tiro a banda
+The 1 is walled off: send the cue ball off a cushion to hit it first. Five tries.	La 1 está tapada: manda la blanca a una banda para tocarla primero. Cinco intentos.

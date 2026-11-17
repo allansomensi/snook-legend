@@ -241,6 +241,7 @@ pub fn result_line(r: GameOverReason, winner: &str, loser: &str) -> String {
         EightInWrongPocket => ("{name} sank the 8 in the wrong pocket", loser),
         EightPocketedOnFoul => ("{name} fouled on the 8", loser),
         EightOffTable => ("{name} knocked the 8 off the table", loser),
+        EightWithAnotherBall => ("{name} sank the 8 together with another ball", loser),
         Resignation => ("{name} resigned", loser),
         Abandoned => ("{name} left the game", loser),
     };
@@ -261,6 +262,8 @@ pub fn history_reason(r: GameOverReason, won: bool) -> &'static str {
         (EightPocketedOnFoul, false) => "fouled on the 8",
         (EightOffTable, true) => "the opponent knocked the 8 off the table",
         (EightOffTable, false) => "knocked the 8 off the table",
+        (EightWithAnotherBall, true) => "the opponent sank the 8 with another ball",
+        (EightWithAnotherBall, false) => "sank the 8 with another ball",
         (Resignation, true) => "the opponent resigned",
         (Resignation, false) => "resigned",
         (Abandoned, true) => "the opponent left",

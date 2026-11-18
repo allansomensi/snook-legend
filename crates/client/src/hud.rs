@@ -287,6 +287,8 @@ impl Hud {
                 // The dialog has Esc.
             } else if is_key_pressed(KeyCode::Escape) && self.reactions_open {
                 self.reactions_open = false;
+            } else if is_key_pressed(KeyCode::Escape) && self.quick_open {
+                self.quick_open = false;
             } else if is_key_pressed(KeyCode::Escape) && !escape_used {
                 self.paused = !self.paused;
                 self.confirm_leave = false;
@@ -315,7 +317,9 @@ impl Hud {
         // Top bar: menu and camera on the left, the players in the middle.
         draw_bar(Rect::new(0.0, 0.0, sw, TOP_BAR), true);
         // The score panel centred, but never under the buttons on the left.
-        let buttons_w = ui.text_size(t("Menu"), 13.0, true).x + 22.0 + 2.0 * 36.0 + 30.0;
+        // (Three icons offline and in daily games: the history's too.)
+        let icons = if !m.is_online() || crate::correspondence::is_corr(m) { 3.0 } else { 2.0 };
+        let buttons_w = ui.text_size(t("Menu"), 13.0, true).x + 22.0 + icons * 36.0 + 30.0;
         let board = crate::scoreboard::Board::layout(sw, buttons_w, 4.0);
         let now = get_time();
         self.made.update(m, now);
@@ -365,15 +369,17 @@ impl Hud {
         // Only important messages float on the table; everything is in the log.
         for n in m.notices.iter().filter(|n| n.important) {
             let alpha = n.ttl.min(1.0);
-            let base = if n.important { ALERT } else { CREAM };
+            let base = if n.cheer { GOLD } else { ALERT };
             let color = Color::new(base.r, base.g, base.b, alpha);
-            let w = ui.text_size(&n.text, 15.0, false).x + 20.0;
+            // Never wider than the window (smaller type, then cut short).
+            let (text, size) = ui.fitted(&n.text, 15.0, sw - 44.0, n.cheer);
+            let w = ui.text_size(&text, size, n.cheer).x + 20.0;
             crate::ui::rrect(
                 Rect::new((sw - w) / 2.0, y, w, 22.0),
                 11.0,
                 Color::new(0.0, 0.0, 0.0, 0.45 * alpha),
             );
-            ui.text_centered(&n.text, sw / 2.0, y + 3.0, 15.0, color, false);
+            ui.text_centered(&text, sw / 2.0, y + 3.0, size, color, n.cheer);
             y += 25.0;
         }
 
@@ -1888,8 +1894,14 @@ impl Hud {
         let slide = (1.0 - (t / 0.25).min(1.0)).powi(2) * 30.0;
         let sw = crate::ui::vw();
         let y = crate::ui::vh() * 0.21 + slide;
-        let size = 40.0;
-        let w = ui.text_size(title, size, true).x.max(ui.text_size(subtitle, 17.0, false).x) + 80.0;
+        // Never wider than the window: long names and translations get
+        // smaller type, then are cut short.
+        let room = (sw - 24.0 - 80.0).max(120.0);
+        let (title, size) = ui.fitted(title, 40.0, room, true);
+        let (subtitle, sub_size) = ui.fitted(subtitle, 17.0, room, false);
+        let (title, subtitle) = (&title, &subtitle);
+        let w =
+            ui.text_size(title, size, true).x.max(ui.text_size(subtitle, sub_size, false).x) + 80.0;
         let r = Rect::new((sw - w) / 2.0, y - 14.0, w, 92.0);
         crate::ui::rrect(r, 14.0, Color::new(0.0, 0.0, 0.0, 0.55 * alpha));
         let gold = Color::new(GOLD.r, GOLD.g, GOLD.b, alpha);
@@ -1914,7 +1926,7 @@ impl Hud {
             subtitle,
             sw / 2.0,
             y + 56.0,
-            17.0,
+            sub_size,
             Color::new(CREAM.r, CREAM.g, CREAM.b, alpha),
             false,
         );

@@ -94,6 +94,9 @@ pub struct Notice {
     pub text: String,
     pub important: bool,
     pub ttl: f32,
+    /// Good news (balls in a row): floats on the table in gold, not in the
+    /// colour of fouls.
+    pub cheer: bool,
 }
 
 pub use snook_legend_core::stats::ShotStats;
@@ -1023,6 +1026,15 @@ impl Match {
         announce_into(&mut self.notices, &mut self.log, self.online.as_mut(), text, important, ttl);
     }
 
+    /// Good news, shown on the table in gold (and in the log as an event).
+    fn good_news(&mut self, text: String, ttl: f32) {
+        self.announce(text, false, ttl);
+        if let Some(n) = self.notices.last_mut() {
+            n.important = true;
+            n.cheer = true;
+        }
+    }
+
     /// The shot clock for the current turn: (seconds left, seconds per shot).
     pub fn shot_clock(&self) -> Option<(f32, f32)> {
         if let Some(o) = &self.online {
@@ -1595,13 +1607,9 @@ impl Match {
         let after = self.visit_run.1;
         let name = self.names[shooter].clone();
         if won && after >= 8 {
-            self.announce(
-                tw("{name} cleared the table in one visit!", &[("name", &name)]),
-                true,
-                5.0,
-            );
+            self.good_news(tw("{name} cleared the table in one visit!", &[("name", &name)]), 5.0);
         } else if let Some(n) = [7, 5, 3].into_iter().find(|n| before < *n && after >= *n) {
-            self.announce(tw("{name}: {n} in a row!", &[("name", &name), ("n", &n)]), true, 3.0);
+            self.good_news(tw("{name}: {n} in a row!", &[("name", &name), ("n", &n)]), 3.0);
         }
     }
 
@@ -1941,7 +1949,7 @@ fn announce_into(
     if let Some(o) = online {
         o.push_feed(FeedLine::event(&text, important));
     }
-    notices.push(Notice { text, important, ttl });
+    notices.push(Notice { text, important, ttl, cheer: false });
     if notices.len() > 5 {
         notices.remove(0);
     }

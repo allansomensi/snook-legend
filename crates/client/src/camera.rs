@@ -471,7 +471,8 @@ impl CameraRig {
             let (yaw1, pitch1, d1) = polar(to);
             let turn = (yaw1 - yaw0 + std::f32::consts::PI).rem_euclid(std::f32::consts::TAU)
                 - std::f32::consts::PI;
-            let (yaw, pitch, d) = (yaw0 + turn * k, pitch0 + (pitch1 - pitch0) * k, d0 + (d1 - d0) * k);
+            let (yaw, pitch, d) =
+                (yaw0 + turn * k, pitch0 + (pitch1 - pitch0) * k, d0 + (d1 - d0) * k);
             let eye = next_target
                 + vec3(yaw.cos() * pitch.cos(), pitch.sin(), yaw.sin() * pitch.cos()) * d;
             Self::above_the_table(eye)

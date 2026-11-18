@@ -140,6 +140,16 @@ pub fn date(at: i64) -> String {
     }
 }
 
+/// The medal's metal, in words (its colour alone says it only to some).
+pub fn medal_tier(level: u8) -> &'static str {
+    t(match level {
+        0 => "Bronze",
+        1 => "Silver",
+        2 => "Gold",
+        _ => "Diamond",
+    })
+}
+
 pub fn medal_color(level: u8) -> Color {
     match level {
         0 => Color::new(0.80, 0.55, 0.33, 1.0),
@@ -857,7 +867,8 @@ impl ProfileScreen {
                 color,
             );
             if ui.hovering(c) {
-                ui.tooltip(&format!("{}: {}", t(a.title), t(a.description)), c);
+                let tip = format!("{} ({}): {}", t(a.title), medal_tier(a.level), t(a.description));
+                ui.tooltip(&tip, c);
             }
         }
         ui.block(row);
@@ -952,6 +963,7 @@ impl ProfileScreen {
             let when = at
                 .map(|at| tw("Unlocked {date}", &[("date", &date(at))]))
                 .unwrap_or_else(|| t("Locked").to_string());
+            let when = format!("{} · {when}", medal_tier(level));
             // On top of the whole screen: the history next to it must not cover it.
             ui.overlay(move |ui| {
                 let w = ui

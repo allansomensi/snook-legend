@@ -1276,7 +1276,8 @@ impl Ui {
             CREAM
         };
         crate::icons::draw(icon, vec2(r.x + r.w / 2.0, r.y + r.h / 2.0), r.h * 0.52, color);
-        if hover && !tip.is_empty() {
+        // Also when it can't be used now: what it is, all the same.
+        if r.contains(self.mouse) && !tip.is_empty() {
             self.tooltip(tip, r);
         }
         enabled && hover && self.released_in(r)

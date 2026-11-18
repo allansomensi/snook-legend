@@ -223,6 +223,16 @@ impl Pocket {
             || p.distance(self.hole_center) < self.hole_radius + 0.03
     }
 
+    /// True if `p` is past the mouth line and between its ends, straight
+    /// back: over the opening of the pocket, not over the rail beside it
+    /// (the facings narrow the throat on the tables from ruleset 3, so it
+    /// lies within). [`Self::in_throat`] widens with depth, for a ball
+    /// that has rolled past the jaws.
+    pub fn in_mouth(&self, p: DVec2) -> bool {
+        let rel = p - self.mouth_center;
+        rel.dot(self.outward) > -1e-9 && rel.dot(self.outward.perp()).abs() < self.half_mouth
+    }
+
     /// The point a shooter should aim the object ball at (the middle of the
     /// throat, a little past the mouth).
     pub fn aim_point(&self) -> DVec2 {
@@ -369,6 +379,32 @@ impl Table {
     pub fn is_inside_playing_area(&self, p: DVec2) -> bool {
         let r = self.spec.ball_radius;
         p.x.abs() <= self.spec.length / 2.0 - r && p.y.abs() <= self.spec.width / 2.0 - r
+    }
+
+    /// How far from a cushion's nose the centre of a ball resting against
+    /// it lies: a little less than a radius, the nose being above the
+    /// centre.
+    pub fn cushion_contact(&self) -> f64 {
+        let r = self.spec.ball_radius;
+        let dh = self.spec.cushion_height - r;
+        (r * r - dh * dh).max(0.0).sqrt()
+    }
+
+    /// True if a ball may be put down with its centre at `p` (the cue ball
+    /// in hand, from ruleset 5): on the bed of the table, against a cushion
+    /// at most, and never past the line across a pocket's mouth.
+    /// [`Self::is_inside_playing_area`] keeps a ball a whole radius from the
+    /// cushion lines, which leaves a gap of a millimetre at a cushion and,
+    /// in the corners, lets the ball's centre past the pocket's mouth. (A
+    /// ball can still come to rest elsewhere, in a pocket's jaws.)
+    pub fn can_place_ball(&self, p: DVec2) -> bool {
+        // A nanometre of slack: a ball the physics leaves against a cushion
+        // is that far from it, give or take the last bit of a coordinate.
+        let c = self.cushion_contact() - 1e-9;
+        p.x.abs() <= self.spec.length / 2.0 - c
+            && p.y.abs() <= self.spec.width / 2.0 - c
+            && self.pockets.iter().all(|k| (p - k.mouth_center).dot(k.outward) <= 0.0)
+            && self.cushions.iter().all(|s| s.closest_point(p).distance(p) >= c)
     }
 
     /// True if `p` is beyond the outer edge of the wooden rails.

@@ -78,6 +78,13 @@ pub struct PhysicsParams {
     /// Zero: [`Self::max_cue_speed`] on every stroke.
     #[serde(default)]
     pub max_stroke_speed: f64,
+    /// A ball that comes down from the air beyond the cushions stays on
+    /// the rail it lands on (off the table) unless it comes down within a
+    /// pocket's mouth. False (rulesets up to 4): what saves a ball that has
+    /// rolled past the jaws saved it too, so one landing on the rail beside
+    /// a pocket counted as made in it, or stayed in play on the rail.
+    #[serde(default)]
+    pub jumps_land_on_rails: bool,
 }
 
 impl Default for PhysicsParams {
@@ -97,7 +104,10 @@ impl PhysicsParams {
             // the cushions give back a little more.
             2 => PhysicsParams { rolling_friction: 0.011, cushion_restitution: 0.77, ..measured },
             3 => Self::tournament(),
-            _ => Self::house(),
+            4 => Self::house(),
+            // Ruleset 5: the same balls and cloth, and a ball that jumps
+            // onto a rail stays there.
+            _ => PhysicsParams { jumps_land_on_rails: true, ..Self::house() },
         }
     }
 
@@ -202,6 +212,7 @@ impl PhysicsParams {
             ball_friction_low: 0.0,
             ball_friction_decay: 0.0,
             max_stroke_speed: 0.0,
+            jumps_land_on_rails: false,
         }
     }
 }
@@ -751,13 +762,22 @@ impl Simulation {
         }
         let outside = xy.x.abs() > spec.length / 2.0 + r || xy.y.abs() > spec.width / 2.0 + r;
         let landed = b.position.z <= r + spec.cushion_height;
-        let in_throat = low_enough && self.table.pockets.iter().any(|p| p.in_throat(xy));
+        // A ball rolling on the slate gets past the cushions only through a
+        // pocket's jaws; one in the air may come down anywhere, the rail
+        // beside a pocket included (see `jumps_land_on_rails`).
+        let flying = self.params.jumps_land_on_rails && b.position.z > r + AIRBORNE_EPS;
+        let in_throat = low_enough
+            && self
+                .table
+                .pockets
+                .iter()
+                .any(|p| if flying { p.in_mouth(xy) } else { p.in_throat(xy) });
         if in_throat && !self.table.is_off_table(xy) {
             // On a pocket shelf or between the facings: still in play.
             return;
         }
         if self.table.is_off_table(xy) || (outside && landed && b.velocity.z <= 0.0) {
-            if low_enough {
+            if low_enough && !flying {
                 // Squeezed somewhere around a pocket: it ends up in the pocket.
                 let nearest = self
                     .table
@@ -1281,6 +1301,42 @@ mod tests {
         let b = &sim.balls[0];
         assert!(matches!(b.status, BallStatus::Pocketed(_)));
         assert!(b.velocity.truncate().dot(dir) > 0.5 && !b.is_moving());
+    }
+
+    /// A ball in the air that comes down on the rail beside a pocket. Up to
+    /// ruleset 4 it counted as made in the pocket (within reach of the
+    /// hole), or fell through the rail over a jaw, still in play; from
+    /// ruleset 5 it is off the table. One that comes down within the mouth
+    /// drops under either.
+    #[test]
+    fn a_ball_that_jumps_onto_the_rail_beside_a_pocket_is_off_the_table() {
+        let table = Table::new(TableSpec::of_ruleset(5));
+        let r = table.spec.ball_radius;
+        let side = *table.pocket(PocketId::SideLeft);
+        let land = |ruleset: u8, lateral: f64, depth: f64| {
+            let at = side.mouth_center + side.outward.perp() * lateral + side.outward * depth;
+            let mut ball = Ball::at_rest(BallId::EIGHT, at, r);
+            ball.position.z = r + table.spec.cushion_height + 0.02;
+            ball.velocity = DVec3::new(0.0, 0.0, -0.3);
+            ball.motion = Motion::Airborne;
+            let params = PhysicsParams::of_ruleset(ruleset);
+            let mut sim = Simulation::new(table.clone(), params, vec![ball]);
+            sim.run_to_rest();
+            sim.balls[0].status
+        };
+        let beside = side.half_mouth + 0.03;
+        assert_eq!(land(4, beside, 0.035), BallStatus::Pocketed(PocketId::SideLeft));
+        assert_eq!(land(5, beside, 0.035), BallStatus::OffTable);
+        let over_the_jaw = side.half_mouth + 0.017;
+        assert_ne!(land(4, over_the_jaw, 0.035), BallStatus::OffTable);
+        assert_eq!(land(5, over_the_jaw, 0.035), BallStatus::OffTable);
+        for ruleset in [4, 5] {
+            assert_eq!(land(ruleset, 0.0, 0.035), BallStatus::Pocketed(PocketId::SideLeft));
+        }
+        // Only a ball in the air: the physics of the balls on the cloth is
+        // ruleset 4's.
+        let (four, five) = (PhysicsParams::of_ruleset(4), PhysicsParams::of_ruleset(5));
+        assert_eq!(PhysicsParams { jumps_land_on_rails: false, ..five }, four);
     }
 
     #[test]

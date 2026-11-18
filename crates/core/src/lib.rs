@@ -25,11 +25,26 @@
 ///   the 8 alone on the break wins: see [`EightBallGame::finish_shot`]) on
 ///   the same table, with heavier-feeling balls: a slower cloth, a rack
 ///   that soaks up more of the break and a break that is not struck as hard.
+/// - 5: not the default yet (see [`NEWEST_RULESET`]). Ruleset 4 with what
+///   it got wrong put right. The cue ball in hand may be placed against a
+///   cushion, never past a pocket's mouth; a table still open when no ball
+///   of either group is left puts both players on the 8; a shot clock that
+///   runs out leaves the cue ball in hand as it was; a tip too far out to
+///   measure is struck at the edge of the ball; a ball that jumps onto the
+///   rail beside a pocket is off the table, not made.
 pub const RULESET: u8 = 4;
 
-/// A ruleset this version knows (unknown ones play as the newest).
+/// The newest ruleset this version can play. It is ahead of [`RULESET`]
+/// while a ruleset is being prepared: a game is played under it only when
+/// it is asked for by number ([`EightBallGame::with_ruleset`], or a
+/// snapshot or a replay that names it), and nothing asks for it yet.
+/// Making it the default means raising [`RULESET`] to it, with a new
+/// protocol version (an older game would play its shots differently).
+pub const NEWEST_RULESET: u8 = 5;
+
+/// A ruleset this version knows (unknown ones play as the newest it knows).
 pub fn known_ruleset(ruleset: u8) -> u8 {
-    ruleset.clamp(1, RULESET)
+    ruleset.clamp(1, NEWEST_RULESET)
 }
 
 pub mod ball;

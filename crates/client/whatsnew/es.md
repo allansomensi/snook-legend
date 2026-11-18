@@ -11,6 +11,9 @@ Nueva regla de la casa: si en el saque entran bolas de los dos grupos (la 3 y la
 ### Cada bola cuenta
 Las bolas que metes seguidas aparecen junto a tu foto con una llamita, y tres, cinco y siete seguidas se celebran (y una mesa limpia de una sola vez también). Los últimos segundos del reloj hacen tictac, una campanita avisa cuando el turno vuelve a ti en línea, y el rating sube contando al final de la partida.
 
+### Eventos
+De vez en cuando el equipo organiza eventos: un fin de semana de experiencia doble (o triple), monedas de las partidas que valen el doble, o un torneo especial que organiza el servidor, a veces con un premio de la casa además de las inscripciones. El menú principal y el salón muestran lo que hay ahora y lo que viene.
+
 ### A por el siguiente
 Tras ganar en el circuito, "Siguiente" te lleva directo al próximo rival; tras un ejercicio, "Reintentar". El tiro decisivo se puede volver a ver desde el panel final, y la primera partida señala dónde apuntar, ajustar la fuerza y tirar.
 

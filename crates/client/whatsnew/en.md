@@ -11,6 +11,9 @@ A new house rule: if the break makes balls of both groups (the 3 and the 14, say
 ### Every ball counts
 The balls you make in a row show by your picture with a little flame, and three, five and seven in a row are cheered (and a table cleared in one visit). The clock's last seconds tick, a chime says when your turn comes back online, and the rating counts up at the end of a game.
 
+### Events
+Now and then the staff run events: a weekend of double (or triple) experience, coins from games counting double, or a themed tournament the server organises, sometimes with a prize from the house on top of the entry fees. The main menu and the lounge show what is on and what is coming.
+
 ### On to the next one
 After a win on the tour, "Next" takes you straight to the next opponent; after a drill, "Try again". The deciding shot can be watched again from the end panel, and a first game points out where to aim, set the power and shoot.
 

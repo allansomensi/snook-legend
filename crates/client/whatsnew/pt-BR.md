@@ -11,6 +11,9 @@ Nova regra da casa: se na saída caírem bolas dos dois grupos (a 3 e a 14, por 
 ### Cada bola conta
 As bolas que você mata em sequência aparecem junto da sua foto com uma chaminha, e três, cinco e sete seguidas são comemoradas (e a mesa limpa numa só vez também). Os últimos segundos do relógio fazem tique-taque, um sininho avisa quando a vez volta para você online, e o rating sobe contando no fim da partida.
 
+### Eventos
+De tempos em tempos a equipe promove eventos: um fim de semana de experiência em dobro (ou em triplo), moedas das partidas valendo dobrado, ou um torneio especial organizado pelo servidor, às vezes com um prêmio da casa além das inscrições. O menu principal e o salão mostram o que está rolando e o que vem por aí.
+
 ### Rumo ao próximo
 Depois de vencer no Circuito, "Próximo" leva direto ao próximo adversário; depois de um treino, "Tentar de novo". Dá para rever a tacada decisiva no painel do fim da partida, e a primeira partida mostra onde mirar, ajustar a força e tacar.
 

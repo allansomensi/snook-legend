@@ -51,7 +51,8 @@ Em português, inglês e espanhol.
 
 ### Novidades desta versão
 
-Versão 0.7.0: um tipo só na saída, prêmios justos e luz mais suave.
+Versão 0.7.0: eventos, um tipo só na saída, prêmios justos e luz mais suave.
+• Eventos: fins de semana de experiência ou moedas em dobro e torneios especiais com prêmio da casa.
 • Nova regra da casa: se na saída caírem bolas dos dois grupos, passa a vez e a mesa continua aberta.
 • Alguns casos raros das regras foram acertados, e o computador joga um pouco melhor.
 • A final do Circuito e os treinos que valem ranking são preparados pelo servidor: os prêmios valem igual para todos.
@@ -127,7 +128,8 @@ In English, Portuguese and Spanish.
 
 ### What's new in this version
 
-Version 0.7.0: one kind on the break, fair rewards and softer light.
+Version 0.7.0: events, one kind on the break, fair rewards and softer light.
+• Events: weekends of double experience or coins, and themed tournaments with a prize from the house.
 • A new house rule: a break that makes balls of both groups passes the turn, and the table stays open.
 • A few rare cases of the rules put right, and a slightly stronger computer.
 • The tour's final and the ranked drills are set up by the server: their rewards are earned the same way by everyone.
@@ -203,7 +205,8 @@ En español, inglés y portugués.
 
 ### Novedades de esta versión
 
-Versión 0.7.0: un solo tipo en el saque, premios justos y luz más suave.
+Versión 0.7.0: eventos, un solo tipo en el saque, premios justos y luz más suave.
+• Eventos: fines de semana de experiencia o monedas dobles, y torneos especiales con premio de la casa.
 • Nueva regla de la casa: si en el saque entran bolas de los dos grupos, el turno pasa y la mesa sigue abierta.
 • Algunos casos raros de las reglas quedaron bien resueltos, y la computadora juega un poco mejor.
 • La final del circuito y los ejercicios con clasificación los prepara el servidor: los premios se ganan igual para todos.

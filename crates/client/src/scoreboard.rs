@@ -10,7 +10,7 @@ use snook_legend_core::{BallId, BallKind, Group};
 use crate::game::{Match, Phase};
 use crate::i18n::{t, tw};
 use crate::icons::Icon;
-use crate::paint::{draw_circle, fade};
+use crate::paint::{draw_circle, draw_triangle, fade};
 use crate::textures::ball_color;
 use crate::ui::{BORDER, CREAM, GOLD, MUTED, Ui, rrect, rrect_gradient, rrect_lines};
 
@@ -166,6 +166,18 @@ fn avatar(ui: &mut Ui, m: &Match, seat: usize, r: Rect, active: bool) {
     if let Some(o) = &m.online {
         crate::flags::draw(&o.countries[seat], r.x + 4.0, r.y + 4.0, 10.0);
     }
+    // Balls made in a row this visit (from two): a little flame and the
+    // count, by the picture, breathing while the run lasts.
+    if m.visit_run.0 == seat && m.visit_run.1 >= 2 && active {
+        let n = m.visit_run.1.to_string();
+        let tw_ = ui.text_size(&n, 11.0, true).x;
+        let pulse = 0.5 + 0.5 * (get_time() as f32 * 5.0).sin();
+        let b = Rect::new(r.x + 2.0, face.y + 2.0, tw_ + 19.0, 15.0);
+        rrect(b, 7.5, Color::new(0.45 + 0.1 * pulse, 0.16, 0.04, 0.92));
+        rrect_lines(b, 7.5, 1.0, Color::new(1.0, 0.62, 0.22, 0.9));
+        flame(vec2(b.x + 7.5, b.y + 9.0), 4.6, pulse);
+        ui.text(&n, b.x + 14.0, b.y + 1.5, 11.0, Color::new(1.0, 0.92, 0.75, 1.0), true);
+    }
     // Games won, in a corner badge (from the second game on).
     if m.games_played > 0 || m.wins[seat] > 0 {
         let n = m.wins[seat].to_string();
@@ -283,10 +295,18 @@ fn rail(ui: &mut Ui, m: &Match, made: &Made, seat: usize, r: Rect, active: bool,
         && m.replay.is_none()
     {
         let frac = (left / total.max(1.0)).clamp(0.0, 1.0);
-        let color = if left < 10.0 { crate::ui::ALERT } else { GOLD };
+        // The last ten seconds in red on a thicker bar, the last five
+        // beating with the clock's ticks.
+        let urgent = left < 10.0;
+        let mut color = if urgent { crate::ui::ALERT } else { GOLD };
+        if left < 5.0 {
+            let beat = (left.fract() * std::f32::consts::PI).sin().abs();
+            color.a *= 0.55 + 0.45 * beat;
+        }
+        let thick = if urgent { 3.0 } else { 2.0 };
         let bar_w = (r.w - r.h) * frac;
         let bx = if from_left { r.x + r.h / 2.0 } else { r.x + r.w - r.h / 2.0 - bar_w };
-        rrect(Rect::new(bx, r.y + r.h - 3.0, bar_w, 2.0), 1.0, color);
+        rrect(Rect::new(bx, r.y + r.h - thick - 1.0, bar_w, thick), thick / 2.0, color);
         far(ui, &format!("{:.0}s", left.ceil()), color);
     } else if let Some((left, color)) = crate::correspondence::card_clock(m, seat) {
         far(ui, &left, color);
@@ -488,4 +508,27 @@ mod tests {
             assert!(b.avatars[1].x >= b.rails[0].x + b.rails[0].w);
         }
     }
+}
+
+/// A small flame standing on `base` (its round bottom's centre), `size`
+/// high-ish, flickering with `flicker` (0 to 1).
+fn flame(base: Vec2, size: f32, flicker: f32) {
+    let tip = vec2(base.x + (flicker - 0.5) * size * 0.25, base.y - size * (1.55 + 0.15 * flicker));
+    let outer = Color::new(1.0, 0.45, 0.08, 1.0);
+    let inner = Color::new(1.0, 0.86, 0.35, 1.0);
+    draw_circle(base.x, base.y, size * 0.62, outer);
+    draw_triangle(
+        vec2(base.x - size * 0.6, base.y - size * 0.1),
+        vec2(base.x + size * 0.6, base.y - size * 0.1),
+        tip,
+        outer,
+    );
+    let inner_tip = vec2(base.x + (flicker - 0.5) * size * 0.15, base.y - size * 0.85);
+    draw_circle(base.x, base.y + size * 0.1, size * 0.32, inner);
+    draw_triangle(
+        vec2(base.x - size * 0.3, base.y + size * 0.05),
+        vec2(base.x + size * 0.3, base.y + size * 0.05),
+        inner_tip,
+        inner,
+    );
 }

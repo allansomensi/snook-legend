@@ -663,6 +663,26 @@ pub fn overlay(m: &Match, scene: &Scene, time: f32) -> Overlay {
             color: Color::new(1.0, 1.0, 1.0, alpha),
         });
     }
+    // A ball that just dropped: a ring of light opens round its pocket and
+    // fades (gold for the 8, red for the cue ball).
+    for &(pocket, ball, age) in &m.pot_flashes {
+        let k = (age / crate::game::POT_FLASH_TIME).clamp(0.0, 1.0);
+        let open = 1.0 - (1.0 - k).powi(3);
+        let fade = (1.0 - k).powf(1.4);
+        let (r_, g_, b_) = if ball == BallId::CUE {
+            (1.0, 0.42, 0.34)
+        } else if ball == BallId::EIGHT {
+            (1.0, 0.84, 0.36)
+        } else {
+            (1.0, 0.93, 0.78)
+        };
+        out.guides.push(Guide::Ring {
+            center: surface(scene.pocket_center(pocket), POCKET_RING_HEIGHT),
+            radius: scene.pocket_radius(pocket) + 0.006 + 0.055 * open,
+            width: 0.002 + 0.007 * (1.0 - k),
+            color: Color::new(r_, g_, b_, 0.85 * fade),
+        });
+    }
     if m.replay.is_some() {
         return out;
     }

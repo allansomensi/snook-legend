@@ -15,6 +15,9 @@ use crate::ui::{ADMIN_RED, ALERT, BORDER, CREAM, FeedKind, FeedLine, GOLD, MUTED
 use snook_legend_proto::Relation;
 
 pub struct Hud {
+    /// The game whose rating change is being counted up on the end panel,
+    /// and since when.
+    result_shown: Option<((u64, u32), f64)>,
     /// The pause menu is open (online, the game keeps running behind it).
     pub paused: bool,
     /// The balls made, in order, for the score panel.
@@ -89,6 +92,7 @@ pub enum HudAction {
 impl Default for Hud {
     fn default() -> Self {
         Hud {
+            result_shown: None,
             // Development aid (screenshots): SNOOK_LEGEND_PAUSED opens the
             // pause menu.
             paused: crate::dev::flag("SNOOK_LEGEND_PAUSED"),
@@ -613,10 +617,25 @@ impl Hud {
             ui.text_centered(&score, sw / 2.0, r.y + 82.0, 15.0, CREAM, true);
             match &o.result {
                 Some(res) if res.rated => {
-                    let d = res.rating_delta[me];
+                    // The rating counts from where it was to where it is,
+                    // quickly at first and settling (once per game).
+                    let key = (m.match_id(), m.games_played);
+                    let now = get_time();
+                    let since = match self.result_shown {
+                        Some((k, at)) if k == key => at,
+                        _ => {
+                            self.result_shown = Some((key, now));
+                            now
+                        }
+                    };
+                    let k = ((now - since) / 1.1).clamp(0.0, 1.0) as f32;
+                    let eased = 1.0 - (1.0 - k).powi(3);
+                    let full = res.rating_delta[me];
+                    let d = (full as f32 * eased).round() as i32;
+                    let shown = res.new_ratings[me] - full + d;
                     let delta = format!("{}{}", if d >= 0 { "+" } else { "" }, d);
-                    let text =
-                        tw("Rating {r} ({d})", &[("r", &res.new_ratings[me]), ("d", &delta)]);
+                    let text = tw("Rating {r} ({d})", &[("r", &shown), ("d", &delta)]);
+                    let d = full;
                     let color = if d >= 0 { Color::new(0.45, 1.0, 0.55, 1.0) } else { ALERT };
                     ui.text_centered(&text, sw / 2.0, r.y + 108.0, 18.0, color, true);
                 }

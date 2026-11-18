@@ -1767,3 +1767,5 @@ You have a game in progress against the computer, with {n} balls left. A new gam
 Continue that game	Seguir con aquella
 Start a new one	Empezar otra
 Click again to close the game: {n} will be disconnected	Haz clic de nuevo para cerrar la partida: se desconectarán {n}
+{name} cleared the table in one visit!	¡{name} limpió la mesa de una sola vez!
+{name}: {n} in a row!	{name}: ¡{n} seguidas!

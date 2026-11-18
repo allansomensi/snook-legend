@@ -301,7 +301,21 @@ pub struct Match {
     /// The head string drawn at all times (a setting; off: only while the
     /// cue ball is placed behind it).
     pub head_string: bool,
+    /// Balls that just dropped: the pocket, the ball and how long ago (a
+    /// ring of light opens round the pocket).
+    pub pot_flashes: Vec<(PocketId, BallId, f32)>,
+    /// The balls made in a row by the player at the table this visit (the
+    /// count by their picture, and a cheer at three, five, seven).
+    pub visit_run: (usize, u32),
+    /// The second of the shot clock last ticked (its last five tick).
+    last_tick: Option<i32>,
+    /// It was this player's turn at the last frame (online, a chime says
+    /// when it comes back).
+    my_turn_seen: bool,
 }
+
+/// How long a pocket's ring of light lasts (s).
+pub const POT_FLASH_TIME: f32 = 0.9;
 
 /// A drill session: its tries, what each gave, and every stroke (for the
 /// server, which counts them again).
@@ -453,6 +467,10 @@ pub enum ImpactKind {
     Ball,
     Cushion,
     Pocket,
+    /// The shot clock's last seconds.
+    Tick,
+    /// The turn comes to the player (online, or the computer is done).
+    Chime,
 }
 
 impl Match {
@@ -539,6 +557,10 @@ impl Match {
             cup: false,
             avatars: Default::default(),
             head_string: false,
+            pot_flashes: Vec::new(),
+            visit_run: (0, 0),
+            last_tick: None,
+            my_turn_seen: false,
         };
         m.begin_turn();
         m
@@ -860,6 +882,10 @@ impl Match {
             cup: false,
             avatars: [players[0].avatar.clone(), players[1].avatar.clone()],
             head_string: false,
+            pot_flashes: Vec::new(),
+            visit_run: (0, 0),
+            last_tick: None,
+            my_turn_seen: false,
         };
         m.begin_turn();
         if let Some(o) = m.online.as_mut() {
@@ -938,6 +964,7 @@ impl Match {
             run.reported = false;
         }
         self.stats = [ShotStats::default(); 2];
+        self.visit_run = (0, 0);
         self.timeline.clear();
         self.last_report = None;
         self.last_shot = None;
@@ -1239,6 +1266,7 @@ impl Match {
     }
 
     fn report_shot(&mut self, report: &ShotReport) {
+        self.count_visit(report);
         self.stats[report.shooter % 2].add(report, self.shot_in_hand);
         if let Some(last) = &self.last_shot {
             self.stats[report.shooter % 2].add_spin(&last.shot, report);
@@ -1372,6 +1400,7 @@ impl Match {
         self.run_computer_turn(dt);
         self.run_simulation(dt);
         self.run_replay(dt);
+        self.turn_sounds();
         if let Phase::Pause(t) = &mut self.phase {
             *t -= dt;
             if *t <= 0.0 {
@@ -1386,6 +1415,10 @@ impl Match {
                 self.banter = None;
             }
         }
+        for f in &mut self.pot_flashes {
+            f.2 += dt;
+        }
+        self.pot_flashes.retain(|f| f.2 < POT_FLASH_TIME);
         for n in &mut self.notices {
             n.ttl -= dt;
         }
@@ -1542,6 +1575,67 @@ impl Match {
         }
     }
 
+    /// The balls made in a row this visit: counted on every legal shot that
+    /// keeps the table (or wins the game), back to nothing when the turn
+    /// passes. Three, five and seven in a row are cheered, and a game won
+    /// in one visit from the first ball to the 8.
+    fn count_visit(&mut self, report: &ShotReport) {
+        let shooter = report.shooter % 2;
+        let won = report.game_over.is_some_and(|g| g.winner % 2 == shooter);
+        if self.visit_run.0 != shooter {
+            self.visit_run = (shooter, 0);
+        }
+        let made = report.pocketed.iter().filter(|(b, _)| b.is_object()).count() as u32;
+        if report.is_foul() || !(report.continues || won) || made == 0 {
+            self.visit_run.1 = 0;
+            return;
+        }
+        let before = self.visit_run.1;
+        self.visit_run.1 += made;
+        let after = self.visit_run.1;
+        let name = self.names[shooter].clone();
+        if won && after >= 8 {
+            self.announce(
+                tw("{name} cleared the table in one visit!", &[("name", &name)]),
+                true,
+                5.0,
+            );
+        } else if let Some(n) = [7, 5, 3].into_iter().find(|n| before < *n && after >= *n) {
+            self.announce(tw("{name}: {n} in a row!", &[("name", &name), ("n", &n)]), true, 3.0);
+        }
+    }
+
+    /// The clock's last five seconds tick, and online a soft chime says the
+    /// turn has come back to this player.
+    fn turn_sounds(&mut self) {
+        let mine = matches!(self.phase, Phase::Turn { .. })
+            && self.current_controller() == Controller::Human;
+        let watching = self.is_spectating();
+        if mine && !self.my_turn_seen && self.online.is_some() && !watching && !self.is_replay() {
+            self.sounds.push(ImpactSound { kind: ImpactKind::Chime, speed: 1.0 });
+        }
+        self.my_turn_seen = mine;
+        let left = self.shot_clock().map(|(left, _)| left).filter(|l| *l > 0.0 && *l <= 5.0);
+        match left {
+            Some(left) if mine && !watching => {
+                let second = left.ceil() as i32;
+                if self.last_tick != Some(second) {
+                    self.last_tick = Some(second);
+                    self.sounds.push(ImpactSound { kind: ImpactKind::Tick, speed: 1.0 });
+                }
+            }
+            _ => self.last_tick = None,
+        }
+    }
+
+    fn collect_pots(events: &[Event], from: usize, out: &mut Vec<(PocketId, BallId, f32)>) {
+        for e in &events[from.min(events.len())..] {
+            if let Event::Pocketed { ball, pocket, .. } = *e {
+                out.push((pocket, ball, 0.0));
+            }
+        }
+    }
+
     fn collect_sounds(events: &[Event], from: usize, out: &mut Vec<ImpactSound>) {
         for e in &events[from.min(events.len())..] {
             let sound = match *e {
@@ -1566,6 +1660,7 @@ impl Match {
         };
         let moving = pending.simulation.advance(dt);
         Self::collect_sounds(pending.simulation.events(), events_seen, &mut self.sounds);
+        Self::collect_pots(pending.simulation.events(), events_seen, &mut self.pot_flashes);
         self.events_seen = pending.simulation.events().len();
         if !moving {
             self.end_animation();
@@ -1743,6 +1838,7 @@ impl Match {
         let seen = r.events_seen;
         let moving = r.simulation.advance((dt as f64).min(0.1));
         Self::collect_sounds(r.simulation.events(), seen, &mut self.sounds);
+        Self::collect_pots(r.simulation.events(), seen, &mut self.pot_flashes);
         r.events_seen = r.simulation.events().len();
         if !moving {
             r.done += dt;
@@ -2636,6 +2732,34 @@ mod tests {
         });
         assert!(matches!(m.phase, Phase::GameOver));
         assert_eq!(m.wins, [0, 1]);
+    }
+
+    /// Balls made in a row: counted while the table is kept, cheered at
+    /// three, and back to nothing when the turn passes.
+    #[test]
+    fn a_visit_counts_its_balls_in_a_row() {
+        let mut m = online_match(0);
+        let report = |made: &[u8], continues: bool| ShotReport {
+            shooter: 0,
+            was_break: false,
+            first_contact: None,
+            pocketed: made.iter().map(|b| (BallId(*b), PocketId::FootLeft)).collect(),
+            fouls: vec![],
+            spotted: vec![],
+            group_assigned: None,
+            continues,
+            game_over: None,
+            opponent_ball: false,
+            penalty: vec![],
+            reracked: false,
+        };
+        m.count_visit(&report(&[1, 2], true));
+        assert_eq!(m.visit_run, (0, 2));
+        m.count_visit(&report(&[3], true));
+        assert_eq!(m.visit_run, (0, 3));
+        assert!(m.notices.iter().any(|n| n.text.contains("3 in a row")), "cheered");
+        m.count_visit(&report(&[], false));
+        assert_eq!(m.visit_run, (0, 0), "a miss ends the run");
     }
 
     #[test]

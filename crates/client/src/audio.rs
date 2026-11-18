@@ -16,6 +16,8 @@ pub struct Sounds {
     ball: Vec<Sound>,
     cushion: Vec<Sound>,
     pocket: Vec<Sound>,
+    tick: Vec<Sound>,
+    chime: Vec<Sound>,
     next: std::cell::Cell<u32>,
     /// The voices started lately: (when, how loud), for the mix's headroom.
     recent: std::cell::RefCell<std::collections::VecDeque<(f64, f32)>>,
@@ -320,6 +322,44 @@ fn pocket(seed: u32) -> Vec<f32> {
     out
 }
 
+/// A clock's tick: a small, dry wooden knock, high and short.
+fn tick() -> Vec<f32> {
+    let len = (0.07 * RATE as f32) as usize;
+    let mut noise = Noise(7_771);
+    let mut air = Biquad::highpass(2500.0);
+    let mut out: Vec<f32> = (0..len)
+        .map(|i| {
+            let t = i as f32 / RATE as f32;
+            let tau = std::f32::consts::TAU;
+            let body = (tau * 1650.0 * t).sin() * 0.7 + (tau * 2930.0 * t).sin() * 0.3;
+            body * (-t / 0.011).exp() + air.run(noise.next()) * (-t / 0.003).exp() * 0.5
+        })
+        .collect();
+    normalise(&mut out);
+    out
+}
+
+/// The turn coming back: two soft notes rising, like a small bell (each
+/// with the bell's own overtones, dying away).
+fn chime() -> Vec<f32> {
+    let len = (0.9 * RATE as f32) as usize;
+    let mut out = vec![0.0f32; len];
+    for (start, f, gain) in [(0.0f32, 784.0f32, 0.8f32), (0.12, 1175.0, 1.0)] {
+        let from = (start * RATE as f32) as usize;
+        for (i, v) in out.iter_mut().enumerate().skip(from) {
+            let t = (i - from) as f32 / RATE as f32;
+            let tau = std::f32::consts::TAU;
+            let attack = (t / 0.004).min(1.0);
+            let ring = (tau * f * t).sin()
+                + 0.35 * (tau * f * 2.76 * t).sin() * (-t / 0.12).exp()
+                + 0.18 * (tau * f * 5.4 * t).sin() * (-t / 0.05).exp();
+            *v += gain * attack * ring * (-t / 0.32).exp();
+        }
+    }
+    normalise(&mut out);
+    out
+}
+
 /// How hard each recorded version of a sound is hit (soft, firm, hard).
 const HARDNESS: [f32; 3] = [0.15, 0.55, 1.0];
 
@@ -334,6 +374,8 @@ impl Sounds {
             ball: Vec::new(),
             cushion: Vec::new(),
             pocket: Vec::new(),
+            tick: Vec::new(),
+            chime: Vec::new(),
             next: std::cell::Cell::new(0),
             recent: Default::default(),
         };
@@ -357,6 +399,12 @@ impl Sounds {
             if let Some(s) = make(pocket(41 + k)).await {
                 sounds.pocket.push(s);
             }
+        }
+        if let Some(s) = make(tick()).await {
+            sounds.tick.push(s);
+        }
+        if let Some(s) = make(chime()).await {
+            sounds.chime.push(s);
         }
         sounds
     }
@@ -417,6 +465,8 @@ impl Sounds {
                 ImpactKind::Ball => (&self.ball, (impact.speed / 3.5).sqrt()),
                 ImpactKind::Cushion => (&self.cushion, (impact.speed / 3.0).sqrt() * 0.8),
                 ImpactKind::Pocket => (&self.pocket, 0.75),
+                ImpactKind::Tick => (&self.tick, 0.32),
+                ImpactKind::Chime => (&self.chime, 0.42),
             };
             let strength = volume.clamp(0.0, 1.0);
             let volume = strength * master.clamp(0.0, 1.0);
@@ -424,6 +474,7 @@ impl Sounds {
                 continue;
             }
             let sound = match impact.kind {
+                ImpactKind::Tick | ImpactKind::Chime => set.first(),
                 ImpactKind::Pocket => {
                     let k = self.next.get();
                     self.next.set(k.wrapping_add(1));

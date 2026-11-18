@@ -58,7 +58,7 @@ a second set of credentials for no gain at this size.
 | Players' e-mails, payments and Microsoft Store purchases; where the staff sign in from | | ✓ |
 | Warn, mute / unmute, disconnect, ban / lift a ban, sign out everywhere, clear a status message | ✓ (not on staff) | ✓ |
 | Staff notes (remove one's own) | ✓ | ✓ (remove any) |
-| Answer reports (not about themselves, nor, for moderators, about staff), delete a chat line, announcements, the board, "looking for a game" notes | ✓ | ✓ |
+| Answer reports (moderators: not about themselves nor about staff; an administrator also those about themselves, logged), delete a chat line, announcements, the board, "looking for a game" notes | ✓ | ✓ |
 | Remove a chat line without a trace, clear the chat, the welcome message | | ✓ |
 | Rename, change a role, set a new password | | ✓ |
 | Give or take coins, give items or VIP days, take an item back, mark payments as test | | ✓ |

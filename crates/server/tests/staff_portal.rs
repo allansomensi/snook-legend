@@ -331,6 +331,14 @@ async fn moderators_see_less_and_answer_no_reports_about_themselves() {
     assert_eq!(resolve(about_hana, &mods).await, 403, "about themselves");
     assert_eq!(resolve(about_boss, &mods).await, 403, "about an administrator");
     assert_eq!(resolve(about_hana, &boss).await, 200);
+    // An administrator answers reports about themselves (with no other
+    // administrator, nobody else could), in the audit log like any other.
+    assert_eq!(resolve(about_boss, &boss).await, 200);
+    let (_, v) = request(&s.host, "GET", "/admin/api/audit?action=report", &boss, "").await;
+    assert!(
+        v["entries"].as_array().unwrap().iter().any(|e| e["target"] == format!("#{about_boss}")),
+        "{v}"
+    );
     assert_eq!(resolve(999_999, &boss).await, 404);
 }
 

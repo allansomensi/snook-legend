@@ -929,8 +929,12 @@ async fn resolve_report(
         .report(id)
         .await?
         .ok_or_else(|| err(StatusCode::NOT_FOUND, "No such report."))?;
-    if report.target_id == s.user.id {
-        return Err(err(StatusCode::FORBIDDEN, "Another staff member answers reports about you."));
+    // A moderator's reports are an administrator's to answer. An
+    // administrator answers those about themselves (with one administrator
+    // nobody else could, and they stayed open for ever); the answer goes in
+    // the audit log like any other.
+    if report.target_id == s.user.id && s.user.role != Role::Admin {
+        return Err(err(StatusCode::FORBIDDEN, "An administrator answers reports about you."));
     }
     if let Some(target) = server.store.user_by_id(report.target_id).await?
         && !crate::social::may_moderate(s.user.role, target.role)

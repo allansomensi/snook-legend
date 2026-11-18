@@ -1727,10 +1727,14 @@ function reportCard(r, { compact = false, about = 0 } = {}) {
     if (kind === "ban") banDialog(target, (time) => after(tf("Banned ({time})", { time })));
   };
   const answer = (label, opts) => { const b = btn(label, opts); answerBtns.push(b); return b; };
+  // About oneself: a moderator leaves it to an administrator; an
+  // administrator closes it or dismisses it (no sanctions on oneself).
+  const aboutMe = !!me && String(r.target || "").toLowerCase() === me.username.toLowerCase();
+  const mayAnswer = !aboutMe || isAdmin();
   const resolvedLine = !open ? el("div", { class: "row muted" },
     badge(r.status === 1 ? t("Action taken") : t("Dismissed"), r.status === 1 ? "success" : ""),
     el("span", {}, tf("by {name}", { name: r.resolved_by || "?" })), r.resolution ? el("span", {}, "· " + r.resolution) : null,
-    compact ? null : answer(t("Reopen"), { kind: "sm ghost", icon: "undo", onClick: () => resolve("open", "") })) : null;
+    compact || !mayAnswer ? null : answer(t("Reopen"), { kind: "sm ghost", icon: "undo", onClick: () => resolve("open", "") })) : null;
   return el("article", { class: "card report-card" },
     el("div", { class: "report-top" }, reasonBadge(r.reason), el("span", { class: "faint mono" }, "#" + r.id),
       about > 1 ? badge(tn(about, "{n} report about them", "{n} reports about them"), "danger") : null,
@@ -1739,10 +1743,11 @@ function reportCard(r, { compact = false, about = 0 } = {}) {
     r.details ? el("p", { class: "details" }, r.details) : null,
     gameBlock(r),
     r.context ? el("details", {}, el("summary", { class: "muted" }, t("The chat before the report")), el("pre", { class: "context" }, r.context)) : null,
-    open && !compact ? el("div", { class: "resolve" }, note,
-      answer(t("Warn"), { kind: "sm", icon: "warn", onClick: () => sanction("warn") }),
-      answer(t("Mute"), { kind: "sm", icon: "mute", onClick: () => sanction("mute") }),
-      answer(t("Ban"), { kind: "sm danger-soft", icon: "ban", onClick: () => sanction("ban") }),
+    open && !compact && !mayAnswer ? el("div", { class: "row muted" }, t("An administrator answers reports about you.")) : null,
+    open && !compact && mayAnswer ? el("div", { class: "resolve" }, note,
+      aboutMe ? null : answer(t("Warn"), { kind: "sm", icon: "warn", onClick: () => sanction("warn") }),
+      aboutMe ? null : answer(t("Mute"), { kind: "sm", icon: "mute", onClick: () => sanction("mute") }),
+      aboutMe ? null : answer(t("Ban"), { kind: "sm danger-soft", icon: "ban", onClick: () => sanction("ban") }),
       answer(t("Dismiss"), { kind: "sm", onClick: () => resolve("dismissed") }),
       answer(t("Close: action taken"), { kind: "sm primary", icon: "check", onClick: () => resolve("actioned") })) : null,
     open && compact ? el("div", { class: "row" }, btn(t("Open in reports"), { kind: "sm ghost", onClick: () => go("reports") })) : null,

@@ -1076,6 +1076,7 @@ impl Online {
                     "prize" => t("tournament prize"),
                     "refund" => t("entry fee back"),
                     "level" => t("new level"),
+                    "league" => t("new league"),
                     "mission" => {
                         if self.side != Side::Missions {
                             self.mission_done = true;

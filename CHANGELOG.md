@@ -6,6 +6,19 @@
 game is checked against the tour's harder opponent and the server pays the
 levels' rewards, so the server must be updated with the game. No migrations.
 
+### The profile
+- A cleaner profile: on the left, where the player stands (the level and
+  its bar, what the next level and the next league bring) and one row each
+  of the medals and reactions won so far; the tabs run over the whole
+  width. The reactions no longer run off the bottom of the panel.
+- **Leagues and levels**: a page with every league (from which rating, and
+  what reaching it pays) and every level that brings an item, with what is
+  already won and what comes next. **Achievements**: every medal and
+  reaction, on a page of their own.
+- Reaching a league for the first time pays coins (50 for Amateur up to
+  1000 for Legend, once per league) and, from Skilled up, an item of the
+  league's own.
+
 ### One rank to show, one road to walk
 - Other players are shown by their **league** (the name and colour of
   their rating's tier) in the lounge, at open tables, in tournaments, in
@@ -47,14 +60,17 @@ levels' rewards, so the server must be updated with the game. No migrations.
   nothing is on. The server checks the final game against that player.
 
 ### The view and the aim
-- The view from above looks from high up through a long lens, so the table
-  is seen almost flat: balls stay round out to the corners (at the ends of
-  the table they were drawn a sixth longer than wide, the ghost ball
-  included), and the cue, the aiming line and the ghost ball line up
-  whatever the cue's elevation.
+- The view from above looks from higher up through a longer lens: balls
+  stay round out to the corners (at the ends of the table they were drawn
+  a sixth longer than wide, the ghost ball included), and the cue, the
+  aiming line and the ghost ball line up whatever the cue's elevation.
 - The ring round a cue ball being placed sits exactly round it.
 - A softer light on the balls (a patch, not a hard white dot on the
   number) and no reflection on the balls of the score panel.
+- The view from above keeps its depth and its light: it looks from twice
+  as high as before (not from so high that the table read as a flat
+  drawing), is lit as it always was, and turning the camera out of it no
+  longer starts with a jump.
 - The low end of the power bar is a little stronger; the top is the same.
 
 ### Achievements

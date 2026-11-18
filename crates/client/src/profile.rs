@@ -31,6 +31,11 @@ enum Pane {
     Trophies,
     /// The shot analysis (over the whole width).
     Analysis,
+    /// Every achievement and every reaction (over the whole width).
+    Achievements,
+    /// The leagues and the levels, with what each brings (over the whole
+    /// width).
+    Journey,
     /// Presents received and given (own profile).
     Gifts,
 }
@@ -78,6 +83,10 @@ struct AccountForm {
 const BODY_TOP: f32 = 220.0;
 /// The body's height for the shot analysis (at least).
 const ANALYSIS_H: f32 = 352.0;
+/// The body's height: the summary on the left, a pane on the right.
+const BODY_H: f32 = 400.0;
+/// The row of tabs over the body, and the gap under it.
+const TABS_H: f32 = 34.0;
 /// The achievement medals: cell and gap.
 const MEDAL: f32 = 44.0;
 const MEDAL_GAP: f32 = 8.0;
@@ -182,6 +191,8 @@ impl ProfileScreen {
             Some("analysis") => Pane::Analysis,
             Some("numbers") => Pane::Numbers,
             Some("rating") => Pane::Rating,
+            Some("achievements") => Pane::Achievements,
+            Some("journey") => Pane::Journey,
             _ => Pane::Games,
         };
         self.status_edit = None;
@@ -227,8 +238,15 @@ impl ProfileScreen {
         // The panel fits its content: the header, then the achievements and
         // reactions (the recent games scroll in the same height). Until the
         // profile comes, just room for the wait.
-        let wide = self.pane == Pane::Analysis;
-        let body_h = if wide { left_height(half).max(ANALYSIS_H) } else { left_height(half) };
+        let wide = matches!(self.pane, Pane::Analysis | Pane::Achievements | Pane::Journey);
+        // Tall enough for what the pane shows (every medal, for one).
+        let body_h = TABS_H
+            + match self.pane {
+                Pane::Analysis => ANALYSIS_H,
+                Pane::Achievements => left_height(w - 2.0 * PAD),
+                _ => BODY_H - TABS_H,
+            }
+            .max(BODY_H - TABS_H);
         let h = if loaded.is_some() { BODY_TOP + body_h + PAD } else { 240.0 };
         let h = h.min(sh - 40.0);
         let r = Rect::new((sw - w) / 2.0, (sh - h) / 2.0, w, h);
@@ -282,8 +300,15 @@ impl ProfileScreen {
             ui.text(label, b.x + 44.0, text_y(mid, 14.0), 14.0, CREAM, true);
         }
         let body = Rect::new(r.x + PAD, r.y + BODY_TOP, r.w - 2.0 * PAD, r.h - BODY_TOP - PAD);
-        if !wide {
-            self.achievements(ui, &p, Rect::new(body.x, body.y, half, body.h));
+        // Under the tabs: a summary on the left (the level, the next
+        // prizes, the medals and reactions won so far) and the pane on the
+        // right, or a pane over the whole width.
+        let under = Rect::new(body.x, body.y + TABS_H, body.w, body.h - TABS_H);
+        if !wide
+            && let Some(pane) =
+                self.summary(ui, online, &p, Rect::new(under.x, under.y, half, under.h))
+        {
+            self.pane = pane;
         }
         let right = Rect::new(body.x + half + 24.0, body.y, half, body.h);
         // One's own profile also keeps the presents.
@@ -292,16 +317,16 @@ impl ProfileScreen {
         panes.push((Pane::Numbers, t("Numbers")));
         panes.push((Pane::Trophies, t("Trophies")));
         panes.push((Pane::Analysis, t("Analysis")));
+        panes.push((Pane::Achievements, t("Achievements")));
+        panes.push((Pane::Journey, t("Leagues and levels")));
         if own {
             panes.push((Pane::Gifts, t("Gifts")));
         } else if self.pane == Pane::Gifts {
             self.pane = Pane::Games;
         }
         let labels: Vec<&str> = panes.iter().map(|(_, l)| *l).collect();
-        // The switch fills the right column and names the pane itself; it
-        // stays put when the analysis takes the whole width (its heading
-        // then goes on the left).
-        let seg = Rect::new(right.x, right.y - 4.0, right.w, 28.0);
+        // The switch runs over the whole body and names the pane itself.
+        let seg = Rect::new(body.x, body.y - 4.0, body.w, 28.0);
         let selected = panes.iter().position(|(pane, _)| *pane == self.pane).unwrap_or(0);
         if let Some(k) = ui.segmented(seg, &labels, selected) {
             self.pane = panes[k].0;
@@ -313,11 +338,7 @@ impl ProfileScreen {
             // Presents waiting: a dot on Gifts.
             draw_circle(seg.x + seg.w - 8.0, seg.y + 7.0, 4.0, ALERT);
         }
-        if wide {
-            let (title, _) = ui.fitted(t("Shot analysis"), 15.0, seg.x - 12.0 - body.x, true);
-            heading(ui, &title, body.x, right.y + 10.0);
-        }
-        let content = Rect::new(right.x, right.y + 34.0, right.w, right.h - 34.0);
+        let content = Rect::new(right.x, under.y, right.w, under.h);
         match self.pane {
             Pane::Games => self.history(ui, online, &p, content),
             Pane::Rating => rating_chart(ui, &p, content),
@@ -333,6 +354,8 @@ impl ProfileScreen {
                 &mut self.heat,
             ),
             Pane::Gifts => online.draw_gift_history(ui, content, &mut self.gifts_first),
+            Pane::Achievements => self.achievements(ui, &p, under),
+            Pane::Journey => journey(ui, online, &p, under),
         }
         if let Some(saved) = saved {
             ui.resume_input(saved);
@@ -456,10 +479,6 @@ impl ProfileScreen {
         }
         if !player.guest {
             parts.push(age(p.created_at));
-        }
-        // One's own profile: what the next level that brings an item is.
-        if own && let Some(next) = next_reward(player.level) {
-            parts.push(next);
         }
         // Friends see when the other was last around.
         if !p.online && p.last_seen > 0 {
@@ -734,6 +753,146 @@ impl ProfileScreen {
                 }
             }
         }
+    }
+
+    /// The left of the profile: where the player stands (the level and what
+    /// the next level and the next league bring) and what they have won so
+    /// far (their medals and reactions, the newest first, one row of each).
+    /// The whole lists are in the panes: returns the pane a click asks for.
+    fn summary(&mut self, ui: &mut Ui, online: &Online, p: &Profile, area: Rect) -> Option<Pane> {
+        let player = &p.player;
+        let mut go = None;
+        let mut y = area.y;
+        if !player.guest {
+            // The level: its bar (one's own), and what the next one with an
+            // item brings.
+            let own = p.relation == Relation::Me;
+            let card = Rect::new(area.x, y, area.w, 84.0);
+            rrect(card, 8.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.07));
+            let hover = ui.hovering(card);
+            if hover {
+                rrect_lines(card, 8.0, 1.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.6));
+            }
+            let level = tw("Level {n}", &[("n", &player.level.max(1))]);
+            ui.text(&level, card.x + 14.0, card.y + 10.0, 20.0, GOLD, true);
+            let xp = online.xp.filter(|_| own);
+            let bar = Rect::new(card.x + 14.0, card.y + 40.0, card.w - 28.0, 6.0);
+            rrect(bar, 3.0, Color::new(1.0, 1.0, 1.0, 0.08));
+            if let Some(xp) = xp {
+                let (_, into, span) = snook_legend_proto::xp::progress(xp);
+                let k = if span == 0 { 1.0 } else { into as f32 / span as f32 };
+                if k > 0.0 {
+                    rrect(Rect::new(bar.x, bar.y, (bar.w * k).max(6.0), bar.h), 3.0, GOLD);
+                }
+                let text = format!("{into} / {span} XP");
+                let tw_ = ui.text_size(&text, 12.0, false).x;
+                ui.text(&text, card.x + card.w - 14.0 - tw_, card.y + 16.0, 12.0, MUTED, false);
+            }
+            let next = next_reward(player.level.max(1))
+                .unwrap_or_else(|| t("Every prize of the levels is won.").to_string());
+            let (next, size) = ui.fitted(&next, 13.0, card.w - 28.0, false);
+            ui.text(&next, card.x + 14.0, card.y + 56.0, size, CREAM, false);
+            ui.block(card);
+            if ui.clicked(card) {
+                go = Some(Pane::Journey);
+            }
+            y += card.h + 10.0;
+            // The next league and its prize.
+            let tier = player.tier();
+            let next_tier =
+                snook_legend_proto::Tier::ALL.into_iter().find(|t| t.min_rating() > player.rating);
+            let card = Rect::new(area.x, y, area.w, 58.0);
+            let color = tier_color(next_tier.unwrap_or(tier));
+            rrect(card, 8.0, Color::new(color.r, color.g, color.b, 0.07));
+            if ui.hovering(card) {
+                rrect_lines(card, 8.0, 1.0, Color::new(color.r, color.g, color.b, 0.6));
+            }
+            let (title, line) = match next_tier {
+                Some(n) => (tw("Next league: {tier}", &[("tier", &t(n.name()))]), league_prize(n)),
+                None => (t(tier.name()).to_string(), t("The top league.").to_string()),
+            };
+            ui.text(&title, card.x + 14.0, card.y + 9.0, 15.0, color, true);
+            let (line, size) = ui.fitted(&line, 13.0, card.w - 28.0, false);
+            ui.text(&line, card.x + 14.0, card.y + 32.0, size, CREAM, false);
+            ui.block(card);
+            if ui.clicked(card) {
+                go = Some(Pane::Journey);
+            }
+            y += card.h + 14.0;
+        }
+        // The medals won, the newest first: one row (the rest is in the pane).
+        let mut won: Vec<(&snook_legend_proto::Achievement, i64)> = ACHIEVEMENTS
+            .iter()
+            .filter_map(|a| {
+                p.achievements.iter().find(|(c, _)| c == a.code).map(|(_, at)| (a, *at))
+            })
+            .collect();
+        won.sort_by_key(|(_, at)| std::cmp::Reverse(*at));
+        let row = Rect::new(area.x, y, area.w, 22.0 + MEDAL);
+        heading(
+            ui,
+            &tw("Achievements {n}/{total}", &[("n", &won.len()), ("total", &ACHIEVEMENTS.len())]),
+            area.x,
+            y + 10.0,
+        );
+        let fit = ((area.w + MEDAL_GAP) / (MEDAL + MEDAL_GAP)).floor().max(1.0) as usize;
+        if won.is_empty() {
+            ui.text(
+                t("None yet: the first is one game away."),
+                area.x,
+                y + 34.0,
+                13.0,
+                MUTED,
+                false,
+            );
+        }
+        for (k, (a, _)) in won.iter().take(fit).enumerate() {
+            let c = Rect::new(area.x + k as f32 * (MEDAL + MEDAL_GAP), y + 26.0, MEDAL, MEDAL);
+            let color = medal_color(a.level);
+            rrect(c, 8.0, Color::new(color.r, color.g, color.b, 0.12));
+            rrect_lines(c, 8.0, 1.2, Color::new(color.r, color.g, color.b, 0.7));
+            crate::icons::draw(
+                Icon::Medal,
+                vec2(c.x + MEDAL / 2.0, c.y + MEDAL / 2.0),
+                MEDAL * 0.62,
+                color,
+            );
+            if ui.hovering(c) {
+                ui.tooltip(&format!("{}: {}", t(a.title), t(a.description)), c);
+            }
+        }
+        ui.block(row);
+        if ui.clicked(row) {
+            go = Some(Pane::Achievements);
+        }
+        y += row.h + 16.0;
+        // The reactions they can send: one row.
+        let codes: Vec<&str> = p.achievements.iter().map(|(c, _)| c.as_str()).collect();
+        let reactions = snook_legend_proto::REACTIONS;
+        let open: Vec<_> = reactions.iter().filter(|r| r.available(&codes, player.vip)).collect();
+        if y + 30.0 + REACTION <= area.y + area.h {
+            heading(
+                ui,
+                &tw("Reactions {n}/{total}", &[("n", &open.len()), ("total", &reactions.len())]),
+                area.x,
+                y + 10.0,
+            );
+            let fit =
+                ((area.w + REACTION_GAP) / (REACTION + REACTION_GAP)).floor().max(1.0) as usize;
+            for (k, r) in open.iter().take(fit).enumerate() {
+                let c = vec2(
+                    area.x + k as f32 * (REACTION + REACTION_GAP) + REACTION / 2.0,
+                    y + 28.0 + REACTION / 2.0,
+                );
+                crate::reactions::draw(r.code, c, 24.0, crate::paint::opacity());
+            }
+            let row = Rect::new(area.x, y, area.w, 28.0 + REACTION);
+            ui.block(row);
+            if ui.clicked(row) {
+                go = Some(Pane::Achievements);
+            }
+        }
+        go
     }
 
     fn achievements(&self, ui: &mut Ui, p: &Profile, area: Rect) {
@@ -1346,5 +1505,174 @@ pub fn next_reward(level: u32) -> Option<String> {
     let item = snook_legend_proto::shop::ITEMS.iter().find(
         |i| matches!(i.price, snook_legend_proto::shop::Price::Achievement(a) if a == achievement),
     )?;
-    Some(tw("Level {n} brings: {item}", &[("n", &at), ("item", &t(item.name))]))
+    Some(tw("Level {n} brings: {item}", &[("n", &at), ("item", &item_label(item))]))
+}
+
+/// "50 coins" or "100 coins and Skilled league chalk": what reaching a
+/// league for the first time brings.
+fn league_prize(tier: snook_legend_proto::Tier) -> String {
+    let coins = tw("{n} coins", &[("n", &tier.prize())]);
+    let item = tier.achievement().and_then(|a| {
+        snook_legend_proto::shop::ITEMS.iter().find(
+            |i| matches!(i.price, snook_legend_proto::shop::Price::Achievement(code) if code == a),
+        )
+    });
+    match item {
+        Some(item) => tw("{coins} and {item}", &[("coins", &coins), ("item", &item_label(item))]),
+        None => coins,
+    }
+}
+
+/// An item with what it is: "Legend (cue)".
+fn item_label(item: &snook_legend_proto::shop::Item) -> String {
+    use snook_legend_proto::shop::Category;
+    let kind = match item.category {
+        Category::Cue => t("cue"),
+        Category::Cloth => t("cloth"),
+        Category::Chalk => t("chalk"),
+        _ => return t(item.name).to_string(),
+    };
+    format!("{} ({kind})", t(item.name))
+}
+
+/// The leagues and the levels, each with what it brings: where the player
+/// stands on both roads and everything still ahead.
+fn journey(ui: &mut Ui, online: &Online, p: &Profile, area: Rect) {
+    use snook_legend_proto::{Tier, xp};
+    let player = &p.player;
+    let col_w = (area.w - 24.0) / 2.0;
+    let own = p.relation == Relation::Me;
+    let state = |r: Rect, done: bool, here: bool| {
+        let mid = r.y + r.h / 2.0;
+        let c = vec2(r.x + r.w - 16.0, mid);
+        if done {
+            crate::icons::draw(Icon::Check, c, 14.0, WIN);
+        } else if !here {
+            crate::icons::draw(Icon::Lock, c, 12.0, Color::new(MUTED.r, MUTED.g, MUTED.b, 0.8));
+        }
+    };
+
+    // The leagues, the highest at the top.
+    let x = area.x;
+    heading(ui, t("Leagues"), x, area.y + 10.0);
+    let note = t("By rating. Each league pays once.");
+    let (note, size) = ui.fitted(note, 12.0, col_w - 90.0, false);
+    let nw = ui.text_size(&note, size, false).x;
+    ui.text(&note, x + col_w - nw, area.y + 4.0, size, MUTED, false);
+    let tiers: Vec<Tier> = Tier::ALL.into_iter().rev().collect();
+    let top = area.y + 30.0;
+    let row_h = ((area.h - 30.0) / tiers.len() as f32).min(50.0);
+    let current = player.tier();
+    let peak = p.stats.peak_rating.max(player.rating);
+    for (k, tier) in tiers.iter().enumerate() {
+        let r = Rect::new(x, top + k as f32 * row_h, col_w, row_h - 5.0);
+        let color = tier_color(*tier);
+        let here = *tier == current && !player.guest;
+        let reached = !player.guest && peak >= tier.min_rating();
+        let fade = if reached || here { 1.0 } else { 0.55 };
+        rrect(r, 8.0, Color::new(color.r, color.g, color.b, if here { 0.16 } else { 0.05 }));
+        if here {
+            rrect_lines(r, 8.0, 1.2, Color::new(color.r, color.g, color.b, 0.8));
+        }
+        let mid = r.y + r.h / 2.0;
+        let two = r.h >= 34.0;
+        let name_y = if two { r.y + 5.0 } else { text_y(mid, 14.0) };
+        ui.text(
+            t(tier.name()),
+            r.x + 12.0,
+            name_y,
+            14.0,
+            Color::new(color.r, color.g, color.b, fade),
+            true,
+        );
+        let from = if *tier == Tier::Rookie {
+            t("where everyone starts").to_string()
+        } else {
+            tw("from {n}", &[("n", &tier.min_rating())])
+        };
+        let prize = if tier.prize() > 0 { league_prize(*tier) } else { String::new() };
+        let muted = Color::new(MUTED.r, MUTED.g, MUTED.b, fade);
+        let cream = Color::new(CREAM.r, CREAM.g, CREAM.b, fade);
+        if two {
+            ui.text(&from, r.x + 12.0, r.y + 23.0, 11.5, muted, false);
+            let (prize, size) = ui.fitted(&prize, 13.0, r.w - 150.0, false);
+            let pw = ui.text_size(&prize, size, false).x;
+            ui.text(&prize, r.x + r.w - 34.0 - pw, text_y(mid, size), size, cream, false);
+        } else {
+            let line = if prize.is_empty() { from } else { format!("{from}  ·  {prize}") };
+            let (line, size) = ui.fitted(&line, 12.0, r.w - 170.0, false);
+            let lw = ui.text_size(&line, size, false).x;
+            ui.text(&line, r.x + r.w - 34.0 - lw, text_y(mid, size), size, cream, false);
+        }
+        state(r, reached && tier.prize() > 0, here);
+    }
+
+    // The levels: the bar, what every level pays, and the levels that
+    // bring an item.
+    let x = area.x + col_w + 24.0;
+    let level = player.level.max(1);
+    heading(ui, t("Levels"), x, area.y + 10.0);
+    let note = tw("By playing. Every level pays {n} coins.", &[("n", &xp::LEVEL_COINS)]);
+    let (note, size) = ui.fitted(&note, 12.0, col_w - 90.0, false);
+    let nw = ui.text_size(&note, size, false).x;
+    ui.text(&note, x + col_w - nw, area.y + 4.0, size, MUTED, false);
+    let card = Rect::new(x, top, col_w, 50.0 - 5.0);
+    rrect(card, 8.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.12));
+    rrect_lines(card, 8.0, 1.2, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.7));
+    let title = tw("Level {n}", &[("n", &level)]);
+    ui.text(&title, card.x + 12.0, card.y + 6.0, 16.0, GOLD, true);
+    let bar = Rect::new(card.x + 12.0, card.y + card.h - 13.0, card.w - 24.0, 5.0);
+    rrect(bar, 2.5, Color::new(1.0, 1.0, 1.0, 0.1));
+    if let Some(xp_now) = online.xp.filter(|_| own) {
+        let (_, into, span) = xp::progress(xp_now);
+        let k = if span == 0 { 1.0 } else { into as f32 / span as f32 };
+        if k > 0.0 {
+            rrect(Rect::new(bar.x, bar.y, (bar.w * k).max(5.0), bar.h), 2.5, GOLD);
+        }
+        let text = if span == 0 {
+            t("The top level.").to_string()
+        } else {
+            tw("{n} XP to level {next}", &[("n", &(span - into)), ("next", &(level + 1))])
+        };
+        let tw_ = ui.text_size(&text, 12.0, false).x;
+        ui.text(&text, card.x + card.w - 12.0 - tw_, card.y + 9.0, 12.0, CREAM, false);
+    }
+    let rows = xp::MILESTONES.len();
+    let list_top = top + 50.0;
+    let row_h = ((area.y + area.h - list_top) / rows as f32).min(42.0);
+    for (k, (at, achievement)) in xp::MILESTONES.iter().enumerate() {
+        let r = Rect::new(x, list_top + k as f32 * row_h, col_w, row_h - 5.0);
+        let done = level >= *at;
+        let next = !done && xp::next_milestone(level).is_some_and(|(l, _)| l == *at);
+        let fade = if done || next { 1.0 } else { 0.55 };
+        rrect(r, 8.0, Color::new(GOLD.r, GOLD.g, GOLD.b, if next { 0.1 } else { 0.04 }));
+        let mid = r.y + r.h / 2.0;
+        let label = tw("Level {n}", &[("n", at)]);
+        ui.text(
+            &label,
+            r.x + 12.0,
+            text_y(mid, 14.0),
+            14.0,
+            Color::new(GOLD.r, GOLD.g, GOLD.b, fade),
+            true,
+        );
+        let item = snook_legend_proto::shop::ITEMS.iter().find(|i| {
+            matches!(i.price, snook_legend_proto::shop::Price::Achievement(a) if a == *achievement)
+        });
+        let mut what = item.map(item_label).unwrap_or_default();
+        if next {
+            what = format!("{what}  ·  {}", tw("{n} levels to go", &[("n", &(at - level))]));
+        }
+        let (what, size) = ui.fitted(&what, 13.0, r.w - 130.0, false);
+        let ww = ui.text_size(&what, size, false).x;
+        ui.text(
+            &what,
+            r.x + r.w - 34.0 - ww,
+            text_y(mid, size),
+            size,
+            Color::new(CREAM.r, CREAM.g, CREAM.b, fade),
+            false,
+        );
+        state(r, done, next);
+    }
 }

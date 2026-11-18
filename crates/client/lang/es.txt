@@ -1773,8 +1773,32 @@ Level 50	Nivel 50
 Reach level 50.	Llega al nivel 50.
 Regular's teal	Verde azulado del habitual
 Veteran's plum	Ciruela del veterano
-Master's black	Negro del maestro
 Old hand	Perro viejo
 Lifer	Toda la vida
 Apprentice's chalk	Tiza del aprendiz
 Journeyman's chalk	Tiza del oficial
+Achievements	Logros
+Leagues and levels	Ligas y niveles
+Next league: {tier}	Próxima liga: {tier}
+The top league.	La liga más alta.
+Every prize of the levels is won.	Todos los premios de los niveles están ganados.
+None yet: the first is one game away.	Ninguno todavía: el primero está a una partida.
+{coins} and {item}	{coins} y {item}
+Leagues	Ligas
+Levels	Niveles
+By playing. Every level pays {n} coins.	Jugando. Cada nivel paga {n} monedas.
+where everyone starts	donde todos empiezan
+from {n}	desde {n}
+The top level.	El nivel máximo.
+{n} XP to level {next}	{n} XP para el nivel {next}
+{n} levels to go	faltan {n} niveles
+new league	nueva liga
+Old-timer's black	Negro del veterano
+Expert league blue	Azul de la liga Experto
+Master league violet	Violeta de la liga Maestro
+Legend league gold	Dorado de la liga Leyenda
+Skilled league chalk	Tiza de la liga Hábil
+By rating. Each league pays once.	Por rating. Cada liga paga una vez.
+cue	taco
+cloth	paño
+chalk	tiza

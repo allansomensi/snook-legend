@@ -408,7 +408,26 @@ pub const ITEMS: &[Item] = &[
     // The account level's own (never sold).
     cloth("cloth_level10", "Regular's teal", Price::Achievement("level_10"), [10, 84, 84]),
     cloth("cloth_level20", "Veteran's plum", Price::Achievement("level_20"), [70, 22, 74]),
-    cloth("cloth_level40", "Master's black", Price::Achievement("level_40"), [18, 18, 20]),
+    cloth("cloth_level40", "Old-timer's black", Price::Achievement("level_40"), [18, 18, 20]),
+    // The leagues' own (never sold): reaching the league brings them.
+    cloth(
+        "cloth_league_expert",
+        "Expert league blue",
+        Price::Achievement("rating_1500"),
+        [16, 50, 120],
+    ),
+    cloth(
+        "cloth_league_master",
+        "Master league violet",
+        Price::Achievement("rating_1700"),
+        [62, 30, 110],
+    ),
+    cloth(
+        "cloth_league_legend",
+        "Legend league gold",
+        Price::Achievement("rating_2100"),
+        [120, 92, 20],
+    ),
     cloth("cloth_welcome", "Lagoon", Price::Pack, [14, 100, 112]),
     // Cues.
     cue("cue_classic", "Classic", Price::Free, [35, 20, 12], [20, 20, 24], [240, 238, 228], Plain),
@@ -671,6 +690,13 @@ pub const ITEMS: &[Item] = &[
     // The account level's own (never sold).
     chalk("chalk_level5", "Apprentice's chalk", Price::Achievement("level_5"), [46, 168, 150]),
     chalk("chalk_level15", "Journeyman's chalk", Price::Achievement("level_15"), [150, 96, 204]),
+    // The Skilled league's own (never sold).
+    chalk(
+        "chalk_league_skilled",
+        "Skilled league chalk",
+        Price::Achievement("rating_1300"),
+        [70, 200, 96],
+    ),
     chalk("chalk_green", "Green chalk", Price::Coins(400), [40, 130, 70]),
     chalk("chalk_red", "Red chalk", Price::Coins(400), [170, 40, 40]),
     chalk("chalk_tan", "Tan chalk", Price::Coins(400), [180, 150, 100]),

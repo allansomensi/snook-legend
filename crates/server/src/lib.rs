@@ -542,6 +542,16 @@ async fn run_effect(server: &Arc<Server>, effect: Effect) {
                         }
                         let rated_win = record.rated && record.winner == seat;
                         server.check_achievements_after(&user, rated_win).await;
+                        if record.rated {
+                            let after = record.ratings_after[seat];
+                            account::league_rewards(
+                                server,
+                                &user,
+                                after - record.delta[seat],
+                                after,
+                            )
+                            .await;
+                        }
                         if rated_win && record.break_win {
                             server.award_achievement(&user, snook_legend_proto::GOLDEN_BREAK).await;
                         }

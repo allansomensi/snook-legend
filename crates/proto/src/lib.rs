@@ -356,6 +356,33 @@ impl Tier {
         }
     }
 
+    /// Coins for reaching this league for the first time (none for the
+    /// one everybody starts in).
+    pub fn prize(self) -> u32 {
+        match self {
+            Tier::Rookie => 0,
+            Tier::Amateur => 50,
+            Tier::Skilled => 100,
+            Tier::Expert => 200,
+            Tier::Master => 400,
+            Tier::Grandmaster => 700,
+            Tier::Legend => 1000,
+        }
+    }
+
+    /// The achievement that comes with reaching this league (and carries
+    /// the league's item in the shop).
+    pub fn achievement(self) -> Option<&'static str> {
+        match self {
+            Tier::Rookie | Tier::Amateur => None,
+            Tier::Skilled => Some("rating_1300"),
+            Tier::Expert => Some("rating_1500"),
+            Tier::Master => Some("rating_1700"),
+            Tier::Grandmaster => Some("rating_1900"),
+            Tier::Legend => Some("rating_2100"),
+        }
+    }
+
     pub fn name(self) -> &'static str {
         match self {
             Tier::Rookie => "Rookie",

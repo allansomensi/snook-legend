@@ -263,6 +263,40 @@ pub async fn award_xp(server: &Server, user: &User, amount: u32) {
     }
 }
 
+/// What a rating that went from `before` to `after` pays: the coins of
+/// every league reached, once per league for good (the ledger keeps it
+/// single: a player who drops out of a league and comes back is not paid
+/// again). The league's item comes with its achievement.
+pub async fn league_rewards(server: &Server, user: &User, before: i32, after: i32) {
+    if server.with(|l| l.rules.lan) {
+        return;
+    }
+    let t = now();
+    let mut coins = 0u32;
+    for tier in snook_legend_proto::Tier::ALL {
+        let min = tier.min_rating();
+        if tier.prize() == 0 || before >= min || after < min {
+            continue;
+        }
+        let reference = format!("league:{}:{}", user.id, tier.name());
+        match server.store.credit(user.id, tier.prize() as i64, "league", Some(&reference), t).await
+        {
+            Ok(true) => coins += tier.prize(),
+            Ok(false) => {}
+            Err(e) => tracing::error!("league coins for {}: {e}", user.username),
+        }
+    }
+    if coins > 0 {
+        server.with(|l| {
+            l.notify(
+                &user.username,
+                ServerMsg::CoinsEarned { amount: coins, reason: "league".into() },
+            )
+        });
+        crate::shop::push_wallet(server, user).await;
+    }
+}
+
 /// What the account level pays as it goes from `before` to `after` XP: a
 /// few coins for every level reached (each level once, whatever happens:
 /// the ledger keeps it single) and, at the milestones, the achievement

@@ -824,6 +824,10 @@ async fn announce(server: &Arc<Server>, f: Finished) {
         let Some(user) = user else { continue };
         server.with(|l| l.refresh_user(user.clone()));
         server.check_achievements_after(user, f.game.rated && f.over.winner == seat).await;
+        if f.game.rated {
+            let after = f.game.ratings[seat];
+            crate::account::league_rewards(server, user, after - f.game.delta[seat], after).await;
+        }
         if f.game.rated && f.over.winner == seat && f.break_win {
             server.award_achievement(user, snook_legend_proto::GOLDEN_BREAK).await;
         }

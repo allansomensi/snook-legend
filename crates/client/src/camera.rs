@@ -34,6 +34,8 @@ pub struct CameraRig {
     target: Vec3,
     up: Vec3,
     initialised: bool,
+    /// The last frame was the overhead view.
+    was_top: bool,
     /// Current field of view (narrower overhead, so the table looks flat).
     fovy: f32,
     /// Watching a game: the camera directs itself and cuts between angles
@@ -73,15 +75,15 @@ const ZOOM_NEAR: f32 = 0.6;
 const ZOOM_FAR: f32 = 4.1;
 /// Field of view of the overhead view: narrow, so the table looks flat.
 const TOP_FOV: f32 = 0.63;
-/// How far above the table the overhead view looks from (m). From up
-/// here, through a long lens, the table is seen almost without
-/// perspective: balls stay round out to the corners (from under the
-/// ceiling, at the ends of the table they were drawn a sixth longer than
-/// wide), and what stands at different heights (the aiming line, the cue,
-/// the ghost ball, a ball and the ring under it) lines up as it does on
-/// the cloth. The hall above the table is cut away by the near plane (see
-/// `SceneCamera::matrix`).
-const TOP_EYE_HEIGHT: f32 = 14.0;
+/// How far above the table the overhead view looks from (m): twice as
+/// high as the ceiling allowed, through a lens as much longer. From under
+/// the ceiling, the balls at the ends of the table were drawn a sixth
+/// longer than wide; from here it is a few hundredths, and the table still
+/// has its depth (from much higher it looked like a flat drawing). The
+/// hall above the table is cut away by the near plane (see
+/// `SceneCamera::matrix`), and the table is lit as seen from under the
+/// ceiling (see `Scene::draw`), as it always was.
+const TOP_EYE_HEIGHT: f32 = 4.2;
 /// The overhead eye never rises above this (m above the floor): the bar's
 /// ceiling beams start at about 2.98 m, and one runs right over the table.
 const TOP_MAX_EYE_Y: f32 = 2.75;
@@ -102,6 +104,7 @@ impl Default for CameraRig {
             target: vec3(0.0, TABLE_HEIGHT, 0.0),
             up: Vec3::Y,
             initialised: false,
+            was_top: false,
             fovy: 36f32.to_radians(),
             tv: false,
             tv_paused: false,
@@ -431,6 +434,17 @@ impl CameraRig {
             self.up = up;
             self.initialised = true;
         }
+        // Leaving the overhead view: the move to the new view starts from
+        // under the ceiling, with the same picture (the lens widened by as
+        // much as the eye came down). Starting from high above, the camera
+        // seemed to jump up before it came round.
+        let top = self.mode == CameraMode::Top && m.is_some();
+        if self.was_top && !top && self.eye.y > TOP_MAX_EYE_Y {
+            let (high, low) = (self.eye.y - TABLE_HEIGHT, TOP_MAX_EYE_Y - TABLE_HEIGHT);
+            self.fovy = 2.0 * ((self.fovy / 2.0).tan() * high / low).atan();
+            self.eye.y = TOP_MAX_EYE_Y;
+        }
+        self.was_top = top;
         let k = 1.0 - (-dt * rate).exp();
         self.eye = self.eye.lerp(eye, k);
         self.target = self.target.lerp(target, k);

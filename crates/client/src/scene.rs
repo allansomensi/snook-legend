@@ -439,7 +439,13 @@ impl Scene {
             Some(style) => crate::halls::tint(style),
             None => vec3(0.09, 0.06, 0.045),
         };
-        self.materials.set_frame(cam.eye, self.lamps, 1.55, self.lamp_count, focus, tint);
+        // The overhead view looks from above the ceiling through a long
+        // lens; the table is lit as seen from under the ceiling, where the
+        // view used to be: lit from high above, every glossy thing shone
+        // straight back and the table went pale and flat.
+        let light_eye = vec3(cam.eye.x, cam.eye.y.min(LIGHT_EYE_MAX_Y), cam.eye.z);
+        let lens = (cam.eye.y - TABLE_HEIGHT).max(0.1) / (light_eye.y - TABLE_HEIGHT).max(0.1);
+        self.materials.set_frame(light_eye, self.lamps, 1.55, self.lamp_count, focus, tint);
         let soft_shadows = self.soft_shadows && self.ball_shadows;
         let mut casters = [Vec4::ZERO; 16];
         if soft_shadows {
@@ -457,7 +463,8 @@ impl Scene {
         self.materials.set_shadows(soft_shadows, soft_shadows, &casters, cue);
         self.materials.set_pockets(&self.holes, &self.throats);
         let half = half_table(&self.table);
-        let glint = gfx::glint_angle(cam.fovy, screen_height(), self.ball_radius());
+        // (A pixel is as large on the table as from the real eye.)
+        let glint = gfx::glint_angle(cam.fovy, screen_height(), self.ball_radius()) * lens;
         self.materials.set_table(half, glint);
         self.materials.set_clear(
             self.clear_over_table
@@ -477,7 +484,7 @@ impl Scene {
             let flipped = MirrorCamera(cam);
             set_camera(&flipped);
             self.materials.set_view(flipped.matrix());
-            self.materials.set_camera_pos(cam.eye * vec3(1.0, -1.0, 1.0));
+            self.materials.set_camera_pos(light_eye * vec3(1.0, -1.0, 1.0));
             self.materials.set_mirror(mirror);
             self.draw_table(true, hall);
             // What starts higher than the reflection's fade lets through
@@ -495,7 +502,7 @@ impl Scene {
             self.materials.set_room(false);
             self.draw_placed_balls();
             self.materials.set_mirror(0.0);
-            self.materials.set_camera_pos(cam.eye);
+            self.materials.set_camera_pos(light_eye);
         }
         set_camera(cam);
         self.materials.set_view(cam.matrix());
@@ -1158,6 +1165,10 @@ struct Sinking {
     /// house rules): it rolls to the pocket before it drops.
     rolling: bool,
 }
+
+/// The highest the eye is taken to be for the lighting (m above the
+/// floor): just under the halls' ceilings, where the overhead view was.
+const LIGHT_EYE_MAX_Y: f32 = 2.75;
 
 /// How deep below the cloth a ball's centre is when it is out of sight (m).
 const SINK_DEPTH: f64 = 0.065;

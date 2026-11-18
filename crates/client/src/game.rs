@@ -302,9 +302,6 @@ pub struct Match {
     /// The head string drawn at all times (a setting; off: only while the
     /// cue ball is placed behind it).
     pub head_string: bool,
-    /// Balls that just dropped: the pocket, the ball and how long ago (a
-    /// ring of light opens round the pocket).
-    pub pot_flashes: Vec<(PocketId, BallId, f32)>,
     /// The balls made in a row by the player at the table this visit (the
     /// count by their picture, and a cheer at three, five, seven).
     pub visit_run: (usize, u32),
@@ -316,9 +313,6 @@ pub struct Match {
     /// when it comes back).
     my_turn_seen: bool,
 }
-
-/// How long a pocket's ring of light lasts (s).
-pub const POT_FLASH_TIME: f32 = 0.9;
 
 /// A drill session: its tries, what each gave, and every stroke (for the
 /// server, which counts them again).
@@ -560,7 +554,6 @@ impl Match {
             cup: false,
             avatars: Default::default(),
             head_string: false,
-            pot_flashes: Vec::new(),
             visit_run: (0, 0),
             last_tick: None,
             my_turn_seen: false,
@@ -886,7 +879,6 @@ impl Match {
             cup: false,
             avatars: [players[0].avatar.clone(), players[1].avatar.clone()],
             head_string: false,
-            pot_flashes: Vec::new(),
             visit_run: (0, 0),
             last_tick: None,
             my_turn_seen: false,
@@ -1427,10 +1419,6 @@ impl Match {
                 self.banter = None;
             }
         }
-        for f in &mut self.pot_flashes {
-            f.2 += dt;
-        }
-        self.pot_flashes.retain(|f| f.2 < POT_FLASH_TIME);
         for n in &mut self.notices {
             n.ttl -= dt;
         }
@@ -1636,14 +1624,6 @@ impl Match {
         }
     }
 
-    fn collect_pots(events: &[Event], from: usize, out: &mut Vec<(PocketId, BallId, f32)>) {
-        for e in &events[from.min(events.len())..] {
-            if let Event::Pocketed { ball, pocket, .. } = *e {
-                out.push((pocket, ball, 0.0));
-            }
-        }
-    }
-
     fn collect_sounds(events: &[Event], from: usize, out: &mut Vec<ImpactSound>) {
         for e in &events[from.min(events.len())..] {
             let sound = match *e {
@@ -1668,7 +1648,6 @@ impl Match {
         };
         let moving = pending.simulation.advance(dt);
         Self::collect_sounds(pending.simulation.events(), events_seen, &mut self.sounds);
-        Self::collect_pots(pending.simulation.events(), events_seen, &mut self.pot_flashes);
         self.events_seen = pending.simulation.events().len();
         if !moving {
             self.end_animation();
@@ -1846,7 +1825,6 @@ impl Match {
         let seen = r.events_seen;
         let moving = r.simulation.advance((dt as f64).min(0.1));
         Self::collect_sounds(r.simulation.events(), seen, &mut self.sounds);
-        Self::collect_pots(r.simulation.events(), seen, &mut self.pot_flashes);
         r.events_seen = r.simulation.events().len();
         if !moving {
             r.done += dt;

@@ -457,6 +457,10 @@ impl ProfileScreen {
         if !player.guest {
             parts.push(age(p.created_at));
         }
+        // One's own profile: what the next level that brings an item is.
+        if own && let Some(next) = next_reward(player.level) {
+            parts.push(next);
+        }
         // Friends see when the other was last around.
         if !p.online && p.last_seen > 0 {
             parts.push(crate::online::last_seen(p.last_seen));
@@ -1333,4 +1337,14 @@ fn cue_card(ui: &mut Ui, p: &Profile, r: Rect) {
         let (text, size) = ui.fitted(&text, 12.0, room, false);
         ui.text(&text, x, r.y + 88.0, size, MUTED, false);
     }
+}
+
+/// "Level 10 brings: Regular's teal": the next level with an item of its
+/// own (none past the last).
+pub fn next_reward(level: u32) -> Option<String> {
+    let (at, achievement) = snook_legend_proto::xp::next_milestone(level)?;
+    let item = snook_legend_proto::shop::ITEMS.iter().find(
+        |i| matches!(i.price, snook_legend_proto::shop::Price::Achievement(a) if a == achievement),
+    )?;
+    Some(tw("Level {n} brings: {item}", &[("n", &at), ("item", &t(item.name))]))
 }

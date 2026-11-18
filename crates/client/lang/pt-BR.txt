@@ -1755,3 +1755,26 @@ Have an account for five years.	Tenha uma conta há cinco anos.
 Back to the tournament	Voltar ao torneio
 Continue against {name}	Continuar contra {name}
 You left your game: it counts as a loss.	Você saiu da partida: conta como derrota.
+new level	novo nível
+Level {n} brings: {item}	O nível {n} traz: {item}
+Level 5	Nível 5
+Reach level 5.	Chegue ao nível 5.
+Level 10	Nível 10
+Reach level 10.	Chegue ao nível 10.
+Level 15	Nível 15
+Reach level 15.	Chegue ao nível 15.
+Level 20	Nível 20
+Reach level 20.	Chegue ao nível 20.
+Level 30	Nível 30
+Reach level 30.	Chegue ao nível 30.
+Level 40	Nível 40
+Reach level 40.	Chegue ao nível 40.
+Level 50	Nível 50
+Reach level 50.	Chegue ao nível 50.
+Regular's teal	Verde-azulado do frequentador
+Veteran's plum	Ameixa do veterano
+Master's black	Preto do mestre
+Old hand	Macaco velho
+Lifer	Vida inteira
+Apprentice's chalk	Giz do aprendiz
+Journeyman's chalk	Giz do oficial

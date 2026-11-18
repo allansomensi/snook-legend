@@ -8,12 +8,15 @@ use snook_legend_proto::{ClientMsg, MAX_NAME_CHANGES, ServerMsg, valid_password,
 use crate::store::{Rename, User, day_of};
 use crate::{Server, now, token_hash};
 
-/// Coins for a finished rated game, and extra for winning it.
-pub const COINS_PER_GAME: i64 = 4;
-pub const COINS_PER_WIN: i64 = 6;
+/// Coins for a finished rated game, and extra for winning it. Coins are
+/// scarce on purpose: what the shop sells is meant to be earned over weeks
+/// and months of play, not days (a player who plays a lot every day makes
+/// some fifty coins a day, missions included; the cheapest item is 400).
+pub const COINS_PER_GAME: i64 = 2;
+pub const COINS_PER_WIN: i64 = 4;
 /// Most coins a day from games (the daily bonus is on top).
-pub const DAILY_EARN_CAP: i64 = 50;
-pub const DAILY_BONUS: i64 = 10;
+pub const DAILY_EARN_CAP: i64 = 24;
+pub const DAILY_BONUS: i64 = 5;
 /// A game this short (in shots) earns nothing: it was arranged or abandoned.
 pub const MIN_SHOTS_FOR_COINS: u32 = 8;
 
@@ -217,6 +220,10 @@ pub async fn signed_in(server: &Server, user: &User) {
     crate::missions::push(server, user).await;
     // Where the account level stands (for its bar in the game).
     server.with(|l| l.notify(&user.username, ServerMsg::Xp { xp: user.xp, gained: 0 }));
+    // The milestones of a level reached before they brought anything.
+    if snook_legend_proto::xp::level_of(user.xp) >= snook_legend_proto::xp::MILESTONES[0].0 {
+        level_rewards(server, user, user.xp, user.xp).await;
+    }
 }
 
 /// Coins for a finished rated game (capped per day). `won`: the player won.
@@ -245,11 +252,69 @@ pub async fn award_xp(server: &Server, user: &User, amount: u32) {
         return;
     }
     match server.store.add_xp(user.id, amount).await {
-        Ok(xp) => server.with(|l| {
-            l.notify(&user.username, snook_legend_proto::ServerMsg::Xp { xp, gained: amount });
-            l.set_xp(&user.username, xp);
-        }),
+        Ok(xp) => {
+            server.with(|l| {
+                l.notify(&user.username, snook_legend_proto::ServerMsg::Xp { xp, gained: amount });
+                l.set_xp(&user.username, xp);
+            });
+            level_rewards(server, user, xp - amount as i64, xp).await;
+        }
         Err(e) => tracing::warn!("xp for {}: {e}", user.username),
+    }
+}
+
+/// What the account level pays as it goes from `before` to `after` XP: a
+/// few coins for every level reached (each level once, whatever happens:
+/// the ledger keeps it single) and, at the milestones, the achievement
+/// that carries an item. With `before == after` (on signing in) only the
+/// milestones are looked at, for an account that reached them before they
+/// paid anything.
+pub async fn level_rewards(server: &Server, user: &User, before: i64, after: i64) {
+    use snook_legend_proto::xp;
+    let (old, new) = (xp::level_of(before), xp::level_of(after));
+    let t = now();
+    let mut coins = 0u32;
+    for level in (old + 1)..=new {
+        let reference = format!("level:{}:{level}", user.id);
+        match server
+            .store
+            .credit(user.id, xp::LEVEL_COINS as i64, "level", Some(&reference), t)
+            .await
+        {
+            Ok(true) => coins += xp::LEVEL_COINS,
+            Ok(false) => {}
+            Err(e) => tracing::error!("level coins for {}: {e}", user.username),
+        }
+    }
+    if coins > 0 {
+        server.with(|l| {
+            l.notify(
+                &user.username,
+                ServerMsg::CoinsEarned { amount: coins, reason: "level".into() },
+            )
+        });
+    }
+    let codes: Vec<&str> = xp::milestones_reached(new).collect();
+    let mut unlocked = false;
+    if !codes.is_empty() {
+        match server.store.add_achievements(user.id, &codes, t).await {
+            Ok(fresh) if !fresh.is_empty() => {
+                unlocked = true;
+                let all = server.store.achievements(user.id).await.unwrap_or_default();
+                let all: Vec<String> = all.into_iter().map(|(code, _)| code).collect();
+                server.with(|l| {
+                    for code in fresh {
+                        l.notify(&user.username, ServerMsg::AchievementUnlocked { code });
+                    }
+                    l.set_achievements(&user.username, all);
+                });
+            }
+            Ok(_) => {}
+            Err(e) => tracing::error!("level achievements for {}: {e}", user.username),
+        }
+    }
+    if coins > 0 || unlocked {
+        crate::shop::push_wallet(server, user).await;
     }
 }
 

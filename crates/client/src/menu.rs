@@ -442,10 +442,16 @@ impl Menu {
                     let k = if span == 0 { 1.0 } else { into as f32 / span as f32 };
                     crate::ui::rrect(Rect::new(bar.x, bar.y, bar.w * k, bar.h), 1.5, GOLD);
                     if hover {
-                        let tip = tw(
+                        let mut tip = tw(
                             "Level {n} · {into} / {span} XP to the next",
                             &[("n", &level), ("into", &into), ("span", &span)],
                         );
+                        // What the level is for: coins at each one, an item
+                        // of its own at some.
+                        if let Some(next) = crate::profile::next_reward(level) {
+                            tip.push('\n');
+                            tip.push_str(&next);
+                        }
                         ui.tooltip(&tip, r);
                     }
                 }

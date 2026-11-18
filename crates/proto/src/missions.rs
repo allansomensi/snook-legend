@@ -46,21 +46,21 @@ const fn m(
 }
 
 pub const DAILY: &[Mission] = &[
-    m("d_play", "Play {n} rated games", Goal::Play, 3, 12, false),
-    m("d_win", "Win {n} rated games", Goal::Win, 2, 15, false),
-    m("d_balls", "Pot {n} balls", Goal::Balls, 15, 10, false),
-    m("d_spin", "Pot {n} balls with spin", Goal::SpinPots, 5, 12, false),
-    m("d_run", "Pot 3 balls in a row in one visit", Goal::Runs, 1, 10, false),
-    m("d_clean", "Win a game without a foul", Goal::CleanWins, 1, 15, false),
+    m("d_play", "Play {n} rated games", Goal::Play, 3, 6, false),
+    m("d_win", "Win {n} rated games", Goal::Win, 2, 8, false),
+    m("d_balls", "Pot {n} balls", Goal::Balls, 15, 5, false),
+    m("d_spin", "Pot {n} balls with spin", Goal::SpinPots, 5, 6, false),
+    m("d_run", "Pot 3 balls in a row in one visit", Goal::Runs, 1, 5, false),
+    m("d_clean", "Win a game without a foul", Goal::CleanWins, 1, 8, false),
 ];
 
 pub const WEEKLY: &[Mission] = &[
-    m("w_play", "Play {n} rated games", Goal::Play, 20, 50, true),
-    m("w_win", "Win {n} rated games", Goal::Win, 10, 70, true),
-    m("w_balls", "Pot {n} balls", Goal::Balls, 100, 50, true),
-    m("w_spin", "Pot {n} balls with spin", Goal::SpinPots, 40, 60, true),
-    m("w_run", "Pot 3 balls in a row {n} times", Goal::Runs, 10, 50, true),
-    m("w_clean", "Win {n} games without a foul", Goal::CleanWins, 5, 70, true),
+    m("w_play", "Play {n} rated games", Goal::Play, 20, 25, true),
+    m("w_win", "Win {n} rated games", Goal::Win, 10, 35, true),
+    m("w_balls", "Pot {n} balls", Goal::Balls, 100, 25, true),
+    m("w_spin", "Pot {n} balls with spin", Goal::SpinPots, 40, 30, true),
+    m("w_run", "Pot 3 balls in a row {n} times", Goal::Runs, 10, 25, true),
+    m("w_clean", "Win {n} games without a foul", Goal::CleanWins, 5, 35, true),
 ];
 
 /// Missions a day has, and a week.

@@ -92,7 +92,7 @@ which every desktop installation has. How releases are made is described in
   prediction of the deterministic physics), the opponent's as soon as the
   server announces it; the server's result is authoritative.
 - **Profiles and progress**: rating, tier and how far the next one is, world
-  rank, numbers, match history with rating changes, **43 achievements**, an **analysis** of how you pot (by pocket, distance and kind of shot, with a heat map),, the
+  rank, numbers, match history with rating changes, **50 achievements**, an **analysis** of how you pot (by pocket, distance and kind of shot, with a heat map),, the
   reactions collected and the **world top 100**. Ratings move slowly (Elo,
   K 24 for the first 10 games, then 14, 8 from 1900).
 - **End-of-game numbers**: potting success, balls made, best run, fouls and

@@ -263,7 +263,7 @@ fn rail(ui: &mut Ui, m: &Match, made: &Made, seat: usize, r: Rect, active: bool,
         }
     }
     // The far end: the shot clock while it runs, a daily game's time, or
-    // the rating online.
+    // the league online.
     let far = |ui: &mut Ui, text: &str, color: Color| {
         let w = ui.text_size(text, 11.5, true).x;
         let x = if from_left { r.x + r.w - w - 10.0 } else { r.x + 10.0 };
@@ -291,7 +291,9 @@ fn rail(ui: &mut Ui, m: &Match, made: &Made, seat: usize, r: Rect, active: bool,
     } else if let Some((left, color)) = crate::correspondence::card_clock(m, seat) {
         far(ui, &left, color);
     } else if let Some(o) = &m.online {
-        far(ui, &o.ratings[seat].to_string(), MUTED);
+        // The league, not the number (that is on the profile).
+        let league = crate::i18n::t(snook_legend_proto::Tier::of(o.ratings[seat]).name());
+        far(ui, league, MUTED);
     }
 }
 

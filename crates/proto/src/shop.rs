@@ -405,6 +405,10 @@ pub const ITEMS: &[Item] = &[
     cloth("cloth_midnight", "Midnight", Price::Vip, [12, 17, 40]),
     cloth("cloth_emerald", "Emerald", Price::Vip, [6, 110, 74]),
     cloth("cloth_champion", "Champion's red", Price::Achievement("tournament_win"), [110, 12, 16]),
+    // The account level's own (never sold).
+    cloth("cloth_level10", "Regular's teal", Price::Achievement("level_10"), [10, 84, 84]),
+    cloth("cloth_level20", "Veteran's plum", Price::Achievement("level_20"), [70, 22, 74]),
+    cloth("cloth_level40", "Master's black", Price::Achievement("level_40"), [18, 18, 20]),
     cloth("cloth_welcome", "Lagoon", Price::Pack, [14, 100, 112]),
     // Cues.
     cue("cue_classic", "Classic", Price::Free, [35, 20, 12], [20, 20, 24], [240, 238, 228], Plain),
@@ -633,6 +637,25 @@ pub const ITEMS: &[Item] = &[
         [250, 216, 120],
         Flame,
     ),
+    // The account level's own (never sold).
+    cue(
+        "cue_level30",
+        "Old hand",
+        Price::Achievement("level_30"),
+        [58, 30, 16],
+        [196, 150, 84],
+        [230, 214, 180],
+        Points,
+    ),
+    cue_carbon(
+        "cue_level50",
+        "Lifer",
+        Price::Achievement("level_50"),
+        [14, 16, 22],
+        [90, 190, 230],
+        [220, 236, 246],
+        Weave,
+    ),
     // Earned by beating the computer ladder (never sold).
     cue(
         "cue_ladder",
@@ -645,6 +668,9 @@ pub const ITEMS: &[Item] = &[
     ),
     // Chalk.
     chalk("chalk_blue", "Blue chalk", Price::Free, [40, 80, 150]),
+    // The account level's own (never sold).
+    chalk("chalk_level5", "Apprentice's chalk", Price::Achievement("level_5"), [46, 168, 150]),
+    chalk("chalk_level15", "Journeyman's chalk", Price::Achievement("level_15"), [150, 96, 204]),
     chalk("chalk_green", "Green chalk", Price::Coins(400), [40, 130, 70]),
     chalk("chalk_red", "Red chalk", Price::Coins(400), [170, 40, 40]),
     chalk("chalk_tan", "Tan chalk", Price::Coins(400), [180, 150, 100]),

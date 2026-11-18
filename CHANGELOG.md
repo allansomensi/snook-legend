@@ -1,5 +1,29 @@
 # Changelog
 
+## Unreleased
+
+After 0.6.1 (same protocol and rules: they play together). The server pays
+the levels' rewards, so it must be updated with the game. No migrations.
+
+### One rank to show, one road to walk
+- Other players are shown by their **league** (the name and colour of
+  their rating's tier) in the lounge, at open tables, in tournaments, in
+  the score panel and among recent opponents. The rating itself is on the
+  profile and in the ranking.
+- The **account level** is a road of rewards: every level reached pays 20
+  coins, and levels 5, 10, 15, 20, 30, 40 and 50 each bring an item that
+  can be had no other way (two chalks, three cloths, two cues). The main
+  menu's card and one's own profile say what the next such level brings.
+- The road is long on purpose: a level takes a good deal more experience
+  than it did (level 5 is some thirty games away, level 10 over a hundred,
+  level 20 about four hundred, level 50 a couple of thousand).
+
+### A hard economy
+- Coins are scarce, so that what the shop sells is earned over weeks and
+  months: 2 coins for a rated game and 4 more for winning it (they were 4
+  and 6), at most 24 a day from games (50), a daily bonus of 5 (10), and
+  missions that pay half of what they did. Prices are the same.
+
 ## 0.6.1 (protocol 17)
 
 0.6.0 and 0.6.1 play together (same protocol and rules); the tour's last

@@ -257,7 +257,7 @@ impl Online {
                 draw_circle(dot.x, dot.y, 4.0, Color::new(0.4, 0.4, 0.4, 1.0));
             }
             let mode = if r_.rated { t("rated") } else { t("casual") };
-            let mut sub = format!("{} · {} · {}", p.rating, ago(r_.at, now), mode);
+            let mut sub = format!("{} · {} · {}", t(p.tier().name()), ago(r_.at, now), mode);
             if r_.games > 1 {
                 sub = format!("{sub} · {}", tw("{n} games", &[("n", &r_.games)]));
             }
@@ -431,7 +431,7 @@ impl Online {
             return;
         }
         let used = name_width(ui, p, 15.0);
-        let text = p.rating.to_string();
+        let text = t(p.tier().name()).to_string();
         if used + 10.0 + ui.text_size(&text, 12.0, false).x <= room {
             ui.text(&text, x + used + 10.0, y + 2.5, 12.0, MUTED, false);
         }

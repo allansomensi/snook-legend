@@ -200,6 +200,14 @@ pub const ACHIEVEMENTS: &[Achievement] = &[
         1825,
         3,
     ),
+    // The account level's milestones: each brings an item (see `xp`).
+    a("level_5", "Level 5", "Reach level 5.", Stat::Awarded, 1, 0),
+    a("level_10", "Level 10", "Reach level 10.", Stat::Awarded, 1, 1),
+    a("level_15", "Level 15", "Reach level 15.", Stat::Awarded, 1, 1),
+    a("level_20", "Level 20", "Reach level 20.", Stat::Awarded, 1, 2),
+    a("level_30", "Level 30", "Reach level 30.", Stat::Awarded, 1, 2),
+    a("level_40", "Level 40", "Reach level 40.", Stat::Awarded, 1, 3),
+    a("level_50", "Level 50", "Reach level 50.", Stat::Awarded, 1, 3),
     a(
         "ladder_champion",
         "Champion of the tour",

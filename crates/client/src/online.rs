@@ -1075,6 +1075,7 @@ impl Online {
                     "game" => t("for the game"),
                     "prize" => t("tournament prize"),
                     "refund" => t("entry fee back"),
+                    "level" => t("new level"),
                     "mission" => {
                         if self.side != Side::Missions {
                             self.mission_done = true;
@@ -2398,14 +2399,16 @@ impl Online {
                 if p.guest {
                     t("playing the computer").to_string()
                 } else {
-                    format!("{} · {}", p.rating, t("playing the computer"))
+                    // Others are shown by their league (the rating itself
+                    // is on the profile and in the ranking).
+                    format!("{} · {}", t(p.tier().name()), t("playing the computer"))
                 }
             }
             PlayerStatus::Available => {
                 if p.guest {
                     t("guest").to_string()
                 } else {
-                    format!("{} · {}", p.rating, t(p.tier().name()))
+                    t(p.tier().name()).to_string()
                 }
             }
         }
@@ -2843,7 +2846,7 @@ impl Online {
                 (t("casual"), Color::new(0.6, 0.8, 1.0, 1.0))
             };
             px += ui.pill(label, px, r.y + 25.0, color) + 8.0;
-            ui.text(&table.host.rating.to_string(), px, r.y + 26.0, 12.0, MUTED, false);
+            ui.text(t(table.host.tier().name()), px, r.y + 26.0, 12.0, MUTED, false);
             if table.private && !joining {
                 let c = vec2(text_right - 8.0, r.y + r.h / 2.0);
                 crate::icons::draw(Icon::Lock, c, 16.0, MUTED);
@@ -3284,7 +3287,7 @@ impl Online {
                 if ry + 24.0 > rest.y + rest.h {
                     break;
                 }
-                let rating = p.rating.to_string();
+                let rating = t(p.tier().name()).to_string();
                 let rw = ui.text_size(&rating, 13.0, false).x;
                 ui.text(&format!("{}.", k + 1), rest.x + 2.0, ry + 2.0, 13.0, MUTED, false);
                 ui.player_name(p, rest.x + 30.0, ry, 15.0, rest.w - 30.0 - rw - 16.0);

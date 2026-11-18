@@ -571,7 +571,8 @@ impl Scene {
             self.draw_ghost_ball(p, cam);
         }
         // Last, over everything: the haze under the lamps and the halos
-        // round the bulbs (they are see-through and write no useful depth).
+        // round the bulbs (see-through: they write no depth, so the haze
+        // never cuts a halo).
         if hall && self.halos {
             if self.lamp_visible {
                 self.materials.set_room(true);
@@ -638,7 +639,7 @@ impl Scene {
             );
         }
         if !b.is_empty() {
-            self.materials.use_blended(Surface::UNLIT);
+            self.materials.use_glow(Surface::UNLIT);
             b.build_dynamic(&self.glow_tex).draw();
         }
     }
@@ -844,7 +845,9 @@ impl Scene {
 /// Draws the parts of `parts` in `layer`.
 fn draw_layer(parts: &[gfx::Built], layer: gfx::Layer, materials: &Materials) {
     for part in parts.iter().filter(|p| p.layer == layer) {
-        if matches!(layer, gfx::Layer::Blended | gfx::Layer::Haze) {
+        if layer == gfx::Layer::Haze {
+            materials.use_glow(part.surface);
+        } else if layer == gfx::Layer::Blended {
             materials.use_blended(part.surface);
         } else {
             materials.use_lit(part.surface);

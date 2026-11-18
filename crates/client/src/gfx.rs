@@ -633,10 +633,16 @@ fn uniform_descs() -> Vec<UniformDesc> {
 struct Raw {
     lit: mq::Pipeline,
     blended: mq::Pipeline,
+    glow: mq::Pipeline,
 }
 
 impl Raw {
-    fn new(fragment: &str, lit: PipelineParams, blended: PipelineParams) -> Option<Raw> {
+    fn new(
+        fragment: &str,
+        lit: PipelineParams,
+        blended: PipelineParams,
+        glow: PipelineParams,
+    ) -> Option<Raw> {
         let ctx = unsafe { get_internal_gl() }.quad_context;
         let mut uniforms = vec![
             UniformDesc::new("Projection", UniformType::Mat4),
@@ -661,11 +667,13 @@ impl Raw {
         Some(Raw {
             lit: ctx.new_pipeline(&layout, &attributes, shader, lit),
             blended: ctx.new_pipeline(&layout, &attributes, shader, blended),
+            glow: ctx.new_pipeline(&layout, &attributes, shader, glow),
         })
     }
 }
 
-/// The shared lit material plus a blended variant for decals and shadows.
+/// The shared lit material plus a blended variant for decals and shadows,
+/// and one for light in the air (see [`Materials::use_glow`]).
 ///
 /// The uniforms are kept here too: meshes on the GPU are drawn with the same
 /// shader straight through miniquad (see [`Materials::draw`]), the small
@@ -673,9 +681,10 @@ impl Raw {
 pub struct Materials {
     pub lit: Material,
     pub blended: Material,
+    glow: Material,
     raw: Option<Raw>,
     state: std::cell::RefCell<Uniforms>,
-    blending: std::cell::Cell<bool>,
+    blending: std::cell::Cell<Blending>,
     /// What is drawn now is the room (see [`Materials::set_room`]).
     room: std::cell::Cell<bool>,
 }
@@ -723,8 +732,8 @@ impl Materials {
             ..Default::default()
         };
         let blended_params = PipelineParams {
-            // miniquad disables the depth *test* when depth writes are off,
-            // so decals write depth too (they lie flat on surfaces).
+            // Decals and shadows write depth too (they lie flat on
+            // surfaces, and what is drawn later must not show through).
             depth_test: Comparison::LessOrEqual,
             depth_write: true,
             cull_face: CullFace::Nothing,
@@ -735,16 +744,21 @@ impl Materials {
             )),
             ..Default::default()
         };
+        // Light in the air (haze, halos): hidden by what is solid, never
+        // hiding anything itself (one doesn't cut the other).
+        let glow_params = PipelineParams { depth_write: false, ..blended_params };
         let lit = load(VERTEX, lit_params);
         let blended = load(VERTEX, blended_params);
+        let glow = load(VERTEX, glow_params);
         // The safe mode keeps everything on macroquad's own path.
-        let raw = if safe { None } else { Raw::new(used, lit_params, blended_params) };
+        let raw = if safe { None } else { Raw::new(used, lit_params, blended_params, glow_params) };
         Materials {
             lit,
             blended,
+            glow,
             raw,
             state: Default::default(),
-            blending: std::cell::Cell::new(false),
+            blending: std::cell::Cell::new(Blending::Off),
             room: std::cell::Cell::new(false),
         }
     }
@@ -756,6 +770,7 @@ impl Materials {
     {
         self.lit.set_uniform(name, value);
         self.blended.set_uniform(name, value);
+        self.glow.set_uniform(name, value);
         write(&mut self.state.borrow_mut());
     }
 
@@ -815,7 +830,7 @@ impl Materials {
             0.0,
         );
         self.set("Shadows", shadows, |u| u.shadows = shadows.to_array());
-        for m in [&self.lit, &self.blended] {
+        for m in [&self.lit, &self.blended, &self.glow] {
             m.set_uniform_array("Balls", &balls[..]);
         }
         let mut u = self.state.borrow_mut();
@@ -836,7 +851,7 @@ impl Materials {
     pub fn use_lit(&self, s: Surface) {
         set_surface(&self.lit, s, self.room.get());
         self.set_state_surface(s);
-        self.blending.set(false);
+        self.blending.set(Blending::Off);
         gl_use_material(&self.lit);
     }
 
@@ -867,7 +882,7 @@ impl Materials {
 
     /// The pocket holes and throats cut out of the table (see `cut_away`).
     pub fn set_pockets(&self, holes: &[Vec4; 6], throats: &[Vec4; 12]) {
-        for m in [&self.lit, &self.blended] {
+        for m in [&self.lit, &self.blended, &self.glow] {
             m.set_uniform_array("Holes", &holes[..]);
             m.set_uniform_array("Throats", &throats[..]);
         }
@@ -883,8 +898,18 @@ impl Materials {
     pub fn use_blended(&self, s: Surface) {
         set_surface(&self.blended, s, self.room.get());
         self.set_state_surface(s);
-        self.blending.set(true);
+        self.blending.set(Blending::On);
         gl_use_material(&self.blended);
+    }
+
+    /// Light in the air (the haze under a lamp, a bulb's halo): blended,
+    /// behind what is solid, and leaving no depth of its own, so one never
+    /// cuts a square out of another drawn after it.
+    pub fn use_glow(&self, s: Surface) {
+        set_surface(&self.glow, s, self.room.get());
+        self.set_state_surface(s);
+        self.blending.set(Blending::Glow);
+        gl_use_material(&self.glow);
     }
 
     fn set_state_surface(&self, s: Surface) {
@@ -911,7 +936,11 @@ impl Materials {
         u.model = transform.unwrap_or(Mat4::IDENTITY).to_cols_array();
         let (w, h) = mq::window::screen_size();
         ctx.begin_default_pass(mq::PassAction::Nothing);
-        ctx.apply_pipeline(if self.blending.get() { &raw.blended } else { &raw.lit });
+        ctx.apply_pipeline(match self.blending.get() {
+            Blending::Off => &raw.lit,
+            Blending::On => &raw.blended,
+            Blending::Glow => &raw.glow,
+        });
         ctx.apply_viewport(0, 0, w as i32, h as i32);
         ctx.apply_scissor_rect(0, 0, w as i32, h as i32);
         for g in &model.gpu {
@@ -921,6 +950,14 @@ impl Materials {
         }
         ctx.end_render_pass();
     }
+}
+
+/// How what is drawn next blends (see [`Materials`]).
+#[derive(Clone, Copy, PartialEq)]
+enum Blending {
+    Off,
+    On,
+    Glow,
 }
 
 fn set_surface(m: &Material, s: Surface, room: bool) {

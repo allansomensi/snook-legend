@@ -1308,10 +1308,17 @@ impl RenderingBackend for GlContext {
                 glEnable(GL_SCISSOR_TEST);
             }
 
-            if pipeline.params.depth_write {
+            // Snook Legend patch: a pipeline can test depth without writing
+            // it (see-through things drawn over a scene: tested against what
+            // is solid, never hiding each other). Upstream turned the test
+            // off whenever writes were off; with the test on Always and no
+            // writes, it still is.
+            let params = &pipeline.params;
+            if params.depth_write || params.depth_test != Comparison::Always {
                 unsafe {
                     glEnable(GL_DEPTH_TEST);
-                    glDepthFunc(pipeline.params.depth_test.into())
+                    glDepthFunc(params.depth_test.into());
+                    glDepthMask(params.depth_write as GLboolean);
                 }
             } else {
                 unsafe {
@@ -1636,7 +1643,14 @@ impl RenderingBackend for GlContext {
 
         if bits != 0 {
             unsafe {
+                // Snook Legend patch: the depth mask follows the pipeline
+                // (see `apply_pipeline`); clearing needs writes on, and the
+                // pipeline in use gets its own mask back.
+                glDepthMask(GL_TRUE as GLboolean);
                 glClear(bits);
+                if let Some(p) = self.cache.cur_pipeline {
+                    glDepthMask(self.pipelines[p.0].params.depth_write as GLboolean);
+                }
             }
         }
     }

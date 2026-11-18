@@ -313,6 +313,10 @@ async fn main() {
     // last save was taken at.
     let mut saved_balls = saved::load().map(|s| s.balls_left());
     let mut save_key = None;
+    // A new game against the computer asked for while one is saved: it
+    // waits for the player to say which one (the new one takes the save's
+    // place).
+    let mut replace_save: Option<MatchSettings> = None;
     // The online match came from the LAN game (not the global server).
     let mut match_from_lan = false;
     let mut screen = Screen::Menu;
@@ -750,6 +754,8 @@ async fn main() {
         {
             controls.camera(&mut rig, &cam, ui.hovered, ui.wants_keyboard);
             controls.player(m, &scene, &cam, &mut rig, ui.hovered, ui.wants_keyboard);
+        } else {
+            controls.idle();
         }
 
         clear_background(if config.focused_scene {
@@ -1039,10 +1045,12 @@ async fn main() {
                                 {
                                     net.draw_invites(&mut ui, true);
                                 }
-                            } else if m.is_against_computer() || m.practice {
-                                // Playing the computer: still in the lounge,
+                            } else {
+                                // Any game here (the computer, two players,
+                                // a drill, a replay): still in the lounge,
                                 // so an invitation shows in the corner and
-                                // can be accepted (the computer game is kept).
+                                // can be accepted (a game against the
+                                // computer is kept).
                                 let y = if online.queue_secs().is_some() { 134.0 } else { 62.0 };
                                 let saved = m.is_against_computer();
                                 online.draw_invites_corner(&mut ui, y, saved);
@@ -1059,8 +1067,10 @@ async fn main() {
                     // gets neither the pointer nor Esc (screens leave Esc
                     // alone while a field has the keyboard).
                     // The e-mail offer too: its Esc is its own.
-                    let gift_modal =
-                        (online.gift_dialog_open() || offer_saved.is_some()) && !settings_open;
+                    let gift_modal = (online.gift_dialog_open()
+                        || offer_saved.is_some()
+                        || replace_save.is_some())
+                        && !settings_open;
                     let under_gift = gift_modal.then(|| {
                         ui.focus = Some(GIFT_DIALOG_FOCUS);
                         ui.suspend_input()
@@ -1181,6 +1191,10 @@ async fn main() {
                             versus::VersusAction::Back => {
                                 config.save();
                                 next = Some(Screen::Menu);
+                            }
+                            versus::VersusAction::Start(settings) if saved_balls.is_some() => {
+                                config.save();
+                                replace_save = Some(settings);
                             }
                             versus::VersusAction::Start(settings) => {
                                 config.save();
@@ -1311,10 +1325,10 @@ async fn main() {
                                 LanAction::Back => next = Some(Screen::Menu),
                                 LanAction::Host(name) => {
                                     if let Some((host, url)) = ls.host(&name) {
-                                        lan = Some(LanSession {
-                                            host: Some(host),
-                                            net: Online::lan(&url, &name),
-                                        });
+                                        let mut net = Online::lan(&url, &name);
+                                        net.host_address =
+                                            lan::local_ip().map(|ip| format!("{ip}:{}", host.port));
+                                        lan = Some(LanSession { host: Some(host), net });
                                         config.save();
                                         next = Some(Screen::LanLounge);
                                     }
@@ -1519,6 +1533,42 @@ async fn main() {
         if current.is_none() && !settings_open && online.email_offer.is_none() {
             online.draw_gift_dialog(&mut ui);
         }
+        // A new game against the computer while one is saved: which one.
+        if let Some(settings) = replace_save.clone()
+            && current.is_none()
+            && !settings_open
+        {
+            match draw_replace_save(&mut ui, saved_balls.unwrap_or(0)) {
+                Some(true) => {
+                    replace_save = None;
+                    current = Some(Match::new(&settings, game::clock_seed()));
+                    save_key = None;
+                    hud = Hud::new(config.show_help);
+                    rig.reset();
+                    screen = Screen::Menu;
+                }
+                Some(false) => {
+                    replace_save = None;
+                    if let Some(s) = saved::load() {
+                        let mut m = Match::resume(&s, config.guide);
+                        if cup.as_ref().is_some_and(|c| c.playing == Some(s.seed)) {
+                            m.make_cup_game();
+                        }
+                        current = Some(m);
+                        save_key = None;
+                        hud = Hud::new(config.show_help);
+                        rig.reset();
+                        screen = Screen::Menu;
+                    } else {
+                        saved_balls = None;
+                    }
+                }
+                None => {}
+            }
+            if ui.escape() {
+                replace_save = None;
+            }
+        }
         online.draw_toasts(&ui, toast_bottom);
         if let Some(l) = &lan {
             l.net.draw_toasts(&ui, toast_bottom);
@@ -1599,6 +1649,46 @@ async fn main() {
 }
 
 /// Darkened screen corners, like a camera lens: draws the eye to the table.
+/// Asks before a new game against the computer takes the place of the one
+/// in progress: Some(true) starts the new one, Some(false) goes back to the
+/// saved one, None while the player decides (Esc: neither).
+fn draw_replace_save(ui: &mut Ui, balls_left: usize) -> Option<bool> {
+    use crate::i18n::{t, tw};
+    let (sw, sh) = (ui::vw(), ui::vh());
+    draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.45));
+    let w = 460.0f32.min(sw - 24.0);
+    let text = if balls_left == 1 {
+        t("You have a game in progress against the computer, with 1 ball left. A new game takes its place.")
+            .to_string()
+    } else {
+        tw(
+            "You have a game in progress against the computer, with {n} balls left. A new game takes its place.",
+            &[("n", &balls_left)],
+        )
+    };
+    let lines = ui.wrap(&text, w - 48.0, 14.0);
+    let h = 24.0 + 26.0 + 12.0 + lines.len() as f32 * 19.0 + 24.0 + 40.0 + 24.0;
+    let r = Rect::new((sw - w) / 2.0, (sh - h) / 2.0, w, h);
+    ui.block(Rect::new(0.0, 0.0, sw, sh));
+    ui.panel(r);
+    let mut y = r.y + 24.0;
+    ui.text_centered(t("Start a new game?"), sw / 2.0, y, 19.0, ui::GOLD, true);
+    y += 26.0 + 12.0;
+    for line in &lines {
+        ui.text_centered(line, sw / 2.0, y, 14.0, ui::CREAM, false);
+        y += 19.0;
+    }
+    let by = r.y + r.h - 24.0 - 40.0;
+    let bw = (w - 48.0 - 12.0) / 2.0;
+    if ui.button(Rect::new(r.x + 24.0, by, bw, 40.0), t("Continue that game"), true) {
+        return Some(false);
+    }
+    if ui.primary_button(Rect::new(r.x + 24.0 + bw + 12.0, by, bw, 40.0), t("Start a new one")) {
+        return Some(true);
+    }
+    None
+}
+
 fn vignette_texture() -> Texture2D {
     const N: u16 = 128;
     let mut rgba = Vec::with_capacity(N as usize * N as usize * 4);

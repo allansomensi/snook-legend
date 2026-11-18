@@ -1425,13 +1425,18 @@ impl Match {
 
     /// Offline shot clock (two players, or the human against the computer).
     fn run_offline_clock(&mut self, dt: f32) {
-        if self.replay.is_some() {
-            return;
-        }
+        // The replay of the last shot doesn't stop the clock (pressing R
+        // again and again would have frozen it); it never runs out during
+        // one, though: the turn is lost with the table in sight.
+        let replay = self.replay.is_some();
         let human = self.current_controller() == Controller::Human;
         let turn = matches!(self.phase, Phase::Turn { .. });
         let Some((_, left)) = &mut self.clock else { return };
         if !(human && turn) {
+            return;
+        }
+        if replay {
+            *left = (*left - dt).max(0.5f32.min(*left));
             return;
         }
         *left -= dt;
@@ -1518,7 +1523,21 @@ impl Match {
             self.forced_shot = Some(decision.shot);
             if !self.shoot() {
                 self.called_pocket = Some(PocketId::FootLeft);
-                self.shoot();
+                self.forced_shot = Some(decision.shot);
+                if !self.shoot() && self.online.is_none() {
+                    // Nothing it decided can be played (a stroke of a
+                    // stored game that no longer fits): the turn passes,
+                    // as when the clock runs out, instead of trying again
+                    // every frame.
+                    let who = self.names[self.game.current_player()].clone();
+                    self.game.time_foul();
+                    if let Some(run) = self.ladder.as_mut() {
+                        run.record.strokes.push(snook_legend_proto::replay::Stroke::TimeFoul);
+                    }
+                    let text = time_foul_text(&self.game, &who);
+                    self.notify(text, false);
+                    self.begin_turn();
+                }
             }
         }
     }

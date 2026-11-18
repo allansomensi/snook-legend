@@ -132,6 +132,10 @@ pub struct ShopOffers {
 
 pub struct Online {
     conn: Option<Connection>,
+    /// The host pressed "back" once (leaving closes the game for everyone).
+    leave_armed: Option<f64>,
+    /// Hosting a game on the local network: where others join it.
+    pub host_address: Option<String>,
     /// This connection has signed in (a new one hasn't yet, even while the
     /// player still counts as signed in, reconnecting).
     authed: bool,
@@ -444,6 +448,8 @@ impl Online {
     fn empty(server: &str, lan: bool) -> Online {
         Online {
             conn: None,
+            leave_armed: None,
+            host_address: None,
             authed: false,
             held: Default::default(),
             stage: Stage::Idle,
@@ -1112,8 +1118,12 @@ impl Online {
                 if let Some(o) = current.as_mut().and_then(|m| m.online.as_mut()) {
                     o.unlocked = self.achievements.clone();
                 }
-                // A message sent just before the match (e.g. "this game is casual").
-                if let (Some((text, ..)), Some(m)) = (self.toasts.pop_back(), current.as_mut()) {
+                // A message sent just before the match (e.g. "this game is
+                // casual"): only one that has just arrived, not whatever
+                // toast happened to be showing ("+5 coins…").
+                if self.toasts.back().is_some_and(|t| t.1 > 4.0)
+                    && let (Some((text, ..)), Some(m)) = (self.toasts.pop_back(), current.as_mut())
+                {
                     m.notify(text, true);
                 }
             }
@@ -1627,6 +1637,9 @@ impl Online {
                     tw("Connection lost. Reconnecting (attempt {n})…", &[("n", &(attempt + 1))]);
                 self.waiting(ui, &text)
             }
+            // Joining a game on the local network failed: say why, and offer
+            // to try again (it used to look like a join that never ended).
+            Stage::Idle if self.lan && self.error.is_some() => self.draw_join_failed(ui),
             Stage::Connecting | Stage::Idle => {
                 let text = if self.lan {
                     t("Joining the LAN game…").to_string()
@@ -1641,6 +1654,41 @@ impl Online {
             Stage::Authenticating => self.waiting(ui, t("Signing in…")),
             Stage::SignIn => self.draw_sign_in(ui, config),
         }
+    }
+
+    fn draw_join_failed(&mut self, ui: &mut Ui) -> OnlineAction {
+        let sw = crate::ui::vw();
+        let sh = crate::ui::vh();
+        let w = 480.0f32.min(sw - 32.0);
+        let reason = self.error.clone().unwrap_or_default();
+        let lines = balanced_wrap(ui, &reason, w - 48.0, 14.0);
+        let h = 24.0 + 22.0 + 14.0 + lines.len() as f32 * 19.0 + 24.0 + 36.0 + 24.0;
+        let r = Rect::new((sw - w) / 2.0, (sh - h) / 2.0, w, h);
+        ui.panel(r);
+        let mut y = r.y + 24.0;
+        ui.text_centered(t("Could not join the LAN game"), sw / 2.0, y, 17.0, GOLD, true);
+        y += 22.0 + 14.0;
+        for line in &lines {
+            ui.text_centered(line, sw / 2.0, y, 14.0, CREAM, false);
+            y += 19.0;
+        }
+        let by = r.y + r.h - 24.0 - 36.0;
+        let bw = ((w - 48.0 - 12.0) / 2.0).min(180.0);
+        let back = Rect::new(sw / 2.0 - bw - 6.0, by, bw, 36.0);
+        let again = Rect::new(sw / 2.0 + 6.0, by, bw, 36.0);
+        if ui.button(back, t("Back"), true) || ui.escape() {
+            self.error = None;
+            self.conn = None;
+            return OnlineAction::Leave;
+        }
+        let enter = (is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::KpEnter))
+            && ui.focus.is_none();
+        if ui.primary_button(again, t("Try again")) || enter {
+            self.error = None;
+            self.auto_resume = true;
+            self.connect();
+        }
+        OnlineAction::None
     }
 
     fn waiting(&mut self, ui: &mut Ui, text: &str) -> OnlineAction {
@@ -1894,23 +1942,58 @@ impl Online {
         ui.panel(header);
         let by = header.y + 10.0;
         let gap = 8.0;
-        if ui.icon_button(
-            Rect::new(header.x + 10.0, by, 36.0, 36.0),
-            Icon::Back,
-            t("Main menu"),
-            true,
-        ) {
-            action = OnlineAction::Leave;
+        // The host leaving closes the game for everyone in it: a second click
+        // (within a few seconds) to be sure.
+        let others = self.players.len().saturating_sub(1);
+        let hosting = self.lan && self.host_address.is_some() && others > 0;
+        let armed = self.leave_armed.is_some_and(|at| get_time() - at < 4.0);
+        let back_r = Rect::new(header.x + 10.0, by, 36.0, 36.0);
+        let back_tip = if hosting && armed {
+            tw("Click again to close the game: {n} will be disconnected", &[("n", &others)])
+        } else {
+            t("Main menu").to_string()
+        };
+        if ui.icon_button(back_r, Icon::Back, &back_tip, true) {
+            if hosting && !armed {
+                self.leave_armed = Some(get_time());
+            } else {
+                self.leave_armed = None;
+                action = OnlineAction::Leave;
+            }
+        }
+        if hosting && armed {
+            crate::ui::rrect_lines(back_r, 6.0, 1.6, crate::ui::ALERT);
+            ui.tooltip(&back_tip, back_r);
         }
         crate::icon::draw(header.x + 10.0 + 36.0 + 10.0, by, 36.0);
         let name = snook_legend_proto::GAME_NAME.to_uppercase();
         let title_x = header.x + 10.0 + 36.0 + 10.0 + 36.0 + 10.0;
         ui.text(&name, title_x, header.y + 15.0, 24.0, GOLD, true);
         let title_w = ui.text_size(&name, 24.0, true).x;
-        let subtitle = if self.lan { t("LAN game") } else { t("lounge") };
+        // The host of a game on the local network sees where others join
+        // (when they don't find it on their own: a firewall, isolated
+        // Wi-Fi); a click copies it.
+        let subtitle = match (&self.host_address, self.lan) {
+            (Some(address), true) => {
+                tw("LAN game · others join at {address}", &[("address", address)])
+            }
+            (None, true) => t("LAN game").to_string(),
+            _ => t("lounge").to_string(),
+        };
         // On the title's baseline.
-        ui.text(subtitle, title_x + title_w + 10.0, header.y + 22.0, 15.0, MUTED, false);
-        let title_end = title_x + title_w + 10.0 + ui.text_size(subtitle, 15.0, false).x;
+        let sub_w = ui.text_size(&subtitle, 15.0, false).x;
+        ui.text(&subtitle, title_x + title_w + 10.0, header.y + 22.0, 15.0, MUTED, false);
+        if let Some(address) = self.host_address.clone().filter(|_| self.lan) {
+            let r = Rect::new(title_x + title_w + 10.0, header.y + 16.0, sub_w, 24.0);
+            if ui.hovering(r) {
+                ui.tooltip(t("Click to copy"), r);
+            }
+            if ui.clicked(r) {
+                macroquad::miniquad::window::clipboard_set(&address);
+                self.toast(t("Copied."), true);
+            }
+        }
+        let title_end = title_x + title_w + 10.0 + sub_w;
         let online_text = match self.rtt.filter(|_| config.show_ping) {
             Some(rtt) => tw(
                 "{n} online · ping {ms} ms",
@@ -2088,6 +2171,15 @@ impl Online {
         // Invitations float over the top of this side, under its tabs: the
         // tabs and the lists on the left stay in reach.
         let invites_at = Rect::new(inner_x, log_top, inner_w, 0.0);
+        // The invitation cards are drawn over what is below them (the
+        // message of the day, the featured game, the side panels): under
+        // the cards, nothing below takes the pointer (one click declined an
+        // invitation and also opened the game behind it).
+        let cards = self.incoming.len().min(3) as f32;
+        let under_cards = cards > 0.0
+            && Rect::new(invites_at.x, invites_at.y, invites_at.w, cards * 72.0 - 8.0)
+                .contains(ui.mouse());
+        let covered = under_cards.then(|| ui.suspend_input());
         if !self.motd.is_empty() {
             let lines = ui.wrap(&self.motd, inner_w - 20.0, 13.0);
             let lines = &lines[..lines.len().min(3)];
@@ -2125,6 +2217,9 @@ impl Online {
                         action = a;
                     }
                 }
+            }
+            if let Some(saved) = covered {
+                ui.resume_input(saved);
             }
             self.draw_invites_at(ui, InviteSpot::Lounge, invites_at);
             return action;
@@ -2218,6 +2313,9 @@ impl Online {
             ui.focus = Some(30);
         }
 
+        if let Some(saved) = covered {
+            ui.resume_input(saved);
+        }
         self.draw_invites_at(ui, InviteSpot::Lounge, invites_at);
         action
     }

@@ -1,5 +1,18 @@
 //! Small helpers that talk to the operating system.
 
+/// Writes `data` beside `path` and moves it over, flushed to the disk first:
+/// neither a crash nor a power cut leaves half a file (or an empty one) in
+/// place of the last good one.
+pub fn write_atomically(path: &std::path::Path, data: &[u8]) -> std::io::Result<()> {
+    use std::io::Write;
+    let tmp = path.with_extension("tmp");
+    let mut file = std::fs::File::create(&tmp)?;
+    file.write_all(data)?;
+    file.sync_all()?;
+    drop(file);
+    std::fs::rename(&tmp, path)
+}
+
 /// Opens `url` in the default browser. Only `https://` addresses are opened
 /// (they come from the server: never run anything else).
 pub fn open_url(url: &str) -> bool {

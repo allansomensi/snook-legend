@@ -156,10 +156,7 @@ impl Progress {
         if Self::read(&p).is_some() {
             let _ = std::fs::copy(&p, p.with_extension("json.bak"));
         }
-        let tmp = p.with_extension("json.tmp");
-        if std::fs::write(&tmp, text).is_ok() {
-            let _ = std::fs::rename(&tmp, &p);
-        }
+        let _ = crate::util::write_atomically(&p, text.as_bytes());
     }
 
     /// The opponent on rung `k` is beaten.

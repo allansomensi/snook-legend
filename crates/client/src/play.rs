@@ -68,6 +68,14 @@ impl Controls {
             || (self.orbiting && self.orbit_drag > 4.0)
     }
 
+    /// The table isn't taking input (a menu, the settings, no game): the
+    /// pointer goes back to the arrow, and no drag carries on.
+    pub fn idle(&mut self) {
+        self.mode = DragMode::None;
+        self.shoot_armed = false;
+        self.set_over_cue(false);
+    }
+
     fn set_over_cue(&mut self, over: bool) {
         if over != self.over_cue {
             self.over_cue = over;
@@ -418,8 +426,13 @@ fn click(m: &mut Match, scene: &Scene, at: Option<DVec2>) {
     if !matches!(m.phase, Phase::Turn { .. }) {
         return;
     }
+    let r = scene.ball_radius() as f64;
+    // A click right on a ball aims at it, even next to a pocket (the 8
+    // sitting in the jaws is aimed at, not taken for the pocket's call).
+    let on_ball =
+        m.game.balls().iter().any(|b| b.in_play() && b.id != BallId::CUE && b.xy().distance(p) < r);
     // Calling a pocket for the 8 (only once: the call is then binding).
-    if m.game.may_call_pocket() {
+    if m.game.may_call_pocket() && !on_ball {
         let nearest = PocketId::ALL
             .into_iter()
             .map(|id| (id, scene.pocket_center(id).distance(p)))
@@ -438,7 +451,6 @@ fn click(m: &mut Match, scene: &Scene, at: Option<DVec2>) {
             return;
         }
     }
-    let r = scene.ball_radius() as f64;
     let cue = m.game.ball(BallId::CUE).xy();
     // Snap to the centre of a ball that was clicked (or nearly).
     let target = m

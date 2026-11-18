@@ -276,7 +276,7 @@ fn address_url(address: &str) -> String {
 }
 
 /// This computer's address on the local network.
-fn local_ip() -> Option<String> {
+pub fn local_ip() -> Option<String> {
     let sock = std::net::UdpSocket::bind("0.0.0.0:0").ok()?;
     // No packet is sent: connecting a UDP socket only picks the route.
     sock.connect("10.255.255.255:1").ok()?;

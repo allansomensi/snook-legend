@@ -1757,3 +1757,13 @@ End	End
 PgUp	PgUp
 PgDn	PgDn
 Ins	Ins
+Could not join the LAN game	Não foi possível entrar na partida da rede local
+LAN game · others join at {address}	rede local · os outros entram em {address}
+Click to copy	Clique para copiar
+Copied.	Copiado.
+Start a new game?	Começar outra partida?
+You have a game in progress against the computer, with 1 ball left. A new game takes its place.	Você tem uma partida em andamento contra o computador, com 1 bola na mesa. Uma nova partida toma o lugar dela.
+You have a game in progress against the computer, with {n} balls left. A new game takes its place.	Você tem uma partida em andamento contra o computador, com {n} bolas na mesa. Uma nova partida toma o lugar dela.
+Continue that game	Continuar aquela
+Start a new one	Começar outra
+Click again to close the game: {n} will be disconnected	Clique de novo para fechar a partida: {n} serão desconectados

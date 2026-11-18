@@ -1802,3 +1802,5 @@ By rating. Each league pays once.	Por rating. Cada liga paga una vez.
 cue	taco
 cloth	paño
 chalk	tiza
+Always show the head string	Mostrar siempre la línea de salida
+The line the break is played from, always on the table (off: only while placing the cue ball behind it).	La línea desde la que se hace la salida, siempre en la mesa (apagado: solo al colocar la blanca detrás de ella).

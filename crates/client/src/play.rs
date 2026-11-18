@@ -620,6 +620,23 @@ pub fn overlay(m: &Match, scene: &Scene, time: f32) -> Overlay {
         Phase::Simulating(_) if m.shot_time().is_some_and(|t| t < 0.15) => Some(-0.012),
         _ => None,
     };
+    // The head string: while the cue ball is placed behind it, or at all
+    // times for those who asked for it (Settings → Game), faint then, like
+    // a line chalked on the cloth (replays and watching included).
+    let kitchen = m.replay.is_none()
+        && m.is_placing_cue_ball()
+        && m.game.ball_in_hand() == Some(BallInHand::Kitchen);
+    if kitchen || m.head_string {
+        let x = table.head_string_x();
+        let hw = table.spec.width / 2.0;
+        let alpha = if kitchen { 0.35 } else { 0.16 };
+        out.guides.push(Guide::Line {
+            from: surface(DVec2::new(x, -hw), line_y),
+            to: surface(DVec2::new(x, hw), line_y),
+            width: 0.003,
+            color: Color::new(1.0, 1.0, 1.0, alpha),
+        });
+    }
     if m.replay.is_some() {
         return out;
     }
@@ -703,16 +720,6 @@ pub fn overlay(m: &Match, scene: &Scene, time: f32) -> Overlay {
             width: 0.004,
             color,
         });
-        if m.game.ball_in_hand() == Some(BallInHand::Kitchen) {
-            let x = table.head_string_x();
-            let hw = table.spec.width / 2.0;
-            out.guides.push(Guide::Line {
-                from: surface(DVec2::new(x, -hw), line_y),
-                to: surface(DVec2::new(x, hw), line_y),
-                width: 0.003,
-                color: Color::new(1.0, 1.0, 1.0, 0.35),
-            });
-        }
         return out;
     }
 

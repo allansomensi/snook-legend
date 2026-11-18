@@ -897,7 +897,7 @@ a casual game	uma partida amistosa
 {name} to shoot ({target})	Vez de {name} ({target})
 {name}'s turn	Vez de {name}
 {next} has ball in hand{where}.	{next} está com bola na mão{where}.
- behind the head string	 atrás da linha de saída
+ behind the head string	 atrás da linha de cabeceira
 {opponent} is back.	{opponent} voltou.
 {opponent} lost the connection. Waiting up to {secs} s…	{opponent} perdeu a conexão. Aguardando até {secs} s…
 {opponent} wants a rematch.	{opponent} quer revanche.
@@ -1802,3 +1802,5 @@ By rating. Each league pays once.	Pelo rating. Cada liga paga uma vez.
 cue	taco
 cloth	pano
 chalk	giz
+Always show the head string	Mostrar sempre a linha de cabeceira
+The line the break is played from, always on the table (off: only while placing the cue ball behind it).	A linha de onde se dá a saída, sempre na mesa (desligado: só ao posicionar a branca atrás dela).

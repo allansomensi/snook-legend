@@ -111,6 +111,9 @@ pub struct Config {
     pub player_name: String,
     pub second_player_name: String,
     pub guide: AimGuide,
+    /// The head string drawn on the table at all times (off: only while
+    /// the cue ball is being placed behind it).
+    pub head_string: bool,
     pub show_help: bool,
     /// Pull the camera back to watch each shot.
     pub shot_camera: bool,
@@ -198,6 +201,7 @@ impl Default for Config {
             player_name: String::new(),
             second_player_name: String::new(),
             guide: AimGuide::Standard,
+            head_string: false,
             show_help: false,
             shot_camera: true,
             camera_follow: false,
@@ -329,6 +333,7 @@ impl Config {
                     c.second_player_name = v.chars().take(20).collect()
                 }
                 "guide" => c.guide = AimGuide::parse(v).unwrap_or(c.guide),
+                "head_string" => c.head_string = v == "true",
                 "show_help" => c.show_help = v == "true",
                 "shot_camera" => c.shot_camera = v == "true",
                 "camera_follow" => c.camera_follow = v == "true",
@@ -406,13 +411,14 @@ impl Config {
 
     pub fn to_text(&self) -> String {
         format!(
-            "# Snook Legend settings\nplayer_name = {}\nsecond_player_name = {}\nguide = {}\nshow_help = {}\nshot_camera = {}\ncamera_follow = {}\ngraphics_checked = {}\nlanguage = {}\nvignette = {}\nfocused_scene = {}\nshow_fps = {}\nshow_ping = {}\nshadows = {}\nopponent_talk = {}\ntop_view_only = {}\navatar = {}\naim_sensitivity = {:.2}\nui_size = {:.2}\n\
+            "# Snook Legend settings\nplayer_name = {}\nsecond_player_name = {}\nguide = {}\nhead_string = {}\nshow_help = {}\nshot_camera = {}\ncamera_follow = {}\ngraphics_checked = {}\nlanguage = {}\nvignette = {}\nfocused_scene = {}\nshow_fps = {}\nshow_ping = {}\nshadows = {}\nopponent_talk = {}\ntop_view_only = {}\navatar = {}\naim_sensitivity = {:.2}\nui_size = {:.2}\n\
              quality = {}\nmsaa = {}\nfullscreen = {}\nvolume = {:.2}\nserver = {}\nusername = {}\ntoken = {}\ntoken_server = {}\n\
              difficulty = {}\nopponent = {}\nshot_clock = {}\nlan_name = {}\ncloth = {}\ncue = {}\nchalk = {}\nballs = {}\neffect = {}\ntable = {}\nhall = {}\ncue_level = {}\nemail_offer_declined = {}\n\
              board_seen = {}\ntv_view = {}\ndesktop_notifications = {}\nauto_update = {}\nlast_version = {}\n{}",
             self.player_name,
             self.second_player_name,
             self.guide.name(),
+            self.head_string,
             self.show_help,
             self.shot_camera,
             self.camera_follow,
@@ -525,6 +531,7 @@ mod tests {
     fn round_trip_and_validation() {
         let c = Config {
             player_name: "Allan".into(),
+            head_string: true,
             quality: Quality::Low,
             msaa: 8,
             volume: 0.25,
@@ -536,6 +543,9 @@ mod tests {
         assert_eq!(bad.msaa, Config::default().msaa);
         assert_eq!(bad.volume, 1.0);
         assert_eq!(bad.quality, Quality::High);
+        // The head string is shown only when needed unless asked for.
+        assert!(!bad.head_string);
+        assert!(!Config::default().head_string);
     }
 
     /// A saved session goes only to the server that gave it.

@@ -288,6 +288,9 @@ pub struct Match {
     pub cup: bool,
     /// Each player's picture (an avatar code; empty: none chosen).
     pub avatars: [String; 2],
+    /// The head string drawn at all times (a setting; off: only while the
+    /// cue ball is placed behind it).
+    pub head_string: bool,
 }
 
 /// A drill session: its tries, what each gave, and every stroke (for the
@@ -525,6 +528,7 @@ impl Match {
             greeted: false,
             cup: false,
             avatars: Default::default(),
+            head_string: false,
         };
         m.begin_turn();
         m
@@ -845,6 +849,7 @@ impl Match {
             greeted: true,
             cup: false,
             avatars: [players[0].avatar.clone(), players[1].avatar.clone()],
+            head_string: false,
         };
         m.begin_turn();
         if let Some(o) = m.online.as_mut() {

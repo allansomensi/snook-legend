@@ -780,6 +780,7 @@ async fn main() {
         }
         if let Some(m) = current.as_mut() {
             m.talk = config.opponent_talk;
+            m.head_string = config.head_string;
             // Offline, the first player is this one.
             if m.online.is_none() && m.avatars[0] != config.avatar {
                 m.avatars[0] = config.avatar.clone();

@@ -546,6 +546,15 @@ impl SettingsScreen {
                         config.guide = AimGuide::ALL[i];
                     }
                 }
+                switch_row(
+                    rows,
+                    ui,
+                    t("Always show the head string"),
+                    t(
+                        "The line the break is played from, always on the table (off: only while placing the cue ball behind it).",
+                    ),
+                    &mut config.head_string,
+                );
                 if let Some((_, c)) = rows.row(
                     ui,
                     t("Mouse aim sensitivity"),
@@ -858,19 +867,43 @@ fn key_cap(ui: &mut Ui, r: Rect, label: &str, waiting: bool, enabled: bool) -> b
 
 /// Everything back to how it was on the first run, except who is playing
 /// and the language.
+/// Puts every setting back. What is not a setting stays: the names, the
+/// session and the server that gave it (without it the session would be
+/// taken for the default server's and sent there), the picture, the items
+/// in use and the cue's level (as the server last confirmed them), and what
+/// the game remembers for the player (the last opponent, notes seen).
 fn reset_defaults(config: &mut Config) {
+    *config = defaults_keeping(config);
+    set_fullscreen(config.fullscreen);
+}
+
+fn defaults_keeping(config: &Config) -> Config {
     let keep = config.clone();
-    *config = Config {
+    Config {
         player_name: keep.player_name,
         second_player_name: keep.second_player_name,
+        lan_name: keep.lan_name,
         username: keep.username,
         token: keep.token,
+        token_server: keep.token_server,
+        avatar: keep.avatar,
+        cloth: keep.cloth,
+        cue: keep.cue,
+        chalk: keep.chalk,
+        balls: keep.balls,
+        effect: keep.effect,
+        table: keep.table,
+        hall: keep.hall,
+        cue_level: keep.cue_level,
+        difficulty: keep.difficulty,
+        opponent: keep.opponent,
+        email_offer_declined: keep.email_offer_declined,
+        board_seen: keep.board_seen,
         language: keep.language,
         last_version: keep.last_version,
         graphics_checked: true,
         ..Config::default()
-    };
-    set_fullscreen(config.fullscreen);
+    }
 }
 
 /// The language's name as the selector shows it (short enough for its cell).
@@ -1209,4 +1242,32 @@ fn slider(
     let lw = ui.text_size(label, 14.0, true).x;
     ui.text(label, r.x + r.w - lw, cy - 8.0, 14.0, CREAM, true);
     (v, released)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// "Reset to defaults" puts the settings back, never the session's
+    /// owner: a session given by another server must not be taken for the
+    /// default server's (and sent there).
+    #[test]
+    fn a_reset_keeps_the_session_with_its_server() {
+        let mine = Config {
+            server: "wss://elsewhere.example/ws".into(),
+            token: "abc".into(),
+            token_server: "wss://elsewhere.example/ws".into(),
+            cue: "cue_maple".into(),
+            head_string: true,
+            volume: 0.1,
+            ..Config::default()
+        };
+        let reset = defaults_keeping(&mine);
+        assert_eq!(reset.server, DEFAULT_SERVER);
+        assert_eq!(reset.session_token(), "", "not for the default server");
+        assert_eq!(reset.token, "abc");
+        assert_eq!(reset.cue, "cue_maple");
+        assert!(!reset.head_string);
+        assert_eq!(reset.volume, Config::default().volume);
+    }
 }

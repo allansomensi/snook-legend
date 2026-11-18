@@ -12,14 +12,16 @@ use std::sync::Arc;
 
 use axum::Json;
 use axum::Router;
-use axum::extract::{ConnectInfo, Path, Query, Request, State};
+use axum::extract::{ConnectInfo, DefaultBodyLimit, Path, Query, Request, State};
 use axum::http::{HeaderMap, HeaderValue, StatusCode, header};
 use axum::middleware::{self, Next};
 use axum::response::{IntoResponse, Response};
 use axum::routing::{get, post};
 use serde::Deserialize;
 use serde_json::{Value, json};
-use snook_legend_proto::{Role, Tier, clean_text, valid_password};
+use snook_legend_proto::{
+    MAX_PASSWORD_BYTES, Role, Tier, clean_text, valid_password, valid_username,
+};
 
 use crate::store::{SessionKind, User};
 use crate::{Server, new_token, now, token_hash};
@@ -60,8 +62,14 @@ pub fn router() -> Router<Arc<Server>> {
         .route("/admin/api/board/{id}", axum::routing::delete(unpin_note))
         .route("/admin/api/seeks", get(seeks))
         .route("/admin/api/seeks/{name}", axum::routing::delete(remove_seek))
+        // The panel sends small JSON bodies (the longest a note on the
+        // board); anyone can post to the sign-in.
+        .layer(DefaultBodyLimit::max(MAX_BODY))
         .layer(middleware::from_fn(security_headers))
 }
+
+/// The largest request body the panel's API reads, in bytes.
+const MAX_BODY: usize = 16 * 1024;
 
 fn page(body: &'static str, kind: &'static str) -> Response {
     ([(header::CONTENT_TYPE, kind)], body).into_response()
@@ -342,30 +350,42 @@ async fn login(
     let ip = server.client_ip(peer, &headers).to_string();
     // The name as it is looked up: " admin" and "admin" share one limit.
     let username = body.username.trim();
-    if !server.auth().may_try(&ip, username) {
+    let wrong = || err(StatusCode::UNAUTHORIZED, "Wrong username or password.");
+    // A name no account can have, or a password longer than any can be:
+    // turned away before it costs a lookup, a hash or room in the limits.
+    if !valid_username(username) || body.password.len() > MAX_PASSWORD_BYTES {
+        return Err(wrong());
+    }
+    // Counted as a failure until the password proves right.
+    if !server.auth().try_password(&ip, username) {
         return Err(err(StatusCode::TOO_MANY_REQUESTS, "Too many attempts. Wait a few minutes."));
     }
-    let user = server.store.user_by_name(username).await?;
-    let ok = match &user {
-        Some(u) => server.verify_password(&body.password, &u.password_hash).await,
-        None => {
-            let _ = server.verify_password(&body.password, crate::DUMMY_HASH).await;
-            false
+    let busy = || {
+        server.auth().not_tried(&ip, username);
+        err(StatusCode::SERVICE_UNAVAILABLE, "The server is busy. Try again in a moment.")
+    };
+    let user = match server.store.user_by_name(username).await {
+        Ok(u) => u,
+        Err(e) => {
+            tracing::error!("admin login: {e}");
+            return Err(busy());
         }
     };
+    let ok = match &user {
+        Some(u) => server.verify_password(&body.password, &u.password_hash).await,
+        None => server.verify_password(&body.password, crate::DUMMY_HASH).await.map(|_| false),
+    };
+    let Some(ok) = ok else { return Err(busy()) };
     let user = match user {
         Some(u) if ok => u,
-        _ => {
-            server.auth().failed(&ip, username);
-            return Err(err(StatusCode::UNAUTHORIZED, "Wrong username or password."));
-        }
+        _ => return Err(wrong()),
     };
     let user = crate::promote_if_admin(&server, user).await;
     if !user.role.is_staff() || user.is_banned(now()) {
-        server.auth().failed(&ip, username);
+        // Stays counted as a failure.
         return Err(err(StatusCode::FORBIDDEN, "This account has no access to the panel."));
     }
-    server.auth().succeeded(username);
+    server.auth().succeeded(&ip, username);
     let token = new_token();
     let t = now();
     server
@@ -612,6 +632,9 @@ async fn user_action(
             server.store.set_role(target.id, role).await?;
             server.store.delete_user_sessions(target.id).await?;
             refresh(&server, &target).await;
+            // The connection keeps a copy of the account it signed in with
+            // (and the powers that came with it): the player signs in again.
+            server.with(|l| l.kick(&target.username, "Please sign in again."));
             log(&server, &s, "role", &target.username, &format!("{role:?}")).await;
         }
         "password" => {
@@ -632,7 +655,7 @@ async fn user_action(
         // always with a reason, always in the audit log.
         "coins" => {
             require_admin(&s)?;
-            let coins = body.coins.filter(|c| *c != 0 && c.abs() <= 1_000_000);
+            let coins = body.coins.filter(|c| *c != 0 && c.unsigned_abs() <= 1_000_000);
             let coins = coins.ok_or_else(|| err(StatusCode::BAD_REQUEST, "Give a coin amount."))?;
             if reason.is_empty() {
                 return Err(err(StatusCode::BAD_REQUEST, "Give a reason."));

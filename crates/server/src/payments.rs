@@ -233,7 +233,7 @@ pub fn verify_signature(secret: &str, payload: &[u8], header: &str, now: i64) ->
         }
     }
     let Some(t) = t else { return false };
-    if (now - t).abs() > TOLERANCE_SECS || sigs.is_empty() {
+    if now.abs_diff(t) > TOLERANCE_SECS as u64 || sigs.is_empty() {
         return false;
     }
     let Ok(mut mac) = Hmac::<Sha256>::new_from_slice(secret.as_bytes()) else { return false };

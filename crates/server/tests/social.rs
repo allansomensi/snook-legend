@@ -221,8 +221,15 @@ async fn start_with(rules: Rules, admins: Vec<String>) -> (String, String) {
     let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
     let addr = listener.local_addr().unwrap();
     let rules = Rules { max_connections_per_ip: 100, ..rules };
-    let config = Config { bind: addr, rules, admins, ..Config::default() };
+    let config = Config { bind: addr, rules, admins: admins.clone(), ..Config::default() };
     let server = Server::new(config).await.unwrap();
+    // An administrator's name can't be registered: its account comes
+    // first (with the test password), and signing in makes it one.
+    for name in &admins {
+        let hash = server.hash_password(PASSWORD).await.unwrap();
+        let user = NewUser { password_hash: &hash, ..new_user(name) };
+        server.store.create_user(&user).await.unwrap().expect("a new account");
+    }
     tokio::spawn(serve(listener, server));
     (format!("ws://{addr}/ws"), format!("{addr}"))
 }
@@ -304,6 +311,14 @@ impl Client {
     async fn register(url: &str, name: &str) -> Client {
         Client::register_as(url, name, PROTOCOL_VERSION).await.0
     }
+
+    /// Signs in to an account that exists (an administrator's).
+    async fn sign_in(url: &str, name: &str) -> Client {
+        let mut c = Client::connect_as(url, PROTOCOL_VERSION).await;
+        c.send(ClientMsg::Login { username: name.into(), password: PASSWORD.into() }).await;
+        c.expect("auth", |m| matches!(m, ServerMsg::AuthOk { .. })).await;
+        c
+    }
 }
 
 fn is_error(m: &ServerMsg, text: &str) -> bool {
@@ -340,7 +355,7 @@ async fn status_messages_are_cleaned_shared_kept_and_moderated() {
     let (url, _) = start_with(Rules::default(), vec!["boss".into()]).await;
     let (mut ana, token) = Client::register_as(&url, "ana", PROTOCOL_VERSION).await;
     let mut bia = Client::register(&url, "bia").await;
-    let mut boss = Client::register(&url, "boss").await;
+    let mut boss = Client::sign_in(&url, "boss").await;
 
     let long = format!("  procurando\u{202E}   parceiro para treino {}", "x".repeat(100));
     ana.send(ClientMsg::SetStatusMessage { text: long }).await;
@@ -615,7 +630,7 @@ async fn befriend(a: &mut Client, b: &mut Client, a_name: &str, b_name: &str) {
 #[tokio::test]
 async fn gifts_are_kept_shown_until_seen_and_thanked() {
     let (url, host) = start_with(Rules::default(), vec!["gil".into()]).await;
-    let mut gil = Client::register(&url, "gil").await;
+    let mut gil = Client::sign_in(&url, "gil").await;
     let (mut fia, fia_token) = Client::register_as(&url, "fia", PROTOCOL_VERSION).await;
     let (mut other, _) = Client::register_as(&url, "other", PROTOCOL_VERSION).await;
     befriend(&mut gil, &mut fia, "gil", "fia").await;
@@ -714,7 +729,6 @@ async fn gifts_are_kept_shown_until_seen_and_thanked() {
 #[tokio::test]
 async fn the_staff_panel_clears_statuses_and_notes_and_mutes_posting() {
     let (url, host) = start_with(Rules::default(), vec!["boss".into()]).await;
-    let _boss = Client::register(&url, "boss").await;
     let mut eve = Client::register(&url, "eve").await;
     let mut bia = Client::register(&url, "bia").await;
     let (code, body) = request(

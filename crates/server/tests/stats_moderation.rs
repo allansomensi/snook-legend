@@ -204,6 +204,11 @@ async fn start() -> Running {
     let rules = Rules { max_connections_per_ip: 100, ..Rules::default() };
     let config = Config { bind: addr, rules, admins: vec!["boss".into()], ..Config::default() };
     let server = Server::with_store(config, Store::memory()).await;
+    // An administrator's name can't be registered: the account comes first
+    // (signing in to the panel makes it one).
+    let hash = server.hash_password(PASSWORD).await.unwrap();
+    let boss = NewUser { password_hash: &hash, ..new_user("boss") };
+    server.store.create_user(&boss).await.unwrap().expect("a new account");
     tokio::spawn(serve(listener, server.clone()));
     Running { url: format!("ws://{addr}/ws"), host: addr.to_string(), server }
 }
@@ -250,6 +255,14 @@ impl Client {
             country: "BR".into(),
         })
         .await;
+        c.expect("auth", |m| matches!(m, ServerMsg::AuthOk { .. })).await;
+        c
+    }
+
+    /// Signs in to an account that exists (the administrator's).
+    async fn sign_in(url: &str, name: &str) -> Client {
+        let mut c = Client::connect(url, PROTOCOL_VERSION).await;
+        c.send(ClientMsg::Login { username: name.into(), password: PASSWORD.into() }).await;
         c.expect("auth", |m| matches!(m, ServerMsg::AuthOk { .. })).await;
         c
     }
@@ -396,7 +409,7 @@ async fn profiles_carry_the_shot_analysis_for_new_games_only() {
 #[tokio::test]
 async fn reports_carry_the_game_and_the_staff_can_watch_it() {
     let s = start().await;
-    let _boss = Client::register(&s.url, "boss").await;
+    let _boss = Client::sign_in(&s.url, "boss").await;
     let mut ana = Client::register(&s.url, "ana").await;
     let mut bia = Client::register(&s.url, "bia").await;
     let mut cris = Client::register(&s.url, "cris").await;
@@ -503,7 +516,7 @@ async fn reports_carry_the_game_and_the_staff_can_watch_it() {
 #[tokio::test]
 async fn metrics_sample_who_is_online_by_the_hour() {
     let s = start().await;
-    let _boss = Client::register(&s.url, "boss").await;
+    let _boss = Client::sign_in(&s.url, "boss").await;
     let mut ana = Client::register(&s.url, "ana").await;
     let mut bia = Client::register(&s.url, "bia").await;
     let token = staff_token(&s.host).await;

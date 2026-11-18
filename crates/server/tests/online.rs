@@ -21,10 +21,29 @@ async fn start_with(rules: Rules, admins: Vec<String>) -> (String, String) {
     let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
     let addr = listener.local_addr().unwrap();
     let rules = Rules { max_connections_per_ip: 100, ..rules };
-    let config = Config { bind: addr, rules, admins, ..Config::default() };
+    let config = Config { bind: addr, rules, admins: admins.clone(), ..Config::default() };
     let server = Server::new(config).await.unwrap();
+    // An administrator's name can't be registered: its account comes
+    // first (with the test password), and signing in makes it one.
+    for name in &admins {
+        make_account(&server, name).await;
+    }
     tokio::spawn(serve(listener, server));
     (format!("ws://{addr}/ws"), format!("http://{addr}"))
+}
+
+/// An account made straight in the store, with the test password.
+async fn make_account(server: &Server, name: &str) {
+    let hash = server.hash_password(PASSWORD).await.unwrap();
+    let user = snook_legend_server::store::NewUser {
+        username: name,
+        password_hash: &hash,
+        country: "BR",
+        rating: 1200,
+        role: snook_legend_proto::Role::Player,
+        ip: "127.0.0.1",
+    };
+    server.store.create_user(&user).await.unwrap().expect("a new account");
 }
 
 async fn start(rules: Rules) -> String {
@@ -818,38 +837,186 @@ async fn lan_guests_play_casual_games() {
     assert!(!rated, "LAN games are never rated");
 }
 
+/// A minimal HTTP client over a raw socket (no extra dependencies).
+async fn request(host: &str, method: &str, path: &str, token: &str, body: &str) -> (u16, String) {
+    use tokio::io::{AsyncReadExt, AsyncWriteExt};
+    let mut s = TcpStream::connect(host).await.unwrap();
+    let auth =
+        if token.is_empty() { String::new() } else { format!("Authorization: Bearer {token}\r\n") };
+    let req = format!(
+        "{method} {path} HTTP/1.1\r\nHost: {host}\r\n{auth}Content-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{body}",
+        body.len()
+    );
+    s.write_all(req.as_bytes()).await.unwrap();
+    // A refused body may not be read: the answer comes before it and the
+    // connection may be reset after.
+    let mut out = Vec::new();
+    let _ = s.read_to_end(&mut out).await;
+    let out = String::from_utf8_lossy(&out).to_string();
+    let code = out[9..12].parse().unwrap();
+    let body = out.split("\r\n\r\n").nth(1).unwrap_or("").to_string();
+    (code, body)
+}
+
+/// The JSON object in a response body (possibly chunked).
+fn json_of(body: &str) -> serde_json::Value {
+    let start = body.find('{').unwrap();
+    let end = body.rfind('}').unwrap();
+    serde_json::from_str(&body[start..=end]).unwrap()
+}
+
+/// An administrator's name belongs to the account that has it: it can't be
+/// registered (the account comes first), and its owner can't rename it
+/// away for someone else to take. Reserved words are refused dressed up too.
+#[tokio::test]
+async fn administrators_names_stay_theirs() {
+    let (url, http) = start_with(Rules::default(), vec!["boss".into(), "chief".into()]).await;
+    let host = http.trim_start_matches("http://").to_string();
+    let taken = "That username is taken.";
+    for name in ["boss", "BOSS", "Admin_1", "moderador", "_suporte2", "staff"] {
+        let mut c = Client::connect(&url).await;
+        c.send(ClientMsg::Register {
+            username: name.into(),
+            password: PASSWORD.into(),
+            country: "BR".into(),
+        })
+        .await;
+        let ServerMsg::AuthError { reason } =
+            c.expect("refused", |m| matches!(m, ServerMsg::AuthError { .. })).await
+        else {
+            unreachable!()
+        };
+        assert_eq!(reason, taken, "{name}");
+    }
+    // The listed account exists, and signing in makes it an administrator.
+    let mut boss = Client::login(&url, "boss", PASSWORD).await;
+    boss.send(ClientMsg::Account).await;
+    boss.expect("account", |m| matches!(m, ServerMsg::Account { .. })).await;
+    let staff = "Staff accounts can't change their username.";
+    boss.rename_refused("boss_pool", staff).await;
+    // A moderator made in the panel keeps their name too, and is signed
+    // out at once (their connection had the powers of the old role).
+    let (mut eve, _) = Client::register(&url, "eve").await;
+    let (code, body) = request(
+        &host,
+        "POST",
+        "/admin/api/login",
+        "",
+        &format!(r#"{{"username":"boss","password":"{PASSWORD}"}}"#),
+    )
+    .await;
+    assert_eq!(code, 200, "{body}");
+    let token = json_of(&body)["token"].as_str().unwrap().to_string();
+    let (code, body) =
+        request(&host, "POST", "/admin/api/users/eve/role", &token, r#"{"role":"moderator"}"#)
+            .await;
+    assert_eq!(code, 200, "{body}");
+    eve.expect("signed out", |m| matches!(m, ServerMsg::Kicked { .. })).await;
+    let mut eve = Client::login(&url, "eve", PASSWORD).await;
+    eve.rename_refused("eve_2", staff).await;
+}
+
+/// Names no account can have and passwords longer than any can be are
+/// turned away at once; a wrong current password when changing it or
+/// deleting the account counts like a wrong one when signing in.
+#[tokio::test]
+async fn password_guesses_are_limited_everywhere() {
+    let (url, http) = start_with(Rules::default(), Vec::new()).await;
+    let host = http.trim_start_matches("http://").to_string();
+    let wrong = "Wrong username or password.";
+    let mut c = Client::connect(&url).await;
+    for (username, password) in
+        [("x".repeat(5000), PASSWORD.to_string()), ("carol".into(), "p".repeat(73))]
+    {
+        c.send(ClientMsg::Login { username, password }).await;
+        let ServerMsg::AuthError { reason } =
+            c.expect("refused", |m| matches!(m, ServerMsg::AuthError { .. })).await
+        else {
+            unreachable!()
+        };
+        assert_eq!(reason, wrong);
+    }
+    // The panel's sign-in too, and it reads no large bodies.
+    let long = format!(r#"{{"username":"{}","password":"x"}}"#, "y".repeat(100));
+    let (code, _) = request(&host, "POST", "/admin/api/login", "", &long).await;
+    assert_eq!(code, 401);
+    let huge = format!(r#"{{"username":"carol","password":"{}"}}"#, "z".repeat(20_000));
+    let (code, _) = request(&host, "POST", "/admin/api/login", "", &huge).await;
+    assert_eq!(code, 413);
+
+    let (mut carol, _) = Client::register(&url, "carol").await;
+    let wrong_now = "The current password is wrong.";
+    for _ in 0..8 {
+        carol
+            .send(ClientMsg::ChangePassword { old: "not-it-1".into(), new: "another1".into() })
+            .await;
+        let ServerMsg::Error { message } =
+            carol.expect("wrong", |m| matches!(m, ServerMsg::Error { .. })).await
+        else {
+            unreachable!()
+        };
+        assert_eq!(message, wrong_now);
+    }
+    let too_many = "Too many failed attempts. Wait a few minutes and try again.";
+    carol.send(ClientMsg::DeleteAccount { password: PASSWORD.into() }).await;
+    let ServerMsg::Error { message } =
+        carol.expect("limited", |m| matches!(m, ServerMsg::Error { .. })).await
+    else {
+        unreachable!()
+    };
+    assert_eq!(message, too_many);
+    let mut again = Client::connect(&url).await;
+    again.send(ClientMsg::Login { username: "carol".into(), password: PASSWORD.into() }).await;
+    let ServerMsg::AuthError { reason } =
+        again.expect("limited", |m| matches!(m, ServerMsg::AuthError { .. })).await
+    else {
+        unreachable!()
+    };
+    assert_eq!(reason, too_many);
+}
+
+/// A saved session that signs in over and over (a new connection each
+/// time) is let in a dozen times a minute; then the connection closes
+/// without an answer, which a game would take as the end of its session.
+#[tokio::test]
+async fn signing_in_again_and_again_is_limited() {
+    let url = start(Rules::default()).await;
+    let (_first, token) = Client::register(&url, "dora").await;
+    let mut refused = false;
+    for _ in 0..20 {
+        let mut c = Client::connect(&url).await;
+        c.send(ClientMsg::Resume { token: token.clone() }).await;
+        let answer = tokio::time::timeout(Duration::from_secs(10), async {
+            loop {
+                match c.ws.next().await {
+                    Some(Ok(Message::Text(t))) => {
+                        let m = parse_server(t.as_str()).unwrap();
+                        if matches!(m, ServerMsg::AuthOk { .. } | ServerMsg::AuthError { .. }) {
+                            return Some(m);
+                        }
+                    }
+                    Some(Ok(_)) => {}
+                    None | Some(Err(_)) => return None,
+                }
+            }
+        })
+        .await
+        .expect("an answer or the end");
+        match answer {
+            Some(ServerMsg::AuthOk { .. }) => assert!(!refused, "let in after being refused"),
+            Some(m) => panic!("told {m:?}: the game would forget its session"),
+            None => refused = true,
+        }
+    }
+    assert!(refused, "never limited");
+}
+
 #[tokio::test]
 async fn admin_panel_requires_staff() {
     let (url, http) = start_with(Rules::default(), vec!["boss".into()]).await;
-    let (mut boss, _) = Client::register(&url, "boss").await;
+    let mut boss = Client::login(&url, "boss", PASSWORD).await;
     let (_eve, _) = Client::register(&url, "eve").await;
     let host = http.trim_start_matches("http://").to_string();
-    // A minimal HTTP client over a raw socket (no extra dependencies).
-    async fn request(
-        host: &str,
-        method: &str,
-        path: &str,
-        token: &str,
-        body: &str,
-    ) -> (u16, String) {
-        use tokio::io::{AsyncReadExt, AsyncWriteExt};
-        let mut s = TcpStream::connect(host).await.unwrap();
-        let auth = if token.is_empty() {
-            String::new()
-        } else {
-            format!("Authorization: Bearer {token}\r\n")
-        };
-        let req = format!(
-            "{method} {path} HTTP/1.1\r\nHost: {host}\r\n{auth}Content-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{body}",
-            body.len()
-        );
-        s.write_all(req.as_bytes()).await.unwrap();
-        let mut out = String::new();
-        s.read_to_string(&mut out).await.unwrap();
-        let code = out[9..12].parse().unwrap();
-        let body = out.split("\r\n\r\n").nth(1).unwrap_or("").to_string();
-        (code, body)
-    }
     let (code, _) = request(&host, "GET", "/admin/api/overview", "", "").await;
     assert_eq!(code, 401);
     let (code, _) = request(
@@ -1567,7 +1734,7 @@ async fn vip_members_have_their_own_reactions() {
 async fn chat_lines_can_be_deleted_and_the_chat_cleared() {
     use snook_legend_proto::Deleted;
     let (url, _) = start_with(Rules::default(), vec!["boss".into()]).await;
-    let (mut boss, _) = Client::register(&url, "boss").await;
+    let mut boss = Client::login(&url, "boss", PASSWORD).await;
     let (mut bob, _) = Client::register(&url, "bob").await;
     bob.send(ClientMsg::Chat { text: "oops".into() }).await;
     let oops = said(&mut boss, "oops").await;
@@ -1630,7 +1797,7 @@ async fn administrators_watching_see_the_players_chat() {
     let (url, _) = start_with(Rules::default(), vec!["boss".into()]).await;
     let (mut alice, _) = Client::register(&url, "alice").await;
     let (mut bob, _) = Client::register(&url, "bob").await;
-    let (mut boss, _) = Client::register(&url, "boss").await;
+    let mut boss = Client::login(&url, "boss", PASSWORD).await;
     let (mut eve, _) = Client::register(&url, "eve").await;
     start_match(&mut alice, &mut bob, "bob", "alice", false).await;
     let ServerMsg::Featured { featured: Some(featured) } =

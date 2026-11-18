@@ -18,6 +18,10 @@ the levels' rewards, so it must be updated with the game. No migrations.
   than it did (level 5 is some thirty games away, level 10 over a hundred,
   level 20 about four hundred, level 50 a couple of thousand).
 
+### Tournaments against the computer are hard
+- In a tournament every opponent plays at their best, as on the tour's
+  last stages.
+
 ### A hard economy
 - Coins are scarce, so that what the shop sells is earned over weeks and
   months: 2 coins for a rated game and 4 more for winning it (they were 4

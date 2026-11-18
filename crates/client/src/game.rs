@@ -668,6 +668,18 @@ impl Match {
         self.begin_turn();
     }
 
+    /// This is the player's game of a tournament against the computer:
+    /// its result stands, and the opponent plays at their best, as on the
+    /// tour's last stages (winning a tournament is meant to be hard).
+    pub fn make_cup_game(&mut self) {
+        self.cup = true;
+        if let Some(o) = &self.opponent {
+            let top = snook_legend_proto::ladder::RUNGS.len() - 1;
+            self.controllers[1] =
+                Controller::Computer(snook_legend_proto::ladder::tour_form(&o.player(), top));
+        }
+    }
+
     /// A game against the computer saved by [`crate::saved`], picked up again.
     pub fn resume(saved: &crate::saved::SavedGame, guide: AimGuide) -> Match {
         let settings = MatchSettings {

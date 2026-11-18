@@ -1077,7 +1077,9 @@ async fn main() {
                                 Some(s) => {
                                     let mut m = Match::resume(&s, config.guide);
                                     // The tournament's game, picked up here.
-                                    m.cup = cup.as_ref().is_some_and(|c| c.playing == Some(s.seed));
+                                    if cup.as_ref().is_some_and(|c| c.playing == Some(s.seed)) {
+                                        m.make_cup_game();
+                                    }
                                     current = Some(m);
                                     save_key = None;
                                     hud = Hud::new(config.show_help);
@@ -1191,7 +1193,7 @@ async fn main() {
                                     c.save();
                                 }
                                 let mut m = Match::new(&settings, seed);
-                                m.cup = true;
+                                m.make_cup_game();
                                 current = Some(m);
                                 save_key = None;
                                 hud = Hud::new(config.show_help);
@@ -1201,7 +1203,7 @@ async fn main() {
                             versus::VersusAction::ResumeCup => {
                                 if let Some(s) = saved::load() {
                                     let mut m = Match::resume(&s, config.guide);
-                                    m.cup = true;
+                                    m.make_cup_game();
                                     current = Some(m);
                                     save_key = None;
                                     hud = Hud::new(config.show_help);

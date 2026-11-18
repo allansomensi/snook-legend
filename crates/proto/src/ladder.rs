@@ -58,9 +58,13 @@ pub fn final_opponent() -> &'static Personality {
 /// the first two play safe when nothing is on. The style stays their own.
 /// The server checks the final game against this very player.
 pub fn tour_player(k: usize) -> Option<AiPlayer> {
+    Some(tour_form(&rung(k)?.player, k))
+}
+
+/// `player` as they play on rung `k` of the tour (see [`tour_player`]).
+pub fn tour_form(player: &AiPlayer, k: usize) -> AiPlayer {
     use snook_legend_core::ai::Search;
-    let p = rung(k)?;
-    let mut skill = p.player.skill;
+    let mut skill = player.skill;
     skill.aim_noise_deg *= 0.6;
     skill.speed_noise *= 0.6;
     skill.search = match skill.search {
@@ -70,7 +74,7 @@ pub fn tour_player(k: usize) -> Option<AiPlayer> {
     skill.position_weight = skill.position_weight * 1.3 + 80.0;
     skill.plays_safe |= k >= 2;
     skill.banks |= k >= 6;
-    Some(AiPlayer { skill: skill.clamped(), ..p.player })
+    AiPlayer { skill: skill.clamped(), ..*player }
 }
 
 /// The tour's last opponent, as they play on it.

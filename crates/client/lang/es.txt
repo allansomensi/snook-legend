@@ -376,7 +376,7 @@ You haven't played {name} in the last day: the moderators see the recent chat.	N
 Shark	Tiburón
 Shows the contact point; judging the cut is up to you.	Muestra el punto de contacto; el corte lo calculas tú.
 Shows where the object ball and the cue ball go.	Muestra a dónde van la bola objetivo y la bola blanca.
-Shutout	Paliza
+Shutout	Capote
 Sign in	Iniciar sesión
 Sign in or create an account	Inicia sesión o crea una cuenta
 Sign out	Cerrar sesión

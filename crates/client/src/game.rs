@@ -449,10 +449,10 @@ impl Match {
             MatchMode::VsComputer(o) => {
                 // On the tour an opponent plays at their best (and the
                 // server checks the final game against that player).
-                let player = settings
-                    .ladder
-                    .and_then(|rung| snook_legend_proto::ladder::tour_player(rung as usize))
-                    .unwrap_or_else(|| o.player());
+                let player = match settings.ladder {
+                    Some(rung) => snook_legend_proto::ladder::tour_form(&o.player(), rung as usize),
+                    None => o.player(),
+                };
                 (
                     [settings.names[0].clone(), o.display_name()],
                     [Controller::Human, Controller::Computer(player)],
@@ -679,12 +679,11 @@ impl Match {
         };
         let mut m = Match::new(&settings, saved.seed);
         m.ladder = saved.ladder.clone();
-        if let Some(player) = saved
-            .ladder
-            .as_ref()
-            .and_then(|run| snook_legend_proto::ladder::tour_player(run.rung as usize))
-        {
-            m.controllers[1] = Controller::Computer(player);
+        if let Some(run) = &saved.ladder {
+            m.controllers[1] = Controller::Computer(snook_legend_proto::ladder::tour_form(
+                &saved.opponent().player(),
+                run.rung as usize,
+            ));
         }
         m.game = saved.game.clone();
         m.names = saved.names.clone();
@@ -2564,7 +2563,10 @@ mod ladder_tests {
         let over = m.game.game_over().expect("the game ends");
         let run = m.ladder.as_ref().expect("a ladder game");
         assert!(!run.record.strokes.is_empty());
-        let verdict = verify_against(&run.record, &opponent.player());
+        let verdict = verify_against(
+            &run.record,
+            &snook_legend_proto::ladder::tour_form(&opponent.player(), 9),
+        );
         if over.winner == PLAYER_SEAT {
             assert_eq!(verdict.map(|g| g.game_over()), Ok(Some(over)));
         } else {

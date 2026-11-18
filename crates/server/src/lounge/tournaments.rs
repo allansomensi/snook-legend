@@ -990,7 +990,9 @@ impl Lounge {
             players[1].clone()
         };
         let look = self.table_look_of(&host);
-        self.create_room(room_id, players, users, guests, rated, 0, Some(at), look);
+        // A private tournament's games stay off the lounge's TV.
+        let private = self.tournaments.get(&at.0).is_some_and(|t| t.password.is_some());
+        self.create_room(room_id, players, users, guests, rated, 0, Some(at), look, private);
     }
 
     /// Arena: pairs the players who are free (closest points, then rating;

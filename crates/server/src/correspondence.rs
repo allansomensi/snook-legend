@@ -408,6 +408,15 @@ async fn answer(server: &Arc<Server>, me: &User, id: i64, accept: bool, send: &i
         push_list(server, c.from, &from).await;
         return;
     }
+    // A block since the challenge was sent (either way): it is no longer good.
+    let (mine, theirs) = tokio::join!(server.store.blocked(me.id), server.store.blocked(c.from));
+    let blocks = |list: Vec<User>, id: i64| list.iter().any(|u| u.id == id);
+    if blocks(mine.unwrap_or_default(), c.from) || blocks(theirs.unwrap_or_default(), me.id) {
+        let _ = server.store.delete_async_challenge(id).await;
+        push_list(server, me.id, &me.username).await;
+        push_list(server, c.from, &from).await;
+        return error(send, "That challenge is no longer valid.");
+    }
     let (Ok(mine), Ok(theirs)) =
         (server.store.async_games_of(me.id, 0).await, server.store.async_games_of(c.from, 0).await)
     else {

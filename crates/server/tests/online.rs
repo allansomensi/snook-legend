@@ -2086,3 +2086,155 @@ async fn administrators_watching_see_the_players_chat() {
         .await;
     assert!(matches!(m, ServerMsg::MatchEnded { .. }), "a spectator saw the players' chat: {m:?}");
 }
+
+/// The lounge's TV shows public games, and only the game on it can be
+/// watched that way: not a private table's, nor any game whose number
+/// someone guesses.
+#[tokio::test]
+async fn only_the_game_on_the_tv_can_be_watched_from_it() {
+    let url = start(Rules::default()).await;
+    let (mut alice, _) = Client::register(&url, "alice").await;
+    let (mut bob, _) = Client::register(&url, "bob").await;
+    let (mut eve, _) = Client::register(&url, "eve").await;
+    alice.send(ClientMsg::OpenTable { rated: false, password: Some("ours".into()) }).await;
+    let ServerMsg::TableOpened { table } =
+        bob.expect("table", |m| matches!(m, ServerMsg::TableOpened { .. })).await
+    else {
+        unreachable!()
+    };
+    bob.send(ClientMsg::JoinTable { id: table.id, password: Some("ours".into()) }).await;
+    let ServerMsg::MatchStarted { match_id, .. } =
+        alice.expect("match", |m| matches!(m, ServerMsg::MatchStarted { .. })).await
+    else {
+        unreachable!()
+    };
+    // The TV is looked at every few seconds: still nothing on it.
+    tokio::time::sleep(Duration::from_secs(5)).await;
+    let heard = eve.drain().await;
+    assert!(
+        !heard.iter().any(|m| matches!(m, ServerMsg::Featured { featured: Some(_) })),
+        "a private game on the TV: {heard:?}"
+    );
+    eve.send(ClientMsg::WatchMatch { match_id }).await;
+    assert_eq!(eve.error_text().await, "You can't watch this game.");
+}
+
+/// Resigning while one's shot is being played comes after the shot: both
+/// players see its outcome, then the end (the stored game is what the
+/// table saw).
+#[tokio::test]
+async fn resigning_during_a_shot_comes_after_it() {
+    let url = start(Rules::default()).await;
+    let (mut alice, _) = Client::register(&url, "alice").await;
+    let (mut bob, _) = Client::register(&url, "bob").await;
+    let (game, sa, _) = start_match(&mut alice, &mut bob, "bob", "alice", false).await;
+    let (shooter, other) =
+        if game.current_player() == sa { (&mut alice, &mut bob) } else { (&mut bob, &mut alice) };
+    let d = ai::decide(&game, Difficulty::Hard, 1);
+    shooter
+        .send(ClientMsg::Shoot {
+            turn: 0,
+            shot: d.shot,
+            called_pocket: d.called_pocket,
+            cue_ball: d.cue_ball,
+        })
+        .await;
+    shooter.send(ClientMsg::Resign).await;
+    for c in [shooter, other] {
+        let m = c
+            .expect("result or end", |m| {
+                matches!(m, ServerMsg::ShotResult { .. } | ServerMsg::MatchEnded { .. })
+            })
+            .await;
+        assert!(matches!(m, ServerMsg::ShotResult { .. }), "the end came first: {m:?}");
+        c.expect("end", |m| matches!(m, ServerMsg::MatchEnded { .. })).await;
+    }
+}
+
+/// Blocking someone withdraws the invitations between the two, and lines
+/// they wrote stay hidden from the history even when they have left.
+#[tokio::test]
+async fn blocks_reach_invitations_and_the_chat_history() {
+    let url = start(Rules::default()).await;
+    let (mut alice, _) = Client::register(&url, "alice").await;
+    let (mut bob, token) = Client::register(&url, "bob").await;
+    let (mut carol, _) = Client::register(&url, "carol").await;
+    alice.send(ClientMsg::Invite { to: "bob".into(), rated: false }).await;
+    bob.expect("invited", |m| matches!(m, ServerMsg::Invited { .. })).await;
+    bob.send(ClientMsg::Block { username: "alice".into() }).await;
+    alice.expect("declined", |m| matches!(m, ServerMsg::InviteDeclined { .. })).await;
+    bob.send(ClientMsg::AnswerInvite { from: "alice".into(), accept: true }).await;
+    bob.expect("gone", |m| matches!(m, ServerMsg::InviteFailed { .. })).await;
+
+    bob.send(ClientMsg::Block { username: "carol".into() }).await;
+    bob.send(ClientMsg::Friends).await;
+    bob.expect("friends", |m| matches!(m, ServerMsg::Friends { .. })).await;
+    carol.send(ClientMsg::Chat { text: "psst".into() }).await;
+    said(&mut alice, "psst").await;
+    drop(carol);
+    alice
+        .expect("left", |m| matches!(m, ServerMsg::PlayerLeft { username } if username == "carol"))
+        .await;
+    let mut again = Client::connect(&url).await;
+    again.send(ClientMsg::Resume { token }).await;
+    let ServerMsg::ChatHistory { lines } =
+        again.expect("history", |m| matches!(m, ServerMsg::ChatHistory { .. })).await
+    else {
+        unreachable!()
+    };
+    assert!(lines.iter().all(|l| l.from != "carol"), "{lines:?}");
+}
+
+/// The aim relayed to the opponent is one the cue can take.
+#[tokio::test]
+async fn relayed_aim_is_within_the_cues_limits() {
+    let url = start(Rules::default()).await;
+    let (mut alice, _) = Client::register(&url, "alice").await;
+    let (mut bob, _) = Client::register(&url, "bob").await;
+    let (game, sa, _) = start_match(&mut alice, &mut bob, "bob", "alice", false).await;
+    let (shooter, other) =
+        if game.current_player() == sa { (&mut alice, &mut bob) } else { (&mut bob, &mut alice) };
+    let wild = snook_legend_proto::AimState {
+        yaw: 1e300,
+        elevation: 9.0,
+        tip: glam::DVec2::new(30.0, -40.0),
+        power: 7.0,
+        called_pocket: None,
+    };
+    shooter.send(ClientMsg::Aim { aim: wild }).await;
+    let ServerMsg::OpponentAim { aim } =
+        other.expect("aim", |m| matches!(m, ServerMsg::OpponentAim { .. })).await
+    else {
+        unreachable!()
+    };
+    assert!((0.0..std::f64::consts::TAU).contains(&aim.yaw), "{aim:?}");
+    assert!(aim.elevation <= game.params().max_elevation && aim.elevation >= 0.0);
+    assert!(aim.tip.length() <= 1.0 + 1e-9 && (0.0..=1.0).contains(&aim.power));
+}
+
+/// A guest who leaves while the server is stopping is gone like after any
+/// lost connection (a guest's game can't move to the next server): the
+/// opponent is told, instead of waiting for nothing.
+#[tokio::test]
+async fn a_guest_leaving_during_a_restart_is_gone() {
+    let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
+    let addr = listener.local_addr().unwrap();
+    let rules = Rules { lan: true, max_connections_per_ip: 100, ..Rules::default() };
+    let server = Server::new(Config { bind: addr, rules, ..Config::default() }).await.unwrap();
+    tokio::spawn(serve(listener, server.clone()));
+    let url = format!("ws://{addr}/ws");
+    let mut a = Client::connect(&url).await;
+    a.send(ClientMsg::Guest { name: "host".into() }).await;
+    a.expect("guest", |m| matches!(m, ServerMsg::AuthOk { .. })).await;
+    let mut b = Client::connect(&url).await;
+    b.send(ClientMsg::Guest { name: "visitor".into() }).await;
+    b.expect("guest", |m| matches!(m, ServerMsg::AuthOk { .. })).await;
+    start_match(&mut a, &mut b, "visitor", "host", false).await;
+    let _drain = tokio::spawn(snook_legend_server::drain(server.clone(), 60));
+    b.expect("draining", |m| matches!(m, ServerMsg::Draining { .. })).await;
+    drop(a);
+    b.expect("opponent gone", |m| {
+        matches!(m, ServerMsg::OpponentConnection { connected: false, .. })
+    })
+    .await;
+}

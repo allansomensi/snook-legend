@@ -1237,10 +1237,19 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
             ClientMsg::GhostStyle { username } => {
                 computer::spawn_ghost(server.clone(), me.clone(), username, tx.clone())
             }
-            // Someone else's note on the "looking for a game" board: staff only.
+            // Someone else's note on the "looking for a game" board: staff
+            // only (told so before the database is asked anything).
             ClientMsg::RemoveSeek { username }
                 if !username.is_empty() && !username.eq_ignore_ascii_case(&me.username) =>
             {
+                if !me.role.is_staff() {
+                    send(ServerMsg::Error { message: "You can't do that.".into() });
+                    continue;
+                }
+                if !query_bucket.take() {
+                    send(ServerMsg::Error { message: "Slow down a little.".into() });
+                    continue;
+                }
                 social::handle(&server, &me, ClientMsg::RemoveSeek { username }, &send).await;
             }
             msg @ (ClientMsg::SetStatusMessage { .. }
@@ -1354,6 +1363,14 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
             }
             ClientMsg::FriendAnswer { username, accept } => {
                 if let Ok(Some(other)) = server.store.user_by_name(&username).await {
+                    // The same limit as for asking.
+                    let full = accept
+                        && server.store.friends(me.id).await.unwrap_or_default().len()
+                            >= MAX_FRIENDS as usize;
+                    if full {
+                        send(ServerMsg::Error { message: "Your friend list is full.".into() });
+                        continue;
+                    }
                     if accept {
                         if server.store.friend_accept(me.id, other.id).await.unwrap_or(false) {
                             server.check_achievements(&me).await;
@@ -1380,6 +1397,7 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                     let _ = server.store.block(me.id, other.id).await;
                     let _ = server.store.friend_remove(me.id, other.id).await;
                     update_blocked(&server, &me).await;
+                    server.with(|l| l.blocked_player(&me.username, &other.username));
                     refresh_friends(&server, &me).await;
                     refresh_friends(&server, &other).await;
                 }
@@ -1503,6 +1521,7 @@ fn is_query_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::ChangeUsername { .. }
             | ClientMsg::Replays
             | ClientMsg::Replay { .. }
+            | ClientMsg::Missions
             | ClientMsg::CorrList
             | ClientMsg::CorrChallenge { .. }
             | ClientMsg::CorrAnswer { .. }
@@ -1593,6 +1612,9 @@ fn board_note(n: crate::store::BoardNote) -> snook_legend_proto::BoardNote {
         action: n.action.as_deref().and_then(snook_legend_proto::NoteAction::from_code),
     }
 }
+
+/// The most friends (and requests) a player has.
+const MAX_FRIENDS: u32 = 300;
 
 /// Free players keep the replays of their last games; VIP members all of them.
 pub const FREE_REPLAYS: u32 = 10;
@@ -1705,7 +1727,7 @@ async fn friend_request(server: &Server, me: &User, name: &str, send: &impl Fn(S
         return send(ServerMsg::Notice { text: "Friend request sent.".into() });
     }
     let current = server.store.friends(me.id).await.unwrap_or_default();
-    if current.len() >= 300 {
+    if current.len() >= MAX_FRIENDS as usize {
         return send(ServerMsg::Error { message: "Your friend list is full.".into() });
     }
     match server.store.friend_request(me.id, other.id, now()).await {

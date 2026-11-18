@@ -339,6 +339,26 @@ impl Server {
         self.check_achievements_after(user, false).await
     }
 
+    /// Unlocks an achievement the server awards for a feat it saw (not one
+    /// that comes from the account's numbers), and tells the player.
+    pub async fn award_achievement(&self, user: &User, code: &str) {
+        match self.store.add_achievements(user.id, &[code], now()).await {
+            Ok(new) => {
+                let all = self.store.achievements(user.id).await.unwrap_or_default();
+                let codes: Vec<String> = all.into_iter().map(|(code, _)| code).collect();
+                let xp = new.len() as u32 * snook_legend_proto::xp::ACHIEVEMENT;
+                self.with(|l| {
+                    for code in new {
+                        l.notify(&user.username, ServerMsg::AchievementUnlocked { code });
+                    }
+                    l.set_achievements(&user.username, codes);
+                });
+                account::award_xp(self, user, xp).await;
+            }
+            Err(e) => tracing::error!("achievement {code} for {}: {e}", user.username),
+        }
+    }
+
     /// Like [`Server::check_achievements`]; `rated_win` when the player just
     /// won a rated game (what event achievements ask for).
     pub async fn check_achievements_after(&self, user: &User, rated_win: bool) {
@@ -522,6 +542,9 @@ async fn run_effect(server: &Arc<Server>, effect: Effect) {
                         }
                         let rated_win = record.rated && record.winner == seat;
                         server.check_achievements_after(&user, rated_win).await;
+                        if rated_win && record.break_win {
+                            server.award_achievement(&user, snook_legend_proto::GOLDEN_BREAK).await;
+                        }
                         if pays && record.abandoned != Some(seat) {
                             account::game_coins(server, &user, record.winner == seat).await;
                             let won = record.winner == seat;

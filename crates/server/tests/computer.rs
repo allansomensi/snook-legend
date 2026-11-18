@@ -147,6 +147,7 @@ fn record(players: [i64; 2], replay: Replay, winner: usize, at: i64) -> MatchRec
         eight_win: true,
         runout: false,
         shutout: false,
+        break_win: false,
         ended_at: at,
         replay: Some(replay),
         stats: Default::default(),
@@ -381,7 +382,7 @@ fn record_the_fixture() {
         },
         style: Style::NEUTRAL,
     };
-    let boss = ladder::final_opponent().player;
+    let boss = ladder::final_player();
     for seed in 1..50u64 {
         // The computer breaks: the game has strokes of it to check.
         let mut replay = Replay::new(seed * 7919, 1);

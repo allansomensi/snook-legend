@@ -428,11 +428,14 @@ fn shading() -> Texture2D {
                     let light = vec3(-0.5, -0.7, 0.75).normalize();
                     let diffuse = n.dot(light).max(0.0);
                     // Darkness to lay over (black with alpha) …
-                    let dark = (0.5 - 0.5 * diffuse).clamp(0.0, 0.5) + 0.18 * (1.0 - z).powf(2.0);
+                    let dark =
+                        (0.32 - 0.32 * diffuse).clamp(0.0, 0.32) + 0.18 * (1.0 - z).powf(2.0);
                     // … and a highlight (white with alpha).
                     let h = (light + vec3(0.0, 0.0, 1.0)).normalize();
                     let spec = n.dot(h).max(0.0);
-                    let shine = spec.powf(60.0) * 0.85 + spec.powf(8.0) * 0.10;
+                    // No bright reflection: on balls this small it sat on
+                    // the number. A breath of sheen keeps them round.
+                    let shine = spec.powf(8.0) * 0.06;
                     // White over black: the colour is white where it shines.
                     let a = (dark + shine).min(1.0);
                     let w = if a > 0.0 { shine / a } else { 0.0 };

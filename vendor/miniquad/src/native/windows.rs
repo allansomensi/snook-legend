@@ -952,10 +952,26 @@ unsafe fn create_window(
         bottom: 0,
     };
 
+    // Snook Legend patch: the window opens on the monitor the pointer is on
+    // (where the game was started from: a shortcut, the Start menu or the
+    // taskbar of that screen), not always on the primary one.
+    let mut pointer = POINT { x: 0, y: 0 };
+    let mut monitor_info: MONITORINFO = std::mem::zeroed();
+    monitor_info.cbSize = std::mem::size_of::<MONITORINFO>() as u32;
+    let on_monitor = GetCursorPos(&mut pointer) != 0
+        && GetMonitorInfoW(
+            MonitorFromPoint(pointer, MONITOR_DEFAULTTONEAREST),
+            &mut monitor_info,
+        ) != 0;
+
     if fullscreen {
         win_style = WS_POPUP | WS_SYSMENU | WS_VISIBLE;
-        rect.right = GetSystemMetrics(SM_CXSCREEN);
-        rect.bottom = GetSystemMetrics(SM_CYSCREEN);
+        if on_monitor {
+            rect = monitor_info.rcMonitor;
+        } else {
+            rect.right = GetSystemMetrics(SM_CXSCREEN);
+            rect.bottom = GetSystemMetrics(SM_CYSCREEN);
+        }
     } else {
         win_style = if resizable {
             WS_CLIPSIBLINGS
@@ -973,9 +989,24 @@ unsafe fn create_window(
         rect.bottom = height;
     }
 
+    // (Full screen: the monitor's own rectangle, as it is.)
+    let monitor_origin = (rect.left, rect.top);
     AdjustWindowRectEx(&rect as *const _ as _, win_style, false as _, win_ex_style);
     let win_width = rect.right - rect.left;
     let win_height = rect.bottom - rect.top;
+    // Snook Legend patch: where the window goes. Full screen: the
+    // monitor's corner. A window: the middle of that monitor's work area
+    // (never above or left of it: the title bar stays in reach).
+    let (win_x, win_y) = if !on_monitor {
+        (CW_USEDEFAULT, CW_USEDEFAULT)
+    } else if fullscreen {
+        monitor_origin
+    } else {
+        let work = monitor_info.rcWork;
+        let x = work.left + ((work.right - work.left - win_width) / 2).max(0);
+        let y = work.top + ((work.bottom - work.top - win_height) / 2).max(0);
+        (x, y)
+    };
     let class_name = "MINIQUADAPP\0".encode_utf16().collect::<Vec<u16>>();
     let mut window_name = window_title.encode_utf16().collect::<Vec<u16>>();
     window_name.push(0);
@@ -984,8 +1015,8 @@ unsafe fn create_window(
         class_name.as_ptr(),         // lpClassName
         window_name.as_ptr(),        // lpWindowName
         win_style,                   // dwStyle
-        CW_USEDEFAULT,               // X
-        CW_USEDEFAULT,               // Y
+        win_x,                       // X
+        win_y,                       // Y
         win_width,                   // nWidth
         win_height,                  // nHeight
         NULL as _,                   // hWndParent

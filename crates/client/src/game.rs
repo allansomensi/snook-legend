@@ -280,6 +280,12 @@ pub struct Match {
     banter_quiet: f32,
     /// The computer opponent speaks up now and then (a setting).
     pub talk: bool,
+    /// The opponent's opening line has had its chance (once the setting
+    /// for their remarks is known).
+    greeted: bool,
+    /// The player's game of a tournament against the computer: its result
+    /// stands (no rematch).
+    pub cup: bool,
     /// Each player's picture (an avatar code; empty: none chosen).
     pub avatars: [String; 2],
 }
@@ -313,8 +319,10 @@ impl DrillRun {
 /// How the power bar maps to the cue's speed, up to the limit of the stroke
 /// (see `EightBallGame::max_cue_speed`: a power shot, or the break's own):
 /// a curve that keeps most of the bar for the paces most strokes are played
-/// at (half the bar is a medium stroke, about 1.4 m/s for the ball).
-pub const POWER_CURVE: f64 = 2.0;
+/// at (half the bar is a medium stroke, about 1.7 m/s for the ball). A
+/// little less bent than a square: on the slower cloth of ruleset 4 the low
+/// end of the bar barely moved the ball.
+pub const POWER_CURVE: f64 = 1.7;
 
 /// The cue speed for a point of the power bar (0 to 1).
 pub fn power_to_speed(power: f32, max: f64) -> f64 {
@@ -438,10 +446,18 @@ impl Match {
     pub fn new(settings: &MatchSettings, seed: u64) -> Self {
         let level_name = |d| tw("Computer ({level})", &[("level", &crate::i18n::difficulty(d))]);
         let (names, controllers) = match &settings.mode {
-            MatchMode::VsComputer(o) => (
-                [settings.names[0].clone(), o.display_name()],
-                [Controller::Human, Controller::Computer(o.player())],
-            ),
+            MatchMode::VsComputer(o) => {
+                // On the tour an opponent plays at their best (and the
+                // server checks the final game against that player).
+                let player = settings
+                    .ladder
+                    .and_then(|rung| snook_legend_proto::ladder::tour_player(rung as usize))
+                    .unwrap_or_else(|| o.player());
+                (
+                    [settings.names[0].clone(), o.display_name()],
+                    [Controller::Human, Controller::Computer(player)],
+                )
+            }
             MatchMode::HotSeat => (settings.names.clone(), [Controller::Human, Controller::Human]),
             MatchMode::Demo => (
                 [level_name(Difficulty::Hard), level_name(Difficulty::Medium)],
@@ -502,11 +518,15 @@ impl Match {
             drill: None,
             banter: None,
             banter_quiet: 0.0,
-            talk: true,
+            // Off until the game's loop sets it from the settings: the
+            // opening line used to be said before the setting was read,
+            // also with the remarks turned off.
+            talk: false,
+            greeted: false,
+            cup: false,
             avatars: Default::default(),
         };
         m.begin_turn();
-        m.say(crate::banter::Moment::Start);
         m
     }
 
@@ -659,6 +679,13 @@ impl Match {
         };
         let mut m = Match::new(&settings, saved.seed);
         m.ladder = saved.ladder.clone();
+        if let Some(player) = saved
+            .ladder
+            .as_ref()
+            .and_then(|run| snook_legend_proto::ladder::tour_player(run.rung as usize))
+        {
+            m.controllers[1] = Controller::Computer(player);
+        }
         m.game = saved.game.clone();
         m.names = saved.names.clone();
         // In the language of today (a ghost is "Ghost of …").
@@ -804,6 +831,8 @@ impl Match {
             banter: None,
             banter_quiet: 0.0,
             talk: true,
+            greeted: true,
+            cup: false,
             avatars: [players[0].avatar.clone(), players[1].avatar.clone()],
         };
         m.begin_turn();
@@ -864,6 +893,10 @@ impl Match {
     /// Starts a new game; the players alternate the break. Online, this asks
     /// the opponent for a rematch.
     pub fn rematch(&mut self) {
+        if self.cup {
+            // A tournament's game is played once.
+            return;
+        }
         if let Some(o) = self.online.as_mut() {
             if !o.rematch_requested && !o.opponent_left && o.tournament.is_none() {
                 o.rematch_requested = true;
@@ -1298,6 +1331,10 @@ const AI_STROKE_TIME: f32 = 1.1;
 impl Match {
     /// Advances the match by `dt` seconds of real time.
     pub fn update(&mut self, dt: f32) {
+        if !self.greeted && self.talk {
+            self.greeted = true;
+            self.say(crate::banter::Moment::Start);
+        }
         // A stored game: paused, slowed down or sped up.
         let dt = match &self.video {
             Some(v) if v.paused => return,

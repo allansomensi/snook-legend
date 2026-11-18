@@ -48,6 +48,8 @@ pub enum VersusAction {
     Drill(String),
     /// The player's game of the tournament's round.
     StartCup(MatchSettings),
+    /// The tournament's game that was left half way, picked up again.
+    ResumeCup,
 }
 
 pub struct Versus {
@@ -70,6 +72,11 @@ pub struct Versus {
     drills_asked: bool,
     /// "Abandon the tournament" was pressed this frame.
     cup_abandon: bool,
+    /// The seed of the game against the computer kept on disk (a
+    /// tournament's game left half way is picked up from it).
+    saved_seed: Option<u64>,
+    /// A tournament's game was left and not kept: it was counted as lost.
+    cup_forfeit: bool,
 }
 
 /// Text field ids.
@@ -98,6 +105,8 @@ impl Versus {
             drill: 0,
             drills_asked: false,
             cup_abandon: false,
+            saved_seed: crate::saved::load().map(|s| s.seed),
+            cup_forfeit: false,
         }
     }
 
@@ -941,6 +950,17 @@ impl Versus {
     ) -> VersusAction {
         use crate::cup::{Cup, Format};
         let mut action = VersusAction::None;
+        // The tournament's game was left and is no longer kept (another
+        // game against the computer took its place): it counts as lost. A
+        // game is never played again from the start.
+        if let Some(c) = cup.as_mut()
+            && let Some(seed) = c.playing
+            && self.saved_seed != Some(seed)
+        {
+            c.report(false);
+            c.save();
+            self.cup_forfeit = true;
+        }
         let side_w = (body.w * 0.30).clamp(200.0, 290.0);
         let side = Rect::new(body.x + body.w - side_w, body.y, side_w, body.h);
         let board = Rect::new(body.x, body.y, body.w - side_w - 18.0, body.h);
@@ -1025,7 +1045,45 @@ impl Versus {
                         say(ui, &line, 14.0, MUTED, false, &mut y);
                     }
                     new_buttons(ui, y + 14.0);
+                    // The champion: a gold medal and their name.
+                    if c.is_player(champion) {
+                        let top = y + 14.0 + 96.0 + 18.0;
+                        let room = side.y + side.h - top;
+                        if room > 90.0 {
+                            let size = (room * 0.55).clamp(48.0, 120.0);
+                            let cx = x + w / 2.0;
+                            let cy = top + size / 2.0 + 4.0;
+                            let glow = 0.5 + 0.5 * (get_time() as f32 * 2.0).sin();
+                            draw_circle(
+                                cx,
+                                cy,
+                                size * (0.62 + 0.04 * glow),
+                                Color::new(GOLD.r, GOLD.g, GOLD.b, 0.10 + 0.06 * glow),
+                            );
+                            crate::icons::draw(Icon::Medal, vec2(cx, cy), size, GOLD);
+                            let (name, ns) = ui.fitted(&name, 20.0, w, true);
+                            ui.text_centered(&name, cx, cy + size / 2.0 + 14.0, ns, GOLD, true);
+                            ui.text_centered(
+                                t("Champion"),
+                                cx,
+                                cy + size / 2.0 + 14.0 + ns + 6.0,
+                                13.0,
+                                CREAM,
+                                true,
+                            );
+                        }
+                    }
                 } else {
+                    if self.cup_forfeit {
+                        say(
+                            ui,
+                            t("You left your game: it counts as a loss."),
+                            13.0,
+                            ALERT,
+                            false,
+                            &mut y,
+                        );
+                    }
                     let stage = match c.format {
                         Format::Knockout => t(match round {
                             0 => "Round of 16",
@@ -1053,12 +1111,23 @@ impl Versus {
                             p.strength,
                             Rect::new(x, y, w, play_r.y - 12.0 - y),
                         );
-                        let label = tw("Play {name}", &[("name", &p.name)]);
+                        // A game left half way goes on from where it was.
+                        let resume = c.playing.is_some();
+                        let label = if resume {
+                            tw("Continue against {name}", &[("name", &p.name)])
+                        } else {
+                            tw("Play {name}", &[("name", &p.name)])
+                        };
+                        let (label, _) = ui.fitted(&label, 18.0, w - 16.0, true);
                         let enter = (is_key_pressed(KeyCode::Enter)
                             || is_key_pressed(KeyCode::KpEnter))
                             && ui.focus.is_none();
                         if ui.primary_button(play_r, &label) || enter {
-                            action = VersusAction::StartCup(settings(config, o, None));
+                            action = if resume {
+                                VersusAction::ResumeCup
+                            } else {
+                                VersusAction::StartCup(settings(config, o, None))
+                            };
                         }
                         let give_up = Rect::new(x, play_r.y + 48.0, w, 26.0);
                         if ui.button(give_up, t("Abandon the tournament"), true) {

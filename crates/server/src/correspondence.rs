@@ -699,6 +699,8 @@ struct Finished {
     users: [Option<User>; 2],
     over: GameOver,
     timeout: bool,
+    /// Won by making only the 8 on a break.
+    break_win: bool,
 }
 
 /// Each seat's numbers and turns over the whole game (for the record).
@@ -783,6 +785,7 @@ async fn finish(
         eight_win,
         runout: eight_win && turns[l] == 0 && g.replay.breaker == w,
         shutout: eight_win && table.group_of(l).is_some_and(|gr| table.remaining(gr).len() == 7),
+        break_win: eight_win && table.group_of(w).is_none(),
         ended_at: at,
         replay: Some(g.replay.clone()),
         stats,
@@ -799,7 +802,7 @@ async fn finish(
             g.reason = Some(crate::reason_code(over.reason).to_string());
             g.match_id = Some(match_id);
             tracing::info!(game = g.id, match_id, "correspondence game over: {:?}", over);
-            Some(Finished { game: g, users, over, timeout })
+            Some(Finished { game: g, users, over, timeout, break_win: record.break_win })
         }
         Ok(None) => None,
         Err(e) => {
@@ -821,6 +824,9 @@ async fn announce(server: &Arc<Server>, f: Finished) {
         let Some(user) = user else { continue };
         server.with(|l| l.refresh_user(user.clone()));
         server.check_achievements_after(user, f.game.rated && f.over.winner == seat).await;
+        if f.game.rated && f.over.winner == seat && f.break_win {
+            server.award_achievement(user, snook_legend_proto::GOLDEN_BREAK).await;
+        }
         let event = CorrEvent::Ended {
             won: f.over.winner == seat,
             reason: f.over.reason,

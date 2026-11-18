@@ -73,6 +73,15 @@ const ZOOM_NEAR: f32 = 0.6;
 const ZOOM_FAR: f32 = 4.1;
 /// Field of view of the overhead view: narrow, so the table looks flat.
 const TOP_FOV: f32 = 0.63;
+/// How far above the table the overhead view looks from (m). From up
+/// here, through a long lens, the table is seen almost without
+/// perspective: balls stay round out to the corners (from under the
+/// ceiling, at the ends of the table they were drawn a sixth longer than
+/// wide), and what stands at different heights (the aiming line, the cue,
+/// the ghost ball, a ball and the ring under it) lines up as it does on
+/// the cloth. The hall above the table is cut away by the near plane (see
+/// `SceneCamera::matrix`).
+const TOP_EYE_HEIGHT: f32 = 14.0;
 /// The overhead eye never rises above this (m above the floor): the bar's
 /// ceiling beams start at about 2.98 m, and one runs right over the table.
 const TOP_MAX_EYE_Y: f32 = 2.75;
@@ -365,14 +374,11 @@ impl CameraRig {
                         let per_px = 2.0 * fit * zoom * tan / sh;
                         let shift = (bottom_px - top_px) / 2.0 * per_px;
                         let look = center + self.focus + vec3(0.0, 0.0, shift);
-                        // Too high would put the eye in the ceiling: stay
-                        // below it and widen the view to frame the same area.
+                        // The same area framed from high above, through a
+                        // lens as much narrower.
                         let height = fit * zoom;
-                        let max_height = TOP_MAX_EYE_Y - TABLE_HEIGHT;
-                        if height > max_height {
-                            top_fov = 2.0 * (tan * height / max_height).atan();
-                        }
-                        (look + Vec3::Y * height.min(max_height), look, Vec3::NEG_Z)
+                        top_fov = 2.0 * (tan * height / TOP_EYE_HEIGHT).atan();
+                        (look + Vec3::Y * TOP_EYE_HEIGHT, look, Vec3::NEG_Z)
                     }
                     CameraMode::Aim if !self.follow_cue => {
                         // Fixed view around the middle of the table: it only

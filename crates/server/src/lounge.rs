@@ -2135,6 +2135,9 @@ impl Lounge {
             eight_win,
             runout: eight_win && room.turns[loser] == 0 && room.breaker == over.winner,
             shutout,
+            // Won on the 8 with the groups never decided: only a break
+            // that makes the 8 alone does that.
+            break_win: eight_win && room.game.group_of(over.winner).is_none(),
             ended_at: now(),
             replay: Some(room.replay.clone()),
             stats: room.stats,

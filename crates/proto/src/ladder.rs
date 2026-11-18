@@ -51,6 +51,33 @@ pub fn final_opponent() -> &'static Personality {
     rung(RUNGS.len() - 1).expect("the ladder's opponents exist")
 }
 
+/// How the opponent of rung `k` plays on the tour: themselves at their
+/// best. Winning the tour is meant to be hard, so each of them aims and
+/// paces their strokes much more tightly than in a free game, looks at
+/// more shots, thinks further about where the cue ball goes, and all but
+/// the first two play safe when nothing is on. The style stays their own.
+/// The server checks the final game against this very player.
+pub fn tour_player(k: usize) -> Option<AiPlayer> {
+    use snook_legend_core::ai::Search;
+    let p = rung(k)?;
+    let mut skill = p.player.skill;
+    skill.aim_noise_deg *= 0.6;
+    skill.speed_noise *= 0.6;
+    skill.search = match skill.search {
+        Search::Narrow => Search::Normal,
+        _ => Search::Wide,
+    };
+    skill.position_weight = skill.position_weight * 1.3 + 80.0;
+    skill.plays_safe |= k >= 2;
+    skill.banks |= k >= 6;
+    Some(AiPlayer { skill: skill.clamped(), ..p.player })
+}
+
+/// The tour's last opponent, as they play on it.
+pub fn final_player() -> AiPlayer {
+    tour_player(RUNGS.len() - 1).expect("the ladder's opponents exist")
+}
+
 /// The seed of the computer's decision on a table: the game's rack seed and
 /// the number of shots taken so far. The game uses it for every game
 /// against the computer, so a game can be replayed (and checked) exactly.
@@ -138,7 +165,7 @@ fn same(a: &Stroke, b: &Stroke) -> bool {
 /// This simulates the whole game and asks the computer for every one of
 /// its strokes: seconds of CPU time. Run it off the async runtime.
 pub fn verify(replay: &Replay) -> Result<EightBallGame, ClaimFailure> {
-    verify_against(replay, &final_opponent().player)
+    verify_against(replay, &final_player())
 }
 
 /// [`verify`] against any computer player.

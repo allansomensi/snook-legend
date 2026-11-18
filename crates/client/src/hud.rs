@@ -725,6 +725,12 @@ impl Hud {
                     MUTED,
                     false,
                 );
+            } else if m.cup {
+                // A tournament's game: the result stands, on with it.
+                let b = Rect::new(sw / 2.0 - 130.0, r.y + 128.0, 260.0, 38.0);
+                if ui.primary_button(b, t("Back to the tournament")) {
+                    action = HudAction::MainMenu;
+                }
             } else {
                 let bx = sw / 2.0 - 180.0;
                 if ui.primary_button(Rect::new(bx, r.y + 128.0, 170.0, 38.0), t("Rematch")) {

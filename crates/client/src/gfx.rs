@@ -244,9 +244,11 @@ float ball_glint(vec3 pos, vec3 r) {
     float e = 1.0 - dot(r, l);
     float least = Spot.z * length(CameraPos - v_world);
     float edge = max(0.0065, 0.5 * least * least);
-    // The dot, in a faint glow: the bloom of a bright light on a polish.
+    // A soft patch of light in a faint glow, not a hard white dot: the
+    // dot sat on the numbers and hid them.
     float glow = 1.0 - smoothstep(edge, edge * 9.0, e);
-    return 1.0 - smoothstep(edge * 0.35, edge, e) + 0.22 * glow * glow;
+    float core = 1.0 - smoothstep(edge * 0.2, edge * 2.6, e);
+    return 0.55 * core * core + 0.20 * glow * glow;
 }
 
 vec3 environment(vec3 r) {
@@ -414,7 +416,7 @@ void main() {
         // The light over the table, mirrored in the ball's polish: one
         // clean dot (the three lamps side by side made a ragged bar across
         // a small ball).
-        c += LampColor.rgb * ball_glint(Lamp1, reflect(-v, n)) * 1.1;
+        c += LampColor.rgb * ball_glint(Lamp1, reflect(-v, n)) * 0.6;
     }
     // The cloth darkens where it rolls over into a pocket.
     if (Extra.y > 0.5 && Extra.y < 1.5) {
@@ -483,11 +485,11 @@ impl Surface {
     /// each lamp is a small, crisp glint and the room a faint reflection,
     /// so the colours and the numbers always read.
     pub const BALL: Surface = Surface {
-        specular: 0.10,
-        shininess: 56.0,
+        specular: 0.07,
+        shininess: 38.0,
         unlit: false,
         rim: 0.02,
-        coat: 0.18,
+        coat: 0.11,
         cut: 0.0,
         haze: 0.0,
         ball: true,
@@ -1646,7 +1648,8 @@ pub struct SceneCamera {
 impl Camera for SceneCamera {
     fn matrix(&self) -> Mat4 {
         let aspect = screen_width() / screen_height().max(1.0);
-        Mat4::perspective_rh_gl(self.fovy, aspect, 0.03, 40.0)
+        let (near, far) = self.depth_range();
+        Mat4::perspective_rh_gl(self.fovy, aspect, near, far)
             * Mat4::look_at_rh(self.eye, self.target, self.up)
     }
     fn depth_enabled(&self) -> bool {
@@ -1661,6 +1664,20 @@ impl Camera for SceneCamera {
 }
 
 impl SceneCamera {
+    /// The near and far planes. An eye above every ceiling (the overhead
+    /// view looks from high up through a long lens) sees only what is
+    /// within reach of what it looks at: the hall above the table is cut
+    /// away.
+    fn depth_range(&self) -> (f32, f32) {
+        const ABOVE_THE_HALLS: f32 = 2.8;
+        if self.eye.y > ABOVE_THE_HALLS {
+            let dist = self.eye.distance(self.target);
+            ((dist - 1.7).max(0.03), dist + 4.0)
+        } else {
+            (0.03, 40.0)
+        }
+    }
+
     /// Screen position of a world point (None if behind the camera).
     pub fn project(&self, p: Vec3) -> Option<Vec2> {
         let clip = self.matrix() * p.extend(1.0);

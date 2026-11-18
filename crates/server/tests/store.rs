@@ -61,6 +61,7 @@ async fn exercise(store: Store) {
         eight_win: true,
         runout: true,
         shutout: false,
+        break_win: false,
         ended_at: t,
         replay: Some(Replay {
             seed: u64::MAX - 5,

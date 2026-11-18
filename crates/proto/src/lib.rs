@@ -22,7 +22,7 @@ pub mod replay;
 pub mod shop;
 pub mod xp;
 
-pub use achievements::{ACHIEVEMENTS, Achievement, Stat, Stats, month_day};
+pub use achievements::{ACHIEVEMENTS, Achievement, GOLDEN_BREAK, Stat, Stats, month_day};
 pub use countries::{COUNTRIES, FLAG_COLUMNS, FLAG_H, FLAG_W};
 pub use reactions::{REACTIONS, Reaction, reaction};
 

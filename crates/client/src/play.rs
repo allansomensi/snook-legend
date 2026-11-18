@@ -696,8 +696,9 @@ pub fn overlay(m: &Match, scene: &Scene, time: f32) -> Overlay {
         let ok = m.game.can_place_cue_ball(cue);
         let color =
             if ok { Color::new(0.3, 1.0, 0.45, 0.9) } else { Color::new(1.0, 0.3, 0.25, 0.9) };
+        // At the height of the ball's centre: round it from any view.
         out.guides.push(Guide::Ring {
-            center: surface(cue, line_y),
+            center: surface(cue, r as f32),
             radius: r as f32 * 1.4,
             width: 0.004,
             color,

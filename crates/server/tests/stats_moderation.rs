@@ -48,6 +48,7 @@ fn record(players: [i64; 2], ended_at: i64, replay: bool) -> MatchRecord {
         eight_win: false,
         runout: false,
         shutout: false,
+        break_win: false,
         ended_at,
         replay: replay.then(|| Replay {
             seed: 9,

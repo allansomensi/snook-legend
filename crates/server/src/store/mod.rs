@@ -168,6 +168,8 @@ pub struct MatchRecord {
     pub runout: bool,
     /// The loser never pocketed a ball of their group.
     pub shutout: bool,
+    /// The winner made only the 8 on a break (the house rules).
+    pub break_win: bool,
     pub ended_at: i64,
     /// The whole game (seed, breaker, strokes).
     pub replay: Option<Replay>,

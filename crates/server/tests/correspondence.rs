@@ -124,6 +124,7 @@ async fn exercise(store: Store) {
         eight_win: false,
         runout: false,
         shutout: false,
+        break_win: false,
         ended_at: t + 950,
         replay: Some(end.replay.clone()),
         stats: [ShotStats { shots: 1, ..Default::default() }, ShotStats::default()],

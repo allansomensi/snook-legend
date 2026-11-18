@@ -376,7 +376,7 @@ You haven't played {name} in the last day: the moderators see the recent chat.	V
 Shark	Tubarão
 Shows the contact point; judging the cut is up to you.	Mostra o ponto de contato; o corte fica por sua conta.
 Shows where the object ball and the cue ball go.	Mostra para onde vão a bola da vez e a branca.
-Shutout	Zerado
+Shutout	Capote
 Sign in	Entrar
 Sign in or create an account	Entre ou crie uma conta
 Sign out	Sair da conta
@@ -440,7 +440,7 @@ Win 50 rated games.	Vença 50 partidas valendo rating.
 Win 500 rated games.	Vença 500 partidas valendo rating.
 Win a rated game.	Vença uma partida valendo rating.
 Win a tournament.	Vença um torneio.
-Win a rated game before your opponent sinks a ball of their group.	Vença valendo rating antes de o adversário encaçapar uma bola do grupo dele.
+Win a rated game before your opponent sinks a ball of their group.	Vença valendo rating sem o adversário fazer nem uma bola.
 Win a rated game from the break without your opponent getting a shot.	Vença valendo rating desde a saída sem o adversário dar uma tacada.
 Withdraw	Desistir do torneio
 World ranking	Ranking mundial
@@ -1741,3 +1741,17 @@ Off the long cushion and across the table into the corner. Five tries.	Na tabela
 Kick shot	Tabelada na bola
 The 1 is walled off: send the cue ball off a cushion to hit it first. Five tries.	A 1 está cercada: mande a branca na tabela para acertá-la primeiro. Cinco tentativas.
 Only the cue ball went down on the break: the balls are racked again and {next} breaks.	Só a branca caiu na saída: as bolas voltam ao triângulo e {next} dá a saída.
+Golden break	Saída de ouro
+Win a rated game by sinking only the 8-ball on the break.	Vença valendo rating encaçapando só a bola 8 na saída.
+Half a year	Meio ano de casa
+Have an account for six months.	Tenha uma conta há seis meses.
+First anniversary	Primeiro aniversário
+Second anniversary	Segundo aniversário
+Have an account for two years.	Tenha uma conta há dois anos.
+Third anniversary	Terceiro aniversário
+Have an account for three years.	Tenha uma conta há três anos.
+Five years at the table	Cinco anos de mesa
+Have an account for five years.	Tenha uma conta há cinco anos.
+Back to the tournament	Voltar ao torneio
+Continue against {name}	Continuar contra {name}
+You left your game: it counts as a loss.	Você saiu da partida: conta como derrota.

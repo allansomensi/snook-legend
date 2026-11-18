@@ -115,6 +115,9 @@ const fn a(
     Achievement { code, title, description, stat, goal, level }
 }
 
+/// Awarded for a rated game won by making only the 8 on the break.
+pub const GOLDEN_BREAK: &str = "golden_break";
+
 pub const ACHIEVEMENTS: &[Achievement] = &[
     a("games_1", "First break", "Play your first rated game.", Stat::Games, 1, 0),
     a("games_10", "Regular", "Play 10 rated games.", Stat::Games, 10, 0),
@@ -162,8 +165,41 @@ pub const ACHIEVEMENTS: &[Achievement] = &[
     a("tournament_play", "Competitor", "Play in a tournament.", Stat::TournamentsPlayed, 1, 0),
     a("tournament_win", "Champion", "Win a tournament.", Stat::TournamentsWon, 1, 2),
     a("tournament_win_5", "Dynasty", "Win 5 tournaments.", Stat::TournamentsWon, 5, 3),
+    a(
+        "golden_break",
+        "Golden break",
+        "Win a rated game by sinking only the 8-ball on the break.",
+        Stat::Awarded,
+        1,
+        2,
+    ),
     a("veteran_30", "Familiar face", "Have an account for 30 days.", Stat::AccountDays, 30, 0),
-    a("veteran_365", "Old timer", "Have an account for a year.", Stat::AccountDays, 365, 2),
+    a("veteran_180", "Half a year", "Have an account for six months.", Stat::AccountDays, 180, 1),
+    a("veteran_365", "First anniversary", "Have an account for a year.", Stat::AccountDays, 365, 2),
+    a(
+        "veteran_730",
+        "Second anniversary",
+        "Have an account for two years.",
+        Stat::AccountDays,
+        730,
+        2,
+    ),
+    a(
+        "veteran_1095",
+        "Third anniversary",
+        "Have an account for three years.",
+        Stat::AccountDays,
+        1095,
+        3,
+    ),
+    a(
+        "veteran_1825",
+        "Five years at the table",
+        "Have an account for five years.",
+        Stat::AccountDays,
+        1825,
+        3,
+    ),
     a(
         "ladder_champion",
         "Champion of the tour",

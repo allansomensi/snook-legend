@@ -1075,7 +1075,10 @@ async fn main() {
                             }
                             MenuAction::ContinueGame => match saved::load() {
                                 Some(s) => {
-                                    current = Some(Match::resume(&s, config.guide));
+                                    let mut m = Match::resume(&s, config.guide);
+                                    // The tournament's game, picked up here.
+                                    m.cup = cup.as_ref().is_some_and(|c| c.playing == Some(s.seed));
+                                    current = Some(m);
                                     save_key = None;
                                     hud = Hud::new(config.show_help);
                                     rig.reset();
@@ -1187,11 +1190,24 @@ async fn main() {
                                     c.begin(seed);
                                     c.save();
                                 }
-                                current = Some(Match::new(&settings, seed));
+                                let mut m = Match::new(&settings, seed);
+                                m.cup = true;
+                                current = Some(m);
                                 save_key = None;
                                 hud = Hud::new(config.show_help);
                                 rig.reset();
                                 next = Some(Screen::Menu);
+                            }
+                            versus::VersusAction::ResumeCup => {
+                                if let Some(s) = saved::load() {
+                                    let mut m = Match::resume(&s, config.guide);
+                                    m.cup = true;
+                                    current = Some(m);
+                                    save_key = None;
+                                    hud = Hud::new(config.show_help);
+                                    rig.reset();
+                                    next = Some(Screen::Menu);
+                                }
                             }
                             versus::VersusAction::Drill(code) => {
                                 let name = online

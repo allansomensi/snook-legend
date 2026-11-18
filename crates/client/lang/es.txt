@@ -1741,3 +1741,17 @@ Off the long cushion and across the table into the corner. Five tries.	A la band
 Kick shot	Tiro a banda
 The 1 is walled off: send the cue ball off a cushion to hit it first. Five tries.	La 1 está tapada: manda la blanca a una banda para tocarla primero. Cinco intentos.
 Only the cue ball went down on the break: the balls are racked again and {next} breaks.	Solo entró la blanca en el saque: las bolas vuelven al triángulo y {next} hace el saque.
+Golden break	Saque de oro
+Win a rated game by sinking only the 8-ball on the break.	Gana una partida con rating metiendo solo la bola 8 en el saque.
+Half a year	Medio año
+Have an account for six months.	Ten una cuenta desde hace seis meses.
+First anniversary	Primer aniversario
+Second anniversary	Segundo aniversario
+Have an account for two years.	Ten una cuenta desde hace dos años.
+Third anniversary	Tercer aniversario
+Have an account for three years.	Ten una cuenta desde hace tres años.
+Five years at the table	Cinco años en la mesa
+Have an account for five years.	Ten una cuenta desde hace cinco años.
+Back to the tournament	Volver al torneo
+Continue against {name}	Continuar contra {name}
+You left your game: it counts as a loss.	Dejaste la partida: cuenta como derrota.

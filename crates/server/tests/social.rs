@@ -42,6 +42,7 @@ fn game(players: [i64; 2], winner: usize, rated: bool, ended_at: i64) -> MatchRe
         eight_win: false,
         runout: false,
         shutout: false,
+        break_win: false,
         ended_at,
         replay: None,
         stats: Default::default(),

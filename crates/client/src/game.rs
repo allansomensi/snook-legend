@@ -709,14 +709,13 @@ impl Match {
     }
 
     /// This is the player's game of a tournament against the computer:
-    /// its result stands, and the opponent plays at their best, as on the
-    /// tour's last stages (winning a tournament is meant to be hard).
+    /// its result stands, and the opponent plays at their best (winning a
+    /// tournament is meant to be hard; the tour's final is harder still).
     pub fn make_cup_game(&mut self) {
         self.cup = true;
         if let Some(o) = &self.opponent {
-            let top = snook_legend_proto::ladder::RUNGS.len() - 1;
             self.controllers[1] =
-                Controller::Computer(snook_legend_proto::ladder::tour_form(&o.player(), top));
+                Controller::Computer(snook_legend_proto::ladder::cup_form(&o.player()));
         }
     }
 

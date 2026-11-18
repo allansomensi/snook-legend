@@ -52,17 +52,45 @@ pub fn final_opponent() -> &'static Personality {
 }
 
 /// How the opponent of rung `k` plays on the tour: themselves at their
-/// best. Winning the tour is meant to be hard, so each of them aims and
-/// paces their strokes much more tightly than in a free game, looks at
-/// more shots, thinks further about where the cue ball goes, and all but
-/// the first two play safe when nothing is on. The style stays their own.
-/// The server checks the final game against this very player.
+/// best, and more so the further up the tour. Winning the tour is meant to
+/// be hard, and its last stage very hard: each of them aims and paces their
+/// strokes far more tightly than in a free game (from about half of their
+/// usual error on the first rung to about a quarter on the last), looks at
+/// every shot, thinks further about where the cue ball goes, and all but
+/// the first two play safe when nothing is on. The last opponent also
+/// values a safety more than anyone. The style stays their own. The server
+/// checks the final game against this very player.
 pub fn tour_player(k: usize) -> Option<AiPlayer> {
     Some(tour_form(&rung(k)?.player, k))
 }
 
 /// `player` as they play on rung `k` of the tour (see [`tour_player`]).
 pub fn tour_form(player: &AiPlayer, k: usize) -> AiPlayer {
+    use snook_legend_core::ai::Search;
+    let last = RUNGS.len() - 1;
+    let up = k.min(last) as f64 / last as f64;
+    let mut skill = player.skill;
+    skill.aim_noise_deg *= 0.55 - 0.30 * up;
+    skill.speed_noise *= 0.55 - 0.25 * up;
+    skill.search = match skill.search {
+        Search::Narrow if k < 4 => Search::Normal,
+        _ => Search::Wide,
+    };
+    skill.position_weight = skill.position_weight * 1.3 + 80.0 + 250.0 * up;
+    skill.plays_safe |= k >= 2;
+    skill.banks |= k >= 5;
+    let mut style = player.style;
+    if k >= last {
+        style.safety_value = style.safety_value.max(1.6);
+        style.safety_threshold = style.safety_threshold.max(800.0);
+    }
+    AiPlayer { skill: skill.clamped(), style: style.clamped() }
+}
+
+/// `player` in the player's own game of a tournament against the computer:
+/// at their best, as the tour's top stages were before 0.7.2 (a tournament
+/// is hard to win, the tour's final harder still).
+pub fn cup_form(player: &AiPlayer) -> AiPlayer {
     use snook_legend_core::ai::Search;
     let mut skill = player.skill;
     skill.aim_noise_deg *= 0.6;
@@ -72,8 +100,8 @@ pub fn tour_form(player: &AiPlayer, k: usize) -> AiPlayer {
         _ => Search::Wide,
     };
     skill.position_weight = skill.position_weight * 1.3 + 80.0;
-    skill.plays_safe |= k >= 2;
-    skill.banks |= k >= 6;
+    skill.plays_safe = true;
+    skill.banks = true;
     AiPlayer { skill: skill.clamped(), ..*player }
 }
 
@@ -232,6 +260,58 @@ mod tests {
                 return replay;
             }
             seed += 1;
+        }
+    }
+
+    /// How hard the final is: a very good player (steadier than the Hard
+    /// computer) against the tour's last opponent, and against the same
+    /// opponent as a tournament's games play them. Prints the share won.
+    /// `cargo test --release -p snook_legend_proto -- --ignored measure_the_final --nocapture`
+    #[test]
+    #[ignore]
+    fn measure_the_final() {
+        use snook_legend_core::ai::{Search, Skill, Style};
+        let me = AiPlayer {
+            skill: Skill {
+                aim_noise_deg: 0.22,
+                speed_noise: 0.03,
+                break_speed: 7.2,
+                search: Search::Wide,
+                position_weight: 450.0,
+                plays_safe: true,
+                banks: true,
+            },
+            style: Style::NEUTRAL,
+        };
+        let viktor = final_opponent().player;
+        let games = 12u64;
+        let play = |opponent: AiPlayer, seed: u64| -> bool {
+            let mut replay = Replay::new(seed * 7919 + 13, (seed % 2) as usize);
+            let mut game = replay.start();
+            while game.game_over().is_none() && replay.strokes.len() < 300 {
+                let stroke = if game.current_player() == PLAYER_SEAT {
+                    computer_stroke(&game, &me, seed ^ 0x5555)
+                } else {
+                    computer_stroke(&game, &opponent, replay.seed)
+                };
+                apply(&mut game, &stroke).unwrap();
+                replay.strokes.push(stroke);
+            }
+            game.game_over().is_some_and(|o| o.winner == PLAYER_SEAT)
+        };
+        for (name, opponent) in [("tournament", cup_form(&viktor)), ("tour final", final_player())]
+        {
+            let won: usize = std::thread::scope(|s| {
+                let handles: Vec<_> = (0..4u64)
+                    .map(|t| {
+                        s.spawn(move || {
+                            (0..games).filter(|g| g % 4 == t).filter(|g| play(opponent, *g)).count()
+                        })
+                    })
+                    .collect();
+                handles.into_iter().map(|h| h.join().unwrap()).sum()
+            });
+            println!("{name}: the very good player won {won} of {games}");
         }
     }
 

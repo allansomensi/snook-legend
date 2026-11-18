@@ -1774,3 +1774,9 @@ Next: {name}	Próximo: {name}
 Drag on the table to aim, or click a ball	Arraste na mesa para mirar, ou clique numa bola
 Set the power	Ajuste a força
 Let go of {key} to shoot · Esc cancels	Solte {key} para tacar · Esc cancela
+Staff accounts can't change their username.	Contas da equipe não podem mudar o nome de usuário.
+That password can't be used. Choose another one.	Essa senha não pode ser usada. Escolha outra.
+That tournament is full.	Esse torneio está cheio.
+The server is restarting: your tournament was called off.	O servidor está reiniciando: seu torneio foi cancelado.
+Too many sign-ins. Wait a minute and try again.	Entradas demais. Espere um minuto e tente de novo.
+Too many wrong passwords. Try again in a few minutes.	Senhas erradas demais. Tente de novo em alguns minutos.

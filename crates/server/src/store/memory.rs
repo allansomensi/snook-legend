@@ -23,8 +23,23 @@ pub struct MemoryStore {
     inner: Mutex<Inner>,
 }
 
+/// A staff note or warning as kept here (the author by id).
+#[derive(Debug, Clone)]
+struct NoteRow {
+    id: i64,
+    user_id: i64,
+    author_id: i64,
+    kind: String,
+    text: String,
+    created_at: i64,
+    delivered_at: Option<i64>,
+}
+
 #[derive(Default)]
 struct Inner {
+    /// What the staff keep about players, oldest first.
+    staff_notes: Vec<NoteRow>,
+    next_staff_note: i64,
     users: BTreeMap<i64, User>,
     next_user: i64,
     /// token hash -> (user, kind, created, expires)
@@ -729,6 +744,7 @@ impl MemoryStore {
         s.achievements.remove(&user_id);
         s.ladder_claims.remove(&user_id);
         s.ladder_tickets.retain(|(u, _), _| *u != user_id);
+        s.staff_notes.retain(|n| n.user_id != user_id);
         // What they wrote with their presents goes with them.
         for g in s.gifts.iter_mut().filter(|g| g.from_id == Some(user_id)) {
             g.message.clear();
@@ -1254,25 +1270,160 @@ impl MemoryStore {
 
     pub fn search_users(
         &self,
-        query: &str,
+        search: &super::UserSearch,
         offset: u32,
         limit: u32,
     ) -> StoreResult<(Vec<User>, i64)> {
+        use super::UserSort;
         let s = self.lock();
-        let q = query.to_lowercase();
-        let all: Vec<User> = s
-            .users
-            .values()
-            .rev()
-            .filter(|u| {
-                q.is_empty()
-                    || u.username.to_lowercase().contains(&q)
-                    || u.recovery_email.as_deref().is_some_and(|e| e.to_lowercase() == q)
-            })
-            .cloned()
-            .collect();
+        let mut all: Vec<User> = s.users.values().filter(|u| search.matches(u)).cloned().collect();
+        match search.sort {
+            UserSort::Newest => all.sort_by_key(|u| std::cmp::Reverse(u.id)),
+            UserSort::Name => all.sort_by_key(|u| (u.username.to_lowercase(), u.id)),
+            UserSort::Rating => {
+                all.sort_by_key(|u| (std::cmp::Reverse(u.rating), std::cmp::Reverse(u.id)))
+            }
+            UserSort::LastSeen => {
+                all.sort_by_key(|u| (std::cmp::Reverse(u.last_seen), std::cmp::Reverse(u.id)))
+            }
+        }
         let total = all.len() as i64;
         Ok((all.into_iter().skip(offset as usize).take(limit as usize).collect(), total))
+    }
+
+    pub fn staff_rename(&self, user_id: i64, name: &str) -> StoreResult<Rename> {
+        let mut s = self.lock();
+        if s.by_name(name).is_some_and(|u| u.id != user_id) {
+            return Ok(Rename::Taken);
+        }
+        let Some(u) = s.users.get_mut(&user_id).filter(|u| u.deleted_at.is_none()) else {
+            return Ok(Rename::NoChangesLeft);
+        };
+        let old = std::mem::replace(&mut u.username, name.to_string());
+        for n in s.board.iter_mut().filter(|n| n.author == old) {
+            n.author = name.to_string();
+        }
+        Ok(Rename::Done)
+    }
+
+    pub fn add_staff_note(
+        &self,
+        user_id: i64,
+        author_id: i64,
+        kind: &str,
+        text: &str,
+        at: i64,
+    ) -> StoreResult<i64> {
+        let mut s = self.lock();
+        s.next_staff_note += 1;
+        let id = s.next_staff_note;
+        s.staff_notes.push(NoteRow {
+            id,
+            user_id,
+            author_id,
+            kind: kind.to_string(),
+            text: text.to_string(),
+            created_at: at,
+            delivered_at: None,
+        });
+        Ok(id)
+    }
+
+    pub fn staff_notes(&self, user_id: i64, limit: u32) -> StoreResult<Vec<super::StaffNote>> {
+        let s = self.lock();
+        Ok(s.staff_notes
+            .iter()
+            .rev()
+            .filter(|n| n.user_id == user_id)
+            .take(limit as usize)
+            .map(|n| super::StaffNote {
+                id: n.id,
+                user_id: n.user_id,
+                author: s.name(n.author_id),
+                kind: n.kind.clone(),
+                text: n.text.clone(),
+                created_at: n.created_at,
+                delivered_at: n.delivered_at,
+            })
+            .collect())
+    }
+
+    pub fn remove_staff_note(&self, id: i64, author: Option<i64>) -> StoreResult<bool> {
+        let mut s = self.lock();
+        let before = s.staff_notes.len();
+        s.staff_notes.retain(|n| !(n.id == id && author.is_none_or(|a| a == n.author_id)));
+        Ok(s.staff_notes.len() < before)
+    }
+
+    pub fn take_warnings(&self, user_id: i64, at: i64) -> StoreResult<Vec<String>> {
+        let mut s = self.lock();
+        let mut out = Vec::new();
+        for n in s
+            .staff_notes
+            .iter_mut()
+            .filter(|n| n.user_id == user_id && n.kind == "warning" && n.delivered_at.is_none())
+        {
+            n.delivered_at = Some(at);
+            out.push(n.text.clone());
+        }
+        Ok(out)
+    }
+
+    pub fn economy(&self, now: i64) -> StoreResult<super::Economy> {
+        let s = self.lock();
+        let since = now - 30 * 86_400;
+        let mut flows: BTreeMap<String, super::CoinFlow> = BTreeMap::new();
+        for (_, delta, reason, _, _) in s.ledger.iter().filter(|l| l.4 > since) {
+            let kind = super::coin_kind(reason);
+            let f = flows.entry(kind.clone()).or_insert(super::CoinFlow {
+                kind,
+                credited: 0,
+                debited: 0,
+                entries: 0,
+            });
+            if *delta >= 0 {
+                f.credited += delta;
+            } else {
+                f.debited -= delta;
+            }
+            f.entries += 1;
+        }
+        let mut flows: Vec<super::CoinFlow> = flows.into_values().collect();
+        flows.sort_by_key(|f| (std::cmp::Reverse(f.credited + f.debited), f.kind.clone()));
+        let live = |id: &i64| s.users.get(id).is_some_and(|u| u.deleted_at.is_none());
+        let mut richest: Vec<(String, i64)> = s
+            .wallets
+            .iter()
+            .filter(|(id, w)| w.coins > 0 && live(id))
+            .map(|(id, w)| (s.name(*id), w.coins))
+            .collect();
+        richest.sort_by(|a, b| b.1.cmp(&a.1).then_with(|| a.0.cmp(&b.0)));
+        richest.truncate(10);
+        Ok(super::Economy {
+            coins_total: s.wallets.values().map(|w| w.coins).sum(),
+            wallets: s.wallets.values().filter(|w| w.coins > 0).count() as i64,
+            vip_now: s.wallets.values().filter(|w| w.vip_until > now).count() as i64,
+            flows,
+            richest,
+        })
+    }
+
+    pub fn recent_payments(&self, limit: u32) -> StoreResult<Vec<(Payment, String)>> {
+        let s = self.lock();
+        let mut all: Vec<&Payment> = s.payments.iter().collect();
+        all.sort_by_key(|p| std::cmp::Reverse(p.at));
+        Ok(all.into_iter().take(limit as usize).map(|p| (p.clone(), s.name(p.user_id))).collect())
+    }
+
+    pub fn active_countries(&self, since: i64) -> StoreResult<Vec<(String, i64)>> {
+        let s = self.lock();
+        let mut by: HashMap<String, i64> = HashMap::new();
+        for u in s.users.values().filter(|u| u.last_seen > since && u.deleted_at.is_none()) {
+            *by.entry(u.country.clone()).or_default() += 1;
+        }
+        let mut out: Vec<(String, i64)> = by.into_iter().collect();
+        out.sort_by(|a, b| b.1.cmp(&a.1).then_with(|| a.0.cmp(&b.0)));
+        Ok(out)
     }
 
     pub fn overview(&self, now: i64) -> StoreResult<Overview> {
@@ -1389,8 +1540,19 @@ impl MemoryStore {
         Ok(())
     }
 
-    pub fn audit_log(&self, limit: u32) -> StoreResult<Vec<AuditRow>> {
-        Ok(self.lock().audit.iter().rev().take(limit as usize).cloned().collect())
+    pub fn audit_search(
+        &self,
+        search: &super::AuditSearch,
+        limit: u32,
+    ) -> StoreResult<Vec<AuditRow>> {
+        let s = self.lock();
+        Ok(s.audit
+            .iter()
+            .rev()
+            .filter(|a| search.matches(a))
+            .take(limit as usize)
+            .cloned()
+            .collect())
     }
 
     // The shop.

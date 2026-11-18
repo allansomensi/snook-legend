@@ -630,6 +630,165 @@ pub struct LedgerRow {
     pub at: i64,
 }
 
+/// Which accounts the staff's list of players shows.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+pub enum UserFilter {
+    /// Every account but the deleted ones.
+    #[default]
+    All,
+    /// Moderators and administrators.
+    Staff,
+    /// Banned now (suspended or for good).
+    Banned,
+    /// Muted now.
+    Muted,
+    /// Deleted (anonymised) accounts.
+    Deleted,
+}
+
+impl UserFilter {
+    pub fn from_code(code: &str) -> UserFilter {
+        match code {
+            "staff" => UserFilter::Staff,
+            "banned" => UserFilter::Banned,
+            "muted" => UserFilter::Muted,
+            "deleted" => UserFilter::Deleted,
+            _ => UserFilter::All,
+        }
+    }
+}
+
+/// The order of the staff's list of players.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+pub enum UserSort {
+    /// Newest accounts first.
+    #[default]
+    Newest,
+    Name,
+    /// Highest rating first.
+    Rating,
+    /// Seen most recently first.
+    LastSeen,
+}
+
+impl UserSort {
+    pub fn from_code(code: &str) -> UserSort {
+        match code {
+            "name" => UserSort::Name,
+            "rating" => UserSort::Rating,
+            "last_seen" => UserSort::LastSeen,
+            _ => UserSort::Newest,
+        }
+    }
+}
+
+/// A search of the staff's list of players: a name (or a recovery e-mail,
+/// whole) and a filter, in an order.
+#[derive(Debug, Clone, Default)]
+pub struct UserSearch {
+    pub q: String,
+    pub filter: UserFilter,
+    pub sort: UserSort,
+    /// Now (bans and mutes in force).
+    pub now: i64,
+}
+
+impl UserSearch {
+    /// Whether `u` is one of the accounts searched for (the memory store's
+    /// version of the database's query).
+    pub fn matches(&self, u: &User) -> bool {
+        let q = self.q.trim().to_lowercase();
+        let named = q.is_empty()
+            || u.username.to_lowercase().contains(&q)
+            || u.recovery_email.as_deref().is_some_and(|e| e.to_lowercase() == q);
+        named
+            && match self.filter {
+                UserFilter::All => u.deleted_at.is_none(),
+                UserFilter::Staff => u.role.is_staff() && u.deleted_at.is_none(),
+                UserFilter::Banned => u.banned_until.is_some_and(|t| t > self.now),
+                UserFilter::Muted => u.muted_until.is_some_and(|t| t > self.now),
+                UserFilter::Deleted => u.deleted_at.is_some(),
+            }
+    }
+}
+
+/// A search of the audit log: words in the staff member's name, the target
+/// or the details; an action; a target (whole name, any case); entries
+/// before an id (the next page).
+#[derive(Debug, Clone, Default)]
+pub struct AuditSearch {
+    pub q: String,
+    pub action: Option<String>,
+    pub target: Option<String>,
+    pub before: Option<i64>,
+}
+
+impl AuditSearch {
+    pub fn matches(&self, a: &AuditRow) -> bool {
+        let q = self.q.trim().to_lowercase();
+        (q.is_empty()
+            || a.staff.to_lowercase().contains(&q)
+            || a.target.to_lowercase().contains(&q)
+            || a.details.to_lowercase().contains(&q))
+            && self.action.as_deref().is_none_or(|x| a.action == x)
+            && self.target.as_deref().is_none_or(|x| a.target.eq_ignore_ascii_case(x))
+            && self.before.is_none_or(|b| a.id < b)
+    }
+}
+
+/// What the staff keep about a player: a note among themselves, or a
+/// warning the player is shown (at once if online, else when they next
+/// sign in).
+#[derive(Debug, Clone, PartialEq, serde::Serialize)]
+pub struct StaffNote {
+    pub id: i64,
+    pub user_id: i64,
+    pub author: String,
+    /// "note" or "warning".
+    pub kind: String,
+    pub text: String,
+    pub created_at: i64,
+    /// A warning shown to the player at this time (none yet: waiting).
+    pub delivered_at: Option<i64>,
+}
+
+/// Longest staff note or warning.
+pub const MAX_STAFF_NOTE: usize = 600;
+
+/// Coins moved for one kind of reason in a period (the reason's first
+/// word: "buy", "daily", "prize", "staff"…).
+#[derive(Debug, Clone, PartialEq, serde::Serialize)]
+pub struct CoinFlow {
+    pub kind: String,
+    /// Coins given.
+    pub credited: i64,
+    /// Coins taken (a positive number).
+    pub debited: i64,
+    pub entries: i64,
+}
+
+/// The economy at a glance, for the staff.
+#[derive(Debug, Clone, PartialEq, serde::Serialize)]
+pub struct Economy {
+    /// Coins in every wallet.
+    pub coins_total: i64,
+    /// Wallets with coins in them.
+    pub wallets: i64,
+    /// VIP members now.
+    pub vip_now: i64,
+    /// Coins moved in the last 30 days, by kind, the largest first.
+    pub flows: Vec<CoinFlow>,
+    /// The largest balances: (username, coins).
+    pub richest: Vec<(String, i64)>,
+}
+
+/// The kind of a ledger entry's reason: its first word ("buy cue_x" is
+/// "buy", "staff: goodwill" is "staff").
+pub fn coin_kind(reason: &str) -> String {
+    let word = reason.split([':', ' ']).next().unwrap_or("").trim();
+    if word.is_empty() { "other".into() } else { word.to_lowercase() }
+}
+
 #[derive(Debug, Clone, serde::Serialize)]
 pub struct AuditRow {
     pub id: i64,
@@ -1064,13 +1223,55 @@ impl Store {
 
     // Staff.
 
+    /// A page of the staff's list of players, and how many there are.
     pub async fn search_users(
         &self,
-        query: &str,
+        search: &UserSearch,
         offset: u32,
         limit: u32,
     ) -> StoreResult<(Vec<User>, i64)> {
-        dispatch!(self, s => s.search_users(query, offset, limit))
+        dispatch!(self, s => s.search_users(search, offset, limit))
+    }
+    /// Staff give a player another username (an offensive one): free, it
+    /// doesn't count among the player's own changes.
+    pub async fn staff_rename(&self, user_id: i64, name: &str) -> StoreResult<Rename> {
+        dispatch!(self, s => s.staff_rename(user_id, name))
+    }
+    pub async fn add_staff_note(
+        &self,
+        user_id: i64,
+        author_id: i64,
+        kind: &str,
+        text: &str,
+        at: i64,
+    ) -> StoreResult<i64> {
+        dispatch!(self, s => s.add_staff_note(user_id, author_id, kind, text, at))
+    }
+    /// The notes and warnings about a player, newest first.
+    pub async fn staff_notes(&self, user_id: i64, limit: u32) -> StoreResult<Vec<StaffNote>> {
+        dispatch!(self, s => s.staff_notes(user_id, limit))
+    }
+    /// Removes a note (only `author`'s, when given); false if there was none.
+    pub async fn remove_staff_note(&self, id: i64, author: Option<i64>) -> StoreResult<bool> {
+        dispatch!(self, s => s.remove_staff_note(id, author))
+    }
+    /// The warnings the player hasn't been shown (oldest first), marked
+    /// shown at `at`.
+    pub async fn take_warnings(&self, user_id: i64, at: i64) -> StoreResult<Vec<String>> {
+        dispatch!(self, s => s.take_warnings(user_id, at))
+    }
+    /// Coins, VIP and where coins went in the last 30 days.
+    pub async fn economy(&self, now: i64) -> StoreResult<Economy> {
+        dispatch!(self, s => s.economy(now))
+    }
+    /// The latest payments of everyone, with the payer's name.
+    pub async fn recent_payments(&self, limit: u32) -> StoreResult<Vec<(Payment, String)>> {
+        dispatch!(self, s => s.recent_payments(limit))
+    }
+    /// Players active since `since` by country (code, players), the most
+    /// first ("" for no country).
+    pub async fn active_countries(&self, since: i64) -> StoreResult<Vec<(String, i64)>> {
+        dispatch!(self, s => s.active_countries(since))
     }
     pub async fn overview(&self, now: i64) -> StoreResult<Overview> {
         dispatch!(self, s => s.overview(now))
@@ -1119,7 +1320,15 @@ impl Store {
         dispatch!(self, s => s.audit(staff, action, target, details, at))
     }
     pub async fn audit_log(&self, limit: u32) -> StoreResult<Vec<AuditRow>> {
-        dispatch!(self, s => s.audit_log(limit))
+        self.audit_search(&AuditSearch::default(), limit).await
+    }
+    /// The audit log, newest first, as searched.
+    pub async fn audit_search(
+        &self,
+        search: &AuditSearch,
+        limit: u32,
+    ) -> StoreResult<Vec<AuditRow>> {
+        dispatch!(self, s => s.audit_search(search, limit))
     }
 
     // The shop.

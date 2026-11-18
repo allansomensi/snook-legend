@@ -1074,6 +1074,13 @@ impl Online {
                     .unwrap_or(code);
                 self.toast(tw("Achievement unlocked: {title}", &[("title", &title)]), true);
             }
+            // A warning from the staff stays up long enough to be read.
+            ServerMsg::Notice { text } if text.starts_with("Warning from the staff: ") => {
+                self.toasts.push_back((crate::i18n::server_text(&text), 15.0, false));
+                while self.toasts.len() > 3 {
+                    self.toasts.pop_front();
+                }
+            }
             ServerMsg::Notice { text } => self.toast(crate::i18n::server_text(&text), true),
             ServerMsg::MatchStarted {
                 match_id,

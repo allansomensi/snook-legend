@@ -933,6 +933,54 @@ impl Lounge {
         }
     }
 
+    /// The lounge chat as the staff see it: every line still kept, with its
+    /// text also when deleted, and how it was deleted ("author", "staff",
+    /// or "removed" when it was taken away without a trace), newest last.
+    pub fn staff_chat(&self) -> Vec<serde_json::Value> {
+        self.chat
+            .iter()
+            .filter(|l| l.id != 0)
+            .map(|l| {
+                let deleted = if self.chat_removed.contains(&l.id) {
+                    Some("removed")
+                } else {
+                    match self.chat_deleted.get(&l.id) {
+                        Some(snook_legend_proto::Deleted::Author) => Some("author"),
+                        Some(snook_legend_proto::Deleted::Admin) => Some("staff"),
+                        None => None,
+                    }
+                };
+                serde_json::json!({
+                    "id": l.id, "from": l.from, "text": l.text, "at": l.at,
+                    "kind": l.kind, "rating": l.rating, "admin": l.admin, "deleted": deleted,
+                })
+            })
+            .collect()
+    }
+
+    /// The staff delete lounge chat line `id` from the panel: shown as
+    /// deleted by the staff, or (`silent`) taken away without a trace.
+    /// False if there is no such player line, or it is gone already.
+    pub fn staff_delete_chat(&mut self, id: u64, silent: bool) -> bool {
+        let found = self.chat.iter().any(|l| l.id == id && l.kind == ChatKind::Player);
+        if !found || self.chat_removed.contains(&id) {
+            return false;
+        }
+        if silent {
+            self.chat_deleted.remove(&id);
+            self.chat_removed.insert(id);
+            self.broadcast(&ServerMsg::ChatRemoved { id });
+        } else {
+            if self.chat_deleted.contains_key(&id) {
+                return false;
+            }
+            let by = snook_legend_proto::Deleted::Admin;
+            self.chat_deleted.insert(id, by);
+            self.broadcast(&ServerMsg::ChatDeleted { id, by });
+        }
+        true
+    }
+
     /// An administrator clears the lounge chat (the lines stay for reports).
     pub fn clear_chat(&mut self, by: &str) {
         let ids: Vec<u64> = self.chat.iter().map(|l| l.id).collect();

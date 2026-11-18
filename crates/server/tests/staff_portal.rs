@@ -1,0 +1,457 @@
+//! The staff portal's API end to end: the list of players filtered,
+//! warnings (shown at once, or at the next sign-in), notes, renames by the
+//! staff, items taken back, the lounge chat moderated, tournaments called
+//! off, the economy, the server's state and the audit log searched — and
+//! what a moderator may not do.
+
+use std::sync::Arc;
+use std::time::Duration;
+
+use futures_util::{SinkExt, StreamExt};
+use serde_json::Value;
+use snook_legend_proto::{ClientMsg, PROTOCOL_VERSION, Role, ServerMsg, parse_server};
+use snook_legend_server::lounge::Rules;
+use snook_legend_server::store::{NewUser, Store};
+use snook_legend_server::{Config, Server, serve};
+use tokio::net::{TcpListener, TcpStream};
+use tokio_tungstenite::tungstenite::Message;
+use tokio_tungstenite::{MaybeTlsStream, WebSocketStream, connect_async};
+
+const PASSWORD: &str = "correct-horse-1";
+
+type Ws = WebSocketStream<MaybeTlsStream<TcpStream>>;
+
+struct Running {
+    url: String,
+    host: String,
+    server: Arc<Server>,
+}
+
+/// A server with an administrator, "boss" (an account made before the
+/// name is listed).
+async fn start() -> Running {
+    let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
+    let addr = listener.local_addr().unwrap();
+    let rules = Rules { max_connections_per_ip: 100, ..Rules::default() };
+    let config = Config { bind: addr, rules, admins: vec!["boss".into()], ..Config::default() };
+    let server = Server::with_store(config, Store::memory()).await;
+    let hash = server.hash_password(PASSWORD).await.unwrap();
+    let boss = NewUser {
+        username: "boss",
+        password_hash: &hash,
+        country: "BR",
+        rating: 1200,
+        role: Role::Player,
+        ip: "1.2.3.4",
+    };
+    server.store.create_user(&boss).await.unwrap().expect("a new account");
+    tokio::spawn(serve(listener, server.clone()));
+    Running { url: format!("ws://{addr}/ws"), host: addr.to_string(), server }
+}
+
+struct Client {
+    ws: Ws,
+}
+
+impl Client {
+    async fn connect(url: &str) -> Client {
+        let (ws, _) = connect_async(url).await.unwrap();
+        let mut c = Client { ws };
+        c.send(ClientMsg::Hello { version: PROTOCOL_VERSION }).await;
+        c
+    }
+
+    async fn send(&mut self, msg: ClientMsg) {
+        self.ws.send(Message::Text(msg.to_json().into())).await.unwrap();
+    }
+
+    async fn expect<F: Fn(&ServerMsg) -> bool>(&mut self, what: &str, pred: F) -> ServerMsg {
+        let deadline = tokio::time::Instant::now() + Duration::from_secs(20);
+        loop {
+            let left = deadline.saturating_duration_since(tokio::time::Instant::now());
+            let msg = tokio::time::timeout(left, self.ws.next())
+                .await
+                .unwrap_or_else(|_| panic!("timed out waiting for {what}"))
+                .expect("connection closed")
+                .unwrap();
+            if let Message::Text(t) = msg {
+                let m = parse_server(t.as_str()).unwrap();
+                if pred(&m) {
+                    return m;
+                }
+            }
+        }
+    }
+
+    async fn register(url: &str, name: &str) -> Client {
+        let mut c = Client::connect(url).await;
+        c.send(ClientMsg::Register {
+            username: name.into(),
+            password: PASSWORD.into(),
+            country: "BR".into(),
+        })
+        .await;
+        c.expect("auth", |m| matches!(m, ServerMsg::AuthOk { .. })).await;
+        c
+    }
+
+    async fn login(url: &str, name: &str) -> Client {
+        let mut c = Client::connect(url).await;
+        c.send(ClientMsg::Login { username: name.into(), password: PASSWORD.into() }).await;
+        c.expect("auth", |m| matches!(m, ServerMsg::AuthOk { .. })).await;
+        c
+    }
+
+    /// Waits for a notice containing `part`.
+    async fn notice(&mut self, part: &str) -> String {
+        match self
+            .expect(part, |m| matches!(m, ServerMsg::Notice { text } if text.contains(part)))
+            .await
+        {
+            ServerMsg::Notice { text } => text,
+            _ => unreachable!(),
+        }
+    }
+}
+
+/// A small HTTP client over a raw socket (no extra dependencies).
+async fn request(host: &str, method: &str, path: &str, token: &str, body: &str) -> (u16, Value) {
+    use tokio::io::{AsyncReadExt, AsyncWriteExt};
+    let mut s = TcpStream::connect(host).await.unwrap();
+    let auth =
+        if token.is_empty() { String::new() } else { format!("Authorization: Bearer {token}\r\n") };
+    let req = format!(
+        "{method} {path} HTTP/1.0\r\nHost: {host}\r\n{auth}Content-Type: application/json\r\nContent-Length: {}\r\n\r\n{body}",
+        body.len()
+    );
+    s.write_all(req.as_bytes()).await.unwrap();
+    let mut out = Vec::new();
+    s.read_to_end(&mut out).await.unwrap();
+    let out = String::from_utf8_lossy(&out).to_string();
+    let code = out[9..12].parse().unwrap();
+    let body = out.split_once("\r\n\r\n").map(|x| x.1).unwrap_or("");
+    (code, serde_json::from_str(body).unwrap_or(Value::Null))
+}
+
+async fn token(host: &str, name: &str) -> String {
+    let body = format!(r#"{{"username":"{name}","password":"{PASSWORD}"}}"#);
+    let (code, v) = request(host, "POST", "/admin/api/login", "", &body).await;
+    assert_eq!(code, 200, "{v}");
+    v["token"].as_str().unwrap().to_string()
+}
+
+/// The usernames on a page of the list.
+fn names(v: &Value) -> Vec<String> {
+    v["users"].as_array().unwrap().iter().map(|u| u["username"].as_str().unwrap().into()).collect()
+}
+
+#[tokio::test]
+async fn the_portal_manages_players() {
+    let s = start().await;
+    let boss = token(&s.host, "boss").await;
+    let get = |path: &str| {
+        let (host, boss, path) = (s.host.clone(), boss.clone(), path.to_string());
+        async move { request(&host, "GET", &path, &boss, "").await }
+    };
+    let post = |path: &str, body: &str| {
+        let (host, boss, path, body) =
+            (s.host.clone(), boss.clone(), path.to_string(), body.to_string());
+        async move { request(&host, "POST", &path, &boss, &body).await }
+    };
+
+    let mut ana = Client::register(&s.url, "ana").await;
+    let bia = Client::register(&s.url, "bia").await;
+    drop(bia);
+    let _caio = Client::register(&s.url, "caio").await;
+
+    // The list: online now, by name; a filter that finds nobody.
+    let (code, v) = get("/admin/api/users?filter=online&sort=name").await;
+    assert_eq!(code, 200, "{v}");
+    let online = names(&v);
+    assert!(online.contains(&"ana".to_string()) && online.contains(&"caio".to_string()), "{v}");
+    assert!(online.windows(2).all(|w| w[0].to_lowercase() <= w[1].to_lowercase()));
+    let (_, v) = get("/admin/api/users?filter=banned").await;
+    assert_eq!(v["total"], 0);
+    let (_, v) = get("/admin/api/users?q=AN&sort=rating").await;
+    assert_eq!(names(&v), ["ana"]);
+
+    // A warning reaches a player online at once…
+    let (code, v) = post("/admin/api/users/ana/warn", r#"{"reason":"Mind your words."}"#).await;
+    assert_eq!(code, 200, "{v}");
+    let text = ana.notice("Mind your words.").await;
+    assert!(text.starts_with("Warning from the staff"), "{text}");
+    // …and an offline one when they next sign in, once.
+    let (code, _) = post("/admin/api/users/bia/warn", r#"{"reason":"No spamming."}"#).await;
+    assert_eq!(code, 200);
+    let mut bia = Client::login(&s.url, "bia").await;
+    bia.notice("No spamming.").await;
+    let (_, v) = get("/admin/api/users/bia").await;
+    let warning = &v["notes"][0];
+    assert_eq!(
+        (warning["kind"].as_str(), warning["author"].as_str()),
+        (Some("warning"), Some("boss"))
+    );
+    assert!(warning["delivered_at"].is_i64(), "{v}");
+    assert!(v["presence"].is_object(), "online: {v}");
+    // An empty warning is refused.
+    let (code, _) = post("/admin/api/users/bia/warn", r#"{"reason":"   "}"#).await;
+    assert_eq!(code, 400);
+
+    // Notes among the staff; the actions on a player show on their page.
+    let (code, _) = post("/admin/api/users/caio/note", r#"{"reason":"Reported twice."}"#).await;
+    assert_eq!(code, 200);
+    let (code, _) = post("/admin/api/users/caio/mute", r#"{"minutes":15,"reason":"rude"}"#).await;
+    assert_eq!(code, 200);
+    let (_, v) = get("/admin/api/users/caio").await;
+    let note_id = v["notes"][0]["id"].as_i64().unwrap();
+    assert_eq!(v["notes"][0]["text"], "Reported twice.");
+    let actions: Vec<&str> =
+        v["moderation"].as_array().unwrap().iter().map(|e| e["action"].as_str().unwrap()).collect();
+    assert_eq!(actions, ["mute", "note"]);
+    let (_, v) = get("/admin/api/users?filter=muted").await;
+    assert_eq!(names(&v), ["caio"]);
+
+    // A moderator: warns and notes, but neither renames nor removes the
+    // administrator's notes.
+    let (code, _) = post("/admin/api/users/bia/role", r#"{"role":"moderator"}"#).await;
+    assert_eq!(code, 200);
+    let mods = token(&s.host, "bia").await;
+    let (code, _) =
+        request(&s.host, "POST", "/admin/api/users/caio/warn", &mods, r#"{"reason":"Calm down."}"#)
+            .await;
+    assert_eq!(code, 200);
+    let (code, _) =
+        request(&s.host, "POST", "/admin/api/users/caio/rename", &mods, r#"{"name":"caio2"}"#)
+            .await;
+    assert_eq!(code, 403);
+    let (code, _) =
+        request(&s.host, "DELETE", &format!("/admin/api/notes/{note_id}"), &mods, "").await;
+    assert_eq!(code, 404, "not their note");
+    let (code, _) = get("/admin/api/users?filter=staff").await;
+    assert_eq!(code, 200);
+    let (code, _) =
+        request(&s.host, "DELETE", &format!("/admin/api/notes/{note_id}"), &boss, "").await;
+    assert_eq!(code, 200);
+
+    // A rename by the staff: the player is signed out and signs in again
+    // under the new name, with all their own changes left.
+    let (code, v) =
+        post("/admin/api/users/ana/rename", r#"{"name":"ana_clean","reason":"name"}"#).await;
+    assert_eq!(code, 200, "{v}");
+    assert_eq!(v["user"]["username"], "ana_clean");
+    assert_eq!(v["user"]["name_changes"], 0);
+    ana.expect("signed out", |m| matches!(m, ServerMsg::Kicked { .. })).await;
+    let (code, _) = post("/admin/api/users/ana_clean/rename", r#"{"name":"caio"}"#).await;
+    assert_eq!(code, 409, "taken");
+    let (code, _) = post("/admin/api/users/ana_clean/rename", r#"{"name":"a b"}"#).await;
+    assert_eq!(code, 400);
+
+    // An item given, then taken back (with a reason); not twice.
+    let (code, _) =
+        post("/admin/api/users/caio/item", r#"{"item":"chalk_red","reason":"test"}"#).await;
+    assert_eq!(code, 200);
+    let (code, _) = post("/admin/api/users/caio/revoke", r#"{"item":"chalk_red"}"#).await;
+    assert_eq!(code, 400, "a reason is needed");
+    let (code, _) =
+        post("/admin/api/users/caio/revoke", r#"{"item":"chalk_red","reason":"by mistake"}"#).await;
+    assert_eq!(code, 200);
+    let (code, _) =
+        post("/admin/api/users/caio/revoke", r#"{"item":"chalk_red","reason":"again"}"#).await;
+    assert_eq!(code, 400);
+
+    // The audit log, searched: by target, by action, by words, paged.
+    let (_, v) = get("/admin/api/audit?target=CAIO").await;
+    let entries = v["entries"].as_array().unwrap();
+    assert!(entries.iter().all(|e| e["target"].as_str().unwrap().eq_ignore_ascii_case("caio")));
+    assert!(entries.iter().any(|e| e["action"] == "revoke"));
+    let (_, v) = get("/admin/api/audit?action=rename").await;
+    assert_eq!(v["entries"][0]["details"], "ana_clean: name");
+    let (_, v) = get("/admin/api/audit?q=mistake").await;
+    assert_eq!(v["entries"].as_array().unwrap().len(), 1);
+    assert!(v["next"].is_null());
+}
+
+#[tokio::test]
+async fn the_portal_moderates_the_lounge() {
+    let s = start().await;
+    let boss = token(&s.host, "boss").await;
+    let mut dan = Client::register(&s.url, "dan").await;
+    let mut eva = Client::register(&s.url, "eva").await;
+
+    // The chat as the staff see it; a line deleted (shown as deleted by the
+    // staff), then removed without a trace (administrators only).
+    dan.send(ClientMsg::Chat { text: "something rude".into() }).await;
+    eva.expect("line", |m| matches!(m, ServerMsg::Chat { line } if line.text == "something rude"))
+        .await;
+    let (code, v) = request(&s.host, "GET", "/admin/api/chat", &boss, "").await;
+    assert_eq!(code, 200);
+    let line = v["lines"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|l| l["text"] == "something rude")
+        .cloned()
+        .unwrap();
+    assert!(line["deleted"].is_null());
+    let id = line["id"].as_u64().unwrap();
+    let path = format!("/admin/api/chat/{id}/delete");
+    let (code, _) = request(&s.host, "POST", &path, &boss, "{}").await;
+    assert_eq!(code, 200);
+    eva.expect("deleted", |m| matches!(m, ServerMsg::ChatDeleted { id: i, .. } if *i == id)).await;
+    let (code, _) = request(&s.host, "POST", &path, &boss, "{}").await;
+    assert_eq!(code, 400, "deleted already");
+    let (_, v) = request(&s.host, "GET", "/admin/api/chat", &boss, "").await;
+    let seen = v["lines"].as_array().unwrap().iter().find(|l| l["id"] == id).cloned().unwrap();
+    assert_eq!(
+        (seen["deleted"].as_str(), seen["text"].as_str()),
+        (Some("staff"), Some("something rude"))
+    );
+    let (code, _) =
+        request(&s.host, "POST", "/admin/api/users/eva/role", &boss, r#"{"role":"moderator"}"#)
+            .await;
+    assert_eq!(code, 200);
+    let mods = token(&s.host, "eva").await;
+    let (code, _) = request(&s.host, "POST", &path, &mods, r#"{"silent":true}"#).await;
+    assert_eq!(code, 403);
+    let (code, _) = request(&s.host, "POST", &path, &boss, r#"{"silent":true}"#).await;
+    assert_eq!(code, 200);
+    dan.expect("removed", |m| matches!(m, ServerMsg::ChatRemoved { id: i } if *i == id)).await;
+
+    // A tournament called off before it starts: the players are told.
+    dan.send(ClientMsg::CreateTournament {
+        name: "Bad name cup".into(),
+        size: 4,
+        rated: false,
+        password: None,
+        entry_fee: 0,
+        format: Default::default(),
+    })
+    .await;
+    let tid = eventually("the tournament", || {
+        let (host, boss) = (s.host.clone(), boss.clone());
+        async move {
+            let (_, v) = request(&host, "GET", "/admin/api/live", &boss, "").await;
+            v["tournaments"].as_array()?.first()?["id"].as_u64()
+        }
+    })
+    .await;
+    let cancel = format!("/admin/api/tournaments/{tid}/cancel");
+    let (code, _) = request(&s.host, "POST", &cancel, &mods, "").await;
+    assert_eq!(code, 403, "administrators only");
+    let (code, _) = request(&s.host, "POST", &cancel, &boss, "").await;
+    assert_eq!(code, 200);
+    dan.notice("called off").await;
+    let (code, _) = request(&s.host, "POST", &cancel, &boss, "").await;
+    assert_eq!(code, 400, "gone");
+    let (_, v) =
+        request(&s.host, "GET", "/admin/api/audit?action=tournament-cancel", &boss, "").await;
+    assert_eq!(v["entries"][0]["target"], "Bad name cup");
+}
+
+#[tokio::test]
+async fn the_portal_shows_the_economy_and_the_server() {
+    let s = start().await;
+    let boss = token(&s.host, "boss").await;
+    let _fia = Client::register(&s.url, "fia").await;
+    let (code, _) = request(
+        &s.host,
+        "POST",
+        "/admin/api/users/fia/coins",
+        &boss,
+        r#"{"coins":700,"reason":"contest"}"#,
+    )
+    .await;
+    assert_eq!(code, 200);
+
+    let (code, v) = request(&s.host, "GET", "/admin/api/economy", &boss, "").await;
+    assert_eq!(code, 200, "{v}");
+    assert!(v["economy"]["coins_total"].as_i64().unwrap() >= 700);
+    assert!(v["economy"]["flows"].as_array().unwrap().iter().any(|f| f["kind"] == "staff"));
+    assert!(v["economy"]["richest"].as_array().unwrap().iter().any(|r| r[0] == "fia"));
+    let catalog = v["catalog"].as_array().unwrap();
+    assert!(catalog.iter().any(|i| i["code"] == "chalk_red" && i["how"] == "coins"));
+    assert!(catalog.iter().all(|i| i["category"].is_string()));
+
+    let (code, v) = request(&s.host, "GET", "/admin/api/system", &boss, "").await;
+    assert_eq!(code, 200, "{v}");
+    assert_eq!(v["protocol"], PROTOCOL_VERSION);
+    assert_eq!(v["ruleset"], snook_legend_core::RULESET);
+    assert!(v["online"].as_u64().unwrap() >= 1);
+    assert_eq!(v["rules"]["shot_clock_secs"], 30);
+
+    let (code, v) = request(&s.host, "GET", "/admin/api/metrics", &boss, "").await;
+    assert_eq!(code, 200);
+    assert!(v["countries"].as_array().unwrap().iter().any(|c| c[0] == "BR"), "{v}");
+
+    // Everything here is for the staff only.
+    for path in ["/admin/api/economy", "/admin/api/system", "/admin/api/chat", "/admin/api/audit"] {
+        let (code, _) = request(&s.host, "GET", path, "", "").await;
+        assert_eq!(code, 401, "{path}");
+    }
+    // And the portal's pages are served.
+    for path in ["/admin", "/admin/app.js", "/admin/app.css", "/admin/i18n.js"] {
+        use tokio::io::{AsyncReadExt, AsyncWriteExt};
+        let mut c = TcpStream::connect(&s.host).await.unwrap();
+        c.write_all(format!("GET {path} HTTP/1.0\r\nHost: x\r\n\r\n").as_bytes()).await.unwrap();
+        let mut out = Vec::new();
+        c.read_to_end(&mut out).await.unwrap();
+        assert!(out.starts_with(b"HTTP/1.0 200") || out.starts_with(b"HTTP/1.1 200"), "{path}");
+    }
+    let _ = &s.server;
+}
+
+/// Polls `f` until it returns something.
+async fn eventually<T, F, Fut>(what: &str, mut f: F) -> T
+where
+    F: FnMut() -> Fut,
+    Fut: std::future::Future<Output = Option<T>>,
+{
+    let deadline = tokio::time::Instant::now() + Duration::from_secs(20);
+    loop {
+        if let Some(v) = f().await {
+            return v;
+        }
+        assert!(tokio::time::Instant::now() < deadline, "timed out waiting for {what}");
+        tokio::time::sleep(Duration::from_millis(100)).await;
+    }
+}
+
+/// Every text the portal shows through `t(…)` or `tf(…)` has its Portuguese
+/// and Spanish (a new text without them would show in English).
+#[test]
+fn every_portal_text_is_translated() {
+    let script = include_str!("../admin/app.js");
+    let words = include_str!("../admin/i18n.js");
+    let json = &words[words.find('{').unwrap()..=words.rfind('}').unwrap()];
+    let words: Value = serde_json::from_str(json).unwrap();
+    let mut missing = Vec::new();
+    let mut checked = 0;
+    for call in ["t(\"", "tf(\""] {
+        let mut rest = script;
+        while let Some(at) = rest.find(call) {
+            // A call, not the end of a longer name (`split(`, `fmt(`…).
+            let before = rest[..at].chars().last();
+            rest = &rest[at + call.len()..];
+            if before.is_some_and(|c| c.is_alphanumeric() || c == '_' || c == '.') {
+                continue;
+            }
+            let mut text = String::new();
+            let mut chars = rest.chars();
+            while let Some(c) = chars.next() {
+                match c {
+                    '\\' => text.push(chars.next().unwrap()),
+                    '"' => break,
+                    c => text.push(c),
+                }
+            }
+            checked += 1;
+            for lang in ["pt-BR", "es"] {
+                if words[lang].get(&text).and_then(Value::as_str).is_none_or(str::is_empty) {
+                    missing.push(format!("{lang}: {text}"));
+                }
+            }
+        }
+    }
+    assert!(checked > 400, "only {checked} texts found");
+    assert!(missing.is_empty(), "missing translations:\n{}", missing.join("\n"));
+}

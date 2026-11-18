@@ -271,6 +271,8 @@ pub async fn signed_in(server: &Server, user: &User) {
     let t = now();
     let day = day_of(t);
     let _ = server.store.mark_active(user.id, day).await;
+    // Warnings from the staff written while the player was away.
+    deliver_warnings(server, user).await;
     if server.config.rules.lan {
         return;
     }
@@ -415,6 +417,19 @@ pub async fn level_rewards(server: &Server, user: &User, before: i64, after: i64
     if coins > 0 || unlocked {
         crate::shop::push_wallet(server, user).await;
     }
+}
+
+/// Shows the player the staff's warnings they haven't seen (each once).
+pub async fn deliver_warnings(server: &Server, user: &User) {
+    let Ok(warnings) = server.store.take_warnings(user.id, now()).await else { return };
+    for text in warnings {
+        server.with(|l| l.notify(&user.username, ServerMsg::Notice { text: warning_text(&text) }));
+    }
+}
+
+/// How a warning from the staff reads to the player.
+pub fn warning_text(text: &str) -> String {
+    format!("Warning from the staff: {text}")
 }
 
 #[cfg(test)]

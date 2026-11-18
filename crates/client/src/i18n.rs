@@ -154,6 +154,13 @@ pub fn server_text(text: &str) -> String {
     if let Some(t) = translate(lang(), text) {
         return t.to_string();
     }
+    if let Some(rest) = text.strip_prefix("Warning from the staff: ") {
+        return tw("Warning from the staff: {text}", &[("text", &rest)]);
+    }
+    if let Some(rest) = text.strip_prefix("The staff changed your username to ") {
+        let name = rest.split(". ").next().unwrap_or(rest).trim_end_matches('.');
+        return tw("The staff changed your username to {name}. Sign in again.", &[("name", &name)]);
+    }
     if let Some(rest) = text.strip_prefix("The chat was cleared by ") {
         let name = rest.trim_end_matches('.');
         return tw("The chat was cleared by {name}.", &[("name", &name)]);

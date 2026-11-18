@@ -859,6 +859,7 @@ impl PgStore {
             "DELETE FROM achievements WHERE user_id = $1",
             "DELETE FROM ladder_claims WHERE user_id = $1",
             "DELETE FROM ladder_tickets WHERE user_id = $1",
+            "DELETE FROM staff_notes WHERE user_id = $1",
             "UPDATE gifts SET message = '' WHERE from_id = $1",
             "DELETE FROM equipped WHERE user_id = $1",
             "DELETE FROM shot_stats WHERE user_id = $1",
@@ -2020,31 +2021,216 @@ impl PgStore {
 
     pub async fn search_users(
         &self,
-        q: &str,
+        search: &super::UserSearch,
         offset: u32,
         limit: u32,
     ) -> StoreResult<(Vec<User>, i64)> {
-        let pattern = like_pattern(&q.to_lowercase());
+        use super::{UserFilter, UserSort};
+        let q = search.q.trim().to_lowercase();
+        // Fixed SQL for each filter and order (no text from the request in
+        // it): the values are bound.
+        let filter = match search.filter {
+            UserFilter::All => "deleted_at IS NULL",
+            UserFilter::Staff => "role > 0 AND deleted_at IS NULL",
+            UserFilter::Banned => "banned_until > $3",
+            UserFilter::Muted => "muted_until > $3",
+            UserFilter::Deleted => "deleted_at IS NOT NULL",
+        };
+        let order = match search.sort {
+            UserSort::Newest => "id DESC",
+            UserSort::Name => "lower(username), id",
+            UserSort::Rating => "rating DESC, id DESC",
+            UserSort::LastSeen => "last_seen DESC, id DESC",
+        };
+        let matching = format!(
+            "(lower(username) LIKE $1 OR lower(recovery_email) = $2) AND $3::BIGINT IS NOT NULL AND {filter}"
+        );
         let rows = query(&format!(
-            "SELECT {USER_COLUMNS} FROM users
-             WHERE lower(username) LIKE $1 OR lower(recovery_email) = $4
-             ORDER BY id DESC OFFSET $2 LIMIT $3"
+            "SELECT {USER_COLUMNS} FROM users WHERE {matching} ORDER BY {order} OFFSET $4 LIMIT $5"
         ))
-        .bind(&pattern)
+        .bind(like_pattern(&q))
+        .bind(&q)
+        .bind(search.now)
         .bind(offset as i64)
         .bind(limit as i64)
-        .bind(q.trim().to_lowercase())
         .fetch_all(&self.pool)
         .await?;
-        let total: i64 = query(
-            "SELECT COUNT(*) AS n FROM users WHERE lower(username) LIKE $1 OR lower(recovery_email) = $2",
-        )
-        .bind(&pattern)
-        .bind(q.trim().to_lowercase())
+        let total: i64 = query(&format!("SELECT COUNT(*) AS n FROM users WHERE {matching}"))
+            .bind(like_pattern(&q))
+            .bind(&q)
+            .bind(search.now)
             .fetch_one(&self.pool)
             .await?
             .get("n");
         Ok((rows.iter().map(user).collect::<Result<_, _>>()?, total))
+    }
+
+    pub async fn staff_rename(&self, user_id: i64, name: &str) -> StoreResult<Rename> {
+        let done = query("UPDATE users SET username = $2 WHERE id = $1 AND deleted_at IS NULL")
+            .bind(user_id)
+            .bind(name)
+            .execute(&self.pool)
+            .await;
+        match done {
+            Ok(r) if r.rows_affected() == 0 => Ok(Rename::NoChangesLeft),
+            Ok(_) => Ok(Rename::Done),
+            Err(sqlx::Error::Database(e)) if e.is_unique_violation() => Ok(Rename::Taken),
+            Err(e) => Err(e.into()),
+        }
+    }
+
+    pub async fn add_staff_note(
+        &self,
+        user_id: i64,
+        author_id: i64,
+        kind: &str,
+        text: &str,
+        at: i64,
+    ) -> StoreResult<i64> {
+        let row = query(
+            "INSERT INTO staff_notes (user_id, author_id, kind, text, created_at)
+             VALUES ($1, $2, $3, $4, $5) RETURNING id",
+        )
+        .bind(user_id)
+        .bind(author_id)
+        .bind(kind)
+        .bind(text)
+        .bind(at)
+        .fetch_one(&self.pool)
+        .await?;
+        Ok(row.get("id"))
+    }
+
+    pub async fn staff_notes(
+        &self,
+        user_id: i64,
+        limit: u32,
+    ) -> StoreResult<Vec<super::StaffNote>> {
+        let rows = query(
+            "SELECT n.id, n.user_id, COALESCE(u.username, '?') AS author, n.kind, n.text,
+                    n.created_at, n.delivered_at
+             FROM staff_notes n LEFT JOIN users u ON u.id = n.author_id
+             WHERE n.user_id = $1 ORDER BY n.id DESC LIMIT $2",
+        )
+        .bind(user_id)
+        .bind(limit as i64)
+        .fetch_all(&self.pool)
+        .await?;
+        Ok(rows
+            .iter()
+            .map(|r| super::StaffNote {
+                id: r.get("id"),
+                user_id: r.get("user_id"),
+                author: r.get("author"),
+                kind: r.get("kind"),
+                text: r.get("text"),
+                created_at: r.get("created_at"),
+                delivered_at: r.get("delivered_at"),
+            })
+            .collect())
+    }
+
+    pub async fn remove_staff_note(&self, id: i64, author: Option<i64>) -> StoreResult<bool> {
+        let done = query(
+            "DELETE FROM staff_notes WHERE id = $1 AND ($2::BIGINT IS NULL OR author_id = $2)",
+        )
+        .bind(id)
+        .bind(author)
+        .execute(&self.pool)
+        .await?;
+        Ok(done.rows_affected() > 0)
+    }
+
+    pub async fn take_warnings(&self, user_id: i64, at: i64) -> StoreResult<Vec<String>> {
+        let rows = query(
+            "UPDATE staff_notes SET delivered_at = $2
+             WHERE user_id = $1 AND kind = 'warning' AND delivered_at IS NULL
+             RETURNING id, text",
+        )
+        .bind(user_id)
+        .bind(at)
+        .fetch_all(&self.pool)
+        .await?;
+        let mut out: Vec<(i64, String)> =
+            rows.iter().map(|r| (r.get("id"), r.get("text"))).collect();
+        out.sort_by_key(|x| x.0);
+        Ok(out.into_iter().map(|x| x.1).collect())
+    }
+
+    pub async fn economy(&self, now: i64) -> StoreResult<super::Economy> {
+        let totals = query(
+            "SELECT COALESCE(SUM(coins), 0)::BIGINT AS coins,
+                    COUNT(*) FILTER (WHERE coins > 0) AS wallets,
+                    COUNT(*) FILTER (WHERE vip_until > $1) AS vip
+             FROM wallets",
+        )
+        .bind(now)
+        .fetch_one(&self.pool)
+        .await?;
+        // Grouped by the reason as written; the kinds are made here (the
+        // reasons are few: "buy x" for each item, "staff: …" for each note).
+        let flows = query(
+            "SELECT reason,
+                    COALESCE(SUM(delta) FILTER (WHERE delta >= 0), 0)::BIGINT AS credited,
+                    COALESCE(-SUM(delta) FILTER (WHERE delta < 0), 0)::BIGINT AS debited,
+                    COUNT(*) AS entries
+             FROM coin_ledger WHERE at > $1 GROUP BY reason",
+        )
+        .bind(now - 30 * 86_400)
+        .fetch_all(&self.pool)
+        .await?;
+        let mut by: std::collections::BTreeMap<String, super::CoinFlow> = Default::default();
+        for r in &flows {
+            let kind = super::coin_kind(&r.get::<String, _>("reason"));
+            let f = by.entry(kind.clone()).or_insert(super::CoinFlow {
+                kind,
+                credited: 0,
+                debited: 0,
+                entries: 0,
+            });
+            f.credited += r.get::<i64, _>("credited");
+            f.debited += r.get::<i64, _>("debited");
+            f.entries += r.get::<i64, _>("entries");
+        }
+        let mut flows: Vec<super::CoinFlow> = by.into_values().collect();
+        flows.sort_by_key(|f| (std::cmp::Reverse(f.credited + f.debited), f.kind.clone()));
+        let richest = query(
+            "SELECT u.username, w.coins FROM wallets w JOIN users u ON u.id = w.user_id
+             WHERE w.coins > 0 AND u.deleted_at IS NULL
+             ORDER BY w.coins DESC, u.username LIMIT 10",
+        )
+        .fetch_all(&self.pool)
+        .await?;
+        Ok(super::Economy {
+            coins_total: totals.get("coins"),
+            wallets: totals.get("wallets"),
+            vip_now: totals.get("vip"),
+            flows,
+            richest: richest.iter().map(|r| (r.get("username"), r.get("coins"))).collect(),
+        })
+    }
+
+    pub async fn recent_payments(&self, limit: u32) -> StoreResult<Vec<(Payment, String)>> {
+        let rows = query(
+            "SELECT p.*, u.username AS payer FROM payments p JOIN users u ON u.id = p.user_id
+             ORDER BY p.at DESC LIMIT $1",
+        )
+        .bind(limit as i64)
+        .fetch_all(&self.pool)
+        .await?;
+        Ok(rows.iter().map(|r| (payment_row(r), r.get("payer"))).collect())
+    }
+
+    pub async fn active_countries(&self, since: i64) -> StoreResult<Vec<(String, i64)>> {
+        let rows = query(
+            "SELECT country, COUNT(*) AS n FROM users
+             WHERE last_seen > $1 AND deleted_at IS NULL
+             GROUP BY country ORDER BY n DESC, country",
+        )
+        .bind(since)
+        .fetch_all(&self.pool)
+        .await?;
+        Ok(rows.iter().map(|r| (r.get("country"), r.get("n"))).collect())
     }
 
     pub async fn overview(&self, now: i64) -> StoreResult<Overview> {
@@ -2207,11 +2393,27 @@ impl PgStore {
         Ok(())
     }
 
-    pub async fn audit_log(&self, limit: u32) -> StoreResult<Vec<AuditRow>> {
+    pub async fn audit_search(
+        &self,
+        search: &super::AuditSearch,
+        limit: u32,
+    ) -> StoreResult<Vec<AuditRow>> {
+        let q = search.q.trim().to_lowercase();
         let rows = query(
             "SELECT l.id, COALESCE(u.username, '?') AS staff, l.action, l.target, l.details, l.at
-             FROM audit_log l LEFT JOIN users u ON u.id = l.staff_id ORDER BY l.id DESC LIMIT $1",
+             FROM audit_log l LEFT JOIN users u ON u.id = l.staff_id
+             WHERE ($1 = '' OR lower(COALESCE(u.username, '')) LIKE $2
+                    OR lower(l.target) LIKE $2 OR lower(l.details) LIKE $2)
+               AND ($3::TEXT IS NULL OR l.action = $3)
+               AND ($4::TEXT IS NULL OR lower(l.target) = lower($4))
+               AND ($5::BIGINT IS NULL OR l.id < $5)
+             ORDER BY l.id DESC LIMIT $6",
         )
+        .bind(&q)
+        .bind(like_pattern(&q))
+        .bind(search.action.as_deref())
+        .bind(search.target.as_deref())
+        .bind(search.before)
         .bind(limit as i64)
         .fetch_all(&self.pool)
         .await?;

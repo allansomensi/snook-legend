@@ -5,8 +5,32 @@
 New games play ruleset 5, with a new house rule on the break. 0.7.0 plays
 only with 0.7.0: the server lets in protocol 18 only (older games are told
 to update), so the server and the game go out together. The server runs
-migrations 0016 (indexes for profiles) and 0017 (the tour's finals it
-deals) when it starts.
+migrations 0016 (indexes for profiles), 0017 (the tour's finals it deals)
+and 0018 (the staff's notes) when it starts.
+
+### The staff portal, made again
+- **A new portal at `/admin`**, in Portuguese, English and Spanish (from
+  the browser, or chosen), dark or light: a sidebar of sections with the
+  open reports counted, a search for players (and `#game` for a replay) on
+  every page, an address for every page and filter, keyboard shortcuts,
+  dialogs that ask before anything destructive and say what the player
+  will see, and a layout for phones. See docs/ADMIN.md.
+- **Players:** filtered (online, staff, banned, muted, deleted) and sorted;
+  each player's page in tabs (overview, moderation, games, economy,
+  achievements) with every staff action on the account in a timeline.
+- **New actions:** warnings the player sees at once or at their next
+  sign-in; notes among the staff; a rename by the staff that doesn't use
+  the player's own changes; items taken back; chat lines deleted (or
+  removed without a trace) from the portal; tournaments called off before
+  they start (fees back). Reports are answered with a warning, a mute or a
+  ban from the report itself.
+- **New pages:** the lounge chat as the staff see it, the economy (coins
+  given and spent by reason, the largest balances, everyone's latest
+  payments, the shop's catalogue), the server (version, memory, health,
+  rules, the weekly cup, the staff); metrics show where players come from.
+  The audit log is searched, filtered, paged and exported as CSV.
+- Migration 0018 keeps the notes and warnings (and indexes the players'
+  list by rating and by last seen).
 
 ### The rules (ruleset 5)
 - **On the break only one kind may go down.** A break that makes balls of

@@ -1789,3 +1789,6 @@ The server is dealing the final…	El servidor está preparando la final…
 The server is setting up the drill…	El servidor está preparando el ejercicio…
 Not signed in: a win in this final won't earn the reward.	Sin sesión: una victoria en esta final no da la recompensa.
 Not ranked: sessions count when started signed in.	Fuera del ranking: solo cuentan las sesiones empezadas con sesión iniciada.
+Warning from the staff: {text}	Aviso del equipo: {text}
+The staff changed your username to {name}. Sign in again.	El equipo cambió tu nombre de usuario a {name}. Inicia sesión de nuevo.
+The staff called off the tournament you were in.	El equipo canceló el torneo en el que estabas.

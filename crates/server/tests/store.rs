@@ -8,9 +8,15 @@ use snook_legend_core::{GameOverReason, Shot};
 use snook_legend_proto::Role;
 use snook_legend_proto::replay::{Replay, Stroke};
 use snook_legend_server::store::{
-    BuyOutcome, FriendOutcome, FriendState, LiveMatch, MatchRecord, NewNote, NewReport, NewUser,
-    Payment, Rename, SessionKind, Store, TournamentRecord, day_of,
+    AuditSearch, BuyOutcome, FriendOutcome, FriendState, LiveMatch, MatchRecord, NewNote,
+    NewReport, NewUser, Payment, Rename, SessionKind, Store, TournamentRecord, UserFilter,
+    UserSearch, UserSort, day_of,
 };
+
+/// A search of the staff's list by name only.
+fn named(q: &str) -> UserSearch {
+    UserSearch { q: q.into(), ..Default::default() }
+}
 
 fn new_user<'a>(name: &'a str) -> NewUser<'a> {
     NewUser {
@@ -324,9 +330,9 @@ async fn exercise(store: Store) {
     assert_eq!(store.user_by_id(a.id).await.unwrap().unwrap().role, Role::Moderator);
     store.audit(a.id, "ban", "bob", "1h", t).await.unwrap();
     assert_eq!(store.audit_log(5).await.unwrap()[0].staff, "Alice");
-    let (found, total) = store.search_users("o", 0, 10).await.unwrap();
+    let (found, total) = store.search_users(&named("o"), 0, 10).await.unwrap();
     assert_eq!((found.len(), total), (1, 1));
-    let (all, total) = store.search_users("", 0, 1).await.unwrap();
+    let (all, total) = store.search_users(&named(""), 0, 1).await.unwrap();
     assert_eq!((all.len(), total), (1, 2));
     let o = store.overview(t).await.unwrap();
     assert_eq!((o.users, o.matches_total), (2, 2));
@@ -413,7 +419,7 @@ async fn exercise(store: Store) {
     // Recovery e-mail, then deleting the account: it is anonymised and the
     // opponent keeps the games.
     store.set_recovery_email(b.id, Some("bob@example.com")).await.unwrap();
-    let (found, _) = store.search_users("bob@example.com", 0, 10).await.unwrap();
+    let (found, _) = store.search_users(&named("bob@example.com"), 0, 10).await.unwrap();
     assert_eq!(found[0].id, b.id);
     store.create_session("hash_b", b.id, SessionKind::Game, t, t + 100).await.unwrap();
     store.delete_account(b.id, t).await.unwrap();
@@ -535,6 +541,7 @@ async fn memory_store() {
     exercise(Store::memory()).await;
     retention(Store::memory()).await;
     renames(&Store::memory()).await;
+    staff_tools(&Store::memory()).await;
 }
 
 #[tokio::test]
@@ -557,4 +564,158 @@ async fn postgres_store() {
     }
     retention(Store::postgres(&url, 3).await.unwrap()).await;
     renames(&Store::postgres(&url, 3).await.unwrap()).await;
+    staff_tools(&Store::postgres(&url, 3).await.unwrap()).await;
+}
+
+/// What the staff portal asks of the store: the list of players filtered
+/// and sorted, notes and warnings, the audit log searched, renames by the
+/// staff, the economy, the latest payments and the players' countries.
+async fn staff_tools(store: &Store) {
+    let t = snook_legend_server::now();
+    let make = |name: &'static str, rating: i32, country: &'static str| NewUser {
+        username: name,
+        password_hash: "h",
+        country,
+        rating,
+        role: Role::Player,
+        ip: "1.2.3.4",
+    };
+    let a = store.create_user(&make("st_ana", 1500, "BR")).await.unwrap().unwrap();
+    let b = store.create_user(&make("st_bia", 1700, "BR")).await.unwrap().unwrap();
+    let c = store.create_user(&make("st_caio", 1300, "PT")).await.unwrap().unwrap();
+    let d = store.create_user(&make("st_dora", 1400, "")).await.unwrap().unwrap();
+    store.set_role(a.id, Role::Moderator).await.unwrap();
+    store.set_ban(b.id, Some(t + 3600), Some("spam")).await.unwrap();
+    store.set_mute(c.id, Some(t + 60)).await.unwrap();
+    store.delete_account(d.id, t).await.unwrap();
+    let search = |filter, sort| UserSearch { q: "st_".into(), filter, sort, now: t };
+    let names = |list: Vec<snook_legend_server::store::User>| {
+        list.into_iter().map(|u| u.username).collect::<Vec<_>>()
+    };
+    // Every live account, newest first; deleted ones apart.
+    let (all, total) =
+        store.search_users(&search(UserFilter::All, UserSort::Newest), 0, 10).await.unwrap();
+    assert_eq!(
+        (names(all), total),
+        (vec!["st_caio".to_string(), "st_bia".into(), "st_ana".into()], 3)
+    );
+    let (by_rating, _) =
+        store.search_users(&search(UserFilter::All, UserSort::Rating), 0, 10).await.unwrap();
+    assert_eq!(names(by_rating), ["st_bia", "st_ana", "st_caio"]);
+    let (by_name, _) =
+        store.search_users(&search(UserFilter::All, UserSort::Name), 1, 1).await.unwrap();
+    assert_eq!(names(by_name), ["st_bia"], "the second by name");
+    for (filter, who) in [
+        (UserFilter::Staff, "st_ana"),
+        (UserFilter::Banned, "st_bia"),
+        (UserFilter::Muted, "st_caio"),
+    ] {
+        let (list, total) =
+            store.search_users(&search(filter, UserSort::Name), 0, 10).await.unwrap();
+        assert_eq!((names(list), total), (vec![who.to_string()], 1), "{filter:?}");
+    }
+    let (gone, _) = store
+        .search_users(
+            &UserSearch { filter: UserFilter::Deleted, now: t, ..Default::default() },
+            0,
+            10,
+        )
+        .await
+        .unwrap();
+    assert!(gone.iter().any(|u| u.id == d.id));
+    // A ban over is no ban.
+    let later = UserSearch { now: t + 7200, ..search(UserFilter::Banned, UserSort::Name) };
+    assert_eq!(store.search_users(&later, 0, 10).await.unwrap().1, 0);
+    // A name with LIKE's wildcards in it is taken as it is.
+    assert_eq!(store.search_users(&named("st%a"), 0, 10).await.unwrap().1, 0);
+
+    // Notes and warnings: newest first; warnings shown once, oldest first.
+    let n1 = store.add_staff_note(c.id, a.id, "note", "Watch the chat.", t).await.unwrap();
+    store.add_staff_note(c.id, a.id, "warning", "First warning.", t + 1).await.unwrap();
+    store.add_staff_note(c.id, a.id, "warning", "Second warning.", t + 2).await.unwrap();
+    let notes = store.staff_notes(c.id, 10).await.unwrap();
+    assert_eq!(notes.len(), 3);
+    assert_eq!((notes[0].text.as_str(), notes[0].author.as_str()), ("Second warning.", "st_ana"));
+    assert!(notes.iter().all(|n| n.delivered_at.is_none()));
+    assert_eq!(
+        store.take_warnings(c.id, t + 5).await.unwrap(),
+        ["First warning.", "Second warning."]
+    );
+    assert!(store.take_warnings(c.id, t + 6).await.unwrap().is_empty(), "shown once");
+    let notes = store.staff_notes(c.id, 10).await.unwrap();
+    assert_eq!(notes.iter().filter(|n| n.delivered_at == Some(t + 5)).count(), 2);
+    assert!(store.staff_notes(b.id, 10).await.unwrap().is_empty());
+    // Only the author removes a note (or anyone, when no author is given).
+    assert!(!store.remove_staff_note(n1, Some(b.id)).await.unwrap());
+    assert!(store.remove_staff_note(n1, Some(a.id)).await.unwrap());
+    assert!(!store.remove_staff_note(n1, None).await.unwrap());
+
+    // The audit log, searched.
+    store.audit(a.id, "mute", "st_caio", "60 min: rude", t).await.unwrap();
+    store.audit(a.id, "warn", "ST_CAIO", "First warning.", t).await.unwrap();
+    store.audit(a.id, "ban", "st_bia", "1h: spam", t).await.unwrap();
+    let find = |q: &str, action: Option<&str>, target: Option<&str>| AuditSearch {
+        q: q.into(),
+        action: action.map(Into::into),
+        target: target.map(Into::into),
+        before: None,
+    };
+    let caio = store.audit_search(&find("", None, Some("st_caio")), 10).await.unwrap();
+    assert_eq!(caio.iter().map(|e| e.action.as_str()).collect::<Vec<_>>(), ["warn", "mute"]);
+    let bans = store.audit_search(&find("", Some("ban"), None), 10).await.unwrap();
+    assert!(bans.iter().all(|e| e.action == "ban") && bans.iter().any(|e| e.target == "st_bia"));
+    let rude = store.audit_search(&find("RUDE", None, None), 10).await.unwrap();
+    assert_eq!(rude.len(), 1);
+    let page = store
+        .audit_search(
+            &AuditSearch { before: Some(caio[0].id), ..find("", None, Some("st_caio")) },
+            10,
+        )
+        .await
+        .unwrap();
+    assert_eq!(page.iter().map(|e| e.id).collect::<Vec<_>>(), [caio[1].id]);
+
+    // A rename by the staff doesn't count among the player's own.
+    assert_eq!(store.staff_rename(c.id, "ST_BIA").await.unwrap(), Rename::Taken);
+    assert_eq!(store.staff_rename(c.id, "st_clean").await.unwrap(), Rename::Done);
+    let renamed = store.user_by_id(c.id).await.unwrap().unwrap();
+    assert_eq!((renamed.username.as_str(), renamed.name_changes), ("st_clean", 0));
+    assert_eq!(store.staff_rename(d.id, "st_back").await.unwrap(), Rename::NoChangesLeft);
+
+    // Coins: in wallets, and where they went in the last 30 days.
+    store.credit(a.id, 300, "daily bonus", None, t).await.unwrap();
+    store.credit(b.id, 1000, "staff: contest prize", None, t).await.unwrap();
+    assert_eq!(store.buy_item(b.id, "chalk_red", 150, t).await.unwrap(), BuyOutcome::Bought);
+    store.set_vip(a.id, t + 86_400, false).await.unwrap();
+    let e = store.economy(t).await.unwrap();
+    assert!(e.coins_total >= 1150 && e.wallets >= 2 && e.vip_now >= 1, "{e:?}");
+    let flow = |kind: &str| e.flows.iter().find(|f| f.kind == kind).cloned();
+    assert!(flow("staff").is_some_and(|f| f.credited >= 1000));
+    assert!(flow("buy").is_some_and(|f| f.debited >= 150));
+    assert!(e.richest.iter().any(|(n, coins)| n == "st_bia" && *coins == 850));
+    assert!(e.richest.windows(2).all(|w| w[0].1 >= w[1].1));
+
+    // The latest payments, with who paid.
+    let pay = |id: &str, at| Payment {
+        id: id.into(),
+        user_id: b.id,
+        kind: "coins".into(),
+        coins: 500,
+        amount: 499,
+        currency: "brl".into(),
+        at,
+        refunded: false,
+        email: None,
+        test: false,
+    };
+    store.record_payment(&pay("st_pi_1", t - 10)).await.unwrap();
+    store.record_payment(&pay("st_pi_2", t)).await.unwrap();
+    let latest = store.recent_payments(1).await.unwrap();
+    assert_eq!((latest[0].0.id.as_str(), latest[0].1.as_str()), ("st_pi_2", "st_bia"));
+
+    // Where the active players come from (deleted accounts left out).
+    let countries = store.active_countries(t - 86_400).await.unwrap();
+    let br = countries.iter().find(|(c, _)| c == "BR").map(|x| x.1).unwrap_or(0);
+    assert!(br >= 2);
+    assert!(countries.windows(2).all(|w| w[0].1 >= w[1].1));
 }

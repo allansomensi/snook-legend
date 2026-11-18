@@ -563,6 +563,30 @@ impl Lounge {
         self.effect(pay);
     }
 
+    /// The staff call off a tournament that hasn't started (an offensive
+    /// name, a mistake): every fee goes back and the players are told.
+    /// Returns its name, or why it can't be called off.
+    pub fn staff_cancel_tournament(&mut self, id: u64) -> Result<String, &'static str> {
+        let Some(t) = self.tournaments.get(&id) else {
+            return Err("No such tournament.");
+        };
+        if t.state != TournamentState::Registering {
+            return Err("Only a tournament that hasn't started can be called off.");
+        }
+        let name = t.name.clone();
+        let everyone: Vec<String> = t.players.iter().chain(&t.waitlist).cloned().collect();
+        self.cancel_tournament(id);
+        for k in everyone {
+            self.notify(
+                &k,
+                ServerMsg::Notice {
+                    text: "The staff called off the tournament you were in.".into(),
+                },
+            );
+        }
+        Ok(name)
+    }
+
     /// Removes a tournament that never started (or can't go on), giving
     /// every fee back.
     pub(super) fn cancel_tournament(&mut self, id: u64) {

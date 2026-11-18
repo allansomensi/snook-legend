@@ -1,19 +1,79 @@
-// Snook Legend staff panel. Plain JavaScript, no dependencies; every value from the
-// server is inserted with textContent (never as HTML).
+// Snook Legend staff portal. Plain JavaScript, no dependencies, no inline
+// code or styles (the page's security policy forbids them). Every value from
+// the server goes into the page as text (textContent), never as HTML.
 "use strict";
 
-const $ = (sel) => document.querySelector(sel);
-let token = sessionStorage.getItem("snook-legend-admin") || "";
+// ===================================================================== basics
+
+const $ = (sel, root = document) => root.querySelector(sel);
+const KEYS = { token: "snook-legend-admin", lang: "snook-legend-admin-lang", theme: "snook-legend-admin-theme" };
+const LANGS = [["pt-BR", "Português (Brasil)"], ["en", "English"], ["es", "Español"]];
+const DICT = typeof WORDS === "undefined" ? {} : WORDS;
+const store = {
+  get(k) { try { return localStorage.getItem(k); } catch (_) { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch (_) { /* private mode */ } },
+};
+let token = (() => { try { return sessionStorage.getItem(KEYS.token) || ""; } catch (_) { return ""; } })();
 let me = null;
-let view = "dashboard";
+let lang = pickLang();
+let theme = store.get(KEYS.theme) || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+
+function pickLang() {
+  const saved = store.get(KEYS.lang);
+  if (saved && LANGS.some(([c]) => c === saved)) return saved;
+  for (const l of navigator.languages || [navigator.language || "en"]) {
+    const s = String(l).toLowerCase();
+    if (s.startsWith("pt")) return "pt-BR";
+    if (s.startsWith("es")) return "es";
+    if (s.startsWith("en")) return "en";
+  }
+  return "en";
+}
+
+/** A text in the chosen language (English is the key). */
+function t(s) {
+  const d = DICT[lang];
+  return (d && d[s]) || s;
+}
+/** A text with {placeholders}. */
+function tf(s, vars) {
+  return t(s).replace(/\{(\w+)\}/g, (m, k) => (k in vars ? String(vars[k]) : m));
+}
+/** "1 game" / "5 games": `one` and `many` carry {n}. */
+function tn(n, one, many) {
+  return tf(n === 1 ? one : many, { n: fmtNum(n) });
+}
 
 function el(tag, attrs = {}, ...children) {
   const e = document.createElement(tag);
-  for (const [k, v] of Object.entries(attrs)) {
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (v === null || v === undefined || v === false) continue;
     if (k === "class") e.className = v;
-    else if (k.startsWith("on")) e.addEventListener(k.slice(2), v);
+    else if (k === "text") e.textContent = v;
+    else if (k.startsWith("on") && typeof v === "function") e.addEventListener(k.slice(2), v);
+    else if (k === "value") e.value = v;
+    else if (v === true) e.setAttribute(k, "");
     else e.setAttribute(k, v);
   }
+  append(e, children);
+  return e;
+}
+/** Replaces a node's children (arrays flattened, empty values skipped). */
+function setKids(node, ...children) {
+  node.replaceChildren();
+  return append(node, children);
+}
+function append(e, children) {
+  for (const c of children.flat(Infinity)) {
+    if (c === null || c === undefined || c === false) continue;
+    e.append(c instanceof Node ? c : document.createTextNode(String(c)));
+  }
+  return e;
+}
+const SVGNS = "http://www.w3.org/2000/svg";
+function svg(tag, attrs = {}, ...children) {
+  const e = document.createElementNS(SVGNS, tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
   for (const c of children.flat()) {
     if (c === null || c === undefined || c === false) continue;
     e.append(c instanceof Node ? c : document.createTextNode(String(c)));
@@ -21,594 +81,514 @@ function el(tag, attrs = {}, ...children) {
   return e;
 }
 
-function toast(text) {
-  const t = $("#toast");
-  t.textContent = text;
-  t.classList.remove("hidden");
-  clearTimeout(toast.timer);
-  toast.timer = setTimeout(() => t.classList.add("hidden"), 3000);
+// ===================================================================== icons
+
+const circle = (cx, cy, r) => `M${cx - r} ${cy}a${r} ${r} 0 1 0 ${2 * r} 0a${r} ${r} 0 1 0 ${-2 * r} 0`;
+const ICONS = {
+  dashboard: "M3 3h7v9H3zM14 3h7v5h-7zM14 12h7v9h-7zM3 16h7v5H3z",
+  users: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" + circle(9, 7, 4) + "M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75",
+  user: "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" + circle(12, 7, 4),
+  flag: "M4 22V4M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1",
+  activity: "M22 12h-4l-3 9L9 3l-3 9H2",
+  chat: "M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z",
+  megaphone: "M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1zM15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13",
+  coins: circle(8, 8, 6) + "M18.09 10.37A6 6 0 1 1 10.34 18M7 6h1v4M16.71 13.88l.7.71-2.82 2.82",
+  chart: "M3 3v18h18M7 16v-5M12 16V8M17 16v-9",
+  target: circle(12, 12, 10) + circle(12, 12, 6) + circle(12, 12, 2),
+  audit: "M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8",
+  server: "M4 3h16a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM4 14h16a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-5a1 1 0 0 1 1-1zM7 6.5h.01M7 17.5h.01",
+  search: circle(11, 11, 8) + "M21 21l-4.35-4.35",
+  sun: circle(12, 12, 4) + "M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41",
+  moon: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z",
+  logout: "M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9",
+  menu: "M3 12h18M3 6h18M3 18h18",
+  x: "M18 6L6 18M6 6l12 12",
+  chevronRight: "M9 18l6-6-6-6",
+  chevronLeft: "M15 18l-6-6 6-6",
+  chevronDown: "M6 9l6 6 6-6",
+  refresh: "M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15",
+  eye: "M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" + circle(12, 12, 3),
+  eyeOff: "M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19M1 1l22 22M14.12 14.12a3 3 0 1 1-4.24-4.24",
+  play: "M5 3l14 9-14 9V3z",
+  pause: "M6 4h4v16H6zM14 4h4v16h-4z",
+  download: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3",
+  ban: circle(12, 12, 10) + "M4.93 4.93l14.14 14.14",
+  mute: "M1 1l22 22M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23M12 19v4M8 23h8",
+  warn: "M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4M12 17h.01",
+  note: "M14.5 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9.5zM14 3v6h6M8 13h8M8 17h5",
+  kick: "M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" + circle(8.5, 7, 4) + "M18 8l5 5M23 8l-5 5",
+  shield: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z",
+  key: "M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.78 7.78 5.5 5.5 0 0 1 7.78-7.78zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4",
+  gift: "M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z",
+  edit: "M12 20h9M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z",
+  trash: "M3 6h18M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2",
+  copy: "M9 9h11a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-9a2 2 0 0 1-2-2zM5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1",
+  check: "M20 6L9 17l-5-5",
+  checkCircle: circle(12, 12, 10) + "M8 12l3 3 5-6",
+  clock: circle(12, 12, 10) + "M12 6v6l4 2",
+  crown: "M2 18h20M3 7l4 4 5-7 5 7 4-4-2 11H5z",
+  trophy: "M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3",
+  info: circle(12, 12, 10) + "M12 16v-4M12 8h.01",
+  more: circle(5, 12, 1) + circle(12, 12, 1) + circle(19, 12, 1),
+  pin: "M12 17v5M9 10.76V6h6v4.76a2 2 0 0 0 1.11 1.79l1.78.9A2 2 0 0 1 19 15.24V17H5v-1.76a2 2 0 0 1 1.11-1.79l1.78-.9A2 2 0 0 0 9 10.76zM8 2h8",
+  keyboard: "M2 6h20v12H2zM6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10",
+  send: "M22 2L11 13M22 2l-7 20-4-9-9-4z",
+  lock: "M5 11h14v10H5zM8 11V7a4 4 0 0 1 8 0v4",
+  star: "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z",
+  calendar: "M3 4h18v18H3zM16 2v4M8 2v4M3 10h18",
+  undo: "M3 7v6h6M21 17a9 9 0 0 0-15-6.7L3 13",
+  globe: circle(12, 12, 10) + "M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z",
+  table: "M3 3h18v18H3zM3 9h18M3 15h18M9 3v18",
+  queue: "M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01",
+  memory: "M6 19v2M10 19v2M14 19v2M18 19v2M8 11h.01M16 11h.01M2 6h20v13H2z",
+  plug: "M12 22v-5M9 8V2M15 8V2M18 8v5a6 6 0 0 1-12 0V8z",
+};
+function icon(name, cls = "") {
+  const s = svg("svg", { viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2",
+    "stroke-linecap": "round", "stroke-linejoin": "round", class: ("icon " + cls).trim(), "aria-hidden": "true" });
+  s.append(svg("path", { d: ICONS[name] || ICONS.info }));
+  return s;
+}
+function brandMark() {
+  return svg("svg", { viewBox: "0 0 32 32", class: "brand-mark", "aria-hidden": "true" },
+    svg("circle", { cx: 16, cy: 16, r: 15, fill: "#141414" }),
+    svg("circle", { cx: 16, cy: 16, r: 7.5, fill: "#f8f3e6" }),
+    svg("text", { x: 16, y: 20, "font-size": 10.5, "font-weight": 800, "text-anchor": "middle", fill: "#141414", "font-family": "Arial, sans-serif" }, "8"));
 }
 
-async function api(path, options = {}) {
-  const res = await fetch("/admin/api" + path, {
-    method: options.method || "GET",
-    headers: { "Content-Type": "application/json", ...(token ? { Authorization: "Bearer " + token } : {}) },
-    body: options.body ? JSON.stringify(options.body) : undefined,
-  });
-  let data = {};
-  try { data = await res.json(); } catch (_) { /* empty */ }
-  if (res.status === 401) { signOut(false); throw new Error(data.error || "Sign in again."); }
-  if (!res.ok) throw new Error(data.error || "Request failed (" + res.status + ").");
-  return data;
-}
+// ================================================================ formatting
 
-const fmtDate = (s) => (s ? new Date(s * 1000).toLocaleString() : "—");
-const ago = (s) => {
+const fmtNum = (n) => new Intl.NumberFormat(lang).format(Number(n) || 0);
+const fmtPct = (x, digits = 1) => new Intl.NumberFormat(lang, { style: "percent", maximumFractionDigits: digits }).format((Number(x) || 0) / 100);
+const fmtDate = (s) => (s ? new Intl.DateTimeFormat(lang, { dateStyle: "medium", timeStyle: "short" }).format(new Date(s * 1000)) : "—");
+const fmtDateOnly = (s) => (s ? new Intl.DateTimeFormat(lang, { dateStyle: "medium" }).format(new Date(s * 1000)) : "—");
+const fmtClock = (s) => new Intl.DateTimeFormat(lang, { hour: "2-digit", minute: "2-digit" }).format(new Date(s * 1000));
+const fmtClockSecs = (d) => new Intl.DateTimeFormat(lang, { hour: "2-digit", minute: "2-digit", second: "2-digit" }).format(d);
+const fmtDay = (day) => new Intl.DateTimeFormat(lang, { day: "2-digit", month: "2-digit", timeZone: "UTC" }).format(new Date(day * 86400000));
+const fmtDayLong = (day) => new Intl.DateTimeFormat(lang, { dateStyle: "medium", timeZone: "UTC" }).format(new Date(day * 86400000));
+const nowSecs = () => Date.now() / 1000;
+const FOREVER = 9e15;
+
+function ago(s) {
   if (!s) return "—";
-  const d = Math.max(0, Date.now() / 1000 - s);
-  if (d < 90) return "just now";
-  if (d < 5400) return Math.round(d / 60) + " min ago";
-  if (d < 129600) return Math.round(d / 3600) + " h ago";
-  return Math.round(d / 86400) + " days ago";
-};
-const until = (s) => (s >= 9e15 ? "permanently" : "until " + fmtDate(s));
-
-function statusTags(u) {
-  const now = Date.now() / 1000;
-  return el("span", {},
-    u.online ? el("span", { class: "tag on" }, "online") : null, " ",
-    u.role !== "player" ? el("span", { class: "tag staff " + u.role }, u.role) : null, " ",
-    u.banned_until && u.banned_until > now ? el("span", { class: "tag ban" }, "banned") : null, " ",
-    u.muted_until && u.muted_until > now ? el("span", { class: "tag mute" }, "muted") : null);
+  const d = s - nowSecs();
+  const rtf = new Intl.RelativeTimeFormat(lang, { numeric: "auto" });
+  const a = Math.abs(d);
+  if (a < 45) return rtf.format(0, "second");
+  if (a < 3600) return rtf.format(Math.round(d / 60), "minute");
+  if (a < 86400) return rtf.format(Math.round(d / 3600), "hour");
+  if (a < 86400 * 45) return rtf.format(Math.round(d / 86400), "day");
+  if (a < 86400 * 400) return rtf.format(Math.round(d / (86400 * 30)), "month");
+  return rtf.format(Math.round(d / (86400 * 365)), "year");
 }
-
-function table(headers, rows) {
-  return el("div", { class: "table-wrap" },
-    el("table", {}, el("thead", {}, el("tr", {}, headers.map((h) => el("th", {}, h)))), el("tbody", {}, rows)));
+function timeEl(s) {
+  return el("time", { datetime: s ? new Date(s * 1000).toISOString() : null, title: fmtDate(s) }, ago(s));
 }
-
-function setView(name) {
-  view = name;
-  document.querySelectorAll("nav button").forEach((b) => b.classList.toggle("active", b.dataset.view === name));
-  render();
+function fmtDuration(secs) {
+  secs = Math.max(0, Math.round(secs));
+  const d = Math.floor(secs / 86400), h = Math.floor((secs % 86400) / 3600), m = Math.floor((secs % 3600) / 60);
+  if (d) return tf("{d} d {h} h", { d, h });
+  if (h) return tf("{h} h {m} min", { h, m });
+  if (m) return tf("{m} min", { m });
+  return tf("{s} s", { s: secs });
 }
-
-async function render() {
-  const main = $("#main");
-  try {
-    const content = await views[view]();
-    main.replaceChildren(content);
-  } catch (e) {
-    main.replaceChildren(el("p", { class: "error" }, e.message));
-  }
+function fmtMinutes(min) {
+  if (min % 10080 === 0) return tn(min / 10080, "{n} week", "{n} weeks");
+  if (min % 1440 === 0) return tn(min / 1440, "{n} day", "{n} days");
+  if (min % 60 === 0) return tn(min / 60, "{n} hour", "{n} hours");
+  return tn(min, "{n} minute", "{n} minutes");
 }
-
-const views = {
-  async dashboard() {
-    const o = await api("/overview");
-    $("#report-count").textContent = o.stored.open_reports || "";
-    const stat = (n, l) => el("div", { class: "card stat" }, el("div", { class: "n" }, n), el("div", { class: "l" }, l));
-    const h = Math.floor(o.uptime_secs / 3600), m = Math.floor((o.uptime_secs % 3600) / 60);
-    const box = el("div", {},
-      el("div", { class: "grid" },
-        stat(o.online, "Online now"), stat(o.matches_live, "Games now"), stat(o.tables_open, "Open tables"),
-        stat(o.tournaments, "Tournaments"), stat(o.stored.users, "Accounts"), stat(o.stored.new_users_7d, "New (7 days)"),
-        stat(o.stored.active_users_7d, "Active (7 days)"), stat(o.stored.matches_24h, "Games (24 h)"),
-        stat(o.stored.matches_total, "Games (all)"), stat(o.stored.open_reports, "Open reports"),
-        stat(o.stored.banned, "Banned"), stat(h + "h " + m + "m", "Uptime · v" + o.version)),
-      o.persistent ? null : el("p", { class: "error" }, "This server keeps everything in memory: nothing is saved."),
-      o.online >= 4 && o.addresses === 1 ? el("p", { class: "error" }, "Every player comes from the same address: set SNOOK_LEGEND_CLIENT_IP_HEADER (see DEPLOY), or the per-address limits will block players.") : null);
-    const announce = el("textarea", { rows: "2", maxlength: "200", placeholder: "Message to everyone in the lounge" });
-    box.append(el("h2", {}, "Announcement"), announce,
-      el("div", { class: "actions" }, el("button", {
-        class: "primary", onclick: async () => {
-          try { await api("/announce", { method: "POST", body: { text: announce.value } }); announce.value = ""; toast("Sent."); }
-          catch (e) { toast(e.message); }
-        },
-      }, "Send to the lounge")));
-    // The lounge's board: notes that stay up (rules, events, tournaments).
-    const notes = el("div", {});
-    const loadNotes = async () => {
-      const d = await api("/board");
-      const rows = d.notes.map((n) => el("tr", {},
-        el("td", {}, n.pinned ? "📌 " : "", n.text, n.action ? el("span", { class: "muted" }, " · button: " + n.action) : null),
-        el("td", {}, n.kind), el("td", {}, n.author || "—"), el("td", {}, ago(n.created_at)),
-        el("td", {}, n.expires_at ? fmtDate(n.expires_at) : "—"),
-        el("td", {}, el("button", {
-          class: "danger", onclick: async () => {
-            try { await api("/board/" + n.id, { method: "DELETE" }); toast("Taken down."); loadNotes(); }
-            catch (e) { toast(e.message); }
-          },
-        }, "Take down"))));
-      notes.replaceChildren(rows.length
-        ? table(["Note", "Kind", "By", "Pinned", "Until", ""], rows)
-        : el("p", { class: "muted" }, "The board is empty."));
-    };
-    const note = el("textarea", { rows: "3", maxlength: "400", placeholder: "A note for the lounge's board" });
-    const days = el("input", { type: "number", min: "1", max: "366", placeholder: "Days (empty: until taken down)" });
-    const kind = el("select", {}, [["notice", "Notice (gold)"], ["event", "Event (green)"], ["rule", "Rule (blue)"]]
-      .map(([v, l]) => el("option", { value: v }, l)));
-    const action = el("select", {}, [["", "No button"], ["tournaments", "Button: tournaments"], ["shop", "Button: shop"],
-      ["vip", "Button: VIP"], ["missions", "Button: missions"]].map(([v, l]) => el("option", { value: v }, l)));
-    const pinned = el("input", { type: "checkbox", class: "check" });
-    box.append(el("h2", {}, "Board"), note, days,
-      el("div", { class: "actions" }, kind, action, el("label", {}, pinned, " Pinned at the top")),
-      el("div", { class: "actions" }, el("button", {
-        class: "primary", onclick: async () => {
-          try {
-            await api("/board", { method: "POST", body: {
-              text: note.value, days: days.value ? Number(days.value) : null,
-              kind: kind.value, action: action.value || null, pinned: pinned.checked,
-            } });
-            note.value = ""; days.value = ""; pinned.checked = false; action.value = ""; toast("Pinned."); loadNotes();
-          } catch (e) { toast(e.message); }
-        },
-      }, "Pin to the board")), notes);
-    loadNotes().catch((e) => toast(e.message));
-    // Players' notes on the "looking for a game" board (up while they are online).
-    const seeks = el("div", {});
-    const loadSeeks = async () => {
-      const d = await api("/seeks");
-      const rows = d.notes.map((n) => el("tr", {},
-        el("td", {}, el("a", { href: "#", onclick: (e) => { e.preventDefault(); showUser(n.username); } }, n.username)),
-        el("td", {}, n.text || el("span", { class: "muted" }, "(no message)")),
-        el("td", {}, n.rated ? "rated" : "casual"), el("td", {}, ago(n.at)), el("td", {}, fmtDate(n.expires_at)),
-        el("td", {}, el("button", {
-          class: "danger", onclick: async () => {
-            try { await api("/seeks/" + encodeURIComponent(n.username), { method: "DELETE" }); toast("Removed."); loadSeeks(); }
-            catch (e) { toast(e.message); }
-          },
-        }, "Remove"))));
-      seeks.replaceChildren(rows.length
-        ? table(["Player", "Note", "Game", "Posted", "Until", ""], rows)
-        : el("p", { class: "muted" }, "Nobody is looking for a game right now."));
-    };
-    box.append(el("h2", {}, "Looking for a game"), el("div", { class: "actions" },
-      el("button", { onclick: () => loadSeeks().catch((e) => toast(e.message)) }, "Refresh")), seeks);
-    loadSeeks().catch((e) => toast(e.message));
-    if (me && me.role === "admin") {
-      box.append(el("h2", {}, "Lounge chat"), el("div", { class: "actions" }, el("button", {
-        class: "danger", onclick: async () => {
-          if (!confirm("Clear the lounge chat for everyone?")) return;
-          try { await api("/chat/clear", { method: "POST" }); toast("The chat was cleared."); }
-          catch (e) { toast(e.message); }
-        },
-      }, "Clear the chat")));
-      const motd = el("input", { maxlength: "300" });
-      motd.value = o.motd;
-      box.append(el("h2", {}, "Welcome message"), motd, el("div", { class: "actions" }, el("button", {
-        onclick: async () => {
-          try { await api("/motd", { method: "POST", body: { text: motd.value } }); toast("Saved (until the server restarts)."); }
-          catch (e) { toast(e.message); }
-        },
-      }, "Save")));
-    }
-    return box;
-  },
-
-  async users() {
-    const box = el("div", {});
-    const search = el("input", { placeholder: "Search by username", value: views.users.q || "" });
-    const results = el("div", {});
-    const load = async (page = 0) => {
-      views.users.q = search.value;
-      const d = await api("/users?q=" + encodeURIComponent(search.value) + "&page=" + page);
-      const rows = d.users.map((u) => el("tr", { class: "click", onclick: () => showUser(u.username) },
-        el("td", {}, u.username), el("td", {}, u.country || "—"), el("td", {}, u.rating),
-        el("td", {}, u.games), el("td", {}, ago(u.last_seen)), el("td", {}, statusTags(u))));
-      const pages = Math.ceil(d.total / d.per_page);
-      results.replaceChildren(
-        el("p", { class: "muted" }, d.total + " players"),
-        table(["Player", "Country", "Rating", "Games", "Last seen", ""], rows),
-        el("div", { class: "actions" },
-          page > 0 ? el("button", { onclick: () => load(page - 1) }, "Previous") : null,
-          page + 1 < pages ? el("button", { onclick: () => load(page + 1) }, "Next") : null));
-    };
-    search.addEventListener("keydown", (e) => { if (e.key === "Enter") load(); });
-    box.append(el("div", { class: "row" }, search, el("button", { onclick: () => load() }, "Search")), results);
-    await load();
-    return box;
-  },
-
-  async reports() {
-    const filter = views.reports.filter || "open";
-    const d = await api("/reports?status=" + filter);
-    const select = el("select", { onchange: () => { views.reports.filter = select.value; render(); } },
-      ["open", "actioned", "dismissed", "all"].map((s) => {
-        const o = el("option", { value: s }, s);
-        if (s === filter) o.selected = true;
-        return o;
-      }));
-    const list = d.reports.map((r) => el("div", { class: "card report" },
-      el("div", { class: "head" },
-        el("b", {}, "#" + r.id + " · " + r.reason),
-        el("span", { class: "muted" }, fmtDate(r.created_at))),
-      el("p", {}, el("a", { href: "#", onclick: (e) => { e.preventDefault(); showUser(r.target); } }, r.target),
-        " reported by ", el("a", { href: "#", onclick: (e) => { e.preventDefault(); showUser(r.reporter); } }, r.reporter)),
-      r.details ? el("p", {}, r.details) : null,
-      gameBlock(r),
-      r.context ? el("pre", {}, r.context) : null,
-      r.status === 0
-        ? el("div", { class: "actions" },
-          el("button", { class: "primary", onclick: () => resolve(r.id, "actioned") }, "Action taken"),
-          el("button", { onclick: () => resolve(r.id, "dismissed") }, "Dismiss"))
-        : el("p", { class: "muted" }, (r.status === 1 ? "Actioned" : "Dismissed") + " by " + (r.resolved_by || "?") + (r.resolution ? ": " + r.resolution : ""))));
-    return el("div", {}, el("div", { class: "row" }, el("span", {}, "Show"), select),
-      list.length ? list : el("p", { class: "muted" }, "Nothing here."));
-  },
-
-  async live() {
-    const d = await api("/live");
-    const rooms = d.rooms.map((r) => el("tr", {},
-      el("td", {}, "#" + r.id), el("td", {}, r.players[0] + " vs " + r.players[1]),
-      el("td", {}, r.rated ? "rated" : "casual"), el("td", {}, r.tournament ? "yes" : ""),
-      el("td", {}, r.shots), el("td", {}, r.finished ? "finished" : "playing"),
-      el("td", {}, el("button", { onclick: () => openViewer("/live/" + r.id + "/view") }, "Watch"))));
-    const players = d.players.map((p) => el("tr", { class: "click", onclick: () => showUser(p.username) },
-      el("td", {}, p.username), el("td", {}, p.rating), el("td", {}, p.status), el("td", {}, p.country || "—")));
-    const tournaments = d.tournaments.map((t) => el("tr", {},
-      el("td", {}, t.name), el("td", {}, t.host), el("td", {}, t.players.length + " / " + t.size),
-      el("td", {}, t.state), el("td", {}, t.champion || "")));
-    return el("div", {},
-      el("div", { class: "actions" }, el("button", { onclick: render }, "Refresh")),
-      el("h2", {}, "Games (" + d.rooms.length + ")"), table(["", "Players", "", "Tournament", "Shots", "", ""], rooms),
-      el("h2", {}, "Tournaments (" + d.tournaments.length + ")"), table(["Name", "Host", "Players", "State", "Champion"], tournaments),
-      el("h2", {}, "Online (" + d.players.length + ")"), table(["Player", "Rating", "Status", "Country"], players));
-  },
-
-  async metrics() {
-    const d = await api("/metrics");
-    const m = d.metrics;
-    const stat = (n, l, sub) => el("div", { class: "card stat" }, el("div", { class: "n" }, n), el("div", { class: "l" }, l),
-      sub ? el("div", { class: "sub muted" }, sub) : null);
-    const pct = (x) => (Math.round(x * 10) / 10) + "%";
-    const f = m.funnel;
-    const funnel = (n) => f[0] ? Math.round(n * 100 / f[0]) + "%" : "—";
-    const q = d.queue;
-    const waitingRated = q.waiting.filter((w) => w.rated).length;
-    const longest = q.waiting.reduce((a, w) => Math.max(a, w.secs), 0);
-    const hours = m.hours;
-    const hourLabel = (h) => {
-      const t = new Date(h * 3600 * 1000);
-      return String(t.getHours()).padStart(2, "0") + "h";
-    };
-    const hourTitle = (h) => new Date(h * 3600 * 1000).toLocaleString([], { weekday: "short", hour: "2-digit", minute: "2-digit" });
-    const sampled = hours.some((h) => h.peak_players > 0 || h.active > 0);
-    const playersChart = sampled
-      ? chart({
-        labels: hours.map((h) => hourLabel(h.hour)), titles: hours.map((h) => hourTitle(h.hour)),
-        bars: { values: hours.map((h) => h.active), name: "Active players", cls: "c-gold" },
-        line: { values: hours.map((h) => h.peak_players), name: "Peak online at once", cls: "c-blue" },
-        every: 6,
-      })
-      : empty("No samples yet: the server counts who is online every minute, so the first hour shows up shortly.");
-    const gamesChart = hours.some((h) => h.games > 0 || h.peak_games > 0)
-      ? chart({
-        labels: hours.map((h) => hourLabel(h.hour)), titles: hours.map((h) => hourTitle(h.hour)),
-        bars: { values: hours.map((h) => h.games), name: "Games finished", cls: "c-green" },
-        line: { values: hours.map((h) => h.peak_games), name: "Peak games at once", cls: "c-blue" },
-        every: 6,
-      })
-      : empty("No games in the last 48 hours.");
-    // Revenue: one chart per currency (amounts in different currencies don't add up).
-    const today = Math.floor(d.now / 86400);
-    const days = Array.from({ length: 30 }, (_, k) => today - 29 + k);
-    const dayLabel = (day) => new Date(day * 86400 * 1000).toLocaleDateString([], { day: "2-digit", month: "2-digit" });
-    // Microsoft Store purchases carry no amount (Microsoft keeps the price
-    // and pays out through Partner Center): counted apart.
-    const msstore = m.revenue.find((r) => r[0] === "msstore");
-    const currencies = [...new Set(m.revenue_days.map((r) => r[1]))].filter((c) => c !== "msstore").sort();
-    const revenueCharts = currencies.length
-      ? currencies.map((cur) => {
-        const by = new Map(m.revenue_days.filter((r) => r[1] === cur).map((r) => [r[0], r]));
-        const total = m.revenue.find((r) => r[0] === cur) || [cur, 0, 0];
-        return el("div", { class: "card chart-card" },
-          el("div", { class: "chart-head" }, el("b", {}, cur.toUpperCase()),
-            el("span", { class: "muted" }, money(total[1], cur) + " · " + total[2] + (total[2] === 1 ? " payment" : " payments"))),
-          chart({
-            labels: days.map(dayLabel), titles: days.map((day) => new Date(day * 86400 * 1000).toLocaleDateString()),
-            bars: { values: days.map((day) => (by.get(day) || [0, 0, 0, 0])[2] / 100), name: "Revenue (" + cur.toUpperCase() + ")", cls: "c-green", format: (v) => v.toFixed(2) },
-            every: 6, height: 190, width: 520,
-          }));
-      })
-      : [empty("No payments in the last 30 days (test payments are left out).")];
-    const recent = q.recent || [];
-    const waitsChart = recent.length
-      ? chart({
-        labels: recent.map(() => ""), titles: recent.map((s, k) => "Pairing " + (k + 1) + " of the latest " + recent.length),
-        bars: { values: recent, name: "Wait (s)", cls: "c-gold" }, every: 0, height: 130, unit: " s",
-      })
-      : empty("Nobody has been paired by \"Play now\" since the server started.");
-    // Players and games day by day (30 days).
-    const dailyChart = m.days.some((x) => x[1] > 0 || x[2] > 0)
-      ? chart({
-        labels: m.days.map((x) => dayLabel(x[0])), titles: m.days.map((x) => new Date(x[0] * 86400 * 1000).toLocaleDateString()),
-        bars: { values: m.days.map((x) => x[1]), name: "Active players", cls: "c-gold" },
-        line: { values: m.days.map((x) => x[2]), name: "Games", cls: "c-green" },
-        every: 6,
-      })
-      : empty("Nobody played in the last 30 days.");
-    const week = m.days.slice(-7);
-    const perDay = week.length ? week.reduce((a, x) => a + x[2], 0) / week.length : 0;
-    const activeWeek = week.length ? week.reduce((a, x) => a + x[1], 0) / week.length : 0;
-    // Sign-ups week by week and how many came back.
-    const opt = (x) => x === null || x === undefined ? "—" : pct(x);
-    const cohortRows = (m.cohorts || []).map((c) => el("tr", {},
-      el("td", {}, dayLabel(c.first_day) + " – " + dayLabel(c.first_day + 6)),
-      el("td", {}, c.accounts), el("td", {}, opt(c.d1)), el("td", {}, opt(c.d7)), el("td", {}, opt(c.d30))));
-    const maxActive = Math.max(1, ...m.days.map((x) => x[1]));
-    const bars = m.days.map(([day, active, games, accounts]) => el("tr", {},
-      el("td", {}, fmtDate(day * 86400).split(",")[0]),
-      el("td", {}, barOf(active / maxActive), " " + active),
-      el("td", {}, games), el("td", {}, accounts)));
-    return el("div", { class: "metrics" },
-      d.draining ? el("p", { class: "error" }, "The server is restarting (draining): no new games.") : null,
-      el("div", { class: "row refresh" }, el("span", { class: "muted" }, "Updated " + new Date(d.now * 1000).toLocaleTimeString() + " · refreshes every minute"),
-        el("button", { onclick: render }, "Refresh")),
-      el("div", { class: "grid" },
-        stat(d.online, "Online now"), stat(d.games, "Games now"),
-        stat(q.size, "In the queue now", q.size ? waitingRated + " rated · longest " + longest + " s" : "nobody waiting"),
-        stat(q.median_wait_secs + " s", "Median wait", "average " + Math.round(q.avg_wait_secs) + " s · " + q.pairs + " pairings"),
-        stat(pct(m.retention_d1), "Back the next day"), stat(pct(m.retention_d7), "Back after 7 days"),
-        stat(pct(m.retention_d30), "Back after 30 days"),
-        stat(Math.round(perDay * 10) / 10, "Games per day", "last 7 days · " + Math.round(activeWeek) + " players a day"),
-        stat(f[0], "Accounts (30 days)"), stat(funnel(f[1]), "Played 1 game"), stat(funnel(f[2]), "Played 5 games")),
-      el("h2", {}, "Players and games by day (30 days)"), el("div", { class: "card chart-card" }, dailyChart),
-      el("h2", {}, "Retention by week of sign-up"),
-      el("div", { class: "card" }, table(["Accounts created", "Accounts", "Day 1", "Day 7", "Day 30"], cohortRows)),
-      el("p", { class: "muted" }, "Back on day N: the account was active exactly N days after the day it was created. \"—\": that day hasn't come yet for anyone in the week."),
-      el("h2", {}, "Players by hour (48 h)"), el("div", { class: "card chart-card" }, playersChart),
-      el("h2", {}, "Games by hour (48 h)"), el("div", { class: "card chart-card" }, gamesChart),
-      el("h2", {}, "Revenue by day (30 days)"), el("div", { class: "charts" }, revenueCharts),
-      msstore ? el("p", { class: "muted" }, "Microsoft Store: " + msstore[2] + (msstore[2] === 1 ? " coin pack" : " coin packs") + " in 30 days (amounts and payouts are in Partner Center).") : null,
-      el("h2", {}, "\"Play now\": latest waits"), el("div", { class: "card chart-card" }, waitsChart),
-      el("p", { class: "muted" }, "The funnel starts at the account: installs are not counted (the game sends nothing before signing in). Active players per hour are signed-in accounts seen online; peaks count guests too."),
-      el("details", { class: "days" }, el("summary", {}, "Last 30 days, day by day"),
-        table(["Day", "Active players", "Games", "New accounts"], bars)));
-  },
-
-  async aim() {
-    const d = await api("/aim");
-    const rows = d.flagged.map((r) => el("tr", { class: "click", onclick: () => showUser(r.username) },
-      el("td", {}, r.username), el("td", {}, r.rating + " · " + r.tier),
-      el("td", {}, r.made + " / " + r.attempts), el("td", {}, Math.round(r.rate * 100) + "%"),
-      el("td", {}, Math.round(r.tier_mean * 100) + "% (" + r.tier_players + ")"), el("td", {}, r.z.toFixed(1))));
-    return el("div", {},
-      el("p", { class: "muted" }, "Pots of hard shots (cuts of 45° or more, over 1.5 m) compared with the players of the same tier. Only players with " + d.min_attempts + " or more hard shots count (" + d.players + " now). Nobody is punished by this list: open the player, watch their games (replays open from their profile in the game), and decide."),
-      rows.length ? table(["Player", "Rating", "Hard pots", "Rate", "Tier average", "Deviations"], rows) : el("p", { class: "muted" }, "Nobody stands out."));
-  },
-
-  async audit() {
-    const d = await api("/audit");
-    return table(["When", "Staff", "Action", "Target", "Details"], d.entries.map((a) => el("tr", {},
-      el("td", {}, fmtDate(a.at)), el("td", {}, a.staff), el("td", {}, a.action), el("td", {}, a.target), el("td", {}, a.details))));
-  },
-};
-
-async function resolve(id, status) {
-  const note = prompt("Note (optional)") || "";
-  try { await api("/reports/" + id, { method: "POST", body: { status, note } }); toast("Saved."); render(); }
-  catch (e) { toast(e.message); }
+function fmtBytes(b) {
+  if (!b && b !== 0) return "—";
+  const u = ["B", "KB", "MB", "GB"];
+  let i = 0;
+  while (b >= 1024 && i < u.length - 1) { b /= 1024; i++; }
+  return new Intl.NumberFormat(lang, { maximumFractionDigits: i ? 1 : 0 }).format(b) + " " + u[i];
 }
-
-function modal(...children) {
-  const m = $("#modal");
-  $("#modal-body").replaceChildren(...children);
-  m.classList.remove("hidden");
-}
-function closeModal() { $("#modal").classList.add("hidden"); }
-$("#modal").addEventListener("click", (e) => { if (e.target.id === "modal") closeModal(); });
-
-async function act(name, action, body) {
-  try {
-    await api("/users/" + encodeURIComponent(name) + "/" + action, { method: "POST", body: body || {} });
-    toast("Done.");
-    closeModal();
-    showUser(name);
-  } catch (e) { toast(e.message); }
-}
-
-function banDialog(name) {
-  const hours = el("select", {}, [["24", "1 day"], ["72", "3 days"], ["168", "1 week"], ["720", "30 days"], ["0", "Permanent"]]
-    .map(([v, l]) => el("option", { value: v }, l)));
-  const reason = el("input", { placeholder: "Reason (shown to the player)", maxlength: "300" });
-  modal(el("h2", {}, "Ban " + name), hours, reason, el("div", { class: "actions" },
-    el("button", { class: "danger", onclick: () => act(name, "ban", { hours: Number(hours.value) || null, reason: reason.value }) }, "Ban"),
-    el("button", { onclick: closeModal }, "Cancel")));
-}
-
-function muteDialog(name) {
-  const minutes = el("select", {}, [["15", "15 minutes"], ["60", "1 hour"], ["1440", "1 day"], ["10080", "1 week"]]
-    .map(([v, l]) => el("option", { value: v }, l)));
-  const reason = el("input", { placeholder: "Reason", maxlength: "300" });
-  modal(el("h2", {}, "Mute " + name), minutes, reason, el("div", { class: "actions" },
-    el("button", { class: "danger", onclick: () => act(name, "mute", { minutes: Number(minutes.value), reason: reason.value }) }, "Mute"),
-    el("button", { onclick: closeModal }, "Cancel")));
-}
-
-function roleDialog(name) {
-  const role = el("select", {}, ["player", "moderator", "admin"].map((r) => el("option", { value: r }, r)));
-  modal(el("h2", {}, "Role of " + name), role, el("div", { class: "actions" },
-    el("button", { class: "primary", onclick: () => act(name, "role", { role: role.value }) }, "Save"),
-    el("button", { onclick: closeModal }, "Cancel")));
-}
-
-function passwordDialog(name) {
-  const pass = el("input", { type: "password", placeholder: "New password (8+ characters)", autocomplete: "new-password" });
-  modal(el("h2", {}, "New password for " + name), pass, el("p", { class: "muted" }, "Signs the player out everywhere."),
-    el("div", { class: "actions" },
-      el("button", { class: "danger", onclick: () => act(name, "password", { password: pass.value }) }, "Set password"),
-      el("button", { onclick: closeModal }, "Cancel")));
-}
-
-function shopDialog(name) {
-  const kind = el("select", {}, [["coins", "Give / remove coins"], ["item", "Give an item"], ["vip", "Give VIP days"]]
-    .map(([v, l]) => el("option", { value: v }, l)));
-  const amount = el("input", { placeholder: "Coins (negative removes) · item code · days" });
-  const reason = el("input", { placeholder: "Reason (kept in the audit log)", maxlength: "300" });
-  modal(el("h2", {}, "Shop: " + name), kind, amount, reason, el("div", { class: "actions" },
-    el("button", { class: "primary", onclick: () => {
-      const v = amount.value.trim();
-      const body = { reason: reason.value };
-      if (kind.value === "coins") body.coins = Number(v);
-      if (kind.value === "item") body.item = v;
-      if (kind.value === "vip") body.days = Number(v);
-      act(name, kind.value, body);
-    } }, "Apply"),
-    el("button", { onclick: closeModal }, "Cancel")));
-}
-
-/// A bar for a chart (sized from script: the panel allows no inline styles).
-function barOf(fraction) {
-  const b = el("div", { class: "bar" });
-  b.style.width = Math.round(Math.max(0, Math.min(1, fraction)) * 100) + "%";
-  return b;
-}
-
-/// A stored game as a file (the strokes; staff watch it in the game from the
-/// player's profile).
-async function downloadReplay(id) {
-  try {
-    const r = await api("/replay/" + id);
-    const blob = new Blob([JSON.stringify(r, null, 2)], { type: "application/json" });
-    const a = el("a", { href: URL.createObjectURL(blob), download: "snook-legend-match-" + id + ".json" });
-    document.body.append(a);
-    a.click();
-    a.remove();
-  } catch (e) { toast(e.message); }
-}
-
-async function showUser(name) {
-  view = "users";
-  document.querySelectorAll("nav button").forEach((b) => b.classList.toggle("active", b.dataset.view === "users"));
-  let d;
-  try { d = await api("/users/" + encodeURIComponent(name)); } catch (e) { toast(e.message); return; }
-  const u = d.user;
-  const now = Date.now() / 1000;
-  const banned = u.banned_until && u.banned_until > now;
-  const muted = u.muted_until && u.muted_until > now;
-  const isAdmin = me && me.role === "admin";
-  const history = d.history.map((h) => el("tr", {},
-    el("td", {}, fmtDate(h.at)), el("td", {}, h.opponent), el("td", {}, h.won ? "won" : "lost"),
-    el("td", {}, h.reason.replaceAll("_", " ")), el("td", {}, h.rated ? (h.delta > 0 ? "+" : "") + h.delta : "casual"),
-    el("td", {}, h.rating_after),
-    el("td", {}, h.replay ? el("span", { class: "links" },
-      el("a", { href: "#", onclick: (e) => { e.preventDefault(); openViewer("/replay/" + h.match_id + "/view"); } }, "Watch"),
-      el("a", { href: "#", title: "Download the strokes (JSON)", onclick: (e) => { e.preventDefault(); downloadReplay(h.match_id); } }, "#" + h.match_id)) : "")));
-  const reports = d.reports.map((r) => el("div", { class: "card report" },
-    el("div", { class: "head" }, el("b", {}, r.reason + " · by " + r.reporter), el("span", { class: "muted" }, fmtDate(r.created_at))),
-    r.details ? el("p", {}, r.details) : null, gameBlock(r), r.context ? el("pre", {}, r.context) : null));
-  $("#main").replaceChildren(el("div", {},
-    el("div", { class: "actions" }, el("button", { onclick: () => setView("users") }, "← Players")),
-    el("div", { class: "card" },
-      el("h2", {}, u.username, " ", statusTags(u)),
-      el("p", {}, "Rating ", el("b", {}, u.rating), " (" + u.tier + ", peak " + u.peak_rating + ") · ",
-        u.games + " rated games, " + u.wins + " wins · " + u.casual_games + " casual"),
-      el("p", { class: "muted" }, "Country " + (u.country || "—") + " · joined " + fmtDate(u.created_at) + " · last seen " + ago(u.last_seen)),
-      el("p", { class: "muted" }, "Recovery e-mail: " + (u.recovery_email || "—") + " · e-mail of the last payment: " + (d.payment_email || "—") +
-        " · games left unfinished: " + u.abandons + (d.career && d.career.shots ? " · potting " + Math.round(d.career.potting_shots * 100 / d.career.shots) + "%, best run " + d.career.best_run : "")),
-      u.deleted_at ? el("p", { class: "error" }, "Account deleted " + fmtDate(u.deleted_at) + " (anonymised).") : null,
-      banned ? el("p", { class: "error" }, "Banned " + until(u.banned_until) + (u.ban_reason ? ": " + u.ban_reason : "")) : null,
-      muted ? el("p", { class: "error" }, "Muted until " + fmtDate(u.muted_until)) : null,
-      u.status_message ? el("p", {}, "Status message: ", el("i", {}, u.status_message), " ",
-        el("button", { onclick: () => act(u.username, "clear-status") }, "Clear status")) : null,
-      el("div", { class: "actions" },
-        banned ? el("button", { onclick: () => act(u.username, "unban") }, "Unban") : el("button", { class: "danger", onclick: () => banDialog(u.username) }, "Ban…"),
-        muted ? el("button", { onclick: () => act(u.username, "unmute") }, "Unmute") : el("button", { onclick: () => muteDialog(u.username) }, "Mute…"),
-        u.online ? el("button", { onclick: () => act(u.username, "kick", { reason: prompt("Reason (optional)") || "" }) }, "Disconnect") : null,
-        el("button", { onclick: () => act(u.username, "logout-all") }, "Sign out everywhere"),
-        isAdmin ? el("button", { onclick: () => roleDialog(u.username) }, "Role…") : null,
-        isAdmin ? el("button", { onclick: () => passwordDialog(u.username) }, "Reset password…") : null,
-        isAdmin ? el("button", { onclick: () => shopDialog(u.username) }, "Shop…") : null)),
-    el("h2", {}, "Wallet"),
-    el("p", {}, el("b", {}, d.wallet.coins + " coins"), " · VIP ",
-      d.wallet.vip_until > now ? "until " + fmtDate(d.wallet.vip_until) : "no",
-      " · items: " + (d.wallet.owned.join(", ") || "none")),
-    d.payments.length ? table(["When", "Kind", "Coins", "Amount", "Refunded", "Id", ""], d.payments.map((p) => el("tr", {},
-      el("td", {}, fmtDate(p.at)), el("td", {}, p.kind, p.test ? el("span", { class: "tag mute" }, " test") : null),
-      el("td", {}, p.coins),
-      el("td", {}, p.currency === "msstore" ? "Microsoft Store" : (p.amount / 100).toFixed(2) + " " + p.currency.toUpperCase()), el("td", {}, p.refunded ? "yes" : ""),
-      el("td", {}, p.id),
-      el("td", {}, me && me.role === "admin" ? el("button", {
-        onclick: async () => {
-          try {
-            await api("/payments/" + encodeURIComponent(p.id) + "/test", { method: "POST", body: { test: !p.test } });
-            toast(p.test ? "Marked as real money." : "Marked as a test payment."); showUser(name);
-          } catch (e) { toast(e.message); }
-        },
-      }, p.test ? "Mark as real" : "Mark as test") : null)))) : el("p", { class: "muted" }, "No payments."),
-    (d.msstore || []).length ? el("h2", {}, "Microsoft Store purchases") : null,
-    (d.msstore || []).length ? table(["Found", "Pack", "Coins", "State", "Tries", "Last error", "Purchase", "Orders", ""], d.msstore.map((r) => el("tr", {},
-      el("td", {}, fmtDate(r.created_at)), el("td", {}, r.pack), el("td", {}, r.coins),
-      el("td", {}, el("span", { class: "tag" + (r.state === "done" ? " on" : r.state === "pending" ? " mute" : " ban") }, r.state)),
-      el("td", {}, r.attempts), el("td", {}, r.last_error || ""),
-      el("td", {}, r.transaction_id), el("td", {}, r.order_ids || ""),
-      el("td", {}, r.state === "stuck" && me && me.role === "admin" ? el("button", {
-        onclick: async () => {
-          try {
-            await api("/msstore/" + encodeURIComponent(r.tracking_id) + "/retry", { method: "POST" });
-            toast("Sent to Microsoft again."); showUser(name);
-          } catch (e) { toast(e.message); }
-        },
-      }, "Send again") : null)))) : null,
-    d.ledger.length ? table(["When", "Coins", "Why"], d.ledger.map((l) => el("tr", {},
-      el("td", {}, fmtDate(l.at)), el("td", {}, (l.delta > 0 ? "+" : "") + l.delta), el("td", {}, l.reason)))) : null,
-    el("h2", {}, "Reports about this player (" + d.reports.length + ")"),
-    reports.length ? reports : el("p", { class: "muted" }, "None."),
-    el("h2", {}, "Recent games"),
-    history.length ? table(["When", "Opponent", "Result", "How", "Rating", "After", "Replay"], history) : el("p", { class: "muted" }, "None."),
-    el("h2", {}, "Achievements (" + d.achievements.length + ")"),
-    el("p", { class: "muted" }, d.achievements.map((a) => a[0]).join(", ") || "None.")));
-}
-
-/// An amount in a currency's smallest unit, for people.
 function money(cents, currency) {
-  try { return new Intl.NumberFormat(undefined, { style: "currency", currency: currency.toUpperCase() }).format(cents / 100); }
+  if (currency === "msstore") return "Microsoft Store";
+  try { return new Intl.NumberFormat(lang, { style: "currency", currency: currency.toUpperCase() }).format(cents / 100); }
   catch (_) { return (cents / 100).toFixed(2) + " " + currency.toUpperCase(); }
 }
-
-/// A quiet note where a chart would be.
-function empty(text) {
-  return el("p", { class: "muted empty" }, text);
+function flagOf(code) {
+  if (!/^[A-Za-z]{2}$/.test(code || "")) return "";
+  return String.fromCodePoint(...code.toUpperCase().split("").map((c) => 0x1f1e6 + c.charCodeAt(0) - 65));
 }
+function countryName(code) {
+  if (!code) return t("No country");
+  try { return new Intl.DisplayNames([lang], { type: "region" }).of(code.toUpperCase()) || code; }
+  catch (_) { return code; }
+}
+function country(code) {
+  return el("span", { class: "nowrap", title: code || "" },
+    code ? el("span", { class: "flag" }, flagOf(code)) : null, code ? " " : null, countryName(code));
+}
+function hue(name) {
+  let h = 0;
+  for (const c of String(name)) h = (h * 31 + c.codePointAt(0)) % 360;
+  return h;
+}
+function avatar(name, size = "") {
+  const a = el("span", { class: ("avatar " + size).trim(), "aria-hidden": "true" }, String(name || "?").slice(0, 1));
+  a.style.background = `hsl(${hue(name)} 38% 38%)`;
+  return a;
+}
+function personLink(name, opts = {}) {
+  if (!name) return el("span", { class: "faint" }, "—");
+  return el("span", { class: "person" }, opts.avatar === false ? null : avatar(name, "sm"),
+    el("a", { class: "name", href: "#/players/" + encodeURIComponent(name), onclick: (e) => e.stopPropagation() }, name));
+}
+function roleLabel(role) {
+  return { admin: t("Administrator"), moderator: t("Moderator"), player: t("Player") }[role] || role;
+}
+function tierLabel(tier) { return t(tier); }
+function badge(text, kind = "", ic) {
+  return el("span", { class: ("badge " + kind).trim() }, ic ? icon(ic) : null, text);
+}
+function userBadges(u, { online = true } = {}) {
+  const now = nowSecs();
+  return el("span", { class: "badges" },
+    online && u.online ? badge(t("Online"), "success dot") : null,
+    u.role && u.role !== "player" ? badge(roleLabel(u.role), u.role === "admin" ? "danger" : "info", "shield") : null,
+    u.banned_until && u.banned_until > now ? badge(t("Banned"), "danger", "ban") : null,
+    u.muted_until && u.muted_until > now ? badge(t("Muted"), "warning", "mute") : null,
+    u.deleted_at ? badge(t("Deleted"), "") : null);
+}
+const isAdmin = () => !!me && me.role === "admin";
 
-const SVG = "http://www.w3.org/2000/svg";
-function svg(tag, attrs = {}, ...children) {
-  const e = document.createElementNS(SVG, tag);
-  for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
-  for (const c of children.flat()) {
-    if (c === null || c === undefined || c === false) continue;
-    e.append(c instanceof Node ? c : document.createTextNode(String(c)));
+// ======================================================================= api
+
+class ApiError extends Error {
+  constructor(message, status) { super(message); this.status = status; }
+}
+async function api(path, options = {}) {
+  let res;
+  try {
+    res = await fetch("/admin/api" + path, {
+      method: options.method || "GET",
+      headers: { "Content-Type": "application/json", ...(token ? { Authorization: "Bearer " + token } : {}) },
+      body: options.body !== undefined ? JSON.stringify(options.body) : undefined,
+      cache: "no-store",
+    });
+  } catch (_) {
+    throw new ApiError(t("Can't reach the server. Check the connection and try again."), 0);
   }
-  return e;
+  let data = {};
+  try { data = await res.json(); } catch (_) { /* no body */ }
+  if (res.status === 401 && path !== "/login") {
+    sessionExpired();
+    throw new ApiError(t(data.error || "Your session expired."), 401);
+  }
+  if (!res.ok) throw new ApiError(t(data.error || "Something went wrong (" + res.status + ")."), res.status);
+  return data;
+}
+/** Runs an action: a toast for its outcome, true if it worked. */
+async function attempt(fn, done) {
+  try {
+    await fn();
+    if (done) toast(done, "success");
+    return true;
+  } catch (e) {
+    toast(e.message, "error");
+    return false;
+  }
 }
 
-/// The smallest 1, 2 or 5 × 10ⁿ at or above `v`.
+// ==================================================================== toasts
+
+function toast(text, kind = "success") {
+  const box = $("#toasts");
+  const ic = kind === "error" ? "warn" : kind === "info" ? "info" : "checkCircle";
+  const close = el("button", { class: "btn ghost sm icon-only", "aria-label": t("Close") }, icon("x"));
+  const node = el("div", { class: "toast " + kind, role: kind === "error" ? "alert" : "status" }, icon(ic), el("div", { class: "toast-text" }, text), close);
+  const remove = () => { node.classList.add("out"); setTimeout(() => node.remove(), 200); };
+  close.addEventListener("click", remove);
+  box.append(node);
+  while (box.children.length > 4) box.firstChild.remove();
+  setTimeout(remove, kind === "error" ? 7000 : 4200);
+}
+
+// =================================================================== dialogs
+
+const openDialogs = [];
+function dialog({ title, text, iconName, tone = "", body = [], actions = [], wide = false, onClose }) {
+  const opener = document.activeElement;
+  const closeBtn = el("button", { class: "btn ghost sm icon-only", "aria-label": t("Close") }, icon("x"));
+  const foot = el("div", { class: "dialog-foot" });
+  const box = el("div", { class: "dialog" + (wide ? " wide" : ""), role: "dialog", "aria-modal": "true", "aria-label": title },
+    el("div", { class: "dialog-head" },
+      iconName ? el("div", { class: ("dialog-icon " + tone).trim() }, icon(iconName)) : null,
+      el("div", { class: "grow" }, el("h2", {}, title), text ? el("p", {}, text) : null),
+      closeBtn),
+    el("div", { class: "dialog-body" }, body),
+    actions.length ? foot : null);
+  const scrim = el("div", { class: "dialog-scrim" }, box);
+  const handle = { root: box, scrim, close, closed: false };
+  function close(result) {
+    if (handle.closed) return;
+    handle.closed = true;
+    scrim.remove();
+    openDialogs.splice(openDialogs.indexOf(handle), 1);
+    if (opener && opener.focus && document.contains(opener)) opener.focus();
+    if (onClose) onClose(result);
+  }
+  for (const a of actions) {
+    const b = el("button", { class: "btn " + (a.kind || ""), type: "button" }, a.icon ? icon(a.icon) : null, a.label);
+    b.addEventListener("click", () => a.onClick(handle, b));
+    foot.append(b);
+    if (a.primary) handle.primary = b;
+  }
+  closeBtn.addEventListener("click", () => close(false));
+  scrim.addEventListener("mousedown", (e) => { if (e.target === scrim) close(false); });
+  $("#dialogs").append(scrim);
+  openDialogs.push(handle);
+  const first = box.querySelector("input:not([type=checkbox]), textarea, select") || handle.primary || closeBtn;
+  setTimeout(() => first.focus(), 20);
+  return handle;
+}
+function trapFocus(e) {
+  const top = openDialogs[openDialogs.length - 1];
+  if (!top || e.key !== "Tab") return;
+  const items = [...top.root.querySelectorAll("button, input, select, textarea, a[href], [tabindex]:not([tabindex='-1'])")]
+    .filter((x) => !x.disabled && x.offsetParent !== null);
+  if (!items.length) return;
+  const first = items[0], last = items[items.length - 1];
+  if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+}
+
+function confirmDialog({ title, text, confirm, tone = "danger", iconName = "warn", details }) {
+  return new Promise((resolve) => {
+    dialog({
+      title, text, iconName, tone,
+      body: details ? [details] : [],
+      onClose: (r) => resolve(!!r),
+      actions: [
+        { label: t("Cancel"), onClick: (d) => d.close(false) },
+        { label: confirm || t("Confirm"), kind: tone === "danger" ? "danger" : "primary", primary: true, onClick: (d) => d.close(true) },
+      ],
+    });
+  });
+}
+
+/** A form in a dialog. Each field: { name, label, type, ... }; `onSubmit`
+ * gets the values and throws to show an error (the dialog stays open). */
+function formDialog({ title, text, iconName, tone, fields, submit, submitKind = "primary", onSubmit, wide, extra }) {
+  const inputs = {};
+  const errorBox = el("div", { class: "alert danger hidden", role: "alert" });
+  const body = [];
+  for (const f of fields) {
+    if (f.type === "node") { body.push(f.node); continue; }
+    const id = "f-" + f.name + "-" + Math.random().toString(36).slice(2, 7);
+    let input;
+    const counter = f.max ? el("span", { class: "counter" }) : null;
+    if (f.type === "textarea") {
+      input = el("textarea", { class: "textarea", id, rows: f.rows || 3, placeholder: f.placeholder || "", maxlength: f.max ? f.max * 2 : null });
+    } else if (f.type === "select") {
+      input = el("select", { class: "select", id }, f.options.map(([v, l]) => el("option", { value: v }, l)));
+    } else if (f.type === "choices") {
+      // A row of chips; the value is the chosen one.
+      input = el("div", { class: "chips", role: "radiogroup", id });
+      input.value = f.value ?? f.options[0][0];
+      for (const [v, l] of f.options) {
+        const chip = el("button", { type: "button", class: "chip" + (String(v) === String(input.value) ? " on" : ""), role: "radio", "aria-checked": String(String(v) === String(input.value)) }, l);
+        chip.addEventListener("click", () => {
+          input.value = v;
+          input.querySelectorAll(".chip").forEach((c) => { c.classList.toggle("on", c === chip); c.setAttribute("aria-checked", String(c === chip)); });
+          input.dispatchEvent(new Event("change"));
+        });
+        input.append(chip);
+      }
+    } else if (f.type === "checkbox") {
+      input = el("input", { type: "checkbox", id });
+      input.checked = !!f.value;
+    } else {
+      input = el("input", { class: "input", id, type: f.type || "text", placeholder: f.placeholder || "", autocomplete: f.autocomplete || "off",
+        min: f.min, max: f.type === "number" ? f.maxValue : null, step: f.step });
+    }
+    if (f.value !== undefined && f.type !== "choices" && f.type !== "checkbox") input.value = f.value;
+    inputs[f.name] = input;
+    const updateCount = () => {
+      if (!counter) return;
+      const n = [...input.value].length;
+      counter.textContent = fmtNum(n) + " / " + fmtNum(f.max);
+      counter.classList.toggle("over", n > f.max);
+    };
+    if (counter) { input.addEventListener("input", updateCount); updateCount(); }
+    if (f.onInput) input.addEventListener(f.type === "choices" ? "change" : "input", () => f.onInput(input.value, inputs));
+    if (f.type === "checkbox") {
+      body.push(el("label", { class: "check", for: id }, input, f.label));
+    } else {
+      body.push(el("div", { class: "field" },
+        f.label ? el("label", { class: "label", for: f.type === "choices" ? null : id }, el("span", {}, f.label, f.optional ? el("span", { class: "faint" }, " · " + t("optional")) : null), counter) : null,
+        input,
+        f.hint ? el("div", { class: "hint" }, f.hint) : null));
+    }
+  }
+  if (extra) body.push(extra);
+  body.push(errorBox);
+  const values = () => Object.fromEntries(Object.entries(inputs).map(([k, i]) => [k, i.type === "checkbox" ? i.checked : i.value]));
+  const run = async (d, button) => {
+    errorBox.classList.add("hidden");
+    for (const f of fields) {
+      if (f.type === "node") continue;
+      const v = inputs[f.name].value;
+      let problem = null;
+      if (f.required && !String(v).trim()) problem = tf("Fill in “{field}”.", { field: f.label || f.name });
+      else if (f.max && [...String(v)].length > f.max) problem = tf("“{field}” is too long.", { field: f.label });
+      else if (f.validate) problem = f.validate(v, values());
+      inputs[f.name].classList && inputs[f.name].classList.toggle("invalid", !!problem);
+      if (problem) {
+        setKids(errorBox, icon("warn"), el("div", {}, problem));
+        errorBox.classList.remove("hidden");
+        inputs[f.name].focus && inputs[f.name].focus();
+        return;
+      }
+    }
+    const label = button.textContent;
+    button.disabled = true;
+    setKids(button, el("span", { class: "spinner" }), label);
+    try {
+      await onSubmit(values(), d);
+      d.close(true);
+    } catch (e) {
+      setKids(errorBox, icon("warn"), el("div", {}, e.message));
+      errorBox.classList.remove("hidden");
+    } finally {
+      button.disabled = false;
+      button.textContent = label;
+    }
+  };
+  const d = dialog({
+    title, text, iconName, tone, body, wide,
+    actions: [
+      { label: t("Cancel"), onClick: (h) => h.close(false) },
+      { label: submit || t("Save"), kind: submitKind, primary: true, onClick: (h, b) => run(h, b) },
+    ],
+  });
+  d.root.addEventListener("keydown", (e) => {
+    const tag = e.target.tagName;
+    if (e.key === "Enter" && (tag === "INPUT" && e.target.type !== "checkbox" || (tag === "TEXTAREA" && (e.ctrlKey || e.metaKey)))) {
+      e.preventDefault();
+      d.primary.click();
+    }
+  });
+  return d;
+}
+
+// ===================================================================== menus
+
+let openMenuNode = null;
+function closeMenu() {
+  if (openMenuNode) { openMenuNode.remove(); openMenuNode = null; }
+}
+/** A menu under `anchor`: items { label, icon, danger, onClick } or "-" or { group }. */
+function openMenu(anchor, items) {
+  closeMenu();
+  const m = el("div", { class: "menu", role: "menu" });
+  for (const it of items) {
+    if (!it) continue;
+    if (it === "-") { m.append(el("hr")); continue; }
+    if (it.group) { m.append(el("div", { class: "menu-label" }, it.group)); continue; }
+    m.append(el("button", { role: "menuitem", class: it.danger ? "danger" : "", onclick: () => { closeMenu(); it.onClick(); } },
+      it.icon ? icon(it.icon) : null, it.label));
+  }
+  document.body.append(m);
+  const r = anchor.getBoundingClientRect();
+  const w = m.offsetWidth, h = m.offsetHeight;
+  m.style.left = Math.max(8, Math.min(r.right - w, innerWidth - w - 8)) + "px";
+  m.style.top = (r.bottom + 6 + h > innerHeight ? Math.max(8, r.top - h - 6) : r.bottom + 6) + "px";
+  openMenuNode = m;
+  const first = m.querySelector("button");
+  if (first) first.focus();
+}
+document.addEventListener("mousedown", (e) => { if (openMenuNode && !openMenuNode.contains(e.target)) closeMenu(); });
+
+// ============================================================ small pieces
+
+function empty(iconName, title, text) {
+  return el("div", { class: "empty-state" }, el("div", { class: "empty-icon" }, icon(iconName)), el("b", {}, title), text ? el("span", {}, text) : null);
+}
+function card(head, ...content) {
+  return el("section", { class: "card" }, head, content);
+}
+function cardHead(title, sub, ...actions) {
+  return el("div", { class: "card-head" }, el("div", {}, el("h3", {}, title), sub ? el("div", { class: "sub" }, sub) : null),
+    actions.length ? el("div", { class: "row" }, actions) : null);
+}
+function kpi({ label, value, sub, iconName, tone = "", href }) {
+  const k = el(href ? "a" : "div", { class: "card kpi" + (href ? " link" : ""), href: href || null },
+    el("div", { class: "kpi-top" }, el("span", {}, label), iconName ? el("span", { class: ("kpi-icon " + tone).trim() }, icon(iconName)) : null),
+    el("div", { class: "kpi-value" }, value),
+    sub ? el("div", { class: "kpi-sub" }, sub) : null);
+  if (href) k.style.textDecoration = "none";
+  if (href) k.style.color = "inherit";
+  return k;
+}
+function table(headers, rows, opts = {}) {
+  return el("div", { class: "table-wrap" },
+    el("table", { class: "data" + (opts.cls ? " " + opts.cls : "") },
+      el("thead", {}, el("tr", {}, headers.map((h) => (typeof h === "string" ? el("th", {}, h) : el("th", { class: h.cls || "" }, h.label))))),
+      el("tbody", {}, rows)));
+}
+function btn(label, opts = {}) {
+  return el("button", { type: "button", class: "btn " + (opts.kind || ""), title: opts.title || null, disabled: opts.disabled || null,
+    "aria-label": opts.iconOnly ? label : null, onclick: opts.onClick || null },
+  opts.icon ? icon(opts.icon) : null, opts.iconOnly ? null : label);
+}
+function segmented(options, value, onChange) {
+  const box = el("div", { class: "segmented", role: "tablist" });
+  for (const [v, label, count] of options) {
+    box.append(el("button", { type: "button", role: "tab", class: v === value ? "on" : "", "aria-selected": String(v === value), onclick: () => onChange(v) },
+      label, count !== undefined && count !== null ? el("span", { class: "count" }, fmtNum(count)) : null));
+  }
+  return box;
+}
+function debounce(fn, ms) {
+  let h;
+  return (...a) => { clearTimeout(h); h = setTimeout(() => fn(...a), ms); };
+}
+function copyText(text) {
+  const done = () => toast(t("Copied."), "success");
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, () => toast(t("Couldn't copy."), "error"));
+}
+function loadingPage() {
+  return el("div", { class: "page-loading" },
+    el("div", { class: "skeleton line" }), el("div", { class: "kpis" }, [0, 1, 2, 3].map(() => el("div", { class: "skeleton block" }))),
+    el("div", { class: "skeleton block" }), el("div", { class: "skeleton block" }));
+}
+function updatedLabel(onRefresh, auto) {
+  const label = el("span", {}, tf("Updated at {time}", { time: fmtClockSecs(new Date()) }));
+  return el("span", { class: "updated" }, auto ? el("span", { class: "badge success dot" }, t("Live")) : null, label,
+    onRefresh ? btn(t("Refresh"), { kind: "sm ghost icon-only", icon: "refresh", iconOnly: true, onClick: onRefresh }) : null);
+}
+
+// ===================================================================== charts
+
 function niceMax(v) {
   if (!(v > 0)) return 1;
   const p = Math.pow(10, Math.floor(Math.log10(v)));
   for (const k of [1, 2, 5, 10]) if (k * p >= v) return k * p;
   return 10 * p;
 }
-
-/// Bars (and optionally a line) over evenly spaced columns, in SVG. Each
-/// column has a tooltip with its values.
-function chart({ labels, titles, bars, line, every = 6, height = 190, unit = "", width = 960 }) {
+/** Bars (and optionally a line) over evenly spaced columns, in SVG, with a
+ * tooltip per column. */
+function chart({ labels, titles, bars, line, every = 6, height = 200, unit = "", width = 960 }) {
   const W = width, H = height, left = 46, right = 14, top = 12, bottom = every ? 24 : 8;
   const n = labels.length;
-  const values = bars.values.concat(line ? line.values : []);
-  const max = niceMax(Math.max(0, ...values));
-  const fmt = bars.format || ((v) => String(Math.round(v * 10) / 10));
+  const all = bars.values.concat(line ? line.values : []);
+  const max = niceMax(Math.max(0, ...all));
+  const fmt = bars.format || ((v) => fmtNum(Math.round(v * 10) / 10));
   const step = (W - left - right) / Math.max(1, n);
   const x = (k) => left + step * k + step / 2;
   const y = (v) => top + (H - top - bottom) * (1 - v / max);
-  const g = svg("svg", { viewBox: "0 0 " + W + " " + H, class: "chart", role: "img", "aria-label": bars.name + (line ? " and " + line.name : "") });
-  for (const t of [0, 0.5, 1]) {
-    const yy = y(max * t);
+  const g = svg("svg", { viewBox: `0 0 ${W} ${H}`, class: "chart", role: "img", "aria-label": bars.name + (line ? " · " + line.name : "") });
+  for (const f of [0, 0.5, 1]) {
+    const yy = y(max * f);
     g.append(svg("line", { x1: left, x2: W - right, y1: yy, y2: yy, class: "grid-line" }),
-      svg("text", { x: left - 8, y: yy + 4, class: "axis", "text-anchor": "end" }, fmt(max * t)));
+      svg("text", { x: left - 8, y: yy + 4, class: "axis", "text-anchor": "end" }, fmt(max * f)));
   }
-  const bw = Math.max(1.5, step * 0.68);
+  const bw = Math.max(1.5, step * 0.66);
   bars.values.forEach((v, k) => {
     if (v > 0) {
       const h = Math.max(1.5, y(0) - y(v));
@@ -616,114 +596,1588 @@ function chart({ labels, titles, bars, line, every = 6, height = 190, unit = "",
     }
   });
   if (line) {
-    const pts = line.values.map((v, k) => x(k).toFixed(1) + "," + y(v).toFixed(1)).join(" ");
-    g.append(svg("polyline", { points: pts, class: "line " + line.cls }));
+    g.append(svg("polyline", { points: line.values.map((v, k) => x(k).toFixed(1) + "," + y(v).toFixed(1)).join(" "), class: "line " + line.cls }));
     line.values.forEach((v, k) => { if (v > 0) g.append(svg("circle", { cx: x(k), cy: y(v), r: 2.6, class: "dot " + line.cls })); });
   }
-  if (every) {
-    labels.forEach((l, k) => {
-      if (k % every === 0 || k === n - 1) g.append(svg("text", { x: x(k), y: H - 6, class: "axis", "text-anchor": "middle" }, l));
-    });
-  }
-  // Tooltips over whole columns.
+  if (every) labels.forEach((l, k) => { if (k % every === 0 || k === n - 1) g.append(svg("text", { x: x(k), y: H - 6, class: "axis", "text-anchor": "middle" }, l)); });
   labels.forEach((_, k) => {
     let tip = (titles[k] || labels[k]) + "\n" + bars.name + ": " + fmt(bars.values[k]) + unit;
-    if (line) tip += "\n" + line.name + ": " + fmt(line.values[k]);
+    if (line) tip += "\n" + line.name + ": " + fmtNum(line.values[k]);
     g.append(svg("rect", { x: left + step * k, y: top, width: step, height: H - top - bottom, class: "hit" }, svg("title", {}, tip)));
   });
   const key = (name, cls, kind) => el("span", { class: "key" }, el("i", { class: kind + " " + cls }), name);
-  return el("div", { class: "chart-wrap" },
-    el("div", { class: "legend" }, key(bars.name, bars.cls, "sw-bar"), line ? key(line.name, line.cls, "sw-line") : null),
-    g);
+  return el("div", { class: "chart-wrap" }, el("div", { class: "legend" }, key(bars.name, bars.cls, "sw-bar"), line ? key(line.name, line.cls, "sw-line") : null), g);
+}
+function barList(rows, { max, tone = "", format = fmtNum } = {}) {
+  const top = max || Math.max(1, ...rows.map((r) => r.value));
+  return el("div", { class: "barlist" }, rows.map((r) => {
+    const fill = el("div", { class: ("bl-fill " + (r.tone || tone)).trim() });
+    fill.style.width = Math.max(r.value > 0 ? 1.5 : 0, (r.value / top) * 100) + "%";
+    return el("div", { class: "bl-row" }, el("div", { class: "bl-label" }, r.label), el("div", { class: "bl-track" }, fill), el("div", { class: "bl-value" }, format(r.value)));
+  }));
 }
 
-/// The game that came with a report.
+// ================================================================ the shell
+
+const NAV = [
+  { group: "Overview" },
+  { id: "dashboard", label: "Dashboard", icon: "dashboard", key: "d" },
+  { id: "live", label: "Live", icon: "activity", key: "l" },
+  { group: "Moderation" },
+  { id: "players", label: "Players", icon: "users", key: "p" },
+  { id: "reports", label: "Reports", icon: "flag", key: "r", count: "reports" },
+  { id: "chat", label: "Lounge chat", icon: "chat", key: "c" },
+  { id: "fairplay", label: "Fair play", icon: "target", key: "f" },
+  { group: "Community" },
+  { id: "community", label: "Board & announcements", icon: "megaphone", key: "b" },
+  { group: "Business" },
+  { id: "economy", label: "Economy", icon: "coins", key: "e" },
+  { id: "metrics", label: "Metrics", icon: "chart", key: "m" },
+  { group: "Administration" },
+  { id: "audit", label: "Audit log", icon: "audit", key: "a" },
+  { id: "system", label: "Server", icon: "server", key: "s" },
+];
+const counts = { reports: 0, online: null, version: "", reachable: true };
+
+function applyTheme() {
+  document.documentElement.dataset.theme = theme;
+  document.documentElement.lang = lang;
+}
+
+function renderSidebar() {
+  const route = parseRoute();
+  const side = $("#sidebar");
+  setKids(side, 
+    el("a", { class: "brand", href: "#/dashboard", style: null }, brandMark(), el("div", {}, el("b", {}, "Snook Legend"), el("span", {}, t("Staff portal")))),
+    NAV.map((n) => {
+      if (n.group) return el("div", { class: "nav-group" }, t(n.group));
+      const c = n.count ? counts[n.count] : 0;
+      return el("a", { class: "nav-link" + (route.page === n.id ? " on" : ""), href: "#/" + n.id, "aria-current": route.page === n.id ? "page" : null },
+        icon(n.icon), el("span", { class: "grow ellipsis" }, t(n.label)),
+        c ? el("span", { class: "nav-count", title: tn(c, "{n} open report", "{n} open reports") }, c > 99 ? "99+" : fmtNum(c)) : null);
+    }),
+    el("div", { class: "sidebar-foot" },
+      el("span", { class: "live-dot" + (counts.reachable ? "" : " off") },
+        counts.reachable ? (counts.online === null ? t("Connected") : tn(counts.online, "{n} player online", "{n} players online")) : t("Server unreachable")),
+      counts.version ? el("span", {}, tf("Server {version}", { version: counts.version })) : null));
+  const brand = $(".brand", side);
+  brand.style.textDecoration = "none";
+  brand.style.color = "inherit";
+}
+
+function renderTopbar() {
+  const bar = $("#topbar");
+  const menuBtn = btn(t("Menu"), { kind: "ghost icon-only menu-btn", icon: "menu", iconOnly: true, onClick: () => $("#app").classList.toggle("nav-open") });
+  const langSel = el("select", { class: "select lang-select hide-sm", "aria-label": t("Language") },
+    LANGS.map(([c, name]) => el("option", { value: c }, name)));
+  langSel.value = lang;
+  langSel.addEventListener("change", () => setLang(langSel.value));
+  const themeBtn = btn(theme === "dark" ? t("Light theme") : t("Dark theme"), {
+    kind: "ghost icon-only", icon: theme === "dark" ? "sun" : "moon", iconOnly: true,
+    onClick: () => { theme = theme === "dark" ? "light" : "dark"; store.set(KEYS.theme, theme); applyTheme(); renderTopbar(); },
+  });
+  themeBtn.title = themeBtn.getAttribute("aria-label");
+  const helpBtn = btn(t("Keyboard shortcuts"), { kind: "ghost icon-only hide-sm", icon: "keyboard", iconOnly: true, onClick: showShortcuts });
+  helpBtn.title = t("Keyboard shortcuts") + " (?)";
+  const meBtn = el("button", { class: "btn ghost me-chip", type: "button", "aria-label": t("Account") },
+    avatar(me.username, "sm"),
+    el("span", { class: "who" }, el("b", {}, me.username), el("span", { class: me.role === "admin" ? "admin" : "" }, roleLabel(me.role))),
+    icon("chevronDown"));
+  meBtn.addEventListener("click", () => openMenu(meBtn, [
+    { group: me.username + " · " + roleLabel(me.role) },
+    { label: t("My player page"), icon: "user", onClick: () => go("players/" + encodeURIComponent(me.username)) },
+    { label: theme === "dark" ? t("Light theme") : t("Dark theme"), icon: theme === "dark" ? "sun" : "moon", onClick: () => themeBtn.click() },
+    { group: t("Language") },
+    ...LANGS.map(([c, name]) => ({ label: name + (c === lang ? " ✓" : ""), icon: "globe", onClick: () => setLang(c) })),
+    "-",
+    { label: t("Sign out"), icon: "logout", danger: true, onClick: () => signOut(true) },
+  ]));
+  setKids(bar, menuBtn, searchBox(), el("div", { class: "topbar-actions" }, langSel, themeBtn, helpBtn, meBtn));
+}
+
+function setLang(code) {
+  lang = code;
+  store.set(KEYS.lang, code);
+  applyTheme();
+  if (me) { renderTopbar(); renderSidebar(); render(); } else showLogin();
+}
+
+/** Players by name as you type; "#123" opens game 123. */
+function searchBox() {
+  const input = el("input", { class: "input", type: "search", placeholder: t("Search players, or #game number"), "aria-label": t("Search"), autocomplete: "off", spellcheck: "false" });
+  const results = el("div", { class: "search-results hidden", role: "listbox" });
+  const wrap = el("div", { class: "search" }, icon("search", "lead"), input, el("kbd", { "aria-hidden": "true" }, "/"), results);
+  let sel = -1, items = [], seq = 0;
+  const close = () => { results.classList.add("hidden"); sel = -1; };
+  const choose = (k) => { const it = items[k]; if (it) { close(); input.value = ""; input.blur(); it.go(); } };
+  const draw = () => {
+    setKids(results, ...items.map((it, k) => {
+      const b = el("button", { type: "button", class: "result" + (k === sel ? " sel" : ""), role: "option", onmousedown: (e) => { e.preventDefault(); choose(k); } }, it.node);
+      return b;
+    }));
+    if (!items.length) results.append(el("div", { class: "hint" }, t("No player by that name.")));
+    results.classList.remove("hidden");
+  };
+  const lookup = debounce(async () => {
+    const q = input.value.trim();
+    const mine = ++seq;
+    if (!q) { close(); return; }
+    const game = q.match(/^#?(\d{1,18})$/);
+    items = [];
+    if (game) items.push({ node: el("span", { class: "row" }, icon("play"), tf("Watch game #{id}", { id: game[1] })), go: () => openViewer("/replay/" + game[1] + "/view") });
+    try {
+      const d = await api("/users?q=" + encodeURIComponent(q.replace(/^#/, "")) + "&sort=last_seen");
+      if (mine !== seq) return;
+      for (const u of d.users.slice(0, 7)) {
+        items.push({
+          node: el("span", { class: "person grow" }, avatar(u.username, "sm"), el("b", {}, u.username), userBadges(u), el("span", { class: "meta" }, fmtNum(u.rating))),
+          go: () => go("players/" + encodeURIComponent(u.username)),
+        });
+      }
+      if (d.total > 7) items.push({ node: el("span", { class: "muted" }, tf("All {n} results", { n: fmtNum(d.total) })), go: () => go("players?q=" + encodeURIComponent(q)) });
+    } catch (_) { /* the list stays as it is */ }
+    sel = items.length ? 0 : -1;
+    draw();
+  }, 220);
+  input.addEventListener("input", lookup);
+  input.addEventListener("focus", () => { if (input.value.trim()) lookup(); });
+  input.addEventListener("blur", () => setTimeout(close, 120));
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowDown") { e.preventDefault(); sel = Math.min(items.length - 1, sel + 1); draw(); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); sel = Math.max(0, sel - 1); draw(); }
+    else if (e.key === "Enter") { e.preventDefault(); if (sel >= 0) choose(sel); else if (input.value.trim()) { go("players?q=" + encodeURIComponent(input.value.trim())); close(); } }
+    else if (e.key === "Escape") { close(); input.blur(); }
+  });
+  return wrap;
+}
+
+// ==================================================================== router
+
+function parseRoute() {
+  const raw = (location.hash || "#/dashboard").replace(/^#\/?/, "");
+  const [path, qs] = raw.split("?");
+  const parts = path.split("/").filter(Boolean).map((p) => { try { return decodeURIComponent(p); } catch (_) { return p; } });
+  return { page: parts[0] || "dashboard", parts: parts.slice(1), query: new URLSearchParams(qs || "") };
+}
+function go(path) {
+  const target = "#/" + path;
+  if (location.hash === target) render();
+  else location.hash = target;
+}
+/** Changes the query of the current page without a new render. */
+function setQuery(params) {
+  const r = parseRoute();
+  const q = new URLSearchParams(r.query);
+  for (const [k, v] of Object.entries(params)) { if (v === "" || v === null || v === undefined) q.delete(k); else q.set(k, v); }
+  const path = [r.page, ...r.parts.map(encodeURIComponent)].join("/");
+  const s = q.toString();
+  history.replaceState(null, "", "#/" + path + (s ? "?" + s : ""));
+}
+
+let page = { cleanup: [] };
+function onLeave(fn) { page.cleanup.push(fn); }
+/** Runs `fn` every `ms` while this page is shown and the tab is visible. */
+function every(ms, fn) {
+  const h = setInterval(() => { if (document.visibilityState === "visible" && !openDialogs.length) fn(); }, ms);
+  onLeave(() => clearInterval(h));
+}
+
+const PAGES = {};
+let renderSeq = 0;
+async function render() {
+  if (!me) return;
+  for (const f of page.cleanup) { try { f(); } catch (_) { /* ignore */ } }
+  page = { cleanup: [] };
+  closeMenu();
+  $("#app").classList.remove("nav-open");
+  const route = parseRoute();
+  renderSidebar();
+  const main = $("#main");
+  const fn = PAGES[route.page];
+  const seq = ++renderSeq;
+  if (!fn) { setKids(main, empty("info", t("Nothing here"), t("That page doesn't exist."))); return; }
+  setKids(main, loadingPage());
+  try {
+    const node = await fn(route);
+    if (seq !== renderSeq) return;
+    setKids(main, node);
+    const label = NAV.find((n) => n.id === route.page);
+    document.title = (label ? t(label.label) + " · " : "") + "Snook Legend · " + t("Staff");
+  } catch (e) {
+    if (seq !== renderSeq) return;
+    if (e.status === 401) return;
+    setKids(main, el("div", { class: "error-page" },
+      el("div", { class: "empty-icon" }, icon("warn")), el("b", {}, t("This page couldn't be loaded.")),
+      el("span", { class: "muted" }, e.message), btn(t("Try again"), { kind: "primary", icon: "refresh", onClick: render })));
+  }
+}
+/** Re-renders the page if it is still the one shown. */
+function refreshIf(pageId) { if (parseRoute().page === pageId) render(); }
+
+function pageHead(title, sub, ...actions) {
+  return el("div", { class: "page-head" },
+    el("div", {}, el("h1", {}, title), sub ? el("div", { class: "sub" }, sub) : null),
+    actions.length ? el("div", { class: "head-actions" }, actions) : null);
+}
+
+// ================================================================= shortcuts
+
+let pendingG = 0;
+document.addEventListener("keydown", (e) => {
+  trapFocus(e);
+  if (e.key === "Escape") {
+    if (openMenuNode) { closeMenu(); return; }
+    if (viewer) { closeViewer(); return; }
+    const top = openDialogs[openDialogs.length - 1];
+    if (top) { top.close(false); return; }
+  }
+  if (viewer && viewer.keys) { viewer.keys(e); return; }
+  if (!me || openDialogs.length) return;
+  const typing = ["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement && document.activeElement.tagName);
+  if (typing || e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.key === "/") { e.preventDefault(); const s = $("#topbar .search input"); if (s) s.focus(); return; }
+  if (e.key === "?") { e.preventDefault(); showShortcuts(); return; }
+  if (e.key === "g") { pendingG = Date.now(); return; }
+  if (Date.now() - pendingG < 1200) {
+    const n = NAV.find((x) => x.key === e.key.toLowerCase());
+    pendingG = 0;
+    if (n) { e.preventDefault(); go(n.id); }
+  }
+});
+function showShortcuts() {
+  const row = (label, ...keys) => el("div", { class: "sc" }, el("span", {}, label), el("span", {}, keys.map((k) => el("kbd", {}, k))));
+  dialog({
+    title: t("Keyboard shortcuts"), iconName: "keyboard",
+    body: [el("div", { class: "shortcuts" },
+      row(t("Search players"), "/"),
+      row(t("This list"), "?"),
+      row(t("Close a dialog or the replay"), "Esc"),
+      ...NAV.filter((n) => n.key).map((n) => row(tf("Go to {page}", { page: t(n.label) }), "g", n.key)),
+      row(t("Replay: play or pause"), t("Space")),
+      row(t("Replay: previous or next stroke"), "←", "→"),
+      row(t("Replay: one frame back or forward"), ",", "."))],
+    actions: [{ label: t("Close"), kind: "primary", primary: true, onClick: (d) => d.close() }],
+  });
+}
+
+// ============================================================ signing in
+
+function showLogin(message) {
+  $("#boot").classList.add("hidden");
+  $("#app").classList.add("hidden");
+  const box = $("#login");
+  box.classList.remove("hidden");
+  const user = el("input", { class: "input", id: "login-user", autocomplete: "username", required: true, spellcheck: "false" });
+  const pass = el("input", { class: "input", id: "login-pass", type: "password", autocomplete: "current-password", required: true });
+  const show = btn(t("Show password"), { kind: "ghost icon-only", icon: "eye", iconOnly: true });
+  show.addEventListener("click", () => {
+    const on = pass.type === "password";
+    pass.type = on ? "text" : "password";
+    setKids(show, icon(on ? "eyeOff" : "eye"));
+    show.setAttribute("aria-label", on ? t("Hide password") : t("Show password"));
+  });
+  const alert = el("div", { class: "alert danger" + (message ? "" : " hidden"), role: "alert" }, icon("warn"), el("div", {}, message || ""));
+  const submit = el("button", { class: "btn primary", type: "submit" }, t("Sign in"));
+  const langSel = el("select", { class: "select", "aria-label": t("Language") }, LANGS.map(([c, n]) => el("option", { value: c }, n)));
+  langSel.value = lang;
+  langSel.addEventListener("change", () => setLang(langSel.value));
+  const form = el("form", { class: "login-card", novalidate: true },
+    el("div", { class: "login-brand" }, brandMark(), el("div", {}, el("h1", {}, "Snook Legend"), el("p", {}, t("Staff portal")))),
+    el("p", { class: "muted" }, t("Sign in with your game account. Only moderators and administrators have access.")),
+    alert,
+    el("div", { class: "field" }, el("label", { class: "label", for: "login-user" }, t("Username")), user),
+    el("div", { class: "field" }, el("label", { class: "label", for: "login-pass" }, t("Password")), el("div", { class: "pass-wrap" }, pass, show)),
+    submit,
+    el("div", { class: "login-foot" }, el("span", {}, el("span", { class: "row" }, icon("lock"), t("Sessions end after 8 hours."))), langSel));
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    alert.classList.add("hidden");
+    if (!user.value.trim() || !pass.value) {
+      setKids(alert, icon("warn"), el("div", {}, t("Enter your username and password.")));
+      alert.classList.remove("hidden");
+      return;
+    }
+    submit.disabled = true;
+    setKids(submit, el("span", { class: "spinner" }), t("Signing in…"));
+    try {
+      const d = await api("/login", { method: "POST", body: { username: user.value.trim(), password: pass.value } });
+      token = d.token;
+      try { sessionStorage.setItem(KEYS.token, token); } catch (_) { /* private mode */ }
+      pass.value = "";
+      await start();
+    } catch (err) {
+      setKids(alert, icon("warn"), el("div", {}, err.message));
+      alert.classList.remove("hidden");
+      pass.select();
+    } finally {
+      submit.disabled = false;
+      submit.textContent = t("Sign in");
+    }
+  });
+  setKids(box, form);
+  setTimeout(() => (user.value ? pass : user).focus(), 30);
+}
+
+function sessionExpired() {
+  if (!me) return;
+  token = "";
+  me = null;
+  try { sessionStorage.removeItem(KEYS.token); } catch (_) { /* ignore */ }
+  for (const d of [...openDialogs]) d.close(false);
+  closeViewer();
+  showLogin(t("Your session expired. Sign in again."));
+}
+
+function signOut(callServer = true) {
+  if (callServer && token) api("/logout", { method: "POST" }).catch(() => {});
+  token = "";
+  me = null;
+  try { sessionStorage.removeItem(KEYS.token); } catch (_) { /* ignore */ }
+  for (const d of [...openDialogs]) d.close(false);
+  closeViewer();
+  showLogin();
+}
+
+let pollTimer = 0;
+async function pollCounts() {
+  if (!me) return;
+  try {
+    const o = await api("/overview");
+    counts.reports = o.stored.open_reports || 0;
+    counts.online = o.online;
+    counts.version = o.version;
+    counts.reachable = true;
+  } catch (e) {
+    if (e.status === 0) counts.reachable = false;
+  }
+  if (me) renderSidebar();
+}
+
+async function start() {
+  applyTheme();
+  if (!token) { showLogin(); return; }
+  try {
+    me = await api("/me");
+  } catch (e) {
+    me = null;
+    showLogin(e.status === 401 ? null : e.message);
+    return;
+  }
+  $("#boot").classList.add("hidden");
+  $("#login").classList.add("hidden");
+  $("#app").classList.remove("hidden");
+  renderTopbar();
+  render();
+  pollCounts();
+  clearInterval(pollTimer);
+  pollTimer = setInterval(() => { if (document.visibilityState === "visible") pollCounts(); }, 60000);
+}
+
+window.addEventListener("hashchange", render);
+$("#scrim").addEventListener("click", () => $("#app").classList.remove("nav-open"));
+
+// ================================================================= dashboard
+
+PAGES.dashboard = async () => {
+  const [o, m, rep, aud] = await Promise.all([
+    api("/overview"), api("/metrics"), api("/reports?status=open"), api("/audit"),
+  ]);
+  counts.reports = o.stored.open_reports || 0;
+  const hour = new Date().getHours();
+  const hello = hour < 12 ? t("Good morning, {name}") : hour < 18 ? t("Good afternoon, {name}") : t("Good evening, {name}");
+  const today = new Intl.DateTimeFormat(lang, { weekday: "long", day: "numeric", month: "long" }).format(new Date());
+  const alerts = [];
+  if (!o.persistent) alerts.push(alertBox("danger", t("Nothing is saved"), t("This server keeps everything in memory: accounts and games are lost when it stops.")));
+  if (m.draining) alerts.push(alertBox("warning", t("The server is restarting"), t("No new games start; the games in progress move to the next server.")));
+  if (o.online >= 4 && o.addresses === 1) alerts.push(alertBox("warning", t("Every player comes from one address"), t("Set SNOOK_LEGEND_CLIENT_IP_HEADER (see DEPLOY.md), or the limits per address will turn players away.")));
+  if (counts.reports > 0) alerts.push(alertBox("info", tn(counts.reports, "{n} report waiting", "{n} reports waiting"), t("Players are waiting for an answer."), btn(t("Review"), { kind: "sm", onClick: () => go("reports") })));
+
+  const hours = m.metrics.hours || [];
+  const label = (h) => String(new Date(h * 3600000).getHours()).padStart(2, "0") + "h";
+  const title = (h) => new Intl.DateTimeFormat(lang, { weekday: "short", hour: "2-digit", minute: "2-digit" }).format(new Date(h * 3600000));
+  const activity = hours.some((h) => h.active > 0 || h.peak_players > 0)
+    ? chart({ labels: hours.map((h) => label(h.hour)), titles: hours.map((h) => title(h.hour)),
+      bars: { values: hours.map((h) => h.active), name: t("Players active"), cls: "c-accent" },
+      line: { values: hours.map((h) => h.peak_players), name: t("Most online at once"), cls: "c-info" }, every: 6, height: 210 })
+    : empty("chart", t("No activity yet"), t("The server counts who is online every minute: the first hour shows up shortly."));
+
+  const reports = rep.reports.slice(0, 6);
+  const recentAudit = aud.entries.filter((e) => e.action !== "login").slice(0, 8);
+  const revenue = (m.metrics.revenue || []).filter((r) => r[0] !== "msstore");
+  return el("div", {},
+    pageHead(tf(hello, { name: me.username }), today.charAt(0).toUpperCase() + today.slice(1), updatedLabel(render)),
+    alerts.length ? el("div", { class: "stack" }, alerts) : null,
+    el("div", { class: "kpis section" },
+      kpi({ label: t("Online now"), value: fmtNum(o.online), sub: tn(o.addresses, "{n} address", "{n} addresses"), iconName: "users", tone: "success", href: "#/live" }),
+      kpi({ label: t("Games now"), value: fmtNum(o.matches_live), sub: tn(o.tables_open, "{n} open table", "{n} open tables"), iconName: "activity", tone: "info", href: "#/live" }),
+      kpi({ label: t("In the queue"), value: fmtNum(m.queue.size), sub: tf("median wait {s} s", { s: fmtNum(m.queue.median_wait_secs) }), iconName: "queue" }),
+      kpi({ label: t("Open reports"), value: fmtNum(o.stored.open_reports), sub: o.stored.open_reports ? t("waiting for review") : t("all caught up"), iconName: "flag", tone: o.stored.open_reports ? "danger" : "success", href: "#/reports" }),
+      kpi({ label: t("Accounts"), value: fmtNum(o.stored.users), sub: tf("+{n} in 7 days", { n: fmtNum(o.stored.new_users_7d) }), iconName: "user", href: "#/players" }),
+      kpi({ label: t("Active in 7 days"), value: fmtNum(o.stored.active_users_7d), sub: o.stored.users ? fmtPct(o.stored.active_users_7d * 100 / o.stored.users) + " " + t("of the accounts") : null, iconName: "activity", tone: "success", href: "#/metrics" }),
+      kpi({ label: t("Games in 24 h"), value: fmtNum(o.stored.matches_24h), sub: tf("{n} in all", { n: fmtNum(o.stored.matches_total) }), iconName: "trophy", href: "#/metrics" }),
+      kpi({ label: t("Revenue in 30 days"), value: revenue.length ? money(revenue[0][1], revenue[0][0]) : "—", sub: revenue.length > 1 ? tf("and {n} other currencies", { n: revenue.length - 1 }) : revenue.length ? tn(revenue[0][2], "{n} payment", "{n} payments") : t("no payments"), iconName: "coins", tone: "warning", href: "#/economy" })),
+    el("div", { class: "grid-aside section" },
+      el("div", { class: "stack" },
+        card(cardHead(t("Activity in the last 48 hours"), t("Players active each hour and the most online at once")), el("div", { class: "card-body" }, activity)),
+        card(cardHead(t("Staff activity"), null, btn(t("Audit log"), { kind: "sm ghost", onClick: () => go("audit") })),
+          recentAudit.length ? el("div", { class: "mini-list" }, recentAudit.map(auditMini)) : empty("audit", t("Nothing yet"), t("Every staff action is written here.")))),
+      el("div", { class: "stack" },
+        card(cardHead(t("Open reports"), null, btn(t("See all"), { kind: "sm ghost", onClick: () => go("reports") })),
+          reports.length ? el("div", { class: "mini-list" }, reports.map((r) => el("div", { class: "mi click", onclick: () => go("reports") },
+            reasonBadge(r.reason), el("div", { class: "mi-main" }, el("b", {}, r.target), el("span", { class: "mi-sub" }, tf("by {name}", { name: r.reporter }))),
+            el("span", { class: "mi-side" }, timeEl(r.created_at)))))
+            : empty("checkCircle", t("No open reports"), t("Nothing waits for the staff."))),
+        card(cardHead(t("The server")), el("div", { class: "card-body health" },
+          healthRow(o.persistent, o.persistent ? t("Saved in the database") : t("Kept in memory only")),
+          healthRow(!m.draining, m.draining ? t("Restarting: no new games") : t("Taking new games")),
+          healthRow(true, tf("Up for {time}", { time: fmtDuration(o.uptime_secs) }), "v" + o.version),
+          o.motd ? el("div", { class: "preview-box" }, el("span", { class: "faint" }, t("Welcome message")), o.motd) : null)))));
+};
+function alertBox(tone, title, text, action) {
+  return el("div", { class: "alert " + tone }, icon(tone === "danger" || tone === "warning" ? "warn" : "info"),
+    el("div", { class: "alert-body grow" }, el("b", {}, title), text ? el("span", {}, text) : null), action || null);
+}
+function healthRow(ok, text, side, warnOnly) {
+  return el("div", { class: "h-row " + (ok ? "ok" : warnOnly ? "warn" : "bad") }, icon(ok ? "checkCircle" : "warn"), el("span", {}, text), side ? el("span", { class: "h-sub" }, side) : null);
+}
+
+// =================================================================== players
+
+const PLAYER_FILTERS = [["all", "All"], ["online", "Online"], ["staff", "Staff"], ["banned", "Banned"], ["muted", "Muted"], ["deleted", "Deleted"]];
+const PLAYER_SORTS = [["newest", "Newest accounts"], ["last_seen", "Seen most recently"], ["rating", "Highest rating"], ["name", "Name"]];
+
+PAGES.players = async (route) => {
+  if (route.parts.length) return playerPage(route.parts[0], route.parts[1] || "overview");
+  const q = route.query.get("q") || "";
+  const filter = route.query.get("filter") || "all";
+  const sort = route.query.get("sort") || "newest";
+  const pageNo = Math.max(0, Number(route.query.get("page")) || 0);
+  const d = await api(`/users?q=${encodeURIComponent(q)}&filter=${filter}&sort=${sort}&page=${pageNo}`);
+  const search = el("input", { class: "input wide", type: "search", placeholder: t("Name, or a recovery e-mail"), value: q, "aria-label": t("Search players") });
+  const apply = (changes) => { setQuery({ q: search.value.trim(), filter, sort, page: 0, ...changes }); render(); };
+  search.addEventListener("input", debounce(() => apply({}), 350));
+  const sortSel = el("select", { class: "select", "aria-label": t("Order") }, PLAYER_SORTS.map(([v, l]) => el("option", { value: v }, t(l))));
+  sortSel.value = sort;
+  sortSel.addEventListener("change", () => apply({ sort: sortSel.value }));
+  const pages = Math.max(1, Math.ceil(d.total / d.per_page));
+  const from = d.total ? pageNo * d.per_page + 1 : 0, to = Math.min(d.total, (pageNo + 1) * d.per_page);
+  const rows = d.users.map((u) => {
+    const winRate = u.games ? fmtPct(u.wins * 100 / u.games, 0) : "—";
+    return el("tr", { class: "click", tabindex: "0", onclick: () => go("players/" + encodeURIComponent(u.username)), onkeydown: (e) => { if (e.key === "Enter") go("players/" + encodeURIComponent(u.username)); } },
+      el("td", {}, el("span", { class: "person" }, avatar(u.username), el("span", { class: "grid" }, el("b", { class: "name" }, u.username), userBadges(u, { online: false })))),
+      el("td", {}, country(u.country)),
+      el("td", { class: "num" }, el("b", {}, fmtNum(u.rating)), el("div", { class: "faint" }, tierLabel(u.tier))),
+      el("td", { class: "num" }, fmtNum(u.games), el("div", { class: "faint" }, tn(u.casual_games, "+{n} casual", "+{n} casual"))),
+      el("td", { class: "num" }, winRate),
+      el("td", {}, timeEl(u.created_at)),
+      el("td", {}, u.online ? badge(t("Online"), "success dot") : timeEl(u.last_seen)));
+  });
+  const goPage = (p) => { setQuery({ page: p }); render(); };
+  return el("div", {},
+    pageHead(t("Players"), tn(d.total, "{n} account", "{n} accounts")),
+    el("div", { class: "toolbar" }, search,
+      segmented(PLAYER_FILTERS.map(([v, l]) => [v, t(l)]), filter, (v) => apply({ filter: v })), sortSel),
+    card(null,
+      rows.length ? table([t("Player"), t("Country"), { label: t("Rating"), cls: "num" }, { label: t("Rated games"), cls: "num" }, { label: t("Wins"), cls: "num" }, t("Joined"), t("Last seen")], rows)
+        : empty("users", t("No players found"), q ? t("Try another name, or another filter.") : t("Nobody matches this filter.")),
+      d.total > d.per_page ? el("div", { class: "pager" },
+        el("span", {}, tf("{from}–{to} of {total}", { from: fmtNum(from), to: fmtNum(to), total: fmtNum(d.total) })),
+        el("div", { class: "row" },
+          btn(t("Previous"), { kind: "sm", icon: "chevronLeft", disabled: pageNo === 0, onClick: () => goPage(pageNo - 1) }),
+          el("span", { class: "muted" }, tf("Page {n} of {total}", { n: pageNo + 1, total: pages })),
+          btn(t("Next"), { kind: "sm", disabled: pageNo + 1 >= pages, onClick: () => goPage(pageNo + 1) }))) : null));
+};
+
+// ------------------------------------------------------------ one player
+
+const PLAYER_TABS = [["overview", "Overview", "user"], ["moderation", "Moderation", "shield"], ["games", "Games", "trophy"], ["economy", "Economy", "coins"], ["achievements", "Achievements", "star"]];
+
+async function playerPage(name, tab) {
+  const d = await api("/users/" + encodeURIComponent(name));
+  const u = d.user;
+  const now = nowSecs();
+  const banned = u.banned_until && u.banned_until > now;
+  const muted = u.muted_until && u.muted_until > now;
+  const path = "players/" + encodeURIComponent(u.username);
+  const reportsOpen = d.reports.filter((r) => r.status === 0).length;
+  const moreBtn = btn(t("More"), { icon: "more" });
+  moreBtn.addEventListener("click", () => openMenu(moreBtn, [
+    { label: t("Copy the name"), icon: "copy", onClick: () => copyText(u.username) },
+    { label: t("Add a staff note"), icon: "note", onClick: () => noteDialog(u, "note") },
+    u.status_message ? { label: t("Clear the status message"), icon: "trash", onClick: () => playerAction(u, "clear-status", {}, t("Status message cleared.")) } : null,
+    { label: t("Sign out everywhere"), icon: "logout", onClick: async () => {
+      if (await confirmDialog({ title: tf("Sign {name} out everywhere?", { name: u.username }), text: t("Every session of the account ends; the player signs in again."), confirm: t("Sign out"), tone: "warning" })) {
+        playerAction(u, "logout-all", {}, t("Signed out everywhere."));
+      }
+    } },
+    isAdmin() ? "-" : null,
+    isAdmin() ? { group: t("Administrators") } : null,
+    isAdmin() ? { label: t("Rename…"), icon: "edit", onClick: () => renameDialog(u) } : null,
+    isAdmin() ? { label: t("Change the role…"), icon: "shield", onClick: () => roleDialog(u) } : null,
+    isAdmin() ? { label: t("Set a new password…"), icon: "key", onClick: () => passwordDialog(u) } : null,
+    isAdmin() ? { label: t("Give coins…"), icon: "coins", onClick: () => coinsDialog(u) } : null,
+    isAdmin() ? { label: t("Give an item…"), icon: "gift", onClick: () => itemDialog(u) } : null,
+    isAdmin() ? { label: t("Give VIP days…"), icon: "star", onClick: () => vipDialog(u) } : null,
+  ]));
+  const isSelf = me.username.toLowerCase() === u.username.toLowerCase();
+  const actions = u.deleted_at ? [] : [
+    isSelf ? null : btn(t("Warn"), { icon: "warn", onClick: () => noteDialog(u, "warning") }),
+    isSelf ? null : muted ? btn(t("Unmute"), { icon: "undo", onClick: () => playerAction(u, "unmute", {}, t("Unmuted.")) }) : btn(t("Mute"), { icon: "mute", onClick: () => muteDialog(u) }),
+    !isSelf && u.online ? btn(t("Disconnect"), { icon: "kick", onClick: () => kickDialog(u) }) : null,
+    isSelf ? null : banned ? btn(t("Lift the ban"), { kind: "", icon: "undo", onClick: () => unbanDialog(u) }) : btn(t("Ban"), { kind: "danger-soft", icon: "ban", onClick: () => banDialog(u) }),
+    moreBtn,
+  ];
+  const tabs = el("div", { class: "tabs", role: "tablist" }, PLAYER_TABS.map(([id, label, ic]) => {
+    const n = id === "moderation" ? d.notes.length + d.reports.length : id === "games" ? d.history.length : id === "achievements" ? d.achievements.length : null;
+    return el("a", { class: "tab" + (tab === id ? " on" : ""), role: "tab", "aria-selected": String(tab === id), href: "#/" + path + (id === "overview" ? "" : "/" + id) },
+      icon(ic), t(label), n ? el("span", { class: "count" + (id === "moderation" && reportsOpen ? " alert" : "") }, fmtNum(n)) : null);
+  }));
+  tabs.querySelectorAll(".tab").forEach((a) => { a.style.textDecoration = "none"; });
+  const body = { overview: playerOverview, moderation: playerModeration, games: playerGames, economy: playerEconomy, achievements: playerAchievements }[tab] || playerOverview;
+  return el("div", {},
+    el("div", { class: "crumbs" }, el("a", { href: "#/players" }, t("Players")), icon("chevronRight"), el("span", {}, u.username)),
+    card(null, el("div", { class: "card-body profile-head" },
+      avatar(u.username, "lg"),
+      el("div", { class: "who" },
+        el("h1", {}, u.username, userBadges(u)),
+        el("div", { class: "facts" },
+          el("span", {}, country(u.country)),
+          el("span", {}, icon("trophy"), fmtNum(u.rating) + " · " + tierLabel(u.tier)),
+          el("span", {}, icon("calendar"), tf("joined {when}", { when: fmtDateOnly(u.created_at) })),
+          el("span", {}, icon("clock"), u.online ? t("online now") : tf("seen {when}", { when: ago(u.last_seen) })),
+          el("span", { class: "faint" }, "ID " + u.id))),
+      el("div", { class: "action-bar" }, actions))),
+    banned || muted || u.deleted_at ? el("div", { class: "stack section" },
+      u.deleted_at ? alertBox("info", t("Account deleted"), tf("Deleted and anonymised on {when}.", { when: fmtDate(u.deleted_at) })) : null,
+      banned ? alertBox("danger", u.banned_until >= FOREVER ? t("Banned for good") : tf("Banned until {when}", { when: fmtDate(u.banned_until) }), u.ban_reason ? tf("Reason: {reason}", { reason: u.ban_reason }) : null) : null,
+      muted ? alertBox("warning", tf("Muted until {when}", { when: fmtDate(u.muted_until) }), t("They can play but not write in the chat.")) : null) : null,
+    el("div", { class: "section" }, tabs, body(d)));
+}
+
+function playerOverview(d) {
+  const u = d.user, c = d.career || {};
+  const winRate = u.games ? fmtPct(u.wins * 100 / u.games) : "—";
+  const pot = c.shots ? fmtPct(c.potting_shots * 100 / c.shots) : "—";
+  const presence = d.presence ? ({ available: t("In the lounge"), waiting: t("At a table, waiting"), playing: t("Playing") }[d.presence.status] || d.presence.status) : null;
+  return el("div", { class: "stack" },
+    el("div", { class: "kpis cols-3" },
+      kpi({ label: t("Rating"), value: fmtNum(u.rating), sub: tf("peak {n}", { n: fmtNum(u.peak_rating) }) + " · " + tierLabel(u.tier), iconName: "trophy" }),
+      kpi({ label: t("Rated games"), value: fmtNum(u.games), sub: tf("{wins} wins · {rate}", { wins: fmtNum(u.wins), rate: winRate }), iconName: "activity", tone: "info" }),
+      kpi({ label: t("Casual games"), value: fmtNum(u.casual_games), iconName: "users", tone: "success" }),
+      kpi({ label: t("Potting"), value: pot, sub: c.best_run ? tf("best run {n}", { n: c.best_run }) : null, iconName: "target", tone: "warning" }),
+      kpi({ label: t("Games left unfinished"), value: fmtNum(u.abandons), iconName: "kick", tone: u.abandons > 3 ? "danger" : "" }),
+      kpi({ label: t("Name changes"), value: tf("{n} of {max}", { n: u.name_changes, max: 3 }), iconName: "edit" })),
+    el("div", { class: "grid-2" },
+      card(cardHead(t("Account")), el("div", { class: "card-body" }, el("dl", { class: "kv" },
+        el("dt", {}, t("Username")), el("dd", {}, el("span", { class: "row" }, el("b", {}, u.username), btn(t("Copy"), { kind: "sm ghost icon-only", icon: "copy", iconOnly: true, onClick: () => copyText(u.username) }))),
+        el("dt", {}, t("Role")), el("dd", {}, roleLabel(u.role)),
+        el("dt", {}, t("Country")), el("dd", {}, country(u.country)),
+        el("dt", {}, t("Recovery e-mail")), el("dd", {}, u.recovery_email || el("span", { class: "faint" }, t("none"))),
+        el("dt", {}, t("Payment e-mail")), el("dd", {}, d.payment_email || el("span", { class: "faint" }, t("none"))),
+        el("dt", {}, t("Created")), el("dd", {}, fmtDate(u.created_at)),
+        el("dt", {}, t("Last seen")), el("dd", {}, u.online ? t("online now") : fmtDate(u.last_seen)),
+        presence ? el("dt", {}, t("Right now")) : null, presence ? el("dd", {}, presence, d.presence.protocol ? el("span", { class: "faint" }, " · " + tf("protocol {n}", { n: d.presence.protocol })) : null) : null,
+        el("dt", {}, t("Status message")), el("dd", {}, u.status_message ? el("span", {}, el("i", {}, "“" + u.status_message + "” "), btn(t("Clear"), { kind: "sm", onClick: () => playerAction(u, "clear-status", {}, t("Status message cleared.")) })) : el("span", { class: "faint" }, t("none")))))),
+      card(cardHead(t("Standing")), el("div", { class: "card-body stack" },
+        el("div", { class: "health" },
+          healthRow(!(u.banned_until > nowSecs()), u.banned_until > nowSecs() ? (u.banned_until >= FOREVER ? t("Banned for good") : tf("Banned until {when}", { when: fmtDate(u.banned_until) })) : t("Not banned")),
+          healthRow(!(u.muted_until > nowSecs()), u.muted_until > nowSecs() ? tf("Muted until {when}", { when: fmtDate(u.muted_until) }) : t("Not muted"), null, true),
+          healthRow(d.reports.filter((r) => r.status === 0).length === 0, tn(d.reports.filter((r) => r.status === 0).length, "{n} open report about them", "{n} open reports about them"), tn(d.reports.length, "{n} in all", "{n} in all"), true),
+          healthRow(!d.notes.some((n) => n.kind === "warning"), tn(d.notes.filter((n) => n.kind === "warning").length, "{n} warning", "{n} warnings"), null, true),
+          healthRow(u.abandons <= 3, tn(u.abandons, "{n} game left unfinished", "{n} games left unfinished"), null, true)),
+        el("div", { class: "row" }, btn(t("Open the moderation history"), { kind: "sm", icon: "shield", onClick: () => go("players/" + encodeURIComponent(u.username) + "/moderation") }))))));
+}
+
+const AUDIT_TONE = {
+  ban: ["danger", "ban"], unban: ["success", "undo"], mute: ["warning", "mute"], unmute: ["success", "undo"], kick: ["warning", "kick"],
+  warn: ["warning", "warn"], note: ["info", "note"], "note-remove": ["", "trash"], "logout-all": ["", "logout"], role: ["info", "shield"],
+  "password-reset": ["warning", "key"], coins: ["success", "coins"], item: ["success", "gift"], vip: ["success", "star"], revoke: ["danger", "gift"],
+  rename: ["info", "edit"], "clear-status": ["", "trash"], report: ["info", "flag"], announce: ["info", "megaphone"], "clear-chat": ["danger", "chat"],
+  "chat-delete": ["warning", "chat"], motd: ["info", "megaphone"], pin: ["info", "pin"], unpin: ["", "pin"], "remove-seek": ["", "trash"],
+  payment: ["", "coins"], "msstore-retry": ["", "refresh"], login: ["", "lock"], "tournament-cancel": ["danger", "trophy"],
+};
+const AUDIT_ACTIONS = {
+  ban: "Banned", unban: "Ban lifted", mute: "Muted", unmute: "Unmuted", kick: "Disconnected", warn: "Warned", note: "Staff note",
+  "note-remove": "Note removed", "logout-all": "Signed out everywhere", role: "Role changed", "password-reset": "Password set",
+  coins: "Coins", item: "Item given", vip: "VIP given", revoke: "Item taken back", rename: "Renamed", "clear-status": "Status cleared",
+  report: "Report answered", announce: "Announcement", "clear-chat": "Chat cleared", "chat-delete": "Chat line deleted", motd: "Welcome message",
+  pin: "Note pinned", unpin: "Note taken down", "remove-seek": "Board note removed", payment: "Payment marked", "msstore-retry": "Store purchase sent again",
+  login: "Signed in to the portal", "tournament-cancel": "Tournament called off",
+};
+const auditLabel = (a) => t(AUDIT_ACTIONS[a] || a);
+const AUDIT_PLACES = { lounge: "the lounge", board: "the board" };
+const auditTarget = (e) => (AUDIT_PLACES[e.target] ? t(AUDIT_PLACES[e.target]) : e.target);
+function auditMini(e) {
+  const [tone, ic] = AUDIT_TONE[e.action] || ["", "info"];
+  return el("div", { class: "mi" }, el("span", { class: "tl-dot " + tone }, icon(ic)),
+    el("div", { class: "mi-main" }, el("span", {}, el("b", {}, e.staff), " · ", auditLabel(e.action), e.target && e.action !== "login" ? " · " : null, e.action !== "login" ? auditTarget(e) : null),
+      e.details && e.action !== "login" ? el("span", { class: "mi-sub ellipsis" }, e.details) : null),
+    el("span", { class: "mi-side" }, timeEl(e.at)));
+}
+
+function playerModeration(d) {
+  const u = d.user;
+  const notes = d.notes.length ? el("div", { class: "stack" }, d.notes.map((n) => {
+    const mine = n.author === me.username;
+    return el("div", { class: "note-card " + (n.kind === "warning" ? "warning" : "") },
+      el("div", { class: "note-head" },
+        el("span", { class: "row" }, badge(n.kind === "warning" ? t("Warning") : t("Note"), n.kind === "warning" ? "warning" : "info", n.kind === "warning" ? "warn" : "note"),
+          el("span", {}, tf("{name}, {when}", { name: n.author, when: ago(n.created_at) }))),
+        el("span", { class: "row" },
+          n.kind === "warning" ? (n.delivered_at ? badge(tf("seen {when}", { when: ago(n.delivered_at) }), "success", "check") : badge(t("waiting for the next sign-in"), "", "clock")) : null,
+          mine || isAdmin() ? btn(t("Remove"), { kind: "sm ghost icon-only", icon: "trash", iconOnly: true, onClick: async () => {
+            if (await confirmDialog({ title: t("Remove this note?"), text: t("It is gone for every staff member. The audit log keeps that it was removed."), confirm: t("Remove") })) {
+              if (await attempt(() => api("/notes/" + n.id, { method: "DELETE" }), t("Note removed."))) refreshIf("players");
+            }
+          } }) : null)),
+      el("div", { class: "note-text" }, n.text));
+  })) : empty("note", t("No notes yet"), t("Notes stay among the staff; warnings are shown to the player."));
+  const history = d.moderation.length ? el("div", { class: "timeline" }, d.moderation.map((e) => {
+    const [tone, ic] = AUDIT_TONE[e.action] || ["", "info"];
+    return el("div", { class: "tl-item" }, el("div", { class: "tl-dot " + tone }, icon(ic)),
+      el("div", { class: "tl-body" }, el("span", { class: "tl-title" }, auditLabel(e.action)),
+        e.details ? el("span", { class: "tl-text" }, e.details) : null,
+        el("span", { class: "tl-meta" }, tf("by {name}", { name: e.staff }), " · ", timeEl(e.at))));
+  })) : empty("shield", t("A clean record"), t("No staff action has been taken on this account."));
+  const reports = el("div", { class: "stack card-body" });
+  const drawReports = (all) => {
+    const shown = all ? d.reports : d.reports.slice(0, 5);
+    setKids(reports, shown.map((r) => reportCard(r, { compact: true })),
+      d.reports.length > shown.length ? el("div", { class: "row" }, btn(tf("Show all {n}", { n: fmtNum(d.reports.length) }), { kind: "sm", onClick: () => drawReports(true) })) : null);
+  };
+  drawReports(false);
+  return el("div", { class: "grid-aside" },
+    el("div", { class: "stack" },
+      card(cardHead(t("Staff notes and warnings"), null, btn(t("Note"), { kind: "sm", icon: "note", onClick: () => noteDialog(u, "note") }), u.deleted_at ? null : btn(t("Warn"), { kind: "sm", icon: "warn", onClick: () => noteDialog(u, "warning") })),
+        el("div", { class: "card-body" }, notes)),
+      card(cardHead(tf("Reports about {name}", { name: u.username }), tn(d.reports.length, "{n} report", "{n} reports")),
+        d.reports.length ? reports : empty("flag", t("No reports"), t("Nobody has reported this player.")))),
+    card(cardHead(t("History"), t("Every staff action on this account")), el("div", { class: "card-body" }, history)));
+}
+
+function playerGames(d) {
+  if (!d.history.length) return card(null, empty("trophy", t("No games yet"), t("Their online games show up here.")));
+  const rows = d.history.map((h) => el("tr", {},
+    el("td", {}, fmtDate(h.at)),
+    el("td", {}, personLink(h.opponent)),
+    el("td", {}, h.won ? badge(t("Won"), "success") : badge(t("Lost"), "danger")),
+    el("td", {}, gameEnd(h.reason)),
+    el("td", { class: "num" }, h.rated ? el("b", { class: h.delta > 0 ? "" : "" }, (h.delta > 0 ? "+" : "") + fmtNum(h.delta)) : badge(t("Casual"))),
+    el("td", { class: "num" }, h.rated ? fmtNum(h.rating_after) : "—"),
+    el("td", { class: "actions-cell" }, h.replay ? el("span", { class: "row" },
+      btn(t("Watch"), { kind: "sm", icon: "play", onClick: () => openViewer("/replay/" + h.match_id + "/view") }),
+      btn(t("Download"), { kind: "sm ghost icon-only", icon: "download", iconOnly: true, onClick: () => downloadReplay(h.match_id) })) : el("span", { class: "faint" }, t("no replay")))));
+  return card(cardHead(t("Latest games"), tn(d.history.length, "{n} game", "{n} games")),
+    table([t("When"), t("Opponent"), t("Result"), t("How it ended"), { label: t("Rating"), cls: "num" }, { label: t("After"), cls: "num" }, ""], rows));
+}
+const GAME_ENDS = {
+  pocketed_eight: "8-ball made", eight_pocketed_early: "8-ball made too early", eight_in_wrong_pocket: "8-ball in the wrong pocket",
+  eight_pocketed_on_foul: "8-ball made on a foul", eight_off_table: "8-ball off the table", eight_with_another_ball: "8-ball with another ball",
+  resignation: "Resigned", abandoned: "Left the game",
+};
+const gameEnd = (r) => t(GAME_ENDS[r] || String(r).replaceAll("_", " "));
+
+function playerEconomy(d) {
+  const u = d.user, w = d.wallet;
+  const vip = w.vip_until > nowSecs();
+  const owned = w.owned || [];
+  const items = owned.length ? el("div", { class: "item-chips" }, owned.map((code) => el("span", { class: "item-chip" + (isAdmin() ? "" : " plain") },
+    el("span", { class: "mono" }, code),
+    isAdmin() ? btn(t("Take back"), { kind: "sm ghost icon-only", icon: "x", iconOnly: true, onClick: () => revokeDialog(u, code) }) : null)))
+    : el("p", { class: "faint" }, t("No items."));
+  const payments = d.payments.length ? table([t("When"), t("What"), { label: t("Coins"), cls: "num" }, { label: t("Amount"), cls: "num" }, t("Status"), t("Payment"), ""], d.payments.map((p) => el("tr", {},
+    el("td", {}, fmtDate(p.at)), el("td", {}, p.kind === "vip" ? "VIP" : t("Coins")), el("td", { class: "num" }, fmtNum(p.coins)),
+    el("td", { class: "num" }, money(p.amount, p.currency)),
+    el("td", {}, el("span", { class: "badges" }, p.refunded ? badge(t("Refunded"), "danger") : badge(t("Paid"), "success"), p.test ? badge(t("Test"), "warning") : null)),
+    el("td", { class: "mono faint" }, p.id),
+    el("td", { class: "actions-cell" }, isAdmin() ? btn(p.test ? t("Mark as real") : t("Mark as test"), { kind: "sm ghost", onClick: () => markPayment(p, () => refreshIf("players")) }) : null))))
+    : empty("coins", t("No payments"), null);
+  const ms = (d.msstore || []).length ? card(cardHead(t("Microsoft Store purchases")), table([t("Found"), t("Pack"), { label: t("Coins"), cls: "num" }, t("State"), { label: t("Tries"), cls: "num" }, t("Last error"), t("Orders"), ""], d.msstore.map((r) => el("tr", {},
+    el("td", {}, fmtDate(r.created_at)), el("td", {}, r.pack), el("td", { class: "num" }, fmtNum(r.coins)),
+    el("td", {}, badge({ done: t("Done"), pending: t("Pending"), stuck: t("Stuck"), failed: t("Failed") }[r.state] || r.state, r.state === "done" ? "success" : r.state === "pending" ? "warning" : "danger")),
+    el("td", { class: "num" }, fmtNum(r.attempts)), el("td", { class: "wrap faint" }, r.last_error || ""), el("td", { class: "mono faint" }, r.order_ids || ""),
+    el("td", { class: "actions-cell" }, r.state === "stuck" && isAdmin() ? btn(t("Send again"), { kind: "sm", icon: "refresh", onClick: async () => {
+      if (await attempt(() => api("/msstore/" + encodeURIComponent(r.tracking_id) + "/retry", { method: "POST" }), t("Sent to Microsoft again."))) refreshIf("players");
+    } }) : null))))) : null;
+  return el("div", { class: "stack" },
+    el("div", { class: "kpis" },
+      kpi({ label: t("Coins"), value: fmtNum(w.coins), iconName: "coins", tone: "warning" }),
+      kpi({ label: "VIP", value: vip ? t("Yes") : t("No"), sub: vip ? tf("until {when}", { when: fmtDateOnly(w.vip_until) }) : w.vip_until ? tf("ended {when}", { when: ago(w.vip_until) }) : null, iconName: "star", tone: vip ? "success" : "" }),
+      kpi({ label: t("Items"), value: fmtNum(owned.length), iconName: "gift", tone: "info" }),
+      kpi({ label: t("Payments"), value: fmtNum(d.payments.length), iconName: "coins" })),
+    card(cardHead(t("Items owned"), null,
+      isAdmin() ? btn(t("Coins"), { kind: "sm", icon: "coins", onClick: () => coinsDialog(u) }) : null,
+      isAdmin() ? btn(t("Item"), { kind: "sm", icon: "gift", onClick: () => itemDialog(u) }) : null,
+      isAdmin() ? btn("VIP", { kind: "sm", icon: "star", onClick: () => vipDialog(u) }) : null), el("div", { class: "card-body" }, items)),
+    card(cardHead(t("Payments")), payments),
+    ms,
+    card(cardHead(t("Coin history"), t("The latest 50 changes")), d.ledger.length ? table([t("When"), { label: t("Coins"), cls: "num" }, t("Why")], d.ledger.map((l) => el("tr", {},
+      el("td", {}, fmtDate(l.at)), el("td", { class: "num" }, el("b", {}, (l.delta > 0 ? "+" : "") + fmtNum(l.delta))), el("td", { class: "wrap" }, l.reason)))) : empty("coins", t("No coins moved yet"), null)));
+}
+
+function playerAchievements(d) {
+  if (!d.achievements.length) return card(null, empty("star", t("No achievements yet"), null));
+  return card(cardHead(t("Achievements"), tn(d.achievements.length, "{n} unlocked", "{n} unlocked")), el("div", { class: "card-body item-chips" },
+    d.achievements.map(([code, at]) => el("span", { class: "item-chip plain", title: fmtDate(at) }, icon("star"), el("span", { class: "mono" }, code), el("span", { class: "faint" }, fmtDateOnly(at))))));
+}
+
+// ------------------------------------------------------ actions on a player
+
+async function playerAction(u, action, body, done) {
+  const ok = await attempt(() => api("/users/" + encodeURIComponent(u.username) + "/" + action, { method: "POST", body }), done);
+  if (ok) refreshIf("players");
+  return ok;
+}
+/** The same, for a form (throws, so the dialog shows the error). */
+async function postAction(name, action, body) {
+  return api("/users/" + encodeURIComponent(name) + "/" + action, { method: "POST", body });
+}
+const REASONS = [["Cheating", "Cheating"], ["Harassment", "Harassment or insults"], ["Offensive name", "Offensive name or status"], ["Spam", "Spam or flooding"], ["Leaving games", "Leaving games on purpose"]];
+function reasonField(label, required) {
+  return {
+    name: "reason", label, type: "textarea", rows: 2, max: 300, required, placeholder: t("Write the reason, or pick one above"),
+  };
+}
+function reasonChips(getInput) {
+  return el("div", { class: "chips" }, REASONS.map(([, l]) => el("button", { type: "button", class: "chip", onclick: () => { const i = getInput(); i.value = t(l); i.dispatchEvent(new Event("input")); i.focus(); } }, t(l))));
+}
+function noteDialog(u, kind, after) {
+  const warning = kind === "warning";
+  let input;
+  const chips = warning ? reasonChips(() => input) : null;
+  const d = formDialog({
+    title: warning ? tf("Warn {name}", { name: u.username }) : tf("A staff note about {name}", { name: u.username }),
+    text: warning ? (u.online ? t("They see it at once, on their screen.") : t("They see it when they next sign in.")) : t("Only the staff see notes. Keep them factual."),
+    iconName: warning ? "warn" : "note", tone: warning ? "warning" : "info",
+    fields: [
+      ...(warning ? [{ type: "node", node: chips }] : []),
+      { name: "text", label: warning ? t("Warning") : t("Note"), type: "textarea", rows: 4, max: 600, required: true, placeholder: warning ? t("What they did, and what happens next time") : t("What happened, links, what to watch for") },
+    ],
+    extra: warning ? el("div", { class: "preview-box" }, el("span", { class: "faint" }, t("The player reads (in their language)")), t("Warning from the staff:") + " …") : null,
+    submit: warning ? t("Send the warning") : t("Save the note"), submitKind: warning ? "primary" : "primary",
+    onSubmit: async (v) => {
+      await postAction(u.username, warning ? "warn" : "note", { reason: v.text });
+      toast(warning ? t("Warning sent.") : t("Note saved."), "success");
+      if (after) after(); else refreshIf("players");
+    },
+  });
+  input = d.root.querySelector("textarea");
+  return d;
+}
+function muteDialog(u, after) {
+  let input;
+  const d = formDialog({
+    title: tf("Mute {name}", { name: u.username }), text: t("They can play but not write in the chat, nor post on the board."), iconName: "mute", tone: "warning",
+    fields: [
+      { name: "minutes", label: t("For how long"), type: "choices", value: "60", options: [["15", fmtMinutes(15)], ["60", fmtMinutes(60)], ["1440", fmtMinutes(1440)], ["10080", fmtMinutes(10080)], ["43200", fmtMinutes(43200)]] },
+      { type: "node", node: reasonChips(() => input) },
+      reasonField(t("Reason (shown to the player)"), true),
+    ],
+    submit: t("Mute"), submitKind: "danger",
+    onSubmit: async (v) => {
+      await postAction(u.username, "mute", { minutes: Number(v.minutes), reason: v.reason });
+      toast(tf("{name} is muted for {time}.", { name: u.username, time: fmtMinutes(Number(v.minutes)) }), "success");
+      if (after) after(fmtMinutes(Number(v.minutes))); else refreshIf("players");
+    },
+  });
+  input = d.root.querySelector("textarea");
+}
+function banDialog(u, after) {
+  let input;
+  const preview = el("div", { class: "preview-box" });
+  const d = formDialog({
+    title: tf("Ban {name}", { name: u.username }), text: t("They are signed out at once and can't sign in until the ban ends."), iconName: "ban", tone: "danger",
+    fields: [
+      { name: "hours", label: t("For how long"), type: "choices", value: "72", options: [["24", tn(1, "{n} day", "{n} days")], ["72", tn(3, "{n} day", "{n} days")], ["168", tn(1, "{n} week", "{n} weeks")], ["720", tn(30, "{n} day", "{n} days")], ["0", t("For good")]],
+        onInput: () => updatePreview() },
+      { type: "node", node: reasonChips(() => input) },
+      reasonField(t("Reason (shown to the player)"), true),
+    ],
+    extra: preview,
+    submit: t("Ban"), submitKind: "danger",
+    onSubmit: async (v) => {
+      const hours = Number(v.hours);
+      await postAction(u.username, "ban", { hours: hours || null, reason: v.reason });
+      toast(tf("{name} is banned.", { name: u.username }), "success");
+      if (after) after(hours ? fmtMinutes(hours * 60) : t("for good")); else refreshIf("players");
+    },
+  });
+  input = d.root.querySelector("textarea");
+  const choices = d.root.querySelector(".chips[role=radiogroup]");
+  function updatePreview() {
+    const h = Number(choices.value);
+    setKids(preview, el("span", { class: "faint" }, t("The player reads")),
+      h ? tf("Your account was suspended for {hours} hours: {reason}", { hours: h, reason: input.value || "…" }) : tf("Your account was banned: {reason}", { reason: input.value || "…" }));
+  }
+  input.addEventListener("input", updatePreview);
+  updatePreview();
+}
+async function unbanDialog(u) {
+  formDialog({
+    title: tf("Lift the ban on {name}?", { name: u.username }), text: t("They can sign in again at once."), iconName: "undo", tone: "info",
+    fields: [{ name: "reason", label: t("Why"), type: "text", optional: true, max: 300 }],
+    submit: t("Lift the ban"),
+    onSubmit: async (v) => { await postAction(u.username, "unban", { reason: v.reason }); toast(t("Ban lifted."), "success"); refreshIf("players"); },
+  });
+}
+function kickDialog(u) {
+  formDialog({
+    title: tf("Disconnect {name}?", { name: u.username }), text: t("Their connection ends now; they can come back at once. A game in progress waits for them."), iconName: "kick", tone: "warning",
+    fields: [{ name: "reason", label: t("Reason (shown to the player)"), type: "text", optional: true, max: 300 }],
+    submit: t("Disconnect"), submitKind: "danger",
+    onSubmit: async (v) => { await postAction(u.username, "kick", { reason: v.reason }); toast(t("Disconnected."), "success"); refreshIf("players"); },
+  });
+}
+function renameDialog(u) {
+  formDialog({
+    title: tf("Rename {name}", { name: u.username }), text: t("For a name that breaks the rules. It doesn't use one of the player's own changes; they are signed out and sign in again under the new name."), iconName: "edit",
+    fields: [
+      { name: "name", label: t("New username"), type: "text", required: true, value: "", hint: t("3 to 16 letters, digits or underscores."),
+        validate: (v) => (/^[A-Za-z0-9_]{3,16}$/.test(v.trim()) ? null : t("Usernames have 3–16 letters, digits or underscores.")) },
+      { name: "reason", label: t("Why"), type: "text", optional: true, max: 300 },
+    ],
+    submit: t("Rename"),
+    onSubmit: async (v) => {
+      const r = await postAction(u.username, "rename", { name: v.name.trim(), reason: v.reason });
+      toast(tf("Renamed to {name}.", { name: r.user.username }), "success");
+      go("players/" + encodeURIComponent(r.user.username));
+    },
+  });
+}
+function roleDialog(u) {
+  formDialog({
+    title: tf("The role of {name}", { name: u.username }), text: t("They are signed out so the new role takes effect."), iconName: "shield",
+    fields: [
+      { name: "role", label: t("Role"), type: "choices", value: u.role, options: [["player", roleLabel("player")], ["moderator", roleLabel("moderator")], ["admin", roleLabel("admin")]] },
+      { type: "node", node: el("div", { class: "hint stack" },
+        el("span", {}, el("b", {}, roleLabel("moderator") + ": "), t("reports, warnings, mutes, bans, the chat and the board.")),
+        el("span", {}, el("b", {}, roleLabel("admin") + ": "), t("everything, with roles, renames, passwords, coins and the server."))) },
+    ],
+    submit: t("Save"),
+    onSubmit: async (v) => { await postAction(u.username, "role", { role: v.role }); toast(t("Role changed."), "success"); refreshIf("players"); },
+  });
+}
+function passwordDialog(u) {
+  formDialog({
+    title: tf("A new password for {name}", { name: u.username }), text: t("Only after confirming who they are (their recovery e-mail). Every session of the account ends."), iconName: "key", tone: "warning",
+    fields: [
+      { name: "password", label: t("New password"), type: "password", required: true, autocomplete: "new-password", hint: t("At least 8 characters, not only digits."),
+        validate: (v) => (v.length < 8 || /^\d+$/.test(v) ? t("Passwords need at least 8 characters (not only digits).") : null) },
+      { name: "again", label: t("The same again"), type: "password", required: true, autocomplete: "new-password",
+        validate: (v, all) => (v !== all.password ? t("The passwords are not the same.") : null) },
+    ],
+    submit: t("Set the password"), submitKind: "danger",
+    onSubmit: async (v) => { await postAction(u.username, "password", { password: v.password }); toast(t("Password set. Tell the player through their recovery e-mail."), "success"); refreshIf("players"); },
+  });
+}
+function coinsDialog(u) {
+  formDialog({
+    title: tf("Coins for {name}", { name: u.username }), text: t("A negative amount takes coins away. Always with a reason: it goes to the audit log."), iconName: "coins",
+    fields: [
+      { name: "coins", label: t("Coins"), type: "number", required: true, step: 1, placeholder: "500",
+        validate: (v) => (!Number.isInteger(Number(v)) || Number(v) === 0 || Math.abs(Number(v)) > 1000000 ? t("A whole number, not zero, up to a million.") : null) },
+      { name: "reason", label: t("Reason"), type: "text", required: true, max: 300 },
+    ],
+    submit: t("Apply"),
+    onSubmit: async (v) => { await postAction(u.username, "coins", { coins: Number(v.coins), reason: v.reason }); toast(t("Coins changed."), "success"); refreshIf("players"); },
+  });
+}
+let catalogCache = null;
+async function catalog() {
+  if (!catalogCache) catalogCache = (await api("/economy")).catalog;
+  return catalogCache;
+}
+async function itemDialog(u) {
+  let items;
+  try { items = await catalog(); } catch (e) { toast(e.message, "error"); return; }
+  formDialog({
+    title: tf("An item for {name}", { name: u.username }), iconName: "gift",
+    fields: [
+      { name: "item", label: t("Item"), type: "select", options: items.map((i) => [i.code, i.name + " · " + t(CATEGORY[i.category] || i.category) + " · " + i.code]) },
+      { name: "reason", label: t("Reason"), type: "text", required: true, max: 300 },
+    ],
+    submit: t("Give"),
+    onSubmit: async (v) => { await postAction(u.username, "item", { item: v.item, reason: v.reason }); toast(t("Item given."), "success"); refreshIf("players"); },
+  });
+}
+function vipDialog(u) {
+  formDialog({
+    title: tf("VIP for {name}", { name: u.username }), text: t("Added to the VIP they have (or from today)."), iconName: "star",
+    fields: [
+      { name: "days", label: t("Days"), type: "choices", value: "30", options: [["7", tn(7, "{n} day", "{n} days")], ["30", tn(30, "{n} day", "{n} days")], ["90", tn(90, "{n} day", "{n} days")], ["365", tn(365, "{n} day", "{n} days")]] },
+      { name: "reason", label: t("Reason"), type: "text", required: true, max: 300 },
+    ],
+    submit: t("Give"),
+    onSubmit: async (v) => { await postAction(u.username, "vip", { days: Number(v.days), reason: v.reason }); toast(t("VIP given."), "success"); refreshIf("players"); },
+  });
+}
+function revokeDialog(u, code) {
+  formDialog({
+    title: tf("Take {item} back from {name}?", { item: code, name: u.username }), text: t("For an item given by mistake, or a refunded purchase. They stop using it at once."), iconName: "gift", tone: "danger",
+    fields: [{ name: "reason", label: t("Reason"), type: "text", required: true, max: 300 }],
+    submit: t("Take back"), submitKind: "danger",
+    onSubmit: async (v) => { await postAction(u.username, "revoke", { item: code, reason: v.reason }); toast(t("Item taken back."), "success"); refreshIf("players"); },
+  });
+}
+async function markPayment(p, after) {
+  const ok = await confirmDialog({
+    title: p.test ? t("Count this payment as real money?") : t("Mark this payment as a test?"),
+    text: t("Test payments (the provider's test keys) stay out of the revenue."), confirm: p.test ? t("Mark as real") : t("Mark as test"), tone: "warning", iconName: "coins",
+  });
+  if (ok && await attempt(() => api("/payments/" + encodeURIComponent(p.id) + "/test", { method: "POST", body: { test: !p.test } }), t("Saved."))) after();
+}
+
+// =================================================================== reports
+
+// Reports keep their reason as the game names it (in English).
+const REPORT_REASONS = { "Harassment": "Harassment", "Cheating or abuse": "Cheating or abuse", "Offensive name": "Offensive name", "Spam": "Spam", "Other": "Other" };
+function reasonBadge(r) {
+  const tone = { "Cheating or abuse": "danger", "Harassment": "warning", "Offensive name": "info", "Spam": "accent" }[r] || "";
+  return badge(t(REPORT_REASONS[r] || r), tone);
+}
+
+PAGES.reports = async (route) => {
+  const status = route.query.get("status") || "open";
+  const reason = route.query.get("reason") || "";
+  const who = route.query.get("q") || "";
+  const d = await api("/reports?status=" + status);
+  if (status === "open") { counts.reports = d.reports.length; renderSidebar(); }
+  const about = {};
+  for (const r of d.reports) about[r.target] = (about[r.target] || 0) + 1;
+  const shown = d.reports.filter((r) => (!reason || r.reason === reason)
+    && (!who || r.target.toLowerCase().includes(who.toLowerCase()) || r.reporter.toLowerCase().includes(who.toLowerCase())));
+  const search = el("input", { class: "input wide", type: "search", placeholder: t("Player (reported or reporting)"), value: who, "aria-label": t("Search") });
+  search.addEventListener("input", debounce(() => { setQuery({ q: search.value.trim() }); render(); }, 300));
+  const reasonSel = el("select", { class: "select", "aria-label": t("Reason") }, el("option", { value: "" }, t("Every reason")),
+    Object.entries(REPORT_REASONS).map(([v, l]) => el("option", { value: v }, t(l))));
+  reasonSel.value = reason;
+  reasonSel.addEventListener("change", () => { setQuery({ reason: reasonSel.value }); render(); });
+  return el("div", {},
+    pageHead(t("Reports"), status === "open" ? tn(d.reports.length, "{n} report waiting for review", "{n} reports waiting for review") : tn(d.reports.length, "{n} report", "{n} reports"), updatedLabel(render)),
+    el("div", { class: "toolbar" },
+      segmented([["open", t("Open")], ["actioned", t("Action taken")], ["dismissed", t("Dismissed")], ["all", t("All")]], status, (v) => { setQuery({ status: v }); render(); }),
+      reasonSel, search),
+    shown.length ? el("div", { class: "stack" }, shown.map((r) => reportCard(r, { about: about[r.target] })))
+      : card(null, status === "open" ? empty("checkCircle", t("All caught up"), t("No report waits for review.")) : empty("flag", t("No reports here"), null)));
+};
+
+function reportCard(r, { compact = false, about = 0 } = {}) {
+  const open = r.status === 0;
+  const note = el("input", { class: "input", placeholder: t("A note on what was done (optional)"), maxlength: "300", "aria-label": t("Note") });
+  const target = { username: r.target, online: false };
+  const resolve = async (st, text) => {
+    const ok = await attempt(() => api("/reports/" + r.id, { method: "POST", body: { status: st, note: text ?? note.value } }),
+      st === "dismissed" ? t("Report dismissed.") : st === "open" ? t("Report reopened.") : t("Report closed."));
+    if (ok) { refreshIf("reports"); refreshIf("players"); pollCounts(); }
+  };
+  const sanction = (kind) => {
+    const after = (what) => resolve("actioned", [what, note.value].filter(Boolean).join(" · "));
+    if (kind === "warn") noteDialog(target, "warning", () => after(t("Warned")));
+    if (kind === "mute") muteDialog(target, (time) => after(tf("Muted for {time}", { time })));
+    if (kind === "ban") banDialog(target, (time) => after(tf("Banned ({time})", { time })));
+  };
+  const resolvedLine = !open ? el("div", { class: "row muted" },
+    badge(r.status === 1 ? t("Action taken") : t("Dismissed"), r.status === 1 ? "success" : ""),
+    el("span", {}, tf("by {name}", { name: r.resolved_by || "?" })), r.resolution ? el("span", {}, "· " + r.resolution) : null,
+    compact ? null : btn(t("Reopen"), { kind: "sm ghost", icon: "undo", onClick: () => resolve("open", "") })) : null;
+  return el("article", { class: "card report-card" },
+    el("div", { class: "report-top" }, reasonBadge(r.reason), el("span", { class: "faint mono" }, "#" + r.id),
+      about > 1 ? badge(tn(about, "{n} report about them", "{n} reports about them"), "danger") : null,
+      el("span", { class: "when" }, timeEl(r.created_at))),
+    compact ? el("div", { class: "parties" }, t("By"), personLink(r.reporter)) : el("div", { class: "parties" }, personLink(r.target), el("span", { class: "arrow" }, t("reported by")), personLink(r.reporter)),
+    r.details ? el("p", { class: "details" }, r.details) : null,
+    gameBlock(r),
+    r.context ? el("details", {}, el("summary", { class: "muted" }, t("The chat before the report")), el("pre", { class: "context" }, r.context)) : null,
+    open && !compact ? el("div", { class: "resolve" }, note,
+      btn(t("Warn"), { kind: "sm", icon: "warn", onClick: () => sanction("warn") }),
+      btn(t("Mute"), { kind: "sm", icon: "mute", onClick: () => sanction("mute") }),
+      btn(t("Ban"), { kind: "sm danger-soft", icon: "ban", onClick: () => sanction("ban") }),
+      btn(t("Dismiss"), { kind: "sm", onClick: () => resolve("dismissed") }),
+      btn(t("Close: action taken"), { kind: "sm primary", icon: "check", onClick: () => resolve("actioned") })) : null,
+    open && compact ? el("div", { class: "row" }, btn(t("Open in reports"), { kind: "sm ghost", onClick: () => go("reports") })) : null,
+    resolvedLine);
+}
+
+/** The game that came with a report. */
 function gameBlock(r) {
   const g = r.game;
-  if (!g) return el("div", { class: "game none" }, el("span", { class: "muted" }, "No game between them in the 24 hours before the report."));
-  if (g.kind === "gone") {
-    return el("div", { class: "game gone" }, el("span", { class: "muted" },
-      "They were playing when this was sent, but that game was never stored (the server restarted and nobody came back to it)."));
-  }
+  if (!g) return el("div", { class: "game-attach none" }, t("No game between them in the 24 hours before the report."));
+  if (g.kind === "gone") return el("div", { class: "game-attach none" }, t("They were playing when it was sent, but that game was never stored (the server restarted)."));
   const live = g.kind === "live";
-  const when = live ? (g.finished ? "just ended" : "in progress when reported") : "ended " + fmtDate(g.at);
-  return el("div", { class: "game" },
-    el("div", { class: "game-info" },
-      el("b", {}, live ? "Game in progress attached" : "Game attached"),
-      el("span", {}, g.players[0] + " vs " + g.players[1]),
-      el("span", { class: "muted" }, [when, g.rated ? "rated" : "casual", g.shots + (g.shots === 1 ? " stroke" : " strokes")].join(" · "))),
-    el("div", { class: "game-actions" },
-      el("button", { class: "primary", onclick: () => openViewer(live ? "/live/" + g.id + "/view" : "/replay/" + g.id + "/view") },
-        live ? "Watch so far" : "Watch replay"),
-      live ? null : el("button", { class: "ghost", title: "The strokes as a JSON file", onclick: () => downloadReplay(g.id) }, "Download")));
+  const when = live ? (g.finished ? t("just ended") : t("in progress when reported")) : tf("ended {when}", { when: fmtDate(g.at) });
+  return el("div", { class: "game-attach" },
+    el("div", { class: "gi" }, el("b", {}, (live ? t("Game in progress") : t("The game")) + ": " + g.players[0] + " × " + g.players[1]),
+      el("span", {}, [when, g.rated ? t("rated") : t("casual"), tn(g.shots, "{n} stroke", "{n} strokes")].join(" · "))),
+    el("div", { class: "row" },
+      btn(live ? t("Watch so far") : t("Watch"), { kind: "sm primary", icon: "play", onClick: () => openViewer(live ? "/live/" + g.id + "/view" : "/replay/" + g.id + "/view") }),
+      live ? null : btn(t("Download"), { kind: "sm ghost icon-only", icon: "download", iconOnly: true, onClick: () => downloadReplay(g.id) })));
 }
 
-// ---------------------------------------------------------------------------
-// The replay viewer: the table from above, every shot as the server played it.
+// ====================================================================== live
+
+PAGES.live = async (route) => {
+  const tab = route.query.get("tab") || "games";
+  const [d, s] = await Promise.all([api("/live"), api("/system")]);
+  every(10000, () => refreshIf("live"));
+  const playing = d.rooms.filter((r) => !r.finished);
+  const tabs = el("div", { class: "tabs" }, [["games", t("Games"), playing.length], ["players", t("Players online"), d.players.length], ["tournaments", t("Tournaments"), d.tournaments.length]]
+    .map(([id, label, n]) => el("button", { type: "button", class: "tab" + (tab === id ? " on" : ""), onclick: () => { setQuery({ tab: id }); render(); } }, label, el("span", { class: "count" }, fmtNum(n)))));
+  let body;
+  if (tab === "players") {
+    const filter = el("input", { class: "input wide", type: "search", placeholder: t("Filter by name"), "aria-label": t("Filter") });
+    const rows = () => d.players.filter((p) => !filter.value || p.username.toLowerCase().includes(filter.value.toLowerCase())).map((p) => el("tr", { class: "click", onclick: () => go("players/" + encodeURIComponent(p.username)) },
+      el("td", {}, el("span", { class: "person" }, avatar(p.username), el("b", {}, p.username),
+        p.role && p.role !== "player" ? badge(roleLabel(p.role), p.role === "admin" ? "danger" : "info") : null, p.vip ? badge("VIP", "accent", "star") : null, p.guest ? badge(t("Guest")) : null)),
+      el("td", {}, badge({ available: t("In the lounge"), waiting: t("At a table"), playing: t("Playing") }[p.status] || p.status, p.status === "playing" ? "info" : p.status === "waiting" ? "warning" : "success")),
+      el("td", { class: "num" }, fmtNum(p.rating)), el("td", {}, country(p.country))));
+    const holder = el("div");
+    const draw = () => setKids(holder, d.players.length ? table([t("Player"), t("Doing"), { label: t("Rating"), cls: "num" }, t("Country")], rows()) : empty("users", t("Nobody online"), null));
+    filter.addEventListener("input", draw);
+    draw();
+    body = el("div", {}, el("div", { class: "toolbar" }, filter), card(null, holder));
+  } else if (tab === "tournaments") {
+    body = d.tournaments.length ? el("div", { class: "stack" }, d.tournaments.map(tournamentCard)) : card(null, empty("trophy", t("No tournaments now"), null));
+  } else {
+    const rows = d.rooms.map((r) => el("tr", { class: r.finished ? "dim" : "" },
+      el("td", { class: "mono faint" }, "#" + r.id),
+      el("td", {}, el("span", { class: "row" }, personLink(r.players[0]), el("span", { class: "faint" }, "×"), personLink(r.players[1]))),
+      el("td", {}, el("span", { class: "badges" }, r.rated ? badge(t("Rated"), "accent") : badge(t("Casual")), r.tournament ? badge(t("Tournament"), "info", "trophy") : null)),
+      el("td", { class: "num" }, fmtNum(r.shots)),
+      el("td", {}, r.finished ? badge(t("Finished")) : badge(t("Playing"), "success dot")),
+      el("td", { class: "actions-cell" }, btn(t("Watch"), { kind: "sm", icon: "eye", onClick: () => openViewer("/live/" + r.id + "/view") }))));
+    body = card(null, rows.length ? table(["", t("Players"), t("Game"), { label: t("Strokes"), cls: "num" }, t("State"), ""], rows) : empty("activity", t("No games right now"), t("Games appear here as soon as they start.")));
+  }
+  return el("div", {},
+    pageHead(t("Live"), t("What happens on the server right now · refreshes every 10 seconds"), updatedLabel(render, true)),
+    el("div", { class: "kpis" },
+      kpi({ label: t("Online now"), value: fmtNum(s.online), sub: tn(s.addresses, "{n} address", "{n} addresses"), iconName: "users", tone: "success" }),
+      kpi({ label: t("Games now"), value: fmtNum(s.games), iconName: "activity", tone: "info" }),
+      kpi({ label: t("Open tables"), value: fmtNum(s.tables), iconName: "table" }),
+      kpi({ label: t("In the queue"), value: fmtNum(s.queue), iconName: "queue", tone: "warning" }),
+      kpi({ label: t("Tournaments"), value: fmtNum(s.tournaments), iconName: "trophy" })),
+    el("div", { class: "section" }, tabs, body));
+};
+
+function tournamentCard(tm) {
+  const state = { registering: [t("Signing up"), "warning"], running: [t("Running"), "success"], finished: [t("Finished"), ""] }[tm.state] || [tm.state, ""];
+  const cancel = isAdmin() && tm.state === "registering" ? btn(t("Call off"), { kind: "sm danger-soft", icon: "x", onClick: async () => {
+    const ok = await confirmDialog({ title: tf("Call off “{name}”?", { name: tm.name }), text: t("Every entry fee goes back and the players are told. It can't be undone."), confirm: t("Call off") });
+    if (ok && await attempt(() => api("/tournaments/" + tm.id + "/cancel", { method: "POST" }), t("Tournament called off."))) refreshIf("live");
+  } }) : null;
+  const bracket = tm.rounds && tm.rounds.length ? el("div", { class: "bracket" }, tm.rounds.map((round, k) => el("div", { class: "round" },
+    el("div", { class: "faint" }, k === tm.rounds.length - 1 ? t("Final") : tf("Round {n}", { n: k + 1 })),
+    round.map((m) => el("div", { class: "match" + (m.live ? " live" : "") }, [0, 1].map((s) => el("div", { class: m.winner === s ? "won" : "" }, el("span", { class: "ellipsis" }, m.players[s] || "—"), m.winner === s ? icon("check") : null))))))) : null;
+  const standings = tm.standings && tm.standings.length ? barList(tm.standings.slice(0, 10).map((s) => ({ label: el("span", { class: "ellipsis" }, s.username || s[0]), value: s.points ?? s[1] ?? 0 })), { tone: "success" }) : null;
+  return card(el("div", { class: "card-head" },
+    el("div", {}, el("h3", { class: "row" }, tm.name, badge(state[0], state[1]), badge(tm.format === "arena" ? t("Arena") : t("Knockout"), "info"), tm.rated ? badge(t("Rated"), "accent") : null, tm.private ? badge(t("Private"), "", "lock") : null),
+      el("div", { class: "sub" }, [tm.host ? tf("by {name}", { name: tm.host }) : t("organised by the server"), tf("{n} of {size} players", { n: tm.players.length, size: tm.size }),
+        tm.entry_fee ? tf("entry {n} coins", { n: fmtNum(tm.entry_fee) }) : t("free entry"), tm.starts_at ? tf("starts {when}", { when: fmtDate(tm.starts_at) }) : null].filter(Boolean).join(" · "))),
+    cancel),
+  el("div", { class: "card-body stack" },
+    tm.players.length ? el("div", { class: "item-chips" }, tm.players.map((p) => el("a", { class: "item-chip plain", href: "#/players/" + encodeURIComponent(p.username) }, p.username, el("span", { class: "faint" }, fmtNum(p.rating))))) : el("p", { class: "faint" }, t("Nobody has signed up yet.")),
+    tm.champion ? alertBox("success", tf("Champion: {name}", { name: tm.champion })) : null,
+    bracket, standings));
+}
+
+// ====================================================================== chat
+
+PAGES.chat = async (route) => {
+  const showDeleted = route.query.get("deleted") !== "0";
+  const who = route.query.get("q") || "";
+  const d = await api("/chat");
+  every(10000, () => refreshIf("chat"));
+  const lines = d.lines.slice().reverse().filter((l) => (showDeleted || !l.deleted)
+    && (!who || (l.from || "").toLowerCase().includes(who.toLowerCase()) || (l.text || "").toLowerCase().includes(who.toLowerCase())));
+  const search = el("input", { class: "input wide", type: "search", placeholder: t("Name or words"), value: who, "aria-label": t("Search the chat") });
+  search.addEventListener("input", debounce(() => { setQuery({ q: search.value.trim() }); render(); }, 300));
+  const toggle = el("label", { class: "check" }, el("input", { type: "checkbox", checked: showDeleted || null, onchange: (e) => { setQuery({ deleted: e.target.checked ? null : "0" }); render(); } }), t("Show deleted lines"));
+  const clear = isAdmin() ? btn(t("Clear the chat"), { kind: "danger-soft", icon: "trash", onClick: async () => {
+    const ok = await confirmDialog({ title: t("Clear the lounge chat for everyone?"), text: t("Every line disappears from the players' screens (the staff keep them for reports)."), confirm: t("Clear the chat") });
+    if (ok && await attempt(() => api("/chat/clear", { method: "POST" }), t("The chat was cleared."))) refreshIf("chat");
+  } }) : null;
+  const del = async (l, silent) => {
+    const ok = await confirmDialog({
+      title: silent ? t("Remove this line without a trace?") : t("Delete this line?"),
+      text: silent ? t("It disappears for everyone, with no sign it was there.") : t("Players see that the staff deleted it."),
+      confirm: silent ? t("Remove") : t("Delete"), details: el("div", { class: "preview-box" }, el("b", {}, l.from + ": "), l.text),
+    });
+    if (ok && await attempt(() => api("/chat/" + l.id + "/delete", { method: "POST", body: { silent } }), silent ? t("Line removed.") : t("Line deleted."))) refreshIf("chat");
+  };
+  const DELETED = { author: t("Deleted by the author"), staff: t("Deleted by the staff"), removed: t("Removed without a trace") };
+  const rows = lines.map((l) => {
+    const player = l.kind === "player";
+    const person = { username: l.from, online: true };
+    return el("div", { class: "chat-line " + (l.kind || "") + (l.deleted ? " deleted" : "") },
+      el("span", { class: "time", title: fmtDate(l.at) }, fmtClock(l.at)),
+      el("div", { class: "msg" },
+        player ? el("a", { class: "from" + (l.admin ? " admin" : ""), href: "#/players/" + encodeURIComponent(l.from) }, l.from) : el("b", { class: "from" }, l.from),
+        el("span", { class: "text" }, l.text),
+        l.deleted ? el("span", {}, " ", badge(DELETED[l.deleted] || l.deleted, l.deleted === "removed" ? "danger" : "warning")) : null),
+      player ? el("div", { class: "line-actions" },
+        !l.deleted ? btn(t("Delete"), { kind: "sm ghost icon-only", icon: "trash", iconOnly: true, onClick: () => del(l, false) }) : null,
+        isAdmin() && l.deleted !== "removed" ? btn(t("Remove without a trace"), { kind: "sm ghost icon-only", icon: "eyeOff", iconOnly: true, onClick: () => del(l, true) }) : null,
+        btn(t("Warn"), { kind: "sm ghost icon-only", icon: "warn", iconOnly: true, onClick: () => noteDialog(person, "warning", () => {}) }),
+        btn(t("Mute"), { kind: "sm ghost icon-only", icon: "mute", iconOnly: true, onClick: () => muteDialog(person, () => {}) })) : el("span"));
+  });
+  rows.forEach((r) => r.querySelectorAll(".line-actions .btn").forEach((b) => { b.title = b.getAttribute("aria-label"); }));
+  return el("div", {},
+    pageHead(t("Lounge chat"), t("The latest lines, newest first · refreshes every 10 seconds"), updatedLabel(render, true), clear),
+    el("div", { class: "toolbar" }, search, toggle),
+    card(null, rows.length ? el("div", { class: "chat-log" }, rows) : empty("chat", t("Nothing said yet"), who ? t("No line matches.") : t("The lounge chat is quiet."))));
+};
+
+// ================================================================= fair play
+
+PAGES.fairplay = async () => {
+  const d = await api("/aim");
+  const rows = d.flagged.map((r) => el("tr", { class: "click", onclick: () => go("players/" + encodeURIComponent(r.username)) },
+    el("td", {}, personLink(r.username)),
+    el("td", {}, fmtNum(r.rating), el("div", { class: "faint" }, tierLabel(r.tier))),
+    el("td", { class: "num" }, tf("{made} of {attempts}", { made: fmtNum(r.made), attempts: fmtNum(r.attempts) })),
+    el("td", { class: "num" }, el("b", {}, fmtPct(r.rate * 100, 0))),
+    el("td", { class: "num" }, fmtPct(r.tier_mean * 100, 0), el("div", { class: "faint" }, tn(r.tier_players, "{n} player", "{n} players"))),
+    el("td", { class: "num" }, badge("+" + r.z.toFixed(1) + "σ", r.z >= 5 ? "danger" : "warning"))));
+  return el("div", {},
+    pageHead(t("Fair play"), t("Players who make far more hard shots than their tier")),
+    alertBox("info", t("How it works"), tf("Hard shots are cuts of 45° or more over 1.5 m. Only players with {n} or more of them are compared, each with the players of their tier. Nobody is punished by this list: open the player, watch their games, and decide.", { n: d.min_attempts })),
+    el("div", { class: "kpis section" },
+      kpi({ label: t("Players compared"), value: fmtNum(d.players), iconName: "users" }),
+      kpi({ label: t("Standing out"), value: fmtNum(d.flagged.length), iconName: "target", tone: d.flagged.length ? "danger" : "success" })),
+    el("div", { class: "section" }, card(null, rows.length ? table([t("Player"), t("Rating"), { label: t("Hard shots made"), cls: "num" }, { label: t("Rate"), cls: "num" }, { label: t("Tier average"), cls: "num" }, { label: t("Above the tier"), cls: "num" }], rows)
+      : empty("checkCircle", t("Nobody stands out"), t("No player's hard shots are out of line with their tier.")))));
+};
+
+// ================================================================= community
+
+const NOTE_KINDS = [["notice", "Notice"], ["event", "Event"], ["rule", "Rule"]];
+const NOTE_BUTTONS = [["", "No button"], ["tournaments", "Tournaments"], ["shop", "Shop"], ["vip", "VIP"], ["missions", "Missions"]];
+
+PAGES.community = async () => {
+  const [o, board, seeks, sent] = await Promise.all([api("/overview"), api("/board"), api("/seeks"), api("/audit?action=announce")]);
+  // Announcement.
+  const msg = el("textarea", { class: "textarea", rows: 3, maxlength: "200", placeholder: t("A message to everyone in the lounge, now"), "aria-label": t("Announcement") });
+  const counter = el("span", { class: "counter" }, "0 / 200");
+  msg.addEventListener("input", () => { counter.textContent = fmtNum([...msg.value].length) + " / 200"; });
+  const send = btn(t("Send to the lounge"), { kind: "primary", icon: "send", onClick: async () => {
+    const text = msg.value.trim();
+    if (!text) { toast(t("Write a message."), "error"); msg.focus(); return; }
+    const ok = await confirmDialog({ title: t("Send this announcement?"), text: t("Everyone in the lounge sees it in the chat, highlighted."), confirm: t("Send"), tone: "info", iconName: "megaphone",
+      details: el("div", { class: "preview-box" }, el("span", { class: "faint" }, t("Announcement")), text) });
+    if (ok && await attempt(() => api("/announce", { method: "POST", body: { text } }), t("Announcement sent."))) { msg.value = ""; refreshIf("community"); }
+  } });
+  // The board.
+  const noteText = el("textarea", { class: "textarea", rows: 3, maxlength: "400", placeholder: t("A note that stays on the lounge's board: an event, a rule, news"), "aria-label": t("Note") });
+  const noteCount = el("span", { class: "counter" }, "0 / 400");
+  let kind = "notice";
+  const kindSel = el("div");
+  const buttonSel = el("select", { class: "select", "aria-label": t("Button") }, NOTE_BUTTONS.map(([v, l]) => el("option", { value: v }, v ? tf("Button: {name}", { name: t(l) }) : t(l))));
+  const daysSel = el("select", { class: "select", "aria-label": t("Up for") }, [["", t("Until taken down")], ["1", tn(1, "{n} day", "{n} days")], ["3", tn(3, "{n} day", "{n} days")], ["7", tn(7, "{n} day", "{n} days")], ["14", tn(14, "{n} day", "{n} days")], ["30", tn(30, "{n} day", "{n} days")]].map(([v, l]) => el("option", { value: v }, l)));
+  const pinned = el("input", { type: "checkbox" });
+  const preview = el("div");
+  const drawPreview = () => {
+    noteCount.textContent = fmtNum([...noteText.value].length) + " / 400";
+    setKids(kindSel, segmented(NOTE_KINDS.map(([v, l]) => [v, t(l)]), kind, (v) => { kind = v; drawPreview(); }));
+    setKids(preview, el("div", { class: "board-note " + kind },
+      el("div", { class: "bn-meta" }, pinned.checked ? badge(t("Pinned"), "accent", "pin") : null, badge(t(NOTE_KINDS.find((k) => k[0] === kind)[1]))),
+      el("div", { class: "bn-text" }, noteText.value || el("span", { class: "faint" }, t("The note shows here as players see it."))),
+      buttonSel.value ? el("span", { class: "btn sm bn-button" }, t(NOTE_BUTTONS.find((b) => b[0] === buttonSel.value)[1])) : null));
+  };
+  for (const x of [noteText, buttonSel, pinned]) x.addEventListener(x === noteText ? "input" : "change", drawPreview);
+  drawPreview();
+  const pin = btn(t("Put on the board"), { kind: "primary", icon: "pin", onClick: async () => {
+    if (!noteText.value.trim()) { toast(t("Write a note."), "error"); noteText.focus(); return; }
+    const body = { text: noteText.value, days: daysSel.value ? Number(daysSel.value) : null, kind, action: buttonSel.value || null, pinned: pinned.checked };
+    if (await attempt(() => api("/board", { method: "POST", body }), t("On the board."))) refreshIf("community");
+  } });
+  const notes = board.notes.length ? el("div", { class: "stack" }, board.notes.map((n) => el("div", { class: "board-note " + n.kind },
+    el("div", { class: "bn-head" },
+      el("div", { class: "bn-meta" }, n.pinned ? badge(t("Pinned"), "accent", "pin") : null, badge(t((NOTE_KINDS.find((k) => k[0] === n.kind) || [0, n.kind])[1])),
+        n.action ? badge(tf("Button: {name}", { name: t((NOTE_BUTTONS.find((b) => b[0] === n.action) || [0, n.action])[1]) })) : null),
+      btn(t("Take down"), { kind: "sm ghost", icon: "trash", onClick: async () => {
+        if (await confirmDialog({ title: t("Take this note down?"), confirm: t("Take down"), details: el("div", { class: "preview-box" }, n.text) })
+          && await attempt(() => api("/board/" + n.id, { method: "DELETE" }), t("Taken down."))) refreshIf("community");
+      } })),
+    el("div", { class: "bn-text" }, n.text),
+    el("div", { class: "bn-meta" }, el("span", {}, tf("by {name}", { name: n.author || "?" }), " · ", timeEl(n.created_at)),
+      n.expires_at ? el("span", {}, "· " + tf("until {when}", { when: fmtDate(n.expires_at) })) : el("span", {}, "· " + t("until taken down")))))) : empty("pin", t("The board is empty"), t("Notes put here stay in the lounge for everyone."));
+  // Welcome message.
+  const motd = el("input", { class: "input", maxlength: "300", value: o.motd, "aria-label": t("Welcome message"), disabled: isAdmin() ? null : true });
+  // "Looking for a game".
+  const seekRows = seeks.notes.map((n) => el("tr", {},
+    el("td", {}, personLink(n.username)), el("td", { class: "wrap" }, n.text || el("span", { class: "faint" }, t("(no message)"))),
+    el("td", {}, n.rated ? badge(t("Rated"), "accent") : badge(t("Casual"))), el("td", {}, timeEl(n.at)),
+    el("td", { class: "actions-cell" }, btn(t("Remove"), { kind: "sm ghost", icon: "trash", onClick: async () => {
+      if (await confirmDialog({ title: tf("Remove {name}'s note?", { name: n.username }), confirm: t("Remove") })
+        && await attempt(() => api("/seeks/" + encodeURIComponent(n.username), { method: "DELETE" }), t("Removed."))) refreshIf("community");
+    } }))));
+  return el("div", {},
+    pageHead(t("Board & announcements"), t("What players read in the lounge")),
+    el("div", { class: "grid-2" },
+      el("div", { class: "stack" },
+        card(cardHead(t("Announcement"), t("Shown at once in the lounge chat, highlighted")),
+          el("div", { class: "card-body stack" }, el("div", { class: "field" }, el("div", { class: "label" }, el("span", {}, t("Message")), counter), msg)),
+          el("div", { class: "card-foot" }, send)),
+        card(cardHead(t("Sent lately")), sent.entries.length ? el("div", { class: "mini-list" }, sent.entries.slice(0, 8).map((e) => el("div", { class: "mi" },
+          el("span", { class: "tl-dot info" }, icon("megaphone")), el("div", { class: "mi-main" }, el("span", {}, e.details), el("span", { class: "mi-sub" }, tf("by {name}", { name: e.staff }))), el("span", { class: "mi-side" }, timeEl(e.at)))))
+          : empty("megaphone", t("No announcements yet"), null)),
+        card(cardHead(t("Welcome message"), t("Shown to everyone who signs in · until the server restarts")),
+          el("div", { class: "card-body" }, motd),
+          isAdmin() ? el("div", { class: "card-foot" }, btn(t("Save"), { kind: "primary", onClick: () => attempt(() => api("/motd", { method: "POST", body: { text: motd.value } }), t("Welcome message saved.")) })) : null)),
+      el("div", { class: "stack" },
+        card(cardHead(t("The lounge's board"), t("Notes that stay up")),
+          el("div", { class: "card-body stack" },
+            el("div", { class: "field" }, el("div", { class: "label" }, el("span", {}, t("Note")), noteCount), noteText),
+            el("div", { class: "row" }, kindSel, buttonSel, daysSel),
+            el("label", { class: "check" }, pinned, t("Pinned at the top")),
+            el("div", { class: "field" }, el("div", { class: "label" }, t("Preview")), preview)),
+          el("div", { class: "card-foot" }, pin)),
+        card(cardHead(t("On the board now"), tn(board.notes.length, "{n} note", "{n} notes")), el("div", { class: "card-body" }, notes)))),
+    el("div", { class: "section" }, card(cardHead(t("Looking for a game"), t("Players' notes, up while they are online")),
+      seekRows.length ? table([t("Player"), t("Note"), t("Game"), t("Posted"), ""], seekRows) : empty("users", t("Nobody is looking for a game"), null))));
+};
+
+// =================================================================== economy
+
+const CATEGORY = { cloth: "Cloth", cue: "Cue", chalk: "Chalk", balls: "Balls", frame: "Frame", name: "Name colour", effect: "Win effect", table: "Table", hall: "Hall", avatar: "Picture" };
+const HOW = { coins: ["Coins", "accent"], free: ["Free", ""], achievement: ["Achievement", "info"], vip: ["VIP", "warning"], pack: ["Welcome pack", "success"] };
+const FLOW = { buy: "Bought in the shop", gift: "Gifts to friends", daily: "Daily bonus and challenge", game: "Games played", league: "Leagues reached", level: "Levels reached",
+  staff: "Given by the staff", refund: "Refunds", tournament: "Tournament entries", prize: "Tournament prizes", mission: "Missions", coins: "Coin packs bought", welcome: "Welcome pack", vip: "VIP" };
+
+PAGES.economy = async (route) => {
+  const tab = route.query.get("tab") || "coins";
+  const [e, m] = await Promise.all([api("/economy"), api("/metrics")]);
+  catalogCache = e.catalog;
+  const eco = e.economy;
+  const revenue = (m.metrics.revenue || []).filter((r) => r[0] !== "msstore");
+  const ms = (m.metrics.revenue || []).find((r) => r[0] === "msstore");
+  const flows = eco.flows.map((f) => el("tr", {},
+    el("td", {}, el("b", {}, t(FLOW[f.kind] || f.kind)), el("div", { class: "faint mono" }, f.kind)),
+    el("td", { class: "num" }, f.credited ? el("span", { class: "badge success" }, "+" + fmtNum(f.credited)) : "—"),
+    el("td", { class: "num" }, f.debited ? el("span", { class: "badge danger" }, "−" + fmtNum(f.debited)) : "—"),
+    el("td", { class: "num" }, fmtNum(f.entries))));
+  const credited = eco.flows.reduce((a, f) => a + f.credited, 0), debited = eco.flows.reduce((a, f) => a + f.debited, 0);
+  const pays = e.payments.map((p) => el("tr", { class: p.test || p.refunded ? "dim" : "" },
+    el("td", {}, fmtDate(p.at)), el("td", {}, personLink(p.payer)), el("td", {}, p.kind === "vip" ? "VIP" : t("Coins")),
+    el("td", { class: "num" }, fmtNum(p.coins)), el("td", { class: "num" }, money(p.amount, p.currency)),
+    el("td", {}, el("span", { class: "badges" }, p.refunded ? badge(t("Refunded"), "danger") : badge(t("Paid"), "success"), p.test ? badge(t("Test"), "warning") : null)),
+    el("td", { class: "actions-cell" }, isAdmin() ? btn(p.test ? t("Mark as real") : t("Mark as test"), { kind: "sm ghost", onClick: () => markPayment(p, () => refreshIf("economy")) }) : null)));
+  // The shop's catalogue.
+  const q = el("input", { class: "input wide", type: "search", placeholder: t("Item name or code"), "aria-label": t("Search items") });
+  const cats = [...new Set(e.catalog.map((i) => i.category))];
+  const catSel = el("select", { class: "select", "aria-label": t("Category") }, el("option", { value: "" }, t("Every category")), cats.map((c) => el("option", { value: c }, t(CATEGORY[c] || c))));
+  const howSel = el("select", { class: "select", "aria-label": t("How it is had") }, el("option", { value: "" }, t("Any way")), Object.entries(HOW).map(([v, [l]]) => el("option", { value: v }, t(l))));
+  const catalogBox = el("div");
+  let shownItems = 40;
+  const drawCatalog = () => {
+    const s = q.value.trim().toLowerCase();
+    const all = e.catalog.filter((i) => (!s || i.name.toLowerCase().includes(s) || i.code.includes(s)) && (!catSel.value || i.category === catSel.value) && (!howSel.value || i.how === howSel.value));
+    const items = all.slice(0, shownItems);
+    const more = all.length > items.length ? el("div", { class: "pager" }, el("span", {}, tf("{from}–{to} of {total}", { from: 1, to: fmtNum(items.length), total: fmtNum(all.length) })),
+      btn(tf("Show all {n}", { n: fmtNum(all.length) }), { kind: "sm", onClick: () => { shownItems = Infinity; drawCatalog(); } })) : null;
+    setKids(catalogBox, items.length ? [table([t("Item"), t("Category"), t("How it is had"), { label: t("Price"), cls: "num" }], items.map((i) => el("tr", {},
+      el("td", {}, el("b", {}, i.name), el("div", { class: "faint mono" }, i.code)), el("td", {}, t(CATEGORY[i.category] || i.category)),
+      el("td", {}, badge(t((HOW[i.how] || [i.how])[0]), (HOW[i.how] || ["", ""])[1]), i.achievement ? el("span", { class: "faint mono" }, " " + i.achievement) : null),
+      el("td", { class: "num" }, i.coins ? fmtNum(i.coins) : "—")))), more] : empty("search", t("No item matches"), null));
+  };
+  for (const x of [q, catSel, howSel]) x.addEventListener(x === q ? "input" : "change", () => { shownItems = 40; drawCatalog(); });
+  drawCatalog();
+  return el("div", {},
+    pageHead(t("Economy"), t("Coins, VIP, payments and the shop")),
+    el("div", { class: "kpis" },
+      kpi({ label: t("Coins in wallets"), value: fmtNum(eco.coins_total), sub: tn(eco.wallets, "{n} wallet with coins", "{n} wallets with coins"), iconName: "coins", tone: "warning" }),
+      kpi({ label: t("VIP members"), value: fmtNum(eco.vip_now), iconName: "star", tone: "success" }),
+      kpi({ label: t("Given in 30 days"), value: "+" + fmtNum(credited), sub: t("coins credited"), iconName: "gift", tone: "success" }),
+      kpi({ label: t("Spent in 30 days"), value: "−" + fmtNum(debited), sub: t("coins taken"), iconName: "coins", tone: "danger" }),
+      ...revenue.map((r) => kpi({ label: tf("Revenue in 30 days ({currency})", { currency: r[0].toUpperCase() }), value: money(r[1], r[0]), sub: tn(r[2], "{n} payment", "{n} payments"), iconName: "chart", tone: "info" })),
+      ms ? kpi({ label: "Microsoft Store", value: fmtNum(ms[2]), sub: t("coin packs in 30 days"), iconName: "coins" }) : null),
+    !e.stripe ? el("div", { class: "section" }, alertBox("info", t("Card payments are off"), t("Stripe is not configured on this server."))) : null,
+    el("div", { class: "section" }, el("div", { class: "tabs" }, [["coins", t("Coins"), null], ["payments", t("Payments"), e.payments.length], ["catalog", t("The shop's catalogue"), e.catalog.length]]
+      .map(([id, label, n]) => el("button", { type: "button", class: "tab" + (tab === id ? " on" : ""), onclick: () => { setQuery({ tab: id }); render(); } }, label, n !== null ? el("span", { class: "count" }, fmtNum(n)) : null))),
+    tab === "payments"
+      ? card(cardHead(t("Latest payments"), t("Test and refunded payments are faded")), pays.length ? table([t("When"), t("Player"), t("What"), { label: t("Coins"), cls: "num" }, { label: t("Amount"), cls: "num" }, t("Status"), ""], pays) : empty("coins", t("No payments yet"), null))
+      : tab === "catalog"
+        ? el("div", {}, el("div", { class: "toolbar" }, q, catSel, howSel), card(null, catalogBox))
+        : el("div", { class: "grid-aside" },
+          card(cardHead(t("Where coins went in the last 30 days"), t("By kind of reason")), flows.length ? table([t("Reason"), { label: t("Given"), cls: "num" }, { label: t("Taken"), cls: "num" }, { label: t("Entries"), cls: "num" }], flows) : empty("coins", t("No coins moved"), null)),
+          card(cardHead(t("Largest balances")), eco.richest.length ? el("div", { class: "card-body" }, barList(eco.richest.map(([n, c]) => ({ label: personLink(n), value: c })), { tone: "" })) : empty("coins", t("No coins anywhere"), null)))));
+};
+
+// =================================================================== metrics
+
+PAGES.metrics = async () => {
+  const d = await api("/metrics");
+  every(60000, () => refreshIf("metrics"));
+  const m = d.metrics, q = d.queue;
+  const hours = m.hours;
+  const hourLabel = (h) => String(new Date(h * 3600000).getHours()).padStart(2, "0") + "h";
+  const hourTitle = (h) => new Intl.DateTimeFormat(lang, { weekday: "short", hour: "2-digit", minute: "2-digit" }).format(new Date(h * 3600000));
+  const playersChart = hours.some((h) => h.peak_players > 0 || h.active > 0)
+    ? chart({ labels: hours.map((h) => hourLabel(h.hour)), titles: hours.map((h) => hourTitle(h.hour)),
+      bars: { values: hours.map((h) => h.active), name: t("Players active"), cls: "c-accent" }, line: { values: hours.map((h) => h.peak_players), name: t("Most online at once"), cls: "c-info" }, width: 560, every: 8 })
+    : empty("chart", t("No samples yet"), t("The server counts who is online every minute: the first hour shows up shortly."));
+  const gamesChart = hours.some((h) => h.games > 0 || h.peak_games > 0)
+    ? chart({ labels: hours.map((h) => hourLabel(h.hour)), titles: hours.map((h) => hourTitle(h.hour)),
+      bars: { values: hours.map((h) => h.games), name: t("Games finished"), cls: "c-success" }, line: { values: hours.map((h) => h.peak_games), name: t("Most games at once"), cls: "c-info" }, width: 560, every: 8 })
+    : empty("activity", t("No games in the last 48 hours"), null);
+  const dailyChart = m.days.some((x) => x[1] > 0 || x[2] > 0)
+    ? chart({ labels: m.days.map((x) => fmtDay(x[0])), titles: m.days.map((x) => fmtDayLong(x[0])),
+      bars: { values: m.days.map((x) => x[1]), name: t("Players active"), cls: "c-accent" }, line: { values: m.days.map((x) => x[2]), name: t("Games"), cls: "c-success" } })
+    : empty("chart", t("Nobody played in the last 30 days"), null);
+  const today = Math.floor(d.now / 86400);
+  const days = Array.from({ length: 30 }, (_, k) => today - 29 + k);
+  const currencies = [...new Set(m.revenue_days.map((r) => r[1]))].filter((c) => c !== "msstore").sort();
+  const revenueCharts = currencies.map((cur) => {
+    const by = new Map(m.revenue_days.filter((r) => r[1] === cur).map((r) => [r[0], r]));
+    const total = m.revenue.find((r) => r[0] === cur) || [cur, 0, 0];
+    return card(cardHead(cur.toUpperCase(), money(total[1], cur) + " · " + tn(total[2], "{n} payment", "{n} payments")),
+      el("div", { class: "card-body" }, chart({ labels: days.map(fmtDay), titles: days.map(fmtDayLong),
+        bars: { values: days.map((day) => (by.get(day) || [0, 0, 0])[2] / 100), name: t("Revenue"), cls: "c-success", format: (v) => new Intl.NumberFormat(lang, { maximumFractionDigits: 2 }).format(v) }, height: 190, width: 520 })));
+  });
+  const recent = q.recent || [];
+  const waits = recent.length ? chart({ labels: recent.map(() => ""), titles: recent.map((_, k) => tf("Pairing {n} of the latest {total}", { n: k + 1, total: recent.length })),
+    bars: { values: recent, name: t("Wait (seconds)"), cls: "c-accent" }, every: 0, height: 140, unit: " s" })
+    : empty("queue", t("Nobody paired yet"), t("Nobody has been paired by “Play now” since the server started."));
+  const week = m.days.slice(-7);
+  const perDay = week.length ? week.reduce((a, x) => a + x[2], 0) / week.length : 0;
+  const f = m.funnel;
+  const funnelStep = (label, n) => {
+    const fill = el("div", { class: "f-fill" });
+    fill.style.width = (f[0] ? Math.max(n ? 2 : 0, n * 100 / f[0]) : 0) + "%";
+    return el("div", { class: "f-step" }, el("div", { class: "f-top" }, el("span", {}, label), el("b", {}, fmtNum(n) + (f[0] ? " · " + fmtPct(n * 100 / f[0], 0) : ""))), el("div", { class: "f-track" }, fill));
+  };
+  const totalActive = (d.countries || []).reduce((a, c) => a + c[1], 0);
+  const countries = (d.countries || []).slice(0, 15).map(([c, n]) => ({ label: country(c), value: n }));
+  const level = (x) => (x === null || x === undefined ? "h0" : x >= 40 ? "h4" : x >= 25 ? "h3" : x >= 12 ? "h2" : x > 0 ? "h1" : "h0");
+  const pctCell = (x) => el("td", { class: "hcell " + level(x) }, x === null || x === undefined ? "—" : fmtPct(x, 0));
+  const cohorts = (m.cohorts || []).map((c) => el("tr", {}, el("td", {}, fmtDay(c.first_day) + " – " + fmtDay(c.first_day + 6)), el("td", { class: "num" }, fmtNum(c.accounts)), pctCell(c.d1), pctCell(c.d7), pctCell(c.d30)));
+  return el("div", { class: "stack" },
+    pageHead(t("Metrics"), t("How many play, how long they stay, what they pay · refreshes every minute"), updatedLabel(render)),
+    d.draining ? alertBox("warning", t("The server is restarting"), t("No new games start; the games in progress move to the next server.")) : null,
+    el("div", { class: "kpis" },
+      kpi({ label: t("Online now"), value: fmtNum(d.online), iconName: "users", tone: "success" }),
+      kpi({ label: t("Games now"), value: fmtNum(d.games), iconName: "activity", tone: "info" }),
+      kpi({ label: t("In the queue"), value: fmtNum(q.size), sub: q.size ? tf("longest {s} s", { s: fmtNum(q.waiting.reduce((a, w) => Math.max(a, w.secs), 0)) }) : t("nobody waiting"), iconName: "queue" }),
+      kpi({ label: t("Median wait"), value: tf("{s} s", { s: fmtNum(q.median_wait_secs) }), sub: tf("average {s} s · {n} pairings", { s: fmtNum(Math.round(q.avg_wait_secs)), n: fmtNum(q.pairs) }), iconName: "clock" }),
+      kpi({ label: t("Back the next day"), value: fmtPct(m.retention_d1), iconName: "undo", tone: "success" }),
+      kpi({ label: t("Back after 7 days"), value: fmtPct(m.retention_d7), iconName: "undo", tone: "success" }),
+      kpi({ label: t("Back after 30 days"), value: fmtPct(m.retention_d30), iconName: "undo", tone: "success" }),
+      kpi({ label: t("Games per day"), value: new Intl.NumberFormat(lang, { maximumFractionDigits: 1 }).format(perDay), sub: t("average of the last 7 days"), iconName: "trophy", tone: "warning" })),
+    card(cardHead(t("Players and games, day by day"), t("The last 30 days")), el("div", { class: "card-body" }, dailyChart)),
+    el("div", { class: "grid-2" },
+      card(cardHead(t("Players by hour"), t("The last 48 hours")), el("div", { class: "card-body" }, playersChart)),
+      card(cardHead(t("Games by hour"), t("The last 48 hours")), el("div", { class: "card-body" }, gamesChart))),
+    el("div", { class: "grid-2" },
+      card(cardHead(t("From account to player"), t("Accounts made in the last 30 days")), el("div", { class: "card-body funnel" },
+        funnelStep(t("Accounts made"), f[0]), funnelStep(t("Played a game"), f[1]), funnelStep(t("Played five games"), f[2]),
+        el("p", { class: "faint" }, t("Installs are not counted: the game sends nothing before signing in.")))),
+      card(cardHead(t("Where players come from"), tf("Active in the last 30 days · {n} countries", { n: fmtNum((d.countries || []).length) })),
+        el("div", { class: "card-body" }, countries.length ? barList(countries, { max: Math.max(1, ...countries.map((c) => c.value)), format: (v) => fmtNum(v) + (totalActive ? " · " + fmtPct(v * 100 / totalActive, 0) : "") }) : empty("globe", t("Nobody yet"), null)))),
+    card(cardHead(t("Who comes back, by week of sign-up"), t("Back on day N: active exactly N days after the account was made")),
+      cohorts.length ? table([t("Accounts made"), { label: t("Accounts"), cls: "num" }, t("Day 1"), t("Day 7"), t("Day 30")], cohorts, { cls: "heat" }) : empty("users", t("No accounts yet"), null)),
+    currencies.length ? el("div", {}, el("div", { class: "section-head" }, el("h2", {}, t("Revenue by day")), el("span", { class: "sub" }, t("The last 30 days · test payments left out"))), el("div", { class: "grid-2" }, revenueCharts)) : null,
+    card(cardHead(t("“Play now”: the latest waits"), t("Each pairing counts both players")), el("div", { class: "card-body" }, waits)));
+};
+
+// ================================================================= audit log
+
+PAGES.audit = async (route) => {
+  const q = route.query.get("q") || "";
+  const action = route.query.get("action") || "";
+  const target = route.query.get("target") || "";
+  const params = (before) => `/audit?q=${encodeURIComponent(q)}&action=${encodeURIComponent(action)}&target=${encodeURIComponent(target)}` + (before ? "&before=" + before : "");
+  const first = await api(params());
+  let entries = first.entries.slice(), next = first.next;
+  const search = el("input", { class: "input wide", type: "search", placeholder: t("Staff, player or words"), value: q, "aria-label": t("Search") });
+  search.addEventListener("input", debounce(() => { setQuery({ q: search.value.trim() }); render(); }, 350));
+  const actionSel = el("select", { class: "select", "aria-label": t("Action") }, el("option", { value: "" }, t("Every action")),
+    Object.keys(AUDIT_ACTIONS).sort((a, b) => auditLabel(a).localeCompare(auditLabel(b), lang)).map((a) => el("option", { value: a }, auditLabel(a))));
+  actionSel.value = action;
+  actionSel.addEventListener("change", () => { setQuery({ action: actionSel.value }); render(); });
+  const tbody = el("tbody");
+  const more = el("div", { class: "pager" });
+  const row = (e) => {
+    const [tone, ic] = AUDIT_TONE[e.action] || ["", "info"];
+    const looksLikePlayer = /^[A-Za-z0-9_]{3,16}$/.test(e.target) && !["lounge", "board"].includes(e.target);
+    return el("tr", {},
+      el("td", { class: "nowrap" }, fmtDate(e.at)),
+      el("td", {}, personLink(e.staff)),
+      el("td", {}, badge(auditLabel(e.action), tone, ic)),
+      el("td", {}, looksLikePlayer && e.action !== "login" ? personLink(e.target, { avatar: false }) : el("span", { class: AUDIT_PLACES[e.target] ? "" : "mono" }, e.action === "login" ? "—" : auditTarget(e))),
+      el("td", { class: "wrap muted" }, e.action === "login" ? tf("from {ip}", { ip: e.details }) : e.details));
+  };
+  const drawMore = () => {
+    setKids(more, el("span", {}, tn(entries.length, "{n} entry shown", "{n} entries shown")),
+      el("div", { class: "row" },
+        btn(t("Export CSV"), { kind: "sm", icon: "download", disabled: !entries.length, onClick: () => exportCsv(entries) }),
+        next ? btn(t("Load more"), { kind: "sm primary", onClick: async (ev) => {
+          ev.currentTarget.disabled = true;
+          try {
+            const d = await api(params(next));
+            entries = entries.concat(d.entries);
+            next = d.next;
+            for (const e of d.entries) tbody.append(row(e));
+          } catch (err) { toast(err.message, "error"); }
+          drawMore();
+        } }) : null));
+  };
+  for (const e of entries) tbody.append(row(e));
+  drawMore();
+  return el("div", {},
+    pageHead(t("Audit log"), t("Every staff action, newest first")),
+    el("div", { class: "toolbar" }, search, actionSel,
+      target ? el("span", { class: "badge accent" }, tf("Player: {name}", { name: target }), btn(t("Clear"), { kind: "sm ghost icon-only", icon: "x", iconOnly: true, onClick: () => { setQuery({ target: null }); render(); } })) : null),
+    card(null, entries.length
+      ? el("div", { class: "table-wrap" }, el("table", { class: "data" }, el("thead", {}, el("tr", {}, [t("When"), t("Staff"), t("Action"), t("Target"), t("Details")].map((h) => el("th", {}, h)))), tbody))
+      : empty("audit", t("Nothing found"), q || action ? t("Try other words or another action.") : t("Every staff action is written here.")),
+    entries.length ? more : null));
+};
+function exportCsv(entries) {
+  const cell = (v) => {
+    let s = String(v ?? "");
+    if (/^[=+\-@\t\r]/.test(s)) s = "'" + s; // never a formula in a spreadsheet
+    return '"' + s.replaceAll('"', '""') + '"';
+  };
+  const lines = [["id", "when", "staff", "action", "target", "details"].join(",")]
+    .concat(entries.map((e) => [e.id, new Date(e.at * 1000).toISOString(), e.staff, e.action, e.target, e.details].map(cell).join(",")));
+  const blob = new Blob(["﻿" + lines.join("\r\n")], { type: "text/csv;charset=utf-8" });
+  const a = el("a", { href: URL.createObjectURL(blob), download: "snook-legend-audit-" + new Date().toISOString().slice(0, 10) + ".csv" });
+  document.body.append(a);
+  a.click();
+  a.remove();
+}
+
+// ==================================================================== server
+
+const WEEKDAYS = (d) => new Intl.DateTimeFormat(lang, { weekday: "long", timeZone: "UTC" }).format(new Date(Date.UTC(2023, 0, 1 + d)));
+PAGES.system = async () => {
+  const [s, staffList] = await Promise.all([api("/system"), api("/users?filter=staff&sort=name")]);
+  every(30000, () => refreshIf("system"));
+  const r = s.rules;
+  const kv = (rows) => el("dl", { class: "kv" }, rows.filter(Boolean).map(([k, v]) => [el("dt", {}, k), el("dd", {}, v)]));
+  const cup = r.cup ? kv([
+    [t("Name"), r.cup.name],
+    [t("When"), tf("{day} at {time} (UTC{offset})", { day: WEEKDAYS(r.cup.weekday), time: String(r.cup.hour).padStart(2, "0") + ":" + String(r.cup.minute).padStart(2, "0"), offset: (r.cup.utc_offset >= 0 ? "+" : "−") + Math.abs(r.cup.utc_offset / 60) })],
+    [t("Lasts"), fmtMinutes(r.cup.minutes)],
+    [t("Entry"), r.cup.entry_fee ? tf("{n} coins", { n: fmtNum(r.cup.entry_fee) }) : t("free")],
+  ]) : el("p", { class: "faint" }, t("No weekly cup is set up (SNOOK_LEGEND_CUP)."));
+  return el("div", { class: "stack" },
+    pageHead(t("Server"), t("What runs, how it is set up, how busy it is"), updatedLabel(render)),
+    el("div", { class: "kpis" },
+      kpi({ label: t("Version"), value: s.version, sub: tf("protocol {p} · rules {r}", { p: s.protocol, r: s.ruleset }), iconName: "server" }),
+      kpi({ label: t("Up for"), value: fmtDuration(s.uptime_secs), sub: tf("since {when}", { when: fmtDate(s.now - s.uptime_secs) }), iconName: "clock", tone: "success" }),
+      kpi({ label: t("Memory"), value: fmtBytes(s.memory_bytes), iconName: "memory", tone: "info" }),
+      kpi({ label: t("Connections"), value: fmtNum(s.online), sub: tn(s.addresses, "{n} address", "{n} addresses"), iconName: "plug" }),
+      kpi({ label: t("Games now"), value: fmtNum(s.games), sub: tn(s.tables, "{n} open table", "{n} open tables"), iconName: "activity", tone: "warning" }),
+      kpi({ label: t("Writes waiting"), value: fmtNum(s.pending_writes), sub: t("results, saves and payments on their way to the database"), iconName: "queue", tone: s.pending_writes > 50 ? "danger" : "" })),
+    el("div", { class: "grid-2" },
+      card(cardHead(t("Health")), el("div", { class: "card-body health" },
+        healthRow(s.persistent, s.persistent ? t("Accounts and games are saved in PostgreSQL") : t("Everything is kept in memory: nothing is saved")),
+        healthRow(!s.draining, s.draining ? t("Restarting: no new games") : t("Taking new games")),
+        healthRow(!(s.online >= 4 && s.addresses === 1), s.online >= 4 && s.addresses === 1 ? t("Every player comes from one address: set SNOOK_LEGEND_CLIENT_IP_HEADER") : t("Players' addresses are told apart"), null, true),
+        healthRow(s.stripe, s.stripe ? t("Card payments (Stripe) are on") : t("Card payments (Stripe) are off"), null, true),
+        healthRow(s.msstore, s.msstore ? t("Microsoft Store purchases are on") : t("Microsoft Store purchases are off"), null, true),
+        healthRow(s.pending_writes <= 50, tn(s.pending_writes, "{n} write waiting", "{n} writes waiting"), null, true),
+        healthRow(true, tf("Only version {p} of the game is let in", { p: s.oldest_protocol === s.protocol ? s.protocol : s.oldest_protocol + "–" + s.protocol })))),
+      card(cardHead(t("Rules of this server")), el("div", { class: "card-body" }, kv([
+        [t("Shot clock"), tf("{s} s", { s: r.shot_clock_secs })],
+        [t("Time to come back after a drop"), tf("{s} s", { s: r.reconnect_grace_secs })],
+        [t("Lounge chat kept"), tn(r.chat_history, "{n} line", "{n} lines")],
+        [t("Connections per address"), fmtNum(r.max_connections_per_ip)],
+        [t("Tournament no-show"), tf("{s} s", { s: r.tournament_no_show_secs })],
+        [t("Open tournaments at most"), fmtNum(r.max_open_tournaments)],
+        [t("“Looking for a game” notes last"), fmtDuration(r.seek_lifetime_secs)],
+        [t("Local network server"), r.lan ? t("Yes") : t("No")],
+      ])))),
+    el("div", { class: "grid-2" },
+      card(cardHead(t("Weekly cup")), el("div", { class: "card-body" }, cup)),
+      card(cardHead(t("Staff"), tn(staffList.total, "{n} member", "{n} members")), staffList.users.length ? table([t("Name"), t("Role"), t("Last seen")], staffList.users.map((u) => el("tr", { class: "click", onclick: () => go("players/" + encodeURIComponent(u.username)) },
+        el("td", {}, personLink(u.username)), el("td", {}, badge(roleLabel(u.role), u.role === "admin" ? "danger" : "info", "shield")), el("td", {}, u.online ? badge(t("Online"), "success dot") : timeEl(u.last_seen)))))
+        : empty("shield", t("No staff yet"), null))));
+};
+
+// ============================================================ replay viewer
+
+/** A stored game as a file (the strokes). */
+async function downloadReplay(id) {
+  try {
+    const r = await api("/replay/" + id);
+    const blob = new Blob([JSON.stringify(r, null, 2)], { type: "application/json" });
+    const a = el("a", { href: URL.createObjectURL(blob), download: "snook-legend-game-" + id + ".json" });
+    document.body.append(a);
+    a.click();
+    a.remove();
+  } catch (e) { toast(e.message, "error"); }
+}
 
 let viewer = null;
 const BALL_COLORS = ["#f4efe2", "#f2c200", "#2051c9", "#d42a2a", "#6c2fa3", "#f07a1a", "#1d8a3a", "#8a2323", "#141414"];
 const ballColor = (n) => BALL_COLORS[n > 8 ? n - 8 : n];
+const POCKETS = { "head left corner": "the head-left corner", "head right corner": "the head-right corner", "left side": "the left side pocket", "right side": "the right side pocket", "foot left corner": "the foot-left corner", "foot right corner": "the foot-right corner" };
+const pocketName = (p) => t(POCKETS[String(p)] || String(p));
+/** A foul as the server describes it, in the chosen language. */
+function foulText(f) {
+  let m = String(f).match(/^Wrong ball hit first \((.+)\)$/);
+  if (m) return tf("Wrong ball hit first ({id})", { id: m[1] });
+  m = String(f).match(/^The (.+) left the table$/);
+  if (m) return tf("The {id} left the table", { id: m[1] });
+  return t(f);
+}
 
 function closeViewer() {
   if (!viewer) return;
   cancelAnimationFrame(viewer.raf);
   clearTimeout(viewer.hold);
   viewer.box.remove();
+  if (viewer.opener && document.contains(viewer.opener)) viewer.opener.focus();
   viewer = null;
 }
 
 async function openViewer(path) {
   closeViewer();
-  const card = el("div", { class: "viewer-card card" }, el("div", { class: "viewer-wait" }, el("span", { class: "spinner" }), "Rebuilding the game…"));
-  const box = el("div", { class: "viewer", role: "dialog", "aria-modal": "true" }, card);
-  box.addEventListener("click", (e) => { if (e.target === box) closeViewer(); });
+  const card = el("div", { class: "viewer-card card" }, el("div", { class: "viewer-wait" }, el("span", { class: "spinner" }), t("Rebuilding the game…")));
+  const box = el("div", { class: "viewer", role: "dialog", "aria-modal": "true", "aria-label": t("Replay") }, card);
+  box.addEventListener("mousedown", (e) => { if (e.target === box) closeViewer(); });
   document.body.append(box);
-  viewer = { box, raf: 0 };
+  viewer = { box, raf: 0, opener: document.activeElement };
   let data;
   try { data = await api(path); } catch (e) {
-    if (viewer && viewer.box === box) {
-      card.replaceChildren(el("p", { class: "error" }, e.message), el("div", { class: "actions" }, el("button", { onclick: closeViewer }, "Close")));
-    }
+    if (viewer && viewer.box === box) setKids(card, alertBox("danger", t("The game couldn't be opened"), e.message), el("div", { class: "row" }, btn(t("Close"), { onClick: closeViewer })));
     return;
   }
   if (!viewer || viewer.box !== box) return;
-  buildViewer(card, data, path);
+  buildViewer(card, data);
 }
 
 function strokeSummary(s, names) {
-  const who = names[s.seat] || "Player " + (s.seat + 1);
-  if (s.kind === "resign") return [who, "resigned"];
-  if (s.kind === "abandon") return [who, "left the game"];
-  if (s.kind === "time_foul") return [who, "ran out of time"];
+  const who = names[s.seat] || tf("Player {n}", { n: s.seat + 1 });
+  if (s.kind === "resign") return [who, t("resigned")];
+  if (s.kind === "abandon") return [who, t("left the game")];
+  if (s.kind === "time_foul") return [who, t("ran out of time")];
   const made = s.pocketed.filter((p) => p.ball !== 0).map((p) => p.ball);
   const parts = [];
-  if (s.break) parts.push("break");
-  parts.push(made.length ? "made " + made.join(", ") : s.first === null ? "hit nothing" : "made nothing");
-  if (s.fouls.length) parts.push("foul");
+  if (s.break) parts.push(t("break"));
+  parts.push(made.length ? tf("made {balls}", { balls: made.join(", ") }) : s.first === null ? t("hit nothing") : t("made nothing"));
+  if (s.fouls.length) parts.push(t("foul"));
   return [who, parts.join(" · ")];
 }
-
 function strokeDetails(s) {
   if (s.kind !== "shot") return [];
   const out = [];
-  for (const p of s.pocketed) out.push((p.ball === 0 ? "Cue ball" : p.ball + "-ball") + " in the " + p.pocket);
-  for (const f of s.fouls) out.push("Foul: " + f);
-  if (s.called) out.push("8-ball called in the " + s.called);
-  if (s.in_hand) out.push("ball in hand");
-  if (s.timeout) out.push("played by the shot clock");
-  out.push("power " + s.power + "%");
+  for (const p of s.pocketed) out.push(p.ball === 0 ? tf("The cue ball in {pocket}", { pocket: pocketName(p.pocket) }) : tf("The {n} in {pocket}", { n: p.ball, pocket: pocketName(p.pocket) }));
+  for (const f of s.fouls) out.push(tf("Foul: {foul}", { foul: foulText(f) }));
+  if (s.called) out.push(tf("8-ball called in {pocket}", { pocket: pocketName(s.called) }));
+  if (s.in_hand) out.push(t("ball in hand"));
+  if (s.timeout) out.push(t("played by the shot clock"));
+  out.push(tf("power {n}%", { n: s.power }));
   return out;
 }
 
-function buildViewer(card, data, path) {
-  const t = data.table;
-  const m = data.match;
-  const names = m.players;
-  const R = t.ball_radius;
-  const rail = 120, L = t.length, Wd = t.width;
+function buildViewer(card, data) {
+  const tb = data.table, m = data.match, names = m.players;
+  const R = tb.ball_radius;
+  const rail = 120, L = tb.length, Wd = tb.width;
   const vb = [-L / 2 - rail, -Wd / 2 - rail, L + 2 * rail, Wd + 2 * rail];
-  const board = svg("svg", { viewBox: vb.join(" "), class: "table-svg", role: "img", "aria-label": "The table from above" });
+  const board = svg("svg", { viewBox: vb.join(" "), class: "table-svg", role: "img", "aria-label": t("The table from above") });
   const defs = svg("defs");
   board.append(defs,
     svg("rect", { x: vb[0], y: vb[1], width: vb[2], height: vb[3], rx: 70, class: "t-rail" }),
@@ -735,73 +2189,71 @@ function buildViewer(card, data, path) {
     if (k === 4) continue;
     for (const sy of [-1, 1]) board.append(svg("circle", { cx: -L / 2 + k * L / 8, cy: sy * (Wd / 2 + rail * 0.62), r: 7, class: "t-diamond" }));
   }
-  for (let k = 1; k < 4; k++) {
-    for (const sx of [-1, 1]) board.append(svg("circle", { cx: sx * (L / 2 + rail * 0.62), cy: -Wd / 2 + k * Wd / 4, r: 7, class: "t-diamond" }));
-  }
-  for (const c of t.cushions) board.append(svg("line", { x1: c[0], y1: -c[1], x2: c[2], y2: -c[3], class: "t-jaw" }));
-  for (const p of t.pockets) board.append(svg("circle", { cx: p.x, cy: -p.y, r: p.r, class: "t-pocket" }, svg("title", {}, p.name)));
+  for (let k = 1; k < 4; k++) for (const sx of [-1, 1]) board.append(svg("circle", { cx: sx * (L / 2 + rail * 0.62), cy: -Wd / 2 + k * Wd / 4, r: 7, class: "t-diamond" }));
+  for (const c of tb.cushions) board.append(svg("line", { x1: c[0], y1: -c[1], x2: c[2], y2: -c[3], class: "t-jaw" }));
+  for (const p of tb.pockets) board.append(svg("circle", { cx: p.x, cy: -p.y, r: p.r, class: "t-pocket" }, svg("title", {}, pocketName(p.name))));
   const balls = [];
   for (let n = 0; n < 16; n++) {
     const g = svg("g", { class: "ball" });
     const color = ballColor(n);
     if (n > 8) {
       defs.append(svg("clipPath", { id: "vb" + n }, svg("circle", { r: R })));
-      g.append(svg("circle", { r: R, fill: "#f4efe2" }),
-        svg("rect", { x: -R, y: -R * 0.55, width: 2 * R, height: R * 1.1, fill: color, "clip-path": "url(#vb" + n + ")" }));
+      g.append(svg("circle", { r: R, fill: "#f4efe2" }), svg("rect", { x: -R, y: -R * 0.55, width: 2 * R, height: R * 1.1, fill: color, "clip-path": "url(#vb" + n + ")" }));
     } else {
       g.append(svg("circle", { r: R, fill: color }));
     }
     g.append(svg("circle", { r: R, class: "ball-edge" }));
-    if (n > 0) {
-      g.append(svg("circle", { r: R * 0.5, class: "ball-disc" }),
-        svg("text", { y: R * 0.22, "text-anchor": "middle", class: "ball-num" }, n));
-    }
-    g.append(svg("title", {}, n === 0 ? "Cue ball" : n + "-ball"));
+    if (n > 0) g.append(svg("circle", { r: R * 0.5, class: "ball-disc" }), svg("text", { y: R * 0.22, "text-anchor": "middle", class: "ball-num" }, n));
+    g.append(svg("title", {}, n === 0 ? t("Cue ball") : tf("The {n}", { n })));
     balls.push(g);
     board.append(g);
   }
-
   const strokes = data.strokes;
   const st = { k: 0, f: 0, pos: [], playing: false, speed: 1, acc: 0, last: 0 };
   const startOf = (k) => (k < strokes.length ? strokes[k].start : data.end).map((p) => (p ? p.slice() : null));
-  const apply = (frame) => {
-    for (let i = 0; i + 2 < frame.length; i += 3) {
-      const b = frame[i];
-      st.pos[b] = frame[i + 1] === null ? null : [frame[i + 1], frame[i + 2]];
-    }
-  };
+  const apply = (frame) => { for (let i = 0; i + 2 < frame.length; i += 3) st.pos[frame[i]] = frame[i + 1] === null ? null : [frame[i + 1], frame[i + 2]]; };
   const frames = (k) => (k < strokes.length ? strokes[k].frames : []);
+  const over = () => {
+    if (data.over) return tf("{name} won ({how})", { name: names[data.over.winner] || "?", how: gameEnd(data.over.reason) });
+    return m.live ? t("still being played") : t("unfinished");
+  };
+  const scrub = el("input", { type: "range", min: "0", max: "0", value: "0", class: "scrub", "aria-label": t("Position in the stroke") });
+  const status = el("div", { class: "viewer-status" });
+  const prev = btn(t("Previous stroke") + " (←)", { kind: "icon-only", icon: "chevronLeft", iconOnly: true });
+  const back = el("button", { type: "button", class: "btn", title: t("One frame back") + " (,)" }, "‹");
+  const play = el("button", { type: "button", class: "btn primary play", title: t("Play or pause") + " (" + t("Space") + ")" });
+  const fwd = el("button", { type: "button", class: "btn", title: t("One frame forward") + " (.)" }, "›");
+  const next = btn(t("Next stroke") + " (→)", { kind: "icon-only", icon: "chevronRight", iconOnly: true });
+  const speed = el("select", { class: "select", "aria-label": t("Speed") }, [["0.25", "¼×"], ["0.5", "½×"], ["1", "1×"], ["2", "2×"], ["4", "4×"]].map(([v, l]) => el("option", { value: v }, l)));
+  speed.value = "1";
+  speed.addEventListener("change", () => { st.speed = Number(speed.value); });
+  const list = el("ol", { class: "stroke-list" }, strokes.map((s, k) => {
+    const [who, what] = strokeSummary(s, names);
+    const foul = s.kind !== "shot" || s.fouls.length > 0;
+    return el("li", { class: foul ? "foul" : "", onclick: () => { pause(); seek(k, 0); } }, el("span", { class: "n" }, k + 1), el("span", { class: "who seat" + s.seat }, who), el("span", { class: "what" }, what));
+  }));
   const draw = () => {
     st.pos.forEach((p, n) => {
-      if (p) {
-        balls[n].setAttribute("transform", "translate(" + p[0] + "," + -p[1] + ")");
-        balls[n].removeAttribute("visibility");
-      } else {
-        balls[n].setAttribute("visibility", "hidden");
-      }
+      if (p) { balls[n].setAttribute("transform", "translate(" + p[0] + "," + -p[1] + ")"); balls[n].removeAttribute("visibility"); }
+      else balls[n].setAttribute("visibility", "hidden");
     });
     const fr = frames(st.k);
     scrub.max = String(fr.length);
     scrub.value = String(st.f);
     scrub.disabled = fr.length === 0;
-    play.textContent = st.playing ? "❚❚ Pause" : "▶ Play";
+    setKids(play, icon(st.playing ? "pause" : "play"), st.playing ? t("Pause") : t("Play"));
     prev.disabled = st.k === 0 && st.f === 0;
     next.disabled = st.k >= strokes.length;
     const s = strokes[st.k];
     if (s) {
       const [who, what] = strokeSummary(s, names);
-      status.replaceChildren(el("b", {}, "Stroke " + (st.k + 1) + " of " + strokes.length), " · ", who, " · ", what,
-        el("div", { class: "muted details" }, strokeDetails(s).join(" · ")));
+      setKids(status, el("b", {}, tf("Stroke {n} of {total}", { n: st.k + 1, total: strokes.length })), " · ", who, " · ", what, el("div", { class: "muted details" }, strokeDetails(s).join(" · ")));
     } else {
-      status.replaceChildren(el("b", {}, "End of the game"), " · ", over());
+      setKids(status, el("b", {}, t("End of the game")), " · ", over());
     }
     list.querySelectorAll("li").forEach((li, k) => li.classList.toggle("current", k === st.k));
     const cur = list.children[Math.min(st.k, list.children.length - 1)];
     if (cur && st.playing) cur.scrollIntoView({ block: "nearest" });
-  };
-  const over = () => {
-    if (data.over) return (names[data.over.winner] || "?") + " won (" + data.over.reason.replaceAll("_", " ") + ")";
-    return m.live ? "still being played" : "unfinished";
   };
   const seek = (k, f) => {
     st.k = Math.max(0, Math.min(k, strokes.length));
@@ -819,15 +2271,9 @@ function buildViewer(card, data, path) {
     st.acc += dt * data.fps * st.speed;
     const fr = frames(st.k);
     let moved = false;
-    while (st.acc >= 1 && st.f < fr.length) {
-      apply(fr[st.f]);
-      st.f++;
-      st.acc -= 1;
-      moved = true;
-    }
+    while (st.acc >= 1 && st.f < fr.length) { apply(fr[st.f]); st.f++; st.acc -= 1; moved = true; }
     if (moved) draw();
     if (st.f >= fr.length) {
-      // A breath between strokes, then the next one.
       st.acc = 0;
       if (st.k >= strokes.length) { pause(); return; }
       clearTimeout(viewer.hold);
@@ -841,112 +2287,51 @@ function buildViewer(card, data, path) {
     }
     viewer.raf = requestAnimationFrame(tick);
   };
-  const start = () => {
+  const startPlay = () => {
     if (st.k >= strokes.length) seek(0, 0);
-    st.playing = true;
-    st.last = 0;
-    st.acc = 0;
+    st.playing = true; st.last = 0; st.acc = 0;
     draw();
     cancelAnimationFrame(viewer.raf);
     viewer.raf = requestAnimationFrame(tick);
   };
-  const toggle = () => (st.playing ? pause() : start());
+  const toggle = () => (st.playing ? pause() : startPlay());
   const stepFrame = (d) => {
     pause();
     const fr = frames(st.k);
-    if (d > 0) {
-      if (st.f < fr.length) seek(st.k, st.f + 1);
-      else if (st.k < strokes.length) seek(st.k + 1, 0);
-    } else if (st.f > 0) seek(st.k, st.f - 1);
+    if (d > 0) { if (st.f < fr.length) seek(st.k, st.f + 1); else if (st.k < strokes.length) seek(st.k + 1, 0); }
+    else if (st.f > 0) seek(st.k, st.f - 1);
     else if (st.k > 0) seek(st.k - 1, frames(st.k - 1).length);
   };
-  const stepStroke = (d) => {
-    pause();
-    if (d < 0 && st.f > 0) seek(st.k, 0);
-    else seek(st.k + d, 0);
-  };
-
-  const prev = el("button", { title: "Previous stroke (←)", onclick: () => stepStroke(-1) }, "⏮");
-  const back = el("button", { title: "One frame back (,)", onclick: () => stepFrame(-1) }, "‹");
-  const play = el("button", { class: "primary play", title: "Play / pause (space)", onclick: toggle }, "▶ Play");
-  const fwd = el("button", { title: "One frame forward (.)", onclick: () => stepFrame(1) }, "›");
-  const next = el("button", { title: "Next stroke (→)", onclick: () => stepStroke(1) }, "⏭");
-  const speed = el("select", { title: "Speed", onchange: () => { st.speed = Number(speed.value); } },
-    [["0.25", "¼×"], ["0.5", "½×"], ["1", "1×"], ["2", "2×"], ["4", "4×"]].map(([v, l]) => el("option", { value: v }, l)));
-  speed.value = "1";
-  const scrub = el("input", { type: "range", min: "0", max: "0", value: "0", class: "scrub", "aria-label": "Position in the stroke" });
+  const stepStroke = (d) => { pause(); if (d < 0 && st.f > 0) seek(st.k, 0); else seek(st.k + d, 0); };
+  prev.addEventListener("click", () => stepStroke(-1));
+  next.addEventListener("click", () => stepStroke(1));
+  back.addEventListener("click", () => stepFrame(-1));
+  fwd.addEventListener("click", () => stepFrame(1));
+  play.addEventListener("click", toggle);
   scrub.addEventListener("input", () => { pause(); seek(st.k, Number(scrub.value)); });
-  const status = el("div", { class: "viewer-status" });
-  const list = el("ol", { class: "stroke-list" }, strokes.map((s, k) => {
-    const [who, what] = strokeSummary(s, names);
-    const foul = s.kind !== "shot" || s.fouls.length > 0;
-    return el("li", { class: foul ? "foul" : "", onclick: () => { pause(); seek(k, 0); } },
-      el("span", { class: "num" }, k + 1), el("span", { class: "who seat" + s.seat }, who), el("span", { class: "what" }, what));
-  }));
-  const title = el("div", { class: "viewer-title" },
-    el("b", {}, names[0] + " vs " + names[1]),
-    el("span", { class: "muted" }, [m.live ? "in progress" : m.rated ? "rated" : "casual", m.live ? "so far" : fmtDate(m.at),
-      m.id ? "#" + m.id : null].filter(Boolean).join(" · ")));
-  const close = el("button", { class: "ghost", title: "Close (Esc)", onclick: closeViewer }, "✕");
-  card.replaceChildren(
-    el("div", { class: "viewer-head" }, title, close),
+  const close = btn(t("Close") + " (Esc)", { kind: "ghost icon-only", icon: "x", iconOnly: true, onClick: closeViewer });
+  setKids(card, 
+    el("div", { class: "viewer-head" },
+      el("div", { class: "viewer-title" }, el("b", {}, names[0] + " × " + names[1]),
+        el("span", { class: "muted" }, [m.live ? t("in progress") : m.rated ? t("rated") : t("casual"), m.live ? t("so far") : fmtDate(m.at), m.id ? "#" + m.id : null].filter(Boolean).join(" · "))),
+      el("div", { class: "row" }, m.id && !m.live ? btn(t("Download"), { kind: "sm ghost", icon: "download", onClick: () => downloadReplay(m.id) }) : null, close)),
     el("div", { class: "viewer-body" },
-      el("div", { class: "viewer-stage" }, board, scrub,
-        el("div", { class: "viewer-controls" }, prev, back, play, fwd, next, speed), status),
-      el("div", { class: "viewer-side" }, el("div", { class: "muted side-head" }, strokes.length + " strokes · " + over()), list)),
-    ...(data.error ? [el("p", { class: "error" }, "The replay stops early: " + data.error)] : []));
+      el("div", { class: "viewer-stage" }, board, scrub, el("div", { class: "viewer-controls" }, prev, back, play, fwd, next, speed), status),
+      el("div", { class: "viewer-side" }, el("div", { class: "side-head" }, tn(strokes.length, "{n} stroke", "{n} strokes") + " · " + over()), list)),
+    data.error ? alertBox("warning", t("The replay stops early"), data.error) : null);
   viewer.keys = (e) => {
     if (e.target && ["INPUT", "SELECT", "TEXTAREA"].includes(e.target.tagName) && e.target !== scrub) return;
-    if (e.key === "Escape") closeViewer();
-    else if (e.key === " ") { e.preventDefault(); toggle(); }
+    if (e.key === " ") { e.preventDefault(); toggle(); }
     else if (e.key === "ArrowLeft") { e.preventDefault(); stepStroke(-1); }
     else if (e.key === "ArrowRight") { e.preventDefault(); stepStroke(1); }
     else if (e.key === ",") stepFrame(-1);
     else if (e.key === ".") stepFrame(1);
-    else return;
   };
   seek(0, 0);
   play.focus();
 }
 
-document.addEventListener("keydown", (e) => { if (viewer && viewer.keys) viewer.keys(e); else if (viewer && e.key === "Escape") closeViewer(); });
+// ===================================================================== start
 
-function signOut(callServer = true) {
-  if (callServer && token) api("/logout", { method: "POST" }).catch(() => {});
-  token = "";
-  me = null;
-  sessionStorage.removeItem("snook-legend-admin");
-  $("#app").classList.add("hidden");
-  $("#login").classList.remove("hidden");
-}
-
-async function start() {
-  if (!token) { signOut(false); return; }
-  try {
-    me = await api("/me");
-    $("#me").textContent = me.username + " · " + me.role;
-    $("#me").className = me.role === "admin" ? "admin" : "";
-    $("#login").classList.add("hidden");
-    $("#app").classList.remove("hidden");
-    render();
-  } catch (_) { signOut(false); }
-}
-
-$("#login-form").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  $("#login-error").textContent = "";
-  try {
-    const d = await api("/login", { method: "POST", body: { username: $("#login-user").value, password: $("#login-pass").value } });
-    token = d.token;
-    sessionStorage.setItem("snook-legend-admin", token);
-    $("#login-pass").value = "";
-    start();
-  } catch (err) { $("#login-error").textContent = err.message; }
-});
-$("#logout").addEventListener("click", () => signOut(true));
-// The metrics page keeps itself current.
-setInterval(() => {
-  if (token && view === "metrics" && !viewer && document.visibilityState === "visible" && $("#main .metrics")) render();
-}, 60000);
-document.querySelectorAll("nav button").forEach((b) => b.addEventListener("click", () => setView(b.dataset.view)));
+applyTheme();
 start();

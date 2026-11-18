@@ -29,6 +29,7 @@ use crate::{Server, new_token, now, token_hash};
 const ADMIN_SESSION: i64 = 8 * 60 * 60;
 const INDEX: &str = include_str!("../admin/index.html");
 const SCRIPT: &str = include_str!("../admin/app.js");
+const WORDS: &str = include_str!("../admin/i18n.js");
 const STYLE: &str = include_str!("../admin/app.css");
 
 pub fn router() -> Router<Arc<Server>> {
@@ -37,6 +38,7 @@ pub fn router() -> Router<Arc<Server>> {
         .route("/admin/", get(|| async { page(INDEX, "text/html; charset=utf-8") }))
         .route("/admin/app.js", get(|| async { page(SCRIPT, "text/javascript; charset=utf-8") }))
         .route("/admin/app.css", get(|| async { page(STYLE, "text/css; charset=utf-8") }))
+        .route("/admin/i18n.js", get(|| async { page(WORDS, "text/javascript; charset=utf-8") }))
         .route("/admin/api/login", post(login))
         .route("/admin/api/logout", post(logout))
         .route("/admin/api/me", get(me))
@@ -62,6 +64,12 @@ pub fn router() -> Router<Arc<Server>> {
         .route("/admin/api/board/{id}", axum::routing::delete(unpin_note))
         .route("/admin/api/seeks", get(seeks))
         .route("/admin/api/seeks/{name}", axum::routing::delete(remove_seek))
+        .route("/admin/api/notes/{id}", axum::routing::delete(remove_note))
+        .route("/admin/api/chat", get(chat))
+        .route("/admin/api/chat/{id}/delete", post(delete_chat))
+        .route("/admin/api/tournaments/{id}/cancel", post(cancel_tournament))
+        .route("/admin/api/economy", get(economy))
+        .route("/admin/api/system", get(system))
         // The panel sends small JSON bodies (the longest a note on the
         // board); anyone can post to the sign-in.
         .layer(DefaultBodyLimit::max(MAX_BODY))
@@ -185,6 +193,7 @@ fn user_json(u: &User, online: bool) -> Value {
 async fn metrics(State(server): State<Arc<Server>>, headers: HeaderMap) -> ApiResult {
     staff(&server, &headers).await?;
     let m = server.store.metrics(now()).await?;
+    let countries = server.store.active_countries(now() - 30 * 86_400).await?;
     let waits: Vec<u32> = server.with(|l| l.queue_waits.iter().copied().collect());
     let avg_wait =
         if waits.is_empty() { 0.0 } else { waits.iter().sum::<u32>() as f64 / waits.len() as f64 };
@@ -197,6 +206,7 @@ async fn metrics(State(server): State<Arc<Server>>, headers: HeaderMap) -> ApiRe
     let recent: Vec<u32> = waits.iter().rev().take(60).rev().copied().collect();
     Ok(Json(json!({
         "metrics": m,
+        "countries": countries,
         "queue": {
             "pairs": waits.len() / 2, "avg_wait_secs": avg_wait, "median_wait_secs": median,
             "size": waiting.len(),
@@ -443,20 +453,58 @@ struct UsersQuery {
     q: String,
     #[serde(default)]
     page: u32,
+    /// `all`, `online`, `staff`, `banned`, `muted` or `deleted`.
+    #[serde(default)]
+    filter: String,
+    /// `newest`, `name`, `rating` or `last_seen`.
+    #[serde(default)]
+    sort: String,
 }
+
+/// Players on a page of the list.
+const USERS_PER_PAGE: u32 = 50;
 
 async fn users(
     State(server): State<Arc<Server>>,
     headers: HeaderMap,
     Query(q): Query<UsersQuery>,
 ) -> ApiResult {
+    use crate::store::{UserFilter, UserSearch, UserSort};
     staff(&server, &headers).await?;
-    let per_page = 50;
-    let (list, total) =
-        server.store.search_users(q.q.trim(), q.page.min(10_000) * per_page, per_page).await?;
+    let per_page = USERS_PER_PAGE;
+    let page = q.page.min(10_000);
+    let search = UserSearch {
+        q: q.q.trim().chars().take(64).collect(),
+        filter: UserFilter::from_code(&q.filter),
+        sort: UserSort::from_code(&q.sort),
+        now: now(),
+    };
+    let (list, total) = if q.filter == "online" {
+        // Who is online is known here, not in the database.
+        let ids = server.with(|l| l.online_user_ids());
+        let mut all = Vec::with_capacity(ids.len());
+        for id in ids {
+            if let Some(u) = server.store.user_by_id(id).await?
+                && search.matches(&u)
+            {
+                all.push(u);
+            }
+        }
+        match search.sort {
+            UserSort::Newest => all.sort_by_key(|u| std::cmp::Reverse(u.id)),
+            UserSort::Name => all.sort_by_key(|u| u.username.to_lowercase()),
+            UserSort::Rating => all.sort_by_key(|u| std::cmp::Reverse(u.rating)),
+            UserSort::LastSeen => all.sort_by_key(|u| std::cmp::Reverse(u.last_seen)),
+        }
+        let total = all.len() as i64;
+        let start = (page * per_page) as usize;
+        (all.into_iter().skip(start).take(per_page as usize).collect::<Vec<_>>(), total)
+    } else {
+        server.store.search_users(&search, page * per_page, per_page).await?
+    };
     let rows: Vec<Value> =
         server.with(|l| list.iter().map(|u| user_json(u, l.is_online(&u.username))).collect());
-    Ok(Json(json!({ "users": rows, "total": total, "page": q.page, "per_page": per_page })))
+    Ok(Json(json!({ "users": rows, "total": total, "page": page, "per_page": per_page })))
 }
 
 async fn find(server: &Server, name: &str) -> Result<User, ApiError> {
@@ -485,7 +533,15 @@ async fn user_detail(
         server.store.payments_of(u.id, 50),
     );
     let msstore = server.store.ms_consumes_of(u.id, 50).await?;
+    let notes = server.store.staff_notes(u.id, 100).await?;
+    let search =
+        crate::store::AuditSearch { target: Some(u.username.clone()), ..Default::default() };
+    let moderation = server.store.audit_search(&search, 100).await?;
     let online = server.with(|l| l.is_online(&u.username));
+    let presence = server.with(|l| {
+        l.player(&u.username)
+            .map(|p| json!({ "status": p.status, "protocol": l.protocol_of(&u.username) }))
+    });
     let history: Vec<Value> = history?
         .into_iter()
         .map(|h| {
@@ -507,6 +563,9 @@ async fn user_detail(
         "msstore": msstore,
         "career": career?,
         "payment_email": recovery?,
+        "notes": notes,
+        "moderation": moderation,
+        "presence": presence,
     })))
 }
 
@@ -530,6 +589,9 @@ struct ActionBody {
     item: String,
     #[serde(default)]
     days: Option<u32>,
+    /// The new username, for "rename".
+    #[serde(default)]
+    name: String,
 }
 
 async fn user_action(
@@ -547,7 +609,7 @@ async fn user_action(
     if target.role.is_staff() && s.user.role != Role::Admin {
         return Err(err(StatusCode::FORBIDDEN, "Only administrators can act on staff."));
     }
-    let own_wallet = matches!(action.as_str(), "coins" | "item" | "vip");
+    let own_wallet = matches!(action.as_str(), "coins" | "item" | "vip" | "revoke" | "note");
     if target.id == s.user.id && action != "logout-all" && !own_wallet {
         return Err(err(StatusCode::BAD_REQUEST, "You can't do that to yourself."));
     }
@@ -683,6 +745,78 @@ async fn user_action(
             crate::shop::push_wallet(&server, &target).await;
             log(&server, &s, "vip", &target.username, &format!("+{days} days: {reason}")).await;
         }
+        // A note among the staff (the player never sees it).
+        "note" => {
+            let text = clean_text(&body.reason, crate::store::MAX_STAFF_NOTE);
+            if text.is_empty() {
+                return Err(err(StatusCode::BAD_REQUEST, "Write the note."));
+            }
+            server.store.add_staff_note(target.id, s.user.id, "note", &text, t).await?;
+            log(&server, &s, "note", &target.username, &text).await;
+        }
+        // A warning the player is shown: now if online, else at their next
+        // sign-in.
+        "warn" => {
+            let text = clean_text(&body.reason, crate::store::MAX_STAFF_NOTE);
+            if text.is_empty() {
+                return Err(err(StatusCode::BAD_REQUEST, "Write the warning."));
+            }
+            server.store.add_staff_note(target.id, s.user.id, "warning", &text, t).await?;
+            if server.with(|l| l.is_online(&target.username)) {
+                crate::account::deliver_warnings(&server, &target).await;
+            }
+            log(&server, &s, "warn", &target.username, &text).await;
+        }
+        // An offensive name: changed by the staff, without using one of the
+        // player's own changes. The player signs in again under it.
+        "rename" => {
+            require_admin(&s)?;
+            let name = body.name.trim();
+            if !valid_username(name) {
+                return Err(err(
+                    StatusCode::BAD_REQUEST,
+                    "Usernames have 3–16 letters, digits or underscores.",
+                ));
+            }
+            if name == target.username {
+                return Err(err(StatusCode::BAD_REQUEST, "That is already their username."));
+            }
+            if server.is_reserved_name(name) && !name.eq_ignore_ascii_case(&target.username) {
+                return Err(err(StatusCode::CONFLICT, "That username is taken."));
+            }
+            match server.store.staff_rename(target.id, name).await? {
+                crate::store::Rename::Done => {}
+                crate::store::Rename::Taken => {
+                    return Err(err(StatusCode::CONFLICT, "That username is taken."));
+                }
+                crate::store::Rename::NoChangesLeft => {
+                    return Err(err(StatusCode::BAD_REQUEST, "A deleted account keeps its name."));
+                }
+            }
+            server.with(|l| {
+                l.kick(
+                    &target.username,
+                    &format!("The staff changed your username to {name}. Sign in again."),
+                )
+            });
+            let detail =
+                if reason.is_empty() { name.to_string() } else { format!("{name}: {reason}") };
+            log(&server, &s, "rename", &target.username, &detail).await;
+            let fresh = find(&server, name).await?;
+            return Ok(Json(json!({ "ok": true, "user": user_json(&fresh, false) })));
+        }
+        // An item taken back (given by mistake, a refunded purchase).
+        "revoke" => {
+            require_admin(&s)?;
+            if reason.is_empty() {
+                return Err(err(StatusCode::BAD_REQUEST, "Give a reason."));
+            }
+            if server.store.revoke_items(target.id, &[body.item.as_str()]).await? == 0 {
+                return Err(err(StatusCode::BAD_REQUEST, "The player doesn't have that item."));
+            }
+            crate::shop::push_wallet(&server, &target).await;
+            log(&server, &s, "revoke", &target.username, &format!("{}: {reason}", body.item)).await;
+        }
         _ => return Err(err(StatusCode::NOT_FOUND, "Unknown action.")),
     }
     let fresh = find(&server, &target.username).await?;
@@ -759,9 +893,221 @@ async fn resolve_report(
     Ok(Json(json!({ "ok": true })))
 }
 
-async fn audit(State(server): State<Arc<Server>>, headers: HeaderMap) -> ApiResult {
+#[derive(Deserialize)]
+struct AuditQuery {
+    #[serde(default)]
+    q: String,
+    #[serde(default)]
+    action: String,
+    #[serde(default)]
+    target: String,
+    /// Entries older than this id (the next page).
+    #[serde(default)]
+    before: Option<i64>,
+}
+
+/// Entries on a page of the audit log.
+const AUDIT_PAGE: u32 = 100;
+
+async fn audit(
+    State(server): State<Arc<Server>>,
+    headers: HeaderMap,
+    Query(q): Query<AuditQuery>,
+) -> ApiResult {
     staff(&server, &headers).await?;
-    Ok(Json(json!({ "entries": server.store.audit_log(300).await? })))
+    let some = |v: &str| Some(v.trim().to_string()).filter(|v| !v.is_empty());
+    let search = crate::store::AuditSearch {
+        q: q.q.trim().chars().take(64).collect(),
+        action: some(&q.action),
+        target: some(&q.target),
+        before: q.before,
+    };
+    let entries = server.store.audit_search(&search, AUDIT_PAGE).await?;
+    let next =
+        (entries.len() == AUDIT_PAGE as usize).then(|| entries.last().map(|e| e.id)).flatten();
+    Ok(Json(json!({ "entries": entries, "next": next })))
+}
+
+/// The lounge chat as the staff see it (deleted lines with their text).
+async fn chat(State(server): State<Arc<Server>>, headers: HeaderMap) -> ApiResult {
+    staff(&server, &headers).await?;
+    Ok(Json(json!({ "lines": server.with(|l| l.staff_chat()) })))
+}
+
+#[derive(Deserialize, Default)]
+struct DeleteChatBody {
+    /// Without a trace (administrators).
+    #[serde(default)]
+    silent: bool,
+}
+
+async fn delete_chat(
+    State(server): State<Arc<Server>>,
+    headers: HeaderMap,
+    Path(id): Path<u64>,
+    body: Option<Json<DeleteChatBody>>,
+) -> ApiResult {
+    let s = staff(&server, &headers).await?;
+    let silent = body.map(|b| b.0.silent).unwrap_or(false);
+    if silent {
+        require_admin(&s)?;
+    }
+    let line = server
+        .with(|l| l.staff_chat())
+        .into_iter()
+        .find(|l| l["id"] == id)
+        .ok_or_else(|| err(StatusCode::NOT_FOUND, "No such line."))?;
+    let author = line["from"].as_str().unwrap_or_default().to_string();
+    // A moderator's line stays out of another moderator's reach.
+    if let Some(u) = server.store.user_by_name(&author).await?
+        && !crate::social::may_moderate(s.user.role, u.role)
+        && u.id != s.user.id
+    {
+        return Err(err(StatusCode::FORBIDDEN, "Only administrators can act on staff."));
+    }
+    if !server.with(|l| l.staff_delete_chat(id, silent)) {
+        return Err(err(StatusCode::BAD_REQUEST, "That line is already deleted."));
+    }
+    let text = line["text"].as_str().unwrap_or_default();
+    let what = if silent { "removed" } else { "deleted" };
+    log(&server, &s, "chat-delete", &author, &format!("{what}: {text}")).await;
+    Ok(Json(json!({ "ok": true })))
+}
+
+/// A tournament called off before it starts (fees go back).
+async fn cancel_tournament(
+    State(server): State<Arc<Server>>,
+    headers: HeaderMap,
+    Path(id): Path<u64>,
+) -> ApiResult {
+    let s = staff(&server, &headers).await?;
+    require_admin(&s)?;
+    let name = server
+        .with(|l| l.staff_cancel_tournament(id))
+        .map_err(|why| err(StatusCode::BAD_REQUEST, why))?;
+    log(&server, &s, "tournament-cancel", &name, &format!("#{id}")).await;
+    Ok(Json(json!({ "ok": true })))
+}
+
+/// Coins, VIP, the latest payments and the shop's catalogue.
+async fn economy(State(server): State<Arc<Server>>, headers: HeaderMap) -> ApiResult {
+    staff(&server, &headers).await?;
+    let t = now();
+    let (economy, payments) =
+        tokio::join!(server.store.economy(t), server.store.recent_payments(100));
+    let payments: Vec<Value> = payments?
+        .into_iter()
+        .map(|(p, payer)| {
+            json!({
+                "id": p.id, "payer": payer, "kind": p.kind, "coins": p.coins,
+                "amount": p.amount, "currency": p.currency, "at": p.at,
+                "refunded": p.refunded, "test": p.test,
+            })
+        })
+        .collect();
+    use snook_legend_proto::shop::{ITEMS, Price};
+    let catalog: Vec<Value> = ITEMS
+        .iter()
+        .map(|i| {
+            let (how, coins) = match i.price {
+                Price::Free => ("free", None),
+                Price::Coins(n) => ("coins", Some(n)),
+                Price::Achievement(_) => ("achievement", None),
+                Price::Vip => ("vip", None),
+                Price::Pack => ("pack", None),
+            };
+            json!({
+                "code": i.code, "name": i.name, "category": format!("{:?}", i.category).to_lowercase(),
+                "how": how, "coins": coins,
+                "achievement": match i.price { Price::Achievement(a) => Some(a), _ => None },
+            })
+        })
+        .collect();
+    Ok(Json(json!({
+        "economy": economy?,
+        "payments": payments,
+        "catalog": catalog,
+        "stripe": server.stripe.is_some(),
+        "msstore": server.msstore.is_some(),
+        "now": t,
+    })))
+}
+
+/// The server itself: what runs, how it is set up, how busy it is.
+async fn system(State(server): State<Arc<Server>>, headers: HeaderMap) -> ApiResult {
+    staff(&server, &headers).await?;
+    let r = server.config.rules.clone();
+    let (online, addresses, games, live, queue, draining) = server.with(|l| {
+        (
+            l.online_count(),
+            l.distinct_addresses(),
+            l.running_games(),
+            l.live(),
+            l.queue_now().len(),
+            l.is_draining(),
+        )
+    });
+    let pending = server.with(|l| l.pending_effects()).load(std::sync::atomic::Ordering::Relaxed);
+    let cup = r.cup.as_ref().map(|c| {
+        json!({
+            "name": c.name, "weekday": c.weekday, "hour": c.hour, "minute": c.minute,
+            "utc_offset": c.utc_offset, "minutes": c.minutes, "entry_fee": c.entry_fee,
+        })
+    });
+    Ok(Json(json!({
+        "version": env!("CARGO_PKG_VERSION"),
+        "protocol": snook_legend_proto::PROTOCOL_VERSION,
+        "oldest_protocol": snook_legend_proto::OLDEST_PROTOCOL_VERSION,
+        "ruleset": snook_legend_core::RULESET,
+        "uptime_secs": server.started.elapsed().as_secs(),
+        "persistent": server.store.is_persistent(),
+        "draining": draining,
+        "memory_bytes": resident_memory(),
+        "online": online,
+        "addresses": addresses,
+        "games": games,
+        "tables": live.tables,
+        "tournaments": live.tournaments.len(),
+        "queue": queue,
+        "pending_writes": pending,
+        "stripe": server.stripe.is_some(),
+        "msstore": server.msstore.is_some(),
+        "rules": {
+            "shot_clock_secs": r.shot_clock.as_secs(),
+            "reconnect_grace_secs": r.reconnect_grace.as_secs(),
+            "chat_history": r.chat_history,
+            "lan": r.lan,
+            "max_connections_per_ip": r.max_connections_per_ip,
+            "tournament_no_show_secs": r.tournament_no_show.as_secs(),
+            "max_open_tournaments": r.max_open_tournaments,
+            "seek_lifetime_secs": r.seek_lifetime.as_secs(),
+            "cup": cup,
+        },
+        "now": now(),
+    })))
+}
+
+/// The memory the server holds (Linux; none elsewhere).
+fn resident_memory() -> Option<u64> {
+    let status = std::fs::read_to_string("/proc/self/status").ok()?;
+    let line = status.lines().find(|l| l.starts_with("VmRSS:"))?;
+    let kb: u64 = line.split_whitespace().nth(1)?.parse().ok()?;
+    Some(kb * 1024)
+}
+
+/// Removes a note about a player: one's own, or any (administrators).
+async fn remove_note(
+    State(server): State<Arc<Server>>,
+    headers: HeaderMap,
+    Path(id): Path<i64>,
+) -> ApiResult {
+    let s = staff(&server, &headers).await?;
+    let author = (s.user.role != Role::Admin).then_some(s.user.id);
+    if !server.store.remove_staff_note(id, author).await? {
+        return Err(err(StatusCode::NOT_FOUND, "No such note (or not yours)."));
+    }
+    log(&server, &s, "note-remove", &format!("note {id}"), "").await;
+    Ok(Json(json!({ "ok": true })))
 }
 
 #[derive(Deserialize)]

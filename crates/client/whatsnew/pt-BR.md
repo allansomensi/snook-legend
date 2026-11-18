@@ -14,6 +14,9 @@ A branca só fica na sua mão na saída, atrás da linha de cabeceira. Se ela ca
 ### Quem está online
 Jogando contra o computador (no torneio, no Circuito ou num treino), um cantinho discreto mostra quantas pessoas estão online e avisa quando alguém entra: dá para ir convidar. Os convites aparecem por cima da partida.
 
+### Vitrine da loja
+"Ver de perto" abre uma vitrine: o item sozinho num estúdio escuro, girando. Arraste para girar, use a roda para aproximar e pause quando quiser. Vistas prontas mostram a ponteira e a junta do taco ou as caçapas da mesa; clique numa bola para vê-la flutuando, e veja mesas e panos em qualquer salão.
+
 ### Bolas marrons de verdade
 A 7 e a 15 agora são marrons, e não mais um vermelho escuro que se confundia com a 3 e a 11. Os conjuntos da loja em que elas eram parecidas também foram acertados.
 

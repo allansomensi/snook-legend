@@ -51,6 +51,13 @@ pub enum Icon {
     List,
     /// An open book: the rules.
     Book,
+    /// Two bars: pause.
+    Pause,
+    /// Four corners: a clean view (the interface hidden).
+    Clean,
+    /// Chevrons: the previous and the next.
+    ChevronLeft,
+    ChevronRight,
 }
 
 fn arc(c: Vec2, r: f32, from: f32, to: f32, w: f32, color: Color) {
@@ -270,6 +277,27 @@ pub fn draw(icon: Icon, c: Vec2, s: f32, color: Color) {
             }
         }
         Icon::Play => draw_triangle(p(-0.45, -0.7), p(-0.45, 0.7), p(0.7, 0.0), color),
+        Icon::Pause => {
+            for x in [-0.42, 0.18] {
+                crate::ui::rrect(
+                    Rect::new(c.x + x * h, c.y - 0.68 * h, 0.26 * h, 1.36 * h),
+                    0.06 * h,
+                    color,
+                );
+            }
+        }
+        Icon::ChevronLeft | Icon::ChevronRight => {
+            let d = if icon == Icon::ChevronLeft { 1.0 } else { -1.0 };
+            line(p(0.3 * d, -0.62), p(-0.3 * d, 0.0), w * 1.4, color);
+            line(p(-0.3 * d, 0.0), p(0.3 * d, 0.62), w * 1.4, color);
+        }
+        Icon::Clean => {
+            for (sx, sy) in [(-1.0, -1.0), (1.0, -1.0), (1.0, 1.0), (-1.0, 1.0)] {
+                let corner = p(0.78 * sx, 0.78 * sy);
+                line(corner, corner + vec2(-0.42 * sx, 0.0) * h, w * 1.3, color);
+                line(corner, corner + vec2(0.0, -0.42 * sy) * h, w * 1.3, color);
+            }
+        }
         Icon::Shop => {
             // Bag body and a handle.
             draw_rectangle(c.x - 0.62 * h, c.y - 0.25 * h, 1.24 * h, 1.05 * h, color);

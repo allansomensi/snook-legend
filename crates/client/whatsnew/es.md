@@ -14,6 +14,9 @@ La blanca solo está en tu mano en el saque, detrás de la línea de cabecera. S
 ### Quién está en línea
 Jugando contra la computadora (en un torneo, en el circuito o en un ejercicio), un rincón discreto muestra cuántas personas están en línea y avisa cuando llega alguien: hora de ir a invitarlo. Las invitaciones aparecen sobre la partida.
 
+### La vitrina de la tienda
+"Verlo de cerca" abre una vitrina: el objeto solo en un estudio oscuro, girando. Arrastra para girarlo, usa la rueda para acercarte y páusalo cuando quieras. Vistas listas muestran la punta y la unión del taco o las troneras de la mesa; haz clic en una bola para verla flotar, y mira mesas y paños en cualquier salón.
+
 ### Marrones de verdad
 La 7 y la 15 ahora son marrones, ya no un rojo oscuro que se confundía con la 3 y la 11. Los juegos de la tienda en los que se parecían también se corrigieron.
 

@@ -5,7 +5,7 @@ use std::collections::HashMap;
 use ::glam::{DVec2, DVec3};
 use macroquad::prelude::*;
 use snook_legend_core::{Ball, BallId, BallStatus, PhysicsParams, PocketId, Table};
-use snook_legend_proto::shop::{HallStyle, TableStyle};
+use snook_legend_proto::shop::{BallFinish, HallStyle, TableStyle};
 
 use crate::config::Quality;
 use crate::coords::{TABLE_HEIGHT, ball_rotation, dir_to_world, surface, to_world};
@@ -88,6 +88,10 @@ pub struct Scene {
     ball_poses: Vec<(usize, Mat4)>,
     /// The cue drawn last (its design), so the look-up is skipped.
     cue_key: Option<(String, String, u8)>,
+    /// The shop's stage: its floor (height, radius) and the cubes of chalk
+    /// shown on it (by code).
+    stage_floor: Option<(f32, f32, gfx::Model)>,
+    chalks: HashMap<String, Vec<gfx::Model>>,
 }
 
 fn rgb(r: u8, g: u8, b: u8) -> Color {
@@ -324,6 +328,8 @@ impl Scene {
             glow_tex: upload(textures::halo(), false),
             ball_poses: Vec::with_capacity(16),
             cue_key: None,
+            stage_floor: None,
+            chalks: HashMap::new(),
         }
     }
 
@@ -348,6 +354,12 @@ impl Scene {
                 self.request();
             }
         }
+    }
+
+    /// New textures or meshes (a cloth, a ball set, a table, a hall) are
+    /// still being made or sent to the GPU.
+    pub fn is_dressing(&self) -> bool {
+        self.making.is_some() || self.uploading.is_some()
     }
 
     /// Whether the hall is shown (not the dark stage).
@@ -541,30 +553,9 @@ impl Scene {
         }
         self.draw_placed_balls();
         if let Some(cue) = &overlay.cue {
-            // The shooter's own cue and chalk (built once per design).
-            let wanted = (&overlay.cue_look.0, &overlay.cue_look.1, overlay.cue_level);
-            let known = self.cue_key.as_ref().is_some_and(|k| (&k.0, &k.1, k.2) == wanted);
-            if !known && !wanted.0.is_empty() {
-                let key = (wanted.0.clone(), wanted.1.clone(), wanted.2);
-                if !self.cues.contains_key(&key) {
-                    let mesh = cue_mesh(&key.0, &key.1, key.2, &self.white);
-                    self.cues.insert(key.clone(), mesh);
-                }
-                self.cue_key = Some(key);
-            }
-            self.materials.use_lit(Surface::WOOD);
             let model = Mat4::from_rotation_translation(cue.rotation, cue.tip);
-            match self.cue_key.as_ref().and_then(|k| self.cues.get(k)) {
-                Some((mesh, glow)) if !wanted.0.is_empty() => {
-                    self.materials.draw(mesh, Some(model));
-                    if let Some(glow) = glow {
-                        // The top level's gold glows softly.
-                        self.materials.use_blended(Surface::UNLIT);
-                        self.materials.draw(glow, Some(model));
-                    }
-                }
-                _ => self.materials.draw(&self.cue, Some(model)),
-            }
+            let (design, chalk) = (overlay.cue_look.0.clone(), overlay.cue_look.1.clone());
+            self.draw_cue(model, &design, &chalk, overlay.cue_level);
         }
         self.draw_guides(&overlay.guides, cam);
         if let Some(p) = overlay.ghost {
@@ -580,6 +571,197 @@ impl Scene {
                 self.materials.set_room(false);
             }
             self.draw_halos(cam);
+        }
+        gl_use_default_material();
+        set_default_camera();
+    }
+
+    /// A cue of a design (shop codes; an empty one: the classic cue),
+    /// chalked, with the marks of its level, moved by `model` (its mesh runs
+    /// along +Y from the tip). Each design is built once.
+    fn draw_cue(&mut self, model: Mat4, design: &str, chalk: &str, level: u8) {
+        let wanted = (design, chalk, level);
+        let known =
+            self.cue_key.as_ref().is_some_and(|k| (k.0.as_str(), k.1.as_str(), k.2) == wanted);
+        if !known && !design.is_empty() {
+            let key = (design.to_string(), chalk.to_string(), level);
+            if !self.cues.contains_key(&key) {
+                let mesh = cue_mesh(&key.0, &key.1, key.2, &self.white);
+                self.cues.insert(key.clone(), mesh);
+            }
+            self.cue_key = Some(key);
+        }
+        self.materials.use_lit(Surface::WOOD);
+        match self.cue_key.as_ref().and_then(|k| self.cues.get(k)) {
+            Some((mesh, glow)) if !design.is_empty() => {
+                self.materials.draw(mesh, Some(model));
+                if let Some(glow) = glow {
+                    // The top level's gold glows softly.
+                    self.materials.use_blended(Surface::UNLIT);
+                    self.materials.draw(glow, Some(model));
+                }
+            }
+            _ => self.materials.draw(&self.cue, Some(model)),
+        }
+    }
+
+    /// The shop's showroom: only what is shown (see [`Showcase`]), on a
+    /// dark stage under the table's lamps, with the soft shadows of the
+    /// balls and the cue on its floor. No hall, no lamp.
+    pub fn draw_showcase(&mut self, cam: &SceneCamera, show: &Showcase) {
+        self.update_looks();
+        let light_eye = vec3(cam.eye.x, cam.eye.y.min(LIGHT_EYE_MAX_Y), cam.eye.z);
+        // A neutral, dark studio seen in what is glossy.
+        let tint = vec3(0.075, 0.065, 0.06);
+        self.materials.set_frame(light_eye, self.lamps, 1.55, self.lamp_count, 1.0, tint);
+        let soft = self.soft_shadows;
+        let r = self.ball_radius();
+        let mut casters = [Vec4::ZERO; 16];
+        for (slot, (_, model)) in casters.iter_mut().zip(&show.balls) {
+            let p = model.transform_point3(Vec3::ZERO);
+            *slot = vec4(p.x, p.y, p.z, r);
+        }
+        let cue = show.cue.as_ref().map(|c| {
+            let tip = c.model.transform_point3(Vec3::ZERO);
+            let butt = c.model.transform_point3(Vec3::Y * CUE_LENGTH);
+            (tip.extend(0.0061), butt.extend(0.0148))
+        });
+        self.materials.set_shadows(soft, soft, &casters, cue);
+        self.materials.set_pockets(&self.holes, &self.throats);
+        let glint = gfx::glint_angle(cam.fovy, screen_height(), r);
+        self.materials.set_table(half_table(&self.table), glint);
+        self.materials.set_clear(None);
+        set_camera(cam);
+        self.materials.set_view(cam.matrix());
+
+        // The stage: a dark floor the lamps light a pool on, fading into
+        // the dark all round.
+        let wanted = (show.floor, show.floor_radius);
+        if self.stage_floor.as_ref().is_none_or(|(h, r, _)| (*h, *r) != wanted) {
+            // Rings that fade to black towards the edge: no horizon, the
+            // floor melts into the dark.
+            let (h, reach) = wanted;
+            let rings = [
+                (0.0, 1.0),
+                (0.12, 1.0),
+                (0.25, 0.92),
+                (0.4, 0.7),
+                (0.6, 0.38),
+                (0.8, 0.12),
+                (1.0, 0.0),
+            ];
+            let base = [22.0, 21.0, 21.0];
+            let mut b = MeshBuilder::default();
+            let seg = 96u16;
+            for (radius, k) in rings {
+                let c =
+                    Color::new(base[0] / 255.0 * k, base[1] / 255.0 * k, base[2] / 255.0 * k, 1.0);
+                for i in 0..=seg {
+                    let a = i as f32 / seg as f32 * std::f32::consts::TAU;
+                    let p = vec3(a.cos(), 0.0, a.sin()) * radius * reach + Vec3::Y * h;
+                    b.push(p, vec2(0.5, 0.5), Vec3::Y, c);
+                }
+            }
+            let stride = seg + 1;
+            for ring in 0..(rings.len() as u16 - 1) {
+                for i in 0..seg {
+                    let a = ring * stride + i;
+                    let c = a + stride;
+                    b.indices.extend_from_slice(&[a, c, a + 1, a + 1, c, c + 1]);
+                }
+            }
+            self.stage_floor = Some((h, reach, b.build(&self.white)));
+        }
+        if let Some((_, _, floor)) = &self.stage_floor {
+            self.materials.use_lit(Surface::lit(0.10, 30.0, 0.0, 0.07));
+            self.materials.draw(floor, None);
+        }
+        if show.table {
+            self.draw_table(false, false);
+            self.materials.use_blended(Surface::UNLIT);
+            self.materials.draw(&self.floor_shadow.mesh, None);
+            draw_layer(&self.table_parts, gfx::Layer::Inside, &self.materials);
+            draw_layer(&self.table_parts, gfx::Layer::Detail, &self.materials);
+        }
+        // Without the soft shadows (Low, Medium), a blob under each ball
+        // and under the chalk.
+        let mut blobs = MeshBuilder::default();
+        let mut blob = |c: Vec3, size: f32, alpha: f32| {
+            blobs.quad(
+                [
+                    c + vec3(-size, 0.0, size),
+                    c + vec3(size, 0.0, size),
+                    c + vec3(size, 0.0, -size),
+                    c + vec3(-size, 0.0, -size),
+                ],
+                [vec2(0.0, 1.0), vec2(1.0, 1.0), vec2(1.0, 0.0), vec2(0.0, 0.0)],
+                Color::new(1.0, 1.0, 1.0, alpha),
+            );
+        };
+        if !soft {
+            for (_, model) in &show.balls {
+                let p = model.transform_point3(Vec3::ZERO);
+                let lift = (p.y - r - TABLE_HEIGHT).max(0.0);
+                blob(vec3(p.x, TABLE_HEIGHT + 0.0008, p.z), r * (1.35 + lift * 6.0), 0.6);
+            }
+        }
+        if let Some((_, model)) = &show.chalk {
+            let p = model.transform_point3(Vec3::ZERO);
+            blob(vec3(p.x, p.y + 0.0006, p.z), CHALK_SIZE * 1.05, 0.75);
+        }
+        // The cue's shadow, without the soft ones: a long soft streak on
+        // the floor under it.
+        if let Some(c) = show.cue.as_ref().filter(|_| !soft) {
+            let tip = c.model.transform_point3(Vec3::ZERO);
+            let butt = c.model.transform_point3(Vec3::Y * CUE_LENGTH);
+            // (High enough over the floor not to flicker into it from afar.)
+            let y = show.floor + 0.003;
+            let (a, b) = (vec3(tip.x, y, tip.z), vec3(butt.x, y, butt.z));
+            let along = b - a;
+            if along.length() > 0.05 {
+                let side = along.cross(Vec3::Y).normalize() * 0.022;
+                let ext = along.normalize() * 0.03;
+                // (The texture's middle row fades across: drawn as strips.)
+                let n = 24;
+                for k in 0..n {
+                    let (t0, t1) = (k as f32 / n as f32, (k + 1) as f32 / n as f32);
+                    let p0 = a - ext + (along + ext * 2.0) * t0;
+                    let p1 = a - ext + (along + ext * 2.0) * t1;
+                    // Wider and fainter towards the butt, higher off the floor.
+                    let w0 = 1.0 + t0 * 0.6;
+                    let w1 = 1.0 + t1 * 0.6;
+                    blobs.quad(
+                        [p0 - side * w0, p1 - side * w1, p1 + side * w1, p0 + side * w0],
+                        [vec2(0.5, 0.0), vec2(0.5, 0.0), vec2(0.5, 1.0), vec2(0.5, 1.0)],
+                        Color::new(1.0, 1.0, 1.0, 0.55 - 0.2 * t0),
+                    );
+                }
+            }
+        }
+        if !blobs.is_empty() {
+            self.materials.use_blended(Surface::UNLIT);
+            blobs.build_dynamic(&self.shadow).draw();
+        }
+        if let Some((code, model)) = &show.chalk {
+            if !self.chalks.contains_key(code) {
+                let models = chalk_models(code);
+                self.chalks.insert(code.clone(), models);
+            }
+            if let Some(models) = self.chalks.get(code) {
+                // Paper on the sides, the chalk itself on the top.
+                for (k, m) in models.iter().enumerate() {
+                    let surface =
+                        if k == 0 { Surface::lit(0.12, 24.0, 0.02, 0.04) } else { Surface::MATTE };
+                    self.materials.use_lit(surface);
+                    self.materials.draw(m, Some(*model));
+                }
+            }
+        }
+        self.ball_poses.clear();
+        self.ball_poses.extend_from_slice(&show.balls);
+        self.draw_placed_balls();
+        if let Some(c) = &show.cue {
+            self.draw_cue(c.model, &c.design, &c.chalk, c.level);
         }
         gl_use_default_material();
         set_default_camera();
@@ -725,7 +907,7 @@ impl Scene {
     }
 
     fn draw_placed_balls(&self) {
-        self.materials.use_lit(Surface::BALL);
+        self.materials.use_lit(ball_surface(self.looks.finish));
         for &(k, model) in &self.ball_poses {
             self.materials.draw(&self.balls[k], Some(model));
         }
@@ -923,6 +1105,8 @@ fn ball_pixels(size: u16, palette: &textures::Palette) -> Vec<textures::Pixels> 
 pub struct Looks {
     pub cloth: [u8; 3],
     pub balls: textures::Palette,
+    /// How the balls catch the light (gloss, pearl, metal, matte).
+    pub finish: BallFinish,
     pub table: TableStyle,
     pub hall: HallStyle,
 }
@@ -934,9 +1118,14 @@ impl Looks {
             Some(snook_legend_proto::shop::Look::Cloth(c)) => c,
             _ => [24, 96, 48],
         };
+        let finish = match snook_legend_proto::shop::item(balls).map(|i| i.look) {
+            Some(snook_legend_proto::shop::Look::Balls { finish, .. }) => finish,
+            _ => BallFinish::Gloss,
+        };
         Looks {
             cloth,
             balls: textures::Palette::of(balls),
+            finish,
             table: TableStyle::Classic,
             hall: HallStyle::Pool,
         }
@@ -1150,6 +1339,86 @@ pub struct Overlay {
 }
 
 pub const RAIL_HEIGHT: f32 = RAIL_TOP;
+
+/// What the shop's showroom shows (see [`Scene::draw_showcase`]).
+#[derive(Default)]
+pub struct Showcase {
+    /// The height of the stage's floor, and how far it reaches.
+    pub floor: f32,
+    pub floor_radius: f32,
+    /// The table (its cloth, cushions and body) in the middle of the stage.
+    pub table: bool,
+    /// Balls: their number and their mesh's transform.
+    pub balls: Vec<(usize, Mat4)>,
+    pub cue: Option<ShowCue>,
+    /// A cube of chalk (its code) and its transform (the middle of its base).
+    pub chalk: Option<(String, Mat4)>,
+}
+
+/// A cue on the showroom's stage.
+pub struct ShowCue {
+    /// Its design and chalk (shop codes) and its level (its marks).
+    pub design: String,
+    pub chalk: String,
+    pub level: u8,
+    /// Its mesh's transform (the mesh runs along +Y from the tip).
+    pub model: Mat4,
+}
+
+/// The side of a cube of chalk (m).
+pub const CHALK_SIZE: f32 = 0.024;
+
+/// A cube of chalk (shop code), standing on its base at the origin: the
+/// paper round its sides, then its top (the chalk, worn hollow by a tip).
+fn chalk_models(code: &str) -> Vec<gfx::Model> {
+    let color = match snook_legend_proto::shop::item(code).map(|i| i.look) {
+        Some(snook_legend_proto::shop::Look::Chalk(c)) => c,
+        _ => [40, 80, 150],
+    };
+    let h = CHALK_SIZE / 2.0;
+    let mut sides = MeshBuilder::default();
+    for k in 0..4 {
+        let a = k as f32 * std::f32::consts::FRAC_PI_2;
+        let n = vec3(a.cos(), 0.0, a.sin());
+        let t = Vec3::Y.cross(n);
+        let c = n * h;
+        let up = Vec3::Y * CHALK_SIZE;
+        sides.quad(
+            [c - t * h, c + t * h, c + t * h + up, c - t * h + up],
+            [vec2(0.0, 1.0), vec2(1.0, 1.0), vec2(1.0, 0.0), vec2(0.0, 0.0)],
+            WHITE,
+        );
+    }
+    let mut top = MeshBuilder::default();
+    let y = CHALK_SIZE;
+    top.quad(
+        [vec3(-h, y, h), vec3(h, y, h), vec3(h, y, -h), vec3(-h, y, -h)],
+        [vec2(0.0, 1.0), vec2(1.0, 1.0), vec2(1.0, 0.0), vec2(0.0, 0.0)],
+        WHITE,
+    );
+    vec![
+        sides.build(&upload(textures::chalk_side(color), false)),
+        top.build(&upload(textures::chalk_top(color), false)),
+    ]
+}
+
+/// How a ball set's finish catches the lamps: the polished phenolic of a
+/// tournament set; a pearly sheen with a soft glow at the edge; brushed
+/// metal, bright and mirror-like; old ivory, soft and warm.
+pub fn ball_surface(finish: BallFinish) -> Surface {
+    match finish {
+        BallFinish::Gloss => Surface::BALL,
+        BallFinish::Pearl => {
+            Surface { specular: 0.10, shininess: 22.0, rim: 0.12, coat: 0.16, ..Surface::BALL }
+        }
+        BallFinish::Metal => {
+            Surface { specular: 0.30, shininess: 70.0, rim: 0.06, coat: 0.32, ..Surface::BALL }
+        }
+        BallFinish::Matte => {
+            Surface { specular: 0.025, shininess: 9.0, rim: 0.0, coat: 0.03, ..Surface::BALL }
+        }
+    }
+}
 
 /// Length of the cue mesh, tip to butt (see `cue_mesh`).
 const CUE_LENGTH: f32 = 1.48;

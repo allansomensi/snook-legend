@@ -37,6 +37,34 @@ new migrations.
   shows the player "in focus mode" and offers no invitation button.
   Invitations' desktop notifications keep quiet too.
 
+### The shop's showroom
+- **"Look at it closely" opens a showroom** instead of turning round the
+  table: the item alone on a dark stage under the table's lamps, with soft
+  shadows on a floor that melts into the dark. A cue floats over its
+  shadow; a cube of chalk (modelled, its paper printed with the game's
+  name, its top worn hollow) stands with the player's cue chalking it; a
+  ball set is racked with the cue ball beside it; a table or a cloth stands
+  on its own with the player's balls.
+- **The camera turns round it by itself until it is taken:** drag to turn,
+  the right button (or Shift) to move, the wheel to come closer to what is
+  under the pointer, a double click to look closely at a point; a play and
+  pause button, zoom buttons, a way back to the start (R), the keyboard
+  (arrows, + and −, Space, 1–4), and a clean view with the interface hidden
+  (H). Ready-made views per item: a cue's tip, joint and butt; the chalk's
+  top and the tip it chalked; a set from above or low down; a table's
+  corner, side pocket and leg; the cloth close up and its cushion.
+- **A ball of a set** (clicked, or picked from a row of the sixteen) rises
+  over the rack and turns on itself, its number upright.
+- **Settings:** a cue, a chalk or a set also on the player's own table; a
+  table or a cloth in the studio or in any of the eight halls (the hall is
+  built while the view stays, with a spinner).
+- The price and the button to buy or use the item stay at hand; items for
+  VIP members or earned with an achievement say so. Each item has a line
+  on what it is (a table's wood and castings, a hall's room, a set's
+  finish).
+- **Ball sets show their finish** on every table: pearl sets a soft pearly
+  sheen, metal ones a mirror-like gloss, the old ivory ones a soft matte.
+
 ### The balls
 - **The 7 and the 15 are brown**, not a darker red: under the lamps they
   read as the 3 and the 11. The same in the shop's sets where the two were

@@ -53,6 +53,7 @@ mod scoreboard;
 mod settings;
 mod setup;
 mod shop;
+mod showroom;
 mod tables;
 mod textures;
 mod theme_art;
@@ -328,7 +329,8 @@ async fn main() {
     let mut profile = ProfileScreen::default();
     let mut shop = shop::ShopScreen::default();
     // The shop item being tried on the 3D table, and since when.
-    let mut shop_preview: Option<(&'static str, f32)> = None;
+    // An item of the shop looked at closely (see `showroom`).
+    let mut showroom: Option<showroom::Showroom> = None;
     // Winning effects playing over the table.
     let mut win_effects: Vec<effects::WinEffect> = Vec::new();
     // System notifications for a player in another window.
@@ -386,6 +388,17 @@ async fn main() {
                 &config,
                 &mut online,
             ));
+        }
+        // Development aid (screenshots): `--screen showroom:<item>` opens an
+        // item of the shop in the showroom (see `Showroom::dev`).
+        Some(name) if name.starts_with("showroom:") => {
+            online.connect();
+            shop.open(&mut online);
+            showroom = showroom::Showroom::open(&name["showroom:".len()..], &scene.table);
+            if let Some(s) = showroom.as_mut() {
+                s.dev();
+            }
+            screen = Screen::Shop;
         }
         Some(tab) if tab.starts_with("shop") => {
             online.connect();
@@ -778,19 +791,16 @@ async fn main() {
             None => scene::Looks::of(&config.cloth, &config.balls),
         }
         .themed(&config.table, &config.hall);
-        // Trying an item from the shop on the table.
-        let previewing =
-            shop_preview.filter(|_| matches!(screen, Screen::Shop) && current.is_none());
-        if let Some((code, _)) = previewing {
-            let pick = |prefix: &str, own: &str| -> String {
-                if code.starts_with(prefix) { code.to_string() } else { own.to_string() }
-            };
-            looks = scene::Looks::of(&pick("cloth", &config.cloth), &pick("balls", &config.balls))
-                .themed(&pick("table", &config.table), &pick("hall", &config.hall));
+        // An item of the shop in the showroom: on its stage, or tried on
+        // the table (in the hall of the setting chosen).
+        let in_showroom = matches!(screen, Screen::Shop) && current.is_none();
+        let showing = showroom.as_ref().filter(|_| in_showroom);
+        if let Some(s) = showing {
+            looks = s.looks(&config);
         }
         shop.dark_stage = config.focused_scene;
         // A hall tried on shows even on the dark stage.
-        scene.preview_hall(previewing.is_some_and(|(c, _)| c.starts_with("hall")));
+        scene.preview_hall(showing.is_some_and(|s| s.shows_hall()));
         scene.set_looks(&looks);
         // Offline, the people at the table play with this player's cue
         // (and win with their effect).
@@ -816,27 +826,9 @@ async fn main() {
             win_effects.extend(effects::WinEffect::of(&m.effects[seat], at));
         }
         let mut cam = rig.update(dt, current.as_ref(), get_time() as f32);
-        // The shop's 3D preview: the camera turns slowly around the table.
-        if let Some((_, since)) = previewing {
-            let a = (get_time() as f32 - since) * 0.22 + 0.6;
-            let kind = shop_preview.map(|(c, _)| c.split('_').next().unwrap_or("")).unwrap_or("");
-            let close = matches!(kind, "cue" | "chalk");
-            // A table: a little lower, to see its legs; a hall: from further
-            // away, looking across the room.
-            let (radius, height) = match kind {
-                "cue" | "chalk" => (1.35, 1.25),
-                "table" => (2.7, 1.45),
-                "hall" => (3.7, 1.75),
-                _ => (2.9, 1.75),
-            };
-            cam.eye = vec3(a.cos() * radius * 1.15, height, a.sin() * radius * 0.8);
-            cam.target = match kind {
-                _ if close => vec3(-0.55, coords::TABLE_HEIGHT + 0.05, 0.0),
-                "table" => vec3(0.0, coords::TABLE_HEIGHT - 0.3, 0.0),
-                "hall" => vec3(-a.cos() * 1.2, 1.25, -a.sin() * 0.9),
-                _ => vec3(0.0, coords::TABLE_HEIGHT - 0.1, 0.0),
-            };
-            cam.up = Vec3::Y;
+        // The showroom's own camera.
+        if let Some(s) = showroom.as_mut().filter(|_| in_showroom) {
+            cam = s.camera(dt);
         }
         // Development aid: SNOOK_LEGEND_CAM="eye x,y,z,target x,y,z" fixes the camera.
         if let Some(v) = crate::dev::var("SNOOK_LEGEND_CAM")
@@ -857,7 +849,11 @@ async fn main() {
             controls.idle();
         }
 
-        clear_background(if config.focused_scene {
+        let studio = in_showroom && showroom.as_ref().is_some_and(|s| s.in_studio());
+        clear_background(if studio {
+            // The showroom's stage melts into this.
+            Color::new(0.012, 0.011, 0.011, 1.0)
+        } else if config.focused_scene {
             Color::new(0.055, 0.05, 0.048, 1.0)
         } else {
             Color::new(0.03, 0.02, 0.015, 1.0)
@@ -932,15 +928,21 @@ async fn main() {
             // the GPU (and the battery) drawing it behind.
             None if matches!(screen, Screen::LanLounge)
                 || (matches!(screen, Screen::Online) && online.signed_in()) => {}
+            // The showroom's stage: the item alone.
+            None if showroom.as_ref().is_some_and(|s| s.in_studio()) && in_showroom => {
+                let s = showroom.as_ref().expect("checked");
+                // The marks the cue shown has earned (its owner's wins).
+                let wins = online.wallet.as_ref().map_or(0, |w| w.cue_wins(s.code));
+                let level = snook_legend_proto::shop::cue_level(wins);
+                let show = s.showcase(&config, level, config.cue_level);
+                scene.draw_showcase(&cam, &show);
+            }
             None => {
                 let mut overlay = Overlay::default();
-                if let Some((code, _)) =
-                    previewing.filter(|(c, _)| c.starts_with("cue") || c.starts_with("chalk"))
+                if let Some((cue, chalk)) =
+                    showroom.as_ref().filter(|_| in_showroom).and_then(|s| s.cue_on_table(&config))
                 {
                     // The cue lined up behind the cue ball.
-                    let cue = if code.starts_with("cue") { code } else { config.cue.as_str() };
-                    let chalk =
-                        if code.starts_with("chalk") { code } else { config.chalk.as_str() };
                     if let Some(ball) =
                         menu_rack.iter().find(|b| b.id == snook_legend_core::BallId::CUE)
                     {
@@ -953,12 +955,12 @@ async fn main() {
                             ::glam::DVec2::ZERO,
                             0.03,
                         );
-                        overlay.cue = Some(pose);
-                        overlay.cue_look = (cue.to_string(), chalk.to_string());
                         // The marks this cue has earned.
                         overlay.cue_level = snook_legend_proto::shop::cue_level(
-                            online.wallet.as_ref().map_or(0, |w| w.cue_wins(cue)),
+                            online.wallet.as_ref().map_or(0, |w| w.cue_wins(&cue)),
                         );
+                        overlay.cue = Some(pose);
+                        overlay.cue_look = (cue, chalk);
                     }
                 }
                 scene.draw(&cam, &menu_rack, dt, &overlay)
@@ -1550,18 +1552,20 @@ async fn main() {
                             }
                             RankingAction::None => {}
                         },
-                        Screen::Shop if shop_preview.is_some() => {
-                            let (code, _) = shop_preview.expect("checked");
-                            match shop.preview_bar(&mut ui, &mut online, code) {
-                                shop::PreviewAction::None => {}
-                                shop::PreviewAction::Close => {
+                        Screen::Shop if showroom.is_some() => {
+                            let dressing = scene.is_dressing();
+                            let s = showroom.as_mut().expect("checked");
+                            let code = s.code;
+                            match s.ui(&mut ui, &mut shop, &mut online, dressing) {
+                                showroom::ShowroomAction::None => {}
+                                showroom::ShowroomAction::Close => {
                                     shop.show_item(code);
-                                    shop_preview = None;
+                                    showroom = None;
                                 }
-                                shop::PreviewAction::Buy => {
+                                showroom::ShowroomAction::Buy => {
                                     shop.show_item(code);
                                     shop.ask_to_buy(code);
-                                    shop_preview = None;
+                                    showroom = None;
                                 }
                             }
                         }
@@ -1574,7 +1578,7 @@ async fn main() {
                                 })
                             }
                             shop::ShopAction::Preview(code) => {
-                                shop_preview = Some((code, get_time() as f32));
+                                showroom = showroom::Showroom::open(code, &scene.table);
                             }
                             shop::ShopAction::ShowHall => {
                                 // As in the settings: the room around the table.

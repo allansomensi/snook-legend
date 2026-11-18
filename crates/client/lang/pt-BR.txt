@@ -915,9 +915,7 @@ Account	Conta
 Add friends to give them items.	Adicione amigos para presenteá-los.
 Arena	Arena
 Arena · host {host} · {n} players · {kind}	Arena · anfitrião {host} · {n} jogadores · {kind}
-Back to the shop	Voltar à loja
 Buy now	Comprar agora
-Buy · {n}	Comprar · {n}
 Buying…	Comprando…
 Change password	Trocar senha
 Click again to delete	Clique de novo para excluir
@@ -965,7 +963,6 @@ Recovery e-mail	E-mail de recuperação
 Save	Salvar
 The fees make the prize: 70% to the champion, 20% to the runner-up.	As inscrições formam o prêmio: 70% para o campeão, 20% para o vice.
 The server restarts in {m}:{s} for an update. Games in progress go on.	O servidor reinicia em {m}:{s} para uma atualização. As partidas em andamento continuam.
-Try it on the table	Experimentar na mesa
 Use this e-mail	Usar este e-mail
 Use {email} to recover your account if you ever forget your password?	Usar {email} para recuperar sua conta se você esquecer a senha?
 Watch	Assistir
@@ -1035,8 +1032,6 @@ potting success	acerto
 shots with a foul	tacadas com falta
 starts in {n} min	começa em {n} min
 tournament prize	prêmio de torneio
-turning around the table	girando em volta da mesa
-looking around the hall	olhando em volta do salão
 The dark room hides the hall around the table.	O ambiente escuro esconde o salão em volta da mesa.
 Show the hall	Mostrar o salão
 Level {n} · 1 win	Nível {n} · 1 vitória
@@ -1812,3 +1807,63 @@ No invitations while you play: they are turned away until the game is over.	Sem 
 in focus mode	em modo foco
 In focus mode: no invitations until their game is over.	Em modo foco: sem convites até a partida dele acabar.
 That player is in focus mode and isn't taking invitations until their game is over.	Esse jogador está em modo foco e não aceita convites até a partida dele acabar.
+Look at it closely	Ver de perto
+Sign in to buy	Entre para comprar
+Sign in to use	Entre para usar
+Back to the shop (Esc)	Voltar à loja (Esc)
+Show the interface (H)	Mostrar a interface (H)
+Hide the interface (H)	Esconder a interface (H)
+Turn (Space)	Girar (Espaço)
+Stop turning (Space)	Parar de girar (Espaço)
+Zoom in (+)	Aproximar (+)
+Zoom out (−)	Afastar (−)
+Back to the start (R)	Voltar ao início (R)
+Previous setting ([)	Cenário anterior ([)
+Next setting (])	Próximo cenário (])
+Setting	Cenário
+Studio	Estúdio
+Your table	Na sua mesa
+Drag to turn · right button or Shift to move · wheel to zoom · double-click to look closer	Arraste para girar · botão direito ou Shift para mover · roda para aproximar · clique duplo para ver de perto
+Drag to turn · right button or Shift to move · wheel to zoom · click a ball to look at it	Arraste para girar · botão direito ou Shift para mover · roda para aproximar · clique numa bola para vê-la
+The set	O conjunto
+From above	De cima
+Low angle	Rasante
+Cue ball	Bola branca
+Ball {n}	Bola {n}
+Whole	Inteiro
+Tip	Ponteira
+Joint	Junta
+Butt	Cabo
+Top	Topo
+Cue	Taco
+Table	Mesa
+Hall	Salão
+Corner	Caçapa de canto
+Side	Caçapa do meio
+Leg	Pé
+Close-up	De perto
+Cushion	Tabela
+Phenolic resin under a bright clear coat	Resina fenólica com verniz brilhante
+A pearly sheen that shifts with the light	Um brilho perolado que muda com a luz
+Brushed metal, bright as a mirror	Metal escovado, brilhante como um espelho
+Old ivory: soft, warm and matte	Marfim antigo: suave, quente e fosco
+A full-size cue, tip to butt: turn it, come close to its joint and its butt	Um taco em tamanho real, da ponteira ao cabo: gire, chegue perto da junta e do cabo
+A cube of chalk, and the colour it leaves on the tip	Um cubo de giz, e a cor que ele deixa na ponteira
+The cloth on the table: come close to see its weave	O pano na mesa: chegue perto para ver a trama
+Dark mahogany, turned legs and brass castings	Mogno escuro, pés torneados e cantoneiras de latão
+Light teak, square legs and chrome castings	Teca clara, pés quadrados e cantoneiras cromadas
+Deep mahogany, carved legs and leather pocket nets	Mogno profundo, pés entalhados e redes de couro nas caçapas
+Black lacquer and brushed aluminium on two slab legs	Laca preta e alumínio escovado sobre dois pés de placa
+Black ebony with gold castings and inlays	Ébano preto com cantoneiras e incrustações de ouro
+Reclaimed oak rails on a riveted black steel frame	Bordas de carvalho de demolição sobre estrutura de aço preto rebitado
+A pro tournament table: charcoal rails, block legs, chrome	Mesa de torneio profissional: bordas grafite, pés em bloco, cromado
+Figured walnut on barley-twist legs, brass and leather	Nogueira figurada sobre pés torneados em espiral, latão e couro
+Ivory lacquer and gold on fluted columns	Laca marfim e ouro sobre colunas caneladas
+Panelling, the bar, cue racks, posters and neon	Lambris, o balcão, suportes de taco, pôsteres e neon
+A deck at sunset, open windows, palms and string lights	Um deque ao pôr do sol, janelas abertas, palmeiras e varais de luz
+Panelling, bookshelves, leather sofas and a fireplace	Lambris, estantes de livros, sofás de couro e uma lareira
+Brick, steel windows over the city and Edison bulbs	Tijolo, janelas de aço para a cidade e lâmpadas Edison
+Log walls, a stone fireplace and snowy peaks outside	Paredes de tronco, lareira de pedra e picos nevados lá fora
+A black mirror floor, neon tubes and arcade cabinets	Piso preto espelhado, tubos de neon e fliperamas
+A marble chessboard floor, gold, velvet and mirrors	Piso de mármore xadrez, ouro, veludo e espelhos
+Glass walls on the city at night, pale marble and oak	Paredes de vidro para a cidade à noite, mármore claro e carvalho

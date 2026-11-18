@@ -14,6 +14,9 @@ The cue ball is in hand on the break only, behind the head string. If it goes do
 ### Who is online
 Playing the computer (in a tournament, on the tour or in a drill), a discreet corner shows how many people are online and says when someone comes: time to go and invite them. Invitations show over the game.
 
+### The shop's showroom
+"Look at it closely" opens a showroom: the item alone in a dark studio, turning. Drag to turn it, use the wheel to come close and pause it at will. Ready views show a cue's tip and joint or a table's pockets; click a ball to see it float close up, and see tables and cloths in any hall.
+
 ### Truly brown
 The 7 and the 15 are now brown, no longer a dark red easily taken for the 3 and the 11. The shop's sets where they looked alike are put right too.
 

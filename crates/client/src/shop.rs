@@ -886,7 +886,7 @@ impl ShopScreen {
             if has_3d_preview(item) {
                 right -= 34.0;
                 let e = Rect::new(right, b.y, 34.0, 34.0);
-                if ui.icon_button(e, Icon::Eye, t("Try it on the table"), true) {
+                if ui.icon_button(e, Icon::Eye, t("Look at it closely"), true) {
                     action = Some(ShopAction::Preview(item.code));
                 }
                 right -= 4.0;
@@ -1008,7 +1008,7 @@ impl ShopScreen {
         y += 22.0;
         let mut action = None;
         if try_on {
-            let label = t("Try it on the table");
+            let label = t("Look at it closely");
             let bw = ui.text_size(label, 13.0, true).x + 52.0;
             let b = Rect::new(cx - bw / 2.0, y + 4.0, bw, 30.0);
             if ui.button(b, "", true) {
@@ -1104,34 +1104,29 @@ impl ShopScreen {
         action
     }
 
-    /// The bar under the 3D preview: the item, its price, buy or go back.
-    pub fn preview_bar(
+    /// The showroom's corner for the item (`r`): what it costs, or how it
+    /// is had, and the button to buy it or to use it.
+    pub fn showroom_offer(
         &mut self,
         ui: &mut Ui,
         online: &mut Online,
         code: &'static str,
+        r: Rect,
     ) -> PreviewAction {
         let Some(item) = snook_legend_proto::shop::item(code) else { return PreviewAction::Close };
-        let sw = crate::ui::vw();
-        let sh = crate::ui::vh();
-        let w = 640.0f32.min(sw - 30.0);
-        let r = Rect::new((sw - w) / 2.0, sh - 108.0, w, 88.0);
-        ui.panel(r);
         let usable = online.signed_in() && online.can_use(item) || item.price == Price::Free;
         let mut action = PreviewAction::None;
-        let b = Rect::new(r.x + r.w - 24.0 - 150.0, r.y + 24.0, 150.0, 40.0);
-        let mut text_right = b.x - 16.0;
+        let b = Rect::new(r.x + r.w - 12.0 - 156.0, r.y + 12.0, 156.0, r.h - 24.0);
         match item.price {
             Price::Coins(n) if !usable && online.signed_in() => {
                 let coins = online.wallet.as_ref().map(|w| w.coins).unwrap_or(0);
-                let label = tw("Buy · {n}", &[("n", &n)]);
                 // Too few coins: the dialog says how many are missing.
                 let (kind, icon) = if coins >= n as i64 {
                     (Kind::Primary, Icon::Coin)
                 } else {
                     (Kind::Short, Icon::Lock)
                 };
-                if button(ui, b, kind, Some(icon), &label, 15.0) {
+                if button(ui, b, kind, Some(icon), t("Buy"), 15.0) {
                     action = PreviewAction::Buy;
                 }
             }
@@ -1144,29 +1139,34 @@ impl ShopScreen {
                     online.send(ClientMsg::Equip { code: item.code.to_string() });
                 }
             }
-            _ => text_right = r.x + r.w - 24.0,
+            // VIP members' own: the VIP tab says how.
+            Price::Vip => {
+                button(ui, b, Kind::Disabled, Some(Icon::Crown), t("VIP only"), 13.0);
+            }
+            // Earned with an achievement: which one, and how.
+            Price::Achievement(a) => {
+                let (title, desc) = achievement_of(a).unwrap_or((a, ""));
+                button(ui, b, Kind::Disabled, Some(Icon::Medal), title, 13.0);
+                if ui.hovering(b) {
+                    ui.tooltip(&tw("{title}: {how}", &[("title", &title), ("how", &desc)]), b);
+                }
+            }
+            Price::Free => {
+                button(ui, b, Kind::Disabled, Some(Icon::Lock), t("Sign in to use"), 13.0);
+            }
+            Price::Pack => {
+                button(ui, b, Kind::Disabled, Some(Icon::Gift), t("welcome pack"), 13.0);
+            }
+            Price::Coins(_) => {
+                button(ui, b, Kind::Disabled, Some(Icon::Lock), t("Sign in to buy"), 13.0);
+            }
         }
-        let label = t("Back to the shop");
-        let back_w = ui.text_size(label, 15.0, true).x + 52.0;
-        let back = Rect::new(r.x + 24.0, r.y + 24.0, back_w, 40.0);
-        if button(ui, back, Kind::Normal, Some(Icon::Back), label, 15.0)
-            || is_key_pressed(KeyCode::Escape)
-        {
-            action = PreviewAction::Close;
-        }
-        // The item, between the two buttons.
-        let x = back.x + back.w + 20.0;
-        let room = text_right - x;
-        let (name, size) = ui.fitted(t(item.name), 20.0, room, true);
-        ui.text(&name, x, r.y + 18.0, size, GOLD, true);
-        let what = if item.category == Category::Hall {
-            t("looking around the hall")
-        } else {
-            t("turning around the table")
-        };
-        let sub = format!("{} · {}", category_name(item.category), what);
-        let (sub, size) = ui.fitted(&sub, 13.0, room, false);
-        ui.text(&sub, x, r.y + 50.0, size, MUTED, false);
+        // The price, or how it is had, on the left.
+        let coins = online.wallet.as_ref().map(|w| w.coins).filter(|_| online.signed_in());
+        let x = r.x + 16.0;
+        let w = b.x - 12.0 - x;
+        ui.text(t("Price"), x, r.y + 12.0, 11.0, MUTED, false);
+        status_line(ui, item, usable, coins, x, r.y + r.h - 22.0, w);
         action
     }
 

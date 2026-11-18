@@ -103,7 +103,11 @@ which every desktop installation has. How releases are made is described in
   "looking for a game" board in the lounge, and gifts that arrive with a
   message and a thank-you.
 - **The shop**: cloth colours, cues, chalk and ball sets, shown on the table
-  (opponents see your cue and chalk). Some are free, some come with
+  (opponents see your cue and chalk), each one first looked at closely in a
+  **showroom**: alone on a dark stage, turning until you take the camera
+  (turn, move, zoom to a point, ready views of a cue's tip and joint or a
+  table's pockets, a ball of a set floating close up, tables and cloths in
+  any hall). Some are free, some come with
   achievements, some cost coins, some are for **VIP** members. Coins and the
   monthly VIP are paid through Stripe (card, Pix, boleto) on its hosted page;
   in the Microsoft Store version, coin packs are bought in the Store itself.
@@ -215,6 +219,7 @@ cargo run --release -p snook-legend -- --screenshot shot.png --frames 200
 cargo run --release -p snook-legend -- --demo --fps     # print frames per second
 cargo run --release -p snook-legend -- --online         # open the lounge directly
 cargo run --release -p snook-legend -- --screen shop    # or lan, setup, ranking, profile:<name>, …
+cargo run --release -p snook-legend -- --screen showroom:cue_tiger   # an item in the shop's showroom
 ```
 
 Development builds also read a few switches from the environment to drive

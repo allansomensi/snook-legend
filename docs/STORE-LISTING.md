@@ -56,6 +56,7 @@ Versão 0.7.1: a primeira bola decide, bola na mão só na saída, quem está on
 • A branca só fica na mão na saída; caída ou fora da mesa, ela volta para o ponto inicial.
 • Jogando contra o computador, um cantinho mostra quantas pessoas estão online, e os convites aparecem por cima da partida.
 • Modo foco: nenhum convite enquanto você joga.
+• Vitrine da loja: veja cada item sozinho num estúdio, gire, aproxime e confira mesas e panos em qualquer salão.
 
 Da versão 0.7.0: eventos, prêmios justos e luz mais suave.
 • Eventos: fins de semana de experiência ou moedas em dobro e torneios especiais com prêmio da casa.
@@ -132,6 +133,7 @@ Version 0.7.1: the first ball decides, ball in hand on the break only, who is on
 • The cue ball is in hand on the break only; pocketed or off the table, it comes back to the head spot.
 • Playing the computer, a corner shows how many people are online, and invitations show over the game.
 • Focus mode: no invitations while you play.
+• The shop's showroom: see each item alone in a studio, turn it, come close, and see tables and cloths in any hall.
 
 From version 0.7.0: events, fair rewards and softer light.
 • Events: weekends of double experience or coins, and themed tournaments with a prize from the house.
@@ -208,6 +210,7 @@ Versión 0.7.1: la primera bola decide, bola en mano solo en el saque, quién es
 • La blanca solo está en mano en el saque; metida o fuera de la mesa, vuelve al punto de salida.
 • Jugando contra la computadora, un rincón muestra cuántas personas están en línea, y las invitaciones aparecen sobre la partida.
 • Modo concentración: ninguna invitación mientras juegas.
+• La vitrina de la tienda: mira cada objeto solo en un estudio, gíralo, acércate y mira mesas y paños en cualquier salón.
 
 De la versión 0.7.0: eventos, premios justos y luz más suave.
 • Eventos: fines de semana de experiencia o monedas dobles, y torneos especiales con premio de la casa.

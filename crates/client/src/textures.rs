@@ -615,6 +615,121 @@ pub fn label() -> Pixels {
     })
 }
 
+/// A line of bold text rasterised from the game's font: coverage 0..1,
+/// `width` × `height` pixels, the text `px` pixels high.
+struct Lettering {
+    width: usize,
+    height: usize,
+    cov: Vec<f32>,
+}
+
+impl Lettering {
+    fn new(text: &str, px: f32, spacing: f32) -> Lettering {
+        let font = fontdue::Font::from_bytes(
+            &include_bytes!("../assets/DejaVuSans-Bold.ttf")[..],
+            fontdue::FontSettings::default(),
+        )
+        .expect("bundled font");
+        let mut glyphs = Vec::new();
+        let mut pen = 0.0f32;
+        for c in text.chars() {
+            let (m, bitmap) = font.rasterize(c, px);
+            glyphs.push((pen.round() as i32 + m.xmin, m, bitmap));
+            pen += m.advance_width + spacing;
+        }
+        let x0 = glyphs.iter().map(|(x, _, _)| *x).min().unwrap_or(0);
+        let x1 = glyphs.iter().map(|(x, m, _)| x + m.width as i32).max().unwrap_or(1);
+        let top = glyphs.iter().map(|(_, m, _)| m.ymin + m.height as i32).max().unwrap_or(1);
+        let bottom = glyphs.iter().map(|(_, m, _)| m.ymin).min().unwrap_or(0);
+        let (width, height) = ((x1 - x0).max(1) as usize, (top - bottom).max(1) as usize);
+        let mut cov = vec![0.0f32; width * height];
+        for (x, m, bitmap) in &glyphs {
+            let ox = (x - x0) as usize;
+            let oy = (top - (m.ymin + m.height as i32)) as usize;
+            for r in 0..m.height {
+                for c in 0..m.width {
+                    let v = bitmap[r * m.width + c] as f32 / 255.0;
+                    let at = (oy + r) * width + ox + c;
+                    if at < cov.len() {
+                        cov[at] = cov[at].max(v);
+                    }
+                }
+            }
+        }
+        Lettering { width, height, cov }
+    }
+
+    /// Coverage at pixel (`x`, `y`) of a picture where the text's top left
+    /// corner is at (`left`, `top`).
+    fn at(&self, x: i32, y: i32, left: i32, top: i32) -> f32 {
+        let (cx, cy) = (x - left, y - top);
+        if cx < 0 || cy < 0 || cx >= self.width as i32 || cy >= self.height as i32 {
+            0.0
+        } else {
+            self.cov[cy as usize * self.width + cx as usize]
+        }
+    }
+}
+
+/// The paper wrapped round the four sides of a cube of chalk of `color`:
+/// the chalk's own colour, a fine band at the top and the bottom, and the
+/// game's name printed across it (pale on a dark chalk, dark on a light
+/// one), with a little grain and a little chalk dust towards the top.
+pub fn chalk_side(color: [u8; 3]) -> Pixels {
+    let size: usize = 256;
+    let base = color.map(|v| v as f32 / 255.0);
+    let luma = 0.3 * base[0] + 0.6 * base[1] + 0.1 * base[2];
+    let ink = if luma > 0.55 { [0.10, 0.09, 0.08] } else { [0.96, 0.93, 0.86] };
+    let big = Lettering::new("SNOOK", 58.0, 1.0);
+    let small = Lettering::new("LEGEND", 30.0, 5.0);
+    let big_at = ((size as i32 - big.width as i32) / 2, 86);
+    let small_at = ((size as i32 - small.width as i32) / 2, 86 + big.height as i32 + 12);
+    let mut rgba = Vec::with_capacity(size * size * 4);
+    for y in 0..size {
+        for x in 0..size {
+            let (u, v) = (x as f32 / size as f32, y as f32 / size as f32);
+            // Paper grain and a slightly lighter middle (the light on it).
+            let grain = (noise(u * 64.0, v * 64.0, 64, 71) - 0.5) * 0.05;
+            let shade = 1.0 - 0.10 * ((u - 0.5) * 2.0).powi(2) + grain;
+            let mut c = base.map(|b| b * shade);
+            // The bands.
+            let band = |at: f32| ((v - at).abs() < 0.012) as u8 as f32;
+            let lines = band(0.10).max(band(0.90));
+            let text = big
+                .at(x as i32, y as i32, big_at.0, big_at.1)
+                .max(small.at(x as i32, y as i32, small_at.0, small_at.1));
+            let k = lines.max(text * 0.92);
+            c = [0, 1, 2].map(|i| c[i] + (ink[i] - c[i]) * k);
+            // Chalk dust towards the top edge, where the cue brushes it.
+            let dust = (1.0 - v / 0.12).clamp(0.0, 1.0) * noise(u * 40.0, v * 40.0, 40, 9) * 0.25;
+            c = [0, 1, 2].map(|i| c[i] + (base[i] * 0.4 + 0.6 - c[i]) * dust);
+            let px = lerp3(c, c, 0.0);
+            rgba.extend_from_slice(&[px[0], px[1], px[2], 255]);
+        }
+    }
+    Pixels { width: size as u16, height: size as u16, rgba }
+}
+
+/// The top of a cube of chalk of `color`: the chalk itself, powdery, with
+/// the hollow a cue's tip wears into it (darker where it is packed hard,
+/// with a lighter, dusty rim).
+pub fn chalk_top(color: [u8; 3]) -> Pixels {
+    let base = color.map(|v| v as f32 / 255.0);
+    image(128, |u, v| {
+        let (dx, dy) = (u - 0.5, v - 0.5);
+        let d = (dx * dx + dy * dy).sqrt();
+        let powder = (fbm(u * 24.0, v * 24.0, 24, 33, 3) - 0.5) * 0.18;
+        // The worn hollow: deeper (darker) in the middle, a dusty rim.
+        let hollow = (1.0 - (d / 0.30)).clamp(0.0, 1.0);
+        let rim = (1.0 - ((d - 0.31) / 0.05).abs()).clamp(0.0, 1.0);
+        let k = 1.0 + powder - 0.28 * hollow * hollow + 0.18 * rim;
+        // A paper edge round the top.
+        let edge = (dx.abs().max(dy.abs()) > 0.47) as u8 as f32;
+        let c = base.map(|b| (b * k).min(1.0) * (1.0 - 0.25 * edge));
+        lerp3(c, c, 0.0)
+    })
+}
+
 /// Soft round shadow: black with alpha falling off towards the edge.
 /// A soft white disc fading out (light on a wall).
 /// The halo round a bright light: a hot core in a wide, soft fall-off.

@@ -266,11 +266,9 @@ fn account(
     if let (Some(r), Stroke::Shot { shot, .. }) = (&report, stroke) {
         stats[shooter % 2].add(r, in_hand);
         stats[shooter % 2].add_spin(shot, r);
-        let made = if r.is_foul() {
-            0
-        } else {
-            r.pocketed.iter().filter(|(b, _)| b.is_object()).count() as u32
-        };
+        // The balls made for the player (not the opponent's, nor an 8 that
+        // loses), as the numbers count them.
+        let made = r.balls_made().len() as u32;
         timeline.push(ShotMark {
             shooter: shooter % 2,
             cue: (cue.x, cue.y),

@@ -28,6 +28,11 @@ fn random_shots_keep_the_table_physical() {
         };
         let called = g.needs_called_pocket().then(|| PocketId::ALL[rng.below(6)]);
         g.play_shot(&shot, called).expect("legal shot");
+        // Every snapshot a game writes is read back as the same game (the
+        // checks made when one is read refuse none of them).
+        let json = serde_json::to_string(&g).expect("written");
+        let back: EightBallGame = serde_json::from_str(&json).expect("read back");
+        assert_eq!(back, g, "shot {i}: a snapshot changed on the way");
 
         let t = g.table();
         let r = t.spec.ball_radius;
@@ -87,6 +92,11 @@ fn random_shots_keep_the_table_physical_under_ruleset_5() {
         };
         let called = g.needs_called_pocket().then(|| PocketId::ALL[rng.below(6)]);
         g.play_shot(&shot, called).expect("legal shot");
+        // Every snapshot a game writes is read back as the same game (the
+        // checks made when one is read refuse none of them).
+        let json = serde_json::to_string(&g).expect("written");
+        let back: EightBallGame = serde_json::from_str(&json).expect("read back");
+        assert_eq!(back, g, "shot {i}: a snapshot changed on the way");
 
         let t = g.table();
         let r = t.spec.ball_radius;

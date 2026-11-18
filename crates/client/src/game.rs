@@ -141,11 +141,9 @@ impl Video {
                 (Some(r), Stroke::Shot { shot, .. }) => {
                     stats[shooter % 2].add(&r, in_hand);
                     stats[shooter % 2].add_spin(shot, &r);
-                    let made = if r.is_foul() {
-                        0
-                    } else {
-                        r.pocketed.iter().filter(|(b, _)| b.is_object()).count() as u32
-                    };
+                    // The balls made for the player (not the opponent's, nor an 8 that
+                    // loses), as the numbers count them.
+                    let made = r.balls_made().len() as u32;
                     Some(ShotMark {
                         shooter: shooter % 2,
                         cue: (cue.x, cue.y),
@@ -1283,11 +1281,9 @@ impl Match {
         if let Some(last) = &self.last_shot {
             self.stats[report.shooter % 2].add_spin(&last.shot, report);
             let cue = last.start.ball(BallId::CUE).position;
-            let made = if report.is_foul() {
-                0
-            } else {
-                report.pocketed.iter().filter(|(b, _)| b.is_object()).count() as u32
-            };
+            // The balls made for the player (not the opponent's, nor an 8 that
+            // loses), as the numbers count them.
+            let made = report.balls_made().len() as u32;
             self.timeline.push(ShotMark {
                 shooter: report.shooter % 2,
                 cue: (cue.x, cue.y),
@@ -1597,7 +1593,7 @@ impl Match {
         if self.visit_run.0 != shooter {
             self.visit_run = (shooter, 0);
         }
-        let made = report.pocketed.iter().filter(|(b, _)| b.is_object()).count() as u32;
+        let made = report.balls_made().len() as u32;
         if report.is_foul() || !(report.continues || won) || made == 0 {
             self.visit_run.1 = 0;
             return;
@@ -2750,7 +2746,8 @@ mod tests {
         let report = |made: &[u8], continues: bool| ShotReport {
             shooter: 0,
             was_break: false,
-            first_contact: None,
+            // A solid hit first: the shooter's group.
+            first_contact: Some(BallId(1)),
             pocketed: made.iter().map(|b| (BallId(*b), PocketId::FootLeft)).collect(),
             fouls: vec![],
             spotted: vec![],

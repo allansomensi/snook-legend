@@ -752,6 +752,46 @@ pub struct StaffNote {
     pub delivered_at: Option<i64>,
 }
 
+/// An event the staff scheduled (see `crate::events`).
+#[derive(Debug, Clone, PartialEq, serde::Serialize)]
+pub struct GameEvent {
+    pub id: i64,
+    /// "xp", "coins" or "tournament".
+    pub kind: String,
+    pub title: String,
+    pub multiplier: u32,
+    pub starts_at: i64,
+    pub ends_at: i64,
+    /// A tournament's: "knockout" or "arena" (empty for a boost).
+    pub format: String,
+    /// A knockout's seats (0 for an arena or a boost).
+    pub size: u32,
+    pub rated: bool,
+    pub entry_fee: u32,
+    /// Coins the house adds to a tournament's prizes.
+    pub prize: u32,
+    pub created_by: String,
+    pub created_at: i64,
+    pub cancelled_at: Option<i64>,
+}
+
+/// An event to schedule.
+#[derive(Debug, Clone)]
+pub struct NewEvent<'a> {
+    pub kind: &'a str,
+    pub title: &'a str,
+    pub multiplier: u32,
+    pub starts_at: i64,
+    pub ends_at: i64,
+    pub format: &'a str,
+    pub size: u32,
+    pub rated: bool,
+    pub entry_fee: u32,
+    pub prize: u32,
+    pub created_by: i64,
+    pub at: i64,
+}
+
 /// Longest staff note or warning.
 pub const MAX_STAFF_NOTE: usize = 600;
 
@@ -1259,6 +1299,22 @@ impl Store {
     /// shown at `at`.
     pub async fn take_warnings(&self, user_id: i64, at: i64) -> StoreResult<Vec<String>> {
         dispatch!(self, s => s.take_warnings(user_id, at))
+    }
+    pub async fn add_event(&self, e: &NewEvent<'_>) -> StoreResult<i64> {
+        dispatch!(self, s => s.add_event(e))
+    }
+    /// The events not called off that end after `t`, soonest first.
+    pub async fn events_after(&self, t: i64) -> StoreResult<Vec<GameEvent>> {
+        dispatch!(self, s => s.events_after(t))
+    }
+    /// The latest events (called off and past ones too), the latest
+    /// start first.
+    pub async fn recent_events(&self, limit: u32) -> StoreResult<Vec<GameEvent>> {
+        dispatch!(self, s => s.recent_events(limit))
+    }
+    /// Calls an event off; false if there is none, or it was called off.
+    pub async fn cancel_event(&self, id: i64, at: i64) -> StoreResult<bool> {
+        dispatch!(self, s => s.cancel_event(id, at))
     }
     /// Coins, VIP and where coins went in the last 30 days.
     pub async fn economy(&self, now: i64) -> StoreResult<Economy> {

@@ -349,13 +349,35 @@ impl Menu {
         action: &mut MenuAction,
     ) {
         let notes = online.board_now();
+        let events = online.events_now();
         let sw = crate::ui::vw();
         let w = 320.0f32.min(sw * 0.3);
         let x = sw - w - EDGE;
-        if notes.is_empty() || x < menu_right + 24.0 {
+        if (notes.is_empty() && events.is_empty()) || x < menu_right + 24.0 {
             return;
         }
         let mut y = top;
+        // The staff's events first: double experience, a themed cup…
+        if !events.is_empty() {
+            ui.text(t("Events"), x + 2.0, y, 15.0, GOLD, true);
+            y += 24.0;
+            let now = crate::game::unix_now();
+            for e in &events {
+                let h = crate::online::event_height(ui, e, w);
+                if y + h > bottom {
+                    return;
+                }
+                let card = Rect::new(x, y, w, h);
+                rrect(card, 8.0, Color::new(0.05, 0.035, 0.025, 0.86));
+                crate::online::draw_event(ui, e, card, now);
+                ui.block(card);
+                y += h + 8.0;
+            }
+            y += 10.0;
+        }
+        if notes.is_empty() {
+            return;
+        }
         ui.text(t("Board"), x + 2.0, y, 15.0, GOLD, true);
         y += 24.0;
         for n in notes.iter().take(3) {

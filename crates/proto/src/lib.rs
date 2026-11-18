@@ -14,6 +14,7 @@ pub mod correspondence;
 mod countries;
 pub mod daily;
 pub mod drills;
+pub mod events;
 pub mod ghost;
 pub mod ladder;
 pub mod missions;
@@ -1773,6 +1774,11 @@ pub enum ServerMsg {
     /// The answer to a claim of the ladder's reward.
     LadderClaim {
         result: ladder::ClaimResult,
+    },
+    /// The events running and coming (see [`events`]): sent when signing
+    /// in and whenever the list changes. Empty: none.
+    Events {
+        events: Vec<events::EventInfo>,
     },
     /// The tour's final, dealt by the server (the answer to
     /// [`ClientMsg::LadderTicket`]): only a final played from this rack,

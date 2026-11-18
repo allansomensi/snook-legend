@@ -33,7 +33,9 @@ mod social;
 mod tournaments;
 
 pub use social::SEEK_LIFETIME;
-pub use tournaments::{Cup, Joined};
+pub use tournaments::{
+    ARENA_MINUTES, Cup, Joined, KNOCKOUT_SIZES, MAX_HOUSE_PRIZE, ScheduledTournament,
+};
 
 pub fn tournaments_max_fee() -> u32 {
     tournaments::MAX_ENTRY_FEE
@@ -306,6 +308,9 @@ pub struct Lounge {
     /// Who wrote each lounge chat line (its number -> the account's id):
     /// hidden from those who blocked them, online or not.
     chat_authors: HashMap<u64, i64>,
+    /// The staff's themed tournaments, and the tournament each one became.
+    scheduled_tournaments: Vec<tournaments::ScheduledTournament>,
+    event_tournaments: HashMap<i64, u64>,
 }
 
 struct Queued {
@@ -956,6 +961,11 @@ impl Lounge {
                 })
             })
             .collect()
+    }
+
+    /// A message to everyone in the lounge.
+    pub fn tell_everyone(&self, msg: &ServerMsg) {
+        self.broadcast(msg);
     }
 
     /// The staff delete lounge chat line `id` from the panel: shown as

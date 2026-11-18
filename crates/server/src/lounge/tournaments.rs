@@ -27,8 +27,33 @@ const ARENA_LENGTH: Duration = Duration::from_secs(30 * 60);
 /// runner-up; the rest leaves circulation (the house's share).
 const PRIZE_SHARES: [u32; 2] = [70, 20];
 pub const MAX_ENTRY_FEE: u32 = 1000;
+/// The champion's share of a prize the house adds (the runner-up has the rest).
+const HOUSE_PRIZE_SHARE: u32 = 70;
+/// The most coins the house may add to a tournament's prizes.
+pub const MAX_HOUSE_PRIZE: u32 = 100_000;
+/// Seats a knockout may have.
+pub const KNOCKOUT_SIZES: [u32; 3] = [4, 8, 16];
+/// How long an arena may last (minutes).
+pub const ARENA_MINUTES: std::ops::RangeInclusive<u32> = 10..=180;
 /// The weekly cup opens for sign-up this long before it starts.
 const CUP_SIGN_UP: i64 = 2 * 3600;
+
+/// A themed tournament the staff scheduled (an event): organised by the
+/// server like the weekly cup, open for sign-up two hours before it starts.
+#[derive(Debug, Clone, PartialEq)]
+pub struct ScheduledTournament {
+    pub event_id: i64,
+    pub name: String,
+    pub format: TournamentFormat,
+    /// A knockout's seats.
+    pub size: u32,
+    pub rated: bool,
+    pub entry_fee: u32,
+    pub house_prize: u32,
+    pub starts_at: i64,
+    /// An arena closes then.
+    pub ends_at: i64,
+}
 
 /// The weekly cup: an arena organised by the server.
 #[derive(Debug, Clone, PartialEq)]
@@ -141,6 +166,9 @@ pub(super) struct Tournament {
     paid: HashMap<String, String>,
     /// Full: who is waiting for a seat (VIP members first).
     pub(super) waitlist: Vec<String>,
+    /// Coins the house adds to the prizes (a themed tournament of the
+    /// staff's), on top of the entry fees.
+    house_prize: u32,
     /// Organised by the server: starts by itself at this time.
     starts_at: Option<i64>,
     /// Arena: closes at this time (Unix seconds).
@@ -165,7 +193,10 @@ impl Tournament {
 
     fn prizes(&self) -> [u32; 2] {
         let pot = self.pot();
-        PRIZE_SHARES.map(|share| pot * share / 100)
+        let fees = PRIZE_SHARES.map(|share| pot * share / 100);
+        // The house's prize is paid out whole: 70% and 30%.
+        let house = self.house_prize * HOUSE_PRIZE_SHARE / 100;
+        [fees[0] + house, fees[1] + self.house_prize - house]
     }
 
     /// Arena standings, best first.
@@ -389,6 +420,7 @@ impl Lounge {
             entry_fee,
             paid: paid.map(|r| HashMap::from([(k.to_string(), r)])).unwrap_or_default(),
             waitlist: Vec::new(),
+            house_prize: 0,
             starts_at: None,
             ends_at: None,
             arena: HashMap::new(),
@@ -1215,6 +1247,81 @@ impl Lounge {
             self.broadcast(&ServerMsg::TournamentRemoved { id });
         }
         self.schedule_cup(t_now);
+        self.schedule_events(t_now);
+    }
+
+    /// The staff's themed tournaments (see `crate::events`): what the server
+    /// will organise. One called off (or gone) before it started is called
+    /// off here too, every fee back.
+    pub fn set_scheduled_tournaments(&mut self, list: Vec<ScheduledTournament>) {
+        let gone: Vec<(i64, u64)> = self
+            .event_tournaments
+            .iter()
+            .filter(|(event, _)| !list.iter().any(|s| s.event_id == **event))
+            .map(|(e, t)| (*e, *t))
+            .collect();
+        for (event, id) in gone {
+            self.event_tournaments.remove(&event);
+            if self.tournaments.get(&id).is_some_and(|t| t.state == TournamentState::Registering) {
+                let _ = self.staff_cancel_tournament(id);
+            }
+        }
+        self.scheduled_tournaments = list;
+        self.schedule_events(now());
+    }
+
+    /// Opens the staff's themed tournaments for sign-up when they are near,
+    /// as the weekly cup.
+    fn schedule_events(&mut self, t: i64) {
+        if self.draining.is_some() || self.rules.lan {
+            return;
+        }
+        let due: Vec<ScheduledTournament> = self
+            .scheduled_tournaments
+            .iter()
+            .filter(|s| s.starts_at > t && s.starts_at - t <= CUP_SIGN_UP)
+            .filter(|s| !self.event_tournaments.contains_key(&s.event_id))
+            .cloned()
+            .collect();
+        for s in due {
+            let id = self.new_id();
+            let arena = s.format == TournamentFormat::Arena;
+            self.tournaments.insert(
+                id,
+                Tournament {
+                    id,
+                    name: s.name.clone(),
+                    host: String::new(),
+                    size: if arena { ARENA_MAX as u32 } else { s.size },
+                    rated: s.rated,
+                    password: None,
+                    state: TournamentState::Registering,
+                    players: Vec::new(),
+                    profiles: HashMap::new(),
+                    bracket: None,
+                    missing_since: HashMap::new(),
+                    finished_at: None,
+                    format: s.format,
+                    entry_fee: s.entry_fee,
+                    paid: HashMap::new(),
+                    waitlist: Vec::new(),
+                    house_prize: s.house_prize,
+                    starts_at: Some(s.starts_at),
+                    ends_at: arena.then_some(s.ends_at),
+                    arena: HashMap::new(),
+                    withdrawn: HashSet::new(),
+                    champion: None,
+                    met: HashMap::new(),
+                    shown: None,
+                },
+            );
+            self.event_tournaments.insert(s.event_id, id);
+            self.announce_text(&format!(
+                "The {} is open for sign-up: it starts soon in Tournaments.",
+                s.name
+            ));
+            self.broadcast_tournament(id);
+        }
     }
 
     /// Opens the weekly cup for sign-up when it is near.
@@ -1229,7 +1336,11 @@ impl Lounge {
         if start - t > CUP_SIGN_UP {
             return;
         }
-        if self.tournaments.values().any(|x| x.host.is_empty() && x.starts_at == Some(start)) {
+        if self
+            .tournaments
+            .values()
+            .any(|x| x.host.is_empty() && x.starts_at == Some(start) && x.name == cup.name)
+        {
             return;
         }
         let id = self.new_id();
@@ -1253,6 +1364,7 @@ impl Lounge {
                 entry_fee: cup.entry_fee,
                 paid: HashMap::new(),
                 waitlist: Vec::new(),
+                house_prize: 0,
                 starts_at: Some(start),
                 ends_at: Some(end),
                 arena: HashMap::new(),

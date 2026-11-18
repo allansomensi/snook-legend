@@ -37,6 +37,7 @@ const APPLIED: &[(&str, &str)] = &[
     ("0016_lookups.sql", "fd952d28a33556a3a87fc73dc67254273ecfef023a104d2dd3f3c1915c90638f"),
     ("0017_ladder_tickets.sql", "664e609f6c124fd7ccc0c76aff42b1c1815c1760cbe180dd60d4c93dc9adbb30"),
     ("0018_staff_notes.sql", "a41dbe65678193f240e9dec998b236a974af7c0ede416fa8d67b5236d51648bb"),
+    ("0019_events.sql", "cdb52fd1b01a4ab815eeca17f86ca66028cf06c6fead821bf32cd969eb7e9258"),
 ];
 
 #[test]

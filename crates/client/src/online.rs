@@ -286,6 +286,8 @@ pub struct Online {
     pub drill_result: Option<(String, Result<u32, snook_legend_proto::drills::Refused>)>,
     /// A drill session the server started: (drill, session).
     pub drill_session: Option<(String, u64)>,
+    /// The staff's events running and coming (double experience, a cup…).
+    pub events: Vec<snook_legend_proto::events::EventInfo>,
     /// The tour's final was asked for (see `ladder_ticket`).
     pub awaiting_ticket: bool,
     /// The tour's final as the server dealt it: (rack, breaker).
@@ -392,6 +394,50 @@ const FEE_HINT: &str = "The fees make the prize: 70% to the champion, 20% to the
 const PRACTICE_AFTER_SECS: u32 = 30;
 
 /// "5 h", "3 days", "12 min": how long until something.
+/// A notice of something earned, with the event's multiplier when one ran.
+fn with_boost(text: String, boost: u32) -> String {
+    if boost > 1 { format!("{text} (×{boost})") } else { text }
+}
+
+/// What an event is, for players: "Experience ×2", "Tournament"…
+pub fn event_label(e: &snook_legend_proto::events::EventInfo) -> String {
+    use snook_legend_proto::events::EventKind;
+    match e.kind {
+        EventKind::Xp => tw("Experience ×{n}", &[("n", &e.multiplier)]),
+        EventKind::Coins => tw("Coins from games ×{n}", &[("n", &e.multiplier)]),
+        EventKind::Tournament => t("Themed tournament").to_string(),
+        EventKind::Unknown => t("Event").to_string(),
+    }
+}
+
+/// When an event ends (running) or starts.
+pub fn event_when(e: &snook_legend_proto::events::EventInfo, now: i64) -> String {
+    if e.is_on(now) {
+        tw("ends in {t}", &[("t", &time_left(e.ends_at - now))])
+    } else {
+        tw("starts in {t}", &[("t", &time_left(e.starts_at - now))])
+    }
+}
+
+/// An event's card: what it is and when on the first line, the staff's
+/// title under it. Its height for a card `w` wide.
+pub fn event_height(ui: &Ui, e: &snook_legend_proto::events::EventInfo, w: f32) -> f32 {
+    let lines = ui.wrap(&e.title, w - 24.0, 13.0).len().min(2) as f32;
+    12.0 + 18.0 + lines * 17.0 + 8.0
+}
+
+pub fn draw_event(ui: &Ui, e: &snook_legend_proto::events::EventInfo, r: Rect, now: i64) {
+    let live = e.is_on(now);
+    rrect(r, 8.0, Color::new(0.91, 0.75, 0.38, if live { 0.16 } else { 0.08 }));
+    rrect_lines(r, 8.0, 1.0, Color::new(0.91, 0.75, 0.38, if live { 0.7 } else { 0.35 }));
+    let head = format!("{} · {}", event_label(e), event_when(e, now));
+    let (head, size) = fit_text(ui, &head, 13.0, r.w - 24.0, true);
+    ui.text(&head, r.x + 12.0, r.y + 10.0, size, GOLD, true);
+    for (k, l) in ui.wrap(&e.title, r.w - 24.0, 13.0).iter().take(2).enumerate() {
+        ui.text(l, r.x + 12.0, r.y + 30.0 + k as f32 * 17.0, 13.0, CREAM, false);
+    }
+}
+
 pub(crate) fn time_left(secs: i64) -> String {
     let secs = secs.max(0);
     if secs >= 2 * 86_400 {
@@ -557,6 +603,7 @@ impl Online {
             drills: None,
             drill_result: None,
             drill_session: None,
+            events: Vec::new(),
             awaiting_ticket: false,
             ladder_ticket: None,
             ticket_refused: false,
@@ -1195,7 +1242,12 @@ impl Online {
                     }
                     _ => "",
                 };
-                self.toast(tw("+{n} coins · {why}", &[("n", &amount), ("why", &why)]), true);
+                let text = tw("+{n} coins · {why}", &[("n", &amount), ("why", &why)]);
+                let boost = match reason.as_str() {
+                    "game" | "win" => self.boost(snook_legend_proto::events::EventKind::Coins),
+                    _ => 1,
+                };
+                self.toast(with_boost(text, boost), true);
             }
             ServerMsg::Account { recovery_email, payment_email, name_changes_left } => {
                 // After a payment, without a recovery e-mail: offer the one paid with.
@@ -1338,6 +1390,7 @@ impl Online {
             ServerMsg::Drills { info } => self.drills = Some(info),
             ServerMsg::DrillResult { code, result } => self.drill_result = Some((code, result)),
             ServerMsg::DrillStarted { code, session } => self.drill_session = Some((code, session)),
+            ServerMsg::Events { events } => self.events = events,
             ServerMsg::LadderTicket { seed, breaker } if self.awaiting_ticket => {
                 self.awaiting_ticket = false;
                 self.ladder_ticket = Some((seed, breaker));
@@ -1353,7 +1406,11 @@ impl Online {
                             tw("Level {n}! (+{xp} XP)", &[("n", &level_of(xp)), ("xp", &gained)]),
                             true,
                         ),
-                        None => self.toast(tw("+{xp} XP", &[("xp", &gained)]), false),
+                        None => {
+                            let text = tw("+{xp} XP", &[("xp", &gained)]);
+                            let boost = self.boost(snook_legend_proto::events::EventKind::Xp);
+                            self.toast(with_boost(text, boost), false)
+                        }
                     }
                 }
             }
@@ -2225,6 +2282,13 @@ impl Online {
             }
             log_top += mh + 8.0;
         }
+        // The staff's events running and coming.
+        let now = crate::game::unix_now();
+        for e in self.events_now().iter().take(2) {
+            let r = Rect::new(inner_x, log_top, inner_w, event_height(ui, e, inner_w));
+            draw_event(ui, e, r, now);
+            log_top += r.h + 8.0;
+        }
         // The server is about to restart.
         if let Some(until) = self.draining {
             let left = until.saturating_duration_since(std::time::Instant::now()).as_secs();
@@ -2514,6 +2578,27 @@ impl Online {
     }
 
     /// The notes on the board that are up now, pinned first.
+    /// The events to show: running, or starting within two days; the
+    /// running ones first, at most three.
+    pub fn events_now(&self) -> Vec<snook_legend_proto::events::EventInfo> {
+        let now = crate::game::unix_now();
+        let mut list: Vec<_> = self
+            .events
+            .iter()
+            .filter(|e| e.ends_at > now && e.starts_at - now <= 2 * 86_400)
+            .filter(|e| e.kind != snook_legend_proto::events::EventKind::Unknown)
+            .cloned()
+            .collect();
+        list.sort_by_key(|e| (!e.is_on(now), e.starts_at));
+        list.truncate(3);
+        list
+    }
+
+    /// The boost of `kind` running now (1: none).
+    pub fn boost(&self, kind: snook_legend_proto::events::EventKind) -> u32 {
+        snook_legend_proto::events::boost(&self.events, kind, crate::game::unix_now())
+    }
+
     pub fn board_now(&self) -> Vec<snook_legend_proto::BoardNote> {
         let now = crate::game::unix_now();
         let mut notes: Vec<_> =
@@ -3348,6 +3433,9 @@ impl Online {
         let mut facts = Vec::new();
         if tour.entry_fee > 0 {
             facts.push(tw("Entry {n} coins", &[("n", &tour.entry_fee)]));
+        }
+        // A themed tournament's prizes are put up by the house, entry or not.
+        if tour.prizes[0] > 0 {
             facts.push(tw("Prizes {a} + {b}", &[("a", &tour.prizes[0]), ("b", &tour.prizes[1])]));
         }
         let now = crate::game::unix_now();

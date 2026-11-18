@@ -1792,3 +1792,8 @@ Not ranked: sessions count when started signed in.	Fora do ranking: só contam s
 Warning from the staff: {text}	Aviso da equipe: {text}
 The staff changed your username to {name}. Sign in again.	A equipe mudou o seu nome de usuário para {name}. Entre de novo.
 The staff called off the tournament you were in.	A equipe cancelou o torneio em que você estava.
+Experience ×{n}	Experiência ×{n}
+Coins from games ×{n}	Moedas das partidas ×{n}
+Themed tournament	Torneio especial
+Event	Evento
+Events	Eventos

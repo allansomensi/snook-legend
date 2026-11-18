@@ -276,6 +276,8 @@ pub async fn signed_in(server: &Server, user: &User) {
     if server.config.rules.lan {
         return;
     }
+    // The events running and coming (double experience, a themed cup…).
+    crate::events::signed_in(server, user);
     if let Ok(true) = server.store.claim_daily(user.id, day, DAILY_BONUS).await {
         server.with(|l| {
             l.notify(
@@ -294,10 +296,12 @@ pub async fn signed_in(server: &Server, user: &User) {
 }
 
 /// Coins for a finished rated game (capped per day). `won`: the player won.
+/// A coin event multiplies them, and the day's cap with them.
 pub async fn game_coins(server: &Server, user: &User, won: bool) {
-    let amount = COINS_PER_GAME + if won { COINS_PER_WIN } else { 0 };
+    let boost = server.boost(snook_legend_proto::events::EventKind::Coins) as i64;
+    let amount = (COINS_PER_GAME + if won { COINS_PER_WIN } else { 0 }) * boost;
     let t = now();
-    match server.store.earn(user.id, day_of(t), amount, DAILY_EARN_CAP, "game", t).await {
+    match server.store.earn(user.id, day_of(t), amount, DAILY_EARN_CAP * boost, "game", t).await {
         Ok(n) if n > 0 => server.with(|l| {
             l.notify(
                 &user.username,
@@ -318,6 +322,8 @@ pub async fn award_xp(server: &Server, user: &User, amount: u32) {
     if amount == 0 || server.with(|l| l.rules.lan) {
         return;
     }
+    // An experience event multiplies it.
+    let amount = amount * server.boost(snook_legend_proto::events::EventKind::Xp);
     match server.store.add_xp(user.id, amount).await {
         Ok(xp) => {
             server.with(|l| {

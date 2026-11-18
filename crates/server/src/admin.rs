@@ -70,6 +70,8 @@ pub fn router() -> Router<Arc<Server>> {
         .route("/admin/api/tournaments/{id}/cancel", post(cancel_tournament))
         .route("/admin/api/economy", get(economy))
         .route("/admin/api/system", get(system))
+        .route("/admin/api/events", get(list_events).post(create_event))
+        .route("/admin/api/events/{id}/cancel", post(cancel_event))
         // The panel sends small JSON bodies (the longest a note on the
         // board); anyone can post to the sign-in.
         .layer(DefaultBodyLimit::max(MAX_BODY))
@@ -1093,6 +1095,203 @@ fn resident_memory() -> Option<u64> {
     let line = status.lines().find(|l| l.starts_with("VmRSS:"))?;
     let kb: u64 = line.split_whitespace().nth(1)?.parse().ok()?;
     Some(kb * 1024)
+}
+
+/// The staff's events: the latest (past, called off, running, coming), with
+/// how each stands now.
+async fn list_events(State(server): State<Arc<Server>>, headers: HeaderMap) -> ApiResult {
+    staff(&server, &headers).await?;
+    let t = now();
+    let events: Vec<Value> = server
+        .store
+        .recent_events(200)
+        .await?
+        .into_iter()
+        .map(|e| {
+            let status = if e.cancelled_at.is_some() {
+                "cancelled"
+            } else if e.ends_at <= t {
+                "ended"
+            } else if e.starts_at <= t {
+                "live"
+            } else {
+                "scheduled"
+            };
+            let mut v = serde_json::to_value(&e).unwrap_or_default();
+            v["status"] = json!(status);
+            v
+        })
+        .collect();
+    Ok(Json(json!({
+        "events": events,
+        "now": t,
+        "limits": {
+            "max_multiplier": snook_legend_proto::events::MAX_MULTIPLIER,
+            "max_boost_days": snook_legend_proto::events::MAX_BOOST_LENGTH / 86_400,
+            "max_title": snook_legend_proto::events::MAX_TITLE,
+            "knockout_sizes": crate::lounge::KNOCKOUT_SIZES,
+            "arena_minutes": [*crate::lounge::ARENA_MINUTES.start(), *crate::lounge::ARENA_MINUTES.end()],
+            "max_entry_fee": crate::lounge::tournaments_max_fee(),
+            "max_prize": crate::lounge::MAX_HOUSE_PRIZE,
+        },
+    })))
+}
+
+#[derive(Deserialize)]
+struct EventBody {
+    kind: String,
+    title: String,
+    #[serde(default)]
+    multiplier: u32,
+    starts_at: i64,
+    ends_at: i64,
+    #[serde(default)]
+    format: String,
+    #[serde(default)]
+    size: u32,
+    #[serde(default)]
+    rated: bool,
+    #[serde(default)]
+    entry_fee: u32,
+    #[serde(default)]
+    prize: u32,
+}
+
+/// Events at once (running or coming) at most: a mistake can't fill the
+/// lounge.
+const MAX_OPEN_EVENTS: usize = 50;
+
+/// Schedules an event (administrators: it touches the economy).
+async fn create_event(
+    State(server): State<Arc<Server>>,
+    headers: HeaderMap,
+    Json(body): Json<EventBody>,
+) -> ApiResult {
+    use snook_legend_proto::events::{EventKind, MAX_BOOST_LENGTH, MAX_MULTIPLIER, MAX_TITLE};
+    let s = staff(&server, &headers).await?;
+    require_admin(&s)?;
+    let bad = |m: &str| err(StatusCode::BAD_REQUEST, m);
+    let t = now();
+    let kind = EventKind::from_code(&body.kind);
+    if kind == EventKind::Unknown {
+        return Err(bad("Unknown kind of event."));
+    }
+    let title = clean_text(&body.title, MAX_TITLE);
+    if title.is_empty() {
+        return Err(bad("Give the event a title."));
+    }
+    // "Now" in the form is a moment ago here.
+    let starts_at = if kind.is_boost() && body.starts_at >= t - 600 {
+        body.starts_at.max(t)
+    } else {
+        body.starts_at
+    };
+    let ends_at = body.ends_at;
+    if ends_at <= starts_at {
+        return Err(bad("The event must end after it starts."));
+    }
+    if ends_at <= t {
+        return Err(bad("That time is already past."));
+    }
+    if starts_at > t + 365 * 86_400 {
+        return Err(bad("Schedule events within a year."));
+    }
+    let (multiplier, format, size, rated, entry_fee, prize) = if kind.is_boost() {
+        if starts_at < t {
+            return Err(bad("That time is already past."));
+        }
+        if !(2..=MAX_MULTIPLIER).contains(&body.multiplier) {
+            return Err(bad("Boosts are ×2 or ×3."));
+        }
+        if ends_at - starts_at > MAX_BOOST_LENGTH {
+            return Err(bad("A boost lasts two weeks at most."));
+        }
+        (body.multiplier, "", 0, false, 0, 0)
+    } else {
+        if starts_at < t + 60 {
+            return Err(bad("A tournament must start at least a minute from now."));
+        }
+        let minutes = ((ends_at - starts_at) / 60) as u32;
+        let format = match body.format.as_str() {
+            "arena" => {
+                if !crate::lounge::ARENA_MINUTES.contains(&minutes) {
+                    return Err(bad("An arena lasts from 10 minutes to 3 hours."));
+                }
+                "arena"
+            }
+            "knockout" => {
+                if !crate::lounge::KNOCKOUT_SIZES.contains(&body.size) {
+                    return Err(bad("A knockout has 4, 8 or 16 seats."));
+                }
+                if minutes > 24 * 60 {
+                    return Err(bad("A knockout ends within a day of its start."));
+                }
+                "knockout"
+            }
+            _ => return Err(bad("Choose knockout or arena.")),
+        };
+        if body.entry_fee > crate::lounge::tournaments_max_fee() {
+            return Err(bad("The entry fee is 1,000 coins at most."));
+        }
+        if body.prize > crate::lounge::MAX_HOUSE_PRIZE {
+            return Err(bad("The house adds 100,000 coins at most."));
+        }
+        let size = if format == "knockout" { body.size } else { 0 };
+        (1, format, size, body.rated, body.entry_fee, body.prize)
+    };
+    if server.store.events_after(t).await?.len() >= MAX_OPEN_EVENTS {
+        return Err(bad("Too many events are running or coming. Call some off first."));
+    }
+    let new = crate::store::NewEvent {
+        kind: kind.code(),
+        title: &title,
+        multiplier,
+        starts_at,
+        ends_at,
+        format,
+        size,
+        rated,
+        entry_fee,
+        prize,
+        created_by: s.user.id,
+        at: t,
+    };
+    let id = server.store.add_event(&new).await?;
+    crate::events::reload(&server).await;
+    let what = if kind.is_boost() {
+        format!("{} ×{multiplier}", kind.code())
+    } else {
+        format!("{format} tournament")
+    };
+    log(&server, &s, "event", &title, &format!("{what}, {starts_at}–{ends_at}")).await;
+    Ok(Json(json!({ "ok": true, "id": id })))
+}
+
+/// Calls an event off: a boost stops, a tournament not started yet is
+/// called off with every fee back.
+async fn cancel_event(
+    State(server): State<Arc<Server>>,
+    headers: HeaderMap,
+    Path(id): Path<i64>,
+) -> ApiResult {
+    let s = staff(&server, &headers).await?;
+    require_admin(&s)?;
+    let event = server
+        .store
+        .recent_events(1000)
+        .await?
+        .into_iter()
+        .find(|e| e.id == id)
+        .ok_or_else(|| err(StatusCode::NOT_FOUND, "No such event."))?;
+    if event.ends_at <= now() {
+        return Err(err(StatusCode::BAD_REQUEST, "That event is over."));
+    }
+    if !server.store.cancel_event(id, now()).await? {
+        return Err(err(StatusCode::BAD_REQUEST, "That event was called off already."));
+    }
+    crate::events::reload(&server).await;
+    log(&server, &s, "event-cancel", &event.title, &format!("#{id}")).await;
+    Ok(Json(json!({ "ok": true })))
 }
 
 /// Removes a note about a player: one's own, or any (administrators).

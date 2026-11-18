@@ -713,6 +713,46 @@ async fn staff_tools(store: &Store) {
     let latest = store.recent_payments(1).await.unwrap();
     assert_eq!((latest[0].0.id.as_str(), latest[0].1.as_str()), ("st_pi_2", "st_bia"));
 
+    // Events: kept, listed while not over, called off once.
+    let event = |kind: &'static str, title: &'static str, starts_at: i64, ends_at: i64| {
+        snook_legend_server::store::NewEvent {
+            kind,
+            title,
+            multiplier: if kind == "tournament" { 1 } else { 2 },
+            starts_at,
+            ends_at,
+            format: if kind == "tournament" { "knockout" } else { "" },
+            size: if kind == "tournament" { 8 } else { 0 },
+            rated: true,
+            entry_fee: 50,
+            prize: 1000,
+            created_by: a.id,
+            at: t,
+        }
+    };
+    let past = store.add_event(&event("xp", "Old weekend", t - 7200, t - 3600)).await.unwrap();
+    let later =
+        store.add_event(&event("tournament", "Halloween Cup", t + 7200, t + 9000)).await.unwrap();
+    let now_on = store.add_event(&event("coins", "Coins ×2", t - 60, t + 3600)).await.unwrap();
+    let coming = store.events_after(t).await.unwrap();
+    assert_eq!(coming.iter().map(|e| e.id).collect::<Vec<_>>(), [now_on, later], "soonest first");
+    let cup = &coming[1];
+    assert_eq!(
+        (cup.kind.as_str(), cup.format.as_str(), cup.size, cup.prize),
+        ("tournament", "knockout", 8, 1000)
+    );
+    assert_eq!((cup.entry_fee, cup.rated, cup.created_by.as_str()), (50, true, "st_ana"));
+    assert!(store.cancel_event(later, t).await.unwrap());
+    assert!(!store.cancel_event(later, t).await.unwrap(), "once");
+    assert_eq!(store.events_after(t).await.unwrap().len(), 1);
+    let all = store.recent_events(10).await.unwrap();
+    assert_eq!(
+        all.iter().map(|e| e.id).collect::<Vec<_>>(),
+        [later, now_on, past],
+        "the latest start first"
+    );
+    assert_eq!(all[0].cancelled_at, Some(t));
+
     // Where the active players come from (deleted accounts left out).
     let countries = store.active_countries(t - 86_400).await.unwrap();
     let br = countries.iter().find(|(c, _)| c == "BR").map(|x| x.1).unwrap_or(0);

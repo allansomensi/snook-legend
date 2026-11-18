@@ -2157,6 +2157,86 @@ impl PgStore {
         Ok(out.into_iter().map(|x| x.1).collect())
     }
 
+    pub async fn add_event(&self, e: &super::NewEvent<'_>) -> StoreResult<i64> {
+        let row = query(
+            "INSERT INTO events (kind, title, multiplier, starts_at, ends_at, format, size, rated,
+                                 entry_fee, prize, created_by, created_at)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id",
+        )
+        .bind(e.kind)
+        .bind(e.title)
+        .bind(e.multiplier as i16)
+        .bind(e.starts_at)
+        .bind(e.ends_at)
+        .bind(e.format)
+        .bind(e.size as i32)
+        .bind(e.rated)
+        .bind(e.entry_fee as i32)
+        .bind(e.prize as i32)
+        .bind(e.created_by)
+        .bind(e.at)
+        .fetch_one(&self.pool)
+        .await?;
+        Ok(row.get("id"))
+    }
+
+    async fn event_rows(
+        &self,
+        filter: &str,
+        order: &str,
+        limit: i64,
+        t: i64,
+    ) -> StoreResult<Vec<super::GameEvent>> {
+        let rows = query(&format!(
+            "SELECT e.*, COALESCE(u.username, '') AS author FROM events e
+             LEFT JOIN users u ON u.id = e.created_by
+             WHERE {filter} AND $1::BIGINT IS NOT NULL ORDER BY {order} LIMIT $2"
+        ))
+        .bind(t)
+        .bind(limit)
+        .fetch_all(&self.pool)
+        .await?;
+        let n = |r: &PgRow, c: &str| r.get::<i32, _>(c).max(0) as u32;
+        Ok(rows
+            .iter()
+            .map(|r| super::GameEvent {
+                id: r.get("id"),
+                kind: r.get("kind"),
+                title: r.get("title"),
+                multiplier: r.get::<i16, _>("multiplier").max(1) as u32,
+                starts_at: r.get("starts_at"),
+                ends_at: r.get("ends_at"),
+                format: r.get("format"),
+                size: n(r, "size"),
+                rated: r.get("rated"),
+                entry_fee: n(r, "entry_fee"),
+                prize: n(r, "prize"),
+                created_by: r.get("author"),
+                created_at: r.get("created_at"),
+                cancelled_at: r.get("cancelled_at"),
+            })
+            .collect())
+    }
+
+    pub async fn events_after(&self, t: i64) -> StoreResult<Vec<super::GameEvent>> {
+        self.event_rows("e.cancelled_at IS NULL AND e.ends_at > $1", "e.starts_at, e.id", 1000, t)
+            .await
+    }
+
+    pub async fn recent_events(&self, limit: u32) -> StoreResult<Vec<super::GameEvent>> {
+        self.event_rows("TRUE", "e.starts_at DESC, e.id DESC", limit as i64, 0).await
+    }
+
+    pub async fn cancel_event(&self, id: i64, at: i64) -> StoreResult<bool> {
+        let done =
+            query("UPDATE events SET cancelled_at = $2 WHERE id = $1 AND cancelled_at IS NULL")
+                .bind(id)
+                .bind(at)
+                .execute(&self.pool)
+                .await?;
+        Ok(done.rows_affected() > 0)
+    }
+
     pub async fn economy(&self, now: i64) -> StoreResult<super::Economy> {
         let totals = query(
             "SELECT COALESCE(SUM(coins), 0)::BIGINT AS coins,

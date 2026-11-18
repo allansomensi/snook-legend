@@ -416,6 +416,154 @@ where
     }
 }
 
+/// Events: the staff schedule them; boosts multiply experience and coins
+/// from games while they run, a themed tournament opens like the weekly cup
+/// (with the house's prize), players are told, and calling one off undoes
+/// it.
+#[tokio::test]
+async fn events_boost_and_organise() {
+    use snook_legend_proto::events::EventKind;
+    let s = start().await;
+    let boss = token(&s.host, "boss").await;
+    let t = snook_legend_server::now();
+    let mut gus = Client::register(&s.url, "gus").await;
+    let create = |body: String| {
+        let (host, boss) = (s.host.clone(), boss.clone());
+        async move { request(&host, "POST", "/admin/api/events", &boss, &body).await }
+    };
+
+    // What can't be scheduled.
+    for body in [
+        format!(r#"{{"kind":"raffle","title":"x","starts_at":{t},"ends_at":{}}}"#, t + 60),
+        format!(
+            r#"{{"kind":"xp","title":"x","multiplier":5,"starts_at":{t},"ends_at":{}}}"#,
+            t + 60
+        ),
+        format!(
+            r#"{{"kind":"xp","title":"  ","multiplier":2,"starts_at":{t},"ends_at":{}}}"#,
+            t + 60
+        ),
+        format!(
+            r#"{{"kind":"xp","title":"x","multiplier":2,"starts_at":{t},"ends_at":{}}}"#,
+            t - 10
+        ),
+        format!(
+            r#"{{"kind":"coins","title":"x","multiplier":2,"starts_at":{t},"ends_at":{}}}"#,
+            t + 30 * 86_400
+        ),
+        format!(
+            r#"{{"kind":"tournament","title":"x","format":"knockout","size":5,"starts_at":{},"ends_at":{}}}"#,
+            t + 600,
+            t + 3600
+        ),
+        format!(
+            r#"{{"kind":"tournament","title":"x","format":"arena","starts_at":{},"ends_at":{}}}"#,
+            t + 600,
+            t + 660
+        ),
+        format!(
+            r#"{{"kind":"tournament","title":"x","format":"arena","starts_at":{t},"ends_at":{}}}"#,
+            t + 1800
+        ),
+    ] {
+        let (code, v) = create(body.clone()).await;
+        assert_eq!(code, 400, "{body}: {v}");
+    }
+
+    // Double experience, now: the player online is told, and it counts.
+    let (code, v) = create(format!(
+        r#"{{"kind":"xp","title":"Double XP Friday","multiplier":2,"starts_at":{t},"ends_at":{}}}"#,
+        t + 3600
+    ))
+    .await;
+    assert_eq!(code, 200, "{v}");
+    let told = gus
+        .expect("events", |m| matches!(m, ServerMsg::Events { events } if !events.is_empty()))
+        .await;
+    let ServerMsg::Events { events } = told else { unreachable!() };
+    assert_eq!(
+        (events[0].kind, events[0].multiplier, events[0].title.as_str()),
+        (EventKind::Xp, 2, "Double XP Friday")
+    );
+    assert_eq!(s.server.boost(EventKind::Xp), 2);
+    assert_eq!(s.server.boost(EventKind::Coins), 1);
+    let user = s.server.store.user_by_name("gus").await.unwrap().unwrap();
+    snook_legend_server::account::award_xp(&s.server, &user, 10).await;
+    gus.expect("double xp", |m| matches!(m, ServerMsg::Xp { gained: 20, .. })).await;
+
+    // Triple coins from games: the game's coins and the day's cap.
+    let (code, _) = create(format!(
+        r#"{{"kind":"coins","title":"Coins ×3","multiplier":3,"starts_at":{t},"ends_at":{}}}"#,
+        t + 3600
+    ))
+    .await;
+    assert_eq!(code, 200);
+    snook_legend_server::account::game_coins(&s.server, &user, true).await;
+    let per_win = (snook_legend_server::account::COINS_PER_GAME
+        + snook_legend_server::account::COINS_PER_WIN)
+        * 3;
+    gus.expect(
+        "triple coins",
+        |m| matches!(m, ServerMsg::CoinsEarned { amount, .. } if *amount as i64 == per_win),
+    )
+    .await;
+
+    // A themed arena in half an hour: open for sign-up at once, with the
+    // house's prize (70% and 30%) on top of the fees.
+    let (code, v) = create(format!(
+        r#"{{"kind":"tournament","title":"Halloween Arena","format":"arena","rated":false,"entry_fee":0,"prize":1000,"starts_at":{},"ends_at":{}}}"#,
+        t + 1800,
+        t + 3600
+    ))
+    .await;
+    assert_eq!(code, 200, "{v}");
+    let cup_id = v["id"].as_i64().unwrap();
+    let (_, live) = request(&s.host, "GET", "/admin/api/live", &boss, "").await;
+    let cup = live["tournaments"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|x| x["name"] == "Halloween Arena")
+        .cloned()
+        .expect("the arena is open");
+    assert_eq!(cup["prizes"], serde_json::json!([700, 300]));
+    assert_eq!(cup["format"], "arena");
+    assert_eq!(cup["starts_at"], t + 1800);
+    assert_eq!(cup["host"], snook_legend_proto::GAME_NAME, "organised by the server");
+
+    // Someone signing in now is told of all three.
+    let mut ivy = Client::register(&s.url, "ivy").await;
+    let ServerMsg::Events { events } =
+        ivy.expect("events at sign-in", |m| matches!(m, ServerMsg::Events { .. })).await
+    else {
+        unreachable!()
+    };
+    assert_eq!(events.len(), 3);
+
+    // The list in the portal, then calling the arena off: it is gone, and
+    // a moderator could do neither.
+    let (_, v) = request(&s.host, "GET", "/admin/api/events", &boss, "").await;
+    let statuses: Vec<&str> =
+        v["events"].as_array().unwrap().iter().map(|e| e["status"].as_str().unwrap()).collect();
+    assert_eq!(statuses, ["scheduled", "live", "live"]);
+    let (code, _) =
+        request(&s.host, "POST", "/admin/api/users/ivy/role", &boss, r#"{"role":"moderator"}"#)
+            .await;
+    assert_eq!(code, 200);
+    let mods = token(&s.host, "ivy").await;
+    let cancel = format!("/admin/api/events/{cup_id}/cancel");
+    assert_eq!(request(&s.host, "POST", &cancel, &mods, "").await.0, 403);
+    assert_eq!(request(&s.host, "POST", "/admin/api/events", &mods, "{}").await.0, 422);
+    assert_eq!(request(&s.host, "POST", &cancel, &boss, "").await.0, 200);
+    assert_eq!(request(&s.host, "POST", &cancel, &boss, "").await.0, 400, "once");
+    let (_, live) = request(&s.host, "GET", "/admin/api/live", &boss, "").await;
+    assert!(
+        !live["tournaments"].as_array().unwrap().iter().any(|x| x["name"] == "Halloween Arena")
+    );
+    let (_, v) = request(&s.host, "GET", "/admin/api/audit?action=event-cancel", &boss, "").await;
+    assert_eq!(v["entries"][0]["target"], "Halloween Arena");
+}
+
 /// Every text the portal shows through `t(…)` or `tf(…)` has its Portuguese
 /// and Spanish (a new text without them would show in English).
 #[test]

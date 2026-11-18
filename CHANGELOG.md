@@ -5,8 +5,19 @@
 New games play ruleset 5, with a new house rule on the break. 0.7.0 plays
 only with 0.7.0: the server lets in protocol 18 only (older games are told
 to update), so the server and the game go out together. The server runs
-migrations 0016 (indexes for profiles), 0017 (the tour's finals it deals)
-and 0018 (the staff's notes) when it starts.
+migrations 0016 (indexes for profiles), 0017 (the tour's finals it deals),
+0018 (the staff's notes) and 0019 (events) when it starts.
+
+### Events
+- **Scheduled from the staff portal:** experience ×2 or ×3, coins from
+  games ×2 or ×3 (the day's cap too), and themed tournaments — a knockout
+  or an arena organised by the server like the weekly cup, with a prize the
+  house adds on top of the entry fees (70% to the champion, 30% to the
+  runner-up). Each with a start and an end; called off at any time.
+- **Players see them** on the main menu and in the lounge (what each does,
+  when it starts or ends), and experience and coin notices say "(×2)"
+  while a boost runs. A tournament's prizes show also without an entry fee.
+- Migration 0019 keeps the events.
 
 ### The staff portal, made again
 - **A new portal at `/admin`**, in Portuguese, English and Spanish (from

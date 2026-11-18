@@ -43,6 +43,7 @@ a second set of credentials for no gain at this size.
 | **Lounge chat** | The latest lines, newest first, with deleted ones (and who deleted them). Delete a line, remove it without a trace (administrators), warn or mute its author, clear the chat (administrators). Refreshes every 10 s. |
 | **Fair play** | Players whose potting on hard shots is far above their tier's (a list to look at with the replays; nobody is punished by it). |
 | **Board & announcements** | An announcement to the lounge now; the lounge's board (notice, event or rule, a button, pinned, for some days) with a live preview; the welcome message; players' "looking for a game" notes. |
+| **Events** | Boosts and themed tournaments with a start and an end (see below): running now, coming up, past; how much experience and coins from games count right now. |
 | **Economy** | Coins in wallets, VIP members, coins given and spent in 30 days by reason, the largest balances, revenue; the latest payments of everyone (mark test payments); the shop's catalogue. |
 | **Metrics** | Players and games by day and by hour, retention by week of sign-up, from account to player, where players come from (country), revenue by day, the "Play now" waits. |
 | **Audit log** | Every staff action: search by words, filter by action or player, load more, export as CSV. |
@@ -60,6 +61,7 @@ a second set of credentials for no gain at this size.
 | Rename, change a role, set a new password | | ✓ |
 | Give or take coins, give items or VIP days, take an item back, mark payments as test | | ✓ |
 | Call off a tournament, send a stuck Microsoft Store purchase again | | ✓ |
+| Schedule and call off events | | ✓ (moderators see them) |
 
 The first administrators come from `SNOOK_LEGEND_ADMINS`; they can then
 promote others from the portal. Nobody acts on their own account, except
@@ -101,6 +103,33 @@ all in the audit log like any other change.
   *test* and left out of the revenue; others can be marked by hand. Coins
   they brought stay in the wallet: take them back with *Give coins* and a
   negative amount.
+
+## Events
+
+Scheduled on the *Events* page (administrators), with a title players see
+as written, a start and an end in the staff member's time zone, and quick
+picks (now for 24 hours, this weekend, the next 7 days; tonight or
+Saturday at 8 pm for a tournament).
+
+- **Experience ×2 or ×3**: every bit of experience counts that many times
+  while it runs (games, the daily challenge, drills). Up to two weeks.
+- **Coins from games ×2 or ×3**: the coins for finishing a rated game, and
+  the day's cap with them. Purchases, prizes and the daily bonus are as
+  usual. Up to two weeks.
+- **Themed tournament**: a knockout (4, 8 or 16 seats) or an arena (10
+  minutes to 3 hours, from the start to the end) that the server organises
+  like the weekly cup: it opens for sign-up two hours before it starts,
+  starts by itself, and is called off (fees back) if fewer than two
+  signed up. It may be rated, take an entry fee and carry a **prize from
+  the house** (paid 70% to the champion and 30% to the runner-up, on top of
+  the entry fees' prizes).
+
+Boosts of the same kind don't add up: the largest one running counts.
+Players see the events running and those starting within two days on the
+main menu and in the lounge, with what each does and when it starts or
+ends, and an experience or coin notice says "(×2)" while a boost runs.
+Calling an event off stops a boost at once; a tournament that is open for
+sign-up is called off with every fee back (one that started plays on).
 
 Every staff action is written to the audit log with who, what, whom and
 when, and shows on the player's *Moderation* tab.

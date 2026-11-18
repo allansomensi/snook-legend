@@ -37,6 +37,8 @@ struct NoteRow {
 
 #[derive(Default)]
 struct Inner {
+    /// Events the staff scheduled (the author by id), oldest first.
+    events: Vec<(super::GameEvent, i64)>,
     /// What the staff keep about players, oldest first.
     staff_notes: Vec<NoteRow>,
     next_staff_note: i64,
@@ -1367,6 +1369,62 @@ impl MemoryStore {
             out.push(n.text.clone());
         }
         Ok(out)
+    }
+
+    pub fn add_event(&self, e: &super::NewEvent<'_>) -> StoreResult<i64> {
+        let mut s = self.lock();
+        let id = s.events.len() as i64 + 1;
+        let row = super::GameEvent {
+            id,
+            kind: e.kind.to_string(),
+            title: e.title.to_string(),
+            multiplier: e.multiplier,
+            starts_at: e.starts_at,
+            ends_at: e.ends_at,
+            format: e.format.to_string(),
+            size: e.size,
+            rated: e.rated,
+            entry_fee: e.entry_fee,
+            prize: e.prize,
+            created_by: String::new(),
+            created_at: e.at,
+            cancelled_at: None,
+        };
+        s.events.push((row, e.created_by));
+        Ok(id)
+    }
+
+    fn event_rows(&self, keep: impl Fn(&super::GameEvent) -> bool) -> Vec<super::GameEvent> {
+        let s = self.lock();
+        s.events
+            .iter()
+            .filter(|(e, _)| keep(e))
+            .map(|(e, by)| super::GameEvent { created_by: s.name(*by), ..e.clone() })
+            .collect()
+    }
+
+    pub fn events_after(&self, t: i64) -> StoreResult<Vec<super::GameEvent>> {
+        let mut out = self.event_rows(|e| e.cancelled_at.is_none() && e.ends_at > t);
+        out.sort_by_key(|e| (e.starts_at, e.id));
+        Ok(out)
+    }
+
+    pub fn recent_events(&self, limit: u32) -> StoreResult<Vec<super::GameEvent>> {
+        let mut out = self.event_rows(|_| true);
+        out.sort_by_key(|e| std::cmp::Reverse((e.starts_at, e.id)));
+        out.truncate(limit as usize);
+        Ok(out)
+    }
+
+    pub fn cancel_event(&self, id: i64, at: i64) -> StoreResult<bool> {
+        let mut s = self.lock();
+        match s.events.iter_mut().find(|(e, _)| e.id == id && e.cancelled_at.is_none()) {
+            Some((e, _)) => {
+                e.cancelled_at = Some(at);
+                Ok(true)
+            }
+            None => Ok(false),
+        }
     }
 
     pub fn economy(&self, now: i64) -> StoreResult<super::Economy> {

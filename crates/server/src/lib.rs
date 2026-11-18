@@ -18,6 +18,7 @@ pub mod computer;
 pub mod correspondence;
 pub mod daily;
 pub mod drills;
+pub mod events;
 pub mod lan;
 pub mod limits;
 pub mod lounge;
@@ -167,6 +168,8 @@ pub struct Server {
     pub(crate) corr: correspondence::State,
     /// The ladder's reward and ghosts' styles (see [`computer`]).
     pub computer: computer::Computer,
+    /// The staff's events not over yet (see [`events`]).
+    pub events: events::Events,
 }
 
 /// Drops connections that send nothing (clients ping every ~15 s).
@@ -253,6 +256,7 @@ impl Server {
             connections: Mutex::new(HashMap::new()),
             corr: correspondence::State::default(),
             computer: computer::Computer::default(),
+            events: events::Events::default(),
         })
     }
 
@@ -519,6 +523,10 @@ pub fn spawn_background(server: Arc<Server>) {
     // Correspondence games: turns that ran out (also right after a restart).
     if !server.config.rules.lan {
         tokio::spawn(correspondence::run(server.clone()));
+    }
+    // The staff's events: boosts and themed tournaments.
+    if !server.config.rules.lan {
+        tokio::spawn(events::run(server.clone()));
     }
     // Microsoft Store purchases whose answer was lost on the way.
     if server.msstore.is_some() {

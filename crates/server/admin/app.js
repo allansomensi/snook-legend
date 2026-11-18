@@ -630,6 +630,7 @@ const NAV = [
   { id: "fairplay", label: "Fair play", icon: "target", key: "f" },
   { group: "Community" },
   { id: "community", label: "Board & announcements", icon: "megaphone", key: "b" },
+  { id: "events", label: "Events", icon: "calendar", key: "v" },
   { group: "Business" },
   { id: "economy", label: "Economy", icon: "coins", key: "e" },
   { id: "metrics", label: "Metrics", icon: "chart", key: "m" },
@@ -1195,6 +1196,7 @@ const AUDIT_TONE = {
   rename: ["info", "edit"], "clear-status": ["", "trash"], report: ["info", "flag"], announce: ["info", "megaphone"], "clear-chat": ["danger", "chat"],
   "chat-delete": ["warning", "chat"], motd: ["info", "megaphone"], pin: ["info", "pin"], unpin: ["", "pin"], "remove-seek": ["", "trash"],
   payment: ["", "coins"], "msstore-retry": ["", "refresh"], login: ["", "lock"], "tournament-cancel": ["danger", "trophy"],
+  event: ["success", "calendar"], "event-cancel": ["danger", "calendar"],
 };
 const AUDIT_ACTIONS = {
   ban: "Banned", unban: "Ban lifted", mute: "Muted", unmute: "Unmuted", kick: "Disconnected", warn: "Warned", note: "Staff note",
@@ -1203,6 +1205,7 @@ const AUDIT_ACTIONS = {
   report: "Report answered", announce: "Announcement", "clear-chat": "Chat cleared", "chat-delete": "Chat line deleted", motd: "Welcome message",
   pin: "Note pinned", unpin: "Note taken down", "remove-seek": "Board note removed", payment: "Payment marked", "msstore-retry": "Store purchase sent again",
   login: "Signed in to the portal", "tournament-cancel": "Tournament called off",
+  event: "Event scheduled", "event-cancel": "Event called off",
 };
 const auditLabel = (a) => t(AUDIT_ACTIONS[a] || a);
 const AUDIT_PLACES = { lounge: "the lounge", board: "the board" };
@@ -1604,7 +1607,7 @@ function gameBlock(r) {
   if (!g) return el("div", { class: "game-attach none" }, t("No game between them in the 24 hours before the report."));
   if (g.kind === "gone") return el("div", { class: "game-attach none" }, t("They were playing when it was sent, but that game was never stored (the server restarted)."));
   const live = g.kind === "live";
-  const when = live ? (g.finished ? t("just ended") : t("in progress when reported")) : tf("ended {when}", { when: fmtDate(g.at) });
+  const when = live ? (g.finished ? t("just ended") : t("in progress when reported")) : tf("ended {when}", { when: ago(g.at) });
   return el("div", { class: "game-attach" },
     el("div", { class: "gi" }, el("b", {}, (live ? t("Game in progress") : t("The game")) + ": " + g.players[0] + " × " + g.players[1]),
       el("span", {}, [when, g.rated ? t("rated") : t("casual"), tn(g.shots, "{n} stroke", "{n} strokes")].join(" · "))),
@@ -1671,7 +1674,7 @@ function tournamentCard(tm) {
   return card(el("div", { class: "card-head" },
     el("div", {}, el("h3", { class: "row" }, tm.name, badge(state[0], state[1]), badge(tm.format === "arena" ? t("Arena") : t("Knockout"), "info"), tm.rated ? badge(t("Rated"), "accent") : null, tm.private ? badge(t("Private"), "", "lock") : null),
       el("div", { class: "sub" }, [tm.host ? tf("by {name}", { name: tm.host }) : t("organised by the server"), tf("{n} of {size} players", { n: tm.players.length, size: tm.size }),
-        tm.entry_fee ? tf("entry {n} coins", { n: fmtNum(tm.entry_fee) }) : t("free entry"), tm.starts_at ? tf("starts {when}", { when: fmtDate(tm.starts_at) }) : null].filter(Boolean).join(" · "))),
+        tm.entry_fee ? tf("entry {n} coins", { n: fmtNum(tm.entry_fee) }) : t("free entry"), tm.starts_at ? tf("starts {when}", { when: ago(tm.starts_at) }) : null].filter(Boolean).join(" · "))),
     cancel),
   el("div", { class: "card-body stack" },
     tm.players.length ? el("div", { class: "item-chips" }, tm.players.map((p) => el("a", { class: "item-chip plain", href: "#/players/" + encodeURIComponent(p.username) }, p.username, el("span", { class: "faint" }, fmtNum(p.rating))))) : el("p", { class: "faint" }, t("Nobody has signed up yet.")),
@@ -1835,6 +1838,206 @@ PAGES.community = async () => {
     el("div", { class: "section" }, card(cardHead(t("Looking for a game"), t("Players' notes, up while they are online")),
       seekRows.length ? table([t("Player"), t("Note"), t("Game"), t("Posted"), ""], seekRows) : empty("users", t("Nobody is looking for a game"), null))));
 };
+
+// ==================================================================== events
+
+const EVENT_KINDS = { xp: ["Experience", "star", "success"], coins: ["Coins from games", "coins", "warning"], tournament: ["Themed tournament", "trophy", "info"] };
+const EVENT_STATUS = { live: ["Running", "success dot"], scheduled: ["Scheduled", "info"], ended: ["Ended", ""], cancelled: ["Called off", "danger"] };
+
+/** What an event does, in a line. */
+function eventWhat(e) {
+  if (e.kind === "tournament") {
+    return [e.format === "arena" ? tf("Arena · {time}", { time: fmtMinutes(Math.round((e.ends_at - e.starts_at) / 60)) }) : tf("Knockout · {n} seats", { n: e.size }),
+      e.rated ? t("rated") : t("casual"), e.entry_fee ? tf("entry {n} coins", { n: fmtNum(e.entry_fee) }) : t("free entry"),
+      e.prize ? tf("the house adds {n} coins", { n: fmtNum(e.prize) }) : null].filter(Boolean).join(" · ");
+  }
+  return tf("{what} ×{n}", { what: t((EVENT_KINDS[e.kind] || [e.kind])[0]), n: e.multiplier });
+}
+
+PAGES.events = async () => {
+  const d = await api("/events");
+  every(30000, () => refreshIf("events"));
+  const now = d.now;
+  const live = d.events.filter((e) => e.status === "live").sort((a, b) => a.ends_at - b.ends_at);
+  const next = d.events.filter((e) => e.status === "scheduled").sort((a, b) => a.starts_at - b.starts_at);
+  const past = d.events.filter((e) => e.status === "ended" || e.status === "cancelled").slice(0, 20);
+  const boostNow = (kind) => Math.max(1, ...live.filter((e) => e.kind === kind).map((e) => e.multiplier));
+  const section = (title, sub, list, emptyTitle, emptyText) => el("div", { class: "section" },
+    el("div", { class: "section-head" }, el("h2", {}, title), sub ? el("span", { class: "sub" }, sub) : null),
+    list.length ? el("div", { class: "stack" }, list.map((e) => eventCard(e, now))) : card(null, empty("calendar", emptyTitle, emptyText)));
+  return el("div", {},
+    pageHead(t("Events"), t("Experience or coins that count more for a while, and themed tournaments"),
+      isAdmin() ? btn(t("New event"), { kind: "primary", icon: "calendar", onClick: () => eventDialog(d.limits) }) : null),
+    isAdmin() ? null : alertBox("info", t("Only administrators schedule events"), t("They change what the game pays out.")),
+    el("div", { class: "kpis" },
+      kpi({ label: t("Experience now"), value: "×" + boostNow("xp"), sub: boostNow("xp") > 1 ? t("a boost is running") : t("as usual"), iconName: "star", tone: boostNow("xp") > 1 ? "success" : "" }),
+      kpi({ label: t("Coins from games now"), value: "×" + boostNow("coins"), sub: boostNow("coins") > 1 ? t("a boost is running") : t("as usual"), iconName: "coins", tone: boostNow("coins") > 1 ? "warning" : "" }),
+      kpi({ label: t("Coming up"), value: fmtNum(next.length), sub: next.length ? tf("the next {when}", { when: ago(next[0].starts_at) }) : t("nothing scheduled"), iconName: "calendar", tone: "info" })),
+    section(t("Running now"), null, live, t("No event is running"), isAdmin() ? t("Schedule one with “New event”.") : null),
+    section(t("Coming up"), t("Players see what starts within two weeks"), next, t("Nothing scheduled"), null),
+    past.length ? section(t("Past"), t("The latest 20"), past, "", null) : null);
+};
+
+function eventCard(e, now) {
+  const [, ic, tone] = EVENT_KINDS[e.kind] || [e.kind, "calendar", ""];
+  const [st, stTone] = EVENT_STATUS[e.status] || [e.status, ""];
+  let progress = null;
+  if (e.status === "live") {
+    const fill = el("div", { class: "bl-fill " + tone });
+    fill.style.width = Math.max(1, Math.min(100, ((now - e.starts_at) * 100) / Math.max(1, e.ends_at - e.starts_at))) + "%";
+    progress = el("div", { class: "bl-track" }, fill);
+  }
+  const when = e.status === "live" ? tf("ends {when}", { when: ago(e.ends_at) })
+    : e.status === "scheduled" ? tf("starts {when}", { when: ago(e.starts_at) })
+      : e.status === "cancelled" ? tf("called off {when}", { when: ago(e.cancelled_at) }) : tf("ended {when}", { when: ago(e.ends_at) });
+  const cancel = isAdmin() && (e.status === "live" || e.status === "scheduled") ? btn(t("Call off the event"), { kind: "sm danger-soft", icon: "x", onClick: async () => {
+    const ok = await confirmDialog({
+      title: tf("Call off the event “{name}”?", { name: e.title }),
+      text: e.kind === "tournament" ? t("If its tournament is open for sign-up, it is called off and every entry fee goes back.") : t("The boost stops at once."),
+      confirm: t("Call off the event"),
+    });
+    if (ok && await attempt(() => api("/events/" + e.id + "/cancel", { method: "POST" }), t("Event called off."))) refreshIf("events");
+  } }) : null;
+  return el("section", { class: "card" + (e.status === "ended" || e.status === "cancelled" ? " faded" : "") },
+    el("div", { class: "card-head" },
+      el("div", { class: "row" }, el("span", { class: "event-icon " + tone }, icon(ic)),
+        el("div", {}, el("h3", {}, e.title), el("div", { class: "sub" }, eventWhat(e)))),
+      el("div", { class: "row" }, badge(t(st), stTone), cancel)),
+    el("div", { class: "card-body stack" },
+      el("div", { class: "row between" }, el("span", { class: "num" }, fmtDate(e.starts_at) + " → " + fmtDate(e.ends_at)), el("span", { class: "muted" }, when)),
+      progress,
+      el("div", { class: "faint" }, tf("Scheduled by {name}, {when}", { name: e.created_by || "?", when: ago(e.created_at) }))));
+}
+
+const pad2 = (n) => String(n).padStart(2, "0");
+/** A time for a datetime-local field (the viewer's time zone). */
+const toLocalInput = (secs) => {
+  const d = new Date(secs * 1000);
+  return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}T${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+};
+const fromLocalInput = (v) => (v ? Math.floor(new Date(v).getTime() / 1000) : NaN);
+/** The viewer's time zone, as "UTC−03:00". */
+function zoneLabel() {
+  const off = -new Date().getTimezoneOffset();
+  return "UTC" + (off >= 0 ? "+" : "−") + pad2(Math.floor(Math.abs(off) / 60)) + ":" + pad2(Math.abs(off) % 60);
+}
+/** The next `weekday` (0 Sunday … 6 Saturday) at `hour`:`minute`, local. */
+function nextAt(weekday, hour, minute, from = new Date()) {
+  const d = new Date(from);
+  d.setHours(hour, minute, 0, 0);
+  let add = (weekday - d.getDay() + 7) % 7;
+  if (add === 0 && d <= from) add = 7;
+  d.setDate(d.getDate() + add);
+  return d;
+}
+
+function eventDialog(limits) {
+  let kind = "xp", mult = 2, format = "arena", size = 8;
+  const field = (label, input, hint) => el("div", { class: "field" }, el("div", { class: "label" }, label), input, hint ? el("div", { class: "hint" }, hint) : null);
+  const kindBox = el("div"), multBox = el("div"), formatBox = el("div"), sizeBox = el("div");
+  const title = el("input", { class: "input", placeholder: t("Double XP weekend"), "aria-label": t("Title") });
+  const count = el("span", { class: "counter" });
+  const starts = el("input", { class: "input", type: "datetime-local", "aria-label": t("Starts") });
+  const ends = el("input", { class: "input", type: "datetime-local", "aria-label": t("Ends") });
+  const presets = el("div", { class: "chips" });
+  const rated = el("input", { type: "checkbox" });
+  rated.checked = true;
+  const fee = el("input", { class: "input", type: "number", min: "0", max: String(limits.max_entry_fee), value: "0", step: "10" });
+  const prize = el("input", { class: "input", type: "number", min: "0", max: String(limits.max_prize), value: "0", step: "100" });
+  const sizeField = field(t("Seats"), sizeBox);
+  const boostFields = el("div", { class: "stack" }, field(t("Multiplier"), multBox, t("Boosts don't add up: the largest one running counts.")));
+  const tourFields = el("div", { class: "stack" }, field(t("Format"), formatBox), sizeField,
+    el("label", { class: "check" }, rated, t("Rated")),
+    el("div", { class: "grid-2" }, field(t("Entry fee (coins)"), fee), field(t("Prize from the house (coins)"), prize)),
+    el("div", { class: "hint" }, t("The house's prize goes 70% to the champion and 30% to the runner-up, on top of the entry fees. The tournament opens for sign-up two hours before it starts, in Tournaments.")));
+  const summary = el("div", { class: "preview-box" });
+  const errorBox = el("div", { class: "alert danger hidden", role: "alert" });
+  const setTimes = (a, b) => { starts.value = toLocalInput(a); ends.value = toLocalInput(b); draw(); };
+  const now = () => Math.floor(Date.now() / 60000) * 60;
+  function draw() {
+    setKids(kindBox, segmented([["xp", t("Experience")], ["coins", t("Coins from games")], ["tournament", t("Themed tournament")]], kind, (v) => { kind = v; presetDefaults(); draw(); }));
+    setKids(multBox, segmented([[2, "×2"], [3, "×3"]].slice(0, limits.max_multiplier - 1), mult, (v) => { mult = v; draw(); }));
+    setKids(formatBox, segmented([["arena", t("Arena")], ["knockout", t("Knockout")]], format, (v) => { format = v; presetDefaults(true); draw(); }));
+    setKids(sizeBox, segmented(limits.knockout_sizes.map((n) => [n, String(n)]), size, (v) => { size = v; draw(); }));
+    boostFields.classList.toggle("hidden", kind === "tournament");
+    tourFields.classList.toggle("hidden", kind !== "tournament");
+    sizeField.classList.toggle("hidden", format !== "knockout");
+    count.textContent = fmtNum([...title.value].length) + " / " + fmtNum(limits.max_title);
+    count.classList.toggle("over", [...title.value].length > limits.max_title);
+    const a = fromLocalInput(starts.value), b = fromLocalInput(ends.value);
+    const e = { kind, title: title.value || title.placeholder, multiplier: mult, format, size, rated: rated.checked, entry_fee: Number(fee.value) || 0, prize: Number(prize.value) || 0, starts_at: a, ends_at: b };
+    setKids(summary, el("span", { class: "faint" }, t("Players see")),
+      el("b", {}, e.title), el("div", {}, eventWhat(e)),
+      a && b && b > a ? el("div", { class: "muted" }, tf("{from} → {to} ({length})", { from: fmtDate(a), to: fmtDate(b), length: fmtDuration(b - a) })) : null);
+    setKids(presets, (kind === "tournament"
+      ? [[t("Tonight at 8 pm"), () => { const d = new Date(); d.setHours(20, 0, 0, 0); if (d.getTime() / 1000 < now() + 120) d.setDate(d.getDate() + 1); return d; }],
+        [t("Saturday at 8 pm"), () => nextAt(6, 20, 0)], [t("Sunday at 4 pm"), () => nextAt(0, 16, 0)]]
+        .map(([label, at]) => el("button", { type: "button", class: "chip", onclick: () => { const s0 = Math.floor(at().getTime() / 1000); setTimes(s0, s0 + (format === "arena" ? 3600 : 3 * 3600)); } }, label))
+      : [[t("Now, for 24 hours"), () => setTimes(now(), now() + 86400)],
+        [t("This weekend"), () => {
+          const day = new Date().getDay();
+          const from = day === 6 || day === 0 ? now() : Math.floor(nextAt(6, 0, 0).getTime() / 1000);
+          const sunday = day === 0 ? new Date() : nextAt(0, 0, 0, day === 6 ? new Date() : nextAt(6, 0, 0));
+          sunday.setHours(23, 59, 0, 0);
+          setTimes(from, Math.floor(sunday.getTime() / 1000));
+        }],
+        [t("The next 7 days"), () => setTimes(now(), now() + 7 * 86400)]]
+        .map(([label, go]) => el("button", { type: "button", class: "chip", onclick: go }, label))));
+  }
+  function presetDefaults(keepStart) {
+    const a = fromLocalInput(starts.value);
+    if (kind === "tournament") {
+      const s0 = keepStart && a ? a : Math.floor(nextAt(6, 20, 0).getTime() / 1000);
+      setTimes(s0, s0 + (format === "arena" ? 3600 : 3 * 3600));
+    } else if (!keepStart) setTimes(now(), now() + 86400);
+  }
+  for (const x of [title, starts, ends, fee, prize]) x.addEventListener("input", draw);
+  rated.addEventListener("change", draw);
+  presetDefaults(false);
+  const d = dialog({
+    title: t("New event"), text: tf("Times in your time zone ({zone}).", { zone: zoneLabel() }), iconName: "calendar", wide: true,
+    body: [field(t("Kind of event"), kindBox),
+      el("div", { class: "field" }, el("div", { class: "label" }, el("span", {}, kind === "tournament" ? t("Name") : t("Title")), count), title,
+        el("div", { class: "hint" }, t("Players see it as written (in one language)."))),
+      field(t("Quick picks"), presets),
+      el("div", { class: "grid-2" }, field(t("Starts"), starts), field(t("Ends"), ends)),
+      boostFields, tourFields, summary, errorBox],
+    actions: [
+      { label: t("Cancel"), onClick: (h) => h.close(false) },
+      { label: t("Schedule"), kind: "primary", primary: true, onClick: async (h, button) => {
+        errorBox.classList.add("hidden");
+        const a = fromLocalInput(starts.value), b = fromLocalInput(ends.value);
+        let problem = null;
+        if (!title.value.trim()) problem = t("Give the event a title.");
+        else if ([...title.value].length > limits.max_title) problem = tf("“{field}” is too long.", { field: t("Title") });
+        else if (!(a && b)) problem = t("Choose when it starts and ends.");
+        else if (b <= a) problem = t("The event must end after it starts.");
+        if (problem) { setKids(errorBox, icon("warn"), el("div", {}, problem)); errorBox.classList.remove("hidden"); return; }
+        const body = { kind, title: title.value.trim(), multiplier: mult, starts_at: a, ends_at: b, format, size, rated: rated.checked, entry_fee: Number(fee.value) || 0, prize: Number(prize.value) || 0 };
+        const label = button.textContent;
+        button.disabled = true;
+        setKids(button, el("span", { class: "spinner" }), label);
+        try {
+          await api("/events", { method: "POST", body });
+          toast(t("Event scheduled."), "success");
+          h.close(true);
+          refreshIf("events");
+        } catch (err) {
+          setKids(errorBox, icon("warn"), el("div", {}, err.message));
+          errorBox.classList.remove("hidden");
+        } finally {
+          button.disabled = false;
+          button.textContent = label;
+        }
+      } },
+    ],
+  });
+  // The title's label follows the kind.
+  const titleLabel = d.root.querySelectorAll(".dialog-body .field")[1].querySelector(".label span");
+  const syncLabel = () => { titleLabel.textContent = kind === "tournament" ? t("Name") : t("Title"); title.placeholder = kind === "tournament" ? t("Halloween Cup") : kind === "coins" ? t("Coins weekend") : t("Double XP weekend"); };
+  kindBox.addEventListener("click", () => setTimeout(() => { syncLabel(); draw(); }, 0));
+  syncLabel();
+}
 
 // =================================================================== economy
 

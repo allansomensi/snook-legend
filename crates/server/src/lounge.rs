@@ -311,6 +311,9 @@ pub struct Lounge {
     /// The staff's themed tournaments, and the tournament each one became.
     scheduled_tournaments: Vec<tournaments::ScheduledTournament>,
     event_tournaments: HashMap<i64, u64>,
+    /// The start of a weekly cup the staff called off: it is not opened
+    /// again (the next week's is).
+    cup_called_off: Option<i64>,
 }
 
 struct Queued {
@@ -715,16 +718,17 @@ impl Lounge {
                 );
             }
         }
-        // A registered tournament player who leaves before the start is
-        // taken off the list (a guest can't come back as the same player).
-        let waiting: Vec<u64> = self
-            .tournaments
-            .values()
-            .filter(|t| t.state == TournamentState::Registering && t.players.contains(&k))
-            .map(|t| t.id)
-            .collect();
-        for id in waiting {
-            if session.guest {
+        // A guest who leaves a tournament before its start (or a waiting
+        // list) is taken off it: they can't come back as the same player.
+        if session.guest {
+            let waiting: Vec<u64> = self
+                .tournaments
+                .values()
+                .filter(|t| t.has_entered(&k))
+                .filter(|t| t.state == TournamentState::Registering || t.waitlist.contains(&k))
+                .map(|t| t.id)
+                .collect();
+            for id in waiting {
                 self.leave_tournament(&k, id);
             }
         }
@@ -764,12 +768,27 @@ impl Lounge {
         } else if self
             .tournaments
             .values()
-            .any(|t| t.state != TournamentState::Finished && t.players.contains(&k))
+            .any(|t| t.state != TournamentState::Finished && t.has_entered(&k))
         {
             Some("Leave your tournament before changing your username.")
         } else {
             None
         }
+    }
+
+    /// Whether `name` has a game in progress (also while away from it), a
+    /// table, a place in the queue or a tournament: the staff don't rename
+    /// or delete an account then (whoever took the name freed could take
+    /// the seat).
+    pub fn is_busy(&self, name: &str) -> bool {
+        let k = key(name);
+        self.rooms.values().any(|r| !r.finished && r.keys.contains(&k))
+            || self.sessions.get(&k).is_some_and(|s| s.table.is_some() || s.room.is_some())
+            || self.queue.iter().any(|q| q.key == k)
+            || self
+                .tournaments
+                .values()
+                .any(|t| t.state != TournamentState::Finished && t.has_entered(&k))
     }
 
     /// The online player `old` changed their username to `user.username`:
@@ -2911,7 +2930,9 @@ impl Lounge {
             table_look: Default::default(),
             grace_until: Some(nowi + RESTORE_GRACE),
             ended: None,
-            private: false,
+            // Whether it was started at a table with a password isn't
+            // saved: kept off the lounge's TV to be safe.
+            private: true,
             resigning: None,
         };
         self.rooms.insert(id, room);

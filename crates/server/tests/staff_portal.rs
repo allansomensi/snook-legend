@@ -271,6 +271,69 @@ async fn the_portal_manages_players() {
     assert!(v["next"].is_null());
 }
 
+/// What only administrators see (e-mails, payments, where the staff sign
+/// in from), and reports a staff member can't answer: those about
+/// themselves, or about another member of the staff.
+#[tokio::test]
+async fn moderators_see_less_and_answer_no_reports_about_themselves() {
+    use snook_legend_server::store::NewReport;
+    let s = start().await;
+    let boss = token(&s.host, "boss").await;
+    let _gil = Client::register(&s.url, "gil").await;
+    let _hana = Client::register(&s.url, "hana").await;
+    let gil = s.server.store.user_by_name("gil").await.unwrap().unwrap();
+    let hana = s.server.store.user_by_name("hana").await.unwrap().unwrap();
+    s.server.store.set_recovery_email(gil.id, Some("gil@example.com")).await.unwrap();
+    let (code, _) =
+        request(&s.host, "POST", "/admin/api/users/hana/role", &boss, r#"{"role":"moderator"}"#)
+            .await;
+    assert_eq!(code, 200);
+    let mods = token(&s.host, "hana").await;
+
+    // The administrator sees the e-mail; the moderator doesn't.
+    let (_, v) = request(&s.host, "GET", "/admin/api/users/gil", &boss, "").await;
+    assert_eq!(v["user"]["recovery_email"], "gil@example.com", "{v}");
+    assert_eq!(v["private_hidden"], false);
+    let (code, v) = request(&s.host, "GET", "/admin/api/users/gil", &mods, "").await;
+    assert_eq!(code, 200, "{v}");
+    assert!(v["user"]["recovery_email"].is_null(), "{v}");
+    assert_eq!(v["private_hidden"], true);
+    assert_eq!(v["payments"], serde_json::json!([]));
+    // Nor finds an account by its e-mail (the administrator does).
+    let (_, v) = request(&s.host, "GET", "/admin/api/users?q=gil@example.com", &mods, "").await;
+    assert_eq!(v["total"], 0, "{v}");
+    let (_, v) = request(&s.host, "GET", "/admin/api/users?q=gil@example.com", &boss, "").await;
+    assert_eq!(names(&v), ["gil"]);
+
+    // A report about the moderator is for someone else to answer; one
+    // about the administrator is beyond a moderator.
+    let report = |reporter: i64, target: i64| NewReport {
+        reporter,
+        target,
+        reason: "Offensive language".into(),
+        details: String::new(),
+        context: String::new(),
+        at: 1,
+    };
+    let store = &s.server.store;
+    let boss_id = store.user_by_name("boss").await.unwrap().unwrap().id;
+    let about_hana =
+        store.create_report_with_game(&report(gil.id, hana.id), None, None).await.unwrap();
+    let about_boss =
+        store.create_report_with_game(&report(gil.id, boss_id), None, None).await.unwrap();
+    let resolve = |id: i64, token: &str| {
+        let (host, token) = (s.host.clone(), token.to_string());
+        async move {
+            let path = format!("/admin/api/reports/{id}");
+            request(&host, "POST", &path, &token, r#"{"status":"dismissed"}"#).await.0
+        }
+    };
+    assert_eq!(resolve(about_hana, &mods).await, 403, "about themselves");
+    assert_eq!(resolve(about_boss, &mods).await, 403, "about an administrator");
+    assert_eq!(resolve(about_hana, &boss).await, 200);
+    assert_eq!(resolve(999_999, &boss).await, 404);
+}
+
 #[tokio::test]
 async fn the_portal_moderates_the_lounge() {
     let s = start().await;

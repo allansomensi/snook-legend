@@ -29,6 +29,10 @@ pub struct LadderRun {
     /// earns the reward.
     #[serde(default)]
     pub dealt: bool,
+    /// The account it was dealt to (empty when not dealt, or kept by an
+    /// older version).
+    #[serde(default)]
+    pub account: String,
 }
 
 /// How far the player is.
@@ -45,9 +49,23 @@ pub struct Progress {
     /// The game won on the last rung, waiting to be sent to the server.
     #[serde(default)]
     pub pending: Option<Replay>,
-    /// The server gave the reward to the account signed in then.
+    /// The account that game was dealt to: only it can claim with it (empty
+    /// in files from before: whichever account signs in).
+    #[serde(default)]
+    pub pending_account: String,
+    /// The server gave the reward to the account signed in then. Only shown
+    /// signed out: signed in, the account's own achievements say.
     #[serde(default)]
     pub claimed: bool,
+}
+
+/// What counting a finished ladder game did.
+#[derive(Debug, Clone, Copy, PartialEq, Default)]
+pub struct Recorded {
+    /// The progress changed (save it).
+    pub changed: bool,
+    /// A new game to claim the reward with is waiting (see [`Claimer::new_game`]).
+    pub to_claim: bool,
 }
 
 /// Where the claim stands, for the ladder screen.
@@ -147,6 +165,9 @@ impl Progress {
         if p.pending.as_ref().is_some_and(|r| r.strokes.len() > ladder::MAX_STROKES) {
             p.pending = None;
         }
+        if p.pending.is_none() {
+            p.pending_account.clear();
+        }
         Some(p)
     }
 
@@ -190,10 +211,10 @@ impl Progress {
         (k as usize) < ladder::RUNGS.len() && (0..k).all(|j| self.is_beaten(j))
     }
 
-    /// Counts a finished ladder game. True if it changed the progress.
-    pub fn record(&mut self, run: &LadderRun, won: bool) -> bool {
+    /// Counts a finished ladder game.
+    pub fn record(&mut self, run: &LadderRun, won: bool) -> Recorded {
         if !won || !self.unlocked(run.rung) {
-            return false;
+            return Recorded::default();
         }
         if let Some(code) = ladder::RUNGS.get(run.rung as usize)
             && !self.is_beaten(run.rung)
@@ -202,24 +223,49 @@ impl Progress {
             self.won.sort();
         }
         self.beaten = self.won.len() as u8;
-        // The last rung: the game that earns the reward (unless it is in
-        // hand already).
-        if run.rung as usize == ladder::RUNGS.len() - 1 && !self.claimed && run.dealt {
+        // The last rung, dealt by the server: the game that earns the
+        // reward (the account it was dealt to didn't have it then; another
+        // account's reward on this computer doesn't count).
+        let to_claim = run.rung as usize == ladder::RUNGS.len() - 1 && run.dealt;
+        if to_claim {
             self.pending = Some(run.record.clone());
+            self.pending_account = run.account.clone();
         }
-        true
+        Recorded { changed: true, to_claim }
+    }
+
+    /// The game to claim the reward with, if `account` may send it: the
+    /// account it was dealt to (any account for a game kept by an older
+    /// version, which didn't say).
+    pub fn pending_for(&self, account: &str) -> Option<&Replay> {
+        self.pending.as_ref().filter(|_| {
+            !account.is_empty()
+                && (self.pending_account.is_empty()
+                    || self.pending_account.eq_ignore_ascii_case(account))
+        })
+    }
+
+    /// The game to claim with is gone (granted, or refused for good).
+    fn drop_pending(&mut self) {
+        self.pending = None;
+        self.pending_account.clear();
     }
 }
 
-/// The claim of the reward: sent when signed in with a game to send, and
-/// the server's verdict applied.
+/// The claim of the reward: sent when the account the final was dealt to
+/// is signed in, and the server's verdict applied.
 pub struct Claimer {
+    /// Where the claim of the account signed in stands.
     pub state: Claim,
+    /// The account `state` is about (empty: none signed in).
+    account: String,
+    /// The game last sent (its rack): the verdict is about that one.
+    sent: Option<u64>,
 }
 
 impl Default for Claimer {
     fn default() -> Self {
-        Claimer { state: Claim::Idle }
+        Claimer { state: Claim::Idle, account: String::new(), sent: None }
     }
 }
 
@@ -227,20 +273,35 @@ impl Claimer {
     /// Moves the claim along. Returns true if the progress changed (save it).
     pub fn update(&mut self, progress: &mut Progress, online: &mut Online, now: f64) -> bool {
         let mut changed = false;
+        // Another account signed in (or none): its own claim, from the start.
+        let account = online.account().unwrap_or_default();
+        if account != self.account {
+            self.account = account.to_string();
+            self.state = Claim::Idle;
+            self.sent = None;
+        }
         if let Some(result) = online.ladder_claim.take() {
+            // The verdict on the game sent, not on one won since.
+            let mine = progress.pending_for(&self.account).map(|r| r.seed);
+            let same = self.sent.is_some() && mine == self.sent;
             match result {
                 ClaimResult::Granted { .. } => {
                     self.state = Claim::Granted;
-                    progress.pending = None;
                     progress.claimed = true;
+                    // The account has the reward: its game is of no more use.
+                    if mine.is_some() {
+                        progress.drop_pending();
+                    }
                     changed = true;
                 }
+                // About an older game: the newer one goes now.
+                ClaimResult::Failed { .. } if !same && mine.is_some() => self.state = Claim::Idle,
                 ClaimResult::Failed { reason } => {
                     let failure = Failure::Server(reason);
                     self.state = Claim::Failed(failure);
-                    if !failure.retryable() {
+                    if !failure.retryable() && same {
                         // This game will never pass: beat the last rung again.
-                        progress.pending = None;
+                        progress.drop_pending();
                         changed = true;
                     }
                 }
@@ -249,13 +310,13 @@ impl Claimer {
         // The account has it already (another computer, or before).
         if online.has_achievement(ladder::ACHIEVEMENT) && self.state != Claim::Granted {
             self.state = Claim::Granted;
-            if progress.pending.is_some() {
-                progress.pending = None;
+            if progress.pending_for(&self.account).is_some() {
+                progress.drop_pending();
                 changed = true;
             }
         }
         match self.state {
-            Claim::Idle if progress.pending.is_some() && online.signed_in() && !online.lan => {
+            Claim::Idle if progress.pending_for(&self.account).is_some() => {
                 self.send(progress, online, now);
             }
             Claim::Claiming(since) if now - since > CLAIM_TIMEOUT => {
@@ -267,8 +328,18 @@ impl Claimer {
         changed
     }
 
+    /// A new game to claim with was won: an old refusal no longer stands
+    /// (a verdict still awaited is about the older game: see `update`).
+    pub fn new_game(&mut self) {
+        if matches!(self.state, Claim::Failed(_)) {
+            self.state = Claim::Idle;
+        }
+    }
+
+    /// Sends the signed-in account's game (only its own).
     fn send(&mut self, progress: &Progress, online: &mut Online, now: f64) {
-        if let Some(replay) = progress.pending.clone() {
+        if let Some(replay) = progress.pending_for(&self.account).cloned() {
+            self.sent = Some(replay.seed);
             online.send(ClientMsg::LadderClaim { replay });
             self.state = Claim::Claiming(now);
         }
@@ -290,39 +361,68 @@ mod tests {
     use super::*;
 
     fn run(rung: u8) -> LadderRun {
-        LadderRun { rung, record: Replay::new(rung as u64, 1), reported: false, dealt: true }
+        LadderRun {
+            rung,
+            record: Replay::new(rung as u64, 1),
+            reported: false,
+            dealt: true,
+            account: "ana".into(),
+        }
     }
 
     #[test]
     fn rungs_unlock_one_by_one() {
         let mut p = Progress::default();
         assert!(p.unlocked(0) && !p.unlocked(1));
-        assert!(!p.record(&run(1), true), "a locked rung counts for nothing");
-        assert!(!p.record(&run(0), false), "a loss counts for nothing");
-        assert!(p.record(&run(0), true));
+        assert!(!p.record(&run(1), true).changed, "a locked rung counts for nothing");
+        assert!(!p.record(&run(0), false).changed, "a loss counts for nothing");
+        assert!(p.record(&run(0), true).changed);
         assert_eq!((p.beaten, p.next()), (1, 1));
         // Beating an earlier rung again changes nothing.
         p.record(&run(0), true);
         assert_eq!(p.beaten, 1);
         let last = ladder::RUNGS.len() as u8 - 1;
         for k in 1..last {
-            assert!(p.record(&run(k), true));
+            assert_eq!(p.record(&run(k), true), Recorded { changed: true, to_claim: false });
         }
         assert!(p.pending.is_none());
         // A final won from a rack of the player's own (signed out): beaten,
         // but nothing to claim.
-        assert!(p.record(&LadderRun { dealt: false, ..run(last) }, true));
+        let own = p.record(&LadderRun { dealt: false, account: String::new(), ..run(last) }, true);
+        assert_eq!(own, Recorded { changed: true, to_claim: false });
         assert!(p.complete());
         assert!(p.pending.is_none());
         // Won again, as the server dealt it: the game to claim.
-        p.record(&run(last), true);
+        assert!(p.record(&run(last), true).to_claim);
         assert_eq!(p.next(), last);
         assert_eq!(p.pending.as_ref().map(|r| r.seed), Some(last as u64));
-        // Once claimed, a new win on the last rung is not sent again.
-        p.pending = None;
-        p.claimed = true;
-        p.record(&run(last), true);
-        assert!(p.pending.is_none());
+        assert_eq!(p.pending_account, "ana");
+    }
+
+    /// The game to claim belongs to the account it was dealt to: another
+    /// account on this computer neither sends it nor is stopped by an
+    /// earlier claim.
+    #[test]
+    fn the_game_to_claim_is_the_accounts() {
+        let last = ladder::RUNGS.len() as u8 - 1;
+        let won = ladder::RUNGS.iter().map(|c| c.to_string()).collect();
+        let mut p = Progress { won, claimed: true, ..Default::default() };
+        let bia = LadderRun { account: "bia".into(), ..run(last) };
+        assert!(p.record(&bia, true).to_claim, "another account's reward doesn't count");
+        assert!(p.pending_for("Bia").is_some());
+        assert!(p.pending_for("ana").is_none());
+        assert!(p.pending_for("").is_none(), "signed out, or a guest");
+        // A file from before kept no account: whoever signs in.
+        let old = Progress::parse(r#"{"version":2,"pending":{"seed":7,"breaker":1,"strokes":[]}}"#)
+            .unwrap();
+        assert!(old.pending_for("ana").is_some() && old.pending_for("bia").is_some());
+        // Read back, the owner stays (and goes with the game).
+        let again = Progress::parse(&serde_json::to_string(&p).unwrap()).unwrap();
+        assert_eq!(again.pending_account, "bia");
+        let mut gone = again.clone();
+        gone.pending = None;
+        let gone = Progress::parse(&serde_json::to_string(&gone).unwrap()).unwrap();
+        assert!(gone.pending_account.is_empty());
     }
 
     /// A progress saved when the ladder had ten opponents: those beaten stay
@@ -341,7 +441,7 @@ mod tests {
         // Four of the old rungs beaten: Leo, Nina, Lola, Bruno.
         let mut p = Progress::parse(r#"{"version":1,"beaten":4}"#).unwrap();
         assert_eq!(ladder::RUNGS[p.next() as usize], "tito");
-        assert!(p.record(&run(2), true));
+        assert!(p.record(&run(2), true).changed);
         // Lola and Bruno were beaten already: next is Inês.
         assert_eq!(ladder::RUNGS[p.next() as usize], "ines");
         assert!(p.unlocked(5) && !p.unlocked(6));
@@ -365,6 +465,7 @@ mod tests {
             beaten: 10,
             won: Vec::new(),
             pending: Some(long),
+            pending_account: String::new(),
             claimed: false,
         })
         .unwrap();

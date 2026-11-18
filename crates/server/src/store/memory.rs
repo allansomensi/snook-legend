@@ -726,7 +726,11 @@ impl MemoryStore {
 
     pub fn payment_email(&self, user_id: i64) -> StoreResult<Option<String>> {
         let s = self.lock();
-        Ok(s.payments.iter().rev().filter(|p| p.user_id == user_id).find_map(|p| p.email.clone()))
+        Ok(s.payments
+            .iter()
+            .rev()
+            .filter(|p| p.user_id == user_id && p.kind != "vip_gift")
+            .find_map(|p| p.email.clone()))
     }
 
     pub fn delete_account(&self, user_id: i64, now: i64) -> StoreResult<()> {

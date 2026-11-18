@@ -11,6 +11,7 @@
 //! | `SNOOK_LEGEND_ADMINS` | — | comma-separated usernames that become administrators |
 //! | `SNOOK_LEGEND_CLIENT_IP_HEADER` | — | headers with the real client address behind a proxy, tried in order (e.g. `cf-connecting-ip,true-client-ip,x-forwarded-for`) |
 //! | `SNOOK_LEGEND_PROXY_HOPS` | `1` | proxies that append to `X-Forwarded-For` |
+//! | `SNOOK_LEGEND_TRUSTED_PROXIES` | private networks | where the proxy connects from (`10.0.0.0/8,…`; `*`: anywhere): the address headers of anyone else are ignored |
 //! | `SNOOK_LEGEND_MOTD` | a welcome line | message shown in the lounge |
 //! | `SNOOK_LEGEND_SHOT_CLOCK` | `30` | seconds per shot |
 //! | `SNOOK_LEGEND_STRIPE_SECRET` | — | Stripe secret key (payments; see `payments.rs`) |
@@ -84,6 +85,8 @@ async fn main() {
             .unwrap_or_default(),
         client_ip_header: env("SNOOK_LEGEND_CLIENT_IP_HEADER").map(|h| h.to_lowercase()),
         proxy_hops: env("SNOOK_LEGEND_PROXY_HOPS").and_then(|v| v.parse().ok()).unwrap_or(1),
+        trusted_proxies: env("SNOOK_LEGEND_TRUSTED_PROXIES")
+            .map(|v| snook_legend_server::parse_networks(&v)),
         stripe: snook_legend_server::payments::StripeConfig::from_env(),
         msstore: snook_legend_server::msstore::MsStoreConfig::from_env(),
         privacy: {

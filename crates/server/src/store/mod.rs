@@ -853,7 +853,9 @@ pub struct Overview {
 #[derive(Debug, Clone)]
 pub struct TournamentRecord {
     pub name: String,
-    pub host: i64,
+    /// The player who opened it (none for the server's own: the weekly cup
+    /// and the staff's events, or a guest).
+    pub host: Option<i64>,
     pub size: u32,
     pub rated: bool,
     pub players: Vec<i64>,

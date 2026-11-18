@@ -419,6 +419,9 @@ async fn main() {
     // A game waiting for the server before it starts (and since when): the
     // tour's final, or a drill session for the tables.
     let mut waiting: Option<(Waiting, f64)> = None;
+    // Daily attempts and ranked drill sessions left while signed out:
+    // (account, message), sent once that account is signed in again.
+    let mut unsent_runs: Vec<(String, snook_legend_proto::ClientMsg)> = Vec::new();
     // The tournament against the computer's opponents, if one is going on.
     let mut cup = cup::Cup::load();
     let menu_rack = snook_legend_core::rules::rack(&scene.table, 2024);
@@ -481,6 +484,13 @@ async fn main() {
                 match_from_lan = true;
             }
         }
+        // An online game took the table from a daily attempt or a drill
+        // session: what it made still goes to the server.
+        let displaced =
+            [online.displaced.take(), lan.as_mut().and_then(|l| l.net.displaced.take())];
+        for mut old in displaced.into_iter().flatten() {
+            send_run(&mut old, &mut online, &mut unsent_runs);
+        }
         update::tick(config.auto_update);
         // The new version's installer is running: it replaces this copy.
         if online.quit_for_update {
@@ -511,44 +521,54 @@ async fn main() {
             let name =
                 online.me.as_ref().map_or(config.player_name.clone(), |me| me.username.clone());
             online.daily_result = None;
+            if let Some(m) = current.as_mut() {
+                send_run(m, &mut online, &mut unsent_runs);
+            }
             current = Some(Match::daily(day, seed, &name, config.guide));
             hud = Hud::new(config.show_help);
             rig.reset();
             screen = Screen::Versus(versus::Versus::new(versus::Tab::Daily, &config));
         }
-        if let Some(run) = current.as_mut().and_then(|m| m.daily.as_mut()) {
-            if run.over && !run.sent {
-                run.sent = true;
-                online.send(snook_legend_proto::ClientMsg::DailySubmit {
-                    day: run.day,
-                    strokes: run.strokes.clone(),
-                });
-            }
-            if let Some(result) = online.daily_result.take() {
-                run.result = Some(result);
+        // A daily attempt or a ranked drill session that is over goes to
+        // the server once its account is signed in (it waits meanwhile,
+        // and the table says so); the server's count comes back to it.
+        if let Some(m) = current.as_mut() {
+            let over = m.daily.as_ref().is_some_and(|r| r.over)
+                || m.drill.as_ref().is_some_and(|r| r.over);
+            if over
+                && signed_in_as(&online, run_account(m))
+                && let Some(msg) = run_to_send(m)
+            {
+                online.send(msg);
             }
         }
-        // A drill session: sent once over (signed in), the server's count
-        // brought back to the table.
-        if let Some(run) = current.as_mut().and_then(|m| m.drill.as_mut()) {
-            if run.over && !run.sent && run.session != 0 && online.signed_in() {
-                run.sent = true;
-                online.send(snook_legend_proto::ClientMsg::DrillSubmit {
-                    code: run.code.to_string(),
-                    session: run.session,
-                    strokes: run.strokes.clone(),
-                });
-            }
-            if let Some((code, result)) = online.drill_result.take()
-                && code == run.code
-            {
-                run.result = Some(result);
-            }
+        if let Some(run) = current.as_mut().and_then(|m| m.daily.as_mut())
+            && let Some(result) = online.daily_result.take()
+        {
+            run.result = Some(result);
+        }
+        if let Some(run) = current.as_mut().and_then(|m| m.drill.as_mut())
+            && let Some((code, result)) = online.drill_result.take()
+            && code == run.code
+        {
+            run.result = Some(result);
+        }
+        // Runs left while signed out: sent once their account is back.
+        if let Some(me) = online.account().filter(|_| online.live()) {
+            unsent_runs.retain(|(account, msg)| {
+                let back = account.eq_ignore_ascii_case(me);
+                if back {
+                    online.send(msg.clone());
+                }
+                !back
+            });
         }
         // A game waiting for the server: dealt (or set) as it says, or
-        // started anyway (not counted) when it doesn't answer.
-        if current.as_ref().is_some_and(|m| m.is_online()) {
+        // started anyway (not counted) when it doesn't answer. Every way
+        // the wait ends, a late ticket is no longer awaited.
+        if current.as_ref().is_some_and(|m| m.is_online()) && waiting.is_some() {
             waiting = None;
+            online.awaiting_ticket = false;
         }
         if let Some((w, since)) = &waiting {
             let late = get_time() - since > SERVER_WAIT || !online.signed_in();
@@ -561,6 +581,7 @@ async fn main() {
                         m.deal(seed, breaker);
                         if let Some(run) = m.ladder.as_mut() {
                             run.dealt = true;
+                            run.account = online.account().unwrap_or_default().to_string();
                         }
                         Some(Some(m))
                     }
@@ -592,9 +613,18 @@ async fn main() {
             };
             if let Some(m) = started {
                 let final_game = matches!(w, Waiting::Final(_));
+                // No answer in time: the drill sessions asked for are given
+                // up (a lost answer must not hold the next one back).
+                if late && !final_game {
+                    online.drill_starts = 0;
+                }
                 waiting = None;
+                online.awaiting_ticket = false;
                 if let Some(m) = m {
                     online.drill_result = None;
+                    if let Some(old) = current.as_mut() {
+                        send_run(old, &mut online, &mut unsent_runs);
+                    }
                     current = Some(m);
                     hud = Hud::new(config.show_help);
                     rig.reset();
@@ -633,8 +663,13 @@ async fn main() {
             let won = over.winner == snook_legend_proto::ladder::PLAYER_SEAT;
             let rung = run.rung as usize;
             let before = ladder_progress.beaten;
-            if ladder_progress.record(run, won) {
+            let recorded = ladder_progress.record(run, won);
+            if recorded.changed {
                 ladder_progress.save();
+            }
+            // A new game to claim with: an old refusal no longer stands.
+            if recorded.to_claim {
+                claimer.new_game();
             }
             // A new rung: say what comes next.
             if ladder_progress.beaten > before {
@@ -966,16 +1001,32 @@ async fn main() {
 
         // 2D interface. The e-mail offer is drawn over the page at the end:
         // until then the page doesn't react to the pointer.
+        // A warning from the staff waits for OK over any page (never over a
+        // game, nor while a game waits for the server); the other dialogs
+        // wait for it.
+        let staff_up =
+            current.is_none() && !settings_open && waiting.is_none() && online.staff_warning_open();
         // "What's new" waits for the main menu, and is drawn over it.
         let show_news = whats_new.is_some()
             && current.is_none()
             && !settings_open
+            && !staff_up
             && matches!(screen, Screen::Menu);
-        let offer_saved =
-            (current.is_none() && !settings_open && !show_news && online.email_offer.is_some())
-                .then(|| ui.suspend_input());
+        let offer_up = current.is_none()
+            && !settings_open
+            && !show_news
+            && !staff_up
+            && waiting.is_none()
+            && online.email_offer.is_some();
+        let offer_saved = offer_up.then(|| ui.suspend_input());
         let news_saved = show_news.then(|| ui.suspend_input());
-        let waiting_saved = waiting.is_some().then(|| ui.suspend_input());
+        // A game waiting for the server: its overlay holds the keyboard too,
+        // so the screen or the game under it gets neither Esc nor Enter.
+        let waiting_saved = waiting.is_some().then(|| {
+            ui.focus = Some(WAITING_FOCUS);
+            ui.wants_keyboard = true;
+            ui.suspend_input()
+        });
         if settings_open {
             let before = config.clone();
             let action = settings_screen.draw(&mut ui, &mut config, current.is_some());
@@ -1039,6 +1090,8 @@ async fn main() {
                                 .map_or(config.player_name.clone(), |me| me.username.clone());
                             if let Some(next) = Match::drill(code, &name, config.guide, 0) {
                                 online.drill_result = None;
+                                // A ranked session over while signed out: kept to send.
+                                send_run(m, &mut online, &mut unsent_runs);
                                 current = Some(next);
                                 hud = Hud::new(config.show_help);
                                 rig.reset();
@@ -1073,26 +1126,8 @@ async fn main() {
                             let daily = m.daily.is_some();
                             // Left during a drill: the tries made still count.
                             let drill = m.drill.is_some();
-                            if let Some(run) = m
-                                .drill
-                                .as_mut()
-                                .filter(|r| !r.sent && r.session != 0 && !r.strokes.is_empty())
-                                && online.signed_in()
-                            {
-                                run.sent = true;
-                                online.send(snook_legend_proto::ClientMsg::DrillSubmit {
-                                    code: run.code.to_string(),
-                                    session: run.session,
-                                    strokes: run.strokes.clone(),
-                                });
-                            }
-                            if let Some(run) = m.daily.as_mut().filter(|r| !r.sent) {
-                                run.sent = true;
-                                online.send(snook_legend_proto::ClientMsg::DailySubmit {
-                                    day: run.day,
-                                    strokes: run.strokes.clone(),
-                                });
-                            }
+                            // Signed out: sent once back.
+                            send_run(m, &mut online, &mut unsent_runs);
                             // From a game against the computer: back to its
                             // screen (the ladder, after a ladder game).
                             let versus = m.is_against_computer().then(|| {
@@ -1181,14 +1216,17 @@ async fn main() {
                     // A gift is on screen (drawn over it below): the screen
                     // gets neither the pointer nor Esc (screens leave Esc
                     // alone while a field has the keyboard).
-                    // The e-mail offer too: its Esc is its own.
+                    // The e-mail offer and a staff warning too: their Esc
+                    // is their own (and the offer's field keeps the keyboard).
                     let gift_modal = (online.gift_dialog_open()
                         || offer_saved.is_some()
-                        || replace_save.is_some())
+                        || replace_save.is_some()
+                        || staff_up)
                         && !settings_open;
                     let under_gift = gift_modal.then(|| {
+                        let field = ui.focus.filter(|f| *f == online::EMAIL_OFFER_FIELD);
                         ui.focus = Some(GIFT_DIALOG_FOCUS);
-                        ui.suspend_input()
+                        (ui.suspend_input(), field)
                     });
                     match &mut screen {
                         Screen::Menu => match menu.draw(&mut ui, &online, saved_balls) {
@@ -1557,10 +1595,10 @@ async fn main() {
                             ProfileAction::None => {}
                         },
                     }
-                    if let Some(saved) = under_gift {
+                    if let Some((saved, field)) = under_gift {
                         ui.resume_input(saved);
                         if ui.focus == Some(GIFT_DIALOG_FOCUS) {
-                            ui.focus = None;
+                            ui.focus = field;
                         }
                     }
                     if let Some(n) = next {
@@ -1629,12 +1667,19 @@ async fn main() {
                     Waiting::Final(_) => i18n::t("The server is dealing the final…"),
                     Waiting::Drill(_) => i18n::t("The server is setting up the drill…"),
                 };
-                draw_waiting(&mut ui, text);
-                if ui.escape() {
+                draw_waiting(&mut ui, text, i18n::t("Esc to cancel"));
+                // Its own Esc (nothing under it reads the keyboard).
+                if is_key_pressed(KeyCode::Escape) {
                     waiting = None;
                     online.awaiting_ticket = false;
                 }
             }
+        }
+        // The overlay keeps the keyboard while a game waits for the server.
+        if waiting.is_some() {
+            ui.focus = Some(WAITING_FOCUS);
+        } else if ui.focus == Some(WAITING_FOCUS) {
+            ui.focus = None;
         }
         if let Some((text, t)) = &mut toast {
             *t -= dt;
@@ -1665,18 +1710,26 @@ async fn main() {
         if current.is_none()
             && !settings_open
             && !show_news
+            && !staff_up
+            && waiting.is_none()
             && online.draw_email_offer(&mut ui, &mut config)
         {
             config.save();
         }
         // Presents from friends, one after another (never over a game).
-        if current.is_none() && !settings_open && online.email_offer.is_none() {
+        if current.is_none()
+            && !settings_open
+            && !staff_up
+            && waiting.is_none()
+            && online.email_offer.is_none()
+        {
             online.draw_gift_dialog(&mut ui);
         }
         // A new game against the computer while one is saved: which one.
         if let Some(settings) = replace_save.clone()
             && current.is_none()
             && !settings_open
+            && !staff_up
         {
             match draw_replace_save(&mut ui, saved_balls.unwrap_or(0)) {
                 Some(true) if wants_deal(&settings, &online) => {
@@ -1714,6 +1767,10 @@ async fn main() {
             if ui.escape() {
                 replace_save = None;
             }
+        }
+        // A warning from the staff, over everything else, until OK.
+        if current.is_none() && !settings_open && waiting.is_none() {
+            online.draw_staff_warning(&mut ui);
         }
         online.draw_toasts(&ui, toast_bottom);
         if let Some(l) = &lan {
@@ -1857,6 +1914,10 @@ fn vignette_texture() -> Texture2D {
 /// screen under it leaves Esc alone (no field has this id).
 const GIFT_DIALOG_FOCUS: u64 = ui::MODAL_FOCUS;
 
+/// The same for the overlay of a game waiting for the server: the screen
+/// or the game under it leaves Esc and Enter alone.
+const WAITING_FOCUS: u64 = ui::MODAL_FOCUS + 1;
+
 fn name_or(name: &str, default: &str) -> String {
     match name.trim() {
         "" => i18n::t(default).to_string(),
@@ -1906,7 +1967,61 @@ const SERVER_WAIT: f64 = 8.0;
 /// Signed in to an account of the online server (not as a guest, not on a
 /// LAN): what drills and the tour's reward are counted for.
 fn has_account(online: &Online) -> bool {
-    online.me.as_ref().is_some_and(|me| !me.guest) && !online.lan
+    online.account().is_some()
+}
+
+/// Signed in to the account `account`, the connection working (a daily
+/// attempt or a drill session goes to the account it was started for, not
+/// to another one).
+fn signed_in_as(online: &Online, account: &str) -> bool {
+    online.live() && online.account().is_some_and(|me| me.eq_ignore_ascii_case(account))
+}
+
+/// The account a daily attempt or a ranked drill session was started for:
+/// its player, named after the account.
+fn run_account(m: &Match) -> &str {
+    &m.names[0]
+}
+
+/// What a daily attempt or a ranked drill session has made, to send once
+/// (it is marked sent); None when there is nothing to send.
+fn run_to_send(m: &mut Match) -> Option<snook_legend_proto::ClientMsg> {
+    if let Some(run) = m.drill.as_mut().filter(|r| !r.sent && r.session != 0) {
+        if run.strokes.is_empty() {
+            return None;
+        }
+        run.sent = true;
+        return Some(snook_legend_proto::ClientMsg::DrillSubmit {
+            code: run.code.to_string(),
+            session: run.session,
+            strokes: run.strokes.clone(),
+        });
+    }
+    let run = m.daily.as_mut().filter(|r| !r.sent)?;
+    run.sent = true;
+    Some(snook_legend_proto::ClientMsg::DailySubmit { day: run.day, strokes: run.strokes.clone() })
+}
+
+/// A daily attempt or a ranked drill session leaves the table (the player
+/// left it, or another game took its place): what it made goes to the
+/// server now, or once its account is signed in again (the player is told).
+fn send_run(
+    m: &mut Match,
+    online: &mut Online,
+    unsent: &mut Vec<(String, snook_legend_proto::ClientMsg)>,
+) {
+    let account = run_account(m).to_string();
+    let Some(msg) = run_to_send(m) else { return };
+    if signed_in_as(online, &account) {
+        online.send(msg);
+        return;
+    }
+    // A few at most (the server refuses old ones anyway).
+    if unsent.len() >= 8 {
+        unsent.remove(0);
+    }
+    unsent.push((account, msg));
+    online.toast(i18n::t("Your strokes will be sent when you're back online."), false);
 }
 
 /// The tour's final, played for the reward: dealt by the server.
@@ -1927,6 +2042,7 @@ fn ask_deal(online: &mut Online, settings: MatchSettings) -> Waiting {
 
 fn ask_drill(online: &mut Online, code: &str) -> Waiting {
     online.drill_session = None;
+    online.drill_starts += 1;
     online.send(snook_legend_proto::ClientMsg::DrillStart { code: code.to_string() });
     Waiting::Drill(code.to_string())
 }
@@ -1951,15 +2067,19 @@ fn warn_unrewarded(
     }
 }
 
-/// A word in the middle of the screen while the server is asked.
-fn draw_waiting(ui: &mut Ui, text: &str) {
+/// A word in the middle of the screen while the server is asked, and how
+/// to stop waiting (`hint`).
+fn draw_waiting(ui: &mut Ui, text: &str, hint: &str) {
     let (sw, sh) = (ui::vw(), ui::vh());
     draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.45));
-    let w = (ui.text_size(text, 15.0, false).x + 64.0).min(sw - 32.0);
-    let r = Rect::new((sw - w) / 2.0, sh / 2.0 - 28.0, w, 56.0);
+    let widest = ui.text_size(text, 15.0, false).x.max(ui.text_size(hint, 12.0, false).x);
+    let w = (widest + 64.0).min(sw - 32.0);
+    let r = Rect::new((sw - w) / 2.0, sh / 2.0 - 36.0, w, 72.0);
     ui.panel(r);
     ui.block(Rect::new(0.0, 0.0, sw, sh));
-    crate::ui::spinner(vec2(r.x + 24.0, r.y + 28.0), 7.0, ui::GOLD);
+    crate::ui::spinner(vec2(r.x + 24.0, r.y + 26.0), 7.0, ui::GOLD);
     let text = ui.ellipsize(text, w - 56.0, 15.0);
-    ui.text(&text, r.x + 42.0, r.y + 19.0, 15.0, ui::CREAM, false);
+    ui.text(&text, r.x + 42.0, r.y + 17.0, 15.0, ui::CREAM, false);
+    let hint = ui.ellipsize(hint, w - 56.0, 12.0);
+    ui.text(&hint, r.x + 42.0, r.y + 43.0, 12.0, ui::MUTED, false);
 }

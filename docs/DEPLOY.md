@@ -18,6 +18,7 @@ A step-by-step guide for **Render + Neon (free plans)**, in Portuguese, is in
 | `SNOOK_LEGEND_IN_MEMORY` | — | `1`: keep everything in memory (development only) |
 | `SNOOK_LEGEND_ADMINS` | — | comma-separated usernames that become administrators when they sign in |
 | `SNOOK_LEGEND_CLIENT_IP_HEADER` | — | headers with the client's real address behind a proxy, tried in order, e.g. `cf-connecting-ip,true-client-ip,x-forwarded-for` |
+| `SNOOK_LEGEND_TRUSTED_PROXIES` | private networks | the proxies whose address headers are believed (networks such as `203.0.113.0/24, 2001:db8::/32`; `*`: any). A connection from anywhere else is counted by its own address, whatever its headers say, so nobody can dodge the limits per address by sending a header. The default fits hosts whose proxy connects from a private network (Render, Fly, a reverse proxy on the same machine) |
 | `SNOOK_LEGEND_PROXY_HOPS` | `1` | with `x-forwarded-for`: proxies that append to it (the address is taken that many entries from the right) |
 | `SNOOK_LEGEND_MOTD` | a welcome line | message shown in the lounge |
 | `SNOOK_LEGEND_SHOT_CLOCK` | `30` | seconds per shot (10–120) |

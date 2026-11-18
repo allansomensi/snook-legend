@@ -91,6 +91,8 @@ code, .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monosp
 .grow { flex: 1; min-width: 0; }
 .ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+/* The hidden text area of "Copy" where the clipboard API is missing. */
+.copy-buffer { position: fixed; top: 0; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 
 /* ----------------------------------------------------------- the boot */
 .boot { position: fixed; inset: 0; display: grid; place-items: center; }
@@ -338,6 +340,7 @@ table.data tr:last-child td { border-bottom: 0; }
 table.data tbody tr { transition: background .1s; }
 table.data tbody tr:hover { background: var(--surface-2); }
 table.data tr.click { cursor: pointer; }
+table.data tr.click:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; background: var(--surface-2); }
 table.data td.num, table.data th.num { text-align: right; font-variant-numeric: tabular-nums; }
 table.data td.actions-cell { text-align: right; white-space: nowrap; }
 table.data td.wrap { white-space: normal; min-width: 240px; }
@@ -592,6 +595,7 @@ svg.chart .stroke.c-accent { fill: none; stroke: var(--accent); stroke-width: 2;
 .mini-list .mi .mi-side { color: var(--text-3); font-size: 12px; white-space: nowrap; }
 .mini-list .mi.click { cursor: pointer; }
 .mini-list .mi.click:hover { background: var(--surface-2); }
+.mini-list .mi.click:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; background: var(--surface-2); }
 
 .bracket { display: flex; gap: 14px; overflow-x: auto; padding-bottom: 4px; }
 .bracket .round { display: grid; gap: 8px; align-content: start; min-width: 170px; }
@@ -607,6 +611,7 @@ svg.chart .stroke.c-accent { fill: none; stroke: var(--accent); stroke-width: 2;
 
 /* ------------------------------------------------------ replay viewer */
 .viewer { position: fixed; inset: 0; background: var(--scrim); display: grid; place-items: center; padding: 16px; z-index: 70; animation: fade .14s ease; }
+.viewer:focus { outline: none; }
 .viewer-card { width: min(1240px, 100%); max-height: calc(100vh - 32px); display: flex; flex-direction: column; gap: 10px; overflow: hidden; padding: 16px 18px; }
 .viewer-wait { display: flex; gap: 10px; align-items: center; color: var(--text-2); padding: 24px; justify-content: center; }
 .viewer-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
@@ -638,6 +643,7 @@ svg.chart .stroke.c-accent { fill: none; stroke: var(--accent); stroke-width: 2;
 .stroke-list { list-style: none; margin: 0; padding: 0; overflow-y: auto; max-height: calc(100vh - 190px); }
 .stroke-list li { display: grid; grid-template-columns: 28px minmax(0, auto) 1fr; gap: 6px; padding: 4px 6px; border-radius: 6px; cursor: pointer; font-size: 13px; }
 .stroke-list li:hover { background: var(--surface-2); }
+.stroke-list li:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 .stroke-list li.current { background: var(--accent-soft); outline: 1px solid var(--accent); }
 .stroke-list .n { color: var(--text-3); text-align: right; }
 .stroke-list .who { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 110px; }

@@ -20,8 +20,9 @@ a second set of credentials for no gain at this size.
   and remembered. Dates, numbers, money and country names follow the
   language. The server's own messages (errors) are translated too.
 - **Themes:** dark (default) and light, from the top bar; remembered.
-- **Search** (top bar, or press `/`): players by name (a recovery e-mail,
-  whole, finds its account too); `#123` opens game 123 in the replay viewer.
+- **Search** (top bar, or press `/`): players by name (for administrators,
+  a recovery e-mail, whole, finds its account too); `#123` opens game 123
+  in the replay viewer.
 - **Links:** every page and filter has its own address
   (`#/players/ana/moderation`, `#/reports?status=open`…): bookmark it, send
   it to another staff member, use the browser's back button.
@@ -54,9 +55,10 @@ a second set of credentials for no gain at this size.
 | | Moderator | Administrator |
 |---|---|---|
 | Every page above | ✓ | ✓ |
+| Players' e-mails, payments and Microsoft Store purchases; where the staff sign in from | | ✓ |
 | Warn, mute / unmute, disconnect, ban / lift a ban, sign out everywhere, clear a status message | ✓ (not on staff) | ✓ |
 | Staff notes (remove one's own) | ✓ | ✓ (remove any) |
-| Answer reports, delete a chat line, announcements, the board, "looking for a game" notes | ✓ | ✓ |
+| Answer reports (not about themselves, nor, for moderators, about staff), delete a chat line, announcements, the board, "looking for a game" notes | ✓ | ✓ |
 | Remove a chat line without a trace, clear the chat, the welcome message | | ✓ |
 | Rename, change a role, set a new password | | ✓ |
 | Give or take coins, give items or VIP days, take an item back, mark payments as test | | ✓ |
@@ -84,7 +86,9 @@ all in the audit log like any other change.
 - **Sign out everywhere**: revokes every saved session.
 - **Rename** (administrators): for a name that breaks the rules. It doesn't
   use one of the player's own three changes; they are signed out and sign
-  in again under the new name.
+  in again under the new name. Not while they are in a game, at a table,
+  in the queue or in a tournament (whoever took the name freed could take
+  their seat): rename them once they are out.
 - **New password** (administrators): for account recovery, after
   confirming who they are by their recovery e-mail (the server sends no
   e-mail); signs the player out everywhere.
@@ -93,7 +97,8 @@ all in the audit log like any other change.
 - **Delete a chat line**: players see it was deleted by the staff;
   **remove without a trace** (administrators): it disappears.
 - **Call off a tournament** (administrators, before it starts): every
-  entry fee goes back and the players are told.
+  entry fee goes back and the players are told. A weekly cup called off
+  stays off; the next week's opens as usual.
 - **Board**: notes pinned for everyone in the lounge's *Board* tab (rules,
   events, the next cup), for some days or until taken down. Each note is a
   notice (gold), an event (green) or a rule (blue), may be pinned above the
@@ -122,7 +127,10 @@ Saturday at 8 pm for a tournament).
   starts by itself, and is called off (fees back) if fewer than two
   signed up. It may be rated, take an entry fee and carry a **prize from
   the house** (paid 70% to the champion and 30% to the runner-up, on top of
-  the entry fees' prizes).
+  the entry fees' prizes). The house's prize needs four players or more,
+  and is paid only to a player who won a game at the table (a knockout) or
+  scored in games played (an arena): two accounts of one person meeting by
+  walkover earn nothing from it.
 
 Boosts of the same kind don't add up: the largest one running counts.
 Players see the events running and those starting within two days on the

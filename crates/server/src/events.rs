@@ -20,6 +20,9 @@ use crate::{Server, now};
 pub struct Events {
     list: std::sync::RwLock<Vec<GameEvent>>,
     told: std::sync::Mutex<Vec<EventInfo>>,
+    /// One reload at a time: one that read the list earlier never applies
+    /// it over a newer one's.
+    reloading: tokio::sync::Mutex<()>,
 }
 
 /// How often the events are read again (a boost starts or ends on time
@@ -68,6 +71,7 @@ pub async fn reload(server: &Server) {
     if server.config.rules.lan {
         return;
     }
+    let _one = server.events.reloading.lock().await;
     let t = now();
     let list = match server.store.events_after(t).await {
         Ok(list) => list,
@@ -95,8 +99,17 @@ pub async fn reload(server: &Server) {
             ends_at: e.ends_at,
         })
         .collect();
+    // Called off lately (a running tournament of theirs loses the house's
+    // prize; one whose event simply ended keeps it).
+    let cancelled: Vec<i64> = match server.store.recent_events(200).await {
+        Ok(recent) => recent.iter().filter(|e| e.cancelled_at.is_some()).map(|e| e.id).collect(),
+        Err(e) => {
+            tracing::warn!("events: {e}");
+            return;
+        }
+    };
     *server.events.list.write().unwrap_or_else(|e| e.into_inner()) = list;
-    server.with(|l| l.set_scheduled_tournaments(tournaments));
+    server.with(|l| l.set_scheduled_tournaments(tournaments, &cancelled));
     let shown = server.shown_events(t);
     let changed = {
         let mut told = server.events.told.lock().unwrap_or_else(|e| e.into_inner());

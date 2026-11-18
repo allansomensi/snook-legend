@@ -154,6 +154,9 @@ pub struct Online {
     pub table_look: [String; 2],
     /// This account's achievements (for the reactions they unlock).
     achievements: Vec<String>,
+    /// Whose achievements those are: after signing in to another account
+    /// they don't count for it until its own come.
+    achievements_of: String,
     pub stage: Stage,
     pub server: String,
     /// A LAN game (guest name, nothing saved).
@@ -286,6 +289,9 @@ pub struct Online {
     pub drill_result: Option<(String, Result<u32, snook_legend_proto::drills::Refused>)>,
     /// A drill session the server started: (drill, session).
     pub drill_session: Option<(String, u64)>,
+    /// Drill sessions asked for and not answered yet: only the answer to
+    /// the last one is used (one left behind with Esc is not the new one).
+    pub drill_starts: u32,
     /// The staff's events running and coming (double experience, a cup…).
     pub events: Vec<snook_legend_proto::events::EventInfo>,
     /// The tour's final was asked for (see `ladder_ticket`).
@@ -294,6 +300,17 @@ pub struct Online {
     pub ladder_ticket: Option<(u64, usize)>,
     /// The server refused to deal it (asked too often).
     pub ticket_refused: bool,
+    /// A daily attempt or a drill session an online game took the table
+    /// from: the game still sends what it made (see main.rs).
+    pub displaced: Option<Match>,
+    /// Warnings from the staff, oldest first: each waits in a dialog until
+    /// the player presses OK (see [`Online::draw_staff_warning`]).
+    staff_warnings: Vec<String>,
+    /// When the first of them came on screen (Enter dismisses it only
+    /// after a moment: not a key pressed for something else).
+    staff_shown: Option<f64>,
+    /// The account password typed into the e-mail offer.
+    offer_password: String,
 }
 
 /// A request for the style of a player's ghost.
@@ -392,6 +409,15 @@ const FEE_HINT: &str = "The fees make the prize: 70% to the champion, 20% to the
 /// After this long without an opponent, "Play now" offers a game against
 /// the computer while it keeps looking.
 const PRACTICE_AFTER_SECS: u32 = 30;
+
+/// How the server starts a warning from the staff.
+const STAFF_WARNING: &str = "Warning from the staff: ";
+
+/// The server's answer to a final of the tour asked for too often.
+const TICKET_REFUSED: &str = "Slow down a little.";
+
+/// The password field of the e-mail offer (its keyboard mark: see main.rs).
+pub const EMAIL_OFFER_FIELD: u64 = 77;
 
 /// "5 h", "3 days", "12 min": how long until something.
 /// A notice of something earned, with the event's multiplier when one ran.
@@ -555,6 +581,7 @@ impl Online {
             looks_changed: false,
             table_look: Default::default(),
             achievements: Vec::new(),
+            achievements_of: String::new(),
             rtt: None,
             ping_sent: None,
             ping_timer: 0.0,
@@ -603,10 +630,15 @@ impl Online {
             drills: None,
             drill_result: None,
             drill_session: None,
+            drill_starts: 0,
             events: Vec::new(),
             awaiting_ticket: false,
             ladder_ticket: None,
             ticket_refused: false,
+            displaced: None,
+            staff_warnings: Vec::new(),
+            staff_shown: None,
+            offer_password: String::new(),
         }
     }
 
@@ -685,7 +717,20 @@ impl Online {
 
     /// Whether this account has the achievement `code`.
     pub fn has_achievement(&self, code: &str) -> bool {
-        self.signed_in() && self.achievements.iter().any(|c| c == code)
+        self.me.as_ref().is_some_and(|me| me.username == self.achievements_of)
+            && self.achievements.iter().any(|c| c == code)
+    }
+
+    /// The account signed in on the online server (not a guest, not on a LAN).
+    pub fn account(&self) -> Option<&str> {
+        self.me.as_ref().filter(|me| !me.guest && !self.lan).map(|me| me.username.as_str())
+    }
+
+    /// Signed in on a working connection (not reconnecting): what is sent
+    /// now goes out at once (messages held while reconnecting are lost if
+    /// the session doesn't come back).
+    pub fn live(&self) -> bool {
+        self.signed_in() && self.authed && self.conn.is_some()
     }
 
     /// Asks the server how `name` plays (for their ghost).
@@ -799,6 +844,8 @@ impl Online {
                     self.conn = None;
                     self.authed = false;
                     self.queue = None;
+                    // Nothing asked on that connection will be answered.
+                    self.drill_starts = 0;
                     let was_in = self.signed_in();
                     let attempt = match self.stage {
                         Stage::Reconnecting { attempt, .. } => attempt,
@@ -1121,12 +1168,13 @@ impl Online {
                     .unwrap_or(code);
                 self.toast(tw("Achievement unlocked: {title}", &[("title", &title)]), true);
             }
-            // A warning from the staff stays up long enough to be read.
-            ServerMsg::Notice { text } if text.starts_with("Warning from the staff: ") => {
-                self.toasts.push_back((crate::i18n::server_text(&text), 15.0, false));
-                while self.toasts.len() > 3 {
-                    self.toasts.pop_front();
+            // A warning from the staff waits in a dialog until it is read
+            // (a toast could be cut, pushed out by others or missed).
+            ServerMsg::Notice { text } if text.starts_with(STAFF_WARNING) => {
+                if self.staff_warnings.len() < 20 {
+                    self.staff_warnings.push(text[STAFF_WARNING.len()..].trim().to_string());
                 }
+                self.attention = Some(crate::i18n::server_text(&text));
             }
             ServerMsg::Notice { text } => self.toast(crate::i18n::server_text(&text), true),
             ServerMsg::MatchStarted {
@@ -1179,7 +1227,15 @@ impl Online {
                         let same_game = m.match_id() == match_id;
                         m.continue_online(next, same_game)
                     }
-                    _ => *current = Some(next),
+                    _ => {
+                        // A daily attempt or a drill session gives the table
+                        // up: what it made is still sent (see main.rs).
+                        if let Some(old) = current.replace(next)
+                            && (old.daily.is_some() || old.drill.is_some())
+                        {
+                            self.displaced = Some(old);
+                        }
+                    }
                 }
                 if let Some(o) = current.as_mut().and_then(|m| m.online.as_mut()) {
                     o.unlocked = self.achievements.clone();
@@ -1201,8 +1257,9 @@ impl Online {
             // for something new): nothing the player can do about it.
             ServerMsg::Error { message } if message == "Malformed message." => {}
             // Asked for the tour's final too often: it is played without
-            // the server (the game says so).
-            ServerMsg::Error { message } if self.awaiting_ticket => {
+            // the server (the game says so). Only that refusal: another
+            // error is about something else.
+            ServerMsg::Error { message } if self.awaiting_ticket && message == TICKET_REFUSED => {
                 self.awaiting_ticket = false;
                 self.ticket_refused = true;
                 self.toast(crate::i18n::server_text(&message), false);
@@ -1389,7 +1446,14 @@ impl Online {
             ServerMsg::Daily { info } => self.daily = Some(info),
             ServerMsg::Drills { info } => self.drills = Some(info),
             ServerMsg::DrillResult { code, result } => self.drill_result = Some((code, result)),
-            ServerMsg::DrillStarted { code, session } => self.drill_session = Some((code, session)),
+            // Only the answer to the last request: an older one's session
+            // is no longer the server's.
+            ServerMsg::DrillStarted { code, session } => {
+                self.drill_starts = self.drill_starts.saturating_sub(1);
+                if self.drill_starts == 0 {
+                    self.drill_session = Some((code, session));
+                }
+            }
             ServerMsg::Events { events } => self.events = events,
             ServerMsg::LadderTicket { seed, breaker } if self.awaiting_ticket => {
                 self.awaiting_ticket = false;
@@ -1440,6 +1504,8 @@ impl Online {
                     o.unlocked = codes.clone();
                 }
                 self.achievements = codes;
+                self.achievements_of =
+                    self.me.as_ref().map(|me| me.username.clone()).unwrap_or_default();
             }
             msg @ (ServerMsg::CorrList { .. }
             | ServerMsg::CorrState { .. }
@@ -1542,8 +1608,9 @@ impl Online {
         self.connect();
     }
 
-    /// After a payment: "use this e-mail to recover your account?". Returns
-    /// true if the settings changed.
+    /// After a payment: "use this e-mail to recover your account?", with
+    /// the account's password to confirm it. Returns true if the settings
+    /// changed.
     pub fn draw_email_offer(&mut self, ui: &mut Ui, config: &mut Config) -> bool {
         let Some(email) = self.email_offer.clone() else { return false };
         let sw = crate::ui::vw();
@@ -1556,17 +1623,24 @@ impl Online {
             &[("email", &email)],
         );
         let lines = ui.wrap(&text, inner, 15.0);
+        let ask = ui.wrap(t("Type your password to confirm it's you."), inner, 13.0);
         let note = ui.wrap(t("You can change it any time in your profile (Account)."), inner, 13.0);
-        // Sized to its text: title, question, note and the buttons.
-        let h = pad
+        // Sized to its text: title, question, the password, the note and the
+        // buttons. The note goes first when the screen is short.
+        let base = pad
             + 30.0
             + 16.0
             + lines.len() as f32 * 20.0
-            + 8.0
-            + note.len() as f32 * 17.0
+            + 12.0
+            + ask.len() as f32 * 17.0
+            + 4.0
+            + 36.0
             + 24.0
             + 40.0
             + pad;
+        let note_h = 8.0 + note.len() as f32 * 17.0;
+        let show_note = base + note_h <= sh - 16.0;
+        let h = if show_note { base + note_h } else { base };
         let r = Rect::new((sw - w) / 2.0, ((sh - h) / 2.0).max(8.0), w, h);
         draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.55));
         ui.panel(r);
@@ -1579,10 +1653,30 @@ impl Online {
             ui.text(line, r.x + pad, y, 15.0, CREAM, false);
             y += 20.0;
         }
-        y += 8.0;
-        for line in &note {
+        y += 12.0;
+        for line in &ask {
             ui.text(line, r.x + pad, y, 13.0, MUTED, false);
             y += 17.0;
+        }
+        y += 4.0;
+        // The field has the keyboard while the offer is up (the screen
+        // under it gets none: see main.rs).
+        if ui.focus.is_none() {
+            ui.focus = Some(EMAIL_OFFER_FIELD);
+        }
+        let field = Rect::new(r.x + pad, y, inner, 36.0);
+        let enter = ui.password_input(EMAIL_OFFER_FIELD, field, &mut self.offer_password, 72);
+        if self.offer_password.is_empty() && ui.focus != Some(EMAIL_OFFER_FIELD) {
+            let ty = crate::ranking::text_y(y + 18.0, 14.0);
+            ui.text(t("Password"), field.x + 10.0, ty, 14.0, MUTED, false);
+        }
+        y += 36.0;
+        if show_note {
+            y += 8.0;
+            for line in &note {
+                ui.text(line, r.x + pad, y, 13.0, MUTED, false);
+                y += 17.0;
+            }
         }
         // "Use it" bottom right; "No, thanks" (never ask again) bottom left.
         let by = r.y + r.h - pad - 40.0;
@@ -1592,20 +1686,99 @@ impl Online {
         let no_w = crate::ui::clamp_soft(button_w(ui, no, 40.0), 130.0, half);
         let yes_w = crate::ui::clamp_soft(button_w(ui, yes, 40.0), 170.0, half);
         let mut changed = false;
+        let close = |me: &mut Online, ui: &mut Ui| {
+            me.email_offer = None;
+            me.offer_password.clear();
+            if ui.focus == Some(EMAIL_OFFER_FIELD) {
+                ui.focus = None;
+            }
+        };
         if ui.button(Rect::new(r.x + pad, by, no_w, 40.0), no, true) {
-            self.email_offer = None;
+            close(self, ui);
             config.email_offer_declined = true;
             changed = true;
+            return changed;
         }
-        if ui.primary_button(Rect::new(r.x + r.w - pad - yes_w, by, yes_w, 40.0), yes) {
-            // The e-mail of the account's own payment: no password needed.
-            self.send(ClientMsg::SetRecoveryEmail { email, password: String::new() });
-            self.email_offer = None;
+        // The server asks for the password in every case.
+        let typed = !self.offer_password.is_empty();
+        let yes_r = Rect::new(r.x + r.w - pad - yes_w, by, yes_w, 40.0);
+        let clicked =
+            if typed { ui.primary_button(yes_r, yes) } else { ui.button(yes_r, yes, false) };
+        if (clicked || enter) && typed {
+            let password = std::mem::take(&mut self.offer_password);
+            self.send(ClientMsg::SetRecoveryEmail { email, password });
+            close(self, ui);
         } else if is_key_pressed(KeyCode::Escape) {
             // Not now: asked again after the next payment.
-            self.email_offer = None;
+            close(self, ui);
         }
         changed
+    }
+
+    /// A warning from the staff is waiting to be read.
+    pub fn staff_warning_open(&self) -> bool {
+        !self.staff_warnings.is_empty()
+    }
+
+    /// The oldest warning from the staff, over whatever page is up (not a
+    /// game), until the player presses OK. Esc doesn't close it: it must
+    /// be read.
+    pub fn draw_staff_warning(&mut self, ui: &mut Ui) {
+        let Some(text) = self.staff_warnings.first().cloned() else {
+            self.staff_shown = None;
+            return;
+        };
+        let now = get_time();
+        let shown = *self.staff_shown.get_or_insert(now);
+        let more = self.staff_warnings.len() - 1;
+        let sw = crate::ui::vw();
+        let sh = crate::ui::vh();
+        let w = 500.0f32.min(sw - 32.0);
+        let pad = 24.0;
+        let inner = w - pad * 2.0;
+        // Title, the warning (up to 600 characters: smaller type, then cut,
+        // if the screen is short) and the button.
+        let fixed = pad + 30.0 + 14.0 + 20.0 + 40.0 + pad;
+        let room = sh - 16.0 - fixed;
+        let mut size = 15.0;
+        let mut lines = ui.wrap(&text, inner, size);
+        if lines.len() as f32 * (size + 5.0) > room {
+            size = 13.0;
+            lines = ui.wrap(&text, inner, size);
+        }
+        let line_h = size + 5.0;
+        let fit = ((room / line_h).floor() as usize).max(1);
+        if lines.len() > fit {
+            lines.truncate(fit);
+            if let Some(last) = lines.last_mut() {
+                *last = ui.ellipsize(&format!("{last} …"), inner, size);
+            }
+        }
+        let h = fixed + lines.len() as f32 * line_h;
+        let r = Rect::new((sw - w) / 2.0, ((sh - h) / 2.0).max(8.0), w, h);
+        draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.6));
+        ui.panel(r);
+        rrect_lines(r, 8.0, 2.0, ALERT);
+        ui.block(Rect::new(0.0, 0.0, sw, sh));
+        let mut y = r.y + pad;
+        let (title, title_size) = ui.fitted(t("Warning from the staff"), 22.0, inner, true);
+        ui.text_centered(&title, sw / 2.0, y + 2.0, title_size, ALERT, true);
+        y += 30.0 + 14.0;
+        for line in &lines {
+            ui.text(line, r.x + pad, y, size, CREAM, false);
+            y += line_h;
+        }
+        let label =
+            if more > 0 { tw("Next ({n} more)", &[("n", &more)]) } else { t("OK").to_string() };
+        let bw = button_w(ui, &label, 40.0).max(140.0).min(inner);
+        let b = Rect::new(sw / 2.0 - bw / 2.0, r.y + r.h - pad - 40.0, bw, 40.0);
+        let enter = (is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::KpEnter))
+            && now - shown > 1.0;
+        if ui.primary_button(b, &label) || enter {
+            self.staff_warnings.remove(0);
+            // The next one gets its own moment.
+            self.staff_shown = None;
+        }
     }
 
     /// Short messages (achievements, declined invitations…), on top of everything.
@@ -2282,21 +2455,38 @@ impl Online {
             }
             log_top += mh + 8.0;
         }
-        // The staff's events running and coming.
-        let now = crate::game::unix_now();
-        for e in self.events_now().iter().take(2) {
-            let r = Rect::new(inner_x, log_top, inner_w, event_height(ui, e, inner_w));
-            draw_event(ui, e, r, now);
-            log_top += r.h + 8.0;
-        }
-        // The server is about to restart.
-        if let Some(until) = self.draining {
+        // The server is about to restart (drawn under the events).
+        let restart = self.draining.map(|until| {
             let left = until.saturating_duration_since(std::time::Instant::now()).as_secs();
             let text = tw(
                 "The server restarts in {m}:{s} for an update. Games in progress go on.",
                 &[("m", &(left / 60)), ("s", &format!("{:02}", left % 60))],
             );
-            let lines = ui.wrap(&text, inner_w - 20.0, 13.0);
+            ui.wrap(&text, inner_w - 20.0, 13.0)
+        });
+        // What goes under the events: the restart notice, the featured game
+        // and the chat's field. An event card is left out when the chat (or
+        // the missions, the board) would keep less than this.
+        const MIN_AREA: f32 = 100.0;
+        let chat = self.side == Side::Chat;
+        let mut below = restart.as_ref().map_or(0.0, |l| l.len() as f32 * 17.0 + 14.0 + 8.0);
+        if chat {
+            below += 36.0 + 10.0;
+            if self.featured.is_some() && !self.lan {
+                below += 58.0 + 8.0;
+            }
+        }
+        // The staff's events running and coming.
+        let now = crate::game::unix_now();
+        for e in self.events_now().iter().take(2) {
+            let r = Rect::new(inner_x, log_top, inner_w, event_height(ui, e, inner_w));
+            if bottom - (r.y + r.h + 8.0) - below < MIN_AREA {
+                break;
+            }
+            draw_event(ui, e, r, now);
+            log_top += r.h + 8.0;
+        }
+        if let Some(lines) = restart {
             let r = Rect::new(inner_x, log_top, inner_w, lines.len() as f32 * 17.0 + 14.0);
             rrect(r, 6.0, Color::new(1.0, 0.56, 0.44, 0.14));
             rrect_lines(r, 6.0, 1.0, ALERT);

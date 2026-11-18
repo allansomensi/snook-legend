@@ -383,12 +383,16 @@ pub fn game_for_session_try(d: &Drill, session: u64, k: u32) -> EightBallGame {
         let shift =
             DVec2::new(rng.next_f64() * 2.0 - 1.0, rng.next_f64() * 2.0 - 1.0) * SESSION_JITTER;
         let moved = balls[i].1 + shift;
-        // Only where the ball may lie (never into a cushion or another ball).
-        let mut probe = EightBallGame::new(1, 0);
-        let others: Vec<(BallId, DVec2)> =
-            balls.iter().filter(|(id, _)| *id != BallId::CUE).copied().collect();
-        probe.set_up_test_position(&others);
-        if probe.can_place_cue_ball(moved) {
+        // Only where the ball may lie: on the cloth, clear of the other
+        // balls (a table's ball-in-hand check would need a ball in hand).
+        let table = g.table();
+        let clear = 2.0 * table.spec.ball_radius + 1e-4;
+        let free = table.can_place_ball(moved)
+            && balls
+                .iter()
+                .filter(|(id, _)| *id != BallId::CUE)
+                .all(|(_, p)| p.distance(moved) >= clear);
+        if free {
             balls[i].1 = moved;
         }
     }
@@ -534,6 +538,56 @@ pub struct Info {
     /// Their place by challenge rating (None: no drill done).
     pub rank: Option<u32>,
     pub leaders: Vec<RatingEntry>,
+}
+
+#[cfg(test)]
+mod session_tests {
+    use super::*;
+
+    fn cue(g: &EightBallGame) -> DVec2 {
+        g.ball(BallId::CUE).xy()
+    }
+
+    /// A session moves each try's cue ball: away from the drawn spot,
+    /// differently from session to session and from try to try, never
+    /// further than the jitter, and only where a ball may lie.
+    #[test]
+    fn sessions_move_the_cue_ball() {
+        let d = drill("straight").unwrap();
+        let drawn = cue(&game_for_try(d, 0));
+        let a = cue(&game_for_session_try(d, 0x1234_5678_9abc, 0));
+        let b = cue(&game_for_session_try(d, 0x0fed_cba9_8765, 0));
+        let a2 = cue(&game_for_session_try(d, 0x1234_5678_9abc, 1));
+        assert_ne!(a, drawn, "moved");
+        assert_ne!(a, b, "per session");
+        assert_ne!(a, a2, "per try");
+        assert_eq!(
+            a,
+            cue(&game_for_session_try(d, 0x1234_5678_9abc, 0)),
+            "the same for the same session"
+        );
+        let mut moved = 0;
+        for d in DRILLS {
+            for session in 1..40u64 {
+                let g = game_for_session_try(d, session.wrapping_mul(0x9E37_79B9), 0);
+                let p = cue(&g);
+                let from = cue(&game_for_try(d, 0));
+                assert!((p - from).abs().max_element() <= SESSION_JITTER + 1e-12, "{}", d.code);
+                assert!(g.table().can_place_ball(p), "{}", d.code);
+                let r = 2.0 * g.table().spec.ball_radius;
+                assert!(
+                    g.balls()
+                        .iter()
+                        .filter(|b| b.id != BallId::CUE && b.in_play())
+                        .all(|b| b.xy().distance(p) >= r),
+                    "{}",
+                    d.code
+                );
+                moved += usize::from(p != from);
+            }
+        }
+        assert!(moved > DRILLS.len() * 30, "most sessions move the ball ({moved})");
+    }
 }
 
 #[cfg(test)]

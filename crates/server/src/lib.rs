@@ -75,6 +75,68 @@ pub fn now() -> i64 {
         .unwrap_or(0)
 }
 
+/// Whether `ip` is one of the proxies (`None`: a private network).
+pub fn trusted_proxy(ip: IpAddr, trusted: Option<&[(IpAddr, u8)]>) -> bool {
+    let ip = ip.to_canonical();
+    match trusted {
+        Some(list) => list.iter().any(|(net, bits)| in_network(ip, *net, *bits)),
+        None => match ip {
+            IpAddr::V4(v4) => {
+                v4.is_private() || v4.is_loopback() || v4.is_link_local() || {
+                    // Shared address space (100.64.0.0/10), used by hosts' proxies.
+                    let o = v4.octets();
+                    o[0] == 100 && (64..128).contains(&o[1])
+                }
+            }
+            IpAddr::V6(v6) => {
+                v6.is_loopback()
+                    || (v6.segments()[0] & 0xfe00) == 0xfc00
+                    || (v6.segments()[0] & 0xffc0) == 0xfe80
+            }
+        },
+    }
+}
+
+/// `ip` lies in `net`/`bits` (any address when `bits` is 0).
+fn in_network(ip: IpAddr, net: IpAddr, bits: u8) -> bool {
+    if bits == 0 {
+        return true;
+    }
+    match (ip, net.to_canonical()) {
+        (IpAddr::V4(a), IpAddr::V4(n)) => {
+            let bits = bits.min(32) as u32;
+            let mask = if bits == 0 { 0 } else { u32::MAX << (32 - bits) };
+            u32::from(a) & mask == u32::from(n) & mask
+        }
+        (IpAddr::V6(a), IpAddr::V6(n)) => {
+            let bits = bits.min(128) as u32;
+            let mask = if bits == 0 { 0 } else { u128::MAX << (128 - bits) };
+            u128::from(a) & mask == u128::from(n) & mask
+        }
+        _ => false,
+    }
+}
+
+/// A list of networks ("10.0.0.0/8, 2001:db8::/32, 192.0.2.7"); `*`: any
+/// address. Entries that don't read are left out.
+pub fn parse_networks(text: &str) -> Vec<(IpAddr, u8)> {
+    text.split(',')
+        .map(str::trim)
+        .filter(|s| !s.is_empty())
+        .filter_map(|s| {
+            if s == "*" {
+                return Some((IpAddr::V6(std::net::Ipv6Addr::UNSPECIFIED), 0));
+            }
+            let (addr, bits) = s.split_once('/').unwrap_or((s, ""));
+            let ip: IpAddr = addr.parse().ok()?;
+            let max = if ip.to_canonical().is_ipv4() { 32 } else { 128 };
+            let bits =
+                if bits.is_empty() { max } else { bits.parse().ok().filter(|b| *b <= max)? };
+            Some((ip.to_canonical(), bits))
+        })
+        .collect()
+}
+
 /// How a game-over reason is stored.
 pub fn reason_code(r: GameOverReason) -> &'static str {
     match r {
@@ -118,6 +180,10 @@ pub struct Config {
     /// With `x-forwarded-for`: how many proxies append to it (the address is
     /// taken that many entries from the right).
     pub proxy_hops: usize,
+    /// Who may tell the client's address in those headers: the proxies'
+    /// networks (`None`: private networks only, where a host's proxy
+    /// connects from; anyone else's header is ignored).
+    pub trusted_proxies: Option<Vec<(IpAddr, u8)>>,
     /// Real-money payments (none when not configured).
     pub stripe: Option<payments::StripeConfig>,
     /// Coin packs sold in the Microsoft Store (none when not configured).
@@ -136,6 +202,7 @@ impl Default for Config {
             admins: Vec::new(),
             client_ip_header: None,
             proxy_hops: 1,
+            trusted_proxies: None,
             stripe: None,
             msstore: None,
             privacy: pages::PrivacyInfo::default(),
@@ -306,6 +373,12 @@ impl Server {
 
     fn claimed_ip(&self, peer: SocketAddr, headers: &HeaderMap) -> IpAddr {
         let Some(names) = &self.config.client_ip_header else { return peer.ip() };
+        // A header is only believed from the proxy: anyone reaching the
+        // server directly could otherwise name any address and slip past
+        // every limit per address.
+        if !trusted_proxy(peer.ip(), self.config.trusted_proxies.as_deref()) {
+            return peer.ip();
+        }
         for name in names.split(',').map(str::trim).filter(|n| !n.is_empty()) {
             let Some(value) = headers.get(name).and_then(|v| v.to_str().ok()) else { continue };
             let parts: Vec<&str> = value.split(',').map(str::trim).collect();
@@ -636,7 +709,12 @@ async fn run_effect(server: &Arc<Server>, effect: Effect) {
             }
         }
         Effect::DeleteLive(id) => {
-            let _ = server.store.delete_live(id).await;
+            // A finished game left saved would be rebuilt when one of its
+            // players signs in again.
+            if let Err(e) = retrying("deleting a saved game", || server.store.delete_live(id)).await
+            {
+                tracing::error!(room = id, "could not delete the saved game: {e}");
+            }
         }
         Effect::ShotStats { user_id, bands } => {
             if let Err(e) = server.store.add_shot_stats(user_id, &bands).await {
@@ -647,7 +725,9 @@ async fn run_effect(server: &Arc<Server>, effect: Effect) {
             pay(server, user_id, &name, coins, &reason, &reference).await;
         }
         Effect::RecordTournament(t) => {
-            if let Err(e) = server.store.record_tournament(&t).await {
+            if let Err(e) =
+                retrying("recording a tournament", || server.store.record_tournament(&t)).await
+            {
                 tracing::error!("could not record the tournament {}: {e}", t.name);
                 return;
             }
@@ -2059,6 +2139,12 @@ fn now_millis() -> u128 {
 /// A player signing in whose game was saved by a server that went away:
 /// rebuild it here (the lounge then puts them back at the table).
 async fn restore_live(server: &Arc<Server>, user: &User) {
+    // A server going away hands its games over and rebuilds none (a player
+    // who reconnects to it before the next server is up would otherwise get
+    // the game back here, to be handed over again and again).
+    if server.with(|l| l.is_draining()) {
+        return;
+    }
     let Ok(Some(live)) = server.store.live_match_of(user.id).await else { return };
     if server.with(|l| l.has_room(live.id as u64)) {
         return;
@@ -2117,6 +2203,36 @@ pub fn user_key(name: &str) -> String {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn address_headers_are_believed_from_proxies_only() {
+        use super::{parse_networks, trusted_proxy};
+        let ip = |s: &str| s.parse::<std::net::IpAddr>().unwrap();
+        // By default: private networks (where a host's proxy connects from).
+        for proxy in [
+            "10.1.2.3",
+            "172.16.0.9",
+            "192.168.1.1",
+            "127.0.0.1",
+            "100.70.0.1",
+            "::1",
+            "fd00::1",
+            "::ffff:10.0.0.5",
+        ] {
+            assert!(trusted_proxy(ip(proxy), None), "{proxy}");
+        }
+        for direct in ["8.8.8.8", "100.128.0.1", "2001:db8::1", "172.32.0.1"] {
+            assert!(!trusted_proxy(ip(direct), None), "{direct}");
+        }
+        // A list: only those networks; "*" is anyone.
+        let list = parse_networks("203.0.113.0/24, 2001:db8::/32, nonsense, 10.0.0.0/99");
+        assert_eq!(list.len(), 2);
+        assert!(trusted_proxy(ip("203.0.113.77"), Some(&list)));
+        assert!(trusted_proxy(ip("2001:db8:1::5"), Some(&list)));
+        assert!(!trusted_proxy(ip("10.0.0.1"), Some(&list)), "a list replaces the default");
+        assert!(trusted_proxy(ip("8.8.8.8"), Some(&parse_networks("*"))));
+        assert!(trusted_proxy(ip("::ffff:203.0.113.1"), Some(&list)), "a mapped address too");
+    }
+
     use super::*;
 
     /// The stand-in hash must be a real one: a hash that doesn't parse is

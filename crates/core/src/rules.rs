@@ -175,6 +175,9 @@ impl ShotReport {
     /// same shot went down for the opponent; a shot that loses the game, or
     /// that wins it, makes nothing else.
     ///
+    /// A break that made balls of both groups (from ruleset 5 it sets no
+    /// groups and passes the turn) makes nothing for the shooter.
+    ///
     /// The shooter's group is the one this shot gave them or, once the
     /// groups are set, the one of the ball they hit first (a shot without a
     /// foul hits one of the shooter's own first, or the 8 when they are on
@@ -187,6 +190,11 @@ impl ShotReport {
         if let Some(over) = self.game_over {
             let won = over.winner == self.shooter && over.reason == GameOverReason::PocketedEight;
             return made.filter(|b| won && *b == BallId::EIGHT).collect();
+        }
+        // A break that made balls and set no groups made both kinds (from
+        // ruleset 5 that passes the turn): neither is the shooter's.
+        if self.was_break && self.group_assigned.is_none() {
+            return Vec::new();
         }
         let own = self.group_assigned.or_else(|| self.first_contact.and_then(Group::of));
         made.filter(|b| own.is_some_and(|g| g.contains(*b))).collect()
@@ -2506,6 +2514,7 @@ mod tests {
                         assert!(!report.continues, "seed {seed}: {report:?}");
                         assert!(g.is_open_table() && report.group_assigned.is_none());
                         assert_eq!(g.current_player(), 1, "the opponent's turn");
+                        assert!(report.balls_made().is_empty(), "none made for the shooter");
                     } else {
                         old_mixed += 1;
                         assert!(report.continues && report.group_assigned.is_some());

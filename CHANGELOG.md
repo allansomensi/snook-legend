@@ -13,7 +13,8 @@ migrations 0016 (indexes for profiles), 0017 (the tour's finals it deals),
   games ×2 or ×3 (the day's cap too), and themed tournaments — a knockout
   or an arena organised by the server like the weekly cup, with a prize the
   house adds on top of the entry fees (70% to the champion, 30% to the
-  runner-up). Each with a start and an end; called off at any time.
+  runner-up; with four players or more, to players who won at the table).
+  Each with a start and an end; called off at any time.
 - **Players see them** on the main menu and in the lounge (what each does,
   when it starts or ends), and experience and coin notices say "(×2)"
   while a boost runs. A tournament's prizes show also without an entry fee.
@@ -70,9 +71,11 @@ migrations 0016 (indexes for profiles), 0017 (the tour's finals it deals),
   counts once.
 
 ### Accounts and payments
-- Changing the recovery e-mail takes the password (a stolen session could
-  move where the account is recovered from); the e-mail of the account's
-  own payment, offered after it, needs none.
+- Changing the recovery e-mail takes the password, always (a stolen
+  session could move where the account is recovered from), also for the
+  e-mail of the account's own payment, offered after it.
+- An account can't be deleted in the middle of a game, at a table, in the
+  queue or in a tournament (leave first).
 - Deleting an account ends its VIP subscription first (it went on billing
   an account that was gone); if Stripe can't be reached, the account stays
   and the player is asked to try again.
@@ -127,6 +130,41 @@ migrations 0016 (indexes for profiles), 0017 (the tour's finals it deals),
   is ignored (the game stopped on it); a game snapshot no game could be in
   is refused when it is read; the list of games on the local network can't
   be flooded.
+
+- **Address headers are believed from the proxies only**
+  (`SNOOK_LEGEND_TRUSTED_PROXIES`, by default private networks, where a
+  host's proxy connects from): a client connecting straight to the server
+  could send a new `x-forwarded-for` with every connection and escape every
+  limit per address.
+- Eight wrong passwords from anywhere locked an account for 15 minutes, so
+  anyone could keep its owner out. They are now counted per account and
+  address (8), per address (20) and per account from everywhere (60).
+- Moderators no longer see players' e-mails, payments and Store purchases
+  or where the staff sign in from, nor find an account by its e-mail;
+  nobody answers reports about themselves, and moderators act on players
+  only (reports about staff, administrators' notes). The staff can't
+  rename or delete an account in the middle of a game, a table, the queue
+  or a tournament.
+- A line break in the chat or a name turns into a space (the words were
+  glued together); a few more characters that show nothing are left out.
+
+### Server
+- The weekly cup and the staff's tournaments were never recorded (the
+  database refused a tournament without a host): they now count among the
+  tournaments played and won, and on the trophy shelf.
+- A weekly cup the staff called off opened again a minute later; it now
+  stays off until next week's.
+- A finished game whose saved copy couldn't be deleted for a moment came
+  back when a player signed in again; the delete (and recording a
+  tournament) is tried again. A server going away no longer rebuilds the
+  games it has just handed over, and rebuilt games stay off the lounge's TV
+  (whether they were private isn't saved).
+- A knockout match neither player showed up for no longer sends the first
+  of them through; a guest who leaves is taken off waiting lists too; a
+  themed tournament called off for want of players is named (not "the
+  cup"); events are read one reload at a time.
+- A break that made balls of both groups counted those of the ball hit
+  first as the breaker's (statistics, missions).
 
 ### Online
 - A dropped connection came back badly: the game's messages went out

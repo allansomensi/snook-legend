@@ -79,6 +79,10 @@ struct AccountForm {
     new_password: String,
     delete_password: String,
     confirm_delete: bool,
+    /// How far the dialog is scrolled up (when it is taller than the window).
+    scroll: f32,
+    /// The field last scrolled into view (only a new one is).
+    shown_field: Option<u64>,
 }
 
 /// Where the content starts under the header (from the panel's top).
@@ -1208,10 +1212,35 @@ impl ProfileScreen {
         // The height follows the text (it wraps differently per language):
         // the title, the four sections as laid out below, and Close.
         let lines = (email_note.len() + delete_note.len()) as f32 * 17.0;
-        let h = (70.0 + 144.0 + 89.0 + 171.0 + 64.0 + 88.0 + lines).min(sh - 20.0);
-        let r = Rect::new((sw - w) / 2.0, (sh - h) / 2.0, w, h);
+        let h = 70.0 + 144.0 + 89.0 + 171.0 + 64.0 + 88.0 + lines;
+        // Taller than the window (a large interface size): the dialog
+        // scrolls with the wheel, so every control stays in reach.
+        let room = sh - 20.0;
+        let max_scroll = (h - room).max(0.0);
+        let wheel = mouse_wheel().1;
+        if wheel != 0.0 {
+            form.scroll -= wheel.signum() * 48.0;
+        }
+        form.scroll = form.scroll.clamp(0.0, max_scroll);
+        let top = if max_scroll > 0.0 { 10.0 - form.scroll } else { (sh - h) / 2.0 };
+        let r = Rect::new((sw - w) / 2.0, top, w, h);
         ui.panel(r);
         ui.block(Rect::new(0.0, 0.0, sw, sh));
+        if max_scroll > 0.0 {
+            // A scroll bar at the window's edge: there is more.
+            let track = Rect::new(r.x + r.w + 4.0, 10.0, 5.0, room);
+            let track = if track.x + track.w > sw { Rect { x: sw - 7.0, ..track } } else { track };
+            rrect(track, 2.5, Color::new(1.0, 1.0, 1.0, 0.08));
+            let bar_h = (room * room / h).max(24.0);
+            let bar_y = track.y + (room - bar_h) * form.scroll / max_scroll;
+            rrect(
+                Rect::new(track.x, bar_y, 5.0, bar_h),
+                2.5,
+                Color::new(GOLD.r, GOLD.g, GOLD.b, 0.7),
+            );
+        }
+        // A field getting the keyboard (Tab moves it) is scrolled into view.
+        let mut focused: Option<(u64, f32)> = None;
         let x = r.x + PAD;
         crate::icons::draw(Icon::Person, vec2(x + 12.0, r.y + 24.0 + 13.0), 24.0, GOLD);
         ui.text(t("Your account"), x + 34.0, text_y(r.y + 24.0 + 13.0, 22.0), 22.0, GOLD, true);
@@ -1242,6 +1271,9 @@ impl ProfileScreen {
         let bw = both.iter().map(|l| ui.text_size(l, 15.0, true).x).fold(0.0, f32::max) + 32.0;
         let field = Rect::new(x, y, fw - bw - 10.0, 34.0);
         if left.is_some_and(|n| n > 0) {
+            if ui.focus == Some(75) {
+                focused = Some((75, y));
+            }
             ui.text_input(75, field, &mut form.new_name, 16);
             if form.new_name.is_empty() && ui.focus != Some(75) {
                 ui.text(t("New username"), x + 10.0, text_y(y + 17.0, 14.0), 14.0, MUTED, false);
@@ -1271,23 +1303,21 @@ impl ProfileScreen {
         }
         y += 6.0;
         let saved = online.account.as_ref().and_then(|a| a.recovery_email.clone());
+        if ui.focus == Some(71) {
+            focused = Some((71, y));
+        }
         ui.text_input(71, Rect::new(x, y, fw, 34.0), &mut form.email, 120);
         y += 38.0;
-        // The password, unless it is the e-mail of the account's own
-        // payment (the owner's already).
-        let wanted = form.email.trim().to_lowercase();
-        let offered = !wanted.is_empty()
-            && online
-                .account
-                .as_ref()
-                .and_then(|a| a.payment_email.as_deref())
-                .is_some_and(|p| p.trim().to_lowercase() == wanted);
+        // The password, in every case (even for the e-mail of a payment:
+        // whoever pays types that e-mail, and it may be someone else's).
+        if ui.focus == Some(76) {
+            focused = Some((76, y));
+        }
         ui.password_input(76, Rect::new(x, y, fw - 120.0, 34.0), &mut form.email_password, 72);
         if form.email_password.is_empty() && ui.focus != Some(76) {
             ui.text(t("Password"), x + 10.0, text_y(y + 17.0, 14.0), 14.0, MUTED, false);
         }
-        let ok = saved.as_deref() != Some(form.email.trim())
-            && (offered || !form.email_password.is_empty());
+        let ok = saved.as_deref() != Some(form.email.trim()) && !form.email_password.is_empty();
         if ui.button(Rect::new(x + fw - 110.0, y, 110.0, 34.0), t("Save"), ok) {
             online.send(ClientMsg::SetRecoveryEmail {
                 email: form.email.trim().to_string(),
@@ -1303,10 +1333,16 @@ impl ProfileScreen {
         let label_w = 120.0;
         ui.text(t("Current"), x, text_y(y + 17.0, 13.0), 13.0, MUTED, true);
         let field = Rect::new(x + label_w, y, fw - label_w, 34.0);
+        if ui.focus == Some(72) {
+            focused = Some((72, y));
+        }
         ui.password_input(72, field, &mut form.old_password, 72);
         y += 38.0;
         ui.text(t("New"), x, text_y(y + 17.0, 13.0), 13.0, MUTED, true);
         let field = Rect::new(x + label_w, y, fw - label_w, 34.0);
+        if ui.focus == Some(73) {
+            focused = Some((73, y));
+        }
         ui.password_input(73, field, &mut form.new_password, 72);
         y += 38.0 + 6.0;
         let ok =
@@ -1335,6 +1371,9 @@ impl ProfileScreen {
         let both = [t("Delete account"), t("Click again to delete")];
         let bw = both.iter().map(|l| ui.text_size(l, 15.0, true).x).fold(0.0, f32::max) + 32.0;
         let field = Rect::new(x, y, fw - bw - 10.0, 34.0);
+        if ui.focus == Some(74) {
+            focused = Some((74, y));
+        }
         ui.password_input(74, field, &mut form.delete_password, 72);
         if form.delete_password.is_empty() && ui.focus != Some(74) {
             ui.text(t("Password"), x + 10.0, text_y(y + 17.0, 14.0), 14.0, MUTED, false);
@@ -1347,6 +1386,16 @@ impl ProfileScreen {
                 form.confirm_delete = false;
             } else {
                 form.confirm_delete = true;
+            }
+        }
+        if focused.map(|(id, _)| id) != form.shown_field {
+            form.shown_field = focused.map(|(id, _)| id);
+            if let Some((_, fy)) = focused {
+                if fy + 34.0 > sh - 10.0 {
+                    form.scroll += fy + 34.0 - (sh - 10.0);
+                } else if fy < 10.0 {
+                    form.scroll -= 10.0 - fy;
+                }
             }
         }
         if ui.button(Rect::new(x, y + 34.0 + 24.0, 140.0, 40.0), t("Close"), true) || ui.escape() {

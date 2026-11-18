@@ -70,6 +70,7 @@ As outras variáveis já vêm no `render.yaml`:
 | Variável | Valor | Para quê |
 |---|---|---|
 | `SNOOK_LEGEND_CLIENT_IP_HEADER` | `cf-connecting-ip,true-client-ip,x-forwarded-for` | O Render fica atrás da Cloudflare: o servidor lê o IP real do jogador desses cabeçalhos. Sem isso todos parecem vir do mesmo IP e os limites anti-abuso (contas por IP, conexões por IP) bloqueariam gente inocente. O painel avisa se isso acontecer. |
+| `SNOOK_LEGEND_TRUSTED_PROXIES` | (não precisa) | De quais proxies o servidor acredita nesses cabeçalhos. Sem a variável: só de redes privadas, que é de onde o proxy do Render conecta. Uma conexão vinda de outro lugar conta pelo próprio IP, diga o cabeçalho o que disser (ninguém escapa dos limites por IP inventando um cabeçalho). Só defina se o seu proxy vier de um IP público, por exemplo `203.0.113.0/24`. |
 | `SNOOK_LEGEND_DB_POOL` | `5` | Conexões com o banco (o Neon grátis aceita bem). |
 | `SNOOK_LEGEND_SHOT_CLOCK` | `30` | Segundos por tacada nas partidas online. |
 | `SNOOK_LEGEND_MOTD` | (opcional) | Mensagem de boas-vindas do salão. |

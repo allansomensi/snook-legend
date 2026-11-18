@@ -201,6 +201,23 @@ fn draw_status(ui: &Ui, status: &str, x: f32, width: f32) {
     }
 }
 
+/// A short status centred at `cx` from `y`: wrapped to two lines at most
+/// in `width`, the second cut to fit (a long translation stays inside its
+/// panel).
+fn status_lines(ui: &Ui, text: &str, cx: f32, y: f32, width: f32, color: Color) {
+    let mut lines = ui.wrap(text, width, 13.0);
+    if lines.len() > 2 {
+        let rest = lines[1..].join(" ");
+        lines.truncate(1);
+        lines.push(ui.ellipsize(&rest, width, 13.0));
+    }
+    // One line where it always was; two start a little higher.
+    let top = if lines.len() > 1 { y - 7.0 } else { y };
+    for (k, line) in lines.iter().enumerate() {
+        ui.text_centered(line, cx, top + k as f32 * 16.0, 13.0, color, false);
+    }
+}
+
 fn status_line(m: &Match) -> Option<String> {
     if let Some(waiting) = crate::correspondence::status(m) {
         return Some(waiting);
@@ -512,13 +529,18 @@ impl Hud {
             ui.text_centered(&line, sw / 2.0, r.y + 108.0, 20.0, CREAM, true);
             let (status, color) = match &run.result {
                 None if run.sent => (t("Sending to the server…").to_string(), MUTED),
+                // Started signed in, over while signed out: sent once back.
+                None if run.session != 0 => {
+                    (t("Will be sent when you're back online.").to_string(), MUTED)
+                }
                 None => {
                     (t("Not ranked: sessions count when started signed in.").to_string(), MUTED)
                 }
                 Some(Ok(_)) => (t("Counted on the drill's table.").to_string(), CREAM),
                 Some(Err(_)) => (t("The session could not be counted.").to_string(), ALERT),
             };
-            ui.text_centered(&status, sw / 2.0, r.y + 140.0, 13.0, color, false);
+            // Two lines at most between the score and the buttons.
+            status_lines(ui, &status, sw / 2.0, r.y + 140.0, w - 40.0, color);
             let bw = ((w - 60.0) / 2.0).min(200.0);
             let back = Rect::new(sw / 2.0 - bw - 6.0, r.y + 176.0, bw, 40.0);
             let again = Rect::new(sw / 2.0 + 6.0, r.y + 176.0, bw, 40.0);
@@ -542,7 +564,9 @@ impl Hud {
             let made = tw("{n} of {total} balls", &[("n", &run.made), ("total", &run.balls)]);
             ui.text_centered(&made, sw / 2.0, r.y + 60.0, 22.0, CREAM, true);
             let (line, color) = match &run.result {
-                None => (t("Sending your attempt to the server…").to_string(), MUTED),
+                None if run.sent => (t("Sending your attempt to the server…").to_string(), MUTED),
+                // Over while signed out: sent once back.
+                None => (t("Will be sent when you're back online.").to_string(), MUTED),
                 Some((Ok(o), coins)) if *coins > 0 => (
                     tw("Counted: {n} balls · +{coins} coins", &[("n", &o.balls), ("coins", coins)]),
                     GOLD,
@@ -550,14 +574,17 @@ impl Hud {
                 Some((Ok(o), _)) => (tw("Counted: {n} balls", &[("n", &o.balls)]), CREAM),
                 Some((Err(_), _)) => (t("The attempt could not be counted.").to_string(), ALERT),
             };
-            if run.result.is_none() {
+            let spin = run.result.is_none() && run.sent;
+            let room = w - 40.0 - if spin { 40.0 } else { 0.0 };
+            let (line, size) = ui.fitted(&line, 14.0, room, false);
+            if spin {
                 crate::ui::spinner(
-                    vec2(sw / 2.0 - ui.text_size(&line, 14.0, false).x / 2.0 - 16.0, r.y + 108.0),
+                    vec2(sw / 2.0 - ui.text_size(&line, size, false).x / 2.0 - 16.0, r.y + 108.0),
                     7.0,
                     GOLD,
                 );
             }
-            ui.text_centered(&line, sw / 2.0, r.y + 100.0, 14.0, color, false);
+            ui.text_centered(&line, sw / 2.0, r.y + 100.0, size, color, false);
             let b = Rect::new(sw / 2.0 - 110.0, r.y + 160.0, 220.0, 40.0);
             if ui.primary_button(b, t("See today's table")) {
                 action = HudAction::MainMenu;

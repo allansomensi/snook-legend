@@ -1736,7 +1736,7 @@ The line the break is played from, always on the table (off: only while placing 
 You were muted for {n} minutes: {r}	Você foi silenciado por {n} minutos: {r}
 Your account was suspended for {n} hours: {r}	Sua conta foi suspensa por {n} horas: {r}
 The server restarts in {minutes} min for an update. Games in progress go on; new games start right after.	O servidor reinicia em {minutes} min para uma atualização. As partidas em andamento continuam; as novas começam logo depois.
-The cup was called off: not enough players signed up.	A copa foi cancelada: não houve inscritos suficientes.
+The {cup} was called off: not enough players signed up.	A {cup} foi cancelada: não houve inscritos suficientes.
 The {cup} is open for sign-up: it starts soon in Tournaments.	As inscrições para a {cup} estão abertas: ela começa em breve, em Torneios.
 {display} won the tournament “{name}”!	{display} venceu o torneio “{name}”!
 Sunday Cup	Copa de Domingo
@@ -1797,3 +1797,9 @@ Coins from games ×{n}	Moedas das partidas ×{n}
 Themed tournament	Torneio especial
 Event	Evento
 Events	Eventos
+Warning from the staff	Aviso da equipe
+Esc to cancel	Esc para cancelar
+Will be sent when you're back online.	Será enviado quando você voltar a ficar online.
+Your strokes will be sent when you're back online.	Suas tacadas serão enviadas quando você voltar a ficar online.
+The final you won was dealt to {name}: sign in as {name} to claim the reward.	A final que você venceu foi preparada para {name}: entre como {name} para receber o prêmio.
+Type your password to confirm it's you.	Digite sua senha para confirmar que é você.

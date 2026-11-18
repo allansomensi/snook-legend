@@ -164,6 +164,23 @@ async fn log(server: &Server, s: &Staff, action: &str, target: &str, details: &s
     tracing::info!(staff = %s.user.username, action, target, details, "staff action");
 }
 
+/// A player as moderators see them: without their e-mail.
+fn private_for(mut v: Value, admin: bool) -> Value {
+    if !admin {
+        v["recovery_email"] = Value::Null;
+    }
+    v
+}
+
+/// An audit entry as moderators see it: without the address a staff
+/// member signed in from.
+fn private_audit(mut e: crate::store::AuditRow, admin: bool) -> crate::store::AuditRow {
+    if !admin && e.action == "login" {
+        e.details.clear();
+    }
+    e
+}
+
 fn user_json(u: &User, online: bool) -> Value {
     json!({
         "id": u.id,
@@ -472,9 +489,15 @@ async fn users(
     Query(q): Query<UsersQuery>,
 ) -> ApiResult {
     use crate::store::{UserFilter, UserSearch, UserSort};
-    staff(&server, &headers).await?;
+    let s = staff(&server, &headers).await?;
+    let admin = s.user.role == Role::Admin;
     let per_page = USERS_PER_PAGE;
     let page = q.page.min(10_000);
+    // A whole e-mail finds its account, for administrators only (names
+    // have no "@"): a moderator can't learn whose an address is.
+    if !admin && q.q.contains('@') {
+        return Ok(Json(json!({ "users": [], "total": 0, "page": page, "per_page": per_page })));
+    }
     let search = UserSearch {
         q: q.q.trim().chars().take(64).collect(),
         filter: UserFilter::from_code(&q.filter),
@@ -504,8 +527,9 @@ async fn users(
     } else {
         server.store.search_users(&search, page * per_page, per_page).await?
     };
-    let rows: Vec<Value> =
-        server.with(|l| list.iter().map(|u| user_json(u, l.is_online(&u.username))).collect());
+    let rows: Vec<Value> = server.with(|l| {
+        list.iter().map(|u| private_for(user_json(u, l.is_online(&u.username)), admin)).collect()
+    });
     Ok(Json(json!({ "users": rows, "total": total, "page": page, "per_page": per_page })))
 }
 
@@ -522,7 +546,8 @@ async fn user_detail(
     headers: HeaderMap,
     Path(name): Path<String>,
 ) -> ApiResult {
-    staff(&server, &headers).await?;
+    let s = staff(&server, &headers).await?;
+    let admin = s.user.role == Role::Admin;
     let u = find(&server, &name).await?;
     let (career, recovery) =
         tokio::join!(server.store.career(u.id), server.store.payment_email(u.id));
@@ -554,20 +579,24 @@ async fn user_detail(
             })
         })
         .collect();
+    // E-mails, payments and sign-in addresses are for administrators.
+    let moderation: Vec<crate::store::AuditRow> =
+        moderation.into_iter().map(|e| private_audit(e, admin)).collect();
     Ok(Json(json!({
-        "user": user_json(&u, online),
+        "user": private_for(user_json(&u, online), admin),
         "history": history,
         "reports": with_games(&server, reports?).await,
         "achievements": achievements?,
         "wallet": wallet?,
         "ledger": ledger?,
-        "payments": payments?,
-        "msstore": msstore,
+        "payments": if admin { json!(payments?) } else { json!([]) },
+        "msstore": if admin { json!(msstore) } else { json!([]) },
         "career": career?,
-        "payment_email": recovery?,
+        "payment_email": if admin { json!(recovery?) } else { Value::Null },
         "notes": notes,
         "moderation": moderation,
         "presence": presence,
+        "private_hidden": !admin,
     })))
 }
 
@@ -786,6 +815,13 @@ async fn user_action(
             if server.is_reserved_name(name) && !name.eq_ignore_ascii_case(&target.username) {
                 return Err(err(StatusCode::CONFLICT, "That username is taken."));
             }
+            // Whoever registered the name freed could take their seat.
+            if server.with(|l| l.is_busy(&target.username)) {
+                return Err(err(
+                    StatusCode::CONFLICT,
+                    "They are in a game, at a table, in the queue or in a tournament: rename them once they are out.",
+                ));
+            }
             match server.store.staff_rename(target.id, name).await? {
                 crate::store::Rename::Done => {}
                 crate::store::Rename::Taken => {
@@ -888,6 +924,19 @@ async fn resolve_report(
         _ => return Err(err(StatusCode::BAD_REQUEST, "Unknown status.")),
     };
     let note = clean_text(&body.note, 300);
+    let report = server
+        .store
+        .report(id)
+        .await?
+        .ok_or_else(|| err(StatusCode::NOT_FOUND, "No such report."))?;
+    if report.target_id == s.user.id {
+        return Err(err(StatusCode::FORBIDDEN, "Another staff member answers reports about you."));
+    }
+    if let Some(target) = server.store.user_by_id(report.target_id).await?
+        && !crate::social::may_moderate(s.user.role, target.role)
+    {
+        return Err(err(StatusCode::FORBIDDEN, "Only administrators can act on staff."));
+    }
     if !server.store.resolve_report(id, s.user.id, status, &note, now()).await? {
         return Err(err(StatusCode::NOT_FOUND, "No such report."));
     }
@@ -916,7 +965,8 @@ async fn audit(
     headers: HeaderMap,
     Query(q): Query<AuditQuery>,
 ) -> ApiResult {
-    staff(&server, &headers).await?;
+    let s = staff(&server, &headers).await?;
+    let admin = s.user.role == Role::Admin;
     let some = |v: &str| Some(v.trim().to_string()).filter(|v| !v.is_empty());
     let search = crate::store::AuditSearch {
         q: q.q.trim().chars().take(64).collect(),
@@ -927,6 +977,8 @@ async fn audit(
     let entries = server.store.audit_search(&search, AUDIT_PAGE).await?;
     let next =
         (entries.len() == AUDIT_PAGE as usize).then(|| entries.last().map(|e| e.id)).flatten();
+    let entries: Vec<crate::store::AuditRow> =
+        entries.into_iter().map(|e| private_audit(e, admin)).collect();
     Ok(Json(json!({ "entries": entries, "next": next })))
 }
 
@@ -993,12 +1045,14 @@ async fn cancel_tournament(
 
 /// Coins, VIP, the latest payments and the shop's catalogue.
 async fn economy(State(server): State<Arc<Server>>, headers: HeaderMap) -> ApiResult {
-    staff(&server, &headers).await?;
+    let staff_role = staff(&server, &headers).await?.user.role;
     let t = now();
     let (economy, payments) =
         tokio::join!(server.store.economy(t), server.store.recent_payments(100));
+    let admin = staff_role == Role::Admin;
     let payments: Vec<Value> = payments?
         .into_iter()
+        .filter(|_| admin)
         .map(|(p, payer)| {
             json!({
                 "id": p.id, "payer": payer, "kind": p.kind, "coins": p.coins,
@@ -1028,6 +1082,7 @@ async fn economy(State(server): State<Arc<Server>>, headers: HeaderMap) -> ApiRe
     Ok(Json(json!({
         "economy": economy?,
         "payments": payments,
+        "private_hidden": !admin,
         "catalog": catalog,
         "stripe": server.stripe.is_some(),
         "msstore": server.msstore.is_some(),
@@ -1087,6 +1142,23 @@ async fn system(State(server): State<Arc<Server>>, headers: HeaderMap) -> ApiRes
         },
         "now": now(),
     })))
+}
+
+/// A time as people read it, in UTC ("2026-11-21 20:00 UTC").
+fn utc(t: i64) -> String {
+    // Days since 1970-01-01 to a civil date (Howard Hinnant's algorithm).
+    let days = t.div_euclid(86_400);
+    let secs = t.rem_euclid(86_400);
+    let z = days + 719_468;
+    let era = z.div_euclid(146_097);
+    let doe = z - era * 146_097;
+    let yoe = (doe - doe / 1460 + doe / 36_524 - doe / 146_096) / 365;
+    let doy = doe - (365 * yoe + yoe / 4 - yoe / 100);
+    let mp = (5 * doy + 2) / 153;
+    let day = doy - (153 * mp + 2) / 5 + 1;
+    let month = if mp < 10 { mp + 3 } else { mp - 9 };
+    let year = yoe + era * 400 + i64::from(month <= 2);
+    format!("{year}-{month:02}-{day:02} {:02}:{:02} UTC", secs / 3600, secs % 3600 / 60)
 }
 
 /// The memory the server holds (Linux; none elsewhere).
@@ -1211,10 +1283,11 @@ async fn create_event(
         if starts_at < t + 60 {
             return Err(bad("A tournament must start at least a minute from now."));
         }
-        let minutes = ((ends_at - starts_at) / 60) as u32;
+        let length = ends_at - starts_at;
         let format = match body.format.as_str() {
             "arena" => {
-                if !crate::lounge::ARENA_MINUTES.contains(&minutes) {
+                let range = crate::lounge::ARENA_MINUTES;
+                if !(*range.start() as i64 * 60..=*range.end() as i64 * 60).contains(&length) {
                     return Err(bad("An arena lasts from 10 minutes to 3 hours."));
                 }
                 "arena"
@@ -1223,7 +1296,7 @@ async fn create_event(
                 if !crate::lounge::KNOCKOUT_SIZES.contains(&body.size) {
                     return Err(bad("A knockout has 4, 8 or 16 seats."));
                 }
-                if minutes > 24 * 60 {
+                if length > 24 * 3600 {
                     return Err(bad("A knockout ends within a day of its start."));
                 }
                 "knockout"
@@ -1263,7 +1336,8 @@ async fn create_event(
     } else {
         format!("{format} tournament")
     };
-    log(&server, &s, "event", &title, &format!("{what}, {starts_at}–{ends_at}")).await;
+    log(&server, &s, "event", &title, &format!("{what}, {} – {}", utc(starts_at), utc(ends_at)))
+        .await;
     Ok(Json(json!({ "ok": true, "id": id })))
 }
 
@@ -1474,6 +1548,17 @@ async fn unpin_note(
     Path(id): Path<i64>,
 ) -> ApiResult {
     let s = staff(&server, &headers).await?;
+    if s.user.role != Role::Admin {
+        let notes = server.store.board_notes(now()).await?;
+        let author = notes.iter().find(|n| n.id == id).map(|n| n.author.clone());
+        if let Some(author) = author
+            && let Some(u) = server.store.user_by_name(&author).await?
+            && u.role == Role::Admin
+            && u.id != s.user.id
+        {
+            return Err(err(StatusCode::FORBIDDEN, "Only administrators can act on staff."));
+        }
+    }
     if !server.store.remove_board_note(id).await? {
         return Err(err(StatusCode::NOT_FOUND, "No such note."));
     }
@@ -1509,6 +1594,13 @@ async fn remove_seek(
 mod tests {
     use super::flag_outliers;
     use crate::store::AimRow;
+
+    #[test]
+    fn times_read_as_dates() {
+        assert_eq!(super::utc(0), "1970-01-01 00:00 UTC");
+        assert_eq!(super::utc(1_795_291_200), "2026-11-21 20:00 UTC");
+        assert_eq!(super::utc(951_782_400), "2000-02-29 00:00 UTC");
+    }
 
     #[test]
     fn only_far_outliers_are_flagged() {

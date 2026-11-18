@@ -769,12 +769,19 @@ impl Versus {
                 *y += 17.0;
             }
         };
-        let granted =
-            claimer.state == Claim::Granted || online.has_achievement(ladder::ACHIEVEMENT);
+        // Signed in, the account's own achievements say whether it has the
+        // reward; signed out, what this computer last heard (any account).
+        let account = online.account();
+        let granted = match account {
+            Some(_) => {
+                claimer.state == Claim::Granted || online.has_achievement(ladder::ACHIEVEMENT)
+            }
+            None => !online.signed_in() && progress.claimed && progress.pending.is_none(),
+        };
         let button_w = 130.0f32.min(w);
         let button = |y: f32| Rect::new(x, (y + 2.0).min(r.y + r.h - 34.0), button_w, 30.0);
         let _ = line_room;
-        if granted || (progress.claimed && progress.pending.is_none()) {
+        if granted {
             crate::icons::draw(Icon::Check, vec2(x + 7.0, y + 8.0), 14.0, GREEN_TEXT);
             let text = t("Yours: find it in the shop, under Cues.");
             let l = ui.ellipsize(text, w - 20.0, 13.0);
@@ -800,6 +807,19 @@ impl Versus {
             if ui.button(button(y), t("Sign in"), true) {
                 action = Some(VersusAction::SignIn);
             }
+            return action;
+        }
+        // Only the account the final was dealt to can claim with it.
+        if account.is_none_or(|a| progress.pending_for(a).is_none()) {
+            let text = if progress.pending_account.is_empty() {
+                t("You won the tour! Sign in to claim your reward.").to_string()
+            } else {
+                tw(
+                    "The final you won was dealt to {name}: sign in as {name} to claim the reward.",
+                    &[("name", &progress.pending_account)],
+                )
+            };
+            say(ui, &text, CREAM, &mut y);
             return action;
         }
         match claimer.state {

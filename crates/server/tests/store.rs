@@ -340,7 +340,7 @@ async fn exercise(store: Store) {
     store
         .record_tournament(&TournamentRecord {
             name: "Cup".into(),
-            host: a.id,
+            host: Some(a.id),
             size: 4,
             rated: false,
             players: vec![a.id, b.id],
@@ -351,8 +351,23 @@ async fn exercise(store: Store) {
         })
         .await
         .unwrap();
+    // The server's own (the weekly cup, an event) has no host.
+    store
+        .record_tournament(&TournamentRecord {
+            name: "Weekly Cup".into(),
+            host: None,
+            size: 4,
+            rated: true,
+            players: vec![a.id, b.id],
+            winner: Some(b.id),
+            finished_at: t,
+            entry_fee: 0,
+            prizes: String::new(),
+        })
+        .await
+        .unwrap();
     let ua = store.user_by_id(a.id).await.unwrap().unwrap();
-    assert_eq!((ua.tournaments_played, ua.tournaments_won), (1, 1));
+    assert_eq!((ua.tournaments_played, ua.tournaments_won), (2, 1));
     // The daily challenge.
     let d = 20_000;
     assert_eq!(store.daily_seed(d, 42).await.unwrap(), 42);
@@ -412,7 +427,10 @@ async fn exercise(store: Store) {
 
     // The trophy shelf: the tournaments won, newest first.
     assert_eq!(store.tournaments_won(a.id, 10).await.unwrap(), vec![("Cup".to_string(), 2, t)]);
-    assert!(store.tournaments_won(b.id, 10).await.unwrap().is_empty());
+    assert_eq!(
+        store.tournaments_won(b.id, 10).await.unwrap(),
+        vec![("Weekly Cup".to_string(), 2, t)]
+    );
     store.set_country(a.id, "PT").await.unwrap();
     assert_eq!(store.user_by_id(a.id).await.unwrap().unwrap().country, "PT");
 

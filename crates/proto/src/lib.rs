@@ -246,7 +246,9 @@ pub fn clean_text(text: &str, max: usize) -> String {
     let mut out = String::new();
     let mut last_space = true;
     for c in text.chars() {
-        if c.is_control() || is_invisible(c) {
+        // A line break or a tab is a space ("hello\nthere" stays two words);
+        // other control characters go.
+        if (c.is_control() && !c.is_whitespace()) || is_invisible(c) {
             continue;
         }
         let space = c.is_whitespace();
@@ -273,6 +275,8 @@ fn is_invisible(c: char) -> bool {
         | '\u{061C}' | '\u{180B}'..='\u{180D}'
         // Hangul fillers and the braille blank.
         | '\u{115F}' | '\u{1160}' | '\u{3164}' | '\u{FFA0}' | '\u{2800}'
+        // Khmer's inherent vowels, shorthand format controls.
+        | '\u{17B4}' | '\u{17B5}' | '\u{1BCA0}'..='\u{1BCA3}'
         // Variation selectors, interlinear annotations, musical formatting.
         | '\u{FE00}'..='\u{FE0F}' | '\u{FFF9}'..='\u{FFFB}' | '\u{1D173}'..='\u{1D17A}'
         // Tags and the supplementary variation selectors.
@@ -1184,8 +1188,7 @@ pub enum ClientMsg {
     SetRecoveryEmail {
         email: String,
         /// The account's password: a session alone (a stolen one) can't
-        /// change where the account is recovered from. Not needed for the
-        /// e-mail of the account's own payment (the offer after one).
+        /// change where the account is recovered from.
         #[serde(default)]
         password: String,
     },
@@ -1916,6 +1919,8 @@ mod tests {
         // line or a name made of them is empty, not invisible.
         assert_eq!(clean_chat("\u{3164}\u{3164}\u{115F}\u{2800}\u{FFA0}"), "");
         assert_eq!(clean_chat("o\u{E0041}\u{061C}k\u{FE0F}"), "ok");
+        assert_eq!(clean_chat("good\ngame\r\n\tall"), "good game all");
+        assert_eq!(clean_chat("\u{17B4}\u{17B5}\u{1BCA0}\u{1BCA3}"), "");
         assert_eq!(clean_text("Copa da Ana", MAX_NAME_LEN), "Copa da Ana");
     }
 

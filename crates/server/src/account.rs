@@ -135,16 +135,13 @@ pub async fn handle(
         }
         ClientMsg::SetRecoveryEmail { email, password } => {
             let email = email.trim().to_lowercase();
-            // The e-mail of the account's own payment (offered after it) is
-            // the owner's already. Anything else takes the password, not
-            // the session alone: a stolen session must not set (or remove)
-            // where the account is recovered from.
-            let payment = server.store.payment_email(me.id).await.ok().flatten();
-            let paid_with = payment.as_deref().map(|e| e.trim().to_lowercase());
-            let offered = !email.is_empty() && paid_with.as_deref() == Some(email.as_str());
-            if !offered && !password_ok(server, &fresh, &password, ip, &error).await {
+            // The password, not the session alone: a stolen session must
+            // not set (or remove) where the account is recovered from. Not
+            // even to the e-mail of a payment: whoever pays types that one.
+            if !password_ok(server, &fresh, &password, ip, &error).await {
                 return false;
             }
+            let payment = server.store.payment_email(me.id).await.ok().flatten();
             let email = (!email.is_empty()).then_some(email);
             if email.as_deref().is_some_and(|e| !valid_email(e)) {
                 error("That doesn't look like an e-mail address.");
@@ -167,6 +164,14 @@ pub async fn handle(
         }
         ClientMsg::DeleteAccount { password } => {
             if !password_ok(server, &fresh, &password, ip, &error).await {
+                return false;
+            }
+            // Not in the middle of a game or a tournament: the name is freed
+            // at once, and whoever took it could take the seat.
+            if server.with(|l| l.is_busy(&fresh.username)) {
+                error(
+                    "Finish your game, and leave your table, the queue or your tournament first.",
+                );
                 return false;
             }
             // A VIP subscription would go on billing an account that is

@@ -29,6 +29,8 @@ const PRIZE_SHARES: [u32; 2] = [70, 20];
 pub const MAX_ENTRY_FEE: u32 = 1000;
 /// The champion's share of a prize the house adds (the runner-up has the rest).
 const HOUSE_PRIZE_SHARE: u32 = 70;
+/// Players a tournament needs for the house's prize to be paid.
+const HOUSE_PRIZE_MIN_PLAYERS: usize = 4;
 /// The most coins the house may add to a tournament's prizes.
 pub const MAX_HOUSE_PRIZE: u32 = 100_000;
 /// Seats a knockout may have.
@@ -169,6 +171,9 @@ pub(super) struct Tournament {
     /// Coins the house adds to the prizes (a themed tournament of the
     /// staff's), on top of the entry fees.
     house_prize: u32,
+    /// Knockout games each player won at the table (not by walkover):
+    /// the house's prize is for games played.
+    played_wins: HashMap<String, u32>,
     /// Organised by the server: starts by itself at this time.
     starts_at: Option<i64>,
     /// Arena: closes at this time (Unix seconds).
@@ -184,6 +189,11 @@ pub(super) struct Tournament {
 }
 
 impl Tournament {
+    /// Whether `k` plays in it or waits for a seat.
+    pub(super) fn has_entered(&self, k: &str) -> bool {
+        self.players.iter().chain(&self.waitlist).any(|p| p == k)
+    }
+
     /// The fees of the players in it (not of those still waiting for a
     /// seat: theirs are given back).
     fn pot(&self) -> u32 {
@@ -191,12 +201,33 @@ impl Tournament {
         self.entry_fee * seated as u32
     }
 
+    /// The prizes as announced: the fees' and the house's.
     fn prizes(&self) -> [u32; 2] {
+        let (fees, house) = (self.fee_prizes(), self.house_prizes());
+        [fees[0] + house[0], fees[1] + house[1]]
+    }
+
+    fn fee_prizes(&self) -> [u32; 2] {
         let pot = self.pot();
-        let fees = PRIZE_SHARES.map(|share| pot * share / 100);
-        // The house's prize is paid out whole: 70% and 30%.
-        let house = self.house_prize * HOUSE_PRIZE_SHARE / 100;
-        [fees[0] + house, fees[1] + self.house_prize - house]
+        PRIZE_SHARES.map(|share| pot * share / 100)
+    }
+
+    /// The house's prize, paid out whole: 70% and 30%.
+    fn house_prizes(&self) -> [u32; 2] {
+        let champion = self.house_prize * HOUSE_PRIZE_SHARE / 100;
+        [champion, self.house_prize - champion]
+    }
+
+    /// `k` earned their share of the house's prize: the tournament had a
+    /// real field, and they won a game at the table (a knockout) or scored
+    /// in games played (an arena). Two accounts of one person meeting by
+    /// walkover earn nothing from the house.
+    fn earns_house_prize(&self, k: &str) -> bool {
+        self.players.len() >= HOUSE_PRIZE_MIN_PLAYERS
+            && match self.format {
+                TournamentFormat::Arena => self.arena.get(k).is_some_and(|s| s.points > 0),
+                TournamentFormat::Knockout => self.played_wins.get(k).is_some_and(|n| *n > 0),
+            }
     }
 
     /// Arena standings, best first.
@@ -421,6 +452,7 @@ impl Lounge {
             paid: paid.map(|r| HashMap::from([(k.to_string(), r)])).unwrap_or_default(),
             waitlist: Vec::new(),
             house_prize: 0,
+            played_wins: HashMap::new(),
             starts_at: None,
             ends_at: None,
             arena: HashMap::new(),
@@ -607,6 +639,10 @@ impl Lounge {
         }
         let name = t.name.clone();
         let everyone: Vec<String> = t.players.iter().chain(&t.waitlist).cloned().collect();
+        let cup = self.rules.cup.as_ref().is_some_and(|c| c.name == t.name);
+        if t.host.is_empty() && cup {
+            self.cup_called_off = t.starts_at;
+        }
         self.cancel_tournament(id);
         for k in everyone {
             self.notify(
@@ -877,6 +913,9 @@ impl Lounge {
         } else if let Some(b) = t.bracket.as_mut() {
             let slot = b.rounds[round][index].players.clone();
             let w = &keys[winner];
+            if scores {
+                *t.played_wins.entry(w.clone()).or_default() += 1;
+            }
             let seat = if slot[1].as_deref() == Some(w.as_str()) { 1 } else { 0 };
             b.set_winner(round, index, seat);
         }
@@ -956,9 +995,11 @@ impl Lounge {
                     gone[seat] = since.elapsed() > no_show;
                 }
             }
+            // Neither showed up: neither goes on (as when both withdrew).
             match gone {
                 [true, false] => walkovers.push((r, i, 1)),
-                [false, true] | [true, true] => walkovers.push((r, i, 0)),
+                [false, true] => walkovers.push((r, i, 0)),
+                [true, true] => closed.push((r, i)),
                 _ => {}
             }
         }
@@ -1134,10 +1175,11 @@ impl Lounge {
         t.state = TournamentState::Finished;
         t.finished_at = Some(Instant::now());
         t.champion = Some(champion.clone());
-        let prizes = t.prizes();
+        let (fees, house) = (t.fee_prizes(), t.house_prizes());
         let mut paid_out = Vec::new();
-        for (k, coins) in [Some(champion.clone()), runner_up].into_iter().zip(prizes) {
+        for (place, k) in [Some(champion.clone()), runner_up].into_iter().enumerate() {
             let Some(k) = k else { continue };
+            let coins = fees[place] + if t.earns_house_prize(&k) { house[place] } else { 0 };
             let Some((user, guest)) = t.profiles.get(&k) else { continue };
             if coins == 0 || *guest {
                 continue;
@@ -1153,7 +1195,7 @@ impl Lounge {
             .collect();
         let record = TournamentRecord {
             name: t.name.clone(),
-            host: t.profiles.get(&t.host).map(|(u, _)| u.id).unwrap_or(0),
+            host: t.profiles.get(&t.host).filter(|(_, g)| !g).map(|(u, _)| u.id),
             size: t.size,
             rated: t.rated,
             winner: t.profiles.get(&champion).filter(|(_, g)| !g).map(|(u, _)| u.id),
@@ -1214,8 +1256,12 @@ impl Lounge {
             if self.tournaments[&id].players.len() >= 2 {
                 self.begin_tournament(id);
             } else {
+                // The weekly cup, or one of the staff's events.
+                let name = self.tournaments[&id].name.clone();
                 self.cancel_tournament(id);
-                self.announce_text("The cup was called off: not enough players signed up.");
+                self.announce_text(&format!(
+                    "The {name} was called off: not enough players signed up."
+                ));
             }
         }
         // Tournaments still taking names whose host went away and stayed away.
@@ -1253,7 +1299,7 @@ impl Lounge {
     /// The staff's themed tournaments (see `crate::events`): what the server
     /// will organise. One called off (or gone) before it started is called
     /// off here too, every fee back.
-    pub fn set_scheduled_tournaments(&mut self, list: Vec<ScheduledTournament>) {
+    pub fn set_scheduled_tournaments(&mut self, list: Vec<ScheduledTournament>, cancelled: &[i64]) {
         let gone: Vec<(i64, u64)> = self
             .event_tournaments
             .iter()
@@ -1262,8 +1308,17 @@ impl Lounge {
             .collect();
         for (event, id) in gone {
             self.event_tournaments.remove(&event);
-            if self.tournaments.get(&id).is_some_and(|t| t.state == TournamentState::Registering) {
-                let _ = self.staff_cancel_tournament(id);
+            match self.tournaments.get_mut(&id) {
+                Some(t) if t.state == TournamentState::Registering => {
+                    let _ = self.staff_cancel_tournament(id);
+                }
+                // Started: it plays on, without the house's prize (only
+                // when the event was called off; one simply over keeps it).
+                Some(t) if t.state == TournamentState::Running && cancelled.contains(&event) => {
+                    t.house_prize = 0;
+                    self.broadcast_tournament(id);
+                }
+                _ => {}
             }
         }
         self.scheduled_tournaments = list;
@@ -1306,6 +1361,7 @@ impl Lounge {
                     paid: HashMap::new(),
                     waitlist: Vec::new(),
                     house_prize: s.house_prize,
+                    played_wins: HashMap::new(),
                     starts_at: Some(s.starts_at),
                     ends_at: arena.then_some(s.ends_at),
                     arena: HashMap::new(),
@@ -1333,7 +1389,7 @@ impl Lounge {
         // The next start after this second: the cup of this very second
         // was started (or called off) already, and is not made again.
         let start = cup.next_start(t + 1);
-        if start - t > CUP_SIGN_UP {
+        if start - t > CUP_SIGN_UP || self.cup_called_off == Some(start) {
             return;
         }
         if self
@@ -1365,6 +1421,7 @@ impl Lounge {
                 paid: HashMap::new(),
                 waitlist: Vec::new(),
                 house_prize: 0,
+                played_wins: HashMap::new(),
                 starts_at: Some(start),
                 ends_at: Some(end),
                 arena: HashMap::new(),
@@ -1400,6 +1457,70 @@ mod tests {
         l.cancel_tournament(id);
         l.schedule_cup(start);
         assert!(l.tournaments.is_empty());
+    }
+
+    /// The staff call the cup off hours before its start: it is not opened
+    /// again a minute later (the next week's is).
+    #[test]
+    fn a_cup_the_staff_called_off_stays_off() {
+        let cup = Cup::parse("sat 20:00").unwrap();
+        let (tx, _rx) = tokio::sync::mpsc::unbounded_channel();
+        let mut l = Lounge::new(Rules { cup: Some(cup.clone()), ..Rules::default() }, tx);
+        let start = cup.next_start(1_794_484_800);
+        l.schedule_cup(start - 3600);
+        let id = *l.tournaments.keys().next().expect("open for sign-up");
+        assert!(l.staff_cancel_tournament(id).is_ok());
+        l.schedule_cup(start - 3540);
+        assert!(l.tournaments.is_empty(), "not opened again");
+        l.schedule_cup(start + 7 * 86_400 - 3600);
+        assert_eq!(l.tournaments.len(), 1, "next week's opens");
+    }
+
+    /// The house's prize goes to a real field's players who won at the
+    /// table: not to four names of whom only two played, nor to a walkover.
+    #[test]
+    fn the_house_prize_is_earned_at_the_table() {
+        use super::*;
+        let knockout = |n: usize| Tournament {
+            id: 1,
+            name: "Event".into(),
+            host: String::new(),
+            size: 8,
+            rated: false,
+            password: None,
+            state: TournamentState::Running,
+            players: (0..n).map(|i| format!("p{i}")).collect(),
+            profiles: HashMap::new(),
+            bracket: None,
+            missing_since: HashMap::new(),
+            finished_at: None,
+            format: TournamentFormat::Knockout,
+            entry_fee: 0,
+            paid: HashMap::new(),
+            waitlist: Vec::new(),
+            house_prize: 1000,
+            played_wins: HashMap::new(),
+            starts_at: None,
+            ends_at: None,
+            arena: HashMap::new(),
+            withdrawn: HashSet::new(),
+            champion: None,
+            met: HashMap::new(),
+            shown: None,
+        };
+        assert_eq!(knockout(4).house_prizes(), [700, 300]);
+        let mut t = knockout(4);
+        assert!(!t.earns_house_prize("p0"), "won nothing at the table");
+        t.played_wins.insert("p0".into(), 1);
+        assert!(t.earns_house_prize("p0"));
+        let mut small = knockout(HOUSE_PRIZE_MIN_PLAYERS - 1);
+        small.played_wins.insert("p0".into(), 2);
+        assert!(!small.earns_house_prize("p0"), "too few players");
+        let mut arena = knockout(6);
+        arena.format = TournamentFormat::Arena;
+        arena.arena.insert("p1".into(), ArenaScore { points: 3, ..Default::default() });
+        arena.arena.insert("p2".into(), ArenaScore::default());
+        assert!(arena.earns_house_prize("p1") && !arena.earns_house_prize("p2"));
     }
 
     #[test]

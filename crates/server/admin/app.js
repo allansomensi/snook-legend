@@ -70,6 +70,18 @@ function append(e, children) {
   }
   return e;
 }
+let lastId = 0;
+/** An id for a label to point at. */
+const newId = (prefix) => prefix + "-" + ++lastId;
+/** The server drops line breaks (gluing the words), so a text typed on
+ * several lines goes as one, with spaces. */
+const oneLine = (s) => String(s ?? "").replace(/\s*\n\s*/g, " ");
+/** An input or text area the user types in (not a checkbox or a slider). */
+function isTextField(x) {
+  if (!x) return false;
+  if (x.tagName === "TEXTAREA") return true;
+  return x.tagName === "INPUT" && !["checkbox", "radio", "range", "button", "submit", "reset", "file", "color"].includes(x.type);
+}
 const SVGNS = "http://www.w3.org/2000/svg";
 function svg(tag, attrs = {}, ...children) {
   const e = document.createElementNS(SVGNS, tag);
@@ -274,13 +286,29 @@ async function api(path, options = {}) {
     throw new ApiError(t("Can't reach the server. Check the connection and try again."), 0);
   }
   let data = {};
-  try { data = await res.json(); } catch (_) { /* no body */ }
+  try { data = await res.json(); } catch (_) { /* no body, or not JSON */ }
+  if (!data || typeof data !== "object") data = {};
+  // The server's own words when it sent them. A body that isn't JSON (a
+  // request the server couldn't read, a proxy's page) gets the general one.
+  const said = typeof data.error === "string" && data.error ? data.error : null;
   if (res.status === 401 && path !== "/login") {
     sessionExpired();
-    throw new ApiError(t(data.error || "Your session expired."), 401);
+    throw new ApiError(said ? t(said) : t("Your session expired."), 401);
   }
-  if (!res.ok) throw new ApiError(t(data.error || "Something went wrong (" + res.status + ")."), res.status);
+  if (!res.ok) throw new ApiError(said ? t(said) : tf("Something went wrong ({status}).", { status: res.status }), res.status);
   return data;
+}
+/** Runs `fn` with `button` off, so a second click doesn't send it twice. */
+async function busy(button, fn) {
+  if (button.disabled) return undefined;
+  const hadFocus = document.activeElement === button;
+  button.disabled = true;
+  try {
+    return await fn();
+  } finally {
+    button.disabled = false;
+    if (hadFocus && document.activeElement === document.body && document.contains(button)) button.focus();
+  }
 }
 /** Runs an action: a toast for its outcome, true if it worked. */
 async function attempt(fn, done) {
@@ -337,24 +365,35 @@ function dialog({ title, text, iconName, tone = "", body = [], actions = [], wid
     b.addEventListener("click", () => a.onClick(handle, b));
     foot.append(b);
     if (a.primary) handle.primary = b;
+    if (a.focus) handle.focusFirst = b;
   }
   closeBtn.addEventListener("click", () => close(false));
   scrim.addEventListener("mousedown", (e) => { if (e.target === scrim) close(false); });
   $("#dialogs").append(scrim);
   openDialogs.push(handle);
-  const first = box.querySelector("input:not([type=checkbox]), textarea, select") || handle.primary || closeBtn;
+  const first = handle.focusFirst || box.querySelector("input:not([type=checkbox]), textarea, select") || handle.primary || closeBtn;
   setTimeout(() => first.focus(), 20);
   return handle;
 }
-function trapFocus(e) {
+/** The window on top that keeps the keyboard: the replay, or the last dialog. */
+function topModal() {
+  if (viewer) return viewer.box;
   const top = openDialogs[openDialogs.length - 1];
-  if (!top || e.key !== "Tab") return;
-  const items = [...top.root.querySelectorAll("button, input, select, textarea, a[href], [tabindex]:not([tabindex='-1'])")]
-    .filter((x) => !x.disabled && x.offsetParent !== null);
-  if (!items.length) return;
+  return top ? top.root : null;
+}
+function trapFocus(e) {
+  const root = topModal();
+  if (!root || e.key !== "Tab") return;
+  const items = [...root.querySelectorAll("button, input, select, textarea, a[href], [tabindex]:not([tabindex='-1'])")]
+    .filter((x) => !x.disabled && x.offsetParent !== null && x.getAttribute("tabindex") !== "-1");
+  if (!items.length) { e.preventDefault(); return; }
   const first = items[0], last = items[items.length - 1];
-  if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  const active = document.activeElement;
+  // Focus that fell out of the window (a part of it was rebuilt, or it was
+  // never in) comes back in, instead of going to the page behind.
+  if (active === root || !root.contains(active)) { e.preventDefault(); (e.shiftKey ? last : first).focus(); }
+  else if (e.shiftKey && active === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && active === last) { e.preventDefault(); first.focus(); }
 }
 
 function confirmDialog({ title, text, confirm, tone = "danger", iconName = "warn", details }) {
@@ -364,7 +403,8 @@ function confirmDialog({ title, text, confirm, tone = "danger", iconName = "warn
       body: details ? [details] : [],
       onClose: (r) => resolve(!!r),
       actions: [
-        { label: t("Cancel"), onClick: (d) => d.close(false) },
+        // For something that can't be taken back, Enter means "Cancel".
+        { label: t("Cancel"), focus: tone === "danger", onClick: (d) => d.close(false) },
         { label: confirm || t("Confirm"), kind: tone === "danger" ? "danger" : "primary", primary: true, onClick: (d) => d.close(true) },
       ],
     });
@@ -388,7 +428,7 @@ function formDialog({ title, text, iconName, tone, fields, submit, submitKind = 
       input = el("select", { class: "select", id }, f.options.map(([v, l]) => el("option", { value: v }, l)));
     } else if (f.type === "choices") {
       // A row of chips; the value is the chosen one.
-      input = el("div", { class: "chips", role: "radiogroup", id });
+      input = el("div", { class: "chips", role: "radiogroup", id, "aria-label": f.label || null });
       input.value = f.value ?? f.options[0][0];
       for (const [v, l] of f.options) {
         const chip = el("button", { type: "button", class: "chip" + (String(v) === String(input.value) ? " on" : ""), role: "radio", "aria-checked": String(String(v) === String(input.value)) }, l);
@@ -536,8 +576,9 @@ function btn(label, opts = {}) {
     "aria-label": opts.iconOnly ? label : null, onclick: opts.onClick || null },
   opts.icon ? icon(opts.icon) : null, opts.iconOnly ? null : label);
 }
-function segmented(options, value, onChange) {
-  const box = el("div", { class: "segmented", role: "tablist" });
+/** A row of buttons, one of them on. `name` names the row for screen readers. */
+function segmented(options, value, onChange, name) {
+  const box = el("div", { class: "segmented", role: "tablist", "aria-label": name || null });
   for (const [v, label, count] of options) {
     box.append(el("button", { type: "button", role: "tab", class: v === value ? "on" : "", "aria-selected": String(v === value), onclick: () => onChange(v) },
       label, count !== undefined && count !== null ? el("span", { class: "count" }, fmtNum(count)) : null));
@@ -550,7 +591,34 @@ function debounce(fn, ms) {
 }
 function copyText(text) {
   const done = () => toast(t("Copied."), "success");
-  if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, () => toast(t("Couldn't copy."), "error"));
+  // Without the clipboard API (the portal on plain HTTP), the old way: a
+  // hidden text area, selected and copied. Either way the user is told.
+  const oldWay = () => {
+    const back = document.activeElement;
+    const area = el("textarea", { class: "copy-buffer", readonly: true, "aria-hidden": "true", tabindex: "-1" });
+    area.value = text;
+    document.body.append(area);
+    area.select();
+    let ok = false;
+    try { ok = document.execCommand("copy"); } catch (_) { ok = false; }
+    area.remove();
+    if (back && back.focus && document.contains(back)) back.focus();
+    if (ok) done(); else toast(t("Couldn't copy."), "error");
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, oldWay);
+  else oldWay();
+}
+/** Makes a clickable row reachable by keyboard: Tab to it, Enter or Space
+ * does what a click does. */
+function clickable(node, fn) {
+  node.tabIndex = 0;
+  node.addEventListener("click", fn);
+  node.addEventListener("keydown", (e) => {
+    if (e.target !== node || (e.key !== "Enter" && e.key !== " ")) return;
+    e.preventDefault();
+    fn(e);
+  });
+  return node;
 }
 function loadingPage() {
   return el("div", { class: "page-loading" },
@@ -559,8 +627,10 @@ function loadingPage() {
 }
 function updatedLabel(onRefresh, auto) {
   const label = el("span", {}, tf("Updated at {time}", { time: fmtClockSecs(new Date()) }));
-  return el("span", { class: "updated" }, auto ? el("span", { class: "badge success dot" }, t("Live")) : null, label,
-    onRefresh ? btn(t("Refresh"), { kind: "sm ghost icon-only", icon: "refresh", iconOnly: true, onClick: onRefresh }) : null);
+  const again = onRefresh ? btn(t("Refresh"), { kind: "sm ghost icon-only", icon: "refresh", iconOnly: true, onClick: () => onRefresh() }) : null;
+  // The page is rebuilt under the button: the keyboard stays on it.
+  if (again) again.dataset.focus = "refresh";
+  return el("span", { class: "updated" }, auto ? el("span", { class: "badge success dot" }, t("Live")) : null, label, again);
 }
 
 // ===================================================================== charts
@@ -648,7 +718,8 @@ function applyTheme() {
 function renderSidebar() {
   const route = parseRoute();
   const side = $("#sidebar");
-  setKids(side, 
+  const focused = side.contains(document.activeElement) ? document.activeElement.getAttribute("href") : null;
+  setKids(side,
     el("a", { class: "brand", href: "#/dashboard", style: null }, brandMark(), el("div", {}, el("b", {}, "Snook Legend"), el("span", {}, t("Staff portal")))),
     NAV.map((n) => {
       if (n.group) return el("div", { class: "nav-group" }, t(n.group));
@@ -664,6 +735,11 @@ function renderSidebar() {
   const brand = $(".brand", side);
   brand.style.textDecoration = "none";
   brand.style.color = "inherit";
+  // Rebuilt every minute (the counts): the keyboard stays on its link.
+  if (focused) {
+    const again = [...side.querySelectorAll("a")].find((a) => a.getAttribute("href") === focused);
+    if (again) again.focus({ preventScroll: true });
+  }
 }
 
 function renderTopbar() {
@@ -703,7 +779,8 @@ function setLang(code) {
   if (me) { renderTopbar(); renderSidebar(); render(); } else showLogin();
 }
 
-/** Players by name as you type; "#123" opens game 123. */
+/** Players by name as you type; "#123" opens game 123 (only with "#": a
+ * username may be all digits). */
 function searchBox() {
   const input = el("input", { class: "input", type: "search", placeholder: t("Search players, or #game number"), "aria-label": t("Search"), autocomplete: "off", spellcheck: "false" });
   const results = el("div", { class: "search-results hidden", role: "listbox" });
@@ -723,9 +800,10 @@ function searchBox() {
     const q = input.value.trim();
     const mine = ++seq;
     if (!q) { close(); return; }
-    const game = q.match(/^#?(\d{1,18})$/);
+    const game = q.match(/^#(\d{1,18})$/);
     items = [];
-    if (game) items.push({ node: el("span", { class: "row" }, icon("play"), tf("Watch game #{id}", { id: game[1] })), go: () => openViewer("/replay/" + game[1] + "/view") });
+    // A stored game, or else a game being played (Live shows their numbers).
+    if (game) items.push({ node: el("span", { class: "row" }, icon("play"), tf("Watch game #{id}", { id: game[1] })), go: () => openViewer("/replay/" + game[1] + "/view", "/live/" + game[1] + "/view") });
     try {
       const d = await api("/users?q=" + encodeURIComponent(q.replace(/^#/, "")) + "&sort=last_seen");
       if (mine !== seq) return;
@@ -777,31 +855,44 @@ function setQuery(params) {
 
 let page = { cleanup: [] };
 function onLeave(fn) { page.cleanup.push(fn); }
-/** Runs `fn` every `ms` while this page is shown and the tab is visible. */
+/** Runs `fn` every `ms` while this page is shown and the tab is visible,
+ * but not while the user is busy on it: a dialog, a menu or the replay
+ * open, or a field being typed in. */
 function every(ms, fn) {
-  const h = setInterval(() => { if (document.visibilityState === "visible" && !openDialogs.length) fn(); }, ms);
+  const h = setInterval(() => {
+    if (document.visibilityState !== "visible" || openDialogs.length || openMenuNode || viewer) return;
+    const a = document.activeElement;
+    if (isTextField(a) || (a && a.tagName === "SELECT")) return;
+    fn();
+  }, ms);
   onLeave(() => clearInterval(h));
 }
 
 const PAGES = {};
 let renderSeq = 0;
-async function render() {
+/** Draws the page in the address. A quiet render (refreshes, searching as
+ * you type) leaves the page on screen until the new one is ready, with no
+ * skeleton, and carries over what the user was doing (see swapPage). */
+async function render(opts = {}) {
   if (!me) return;
+  const quiet = !!opts.quiet;
   for (const f of page.cleanup) { try { f(); } catch (_) { /* ignore */ } }
   page = { cleanup: [] };
-  closeMenu();
-  $("#app").classList.remove("nav-open");
+  if (!quiet) {
+    closeMenu();
+    $("#app").classList.remove("nav-open");
+  }
   const route = parseRoute();
   renderSidebar();
   const main = $("#main");
   const fn = PAGES[route.page];
   const seq = ++renderSeq;
   if (!fn) { setKids(main, empty("info", t("Nothing here"), t("That page doesn't exist."))); return; }
-  setKids(main, loadingPage());
+  if (!quiet) setKids(main, loadingPage());
   try {
     const node = await fn(route);
     if (seq !== renderSeq) return;
-    setKids(main, node);
+    swapPage(main, node, quiet);
     const label = NAV.find((n) => n.id === route.page);
     document.title = (label ? t(label.label) + " · " : "") + "Snook Legend · " + t("Staff");
   } catch (e) {
@@ -809,11 +900,44 @@ async function render() {
     if (e.status === 401) return;
     setKids(main, el("div", { class: "error-page" },
       el("div", { class: "empty-icon" }, icon("warn")), el("b", {}, t("This page couldn't be loaded.")),
-      el("span", { class: "muted" }, e.message), btn(t("Try again"), { kind: "primary", icon: "refresh", onClick: render })));
+      el("span", { class: "muted" }, e.message), btn(t("Try again"), { kind: "primary", icon: "refresh", onClick: () => render() })));
   }
 }
-/** Re-renders the page if it is still the one shown. */
-function refreshIf(pageId) { if (parseRoute().page === pageId) render(); }
+/** Puts the new page in place of the old one. A quiet swap keeps the scroll
+ * position, the text of fields marked data-keep (drafts), and the field the
+ * user is in, marked data-focus, with what they typed and the caret. */
+function swapPage(main, node, quiet) {
+  closeMenu();
+  if (!quiet) { setKids(main, node); return; }
+  const scroll = window.scrollY;
+  const active = document.activeElement;
+  const hadFocus = !!active && active !== main && main.contains(active);
+  const text = hadFocus && isTextField(active);
+  const typing = hadFocus && active.dataset.focus ? {
+    key: active.dataset.focus, value: text ? active.value : null,
+    start: text ? active.selectionStart : null, end: text ? active.selectionEnd : null,
+  } : null;
+  const drafts = new Map([...main.querySelectorAll("[data-keep]")].map((x) => [x.dataset.keep, x.value]));
+  setKids(main, node);
+  for (const x of main.querySelectorAll("[data-keep]")) {
+    const v = drafts.get(x.dataset.keep);
+    if (v !== undefined && v !== x.value) { x.value = v; x.dispatchEvent(new Event("input")); }
+  }
+  window.scrollTo(window.scrollX, scroll);
+  if (!hadFocus) return;
+  const again = typing ? [...main.querySelectorAll("[data-focus]")].find((x) => x.dataset.focus === typing.key) : null;
+  // Nothing to go back to: the keyboard stays in the page, not at its top.
+  if (!again) { main.focus({ preventScroll: true }); return; }
+  if (typing.value !== null && isTextField(again)) again.value = typing.value;
+  again.focus({ preventScroll: true });
+  if (typing.start !== null && isTextField(again)) {
+    try { again.setSelectionRange(typing.start, typing.end); } catch (_) { /* a field without a caret */ }
+  }
+}
+/** Draws the page again, quietly (the refresh buttons). */
+const refreshPage = () => render({ quiet: true });
+/** Re-renders the page, quietly, if it is still the one shown. */
+function refreshIf(pageId) { if (parseRoute().page === pageId) render({ quiet: true }); }
 
 function pageHead(title, sub, ...actions) {
   return el("div", { class: "page-head" },
@@ -832,7 +956,8 @@ document.addEventListener("keydown", (e) => {
     const top = openDialogs[openDialogs.length - 1];
     if (top) { top.close(false); return; }
   }
-  if (viewer && viewer.keys) { viewer.keys(e); return; }
+  // The replay keeps the keys, even while it loads.
+  if (viewer) { if (viewer.keys) viewer.keys(e); return; }
   if (!me || openDialogs.length) return;
   const typing = ["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement && document.activeElement.tagName);
   if (typing || e.ctrlKey || e.metaKey || e.altKey) return;
@@ -974,7 +1099,7 @@ async function start() {
   pollTimer = setInterval(() => { if (document.visibilityState === "visible") pollCounts(); }, 60000);
 }
 
-window.addEventListener("hashchange", render);
+window.addEventListener("hashchange", () => render());
 $("#scrim").addEventListener("click", () => $("#app").classList.remove("nav-open"));
 
 // ================================================================= dashboard
@@ -1006,7 +1131,7 @@ PAGES.dashboard = async () => {
   const recentAudit = aud.entries.filter((e) => e.action !== "login").slice(0, 8);
   const revenue = (m.metrics.revenue || []).filter((r) => r[0] !== "msstore");
   return el("div", {},
-    pageHead(tf(hello, { name: me.username }), today.charAt(0).toUpperCase() + today.slice(1), updatedLabel(render)),
+    pageHead(tf(hello, { name: me.username }), today.charAt(0).toUpperCase() + today.slice(1), updatedLabel(refreshPage)),
     alerts.length ? el("div", { class: "stack" }, alerts) : null,
     el("div", { class: "kpis section" },
       kpi({ label: t("Online now"), value: fmtNum(o.online), sub: tn(o.addresses, "{n} address", "{n} addresses"), iconName: "users", tone: "success", href: "#/live" }),
@@ -1024,9 +1149,9 @@ PAGES.dashboard = async () => {
           recentAudit.length ? el("div", { class: "mini-list" }, recentAudit.map(auditMini)) : empty("audit", t("Nothing yet"), t("Every staff action is written here.")))),
       el("div", { class: "stack" },
         card(cardHead(t("Open reports"), null, btn(t("See all"), { kind: "sm ghost", onClick: () => go("reports") })),
-          reports.length ? el("div", { class: "mini-list" }, reports.map((r) => el("div", { class: "mi click", onclick: () => go("reports") },
+          reports.length ? el("div", { class: "mini-list" }, reports.map((r) => clickable(el("div", { class: "mi click" },
             reasonBadge(r.reason), el("div", { class: "mi-main" }, el("b", {}, r.target), el("span", { class: "mi-sub" }, tf("by {name}", { name: r.reporter }))),
-            el("span", { class: "mi-side" }, timeEl(r.created_at)))))
+            el("span", { class: "mi-side" }, timeEl(r.created_at))), () => go("reports"))))
             : empty("checkCircle", t("No open reports"), t("Nothing waits for the staff."))),
         card(cardHead(t("The server")), el("div", { class: "card-body health" },
           healthRow(o.persistent, o.persistent ? t("Saved in the database") : t("Kept in memory only")),
@@ -1053,31 +1178,32 @@ PAGES.players = async (route) => {
   const filter = route.query.get("filter") || "all";
   const sort = route.query.get("sort") || "newest";
   const pageNo = Math.max(0, Number(route.query.get("page")) || 0);
-  const d = await api(`/users?q=${encodeURIComponent(q)}&filter=${filter}&sort=${sort}&page=${pageNo}`);
-  const search = el("input", { class: "input wide", type: "search", placeholder: t("Name, or a recovery e-mail"), value: q, "aria-label": t("Search players") });
-  const apply = (changes) => { setQuery({ q: search.value.trim(), filter, sort, page: 0, ...changes }); render(); };
-  search.addEventListener("input", debounce(() => apply({}), 350));
-  const sortSel = el("select", { class: "select", "aria-label": t("Order") }, PLAYER_SORTS.map(([v, l]) => el("option", { value: v }, t(l))));
+  const d = await api("/users?" + new URLSearchParams({ q, filter, sort, page: pageNo }));
+  const search = el("input", { class: "input wide", type: "search", placeholder: t("Name, or a recovery e-mail"), value: q, "aria-label": t("Search players"), "data-focus": "players-q" });
+  const apply = (changes, quiet) => { setQuery({ q: search.value.trim(), filter, sort, page: 0, ...changes }); render({ quiet }); };
+  // Quietly, so the field keeps the keyboard while the list follows.
+  search.addEventListener("input", debounce(() => apply({}, true), 350));
+  const sortSel = el("select", { class: "select", "aria-label": t("Order"), "data-focus": "players-sort" }, PLAYER_SORTS.map(([v, l]) => el("option", { value: v }, t(l))));
   sortSel.value = sort;
   sortSel.addEventListener("change", () => apply({ sort: sortSel.value }));
   const pages = Math.max(1, Math.ceil(d.total / d.per_page));
   const from = d.total ? pageNo * d.per_page + 1 : 0, to = Math.min(d.total, (pageNo + 1) * d.per_page);
   const rows = d.users.map((u) => {
     const winRate = u.games ? fmtPct(u.wins * 100 / u.games, 0) : "—";
-    return el("tr", { class: "click", tabindex: "0", onclick: () => go("players/" + encodeURIComponent(u.username)), onkeydown: (e) => { if (e.key === "Enter") go("players/" + encodeURIComponent(u.username)); } },
+    return clickable(el("tr", { class: "click" },
       el("td", {}, el("span", { class: "person" }, avatar(u.username), el("span", { class: "grid" }, el("b", { class: "name" }, u.username), userBadges(u, { online: false })))),
       el("td", {}, country(u.country)),
       el("td", { class: "num" }, el("b", {}, fmtNum(u.rating)), el("div", { class: "faint" }, tierLabel(u.tier))),
       el("td", { class: "num" }, fmtNum(u.games), el("div", { class: "faint" }, tn(u.casual_games, "+{n} casual", "+{n} casual"))),
       el("td", { class: "num" }, winRate),
       el("td", {}, timeEl(u.created_at)),
-      el("td", {}, u.online ? badge(t("Online"), "success dot") : timeEl(u.last_seen)));
+      el("td", {}, u.online ? badge(t("Online"), "success dot") : timeEl(u.last_seen))), () => go("players/" + encodeURIComponent(u.username)));
   });
   const goPage = (p) => { setQuery({ page: p }); render(); };
   return el("div", {},
     pageHead(t("Players"), tn(d.total, "{n} account", "{n} accounts")),
     el("div", { class: "toolbar" }, search,
-      segmented(PLAYER_FILTERS.map(([v, l]) => [v, t(l)]), filter, (v) => apply({ filter: v })), sortSel),
+      segmented(PLAYER_FILTERS.map(([v, l]) => [v, t(l)]), filter, (v) => apply({ filter: v }), t("Filter")), sortSel),
     card(null,
       rows.length ? table([t("Player"), t("Country"), { label: t("Rating"), cls: "num" }, { label: t("Rated games"), cls: "num" }, { label: t("Wins"), cls: "num" }, t("Joined"), t("Last seen")], rows)
         : empty("users", t("No players found"), q ? t("Try another name, or another filter.") : t("Nobody matches this filter.")),
@@ -1155,6 +1281,10 @@ async function playerPage(name, tab) {
     el("div", { class: "section" }, tabs, body(d)));
 }
 
+/** Where the server leaves out what only administrators see (e-mails,
+ * payments): said so, instead of "none". */
+const adminOnly = () => el("span", { class: "faint" }, t("Visible to administrators only"));
+
 function playerOverview(d) {
   const u = d.user, c = d.career || {};
   const winRate = u.games ? fmtPct(u.wins * 100 / u.games) : "—";
@@ -1173,8 +1303,8 @@ function playerOverview(d) {
         el("dt", {}, t("Username")), el("dd", {}, el("span", { class: "row" }, el("b", {}, u.username), btn(t("Copy"), { kind: "sm ghost icon-only", icon: "copy", iconOnly: true, onClick: () => copyText(u.username) }))),
         el("dt", {}, t("Role")), el("dd", {}, roleLabel(u.role)),
         el("dt", {}, t("Country")), el("dd", {}, country(u.country)),
-        el("dt", {}, t("Recovery e-mail")), el("dd", {}, u.recovery_email || el("span", { class: "faint" }, t("none"))),
-        el("dt", {}, t("Payment e-mail")), el("dd", {}, d.payment_email || el("span", { class: "faint" }, t("none"))),
+        el("dt", {}, t("Recovery e-mail")), el("dd", {}, u.recovery_email || (d.private_hidden ? adminOnly() : el("span", { class: "faint" }, t("none")))),
+        el("dt", {}, t("Payment e-mail")), el("dd", {}, d.payment_email || (d.private_hidden ? adminOnly() : el("span", { class: "faint" }, t("none")))),
         el("dt", {}, t("Created")), el("dd", {}, fmtDate(u.created_at)),
         el("dt", {}, t("Last seen")), el("dd", {}, u.online ? t("online now") : fmtDate(u.last_seen)),
         presence ? el("dt", {}, t("Right now")) : null, presence ? el("dd", {}, presence, d.presence.protocol ? el("span", { class: "faint" }, " · " + tf("protocol {n}", { n: d.presence.protocol })) : null) : null,
@@ -1208,6 +1338,10 @@ const AUDIT_ACTIONS = {
   event: "Event scheduled", "event-cancel": "Event called off",
 };
 const auditLabel = (a) => t(AUDIT_ACTIONS[a] || a);
+/** The actions whose target is a player (the others name an event, a
+ * report, a payment, a place…, shown as plain text). */
+const PLAYER_ACTIONS = new Set(["ban", "unban", "mute", "unmute", "kick", "warn", "note", "logout-all", "role", "password-reset", "coins", "item",
+  "vip", "revoke", "rename", "clear-status", "remove-seek", "chat-delete"]);
 const AUDIT_PLACES = { lounge: "the lounge", board: "the board" };
 const auditTarget = (e) => (AUDIT_PLACES[e.target] ? t(AUDIT_PLACES[e.target]) : e.target);
 function auditMini(e) {
@@ -1239,7 +1373,7 @@ function playerModeration(d) {
     const [tone, ic] = AUDIT_TONE[e.action] || ["", "info"];
     return el("div", { class: "tl-item" }, el("div", { class: "tl-dot " + tone }, icon(ic)),
       el("div", { class: "tl-body" }, el("span", { class: "tl-title" }, auditLabel(e.action)),
-        e.details ? el("span", { class: "tl-text" }, e.details) : null,
+        e.details ? el("span", { class: "tl-text" }, e.action === "login" ? tf("from {ip}", { ip: e.details }) : e.details) : null,
         el("span", { class: "tl-meta" }, tf("by {name}", { name: e.staff }), " · ", timeEl(e.at))));
   })) : empty("shield", t("A clean record"), t("No staff action has been taken on this account."));
   const reports = el("div", { class: "stack card-body" });
@@ -1288,7 +1422,7 @@ function playerEconomy(d) {
     el("span", { class: "mono" }, code),
     isAdmin() ? btn(t("Take back"), { kind: "sm ghost icon-only", icon: "x", iconOnly: true, onClick: () => revokeDialog(u, code) }) : null)))
     : el("p", { class: "faint" }, t("No items."));
-  const payments = d.payments.length ? table([t("When"), t("What"), { label: t("Coins"), cls: "num" }, { label: t("Amount"), cls: "num" }, t("Status"), t("Payment"), ""], d.payments.map((p) => el("tr", {},
+  const payments = d.private_hidden ? empty("lock", t("Visible to administrators only"), null) : d.payments.length ? table([t("When"), t("What"), { label: t("Coins"), cls: "num" }, { label: t("Amount"), cls: "num" }, t("Status"), t("Payment"), ""], d.payments.map((p) => el("tr", {},
     el("td", {}, fmtDate(p.at)), el("td", {}, p.kind === "vip" ? "VIP" : t("Coins")), el("td", { class: "num" }, fmtNum(p.coins)),
     el("td", { class: "num" }, money(p.amount, p.currency)),
     el("td", {}, el("span", { class: "badges" }, p.refunded ? badge(t("Refunded"), "danger") : badge(t("Paid"), "success"), p.test ? badge(t("Test"), "warning") : null)),
@@ -1307,7 +1441,7 @@ function playerEconomy(d) {
       kpi({ label: t("Coins"), value: fmtNum(w.coins), iconName: "coins", tone: "warning" }),
       kpi({ label: "VIP", value: vip ? t("Yes") : t("No"), sub: vip ? tf("until {when}", { when: fmtDateOnly(w.vip_until) }) : w.vip_until ? tf("ended {when}", { when: ago(w.vip_until) }) : null, iconName: "star", tone: vip ? "success" : "" }),
       kpi({ label: t("Items"), value: fmtNum(owned.length), iconName: "gift", tone: "info" }),
-      kpi({ label: t("Payments"), value: fmtNum(d.payments.length), iconName: "coins" })),
+      kpi({ label: t("Payments"), value: d.private_hidden ? "—" : fmtNum(d.payments.length), sub: d.private_hidden ? t("Visible to administrators only") : null, iconName: "coins" })),
     card(cardHead(t("Items owned"), null,
       isAdmin() ? btn(t("Coins"), { kind: "sm", icon: "coins", onClick: () => coinsDialog(u) }) : null,
       isAdmin() ? btn(t("Item"), { kind: "sm", icon: "gift", onClick: () => itemDialog(u) }) : null,
@@ -1359,7 +1493,7 @@ function noteDialog(u, kind, after) {
     extra: warning ? el("div", { class: "preview-box" }, el("span", { class: "faint" }, t("The player reads (in their language)")), t("Warning from the staff:") + " …") : null,
     submit: warning ? t("Send the warning") : t("Save the note"), submitKind: warning ? "primary" : "primary",
     onSubmit: async (v) => {
-      await postAction(u.username, warning ? "warn" : "note", { reason: v.text });
+      await postAction(u.username, warning ? "warn" : "note", { reason: oneLine(v.text) });
       toast(warning ? t("Warning sent.") : t("Note saved."), "success");
       if (after) after(); else refreshIf("players");
     },
@@ -1378,7 +1512,7 @@ function muteDialog(u, after) {
     ],
     submit: t("Mute"), submitKind: "danger",
     onSubmit: async (v) => {
-      await postAction(u.username, "mute", { minutes: Number(v.minutes), reason: v.reason });
+      await postAction(u.username, "mute", { minutes: Number(v.minutes), reason: oneLine(v.reason) });
       toast(tf("{name} is muted for {time}.", { name: u.username, time: fmtMinutes(Number(v.minutes)) }), "success");
       if (after) after(fmtMinutes(Number(v.minutes))); else refreshIf("players");
     },
@@ -1400,7 +1534,7 @@ function banDialog(u, after) {
     submit: t("Ban"), submitKind: "danger",
     onSubmit: async (v) => {
       const hours = Number(v.hours);
-      await postAction(u.username, "ban", { hours: hours || null, reason: v.reason });
+      await postAction(u.username, "ban", { hours: hours || null, reason: oneLine(v.reason) });
       toast(tf("{name} is banned.", { name: u.username }), "success");
       if (after) after(hours ? fmtMinutes(hours * 60) : t("for good")); else refreshIf("players");
     },
@@ -1410,7 +1544,7 @@ function banDialog(u, after) {
   function updatePreview() {
     const h = Number(choices.value);
     setKids(preview, el("span", { class: "faint" }, t("The player reads")),
-      h ? tf("Your account was suspended for {hours} hours: {reason}", { hours: h, reason: input.value || "…" }) : tf("Your account was banned: {reason}", { reason: input.value || "…" }));
+      h ? tf("Your account was suspended for {hours} hours: {reason}", { hours: h, reason: oneLine(input.value) || "…" }) : tf("Your account was banned: {reason}", { reason: oneLine(input.value) || "…" }));
   }
   input.addEventListener("input", updatePreview);
   updatePreview();
@@ -1428,7 +1562,7 @@ function kickDialog(u) {
     title: tf("Disconnect {name}?", { name: u.username }), text: t("Their connection ends now; they can come back at once. A game in progress waits for them."), iconName: "kick", tone: "warning",
     fields: [{ name: "reason", label: t("Reason (shown to the player)"), type: "text", optional: true, max: 300 }],
     submit: t("Disconnect"), submitKind: "danger",
-    onSubmit: async (v) => { await postAction(u.username, "kick", { reason: v.reason }); toast(t("Disconnected."), "success"); refreshIf("players"); },
+    onSubmit: async (v) => { await postAction(u.username, "kick", { reason: oneLine(v.reason) }); toast(t("Disconnected."), "success"); refreshIf("players"); },
   });
 }
 function renameDialog(u) {
@@ -1543,22 +1677,22 @@ PAGES.reports = async (route) => {
   const status = route.query.get("status") || "open";
   const reason = route.query.get("reason") || "";
   const who = route.query.get("q") || "";
-  const d = await api("/reports?status=" + status);
+  const d = await api("/reports?" + new URLSearchParams({ status }));
   if (status === "open") { counts.reports = d.reports.length; renderSidebar(); }
   const about = {};
   for (const r of d.reports) about[r.target] = (about[r.target] || 0) + 1;
   const shown = d.reports.filter((r) => (!reason || r.reason === reason)
     && (!who || r.target.toLowerCase().includes(who.toLowerCase()) || r.reporter.toLowerCase().includes(who.toLowerCase())));
-  const search = el("input", { class: "input wide", type: "search", placeholder: t("Player (reported or reporting)"), value: who, "aria-label": t("Search") });
-  search.addEventListener("input", debounce(() => { setQuery({ q: search.value.trim() }); render(); }, 300));
-  const reasonSel = el("select", { class: "select", "aria-label": t("Reason") }, el("option", { value: "" }, t("Every reason")),
+  const search = el("input", { class: "input wide", type: "search", placeholder: t("Player (reported or reporting)"), value: who, "aria-label": t("Search"), "data-focus": "reports-q" });
+  search.addEventListener("input", debounce(() => { setQuery({ q: search.value.trim() }); render({ quiet: true }); }, 300));
+  const reasonSel = el("select", { class: "select", "aria-label": t("Reason"), "data-focus": "reports-reason" }, el("option", { value: "" }, t("Every reason")),
     Object.entries(REPORT_REASONS).map(([v, l]) => el("option", { value: v }, t(l))));
   reasonSel.value = reason;
   reasonSel.addEventListener("change", () => { setQuery({ reason: reasonSel.value }); render(); });
   return el("div", {},
-    pageHead(t("Reports"), status === "open" ? tn(d.reports.length, "{n} report waiting for review", "{n} reports waiting for review") : tn(d.reports.length, "{n} report", "{n} reports"), updatedLabel(render)),
+    pageHead(t("Reports"), status === "open" ? tn(d.reports.length, "{n} report waiting for review", "{n} reports waiting for review") : tn(d.reports.length, "{n} report", "{n} reports"), updatedLabel(refreshPage)),
     el("div", { class: "toolbar" },
-      segmented([["open", t("Open")], ["actioned", t("Action taken")], ["dismissed", t("Dismissed")], ["all", t("All")]], status, (v) => { setQuery({ status: v }); render(); }),
+      segmented([["open", t("Open")], ["actioned", t("Action taken")], ["dismissed", t("Dismissed")], ["all", t("All")]], status, (v) => { setQuery({ status: v }); render(); }, t("Status")),
       reasonSel, search),
     shown.length ? el("div", { class: "stack" }, shown.map((r) => reportCard(r, { about: about[r.target] })))
       : card(null, status === "open" ? empty("checkCircle", t("All caught up"), t("No report waits for review.")) : empty("flag", t("No reports here"), null)));
@@ -1566,12 +1700,25 @@ PAGES.reports = async (route) => {
 
 function reportCard(r, { compact = false, about = 0 } = {}) {
   const open = r.status === 0;
-  const note = el("input", { class: "input", placeholder: t("A note on what was done (optional)"), maxlength: "300", "aria-label": t("Note") });
+  // data-keep: a note being written survives the page refreshing after
+  // another report is answered.
+  const note = el("input", { class: "input", placeholder: t("A note on what was done (optional)"), maxlength: "300", "aria-label": t("Note"), "data-keep": "report-note-" + r.id });
   const target = { username: r.target, online: false };
+  const answerBtns = [];
+  let sending = false;
   const resolve = async (st, text) => {
-    const ok = await attempt(() => api("/reports/" + r.id, { method: "POST", body: { status: st, note: text ?? note.value } }),
-      st === "dismissed" ? t("Report dismissed.") : st === "open" ? t("Report reopened.") : t("Report closed."));
-    if (ok) { refreshIf("reports"); refreshIf("players"); pollCounts(); }
+    // One answer at a time: the buttons are off while it is sent.
+    if (sending) return;
+    sending = true;
+    for (const b of answerBtns) b.disabled = true;
+    try {
+      const ok = await attempt(() => api("/reports/" + encodeURIComponent(r.id), { method: "POST", body: { status: st, note: oneLine(text ?? note.value) } }),
+        st === "dismissed" ? t("Report dismissed.") : st === "open" ? t("Report reopened.") : t("Report closed."));
+      if (ok) { refreshIf("reports"); refreshIf("players"); pollCounts(); }
+    } finally {
+      sending = false;
+      for (const b of answerBtns) b.disabled = false;
+    }
   };
   const sanction = (kind) => {
     const after = (what) => resolve("actioned", [what, note.value].filter(Boolean).join(" · "));
@@ -1579,10 +1726,11 @@ function reportCard(r, { compact = false, about = 0 } = {}) {
     if (kind === "mute") muteDialog(target, (time) => after(tf("Muted for {time}", { time })));
     if (kind === "ban") banDialog(target, (time) => after(tf("Banned ({time})", { time })));
   };
+  const answer = (label, opts) => { const b = btn(label, opts); answerBtns.push(b); return b; };
   const resolvedLine = !open ? el("div", { class: "row muted" },
     badge(r.status === 1 ? t("Action taken") : t("Dismissed"), r.status === 1 ? "success" : ""),
     el("span", {}, tf("by {name}", { name: r.resolved_by || "?" })), r.resolution ? el("span", {}, "· " + r.resolution) : null,
-    compact ? null : btn(t("Reopen"), { kind: "sm ghost", icon: "undo", onClick: () => resolve("open", "") })) : null;
+    compact ? null : answer(t("Reopen"), { kind: "sm ghost", icon: "undo", onClick: () => resolve("open", "") })) : null;
   return el("article", { class: "card report-card" },
     el("div", { class: "report-top" }, reasonBadge(r.reason), el("span", { class: "faint mono" }, "#" + r.id),
       about > 1 ? badge(tn(about, "{n} report about them", "{n} reports about them"), "danger") : null,
@@ -1592,11 +1740,11 @@ function reportCard(r, { compact = false, about = 0 } = {}) {
     gameBlock(r),
     r.context ? el("details", {}, el("summary", { class: "muted" }, t("The chat before the report")), el("pre", { class: "context" }, r.context)) : null,
     open && !compact ? el("div", { class: "resolve" }, note,
-      btn(t("Warn"), { kind: "sm", icon: "warn", onClick: () => sanction("warn") }),
-      btn(t("Mute"), { kind: "sm", icon: "mute", onClick: () => sanction("mute") }),
-      btn(t("Ban"), { kind: "sm danger-soft", icon: "ban", onClick: () => sanction("ban") }),
-      btn(t("Dismiss"), { kind: "sm", onClick: () => resolve("dismissed") }),
-      btn(t("Close: action taken"), { kind: "sm primary", icon: "check", onClick: () => resolve("actioned") })) : null,
+      answer(t("Warn"), { kind: "sm", icon: "warn", onClick: () => sanction("warn") }),
+      answer(t("Mute"), { kind: "sm", icon: "mute", onClick: () => sanction("mute") }),
+      answer(t("Ban"), { kind: "sm danger-soft", icon: "ban", onClick: () => sanction("ban") }),
+      answer(t("Dismiss"), { kind: "sm", onClick: () => resolve("dismissed") }),
+      answer(t("Close: action taken"), { kind: "sm primary", icon: "check", onClick: () => resolve("actioned") })) : null,
     open && compact ? el("div", { class: "row" }, btn(t("Open in reports"), { kind: "sm ghost", onClick: () => go("reports") })) : null,
     resolvedLine);
 }
@@ -1627,15 +1775,19 @@ PAGES.live = async (route) => {
     .map(([id, label, n]) => el("button", { type: "button", class: "tab" + (tab === id ? " on" : ""), onclick: () => { setQuery({ tab: id }); render(); } }, label, el("span", { class: "count" }, fmtNum(n)))));
   let body;
   if (tab === "players") {
-    const filter = el("input", { class: "input wide", type: "search", placeholder: t("Filter by name"), "aria-label": t("Filter") });
-    const rows = () => d.players.filter((p) => !filter.value || p.username.toLowerCase().includes(filter.value.toLowerCase())).map((p) => el("tr", { class: "click", onclick: () => go("players/" + encodeURIComponent(p.username)) },
-      el("td", {}, el("span", { class: "person" }, avatar(p.username), el("b", {}, p.username),
-        p.role && p.role !== "player" ? badge(roleLabel(p.role), p.role === "admin" ? "danger" : "info") : null, p.vip ? badge("VIP", "accent", "star") : null, p.guest ? badge(t("Guest")) : null)),
-      el("td", {}, badge({ available: t("In the lounge"), waiting: t("At a table"), playing: t("Playing") }[p.status] || p.status, p.status === "playing" ? "info" : p.status === "waiting" ? "warning" : "success")),
-      el("td", { class: "num" }, fmtNum(p.rating)), el("td", {}, country(p.country))));
+    // The filter lives in the address, so the refresh every 10 seconds keeps it.
+    const filter = el("input", { class: "input wide", type: "search", placeholder: t("Filter by name"), "aria-label": t("Filter"), value: route.query.get("who") || "", "data-focus": "live-who" });
+    const rows = () => {
+      const s = filter.value.trim().toLowerCase();
+      return d.players.filter((p) => !s || p.username.toLowerCase().includes(s)).map((p) => clickable(el("tr", { class: "click" },
+        el("td", {}, el("span", { class: "person" }, avatar(p.username), el("b", {}, p.username),
+          p.role && p.role !== "player" ? badge(roleLabel(p.role), p.role === "admin" ? "danger" : "info") : null, p.vip ? badge("VIP", "accent", "star") : null, p.guest ? badge(t("Guest")) : null)),
+        el("td", {}, badge({ available: t("In the lounge"), waiting: t("At a table"), playing: t("Playing") }[p.status] || p.status, p.status === "playing" ? "info" : p.status === "waiting" ? "warning" : "success")),
+        el("td", { class: "num" }, fmtNum(p.rating)), el("td", {}, country(p.country))), () => go("players/" + encodeURIComponent(p.username))));
+    };
     const holder = el("div");
     const draw = () => setKids(holder, d.players.length ? table([t("Player"), t("Doing"), { label: t("Rating"), cls: "num" }, t("Country")], rows()) : empty("users", t("Nobody online"), null));
-    filter.addEventListener("input", draw);
+    filter.addEventListener("input", () => { setQuery({ who: filter.value.trim() }); draw(); });
     draw();
     body = el("div", {}, el("div", { class: "toolbar" }, filter), card(null, holder));
   } else if (tab === "tournaments") {
@@ -1651,7 +1803,7 @@ PAGES.live = async (route) => {
     body = card(null, rows.length ? table(["", t("Players"), t("Game"), { label: t("Strokes"), cls: "num" }, t("State"), ""], rows) : empty("activity", t("No games right now"), t("Games appear here as soon as they start.")));
   }
   return el("div", {},
-    pageHead(t("Live"), t("What happens on the server right now · refreshes every 10 seconds"), updatedLabel(render, true)),
+    pageHead(t("Live"), t("What happens on the server right now · refreshes every 10 seconds"), updatedLabel(refreshPage, true)),
     el("div", { class: "kpis" },
       kpi({ label: t("Online now"), value: fmtNum(s.online), sub: tn(s.addresses, "{n} address", "{n} addresses"), iconName: "users", tone: "success" }),
       kpi({ label: t("Games now"), value: fmtNum(s.games), iconName: "activity", tone: "info" }),
@@ -1665,7 +1817,7 @@ function tournamentCard(tm) {
   const state = { registering: [t("Signing up"), "warning"], running: [t("Running"), "success"], finished: [t("Finished"), ""] }[tm.state] || [tm.state, ""];
   const cancel = isAdmin() && tm.state === "registering" ? btn(t("Call off"), { kind: "sm danger-soft", icon: "x", onClick: async () => {
     const ok = await confirmDialog({ title: tf("Call off “{name}”?", { name: tm.name }), text: t("Every entry fee goes back and the players are told. It can't be undone."), confirm: t("Call off") });
-    if (ok && await attempt(() => api("/tournaments/" + tm.id + "/cancel", { method: "POST" }), t("Tournament called off."))) refreshIf("live");
+    if (ok && await attempt(() => api("/tournaments/" + encodeURIComponent(tm.id) + "/cancel", { method: "POST" }), t("Tournament called off."))) refreshIf("live");
   } }) : null;
   const bracket = tm.rounds && tm.rounds.length ? el("div", { class: "bracket" }, tm.rounds.map((round, k) => el("div", { class: "round" },
     el("div", { class: "faint" }, k === tm.rounds.length - 1 ? t("Final") : tf("Round {n}", { n: k + 1 })),
@@ -1691,8 +1843,8 @@ PAGES.chat = async (route) => {
   every(10000, () => refreshIf("chat"));
   const lines = d.lines.slice().reverse().filter((l) => (showDeleted || !l.deleted)
     && (!who || (l.from || "").toLowerCase().includes(who.toLowerCase()) || (l.text || "").toLowerCase().includes(who.toLowerCase())));
-  const search = el("input", { class: "input wide", type: "search", placeholder: t("Name or words"), value: who, "aria-label": t("Search the chat") });
-  search.addEventListener("input", debounce(() => { setQuery({ q: search.value.trim() }); render(); }, 300));
+  const search = el("input", { class: "input wide", type: "search", placeholder: t("Name or words"), value: who, "aria-label": t("Search the chat"), "data-focus": "chat-q" });
+  search.addEventListener("input", debounce(() => { setQuery({ q: search.value.trim() }); render({ quiet: true }); }, 300));
   const toggle = el("label", { class: "check" }, el("input", { type: "checkbox", checked: showDeleted || null, onchange: (e) => { setQuery({ deleted: e.target.checked ? null : "0" }); render(); } }), t("Show deleted lines"));
   const clear = isAdmin() ? btn(t("Clear the chat"), { kind: "danger-soft", icon: "trash", onClick: async () => {
     const ok = await confirmDialog({ title: t("Clear the lounge chat for everyone?"), text: t("Every line disappears from the players' screens (the staff keep them for reports)."), confirm: t("Clear the chat") });
@@ -1704,7 +1856,7 @@ PAGES.chat = async (route) => {
       text: silent ? t("It disappears for everyone, with no sign it was there.") : t("Players see that the staff deleted it."),
       confirm: silent ? t("Remove") : t("Delete"), details: el("div", { class: "preview-box" }, el("b", {}, l.from + ": "), l.text),
     });
-    if (ok && await attempt(() => api("/chat/" + l.id + "/delete", { method: "POST", body: { silent } }), silent ? t("Line removed.") : t("Line deleted."))) refreshIf("chat");
+    if (ok && await attempt(() => api("/chat/" + encodeURIComponent(l.id) + "/delete", { method: "POST", body: { silent } }), silent ? t("Line removed.") : t("Line deleted."))) refreshIf("chat");
   };
   const DELETED = { author: t("Deleted by the author"), staff: t("Deleted by the staff"), removed: t("Removed without a trace") };
   const rows = lines.map((l) => {
@@ -1724,7 +1876,7 @@ PAGES.chat = async (route) => {
   });
   rows.forEach((r) => r.querySelectorAll(".line-actions .btn").forEach((b) => { b.title = b.getAttribute("aria-label"); }));
   return el("div", {},
-    pageHead(t("Lounge chat"), t("The latest lines, newest first · refreshes every 10 seconds"), updatedLabel(render, true), clear),
+    pageHead(t("Lounge chat"), t("The latest lines, newest first · refreshes every 10 seconds"), updatedLabel(refreshPage, true), clear),
     el("div", { class: "toolbar" }, search, toggle),
     card(null, rows.length ? el("div", { class: "chat-log" }, rows) : empty("chat", t("Nothing said yet"), who ? t("No line matches.") : t("The lounge chat is quiet."))));
 };
@@ -1733,13 +1885,13 @@ PAGES.chat = async (route) => {
 
 PAGES.fairplay = async () => {
   const d = await api("/aim");
-  const rows = d.flagged.map((r) => el("tr", { class: "click", onclick: () => go("players/" + encodeURIComponent(r.username)) },
+  const rows = d.flagged.map((r) => clickable(el("tr", { class: "click" },
     el("td", {}, personLink(r.username)),
     el("td", {}, fmtNum(r.rating), el("div", { class: "faint" }, tierLabel(r.tier))),
     el("td", { class: "num" }, tf("{made} of {attempts}", { made: fmtNum(r.made), attempts: fmtNum(r.attempts) })),
     el("td", { class: "num" }, el("b", {}, fmtPct(r.rate * 100, 0))),
     el("td", { class: "num" }, fmtPct(r.tier_mean * 100, 0), el("div", { class: "faint" }, tn(r.tier_players, "{n} player", "{n} players"))),
-    el("td", { class: "num" }, badge("+" + r.z.toFixed(1) + "σ", r.z >= 5 ? "danger" : "warning"))));
+    el("td", { class: "num" }, badge("+" + r.z.toFixed(1) + "σ", r.z >= 5 ? "danger" : "warning"))), () => go("players/" + encodeURIComponent(r.username))));
   return el("div", {},
     pageHead(t("Fair play"), t("Players who make far more hard shots than their tier")),
     alertBox("info", t("How it works"), tf("Hard shots are cuts of 45° or more over 1.5 m. Only players with {n} or more of them are compared, each with the players of their tier. Nobody is punished by this list: open the player, watch their games, and decide.", { n: d.min_attempts })),
@@ -1758,18 +1910,19 @@ const NOTE_BUTTONS = [["", "No button"], ["tournaments", "Tournaments"], ["shop"
 PAGES.community = async () => {
   const [o, board, seeks, sent] = await Promise.all([api("/overview"), api("/board"), api("/seeks"), api("/audit?action=announce")]);
   // Announcement.
-  const msg = el("textarea", { class: "textarea", rows: 3, maxlength: "200", placeholder: t("A message to everyone in the lounge, now"), "aria-label": t("Announcement") });
+  // data-keep: drafts survive the page refreshing after another action.
+  const msg = el("textarea", { class: "textarea", rows: 3, maxlength: "200", placeholder: t("A message to everyone in the lounge, now"), "aria-label": t("Announcement"), id: newId("announce"), "data-keep": "announce" });
   const counter = el("span", { class: "counter" }, "0 / 200");
   msg.addEventListener("input", () => { counter.textContent = fmtNum([...msg.value].length) + " / 200"; });
   const send = btn(t("Send to the lounge"), { kind: "primary", icon: "send", onClick: async () => {
-    const text = msg.value.trim();
+    const text = oneLine(msg.value).trim();
     if (!text) { toast(t("Write a message."), "error"); msg.focus(); return; }
     const ok = await confirmDialog({ title: t("Send this announcement?"), text: t("Everyone in the lounge sees it in the chat, highlighted."), confirm: t("Send"), tone: "info", iconName: "megaphone",
       details: el("div", { class: "preview-box" }, el("span", { class: "faint" }, t("Announcement")), text) });
-    if (ok && await attempt(() => api("/announce", { method: "POST", body: { text } }), t("Announcement sent."))) { msg.value = ""; refreshIf("community"); }
+    if (ok && await busy(send, () => attempt(() => api("/announce", { method: "POST", body: { text } }), t("Announcement sent.")))) { msg.value = ""; refreshIf("community"); }
   } });
   // The board.
-  const noteText = el("textarea", { class: "textarea", rows: 3, maxlength: "400", placeholder: t("A note that stays on the lounge's board: an event, a rule, news"), "aria-label": t("Note") });
+  const noteText = el("textarea", { class: "textarea", rows: 3, maxlength: "400", placeholder: t("A note that stays on the lounge's board: an event, a rule, news"), "aria-label": t("Note"), id: newId("board"), "data-keep": "board-note" });
   const noteCount = el("span", { class: "counter" }, "0 / 400");
   let kind = "notice";
   const kindSel = el("div");
@@ -1779,32 +1932,37 @@ PAGES.community = async () => {
   const preview = el("div");
   const drawPreview = () => {
     noteCount.textContent = fmtNum([...noteText.value].length) + " / 400";
-    setKids(kindSel, segmented(NOTE_KINDS.map(([v, l]) => [v, t(l)]), kind, (v) => { kind = v; drawPreview(); }));
+    // Rebuilt on each change: the keyboard stays on the chosen kind.
+    const kept = kindSel.contains(document.activeElement);
+    setKids(kindSel, segmented(NOTE_KINDS.map(([v, l]) => [v, t(l)]), kind, (v) => { kind = v; drawPreview(); }, t("Kind of note")));
+    if (kept) $("button.on", kindSel).focus();
     setKids(preview, el("div", { class: "board-note " + kind },
       el("div", { class: "bn-meta" }, pinned.checked ? badge(t("Pinned"), "accent", "pin") : null, badge(t(NOTE_KINDS.find((k) => k[0] === kind)[1]))),
-      el("div", { class: "bn-text" }, noteText.value || el("span", { class: "faint" }, t("The note shows here as players see it."))),
+      el("div", { class: "bn-text" }, oneLine(noteText.value) || el("span", { class: "faint" }, t("The note shows here as players see it."))),
       buttonSel.value ? el("span", { class: "btn sm bn-button" }, t(NOTE_BUTTONS.find((b) => b[0] === buttonSel.value)[1])) : null));
   };
   for (const x of [noteText, buttonSel, pinned]) x.addEventListener(x === noteText ? "input" : "change", drawPreview);
   drawPreview();
-  const pin = btn(t("Put on the board"), { kind: "primary", icon: "pin", onClick: async () => {
-    if (!noteText.value.trim()) { toast(t("Write a note."), "error"); noteText.focus(); return; }
-    const body = { text: noteText.value, days: daysSel.value ? Number(daysSel.value) : null, kind, action: buttonSel.value || null, pinned: pinned.checked };
-    if (await attempt(() => api("/board", { method: "POST", body }), t("On the board."))) refreshIf("community");
-  } });
+  const pin = btn(t("Put on the board"), { kind: "primary", icon: "pin", onClick: () => busy(pin, async () => {
+    const text = oneLine(noteText.value).trim();
+    if (!text) { toast(t("Write a note."), "error"); noteText.focus(); return; }
+    const body = { text, days: daysSel.value ? Number(daysSel.value) : null, kind, action: buttonSel.value || null, pinned: pinned.checked };
+    if (await attempt(() => api("/board", { method: "POST", body }), t("On the board."))) { noteText.value = ""; refreshIf("community"); }
+  }) });
   const notes = board.notes.length ? el("div", { class: "stack" }, board.notes.map((n) => el("div", { class: "board-note " + n.kind },
     el("div", { class: "bn-head" },
       el("div", { class: "bn-meta" }, n.pinned ? badge(t("Pinned"), "accent", "pin") : null, badge(t((NOTE_KINDS.find((k) => k[0] === n.kind) || [0, n.kind])[1])),
         n.action ? badge(tf("Button: {name}", { name: t((NOTE_BUTTONS.find((b) => b[0] === n.action) || [0, n.action])[1]) })) : null),
       btn(t("Take down"), { kind: "sm ghost", icon: "trash", onClick: async () => {
         if (await confirmDialog({ title: t("Take this note down?"), confirm: t("Take down"), details: el("div", { class: "preview-box" }, n.text) })
-          && await attempt(() => api("/board/" + n.id, { method: "DELETE" }), t("Taken down."))) refreshIf("community");
+          && await attempt(() => api("/board/" + encodeURIComponent(n.id), { method: "DELETE" }), t("Taken down."))) refreshIf("community");
       } })),
     el("div", { class: "bn-text" }, n.text),
     el("div", { class: "bn-meta" }, el("span", {}, tf("by {name}", { name: n.author || "?" }), " · ", timeEl(n.created_at)),
       n.expires_at ? el("span", {}, "· " + tf("until {when}", { when: fmtDate(n.expires_at) })) : el("span", {}, "· " + t("until taken down")))))) : empty("pin", t("The board is empty"), t("Notes put here stay in the lounge for everyone."));
   // Welcome message.
   const motd = el("input", { class: "input", maxlength: "300", value: o.motd, "aria-label": t("Welcome message"), disabled: isAdmin() ? null : true });
+  const saveMotd = btn(t("Save"), { kind: "primary", onClick: () => busy(saveMotd, () => attempt(() => api("/motd", { method: "POST", body: { text: motd.value } }), t("Welcome message saved."))) });
   // "Looking for a game".
   const seekRows = seeks.notes.map((n) => el("tr", {},
     el("td", {}, personLink(n.username)), el("td", { class: "wrap" }, n.text || el("span", { class: "faint" }, t("(no message)"))),
@@ -1818,18 +1976,18 @@ PAGES.community = async () => {
     el("div", { class: "grid-2" },
       el("div", { class: "stack" },
         card(cardHead(t("Announcement"), t("Shown at once in the lounge chat, highlighted")),
-          el("div", { class: "card-body stack" }, el("div", { class: "field" }, el("div", { class: "label" }, el("span", {}, t("Message")), counter), msg)),
+          el("div", { class: "card-body stack" }, el("div", { class: "field" }, el("label", { class: "label", for: msg.id }, el("span", {}, t("Message")), counter), msg)),
           el("div", { class: "card-foot" }, send)),
         card(cardHead(t("Sent lately")), sent.entries.length ? el("div", { class: "mini-list" }, sent.entries.slice(0, 8).map((e) => el("div", { class: "mi" },
           el("span", { class: "tl-dot info" }, icon("megaphone")), el("div", { class: "mi-main" }, el("span", {}, e.details), el("span", { class: "mi-sub" }, tf("by {name}", { name: e.staff }))), el("span", { class: "mi-side" }, timeEl(e.at)))))
           : empty("megaphone", t("No announcements yet"), null)),
         card(cardHead(t("Welcome message"), t("Shown to everyone who signs in · until the server restarts")),
           el("div", { class: "card-body" }, motd),
-          isAdmin() ? el("div", { class: "card-foot" }, btn(t("Save"), { kind: "primary", onClick: () => attempt(() => api("/motd", { method: "POST", body: { text: motd.value } }), t("Welcome message saved.")) })) : null)),
+          isAdmin() ? el("div", { class: "card-foot" }, saveMotd) : null)),
       el("div", { class: "stack" },
         card(cardHead(t("The lounge's board"), t("Notes that stay up")),
           el("div", { class: "card-body stack" },
-            el("div", { class: "field" }, el("div", { class: "label" }, el("span", {}, t("Note")), noteCount), noteText),
+            el("div", { class: "field" }, el("label", { class: "label", for: noteText.id }, el("span", {}, t("Note")), noteCount), noteText),
             el("div", { class: "row" }, kindSel, buttonSel, daysSel),
             el("label", { class: "check" }, pinned, t("Pinned at the top")),
             el("div", { class: "field" }, el("div", { class: "label" }, t("Preview")), preview)),
@@ -1896,7 +2054,7 @@ function eventCard(e, now) {
       text: e.kind === "tournament" ? t("If its tournament is open for sign-up, it is called off and every entry fee goes back.") : t("The boost stops at once."),
       confirm: t("Call off the event"),
     });
-    if (ok && await attempt(() => api("/events/" + e.id + "/cancel", { method: "POST" }), t("Event called off."))) refreshIf("events");
+    if (ok && await attempt(() => api("/events/" + encodeURIComponent(e.id) + "/cancel", { method: "POST" }), t("Event called off."))) refreshIf("events");
   } }) : null;
   return el("section", { class: "card" + (e.status === "ended" || e.status === "cancelled" ? " faded" : "") },
     el("div", { class: "card-head" },
@@ -1921,7 +2079,8 @@ function zoneLabel() {
   const off = -new Date().getTimezoneOffset();
   return "UTC" + (off >= 0 ? "+" : "−") + pad2(Math.floor(Math.abs(off) / 60)) + ":" + pad2(Math.abs(off) % 60);
 }
-/** The next `weekday` (0 Sunday … 6 Saturday) at `hour`:`minute`, local. */
+/** The next `weekday` (0 Sunday … 6 Saturday) at `hour`:`minute`, local,
+ * strictly after `from`. */
 function nextAt(weekday, hour, minute, from = new Date()) {
   const d = new Date(from);
   d.setHours(hour, minute, 0, 0);
@@ -1933,13 +2092,20 @@ function nextAt(weekday, hour, minute, from = new Date()) {
 
 function eventDialog(limits) {
   let kind = "xp", mult = 2, format = "arena", size = 8;
-  const field = (label, input, hint) => el("div", { class: "field" }, el("div", { class: "label" }, label), input, hint ? el("div", { class: "hint" }, hint) : null);
+  // A field's name: a real label for an input. A row of buttons is named
+  // where it is built (segmented's label, the chips' aria-label).
+  const field = (label, input, hint) => {
+    const control = ["INPUT", "SELECT", "TEXTAREA"].includes(input.tagName);
+    if (control && !input.id) input.id = newId("event");
+    return el("div", { class: "field" }, el(control ? "label" : "div", { class: "label", for: control ? input.id : null }, label), input, hint ? el("div", { class: "hint" }, hint) : null);
+  };
   const kindBox = el("div"), multBox = el("div"), formatBox = el("div"), sizeBox = el("div");
-  const title = el("input", { class: "input", placeholder: t("Double XP weekend"), "aria-label": t("Title") });
+  const title = el("input", { class: "input", id: newId("event"), placeholder: t("Double XP weekend"), "aria-label": t("Title") });
+  const titleName = el("span", {}, t("Title"));
   const count = el("span", { class: "counter" });
   const starts = el("input", { class: "input", type: "datetime-local", "aria-label": t("Starts") });
   const ends = el("input", { class: "input", type: "datetime-local", "aria-label": t("Ends") });
-  const presets = el("div", { class: "chips" });
+  const presets = el("div", { class: "chips", role: "group", "aria-label": t("Quick picks") });
   const rated = el("input", { type: "checkbox" });
   rated.checked = true;
   const fee = el("input", { class: "input", type: "number", min: "0", max: String(limits.max_entry_fee), value: "0", step: "10" });
@@ -1954,11 +2120,22 @@ function eventDialog(limits) {
   const errorBox = el("div", { class: "alert danger hidden", role: "alert" });
   const setTimes = (a, b) => { starts.value = toLocalInput(a); ends.value = toLocalInput(b); draw(); };
   const now = () => Math.floor(Date.now() / 60000) * 60;
+  // Two minutes ahead: a tournament must start at least a minute from now.
+  const soon = () => new Date(Date.now() + 120000);
+  // Each change rebuilds the rows of buttons: the keyboard goes back to the
+  // chosen one (or the same chip), not to the page behind the dialog.
+  const refill = (box, node) => {
+    const at = [...box.querySelectorAll("button")].indexOf(document.activeElement);
+    setKids(box, node);
+    if (at < 0) return;
+    const again = box.querySelector("button.on") || box.querySelectorAll("button")[at];
+    if (again) again.focus();
+  };
   function draw() {
-    setKids(kindBox, segmented([["xp", t("Experience")], ["coins", t("Coins from games")], ["tournament", t("Themed tournament")]], kind, (v) => { kind = v; presetDefaults(); draw(); }));
-    setKids(multBox, segmented([[2, "×2"], [3, "×3"]].slice(0, limits.max_multiplier - 1), mult, (v) => { mult = v; draw(); }));
-    setKids(formatBox, segmented([["arena", t("Arena")], ["knockout", t("Knockout")]], format, (v) => { format = v; presetDefaults(true); draw(); }));
-    setKids(sizeBox, segmented(limits.knockout_sizes.map((n) => [n, String(n)]), size, (v) => { size = v; draw(); }));
+    refill(kindBox, segmented([["xp", t("Experience")], ["coins", t("Coins from games")], ["tournament", t("Themed tournament")]], kind, (v) => { kind = v; presetDefaults(); draw(); }, t("Kind of event")));
+    refill(multBox, segmented([[2, "×2"], [3, "×3"]].slice(0, limits.max_multiplier - 1), mult, (v) => { mult = v; draw(); }, t("Multiplier")));
+    refill(formatBox, segmented([["arena", t("Arena")], ["knockout", t("Knockout")]], format, (v) => { format = v; presetDefaults(true); draw(); }, t("Format")));
+    refill(sizeBox, segmented(limits.knockout_sizes.map((n) => [n, String(n)]), size, (v) => { size = v; draw(); }, t("Seats")));
     boostFields.classList.toggle("hidden", kind === "tournament");
     tourFields.classList.toggle("hidden", kind !== "tournament");
     sizeField.classList.toggle("hidden", format !== "knockout");
@@ -1969,17 +2146,16 @@ function eventDialog(limits) {
     setKids(summary, el("span", { class: "faint" }, t("Players see")),
       el("b", {}, e.title), el("div", {}, eventWhat(e)),
       a && b && b > a ? el("div", { class: "muted" }, tf("{from} → {to} ({length})", { from: fmtDate(a), to: fmtDate(b), length: fmtDuration(b - a) })) : null);
-    setKids(presets, (kind === "tournament"
-      ? [[t("Tonight at 8 pm"), () => { const d = new Date(); d.setHours(20, 0, 0, 0); if (d.getTime() / 1000 < now() + 120) d.setDate(d.getDate() + 1); return d; }],
-        [t("Saturday at 8 pm"), () => nextAt(6, 20, 0)], [t("Sunday at 4 pm"), () => nextAt(0, 16, 0)]]
+    refill(presets, (kind === "tournament"
+      ? [[t("Tonight at 8 pm"), () => { const d = new Date(); d.setHours(20, 0, 0, 0); if (d < soon()) d.setDate(d.getDate() + 1); return d; }],
+        [t("Saturday at 8 pm"), () => nextAt(6, 20, 0, soon())], [t("Sunday at 4 pm"), () => nextAt(0, 16, 0, soon())]]
         .map(([label, at]) => el("button", { type: "button", class: "chip", onclick: () => { const s0 = Math.floor(at().getTime() / 1000); setTimes(s0, s0 + (format === "arena" ? 3600 : 3 * 3600)); } }, label))
       : [[t("Now, for 24 hours"), () => setTimes(now(), now() + 86400)],
         [t("This weekend"), () => {
           const day = new Date().getDay();
           const from = day === 6 || day === 0 ? now() : Math.floor(nextAt(6, 0, 0).getTime() / 1000);
-          const sunday = day === 0 ? new Date() : nextAt(0, 0, 0, day === 6 ? new Date() : nextAt(6, 0, 0));
-          sunday.setHours(23, 59, 0, 0);
-          setTimes(from, Math.floor(sunday.getTime() / 1000));
+          // Until Monday 00:00, so the last minute of Sunday counts too.
+          setTimes(from, Math.floor(nextAt(1, 0, 0, new Date(from * 1000)).getTime() / 1000));
         }],
         [t("The next 7 days"), () => setTimes(now(), now() + 7 * 86400)]]
         .map(([label, go]) => el("button", { type: "button", class: "chip", onclick: go }, label))));
@@ -1987,17 +2163,23 @@ function eventDialog(limits) {
   function presetDefaults(keepStart) {
     const a = fromLocalInput(starts.value);
     if (kind === "tournament") {
-      const s0 = keepStart && a ? a : Math.floor(nextAt(6, 20, 0).getTime() / 1000);
+      const s0 = keepStart && a ? a : Math.floor(nextAt(6, 20, 0, soon()).getTime() / 1000);
       setTimes(s0, s0 + (format === "arena" ? 3600 : 3 * 3600));
     } else if (!keepStart) setTimes(now(), now() + 86400);
   }
+  /** Whole coins from 0 to `max` (empty is 0), or null. */
+  const coins = (input, max) => {
+    if (input.validity && input.validity.badInput) return null;
+    const v = input.value.trim() === "" ? 0 : Number(input.value);
+    return Number.isInteger(v) && v >= 0 && v <= max ? v : null;
+  };
   for (const x of [title, starts, ends, fee, prize]) x.addEventListener("input", draw);
   rated.addEventListener("change", draw);
   presetDefaults(false);
-  const d = dialog({
+  dialog({
     title: t("New event"), text: tf("Times in your time zone ({zone}).", { zone: zoneLabel() }), iconName: "calendar", wide: true,
     body: [field(t("Kind of event"), kindBox),
-      el("div", { class: "field" }, el("div", { class: "label" }, el("span", {}, kind === "tournament" ? t("Name") : t("Title")), count), title,
+      el("div", { class: "field" }, el("label", { class: "label", for: title.id }, titleName, count), title,
         el("div", { class: "hint" }, t("Players see it as written (in one language)."))),
       field(t("Quick picks"), presets),
       el("div", { class: "grid-2" }, field(t("Starts"), starts), field(t("Ends"), ends)),
@@ -2006,14 +2188,29 @@ function eventDialog(limits) {
       { label: t("Cancel"), onClick: (h) => h.close(false) },
       { label: t("Schedule"), kind: "primary", primary: true, onClick: async (h, button) => {
         errorBox.classList.add("hidden");
-        const a = fromLocalInput(starts.value), b = fromLocalInput(ends.value);
-        let problem = null;
+        let a = fromLocalInput(starts.value);
+        const b = fromLocalInput(ends.value);
+        // The form may have stood open a while: a boost that should have
+        // started already starts now.
+        if (kind !== "tournament" && a && a <= nowSecs()) a = Math.floor(nowSecs());
+        const tour = kind === "tournament";
+        const entryFee = coins(fee, limits.max_entry_fee), housePrize = coins(prize, limits.max_prize);
+        let problem = null, where = null;
         if (!title.value.trim()) problem = t("Give the event a title.");
         else if ([...title.value].length > limits.max_title) problem = tf("“{field}” is too long.", { field: t("Title") });
         else if (!(a && b)) problem = t("Choose when it starts and ends.");
         else if (b <= a) problem = t("The event must end after it starts.");
-        if (problem) { setKids(errorBox, icon("warn"), el("div", {}, problem)); errorBox.classList.remove("hidden"); return; }
-        const body = { kind, title: title.value.trim(), multiplier: mult, starts_at: a, ends_at: b, format, size, rated: rated.checked, entry_fee: Number(fee.value) || 0, prize: Number(prize.value) || 0 };
+        else if (tour && entryFee === null) { problem = tf("The entry fee must be a whole number from 0 to {max}.", { max: fmtNum(limits.max_entry_fee) }); where = fee; }
+        else if (tour && housePrize === null) { problem = tf("The house's prize must be a whole number from 0 to {max}.", { max: fmtNum(limits.max_prize) }); where = prize; }
+        fee.classList.toggle("invalid", where === fee);
+        prize.classList.toggle("invalid", where === prize);
+        if (problem) {
+          setKids(errorBox, icon("warn"), el("div", {}, problem));
+          errorBox.classList.remove("hidden");
+          if (where) where.focus();
+          return;
+        }
+        const body = { kind, title: title.value.trim(), multiplier: mult, starts_at: a, ends_at: b, format, size, rated: rated.checked, entry_fee: tour ? entryFee : 0, prize: tour ? housePrize : 0 };
         const label = button.textContent;
         button.disabled = true;
         setKids(button, el("span", { class: "spinner" }), label);
@@ -2033,8 +2230,12 @@ function eventDialog(limits) {
     ],
   });
   // The title's label follows the kind.
-  const titleLabel = d.root.querySelectorAll(".dialog-body .field")[1].querySelector(".label span");
-  const syncLabel = () => { titleLabel.textContent = kind === "tournament" ? t("Name") : t("Title"); title.placeholder = kind === "tournament" ? t("Halloween Cup") : kind === "coins" ? t("Coins weekend") : t("Double XP weekend"); };
+  const syncLabel = () => {
+    const name = kind === "tournament" ? t("Name") : t("Title");
+    titleName.textContent = name;
+    title.setAttribute("aria-label", name);
+    title.placeholder = kind === "tournament" ? t("Halloween Cup") : kind === "coins" ? t("Coins weekend") : t("Double XP weekend");
+  };
   kindBox.addEventListener("click", () => setTimeout(() => { syncLabel(); draw(); }, 0));
   syncLabel();
 }
@@ -2044,7 +2245,7 @@ function eventDialog(limits) {
 const CATEGORY = { cloth: "Cloth", cue: "Cue", chalk: "Chalk", balls: "Balls", frame: "Frame", name: "Name colour", effect: "Win effect", table: "Table", hall: "Hall", avatar: "Picture" };
 const HOW = { coins: ["Coins", "accent"], free: ["Free", ""], achievement: ["Achievement", "info"], vip: ["VIP", "warning"], pack: ["Welcome pack", "success"] };
 const FLOW = { buy: "Bought in the shop", gift: "Gifts to friends", daily: "Daily bonus and challenge", game: "Games played", league: "Leagues reached", level: "Levels reached",
-  staff: "Given by the staff", refund: "Refunds", tournament: "Tournament entries", prize: "Tournament prizes", mission: "Missions", coins: "Coin packs bought", welcome: "Welcome pack", vip: "VIP" };
+  staff: "Given by the staff", refund: "Refunds", tournament: "Tournament entries", prize: "Tournament prizes", mission: "Missions", pack: "Coin packs bought", welcome: "Welcome pack", vip: "VIP" };
 
 PAGES.economy = async (route) => {
   const tab = route.query.get("tab") || "coins";
@@ -2094,10 +2295,10 @@ PAGES.economy = async (route) => {
       ...revenue.map((r) => kpi({ label: tf("Revenue in 30 days ({currency})", { currency: r[0].toUpperCase() }), value: money(r[1], r[0]), sub: tn(r[2], "{n} payment", "{n} payments"), iconName: "chart", tone: "info" })),
       ms ? kpi({ label: "Microsoft Store", value: fmtNum(ms[2]), sub: t("coin packs in 30 days"), iconName: "coins" }) : null),
     !e.stripe ? el("div", { class: "section" }, alertBox("info", t("Card payments are off"), t("Stripe is not configured on this server."))) : null,
-    el("div", { class: "section" }, el("div", { class: "tabs" }, [["coins", t("Coins"), null], ["payments", t("Payments"), e.payments.length], ["catalog", t("The shop's catalogue"), e.catalog.length]]
+    el("div", { class: "section" }, el("div", { class: "tabs" }, [["coins", t("Coins"), null], ["payments", t("Payments"), e.private_hidden ? null : e.payments.length], ["catalog", t("The shop's catalogue"), e.catalog.length]]
       .map(([id, label, n]) => el("button", { type: "button", class: "tab" + (tab === id ? " on" : ""), onclick: () => { setQuery({ tab: id }); render(); } }, label, n !== null ? el("span", { class: "count" }, fmtNum(n)) : null))),
     tab === "payments"
-      ? card(cardHead(t("Latest payments"), t("Test and refunded payments are faded")), pays.length ? table([t("When"), t("Player"), t("What"), { label: t("Coins"), cls: "num" }, { label: t("Amount"), cls: "num" }, t("Status"), ""], pays) : empty("coins", t("No payments yet"), null))
+      ? card(cardHead(t("Latest payments"), t("Test and refunded payments are faded")), e.private_hidden ? empty("lock", t("Visible to administrators only"), null) : pays.length ? table([t("When"), t("Player"), t("What"), { label: t("Coins"), cls: "num" }, { label: t("Amount"), cls: "num" }, t("Status"), ""], pays) : empty("coins", t("No payments yet"), null))
       : tab === "catalog"
         ? el("div", {}, el("div", { class: "toolbar" }, q, catSel, howSel), card(null, catalogBox))
         : el("div", { class: "grid-aside" },
@@ -2154,7 +2355,7 @@ PAGES.metrics = async () => {
   const pctCell = (x) => el("td", { class: "hcell " + level(x) }, x === null || x === undefined ? "—" : fmtPct(x, 0));
   const cohorts = (m.cohorts || []).map((c) => el("tr", {}, el("td", {}, fmtDay(c.first_day) + " – " + fmtDay(c.first_day + 6)), el("td", { class: "num" }, fmtNum(c.accounts)), pctCell(c.d1), pctCell(c.d7), pctCell(c.d30)));
   return el("div", { class: "stack" },
-    pageHead(t("Metrics"), t("How many play, how long they stay, what they pay · refreshes every minute"), updatedLabel(render)),
+    pageHead(t("Metrics"), t("How many play, how long they stay, what they pay · refreshes every minute"), updatedLabel(refreshPage)),
     d.draining ? alertBox("warning", t("The server is restarting"), t("No new games start; the games in progress move to the next server.")) : null,
     el("div", { class: "kpis" },
       kpi({ label: t("Online now"), value: fmtNum(d.online), iconName: "users", tone: "success" }),
@@ -2187,12 +2388,12 @@ PAGES.audit = async (route) => {
   const q = route.query.get("q") || "";
   const action = route.query.get("action") || "";
   const target = route.query.get("target") || "";
-  const params = (before) => `/audit?q=${encodeURIComponent(q)}&action=${encodeURIComponent(action)}&target=${encodeURIComponent(target)}` + (before ? "&before=" + before : "");
+  const params = (before) => "/audit?" + new URLSearchParams({ q, action, target, ...(before ? { before } : {}) });
   const first = await api(params());
   let entries = first.entries.slice(), next = first.next;
-  const search = el("input", { class: "input wide", type: "search", placeholder: t("Staff, player or words"), value: q, "aria-label": t("Search") });
-  search.addEventListener("input", debounce(() => { setQuery({ q: search.value.trim() }); render(); }, 350));
-  const actionSel = el("select", { class: "select", "aria-label": t("Action") }, el("option", { value: "" }, t("Every action")),
+  const search = el("input", { class: "input wide", type: "search", placeholder: t("Staff, player or words"), value: q, "aria-label": t("Search"), "data-focus": "audit-q" });
+  search.addEventListener("input", debounce(() => { setQuery({ q: search.value.trim() }); render({ quiet: true }); }, 350));
+  const actionSel = el("select", { class: "select", "aria-label": t("Action"), "data-focus": "audit-action" }, el("option", { value: "" }, t("Every action")),
     Object.keys(AUDIT_ACTIONS).sort((a, b) => auditLabel(a).localeCompare(auditLabel(b), lang)).map((a) => el("option", { value: a }, auditLabel(a))));
   actionSel.value = action;
   actionSel.addEventListener("change", () => { setQuery({ action: actionSel.value }); render(); });
@@ -2200,13 +2401,13 @@ PAGES.audit = async (route) => {
   const more = el("div", { class: "pager" });
   const row = (e) => {
     const [tone, ic] = AUDIT_TONE[e.action] || ["", "info"];
-    const looksLikePlayer = /^[A-Za-z0-9_]{3,16}$/.test(e.target) && !["lounge", "board"].includes(e.target);
     return el("tr", {},
       el("td", { class: "nowrap" }, fmtDate(e.at)),
       el("td", {}, personLink(e.staff)),
       el("td", {}, badge(auditLabel(e.action), tone, ic)),
-      el("td", {}, looksLikePlayer && e.action !== "login" ? personLink(e.target, { avatar: false }) : el("span", { class: AUDIT_PLACES[e.target] ? "" : "mono" }, e.action === "login" ? "—" : auditTarget(e))),
-      el("td", { class: "wrap muted" }, e.action === "login" ? tf("from {ip}", { ip: e.details }) : e.details));
+      el("td", {}, PLAYER_ACTIONS.has(e.action) && e.target ? personLink(e.target, { avatar: false }) : el("span", { class: /^#?\d+$/.test(e.target || "") ? "mono" : "" }, e.action === "login" ? "—" : auditTarget(e))),
+      // Moderators get no address for a sign-in: nothing to show then.
+      el("td", { class: "wrap muted" }, e.action === "login" ? (e.details ? tf("from {ip}", { ip: e.details }) : null) : e.details));
   };
   const drawMore = () => {
     setKids(more, el("span", {}, tn(entries.length, "{n} entry shown", "{n} entries shown")),
@@ -2264,7 +2465,7 @@ PAGES.system = async () => {
     [t("Entry"), r.cup.entry_fee ? tf("{n} coins", { n: fmtNum(r.cup.entry_fee) }) : t("free")],
   ]) : el("p", { class: "faint" }, t("No weekly cup is set up (SNOOK_LEGEND_CUP)."));
   return el("div", { class: "stack" },
-    pageHead(t("Server"), t("What runs, how it is set up, how busy it is"), updatedLabel(render)),
+    pageHead(t("Server"), t("What runs, how it is set up, how busy it is"), updatedLabel(refreshPage)),
     el("div", { class: "kpis" },
       kpi({ label: t("Version"), value: s.version, sub: tf("protocol {p} · rules {r}", { p: s.protocol, r: s.ruleset }), iconName: "server" }),
       kpi({ label: t("Up for"), value: fmtDuration(s.uptime_secs), sub: tf("since {when}", { when: fmtDate(s.now - s.uptime_secs) }), iconName: "clock", tone: "success" }),
@@ -2293,8 +2494,8 @@ PAGES.system = async () => {
       ])))),
     el("div", { class: "grid-2" },
       card(cardHead(t("Weekly cup")), el("div", { class: "card-body" }, cup)),
-      card(cardHead(t("Staff"), tn(staffList.total, "{n} member", "{n} members")), staffList.users.length ? table([t("Name"), t("Role"), t("Last seen")], staffList.users.map((u) => el("tr", { class: "click", onclick: () => go("players/" + encodeURIComponent(u.username)) },
-        el("td", {}, personLink(u.username)), el("td", {}, badge(roleLabel(u.role), u.role === "admin" ? "danger" : "info", "shield")), el("td", {}, u.online ? badge(t("Online"), "success dot") : timeEl(u.last_seen)))))
+      card(cardHead(t("Staff"), tn(staffList.total, "{n} member", "{n} members")), staffList.users.length ? table([t("Name"), t("Role"), t("Last seen")], staffList.users.map((u) => clickable(el("tr", { class: "click" },
+        el("td", {}, personLink(u.username)), el("td", {}, badge(roleLabel(u.role), u.role === "admin" ? "danger" : "info", "shield")), el("td", {}, u.online ? badge(t("Online"), "success dot") : timeEl(u.last_seen))), () => go("players/" + encodeURIComponent(u.username)))))
         : empty("shield", t("No staff yet"), null))));
 };
 
@@ -2335,16 +2536,31 @@ function closeViewer() {
   viewer = null;
 }
 
-async function openViewer(path) {
+/** Opens a game in the replay viewer; `fallback` is tried when `path`
+ * has no such game (a number typed in the search may be a live room). */
+async function openViewer(path, fallback) {
   closeViewer();
   const card = el("div", { class: "viewer-card card" }, el("div", { class: "viewer-wait" }, el("span", { class: "spinner" }), t("Rebuilding the game…")));
-  const box = el("div", { class: "viewer", role: "dialog", "aria-modal": "true", "aria-label": t("Replay") }, card);
+  // tabindex -1: the keyboard moves into the viewer while it loads.
+  const box = el("div", { class: "viewer", role: "dialog", "aria-modal": "true", "aria-label": t("Replay"), tabindex: "-1" }, card);
   box.addEventListener("mousedown", (e) => { if (e.target === box) closeViewer(); });
   document.body.append(box);
   viewer = { box, raf: 0, opener: document.activeElement };
+  box.focus({ preventScroll: true });
   let data;
-  try { data = await api(path); } catch (e) {
-    if (viewer && viewer.box === box) setKids(card, alertBox("danger", t("The game couldn't be opened"), e.message), el("div", { class: "row" }, btn(t("Close"), { onClick: closeViewer })));
+  try {
+    try {
+      data = await api(path);
+    } catch (e) {
+      if (e.status !== 404 || !fallback) throw e;
+      try { data = await api(fallback); } catch (_) { throw e; }
+    }
+  } catch (e) {
+    if (viewer && viewer.box === box) {
+      const close = btn(t("Close"), { onClick: closeViewer });
+      setKids(card, alertBox("danger", t("The game couldn't be opened"), e.message), el("div", { class: "row" }, close));
+      close.focus();
+    }
     return;
   }
   if (!viewer || viewer.box !== box) return;
@@ -2423,9 +2639,9 @@ function buildViewer(card, data) {
   const scrub = el("input", { type: "range", min: "0", max: "0", value: "0", class: "scrub", "aria-label": t("Position in the stroke") });
   const status = el("div", { class: "viewer-status" });
   const prev = btn(t("Previous stroke") + " (←)", { kind: "icon-only", icon: "chevronLeft", iconOnly: true });
-  const back = el("button", { type: "button", class: "btn", title: t("One frame back") + " (,)" }, "‹");
+  const back = el("button", { type: "button", class: "btn", title: t("One frame back") + " (,)", "aria-label": t("One frame back") }, "‹");
   const play = el("button", { type: "button", class: "btn primary play", title: t("Play or pause") + " (" + t("Space") + ")" });
-  const fwd = el("button", { type: "button", class: "btn", title: t("One frame forward") + " (.)" }, "›");
+  const fwd = el("button", { type: "button", class: "btn", title: t("One frame forward") + " (.)", "aria-label": t("One frame forward") }, "›");
   const next = btn(t("Next stroke") + " (→)", { kind: "icon-only", icon: "chevronRight", iconOnly: true });
   const speed = el("select", { class: "select", "aria-label": t("Speed") }, [["0.25", "¼×"], ["0.5", "½×"], ["1", "1×"], ["2", "2×"], ["4", "4×"]].map(([v, l]) => el("option", { value: v }, l)));
   speed.value = "1";
@@ -2433,7 +2649,8 @@ function buildViewer(card, data) {
   const list = el("ol", { class: "stroke-list" }, strokes.map((s, k) => {
     const [who, what] = strokeSummary(s, names);
     const foul = s.kind !== "shot" || s.fouls.length > 0;
-    return el("li", { class: foul ? "foul" : "", onclick: () => { pause(); seek(k, 0); } }, el("span", { class: "n" }, k + 1), el("span", { class: "who seat" + s.seat }, who), el("span", { class: "what" }, what));
+    return clickable(el("li", { class: foul ? "foul" : "" }, el("span", { class: "n" }, k + 1), el("span", { class: "who seat" + s.seat }, who), el("span", { class: "what" }, what)),
+      () => { pause(); seek(k, 0); });
   }));
   const draw = () => {
     st.pos.forEach((p, n) => {
@@ -2523,6 +2740,8 @@ function buildViewer(card, data) {
       el("div", { class: "viewer-side" }, el("div", { class: "side-head" }, tn(strokes.length, "{n} stroke", "{n} strokes") + " · " + over()), list)),
     data.error ? alertBox("warning", t("The replay stops early"), data.error) : null);
   viewer.keys = (e) => {
+    // Already handled (Enter or Space on a stroke of the list).
+    if (e.defaultPrevented) return;
     if (e.target && ["INPUT", "SELECT", "TEXTAREA"].includes(e.target.tagName) && e.target !== scrub) return;
     if (e.key === " ") { e.preventDefault(); toggle(); }
     else if (e.key === "ArrowLeft") { e.preventDefault(); stepStroke(-1); }

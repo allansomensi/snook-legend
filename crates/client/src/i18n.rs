@@ -230,6 +230,15 @@ pub fn server_text(text: &str) -> String {
             &[("cup", &tournament_name(cup))],
         );
     }
+    if let Some(cup) = text
+        .strip_prefix("The ")
+        .and_then(|rest| rest.strip_suffix(" was called off: not enough players signed up."))
+    {
+        return tw(
+            "The {cup} was called off: not enough players signed up.",
+            &[("cup", &tournament_name(cup))],
+        );
+    }
     if let Some((who, name)) = text
         .strip_suffix("\u{201d}!")
         .and_then(|rest| rest.split_once(" won the tournament \u{201c}"))
@@ -397,6 +406,10 @@ mod tests {
         assert_eq!(
             server_text("The Saturday Cup is open for sign-up: it starts soon in Tournaments."),
             "As inscrições para a Copa de Sábado estão abertas: ela começa em breve, em Torneios."
+        );
+        assert_eq!(
+            server_text("The Friday Cup was called off: not enough players signed up."),
+            "A Copa de Sexta foi cancelada: não houve inscritos suficientes."
         );
         assert_eq!(
             server_text("Ana won the tournament \u{201c}Friday Cup\u{201d}!"),

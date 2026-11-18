@@ -552,7 +552,9 @@ async fn vip_gift_paid(
             at: now(),
             refunded: false,
             test: false,
-            email: email_of(obj),
+            // The giver's e-mail is not the friend's: never kept on their
+            // record (it would be offered to them as theirs).
+            email: None,
         })
         .await
         .map_err(err)?;

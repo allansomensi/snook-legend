@@ -509,6 +509,7 @@ impl Match {
                 record: snook_legend_proto::replay::Replay::new(seed, 0),
                 reported: false,
                 dealt: false,
+                account: String::new(),
             });
         let mut m = Match {
             game: EightBallGame::new(seed, 0),
@@ -973,6 +974,7 @@ impl Match {
             run.record = snook_legend_proto::replay::Replay::new(seed, breaker);
             run.reported = false;
             run.dealt = false;
+            run.account.clear();
         }
         self.stats = [ShotStats::default(); 2];
         self.visit_run = (0, 0);

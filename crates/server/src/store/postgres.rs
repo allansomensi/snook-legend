@@ -830,7 +830,8 @@ impl PgStore {
 
     pub async fn payment_email(&self, user_id: i64) -> StoreResult<Option<String>> {
         let row = query(
-            "SELECT email FROM payments WHERE user_id = $1 AND email IS NOT NULL
+            "SELECT email FROM payments
+             WHERE user_id = $1 AND email IS NOT NULL AND kind <> 'vip_gift'
              ORDER BY at DESC LIMIT 1",
         )
         .bind(user_id)

@@ -1409,7 +1409,7 @@ async fn account_password_recovery_email_and_deletion() {
 /// The e-mail of the account's own payment (offered after it) is set
 /// without the password: it is the owner's already. Any other needs it.
 #[tokio::test]
-async fn the_payment_email_needs_no_password() {
+async fn the_payment_email_needs_the_password_too() {
     use snook_legend_server::store::{Payment, Store};
     let (url, server) = start_on(Store::memory()).await;
     let (mut erin, _) = Client::register(&url, "erin").await;
@@ -1427,14 +1427,16 @@ async fn the_payment_email_needs_no_password() {
         test: false,
     };
     assert!(server.store.record_payment(&payment).await.unwrap());
-    for email in ["someone@example.com", ""] {
+    // Someone at an unlocked computer can't point the account's recovery
+    // at an address they read on the screen: the password is asked always.
+    for email in ["someone@example.com", " erin@example.com", ""] {
         erin.send(ClientMsg::SetRecoveryEmail { email: email.into(), password: String::new() })
             .await;
         assert_eq!(erin.error_text().await, "The current password is wrong.", "{email:?}");
     }
     erin.send(ClientMsg::SetRecoveryEmail {
         email: " erin@example.com".into(),
-        password: String::new(),
+        password: PASSWORD.into(),
     })
     .await;
     let ServerMsg::Account { recovery_email, .. } =
@@ -1949,7 +1951,8 @@ async fn knockouts_move_on_and_are_announced_when_they_change() {
 
 /// A knockout game both players left (for longer than the reconnection
 /// allows) is settled like a match nobody came to: the bracket goes on
-/// (it used to wait for that game for ever).
+/// (it used to wait for that game for ever), and neither goes through (a
+/// final without a champion: the fees go back).
 #[tokio::test]
 async fn a_tournament_game_both_players_left_is_settled() {
     let rules = Rules {
@@ -1981,7 +1984,7 @@ async fn a_tournament_game_both_players_left_is_settled() {
     else {
         unreachable!()
     };
-    assert!(tournament.champion.is_some());
+    assert!(tournament.champion.is_none(), "{tournament:?}");
 }
 
 #[tokio::test]

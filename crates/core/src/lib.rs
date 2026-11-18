@@ -25,7 +25,9 @@
 ///   the 8 alone on the break wins: see [`EightBallGame::finish_shot`]) on
 ///   the same table, with heavier-feeling balls: a slower cloth, a rack
 ///   that soaks up more of the break and a break that is not struck as hard.
-/// - 5: 0.7.0. Ruleset 4 with what it got wrong put right. The cue ball in hand may be placed against a
+/// - 5: 0.7.0. Ruleset 4 with what it got wrong put right. A break that makes
+///   balls of both groups passes the turn with the table still open. The
+///   cue ball in hand may be placed against a
 ///   cushion, never past a pocket's mouth; a table still open when no ball
 ///   of either group is left puts both players on the 8; a shot clock that
 ///   runs out leaves the cue ball in hand as it was; a tip too far out to

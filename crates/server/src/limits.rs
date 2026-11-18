@@ -118,6 +118,10 @@ impl Window {
 #[derive(Debug, Default)]
 pub struct AuthLimiter {
     failures_ip: Window,
+    /// Wrong passwords for an account from one address.
+    failures_pair: Window,
+    /// Wrong passwords for an account from anywhere (a far higher limit:
+    /// a stranger can't lock an account out with a few wrong passwords).
     failures_user: Window,
     registrations: Window,
     sign_ins_ip: Window,
@@ -128,6 +132,10 @@ pub const AUTH_WINDOW: Duration = Duration::from_secs(15 * 60);
 const REGISTER_WINDOW: Duration = Duration::from_secs(60 * 60);
 const MAX_FAILURES_PER_IP: usize = 20;
 const MAX_FAILURES_PER_USER: usize = 8;
+/// Wrong passwords for an account from every address together: guessing
+/// from many addresses stays slow, and locking someone out takes far more
+/// than a few tries from one place.
+const MAX_FAILURES_PER_ACCOUNT: usize = 60;
 const MAX_REGISTRATIONS_PER_IP: usize = 5;
 /// Sign-ins (by password, by a saved session or with a new account) cost
 /// a dozen database requests each; a game reconnects at most every second
@@ -148,12 +156,15 @@ impl AuthLimiter {
     /// database does).
     pub fn try_password(&mut self, ip: &str, username: &str) -> bool {
         let user = username.to_ascii_lowercase();
+        let pair = format!("{ip}|{user}");
         if self.failures_ip.count(ip, AUTH_WINDOW) >= MAX_FAILURES_PER_IP
-            || self.failures_user.count(&user, AUTH_WINDOW) >= MAX_FAILURES_PER_USER
+            || self.failures_pair.count(&pair, AUTH_WINDOW) >= MAX_FAILURES_PER_USER
+            || self.failures_user.count(&user, AUTH_WINDOW) >= MAX_FAILURES_PER_ACCOUNT
         {
             return false;
         }
         self.failures_ip.add(ip);
+        self.failures_pair.add(&pair);
         self.failures_user.add(&user);
         true
     }
@@ -162,14 +173,18 @@ impl AuthLimiter {
     /// and the attempt is not one of the address's.
     pub fn succeeded(&mut self, ip: &str, username: &str) {
         self.failures_ip.take_back(ip);
-        self.failures_user.clear(&username.to_ascii_lowercase());
+        let user = username.to_ascii_lowercase();
+        self.failures_pair.clear(&format!("{ip}|{user}"));
+        self.failures_user.clear(&user);
     }
 
     /// The password could not be checked (the server was busy): the attempt
     /// counted for it is given back.
     pub fn not_tried(&mut self, ip: &str, username: &str) {
         self.failures_ip.take_back(ip);
-        self.failures_user.take_back(&username.to_ascii_lowercase());
+        let user = username.to_ascii_lowercase();
+        self.failures_pair.take_back(&format!("{ip}|{user}"));
+        self.failures_user.take_back(&user);
     }
 
     /// Whether another account may be made from `key` (an address; reports
@@ -208,6 +223,7 @@ impl AuthLimiter {
 
     pub fn sweep(&mut self) {
         self.failures_ip.sweep(AUTH_WINDOW);
+        self.failures_pair.sweep(AUTH_WINDOW);
         self.failures_user.sweep(AUTH_WINDOW);
         self.registrations.sweep(REGISTER_WINDOW);
         self.sign_ins_ip.sweep(SIGN_IN_WINDOW);
@@ -232,12 +248,23 @@ mod tests {
         for _ in 0..MAX_FAILURES_PER_USER {
             assert!(l.try_password("1.2.3.4", "Bob"));
         }
-        assert!(!l.try_password("5.6.7.8", "bob"), "per account, from any address");
+        assert!(!l.try_password("1.2.3.4", "bob"), "per account from one address");
+        // Someone else's wrong passwords don't lock the owner out…
+        assert!(l.try_password("5.6.7.8", "bob"), "the owner elsewhere still may");
         assert!(l.try_password("1.2.3.4", "alice"));
         // A right password takes its own attempt back and clears the account.
         l.succeeded("1.2.3.4", "alice");
         l.succeeded("1.2.3.4", "BOB");
-        assert!(l.try_password("5.6.7.8", "bob"));
+        assert!(l.try_password("1.2.3.4", "bob"));
+        // …but guessing from many addresses stops at the account's limit.
+        let mut l = AuthLimiter::default();
+        let mut tried = 0;
+        for k in 0..200 {
+            if l.try_password(&format!("10.0.{}.{}", k / 250, k % 250), "carol") {
+                tried += 1;
+            }
+        }
+        assert_eq!(tried, MAX_FAILURES_PER_ACCOUNT);
     }
 
     #[test]

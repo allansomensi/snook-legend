@@ -113,6 +113,68 @@ impl Stripe {
         Ok(body)
     }
 
+    #[cfg(not(feature = "payments"))]
+    async fn call(&self, _method: &str, _path: &str) -> Result<Value, String> {
+        Err("this build takes no payments".into())
+    }
+
+    /// A GET or DELETE to the API (`path` with its query).
+    #[cfg(feature = "payments")]
+    async fn call(&self, method: &str, path: &str) -> Result<Value, String> {
+        let url = format!("https://api.stripe.com/v1/{path}");
+        let req = if method == "DELETE" { self.http.delete(url) } else { self.http.get(url) };
+        let res = req
+            .bearer_auth(&self.cfg.secret)
+            .send()
+            .await
+            .map_err(|e| format!("payment provider unreachable: {e}"))?;
+        let status = res.status();
+        let body: Value = res.json().await.map_err(|e| format!("bad reply: {e}"))?;
+        if !status.is_success() {
+            let msg = body["error"]["message"].as_str().unwrap_or("unknown error");
+            return Err(format!("payment provider refused: {msg}"));
+        }
+        Ok(body)
+    }
+
+    /// The invoice a payment paid, if it paid one (a VIP month is recorded
+    /// under its invoice; its refunds and disputes name the payment). Asked
+    /// as the newer API answers it (the invoice's payments), then as the
+    /// older one does (the payment's own `invoice`).
+    pub async fn invoice_of_payment(&self, payment_intent: &str) -> Option<String> {
+        let pi = urlencode(payment_intent);
+        let path = format!(
+            "invoice_payments?payment[type]=payment_intent&payment[payment_intent]={pi}&limit=1"
+        );
+        if let Ok(list) = self.call("GET", &path).await
+            && let Some(invoice) = list.pointer("/data/0/invoice").and_then(Value::as_str)
+        {
+            return Some(invoice.to_string());
+        }
+        let intent = self.call("GET", &format!("payment_intents/{pi}")).await.ok()?;
+        intent["invoice"].as_str().map(str::to_string)
+    }
+
+    /// Ends every subscription of `customer` that would bill again (the
+    /// account is being deleted). Err when one could not be ended.
+    pub async fn cancel_subscriptions(&self, customer: &str) -> Result<usize, String> {
+        let c = urlencode(customer);
+        let list =
+            self.call("GET", &format!("subscriptions?customer={c}&status=all&limit=20")).await?;
+        let mut ended = 0;
+        for sub in list["data"].as_array().into_iter().flatten() {
+            let live = matches!(
+                sub["status"].as_str(),
+                Some("active" | "trialing" | "past_due" | "unpaid" | "incomplete")
+            );
+            if let (true, Some(id)) = (live, sub["id"].as_str()) {
+                self.call("DELETE", &format!("subscriptions/{}", urlencode(id))).await?;
+                ended += 1;
+            }
+        }
+        Ok(ended)
+    }
+
     fn return_urls(&self) -> [(String, String); 2] {
         [
             ("success_url".into(), format!("{}/shop/thanks", self.cfg.public_url)),
@@ -222,6 +284,20 @@ impl Stripe {
 }
 
 /// `t=…,v1=…[,v1=…]`: HMAC-SHA256 of `"{t}.{payload}"`, recent enough.
+/// An id as a URL's path or query part (Stripe's ids are letters, digits
+/// and underscores; anything else is escaped, never passed through).
+fn urlencode(s: &str) -> String {
+    s.bytes()
+        .map(|b| {
+            if b.is_ascii_alphanumeric() || b == b'_' || b == b'-' {
+                (b as char).to_string()
+            } else {
+                format!("%{b:02X}")
+            }
+        })
+        .collect()
+}
+
 pub fn verify_signature(secret: &str, payload: &[u8], header: &str, now: i64) -> bool {
     let mut t = None;
     let mut sigs = Vec::new();
@@ -265,6 +341,13 @@ mod tests {
         mac.update(format!("{t}.{payload}").as_bytes());
         let hex: String = mac.finalize().into_bytes().iter().map(|b| format!("{b:02x}")).collect();
         format!("t={t},v1={hex}")
+    }
+
+    /// Ids go into the API's paths and queries escaped, never as they are.
+    #[test]
+    fn ids_are_escaped() {
+        assert_eq!(urlencode("pi_3Abc_9"), "pi_3Abc_9");
+        assert_eq!(urlencode("cus_1&s=x/.."), "cus_1%26s%3Dx%2F%2E%2E");
     }
 
     #[test]

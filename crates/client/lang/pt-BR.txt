@@ -1780,3 +1780,4 @@ That tournament is full.	Esse torneio está cheio.
 The server is restarting: your tournament was called off.	O servidor está reiniciando: seu torneio foi cancelado.
 Too many sign-ins. Wait a minute and try again.	Entradas demais. Espere um minuto e tente de novo.
 Too many wrong passwords. Try again in a few minutes.	Senhas erradas demais. Tente de novo em alguns minutos.
+Your VIP subscription could not be cancelled. Try again in a moment.	Não foi possível cancelar a sua assinatura VIP. Tente de novo em instantes.

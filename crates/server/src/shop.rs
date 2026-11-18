@@ -798,6 +798,15 @@ async fn apply(server: &Server, event: &Value) -> Result<(), String> {
                     break;
                 }
             }
+            // A dispute names no invoice, and a charge no longer does on the
+            // newer API: a VIP month (recorded under its invoice) is found
+            // through the payment's invoice, asked from Stripe.
+            if found.is_none()
+                && let (Some(stripe), Some(pi)) = (&server.stripe, str_of(obj, "payment_intent"))
+                && let Some(invoice) = stripe.invoice_of_payment(pi).await
+            {
+                found = server.store.payment(&invoice).await.map_err(err)?;
+            }
             let Some(p) = found else { return Ok(()) };
             // The welcome pack's items go back with its coins (whatever of
             // them is in use is no longer shown). Before the payment is

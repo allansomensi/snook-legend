@@ -160,6 +160,18 @@ pub async fn handle(
             if !password_ok(server, &fresh, &password, ip, &error).await {
                 return false;
             }
+            // A VIP subscription would go on billing an account that is
+            // gone (and that can no longer reach the page to cancel it): it
+            // ends first, or the account stays.
+            if let Some(stripe) = &server.stripe
+                && let Ok(w) = server.store.wallet(me.id).await
+                && let Some(customer) = w.stripe_customer.as_deref()
+                && let Err(e) = stripe.cancel_subscriptions(customer).await
+            {
+                tracing::warn!(user = me.id, "subscription not cancelled: {e}");
+                error("Your VIP subscription could not be cancelled. Try again in a moment.");
+                return false;
+            }
             if server.store.delete_account(me.id, now()).await.is_err() {
                 error("Something went wrong. Please try again.");
                 return false;

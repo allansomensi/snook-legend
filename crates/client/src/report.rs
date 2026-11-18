@@ -130,9 +130,7 @@ impl ReportDialog {
                 details: self.details.clone(),
             });
         }
-        if ui.button(Rect::new(x, by, 120.0, 40.0), t("Cancel"), true)
-            || (is_key_pressed(KeyCode::Escape) && ui.focus.is_none())
-        {
+        if ui.button(Rect::new(x, by, 120.0, 40.0), t("Cancel"), true) || ui.escape() {
             ui.focus = None;
             return ReportOutcome::Cancelled;
         }

@@ -52,7 +52,7 @@ impl Setup {
             AimGuide::Short => t("Only a short line from the cue ball."),
             AimGuide::Off => t("No lines on the table: aim by eye, along the cue."),
         };
-        let clock_hint = t("When time runs out, the opponent gets ball in hand.");
+        let clock_hint = t("When time runs out, the turn passes.");
         let guide_lines = ui.wrap(guide_hint, inner, HINT);
         let clock_lines = ui.wrap(clock_hint, inner, HINT);
         let field_h = |hint: &[String]| {
@@ -75,8 +75,10 @@ impl Setup {
                 ui.text(line, x, y + 6.0 + k as f32 * (HINT + 3.0), HINT, MUTED, false);
             }
         };
-        // Enter starts the game, from a name field or anywhere else.
-        let mut enter = is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::KpEnter);
+        // Enter starts the game, from a name field or anywhere else (not
+        // from a dialog over the screen: its Enter is its own).
+        let mut enter = (is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::KpEnter))
+            && ui.focus.is_none();
 
         // Names.
         let half = (inner - 12.0) / 2.0;
@@ -120,9 +122,7 @@ impl Setup {
 
         let by = r.y + r.h - 24.0 - 42.0;
         let mut action = SetupAction::None;
-        if ui.button(Rect::new(x, by, 150.0, 42.0), t("Back"), true)
-            || (is_key_pressed(KeyCode::Escape) && ui.focus.is_none())
-        {
+        if ui.button(Rect::new(x, by, 150.0, 42.0), t("Back"), true) || ui.escape() {
             action = SetupAction::Back;
         }
         if ui.primary_button(Rect::new(x + inner - 220.0, by, 220.0, 42.0), t("Play")) || enter {

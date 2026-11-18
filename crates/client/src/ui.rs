@@ -71,6 +71,11 @@ pub fn tier_color(tier: snook_legend_proto::Tier) -> Color {
 /// red (no tier and no name style from the shop is).
 pub const ADMIN_RED: Color = Color::new(1.0, 0.32, 0.27, 1.0);
 
+/// Keyboard marks from here up belong to dialogs, not to text fields: a
+/// dialog over a screen holds the keyboard with one while it is open, so the
+/// screen's Enter and Esc wait.
+pub const MODAL_FOCUS: u64 = 9_000;
+
 /// The colour of a name: red for administrators, else the rating tier's.
 pub fn name_color_of(admin: bool, rating: i32) -> Color {
     if admin { ADMIN_RED } else { tier_color(snook_legend_proto::Tier::of(rating)) }
@@ -125,6 +130,14 @@ pub fn ui_scale() -> f32 {
 /// Width of the screen in interface units.
 pub fn vw() -> f32 {
     screen_width() / ui_scale()
+}
+
+/// `v` kept between `lo` and `hi`, `lo` winning when there is less room
+/// than it asks for. Unlike `f32::clamp` it never stops the game: a window
+/// made tiny, or minimised (reported as no pixels at all), leaves `hi`
+/// below `lo`.
+pub fn clamp_soft(v: f32, lo: f32, hi: f32) -> f32 {
+    v.min(hi).max(lo)
 }
 
 /// Height of the screen in interface units.
@@ -192,6 +205,12 @@ pub struct Ui {
     /// between them).
     fields: Vec<u64>,
     prev_fields: Vec<u64>,
+    /// A text field took this frame's Esc (to let go of the keyboard): the
+    /// screen around it must not take it too (see [`Ui::escape`]).
+    escape_taken: bool,
+    /// When the caret last moved or text was typed: it stays lit while
+    /// typing, and blinks from there.
+    caret_at: f64,
     /// Tab (+1) or Shift+Tab (-1) was pressed in a field: the focus moves on
     /// at the start of the next frame, once every field has been drawn.
     tab_move: Option<i32>,
@@ -236,6 +255,8 @@ impl Ui {
             anchor: None,
             fields: Vec::new(),
             prev_fields: Vec::new(),
+            escape_taken: false,
+            caret_at: 0.0,
             tab_move: None,
             last_click: None,
             repeat: None,
@@ -265,6 +286,17 @@ impl Ui {
             self.released_active = self.active.take();
         }
         self.prev_fields = std::mem::take(&mut self.fields);
+        self.escape_taken = false;
+        // The keyboard stays with no field that is gone (a match that ended
+        // while its chat had it): Esc and the shortcuts work again. The
+        // dialogs' own marks (no field of their own) are left alone.
+        if let Some(f) = self.focus
+            && f < MODAL_FOCUS
+            && !self.prev_fields.contains(&f)
+        {
+            self.focus = None;
+            self.anchor = None;
+        }
         // Tab: the next (or previous) field of last frame, in drawing order.
         if let Some(step) = self.tab_move.take()
             && let Some(f) = self.focus
@@ -762,7 +794,7 @@ impl Ui {
             }
         }
         self.text(&visible, r.x + 8.0, r.y + (r.h - size) / 2.0, size, CREAM, false);
-        if focused && (get_time() * 2.0) as i64 % 2 == 0 {
+        if focused && ((get_time() - self.caret_at) * 2.0) as i64 % 2 == 0 {
             let caret = self.cursor.min(shown.len()).clamp(first, last);
             let w = width_of(self, first, caret);
             draw_line(r.x + 9.0 + w, r.y + 6.0, r.x + 9.0 + w, r.y + r.h - 6.0, 1.5, CREAM);
@@ -778,10 +810,14 @@ impl Ui {
 
     /// The keyboard in the focused field. Returns true when Enter is pressed.
     fn edit(&mut self, value: &mut String, max_len: usize, masked: bool) -> bool {
-        let ctrl = is_key_down(KeyCode::LeftControl)
+        // AltGr reaches Windows programs as Ctrl+Alt: with it held the keys
+        // type (@, #, €, [ ] on many keyboards), they are no shortcuts.
+        let altgr = is_key_down(KeyCode::RightAlt);
+        let ctrl = (is_key_down(KeyCode::LeftControl)
             || is_key_down(KeyCode::RightControl)
             || is_key_down(KeyCode::LeftSuper)
-            || is_key_down(KeyCode::RightSuper);
+            || is_key_down(KeyCode::RightSuper))
+            && !altgr;
         let shift = is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift);
         let mut chars: Vec<char> = value.chars().collect();
         self.cursor = self.cursor.min(chars.len());
@@ -874,6 +910,9 @@ impl Ui {
         if changed {
             *value = chars.into_iter().collect();
         }
+        if cursor != self.cursor || changed {
+            self.caret_at = get_time();
+        }
         self.cursor = cursor;
         let mut submitted = false;
         if is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::KpEnter) {
@@ -886,8 +925,16 @@ impl Ui {
         if is_key_pressed(KeyCode::Escape) {
             self.focus = None;
             self.anchor = None;
+            self.escape_taken = true;
         }
         submitted
+    }
+
+    /// Esc, for a screen or a dialog to go back: not while a field or a
+    /// dialog over it has the keyboard, and not the Esc a field just used
+    /// to let go of it.
+    pub fn escape(&self) -> bool {
+        is_key_pressed(KeyCode::Escape) && self.focus.is_none() && !self.escape_taken
     }
 
     /// A square toggle button with no label (the caller draws its content);
@@ -1246,16 +1293,38 @@ impl Ui {
             Overlay {
                 tooltip: true,
                 draw: Box::new(move |ui: &Ui| {
-                    let w = ui.text_size(&text, 13.0, true).x + 18.0;
-                    let below = anchor.y + anchor.h + 30.0 < vh();
-                    let y =
-                        if below { anchor.y + anchor.h + 6.0 } else { (anchor.y - 30.0).max(2.0) };
-                    let x =
-                        (anchor.x + anchor.w / 2.0 - w / 2.0).clamp(4.0, (vw() - w - 4.0).max(4.0));
-                    let r = Rect::new(x, y, w, 24.0);
-                    rrect(r, 12.0, Color::new(0.0, 0.0, 0.0, 0.9));
-                    rrect_lines(r, 12.0, 1.0, Color::new(BORDER.r, BORDER.g, BORDER.b, 0.7));
-                    ui.text(&text, r.x + 9.0, r.y + 5.0, 13.0, CREAM, true);
+                    // One line or several (a line break, or a text wider
+                    // than the window), never wider than the window.
+                    let room = (vw() - 26.0).max(60.0);
+                    let lines: Vec<String> = text
+                        .split('\n')
+                        .flat_map(|l| {
+                            if ui.text_size(l, 13.0, true).x <= room {
+                                vec![l.to_string()]
+                            } else {
+                                // (Measured in regular type: bold is a little wider.)
+                                ui.wrap(l, room * 0.9, 13.0)
+                            }
+                        })
+                        .collect();
+                    let widest =
+                        lines.iter().map(|l| ui.text_size(l, 13.0, true).x).fold(0.0, f32::max);
+                    let w = widest + 18.0;
+                    let h = 24.0 + 17.0 * (lines.len().max(1) - 1) as f32;
+                    let below = anchor.y + anchor.h + h + 6.0 < vh();
+                    let y = if below {
+                        anchor.y + anchor.h + 6.0
+                    } else {
+                        (anchor.y - h - 6.0).max(2.0)
+                    };
+                    let x = clamp_soft(anchor.x + anchor.w / 2.0 - w / 2.0, 4.0, vw() - w - 4.0);
+                    let r = Rect::new(x, y, w, h);
+                    let radius = if lines.len() > 1 { 9.0 } else { 12.0 };
+                    rrect(r, radius, Color::new(0.0, 0.0, 0.0, 0.9));
+                    rrect_lines(r, radius, 1.0, Color::new(BORDER.r, BORDER.g, BORDER.b, 0.7));
+                    for (k, line) in lines.iter().enumerate() {
+                        ui.text(line, r.x + 9.0, r.y + 5.0 + 17.0 * k as f32, 13.0, CREAM, true);
+                    }
                 }),
             },
             crate::paint::opacity(),

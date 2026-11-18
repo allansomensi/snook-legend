@@ -126,9 +126,11 @@ pub fn challenge(o: &mut Online, to: &str) {
 }
 
 /// A message for the server from the table, as the correspondence game
-/// sends it (the opponent isn't there: aim and chat are not sent).
+/// sends it (the opponent isn't there: aim and chat are not sent). A
+/// report goes as it is: it names the player, not a game.
 pub fn outgoing(c: &mut CorrTable, msg: ClientMsg) -> Option<ClientMsg> {
     match msg {
+        msg @ ClientMsg::Report { .. } => Some(msg),
         ClientMsg::Shoot { turn, shot, called_pocket, cue_ball } => {
             c.known += 1;
             c.played = true;

@@ -212,6 +212,16 @@ pub struct ShotMark {
     pub foul: bool,
 }
 
+/// What a shot clock running out did, as the rules of the game say: the
+/// turn passes (with the cue ball in hand only where the rules give it).
+fn time_foul_text(game: &EightBallGame, who: &str) -> String {
+    if game.ball_in_hand().is_some() {
+        tw("{who} ran out of time: ball in hand for the opponent.", &[("who", &who)])
+    } else {
+        tw("{who} ran out of time: the turn passes.", &[("who", &who)])
+    }
+}
+
 pub struct Match {
     /// Each player's cue and chalk (shop codes).
     pub cue_looks: [(String, String); 2],
@@ -1433,10 +1443,8 @@ impl Match {
         if let Some(run) = self.ladder.as_mut() {
             run.record.strokes.push(snook_legend_proto::replay::Stroke::TimeFoul);
         }
-        self.notify(
-            tw("{who} ran out of time: ball in hand for the opponent.", &[("who", &who)]),
-            true,
-        );
+        let text = time_foul_text(&self.game, &who);
+        self.notify(text, true);
         self.begin_turn();
     }
 
@@ -2104,10 +2112,8 @@ impl Match {
                 let who = self.names[seat].clone();
                 self.fast_forward();
                 self.game = game;
-                self.notify(
-                    tw("{who} ran out of time: ball in hand for the opponent.", &[("who", &who)]),
-                    true,
-                );
+                let text = time_foul_text(&self.game, &who);
+                self.notify(text, true);
                 self.begin_turn();
             }
             ServerMsg::MatchEnded { result } => {
@@ -2240,7 +2246,11 @@ impl FeedLine {
                 };
                 (Some((line.from.clone(), line.rating)), text, FeedKind::Player)
             }
-            ChatKind::Announcement => (None, line.text.clone(), FeedKind::Announcement),
+            // The server's own announcements are translated; what the
+            // staff write comes through as it is.
+            ChatKind::Announcement => {
+                (None, crate::i18n::server_text(&line.text), FeedKind::Announcement)
+            }
             ChatKind::System => (None, crate::i18n::server_text(&line.text), FeedKind::Event),
         };
         FeedLine { from, text, kind, id: line.id, admin: line.admin, deleted: line.deleted }

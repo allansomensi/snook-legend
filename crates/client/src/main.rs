@@ -745,7 +745,7 @@ async fn main() {
             cam.up = Vec3::Y;
         }
         if let Some(m) = current.as_mut()
-            && !hud.paused
+            && !hud.modal_open()
             && !settings_open
         {
             controls.camera(&mut rig, &cam, ui.hovered, ui.wants_keyboard);
@@ -1058,7 +1058,9 @@ async fn main() {
                     // A gift is on screen (drawn over it below): the screen
                     // gets neither the pointer nor Esc (screens leave Esc
                     // alone while a field has the keyboard).
-                    let gift_modal = online.gift_dialog_open() && !settings_open;
+                    // The e-mail offer too: its Esc is its own.
+                    let gift_modal =
+                        (online.gift_dialog_open() || offer_saved.is_some()) && !settings_open;
                     let under_gift = gift_modal.then(|| {
                         ui.focus = Some(GIFT_DIALOG_FOCUS);
                         ui.suspend_input()
@@ -1617,7 +1619,7 @@ fn vignette_texture() -> Texture2D {
 
 /// The keyboard "focus" the gift dialog holds while it is up, so the
 /// screen under it leaves Esc alone (no field has this id).
-const GIFT_DIALOG_FOCUS: u64 = 9_000;
+const GIFT_DIALOG_FOCUS: u64 = ui::MODAL_FOCUS;
 
 fn name_or(name: &str, default: &str) -> String {
     match name.trim() {

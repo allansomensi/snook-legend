@@ -39,7 +39,7 @@ impl Board {
         // clock at the far end: no empty stretch of rail.
         let step = RAIL_H - 2.0 + 2.5;
         let full = 8.0 + 8.0 * step + 40.0;
-        let rail_w = (room - 2.0 * (AVATAR_W + GAP)).clamp(190.0, full);
+        let rail_w = crate::ui::clamp_soft(room - 2.0 * (AVATAR_W + GAP), 190.0, full);
         let total = rail_w + 2.0 * (AVATAR_W + GAP);
         let x0 = ((sw - total) / 2.0).max(left).min(sw - total - 8.0).max(4.0);
         let rx = x0 + AVATAR_W + GAP;

@@ -349,10 +349,7 @@ impl SettingsScreen {
         }
         let mut action = SettingsAction::None;
         if ui.primary_button(Rect::new(x + inner - 190.0, by, 190.0, 40.0), t("Done"))
-            || (is_key_pressed(KeyCode::Escape)
-                && ui.focus.is_none()
-                && !esc_used
-                && dialog.is_none())
+            || (ui.escape() && !esc_used && dialog.is_none())
         {
             if config.server.trim().is_empty() {
                 config.server = DEFAULT_SERVER.into();

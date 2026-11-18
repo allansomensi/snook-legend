@@ -258,10 +258,7 @@ impl ProfileScreen {
             || crate::countries::is_open()
             || crate::avatars::is_open();
         if ui.icon_button(Rect::new(r.x + PAD, r.y + 20.0, 36.0, 36.0), Icon::Back, t("Back"), true)
-            || (is_key_pressed(KeyCode::Escape)
-                && ui.focus.is_none()
-                && !dialog
-                && self.status_edit.is_none())
+            || (ui.escape() && !dialog && self.status_edit.is_none())
         {
             action = ProfileAction::Back;
         }
@@ -687,9 +684,7 @@ impl ProfileScreen {
                 }
                 self.status_edit = None;
                 ui.focus = None;
-            } else if ui.icon_button(cancel, Icon::Close, t("Cancel (Esc)"), true)
-                || (is_key_pressed(KeyCode::Escape) && ui.focus.is_none())
-            {
+            } else if ui.icon_button(cancel, Icon::Close, t("Cancel (Esc)"), true) || ui.escape() {
                 self.status_edit = None;
             }
             return;
@@ -1321,9 +1316,7 @@ impl ProfileScreen {
                 form.confirm_delete = true;
             }
         }
-        if ui.button(Rect::new(x, y + 34.0 + 24.0, 140.0, 40.0), t("Close"), true)
-            || (is_key_pressed(KeyCode::Escape) && ui.focus.is_none())
-        {
+        if ui.button(Rect::new(x, y + 34.0 + 24.0, 140.0, 40.0), t("Close"), true) || ui.escape() {
             self.account = None;
             ui.focus = None;
         }

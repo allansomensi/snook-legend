@@ -782,6 +782,11 @@ impl Online {
 
     fn handle(&mut self, msg: ServerMsg, current: &mut Option<Match>, config: &mut Config) -> bool {
         let mut save = false;
+        // A server (or a game on the local network) that names a seat no
+        // table has is not listened to: the game would stop on it.
+        if !plausible(&msg) {
+            return save;
+        }
         match msg {
             ServerMsg::AuthOk { player, token } => {
                 self.outdated = false;
@@ -1012,7 +1017,10 @@ impl Online {
                     && tournament.state == TournamentState::Running
                     && tournament.players.iter().any(|p| p.username == me)
                 {
-                    self.attention = Some(tw("{name} has started!", &[("name", &tournament.name)]));
+                    self.attention = Some(tw(
+                        "{name} has started!",
+                        &[("name", &crate::i18n::tournament_name(&tournament.name))],
+                    ));
                 }
                 match self.tournaments.iter_mut().find(|t| t.id == tournament.id) {
                     Some(t) => *t = tournament,
@@ -1482,8 +1490,8 @@ impl Online {
         let no = t("No, thanks");
         let yes = t("Use this e-mail");
         let half = (inner - 12.0) / 2.0;
-        let no_w = button_w(ui, no, 40.0).clamp(130.0, half);
-        let yes_w = button_w(ui, yes, 40.0).clamp(170.0, half);
+        let no_w = crate::ui::clamp_soft(button_w(ui, no, 40.0), 130.0, half);
+        let yes_w = crate::ui::clamp_soft(button_w(ui, yes, 40.0), 170.0, half);
         let mut changed = false;
         if ui.button(Rect::new(r.x + pad, by, no_w, 40.0), no, true) {
             self.email_offer = None;
@@ -1659,7 +1667,7 @@ impl Online {
             y += 17.0;
         }
         let back = Rect::new(sw / 2.0 - 75.0, r.y + r.h - 24.0 - 34.0, 150.0, 34.0);
-        if ui.button(back, t("Back"), true) || is_key_pressed(KeyCode::Escape) {
+        if ui.button(back, t("Back"), true) || ui.escape() {
             if !self.signed_in() {
                 self.conn = None;
                 self.queue = None;
@@ -1725,7 +1733,10 @@ impl Online {
         // Header: back, and the title with its icon.
         let mut y = r.y + pad;
         let back = ui.icon_button(Rect::new(x, y, 36.0, 36.0), Icon::Back, t("Back"), true);
-        if back || (is_key_pressed(KeyCode::Escape) && !picker_open) {
+        // Esc leaves the form, also from its fields (they have the keyboard
+        // from the start), never from under a dialog.
+        let modal = ui.focus.is_some_and(|f| f >= crate::ui::MODAL_FOCUS);
+        if back || (is_key_pressed(KeyCode::Escape) && !picker_open && !modal) {
             return OnlineAction::Leave;
         }
         crate::icons::draw(Icon::Globe, vec2(x + 36.0 + 16.0 + 11.0, y + 18.0), 22.0, GOLD);
@@ -1854,10 +1865,7 @@ impl Online {
         let sh = crate::ui::vh();
         // Esc steps back: out of a form or a tournament, then (online) to the
         // menu. Not while typing (there Esc leaves the field), nor under a dialog.
-        let esc = is_key_pressed(KeyCode::Escape)
-            && ui.focus.is_none()
-            && self.email_offer.is_none()
-            && !crate::countries::is_open();
+        let esc = ui.escape() && self.email_offer.is_none() && !crate::countries::is_open();
         // A dark wash over the slowly turning table: the room is the backdrop.
         draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.42));
         let mut action = OnlineAction::None;
@@ -2228,7 +2236,10 @@ impl Online {
             .filter(|t| t.state == TournamentState::Registering && !t.private)
             .filter(|t| t.starts_at.is_some_and(|at| at > now && at - now <= 600))
             .filter(|t| !self.told_starting.contains(&t.id))
-            .map(|t| (t.id, t.name.clone(), t.players.iter().any(|p| p.username == me)))
+            .map(|t| {
+                let name = crate::i18n::tournament_name(&t.name);
+                (t.id, name, t.players.iter().any(|p| p.username == me))
+            })
             .collect();
         for (id, name, signed_up) in soon {
             self.told_starting.push(id);
@@ -2425,7 +2436,8 @@ impl Online {
             rrect(card, 8.0, Color::new(1.0, 1.0, 1.0, if hover { 0.07 } else { 0.035 }));
             rrect_lines(card, 8.0, 1.0, BORDER);
             crate::icons::draw(Icon::Trophy, vec2(card.x + 22.0, card.y + 26.0), 20.0, GOLD);
-            let (name, size) = fit_text(ui, &tour.name, 14.0, card.w - 40.0 - bw - 24.0, true);
+            let shown = crate::i18n::tournament_name(&tour.name);
+            let (name, size) = fit_text(ui, &shown, 14.0, card.w - 40.0 - bw - 24.0, true);
             ui.text(&name, card.x + 42.0, card.y + 9.0, size, CREAM, true);
             let mut sub =
                 tw("{n}/{size} players", &[("n", &tour.players.len()), ("size", &tour.size)]);
@@ -3139,7 +3151,8 @@ impl Online {
                 crate::icons::draw(Icon::Lock, vec2(ix + 7.0, r.y + r.h / 2.0), 14.0, MUTED);
             }
             let text_w = ix - 12.0 - (r.x + 44.0);
-            let (name, size) = fit_text(ui, &tour.name, 15.0, text_w, true);
+            let shown = crate::i18n::tournament_name(&tour.name);
+            let (name, size) = fit_text(ui, &shown, 15.0, text_w, true);
             ui.text(&name, r.x + 44.0, r.y + 8.0, size, CREAM, true);
             let mut sub = tw(
                 "by {host} · {n}/{size} players",
@@ -3174,7 +3187,8 @@ impl Online {
         let (label, color) = state_label(tour.state);
         let pw = ui.text_size(label, 11.0, true).x + 12.0;
         ui.pill(label, area.x + area.w - pw, area.y + (34.0 - 17.0) / 2.0, color);
-        let (name, size) = fit_text(ui, &tour.name, 20.0, area.w - 46.0 - pw - 12.0, true);
+        let shown = crate::i18n::tournament_name(&tour.name);
+        let (name, size) = fit_text(ui, &shown, 20.0, area.w - 46.0 - pw - 12.0, true);
         ui.text(&name, area.x + 46.0, area.y + (34.0 - size) / 2.0, size, GOLD, true);
         let mut y = area.y + 34.0 + 12.0;
         let kind = if tour.rated { t("rated games") } else { t("casual games") };
@@ -3858,6 +3872,21 @@ fn server_protocol(server: &str) -> std::sync::mpsc::Receiver<Option<u32>> {
         let _ = tx.send(protocol);
     });
     rx
+}
+
+/// Whether a message's seats and players are ones a table of two has.
+fn plausible(msg: &ServerMsg) -> bool {
+    match msg {
+        ServerMsg::MatchStarted { seat, .. }
+        | ServerMsg::ShotTaken { seat, .. }
+        | ServerMsg::TimeFoul { seat, .. } => *seat < 2,
+        ServerMsg::Reaction { seat, .. } => *seat <= snook_legend_proto::SPECTATOR_SEAT,
+        ServerMsg::MatchEnded { result } => result.winner < 2,
+        ServerMsg::ShotResult { report, .. } => {
+            report.shooter < 2 && report.game_over.is_none_or(|g| g.winner < 2)
+        }
+        _ => true,
+    }
 }
 
 #[cfg(test)]

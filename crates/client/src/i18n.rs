@@ -189,6 +189,49 @@ pub fn server_text(text: &str) -> String {
             &[("reason", &rest.trim_end_matches('.'))],
         );
     }
+    // "… for 60 minutes: <reason>": the number and the reason apart.
+    for (en, unit, key) in [
+        ("You were muted for ", " minutes: ", "You were muted for {n} minutes: {r}"),
+        (
+            "Your account was suspended for ",
+            " hours: ",
+            "Your account was suspended for {n} hours: {r}",
+        ),
+    ] {
+        if let Some((n, r)) = text.strip_prefix(en).and_then(|rest| rest.split_once(unit))
+            && n.parse::<u64>().is_ok()
+        {
+            return tw(key, &[("n", &n), ("r", &r)]);
+        }
+    }
+    if let Some(n) = text
+        .strip_prefix("The server restarts in ")
+        .and_then(|rest| rest.split_whitespace().next())
+        .filter(|n| n.parse::<u64>().is_ok())
+    {
+        return tw(
+            "The server restarts in {minutes} min for an update. Games in progress go on; new games start right after.",
+            &[("minutes", &n)],
+        );
+    }
+    if let Some(cup) = text
+        .strip_prefix("The ")
+        .and_then(|rest| rest.strip_suffix(" is open for sign-up: it starts soon in Tournaments."))
+    {
+        return tw(
+            "The {cup} is open for sign-up: it starts soon in Tournaments.",
+            &[("cup", &tournament_name(cup))],
+        );
+    }
+    if let Some((who, name)) = text
+        .strip_suffix("\u{201d}!")
+        .and_then(|rest| rest.split_once(" won the tournament \u{201c}"))
+    {
+        return tw(
+            "{display} won the tournament \u{201c}{name}\u{201d}!",
+            &[("display", &who), ("name", &tournament_name(name))],
+        );
+    }
     for (en, key) in [
         ("You were muted for ", "You were muted: {r}"),
         ("Your account was suspended for ", "Your account was suspended: {r}"),
@@ -204,6 +247,24 @@ pub fn server_text(text: &str) -> String {
         return tw("Can't shoot: {e}.", &[("e", &t(reason))]);
     }
     text.to_string()
+}
+
+/// A tournament's name: the server's weekly cups ("Saturday Cup") in the
+/// player's language, any other name as its organiser wrote it.
+pub fn tournament_name(name: &str) -> String {
+    const CUPS: [&str; 7] = [
+        "Sunday Cup",
+        "Monday Cup",
+        "Tuesday Cup",
+        "Wednesday Cup",
+        "Thursday Cup",
+        "Friday Cup",
+        "Saturday Cup",
+    ];
+    match CUPS.iter().find(|c| **c == name) {
+        Some(cup) => t(cup).to_string(),
+        None => name.to_string(),
+    }
 }
 
 pub fn difficulty(d: Difficulty) -> &'static str {
@@ -312,6 +373,34 @@ mod tests {
 
     /// Every translation keeps the placeholders of its English text, and
     /// every language translates the same texts.
+    /// The server's announcements and moderation notices, with their
+    /// numbers and names, read in the player's language.
+    #[test]
+    fn server_announcements_are_translated() {
+        set_lang(Lang::Portuguese);
+        assert_eq!(
+            server_text("You were muted for 60 minutes: spam"),
+            "Você foi silenciado por 60 minutos: spam"
+        );
+        assert_eq!(
+            server_text("Your account was suspended for 24 hours: cheating"),
+            "Sua conta foi suspensa por 24 horas: cheating"
+        );
+        assert!(server_text("The server restarts in 5 min for an update. Games in progress go on; new games start right after.").starts_with("O servidor reinicia em 5 min"));
+        assert_eq!(
+            server_text("The Saturday Cup is open for sign-up: it starts soon in Tournaments."),
+            "As inscrições para a Copa de Sábado estão abertas: ela começa em breve, em Torneios."
+        );
+        assert_eq!(
+            server_text("Ana won the tournament \u{201c}Friday Cup\u{201d}!"),
+            "Ana venceu o torneio \u{201c}Copa de Sexta\u{201d}!"
+        );
+        assert_eq!(tournament_name("Copa da Ana"), "Copa da Ana");
+        // What the staff write comes through as it is.
+        assert_eq!(server_text("Maintenance at 3 am."), "Maintenance at 3 am.");
+        set_lang(Lang::English);
+    }
+
     #[test]
     fn quick_phrases_are_translated_everywhere() {
         for lang in [Lang::Portuguese, Lang::Spanish] {

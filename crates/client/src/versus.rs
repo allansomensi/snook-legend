@@ -169,7 +169,7 @@ impl Versus {
             (widest + 16.0).clamp(80.0, 108.0).min((r.w * 0.56 - (count - 1.0) * tab_gap) / count);
         let tabs_x = r.x + r.w - PAD - count * tab_w - (count - 1.0) * tab_gap;
         if screen_header(ui, r, Icon::Robot, t("Against the computer"), Some(&subtitle))
-            || (is_key_pressed(KeyCode::Escape) && ui.focus.is_none())
+            || ui.escape()
         {
             action = VersusAction::Back;
         }
@@ -352,7 +352,10 @@ impl Versus {
     /// Name, aiming guide, time per shot. True when Enter was pressed.
     fn options(&mut self, ui: &mut Ui, config: &mut Config, area: Rect) -> bool {
         let label = |ui: &Ui, text: &str, y: f32| ui.text(text, area.x, y, 13.0, MUTED, true);
-        let mut enter = is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::KpEnter);
+        // Enter from a field of this form, or with no field (nor a dialog
+        // over the screen) holding the keyboard.
+        let mut enter = (is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::KpEnter))
+            && ui.focus.is_none();
         let mut y = area.y;
         label(ui, t("Your name"), y);
         let field = Rect::new(area.x, y + LABEL_H, area.w, CONTROL_H);
@@ -393,7 +396,7 @@ impl Versus {
             config.shot_clock = [0, 30, 60][i];
         }
         if ui.hovering(seg) {
-            ui.tooltip(t("When time runs out, the opponent gets ball in hand."), seg);
+            ui.tooltip(t("When time runs out, the turn passes."), seg);
         }
         enter
     }

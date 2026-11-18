@@ -358,9 +358,7 @@ impl Online {
                 self.send(ClientMsg::PostSeek { text, rated: self.rated_games });
                 self.social.composing = None;
                 ui.focus = None;
-            } else if ui.icon_button(close, Icon::Close, t("Cancel"), true)
-                || (is_key_pressed(KeyCode::Escape) && ui.focus.is_none())
-            {
+            } else if ui.icon_button(close, Icon::Close, t("Cancel"), true) || ui.escape() {
                 self.social.composing = None;
             }
             return h + 12.0;

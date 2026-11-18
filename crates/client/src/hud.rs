@@ -131,6 +131,12 @@ impl Default for Hud {
 }
 
 impl Hud {
+    /// A menu or a dialog is over the table: the table's keys (aim, spin,
+    /// power, the replay) wait, not only its pointer.
+    pub fn modal_open(&self) -> bool {
+        self.paused || self.report.is_some() || self.rules.is_some()
+    }
+
     /// The controls are only listed from the menu: never on the table.
     pub fn new(_show_help: bool) -> Self {
         Hud::default()
@@ -281,7 +287,7 @@ impl Hud {
                 self.paused = !self.paused;
                 self.confirm_leave = false;
             }
-            if keys::pressed(Action::Help) {
+            if keys::pressed(Action::Help) && self.report.is_none() && self.rules.is_none() {
                 // The list of controls, in the menu.
                 self.show_help = !(self.paused && self.show_help);
                 self.paused = self.show_help;
@@ -295,7 +301,7 @@ impl Hud {
         // them reacts to the pointer (they are drawn last, with input back).
         let modal = (self.paused || self.report.is_some()).then(|| ui.suspend_input());
 
-        if !ui.wants_keyboard && !self.paused && keys::pressed(Action::Replay) {
+        if !ui.wants_keyboard && !self.modal_open() && keys::pressed(Action::Replay) {
             if m.replay.is_some() {
                 m.stop_replay();
             } else {
@@ -570,9 +576,11 @@ impl Hud {
             } else {
                 0.0
             };
-            let w = (ui.text_size(&title, 28.0, true).x + 64.0 + report_w)
-                .max(row_w + 40.0)
-                .clamp(440.0, sw - 20.0);
+            let w = crate::ui::clamp_soft(
+                (ui.text_size(&title, 28.0, true).x + 64.0 + report_w).max(row_w + 40.0),
+                440.0,
+                sw - 20.0,
+            );
             let bw = bw.min((w - 60.0) / if friend.is_some() { 3.0 } else { 2.0 });
             let r = Rect::new((sw - w) / 2.0, sh / 2.0 - 110.0 - STATS_H / 2.0, w, 220.0);
             ui.panel(r);
@@ -694,7 +702,8 @@ impl Hud {
             let all_computers = m.controllers.iter().all(|c| matches!(c, Controller::Computer(_)));
             let title = tw("{name} wins!", &[("name", &m.names[over.winner])]);
             // Wide enough for the title with a margin (long computer names).
-            let w = (ui.text_size(&title, 28.0, true).x + 64.0).clamp(420.0, sw - 20.0);
+            let w =
+                crate::ui::clamp_soft(ui.text_size(&title, 28.0, true).x + 64.0, 420.0, sw - 20.0);
             let r = Rect::new((sw - w) / 2.0, sh / 2.0 - 95.0 - STATS_H / 2.0, w, 190.0);
             ui.panel(r);
             let view = &mut self.stats_view;
@@ -774,7 +783,7 @@ impl Hud {
                 lines.iter().map(|(a, _)| ui.text_size(a, 14.0, true).x).fold(0.0, f32::max);
             let value_w =
                 lines.iter().map(|(_, b)| ui.text_size(b, 14.0, false).x).fold(0.0, f32::max);
-            let w = (label_w + value_w + 2.0 * PAD + 40.0).clamp(320.0, sw - 20.0);
+            let w = crate::ui::clamp_soft(label_w + value_w + 2.0 * PAD + 40.0, 320.0, sw - 20.0);
             let h = PAD + 30.0 + 12.0 + lines.len() as f32 * ROW + 12.0 + 20.0 + 16.0 + 38.0 + PAD;
             let r = Rect::new((sw - w) / 2.0, ((sh - h) / 2.0).max(8.0), w, h);
             ui.panel(r);
@@ -2063,7 +2072,7 @@ impl Hud {
                 Pop::Elevation => 0,
                 Pop::Spin => 1,
             };
-            let x = (anchors[k] - w / 2.0).clamp(10.0, sw - w - 10.0);
+            let x = crate::ui::clamp_soft(anchors[k] - w / 2.0, 10.0, sw - w - 10.0);
             let r = Rect::new(x, bar.y - h - 8.0, w, h);
             ui.panel(r);
             match pop {
@@ -2541,9 +2550,11 @@ fn draw_shot_assessment(ui: &mut Ui, m: &Match) {
     let details = details.join(" · ");
     let sw = crate::ui::vw();
     let sh = crate::ui::vh();
-    let w = (ui.text_size(&headline, 14.0, true).x.max(ui.text_size(&details, 12.0, false).x)
-        + 40.0)
-        .clamp(220.0, sw - 24.0);
+    let w = crate::ui::clamp_soft(
+        ui.text_size(&headline, 14.0, true).x.max(ui.text_size(&details, 12.0, false).x) + 40.0,
+        220.0,
+        sw - 24.0,
+    );
     let h = if details.is_empty() { 34.0 } else { 52.0 };
     let r = Rect::new((sw - w) / 2.0, sh - BOTTOM_BAR - h - 10.0, w, h);
     crate::ui::rrect(r, 8.0, Color::new(0.05, 0.06, 0.05, 0.82));
@@ -2575,7 +2586,7 @@ fn draw_banter(ui: &Ui, text: &str, age: f32, anchor: Vec2) {
     // Pops in: a little bounce at the start.
     let pop = if age < 0.25 { 0.9 + 0.1 * (age / 0.25) } else { 1.0 };
     let top = anchor.y + 16.0 + (1.0 - pop) * 10.0;
-    let x = (anchor.x - w / 2.0).clamp(12.0, crate::ui::vw() - w - 12.0);
+    let x = crate::ui::clamp_soft(anchor.x - w / 2.0, 12.0, crate::ui::vw() - w - 12.0);
     let r = Rect::new(x, top, w, h);
     let paper = Color::new(0.98, 0.96, 0.9, 0.97 * alpha);
     let edge = Color::new(0.25, 0.18, 0.1, 0.9 * alpha);
@@ -2585,7 +2596,7 @@ fn draw_banter(ui: &Ui, text: &str, age: f32, anchor: Vec2) {
         12.0,
         Color::new(0.0, 0.0, 0.0, 0.3 * alpha),
     );
-    let tail_x = anchor.x.clamp(r.x + 18.0, r.x + r.w - 18.0);
+    let tail_x = crate::ui::clamp_soft(anchor.x, r.x + 18.0, r.x + r.w - 18.0);
     crate::paint::draw_triangle(
         vec2(tail_x - 9.0, r.y + 1.0),
         vec2(tail_x + 9.0, r.y + 1.0),

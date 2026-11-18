@@ -125,9 +125,7 @@ impl Ranking {
         ui.panel(r);
         let mut action = RankingAction::None;
         let subtitle = t("Top 100 · rated games");
-        if screen_header(ui, r, Icon::Trophy, t("World ranking"), Some(subtitle))
-            || (is_key_pressed(KeyCode::Escape) && ui.focus.is_none())
-        {
+        if screen_header(ui, r, Icon::Trophy, t("World ranking"), Some(subtitle)) || ui.escape() {
             action = RankingAction::Back;
         }
         if ui.icon_button(

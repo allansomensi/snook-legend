@@ -125,7 +125,7 @@ impl LanScreen {
 
         // Header: back, then the title.
         if ui.icon_button(Rect::new(x, r.y + 20.0, 36.0, 36.0), Icon::Back, t("Back"), true)
-            || (is_key_pressed(KeyCode::Escape) && ui.focus.is_none())
+            || ui.escape()
         {
             action = LanAction::Back;
         }

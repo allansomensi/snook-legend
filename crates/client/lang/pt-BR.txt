@@ -423,7 +423,7 @@ Unstoppable	Imparável
 W	V
 Watch the last shot again	Rever a última tacada
 What happened? (optional)	O que aconteceu? (opcional)
-When time runs out, the opponent gets ball in hand.	Quando o tempo acaba, o adversário ganha bola na mão.
+When time runs out, the turn passes.	Quando o tempo acaba, a vez passa.
 Whitewash	Atropelo
 Win 10 rated games on the 8-ball.	Vença 10 partidas valendo rating na bola 8.
 Win 10 rated games in a row.	Vença 10 partidas valendo rating seguidas.
@@ -1804,3 +1804,19 @@ cloth	pano
 chalk	giz
 Always show the head string	Mostrar sempre a linha de cabeceira
 The line the break is played from, always on the table (off: only while placing the cue ball behind it).	A linha de onde se dá a saída, sempre na mesa (desligado: só ao posicionar a branca atrás dela).
+{who} ran out of time: the turn passes.	O tempo de {who} acabou: a vez passa.
+You were muted for {n} minutes: {r}	Você foi silenciado por {n} minutos: {r}
+Your account was suspended for {n} hours: {r}	Sua conta foi suspensa por {n} horas: {r}
+The server restarts in {minutes} min for an update. Games in progress go on; new games start right after.	O servidor reinicia em {minutes} min para uma atualização. As partidas em andamento continuam; as novas começam logo depois.
+The cup was called off: not enough players signed up.	A copa foi cancelada: não houve inscritos suficientes.
+The {cup} is open for sign-up: it starts soon in Tournaments.	As inscrições para a {cup} estão abertas: ela começa em breve, em Torneios.
+{display} won the tournament “{name}”!	{display} venceu o torneio “{name}”!
+Sunday Cup	Copa de Domingo
+Monday Cup	Copa de Segunda
+Tuesday Cup	Copa de Terça
+Wednesday Cup	Copa de Quarta
+Thursday Cup	Copa de Quinta
+Friday Cup	Copa de Sexta
+Saturday Cup	Copa de Sábado
+{name} · rating {r}	{name} · rating {r}
+Something went wrong. Try again.	Algo deu errado. Tente de novo.

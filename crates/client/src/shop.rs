@@ -630,9 +630,7 @@ impl ShopScreen {
         ui.panel(r);
         let mut action = ShopAction::None;
         // Esc belongs to a dialog while one is open.
-        if screen_header(ui, r, Icon::Shop, t("Shop"), None)
-            || (!modal && is_key_pressed(KeyCode::Escape) && ui.focus.is_none())
-        {
+        if screen_header(ui, r, Icon::Shop, t("Shop"), None) || (!modal && ui.escape()) {
             action = ShopAction::Back;
         }
         let signed_in = online.signed_in();

@@ -1,10 +1,10 @@
 # Changelog
 
-## 0.6.1 (protocol 17)
+## 0.6.2 (protocol 17)
 
-0.6.0 and 0.6.1 play together (same protocol and rules); the tour's last
-game is checked against the tour's harder opponent and the server pays the
-levels' rewards, so the server must be updated with the game. No migrations.
+0.6.0, 0.6.1 and 0.6.2 play together (same protocol and rules). The server
+pays the leagues' prizes, so it must be updated with the game. No
+migrations.
 
 ### The profile
 - A cleaner profile: on the left, where the player stands (the level and
@@ -18,6 +18,28 @@ levels' rewards, so the server must be updated with the game. No migrations.
 - Reaching a league for the first time pays coins (50 for Amateur up to
   1000 for Legend, once per league) and, from Skilled up, an item of the
   league's own.
+
+### The view from above
+- It keeps its depth and its light. 0.6.1 looked from so high that the
+  table read as a flat, pale drawing: it now looks from twice as high as
+  before 0.6.1 (enough for the balls to stay round out to the corners), and
+  the table is lit as it always was.
+- Turning the camera out of the view from above no longer starts with a
+  jump upwards.
+
+### For those who build the game
+- The workflow that woke a sleeping free server every ten minutes is gone:
+  the server runs on a paid plan, which doesn't sleep.
+- CI on Rust 1.100: a test helper only the Unix tests use is built on Unix
+  only, an outbox is taken instead of drained into a new vector, and "this
+  is a build output, never update it" finds Cargo's folder in the layout
+  Cargo 1.100 builds in.
+
+## 0.6.1 (protocol 17)
+
+0.6.0 and 0.6.1 play together (same protocol and rules); the tour's last
+game is checked against the tour's harder opponent and the server pays the
+levels' rewards, so the server must be updated with the game. No migrations.
 
 ### One rank to show, one road to walk
 - Other players are shown by their **league** (the name and colour of
@@ -60,17 +82,14 @@ levels' rewards, so the server must be updated with the game. No migrations.
   nothing is on. The server checks the final game against that player.
 
 ### The view and the aim
-- The view from above looks from higher up through a longer lens: balls
-  stay round out to the corners (at the ends of the table they were drawn
-  a sixth longer than wide, the ghost ball included), and the cue, the
-  aiming line and the ghost ball line up whatever the cue's elevation.
+- The view from above looks from high up through a long lens, so the table
+  is seen almost flat: balls stay round out to the corners (at the ends of
+  the table they were drawn a sixth longer than wide, the ghost ball
+  included), and the cue, the aiming line and the ghost ball line up
+  whatever the cue's elevation.
 - The ring round a cue ball being placed sits exactly round it.
 - A softer light on the balls (a patch, not a hard white dot on the
   number) and no reflection on the balls of the score panel.
-- The view from above keeps its depth and its light: it looks from twice
-  as high as before (not from so high that the table read as a flat
-  drawing), is lit as it always was, and turning the camera out of it no
-  longer starts with a jump.
 - The low end of the power bar is a little stronger; the top is the same.
 
 ### Achievements

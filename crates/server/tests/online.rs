@@ -1363,9 +1363,13 @@ async fn replays_coins_featured_table_and_codes() {
     assert!(spectating);
 
     let result = play_out(&mut alice, &mut bob, game, sa).await;
-    // Coins for a rated game played to the end.
-    let ServerMsg::CoinsEarned { amount, .. } =
-        alice.expect("coins", |m| matches!(m, ServerMsg::CoinsEarned { .. })).await
+    // Coins for a rated game played to the end (a level reached on the
+    // way pays its own, told apart by the reason).
+    let ServerMsg::CoinsEarned { amount, .. } = alice
+        .expect("coins", |m| {
+            matches!(m, ServerMsg::CoinsEarned { reason, .. } if reason == "win" || reason == "game")
+        })
+        .await
     else {
         unreachable!()
     };

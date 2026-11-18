@@ -3,6 +3,17 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.6.2
+
+### Leagues and levels on one page
+In the profile, the "Leagues and levels" tab shows every league, from which rating and what it pays, and every level that brings an item. Reaching a league for the first time now pays coins and, from Skilled up, an item of the league's own.
+
+### A cleaner profile
+On the left, just what matters: your level, the next prize, and the achievements and reactions already won. Every medal and reaction has a tab of its own, and nothing runs off the screen.
+
+### The view from above as it was, with round balls
+The table has its depth and its usual light again, and the camera no longer jumps when it leaves the view from above.
+
 ## 0.6.1
 
 ### A view from above without distortion

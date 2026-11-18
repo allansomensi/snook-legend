@@ -51,7 +51,13 @@ Em português, inglês e espanhol.
 
 ### Novidades desta versão
 
-Versão 0.6.1: vista de cima sem distorção e torneios mais sérios.
+Versão 0.6.2: ligas, níveis e um perfil mais limpo.
+• Nova aba "Ligas e níveis" no perfil: todas as ligas, o que cada uma paga e todos os níveis que trazem um item.
+• Subir de liga pela primeira vez rende moedas e, a partir de Habilidoso, um item exclusivo.
+• Perfil mais limpo: seu nível, o próximo prêmio e o que você já ganhou; medalhas e reações numa aba própria.
+• A vista de cima voltou a ter profundidade e a luz de sempre, com as bolas redondas, e a câmera não salta mais ao sair dela.
+
+Da versão 0.6.1: vista de cima sem distorção e torneios mais sérios.
 • Vista de cima quase sem perspectiva: bolas redondas até os cantos; taco, linha de mira e bola fantasma sempre alinhados.
 • Brilho mais suave nas bolas e sem reflexo no placar: o número aparece.
 • Torneio contra o computador: a partida vale uma vez só (continua de onde parou, sem revanche) e o campeão ganha medalha de ouro.
@@ -61,13 +67,6 @@ Versão 0.6.1: vista de cima sem distorção e torneios mais sérios.
 • Liga à mostra, níveis com recompensas exclusivas e moedas mais raras: evoluir leva tempo.
 • Torneios contra o computador também ficaram difíceis.
 • No Windows, o jogo abre no monitor em que foi iniciado.
-
-Da versão 0.6.0: regra brasileira, torneios e treinos!
-• Regra brasileira regional de bola 8 (a dos bares e salões, não a oficial de torneio): falta elimina as menores bolas do adversário, só a branca encaçapada dá bola na mão.
-• Bolas mais pesadas: a saída não espalha mais as bolas pela mesa toda.
-• Torneios contra o computador: mata-mata de dezesseis ou arena por pontos.
-• Oito treinos novos, quinze ao todo.
-• Elevação do taco arrastando com o mouse, mira no centro da bola fantasma, opção de desligar as sombras.
 
 ### Recursos do produto
 
@@ -130,7 +129,13 @@ In English, Portuguese and Spanish.
 
 ### What's new in this version
 
-Version 0.6.1: a view from above without distortion, tournaments that mean it.
+Version 0.6.2: leagues, levels and a cleaner profile.
+• A new "Leagues and levels" tab in the profile: every league, what it pays, and every level that brings an item.
+• Reaching a league for the first time pays coins and, from Skilled up, an item of its own.
+• A cleaner profile: your level, the next prize and what you have won; medals and reactions on a tab of their own.
+• The view from above has its depth and usual light again, with round balls, and the camera no longer jumps when leaving it.
+
+From version 0.6.1: a view from above without distortion, tournaments that mean it.
 • A view from above almost without perspective: round balls out to the corners; the cue, the aiming line and the ghost ball always line up.
 • A softer light on the balls and none on the score panel: the number shows.
 • Tournaments against the computer: a game counts once (it goes on from where it was, no rematch) and the champion gets a gold medal.
@@ -140,13 +145,6 @@ Version 0.6.1: a view from above without distortion, tournaments that mean it.
 • Leagues on show, levels with rewards of their own and scarcer coins: progress takes time.
 • Tournaments against the computer are hard too.
 • On Windows, the game opens on the monitor it was started from.
-
-From version 0.6.0: a Brazilian rule, tournaments and drills!
-• The regional Brazilian rule of eight-ball (the one of bars and pool halls, not the official tournament rule): a foul takes your opponent's lowest balls off the table, only a pocketed cue ball gives ball in hand.
-• Heavier balls: the break no longer scatters the balls all over the table.
-• Tournaments against the computer: a knockout of sixteen or an arena on points.
-• Eight new drills, fifteen in all.
-• Drag to set the cue's elevation, an aiming line that meets the centre of the ghost ball, a setting to turn off the shadows.
 
 ### Product features
 
@@ -209,7 +207,13 @@ En español, inglés y portugués.
 
 ### Novedades de esta versión
 
-Versión 0.6.1: vista desde arriba sin distorsión y torneos más serios.
+Versión 0.6.2: ligas, niveles y un perfil más limpio.
+• Nueva pestaña "Ligas y niveles" en el perfil: todas las ligas, qué paga cada una y todos los niveles que traen un objeto.
+• Subir de liga por primera vez da monedas y, desde Hábil, un objeto exclusivo.
+• Perfil más limpio: tu nivel, el próximo premio y lo que ya ganaste; medallas y reacciones en su propia pestaña.
+• La vista desde arriba vuelve a tener profundidad y su luz de siempre, con bolas redondas, y la cámara ya no salta al salir de ella.
+
+De la versión 0.6.1: vista desde arriba sin distorsión y torneos más serios.
 • Vista desde arriba casi sin perspectiva: bolas redondas hasta las esquinas; taco, línea de puntería y bola fantasma siempre alineados.
 • Brillo más suave en las bolas y sin reflejo en el marcador: se ve el número.
 • Torneo contra la computadora: la partida vale una sola vez (sigue desde donde estaba, sin revancha) y el campeón recibe una medalla de oro.
@@ -219,13 +223,6 @@ Versión 0.6.1: vista desde arriba sin distorsión y torneos más serios.
 • Liga a la vista, niveles con recompensas exclusivas y monedas más escasas: progresar lleva tiempo.
 • Los torneos contra la computadora también son difíciles.
 • En Windows, el juego se abre en el monitor desde el que se inició.
-
-De la versión 0.6.0: ¡regla brasileña, torneos y entrenamientos!
-• Regla brasileña regional de bola 8 (la de los bares y salones, no la oficial de torneo): la falta elimina las bolas más bajas del rival, solo la blanca metida da bola en mano.
-• Bolas más pesadas: el saque ya no desparrama las bolas por toda la mesa.
-• Torneos contra la computadora: eliminatoria de dieciséis o arena por puntos.
-• Ocho entrenamientos nuevos, quince en total.
-• Elevación del taco arrastrando con el ratón, puntería al centro de la bola fantasma, opción de desactivar las sombras.
 
 ### Características del producto
 

@@ -69,9 +69,8 @@ URL**.
 ### 3. Servidor sempre acordado
 
 No plano gratuito da Render o servidor dorme e o primeiro jogador espera
-cerca de um minuto. Defina a variável do repositório `SNOOK_LEGEND_HEALTH_URL` como
-`https://<seu-servidor>/health` (o workflow *Keep the server awake* passa a
-acordá-lo a cada 10 minutos) ou use um plano pago.
+cerca de um minuto: use um plano pago, que não dorme (é o caso do servidor
+oficial).
 
 ### 4. Primeiro envio (pelo site)
 

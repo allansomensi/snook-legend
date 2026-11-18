@@ -3,6 +3,17 @@
 # destaque, e as linhas seguintes são o texto dele. Mesmas versões e mesmo
 # número de destaques em todas as línguas.
 
+## 0.6.2
+
+### Ligas e níveis numa página só
+No perfil, a aba "Ligas e níveis" mostra todas as ligas, a partir de que rating e o que cada uma paga, e todos os níveis que trazem um item. Subir de liga pela primeira vez agora rende moedas e, a partir de Habilidoso, um item exclusivo da liga.
+
+### Perfil mais limpo
+À esquerda fica só o essencial: seu nível, o próximo prêmio e as conquistas e reações já ganhas. Todas as medalhas e reações têm a sua própria aba, e nada mais sai da tela.
+
+### A vista de cima como antes, com as bolas redondas
+A mesa voltou a ter profundidade e a luz de sempre, e a câmera não dá mais um salto ao sair da vista de cima.
+
 ## 0.6.1
 
 ### Vista de cima sem distorção

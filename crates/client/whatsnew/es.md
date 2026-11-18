@@ -3,6 +3,17 @@
 # un destacado, y las líneas siguientes son su texto. Mismas versiones y
 # mismo número de destacados en todos los idiomas.
 
+## 0.6.2
+
+### Ligas y niveles en una sola página
+En el perfil, la pestaña "Ligas y niveles" muestra todas las ligas, desde qué rating y qué paga cada una, y todos los niveles que traen un objeto. Subir de liga por primera vez ahora da monedas y, desde Hábil, un objeto exclusivo de la liga.
+
+### Perfil más limpio
+A la izquierda queda lo esencial: tu nivel, el próximo premio y los logros y reacciones ya ganados. Todas las medallas y reacciones tienen su propia pestaña, y nada se sale de la pantalla.
+
+### La vista desde arriba como antes, con bolas redondas
+La mesa vuelve a tener profundidad y su luz de siempre, y la cámara ya no da un salto al salir de la vista desde arriba.
+
 ## 0.6.1
 
 ### Vista desde arriba sin distorsión

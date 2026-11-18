@@ -20,7 +20,7 @@ planos gratuitos. Leva uns 20 minutos.
 
 | | Limite | O que significa para o jogo |
 |---|---|---|
-| Render Free | dorme após 15 min sem tráfego; acorda em ~30–60 s | A primeira conexão do dia demora. O jogo avisa ("o servidor está acordando") e tenta de novo sozinho. Use o workflow *keep-alive* (passo 7) para evitar. |
+| Render Free | dorme após 15 min sem tráfego; acorda em ~30–60 s | A primeira conexão do dia demora. O jogo avisa ("o servidor está acordando") e tenta de novo sozinho. Um plano pago não dorme. |
 | Render Free | 750 h/mês por conta | Dá para 1 serviço ligado 24/7 (744 h). Não crie um segundo serviço grátis ligado. |
 | Render Free | reinicia a cada deploy | Partidas em andamento são perdidas no deploy. Faça deploys em horários calmos. |
 | Render Free | 512 MB RAM, CPU compartilhada | Suficiente para dezenas de jogadores simultâneos. A simulação das tacadas roda fora do lock principal. |
@@ -158,13 +158,11 @@ salão, chat, mesas, torneios e partidas como no online.
    Confira em `https://<seu-serviço>.onrender.com/api/status`: `version`
    deve ser a nova.
 
-## 7. (Opcional) Manter o servidor acordado
+## 7. Servidor sempre acordado
 
-Defina a variável de repositório `SNOOK_LEGEND_HEALTH_URL` =
-`https://snook-server.onrender.com/health`. O workflow **Keep the server
-awake** chama o servidor a cada 10 minutos. O GitHub às vezes atrasa execuções
-agendadas, então ainda pode haver um "acordar" ocasional; no plano pago isso
-some.
+No plano gratuito do Render o servidor dorme depois de 15 minutos sem
+tráfego. O servidor oficial roda num plano pago, que não dorme (o workflow
+que o acordava a cada 10 minutos foi retirado do repositório).
 
 ## 8. Backups
 

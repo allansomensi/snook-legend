@@ -58,7 +58,7 @@ Versão 0.6.2: ligas, níveis e um perfil mais limpo.
 • A vista de cima voltou a ter profundidade e a luz de sempre, com as bolas redondas, e a câmera não salta mais ao sair dela.
 
 Da versão 0.6.1: vista de cima sem distorção e torneios mais sérios.
-• Vista de cima quase sem perspectiva: bolas redondas até os cantos; taco, linha de mira e bola fantasma sempre alinhados.
+• Na vista de cima, bolas redondas até os cantos; taco, linha de mira e bola fantasma sempre alinhados.
 • Brilho mais suave nas bolas e sem reflexo no placar: o número aparece.
 • Torneio contra o computador: a partida vale uma vez só (continua de onde parou, sem revanche) e o campeão ganha medalha de ouro.
 • O Circuito ficou difícil: cada adversário joga no seu melhor.
@@ -136,7 +136,7 @@ Version 0.6.2: leagues, levels and a cleaner profile.
 • The view from above has its depth and usual light again, with round balls, and the camera no longer jumps when leaving it.
 
 From version 0.6.1: a view from above without distortion, tournaments that mean it.
-• A view from above almost without perspective: round balls out to the corners; the cue, the aiming line and the ghost ball always line up.
+• From above, round balls out to the corners; the cue, the aiming line and the ghost ball always line up.
 • A softer light on the balls and none on the score panel: the number shows.
 • Tournaments against the computer: a game counts once (it goes on from where it was, no rematch) and the champion gets a gold medal.
 • The tour is hard: every opponent plays at their best.
@@ -214,7 +214,7 @@ Versión 0.6.2: ligas, niveles y un perfil más limpio.
 • La vista desde arriba vuelve a tener profundidad y su luz de siempre, con bolas redondas, y la cámara ya no salta al salir de ella.
 
 De la versión 0.6.1: vista desde arriba sin distorsión y torneos más serios.
-• Vista desde arriba casi sin perspectiva: bolas redondas hasta las esquinas; taco, línea de puntería y bola fantasma siempre alineados.
+• Desde arriba, bolas redondas hasta las esquinas; taco, línea de puntería y bola fantasma siempre alineados.
 • Brillo más suave en las bolas y sin reflejo en el marcador: se ve el número.
 • Torneo contra la computadora: la partida vale una sola vez (sigue desde donde estaba, sin revancha) y el campeón recibe una medalla de oro.
 • El Circuito es difícil: cada rival juega a su mejor nivel.

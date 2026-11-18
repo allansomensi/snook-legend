@@ -210,6 +210,9 @@ async fn exercise(store: Store) {
         BuyOutcome::NotEnoughCoins
     );
     assert_eq!(store.gift_item(a.id, b.id, "chalk_red", 150, t).await.unwrap(), BuyOutcome::Bought);
+    // A ledger reference names one change: the same one again is refused,
+    // by both stores alike.
+    assert!(store.spend(a.id, 1, "fee", Some("tour:1:1"), t).await.is_err());
     assert_eq!(
         store.gift_item(a.id, b.id, "chalk_red", 150, t).await.unwrap(),
         BuyOutcome::AlreadyOwned
@@ -425,6 +428,16 @@ async fn exercise(store: Store) {
     assert_eq!(history.len(), 2, "the other player's history stays");
     assert_eq!(history[0].opponent, format!("deleted-{}", b.id));
     assert!(store.leaderboard(10, t).await.unwrap().iter().all(|e| e.username != gone.username));
+    // It leaves the other boards too: their rows, counts and places, and
+    // the days it led.
+    let (board, players) = store.daily_board(d, 10).await.unwrap();
+    assert_eq!((board.len(), players), (1, 1));
+    assert_eq!(store.daily_rank(a.id, d).await.unwrap(), Some(1));
+    assert_eq!(store.daily_wins(a.id, d + 1).await.unwrap(), vec![(d, 1)]);
+    let drills = store.drill_board("cut", 5).await.unwrap();
+    assert_eq!(drills.iter().map(|r| r.username.as_str()).collect::<Vec<_>>(), ["Alice"]);
+    let (leaders, rank) = store.challenge_board(a.id, 5).await.unwrap();
+    assert_eq!((leaders.len(), rank), (1, Some(1)));
 
     // Missions: progress adds up to the target, per period.
     let day = "d19700".to_string();
@@ -462,6 +475,12 @@ async fn exercise(store: Store) {
     assert_eq!(store.board_notes(t + 61).await.unwrap().len(), 1, "expired");
     assert!(store.remove_board_note(first).await.unwrap());
     assert!(!store.remove_board_note(first).await.unwrap());
+    // Items can be taken back (a refunded pack's), once.
+    let owner = store.create_user(&new_user("revoked")).await.unwrap().unwrap();
+    store.credit(owner.id, 500, "test", None, t).await.unwrap();
+    assert_eq!(store.buy_item(owner.id, "chalk_red", 150, t).await.unwrap(), BuyOutcome::Bought);
+    assert_eq!(store.revoke_items(owner.id, &["chalk_red"]).await.unwrap(), 1);
+    assert_eq!(store.revoke_items(owner.id, &["chalk_red"]).await.unwrap(), 0);
 }
 
 /// Retention, on a store of its own (the accounts are created now).

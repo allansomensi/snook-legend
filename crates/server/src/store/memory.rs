@@ -88,6 +88,7 @@ impl Inner {
         let mut rows: Vec<(i64, u32, i64)> = self
             .daily
             .range((day, i64::MIN)..=(day, i64::MAX))
+            .filter(|&(&(_, u), _)| !self.deleted(u))
             .filter_map(|(&(_, u), r)| r.best.map(|b| (u, b, r.best_at)))
             .collect();
         rows.sort_by(|a, b| b.1.cmp(&a.1).then(a.2.cmp(&b.2)).then(a.0.cmp(&b.0)));
@@ -102,6 +103,11 @@ impl Inner {
 
     fn name(&self, id: i64) -> String {
         self.users.get(&id).map(|u| u.username.clone()).unwrap_or_default()
+    }
+
+    /// A deleted account (gone from every board, as from the leaderboard).
+    fn deleted(&self, id: i64) -> bool {
+        self.users.get(&id).is_some_and(|u| u.deleted_at.is_some())
     }
 
     fn record_match(&mut self, m: &MatchRecord) -> ([Option<User>; 2], i64) {
@@ -1038,7 +1044,7 @@ impl MemoryStore {
         let mut rows: Vec<(u32, i64, i64)> = s
             .drills
             .iter()
-            .filter(|((_, c), _)| c == code)
+            .filter(|((u, c), _)| c == code && !s.deleted(*u))
             .map(|((u, _), (b, at))| (*b, *at, *u))
             .collect();
         rows.sort_by(|a, b| b.0.cmp(&a.0).then(a.1.cmp(&b.1)).then(a.2.cmp(&b.2)));
@@ -1074,8 +1080,12 @@ impl MemoryStore {
         limit: u32,
     ) -> StoreResult<(Vec<super::BoardRow>, Option<u32>)> {
         let s = self.lock();
-        let mut rows: Vec<(u32, i64, i64, u32)> =
-            s.challenge.iter().map(|(u, (r, st, at))| (*r, *at, *u, *st)).collect();
+        let mut rows: Vec<(u32, i64, i64, u32)> = s
+            .challenge
+            .iter()
+            .filter(|(u, _)| !s.deleted(**u))
+            .map(|(u, (r, st, at))| (*r, *at, *u, *st))
+            .collect();
         rows.sort_by(|a, b| b.0.cmp(&a.0).then(a.1.cmp(&b.1)).then(a.2.cmp(&b.2)));
         let rank = rows.iter().position(|r| r.2 == user_id).map(|k| k as u32 + 1);
         let board = rows
@@ -1189,6 +1199,7 @@ impl MemoryStore {
                 let rows = s.daily_sorted(d);
                 (rows.first()?.0 == user_id).then_some((d, rows.len() as u32))
             })
+            .take(100)
             .collect())
     }
 

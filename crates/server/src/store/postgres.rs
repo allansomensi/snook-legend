@@ -1222,8 +1222,12 @@ impl PgStore {
     }
 
     pub async fn history(&self, user_id: i64, limit: u32) -> StoreResult<Vec<HistoryRow>> {
+        // Not the strokes (a whole game each): whether there is a replay is
+        // whether the game kept its seed.
         let rows = query(
-            "SELECT m.*, CASE WHEN m.player0 = $1 THEN 0 ELSE 1 END AS seat,
+            "SELECT m.id, m.winner_seat, m.reason, m.rated, m.delta0, m.delta1, m.rating0,
+                    m.rating1, m.tournament_id, m.ended_at, m.seed, m.correspondence,
+                    CASE WHEN m.player0 = $1 THEN 0 ELSE 1 END AS seat,
                     o.username AS opp_name, o.country AS opp_country, o.role AS opp_role
              FROM matches m
              JOIN users o ON o.id = CASE WHEN m.player0 = $1 THEN m.player1 ELSE m.player0 END
@@ -1733,19 +1737,21 @@ impl PgStore {
         let rows = query(
             "SELECT d.user_id, u.username, u.country, d.best, d.best_at
              FROM daily_scores d JOIN users u ON u.id = d.user_id
-             WHERE d.day = $1 AND d.best IS NOT NULL
+             WHERE d.day = $1 AND d.best IS NOT NULL AND u.deleted_at IS NULL
              ORDER BY d.best DESC, d.best_at, d.user_id LIMIT $2",
         )
         .bind(day)
         .bind(limit as i64)
         .fetch_all(&self.pool)
         .await?;
-        let players: i64 =
-            query("SELECT COUNT(*) AS n FROM daily_scores WHERE day = $1 AND best IS NOT NULL")
-                .bind(day)
-                .fetch_one(&self.pool)
-                .await?
-                .get("n");
+        let players: i64 = query(
+            "SELECT COUNT(*) AS n FROM daily_scores d JOIN users u ON u.id = d.user_id
+             WHERE d.day = $1 AND d.best IS NOT NULL AND u.deleted_at IS NULL",
+        )
+        .bind(day)
+        .fetch_one(&self.pool)
+        .await?
+        .get("n");
         let board = rows
             .iter()
             .map(|r| super::DailyBoardRow {
@@ -1761,8 +1767,8 @@ impl PgStore {
 
     pub async fn daily_rank(&self, user_id: i64, day: i64) -> StoreResult<Option<u32>> {
         let row = query(
-            "SELECT (SELECT COUNT(*) FROM daily_scores o
-                     WHERE o.day = me.day AND o.best IS NOT NULL
+            "SELECT (SELECT COUNT(*) FROM daily_scores o JOIN users ou ON ou.id = o.user_id
+                     WHERE o.day = me.day AND o.best IS NOT NULL AND ou.deleted_at IS NULL
                        AND (o.best > me.best OR (o.best = me.best
                             AND (o.best_at, o.user_id) < (me.best_at, me.user_id)))) AS ahead
              FROM daily_scores me WHERE me.day = $1 AND me.user_id = $2 AND me.best IS NOT NULL",
@@ -1777,9 +1783,12 @@ impl PgStore {
     pub async fn daily_wins(&self, user_id: i64, before: i64) -> StoreResult<Vec<(i64, u32)>> {
         let rows = query(
             "SELECT day, n FROM (
-                SELECT day, user_id, COUNT(*) OVER (PARTITION BY day) AS n,
-                    ROW_NUMBER() OVER (PARTITION BY day ORDER BY best DESC, best_at, user_id) AS place
-                FROM daily_scores WHERE best IS NOT NULL AND day < $2
+                SELECT d.day, d.user_id, COUNT(*) OVER (PARTITION BY d.day) AS n,
+                    ROW_NUMBER() OVER (PARTITION BY d.day ORDER BY d.best DESC, d.best_at, d.user_id) AS place
+                FROM daily_scores d JOIN users u ON u.id = d.user_id
+                WHERE d.best IS NOT NULL AND d.day < $2 AND u.deleted_at IS NULL
+                  AND d.day IN (SELECT day FROM daily_scores
+                                WHERE user_id = $1 AND best IS NOT NULL AND day < $2)
              ) ranked WHERE user_id = $1 AND place = 1 ORDER BY day DESC LIMIT 100",
         )
         .bind(user_id)
@@ -1830,7 +1839,8 @@ impl PgStore {
     pub async fn drill_board(&self, code: &str, limit: u32) -> StoreResult<Vec<super::BoardRow>> {
         let rows = query(
             "SELECT u.username, u.country, d.best FROM drill_scores d JOIN users u ON u.id = d.user_id
-             WHERE d.code = $1 ORDER BY d.best DESC, d.best_at, d.user_id LIMIT $2",
+             WHERE d.code = $1 AND u.deleted_at IS NULL
+             ORDER BY d.best DESC, d.best_at, d.user_id LIMIT $2",
         )
         .bind(code)
         .bind(limit as i64)
@@ -1874,16 +1884,16 @@ impl PgStore {
     ) -> StoreResult<(Vec<super::BoardRow>, Option<u32>)> {
         let rows = query(
             "SELECT u.username, u.country, c.rating, c.stars FROM challenge_ratings c
-             JOIN users u ON u.id = c.user_id
+             JOIN users u ON u.id = c.user_id WHERE u.deleted_at IS NULL
              ORDER BY c.rating DESC, c.updated_at, c.user_id LIMIT $1",
         )
         .bind(limit as i64)
         .fetch_all(&self.pool)
         .await?;
         let rank: Option<i64> = query(
-            "SELECT (SELECT COUNT(*) FROM challenge_ratings o
-                     WHERE o.rating > me.rating OR (o.rating = me.rating
-                       AND (o.updated_at, o.user_id) < (me.updated_at, me.user_id))) AS ahead
+            "SELECT (SELECT COUNT(*) FROM challenge_ratings o JOIN users ou ON ou.id = o.user_id
+                     WHERE ou.deleted_at IS NULL AND (o.rating > me.rating OR (o.rating = me.rating
+                       AND (o.updated_at, o.user_id) < (me.updated_at, me.user_id)))) AS ahead
              FROM challenge_ratings me WHERE me.user_id = $1",
         )
         .bind(user_id)

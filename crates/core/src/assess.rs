@@ -23,7 +23,9 @@ pub struct ShotAssessment {
     pub first_contact: Option<BallId>,
     /// The cut on that ball (0: full ball; near 90: the thinnest touch).
     pub cut_deg: Option<f64>,
-    /// The object ball made legally, struck exactly as aimed, and its pocket.
+    /// The object ball made legally for the shooter (one of their own, or
+    /// the 8 that wins), struck exactly as aimed, and its pocket. One of
+    /// the opponent's balls going down is not a pot: it passes the turn.
     pub pot: Option<(BallId, PocketId)>,
     /// Cushions that ball touched on its way (a bank: one or more).
     pub cushions: u32,
@@ -53,9 +55,10 @@ pub fn assess(
     let events = sim.events().to_vec();
     let report = trial.finish_shot(crate::PendingShot { simulation: sim, ..exact });
     let first_contact = report.first_contact;
-    let pot = (!report.is_foul())
-        .then(|| report.pocketed.iter().find(|(b, _)| *b != BallId::CUE).copied())
-        .flatten();
+    let pot = report
+        .balls_made()
+        .first()
+        .and_then(|made| report.pocketed.iter().find(|(b, _)| b == made).copied());
     let cushions = pot.map_or(0, |(ball, _)| {
         let dropped = events
             .iter()
@@ -151,6 +154,39 @@ mod tests {
         let b = assess(&game, &Shot::new(to.y.atan2(to.x), 3.0), None, 24, 1).expect("assessed");
         assert!((35.0..60.0).contains(&b.cut_deg.unwrap()), "{b:?}");
         assert!(b.chance < a.chance, "{a:?} {b:?}");
+    }
+
+    /// A combination that sends the opponent's ball in is no pot for the
+    /// shooter: it passes the turn. On an open table the same ball gives
+    /// them its group, and is theirs.
+    #[test]
+    fn the_opponents_ball_is_not_a_pot() {
+        let mut game = EightBallGame::new(1, 0);
+        let r = game.table().spec.ball_radius;
+        let aim = game.table().pocket(PocketId::FootRight).aim_point();
+        let back = (DVec2::ZERO - aim).normalize();
+        let stripe = aim + back * 0.15;
+        let solid = stripe + back * (2.0 * r + 0.02);
+        let cue = solid + back * 0.15;
+        game.set_up_test_position(&[
+            (BallId::CUE, cue),
+            (BallId(1), solid),
+            (BallId(12), stripe),
+            (BallId(8), DVec2::new(-0.7, 0.35)),
+        ]);
+        let to = (solid - cue).normalize();
+        let shot = Shot::new(to.y.atan2(to.x), 2.0);
+        let open = assess(&game, &shot, None, 0, 1).expect("assessed");
+        assert_eq!(open.first_contact, Some(BallId(1)));
+        assert_eq!(open.pot, Some((BallId(12), PocketId::FootRight)), "{open:?}");
+        // Player 0 on solids: the 12 is the opponent's.
+        let mut v = serde_json::to_value(&game).unwrap();
+        v["groups"] = serde_json::json!(["Solids", "Stripes"]);
+        let solids: EightBallGame = serde_json::from_value(v).unwrap();
+        let mut trial = solids.clone();
+        let report = trial.play_shot(&shot, None).unwrap();
+        assert!(!report.is_foul() && report.pocketed.iter().any(|(b, _)| b.0 == 12), "{report:?}");
+        assert_eq!(assess(&solids, &shot, None, 0, 1).expect("assessed").pot, None);
     }
 
     #[test]

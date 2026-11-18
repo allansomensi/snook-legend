@@ -20,7 +20,7 @@ Você continua jogando enquanto encaçapar uma bola do seu grupo numa tacada sem
 A branca começa atrás da linha de cabeceira. Não há saída irregular: nenhuma bola precisa cair nem tocar a tabela.
 
 ### A bola 8 na saída
-Encaçapar somente a 8 na saída vence a partida na hora. Encaçapar a 8 junto com qualquer outra bola (a branca ou qualquer uma) perde a partida.
+Encaçapar somente a 8 na saída vence a partida na hora. Encaçapar a 8 junto com qualquer outra bola (a branca ou qualquer uma) perde a partida. Se a 8 sair da mesa na saída, ela volta para a mesa no lugar da bola da frente do triângulo (ou o mais perto dele que couber) e você perde a vez: é falta.
 
 ### Só a branca na saída
 Se na saída cair somente a bola branca, você perde a vez, as bolas voltam ao triângulo e o adversário dá a saída.
@@ -57,7 +57,7 @@ Quando a partida tem tempo de tacada e ele acaba, a vez passa.
 ## A bola 8
 
 ### Cantar a caçapa
-Quando o seu grupo acabar, escolha a caçapa da 8 antes de tacar. Encaçape somente a 8 ali, sem falta, e você vence.
+Quando o seu grupo acabar, escolha a caçapa da 8 antes de tacar. Encaçape somente a 8 ali, sem falta, e você vence. A caçapa cantada vale da sua primeira tacada na 8 até o fim da partida, mesmo que essa tacada seja uma defesa ou um erro: não dá para trocar.
 
 ### Perder na 8
-Você perde se encaçapar a 8 antes de acabar o seu grupo, numa caçapa diferente da cantada, junto com a branca ou com uma bola do adversário, numa falta, ou se jogá-la para fora da mesa.
+Você perde se encaçapar a 8 antes de acabar o seu grupo, numa caçapa diferente da cantada, junto com a branca ou com uma bola do adversário, numa falta, ou se jogá-la para fora da mesa depois da saída.

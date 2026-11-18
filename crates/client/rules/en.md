@@ -20,7 +20,7 @@ You keep shooting as long as you pocket a ball of your group without a foul. If 
 The cue ball starts behind the head string. There is no illegal break: no ball has to go down or reach a cushion.
 
 ### The 8-ball on the break
-Pocketing only the 8 on the break wins the game on the spot. Pocketing the 8 together with any other ball (the cue ball or any other) loses the game.
+Pocketing only the 8 on the break wins the game on the spot. Pocketing the 8 together with any other ball (the cue ball or any other) loses the game. If the 8 leaves the table on the break, it goes back on the table where the front ball of the rack stood (or as near as there is room) and you lose the turn: it's a foul.
 
 ### Only the cue ball on the break
 If only the cue ball goes down on the break, you lose the turn, the balls are racked again and your opponent breaks.
@@ -57,7 +57,7 @@ When a game has a shot clock and it runs out, the turn passes.
 ## The 8-ball
 
 ### Calling the pocket
-When your group is cleared, choose a pocket for the 8 before you shoot. Pocket only the 8 there, without a foul, and you win.
+When your group is cleared, choose a pocket for the 8 before you shoot. Pocket only the 8 there, without a foul, and you win. The pocket you call stands from your first shot on the 8 to the end of the game, even if that shot is a safety or a miss: you can't change it.
 
 ### Losing on the 8
-You lose if you pocket the 8 before your group is cleared, in a pocket other than the one you called, together with the cue ball or one of your opponent's balls, on a foul, or if you knock it off the table.
+You lose if you pocket the 8 before your group is cleared, in a pocket other than the one you called, together with the cue ball or one of your opponent's balls, on a foul, or if you knock it off the table after the break.

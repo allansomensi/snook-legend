@@ -168,6 +168,29 @@ impl ShotReport {
     pub fn is_foul(&self) -> bool {
         !self.fouls.is_empty()
     }
+
+    /// The object balls this shot made for the shooter, in the order they
+    /// went down: those of their own group on a shot without a foul, and
+    /// the 8 when it won the game. One of the opponent's balls made on the
+    /// same shot went down for the opponent; a shot that loses the game, or
+    /// that wins it, makes nothing else.
+    ///
+    /// The shooter's group is the one this shot gave them or, once the
+    /// groups are set, the one of the ball they hit first (a shot without a
+    /// foul hits one of the shooter's own first, or the 8 when they are on
+    /// it and have none left), so the report alone tells.
+    pub fn balls_made(&self) -> Vec<BallId> {
+        if self.is_foul() {
+            return Vec::new();
+        }
+        let made = self.pocketed.iter().map(|(b, _)| *b);
+        if let Some(over) = self.game_over {
+            let won = over.winner == self.shooter && over.reason == GameOverReason::PocketedEight;
+            return made.filter(|b| won && *b == BallId::EIGHT).collect();
+        }
+        let own = self.group_assigned.or_else(|| self.first_contact.and_then(Group::of));
+        made.filter(|b| own.is_some_and(|g| g.contains(*b))).collect()
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -2348,6 +2371,25 @@ mod tests {
         assert_eq!(on_table(&g, Group::Solids), vec![3, 6]);
         assert_eq!((g.current_player(), g.ball_in_hand()), (1, Some(BallInHand::Anywhere)));
         assert!(g.ball(BallId::CUE).in_play());
+    }
+
+    /// The 8 knocked off the table on the break is no loss: it goes back on
+    /// the foot spot and the turn passes, a foul (see the rules as players
+    /// read them, "The 8-ball on the break").
+    #[test]
+    fn the_eight_off_the_table_on_the_break_is_spotted() {
+        let mut g = EightBallGame::new(3, 0);
+        let mut pending = g.prepare_shot(&Shot::new(g.default_aim(), 6.0), None).unwrap();
+        pending.simulation.run_to_rest();
+        pending.simulation.knock_off_for_tests(BallId::EIGHT);
+        let report = g.finish_shot(pending);
+        assert!(report.fouls.contains(&Foul::ObjectBallOffTable(BallId::EIGHT)), "{report:?}");
+        assert!(report.spotted.contains(&BallId::EIGHT));
+        assert_eq!(report.game_over, None);
+        assert!(!report.continues);
+        assert_eq!(g.current_player(), 1);
+        let eight = g.ball(BallId::EIGHT);
+        assert!(eight.in_play() && eight.xy().y == 0.0 && eight.xy().x >= g.table.foot_spot().x);
     }
 
     #[test]

@@ -225,6 +225,16 @@ impl CameraRig {
     }
 
     /// Keeps the eye outside the table, above the floor and inside the room.
+    /// Never under the table's top while over it (the eye on its way).
+    fn above_the_table(eye: Vec3) -> Vec3 {
+        let mut e = eye;
+        let over_table = e.x.abs() < table_half().x + 0.25 && e.z.abs() < table_half().y + 0.25;
+        if over_table && e.y < MIN_HEIGHT_OVER_TABLE {
+            e.y = MIN_HEIGHT_OVER_TABLE;
+        }
+        e
+    }
+
     fn constrain(eye: Vec3) -> Vec3 {
         let mut e = eye;
         e.x = e.x.clamp(-4.8, 4.8);
@@ -446,8 +456,29 @@ impl CameraRig {
         }
         self.was_top = top;
         let k = 1.0 - (-dt * rate).exp();
-        self.eye = self.eye.lerp(eye, k);
-        self.target = self.target.lerp(target, k);
+        // Round the point looked at, not straight through it: a quick turn
+        // of the aim to a ball behind (the camera following the cue) took
+        // the eye in a straight line over the cue ball, so close that the
+        // view whipped round; it now swings round at its distance.
+        let next_target = self.target.lerp(target, k);
+        let (from, to) = (self.eye - self.target, eye - target);
+        self.eye = if !top && from.length() > 1e-3 && to.length() > 1e-3 {
+            let polar = |v: Vec3| {
+                let d = v.length();
+                (v.z.atan2(v.x), (v.y / d).clamp(-1.0, 1.0).asin(), d)
+            };
+            let (yaw0, pitch0, d0) = polar(from);
+            let (yaw1, pitch1, d1) = polar(to);
+            let turn = (yaw1 - yaw0 + std::f32::consts::PI).rem_euclid(std::f32::consts::TAU)
+                - std::f32::consts::PI;
+            let (yaw, pitch, d) = (yaw0 + turn * k, pitch0 + (pitch1 - pitch0) * k, d0 + (d1 - d0) * k);
+            let eye = next_target
+                + vec3(yaw.cos() * pitch.cos(), pitch.sin(), yaw.sin() * pitch.cos()) * d;
+            Self::above_the_table(eye)
+        } else {
+            self.eye.lerp(eye, k)
+        };
+        self.target = next_target;
         self.up = self.up.lerp(up, k).normalize_or(Vec3::Y);
         // Avoid a degenerate look-at when the view direction and up align.
         let dir = (self.target - self.eye).normalize_or(Vec3::NEG_Z);

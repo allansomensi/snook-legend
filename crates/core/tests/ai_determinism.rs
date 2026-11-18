@@ -1,10 +1,10 @@
 //! The server checks games won against the computer (the ladder's reward)
 //! by asking the AI for every one of its strokes again: a decision must be
 //! bit-identical on the player's computer and on the server, whatever the
-//! platform. So the AI may only use the portable maths of
-//! `snook_legend_core::math` (like the physics), never the platform's own
-//! `sin`, `cos`, `atan2`, `ln`…, and CI pins its decisions to one
-//! fingerprint on Linux, Windows and macOS.
+//! platform. So the AI, like the physics and the rules it plays with, may
+//! only use the portable maths of `snook_legend_core::math`, never the
+//! platform's own `sin`, `cos`, `atan2`, `ln`…, and CI pins its decisions
+//! to one fingerprint per ruleset on Linux, Windows and macOS.
 
 use glam::DVec2;
 use snook_legend_core::ai::{AiPlayer, decide_with};
@@ -43,10 +43,17 @@ const NOT_PORTABLE: &[&str] = &[
     "angle_to(",
 ];
 
-/// The code of a source file without comments and without its tests.
+/// The code of a source file without comments and without its tests (the
+/// `mod tests` at its end: a single item kept for the tests, like the one in
+/// the physics, is scanned with the rest).
 fn code_of(source: &str) -> String {
-    let body = source.split("#[cfg(test)]").next().unwrap_or(source);
-    body.lines()
+    let lines: Vec<&str> = source.lines().collect();
+    let tests = lines
+        .windows(2)
+        .position(|w| w[0].trim() == "#[cfg(test)]" && w[1].trim_start().starts_with("mod tests"))
+        .unwrap_or(lines.len());
+    lines[..tests]
+        .iter()
         .map(|l| match l.find("//") {
             Some(i) => &l[..i],
             None => l,
@@ -55,12 +62,17 @@ fn code_of(source: &str) -> String {
         .join("\n")
 }
 
+/// The AI plays every candidate stroke with the physics and the rules
+/// before it decides, so they are held to the same standard.
 #[test]
 fn the_ai_uses_only_portable_maths() {
     let sources = [
         ("ai.rs", include_str!("../src/ai.rs")),
         ("personalities.rs", include_str!("../src/personalities.rs")),
         ("rng.rs", include_str!("../src/rng.rs")),
+        ("physics.rs", include_str!("../src/physics.rs")),
+        ("rules.rs", include_str!("../src/rules.rs")),
+        ("table.rs", include_str!("../src/table.rs")),
     ];
     for (name, source) in sources {
         let code = code_of(source);
@@ -139,5 +151,12 @@ fn decisions_are_bit_identical_everywhere() {
 
 /// Update only on purpose (a change to the physics, the rules or the AI of
 /// the current ruleset), from the values printed above. An older ruleset's
-/// value never changes: games recorded under it must replay the same.
-const EXPECTED: [(u8, u64); 2] = [(1, 0x5f9e_be78_d9d8_361f), (2, 0x7f8d_52de_242c_eb40)];
+/// value never changes: games recorded under it must replay the same (the
+/// server checks the ladder's final game under the ruleset it was played
+/// with).
+const EXPECTED: [(u8, u64); 4] = [
+    (1, 0x5f9e_be78_d9d8_361f),
+    (2, 0x7f8d_52de_242c_eb40),
+    (3, 0x9234_f79e_23ac_772c),
+    (4, 0x0dc7_88cb_89fb_6a39),
+];

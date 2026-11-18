@@ -49,8 +49,9 @@ fn fingerprint(ruleset: u8) -> u64 {
             if g.game_over().is_some() || turns > 12 {
                 break;
             }
-            // Shots from plain numbers (the computer player's choices use
-            // the platform's own maths, which is fine for it but not here).
+            // Shots from plain numbers, so that this pins the physics and
+            // the rules alone (the computer's choices are pinned in
+            // ai_determinism.rs).
             if g.ball_in_hand().is_some() {
                 let spots =
                     (0..40).map(|k| DVec2::new(-0.9 + 0.045 * k as f64, -0.35 + 0.0175 * k as f64));

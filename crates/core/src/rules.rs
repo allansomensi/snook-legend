@@ -1,7 +1,8 @@
 //! Eight-ball rules. Up to ruleset 3 they follow the WPA world standardized
 //! rules (simplified where noted); from ruleset 4 they are the Brazilian
 //! house rules (see [`EightBallGame::finish_shot`]): a foul costs the turn
-//! and gives the opponent balls, and only a scratch gives ball in hand.
+//! and gives the opponent balls, and only a cue ball that went down or left
+//! the table gives ball in hand.
 //!
 //! The game is driven in two phases so that clients can animate the shot:
 //! 1. [`EightBallGame::prepare_shot`] validates the stroke and returns a
@@ -14,7 +15,7 @@
 use glam::DVec2;
 use serde::{Deserialize, Serialize};
 
-use crate::ball::{Ball, BallId, BallKind, BallStatus};
+use crate::ball::{Ball, BallId, BallKind, BallStatus, Motion};
 use crate::physics::{Event, PhysicsParams, Shot, Simulation};
 use crate::rng::Rng;
 use crate::table::{PocketId, Table};
@@ -203,9 +204,11 @@ pub struct PendingShot {
 /// Serializable so the game server can send authoritative snapshots. The
 /// table and the physics parameters are not part of a snapshot, only the
 /// game's ruleset (see [`crate::RULESET`]): a deserialized game gets the
-/// table and the physics of its ruleset (1 when a snapshot names none).
+/// table and the physics of its ruleset (1 when a snapshot names none). A
+/// snapshot that no game could be in is refused when it is read (see the
+/// `TryFrom` below).
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[serde(from = "GameData")]
+#[serde(try_from = "GameData")]
 pub struct EightBallGame {
     #[serde(skip)]
     table: Table,
@@ -252,10 +255,37 @@ fn first_ruleset() -> u8 {
     1
 }
 
-impl From<GameData> for EightBallGame {
-    fn from(d: GameData) -> Self {
+impl TryFrom<GameData> for EightBallGame {
+    type Error = &'static str;
+
+    /// A snapshot comes from the network or from a file. One that no game
+    /// could be in (a ball missing or out of order, a third player, a ball
+    /// still rolling, no cue ball while the game goes on) would make the
+    /// game index out of bounds, or find nothing to strike, later on: it is
+    /// refused here instead. Every snapshot a game writes passes.
+    fn try_from(d: GameData) -> Result<Self, Self::Error> {
+        if d.balls.len() != 16 || d.balls.iter().enumerate().any(|(i, b)| b.id.index() != i) {
+            return Err("a game has sixteen balls, in the order of their numbers");
+        }
+        if d.current > 1 || d.game_over.is_some_and(|o| o.winner > 1) {
+            return Err("a game has two players, 0 and 1");
+        }
+        if d.balls.iter().any(|b| !b.position.is_finite()) {
+            return Err("a ball is nowhere");
+        }
+        // Between shots everything on the table is at rest (a ball left
+        // spinning in place may stay so: it no longer moves).
+        let moving = |b: &Ball| {
+            b.in_play() && matches!(b.motion, Motion::Sliding | Motion::Rolling | Motion::Airborne)
+        };
+        if d.balls.iter().any(moving) {
+            return Err("a ball is still moving");
+        }
+        if d.game_over.is_none() && !d.balls[BallId::CUE.index()].in_play() {
+            return Err("the cue ball is off the table and the game goes on");
+        }
         let ruleset = crate::known_ruleset(d.ruleset);
-        EightBallGame {
+        Ok(EightBallGame {
             table: Table::of_ruleset(ruleset),
             params: PhysicsParams::of_ruleset(ruleset),
             ruleset,
@@ -268,7 +298,7 @@ impl From<GameData> for EightBallGame {
             shots_taken: d.shots_taken,
             called: d.called,
             rack_seed: d.rack_seed,
-        }
+        })
     }
 }
 
@@ -315,13 +345,13 @@ impl EightBallGame {
         &self.table
     }
 
-    /// The rules, physics and table this game is played with.
     /// The fastest the cue may move on the stroke about to be played (m/s):
     /// the top of the power bar.
     pub fn max_cue_speed(&self) -> f64 {
         self.params.cue_speed_limit(self.is_break)
     }
 
+    /// The rules, physics and table this game is played with.
     pub fn ruleset(&self) -> u8 {
         self.ruleset
     }
@@ -396,7 +426,6 @@ impl EightBallGame {
         if targets.is_empty() { vec![BallId::EIGHT] } else { targets }
     }
 
-    /// The shooter must call a pocket for this shot.
     /// A sensible aim when the player has not chosen one: the foot spot on
     /// the break, otherwise the nearest ball they may hit.
     pub fn default_aim(&self) -> f64 {
@@ -436,6 +465,7 @@ impl EightBallGame {
         self.needs_called_pocket() && self.called[self.current].is_none()
     }
 
+    /// The shooter must call a pocket for this shot.
     pub fn needs_called_pocket(&self) -> bool {
         !self.is_break && self.is_on_eight(self.current)
     }
@@ -505,9 +535,10 @@ impl EightBallGame {
         }
         let shot = shot.sanitized_for(&self.params, self.is_break);
         let mut simulation = Simulation::new(self.table.clone(), self.params, self.balls.clone());
-        simulation
-            .strike(BallId::CUE, &shot)
-            .expect("cue ball is in play and the table is at rest between shots");
+        // Between shots the table is at rest with the cue ball on it (a
+        // snapshot that isn't is refused when it is read): only a table set
+        // up by hand without a cue ball gets here, and has nothing to strike.
+        simulation.strike(BallId::CUE, &shot).map_err(|_| ShotError::IllegalCueBallPosition)?;
         Ok(PendingShot { simulation, shot, called_pocket })
     }
 
@@ -969,14 +1000,15 @@ impl EightBallGame {
         self.balls[id.index()].status = BallStatus::Pocketed(pocket);
     }
 
-    /// `player` concedes.
+    /// `player` concedes (a seat number: only its parity counts, as in
+    /// [`Self::conclude`], so a wrong one can't underflow).
     pub fn resign(&mut self, player: usize) {
-        self.end_with(1 - player, GameOverReason::Resignation);
+        self.end_with(1 - player % 2, GameOverReason::Resignation);
     }
 
-    /// `player` abandoned an online game.
+    /// `player` abandoned an online game (the seat as in [`Self::resign`]).
     pub fn abandon(&mut self, player: usize) {
-        self.end_with(1 - player, GameOverReason::Abandoned);
+        self.end_with(1 - player % 2, GameOverReason::Abandoned);
     }
 
     /// Ends the game with a result decided elsewhere (a client applying the
@@ -1379,6 +1411,61 @@ mod tests {
         let json = serde_json::to_string(&g).unwrap();
         let back: EightBallGame = serde_json::from_str(&json).unwrap();
         assert_eq!(g, back);
+    }
+
+    /// A snapshot no game could be in is refused when it is read, instead
+    /// of panicking at the next shot.
+    #[test]
+    fn impossible_snapshots_are_refused() {
+        let mut g = EightBallGame::new(9, 1);
+        g.play_shot(&Shot::new(0.0, 6.0), None).unwrap();
+        let good = serde_json::to_value(&g).unwrap();
+        let read = |v: &serde_json::Value| serde_json::from_value::<EightBallGame>(v.clone());
+        assert_eq!(read(&good).unwrap(), g);
+        let broken = |edit: &dyn Fn(&mut serde_json::Value)| {
+            let mut v = good.clone();
+            edit(&mut v);
+            read(&v).expect_err("refused")
+        };
+        broken(&|v| v["current"] = 2.into());
+        broken(&|v| {
+            v["balls"].as_array_mut().unwrap().pop();
+        });
+        broken(&|v| v["balls"].as_array_mut().unwrap().swap(3, 4));
+        broken(&|v| v["game_over"] = serde_json::json!({ "winner": 5, "reason": "Resignation" }));
+        broken(&|v| v["balls"][3]["motion"] = "Rolling".into());
+        broken(&|v| v["balls"][0]["status"] = serde_json::json!({ "Pocketed": "FootLeft" }));
+        // The same cue ball is fine once the game is over (a scratch on the 8).
+        let mut v = good.clone();
+        v["balls"][0]["status"] = serde_json::json!({ "Pocketed": "FootLeft" });
+        v["game_over"] = serde_json::json!({ "winner": 0, "reason": "EightPocketedOnFoul" });
+        assert!(read(&v).is_ok());
+    }
+
+    /// A seat other than 0 or 1 can't underflow: it counts by its parity.
+    #[test]
+    fn resigning_with_any_seat_number_is_safe() {
+        let mut g = EightBallGame::new(1, 0);
+        g.resign(3);
+        assert_eq!(
+            g.game_over(),
+            Some(GameOver { winner: 0, reason: GameOverReason::Resignation })
+        );
+        let mut g = EightBallGame::new(1, 0);
+        g.abandon(usize::MAX);
+        assert_eq!(g.game_over(), Some(GameOver { winner: 0, reason: GameOverReason::Abandoned }));
+    }
+
+    /// A table put together without a cue ball has nothing to strike: the
+    /// shot is refused (it used to panic).
+    #[test]
+    fn no_cue_ball_no_shot() {
+        let mut g = EightBallGame::new(1, 0);
+        g.set_up_test_position(&[(BallId(3), DVec2::new(0.3, 0.0))]);
+        assert_eq!(
+            g.prepare_shot(&Shot::new(0.0, 2.0), None).err(),
+            Some(ShotError::IllegalCueBallPosition)
+        );
     }
 
     #[test]

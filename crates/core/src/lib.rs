@@ -21,10 +21,10 @@
 ///   restitution that depend on speed, and strokes at real speeds (an
 ///   ordinary stroke tops out well below a break).
 /// - 4: 0.6.0. The Brazilian house rules (a foul gives the opponent balls,
-///   only a scratch gives ball in hand, the 8 alone on the break wins: see
-///   [`EightBallGame::finish_shot`]) on the same table, with heavier-feeling
-///   balls: a slower cloth, a rack that soaks up more of the break and a
-///   break that is not struck as hard.
+///   only a cue ball that went down or left the table gives ball in hand,
+///   the 8 alone on the break wins: see [`EightBallGame::finish_shot`]) on
+///   the same table, with heavier-feeling balls: a slower cloth, a rack
+///   that soaks up more of the break and a break that is not struck as hard.
 pub const RULESET: u8 = 4;
 
 /// A ruleset this version knows (unknown ones play as the newest).

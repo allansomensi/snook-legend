@@ -2,7 +2,9 @@
 //! rules (simplified where noted); from ruleset 4 they are the Brazilian
 //! house rules (see [`EightBallGame::finish_shot`]): a foul costs the turn
 //! and gives the opponent balls, and only a cue ball that went down or left
-//! the table gives ball in hand.
+//! the table gives ball in hand (from ruleset 6 not even that: the cue ball
+//! is in hand for the break only, and one that went down comes back to the
+//! head spot).
 //!
 //! The game is driven in two phases so that clients can animate the shot:
 //! 1. [`EightBallGame::prepare_shot`] validates the stroke and returns a
@@ -61,8 +63,10 @@ impl Group {
 /// Where the incoming player may place the cue ball.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum BallInHand {
-    /// Behind the head string (after a break foul, and for the break itself).
+    /// Behind the head string (for the break itself, and up to ruleset 5
+    /// after a break foul).
     Kitchen,
+    /// Anywhere on the table (after a foul, up to ruleset 5).
     Anywhere,
 }
 
@@ -834,8 +838,16 @@ impl EightBallGame {
     ///   one of the opponent's stays off, made for them.
     /// - A break that makes only the cue ball is played again by the
     ///   opponent: the balls go back in the rack and they break.
-    /// - From ruleset 5, a break that makes balls of both groups passes the
+    /// - Ruleset 5 only: a break that makes balls of both groups passes the
     ///   turn, and the table stays open.
+    /// - From ruleset 6 the first ball made decides the groups on the break
+    ///   too, whatever else goes down with it; one of the opponent's made
+    ///   with it passes the turn, as on any other shot.
+    /// - From ruleset 6 the cue ball is in hand only for the break (behind
+    ///   the head string). One that goes down or leaves the table, on the
+    ///   break or later, goes back to the head spot (right behind a ball
+    ///   lying there) and is played from there; a break that makes only the
+    ///   cue ball is not racked again: the opponent plays on from there.
     /// - The 8 alone on the break wins; the 8 on the break with any other
     ///   ball loses. At the end, the 8 loses if the cue ball or one of the
     ///   opponent's balls goes down with it.
@@ -957,11 +969,12 @@ impl EightBallGame {
                 Some(GameOver { winner: shooter, reason: GameOverReason::PocketedEight })
             };
         }
-        // From ruleset 5, a break that makes balls of both groups (the 3 and
-        // the 14, say) passes the turn and leaves the table open: on the
-        // break only one kind may go down.
+        // Ruleset 5: a break that makes balls of both groups (the 3 and the
+        // 14, say) passes the turn and leaves the table open: on the break
+        // only one kind may go down. From ruleset 6 the first one made
+        // decides the groups, and one of the other kind passes the turn.
         let mixed_break = was_break
-            && self.ruleset >= 5
+            && self.ruleset == 5
             && [Group::Solids, Group::Stripes]
                 .iter()
                 .all(|g| object_pocketed.iter().any(|b| g.contains(*b)));
@@ -988,7 +1001,10 @@ impl EightBallGame {
             }
         }
 
-        let opponent_ball = !was_break
+        // One of the opponent's balls made passes the turn; from ruleset 6
+        // on the break too (the first ball made gave the shooter the other
+        // kind).
+        let opponent_ball = (!was_break || self.ruleset >= 6)
             && self.groups[shooter]
                 .is_some_and(|g| object_pocketed.iter().any(|b| g.opposite().contains(*b)));
         let continues = game_over.is_none()
@@ -1028,8 +1044,13 @@ impl EightBallGame {
         self.game_over = game_over;
         self.ball_in_hand = None;
         // Only the cue ball down on the break: racked again, and the
-        // opponent breaks.
-        let reracked = was_break && cue_pocketed && object_pocketed.is_empty() && !eight_off;
+        // opponent breaks (up to ruleset 5; from 6 the opponent plays on
+        // from the head spot).
+        let reracked = was_break
+            && cue_pocketed
+            && object_pocketed.is_empty()
+            && !eight_off
+            && self.ruleset < 6;
         if reracked {
             let seed = self.rack_seed.wrapping_add(self.shots_taken as u64);
             self.balls = rack(&self.table, seed);
@@ -1039,7 +1060,10 @@ impl EightBallGame {
             spotted.clear();
             penalty.clear();
         } else if game_over.is_none() {
-            if cue_pocketed || cue_off {
+            if (cue_pocketed || cue_off) && self.ruleset >= 6 {
+                // Back where it began, without ball in hand.
+                self.return_cue_ball();
+            } else if cue_pocketed || cue_off {
                 self.ball_in_hand =
                     Some(if was_break { BallInHand::Kitchen } else { BallInHand::Anywhere });
                 self.respot_cue_ball();
@@ -1106,7 +1130,8 @@ impl EightBallGame {
     /// The shot clock ran out: the turn passes and the opponent gets ball
     /// in hand. Under the house rules (ruleset 4) only a scratch gives ball
     /// in hand: the turn passes and the cue ball stays where it lies (in
-    /// hand only if it already was, as on the break).
+    /// hand only if it already was, as on the break; from ruleset 6 the
+    /// break is the only time it is).
     ///
     /// Ruleset 4 made a cue ball in hand past the break in hand anywhere:
     /// after a scratch on the break (in hand behind the head string) a
@@ -1117,7 +1142,11 @@ impl EightBallGame {
             return;
         }
         if !self.ball(BallId::CUE).in_play() {
-            self.respot_cue_ball();
+            if self.ruleset >= 6 {
+                self.return_cue_ball();
+            } else {
+                self.respot_cue_ball();
+            }
         }
         if self.ruleset < 4 || (self.ruleset == 4 && self.ball_in_hand.is_some()) {
             self.ball_in_hand =
@@ -1151,6 +1180,28 @@ impl EightBallGame {
         }
         let x = pos.unwrap_or(start.x);
         self.balls[id.index()] = Ball::at_rest(id, DVec2::new(x, 0.0), r);
+    }
+
+    /// From ruleset 6: the cue ball that went down or left the table goes
+    /// back where it starts the game, on the head spot, or right behind
+    /// the ball lying there (towards the head rail, on the long string),
+    /// and is played from there: not in hand.
+    fn return_cue_ball(&mut self) {
+        let r = self.table.spec.ball_radius;
+        let head = self.table.head_spot();
+        // A sixteenth of a radius at a time: behind a ball, all but against it.
+        let step = r / 16.0;
+        let spot = (0..)
+            .map(|i| DVec2::new(head.x - i as f64 * step, head.y))
+            .take_while(|p| self.is_on_the_bed(*p))
+            .find(|p| self.is_spot_free(*p, BallId::CUE));
+        match spot {
+            Some(p) => self.balls[0] = Ball::at_rest(BallId::CUE, p, r),
+            // The whole string behind the spot taken: the nearest free
+            // place behind the head string.
+            None => self.respot_cue_ball(),
+        }
+        self.ball_in_hand = None;
     }
 
     fn respot_cue_ball(&mut self) {
@@ -1359,28 +1410,39 @@ mod tests {
         assert_eq!(g.ball_in_hand(), Some(BallInHand::Anywhere));
     }
 
+    /// A scratch: up to ruleset 5 the opponent has the cue ball in hand
+    /// anywhere; from ruleset 6 it goes back to the head spot, not in hand.
     #[test]
     fn scratch_gives_ball_in_hand_and_respots_cue_ball() {
-        let mut g = after_break(3);
-        g.groups = [Some(Group::Solids), Some(Group::Stripes)];
-        let t = g.table.clone();
-        let aim = t.pocket(PocketId::FootLeft).aim_point();
-        let start = aim - DVec2::new(1.0, 0.5).normalize() * 0.6;
-        layout(
-            &mut g,
-            &[
-                (0, start),
-                (2, DVec2::new(-0.5, 0.0)),
-                (10, DVec2::new(-0.5, 0.3)),
-                (8, DVec2::new(-0.6, -0.3)),
-            ],
-        );
-        let d = aim - start;
-        let report = g.play_shot(&Shot::new(d.y.atan2(d.x), 2.0), None).unwrap();
-        assert!(report.fouls.contains(&Foul::CueBallPocketed));
-        assert!(g.ball(BallId::CUE).in_play());
-        assert_eq!(g.current_player(), 1);
-        assert_eq!(g.ball_in_hand(), Some(BallInHand::Anywhere));
+        for ruleset in [5, 6] {
+            let mut g = EightBallGame::with_ruleset(3, 0, ruleset);
+            g.is_break = false;
+            g.ball_in_hand = None;
+            g.groups = [Some(Group::Solids), Some(Group::Stripes)];
+            let t = g.table.clone();
+            let aim = t.pocket(PocketId::FootLeft).aim_point();
+            let start = aim - DVec2::new(1.0, 0.5).normalize() * 0.6;
+            layout(
+                &mut g,
+                &[
+                    (0, start),
+                    (2, DVec2::new(-0.5, 0.0)),
+                    (10, DVec2::new(-0.5, 0.3)),
+                    (8, DVec2::new(-0.6, -0.3)),
+                ],
+            );
+            let d = aim - start;
+            let report = g.play_shot(&Shot::new(d.y.atan2(d.x), 2.0), None).unwrap();
+            assert!(report.fouls.contains(&Foul::CueBallPocketed));
+            assert!(g.ball(BallId::CUE).in_play());
+            assert_eq!(g.current_player(), 1);
+            if ruleset >= 6 {
+                assert_eq!(g.ball_in_hand(), None);
+                assert_eq!(g.ball(BallId::CUE).xy(), t.head_spot());
+            } else {
+                assert_eq!(g.ball_in_hand(), Some(BallInHand::Anywhere));
+            }
+        }
     }
 
     #[test]
@@ -1618,21 +1680,37 @@ mod tests {
         assert!(g.ball(BallId::EIGHT).in_play());
     }
 
+    /// A scratch on the break: up to ruleset 5 the cue ball is in hand
+    /// behind the head string; from ruleset 6 it goes back to the head
+    /// spot (here right behind the 2, which lies on it), not in hand.
     #[test]
     fn scratch_on_the_break_gives_ball_in_hand_in_the_kitchen() {
-        let mut g = EightBallGame::new(3, 0);
-        let t = g.table.clone();
-        let aim = t.pocket(PocketId::FootLeft).aim_point();
-        let start = aim - DVec2::new(1.0, 0.5).normalize() * 0.6;
-        on_break_with(
-            &mut g,
-            &[(0, start), (2, DVec2::new(-0.5, 0.0)), (8, DVec2::new(-0.6, -0.3))],
-        );
-        let d = aim - start;
-        let report = g.play_shot(&Shot::new(crate::math::atan2(d.y, d.x), 2.0), None).unwrap();
-        assert!(report.fouls.contains(&Foul::CueBallPocketed));
-        assert_eq!(g.current_player(), 1);
-        assert_eq!(g.ball_in_hand(), Some(BallInHand::Kitchen));
+        for ruleset in [5, 6] {
+            let mut g = EightBallGame::with_ruleset(3, 0, ruleset);
+            let t = g.table.clone();
+            let aim = t.pocket(PocketId::FootLeft).aim_point();
+            let start = aim - DVec2::new(1.0, 0.5).normalize() * 0.6;
+            on_break_with(&mut g, &[(0, start), (2, t.head_spot()), (8, DVec2::new(-0.6, -0.3))]);
+            let d = aim - start;
+            let report = g.play_shot(&Shot::new(crate::math::atan2(d.y, d.x), 2.0), None).unwrap();
+            assert!(report.fouls.contains(&Foul::CueBallPocketed));
+            assert_eq!(g.current_player(), 1);
+            if ruleset >= 6 {
+                // Played on, not racked again (ruleset 5 racked again: only
+                // the cue ball went down).
+                assert!(!g.is_break() && !report.reracked);
+                assert_eq!(g.ball_in_hand(), None);
+                let cue = g.ball(BallId::CUE).xy();
+                let two = g.ball(BallId(2)).xy();
+                assert_eq!(two, t.head_spot(), "the 2 wasn't touched");
+                let r = t.spec.ball_radius;
+                assert!(cue.y == 0.0 && cue.x < two.x, "behind the 2: {cue}");
+                let gap = two.x - cue.x - 2.0 * r;
+                assert!(gap > 0.0 && gap < r / 8.0, "right behind it: {gap}");
+            } else {
+                assert_eq!(g.ball_in_hand(), Some(BallInHand::Kitchen));
+            }
+        }
     }
 
     #[test]
@@ -1874,14 +1952,28 @@ mod tests {
                     }
                 }
                 // Ball in hand exactly after a foul (when the game goes on);
-                // under the house rules, only when the cue ball went away.
+                // under the house rules, only when the cue ball went away;
+                // from ruleset 6 never past the break: the cue ball that
+                // went away is back on the long string, from the head spot
+                // towards the head rail.
                 if g.game_over().is_none() {
                     let cue_gone = report
                         .fouls
                         .iter()
                         .any(|f| matches!(f, Foul::CueBallPocketed | Foul::CueBallOffTable));
-                    let in_hand = if house { cue_gone } else { report.is_foul() };
+                    let in_hand = if ruleset >= 6 {
+                        false
+                    } else if house {
+                        cue_gone
+                    } else {
+                        report.is_foul()
+                    };
                     assert_eq!(g.ball_in_hand().is_some(), in_hand, "{report:?}");
+                    if ruleset >= 6 && cue_gone {
+                        let cue = g.ball(BallId::CUE).xy();
+                        let head = g.table().head_spot();
+                        assert!(cue.y == head.y && cue.x <= head.x, "{cue} {report:?}");
+                    }
                     // The turn stays only on a legal shot that made a ball.
                     let stays = g.current_player() == shooter;
                     assert_eq!(stays, report.continues);
@@ -2222,9 +2314,11 @@ mod tests {
         assert_eq!(g.ball_in_hand(), None);
     }
 
+    /// Ruleset 4 and 5 (ruleset 6: see
+    /// `a_break_that_only_makes_the_cue_ball_is_played_on`).
     #[test]
     fn a_break_that_only_makes_the_cue_ball_goes_to_the_opponent() {
-        let mut g = EightBallGame::new(3, 0);
+        let mut g = EightBallGame::with_ruleset(3, 0, 5);
         // Only the cue ball goes down: straight into a corner.
         let aim = g.table.pocket(PocketId::FootLeft).aim_point();
         on_break_with(
@@ -2258,7 +2352,7 @@ mod tests {
         assert!(report.was_break && !report.reracked);
 
         // The cue ball down with another ball: an ordinary scratch, no rack.
-        let mut g = EightBallGame::new(3, 0);
+        let mut g = EightBallGame::with_ruleset(3, 0, 5);
         let aim = g.table.pocket(PocketId::FootLeft).aim_point();
         let back = (DVec2::ZERO - aim).normalize();
         on_break_with(&mut g, &[(0, aim + back * 0.5), (5, aim + back * 0.08)]);
@@ -2486,9 +2580,10 @@ mod tests {
         assert_eq!(EightBallGame::with_ruleset(1, 0, 200).ruleset(), crate::NEWEST_RULESET);
     }
 
-    /// From ruleset 5 a break that makes a solid and a stripe passes the
+    /// Under ruleset 5 a break that makes a solid and a stripe passes the
     /// turn and leaves the table open; one kind only keeps the table and
-    /// sets the groups, as before. Ruleset 4 played on after either.
+    /// sets the groups, as before. Ruleset 4 played on after either; from
+    /// ruleset 6 the first made sets the groups and the turn passes.
     #[test]
     fn a_break_with_both_groups_passes_the_turn() {
         let kinds = |r: &ShotReport| {
@@ -2497,18 +2592,25 @@ mod tests {
             let stripes = made.iter().any(|b| Group::Stripes.contains(*b));
             (solids, stripes, made.contains(&BallId::EIGHT))
         };
-        let (mut mixed, mut single, mut old_mixed) = (0, 0, 0);
+        let (mut mixed, mut single, mut old_mixed, mut new_mixed) = (0, 0, 0, 0);
         for seed in 0..300u64 {
             // Real breaks, struck a little differently each time.
             let yaw = (seed % 9) as f64 * 0.003 - 0.012;
-            for ruleset in [4, 5] {
+            for ruleset in [4, 5, 6] {
                 let mut g = EightBallGame::with_ruleset(seed, 0, ruleset);
                 let report = g.play_shot(&Shot::new(yaw, g.max_cue_speed()), None).unwrap();
                 let (solids, stripes, eight) = kinds(&report);
                 if report.is_foul() || eight || report.reracked {
                     continue;
                 }
-                if solids && stripes {
+                if solids && stripes && ruleset == 6 {
+                    // The first one made decides; the other kind passes the turn.
+                    new_mixed += 1;
+                    let first = report.pocketed.iter().find_map(|(b, _)| Group::of(*b));
+                    assert_eq!(report.group_assigned, first, "seed {seed}: {report:?}");
+                    assert!(report.opponent_ball && !report.continues, "seed {seed}");
+                    assert_eq!(g.current_player(), 1, "the opponent's turn");
+                } else if solids && stripes {
                     if ruleset == 5 {
                         mixed += 1;
                         assert!(!report.continues, "seed {seed}: {report:?}");
@@ -2526,7 +2628,10 @@ mod tests {
                 }
             }
         }
-        assert!(mixed > 0 && single > 0 && old_mixed > 0, "{mixed} {single} {old_mixed}");
+        assert!(
+            mixed > 0 && single > 0 && old_mixed > 0 && new_mixed > 0,
+            "{mixed} {single} {old_mixed} {new_mixed}"
+        );
     }
 
     /// Every group ball went down on fouls, which decide no group: under
@@ -2713,6 +2818,138 @@ mod tests {
                 }
             }
         }
+    }
+
+    // ---- Ruleset 6: the default from 0.7.1 ------------------------------
+
+    /// A break under `ruleset` that the cue ball strikes softly, with the
+    /// balls `down` made, in that order, at its end (wherever the cue ball
+    /// sent them): what the rules do with the order alone.
+    fn break_making(ruleset: u8, down: &[u8]) -> (EightBallGame, ShotReport) {
+        let mut g = EightBallGame::with_ruleset(3, 0, ruleset);
+        let mut pending = g.prepare_shot(&Shot::new(g.default_aim(), 1.0), None).unwrap();
+        pending.simulation.run_to_rest();
+        assert!(
+            pending.simulation.events().iter().all(|e| !matches!(e, Event::Pocketed { .. })),
+            "a soft break makes nothing by itself"
+        );
+        for (k, n) in down.iter().enumerate() {
+            pending.simulation.pocket_for_tests(BallId(*n), PocketId::ALL[k % 6]);
+        }
+        let report = g.finish_shot(pending);
+        (g, report)
+    }
+
+    /// From ruleset 6 the first ball made on the break decides the groups,
+    /// whatever goes down after it: the 3 and then the 13 make the breaker
+    /// solids, and the 13 (the opponent's) passes the turn, made for them.
+    /// One kind only keeps the table, as before. Ruleset 5 left the table
+    /// open after both kinds.
+    #[test]
+    fn the_first_ball_made_on_the_break_decides_the_groups() {
+        let (g, report) = break_making(6, &[3, 13]);
+        assert_eq!(report.fouls, vec![]);
+        assert_eq!(report.group_assigned, Some(Group::Solids));
+        assert_eq!((g.group_of(0), g.group_of(1)), (Some(Group::Solids), Some(Group::Stripes)));
+        assert!(report.opponent_ball && !report.continues, "{report:?}");
+        assert_eq!(g.current_player(), 1);
+        assert_eq!(report.balls_made(), vec![BallId(3)]);
+        assert!(!g.ball(BallId(13)).in_play(), "the 13 stays down, made for the opponent");
+        assert_eq!(g.ball_in_hand(), None);
+
+        // The other way round: the 13 first makes the breaker stripes.
+        let (g, report) = break_making(6, &[13, 3, 5]);
+        assert_eq!(report.group_assigned, Some(Group::Stripes));
+        assert_eq!(g.group_of(0), Some(Group::Stripes));
+        assert!(report.opponent_ball && !report.continues);
+        assert_eq!(report.balls_made(), vec![BallId(13)]);
+
+        // One kind only: the breaker keeps the table.
+        let (g, report) = break_making(6, &[11, 9]);
+        assert_eq!(report.group_assigned, Some(Group::Stripes));
+        assert!(!report.opponent_ball && report.continues);
+        assert_eq!(g.current_player(), 0);
+
+        // Ruleset 5: both kinds leave the table open and pass the turn.
+        let (g, report) = break_making(5, &[3, 13]);
+        assert_eq!(report.group_assigned, None);
+        assert!(g.is_open_table() && !report.continues && !report.opponent_ball);
+        assert_eq!(g.current_player(), 1);
+    }
+
+    /// From ruleset 6 a break that makes only the cue ball is not racked
+    /// again: the balls stay where they went, the cue ball goes back to the
+    /// head spot, not in hand, and the opponent plays on an open table.
+    #[test]
+    fn a_break_that_only_makes_the_cue_ball_is_played_on() {
+        let mut g = EightBallGame::with_ruleset(3, 0, 6);
+        let aim = g.table.pocket(PocketId::FootLeft).aim_point();
+        on_break_with(
+            &mut g,
+            &[(0, aim + (DVec2::ZERO - aim).normalize() * 0.4), (5, DVec2::new(-0.3, 0.0))],
+        );
+        let d = aim - g.ball(BallId::CUE).xy();
+        let report = g.play_shot(&Shot::new(d.y.atan2(d.x), 2.0), None).unwrap();
+        assert!(report.fouls.contains(&Foul::CueBallPocketed), "{report:?}");
+        assert!(!report.reracked && !report.continues && report.game_over.is_none());
+        assert_eq!(g.current_player(), 1);
+        assert!(!g.is_break() && g.is_open_table());
+        assert_eq!(g.ball_in_hand(), None);
+        assert_eq!(g.ball(BallId::CUE).xy(), g.table.head_spot());
+        assert_eq!(g.ball(BallId(5)).xy(), DVec2::new(-0.3, 0.0), "nothing is racked again");
+        // The opponent's shot is an ordinary one, from there.
+        let shot = straight_shot(&g, BallId(5), PocketId::FootLeft, 2.0);
+        let report = g.play_shot(&shot, None).unwrap();
+        assert!(!report.was_break);
+    }
+
+    /// From ruleset 6 the cue ball knocked off the table also comes back to
+    /// the head spot, not in hand, and a foul's penalty is given as before.
+    #[test]
+    fn the_cue_ball_off_the_table_comes_back_to_the_head_spot() {
+        let mut g = EightBallGame::with_ruleset(3, 0, 6);
+        g.is_break = false;
+        g.ball_in_hand = None;
+        g.groups = [Some(Group::Solids), Some(Group::Stripes)];
+        layout(
+            &mut g,
+            &[
+                (0, DVec2::new(0.4, 0.0)),
+                (2, DVec2::new(0.2, 0.3)),
+                (10, DVec2::new(-0.5, 0.3)),
+                (11, DVec2::new(0.5, -0.3)),
+                (8, DVec2::new(-0.6, -0.3)),
+            ],
+        );
+        // A miss that ends with the cue ball off the table.
+        let mut pending =
+            g.prepare_shot(&Shot::new(std::f64::consts::PI / 2.0, 0.5), None).unwrap();
+        pending.simulation.run_to_rest();
+        pending.simulation.knock_off_for_tests(BallId::CUE);
+        let report = g.finish_shot(pending);
+        assert!(report.fouls.contains(&Foul::CueBallOffTable), "{report:?}");
+        assert!(report.fouls.contains(&Foul::NoContact), "{report:?}");
+        assert_eq!(report.penalty, vec![BallId(10)], "the miss gives the opponent their lowest");
+        assert_eq!(g.ball_in_hand(), None);
+        assert_eq!(g.ball(BallId::CUE).xy(), g.table.head_spot());
+        assert_eq!(g.current_player(), 1);
+        // A clock that runs out now passes the turn alone.
+        g.time_foul();
+        assert_eq!((g.current_player(), g.ball_in_hand()), (0, None));
+    }
+
+    /// From ruleset 6 the cue ball is in hand for the break alone: a clock
+    /// that runs out on the break leaves it in hand behind the head string.
+    #[test]
+    fn the_cue_ball_is_in_hand_for_the_break_only() {
+        let mut g = EightBallGame::with_ruleset(3, 0, 6);
+        assert_eq!(g.ball_in_hand(), Some(BallInHand::Kitchen));
+        g.time_foul();
+        assert_eq!((g.current_player(), g.ball_in_hand()), (1, Some(BallInHand::Kitchen)));
+        assert!(g.is_break());
+        let report = g.play_shot(&Shot::new(g.default_aim(), g.max_cue_speed()), None).unwrap();
+        assert!(report.was_break);
+        assert_eq!(g.ball_in_hand(), None, "{report:?}");
     }
 
     #[test]

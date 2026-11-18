@@ -524,6 +524,15 @@ impl SettingsScreen {
                     t("The computer opponents comment on the game in speech bubbles."),
                     &mut config.opponent_talk,
                 );
+                switch_row(
+                    rows,
+                    ui,
+                    t("Focus mode"),
+                    t(
+                        "No invitations while you play: they are turned away until the game is over.",
+                    ),
+                    &mut config.focus_mode,
+                );
 
                 rows.heading(ui, t("Aiming"), None);
                 let hint = match config.guide {

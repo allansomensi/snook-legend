@@ -154,11 +154,15 @@ fn decisions_are_bit_identical_everywhere() {
 /// value never changes: games recorded under it must replay the same (the
 /// server checks the ladder's final game under the ruleset it was played
 /// with).
-const EXPECTED: [(u8, u64); 5] = [
+const EXPECTED: [(u8, u64); 6] = [
     (1, 0x5f9e_be78_d9d8_361f),
     (2, 0x7f8d_52de_242c_eb40),
     (3, 0x9234_f79e_23ac_772c),
     (4, 0x0dc7_88cb_89fb_6a39),
-    // The default from 0.7.0: frozen like the others.
+    // 0.7.0: frozen like the others.
     (5, 0xe866_92d6_0300_b481),
+    // The default from 0.7.1: the same decisions as 5's on these tables
+    // (none of them comes after a scratch or on a break that makes both
+    // kinds, where its rules differ). Frozen like the others.
+    (6, 0xe866_92d6_0300_b481),
 ];

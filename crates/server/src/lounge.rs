@@ -141,6 +141,11 @@ const SHOT_MARGIN: Duration = Duration::from_millis(1500);
 /// Aim and cue-ball updates are relayed at most this often.
 const AIM_RELAY: Duration = Duration::from_millis(33);
 const MATCH_CHAT_KEEP: usize = 40;
+
+/// What an invitation to a player in focus mode is told (see
+/// [`ClientMsg::SetActivity`]).
+const FOCUSED: &str =
+    "That player is in focus mode and isn't taking invitations until their game is over.";
 /// Opening and closing tables, tournaments and the queue are announced to
 /// the whole lounge: a dozen at once, then one a second (a person clicking
 /// never gets near it; a script can't flood everyone through it).
@@ -186,6 +191,8 @@ pub struct Session {
     pub vs_computer: bool,
     /// Away from the game (the game says so after a while untouched).
     pub away: bool,
+    /// Playing in focus mode (the game says so): no invitations.
+    pub focus: bool,
 }
 
 struct Room {
@@ -381,6 +388,7 @@ pub fn player_info(user: &User, guest: bool, status: PlayerStatus) -> PlayerInfo
         avatar: user.avatar.clone(),
         vs_computer: false,
         away: false,
+        focus: false,
         level: if guest { 0 } else { snook_legend_proto::xp::level_of(user.xp) },
     }
 }
@@ -510,6 +518,7 @@ impl Lounge {
             // left behind when one starts).
             info.vs_computer = s.vs_computer && s.room.is_none();
             info.away = s.away && s.room.is_none();
+            info.focus = s.focus && s.room.is_none();
             info
         })
     }
@@ -629,6 +638,7 @@ impl Lounge {
                 seek_bucket: Bucket::new(social::SEEK_BURST, social::SEEK_RATE),
                 vs_computer: false,
                 away: false,
+                focus: false,
             },
         );
         let players: Vec<PlayerInfo> = self.sessions.keys().filter_map(|k| self.info(k)).collect();
@@ -1074,6 +1084,18 @@ impl Lounge {
         }
     }
 
+    /// `k` began a game in focus mode: the invitations waiting for them
+    /// are withdrawn, and whoever sent them is told why.
+    fn turn_invites_away(&mut self, k: &str) {
+        let waiting: Vec<String> =
+            self.invites.keys().filter(|(_, to)| to == k).map(|(from, _)| from.clone()).collect();
+        for from in waiting {
+            self.invites.remove(&(from.clone(), k.to_string()));
+            self.send(k, ServerMsg::InviteCancelled { from: self.display(&from) });
+            self.send(&from, ServerMsg::InviteFailed { reason: FOCUSED.into() });
+        }
+    }
+
     fn drop_invites_of(&mut self, k: &str) {
         let affected: Vec<(String, String)> =
             self.invites.keys().filter(|(f, t)| f == k || t == k).cloned().collect();
@@ -1155,19 +1177,27 @@ impl Lounge {
                 self.shoot(&k, turn, shot, called_pocket, cue_ball)
             }
             ClientMsg::Resign => self.resign(&k),
-            ClientMsg::SetActivity { vs_computer, away } => {
+            ClientMsg::SetActivity { vs_computer, away, focus } => {
                 // Everyone hears about it, so it shares the lounge actions'
                 // limit; past it the change is kept but goes unannounced
                 // (the next one tells everyone), without an error: the game
                 // sends it by itself.
+                let mut focused = false;
                 if let Some(s) = self.sessions.get_mut(&k)
-                    && (s.vs_computer, s.away) != (vs_computer, away)
+                    && (s.vs_computer, s.away, s.focus) != (vs_computer, away, focus)
                 {
+                    focused = focus && !s.focus;
                     s.vs_computer = vs_computer;
                     s.away = away;
+                    s.focus = focus;
                     if s.action_bucket.take() {
                         self.announce(&k);
                     }
+                }
+                // A game in focus mode began: the invitations waiting for
+                // this player are turned away (they wouldn't be seen).
+                if focused {
+                    self.turn_invites_away(&k);
                 }
             }
             ClientMsg::Rematch => self.rematch(&k),
@@ -1806,6 +1836,9 @@ impl Lounge {
         if self.blocks(to, from) {
             return fail(self, "That player is not accepting invitations.");
         }
+        if self.sessions.get(to).is_some_and(|s| s.focus) {
+            return fail(self, FOCUSED);
+        }
         if self.invites.contains_key(&(from.to_string(), to.to_string())) {
             return;
         }
@@ -2053,6 +2086,7 @@ impl Lounge {
                 // The game against the computer was left for this one.
                 s.vs_computer = false;
                 s.away = false;
+                s.focus = false;
             }
         }
         for (seat, k) in keys.iter().enumerate() {

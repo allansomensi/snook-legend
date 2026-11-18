@@ -1184,6 +1184,10 @@ async fn main() {
                             rig.set_zoom_level(z);
                         }
                         HudAction::None => {
+                            // Focus mode: no invitations while a game is
+                            // played (the server turns them away; one that
+                            // slipped through waits for the game's end).
+                            let focus = config.focus_mode && m.is_focus_game();
                             if m.is_online() {
                                 let net = if match_from_lan {
                                     lan.as_mut().map(|l| &mut l.net)
@@ -1192,20 +1196,33 @@ async fn main() {
                                 };
                                 if let Some(net) = net
                                     && net.pending_invites() > 0
+                                    && !focus
                                 {
                                     net.draw_invites(&mut ui, true);
                                 }
                             } else {
-                                // Any game here (the computer, two players,
-                                // a drill, a replay): still in the lounge,
-                                // so an invitation shows in the corner and
-                                // can be accepted (a game against the
-                                // computer is kept).
-                                let y = if online.queue_secs().is_some() { 134.0 } else { 62.0 };
-                                let saved = m.is_against_computer();
-                                online.draw_invites_corner(&mut ui, y, saved);
-                                if let Some(l) = lan.as_mut() {
-                                    l.net.draw_invites_corner(&mut ui, y, saved);
+                                // Any game here (the computer, a tournament
+                                // or the tour against it, two players, a
+                                // drill, a replay): still in the lounge, so
+                                // how many are online shows, discreet, under
+                                // the top bar on the right (someone to invite
+                                // may have come), and an invitation shows in
+                                // the corner below it and can be accepted (a
+                                // game against the computer is kept).
+                                let queue = online.queue_secs().is_some();
+                                let counted =
+                                    online.draw_online_count(&ui, ui::vw() - 14.0, 70.0, focus);
+                                let y = match (queue, counted) {
+                                    (true, _) => 134.0,
+                                    (false, true) => 94.0,
+                                    (false, false) => 62.0,
+                                };
+                                if !focus {
+                                    let saved = m.is_against_computer();
+                                    online.draw_invites_corner(&mut ui, y, saved);
+                                    if let Some(l) = lan.as_mut() {
+                                        l.net.draw_invites_corner(&mut ui, y, saved);
+                                    }
                                 }
                             }
                         }

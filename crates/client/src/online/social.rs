@@ -302,7 +302,7 @@ impl Online {
                     watch = Some(name);
                 }
             } else {
-                let can = live.is_some_and(|p| p.status == PlayerStatus::Available)
+                let can = live.is_some_and(|p| p.status == PlayerStatus::Available && !p.focus)
                     && self.outgoing.is_none();
                 if ui.button(button, invite_label, can) {
                     send = Some(ClientMsg::Invite { to: name, rated: self.rated_games });

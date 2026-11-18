@@ -37,7 +37,16 @@
 ///   way, breaks and strokes the ball at speeds that fit this cue, counts
 ///   the opponent's balls it makes as given away, and plays for the pocket
 ///   it called for the 8 (calling it, on a safety, for where the 8 stops).
-pub const RULESET: u8 = 5;
+/// - 6: 0.7.1. Ruleset 5's table and physics, with two house rules. The
+///   first ball made decides the groups on the break too, whatever goes
+///   down after it (the 3 and then the 13: solids for the breaker), and one
+///   of the opponent's made with it passes the turn, as on any shot. The
+///   cue ball is in hand for the break only (behind the head string): one
+///   that goes down or leaves the table, on the break or later, goes back
+///   to the head spot (right behind a ball lying there) and is played from
+///   there, along with the foul's penalty; a break that makes only the cue
+///   ball is no longer racked again.
+pub const RULESET: u8 = 6;
 
 /// The newest ruleset this version can play. It is ahead of [`RULESET`]
 /// while a ruleset is being prepared: a game is played under it only when
@@ -45,7 +54,7 @@ pub const RULESET: u8 = 5;
 /// snapshot or a replay that names it), and nothing asks for it yet.
 /// Making it the default means raising [`RULESET`] to it, with a new
 /// protocol version (an older game would play its shots differently).
-pub const NEWEST_RULESET: u8 = 5;
+pub const NEWEST_RULESET: u8 = 6;
 
 /// A ruleset this version knows (unknown ones play as the newest it knows).
 pub fn known_ruleset(ruleset: u8) -> u8 {

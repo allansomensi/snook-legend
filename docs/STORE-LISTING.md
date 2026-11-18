@@ -51,21 +51,20 @@ Em português, inglês e espanhol.
 
 ### Novidades desta versão
 
-Versão 0.7.0: eventos, um tipo só na saída, prêmios justos e luz mais suave.
+Versão 0.7.1: a primeira bola decide, bola na mão só na saída, quem está online e modo foco.
+• Na saída, a primeira bola que cair decide o seu grupo; uma bola do adversário junto passa a vez.
+• A branca só fica na mão na saída; caída ou fora da mesa, ela volta para o ponto inicial.
+• Jogando contra o computador, um cantinho mostra quantas pessoas estão online, e os convites aparecem por cima da partida.
+• Modo foco: nenhum convite enquanto você joga.
+
+Da versão 0.7.0: eventos, prêmios justos e luz mais suave.
 • Eventos: fins de semana de experiência ou moedas em dobro e torneios especiais com prêmio da casa.
-• Nova regra da casa: se na saída caírem bolas dos dois grupos, passa a vez e a mesa continua aberta.
 • Alguns casos raros das regras foram acertados, e o computador joga um pouco melhor.
 • A final do Circuito e os treinos que valem ranking são preparados pelo servidor: os prêmios valem igual para todos.
 • Trocar o e-mail de recuperação pede a senha.
 • A luz sob as luminárias cai suave, sem bordas duras.
 • Opção para deixar sempre à mostra a linha de cabeceira.
 • Bolas em sequência comemoradas, "Próximo" direto no Circuito e online mais firme.
-
-Da versão 0.6.2: ligas, níveis e um perfil mais limpo.
-• Nova aba "Ligas e níveis" no perfil: todas as ligas, o que cada uma paga e todos os níveis que trazem um item.
-• Subir de liga pela primeira vez rende moedas e, a partir de Habilidoso, um item exclusivo.
-• Perfil mais limpo: seu nível, o próximo prêmio e o que você já ganhou; medalhas e reações numa aba própria.
-• A vista de cima voltou a ter profundidade e a luz de sempre, com as bolas redondas, e a câmera não salta mais ao sair dela.
 
 ### Recursos do produto
 
@@ -128,21 +127,20 @@ In English, Portuguese and Spanish.
 
 ### What's new in this version
 
-Version 0.7.0: events, one kind on the break, fair rewards and softer light.
+Version 0.7.1: the first ball decides, ball in hand on the break only, who is online and focus mode.
+• On the break, the first ball that goes down decides your group; one of your opponent's with it passes the turn.
+• The cue ball is in hand on the break only; pocketed or off the table, it comes back to the head spot.
+• Playing the computer, a corner shows how many people are online, and invitations show over the game.
+• Focus mode: no invitations while you play.
+
+From version 0.7.0: events, fair rewards and softer light.
 • Events: weekends of double experience or coins, and themed tournaments with a prize from the house.
-• A new house rule: a break that makes balls of both groups passes the turn, and the table stays open.
 • A few rare cases of the rules put right, and a slightly stronger computer.
 • The tour's final and the ranked drills are set up by the server: their rewards are earned the same way by everyone.
 • Changing the recovery e-mail asks for the password.
 • The light under the lamps falls softly, without hard edges.
 • An option to always show the head string.
 • Balls in a row cheered, "Next" straight on the tour, and steadier online play.
-
-From version 0.6.2: leagues, levels and a cleaner profile.
-• A new "Leagues and levels" tab in the profile: every league, what it pays, and every level that brings an item.
-• Reaching a league for the first time pays coins and, from Skilled up, an item of its own.
-• A cleaner profile: your level, the next prize and what you have won; medals and reactions on a tab of their own.
-• The view from above has its depth and usual light again, with round balls, and the camera no longer jumps when leaving it.
 
 ### Product features
 
@@ -205,21 +203,20 @@ En español, inglés y portugués.
 
 ### Novedades de esta versión
 
-Versión 0.7.0: eventos, un solo tipo en el saque, premios justos y luz más suave.
+Versión 0.7.1: la primera bola decide, bola en mano solo en el saque, quién está en línea y modo concentración.
+• En el saque, la primera bola que entra decide tu grupo; una del rival con ella pasa el turno.
+• La blanca solo está en mano en el saque; metida o fuera de la mesa, vuelve al punto de salida.
+• Jugando contra la computadora, un rincón muestra cuántas personas están en línea, y las invitaciones aparecen sobre la partida.
+• Modo concentración: ninguna invitación mientras juegas.
+
+De la versión 0.7.0: eventos, premios justos y luz más suave.
 • Eventos: fines de semana de experiencia o monedas dobles, y torneos especiales con premio de la casa.
-• Nueva regla de la casa: si en el saque entran bolas de los dos grupos, el turno pasa y la mesa sigue abierta.
 • Algunos casos raros de las reglas quedaron bien resueltos, y la computadora juega un poco mejor.
 • La final del circuito y los ejercicios con clasificación los prepara el servidor: los premios se ganan igual para todos.
 • Cambiar el e-mail de recuperación pide la contraseña.
 • La luz bajo las lámparas cae suave, sin bordes duros.
 • Opción para mostrar siempre la línea de salida.
 • Bolas seguidas celebradas, "Siguiente" directo en el circuito y juego en línea más firme.
-
-De la versión 0.6.2: ligas, niveles y un perfil más limpio.
-• Nueva pestaña "Ligas y niveles" en el perfil: todas las ligas, qué paga cada una y todos los niveles que traen un objeto.
-• Subir de liga por primera vez da monedas y, desde Hábil, un objeto exclusivo.
-• Perfil más limpio: tu nivel, el próximo premio y lo que ya ganaste; medallas y reacciones en su propia pestaña.
-• La vista desde arriba vuelve a tener profundidad y su luz de siempre, con bolas redondas, y la cámara ya no salta al salir de ella.
 
 ### Características del producto
 

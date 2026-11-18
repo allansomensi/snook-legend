@@ -3,6 +3,20 @@
 # un destacado, y las líneas siguientes son su texto. Mismas versiones y
 # mismo número de destacados en todos los idiomas.
 
+## 0.7.1
+
+### La primera bola decide
+En el saque, la primera bola que entra decide tu grupo, aunque entren otras después: la 3 y luego la 13, te quedas con las lisas. La 13 es del rival, así que queda para él y pasa el turno.
+
+### Bola en mano solo en el saque
+La blanca solo está en tu mano en el saque, detrás de la línea de cabecera. Si entra en una tronera o sale de la mesa, vuelve al punto de salida (justo detrás de la bola que esté en él), sin bola en mano, con las penalizaciones de siempre. Si en el saque entra solo la blanca, las bolas ya no vuelven al triángulo: el rival juega desde ahí.
+
+### Quién está en línea
+Jugando contra la computadora (en un torneo, en el circuito o en un ejercicio), un rincón discreto muestra cuántas personas están en línea y avisa cuando llega alguien: hora de ir a invitarlo. Las invitaciones aparecen sobre la partida.
+
+### Modo concentración
+Configuración → Juego → "Modo concentración": ninguna invitación mientras juegas. Quien intente invitarte sabrá que estás en modo concentración. Viene desactivado.
+
 ## 0.7.0
 
 ### Un solo tipo en el saque

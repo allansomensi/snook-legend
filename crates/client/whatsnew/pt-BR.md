@@ -3,6 +3,20 @@
 # destaque, e as linhas seguintes são o texto dele. Mesmas versões e mesmo
 # número de destaques em todas as línguas.
 
+## 0.7.1
+
+### A primeira bola decide
+Na saída, a primeira bola que cair decide o seu grupo, mesmo que caiam outras depois: a 3 e depois a 13, você fica com as lisas. Como a 13 é do adversário, ela fica para ele e passa a vez.
+
+### Bola na mão só na saída
+A branca só fica na sua mão na saída, atrás da linha de cabeceira. Se ela cair na caçapa ou sair da mesa, volta para o ponto inicial (logo atrás da bola que estiver nele), sem bola na mão, com as penalidades de sempre. Se na saída cair só a branca, as bolas não voltam mais ao triângulo: o adversário joga dali.
+
+### Quem está online
+Jogando contra o computador (no torneio, no Circuito ou num treino), um cantinho discreto mostra quantas pessoas estão online e avisa quando alguém entra: dá para ir convidar. Os convites aparecem por cima da partida.
+
+### Modo foco
+Configurações → Jogo → "Modo foco": nenhum convite enquanto você joga. Quem tentar convidar fica sabendo que você está em modo foco. Vem desligado.
+
 ## 0.7.0
 
 ### Um tipo só na saída

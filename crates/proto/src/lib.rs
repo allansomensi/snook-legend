@@ -137,14 +137,14 @@ pub const SPECTATOR_SEAT: usize = 2;
 pub const GAME_NAME: &str = "Snook Legend";
 
 /// Bumped whenever messages change incompatibly.
-pub const PROTOCOL_VERSION: u32 = 18;
+pub const PROTOCOL_VERSION: u32 = 19;
 
-/// The oldest version the server still lets in. Version 18 plays ruleset 5
-/// (see [`snook_legend_core::RULESET`]: ruleset 4's house rules with what
-/// they got wrong put right, and a stronger computer), and the tour's final
-/// and the drills are started by the server: an older game would play
-/// shots differently from the server, so it must update.
-pub const OLDEST_PROTOCOL_VERSION: u32 = 18;
+/// The oldest version the server still lets in. Version 19 plays ruleset 6
+/// (see [`snook_legend_core::RULESET`]: the first ball made on the break
+/// decides the groups, and the cue ball is in hand for the break only; one
+/// that goes down comes back to the head spot): an older game would apply
+/// the rules differently from the server, so it must update.
+pub const OLDEST_PROTOCOL_VERSION: u32 = 19;
 
 /// Username rules: 3–16 characters, letters, digits and underscores.
 pub fn valid_username(name: &str) -> bool {
@@ -501,6 +501,10 @@ pub struct PlayerInfo {
     /// Nobody has touched their game for a while (an invitation may wait).
     #[serde(default, skip_serializing_if = "std::ops::Not::not")]
     pub away: bool,
+    /// Playing in focus mode (a game outside the online ones, with the
+    /// game's focus mode on): invitations are turned away until it ends.
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub focus: bool,
     /// The account level (see [`xp`]; 0: not known, e.g. a guest).
     #[serde(default, skip_serializing_if = "is_zero")]
     pub level: u32,
@@ -1286,6 +1290,10 @@ pub enum ClientMsg {
         vs_computer: bool,
         #[serde(default)]
         away: bool,
+        /// Playing in focus mode: no invitations until the game is over
+        /// (those waiting are withdrawn). Protocol 19 and later.
+        #[serde(default)]
+        focus: bool,
     },
     /// The people this player played recently.
     RecentOpponents,
@@ -2021,6 +2029,7 @@ mod tests {
             avatar: String::new(),
             vs_computer: false,
             away: false,
+            focus: false,
             level: 0,
         };
         let msg = ServerMsg::MatchStarted {

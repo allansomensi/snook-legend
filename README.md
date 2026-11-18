@@ -58,10 +58,12 @@ which every desktop installation has. How releases are made is described in
   or of a federation): a foul passes the turn and gives the opponent balls
   (the lowest numbers of their group come off the table: one for a miss or
   a scratch, two for hitting the opponent's ball first, one if the cue ball
-  went to a cushion before it, and they add up), only a cue ball that went down or left the table gives ball in hand, a ball
-  of one's own knocked off the table comes back and one of the opponent's
-  stays off, the 8 alone on the break wins and the 8 with any other ball
-  loses, a called pocket for the 8 that is binding once made. The rules
+  went to a cushion before it, and they add up), the cue ball is in hand
+  on the break only (one that goes down or leaves the table comes back to
+  the head spot), the first ball made decides the groups (one of the
+  opponent's with it passes the turn), a ball of one's own knocked off the
+  table comes back and one of the opponent's stays off, the 8 alone on the
+  break wins and the 8 with any other ball loses, a called pocket for the 8 that is binding once made. The rules
   are in the game (Menu → Rules), in three languages. Every rule has its
   own test, and 120 random games are checked after every shot. Each game
   records the version of the rules, the physics and the table it was played

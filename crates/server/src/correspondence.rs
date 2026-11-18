@@ -253,6 +253,7 @@ fn unknown_player() -> PlayerInfo {
         avatar: String::new(),
         vs_computer: false,
         away: false,
+        focus: false,
         level: 0,
         cue_level: 0,
     }

@@ -1358,7 +1358,7 @@ Whoa, how did you do that?	Uau, como você fez isso?
 Teach me that one later!	Depois me ensina essa!
 Phew! My turn!	Ufa! Minha vez!
 Even you miss? Good to know.	Até você erra? Bom saber.
-Ball in hand! What do I do with it?	Bola na mão! E agora, o que eu faço com ela?
+A free ball! What do I do with it?	Bola de graça! E agora, o que eu faço com ela?
 Did you see that?! It went in!	Você viu?! Entrou!
 Beginner's luck counts too!	Sorte de principiante também vale!
 Oops. That was a practice shot.	Ops. Essa foi de treino.
@@ -1371,7 +1371,7 @@ Nice one!	Boa!
 Oh, you're good. I'll pay attention now.	Opa, você é bom. Agora vou prestar atenção.
 Happens to the best of us.	Acontece com os melhores.
 Don't worry, it's just a game!	Relaxa, é só um jogo!
-Thanks for the ball in hand!	Valeu pela bola na mão!
+Thanks for the gift!	Valeu pelo presente!
 Yes! Weekend skills!	Isso! Talento de fim de semana!
 Lucky me!	Que sorte a minha!
 Hm, where was I aiming?	Hum, onde eu tava mirando?
@@ -1423,7 +1423,7 @@ Good stroke. Reminds me of a fellow in '78.	Boa tacada. Lembra um rapaz que conh
 Smooth. Very smooth.	Suave. Muito suave.
 Keep your head down, kid.	Cabeça baixa, garoto.
 The cue ball doesn't lie.	A branca não mente.
-Ah, the old ball in hand. Thank you kindly.	Ah, a velha bola na mão. Muito obrigado.
+Ah, the old penalty ball. Thank you kindly.	Ah, a velha bola de penalidade. Muito obrigado.
 Like riding a bicycle.	É como andar de bicicleta.
 Still got it.	Ainda levo jeito.
 The eyes aren't what they used to be.	Os olhos já não são os mesmos.
@@ -1486,7 +1486,7 @@ Remarkable. You've earned my respect.	Notável. Você ganhou meu respeito.
 Calibration complete. Good luck, human.	Calibração concluída. Boa sorte, humano.
 Shot registered: successful.	Tacada registrada: sucesso.
 Probability of my victory: increasing.	Probabilidade da minha vitória: aumentando.
-Foul detected. Processing ball in hand.	Falta detectada. Processando bola na mão.
+Foul detected. Processing penalty.	Falta detectada. Processando penalidade.
 Executed as planned.	Executado conforme o plano.
 Error. Recalculating.	Erro. Recalculando.
 Malfunction. Please disregard.	Falha. Por favor, desconsidere.
@@ -1571,7 +1571,7 @@ Softly, now. The table likes a gentle hand.	Com calma. A mesa gosta de mão leve
 Nicely done.	Muito bem feito.
 A little hard, but it went in.	Um pouco forte, mas entrou.
 Less power, more feel.	Menos força, mais toque.
-Oh dear. Ball in hand for me.	Ai, ai. Bola na mão para mim.
+Oh dear. A free ball for me.	Ai, ai. Uma bola de graça para mim.
 Just enough to drop.	Só o suficiente para cair.
 See? No need to hit it hard.	Viu? Não precisa bater forte.
 A touch too soft.	Um pouquinho fraca demais.
@@ -1803,3 +1803,12 @@ Will be sent when you're back online.	Será enviado quando você voltar a ficar 
 Your strokes will be sent when you're back online.	Suas tacadas serão enviadas quando você voltar a ficar online.
 The final you won was dealt to {name}: sign in as {name} to claim the reward.	A final que você venceu foi preparada para {name}: entre como {name} para receber o prêmio.
 Type your password to confirm it's you.	Digite sua senha para confirmar que é você.
+The cue ball is back on the head spot: {next} plays from there.	A branca volta para o ponto inicial: {next} joga dali.
+{name} came online	{name} entrou
+Online now: {names}	Online agora: {names}
+Nobody else is online right now.	Ninguém mais está online agora.
+Focus mode	Modo foco
+No invitations while you play: they are turned away until the game is over.	Sem convites enquanto você joga: eles são recusados até a partida acabar.
+in focus mode	em modo foco
+In focus mode: no invitations until their game is over.	Em modo foco: sem convites até a partida dele acabar.
+That player is in focus mode and isn't taking invitations until their game is over.	Esse jogador está em modo foco e não aceita convites até a partida dele acabar.

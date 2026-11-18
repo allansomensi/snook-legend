@@ -87,13 +87,17 @@ fn simulation_is_bit_identical_everywhere() {
 /// Update only on purpose (a change to the physics, the rules or the AI of
 /// the current ruleset), from the values printed above. An older ruleset's
 /// value never changes: games recorded under it must replay the same.
-const EXPECTED: [(u8, u64); 5] = [
+const EXPECTED: [(u8, u64); 6] = [
     (1, 0xb7c0_baa6_646d_027c),
     (2, 0x7b1a_f1d3_d312_aa3a),
     (3, 0x4871_c5a2_44a0_108f),
     (4, 0xdc1b_d36a_bee2_cbdb),
-    // The default from 0.7.0: ruleset 4's physics and table; the bits
-    // differ from 4's where its rules do (a break that makes both groups
-    // passes the turn).
+    // 0.7.0: ruleset 4's physics and table; the bits differ from 4's where
+    // its rules do (a break that makes both groups passes the turn).
     (5, 0x140c_a83e_b933_5d2a),
+    // The default from 0.7.1: ruleset 5's physics and table; the bits
+    // differ from 5's where its rules do (the first ball made on the break
+    // decides the groups; a cue ball that goes down comes back to the head
+    // spot, not in hand).
+    (6, 0x1d68_9bc0_a48f_760d),
 ];

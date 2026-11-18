@@ -17,16 +17,16 @@ Você continua jogando enquanto encaçapar uma bola do seu grupo numa tacada sem
 ## A saída
 
 ### A tacada de saída
-A branca começa atrás da linha de cabeceira. Não há saída irregular: nenhuma bola precisa cair nem tocar a tabela.
+Na saída, e só nela, a branca fica na sua mão: você pode colocá-la onde quiser atrás da linha de cabeceira, até encostada na tabela, mas nunca na boca de uma caçapa. Não há saída irregular: nenhuma bola precisa cair nem tocar a tabela.
 
 ### A bola 8 na saída
 Encaçapar somente a 8 na saída vence a partida na hora. Encaçapar a 8 junto com qualquer outra bola (a branca ou qualquer uma) perde a partida. Se a 8 sair da mesa na saída, ela volta para a mesa no lugar da bola da frente do triângulo (ou o mais perto dele que couber) e você perde a vez: é falta.
 
 ### Só a branca na saída
-Se na saída cair somente a bola branca, você perde a vez, as bolas voltam ao triângulo e o adversário dá a saída.
+Se na saída cair somente a bola branca, você perde a vez. As bolas ficam onde pararam, a branca volta para o ponto inicial (logo atrás da bola que estiver nele) e o adversário joga dali, sem bola na mão.
 
 ### Depois da saída
-Se na saída caírem bolas de um grupo só, sem falta, a primeira que cair decide o seu grupo e você joga de novo. Se caírem bolas dos dois grupos (a 3 e a 14, por exemplo), passa a vez e a mesa continua aberta.
+Numa saída sem falta, a primeira bola que cair decide o seu grupo. Se só caírem bolas do seu grupo, você joga de novo. Se cair também uma do adversário (a 3 e depois a 13, por exemplo: você fica com as lisas), ela fica encaçapada, a favor dele, e passa a vez.
 
 ### Mesa aberta
 Enquanto os grupos não estão decididos, a mesa está aberta: você pode acertar primeiro qualquer bola, menos a 8. A primeira bola que você encaçapar numa tacada sem falta lhe dá o grupo dela, e ao adversário o outro. Com a mesa aberta ainda não há bola do adversário: uma falta custa só a vez. Se não sobrar nenhuma bola dos grupos com a mesa aberta, os dois jogadores estão na 8.
@@ -43,10 +43,10 @@ Não acertar nenhuma bola sua: a menor bola do adversário que estiver na mesa �
 Acertar primeiro uma bola do adversário, diretamente: as duas menores bolas dele são eliminadas, e você perde a vez. Se a bola acertada cair, ela fica encaçapada e as duas saem do mesmo jeito. Se a branca bateu antes na tabela: uma bola. Acertar direto a bola do adversário e ainda encaçapar a branca: as três menores.
 
 ### Encaçapar a branca
-Uma bola para o adversário, e ele recebe a branca na mão: pode colocá-la em qualquer lugar da mesa (atrás da linha de cabeceira, se foi na saída). Ela pode ficar encostada na tabela, mas nunca na boca de uma caçapa. Só a branca encaçapada ou fora da mesa dá bola na mão; depois de qualquer outra falta, joga-se de onde ela parou.
+Uma bola para o adversário, e a branca volta para o ponto inicial, o da saída (ou logo atrás da bola que estiver nele). Não há bola na mão: o adversário joga dali. A branca só fica na mão na saída; depois de qualquer outra falta, joga-se de onde ela parou.
 
 ### Bolas fora da mesa
-A branca fora da mesa: perde a vez, e o adversário a recebe na mão. Uma bola do seu grupo fora da mesa volta para a mesa, e você perde a vez. Uma bola do adversário fora da mesa é eliminada (conta para ele), e você perde a vez.
+A branca fora da mesa: perde a vez, e ela volta para o ponto inicial, como quando é encaçapada. Uma bola do seu grupo fora da mesa volta para a mesa, e você perde a vez. Uma bola do adversário fora da mesa é eliminada (conta para ele), e você perde a vez.
 
 ### A bola do adversário
 Encaçapar uma bola do adversário passa a vez, mesmo que uma sua também tenha caído. Ela fica encaçapada, a favor dele.

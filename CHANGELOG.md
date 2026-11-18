@@ -1,5 +1,50 @@
 # Changelog
 
+## 0.7.1 (protocol 19)
+
+New games play ruleset 6: two house rules on the break and the cue ball.
+0.7.1 plays only with 0.7.1: the server lets in protocol 19 only (older
+games are told to update), so the server and the game go out together. No
+new migrations.
+
+### The rules (ruleset 6)
+- **The first ball made decides the groups, on the break too.** The 3 and
+  then the 13 on the break: the breaker takes the solids, and the 13, the
+  opponent's, stays down for them and passes the turn (as on any shot).
+  Ruleset 5 left the table open after a break with both kinds.
+- **The cue ball is in hand on the break only**, behind the head string.
+  One that goes down or leaves the table, on the break or later, goes back
+  to the head spot (right behind a ball lying there, towards the head rail)
+  and is played from there, with the foul's penalty balls as before; the
+  opponent no longer places it anywhere.
+- **A break that makes only the cue ball is no longer racked again:** the
+  balls stay where they went, and the opponent plays on from the head spot.
+- The game says when the cue ball comes back to the head spot. The rules in
+  the game say all of it, in the three languages; the computer's remarks no
+  longer thank anyone for a ball in hand.
+- Games keep the ruleset they began with (replays and daily games started
+  before play on as they were). The fingerprints of ruleset 6 are pinned.
+
+### Playing the computer, with the lounge in sight
+- **How many are online** shows in a discreet corner under the top bar
+  during any game played here (against the computer, its tournaments, the
+  tour, drills), with who is there on hover; for a few seconds after
+  someone comes online it says who, in gold. The invitations show under
+  it, over the game, as before.
+- **Focus mode** (Settings → Game, off by default): no invitations while a
+  game is played. The game tells the server, which withdraws the
+  invitations waiting and turns new ones away with the reason; the lounge
+  shows the player "in focus mode" and offers no invitation button.
+  Invitations' desktop notifications keep quiet too.
+
+### The staff portal
+- **An administrator answers reports about themselves** (with one
+  administrator nobody could, and they stayed open for ever); the answer
+  goes in the audit log like any other, with no sanctions on oneself. A
+  moderator's reports about themselves stay an administrator's: the
+  portal says so on the report instead of offering answers that fail, in
+  the three languages.
+
 ## 0.7.0 (protocol 18)
 
 New games play ruleset 5, with a new house rule on the break. 0.7.0 plays

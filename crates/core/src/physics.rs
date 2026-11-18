@@ -105,8 +105,8 @@ impl PhysicsParams {
             2 => PhysicsParams { rolling_friction: 0.011, cushion_restitution: 0.77, ..measured },
             3 => Self::tournament(),
             4 => Self::house(),
-            // Ruleset 5: the same balls and cloth, and a ball that jumps
-            // onto a rail stays there.
+            // Ruleset 5 (and 6, whose rules alone differ): the same balls
+            // and cloth, and a ball that jumps onto a rail stays there.
             _ => PhysicsParams { jumps_land_on_rails: true, ..Self::house() },
         }
     }
@@ -341,6 +341,20 @@ impl Simulation {
             b.motion = Motion::Stationary;
         }
         self.events.push(Event::OffTable { time, ball: id });
+    }
+
+    /// Tests of the rules: `id` goes down `pocket` at the end of the shot
+    /// (after whatever went down during it).
+    #[cfg(test)]
+    pub(crate) fn pocket_for_tests(&mut self, id: BallId, pocket: PocketId) {
+        let time = self.time;
+        if let Some(b) = self.balls.iter_mut().find(|b| b.id == id) {
+            b.status = BallStatus::Pocketed(pocket);
+            b.velocity = DVec3::ZERO;
+            b.angular_velocity = DVec3::ZERO;
+            b.motion = Motion::Stationary;
+        }
+        self.events.push(Event::Pocketed { time, ball: id, pocket });
     }
 
     pub fn ball(&self, id: BallId) -> Option<&Ball> {

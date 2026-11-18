@@ -416,20 +416,20 @@ async fn players_against_the_computer_show_it_and_can_be_invited() {
         .await;
     let (mut bob, _) = Client::register(&url, "bob").await;
     // Bob starts a game against the computer: Alice sees it in the lounge.
-    bob.send(ClientMsg::SetActivity { vs_computer: true, away: false }).await;
+    bob.send(ClientMsg::SetActivity { vs_computer: true, away: false, focus: false }).await;
     let is_bob = |m: &ServerMsg, vs: bool| {
         matches!(m, ServerMsg::PlayerUpdated { player }
             if player.username == "bob" && player.vs_computer == vs)
     };
     alice.expect("bob vs the computer", |m| is_bob(m, true)).await;
     // He leaves the game alone for a while: away, then back.
-    bob.send(ClientMsg::SetActivity { vs_computer: true, away: true }).await;
+    bob.send(ClientMsg::SetActivity { vs_computer: true, away: true, focus: false }).await;
     alice
         .expect("bob away", |m| {
             matches!(m, ServerMsg::PlayerUpdated { player } if player.username == "bob" && player.away)
         })
         .await;
-    bob.send(ClientMsg::SetActivity { vs_computer: true, away: false }).await;
+    bob.send(ClientMsg::SetActivity { vs_computer: true, away: false, focus: false }).await;
     alice
         .expect("bob back", |m| {
             matches!(m, ServerMsg::PlayerUpdated { player } if player.username == "bob" && !player.away)
@@ -448,6 +448,65 @@ async fn players_against_the_computer_show_it_and_can_be_invited() {
         unreachable!()
     };
     assert!(!player.vs_computer);
+}
+
+/// Focus mode: a player in a game with it on is shown so in the lounge,
+/// invitations to them are turned away with the reason, and the ones
+/// waiting when it began are withdrawn. Once the game is over they can be
+/// invited again.
+#[tokio::test]
+async fn players_in_focus_mode_are_not_invited() {
+    let url = start(Rules::default()).await;
+    let (mut alice, _) = Client::register(&url, "alice").await;
+    let (mut bob, _) = Client::register(&url, "bob").await;
+    let (mut carol, _) = Client::register(&url, "carol").await;
+    // Carol's invitation waits for Bob.
+    carol.send(ClientMsg::Invite { to: "bob".into(), rated: false }).await;
+    bob.expect(
+        "carol's invitation",
+        |m| matches!(m, ServerMsg::Invited { from, .. } if from == "carol"),
+    )
+    .await;
+    // Bob starts a game against the computer in focus mode.
+    bob.send(ClientMsg::SetActivity { vs_computer: true, away: false, focus: true }).await;
+    alice
+        .expect("bob focused", |m| {
+            matches!(m, ServerMsg::PlayerUpdated { player } if player.username == "bob" && player.focus)
+        })
+        .await;
+    // Carol's invitation is withdrawn, and she is told why.
+    bob.expect(
+        "withdrawn",
+        |m| matches!(m, ServerMsg::InviteCancelled { from } if from == "carol"),
+    )
+    .await;
+    let ServerMsg::InviteFailed { reason } =
+        carol.expect("turned away", |m| matches!(m, ServerMsg::InviteFailed { .. })).await
+    else {
+        unreachable!()
+    };
+    assert!(reason.contains("focus mode"), "{reason}");
+    // A new one is turned away at once.
+    alice.send(ClientMsg::Invite { to: "bob".into(), rated: false }).await;
+    let ServerMsg::InviteFailed { reason } =
+        alice.expect("turned away", |m| matches!(m, ServerMsg::InviteFailed { .. })).await
+    else {
+        unreachable!()
+    };
+    assert!(reason.contains("focus mode"), "{reason}");
+    // The game is over: Bob can be invited again.
+    bob.send(ClientMsg::SetActivity { vs_computer: false, away: false, focus: false }).await;
+    alice
+        .expect("bob free", |m| {
+            matches!(m, ServerMsg::PlayerUpdated { player } if player.username == "bob" && !player.focus)
+        })
+        .await;
+    alice.send(ClientMsg::Invite { to: "bob".into(), rated: false }).await;
+    bob.expect(
+        "alice's invitation",
+        |m| matches!(m, ServerMsg::Invited { from, .. } if from == "alice"),
+    )
+    .await;
 }
 
 #[tokio::test]

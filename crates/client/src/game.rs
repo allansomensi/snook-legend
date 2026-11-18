@@ -6,7 +6,7 @@ use std::sync::{Arc, Mutex};
 use ::glam::DVec2;
 use snook_legend_core::ai::{self, AiDecision, AiPlayer};
 use snook_legend_core::{
-    BallId, Difficulty, EightBallGame, Event, GameOverReason, PendingShot, PocketId, Shot,
+    BallId, Difficulty, EightBallGame, Event, Foul, GameOverReason, PendingShot, PocketId, Shot,
     ShotError, ShotReport, Simulation,
 };
 
@@ -774,6 +774,18 @@ impl Match {
         self.script.is_some()
     }
 
+    /// A game being played at this computer: not an online match, not a
+    /// stored game being watched (the computer, two players, a drill…).
+    pub fn is_played_offline(&self) -> bool {
+        !self.is_online() && !self.is_replay()
+    }
+
+    /// Focus mode applies to this game: one being played, here or online
+    /// (not a stored game, not someone else's game being watched).
+    pub fn is_focus_game(&self) -> bool {
+        !self.is_replay() && !self.is_spectating()
+    }
+
     /// A match on the server, from its `MatchStarted` message.
     #[allow(clippy::too_many_arguments)]
     pub fn online(
@@ -1342,8 +1354,9 @@ impl Match {
         for b in &report.spotted {
             self.notify(tw("The {ball} was spotted.", &[("ball", &crate::i18n::ball(*b))]), false);
         }
-        // Balls of both groups on the break (ruleset 5): the turn passes and
-        // the table stays open.
+        // Balls of both groups on the break (ruleset 5 only): the turn
+        // passes and the table stays open. From ruleset 6 the first one made
+        // sets the groups, and the other kind passes the turn (said below).
         let both = [snook_legend_core::Group::Solids, snook_legend_core::Group::Stripes]
             .iter()
             .all(|g| report.pocketed.iter().any(|(b, _)| g.contains(*b)));
@@ -1352,7 +1365,7 @@ impl Match {
             && !report.continues
             && !report.is_foul()
             && report.game_over.is_none()
-            && self.game.ruleset() >= 5
+            && self.game.ruleset() == 5
         {
             let next = self.names[self.game.current_player()].clone();
             self.notify(
@@ -1399,6 +1412,21 @@ impl Match {
                 };
                 self.notify(
                     tw("{next} has ball in hand{where}.", &[("next", &next), ("where", &where_)]),
+                    false,
+                );
+            } else if self.game.ruleset() >= 6
+                && report
+                    .fouls
+                    .iter()
+                    .any(|f| matches!(f, Foul::CueBallPocketed | Foul::CueBallOffTable))
+            {
+                // From ruleset 6 the cue ball isn't in hand: it is back on
+                // the head spot, where the next shot is played from.
+                self.notify(
+                    tw(
+                        "The cue ball is back on the head spot: {next} plays from there.",
+                        &[("next", &next)],
+                    ),
                     false,
                 );
             } else if report.opponent_ball {
@@ -2501,6 +2529,7 @@ mod tests {
             avatar: String::new(),
             vs_computer: false,
             away: false,
+            focus: false,
             level: 0,
         };
         [p("me"), p("them")]

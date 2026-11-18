@@ -46,7 +46,7 @@ pub fn lines(code: &str, moment: Moment) -> &'static [&'static str] {
         ("leo", Start) => &["Hi! I watched a lot of videos, I'm ready!", "Be gentle, okay?"],
         ("leo", YouPot) => &["Whoa, how did you do that?", "Teach me that one later!"],
         ("leo", YouMiss) => &["Phew! My turn!", "Even you miss? Good to know."],
-        ("leo", YouFoul) => &["Ball in hand! What do I do with it?"],
+        ("leo", YouFoul) => &["A free ball! What do I do with it?"],
         ("leo", IPot) => &["Did you see that?! It went in!", "Beginner's luck counts too!"],
         ("leo", IMiss) => &["Oops. That was a practice shot.", "Aim, Leo, aim..."],
         ("leo", IFoul) => &["Sorry! I touched the wrong one again."],
@@ -57,7 +57,7 @@ pub fn lines(code: &str, moment: Moment) -> &'static [&'static str] {
         ("nina", Start) => &["Saturday, a table and good company. Let's play!"],
         ("nina", YouPot) => &["Nice one!", "Oh, you're good. I'll pay attention now."],
         ("nina", YouMiss) => &["Happens to the best of us.", "Don't worry, it's just a game!"],
-        ("nina", YouFoul) => &["Thanks for the ball in hand!"],
+        ("nina", YouFoul) => &["Thanks for the gift!"],
         ("nina", IPot) => &["Yes! Weekend skills!", "Lucky me!"],
         ("nina", IMiss) => &["Hm, where was I aiming?", "Too much chatting, not enough aiming."],
         ("nina", IFoul) => &["Oops, my bad!"],
@@ -109,7 +109,7 @@ pub fn lines(code: &str, moment: Moment) -> &'static [&'static str] {
             &["Good stroke. Reminds me of a fellow in '78.", "Smooth. Very smooth."]
         }
         ("otto", YouMiss) => &["Keep your head down, kid.", "The cue ball doesn't lie."],
-        ("otto", YouFoul) => &["Ah, the old ball in hand. Thank you kindly."],
+        ("otto", YouFoul) => &["Ah, the old penalty ball. Thank you kindly."],
         ("otto", IPot) => &["Like riding a bicycle.", "Still got it."],
         ("otto", IMiss) => {
             &["The eyes aren't what they used to be.", "In my day the pockets were bigger."]
@@ -183,7 +183,7 @@ pub fn lines(code: &str, moment: Moment) -> &'static [&'static str] {
         ("ines", Start) => &["Softly, now. The table likes a gentle hand."],
         ("ines", YouPot) => &["Nicely done.", "A little hard, but it went in."],
         ("ines", YouMiss) => &["Less power, more feel."],
-        ("ines", YouFoul) => &["Oh dear. Ball in hand for me."],
+        ("ines", YouFoul) => &["Oh dear. A free ball for me."],
         ("ines", IPot) => &["Just enough to drop.", "See? No need to hit it hard."],
         ("ines", IMiss) => &["A touch too soft."],
         ("ines", IFoul) => &["Clumsy of me. Sorry."],
@@ -227,7 +227,7 @@ pub fn lines(code: &str, moment: Moment) -> &'static [&'static str] {
         (_, Start) => &["Calibration complete. Good luck, human."],
         (_, YouPot) => &["Shot registered: successful."],
         (_, YouMiss) => &["Probability of my victory: increasing."],
-        (_, YouFoul) => &["Foul detected. Processing ball in hand."],
+        (_, YouFoul) => &["Foul detected. Processing penalty."],
         (_, IPot) => &["Executed as planned."],
         (_, IMiss) => &["Error. Recalculating."],
         (_, IFoul) => &["Malfunction. Please disregard."],

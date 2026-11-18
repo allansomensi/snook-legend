@@ -230,10 +230,15 @@ pub struct Online {
     pub draining: Option<std::time::Instant>,
     /// Something happened that a player in another window should notice.
     pub attention: Option<String>,
+    /// The last player who came online (not this one), and when
+    /// ([`get_time`]): said for a moment by the count of players online
+    /// over a game against the computer.
+    arrived: Option<(String, f64)>,
     /// The server's protocol version (from its welcome; 0: an older server).
     server_protocol: u32,
-    /// What the server was last told: (playing the computer, away).
-    activity_sent: (bool, bool),
+    /// What the server was last told: (playing the computer, away, in
+    /// focus mode).
+    activity_sent: (bool, bool, bool),
     /// Nobody has touched the game for a while (set every frame).
     pub away: bool,
     /// What the right side of the lounge shows.
@@ -552,7 +557,7 @@ impl Online {
             incoming: Vec::new(),
             outgoing: None,
             server_protocol: 0,
-            activity_sent: (false, false),
+            activity_sent: (false, false, false),
             away: false,
             motd: String::new(),
             token: String::new(),
@@ -597,6 +602,7 @@ impl Online {
             invite_code: None,
             draining: None,
             attention: None,
+            arrived: None,
             // Development aid: SNOOK_LEGEND_LOUNGE_SIDE=missions|board.
             side: match crate::dev::var("SNOOK_LEGEND_LOUNGE_SIDE").as_deref() {
                 Some("missions") => Side::Missions,
@@ -881,13 +887,16 @@ impl Online {
         let vs_computer = current
             .as_ref()
             .is_some_and(|m| m.is_against_computer() || (m.practice && !m.free_play));
-        let activity = (vs_computer, self.away);
+        // Focus mode, during a game played here: no invitations (the
+        // server turns them away, and withdraws those waiting).
+        let focus = config.focus_mode && current.as_ref().is_some_and(|m| m.is_played_offline());
+        let activity = (vs_computer, self.away, focus);
         if self.signed_in()
             && self.server_protocol >= snook_legend_proto::ACTIVITY_PROTOCOL
             && activity != self.activity_sent
         {
             self.activity_sent = activity;
-            self.send(ClientMsg::SetActivity { vs_computer, away: self.away });
+            self.send(ClientMsg::SetActivity { vs_computer, away: self.away, focus });
         }
         save
     }
@@ -924,7 +933,7 @@ impl Online {
                 // A new session: the server learns again what this player
                 // is doing (its welcome follows).
                 self.server_protocol = 0;
-                self.activity_sent = (false, false);
+                self.activity_sent = (false, false, false);
                 // A new session: the board comes again; the recent games may have changed.
                 self.social.seeks.clear();
                 self.social.recent_stale = true;
@@ -1046,6 +1055,9 @@ impl Online {
                             self.attention =
                                 Some(tw("{name} is online.", &[("name", &player.username)]));
                         }
+                        if self.me.as_ref().is_none_or(|me| me.username != player.username) {
+                            self.arrived = Some((player.username.clone(), get_time()));
+                        }
                         self.players.push(player)
                     }
                 }
@@ -1100,7 +1112,14 @@ impl Online {
                     self.send(ClientMsg::AnswerInvite { from, accept: true });
                     return save;
                 }
-                self.attention = Some(tw("{name} invites you to play.", &[("name", &from)]));
+                // In focus mode during a game nothing calls for attention:
+                // the invitation waits for the game's end (the server turns
+                // away the ones that come once it knows).
+                let focused =
+                    config.focus_mode && current.as_ref().is_some_and(Match::is_focus_game);
+                if !focused {
+                    self.attention = Some(tw("{name} invites you to play.", &[("name", &from)]));
+                }
                 self.incoming.retain(|(f, _)| *f != from);
                 self.incoming.push((from, rated));
             }
@@ -2881,6 +2900,14 @@ impl Online {
         match p.status {
             PlayerStatus::Playing => t("playing").to_string(),
             PlayerStatus::Waiting => t("at a table").to_string(),
+            // Playing in focus mode: no invitations until it is over.
+            PlayerStatus::Available if p.focus => {
+                if p.guest {
+                    t("in focus mode").to_string()
+                } else {
+                    format!("{} · {}", t(p.tier().name()), t("in focus mode"))
+                }
+            }
             // An invitation waits for them.
             PlayerStatus::Available if p.away => t("away").to_string(),
             // Still free for an invitation: it shows over their game.
@@ -2907,6 +2934,7 @@ impl Online {
         let color = match p.status {
             PlayerStatus::Playing => Color::new(0.9, 0.6, 0.2, 1.0),
             PlayerStatus::Waiting => Color::new(0.45, 0.7, 1.0, 1.0),
+            PlayerStatus::Available if p.focus => Color::new(0.85, 0.45, 0.45, 1.0),
             PlayerStatus::Available if p.away => Color::new(0.85, 0.75, 0.3, 1.0),
             PlayerStatus::Available if p.vs_computer => Color::new(0.75, 0.55, 0.95, 1.0),
             PlayerStatus::Available => Color::new(0.35, 0.85, 0.45, 1.0),
@@ -3124,7 +3152,8 @@ impl Online {
                 self.lan || self.friends.friends.iter().any(|f| f.player.username == p.username);
             if let Some(n) = note.as_ref().filter(|_| p.status != PlayerStatus::Playing) {
                 // A challenge is an invitation, rated as the note says.
-                let can = p.status == PlayerStatus::Available && self.outgoing.is_none();
+                let can =
+                    p.status == PlayerStatus::Available && !p.focus && self.outgoing.is_none();
                 let hit = if can {
                     ui.primary_button(button, challenge_label)
                 } else {
@@ -3138,9 +3167,17 @@ impl Online {
                     watch = Some(p.username.clone());
                 }
             } else {
-                let can = p.status == PlayerStatus::Available && self.outgoing.is_none();
+                // Not one in focus mode: it would be turned away.
+                let can =
+                    p.status == PlayerStatus::Available && !p.focus && self.outgoing.is_none();
                 if ui.button(button, invite_label, can) {
                     invite = Some(p.username.clone());
+                }
+                if p.focus && ui.hovering(button) {
+                    ui.tooltip(
+                        t("In focus mode: no invitations until their game is over."),
+                        button,
+                    );
                 }
             }
         }
@@ -3906,6 +3943,7 @@ impl Online {
                     } else {
                         let can = f.online
                             && f.player.status == PlayerStatus::Available
+                            && !f.player.focus
                             && self.outgoing.is_none();
                         if ui.button(button, invite_label, can) {
                             invite = Some(f.player.username.clone());
@@ -4102,6 +4140,71 @@ pub fn draw_ping(ui: &Ui, rtt: Option<std::time::Duration>, x_right: f32, y: f32
     let w = ui.text_size(&text, 12.0, true).x;
     draw_circle(x_right - w - 10.0, y + 7.0, 3.5, color);
     ui.text(&text, x_right - w, y, 12.0, color, true);
+}
+
+/// How long the name of a player who just came online stays by the count.
+const ARRIVAL_SECS: f64 = 10.0;
+
+impl Online {
+    /// How many are online on the server (the lounge's count, this player
+    /// included), while signed in on a working connection to it.
+    pub fn online_count(&self) -> Option<usize> {
+        (self.live() && !self.lan).then_some(self.players.len())
+    }
+
+    /// The count of players online, discreet, right-aligned at `x_right`
+    /// (over a game against the computer: someone to invite may have come).
+    /// For a moment after someone comes online it says who, in gold (not
+    /// when `quiet`: in focus mode). Hovering lists who is there. Returns
+    /// whether it was drawn.
+    pub fn draw_online_count(&self, ui: &Ui, x_right: f32, y: f32, quiet: bool) -> bool {
+        let Some(n) = self.online_count() else { return false };
+        let now = get_time();
+        let arrived = self
+            .arrived
+            .as_ref()
+            .filter(|(name, at)| {
+                !quiet
+                    && now - at < ARRIVAL_SECS
+                    && self.players.iter().any(|p| p.username == *name)
+            })
+            .map(|(name, at)| (name.clone(), now - at));
+        let count = tw("{n} online", &[("n", &n)]);
+        let (text, color) = match &arrived {
+            Some((name, _)) => {
+                let came = tw("{name} came online", &[("name", name)]);
+                (format!("{came} · {count}"), GOLD)
+            }
+            None => (count, Color::new(MUTED.r, MUTED.g, MUTED.b, 0.9)),
+        };
+        let w = ui.text_size(&text, 12.0, true).x;
+        // The dot breathes while someone has just come.
+        let pulse = arrived.map_or(0.0, |(_, age)| (age as f32 * 5.0).sin().abs());
+        let dot = Color::new(0.35, 0.85, 0.45, 0.85);
+        draw_circle(x_right - w - 10.0, y + 7.0, 3.5 + 1.5 * pulse, dot);
+        ui.text(&text, x_right - w, y, 12.0, color, true);
+        let r = Rect::new(x_right - w - 16.0, y - 4.0, w + 18.0, 22.0);
+        if ui.hovering(r) {
+            let me = self.me.as_ref().map(|me| me.username.as_str());
+            let others: Vec<&str> = self
+                .players
+                .iter()
+                .map(|p| p.username.as_str())
+                .filter(|name| Some(*name) != me)
+                .collect();
+            let tip = if others.is_empty() {
+                t("Nobody else is online right now.").to_string()
+            } else {
+                let mut names = others.iter().take(12).copied().collect::<Vec<_>>().join(", ");
+                if others.len() > 12 {
+                    names.push_str(", …");
+                }
+                tw("Online now: {names}", &[("names", &names)])
+            };
+            ui.tooltip(&tip, r);
+        }
+        true
+    }
 }
 
 /// How wide a button `h` high must be for `label` (the toolkit's label size,

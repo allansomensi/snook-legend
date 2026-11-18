@@ -6,7 +6,7 @@
 ## 0.7.2
 
 ### Um Circuito mais difícil
-TOUR
+Cada etapa do Circuito ficou mais difícil, e mais ainda quanto mais perto do fim: os adversários erram menos, estudam todas as tacadas e jogam a posição. A final contra o Viktor, que vale o taco, ficou bem difícil: ele quase não erra e joga mais na defesa. Os torneios contra o computador continuam como eram.
 
 ### Medalhas nos torneios
 Jogue um torneio contra o computador até o fim e termine entre os três primeiros para ganhar medalha de ouro, prata ou bronze. A aba Torneio conta as suas, mata-mata e arena à parte; elas ficam guardadas na sua conta da próxima vez que você entrar online.

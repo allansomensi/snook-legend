@@ -9,7 +9,24 @@ the tour's final against the new last opponent. One new migration
 (`0020_cup_medals`).
 
 ### The tour
-TOUR_NOTES
+- **Harder at every stage, and the final very hard.** An opponent's
+  strokes were played with 60% of their usual error on every stage; now
+  with about half of it on the first and a quarter on the final. From the
+  fifth stage every opponent looks at every shot (the widest search;
+  before, those who usually see few shots never did), from the sixth they
+  see bank shots (it was the seventh), and position play counts more the
+  further up the tour, the most on the final.
+- **Viktor, in the final, also values a safety more** and plays one
+  sooner when a pot is in doubt.
+- Measured over 40 games, a very good computer player (steadier than Hard)
+  wins about one final in five (8 of 40), against about one in three before
+  (14 of 40). A Viktor with no error at all wins no more often: what makes
+  him hard is his choice of shots and position.
+- **Tournaments against the computer keep the strength they had** (the
+  tour's former form, now `ladder::cup_form`).
+- The server checks a final against the new Viktor, hence protocol 20; the
+  final's fixture is recorded again (`record_the_fixture`), and an ignored
+  test measures the final (`measure_the_final`, `SNOOK_LEGEND_FINAL_GAMES`).
 
 ### Medals of the tournaments against the computer
 - **A tournament played to its end gives a medal** to the first three: gold

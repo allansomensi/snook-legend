@@ -211,9 +211,11 @@ impl Failure {
 enum Pending {
     /// The executable was replaced: start it again.
     Replaced,
-    /// The Windows installer to run.
+    /// The Windows installer to run, and the SHA-256 it was checked
+    /// against (checked again right before it runs: the player may restart
+    /// hours after the download).
     #[cfg_attr(not(windows), allow(dead_code))]
-    Installer(PathBuf),
+    Installer(PathBuf, String),
 }
 
 struct State {
@@ -395,7 +397,15 @@ pub fn restart() -> bool {
             let args: Vec<std::ffi::OsString> = std::env::args_os().skip(1).collect();
             std::process::Command::new(&exe).args(args).spawn().is_ok()
         }
-        Some(Pending::Installer(msi)) => run_installer(&msi, &exe),
+        Some(Pending::Installer(msi, sha256)) => {
+            // Never run an installer that changed since it was checked.
+            if sha256_file(&msi).as_deref() != Some(sha256.as_str()) {
+                let _ = std::fs::remove_file(&msi);
+                state().pending = None;
+                return false;
+            }
+            run_installer(&msi, &exe)
+        }
         None => false,
     }
 }
@@ -406,7 +416,7 @@ pub fn restart() -> bool {
 #[cfg(windows)]
 fn run_installer(msi: &Path, exe: &Path) -> bool {
     use std::os::windows::process::CommandExt;
-    let quote = |s: &str| format!("'{}'", s.replace('\'', "''"));
+    let quote = |s: &str| ps_quote(s);
     let args: Vec<String> = std::env::args().skip(1).map(|a| quote(&a)).collect::<Vec<_>>();
     let relaunch = if args.is_empty() {
         format!("Start-Process -FilePath {}", quote(&exe.to_string_lossy()))
@@ -434,6 +444,24 @@ fn run_installer(msi: &Path, exe: &Path) -> bool {
         .creation_flags(CREATE_NO_WINDOW)
         .spawn()
         .is_ok()
+}
+
+/// `s` as a PowerShell string in single quotes. PowerShell takes the
+/// typographic quotes ‘ ’ ‚ ‛ for single quotes too: each is doubled like
+/// the plain one (as PowerShell's own escaping does), so a folder named
+/// "O’Brien" stays a name.
+#[cfg_attr(not(windows), allow(dead_code))]
+fn ps_quote(s: &str) -> String {
+    let mut out = String::with_capacity(s.len() + 2);
+    out.push('\'');
+    for c in s.chars() {
+        if matches!(c, '\'' | '\u{2018}' | '\u{2019}' | '\u{201A}' | '\u{201B}') {
+            out.push(c);
+        }
+        out.push(c);
+    }
+    out.push('\'');
+    out
 }
 
 #[cfg(not(windows))]
@@ -545,7 +573,7 @@ fn run(
     }
     report(Status::Installing { version: version.clone() });
     match how {
-        How::Installer => Ok(Outcome::Ready(version, Pending::Installer(file))),
+        How::Installer => Ok(Outcome::Ready(version, Pending::Installer(file, expected))),
         _ => {
             let Some(exe) = exe else { return Ok(Outcome::Available(version)) };
             let new = extract(&file)?;
@@ -914,6 +942,15 @@ fn compare(a: &Version, b: &Version) -> std::cmp::Ordering {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// Every kind of single quote PowerShell knows is doubled.
+    #[test]
+    fn powershell_quotes() {
+        assert_eq!(ps_quote(r"C:\Users\Ana\game.exe"), r"'C:\Users\Ana\game.exe'");
+        assert_eq!(ps_quote("O'Brien"), "'O''Brien'");
+        assert_eq!(ps_quote("O’Brien"), "'O’’Brien'");
+        assert_eq!(ps_quote("‘‚‛"), "'‘‘‚‚‛‛'");
+    }
 
     #[test]
     fn links_and_targets() {

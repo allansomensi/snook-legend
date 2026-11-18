@@ -61,31 +61,49 @@ impl Notifier {
     }
 }
 
+/// The text as given to the system's notifier: one line, not too long, and
+/// never starting with a dash (a command line would take it for an option).
+fn plain(text: &str) -> String {
+    let line: String =
+        text.chars().map(|c| if c.is_control() { ' ' } else { c }).take(240).collect();
+    line.trim().trim_start_matches('-').trim_start().to_string()
+}
+
+/// The text never becomes part of a command or a script: it is handed over
+/// as an argument (or, on Windows, in the environment), so a tournament's
+/// name or a player's message can't be run as code, whatever quotes it
+/// holds (PowerShell also takes ‘ ’ ‚ ‛ for quotes).
 fn send(text: &str) {
+    let text = plain(text);
+    if text.is_empty() {
+        return;
+    }
     #[cfg(target_os = "linux")]
     {
         let _ = std::process::Command::new("notify-send")
             .args([
                 &format!("--app-name={}", snook_legend_proto::GAME_NAME),
                 "--urgency=normal",
+                "--",
                 snook_legend_proto::GAME_NAME,
-                text,
+                &text,
             ])
             .spawn();
     }
     #[cfg(target_os = "macos")]
     {
-        let quoted = text.replace('\\', "\\\\").replace('"', "\\\"");
-        let script = format!(
-            "display notification \"{quoted}\" with title \"{}\" sound name \"Glass\"",
+        let show = format!(
+            "display notification (item 1 of argv) with title \"{}\" sound name \"Glass\"",
             snook_legend_proto::GAME_NAME
         );
-        let _ = std::process::Command::new("osascript").args(["-e", &script]).spawn();
+        let _ = std::process::Command::new("osascript")
+            .args(["-e", "on run argv", "-e", &show, "-e", "end run", &text])
+            .spawn();
     }
     #[cfg(windows)]
     {
         windows::flash();
-        windows::toast(text);
+        windows::toast(&text);
     }
     #[cfg(not(any(target_os = "linux", target_os = "macos", windows)))]
     let _ = text;
@@ -138,7 +156,8 @@ mod windows {
     /// Microsoft Store package, or the installer's shortcut), else
     /// PowerShell's own (a portable copy has no entry).
     pub fn toast(text: &str) {
-        let quoted = text.replace('\'', "''");
+        // The script is always the same; the text comes from the
+        // environment, never pasted into it.
         let script = format!(
             "$id = (Get-StartApps | Where-Object {{ $_.Name -eq '{name}' }} | Select-Object -First 1).AppID; \
              if (-not $id) {{ $id = '{{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}}\\WindowsPowerShell\\v1.0\\powershell.exe' }}; \
@@ -146,14 +165,29 @@ mod windows {
              $t = [Windows.UI.Notifications.ToastNotificationManager]::GetTemplateContent([Windows.UI.Notifications.ToastTemplateType]::ToastText02); \
              $n = $t.GetElementsByTagName('text'); \
              $n.Item(0).AppendChild($t.CreateTextNode('{name}')) > $null; \
-             $n.Item(1).AppendChild($t.CreateTextNode('{quoted}')) > $null; \
+             $n.Item(1).AppendChild($t.CreateTextNode([string]$env:SNOOK_LEGEND_TOAST)) > $null; \
              [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier($id).Show([Windows.UI.Notifications.ToastNotification]::new($t))",
             name = snook_legend_proto::GAME_NAME
         );
         const CREATE_NO_WINDOW: u32 = 0x0800_0000;
         let _ = std::process::Command::new("powershell")
             .args(["-NoProfile", "-NonInteractive", "-Command", &script])
+            .env("SNOOK_LEGEND_TOAST", text)
             .creation_flags(CREATE_NO_WINDOW)
             .spawn();
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn the_text_is_one_plain_line() {
+        assert_eq!(plain("--help me"), "help me");
+        assert_eq!(plain(" - Ana’s Cup\nhas started!"), "Ana’s Cup has started!");
+        assert_eq!(plain("’+(calc)+’"), "’+(calc)+’", "kept as text, never run");
+        assert_eq!(plain(&"x".repeat(1000)).len(), 240);
+        assert_eq!(plain("---"), "");
     }
 }

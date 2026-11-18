@@ -602,6 +602,10 @@ pub struct MsRecord {
     pub settled_at: Option<i64>,
 }
 
+/// How many finals of the tour dealt to one account are kept (the oldest go
+/// first): a final is played soon after it is dealt.
+pub const LADDER_TICKETS_KEPT: usize = 16;
+
 /// A new Store purchase is sent at once by whoever opened it; the
 /// background task only sends it again after this many seconds.
 pub const MS_FIRST_RETRY: i64 = 60;
@@ -1335,6 +1339,25 @@ impl Store {
         at: i64,
     ) -> StoreResult<bool> {
         dispatch!(self, s => s.record_ladder_claim(user_id, rack_seed, strokes, at))
+    }
+    /// Keeps a final of the tour dealt to `user_id`: its rack and breaker
+    /// (only the newest [`LADDER_TICKETS_KEPT`] of each account stay).
+    pub async fn issue_ladder_ticket(
+        &self,
+        user_id: i64,
+        seed: u64,
+        breaker: usize,
+        at: i64,
+    ) -> StoreResult<()> {
+        dispatch!(self, s => s.issue_ladder_ticket(user_id, seed, breaker, at))
+    }
+    /// The final dealt to `user_id` with this rack: (breaker, when).
+    pub async fn ladder_ticket(
+        &self,
+        user_id: i64,
+        seed: u64,
+    ) -> StoreResult<Option<(usize, i64)>> {
+        dispatch!(self, s => s.ladder_ticket(user_id, seed))
     }
     /// When `user_id` won the ladder's reward, if they have.
     pub async fn ladder_claim(&self, user_id: i64) -> StoreResult<Option<i64>> {

@@ -25,6 +25,10 @@ pub struct LadderRun {
     /// The result has been counted.
     #[serde(default)]
     pub reported: bool,
+    /// The server dealt this game (its rack and breaker): only such a final
+    /// earns the reward.
+    #[serde(default)]
+    pub dealt: bool,
 }
 
 /// How far the player is.
@@ -101,6 +105,9 @@ impl Failure {
                 ClaimFailure::NotWon => t("That game was not a win."),
                 ClaimFailure::ComputerMismatch => t(
                     "The computer's shots in that game don't match how it plays (another version of the game?).",
+                ),
+                ClaimFailure::NoTicket => t(
+                    "Only a final started while signed in counts: play the last stage again signed in.",
                 ),
             },
         }
@@ -197,7 +204,7 @@ impl Progress {
         self.beaten = self.won.len() as u8;
         // The last rung: the game that earns the reward (unless it is in
         // hand already).
-        if run.rung as usize == ladder::RUNGS.len() - 1 && !self.claimed {
+        if run.rung as usize == ladder::RUNGS.len() - 1 && !self.claimed && run.dealt {
             self.pending = Some(run.record.clone());
         }
         true
@@ -283,7 +290,7 @@ mod tests {
     use super::*;
 
     fn run(rung: u8) -> LadderRun {
-        LadderRun { rung, record: Replay::new(rung as u64, 0), reported: false }
+        LadderRun { rung, record: Replay::new(rung as u64, 1), reported: false, dealt: true }
     }
 
     #[test]
@@ -302,8 +309,13 @@ mod tests {
             assert!(p.record(&run(k), true));
         }
         assert!(p.pending.is_none());
-        assert!(p.record(&run(last), true));
+        // A final won from a rack of the player's own (signed out): beaten,
+        // but nothing to claim.
+        assert!(p.record(&LadderRun { dealt: false, ..run(last) }, true));
         assert!(p.complete());
+        assert!(p.pending.is_none());
+        // Won again, as the server dealt it: the game to claim.
+        p.record(&run(last), true);
         assert_eq!(p.next(), last);
         assert_eq!(p.pending.as_ref().map(|r| r.seed), Some(last as u64));
         // Once claimed, a new win on the last rung is not sent again.

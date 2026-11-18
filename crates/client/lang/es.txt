@@ -1782,3 +1782,10 @@ Too many sign-ins. Wait a minute and try again.	Demasiados inicios de sesión. E
 Too many wrong passwords. Try again in a few minutes.	Demasiadas contraseñas incorrectas. Inténtalo de nuevo en unos minutos.
 Your VIP subscription could not be cancelled. Try again in a moment.	No se pudo cancelar tu suscripción VIP. Inténtalo de nuevo en un momento.
 Balls of both groups on the break: the turn passes to {next}, the table is open.	Bolas de los dos grupos en el saque: el turno pasa a {next}, la mesa está abierta.
+Only a final started while signed in counts: play the last stage again signed in.	Solo cuenta una final empezada con sesión iniciada: juega la última etapa de nuevo con sesión.
+The server didn't deal the final: this game won't earn the reward.	El servidor no preparó la final: esta partida no da la recompensa.
+The server didn't answer: this session won't be ranked.	El servidor no respondió: esta sesión no entra en el ranking.
+The server is dealing the final…	El servidor está preparando la final…
+The server is setting up the drill…	El servidor está preparando el ejercicio…
+Not signed in: a win in this final won't earn the reward.	Sin sesión: una victoria en esta final no da la recompensa.
+Not ranked: sessions count when started signed in.	Fuera del ranking: solo cuentan las sesiones empezadas con sesión iniciada.

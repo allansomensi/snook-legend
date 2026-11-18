@@ -73,6 +73,8 @@ struct AccountForm {
     renaming: Option<String>,
     email: String,
     email_loaded: bool,
+    /// The password, to change the recovery e-mail.
+    email_password: String,
     old_password: String,
     new_password: String,
     delete_password: String,
@@ -1206,7 +1208,7 @@ impl ProfileScreen {
         // The height follows the text (it wraps differently per language):
         // the title, the four sections as laid out below, and Close.
         let lines = (email_note.len() + delete_note.len()) as f32 * 17.0;
-        let h = (70.0 + 106.0 + 89.0 + 171.0 + 64.0 + 88.0 + lines).min(sh - 20.0);
+        let h = (70.0 + 144.0 + 89.0 + 171.0 + 64.0 + 88.0 + lines).min(sh - 20.0);
         let r = Rect::new((sw - w) / 2.0, (sh - h) / 2.0, w, h);
         ui.panel(r);
         ui.block(Rect::new(0.0, 0.0, sw, sh));
@@ -1269,13 +1271,28 @@ impl ProfileScreen {
         }
         y += 6.0;
         let saved = online.account.as_ref().and_then(|a| a.recovery_email.clone());
-        ui.text_input(71, Rect::new(x, y, fw - 120.0, 34.0), &mut form.email, 120);
-        if ui.button(
-            Rect::new(x + fw - 110.0, y, 110.0, 34.0),
-            t("Save"),
-            saved.as_deref() != Some(form.email.trim()),
-        ) {
-            online.send(ClientMsg::SetRecoveryEmail { email: form.email.trim().to_string() });
+        ui.text_input(71, Rect::new(x, y, fw, 34.0), &mut form.email, 120);
+        y += 38.0;
+        // The password, unless it is the e-mail of the account's own
+        // payment (the owner's already).
+        let wanted = form.email.trim().to_lowercase();
+        let offered = !wanted.is_empty()
+            && online
+                .account
+                .as_ref()
+                .and_then(|a| a.payment_email.as_deref())
+                .is_some_and(|p| p.trim().to_lowercase() == wanted);
+        ui.password_input(76, Rect::new(x, y, fw - 120.0, 34.0), &mut form.email_password, 72);
+        if form.email_password.is_empty() && ui.focus != Some(76) {
+            ui.text(t("Password"), x + 10.0, text_y(y + 17.0, 14.0), 14.0, MUTED, false);
+        }
+        let ok = saved.as_deref() != Some(form.email.trim())
+            && (offered || !form.email_password.is_empty());
+        if ui.button(Rect::new(x + fw - 110.0, y, 110.0, 34.0), t("Save"), ok) {
+            online.send(ClientMsg::SetRecoveryEmail {
+                email: form.email.trim().to_string(),
+                password: std::mem::take(&mut form.email_password),
+            });
         }
         y += 34.0 + 12.0;
         draw_line(x, y, x + fw, y, 1.0, BORDER);

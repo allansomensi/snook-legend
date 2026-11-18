@@ -133,8 +133,18 @@ pub async fn handle(
             tracing::info!(user = me.id, "password changed");
             send(ServerMsg::Notice { text: "Password changed.".into() });
         }
-        ClientMsg::SetRecoveryEmail { email } => {
+        ClientMsg::SetRecoveryEmail { email, password } => {
             let email = email.trim().to_lowercase();
+            // The e-mail of the account's own payment (offered after it) is
+            // the owner's already. Anything else takes the password, not
+            // the session alone: a stolen session must not set (or remove)
+            // where the account is recovered from.
+            let payment = server.store.payment_email(me.id).await.ok().flatten();
+            let paid_with = payment.as_deref().map(|e| e.trim().to_lowercase());
+            let offered = !email.is_empty() && paid_with.as_deref() == Some(email.as_str());
+            if !offered && !password_ok(server, &fresh, &password, ip, &error).await {
+                return false;
+            }
             let email = (!email.is_empty()).then_some(email);
             if email.as_deref().is_some_and(|e| !valid_email(e)) {
                 error("That doesn't look like an e-mail address.");
@@ -146,7 +156,6 @@ pub async fn handle(
             }
             let mut fresh = fresh;
             fresh.recovery_email = email.clone();
-            let payment = server.store.payment_email(me.id).await.ok().flatten();
             send(account_msg(&fresh, payment));
             send(ServerMsg::Notice {
                 text: if email.is_some() {

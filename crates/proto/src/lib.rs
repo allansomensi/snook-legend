@@ -1182,6 +1182,11 @@ pub enum ClientMsg {
     /// Sets (or clears, when empty) the e-mail used to recover the account.
     SetRecoveryEmail {
         email: String,
+        /// The account's password: a session alone (a stolen one) can't
+        /// change where the account is recovered from. Not needed for the
+        /// e-mail of the account's own payment (the offer after one).
+        #[serde(default)]
+        password: String,
     },
     /// Changes the player's username (at most [`MAX_NAME_CHANGES`] times).
     /// Refused during a game, at a table, in the queue or in a tournament.
@@ -1313,8 +1318,19 @@ pub enum ClientMsg {
     /// A drill session's strokes (the server plays them again).
     DrillSubmit {
         code: String,
+        /// The session the server started ([`ServerMsg::DrillStarted`]).
+        #[serde(default)]
+        session: u64,
         strokes: Vec<Shot>,
     },
+    /// A drill session about to be played for the tables: the server sets
+    /// where each try's cue ball lies ([`ServerMsg::DrillStarted`]).
+    DrillStart {
+        code: String,
+    },
+    /// The tour's final is about to be played for the reward: the server
+    /// deals its rack and who breaks ([`ServerMsg::LadderTicket`]).
+    LadderTicket,
     /// How a player plays (aggregated numbers), for a computer opponent in
     /// their style.
     GhostStyle {
@@ -1758,6 +1774,13 @@ pub enum ServerMsg {
     LadderClaim {
         result: ladder::ClaimResult,
     },
+    /// The tour's final, dealt by the server (the answer to
+    /// [`ClientMsg::LadderTicket`]): only a final played from this rack,
+    /// with this breaker, earns the reward.
+    LadderTicket {
+        seed: u64,
+        breaker: usize,
+    },
     /// Today's challenge (the answer to [`ClientMsg::Daily`], and after an
     /// attempt).
     Daily {
@@ -1777,6 +1800,12 @@ pub enum ServerMsg {
     DrillResult {
         code: String,
         result: Result<u32, drills::Refused>,
+    },
+    /// A drill session started (the answer to [`ClientMsg::DrillStart`]):
+    /// the tries' cue balls lie where `session` puts them.
+    DrillStarted {
+        code: String,
+        session: u64,
     },
     /// Experience earned (`gained`) and the total now (see [`xp`]).
     Xp {

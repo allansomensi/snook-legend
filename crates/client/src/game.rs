@@ -319,6 +319,9 @@ pub struct Match {
 #[derive(Debug, Clone, PartialEq)]
 pub struct DrillRun {
     pub code: &'static str,
+    /// The session the server started (0: practice, signed out): where
+    /// each try's cue ball lies.
+    pub session: u64,
     pub results: Vec<bool>,
     pub strokes: Vec<Shot>,
     /// The table is set up for the next try once the pause is over.
@@ -505,6 +508,7 @@ impl Match {
                 rung,
                 record: snook_legend_proto::replay::Replay::new(seed, 0),
                 reported: false,
+                dealt: false,
             });
         let mut m = Match {
             game: EightBallGame::new(seed, 0),
@@ -576,8 +580,9 @@ impl Match {
         true
     }
 
-    /// A session of the drill `code`.
-    pub fn drill(code: &str, name: &str, guide: AimGuide) -> Option<Match> {
+    /// A session of the drill `code` (`session`: the server's, or 0 for
+    /// practice).
+    pub fn drill(code: &str, name: &str, guide: AimGuide, session: u64) -> Option<Match> {
         let d = snook_legend_proto::drills::drill(code)?;
         let settings = MatchSettings {
             mode: MatchMode::HotSeat,
@@ -587,9 +592,10 @@ impl Match {
             ladder: None,
         };
         let mut m = Match::new(&settings, 1);
-        m.game = snook_legend_proto::drills::game(d);
+        m.game = snook_legend_proto::drills::game_for_session_try(d, session, 0);
         m.drill = Some(DrillRun {
             code: d.code,
+            session,
             results: Vec::new(),
             strokes: Vec::new(),
             reset: false,
@@ -953,12 +959,20 @@ impl Match {
             }
             return;
         }
-        self.seed = self.seed.wrapping_mul(6364136223846793005).wrapping_add(1442695040888963407);
+        let seed = self.seed.wrapping_mul(6364136223846793005).wrapping_add(1442695040888963407);
         let breaker = (self.games_played % 2) as usize;
-        self.game = EightBallGame::new(self.seed, breaker);
+        self.deal(seed, breaker);
+    }
+
+    /// Starts a new game from the rack `seed`, `breaker` to break. The
+    /// tour's final, played for the reward, is dealt by the server.
+    pub fn deal(&mut self, seed: u64, breaker: usize) {
+        self.seed = seed;
+        self.game = EightBallGame::new(seed, breaker);
         if let Some(run) = self.ladder.as_mut() {
-            run.record = snook_legend_proto::replay::Replay::new(self.seed, breaker);
+            run.record = snook_legend_proto::replay::Replay::new(seed, breaker);
             run.reported = false;
+            run.dealt = false;
         }
         self.stats = [ShotStats::default(); 2];
         self.visit_run = (0, 0);
@@ -1094,7 +1108,8 @@ impl Match {
         if let Some(run) = self.drill.as_mut().filter(|r| r.reset) {
             run.reset = false;
             let k = run.results.len() as u32;
-            self.game = snook_legend_proto::drills::game_for_try(run.drill(), k);
+            self.game =
+                snook_legend_proto::drills::game_for_session_try(run.drill(), run.session, k);
         }
         // A replay: the next stroke decides the turn.
         let mut scripted = None;

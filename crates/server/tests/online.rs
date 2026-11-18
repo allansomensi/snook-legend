@@ -522,8 +522,15 @@ async fn login_errors_and_validation() {
     c.expect("reserved", |m| matches!(m, ServerMsg::AuthError { .. })).await;
     c.send(ClientMsg::Login { username: "alice".into(), password: "nope!!nope".into() }).await;
     c.expect("bad password", |m| matches!(m, ServerMsg::AuthError { .. })).await;
+    // The letter case doesn't matter: "ALICE" is Alice, under her own
+    // spelling (one account per name, whatever the case).
     c.send(ClientMsg::Login { username: "ALICE".into(), password: PASSWORD.into() }).await;
-    c.expect("case-insensitive login", |m| matches!(m, ServerMsg::AuthOk { .. })).await;
+    let ServerMsg::AuthOk { player, .. } =
+        c.expect("case-insensitive login", |m| matches!(m, ServerMsg::AuthOk { .. })).await
+    else {
+        unreachable!()
+    };
+    assert_eq!(player.username, "Alice");
 
     let mut d = Client::connect(&url).await;
     d.send(ClientMsg::Resume { token }).await;
@@ -1358,9 +1365,28 @@ async fn account_password_recovery_email_and_deletion() {
     carol.send(ClientMsg::ChangePassword { old: PASSWORD.into(), new: "another1".into() }).await;
     carol.expect("changed", |m| matches!(m, ServerMsg::Notice { .. })).await;
     let mut again = Client::login(&url, "carol", "another1").await;
-    again.send(ClientMsg::SetRecoveryEmail { email: "not an email".into() }).await;
+    // The password is needed: a session alone can't set where the account
+    // is recovered from.
+    again
+        .send(ClientMsg::SetRecoveryEmail {
+            email: "thief@example.com".into(),
+            password: "guessing".into(),
+        })
+        .await;
+    assert_eq!(again.error_text().await, "The current password is wrong.");
+    again
+        .send(ClientMsg::SetRecoveryEmail {
+            email: "not an email".into(),
+            password: "another1".into(),
+        })
+        .await;
     again.expect("bad e-mail", |m| matches!(m, ServerMsg::Error { .. })).await;
-    again.send(ClientMsg::SetRecoveryEmail { email: " Carol@Example.com ".into() }).await;
+    again
+        .send(ClientMsg::SetRecoveryEmail {
+            email: " Carol@Example.com ".into(),
+            password: "another1".into(),
+        })
+        .await;
     let ServerMsg::Account { recovery_email, .. } =
         again.expect("account", |m| matches!(m, ServerMsg::Account { .. })).await
     else {
@@ -1378,6 +1404,45 @@ async fn account_password_recovery_email_and_deletion() {
     c.expect("refused", |m| matches!(m, ServerMsg::AuthError { .. })).await;
     dave.send(ClientMsg::Profile { username: "carol".into() }).await;
     dave.expect("gone", |m| matches!(m, ServerMsg::Error { .. })).await;
+}
+
+/// The e-mail of the account's own payment (offered after it) is set
+/// without the password: it is the owner's already. Any other needs it.
+#[tokio::test]
+async fn the_payment_email_needs_no_password() {
+    use snook_legend_server::store::{Payment, Store};
+    let (url, server) = start_on(Store::memory()).await;
+    let (mut erin, _) = Client::register(&url, "erin").await;
+    let id = server.store.user_by_name("erin").await.unwrap().unwrap().id;
+    let payment = Payment {
+        id: "pi_erin".into(),
+        user_id: id,
+        kind: "coins".into(),
+        coins: 100,
+        amount: 199,
+        currency: "usd".into(),
+        at: 1,
+        refunded: false,
+        email: Some("Erin@Example.com".into()),
+        test: false,
+    };
+    assert!(server.store.record_payment(&payment).await.unwrap());
+    for email in ["someone@example.com", ""] {
+        erin.send(ClientMsg::SetRecoveryEmail { email: email.into(), password: String::new() })
+            .await;
+        assert_eq!(erin.error_text().await, "The current password is wrong.", "{email:?}");
+    }
+    erin.send(ClientMsg::SetRecoveryEmail {
+        email: " erin@example.com".into(),
+        password: String::new(),
+    })
+    .await;
+    let ServerMsg::Account { recovery_email, .. } =
+        erin.expect("account", |m| matches!(m, ServerMsg::Account { .. })).await
+    else {
+        unreachable!()
+    };
+    assert_eq!(recovery_email.as_deref(), Some("erin@example.com"));
 }
 
 impl Client {

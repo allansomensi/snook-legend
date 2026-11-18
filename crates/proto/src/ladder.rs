@@ -118,6 +118,9 @@ pub enum ClaimFailure {
     TooSoon,
     /// Something went wrong on the server.
     ServerError,
+    /// The final wasn't one the server dealt to this account (played
+    /// signed out, or by an older version): play it again signed in.
+    NoTicket,
     /// A reason this version of the game doesn't know.
     #[serde(other)]
     Unknown,

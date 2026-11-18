@@ -213,20 +213,44 @@ async fn drills_keep_the_best_and_the_challenge_rating() {
     assert_eq!(info.drills.len(), drills::DRILLS.len());
     assert_eq!((info.rating, info.stars, info.rank), (0, 0, None));
 
-    // Straight at the 1: a straight pot.
+    // A session is started by the server: its tries' cue balls lie where it
+    // says (a stroke that worked once is no answer to every try).
+    a.send(ClientMsg::DrillStart { code: "straight".into() }).await;
+    let ServerMsg::DrillStarted { session, .. } =
+        a.expect("session", |m| matches!(m, ServerMsg::DrillStarted { .. })).await
+    else {
+        unreachable!()
+    };
+    assert_ne!(session, 0);
+    // Straight at the 1, from where each try's cue ball lies.
     let d = drills::drill("straight").unwrap();
-    let g = drills::game(d);
-    let to = g.ball(BallId(1)).xy() - g.ball(BallId::CUE).xy();
-    let shot = (0..400)
-        .flat_map(|k| {
-            [1.5, 2.2, 3.0].map(|v| Shot::new(to.y.atan2(to.x) + (k as f64 - 200.0) * 0.0001, v))
-        })
-        .find(|s| drills::try_shot(d, &g, s) == Some(true))
-        .expect("a way to pot it");
-    let strokes = vec![shot; d.tries as usize];
-    let expected = drills::score("straight", &strokes).unwrap();
-    assert!(expected > 0);
-    a.send(ClientMsg::DrillSubmit { code: "straight".into(), strokes }).await;
+    let pot = |k: u32| {
+        let g = drills::game_for_session_try(d, session, k);
+        let to = g.ball(BallId(1)).xy() - g.ball(BallId::CUE).xy();
+        (0..400)
+            .flat_map(|j| {
+                [1.5, 2.2, 3.0]
+                    .map(|v| Shot::new(to.y.atan2(to.x) + (j as f64 - 200.0) * 0.0001, v))
+            })
+            .find(|s| drills::try_shot(d, &g, s) == Some(true))
+            .expect("a way to pot it")
+    };
+    let strokes: Vec<Shot> = (0..d.tries).map(pot).collect();
+    let shot = strokes[0];
+    let expected = drills::score_session("straight", session, &strokes).unwrap();
+    assert_eq!(expected, d.tries);
+    // Without the session, or with someone else's number, nothing counts.
+    a.send(ClientMsg::DrillSubmit {
+        code: "straight".into(),
+        session: session ^ 1,
+        strokes: strokes.clone(),
+    })
+    .await;
+    a.expect("no session", |m| {
+        matches!(m, ServerMsg::DrillResult { result: Err(drills::Refused::NoSession), .. })
+    })
+    .await;
+    a.send(ClientMsg::DrillSubmit { code: "straight".into(), session, strokes }).await;
     let ServerMsg::DrillResult { result, .. } =
         a.expect("result", |m| matches!(m, ServerMsg::DrillResult { .. })).await
     else {
@@ -250,14 +274,32 @@ async fn drills_keep_the_best_and_the_challenge_rating() {
     let alice = server.store.user_by_name("alice").await.unwrap().unwrap();
     assert_eq!(alice.xp, (stars * snook_legend_proto::xp::DRILL_STAR) as i64);
 
+    // A session counts once.
+    a.send(ClientMsg::DrillSubmit { code: "straight".into(), session, strokes: vec![] }).await;
+    a.expect("used", |m| {
+        matches!(m, ServerMsg::DrillResult { result: Err(drills::Refused::NoSession), .. })
+    })
+    .await;
     // A worse session keeps the best; a bad one is refused.
-    a.send(ClientMsg::DrillSubmit { code: "straight".into(), strokes: vec![] }).await;
+    let s1 = drill_session(&mut a, "straight").await;
+    a.send(ClientMsg::DrillSubmit { code: "straight".into(), session: s1, strokes: vec![] }).await;
     a.expect("result", |m| matches!(m, ServerMsg::DrillResult { result: Ok(0), .. })).await;
-    a.send(ClientMsg::DrillSubmit { code: "straight".into(), strokes: vec![shot; 9] }).await;
+    let s2 = drill_session(&mut a, "straight").await;
+    a.send(ClientMsg::DrillSubmit { code: "straight".into(), session: s2, strokes: vec![shot; 9] })
+        .await;
     a.expect("refused", |m| {
         matches!(m, ServerMsg::DrillResult { result: Err(drills::Refused::BadStroke), .. })
     })
     .await;
     let bests = server.store.drill_bests(alice.id).await.unwrap();
     assert_eq!(bests, vec![("straight".to_string(), expected)]);
+}
+
+/// Starts a drill session on the server and returns its number.
+async fn drill_session(c: &mut Client, code: &str) -> u64 {
+    c.send(ClientMsg::DrillStart { code: code.into() }).await;
+    match c.expect("session", |m| matches!(m, ServerMsg::DrillStarted { .. })).await {
+        ServerMsg::DrillStarted { session, .. } => session,
+        _ => unreachable!(),
+    }
 }

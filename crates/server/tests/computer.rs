@@ -110,6 +110,15 @@ impl Client {
         }
     }
 
+    /// A final dealt by the server: its rack and breaker.
+    async fn ticket(&mut self) -> Replay {
+        self.send(ClientMsg::LadderTicket).await;
+        match self.expect("ticket", |m| matches!(m, ServerMsg::LadderTicket { .. })).await {
+            ServerMsg::LadderTicket { seed, breaker } => Replay::new(seed, breaker),
+            _ => unreachable!(),
+        }
+    }
+
     async fn ghost(&mut self, name: &str) -> GhostAnswer {
         self.send(ClientMsg::GhostStyle { username: name.into() }).await;
         match self.expect_within("ghost", 60, |m| matches!(m, ServerMsg::GhostStyle { .. })).await {
@@ -177,6 +186,23 @@ async fn exercise(store: Store) {
     assert_eq!(store.ladder_claim(a.id).await.unwrap(), Some(1_000));
     assert_eq!(store.ladder_claim(b.id).await.unwrap(), None);
 
+    // Finals dealt: per account, the full range of seeds.
+    assert_eq!(store.ladder_ticket(a.id, u64::MAX).await.unwrap(), None);
+    store.issue_ladder_ticket(a.id, u64::MAX, 1, 1_500).await.unwrap();
+    store.issue_ladder_ticket(a.id, 42, 0, 1_600).await.unwrap();
+    assert_eq!(store.ladder_ticket(a.id, u64::MAX).await.unwrap(), Some((1, 1_500)));
+    assert_eq!(store.ladder_ticket(a.id, 42).await.unwrap(), Some((0, 1_600)));
+    assert_eq!(store.ladder_ticket(b.id, u64::MAX).await.unwrap(), None);
+    // Only the newest are kept.
+    for k in 0..snook_legend_server::store::LADDER_TICKETS_KEPT as u64 {
+        store.issue_ladder_ticket(a.id, 100 + k, 1, 1_700 + k as i64).await.unwrap();
+    }
+    assert_eq!(store.ladder_ticket(a.id, u64::MAX).await.unwrap(), None, "the oldest went");
+    assert_eq!(store.ladder_ticket(a.id, 100).await.unwrap(), Some((1, 1_700)));
+    // Dealt twice (the same rack by chance): the first stays.
+    store.issue_ladder_ticket(a.id, 100, 0, 9_000).await.unwrap();
+    assert_eq!(store.ladder_ticket(a.id, 100).await.unwrap(), Some((1, 1_700)));
+
     // A player's latest games with their seat, newest first.
     assert!(store.recent_replays(a.id, 10).await.unwrap().is_empty());
     let r1 = Replay { strokes: vec![Stroke::TimeFoul], ..Replay::new(1, 0) };
@@ -196,6 +222,7 @@ async fn exercise(store: Store) {
     // A deleted account loses its claim with its achievements.
     store.delete_account(a.id, 3_000).await.unwrap();
     assert_eq!(store.ladder_claim(a.id).await.unwrap(), None);
+    assert_eq!(store.ladder_ticket(a.id, 100).await.unwrap(), None);
 }
 
 #[tokio::test]
@@ -222,7 +249,7 @@ async fn postgres_store() {
 
 #[tokio::test]
 async fn the_reward_needs_a_genuine_win() {
-    let (url, _server) = start().await;
+    let (url, server) = start().await;
 
     // Signed out: nothing.
     let mut anon = Client::connect(&url).await;
@@ -234,20 +261,30 @@ async fn the_reward_needs_a_genuine_win() {
     let mut long = Replay::new(1, 0);
     long.strokes = vec![Stroke::TimeFoul; ladder::MAX_STROKES + 1];
     assert_eq!(c.claim(long, 20).await, ClaimResult::Failed { reason: ClaimFailure::TooLong });
-    // A game that never started.
+    // A rack the server didn't deal: refused unplayed.
+    let no_ticket = ClaimResult::Failed { reason: ClaimFailure::NoTicket };
+    assert_eq!(c.claim(Replay::new(7, 1), 20).await, no_ticket);
+    // The server's rack, but the player breaking, or under older rules.
+    let dealt = c.ticket().await;
+    assert_ne!(dealt.seed, 0);
+    assert_eq!(dealt.breaker, 1 - ladder::PLAYER_SEAT);
+    assert_eq!(c.claim(Replay::new(dealt.seed, ladder::PLAYER_SEAT), 20).await, no_ticket);
+    let older = Replay::with_ruleset(dealt.seed, dealt.breaker, snook_legend_core::RULESET - 1);
+    assert_eq!(c.claim(older, 20).await, no_ticket);
+    // Someone else's rack.
+    let mut thief = Client::register(&url, "Thief").await;
+    assert_eq!(thief.claim(dealt.clone(), 20).await, no_ticket);
+    // The game dealt, never started.
     assert_eq!(
-        c.claim(Replay::new(7, 0), 20).await,
+        c.claim(dealt.clone(), 20).await,
         ClaimResult::Failed { reason: ClaimFailure::NotFinished }
     );
     // Again at once: too soon.
-    assert_eq!(
-        c.claim(Replay::new(7, 0), 20).await,
-        ClaimResult::Failed { reason: ClaimFailure::TooSoon }
-    );
+    assert_eq!(c.claim(dealt, 20).await, ClaimResult::Failed { reason: ClaimFailure::TooSoon });
 
     // A forged computer stroke (the computer breaks, softly and straight).
     let mut other = Client::register(&url, "Forger").await;
-    let mut forged = Replay::new(3, 1);
+    let mut forged = other.ticket().await;
     forged.strokes.push(Stroke::Shot {
         shot: snook_legend_core::Shot::new(0.0, 1.0),
         called: None,
@@ -262,6 +299,7 @@ async fn the_reward_needs_a_genuine_win() {
     // The genuine game, edited after the end: refused.
     let genuine: Replay = serde_json::from_str(FIXTURE).unwrap();
     let mut third = Client::register(&url, "Editor").await;
+    deal(&server, "Editor", &genuine).await;
     let mut edited = genuine.clone();
     edited.strokes.push(Stroke::TimeFoul);
     assert_eq!(
@@ -275,6 +313,7 @@ async fn a_genuine_win_earns_the_item_once() {
     let (url, server) = start().await;
     let genuine: Replay = serde_json::from_str(FIXTURE).unwrap();
     let mut c = Client::register(&url, "Champion").await;
+    deal(&server, "Champion", &genuine).await;
     let result = c.claim(genuine.clone(), 180).await;
     assert_eq!(result, ClaimResult::Granted { already: false });
     // Told before the verdict: the achievement, and the list with it.
@@ -302,10 +341,22 @@ async fn a_genuine_win_earns_the_item_once() {
     let result = c.claim(genuine.clone(), 20).await;
     assert_eq!(result, ClaimResult::Granted { already: true });
 
-    // The same game sent by someone else is checked for them on its own
-    // merits (a recorded game is not tied to an account).
+    // The same game sent by someone else: the rack was dealt to the
+    // champion, not to them.
     let mut friend = Client::register(&url, "Copycat").await;
-    assert_eq!(friend.claim(genuine, 180).await, ClaimResult::Granted { already: false });
+    assert_eq!(
+        friend.claim(genuine, 20).await,
+        ClaimResult::Failed { reason: ClaimFailure::NoTicket }
+    );
+}
+
+/// Deals `replay`'s rack to `name`, as the server does when it is asked
+/// for a final (the recorded game has a rack of its own).
+async fn deal(server: &Server, name: &str, replay: &Replay) {
+    let id = server.store.user_by_name(name).await.unwrap().unwrap().id;
+    let now = std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_secs()
+        as i64;
+    server.store.issue_ladder_ticket(id, replay.seed, replay.breaker, now).await.unwrap();
 }
 
 // ---------------------------------------------------------------------------

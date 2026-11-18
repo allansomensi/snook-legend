@@ -284,6 +284,14 @@ pub struct Online {
     pub drills: Option<snook_legend_proto::drills::Info>,
     /// The server's count of the last drill session sent.
     pub drill_result: Option<(String, Result<u32, snook_legend_proto::drills::Refused>)>,
+    /// A drill session the server started: (drill, session).
+    pub drill_session: Option<(String, u64)>,
+    /// The tour's final was asked for (see `ladder_ticket`).
+    pub awaiting_ticket: bool,
+    /// The tour's final as the server dealt it: (rack, breaker).
+    pub ladder_ticket: Option<(u64, usize)>,
+    /// The server refused to deal it (asked too often).
+    pub ticket_refused: bool,
 }
 
 /// A request for the style of a player's ghost.
@@ -548,6 +556,10 @@ impl Online {
             xp: None,
             drills: None,
             drill_result: None,
+            drill_session: None,
+            awaiting_ticket: false,
+            ladder_ticket: None,
+            ticket_refused: false,
         }
     }
 
@@ -1134,6 +1146,13 @@ impl Online {
             // A message an older server doesn't know (a newer game asking
             // for something new): nothing the player can do about it.
             ServerMsg::Error { message } if message == "Malformed message." => {}
+            // Asked for the tour's final too often: it is played without
+            // the server (the game says so).
+            ServerMsg::Error { message } if self.awaiting_ticket => {
+                self.awaiting_ticket = false;
+                self.ticket_refused = true;
+                self.toast(crate::i18n::server_text(&message), false);
+            }
             ServerMsg::Error { message } => match current.as_mut() {
                 Some(m) if m.is_online() => m.handle_server(ServerMsg::Error { message }),
                 _ => self.toast(crate::i18n::server_text(&message), false),
@@ -1311,6 +1330,12 @@ impl Online {
             ServerMsg::Daily { info } => self.daily = Some(info),
             ServerMsg::Drills { info } => self.drills = Some(info),
             ServerMsg::DrillResult { code, result } => self.drill_result = Some((code, result)),
+            ServerMsg::DrillStarted { code, session } => self.drill_session = Some((code, session)),
+            ServerMsg::LadderTicket { seed, breaker } if self.awaiting_ticket => {
+                self.awaiting_ticket = false;
+                self.ladder_ticket = Some((seed, breaker));
+            }
+            ServerMsg::LadderTicket { .. } => {}
             ServerMsg::Xp { xp, gained } => {
                 use snook_legend_proto::xp::level_of;
                 let before = self.xp.map(level_of);
@@ -1509,7 +1534,8 @@ impl Online {
             changed = true;
         }
         if ui.primary_button(Rect::new(r.x + r.w - pad - yes_w, by, yes_w, 40.0), yes) {
-            self.send(ClientMsg::SetRecoveryEmail { email });
+            // The e-mail of the account's own payment: no password needed.
+            self.send(ClientMsg::SetRecoveryEmail { email, password: String::new() });
             self.email_offer = None;
         } else if is_key_pressed(KeyCode::Escape) {
             // Not now: asked again after the next payment.

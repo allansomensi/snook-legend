@@ -1171,7 +1171,9 @@ impl Lounge {
             | ClientMsg::DailyStart
             | ClientMsg::DailySubmit { .. }
             | ClientMsg::Drills
-            | ClientMsg::DrillSubmit { .. } => {}
+            | ClientMsg::DrillSubmit { .. }
+            | ClientMsg::DrillStart { .. }
+            | ClientMsg::LadderTicket => {}
             ClientMsg::SetStatusMessage { .. }
             | ClientMsg::ClearStatusMessage { .. }
             | ClientMsg::RecentOpponents

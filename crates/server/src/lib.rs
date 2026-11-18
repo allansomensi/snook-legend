@@ -1230,6 +1230,7 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
             }
             msg if daily::is_msg(&msg) => daily::handle(&server, &me, msg, &send).await,
             msg if drills::is_msg(&msg) => drills::handle(&server, &me, msg, &send).await,
+            ClientMsg::LadderTicket => send(computer::ticket(&server, &me).await),
             // Seconds of simulation each: answered on their own tasks.
             ClientMsg::LadderClaim { replay } => {
                 computer::spawn_claim(server.clone(), me.clone(), replay, tx.clone())
@@ -1536,6 +1537,8 @@ fn is_query_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::DailySubmit { .. }
             | ClientMsg::Drills
             | ClientMsg::DrillSubmit { .. }
+            | ClientMsg::DrillStart { .. }
+            | ClientMsg::LadderTicket
             | ClientMsg::SetStatusMessage { .. }
             | ClientMsg::ClearStatusMessage { .. }
             | ClientMsg::RecentOpponents
@@ -1555,6 +1558,8 @@ fn is_account_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::DailySubmit { .. }
             | ClientMsg::Drills
             | ClientMsg::DrillSubmit { .. }
+            | ClientMsg::DrillStart { .. }
+            | ClientMsg::LadderTicket
             | ClientMsg::SetCountry { .. }
             | ClientMsg::SetAvatar { .. }
             | ClientMsg::Friends

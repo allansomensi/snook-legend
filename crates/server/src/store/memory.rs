@@ -68,6 +68,8 @@ struct Inner {
     active_hours: HashSet<(i64, i64)>,
     /// user -> (rack seed, strokes, claimed at)
     ladder_claims: HashMap<i64, (u64, u32, i64)>,
+    /// (user, rack) -> (breaker, issued at).
+    ladder_tickets: HashMap<(i64, u64), (usize, i64)>,
     /// Presents (names and countries filled in when read).
     gifts: Vec<GiftRow>,
     /// Microsoft Store purchases being fulfilled (see `msstore.rs`).
@@ -472,6 +474,35 @@ impl MemoryStore {
         Ok(self.lock().ladder_claims.get(&user_id).map(|c| c.2))
     }
 
+    pub fn issue_ladder_ticket(
+        &self,
+        user_id: i64,
+        seed: u64,
+        breaker: usize,
+        at: i64,
+    ) -> StoreResult<()> {
+        let mut s = self.lock();
+        s.ladder_tickets.entry((user_id, seed)).or_insert((breaker, at));
+        // Only the newest few stay (a final is played soon after it's dealt).
+        let mut mine: Vec<(i64, i64, u64)> = s
+            .ladder_tickets
+            .iter()
+            .filter(|((u, _), _)| *u == user_id)
+            .map(|(&(_, seed), &(_, at))| (at, seed as i64, seed))
+            .collect();
+        if mine.len() > super::LADDER_TICKETS_KEPT {
+            mine.sort_unstable_by(|a, b| b.cmp(a));
+            for &(_, _, seed) in &mine[super::LADDER_TICKETS_KEPT..] {
+                s.ladder_tickets.remove(&(user_id, seed));
+            }
+        }
+        Ok(())
+    }
+
+    pub fn ladder_ticket(&self, user_id: i64, seed: u64) -> StoreResult<Option<(usize, i64)>> {
+        Ok(self.lock().ladder_tickets.get(&(user_id, seed)).copied())
+    }
+
     pub fn save_live(&self, m: &LiveMatch) -> StoreResult<()> {
         self.lock().live.insert(m.id, m.clone());
         Ok(())
@@ -697,6 +728,7 @@ impl MemoryStore {
         s.blocks.retain(|(a, b)| *a != user_id && *b != user_id);
         s.achievements.remove(&user_id);
         s.ladder_claims.remove(&user_id);
+        s.ladder_tickets.retain(|(u, _), _| *u != user_id);
         // What they wrote with their presents goes with them.
         for g in s.gifts.iter_mut().filter(|g| g.from_id == Some(user_id)) {
             g.message.clear();

@@ -41,6 +41,11 @@ pub struct Computer {
     ghost_limits: Mutex<HashMap<i64, crate::limits::Bucket>>,
     /// user -> (when, their latest match then, the style).
     cache: Mutex<HashMap<i64, (Instant, i64, GhostStyle)>>,
+    /// Finals of the tour dealt lately, per account (a few, then one now
+    /// and then: the racks can't be shopped for).
+    ticket_limits: Mutex<HashMap<i64, crate::limits::Bucket>>,
+    /// The drill session each account is playing: (drill, session, since).
+    pub(crate) drill_sessions: Mutex<HashMap<i64, (String, u64, Instant)>>,
 }
 
 impl Default for Computer {
@@ -52,11 +57,20 @@ impl Default for Computer {
             last_claim: Mutex::new(HashMap::new()),
             ghost_limits: Mutex::new(HashMap::new()),
             cache: Mutex::new(HashMap::new()),
+            ticket_limits: Mutex::new(HashMap::new()),
+            drill_sessions: Mutex::new(HashMap::new()),
         }
     }
 }
 
-fn lock<T>(m: &Mutex<T>) -> std::sync::MutexGuard<'_, T> {
+/// Finals of the tour one account may be dealt: a few at once, then one a
+/// minute.
+const TICKET_BURST: f64 = 6.0;
+const TICKET_RATE: f64 = 1.0 / 60.0;
+/// A dealt final can be claimed for this long (a game kept for later).
+const TICKET_LIFE: i64 = 30 * 86_400;
+
+pub(crate) fn lock<T>(m: &Mutex<T>) -> std::sync::MutexGuard<'_, T> {
     m.lock().unwrap_or_else(|e| e.into_inner())
 }
 
@@ -121,6 +135,21 @@ pub async fn claim(server: &Server, me: &User, replay: Replay) -> ClaimResult {
     if replay.strokes.len() > ladder::MAX_STROKES {
         return fail(ClaimFailure::TooLong);
     }
+    // Only a final the server dealt to this account, from its rack, with
+    // its breaker and under today's rules: a game can't be set up at home
+    // (a rack searched for, the player breaking) nor shared between
+    // accounts.
+    match server.store.ladder_ticket(me.id, replay.seed).await {
+        Ok(Some((breaker, at)))
+            if breaker == replay.breaker
+                && now() - at <= TICKET_LIFE
+                && replay.ruleset == snook_legend_core::RULESET => {}
+        Ok(_) => return fail(ClaimFailure::NoTicket),
+        Err(e) => {
+            tracing::error!("ladder ticket of {}: {e}", me.username);
+            return fail(ClaimFailure::ServerError);
+        }
+    }
     if !server.computer.may_claim(me.id) {
         return fail(ClaimFailure::TooSoon);
     }
@@ -155,6 +184,38 @@ pub async fn claim(server: &Server, me: &User, replay: Replay) -> ClaimResult {
         Err(e) => {
             tracing::error!("recording the ladder claim of {}: {e}", me.username);
             fail(ClaimFailure::ServerError)
+        }
+    }
+}
+
+/// Deals `me` a final of the tour to play for the reward: a rack of the
+/// server's choosing, the computer breaking.
+pub async fn ticket(server: &Server, me: &User) -> ServerMsg {
+    let allowed = {
+        let mut limits = lock(&server.computer.ticket_limits);
+        if limits.len() > 10_000 {
+            limits.clear();
+        }
+        limits
+            .entry(me.id)
+            .or_insert_with(|| crate::limits::Bucket::new(TICKET_BURST, TICKET_RATE))
+            .take()
+    };
+    if !allowed {
+        return ServerMsg::Error { message: "Slow down a little.".into() };
+    }
+    let seed = loop {
+        let s: u64 = rand::random();
+        if s != 0 {
+            break s;
+        }
+    };
+    let breaker = 1 - ladder::PLAYER_SEAT;
+    match server.store.issue_ladder_ticket(me.id, seed, breaker, now()).await {
+        Ok(()) => ServerMsg::LadderTicket { seed, breaker },
+        Err(e) => {
+            tracing::error!("dealing a final to {}: {e}", me.username);
+            ServerMsg::Error { message: "Something went wrong. Please try again.".into() }
         }
     }
 }

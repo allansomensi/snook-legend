@@ -364,11 +364,40 @@ pub fn game(d: &Drill) -> EightBallGame {
 
 /// The game for try `k` (only a streak changes from try to try).
 pub fn game_for_try(d: &Drill, k: u32) -> EightBallGame {
+    game_for_session_try(d, 0, k)
+}
+
+/// The table of try `k` of a session the server started (`session`, not 0):
+/// the cue ball a little off its place (up to [`SESSION_JITTER`] each way),
+/// the same for everyone in that session and different from try to try, so
+/// one stroke that worked can't simply be sent for every try. Session 0 is
+/// the drill as drawn (a session played signed out, for practice).
+pub fn game_for_session_try(d: &Drill, session: u64, k: u32) -> EightBallGame {
     let mut g = EightBallGame::new(1, 0);
-    let balls = if d.goal == Goal::Streak { streak_position(k) } else { position(d) };
+    let mut balls = if d.goal == Goal::Streak { streak_position(k) } else { position(d) };
+    let cue_at = balls.iter().position(|(id, _)| *id == BallId::CUE);
+    if session != 0
+        && let Some(i) = cue_at
+    {
+        let mut rng = Rng::new(session ^ (k as u64 + 1).wrapping_mul(0x9E37_79B9_7F4A_7C15));
+        let shift =
+            DVec2::new(rng.next_f64() * 2.0 - 1.0, rng.next_f64() * 2.0 - 1.0) * SESSION_JITTER;
+        let moved = balls[i].1 + shift;
+        // Only where the ball may lie (never into a cushion or another ball).
+        let mut probe = EightBallGame::new(1, 0);
+        let others: Vec<(BallId, DVec2)> =
+            balls.iter().filter(|(id, _)| *id != BallId::CUE).copied().collect();
+        probe.set_up_test_position(&others);
+        if probe.can_place_cue_ball(moved) {
+            balls[i].1 = moved;
+        }
+    }
     g.set_up_test_position(&balls);
     g
 }
+
+/// How far a session moves a try's cue ball, each way (m).
+pub const SESSION_JITTER: f64 = 0.012;
 
 /// Plays `shot` from `g`; the report, the events and the table after.
 fn play(g: &EightBallGame, shot: &Shot) -> Option<(ShotReport, Vec<Event>, EightBallGame)> {
@@ -424,6 +453,9 @@ pub enum Refused {
     /// More strokes than tries, a stroke after the run ended, or one that
     /// can't be played.
     BadStroke,
+    /// No session the server started for this drill (or it ran out of
+    /// time): sessions are started signed in.
+    NoSession,
     #[serde(other)]
     Other,
 }
@@ -431,13 +463,18 @@ pub enum Refused {
 /// Plays a session's strokes, each try from its position. The score: the
 /// tries that worked (a streak: the pots in a row, a miss ending it).
 pub fn score(code: &str, strokes: &[Shot]) -> Result<u32, Refused> {
+    score_session(code, 0, strokes)
+}
+
+/// [`score`] for the tries of `session` (see [`game_for_session_try`]).
+pub fn score_session(code: &str, session: u64, strokes: &[Shot]) -> Result<u32, Refused> {
     let d = drill(code).ok_or(Refused::UnknownDrill)?;
     if strokes.len() > d.tries as usize {
         return Err(Refused::BadStroke);
     }
     let mut good = 0;
     for (k, shot) in strokes.iter().enumerate() {
-        let g = game_for_try(d, k as u32);
+        let g = game_for_session_try(d, session, k as u32);
         let (report, events, after) = play(&g, shot).ok_or(Refused::BadStroke)?;
         let ok = success(d, &report, &events, &after);
         good += ok as u32;

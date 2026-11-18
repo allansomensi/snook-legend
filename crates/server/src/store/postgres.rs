@@ -462,6 +462,50 @@ impl PgStore {
         Ok(added > 0)
     }
 
+    pub async fn issue_ladder_ticket(
+        &self,
+        user_id: i64,
+        seed: u64,
+        breaker: usize,
+        at: i64,
+    ) -> StoreResult<()> {
+        query(
+            "INSERT INTO ladder_tickets (user_id, seed, breaker, issued_at) VALUES ($1, $2, $3, $4)
+             ON CONFLICT (user_id, seed) DO NOTHING",
+        )
+        .bind(user_id)
+        .bind(seed as i64)
+        .bind(breaker as i16)
+        .bind(at)
+        .execute(&self.pool)
+        .await?;
+        // Only the newest few stay (a final is played soon after it's dealt).
+        query(
+            "DELETE FROM ladder_tickets WHERE user_id = $1 AND seed NOT IN (
+                 SELECT seed FROM ladder_tickets WHERE user_id = $1
+                 ORDER BY issued_at DESC, seed DESC LIMIT $2)",
+        )
+        .bind(user_id)
+        .bind(super::LADDER_TICKETS_KEPT as i64)
+        .execute(&self.pool)
+        .await?;
+        Ok(())
+    }
+
+    pub async fn ladder_ticket(
+        &self,
+        user_id: i64,
+        seed: u64,
+    ) -> StoreResult<Option<(usize, i64)>> {
+        let row =
+            query("SELECT breaker, issued_at FROM ladder_tickets WHERE user_id = $1 AND seed = $2")
+                .bind(user_id)
+                .bind(seed as i64)
+                .fetch_optional(&self.pool)
+                .await?;
+        Ok(row.map(|r| (r.get::<i16, _>("breaker") as usize, r.get("issued_at"))))
+    }
+
     pub async fn ladder_claim(&self, user_id: i64) -> StoreResult<Option<i64>> {
         let row = query("SELECT claimed_at FROM ladder_claims WHERE user_id = $1")
             .bind(user_id)
@@ -814,6 +858,7 @@ impl PgStore {
             "DELETE FROM blocks WHERE user_id = $1 OR blocked_id = $1",
             "DELETE FROM achievements WHERE user_id = $1",
             "DELETE FROM ladder_claims WHERE user_id = $1",
+            "DELETE FROM ladder_tickets WHERE user_id = $1",
             "UPDATE gifts SET message = '' WHERE from_id = $1",
             "DELETE FROM equipped WHERE user_id = $1",
             "DELETE FROM shot_stats WHERE user_id = $1",

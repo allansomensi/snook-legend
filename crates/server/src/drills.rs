@@ -10,8 +10,11 @@ use crate::{Server, now};
 /// How many lead each table (and are shown).
 const BOARD: u32 = 10;
 
+/// How long a session may take, from its start to its strokes.
+const SESSION_LIFE: std::time::Duration = std::time::Duration::from_secs(45 * 60);
+
 pub fn is_msg(msg: &ClientMsg) -> bool {
-    matches!(msg, ClientMsg::Drills | ClientMsg::DrillSubmit { .. })
+    matches!(msg, ClientMsg::Drills | ClientMsg::DrillSubmit { .. } | ClientMsg::DrillStart { .. })
 }
 
 /// The drills as `me` sees them.
@@ -58,8 +61,44 @@ pub async fn handle(server: &Server, me: &User, msg: ClientMsg, send: &impl Fn(S
     };
     match msg {
         ClientMsg::Drills => send(info_msg(info(server, me).await)),
-        ClientMsg::DrillSubmit { code, strokes } => {
-            let result = submit(server, me, &code, strokes).await;
+        ClientMsg::DrillStart { code } => {
+            if drills::drill(&code).is_none() {
+                return send(ServerMsg::DrillResult { code, result: Err(Refused::UnknownDrill) });
+            }
+            // One session at a time per account: a new one replaces it.
+            let session = loop {
+                let s: u64 = rand::random();
+                if s != 0 {
+                    break s;
+                }
+            };
+            let mut sessions = crate::computer::lock(&server.computer.drill_sessions);
+            if sessions.len() > 10_000 {
+                sessions.retain(|_, (_, _, at)| at.elapsed() < SESSION_LIFE);
+            }
+            sessions.insert(me.id, (code.clone(), session, std::time::Instant::now()));
+            drop(sessions);
+            send(ServerMsg::DrillStarted { code, session });
+        }
+        ClientMsg::DrillSubmit { code, session, strokes } => {
+            // The session the server started for this drill, once, in time.
+            let started = {
+                let mut sessions = crate::computer::lock(&server.computer.drill_sessions);
+                match sessions.get(&me.id) {
+                    Some((c, s, at))
+                        if *c == code && *s == session && at.elapsed() < SESSION_LIFE =>
+                    {
+                        sessions.remove(&me.id);
+                        true
+                    }
+                    _ => false,
+                }
+            };
+            let result = if started {
+                submit(server, me, &code, session, strokes).await
+            } else {
+                Err(Refused::NoSession)
+            };
             send(ServerMsg::DrillResult { code, result });
             send(info_msg(info(server, me).await));
         }
@@ -72,6 +111,7 @@ async fn submit(
     server: &Server,
     me: &User,
     code: &str,
+    session: u64,
     strokes: Vec<snook_legend_core::Shot>,
 ) -> Result<u32, Refused> {
     let d = drills::drill(code).ok_or(Refused::UnknownDrill)?;
@@ -79,9 +119,10 @@ async fn submit(
         return Err(Refused::BadStroke);
     }
     let checked = code.to_string();
-    let score = tokio::task::spawn_blocking(move || drills::score(&checked, &strokes))
-        .await
-        .unwrap_or(Err(Refused::Other))?;
+    let score =
+        tokio::task::spawn_blocking(move || drills::score_session(&checked, session, &strokes))
+            .await
+            .unwrap_or(Err(Refused::Other))?;
     let t = now();
     let before = server.store.drill_record(me.id, code, score, t).await.map_err(|e| {
         tracing::error!("drill of {}: {e}", me.username);

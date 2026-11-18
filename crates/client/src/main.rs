@@ -416,6 +416,9 @@ async fn main() {
     // The ladder against the computer, and the claim of its reward.
     let mut ladder_progress = ladder::Progress::load();
     let mut claimer = ladder::Claimer::default();
+    // A game waiting for the server before it starts (and since when): the
+    // tour's final, or a drill session for the tables.
+    let mut waiting: Option<(Waiting, f64)> = None;
     // The tournament against the computer's opponents, if one is going on.
     let mut cup = cup::Cup::load();
     let menu_rack = snook_legend_core::rules::rack(&scene.table, 2024);
@@ -528,10 +531,11 @@ async fn main() {
         // A drill session: sent once over (signed in), the server's count
         // brought back to the table.
         if let Some(run) = current.as_mut().and_then(|m| m.drill.as_mut()) {
-            if run.over && !run.sent && online.signed_in() {
+            if run.over && !run.sent && run.session != 0 && online.signed_in() {
                 run.sent = true;
                 online.send(snook_legend_proto::ClientMsg::DrillSubmit {
                     code: run.code.to_string(),
+                    session: run.session,
                     strokes: run.strokes.clone(),
                 });
             }
@@ -539,6 +543,66 @@ async fn main() {
                 && code == run.code
             {
                 run.result = Some(result);
+            }
+        }
+        // A game waiting for the server: dealt (or set) as it says, or
+        // started anyway (not counted) when it doesn't answer.
+        if current.as_ref().is_some_and(|m| m.is_online()) {
+            waiting = None;
+        }
+        if let Some((w, since)) = &waiting {
+            let late = get_time() - since > SERVER_WAIT || !online.signed_in();
+            let name =
+                online.me.as_ref().map_or(config.player_name.clone(), |me| me.username.clone());
+            let started = match w {
+                Waiting::Final(settings) => match online.ladder_ticket.take() {
+                    Some((seed, breaker)) => {
+                        let mut m = Match::new(settings, seed);
+                        m.deal(seed, breaker);
+                        if let Some(run) = m.ladder.as_mut() {
+                            run.dealt = true;
+                        }
+                        Some(Some(m))
+                    }
+                    None if late || std::mem::take(&mut online.ticket_refused) => {
+                        let mut m = Match::new(settings, game::clock_seed());
+                        m.notify(
+                            i18n::t("The server didn't deal the final: this game won't earn the reward.")
+                                .to_string(),
+                            true,
+                        );
+                        Some(Some(m))
+                    }
+                    None => None,
+                },
+                Waiting::Drill(code) => match online.drill_session.take() {
+                    Some((c, session)) if c == *code => {
+                        Some(Match::drill(code, &name, config.guide, session))
+                    }
+                    _ if late => Some(Match::drill(code, &name, config.guide, 0).map(|mut m| {
+                        m.notify(
+                            i18n::t("The server didn't answer: this session won't be ranked.")
+                                .to_string(),
+                            true,
+                        );
+                        m
+                    })),
+                    _ => None,
+                },
+            };
+            if let Some(m) = started {
+                let final_game = matches!(w, Waiting::Final(_));
+                waiting = None;
+                if let Some(m) = m {
+                    online.drill_result = None;
+                    current = Some(m);
+                    hud = Hud::new(config.show_help);
+                    rig.reset();
+                    if final_game {
+                        save_key = None;
+                        screen = Screen::Menu;
+                    }
+                }
             }
         }
         // A stored game to watch again (from the profile).
@@ -911,6 +975,7 @@ async fn main() {
             (current.is_none() && !settings_open && !show_news && online.email_offer.is_some())
                 .then(|| ui.suspend_input());
         let news_saved = show_news.then(|| ui.suspend_input());
+        let waiting_saved = waiting.is_some().then(|| ui.suspend_input());
         if settings_open {
             let before = config.clone();
             let action = settings_screen.draw(&mut ui, &mut config, current.is_some());
@@ -964,12 +1029,15 @@ async fn main() {
                         online.draw_queue_banner(&mut ui);
                     }
                     match action {
+                        HudAction::DrillAgain(code) if has_account(&online) => {
+                            waiting = Some((ask_drill(&mut online, code), get_time()));
+                        }
                         HudAction::DrillAgain(code) => {
                             let name = online
                                 .me
                                 .as_ref()
                                 .map_or(config.player_name.clone(), |me| me.username.clone());
-                            if let Some(next) = Match::drill(code, &name, config.guide) {
+                            if let Some(next) = Match::drill(code, &name, config.guide, 0) {
                                 online.drill_result = None;
                                 current = Some(next);
                                 hud = Hud::new(config.show_help);
@@ -983,10 +1051,16 @@ async fn main() {
                             {
                                 let o = crate::opponents::Opponent::personality(p.code);
                                 let settings = versus::settings(&config, o, Some(k));
-                                current = Some(Match::new(&settings, game::clock_seed()));
-                                save_key = None;
-                                hud = Hud::new(config.show_help);
-                                rig.reset();
+                                if wants_deal(&settings, &online) {
+                                    waiting = Some((ask_deal(&mut online, settings), get_time()));
+                                } else {
+                                    let mut m = Match::new(&settings, game::clock_seed());
+                                    warn_unrewarded(&mut m, &settings, &online, &ladder_progress);
+                                    current = Some(m);
+                                    save_key = None;
+                                    hud = Hud::new(config.show_help);
+                                    rig.reset();
+                                }
                             }
                         }
                         HudAction::MainMenu => {
@@ -999,13 +1073,16 @@ async fn main() {
                             let daily = m.daily.is_some();
                             // Left during a drill: the tries made still count.
                             let drill = m.drill.is_some();
-                            if let Some(run) =
-                                m.drill.as_mut().filter(|r| !r.sent && !r.strokes.is_empty())
+                            if let Some(run) = m
+                                .drill
+                                .as_mut()
+                                .filter(|r| !r.sent && r.session != 0 && !r.strokes.is_empty())
                                 && online.signed_in()
                             {
                                 run.sent = true;
                                 online.send(snook_legend_proto::ClientMsg::DrillSubmit {
                                     code: run.code.to_string(),
+                                    session: run.session,
                                     strokes: run.strokes.clone(),
                                 });
                             }
@@ -1234,9 +1311,17 @@ async fn main() {
                                 config.save();
                                 replace_save = Some(settings);
                             }
+                            versus::VersusAction::Start(settings)
+                                if wants_deal(&settings, &online) =>
+                            {
+                                config.save();
+                                waiting = Some((ask_deal(&mut online, settings), get_time()));
+                            }
                             versus::VersusAction::Start(settings) => {
                                 config.save();
-                                current = Some(Match::new(&settings, game::clock_seed()));
+                                let mut m = Match::new(&settings, game::clock_seed());
+                                warn_unrewarded(&mut m, &settings, &online, &ladder_progress);
+                                current = Some(m);
                                 save_key = None;
                                 hud = Hud::new(config.show_help);
                                 rig.reset();
@@ -1268,12 +1353,15 @@ async fn main() {
                                     next = Some(Screen::Menu);
                                 }
                             }
+                            versus::VersusAction::Drill(code) if has_account(&online) => {
+                                waiting = Some((ask_drill(&mut online, &code), get_time()));
+                            }
                             versus::VersusAction::Drill(code) => {
                                 let name = online
                                     .me
                                     .as_ref()
                                     .map_or(config.player_name.clone(), |me| me.username.clone());
-                                if let Some(m) = Match::drill(&code, &name, config.guide) {
+                                if let Some(m) = Match::drill(&code, &name, config.guide, 0) {
                                     online.drill_result = None;
                                     current = Some(m);
                                     hud = Hud::new(config.show_help);
@@ -1534,6 +1622,20 @@ async fn main() {
         if let Some(saved) = offer_saved {
             ui.resume_input(saved);
         }
+        if let Some(saved) = waiting_saved {
+            ui.resume_input(saved);
+            if let Some((w, _)) = &waiting {
+                let text = match w {
+                    Waiting::Final(_) => i18n::t("The server is dealing the final…"),
+                    Waiting::Drill(_) => i18n::t("The server is setting up the drill…"),
+                };
+                draw_waiting(&mut ui, text);
+                if ui.escape() {
+                    waiting = None;
+                    online.awaiting_ticket = false;
+                }
+            }
+        }
         if let Some((text, t)) = &mut toast {
             *t -= dt;
             let alpha = t.clamp(0.0, 1.0);
@@ -1577,9 +1679,15 @@ async fn main() {
             && !settings_open
         {
             match draw_replace_save(&mut ui, saved_balls.unwrap_or(0)) {
+                Some(true) if wants_deal(&settings, &online) => {
+                    replace_save = None;
+                    waiting = Some((ask_deal(&mut online, settings), get_time()));
+                }
                 Some(true) => {
                     replace_save = None;
-                    current = Some(Match::new(&settings, game::clock_seed()));
+                    let mut m = Match::new(&settings, game::clock_seed());
+                    warn_unrewarded(&mut m, &settings, &online, &ladder_progress);
+                    current = Some(m);
                     save_key = None;
                     hud = Hud::new(config.show_help);
                     rig.reset();
@@ -1779,4 +1887,79 @@ fn hud_draw(
     };
     paint::set_opacity(1.0);
     action
+}
+
+/// A game waiting for the server before it starts.
+enum Waiting {
+    /// The tour's final, played for the reward: the server deals its rack
+    /// and who breaks.
+    Final(MatchSettings),
+    /// A drill session for the tables: the server sets where its tries'
+    /// cue balls lie.
+    Drill(String),
+}
+
+/// How long a game waits for the server before it starts anyway (not
+/// counted), in seconds.
+const SERVER_WAIT: f64 = 8.0;
+
+/// Signed in to an account of the online server (not as a guest, not on a
+/// LAN): what drills and the tour's reward are counted for.
+fn has_account(online: &Online) -> bool {
+    online.me.as_ref().is_some_and(|me| !me.guest) && !online.lan
+}
+
+/// The tour's final, played for the reward: dealt by the server.
+fn wants_deal(settings: &MatchSettings, online: &Online) -> bool {
+    let last = snook_legend_proto::ladder::RUNGS.len() as u8 - 1;
+    settings.ladder == Some(last)
+        && has_account(online)
+        && !online.has_achievement(snook_legend_proto::ladder::ACHIEVEMENT)
+}
+
+fn ask_deal(online: &mut Online, settings: MatchSettings) -> Waiting {
+    online.ladder_ticket = None;
+    online.ticket_refused = false;
+    online.awaiting_ticket = true;
+    online.send(snook_legend_proto::ClientMsg::LadderTicket);
+    Waiting::Final(settings)
+}
+
+fn ask_drill(online: &mut Online, code: &str) -> Waiting {
+    online.drill_session = None;
+    online.send(snook_legend_proto::ClientMsg::DrillStart { code: code.to_string() });
+    Waiting::Drill(code.to_string())
+}
+
+/// The tour's final started without the server (signed out): said at
+/// once, while the reward is still to be won.
+fn warn_unrewarded(
+    m: &mut Match,
+    settings: &MatchSettings,
+    online: &Online,
+    progress: &ladder::Progress,
+) {
+    let last = snook_legend_proto::ladder::RUNGS.len() as u8 - 1;
+    if settings.ladder == Some(last)
+        && !progress.claimed
+        && !online.has_achievement(snook_legend_proto::ladder::ACHIEVEMENT)
+    {
+        m.notify(
+            i18n::t("Not signed in: a win in this final won't earn the reward.").to_string(),
+            true,
+        );
+    }
+}
+
+/// A word in the middle of the screen while the server is asked.
+fn draw_waiting(ui: &mut Ui, text: &str) {
+    let (sw, sh) = (ui::vw(), ui::vh());
+    draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.45));
+    let w = (ui.text_size(text, 15.0, false).x + 64.0).min(sw - 32.0);
+    let r = Rect::new((sw - w) / 2.0, sh / 2.0 - 28.0, w, 56.0);
+    ui.panel(r);
+    ui.block(Rect::new(0.0, 0.0, sw, sh));
+    crate::ui::spinner(vec2(r.x + 24.0, r.y + 28.0), 7.0, ui::GOLD);
+    let text = ui.ellipsize(text, w - 56.0, 15.0);
+    ui.text(&text, r.x + 42.0, r.y + 19.0, 15.0, ui::CREAM, false);
 }

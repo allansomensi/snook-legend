@@ -512,7 +512,9 @@ impl Hud {
             ui.text_centered(&line, sw / 2.0, r.y + 108.0, 20.0, CREAM, true);
             let (status, color) = match &run.result {
                 None if run.sent => (t("Sending to the server…").to_string(), MUTED),
-                None => (t("Not signed in: this session is not ranked.").to_string(), MUTED),
+                None => {
+                    (t("Not ranked: sessions count when started signed in.").to_string(), MUTED)
+                }
                 Some(Ok(_)) => (t("Counted on the drill's table.").to_string(), CREAM),
                 Some(Err(_)) => (t("The session could not be counted.").to_string(), ALERT),
             };
@@ -802,7 +804,13 @@ impl Hud {
                     b,
                     if tour.is_some() && !won { t("Try again") } else { t("Rematch") },
                 ) {
-                    m.rematch();
+                    // The final again: dealt anew by the server (the
+                    // game's loop asks it).
+                    let last = snook_legend_proto::ladder::RUNGS.len() as u8 - 1;
+                    match tour {
+                        Some(k) if k == last => action = HudAction::NextStage(k),
+                        _ => m.rematch(),
+                    }
                 }
                 if ui.button(Rect::new(bx + 190.0, r.y + 128.0, 170.0, 38.0), t("Main menu"), true)
                 {

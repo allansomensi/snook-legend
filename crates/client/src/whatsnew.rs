@@ -105,13 +105,25 @@ pub struct WhatsNew {
     scroll: f32,
     /// The rules of the game instead of the notes.
     rules: bool,
+    /// The text laid out (blocks and height), for the width, the language
+    /// and the interface scale it was laid out at: wrapping every version's
+    /// notes again each frame was the dialog's whole cost.
+    layout: Option<((u32, u32, crate::i18n::Lang), Vec<Block>, f32)>,
 }
+
+/// A run of lines: (top, lines, size, colour, bold).
+type Block = (f32, Vec<String>, f32, Color, bool);
 
 impl WhatsNew {
     /// After an update: the notes the player hasn't seen, if any.
     pub fn after_update(seen: &str) -> Option<WhatsNew> {
         let versions = unseen(seen);
-        (!versions.is_empty()).then_some(WhatsNew { versions, scroll: 0.0, rules: false })
+        (!versions.is_empty()).then_some(WhatsNew {
+            versions,
+            scroll: 0.0,
+            rules: false,
+            layout: None,
+        })
     }
 
     /// From the menu or the settings: this version's notes and the ones
@@ -122,7 +134,7 @@ impl WhatsNew {
             .map(|n| n.version.clone())
             .filter(|v| !newer(v, VERSION))
             .collect();
-        WhatsNew { versions, scroll: 0.0, rules: false }
+        WhatsNew { versions, scroll: 0.0, rules: false, layout: None }
     }
 
     /// One version's notes (development aid: SNOOK_LEGEND_WHATS_NEW=0.2.0
@@ -132,34 +144,24 @@ impl WhatsNew {
             versions: vec![n.version.clone()],
             scroll: 0.0,
             rules: false,
+            layout: None,
         })
     }
 
     /// The rules of the game, in the player's language.
     pub fn rules() -> WhatsNew {
-        WhatsNew { versions: Vec::new(), scroll: 0.0, rules: true }
+        WhatsNew { versions: Vec::new(), scroll: 0.0, rules: true, layout: None }
     }
 
-    /// Draws the dialog over everything; returns true when it is closed
-    /// (the button, Esc or Enter).
-    pub fn draw(&mut self, ui: &mut Ui) -> bool {
-        let sw = crate::ui::vw();
-        let sh = crate::ui::vh();
-        draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.55));
-        const PAD: f32 = 28.0;
-        const HEADER: f32 = 76.0;
-        const FOOTER: f32 = 92.0;
-        let w = 600.0f32.min(sw - 16.0);
-        let inner = w - 2.0 * PAD;
-        let several = self.versions.len() > 1 || self.rules;
+    /// Lays the notes (or the rules) out `inner` wide: the blocks of text and
+    /// the height they take.
+    fn lay_out(&self, ui: &Ui, inner: f32, several: bool) -> (Vec<Block>, f32) {
         let shown: Vec<&Notes> = if self.rules {
             rules(crate::i18n::lang()).iter().collect()
         } else {
             self.versions.iter().filter_map(|v| version_notes(v)).collect()
         };
-
-        // Lay the text out once to know its height.
-        let mut blocks: Vec<(f32, Vec<String>, f32, Color, bool)> = Vec::new();
+        let mut blocks: Vec<Block> = Vec::new();
         let mut y = 0.0;
         for (k, n) in shown.iter().enumerate() {
             if several {
@@ -183,6 +185,32 @@ impl WhatsNew {
                 y += text.len() as f32 * 19.0 + 14.0;
             }
         }
+        (blocks, y)
+    }
+
+    /// Draws the dialog over everything; returns true when it is closed
+    /// (the button, Esc or Enter).
+    pub fn draw(&mut self, ui: &mut Ui) -> bool {
+        let sw = crate::ui::vw();
+        let sh = crate::ui::vh();
+        draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.55));
+        const PAD: f32 = 28.0;
+        const HEADER: f32 = 76.0;
+        const FOOTER: f32 = 92.0;
+        let w = 600.0f32.min(sw - 16.0);
+        let inner = w - 2.0 * PAD;
+        let several = self.versions.len() > 1 || self.rules;
+        let shown: Vec<&Notes> = if self.rules {
+            rules(crate::i18n::lang()).iter().collect()
+        } else {
+            self.versions.iter().filter_map(|v| version_notes(v)).collect()
+        };
+        let key = (inner.to_bits(), crate::ui::ui_scale().to_bits(), crate::i18n::lang());
+        let (blocks, y) = match self.layout.take() {
+            Some((k, blocks, y)) if k == key => (blocks, y),
+            _ => self.lay_out(ui, inner, several),
+        };
+        self.layout = Some((key, blocks.clone(), y));
         let content = (y - 14.0).max(0.0);
         let room = (sh - 16.0 - HEADER - FOOTER).max(80.0);
         let body_h = content.min(room);

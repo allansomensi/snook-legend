@@ -1773,3 +1773,4 @@ Watch the deciding shot again	Ver de novo a tacada decisiva
 Next: {name}	Próximo: {name}
 Drag on the table to aim, or click a ball	Arraste na mesa para mirar, ou clique numa bola
 Set the power	Ajuste a força
+Let go of {key} to shoot · Esc cancels	Solte {key} para tacar · Esc cancela

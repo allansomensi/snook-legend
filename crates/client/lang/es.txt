@@ -1773,3 +1773,4 @@ Watch the deciding shot again	Ver otra vez el tiro decisivo
 Next: {name}	Siguiente: {name}
 Drag on the table to aim, or click a ball	Arrastra en la mesa para apuntar, o haz clic en una bola
 Set the power	Ajusta la fuerza
+Let go of {key} to shoot · Esc cancels	Suelta {key} para tirar · Esc cancela

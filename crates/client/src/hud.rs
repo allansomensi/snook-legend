@@ -2154,6 +2154,15 @@ impl Hud {
             self.stroking = false;
             draw_power_track(track, if m.aim.charging { m.aim.power } else { 0.0 }, false, false);
         }
+        // Charging with the keyboard: what letting go does, and the way out.
+        if can_shoot && m.aim.charging && keys::down(Action::Shoot) {
+            let key = keys::current().short(Action::Shoot);
+            let hint = crate::i18n::tw("Let go of {key} to shoot · Esc cancels", &[("key", &key)]);
+            let w = ui.text_size(&hint, 13.0, false).x + 20.0;
+            let r = Rect::new(track.x + (track.w - w) / 2.0, track.y - 40.0, w, 24.0);
+            crate::ui::rrect(r, 12.0, Color::new(0.0, 0.0, 0.0, 0.85));
+            ui.text(&hint, r.x + 10.0, r.y + 5.0, 13.0, CREAM, false);
+        }
         // A first game: where to aim, then the power, then the shot.
         if m.coach && can_shoot && self.popover.is_none() {
             let time = get_time() as f32;

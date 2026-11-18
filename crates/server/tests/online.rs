@@ -1428,7 +1428,7 @@ async fn arenas_with_an_entry_fee() {
     let url = start(Rules::default()).await;
     let (mut alice, _) = Client::register(&url, "alice").await;
     let (mut bob, _) = Client::register(&url, "bob").await;
-    // The daily bonus (20 coins) pays the entry.
+    // The daily bonus (5 coins) pays the entry.
     for c in [&mut alice, &mut bob] {
         c.expect("daily bonus", |m| matches!(m, ServerMsg::CoinsEarned { .. })).await;
     }
@@ -1449,7 +1449,7 @@ async fn arenas_with_an_entry_fee() {
             size: 4,
             rated: false,
             password: None,
-            entry_fee: 10,
+            entry_fee: 5,
             format: snook_legend_proto::TournamentFormat::Arena,
         })
         .await;
@@ -1458,7 +1458,7 @@ async fn arenas_with_an_entry_fee() {
     else {
         unreachable!()
     };
-    assert_eq!((tournament.entry_fee, tournament.prizes), (10, [7, 2]));
+    assert_eq!((tournament.entry_fee, tournament.prizes), (5, [3, 1]));
     bob.send(ClientMsg::JoinTournament { id: tournament.id, password: None }).await;
     let ServerMsg::TournamentUpdated { tournament } = alice
         .expect("joined", |m| {
@@ -1468,7 +1468,7 @@ async fn arenas_with_an_entry_fee() {
     else {
         unreachable!()
     };
-    assert_eq!(tournament.prizes, [14, 4], "the pot grows");
+    assert_eq!(tournament.prizes, [7, 2], "the pot grows");
     alice.send(ClientMsg::StartTournament { id: tournament.id }).await;
     alice.expect("paired", |m| matches!(m, ServerMsg::MatchStarted { .. })).await;
     bob.expect("paired", |m| matches!(m, ServerMsg::MatchStarted { .. })).await;

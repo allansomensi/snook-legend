@@ -51,18 +51,21 @@ Em português, inglês e espanhol.
 
 ### Novidades desta versão
 
-Versão 0.6.0: regra brasileira, torneios e treinos!
+Versão 0.6.1: vista de cima sem distorção e torneios mais sérios.
+• Vista de cima quase sem perspectiva: bolas redondas até os cantos; taco, linha de mira e bola fantasma sempre alinhados.
+• Brilho mais suave nas bolas e sem reflexo no placar: o número aparece.
+• Torneio contra o computador: a partida vale uma vez só (continua de onde parou, sem revanche) e o campeão ganha medalha de ouro.
+• O Circuito ficou difícil: cada adversário joga no seu melhor.
+• Conquistas novas: Capote, Saída de ouro e aniversários de conta.
+• Rostos mais humanos, doze fotos de perfil que não são rostos e sons novos.
+• No Windows, o jogo abre no monitor em que foi iniciado.
+
+Da versão 0.6.0: regra brasileira, torneios e treinos!
 • Regra brasileira regional de bola 8 (a dos bares e salões, não a oficial de torneio): falta elimina as menores bolas do adversário, só a branca encaçapada dá bola na mão.
 • Bolas mais pesadas: a saída não espalha mais as bolas pela mesa toda.
 • Torneios contra o computador: mata-mata de dezesseis ou arena por pontos.
 • Oito treinos novos, quinze ao todo.
 • Elevação do taco arrastando com o mouse, mira no centro da bola fantasma, opção de desligar as sombras.
-
-Da versão 0.5.1: gráficos mais limpos.
-• As bolas não têm mais o disco claro em cima: luz por igual e um único ponto de brilho.
-• A barra de força não marca mais a última tacada e sempre começa do meio.
-• De quem é a vez aparece na barra de cima: nada cobre a caçapa do meio.
-• Linhas de mira suaves, anéis das caçapas inteiros, cantoneiras e tapetes mais bonitos.
 
 ### Recursos do produto
 
@@ -125,18 +128,21 @@ In English, Portuguese and Spanish.
 
 ### What's new in this version
 
-Version 0.6.0: a Brazilian rule, tournaments and drills!
+Version 0.6.1: a view from above without distortion, tournaments that mean it.
+• A view from above almost without perspective: round balls out to the corners; the cue, the aiming line and the ghost ball always line up.
+• A softer light on the balls and none on the score panel: the number shows.
+• Tournaments against the computer: a game counts once (it goes on from where it was, no rematch) and the champion gets a gold medal.
+• The tour is hard: every opponent plays at their best.
+• New achievements: Shutout, Golden break and account anniversaries.
+• Faces that look like people, twelve profile pictures that are not faces, and new sounds.
+• On Windows, the game opens on the monitor it was started from.
+
+From version 0.6.0: a Brazilian rule, tournaments and drills!
 • The regional Brazilian rule of eight-ball (the one of bars and pool halls, not the official tournament rule): a foul takes your opponent's lowest balls off the table, only a pocketed cue ball gives ball in hand.
 • Heavier balls: the break no longer scatters the balls all over the table.
 • Tournaments against the computer: a knockout of sixteen or an arena on points.
 • Eight new drills, fifteen in all.
 • Drag to set the cue's elevation, an aiming line that meets the centre of the ghost ball, a setting to turn off the shadows.
-
-From version 0.5.1: cleaner graphics.
-• The balls no longer have a pale disc on top: even light and a single dot of shine.
-• The power bar no longer marks your last stroke and always starts from the middle.
-• Whose turn it is reads in the top bar: nothing covers the side pocket.
-• Smooth aiming lines, whole rings round the pockets, better-looking castings and rugs.
 
 ### Product features
 
@@ -199,18 +205,21 @@ En español, inglés y portugués.
 
 ### Novedades de esta versión
 
-Versión 0.6.0: ¡regla brasileña, torneos y entrenamientos!
+Versión 0.6.1: vista desde arriba sin distorsión y torneos más serios.
+• Vista desde arriba casi sin perspectiva: bolas redondas hasta las esquinas; taco, línea de puntería y bola fantasma siempre alineados.
+• Brillo más suave en las bolas y sin reflejo en el marcador: se ve el número.
+• Torneo contra la computadora: la partida vale una sola vez (sigue desde donde estaba, sin revancha) y el campeón recibe una medalla de oro.
+• El Circuito es difícil: cada rival juega a su mejor nivel.
+• Logros nuevos: Capote, Saque de oro y aniversarios de cuenta.
+• Rostros más humanos, doce fotos de perfil que no son rostros y sonidos nuevos.
+• En Windows, el juego se abre en el monitor desde el que se inició.
+
+De la versión 0.6.0: ¡regla brasileña, torneos y entrenamientos!
 • Regla brasileña regional de bola 8 (la de los bares y salones, no la oficial de torneo): la falta elimina las bolas más bajas del rival, solo la blanca metida da bola en mano.
 • Bolas más pesadas: el saque ya no desparrama las bolas por toda la mesa.
 • Torneos contra la computadora: eliminatoria de dieciséis o arena por puntos.
 • Ocho entrenamientos nuevos, quince en total.
 • Elevación del taco arrastrando con el ratón, puntería al centro de la bola fantasma, opción de desactivar las sombras.
-
-De la versión 0.5.1: gráficos más limpios.
-• Las bolas ya no tienen el disco claro encima: luz pareja y un único punto de brillo.
-• La barra de fuerza ya no marca el último tiro y siempre empieza desde el medio.
-• De quién es el turno se lee en la barra de arriba: nada tapa la tronera del medio.
-• Líneas de puntería suaves, anillos de las troneras enteros, cantoneras y alfombras más bonitas.
 
 ### Características del producto
 

@@ -1,10 +1,10 @@
 # Changelog
 
-## Unreleased
+## 0.6.1 (protocol 17)
 
-After 0.6.0. The server and the game play together with 0.6.0 (same
-protocol and rules); the tour's last game is checked against the tour's
-harder opponent, so the server must be updated with the game. No migrations.
+0.6.0 and 0.6.1 play together (same protocol and rules); the tour's last
+game is checked against the tour's harder opponent, so the server must be
+updated with the game. No migrations.
 
 ### Tournaments against the computer
 - A game left half way is picked up from where it was (the button says

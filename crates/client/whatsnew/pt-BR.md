@@ -3,6 +3,17 @@
 # destaque, e as linhas seguintes são o texto dele. Mesmas versões e mesmo
 # número de destaques em todas as línguas.
 
+## 0.6.1
+
+### Vista de cima sem distorção
+A mesa agora é vista de bem alto, quase sem perspectiva: as bolas ficam redondas até os cantos, e o taco, a linha de mira e a bola fantasma ficam sempre alinhados. O brilho nas bolas ficou mais suave, para o número aparecer.
+
+### Torneio e Circuito mais sérios
+No torneio contra o computador a partida vale uma vez só: sair no meio não apaga o jogo (ele continua de onde parou) e não há revanche. O campeão ganha medalha de ouro. E o Circuito ficou difícil: cada adversário joga no seu melhor.
+
+### Novas conquistas, fotos e sons
+Capote, Saída de ouro e aniversários de conta. Rostos mais humanos e doze fotos de perfil que não são rostos (bola 8, troféu, coroa…). Sons novos para bolas, taco, tabelas e caçapas.
+
 ## 0.6.0
 
 ### Regra brasileira, com bolas de penalidade

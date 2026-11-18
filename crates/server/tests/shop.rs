@@ -267,3 +267,28 @@ async fn test_mode_payments_are_marked_and_left_out_of_the_revenue() {
     server.store.set_payment_test("pi_7", false).await.unwrap();
     assert_eq!(server.store.metrics(now()).await.unwrap().revenue.len(), 1);
 }
+
+/// A payment that is not this server's (a pack it doesn't sell) is
+/// answered, not refused again and again; a refunded welcome pack takes
+/// its items back with its coins.
+#[tokio::test]
+async fn unknown_packs_are_answered_and_a_refunded_welcome_pack_goes_back() {
+    use snook_legend_proto::shop::{WELCOME_ITEMS, WELCOME_PACK};
+    let (server, id) = setup().await;
+    let mut other = checkout(id, "paid", "checkout.session.completed");
+    other["data"]["object"]["metadata"]["pack"] = json!("someone_elses");
+    apply_event(&server, &other).await.unwrap();
+    assert_eq!(server.store.wallet(id).await.unwrap().coins, 0);
+
+    let mut welcome = checkout(id, "paid", "checkout.session.completed");
+    welcome["data"]["object"]["metadata"]["pack"] = json!(WELCOME_PACK);
+    welcome["data"]["object"]["payment_intent"] = json!("pi_welcome");
+    apply_event(&server, &welcome).await.unwrap();
+    let owned = server.store.wallet(id).await.unwrap().owned;
+    assert!(WELCOME_ITEMS.iter().all(|i| owned.iter().any(|o| o == i)), "{owned:?}");
+    let refund = json!({ "type": "charge.refunded", "data": { "object": { "payment_intent": "pi_welcome" } } });
+    apply_event(&server, &refund).await.unwrap();
+    let w = server.store.wallet(id).await.unwrap();
+    assert!(WELCOME_ITEMS.iter().all(|i| !w.owned.iter().any(|o| o == i)), "{:?}", w.owned);
+    assert_eq!(w.coins, 0);
+}

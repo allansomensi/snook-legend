@@ -677,6 +677,11 @@ async fn time_out(server: &Arc<Server>, id: i64, now: i64) {
         Ok(t) => t,
         Err(e) => {
             tracing::error!(game = id, "correspondence game can't be rebuilt: {e}");
+            // Looked at again in a day, not at every sweep (where such games,
+            // first in line, would keep the others from being settled).
+            g.deadline = now + 86_400;
+            let expected = g.replay.strokes.len();
+            let _ = server.store.update_async_game(&g, expected).await;
             return;
         }
     };
@@ -754,9 +759,11 @@ async fn finish(
     let (w, l) = (over.winner, 1 - over.winner);
     let mut delta = [0, 0];
     let mut ratings_after = [users[0].rating, users[1].rating];
+    let keys = [key(&users[0].username), key(&users[1].username)];
     if g.rated {
-        let keys = [key(&users[0].username), key(&users[1].username)];
-        let repeats = server.with(|lounge| lounge.count_pair_game(&keys));
+        // Counted once the game is recorded (below): one that changed
+        // meanwhile counts for nothing.
+        let repeats = server.with(|lounge| lounge.pair_games_today(&keys, true));
         let change =
             rating::apply_result(&EloConfig::default(), users[w].rating(), users[l].rating());
         delta[w] = change.winner_delta;
@@ -797,6 +804,9 @@ async fn finish(
     g.ratings = ratings_after;
     match server.store.finish_async_game(&g, expected, &record).await {
         Ok(Some((users, match_id))) => {
+            if g.rated {
+                server.with(|lounge| lounge.count_pair_game(&keys, true));
+            }
             g.finished_at = Some(at);
             g.winner = Some(w);
             g.reason = Some(crate::reason_code(over.reason).to_string());

@@ -8,6 +8,7 @@
 
 use std::collections::{BTreeMap, HashMap, HashSet, VecDeque};
 use std::sync::Arc;
+use std::sync::atomic::{AtomicUsize, Ordering};
 use std::time::{Duration, Instant};
 
 use glam::DVec2;
@@ -98,7 +99,8 @@ pub enum Effect {
     RecordMatch {
         record: MatchRecord,
         keys: [String; 2],
-        /// The same two players played too many rated games today: no coins.
+        /// The same two players played too many games today (rated or
+        /// casual): no coins, experience or progress for their cues.
         farmed: bool,
     },
     RecordTournament(TournamentRecord),
@@ -123,8 +125,9 @@ pub enum Effect {
 
 /// A restarted server gives the players of a saved game this long to come back.
 const RESTORE_GRACE: Duration = Duration::from_secs(180);
-/// Rated games between the same two players in a day: from the third the
-/// rating changes are halved, from the fifth they stop (no farming).
+/// Games between the same two players in a day: from the third rated one
+/// the rating changes are halved, from the fifth they stop; from the fifth,
+/// rated or casual, nothing is earned (no farming).
 const PAIR_WINDOW: Duration = Duration::from_secs(24 * 3600);
 /// Letters of invitation codes (no 0/O, 1/I/L).
 const CODE_LETTERS: &[u8] = b"ABCDEFGHJKMNPQRSTUVWXYZ23456789";
@@ -259,6 +262,10 @@ pub struct Lounge {
     /// Pairs the queue matched recently (not matched again right away).
     recent_pairs: VecDeque<(String, String, Instant)>,
     effects: Option<UnboundedSender<Effect>>,
+    /// Shots to simulate, on a queue of their own (see [`Lounge::simulate_on`]).
+    shots: Option<UnboundedSender<Effect>>,
+    /// Effects sent and not done yet (the worker counts them down).
+    pending: Arc<AtomicUsize>,
     next_guest_id: i64,
     /// The server is restarting: no new games; running ones are handed to
     /// the next server at this time (or when a player drops).
@@ -268,8 +275,9 @@ pub struct Lounge {
     /// The game shown on the lounge's "TV".
     featured: Option<FeaturedMatch>,
     last_featured: Option<Instant>,
-    /// Rated games between two players (sorted keys) recently.
-    pair_games: HashMap<(String, String), VecDeque<Instant>>,
+    /// Games between two players (sorted keys) recently, rated and casual
+    /// apart.
+    pair_games: HashMap<(String, String, bool), VecDeque<Instant>>,
     /// When each player last left games in progress (the last day's).
     abandoned: HashMap<String, VecDeque<Instant>>,
     /// Waits in the "Play now" queue (seconds), for the staff panel.
@@ -417,9 +425,29 @@ impl Lounge {
         }
     }
 
+    /// Shots are simulated from a queue of their own: a slow database never
+    /// holds a shot up behind results and saved games.
+    pub fn simulate_on(&mut self, shots: UnboundedSender<Effect>) {
+        self.shots = Some(shots);
+    }
+
+    /// The count of effects sent and not done yet, shared with the worker
+    /// (which counts each one down when it is done).
+    pub fn pending_effects(&self) -> Arc<AtomicUsize> {
+        self.pending.clone()
+    }
+
     fn effect(&self, e: Effect) {
-        if let Some(tx) = &self.effects {
+        let shot = matches!(e, Effect::Simulate { .. });
+        if shot && let Some(tx) = &self.shots {
             let _ = tx.send(e);
+            return;
+        }
+        if let Some(tx) = &self.effects {
+            self.pending.fetch_add(1, Ordering::SeqCst);
+            if tx.send(e).is_err() {
+                self.pending.fetch_sub(1, Ordering::SeqCst);
+            }
         }
     }
 
@@ -738,11 +766,11 @@ impl Lounge {
             let swap = |n: &String| if *n == old_k { new_k.clone() } else { n.clone() };
             self.pair_games = std::mem::take(&mut self.pair_games)
                 .into_iter()
-                .map(|((a, b), list)| {
+                .map(|((a, b, rated), list)| {
                     let mut pair = [swap(&a), swap(&b)];
                     pair.sort();
                     let [a, b] = pair;
-                    ((a, b), list)
+                    ((a, b, rated), list)
                 })
                 .collect();
             for (a, b, _) in &mut self.recent_pairs {
@@ -2163,7 +2191,9 @@ impl Lounge {
         let mut delta = [0, 0];
         let mut new_ratings = [users[0].rating, users[1].rating];
         let keys = room.keys.clone();
-        let repeats = if rated { self.count_pair_game(&keys) } else { 0 };
+        // The same two players again and again, rated or casual: less and
+        // less at stake, and past a few games nothing earned.
+        let repeats = self.count_pair_game(&keys, rated);
         if rated {
             let (w, l) = (over.winner, 1 - over.winner);
             let change =
@@ -2516,18 +2546,23 @@ impl Lounge {
         (rate * 300.0).min(90.0)
     }
 
-    /// Counts a rated game between these two; returns how many they played
-    /// in the last day before this one.
-    pub(crate) fn count_pair_game(&mut self, keys: &[String; 2]) -> usize {
-        let mut pair = [keys[0].clone(), keys[1].clone()];
-        pair.sort();
+    /// How many games of a kind (rated or casual) these two played in the
+    /// last day.
+    pub(crate) fn pair_games_today(&mut self, keys: &[String; 2], rated: bool) -> usize {
         let now = Instant::now();
-        let list = self.pair_games.entry((pair[0].clone(), pair[1].clone())).or_default();
+        let Some(list) = self.pair_games.get_mut(&pair_key(keys, rated)) else { return 0 };
         while list.front().is_some_and(|t| now.duration_since(*t) > PAIR_WINDOW) {
             list.pop_front();
         }
-        let before = list.len();
-        list.push_back(now);
+        list.len()
+    }
+
+    /// Counts a game of a kind (rated or casual) between these two; returns
+    /// how many they played in the last day before this one.
+    pub(crate) fn count_pair_game(&mut self, keys: &[String; 2], rated: bool) -> usize {
+        let before = self.pair_games_today(keys, rated);
+        let now = Instant::now();
+        self.pair_games.entry(pair_key(keys, rated)).or_default().push_back(now);
         if self.pair_games.len() > 10_000 {
             self.pair_games
                 .retain(|_, l| l.back().is_some_and(|t| now.duration_since(*t) < PAIR_WINDOW));
@@ -2796,6 +2831,14 @@ impl Lounge {
     }
 }
 
+/// The key two players' games are counted under (names sorted).
+fn pair_key(keys: &[String; 2], rated: bool) -> (String, String, bool) {
+    let mut pair = [keys[0].clone(), keys[1].clone()];
+    pair.sort();
+    let [a, b] = pair;
+    (a, b, rated)
+}
+
 /// A saved game replayed up to now (done away from the lounge: it simulates
 /// every shot).
 pub struct Rebuilt {
@@ -2865,5 +2908,45 @@ impl Room {
             spectating,
             table_look: self.table_look.clone(),
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// Shots go to a queue of their own; everything else to the worker's,
+    /// counted until it is done.
+    #[test]
+    fn shots_do_not_wait_behind_the_database() {
+        let (tx, mut effects) = tokio::sync::mpsc::unbounded_channel();
+        let (shots_tx, mut shots) = tokio::sync::mpsc::unbounded_channel();
+        let mut l = Lounge::new(Rules::default(), tx);
+        l.simulate_on(shots_tx);
+        let game = Box::new(EightBallGame::new(1, 0));
+        let shot = Shot { yaw: 0.0, elevation: 0.0, tip: DVec2::ZERO, speed: 1.0 };
+        l.effect(Effect::DeleteLive(1));
+        l.effect(Effect::Simulate { room: 1, turn: 0, game, shot, called: None });
+        assert!(matches!(shots.try_recv(), Ok(Effect::Simulate { .. })));
+        assert!(matches!(effects.try_recv(), Ok(Effect::DeleteLive(1))));
+        assert!(effects.try_recv().is_err());
+        assert_eq!(l.pending_effects().load(Ordering::SeqCst), 1);
+    }
+
+    /// Games between the same two players are counted rated and casual
+    /// apart, whichever way round their names come.
+    #[test]
+    fn pair_games_are_counted_by_kind() {
+        let (tx, _effects) = tokio::sync::mpsc::unbounded_channel();
+        let mut l = Lounge::new(Rules::default(), tx);
+        let ab = ["ana".to_string(), "bob".to_string()];
+        let ba = ["bob".to_string(), "ana".to_string()];
+        for n in 0..5 {
+            assert_eq!(l.count_pair_game(&ab, false), n);
+        }
+        assert_eq!(l.count_pair_game(&ba, false), 5, "farmed from the sixth");
+        assert_eq!(l.pair_games_today(&ab, true), 0);
+        assert_eq!(l.count_pair_game(&ba, true), 0);
+        assert_eq!(l.pair_games_today(&ab, true), 1);
     }
 }

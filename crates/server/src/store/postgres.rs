@@ -2300,6 +2300,17 @@ impl PgStore {
         Ok(wins.max(0) as u32)
     }
 
+    pub async fn revoke_items(&self, user_id: i64, codes: &[&str]) -> StoreResult<u64> {
+        let codes: Vec<String> = codes.iter().map(|c| c.to_string()).collect();
+        let removed = query("DELETE FROM owned_items WHERE user_id = $1 AND code = ANY($2)")
+            .bind(user_id)
+            .bind(&codes)
+            .execute(&self.pool)
+            .await?
+            .rows_affected();
+        Ok(removed)
+    }
+
     pub async fn equip(&self, user_id: i64, category: &str, code: &str) -> StoreResult<()> {
         query(
             "INSERT INTO equipped (user_id, category, code) VALUES ($1, $2, $3)

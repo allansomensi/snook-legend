@@ -1393,6 +1393,14 @@ impl MemoryStore {
         Ok(true)
     }
 
+    pub fn revoke_items(&self, user_id: i64, codes: &[&str]) -> StoreResult<u64> {
+        let mut s = self.lock();
+        let Some(w) = s.wallets.get_mut(&user_id) else { return Ok(0) };
+        let before = w.owned.len();
+        w.owned.retain(|o| !codes.contains(&o.as_str()));
+        Ok((before - w.owned.len()) as u64)
+    }
+
     pub fn equip(&self, user_id: i64, category: &str, code: &str) -> StoreResult<()> {
         let mut s = self.lock();
         s.wallets

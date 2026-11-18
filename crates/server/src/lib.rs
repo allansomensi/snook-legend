@@ -35,7 +35,7 @@ pub mod tournament;
 
 use std::collections::{HashMap, HashSet};
 use std::net::{IpAddr, SocketAddr};
-use std::sync::atomic::{AtomicU64, Ordering};
+use std::sync::atomic::{AtomicU64, AtomicUsize, Ordering};
 use std::sync::{Arc, Mutex};
 use std::time::{Duration, Instant};
 
@@ -147,7 +147,13 @@ pub struct Server {
     lounge: Mutex<Lounge>,
     next_conn: AtomicU64,
     auth: Mutex<AuthLimiter>,
-    effects: Mutex<Option<mpsc::UnboundedReceiver<Effect>>>,
+    /// The effect worker's queue, and the shots to simulate (a queue of
+    /// their own: a slow database never holds a shot up); taken when the
+    /// server starts.
+    effects: Mutex<Option<(mpsc::UnboundedReceiver<Effect>, mpsc::UnboundedReceiver<Effect>)>>,
+    /// Effects sent to the worker and not done yet (a stopping server
+    /// waits for them).
+    effects_pending: Arc<AtomicUsize>,
     pub config: Config,
     pub started: Instant,
     /// Password hashing is slow and memory-hungry: a few at a time.
@@ -169,6 +175,8 @@ const IDLE_TIMEOUT: Duration = Duration::from_secs(75);
 /// reward (a few hundred strokes).
 const MAX_MESSAGE_BYTES: usize = 128 * 1024;
 const OUTGOING_QUEUE: usize = 512;
+/// A message the client doesn't take in this long ends the connection.
+const SEND_TIMEOUT: Duration = Duration::from_secs(15);
 /// Game sessions last this long; they are renewed when used after a day.
 pub(crate) const SESSION_LIFETIME: i64 = 60 * 60 * 24 * 30;
 const SESSION_RENEW_AFTER: i64 = 60 * 60 * 24;
@@ -220,9 +228,12 @@ impl Server {
         let _ = store.purge_sessions(now()).await;
         let _ = store.purge_missions(now()).await;
         let (tx, rx) = mpsc::unbounded_channel();
+        let (shots_tx, shots_rx) = mpsc::unbounded_channel();
         let stripe = config.stripe.clone().map(payments::Stripe::new);
         let msstore = config.msstore.clone().map(msstore::MsStore::new);
         let mut lounge = Lounge::new(config.rules.clone(), tx);
+        lounge.simulate_on(shots_tx);
+        let effects_pending = lounge.pending_effects();
         if let Ok(notes) = store.board_notes(now()).await {
             lounge.set_board(notes.into_iter().map(board_note).collect());
         }
@@ -233,7 +244,8 @@ impl Server {
             lounge: Mutex::new(lounge),
             next_conn: AtomicU64::new(1),
             auth: Mutex::new(AuthLimiter::default()),
-            effects: Mutex::new(Some(rx)),
+            effects: Mutex::new(Some((rx, shots_rx))),
+            effects_pending,
             config,
             started: Instant::now(),
             hashing: Semaphore::new(2),
@@ -470,8 +482,12 @@ pub async fn drain(server: Arc<Server>, secs: u64) {
     while server.with(|l| l.running_games()) > 0 && Instant::now() < deadline {
         tokio::time::sleep(Duration::from_secs(1)).await;
     }
-    // Let the effect worker write what is still queued (results, saved games).
-    tokio::time::sleep(Duration::from_secs(2)).await;
+    // What the effect worker still has to write (results, prizes, refunds,
+    // saved games) is written before the process ends.
+    let deadline = Instant::now() + Duration::from_secs(30);
+    while server.effects_pending.load(Ordering::SeqCst) > 0 && Instant::now() < deadline {
+        tokio::time::sleep(Duration::from_millis(100)).await;
+    }
     tracing::info!("drained");
 }
 
@@ -488,10 +504,15 @@ pub fn spawn_background(server: Arc<Server>) {
             if last_sweep.elapsed() > Duration::from_secs(600) {
                 last_sweep = Instant::now();
                 ticker.auth().sweep();
-                let _ = ticker.store.purge_sessions(now()).await;
-                let _ = ticker.store.purge_missions(now()).await;
-                // Saved games nobody came back to within a day.
-                let _ = ticker.store.purge_live(now() - 86_400).await;
+                // On a task of their own: the shot clocks and tournaments
+                // don't stop while the database works.
+                let s = ticker.clone();
+                tokio::spawn(async move {
+                    let _ = s.store.purge_sessions(now()).await;
+                    let _ = s.store.purge_missions(now()).await;
+                    // Saved games nobody came back to within a day.
+                    let _ = s.store.purge_live(now() - 86_400).await;
+                });
             }
         }
     });
@@ -503,11 +524,20 @@ pub fn spawn_background(server: Arc<Server>) {
     if server.msstore.is_some() {
         tokio::spawn(msstore::run(server.clone()));
     }
-    let rx = server.effects.lock().unwrap_or_else(|e| e.into_inner()).take();
-    if let Some(mut rx) = rx {
+    let queues = server.effects.lock().unwrap_or_else(|e| e.into_inner()).take();
+    if let Some((mut effects, mut shots)) = queues {
+        // Each shot is simulated on a thread of its own as soon as it comes,
+        // whatever the database is doing.
+        let s = server.clone();
         tokio::spawn(async move {
-            while let Some(effect) = rx.recv().await {
+            while let Some(shot) = shots.recv().await {
+                run_effect(&s, shot).await;
+            }
+        });
+        tokio::spawn(async move {
+            while let Some(effect) = effects.recv().await {
                 run_effect(&server, effect).await;
+                server.effects_pending.fetch_sub(1, Ordering::SeqCst);
             }
         });
     }
@@ -533,7 +563,9 @@ async fn run_effect(server: &Arc<Server>, effect: Effect) {
             });
         }
         Effect::RecordMatch { record, keys, farmed } => {
-            match server.store.record_match(&record).await {
+            // A failed attempt writes nothing (one transaction): the match
+            // is tried again rather than lost to a moment's trouble.
+            match retrying("recording a match", || server.store.record_match(&record)).await {
                 Ok((users, _)) => {
                     server.invalidate_leaderboard();
                     // The shot analysis replays the game: off the effect queue.
@@ -944,17 +976,23 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
     let (tx, mut rx) = mpsc::channel::<ServerMsg>(OUTGOING_QUEUE);
     let kill = Arc::new(Notify::new());
 
-    let writer = tokio::spawn(async move {
+    let writer_kill = kill.clone();
+    let mut writer = tokio::spawn(async move {
         while let Some(msg) = rx.recv().await {
             let close = matches!(msg, ServerMsg::Kicked { .. });
-            if sink.send(Message::Text(msg.to_json().into())).await.is_err() {
+            // A client that doesn't take a message in this long has stopped
+            // reading: the connection goes (its socket with it).
+            let text = Message::Text(msg.to_json().into());
+            if !matches!(tokio::time::timeout(SEND_TIMEOUT, sink.send(text)).await, Ok(Ok(()))) {
                 break;
             }
             if close {
-                let _ = sink.send(Message::Close(None)).await;
+                let _ = tokio::time::timeout(SEND_TIMEOUT, sink.send(Message::Close(None))).await;
                 break;
             }
         }
+        // Nothing more goes out: the reading side stops too.
+        writer_kill.notify_one();
     });
 
     let send = |msg: ServerMsg| {
@@ -1435,7 +1473,12 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
         }
     }
     drop(tx);
-    let _ = tokio::time::timeout(Duration::from_secs(2), writer).await;
+    // The last messages (a notice to go) have a moment to leave; then the
+    // writer ends, holding the socket no longer (a writer left behind kept
+    // a connection open that the limit per address no longer counted).
+    if tokio::time::timeout(Duration::from_secs(2), &mut writer).await.is_err() {
+        writer.abort();
+    }
 }
 
 /// Messages answered from the database.
@@ -2047,6 +2090,21 @@ mod tests {
     fn dummy_hash_is_a_real_argon2_hash() {
         let hash = PasswordHash::new(DUMMY_HASH).expect("parses");
         assert!(Argon2::default().verify_password(b"guess", &hash).is_err());
+    }
+
+    /// A write that fails for a moment is tried again until it is done.
+    #[tokio::test]
+    async fn writes_are_tried_again() {
+        let tries = std::sync::atomic::AtomicU32::new(0);
+        let tries = &tries;
+        let done = retrying("a test", || async move {
+            match tries.fetch_add(1, Ordering::SeqCst) {
+                0 | 1 => Err(store::StoreError("busy".into())),
+                n => Ok(n),
+            }
+        })
+        .await;
+        assert_eq!(done.unwrap(), 2);
     }
 
     /// The reserved words in any case, and dressed up with digits or

@@ -17,6 +17,24 @@ pub struct Sounds {
     cushion: Vec<Sound>,
     pocket: Vec<Sound>,
     next: std::cell::Cell<u32>,
+    /// The voices started lately: (when, how loud), for the mix's headroom.
+    recent: std::cell::RefCell<std::collections::VecDeque<(f64, f32)>>,
+}
+
+/// How loud the voices started within [`RECENT`] may add up to: a break
+/// (the cue, a burst of clacks and cushions within a few frames) stays
+/// clean instead of clipping, and a single hit is never turned down.
+const HEADROOM: f32 = 1.5;
+const RECENT: f64 = 0.09;
+/// At most this many clacks and cushions start in one frame (the loudest).
+const BALLS_PER_FRAME: usize = 4;
+const CUSHIONS_PER_FRAME: usize = 3;
+
+/// The volume setting (0 to 1) as a gain: the ear hears loudness on a
+/// curve, so the low half of the slider is not all nearly as loud as the
+/// top (the default stays about as loud as it was).
+pub fn gain(setting: f32) -> f32 {
+    setting.clamp(0.0, 1.0).powf(1.6)
 }
 
 /// A small, deterministic noise source.
@@ -317,6 +335,7 @@ impl Sounds {
             cushion: Vec::new(),
             pocket: Vec::new(),
             next: std::cell::Cell::new(0),
+            recent: Default::default(),
         };
         // Every kind at three strengths, each in a few versions (in that
         // order: `pick` relies on it).
@@ -362,9 +381,36 @@ impl Sounds {
         set.get(level * per_level + k as usize % per_level)
     }
 
-    /// Plays (and clears) the queued impacts at `master` volume (0..=1).
+    /// Plays (and clears) the queued impacts at `master` volume (the
+    /// setting, 0..=1).
     pub fn play(&self, impacts: &mut Vec<ImpactSound>, master: f32) {
-        for impact in impacts.drain(..).take(6) {
+        if impacts.is_empty() {
+            return;
+        }
+        let master = gain(master);
+        // The loudest of each kind first; a crowd of clacks or cushions in
+        // one frame is a few voices, not a wall of them (the cue and the
+        // pockets all play).
+        let mut queued: Vec<ImpactSound> = std::mem::take(impacts);
+        queued.sort_by(|a, b| b.speed.total_cmp(&a.speed));
+        let (mut balls, mut cushions) = (0, 0);
+        queued.retain(|i| match i.kind {
+            ImpactKind::Ball => {
+                balls += 1;
+                balls <= BALLS_PER_FRAME
+            }
+            ImpactKind::Cushion => {
+                cushions += 1;
+                cushions <= CUSHIONS_PER_FRAME
+            }
+            _ => true,
+        });
+        let now = macroquad::time::get_time();
+        let mut recent = self.recent.borrow_mut();
+        while recent.front().is_some_and(|(at, _)| now - at > RECENT) {
+            recent.pop_front();
+        }
+        for impact in queued {
             // Loudness follows the impact speed, compressed like the ear.
             let (set, volume) = match impact.kind {
                 ImpactKind::Cue => (&self.cue, (impact.speed / 6.0).sqrt()),
@@ -386,6 +432,10 @@ impl Sounds {
                 _ => self.pick(set, strength),
             };
             if let Some(sound) = sound {
+                // Within the headroom left by what is still ringing.
+                let playing: f32 = recent.iter().map(|(_, v)| v).sum();
+                let volume = volume.min((HEADROOM - playing).max(volume * 0.35));
+                recent.push_back((now, volume));
                 play_sound(sound, PlaySoundParams { looped: false, volume });
             }
         }
@@ -417,6 +467,15 @@ fn wav(samples: &[f32]) -> Vec<u8> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn the_volume_follows_the_ear() {
+        assert_eq!(gain(0.0), 0.0);
+        assert_eq!(gain(1.0), 1.0);
+        assert!(gain(0.5) < 0.4, "half the slider is well under half as loud");
+        assert!((gain(0.8) - 0.8).abs() < 0.12, "the default about as loud as before");
+        assert_eq!(gain(7.0), 1.0);
+    }
 
     /// How much of a sound's energy is fast (a measure of brightness): the
     /// mean frequency of its zero crossings, in Hz.

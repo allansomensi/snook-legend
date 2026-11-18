@@ -1597,7 +1597,7 @@ pub fn penthouse(kit: &mut Kit, quality: Quality, table: Vec2) {
 
 /// A big abstract painting: soft fields of colour, a gold line.
 fn abstract_art() -> textures::Pixels {
-    tx::image_wh(256, 160, |u, v| {
+    tx::image_wh(256, 256, |u, v| {
         let n = textures::fbm(u * 3.0, v * 3.0, 3, 191, 4);
         let mut c = tx::mix(
             [0.86, 0.82, 0.76],

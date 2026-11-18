@@ -110,7 +110,11 @@ fn age(created_at: i64) -> String {
     if days < 1 {
         t("joined today").to_string()
     } else if days < 60 {
-        tw("member for {n} days", &[("n", &days)])
+        if days == 1 {
+            t("member for 1 day").to_string()
+        } else {
+            tw("member for {n} days", &[("n", &days)])
+        }
     } else if days < 730 {
         tw("member for {n} months", &[("n", &(days / 30))])
     } else {
@@ -1654,7 +1658,14 @@ fn journey(ui: &mut Ui, online: &Online, p: &Profile, area: Rect) {
         });
         let mut what = item.map(item_label).unwrap_or_default();
         if next {
-            what = format!("{what}  ·  {}", tw("{n} levels to go", &[("n", &(at - level))]));
+            what = format!(
+                "{what}  ·  {}",
+                if at - level == 1 {
+                    t("1 level to go").to_string()
+                } else {
+                    tw("{n} levels to go", &[("n", &(at - level))])
+                }
+            );
         }
         let (what, size) = ui.fitted(&what, 13.0, r.w - 130.0, false);
         let ww = ui.text_size(&what, size, false).x;

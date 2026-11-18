@@ -197,7 +197,8 @@ keys! {
 }
 
 /// Key names translated for the player (the rest read the same everywhere).
-const WORDS: [&str; 4] = ["Space", "Right Shift", "Right Ctrl", "Right Alt"];
+const WORDS: [&str; 9] =
+    ["Space", "Right Shift", "Right Ctrl", "Right Alt", "Home", "End", "PgUp", "PgDn", "Ins"];
 
 fn info(key: KeyCode) -> Option<&'static KeyInfo> {
     KEYS.iter().find(|k| k.key == key)

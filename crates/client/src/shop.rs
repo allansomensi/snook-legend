@@ -147,6 +147,10 @@ pub fn cue_level_text(wins: u32) -> (String, f32, String) {
         tw("Level {n} · {w} wins", &[("n", &level), ("w", &wins)])
     };
     let tip = match next_cue_level_at(wins) {
+        Some(at) if at - wins == 1 => tw(
+            "1 more online win with this cue for level {n}. Levels only add marks to the cue.",
+            &[("n", &(level + 1))],
+        ),
         Some(at) => tw(
             "{left} more online wins with this cue for level {n}. Levels only add marks to the cue.",
             &[("left", &(at - wins)), ("n", &(level + 1))],

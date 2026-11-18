@@ -17,7 +17,9 @@ attribute vec2 texcoord;
 attribute vec4 color0;
 attribute vec4 normal;
 
-varying lowp vec2 uv;
+// The texture coordinates tile across walls and floors (well past 1):
+// medium precision, not low.
+varying mediump vec2 uv;
 varying lowp vec4 color;
 varying highp vec3 v_normal;
 varying highp vec3 v_world;
@@ -38,20 +40,24 @@ void main() {
 const FRAGMENT: &str = r#"#version 100
 #ifdef GL_FRAGMENT_PRECISION_HIGH
 precision highp float;
+#define HP highp
 #else
+// Some GLES 2 GPUs have no high precision in fragment shaders: asking for
+// it there would not compile.
 precision mediump float;
+#define HP mediump
 #endif
 
-varying lowp vec2 uv;
+varying mediump vec2 uv;
 varying lowp vec4 color;
-varying highp vec3 v_normal;
-varying highp vec3 v_world;
+varying HP vec3 v_normal;
+varying HP vec3 v_world;
 
 uniform sampler2D Texture;
-uniform highp vec3 CameraPos;
-uniform highp vec3 Lamp0;
-uniform highp vec3 Lamp1;
-uniform highp vec3 Lamp2;
+uniform HP vec3 CameraPos;
+uniform HP vec3 Lamp0;
+uniform HP vec3 Lamp1;
+uniform HP vec3 Lamp2;
 uniform vec4 LampColor;      // rgb, w = intensity
 uniform vec4 Ambient;        // rgb, w = number of lamps (1 or 3)
 uniform vec4 Surface;        // x = specular, y = shininess, z = unlit, w = rim
@@ -953,10 +959,18 @@ pub fn texture(width: u16, height: u16, rgba: &[u8], repeat: bool) -> Texture2D 
     let tex = Texture2D::from_rgba8(width, height, rgba);
     let id = tex.raw_miniquad_id();
     let ctx = unsafe { get_internal_gl() }.quad_context;
-    ctx.texture_generate_mipmaps(id);
-    ctx.texture_set_min_filter(id, FilterMode::Linear, MipmapFilterMode::Linear);
+    // GLES 2 without the NPOT extension draws a texture whose sides aren't
+    // powers of two black if it has mipmaps or repeats: such a one (none
+    // of the game's own) is drawn plain and clamped instead.
+    let pot = width.is_power_of_two() && height.is_power_of_two();
+    if pot {
+        ctx.texture_generate_mipmaps(id);
+        ctx.texture_set_min_filter(id, FilterMode::Linear, MipmapFilterMode::Linear);
+    } else {
+        ctx.texture_set_min_filter(id, FilterMode::Linear, MipmapFilterMode::None);
+    }
     ctx.texture_set_mag_filter(id, FilterMode::Linear);
-    let wrap = if repeat { TextureWrap::Repeat } else { TextureWrap::Clamp };
+    let wrap = if repeat && pot { TextureWrap::Repeat } else { TextureWrap::Clamp };
     ctx.texture_set_wrap(id, wrap, wrap);
     tex
 }

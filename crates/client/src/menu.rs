@@ -124,7 +124,13 @@ impl Menu {
         );
 
         // The four ways to play.
-        let resume_line = saved.map(|n| tw("Game in progress: {n} balls left", &[("n", &n)]));
+        let resume_line = saved.map(|n| {
+            if n == 1 {
+                t("Game in progress: 1 ball left").to_string()
+            } else {
+                tw("Game in progress: {n} balls left", &[("n", &n)])
+            }
+        });
         // Daily games waiting for the player (their turn, or a challenge).
         let me = online.me.as_ref().map(|m| m.username.as_str()).unwrap_or("");
         let waiting = if online.signed_in() { online.corr.waiting(me) } else { 0 };

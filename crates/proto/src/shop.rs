@@ -365,6 +365,9 @@ const fn hall(code: &'static str, name: &'static str, price: Price, style: HallS
     Item { code, category: Category::Hall, name, price, look: Look::Hall(style) }
 }
 
+/// The classic colours, 1 to 7 (the stripes repeat them). The 7 is brown,
+/// not a darker red: under the lamps a maroon 7 read as the 3 (and the 15
+/// as the 11).
 const CLASSIC: [[u8; 3]; 7] = [
     [255, 204, 10],
     [18, 58, 205],
@@ -372,7 +375,7 @@ const CLASSIC: [[u8; 3]; 7] = [
     [108, 36, 168],
     [255, 118, 12],
     [12, 142, 58],
-    [142, 26, 28],
+    [112, 62, 30],
 ];
 
 const IVORY: [u8; 3] = [246, 242, 228];
@@ -723,7 +726,7 @@ pub const ITEMS: &[Item] = &[
             [140, 50, 200],
             [255, 130, 0],
             [0, 160, 70],
-            [150, 30, 30],
+            [118, 64, 28],
         ],
         [16, 16, 18],
         [252, 250, 244],
@@ -740,7 +743,7 @@ pub const ITEMS: &[Item] = &[
             [96, 50, 110],
             [200, 110, 40],
             [40, 106, 60],
-            [110, 40, 32],
+            [96, 64, 38],
         ],
         [30, 26, 24],
         [236, 222, 190],
@@ -757,7 +760,7 @@ pub const ITEMS: &[Item] = &[
             [100, 70, 90],
             [180, 110, 60],
             [80, 110, 70],
-            [120, 70, 50],
+            [64, 42, 16],
         ],
         [36, 30, 26],
         [238, 228, 205],
@@ -774,7 +777,7 @@ pub const ITEMS: &[Item] = &[
             [180, 140, 220],
             [250, 170, 110],
             [120, 200, 150],
-            [200, 120, 130],
+            [148, 110, 88],
         ],
         [40, 40, 48],
         [250, 248, 240],
@@ -821,11 +824,11 @@ pub const ITEMS: &[Item] = &[
         [
             [200, 190, 80],
             [40, 90, 70],
-            [130, 60, 30],
-            [70, 60, 40],
+            [158, 44, 32],
+            [60, 72, 90],
             [170, 110, 40],
             [30, 110, 50],
-            [90, 40, 30],
+            [104, 68, 36],
         ],
         [20, 26, 18],
         [236, 232, 214],
@@ -859,7 +862,7 @@ pub const ITEMS: &[Item] = &[
             [210, 150, 255],
             [255, 180, 120],
             [140, 240, 180],
-            [255, 130, 130],
+            [120, 72, 50],
         ],
         [90, 50, 110],
         [255, 252, 250],
@@ -902,7 +905,7 @@ pub const ITEMS: &[Item] = &[
             [140, 90, 170],
             [220, 140, 70],
             [70, 160, 110],
-            [160, 80, 70],
+            [140, 98, 62],
         ],
         [40, 42, 46],
         [222, 226, 232],
@@ -919,7 +922,7 @@ pub const ITEMS: &[Item] = &[
             [80, 20, 120],
             [210, 100, 20],
             [10, 100, 60],
-            [120, 16, 30],
+            [104, 62, 30],
         ],
         [16, 14, 20],
         [245, 236, 210],
@@ -1101,6 +1104,39 @@ pub fn can_use(item: &Item, owned: &[String], achievements: &[String], vip: bool
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// How far apart two sRGB colours look (CIE76 ΔE: about 2 is the least
+    /// difference seen side by side; balls in a rack need far more).
+    fn delta_e(a: [u8; 3], b: [u8; 3]) -> f64 {
+        let lab = |c: [u8; 3]| {
+            let lin = |v: u8| {
+                let v = v as f64 / 255.0;
+                if v <= 0.04045 { v / 12.92 } else { ((v + 0.055) / 1.055).powf(2.4) }
+            };
+            let (r, g, b) = (lin(c[0]), lin(c[1]), lin(c[2]));
+            let x = (0.4124 * r + 0.3576 * g + 0.1805 * b) / 0.95047;
+            let y = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+            let z = (0.0193 * r + 0.1192 * g + 0.9505 * b) / 1.08883;
+            let f = |t: f64| if t > 0.008856 { t.cbrt() } else { 7.787 * t + 16.0 / 116.0 };
+            [116.0 * f(y) - 16.0, 500.0 * (f(x) - f(y)), 200.0 * (f(y) - f(z))]
+        };
+        let (p, q) = (lab(a), lab(b));
+        ((p[0] - q[0]).powi(2) + (p[1] - q[1]).powi(2) + (p[2] - q[2]).powi(2)).sqrt()
+    }
+
+    /// In every ball set but the ones made of shades of one colour, the 7
+    /// (brown) is told apart from the 3 (red) at a glance: a maroon 7 that
+    /// was a darker red read as the 3 on the table.
+    #[test]
+    fn the_seven_is_not_taken_for_the_three() {
+        let tonal = ["balls_ocean", "balls_mono", "balls_gold", "balls_sunset"];
+        for item in ITEMS.iter().filter(|i| !tonal.contains(&i.code)) {
+            if let Look::Balls { colors, .. } = item.look {
+                let d = delta_e(colors[2], colors[6]);
+                assert!(d >= 30.0, "{}: the 3 and the 7 are {d:.0} apart", item.code);
+            }
+        }
+    }
 
     #[test]
     fn catalogue_is_consistent() {

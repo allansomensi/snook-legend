@@ -37,6 +37,14 @@ new migrations.
   shows the player "in focus mode" and offers no invitation button.
   Invitations' desktop notifications keep quiet too.
 
+### The balls
+- **The 7 and the 15 are brown**, not a darker red: under the lamps they
+  read as the 3 and the 11. The same in the shop's sets where the two were
+  close (TV set, Vintage, Earth tones, Pastel, Forest, Candy, Chrome,
+  Royal; Forest's 3 is a brick red and its 4 a slate grey, to keep its
+  browns apart). The sets made of shades of one colour stay as they were; a
+  test keeps the 3 and the 7 apart in the others.
+
 ### The staff portal
 - **An administrator answers reports about themselves** (with one
   administrator nobody could, and they stayed open for ever); the answer

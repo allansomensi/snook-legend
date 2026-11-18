@@ -14,6 +14,9 @@ La blanca solo está en tu mano en el saque, detrás de la línea de cabecera. S
 ### Quién está en línea
 Jugando contra la computadora (en un torneo, en el circuito o en un ejercicio), un rincón discreto muestra cuántas personas están en línea y avisa cuando llega alguien: hora de ir a invitarlo. Las invitaciones aparecen sobre la partida.
 
+### Marrones de verdad
+La 7 y la 15 ahora son marrones, ya no un rojo oscuro que se confundía con la 3 y la 11. Los juegos de la tienda en los que se parecían también se corrigieron.
+
 ### Modo concentración
 Configuración → Juego → "Modo concentración": ninguna invitación mientras juegas. Quien intente invitarte sabrá que estás en modo concentración. Viene desactivado.
 

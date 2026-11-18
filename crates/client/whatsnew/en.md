@@ -14,6 +14,9 @@ The cue ball is in hand on the break only, behind the head string. If it goes do
 ### Who is online
 Playing the computer (in a tournament, on the tour or in a drill), a discreet corner shows how many people are online and says when someone comes: time to go and invite them. Invitations show over the game.
 
+### Truly brown
+The 7 and the 15 are now brown, no longer a dark red easily taken for the 3 and the 11. The shop's sets where they looked alike are put right too.
+
 ### Focus mode
 Settings → Game → "Focus mode": no invitations while you play. Whoever tries to invite you is told you're in focus mode. It comes off.
 

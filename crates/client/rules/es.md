@@ -20,7 +20,7 @@ Sigues tirando mientras metas una bola de tu grupo en un tiro sin falta. Si fall
 La blanca empieza detrás de la línea de cabecera. No hay saque ilegal: ninguna bola tiene que entrar ni tocar una banda.
 
 ### La bola 8 en el saque
-Meter solo la 8 en el saque gana la partida al momento. Meter la 8 junto con cualquier otra bola (la blanca o cualquiera) pierde la partida.
+Meter solo la 8 en el saque gana la partida al momento. Meter la 8 junto con cualquier otra bola (la blanca o cualquiera) pierde la partida. Si la 8 sale de la mesa en el saque, vuelve a la mesa en el lugar de la bola delantera del triángulo (o lo más cerca que quepa) y pierdes el turno: es falta.
 
 ### Solo la blanca en el saque
 Si en el saque entra solo la bola blanca, pierdes el turno, las bolas vuelven al triángulo y el rival hace el saque.
@@ -57,7 +57,7 @@ Cuando la partida tiene tiempo de tiro y se acaba, el turno pasa.
 ## La bola 8
 
 ### Cantar la tronera
-Cuando tu grupo se acabe, elige la tronera de la 8 antes de tirar. Mete solo la 8 allí, sin falta, y ganas.
+Cuando tu grupo se acabe, elige la tronera de la 8 antes de tirar. Mete solo la 8 allí, sin falta, y ganas. La tronera cantada vale desde tu primer tiro a la 8 hasta el final de la partida, aunque ese tiro sea una defensa o un fallo: no se puede cambiar.
 
 ### Perder con la 8
-Pierdes si metes la 8 antes de acabar tu grupo, en una tronera distinta de la cantada, junto con la blanca o con una bola del rival, en una falta, o si la sacas de la mesa.
+Pierdes si metes la 8 antes de acabar tu grupo, en una tronera distinta de la cantada, junto con la blanca o con una bola del rival, en una falta, o si la sacas de la mesa después del saque.

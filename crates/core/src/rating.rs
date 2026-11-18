@@ -69,7 +69,9 @@ impl Rating {
 
 /// Probability that a player rated `a` beats a player rated `b`.
 pub fn expected_score(a: i32, b: i32) -> f64 {
-    1.0 / (1.0 + 10f64.powf((b - a) as f64 / 400.0))
+    // The difference is taken in f64: for ratings far apart (a corrupt
+    // record) it doesn't fit an i32, and for any other it is the same number.
+    1.0 / (1.0 + 10f64.powf((b as f64 - a as f64) / 400.0))
 }
 
 /// Result of updating both players after a game.
@@ -87,8 +89,17 @@ pub fn apply_result(config: &EloConfig, winner: Rating, loser: Rating) -> Rating
     let expected_l = 1.0 - expected_w;
     let gain = (winner.k_factor(config) * (1.0 - expected_w)).round() as i32;
     let loss = (loser.k_factor(config) * expected_l).round() as i32;
-    let new_w = Rating { rating: winner.rating + gain, games: winner.games + 1 };
-    let new_l = Rating { rating: (loser.rating - loss).max(config.floor), games: loser.games + 1 };
+    let new_w = Rating {
+        rating: winner.rating.saturating_add(gain),
+        games: winner.games.saturating_add(1),
+    };
+    // The floor stops a fall; it never lifts a loser who is already below it
+    // (a floor raised since, a rating set by hand): a loss is never a gain.
+    let floor = config.floor.min(loser.rating);
+    let new_l = Rating {
+        rating: loser.rating.saturating_sub(loss).max(floor),
+        games: loser.games.saturating_add(1),
+    };
     RatingChange {
         winner_delta: new_w.rating - winner.rating,
         loser_delta: new_l.rating - loser.rating,
@@ -139,5 +150,30 @@ mod tests {
         assert_eq!(r.winner.games, 1);
         let r = apply_result(&c, established(110), Rating { rating: 105, games: 50 });
         assert_eq!(r.loser.rating, 100);
+    }
+
+    /// A loser already below the floor (a floor raised since) keeps their
+    /// rating: losing never gives points.
+    #[test]
+    fn a_loss_below_the_floor_gives_nothing() {
+        let c = EloConfig::default();
+        let r = apply_result(&c, established(400), established(60));
+        assert_eq!((r.loser.rating, r.loser_delta), (60, 0));
+        assert_eq!(r.loser.games, 101);
+        assert!(r.winner_delta > 0);
+    }
+
+    /// Ratings at the ends of an i32 (a corrupt record) give sensible
+    /// numbers, not a wrapped-around difference.
+    #[test]
+    fn extreme_ratings_do_not_overflow() {
+        assert!(expected_score(i32::MAX, i32::MIN) > 0.999);
+        assert!(expected_score(i32::MIN, i32::MAX) < 0.001);
+        let c = EloConfig::default();
+        let r = apply_result(&c, established(i32::MAX), established(i32::MIN));
+        assert_eq!((r.winner.rating, r.winner_delta), (i32::MAX, 0));
+        assert_eq!((r.loser.rating, r.loser_delta), (i32::MIN, 0));
+        let r = apply_result(&c, established(i32::MIN), established(i32::MAX));
+        assert!(r.winner_delta > 0 && r.loser_delta < 0, "{r:?}");
     }
 }

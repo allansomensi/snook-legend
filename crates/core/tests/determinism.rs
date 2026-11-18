@@ -49,8 +49,9 @@ fn fingerprint(ruleset: u8) -> u64 {
             if g.game_over().is_some() || turns > 12 {
                 break;
             }
-            // Shots from plain numbers (the computer player's choices use
-            // the platform's own maths, which is fine for it but not here).
+            // Shots from plain numbers, so that this pins the physics and
+            // the rules alone (the computer's choices are pinned in
+            // ai_determinism.rs).
             if g.ball_in_hand().is_some() {
                 let spots =
                     (0..40).map(|k| DVec2::new(-0.9 + 0.045 * k as f64, -0.35 + 0.0175 * k as f64));
@@ -86,9 +87,12 @@ fn simulation_is_bit_identical_everywhere() {
 /// Update only on purpose (a change to the physics, the rules or the AI of
 /// the current ruleset), from the values printed above. An older ruleset's
 /// value never changes: games recorded under it must replay the same.
-const EXPECTED: [(u8, u64); 4] = [
+const EXPECTED: [(u8, u64); 5] = [
     (1, 0xb7c0_baa6_646d_027c),
     (2, 0x7b1a_f1d3_d312_aa3a),
     (3, 0x4871_c5a2_44a0_108f),
     (4, 0xdc1b_d36a_bee2_cbdb),
+    // Not the default yet. Ruleset 4's physics and table: none of its
+    // corrections comes up in these shots, so the bits are 4's.
+    (5, 0xdc1b_d36a_bee2_cbdb),
 ];

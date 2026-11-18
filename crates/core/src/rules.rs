@@ -1,7 +1,8 @@
 //! Eight-ball rules. Up to ruleset 3 they follow the WPA world standardized
 //! rules (simplified where noted); from ruleset 4 they are the Brazilian
 //! house rules (see [`EightBallGame::finish_shot`]): a foul costs the turn
-//! and gives the opponent balls, and only a scratch gives ball in hand.
+//! and gives the opponent balls, and only a cue ball that went down or left
+//! the table gives ball in hand.
 //!
 //! The game is driven in two phases so that clients can animate the shot:
 //! 1. [`EightBallGame::prepare_shot`] validates the stroke and returns a
@@ -14,7 +15,7 @@
 use glam::DVec2;
 use serde::{Deserialize, Serialize};
 
-use crate::ball::{Ball, BallId, BallKind, BallStatus};
+use crate::ball::{Ball, BallId, BallKind, BallStatus, Motion};
 use crate::physics::{Event, PhysicsParams, Shot, Simulation};
 use crate::rng::Rng;
 use crate::table::{PocketId, Table};
@@ -167,6 +168,29 @@ impl ShotReport {
     pub fn is_foul(&self) -> bool {
         !self.fouls.is_empty()
     }
+
+    /// The object balls this shot made for the shooter, in the order they
+    /// went down: those of their own group on a shot without a foul, and
+    /// the 8 when it won the game. One of the opponent's balls made on the
+    /// same shot went down for the opponent; a shot that loses the game, or
+    /// that wins it, makes nothing else.
+    ///
+    /// The shooter's group is the one this shot gave them or, once the
+    /// groups are set, the one of the ball they hit first (a shot without a
+    /// foul hits one of the shooter's own first, or the 8 when they are on
+    /// it and have none left), so the report alone tells.
+    pub fn balls_made(&self) -> Vec<BallId> {
+        if self.is_foul() {
+            return Vec::new();
+        }
+        let made = self.pocketed.iter().map(|(b, _)| *b);
+        if let Some(over) = self.game_over {
+            let won = over.winner == self.shooter && over.reason == GameOverReason::PocketedEight;
+            return made.filter(|b| won && *b == BallId::EIGHT).collect();
+        }
+        let own = self.group_assigned.or_else(|| self.first_contact.and_then(Group::of));
+        made.filter(|b| own.is_some_and(|g| g.contains(*b))).collect()
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -203,9 +227,11 @@ pub struct PendingShot {
 /// Serializable so the game server can send authoritative snapshots. The
 /// table and the physics parameters are not part of a snapshot, only the
 /// game's ruleset (see [`crate::RULESET`]): a deserialized game gets the
-/// table and the physics of its ruleset (1 when a snapshot names none).
+/// table and the physics of its ruleset (1 when a snapshot names none). A
+/// snapshot that no game could be in is refused when it is read (see the
+/// `TryFrom` below).
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[serde(from = "GameData")]
+#[serde(try_from = "GameData")]
 pub struct EightBallGame {
     #[serde(skip)]
     table: Table,
@@ -252,10 +278,37 @@ fn first_ruleset() -> u8 {
     1
 }
 
-impl From<GameData> for EightBallGame {
-    fn from(d: GameData) -> Self {
+impl TryFrom<GameData> for EightBallGame {
+    type Error = &'static str;
+
+    /// A snapshot comes from the network or from a file. One that no game
+    /// could be in (a ball missing or out of order, a third player, a ball
+    /// still rolling, no cue ball while the game goes on) would make the
+    /// game index out of bounds, or find nothing to strike, later on: it is
+    /// refused here instead. Every snapshot a game writes passes.
+    fn try_from(d: GameData) -> Result<Self, Self::Error> {
+        if d.balls.len() != 16 || d.balls.iter().enumerate().any(|(i, b)| b.id.index() != i) {
+            return Err("a game has sixteen balls, in the order of their numbers");
+        }
+        if d.current > 1 || d.game_over.is_some_and(|o| o.winner > 1) {
+            return Err("a game has two players, 0 and 1");
+        }
+        if d.balls.iter().any(|b| !b.position.is_finite()) {
+            return Err("a ball is nowhere");
+        }
+        // Between shots everything on the table is at rest (a ball left
+        // spinning in place may stay so: it no longer moves).
+        let moving = |b: &Ball| {
+            b.in_play() && matches!(b.motion, Motion::Sliding | Motion::Rolling | Motion::Airborne)
+        };
+        if d.balls.iter().any(moving) {
+            return Err("a ball is still moving");
+        }
+        if d.game_over.is_none() && !d.balls[BallId::CUE.index()].in_play() {
+            return Err("the cue ball is off the table and the game goes on");
+        }
         let ruleset = crate::known_ruleset(d.ruleset);
-        EightBallGame {
+        Ok(EightBallGame {
             table: Table::of_ruleset(ruleset),
             params: PhysicsParams::of_ruleset(ruleset),
             ruleset,
@@ -268,7 +321,7 @@ impl From<GameData> for EightBallGame {
             shots_taken: d.shots_taken,
             called: d.called,
             rack_seed: d.rack_seed,
-        }
+        })
     }
 }
 
@@ -315,13 +368,13 @@ impl EightBallGame {
         &self.table
     }
 
-    /// The rules, physics and table this game is played with.
     /// The fastest the cue may move on the stroke about to be played (m/s):
     /// the top of the power bar.
     pub fn max_cue_speed(&self) -> f64 {
         self.params.cue_speed_limit(self.is_break)
     }
 
+    /// The rules, physics and table this game is played with.
     pub fn ruleset(&self) -> u8 {
         self.ruleset
     }
@@ -372,10 +425,19 @@ impl EightBallGame {
     }
 
     /// True if `player` has cleared their group and must now pocket the eight.
+    ///
+    /// From ruleset 5 also when the table is still open and no ball of
+    /// either group is left on it (they all went down on fouls, which
+    /// decide no group): both players are on the 8. Before, every shot was
+    /// a foul from then on (the 8 hit first, or made too early) and nobody
+    /// could win.
     pub fn is_on_eight(&self, player: usize) -> bool {
         match self.groups[player] {
             Some(g) => self.remaining(g).is_empty(),
-            None => false,
+            None => {
+                self.ruleset >= 5
+                    && self.balls.iter().all(|b| !b.in_play() || Group::of(b.id).is_none())
+            }
         }
     }
 
@@ -396,7 +458,6 @@ impl EightBallGame {
         if targets.is_empty() { vec![BallId::EIGHT] } else { targets }
     }
 
-    /// The shooter must call a pocket for this shot.
     /// A sensible aim when the player has not chosen one: the foot spot on
     /// the break, otherwise the nearest ball they may hit.
     pub fn default_aim(&self) -> f64 {
@@ -436,16 +497,23 @@ impl EightBallGame {
         self.needs_called_pocket() && self.called[self.current].is_none()
     }
 
+    /// The shooter must call a pocket for this shot.
     pub fn needs_called_pocket(&self) -> bool {
         !self.is_break && self.is_on_eight(self.current)
     }
 
     /// True if the cue ball may be placed (or left) at `p` given the ball-in-hand rule.
+    ///
+    /// Up to ruleset 4 its centre had to be a radius inside the cushion
+    /// lines: a ball could never be placed against a cushion (one at rest
+    /// against it is a millimetre nearer), and in the corners it could be
+    /// placed past the pocket's mouth, in the pocket. From ruleset 5 it may
+    /// go against a cushion, never past a mouth ([`Table::can_place_ball`]).
     pub fn can_place_cue_ball(&self, p: DVec2) -> bool {
         let Some(bih) = self.ball_in_hand else {
             return false;
         };
-        if !self.table.is_inside_playing_area(p) {
+        if !self.is_on_the_bed(p) {
             return false;
         }
         if bih == BallInHand::Kitchen && p.x > self.table.head_string_x() {
@@ -456,6 +524,16 @@ impl EightBallGame {
             .iter()
             .filter(|b| b.id != BallId::CUE && b.in_play())
             .all(|b| b.xy().distance(p) >= min_dist)
+    }
+
+    /// Where this game's rules let the cue ball be put down (see
+    /// [`Self::can_place_cue_ball`]).
+    fn is_on_the_bed(&self, p: DVec2) -> bool {
+        if self.ruleset >= 5 {
+            self.table.can_place_ball(p)
+        } else {
+            self.table.is_inside_playing_area(p)
+        }
     }
 
     /// Moves the cue ball while it is in hand.
@@ -503,11 +581,23 @@ impl EightBallGame {
         if self.needs_called_pocket() && called_pocket.is_none() {
             return Err(ShotError::MustCallPocket);
         }
+        // A tip beyond the edge of the ball is brought back to the edge, in
+        // its direction; but one so far out that its length overflows an
+        // f64 came out as the centre of the ball. From ruleset 5 it is
+        // scaled down first and goes to the edge like any other (the server
+        // records a stroke as it is sent, so an older game keeps it as it
+        // was played).
+        let mut shot = *shot;
+        if self.ruleset >= 5 && shot.tip.is_finite() && !shot.tip.length().is_finite() {
+            let largest = shot.tip.x.abs().max(shot.tip.y.abs());
+            shot.tip = (shot.tip / largest).normalize();
+        }
         let shot = shot.sanitized_for(&self.params, self.is_break);
         let mut simulation = Simulation::new(self.table.clone(), self.params, self.balls.clone());
-        simulation
-            .strike(BallId::CUE, &shot)
-            .expect("cue ball is in play and the table is at rest between shots");
+        // Between shots the table is at rest with the cue ball on it (a
+        // snapshot that isn't is refused when it is read): only a table set
+        // up by hand without a cue ball gets here, and has nothing to strike.
+        simulation.strike(BallId::CUE, &shot).map_err(|_| ShotError::IllegalCueBallPosition)?;
         Ok(PendingShot { simulation, shot, called_pocket })
     }
 
@@ -718,8 +808,9 @@ impl EightBallGame {
         }
     }
 
-    /// Ruleset 4, the Brazilian house rules. What differs from the rules
-    /// before it:
+    /// Ruleset 4, the Brazilian house rules (ruleset 5 plays them too, with
+    /// the corrections listed at [`crate::RULESET`]). What differs from the
+    /// rules before it:
     ///
     /// - A foul costs the turn and gives the opponent balls: the lowest
     ///   numbers of their group still on the table come off it, as if they
@@ -969,14 +1060,15 @@ impl EightBallGame {
         self.balls[id.index()].status = BallStatus::Pocketed(pocket);
     }
 
-    /// `player` concedes.
+    /// `player` concedes (a seat number: only its parity counts, as in
+    /// [`Self::conclude`], so a wrong one can't underflow).
     pub fn resign(&mut self, player: usize) {
-        self.end_with(1 - player, GameOverReason::Resignation);
+        self.end_with(1 - player % 2, GameOverReason::Resignation);
     }
 
-    /// `player` abandoned an online game.
+    /// `player` abandoned an online game (the seat as in [`Self::resign`]).
     pub fn abandon(&mut self, player: usize) {
-        self.end_with(1 - player, GameOverReason::Abandoned);
+        self.end_with(1 - player % 2, GameOverReason::Abandoned);
     }
 
     /// Ends the game with a result decided elsewhere (a client applying the
@@ -995,6 +1087,11 @@ impl EightBallGame {
     /// in hand. Under the house rules (ruleset 4) only a scratch gives ball
     /// in hand: the turn passes and the cue ball stays where it lies (in
     /// hand only if it already was, as on the break).
+    ///
+    /// Ruleset 4 made a cue ball in hand past the break in hand anywhere:
+    /// after a scratch on the break (in hand behind the head string) a
+    /// clock that ran out handed the breaker the whole table. From ruleset
+    /// 5 the hand stays as it was.
     pub fn time_foul(&mut self) {
         if self.game_over.is_some() {
             return;
@@ -1002,7 +1099,7 @@ impl EightBallGame {
         if !self.ball(BallId::CUE).in_play() {
             self.respot_cue_ball();
         }
-        if self.ruleset < 4 || self.ball_in_hand.is_some() {
+        if self.ruleset < 4 || (self.ruleset == 4 && self.ball_in_hand.is_some()) {
             self.ball_in_hand =
                 Some(if self.is_break { BallInHand::Kitchen } else { BallInHand::Anywhere });
         }
@@ -1044,7 +1141,7 @@ impl EightBallGame {
             for k in 0..16 {
                 let angle = k as f64 / 16.0 * std::f64::consts::TAU;
                 let cand = head + crate::math::from_angle(angle) * (ring as f64 * r);
-                if self.table.is_inside_playing_area(cand)
+                if self.is_on_the_bed(cand)
                     && cand.x <= self.table.head_string_x()
                     && self.is_spot_free(cand, BallId::CUE)
                 {
@@ -1379,6 +1476,61 @@ mod tests {
         let json = serde_json::to_string(&g).unwrap();
         let back: EightBallGame = serde_json::from_str(&json).unwrap();
         assert_eq!(g, back);
+    }
+
+    /// A snapshot no game could be in is refused when it is read, instead
+    /// of panicking at the next shot.
+    #[test]
+    fn impossible_snapshots_are_refused() {
+        let mut g = EightBallGame::new(9, 1);
+        g.play_shot(&Shot::new(0.0, 6.0), None).unwrap();
+        let good = serde_json::to_value(&g).unwrap();
+        let read = |v: &serde_json::Value| serde_json::from_value::<EightBallGame>(v.clone());
+        assert_eq!(read(&good).unwrap(), g);
+        let broken = |edit: &dyn Fn(&mut serde_json::Value)| {
+            let mut v = good.clone();
+            edit(&mut v);
+            read(&v).expect_err("refused")
+        };
+        broken(&|v| v["current"] = 2.into());
+        broken(&|v| {
+            v["balls"].as_array_mut().unwrap().pop();
+        });
+        broken(&|v| v["balls"].as_array_mut().unwrap().swap(3, 4));
+        broken(&|v| v["game_over"] = serde_json::json!({ "winner": 5, "reason": "Resignation" }));
+        broken(&|v| v["balls"][3]["motion"] = "Rolling".into());
+        broken(&|v| v["balls"][0]["status"] = serde_json::json!({ "Pocketed": "FootLeft" }));
+        // The same cue ball is fine once the game is over (a scratch on the 8).
+        let mut v = good.clone();
+        v["balls"][0]["status"] = serde_json::json!({ "Pocketed": "FootLeft" });
+        v["game_over"] = serde_json::json!({ "winner": 0, "reason": "EightPocketedOnFoul" });
+        assert!(read(&v).is_ok());
+    }
+
+    /// A seat other than 0 or 1 can't underflow: it counts by its parity.
+    #[test]
+    fn resigning_with_any_seat_number_is_safe() {
+        let mut g = EightBallGame::new(1, 0);
+        g.resign(3);
+        assert_eq!(
+            g.game_over(),
+            Some(GameOver { winner: 0, reason: GameOverReason::Resignation })
+        );
+        let mut g = EightBallGame::new(1, 0);
+        g.abandon(usize::MAX);
+        assert_eq!(g.game_over(), Some(GameOver { winner: 0, reason: GameOverReason::Abandoned }));
+    }
+
+    /// A table put together without a cue ball has nothing to strike: the
+    /// shot is refused (it used to panic).
+    #[test]
+    fn no_cue_ball_no_shot() {
+        let mut g = EightBallGame::new(1, 0);
+        g.set_up_test_position(&[(BallId(3), DVec2::new(0.3, 0.0))]);
+        assert_eq!(
+            g.prepare_shot(&Shot::new(0.0, 2.0), None).err(),
+            Some(ShotError::IllegalCueBallPosition)
+        );
     }
 
     #[test]
@@ -2261,6 +2413,239 @@ mod tests {
         assert_eq!(on_table(&g, Group::Solids), vec![3, 6]);
         assert_eq!((g.current_player(), g.ball_in_hand()), (1, Some(BallInHand::Anywhere)));
         assert!(g.ball(BallId::CUE).in_play());
+    }
+
+    /// The 8 knocked off the table on the break is no loss: it goes back on
+    /// the foot spot and the turn passes, a foul (see the rules as players
+    /// read them, "The 8-ball on the break").
+    #[test]
+    fn the_eight_off_the_table_on_the_break_is_spotted() {
+        let mut g = EightBallGame::new(3, 0);
+        let mut pending = g.prepare_shot(&Shot::new(g.default_aim(), 6.0), None).unwrap();
+        pending.simulation.run_to_rest();
+        pending.simulation.knock_off_for_tests(BallId::EIGHT);
+        let report = g.finish_shot(pending);
+        assert!(report.fouls.contains(&Foul::ObjectBallOffTable(BallId::EIGHT)), "{report:?}");
+        assert!(report.spotted.contains(&BallId::EIGHT));
+        assert_eq!(report.game_over, None);
+        assert!(!report.continues);
+        assert_eq!(g.current_player(), 1);
+        let eight = g.ball(BallId::EIGHT);
+        assert!(eight.in_play() && eight.xy().y == 0.0 && eight.xy().x >= g.table.foot_spot().x);
+    }
+
+    // ---- Ruleset 5: not the default yet ---------------------------------
+
+    /// A game under ruleset 5 past the break, an open table with these
+    /// balls on it.
+    fn ruleset_5(positions: &[(u8, DVec2)]) -> EightBallGame {
+        let mut g = EightBallGame::with_ruleset(3, 0, 5);
+        assert_eq!((g.ruleset(), crate::RULESET), (5, 4), "asked for by number only");
+        g.is_break = false;
+        g.ball_in_hand = None;
+        layout(&mut g, positions);
+        g
+    }
+
+    /// Ruleset 5 is a game like any other: its snapshot names it and comes
+    /// back under it, on ruleset 4's table with its own physics.
+    #[test]
+    fn ruleset_5_can_be_played_and_read_back() {
+        let mut g = EightBallGame::with_ruleset(9, 1, 5);
+        g.play_shot(&Shot::new(g.default_aim(), 6.0), None).unwrap();
+        let back: EightBallGame =
+            serde_json::from_str(&serde_json::to_string(&g).unwrap()).unwrap();
+        assert_eq!(back, g);
+        assert_eq!(back.ruleset(), 5);
+        assert_eq!(back.table(), EightBallGame::with_ruleset(1, 0, 4).table());
+        assert_eq!(*back.params(), PhysicsParams::of_ruleset(5));
+        assert!(back.params().jumps_land_on_rails);
+        // A ruleset this version doesn't know plays as the newest it knows.
+        assert_eq!(EightBallGame::with_ruleset(1, 0, 200).ruleset(), crate::NEWEST_RULESET);
+    }
+
+    /// Every group ball went down on fouls, which decide no group: under
+    /// ruleset 4 the 8 can only be hit (a foul) or made too early, and
+    /// nobody can win. Under ruleset 5 both players are on the 8.
+    #[test]
+    fn an_open_table_with_no_group_ball_left_puts_both_players_on_the_eight() {
+        let at = [(0, DVec2::new(-0.2, 0.0)), (8, DVec2::new(0.3, 0.2))];
+        let mut old = after_break(3);
+        layout(&mut old, &at);
+        assert!(old.is_open_table() && !old.is_on_eight(0) && !old.needs_called_pocket());
+        let shot = straight_shot(&old, BallId::EIGHT, PocketId::FootLeft, 2.0);
+        let soft = Shot::new(shot.yaw, 0.6);
+        assert!(old.clone().play_shot(&soft, None).unwrap().is_foul(), "the 8 first: a foul");
+        let report = old.play_shot(&shot, None).unwrap();
+        assert_eq!(
+            report.game_over,
+            Some(GameOver { winner: 1, reason: GameOverReason::EightPocketedEarly })
+        );
+
+        let mut g = ruleset_5(&at);
+        assert!(g.is_open_table() && g.is_on_eight(0) && g.is_on_eight(1));
+        assert_eq!(g.legal_targets(), vec![BallId::EIGHT]);
+        assert_eq!(g.play_shot(&shot, None), Err(ShotError::MustCallPocket));
+        // Touching the 8 is legal now (and the call binding from then on).
+        let mut touch = g.clone();
+        let report = touch.play_shot(&soft, Some(PocketId::FootLeft)).unwrap();
+        assert_eq!(report.first_contact, Some(BallId::EIGHT));
+        assert_eq!(report.fouls, vec![], "{report:?}");
+        assert_eq!(touch.called_pocket_of(0), Some(PocketId::FootLeft));
+        assert!(touch.needs_called_pocket(), "player 1 is on the 8 too");
+        // Made in the called pocket, it wins.
+        let report = g.play_shot(&shot, Some(PocketId::FootLeft)).unwrap();
+        assert_eq!(
+            report.game_over,
+            Some(GameOver { winner: 0, reason: GameOverReason::PocketedEight })
+        );
+    }
+
+    /// Under ruleset 4 the cue ball in hand could not be placed against a
+    /// cushion (a radius from its line, where a ball at rest against it is
+    /// a millimetre nearer), and in a corner it could be placed past the
+    /// pocket's mouth. Ruleset 5 puts both right.
+    #[test]
+    fn the_cue_ball_in_hand_goes_against_a_cushion_but_never_in_a_pocket() {
+        for ruleset in [4, 5] {
+            let mut g = EightBallGame::with_ruleset(5, 0, ruleset);
+            g.is_break = false;
+            g.ball_in_hand = Some(BallInHand::Anywhere);
+            let t = g.table.clone();
+            let (hl, hw, r) = (t.spec.length / 2.0, t.spec.width / 2.0, t.spec.ball_radius);
+            let c = t.cushion_contact();
+            assert!(c < r - 0.0005, "the nose meets a ball below its widest");
+            let frozen = DVec2::new(-0.3, hw - c);
+            let corner = DVec2::new(-(hl - r), hw - r);
+            let mouth = t.pocket(PocketId::HeadLeft);
+            assert!((corner - mouth.mouth_center).dot(mouth.outward) > 0.01, "past the mouth");
+            assert!(mouth.in_throat(corner));
+            assert_eq!(g.can_place_cue_ball(frozen), ruleset >= 5, "ruleset {ruleset}");
+            assert_eq!(g.can_place_cue_ball(corner), ruleset < 5, "ruleset {ruleset}");
+            // Nowhere past a mouth or into a cushion, under ruleset 5.
+            if ruleset >= 5 {
+                assert!(!g.can_place_cue_ball(frozen + DVec2::new(0.0, 1e-6)));
+                for k in PocketId::ALL {
+                    let p = t.pocket(k);
+                    assert!(!g.can_place_cue_ball(p.mouth_center + p.outward * 0.001));
+                }
+                // Struck away, a ball placed against the cushion leaves it
+                // without a touch; struck into it, it comes off it.
+                assert!(g.place_cue_ball(frozen));
+                let away = g.prepare_shot(&Shot::new(-std::f64::consts::FRAC_PI_2, 1.0), None);
+                let mut away = away.unwrap().simulation;
+                away.run_to_rest();
+                let cushion = |e: &Event| matches!(e, Event::Cushion { ball: BallId::CUE, .. });
+                let first = away.events().iter().find(|e| cushion(e)).map(|e| e.time());
+                assert!(first.is_none_or(|t| t > 0.5), "{first:?}");
+                let into = g.prepare_shot(&Shot::new(std::f64::consts::FRAC_PI_2, 1.0), None);
+                let mut into = into.unwrap().simulation;
+                into.run_to_rest();
+                assert!(into.events().iter().any(cushion));
+            }
+        }
+    }
+
+    /// A scratch with another ball on the break leaves the opponent the cue
+    /// ball in hand behind the head string. If their clock runs out, ruleset
+    /// 4 gave the breaker the cue ball anywhere; ruleset 5 keeps it behind
+    /// the line.
+    #[test]
+    fn a_clock_that_runs_out_keeps_the_cue_ball_in_hand_as_it_was() {
+        for ruleset in [4, 5] {
+            let mut g = EightBallGame::with_ruleset(3, 0, ruleset);
+            let aim = g.table.pocket(PocketId::FootLeft).aim_point();
+            let back = (DVec2::ZERO - aim).normalize();
+            on_break_with(&mut g, &[(0, aim + back * 0.5), (5, aim + back * 0.08)]);
+            let shot = straight_shot(&g, BallId(5), PocketId::FootLeft, 4.0)
+                .with_tip(DVec2::new(0.0, 0.9));
+            let report = g.play_shot(&shot, None).unwrap();
+            assert!(report.fouls.contains(&Foul::CueBallPocketed) && !report.reracked);
+            assert_eq!((g.current_player(), g.ball_in_hand()), (1, Some(BallInHand::Kitchen)));
+            g.time_foul();
+            let hand = if ruleset >= 5 { BallInHand::Kitchen } else { BallInHand::Anywhere };
+            assert_eq!((g.current_player(), g.ball_in_hand()), (0, Some(hand)), "{ruleset}");
+            // Elsewhere the clock still only passes the turn.
+            let mut g = ruleset_5(&[(0, DVec2::new(-0.2, 0.0)), (3, DVec2::new(0.3, 0.1))]);
+            g.time_foul();
+            assert_eq!((g.current_player(), g.ball_in_hand()), (1, None));
+        }
+    }
+
+    /// A tip so far out that its length overflows an f64: ruleset 4 struck
+    /// the centre of the ball (and must go on doing so: a game recorded with
+    /// one replays the same), ruleset 5 the edge, in its direction. Any tip
+    /// that can be measured is struck as before.
+    #[test]
+    fn a_tip_too_far_out_to_measure_is_struck_at_the_edge() {
+        let tip_of = |ruleset: u8, tip: DVec2| {
+            let g = EightBallGame::with_ruleset(1, 0, ruleset);
+            g.prepare_shot(&Shot::new(0.0, 2.0).with_tip(tip), None).unwrap().shot.tip
+        };
+        let huge = DVec2::new(3e200, -3e200);
+        assert_eq!(tip_of(4, huge), DVec2::ZERO);
+        let edge = tip_of(5, huge);
+        assert!((edge.length() - 1.0).abs() < 1e-12 && (edge.x + edge.y).abs() < 1e-12, "{edge}");
+        for tip in [DVec2::new(3.0, -4.0), DVec2::new(0.3, 0.2), DVec2::new(1e150, 2.0)] {
+            assert_eq!(
+                tip_of(5, tip).to_array().map(f64::to_bits),
+                tip_of(4, tip).to_array().map(f64::to_bits)
+            );
+        }
+    }
+
+    /// Random games under ruleset 5: the house rules' invariants hold, and
+    /// a cue ball in hand only goes, or is put back, where a ball can rest.
+    #[test]
+    fn ruleset_5_holds_over_random_games() {
+        let r = Table::default().spec.ball_radius;
+        for seed in 0..40u64 {
+            let mut g = EightBallGame::with_ruleset(seed, (seed % 2) as usize, 5);
+            let mut rng = Rng::new(seed + 5000);
+            for _ in 0..120 {
+                if g.game_over().is_some() {
+                    break;
+                }
+                if g.ball_in_hand().is_some() {
+                    for _ in 0..300 {
+                        let p = DVec2::new(rng.next_f64() * 2.4 - 1.2, rng.next_f64() * 1.2 - 0.6);
+                        if g.place_cue_ball(p) {
+                            assert!(g.table().can_place_ball(p), "{p}");
+                            break;
+                        }
+                    }
+                }
+                let shooter = g.current_player();
+                let shot =
+                    Shot::new(rng.next_f64() * std::f64::consts::TAU, 0.3 + rng.next_f64() * 6.5)
+                        .with_tip(DVec2::new(rng.next_f64() - 0.5, rng.next_f64() - 0.5));
+                let called = g.needs_called_pocket().then_some(PocketId::ALL[rng.below(6)]);
+                let report = g.play_shot(&shot, called).unwrap();
+                match (g.group_of(0), g.group_of(1)) {
+                    (None, None) => {}
+                    (Some(a), Some(b)) => assert_eq!(a, b.opposite()),
+                    other => panic!("half-assigned groups {other:?}"),
+                }
+                if g.game_over().is_none() {
+                    let cue_gone = report
+                        .fouls
+                        .iter()
+                        .any(|f| matches!(f, Foul::CueBallPocketed | Foul::CueBallOffTable));
+                    assert_eq!(g.ball_in_hand().is_some(), cue_gone, "{report:?}");
+                    assert_eq!(g.current_player() == shooter, report.continues);
+                    assert!(g.ball(BallId::CUE).in_play() && g.ball(BallId::EIGHT).in_play());
+                    if g.ball_in_hand().is_some() {
+                        assert!(g.can_place_cue_ball(g.ball(BallId::CUE).xy()), "{report:?}");
+                    }
+                }
+                let live: Vec<_> = g.balls().iter().filter(|b| b.in_play()).collect();
+                for (k, a) in live.iter().enumerate() {
+                    for b in &live[k + 1..] {
+                        assert!(a.xy().distance(b.xy()) > 2.0 * r - 1e-6, "{} {}", a.id, b.id);
+                    }
+                }
+            }
+        }
     }
 
     #[test]

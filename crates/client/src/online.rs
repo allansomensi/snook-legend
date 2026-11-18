@@ -132,6 +132,13 @@ pub struct ShopOffers {
 
 pub struct Online {
     conn: Option<Connection>,
+    /// This connection has signed in (a new one hasn't yet, even while the
+    /// player still counts as signed in, reconnecting).
+    authed: bool,
+    /// Messages sent while reconnecting: they go out once the session is
+    /// back (the server refuses everything before that, and that refusal
+    /// used to end the match and forget the saved session).
+    held: std::cell::RefCell<Vec<ClientMsg>>,
     pub wallet: Option<WalletView>,
     pub offers: Option<ShopOffers>,
     /// The Microsoft Store build's coin packs (see msstore.rs).
@@ -437,6 +444,8 @@ impl Online {
     fn empty(server: &str, lan: bool) -> Online {
         Online {
             conn: None,
+            authed: false,
+            held: Default::default(),
             stage: Stage::Idle,
             server: server.to_string(),
             lan,
@@ -537,6 +546,26 @@ impl Online {
     }
 
     pub fn send(&self, msg: ClientMsg) {
+        // Reconnecting: what isn't part of signing in waits for the session
+        // (the newest few hundred; pings and aim are of no use later).
+        let signing_in = matches!(
+            msg,
+            ClientMsg::Hello { .. }
+                | ClientMsg::Resume { .. }
+                | ClientMsg::Guest { .. }
+                | ClientMsg::Login { .. }
+                | ClientMsg::Register { .. }
+        );
+        if self.me.is_some() && !self.authed && !signing_in {
+            if !matches!(msg, ClientMsg::Ping | ClientMsg::Aim { .. }) {
+                let mut held = self.held.borrow_mut();
+                if held.len() >= 256 {
+                    held.remove(0);
+                }
+                held.push(msg);
+            }
+            return;
+        }
         if let Some(c) = &self.conn {
             c.send(msg);
         }
@@ -553,6 +582,7 @@ impl Online {
     /// Opens the connection if it isn't open (for the ranking, a profile or the lounge).
     pub fn connect(&mut self) {
         if self.conn.is_none() {
+            self.authed = false;
             self.conn = Some(Connection::open(&self.server));
             if !matches!(self.stage, Stage::Reconnecting { .. }) {
                 self.stage = Stage::Connecting;
@@ -639,9 +669,11 @@ impl Online {
         if let Some(m) = current.as_mut()
             && let Some(o) = m.online.as_mut()
         {
-            // Keep messages while reconnecting; they go out once signed in.
+            // Keep messages while reconnecting; they go out once this
+            // connection has signed in again.
             if let Some(c) = &self.conn
                 && self.signed_in()
+                && self.authed
             {
                 let outbox: Vec<ClientMsg> = std::mem::take(&mut o.outbox);
                 for msg in outbox {
@@ -661,6 +693,7 @@ impl Online {
             *wait -= dt;
             if *wait <= 0.0 && self.conn.is_none() {
                 *attempt += 1;
+                self.authed = false;
                 self.conn = Some(Connection::open(&self.server));
             }
         }
@@ -680,9 +713,14 @@ impl Online {
         while let Some(event) = self.conn.as_mut().and_then(|c| c.poll()) {
             match event {
                 NetEvent::Connected => {
+                    self.authed = false;
                     if self.lan {
                         self.send(ClientMsg::Guest { name: self.username.clone() });
-                        self.stage = Stage::Authenticating;
+                        // Reconnecting stays so (its count of attempts and
+                        // "Reconnected." once back), as on the global server.
+                        if !matches!(self.stage, Stage::Reconnecting { .. }) {
+                            self.stage = Stage::Authenticating;
+                        }
                     } else if self.auto_resume && !self.token.is_empty() {
                         self.send(ClientMsg::Resume { token: self.token.clone() });
                         if !matches!(self.stage, Stage::Reconnecting { .. }) {
@@ -694,6 +732,7 @@ impl Online {
                 }
                 NetEvent::Closed(reason) => {
                     self.conn = None;
+                    self.authed = false;
                     self.queue = None;
                     let was_in = self.signed_in();
                     let attempt = match self.stage {
@@ -714,6 +753,7 @@ impl Online {
                             drop(m);
                         }
                         self.me = None;
+                        self.held.borrow_mut().clear();
                         self.stage = if self.lan { Stage::Idle } else { Stage::SignIn };
                         if self.error.is_none() {
                             self.error = Some(crate::i18n::server_text(&reason));
@@ -745,6 +785,7 @@ impl Online {
         match msg {
             ServerMsg::AuthOk { player, token } => {
                 self.outdated = false;
+                self.authed = true;
                 if let Some(m) = current.as_mut()
                     && matches!(self.stage, Stage::Reconnecting { .. })
                 {
@@ -796,8 +837,30 @@ impl Online {
                         self.send(ClientMsg::Spectate { username });
                     }
                 }
+                // What was sent while reconnecting goes now, in order.
+                let held = std::mem::take(&mut *self.held.borrow_mut());
+                for msg in held {
+                    self.send(msg);
+                }
             }
             ServerMsg::AuthError { reason } => {
+                // A message that went out before this connection signed in
+                // again: the session itself is fine (the Resume answers).
+                if reason == "Please log in first." && self.me.is_some() {
+                    return save;
+                }
+                // Back on the local network while the host still holds the
+                // old connection (it lets go within its grace): try again.
+                if self.lan
+                    && reason == "Someone with that name is already here."
+                    && let Stage::Reconnecting { attempt, .. } = self.stage
+                    && attempt < MAX_RECONNECTS
+                {
+                    self.conn = None;
+                    self.authed = false;
+                    self.stage = Stage::Reconnecting { attempt, wait: 3.0 };
+                    return save;
+                }
                 // This version is too old for the server: the saved session
                 // is still good for the new one.
                 self.outdated = reason.contains("out of date");
@@ -812,6 +875,7 @@ impl Online {
                 }
                 self.auto_resume = false;
                 self.me = None;
+                self.held.borrow_mut().clear();
                 if let Some(m) = current.take_if(|m| m.is_online()) {
                     drop(m);
                 }
@@ -823,6 +887,8 @@ impl Online {
                 // don't fight over the account by reconnecting.
                 self.auto_resume = false;
                 self.me = None;
+                self.held.borrow_mut().clear();
+                self.authed = false;
                 if let Some(m) = current.take_if(|m| m.is_online()) {
                     drop(m);
                 }
@@ -1098,6 +1164,8 @@ impl Online {
             ServerMsg::AccountDeleted => {
                 self.auto_resume = false;
                 self.me = None;
+                self.authed = false;
+                self.held.borrow_mut().clear();
                 self.conn = None;
                 self.token.clear();
                 config.token.clear();
@@ -1351,6 +1419,8 @@ impl Online {
         self.conn = None;
         self.queue = None;
         self.me = None;
+        self.authed = false;
+        self.held.borrow_mut().clear();
         self.token.clear();
         self.auto_resume = false;
         self.friends = FriendsData::default();

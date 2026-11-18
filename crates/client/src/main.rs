@@ -466,9 +466,11 @@ async fn main() {
             let mut none = None;
             let owned = current.as_ref().is_some_and(|m| m.is_online());
             let slot = if owned && !match_from_lan { &mut none } else { &mut current };
-            let before = slot.as_ref().is_some_and(|m| m.is_online());
             l.net.update(dt, slot, &mut config);
-            if !before && current.as_ref().is_some_and(|m| m.is_online()) {
+            // Only a match that wasn't there before came from the local
+            // network: one of the global server's stays its own (the slot
+            // above was empty then, which once made it look new).
+            if !owned && current.as_ref().is_some_and(|m| m.is_online()) {
                 match_from_lan = true;
             }
         }

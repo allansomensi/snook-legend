@@ -403,11 +403,37 @@ thread_local! {
     static CURRENT: Cell<Bindings> = Cell::new(Bindings::default());
     /// The settings are waiting for a key to bind: no shortcut works.
     static CAPTURING: Cell<bool> = const { Cell::new(false) };
+    /// The window lost the focus this frame (see [`focus_lost`]).
+    static FOCUS_LOST: Cell<bool> = const { Cell::new(false) };
+    /// The game's own place in the queue of window events.
+    static SUBSCRIBER: Cell<Option<usize>> = const { Cell::new(None) };
 }
 
-/// Makes `bindings` the keys in use (once a frame, from the settings).
+/// Makes `bindings` the keys in use (once a frame, from the settings), and
+/// notes whether the window lost the focus since the last frame.
 pub fn install(bindings: &Bindings) {
     CURRENT.with(|c| c.set(*bindings));
+    struct Watch(bool);
+    impl macroquad::miniquad::EventHandler for Watch {
+        fn update(&mut self) {}
+        fn draw(&mut self) {}
+        fn window_minimized_event(&mut self) {
+            self.0 = true;
+        }
+    }
+    let id = SUBSCRIBER
+        .with(|s| *s.get().get_or_insert_with(macroquad::input::utils::register_input_subscriber));
+    SUBSCRIBER.with(|s| s.set(Some(id)));
+    let mut watch = Watch(false);
+    macroquad::input::utils::repeat_all_miniquad_input(&mut watch, id);
+    FOCUS_LOST.with(|f| f.set(watch.0));
+}
+
+/// The window lost the focus (another window came to the front, or it was
+/// minimised): every key held is then reported as let go, which is no
+/// release of the player's.
+pub fn focus_lost() -> bool {
+    FOCUS_LOST.with(Cell::get)
 }
 
 /// The keys in use.

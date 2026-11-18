@@ -55,6 +55,8 @@ pub struct Controls {
     orbiting: bool,
     /// How far the pointer moved during that drag.
     orbit_drag: f32,
+    /// The shoot key went down during this turn (its release may shoot).
+    shoot_armed: bool,
 }
 
 impl Controls {
@@ -199,6 +201,9 @@ impl Controls {
         if !m.is_human_turn() || typing {
             self.mode = DragMode::None;
             self.set_over_cue(false);
+            // A stroke being charged ends with the turn, or when the chat
+            // takes the keyboard (its release would never be seen).
+            self.shoot_armed = false;
             return;
         }
         let dt = get_frame_time() as f64;
@@ -338,22 +343,31 @@ impl Controls {
             m.aim.elevation = (m.aim.elevation - 0.6 * dt).max(0.0);
         }
 
-        // Power: hold Space (or the shoot key), release to shoot.
+        // Power: hold Space (or the shoot key), release to shoot. Only a
+        // press seen during this turn counts: a key still held from the
+        // opponent's shot charges nothing, and the window losing the focus
+        // (which reports every held key as let go) shoots nothing.
         if keys::pressed(Action::Shoot) {
             m.aim.charging = true;
             m.aim.power = 0.0;
+            self.shoot_armed = true;
         }
-        if m.aim.charging {
+        if keys::focus_lost() {
+            self.shoot_armed = false;
+        }
+        if m.aim.charging && self.shoot_armed {
             // Esc cancels a stroke being charged with Space; a power set on
             // the bar is no stroke (Esc opens the menu and keeps it).
             if is_key_pressed(KeyCode::Escape) && keys::down(Action::Shoot) {
                 m.aim.charging = false;
                 m.aim.power = 0.0;
+                self.shoot_armed = false;
                 // This Esc cancelled the stroke: it doesn't open the menu too.
                 m.escape_used = true;
             } else if keys::down(Action::Shoot) {
                 m.aim.power = (m.aim.power + CHARGE_RATE * dt as f32).min(1.0);
             } else if keys::released(Action::Shoot) {
+                self.shoot_armed = false;
                 if m.aim.power > 0.01 {
                     m.shoot();
                 } else {

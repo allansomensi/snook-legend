@@ -1569,6 +1569,24 @@ impl Match {
                     self.game = end;
                     report
                 }
+                None if o.ended_pending => {
+                    // The game ended while the shot was on its way (the
+                    // server keeps no result for a shot of a finished
+                    // game): its end, with the balls where they stopped,
+                    // not a wait for nothing.
+                    o.ended_pending = false;
+                    let result = o.result.clone();
+                    let mut local = self.game.clone();
+                    local.finish_shot(*pending);
+                    if local.game_over().is_none() {
+                        self.game = local;
+                    }
+                    match result {
+                        Some(result) => self.settle_result(&result),
+                        None => self.phase = Phase::GameOver,
+                    }
+                    return;
+                }
                 None => {
                     // Wait for it, showing the balls where they stopped.
                     self.phase = Phase::Settling(pending);
@@ -1912,6 +1930,15 @@ impl Match {
         if self.game.game_over().is_some() {
             return;
         }
+        self.settle_result(result);
+    }
+
+    /// The end of the game as the server gives it: the notice, the series
+    /// count and the end panel (also when the table shown is already over,
+    /// as after a shot the server rolled back).
+    fn settle_result(&mut self, result: &MatchResult) {
+        let winner = result.winner % 2;
+        let result = &MatchResult { winner, ..result.clone() };
         let loser = 1 - result.winner;
         let name = self.names[loser].clone();
         let text = match result.reason {
@@ -2039,19 +2066,34 @@ impl Match {
                 }
             }
             ServerMsg::ShotRejected { turn, reason, game } => {
-                // Our own predicted shot, or one being shown for the opponent
-                // (the server could not play it): back to the table as it was.
-                if o.predicted.is_some_and(|(t, _)| t == turn)
-                    || (in_progress && o.sim_turn == Some(turn))
-                {
+                // Our own predicted shot, or the shot on screen when the
+                // server could not play it: back to the table as it was. A
+                // shot of ours that came too late (the clock's own shot
+                // for that turn is already playing) is refused without
+                // touching the one on screen.
+                let ours = o.predicted.is_some_and(|(t, _)| t == turn);
+                let failed = in_progress
+                    && o.sim_turn == Some(turn)
+                    && reason == "The server could not play that shot.";
+                if ours || failed {
                     o.predicted = None;
                     o.sim_turn = None;
                     o.turn_start = None;
                     o.pending_end = None;
+                    let ended = std::mem::take(&mut o.ended_pending);
+                    let result = o.result.clone().filter(|_| ended);
                     self.game = game;
-                    self.phase = Phase::Turn { placing_cue_ball: false, computer: None };
                     self.replay = None;
                     self.last_shot = None;
+                    self.phase = Phase::Turn { placing_cue_ball: false, computer: None };
+                    // The game ended meanwhile (a resignation while the shot
+                    // was on its way): its end, never a turn that can't be
+                    // played.
+                    match result {
+                        Some(result) => self.settle_result(&result),
+                        None if self.game.game_over().is_some() => self.phase = Phase::GameOver,
+                        None => {}
+                    }
                 } else if matches!(self.phase, Phase::Turn { .. }) {
                     self.game = game;
                 }
@@ -2075,7 +2117,20 @@ impl Match {
                     }
                 }
                 o.result = Some(result.clone());
-                if in_progress {
+                if matches!(self.phase, Phase::Settling(_)) && o.pending_end.is_none() {
+                    // The balls have stopped and no result is coming for
+                    // that shot: the end now, with the balls where they are.
+                    if let Phase::Settling(pending) =
+                        std::mem::replace(&mut self.phase, Phase::GameOver)
+                    {
+                        let mut local = self.game.clone();
+                        local.finish_shot(*pending);
+                        if local.game_over().is_none() {
+                            self.game = local;
+                        }
+                    }
+                    self.settle_result(&result);
+                } else if in_progress {
                     // Finish showing the shot first (it may be what decided the game).
                     o.ended_pending = true;
                 } else if self.game.game_over().is_none() {
@@ -2465,6 +2520,93 @@ mod tests {
         });
         assert!(matches!(m.phase, Phase::Turn { .. }));
         assert_eq!(m.game, before);
+    }
+
+    /// A shot of ours that reached the server after its clock had played
+    /// the turn: refused, and the clock's shot on screen plays on.
+    #[test]
+    fn a_shot_too_late_leaves_the_clocks_shot_alone() {
+        let mut m = online_match(0);
+        m.aim.power = 0.5;
+        assert!(m.shoot());
+        let before = m.game.clone();
+        let late = Shot::new(0.0, 6.0);
+        m.handle_server(ServerMsg::ShotTaken {
+            seat: 0,
+            turn: 0,
+            shot: late,
+            called_pocket: None,
+            cue_ball: None,
+            timeout: true,
+        });
+        assert!(matches!(m.phase, Phase::Simulating(_)));
+        m.handle_server(ServerMsg::ShotRejected {
+            turn: 0,
+            reason: "It's not your turn.".into(),
+            game: before,
+        });
+        assert!(matches!(m.phase, Phase::Simulating(_)), "the clock's shot goes on");
+        let mut server = EightBallGame::new(4, 0);
+        let report = server.play_shot(&late, None).unwrap();
+        m.handle_server(ServerMsg::ShotResult {
+            turn: 0,
+            end: server.clone(),
+            report,
+            clock_left: 30.0,
+        });
+        finish_animation(&mut m);
+        assert_eq!(m.game, server, "its result is taken");
+    }
+
+    /// The game ended (a resignation) while a shot was on its way, and the
+    /// server sends no result for it: the end shows, no endless wait.
+    #[test]
+    fn a_game_that_ends_during_a_shot_ends_on_screen() {
+        let mut m = online_match(1);
+        m.handle_server(ServerMsg::ShotTaken {
+            seat: 0,
+            turn: 0,
+            shot: Shot::new(0.0, 6.0),
+            called_pocket: None,
+            cue_ball: None,
+            timeout: false,
+        });
+        m.handle_server(ServerMsg::MatchEnded {
+            result: MatchResult {
+                winner: 1,
+                reason: GameOverReason::Resignation,
+                rated: true,
+                rating_delta: [-10, 10],
+                new_ratings: [1190, 1210],
+            },
+        });
+        finish_animation(&mut m);
+        assert!(matches!(m.phase, Phase::GameOver), "not settling for ever");
+        assert_eq!(m.wins, [0, 1]);
+
+        // The same, with the balls already at rest when the end arrives.
+        let mut m = online_match(1);
+        m.handle_server(ServerMsg::ShotTaken {
+            seat: 0,
+            turn: 0,
+            shot: Shot::new(0.0, 6.0),
+            called_pocket: None,
+            cue_ball: None,
+            timeout: false,
+        });
+        finish_animation(&mut m);
+        assert!(matches!(m.phase, Phase::Settling(_)));
+        m.handle_server(ServerMsg::MatchEnded {
+            result: MatchResult {
+                winner: 1,
+                reason: GameOverReason::Resignation,
+                rated: true,
+                rating_delta: [-10, 10],
+                new_ratings: [1190, 1210],
+            },
+        });
+        assert!(matches!(m.phase, Phase::GameOver));
+        assert_eq!(m.wins, [0, 1]);
     }
 
     #[test]

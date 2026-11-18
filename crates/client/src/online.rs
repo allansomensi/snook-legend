@@ -643,7 +643,7 @@ impl Online {
             if let Some(c) = &self.conn
                 && self.signed_in()
             {
-                let outbox: Vec<ClientMsg> = o.outbox.drain(..).collect();
+                let outbox: Vec<ClientMsg> = std::mem::take(&mut o.outbox);
                 for msg in outbox {
                     // A correspondence game says which game it is.
                     let msg = match o.corr.as_mut() {

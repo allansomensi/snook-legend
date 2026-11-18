@@ -125,19 +125,24 @@ fn api_url() -> String {
         .unwrap_or_else(|| RELEASES.replace("https://github.com/", "https://api.github.com/repos/"))
 }
 
-/// The executable is a build output in a Cargo target folder (its folder
-/// has Cargo's `.fingerprint` and `deps`): never replaced, whatever the
-/// folder is called and even when updates are forced.
+/// The executable is a build output in a Cargo target folder: never
+/// replaced, whatever the folder is called and even when updates are
+/// forced.
 fn in_cargo_target() -> bool {
     exe().is_some_and(|p| p.parent().is_some_and(cargo_target_dir))
 }
 
-/// `dir` (or the folder above it, for `deps`) is a Cargo profile folder.
+/// `dir` is in a Cargo profile folder (`target/release` and the like), or
+/// a few folders down from one: the folder Cargo locks while it builds
+/// (`.cargo-lock`), or the one with its `.fingerprint` and `deps`. Cargo
+/// 1.100 keeps what it builds some folders further down than before (a
+/// test's executable is in `build/<package>/<hash>/out`), so the folders
+/// above are looked at too.
 fn cargo_target_dir(dir: &Path) -> bool {
-    [Some(dir), dir.parent()]
-        .into_iter()
-        .flatten()
-        .any(|d| d.join(".fingerprint").is_dir() && d.join("deps").is_dir())
+    dir.ancestors().take(6).any(|d| {
+        d.join(".cargo-lock").is_file()
+            || (d.join(".fingerprint").is_dir() && d.join("deps").is_dir())
+    })
 }
 
 /// This copy may look for updates on its own (worked out once).
@@ -996,7 +1001,9 @@ mod tests {
         assert_eq!(percent(50, 10), 100);
     }
 
-    /// A folder of its own under the system's temporary folder.
+    /// A folder of its own under the system's temporary folder (for the
+    /// tests of replacing and unpacking, which run on Unix).
+    #[cfg(unix)]
     fn temp_dir(name: &str) -> PathBuf {
         let dir = std::env::temp_dir()
             .join(format!("snook-legend-update-test-{name}-{}", std::process::id()));

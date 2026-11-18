@@ -1432,7 +1432,7 @@ impl Versus {
 }
 
 /// The settings for a game against `o` (`rung`: a ladder game).
-fn settings(config: &Config, o: Opponent, rung: Option<u8>) -> MatchSettings {
+pub(crate) fn settings(config: &Config, o: Opponent, rung: Option<u8>) -> MatchSettings {
     let mut s = MatchSettings::from_config(MatchMode::VsComputer(o), config);
     s.ladder = rung;
     s

@@ -87,6 +87,10 @@ pub enum HudAction {
     /// Online, after the game: ask the opponent (or accept their request)
     /// to be friends.
     AddFriend(String),
+    /// The tour: on to the stage after this one (its number, from 0).
+    NextStage(u8),
+    /// The same drill once more.
+    DrillAgain(&'static str),
 }
 
 impl Default for Hud {
@@ -513,9 +517,14 @@ impl Hud {
                 Some(Err(_)) => (t("The session could not be counted.").to_string(), ALERT),
             };
             ui.text_centered(&status, sw / 2.0, r.y + 140.0, 13.0, color, false);
-            let b = Rect::new(sw / 2.0 - 110.0, r.y + 176.0, 220.0, 40.0);
-            if ui.primary_button(b, t("Back to the drills")) {
+            let bw = ((w - 60.0) / 2.0).min(200.0);
+            let back = Rect::new(sw / 2.0 - bw - 6.0, r.y + 176.0, bw, 40.0);
+            let again = Rect::new(sw / 2.0 + 6.0, r.y + 176.0, bw, 40.0);
+            if ui.button(back, t("Back to the drills"), true) {
                 action = HudAction::MainMenu;
+            }
+            if ui.primary_button(again, t("Try again")) {
+                action = HudAction::DrillAgain(run.code);
             }
         }
 
@@ -775,7 +784,24 @@ impl Hud {
                 }
             } else {
                 let bx = sw / 2.0 - 180.0;
-                if ui.primary_button(Rect::new(bx, r.y + 128.0, 170.0, 38.0), t("Rematch")) {
+                // On the tour: after a win, straight on to the next
+                // opponent; after a loss, the same one again.
+                let tour = m.ladder.as_ref().map(|run| run.rung);
+                let won = over.winner == snook_legend_proto::ladder::PLAYER_SEAT;
+                let next = tour.filter(|_| won).and_then(|k| {
+                    snook_legend_proto::ladder::rung(k as usize + 1).map(|p| (k + 1, p))
+                });
+                let b = Rect::new(bx, r.y + 128.0, 170.0, 38.0);
+                if let Some((k, p)) = next {
+                    let label = tw("Next: {name}", &[("name", &p.name)]);
+                    let (label, _) = ui.fitted(&label, 17.0, b.w - 16.0, true);
+                    if ui.primary_button(b, &label) {
+                        action = HudAction::NextStage(k);
+                    }
+                } else if ui.primary_button(
+                    b,
+                    if tour.is_some() && !won { t("Try again") } else { t("Rematch") },
+                ) {
                     m.rematch();
                 }
                 if ui.button(Rect::new(bx + 190.0, r.y + 128.0, 170.0, 38.0), t("Main menu"), true)
@@ -1955,6 +1981,33 @@ fn replay_button(ui: &mut Ui, m: &Match, panel: Rect) -> bool {
     ui.icon_button_ex(b, Icon::Replay, &tip, true, true)
 }
 
+/// A pointer for a first game: a label with its step number over a small
+/// arrow bobbing down to `at` (kept inside the window).
+fn coach_mark(ui: &mut Ui, at: Vec2, text: &str, step: Option<u8>, time: f32) {
+    let label = match step {
+        Some(n) => format!("{n} · {text}"),
+        None => text.to_string(),
+    };
+    let bob = (time * 3.2).sin() * 3.0;
+    let tip = vec2(at.x, at.y + bob);
+    let w = ui.text_size(&label, 13.0, true).x + 22.0;
+    let sw = crate::ui::vw();
+    let x = crate::ui::clamp_soft(tip.x - w / 2.0, 8.0, sw - w - 8.0);
+    let r = Rect::new(x, tip.y - 40.0, w, 24.0);
+    let glow = 0.75 + 0.25 * (time * 3.2).cos();
+    crate::ui::rrect(r, 12.0, Color::new(0.08, 0.06, 0.03, 0.92));
+    crate::ui::rrect_lines(r, 12.0, 1.4, Color::new(GOLD.r, GOLD.g, GOLD.b, glow));
+    ui.text(&label, r.x + 11.0, r.y + 5.0, 13.0, GOLD, true);
+    if step.is_some() {
+        draw_triangle(
+            vec2(tip.x - 7.0, tip.y - 15.0),
+            vec2(tip.x + 7.0, tip.y - 15.0),
+            vec2(tip.x, tip.y - 5.0),
+            Color::new(GOLD.r, GOLD.g, GOLD.b, glow),
+        );
+    }
+}
+
 fn turn_title(m: &Match) -> String {
     let player = m.game.current_player();
     let name = &m.names[player];
@@ -2100,6 +2153,31 @@ impl Hud {
         } else {
             self.stroking = false;
             draw_power_track(track, if m.aim.charging { m.aim.power } else { 0.0 }, false, false);
+        }
+        // A first game: where to aim, then the power, then the shot.
+        if m.coach && can_shoot && self.popover.is_none() {
+            let time = get_time() as f32;
+            coach_mark(
+                ui,
+                vec2(sw / 2.0, bar.y - 70.0),
+                t("Drag on the table to aim, or click a ball"),
+                None,
+                time,
+            );
+            coach_mark(
+                ui,
+                vec2(track.x + track.w / 2.0, track.y - 12.0),
+                t("Set the power"),
+                Some(1),
+                time,
+            );
+            coach_mark(
+                ui,
+                vec2(shoot.x + shoot.w / 2.0, shoot.y - 8.0),
+                t("Shoot"),
+                Some(2),
+                time + 0.4,
+            );
         }
 
         // Development aid: SNOOK_LEGEND_ELEVATION=<degrees> keeps the

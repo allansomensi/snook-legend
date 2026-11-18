@@ -3,6 +3,20 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.6.3
+
+### Every ball counts
+A ball that drops lights its pocket. The balls you make in a row show by your picture with a little flame, and three, five and seven in a row are cheered (and a table cleared in one visit). The clock's last seconds tick, a chime says when your turn comes back online, and the rating counts up at the end of a game.
+
+### On to the next one
+After a win on the tour, "Next" takes you straight to the next opponent; after a drill, "Try again". The deciding shot can be watched again from the end panel, and a first game points out where to aim, set the power and shoot.
+
+### The head string, if you want it
+Settings → Game → "Always show the head string" keeps the line the break is played from on the table. Off by default: it shows only while you place the cue ball behind it.
+
+### Steadier online, nothing lost
+A dropped connection no longer closes the game or forgets your session, a game against the computer is never replaced without asking, and the local network says why a game could not be joined. Cleaner sound on hard breaks, AltGr works in text fields, and better Portuguese and Spanish everywhere.
+
 ## 0.6.2
 
 ### Leagues and levels on one page

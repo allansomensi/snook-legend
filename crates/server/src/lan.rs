@@ -101,6 +101,9 @@ impl FoundGame {
     }
 }
 
+/// The most games the list of the local network shows.
+const MAX_FOUND: usize = 32;
+
 /// Listens for LAN beacons (non-blocking; call [`Discovery::poll`] each frame).
 pub struct Discovery {
     socket: Option<UdpSocket>,
@@ -124,19 +127,29 @@ impl Discovery {
     pub fn poll(&mut self) {
         let Some(sock) = &self.socket else { return };
         let mut buf = [0u8; 1024];
-        while let Ok((n, from)) = sock.recv_from(&mut buf) {
+        // Anyone on the network can send beacons: at most a few hundred are
+        // read a frame, a host's name is cleaned and must be a name, and the
+        // list keeps a screenful of games (one machine flooding beacons
+        // can't grow it, nor stall the frame).
+        for _ in 0..256 {
+            let Ok((n, from)) = sock.recv_from(&mut buf) else { break };
             let Ok(b) = serde_json::from_slice::<LanBeacon>(&buf[..n]) else { continue };
-            if b.game != "snook-legend" || b.version != PROTOCOL_VERSION {
+            if b.game != "snook-legend" || b.version != PROTOCOL_VERSION || b.port == 0 {
+                continue;
+            }
+            let host = snook_legend_proto::clean_text(&b.host, 24);
+            if !snook_legend_proto::valid_username(&host) {
                 continue;
             }
             let address = SocketAddr::new(from.ip(), b.port);
-            let host: String = b.host.chars().take(24).collect();
+            let room = self.games.len() < MAX_FOUND;
             match self.games.iter_mut().find(|g| g.address == address) {
                 Some(g) => {
                     g.seen = Instant::now();
                     g.host = host;
                 }
-                None => self.games.push(FoundGame { host, address, seen: Instant::now() }),
+                None if room => self.games.push(FoundGame { host, address, seen: Instant::now() }),
+                None => {}
             }
         }
         self.games.retain(|g| g.seen.elapsed() < Duration::from_secs(5));

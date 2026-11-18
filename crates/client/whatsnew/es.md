@@ -3,6 +3,20 @@
 # un destacado, y las líneas siguientes son su texto. Mismas versiones y
 # mismo número de destacados en todos los idiomas.
 
+## 0.6.3
+
+### Cada bola cuenta
+La bola que entra ilumina su tronera. Las bolas que metes seguidas aparecen junto a tu foto con una llamita, y tres, cinco y siete seguidas se celebran (y una mesa limpia de una sola vez también). Los últimos segundos del reloj hacen tictac, una campanita avisa cuando el turno vuelve a ti en línea, y el rating sube contando al final de la partida.
+
+### A por el siguiente
+Tras ganar en el circuito, "Siguiente" te lleva directo al próximo rival; tras un ejercicio, "Reintentar". El tiro decisivo se puede volver a ver desde el panel final, y la primera partida señala dónde apuntar, ajustar la fuerza y tirar.
+
+### La línea de salida, si la quieres
+Ajustes → Juego → "Mostrar siempre la línea de salida" deja en la mesa la línea desde la que se hace el saque. Viene apagado: solo aparece mientras colocas la blanca detrás de ella.
+
+### En línea más firme, nada perdido
+Una caída de la conexión ya no cierra la partida ni olvida tu sesión, la partida contra la computadora nunca se reemplaza sin preguntar, y la red local dice por qué no se pudo entrar en una partida. Sonido más limpio en los saques fuertes, AltGr funciona en los campos de texto, y mejor portugués y español en todas partes.
+
 ## 0.6.2
 
 ### Ligas y niveles en una sola página

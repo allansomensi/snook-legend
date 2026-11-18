@@ -308,6 +308,8 @@ pub struct Match {
     /// The balls made in a row by the player at the table this visit (the
     /// count by their picture, and a cheer at three, five, seven).
     pub visit_run: (usize, u32),
+    /// Point out where to aim, set the power and shoot (a first game).
+    pub coach: bool,
     /// The second of the shot clock last ticked (its last five tick).
     last_tick: Option<i32>,
     /// It was this player's turn at the last frame (online, a chime says
@@ -562,6 +564,7 @@ impl Match {
             visit_run: (0, 0),
             last_tick: None,
             my_turn_seen: false,
+            coach: false,
         };
         m.begin_turn();
         m
@@ -887,6 +890,7 @@ impl Match {
             visit_run: (0, 0),
             last_tick: None,
             my_turn_seen: false,
+            coach: false,
         };
         m.begin_turn();
         if let Some(o) = m.online.as_mut() {

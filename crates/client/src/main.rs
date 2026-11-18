@@ -789,6 +789,19 @@ async fn main() {
         if let Some(m) = current.as_mut() {
             m.talk = config.opponent_talk;
             m.head_string = config.head_string;
+            // A first game against the computer or two players here: the
+            // pointers, until the player has taken two shots.
+            m.coach = !config.coached && !m.is_online() && !m.is_replay();
+            if m.coach
+                && m.timeline
+                    .iter()
+                    .filter(|s| m.controllers[s.shooter] == game::Controller::Human)
+                    .count()
+                    >= 2
+            {
+                config.coached = true;
+                config.save();
+            }
             // Offline, the first player is this one.
             if m.online.is_none() && m.avatars[0] != config.avatar {
                 m.avatars[0] = config.avatar.clone();
@@ -951,6 +964,31 @@ async fn main() {
                         online.draw_queue_banner(&mut ui);
                     }
                     match action {
+                        HudAction::DrillAgain(code) => {
+                            let name = online
+                                .me
+                                .as_ref()
+                                .map_or(config.player_name.clone(), |me| me.username.clone());
+                            if let Some(next) = Match::drill(code, &name, config.guide) {
+                                online.drill_result = None;
+                                current = Some(next);
+                                hud = Hud::new(config.show_help);
+                                rig.reset();
+                            }
+                        }
+                        HudAction::NextStage(k) => {
+                            // The next opponent of the tour, if it is open.
+                            if ladder_progress.unlocked(k)
+                                && let Some(p) = snook_legend_proto::ladder::rung(k as usize)
+                            {
+                                let o = crate::opponents::Opponent::personality(p.code);
+                                let settings = versus::settings(&config, o, Some(k));
+                                current = Some(Match::new(&settings, game::clock_seed()));
+                                save_key = None;
+                                hud = Hud::new(config.show_help);
+                                rig.reset();
+                            }
+                        }
                         HudAction::MainMenu => {
                             // Back from a replay: to the profile it was opened
                             // from; from a game while waiting: to the lounge.

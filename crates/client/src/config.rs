@@ -114,6 +114,9 @@ pub struct Config {
     /// The head string drawn on the table at all times (off: only while
     /// the cue ball is being placed behind it).
     pub head_string: bool,
+    /// The first game's pointers (where to aim, the power, the shot) were
+    /// shown and followed.
+    pub coached: bool,
     pub show_help: bool,
     /// Pull the camera back to watch each shot.
     pub shot_camera: bool,
@@ -202,6 +205,8 @@ impl Default for Config {
             second_player_name: String::new(),
             guide: AimGuide::Standard,
             head_string: false,
+            // A first run: the first game shows where things are.
+            coached: false,
             show_help: false,
             shot_camera: true,
             camera_follow: false,
@@ -320,7 +325,9 @@ impl Config {
     }
 
     pub fn parse(text: &str) -> Config {
-        let mut c = Config { last_version: String::new(), ..Config::default() };
+        // A settings file is someone who has played: no first-game
+        // pointers unless the file says they are still to come.
+        let mut c = Config { last_version: String::new(), coached: true, ..Config::default() };
         for line in text.lines() {
             let Some((k, v)) = line.split_once('=') else { continue };
             let (k, v) = (k.trim(), v.trim());
@@ -334,6 +341,7 @@ impl Config {
                 }
                 "guide" => c.guide = AimGuide::parse(v).unwrap_or(c.guide),
                 "head_string" => c.head_string = v == "true",
+                "coached" => c.coached = v != "false",
                 "show_help" => c.show_help = v == "true",
                 "shot_camera" => c.shot_camera = v == "true",
                 "camera_follow" => c.camera_follow = v == "true",
@@ -411,7 +419,7 @@ impl Config {
 
     pub fn to_text(&self) -> String {
         format!(
-            "# Snook Legend settings\nplayer_name = {}\nsecond_player_name = {}\nguide = {}\nhead_string = {}\nshow_help = {}\nshot_camera = {}\ncamera_follow = {}\ngraphics_checked = {}\nlanguage = {}\nvignette = {}\nfocused_scene = {}\nshow_fps = {}\nshow_ping = {}\nshadows = {}\nopponent_talk = {}\ntop_view_only = {}\navatar = {}\naim_sensitivity = {:.2}\nui_size = {:.2}\n\
+            "# Snook Legend settings\nplayer_name = {}\nsecond_player_name = {}\nguide = {}\nhead_string = {}\ncoached = {}\nshow_help = {}\nshot_camera = {}\ncamera_follow = {}\ngraphics_checked = {}\nlanguage = {}\nvignette = {}\nfocused_scene = {}\nshow_fps = {}\nshow_ping = {}\nshadows = {}\nopponent_talk = {}\ntop_view_only = {}\navatar = {}\naim_sensitivity = {:.2}\nui_size = {:.2}\n\
              quality = {}\nmsaa = {}\nfullscreen = {}\nvolume = {:.2}\nserver = {}\nusername = {}\ntoken = {}\ntoken_server = {}\n\
              difficulty = {}\nopponent = {}\nshot_clock = {}\nlan_name = {}\ncloth = {}\ncue = {}\nchalk = {}\nballs = {}\neffect = {}\ntable = {}\nhall = {}\ncue_level = {}\nemail_offer_declined = {}\n\
              board_seen = {}\ntv_view = {}\ndesktop_notifications = {}\nauto_update = {}\nlast_version = {}\n{}",
@@ -419,6 +427,7 @@ impl Config {
             self.second_player_name,
             self.guide.name(),
             self.head_string,
+            self.coached,
             self.show_help,
             self.shot_camera,
             self.camera_follow,
@@ -597,6 +606,10 @@ mod tests {
         assert_eq!(old.keys, crate::keys::Bindings::default());
         assert!(old.auto_update);
         assert_eq!(old.last_version, "");
+        // Someone who has played: no first-game pointers; a first run: yes.
+        assert!(old.coached);
+        assert!(!Config::default().coached);
+        assert!(!Config::parse(&Config::default().to_text()).coached);
         assert_eq!(Config::default().last_version, env!("CARGO_PKG_VERSION"));
         // Nonsense keys fall back to the defaults.
         let bad = Config::parse("key.shoot = warp\nkey.nothing = a\nkey.replay = ,\n");

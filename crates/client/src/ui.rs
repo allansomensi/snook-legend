@@ -1605,15 +1605,20 @@ pub fn rrect_gradient(r: Rect, radius: f32, top: Color, bottom: Color) {
         ))
     };
     let c = vec2(r.x + r.w / 2.0, r.y + r.h / 2.0);
-    let mut vertices = Vec::with_capacity(OUTLINE + 1);
-    vertices.push(macroquad::models::Vertex::new(c.x, c.y, 0.0, 0.0, 0.0, at(c.y)));
-    for p in pts {
-        vertices.push(macroquad::models::Vertex::new(p.x, p.y, 0.0, 0.0, 0.0, at(p.y)));
+    // On the stack: panels and buttons draw hundreds of these a frame.
+    let vertex = |p: Vec2| macroquad::models::Vertex::new(p.x, p.y, 0.0, 0.0, 0.0, at(p.y));
+    let mut vertices = [vertex(c); OUTLINE + 1];
+    for (v, p) in vertices[1..].iter_mut().zip(pts) {
+        *v = vertex(p);
     }
-    let mut indices = Vec::with_capacity(OUTLINE * 3);
-    for i in 0..OUTLINE {
-        indices.extend_from_slice(&[0, 1 + i as u16, 1 + ((i + 1) % OUTLINE) as u16]);
-    }
+    let indices: [u16; OUTLINE * 3] = std::array::from_fn(|k| {
+        let (i, corner) = (k / 3, k % 3);
+        match corner {
+            0 => 0,
+            1 => 1 + i as u16,
+            _ => 1 + ((i + 1) % OUTLINE) as u16,
+        }
+    });
     let gl = unsafe { get_internal_gl() }.quad_gl;
     gl.texture(None);
     gl.draw_mode(DrawMode::Triangles);

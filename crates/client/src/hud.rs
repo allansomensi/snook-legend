@@ -554,7 +554,11 @@ impl Hud {
         }
 
         // Game over.
-        if let (Phase::GameOver, Some(over), true) = (&m.phase, m.game.game_over(), m.is_online()) {
+        // (While the last shot is watched again, the panel steps aside.)
+        let mut replay_now = false;
+        if let (Phase::GameOver, Some(over), true, None) =
+            (&m.phase, m.game.game_over(), m.is_online(), &m.replay)
+        {
             let o = m.online.as_ref().expect("online");
             let me = o.seat;
             let won = over.winner == me && !o.spectator;
@@ -594,6 +598,7 @@ impl Hud {
             let bw = bw.min((w - 60.0) / if friend.is_some() { 3.0 } else { 2.0 });
             let r = Rect::new((sw - w) / 2.0, sh / 2.0 - 110.0 - STATS_H / 2.0, w, 220.0);
             ui.panel(r);
+            replay_now |= replay_button(ui, m, r);
             let view = &mut self.stats_view;
             let stats_w = 440.0f32.min(w);
             let stats = Rect::new((sw - stats_w) / 2.0, r.y + r.h + 8.0, stats_w, STATS_H - 8.0);
@@ -723,7 +728,9 @@ impl Hud {
                     action = HudAction::Lounge;
                 }
             }
-        } else if let (Phase::GameOver, Some(over)) = (&m.phase, m.game.game_over()) {
+        } else if let (Phase::GameOver, Some(over), None) =
+            (&m.phase, m.game.game_over(), &m.replay)
+        {
             let all_computers = m.controllers.iter().all(|c| matches!(c, Controller::Computer(_)));
             let title = tw("{name} wins!", &[("name", &m.names[over.winner])]);
             // Wide enough for the title with a margin (long computer names).
@@ -731,6 +738,7 @@ impl Hud {
                 crate::ui::clamp_soft(ui.text_size(&title, 28.0, true).x + 64.0, 420.0, sw - 20.0);
             let r = Rect::new((sw - w) / 2.0, sh / 2.0 - 95.0 - STATS_H / 2.0, w, 190.0);
             ui.panel(r);
+            replay_now |= replay_button(ui, m, r);
             let view = &mut self.stats_view;
             let stats_w = 420.0f32.min(w);
             let stats = Rect::new((sw - stats_w) / 2.0, r.y + r.h + 8.0, stats_w, STATS_H - 8.0);
@@ -777,6 +785,9 @@ impl Hud {
             }
         }
 
+        if replay_now {
+            m.start_replay();
+        }
         if let Some(saved) = modal {
             ui.resume_input(saved);
         }
@@ -1931,6 +1942,17 @@ impl Hud {
             false,
         );
     }
+}
+
+/// On the end panel's corner: the deciding shot, once more (true when
+/// pressed).
+fn replay_button(ui: &mut Ui, m: &Match, panel: Rect) -> bool {
+    if m.last_shot.is_none() {
+        return false;
+    }
+    let b = Rect::new(panel.x + panel.w - 40.0, panel.y + 10.0, 30.0, 30.0);
+    let tip = keys::tip(t("Watch the deciding shot again"), Action::Replay);
+    ui.icon_button_ex(b, Icon::Replay, &tip, true, true)
 }
 
 fn turn_title(m: &Match) -> String {

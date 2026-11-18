@@ -1769,3 +1769,4 @@ Start a new one	Começar outra
 Click again to close the game: {n} will be disconnected	Clique de novo para fechar a partida: {n} serão desconectados
 {name} cleared the table in one visit!	{name} limpou a mesa numa só vez!
 {name}: {n} in a row!	{name}: {n} seguidas!
+Watch the deciding shot again	Ver de novo a tacada decisiva

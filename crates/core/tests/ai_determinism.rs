@@ -159,6 +159,6 @@ const EXPECTED: [(u8, u64); 5] = [
     (2, 0x7f8d_52de_242c_eb40),
     (3, 0x9234_f79e_23ac_772c),
     (4, 0x0dc7_88cb_89fb_6a39),
-    // Not the default yet: may still change, on purpose, until it is.
+    // The default from 0.7.0: frozen like the others.
     (5, 0xe866_92d6_0300_b481),
 ];

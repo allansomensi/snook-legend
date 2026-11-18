@@ -92,7 +92,8 @@ const EXPECTED: [(u8, u64); 5] = [
     (2, 0x7b1a_f1d3_d312_aa3a),
     (3, 0x4871_c5a2_44a0_108f),
     (4, 0xdc1b_d36a_bee2_cbdb),
-    // Not the default yet. Ruleset 4's physics and table: none of its
-    // corrections comes up in these shots, so the bits are 4's.
-    (5, 0xdc1b_d36a_bee2_cbdb),
+    // The default from 0.7.0: ruleset 4's physics and table; the bits
+    // differ from 4's where its rules do (a break that makes both groups
+    // passes the turn).
+    (5, 0x140c_a83e_b933_5d2a),
 ];

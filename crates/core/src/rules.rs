@@ -826,6 +826,8 @@ impl EightBallGame {
     ///   one of the opponent's stays off, made for them.
     /// - A break that makes only the cue ball is played again by the
     ///   opponent: the balls go back in the rack and they break.
+    /// - From ruleset 5, a break that makes balls of both groups passes the
+    ///   turn, and the table stays open.
     /// - The 8 alone on the break wins; the 8 on the break with any other
     ///   ball loses. At the end, the 8 loses if the cue ball or one of the
     ///   opponent's balls goes down with it.
@@ -947,10 +949,19 @@ impl EightBallGame {
                 Some(GameOver { winner: shooter, reason: GameOverReason::PocketedEight })
             };
         }
+        // From ruleset 5, a break that makes balls of both groups (the 3 and
+        // the 14, say) passes the turn and leaves the table open: on the
+        // break only one kind may go down.
+        let mixed_break = was_break
+            && self.ruleset >= 5
+            && [Group::Solids, Group::Stripes]
+                .iter()
+                .all(|g| object_pocketed.iter().any(|b| g.contains(*b)));
         // The first ball made on a shot without a foul decides the groups.
         if game_over.is_none()
             && self.groups[shooter].is_none()
             && fouls.is_empty()
+            && !mixed_break
             && let Some(g) = object_pocketed.iter().find_map(|b| Group::of(*b))
         {
             self.groups[shooter] = Some(g);
@@ -975,6 +986,7 @@ impl EightBallGame {
         let continues = game_over.is_none()
             && fouls.is_empty()
             && !opponent_ball
+            && !mixed_break
             && if was_break {
                 !object_pocketed.is_empty()
             } else {
@@ -1939,7 +1951,9 @@ mod tests {
     /// Player 0 on stripes, player 1 on solids, past the break, with the
     /// cue ball in the middle and these balls on the table.
     fn house(positions: &[(u8, DVec2)]) -> EightBallGame {
-        let mut g = after_break(3);
+        let mut g = EightBallGame::with_ruleset(3, 0, 4);
+        g.is_break = false;
+        g.ball_in_hand = None;
         assert_eq!(g.ruleset(), 4);
         g.groups = [Some(Group::Stripes), Some(Group::Solids)];
         layout(&mut g, positions);
@@ -2434,13 +2448,13 @@ mod tests {
         assert!(eight.in_play() && eight.xy().y == 0.0 && eight.xy().x >= g.table.foot_spot().x);
     }
 
-    // ---- Ruleset 5: not the default yet ---------------------------------
+    // ---- Ruleset 5: the default from 0.7.0 ------------------------------
 
     /// A game under ruleset 5 past the break, an open table with these
     /// balls on it.
     fn ruleset_5(positions: &[(u8, DVec2)]) -> EightBallGame {
         let mut g = EightBallGame::with_ruleset(3, 0, 5);
-        assert_eq!((g.ruleset(), crate::RULESET), (5, 4), "asked for by number only");
+        assert_eq!(g.ruleset(), 5);
         g.is_break = false;
         g.ball_in_hand = None;
         layout(&mut g, positions);
@@ -2464,13 +2478,57 @@ mod tests {
         assert_eq!(EightBallGame::with_ruleset(1, 0, 200).ruleset(), crate::NEWEST_RULESET);
     }
 
+    /// From ruleset 5 a break that makes a solid and a stripe passes the
+    /// turn and leaves the table open; one kind only keeps the table and
+    /// sets the groups, as before. Ruleset 4 played on after either.
+    #[test]
+    fn a_break_with_both_groups_passes_the_turn() {
+        let kinds = |r: &ShotReport| {
+            let made: Vec<BallId> = r.pocketed.iter().map(|(b, _)| *b).collect();
+            let solids = made.iter().any(|b| Group::Solids.contains(*b));
+            let stripes = made.iter().any(|b| Group::Stripes.contains(*b));
+            (solids, stripes, made.contains(&BallId::EIGHT))
+        };
+        let (mut mixed, mut single, mut old_mixed) = (0, 0, 0);
+        for seed in 0..300u64 {
+            // Real breaks, struck a little differently each time.
+            let yaw = (seed % 9) as f64 * 0.003 - 0.012;
+            for ruleset in [4, 5] {
+                let mut g = EightBallGame::with_ruleset(seed, 0, ruleset);
+                let report = g.play_shot(&Shot::new(yaw, g.max_cue_speed()), None).unwrap();
+                let (solids, stripes, eight) = kinds(&report);
+                if report.is_foul() || eight || report.reracked {
+                    continue;
+                }
+                if solids && stripes {
+                    if ruleset == 5 {
+                        mixed += 1;
+                        assert!(!report.continues, "seed {seed}: {report:?}");
+                        assert!(g.is_open_table() && report.group_assigned.is_none());
+                        assert_eq!(g.current_player(), 1, "the opponent's turn");
+                    } else {
+                        old_mixed += 1;
+                        assert!(report.continues && report.group_assigned.is_some());
+                    }
+                } else if (solids || stripes) && ruleset == 5 {
+                    single += 1;
+                    assert!(report.continues && report.group_assigned.is_some(), "{report:?}");
+                    assert_eq!(g.current_player(), 0);
+                }
+            }
+        }
+        assert!(mixed > 0 && single > 0 && old_mixed > 0, "{mixed} {single} {old_mixed}");
+    }
+
     /// Every group ball went down on fouls, which decide no group: under
     /// ruleset 4 the 8 can only be hit (a foul) or made too early, and
     /// nobody can win. Under ruleset 5 both players are on the 8.
     #[test]
     fn an_open_table_with_no_group_ball_left_puts_both_players_on_the_eight() {
         let at = [(0, DVec2::new(-0.2, 0.0)), (8, DVec2::new(0.3, 0.2))];
-        let mut old = after_break(3);
+        let mut old = EightBallGame::with_ruleset(3, 0, 4);
+        old.is_break = false;
+        old.ball_in_hand = None;
         layout(&mut old, &at);
         assert!(old.is_open_table() && !old.is_on_eight(0) && !old.needs_called_pocket());
         let shot = straight_shot(&old, BallId::EIGHT, PocketId::FootLeft, 2.0);

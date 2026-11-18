@@ -26,10 +26,10 @@ Pocketing only the 8 on the break wins the game on the spot. Pocketing the 8 tog
 If only the cue ball goes down on the break, you lose the turn, the balls are racked again and your opponent breaks.
 
 ### After the break
-If you pocket a ball on the break without a foul, the first ball that went down decides your group and you shoot again.
+If you pocket balls of one group only on the break, without a foul, the first ball that went down decides your group and you shoot again. If balls of both groups go down (the 3 and the 14, say), you lose the turn and the table stays open.
 
 ### Open table
-Until the groups are decided the table is open: you may hit any ball first except the 8. The first ball you pocket on a shot without a foul gives you its group, and your opponent the other. On an open table there is no opponent's ball yet: a foul costs only the turn.
+Until the groups are decided the table is open: you may hit any ball first except the 8. The first ball you pocket on a shot without a foul gives you its group, and your opponent the other. On an open table there is no opponent's ball yet: a foul costs only the turn. If no ball of either group is left on an open table, both players are on the 8.
 
 ## Fouls and penalties
 
@@ -43,7 +43,7 @@ Hitting none of your balls: your opponent's lowest ball on the table comes off (
 Hitting one of your opponent's balls first, directly: their two lowest balls come off, and you lose the turn. If the ball you hit goes down, it stays down and the two come off all the same. If the cue ball went to a cushion first: one ball. Hitting your opponent's ball directly and pocketing the cue ball as well: their three lowest.
 
 ### Pocketing the cue ball
-One ball to your opponent, who gets the cue ball in hand and may place it anywhere on the table (behind the head string after a break). Only a cue ball that went down or left the table is in hand; after any other foul it is played from where it stopped.
+One ball to your opponent, who gets the cue ball in hand and may place it anywhere on the table (behind the head string after a break). It may be placed against a cushion, but never in a pocket's mouth. Only a cue ball that went down or left the table is in hand; after any other foul it is played from where it stopped.
 
 ### Balls off the table
 The cue ball off the table: you lose the turn and your opponent gets it in hand. A ball of your group off the table comes back to the table, and you lose the turn. One of your opponent's balls off the table is out (it counts for them), and you lose the turn.

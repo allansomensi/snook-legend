@@ -1082,7 +1082,7 @@ mod tests {
         assert!(!none.banks);
     }
 
-    // ---- Ruleset 5: not the default yet ---------------------------------
+    // ---- Ruleset 5: the default from 0.7.0 ------------------------------
 
     /// `g` with its snapshot edited (the game's fields belong to the rules:
     /// a test sets the groups or a call through the snapshot).

@@ -64,7 +64,7 @@ fn random_shots_keep_the_table_physical() {
     }
 }
 
-/// The same under ruleset 5 (not the default yet), where a ball that jumps
+/// The same under ruleset 5 (the default from 0.7.0), where a ball that jumps
 /// onto a rail stays there (off the table) and the cue ball in hand may go
 /// against a cushion: every ball in play rests on the bed of the table or
 /// in a pocket's mouth, never in a cushion or out on a rail.

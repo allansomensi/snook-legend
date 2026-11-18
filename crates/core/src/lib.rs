@@ -25,8 +25,7 @@
 ///   the 8 alone on the break wins: see [`EightBallGame::finish_shot`]) on
 ///   the same table, with heavier-feeling balls: a slower cloth, a rack
 ///   that soaks up more of the break and a break that is not struck as hard.
-/// - 5: not the default yet (see [`NEWEST_RULESET`]). Ruleset 4 with what
-///   it got wrong put right. The cue ball in hand may be placed against a
+/// - 5: 0.7.0. Ruleset 4 with what it got wrong put right. The cue ball in hand may be placed against a
 ///   cushion, never past a pocket's mouth; a table still open when no ball
 ///   of either group is left puts both players on the 8; a shot clock that
 ///   runs out leaves the cue ball in hand as it was; a tip too far out to
@@ -36,7 +35,7 @@
 ///   way, breaks and strokes the ball at speeds that fit this cue, counts
 ///   the opponent's balls it makes as given away, and plays for the pocket
 ///   it called for the 8 (calling it, on a safety, for where the 8 stops).
-pub const RULESET: u8 = 4;
+pub const RULESET: u8 = 5;
 
 /// The newest ruleset this version can play. It is ahead of [`RULESET`]
 /// while a ruleset is being prepared: a game is played under it only when

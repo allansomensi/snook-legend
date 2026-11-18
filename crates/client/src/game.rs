@@ -1325,6 +1325,27 @@ impl Match {
         for b in &report.spotted {
             self.notify(tw("The {ball} was spotted.", &[("ball", &crate::i18n::ball(*b))]), false);
         }
+        // Balls of both groups on the break (ruleset 5): the turn passes and
+        // the table stays open.
+        let both = [snook_legend_core::Group::Solids, snook_legend_core::Group::Stripes]
+            .iter()
+            .all(|g| report.pocketed.iter().any(|(b, _)| g.contains(*b)));
+        if report.was_break
+            && both
+            && !report.continues
+            && !report.is_foul()
+            && report.game_over.is_none()
+            && self.game.ruleset() >= 5
+        {
+            let next = self.names[self.game.current_player()].clone();
+            self.notify(
+                tw(
+                    "Balls of both groups on the break: the turn passes to {next}, the table is open.",
+                    &[("next", &next)],
+                ),
+                true,
+            );
+        }
         if report.reracked {
             // Only the cue ball went down on the break: racked again.
             let next = self.names[self.game.current_player()].clone();

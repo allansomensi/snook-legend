@@ -317,7 +317,10 @@ mod tests {
         let wall = measured(&personality("marta").unwrap().player, 3);
         assert!(cannon.shots > 10 && wall.shots > 10);
         assert_eq!(cannon.games, 3);
-        assert!(cannon.speed > 2.0 * wall.speed, "{cannon:?} {wall:?}");
+        // (From ruleset 5 the computer's strokes stay within what the cue
+        // can play, so the hardest hitter's are no longer recorded faster
+        // than they are struck: the gap is smaller, still wide.)
+        assert!(cannon.speed > 1.6 * wall.speed, "{cannon:?} {wall:?}");
         assert!(cannon.break_speed > wall.break_speed, "{cannon:?} {wall:?}");
         // (Over a few games the share of safeties is no test: on a 9-foot
         // table a wild hitter's missed long pots read much like safeties.)

@@ -1781,3 +1781,4 @@ The server is restarting: your tournament was called off.	El servidor se está r
 Too many sign-ins. Wait a minute and try again.	Demasiados inicios de sesión. Espera un minuto e inténtalo de nuevo.
 Too many wrong passwords. Try again in a few minutes.	Demasiadas contraseñas incorrectas. Inténtalo de nuevo en unos minutos.
 Your VIP subscription could not be cancelled. Try again in a moment.	No se pudo cancelar tu suscripción VIP. Inténtalo de nuevo en un momento.
+Balls of both groups on the break: the turn passes to {next}, the table is open.	Bolas de los dos grupos en el saque: el turno pasa a {next}, la mesa está abierta.

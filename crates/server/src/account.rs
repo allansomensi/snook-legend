@@ -3,7 +3,9 @@
 
 use std::sync::Arc;
 
-use snook_legend_proto::{ClientMsg, MAX_NAME_CHANGES, ServerMsg, valid_password, valid_username};
+use snook_legend_proto::{
+    ClientMsg, MAX_NAME_CHANGES, MAX_PASSWORD_BYTES, ServerMsg, valid_password, valid_username,
+};
 
 use crate::store::{Rename, User, day_of};
 use crate::{Server, now, token_hash};
@@ -40,12 +42,49 @@ pub(crate) fn account_msg(user: &User, payment_email: Option<String>) -> ServerM
     }
 }
 
-/// An account message from a signed-in player (never a guest).
-/// Returns true when the connection must close (the account was deleted).
+/// Checks the current password before a change that asks for it. Wrong
+/// ones count towards the same limits as signing in (guessing here is
+/// guessing there); errors are sent.
+async fn password_ok(
+    server: &Server,
+    user: &User,
+    password: &str,
+    ip: &str,
+    error: &impl Fn(&str),
+) -> bool {
+    if password.len() > MAX_PASSWORD_BYTES {
+        error("The current password is wrong.");
+        return false;
+    }
+    if !server.auth().try_password(ip, &user.username) {
+        error("Too many failed attempts. Wait a few minutes and try again.");
+        return false;
+    }
+    match server.verify_password(password, &user.password_hash).await {
+        Some(true) => {
+            server.auth().succeeded(ip, &user.username);
+            true
+        }
+        Some(false) => {
+            error("The current password is wrong.");
+            false
+        }
+        None => {
+            server.auth().not_tried(ip, &user.username);
+            error("The server is busy. Try again in a moment.");
+            false
+        }
+    }
+}
+
+/// An account message from a signed-in player (never a guest), from the
+/// address `ip`. Returns true when the connection must close (the account
+/// was deleted).
 pub async fn handle(
     server: &Arc<Server>,
     me: &User,
     token: Option<&str>,
+    ip: &str,
     msg: ClientMsg,
     send: &impl Fn(ServerMsg),
 ) -> bool {
@@ -65,8 +104,7 @@ pub async fn handle(
                 error("Passwords need 8 or more characters, not only digits.");
                 return false;
             }
-            if !server.verify_password(&old, &fresh.password_hash).await {
-                error("The current password is wrong.");
+            if !password_ok(server, &fresh, &old, ip, &error).await {
                 return false;
             }
             let Some(hash) = server.hash_password(&new).await else {
@@ -119,8 +157,7 @@ pub async fn handle(
             });
         }
         ClientMsg::DeleteAccount { password } => {
-            if !server.verify_password(&password, &fresh.password_hash).await {
-                error("The current password is wrong.");
+            if !password_ok(server, &fresh, &password, ip, &error).await {
                 return false;
             }
             if server.store.delete_account(me.id, now()).await.is_err() {
@@ -155,6 +192,13 @@ pub async fn change_username(
     };
     if fresh.name_changes >= MAX_NAME_CHANGES {
         error("You can't change your username again.");
+        return None;
+    }
+    // Staff keep their names: an administrator is made by name (see
+    // `SNOOK_LEGEND_ADMINS`), and a listed name left behind by a rename
+    // would make whoever took it next an administrator.
+    if fresh.role.is_staff() || server.is_admin_name(&fresh.username) {
+        error("Staff accounts can't change their username.");
         return None;
     }
     if name == fresh.username {

@@ -525,7 +525,10 @@ async fn vip_gift_paid(
 ) -> Result<(), String> {
     let err = |e: crate::store::StoreError| e.to_string();
     let Some(friend) = friend.parse::<i64>().ok() else {
-        return Err(format!("bad gift_vip_to {friend}"));
+        // Not something this server made: answered, or Stripe would send
+        // it again and again (and in the end stop sending anything).
+        tracing::warn!("VIP gift for {friend:?}: ignored");
+        return Ok(());
     };
     let Some(friend) = server.store.user_by_id(friend).await.map_err(err)? else {
         tracing::warn!("VIP gift for a deleted player");
@@ -707,7 +710,12 @@ async fn apply(server: &Server, event: &Value) -> Result<(), String> {
                     return welcome_paid(server, &user, obj).await;
                 }
                 let Some(pack) = shop::coin_pack(pack) else {
-                    return Err(format!("unknown pack {pack}"));
+                    // Not one of ours (another product of the same Stripe
+                    // account, or a pack no longer sold): answered, or Stripe
+                    // would send it again and again (and in the end stop
+                    // sending anything).
+                    tracing::warn!("{kind} for an unknown pack {pack:?}: ignored");
+                    return Ok(());
                 };
                 let coins = (pack.coins + pack.bonus) as i64;
                 let payment_id = str_of(obj, "payment_intent").or(str_of(obj, "id")).unwrap_or("");
@@ -791,6 +799,14 @@ async fn apply(server: &Server, event: &Value) -> Result<(), String> {
                 }
             }
             let Some(p) = found else { return Ok(()) };
+            // The welcome pack's items go back with its coins (whatever of
+            // them is in use is no longer shown). Before the payment is
+            // marked refunded: a delivery that stops half way is done again
+            // in full, and one that comes after (the pack bought again)
+            // takes nothing.
+            if p.kind == "welcome" && !p.refunded {
+                server.store.revoke_items(p.user_id, &WELCOME_ITEMS).await.map_err(err)?;
+            }
             let first = server.store.refund_payment(&p.id).await.map_err(err)?;
             // Keyed by the payment: taken back exactly once, even when an
             // earlier delivery stopped half-way.

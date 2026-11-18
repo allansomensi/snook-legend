@@ -21,10 +21,29 @@ async fn start_with(rules: Rules, admins: Vec<String>) -> (String, String) {
     let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
     let addr = listener.local_addr().unwrap();
     let rules = Rules { max_connections_per_ip: 100, ..rules };
-    let config = Config { bind: addr, rules, admins, ..Config::default() };
+    let config = Config { bind: addr, rules, admins: admins.clone(), ..Config::default() };
     let server = Server::new(config).await.unwrap();
+    // An administrator's name can't be registered: its account comes
+    // first (with the test password), and signing in makes it one.
+    for name in &admins {
+        make_account(&server, name).await;
+    }
     tokio::spawn(serve(listener, server));
     (format!("ws://{addr}/ws"), format!("http://{addr}"))
+}
+
+/// An account made straight in the store, with the test password.
+async fn make_account(server: &Server, name: &str) {
+    let hash = server.hash_password(PASSWORD).await.unwrap();
+    let user = snook_legend_server::store::NewUser {
+        username: name,
+        password_hash: &hash,
+        country: "BR",
+        rating: 1200,
+        role: snook_legend_proto::Role::Player,
+        ip: "127.0.0.1",
+    };
+    server.store.create_user(&user).await.unwrap().expect("a new account");
 }
 
 async fn start(rules: Rules) -> String {
@@ -818,38 +837,186 @@ async fn lan_guests_play_casual_games() {
     assert!(!rated, "LAN games are never rated");
 }
 
+/// A minimal HTTP client over a raw socket (no extra dependencies).
+async fn request(host: &str, method: &str, path: &str, token: &str, body: &str) -> (u16, String) {
+    use tokio::io::{AsyncReadExt, AsyncWriteExt};
+    let mut s = TcpStream::connect(host).await.unwrap();
+    let auth =
+        if token.is_empty() { String::new() } else { format!("Authorization: Bearer {token}\r\n") };
+    let req = format!(
+        "{method} {path} HTTP/1.1\r\nHost: {host}\r\n{auth}Content-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{body}",
+        body.len()
+    );
+    s.write_all(req.as_bytes()).await.unwrap();
+    // A refused body may not be read: the answer comes before it and the
+    // connection may be reset after.
+    let mut out = Vec::new();
+    let _ = s.read_to_end(&mut out).await;
+    let out = String::from_utf8_lossy(&out).to_string();
+    let code = out[9..12].parse().unwrap();
+    let body = out.split("\r\n\r\n").nth(1).unwrap_or("").to_string();
+    (code, body)
+}
+
+/// The JSON object in a response body (possibly chunked).
+fn json_of(body: &str) -> serde_json::Value {
+    let start = body.find('{').unwrap();
+    let end = body.rfind('}').unwrap();
+    serde_json::from_str(&body[start..=end]).unwrap()
+}
+
+/// An administrator's name belongs to the account that has it: it can't be
+/// registered (the account comes first), and its owner can't rename it
+/// away for someone else to take. Reserved words are refused dressed up too.
+#[tokio::test]
+async fn administrators_names_stay_theirs() {
+    let (url, http) = start_with(Rules::default(), vec!["boss".into(), "chief".into()]).await;
+    let host = http.trim_start_matches("http://").to_string();
+    let taken = "That username is taken.";
+    for name in ["boss", "BOSS", "Admin_1", "moderador", "_suporte2", "staff"] {
+        let mut c = Client::connect(&url).await;
+        c.send(ClientMsg::Register {
+            username: name.into(),
+            password: PASSWORD.into(),
+            country: "BR".into(),
+        })
+        .await;
+        let ServerMsg::AuthError { reason } =
+            c.expect("refused", |m| matches!(m, ServerMsg::AuthError { .. })).await
+        else {
+            unreachable!()
+        };
+        assert_eq!(reason, taken, "{name}");
+    }
+    // The listed account exists, and signing in makes it an administrator.
+    let mut boss = Client::login(&url, "boss", PASSWORD).await;
+    boss.send(ClientMsg::Account).await;
+    boss.expect("account", |m| matches!(m, ServerMsg::Account { .. })).await;
+    let staff = "Staff accounts can't change their username.";
+    boss.rename_refused("boss_pool", staff).await;
+    // A moderator made in the panel keeps their name too, and is signed
+    // out at once (their connection had the powers of the old role).
+    let (mut eve, _) = Client::register(&url, "eve").await;
+    let (code, body) = request(
+        &host,
+        "POST",
+        "/admin/api/login",
+        "",
+        &format!(r#"{{"username":"boss","password":"{PASSWORD}"}}"#),
+    )
+    .await;
+    assert_eq!(code, 200, "{body}");
+    let token = json_of(&body)["token"].as_str().unwrap().to_string();
+    let (code, body) =
+        request(&host, "POST", "/admin/api/users/eve/role", &token, r#"{"role":"moderator"}"#)
+            .await;
+    assert_eq!(code, 200, "{body}");
+    eve.expect("signed out", |m| matches!(m, ServerMsg::Kicked { .. })).await;
+    let mut eve = Client::login(&url, "eve", PASSWORD).await;
+    eve.rename_refused("eve_2", staff).await;
+}
+
+/// Names no account can have and passwords longer than any can be are
+/// turned away at once; a wrong current password when changing it or
+/// deleting the account counts like a wrong one when signing in.
+#[tokio::test]
+async fn password_guesses_are_limited_everywhere() {
+    let (url, http) = start_with(Rules::default(), Vec::new()).await;
+    let host = http.trim_start_matches("http://").to_string();
+    let wrong = "Wrong username or password.";
+    let mut c = Client::connect(&url).await;
+    for (username, password) in
+        [("x".repeat(5000), PASSWORD.to_string()), ("carol".into(), "p".repeat(73))]
+    {
+        c.send(ClientMsg::Login { username, password }).await;
+        let ServerMsg::AuthError { reason } =
+            c.expect("refused", |m| matches!(m, ServerMsg::AuthError { .. })).await
+        else {
+            unreachable!()
+        };
+        assert_eq!(reason, wrong);
+    }
+    // The panel's sign-in too, and it reads no large bodies.
+    let long = format!(r#"{{"username":"{}","password":"x"}}"#, "y".repeat(100));
+    let (code, _) = request(&host, "POST", "/admin/api/login", "", &long).await;
+    assert_eq!(code, 401);
+    let huge = format!(r#"{{"username":"carol","password":"{}"}}"#, "z".repeat(20_000));
+    let (code, _) = request(&host, "POST", "/admin/api/login", "", &huge).await;
+    assert_eq!(code, 413);
+
+    let (mut carol, _) = Client::register(&url, "carol").await;
+    let wrong_now = "The current password is wrong.";
+    for _ in 0..8 {
+        carol
+            .send(ClientMsg::ChangePassword { old: "not-it-1".into(), new: "another1".into() })
+            .await;
+        let ServerMsg::Error { message } =
+            carol.expect("wrong", |m| matches!(m, ServerMsg::Error { .. })).await
+        else {
+            unreachable!()
+        };
+        assert_eq!(message, wrong_now);
+    }
+    let too_many = "Too many failed attempts. Wait a few minutes and try again.";
+    carol.send(ClientMsg::DeleteAccount { password: PASSWORD.into() }).await;
+    let ServerMsg::Error { message } =
+        carol.expect("limited", |m| matches!(m, ServerMsg::Error { .. })).await
+    else {
+        unreachable!()
+    };
+    assert_eq!(message, too_many);
+    let mut again = Client::connect(&url).await;
+    again.send(ClientMsg::Login { username: "carol".into(), password: PASSWORD.into() }).await;
+    let ServerMsg::AuthError { reason } =
+        again.expect("limited", |m| matches!(m, ServerMsg::AuthError { .. })).await
+    else {
+        unreachable!()
+    };
+    assert_eq!(reason, too_many);
+}
+
+/// A saved session that signs in over and over (a new connection each
+/// time) is let in a dozen times a minute; then the connection closes
+/// without an answer, which a game would take as the end of its session.
+#[tokio::test]
+async fn signing_in_again_and_again_is_limited() {
+    let url = start(Rules::default()).await;
+    let (_first, token) = Client::register(&url, "dora").await;
+    let mut refused = false;
+    for _ in 0..20 {
+        let mut c = Client::connect(&url).await;
+        c.send(ClientMsg::Resume { token: token.clone() }).await;
+        let answer = tokio::time::timeout(Duration::from_secs(10), async {
+            loop {
+                match c.ws.next().await {
+                    Some(Ok(Message::Text(t))) => {
+                        let m = parse_server(t.as_str()).unwrap();
+                        if matches!(m, ServerMsg::AuthOk { .. } | ServerMsg::AuthError { .. }) {
+                            return Some(m);
+                        }
+                    }
+                    Some(Ok(_)) => {}
+                    None | Some(Err(_)) => return None,
+                }
+            }
+        })
+        .await
+        .expect("an answer or the end");
+        match answer {
+            Some(ServerMsg::AuthOk { .. }) => assert!(!refused, "let in after being refused"),
+            Some(m) => panic!("told {m:?}: the game would forget its session"),
+            None => refused = true,
+        }
+    }
+    assert!(refused, "never limited");
+}
+
 #[tokio::test]
 async fn admin_panel_requires_staff() {
     let (url, http) = start_with(Rules::default(), vec!["boss".into()]).await;
-    let (mut boss, _) = Client::register(&url, "boss").await;
+    let mut boss = Client::login(&url, "boss", PASSWORD).await;
     let (_eve, _) = Client::register(&url, "eve").await;
     let host = http.trim_start_matches("http://").to_string();
-    // A minimal HTTP client over a raw socket (no extra dependencies).
-    async fn request(
-        host: &str,
-        method: &str,
-        path: &str,
-        token: &str,
-        body: &str,
-    ) -> (u16, String) {
-        use tokio::io::{AsyncReadExt, AsyncWriteExt};
-        let mut s = TcpStream::connect(host).await.unwrap();
-        let auth = if token.is_empty() {
-            String::new()
-        } else {
-            format!("Authorization: Bearer {token}\r\n")
-        };
-        let req = format!(
-            "{method} {path} HTTP/1.1\r\nHost: {host}\r\n{auth}Content-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{body}",
-            body.len()
-        );
-        s.write_all(req.as_bytes()).await.unwrap();
-        let mut out = String::new();
-        s.read_to_string(&mut out).await.unwrap();
-        let code = out[9..12].parse().unwrap();
-        let body = out.split("\r\n\r\n").nth(1).unwrap_or("").to_string();
-        (code, body)
-    }
     let (code, _) = request(&host, "GET", "/admin/api/overview", "", "").await;
     assert_eq!(code, 401);
     let (code, _) = request(
@@ -1476,7 +1643,42 @@ async fn arenas_with_an_entry_fee() {
     alice.send(ClientMsg::StartTournament { id: tournament.id }).await;
     alice.expect("paired", |m| matches!(m, ServerMsg::MatchStarted { .. })).await;
     bob.expect("paired", |m| matches!(m, ServerMsg::MatchStarted { .. })).await;
+    // Resigning at once scores nothing: two friends can't trade points.
     alice.send(ClientMsg::Resign).await;
+    alice.expect("over", |m| matches!(m, ServerMsg::MatchEnded { .. })).await;
+    alice.send(ClientMsg::Tournaments).await;
+    let ServerMsg::Tournaments { tournaments } =
+        alice.expect("list", |m| matches!(m, ServerMsg::Tournaments { .. })).await
+    else {
+        unreachable!()
+    };
+    assert!(tournaments[0].standings.iter().all(|s| s.points == 0 && s.games == 0));
+    // A game played (a few shots, then a resignation) does; the same two
+    // meet again after a wait.
+    for c in [&mut alice, &mut bob] {
+        c.send(ClientMsg::LeaveMatch).await;
+    }
+    let ServerMsg::MatchStarted { game, seat: sa, .. } =
+        alice.expect("paired again", |m| matches!(m, ServerMsg::MatchStarted { .. })).await
+    else {
+        unreachable!()
+    };
+    bob.expect("paired again", |m| matches!(m, ServerMsg::MatchStarted { .. })).await;
+    let game = play_shots(&mut alice, &mut bob, game, sa, 8).await;
+    // (Should someone have won on the 8 already, that game counts the same.)
+    let winner = match game.game_over() {
+        Some(over) => {
+            if over.winner == sa {
+                "alice"
+            } else {
+                "bob"
+            }
+        }
+        None => {
+            alice.send(ClientMsg::Resign).await;
+            "bob"
+        }
+    };
     let ServerMsg::TournamentUpdated { tournament } = alice
         .expect("standings", |m| {
             matches!(m, ServerMsg::TournamentUpdated { tournament } if tournament.standings.iter().any(|s| s.points > 0))
@@ -1485,9 +1687,236 @@ async fn arenas_with_an_entry_fee() {
     else {
         unreachable!()
     };
-    assert_eq!(tournament.standings[0].username, "bob");
+    assert_eq!(tournament.standings[0].username, winner);
     assert_eq!((tournament.standings[0].points, tournament.standings[0].streak), (2, 1));
     assert!(tournament.ends_at.is_some());
+}
+
+impl Client {
+    /// Every message until the answer to a ping (what the server sent so far).
+    async fn drain(&mut self) -> Vec<ServerMsg> {
+        self.send(ClientMsg::Ping).await;
+        let mut seen = Vec::new();
+        loop {
+            match self.expect("anything", |_| true).await {
+                ServerMsg::Pong => return seen,
+                m => seen.push(m),
+            }
+        }
+    }
+
+    /// The next error message.
+    async fn error_text(&mut self) -> String {
+        let ServerMsg::Error { message } =
+            self.expect("error", |m| matches!(m, ServerMsg::Error { .. })).await
+        else {
+            unreachable!()
+        };
+        message
+    }
+}
+
+/// A player's coins, as stored.
+async fn coins_of(server: &Server, name: &str) -> i64 {
+    let user = server.store.user_by_name(name).await.unwrap().unwrap();
+    server.store.wallet(user.id).await.unwrap().coins
+}
+
+/// Waits until `name` has `coins` (refunds arrive through the server's
+/// worker).
+async fn wait_for_coins(server: &Server, name: &str, coins: i64) {
+    let deadline = tokio::time::Instant::now() + Duration::from_secs(10);
+    loop {
+        let now = coins_of(server, name).await;
+        if now == coins {
+            return;
+        }
+        assert!(tokio::time::Instant::now() < deadline, "{name} has {now} coins, not {coins}");
+        tokio::time::sleep(Duration::from_millis(50)).await;
+    }
+}
+
+/// Creates a 4-player knockout as `host` and returns its id (`fee`: its
+/// entry fee, `password`: private).
+async fn new_knockout(host: &mut Client, fee: u32, password: Option<&str>) -> u64 {
+    host.send(ClientMsg::CreateTournament {
+        name: "Friday".into(),
+        size: 4,
+        rated: false,
+        password: password.map(str::to_string),
+        entry_fee: fee,
+        format: Default::default(),
+    })
+    .await;
+    let ServerMsg::TournamentUpdated { tournament } =
+        host.expect("created", |m| matches!(m, ServerMsg::TournamentUpdated { .. })).await
+    else {
+        unreachable!()
+    };
+    tournament.id
+}
+
+/// Entry fees: everything that can stop a player is checked before the
+/// coins are taken, each payment is given back once when it must be, and
+/// joining again after leaving is paid (and refunded) again; it used to be
+/// refused for good, or charged twice and refunded once. Guessing a
+/// private tournament's password is cut short, and muted players can't
+/// name a tournament for everyone to see.
+#[tokio::test]
+async fn tournament_fees_are_taken_and_given_back_once_each() {
+    let (url, server) = start_on(snook_legend_server::store::Store::memory()).await;
+    let (mut alice, _) = Client::register(&url, "alice").await;
+    let (mut bob, _) = Client::register(&url, "bob").await;
+    for c in [&mut alice, &mut bob] {
+        c.expect("daily bonus", |m| matches!(m, ServerMsg::CoinsEarned { .. })).await;
+    }
+    let bob_id = server.store.user_by_name("bob").await.unwrap().unwrap().id;
+    server.store.credit(bob_id, 20, "test", None, snook_legend_server::now()).await.unwrap();
+    let id = new_knockout(&mut alice, 5, Some("secret")).await;
+    wait_for_coins(&server, "alice", 0).await;
+    let join = |password: &str| ClientMsg::JoinTournament { id, password: Some(password.into()) };
+    bob.send(join("guess")).await;
+    assert_eq!(bob.error_text().await, "Wrong tournament password.");
+    assert_eq!(coins_of(&server, "bob").await, 25, "nothing taken for a refused entry");
+    for _ in 0..2 {
+        bob.send(join("secret")).await;
+        bob.expect("in", |m| {
+            matches!(m, ServerMsg::TournamentUpdated { tournament } if tournament.players.len() == 2)
+        })
+        .await;
+        wait_for_coins(&server, "bob", 20).await;
+        bob.send(ClientMsg::LeaveTournament { id }).await;
+        wait_for_coins(&server, "bob", 25).await;
+    }
+    for _ in 0..4 {
+        bob.send(join("guess")).await;
+        assert_eq!(bob.error_text().await, "Wrong tournament password.");
+    }
+    bob.send(join("secret")).await;
+    assert_eq!(bob.error_text().await, "Too many wrong passwords. Try again in a few minutes.");
+    assert_eq!(coins_of(&server, "bob").await, 25);
+
+    server.store.set_mute(bob_id, Some(snook_legend_server::now() + 600)).await.unwrap();
+    let user = server.store.user_by_id(bob_id).await.unwrap().unwrap();
+    server.with(|l| l.refresh_user(user));
+    bob.send(ClientMsg::CreateTournament {
+        name: "Look at me".into(),
+        size: 4,
+        rated: false,
+        password: None,
+        entry_fee: 0,
+        format: Default::default(),
+    })
+    .await;
+    assert!(bob.error_text().await.starts_with("You are muted"));
+}
+
+/// A server that stops calls its tournaments off (they live in its memory
+/// alone) and gives every entry fee back before it goes.
+#[tokio::test]
+async fn a_restart_calls_tournaments_off_and_gives_the_fees_back() {
+    let (url, server) = start_on(snook_legend_server::store::Store::memory()).await;
+    let (mut alice, _) = Client::register(&url, "alice").await;
+    let (mut bob, _) = Client::register(&url, "bob").await;
+    for c in [&mut alice, &mut bob] {
+        c.expect("daily bonus", |m| matches!(m, ServerMsg::CoinsEarned { .. })).await;
+    }
+    let id = new_knockout(&mut alice, 5, None).await;
+    bob.send(ClientMsg::JoinTournament { id, password: None }).await;
+    wait_for_coins(&server, "bob", 0).await;
+    let drain = tokio::spawn(snook_legend_server::drain(server.clone(), 1));
+    for c in [&mut alice, &mut bob] {
+        c.expect(
+            "called off",
+            |m| matches!(m, ServerMsg::Notice { text } if text.contains("called off")),
+        )
+        .await;
+        c.expect("removed", |m| matches!(m, ServerMsg::TournamentRemoved { .. })).await;
+    }
+    drain.await.unwrap();
+    wait_for_coins(&server, "alice", 5).await;
+    wait_for_coins(&server, "bob", 5).await;
+}
+
+/// A running knockout is announced to the lounge when it changes, not
+/// every tick; and a player who stays on the end of their game is taken
+/// to the next one after a moment (the final used to wait for ever).
+#[tokio::test]
+async fn knockouts_move_on_and_are_announced_when_they_change() {
+    let rules = Rules {
+        tournament_pause: Duration::from_millis(500),
+        shot_clock: Duration::from_secs(600),
+        ..Rules::default()
+    };
+    let url = start(rules).await;
+    let (mut ana, _) = Client::register(&url, "ana").await;
+    let (mut ben, _) = Client::register(&url, "ben").await;
+    let (mut cid, _) = Client::register(&url, "cid").await;
+    let (mut dan, _) = Client::register(&url, "dan").await;
+    let id = new_knockout(&mut ana, 0, None).await;
+    for c in [&mut ben, &mut cid] {
+        c.send(ClientMsg::JoinTournament { id, password: None }).await;
+    }
+    cid.expect("joined", |m| {
+        matches!(m, ServerMsg::TournamentUpdated { tournament } if tournament.players.len() == 3)
+    })
+    .await;
+    // Three players: the top seed (ana, first by name) waits in the final.
+    ana.send(ClientMsg::StartTournament { id }).await;
+    ben.expect("semi-final", |m| matches!(m, ServerMsg::MatchStarted { .. })).await;
+    cid.expect("semi-final", |m| matches!(m, ServerMsg::MatchStarted { .. })).await;
+    dan.drain().await;
+    tokio::time::sleep(Duration::from_secs(2)).await;
+    let heard = dan.drain().await;
+    let updates = heard.iter().filter(|m| matches!(m, ServerMsg::TournamentUpdated { .. })).count();
+    assert_eq!(updates, 0, "nothing changed, nothing announced: {heard:?}");
+    // Cid wins and stays on the end of the game: the final starts anyway.
+    ben.send(ClientMsg::Resign).await;
+    cid.expect("won", |m| matches!(m, ServerMsg::MatchEnded { .. })).await;
+    let ServerMsg::MatchStarted { players, .. } =
+        cid.expect("final", |m| matches!(m, ServerMsg::MatchStarted { .. })).await
+    else {
+        unreachable!()
+    };
+    assert!(players.iter().any(|p| p.username == "ana"));
+    ana.expect("final", |m| matches!(m, ServerMsg::MatchStarted { .. })).await;
+}
+
+/// A knockout game both players left (for longer than the reconnection
+/// allows) is settled like a match nobody came to: the bracket goes on
+/// (it used to wait for that game for ever).
+#[tokio::test]
+async fn a_tournament_game_both_players_left_is_settled() {
+    let rules = Rules {
+        reconnect_grace: Duration::from_millis(500),
+        tournament_no_show: Duration::from_millis(500),
+        ..Rules::default()
+    };
+    let url = start(rules).await;
+    let (mut ana, _) = Client::register(&url, "ana").await;
+    let (mut ben, _) = Client::register(&url, "ben").await;
+    let (mut cid, _) = Client::register(&url, "cid").await;
+    let id = new_knockout(&mut ana, 0, None).await;
+    ben.send(ClientMsg::JoinTournament { id, password: None }).await;
+    ben.expect("joined", |m| {
+        matches!(m, ServerMsg::TournamentUpdated { tournament } if tournament.players.len() == 2)
+    })
+    .await;
+    ana.send(ClientMsg::StartTournament { id }).await;
+    ana.expect("final", |m| matches!(m, ServerMsg::MatchStarted { .. })).await;
+    ben.expect("final", |m| matches!(m, ServerMsg::MatchStarted { .. })).await;
+    drop(ana);
+    drop(ben);
+    let ServerMsg::TournamentUpdated { tournament } = cid
+        .expect("finished", |m| {
+            matches!(m, ServerMsg::TournamentUpdated { tournament }
+                if tournament.state == TournamentState::Finished)
+        })
+        .await
+    else {
+        unreachable!()
+    };
+    assert!(tournament.champion.is_some());
 }
 
 #[tokio::test]
@@ -1567,7 +1996,7 @@ async fn vip_members_have_their_own_reactions() {
 async fn chat_lines_can_be_deleted_and_the_chat_cleared() {
     use snook_legend_proto::Deleted;
     let (url, _) = start_with(Rules::default(), vec!["boss".into()]).await;
-    let (mut boss, _) = Client::register(&url, "boss").await;
+    let mut boss = Client::login(&url, "boss", PASSWORD).await;
     let (mut bob, _) = Client::register(&url, "bob").await;
     bob.send(ClientMsg::Chat { text: "oops".into() }).await;
     let oops = said(&mut boss, "oops").await;
@@ -1630,7 +2059,7 @@ async fn administrators_watching_see_the_players_chat() {
     let (url, _) = start_with(Rules::default(), vec!["boss".into()]).await;
     let (mut alice, _) = Client::register(&url, "alice").await;
     let (mut bob, _) = Client::register(&url, "bob").await;
-    let (mut boss, _) = Client::register(&url, "boss").await;
+    let mut boss = Client::login(&url, "boss", PASSWORD).await;
     let (mut eve, _) = Client::register(&url, "eve").await;
     start_match(&mut alice, &mut bob, "bob", "alice", false).await;
     let ServerMsg::Featured { featured: Some(featured) } =

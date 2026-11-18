@@ -13,8 +13,8 @@ mod msstore;
 use super::{
     AimRow, AuditRow, BoardNote, BuyOutcome, FriendOutcome, FriendState, GiftRow, HistoryRow,
     LedgerRow, LiveMatch, MatchRecord, Metrics, NewGift, NewNote, NewReport, NewUser, Overview,
-    Payment, RECENT_SCAN, RecentRow, Rename, ReportRow, SessionKind, StoreResult, StoredReplay,
-    TournamentRecord, User, Wallet, day_of, hour_of,
+    Payment, RECENT_SCAN, RecentRow, Rename, ReportRow, SessionKind, StoreError, StoreResult,
+    StoredReplay, TournamentRecord, User, Wallet, day_of, hour_of,
 };
 use snook_legend_proto::analysis::ShotAnalysis;
 
@@ -496,6 +496,13 @@ impl MemoryStore {
         at: i64,
     ) -> StoreResult<bool> {
         let mut s = self.lock();
+        // A reference names one change of the ledger, as the database's
+        // unique column has it: a second spend under it is an error.
+        if let Some(r) = reference
+            && s.ledger.iter().any(|l| l.3.as_deref() == Some(r))
+        {
+            return Err(StoreError(format!("ledger reference {r} used already")));
+        }
         let w = s.wallets.entry(user_id).or_default();
         if w.coins < amount {
             return Ok(false);
@@ -1384,6 +1391,14 @@ impl MemoryStore {
         }
         w.owned.push(code.to_string());
         Ok(true)
+    }
+
+    pub fn revoke_items(&self, user_id: i64, codes: &[&str]) -> StoreResult<u64> {
+        let mut s = self.lock();
+        let Some(w) = s.wallets.get_mut(&user_id) else { return Ok(0) };
+        let before = w.owned.len();
+        w.owned.retain(|o| !codes.contains(&o.as_str()));
+        Ok((before - w.owned.len()) as u64)
     }
 
     pub fn equip(&self, user_id: i64, category: &str, code: &str) -> StoreResult<()> {

@@ -153,11 +153,14 @@ pub fn valid_username(name: &str) -> bool {
 /// How many times a player may change their username, in all.
 pub const MAX_NAME_CHANGES: u32 = 3;
 
+/// The longest password, in bytes (the hashing limit).
+pub const MAX_PASSWORD_BYTES: usize = 72;
+
 /// Password rules: 8–72 bytes (the hashing limit), any characters, not
 /// made only of digits or of one repeated character.
 pub fn valid_password(password: &str) -> bool {
     let first = password.chars().next();
-    (8..=72).contains(&password.len())
+    (8..=MAX_PASSWORD_BYTES).contains(&password.len())
         && !password.chars().all(|c| c.is_ascii_digit())
         && !password.chars().all(|c| Some(c) == first)
 }

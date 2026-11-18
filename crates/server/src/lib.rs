@@ -35,7 +35,7 @@ pub mod tournament;
 
 use std::collections::{HashMap, HashSet};
 use std::net::{IpAddr, SocketAddr};
-use std::sync::atomic::{AtomicU64, Ordering};
+use std::sync::atomic::{AtomicU64, AtomicUsize, Ordering};
 use std::sync::{Arc, Mutex};
 use std::time::{Duration, Instant};
 
@@ -55,9 +55,9 @@ use sha2::{Digest, Sha256};
 use snook_legend_core::GameOverReason;
 use snook_legend_core::rating::EloConfig;
 use snook_legend_proto::{
-    ACHIEVEMENTS, ClientMsg, FriendInfo, HistoryEntry, LeaderboardEntry, OLDEST_PROTOCOL_VERSION,
-    PROTOCOL_VERSION, PlayerStatus, Profile, Relation, Role, ServerMsg, clean_text, parse_client,
-    valid_avatar, valid_country, valid_password, valid_username,
+    ACHIEVEMENTS, ClientMsg, FriendInfo, HistoryEntry, LeaderboardEntry, MAX_PASSWORD_BYTES,
+    OLDEST_PROTOCOL_VERSION, PROTOCOL_VERSION, PlayerStatus, Profile, Relation, Role, ServerMsg,
+    clean_text, parse_client, valid_avatar, valid_country, valid_password, valid_username,
 };
 use tokio::net::TcpListener;
 use tokio::sync::{Notify, Semaphore, mpsc};
@@ -147,7 +147,13 @@ pub struct Server {
     lounge: Mutex<Lounge>,
     next_conn: AtomicU64,
     auth: Mutex<AuthLimiter>,
-    effects: Mutex<Option<mpsc::UnboundedReceiver<Effect>>>,
+    /// The effect worker's queue, and the shots to simulate (a queue of
+    /// their own: a slow database never holds a shot up); taken when the
+    /// server starts.
+    effects: Mutex<Option<(mpsc::UnboundedReceiver<Effect>, mpsc::UnboundedReceiver<Effect>)>>,
+    /// Effects sent to the worker and not done yet (a stopping server
+    /// waits for them).
+    effects_pending: Arc<AtomicUsize>,
     pub config: Config,
     pub started: Instant,
     /// Password hashing is slow and memory-hungry: a few at a time.
@@ -169,23 +175,41 @@ const IDLE_TIMEOUT: Duration = Duration::from_secs(75);
 /// reward (a few hundred strokes).
 const MAX_MESSAGE_BYTES: usize = 128 * 1024;
 const OUTGOING_QUEUE: usize = 512;
+/// A message the client doesn't take in this long ends the connection.
+const SEND_TIMEOUT: Duration = Duration::from_secs(15);
 /// Game sessions last this long; they are renewed when used after a day.
 pub(crate) const SESSION_LIFETIME: i64 = 60 * 60 * 24 * 30;
 const SESSION_RENEW_AFTER: i64 = 60 * 60 * 24;
+/// Names nobody may take, in the game's three languages; also with digits
+/// or underscores around them ("Admin_1", "_mod").
 const RESERVED_NAMES: &[&str] = &[
     "admin",
     "administrator",
+    "administrador",
     // The game's name, then and now.
     "snook-legend",
     "snooklegend",
     "snook_legend",
     "moderator",
+    "moderador",
     "mod",
     "system",
+    "sistema",
     "staff",
+    "equipe",
+    "equipo",
     "support",
+    "suporte",
+    "soporte",
+    "official",
+    "oficial",
     "guest",
+    "convidado",
+    "invitado",
 ];
+/// How long a password check waits for its turn (two at a time) before the
+/// server says it is busy, rather than queueing without end.
+const HASH_WAIT: Duration = Duration::from_secs(15);
 
 impl Server {
     pub async fn new(config: Config) -> Result<Arc<Self>, Box<dyn std::error::Error>> {
@@ -204,9 +228,12 @@ impl Server {
         let _ = store.purge_sessions(now()).await;
         let _ = store.purge_missions(now()).await;
         let (tx, rx) = mpsc::unbounded_channel();
+        let (shots_tx, shots_rx) = mpsc::unbounded_channel();
         let stripe = config.stripe.clone().map(payments::Stripe::new);
         let msstore = config.msstore.clone().map(msstore::MsStore::new);
         let mut lounge = Lounge::new(config.rules.clone(), tx);
+        lounge.simulate_on(shots_tx);
+        let effects_pending = lounge.pending_effects();
         if let Ok(notes) = store.board_notes(now()).await {
             lounge.set_board(notes.into_iter().map(board_note).collect());
         }
@@ -217,7 +244,8 @@ impl Server {
             lounge: Mutex::new(lounge),
             next_conn: AtomicU64::new(1),
             auth: Mutex::new(AuthLimiter::default()),
-            effects: Mutex::new(Some(rx)),
+            effects: Mutex::new(Some((rx, shots_rx))),
+            effects_pending,
             config,
             started: Instant::now(),
             hashing: Semaphore::new(2),
@@ -253,10 +281,12 @@ impl Server {
         self.config.admins.iter().any(|a| a.eq_ignore_ascii_case(name))
     }
 
-    /// Names nobody may take by changing theirs: the reserved ones and the
-    /// configured administrators' (signing in with one makes an admin).
+    /// Names nobody may take, by registering or by changing theirs: the
+    /// reserved ones and the configured administrators' (signing in with
+    /// one makes an administrator, so such a name only ever belongs to the
+    /// account that has it already).
     pub(crate) fn is_reserved_name(&self, name: &str) -> bool {
-        RESERVED_NAMES.iter().any(|r| r.eq_ignore_ascii_case(name)) || self.is_admin_name(name)
+        is_reserved_word(name) || self.is_admin_name(name)
     }
 
     /// The client's address: from the first configured proxy header that is
@@ -311,8 +341,9 @@ impl Server {
         *self.leaderboard.lock().unwrap_or_else(|e| e.into_inner()) = None;
     }
 
+    /// None when it could not be done (the server is too busy).
     pub async fn hash_password(&self, password: &str) -> Option<String> {
-        let _permit = self.hashing.acquire().await.ok()?;
+        let _permit = tokio::time::timeout(HASH_WAIT, self.hashing.acquire()).await.ok()?.ok()?;
         let password = password.to_string();
         tokio::task::spawn_blocking(move || {
             let salt = SaltString::generate(&mut OsRng);
@@ -323,15 +354,20 @@ impl Server {
         .flatten()
     }
 
-    pub async fn verify_password(&self, password: &str, hash: &str) -> bool {
-        let Ok(_permit) = self.hashing.acquire().await else { return false };
+    /// Whether `password` is the one of `hash`; None when it could not be
+    /// checked (the server is too busy).
+    pub async fn verify_password(&self, password: &str, hash: &str) -> Option<bool> {
+        let Ok(Ok(_permit)) = tokio::time::timeout(HASH_WAIT, self.hashing.acquire()).await else {
+            return None;
+        };
         let (password, hash) = (password.to_string(), hash.to_string());
-        tokio::task::spawn_blocking(move || {
+        let ok = tokio::task::spawn_blocking(move || {
             PasswordHash::new(&hash)
                 .is_ok_and(|h| Argon2::default().verify_password(password.as_bytes(), &h).is_ok())
         })
         .await
-        .unwrap_or(false)
+        .unwrap_or(false);
+        Some(ok)
     }
 
     /// Unlocks every achievement `user` has earned and tells them.
@@ -446,8 +482,12 @@ pub async fn drain(server: Arc<Server>, secs: u64) {
     while server.with(|l| l.running_games()) > 0 && Instant::now() < deadline {
         tokio::time::sleep(Duration::from_secs(1)).await;
     }
-    // Let the effect worker write what is still queued (results, saved games).
-    tokio::time::sleep(Duration::from_secs(2)).await;
+    // What the effect worker still has to write (results, prizes, refunds,
+    // saved games) is written before the process ends.
+    let deadline = Instant::now() + Duration::from_secs(30);
+    while server.effects_pending.load(Ordering::SeqCst) > 0 && Instant::now() < deadline {
+        tokio::time::sleep(Duration::from_millis(100)).await;
+    }
     tracing::info!("drained");
 }
 
@@ -464,10 +504,15 @@ pub fn spawn_background(server: Arc<Server>) {
             if last_sweep.elapsed() > Duration::from_secs(600) {
                 last_sweep = Instant::now();
                 ticker.auth().sweep();
-                let _ = ticker.store.purge_sessions(now()).await;
-                let _ = ticker.store.purge_missions(now()).await;
-                // Saved games nobody came back to within a day.
-                let _ = ticker.store.purge_live(now() - 86_400).await;
+                // On a task of their own: the shot clocks and tournaments
+                // don't stop while the database works.
+                let s = ticker.clone();
+                tokio::spawn(async move {
+                    let _ = s.store.purge_sessions(now()).await;
+                    let _ = s.store.purge_missions(now()).await;
+                    // Saved games nobody came back to within a day.
+                    let _ = s.store.purge_live(now() - 86_400).await;
+                });
             }
         }
     });
@@ -479,11 +524,20 @@ pub fn spawn_background(server: Arc<Server>) {
     if server.msstore.is_some() {
         tokio::spawn(msstore::run(server.clone()));
     }
-    let rx = server.effects.lock().unwrap_or_else(|e| e.into_inner()).take();
-    if let Some(mut rx) = rx {
+    let queues = server.effects.lock().unwrap_or_else(|e| e.into_inner()).take();
+    if let Some((mut effects, mut shots)) = queues {
+        // Each shot is simulated on a thread of its own as soon as it comes,
+        // whatever the database is doing.
+        let s = server.clone();
         tokio::spawn(async move {
-            while let Some(effect) = rx.recv().await {
+            while let Some(shot) = shots.recv().await {
+                run_effect(&s, shot).await;
+            }
+        });
+        tokio::spawn(async move {
+            while let Some(effect) = effects.recv().await {
                 run_effect(&server, effect).await;
+                server.effects_pending.fetch_sub(1, Ordering::SeqCst);
             }
         });
     }
@@ -509,7 +563,9 @@ async fn run_effect(server: &Arc<Server>, effect: Effect) {
             });
         }
         Effect::RecordMatch { record, keys, farmed } => {
-            match server.store.record_match(&record).await {
+            // A failed attempt writes nothing (one transaction): the match
+            // is tried again rather than lost to a moment's trouble.
+            match retrying("recording a match", || server.store.record_match(&record)).await {
                 Ok((users, _)) => {
                     server.invalidate_leaderboard();
                     // The shot analysis replays the game: off the effect queue.
@@ -580,18 +636,7 @@ async fn run_effect(server: &Arc<Server>, effect: Effect) {
             }
         }
         Effect::Pay { user_id, name, coins, reason, reference } => {
-            match server.store.credit(user_id, coins, &reason, Some(&reference), now()).await {
-                Ok(true) => {
-                    server.with(|l| {
-                        l.notify(&name, ServerMsg::CoinsEarned { amount: coins as u32, reason })
-                    });
-                    if let Ok(Some(user)) = server.store.user_by_id(user_id).await {
-                        shop::push_wallet(server, &user).await;
-                    }
-                }
-                Ok(false) => {}
-                Err(e) => tracing::error!("paying {coins} coins to {name} ({reference}): {e}"),
-            }
+            pay(server, user_id, &name, coins, &reason, &reference).await;
         }
         Effect::RecordTournament(t) => {
             if let Err(e) = server.store.record_tournament(&t).await {
@@ -667,9 +712,19 @@ pub fn token_hash(token: &str) -> String {
 }
 
 enum Auth {
-    Ok { user: Box<User>, token: String, guest: bool },
+    Ok {
+        user: Box<User>,
+        token: String,
+        guest: bool,
+    },
     Failed(String),
+    /// Turned away without an answer (the connection closes): a saved
+    /// session signing in too often. Told why, the game would forget the
+    /// session; this way it tries again later by itself.
+    Dropped,
 }
+
+const TOO_MANY_SIGN_INS: &str = "Too many sign-ins. Wait a minute and try again.";
 
 fn ban_message(user: &User) -> String {
     let reason = user.ban_reason.as_deref().filter(|r| !r.is_empty()).unwrap_or("not given");
@@ -723,13 +778,18 @@ async fn authenticate(server: &Arc<Server>, msg: ClientMsg, ip: &str) -> Auth {
             if server.config.rules.lan {
                 return fail("This is a LAN server: join as a guest.");
             }
+            if !server.auth().try_sign_in(ip) {
+                return fail(TOO_MANY_SIGN_INS);
+            }
             let username = username.trim().to_string();
             if !valid_username(&username) {
                 return fail("Usernames have 3–16 letters, digits or underscores.");
             }
-            if RESERVED_NAMES.iter().any(|r| r.eq_ignore_ascii_case(&username))
-                && !server.is_admin_name(&username)
-            {
+            // An administrator's name too: whoever signs in with it is made
+            // one, so it may only be the name of an account that exists
+            // already (made before the name was listed). Otherwise anyone
+            // could register it once its account was renamed or deleted.
+            if server.is_reserved_name(&username) {
                 return fail("That username is taken.");
             }
             if !valid_password(&password) {
@@ -737,32 +797,35 @@ async fn authenticate(server: &Arc<Server>, msg: ClientMsg, ip: &str) -> Auth {
             }
             let country = country.trim().to_uppercase();
             let country = if valid_country(&country) { country } else { String::new() };
-            if !server.auth().may_register(ip) {
+            if !server.auth().try_register(ip) {
                 return fail("Too many new accounts from this network. Try again later.");
             }
             let Some(hash) = server.hash_password(&password).await else {
+                server.auth().not_registered(ip);
                 return fail("Could not create the account.");
             };
-            let role = if server.is_admin_name(&username) { Role::Admin } else { Role::Player };
             let new = NewUser {
                 username: &username,
                 password_hash: &hash,
                 country: &country,
                 rating: EloConfig::default().initial_rating,
-                role,
+                role: Role::Player,
                 ip,
             };
             match server.store.create_user(&new).await {
                 Ok(Some(user)) => {
-                    server.auth().registered(ip);
                     tracing::info!("new account: {}", user.username);
                     match new_session(server, &user).await {
                         Some(token) => Auth::Ok { user: Box::new(user), token, guest: false },
                         None => fail("Could not create the account."),
                     }
                 }
-                Ok(None) => fail("That username is taken."),
+                Ok(None) => {
+                    server.auth().not_registered(ip);
+                    fail("That username is taken.")
+                }
                 Err(e) => {
+                    server.auth().not_registered(ip);
                     tracing::error!("register failed: {e}");
                     fail("Could not create the account.")
                 }
@@ -772,13 +835,25 @@ async fn authenticate(server: &Arc<Server>, msg: ClientMsg, ip: &str) -> Auth {
             if server.config.rules.lan {
                 return fail("This is a LAN server: join as a guest.");
             }
+            if !server.auth().try_sign_in(ip) {
+                return fail(TOO_MANY_SIGN_INS);
+            }
             let username = username.trim().to_string();
-            if !server.auth().may_try(ip, &username) {
+            // A name no account can have, or a password longer than any
+            // password can be, is turned away before it costs anything (a
+            // lookup, a hash, room in the limits' memory), like any wrong
+            // password: the rules are no secret.
+            if !valid_username(&username) || password.len() > MAX_PASSWORD_BYTES {
+                return fail("Wrong username or password.");
+            }
+            // Counted as a failure until the password proves right.
+            if !server.auth().try_password(ip, &username) {
                 return fail("Too many failed attempts. Wait a few minutes and try again.");
             }
             let user = match server.store.user_by_name(&username).await {
                 Ok(u) => u,
                 Err(e) => {
+                    server.auth().not_tried(ip, &username);
                     tracing::error!("login lookup failed: {e}");
                     return fail("The server is busy. Try again in a moment.");
                 }
@@ -786,16 +861,20 @@ async fn authenticate(server: &Arc<Server>, msg: ClientMsg, ip: &str) -> Auth {
             // Hash even for unknown names, so timing reveals nothing.
             let ok = match &user {
                 Some(u) => server.verify_password(&password, &u.password_hash).await,
-                None => {
-                    let _ = server.verify_password(&password, DUMMY_HASH).await;
-                    false
-                }
+                None => server.verify_password(&password, DUMMY_HASH).await.map(|_| false),
+            };
+            let Some(ok) = ok else {
+                server.auth().not_tried(ip, &username);
+                return fail("The server is busy. Try again in a moment.");
             };
             match user {
                 Some(user) if ok => {
-                    server.auth().succeeded(&username);
+                    server.auth().succeeded(ip, &username);
                     if user.is_banned(now()) {
                         return Auth::Failed(ban_message(&user));
+                    }
+                    if !server.auth().try_sign_in_as(user.id) {
+                        return fail(TOO_MANY_SIGN_INS);
                     }
                     let user = promote_if_admin(server, user).await;
                     match new_session(server, &user).await {
@@ -803,21 +882,24 @@ async fn authenticate(server: &Arc<Server>, msg: ClientMsg, ip: &str) -> Auth {
                         None => fail("The server is busy. Try again in a moment."),
                     }
                 }
-                _ => {
-                    server.auth().failed(ip, &username);
-                    fail("Wrong username or password.")
-                }
+                _ => fail("Wrong username or password."),
             }
         }
         ClientMsg::Resume { token } => {
             if server.config.rules.lan {
                 return fail("This is a LAN server: join as a guest.");
             }
+            if !server.auth().try_sign_in(ip) {
+                return Auth::Dropped;
+            }
             let hash = token_hash(&token);
             match server.store.session_user(&hash, SessionKind::Game, now()).await {
                 Ok(Some((user, created))) => {
                     if user.is_banned(now()) {
                         return Auth::Failed(ban_message(&user));
+                    }
+                    if !server.auth().try_sign_in_as(user.id) {
+                        return Auth::Dropped;
                     }
                     let user = promote_if_admin(server, user).await;
                     // Renew sessions in use, so active players stay signed in.
@@ -894,17 +976,23 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
     let (tx, mut rx) = mpsc::channel::<ServerMsg>(OUTGOING_QUEUE);
     let kill = Arc::new(Notify::new());
 
-    let writer = tokio::spawn(async move {
+    let writer_kill = kill.clone();
+    let mut writer = tokio::spawn(async move {
         while let Some(msg) = rx.recv().await {
             let close = matches!(msg, ServerMsg::Kicked { .. });
-            if sink.send(Message::Text(msg.to_json().into())).await.is_err() {
+            // A client that doesn't take a message in this long has stopped
+            // reading: the connection goes (its socket with it).
+            let text = Message::Text(msg.to_json().into());
+            if !matches!(tokio::time::timeout(SEND_TIMEOUT, sink.send(text)).await, Ok(Ok(()))) {
                 break;
             }
             if close {
-                let _ = sink.send(Message::Close(None)).await;
+                let _ = tokio::time::timeout(SEND_TIMEOUT, sink.send(Message::Close(None))).await;
                 break;
             }
         }
+        // Nothing more goes out: the reading side stops too.
+        writer_kill.notify_one();
     });
 
     let send = |msg: ServerMsg| {
@@ -1054,6 +1142,7 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                             break;
                         }
                     }
+                    Auth::Dropped => break,
                 },
                 ClientMsg::Ping => send(ServerMsg::Pong),
                 ClientMsg::Leaderboard => {
@@ -1119,7 +1208,9 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
             | ClientMsg::ChangePassword { .. }
             | ClientMsg::SetRecoveryEmail { .. }
             | ClientMsg::DeleteAccount { .. }) => {
-                if account::handle(&server, &me, token_in_use.as_deref(), msg, &send).await {
+                if account::handle(&server, &me, token_in_use.as_deref(), &ip_text, msg, &send)
+                    .await
+                {
                     break;
                 }
             }
@@ -1303,40 +1394,34 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
             ClientMsg::Report { username, reason, details } => {
                 report(&server, &me, &username, reason, &details, version, &send).await
             }
+            // Tournaments with an entry fee: everything that can be checked
+            // is before the coins are taken; each payment has a ledger
+            // reference of its own, which its refund names (paying again
+            // after leaving is a new payment, refunded on its own).
             ClientMsg::JoinTournament { id, password } if !guest => {
-                let fee = server.with(|l| l.tournament_fee(id)) as i64;
-                let reference = format!("tour:{id}:{}", me.id);
-                if fee > 0 {
-                    match server
-                        .store
-                        .spend(me.id, fee, "tournament entry", Some(&reference), now())
-                        .await
-                    {
-                        Ok(true) => {}
-                        Ok(false) => {
-                            send(ServerMsg::Error { message: "Not enough coins.".into() });
-                            continue;
-                        }
-                        Err(e) => {
-                            tracing::error!("tournament fee: {e}");
-                            continue;
-                        }
-                    }
-                }
                 let key = lounge::key(&me.username);
-                let joined = server.with(|l| l.join_tournament(&key, id, password, fee > 0));
+                // Announced to everyone, like the lounge's own actions.
+                if !server.with(|l| l.take_action(&key)) {
+                    continue;
+                }
+                let Some(fee) = server.with(|l| l.tournament_entry(&key, id, password.as_deref()))
+                else {
+                    continue;
+                };
+                let mut paid_with = None;
                 if fee > 0 {
+                    let reference = format!("tour:{id}:{}:{}", me.id, now_millis());
+                    if !take_fee(&server, &me, fee, &reference, &send).await {
+                        continue;
+                    }
+                    paid_with = Some(reference);
+                }
+                let joined =
+                    server.with(|l| l.join_tournament(&key, id, password, paid_with.clone()));
+                if let Some(reference) = paid_with {
                     if joined == lounge::Joined::No {
-                        let _ = server
-                            .store
-                            .credit(
-                                me.id,
-                                fee,
-                                "refund",
-                                Some(&format!("refund:{reference}")),
-                                now(),
-                            )
-                            .await;
+                        let reference = format!("refund:{reference}");
+                        pay(&server, me.id, &me.username, fee as i64, "refund", &reference).await;
                     }
                     shop::push_wallet(&server, &me).await;
                 }
@@ -1344,30 +1429,33 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
             ClientMsg::CreateTournament { name, size, rated, password, entry_fee, format }
                 if !guest && entry_fee > 0 =>
             {
-                let fee = entry_fee.min(lounge::tournaments_max_fee()) as i64;
-                let tmp = format!("tour:new:{}:{}", me.id, now_millis());
-                match server.store.spend(me.id, fee, "tournament entry", Some(&tmp), now()).await {
-                    Ok(true) => {}
-                    Ok(false) => {
-                        send(ServerMsg::Error { message: "Not enough coins.".into() });
-                        continue;
-                    }
-                    Err(e) => {
-                        tracing::error!("tournament fee: {e}");
-                        continue;
-                    }
-                }
                 let key = lounge::key(&me.username);
+                let fee = entry_fee.min(lounge::tournaments_max_fee());
+                let may = server.with(|l| {
+                    l.take_action(&key)
+                        && l.may_create_tournament(
+                            &key,
+                            &name,
+                            size,
+                            password.as_deref(),
+                            fee,
+                            format,
+                        )
+                });
+                if !may {
+                    continue;
+                }
+                let reference = format!("tour:new:{}:{}", me.id, now_millis());
+                if !take_fee(&server, &me, fee, &reference, &send).await {
+                    continue;
+                }
+                let paid = Some(reference.clone());
                 let created = server.with(|l| {
-                    l.create_tournament(
-                        &key, &name, size, rated, password, fee as u32, format, true,
-                    )
+                    l.create_tournament(&key, &name, size, rated, password, fee, format, paid)
                 });
                 if created.is_none() {
-                    let _ = server
-                        .store
-                        .credit(me.id, fee, "refund", Some(&format!("refund:{tmp}")), now())
-                        .await;
+                    let reference = format!("refund:{reference}");
+                    pay(&server, me.id, &me.username, fee as i64, "refund", &reference).await;
                 }
                 shop::push_wallet(&server, &me).await;
             }
@@ -1385,7 +1473,12 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
         }
     }
     drop(tx);
-    let _ = tokio::time::timeout(Duration::from_secs(2), writer).await;
+    // The last messages (a notice to go) have a moment to leave; then the
+    // writer ends, holding the socket no longer (a writer left behind kept
+    // a connection open that the limit per address no longer counted).
+    if tokio::time::timeout(Duration::from_secs(2), &mut writer).await.is_err() {
+        writer.abort();
+    }
 }
 
 /// Messages answered from the database.
@@ -1653,14 +1746,10 @@ async fn report(
         return;
     }
     let key_ = format!("report:{}", me.id);
-    {
-        let mut auth = server.auth();
-        if !auth.may_register(&key_) {
-            return send(ServerMsg::Error {
-                message: "You've sent many reports. Please wait before sending more.".into(),
-            });
-        }
-        auth.registered(&key_);
+    if !server.auth().try_register(&key_) {
+        return send(ServerMsg::Error {
+            message: "You've sent many reports. Please wait before sending more.".into(),
+        });
     }
     let context = server.with(|l| l.report_context(&me.username, &target.username));
     // The game between the two goes with the report: the staff can watch
@@ -1850,6 +1939,81 @@ async fn trophies_of(server: &Server, user_id: i64) -> Vec<snook_legend_proto::T
     trophies
 }
 
+/// Takes a tournament's entry fee (the player is told when it can't be).
+async fn take_fee(
+    server: &Server,
+    me: &User,
+    fee: u32,
+    reference: &str,
+    send: &impl Fn(ServerMsg),
+) -> bool {
+    match server.store.spend(me.id, fee as i64, "tournament entry", Some(reference), now()).await {
+        Ok(true) => true,
+        Ok(false) => {
+            send(ServerMsg::Error { message: "Not enough coins.".into() });
+            false
+        }
+        Err(e) => {
+            tracing::error!("tournament fee of {}: {e}", me.username);
+            send(ServerMsg::Error { message: "Something went wrong. Please try again.".into() });
+            false
+        }
+    }
+}
+
+/// How many times a write that pays or records something is tried.
+const WRITE_TRIES: u32 = 4;
+
+/// Runs a database write again after a failure (a busy pool, a dropped
+/// connection), a few times with growing waits, rather than losing what it
+/// pays or records to a moment's trouble. Only for writes that are safe to
+/// repeat.
+async fn retrying<T, F, Fut>(what: &str, mut write: F) -> store::StoreResult<T>
+where
+    F: FnMut() -> Fut,
+    Fut: std::future::Future<Output = store::StoreResult<T>>,
+{
+    let mut wait = Duration::from_millis(500);
+    let mut tries = 1;
+    loop {
+        match write().await {
+            Err(e) if tries < WRITE_TRIES => {
+                tracing::warn!("{what} (try {tries}): {e}; trying again");
+                tokio::time::sleep(wait).await;
+                wait *= 2;
+                tries += 1;
+            }
+            done => return done,
+        }
+    }
+}
+
+/// Gives (or gives back) coins once (the ledger `reference` keeps it
+/// single, also when tried again), and tells the player.
+pub(crate) async fn pay(
+    server: &Server,
+    user_id: i64,
+    name: &str,
+    coins: i64,
+    reason: &str,
+    reference: &str,
+) {
+    let credit = || server.store.credit(user_id, coins, reason, Some(reference), now());
+    match retrying("paying", credit).await {
+        Ok(true) => {
+            let amount = coins.max(0) as u32;
+            server.with(|l| {
+                l.notify(name, ServerMsg::CoinsEarned { amount, reason: reason.to_string() })
+            });
+            if let Ok(Some(user)) = server.store.user_by_id(user_id).await {
+                shop::push_wallet(server, &user).await;
+            }
+        }
+        Ok(false) => {}
+        Err(e) => tracing::error!("paying {coins} coins to {name} ({reference}): {e}"),
+    }
+}
+
 fn now_millis() -> u128 {
     std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
@@ -1904,6 +2068,13 @@ pub fn counted_address(ip: IpAddr) -> IpAddr {
     }
 }
 
+/// A reserved word, maybe with digits or underscores around it ("Admin_1",
+/// "_mod", "suporte2"), in any case.
+fn is_reserved_word(name: &str) -> bool {
+    let bare = name.trim_matches(|c: char| c.is_ascii_digit() || c == '_');
+    RESERVED_NAMES.iter().any(|r| r.eq_ignore_ascii_case(name) || r.eq_ignore_ascii_case(bare))
+}
+
 /// Lower-case key of a username (re-exported for the admin panel).
 pub fn user_key(name: &str) -> String {
     key(name)
@@ -1919,6 +2090,35 @@ mod tests {
     fn dummy_hash_is_a_real_argon2_hash() {
         let hash = PasswordHash::new(DUMMY_HASH).expect("parses");
         assert!(Argon2::default().verify_password(b"guess", &hash).is_err());
+    }
+
+    /// A write that fails for a moment is tried again until it is done.
+    #[tokio::test]
+    async fn writes_are_tried_again() {
+        let tries = std::sync::atomic::AtomicU32::new(0);
+        let tries = &tries;
+        let done = retrying("a test", || async move {
+            match tries.fetch_add(1, Ordering::SeqCst) {
+                0 | 1 => Err(store::StoreError("busy".into())),
+                n => Ok(n),
+            }
+        })
+        .await;
+        assert_eq!(done.unwrap(), 2);
+    }
+
+    /// The reserved words in any case, and dressed up with digits or
+    /// underscores; names that only contain one are free.
+    #[test]
+    fn reserved_names() {
+        for name in
+            ["admin", "ADMIN", "Admin_1", "_mod_", "moderador", "Suporte2", "staff", "1oficial"]
+        {
+            assert!(is_reserved_word(name), "{name}");
+        }
+        for name in ["adminx", "modesto", "my_staff", "ana_99", "system_x"] {
+            assert!(!is_reserved_word(name), "{name}");
+        }
     }
 
     /// Every address of an IPv6 /64 counts as one (its owner picks among

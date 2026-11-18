@@ -18,7 +18,7 @@ without consequence, take over accounts, or take the server down cheaply.
 | 2 | Password guessing limited only per connection (reconnect to reset). | High | Failures are counted per account (8 / 15 min) and per address (20 / 15 min) across connections; unknown usernames still run Argon2 (no timing difference). |
 | 3 | Unlimited account creation. | Medium | 5 new accounts per address per hour; reserved names (`admin`, the game's name, `moderator`…). |
 | 4 | Outgoing queues unbounded: a client that stops reading made the server buffer every broadcast forever (memory exhaustion). | High | Bounded queues (512 messages); a client that can't keep up is disconnected. |
-| 5 | No message rate limit per connection. | Medium | 40 messages/s sustained, bursts of 120; 16 KiB per message; 12 connections per address. |
+| 5 | No message rate limit per connection. | Medium | 40 messages/s sustained, bursts of 120; 128 KiB per message (room for a whole game sent to claim the ladder's reward); 12 connections per address. |
 | 6 | Shot simulation ran inside the lounge lock: every shot froze the whole server for its duration (×10 on a small shared CPU). | High | Simulation runs on a blocking worker; the lounge only validates and commits. Password hashing is limited to two at a time. |
 | 7 | Infinite or NaN stroke values were not rejected before reaching the physics. | Medium | Every float in `shoot`, `aim` and `place_cue_ball` must be finite; shots carry the turn number (`turn`) so stale or repeated shots are refused. |
 | 8 | Chat accepted bidirectional overrides and zero-width characters (impersonation, hidden text). | Low | Control and invisible formatting characters are removed, spaces collapsed, length capped. Repeating the same line is refused. |
@@ -42,14 +42,31 @@ without consequence, take over accounts, or take the server down cheaply.
 | 21 | The saved session was sent to whatever server the game was pointed at: with a third-party address typed under Settings → Game server, the game signed in there with the token of the official server, which whoever runs that server could then use on the official one. | Medium | The settings keep which server gave the session (`token_server`); it is only ever sent to that one, and signing in on another server starts from the form. |
 | 22 | Limits "per address" (connections, new accounts, wrong passwords) were kept by the full IPv6 address. One home or phone is given a /64 and picks its addresses freely, so those limits limited nothing for IPv6 clients. | Medium | An IPv6 address is counted as its /64 (an IPv4 one as it is, also when written as IPv6). |
 | 23 | A connection replaced by a new sign-in was told so and closed, but a message it had already sent could still be read first, and acted in the name of the account's new session (the lounge knows sessions by name). | Low | The notice to go is checked before anything is read, and every message of a signed-in connection is checked against the session that owns the account: an account is live in one place at a time. |
+| 24 | Anyone could become an administrator: `SNOOK_LEGEND_ADMINS` makes whoever signs in with a listed name one, and once a listed administrator changed their username (or deleted the account) the name was free to register. | High | A listed name can't be registered (its account is made before the name is listed), and staff can't change their usernames. |
+| 25 | The limits on wrong passwords kept every name tried, whatever it was (up to 128 KiB in the game, 2 MB in the panel), for a quarter of an hour: memory grew with each guess. | High | A name no account can have, or a password longer than any can be, is refused at once without being kept; the panel reads bodies of 16 KiB at most; the limits keep at most 50 000 keys (the oldest make room). |
+| 26 | Limits were checked before the attempt and counted after it: attempts made at the same moment (new accounts, passwords) all got under them. | Low | Every attempt is counted as it starts and taken back if it didn't count. |
+| 27 | The current password asked to change the password or delete the account could be guessed without limit; password hashing waited in an endless queue. | Medium | Wrong ones count with the wrong passwords of signing in; a hash waits 15 s at most, then the server says it is busy. |
+| 28 | Signing in (each time on a new connection) had no limit of its own: a script could make the database work for each sign-in, again and again. | Medium | 30 sign-ins a minute per address and 12 per account; a saved session over the limit is closed without an answer (the game keeps it and tries later). |
+| 29 | A player made moderator or demoted kept the powers of their old role until their next sign-in. | Low | Changing a role signs the player out at once. |
+| 30 | Reserved names were English only and matched exactly: `Admin_1`, `moderador` or `suporte` were free. | Low | The staff words in the game's three languages, also with digits or underscores around them. |
+| 31 | Every running knockout was sent to the whole lounge four times a second, changed or not. | High | A tournament is sent when what players see of it changes. |
+| 32 | A tournament's entry fee was paid under the same ledger reference at every try: once a player had left (or failed to join), the database refused their next payment for good, and the memory store took it twice and gave one back. Coins were taken before the checks that could refuse the player. | Medium | Each payment has a reference of its own, which its refund names; everything that can refuse a player is checked before the coins are taken; the memory store refuses a reference used before, as the database does. |
+| 33 | Joining or creating a tournament through the connection skipped the limit on lounge actions: a private tournament's password could be guessed some forty times a second. | Medium | The lounge actions' limit, and five wrong passwords for one private table or tournament lock it for that player for ten minutes. |
+| 34 | Tournaments live in the server's memory: a restart lost them with every entry fee paid. | Medium | A stopping server calls its tournaments off, gives every fee back and waits for its queue of payments to be written. |
+| 35 | Every shot waited in one queue behind the database's writes (results, saved games, payments): a slow database held every game up. The ten-minute clean-ups stopped the shot clocks while they ran. | Medium | Shots have a queue of their own; the clean-ups run on their own task. |
+| 36 | A connection's writer was left running when the connection ended, and a client that stopped reading held it (and its socket) for as long as it liked: the limit of connections per address no longer counted them. | Medium | A message the client doesn't take in 15 s ends the connection; the writer is stopped with it. |
+| 37 | A prize, a refund or a match result the database refused for a moment was lost (only written to the log). | Medium | They are tried again a few times (payments stay single by their ledger reference). |
+| 38 | Casual games earned experience and cue progress without the limit rated games have: two accounts could farm each other. | Medium | Casual games between the same two players count too: past five in a day, nothing is earned. |
+| 39 | A payment of a pack the server doesn't sell (another product of the same Stripe account) was refused, so Stripe sent it again and again until it gave up on the endpoint. A refunded welcome pack kept its items. | Low | Such events are answered and logged; a refunded welcome pack takes its items back. |
 
 Open, for the operator to decide:
 
 - **Administrators are made by name.** `SNOOK_LEGEND_ADMINS` makes whoever
-  signs in with a listed name an administrator, and a listed name that has
-  no account yet can be registered by anyone (as can the name of a listed
-  account that was deleted). Create the account first, list the name
-  after, and take a name off the list before its account is deleted.
+  signs in with a listed name an administrator. A listed name can't be
+  registered and staff can't change their usernames, so the name stays
+  with the account that has it: create the account first and list the
+  name after (a listed name with no account can't be taken by anyone,
+  also after its account is deleted).
 - **Updates are checked against a SHA-256 published with the release**: it
   proves the download is whole, not who made it. Whoever can publish a
   release on the repository (the account, or a workflow action that was

@@ -507,16 +507,16 @@ async fn challenges_can_be_declined_withdrawn_and_are_limited() {
     // A few challenges waiting at once, and not too quickly.
     let mut others = Vec::new();
     for k in 0..=MAX_SENT_CHALLENGES {
-        let name = format!("p{k}");
+        let name = format!("pal{k}");
         others.push(rig.player(&name).await);
     }
     let mut ids = Vec::new();
     for (k, other) in others.iter_mut().enumerate().take(MAX_SENT_CHALLENGES) {
-        ana.send(ClientMsg::CorrChallenge { to: format!("p{k}"), rated: false }).await;
+        ana.send(ClientMsg::CorrChallenge { to: format!("pal{k}"), rated: false }).await;
         ana.expect("sent", |m| matches!(m, ServerMsg::Notice { .. })).await;
         ids.push(other.notice().await.0);
     }
-    let to = format!("p{MAX_SENT_CHALLENGES}");
+    let to = format!("pal{MAX_SENT_CHALLENGES}");
     ana.send(ClientMsg::CorrChallenge { to, rated: false }).await;
     assert_eq!(ana.error().await, "You have too many challenges waiting for an answer.");
     // Withdrawing and sending again and again is not a way round it.
@@ -524,7 +524,7 @@ async fn challenges_can_be_declined_withdrawn_and_are_limited() {
     for round in 0..12 {
         let k = round % MAX_SENT_CHALLENGES;
         ana.send(ClientMsg::CorrCancel { id: ids[k] }).await;
-        ana.send(ClientMsg::CorrChallenge { to: format!("p{k}"), rated: false }).await;
+        ana.send(ClientMsg::CorrChallenge { to: format!("pal{k}"), rated: false }).await;
         let m = ana
             .expect("answer", |m| matches!(m, ServerMsg::Notice { .. } | ServerMsg::Error { .. }))
             .await;

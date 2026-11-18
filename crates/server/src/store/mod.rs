@@ -1143,6 +1143,11 @@ impl Store {
     ) -> StoreResult<bool> {
         dispatch!(self, s => s.grant_item(user_id, code, source, at))
     }
+    /// Takes items back (a refunded purchase); returns how many were owned.
+    /// What is equipped of them is no longer used (see `shop::effective`).
+    pub async fn revoke_items(&self, user_id: i64, codes: &[&str]) -> StoreResult<u64> {
+        dispatch!(self, s => s.revoke_items(user_id, codes))
+    }
     pub async fn equip(&self, user_id: i64, category: &str, code: &str) -> StoreResult<()> {
         dispatch!(self, s => s.equip(user_id, category, code))
     }

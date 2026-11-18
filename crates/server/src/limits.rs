@@ -33,10 +33,18 @@ impl Bucket {
 }
 
 /// Counts events per key inside a sliding window.
+///
+/// At most [`MAX_KEYS`] keys are kept: a new key that finds it full takes the
+/// place of the key whose last event is the oldest. Keys come from what
+/// anyone can send (addresses, names), so the map must not grow with them;
+/// and making room this way locks nobody out.
 #[derive(Debug, Default)]
 pub struct Window {
     events: HashMap<String, Vec<Instant>>,
 }
+
+/// Most keys a [`Window`] keeps.
+pub const MAX_KEYS: usize = 50_000;
 
 impl Window {
     fn prune(list: &mut Vec<Instant>, window: Duration) {
@@ -55,7 +63,28 @@ impl Window {
     }
 
     pub fn add(&mut self, key: &str) {
+        if !self.events.contains_key(key) && self.events.len() >= MAX_KEYS {
+            let oldest = self
+                .events
+                .iter()
+                .min_by_key(|(_, list)| list.last().copied())
+                .map(|(k, _)| k.clone());
+            if let Some(k) = oldest {
+                self.events.remove(&k);
+            }
+        }
         self.events.entry(key.to_string()).or_default().push(Instant::now());
+    }
+
+    /// Takes back the latest event of `key` (one counted ahead of time that
+    /// turned out not to be one).
+    pub fn take_back(&mut self, key: &str) {
+        if let Some(list) = self.events.get_mut(key) {
+            list.pop();
+            if list.is_empty() {
+                self.events.remove(key);
+            }
+        }
     }
 
     pub fn clear(&mut self, key: &str) {
@@ -69,14 +98,30 @@ impl Window {
             !list.is_empty()
         });
     }
+
+    /// Keys kept now.
+    pub fn len(&self) -> usize {
+        self.events.len()
+    }
+
+    pub fn is_empty(&self) -> bool {
+        self.events.is_empty()
+    }
 }
 
-/// Failed sign-ins and new accounts, per address and per account.
+/// Failed sign-ins, new accounts and sign-ins, per address and per account.
+///
+/// Every attempt is counted when it is allowed, before the slow part (the
+/// password hash, the database) runs: attempts made at the same moment
+/// can't all slip under a limit that was checked before any of them was
+/// recorded. What turns out not to count is taken back.
 #[derive(Debug, Default)]
 pub struct AuthLimiter {
     failures_ip: Window,
     failures_user: Window,
     registrations: Window,
+    sign_ins_ip: Window,
+    sign_ins_user: Window,
 }
 
 pub const AUTH_WINDOW: Duration = Duration::from_secs(15 * 60);
@@ -84,36 +129,87 @@ const REGISTER_WINDOW: Duration = Duration::from_secs(60 * 60);
 const MAX_FAILURES_PER_IP: usize = 20;
 const MAX_FAILURES_PER_USER: usize = 8;
 const MAX_REGISTRATIONS_PER_IP: usize = 5;
+/// Sign-ins (by password, by a saved session or with a new account) cost
+/// a dozen database requests each; a game reconnects at most every second
+/// or so. These are far above what people do and stop a script that signs
+/// in again and again (a new connection each time) to wear the database
+/// down.
+const SIGN_IN_WINDOW: Duration = Duration::from_secs(60);
+const MAX_SIGN_INS_PER_IP: usize = 30;
+const MAX_SIGN_INS_PER_USER: usize = 12;
 
 impl AuthLimiter {
-    /// True if another password attempt is allowed.
-    pub fn may_try(&mut self, ip: &str, username: &str) -> bool {
-        self.failures_ip.count(ip, AUTH_WINDOW) < MAX_FAILURES_PER_IP
-            && self.failures_user.count(&username.to_lowercase(), AUTH_WINDOW)
-                < MAX_FAILURES_PER_USER
-    }
-
-    pub fn failed(&mut self, ip: &str, username: &str) {
+    /// Whether another password may be tried for `username` from `ip`. If
+    /// so, it is counted as a failure straight away; [`AuthLimiter::succeeded`]
+    /// takes it back when the password was right. `username` must be a
+    /// valid one (names are matched without regard to case, as the
+    /// database does).
+    pub fn try_password(&mut self, ip: &str, username: &str) -> bool {
+        let user = username.to_ascii_lowercase();
+        if self.failures_ip.count(ip, AUTH_WINDOW) >= MAX_FAILURES_PER_IP
+            || self.failures_user.count(&user, AUTH_WINDOW) >= MAX_FAILURES_PER_USER
+        {
+            return false;
+        }
         self.failures_ip.add(ip);
-        self.failures_user.add(&username.to_lowercase());
+        self.failures_user.add(&user);
+        true
     }
 
-    pub fn succeeded(&mut self, username: &str) {
-        self.failures_user.clear(&username.to_lowercase());
+    /// The password tried was right: the account's failures are forgotten
+    /// and the attempt is not one of the address's.
+    pub fn succeeded(&mut self, ip: &str, username: &str) {
+        self.failures_ip.take_back(ip);
+        self.failures_user.clear(&username.to_ascii_lowercase());
     }
 
-    pub fn may_register(&mut self, ip: &str) -> bool {
-        self.registrations.count(ip, REGISTER_WINDOW) < MAX_REGISTRATIONS_PER_IP
+    /// The password could not be checked (the server was busy): the attempt
+    /// counted for it is given back.
+    pub fn not_tried(&mut self, ip: &str, username: &str) {
+        self.failures_ip.take_back(ip);
+        self.failures_user.take_back(&username.to_ascii_lowercase());
     }
 
-    pub fn registered(&mut self, ip: &str) {
-        self.registrations.add(ip);
+    /// Whether another account may be made from `key` (an address; reports
+    /// use their own keys). If so it is counted straight away;
+    /// [`AuthLimiter::not_registered`] takes it back when none was made.
+    pub fn try_register(&mut self, key: &str) -> bool {
+        if self.registrations.count(key, REGISTER_WINDOW) >= MAX_REGISTRATIONS_PER_IP {
+            return false;
+        }
+        self.registrations.add(key);
+        true
+    }
+
+    pub fn not_registered(&mut self, key: &str) {
+        self.registrations.take_back(key);
+    }
+
+    /// Whether another sign-in may start from `ip` (counted straight away).
+    pub fn try_sign_in(&mut self, ip: &str) -> bool {
+        if self.sign_ins_ip.count(ip, SIGN_IN_WINDOW) >= MAX_SIGN_INS_PER_IP {
+            return false;
+        }
+        self.sign_ins_ip.add(ip);
+        true
+    }
+
+    /// Whether account `id` may sign in once more (counted straight away).
+    pub fn try_sign_in_as(&mut self, id: i64) -> bool {
+        let key = id.to_string();
+        if self.sign_ins_user.count(&key, SIGN_IN_WINDOW) >= MAX_SIGN_INS_PER_USER {
+            return false;
+        }
+        self.sign_ins_user.add(&key);
+        true
     }
 
     pub fn sweep(&mut self) {
         self.failures_ip.sweep(AUTH_WINDOW);
         self.failures_user.sweep(AUTH_WINDOW);
         self.registrations.sweep(REGISTER_WINDOW);
+        self.sign_ins_ip.sweep(SIGN_IN_WINDOW);
+        self.sign_ins_user.sweep(SIGN_IN_WINDOW);
     }
 }
 
@@ -132,10 +228,46 @@ mod tests {
     fn password_guessing_is_limited() {
         let mut l = AuthLimiter::default();
         for _ in 0..MAX_FAILURES_PER_USER {
-            assert!(l.may_try("1.2.3.4", "Bob"));
-            l.failed("1.2.3.4", "Bob");
+            assert!(l.try_password("1.2.3.4", "Bob"));
         }
-        assert!(!l.may_try("5.6.7.8", "bob"), "per account, from any address");
-        assert!(l.may_try("1.2.3.4", "alice"));
+        assert!(!l.try_password("5.6.7.8", "bob"), "per account, from any address");
+        assert!(l.try_password("1.2.3.4", "alice"));
+        // A right password takes its own attempt back and clears the account.
+        l.succeeded("1.2.3.4", "alice");
+        l.succeeded("1.2.3.4", "BOB");
+        assert!(l.try_password("5.6.7.8", "bob"));
+    }
+
+    #[test]
+    fn attempts_are_counted_before_they_are_made() {
+        let mut l = AuthLimiter::default();
+        // Many at once from one address: only the allowed number get through.
+        let allowed =
+            (0..3 * MAX_REGISTRATIONS_PER_IP).filter(|_| l.try_register("1.2.3.4")).count();
+        assert_eq!(allowed, MAX_REGISTRATIONS_PER_IP);
+        // One that made no account is given back.
+        l.not_registered("1.2.3.4");
+        assert!(l.try_register("1.2.3.4"));
+        assert!(!l.try_register("1.2.3.4"));
+        let signed = (0..2 * MAX_SIGN_INS_PER_IP).filter(|_| l.try_sign_in("1.2.3.4")).count();
+        assert_eq!(signed, MAX_SIGN_INS_PER_IP);
+        assert!(l.try_sign_in("1.2.3.5"));
+        let as_one = (0..2 * MAX_SIGN_INS_PER_USER).filter(|_| l.try_sign_in_as(7)).count();
+        assert_eq!(as_one, MAX_SIGN_INS_PER_USER);
+    }
+
+    /// Keys come from what anyone sends: the map stays bounded, and the
+    /// newest keys stay counted.
+    #[test]
+    fn windows_keep_a_bounded_number_of_keys() {
+        let mut w = Window::default();
+        for i in 0..MAX_KEYS + 100 {
+            w.add(&format!("k{i}"));
+        }
+        assert_eq!(w.len(), MAX_KEYS);
+        let last = format!("k{}", MAX_KEYS + 99);
+        assert_eq!(w.count(&last, AUTH_WINDOW), 1);
+        w.take_back(&last);
+        assert_eq!(w.count(&last, AUTH_WINDOW), 0);
     }
 }

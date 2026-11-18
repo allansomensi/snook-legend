@@ -58,6 +58,8 @@ Versão 0.6.1: vista de cima sem distorção e torneios mais sérios.
 • O Circuito ficou difícil: cada adversário joga no seu melhor.
 • Conquistas novas: Capote, Saída de ouro e aniversários de conta.
 • Rostos mais humanos, doze fotos de perfil que não são rostos e sons novos.
+• Liga à mostra, níveis com recompensas exclusivas e moedas mais raras: evoluir leva tempo.
+• Torneios contra o computador também ficaram difíceis.
 • No Windows, o jogo abre no monitor em que foi iniciado.
 
 Da versão 0.6.0: regra brasileira, torneios e treinos!
@@ -135,6 +137,8 @@ Version 0.6.1: a view from above without distortion, tournaments that mean it.
 • The tour is hard: every opponent plays at their best.
 • New achievements: Shutout, Golden break and account anniversaries.
 • Faces that look like people, twelve profile pictures that are not faces, and new sounds.
+• Leagues on show, levels with rewards of their own and scarcer coins: progress takes time.
+• Tournaments against the computer are hard too.
 • On Windows, the game opens on the monitor it was started from.
 
 From version 0.6.0: a Brazilian rule, tournaments and drills!
@@ -212,6 +216,8 @@ Versión 0.6.1: vista desde arriba sin distorsión y torneos más serios.
 • El Circuito es difícil: cada rival juega a su mejor nivel.
 • Logros nuevos: Capote, Saque de oro y aniversarios de cuenta.
 • Rostros más humanos, doce fotos de perfil que no son rostros y sonidos nuevos.
+• Liga a la vista, niveles con recompensas exclusivas y monedas más escasas: progresar lleva tiempo.
+• Los torneos contra la computadora también son difíciles.
 • En Windows, el juego se abre en el monitor desde el que se inició.
 
 De la versión 0.6.0: ¡regla brasileña, torneos y entrenamientos!

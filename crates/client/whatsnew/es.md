@@ -14,6 +14,9 @@ En el torneo contra la computadora la partida vale una sola vez: salir a la mita
 ### Nuevos logros, fotos y sonidos
 Capote, Saque de oro y aniversarios de cuenta. Rostros más humanos y doce fotos de perfil que no son rostros (la bola 8, un trofeo, una corona…). Sonidos nuevos para bolas, taco, bandas y troneras.
 
+### Liga, niveles con recompensa y monedas escasas
+Los demás jugadores se muestran por su liga (el rating queda en el perfil y en el ranking). Cada nivel de la cuenta da monedas y los niveles 5 a 50 traen objetos exclusivos, pero la subida es larga. Las monedas son más escasas: todo en la tienda lleva tiempo.
+
 ## 0.6.0
 
 ### Regla brasileña, con bolas de penalización

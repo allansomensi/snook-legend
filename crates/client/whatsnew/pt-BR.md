@@ -14,6 +14,9 @@ No torneio contra o computador a partida vale uma vez só: sair no meio não apa
 ### Novas conquistas, fotos e sons
 Capote, Saída de ouro e aniversários de conta. Rostos mais humanos e doze fotos de perfil que não são rostos (bola 8, troféu, coroa…). Sons novos para bolas, taco, tabelas e caçapas.
 
+### Liga, níveis com recompensa e moedas raras
+Os outros jogadores aparecem pela liga (o rating fica no perfil e no ranking). Cada nível da conta rende moedas e os níveis 5 a 50 trazem itens exclusivos, mas a subida é longa. As moedas ficaram mais raras: tudo na loja leva tempo para conquistar.
+
 ## 0.6.0
 
 ### Regra brasileira, com bolas de penalidade

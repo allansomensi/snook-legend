@@ -1,9 +1,10 @@
 # Changelog
 
-## Unreleased
+## 0.6.1 (protocol 17)
 
-After 0.6.1 (same protocol and rules: they play together). The server pays
-the levels' rewards, so it must be updated with the game. No migrations.
+0.6.0 and 0.6.1 play together (same protocol and rules); the tour's last
+game is checked against the tour's harder opponent and the server pays the
+levels' rewards, so the server must be updated with the game. No migrations.
 
 ### One rank to show, one road to walk
 - Other players are shown by their **league** (the name and colour of
@@ -27,12 +28,6 @@ the levels' rewards, so it must be updated with the game. No migrations.
   months: 2 coins for a rated game and 4 more for winning it (they were 4
   and 6), at most 24 a day from games (50), a daily bonus of 5 (10), and
   missions that pay half of what they did. Prices are the same.
-
-## 0.6.1 (protocol 17)
-
-0.6.0 and 0.6.1 play together (same protocol and rules); the tour's last
-game is checked against the tour's harder opponent, so the server must be
-updated with the game. No migrations.
 
 ### Tournaments against the computer
 - A game left half way is picked up from where it was (the button says

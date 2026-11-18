@@ -14,6 +14,9 @@ In a tournament against the computer a game counts once: leaving half way doesn'
 ### New achievements, pictures and sounds
 Shutout, Golden break and account anniversaries. Faces that look like people and twelve profile pictures that are not faces (the 8-ball, a trophy, a crown…). New sounds for the balls, the cue, the cushions and the pockets.
 
+### Leagues, levels that pay and scarce coins
+Other players are shown by their league (the rating is on the profile and in the ranking). Every account level pays coins and levels 5 to 50 bring items of their own, but the climb is long. Coins are scarcer: everything in the shop takes time to earn.
+
 ## 0.6.0
 
 ### A Brazilian rule, with penalty balls

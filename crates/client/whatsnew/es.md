@@ -3,10 +3,13 @@
 # un destacado, y las líneas siguientes son su texto. Mismas versiones y
 # mismo número de destacados en todos los idiomas.
 
-## 0.6.3
+## 0.7.0
+
+### Un solo tipo en el saque
+Nueva regla de la casa: si en el saque entran bolas de los dos grupos (la 3 y la 14, por ejemplo), el turno pasa y la mesa sigue abierta. Bolas de un solo tipo y vuelves a tirar, como antes. Las reglas del menú lo explican todo, algunos casos raros quedaron bien resueltos, y la computadora juega un poco mejor.
 
 ### Cada bola cuenta
-La bola que entra ilumina su tronera. Las bolas que metes seguidas aparecen junto a tu foto con una llamita, y tres, cinco y siete seguidas se celebran (y una mesa limpia de una sola vez también). Los últimos segundos del reloj hacen tictac, una campanita avisa cuando el turno vuelve a ti en línea, y el rating sube contando al final de la partida.
+Las bolas que metes seguidas aparecen junto a tu foto con una llamita, y tres, cinco y siete seguidas se celebran (y una mesa limpia de una sola vez también). Los últimos segundos del reloj hacen tictac, una campanita avisa cuando el turno vuelve a ti en línea, y el rating sube contando al final de la partida.
 
 ### A por el siguiente
 Tras ganar en el circuito, "Siguiente" te lleva directo al próximo rival; tras un ejercicio, "Reintentar". El tiro decisivo se puede volver a ver desde el panel final, y la primera partida señala dónde apuntar, ajustar la fuerza y tirar.
@@ -14,8 +17,8 @@ Tras ganar en el circuito, "Siguiente" te lleva directo al próximo rival; tras 
 ### La línea de salida, si la quieres
 Ajustes → Juego → "Mostrar siempre la línea de salida" deja en la mesa la línea desde la que se hace el saque. Viene apagado: solo aparece mientras colocas la blanca detrás de ella.
 
-### En línea más firme, nada perdido
-Una caída de la conexión ya no cierra la partida ni olvida tu sesión, la partida contra la computadora nunca se reemplaza sin preguntar, y la red local dice por qué no se pudo entrar en una partida. Sonido más limpio en los saques fuertes, AltGr funciona en los campos de texto, y mejor portugués y español en todas partes.
+### Premios justos, luz más suave
+La final del circuito y los ejercicios con clasificación ahora los prepara el servidor, así que el taco y las clasificaciones se ganan igual para todos (juega con sesión iniciada). Una caída de la conexión ya no cierra la partida, la partida contra la computadora nunca se reemplaza sin preguntar, y la luz bajo las lámparas cae suave, sin bordes duros.
 
 ## 0.6.2
 

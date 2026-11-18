@@ -51,22 +51,20 @@ Em português, inglês e espanhol.
 
 ### Novidades desta versão
 
-Versão 0.6.2: ligas, níveis e um perfil mais limpo.
+Versão 0.7.0: um tipo só na saída, prêmios justos e luz mais suave.
+• Nova regra da casa: se na saída caírem bolas dos dois grupos, passa a vez e a mesa continua aberta.
+• Alguns casos raros das regras foram acertados, e o computador joga um pouco melhor.
+• A final do Circuito e os treinos que valem ranking são preparados pelo servidor: os prêmios valem igual para todos.
+• Trocar o e-mail de recuperação pede a senha.
+• A luz sob as luminárias cai suave, sem bordas duras.
+• Opção para deixar sempre à mostra a linha de cabeceira.
+• Bolas em sequência comemoradas, "Próximo" direto no Circuito e online mais firme.
+
+Da versão 0.6.2: ligas, níveis e um perfil mais limpo.
 • Nova aba "Ligas e níveis" no perfil: todas as ligas, o que cada uma paga e todos os níveis que trazem um item.
 • Subir de liga pela primeira vez rende moedas e, a partir de Habilidoso, um item exclusivo.
 • Perfil mais limpo: seu nível, o próximo prêmio e o que você já ganhou; medalhas e reações numa aba própria.
 • A vista de cima voltou a ter profundidade e a luz de sempre, com as bolas redondas, e a câmera não salta mais ao sair dela.
-
-Da versão 0.6.1: vista de cima sem distorção e torneios mais sérios.
-• Vista de cima quase sem perspectiva: bolas redondas até os cantos; taco, linha de mira e bola fantasma sempre alinhados.
-• Brilho mais suave nas bolas e sem reflexo no placar: o número aparece.
-• Torneio contra o computador: a partida vale uma vez só (continua de onde parou, sem revanche) e o campeão ganha medalha de ouro.
-• O Circuito ficou difícil: cada adversário joga no seu melhor.
-• Conquistas novas: Capote, Saída de ouro e aniversários de conta.
-• Rostos mais humanos, doze fotos de perfil que não são rostos e sons novos.
-• Liga à mostra, níveis com recompensas exclusivas e moedas mais raras: evoluir leva tempo.
-• Torneios contra o computador também ficaram difíceis.
-• No Windows, o jogo abre no monitor em que foi iniciado.
 
 ### Recursos do produto
 
@@ -129,22 +127,20 @@ In English, Portuguese and Spanish.
 
 ### What's new in this version
 
-Version 0.6.2: leagues, levels and a cleaner profile.
+Version 0.7.0: one kind on the break, fair rewards and softer light.
+• A new house rule: a break that makes balls of both groups passes the turn, and the table stays open.
+• A few rare cases of the rules put right, and a slightly stronger computer.
+• The tour's final and the ranked drills are set up by the server: their rewards are earned the same way by everyone.
+• Changing the recovery e-mail asks for the password.
+• The light under the lamps falls softly, without hard edges.
+• An option to always show the head string.
+• Balls in a row cheered, "Next" straight on the tour, and steadier online play.
+
+From version 0.6.2: leagues, levels and a cleaner profile.
 • A new "Leagues and levels" tab in the profile: every league, what it pays, and every level that brings an item.
 • Reaching a league for the first time pays coins and, from Skilled up, an item of its own.
 • A cleaner profile: your level, the next prize and what you have won; medals and reactions on a tab of their own.
 • The view from above has its depth and usual light again, with round balls, and the camera no longer jumps when leaving it.
-
-From version 0.6.1: a view from above without distortion, tournaments that mean it.
-• A view from above almost without perspective: round balls out to the corners; the cue, the aiming line and the ghost ball always line up.
-• A softer light on the balls and none on the score panel: the number shows.
-• Tournaments against the computer: a game counts once (it goes on from where it was, no rematch) and the champion gets a gold medal.
-• The tour is hard: every opponent plays at their best.
-• New achievements: Shutout, Golden break and account anniversaries.
-• Faces that look like people, twelve profile pictures that are not faces, and new sounds.
-• Leagues on show, levels with rewards of their own and scarcer coins: progress takes time.
-• Tournaments against the computer are hard too.
-• On Windows, the game opens on the monitor it was started from.
 
 ### Product features
 
@@ -207,22 +203,20 @@ En español, inglés y portugués.
 
 ### Novedades de esta versión
 
-Versión 0.6.2: ligas, niveles y un perfil más limpio.
+Versión 0.7.0: un solo tipo en el saque, premios justos y luz más suave.
+• Nueva regla de la casa: si en el saque entran bolas de los dos grupos, el turno pasa y la mesa sigue abierta.
+• Algunos casos raros de las reglas quedaron bien resueltos, y la computadora juega un poco mejor.
+• La final del circuito y los ejercicios con clasificación los prepara el servidor: los premios se ganan igual para todos.
+• Cambiar el e-mail de recuperación pide la contraseña.
+• La luz bajo las lámparas cae suave, sin bordes duros.
+• Opción para mostrar siempre la línea de salida.
+• Bolas seguidas celebradas, "Siguiente" directo en el circuito y juego en línea más firme.
+
+De la versión 0.6.2: ligas, niveles y un perfil más limpio.
 • Nueva pestaña "Ligas y niveles" en el perfil: todas las ligas, qué paga cada una y todos los niveles que traen un objeto.
 • Subir de liga por primera vez da monedas y, desde Hábil, un objeto exclusivo.
 • Perfil más limpio: tu nivel, el próximo premio y lo que ya ganaste; medallas y reacciones en su propia pestaña.
 • La vista desde arriba vuelve a tener profundidad y su luz de siempre, con bolas redondas, y la cámara ya no salta al salir de ella.
-
-De la versión 0.6.1: vista desde arriba sin distorsión y torneos más serios.
-• Vista desde arriba casi sin perspectiva: bolas redondas hasta las esquinas; taco, línea de puntería y bola fantasma siempre alineados.
-• Brillo más suave en las bolas y sin reflejo en el marcador: se ve el número.
-• Torneo contra la computadora: la partida vale una sola vez (sigue desde donde estaba, sin revancha) y el campeón recibe una medalla de oro.
-• El Circuito es difícil: cada rival juega a su mejor nivel.
-• Logros nuevos: Capote, Saque de oro y aniversarios de cuenta.
-• Rostros más humanos, doce fotos de perfil que no son rostros y sonidos nuevos.
-• Liga a la vista, niveles con recompensas exclusivas y monedas más escasas: progresar lleva tiempo.
-• Los torneos contra la computadora también son difíciles.
-• En Windows, el juego se abre en el monitor desde el que se inició.
 
 ### Características del producto
 

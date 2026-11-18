@@ -3,10 +3,13 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
-## 0.6.3
+## 0.7.0
+
+### One kind on the break
+A new house rule: if the break makes balls of both groups (the 3 and the 14, say), the turn passes and the table stays open. Balls of one kind only and you shoot again, as before. The rules in the menu explain it, with a few rare cases now put right, and the computer plays a little better.
 
 ### Every ball counts
-A ball that drops lights its pocket. The balls you make in a row show by your picture with a little flame, and three, five and seven in a row are cheered (and a table cleared in one visit). The clock's last seconds tick, a chime says when your turn comes back online, and the rating counts up at the end of a game.
+The balls you make in a row show by your picture with a little flame, and three, five and seven in a row are cheered (and a table cleared in one visit). The clock's last seconds tick, a chime says when your turn comes back online, and the rating counts up at the end of a game.
 
 ### On to the next one
 After a win on the tour, "Next" takes you straight to the next opponent; after a drill, "Try again". The deciding shot can be watched again from the end panel, and a first game points out where to aim, set the power and shoot.
@@ -14,8 +17,8 @@ After a win on the tour, "Next" takes you straight to the next opponent; after a
 ### The head string, if you want it
 Settings → Game → "Always show the head string" keeps the line the break is played from on the table. Off by default: it shows only while you place the cue ball behind it.
 
-### Steadier online, nothing lost
-A dropped connection no longer closes the game or forgets your session, a game against the computer is never replaced without asking, and the local network says why a game could not be joined. Cleaner sound on hard breaks, AltGr works in text fields, and better Portuguese and Spanish everywhere.
+### Fair rewards, softer light
+The tour's final and the ranked drills are now set up by the server, so their cue and their tables are earned the same way by everyone (play them signed in). A dropped connection no longer closes the game, a game against the computer is never replaced without asking, and the light under the lamps falls softly, without hard edges.
 
 ## 0.6.2
 

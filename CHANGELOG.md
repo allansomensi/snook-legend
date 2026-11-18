@@ -1,10 +1,63 @@
 # Changelog
 
-## 0.6.3 (protocol 17)
+## 0.7.0 (protocol 18)
 
-0.6.0 to 0.6.3 play together (same protocol and rules: ruleset 4). The
-server's fixes stand on their own, but it should be updated with the game
-(tournaments, sign-ins and the economy are fixed there). No migrations.
+New games play ruleset 5, with a new house rule on the break. 0.7.0 plays
+only with 0.7.0: the server lets in protocol 18 only (older games are told
+to update), so the server and the game go out together. The server runs
+migrations 0016 (indexes for profiles) and 0017 (the tour's finals it
+deals) when it starts.
+
+### The rules (ruleset 5)
+- **On the break only one kind may go down.** A break that makes balls of
+  both groups (the 3 and the 14, or the 5, the 13 and the 14) passes the
+  turn and leaves the table open; one kind only sets the groups and the
+  breaker shoots again, as before. The game says so when it happens.
+- What ruleset 4 got wrong in rare cases: an open table with no group ball
+  left puts both players on the 8; a time foul after a scratch on the break
+  leaves the cue ball in hand as it was; the cue ball in hand may touch a
+  cushion but never sit in a pocket's mouth; a ball that jumps onto the
+  rail beside a pocket is off the table. The computer is stronger.
+- Games keep the ruleset they began with (replays and daily games started
+  before play on as they were). The rules in the game say all of it, in the
+  three languages.
+
+### Rewards that can't be made at home
+- The tour's final is played from a rack the server deals to the account,
+  the computer breaking: a rack searched for at home, or a game shared
+  between accounts, no longer earns the exclusive cue. The game asks for
+  the final when it starts (a word on screen for a moment); signed out, or
+  if the server doesn't answer, the final is played but says it won't earn
+  the reward. "Try again" on the final asks for a new one.
+- A drill session played for the tables is started by the server: each
+  try's cue ball lies a little off its place, different from session to
+  session, so one stroke that worked can't be sent for every try. A session
+  counts once.
+
+### Accounts and payments
+- Changing the recovery e-mail takes the password (a stolen session could
+  move where the account is recovered from); the e-mail of the account's
+  own payment, offered after it, needs none.
+- Deleting an account ends its VIP subscription first (it went on billing
+  an account that was gone); if Stripe can't be reached, the account stays
+  and the player is asked to try again.
+- A refund or a dispute of a VIP month is found from the payment's invoice
+  (VIP and its coins stayed after a chargeback).
+
+### Watching and blocks (server)
+- The lounge's TV shows public games only, and only the game on it can be
+  watched that way (not any game whose number someone guesses); who watched
+  it follows its player into public games only.
+- A resignation or an abandonment while a shot was being played waits for
+  the shot: the stored game showed a different game from the result.
+- Blocking withdraws the invitations between the two; an invitation or a
+  daily-game challenge accepted after a block is refused; nobody watches a
+  game where a player blocked them; the chat history hides a blocked
+  player's lines also after they left.
+- A player online when their game is rebuilt after a restart is put back at
+  the table at once (they lost it for not coming back).
+- Deleted accounts leave the daily challenge's, the drills' and the
+  challenge rating's boards; profiles ask the database for much less.
 
 ### Security
 - **Notifications never run text as code.** On Windows a desktop
@@ -90,10 +143,9 @@ server's fixes stand on their own, but it should be updated with the game
 ### At the table
 - **Always show the head string** (Settings → Game, off by default): the
   line the break is played from stays on the cloth.
-- A ball that drops lights its pocket (gold for the 8, red for the cue
-  ball). Balls made in a row show by the player's picture with a small
-  flame; three, five and seven in a row, and a table cleared in one visit,
-  are cheered in gold.
+- Balls made in a row show by the player's picture with a small flame;
+  three, five and seven in a row, and a table cleared in one visit, are
+  cheered in gold.
 - The shot clock's last ten seconds are on a thicker red bar, and the last
   five tick. The rating counts up on the end panel. The deciding shot can be
   watched again from the end panel (which steps aside meanwhile).
@@ -122,6 +174,9 @@ server's fixes stand on their own, but it should be updated with the game
 - Medals say their metal in words; icons explain themselves when disabled.
 
 ### Sound and graphics
+- The haze under the lamps and the halos round the bulbs no longer cut hard
+  arcs and lines into each other (the halo under a shade was sliced off):
+  see-through light is hidden by what is solid without hiding anything.
 - A hard break no longer clips: the loudest few hits of a frame play within
   a shared headroom. The volume slider follows a curve like the ear's.
 - GPUs without high precision in fragment shaders (some GLES 2 chips) can
@@ -139,11 +194,8 @@ server's fixes stand on their own, but it should be updated with the game
   that an 8 knocked off the table on the break goes back on it.
 
 ### Under the hood
-- Ruleset 5 is ready but not the default: house-rule and physics fixes for
-  rare cases (an open table with no group balls left, a time foul after a
-  scratch on the break, the cue ball in hand against a cushion or in a
-  pocket's mouth, a jumped ball landing on a rail) and a stronger computer.
-  Making it the default needs protocol 18 (see crates/core/src/lib.rs).
+- The vendored miniquad lets a pipeline test depth without writing it
+  (see vendor/README.md).
 - The computer's decisions are pinned by tests for every ruleset; snapshots
   are checked when read; saved games and progress are flushed to the disk.
 

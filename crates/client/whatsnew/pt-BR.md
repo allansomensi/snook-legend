@@ -3,10 +3,13 @@
 # destaque, e as linhas seguintes são o texto dele. Mesmas versões e mesmo
 # número de destaques em todas as línguas.
 
-## 0.6.3
+## 0.7.0
+
+### Um tipo só na saída
+Nova regra da casa: se na saída caírem bolas dos dois grupos (a 3 e a 14, por exemplo), passa a vez e a mesa continua aberta. Bolas de um tipo só e você joga de novo, como antes. As regras no menu explicam tudo, alguns casos raros foram acertados, e o computador joga um pouco melhor.
 
 ### Cada bola conta
-A bola que cai acende a caçapa. As bolas que você mata em sequência aparecem junto da sua foto com uma chaminha, e três, cinco e sete seguidas são comemoradas (e a mesa limpa numa só vez também). Os últimos segundos do relógio fazem tique-taque, um sininho avisa quando a vez volta para você online, e o rating sobe contando no fim da partida.
+As bolas que você mata em sequência aparecem junto da sua foto com uma chaminha, e três, cinco e sete seguidas são comemoradas (e a mesa limpa numa só vez também). Os últimos segundos do relógio fazem tique-taque, um sininho avisa quando a vez volta para você online, e o rating sobe contando no fim da partida.
 
 ### Rumo ao próximo
 Depois de vencer no Circuito, "Próximo" leva direto ao próximo adversário; depois de um treino, "Tentar de novo". Dá para rever a tacada decisiva no painel do fim da partida, e a primeira partida mostra onde mirar, ajustar a força e tacar.
@@ -14,8 +17,8 @@ Depois de vencer no Circuito, "Próximo" leva direto ao próximo adversário; de
 ### A linha de cabeceira, se você quiser
 Configurações → Jogo → "Mostrar sempre a linha de cabeceira" deixa na mesa a linha de onde se dá a saída. Vem desligado: ela só aparece enquanto você posiciona a branca atrás dela.
 
-### Online mais firme, nada perdido
-Uma queda de conexão não fecha mais a partida nem esquece a sua sessão, a partida contra o computador nunca é trocada sem perguntar, e a rede local diz por que não deu para entrar numa partida. Som mais limpo nas saídas fortes, o AltGr funciona nos campos de texto, e português e espanhol melhores em todo canto.
+### Prêmios justos, luz mais suave
+A final do Circuito e os treinos que valem ranking agora são preparados pelo servidor, então o taco e as classificações são conquistados do mesmo jeito por todos (jogue com login). Uma queda de conexão não fecha mais a partida, a partida contra o computador nunca é trocada sem perguntar, e a luz sob as luminárias cai suave, sem bordas duras.
 
 ## 0.6.2
 

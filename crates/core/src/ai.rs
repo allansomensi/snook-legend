@@ -100,7 +100,9 @@ pub struct Skill {
     pub aim_noise_deg: f64,
     /// Relative execution error in speed.
     pub speed_noise: f64,
-    /// Cue speed of the break (m/s).
+    /// Cue speed of the break (m/s), as set for the first tables' cue, which
+    /// topped out at 7 m/s. From ruleset 5 the break is struck at the same
+    /// share of the game's own top speed for a break.
     pub break_speed: f64,
     pub search: Search,
     /// How much the cue ball's position for the next shot counts (0: not at all).
@@ -241,6 +243,48 @@ struct Profile {
 /// The fastest the computer strikes an ordinary shot (m/s).
 const MAX_PLAYED_SPEED: f64 = 6.5;
 
+/// The top speed of the cue on the first tables (rulesets 1 and 2), on the
+/// break and on every other stroke: what the skills' break speeds and the
+/// lists of speeds were set for.
+const FIRST_CUE_SPEED: f64 = 7.0;
+
+/// The profile of `player` for this game. Up to ruleset 4 the speeds are
+/// those of the lists, whatever the cue: under the house physics the break
+/// stops at 6.2 m/s, so Medium, Hard and ten of the fifteen opponents broke
+/// alike, and an ordinary stroke stops at 4.1, so every speed above it
+/// (Medium's 4.4 and Hard's 5.0, a power player's three hardest) was the
+/// same stroke, simulated again and again. From ruleset 5 they fit the
+/// game's cue: the break is struck at the share of the cue's top speed it
+/// was of the first cue's, and the strokes as [`fit_speed`] says.
+fn profile_for(g: &EightBallGame, player: &AiPlayer) -> Profile {
+    let mut prof = profile(player);
+    if g.ruleset() >= 5 {
+        let params = g.params();
+        let top = params.cue_speed_limit(false);
+        for s in prof.coarse_speeds.iter_mut().chain(prof.refine_speeds.iter_mut()) {
+            *s = fit_speed(*s, top);
+        }
+        let share = (prof.break_speed / FIRST_CUE_SPEED).min(1.0);
+        prof.break_speed = share * params.cue_speed_limit(true);
+    }
+    prof
+}
+
+/// A speed of the lists (up to [`MAX_PLAYED_SPEED`]) on a cue whose
+/// ordinary strokes top out at `top`. The soft and medium speeds, which
+/// position play is made of, are the same strokes on any cue and are
+/// played as they are; the ones above four fifths of the top are spread
+/// over the rest of it, the hardest at the top, so that each is a stroke
+/// of its own.
+fn fit_speed(speed: f64, top: f64) -> f64 {
+    let knee = 0.8 * top;
+    if speed <= knee || MAX_PLAYED_SPEED <= knee {
+        speed.min(top)
+    } else {
+        knee + (speed - knee) * (top - knee) / (MAX_PLAYED_SPEED - knee)
+    }
+}
+
 /// How widely each [`Search`] looks.
 struct Breadth {
     coarse: &'static [f64],
@@ -369,6 +413,9 @@ struct Scored {
     bank: bool,
     /// Played to leave the opponent nothing, not to pot.
     safety: bool,
+    /// The score is the average over imperfect strokes ([`robust_rescore`]),
+    /// not the stroke as aimed alone.
+    checked: bool,
 }
 
 /// Chooses the next action of a computer player of this level. `seed`
@@ -380,7 +427,7 @@ pub fn decide(game: &EightBallGame, difficulty: Difficulty, seed: u64) -> AiDeci
 /// Chooses the next action of `player`. The same game, player and seed
 /// always give the same decision, on every platform.
 pub fn decide_with(game: &EightBallGame, player: &AiPlayer, seed: u64) -> AiDecision {
-    let prof = profile(player);
+    let prof = profile_for(game, player);
     let mut rng = Rng::new(seed);
     let mut g = game.clone();
     let me = g.current_player();
@@ -402,61 +449,8 @@ pub fn decide_with(game: &EightBallGame, player: &AiPlayer, seed: u64) -> AiDeci
         return AiDecision { cue_ball, shot: perturb(shot, &prof, &mut rng), called_pocket: None };
     }
 
-    // 1. Every geometrically sensible pot, tried quickly.
-    let mut candidates = pocket_candidates(&g, &prof);
-    if prof.banks {
-        candidates.extend(bank_candidates(&g));
-    }
-    let mut coarse: Vec<(f64, Candidate)> = Vec::new();
-    for c in &candidates {
-        let mut best = f64::MIN;
-        for &speed in &prof.coarse_speeds {
-            let shot = Shot::new(c.yaw, speed).with_elevation(prof.elevation);
-            best = best.max(evaluate(&g, &shot, c.called, c.bank, false, me, &prof));
-        }
-        coarse.push((best, *c));
-    }
-    coarse.sort_by(|a, b| b.0.total_cmp(&a.0));
-    coarse.truncate(prof.keep);
-
-    // 2. The best ones with every speed and spin, for position.
-    let mut options: Vec<Scored> = Vec::new();
-    for &(_, c) in coarse.iter().filter(|(s, _)| *s > 0.0) {
-        for &speed in &prof.refine_speeds {
-            for &(tx, ty) in &prof.tips {
-                let shot = Shot::new(c.yaw, speed)
-                    .with_tip(DVec2::new(tx, ty))
-                    .with_elevation(prof.elevation);
-                let score = evaluate(&g, &shot, c.called, c.bank, false, me, &prof);
-                options.push(Scored { score, shot, called: c.called, bank: c.bank, safety: false });
-            }
-        }
-    }
-    options.sort_by(|a, b| b.score.total_cmp(&a.score));
-
-    // 3. Prefer shots that still work when struck a little imperfectly.
-    // On the 8 every level checks: a slip there sinks it in the wrong
-    // pocket (or scratches) and loses the game.
-    let samples = if g.needs_called_pocket() {
-        prof.robustness_samples.max(2)
-    } else {
-        prof.robustness_samples
-    };
-    if samples > 0 {
-        robust_rescore(&g, &mut options, me, &prof, samples, &mut rng);
-    }
-
-    // 4. When nothing is likely enough to drop (for this player's taste),
-    // weigh safeties too (or at least a legal hit).
-    let best = options.first().map(|o| o.score).unwrap_or(f64::MIN);
-    if best < prof.safety_threshold {
-        let mut safeties = safety_options(&g, me, &prof);
-        if samples > 0 {
-            robust_rescore(&g, &mut safeties, me, &prof, samples, &mut rng);
-        }
-        options.extend(safeties);
-        options.sort_by(|a, b| b.score.total_cmp(&a.score));
-    }
+    let options = pot_options(&g, me, &prof);
+    let options = weigh(&g, options, me, &prof, &mut rng);
     if options.is_empty() {
         let called = g.needs_called_pocket().then_some(PocketId::FootLeft);
         return AiDecision { cue_ball, shot: Shot::new(0.0, 2.0), called_pocket: called };
@@ -480,6 +474,102 @@ pub fn decide_with(game: &EightBallGame, player: &AiPlayer, seed: u64) -> AiDeci
 /// variety.
 const CHOICE_MARGIN: f64 = 150.0;
 
+/// Steps 1 and 2 of [`decide_with`]: the pots worth playing, best first.
+fn pot_options(g: &EightBallGame, me: usize, prof: &Profile) -> Vec<Scored> {
+    // 1. Every geometrically sensible pot, tried quickly.
+    let mut candidates = pocket_candidates(g, prof);
+    if prof.banks {
+        candidates.extend(bank_candidates(g));
+    }
+    let mut coarse: Vec<(f64, Candidate)> = Vec::new();
+    for c in &candidates {
+        let mut best = f64::MIN;
+        for &speed in &prof.coarse_speeds {
+            let shot = Shot::new(c.yaw, speed).with_elevation(prof.elevation);
+            best = best.max(evaluate(g, &shot, c.called, c.bank, false, me, prof));
+        }
+        coarse.push((best, *c));
+    }
+    coarse.sort_by(|a, b| b.0.total_cmp(&a.0));
+    coarse.truncate(prof.keep);
+
+    // 2. The best ones with every speed and spin, for position.
+    let mut options: Vec<Scored> = Vec::new();
+    for &(_, c) in coarse.iter().filter(|(s, _)| *s > 0.0) {
+        for &speed in &prof.refine_speeds {
+            for &(tx, ty) in &prof.tips {
+                let shot = Shot::new(c.yaw, speed)
+                    .with_tip(DVec2::new(tx, ty))
+                    .with_elevation(prof.elevation);
+                let score = evaluate(g, &shot, c.called, c.bank, false, me, prof);
+                options.push(Scored {
+                    score,
+                    shot,
+                    called: c.called,
+                    bank: c.bank,
+                    safety: false,
+                    checked: false,
+                });
+            }
+        }
+    }
+    options.sort_by(|a, b| b.score.total_cmp(&a.score));
+    options
+}
+
+/// Steps 3 and 4 of [`decide_with`]: the leading pots (`options`, best
+/// first) checked against imperfect strokes, and safeties weighed when
+/// none is likely enough to drop. The options to choose from, best first.
+fn weigh(
+    g: &EightBallGame,
+    mut options: Vec<Scored>,
+    me: usize,
+    prof: &Profile,
+    rng: &mut Rng,
+) -> Vec<Scored> {
+    // 3. Prefer shots that still work when struck a little imperfectly.
+    // On the 8 every level checks: a slip there sinks it in the wrong
+    // pocket (or scratches) and loses the game.
+    let samples = if g.needs_called_pocket() {
+        prof.robustness_samples.max(2)
+    } else {
+        prof.robustness_samples
+    };
+    // Only the leading options are checked (each check is `samples` more
+    // shots simulated). Up to ruleset 4 the others stayed in the list with
+    // the score of the stroke as aimed, and when safeties were weighed they
+    // were sorted in with everything else: one the check never saw could
+    // come out ahead of those it had marked down and be played (on the 8, a
+    // pot that scratches when struck a hair off). From ruleset 5 only the
+    // checked ones are kept, as only they could be picked without safeties.
+    let strict = g.ruleset() >= 5 && samples > 0;
+    if samples > 0 {
+        robust_rescore(g, &mut options, me, prof, samples, rng);
+        if strict {
+            options.retain(|o| o.checked);
+        }
+    }
+
+    // 4. When nothing is likely enough to drop (for this player's taste),
+    // weigh safeties too (or at least a legal hit).
+    let best = options.first().map(|o| o.score).unwrap_or(f64::MIN);
+    if best < prof.safety_threshold {
+        let mut safeties = safety_options(g, me, prof);
+        if samples > 0 {
+            robust_rescore(g, &mut safeties, me, prof, samples, rng);
+            if strict {
+                safeties.retain(|o| o.checked);
+            }
+        }
+        options.extend(safeties);
+        options.sort_by(|a, b| b.score.total_cmp(&a.score));
+    }
+    options
+}
+
+/// How many of the leading options [`robust_rescore`] checks.
+const CHECKED: usize = 5;
+
 /// Replaces the scores of the leading options with their average over
 /// `samples` slightly perturbed executions.
 fn robust_rescore(
@@ -490,18 +580,24 @@ fn robust_rescore(
     samples: usize,
     rng: &mut Rng,
 ) {
-    let n = options.len().min(5);
+    let n = options.len().min(CHECKED);
     let aim = (prof.aim_noise_deg * 2.0).max(0.15).to_radians();
     for o in options.iter_mut().take(n) {
+        // The side the aim slips to first, then the other, in turn. Up to
+        // ruleset 4 it was always the same side: with one sample (Medium
+        // and most of the opponents) a stroke was only ever tried slipping
+        // that way. From ruleset 5 the first side is drawn for each option.
+        let first = if g.ruleset() >= 5 && rng.below(2) == 1 { -1.0 } else { 1.0 };
         let mut total = o.score;
         for k in 0..samples {
             let mut s = o.shot;
-            let sign = if k % 2 == 0 { 1.0 } else { -1.0 };
+            let sign = if k % 2 == 0 { first } else { -first };
             s.yaw += sign * aim * (0.6 + 0.4 * rng.next_f64());
             s.speed *= 1.0 + rng.gaussian() * prof.speed_noise * 1.5;
             total += evaluate(g, &s, o.called, o.bank, o.safety, me, prof);
         }
         o.score = total / (samples + 1) as f64;
+        o.checked = true;
     }
     options[..n].sort_by(|a, b| b.score.total_cmp(&a.score));
 }
@@ -559,10 +655,36 @@ fn evaluate(
         let value = if safety { prof.safety_value } else { prof.safety_value.min(1.0) };
         score += 400.0 * value * (1.0 - opponent_quality(&trial));
     }
+    if g.ruleset() >= 5 {
+        // One of the opponent's balls made stays down for them, like a
+        // penalty ball. Ruleset 4 took a shot that made only theirs, off a
+        // legal hit, for a plain safety that cost nothing.
+        let theirs = trial.group_of(1 - me);
+        let given = report.pocketed.iter().filter(|(b, _)| theirs.is_some_and(|t| t.contains(*b)));
+        score -= 350.0 * given.count() as f64;
+    }
     if prof.power_bias != 0.0 {
-        score += prof.power_bias * (shot.speed - 2.5);
+        // From ruleset 5 the speed the cue really strikes at: one above the
+        // top of the power bar is played at the top, and a taste for power
+        // can't prefer it.
+        let speed = if g.ruleset() >= 5 {
+            shot.sanitized_for(g.params(), g.is_break()).speed
+        } else {
+            shot.speed
+        };
+        score += prof.power_bias * (speed - 2.5);
     }
     score
+}
+
+/// The pockets `target` may go in for the player to move: all six, but for
+/// the 8 once they have called its pocket (from ruleset 5; before, the
+/// position play and the cue ball in hand set up the 8 for any pocket,
+/// the called one or not).
+fn pockets_for(g: &EightBallGame, target: BallId) -> impl Iterator<Item = PocketId> {
+    let call = g.called_pocket_of(g.current_player()).filter(|_| g.ruleset() >= 5);
+    let only = call.filter(|_| target == BallId::EIGHT);
+    PocketId::ALL.into_iter().filter(move |p| only.is_none_or(|c| c == *p))
 }
 
 /// How easy the best available shot is for the player to move (0 to ~1).
@@ -572,7 +694,7 @@ fn position_quality(g: &EightBallGame) -> f64 {
     let mut count = 0.0;
     for target in g.legal_targets() {
         let mut ball_best: f64 = 0.0;
-        for pocket in PocketId::ALL {
+        for pocket in pockets_for(g, target) {
             ball_best = ball_best.max(shot_ease(g, cue, target, pocket));
         }
         if ball_best > 0.05 {
@@ -707,9 +829,15 @@ fn bank_candidates(g: &EightBallGame) -> Vec<Candidate> {
 
 /// Shots meant to hit a legal ball and leave the opponent in trouble.
 fn safety_options(g: &EightBallGame, me: usize, prof: &Profile) -> Vec<Scored> {
-    let called = g.needs_called_pocket().then(|| {
-        g.called_pocket_of(g.current_player()).unwrap_or_else(|| nearest_pocket(g, BallId::EIGHT))
-    });
+    let binding = g.called_pocket_of(g.current_player());
+    let called = g
+        .needs_called_pocket()
+        .then(|| binding.unwrap_or_else(|| nearest_pocket(g, BallId::EIGHT)));
+    // A safety on the 8 with no pocket called yet makes the call binding
+    // for the rest of the game. Up to ruleset 4 it was the pocket nearest
+    // the 8 before the stroke, whatever the stroke did to it; from ruleset
+    // 5 it is chosen for each stroke by where the 8 comes to rest.
+    let choose_call = g.ruleset() >= 5 && called.is_some() && binding.is_none();
     let r = g.table().spec.ball_radius;
     let cue = g.ball(BallId::CUE).xy();
     let mut out = Vec::new();
@@ -736,13 +864,48 @@ fn safety_options(g: &EightBallGame, me: usize, prof: &Profile) -> Vec<Scored> {
             for &speed in speeds {
                 let shot =
                     Shot::new(math::atan2(aim.y, aim.x), speed).with_elevation(prof.elevation);
+                let called = if choose_call { call_for_safety(g, &shot, called) } else { called };
                 let score = evaluate(g, &shot, called, false, true, me, prof);
-                out.push(Scored { score, shot, called, bank: false, safety: true });
+                out.push(Scored { score, shot, called, bank: false, safety: true, checked: false });
             }
         }
     }
     out.sort_by(|a, b| b.score.total_cmp(&a.score));
     out
+}
+
+/// The pocket to call for the 8 on `shot`, a safety (ruleset 5): the one
+/// the 8 is easiest to make in from where the stroke leaves it, or the
+/// nearest to it there when no pocket is open to it. `nearest` (the one
+/// nearest the 8 now) if the 8 doesn't stay on the table.
+fn call_for_safety(g: &EightBallGame, shot: &Shot, nearest: Option<PocketId>) -> Option<PocketId> {
+    let mut trial = g.clone();
+    if trial.play_shot(shot, nearest).is_err() || !trial.ball(BallId::EIGHT).in_play() {
+        return nearest;
+    }
+    let easiest = PocketId::ALL
+        .into_iter()
+        .map(|p| (pocket_ease(&trial, BallId::EIGHT, p), p))
+        .filter(|(ease, _)| *ease > 0.0)
+        .max_by(|a, b| a.0.total_cmp(&b.0))
+        .map(|(_, p)| p);
+    Some(easiest.unwrap_or_else(|| nearest_pocket(&trial, BallId::EIGHT)))
+}
+
+/// How easily `ball` goes into `pocket` from where it lies, wherever the
+/// cue ball is (0: not at all): the part of [`shot_ease`] that the cue
+/// ball has no say in.
+fn pocket_ease(g: &EightBallGame, ball: BallId, pocket: PocketId) -> f64 {
+    let t = g.ball(ball).xy();
+    let p = g.table().pocket(pocket);
+    let aim = p.aim_point();
+    let to_pocket = aim - t;
+    let approach = to_pocket.normalize_or_zero().dot(p.outward);
+    let limit = if pocket.is_side() { 0.45 } else { 0.25 };
+    if approach < limit || !path_clear(g, t, aim, &[BallId::CUE, ball]) {
+        return 0.0;
+    }
+    (0.5 + 0.5 * approach) / (1.0 + 0.6 * to_pocket.length())
 }
 
 fn nearest_pocket(g: &EightBallGame, ball: BallId) -> PocketId {
@@ -772,7 +935,7 @@ fn choose_cue_ball_position(g: &EightBallGame, prof: &Profile, rng: &mut Rng) ->
     let mut best: Vec<(f64, DVec2)> = Vec::new();
     for target in g.legal_targets() {
         let t = g.ball(target).xy();
-        for pocket in PocketId::ALL {
+        for pocket in pockets_for(g, target) {
             let aim = g.table().pocket(pocket).aim_point();
             let dir = (aim - t).normalize_or_zero();
             let ghost = t - dir * 2.0 * r;
@@ -917,5 +1080,308 @@ mod tests {
         });
         assert_eq!(none.tips, vec![(0.0, 0.0)]);
         assert!(!none.banks);
+    }
+
+    // ---- Ruleset 5: not the default yet ---------------------------------
+
+    /// `g` with its snapshot edited (the game's fields belong to the rules:
+    /// a test sets the groups or a call through the snapshot).
+    fn edited(g: &EightBallGame, edit: impl Fn(&mut serde_json::Value)) -> EightBallGame {
+        let mut v = serde_json::to_value(g).unwrap();
+        edit(&mut v);
+        serde_json::from_value(v).unwrap()
+    }
+
+    /// A game under `ruleset` past the break with only these balls on the
+    /// table, player 0 on solids and to shoot.
+    fn position(ruleset: u8, balls: &[(u8, DVec2)]) -> EightBallGame {
+        let mut g = EightBallGame::with_ruleset(1, 0, ruleset);
+        let balls: Vec<_> = balls.iter().map(|&(n, p)| (BallId(n), p)).collect();
+        g.set_up_test_position(&balls);
+        edited(&g, |v| v["groups"] = serde_json::json!(["Solids", "Stripes"]))
+    }
+
+    fn play_game_under(ruleset: u8, a: AiPlayer, b: AiPlayer, seed: u64) -> (Option<usize>, u32) {
+        let mut g = EightBallGame::with_ruleset(seed, 0, ruleset);
+        let players = [a, b];
+        for turn in 0..300u64 {
+            if g.game_over().is_some() {
+                break;
+            }
+            let d = decide_with(&g, &players[g.current_player()], seed * 1000 + turn);
+            if let Some(p) = d.cue_ball {
+                assert!(g.place_cue_ball(p));
+            }
+            g.play_shot(&d.shot, d.called_pocket).expect("AI must produce legal shots");
+        }
+        (g.game_over().map(|o| o.winner), g.shots_taken())
+    }
+
+    /// Under ruleset 5 the break and the strokes fit the game's cue. Each
+    /// level breaks at a speed of its own (under ruleset 4 the cue stopped
+    /// Medium and Hard alike, and ten of the opponents), no two speeds of a
+    /// list are the same stroke, and the soft and medium ones are as they
+    /// were. Ruleset 4 is untouched.
+    #[test]
+    fn ruleset_5_speeds_fit_the_cue() {
+        let (g4, g5) = (EightBallGame::with_ruleset(1, 0, 4), EightBallGame::with_ruleset(1, 0, 5));
+        let params = *g5.params();
+        let top = params.cue_speed_limit(false);
+        let played = |s: f64| Shot::new(0.0, s).sanitized_for(&params, true).speed;
+        let breaks = |g: &EightBallGame| -> Vec<f64> {
+            let levels = Difficulty::ALL.map(|d| d.player());
+            levels.iter().map(|p| played(profile_for(g, p).break_speed)).collect()
+        };
+        let (b4, b5) = (breaks(&g4), breaks(&g5));
+        assert_eq!(b4[1], b4[2], "ruleset 4: Medium and Hard break alike");
+        assert!(b5[0] < b5[1] && b5[1] < b5[2], "{b5:?}");
+        assert_eq!(b5[2], params.cue_speed_limit(true), "Hard breaks with everything");
+        let players: Vec<AiPlayer> = crate::personalities::PERSONALITIES
+            .iter()
+            .map(|p| p.player)
+            .chain(Difficulty::ALL.map(|d| d.player()))
+            .collect();
+        let distinct = |g: &EightBallGame| {
+            let speeds = players.iter().map(|p| played(profile_for(g, p).break_speed).to_bits());
+            speeds.collect::<std::collections::BTreeSet<_>>().len()
+        };
+        assert!(distinct(&g5) > distinct(&g4) + 4, "{} {}", distinct(&g5), distinct(&g4));
+        for p in &players {
+            let (lists, old) = (profile_for(&g5, p), profile(p));
+            assert_eq!(profile_for(&g4, p).refine_speeds, old.refine_speeds);
+            for (new, old) in [
+                (&lists.coarse_speeds, &old.coarse_speeds),
+                (&lists.refine_speeds, &old.refine_speeds),
+            ] {
+                assert!(new.windows(2).all(|w| w[0] < w[1]) && new.iter().all(|s| *s <= top));
+                for (n, o) in new.iter().zip(old) {
+                    assert!(*o > 0.8 * top || n == o, "{o} became {n}");
+                }
+            }
+        }
+    }
+
+    /// A legal stroke that makes only the opponent's ball (here the 1 sends
+    /// the 12 in) gives that ball to them. Ruleset 4 weighed it as a plain
+    /// safety; ruleset 5 counts it as given away, like a penalty ball.
+    #[test]
+    fn ruleset_5_counts_the_opponents_balls_it_makes_as_given_away() {
+        let score = |ruleset: u8| {
+            let probe = EightBallGame::with_ruleset(1, 0, ruleset);
+            let r = probe.table().spec.ball_radius;
+            let aim = probe.table().pocket(PocketId::FootRight).aim_point();
+            let back = (DVec2::ZERO - aim).normalize();
+            let stripe = aim + back * 0.15;
+            let solid = stripe + back * (2.0 * r + 0.02);
+            let cue = solid + back * 0.15;
+            let g = position(
+                ruleset,
+                &[
+                    (0, cue),
+                    (1, solid),
+                    (3, DVec2::new(-0.6, -0.3)),
+                    (12, stripe),
+                    (10, DVec2::new(-0.3, 0.35)),
+                    (8, DVec2::new(-0.7, 0.35)),
+                ],
+            );
+            let to = (solid - cue).normalize();
+            let shot = Shot::new(math::atan2(to.y, to.x), 2.0);
+            let report = g.clone().play_shot(&shot, None).unwrap();
+            let made: Vec<u8> = report.pocketed.iter().map(|(b, _)| b.0).collect();
+            assert!(!report.is_foul() && made == vec![12], "{report:?}");
+            evaluate(
+                &g,
+                &shot,
+                None,
+                false,
+                false,
+                0,
+                &profile_for(&g, &Difficulty::Medium.player()),
+            )
+        };
+        let (four, five) = (score(4), score(5));
+        assert!((four - five - 350.0).abs() < 1e-9, "ruleset 4 {four}, ruleset 5 {five}");
+    }
+
+    /// When safeties are weighed they are sorted in with every pot. Under
+    /// ruleset 4 the pots the check against imperfect strokes never saw
+    /// went in with the score of the stroke as aimed, and could come out
+    /// on top; under ruleset 5 only checked options are left to choose from.
+    #[test]
+    fn ruleset_5_chooses_only_among_checked_options() {
+        // Safeties are weighed whatever the pots score.
+        let fussy = AiPlayer {
+            skill: Difficulty::Medium.skill(),
+            style: Style { safety_threshold: 1100.0, position: 0.0, ..Style::NEUTRAL },
+        };
+        for ruleset in [4, 5] {
+            let g = position(
+                ruleset,
+                &[
+                    (0, DVec2::new(-0.4, 0.0)),
+                    (1, DVec2::new(0.3, 0.2)),
+                    (2, DVec2::new(0.5, -0.3)),
+                    (12, DVec2::new(0.0, -0.35)),
+                    (8, DVec2::new(-0.8, 0.3)),
+                ],
+            );
+            let prof = profile_for(&g, &fussy);
+            let pots = pot_options(&g, 0, &prof);
+            assert!(pots.len() > CHECKED, "{} pots", pots.len());
+            let pool = weigh(&g, pots, 0, &prof, &mut Rng::new(1));
+            assert!(pool.iter().any(|o| o.safety) && pool.iter().any(|o| !o.safety));
+            let unchecked = pool.iter().filter(|o| !o.checked).count();
+            assert_eq!(unchecked == 0, ruleset >= 5, "ruleset {ruleset}: {unchecked} unchecked");
+        }
+    }
+
+    /// With one imperfect stroke per option (Medium), ruleset 4 only ever
+    /// tried the aim slipping one way (anticlockwise): a stroke that grazes
+    /// another ball when struck a hair that way was marked down every time,
+    /// one that grazes it the other way never. Ruleset 5 draws the side.
+    #[test]
+    fn ruleset_5_tries_the_slip_on_either_side() {
+        for ruleset in [4, 5] {
+            // The opponent's 12 just clear of the line to the 1, on its left.
+            let g = position(
+                ruleset,
+                &[
+                    (0, DVec2::new(-0.5, 0.0)),
+                    (1, DVec2::new(0.0, 0.0)),
+                    (12, DVec2::new(-0.25, 0.06)),
+                    (8, DVec2::new(-0.9, -0.4)),
+                ],
+            );
+            let prof = profile_for(&g, &Difficulty::Medium.player());
+            let shot = Shot::new(0.0, 1.5);
+            let aimed = evaluate(&g, &shot, None, false, false, 0, &prof);
+            assert!(aimed > -400.0, "struck as aimed it misses the 12: {aimed}");
+            let mut sides = std::collections::BTreeSet::new();
+            for seed in 0..16 {
+                let o = Scored {
+                    score: aimed,
+                    shot,
+                    called: None,
+                    bank: false,
+                    safety: false,
+                    checked: false,
+                };
+                let mut options = [o];
+                robust_rescore(&g, &mut options, 0, &prof, 1, &mut Rng::new(seed));
+                // The imperfect stroke's own score: a foul (the 12 first) or not.
+                let slipped = 2.0 * options[0].score - aimed;
+                sides.insert(slipped < -400.0);
+            }
+            let expected = if ruleset >= 5 { 2 } else { 1 };
+            assert_eq!(sides.len(), expected, "ruleset {ruleset}: {sides:?}");
+        }
+    }
+
+    /// Player 0 on the 8 with the foot left corner called: the 8 lies for
+    /// the foot right corner. Under ruleset 4 the position play and the cue
+    /// ball in hand counted that pocket; under ruleset 5 only the called one.
+    #[test]
+    fn ruleset_5_plays_position_for_the_called_pocket() {
+        let eight = DVec2::new(0.8, -0.35);
+        let set_up = |ruleset: u8, cue: DVec2, in_hand: bool| {
+            let g = position(ruleset, &[(0, cue), (8, eight), (12, DVec2::new(-0.6, 0.3))]);
+            edited(&g, |v| {
+                v["called"] = serde_json::json!(["FootLeft", null]);
+                if in_hand {
+                    v["ball_in_hand"] = "Anywhere".into();
+                }
+            })
+        };
+        let probe = EightBallGame::with_ruleset(1, 0, 5);
+        let r = probe.table().spec.ball_radius;
+        let right = probe.table().pocket(PocketId::FootRight).aim_point();
+        let dir = (right - eight).normalize();
+        let cue = eight - dir * (2.0 * r + 0.3);
+        let quality = |ruleset: u8| position_quality(&set_up(ruleset, cue, false));
+        let g5 = set_up(5, cue, false);
+        assert!(g5.is_on_eight(0) && g5.called_pocket_of(0) == Some(PocketId::FootLeft));
+        assert!(quality(4) > 0.1, "{}", quality(4));
+        assert_eq!(quality(5), shot_ease(&g5, cue, BallId::EIGHT, PocketId::FootLeft));
+        assert!(quality(5) < quality(4));
+        // With the cue ball in hand it is put where the called pocket is on.
+        for ruleset in [4, 5] {
+            let g = set_up(ruleset, cue, true);
+            let prof = profile_for(&g, &Difficulty::Hard.player());
+            for seed in 0..4 {
+                let p = choose_cue_ball_position(&g, &prof, &mut Rng::new(seed));
+                assert!(g.can_place_cue_ball(p));
+                if ruleset >= 5 {
+                    assert!(shot_ease(&g, p, BallId::EIGHT, PocketId::FootLeft) > 0.0, "{p}");
+                }
+            }
+        }
+    }
+
+    /// A safety on the 8 with no pocket called yet makes the call binding.
+    /// Ruleset 4 called the pocket nearest the 8 before the stroke; ruleset
+    /// 5 calls, for each stroke, the pocket the 8 is easiest to make in
+    /// from where the stroke leaves it.
+    #[test]
+    fn ruleset_5_calls_the_pocket_for_where_the_eight_ends_up() {
+        let balls = [(0, DVec2::new(-0.5, 0.0)), (8, DVec2::new(0.0, 0.05))];
+        let prof = profile(&Difficulty::Medium.player());
+        let g4 = position(4, &balls);
+        let nearest = Some(nearest_pocket(&g4, BallId::EIGHT));
+        assert!(safety_options(&g4, 0, &prof).iter().all(|o| o.called == nearest));
+        let g5 = position(5, &balls);
+        let options = safety_options(&g5, 0, &prof);
+        let mut calls = std::collections::BTreeSet::new();
+        for o in &options {
+            let call = o.called.expect("on the 8, a call");
+            calls.insert(call);
+            let mut after = g5.clone();
+            after.play_shot(&o.shot, nearest).unwrap();
+            if after.ball(BallId::EIGHT).in_play() {
+                let ease = |p| pocket_ease(&after, BallId::EIGHT, p);
+                let best = PocketId::ALL.map(ease).into_iter().fold(0.0, f64::max);
+                assert!(ease(call) == best || best == 0.0, "{call:?} for {:?}", o.shot);
+            }
+        }
+        assert!(calls.len() > 1, "{calls:?}");
+    }
+
+    /// The computer plays whole games under ruleset 5, every opponent's
+    /// strokes are legal there, and it finishes a game ruleset 4 could not:
+    /// an open table with only the 8 left on it.
+    #[test]
+    fn the_computer_plays_ruleset_5() {
+        let medium = Difficulty::Medium.player();
+        for seed in 1..=2 {
+            let (winner, shots) = play_game_under(5, medium, medium, seed);
+            assert!(winner.is_some(), "seed {seed}: no winner after {shots} shots");
+        }
+        for (k, p) in crate::personalities::PERSONALITIES.iter().enumerate() {
+            let mut g = EightBallGame::with_ruleset(k as u64 + 1, 0, 5);
+            for turn in 0..3u64 {
+                if g.game_over().is_some() {
+                    break;
+                }
+                let d = decide_with(&g, &p.player, turn * 31 + k as u64);
+                if let Some(at) = d.cue_ball {
+                    assert!(g.place_cue_ball(at), "{}", p.code);
+                }
+                g.play_shot(&d.shot, d.called_pocket).unwrap_or_else(|e| panic!("{}: {e}", p.code));
+            }
+        }
+        let open = position(5, &[(0, DVec2::new(-0.4, 0.1)), (8, DVec2::new(0.3, -0.1))]);
+        let mut g = edited(&open, |v| v["groups"] = serde_json::json!([null, null]));
+        assert!(g.is_open_table() && g.needs_called_pocket());
+        for turn in 0..60 {
+            if g.game_over().is_some() {
+                break;
+            }
+            let d = decide_with(&g, &medium, turn);
+            if let Some(at) = d.cue_ball {
+                assert!(g.place_cue_ball(at));
+            }
+            g.play_shot(&d.shot, d.called_pocket).unwrap();
+        }
+        assert!(g.game_over().is_some(), "the 8 alone on an open table is played to the end");
     }
 }

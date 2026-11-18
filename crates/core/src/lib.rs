@@ -31,7 +31,11 @@
 ///   of either group is left puts both players on the 8; a shot clock that
 ///   runs out leaves the cue ball in hand as it was; a tip too far out to
 ///   measure is struck at the edge of the ball; a ball that jumps onto the
-///   rail beside a pocket is off the table, not made.
+///   rail beside a pocket is off the table, not made. The computer chooses
+///   only among the strokes it has checked, checks them slipping either
+///   way, breaks and strokes the ball at speeds that fit this cue, counts
+///   the opponent's balls it makes as given away, and plays for the pocket
+///   it called for the 8 (calling it, on a safety, for where the 8 stops).
 pub const RULESET: u8 = 4;
 
 /// The newest ruleset this version can play. It is ahead of [`RULESET`]

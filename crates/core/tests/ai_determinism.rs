@@ -154,9 +154,11 @@ fn decisions_are_bit_identical_everywhere() {
 /// value never changes: games recorded under it must replay the same (the
 /// server checks the ladder's final game under the ruleset it was played
 /// with).
-const EXPECTED: [(u8, u64); 4] = [
+const EXPECTED: [(u8, u64); 5] = [
     (1, 0x5f9e_be78_d9d8_361f),
     (2, 0x7f8d_52de_242c_eb40),
     (3, 0x9234_f79e_23ac_772c),
     (4, 0x0dc7_88cb_89fb_6a39),
+    // Not the default yet: may still change, on purpose, until it is.
+    (5, 0xe866_92d6_0300_b481),
 ];

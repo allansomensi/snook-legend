@@ -30,7 +30,7 @@ Snook Legend é um jogo de sinuca (bola 8) em 3D feito para quem gosta de jogar 
 Controle total do taco: mire, escolha a força, o ponto exato em que a ponta bate na branca e a inclinação do taco, que você levanta arrastando numa vista de lado da tacada. Sem números na tela: a força e a elevação você julga no olho, como numa mesa de verdade. Puxe, siga, dê efeito lateral, pule bolas e faça massé.
 
 ONLINE
-Entre no salão, converse, convide alguém ou use "Jogar agora" para encontrar um adversário do seu nível. Partidas valendo ranking ou amistosas, mesas abertas (públicas ou com senha), torneios de 4, 8 ou 16 jogadores com chave ao vivo, amigos, partidas diárias com até 3 dias por vez e o ranking mundial. Escolha uma de 32 fotos de perfil e o seu país.
+Entre no salão, converse, convide alguém ou use "Jogar agora" para encontrar um adversário do seu nível. Partidas valendo ranking ou amistosas, mesas abertas (públicas ou com senha), torneios de 4, 8 ou 16 jogadores com chave ao vivo, amigos, partidas diárias com até 3 dias por vez e o ranking mundial. Escolha uma de 44 fotos de perfil e o seu país.
 
 CONTRA O COMPUTADOR
 Quinze adversários com estilo e personalidade próprios, do Leo, que ainda está aprendendo, ao Viktor, o campeão, passando pelo Tito, que aposta tudo em cada tacada, e pelo Yuri, que nunca erra. Eles comentam a partida enquanto jogam (dá para desligar). Vença os quinze no Circuito e ganhe um taco exclusivo, dispute um torneio contra eles (mata-mata de dezesseis ou arena por pontos) ou desafie o "fantasma" de um amigo, que joga no estilo dele.
@@ -77,7 +77,7 @@ Da versão 0.5.1: gráficos mais limpos.
 9. O Circuito: vença os quinze e ganhe um taco exclusivo
 10. Desafio diário com ranking do dia
 11. Treinos com até três estrelas e nota de desafio
-12. Nível da conta, conquistas, estante de troféus e 32 fotos de perfil
+12. Nível da conta, conquistas, estante de troféus e 44 fotos de perfil
 13. Tacos, panos, mesas e salões temáticos conquistados jogando
 14. Placar com as bolas de cada jogador na ordem em que caíram
 15. Visual feito para enxergar bem, com opção de jogar só na vista de cima
@@ -104,7 +104,7 @@ Snook Legend is a 3D eight-ball pool game for people who like to really play: ev
 Full control of the cue: aim, choose the power, the exact point where the tip strikes the cue ball and the cue's elevation, which you raise by dragging it in a side view of the shot. No numbers on screen: you judge the power and the elevation by eye, as on a real table. Draw, follow, side spin, jump shots and massé.
 
 ONLINE
-Walk into the lounge, chat, invite someone or use "Play now" to find an opponent at your level. Rated or casual games, open tables (public or with a password), 4, 8 or 16-player tournaments with a live bracket, friends, daily games with up to 3 days per turn and the world ranking. Pick one of 32 profile pictures and your country.
+Walk into the lounge, chat, invite someone or use "Play now" to find an opponent at your level. Rated or casual games, open tables (public or with a password), 4, 8 or 16-player tournaments with a live bracket, friends, daily games with up to 3 days per turn and the world ranking. Pick one of 44 profile pictures and your country.
 
 AGAINST THE COMPUTER
 Fifteen opponents with a style and personality of their own, from Leo, who is still learning, to Viktor, the champion, by way of Tito, who bets everything on every shot, and Yuri, who never misses. They talk about the game as they play (you can turn that off). Beat all fifteen on the Tour to earn an exclusive cue, play a tournament against them (a knockout of sixteen or an arena on points), or take on a friend's "ghost", which plays in their style.
@@ -151,7 +151,7 @@ From version 0.5.1: cleaner graphics.
 9. The Tour: beat all fifteen to earn an exclusive cue
 10. A daily challenge with a ranking for the day
 11. Drills with up to three stars and a challenge rating
-12. Account level, achievements, a trophy shelf and 32 profile pictures
+12. Account level, achievements, a trophy shelf and 44 profile pictures
 13. Cues, cloths, tables and themed halls earned by playing
 14. A score panel with each player's balls in the order they went down
 15. Made to see clearly, with an option to play from the top view only
@@ -178,7 +178,7 @@ Snook Legend es un juego de pool (bola 8) en 3D hecho para quienes disfrutan jug
 Control total del taco: apunta, elige la fuerza, el punto exacto donde la punta golpea la blanca y la inclinación del taco, que levantas arrastrándolo en una vista de lado del tiro. Sin números en pantalla: la fuerza y la elevación las juzgas a ojo, como en una mesa de verdad. Retroceso, seguimiento, efecto lateral, saltos y massé.
 
 EN LÍNEA
-Entra en la sala, conversa, invita a alguien o usa "Jugar ahora" para encontrar un rival de tu nivel. Partidas con clasificación o amistosas, mesas abiertas (públicas o con contraseña), torneos de 4, 8 o 16 jugadores con cuadro en vivo, amigos, partidas diarias con hasta 3 días por turno y la clasificación mundial. Elige una de 32 fotos de perfil y tu país.
+Entra en la sala, conversa, invita a alguien o usa "Jugar ahora" para encontrar un rival de tu nivel. Partidas con clasificación o amistosas, mesas abiertas (públicas o con contraseña), torneos de 4, 8 o 16 jugadores con cuadro en vivo, amigos, partidas diarias con hasta 3 días por turno y la clasificación mundial. Elige una de 44 fotos de perfil y tu país.
 
 CONTRA LA COMPUTADORA
 Quince rivales con estilo y personalidad propios, desde Leo, que todavía está aprendiendo, hasta Viktor, el campeón, pasando por Tito, que lo apuesta todo en cada tiro, y Yuri, que nunca falla. Comentan la partida mientras juegan (se puede desactivar). Vence a los quince en el Circuito y gana un taco exclusivo, juega un torneo contra ellos (eliminatoria de dieciséis o arena por puntos) o desafía al "fantasma" de un amigo, que juega con su estilo.
@@ -225,7 +225,7 @@ De la versión 0.5.1: gráficos más limpios.
 9. El Circuito: vence a los quince y gana un taco exclusivo
 10. Desafío diario con clasificación del día
 11. Entrenamientos con hasta tres estrellas y nota de desafío
-12. Nivel de cuenta, logros, vitrina de trofeos y 32 fotos de perfil
+12. Nivel de cuenta, logros, vitrina de trofeos y 44 fotos de perfil
 13. Tacos, paños, mesas y salas temáticas ganados jugando
 14. Un marcador con las bolas de cada jugador en el orden en que entraron
 15. Hecho para ver bien, con opción de jugar solo en la vista superior

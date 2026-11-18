@@ -31,118 +31,279 @@ impl Noise {
     }
 }
 
-/// A damped resonance: frequency (Hz), amplitude, decay time (s).
-type Mode = (f32, f32, f32);
+/// A two-pole filter (the "cookbook" biquad).
+struct Biquad {
+    b: [f32; 3],
+    a: [f32; 2],
+    z: [f32; 2],
+}
 
-/// Modal synthesis: a short filtered noise burst (the impact itself) plus
-/// the resonances it excites, then a touch of room. `brightness` (0..1) is
-/// how much of the burst's high end gets through.
-fn strike(
-    seed: u32,
+impl Biquad {
+    fn new(b: [f32; 3], a: [f32; 3]) -> Biquad {
+        Biquad {
+            b: [b[0] / a[0], b[1] / a[0], b[2] / a[0]],
+            a: [a[1] / a[0], a[2] / a[0]],
+            z: [0.0; 2],
+        }
+    }
+
+    fn parts(f: f32, q: f32) -> (f32, f32) {
+        let w = TAU * (f / RATE as f32).clamp(0.0005, 0.45);
+        (w.cos(), w.sin() / (2.0 * q.max(0.1)))
+    }
+
+    /// A resonance: what rings at `f` when struck, the higher `q` the longer.
+    fn bandpass(f: f32, q: f32) -> Biquad {
+        let (c, alpha) = Self::parts(f, q);
+        Biquad::new([alpha, 0.0, -alpha], [1.0 + alpha, -2.0 * c, 1.0 - alpha])
+    }
+
+    fn lowpass(f: f32) -> Biquad {
+        let (c, alpha) = Self::parts(f, 0.707);
+        Biquad::new(
+            [(1.0 - c) / 2.0, 1.0 - c, (1.0 - c) / 2.0],
+            [1.0 + alpha, -2.0 * c, 1.0 - alpha],
+        )
+    }
+
+    fn highpass(f: f32) -> Biquad {
+        let (c, alpha) = Self::parts(f, 0.707);
+        Biquad::new(
+            [(1.0 + c) / 2.0, -(1.0 + c), (1.0 + c) / 2.0],
+            [1.0 + alpha, -2.0 * c, 1.0 - alpha],
+        )
+    }
+
+    fn run(&mut self, x: f32) -> f32 {
+        let y = self.b[0] * x + self.z[0];
+        self.z[0] = self.b[1] * x - self.a[0] * y + self.z[1];
+        self.z[1] = self.b[2] * x - self.a[1] * y;
+        y
+    }
+}
+
+/// What rings when a thing is struck: frequency (Hz), sharpness, level.
+type Body = (f32, f32, f32);
+
+/// How a kind of impact sounds.
+struct Recipe {
     duration: f32,
-    burst: f32,
-    brightness: f32,
-    burst_gain: f32,
-    modes: &[Mode],
-) -> Vec<f32> {
-    let n = (duration * RATE as f32) as usize;
+    /// How long the two things touch on a firm hit (s): the shorter, the
+    /// brighter the click. A soft hit touches longer.
+    contact: f32,
+    /// How loud the bare knock is beside what it sets ringing.
+    knock: f32,
+    bodies: &'static [Body],
+    /// The hiss of the contact itself (cloth, leather, the air pushed
+    /// out): level, how fast it dies (s) and its band (Hz).
+    hiss: f32,
+    hiss_decay: f32,
+    hiss_band: (f32, f32),
+    /// Nothing above this gets through on a firm hit (Hz); a soft hit is
+    /// duller still.
+    ceiling: f32,
+    /// Nothing below this (Hz).
+    floor: f32,
+}
+
+/// An impact, made the way the real one is: two things touch for a moment
+/// (a smooth push, shorter and sharper the harder the hit), a little hiss
+/// comes with it, and both go through what the things are made of
+/// (resonances that are struck, so they never ring as pure tones), then
+/// through a room. `hardness` (0 soft to 1 hard) is the hit's own: a hard
+/// hit is not a soft one played louder, it is brighter.
+fn impact(seed: u32, r: &Recipe, hardness: f32, variant: u32) -> Vec<f32> {
+    let hardness = hardness.clamp(0.0, 1.0);
+    let n = (r.duration * RATE as f32) as usize;
     let mut noise = Noise(seed.wrapping_mul(747_796_405).wrapping_add(2_891_336_453) | 1);
-    // Random phases, so variants differ beyond their tuning.
-    let phases: Vec<f32> =
-        modes.iter().map(|_| (noise.next() + 1.0) * std::f32::consts::PI).collect();
-    let mut lp = 0.0f32;
-    let a = brightness.clamp(0.02, 1.0);
+    let mut vary = Noise(0x9e37_79b9 ^ (variant * 7919 + 1));
+    // No two hits alike: every resonance a little off.
+    let mut bodies: Vec<(Biquad, f32)> = r
+        .bodies
+        .iter()
+        .map(|&(f, q, level)| {
+            let f = f * (1.0 + 0.06 * vary.next()) * (0.9 + 0.2 * hardness);
+            (Biquad::bandpass(f, q * (1.0 + 0.2 * vary.next())), level)
+        })
+        .collect();
+    let contact = r.contact * (1.9 - 1.1 * hardness) * (1.0 + 0.1 * vary.next());
+    let contact_n = ((contact * RATE as f32) as usize).max(2);
+    let mut hiss_low = Biquad::lowpass(r.hiss_band.1 * (0.55 + 0.45 * hardness));
+    let mut hiss_high = Biquad::highpass(r.hiss_band.0);
+    let mut ceiling = Biquad::lowpass(r.ceiling * (0.5 + 0.5 * hardness));
+    let mut floor = Biquad::highpass(r.floor);
+    let mut last_push = 0.0f32;
     let mut out: Vec<f32> = (0..n)
         .map(|i| {
             let t = i as f32 / RATE as f32;
-            // The contact: a few hundred microseconds of noise, half-sine shaped.
-            let env = if t < burst { (std::f32::consts::PI * t / burst).sin() } else { 0.0 };
-            lp += a * (noise.next() * env - lp);
-            let mut v = burst_gain * lp;
-            for (k, &(f, amp, decay)) in modes.iter().enumerate() {
-                // Each mode rings up within the contact time, then decays.
-                let attack = (t / burst.max(1e-4)).min(1.0);
-                v += amp * attack * (TAU * f * t + phases[k]).sin() * (-t / decay).exp();
+            // The push of the contact (a raised cosine); what is heard of
+            // it is how fast it changes.
+            let push = if i < contact_n {
+                0.5 - 0.5 * (TAU * i as f32 / contact_n as f32).cos()
+            } else {
+                0.0
+            };
+            let knock = (push - last_push) * contact_n as f32 * 0.5;
+            last_push = push;
+            // The hiss swells with the contact and dies away after it.
+            let swell = (i as f32 / contact_n as f32).min(1.0);
+            let hiss = hiss_high.run(hiss_low.run(noise.next()))
+                * swell
+                * (-(t - contact).max(0.0) / r.hiss_decay).exp()
+                * r.hiss
+                * (0.6 + 0.4 * hardness);
+            let struck = knock + hiss;
+            let mut v = r.knock * knock + hiss;
+            for (body, level) in &mut bodies {
+                v += *level * body.run(struck);
             }
-            v
+            floor.run(ceiling.run(v))
         })
         .collect();
-    reverb(&mut out, 0.16);
-    // Normalise each sound to the same peak; loudness comes from the volume.
+    room(&mut out, seed);
+    normalise(&mut out);
+    out
+}
+
+/// The same peak for every sound (loudness comes from the volume it is
+/// played at), with the end faded out.
+fn normalise(out: &mut [f32]) {
     let peak = out.iter().fold(0.0f32, |m, v| m.max(v.abs())).max(1e-6);
-    let fade_n = (0.003 * RATE as f32) as usize;
+    let fade_n = (0.004 * RATE as f32) as usize;
     let len = out.len();
     for (i, v) in out.iter_mut().enumerate() {
         let fade = ((len - i) as f32 / fade_n as f32).min(1.0);
         *v = (*v / peak * 0.95 * fade).clamp(-1.0, 1.0);
     }
+}
+
+/// A pool hall round the table: a handful of early echoes off the walls
+/// and the ceiling (each a little duller than the last) and a faint wash
+/// after them. No feedback loops: those ring like a pipe.
+fn room(x: &mut [f32], seed: u32) {
+    let dry = x.to_vec();
+    let energy = (dry.iter().map(|v| v * v).sum::<f32>() / dry.len().max(1) as f32).sqrt();
+    let peak = dry.iter().fold(0.0f32, |m, v| m.max(v.abs())).max(1e-6);
+    let mut wet = vec![0.0f32; x.len()];
+    let taps: [(f32, f32); 7] = [
+        (5.3, 0.20),
+        (8.9, -0.15),
+        (13.7, 0.12),
+        (19.1, -0.10),
+        (25.9, 0.08),
+        (34.3, 0.06),
+        (45.1, -0.04),
+    ];
+    for (k, (ms, gain)) in taps.into_iter().enumerate() {
+        let d = (ms / 1000.0 * RATE as f32) as usize;
+        // Each bounce loses more of its top.
+        let mut dull = Biquad::lowpass(7000.0 / (1.0 + 0.45 * k as f32));
+        for i in d..x.len() {
+            wet[i] += gain * dull.run(dry[i - d]);
+        }
+    }
+    // The wash: dull noise dying away over a few tenths of a second, as
+    // loud as the hit was.
+    let mut noise = Noise(seed.wrapping_mul(2_654_435_761) | 1);
+    let mut dull = Biquad::lowpass(2600.0);
+    let start = (0.018 * RATE as f32) as usize;
+    for (i, w) in wet.iter_mut().enumerate().skip(start) {
+        let t = (i - start) as f32 / RATE as f32;
+        *w += dull.run(noise.next()) * (-t / 0.07).exp() * (energy * 2.0 + peak * 0.05) * 0.5;
+    }
+    for (v, w) in x.iter_mut().zip(wet) {
+        *v += w * 0.5;
+    }
+}
+
+/// Two phenolic balls: a short, dry clack. Hard and nearly without a note:
+/// the balls are solid and what they ring at dies in a millisecond.
+const BALL: Recipe = Recipe {
+    duration: 0.22,
+    contact: 0.00022,
+    knock: 0.9,
+    bodies: &[(1750.0, 2.2, 0.55), (3300.0, 3.0, 0.8), (5200.0, 3.5, 0.6), (7900.0, 4.0, 0.3)],
+    hiss: 0.25,
+    hiss_decay: 0.0016,
+    hiss_band: (1500.0, 9000.0),
+    ceiling: 11_000.0,
+    floor: 350.0,
+};
+
+/// The leather tip on the cue ball: a softer "tock", with the wood of the
+/// cue under it.
+const CUE: Recipe = Recipe {
+    duration: 0.22,
+    contact: 0.0009,
+    knock: 0.7,
+    bodies: &[(310.0, 2.0, 0.35), (820.0, 2.5, 0.8), (1500.0, 3.0, 0.6), (2600.0, 3.0, 0.3)],
+    hiss: 0.18,
+    hiss_decay: 0.004,
+    hiss_band: (500.0, 4500.0),
+    ceiling: 6000.0,
+    floor: 120.0,
+};
+
+/// A ball into a rubber cushion backed by wood: a dull thump.
+const CUSHION: Recipe = Recipe {
+    duration: 0.3,
+    contact: 0.0035,
+    knock: 0.8,
+    bodies: &[(95.0, 1.6, 1.0), (170.0, 2.0, 0.7), (310.0, 2.0, 0.35), (620.0, 2.0, 0.12)],
+    hiss: 0.12,
+    hiss_decay: 0.012,
+    hiss_band: (120.0, 1400.0),
+    ceiling: 1800.0,
+    floor: 45.0,
+};
+
+/// A ball against the liner of a pocket: leather over wood.
+const LINER: Recipe = Recipe {
+    duration: 0.2,
+    contact: 0.0022,
+    knock: 0.7,
+    bodies: &[(130.0, 1.8, 1.0), (260.0, 2.0, 0.6), (540.0, 2.2, 0.3), (1300.0, 2.5, 0.1)],
+    hiss: 0.2,
+    hiss_decay: 0.01,
+    hiss_band: (150.0, 2200.0),
+    ceiling: 2600.0,
+    floor: 60.0,
+};
+
+/// A ball dropping into a pocket: it hits the liner, knocks about as it
+/// settles and rolls down out of hearing.
+fn pocket(seed: u32) -> Vec<f32> {
+    let mut vary = Noise(seed.wrapping_mul(40_503) | 1);
+    let len = (0.6 * RATE as f32) as usize;
+    let mut out = vec![0.0f32; len];
+    let mut at = 0.0f32;
+    for (k, gain) in [1.0f32, 0.5, 0.3, 0.16].into_iter().enumerate() {
+        let s = impact(seed * 13 + k as u32, &LINER, 0.75 - 0.18 * k as f32, seed + k as u32);
+        let start = (at * RATE as f32) as usize;
+        for (i, v) in s.iter().enumerate() {
+            if start + i < len {
+                out[start + i] += v * gain;
+            }
+        }
+        // Each knock a little sooner after the last, never evenly.
+        at += (0.085 - 0.014 * k as f32) * (1.0 + 0.25 * vary.next());
+    }
+    // The ball rolling away down the pocket: a low rumble that fades.
+    let mut noise = Noise(seed.wrapping_mul(97) | 1);
+    let mut low = Biquad::lowpass(260.0);
+    let mut high = Biquad::highpass(70.0);
+    let start = (0.06 * RATE as f32) as usize;
+    for (i, v) in out.iter_mut().enumerate().skip(start) {
+        let t = (i - start) as f32 / RATE as f32;
+        let rise = (t / 0.05).min(1.0);
+        *v += high.run(low.run(noise.next())) * rise * (-t / 0.16).exp() * 0.9;
+    }
+    normalise(&mut out);
     out
 }
 
-/// A small room: a few short feedback echoes (Schroeder combs), mixed low.
-fn reverb(x: &mut [f32], mix: f32) {
-    let dry = x.to_vec();
-    let mut wet = vec![0.0f32; x.len()];
-    for (delay_ms, feedback) in [(23.0f32, 0.42f32), (29.7, 0.38), (37.1, 0.33), (41.3, 0.3)] {
-        let d = (delay_ms / 1000.0 * RATE as f32) as usize;
-        let mut buf = vec![0.0f32; x.len()];
-        for i in 0..x.len() {
-            let fb = if i >= d { buf[i - d] * feedback } else { 0.0 };
-            buf[i] = dry[i] + fb;
-            wet[i] += if i >= d { buf[i - d] } else { 0.0 };
-        }
-    }
-    for (v, w) in x.iter_mut().zip(wet) {
-        *v += w * mix * 0.25;
-    }
-}
-
-/// The variant `k` of a set of modes: every frequency a little off.
-fn detune(modes: &[Mode], k: u32) -> Vec<Mode> {
-    let mut n = Noise(0x9e37_79b9 ^ (k * 7919 + 1));
-    modes
-        .iter()
-        .map(|&(f, a, d)| (f * (1.0 + 0.05 * n.next()), a, d * (1.0 + 0.15 * n.next())))
-        .collect()
-}
-
-/// Two phenolic balls: a hard, bright click.
-const BALL_MODES: &[Mode] = &[
-    (2430.0, 1.0, 0.0045),
-    (3870.0, 0.7, 0.0032),
-    (5310.0, 0.5, 0.0024),
-    (7240.0, 0.32, 0.0018),
-    (9650.0, 0.2, 0.0012),
-];
-/// The leather tip on the cue ball: softer, woodier.
-const CUE_MODES: &[Mode] =
-    &[(1180.0, 0.6, 0.006), (1890.0, 0.45, 0.0045), (2460.0, 0.35, 0.004), (3900.0, 0.18, 0.0025)];
-/// Rubber cushion backed by wood: a dull thump.
-const CUSHION_MODES: &[Mode] =
-    &[(118.0, 1.0, 0.045), (205.0, 0.6, 0.03), (330.0, 0.35, 0.02), (640.0, 0.15, 0.01)];
-
-/// A ball dropping into a pocket: a thud, then knocks against the pocket
-/// as it settles.
-fn pocket(seed: u32) -> Vec<f32> {
-    let parts = [(0.0f32, 1.0f32), (0.075, 0.45), (0.15, 0.25), (0.205, 0.12)];
-    let len = (0.45 * RATE as f32) as usize;
-    let mut out = vec![0.0f32; len];
-    for (k, &(start, gain)) in parts.iter().enumerate() {
-        let modes = detune(
-            &[(96.0, 1.0, 0.05), (182.0, 0.7, 0.035), (300.0, 0.4, 0.02), (1250.0, 0.12, 0.006)],
-            seed * 5 + k as u32,
-        );
-        let s = strike(seed * 13 + k as u32, 0.2, 0.0015, 0.25, 0.8, &modes);
-        let at = (start * RATE as f32) as usize;
-        for (i, v) in s.iter().enumerate() {
-            if at + i < len {
-                out[at + i] += v * gain;
-            }
-        }
-    }
-    let peak = out.iter().fold(0.0f32, |m, v| m.max(v.abs())).max(1e-6);
-    out.iter().map(|v| v / peak * 0.95).collect()
-}
+/// How hard each recorded version of a sound is hit (soft, firm, hard).
+const HARDNESS: [f32; 3] = [0.15, 0.55, 1.0];
 
 impl Sounds {
     /// Builds every sound. Missing audio hardware just means silence.
@@ -157,27 +318,48 @@ impl Sounds {
             pocket: Vec::new(),
             next: std::cell::Cell::new(0),
         };
+        // Every kind at three strengths, each in a few versions (in that
+        // order: `pick` relies on it).
+        for (level, hardness) in HARDNESS.into_iter().enumerate() {
+            for k in 0..VARIANTS {
+                let seed = level as u32 * 101 + k;
+                if let Some(s) = make(impact(11 + seed, &CUE, hardness, seed)).await {
+                    sounds.cue.push(s);
+                }
+                if let Some(s) = make(impact(23 + seed, &BALL, hardness, seed)).await {
+                    sounds.ball.push(s);
+                }
+                if let Some(s) = make(impact(37 + seed, &CUSHION, hardness, seed)).await {
+                    sounds.cushion.push(s);
+                }
+            }
+        }
         for k in 0..VARIANTS {
-            if let Some(s) =
-                make(strike(11 + k, 0.09, 0.0012, 0.35, 0.7, &detune(CUE_MODES, k))).await
-            {
-                sounds.cue.push(s);
-            }
-            if let Some(s) =
-                make(strike(23 + k, 0.12, 0.0003, 0.9, 0.9, &detune(BALL_MODES, k))).await
-            {
-                sounds.ball.push(s);
-            }
-            if let Some(s) =
-                make(strike(37 + k, 0.2, 0.004, 0.12, 0.6, &detune(CUSHION_MODES, k))).await
-            {
-                sounds.cushion.push(s);
-            }
             if let Some(s) = make(pocket(41 + k)).await {
                 sounds.pocket.push(s);
             }
         }
         sounds
+    }
+
+    /// One of the versions of a sound for a hit this strong (0 to 1).
+    fn pick<'a>(&self, set: &'a [Sound], strength: f32) -> Option<&'a Sound> {
+        let k = self.next.get();
+        self.next.set(k.wrapping_add(1));
+        let levels = HARDNESS.len();
+        let per_level = set.len() / levels;
+        if per_level == 0 || set.len() != per_level * levels {
+            // Some could not be made, or a set with one strength only.
+            return set.get(k as usize % set.len().max(1));
+        }
+        let level = if strength < 0.3 {
+            0
+        } else if strength < 0.68 {
+            1
+        } else {
+            2
+        };
+        set.get(level * per_level + k as usize % per_level)
     }
 
     /// Plays (and clears) the queued impacts at `master` volume (0..=1).
@@ -190,13 +372,22 @@ impl Sounds {
                 ImpactKind::Cushion => (&self.cushion, (impact.speed / 3.0).sqrt() * 0.8),
                 ImpactKind::Pocket => (&self.pocket, 0.75),
             };
-            let volume = volume.clamp(0.0, 1.0) * master.clamp(0.0, 1.0);
+            let strength = volume.clamp(0.0, 1.0);
+            let volume = strength * master.clamp(0.0, 1.0);
             if set.is_empty() || volume < 0.03 {
                 continue;
             }
-            let k = self.next.get();
-            self.next.set(k.wrapping_add(1));
-            play_sound(&set[k as usize % set.len()], PlaySoundParams { looped: false, volume });
+            let sound = match impact.kind {
+                ImpactKind::Pocket => {
+                    let k = self.next.get();
+                    self.next.set(k.wrapping_add(1));
+                    set.get(k as usize % set.len())
+                }
+                _ => self.pick(set, strength),
+            };
+            if let Some(sound) = sound {
+                play_sound(sound, PlaySoundParams { looped: false, volume });
+            }
         }
     }
 }
@@ -227,17 +418,59 @@ fn wav(samples: &[f32]) -> Vec<u8> {
 mod tests {
     use super::*;
 
+    /// How much of a sound's energy is fast (a measure of brightness): the
+    /// mean frequency of its zero crossings, in Hz.
+    fn brightness(s: &[f32]) -> f32 {
+        let head = &s[..(0.03 * RATE as f32) as usize];
+        let crossings = head.windows(2).filter(|w| (w[0] >= 0.0) != (w[1] >= 0.0)).count();
+        crossings as f32 / 2.0 / 0.03
+    }
+
+    /// When the sound has all but died away (s): the last moment it is
+    /// above a hundredth of its peak.
+    fn length(s: &[f32]) -> f32 {
+        let last = s.iter().rposition(|v| v.abs() > 0.01).unwrap_or(0);
+        last as f32 / RATE as f32
+    }
+
     #[test]
     fn sounds_are_finite_and_normalised() {
         for s in [
-            strike(1, 0.1, 0.0003, 0.9, 0.9, BALL_MODES),
-            strike(2, 0.2, 0.004, 0.12, 0.6, CUSHION_MODES),
+            impact(1, &BALL, 1.0, 0),
+            impact(1, &BALL, 0.1, 1),
+            impact(2, &CUE, 0.5, 0),
+            impact(3, &CUSHION, 0.5, 0),
             pocket(3),
         ] {
             assert!(s.iter().all(|v| v.is_finite() && v.abs() <= 1.0));
             let peak = s.iter().fold(0.0f32, |m, v| m.max(v.abs()));
             assert!(peak > 0.5, "too quiet: {peak}");
         }
+    }
+
+    /// What tells the sounds apart: balls click high and short, the cue
+    /// knocks lower, a cushion thumps; a hard hit is brighter than a soft
+    /// one; versions differ.
+    #[test]
+    fn each_sound_is_what_it_should_be() {
+        let ball = impact(1, &BALL, 1.0, 0);
+        let soft_ball = impact(1, &BALL, 0.15, 0);
+        let cue = impact(2, &CUE, 0.6, 0);
+        let cushion = impact(3, &CUSHION, 0.6, 0);
+        let (b, sb, c, cu) =
+            (brightness(&ball), brightness(&soft_ball), brightness(&cue), brightness(&cushion));
+        assert!(b > 2500.0, "a clack of balls is bright: {b} Hz");
+        assert!(sb < b * 0.85, "a soft touch is duller: {sb} Hz against {b} Hz");
+        assert!(c < b * 0.6 && c > 300.0, "the cue knocks lower: {c} Hz");
+        assert!(cu < 500.0, "a cushion thumps: {cu} Hz");
+        // Short: the knock itself is over in a few hundredths of a second
+        // (the room carries on, quietly).
+        assert!(length(&ball) < 0.2 && length(&cushion) < 0.3);
+        // Most of a clack's energy is in its first hundredth of a second.
+        let energy = |s: &[f32]| s.iter().map(|v| v * v).sum::<f32>();
+        let head = (0.01 * RATE as f32) as usize;
+        assert!(energy(&ball[..head]) > 0.8 * energy(&ball), "a dry clack");
+        assert_ne!(impact(1, &BALL, 1.0, 0), impact(1, &BALL, 1.0, 1));
     }
 
     #[test]

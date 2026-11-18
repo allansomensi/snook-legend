@@ -237,11 +237,219 @@ fn look_of(code: &str) -> Option<Look> {
 /// Draws the profile picture `code` in a disc of radius `r` at `c`;
 /// false (nothing drawn) for a code that isn't one of the pictures.
 pub fn draw_avatar(code: &str, c: Vec2, r: f32) -> bool {
-    let Some(l) = look_of(code) else { return false };
+    let Some(l) = look_of(code) else {
+        return draw_object(code, c, r);
+    };
     let p = Pen::new(c, r);
     let bg = rgb(l.bg);
     backdrop(&p, bg);
     figure(&p.figure(), &l);
+    rim(&p, bg);
+    true
+}
+
+/// A ball seen from the front: `c` with its shade, a soft light at the
+/// upper left.
+fn ball(p: &Pen, x: f32, y: f32, rad: f32, c: Color) {
+    p.shaded(p.oval_poly(x, y, rad, rad), (-0.07 * rad / 0.5, -0.07 * rad / 0.5), 0.3, c);
+    p.oval(x - rad * 0.38, y - rad * 0.42, rad * 0.2, rad * 0.13, with_alpha(WHITE, 0.35));
+}
+
+/// Pictures that are not people: things of the game, for anyone.
+fn draw_object(code: &str, c: Vec2, r: f32) -> bool {
+    let p = Pen::new(c, r);
+    let cloth = rgb([34, 110, 62]);
+    let wood = rgb([150, 96, 52]);
+    let bg = match code {
+        "pic_eight" | "pic_cue_ball" | "pic_stripe" | "pic_rack" | "pic_table" => cloth,
+        "pic_cues" | "pic_chalk" => rgb([92, 58, 34]),
+        "pic_trophy" | "pic_crown" => rgb([58, 46, 110]),
+        "pic_star" => rgb([30, 62, 120]),
+        "pic_flame" => rgb([52, 34, 40]),
+        "pic_bolt" => rgb([36, 44, 78]),
+        _ => return false,
+    };
+    backdrop(&p, bg);
+    let black = rgb([24, 22, 24]);
+    match code {
+        "pic_eight" => {
+            ball(&p, 0.0, 0.0, 0.62, black);
+            p.oval(0.0, -0.02, 0.3, 0.3, WHITE);
+            // The 8: two rings.
+            p.ring(0.0, -0.115, 0.085, 0.055, black);
+            p.ring(0.0, 0.085, 0.105, 0.06, black);
+        }
+        "pic_cue_ball" => {
+            // The cue coming in from the lower left.
+            p.fill(
+                p.poly(&[(-1.0, 0.62), (-1.0, 0.74), (-0.5, 0.42), (-0.52, 0.36)]),
+                rgb([214, 176, 118]),
+            );
+            p.fill(
+                p.poly(&[(-0.52, 0.36), (-0.5, 0.42), (-0.4, 0.355), (-0.42, 0.3)]),
+                rgb([70, 120, 200]),
+            );
+            ball(&p, 0.08, -0.04, 0.5, rgb([240, 236, 224]));
+            p.oval(0.02, 0.0, 0.035, 0.035, rgb([200, 40, 40]));
+        }
+        "pic_stripe" => {
+            ball(&p, 0.0, 0.0, 0.62, rgb([240, 236, 224]));
+            // The band, bowed like a ball's.
+            let band =
+                clip_convex(p.oval_poly(0.0, 0.0, 0.62, 0.36), &p.oval_poly(0.0, 0.0, 0.62, 0.62));
+            fill(&clip_convex(band, &p.disc), p.col(rgb([232, 176, 30])));
+            p.oval(0.0, 0.0, 0.2, 0.2, WHITE);
+            // The 9: a ring and its tail.
+            p.ring(0.0, -0.03, 0.07, 0.045, black);
+            p.stroke(&p.quad((0.07, -0.02), (0.07, 0.1), (-0.03, 0.13)), 0.045, black);
+        }
+        "pic_rack" => {
+            // The wooden triangle and six balls in it.
+            let tri = [(0.0, -0.66), (0.7, 0.52), (-0.7, 0.52)];
+            for k in 0..3 {
+                let (a, b) = (tri[k], tri[(k + 1) % 3]);
+                p.line(a, b, 0.09, wood);
+            }
+            let colours = [
+                [232, 176, 30],
+                [40, 84, 190],
+                [200, 44, 40],
+                [24, 22, 24],
+                [110, 50, 150],
+                [226, 110, 36],
+            ];
+            let spots =
+                [(0.0, -0.3), (-0.17, 0.0), (0.17, 0.0), (-0.34, 0.3), (0.0, 0.3), (0.34, 0.3)];
+            for (k, (x, y)) in spots.into_iter().enumerate() {
+                ball(&p, x, y, 0.155, rgb(colours[k]));
+            }
+        }
+        "pic_cues" => {
+            // Two cues crossed, a ball where they meet.
+            for s in [-1.0f32, 1.0] {
+                let (a, b) = ((s * -0.62, -0.62), (s * 0.62, 0.62));
+                p.line(a, b, 0.085, rgb([92, 50, 26]));
+                let mid = (s * 0.1, 0.1);
+                p.line(a, mid, 0.07, rgb([218, 180, 122]));
+                p.line(a, (a.0 + s * 0.07, a.1 + 0.07), 0.075, rgb([70, 120, 200]));
+            }
+            ball(&p, 0.0, 0.22, 0.2, black);
+            p.oval(0.0, 0.215, 0.09, 0.09, WHITE);
+        }
+        "pic_chalk" => {
+            let blue = rgb([52, 112, 204]);
+            // A cube seen from above a corner: a top and two sides.
+            p.fill(
+                p.poly(&[(-0.5, -0.12), (0.0, 0.14), (0.0, 0.66), (-0.5, 0.4)]),
+                shade(blue, -0.25),
+            );
+            p.fill(
+                p.poly(&[(0.5, -0.12), (0.0, 0.14), (0.0, 0.66), (0.5, 0.4)]),
+                shade(blue, -0.42),
+            );
+            p.fill(p.poly(&[(0.0, -0.4), (0.5, -0.12), (0.0, 0.14), (-0.5, -0.12)]), blue);
+            // The hollow the tips have worn.
+            p.oval(0.0, -0.13, 0.2, 0.1, shade(blue, -0.3));
+            p.oval(-0.02, -0.14, 0.12, 0.055, shade(blue, 0.25));
+        }
+        "pic_trophy" => {
+            let gold = GOLD_METAL;
+            p.fill(p.round_rect(-0.34, 0.5, 0.34, 0.66, 0.04), rgb([70, 44, 28]));
+            p.fill(p.rect(-0.07, 0.2, 0.07, 0.5), shade(gold, -0.2));
+            p.fill(p.round_rect(-0.2, 0.42, 0.2, 0.52, 0.03), shade(gold, -0.1));
+            for s in [-1.0f32, 1.0] {
+                p.ring(s * 0.4, -0.2, 0.16, 0.06, shade(gold, -0.15));
+            }
+            let cup = p.poly(&[
+                (-0.4, -0.5),
+                (0.4, -0.5),
+                (0.3, -0.02),
+                (0.12, 0.24),
+                (-0.12, 0.24),
+                (-0.3, -0.02),
+            ]);
+            p.shaded(cup, (-0.06, -0.02), 0.22, gold);
+            p.star((0.0, -0.2), 0.14, 0.06, 5, 0.0, shade(gold, 0.45));
+        }
+        "pic_star" => {
+            p.star((0.02, 0.05), 0.68, 0.29, 5, 0.0, shade(GOLD_METAL, -0.3));
+            p.star((0.0, 0.0), 0.66, 0.28, 5, 0.0, GOLD_METAL);
+            p.star((-0.02, -0.03), 0.3, 0.13, 5, 0.0, shade(GOLD_METAL, 0.4));
+        }
+        "pic_crown" => {
+            let gold = GOLD_METAL;
+            // Three points on a band.
+            for (x, h) in [(-0.38, 0.42), (0.0, 0.6), (0.38, 0.42)] {
+                p.fill(p.poly(&[(x - 0.2, 0.22), (x, 0.22 - h), (x + 0.2, 0.22)]), gold);
+                p.oval(x, 0.2 - h, 0.07, 0.07, rgb([220, 60, 70]));
+            }
+            p.fill(p.poly(&[(-0.58, -0.02), (-0.4, 0.22), (-0.58, 0.22)]), gold);
+            p.fill(p.poly(&[(0.58, -0.02), (0.4, 0.22), (0.58, 0.22)]), gold);
+            p.shaded(p.round_rect(-0.58, 0.2, 0.58, 0.46, 0.04), (0.0, -0.05), 0.25, gold);
+            for x in [-0.3f32, 0.0, 0.3] {
+                p.oval(x, 0.33, 0.055, 0.055, rgb([70, 140, 220]));
+            }
+        }
+        "pic_table" => {
+            // A table from above: rails, cloth, pockets, three balls.
+            p.fill(p.round_rect(-0.74, -0.46, 0.74, 0.46, 0.1), wood);
+            p.fill(p.round_rect(-0.62, -0.34, 0.62, 0.34, 0.04), rgb([44, 136, 78]));
+            for (x, y) in [
+                (-0.62, -0.34),
+                (0.0, -0.37),
+                (0.62, -0.34),
+                (-0.62, 0.34),
+                (0.0, 0.37),
+                (0.62, 0.34),
+            ] {
+                p.oval(x, y, 0.075, 0.075, black);
+            }
+            ball(&p, -0.3, 0.05, 0.075, rgb([240, 236, 224]));
+            ball(&p, 0.22, -0.1, 0.075, rgb([200, 44, 40]));
+            ball(&p, 0.36, 0.12, 0.075, black);
+        }
+        "pic_flame" => {
+            // A flame: a drop with a point, a lighter one inside.
+            for (k, col) in [rgb([226, 82, 30]), rgb([246, 160, 40]), rgb([252, 226, 120])]
+                .into_iter()
+                .enumerate()
+            {
+                let s = 1.0 - 0.27 * k as f32;
+                let y0 = 0.14 + 0.1 * k as f32;
+                p.oval(0.0, y0, 0.4 * s, 0.42 * s, col);
+                p.fill(
+                    p.poly(&[
+                        (-0.36 * s, y0 - 0.14 * s),
+                        (0.08 * s, y0 - 0.92 * s),
+                        (0.36 * s, y0 - 0.1 * s),
+                    ]),
+                    col,
+                );
+            }
+        }
+        "pic_bolt" => {
+            let gold = rgb([250, 206, 60]);
+            for (dx, dy, col) in [(0.03, 0.04, shade(gold, -0.4)), (0.0, 0.0, gold)] {
+                p.fill(
+                    p.poly(&[
+                        (0.1 + dx, -0.7 + dy),
+                        (-0.34 + dx, 0.08 + dy),
+                        (0.0 + dx, 0.08 + dy),
+                    ]),
+                    col,
+                );
+                p.fill(
+                    p.poly(&[
+                        (0.0 + dx, -0.08 + dy),
+                        (0.34 + dx, -0.08 + dy),
+                        (-0.1 + dx, 0.7 + dy),
+                    ]),
+                    col,
+                );
+            }
+        }
+        _ => {}
+    }
     rim(&p, bg);
     true
 }
@@ -447,7 +655,8 @@ mod tests {
     #[test]
     fn every_avatar_has_a_picture() {
         for code in snook_legend_proto::AVATARS {
-            assert!(look_of(code).is_some(), "{code}");
+            // A person, or a thing of the game.
+            assert!(look_of(code).is_some() != code.starts_with("pic_"), "{code}");
         }
         assert!(look_of("").is_none());
     }

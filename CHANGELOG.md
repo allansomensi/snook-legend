@@ -1,5 +1,58 @@
 # Changelog
 
+## Unreleased
+
+After 0.6.0. The server and the game play together with 0.6.0 (same
+protocol and rules); the tour's last game is checked against the tour's
+harder opponent, so the server must be updated with the game. No migrations.
+
+### Tournaments against the computer
+- A game left half way is picked up from where it was (the button says
+  "Continue"); one that was not kept (another game against the computer
+  took its place) counts as lost. A game can no longer be started again
+  when it is going badly.
+- No rematch after a tournament's game: the result stands and the
+  tournament goes on.
+- The champion gets a gold medal and their name by the bracket.
+- The opponents no longer say their opening line with their remarks turned
+  off (in any game against the computer: the line was said before the
+  setting was read).
+
+### The tour is hard
+- On the tour every opponent plays at their best: tighter aim and pace, a
+  wider look at the table, more thought for the next shot, safeties when
+  nothing is on. The server checks the final game against that player.
+
+### The view and the aim
+- The view from above looks from high up through a long lens, so the table
+  is seen almost flat: balls stay round out to the corners (at the ends of
+  the table they were drawn a sixth longer than wide, the ghost ball
+  included), and the cue, the aiming line and the ghost ball line up
+  whatever the cue's elevation.
+- The ring round a cue ball being placed sits exactly round it.
+- A softer light on the balls (a patch, not a hard white dot on the
+  number) and no reflection on the balls of the score panel.
+- The low end of the power bar is a little stronger; the top is the same.
+
+### Achievements
+- A golden break (a rated game won by making only the 8 on the break), six
+  months and two, three and five years of account. "Shutout" is "Capote" in
+  Portuguese.
+
+### Pictures and sound
+- Faces with a person's eyes (almond-shaped, the iris filling them), for
+  the profile pictures and the computer's opponents: they had a doll's
+  stare. Twelve pictures that are not faces: the 8-ball, the cue ball, a
+  striped ball, the rack, crossed cues, the chalk, a trophy, a star, a
+  crown, a table, a flame and a bolt.
+- New sounds for the balls, the cue, the cushions and the pockets: struck
+  resonances, not pure tones; a hard hit is brighter than a soft one, not
+  only louder; a room without the ringing echo.
+
+### Windows
+- The game opens on the monitor the pointer is on, not always on the
+  primary one.
+
 ## 0.6.0 (protocol 17)
 
 The game now plays a **regional Brazilian rule** of eight-ball (the rule of

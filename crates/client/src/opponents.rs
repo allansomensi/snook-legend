@@ -666,7 +666,10 @@ impl Eye {
 
 /// One eye at `x, y`; `side` is -1 for the left one (on screen), 1 for the right.
 fn eye(p: &Pen, x: f32, y: f32, side: f32, e: &Eye) {
-    let (w, h) = (0.068 * e.size, 0.074 * e.size);
+    // An almond, wider than it is tall, the iris filling most of its
+    // height: a person's eye. (They were round, taller than wide, with a
+    // small iris in a lot of white and a large glint: a doll's stare.)
+    let (w, h) = (0.062 * e.size, 0.043 * e.size);
     if !p.shows(19.0) {
         // Small: a dark oval, shorter when narrowed.
         let q = p.p(x, y + h * (1.0 - e.open) * 0.6);
@@ -684,8 +687,8 @@ fn eye(p: &Pen, x: f32, y: f32, side: f32, e: &Eye) {
     let white = below(p, white, a, b);
     fill(&white, p.col(WHITE));
     let ic = (x + e.look.0 * w * 0.35, y + 0.008 + e.look.1 * h * 0.3);
-    let ir = h * 0.72;
-    let iris = clip_convex(p.oval_poly(ic.0, ic.1, ir * 0.92, ir), &white);
+    let ir = h * 0.98;
+    let iris = clip_convex(p.oval_poly(ic.0, ic.1, ir * 0.95, ir), &white);
     fill(&iris, p.col(e.iris));
     if p.shows(30.0) {
         let ring = clip_convex(p.oval_poly(ic.0, ic.1 + ir * 0.35, ir * 0.7, ir * 0.55), &white);
@@ -700,15 +703,11 @@ fn eye(p: &Pen, x: f32, y: f32, side: f32, e: &Eye) {
     let hl = (ic.0 - ir * 0.32, ic.1 - ir * 0.38);
     let hq = p.p(hl.0, hl.1);
     if white.iter().any(|q| q.y < hq.y - 0.5) || e.open > 0.7 {
-        draw_circle(hq.x, hq.y, (ir * 0.3 * p.u).max(0.8), p.col(WHITE));
-        if p.shows(34.0) {
-            let s2 = p.p(ic.0 + ir * 0.35, ic.1 + ir * 0.35);
-            draw_circle(s2.x, s2.y, ir * 0.13 * p.u, p.col(with_alpha(WHITE, 0.8)));
-        }
+        draw_circle(hq.x, hq.y, (ir * 0.2 * p.u).max(0.6), p.col(with_alpha(WHITE, 0.9)));
     }
     // The lash line along the top.
     if top.len() >= 2 {
-        p.ribbon(&top, |t| 0.022 * (0.6 + 0.4 * (t * PI).sin()), INK);
+        p.ribbon(&top, |t| 0.017 * (0.6 + 0.4 * (t * PI).sin()), INK);
     }
     if e.lashes {
         let o = p.p(x + side * w * 1.02, y - h * 0.15 + (1.0 - e.open) * h * 0.6);

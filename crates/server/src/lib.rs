@@ -604,18 +604,7 @@ async fn run_effect(server: &Arc<Server>, effect: Effect) {
             }
         }
         Effect::Pay { user_id, name, coins, reason, reference } => {
-            match server.store.credit(user_id, coins, &reason, Some(&reference), now()).await {
-                Ok(true) => {
-                    server.with(|l| {
-                        l.notify(&name, ServerMsg::CoinsEarned { amount: coins as u32, reason })
-                    });
-                    if let Ok(Some(user)) = server.store.user_by_id(user_id).await {
-                        shop::push_wallet(server, &user).await;
-                    }
-                }
-                Ok(false) => {}
-                Err(e) => tracing::error!("paying {coins} coins to {name} ({reference}): {e}"),
-            }
+            pay(server, user_id, &name, coins, &reason, &reference).await;
         }
         Effect::RecordTournament(t) => {
             if let Err(e) = server.store.record_tournament(&t).await {
@@ -1367,40 +1356,34 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
             ClientMsg::Report { username, reason, details } => {
                 report(&server, &me, &username, reason, &details, version, &send).await
             }
+            // Tournaments with an entry fee: everything that can be checked
+            // is before the coins are taken; each payment has a ledger
+            // reference of its own, which its refund names (paying again
+            // after leaving is a new payment, refunded on its own).
             ClientMsg::JoinTournament { id, password } if !guest => {
-                let fee = server.with(|l| l.tournament_fee(id)) as i64;
-                let reference = format!("tour:{id}:{}", me.id);
-                if fee > 0 {
-                    match server
-                        .store
-                        .spend(me.id, fee, "tournament entry", Some(&reference), now())
-                        .await
-                    {
-                        Ok(true) => {}
-                        Ok(false) => {
-                            send(ServerMsg::Error { message: "Not enough coins.".into() });
-                            continue;
-                        }
-                        Err(e) => {
-                            tracing::error!("tournament fee: {e}");
-                            continue;
-                        }
-                    }
-                }
                 let key = lounge::key(&me.username);
-                let joined = server.with(|l| l.join_tournament(&key, id, password, fee > 0));
+                // Announced to everyone, like the lounge's own actions.
+                if !server.with(|l| l.take_action(&key)) {
+                    continue;
+                }
+                let Some(fee) = server.with(|l| l.tournament_entry(&key, id, password.as_deref()))
+                else {
+                    continue;
+                };
+                let mut paid_with = None;
                 if fee > 0 {
+                    let reference = format!("tour:{id}:{}:{}", me.id, now_millis());
+                    if !take_fee(&server, &me, fee, &reference, &send).await {
+                        continue;
+                    }
+                    paid_with = Some(reference);
+                }
+                let joined =
+                    server.with(|l| l.join_tournament(&key, id, password, paid_with.clone()));
+                if let Some(reference) = paid_with {
                     if joined == lounge::Joined::No {
-                        let _ = server
-                            .store
-                            .credit(
-                                me.id,
-                                fee,
-                                "refund",
-                                Some(&format!("refund:{reference}")),
-                                now(),
-                            )
-                            .await;
+                        let reference = format!("refund:{reference}");
+                        pay(&server, me.id, &me.username, fee as i64, "refund", &reference).await;
                     }
                     shop::push_wallet(&server, &me).await;
                 }
@@ -1408,30 +1391,33 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
             ClientMsg::CreateTournament { name, size, rated, password, entry_fee, format }
                 if !guest && entry_fee > 0 =>
             {
-                let fee = entry_fee.min(lounge::tournaments_max_fee()) as i64;
-                let tmp = format!("tour:new:{}:{}", me.id, now_millis());
-                match server.store.spend(me.id, fee, "tournament entry", Some(&tmp), now()).await {
-                    Ok(true) => {}
-                    Ok(false) => {
-                        send(ServerMsg::Error { message: "Not enough coins.".into() });
-                        continue;
-                    }
-                    Err(e) => {
-                        tracing::error!("tournament fee: {e}");
-                        continue;
-                    }
-                }
                 let key = lounge::key(&me.username);
+                let fee = entry_fee.min(lounge::tournaments_max_fee());
+                let may = server.with(|l| {
+                    l.take_action(&key)
+                        && l.may_create_tournament(
+                            &key,
+                            &name,
+                            size,
+                            password.as_deref(),
+                            fee,
+                            format,
+                        )
+                });
+                if !may {
+                    continue;
+                }
+                let reference = format!("tour:new:{}:{}", me.id, now_millis());
+                if !take_fee(&server, &me, fee, &reference, &send).await {
+                    continue;
+                }
+                let paid = Some(reference.clone());
                 let created = server.with(|l| {
-                    l.create_tournament(
-                        &key, &name, size, rated, password, fee as u32, format, true,
-                    )
+                    l.create_tournament(&key, &name, size, rated, password, fee, format, paid)
                 });
                 if created.is_none() {
-                    let _ = server
-                        .store
-                        .credit(me.id, fee, "refund", Some(&format!("refund:{tmp}")), now())
-                        .await;
+                    let reference = format!("refund:{reference}");
+                    pay(&server, me.id, &me.username, fee as i64, "refund", &reference).await;
                 }
                 shop::push_wallet(&server, &me).await;
             }
@@ -1908,6 +1894,81 @@ async fn trophies_of(server: &Server, user_id: i64) -> Vec<snook_legend_proto::T
     }));
     trophies.sort_by_key(|t| std::cmp::Reverse(t.at));
     trophies
+}
+
+/// Takes a tournament's entry fee (the player is told when it can't be).
+async fn take_fee(
+    server: &Server,
+    me: &User,
+    fee: u32,
+    reference: &str,
+    send: &impl Fn(ServerMsg),
+) -> bool {
+    match server.store.spend(me.id, fee as i64, "tournament entry", Some(reference), now()).await {
+        Ok(true) => true,
+        Ok(false) => {
+            send(ServerMsg::Error { message: "Not enough coins.".into() });
+            false
+        }
+        Err(e) => {
+            tracing::error!("tournament fee of {}: {e}", me.username);
+            send(ServerMsg::Error { message: "Something went wrong. Please try again.".into() });
+            false
+        }
+    }
+}
+
+/// How many times a write that pays or records something is tried.
+const WRITE_TRIES: u32 = 4;
+
+/// Runs a database write again after a failure (a busy pool, a dropped
+/// connection), a few times with growing waits, rather than losing what it
+/// pays or records to a moment's trouble. Only for writes that are safe to
+/// repeat.
+async fn retrying<T, F, Fut>(what: &str, mut write: F) -> store::StoreResult<T>
+where
+    F: FnMut() -> Fut,
+    Fut: std::future::Future<Output = store::StoreResult<T>>,
+{
+    let mut wait = Duration::from_millis(500);
+    let mut tries = 1;
+    loop {
+        match write().await {
+            Err(e) if tries < WRITE_TRIES => {
+                tracing::warn!("{what} (try {tries}): {e}; trying again");
+                tokio::time::sleep(wait).await;
+                wait *= 2;
+                tries += 1;
+            }
+            done => return done,
+        }
+    }
+}
+
+/// Gives (or gives back) coins once (the ledger `reference` keeps it
+/// single, also when tried again), and tells the player.
+pub(crate) async fn pay(
+    server: &Server,
+    user_id: i64,
+    name: &str,
+    coins: i64,
+    reason: &str,
+    reference: &str,
+) {
+    let credit = || server.store.credit(user_id, coins, reason, Some(reference), now());
+    match retrying("paying", credit).await {
+        Ok(true) => {
+            let amount = coins.max(0) as u32;
+            server.with(|l| {
+                l.notify(name, ServerMsg::CoinsEarned { amount, reason: reason.to_string() })
+            });
+            if let Ok(Some(user)) = server.store.user_by_id(user_id).await {
+                shop::push_wallet(server, &user).await;
+            }
+        }
+        Ok(false) => {}
+        Err(e) => tracing::error!("paying {coins} coins to {name} ({reference}): {e}"),
+    }
 }
 
 fn now_millis() -> u128 {

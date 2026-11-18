@@ -49,6 +49,10 @@ without consequence, take over accounts, or take the server down cheaply.
 | 28 | Signing in (each time on a new connection) had no limit of its own: a script could make the database work for each sign-in, again and again. | Medium | 30 sign-ins a minute per address and 12 per account; a saved session over the limit is closed without an answer (the game keeps it and tries later). |
 | 29 | A player made moderator or demoted kept the powers of their old role until their next sign-in. | Low | Changing a role signs the player out at once. |
 | 30 | Reserved names were English only and matched exactly: `Admin_1`, `moderador` or `suporte` were free. | Low | The staff words in the game's three languages, also with digits or underscores around them. |
+| 31 | Every running knockout was sent to the whole lounge four times a second, changed or not. | High | A tournament is sent when what players see of it changes. |
+| 32 | A tournament's entry fee was paid under the same ledger reference at every try: once a player had left (or failed to join), the database refused their next payment for good, and the memory store took it twice and gave one back. Coins were taken before the checks that could refuse the player. | Medium | Each payment has a reference of its own, which its refund names; everything that can refuse a player is checked before the coins are taken; the memory store refuses a reference used before, as the database does. |
+| 33 | Joining or creating a tournament through the connection skipped the limit on lounge actions: a private tournament's password could be guessed some forty times a second. | Medium | The lounge actions' limit, and five wrong passwords for one private table or tournament lock it for that player for ten minutes. |
+| 34 | Tournaments live in the server's memory: a restart lost them with every entry fee paid. | Medium | A stopping server calls its tournaments off, gives every fee back and waits for its queue of payments to be written. |
 
 Open, for the operator to decide:
 

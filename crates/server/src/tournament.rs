@@ -22,9 +22,12 @@ impl Slot {
         Slot { players: [None, None], dead: [false, false], winner: None, room: None }
     }
 
-    /// Both seats are filled and the match has not been decided.
+    /// Both seats are filled and the match has not been decided (nor closed).
     pub fn playable(&self) -> bool {
-        self.winner.is_none() && self.players[0].is_some() && self.players[1].is_some()
+        self.winner.is_none()
+            && self.players[0].is_some()
+            && self.players[1].is_some()
+            && !self.is_dead()
     }
 
     /// Nobody will come out of this slot.
@@ -125,12 +128,31 @@ impl Bracket {
     pub fn set_winner(&mut self, round: usize, index: usize, seat: usize) {
         if let Some(slot) = self.rounds.get_mut(round).and_then(|r| r.get_mut(index))
             && slot.winner.is_none()
+            && !slot.is_dead()
             && slot.players[seat].is_some()
         {
             slot.winner = Some(seat);
             slot.room = None;
             self.resolve();
         }
+    }
+
+    /// Neither player of a slot goes on (both withdrew): the slot is closed
+    /// without a winner, like an empty branch, and whoever waits in the next
+    /// round goes through.
+    pub fn set_no_winner(&mut self, round: usize, index: usize) {
+        if let Some(slot) = self.rounds.get_mut(round).and_then(|r| r.get_mut(index))
+            && slot.winner.is_none()
+        {
+            slot.dead = [true, true];
+            slot.room = None;
+            self.resolve();
+        }
+    }
+
+    /// Nobody will come out of the final: there will be no champion.
+    pub fn closed(&self) -> bool {
+        self.rounds.last().and_then(|r| r.first()).is_some_and(Slot::is_dead)
     }
 
     /// The champion, once the final is decided.
@@ -222,6 +244,20 @@ mod tests {
         let b = Bracket::new(&names(3));
         assert_eq!(b.rounds[1][0].players[0].as_deref(), Some("p0"));
         assert_eq!(b.playable(), vec![(0, 1)]);
+    }
+
+    /// A match neither player turns up for sends nobody on: the one waiting
+    /// in the next round goes through, and a final of nobody has no champion.
+    #[test]
+    fn a_closed_slot_sends_nobody_on() {
+        let mut b = Bracket::new(&names(4));
+        b.set_no_winner(0, 0);
+        assert_eq!(b.playable(), vec![(0, 1)]);
+        b.set_winner(0, 1, 0);
+        assert_eq!(b.champion().map(String::as_str), Some("p1"));
+        let mut b = Bracket::new(&names(2));
+        b.set_no_winner(0, 0);
+        assert!(b.champion().is_none() && b.closed() && b.playable().is_empty());
     }
 
     #[test]

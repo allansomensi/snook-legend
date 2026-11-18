@@ -3,6 +3,17 @@
 # destaque, e as linhas seguintes são o texto dele. Mesmas versões e mesmo
 # número de destaques em todas as línguas.
 
+## 0.7.2
+
+### Um Circuito mais difícil
+TOUR
+
+### Medalhas nos torneios
+Jogue um torneio contra o computador até o fim e termine entre os três primeiros para ganhar medalha de ouro, prata ou bronze. A aba Torneio conta as suas, mata-mata e arena à parte; elas ficam guardadas na sua conta da próxima vez que você entrar online.
+
+### Câmera como a da mesa
+Na vitrine da loja a câmera gira com o botão direito, como na mesa, suave, e nunca passa por baixo do chão ou da mesa. A roda aproxima.
+
 ## 0.7.1
 
 ### A primeira bola decide

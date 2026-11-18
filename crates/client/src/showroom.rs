@@ -3,9 +3,10 @@
 //! The item stands alone on a dark stage under the table's lamps (a cue
 //! floating over its shadow, a cube of chalk with a cue chalking it, a ball
 //! set racked, a table on its own): the camera turns slowly round it until
-//! the player takes it, and then goes where they please (drag to turn,
-//! right button or Shift to move, the wheel to come closer to what is
-//! under the pointer, a double click to look closely at a point). A play
+//! the player takes it, and then goes where they please, as at the table
+//! (drag with the right button to turn round it, smoothly and never from
+//! under the floor or the table; the wheel to come closer to what is under
+//! the pointer; a double click to look closely at a point). A play
 //! button turns it again. Ready-made views take the camera to the parts
 //! worth seeing (a cue's tip, its joint, its butt; a table's pocket, its
 //! leg), a ball of a set can be picked to see it close up, turning, and a
@@ -409,7 +410,7 @@ impl Showroom {
                 table(t("Table")),
                 (t("Corner"), v(0.65, 0.48, 0.95, vec3(l, h, -w))),
                 (t("Side"), v(1.9, 0.38, 0.85, vec3(0.0, h, w))),
-                (t("Leg"), v(0.72, 0.1, 1.25, vec3(l - 0.2, 0.42, w - 0.12))),
+                (t("Leg"), v(0.72, 0.36, 1.25, vec3(l - 0.2, 0.42, w - 0.12))),
             ],
             (Kind::Cloth, _) => vec![
                 table(t("Table")),
@@ -477,19 +478,34 @@ impl Showroom {
                 lim((0.07, 1.8), (0.03, 1.5), vec3(-0.4, h - 0.05, -0.3), vec3(0.4, h + 0.3, 0.3))
             }
             (Kind::Cloth | Kind::Table, Setting::Studio) => {
-                lim((0.15, 6.0), (0.02, 1.5), vec3(-1.8, 0.05, -1.1), vec3(1.8, 1.3, 1.1))
+                lim((0.15, 6.0), (0.12, 1.45), vec3(-1.8, 0.05, -1.1), vec3(1.8, 1.3, 1.1))
             }
-            _ => lim((0.15, 4.6), (-0.22, 1.5), vec3(-2.5, 0.1, -2.0), vec3(2.5, 2.2, 2.0)),
+            _ => lim((0.15, 4.4), (0.12, 1.45), vec3(-2.5, 0.1, -2.0), vec3(2.5, 2.2, 2.0)),
         }
     }
 
-    /// Keeps a view within what may be seen.
+    /// Keeps a view within what may be seen: never from under the stage's
+    /// floor, nor from under the table's top (a table, a cloth, a hall).
     fn clamp(&self, mut v: View) -> View {
         let l = self.limits();
         v.dist = v.dist.clamp(l.dist.0, l.dist.1);
         v.pitch = v.pitch.clamp(l.pitch.0, l.pitch.1);
         v.target = v.target.clamp(l.low, l.high);
+        let need = self.lowest_eye() - v.target.y;
+        if need > 0.0 {
+            let least = (need / v.dist).min(0.99).asin();
+            v.pitch = v.pitch.max(least).min(l.pitch.1);
+        }
         v
+    }
+
+    /// How low the camera may come: a little over the stage's floor for
+    /// what stands on it, over the table's top wherever there is a table.
+    fn lowest_eye(&self) -> f32 {
+        match (self.kind, self.setting) {
+            (Kind::Cue | Kind::Chalk | Kind::Balls, Setting::Studio) => TABLE_HEIGHT + 0.02,
+            _ => TABLE_HEIGHT + 0.12,
+        }
     }
 
     /// The camera for this frame: eases towards a view chosen, and turns
@@ -683,43 +699,31 @@ impl Showroom {
     fn input(&mut self, ui: &Ui) {
         let mouse_px = Vec2::from(mouse_position());
         let over_ui = self.panels.iter().any(|r| r.contains(ui.mouse()));
-        let shift = is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift);
+        // As at the table: the right button turns the camera round (the
+        // left one too, here: it has nothing to aim). The camera follows
+        // the pointer smoothly, and never goes under the floor or the table.
         let left = is_mouse_button_pressed(MouseButton::Left);
-        let right = is_mouse_button_pressed(MouseButton::Right)
-            || is_mouse_button_pressed(MouseButton::Middle);
+        let right = is_mouse_button_pressed(MouseButton::Right);
         if (left || right) && !over_ui && self.drag.is_none() {
-            self.drag = Some((right || shift, mouse_px, false));
+            self.drag = Some((right, mouse_px, false));
             self.press_at = mouse_px;
         }
-        if let Some((pan, last, moved)) = self.drag {
-            let down = is_mouse_button_down(MouseButton::Left)
-                || is_mouse_button_down(MouseButton::Right)
-                || is_mouse_button_down(MouseButton::Middle);
+        if let Some((with_right, last, moved)) = self.drag {
+            let button = if with_right { MouseButton::Right } else { MouseButton::Left };
+            let down = is_mouse_button_down(button);
             let delta = mouse_px - last;
             let moved = moved || mouse_px.distance(self.press_at) > 4.0;
             if moved && delta != Vec2::ZERO {
                 if !self.drag.is_some_and(|(_, _, m)| m) {
                     self.touch();
                 }
-                self.goal = None;
-                if pan {
-                    let fwd = (self.view.target - self.view.eye()).normalize_or_zero();
-                    let right = fwd.cross(Vec3::Y).normalize_or_zero();
-                    let up = right.cross(fwd);
-                    let per_px =
-                        2.0 * self.view.dist * (self.cam.2 / 2.0).tan() / screen_height().max(1.0);
-                    self.view.target += (-right * delta.x + up * delta.y) * per_px;
-                } else {
-                    self.view.yaw += delta.x * 0.006;
-                    self.view.pitch += delta.y * 0.005;
-                }
-                self.view = self.clamp(self.view);
+                self.turn_by(delta.x * 0.005, delta.y * 0.004);
             }
             if down {
-                self.drag = Some((pan, mouse_px, moved));
+                self.drag = Some((with_right, mouse_px, moved));
             } else {
                 self.drag = None;
-                if !moved && !pan {
+                if !moved && !with_right {
                     self.clicked(mouse_px);
                 }
             }
@@ -740,10 +744,7 @@ impl Showroom {
         let pitch = turn(KeyCode::Up) - turn(KeyCode::Down);
         if yaw != 0.0 || pitch != 0.0 {
             self.touch();
-            self.goal = None;
-            self.view.yaw -= yaw * 1.3 * dt;
-            self.view.pitch += pitch * 0.9 * dt;
-            self.view = self.clamp(self.view);
+            self.turn_by(-yaw * 1.3 * dt, pitch * 0.9 * dt);
         }
         let zoom_in = is_key_down(KeyCode::Equal) || is_key_down(KeyCode::KpAdd);
         let zoom_out = is_key_down(KeyCode::Minus) || is_key_down(KeyCode::KpSubtract);
@@ -775,6 +776,15 @@ impl Showroom {
                 self.step_setting(1);
             }
         }
+    }
+
+    /// Turns the camera round what it looks at: the view it is easing to
+    /// moves, and the camera follows it smoothly.
+    fn turn_by(&mut self, yaw: f32, pitch: f32) {
+        let mut view = self.goal.map_or(self.view, |(g, _)| g);
+        view.yaw += yaw;
+        view.pitch += pitch;
+        self.goal = Some((self.clamp(view), 9.0));
     }
 
     /// Zooming stops the stage turning, but keeps the ball looked at.
@@ -1025,12 +1035,10 @@ impl Showroom {
                 Some(at) => ((2.5 - (now() - at)) as f32).clamp(0.0, 1.0),
             };
             let hint = if self.kind == Kind::Balls && self.setting == Setting::Studio {
-                t(
-                    "Drag to turn · right button or Shift to move · wheel to zoom · click a ball to look at it",
-                )
+                t("Drag with the right button to turn · wheel to zoom · click a ball to look at it")
             } else {
                 t(
-                    "Drag to turn · right button or Shift to move · wheel to zoom · double-click to look closer",
+                    "Drag with the right button to turn · wheel to zoom · double-click to look closer",
                 )
             };
             let lines = ui.wrap(hint, (sw - 40.0).min(760.0), 13.0);

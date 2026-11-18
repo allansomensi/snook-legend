@@ -139,6 +139,7 @@ impl Versus {
         progress: &Progress,
         claimer: &mut Claimer,
         cup: &mut Option<crate::cup::Cup>,
+        medals: &crate::medals::MedalBook,
     ) -> VersusAction {
         let sw = crate::ui::vw();
         let sh = crate::ui::vh();
@@ -199,7 +200,12 @@ impl Versus {
             Tab::Ladder => self.ladder(ui, config, online, progress, claimer, body),
             Tab::Daily => self.daily(ui, online, body),
             Tab::Drills => self.drills(ui, online, body),
-            Tab::Cup => self.cup(ui, config, cup, body),
+            Tab::Cup => {
+                let account = crate::medals::account_of(online, config);
+                let shown = medals.shown(account.as_deref());
+                let waiting = medals.unsynced(account.as_deref());
+                self.cup(ui, config, cup, body, (shown, waiting, account.is_some()))
+            }
         };
         if !matches!(inner, VersusAction::None) {
             action = inner;
@@ -970,9 +976,13 @@ impl Versus {
         config: &Config,
         cup: &mut Option<crate::cup::Cup>,
         body: Rect,
+        medals: (snook_legend_proto::cup::Medals, usize, bool),
     ) -> VersusAction {
         use crate::cup::{Cup, Format};
         let mut action = VersusAction::None;
+        // The player's medals, at the foot of the side (not while a
+        // tournament is being played).
+        let shelf_h = 104.0;
         // The tournament's game was left and is no longer kept (another
         // game against the computer took its place): it counts as lost. A
         // game is never played again from the start.
@@ -1043,6 +1053,7 @@ impl Versus {
                     &mut y,
                 );
                 new_buttons(ui, y + 12.0);
+                medal_shelf(ui, Rect::new(x, side.y + side.h - shelf_h, w, shelf_h), medals);
                 // The sixteen, as a preview of who is in.
                 self.cup_field(ui, config, board);
             }
@@ -1068,12 +1079,15 @@ impl Versus {
                         say(ui, &line, 14.0, MUTED, false, &mut y);
                     }
                     new_buttons(ui, y + 14.0);
-                    // The champion: a gold medal and their name.
-                    if c.is_player(champion) {
+                    medal_shelf(ui, Rect::new(x, side.y + side.h - shelf_h, w, shelf_h), medals);
+                    // The player's medal of this one (gold for the champion,
+                    // silver, bronze), and their name.
+                    if let Some(medal) = c.medal() {
                         let top = y + 14.0 + 96.0 + 18.0;
-                        let room = side.y + side.h - top;
+                        let room = side.y + side.h - shelf_h - 10.0 - top;
                         if room > 90.0 {
-                            let size = (room * 0.55).clamp(48.0, 120.0);
+                            let color = medal_color(medal.place);
+                            let size = (room * 0.5).clamp(44.0, 110.0);
                             let cx = x + w / 2.0;
                             let cy = top + size / 2.0 + 4.0;
                             let glow = 0.5 + 0.5 * (get_time() as f32 * 2.0).sin();
@@ -1081,13 +1095,19 @@ impl Versus {
                                 cx,
                                 cy,
                                 size * (0.62 + 0.04 * glow),
-                                Color::new(GOLD.r, GOLD.g, GOLD.b, 0.10 + 0.06 * glow),
+                                Color::new(color.r, color.g, color.b, 0.10 + 0.06 * glow),
                             );
-                            crate::icons::draw(Icon::Medal, vec2(cx, cy), size, GOLD);
-                            let (name, ns) = ui.fitted(&name, 20.0, w, true);
-                            ui.text_centered(&name, cx, cy + size / 2.0 + 14.0, ns, GOLD, true);
+                            crate::icons::draw(Icon::Medal, vec2(cx, cy), size, color);
+                            let me = cup_name(c, c.player(), config);
+                            let (me, ns) = ui.fitted(&me, 20.0, w, true);
+                            ui.text_centered(&me, cx, cy + size / 2.0 + 14.0, ns, color, true);
+                            let title = match medal.place {
+                                1 => t("Champion"),
+                                2 => t("Silver medal"),
+                                _ => t("Bronze medal"),
+                            };
                             ui.text_centered(
-                                t("Champion"),
+                                title,
                                 cx,
                                 cy + size / 2.0 + 14.0 + ns + 6.0,
                                 13.0,
@@ -1649,4 +1669,48 @@ fn placeholder(ui: &Ui, field: Rect, text: &str) {
     let color = Color::new(MUTED.r, MUTED.g, MUTED.b, 0.6);
     let size = (field.h * 0.5).clamp(12.0, 18.0);
     ui.text(text, field.x + 8.0, field.y + (field.h - size) / 2.0, size, color, false);
+}
+
+/// The colour of a medal: gold, silver, bronze (place 1, 2, 3).
+fn medal_color(place: u8) -> Color {
+    match place {
+        1 => GOLD,
+        2 => Color::new(0.80, 0.82, 0.86, 1.0),
+        _ => Color::new(0.82, 0.52, 0.30, 1.0),
+    }
+}
+
+/// The player's medals of the tournaments against the computer, by kind:
+/// gold, silver and bronze. `medals`: the count, how many wait to be kept
+/// by the server, and whether there is an account to keep them in.
+fn medal_shelf(ui: &mut Ui, r: Rect, medals: (snook_legend_proto::cup::Medals, usize, bool)) {
+    let (m, waiting, account) = medals;
+    rrect(r, 8.0, Color::new(0.0, 0.0, 0.0, 0.22));
+    rrect_lines(r, 8.0, 1.0, Color::new(BORDER.r, BORDER.g, BORDER.b, 0.6));
+    let x = r.x + 12.0;
+    ui.text(t("Your medals"), x, r.y + 8.0, 12.0, MUTED, true);
+    let rows = [(t("Knockout"), m.knockout), (t("Arena"), m.arena)];
+    let label_w = rows.iter().map(|(l, _)| ui.text_size(l, 13.0, true).x).fold(0.0, f32::max);
+    let cell = ((r.w - 24.0 - label_w - 10.0) / 3.0).max(36.0);
+    for (k, (label, counts)) in rows.iter().enumerate() {
+        let cy = r.y + 38.0 + k as f32 * 26.0;
+        ui.text(label, x, cy - 7.5, 13.0, CREAM, true);
+        for (i, n) in counts.iter().enumerate() {
+            let cx = x + label_w + 10.0 + cell * i as f32 + 10.0;
+            let color = medal_color(i as u8 + 1);
+            let faded = if *n == 0 { Color::new(color.r, color.g, color.b, 0.35) } else { color };
+            crate::icons::draw(Icon::Medal, vec2(cx, cy), 18.0, faded);
+            let text = n.to_string();
+            ui.text(&text, cx + 13.0, cy - 7.5, 14.0, if *n == 0 { MUTED } else { CREAM }, true);
+        }
+    }
+    if waiting > 0 {
+        let note = if account {
+            t("Kept in your account the next time you're online.")
+        } else {
+            t("Sign in to keep them in your account.")
+        };
+        let (note, size) = ui.fitted(note, 11.0, r.w - 24.0, false);
+        ui.text(&note, x, r.y + r.h - 18.0, size, MUTED, false);
+    }
 }

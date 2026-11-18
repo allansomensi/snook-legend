@@ -332,6 +332,19 @@ impl Cup {
         }
     }
 
+    /// The medal the player won, once it is over: a gold, a silver or a
+    /// bronze for the first three places (in a knockout, both losers of the
+    /// semi-finals share the third). The tournament is told apart by its
+    /// draw.
+    pub fn medal(&self) -> Option<snook_legend_proto::cup::Medal> {
+        let place = snook_legend_proto::cup::medal_for(self.player_place()?)?;
+        let format = match self.format {
+            Format::Knockout => snook_legend_proto::cup::Format::Knockout,
+            Format::Arena => snook_legend_proto::cup::Format::Arena,
+        };
+        Some(snook_legend_proto::cup::Medal { cup: self.seed, format, place })
+    }
+
     /// Where the player finished, once it is over (1 is the champion). In
     /// a knockout: 1, 2, then the places shared by those out in the same
     /// round (3 for the semi-finals, 5 for the quarter-finals, 9 before).
@@ -364,6 +377,25 @@ impl Cup {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// Development aid (screenshots): writes a knockout played to its end,
+    /// the player third, to SNOOK_LEGEND_CUP_FILE.
+    #[test]
+    #[ignore]
+    fn write_a_finished_cup() {
+        let Ok(path) = std::env::var("SNOOK_LEGEND_CUP_FILE") else { return };
+        for seed in 1..500 {
+            let mut c = Cup::new(Format::Knockout, seed);
+            while !c.finished() {
+                let won = c.rounds.len() < 2;
+                c.report(won);
+            }
+            if c.player_place() == Some(3) {
+                std::fs::write(&path, serde_json::to_string(&c).unwrap()).unwrap();
+                return;
+            }
+        }
+    }
 
     #[test]
     fn a_knockout_runs_to_a_champion() {

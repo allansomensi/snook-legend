@@ -1823,8 +1823,8 @@ Next setting (])	Escenario siguiente (])
 Setting	Escenario
 Studio	Estudio
 Your table	En tu mesa
-Drag to turn · right button or Shift to move · wheel to zoom · double-click to look closer	Arrastra para girar · botón derecho o Shift para mover · rueda para acercar · doble clic para ver de cerca
-Drag to turn · right button or Shift to move · wheel to zoom · click a ball to look at it	Arrastra para girar · botón derecho o Shift para mover · rueda para acercar · haz clic en una bola para verla
+Drag with the right button to turn · wheel to zoom · double-click to look closer	Arrastra con el botón derecho para girar · rueda para acercar · doble clic para ver de cerca
+Drag with the right button to turn · wheel to zoom · click a ball to look at it	Arrastra con el botón derecho para girar · rueda para acercar · haz clic en una bola para verla
 The set	El juego
 From above	Desde arriba
 Low angle	A ras
@@ -1867,3 +1867,11 @@ Log walls, a stone fireplace and snowy peaks outside	Paredes de troncos, una chi
 A black mirror floor, neon tubes and arcade cabinets	Un suelo negro espejado, tubos de neón y máquinas arcade
 A marble chessboard floor, gold, velvet and mirrors	Un suelo de mármol en damero, oro, terciopelo y espejos
 Glass walls on the city at night, pale marble and oak	Paredes de cristal sobre la ciudad de noche, mármol claro y roble
+A gold medal!	¡Medalla de oro!
+A silver medal!	¡Medalla de plata!
+A bronze medal!	¡Medalla de bronce!
+Silver medal	Medalla de plata
+Bronze medal	Medalla de bronce
+Your medals	Tus medallas
+Kept in your account the next time you're online.	Se guardan en tu cuenta la próxima vez que estés en línea.
+Sign in to keep them in your account.	Inicia sesión para guardarlas en tu cuenta.

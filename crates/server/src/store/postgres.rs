@@ -492,6 +492,60 @@ impl PgStore {
         Ok(())
     }
 
+    pub async fn add_cup_medal(
+        &self,
+        user_id: i64,
+        medal: &snook_legend_proto::cup::Medal,
+        at: i64,
+    ) -> StoreResult<bool> {
+        let r = query(
+            "INSERT INTO cup_medals (user_id, cup, format, place, won_at) VALUES ($1, $2, $3, $4, $5)
+             ON CONFLICT (user_id, cup) DO NOTHING",
+        )
+        .bind(user_id)
+        .bind(medal.cup as i64)
+        .bind(medal.format.code())
+        .bind(medal.place as i16)
+        .bind(at)
+        .execute(&self.pool)
+        .await?;
+        Ok(r.rows_affected() > 0)
+    }
+
+    pub async fn cup_medals(&self, user_id: i64) -> StoreResult<snook_legend_proto::cup::Medals> {
+        let rows = query(
+            "SELECT format, place, COUNT(*) AS n FROM cup_medals WHERE user_id = $1
+             GROUP BY format, place",
+        )
+        .bind(user_id)
+        .fetch_all(&self.pool)
+        .await?;
+        let mut medals = snook_legend_proto::cup::Medals::default();
+        for r in rows {
+            let format = snook_legend_proto::cup::Format::from_code(r.get("format"));
+            let place = r.get::<i16, _>("place");
+            let n = r.get::<i64, _>("n").max(0) as u32;
+            if (1..=3).contains(&place) {
+                let k = place as usize - 1;
+                match format {
+                    snook_legend_proto::cup::Format::Knockout => medals.knockout[k] += n,
+                    snook_legend_proto::cup::Format::Arena => medals.arena[k] += n,
+                    snook_legend_proto::cup::Format::Unknown => {}
+                }
+            }
+        }
+        Ok(medals)
+    }
+
+    pub async fn cup_medals_since(&self, user_id: i64, since: i64) -> StoreResult<u32> {
+        let row = query("SELECT COUNT(*) AS n FROM cup_medals WHERE user_id = $1 AND won_at >= $2")
+            .bind(user_id)
+            .bind(since)
+            .fetch_one(&self.pool)
+            .await?;
+        Ok(row.get::<i64, _>("n").max(0) as u32)
+    }
+
     pub async fn ladder_ticket(
         &self,
         user_id: i64,
@@ -860,6 +914,7 @@ impl PgStore {
             "DELETE FROM achievements WHERE user_id = $1",
             "DELETE FROM ladder_claims WHERE user_id = $1",
             "DELETE FROM ladder_tickets WHERE user_id = $1",
+            "DELETE FROM cup_medals WHERE user_id = $1",
             "DELETE FROM staff_notes WHERE user_id = $1",
             "UPDATE gifts SET message = '' WHERE from_id = $1",
             "DELETE FROM equipped WHERE user_id = $1",

@@ -3,6 +3,17 @@
 # un destacado, y las líneas siguientes son su texto. Mismas versiones y
 # mismo número de destacados en todos los idiomas.
 
+## 0.7.2
+
+### Un circuito más difícil
+TOUR
+
+### Medallas en los torneos
+Juega un torneo contra la computadora hasta el final y termina entre los tres primeros para ganar medalla de oro, plata o bronce. La pestaña Torneo cuenta las tuyas, eliminatoria y arena por separado; quedan guardadas en tu cuenta la próxima vez que estés en línea.
+
+### Cámara como la de la mesa
+En la vitrina de la tienda la cámara gira con el botón derecho, como en la mesa, suave, y nunca pasa por debajo del suelo ni de la mesa. La rueda acerca.
+
 ## 0.7.1
 
 ### La primera bola decide

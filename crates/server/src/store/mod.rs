@@ -1618,6 +1618,24 @@ impl Store {
     ) -> StoreResult<()> {
         dispatch!(self, s => s.issue_ladder_ticket(user_id, seed, breaker, at))
     }
+    /// Keeps a medal of a tournament against the computer (once per
+    /// tournament); true if it was new.
+    pub async fn add_cup_medal(
+        &self,
+        user_id: i64,
+        medal: &snook_legend_proto::cup::Medal,
+        at: i64,
+    ) -> StoreResult<bool> {
+        dispatch!(self, s => s.add_cup_medal(user_id, medal, at))
+    }
+    /// A player's medals of the tournaments against the computer.
+    pub async fn cup_medals(&self, user_id: i64) -> StoreResult<snook_legend_proto::cup::Medals> {
+        dispatch!(self, s => s.cup_medals(user_id))
+    }
+    /// Medals kept for a player since `since` (a day's worth is limited).
+    pub async fn cup_medals_since(&self, user_id: i64, since: i64) -> StoreResult<u32> {
+        dispatch!(self, s => s.cup_medals_since(user_id, since))
+    }
     /// The final dealt to `user_id` with this rack: (breaker, when).
     pub async fn ladder_ticket(
         &self,

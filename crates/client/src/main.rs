@@ -33,6 +33,7 @@ mod icons;
 mod keys;
 mod ladder;
 mod lan;
+mod medals;
 mod menu;
 mod more_halls;
 mod msstore;
@@ -437,6 +438,8 @@ async fn main() {
     let mut unsent_runs: Vec<(String, snook_legend_proto::ClientMsg)> = Vec::new();
     // The tournament against the computer's opponents, if one is going on.
     let mut cup = cup::Cup::load();
+    // The medals of the tournaments against the computer.
+    let mut medal_book = medals::MedalBook::load();
     let menu_rack = snook_legend_core::rules::rack(&scene.table, 2024);
     let vignette = vignette_texture();
 
@@ -722,6 +725,30 @@ async fn main() {
                 i18n::t("You are out of the tournament.").to_string()
             };
             m.notify(text, true);
+        }
+        // The medal of a tournament played to its end: kept for the
+        // account at once (the one signed in, or whose session is saved),
+        // and sent once it is online; the server's count comes back.
+        let medal_account = medals::account_of(&online, &config);
+        if let Some(medal) = cup.as_ref().and_then(|c| c.medal())
+            && medal_book.give(medal, medal_account.as_deref())
+            && let Some(m) = current.as_mut()
+        {
+            let text = match medal.place {
+                1 => i18n::t("A gold medal!"),
+                2 => i18n::t("A silver medal!"),
+                _ => i18n::t("A bronze medal!"),
+            };
+            m.notify(text, true);
+        }
+        if online.live()
+            && let Some(account) = online.account().map(str::to_string)
+        {
+            let session = online.session_count;
+            medal_book.sync(&account, session, &mut |msg| online.send(msg));
+            for (medals, kept) in std::mem::take(&mut online.cup_medal_news) {
+                medal_book.heard(&account, medals, kept);
+            }
         }
         if claimer.update(&mut ladder_progress, &mut online, get_time()) {
             ladder_progress.save();
@@ -1359,6 +1386,7 @@ async fn main() {
                             &ladder_progress,
                             &mut claimer,
                             &mut cup,
+                            &medal_book,
                         ) {
                             versus::VersusAction::Back => {
                                 config.save();

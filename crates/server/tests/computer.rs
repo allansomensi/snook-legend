@@ -219,10 +219,66 @@ async fn exercise(store: Store) {
     let theirs = store.recent_replays(b.id, 10).await.unwrap();
     assert_eq!(theirs.iter().map(|(_, s, _)| *s).collect::<Vec<_>>(), vec![0, 1]);
 
+    // The medals of the tournaments against the computer: one per
+    // tournament, counted by kind and place.
+    use snook_legend_proto::cup::{Format, Medal, Medals};
+    let gold = Medal { cup: 11, format: Format::Knockout, place: 1 };
+    assert!(store.add_cup_medal(a.id, &gold, 100).await.unwrap());
+    assert!(!store.add_cup_medal(a.id, &gold, 101).await.unwrap(), "the same tournament once");
+    let bronze = Medal { cup: u64::MAX, format: Format::Arena, place: 3 };
+    assert!(store.add_cup_medal(a.id, &bronze, 200).await.unwrap());
+    assert_eq!(
+        store.cup_medals(a.id).await.unwrap(),
+        Medals { knockout: [1, 0, 0], arena: [0, 0, 1] }
+    );
+    assert_eq!(store.cup_medals(b.id).await.unwrap(), Medals::default());
+    assert_eq!(store.cup_medals_since(a.id, 150).await.unwrap(), 1);
+
     // A deleted account loses its claim with its achievements.
     store.delete_account(a.id, 3_000).await.unwrap();
     assert_eq!(store.ladder_claim(a.id).await.unwrap(), None);
     assert_eq!(store.ladder_ticket(a.id, 100).await.unwrap(), None);
+    assert_eq!(store.cup_medals(a.id).await.unwrap(), Medals::default());
+}
+
+// ---------------------------------------------------------------------------
+// The medals of the tournaments against the computer.
+
+/// The game sends a medal once the account is online; the server keeps it
+/// once per tournament and answers with the account's count (and the
+/// tournament kept, so the game can forget it). A medal that can't be is
+/// refused; signed out, nothing is kept.
+#[tokio::test]
+async fn cup_medals_are_kept_once_per_tournament() {
+    use snook_legend_proto::cup::{Format, Medal, Medals};
+    let (url, _server) = start().await;
+    let mut anon = Client::connect(&url).await;
+    anon.send(ClientMsg::CupMedals).await;
+    anon.expect("refused", |m| matches!(m, ServerMsg::AuthError { .. })).await;
+
+    let mut c = Client::register(&url, "Medalist").await;
+    let medals = |m: &ServerMsg| matches!(m, ServerMsg::CupMedals { .. });
+    c.send(ClientMsg::CupMedals).await;
+    let ServerMsg::CupMedals { medals: m, kept } = c.expect("medals", medals).await else {
+        unreachable!()
+    };
+    assert_eq!((m, kept), (Medals::default(), None));
+    let silver = Medal { cup: 42, format: Format::Knockout, place: 2 };
+    for _ in 0..2 {
+        // Sent again (the answer was lost): kept once, and said so again.
+        c.send(ClientMsg::CupMedal { medal: silver }).await;
+        let ServerMsg::CupMedals { medals: m, kept } = c.expect("kept", medals).await else {
+            unreachable!()
+        };
+        assert_eq!((m, kept), (Medals { knockout: [0, 1, 0], arena: [0; 3] }, Some(42)));
+    }
+    c.send(ClientMsg::CupMedal { medal: Medal { cup: 43, format: Format::Arena, place: 4 } }).await;
+    c.expect("refused", |m| matches!(m, ServerMsg::Error { .. })).await;
+    c.send(ClientMsg::CupMedal { medal: Medal { cup: 44, format: Format::Arena, place: 1 } }).await;
+    let ServerMsg::CupMedals { medals: m, .. } = c.expect("arena", medals).await else {
+        unreachable!()
+    };
+    assert_eq!(m, Medals { knockout: [0, 1, 0], arena: [1, 0, 0] });
 }
 
 #[tokio::test]

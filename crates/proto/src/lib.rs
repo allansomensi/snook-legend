@@ -12,6 +12,7 @@ mod achievements;
 pub mod analysis;
 pub mod correspondence;
 mod countries;
+pub mod cup;
 pub mod daily;
 pub mod drills;
 pub mod events;
@@ -137,14 +138,14 @@ pub const SPECTATOR_SEAT: usize = 2;
 pub const GAME_NAME: &str = "Snook Legend";
 
 /// Bumped whenever messages change incompatibly.
-pub const PROTOCOL_VERSION: u32 = 19;
+pub const PROTOCOL_VERSION: u32 = 20;
 
-/// The oldest version the server still lets in. Version 19 plays ruleset 6
-/// (see [`snook_legend_core::RULESET`]: the first ball made on the break
-/// decides the groups, and the cue ball is in hand for the break only; one
-/// that goes down comes back to the head spot): an older game would apply
-/// the rules differently from the server, so it must update.
-pub const OLDEST_PROTOCOL_VERSION: u32 = 19;
+/// The oldest version the server still lets in. Version 20 plays the tour's
+/// final against a stronger opponent (see [`ladder::tour_form`]): the
+/// server checks the final against that player, so a game of an older
+/// version could never earn its reward, and it must update. (Version 19
+/// brought ruleset 6, which this one plays too.)
+pub const OLDEST_PROTOCOL_VERSION: u32 = 20;
 
 /// Username rules: 3–16 characters, letters, digits and underscores.
 pub fn valid_username(name: &str) -> bool {
@@ -1343,6 +1344,14 @@ pub enum ClientMsg {
     /// The tour's final is about to be played for the reward: the server
     /// deals its rack and who breaks ([`ServerMsg::LadderTicket`]).
     LadderTicket,
+    /// The medals this account won in tournaments against the computer
+    /// ([`ServerMsg::CupMedals`]).
+    CupMedals,
+    /// A medal won in a tournament against the computer, for this account
+    /// (kept once per tournament; answered with [`ServerMsg::CupMedals`]).
+    CupMedal {
+        medal: cup::Medal,
+    },
     /// How a player plays (aggregated numbers), for a computer opponent in
     /// their style.
     GhostStyle {
@@ -1812,6 +1821,13 @@ pub enum ServerMsg {
     /// The drills as this player sees them.
     Drills {
         info: drills::Info,
+    },
+    /// This account's medals of the tournaments against the computer, and
+    /// the tournament whose medal was just kept (it can be forgotten).
+    CupMedals {
+        medals: cup::Medals,
+        #[serde(default)]
+        kept: Option<u64>,
     },
     /// A drill session counted (its score), or refused.
     DrillResult {

@@ -284,34 +284,62 @@ mod tests {
             style: Style::NEUTRAL,
         };
         let viktor = final_opponent().player;
-        let games = 12u64;
-        let play = |opponent: AiPlayer, seed: u64| -> bool {
+        let games: u64 = std::env::var("SNOOK_LEGEND_FINAL_GAMES")
+            .ok()
+            .and_then(|v| v.parse().ok())
+            .unwrap_or(12);
+        let mut perfect = final_player();
+        perfect.skill.aim_noise_deg = 0.0;
+        perfect.skill.speed_noise = 0.0;
+        // Whether the player won, and how many times the opponent left the
+        // table to them (a chance: the opponent's turn ended, game on).
+        let play = |opponent: AiPlayer, seed: u64| -> (bool, usize) {
             let mut replay = Replay::new(seed * 7919 + 13, (seed % 2) as usize);
             let mut game = replay.start();
+            let mut chances = 0;
             while game.game_over().is_none() && replay.strokes.len() < 300 {
-                let stroke = if game.current_player() == PLAYER_SEAT {
+                let mine = game.current_player() == PLAYER_SEAT;
+                let stroke = if mine {
                     computer_stroke(&game, &me, seed ^ 0x5555)
                 } else {
                     computer_stroke(&game, &opponent, replay.seed)
                 };
                 apply(&mut game, &stroke).unwrap();
                 replay.strokes.push(stroke);
+                if !mine && game.game_over().is_none() && game.current_player() == PLAYER_SEAT {
+                    chances += 1;
+                }
             }
-            game.game_over().is_some_and(|o| o.winner == PLAYER_SEAT)
+            (game.game_over().is_some_and(|o| o.winner == PLAYER_SEAT), chances)
         };
-        for (name, opponent) in [("tournament", cup_form(&viktor)), ("tour final", final_player())]
-        {
-            let won: usize = std::thread::scope(|s| {
+        let configs = [
+            ("tournament", cup_form(&viktor)),
+            ("tour final", final_player()),
+            ("tour final, flawless strokes", perfect),
+        ];
+        for (name, opponent) in configs {
+            let (won, chances) = std::thread::scope(|s| {
                 let handles: Vec<_> = (0..4u64)
                     .map(|t| {
                         s.spawn(move || {
-                            (0..games).filter(|g| g % 4 == t).filter(|g| play(opponent, *g)).count()
+                            (0..games)
+                                .filter(|g| g % 4 == t)
+                                .map(|g| play(opponent, g))
+                                .fold((0, 0), |(w, c), (won, chances)| {
+                                    (w + won as usize, c + chances)
+                                })
                         })
                     })
                     .collect();
-                handles.into_iter().map(|h| h.join().unwrap()).sum()
+                handles
+                    .into_iter()
+                    .map(|h| h.join().unwrap())
+                    .fold((0, 0), |a, b| (a.0 + b.0, a.1 + b.1))
             });
-            println!("{name}: the very good player won {won} of {games}");
+            let per_game = chances as f64 / games as f64;
+            println!(
+                "{name}: the very good player won {won} of {games}; the opponent left them the table {per_game:.2} times a game"
+            );
         }
     }
 

@@ -1,5 +1,43 @@
 # Changelog
 
+## 0.7.2 (protocol 20)
+
+A harder tour, medals for the tournaments against the computer and a
+showroom camera like the table's. 0.7.2 plays only with 0.7.2: the server
+lets in protocol 20 only (older games are told to update), since it checks
+the tour's final against the new last opponent. One new migration
+(`0020_cup_medals`).
+
+### The tour
+TOUR_NOTES
+
+### Medals of the tournaments against the computer
+- **A tournament played to its end gives a medal** to the first three: gold
+  for the champion, silver for second, bronze for third (in a knockout both
+  semi-final losers take the bronze). The finished tournament shows it, in
+  its colour, and the game says it ("A gold medal!").
+- **The Tournament tab counts them**, knockout and arena apart, gold, silver
+  and bronze: under the sign-up and under a finished tournament. They are
+  shown there only, not on the profile.
+- **They are kept in the account.** A medal is kept in the game at once,
+  for the account signed in (or whose session is saved; with none, the next
+  one to sign in takes it), and sent to the server the next time it is
+  online; the server's count comes back and shows offline too. Until then
+  the tab says "Kept in your account the next time you're online." (or
+  "Sign in to keep them in your account.").
+- The server keeps one medal per tournament (its draw's number), refuses a
+  place outside the first three or an unknown format, and takes at most 40
+  a day per account. Deleting an account deletes its medals.
+
+### The showroom's camera
+- **It turns like the camera at the table:** drag with the right button
+  (the left one turns too, and a click on a ball still picks it), smoothly,
+  with the wheel to come closer. Nothing moves the whole view sideways any
+  more: the camera always looks at the item.
+- **It never goes under the floor or the table:** it stops just above the
+  stage, and above the table's top for a table, a cloth or an item shown on
+  the player's table. The arrow keys turn it the same way.
+
 ## 0.7.1 (protocol 19)
 
 New games play ruleset 6: two house rules on the break and the cue ball.

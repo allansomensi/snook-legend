@@ -1280,7 +1280,9 @@ impl Lounge {
             | ClientMsg::Drills
             | ClientMsg::DrillSubmit { .. }
             | ClientMsg::DrillStart { .. }
-            | ClientMsg::LadderTicket => {}
+            | ClientMsg::LadderTicket
+            | ClientMsg::CupMedals
+            | ClientMsg::CupMedal { .. } => {}
             ClientMsg::SetStatusMessage { .. }
             | ClientMsg::ClearStatusMessage { .. }
             | ClientMsg::RecentOpponents

@@ -234,6 +234,12 @@ pub struct Online {
     /// ([`get_time`]): said for a moment by the count of players online
     /// over a game against the computer.
     arrived: Option<(String, f64)>,
+    /// Counts the sessions signed in (a new one: what waits for the server
+    /// is sent again).
+    pub session_count: u32,
+    /// The server's answers about the medals of the tournaments against the
+    /// computer: the count, and the tournament kept (see `medals`).
+    pub cup_medal_news: Vec<(snook_legend_proto::cup::Medals, Option<u64>)>,
     /// The server's protocol version (from its welcome; 0: an older server).
     server_protocol: u32,
     /// What the server was last told: (playing the computer, away, in
@@ -603,6 +609,8 @@ impl Online {
             draining: None,
             attention: None,
             arrived: None,
+            session_count: 0,
+            cup_medal_news: Vec::new(),
             // Development aid: SNOOK_LEGEND_LOUNGE_SIDE=missions|board.
             side: match crate::dev::var("SNOOK_LEGEND_LOUNGE_SIDE").as_deref() {
                 Some("missions") => Side::Missions,
@@ -938,6 +946,7 @@ impl Online {
                 self.social.seeks.clear();
                 self.social.recent_stale = true;
                 self.auto_resume = true;
+                self.session_count = self.session_count.wrapping_add(1);
                 self.password.clear();
                 self.error = None;
                 self.stage = Stage::Lounge;
@@ -1464,6 +1473,7 @@ impl Online {
             ServerMsg::LadderClaim { result } => self.ladder_claim = Some(result),
             ServerMsg::Daily { info } => self.daily = Some(info),
             ServerMsg::Drills { info } => self.drills = Some(info),
+            ServerMsg::CupMedals { medals, kept } => self.cup_medal_news.push((medals, kept)),
             ServerMsg::DrillResult { code, result } => self.drill_result = Some((code, result)),
             // Only the answer to the last request: an older one's session
             // is no longer the server's.

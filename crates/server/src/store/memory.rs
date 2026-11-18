@@ -87,6 +87,8 @@ struct Inner {
     ladder_claims: HashMap<i64, (u64, u32, i64)>,
     /// (user, rack) -> (breaker, issued at).
     ladder_tickets: HashMap<(i64, u64), (usize, i64)>,
+    /// (user, tournament) -> (medal, when)
+    cup_medals: HashMap<(i64, u64), (snook_legend_proto::cup::Medal, i64)>,
     /// Presents (names and countries filled in when read).
     gifts: Vec<GiftRow>,
     /// Microsoft Store purchases being fulfilled (see `msstore.rs`).
@@ -516,6 +518,37 @@ impl MemoryStore {
         Ok(())
     }
 
+    pub fn add_cup_medal(
+        &self,
+        user_id: i64,
+        medal: &snook_legend_proto::cup::Medal,
+        at: i64,
+    ) -> StoreResult<bool> {
+        let mut s = self.lock();
+        let key = (user_id, medal.cup);
+        if s.cup_medals.contains_key(&key) {
+            return Ok(false);
+        }
+        s.cup_medals.insert(key, (*medal, at));
+        Ok(true)
+    }
+
+    pub fn cup_medals(&self, user_id: i64) -> StoreResult<snook_legend_proto::cup::Medals> {
+        let mut medals = snook_legend_proto::cup::Medals::default();
+        for ((u, _), (m, _)) in self.lock().cup_medals.iter() {
+            if *u == user_id {
+                medals.add(m);
+            }
+        }
+        Ok(medals)
+    }
+
+    pub fn cup_medals_since(&self, user_id: i64, since: i64) -> StoreResult<u32> {
+        let s = self.lock();
+        Ok(s.cup_medals.iter().filter(|((u, _), (_, at))| *u == user_id && *at >= since).count()
+            as u32)
+    }
+
     pub fn ladder_ticket(&self, user_id: i64, seed: u64) -> StoreResult<Option<(usize, i64)>> {
         Ok(self.lock().ladder_tickets.get(&(user_id, seed)).copied())
     }
@@ -750,6 +783,7 @@ impl MemoryStore {
         s.achievements.remove(&user_id);
         s.ladder_claims.remove(&user_id);
         s.ladder_tickets.retain(|(u, _), _| *u != user_id);
+        s.cup_medals.retain(|(u, _), _| *u != user_id);
         s.staff_notes.retain(|n| n.user_id != user_id);
         // What they wrote with their presents goes with them.
         for g in s.gifts.iter_mut().filter(|g| g.from_id == Some(user_id)) {

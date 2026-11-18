@@ -71,9 +71,12 @@ which every desktop installation has. How releases are made is described in
 - **Computer opponents**: fifteen named opponents with their own portraits and
   styles (cautious, all-out attack, bank artist, positional…) over three skill
   levels. They play with the same physics and rules: they simulate candidate
-  shots and score the outcome. **The tour** takes you through all fifteen, and
-  its final win (checked by the server, stroke by stroke) earns an exclusive
-  cue. **Ghosts** play in the measured style of a real player. Games against
+  shots and score the outcome. **The tour** takes you through all fifteen,
+  each tighter than the last, and its final win against the champion (checked
+  by the server, stroke by stroke) earns an exclusive cue. **Tournaments**
+  against them (a knockout or an arena of sixteen) give gold, silver and
+  bronze medals, kept in the account and shown with the tournaments.
+  **Ghosts** play in the measured style of a real player. Games against
   the computer never touch ratings or coins.
 - **Daily games**: correspondence games with up to 72 hours per turn, live
   notices and desktop notifications, several at once, rated or casual.
@@ -105,9 +108,10 @@ which every desktop installation has. How releases are made is described in
 - **The shop**: cloth colours, cues, chalk and ball sets, shown on the table
   (opponents see your cue and chalk), each one first looked at closely in a
   **showroom**: alone on a dark stage, turning until you take the camera
-  (turn, move, zoom to a point, ready views of a cue's tip and joint or a
-  table's pockets, a ball of a set floating close up, tables and cloths in
-  any hall). Some are free, some come with
+  (the right button turns it as at the table, the wheel zooms to a point;
+  ready views of a cue's tip and joint or a table's pockets, a ball of a
+  set floating close up, tables and cloths in any hall). Some are free,
+  some come with
   achievements, some cost coins, some are for **VIP** members. Coins and the
   monthly VIP are paid through Stripe (card, Pix, boleto) on its hosted page;
   in the Microsoft Store version, coin packs are bought in the Store itself.

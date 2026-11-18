@@ -51,22 +51,18 @@ Em português, inglês e espanhol.
 
 ### Novidades desta versão
 
-Versão 0.7.1: a primeira bola decide, bola na mão só na saída, quem está online e modo foco.
+Versão 0.7.2: um Circuito mais difícil, medalhas nos torneios e a câmera da vitrine.
+• O Circuito ficou mais difícil a cada etapa, e a final, que vale o taco, ficou bem difícil.
+• Torneios contra o computador jogados até o fim dão medalha de ouro, prata ou bronze, contadas na aba Torneio e guardadas na sua conta.
+• Na vitrine da loja a câmera gira com o botão direito, como na mesa, suave, sem passar por baixo do chão ou da mesa.
+
+Da versão 0.7.1: a primeira bola decide, bola na mão só na saída, quem está online e modo foco.
 • Na saída, a primeira bola que cair decide o seu grupo; uma bola do adversário junto passa a vez.
 • A branca só fica na mão na saída; caída ou fora da mesa, ela volta para o ponto inicial.
 • Jogando contra o computador, um cantinho mostra quantas pessoas estão online, e os convites aparecem por cima da partida.
 • Modo foco: nenhum convite enquanto você joga.
 • Vitrine da loja: veja cada item sozinho num estúdio, gire, aproxime e confira mesas e panos em qualquer salão.
 • A 7 e a 15 agora são marrons de verdade, e os conjuntos perolados e metálicos brilham como tal.
-
-Da versão 0.7.0: eventos, prêmios justos e luz mais suave.
-• Eventos: fins de semana de experiência ou moedas em dobro e torneios especiais com prêmio da casa.
-• Alguns casos raros das regras foram acertados, e o computador joga um pouco melhor.
-• A final do Circuito e os treinos que valem ranking são preparados pelo servidor: os prêmios valem igual para todos.
-• Trocar o e-mail de recuperação pede a senha.
-• A luz sob as luminárias cai suave, sem bordas duras.
-• Opção para deixar sempre à mostra a linha de cabeceira.
-• Bolas em sequência comemoradas, "Próximo" direto no Circuito e online mais firme.
 
 ### Recursos do produto
 
@@ -129,22 +125,18 @@ In English, Portuguese and Spanish.
 
 ### What's new in this version
 
-Version 0.7.1: the first ball decides, ball in hand on the break only, who is online and focus mode.
+Version 0.7.2: a harder tour, tournament medals and the showroom's camera.
+• The tour is harder at every stage, and its final, for the cue, is very hard.
+• Tournaments against the computer played to their end give a gold, silver or bronze medal, counted on the Tournament tab and kept in your account.
+• In the shop's showroom the camera turns with the right button, as at the table, smoothly, and never goes under the floor or the table.
+
+From version 0.7.1: the first ball decides, ball in hand on the break only, who is online and focus mode.
 • On the break, the first ball that goes down decides your group; one of your opponent's with it passes the turn.
 • The cue ball is in hand on the break only; pocketed or off the table, it comes back to the head spot.
 • Playing the computer, a corner shows how many people are online, and invitations show over the game.
 • Focus mode: no invitations while you play.
 • The shop's showroom: see each item alone in a studio, turn it, come close, and see tables and cloths in any hall.
 • The 7 and the 15 are truly brown now, and pearl and metal sets shine like it.
-
-From version 0.7.0: events, fair rewards and softer light.
-• Events: weekends of double experience or coins, and themed tournaments with a prize from the house.
-• A few rare cases of the rules put right, and a slightly stronger computer.
-• The tour's final and the ranked drills are set up by the server: their rewards are earned the same way by everyone.
-• Changing the recovery e-mail asks for the password.
-• The light under the lamps falls softly, without hard edges.
-• An option to always show the head string.
-• Balls in a row cheered, "Next" straight on the tour, and steadier online play.
 
 ### Product features
 
@@ -207,22 +199,18 @@ En español, inglés y portugués.
 
 ### Novedades de esta versión
 
-Versión 0.7.1: la primera bola decide, bola en mano solo en el saque, quién está en línea y modo concentración.
+Versión 0.7.2: un circuito más difícil, medallas en los torneos y la cámara de la vitrina.
+• El circuito es más difícil en cada etapa, y la final, que da el taco, es muy difícil.
+• Los torneos contra la computadora jugados hasta el final dan medalla de oro, plata o bronce, contadas en la pestaña Torneo y guardadas en tu cuenta.
+• En la vitrina de la tienda la cámara gira con el botón derecho, como en la mesa, suave, y nunca pasa por debajo del suelo ni de la mesa.
+
+De la versión 0.7.1: la primera bola decide, bola en mano solo en el saque, quién está en línea y modo concentración.
 • En el saque, la primera bola que entra decide tu grupo; una del rival con ella pasa el turno.
 • La blanca solo está en mano en el saque; metida o fuera de la mesa, vuelve al punto de salida.
 • Jugando contra la computadora, un rincón muestra cuántas personas están en línea, y las invitaciones aparecen sobre la partida.
 • Modo concentración: ninguna invitación mientras juegas.
 • La vitrina de la tienda: mira cada objeto solo en un estudio, gíralo, acércate y mira mesas y paños en cualquier salón.
 • La 7 y la 15 ahora son marrones de verdad, y los juegos nacarados y metálicos brillan como tales.
-
-De la versión 0.7.0: eventos, premios justos y luz más suave.
-• Eventos: fines de semana de experiencia o monedas dobles, y torneos especiales con premio de la casa.
-• Algunos casos raros de las reglas quedaron bien resueltos, y la computadora juega un poco mejor.
-• La final del circuito y los ejercicios con clasificación los prepara el servidor: los premios se ganan igual para todos.
-• Cambiar el e-mail de recuperación pide la contraseña.
-• La luz bajo las lámparas cae suave, sin bordes duros.
-• Opción para mostrar siempre la línea de salida.
-• Bolas seguidas celebradas, "Siguiente" directo en el circuito y juego en línea más firme.
 
 ### Características del producto
 

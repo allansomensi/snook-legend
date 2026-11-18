@@ -135,7 +135,9 @@ const MAX_REGISTRATIONS_PER_IP: usize = 5;
 /// in again and again (a new connection each time) to wear the database
 /// down.
 const SIGN_IN_WINDOW: Duration = Duration::from_secs(60);
-const MAX_SIGN_INS_PER_IP: usize = 30;
+// Generous per address: after a restart everyone signs in again at once,
+// and many players can share one address (carrier-grade NAT, a LAN party).
+const MAX_SIGN_INS_PER_IP: usize = 120;
 const MAX_SIGN_INS_PER_USER: usize = 12;
 
 impl AuthLimiter {

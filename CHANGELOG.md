@@ -1,5 +1,152 @@
 # Changelog
 
+## 0.6.3 (protocol 17)
+
+0.6.0 to 0.6.3 play together (same protocol and rules: ruleset 4). The
+server's fixes stand on their own, but it should be updated with the game
+(tournaments, sign-ins and the economy are fixed there). No migrations.
+
+### Security
+- **Notifications never run text as code.** On Windows a desktop
+  notification put its text inside a PowerShell script, escaping only the
+  plain apostrophe; PowerShell also takes ‘ ’ ‚ ‛ for quotes, so a
+  tournament named with them could run a command on the computer of every
+  player who joined it and was away from the game when it started. The
+  text now goes to the notifier as data only (the environment on Windows,
+  an argument on macOS, after "--" for notify-send).
+- The updater's own PowerShell doubles every kind of quote (a profile
+  folder such as "O’Brien" stopped the game from coming back), and the
+  Windows installer is checked against its SHA-256 again right before it
+  runs.
+- "Reset to defaults" kept the session but not the server that gave it, so
+  a session from another server was then sent to the default one.
+- An administrator's name stays theirs: a listed administrator could rename
+  their account, and whoever registered the old name became an
+  administrator. Staff can't rename, and a listed name can't be registered.
+- Signing in is limited per address and per account across connections;
+  wrong passwords in "change password" and "delete account" count like
+  wrong sign-ins; names that can't exist and passwords longer than any are
+  turned away before they cost anything; the limits' memory has a ceiling.
+- Private tournaments' and tables' passwords can't be guessed: lounge
+  actions are limited for every way in, and five wrong passwords lock that
+  table or tournament for the player for ten minutes.
+- Chat lines, names and status messages lose the characters that show
+  nothing (Hangul fillers, the braille blank, tags, variation selectors): a
+  line or a tournament's name made only of them was blank, not empty. The
+  aim a player's game sends is passed on within a cue's range (a modified
+  game could send absurd numbers to the opponent's).
+- A server, or a game on the local network, that names a seat no table has
+  is ignored (the game stopped on it); a game snapshot no game could be in
+  is refused when it is read; the list of games on the local network can't
+  be flooded.
+
+### Online
+- A dropped connection came back badly: the game's messages went out
+  before the session was resumed, the server refused them, and that answer
+  made the game forget the saved session and close the match. Messages now
+  wait for the session.
+- A game of the global server could be taken for a local network game
+  while hosting or joining one (its messages went to the wrong server).
+- A shot made right at the buzzer no longer stops the clock's shot on
+  screen, and a game that ends while a shot is on its way ends on screen
+  (it could wait for ever).
+- Space shoots only when it went down during this turn: Alt+Tab while
+  charging no longer plays the shot.
+- Reports filed in daily games reach the server. Invitations show over every
+  game here, and a click on one no longer reaches the button under it.
+- Online, a soft chime says the turn has come back.
+
+### Tournaments (server)
+- A running knockout was sent to the whole lounge four times a second; now
+  only when it changes.
+- A knockout could wait for ever (both players of a match gone, a player
+  left on the end panel): matches are settled, players are brought back.
+- Entry fees are taken once and given back once (each payment has its own
+  reference); everything that can refuse a player is checked before coins
+  are taken; a server that stops gives every fee back; the waiting list's
+  fees never go into the prizes.
+- Arenas: a game resigned or left within a few shots scores nothing, and two
+  players score in their first two games against each other only. The
+  weekly cup nobody signed up for is called off once. Muted players can't
+  name a tournament. Players in a tournament can't start other games.
+
+### The server
+- Shots never wait for the database: they have a queue of their own (a slow
+  write held every game up), and the ten-minute clean-ups run apart from
+  the shot clocks.
+- A prize, a refund or a match result the database refused for a moment is
+  tried again (each stays single). A stopping server waits for everything
+  it has to write.
+- A client that stops reading is let go after 15 s (its connection no
+  longer outlived it, uncounted).
+- Casual games between the same two players earn no experience or cue
+  progress past five a day (two accounts could farm each other).
+- Stripe: a payment for something this server doesn't sell is answered and
+  logged (it was refused, so Stripe kept sending it); a refunded welcome
+  pack takes its items back.
+- A daily game that can't be rebuilt is looked at again a day later, not at
+  every sweep (it held the others up).
+
+### At the table
+- **Always show the head string** (Settings → Game, off by default): the
+  line the break is played from stays on the cloth.
+- A ball that drops lights its pocket (gold for the 8, red for the cue
+  ball). Balls made in a row show by the player's picture with a small
+  flame; three, five and seven in a row, and a table cleared in one visit,
+  are cheered in gold.
+- The shot clock's last ten seconds are on a thicker red bar, and the last
+  five tick. The rating counts up on the end panel. The deciding shot can be
+  watched again from the end panel (which steps aside meanwhile).
+- After a win on the tour, "Next" goes straight to the next opponent;
+  "Try again" after a loss, and after a drill.
+- A new player's first game points out where to aim, set the power and
+  shoot. Charging with Space says how to shoot and how to cancel.
+- A new game against the computer asks before it replaces the one in
+  progress (a tournament's game left that way counted as lost).
+- The camera swings round the table instead of through it when the aim
+  turns quickly.
+- A time foul says what it does under the house rules: the turn passes.
+- End-of-game numbers, profiles and missions count only a player's own
+  balls (the opponent's balls and a losing 8 no longer count).
+
+### Interface
+- Dialogs keep Enter and Esc to themselves (Enter on a gift could start a
+  game and replace the saved one); the Esc that leaves a text field doesn't
+  also close the screen; a field that is gone no longer keeps the keyboard.
+- AltGr types on Windows (@ # € [ ] could not be typed).
+- Very small or minimised windows no longer stop the game. Tooltips can
+  have several lines; banners and notices fit the window.
+- The local network says why a join failed (with "Try again"), the host
+  sees the address to join at (a click copies it), and the host's "back"
+  asks twice when others are in the game.
+- Medals say their metal in words; icons explain themselves when disabled.
+
+### Sound and graphics
+- A hard break no longer clips: the loudest few hits of a frame play within
+  a shared headroom. The volume slider follows a curve like the ear's.
+- GPUs without high precision in fragment shaders (some GLES 2 chips) can
+  run the game; no texture of uneven size is drawn black there.
+
+### Words
+- The server's announcements (restarts, the weekly cup, a tournament's
+  winner) and the weekly cups' names in the player's language; mutes and
+  suspensions say how long in words that agree.
+- Portuguese: pockets that read well after "caçapa", "saída" for the break
+  everywhere, "Acerto" for potting success. Spanish: "computadora", "ver",
+  "partida", rating, "Retruque", pockets named by the head and the foot,
+  every country's name, Spanish keyboard keys. Singulars ("1 ball left").
+- The rules say that the called pocket stands to the end of the game, and
+  that an 8 knocked off the table on the break goes back on it.
+
+### Under the hood
+- Ruleset 5 is ready but not the default: house-rule and physics fixes for
+  rare cases (an open table with no group balls left, a time foul after a
+  scratch on the break, the cue ball in hand against a cushion or in a
+  pocket's mouth, a jumped ball landing on a rail) and a stronger computer.
+  Making it the default needs protocol 18 (see crates/core/src/lib.rs).
+- The computer's decisions are pinned by tests for every ruleset; snapshots
+  are checked when read; saved games and progress are flushed to the disk.
+
 ## 0.6.2 (protocol 17)
 
 0.6.0, 0.6.1 and 0.6.2 play together (same protocol and rules). The server

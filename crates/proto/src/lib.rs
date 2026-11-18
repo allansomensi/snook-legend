@@ -260,10 +260,21 @@ pub fn clean_text(text: &str, max: usize) -> String {
     out.trim().to_string()
 }
 
+/// Characters that take no room or show nothing: format marks (Unicode's
+/// "Cf"), variation selectors, tags, and the blank "fillers" some scripts
+/// have (a name or a line made only of them looks empty).
 fn is_invisible(c: char) -> bool {
     matches!(c,
         '\u{200B}'..='\u{200F}' | '\u{202A}'..='\u{202E}' | '\u{2060}'..='\u{2069}'
-        | '\u{FEFF}' | '\u{00AD}' | '\u{034F}' | '\u{180E}')
+        | '\u{FEFF}' | '\u{00AD}' | '\u{034F}' | '\u{180E}'
+        // The Arabic letter mark, Mongolian variation selectors.
+        | '\u{061C}' | '\u{180B}'..='\u{180D}'
+        // Hangul fillers and the braille blank.
+        | '\u{115F}' | '\u{1160}' | '\u{3164}' | '\u{FFA0}' | '\u{2800}'
+        // Variation selectors, interlinear annotations, musical formatting.
+        | '\u{FE00}'..='\u{FE0F}' | '\u{FFF9}'..='\u{FFFB}' | '\u{1D173}'..='\u{1D17A}'
+        // Tags and the supplementary variation selectors.
+        | '\u{E0000}'..='\u{E007F}' | '\u{E0100}'..='\u{E01EF}')
 }
 
 /// Cleans a chat message (see [`clean_text`]).
@@ -576,6 +587,27 @@ pub struct AimState {
 }
 
 impl AimState {
+    /// Within what a cue can do: the angle in one turn, the elevation from
+    /// level to upright, the tip on the ball, the power on the bar. What a
+    /// player's game sends is passed on like this (a modified game could
+    /// send absurd numbers to the opponent's).
+    pub fn tidied(self) -> AimState {
+        let tip = if self.tip.length() > 1.0 {
+            // Scaled first: a huge tip's length would overflow.
+            let m = self.tip.x.abs().max(self.tip.y.abs());
+            (self.tip / m).normalize_or_zero()
+        } else {
+            self.tip
+        };
+        AimState {
+            yaw: self.yaw.rem_euclid(std::f64::consts::TAU),
+            elevation: self.elevation.clamp(0.0, std::f64::consts::FRAC_PI_2),
+            tip,
+            power: self.power.clamp(0.0, 1.0),
+            called_pocket: self.called_pocket,
+        }
+    }
+
     pub fn is_finite(&self) -> bool {
         self.yaw.is_finite()
             && self.elevation.is_finite()
@@ -1844,6 +1876,36 @@ mod tests {
         assert_eq!(clean_chat("  hi\u{7}there \n"), "hithere");
         assert_eq!(clean_chat("a\u{202E}b\u{200B}c   d"), "abc d");
         assert_eq!(clean_chat(&"x".repeat(500)).chars().count(), MAX_CHAT_LEN);
+        // Blank-looking fillers, tags and selectors leave nothing behind: a
+        // line or a name made of them is empty, not invisible.
+        assert_eq!(clean_chat("\u{3164}\u{3164}\u{115F}\u{2800}\u{FFA0}"), "");
+        assert_eq!(clean_chat("o\u{E0041}\u{061C}k\u{FE0F}"), "ok");
+        assert_eq!(clean_text("Copa da Ana", MAX_NAME_LEN), "Copa da Ana");
+    }
+
+    /// An aim passed on to the opponent is one a cue can take.
+    #[test]
+    fn aims_are_tidied() {
+        let wild = AimState {
+            yaw: -7.0,
+            elevation: 1e300,
+            tip: glam::DVec2::new(1e300, 1e300),
+            power: 9.0,
+            called_pocket: None,
+        };
+        let a = wild.tidied();
+        assert!((0.0..std::f64::consts::TAU).contains(&a.yaw));
+        assert_eq!(a.elevation, std::f64::consts::FRAC_PI_2);
+        assert!((a.tip.length() - 1.0).abs() < 1e-9);
+        assert_eq!(a.power, 1.0);
+        let calm = AimState {
+            yaw: 1.0,
+            elevation: 0.1,
+            tip: glam::DVec2::new(0.2, -0.3),
+            power: 0.5,
+            called_pocket: None,
+        };
+        assert_eq!(calm.tidied(), calm);
     }
 
     #[test]

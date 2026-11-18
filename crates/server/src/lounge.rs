@@ -1975,6 +1975,7 @@ impl Lounge {
         if !aim.is_finite() {
             return;
         }
+        let aim = aim.tidied();
         let Some((id, seat)) = self.my_turn(k) else { return };
         // Always remember the newest aim; only relaying is throttled.
         if let Some(room) = self.rooms.get_mut(&id) {

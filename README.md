@@ -58,7 +58,7 @@ which every desktop installation has. How releases are made is described in
   or of a federation): a foul passes the turn and gives the opponent balls
   (the lowest numbers of their group come off the table: one for a miss or
   a scratch, two for hitting the opponent's ball first, one if the cue ball
-  went to a cushion before it, and they add up), only a scratch gives ball in hand, a ball
+  went to a cushion before it, and they add up), only a cue ball that went down or left the table gives ball in hand, a ball
   of one's own knocked off the table comes back and one of the opponent's
   stays off, the 8 alone on the break wins and the 8 with any other ball
   loses, a called pocket for the 8 that is binding once made. The rules
@@ -92,7 +92,7 @@ which every desktop installation has. How releases are made is described in
   prediction of the deterministic physics), the opponent's as soon as the
   server announces it; the server's result is authoritative.
 - **Profiles and progress**: rating, tier and how far the next one is, world
-  rank, numbers, match history with rating changes, **50 achievements**, an **analysis** of how you pot (by pocket, distance and kind of shot, with a heat map),, the
+  rank, numbers, match history with rating changes, **50 achievements**, an **analysis** of how you pot (by pocket, distance and kind of shot, with a heat map), the
   reactions collected and the **world top 100**. Ratings move slowly (Elo,
   K 24 for the first 10 games, then 14, 8 from 1900).
 - **End-of-game numbers**: potting success, balls made, best run, fouls and
@@ -119,6 +119,7 @@ which every desktop installation has. How releases are made is described in
   wallets, payments, audit log).
 - **Aiming guides**: the full guide (where both balls go) is for offline
   practice; against people, the standard guide (ghost ball) or a short line.
+  The head string can be kept on the table at all times (Settings → Game).
 - **A cosy pool hall** around the table (cue racks, scoreboard, posters, wall
   lights), or a dark stage with only the table.
 - **Graphics presets** (Low / Medium / High / Ultra; on the first run the game

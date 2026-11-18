@@ -108,8 +108,12 @@ pub struct WhatsNew {
     /// The text laid out (blocks and height), for the width, the language
     /// and the interface scale it was laid out at: wrapping every version's
     /// notes again each frame was the dialog's whole cost.
-    layout: Option<((u32, u32, crate::i18n::Lang), Vec<Block>, f32)>,
+    layout: Option<(LayoutKey, Vec<Block>, f32)>,
 }
+
+/// What a layout was made for: the width, the interface scale (as bits)
+/// and the language.
+type LayoutKey = (u32, u32, crate::i18n::Lang);
 
 /// A run of lines: (top, lines, size, colour, bold).
 type Block = (f32, Vec<String>, f32, Color, bool);

@@ -482,6 +482,29 @@ pub fn silhouette(c: Vec2, r: f32) {
     crate::icons::draw(Icon::Person, c, r * 1.3, Color::new(0.85, 0.78, 0.66, 1.0));
 }
 
+/// A small flame standing on `base` (its round bottom's centre), `size`
+/// high-ish, flickering with `flicker` (0 to 1).
+fn flame(base: Vec2, size: f32, flicker: f32) {
+    let tip = vec2(base.x + (flicker - 0.5) * size * 0.25, base.y - size * (1.55 + 0.15 * flicker));
+    let outer = Color::new(1.0, 0.45, 0.08, 1.0);
+    let inner = Color::new(1.0, 0.86, 0.35, 1.0);
+    draw_circle(base.x, base.y, size * 0.62, outer);
+    draw_triangle(
+        vec2(base.x - size * 0.6, base.y - size * 0.1),
+        vec2(base.x + size * 0.6, base.y - size * 0.1),
+        tip,
+        outer,
+    );
+    let inner_tip = vec2(base.x + (flicker - 0.5) * size * 0.15, base.y - size * 0.85);
+    draw_circle(base.x, base.y + size * 0.1, size * 0.32, inner);
+    draw_triangle(
+        vec2(base.x - size * 0.3, base.y + size * 0.05),
+        vec2(base.x + size * 0.3, base.y + size * 0.05),
+        inner_tip,
+        inner,
+    );
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -508,27 +531,4 @@ mod tests {
             assert!(b.avatars[1].x >= b.rails[0].x + b.rails[0].w);
         }
     }
-}
-
-/// A small flame standing on `base` (its round bottom's centre), `size`
-/// high-ish, flickering with `flicker` (0 to 1).
-fn flame(base: Vec2, size: f32, flicker: f32) {
-    let tip = vec2(base.x + (flicker - 0.5) * size * 0.25, base.y - size * (1.55 + 0.15 * flicker));
-    let outer = Color::new(1.0, 0.45, 0.08, 1.0);
-    let inner = Color::new(1.0, 0.86, 0.35, 1.0);
-    draw_circle(base.x, base.y, size * 0.62, outer);
-    draw_triangle(
-        vec2(base.x - size * 0.6, base.y - size * 0.1),
-        vec2(base.x + size * 0.6, base.y - size * 0.1),
-        tip,
-        outer,
-    );
-    let inner_tip = vec2(base.x + (flicker - 0.5) * size * 0.15, base.y - size * 0.85);
-    draw_circle(base.x, base.y + size * 0.1, size * 0.32, inner);
-    draw_triangle(
-        vec2(base.x - size * 0.3, base.y + size * 0.05),
-        vec2(base.x + size * 0.3, base.y + size * 0.05),
-        inner_tip,
-        inner,
-    );
 }

@@ -1404,7 +1404,15 @@ impl Match {
             self.notify(tw("{winner} wins! ({how})", &[("winner", &winner), ("how", &how)]), true);
         } else if !report.continues {
             let next = self.names[self.game.current_player()].clone();
-            if let Some(bih) = self.game.ball_in_hand() {
+            if report.break_again {
+                // From ruleset 7 the break is handed over.
+                let text = if report.first_contact.is_none() {
+                    "No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string."
+                } else {
+                    "The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string."
+                };
+                self.notify(tw(text, &[("next", &next)]), true);
+            } else if let Some(bih) = self.game.ball_in_hand() {
                 let where_ = match bih {
                     snook_legend_core::BallInHand::Kitchen => t(" behind the head string"),
                     snook_legend_core::BallInHand::Anywhere => "",
@@ -2452,6 +2460,7 @@ mod tests {
             opponent_ball: false,
             penalty: vec![],
             reracked: false,
+            break_again: false,
         };
         let mut s = ShotStats::default();
         s.add(&report(&[1, 2], false, true), false);
@@ -2805,6 +2814,7 @@ mod tests {
             opponent_ball: false,
             penalty: vec![],
             reracked: false,
+            break_again: false,
         };
         m.count_visit(&report(&[1, 2], true));
         assert_eq!(m.visit_run, (0, 2));

@@ -5,6 +5,9 @@
 
 ## 0.7.3
 
+### Nueva regla en el saque
+Si el saque no toca ninguna bola, o pierde la blanca (en una tronera o fuera de la mesa) sin meter ninguna bola, el saque pasa al rival: coloca la blanca donde quiera detrás de la línea de cabecera, y su tiro cuenta como saque. Las bolas quedan donde pararon.
+
 ### Más ejercicios, sin ranking
 Ahora hay 24 ejercicios, nueve nuevos: la tronera de atrás, al centro desde lejos, blanca pegada a la banda, bolas pegadas, carambola, retroceso largo, en la tangente, dos bandas y quince seguidas. Cada uno muestra su posición, y tus estrellas quedan en tu cuenta. El ranking de los ejercicios ya no está.
 

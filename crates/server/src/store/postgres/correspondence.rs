@@ -145,8 +145,8 @@ impl PgStore {
         .bind(breaker)
         .bind(new.deadline)
         .bind(new.at)
-        // New games are played under the current rules.
-        .bind(snook_legend_core::RULESET as i16)
+        // New games are played under the rules every game let in knows.
+        .bind(snook_legend_proto::correspondence::RULESET as i16)
         .fetch_one(&mut *tx)
         .await?;
         let game = game(&row)?;

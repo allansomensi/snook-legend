@@ -12,11 +12,13 @@ chromium`; `require('playwright')` must work from any directory).
                                               # picture at full size and a
                                               # contact sheet in DIR
 
-Each picture is drawn on a 256 px canvas, rasterised at that size and
-shrunk to a CELL px cell (so edges are smooth), cut to a disc with clear
-corners. The cells go left to right, top to bottom, COLS to a row; the
-client (crates/client/src/avatars.rs) knows CELL and COLS. A new picture
-gets its code appended to AVATARS and a drawing below (PEOPLE or OBJECTS).
+Each picture is drawn on an S px canvas as a disc of radius R_DISC with
+clear corners, rasterised at that size and shrunk to a CELL px cell (so
+edges are smooth). The cells go left to right, top to bottom, COLS to a
+row; the client (crates/client/src/avatars.rs) knows CELL, COLS and the
+disc's share of the cell (DISC = R_DISC / (S / 2)), and mipmaps the atlas
+(keep it 8 rows or fewer: sides that are powers of two). A new picture
+gets its code appended to AVATARS and a drawing here (PEOPLE or OBJECTS).
 """
 import argparse
 import math

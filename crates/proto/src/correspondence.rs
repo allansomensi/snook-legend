@@ -17,6 +17,16 @@ pub const SINCE_PROTOCOL: u32 = 13;
 /// Time for a turn (a whole visit): whoever runs out of it loses the game.
 pub const TURN_SECS: i64 = 72 * 3600;
 
+/// The rules new daily games are played under. Each player's game replays
+/// the strokes to show the table, so a daily game is played under rules
+/// every game the server lets in knows: ruleset 6 while games of version
+/// 20 are let in (see [`crate::OLDEST_PROTOCOL_VERSION`]).
+pub const RULESET: u8 = 6;
+const _: () = assert!(
+    RULESET <= snook_legend_core::RULESET
+        && crate::OLDEST_PROTOCOL_VERSION < crate::RULESET_7_PROTOCOL
+);
+
 /// A challenge nobody answered is withdrawn after this long.
 pub const CHALLENGE_SECS: i64 = 7 * 24 * 3600;
 

@@ -148,6 +148,30 @@ pub const PROTOCOL_VERSION: u32 = 21;
 /// age group ([`AGE_PROTOCOL`]): games of version 20 still play.
 pub const OLDEST_PROTOCOL_VERSION: u32 = 20;
 
+/// The first version that plays ruleset 7 (a break that hits nothing, or
+/// loses the cue ball with nothing made, is handed to the opponent).
+pub const RULESET_7_PROTOCOL: u32 = 21;
+
+/// The rules a game between games of these versions is played under: the
+/// newest that all of them know, so that no game is played under rules a
+/// player's game can't show (ruleset 6 with a game of version 20).
+pub fn ruleset_for(protocols: &[u32]) -> u8 {
+    if protocols.iter().all(|p| *p >= RULESET_7_PROTOCOL) { snook_legend_core::RULESET } else { 6 }
+}
+
+#[cfg(test)]
+mod ruleset_tests {
+    use super::*;
+
+    #[test]
+    fn a_game_plays_the_newest_rules_both_players_know() {
+        assert_eq!(ruleset_for(&[PROTOCOL_VERSION, PROTOCOL_VERSION]), snook_legend_core::RULESET);
+        assert_eq!(ruleset_for(&[PROTOCOL_VERSION, OLDEST_PROTOCOL_VERSION]), 6);
+        assert_eq!(ruleset_for(&[OLDEST_PROTOCOL_VERSION, OLDEST_PROTOCOL_VERSION]), 6);
+        assert_eq!(snook_legend_core::RULESET, 7);
+    }
+}
+
 /// The first version that asks the player's age group and knows
 /// [`ClientMsg::SetAge`], [`ClientMsg::AllowChat`] and [`ServerMsg::Age`]
 /// (the server says its version in [`ServerMsg::Welcome`]).

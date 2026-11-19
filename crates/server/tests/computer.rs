@@ -322,12 +322,13 @@ async fn the_reward_needs_a_genuine_win() {
     // A rack the server didn't deal: refused unplayed.
     let no_ticket = ClaimResult::Failed { reason: ClaimFailure::NoTicket };
     assert_eq!(c.claim(Replay::new(7, 1), 20).await, no_ticket);
-    // The server's rack, but the player breaking, or under older rules.
+    // The server's rack, but the player breaking, or under rules older than
+    // any game let in plays (games of version 20 play ruleset 6, accepted).
     let dealt = c.ticket().await;
     assert_ne!(dealt.seed, 0);
     assert_eq!(dealt.breaker, 1 - ladder::PLAYER_SEAT);
     assert_eq!(c.claim(Replay::new(dealt.seed, ladder::PLAYER_SEAT), 20).await, no_ticket);
-    let older = Replay::with_ruleset(dealt.seed, dealt.breaker, snook_legend_core::RULESET - 1);
+    let older = Replay::with_ruleset(dealt.seed, dealt.breaker, 5);
     assert_eq!(c.claim(older, 20).await, no_ticket);
     // Someone else's rack.
     let mut thief = Client::register(&url, "Thief").await;

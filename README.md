@@ -64,7 +64,9 @@ which every desktop installation has. How releases are made is described in
   a scratch, two for hitting the opponent's ball first, one if the cue ball
   went to a cushion before it, and they add up), the cue ball is in hand
   on the break only (one that goes down or leaves the table comes back to
-  the head spot), the first ball made decides the groups (one of the
+  the head spot), a break that hits no ball or loses the cue ball with no
+  ball made passes the break to the opponent (cue ball in hand behind the
+  head string), the first ball made decides the groups (one of the
   opponent's with it passes the turn), a ball of one's own knocked off the
   table comes back and one of the opponent's stays off, the 8 alone on the
   break wins and the 8 with any other ball loses, a called pocket for the 8 that is binding once made. The rules

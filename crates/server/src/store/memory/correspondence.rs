@@ -55,7 +55,11 @@ impl MemoryStore {
             id: s.next_async_game,
             players: [c.from, c.to],
             rated: c.rated,
-            replay: Replay::new(new.seed, new.breaker % 2),
+            replay: Replay::with_ruleset(
+                new.seed,
+                new.breaker % 2,
+                snook_legend_proto::correspondence::RULESET,
+            ),
             turn: new.breaker % 2,
             deadline: new.deadline,
             seen: [0, 0],

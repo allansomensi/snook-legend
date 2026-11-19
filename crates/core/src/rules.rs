@@ -166,6 +166,11 @@ pub struct ShotReport {
     /// racked again and the opponent breaks (ruleset 4).
     #[serde(default)]
     pub reracked: bool,
+    /// The break hit no ball, or lost the cue ball without making one: the
+    /// opponent breaks, from where the balls lie, with the cue ball in hand
+    /// behind the head string (ruleset 7).
+    #[serde(default)]
+    pub break_again: bool,
 }
 
 impl ShotReport {
@@ -817,6 +822,7 @@ impl EightBallGame {
             opponent_ball,
             penalty: Vec::new(),
             reracked: false,
+            break_again: false,
         }
     }
 
@@ -848,6 +854,10 @@ impl EightBallGame {
     ///   break or later, goes back to the head spot (right behind a ball
     ///   lying there) and is played from there; a break that makes only the
     ///   cue ball is not racked again: the opponent plays on from there.
+    /// - From ruleset 7 a break that hits no ball, or that loses the cue
+    ///   ball (down or off the table) without making a ball, hands the
+    ///   break to the opponent: the balls stay where they are, the cue ball
+    ///   is in hand behind the head string and their shot is a break.
     /// - The 8 alone on the break wins; the 8 on the break with any other
     ///   ball loses. At the end, the 8 loses if the cue ball or one of the
     ///   opponent's balls goes down with it.
@@ -1051,6 +1061,14 @@ impl EightBallGame {
             && object_pocketed.is_empty()
             && !eight_off
             && self.ruleset < 6;
+        // From ruleset 7: no ball hit on the break, or the cue ball lost on
+        // it with no ball made, and the opponent breaks from where the balls
+        // lie, the cue ball in hand behind the head string.
+        let break_again = was_break
+            && self.ruleset >= 7
+            && game_over.is_none()
+            && object_pocketed.is_empty()
+            && (cue_pocketed || cue_off || first_contact.is_none());
         if reracked {
             let seed = self.rack_seed.wrapping_add(self.shots_taken as u64);
             self.balls = rack(&self.table, seed);
@@ -1059,6 +1077,11 @@ impl EightBallGame {
             self.current = opponent;
             spotted.clear();
             penalty.clear();
+        } else if break_again {
+            self.respot_cue_ball();
+            self.is_break = true;
+            self.ball_in_hand = Some(BallInHand::Kitchen);
+            self.current = opponent;
         } else if game_over.is_none() {
             if (cue_pocketed || cue_off) && self.ruleset >= 6 {
                 // Back where it began, without ball in hand.
@@ -1086,7 +1109,18 @@ impl EightBallGame {
             opponent_ball,
             penalty,
             reracked,
+            break_again,
         }
+    }
+
+    /// The balls are still racked as the game began (the break to come is
+    /// on a full rack, not on balls a break left lying about).
+    pub fn rack_untouched(&self) -> bool {
+        let racked = rack(&self.table, self.rack_seed);
+        racked.iter().filter(|b| b.id.is_object()).all(|b| {
+            let now = self.ball(b.id);
+            now.in_play() && now.xy().distance(b.xy()) < 1e-3
+        })
     }
 
     /// Takes a ball off the table as if it had been made (a penalty ball):
@@ -1961,7 +1995,22 @@ mod tests {
                         .fouls
                         .iter()
                         .any(|f| matches!(f, Foul::CueBallPocketed | Foul::CueBallOffTable));
-                    let in_hand = if ruleset >= 6 {
+                    // From ruleset 7 a break that hit nothing, or lost the
+                    // cue ball with nothing made, hands the break over, the
+                    // cue ball in hand behind the head string.
+                    let handed_over = ruleset >= 7
+                        && report.was_break
+                        && report.pocketed.iter().all(|(b, _)| !b.is_object())
+                        && (cue_gone || report.first_contact.is_none());
+                    assert_eq!(report.break_again, handed_over, "{report:?}");
+                    if handed_over {
+                        assert!(g.is_break(), "{report:?}");
+                        assert_eq!(g.ball_in_hand(), Some(BallInHand::Kitchen));
+                        assert!(g.ball(BallId::CUE).xy().x <= g.table().head_string_x());
+                    }
+                    let in_hand = if handed_over {
+                        true
+                    } else if ruleset >= 6 {
                         false
                     } else if house {
                         cue_gone
@@ -1969,7 +2018,7 @@ mod tests {
                         report.is_foul()
                     };
                     assert_eq!(g.ball_in_hand().is_some(), in_hand, "{report:?}");
-                    if ruleset >= 6 && cue_gone {
+                    if ruleset >= 6 && cue_gone && !handed_over {
                         let cue = g.ball(BallId::CUE).xy();
                         let head = g.table().head_spot();
                         assert!(cue.y == head.y && cue.x <= head.x, "{cue} {report:?}");
@@ -2950,6 +2999,83 @@ mod tests {
         let report = g.play_shot(&Shot::new(g.default_aim(), g.max_cue_speed()), None).unwrap();
         assert!(report.was_break);
         assert_eq!(g.ball_in_hand(), None, "{report:?}");
+    }
+
+    /// From ruleset 7 a break that loses the cue ball without making a
+    /// ball hands the break over: the balls stay where they went, the cue
+    /// ball is in hand behind the head string and the opponent's shot is a
+    /// break.
+    #[test]
+    fn a_break_that_only_makes_the_cue_ball_passes_the_break() {
+        let mut g = EightBallGame::with_ruleset(3, 0, 7);
+        let aim = g.table.pocket(PocketId::FootLeft).aim_point();
+        on_break_with(
+            &mut g,
+            &[(0, aim + (DVec2::ZERO - aim).normalize() * 0.4), (5, DVec2::new(-0.3, 0.0))],
+        );
+        let d = aim - g.ball(BallId::CUE).xy();
+        let report = g.play_shot(&Shot::new(d.y.atan2(d.x), 2.0), None).unwrap();
+        assert!(report.fouls.contains(&Foul::CueBallPocketed), "{report:?}");
+        assert!(report.break_again && !report.reracked && !report.continues, "{report:?}");
+        assert!(report.penalty.is_empty() && report.game_over.is_none());
+        assert_eq!(g.current_player(), 1);
+        assert!(g.is_break() && g.is_open_table());
+        assert_eq!(g.ball_in_hand(), Some(BallInHand::Kitchen));
+        assert!(g.ball(BallId::CUE).xy().x <= g.table.head_string_x());
+        assert_eq!(g.ball(BallId(5)).xy(), DVec2::new(-0.3, 0.0), "nothing is racked again");
+        // Anywhere behind the head string, never past it.
+        let hx = g.table.head_string_x();
+        assert!(!g.place_cue_ball(DVec2::new(hx + 0.2, 0.3)));
+        assert!(g.place_cue_ball(DVec2::new(hx - 0.1, 0.3)));
+        let shot = straight_shot(&g, BallId(5), PocketId::FootLeft, 2.0);
+        let report = g.play_shot(&shot, None).unwrap();
+        assert!(report.was_break);
+    }
+
+    /// From ruleset 7 a break that hits no ball also hands the break over,
+    /// on the rack as it was; up to ruleset 6 it was an ordinary miss.
+    #[test]
+    fn a_break_that_hits_nothing_passes_the_break() {
+        let away = Shot::new(std::f64::consts::PI, 0.4);
+        let mut g = EightBallGame::with_ruleset(3, 0, 7);
+        let racked: Vec<DVec2> = (1..16).map(|n| g.ball(BallId(n)).xy()).collect();
+        let report = g.play_shot(&away, None).unwrap();
+        assert!(report.fouls.contains(&Foul::NoContact), "{report:?}");
+        assert!(report.break_again && !report.continues, "{report:?}");
+        assert_eq!(g.current_player(), 1);
+        assert!(g.is_break() && g.rack_untouched());
+        assert_eq!(g.ball_in_hand(), Some(BallInHand::Kitchen));
+        assert_eq!(racked, (1..16).map(|n| g.ball(BallId(n)).xy()).collect::<Vec<_>>());
+        // The opponent breaks the rack.
+        let report = g.play_shot(&Shot::new(g.default_aim(), g.max_cue_speed()), None).unwrap();
+        assert!(report.was_break && report.first_contact.is_some());
+
+        let mut old = EightBallGame::with_ruleset(3, 0, 6);
+        let report = old.play_shot(&away, None).unwrap();
+        assert!(!report.break_again && !old.is_break());
+        assert_eq!((old.current_player(), old.ball_in_hand()), (1, None));
+    }
+
+    /// The computer breaks a full rack hard, and plays a break handed over
+    /// on scattered balls like any shot (the cue ball behind the head string).
+    #[test]
+    fn the_computer_plays_a_break_handed_over() {
+        let mut g = EightBallGame::with_ruleset(3, 0, 7);
+        let aim = g.table.pocket(PocketId::FootLeft).aim_point();
+        on_break_with(
+            &mut g,
+            &[(0, aim + (DVec2::ZERO - aim).normalize() * 0.4), (5, DVec2::new(-0.3, 0.0))],
+        );
+        let d = aim - g.ball(BallId::CUE).xy();
+        g.play_shot(&Shot::new(d.y.atan2(d.x), 2.0), None).unwrap();
+        assert!(g.is_break() && !g.rack_untouched());
+        let decision = crate::ai::decide(&g, crate::ai::Difficulty::Hard, 7);
+        if let Some(p) = decision.cue_ball {
+            assert!(p.x <= g.table.head_string_x(), "{p}");
+            assert!(g.place_cue_ball(p));
+        }
+        assert!(decision.shot.speed < g.max_cue_speed(), "not a full-power break");
+        g.play_shot(&decision.shot, decision.called_pocket).unwrap();
     }
 
     #[test]

@@ -17,13 +17,16 @@ Você continua jogando enquanto encaçapar uma bola do seu grupo numa tacada sem
 ## A saída
 
 ### A tacada de saída
-Na saída, e só nela, a branca fica na sua mão: você pode colocá-la onde quiser atrás da linha de cabeceira, até encostada na tabela, mas nunca na boca de uma caçapa. Não há saída irregular: nenhuma bola precisa cair nem tocar a tabela.
+Na saída, e só nela, a branca fica na sua mão: você pode colocá-la onde quiser atrás da linha de cabeceira, até encostada na tabela, mas nunca na boca de uma caçapa. Nenhuma bola precisa cair nem chegar à tabela, mas a branca precisa tocar alguma bola (veja abaixo).
 
 ### A bola 8 na saída
 Encaçapar somente a 8 na saída vence a partida na hora. Encaçapar a 8 junto com qualquer outra bola (a branca ou qualquer uma) perde a partida. Se a 8 sair da mesa na saída, ela volta para a mesa no lugar da bola da frente do triângulo (ou o mais perto dele que couber) e você perde a vez: é falta.
 
 ### Só a branca na saída
-Se na saída cair somente a bola branca, você perde a vez. As bolas ficam onde pararam, a branca volta para o ponto inicial (logo atrás da bola que estiver nele) e o adversário joga dali, sem bola na mão.
+Se na saída a branca cair na caçapa ou sair da mesa e nenhuma bola for encaçapada, você perde a vez e a saída passa para o adversário. As bolas ficam onde pararam, e ele coloca a branca onde quiser atrás da linha de cabeceira, como você fez: a tacada dele vale como saída. Se cair alguma bola junto com a branca, é uma falta comum: a branca volta para o ponto inicial e o adversário joga dali, sem bola na mão.
+
+### Saída sem tocar nenhuma bola
+Se a saída não tocar nenhuma bola, você perde a vez e a saída passa para o adversário: as bolas continuam no triângulo e ele coloca a branca onde quiser atrás da linha de cabeceira.
 
 ### Depois da saída
 Numa saída sem falta, a primeira bola que cair decide o seu grupo. Se só caírem bolas do seu grupo, você joga de novo. Se cair também uma do adversário (a 3 e depois a 13, por exemplo: você fica com as lisas), ela fica encaçapada, a favor dele, e passa a vez.

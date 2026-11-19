@@ -46,7 +46,12 @@
 ///   to the head spot (right behind a ball lying there) and is played from
 ///   there, along with the foul's penalty; a break that makes only the cue
 ///   ball is no longer racked again.
-pub const RULESET: u8 = 6;
+/// - 7: 0.7.3. Ruleset 6 with the break handed over: a break that hits no
+///   ball, or that loses the cue ball (down or off the table) without
+///   making a ball, passes the break to the opponent, who plays it from
+///   where the balls lie with the cue ball in hand behind the head string
+///   (the 8 alone on it wins, as on any break).
+pub const RULESET: u8 = 7;
 
 /// The newest ruleset this version can play. It is ahead of [`RULESET`]
 /// while a ruleset is being prepared: a game is played under it only when
@@ -54,7 +59,7 @@ pub const RULESET: u8 = 6;
 /// snapshot or a replay that names it), and nothing asks for it yet.
 /// Making it the default means raising [`RULESET`] to it, with a new
 /// protocol version (an older game would play its shots differently).
-pub const NEWEST_RULESET: u8 = 6;
+pub const NEWEST_RULESET: u8 = 7;
 
 /// A ruleset this version knows (unknown ones play as the newest it knows).
 pub fn known_ruleset(ruleset: u8) -> u8 {

@@ -17,13 +17,16 @@ Sigues tirando mientras metas una bola de tu grupo en un tiro sin falta. Si fall
 ## El saque
 
 ### El tiro de saque
-En el saque, y solo en él, la blanca está en tu mano: puedes colocarla donde quieras detrás de la línea de cabecera, incluso pegada a una banda, pero nunca en la boca de una tronera. No hay saque ilegal: ninguna bola tiene que entrar ni tocar una banda.
+En el saque, y solo en él, la blanca está en tu mano: puedes colocarla donde quieras detrás de la línea de cabecera, incluso pegada a una banda, pero nunca en la boca de una tronera. Ninguna bola tiene que entrar ni llegar a una banda, pero la blanca tiene que tocar alguna bola (ver abajo).
 
 ### La bola 8 en el saque
 Meter solo la 8 en el saque gana la partida al momento. Meter la 8 junto con cualquier otra bola (la blanca o cualquiera) pierde la partida. Si la 8 sale de la mesa en el saque, vuelve a la mesa en el lugar de la bola delantera del triángulo (o lo más cerca que quepa) y pierdes el turno: es falta.
 
 ### Solo la blanca en el saque
-Si en el saque entra solo la bola blanca, pierdes el turno. Las bolas quedan donde pararon, la blanca vuelve al punto de salida (justo detrás de la bola que esté en él) y el rival juega desde ahí, sin bola en mano.
+Si en el saque la blanca entra en una tronera o sale de la mesa y no entra ninguna bola, pierdes el turno y el saque pasa al rival. Las bolas quedan donde pararon, y él coloca la blanca donde quiera detrás de la línea de cabecera, como hiciste tú: su tiro cuenta como saque. Si entra alguna bola junto con la blanca, es una falta común: la blanca vuelve al punto de salida y el rival juega desde ahí, sin bola en mano.
+
+### Un saque que no toca ninguna bola
+Si el saque no toca ninguna bola, pierdes el turno y el saque pasa al rival: las bolas siguen en el triángulo, y él coloca la blanca donde quiera detrás de la línea de cabecera.
 
 ### Después del saque
 En un saque sin falta, la primera bola que entre decide tu grupo. Si solo entran bolas de tu grupo, tiras otra vez. Si entra también una del rival (la 3 y después la 13, por ejemplo: te quedas con las lisas), queda metida, a su favor, y pasa el turno.

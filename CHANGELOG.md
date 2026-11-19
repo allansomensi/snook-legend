@@ -2,10 +2,28 @@
 
 ## 0.7.3 (protocol 21)
 
-Terms of use, an age group and the chat of players under 18, more drills
-without a ranking, and new profile pictures. The server lets in protocol 20
-and 21: games of 0.7.2 keep playing (they are not asked the age group). The
-server goes out first. One new migration (`0021_age`).
+Ruleset 7 (the break handed over), terms of use, an age group and the chat
+of players under 18, more drills without a ranking, and new profile
+pictures. The server lets in protocol 20 and 21: games of 0.7.2 keep
+playing (they are not asked the age group, and play ruleset 6). The server
+goes out first. One new migration (`0021_age`).
+
+### The rules (ruleset 7)
+- **A break that hits no ball, or that loses the cue ball (down or off the
+  table) with no ball made, hands the break to the opponent**: the balls
+  stay where they are (still racked after a break that hit nothing), the
+  cue ball is in hand behind the head string, and their shot is a break
+  (any ball may be hit first, the 8 alone wins, it may be struck as hard).
+  A break that makes a ball along with the cue ball is an ordinary foul, as
+  before. The rules in the game say so, in the three languages; the game
+  tells the players ("No ball was hit on the break: … breaks").
+- **The computer** breaks a full rack as before and plays a break handed
+  over on scattered balls like any shot, the cue ball behind the head
+  string.
+- **Games between 0.7.3 and 0.7.2** play ruleset 6 (`ruleset_for`, the
+  newest rules both games know); daily games stay on ruleset 6 while 0.7.2
+  is let in (each player's game replays them); the tour's final is
+  accepted under ruleset 6 or 7. Games keep the ruleset they began with.
 
 ### Terms of use and privacy
 - **The server publishes the terms of use** (`/termos`, `/terms`,

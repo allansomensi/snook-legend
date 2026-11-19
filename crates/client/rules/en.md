@@ -17,13 +17,16 @@ You keep shooting as long as you pocket a ball of your group without a foul. If 
 ## The break
 
 ### The break shot
-On the break, and only then, the cue ball is in hand: you may place it anywhere behind the head string, even against a cushion, but never in a pocket's mouth. There is no illegal break: no ball has to go down or reach a cushion.
+On the break, and only then, the cue ball is in hand: you may place it anywhere behind the head string, even against a cushion, but never in a pocket's mouth. No ball has to go down or reach a cushion, but the cue ball must hit a ball (see below).
 
 ### The 8-ball on the break
 Pocketing only the 8 on the break wins the game on the spot. Pocketing the 8 together with any other ball (the cue ball or any other) loses the game. If the 8 leaves the table on the break, it goes back on the table where the front ball of the rack stood (or as near as there is room) and you lose the turn: it's a foul.
 
 ### Only the cue ball on the break
-If only the cue ball goes down on the break, you lose the turn. The balls stay where they stopped, the cue ball goes back to the head spot (right behind a ball lying there) and your opponent plays from there, without ball in hand.
+If the cue ball goes down or leaves the table on the break and no ball is made, you lose the turn and the break passes to your opponent. The balls stay where they stopped, and they place the cue ball anywhere behind the head string, as you did: their shot counts as a break. If a ball goes down along with the cue ball, it's an ordinary foul: the cue ball goes back to the head spot and your opponent plays from there, without ball in hand.
+
+### A break that hits no ball
+If the break hits no ball, you lose the turn and the break passes to your opponent: the balls are still racked, and they place the cue ball anywhere behind the head string.
 
 ### After the break
 On a break without a foul, the first ball that goes down decides your group. If only balls of your group go down, you shoot again. If one of your opponent's goes down too (the 3 and then the 13, say: you take the solids), it stays down, for them, and the turn passes.

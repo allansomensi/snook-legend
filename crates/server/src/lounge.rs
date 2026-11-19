@@ -2072,13 +2072,22 @@ impl Lounge {
         let seed: u64 = rand::thread_rng().r#gen();
         let mut turns = [0, 0];
         turns[breaker] = 1;
+        // The newest rules both players' games know (version 20 plays
+        // ruleset 6).
+        let protocols: Vec<u32> = keys
+            .iter()
+            .map(|k| {
+                self.sessions.get(k).map_or(snook_legend_proto::PROTOCOL_VERSION, |s| s.protocol)
+            })
+            .collect();
+        let ruleset = snook_legend_proto::ruleset_for(&protocols);
         let room = Room {
             id,
             keys: keys.clone(),
             users,
             guests,
             rated,
-            game: EightBallGame::new(seed, breaker),
+            game: EightBallGame::with_ruleset(seed, breaker, ruleset),
             deadline: Instant::now() + self.rules.shot_clock,
             disconnected: [None, None],
             finished: false,

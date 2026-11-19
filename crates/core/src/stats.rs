@@ -97,6 +97,7 @@ mod tests {
             opponent_ball: false,
             penalty: vec![],
             reracked: false,
+            break_again: false,
         }
     }
 

@@ -143,7 +143,8 @@ pub async fn claim(server: &Server, me: &User, replay: Replay) -> ClaimResult {
         Ok(Some((breaker, at)))
             if breaker == replay.breaker
                 && now() - at <= TICKET_LIFE
-                && replay.ruleset == snook_legend_core::RULESET => {}
+                // (Games of version 20 play the tour under ruleset 6.)
+                && (replay.ruleset == snook_legend_core::RULESET || replay.ruleset == 6) => {}
         Ok(_) => return fail(ClaimFailure::NoTicket),
         Err(e) => {
             tracing::error!("ladder ticket of {}: {e}", me.username);

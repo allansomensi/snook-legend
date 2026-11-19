@@ -440,7 +440,10 @@ pub fn decide_with(game: &EightBallGame, player: &AiPlayer, seed: u64) -> AiDeci
         }
     }
 
-    if g.is_break() {
+    // A break on a full rack (from ruleset 7 a break can come to a player
+    // with the balls lying where a failed break left them: then it is
+    // played like any shot, the cue ball in hand behind the head string).
+    if is_rack_break(&g) {
         let cue = g.ball(BallId::CUE).xy();
         let d = g.table().foot_spot() - cue;
         // A touch of follow keeps the cue ball near the middle of the table.
@@ -920,8 +923,13 @@ fn nearest_pocket(g: &EightBallGame, ball: BallId) -> PocketId {
         .expect("six pockets")
 }
 
+/// A break on the full rack. Up to ruleset 6 every break is one.
+fn is_rack_break(g: &EightBallGame) -> bool {
+    g.is_break() && (g.ruleset() < 7 || g.rack_untouched())
+}
+
 fn choose_cue_ball_position(g: &EightBallGame, prof: &Profile, rng: &mut Rng) -> DVec2 {
-    if g.is_break() {
+    if is_rack_break(g) {
         let head = g.table().head_spot();
         let y = if prof.position_weight > 0.0 {
             0.12 * if rng.below(2) == 0 { 1.0 } else { -1.0 }

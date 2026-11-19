@@ -20,6 +20,9 @@ Os termos de uso e a política de privacidade estão a um clique: no cadastro, n
 ### Idade e chat
 O jogo pergunta a sua faixa de idade (uma vez). Para menores de 18 anos, o chat com outros jogadores fica desligado até um responsável ligá-lo, embaixo do chat do salão, como pede a lei (ECA Digital).
 
+### Emojis no chat
+Os emojis agora aparecem como imagens no chat, nos recados e no status, com bandeiras e tudo. As abas ficaram com todos os nomes do mesmo tamanho, e o contador de quem está online ficou mais discreto: o ponto verde, um boneco e o número.
+
 ## 0.7.2
 
 ### Um Circuito mais difícil

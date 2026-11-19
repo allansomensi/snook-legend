@@ -282,8 +282,9 @@ crates/
             wix/ the Windows installer
 vendor/
   miniquad/ miniquad with two platform fixes (see vendor/README.md)
-tools/      gen_countries.py, gen_reactions.py, gen_avatars.py: regenerate the
-            country list, the flag atlas, the reaction atlas and the profile
+tools/      gen_countries.py, gen_reactions.py, gen_emoji.py, gen_avatars.py:
+            regenerate the country list, the flag atlas, the reaction atlas,
+            the emoji atlas (emoji in chat and other text) and the profile
             pictures' atlas (drawn as SVG, rasterised with Playwright's Chromium)
 Dockerfile, render.yaml: the server image and the Render blueprint
 dist-workspace.toml: packaging and releases with dist (docs/RELEASING.md)
@@ -320,5 +321,5 @@ Flags: [flag-icons](https://github.com/lipis/flag-icons) (MIT, see
 and translations from the Debian [iso-codes](https://salsa.debian.org/iso-codes-team/iso-codes)
 project (via pycountry, LGPL-2.1).
 
-Reactions: [Twemoji](https://github.com/jdecked/twemoji) graphics (CC-BY 4.0, see
-`crates/client/assets/twemoji-LICENSE.txt`).
+Reactions and the emoji in chat: [Twemoji](https://github.com/jdecked/twemoji)
+graphics (CC-BY 4.0, see `crates/client/assets/twemoji-LICENSE.txt`).

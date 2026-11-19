@@ -20,6 +20,9 @@ The terms of use and the privacy policy are a click away: when you sign up, in t
 ### Age and chat
 The game asks your age group (once). Under 18, the chat with other players stays off until a parent or guardian turns it on, below the lounge's chat, as Brazilian law asks.
 
+### Emoji in the chat
+Emoji now show as pictures in the chat, notes and statuses, flags and all. Tabs have all their names at one size, and the count of who is online is smaller: the green dot, a person and the number.
+
 ## 0.7.2
 
 ### A harder tour

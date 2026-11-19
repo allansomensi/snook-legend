@@ -2,6 +2,7 @@
 
 use macroquad::prelude::*;
 
+use crate::emoji::{self, Piece};
 #[allow(unused_imports)]
 use crate::paint::{draw_circle, draw_circle_lines, draw_line, draw_rectangle, draw_triangle};
 
@@ -353,18 +354,33 @@ impl Ui {
         }
         let mut s: String = text.to_string();
         while !s.is_empty() && self.text_size(&format!("{s}…"), size, bold).x > width {
-            s.pop();
+            emoji::pop(&mut s);
         }
         (format!("{}…", s.trim_end()), size)
     }
 
+    /// How much room `text` takes (emoji included: see [`crate::emoji`]).
     pub fn text_size(&self, text: &str, size: f32, bold: bool) -> Vec2 {
+        let width = match emoji::pieces(text) {
+            None => self.font_width(text, size, bold),
+            Some(pieces) => pieces
+                .iter()
+                .map(|p| match p {
+                    Piece::Text(t) => self.font_width(t, size, bold),
+                    Piece::Emoji(_) => emoji::advance(size),
+                })
+                .sum(),
+        };
+        vec2(width, size)
+    }
+
+    /// The width of text without emoji, in the font.
+    fn font_width(&self, text: &str, size: f32, bold: bool) -> f32 {
         let font = if bold { &self.bold } else { &self.regular };
         // Fonts are rasterised at the real pixel size, so text stays sharp at
         // any interface scale.
         let k = ui_scale();
-        let d = measure_text(text, Some(font), (size * k).round().max(1.0) as u16, 1.0 / k);
-        vec2(d.width, size)
+        measure_text(text, Some(font), (size * k).round().max(1.0) as u16, 1.0 / k).width
     }
 
     /// The smallest panel drawn this frame that contains `p`.
@@ -429,7 +445,29 @@ impl Ui {
         );
     }
 
+    /// Draws text, emoji included, with its top-left corner at (`x`, `y`).
     fn draw_text_raw(&self, text: &str, x: f32, y: f32, size: f32, color: Color, bold: bool) {
+        let Some(pieces) = emoji::pieces(text) else {
+            self.draw_font_text(text, x, y, size, color, bold);
+            return;
+        };
+        let mut x = x;
+        for p in pieces {
+            match p {
+                Piece::Text(t) => {
+                    self.draw_font_text(t, x, y, size, color, bold);
+                    x += self.font_width(t, size, bold);
+                }
+                Piece::Emoji(cell) => {
+                    emoji::draw(cell, x, y, size, color.a);
+                    x += emoji::advance(size);
+                }
+            }
+        }
+    }
+
+    /// Draws text without emoji, in the font.
+    fn draw_font_text(&self, text: &str, x: f32, y: f32, size: f32, color: Color, bold: bool) {
         let font = if bold { &self.bold } else { &self.regular };
         draw_text_ex(
             text,
@@ -689,6 +727,7 @@ impl Ui {
         }
         let shown: Vec<char> =
             if masked { vec!['•'; value.chars().count()] } else { value.chars().collect() };
+        let stops = caret_stops(&shown, masked);
         // Scroll so the caret stays visible: as much text as fits, ending
         // at the caret when the caret would be off the right edge.
         let room = r.w - 20.0;
@@ -698,18 +737,18 @@ impl Ui {
         };
         let mut first = 0;
         while first < caret && width_of(self, first, caret) > room {
-            first += 1;
+            first = stop_after(&stops, first).min(caret);
         }
         let mut last = caret;
-        while last < shown.len() && width_of(self, first, last + 1) <= room {
-            last += 1;
+        while last < shown.len() && width_of(self, first, stop_after(&stops, last)) <= room {
+            last = stop_after(&stops, last);
         }
-        // The character boundary nearest the pointer.
+        // The caret stop nearest the pointer.
         let at_mouse = |ui: &Ui| {
             let mx = ui.mouse.x - (r.x + 8.0);
             let mut best = first;
             let mut best_d = f32::MAX;
-            for i in first..=last {
+            for &i in stops.iter().filter(|&&i| (first..=last).contains(&i)) {
                 let d = (width_of(ui, first, i) - mx).abs();
                 if d < best_d {
                     best = i;
@@ -718,9 +757,9 @@ impl Ui {
             }
             // Dragged past an edge: scroll that way.
             if mx < 0.0 {
-                best = first.saturating_sub(1);
+                best = stop_before(&stops, first);
             } else if mx > room && last < shown.len() {
-                best = last + 1;
+                best = stop_after(&stops, last);
             }
             best
         };
@@ -820,8 +859,10 @@ impl Ui {
             && !altgr;
         let shift = is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift);
         let mut chars: Vec<char> = value.chars().collect();
-        self.cursor = self.cursor.min(chars.len());
-        self.anchor = self.anchor.map(|a| a.min(chars.len()));
+        // The caret moves and erases a whole emoji at a time.
+        let mut stops = caret_stops(&chars, masked);
+        self.cursor = stop_at(&stops, self.cursor);
+        self.anchor = self.anchor.map(|a| stop_at(&stops, a));
         let mut changed = false;
         let mut typed: Vec<char> = Vec::new();
         while let Some(c) = get_char_pressed() {
@@ -860,22 +901,24 @@ impl Ui {
             self.anchor = None;
             changed = true;
         } else if erase_back && cursor > 0 {
-            let from = if ctrl { word_start(&chars, cursor) } else { cursor - 1 };
+            let from = if ctrl { word_start(&chars, cursor) } else { stop_before(&stops, cursor) };
             chars.drain(from..cursor);
             cursor = from;
             changed = true;
         } else if erase_fwd && cursor < chars.len() {
-            let to = if ctrl { word_end(&chars, cursor) } else { cursor + 1 };
+            let to = if ctrl { word_end(&chars, cursor) } else { stop_after(&stops, cursor) };
             chars.drain(cursor..to);
             changed = true;
         }
-        for c in typed {
-            if chars.len() >= max_len {
-                break;
-            }
-            chars.insert(cursor, c);
-            cursor += 1;
-            changed = true;
+        if !typed.is_empty() {
+            let at = insert_typed(&mut chars, cursor, &typed, max_len, masked);
+            changed |= at != cursor;
+            cursor = at;
+        }
+        if changed {
+            // (Two letters brought together by an erase can make a flag.)
+            stops = caret_stops(&chars, masked);
+            cursor = stop_at(&stops, cursor);
         }
         // Moving the caret; with Shift, the selection follows it.
         let mut moved_to = None;
@@ -883,14 +926,14 @@ impl Ui {
             moved_to = Some(match (selected, shift, ctrl) {
                 (Some((a, _)), false, false) => a,
                 (_, _, true) => word_start(&chars, cursor),
-                _ => cursor.saturating_sub(1),
+                _ => stop_before(&stops, cursor),
             });
         }
         if self.key_fires(KeyCode::Right) {
             moved_to = Some(match (selected, shift, ctrl) {
                 (Some((_, b)), false, false) => b,
                 (_, _, true) => word_end(&chars, cursor),
-                _ => (cursor + 1).min(chars.len()),
+                _ => stop_after(&stops, cursor),
             });
         }
         if is_key_pressed(KeyCode::Home) || is_key_pressed(KeyCode::Up) {
@@ -1010,21 +1053,23 @@ impl Ui {
                 if line.is_empty() { word.to_string() } else { format!("{line} {word}") };
             if self.text_size(&candidate, size, false).x <= width || line.is_empty() {
                 line = candidate;
-                // A single word longer than the line: cut it.
-                while self.text_size(&line, size, false).x > width && line.chars().count() > 1 {
-                    let mut head = String::new();
-                    for c in line.chars() {
-                        if self.text_size(&format!("{head}{c}"), size, false).x > width {
+                // A single word longer than the line: cut it (between
+                // characters, never inside an emoji).
+                while self.text_size(&line, size, false).x > width && emoji::units(&line).len() > 1
+                {
+                    let mut head = 0;
+                    for (_, end) in emoji::units(&line) {
+                        if self.text_size(&line[..end], size, false).x > width {
                             break;
                         }
-                        head.push(c);
+                        head = end;
                     }
-                    if head.is_empty() {
+                    if head == 0 {
                         break;
                     }
-                    let rest = line[head.len()..].to_string();
-                    lines.push(head);
-                    line = rest;
+                    let rest = line[head..].to_string();
+                    line.truncate(head);
+                    lines.push(std::mem::replace(&mut line, rest));
                 }
             } else {
                 lines.push(std::mem::take(&mut line));
@@ -1044,7 +1089,7 @@ impl Ui {
         }
         let mut s: String = text.to_string();
         while !s.is_empty() && self.text_size(&format!("{s}…"), size, false).x > width {
-            s.pop();
+            emoji::pop(&mut s);
         }
         format!("{s}…")
     }
@@ -1682,6 +1727,51 @@ pub fn rrect_lines(r: Rect, radius: f32, thickness: f32, color: Color) {
     }
 }
 
+/// Where the caret may stand in a text field's characters: anywhere but
+/// inside an emoji (in a password, anywhere: it shows a dot for each
+/// character). From 0 to the end, in order.
+fn caret_stops(chars: &[char], masked: bool) -> Vec<usize> {
+    if masked { (0..=chars.len()).collect() } else { emoji::stops(chars) }
+}
+
+/// The caret stop before `i` (0 at the start).
+fn stop_before(stops: &[usize], i: usize) -> usize {
+    stops.iter().rev().copied().find(|&s| s < i).unwrap_or(0)
+}
+
+/// The caret stop after `i` (the end at the end).
+fn stop_after(stops: &[usize], i: usize) -> usize {
+    stops.iter().copied().find(|&s| s > i).unwrap_or(stops[stops.len() - 1])
+}
+
+/// `i`, or the caret stop after it when it is inside an emoji.
+fn stop_at(stops: &[usize], i: usize) -> usize {
+    stops.iter().copied().find(|&s| s >= i).unwrap_or(stops[stops.len() - 1])
+}
+
+/// Puts what was typed (or pasted) into a text field's characters at
+/// `cursor`, a whole emoji at a time, while it fits in `max_len`
+/// characters. Returns where the caret goes: after it, never inside an
+/// emoji (a flag's second letter makes one with the first).
+fn insert_typed(
+    chars: &mut Vec<char>,
+    cursor: usize,
+    typed: &[char],
+    max_len: usize,
+    masked: bool,
+) -> usize {
+    let mut cursor = cursor;
+    let stops = caret_stops(typed, masked);
+    for unit in stops.windows(2).map(|w| &typed[w[0]..w[1]]) {
+        if chars.len() + unit.len() > max_len {
+            break;
+        }
+        chars.splice(cursor..cursor, unit.iter().copied());
+        cursor += unit.len();
+    }
+    stop_at(&caret_stops(chars, masked), cursor)
+}
+
 /// Where the word before `i` starts (Ctrl+Left, Ctrl+Backspace).
 fn word_start(chars: &[char], mut i: usize) -> usize {
     while i > 0 && chars[i - 1].is_whitespace() {
@@ -1702,4 +1792,60 @@ fn word_end(chars: &[char], mut i: usize) -> usize {
         i += 1;
     }
     i
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn chars(s: &str) -> Vec<char> {
+        s.chars().collect()
+    }
+
+    #[test]
+    fn the_caret_steps_over_whole_emoji() {
+        // a, the flag (2), b, thumbs up with a skin tone (2), the heart with
+        // its selector (2), the family (7).
+        let c = chars("a🇧🇷b👍🏽❤\u{FE0F}👨\u{200D}👩\u{200D}👧\u{200D}👦");
+        let stops = caret_stops(&c, false);
+        assert_eq!(stops, [0, 1, 3, 4, 6, 8, 15]);
+        assert_eq!(stop_after(&stops, 1), 3);
+        assert_eq!(stop_before(&stops, 3), 1);
+        assert_eq!(stop_before(&stops, 15), 8);
+        assert_eq!(stop_after(&stops, 15), 15);
+        assert_eq!(stop_before(&stops, 0), 0);
+        // Inside an emoji: the end of it.
+        assert_eq!(stop_at(&stops, 2), 3);
+        assert_eq!(stop_at(&stops, 99), 15);
+        // A password shows a dot for each character: every one is a stop.
+        assert_eq!(caret_stops(&c, true), (0..=15).collect::<Vec<_>>());
+        // Without emoji, every character.
+        assert_eq!(caret_stops(&chars("olá"), false), [0, 1, 2, 3]);
+    }
+
+    #[test]
+    fn typing_puts_in_whole_emoji() {
+        let mut c = chars("ab");
+        // A flag typed a letter at a time becomes one.
+        let at = insert_typed(&mut c, 1, &['🇧'], 50, false);
+        assert_eq!(at, 2);
+        let at = insert_typed(&mut c, at, &['🇷'], 50, false);
+        assert_eq!((c.iter().collect::<String>(), at), ("a🇧🇷b".to_string(), 3));
+        // U+FE0F after the heart: one unit with it, the caret after both.
+        let mut c = chars("x❤");
+        let at = insert_typed(&mut c, 2, &['\u{FE0F}'], 50, false);
+        assert_eq!(at, 3);
+        assert_eq!(caret_stops(&c, false), [0, 1, 3]);
+        // Near the limit an emoji goes in whole or not at all.
+        let mut c = chars("abcd");
+        let at = insert_typed(&mut c, 4, &chars("e🇧🇷f"), 6, false);
+        assert_eq!((c.iter().collect::<String>(), at), ("abcde".to_string(), 5));
+        let mut c = chars("abcd");
+        let at = insert_typed(&mut c, 0, &chars("🇧🇷f"), 6, false);
+        assert_eq!((c.iter().collect::<String>(), at), ("🇧🇷abcd".to_string(), 2));
+        // A pasted family goes in whole.
+        let mut c = Vec::new();
+        let family = chars("👨\u{200D}👩\u{200D}👧\u{200D}👦!");
+        assert_eq!(insert_typed(&mut c, 0, &family, 200, false), 8);
+    }
 }

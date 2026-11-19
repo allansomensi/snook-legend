@@ -83,6 +83,23 @@ goes out first. One new migration (`0021_age`).
   drawn from above (the pocket to play in gold, the circle for the cue
   ball in green). The stars are kept in the account as before.
 
+### Emoji, tabs and the online count
+- **Emoji show as pictures** wherever the game draws text (the chat, the
+  match chat, statuses, notes, names of tables and tournaments, text
+  fields): 1878 Twemoji in an atlas made by `tools/gen_emoji.py`, flags,
+  keycaps and joined sequences included (skin tones drawn as the base
+  emoji), measured, wrapped, shortened and edited as whole characters.
+  Text without emoji is drawn as before. The server keeps the joiners and
+  selectors that belong to an emoji and still removes them elsewhere.
+- **On Windows, emoji typed from the emoji panel reach the game**: a
+  character beyond U+FFFF comes in two halves, which miniquad dropped
+  (patched in `vendor/miniquad`).
+- **Tabs whose labels all have one size**: each tab as wide as its label,
+  the labels shrinking together only when the row is too narrow (the
+  computer screen's tabs, the lounge's, the profile's switch).
+- **The online count** is a green dot, a person and the number; hovering
+  says "Users online" and who.
+
 ### Profile pictures
 - **Drawn again**: the 32 portraits are illustrated head-and-shoulders
   busts (shaded faces, eyes with highlights, hair in strands, beards,

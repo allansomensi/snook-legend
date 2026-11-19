@@ -294,14 +294,21 @@ pub const MAX_ROOM_PASSWORD: usize = 32;
 
 /// Removes control and invisible formatting characters (bidirectional
 /// overrides, zero-width joiners…) and surrounding whitespace, collapses
-/// runs of spaces and truncates to `max` characters.
+/// runs of spaces and truncates to `max` characters. The joiners and
+/// selectors that are part of an emoji stay (❤️, 🏳️‍🌈, 1️⃣, England's
+/// flag), and the cut never falls inside one: an emoji that doesn't fit
+/// goes whole.
 pub fn clean_text(text: &str, max: usize) -> String {
-    let mut out = String::new();
+    let mut out: Vec<char> = Vec::new();
     let mut last_space = true;
-    for c in text.chars() {
+    let mut chars = text.chars().peekable();
+    while let Some(c) = chars.next() {
         // A line break or a tab is a space ("hello\nthere" stays two words);
         // other control characters go.
-        if (c.is_control() && !c.is_whitespace()) || is_invisible(c) {
+        if c.is_control() && !c.is_whitespace() {
+            continue;
+        }
+        if is_invisible(c) && !in_emoji(out.last().copied(), c, chars.peek().copied()) {
             continue;
         }
         let space = c.is_whitespace();
@@ -310,11 +317,58 @@ pub fn clean_text(text: &str, max: usize) -> String {
         }
         out.push(if space { ' ' } else { c });
         last_space = space;
-        if out.chars().count() >= max {
+        // One more than fits shows where to cut.
+        if out.len() > max {
             break;
         }
     }
-    out.trim().to_string()
+    let mut end = out.len().min(max);
+    while end > 0 && end < out.len() && joined(&out, end) {
+        end -= 1;
+    }
+    out[..end].iter().collect::<String>().trim().to_string()
+}
+
+/// Pictographs: the characters emoji are made of (roughly Unicode's
+/// Extended_Pictographic, with the skin tones).
+fn is_pictograph(c: char) -> bool {
+    matches!(c,
+        '\u{A9}' | '\u{AE}' | '\u{203C}' | '\u{2049}' | '\u{2122}' | '\u{2139}'
+        | '\u{2194}'..='\u{2199}' | '\u{21A9}' | '\u{21AA}' | '\u{231A}' | '\u{231B}'
+        | '\u{2328}' | '\u{23CF}' | '\u{23E9}'..='\u{23FA}' | '\u{24C2}' | '\u{25AA}'
+        | '\u{25AB}' | '\u{25B6}' | '\u{25C0}' | '\u{25FB}'..='\u{25FE}' | '\u{2600}'..='\u{27BF}'
+        | '\u{2934}' | '\u{2935}' | '\u{2B05}'..='\u{2B07}' | '\u{2B1B}' | '\u{2B1C}' | '\u{2B50}'
+        | '\u{2B55}' | '\u{3030}' | '\u{303D}' | '\u{3297}' | '\u{3299}' | '\u{1F000}'..='\u{1FAFF}')
+}
+
+/// Whether `c`, an invisible character after `prev` (kept already) and
+/// before `next`, is part of an emoji: U+FE0F after a pictograph (❤️) or a
+/// keycap's character (1️⃣), a joiner between two pictographs (🏳️‍🌈, 🤷‍♂️;
+/// never between letters), the tags of a black flag (England's).
+fn in_emoji(prev: Option<char>, c: char, next: Option<char>) -> bool {
+    let Some(p) = prev else { return false };
+    match c {
+        '\u{FE0F}' => {
+            is_pictograph(p) || (matches!(p, '#' | '*' | '0'..='9') && next == Some('\u{20E3}'))
+        }
+        '\u{200D}' => (is_pictograph(p) || p == '\u{FE0F}') && next.is_some_and(is_pictograph),
+        '\u{E0020}'..='\u{E007F}' => p == '\u{1F3F4}' || ('\u{E0020}'..='\u{E007E}').contains(&p),
+        _ => false,
+    }
+}
+
+/// Whether characters `k - 1` and `k` of `s` belong to the same emoji (a
+/// cut between them would leave half of it).
+fn joined(s: &[char], k: usize) -> bool {
+    let (a, b) = (s[k - 1], s[k]);
+    let regional = |c: char| ('\u{1F1E6}'..='\u{1F1FF}').contains(&c);
+    if regional(a) && regional(b) {
+        // Flags pair the letters from the first of a run.
+        return s[..k].iter().rev().take_while(|&&c| regional(c)).count() % 2 == 1;
+    }
+    a == '\u{200D}'
+        || matches!(b, '\u{FE0F}' | '\u{200D}' | '\u{20E3}' | '\u{1F3FB}'..='\u{1F3FF}'
+            | '\u{E0020}'..='\u{E007F}')
 }
 
 /// Characters that take no room or show nothing: format marks (Unicode's
@@ -2022,6 +2076,48 @@ mod tests {
         assert_eq!(clean_chat("good\ngame\r\n\tall"), "good game all");
         assert_eq!(clean_chat("\u{17B4}\u{17B5}\u{1BCA0}\u{1BCA3}"), "");
         assert_eq!(clean_text("Copa da Ana", MAX_NAME_LEN), "Copa da Ana");
+    }
+
+    #[test]
+    fn emoji_survive_cleaning() {
+        // Their selectors, joiners and tags stay…
+        for t in [
+            "eu \u{2764}\u{FE0F} sinuca",
+            "\u{1F3F3}\u{FE0F}\u{200D}\u{1F308}",
+            "\u{1F937}\u{1F3FD}\u{200D}\u{2642}\u{FE0F}",
+            "\u{2764}\u{FE0F}\u{200D}\u{1F525}",
+            "\u{1F468}\u{200D}\u{1F469}\u{200D}\u{1F467}",
+            "1\u{FE0F}\u{20E3} #\u{FE0F}\u{20E3}",
+            "\u{1F1E7}\u{1F1F7} \u{1F44D}\u{1F3FF} \u{1F3B1}",
+            "\u{1F3F4}\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}",
+        ] {
+            assert_eq!(clean_chat(t), t);
+        }
+        // …but nowhere else.
+        assert_eq!(clean_chat("a\u{200D}b"), "ab");
+        assert_eq!(clean_chat("adm\u{200D}in\u{FE0F}"), "admin");
+        assert_eq!(clean_chat("\u{200D}\u{1F602}\u{200D}"), "\u{1F602}");
+        assert_eq!(clean_chat("\u{1F602}\u{200D}a"), "\u{1F602}a");
+        assert_eq!(clean_chat("1\u{FE0F}"), "1");
+        assert_eq!(clean_chat("\u{FE0F}\u{200D}\u{FE0F}"), "");
+        assert_eq!(clean_chat("\u{2764}\u{FE0F}\u{FE0F}"), "\u{2764}\u{FE0F}");
+        assert_eq!(clean_chat("o\u{E0067}k\u{1F3F4}\u{E007F}\u{E0067}"), "ok\u{1F3F4}\u{E007F}");
+        // The cut never splits an emoji: one that doesn't fit goes whole.
+        let x = |n: usize| "x".repeat(n);
+        let flag = "\u{1F1E7}\u{1F1F7}";
+        assert_eq!(clean_chat(&format!("{}{flag}", x(198))), format!("{}{flag}", x(198)));
+        assert_eq!(clean_chat(&format!("{}{flag}", x(199))), x(199));
+        assert_eq!(clean_chat(&format!("{}{flag}{flag}", x(197))), format!("{}{flag}", x(197)));
+        let fire = "\u{2764}\u{FE0F}\u{200D}\u{1F525}";
+        assert_eq!(clean_chat(&format!("{}{fire}", x(196))), format!("{}{fire}", x(196)));
+        assert_eq!(clean_chat(&format!("{}{fire}", x(197))), x(197));
+        assert_eq!(clean_chat(&format!("{}\u{1F44D}\u{1F3FD}", x(199))), x(199));
+        assert_eq!(clean_status(&"\u{1F602}".repeat(100)).chars().count(), MAX_STATUS_LEN);
+        assert_eq!(clean_status(&flag.repeat(100)).chars().count(), MAX_STATUS_LEN);
+        assert_eq!(
+            clean_status(&format!("a{}", flag.repeat(100))).chars().count(),
+            MAX_STATUS_LEN - 1
+        );
     }
 
     /// An aim passed on to the opponent is one a cue can take.

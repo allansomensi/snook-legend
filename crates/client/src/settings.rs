@@ -654,7 +654,7 @@ impl SettingsScreen {
                 if let Some((_, c)) = rows.row(
                     ui,
                     t("Credits"),
-                    t("Fonts: DejaVu. Flags: flag-icons (MIT). Reactions: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT)."),
+                    t("Fonts: DejaVu. Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT)."),
                     Control::Wide(32.0),
                 ) {
                     let b = Rect::new(c.x + c.w - c.w.min(150.0), c.y, c.w.min(150.0), 32.0);

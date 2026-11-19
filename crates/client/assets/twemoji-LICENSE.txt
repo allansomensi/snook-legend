@@ -1,4 +1,4 @@
-The reaction pictures (reactions.png) are Twemoji graphics:
+The reaction pictures (reactions.png) and the emoji (emoji.png) are Twemoji graphics:
 
 Copyright 2019 Twitter, Inc and other contributors
 Copyright 2024 jdecked and other contributors

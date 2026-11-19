@@ -1146,7 +1146,7 @@ impl Hud {
                     let max_w = 300.0;
                     let who_w = ui.text_size(&who, 13.0, true).x;
                     while !text.is_empty() && who_w + ui.text_size(&text, 13.0, false).x > max_w {
-                        text.pop();
+                        crate::emoji::pop(&mut text);
                         if ui.text_size(&text, 13.0, false).x + who_w <= max_w - 12.0 {
                             text.push('…');
                             break;

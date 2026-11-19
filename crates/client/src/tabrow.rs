@@ -54,10 +54,10 @@ fn shorten(ui: &Ui, text: &str, width: f32, size: f32) -> String {
     if ui.text_size(text, size, true).x <= width {
         return text.to_string();
     }
-    let mut chars: Vec<char> = text.chars().collect();
-    while !chars.is_empty() {
-        chars.pop();
-        let candidate: String = chars.iter().collect::<String>().trim_end().to_string() + "…";
+    let mut cut = text.to_string();
+    while !cut.is_empty() {
+        crate::emoji::pop(&mut cut);
+        let candidate = cut.trim_end().to_string() + "…";
         if ui.text_size(&candidate, size, true).x <= width {
             return candidate;
         }

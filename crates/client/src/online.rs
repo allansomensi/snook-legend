@@ -4462,6 +4462,7 @@ impl Online {
     /// The players online, compactly: a green dot, a person and the number
     /// (then `extra`, muted), right-aligned at `x_right` and centred on
     /// `cy`. Hovering says "Users online" and who they are. Its rect.
+    #[allow(clippy::too_many_arguments)]
     fn draw_presence(
         &self,
         ui: &Ui,

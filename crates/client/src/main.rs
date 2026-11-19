@@ -21,6 +21,7 @@ mod cues;
 mod cup;
 mod dev;
 mod effects;
+mod emoji;
 mod flags;
 mod game;
 mod gfx;

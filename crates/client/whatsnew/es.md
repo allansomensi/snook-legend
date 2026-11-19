@@ -20,6 +20,9 @@ Los términos de uso y la política de privacidad están a un clic: al registrar
 ### Edad y chat
 El juego pregunta tu franja de edad (una vez). Para menores de 18 años, el chat con otros jugadores queda apagado hasta que un tutor lo encienda, debajo del chat del salón, como pide la ley brasileña.
 
+### Emojis en el chat
+Los emojis ahora se ven como imágenes en el chat, las notas y el estado, banderas incluidas. Las pestañas tienen todos los nombres del mismo tamaño, y el contador de quién está en línea es más discreto: el punto verde, un muñeco y el número.
+
 ## 0.7.2
 
 ### Un circuito más difícil

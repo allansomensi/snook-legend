@@ -402,6 +402,12 @@ unsafe fn key_mods() -> KeyMods {
     mods
 }
 
+thread_local! {
+    /// Snook Legend patch: the first half of a UTF-16 surrogate pair typed
+    /// (see WM_CHAR), waiting for the second.
+    static PENDING_SURROGATE: std::cell::Cell<Option<u32>> = const { std::cell::Cell::new(None) };
+}
+
 unsafe extern "system" fn win32_wndproc(
     hwnd: HWND,
     umsg: UINT,
@@ -602,9 +608,25 @@ unsafe extern "system" fn win32_wndproc(
             event_handler.mouse_wheel_event((HIWORD(wparam as _) as i16) as f32, 0.0);
         }
         WM_CHAR => {
-            let chr = wparam as u32;
+            let unit = wparam as u32;
             let repeat = !!(lparam & 0x40000000) != 0;
             let mods = key_mods();
+            // Snook Legend patch: a character beyond U+FFFF (most emoji,
+            // as the Win+. panel sends them) comes as two WM_CHAR messages,
+            // the halves of a UTF-16 surrogate pair: the first is kept and
+            // joined to the second (each alone was dropped).
+            let chr = if (0xD800..0xDC00).contains(&unit) {
+                PENDING_SURROGATE.with(|p| p.set(Some(unit)));
+                return 0;
+            } else if (0xDC00..0xE000).contains(&unit) {
+                match PENDING_SURROGATE.with(|p| p.take()) {
+                    Some(high) => 0x10000 + ((high - 0xD800) << 10) + (unit - 0xDC00),
+                    None => return 0,
+                }
+            } else {
+                PENDING_SURROGATE.with(|p| p.set(None));
+                unit
+            };
             if chr > 0 {
                 if let Some(chr) = char::from_u32(chr) {
                     event_handler.char_event(chr, mods, repeat);

@@ -1,5 +1,123 @@
 # Changelog
 
+## 0.8.0 (protocol 22)
+
+The official rules of the World Pool-Billiard Association next to the
+Brazilian rule, chosen by each player, with a rating and a ranking for each,
+everywhere in the game, online and in the staff portal. Protocol 22 is the
+only one let in, so the server and the game go out together (a game of
+0.7.x is told to update). Migration 0022 adds the official ratings and the
+rules of every stored game; everything stored so far was played under the
+Brazilian rule. No code is kept for older games any more.
+
+### Two rules
+- **The rules are a choice, not a version**: `Rules::Brazilian` and
+  `Rules::Official`. The Brazilian rule is the former ruleset 7, bit for
+  bit (the physics, rules and computer fingerprints are unchanged); the
+  older rulesets, tables and physics, kept only to replay old games, are
+  gone. A game, a replay and a game in progress record their rules.
+- **The official rules** follow the WPA Rules of Play (2025-09-15): every
+  shot but the break is called (a pocket; none is a safety, and whatever
+  goes in on it stays down), a legal break makes a ball or drives four
+  balls to a cushion, the break never decides the groups, the choices a
+  break can leave (an illegal break, the 8 on the break, the 8 on a foul
+  break, a ball off the table on the break: play the table as it lies,
+  rack and break again, the other player breaks, the cue ball in hand
+  behind the head string), the 8 made on the break spotted, ball in hand
+  anywhere after any foul and no penalty balls, the cue ball in hand behind
+  the head string crossing it before hitting a ball behind it (the ball
+  nearest the head string spotted when every ball that may be hit lies
+  behind it), object balls off the table staying off (the 8 comes back),
+  and the 8 lost on a foul, too soon, in a pocket not called or off the
+  table. Under them the shot clock running out is a foul.
+- **The computer plays both**: under the official rules it calls the
+  pocket of the shot it chose (or plays a safety) and makes the break's
+  choices. A free game, the tour and the tournaments against the computer
+  are played under the player's rules (the daily challenge and the drills
+  set their own tables).
+- Tests for every official rule, random official games checked after every
+  shot, and the Brazilian rule's tests unchanged.
+
+### The Brazilian rule: the break with balls of both groups
+- On the break, the cue ball down (or off the table) together with balls of
+  both groups, a solid and a stripe in either order, now hands the break to
+  the opponent, as when it goes down alone: no penalty ball, the groups
+  still open, the balls made stay down, the cue ball in hand behind the
+  head string and the opponent's shot is a break. With one ball, or balls of
+  one group only, it stays an ordinary foul: the first ball decides the
+  groups, the opponent's lowest ball is owed and the cue ball is played from
+  the head spot, without ball in hand. The rules book says so in the three
+  languages.
+
+### Online
+- `hello { version, rules }` and `set_rules`: the rules a player plays, shown
+  in the lounge (and who is looking for a game). Invitations, tables, "Play
+  now" (which pairs only players of the same rules), tournaments, the weekly
+  cup (`SNOOK_LEGEND_CUP` takes `official`), the staff's themed tournaments,
+  invitation codes, notes on the board, daily games and replays all carry
+  their rules.
+- **A rating, peak and record under each rules** (`PlayerInfo.standings`):
+  Elo, the queue's rating window, tournament seeding and the lounge's TV use
+  those of the game's rules; the ranking, ranks, rating charts and history
+  are kept per rules. Level, coins, achievements and missions are shared.
+- `choose { turn, option }` / `chose` (and `corr_choose` / `corr_chose` in
+  daily games): the choice an official break leaves, made by the player to
+  move; the shot clock takes its first option.
+- `/api/status` counts the players online under each rules;
+  `/api/leaderboard?rules=official` gives the official ranking (the
+  Brazilian one when left out).
+- The version gates for older games (social, activity, analysis, age,
+  correspondence, the tour) and the gift toast for older games are gone.
+
+### The game
+- **First start of 0.8.0: "How do you like to play?"**, a card for each rules
+  with what changes and how many play them now. The choice is kept in the
+  settings and switched from the main menu (a switch under the title, with
+  the players online under each), the lounge's header, the screen against
+  the computer, the two-players setup and Settings → Game.
+- The main menu's "Play online" and "Against the computer" count the
+  players of the player's rules; the player card shows the rating under
+  them.
+- **The lounge**: a rules pill in the header (a click switches), "Play now"
+  with the players waiting under these rules, players and notes of the other
+  rules marked, an invitation dialog (rated or casual, and the rules), and
+  the rules on invitations, tables, tournaments, daily games and the TV.
+- **At the table**: the rules' badge in the top bar (it opens them), notices
+  that say what a foul gives under the game's rules, the official break's
+  choice as buttons (or 1, 2, 3), the computer's own choice told, and the
+  official calls: the called pocket follows the aim (a ring on it) until
+  another is clicked, the top bar says which is called, and **Safety** calls
+  nothing.
+- **Ranking** with a tab for each rules; the **profile** with a rating card
+  for each (the one lit sets the rank, the league and the chart), and the
+  rules of every game in the history.
+- **The rules book** has a tab for each: the Brazilian rule and the official
+  (WPA) rules, in English, Portuguese and Spanish.
+- Every new text in Portuguese and Spanish; a rules' name inside a
+  sentence is in lower case except for the capital of "Brazilian" in
+  English.
+- The table no longer changes from one game to another (every game is
+  played on the same table now): the code that swapped it is gone.
+
+### The staff portal
+- **A player's rating under each rules everywhere**: the list of players (a
+  column for each, with the tier and the games, sortable by either), the
+  search, the profile (a card for each with the peak and the record, and
+  which they play now) and the players online.
+- **The rules of every game**: a player's games (filtered by rules), live
+  games, tournaments, reports and the replay viewer; a themed tournament is
+  scheduled under either (and says so). The viewer understands the official
+  calls, safeties and choices after the break, and the Brazilian rule's
+  penalty balls.
+- The dashboard, Live, Metrics and Server pages split the players online,
+  the games of the last 24 hours, the games now and the queue by rules; the
+  Server page shows the protocol and the server's settings (no longer
+  called its "rules"), and the weekly cup's rules.
+- **A role badge no longer touches the name** in the list of players (the
+  name and its badges keep a gap and wrap when narrow); players online and
+  the search do the same. Rating changes in a player's games are green or
+  red.
+
 ## 0.7.4 (protocol 21)
 
 The chat with other players is asked for when it is used, invitations as a

@@ -3,8 +3,9 @@
 # Snook Legend
 
 A lightweight 3D eight-ball pool game for the desktop, written in Rust. It plays
-a **regional Brazilian rule** of eight-ball (bar rules with penalty balls), not the
-official tournament rule.
+eight-ball under **two rules**, chosen in the game: a **regional Brazilian rule**
+(bar rules with penalty balls) and the **official rules** of the World
+Pool-Billiard Association (WPA), each with its own rating and ranking.
 
 Snook Legend is built around what made the old online pool rooms special: a realistic
 cue (spin, draw, follow, jump and massé shots), a lounge where you meet people and
@@ -57,26 +58,44 @@ which every desktop installation has. How releases are made is described in
   players always agree (pinned by a fingerprint test in CI).
 - **Full cue control**: aim, power, the exact point where the tip hits the cue ball,
   cue elevation, and fine aim right on the bottom bar.
-- **Eight-ball by a regional Brazilian rule** (the rule of bars and pool
-  halls, with penalty balls; **not the official tournament rule** of the WPA
-  or of a federation): a foul passes the turn and gives the opponent balls
+- **Two rules, chosen once and switched at any time**: the first start asks
+  how you like to play (a card for each rules, with how many play them now);
+  the main menu, the lounge, the screen against the computer, the two-players
+  setup and Settings → Game switch them. Every game says its rules (on
+  invitations, tables, "Play now", tournaments, daily games and replays, and
+  at the table a badge that opens them), and each rules has its **own rating,
+  tier, peak and world ranking**; the level, coins and achievements are
+  shared. The rules are in the game (Menu → Rules), a tab for each, in three
+  languages. Every rule has its own test, and random games of both are
+  checked after every shot.
+- **The Brazilian rule** (the rule of bars and pool halls, with penalty
+  balls): a foul passes the turn and gives the opponent balls
   (the lowest numbers of their group come off the table: one for a miss, a
   scratch or the cue ball off the table, two for hitting the opponent's ball first, one if the cue ball
   went to a cushion before it, and they add up), the cue ball is in hand
   on the break only (one that goes down or leaves the table comes back to
   the head spot), a break that hits no ball or loses the cue ball with no
   ball made passes the break to the opponent (cue ball in hand behind the
-  head string), the first ball made decides the groups (one of the
+  head string), as does the cue ball lost together with balls of both
+  groups, the first ball made decides the groups (one of the
   opponent's with it passes the turn), a ball of one's own knocked off the
   table comes back and one of the opponent's stays off, the 8 alone on the
-  break wins and the 8 with any other ball loses, a called pocket for the 8 that is binding once made. The rules
-  are in the game (Menu → Rules), in three languages. Every rule has its
-  own test, and 120 random games are checked after every shot. Each game
-  records the version of the rules, the physics and the table it was played
-  with, so replays and games in progress never change under an update.
+  break wins and the 8 with any other ball loses, a called pocket for the 8
+  that is binding once made.
+- **The official rules (WPA)**, as in international tournaments: every shot
+  but the break is called (the called pocket follows your aim, a click calls
+  another, and **Safety** calls nothing), a legal break makes a ball or drives
+  four balls to a cushion, the break never decides the groups, the choices
+  the break can leave (play the table as it lies, rack and break again, the
+  other player breaks, the cue ball in hand behind the head string; the 8 made
+  on the break is spotted), **ball in hand anywhere** after any foul (no
+  penalty balls), the cue ball in hand behind the head string must cross it
+  before hitting a ball behind it, and the 8 lost on a foul, too soon, in a
+  pocket not called or off the table. The shot clock running out is a foul.
 - **Computer opponents**: fifteen named opponents with their own portraits and
   styles (cautious, all-out attack, bank artist, positional…) over three skill
-  levels. They play with the same physics and rules: they simulate candidate
+  levels. They play with the same physics and either rules (calling their
+  pockets and making the break's choices under the official ones): they simulate candidate
   shots and score the outcome. **The tour** takes you through all fifteen,
   each tighter than the last, and its final win against the champion (checked
   by the server, stroke by stroke) earns an exclusive cue. **Tournaments**
@@ -106,8 +125,9 @@ which every desktop installation has. How releases are made is described in
 - **Instant shots online**: your shot plays the moment you take it (local
   prediction of the deterministic physics), the opponent's as soon as the
   server announces it; the server's result is authoritative.
-- **Profiles and progress**: rating, tier and how far the next one is, world
-  rank, numbers, match history with rating changes, **50 achievements**, an **analysis** of how you pot (by pocket, distance and kind of shot, with a heat map), the
+- **Profiles and progress**: a rating card for each rules (rating, tier and
+  how far the next one is, peak, world rank, rating chart), numbers, match
+  history with the rules and rating changes, **50 achievements**, an **analysis** of how you pot (by pocket, distance and kind of shot, with a heat map), the
   reactions collected and the **world top 100**. Ratings move slowly (Elo,
   K 24 for the first 10 games, then 14, 8 from 1900).
 - **End-of-game numbers**: potting success, balls made, best run, fouls and
@@ -186,7 +206,8 @@ The interface is available in English, Brazilian Portuguese and Spanish (Setting
 | Spin | click/drag on the spin ball | ↑ / ↓ (follow/draw), Q / E (English) |
 | Cue elevation | elevation slider | W / S |
 | Ball in hand | drag the cue ball (any time while it is in hand; aiming and power work too) | B toggles, Enter confirms |
-| Call the 8-ball pocket | click a pocket on the table (they glow when a call is needed; binding once made) | |
+| Call a pocket | the official rules: the pocket the aimed ball is heading for is called (a ring on it); click another to call it, or **Safety** in the top bar to call nothing. The Brazilian rule: click a pocket for the 8-ball (they glow when a call is needed; binding once made) | |
+| A choice after an official break | the buttons on the table | 1, 2, 3 |
 | Camera | drag with the right button to turn the table (goes 3D; the left button never moves the camera); wheel or the zoom bar to zoom; the camera icon goes back to the top view with no zoom | Tab 3D/top, C reset |
 | Replay of the last shot | the replay icon (top left) | R |
 | Menu / list of controls | **Menu** button (the controls are listed there, never on the table) | Esc / H |

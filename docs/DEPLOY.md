@@ -33,8 +33,11 @@ Render and Neon are fine for testing. This page is the reference.
 | `SNOOK_LEGEND_PRIVACY_CONTACT` | the repository's issues | the e-mail for customer service, refunds, appeals and privacy requests |
 | `RUST_LOG` | `info` | log filter |
 
-Endpoints: `GET /ws` (the game), `GET /health` (`ok`), `GET /api/status` and
-`GET /api/leaderboard` (public JSON with CORS, for a website), `/admin`, and
+Endpoints: `GET /ws` (the game), `GET /health` (`ok`), `GET /api/status`
+(the version, the protocol and the players online, also by rules) and
+`GET /api/leaderboard?rules=brazilian|official` (the top players under those
+rules, Brazilian when left out; public JSON with CORS, for a website),
+`/admin`, and
 the public pages: the terms of use (`/termos`, `/terms`, `/terminos`) and the
 privacy policy (`/privacidade`, `/privacy`, `/privacidad`), Portuguese being
 the reference text (see [DEPLOY.pt-BR.md](DEPLOY.pt-BR.md), section 10).

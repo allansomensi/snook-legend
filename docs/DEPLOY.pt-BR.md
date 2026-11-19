@@ -15,7 +15,8 @@ e do Neon também servem, com os limites abaixo.
 - **Vercel não é necessária**: o painel administrativo é servido pelo próprio
   servidor em `/admin` (mesma origem, sem CORS, um deploy só). Se um dia você
   quiser um site do jogo, a Vercel é ótima para isso, e o servidor já expõe
-  `GET /api/leaderboard` e `GET /api/status` (JSON público, com CORS) para o site
+  `GET /api/leaderboard?rules=brazilian|official` (o ranking de cada regra; a
+  brasileira quando omitido) e `GET /api/status` (JSON público, com CORS) para o site
   mostrar o ranking e quantos estão online.
 
 ## O que saber sobre os planos

@@ -3,6 +3,23 @@
 # un destacado, y las líneas siguientes son su texto. Mismas versiones y
 # mismo número de destacados en todos los idiomas.
 
+## 0.8.0
+
+### La regla oficial
+Ahora también puedes jugar la regla oficial de la WPA, la bola 8 de los torneos internacionales: cada tiro se canta, una falta da bola en mano en cualquier lugar y ninguna bola sale como penalización. Elige la regla en el menú principal. La regla brasileña sigue ahí, tal como era.
+
+### Un rating para cada regla
+Cada regla tiene su rating, su liga y su ranking mundial: el ranking tiene una pestaña para cada una y tu perfil, una tarjeta para cada una. Nivel, monedas y logros son los mismos.
+
+### Cantar los tiros
+Con la regla oficial, la tronera a la que apuntas queda cantada (un anillo la muestra). Haz clic en otra para cantarla, o en Defensa para no cantar ninguna. Tras algunos saques eliges cómo sigue la partida, con los botones o con 1, 2 y 3.
+
+### En línea, por regla
+Invitaciones, mesas, Jugar ahora, torneos y partidas diarias muestran su regla, y Jugar ahora te empareja con quien juega la tuya. El menú muestra cuántos juegan cada una.
+
+### El saque, regla brasileña
+Si el saque pierde la blanca junto con bolas de los dos grupos, el saque pasa ahora al rival, con bola en mano detrás de la línea de cabecera y sin bola de penalización.
+
 ## 0.7.4
 
 ### El chat, cuando lo quieras

@@ -36,19 +36,19 @@ a second set of credentials for no gain at this size.
 
 | Page | What it is for |
 |---|---|
-| **Dashboard** | Who is online, games now, the queue, open reports, accounts, revenue; activity in the last 48 hours; the latest staff actions; the server's health; warnings (nothing saved, restarting, every player behind one address). |
-| **Live** | Games in progress (watch any of them as it is played), the players online and what they are doing, tournaments with their brackets or arena standings. Refreshes every 10 s. |
-| **Players** | Every account: search, filter (online, staff, banned, muted, deleted), sort (newest, seen most recently, rating, name), pages of 50. |
-| **A player** | Tabs: *Overview* (numbers, account, standing), *Moderation* (reports about them, staff notes and warnings, the history of every staff action on the account), *Games* (watch or download each replay), *Economy* (coins, VIP, items, payments, Microsoft Store purchases, the coin history), *Achievements*. Actions in the header. |
+| **Dashboard** | Who is online and the games of the last 24 hours (each split by rules), games now, the queue, open reports, accounts, revenue; activity in the last 48 hours; the latest staff actions; the server's health; warnings (nothing saved, restarting, every player behind one address). |
+| **Live** | Games in progress with their rules (watch any of them as it is played), the players online with what they are doing (looking for a game, against the computer, away…), their rules and their rating under them, tournaments with their rules and brackets or arena standings. Refreshes every 10 s. |
+| **Players** | Every account with its rating under each of the rules (tier and rated games): search, filter (online, staff, banned, muted, deleted), sort (newest, seen most recently, highest rating under the Brazilian or the official rules, name), pages of 50. |
+| **A player** | Tabs: *Overview* (a card for each of the rules: rating, tier, peak, record; numbers, account, standing), *Moderation* (reports about them, staff notes and warnings, the history of every staff action on the account), *Games* (the rules of each, filtered by rules; watch or download each replay), *Economy* (coins, VIP, items, payments, Microsoft Store purchases, the coin history), *Achievements*. Actions in the header. |
 | **Reports** | Open / action taken / dismissed / all, by reason, by player. Each report shows the game it is about (watch it), the chat before it, and how many reports there are about the same player. Warn, mute or ban from the report: it is then closed with what was done. |
 | **Lounge chat** | The latest lines, newest first, with deleted ones (and who deleted them). Delete a line, remove it without a trace (administrators), warn or mute its author, clear the chat (administrators). Refreshes every 10 s. |
-| **Fair play** | Players whose potting on hard shots is far above their tier's (a list to look at with the replays; nobody is punished by it). |
+| **Fair play** | Players whose potting on hard shots is far above their tier's, by the higher of their two ratings (a list to look at with the replays; nobody is punished by it). |
 | **Board & announcements** | An announcement to the lounge now; the lounge's board (notice, event or rule, a button, pinned, for some days) with a live preview; the welcome message; players' "looking for a game" notes. |
 | **Events** | Boosts and themed tournaments with a start and an end (see below): running now, coming up, past; how much experience and coins from games count right now. |
 | **Economy** | Coins in wallets, VIP members, coins given and spent in 30 days by reason, the largest balances, revenue; the latest payments of everyone (mark test payments); the shop's catalogue. |
-| **Metrics** | Players and games by day and by hour, retention by week of sign-up, from account to player, where players come from (country), revenue by day, the "Play now" waits. |
+| **Metrics** | Players and games by day and by hour, retention by week of sign-up, from account to player, where players come from (country), revenue by day, the "Play now" waits (who waits, by rules). |
 | **Audit log** | Every staff action: search by words, filter by action or player, load more, export as CSV. |
-| **Server** | Version, protocol and ruleset, uptime, memory, connections, writes waiting; health (database, restarts, addresses, Stripe, Microsoft Store); this server's rules; the weekly cup; the staff. |
+| **Server** | Version and protocol, uptime, memory, connections (by rules), writes waiting; health (database, restarts, addresses, Stripe, Microsoft Store); this server's settings; the weekly cup and its rules; the staff. |
 
 ## Roles
 
@@ -121,7 +121,8 @@ Saturday at 8 pm for a tournament).
 - **Coins from games ×2 or ×3**: the coins for finishing a rated game, and
   the day's cap with them. Purchases, prizes and the daily bonus are as
   usual. Up to two weeks.
-- **Themed tournament**: a knockout (4, 8 or 16 seats) or an arena (10
+- **Themed tournament**: under the Brazilian or the official rules (a rated
+  one counts for the rating under them), a knockout (4, 8 or 16 seats) or an arena (10
   minutes to 3 hours, from the start to the end) that the server organises
   like the weekly cup: it opens for sign-up two hours before it starts,
   starts by itself, and is called off (fees back) if fewer than two

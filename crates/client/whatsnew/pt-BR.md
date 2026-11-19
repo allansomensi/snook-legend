@@ -3,6 +3,23 @@
 # destaque, e as linhas seguintes são o texto dele. Mesmas versões e mesmo
 # número de destaques em todas as línguas.
 
+## 0.8.0
+
+### A regra oficial
+Agora dá para jogar também a regra oficial da WPA, a bola 8 dos torneios internacionais: toda tacada é cantada, falta dá bola na mão em qualquer lugar e nenhuma bola sai da mesa como penalidade. Escolha a regra no menu principal. A regra brasileira continua lá, do jeito que era.
+
+### Um rating para cada regra
+Cada regra tem seu rating, sua liga e seu ranking mundial: o ranking tem uma aba para cada uma e o seu perfil, um cartão para cada. Nível, moedas e conquistas são os mesmos.
+
+### Cantando as tacadas
+Na regra oficial, a caçapa para onde você mira fica cantada (um anel mostra qual). Clique em outra para cantá-la, ou em Defesa para não cantar nenhuma. Depois de algumas saídas você escolhe como o jogo segue, nos botões ou com 1, 2 e 3.
+
+### Online, por regra
+Convites, mesas, Jogar agora, torneios e partidas diárias mostram a regra, e o Jogar agora junta você com quem joga a sua. O menu mostra quantos jogam cada uma.
+
+### A saída, regra brasileira
+Se a saída perde a branca junto com bolas dos dois grupos, a saída agora passa para o adversário, com bola na mão atrás da linha de cabeceira e sem bola de penalidade.
+
 ## 0.7.4
 
 ### O chat, quando você quiser

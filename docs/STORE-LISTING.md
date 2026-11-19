@@ -27,7 +27,7 @@ section 10).
 
 ### Descrição curta
 
-Sinuca de bola 8 em 3D, com física de verdade numa mesa de 8 pés. Jogue online valendo ranking, desafie quinze adversários com personalidade, encare o desafio diário e suba de nível. Grátis.
+Sinuca de bola 8 em 3D, com física de verdade numa mesa de 8 pés, na regra brasileira ou na oficial. Jogue online valendo ranking, desafie quinze adversários com personalidade, encare o desafio diário e suba de nível. Grátis.
 
 ### Descrição
 
@@ -50,23 +50,23 @@ Tacos, panos, giz, jogos de bolas, mesas e salões temáticos, tudo conquistado 
 FEITO PARA ENXERGAR BEM
 Mesa iluminada por igual, bolas com números sempre legíveis e sombras suaves. Um placar que mostra as bolas de cada jogador na ordem em que caíram. Prefere jogar só de cima? Uma opção trava a câmera na vista de cima. Roda em praticamente qualquer PC, de notebooks antigos a máquinas gamer, com gráficos de Baixo a Ultra.
 
-REGRA BRASILEIRA
-O jogo segue a regra brasileira regional de bola 8, a dos bares e salões, com bolas de penalidade: falta passa a vez e elimina as menores bolas do adversário. Não é a regra oficial de torneio. As regras completas ficam a um clique, no menu e durante a partida.
+DUAS REGRAS
+Jogue na regra brasileira, a dos bares e salões, com bolas de penalidade (falta passa a vez e elimina as menores bolas do adversário), ou na regra oficial da WPA, a dos torneios internacionais, com todas as tacadas cantadas e bola na mão em qualquer lugar depois de uma falta. Cada regra tem o seu rating e o seu ranking mundial, e você troca de regra quando quiser. As regras completas ficam a um clique, no menu e durante a partida.
 
 Em português, inglês e espanhol.
 
 ### Novidades desta versão
 
-Versão 0.7.4: o chat quando você quiser e convites no canto da tela.
+Versão 0.8.0: a regra oficial.
+• Além da regra brasileira, agora dá para jogar a regra oficial da WPA: toda tacada é cantada (a caçapa segue a sua mira) e falta dá bola na mão em qualquer lugar, sem bola de penalidade.
+• Cada regra tem o seu rating, a sua liga e o seu ranking mundial; nível, moedas e conquistas são os mesmos.
+• Convites, mesas, Jogar agora, torneios e partidas diárias mostram a regra; o Jogar agora junta jogadores da mesma regra.
+• Regra brasileira: a saída que perde a branca junto com bolas dos dois grupos passa para o adversário, sem bola de penalidade.
+
+Da versão 0.7.4: o chat quando você quiser e convites no canto da tela.
 • O cadastro não pergunta mais a idade: o chat com outros jogadores começa desligado e pergunta só na primeira vez que você escreve. Para menores de 18 anos, o responsável é quem liga.
 • Convites aparecem como um cartão no canto superior direito, em qualquer tela e por cima de qualquer partida, com um sinal sonoro.
 • Com o jogo minimizado ou atrás de outra janela, o Windows avisa do convite na hora.
-
-Da versão 0.7.3: novas regras, mais treinos, avatares novos e termos de uso.
-• Saída que não toca nenhuma bola, ou que perde a branca sem encaçapar nenhuma: a saída passa para o adversário, com a branca na mão atrás da linha de cabeceira. Com uma bola feita, ela decide os grupos mesmo com a branca caindo junto; a branca fora da mesa custa uma bola.
-• 24 treinos, nove novos (carambola, bolas encostadas, duas tabelas, quinze seguidas…), cada um com a posição desenhada; o ranking dos treinos saiu.
-• Retratos redesenhados e novos avatares de objetos da sinuca; o seu avatar aparece na tela inicial.
-• Termos de uso e política de privacidade a um clique, no cadastro, na loja e em Configurações; 7 dias para se arrepender de uma compra.
 
 ### Recursos do produto
 
@@ -86,7 +86,7 @@ Da versão 0.7.3: novas regras, mais treinos, avatares novos e termos de uso.
 14. Placar com as bolas de cada jogador na ordem em que caíram
 15. Visual feito para enxergar bem, com opção de jogar só na vista de cima
 16. Gráficos de Baixo a Ultra: roda em PCs antigos e brilha nos novos
-17. As regras do jogo sempre à mão
+17. Regra brasileira ou oficial (WPA), cada uma com seu rating e ranking, sempre à mão
 18. Em português, inglês e espanhol
 
 ### Termos de pesquisa
@@ -105,7 +105,7 @@ sinuca, bilhar, bola 8, snooker, pool, sinuca online, jogo de sinuca
 
 ### Short description
 
-3D eight-ball pool with real physics on an 8-foot table. Play rated games online, take on fifteen opponents with real personalities, beat the daily challenge and level up. Free.
+3D eight-ball pool with real physics on an 8-foot table, under the Brazilian or the official rules. Play rated games online, take on fifteen opponents with real personalities, beat the daily challenge and level up. Free.
 
 ### Description
 
@@ -128,23 +128,23 @@ Cues, cloths, chalk, ball sets, themed tables and halls, all earned with the coi
 MADE TO SEE CLEARLY
 An evenly lit table, balls whose numbers always read and soft shadows. A score panel that shows each player's balls in the order they went down. Rather play from above? An option locks the camera to the top view. Runs on practically any PC, from old laptops to gaming rigs, with graphics from Low to Ultra.
 
-A BRAZILIAN RULE
-The game plays the regional Brazilian rule of eight-ball, the one of bars and pool halls, with penalty balls: a foul passes the turn and takes your opponent's lowest balls off the table. It is not the official tournament rule. The full rules are a click away, in the menu and during a game.
+TWO RULES
+Play the Brazilian rule, the one of bars and pool halls, with penalty balls (a foul passes the turn and takes your opponent's lowest balls off the table), or the official WPA rules of international tournaments, with every shot called and ball in hand anywhere after a foul. Each has its own rating and world ranking, and you switch whenever you like. The full rules are a click away, in the menu and during a game.
 
 In English, Portuguese and Spanish.
 
 ### What's new in this version
 
-Version 0.7.4: the chat when you want it, and invitations in the corner.
+Version 0.8.0: the official rules.
+• Besides the Brazilian rule, you can now play the official WPA rules: every shot is called (the pocket follows your aim) and a foul gives ball in hand anywhere, with no penalty balls.
+• Each rules has its own rating, tier and world ranking; your level, coins and achievements are shared.
+• Invitations, tables, Play now, tournaments and daily games show their rules; Play now pairs players of the same rules.
+• Brazilian rule: a break that loses the cue ball together with balls of both groups passes to the opponent, with no penalty ball.
+
+From version 0.7.4: the chat when you want it, and invitations in the corner.
 • Signing up no longer asks your age: the chat with other players starts off and asks only the first time you write. Under 18, a parent or guardian turns it on.
 • Invitations show as a card in the top right corner, on every screen and over any game, with a soft chime.
 • With the game minimised or behind another window, Windows tells you about an invitation at once.
-
-From version 0.7.3: new rules, more drills, new pictures and terms of use.
-• A break that hits no ball, or loses the cue ball with no ball made, passes the break to the opponent, with the cue ball in hand behind the head string. A ball made on the break decides the groups even if the cue ball goes down too; the cue ball off the table costs a ball.
-• 24 drills, nine new (the carom, the plant, two-cushion bank, fifteen in a row…), each with its position drawn; the drills' ranking is gone.
-• Portraits drawn again and new pictures of pool things; your picture shows on the start screen.
-• The terms of use and the privacy policy a click away, when signing up, in the shop and in Settings; 7 days to change your mind about a purchase.
 
 ### Product features
 
@@ -164,7 +164,7 @@ From version 0.7.3: new rules, more drills, new pictures and terms of use.
 14. A score panel with each player's balls in the order they went down
 15. Made to see clearly, with an option to play from the top view only
 16. Graphics from Low to Ultra: runs on old PCs and shines on new ones
-17. The rules of the game always at hand
+17. The Brazilian or the official (WPA) rules, each with its own rating and ranking, always at hand
 18. In English, Portuguese and Spanish
 
 ### Search terms
@@ -183,7 +183,7 @@ pool, billiards, 8 ball, eight ball, snooker, pool online, pool game
 
 ### Descripción corta
 
-Pool de bola 8 en 3D con física real en una mesa de 8 pies. Juega en línea con clasificación, enfréntate a quince rivales con personalidad, supera el desafío diario y sube de nivel. Gratis.
+Pool de bola 8 en 3D con física real en una mesa de 8 pies, con la regla brasileña o la oficial. Juega en línea con clasificación, enfréntate a quince rivales con personalidad, supera el desafío diario y sube de nivel. Gratis.
 
 ### Descripción
 
@@ -206,23 +206,23 @@ Tacos, paños, tizas, juegos de bolas, mesas y salas temáticas, todo ganado con
 HECHO PARA VER BIEN
 Una mesa iluminada por igual, bolas con números siempre legibles y sombras suaves. Un marcador que muestra las bolas de cada jugador en el orden en que entraron. ¿Prefieres jugar desde arriba? Una opción fija la cámara en la vista superior. Funciona en prácticamente cualquier PC, desde portátiles antiguos hasta equipos gamer, con gráficos de Bajo a Ultra.
 
-REGLA BRASILEÑA
-El juego sigue la regla brasileña regional de bola 8, la de los bares y salones, con bolas de penalización: la falta pasa el turno y elimina las bolas más bajas del rival. No es la regla oficial de torneo. Las reglas completas están a un clic, en el menú y durante la partida.
+DOS REGLAS
+Juega con la regla brasileña, la de los bares y salones, con bolas de penalización (la falta pasa el turno y elimina las bolas más bajas del rival), o con la regla oficial de la WPA, la de los torneos internacionales, con todos los tiros cantados y bola en mano en cualquier lugar tras una falta. Cada regla tiene su rating y su ranking mundial, y cambias de regla cuando quieras. Las reglas completas están a un clic, en el menú y durante la partida.
 
 En español, inglés y portugués.
 
 ### Novedades de esta versión
 
-Versión 0.7.4: el chat cuando lo quieras e invitaciones en la esquina.
+Versión 0.8.0: la regla oficial.
+• Además de la regla brasileña, ahora puedes jugar la regla oficial de la WPA: cada tiro se canta (la tronera sigue tu mira) y una falta da bola en mano en cualquier lugar, sin bolas de penalización.
+• Cada regla tiene su rating, su liga y su ranking mundial; nivel, monedas y logros son los mismos.
+• Invitaciones, mesas, Jugar ahora, torneos y partidas diarias muestran su regla; Jugar ahora empareja jugadores de la misma regla.
+• Regla brasileña: el saque que pierde la blanca junto con bolas de los dos grupos pasa al rival, sin bola de penalización.
+
+De la versión 0.7.4: el chat cuando lo quieras e invitaciones en la esquina.
 • El registro ya no pregunta la edad: el chat con otros jugadores empieza apagado y solo pregunta la primera vez que escribes. Para menores de 18 años, lo enciende el tutor.
 • Las invitaciones aparecen como una tarjeta en la esquina superior derecha, en cualquier pantalla y sobre cualquier partida, con un aviso sonoro.
 • Con el juego minimizado o detrás de otra ventana, Windows avisa de la invitación al momento.
-
-De la versión 0.7.3: nuevas reglas, más ejercicios, avatares nuevos y términos de uso.
-• Un saque que no toca ninguna bola, o que pierde la blanca sin meter ninguna, pasa el saque al rival, con la blanca en mano detrás de la línea de cabecera. Una bola metida en el saque decide los grupos aunque entre la blanca; la blanca fuera de la mesa cuesta una bola.
-• 24 ejercicios, nueve nuevos (carambola, bolas pegadas, dos bandas, quince seguidas…), cada uno con su posición dibujada; el ranking de los ejercicios ya no está.
-• Retratos dibujados de nuevo y avatares nuevos de cosas del billar; tu avatar aparece en la pantalla de inicio.
-• Los términos de uso y la política de privacidad a un clic, al registrarte, en la tienda y en Ajustes; 7 días para arrepentirte de una compra.
 
 ### Características del producto
 
@@ -242,7 +242,7 @@ De la versión 0.7.3: nuevas reglas, más ejercicios, avatares nuevos y término
 14. Un marcador con las bolas de cada jugador en el orden en que entraron
 15. Hecho para ver bien, con opción de jugar solo en la vista superior
 16. Gráficos de Bajo a Ultra: funciona en PCs antiguos y brilla en los nuevos
-17. Las reglas del juego siempre a mano
+17. Regla brasileña u oficial (WPA), cada una con su rating y ranking, siempre a mano
 18. En español, inglés y portugués
 
 ### Términos de búsqueda

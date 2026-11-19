@@ -26,7 +26,7 @@
 //! | `SNOOK_LEGEND_LEGAL_ADDRESS` | — | their address, on both pages (as above) |
 //! | `SNOOK_LEGEND_PRIVACY_CONTACT` | the repository's issues | e-mail or web address for customer service, refunds, appeals and privacy requests |
 //! | `SNOOK_LEGEND_DRAIN_SECS` | `240` | on SIGTERM: how long games in progress may go on before they are handed to the next server |
-//! | `SNOOK_LEGEND_CUP` | — | the weekly cup, e.g. `sat 20:00` (options: `60m`, `fee=100`, `utc-3`) |
+//! | `SNOOK_LEGEND_CUP` | — | the weekly cup, e.g. `sat 20:00` (options: `60m`, `fee=100`, `utc-3`, `official` for the official rules) |
 //! | `RUST_LOG` | `info` | log filter |
 
 use std::time::Duration;

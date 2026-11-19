@@ -3,6 +3,23 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.8.0
+
+### The official rules
+You can now also play the official rules of the WPA, the eight-ball of international tournaments: every shot is called, a foul gives ball in hand anywhere and no ball comes off as a penalty. Choose your rules in the main menu. The Brazilian rule is still there, just as it was.
+
+### A rating for each rules
+Each rules has its own rating, tier and world ranking: the ranking has a tab for each and your profile a card for each. Your level, coins and achievements are shared.
+
+### Calling your shots
+Under the official rules the pocket you aim at is called (a ring shows it). Click another pocket to call it, or Safety to call none. After some breaks you choose how the game goes on, with the buttons or 1, 2 and 3.
+
+### Online, by rules
+Invitations, tables, Play now, tournaments and daily games all say their rules, and Play now pairs you with players of yours. The menu shows how many people play each.
+
+### The break, Brazilian rule
+If the break loses the cue ball together with balls of both groups, the break now passes to your opponent, with the cue ball in hand behind the head string and no penalty ball.
+
 ## 0.7.4
 
 ### The chat, when you want it

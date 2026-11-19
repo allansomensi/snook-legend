@@ -16,16 +16,21 @@
 
 ## A session
 
-1. `hello { version }`: older games are told to update.
+1. `hello { version, rules }`: the protocol version (22; older games are
+   told to update) and the rules the player plays, `brazilian` or
+   `official` (`set_rules { rules }` changes them later). "Play now", tables
+   and invitations follow them, and the lounge shows who plays which.
 2. `register { username, password, country }`, `login`, `resume { token }`
    or, on a LAN server, `guest { name }` → `auth_ok { player, token }`.
    `leaderboard` and `profile` also work before signing in.
 3. The server sends `welcome`, `lounge`, `chat_history`, `tables` and
    `tournaments`, then keeps them current (`player_updated`, `chat`,
    `table_opened`, `tournament_updated`…).
-4. Games start from an invitation (`invite` → `answer_invite`), by sitting at
-   an open table (`open_table { rated, password }` → `join_table`), or by a
-   tournament pairing, all ending in `match_started`.
+4. Games start from an invitation (`invite { to, rated, rules }` →
+   `answer_invite`), by sitting at an open table (`open_table { rated,
+   rules, password }` → `join_table`), or by a tournament pairing, all
+   ending in `match_started`. Every game is played under one of the rules,
+   and its `game` carries them.
 
 ## A shot, without waiting for the network
 
@@ -56,15 +61,23 @@ shooter                     server                         opponent
 
 - The shot clock runs on the server (and keeps running if the shooter
   disconnects); when it runs out the server plays a full-power shot where the
-  player was aiming.
+  player was aiming (under the official rules it is a foul instead:
+  `time_foul`, the cue ball in hand for the opponent).
+- The official rules call every shot but the break: `shoot { called_pocket }`
+  names the pocket, and none is a safety. Some breaks leave a choice
+  (`game.choice`): the player to move answers `choose { turn, option }`
+  (`play_on`, `cue_ball_in_hand`, `break_again`, `opponent_breaks`) and both
+  get `chose { seat, option, game }`; the shot clock takes the first option.
 - `resign`, a disconnection longer than the grace period or the last ball end
   the match with `match_ended { result }`, ratings included. Then `rematch`
   (both players; not in tournaments) or `leave_match`.
 - Reconnecting within the grace period resumes the match with a fresh
   `match_started`.
 - Ratings: Elo with K 24 for the first 10 rated games, 14 after, 8 from
-  1900 (`crates/core/src/rating.rs`). Feats (8-ball wins, runouts,
-  shutouts) count in rated games only.
+  1900 (`crates/core/src/rating.rs`), kept apart for each rules: a player has
+  a rating, peak and record under each (`PlayerInfo.standings`), and the
+  ranking (`leaderboard { rules }`), ranks and rating charts are per rules.
+  Feats (8-ball wins, runouts, shutouts) count in rated games only.
 - `spectate { username }` watches a friend's games (anyone's on a local
   network): `match_started { spectating: true, seat }` with `seat` the
   friend's, then every shot, aim and result of that table, and the next game
@@ -89,8 +102,9 @@ shooter                     server                         opponent
   `store_redeemed { coins, pending, error }` (also sent by itself when a
   purchase that was waiting for Microsoft is credited later). See
   `crates/server/src/msstore.rs`.
-- `queue_join { rated }` / `queue_leave`: "Play now"; the server sends
-  `queue { searching, waited_secs, range }` and then `match_started`.
+- `queue_join { rated, rules }` / `queue_leave`: "Play now", which pairs
+  only players of the same rules; the server sends `queue { searching,
+  waited_secs, range }` and then `match_started`.
 - `react { code }` sends a reaction to the table (`reaction { seat, code }`
   to both players). Codes and what unlocks each are in
   `crates/proto/src/reactions.rs`; the server drops locked ones and allows a
@@ -99,8 +113,8 @@ shooter                     server                         opponent
 
 ## Tournaments
 
-Single elimination for 4, 8 or 16 players, seeded by rating with byes for empty
-seats. It starts when full (or when the host starts it). Matches start by
+Single elimination for 4, 8 or 16 players (or an arena), under one of the
+rules, seeded by the rating under them with byes for empty seats. It starts when full (or when the host starts it). Matches start by
 themselves when both players are free; a player who is offline for two
 minutes when their match is ready loses it. Players still in a running
 tournament can't start other games.

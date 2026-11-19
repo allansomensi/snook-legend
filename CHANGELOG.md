@@ -76,6 +76,16 @@ goes out first. One new migration (`0021_age`).
   ball in green). The stars are kept in the account as before.
 
 ### Profile pictures
+- **Drawn again**: the 32 portraits are illustrated head-and-shoulders
+  busts (shaded faces, eyes with highlights, hair in strands, beards,
+  glasses, earrings and clothes of many kinds), each keeping who it was
+  (skin, hair, glasses, beard, colours); the 12 objects too, in the same
+  style. **20 new pictures** of pool things (a medal, a laurel, the 1 and
+  the 15, a flaming 8, a ball dropping into a pocket, the lamp over the
+  table, chalk on a tip, a crown over the 8, a rocket, a comet…): 64 in
+  all, shown in the picker as people, then things.
+- They come from an atlas drawn by `tools/gen_avatars.py` (SVG rendered by
+  Chromium) instead of shapes drawn by the game; small sizes stay smooth.
 - The player's picture shows on the card at the top right of the start
   screen when an account is signed in.
 

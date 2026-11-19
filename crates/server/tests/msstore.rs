@@ -18,8 +18,8 @@ use axum::response::{IntoResponse, Response};
 use axum::routing::post;
 use futures_util::{SinkExt, StreamExt};
 use serde_json::{Value, json};
-use snook_legend_proto::{ClientMsg, PROTOCOL_VERSION, Role, ServerMsg, parse_server};
-use snook_legend_server::lounge::Rules;
+use snook_legend_proto::{ClientMsg, PROTOCOL_VERSION, Role, Rules, ServerMsg, parse_server};
+use snook_legend_server::lounge::Settings;
 use snook_legend_server::msstore::{self, MsStoreConfig, parse_products};
 use snook_legend_server::store::{MsConsume, MsState, NewUser, Store};
 use snook_legend_server::{Config, Server, now, serve};
@@ -227,9 +227,9 @@ fn store_config(base: &str) -> MsStoreConfig {
 async fn start_on(store: Store, base: &str) -> (String, Arc<Server>) {
     let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
     let addr = listener.local_addr().unwrap();
-    let rules = Rules { max_connections_per_ip: 100, ..Rules::default() };
+    let settings = Settings { max_connections_per_ip: 100, ..Settings::default() };
     let config =
-        Config { bind: addr, rules, msstore: Some(store_config(base)), ..Config::default() };
+        Config { bind: addr, settings, msstore: Some(store_config(base)), ..Config::default() };
     let server = Server::with_store(config, store).await;
     tokio::spawn(serve(listener, server.clone()));
     (format!("ws://{addr}/ws"), server)
@@ -256,7 +256,7 @@ impl Client {
     async fn register(url: &str, name: &str) -> Client {
         let (ws, _) = connect_async(url).await.unwrap();
         let mut c = Client { ws };
-        c.send(ClientMsg::Hello { version: PROTOCOL_VERSION }).await;
+        c.send(ClientMsg::Hello { version: PROTOCOL_VERSION, rules: Rules::Brazilian }).await;
         c.send(ClientMsg::Register {
             username: name.into(),
             password: PASSWORD.into(),
@@ -271,7 +271,7 @@ impl Client {
     async fn login(url: &str, name: &str) -> Client {
         let (ws, _) = connect_async(url).await.unwrap();
         let mut c = Client { ws };
-        c.send(ClientMsg::Hello { version: PROTOCOL_VERSION }).await;
+        c.send(ClientMsg::Hello { version: PROTOCOL_VERSION, rules: Rules::Brazilian }).await;
         c.send(ClientMsg::Login { username: name.into(), password: PASSWORD.into() }).await;
         c.expect("auth", |m| matches!(m, ServerMsg::AuthOk { .. })).await;
         c

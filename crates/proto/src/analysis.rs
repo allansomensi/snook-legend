@@ -614,7 +614,8 @@ mod tests {
     use snook_legend_core::{Difficulty, PocketId, ai};
 
     fn ai_game(seed: u64) -> Replay {
-        let mut replay = Replay::new(seed, (seed % 2) as usize);
+        let mut replay =
+            Replay::new(seed, (seed % 2) as usize, snook_legend_core::Rules::Brazilian);
         let mut game = replay.start();
         let mut k = 0;
         while game.game_over().is_none() && k < 300 {
@@ -704,7 +705,7 @@ mod tests {
 
     /// One ball, one pocket: a straight pot along the foot rail's middle.
     fn lone_ball(target: DVec2, cue: DVec2, yaw: f64, speed: f64) -> (Verdict, ShotReport) {
-        let mut game = EightBallGame::new(5, 0);
+        let mut game = EightBallGame::new(5, 0, snook_legend_core::Rules::Brazilian);
         // The table cleared but for the cue ball, the 1 and the 8.
         let mut balls = game.balls().to_vec();
         for b in balls.iter_mut() {
@@ -735,7 +736,10 @@ mod tests {
 
     #[test]
     fn a_straight_pot_and_a_soft_safety() {
-        let foot = EightBallGame::new(5, 0).table().pocket(PocketId::FootLeft).aim_point();
+        let foot = EightBallGame::new(5, 0, snook_legend_core::Rules::Brazilian)
+            .table()
+            .pocket(PocketId::FootLeft)
+            .aim_point();
         let target = foot + (DVec2::new(-0.4, -0.2) - foot).normalize() * 0.3;
         let cue = target + (target - foot).normalize() * 0.4;
         let yaw = (foot - cue).to_angle();

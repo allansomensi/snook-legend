@@ -11,6 +11,7 @@ impl MemoryStore {
         from: i64,
         to: i64,
         rated: bool,
+        rules: snook_legend_proto::Rules,
         at: i64,
     ) -> StoreResult<Option<i64>> {
         let mut s = self.lock();
@@ -19,7 +20,8 @@ impl MemoryStore {
         }
         s.next_async_challenge += 1;
         let id = s.next_async_challenge;
-        s.async_challenges.insert(id, AsyncChallenge { id, from, to, rated, created_at: at });
+        s.async_challenges
+            .insert(id, AsyncChallenge { id, from, to, rated, rules, created_at: at });
         Ok(Some(id))
     }
 
@@ -55,11 +57,7 @@ impl MemoryStore {
             id: s.next_async_game,
             players: [c.from, c.to],
             rated: c.rated,
-            replay: Replay::with_ruleset(
-                new.seed,
-                new.breaker % 2,
-                snook_legend_proto::correspondence::RULESET,
-            ),
+            replay: Replay::new(new.seed, new.breaker % 2, c.rules),
             turn: new.breaker % 2,
             deadline: new.deadline,
             seen: [0, 0],
@@ -154,8 +152,12 @@ impl MemoryStore {
         g.reason = Some(crate::reason_code(record.reason).to_string());
         g.timeout = game.timeout;
         g.delta = record.delta;
-        g.ratings =
-            [0, 1].map(|k| users[k].as_ref().map(|u| u.rating).unwrap_or(record.ratings_after[k]));
+        g.ratings = [0, 1].map(|k| {
+            users[k]
+                .as_ref()
+                .map(|u| u.records.get(record.rules).rating)
+                .unwrap_or(record.ratings_after[k])
+        });
         g.match_id = Some(match_id);
         Ok(Some((users, match_id)))
     }

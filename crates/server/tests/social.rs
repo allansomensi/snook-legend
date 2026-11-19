@@ -7,9 +7,9 @@ use std::time::Duration;
 use futures_util::{SinkExt, StreamExt};
 use snook_legend_core::GameOverReason;
 use snook_legend_proto::{
-    ClientMsg, MAX_STATUS_LEN, PROTOCOL_VERSION, Role, ServerMsg, parse_server,
+    ClientMsg, MAX_STATUS_LEN, PROTOCOL_VERSION, Role, Rules, ServerMsg, parse_server,
 };
-use snook_legend_server::lounge::Rules;
+use snook_legend_server::lounge::Settings;
 use snook_legend_server::store::{BuyOutcome, MatchRecord, NewGift, NewUser, Store};
 use snook_legend_server::{Config, Server, serve};
 use tokio::net::{TcpListener, TcpStream};
@@ -37,6 +37,7 @@ fn game(players: [i64; 2], winner: usize, rated: bool, ended_at: i64) -> MatchRe
         winner,
         reason: GameOverReason::Resignation,
         rated,
+        rules: Rules::Brazilian,
         delta: [0, 0],
         ratings_after: [1200, 1200],
         shots: 10,
@@ -219,11 +220,11 @@ type Ws = WebSocketStream<MaybeTlsStream<TcpStream>>;
 
 const PASSWORD: &str = "secret123";
 
-async fn start_with(rules: Rules, admins: Vec<String>) -> (String, String) {
+async fn start_with(settings: Settings, admins: Vec<String>) -> (String, String) {
     let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
     let addr = listener.local_addr().unwrap();
-    let rules = Rules { max_connections_per_ip: 100, ..rules };
-    let config = Config { bind: addr, rules, admins: admins.clone(), ..Config::default() };
+    let settings = Settings { max_connections_per_ip: 100, ..settings };
+    let config = Config { bind: addr, settings, admins: admins.clone(), ..Config::default() };
     let server = Server::new(config).await.unwrap();
     // An administrator's name can't be registered: its account comes
     // first (with the test password), and signing in makes it one.
@@ -236,8 +237,8 @@ async fn start_with(rules: Rules, admins: Vec<String>) -> (String, String) {
     (format!("ws://{addr}/ws"), format!("{addr}"))
 }
 
-async fn start(rules: Rules) -> String {
-    start_with(rules, Vec::new()).await.0
+async fn start(settings: Settings) -> String {
+    start_with(settings, Vec::new()).await.0
 }
 
 struct Client {
@@ -248,7 +249,7 @@ impl Client {
     async fn connect_as(url: &str, version: u32) -> Client {
         let (ws, _) = connect_async(url).await.unwrap();
         let mut c = Client { ws };
-        c.send(ClientMsg::Hello { version }).await;
+        c.send(ClientMsg::Hello { version, rules: Rules::Brazilian }).await;
         c
     }
 
@@ -338,7 +339,7 @@ fn seek_message(m: &ServerMsg) -> bool {
 
 /// `a` invites `b`, `b` accepts; both get the match.
 async fn start_match(a: &mut Client, b: &mut Client, a_name: &str, b_name: &str) {
-    a.send(ClientMsg::Invite { to: b_name.into(), rated: true }).await;
+    a.send(ClientMsg::Invite { to: b_name.into(), rated: true, rules: Rules::Brazilian }).await;
     b.expect("invite", |m| matches!(m, ServerMsg::Invited { .. })).await;
     b.send(ClientMsg::AnswerInvite { from: a_name.into(), accept: true }).await;
     a.expect("match a", |m| matches!(m, ServerMsg::MatchStarted { .. })).await;
@@ -356,7 +357,7 @@ async fn resign(loser: &mut Client, winner: &mut Client) {
 
 #[tokio::test]
 async fn status_messages_are_cleaned_shared_kept_and_moderated() {
-    let (url, _) = start_with(Rules::default(), vec!["boss".into()]).await;
+    let (url, _) = start_with(Settings::default(), vec!["boss".into()]).await;
     let (mut ana, token) = Client::register_as(&url, "ana", PROTOCOL_VERSION).await;
     let mut bia = Client::register(&url, "bia").await;
     let mut boss = Client::sign_in(&url, "boss").await;
@@ -423,12 +424,13 @@ async fn status_messages_are_cleaned_shared_kept_and_moderated() {
 
 #[tokio::test]
 async fn the_board_reaches_new_games_only_and_follows_the_players() {
-    let url = start(Rules::default()).await;
+    let url = start(Settings::default()).await;
     let mut ana = Client::register(&url, "ana").await;
     let mut bia = Client::register(&url, "bia").await;
 
     // A note, cleaned, for 30 minutes.
-    ana.send(ClientMsg::PostSeek { text: "  treino\u{200B}   rápido ".into(), rated: false }).await;
+    let text = "  treino\u{200B}   rápido ".into();
+    ana.send(ClientMsg::PostSeek { text, rated: false, rules: Rules::Official }).await;
     let ServerMsg::SeekPosted { note } =
         bia.expect("note", |m| matches!(m, ServerMsg::SeekPosted { .. })).await
     else {
@@ -440,7 +442,12 @@ async fn the_board_reaches_new_games_only_and_follows_the_players() {
     );
     assert_eq!(note.expires_at - note.at, 30 * 60);
     // One per player: a new one replaces it.
-    ana.send(ClientMsg::PostSeek { text: "valendo rating".into(), rated: true }).await;
+    ana.send(ClientMsg::PostSeek {
+        text: "valendo rating".into(),
+        rated: true,
+        rules: Rules::Brazilian,
+    })
+    .await;
     bia.expect("replaced", |m| matches!(m, ServerMsg::SeekPosted { note } if note.rated)).await;
 
     // Whoever comes in gets the board.
@@ -458,7 +465,8 @@ async fn the_board_reaches_new_games_only_and_follows_the_players() {
     bia.expect("refused", |m| is_error(m, "You can't do that.")).await;
 
     // A challenge is a normal invitation; once the game starts the note goes.
-    bia.send(ClientMsg::PostSeek { text: String::new(), rated: false }).await;
+    bia.send(ClientMsg::PostSeek { text: String::new(), rated: false, rules: Rules::Brazilian })
+        .await;
     caio.expect(
         "bia's note",
         |m| matches!(m, ServerMsg::SeekPosted { note } if note.username == "bia"),
@@ -471,7 +479,8 @@ async fn the_board_reaches_new_games_only_and_follows_the_players() {
     )
     .await;
     // Posting from a game is refused.
-    ana.send(ClientMsg::PostSeek { text: "again".into(), rated: true }).await;
+    ana.send(ClientMsg::PostSeek { text: "again".into(), rated: true, rules: Rules::Brazilian })
+        .await;
     ana.expect("refused", |m| is_error(m, "Finish your game first.")).await;
 
     // Taken down by its owner, or when they leave.
@@ -481,7 +490,8 @@ async fn the_board_reaches_new_games_only_and_follows_the_players() {
         |m| matches!(m, ServerMsg::SeekRemoved { username } if username == "bia"),
     )
     .await;
-    bia.send(ClientMsg::PostSeek { text: "de novo".into(), rated: false }).await;
+    bia.send(ClientMsg::PostSeek { text: "de novo".into(), rated: false, rules: Rules::Brazilian })
+        .await;
     caio.expect("bia's new note", |m| matches!(m, ServerMsg::SeekPosted { .. })).await;
     drop(bia);
     caio.expect(
@@ -493,11 +503,16 @@ async fn the_board_reaches_new_games_only_and_follows_the_players() {
 
 #[tokio::test]
 async fn notes_are_rate_limited_and_expire() {
-    let rules = Rules { seek_lifetime: Duration::from_secs(1), ..Rules::default() };
-    let url = start(rules).await;
+    let settings = Settings { seek_lifetime: Duration::from_secs(1), ..Settings::default() };
+    let url = start(settings).await;
     let mut ana = Client::register(&url, "ana").await;
     let mut bia = Client::register(&url, "bia").await;
-    ana.send(ClientMsg::PostSeek { text: "rapidinho".into(), rated: true }).await;
+    ana.send(ClientMsg::PostSeek {
+        text: "rapidinho".into(),
+        rated: true,
+        rules: Rules::Brazilian,
+    })
+    .await;
     bia.expect("note", |m| matches!(m, ServerMsg::SeekPosted { .. })).await;
     bia.expect(
         "expired",
@@ -506,14 +521,19 @@ async fn notes_are_rate_limited_and_expire() {
     .await;
     // Three at once, then one every 20 seconds.
     for _ in 0..3 {
-        ana.send(ClientMsg::PostSeek { text: "outra".into(), rated: true }).await;
+        ana.send(ClientMsg::PostSeek {
+            text: "outra".into(),
+            rated: true,
+            rules: Rules::Brazilian,
+        })
+        .await;
     }
     ana.expect("rate limited", |m| is_error(m, "Slow down a little.")).await;
 }
 
 #[tokio::test]
 async fn recent_opponents_latest_first_with_their_status() {
-    let url = start(Rules::default()).await;
+    let url = start(Settings::default()).await;
     let mut ana = Client::register(&url, "ana").await;
     let mut bia = Client::register(&url, "bia").await;
     let mut caio = Client::register(&url, "caio").await;
@@ -571,7 +591,7 @@ async fn recent_opponents_latest_first_with_their_status() {
 
 #[tokio::test]
 async fn lan_guests_have_none_of_it() {
-    let url = start(Rules { lan: true, ..Rules::default() }).await;
+    let url = start(Settings { lan: true, ..Settings::default() }).await;
     let mut a = Client::connect_as(&url, PROTOCOL_VERSION).await;
     a.send(ClientMsg::Guest { name: "host".into() }).await;
     a.expect("guest", |m| matches!(m, ServerMsg::AuthOk { .. })).await;
@@ -579,7 +599,7 @@ async fn lan_guests_have_none_of_it() {
     a.expect("refused", |m| is_error(m, "Guests don't have this.")).await;
     a.send(ClientMsg::RecentOpponents).await;
     a.expect("refused", |m| is_error(m, "Guests don't have this.")).await;
-    a.send(ClientMsg::PostSeek { text: "oi".into(), rated: false }).await;
+    a.send(ClientMsg::PostSeek { text: "oi".into(), rated: false, rules: Rules::Brazilian }).await;
     let seen = a.drain().await;
     assert!(!seen.iter().any(seek_message), "{seen:?}");
 }
@@ -633,7 +653,7 @@ async fn befriend(a: &mut Client, b: &mut Client, a_name: &str, b_name: &str) {
 
 #[tokio::test]
 async fn gifts_are_kept_shown_until_seen_and_thanked() {
-    let (url, host) = start_with(Rules::default(), vec!["gil".into()]).await;
+    let (url, host) = start_with(Settings::default(), vec!["gil".into()]).await;
     let mut gil = Client::sign_in(&url, "gil").await;
     let (mut fia, fia_token) = Client::register_as(&url, "fia", PROTOCOL_VERSION).await;
     let (mut other, _) = Client::register_as(&url, "other", PROTOCOL_VERSION).await;
@@ -732,7 +752,7 @@ async fn gifts_are_kept_shown_until_seen_and_thanked() {
 
 #[tokio::test]
 async fn the_staff_panel_clears_statuses_and_notes_and_mutes_posting() {
-    let (url, host) = start_with(Rules::default(), vec!["boss".into()]).await;
+    let (url, host) = start_with(Settings::default(), vec!["boss".into()]).await;
     let mut eve = Client::register(&url, "eve").await;
     let mut bia = Client::register(&url, "bia").await;
     let (code, body) = request(
@@ -747,7 +767,8 @@ async fn the_staff_panel_clears_statuses_and_notes_and_mutes_posting() {
     let token = json_of(&body)["token"].as_str().unwrap().to_string();
 
     eve.send(ClientMsg::SetStatusMessage { text: "spam spam".into() }).await;
-    eve.send(ClientMsg::PostSeek { text: "spam".into(), rated: false }).await;
+    eve.send(ClientMsg::PostSeek { text: "spam".into(), rated: false, rules: Rules::Brazilian })
+        .await;
     bia.expect("note", |m| matches!(m, ServerMsg::SeekPosted { .. })).await;
 
     let (code, body) = request(&host, "GET", "/admin/api/users/eve", &token, "").await;
@@ -785,7 +806,8 @@ async fn the_staff_panel_clears_statuses_and_notes_and_mutes_posting() {
     let (code, _) =
         request(&host, "POST", "/admin/api/users/eve/mute", &token, r#"{"minutes":10}"#).await;
     assert_eq!(code, 200);
-    eve.send(ClientMsg::PostSeek { text: "hi".into(), rated: false }).await;
+    eve.send(ClientMsg::PostSeek { text: "hi".into(), rated: false, rules: Rules::Brazilian })
+        .await;
     eve.expect(
         "muted",
         |m| matches!(m, ServerMsg::Error { message } if message.starts_with("You are muted")),

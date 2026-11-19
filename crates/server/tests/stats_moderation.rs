@@ -13,9 +13,9 @@ use snook_legend_core::{Difficulty, EightBallGame, GameOverReason, ai};
 use snook_legend_proto::analysis::{ShotAnalysis, ShotKind, Tally};
 use snook_legend_proto::replay::{Replay, Stroke};
 use snook_legend_proto::{
-    ClientMsg, PROTOCOL_VERSION, ReportReason, Role, ServerMsg, parse_server,
+    ClientMsg, PROTOCOL_VERSION, ReportReason, Role, Rules, ServerMsg, parse_server,
 };
-use snook_legend_server::lounge::Rules;
+use snook_legend_server::lounge::Settings;
 use snook_legend_server::store::{MatchRecord, NewReport, NewUser, Payment, Store, hour_of};
 use snook_legend_server::{Config, Server, serve};
 use tokio::net::{TcpListener, TcpStream};
@@ -42,6 +42,7 @@ fn record(players: [i64; 2], ended_at: i64, replay: bool) -> MatchRecord {
         winner: 0,
         reason: GameOverReason::Resignation,
         rated: false,
+        rules: Rules::Brazilian,
         delta: [0, 0],
         ratings_after: [1200, 1200],
         shots: 1,
@@ -54,7 +55,7 @@ fn record(players: [i64; 2], ended_at: i64, replay: bool) -> MatchRecord {
         replay: replay.then(|| Replay {
             seed: 9,
             breaker: 0,
-            ruleset: snook_legend_core::RULESET,
+            rules: Rules::Brazilian,
             strokes: vec![Stroke::Resign { seat: 1 }],
         }),
         stats: [ShotStats::default(); 2],
@@ -202,8 +203,8 @@ struct Running {
 async fn start() -> Running {
     let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
     let addr = listener.local_addr().unwrap();
-    let rules = Rules { max_connections_per_ip: 100, ..Rules::default() };
-    let config = Config { bind: addr, rules, admins: vec!["boss".into()], ..Config::default() };
+    let settings = Settings { max_connections_per_ip: 100, ..Settings::default() };
+    let config = Config { bind: addr, settings, admins: vec!["boss".into()], ..Config::default() };
     let server = Server::with_store(config, Store::memory()).await;
     // An administrator's name can't be registered: the account comes first
     // (signing in to the panel makes it one).
@@ -222,7 +223,7 @@ impl Client {
     async fn connect(url: &str, version: u32) -> Client {
         let (ws, _) = connect_async(url).await.unwrap();
         let mut c = Client { ws };
-        c.send(ClientMsg::Hello { version }).await;
+        c.send(ClientMsg::Hello { version, rules: Rules::Brazilian }).await;
         c
     }
 
@@ -286,7 +287,7 @@ async fn start_match(
     b_name: &str,
     a_name: &str,
 ) -> (EightBallGame, usize) {
-    a.send(ClientMsg::Invite { to: b_name.into(), rated: false }).await;
+    a.send(ClientMsg::Invite { to: b_name.into(), rated: false, rules: Rules::Brazilian }).await;
     b.expect("invite", |m| matches!(m, ServerMsg::Invited { .. })).await;
     b.send(ClientMsg::AnswerInvite { from: a_name.into(), accept: true }).await;
     let ServerMsg::MatchStarted { game, seat, .. } =

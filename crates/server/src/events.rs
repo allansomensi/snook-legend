@@ -44,7 +44,7 @@ impl Server {
     /// What experience (or coins from games) count now: 1, or the largest
     /// boost running.
     pub fn boost(&self, kind: EventKind) -> u32 {
-        if self.config.rules.lan {
+        if self.config.settings.lan {
             return 1;
         }
         let list = self.events.list.read().unwrap_or_else(|e| e.into_inner());
@@ -68,7 +68,7 @@ impl Server {
 /// Reads the events again: the boosts follow, the lounge learns of the
 /// themed tournaments, and players are told if what they see changed.
 pub async fn reload(server: &Server) {
-    if server.config.rules.lan {
+    if server.config.settings.lan {
         return;
     }
     let _one = server.events.reloading.lock().await;
@@ -93,6 +93,7 @@ pub async fn reload(server: &Server) {
             },
             size: e.size,
             rated: e.rated,
+            rules: e.rules,
             entry_fee: e.entry_fee,
             house_prize: e.prize,
             starts_at: e.starts_at,

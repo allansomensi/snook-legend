@@ -8,7 +8,7 @@ use std::time::{Duration, Instant};
 
 use snook_legend_proto::{LAN_DISCOVERY_PORT, LAN_GAME_PORT, LanBeacon, PROTOCOL_VERSION};
 
-use crate::lounge::Rules;
+use crate::lounge::Settings;
 use crate::{Config, Server};
 
 /// A LAN server running in the background. Dropping it stops the server.
@@ -33,18 +33,18 @@ impl LanHost {
             .enable_all()
             .thread_name("snook-legend-lan")
             .build()?;
-        let rules = Rules {
+        let settings = Settings {
             lan: true,
             motd: format!("LAN game hosted by {host}."),
             max_connections_per_ip: 64,
             reconnect_grace: Duration::from_secs(90),
-            ..Rules::default()
+            ..Settings::default()
         };
         std::thread::Builder::new().name("snook-legend-lan".into()).spawn(move || {
             runtime.block_on(async move {
                 let config = Config {
                     bind: SocketAddr::from((Ipv4Addr::UNSPECIFIED, port)),
-                    rules,
+                    settings,
                     ..Config::default()
                 };
                 let Ok(server) = Server::new(config).await else { return };

@@ -8,7 +8,7 @@
 //! Endpoints:
 //! - `GET /ws`: the game (WebSocket, JSON messages from [`snook_legend_proto`]);
 //! - `GET /health`: `ok`, for monitoring;
-//! - `GET /api/status`, `GET /api/leaderboard`: public JSON;
+//! - `GET /api/status`, `GET /api/leaderboard[?rules=official]`: public JSON;
 //! - `/admin`: the staff panel (see [`admin`]).
 
 pub mod account;
@@ -54,8 +54,8 @@ use axum::routing::get;
 use futures_util::{SinkExt, StreamExt};
 use rand::RngCore;
 use sha2::{Digest, Sha256};
-use snook_legend_core::GameOverReason;
 use snook_legend_core::rating::EloConfig;
+use snook_legend_core::{GameOverReason, PerRules, Rules};
 use snook_legend_proto::{
     ACHIEVEMENTS, ClientMsg, FriendInfo, HistoryEntry, LeaderboardEntry, MAX_PASSWORD_BYTES,
     OLDEST_PROTOCOL_VERSION, PROTOCOL_VERSION, PlayerStatus, Profile, Relation, Role, ServerMsg,
@@ -65,7 +65,7 @@ use tokio::net::TcpListener;
 use tokio::sync::{Notify, Semaphore, mpsc};
 
 use crate::limits::{AuthLimiter, Bucket};
-use crate::lounge::{Effect, Lounge, Rules, key, player_info};
+use crate::lounge::{Effect, Lounge, Settings, key, player_info};
 use crate::store::{FriendOutcome, FriendState, NewReport, NewUser, SessionKind, Store, User};
 
 /// Unix time in seconds.
@@ -172,7 +172,7 @@ pub struct Config {
     /// PostgreSQL connection string; `None` keeps everything in memory.
     pub database_url: Option<String>,
     pub database_pool: u32,
-    pub rules: Rules,
+    pub settings: Settings,
     /// Usernames that are made administrators when they sign in.
     pub admins: Vec<String>,
     /// Headers with the client's address when behind a proxy, tried in
@@ -200,7 +200,7 @@ impl Default for Config {
             bind: "0.0.0.0:7878".parse().expect("address"),
             database_url: None,
             database_pool: 5,
-            rules: Rules::default(),
+            settings: Settings::default(),
             admins: Vec::new(),
             client_ip_header: None,
             proxy_hops: 1,
@@ -211,6 +211,9 @@ impl Default for Config {
         }
     }
 }
+
+/// A ranking as read from the store, and when.
+type CachedBoard = (Instant, Vec<LeaderboardEntry>);
 
 pub struct Server {
     pub store: Store,
@@ -228,7 +231,8 @@ pub struct Server {
     pub started: Instant,
     /// Password hashing is slow and memory-hungry: a few at a time.
     hashing: Semaphore,
-    leaderboard: Mutex<Option<(Instant, Vec<LeaderboardEntry>)>>,
+    /// The world ranking of each of the rules, with when it was read.
+    leaderboard: Mutex<PerRules<Option<CachedBoard>>>,
     connections: Mutex<HashMap<IpAddr, usize>>,
     pub stripe: Option<payments::Stripe>,
     /// Microsoft Store purchases (see [`msstore`]).
@@ -303,7 +307,7 @@ impl Server {
         let (shots_tx, shots_rx) = mpsc::unbounded_channel();
         let stripe = config.stripe.clone().map(payments::Stripe::new);
         let msstore = config.msstore.clone().map(msstore::MsStore::new);
-        let mut lounge = Lounge::new(config.rules.clone(), tx);
+        let mut lounge = Lounge::new(config.settings.clone(), tx);
         lounge.simulate_on(shots_tx);
         let effects_pending = lounge.pending_effects();
         if let Ok(notes) = store.board_notes(now()).await {
@@ -321,7 +325,7 @@ impl Server {
             config,
             started: Instant::now(),
             hashing: Semaphore::new(2),
-            leaderboard: Mutex::new(None),
+            leaderboard: Mutex::new(PerRules::default()),
             connections: Mutex::new(HashMap::new()),
             corr: correspondence::State::default(),
             computer: computer::Computer::default(),
@@ -396,16 +400,18 @@ impl Server {
         peer.ip()
     }
 
-    pub async fn leaderboard(&self) -> Vec<LeaderboardEntry> {
+    /// The top 100 of the world ranking under `rules` (read again at most
+    /// every 15 seconds).
+    pub async fn leaderboard(&self, rules: Rules) -> Vec<LeaderboardEntry> {
         if let Some((at, list)) =
-            self.leaderboard.lock().unwrap_or_else(|e| e.into_inner()).as_ref()
+            self.leaderboard.lock().unwrap_or_else(|e| e.into_inner()).get(rules).as_ref()
             && at.elapsed() < Duration::from_secs(15)
         {
             return list.clone();
         }
-        match self.store.leaderboard(100, now()).await {
+        match self.store.leaderboard(rules, 100, now()).await {
             Ok(list) => {
-                *self.leaderboard.lock().unwrap_or_else(|e| e.into_inner()) =
+                *self.leaderboard.lock().unwrap_or_else(|e| e.into_inner()).get_mut(rules) =
                     Some((Instant::now(), list.clone()));
                 list
             }
@@ -417,7 +423,7 @@ impl Server {
     }
 
     pub(crate) fn invalidate_leaderboard(&self) {
-        *self.leaderboard.lock().unwrap_or_else(|e| e.into_inner()) = None;
+        *self.leaderboard.lock().unwrap_or_else(|e| e.into_inner()) = PerRules::default();
     }
 
     /// None when it could not be done (the server is too busy).
@@ -530,16 +536,33 @@ fn public_json(value: serde_json::Value) -> Response {
 }
 
 async fn api_status(State(server): State<Arc<Server>>) -> Response {
-    let online = server.with(|l| l.online_count());
+    let (online, by_rules) = server.with(|l| (l.online_count(), l.online_by_rules()));
     public_json(serde_json::json!({
         "online": online,
+        "online_by_rules": by_rules,
         "version": env!("CARGO_PKG_VERSION"),
         "protocol": PROTOCOL_VERSION,
     }))
 }
 
-async fn api_leaderboard(State(server): State<Arc<Server>>) -> Response {
-    let entries = server.leaderboard().await;
+#[derive(serde::Deserialize)]
+struct LeaderboardQuery {
+    /// "brazilian" (the default) or "official".
+    #[serde(default)]
+    rules: Option<String>,
+}
+
+/// The ranking under the rules asked (`?rules=official`; the Brazilian
+/// rules' by default).
+async fn api_leaderboard(
+    State(server): State<Arc<Server>>,
+    axum::extract::Query(q): axum::extract::Query<LeaderboardQuery>,
+) -> Response {
+    let Some(rules) = q.rules.as_deref().map_or(Some(Rules::default()), Rules::parse) else {
+        return (axum::http::StatusCode::BAD_REQUEST, "rules: brazilian or official")
+            .into_response();
+    };
+    let entries = server.leaderboard(rules).await;
     public_json(serde_json::to_value(entries).unwrap_or_default())
 }
 
@@ -600,11 +623,11 @@ pub fn spawn_background(server: Arc<Server>) {
         }
     });
     // Correspondence games: turns that ran out (also right after a restart).
-    if !server.config.rules.lan {
+    if !server.config.settings.lan {
         tokio::spawn(correspondence::run(server.clone()));
     }
     // The staff's events: boosts and themed tournaments.
-    if !server.config.rules.lan {
+    if !server.config.settings.lan {
         tokio::spawn(events::run(server.clone()));
     }
     // Microsoft Store purchases whose answer was lost on the way.
@@ -668,7 +691,7 @@ async fn run_effect(server: &Arc<Server>, effect: Effect) {
                     // two friends farming each other).
                     let cue_game = !farmed
                         && record.shots >= account::MIN_SHOTS_FOR_COINS
-                        && !server.with(|l| l.rules.lan);
+                        && !server.with(|l| l.settings.lan);
                     for (seat, user) in users.into_iter().enumerate() {
                         let Some(user) = user else { continue };
                         server.with(|l| l.refresh_user(user.clone()));
@@ -757,7 +780,7 @@ async fn ws_handler(
     {
         let mut conns = server.connections.lock().unwrap_or_else(|e| e.into_inner());
         let n = conns.entry(ip).or_default();
-        if *n >= server.config.rules.max_connections_per_ip {
+        if *n >= server.config.settings.max_connections_per_ip {
             return (axum::http::StatusCode::TOO_MANY_REQUESTS, "too many connections")
                 .into_response();
         }
@@ -869,7 +892,7 @@ async fn authenticate(server: &Arc<Server>, msg: ClientMsg, ip: &str) -> Auth {
     let fail = |s: &str| Auth::Failed(s.to_string());
     match msg {
         ClientMsg::Register { username, password, country, minor } => {
-            if server.config.rules.lan {
+            if server.config.settings.lan {
                 return fail("This is a LAN server: join as a guest.");
             }
             if !server.auth().try_sign_in(ip) {
@@ -927,7 +950,7 @@ async fn authenticate(server: &Arc<Server>, msg: ClientMsg, ip: &str) -> Auth {
             }
         }
         ClientMsg::Login { username, password } => {
-            if server.config.rules.lan {
+            if server.config.settings.lan {
                 return fail("This is a LAN server: join as a guest.");
             }
             if !server.auth().try_sign_in(ip) {
@@ -981,7 +1004,7 @@ async fn authenticate(server: &Arc<Server>, msg: ClientMsg, ip: &str) -> Auth {
             }
         }
         ClientMsg::Resume { token } => {
-            if server.config.rules.lan {
+            if server.config.settings.lan {
                 return fail("This is a LAN server: join as a guest.");
             }
             if !server.auth().try_sign_in(ip) {
@@ -1014,7 +1037,7 @@ async fn authenticate(server: &Arc<Server>, msg: ClientMsg, ip: &str) -> Auth {
             }
         }
         ClientMsg::Guest { name } => {
-            if !server.config.rules.lan {
+            if !server.config.settings.lan {
                 return fail("Guests can only join LAN games. Create an account.");
             }
             let name = name.trim().to_string();
@@ -1033,10 +1056,7 @@ async fn authenticate(server: &Arc<Server>, msg: ClientMsg, ip: &str) -> Auth {
                 password_hash: String::new(),
                 country: String::new(),
                 role: Role::Player,
-                rating,
-                peak_rating: rating,
-                games: 0,
-                wins: 0,
+                records: PerRules::both(store::Record::new(rating)),
                 eight_wins: 0,
                 casual_games: 0,
                 streak: 0,
@@ -1096,8 +1116,8 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
         let _ = tx.try_send(msg);
     };
     let mut hello = false;
-    // The protocol version the game speaks (newer messages only go to newer games).
-    let mut version = 0;
+    // The rules the player plays (the game says so in its hello).
+    let mut rules = Rules::default();
     let mut user: Option<(User, bool)> = None;
     let mut failures = 0;
     let mut token_in_use: Option<String> = None;
@@ -1141,15 +1161,15 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
         };
         if !hello {
             match msg {
-                ClientMsg::Hello { version: v }
+                ClientMsg::Hello { version: v, rules: r }
                     if (OLDEST_PROTOCOL_VERSION..=PROTOCOL_VERSION).contains(&v) =>
                 {
                     hello = true;
-                    version = v;
+                    rules = r;
                 }
                 // A game newer than the server: the server hasn't been
                 // updated yet (updating the game can't help).
-                ClientMsg::Hello { version: v } if v > PROTOCOL_VERSION => {
+                ClientMsg::Hello { version: v, .. } if v > PROTOCOL_VERSION => {
                     send(ServerMsg::AuthError {
                         reason: "The server is still being updated to the new version. Try again in a few minutes."
                             .into(),
@@ -1200,19 +1220,17 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                                 conn_id,
                                 row.clone(),
                                 guest,
+                                rules,
                                 tx.clone(),
                                 kill.clone(),
                                 token.clone(),
                                 ip_text.clone(),
                                 blocked,
                             );
-                            l.set_protocol(&row.username, version);
                         });
                         if !guest {
                             token_in_use = Some(token);
-                            if version >= snook_legend_proto::AGE_PROTOCOL {
-                                send(age_msg(&row));
-                            }
+                            send(age_msg(&row));
                             let _ = server.store.touch(row.id, now()).await;
                             let s = server.clone();
                             let r = row.clone();
@@ -1221,9 +1239,7 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                                 account::signed_in(&s, &r).await;
                                 shop::push_wallet(&s, &r).await;
                                 social::signed_in(&s, &r).await;
-                                if version >= snook_legend_proto::correspondence::SINCE_PROTOCOL
-                                    && !s.config.rules.lan
-                                {
+                                if !s.config.settings.lan {
                                     correspondence::signed_in(&s, &r).await;
                                 }
                             });
@@ -1245,12 +1261,12 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                     Auth::Dropped => break,
                 },
                 ClientMsg::Ping => send(ServerMsg::Pong),
-                ClientMsg::Leaderboard => {
-                    send(ServerMsg::Leaderboard { entries: server.leaderboard().await })
+                ClientMsg::Leaderboard { rules } => {
+                    send(ServerMsg::Leaderboard { rules, entries: server.leaderboard(rules).await })
                 }
                 ClientMsg::Profile { username } => {
                     if let Some(mut msg) = profile_msg(&server, None, &username).await {
-                        analysis::attach(&server, &mut msg, version).await;
+                        analysis::attach(&server, &mut msg).await;
                         send(msg);
                     }
                 }
@@ -1272,14 +1288,14 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                 }
                 break;
             }
-            ClientMsg::Leaderboard => {
-                send(ServerMsg::Leaderboard { entries: server.leaderboard().await })
+            ClientMsg::Leaderboard { rules } => {
+                send(ServerMsg::Leaderboard { rules, entries: server.leaderboard(rules).await })
             }
             ClientMsg::Profile { username } => {
                 let viewer = (!guest).then_some(&me);
                 match profile_msg(&server, viewer, &username).await {
                     Some(mut msg) => {
-                        analysis::attach(&server, &mut msg, version).await;
+                        analysis::attach(&server, &mut msg).await;
                         send(msg)
                     }
                     None => send(ServerMsg::Error { message: "No such player.".into() }),
@@ -1287,7 +1303,7 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
             }
             // Friends only (anyone on a local network, where there are none).
             ClientMsg::Spectate { username } => {
-                let allowed = server.config.rules.lan
+                let allowed = server.config.settings.lan
                     || (!guest
                         && server.store.friends(me.id).await.is_ok_and(|list| {
                             list.iter().any(|(u, st)| {
@@ -1556,7 +1572,7 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                 }
             }
             ClientMsg::Report { username, reason, details } => {
-                report(&server, &me, &username, reason, &details, version, &send).await
+                report(&server, &me, &username, reason, &details, &send).await
             }
             // Tournaments with an entry fee: everything that can be checked
             // is before the coins are taken; each payment has a ledger
@@ -1590,9 +1606,15 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                     shop::push_wallet(&server, &me).await;
                 }
             }
-            ClientMsg::CreateTournament { name, size, rated, password, entry_fee, format }
-                if !guest && entry_fee > 0 =>
-            {
+            ClientMsg::CreateTournament {
+                name,
+                size,
+                rated,
+                rules,
+                password,
+                entry_fee,
+                format,
+            } if !guest && entry_fee > 0 => {
                 let key = lounge::key(&me.username);
                 let fee = entry_fee.min(lounge::tournaments_max_fee());
                 let may = server.with(|l| {
@@ -1615,7 +1637,8 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                 }
                 let paid = Some(reference.clone());
                 let created = server.with(|l| {
-                    l.create_tournament(&key, &name, size, rated, password, fee, format, paid)
+                    let offer = lounge::Offer { rated, rules };
+                    l.create_tournament(&key, &name, size, offer, password, fee, format, paid)
                 });
                 if created.is_none() {
                     let reference = format!("refund:{reference}");
@@ -1791,6 +1814,7 @@ fn history_entry(h: crate::store::HistoryRow) -> HistoryEntry {
         won: h.won,
         reason: parse_reason(&h.reason),
         rated: h.rated,
+        rules: h.rules,
         delta: h.delta,
         rating_after: h.rating_after,
         tournament: h.tournament,
@@ -1848,8 +1872,9 @@ async fn friends_msg(server: &Server, user_id: i64, list: Vec<(User, FriendState
                     friends.push(FriendInfo {
                         online: online.is_some(),
                         last_seen: u.last_seen,
-                        player: online
-                            .unwrap_or_else(|| player_info(&u, false, PlayerStatus::Available)),
+                        player: online.unwrap_or_else(|| {
+                            player_info(&u, false, PlayerStatus::Available, Rules::default())
+                        }),
                     })
                 }
                 FriendState::Incoming => incoming.push(u.username),
@@ -1921,7 +1946,6 @@ async fn report(
     name: &str,
     reason: snook_legend_proto::ReportReason,
     details: &str,
-    protocol: u32,
     send: &impl Fn(ServerMsg),
 ) {
     let Ok(Some(target)) = server.store.user_by_name(name).await else {
@@ -1951,9 +1975,8 @@ async fn report(
     };
     match server.store.create_report_with_game(&r, match_id, live_id).await {
         Ok(_) => {
-            // Older games have no translation of the newer line.
             let attached = match_id.is_some() || live_id.is_some();
-            let text = if attached && protocol >= analysis::ANALYSIS_PROTOCOL {
+            let text = if attached {
                 "Thank you. The moderators will look into it, with your game attached."
             } else {
                 "Thank you. The moderators will look into it."
@@ -1976,12 +1999,13 @@ async fn profile_msg(server: &Server, viewer: Option<&User>, name: &str) -> Opti
                     online: true,
                     stats: Default::default(),
                     created_at: now(),
-                    rank: None,
+                    ranks: PerRules::default(),
+                    peaks: PerRules::both(EloConfig::default().initial_rating),
                     achievements: Vec::new(),
                     history: Vec::new(),
                     relation: Relation::None,
                     last_seen: 0,
-                    rating_history: Vec::new(),
+                    rating_history: PerRules::default(),
                     career: Default::default(),
                     abandon_rate: 0,
                     analysis: None,
@@ -1995,20 +2019,22 @@ async fn profile_msg(server: &Server, viewer: Option<&User>, name: &str) -> Opti
     if user.deleted_at.is_some() {
         return None;
     }
-    let (achievements, history, rank, friends) = tokio::join!(
+    let (achievements, history, brazilian_rank, official_rank, friends) = tokio::join!(
         server.store.achievements(user.id),
         server.store.history(user.id, 25),
-        server.store.rank_of(user.id),
+        server.store.rank_of(user.id, Rules::Brazilian),
+        server.store.rank_of(user.id, Rules::Official),
         server.store.friend_count(user.id),
     );
-    let (rating_history, career, wallet, trophies) = tokio::join!(
-        server.store.rating_history(user.id, 100),
+    let (brazilian_history, official_history, career, wallet, trophies) = tokio::join!(
+        server.store.rating_history(user.id, Rules::Brazilian, 100),
+        server.store.rating_history(user.id, Rules::Official, 100),
         server.store.career(user.id),
         server.store.wallet(user.id),
         trophies_of(server, user.id),
     );
     let wallet = wallet.unwrap_or_default();
-    let played = user.games + user.casual_games;
+    let played = user.stats(now()).games + user.casual_games;
     let abandon_rate = (user.abandons * 100).checked_div(played).unwrap_or(0).min(100);
     let mut stats = user.stats(now());
     stats.friends = friends.unwrap_or(0);
@@ -2054,14 +2080,15 @@ async fn profile_msg(server: &Server, viewer: Option<&User>, name: &str) -> Opti
                     .map(|a| a.iter().map(|(c, _)| c.clone()).collect())
                     .unwrap_or_default();
                 lounge::dressed(
-                    player_info(&user, false, PlayerStatus::Available),
+                    player_info(&user, false, PlayerStatus::Available, Rules::default()),
                     &shop::look_of(&wallet, &achievements, now()),
                 )
             }),
             online: online.is_some(),
             stats,
             created_at: user.created_at,
-            rank: rank.ok().flatten(),
+            ranks: PerRules::new(brazilian_rank.ok().flatten(), official_rank.ok().flatten()),
+            peaks: user.records.map(|_, r| r.peak_rating),
             achievements: achievements
                 .clone()
                 .unwrap_or_default()
@@ -2071,7 +2098,10 @@ async fn profile_msg(server: &Server, viewer: Option<&User>, name: &str) -> Opti
             history: history.unwrap_or_default().into_iter().map(history_entry).collect(),
             relation,
             last_seen: if relation == Relation::Friend { user.last_seen } else { 0 },
-            rating_history: rating_history.unwrap_or_default(),
+            rating_history: PerRules::new(
+                brazilian_history.unwrap_or_default(),
+                official_history.unwrap_or_default(),
+            ),
             career: career.unwrap_or_default(),
             abandon_rate,
             analysis: None,

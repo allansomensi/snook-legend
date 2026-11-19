@@ -6,8 +6,8 @@ use std::time::Duration;
 use futures_util::{SinkExt, StreamExt};
 use snook_legend_core::{BallId, Difficulty, Shot, ai};
 use snook_legend_proto::daily::{self, Refused};
-use snook_legend_proto::{ClientMsg, PROTOCOL_VERSION, ServerMsg, parse_server};
-use snook_legend_server::lounge::Rules;
+use snook_legend_proto::{ClientMsg, PROTOCOL_VERSION, Rules, ServerMsg, parse_server};
+use snook_legend_server::lounge::Settings;
 use snook_legend_server::{Config, Server, serve};
 use tokio::net::{TcpListener, TcpStream};
 use tokio_tungstenite::tungstenite::Message;
@@ -18,8 +18,8 @@ type Ws = WebSocketStream<MaybeTlsStream<TcpStream>>;
 async fn start() -> (String, std::sync::Arc<Server>) {
     let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
     let addr = listener.local_addr().unwrap();
-    let rules = Rules { max_connections_per_ip: 100, ..Rules::default() };
-    let config = Config { bind: addr, rules, ..Config::default() };
+    let settings = Settings { max_connections_per_ip: 100, ..Settings::default() };
+    let config = Config { bind: addr, settings, ..Config::default() };
     let server = Server::new(config).await.unwrap();
     tokio::spawn(serve(listener, server.clone()));
     (format!("ws://{addr}/ws"), server)
@@ -31,7 +31,7 @@ impl Client {
     async fn register(url: &str, name: &str) -> Client {
         let (ws, _) = connect_async(url).await.unwrap();
         let mut c = Client(ws);
-        c.send(ClientMsg::Hello { version: PROTOCOL_VERSION }).await;
+        c.send(ClientMsg::Hello { version: PROTOCOL_VERSION, rules: Rules::Brazilian }).await;
         c.send(ClientMsg::Register {
             username: name.into(),
             password: "secret123".into(),

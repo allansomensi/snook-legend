@@ -123,7 +123,8 @@ pub fn view(replay: &Replay) -> Value {
                     "pocketed": pocketed,
                     "fouls": report.fouls.iter().map(foul_text).collect::<Vec<_>>(),
                     "penalty": report.penalty.iter().map(|b| b.0).collect::<Vec<_>>(),
-                    "reracked": report.reracked,
+                    "break_again": report.break_again,
+                    "choice": report.choice,
                     "continues": report.continues,
                     "power": (shot.speed / top_speed * 100.0).round(),
                     "start": spots_json(&start),
@@ -135,14 +136,16 @@ pub fn view(replay: &Replay) -> Value {
                     error = json!(e);
                     break;
                 }
-                let (kind, seat) = match other {
-                    Stroke::TimeFoul => ("time_foul", seat),
-                    Stroke::Resign { seat } => ("resign", seat % 2),
-                    Stroke::Abandon { seat } => ("abandon", seat % 2),
+                let (kind, seat, option) = match other {
+                    Stroke::TimeFoul => ("time_foul", seat, None),
+                    Stroke::Choice { option } => ("choice", seat, Some(option)),
+                    Stroke::Resign { seat } => ("resign", seat % 2, None),
+                    Stroke::Abandon { seat } => ("abandon", seat % 2, None),
                     Stroke::Shot { .. } => unreachable!(),
                 };
                 strokes.push(json!({
-                    "kind": kind, "seat": seat, "start": spots_json(&start), "frames": [],
+                    "kind": kind, "seat": seat, "option": option,
+                    "start": spots_json(&start), "frames": [],
                 }));
             }
         }
@@ -166,6 +169,7 @@ pub fn view(replay: &Replay) -> Value {
             ])).collect::<Vec<_>>(),
         },
         "breaker": replay.breaker,
+        "rules": replay.rules,
         "strokes": strokes,
         "end": spots_json(&spots_of(game.balls())),
         "over": over.map(|o| json!({ "winner": o.winner, "reason": crate::reason_code(o.reason) })),

@@ -298,7 +298,8 @@ mod tests {
         let mut tally = Tally::default();
         let other = Difficulty::Medium.player();
         for seed in 0..games {
-            let mut replay = Replay::new(seed + 50, (seed % 2) as usize);
+            let mut replay =
+                Replay::new(seed + 50, (seed % 2) as usize, snook_legend_core::Rules::Brazilian);
             let mut game = replay.start();
             while game.game_over().is_none() && replay.strokes.len() < 120 {
                 let p = if game.current_player() == 0 { who } else { &other };
@@ -317,7 +318,7 @@ mod tests {
         let wall = measured(&personality("marta").unwrap().player, 3);
         assert!(cannon.shots > 10 && wall.shots > 10);
         assert_eq!(cannon.games, 3);
-        // (From ruleset 5 the computer's strokes stay within what the cue
+        // (The computer's strokes stay within what the cue
         // can play, so the hardest hitter's are no longer recorded faster
         // than they are struck: the gap is smaller, still wide.)
         assert!(cannon.speed > 1.6 * wall.speed, "{cannon:?} {wall:?}");

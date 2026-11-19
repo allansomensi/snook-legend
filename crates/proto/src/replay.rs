@@ -4,7 +4,7 @@
 
 use glam::DVec2;
 use serde::{Deserialize, Serialize};
-use snook_legend_core::{BallId, EightBallGame, PocketId, Shot, ShotReport};
+use snook_legend_core::{BallId, BreakOption, EightBallGame, PocketId, Rules, Shot, ShotReport};
 
 /// One thing that changed the game.
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
@@ -22,8 +22,14 @@ pub enum Stroke {
         #[serde(default)]
         timeout: bool,
     },
-    /// The shot clock ran out and the turn passed (ball in hand).
+    /// The shot clock ran out: under the Brazilian rules the turn passed,
+    /// under the official rules it was a foul (or the break's choice took
+    /// its first option).
     TimeFoul,
+    /// The answer to the break's choice of the official rules.
+    Choice {
+        option: BreakOption,
+    },
     Resign {
         seat: usize,
     },
@@ -39,30 +45,19 @@ pub struct Replay {
     pub seed: u64,
     pub breaker: usize,
     pub strokes: Vec<Stroke>,
-    /// The rules, physics and table it was played with (see
-    /// [`snook_legend_core::RULESET`]); games recorded before rulesets existed
-    /// are ruleset 1.
-    #[serde(default = "first_ruleset")]
-    pub ruleset: u8,
-}
-
-fn first_ruleset() -> u8 {
-    1
+    /// The rules it was played under.
+    pub rules: Rules,
 }
 
 impl Replay {
-    /// A new game under the current rules.
-    pub fn new(seed: u64, breaker: usize) -> Replay {
-        Replay::with_ruleset(seed, breaker, snook_legend_core::RULESET)
-    }
-
-    pub fn with_ruleset(seed: u64, breaker: usize, ruleset: u8) -> Replay {
-        Replay { seed, breaker, strokes: Vec::new(), ruleset }
+    /// A new game under `rules`.
+    pub fn new(seed: u64, breaker: usize, rules: Rules) -> Replay {
+        Replay { seed, breaker, strokes: Vec::new(), rules }
     }
 
     /// The game before any stroke.
     pub fn start(&self) -> EightBallGame {
-        EightBallGame::with_ruleset(self.seed, self.breaker, self.ruleset)
+        EightBallGame::new(self.seed, self.breaker, self.rules)
     }
 
     /// The game after the first `upto` strokes (all of them if `None`), and
@@ -102,6 +97,10 @@ pub fn apply(game: &mut EightBallGame, stroke: &Stroke) -> Result<Option<ShotRep
         }
         Stroke::TimeFoul => {
             game.time_foul();
+            Ok(None)
+        }
+        Stroke::Choice { option } => {
+            game.choose(option).map_err(|e| format!("{e:?}"))?;
             Ok(None)
         }
         Stroke::Resign { seat } => {
@@ -184,7 +183,7 @@ mod tests {
 
     #[test]
     fn replay_rebuilds_the_game() {
-        let mut replay = Replay::new(42, 1);
+        let mut replay = Replay::new(42, 1, Rules::Brazilian);
         let mut game = replay.start();
         for k in 0..6 {
             let shot = Shot::new(0.1 + k as f64 * 0.7, 3.0);

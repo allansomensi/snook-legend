@@ -12,8 +12,8 @@ use snook_legend_core::{Difficulty, GameOverReason, ai};
 use snook_legend_proto::ghost::{self, GhostAnswer};
 use snook_legend_proto::ladder::{self, ClaimFailure, ClaimResult};
 use snook_legend_proto::replay::{Replay, Stroke, apply};
-use snook_legend_proto::{ClientMsg, PROTOCOL_VERSION, Role, ServerMsg, parse_server};
-use snook_legend_server::lounge::Rules;
+use snook_legend_proto::{ClientMsg, PROTOCOL_VERSION, Role, Rules, ServerMsg, parse_server};
+use snook_legend_server::lounge::Settings;
 use snook_legend_server::store::{MatchRecord, NewUser, Store};
 use snook_legend_server::{Config, Server, serve};
 use tokio::net::{TcpListener, TcpStream};
@@ -33,8 +33,8 @@ const FIXTURE: &str = include_str!("data/ladder_final_win.json");
 async fn start() -> (String, Arc<Server>) {
     let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
     let addr = listener.local_addr().unwrap();
-    let rules = Rules { max_connections_per_ip: 100, ..Rules::default() };
-    let config = Config { bind: addr, rules, ..Config::default() };
+    let settings = Settings { max_connections_per_ip: 100, ..Settings::default() };
+    let config = Config { bind: addr, settings, ..Config::default() };
     let server = Server::new(config).await.unwrap();
     tokio::spawn(serve(listener, server.clone()));
     (format!("ws://{addr}/ws"), server)
@@ -50,7 +50,7 @@ impl Client {
     async fn connect(url: &str) -> Client {
         let (ws, _) = connect_async(url).await.unwrap();
         let mut c = Client { ws, seen: Vec::new() };
-        c.send(ClientMsg::Hello { version: PROTOCOL_VERSION }).await;
+        c.send(ClientMsg::Hello { version: PROTOCOL_VERSION, rules: Rules::Brazilian }).await;
         c
     }
 
@@ -115,7 +115,9 @@ impl Client {
     async fn ticket(&mut self) -> Replay {
         self.send(ClientMsg::LadderTicket).await;
         match self.expect("ticket", |m| matches!(m, ServerMsg::LadderTicket { .. })).await {
-            ServerMsg::LadderTicket { seed, breaker } => Replay::new(seed, breaker),
+            ServerMsg::LadderTicket { seed, breaker } => {
+                Replay::new(seed, breaker, Rules::Brazilian)
+            }
             _ => unreachable!(),
         }
     }
@@ -131,7 +133,7 @@ impl Client {
 
 /// A game between two computer players, recorded.
 fn played(seed: u64, a: Difficulty, b: Difficulty) -> (Replay, usize) {
-    let mut replay = Replay::new(seed, (seed % 2) as usize);
+    let mut replay = Replay::new(seed, (seed % 2) as usize, Rules::Brazilian);
     let mut game = replay.start();
     let players = [a.player(), b.player()];
     while game.game_over().is_none() && replay.strokes.len() < 250 {
@@ -150,6 +152,7 @@ fn record(players: [i64; 2], replay: Replay, winner: usize, at: i64) -> MatchRec
         winner,
         reason: GameOverReason::PocketedEight,
         rated: false,
+        rules: Rules::Brazilian,
         delta: [0, 0],
         ratings_after: [1200, 1200],
         shots: replay.strokes.len() as u32,
@@ -207,8 +210,9 @@ async fn exercise(store: Store) {
 
     // A player's latest games with their seat, newest first.
     assert!(store.recent_replays(a.id, 10).await.unwrap().is_empty());
-    let r1 = Replay { strokes: vec![Stroke::TimeFoul], ..Replay::new(1, 0) };
-    let r2 = Replay { strokes: vec![Stroke::TimeFoul; 2], ..Replay::new(u64::MAX, 1) };
+    let r1 = Replay { strokes: vec![Stroke::TimeFoul], ..Replay::new(1, 0, Rules::Brazilian) };
+    let r2 =
+        Replay { strokes: vec![Stroke::TimeFoul; 2], ..Replay::new(u64::MAX, 1, Rules::Brazilian) };
     let (_, first) = store.record_match(&record([a.id, b.id], r1.clone(), 0, 10)).await.unwrap();
     let (_, second) = store.record_match(&record([b.id, a.id], r2.clone(), 1, 20)).await.unwrap();
     // A game without a replay is left out.
@@ -311,25 +315,23 @@ async fn the_reward_needs_a_genuine_win() {
 
     // Signed out: nothing.
     let mut anon = Client::connect(&url).await;
-    anon.send(ClientMsg::LadderClaim { replay: Replay::new(1, 0) }).await;
+    anon.send(ClientMsg::LadderClaim { replay: Replay::new(1, 0, Rules::Brazilian) }).await;
     anon.expect("refused", |m| matches!(m, ServerMsg::AuthError { .. })).await;
 
     let mut c = Client::register(&url, "Climber").await;
     // Far too long: refused unplayed (and not counted as an attempt).
-    let mut long = Replay::new(1, 0);
+    let mut long = Replay::new(1, 0, Rules::Brazilian);
     long.strokes = vec![Stroke::TimeFoul; ladder::MAX_STROKES + 1];
     assert_eq!(c.claim(long, 20).await, ClaimResult::Failed { reason: ClaimFailure::TooLong });
     // A rack the server didn't deal: refused unplayed.
     let no_ticket = ClaimResult::Failed { reason: ClaimFailure::NoTicket };
-    assert_eq!(c.claim(Replay::new(7, 1), 20).await, no_ticket);
-    // The server's rack, but the player breaking, or under rules older than
-    // any game let in plays (games of version 20 play ruleset 6, accepted).
+    assert_eq!(c.claim(Replay::new(7, 1, Rules::Brazilian), 20).await, no_ticket);
+    // The server's rack, but the player breaking.
     let dealt = c.ticket().await;
     assert_ne!(dealt.seed, 0);
     assert_eq!(dealt.breaker, 1 - ladder::PLAYER_SEAT);
-    assert_eq!(c.claim(Replay::new(dealt.seed, ladder::PLAYER_SEAT), 20).await, no_ticket);
-    let older = Replay::with_ruleset(dealt.seed, dealt.breaker, 5);
-    assert_eq!(c.claim(older, 20).await, no_ticket);
+    let player_breaks = Replay::new(dealt.seed, ladder::PLAYER_SEAT, Rules::Brazilian);
+    assert_eq!(c.claim(player_breaks, 20).await, no_ticket);
     // Someone else's rack.
     let mut thief = Client::register(&url, "Thief").await;
     assert_eq!(thief.claim(dealt.clone(), 20).await, no_ticket);
@@ -463,7 +465,7 @@ async fn ghosts_need_recorded_games() {
     assert!(style.speed > 0.5 && style.speed < 7.0);
     // Only numbers: the style plays.
     let player = style.player();
-    let game = snook_legend_core::EightBallGame::new(1, 0);
+    let game = snook_legend_core::EightBallGame::new(1, 0, Rules::Official);
     let d = ai::decide_with(&game, &player, 1);
     assert!(d.shot.speed > 0.0);
 }
@@ -495,7 +497,7 @@ fn record_the_fixture() {
     let boss = ladder::final_player();
     for seed in 1..50u64 {
         // The computer breaks: the game has strokes of it to check.
-        let mut replay = Replay::new(seed * 7919, 1);
+        let mut replay = Replay::new(seed * 7919, 1, Rules::Brazilian);
         let mut game = replay.start();
         let mut computer = 0;
         while game.game_over().is_none() && replay.strokes.len() < 300 {

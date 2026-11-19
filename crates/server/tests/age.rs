@@ -1,17 +1,13 @@
 //! The chat with other players (Lei 15.211/2025, the ECA Digital, art. 20):
 //! off for everyone, both ways, until the player says they are 18 or older,
 //! or, under 18, until a parent or guardian turns it on; enforced by the
-//! server. Games too old to ask are told to update; a LAN server's guests
-//! chat as before.
+//! server. A LAN server's guests chat as before.
 
 use std::time::Duration;
 
 use futures_util::{SinkExt, StreamExt};
-use snook_legend_proto::Role;
-use snook_legend_proto::{
-    AGE_PROTOCOL, ClientMsg, OLDEST_PROTOCOL_VERSION, ServerMsg, parse_server,
-};
-use snook_legend_server::lounge::{CHAT_OFF, CHAT_OFF_FOR_MINORS, CHAT_OFF_UPDATE, Rules};
+use snook_legend_proto::{ClientMsg, PROTOCOL_VERSION, Role, Rules, ServerMsg, parse_server};
+use snook_legend_server::lounge::{CHAT_OFF, CHAT_OFF_FOR_MINORS, Settings};
 use snook_legend_server::store::{NewUser, Store};
 use snook_legend_server::{Config, Server, serve};
 use tokio::net::{TcpListener, TcpStream};
@@ -23,13 +19,13 @@ type Ws = WebSocketStream<MaybeTlsStream<TcpStream>>;
 const PASSWORD: &str = "secret123";
 
 async fn start() -> String {
-    start_with(Rules { max_connections_per_ip: 100, ..Rules::default() }).await
+    start_with(Settings { max_connections_per_ip: 100, ..Settings::default() }).await
 }
 
-async fn start_with(rules: Rules) -> String {
+async fn start_with(settings: Settings) -> String {
     let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
     let addr = listener.local_addr().unwrap();
-    let config = Config { bind: addr, rules, ..Config::default() };
+    let config = Config { bind: addr, settings, ..Config::default() };
     let server = Server::new(config).await.unwrap();
     tokio::spawn(serve(listener, server));
     format!("ws://{addr}/ws")
@@ -40,10 +36,10 @@ struct Client {
 }
 
 impl Client {
-    async fn register(url: &str, name: &str, version: u32, minor: Option<bool>) -> Client {
+    async fn register(url: &str, name: &str, minor: Option<bool>) -> Client {
         let (ws, _) = connect_async(url).await.unwrap();
         let mut c = Client { ws };
-        c.send(ClientMsg::Hello { version }).await;
+        c.send(ClientMsg::Hello { version: PROTOCOL_VERSION, rules: Rules::Brazilian }).await;
         c.send(ClientMsg::Register {
             username: name.into(),
             password: PASSWORD.into(),
@@ -143,9 +139,9 @@ fn history(msgs: &[ServerMsg]) -> Option<Vec<String>> {
 #[tokio::test]
 async fn players_under_18_chat_only_once_a_guardian_allows_it() {
     let url = start().await;
-    let mut kid = Client::register(&url, "Kid", AGE_PROTOCOL, Some(true)).await;
+    let mut kid = Client::register(&url, "Kid", Some(true)).await;
     assert_eq!(kid.age().await, (Some(true), false));
-    let mut adult = Client::register(&url, "Adult", AGE_PROTOCOL, Some(false)).await;
+    let mut adult = Client::register(&url, "Adult", Some(false)).await;
     assert_eq!(adult.age().await, (Some(false), false));
     kid.drain().await;
     adult.drain().await;
@@ -193,7 +189,7 @@ async fn players_under_18_chat_only_once_a_guardian_allows_it() {
 #[tokio::test]
 async fn the_chat_is_off_until_the_player_turns_it_on() {
     let url = start().await;
-    let mut adult = Client::register(&url, "Adult", AGE_PROTOCOL, Some(false)).await;
+    let mut adult = Client::register(&url, "Adult", Some(false)).await;
     assert_eq!(adult.age().await, (Some(false), false));
     adult.drain().await;
     adult.send(ClientMsg::Chat { text: "first".into() }).await;
@@ -203,7 +199,7 @@ async fn the_chat_is_off_until_the_player_turns_it_on() {
 
     // An account without an age group (the game asks when the player
     // first writes): off both ways.
-    let mut new = Client::register(&url, "New", AGE_PROTOCOL, None).await;
+    let mut new = Client::register(&url, "New", None).await;
     let seen = new.drain().await;
     assert_eq!(age_in(&seen), Some((None, false)));
     assert_eq!(history(&seen), Some(vec![]), "no players' lines in the history");
@@ -230,7 +226,7 @@ async fn the_chat_is_off_until_the_player_turns_it_on() {
     assert_eq!(new.age().await, (Some(false), false));
 
     // Under 18, with a parent or guardian there: both answers in a row.
-    let mut kid = Client::register(&url, "Kid", AGE_PROTOCOL, None).await;
+    let mut kid = Client::register(&url, "Kid", None).await;
     assert_eq!(kid.age().await, (None, false));
     kid.send(ClientMsg::SetAge { minor: true }).await;
     kid.send(ClientMsg::AllowChat { allowed: true }).await;
@@ -249,27 +245,16 @@ async fn the_chat_is_off_until_the_player_turns_it_on() {
 }
 
 #[tokio::test]
-async fn older_games_are_told_to_update() {
-    let url = start().await;
-    // A game of the oldest version still let in: it can't ask the age
-    // group, so its chat stays off, and it is told why.
-    let mut old = Client::register(&url, "Old", OLDEST_PROTOCOL_VERSION, None).await;
-    let seen = old.drain().await;
-    assert!(!seen.iter().any(|m| matches!(m, ServerMsg::Age { .. })));
-    old.send(ClientMsg::Chat { text: "still here".into() }).await;
-    assert!(refused_with(&old.drain().await, CHAT_OFF_UPDATE));
-}
-
-#[tokio::test]
 async fn guests_of_a_lan_server_chat() {
     let url =
-        start_with(Rules { lan: true, max_connections_per_ip: 100, ..Rules::default() }).await;
+        start_with(Settings { lan: true, max_connections_per_ip: 100, ..Settings::default() })
+            .await;
     let guest = |name: &'static str| {
         let url = url.clone();
         async move {
             let (ws, _) = connect_async(&url).await.unwrap();
             let mut c = Client { ws };
-            c.send(ClientMsg::Hello { version: AGE_PROTOCOL }).await;
+            c.send(ClientMsg::Hello { version: PROTOCOL_VERSION, rules: Rules::Brazilian }).await;
             c.send(ClientMsg::Guest { name: name.into() }).await;
             c.expect("auth", |m| matches!(m, ServerMsg::AuthOk { .. })).await;
             c

@@ -1,6 +1,6 @@
 //! PostgreSQL storage (production; works with Neon, Supabase, RDS…).
 
-use snook_legend_proto::{LeaderboardEntry, Role};
+use snook_legend_proto::{LeaderboardEntry, PerRules, Role, Rules};
 use sqlx::postgres::{PgPool, PgPoolOptions, PgRow};
 use sqlx::{Row, query};
 
@@ -13,8 +13,8 @@ mod msstore;
 use super::{
     AimRow, AuditRow, BoardNote, BuyOutcome, FriendOutcome, FriendState, GiftRow, HistoryRow,
     LedgerRow, LiveMatch, MatchRecord, Metrics, NewGift, NewNote, NewReport, NewUser, Overview,
-    Payment, RECENT_SCAN, RecentRow, Rename, ReportRow, SessionKind, StoreError, StoreResult,
-    StoredReplay, TournamentRecord, User, Wallet, day_of, hour_of,
+    Payment, RECENT_SCAN, RecentRow, Record, Rename, ReportRow, SessionKind, StoreError,
+    StoreResult, StoredReplay, TournamentRecord, User, Wallet, day_of, hour_of,
 };
 use snook_legend_proto::analysis::ShotAnalysis;
 
@@ -47,13 +47,22 @@ fn replay_json(r: &Replay) -> String {
     serde_json::to_string(&r.strokes).unwrap_or_else(|_| "[]".into())
 }
 
-fn replay_of(seed: i64, breaker: i16, strokes: &str, ruleset: i16) -> Option<Replay> {
+fn replay_of(seed: i64, breaker: i16, strokes: &str, rules: &str) -> Option<Replay> {
     Some(Replay {
         seed: seed as u64,
         breaker: breaker as usize % 2,
         strokes: serde_json::from_str(strokes).ok()?,
-        ruleset: ruleset.clamp(1, u8::MAX as i16) as u8,
+        rules: Rules::parse(rules)?,
     })
+}
+
+/// The prefix of the `users` columns that hold a player's record under
+/// `rules` (`rating`, `peak_rating`, `games`, `wins`).
+fn record_columns(rules: Rules) -> &'static str {
+    match rules {
+        Rules::Brazilian => "",
+        Rules::Official => "official_",
+    }
 }
 
 pub struct PgStore {
@@ -73,7 +82,8 @@ impl From<sqlx::migrate::MigrateError> for StoreError {
 }
 
 const USER_COLUMNS: &str = "id, username, password_hash, country, role, rating, peak_rating, \
-    games, wins, eight_wins, casual_games, streak, best_streak, runouts, shutouts, \
+    games, wins, official_rating, official_peak_rating, official_games, official_wins, \
+    eight_wins, casual_games, streak, best_streak, runouts, shutouts, \
     tournaments_played, tournaments_won, created_at, last_seen, banned_until, ban_reason, muted_until, \
     recovery_email, deleted_at, abandons, status_message, xp, name_changes, avatar, minor, chat_allowed_at";
 
@@ -85,10 +95,20 @@ fn user(r: &PgRow) -> Result<User, sqlx::Error> {
         password_hash: r.try_get("password_hash")?,
         country: r.try_get("country")?,
         role: Role::from_i16(r.try_get("role")?),
-        rating: r.try_get("rating")?,
-        peak_rating: r.try_get("peak_rating")?,
-        games: n("games")?,
-        wins: n("wins")?,
+        records: PerRules::new(
+            Record {
+                rating: r.try_get("rating")?,
+                peak_rating: r.try_get("peak_rating")?,
+                games: n("games")?,
+                wins: n("wins")?,
+            },
+            Record {
+                rating: r.try_get("official_rating")?,
+                peak_rating: r.try_get("official_peak_rating")?,
+                games: n("official_games")?,
+                wins: n("official_wins")?,
+            },
+        ),
         eight_wins: n("eight_wins")?,
         casual_games: n("casual_games")?,
         streak: n("streak")?,
@@ -145,8 +165,9 @@ impl PgStore {
     pub async fn create_user(&self, new: &NewUser<'_>) -> StoreResult<Option<User>> {
         let now = crate::now();
         let row = query(&format!(
-            "INSERT INTO users (username, password_hash, country, role, rating, peak_rating, created_at, last_seen, register_ip, minor)
-             VALUES ($1, $2, $3, $4, $5, $5, $6, $6, $7, $8)
+            "INSERT INTO users (username, password_hash, country, role, rating, peak_rating,
+                                official_rating, official_peak_rating, created_at, last_seen, register_ip, minor)
+             VALUES ($1, $2, $3, $4, $5, $5, $5, $5, $6, $6, $7, $8)
              ON CONFLICT DO NOTHING RETURNING {USER_COLUMNS}"
         ))
         .bind(new.username)
@@ -278,12 +299,13 @@ impl PgStore {
             let (rated, delta) = (m.rated, m.delta[seat]);
             // Feats only count in rated games (casual ones are easy to arrange).
             let bonus = |flag: bool| (rated && won && flag) as i32;
+            let p = record_columns(m.rules);
             let row = query(&format!(
                 "UPDATE users SET
-                    rating = rating + $2,
-                    peak_rating = GREATEST(peak_rating, rating + $2),
-                    games = games + $3,
-                    wins = wins + $4,
+                    {p}rating = {p}rating + $2,
+                    {p}peak_rating = GREATEST({p}peak_rating, {p}rating + $2),
+                    {p}games = {p}games + $3,
+                    {p}wins = {p}wins + $4,
                     streak = CASE WHEN $3 = 0 THEN streak WHEN $4 = 1 THEN streak + 1 ELSE 0 END,
                     best_streak = GREATEST(best_streak, CASE WHEN $3 = 1 AND $4 = 1 THEN streak + 1 ELSE 0 END),
                     casual_games = casual_games + $5,
@@ -307,7 +329,7 @@ impl PgStore {
             *slot = row.map(|r| user(&r)).transpose()?;
         }
         let id: i64 = query(
-            "INSERT INTO matches (player0, player1, winner_seat, reason, rated, delta0, delta1, rating0, rating1, shots, tournament_id, ended_at, seed, breaker, strokes, ruleset)
+            "INSERT INTO matches (player0, player1, winner_seat, reason, rated, delta0, delta1, rating0, rating1, shots, tournament_id, ended_at, seed, breaker, strokes, rules)
              VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15::jsonb, $16) RETURNING id",
         )
         .bind(m.players[0])
@@ -317,15 +339,15 @@ impl PgStore {
         .bind(m.rated)
         .bind(m.delta[0])
         .bind(m.delta[1])
-        .bind(out[0].as_ref().map(|u| u.rating).unwrap_or(m.ratings_after[0]))
-        .bind(out[1].as_ref().map(|u| u.rating).unwrap_or(m.ratings_after[1]))
+        .bind(out[0].as_ref().map(|u| u.records.get(m.rules).rating).unwrap_or(m.ratings_after[0]))
+        .bind(out[1].as_ref().map(|u| u.records.get(m.rules).rating).unwrap_or(m.ratings_after[1]))
         .bind(m.shots as i32)
         .bind(m.tournament)
         .bind(m.ended_at)
         .bind(m.replay.as_ref().map(|r| r.seed as i64))
         .bind(m.replay.as_ref().map(|r| r.breaker as i16))
         .bind(m.replay.as_ref().map(replay_json))
-        .bind(m.replay.as_ref().map_or(snook_legend_core::RULESET, |r| r.ruleset) as i16)
+        .bind(m.rules.code())
         .fetch_one(&mut **tx)
         .await?
         .get("id");
@@ -373,14 +395,20 @@ impl PgStore {
         })
     }
 
-    pub async fn rating_history(&self, user_id: i64, limit: u32) -> StoreResult<Vec<(i64, i32)>> {
+    pub async fn rating_history(
+        &self,
+        user_id: i64,
+        rules: Rules,
+        limit: u32,
+    ) -> StoreResult<Vec<(i64, i32)>> {
         let rows = query(
             "SELECT ended_at, CASE WHEN player0 = $1 THEN rating0 ELSE rating1 END AS rating
-             FROM matches WHERE rated AND (player0 = $1 OR player1 = $1)
+             FROM matches WHERE rated AND rules = $3 AND (player0 = $1 OR player1 = $1)
              ORDER BY ended_at DESC, id DESC LIMIT $2",
         )
         .bind(user_id)
         .bind(limit as i64)
+        .bind(rules.code())
         .fetch_all(&self.pool)
         .await?;
         let mut list: Vec<(i64, i32)> =
@@ -392,7 +420,7 @@ impl PgStore {
     pub async fn replay(&self, match_id: i64) -> StoreResult<Option<StoredReplay>> {
         let row = query(
             "SELECT m.id, m.winner_seat, m.rated, m.ended_at, m.rating0 - m.delta0 AS r0,
-                    m.rating1 - m.delta1 AS r1, m.seed, m.breaker, m.strokes::text AS strokes, m.ruleset,
+                    m.rating1 - m.delta1 AS r1, m.seed, m.breaker, m.strokes::text AS strokes, m.rules,
                     a.username AS n0, a.country AS c0, b.username AS n1, b.country AS c1
              FROM matches m JOIN users a ON a.id = m.player0 JOIN users b ON b.id = m.player1
              WHERE m.id = $1 AND m.strokes IS NOT NULL",
@@ -402,7 +430,7 @@ impl PgStore {
         .await?;
         let Some(r) = row else { return Ok(None) };
         let strokes: String = r.get("strokes");
-        let Some(replay) = replay_of(r.get("seed"), r.get("breaker"), &strokes, r.get("ruleset"))
+        let Some(replay) = replay_of(r.get("seed"), r.get("breaker"), &strokes, r.get("rules"))
         else {
             return Ok(None);
         };
@@ -425,7 +453,7 @@ impl PgStore {
     ) -> StoreResult<Vec<(i64, usize, Replay)>> {
         let rows = query(
             "SELECT id, CASE WHEN player0 = $1 THEN 0 ELSE 1 END AS seat, seed, breaker,
-                    strokes::text AS strokes, ruleset
+                    strokes::text AS strokes, rules
              FROM matches WHERE (player0 = $1 OR player1 = $1) AND strokes IS NOT NULL
              ORDER BY ended_at DESC, id DESC LIMIT $2",
         )
@@ -437,8 +465,7 @@ impl PgStore {
             .iter()
             .filter_map(|r| {
                 let strokes: String = r.get("strokes");
-                let replay =
-                    replay_of(r.get("seed"), r.get("breaker"), &strokes, r.get("ruleset"))?;
+                let replay = replay_of(r.get("seed"), r.get("breaker"), &strokes, r.get("rules"))?;
                 Some((r.get("id"), r.get::<i32, _>("seat") as usize, replay))
             })
             .collect())
@@ -609,7 +636,7 @@ impl PgStore {
 
     pub async fn save_live(&self, m: &LiveMatch) -> StoreResult<()> {
         query(
-            "INSERT INTO live_matches (id, player0, player1, rated, seed, breaker, strokes, updated_at, ruleset)
+            "INSERT INTO live_matches (id, player0, player1, rated, seed, breaker, strokes, updated_at, rules)
              VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb, $8, $9)
              ON CONFLICT (id) DO UPDATE SET strokes = EXCLUDED.strokes, updated_at = EXCLUDED.updated_at",
         )
@@ -621,7 +648,7 @@ impl PgStore {
         .bind(m.replay.breaker as i16)
         .bind(replay_json(&m.replay))
         .bind(m.updated_at)
-        .bind(m.replay.ruleset as i16)
+        .bind(m.replay.rules.code())
         .execute(&self.pool)
         .await?;
         Ok(())
@@ -635,7 +662,7 @@ impl PgStore {
     pub async fn live_match_of(&self, user_id: i64) -> StoreResult<Option<LiveMatch>> {
         let row = query(
             "SELECT id, player0, player1, rated, seed, breaker, strokes::text AS strokes, updated_at,
-                    ruleset
+                    rules
              FROM live_matches WHERE player0 = $1 OR player1 = $1 ORDER BY updated_at DESC LIMIT 1",
         )
         .bind(user_id)
@@ -647,7 +674,7 @@ impl PgStore {
                 id: r.get("id"),
                 players: [r.get("player0"), r.get("player1")],
                 rated: r.get("rated"),
-                replay: replay_of(r.get("seed"), r.get("breaker"), &strokes, r.get("ruleset"))?,
+                replay: replay_of(r.get("seed"), r.get("breaker"), &strokes, r.get("rules"))?,
                 updated_at: r.get("updated_at"),
             })
         }))
@@ -723,7 +750,8 @@ impl PgStore {
     pub async fn aim_rows(&self, bands: &[usize], min: u32) -> StoreResult<Vec<AimRow>> {
         let b: Vec<i16> = bands.iter().map(|x| *x as i16).collect();
         let rows = query(
-            "SELECT u.id, u.username, u.rating, SUM(s.attempts) AS attempts, SUM(s.made) AS made
+            "SELECT u.id, u.username, GREATEST(u.rating, u.official_rating) AS rating,
+                    SUM(s.attempts) AS attempts, SUM(s.made) AS made
              FROM shot_stats s JOIN users u ON u.id = s.user_id
              WHERE s.band = ANY($1) AND u.deleted_at IS NULL
              GROUP BY u.id HAVING SUM(s.attempts) >= $2",
@@ -1384,7 +1412,7 @@ impl PgStore {
         // Not the strokes (a whole game each): whether there is a replay is
         // whether the game kept its seed.
         let rows = query(
-            "SELECT m.id, m.winner_seat, m.reason, m.rated, m.delta0, m.delta1, m.rating0,
+            "SELECT m.id, m.winner_seat, m.reason, m.rated, m.rules, m.delta0, m.delta1, m.rating0,
                     m.rating1, m.tournament_id, m.ended_at, m.seed, m.correspondence,
                     CASE WHEN m.player0 = $1 THEN 0 ELSE 1 END AS seat,
                     o.username AS opp_name, o.country AS opp_country, o.role AS opp_role
@@ -1413,6 +1441,7 @@ impl PgStore {
                     won: winner as i32 == seat,
                     reason: r.try_get("reason")?,
                     rated: r.try_get("rated")?,
+                    rules: Rules::parse(r.try_get("rules")?).unwrap_or_default(),
                     delta: r.try_get(my_delta)?,
                     rating_after: r.try_get(my_rating)?,
                     tournament: r.try_get::<Option<i64>, _>("tournament_id")?.is_some(),
@@ -1426,15 +1455,21 @@ impl PgStore {
             .map_err(Into::into)
     }
 
-    pub async fn leaderboard(&self, limit: u32, now: i64) -> StoreResult<Vec<LeaderboardEntry>> {
-        let rows = query(
-            "SELECT u.username, u.rating, u.games, u.wins, u.country, u.role,
-                    COALESCE(w.vip_until, 0) > $2 AS vip
+    pub async fn leaderboard(
+        &self,
+        rules: Rules,
+        limit: u32,
+        now: i64,
+    ) -> StoreResult<Vec<LeaderboardEntry>> {
+        let p = record_columns(rules);
+        let rows = query(&format!(
+            "SELECT u.username, u.{p}rating AS rating, u.{p}games AS games, u.{p}wins AS wins,
+                    u.country, u.role, COALESCE(w.vip_until, 0) > $2 AS vip
              FROM users u LEFT JOIN wallets w ON w.user_id = u.id
-             WHERE u.games > 0 AND (u.banned_until IS NULL OR u.banned_until <= $2)
+             WHERE u.{p}games > 0 AND (u.banned_until IS NULL OR u.banned_until <= $2)
                AND u.deleted_at IS NULL
-             ORDER BY u.rating DESC, u.wins DESC, u.username ASC LIMIT $1",
-        )
+             ORDER BY u.{p}rating DESC, u.{p}wins DESC, u.username ASC LIMIT $1"
+        ))
         .bind(limit as i64)
         .bind(now)
         .fetch_all(&self.pool)
@@ -1455,11 +1490,12 @@ impl PgStore {
             .collect())
     }
 
-    pub async fn rank_of(&self, user_id: i64) -> StoreResult<Option<u32>> {
-        let row = query(
-            "SELECT (SELECT COUNT(*) FROM users o WHERE o.games > 0 AND (o.banned_until IS NULL OR o.banned_until <= $2) AND o.deleted_at IS NULL AND o.rating > u.rating) AS above
-             FROM users u WHERE u.id = $1 AND u.games > 0",
-        )
+    pub async fn rank_of(&self, user_id: i64, rules: Rules) -> StoreResult<Option<u32>> {
+        let p = record_columns(rules);
+        let row = query(&format!(
+            "SELECT (SELECT COUNT(*) FROM users o WHERE o.{p}games > 0 AND (o.banned_until IS NULL OR o.banned_until <= $2) AND o.deleted_at IS NULL AND o.{p}rating > u.{p}rating) AS above
+             FROM users u WHERE u.id = $1 AND u.{p}games > 0"
+        ))
         .bind(user_id)
         .bind(crate::now())
         .fetch_optional(&self.pool)
@@ -2152,7 +2188,7 @@ impl PgStore {
         let order = match search.sort {
             UserSort::Newest => "id DESC",
             UserSort::Name => "lower(username), id",
-            UserSort::Rating => "rating DESC, id DESC",
+            UserSort::Rating => "GREATEST(rating, official_rating) DESC, id DESC",
             UserSort::LastSeen => "last_seen DESC, id DESC",
         };
         let matching = format!(
@@ -2273,8 +2309,8 @@ impl PgStore {
     pub async fn add_event(&self, e: &super::NewEvent<'_>) -> StoreResult<i64> {
         let row = query(
             "INSERT INTO events (kind, title, multiplier, starts_at, ends_at, format, size, rated,
-                                 entry_fee, prize, created_by, created_at)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id",
+                                 rules, entry_fee, prize, created_by, created_at)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING id",
         )
         .bind(e.kind)
         .bind(e.title)
@@ -2284,6 +2320,7 @@ impl PgStore {
         .bind(e.format)
         .bind(e.size as i32)
         .bind(e.rated)
+        .bind(e.rules.code())
         .bind(e.entry_fee as i32)
         .bind(e.prize as i32)
         .bind(e.created_by)
@@ -2322,6 +2359,7 @@ impl PgStore {
                 format: r.get("format"),
                 size: n(r, "size"),
                 rated: r.get("rated"),
+                rules: Rules::parse(r.get("rules")).unwrap_or_default(),
                 entry_fee: n(r, "entry_fee"),
                 prize: n(r, "prize"),
                 created_by: r.get("author"),

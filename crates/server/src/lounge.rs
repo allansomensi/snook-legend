@@ -15,7 +15,9 @@ use glam::DVec2;
 use rand::Rng;
 use snook_legend_core::rating::{self, EloConfig, Rating};
 use snook_legend_core::stats::ShotStats;
-use snook_legend_core::{BallId, EightBallGame, GameOverReason, PocketId, Shot, ShotReport};
+use snook_legend_core::{
+    BallId, BreakOption, EightBallGame, GameOverReason, PerRules, PocketId, Rules, Shot, ShotReport,
+};
 use snook_legend_proto::replay::{Replay, Stroke, shot_difficulty};
 use snook_legend_proto::{
     AimState, ChatKind, ChatLine, ClientMsg, FeaturedMatch, MAX_ROOM_PASSWORD, MatchResult,
@@ -42,9 +44,9 @@ pub fn tournaments_max_fee() -> u32 {
 }
 use tournaments::Tournament;
 
-/// Tunable server rules.
+/// Tunable server settings.
 #[derive(Debug, Clone)]
-pub struct Rules {
+pub struct Settings {
     pub shot_clock: Duration,
     /// How long a disconnected player has to come back before forfeiting.
     pub reconnect_grace: Duration,
@@ -68,9 +70,9 @@ pub struct Rules {
     pub seek_lifetime: Duration,
 }
 
-impl Default for Rules {
+impl Default for Settings {
     fn default() -> Self {
-        Rules {
+        Settings {
             shot_clock: Duration::from_secs(30),
             reconnect_grace: Duration::from_secs(60),
             chat_history: 60,
@@ -133,19 +135,9 @@ pub const CHAT_OFF_FOR_MINORS: &str = "The chat is off for players under 18. A p
 /// game asks for the age group first, so this is rare).
 pub const CHAT_OFF: &str = "The chat with other players is off until you turn it on.";
 
-/// What a game too old to ask the age group is told when it writes.
-pub const CHAT_OFF_UPDATE: &str = "Update the game to chat with other players.";
-
-/// Why `user`'s chat is off (see [`User::chat_restricted`]), for a game of
-/// `protocol`.
-pub fn chat_off_reason(user: &User, protocol: u32) -> &'static str {
-    if user.minor == Some(true) {
-        CHAT_OFF_FOR_MINORS
-    } else if protocol < snook_legend_proto::AGE_PROTOCOL {
-        CHAT_OFF_UPDATE
-    } else {
-        CHAT_OFF
-    }
+/// Why `user`'s chat is off (see [`User::chat_restricted`]).
+pub fn chat_off_reason(user: &User) -> &'static str {
+    if user.minor == Some(true) { CHAT_OFF_FOR_MINORS } else { CHAT_OFF }
 }
 
 const RESTORE_GRACE: Duration = Duration::from_secs(180);
@@ -205,8 +197,6 @@ pub struct Session {
     watching_tv: bool,
     /// VIP badge, cue and chalk (from the wallet).
     pub look: Look,
-    /// The protocol version of the player's game (see [`Lounge::set_protocol`]).
-    pub protocol: u32,
     /// Notes on the "looking for a game" board.
     seek_bucket: Bucket,
     /// Playing a game against the computer (the game says so).
@@ -215,6 +205,17 @@ pub struct Session {
     pub away: bool,
     /// Playing in focus mode (the game says so): no invitations.
     pub focus: bool,
+    /// The rules this player plays (their choice in the game): the queue
+    /// pairs them with players of the same rules, their tables and
+    /// invitations are played under them.
+    pub rules: Rules,
+}
+
+impl Session {
+    /// The player's rating under the rules they play now (none for a guest).
+    fn shown_rating(&self) -> i32 {
+        if self.guest { 0 } else { self.user.records.get(self.rules).rating }
+    }
 }
 
 struct Room {
@@ -269,6 +270,7 @@ struct Table {
     id: u64,
     host: String,
     rated: bool,
+    rules: Rules,
     password: Option<String>,
 }
 
@@ -285,10 +287,10 @@ fn cooldown_message(left: Duration) -> String {
 
 #[derive(Default)]
 pub struct Lounge {
-    pub rules: Rules,
+    pub settings: Settings,
     sessions: HashMap<String, Session>,
-    /// (from, to) -> rated, lower-case names.
-    invites: HashMap<(String, String), bool>,
+    /// (from, to) -> the game offered, lower-case names.
+    invites: HashMap<(String, String), Offer>,
     rooms: HashMap<u64, Room>,
     tables: BTreeMap<u64, Table>,
     tournaments: BTreeMap<u64, Tournament>,
@@ -348,8 +350,24 @@ pub struct Lounge {
 struct Queued {
     key: String,
     rated: bool,
+    rules: Rules,
     since: Instant,
     last_status: Instant,
+}
+
+/// The game an invitation, a table, a tournament or the queue offers.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct Offer {
+    pub rated: bool,
+    pub rules: Rules,
+}
+
+/// How a new game starts: its rack, who breaks, under which rules.
+#[derive(Debug, Clone, Copy)]
+struct Game {
+    seed: u64,
+    breaker: usize,
+    rules: Rules,
 }
 
 /// How far apart two ratings may be after waiting `secs`: close at first,
@@ -389,12 +407,12 @@ const PASSWORD_MISSES: u32 = 5;
 const PASSWORD_LOCKOUT: Duration = Duration::from_secs(600);
 const TOO_MANY_PASSWORDS: &str = "Too many wrong passwords. Try again in a few minutes.";
 
-pub fn player_info(user: &User, guest: bool, status: PlayerStatus) -> PlayerInfo {
+/// What everyone sees of a player who plays `rules`.
+pub fn player_info(user: &User, guest: bool, status: PlayerStatus, rules: Rules) -> PlayerInfo {
     PlayerInfo {
         username: user.username.clone(),
-        rating: user.rating,
-        games: user.games,
-        wins: user.wins,
+        rules,
+        standings: user.standings(),
         status,
         country: user.country.clone(),
         role: user.role,
@@ -411,6 +429,7 @@ pub fn player_info(user: &User, guest: bool, status: PlayerStatus) -> PlayerInfo
         vs_computer: false,
         away: false,
         focus: false,
+        searching: false,
         level: if guest { 0 } else { snook_legend_proto::xp::level_of(user.xp) },
     }
 }
@@ -448,6 +467,7 @@ pub struct LiveRoom {
     pub id: u64,
     pub players: [String; 2],
     pub rated: bool,
+    pub rules: Rules,
     pub shots: u32,
     pub finished: bool,
     pub tournament: bool,
@@ -462,9 +482,9 @@ pub struct LiveSnapshot {
 }
 
 impl Lounge {
-    pub fn new(rules: Rules, effects: UnboundedSender<Effect>) -> Self {
+    pub fn new(settings: Settings, effects: UnboundedSender<Effect>) -> Self {
         Lounge {
-            rules,
+            settings,
             // Ids from different runs of the server never meet (saved games
             // keep theirs across a restart).
             next_id: (now().max(0) as u64) << 16,
@@ -535,12 +555,13 @@ impl Lounge {
 
     fn info(&self, k: &str) -> Option<PlayerInfo> {
         self.sessions.get(k).map(|s| {
-            let mut info = dressed(player_info(&s.user, s.guest, self.status(k)), &s.look);
+            let mut info = dressed(player_info(&s.user, s.guest, self.status(k), s.rules), &s.look);
             // An online game comes first (the game against the computer is
             // left behind when one starts).
             info.vs_computer = s.vs_computer && s.room.is_none();
             info.away = s.away && s.room.is_none();
             info.focus = s.focus && s.room.is_none();
+            info.searching = self.queue.iter().any(|q| q.key == k);
             info
         })
     }
@@ -561,6 +582,15 @@ impl Lounge {
 
     pub fn online_count(&self) -> usize {
         self.sessions.len()
+    }
+
+    /// Players online who play each of the rules.
+    pub fn online_by_rules(&self) -> PerRules<usize> {
+        let mut counts = PerRules::<usize>::default();
+        for s in self.sessions.values() {
+            *counts.get_mut(s.rules) += 1;
+        }
+        counts
     }
 
     pub fn is_online(&self, name: &str) -> bool {
@@ -587,13 +617,14 @@ impl Lounge {
         self.next_guest_id
     }
 
-    /// A user finished signing in on connection `conn_id`.
+    /// A user finished signing in on connection `conn_id`, to play `rules`.
     #[allow(clippy::too_many_arguments)]
     pub fn join(
         &mut self,
         conn_id: u64,
         user: User,
         guest: bool,
+        rules: Rules,
         tx: Sender<ServerMsg>,
         kill: Arc<Notify>,
         token: String,
@@ -626,12 +657,12 @@ impl Lounge {
             &user,
             guest,
             if room.is_some() { PlayerStatus::Playing } else { PlayerStatus::Available },
+            rules,
         );
         let _ = tx.try_send(ServerMsg::AuthOk { player: info, token });
         let _ = tx.try_send(ServerMsg::Welcome {
-            motd: self.rules.motd.clone(),
-            lan: self.rules.lan,
-            protocol: snook_legend_proto::PROTOCOL_VERSION,
+            motd: self.settings.motd.clone(),
+            lan: self.settings.lan,
         });
         self.sessions.insert(
             k.clone(),
@@ -656,11 +687,11 @@ impl Lounge {
                 watching: None,
                 watching_tv: false,
                 look: Look::default(),
-                protocol: social::UNKNOWN_PROTOCOL,
                 seek_bucket: Bucket::new(social::SEEK_BURST, social::SEEK_RATE),
                 vs_computer: false,
                 away: false,
                 focus: false,
+                rules,
             },
         );
         let players: Vec<PlayerInfo> = self.sessions.keys().filter_map(|k| self.info(k)).collect();
@@ -671,8 +702,9 @@ impl Lounge {
         let tournaments = self.tournaments.values().map(|t| self.tournament_info(t)).collect();
         self.send(&k, ServerMsg::Tournaments { tournaments });
         self.send(&k, ServerMsg::Featured { featured: self.featured.clone() });
-        if !self.rules.lan {
+        if !self.settings.lan {
             self.send(&k, ServerMsg::Board { notes: self.board.clone() });
+            self.send_seek_board(&k);
         }
         if let Some(until) = self.draining {
             let secs = until.saturating_duration_since(Instant::now()).as_secs() as u32;
@@ -689,14 +721,14 @@ impl Lounge {
     /// there when it was rebuilt): the table is sent to them and the
     /// opponent is told.
     fn back_to_room(&mut self, k: &str, id: u64) {
-        let clock = self.rules.shot_clock.as_secs() as u32;
+        let clock = self.settings.shot_clock.as_secs() as u32;
         let Some(room) = self.rooms.get_mut(&id) else { return };
         let seat = room.seat_of(k);
         room.disconnected[seat] = None;
         if room.grace_until.is_some() && room.disconnected.iter().all(Option::is_none) {
             // Both are back after a restart: the clock starts now.
             room.grace_until = None;
-            room.deadline = Instant::now() + self.rules.shot_clock;
+            room.deadline = Instant::now() + self.settings.shot_clock;
         }
         let opponent = room.keys[1 - seat].clone();
         let msg = room.started_msg(seat, &self.sessions, clock, false);
@@ -736,7 +768,7 @@ impl Lounge {
                 self.hand_off(id);
             } else {
                 room.disconnected[seat] = Some(Instant::now());
-                let grace = self.rules.reconnect_grace.as_secs() as u32;
+                let grace = self.settings.reconnect_grace.as_secs() as u32;
                 self.send(
                     &opponent,
                     ServerMsg::OpponentConnection { connected: false, grace_secs: grace },
@@ -826,7 +858,7 @@ impl Lounge {
         let (conn_id, tx, kill, ip) = (s.conn_id, s.tx.clone(), s.kill.clone(), s.ip.clone());
         let (blocked, look, achievements) =
             (s.blocked.clone(), s.look.clone(), s.achievements.clone());
-        let (protocol, guest) = (s.protocol, s.guest);
+        let (guest, rules) = (s.guest, s.rules);
         // A new name doesn't wipe the slate: games left and games against
         // the same opponent still count.
         if old_k != new_k {
@@ -849,8 +881,7 @@ impl Lounge {
         }
         let name = user.username.clone();
         self.leave(old, conn_id);
-        self.join(conn_id, user, guest, tx, kill, token, ip, blocked);
-        self.set_protocol(&name, protocol);
+        self.join(conn_id, user, guest, rules, tx, kill, token, ip, blocked);
         self.set_achievements(&name, achievements);
         self.set_look(&name, look);
     }
@@ -887,14 +918,6 @@ impl Lounge {
         self.send(&key(name), msg);
     }
 
-    /// Sends a message that only games of protocol `since` and later know,
-    /// if the player is online with one.
-    pub fn notify_since(&self, name: &str, since: u32, msg: ServerMsg) {
-        if self.protocol_of(name).is_some_and(|v| v >= since) {
-            self.send(&key(name), msg);
-        }
-    }
-
     /// A message from the staff in the lounge chat.
     pub fn announce_text(&mut self, text: &str) {
         let text = clean_chat(text);
@@ -922,7 +945,7 @@ impl Lounge {
     }
 
     pub fn set_motd(&mut self, motd: &str) {
-        self.rules.motd = clean_text(motd, 300);
+        self.settings.motd = clean_text(motd, 300);
     }
 
     /// Adds a line to the lounge chat (numbered); returns it.
@@ -930,7 +953,7 @@ impl Lounge {
         self.chat_id += 1;
         line.id = self.chat_id;
         self.chat.push_back(line.clone());
-        while self.chat.len() > self.rules.chat_history {
+        while self.chat.len() > self.settings.chat_history {
             if let Some(old) = self.chat.pop_front() {
                 self.chat_deleted.remove(&old.id);
                 self.chat_removed.remove(&old.id);
@@ -1085,6 +1108,7 @@ impl Lounge {
                 id: r.id,
                 players: [r.users[0].username.clone(), r.users[1].username.clone()],
                 rated: r.rated,
+                rules: r.game.rules(),
                 shots: r.game.shots_taken(),
                 finished: r.finished,
                 tournament: r.tournament.is_some(),
@@ -1140,6 +1164,7 @@ impl Lounge {
                 | ClientMsg::JoinTable { .. }
                 | ClientMsg::QueueJoin { .. }
                 | ClientMsg::QueueLeave
+                | ClientMsg::SetRules { .. }
                 | ClientMsg::Tournaments
                 | ClientMsg::CreateTournament { .. }
                 | ClientMsg::JoinTournament { .. }
@@ -1170,9 +1195,11 @@ impl Lounge {
             ClientMsg::React { code } => self.react(&k, &code),
             ClientMsg::Cheer { seat } => self.cheer(&k, seat),
             ClientMsg::StopSpectating => self.stop_watching(&k),
-            ClientMsg::QueueJoin { rated } => self.queue_join(&k, rated),
+            ClientMsg::QueueJoin { rated, rules } => self.queue_join(&k, rated, rules),
             ClientMsg::QueueLeave => self.queue_leave(&k, true),
-            ClientMsg::Invite { to, rated } => self.invite(&k, &key(&to), rated),
+            ClientMsg::Invite { to, rated, rules } => {
+                self.invite(&k, &key(&to), Offer { rated, rules })
+            }
             ClientMsg::CancelInvite { to } => {
                 let to = key(&to);
                 if self.invites.remove(&(k.clone(), to.clone())).is_some() {
@@ -1180,7 +1207,9 @@ impl Lounge {
                 }
             }
             ClientMsg::AnswerInvite { from, accept } => self.answer(&k, &key(&from), accept),
-            ClientMsg::OpenTable { rated, password } => self.open_table(&k, rated, password),
+            ClientMsg::OpenTable { rated, rules, password } => {
+                self.open_table(&k, Offer { rated, rules }, password)
+            }
             ClientMsg::JoinTable { id, password } => self.join_table(&k, id, password),
             ClientMsg::CloseTable => {
                 self.close_table_of(&k);
@@ -1191,6 +1220,8 @@ impl Lounge {
             ClientMsg::Shoot { turn, shot, called_pocket, cue_ball } => {
                 self.shoot(&k, turn, shot, called_pocket, cue_ball)
             }
+            ClientMsg::Choose { turn, option } => self.choose(&k, turn, option),
+            ClientMsg::SetRules { rules } => self.set_rules(&k, rules),
             ClientMsg::Resign => self.resign(&k),
             ClientMsg::SetActivity { vs_computer, away, focus } => {
                 // Everyone hears about it, so it shares the lounge actions'
@@ -1222,19 +1253,32 @@ impl Lounge {
                     self.tournaments.values().map(|t| self.tournament_info(t)).collect();
                 self.send(&k, ServerMsg::Tournaments { tournaments });
             }
-            ClientMsg::CreateTournament { name, size, rated, password, entry_fee, format } => {
+            ClientMsg::CreateTournament {
+                name,
+                size,
+                rated,
+                rules,
+                password,
+                entry_fee,
+                format,
+            } => {
                 // Tournaments with a fee come through the connection (it takes the coins).
-                self.create_tournament(&k, &name, size, rated, password, entry_fee, format, None);
+                let offer = Offer { rated, rules };
+                self.create_tournament(&k, &name, size, offer, password, entry_fee, format, None);
             }
             ClientMsg::WatchMatch { match_id } => self.watch_match(&k, match_id),
-            ClientMsg::CreateInviteCode { rated } => self.create_code(&k, rated),
+            ClientMsg::CreateInviteCode { rated, rules } => {
+                self.create_code(&k, Offer { rated, rules })
+            }
             ClientMsg::JoinByCode { code } => self.join_by_code(&k, &code),
             ClientMsg::JoinTournament { id, password } => {
                 self.join_tournament(&k, id, password, None);
             }
             ClientMsg::LeaveTournament { id } => self.leave_tournament(&k, id),
             ClientMsg::StartTournament { id } => self.start_tournament(&k, id),
-            ClientMsg::PostSeek { text, rated } => self.post_seek(&k, &text, rated),
+            ClientMsg::PostSeek { text, rated, rules } => {
+                self.post_seek(&k, &text, Offer { rated, rules })
+            }
             // Someone else's note: the staff, through the connection.
             ClientMsg::RemoveSeek { username } => {
                 if username.is_empty() || key(&username) == k {
@@ -1249,7 +1293,7 @@ impl Lounge {
             | ClientMsg::Resume { .. }
             | ClientMsg::Guest { .. }
             | ClientMsg::Logout
-            | ClientMsg::Leaderboard
+            | ClientMsg::Leaderboard { .. }
             | ClientMsg::Profile { .. }
             | ClientMsg::SetCountry { .. }
             | ClientMsg::SetAvatar { .. }
@@ -1288,6 +1332,7 @@ impl Lounge {
             | ClientMsg::CorrCancel { .. }
             | ClientMsg::CorrOpen { .. }
             | ClientMsg::CorrShoot { .. }
+            | ClientMsg::CorrChoose { .. }
             | ClientMsg::CorrResign { .. }
             | ClientMsg::LadderClaim { .. }
             | ClientMsg::GhostStyle { .. }
@@ -1351,8 +1396,8 @@ impl Lounge {
             self.error(k, format!("You are muted for {mins} more minutes."));
             return None;
         }
-        if !self.rules.lan && s.user.chat_restricted() {
-            let reason = chat_off_reason(&s.user, s.protocol);
+        if !self.settings.lan && s.user.chat_restricted() {
+            let reason = chat_off_reason(&s.user);
             self.error(k, reason);
             return None;
         }
@@ -1382,7 +1427,7 @@ impl Lounge {
             text,
             at: now(),
             kind: ChatKind::Player,
-            rating: if s.guest { 0 } else { s.user.rating },
+            rating: s.shown_rating(),
             id: 0,
             admin: s.user.role == snook_legend_proto::Role::Admin,
             deleted: None,
@@ -1408,7 +1453,7 @@ impl Lounge {
             text,
             at: now(),
             kind: ChatKind::Player,
-            rating: if s.guest { 0 } else { s.user.rating },
+            rating: s.shown_rating(),
             id: 0,
             admin: s.user.role == snook_legend_proto::Role::Admin,
             deleted: None,
@@ -1464,7 +1509,7 @@ impl Lounge {
     /// [`User::chat_restricted`]). Not on a LAN server: its guests are the
     /// players of a local network, and have no account to keep an answer.
     fn chat_off(&self, s: &Session) -> bool {
-        !self.rules.lan && s.user.chat_restricted()
+        !self.settings.lan && s.user.chat_restricted()
     }
 
     /// The lounge's chat as the player at `k` sees it: without the lines of
@@ -1539,7 +1584,7 @@ impl Lounge {
         }
     }
 
-    fn queue_join(&mut self, k: &str, rated: bool) {
+    fn queue_join(&mut self, k: &str, rated: bool, rules: Rules) {
         if self.refuse_if_draining(k) {
             return;
         }
@@ -1553,28 +1598,49 @@ impl Lounge {
         if self.in_tournament(k).is_some() {
             return self.error(k, "Players in a tournament can't start other games.");
         }
-        let rated = rated && !s.guest && !self.rules.lan;
+        let rated = rated && !s.guest && !self.settings.lan;
+        let was_searching = self.queue.iter().any(|q| q.key == k);
         self.queue.retain(|q| q.key != k);
         self.close_table_of(k);
         self.stop_watching(k);
         let now = Instant::now();
-        self.queue.push(Queued { key: k.to_string(), rated, since: now, last_status: now });
+        self.queue.push(Queued { key: k.to_string(), rated, rules, since: now, last_status: now });
         self.send(
             k,
-            ServerMsg::Queue { searching: true, rated, waited_secs: 0, range: queue_range(0.0) },
+            ServerMsg::Queue {
+                searching: true,
+                rated,
+                rules,
+                waited_secs: 0,
+                range: queue_range(0.0),
+            },
         );
+        if !was_searching {
+            self.announce(k);
+        }
         self.match_queue();
     }
 
     /// Takes `k` out of the queue (`tell`: they asked, so confirm it).
     fn queue_leave(&mut self, k: &str, tell: bool) {
-        let before = self.queue.len();
-        self.queue.retain(|q| q.key != k);
-        if tell || self.queue.len() != before {
-            self.send(
-                k,
-                ServerMsg::Queue { searching: false, rated: false, waited_secs: 0, range: 0 },
-            );
+        let stopped = |rated, rules| ServerMsg::Queue {
+            searching: false,
+            rated,
+            rules,
+            waited_secs: 0,
+            range: 0,
+        };
+        match self.queue.iter().position(|q| q.key == k) {
+            Some(at) => {
+                let q = self.queue.remove(at);
+                self.send(k, stopped(q.rated, q.rules));
+                self.announce(k);
+            }
+            None if tell => {
+                let rules = self.sessions.get(k).map(|s| s.rules).unwrap_or_default();
+                self.send(k, stopped(false, rules));
+            }
+            None => {}
         }
     }
 
@@ -1602,7 +1668,7 @@ impl Lounge {
             for i in 0..self.queue.len() {
                 for j in (i + 1)..self.queue.len() {
                     let (a, b) = (&self.queue[i], &self.queue[j]);
-                    if a.rated != b.rated
+                    if (a.rated, a.rules) != (b.rated, b.rules)
                         || self.blocks(&a.key, &b.key)
                         || self.blocks(&b.key, &a.key)
                     {
@@ -1622,8 +1688,8 @@ impl Lounge {
                     if recent && waited(a).min(waited(b)) < 45.0 {
                         continue;
                     }
-                    let ra = self.sessions[&a.key].user.rating;
-                    let rb = self.sessions[&b.key].user.rating;
+                    let ra = self.sessions[&a.key].user.records.get(a.rules).rating;
+                    let rb = self.sessions[&b.key].user.records.get(b.rules).rating;
                     let gap = (ra - rb).unsigned_abs();
                     let allowed = queue_range(waited(a)).min(queue_range(waited(b)));
                     if gap <= allowed && best.is_none_or(|(_, _, g)| (gap as i32) < g) {
@@ -1641,34 +1707,39 @@ impl Lounge {
                 self.queue_waits.pop_front();
             }
             self.recent_pairs.push_back((a.key.clone(), b.key.clone(), now));
+            let found = ServerMsg::Queue {
+                searching: false,
+                rated: a.rated,
+                rules: a.rules,
+                waited_secs: 0,
+                range: 0,
+            };
             for k in [&a.key, &b.key] {
-                self.send(
-                    k,
-                    ServerMsg::Queue { searching: false, rated: a.rated, waited_secs: 0, range: 0 },
-                );
+                self.send(k, found.clone());
             }
-            self.start_room([a.key, b.key], a.rated, None, None, false);
+            let offer = Offer { rated: a.rated, rules: a.rules };
+            self.start_room([a.key, b.key], offer, None, None, false);
         }
         // Keep the waiting players informed (every few seconds).
-        let updates: Vec<(String, bool, u32)> = self
+        let updates: Vec<(String, ServerMsg)> = self
             .queue
             .iter_mut()
             .filter(|q| now.duration_since(q.last_status) >= Duration::from_secs(3))
             .map(|q| {
                 q.last_status = now;
-                (q.key.clone(), q.rated, now.duration_since(q.since).as_secs() as u32)
-            })
-            .collect();
-        for (k, rated, secs) in updates {
-            self.send(
-                k.as_str(),
-                ServerMsg::Queue {
+                let secs = now.duration_since(q.since).as_secs() as u32;
+                let msg = ServerMsg::Queue {
                     searching: true,
-                    rated,
+                    rated: q.rated,
+                    rules: q.rules,
                     waited_secs: secs,
                     range: queue_range(secs as f32),
-                },
-            );
+                };
+                (q.key.clone(), msg)
+            })
+            .collect();
+        for (k, msg) in updates {
+            self.send(&k, msg);
         }
     }
 
@@ -1737,7 +1808,7 @@ impl Lounge {
 
     fn send_spectator_start(&self, w: &str, id: u64, seat: usize) {
         if let Some(room) = self.rooms.get(&id) {
-            let clock = self.rules.shot_clock.as_secs() as u32;
+            let clock = self.settings.shot_clock.as_secs() as u32;
             self.send(w, room.started_msg(seat, &self.sessions, clock, true));
             // An administrator also gets what the players said so far.
             if self.sessions.get(w).is_some_and(|s| s.user.role == snook_legend_proto::Role::Admin)
@@ -1875,7 +1946,7 @@ impl Lounge {
         }
     }
 
-    fn invite(&mut self, from: &str, to: &str, rated: bool) {
+    fn invite(&mut self, from: &str, to: &str, offer: Offer) {
         let fail = |l: &Self, reason: &str| {
             l.send(from, ServerMsg::InviteFailed { reason: reason.into() })
         };
@@ -1909,19 +1980,23 @@ impl Lounge {
         if !self.sessions.get_mut(from).is_some_and(|s| s.invite_bucket.take()) {
             return fail(self, "You're sending invitations too quickly.");
         }
-        let rated = rated && !self.is_guest(from) && !self.is_guest(to);
-        if let Some(rated_back) = self.invites.get(&(to.to_string(), from.to_string())).copied() {
+        let offer =
+            Offer { rated: offer.rated && !self.is_guest(from) && !self.is_guest(to), ..offer };
+        if let Some(back) = self.invites.get(&(to.to_string(), from.to_string())).copied() {
             // They already invited us: show their invitation again.
-            return self
-                .send(from, ServerMsg::Invited { from: self.display(to), rated: rated_back });
+            return self.send(
+                from,
+                ServerMsg::Invited { from: self.display(to), rated: back.rated, rules: back.rules },
+            );
         }
-        self.invites.insert((from.to_string(), to.to_string()), rated);
-        self.send(to, ServerMsg::Invited { from: self.display(from), rated });
-        self.send(from, ServerMsg::InviteSent { to: self.display(to), rated });
+        self.invites.insert((from.to_string(), to.to_string()), offer);
+        let Offer { rated, rules } = offer;
+        self.send(to, ServerMsg::Invited { from: self.display(from), rated, rules });
+        self.send(from, ServerMsg::InviteSent { to: self.display(to), rated, rules });
     }
 
     fn answer(&mut self, me: &str, from: &str, accept: bool) {
-        let Some(rated) = self.invites.remove(&(from.to_string(), me.to_string())) else {
+        let Some(offer) = self.invites.remove(&(from.to_string(), me.to_string())) else {
             return self.send(
                 me,
                 ServerMsg::InviteFailed { reason: "That invitation is no longer valid.".into() },
@@ -1960,7 +2035,7 @@ impl Lounge {
         }
         self.start_room(
             [from.to_string(), me.to_string()],
-            rated,
+            offer,
             None,
             Some(from.to_string()),
             false,
@@ -1972,11 +2047,12 @@ impl Lounge {
             id: t.id,
             host: self.info(&t.host)?,
             rated: t.rated,
+            rules: t.rules,
             private: t.password.is_some(),
         })
     }
 
-    fn open_table(&mut self, k: &str, rated: bool, password: Option<String>) {
+    fn open_table(&mut self, k: &str, offer: Offer, password: Option<String>) {
         if self.refuse_if_draining(k) || self.refuse_if_cooling_down(k) {
             return;
         }
@@ -1991,7 +2067,13 @@ impl Lounge {
         };
         self.close_table_of(k);
         let id = self.new_id();
-        let table = Table { id, host: k.to_string(), rated: rated && !self.is_guest(k), password };
+        let table = Table {
+            id,
+            host: k.to_string(),
+            rated: offer.rated && !self.is_guest(k),
+            rules: offer.rules,
+            password,
+        };
         if let Some(s) = self.sessions.get_mut(k) {
             s.table = Some(id);
         }
@@ -2037,7 +2119,7 @@ impl Lounge {
         if self.blocks(&host, k) {
             return self.error(k, "You can't join this table.");
         }
-        let rated = t.rated && !self.is_guest(k);
+        let offer = Offer { rated: t.rated && !self.is_guest(k), rules: t.rules };
         // A table with a password is private (off the lounge's TV); one an
         // invitation code made is an invitation, like one sent by name.
         let by_code = self.codes.values().any(|(table, _)| *table == id);
@@ -2045,7 +2127,7 @@ impl Lounge {
         self.close_table_of(k);
         self.close_table_of(&host);
         self.codes.retain(|_, (t, _)| *t != id);
-        self.start_room([host.clone(), k.to_string()], rated, None, Some(host), private);
+        self.start_room([host.clone(), k.to_string()], offer, None, Some(host), private);
     }
 
     /// `host`: whose table it is (their cloth and balls); else the higher
@@ -2053,7 +2135,7 @@ impl Lounge {
     fn start_room(
         &mut self,
         mut keys: [String; 2],
-        mut rated: bool,
+        offer: Offer,
         tournament: Option<(u64, usize, usize)>,
         host: Option<String>,
         private: bool,
@@ -2077,13 +2159,17 @@ impl Lounge {
         }
         let users = [self.sessions[&keys[0]].user.clone(), self.sessions[&keys[1]].user.clone()];
         let guests = [self.sessions[&keys[0]].guest, self.sessions[&keys[1]].guest];
-        rated &= !guests[0] && !guests[1];
+        let Offer { rated, rules } = offer;
+        let rated = rated && !guests[0] && !guests[1];
         let host = host.unwrap_or_else(|| {
-            if users[0].rating >= users[1].rating { keys[0].clone() } else { keys[1].clone() }
+            let rating = |u: &User| u.records.get(rules).rating;
+            if rating(&users[0]) >= rating(&users[1]) { keys[0].clone() } else { keys[1].clone() }
         });
         let id = self.new_id();
         let look = self.table_look_of(&host);
-        self.create_room(id, keys, users, guests, rated, 0, tournament, look, private);
+        let seed: u64 = rand::thread_rng().r#gen();
+        let game = Game { seed, breaker: 0, rules };
+        self.create_room(id, keys, users, guests, rated, game, tournament, look, private);
     }
 
     /// The cloth and ball set `host` brings to the table.
@@ -2102,31 +2188,22 @@ impl Lounge {
         users: [User; 2],
         guests: [bool; 2],
         rated: bool,
-        breaker: usize,
+        game: Game,
         tournament: Option<(u64, usize, usize)>,
         table_look: [String; 2],
         private: bool,
     ) {
-        let seed: u64 = rand::thread_rng().r#gen();
+        let Game { seed, breaker, rules } = game;
         let mut turns = [0, 0];
         turns[breaker] = 1;
-        // The newest rules both players' games know (version 20 plays
-        // ruleset 6).
-        let protocols: Vec<u32> = keys
-            .iter()
-            .map(|k| {
-                self.sessions.get(k).map_or(snook_legend_proto::PROTOCOL_VERSION, |s| s.protocol)
-            })
-            .collect();
-        let ruleset = snook_legend_proto::ruleset_for(&protocols);
         let room = Room {
             id,
             keys: keys.clone(),
             users,
             guests,
             rated,
-            game: EightBallGame::with_ruleset(seed, breaker, ruleset),
-            deadline: Instant::now() + self.rules.shot_clock,
+            game: EightBallGame::new(seed, breaker, rules),
+            deadline: Instant::now() + self.settings.shot_clock,
             disconnected: [None, None],
             finished: false,
             rematch: [false, false],
@@ -2140,7 +2217,7 @@ impl Lounge {
             chat: VecDeque::new(),
             crowd: Bucket::new(4.0, 0.6),
             cheers: HashMap::new(),
-            replay: Replay::new(seed, breaker),
+            replay: Replay::new(seed, breaker, rules),
             stats: Default::default(),
             bands: Default::default(),
             table_look,
@@ -2149,7 +2226,7 @@ impl Lounge {
             private,
             resigning: None,
         };
-        let clock = self.rules.shot_clock.as_secs() as u32;
+        let clock = self.settings.shot_clock.as_secs() as u32;
         for k in &keys {
             self.stop_watching(k);
             // Found a game: off the "looking for a game" board.
@@ -2191,7 +2268,7 @@ impl Lounge {
     /// Saves a game in progress (games with accounts only).
     fn save_live(&self, id: u64) {
         let Some(room) = self.rooms.get(&id) else { return };
-        if self.rules.lan || room.guests.iter().any(|g| *g) || room.finished {
+        if self.settings.lan || room.guests.iter().any(|g| *g) || room.finished {
             return;
         }
         self.effect(Effect::SaveLive(LiveMatch {
@@ -2346,7 +2423,7 @@ impl Lounge {
         turn: u32,
         outcome: Result<(EightBallGame, ShotReport, f64), String>,
     ) {
-        let clock = self.rules.shot_clock;
+        let clock = self.settings.shot_clock;
         let Some(room) = self.rooms.get_mut(&id) else { return };
         if room.busy != Some(turn) || room.finished {
             return;
@@ -2410,12 +2487,24 @@ impl Lounge {
         true
     }
 
-    /// The shot clock ran out: play the shot at full power where the player
-    /// was aiming (or at the nearest legal ball if they never aimed).
+    /// The shot clock ran out.
+    ///
+    /// The Brazilian rules: the shot is played at full power where the
+    /// player was aiming (or at the nearest legal ball if they never aimed).
+    /// The official rules: a foul, and the opponent has the cue ball in hand
+    /// (see [`EightBallGame::time_foul`]). A choice after the break that
+    /// isn't made in time takes its first option.
     fn timeout_shot(&mut self, id: u64) {
         let Some(room) = self.rooms.get(&id) else { return };
         let seat = room.game.current_player();
         let game = &room.game;
+        if let Some(choice) = game.pending_choice() {
+            let turn = game.shots_taken();
+            return self.make_choice(id, seat, turn, choice.options()[0]);
+        }
+        if game.rules() == Rules::Official {
+            return self.time_foul(id, seat);
+        }
         let aim = room.last_aim;
         let shot = Shot {
             yaw: aim.map(|a| a.yaw).unwrap_or_else(|| game.default_aim()),
@@ -2428,21 +2517,72 @@ impl Lounge {
         });
         if self.start_shot(id, seat, shot, called, None, true).is_err() {
             // The cue ball is somewhere it can't be shot from: pass the turn.
-            let clock = self.rules.shot_clock;
-            if let Some(room) = self.rooms.get_mut(&id) {
-                room.game.time_foul();
-                room.replay.strokes.push(Stroke::TimeFoul);
-                room.turns[room.game.current_player()] += 1;
-                room.deadline = Instant::now() + clock;
-                room.last_aim = None;
-                let msg = ServerMsg::TimeFoul {
-                    seat,
-                    game: room.game.clone(),
-                    clock_left: clock.as_secs_f32(),
-                };
-                self.send_room(id, &msg);
-                self.save_live(id);
+            self.time_foul(id, seat);
+        }
+    }
+
+    /// `seat` ran out of time: the turn passes (see
+    /// [`EightBallGame::time_foul`]).
+    fn time_foul(&mut self, id: u64, seat: usize) {
+        let clock = self.settings.shot_clock;
+        let Some(room) = self.rooms.get_mut(&id) else { return };
+        room.game.time_foul();
+        room.replay.strokes.push(Stroke::TimeFoul);
+        room.turns[room.game.current_player()] += 1;
+        room.deadline = Instant::now() + clock;
+        room.last_aim = None;
+        let msg =
+            ServerMsg::TimeFoul { seat, game: room.game.clone(), clock_left: clock.as_secs_f32() };
+        self.send_room(id, &msg);
+        self.save_live(id);
+    }
+
+    /// `k` answers the choice the break left them (the official rules).
+    fn choose(&mut self, k: &str, turn: u32, option: BreakOption) {
+        let Some((id, seat)) = self.my_turn(k) else { return };
+        let game = &self.rooms[&id].game;
+        if game.shots_taken() != turn {
+            return;
+        }
+        match game.pending_choice() {
+            Some(choice) if choice.options().contains(&option) => {
+                self.make_choice(id, seat, turn, option)
             }
+            _ => self.error(k, "That choice can't be made now."),
+        }
+    }
+
+    /// Plays `seat`'s answer to the choice the break left (a valid one).
+    fn make_choice(&mut self, id: u64, seat: usize, turn: u32, option: BreakOption) {
+        let clock = self.settings.shot_clock;
+        let Some(room) = self.rooms.get_mut(&id) else { return };
+        if room.game.choose(option).is_err() {
+            return;
+        }
+        room.replay.strokes.push(Stroke::Choice { option });
+        let next = room.game.current_player();
+        if next != seat {
+            room.turns[next] += 1;
+        }
+        room.deadline = Instant::now() + clock;
+        room.last_aim = None;
+        let msg = ServerMsg::Chose {
+            seat,
+            turn,
+            option,
+            game: room.game.clone(),
+            clock_left: clock.as_secs_f32(),
+        };
+        self.send_room(id, &msg);
+        self.save_live(id);
+    }
+
+    /// `k` now plays `rules` (their choice in the game): everyone sees it.
+    fn set_rules(&mut self, k: &str, rules: Rules) {
+        let Some(s) = self.sessions.get_mut(k) else { return };
+        if s.rules != rules {
+            s.rules = rules;
+            self.announce(k);
         }
     }
 
@@ -2485,16 +2625,21 @@ impl Lounge {
         };
         let users = [current(0), current(1)];
         let rated = room.rated;
+        let rules = room.game.rules();
+        let rating = |seat: usize| users[seat].records.get(rules).rating;
         let mut delta = [0, 0];
-        let mut new_ratings = [users[0].rating, users[1].rating];
+        let mut new_ratings = [rating(0), rating(1)];
         let keys = room.keys.clone();
         // The same two players again and again, rated or casual: less and
         // less at stake, and past a few games nothing earned.
         let repeats = self.count_pair_game(&keys, rated);
         if rated {
             let (w, l) = (over.winner, 1 - over.winner);
-            let change =
-                rating::apply_result(&EloConfig::default(), users[w].rating(), users[l].rating());
+            let change = rating::apply_result(
+                &EloConfig::default(),
+                users[w].rating(rules),
+                users[l].rating(rules),
+            );
             let (rw, rl): (Rating, Rating) = (change.winner, change.loser);
             delta[w] = change.winner_delta;
             delta[l] = change.loser_delta;
@@ -2509,7 +2654,7 @@ impl Lounge {
             if scale < 1.0 {
                 for seat in 0..2 {
                     delta[seat] = (delta[seat] as f64 * scale).round() as i32;
-                    new_ratings[seat] = users[seat].rating + delta[seat];
+                    new_ratings[seat] = rating(seat) + delta[seat];
                 }
             }
         }
@@ -2519,7 +2664,7 @@ impl Lounge {
         if over.reason == GameOverReason::Abandoned {
             if rated {
                 delta[loser] -= ABANDON_RATING;
-                new_ratings[loser] = users[loser].rating + delta[loser];
+                new_ratings[loser] = rating(loser) + delta[loser];
             }
             let key = keys[loser].clone();
             self.record_abandon(&key);
@@ -2533,6 +2678,7 @@ impl Lounge {
             winner: over.winner,
             reason: over.reason,
             rated,
+            rules,
             delta,
             ratings_after: new_ratings,
             shots: room.game.shots_taken(),
@@ -2622,7 +2768,12 @@ impl Lounge {
         if room.rematch[1 - seat] {
             let keys = room.keys.clone();
             let rated = room.rated;
-            let breaker = 1 - room.breaker;
+            // The same rules, a new rack, the other player breaks.
+            let game = Game {
+                seed: rand::thread_rng().r#gen(),
+                breaker: 1 - room.breaker,
+                rules: room.game.rules(),
+            };
             let guests = room.guests;
             let chat = room.chat.clone();
             let table_look = room.table_look.clone();
@@ -2642,9 +2793,7 @@ impl Lounge {
                 return;
             }
             let new_id = self.new_id();
-            self.create_room(
-                new_id, keys, users, guests, rated, breaker, None, table_look, private,
-            );
+            self.create_room(new_id, keys, users, guests, rated, game, None, table_look, private);
             if let Some(r) = self.rooms.get_mut(&new_id) {
                 r.chat = chat;
             }
@@ -2690,7 +2839,7 @@ impl Lounge {
         }
         self.expire_seeks();
         let nowi = Instant::now();
-        let grace = self.rules.reconnect_grace;
+        let grace = self.settings.reconnect_grace;
         let mut finished = Vec::new();
         let mut timeouts = Vec::new();
         let mut dropped = Vec::new();
@@ -2844,7 +2993,7 @@ impl Lounge {
     fn abandon_penalty(&self, k: &str) -> f32 {
         let Some(s) = self.sessions.get(k) else { return 0.0 };
         let u = &s.user;
-        let played = (u.games + u.casual_games).max(1);
+        let played = (u.rated_games() + u.casual_games).max(1);
         if u.abandons < 3 {
             return 0.0;
         }
@@ -2963,8 +3112,13 @@ impl Lounge {
     }
 
     /// Who is waiting in "Play now": (rated, seconds waited so far).
-    pub fn queue_now(&self) -> Vec<(bool, u32)> {
-        self.queue.iter().map(|q| (q.rated, q.since.elapsed().as_secs() as u32)).collect()
+    /// Who waits in the "Play now" queue: the game they want and how long
+    /// they have waited (seconds).
+    pub fn queue_now(&self) -> Vec<(Offer, u32)> {
+        self.queue
+            .iter()
+            .map(|q| (Offer { rated: q.rated, rules: q.rules }, q.since.elapsed().as_secs() as u32))
+            .collect()
     }
 
     /// Hands a game in progress to the next server: it stays saved, both
@@ -3017,7 +3171,7 @@ impl Lounge {
             guests: [false, false],
             rated: live.rated,
             game: rebuilt.game,
-            deadline: nowi + RESTORE_GRACE + self.rules.shot_clock,
+            deadline: nowi + RESTORE_GRACE + self.settings.shot_clock,
             disconnected: [Some(nowi), Some(nowi)],
             finished: false,
             rematch: [false, false],
@@ -3070,18 +3224,13 @@ impl Lounge {
             .filter(|r| {
                 !r.finished && r.grace_until.is_none() && !r.private && !r.guests.iter().any(|g| *g)
             })
-            .max_by_key(|r| (r.users[0].rating + r.users[1].rating, r.id));
-        let featured = best.map(|r| {
-            let player = |s: usize| match self.sessions.get(&r.keys[s]) {
-                Some(x) => dressed(player_info(&x.user, x.guest, PlayerStatus::Playing), &x.look),
-                None => player_info(&r.users[s], r.guests[s], PlayerStatus::Playing),
-            };
-            FeaturedMatch {
-                match_id: r.id,
-                players: [player(0), player(1)],
-                rated: r.rated,
-                spectators: self.spectators(r.id).len() as u32,
-            }
+            .max_by_key(|r| (r.rating_of(0) + r.rating_of(1), r.id));
+        let featured = best.map(|r| FeaturedMatch {
+            match_id: r.id,
+            players: [r.player(0, &self.sessions), r.player(1, &self.sessions)],
+            rated: r.rated,
+            rules: r.game.rules(),
+            spectators: self.spectators(r.id).len() as u32,
         });
         if featured != self.featured {
             self.featured = featured.clone();
@@ -3119,7 +3268,7 @@ impl Lounge {
     }
 
     /// Opens a private table whose password is a short code friends can use.
-    fn create_code(&mut self, k: &str, rated: bool) {
+    fn create_code(&mut self, k: &str, offer: Offer) {
         if self.refuse_if_draining(k) {
             return;
         }
@@ -3132,7 +3281,7 @@ impl Lounge {
                 break c;
             }
         };
-        self.open_table(k, rated, Some(code.clone()));
+        self.open_table(k, offer, Some(code.clone()));
         let Some(table) = self.sessions.get(k).and_then(|s| s.table) else { return };
         self.codes.insert(code.clone(), (table, Instant::now()));
         self.send(k, ServerMsg::InviteCode { code });
@@ -3210,6 +3359,23 @@ impl Room {
         if self.keys[0] == k { 0 } else { 1 }
     }
 
+    /// The player at `seat`'s rating under the rules of this game.
+    fn rating_of(&self, seat: usize) -> i32 {
+        self.users[seat].records.get(self.game.rules()).rating
+    }
+
+    /// What everyone sees of the player at `seat` (playing the rules of this
+    /// game; dressed when online).
+    fn player(&self, seat: usize, sessions: &HashMap<String, Session>) -> PlayerInfo {
+        let rules = self.game.rules();
+        match sessions.get(&self.keys[seat]) {
+            Some(x) => {
+                dressed(player_info(&x.user, x.guest, PlayerStatus::Playing, rules), &x.look)
+            }
+            None => player_info(&self.users[seat], self.guests[seat], PlayerStatus::Playing, rules),
+        }
+    }
+
     fn started_msg(
         &self,
         seat: usize,
@@ -3217,10 +3383,7 @@ impl Room {
         clock: u32,
         spectating: bool,
     ) -> ServerMsg {
-        let player = |s: usize| match sessions.get(&self.keys[s]) {
-            Some(x) => dressed(player_info(&x.user, x.guest, PlayerStatus::Playing), &x.look),
-            None => player_info(&self.users[s], self.guests[s], PlayerStatus::Playing),
-        };
+        let player = |s: usize| self.player(s, sessions);
         let left = self.deadline.saturating_duration_since(Instant::now()).as_secs_f32();
         ServerMsg::MatchStarted {
             match_id: self.id,
@@ -3247,9 +3410,9 @@ mod tests {
     fn shots_do_not_wait_behind_the_database() {
         let (tx, mut effects) = tokio::sync::mpsc::unbounded_channel();
         let (shots_tx, mut shots) = tokio::sync::mpsc::unbounded_channel();
-        let mut l = Lounge::new(Rules::default(), tx);
+        let mut l = Lounge::new(Settings::default(), tx);
         l.simulate_on(shots_tx);
-        let game = Box::new(EightBallGame::new(1, 0));
+        let game = Box::new(EightBallGame::new(1, 0, Rules::Official));
         let shot = Shot { yaw: 0.0, elevation: 0.0, tip: DVec2::ZERO, speed: 1.0 };
         l.effect(Effect::DeleteLive(1));
         l.effect(Effect::Simulate { room: 1, turn: 0, game, shot, called: None });
@@ -3264,7 +3427,7 @@ mod tests {
     #[test]
     fn pair_games_are_counted_by_kind() {
         let (tx, _effects) = tokio::sync::mpsc::unbounded_channel();
-        let mut l = Lounge::new(Rules::default(), tx);
+        let mut l = Lounge::new(Settings::default(), tx);
         let ab = ["ana".to_string(), "bob".to_string()];
         let ba = ["bob".to_string(), "ana".to_string()];
         for n in 0..5 {

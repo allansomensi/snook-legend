@@ -31,7 +31,7 @@
 
 use std::time::Duration;
 
-use snook_legend_server::lounge::Rules;
+use snook_legend_server::lounge::Settings;
 use snook_legend_server::{Config, Server, serve};
 use tokio::net::TcpListener;
 use tracing_subscriber::EnvFilter;
@@ -48,16 +48,16 @@ async fn main() {
         )
         .init();
 
-    let mut rules = Rules::default();
+    let mut settings = Settings::default();
     if let Some(motd) = env("SNOOK_LEGEND_MOTD") {
-        rules.motd = motd;
+        settings.motd = motd;
     }
     if let Some(secs) = env("SNOOK_LEGEND_SHOT_CLOCK").and_then(|s| s.parse::<u64>().ok()) {
-        rules.shot_clock = Duration::from_secs(secs.clamp(10, 120));
+        settings.shot_clock = Duration::from_secs(secs.clamp(10, 120));
     }
     if let Some(cup) = env("SNOOK_LEGEND_CUP") {
-        rules.cup = snook_legend_server::lounge::Cup::parse(&cup);
-        match &rules.cup {
+        settings.cup = snook_legend_server::lounge::Cup::parse(&cup);
+        match &settings.cup {
             Some(c) => tracing::info!("weekly cup: {c:?}"),
             None => tracing::warn!("SNOOK_LEGEND_CUP not understood: {cup}"),
         }
@@ -81,7 +81,7 @@ async fn main() {
         bind: bind.parse().expect("SNOOK_LEGEND_BIND must be host:port"),
         database_url: if in_memory { None } else { database_url },
         database_pool: env("SNOOK_LEGEND_DB_POOL").and_then(|v| v.parse().ok()).unwrap_or(5),
-        rules,
+        settings,
         admins: env("SNOOK_LEGEND_ADMINS")
             .map(|v| v.split(',').map(|s| s.trim().to_string()).filter(|s| !s.is_empty()).collect())
             .unwrap_or_default(),

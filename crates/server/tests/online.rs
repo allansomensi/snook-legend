@@ -5,9 +5,9 @@ use std::time::Duration;
 use futures_util::{SinkExt, StreamExt};
 use snook_legend_core::{Difficulty, EightBallGame, ai};
 use snook_legend_proto::{
-    ClientMsg, PROTOCOL_VERSION, ReportReason, ServerMsg, TournamentState, parse_server,
+    ClientMsg, PROTOCOL_VERSION, ReportReason, Rules, ServerMsg, TournamentState, parse_server,
 };
-use snook_legend_server::lounge::Rules;
+use snook_legend_server::lounge::Settings;
 use snook_legend_server::{Config, Server, serve};
 use tokio::net::{TcpListener, TcpStream};
 use tokio_tungstenite::tungstenite::Message;
@@ -17,11 +17,11 @@ type Ws = WebSocketStream<MaybeTlsStream<TcpStream>>;
 
 const PASSWORD: &str = "secret123";
 
-async fn start_with(rules: Rules, admins: Vec<String>) -> (String, String) {
+async fn start_with(settings: Settings, admins: Vec<String>) -> (String, String) {
     let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
     let addr = listener.local_addr().unwrap();
-    let rules = Rules { max_connections_per_ip: 100, ..rules };
-    let config = Config { bind: addr, rules, admins: admins.clone(), ..Config::default() };
+    let settings = Settings { max_connections_per_ip: 100, ..settings };
+    let config = Config { bind: addr, settings, admins: admins.clone(), ..Config::default() };
     let server = Server::new(config).await.unwrap();
     // An administrator's name can't be registered: its account comes
     // first (with the test password), and signing in makes it one.
@@ -48,8 +48,8 @@ async fn make_account(server: &Server, name: &str) {
     server.store.create_user(&user).await.unwrap().expect("a new account");
 }
 
-async fn start(rules: Rules) -> String {
-    start_with(rules, Vec::new()).await.0
+async fn start(settings: Settings) -> String {
+    start_with(settings, Vec::new()).await.0
 }
 
 struct Client {
@@ -60,7 +60,7 @@ impl Client {
     async fn connect(url: &str) -> Client {
         let (ws, _) = connect_async(url).await.unwrap();
         let mut c = Client { ws };
-        c.send(ClientMsg::Hello { version: PROTOCOL_VERSION }).await;
+        c.send(ClientMsg::Hello { version: PROTOCOL_VERSION, rules: Rules::Brazilian }).await;
         c
     }
 
@@ -102,7 +102,8 @@ impl Client {
         else {
             unreachable!()
         };
-        assert_eq!(player.rating, 1200);
+        assert_eq!(player.rating_in(Rules::Brazilian), 1200);
+        assert_eq!(player.rating_in(Rules::Official), 1200);
         assert_eq!(player.country, "BR");
         (c, token)
     }
@@ -116,8 +117,25 @@ async fn start_match(
     a_name: &str,
     rated: bool,
 ) -> (EightBallGame, usize, usize) {
-    a.send(ClientMsg::Invite { to: b_name.into(), rated }).await;
-    b.expect("invite", |m| matches!(m, ServerMsg::Invited { .. })).await;
+    start_match_under(a, b, b_name, a_name, rated, Rules::Brazilian).await
+}
+
+/// [`start_match`] under `rules`.
+async fn start_match_under(
+    a: &mut Client,
+    b: &mut Client,
+    b_name: &str,
+    a_name: &str,
+    rated: bool,
+    rules: Rules,
+) -> (EightBallGame, usize, usize) {
+    a.send(ClientMsg::Invite { to: b_name.into(), rated, rules }).await;
+    let ServerMsg::Invited { rules: offered, .. } =
+        b.expect("invite", |m| matches!(m, ServerMsg::Invited { .. })).await
+    else {
+        unreachable!()
+    };
+    assert_eq!(offered, rules, "the invitation says which rules");
     b.send(ClientMsg::AnswerInvite { from: a_name.into(), accept: true }).await;
     let ServerMsg::MatchStarted { game, seat: sa, .. } =
         a.expect("match a", |m| matches!(m, ServerMsg::MatchStarted { .. })).await
@@ -130,6 +148,7 @@ async fn start_match(
         unreachable!()
     };
     assert_ne!(sa, sb);
+    assert_eq!(game.rules(), rules);
     (game, sa, sb)
 }
 
@@ -144,6 +163,32 @@ async fn play_out(
     loop {
         assert!(shots < 400, "game did not finish");
         let shooter_is_a = game.current_player() == sa;
+        // The official rules: a break can leave a choice to make first.
+        if let Some(option) = ai::choose(&game) {
+            let turn = game.shots_taken();
+            let msg = ClientMsg::Choose { turn, option };
+            if shooter_is_a {
+                a.send(msg).await;
+            } else {
+                b.send(msg).await;
+            }
+            let mut answers = Vec::new();
+            for c in [&mut *a, &mut *b] {
+                let ServerMsg::Chose { option: o, game: g, .. } =
+                    c.expect("chose", |m| matches!(m, ServerMsg::Chose { .. })).await
+                else {
+                    unreachable!()
+                };
+                assert_eq!(o, option);
+                answers.push(g);
+            }
+            assert_eq!(answers[0], answers[1], "both players get the same table");
+            let mut local = game.clone();
+            local.choose(option).unwrap();
+            assert_eq!(local, answers[0]);
+            game = local;
+            continue;
+        }
         let decision = ai::decide(&game, Difficulty::Hard, shots);
         let turn = game.shots_taken();
         let msg = ClientMsg::Shoot {
@@ -204,7 +249,7 @@ async fn play_out(
 
 #[tokio::test]
 async fn full_rated_match_updates_ratings_profile_and_leaderboard() {
-    let url = start(Rules::default()).await;
+    let url = start(Settings::default()).await;
     let (mut alice, _) = Client::register(&url, "alice").await;
     let (mut bob, _) = Client::register(&url, "bob").await;
 
@@ -231,12 +276,13 @@ async fn full_rated_match_updates_ratings_profile_and_leaderboard() {
     )
     .await;
 
-    alice.send(ClientMsg::Leaderboard).await;
-    let ServerMsg::Leaderboard { entries } =
+    alice.send(ClientMsg::Leaderboard { rules: Rules::Brazilian }).await;
+    let ServerMsg::Leaderboard { rules, entries } =
         alice.expect("leaderboard", |m| matches!(m, ServerMsg::Leaderboard { .. })).await
     else {
         unreachable!()
     };
+    assert_eq!(rules, Rules::Brazilian);
     assert_eq!(entries.len(), 2);
     assert!(entries[0].rating > entries[1].rating);
     assert_eq!(entries[0].wins, 1);
@@ -263,7 +309,7 @@ async fn full_rated_match_updates_ratings_profile_and_leaderboard() {
 
 #[tokio::test]
 async fn out_of_turn_and_stale_shots_are_rejected() {
-    let url = start(Rules::default()).await;
+    let url = start(Settings::default()).await;
     let (mut alice, _) = Client::register(&url, "alice").await;
     let (mut bob, _) = Client::register(&url, "bob").await;
     let (game, sa, _) = start_match(&mut alice, &mut bob, "bob", "alice", false).await;
@@ -298,7 +344,7 @@ async fn out_of_turn_and_stale_shots_are_rejected() {
 
 #[tokio::test]
 async fn reactions_need_to_be_unlocked() {
-    let url = start(Rules::default()).await;
+    let url = start(Settings::default()).await;
     let (mut alice, _) = Client::register(&url, "alice").await;
     alice.expect("achievements", |m| matches!(m, ServerMsg::MyAchievements { .. })).await;
     let (mut bob, _) = Client::register(&url, "bob").await;
@@ -332,7 +378,7 @@ async fn reactions_need_to_be_unlocked() {
 
 #[tokio::test]
 async fn friends_can_watch_and_react() {
-    let url = start(Rules::default()).await;
+    let url = start(Settings::default()).await;
     let (mut alice, _) = Client::register(&url, "alice").await;
     let (mut bob, _) = Client::register(&url, "bob").await;
     let (mut carol, _) = Client::register(&url, "carol").await;
@@ -410,14 +456,9 @@ async fn friends_can_watch_and_react() {
 
 #[tokio::test]
 async fn players_against_the_computer_show_it_and_can_be_invited() {
-    let url = start(Rules::default()).await;
+    let url = start(Settings::default()).await;
     let (mut alice, _) = Client::register(&url, "alice").await;
-    alice
-        .expect(
-            "welcome",
-            |m| matches!(m, ServerMsg::Welcome { protocol, .. } if *protocol == PROTOCOL_VERSION),
-        )
-        .await;
+    alice.expect("welcome", |m| matches!(m, ServerMsg::Welcome { .. })).await;
     let (mut bob, _) = Client::register(&url, "bob").await;
     // Bob starts a game against the computer: Alice sees it in the lounge.
     bob.send(ClientMsg::SetActivity { vs_computer: true, away: false, focus: false }).await;
@@ -460,12 +501,12 @@ async fn players_against_the_computer_show_it_and_can_be_invited() {
 /// invited again.
 #[tokio::test]
 async fn players_in_focus_mode_are_not_invited() {
-    let url = start(Rules::default()).await;
+    let url = start(Settings::default()).await;
     let (mut alice, _) = Client::register(&url, "alice").await;
     let (mut bob, _) = Client::register(&url, "bob").await;
     let (mut carol, _) = Client::register(&url, "carol").await;
     // Carol's invitation waits for Bob.
-    carol.send(ClientMsg::Invite { to: "bob".into(), rated: false }).await;
+    carol.send(ClientMsg::Invite { to: "bob".into(), rated: false, rules: Rules::Brazilian }).await;
     bob.expect(
         "carol's invitation",
         |m| matches!(m, ServerMsg::Invited { from, .. } if from == "carol"),
@@ -491,7 +532,7 @@ async fn players_in_focus_mode_are_not_invited() {
     };
     assert!(reason.contains("focus mode"), "{reason}");
     // A new one is turned away at once.
-    alice.send(ClientMsg::Invite { to: "bob".into(), rated: false }).await;
+    alice.send(ClientMsg::Invite { to: "bob".into(), rated: false, rules: Rules::Brazilian }).await;
     let ServerMsg::InviteFailed { reason } =
         alice.expect("turned away", |m| matches!(m, ServerMsg::InviteFailed { .. })).await
     else {
@@ -505,7 +546,7 @@ async fn players_in_focus_mode_are_not_invited() {
             matches!(m, ServerMsg::PlayerUpdated { player } if player.username == "bob" && !player.focus)
         })
         .await;
-    alice.send(ClientMsg::Invite { to: "bob".into(), rated: false }).await;
+    alice.send(ClientMsg::Invite { to: "bob".into(), rated: false, rules: Rules::Brazilian }).await;
     bob.expect(
         "alice's invitation",
         |m| matches!(m, ServerMsg::Invited { from, .. } if from == "alice"),
@@ -515,16 +556,16 @@ async fn players_in_focus_mode_are_not_invited() {
 
 #[tokio::test]
 async fn play_now_pairs_players_of_the_same_mode() {
-    let url = start(Rules::default()).await;
+    let url = start(Settings::default()).await;
     let (mut alice, _) = Client::register(&url, "alice").await;
     let (mut bob, _) = Client::register(&url, "bob").await;
     let (mut carol, _) = Client::register(&url, "carol").await;
     // Carol wants a casual game: she isn't paired with the rated queue.
-    carol.send(ClientMsg::QueueJoin { rated: false }).await;
+    carol.send(ClientMsg::QueueJoin { rated: false, rules: Rules::Brazilian }).await;
     carol.expect("searching", |m| matches!(m, ServerMsg::Queue { searching: true, .. })).await;
-    alice.send(ClientMsg::QueueJoin { rated: true }).await;
+    alice.send(ClientMsg::QueueJoin { rated: true, rules: Rules::Brazilian }).await;
     alice.expect("searching", |m| matches!(m, ServerMsg::Queue { searching: true, .. })).await;
-    bob.send(ClientMsg::QueueJoin { rated: true }).await;
+    bob.send(ClientMsg::QueueJoin { rated: true, rules: Rules::Brazilian }).await;
     for c in [&mut alice, &mut bob] {
         let ServerMsg::MatchStarted { rated, players, .. } =
             c.expect("paired", |m| matches!(m, ServerMsg::MatchStarted { .. })).await
@@ -543,7 +584,7 @@ async fn play_now_pairs_players_of_the_same_mode() {
 
 #[tokio::test]
 async fn login_errors_and_validation() {
-    let url = start(Rules::default()).await;
+    let url = start(Settings::default()).await;
     let (_alice, token) = Client::register(&url, "Alice").await;
 
     // The oldest version let in plays; anything older (0.2.0 and its
@@ -553,7 +594,7 @@ async fn login_errors_and_validation() {
     {
         let (ws, _) = connect_async(&url).await.unwrap();
         let mut old = Client { ws };
-        old.send(ClientMsg::Hello { version }).await;
+        old.send(ClientMsg::Hello { version, rules: Rules::Brazilian }).await;
         old.send(ClientMsg::Resume { token: token.clone() }).await;
         let m = old
             .expect("answer", |m| {
@@ -608,7 +649,7 @@ async fn login_errors_and_validation() {
     for (version, says) in [(0, "out of date"), (PROTOCOL_VERSION + 1, "being updated")] {
         let (ws, _) = connect_async(&url).await.unwrap();
         let mut other = Client { ws };
-        other.send(ClientMsg::Hello { version }).await;
+        other.send(ClientMsg::Hello { version, rules: Rules::Brazilian }).await;
         let ServerMsg::AuthError { reason } =
             other.expect("version", |m| matches!(m, ServerMsg::AuthError { .. })).await
         else {
@@ -640,8 +681,8 @@ async fn login_errors_and_validation() {
 
 #[tokio::test]
 async fn disconnect_reconnect_and_abandon() {
-    let rules = Rules { reconnect_grace: Duration::from_secs(2), ..Rules::default() };
-    let url = start(rules).await;
+    let settings = Settings { reconnect_grace: Duration::from_secs(2), ..Settings::default() };
+    let url = start(settings).await;
     let (mut alice, alice_token) = Client::register(&url, "alice").await;
     let (mut bob, _) = Client::register(&url, "bob").await;
     let (_, _, _) = start_match(&mut alice, &mut bob, "bob", "alice", true).await;
@@ -676,21 +717,21 @@ async fn disconnect_reconnect_and_abandon() {
     let mut alice = Client::connect(&url).await;
     alice.send(ClientMsg::Resume { token: alice_token }).await;
     alice.expect("signed in", |m| matches!(m, ServerMsg::AuthOk { .. })).await;
-    alice.send(ClientMsg::QueueJoin { rated: true }).await;
+    alice.send(ClientMsg::QueueJoin { rated: true, rules: Rules::Brazilian }).await;
     let ServerMsg::Error { message } =
         alice.expect("refused", |m| matches!(m, ServerMsg::Error { .. })).await
     else {
         unreachable!()
     };
     assert!(message.starts_with("You left a game in progress"), "{message}");
-    alice.send(ClientMsg::Invite { to: "bob".into(), rated: false }).await;
+    alice.send(ClientMsg::Invite { to: "bob".into(), rated: false, rules: Rules::Brazilian }).await;
     alice.expect("no invitations", |m| matches!(m, ServerMsg::InviteFailed { .. })).await;
 }
 
 #[tokio::test]
 async fn shot_clock_plays_a_full_power_shot() {
-    let rules = Rules { shot_clock: Duration::from_secs(1), ..Rules::default() };
-    let url = start(rules).await;
+    let settings = Settings { shot_clock: Duration::from_secs(1), ..Settings::default() };
+    let url = start(settings).await;
     let (mut alice, _) = Client::register(&url, "alice").await;
     let (mut bob, _) = Client::register(&url, "bob").await;
     let (game, _, _) = start_match(&mut alice, &mut bob, "bob", "alice", false).await;
@@ -708,10 +749,16 @@ async fn shot_clock_plays_a_full_power_shot() {
 
 #[tokio::test]
 async fn private_tables_need_the_password() {
-    let url = start(Rules::default()).await;
+    let url = start(Settings::default()).await;
     let (mut alice, _) = Client::register(&url, "alice").await;
     let (mut bob, _) = Client::register(&url, "bob").await;
-    alice.send(ClientMsg::OpenTable { rated: false, password: Some("pool night".into()) }).await;
+    alice
+        .send(ClientMsg::OpenTable {
+            rated: false,
+            rules: Rules::Brazilian,
+            password: Some("pool night".into()),
+        })
+        .await;
     let ServerMsg::TableOpened { table } =
         bob.expect("table", |m| matches!(m, ServerMsg::TableOpened { .. })).await
     else {
@@ -727,7 +774,7 @@ async fn private_tables_need_the_password() {
 
 #[tokio::test]
 async fn friends_blocks_and_reports() {
-    let url = start(Rules::default()).await;
+    let url = start(Settings::default()).await;
     let (mut alice, _) = Client::register(&url, "alice").await;
     let (mut bob, _) = Client::register(&url, "bob").await;
     alice.send(ClientMsg::FriendRequest { username: "bob".into() }).await;
@@ -758,7 +805,7 @@ async fn friends_blocks_and_reports() {
         |m| matches!(m, ServerMsg::Friends { blocked, .. } if !blocked.is_empty()),
     )
     .await;
-    alice.send(ClientMsg::Invite { to: "bob".into(), rated: false }).await;
+    alice.send(ClientMsg::Invite { to: "bob".into(), rated: false, rules: Rules::Brazilian }).await;
     alice.expect("refused", |m| matches!(m, ServerMsg::InviteFailed { .. })).await;
     alice
         .send(ClientMsg::Report {
@@ -775,8 +822,8 @@ async fn tournament_runs_to_a_champion() {
     // The two semi-finals are played one after the other: a long shot clock
     // keeps the waiting one from playing time-out shots meanwhile (slow CI
     // machines take more than 30 s for a game).
-    let rules = Rules { shot_clock: Duration::from_secs(600), ..Rules::default() };
-    let url = start(rules).await;
+    let settings = Settings { shot_clock: Duration::from_secs(600), ..Settings::default() };
+    let url = start(settings).await;
     let mut clients = Vec::new();
     for name in ["ana", "ben", "cid", "dan"] {
         clients.push((name, Client::register(&url, name).await.0));
@@ -787,6 +834,7 @@ async fn tournament_runs_to_a_champion() {
             name: "Friday cup".into(),
             size: 4,
             rated: false,
+            rules: Rules::Brazilian,
             password: None,
             entry_fee: 0,
             format: Default::default(),
@@ -878,8 +926,8 @@ async fn tournament_runs_to_a_champion() {
 
 #[tokio::test]
 async fn lan_guests_play_casual_games() {
-    let rules = Rules { lan: true, ..Rules::default() };
-    let url = start(rules).await;
+    let settings = Settings { lan: true, ..Settings::default() };
+    let url = start(settings).await;
     let mut a = Client::connect(&url).await;
     a.send(ClientMsg::Register {
         username: "x_y".into(),
@@ -901,7 +949,7 @@ async fn lan_guests_play_casual_games() {
     b.expect("name taken", |m| matches!(m, ServerMsg::AuthError { .. })).await;
     b.send(ClientMsg::Guest { name: "visitor".into() }).await;
     b.expect("guest", |m| matches!(m, ServerMsg::AuthOk { .. })).await;
-    a.send(ClientMsg::Invite { to: "visitor".into(), rated: true }).await;
+    a.send(ClientMsg::Invite { to: "visitor".into(), rated: true, rules: Rules::Brazilian }).await;
     let ServerMsg::Invited { rated, .. } =
         b.expect("invite", |m| matches!(m, ServerMsg::Invited { .. })).await
     else {
@@ -943,7 +991,7 @@ fn json_of(body: &str) -> serde_json::Value {
 /// away for someone else to take. Reserved words are refused dressed up too.
 #[tokio::test]
 async fn administrators_names_stay_theirs() {
-    let (url, http) = start_with(Rules::default(), vec!["boss".into(), "chief".into()]).await;
+    let (url, http) = start_with(Settings::default(), vec!["boss".into(), "chief".into()]).await;
     let host = http.trim_start_matches("http://").to_string();
     let taken = "That username is taken.";
     for name in ["boss", "BOSS", "Admin_1", "moderador", "_suporte2", "staff"] {
@@ -995,7 +1043,7 @@ async fn administrators_names_stay_theirs() {
 /// deleting the account counts like a wrong one when signing in.
 #[tokio::test]
 async fn password_guesses_are_limited_everywhere() {
-    let (url, http) = start_with(Rules::default(), Vec::new()).await;
+    let (url, http) = start_with(Settings::default(), Vec::new()).await;
     let host = http.trim_start_matches("http://").to_string();
     let wrong = "Wrong username or password.";
     let mut c = Client::connect(&url).await;
@@ -1054,7 +1102,7 @@ async fn password_guesses_are_limited_everywhere() {
 /// without an answer, which a game would take as the end of its session.
 #[tokio::test]
 async fn signing_in_again_and_again_is_limited() {
-    let url = start(Rules::default()).await;
+    let url = start(Settings::default()).await;
     let (_first, token) = Client::register(&url, "dora").await;
     let mut refused = false;
     for _ in 0..20 {
@@ -1087,7 +1135,7 @@ async fn signing_in_again_and_again_is_limited() {
 
 #[tokio::test]
 async fn admin_panel_requires_staff() {
-    let (url, http) = start_with(Rules::default(), vec!["boss".into()]).await;
+    let (url, http) = start_with(Settings::default(), vec!["boss".into()]).await;
     let mut boss = Client::login(&url, "boss", PASSWORD).await;
     let (_eve, _) = Client::register(&url, "eve").await;
     let host = http.trim_start_matches("http://").to_string();
@@ -1185,10 +1233,12 @@ async fn admin_panel_requires_staff() {
 /// going in the lounge: its open table must not stay behind as a ghost.
 #[tokio::test]
 async fn a_replaced_session_leaves_no_table_or_queue_behind() {
-    let url = start(Rules::default()).await;
+    let url = start(Settings::default()).await;
     let (mut alice, token) = Client::register(&url, "alice").await;
     let (mut bob, _) = Client::register(&url, "bob").await;
-    alice.send(ClientMsg::OpenTable { rated: false, password: None }).await;
+    alice
+        .send(ClientMsg::OpenTable { rated: false, rules: Rules::Brazilian, password: None })
+        .await;
     let ServerMsg::TableOpened { table } =
         bob.expect("table", |m| matches!(m, ServerMsg::TableOpened { .. })).await
     else {
@@ -1214,7 +1264,7 @@ async fn a_replaced_session_leaves_no_table_or_queue_behind() {
 /// closes the connection that was there, which can do nothing more.
 #[tokio::test]
 async fn an_account_is_used_in_one_place_at_a_time() {
-    let url = start(Rules::default()).await;
+    let url = start(Settings::default()).await;
     let (mut first, token) = Client::register(&url, "alice").await;
     let (mut bob, _) = Client::register(&url, "bob").await;
     for by_password in [true, false] {
@@ -1277,11 +1327,13 @@ async fn an_account_is_used_in_one_place_at_a_time() {
 /// Lounge actions that everyone hears about can't be used to flood the lounge.
 #[tokio::test]
 async fn lounge_actions_are_rate_limited() {
-    let url = start(Rules::default()).await;
+    let url = start(Settings::default()).await;
     let (mut alice, _) = Client::register(&url, "alice").await;
     let (mut bob, _) = Client::register(&url, "bob").await;
     for _ in 0..40 {
-        alice.send(ClientMsg::OpenTable { rated: false, password: None }).await;
+        alice
+            .send(ClientMsg::OpenTable { rated: false, rules: Rules::Brazilian, password: None })
+            .await;
     }
     alice.expect("limit", |m| matches!(m, ServerMsg::Error { .. })).await;
     alice.send(ClientMsg::Chat { text: "done".into() }).await;
@@ -1298,6 +1350,7 @@ async fn lounge_actions_are_rate_limited() {
         name: "Friday".into(),
         size: 4,
         rated: false,
+        rules: Rules::Brazilian,
         password: None,
         entry_fee: 0,
         format: Default::default(),
@@ -1323,8 +1376,8 @@ async fn lounge_actions_are_rate_limited() {
 async fn start_on(store: snook_legend_server::store::Store) -> (String, std::sync::Arc<Server>) {
     let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
     let addr = listener.local_addr().unwrap();
-    let rules = Rules { max_connections_per_ip: 100, ..Rules::default() };
-    let config = Config { bind: addr, rules, ..Config::default() };
+    let settings = Settings { max_connections_per_ip: 100, ..Settings::default() };
+    let config = Config { bind: addr, settings, ..Config::default() };
     let server = Server::with_store(config, store).await;
     tokio::spawn(serve(listener, server.clone()));
     (format!("ws://{addr}/ws"), server)
@@ -1425,7 +1478,7 @@ async fn a_restart_hands_the_game_to_the_next_server() {
 
 #[tokio::test]
 async fn account_password_recovery_email_and_deletion() {
-    let url = start(Rules::default()).await;
+    let url = start(Settings::default()).await;
     let (mut carol, _) = Client::register(&url, "carol").await;
     carol.send(ClientMsg::ChangePassword { old: "wrong-one".into(), new: "another1".into() }).await;
     carol.expect("wrong", |m| matches!(m, ServerMsg::Error { .. })).await;
@@ -1547,7 +1600,7 @@ impl Client {
 
 #[tokio::test]
 async fn username_changes() {
-    let url = start(Rules::default()).await;
+    let url = start(Settings::default()).await;
     let (mut erin, token) = Client::register(&url, "erin").await;
     let (mut frank, _) = Client::register(&url, "frank").await;
     erin.send(ClientMsg::Account).await;
@@ -1594,7 +1647,7 @@ async fn username_changes() {
     erin.rename_refused("Erin_3", in_game).await;
     erin.send(ClientMsg::LeaveMatch).await;
     // Nor in the queue.
-    erin.send(ClientMsg::QueueJoin { rated: false }).await;
+    erin.send(ClientMsg::QueueJoin { rated: false, rules: Rules::Brazilian }).await;
     let queued = "Leave your table or the queue before changing your username.";
     erin.rename_refused("Erin_3", queued).await;
     erin.send(ClientMsg::QueueLeave).await;
@@ -1622,14 +1675,14 @@ async fn username_changes() {
 
 #[tokio::test]
 async fn replays_coins_featured_table_and_codes() {
-    let url = start(Rules::default()).await;
+    let url = start(Settings::default()).await;
     let (mut alice, _) = Client::register(&url, "alice").await;
     alice.expect("daily bonus", |m| matches!(m, ServerMsg::CoinsEarned { .. })).await;
     let (mut bob, _) = Client::register(&url, "bob").await;
     let (mut eve, _) = Client::register(&url, "eve").await;
 
     // An invitation code: "snook-legend://join/abc123" works as well as "ABC123".
-    alice.send(ClientMsg::CreateInviteCode { rated: true }).await;
+    alice.send(ClientMsg::CreateInviteCode { rated: true, rules: Rules::Brazilian }).await;
     let ServerMsg::InviteCode { code } =
         alice.expect("code", |m| matches!(m, ServerMsg::InviteCode { .. })).await
     else {
@@ -1723,14 +1776,15 @@ async fn replays_coins_featured_table_and_codes() {
     else {
         unreachable!()
     };
-    assert_eq!(profile.rating_history.len(), 1);
+    assert_eq!(profile.rating_history.brazilian.len(), 1);
+    assert!(profile.rating_history.official.is_empty());
     assert_eq!(profile.career.games, 1);
     assert!(profile.career.shots > 0);
 }
 
 #[tokio::test]
 async fn arenas_with_an_entry_fee() {
-    let url = start(Rules::default()).await;
+    let url = start(Settings::default()).await;
     let (mut alice, _) = Client::register(&url, "alice").await;
     let (mut bob, _) = Client::register(&url, "bob").await;
     // The daily bonus (5 coins) pays the entry.
@@ -1742,6 +1796,7 @@ async fn arenas_with_an_entry_fee() {
             name: "Blitz".into(),
             size: 4,
             rated: false,
+            rules: Rules::Brazilian,
             password: None,
             entry_fee: 1000,
             format: snook_legend_proto::TournamentFormat::Arena,
@@ -1753,6 +1808,7 @@ async fn arenas_with_an_entry_fee() {
             name: "Blitz".into(),
             size: 4,
             rated: false,
+            rules: Rules::Brazilian,
             password: None,
             entry_fee: 5,
             format: snook_legend_proto::TournamentFormat::Arena,
@@ -1877,6 +1933,7 @@ async fn new_knockout(host: &mut Client, fee: u32, password: Option<&str>) -> u6
         name: "Friday".into(),
         size: 4,
         rated: false,
+        rules: Rules::Brazilian,
         password: password.map(str::to_string),
         entry_fee: fee,
         format: Default::default(),
@@ -1937,6 +1994,7 @@ async fn tournament_fees_are_taken_and_given_back_once_each() {
         name: "Look at me".into(),
         size: 4,
         rated: false,
+        rules: Rules::Brazilian,
         password: None,
         entry_fee: 0,
         format: Default::default(),
@@ -1977,12 +2035,12 @@ async fn a_restart_calls_tournaments_off_and_gives_the_fees_back() {
 /// to the next one after a moment (the final used to wait for ever).
 #[tokio::test]
 async fn knockouts_move_on_and_are_announced_when_they_change() {
-    let rules = Rules {
+    let settings = Settings {
         tournament_pause: Duration::from_millis(500),
         shot_clock: Duration::from_secs(600),
-        ..Rules::default()
+        ..Settings::default()
     };
-    let url = start(rules).await;
+    let url = start(settings).await;
     let (mut ana, _) = Client::register(&url, "ana").await;
     let (mut ben, _) = Client::register(&url, "ben").await;
     let (mut cid, _) = Client::register(&url, "cid").await;
@@ -2022,12 +2080,12 @@ async fn knockouts_move_on_and_are_announced_when_they_change() {
 /// final without a champion: the fees go back).
 #[tokio::test]
 async fn a_tournament_game_both_players_left_is_settled() {
-    let rules = Rules {
+    let settings = Settings {
         reconnect_grace: Duration::from_millis(500),
         tournament_no_show: Duration::from_millis(500),
-        ..Rules::default()
+        ..Settings::default()
     };
-    let url = start(rules).await;
+    let url = start(settings).await;
     let (mut ana, _) = Client::register(&url, "ana").await;
     let (mut ben, _) = Client::register(&url, "ben").await;
     let (mut cid, _) = Client::register(&url, "cid").await;
@@ -2056,7 +2114,7 @@ async fn a_tournament_game_both_players_left_is_settled() {
 
 #[tokio::test]
 async fn withdrawing_while_waiting_for_an_opponent_frees_the_player() {
-    let url = start(Rules::default()).await;
+    let url = start(Settings::default()).await;
     let (mut ana, _) = Client::register(&url, "ana").await;
     let (mut ben, _) = Client::register(&url, "ben").await;
     let (mut cid, _) = Client::register(&url, "cid").await;
@@ -2064,6 +2122,7 @@ async fn withdrawing_while_waiting_for_an_opponent_frees_the_player() {
         name: "Three".into(),
         size: 4,
         rated: false,
+        rules: Rules::Brazilian,
         password: None,
         entry_fee: 0,
         format: Default::default(),
@@ -2088,7 +2147,7 @@ async fn withdrawing_while_waiting_for_an_opponent_frees_the_player() {
     cid.expect("semi-final", |m| matches!(m, ServerMsg::MatchStarted { .. })).await;
     // Ana withdraws before her opponent is known: she may play elsewhere.
     ana.send(ClientMsg::LeaveTournament { id }).await;
-    ana.send(ClientMsg::OpenTable { rated: false, password: None }).await;
+    ana.send(ClientMsg::OpenTable { rated: false, rules: Rules::Brazilian, password: None }).await;
     ana.expect("table", |m| {
         assert!(!matches!(m, ServerMsg::Error { .. }), "still held by the tournament: {m:?}");
         matches!(m, ServerMsg::TableOpened { .. })
@@ -2130,7 +2189,7 @@ async fn vip_members_have_their_own_reactions() {
 #[tokio::test]
 async fn chat_lines_can_be_deleted_and_the_chat_cleared() {
     use snook_legend_proto::Deleted;
-    let (url, _) = start_with(Rules::default(), vec!["boss".into()]).await;
+    let (url, _) = start_with(Settings::default(), vec!["boss".into()]).await;
     let mut boss = Client::login(&url, "boss", PASSWORD).await;
     let (mut bob, _) = Client::register(&url, "bob").await;
     bob.send(ClientMsg::Chat { text: "oops".into() }).await;
@@ -2191,7 +2250,7 @@ async fn said(c: &mut Client, text: &str) -> snook_legend_proto::ChatLine {
 
 #[tokio::test]
 async fn administrators_watching_see_the_players_chat() {
-    let (url, _) = start_with(Rules::default(), vec!["boss".into()]).await;
+    let (url, _) = start_with(Settings::default(), vec!["boss".into()]).await;
     let (mut alice, _) = Client::register(&url, "alice").await;
     let (mut bob, _) = Client::register(&url, "bob").await;
     let mut boss = Client::login(&url, "boss", PASSWORD).await;
@@ -2227,11 +2286,17 @@ async fn administrators_watching_see_the_players_chat() {
 /// someone guesses.
 #[tokio::test]
 async fn only_the_game_on_the_tv_can_be_watched_from_it() {
-    let url = start(Rules::default()).await;
+    let url = start(Settings::default()).await;
     let (mut alice, _) = Client::register(&url, "alice").await;
     let (mut bob, _) = Client::register(&url, "bob").await;
     let (mut eve, _) = Client::register(&url, "eve").await;
-    alice.send(ClientMsg::OpenTable { rated: false, password: Some("ours".into()) }).await;
+    alice
+        .send(ClientMsg::OpenTable {
+            rated: false,
+            rules: Rules::Brazilian,
+            password: Some("ours".into()),
+        })
+        .await;
     let ServerMsg::TableOpened { table } =
         bob.expect("table", |m| matches!(m, ServerMsg::TableOpened { .. })).await
     else {
@@ -2259,7 +2324,7 @@ async fn only_the_game_on_the_tv_can_be_watched_from_it() {
 /// table saw).
 #[tokio::test]
 async fn resigning_during_a_shot_comes_after_it() {
-    let url = start(Rules::default()).await;
+    let url = start(Settings::default()).await;
     let (mut alice, _) = Client::register(&url, "alice").await;
     let (mut bob, _) = Client::register(&url, "bob").await;
     let (game, sa, _) = start_match(&mut alice, &mut bob, "bob", "alice", false).await;
@@ -2290,11 +2355,11 @@ async fn resigning_during_a_shot_comes_after_it() {
 /// they wrote stay hidden from the history even when they have left.
 #[tokio::test]
 async fn blocks_reach_invitations_and_the_chat_history() {
-    let url = start(Rules::default()).await;
+    let url = start(Settings::default()).await;
     let (mut alice, _) = Client::register(&url, "alice").await;
     let (mut bob, token) = Client::register(&url, "bob").await;
     let (mut carol, _) = Client::register(&url, "carol").await;
-    alice.send(ClientMsg::Invite { to: "bob".into(), rated: false }).await;
+    alice.send(ClientMsg::Invite { to: "bob".into(), rated: false, rules: Rules::Brazilian }).await;
     bob.expect("invited", |m| matches!(m, ServerMsg::Invited { .. })).await;
     bob.send(ClientMsg::Block { username: "alice".into() }).await;
     alice.expect("declined", |m| matches!(m, ServerMsg::InviteDeclined { .. })).await;
@@ -2323,7 +2388,7 @@ async fn blocks_reach_invitations_and_the_chat_history() {
 /// The aim relayed to the opponent is one the cue can take.
 #[tokio::test]
 async fn relayed_aim_is_within_the_cues_limits() {
-    let url = start(Rules::default()).await;
+    let url = start(Settings::default()).await;
     let (mut alice, _) = Client::register(&url, "alice").await;
     let (mut bob, _) = Client::register(&url, "bob").await;
     let (game, sa, _) = start_match(&mut alice, &mut bob, "bob", "alice", false).await;
@@ -2354,8 +2419,8 @@ async fn relayed_aim_is_within_the_cues_limits() {
 async fn a_guest_leaving_during_a_restart_is_gone() {
     let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
     let addr = listener.local_addr().unwrap();
-    let rules = Rules { lan: true, max_connections_per_ip: 100, ..Rules::default() };
-    let server = Server::new(Config { bind: addr, rules, ..Config::default() }).await.unwrap();
+    let settings = Settings { lan: true, max_connections_per_ip: 100, ..Settings::default() };
+    let server = Server::new(Config { bind: addr, settings, ..Config::default() }).await.unwrap();
     tokio::spawn(serve(listener, server.clone()));
     let url = format!("ws://{addr}/ws");
     let mut a = Client::connect(&url).await;
@@ -2372,4 +2437,203 @@ async fn a_guest_leaving_during_a_restart_is_gone() {
         matches!(m, ServerMsg::OpponentConnection { connected: false, .. })
     })
     .await;
+}
+
+// ---------------------------------------------------------------------------
+// The official rules.
+
+/// A rated game under the official rules (with the choices its breaks
+/// leave): the official rating, ranking and chart change, the Brazilian
+/// ones don't.
+#[tokio::test]
+async fn a_rated_official_game_counts_under_the_official_rules_only() {
+    let url = start(Settings::default()).await;
+    let (mut alice, _) = Client::register(&url, "alice").await;
+    let (mut bob, _) = Client::register(&url, "bob").await;
+    let (game, sa, _) =
+        start_match_under(&mut alice, &mut bob, "bob", "alice", true, Rules::Official).await;
+    let result = play_out(&mut alice, &mut bob, game, sa).await;
+    assert!(result.rated);
+    let winner = if result.winner == sa { "alice" } else { "bob" };
+    for rules in Rules::ALL {
+        alice.send(ClientMsg::Leaderboard { rules }).await;
+        let ServerMsg::Leaderboard { rules: shown, entries } =
+            alice.expect("leaderboard", |m| matches!(m, ServerMsg::Leaderboard { .. })).await
+        else {
+            unreachable!()
+        };
+        assert_eq!(shown, rules);
+        match rules {
+            Rules::Official => {
+                assert_eq!(entries.len(), 2);
+                assert_eq!(entries[0].username, winner);
+                assert!(entries[0].rating > 1200 && entries[1].rating < 1200);
+            }
+            Rules::Brazilian => assert!(entries.is_empty(), "nobody played the Brazilian rules"),
+        }
+    }
+    alice.send(ClientMsg::Profile { username: "bob".into() }).await;
+    let ServerMsg::Profile { profile } =
+        alice.expect("profile", |m| matches!(m, ServerMsg::Profile { .. })).await
+    else {
+        unreachable!()
+    };
+    assert_eq!(profile.history[0].rules, Rules::Official);
+    assert_eq!(profile.player.standing(Rules::Brazilian), Default::default());
+    assert_eq!(profile.player.standing(Rules::Official).games, 1);
+    assert_eq!(profile.rating_history.official.len(), 1);
+    assert!(profile.rating_history.brazilian.is_empty());
+    assert!(profile.ranks.official.is_some() && profile.ranks.brazilian.is_none());
+
+    // A rematch is played under the same rules.
+    alice.send(ClientMsg::Rematch).await;
+    bob.expect("rematch offer", |m| matches!(m, ServerMsg::RematchOffered)).await;
+    bob.send(ClientMsg::Rematch).await;
+    let ServerMsg::MatchStarted { game, .. } =
+        alice.expect("rematch", |m| matches!(m, ServerMsg::MatchStarted { .. })).await
+    else {
+        unreachable!()
+    };
+    assert_eq!(game.rules(), Rules::Official);
+}
+
+/// "Play now" pairs players who want the same rules; everyone sees who is
+/// looking for a game, and under which rules each player plays.
+#[tokio::test]
+async fn play_now_pairs_players_of_the_same_rules() {
+    let url = start(Settings::default()).await;
+    let (mut alice, _) = Client::register(&url, "alice").await;
+    let (mut bob, _) = Client::register(&url, "bob").await;
+    let (mut carol, _) = Client::register(&url, "carol").await;
+    let (mut dave, _) = Client::register(&url, "dave").await;
+
+    // Dave plays the official rules: everyone sees it.
+    dave.send(ClientMsg::SetRules { rules: Rules::Official }).await;
+    alice
+        .expect("dave's rules", |m| {
+            matches!(m, ServerMsg::PlayerUpdated { player }
+                if player.username == "dave" && player.rules == Rules::Official)
+        })
+        .await;
+
+    alice.send(ClientMsg::QueueJoin { rated: true, rules: Rules::Official }).await;
+    let ServerMsg::Queue { searching, rules, .. } =
+        alice.expect("searching", |m| matches!(m, ServerMsg::Queue { .. })).await
+    else {
+        unreachable!()
+    };
+    assert!(searching && rules == Rules::Official);
+    // The others see that she is looking for a game.
+    dave.expect("alice searching", |m| {
+        matches!(m, ServerMsg::PlayerUpdated { player } if player.username == "alice" && player.searching)
+    })
+    .await;
+    // Bob wants the Brazilian rules: not paired with her.
+    bob.send(ClientMsg::QueueJoin { rated: true, rules: Rules::Brazilian }).await;
+    bob.expect("searching", |m| matches!(m, ServerMsg::Queue { searching: true, .. })).await;
+    carol.send(ClientMsg::QueueJoin { rated: true, rules: Rules::Official }).await;
+    for c in [&mut alice, &mut carol] {
+        let ServerMsg::MatchStarted { game, players, .. } =
+            c.expect("paired", |m| matches!(m, ServerMsg::MatchStarted { .. })).await
+        else {
+            unreachable!()
+        };
+        assert_eq!(game.rules(), Rules::Official);
+        let mut names: Vec<_> = players.iter().map(|p| p.username.clone()).collect();
+        names.sort();
+        assert_eq!(names, ["alice", "carol"]);
+    }
+    // Bob is still waiting, under his rules.
+    bob.send(ClientMsg::QueueLeave).await;
+    let ServerMsg::Queue { searching, rules, .. } =
+        bob.expect("left", |m| matches!(m, ServerMsg::Queue { searching: false, .. })).await
+    else {
+        unreachable!()
+    };
+    assert!(!searching && rules == Rules::Brazilian);
+    dave.expect("bob stopped", |m| {
+        matches!(m, ServerMsg::PlayerUpdated { player } if player.username == "bob" && !player.searching)
+    })
+    .await;
+}
+
+/// A table opened under the official rules is played under them.
+#[tokio::test]
+async fn tables_keep_their_rules() {
+    let url = start(Settings::default()).await;
+    let (mut alice, _) = Client::register(&url, "alice").await;
+    let (mut bob, _) = Client::register(&url, "bob").await;
+    alice.send(ClientMsg::OpenTable { rated: false, rules: Rules::Official, password: None }).await;
+    let ServerMsg::TableOpened { table } =
+        bob.expect("table", |m| matches!(m, ServerMsg::TableOpened { .. })).await
+    else {
+        unreachable!()
+    };
+    assert_eq!(table.rules, Rules::Official);
+    bob.send(ClientMsg::JoinTable { id: table.id, password: None }).await;
+    let ServerMsg::MatchStarted { game, .. } =
+        bob.expect("match", |m| matches!(m, ServerMsg::MatchStarted { .. })).await
+    else {
+        unreachable!()
+    };
+    assert_eq!(game.rules(), Rules::Official);
+}
+
+/// Under the official rules a shot clock that runs out is a foul: the
+/// opponent has the cue ball in hand (on the break: they break).
+#[tokio::test]
+async fn the_shot_clock_is_a_foul_under_the_official_rules() {
+    let settings = Settings { shot_clock: Duration::from_secs(1), ..Settings::default() };
+    let url = start(settings).await;
+    let (mut alice, _) = Client::register(&url, "alice").await;
+    let (mut bob, _) = Client::register(&url, "bob").await;
+    let (game, _, _) =
+        start_match_under(&mut alice, &mut bob, "bob", "alice", false, Rules::Official).await;
+    let first = game.current_player();
+    let ServerMsg::TimeFoul { seat, game, .. } = alice
+        .expect("time foul", |m| {
+            matches!(m, ServerMsg::TimeFoul { .. } | ServerMsg::ShotTaken { .. })
+        })
+        .await
+    else {
+        panic!("a shot was played for the player")
+    };
+    assert_eq!(seat, first);
+    assert_eq!(game.current_player(), 1 - first);
+    assert!(game.is_break(), "the opponent breaks");
+    assert_eq!(game.ball_in_hand(), Some(snook_legend_core::BallInHand::Kitchen));
+}
+
+/// The lounge counts who plays each of the rules (the public status too).
+#[tokio::test]
+async fn players_are_counted_under_their_rules() {
+    let (url, http) = start_with(Settings::default(), Vec::new()).await;
+    let (_alice, _) = Client::register(&url, "alice").await;
+    let (mut bob, _) = Client::register(&url, "bob").await;
+    bob.send(ClientMsg::SetRules { rules: Rules::Official }).await;
+    bob.drain().await;
+    let host = http.trim_start_matches("http://");
+    let (code, status) = http_get(host, "/api/status").await;
+    assert_eq!(code, 200);
+    assert_eq!(status["online"], 2);
+    assert_eq!(status["online_by_rules"]["brazilian"], 1);
+    assert_eq!(status["online_by_rules"]["official"], 1);
+    let (code, board) = http_get(host, "/api/leaderboard?rules=official").await;
+    assert_eq!(code, 200);
+    assert!(board.as_array().is_some_and(|b| b.is_empty()));
+    assert_eq!(http_get(host, "/api/leaderboard?rules=snooker").await.0, 400);
+}
+
+/// A GET to the server's HTTP side: the status code and the JSON body.
+async fn http_get(host: &str, path: &str) -> (u16, serde_json::Value) {
+    use tokio::io::{AsyncReadExt, AsyncWriteExt};
+    let mut s = TcpStream::connect(host).await.unwrap();
+    let req = format!("GET {path} HTTP/1.0\r\nHost: {host}\r\n\r\n");
+    s.write_all(req.as_bytes()).await.unwrap();
+    let mut out = Vec::new();
+    s.read_to_end(&mut out).await.unwrap();
+    let out = String::from_utf8_lossy(&out).to_string();
+    let code = out[9..12].parse().unwrap();
+    let body = out.split_once("\r\n\r\n").map(|x| x.1).unwrap_or("");
+    (code, serde_json::from_str(body).unwrap_or(serde_json::Value::Null))
 }

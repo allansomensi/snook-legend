@@ -135,16 +135,12 @@ pub async fn claim(server: &Server, me: &User, replay: Replay) -> ClaimResult {
     if replay.strokes.len() > ladder::MAX_STROKES {
         return fail(ClaimFailure::TooLong);
     }
-    // Only a final the server dealt to this account, from its rack, with
-    // its breaker and under today's rules: a game can't be set up at home
-    // (a rack searched for, the player breaking) nor shared between
-    // accounts.
+    // Only a final the server dealt to this account, from its rack and
+    // with its breaker (under either of the rules: the player's choice): a
+    // game can't be set up at home (a rack searched for, the player
+    // breaking) nor shared between accounts.
     match server.store.ladder_ticket(me.id, replay.seed).await {
-        Ok(Some((breaker, at)))
-            if breaker == replay.breaker
-                && now() - at <= TICKET_LIFE
-                // (Games of version 20 play the tour under ruleset 6.)
-                && (replay.ruleset == snook_legend_core::RULESET || replay.ruleset == 6) => {}
+        Ok(Some((breaker, at))) if breaker == replay.breaker && now() - at <= TICKET_LIFE => {}
         Ok(_) => return fail(ClaimFailure::NoTicket),
         Err(e) => {
             tracing::error!("ladder ticket of {}: {e}", me.username);
@@ -292,16 +288,6 @@ pub async fn ghost_style(server: &Server, me: &User, username: &str) -> GhostAns
     GhostAnswer::Ready { style }
 }
 
-/// The protocol that added the ladder's and the ghosts' messages.
-const COMPUTER_PROTOCOL: u32 = 13;
-
-/// Whether `me`'s game understands the answers (only games that speak
-/// protocol 13 ask, but the server never sends an older game a message it
-/// doesn't know).
-fn speaks_computer_messages(server: &Server, me: &User) -> bool {
-    server.with(|l| l.protocol_of(&me.username)).is_none_or(|v| v >= COMPUTER_PROTOCOL)
-}
-
 /// Answers a claim on its own task (it can take seconds), so the player's
 /// other messages are not held up.
 pub fn spawn_claim(
@@ -312,9 +298,7 @@ pub fn spawn_claim(
 ) {
     tokio::spawn(async move {
         let result = claim(&server, &me, replay).await;
-        if speaks_computer_messages(&server, &me) {
-            let _ = tx.send(ServerMsg::LadderClaim { result }).await;
-        }
+        let _ = tx.send(ServerMsg::LadderClaim { result }).await;
     });
 }
 
@@ -328,8 +312,6 @@ pub fn spawn_ghost(
     tokio::spawn(async move {
         let answer = ghost_style(&server, &me, &username).await;
         let username = username.trim().to_string();
-        if speaks_computer_messages(&server, &me) {
-            let _ = tx.send(ServerMsg::GhostStyle { username, answer }).await;
-        }
+        let _ = tx.send(ServerMsg::GhostStyle { username, answer }).await;
     });
 }

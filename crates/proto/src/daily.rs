@@ -59,9 +59,11 @@ pub fn position(seed: u64) -> Vec<(BallId, DVec2)> {
 }
 
 /// The game set up for a seed: past the break, an open table with only the
-/// challenge's balls on it.
+/// challenge's balls on it. The challenge is the same for everyone, whatever
+/// the rules they play: its positions are played under the Brazilian rules
+/// (a ball made keeps the table, with nothing to call).
 pub fn game(seed: u64) -> EightBallGame {
-    let mut g = EightBallGame::new(seed, 0);
+    let mut g = EightBallGame::new(seed, 0, snook_legend_core::Rules::Brazilian);
     g.set_up_test_position(&position(seed));
     g
 }

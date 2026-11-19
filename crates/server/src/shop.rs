@@ -231,11 +231,7 @@ pub async fn handle(server: &Arc<Server>, me: &User, msg: ClientMsg, send: &impl
                         gift_to: Some(friend.username.clone()),
                     });
                     push_wallet(server, me).await;
-                    let msg = ServerMsg::GiftReceived {
-                        from: me.username.clone(),
-                        code: item.code.to_string(),
-                    };
-                    crate::social::deliver_gift(server, &friend, gift_id, msg).await;
+                    crate::social::deliver_gift(server, &friend, gift_id).await;
                     push_wallet(server, &friend).await;
                 }
                 Ok((BuyOutcome::AlreadyOwned, _)) => error("Your friend already has this item."),
@@ -595,7 +591,7 @@ async fn vip_gift_paid(
             at: now(),
         };
         match server.store.record_gift(&gift).await {
-            Ok(id) => crate::social::deliver_gift(server, &friend, id, msg).await,
+            Ok(id) => crate::social::deliver_gift(server, &friend, id).await,
             Err(e) => {
                 tracing::error!("recording a VIP gift: {e}");
                 server.with(|l| l.notify(&friend.username, msg));

@@ -118,8 +118,12 @@ pub fn ai_seed(rack_seed: u64, shots_taken: u32) -> u64 {
 }
 
 /// The stroke the computer plays on this table, as the game records it: the
-/// shot, the called pocket and, with the cue ball in hand, where it stands.
+/// shot, the called pocket and, with the cue ball in hand, where it stands;
+/// or its answer to the break's choice (the official rules).
 pub fn computer_stroke(game: &EightBallGame, player: &AiPlayer, rack_seed: u64) -> Stroke {
+    if let Some(option) = ai::choose(game) {
+        return Stroke::Choice { option };
+    }
     let d = ai::decide_with(game, player, ai_seed(rack_seed, game.shots_taken()));
     let cue_ball =
         game.ball_in_hand().map(|_| d.cue_ball.unwrap_or_else(|| game.ball(BallId::CUE).xy()));
@@ -189,6 +193,7 @@ fn same(a: &Stroke, b: &Stroke) -> bool {
                     _ => false,
                 }
         }
+        (Stroke::Choice { option: a }, Stroke::Choice { option: b }) => a == b,
         _ => false,
     }
 }
@@ -215,9 +220,10 @@ pub fn verify_against(replay: &Replay, opponent: &AiPlayer) -> Result<EightBallG
             return Err(ClaimFailure::Illegal);
         }
         if game.current_player() == PLAYER_SEAT {
-            // The player shoots or runs out of time; resigning loses.
+            // The player shoots, answers the break's choice or runs out of
+            // time; resigning loses.
             match stroke {
-                Stroke::Shot { timeout: false, .. } | Stroke::TimeFoul => {}
+                Stroke::Shot { timeout: false, .. } | Stroke::TimeFoul | Stroke::Choice { .. } => {}
                 _ => return Err(ClaimFailure::Illegal),
             }
         } else {
@@ -245,7 +251,7 @@ mod tests {
     fn won_game(opponent: &AiPlayer, mut seed: u64) -> Replay {
         let me = Difficulty::Hard.player();
         loop {
-            let mut replay = Replay::new(seed, 0);
+            let mut replay = Replay::new(seed, 0, snook_legend_core::Rules::Brazilian);
             let mut game = replay.start();
             while game.game_over().is_none() && replay.strokes.len() < 200 {
                 let stroke = if game.current_player() == PLAYER_SEAT {
@@ -294,7 +300,11 @@ mod tests {
         // Whether the player won, and how many times the opponent left the
         // table to them (a chance: the opponent's turn ended, game on).
         let play = |opponent: AiPlayer, seed: u64| -> (bool, usize) {
-            let mut replay = Replay::new(seed * 7919 + 13, (seed % 2) as usize);
+            let mut replay = Replay::new(
+                seed * 7919 + 13,
+                (seed % 2) as usize,
+                snook_legend_core::Rules::Brazilian,
+            );
             let mut game = replay.start();
             let mut chances = 0;
             while game.game_over().is_none() && replay.strokes.len() < 300 {
@@ -397,7 +407,7 @@ mod tests {
         assert_eq!(verify_against(&extra, &weak).unwrap_err(), ClaimFailure::Illegal);
 
         // Far too long.
-        let mut long = Replay::new(1, 0);
+        let mut long = Replay::new(1, 0, snook_legend_core::Rules::Brazilian);
         long.strokes = vec![Stroke::TimeFoul; MAX_STROKES + 1];
         assert_eq!(verify_against(&long, &weak).unwrap_err(), ClaimFailure::TooLong);
     }
@@ -413,7 +423,7 @@ mod tests {
 
     fn won_game_by_computer(opponent: &AiPlayer, seed: u64) -> Option<Replay> {
         // A clumsy player: soft shots straight up the table.
-        let mut replay = Replay::new(seed, 1);
+        let mut replay = Replay::new(seed, 1, snook_legend_core::Rules::Brazilian);
         let mut game = replay.start();
         while game.game_over().is_none() && replay.strokes.len() < 300 {
             let stroke = if game.current_player() == PLAYER_SEAT {

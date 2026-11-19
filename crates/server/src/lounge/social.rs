@@ -1,5 +1,4 @@
-//! The lounge's social side: the "looking for a game" board, and sending
-//! messages only to games new enough to understand them.
+//! The lounge's social side: the "looking for a game" board.
 //!
 //! A note on the board belongs to an online player: one each, taken down
 //! when they start a game, leave, take it down themselves or after
@@ -8,14 +7,12 @@
 use std::collections::HashMap;
 use std::time::Duration;
 
-use snook_legend_proto::{
-    OLDEST_PROTOCOL_VERSION, SOCIAL_PROTOCOL, SeekNote, ServerMsg, clean_seek,
-};
+use snook_legend_proto::{SeekNote, ServerMsg, clean_seek};
 
-use super::{Lounge, key};
+use super::{Lounge, Offer, key};
 use crate::now;
 
-/// How long a note stays on the board (by default; see [`super::Rules`]).
+/// How long a note stays on the board (by default; see [`super::Settings`]).
 pub const SEEK_LIFETIME: Duration = Duration::from_secs(30 * 60);
 /// Most notes on the board at once (one per player; this only bounds the
 /// board's size if very many people are online).
@@ -30,46 +27,22 @@ pub(super) struct Seeks {
     notes: HashMap<String, SeekNote>,
 }
 
-/// The protocol version a session starts with until its game's version is
-/// known (nothing new is sent to it).
-pub(super) const UNKNOWN_PROTOCOL: u32 = OLDEST_PROTOCOL_VERSION;
-
 impl Lounge {
-    /// Records which protocol version a signed-in player's game speaks, and
-    /// sends what only newer games understand (the "looking for a game"
-    /// board). Call right after [`Lounge::join`].
-    pub fn set_protocol(&mut self, name: &str, version: u32) {
-        let k = key(name);
-        let Some(s) = self.sessions.get_mut(&k) else { return };
-        s.protocol = version;
-        if version >= SOCIAL_PROTOCOL && !self.rules.lan {
-            let blocked = &self.sessions[&k].blocked;
-            let mut notes: Vec<SeekNote> = self
-                .seeks
-                .notes
-                .iter()
-                .filter(|(poster, _)| {
-                    !self.sessions.get(*poster).is_some_and(|p| blocked.contains(&p.user.id))
-                })
-                .map(|(_, n)| n.clone())
-                .collect();
-            notes.sort_by_key(|n| std::cmp::Reverse((n.at, n.username.to_lowercase())));
-            self.send(&k, ServerMsg::SeekBoard { notes });
-        }
-    }
-
-    /// The protocol version of an online player's game.
-    pub fn protocol_of(&self, name: &str) -> Option<u32> {
-        self.sessions.get(&key(name)).map(|s| s.protocol)
-    }
-
-    /// Sends to everyone whose game speaks protocol `min` or newer.
-    pub(super) fn broadcast_from(&self, min: u32, msg: &ServerMsg) {
-        for (k, s) in &self.sessions {
-            if s.protocol >= min {
-                self.send(k, msg.clone());
-            }
-        }
+    /// Sends the board to `k` (who just came in), without the notes of the
+    /// players they blocked.
+    pub(super) fn send_seek_board(&self, k: &str) {
+        let Some(s) = self.sessions.get(k) else { return };
+        let mut notes: Vec<SeekNote> = self
+            .seeks
+            .notes
+            .iter()
+            .filter(|(poster, _)| {
+                !self.sessions.get(*poster).is_some_and(|p| s.blocked.contains(&p.user.id))
+            })
+            .map(|(_, n)| n.clone())
+            .collect();
+        notes.sort_by_key(|n| std::cmp::Reverse((n.at, n.username.to_lowercase())));
+        self.send(k, ServerMsg::SeekBoard { notes });
     }
 
     /// The notes on the board (newest first), for the staff panel.
@@ -80,8 +53,8 @@ impl Lounge {
     }
 
     /// A player puts (or replaces) their note on the board.
-    pub(super) fn post_seek(&mut self, k: &str, text: &str, rated: bool) {
-        if self.rules.lan {
+    pub(super) fn post_seek(&mut self, k: &str, text: &str, offer: Offer) {
+        if self.settings.lan {
             return;
         }
         let nowt = now();
@@ -109,16 +82,17 @@ impl Lounge {
         let note = SeekNote {
             username: s.user.username.clone(),
             text,
-            rated: rated && !s.guest,
+            rated: offer.rated && !s.guest,
+            rules: offer.rules,
             at: nowt,
-            expires_at: nowt + self.rules.seek_lifetime.as_secs().max(1) as i64,
+            expires_at: nowt + self.settings.seek_lifetime.as_secs().max(1) as i64,
         };
         let poster = s.user.id;
         self.seeks.notes.insert(k.to_string(), note.clone());
         tracing::info!(player = k, rated = note.rated, "looking for a game: {}", note.text);
         let msg = ServerMsg::SeekPosted { note };
         for (other, session) in &self.sessions {
-            if session.protocol >= SOCIAL_PROTOCOL && !session.blocked.contains(&poster) {
+            if !session.blocked.contains(&poster) {
                 self.send(other, msg.clone());
             }
         }
@@ -129,7 +103,7 @@ impl Lounge {
         match self.seeks.notes.remove(k) {
             Some(note) => {
                 let msg = ServerMsg::SeekRemoved { username: note.username };
-                self.broadcast_from(SOCIAL_PROTOCOL, &msg);
+                self.broadcast(&msg);
                 true
             }
             None => false,

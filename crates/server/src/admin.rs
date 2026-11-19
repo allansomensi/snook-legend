@@ -20,7 +20,7 @@ use axum::routing::{get, post};
 use serde::Deserialize;
 use serde_json::{Value, json};
 use snook_legend_proto::{
-    MAX_PASSWORD_BYTES, Role, Tier, clean_text, valid_password, valid_username,
+    MAX_PASSWORD_BYTES, Role, Rules, Tier, clean_text, valid_password, valid_username,
 };
 
 use crate::store::{SessionKind, User};
@@ -187,11 +187,14 @@ fn user_json(u: &User, online: bool) -> Value {
         "username": u.username,
         "country": u.country,
         "role": u.role,
-        "rating": u.rating,
-        "peak_rating": u.peak_rating,
-        "tier": Tier::of(u.rating).name(),
-        "games": u.games,
-        "wins": u.wins,
+        "records": u.records.map(|_, r| json!({
+            "rating": r.rating,
+            "peak_rating": r.peak_rating,
+            "tier": Tier::of(r.rating).name(),
+            "games": r.games,
+            "wins": r.wins,
+        })),
+        "games": u.rated_games(),
         "casual_games": u.casual_games,
         "created_at": u.created_at,
         "last_seen": u.last_seen,
@@ -219,8 +222,8 @@ async fn metrics(State(server): State<Arc<Server>>, headers: HeaderMap) -> ApiRe
     let mut sorted = waits.clone();
     sorted.sort_unstable();
     let median = sorted.get(sorted.len() / 2).copied().unwrap_or(0);
-    let (online, games, waiting) =
-        server.with(|l| (l.online_count(), l.running_games(), l.queue_now()));
+    let (online, online_by_rules, games, waiting) =
+        server.with(|l| (l.online_count(), l.online_by_rules(), l.running_games(), l.queue_now()));
     // The latest waits, oldest first (each pairing counts both players).
     let recent: Vec<u32> = waits.iter().rev().take(60).rev().copied().collect();
     Ok(Json(json!({
@@ -229,10 +232,14 @@ async fn metrics(State(server): State<Arc<Server>>, headers: HeaderMap) -> ApiRe
         "queue": {
             "pairs": waits.len() / 2, "avg_wait_secs": avg_wait, "median_wait_secs": median,
             "size": waiting.len(),
-            "waiting": waiting.iter().map(|(rated, secs)| json!({ "rated": rated, "secs": secs })).collect::<Vec<_>>(),
+            "waiting": waiting
+                .iter()
+                .map(|(offer, secs)| json!({ "rated": offer.rated, "rules": offer.rules, "secs": secs }))
+                .collect::<Vec<_>>(),
             "recent": recent,
         },
         "online": online,
+        "online_by_rules": online_by_rules,
         "games": games,
         "now": now(),
         "draining": server.with(|l| l.is_draining()),
@@ -456,7 +463,7 @@ async fn overview(State(server): State<Arc<Server>>, headers: HeaderMap) -> ApiR
         "uptime_secs": server.started.elapsed().as_secs(),
         "version": env!("CARGO_PKG_VERSION"),
         "persistent": server.store.is_persistent(),
-        "motd": server.with(|l| l.rules.motd.clone()),
+        "motd": server.with(|l| l.settings.motd.clone()),
     })))
 }
 
@@ -518,7 +525,7 @@ async fn users(
         match search.sort {
             UserSort::Newest => all.sort_by_key(|u| std::cmp::Reverse(u.id)),
             UserSort::Name => all.sort_by_key(|u| u.username.to_lowercase()),
-            UserSort::Rating => all.sort_by_key(|u| std::cmp::Reverse(u.rating)),
+            UserSort::Rating => all.sort_by_key(|u| std::cmp::Reverse(u.best_rating())),
             UserSort::LastSeen => all.sort_by_key(|u| std::cmp::Reverse(u.last_seen)),
         }
         let total = all.len() as i64;
@@ -566,10 +573,8 @@ async fn user_detail(
         crate::store::AuditSearch { target: Some(u.username.clone()), ..Default::default() };
     let moderation = server.store.audit_search(&search, 100).await?;
     let online = server.with(|l| l.is_online(&u.username));
-    let presence = server.with(|l| {
-        l.player(&u.username)
-            .map(|p| json!({ "status": p.status, "protocol": l.protocol_of(&u.username) }))
-    });
+    let presence = server
+        .with(|l| l.player(&u.username).map(|p| json!({ "status": p.status, "rules": p.rules })));
     let history: Vec<Value> = history?
         .into_iter()
         .map(|h| {
@@ -1148,7 +1153,7 @@ async fn economy(State(server): State<Arc<Server>>, headers: HeaderMap) -> ApiRe
 /// The server itself: what runs, how it is set up, how busy it is.
 async fn system(State(server): State<Arc<Server>>, headers: HeaderMap) -> ApiResult {
     staff(&server, &headers).await?;
-    let r = server.config.rules.clone();
+    let r = server.config.settings.clone();
     let (online, addresses, games, live, queue, draining) = server.with(|l| {
         (
             l.online_count(),
@@ -1164,13 +1169,13 @@ async fn system(State(server): State<Arc<Server>>, headers: HeaderMap) -> ApiRes
         json!({
             "name": c.name, "weekday": c.weekday, "hour": c.hour, "minute": c.minute,
             "utc_offset": c.utc_offset, "minutes": c.minutes, "entry_fee": c.entry_fee,
+            "rules": c.rules,
         })
     });
     Ok(Json(json!({
         "version": env!("CARGO_PKG_VERSION"),
         "protocol": snook_legend_proto::PROTOCOL_VERSION,
         "oldest_protocol": snook_legend_proto::OLDEST_PROTOCOL_VERSION,
-        "ruleset": snook_legend_core::RULESET,
         "uptime_secs": server.started.elapsed().as_secs(),
         "persistent": server.store.is_persistent(),
         "draining": draining,
@@ -1184,7 +1189,8 @@ async fn system(State(server): State<Arc<Server>>, headers: HeaderMap) -> ApiRes
         "pending_writes": pending,
         "stripe": server.stripe.is_some(),
         "msstore": server.msstore.is_some(),
-        "rules": {
+        "online_by_rules": server.with(|l| l.online_by_rules()),
+        "settings": {
             "shot_clock_secs": r.shot_clock.as_secs(),
             "reconnect_grace_secs": r.reconnect_grace.as_secs(),
             "chat_history": r.chat_history,
@@ -1278,6 +1284,8 @@ struct EventBody {
     size: u32,
     #[serde(default)]
     rated: bool,
+    #[serde(default)]
+    rules: Rules,
     #[serde(default)]
     entry_fee: u32,
     #[serde(default)]
@@ -1379,6 +1387,7 @@ async fn create_event(
         format,
         size,
         rated,
+        rules: body.rules,
         entry_fee,
         prize,
         created_by: s.user.id,
@@ -1389,7 +1398,7 @@ async fn create_event(
     let what = if kind.is_boost() {
         format!("{} ×{multiplier}", kind.code())
     } else {
-        format!("{format} tournament")
+        format!("{format} tournament, {} rules", body.rules.code())
     };
     log(&server, &s, "event", &title, &format!("{what}, {} – {}", utc(starts_at), utc(ends_at)))
         .await;

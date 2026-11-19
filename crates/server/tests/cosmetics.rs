@@ -9,8 +9,8 @@ use std::time::Duration;
 use futures_util::{SinkExt, StreamExt};
 use snook_legend_core::{Difficulty, EightBallGame, ai};
 use snook_legend_proto::shop::{self, Category};
-use snook_legend_proto::{ClientMsg, PROTOCOL_VERSION, Role, ServerMsg, parse_server};
-use snook_legend_server::lounge::Rules;
+use snook_legend_proto::{ClientMsg, PROTOCOL_VERSION, Role, Rules, ServerMsg, parse_server};
+use snook_legend_server::lounge::Settings;
 use snook_legend_server::store::{NewUser, Store};
 use snook_legend_server::{Config, Server, now, serve};
 use tokio::net::{TcpListener, TcpStream};
@@ -24,8 +24,8 @@ const PASSWORD: &str = "secret123";
 async fn start() -> (String, std::sync::Arc<Server>) {
     let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
     let addr = listener.local_addr().unwrap();
-    let rules = Rules { max_connections_per_ip: 100, ..Rules::default() };
-    let config = Config { bind: addr, rules, ..Config::default() };
+    let settings = Settings { max_connections_per_ip: 100, ..Settings::default() };
+    let config = Config { bind: addr, settings, ..Config::default() };
     let server = Server::with_store(config, Store::memory()).await;
     tokio::spawn(serve(listener, server.clone()));
     (format!("ws://{addr}/ws"), server)
@@ -39,7 +39,7 @@ impl Client {
     async fn register(url: &str, name: &str) -> Client {
         let (ws, _) = connect_async(url).await.unwrap();
         let mut c = Client { ws };
-        c.send(ClientMsg::Hello { version: PROTOCOL_VERSION }).await;
+        c.send(ClientMsg::Hello { version: PROTOCOL_VERSION, rules: Rules::Brazilian }).await;
         c.send(ClientMsg::Register {
             username: name.into(),
             password: PASSWORD.into(),
@@ -77,7 +77,7 @@ impl Client {
     async fn login(url: &str, name: &str) -> Client {
         let (ws, _) = connect_async(url).await.unwrap();
         let mut c = Client { ws };
-        c.send(ClientMsg::Hello { version: PROTOCOL_VERSION }).await;
+        c.send(ClientMsg::Hello { version: PROTOCOL_VERSION, rules: Rules::Brazilian }).await;
         c.send(ClientMsg::Login { username: name.into(), password: PASSWORD.into() }).await;
         c.expect("auth", |m| matches!(m, ServerMsg::AuthOk { .. })).await;
         c
@@ -116,7 +116,7 @@ async fn start_match(
     a_name: &str,
     rated: bool,
 ) -> (EightBallGame, usize, [snook_legend_proto::PlayerInfo; 2]) {
-    a.send(ClientMsg::Invite { to: b_name.into(), rated }).await;
+    a.send(ClientMsg::Invite { to: b_name.into(), rated, rules: Rules::Brazilian }).await;
     b.expect("invite", |m| matches!(m, ServerMsg::Invited { .. })).await;
     b.send(ClientMsg::AnswerInvite { from: a_name.into(), accept: true }).await;
     let ServerMsg::MatchStarted { game, seat, players, .. } =

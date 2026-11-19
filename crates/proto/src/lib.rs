@@ -30,7 +30,8 @@ pub use reactions::{REACTIONS, Reaction, reaction};
 
 use glam::DVec2;
 use serde::{Deserialize, Serialize};
-use snook_legend_core::{EightBallGame, GameOverReason, PocketId, Shot, ShotReport};
+use snook_legend_core::{BreakOption, EightBallGame, GameOverReason, PocketId, Shot, ShotReport};
+pub use snook_legend_core::{PerRules, Rules};
 
 /// A coin pack on sale, with its price as shown to players.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -138,48 +139,11 @@ pub const SPECTATOR_SEAT: usize = 2;
 pub const GAME_NAME: &str = "Snook Legend";
 
 /// Bumped whenever messages change incompatibly.
-pub const PROTOCOL_VERSION: u32 = 21;
+pub const PROTOCOL_VERSION: u32 = 22;
 
-/// The oldest version the server still lets in. Version 20 plays the tour's
-/// final against a stronger opponent (see [`ladder::tour_form`]): the
-/// server checks the final against that player, so a game of an older
-/// version could never earn its reward, and it must update. (Version 19
-/// brought ruleset 6, which this one plays too.) Version 21 only adds the
-/// age group ([`AGE_PROTOCOL`]): games of version 20 still play.
-pub const OLDEST_PROTOCOL_VERSION: u32 = 20;
-
-/// The first version that plays ruleset 7 (a break that hits nothing, or
-/// loses the cue ball with nothing made, is handed to the opponent).
-pub const RULESET_7_PROTOCOL: u32 = 21;
-
-/// The rules a game between games of these versions is played under: the
-/// newest that all of them know, so that no game is played under rules a
-/// player's game can't show (ruleset 6 with a game of version 20).
-pub fn ruleset_for(protocols: &[u32]) -> u8 {
-    if protocols.iter().all(|p| *p >= RULESET_7_PROTOCOL) { snook_legend_core::RULESET } else { 6 }
-}
-
-#[cfg(test)]
-mod ruleset_tests {
-    use super::*;
-
-    #[test]
-    fn a_game_plays_the_newest_rules_both_players_know() {
-        assert_eq!(ruleset_for(&[PROTOCOL_VERSION, PROTOCOL_VERSION]), snook_legend_core::RULESET);
-        assert_eq!(ruleset_for(&[PROTOCOL_VERSION, OLDEST_PROTOCOL_VERSION]), 6);
-        assert_eq!(ruleset_for(&[OLDEST_PROTOCOL_VERSION, OLDEST_PROTOCOL_VERSION]), 6);
-        assert_eq!(snook_legend_core::RULESET, 7);
-    }
-}
-
-/// The first version that asks the player's age group and knows
-/// [`ClientMsg::SetAge`], [`ClientMsg::AllowChat`] and [`ServerMsg::Age`]
-/// (the server says its version in [`ServerMsg::Welcome`]). The chat with
-/// other players is off until the age group is given (18 or older) or, under
-/// 18, a parent or guardian turns it on; games of version 21 ask when
-/// signing up, later ones when the player first writes to others. An older
-/// game is told to update when it writes.
-pub const AGE_PROTOCOL: u32 = 21;
+/// The oldest version the server still lets in: version 22 brought the
+/// official rules, and every game plays under rules both players chose.
+pub const OLDEST_PROTOCOL_VERSION: u32 = 22;
 
 /// Username rules: 3–16 characters, letters, digits and underscores.
 pub fn valid_username(name: &str) -> bool {
@@ -424,14 +388,6 @@ pub const QUICK_CHAT: [&str; 14] = [
 pub const MAX_STATUS_LEN: usize = 60;
 /// Maximum length of a note on the "looking for a game" board.
 pub const MAX_SEEK_LEN: usize = 60;
-/// The first protocol version with status messages, recent opponents and
-/// the "looking for a game" board (older games are never sent their
-/// messages).
-pub const SOCIAL_PROTOCOL: u32 = 13;
-/// The first server that knows [`ClientMsg::SetActivity`] (it says
-/// so in [`ServerMsg::Welcome`]; older servers leave the field out).
-pub const ACTIVITY_PROTOCOL: u32 = 13;
-
 /// Maximum length of the message that goes with a gift.
 pub const MAX_GIFT_MESSAGE: usize = 80;
 
@@ -556,22 +512,56 @@ impl Role {
 }
 
 /// What a player is doing in the lounge.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum PlayerStatus {
+    #[default]
     Available,
     /// Seated at a table, waiting for an opponent.
     Waiting,
     Playing,
 }
 
-/// Public information about a player.
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PlayerInfo {
-    pub username: String,
+/// A player's record under one of the rules: their rating and their rated
+/// games.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+pub struct Standing {
     pub rating: i32,
     pub games: u32,
     pub wins: u32,
+}
+
+impl Default for Standing {
+    /// No rated game yet: the starting rating.
+    fn default() -> Self {
+        Standing {
+            rating: snook_legend_core::rating::EloConfig::default().initial_rating,
+            games: 0,
+            wins: 0,
+        }
+    }
+}
+
+impl Standing {
+    pub fn tier(&self) -> Tier {
+        Tier::of(self.rating)
+    }
+
+    /// Wins over rated games, 0..=100.
+    pub fn win_rate(&self) -> u32 {
+        (self.wins * 100).checked_div(self.games).unwrap_or(0)
+    }
+}
+
+/// Public information about a player.
+#[derive(Debug, Clone, PartialEq, Default, Serialize, Deserialize)]
+pub struct PlayerInfo {
+    pub username: String,
+    /// The rules they play: the ones they chose in their game (online games,
+    /// "Play now", tables and games against the computer follow them).
+    pub rules: Rules,
+    /// Their rating and rated games under each of the rules.
+    pub standings: PerRules<Standing>,
     pub status: PlayerStatus,
     /// ISO 3166-1 alpha-2 code, or empty.
     #[serde(default)]
@@ -616,6 +606,9 @@ pub struct PlayerInfo {
     /// game's focus mode on): invitations are turned away until it ends.
     #[serde(default, skip_serializing_if = "std::ops::Not::not")]
     pub focus: bool,
+    /// In the "Play now" queue, looking for an opponent of their rules.
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub searching: bool,
     /// The account level (see [`xp`]; 0: not known, e.g. a guest).
     #[serde(default, skip_serializing_if = "is_zero")]
     pub level: u32,
@@ -629,8 +622,29 @@ fn is_zero(n: &u32) -> bool {
 }
 
 impl PlayerInfo {
+    /// Their record under `rules`.
+    pub fn standing(&self, rules: Rules) -> Standing {
+        *self.standings.get(rules)
+    }
+
+    /// Their rating under `rules`.
+    pub fn rating_in(&self, rules: Rules) -> i32 {
+        self.standings.get(rules).rating
+    }
+
+    /// Their rating under the rules they play (see [`Self::rules`]).
+    pub fn rating(&self) -> i32 {
+        self.rating_in(self.rules)
+    }
+
+    /// Their tier under `rules` (Rookie for a guest).
+    pub fn tier_in(&self, rules: Rules) -> Tier {
+        if self.guest { Tier::Rookie } else { Tier::of(self.rating_in(rules)) }
+    }
+
+    /// Their tier under the rules they play.
     pub fn tier(&self) -> Tier {
-        if self.guest { Tier::Rookie } else { Tier::of(self.rating) }
+        self.tier_in(self.rules)
     }
 }
 
@@ -743,6 +757,7 @@ pub struct TableInfo {
     pub id: u64,
     pub host: PlayerInfo,
     pub rated: bool,
+    pub rules: Rules,
     /// Joining needs a password.
     pub private: bool,
 }
@@ -774,6 +789,7 @@ pub struct TournamentInfo {
     /// Maximum number of players (4, 8 or 16).
     pub size: u32,
     pub rated: bool,
+    pub rules: Rules,
     pub private: bool,
     pub state: TournamentState,
     pub players: Vec<PlayerInfo>,
@@ -832,6 +848,7 @@ pub struct HistoryEntry {
     pub won: bool,
     pub reason: GameOverReason,
     pub rated: bool,
+    pub rules: Rules,
     /// Rating change for this player (zero for casual games).
     pub delta: i32,
     /// This player's rating after the game.
@@ -892,6 +909,7 @@ pub struct FeaturedMatch {
     pub match_id: u64,
     pub players: [PlayerInfo; 2],
     pub rated: bool,
+    pub rules: Rules,
     pub spectators: u32,
 }
 
@@ -918,8 +936,11 @@ pub struct Profile {
     pub stats: Stats,
     /// Unix time in seconds.
     pub created_at: i64,
-    /// Rank in the global leaderboard (None while provisional / no games).
-    pub rank: Option<u32>,
+    /// Rank in the world ranking of each of the rules (None while they have
+    /// no rated game there).
+    pub ranks: PerRules<Option<u32>>,
+    /// The highest rating they reached under each of the rules.
+    pub peaks: PerRules<i32>,
     /// Unlocked achievement codes with the unlock time.
     pub achievements: Vec<(String, i64)>,
     pub history: Vec<HistoryEntry>,
@@ -927,9 +948,10 @@ pub struct Profile {
     /// When they were last online: only for friends (0 otherwise).
     #[serde(default)]
     pub last_seen: i64,
-    /// Rating after each rated game, oldest first (Unix time, rating).
+    /// Rating after each rated game under each of the rules, oldest first
+    /// (Unix time, rating).
     #[serde(default)]
-    pub rating_history: Vec<(i64, i32)>,
+    pub rating_history: PerRules<Vec<(i64, i32)>>,
     #[serde(default)]
     pub career: CareerNumbers,
     /// Share of rated and casual games left unfinished, 0..=100.
@@ -1053,6 +1075,7 @@ pub struct SeekNote {
     /// What they are after (may be empty: just "looking for a game").
     pub text: String,
     pub rated: bool,
+    pub rules: Rules,
     /// Posted at (Unix seconds).
     pub at: i64,
     /// Taken down at (Unix seconds).
@@ -1094,9 +1117,12 @@ impl ReportReason {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "type", rename_all = "snake_case")]
 pub enum ClientMsg {
-    /// Must be the first message.
+    /// Must be the first message. `rules`: the rules the player plays (see
+    /// [`ClientMsg::SetRules`]), so the lounge shows them from the start.
     Hello {
         version: u32,
+        #[serde(default)]
+        rules: Rules,
     },
     Register {
         username: String,
@@ -1104,8 +1130,7 @@ pub enum ClientMsg {
         #[serde(default)]
         country: String,
         /// Under 18 (`Some(true)`) or 18 or older; `None` when not asked
-        /// (games before [`AGE_PROTOCOL`], and later games, which ask when
-        /// the player first writes to others).
+        /// (the game asks when the player first writes to others).
         #[serde(default)]
         minor: Option<bool>,
     },
@@ -1183,9 +1208,11 @@ pub enum ClientMsg {
     StoreRedeem {
         key: String,
     },
-    /// "Play now": wait for an opponent of a similar rating.
+    /// "Play now": wait for an opponent of a similar rating under these
+    /// rules.
     QueueJoin {
         rated: bool,
+        rules: Rules,
     },
     QueueLeave,
     /// Watch the games of this friend (follows them from game to game).
@@ -1196,6 +1223,7 @@ pub enum ClientMsg {
     Invite {
         to: String,
         rated: bool,
+        rules: Rules,
     },
     CancelInvite {
         to: String,
@@ -1207,6 +1235,7 @@ pub enum ClientMsg {
     /// Opens a table in the lounge and waits there for an opponent.
     OpenTable {
         rated: bool,
+        rules: Rules,
         /// Set for a private table (friends join with the password).
         #[serde(default)]
         password: Option<String>,
@@ -1233,12 +1262,28 @@ pub enum ClientMsg {
         called_pocket: Option<PocketId>,
         cue_ball: Option<DVec2>,
     },
+    /// The answer to the break's choice of the official rules (see
+    /// [`snook_legend_core::EightBallGame::pending_choice`]); `turn` is the
+    /// game's `shots_taken()` it was made on.
+    Choose {
+        turn: u32,
+        option: BreakOption,
+    },
     Resign,
     /// Ask the same opponent for another game after a match ends.
     Rematch,
     /// Go back to the lounge after a match ends.
     LeaveMatch,
-    Leaderboard,
+    /// The world ranking of these rules.
+    Leaderboard {
+        rules: Rules,
+    },
+    /// The rules this player plays now (their choice in the game): shown to
+    /// the others in the lounge, and counted in the numbers of players
+    /// online under each.
+    SetRules {
+        rules: Rules,
+    },
     Profile {
         username: String,
     },
@@ -1278,6 +1323,7 @@ pub enum ClientMsg {
         name: String,
         size: u32,
         rated: bool,
+        rules: Rules,
         #[serde(default)]
         password: Option<String>,
         /// Coins to enter (0: free).
@@ -1355,6 +1401,7 @@ pub enum ClientMsg {
     /// A code (and link) a friend can use to sit at this player's table.
     CreateInviteCode {
         rated: bool,
+        rules: Rules,
     },
     JoinByCode {
         code: String,
@@ -1365,6 +1412,7 @@ pub enum ClientMsg {
     CorrChallenge {
         to: String,
         rated: bool,
+        rules: Rules,
     },
     /// Accepts or declines a challenge sent to this player.
     CorrAnswer {
@@ -1386,6 +1434,13 @@ pub enum ClientMsg {
         shot: Shot,
         called_pocket: Option<PocketId>,
         cue_ball: Option<DVec2>,
+    },
+    /// The answer to a break's choice in a correspondence game (like
+    /// [`ClientMsg::Choose`]).
+    CorrChoose {
+        id: i64,
+        turn: u32,
+        option: BreakOption,
     },
     CorrResign {
         id: i64,
@@ -1410,8 +1465,7 @@ pub enum ClientMsg {
         username: String,
     },
     /// What this player is doing outside online games, shown by their name
-    /// in the lounge: playing the computer, or away from the game. Only sent
-    /// to a server of [`ACTIVITY_PROTOCOL`] or later.
+    /// in the lounge: playing the computer, or away from the game.
     SetActivity {
         #[serde(default)]
         vs_computer: bool,
@@ -1430,6 +1484,7 @@ pub enum ClientMsg {
         #[serde(default)]
         text: String,
         rated: bool,
+        rules: Rules,
     },
     /// Takes a note off the board: this player's own (empty `username`), or
     /// anyone's (staff).
@@ -1509,10 +1564,6 @@ pub enum ServerMsg {
         /// The server runs on a local network (guests, no ratings).
         #[serde(default)]
         lan: bool,
-        /// The server's [`PROTOCOL_VERSION`] (0: a server older than
-        /// [`ACTIVITY_PROTOCOL`], which didn't send it).
-        #[serde(default)]
-        protocol: u32,
     },
     AuthOk {
         player: PlayerInfo,
@@ -1554,10 +1605,12 @@ pub enum ServerMsg {
     Invited {
         from: String,
         rated: bool,
+        rules: Rules,
     },
     InviteSent {
         to: String,
         rated: bool,
+        rules: Rules,
     },
     InviteCancelled {
         from: String,
@@ -1627,6 +1680,16 @@ pub enum ServerMsg {
         end: EightBallGame,
         report: ShotReport,
         /// Seconds left on the next shot clock (it starts after the animation).
+        clock_left: f32,
+    },
+    /// The player deciding how play goes on after the break chose `option`
+    /// (the official rules): adopt `game`.
+    Chose {
+        seat: usize,
+        turn: u32,
+        option: BreakOption,
+        game: EightBallGame,
+        /// Seconds left on the next shot clock.
         clock_left: f32,
     },
     /// A shot was refused: go back to this table.
@@ -1709,6 +1772,7 @@ pub enum ServerMsg {
     Queue {
         searching: bool,
         rated: bool,
+        rules: Rules,
         waited_secs: u32,
         range: u32,
     },
@@ -1741,6 +1805,7 @@ pub enum ServerMsg {
     /// The opponent left after the game; the match room is closed.
     OpponentLeft,
     Leaderboard {
+        rules: Rules,
         entries: Vec<LeaderboardEntry>,
     },
     Profile {
@@ -1784,8 +1849,9 @@ pub enum ServerMsg {
     },
     /// The player's age group and whether they may write to and read from
     /// other players (sent after signing in, and after [`ClientMsg::SetAge`]
-    /// or [`ClientMsg::AllowChat`]; only to games of [`AGE_PROTOCOL`] or
-    /// later).
+    /// or [`ClientMsg::AllowChat`]). The chat with other players is off
+    /// until the age group is given (18 or older) or, under 18, a parent or
+    /// guardian turns it on.
     Age {
         /// `None`: not given yet (the chat is off; the game asks when the
         /// player first writes).
@@ -1810,11 +1876,6 @@ pub enum ServerMsg {
         code: String,
         #[serde(default)]
         gift_to: Option<String>,
-    },
-    /// A friend gave this player an item.
-    GiftReceived {
-        from: String,
-        code: String,
     },
     /// A friend gave this player a month of VIP (`from` is the giver), or
     /// this player's gift reached `to`.
@@ -1882,6 +1943,14 @@ pub enum ServerMsg {
         turn: u32,
         end: EightBallGame,
         report: ShotReport,
+    },
+    /// The answer to a break's choice in a correspondence game (like
+    /// [`ServerMsg::Chose`]).
+    CorrChose {
+        id: i64,
+        turn: u32,
+        option: BreakOption,
+        end: EightBallGame,
     },
     /// A correspondence shot was refused: back to this table.
     CorrShotRejected {
@@ -2191,9 +2260,9 @@ mod tests {
             },
         }
         assert!(serde_json::from_str::<Old>(&wallet.to_json()).is_ok());
-        // A version 12 server's player card: level 0.
-        let old = r#"{"username":"a","rating":1200,"games":0,"wins":0,"status":"available","cue":"cue_maple"}"#;
-        let p: PlayerInfo = serde_json::from_str(old).unwrap();
+        // A player card without a cue level: level 0.
+        let card = r#"{"username":"a","rules":"brazilian","standings":{"brazilian":{"rating":1200,"games":0,"wins":0},"official":{"rating":1200,"games":0,"wins":0}},"status":"available","cue":"cue_maple"}"#;
+        let p: PlayerInfo = serde_json::from_str(card).unwrap();
         assert_eq!((p.cue.as_str(), p.cue_level), ("cue_maple", 0));
         let old = r#"{"type":"wallet","coins":1,"vip_until":0,"owned":[],"equipped":[]}"#;
         assert!(
@@ -2203,29 +2272,17 @@ mod tests {
 
     #[test]
     fn messages_round_trip() {
-        let game = EightBallGame::new(3, 0);
+        let game = EightBallGame::new(3, 0, snook_legend_core::Rules::Brazilian);
         let p = |name: &str| PlayerInfo {
             username: name.into(),
-            rating: 1200,
-            games: 0,
-            wins: 0,
+            rules: Rules::Official,
+            standings: PerRules::new(
+                Standing { rating: 1300, games: 4, wins: 3 },
+                Standing::default(),
+            ),
             status: PlayerStatus::Playing,
             country: "BR".into(),
-            role: Role::Player,
-            guest: false,
-            vip: false,
-            cue: String::new(),
-            chalk: String::new(),
-            frame: String::new(),
-            name_style: String::new(),
-            effect: String::new(),
-            cue_level: 0,
-            status_message: String::new(),
-            avatar: String::new(),
-            vs_computer: false,
-            away: false,
-            focus: false,
-            level: 0,
+            ..Default::default()
         };
         let msg = ServerMsg::MatchStarted {
             match_id: 7,
@@ -2260,25 +2317,47 @@ mod tests {
     }
 
     #[test]
-    fn social_messages_stay_readable_by_older_games() {
-        // A player card without a status message looks exactly as before.
-        let json = r#"{"username":"ana","rating":1300,"games":3,"wins":2,"status":"available"}"#;
-        let p: PlayerInfo = serde_json::from_str(json).unwrap();
-        assert!(p.status_message.is_empty());
-        assert!(!serde_json::to_string(&p).unwrap().contains("status_message"));
-        // Fields a game may leave out default.
-        let c = parse_client(r#"{"type":"post_seek","rated":true}"#).unwrap();
-        assert_eq!(c, ClientMsg::PostSeek { text: String::new(), rated: true });
+    fn social_messages_round_trip() {
+        let c = parse_client(r#"{"type":"post_seek","rated":true,"rules":"official"}"#).unwrap();
+        assert_eq!(
+            c,
+            ClientMsg::PostSeek { text: String::new(), rated: true, rules: Rules::Official }
+        );
         let c = parse_client(r#"{"type":"remove_seek"}"#).unwrap();
         assert_eq!(c, ClientMsg::RemoveSeek { username: String::new() });
         let note = SeekNote {
             username: "ana".into(),
             text: "treino".into(),
             rated: false,
+            rules: Rules::Brazilian,
             at: 1,
             expires_at: 2,
         };
         let msg = ServerMsg::SeekPosted { note };
         assert_eq!(parse_server(&msg.to_json()).unwrap(), msg);
+    }
+
+    /// A player's record under each of the rules: the rating, tier and
+    /// numbers shown are those of the rules asked for, or of the ones they
+    /// play.
+    #[test]
+    fn a_player_has_a_standing_under_each_of_the_rules() {
+        let mut p: PlayerInfo = serde_json::from_str(
+            r#"{"username":"ana","rules":"official","status":"available",
+                "standings":{"brazilian":{"rating":1450,"games":30,"wins":20},
+                             "official":{"rating":1200,"games":0,"wins":0}}}"#,
+        )
+        .unwrap();
+        assert_eq!((p.rating(), p.tier()), (1200, Tier::Rookie));
+        assert_eq!(
+            (p.rating_in(Rules::Brazilian), p.tier_in(Rules::Brazilian)),
+            (1450, Tier::Skilled)
+        );
+        assert_eq!(p.standing(Rules::Brazilian).win_rate(), 66);
+        p.rules = Rules::Brazilian;
+        assert_eq!(p.rating(), 1450);
+        p.guest = true;
+        assert_eq!(p.tier(), Tier::Rookie);
+        assert_eq!(Standing::default().rating, 1200);
     }
 }

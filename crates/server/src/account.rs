@@ -278,7 +278,7 @@ pub async fn signed_in(server: &Server, user: &User) {
     let _ = server.store.mark_active(user.id, day).await;
     // Warnings from the staff written while the player was away.
     deliver_warnings(server, user).await;
-    if server.config.rules.lan {
+    if server.config.settings.lan {
         return;
     }
     // The events running and coming (double experience, a themed cup…).
@@ -324,7 +324,7 @@ pub async fn game_coins(server: &Server, user: &User, won: bool) {
 /// Experience for `user` (the account level): sent to them, and their level
 /// shown to others when it goes up. Never on a local network.
 pub async fn award_xp(server: &Server, user: &User, amount: u32) {
-    if amount == 0 || server.with(|l| l.rules.lan) {
+    if amount == 0 || server.with(|l| l.settings.lan) {
         return;
     }
     // An experience event multiplies it.
@@ -346,7 +346,7 @@ pub async fn award_xp(server: &Server, user: &User, amount: u32) {
 /// single: a player who drops out of a league and comes back is not paid
 /// again). The league's item comes with its achievement.
 pub async fn league_rewards(server: &Server, user: &User, before: i32, after: i32) {
-    if server.with(|l| l.rules.lan) {
+    if server.with(|l| l.settings.lan) {
         return;
     }
     let t = now();

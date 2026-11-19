@@ -254,6 +254,7 @@ pub struct GameOver {
 /// (WPA 4.3), before anyone shoots again. The player who decides is the
 /// game's current player.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
 pub enum BreakChoice {
     /// No ball was made and fewer than four object balls reached a cushion
     /// (4.3 d). The incoming player plays the table as it lies (with the
@@ -276,6 +277,7 @@ pub enum BreakChoice {
 
 /// What a player may answer to a [`BreakChoice`].
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
 pub enum BreakOption {
     /// Play on: the table as it lies (and the 8 spotted, when it went
     /// down), with the cue ball in hand behind the head string after a

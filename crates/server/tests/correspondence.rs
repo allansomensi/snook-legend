@@ -12,8 +12,8 @@ use snook_legend_core::stats::ShotStats;
 use snook_legend_core::{Difficulty, EightBallGame, GameOverReason, Shot, ai};
 use snook_legend_proto::correspondence::{CorrEvent, CorrGame, MAX_SENT_CHALLENGES, TURN_SECS};
 use snook_legend_proto::replay::{Replay, Stroke};
-use snook_legend_proto::{ClientMsg, PROTOCOL_VERSION, Role, ServerMsg, parse_server};
-use snook_legend_server::lounge::Rules;
+use snook_legend_proto::{ClientMsg, PROTOCOL_VERSION, Role, Rules, ServerMsg, parse_server};
+use snook_legend_server::lounge::Settings;
 use snook_legend_server::store::{AsyncGame, MatchRecord, NewAsyncGame, NewUser, Store};
 use snook_legend_server::{Config, Server, serve};
 use tokio::net::{TcpListener, TcpStream};
@@ -42,12 +42,21 @@ async fn exercise(store: Store) {
     let c = store.create_user(&new_user("caio")).await.unwrap().unwrap();
 
     // Challenges: one per pair and direction.
-    let ch = store.create_async_challenge(a.id, b.id, true, t).await.unwrap().unwrap();
-    assert!(store.create_async_challenge(a.id, b.id, false, t).await.unwrap().is_none());
-    let back = store.create_async_challenge(b.id, a.id, false, t + 1).await.unwrap().unwrap();
-    let old = store.create_async_challenge(c.id, a.id, false, t - 10_000).await.unwrap().unwrap();
+    let (brazilian, official) = (Rules::Brazilian, Rules::Official);
+    let ch = store.create_async_challenge(a.id, b.id, true, official, t).await.unwrap().unwrap();
+    assert!(store.create_async_challenge(a.id, b.id, false, brazilian, t).await.unwrap().is_none());
+    let back =
+        store.create_async_challenge(b.id, a.id, false, brazilian, t + 1).await.unwrap().unwrap();
+    let old = store
+        .create_async_challenge(c.id, a.id, false, brazilian, t - 10_000)
+        .await
+        .unwrap()
+        .unwrap();
     let got = store.async_challenge(ch).await.unwrap().unwrap();
-    assert_eq!((got.from, got.to, got.rated, got.created_at), (a.id, b.id, true, t));
+    assert_eq!(
+        (got.from, got.to, got.rated, got.rules, got.created_at),
+        (a.id, b.id, true, official, t)
+    );
     let of_a: Vec<i64> =
         store.async_challenges_of(a.id).await.unwrap().iter().map(|c| c.id).collect();
     assert_eq!(of_a, vec![old, ch, back], "oldest first, sent and received");
@@ -65,6 +74,7 @@ async fn exercise(store: Store) {
     assert!(store.async_challenge(ch).await.unwrap().is_none());
     assert_eq!(g.players, [a.id, b.id]);
     assert!(g.rated && g.is_active());
+    assert_eq!(g.replay.rules, official, "played under the rules of the challenge");
     assert_eq!(
         (g.replay.seed, g.replay.breaker, g.turn, g.deadline),
         (u64::MAX - 3, 1, 1, t + 500)
@@ -101,7 +111,7 @@ async fn exercise(store: Store) {
     assert_eq!(due.iter().map(|g| g.id).collect::<Vec<_>>(), vec![g.id]);
 
     // A second game, for the lists.
-    let ch2 = store.create_async_challenge(c.id, a.id, false, t).await.unwrap().unwrap();
+    let ch2 = store.create_async_challenge(c.id, a.id, false, brazilian, t).await.unwrap().unwrap();
     let new2 = NewAsyncGame { seed: 7, breaker: 0, deadline: t + 2000, at: t + 1 };
     let g2 = store.accept_async_challenge(ch2, &new2).await.unwrap().unwrap();
     let ids = |list: Vec<AsyncGame>| list.iter().map(|g| g.id).collect::<Vec<_>>();
@@ -118,6 +128,7 @@ async fn exercise(store: Store) {
         winner: 1,
         reason: GameOverReason::Abandoned,
         rated: true,
+        rules: official,
         delta: [-12, 12],
         ratings_after: [1188, 1212],
         shots: 1,
@@ -133,7 +144,9 @@ async fn exercise(store: Store) {
     };
     assert!(store.finish_async_game(&end, 0, &record).await.unwrap().is_none(), "stale version");
     let ([ua, ub], match_id) = store.finish_async_game(&end, 1, &record).await.unwrap().unwrap();
-    assert_eq!((ua.unwrap().rating, ub.unwrap().rating), (1188, 1212));
+    let (ua, ub) = (ua.unwrap(), ub.unwrap());
+    assert_eq!((ua.records.official.rating, ub.records.official.rating), (1188, 1212));
+    assert_eq!((ua.records.brazilian.rating, ub.records.brazilian.rating), (1200, 1200));
     assert!(store.finish_async_game(&end, 2, &record).await.unwrap().is_none(), "already over");
     let done = store.async_game(g.id).await.unwrap().unwrap();
     assert!(!done.is_active());
@@ -162,7 +175,7 @@ async fn exercise(store: Store) {
     assert_eq!(ids(store.async_games_of(b.id, 0).await.unwrap()), Vec::<i64>::new());
 
     // A deleted account takes its challenges away.
-    store.create_async_challenge(b.id, c.id, false, t).await.unwrap().unwrap();
+    store.create_async_challenge(b.id, c.id, false, brazilian, t).await.unwrap().unwrap();
     store.delete_account(c.id, t).await.unwrap();
     assert!(store.async_challenges_of(b.id).await.unwrap().is_empty());
 }
@@ -271,29 +284,24 @@ async fn rig() -> Rig {
     let store = Store::memory();
     let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
     let addr = listener.local_addr().unwrap();
-    let rules = Rules { max_connections_per_ip: 100, ..Rules::default() };
-    let config = Config { bind: addr, rules, ..Config::default() };
+    let settings = Settings { max_connections_per_ip: 100, ..Settings::default() };
+    let config = Config { bind: addr, settings, ..Config::default() };
     let server = Server::with_store(config, store.share().unwrap()).await;
     tokio::spawn(serve(listener, server.clone()));
     Rig { url: format!("ws://{addr}/ws"), server, store }
 }
 
 impl Rig {
-    /// A new account, signed in with a game of protocol `version`.
-    async fn player_v(&self, name: &str, version: u32) -> Client {
+    /// A new account, signed in.
+    async fn player(&self, name: &str) -> Client {
         let hash = self.server.hash_password(PASSWORD).await.unwrap();
         let user = NewUser { password_hash: &hash, ..new_user(name) };
         self.store.create_user(&user).await.unwrap().unwrap();
         let (ws, _) = connect_async(&self.url).await.unwrap();
         let mut c = Client { ws };
-        c.send(ClientMsg::Hello { version }).await;
+        c.send(ClientMsg::Hello { version: PROTOCOL_VERSION, rules: Rules::Brazilian }).await;
         c.send(ClientMsg::Login { username: name.into(), password: PASSWORD.into() }).await;
         c.expect("auth", |m| matches!(m, ServerMsg::AuthOk { .. })).await;
-        c
-    }
-
-    async fn player(&self, name: &str) -> Client {
-        let mut c = self.player_v(name, PROTOCOL_VERSION).await;
         // The list comes after signing in.
         let (games, challenges) = c.list().await;
         assert!(games.is_empty() && challenges.is_empty());
@@ -302,9 +310,21 @@ impl Rig {
 
     /// `a` challenges `b`, who accepts: the game's id.
     async fn start(&self, a: &mut Client, b: &mut Client, b_name: &str, rated: bool) -> i64 {
-        a.send(ClientMsg::CorrChallenge { to: b_name.into(), rated }).await;
+        self.start_under(a, b, b_name, rated, Rules::Brazilian).await
+    }
+
+    /// [`Rig::start`] under `rules`.
+    async fn start_under(
+        &self,
+        a: &mut Client,
+        b: &mut Client,
+        b_name: &str,
+        rated: bool,
+        rules: Rules,
+    ) -> i64 {
+        a.send(ClientMsg::CorrChallenge { to: b_name.into(), rated, rules }).await;
         let (id, _, event) = b.notice().await;
-        assert_eq!(event, CorrEvent::Challenged { rated });
+        assert_eq!(event, CorrEvent::Challenged { rated, rules });
         a.send(ClientMsg::CorrAnswer { id, accept: true }).await;
         assert_eq!(a.error().await, "That challenge is no longer valid.", "not theirs to accept");
         b.send(ClientMsg::CorrAnswer { id, accept: true }).await;
@@ -442,7 +462,7 @@ async fn a_rated_game_is_played_turn_by_turn_to_the_end() {
     assert!(h.correspondence && h.replay && h.rated);
     assert_eq!(h.won, ana_won);
     assert_eq!(profile.stats.games, 1);
-    assert_ne!(profile.player.rating, 1200);
+    assert_ne!(profile.player.rating_in(Rules::Brazilian), 1200);
     // Nothing more can be played.
     ana.send(ClientMsg::CorrResign { id }).await;
     assert_eq!(ana.error().await, "This game is over.");
@@ -457,22 +477,31 @@ async fn challenges_can_be_declined_withdrawn_and_are_limited() {
     let mut ana = rig.player("ana").await;
     let mut bia = rig.player("bia").await;
 
-    ana.send(ClientMsg::CorrChallenge { to: "ana".into(), rated: true }).await;
+    ana.send(ClientMsg::CorrChallenge { to: "ana".into(), rated: true, rules: Rules::Brazilian })
+        .await;
     assert_eq!(ana.error().await, "You can't challenge yourself.");
-    ana.send(ClientMsg::CorrChallenge { to: "nobody_here".into(), rated: true }).await;
+    ana.send(ClientMsg::CorrChallenge {
+        to: "nobody_here".into(),
+        rated: true,
+        rules: Rules::Brazilian,
+    })
+    .await;
     assert_eq!(ana.error().await, "No such player.");
 
     // Declined.
-    ana.send(ClientMsg::CorrChallenge { to: "bia".into(), rated: false }).await;
+    ana.send(ClientMsg::CorrChallenge { to: "bia".into(), rated: false, rules: Rules::Brazilian })
+        .await;
     ana.expect("sent", |m| matches!(m, ServerMsg::Notice { .. })).await;
     let (id, from, _) = bia.notice().await;
     assert_eq!(from, "ana");
     let (_, challenges) = bia.list().await;
     assert_eq!(challenges.len(), 1);
     assert_eq!((challenges[0].from.username.as_str(), challenges[0].rated), ("ana", false));
-    ana.send(ClientMsg::CorrChallenge { to: "bia".into(), rated: true }).await;
+    ana.send(ClientMsg::CorrChallenge { to: "bia".into(), rated: true, rules: Rules::Brazilian })
+        .await;
     assert_eq!(ana.error().await, "You already challenged that player.");
-    bia.send(ClientMsg::CorrChallenge { to: "ana".into(), rated: true }).await;
+    bia.send(ClientMsg::CorrChallenge { to: "ana".into(), rated: true, rules: Rules::Brazilian })
+        .await;
     assert_eq!(bia.error().await, "That player already challenged you: answer their challenge.");
     bia.send(ClientMsg::CorrAnswer { id, accept: false }).await;
     assert_eq!(ana.notice().await.2, CorrEvent::Declined);
@@ -480,7 +509,8 @@ async fn challenges_can_be_declined_withdrawn_and_are_limited() {
     assert!(games.is_empty() && challenges.is_empty());
 
     // Withdrawn (only by whoever sent it).
-    ana.send(ClientMsg::CorrChallenge { to: "bia".into(), rated: true }).await;
+    ana.send(ClientMsg::CorrChallenge { to: "bia".into(), rated: true, rules: Rules::Brazilian })
+        .await;
     let (id, _, _) = bia.notice().await;
     bia.send(ClientMsg::CorrCancel { id }).await;
     assert_eq!(bia.error().await, "That challenge is no longer valid.");
@@ -493,7 +523,8 @@ async fn challenges_can_be_declined_withdrawn_and_are_limited() {
     bia.send(ClientMsg::Block { username: "ana".into() }).await;
     bia.send(ClientMsg::Friends).await;
     bia.expect("friends", |m| matches!(m, ServerMsg::Friends { .. })).await;
-    ana.send(ClientMsg::CorrChallenge { to: "bia".into(), rated: true }).await;
+    ana.send(ClientMsg::CorrChallenge { to: "bia".into(), rated: true, rules: Rules::Brazilian })
+        .await;
     assert_eq!(ana.error().await, "That player is not accepting challenges.");
     bia.send(ClientMsg::Unblock { username: "ana".into() }).await;
     bia.send(ClientMsg::Friends).await;
@@ -502,7 +533,8 @@ async fn challenges_can_be_declined_withdrawn_and_are_limited() {
     // One game at a time against the same player.
     let gid = rig.start(&mut ana, &mut bia, "bia", true).await;
     assert!(gid > 0);
-    ana.send(ClientMsg::CorrChallenge { to: "bia".into(), rated: true }).await;
+    ana.send(ClientMsg::CorrChallenge { to: "bia".into(), rated: true, rules: Rules::Brazilian })
+        .await;
     assert_eq!(ana.error().await, "You already have a game going on against that player.");
 
     // A few challenges waiting at once, and not too quickly.
@@ -513,19 +545,21 @@ async fn challenges_can_be_declined_withdrawn_and_are_limited() {
     }
     let mut ids = Vec::new();
     for (k, other) in others.iter_mut().enumerate().take(MAX_SENT_CHALLENGES) {
-        ana.send(ClientMsg::CorrChallenge { to: format!("pal{k}"), rated: false }).await;
+        let to = format!("pal{k}");
+        ana.send(ClientMsg::CorrChallenge { to, rated: false, rules: Rules::Brazilian }).await;
         ana.expect("sent", |m| matches!(m, ServerMsg::Notice { .. })).await;
         ids.push(other.notice().await.0);
     }
     let to = format!("pal{MAX_SENT_CHALLENGES}");
-    ana.send(ClientMsg::CorrChallenge { to, rated: false }).await;
+    ana.send(ClientMsg::CorrChallenge { to, rated: false, rules: Rules::Brazilian }).await;
     assert_eq!(ana.error().await, "You have too many challenges waiting for an answer.");
     // Withdrawing and sending again and again is not a way round it.
     let mut limited = false;
     for round in 0..12 {
         let k = round % MAX_SENT_CHALLENGES;
         ana.send(ClientMsg::CorrCancel { id: ids[k] }).await;
-        ana.send(ClientMsg::CorrChallenge { to: format!("pal{k}"), rated: false }).await;
+        let to = format!("pal{k}");
+        ana.send(ClientMsg::CorrChallenge { to, rated: false, rules: Rules::Brazilian }).await;
         let m = ana
             .expect("answer", |m| matches!(m, ServerMsg::Notice { .. } | ServerMsg::Error { .. }))
             .await;
@@ -593,8 +627,8 @@ async fn a_turn_that_runs_out_loses_the_game() {
     // It doesn't count as leaving a game.
     let loser = rig.store.user_by_name(if to_move == 0 { "ana" } else { "bia" }).await;
     let loser = loser.unwrap().unwrap();
-    assert_eq!((loser.games, loser.abandons), (1, 0));
-    assert!(loser.rating < 1200);
+    assert_eq!((loser.records.brazilian.games, loser.abandons), (1, 0));
+    assert!(loser.records.brazilian.rating < 1200);
 }
 
 #[tokio::test]
@@ -609,7 +643,7 @@ async fn a_turn_that_ran_out_is_settled_when_the_game_is_opened() {
     assert!(rig.store.update_async_game(&g, 0).await.unwrap());
     let mover = if g.turn == 0 { &mut ana } else { &mut bia };
     // A shot is refused: too late.
-    let game = EightBallGame::new(g.replay.seed, g.replay.breaker);
+    let game = g.replay.start();
     mover.send(shot_of(&game, 0, id)).await;
     let ServerMsg::CorrShotRejected { reason, .. } =
         mover.expect("late", |m| matches!(m, ServerMsg::CorrShotRejected { .. })).await
@@ -656,4 +690,60 @@ async fn opening_a_game_shows_what_was_not_seen_yet() {
     assert_eq!((seen, replay.strokes.len()), (0, k as usize));
     let (info, _, seen) = watcher.open(id).await;
     assert_eq!((seen, info.unseen), (k as u32, 0), "seen now");
+}
+
+/// Under the official rules, a break that leaves a choice waits for it: the
+/// player whose turn it is answers, then plays (or the other player does).
+#[tokio::test]
+async fn the_choice_a_break_leaves_is_made_by_the_player_to_move() {
+    let rig = rig().await;
+    let mut ana = rig.player("ana").await;
+    let mut bia = rig.player("bia").await;
+    let id = rig.start_under(&mut ana, &mut bia, "bia", false, Rules::Official).await;
+    let (info, replay, _) = ana.open(id).await;
+    assert_eq!((info.rules, replay.rules), (Rules::Official, Rules::Official));
+    let game = table(&replay);
+    let breaker_is_ana = info.turn == info.seat;
+    let (breaker, other) = if breaker_is_ana { (&mut ana, &mut bia) } else { (&mut bia, &mut ana) };
+    // A soft break: no ball made, too few balls reach a cushion.
+    let shot = snook_legend_core::Shot::new(game.default_aim(), 0.6);
+    breaker
+        .send(ClientMsg::CorrShoot { id, turn: 0, shot, called_pocket: None, cue_ball: None })
+        .await;
+    let ServerMsg::CorrShot { end, report, .. } =
+        breaker.expect("break", |m| matches!(m, ServerMsg::CorrShot { .. })).await
+    else {
+        unreachable!()
+    };
+    assert_eq!(
+        report.choice,
+        Some(snook_legend_core::BreakChoice::IllegalBreak { scratch: false })
+    );
+    assert_eq!(end.pending_choice(), report.choice);
+    let (_, _, event) = other.notice().await;
+    assert_eq!(event, CorrEvent::YourTurn);
+    // Nobody shoots before the choice is made; only the player to move makes it.
+    other.send(shot_of(&end, 1, id)).await;
+    other.expect("refused", |m| matches!(m, ServerMsg::CorrShotRejected { .. })).await;
+    let turn = end.shots_taken();
+    let option = snook_legend_core::BreakOption::OpponentBreaks;
+    breaker.send(ClientMsg::CorrChoose { id, turn, option }).await;
+    breaker.expect("not theirs", |m| matches!(m, ServerMsg::CorrShotRejected { .. })).await;
+    other.send(ClientMsg::CorrChoose { id, turn, option }).await;
+    let ServerMsg::CorrChose { end: after, option: chosen, .. } =
+        other.expect("chose", |m| matches!(m, ServerMsg::CorrChose { .. })).await
+    else {
+        unreachable!()
+    };
+    assert_eq!(chosen, option);
+    let mut expected = end.clone();
+    expected.choose(option).unwrap();
+    assert_eq!(after, expected);
+    assert!(after.is_break() && after.pending_choice().is_none());
+    // The balls are racked again and the breaker breaks again: their turn.
+    let (_, _, event) = breaker.notice().await;
+    assert_eq!(event, CorrEvent::YourTurn);
+    let (_, replay, _) = breaker.open(id).await;
+    assert_eq!(replay.strokes.last(), Some(&Stroke::Choice { option }));
+    assert_eq!(table(&replay), after);
 }

@@ -1,31 +1,16 @@
 //! Correspondence ("daily") games: each player takes their turn whenever
 //! they can, like correspondence chess. The server keeps the game (its seed
 //! and strokes, see [`crate::replay`]) and rebuilds the table by replaying
-//! it; a turn is a whole visit, with a deadline.
-//!
-//! Only games of protocol version [`SINCE_PROTOCOL`] and later know these
-//! messages: the server never sends them to older games.
+//! it; a turn is a whole visit, with a deadline. A game is played under
+//! the rules the challenge named.
 
 use serde::{Deserialize, Serialize};
-use snook_legend_core::{EightBallGame, GameOverReason, Group};
+use snook_legend_core::{EightBallGame, GameOverReason, Group, Rules};
 
 use crate::PlayerInfo;
 
-/// The first protocol version with correspondence games.
-pub const SINCE_PROTOCOL: u32 = 13;
-
 /// Time for a turn (a whole visit): whoever runs out of it loses the game.
 pub const TURN_SECS: i64 = 72 * 3600;
-
-/// The rules new daily games are played under. Each player's game replays
-/// the strokes to show the table, so a daily game is played under rules
-/// every game the server lets in knows: ruleset 6 while games of version
-/// 20 are let in (see [`crate::OLDEST_PROTOCOL_VERSION`]).
-pub const RULESET: u8 = 6;
-const _: () = assert!(
-    RULESET <= snook_legend_core::RULESET
-        && crate::OLDEST_PROTOCOL_VERSION < crate::RULESET_7_PROTOCOL
-);
 
 /// A challenge nobody answered is withdrawn after this long.
 pub const CHALLENGE_SECS: i64 = 7 * 24 * 3600;
@@ -50,6 +35,7 @@ pub struct CorrGame {
     /// The seat of the player this was sent to.
     pub seat: usize,
     pub rated: bool,
+    pub rules: Rules,
     /// The seat whose turn it is.
     pub turn: usize,
     /// When the turn runs out (Unix seconds).
@@ -104,6 +90,7 @@ pub struct CorrChallenge {
     pub from: PlayerInfo,
     pub to: PlayerInfo,
     pub rated: bool,
+    pub rules: Rules,
     /// Sent at (Unix seconds).
     pub at: i64,
     /// Withdrawn at (Unix seconds) if nobody answers.
@@ -118,6 +105,7 @@ pub enum CorrEvent {
     /// `opponent` challenged this player.
     Challenged {
         rated: bool,
+        rules: Rules,
     },
     /// `opponent` accepted this player's challenge: the game is on.
     Accepted,
@@ -150,7 +138,7 @@ mod tests {
 
     #[test]
     fn a_new_rack_is_open_with_seven_balls_each() {
-        let game = EightBallGame::new(5, 0);
+        let game = EightBallGame::new(5, 0, Rules::Brazilian);
         assert_eq!(summary(&game), ([None, None], [7, 7]));
     }
 
@@ -169,7 +157,7 @@ mod tests {
         let s = ServerMsg::CorrNotice {
             id: 9,
             opponent: "Ana".into(),
-            event: CorrEvent::Challenged { rated: true },
+            event: CorrEvent::Challenged { rated: true, rules: Rules::Official },
         };
         assert_eq!(parse_server(&s.to_json()).unwrap(), s);
         let s = ServerMsg::CorrList { games: Vec::new(), challenges: Vec::new() };

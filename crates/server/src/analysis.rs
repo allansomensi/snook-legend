@@ -10,9 +10,6 @@ use snook_legend_proto::analysis::analyse;
 use crate::Server;
 use crate::store::MatchRecord;
 
-/// The first protocol version that knows the analysis.
-pub const ANALYSIS_PROTOCOL: u32 = 13;
-
 /// Replays a finished game (on a blocking thread: it simulates every shot)
 /// and adds each player's shots to their analysis.
 pub async fn after_match(server: &Arc<Server>, record: &MatchRecord) {
@@ -39,11 +36,8 @@ pub async fn after_match(server: &Arc<Server>, record: &MatchRecord) {
     }
 }
 
-/// Adds the analysis to a profile for a game that understands it.
-pub async fn attach(server: &Server, msg: &mut ServerMsg, protocol: u32) {
-    if protocol < ANALYSIS_PROTOCOL {
-        return;
-    }
+/// Adds the analysis to a profile.
+pub async fn attach(server: &Server, msg: &mut ServerMsg) {
     let ServerMsg::Profile { profile } = msg else { return };
     if profile.player.guest {
         return;

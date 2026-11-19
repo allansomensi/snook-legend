@@ -257,8 +257,6 @@ pub struct Online {
     /// The server's answers about the medals of the tournaments against the
     /// computer: the count, and the tournament kept (see `medals`).
     pub cup_medal_news: Vec<(snook_legend_proto::cup::Medals, Option<u64>)>,
-    /// The server's protocol version (from its welcome; 0: an older server).
-    server_protocol: u32,
     /// What the server was last told: (playing the computer, away, in
     /// focus mode).
     activity_sent: (bool, bool, bool),
@@ -590,7 +588,6 @@ impl Online {
             invite_area: None,
             invite_sound: false,
             outgoing: None,
-            server_protocol: 0,
             activity_sent: (false, false, false),
             away: false,
             motd: String::new(),
@@ -937,10 +934,7 @@ impl Online {
         // server turns them away, and withdraws those waiting).
         let focus = config.focus_mode && current.as_ref().is_some_and(|m| m.is_played_offline());
         let activity = (vs_computer, self.away, focus);
-        if self.signed_in()
-            && self.server_protocol >= snook_legend_proto::ACTIVITY_PROTOCOL
-            && activity != self.activity_sent
-        {
+        if self.signed_in() && activity != self.activity_sent {
             self.activity_sent = activity;
             self.send(ClientMsg::SetActivity { vs_computer, away: self.away, focus });
         }
@@ -985,7 +979,6 @@ impl Online {
                 }
                 // A new session: the server learns again what this player
                 // is doing (its welcome follows).
-                self.server_protocol = 0;
                 self.activity_sent = (false, false, false);
                 // A new session: the board comes again; the recent games may have changed.
                 self.social.seeks.clear();
@@ -1077,10 +1070,7 @@ impl Online {
                 self.stage = if self.lan { Stage::Idle } else { Stage::SignIn };
                 self.error = Some(crate::i18n::server_text(&reason));
             }
-            ServerMsg::Welcome { motd, protocol, .. } => {
-                self.motd = crate::i18n::server_text(&motd);
-                self.server_protocol = protocol;
-            }
+            ServerMsg::Welcome { motd, .. } => self.motd = crate::i18n::server_text(&motd),
             ServerMsg::Lounge { players } => self.players = players,
             ServerMsg::PlayerUpdated { player } => {
                 if self.me.as_ref().is_some_and(|me| me.username == player.username) {
@@ -1345,16 +1335,6 @@ impl Online {
             ServerMsg::ItemBought { code, gift_to } => {
                 self.buying = None;
                 self.bought = Some((code, gift_to));
-            }
-            ServerMsg::GiftReceived { from, code } => {
-                let name =
-                    snook_legend_proto::shop::item(&code).map(|i| t(i.name)).unwrap_or(&code);
-                self.toast(
-                    tw("{from} gave you {item}!", &[("from", &from), ("item", &name)]),
-                    true,
-                );
-                self.attention =
-                    Some(tw("{from} gave you {item}!", &[("from", &from), ("item", &name)]));
             }
             ServerMsg::CoinsEarned { amount, reason } => {
                 let why = match reason.as_str() {

@@ -18,8 +18,6 @@
 //! even be tried out offline), those would reward patience, not play, and
 //! several slow games at once against a friend would make them easy to farm.
 //! A turn that runs out is not counted as leaving a game.
-//!
-//! Only games of protocol [`SINCE_PROTOCOL`] and later get these messages.
 
 use std::collections::HashMap;
 use std::sync::{Arc, Mutex};
@@ -28,11 +26,12 @@ use std::time::Duration;
 use rand::Rng;
 use snook_legend_core::rating::{self, EloConfig};
 use snook_legend_core::stats::ShotStats;
-use snook_legend_core::{BallId, EightBallGame, GameOver, GameOverReason, PocketId, Shot};
+use snook_legend_core::{
+    BallId, BreakOption, EightBallGame, GameOver, GameOverReason, PocketId, Rules, Shot,
+};
 use snook_legend_proto::correspondence::{
     CHALLENGE_SECS, CorrChallenge, CorrEvent, CorrGame, CorrResult, MAX_GAMES,
-    MAX_RECEIVED_CHALLENGES, MAX_SENT_CHALLENGES, RECENT_FINISHED, SINCE_PROTOCOL, TURN_SECS,
-    summary,
+    MAX_RECEIVED_CHALLENGES, MAX_SENT_CHALLENGES, RECENT_FINISHED, TURN_SECS, summary,
 };
 use snook_legend_proto::replay::{Replay, Stroke, apply};
 use snook_legend_proto::{ClientMsg, PlayerInfo, PlayerStatus, ServerMsg};
@@ -104,13 +103,14 @@ pub fn is_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::CorrCancel { .. }
             | ClientMsg::CorrOpen { .. }
             | ClientMsg::CorrShoot { .. }
+            | ClientMsg::CorrChoose { .. }
             | ClientMsg::CorrResign { .. }
     )
 }
 
 /// Handles a correspondence message from a signed-in player with an account.
 pub async fn handle(server: &Arc<Server>, me: &User, msg: ClientMsg, send: &impl Fn(ServerMsg)) {
-    if server.config.rules.lan {
+    if server.config.settings.lan {
         return send(ServerMsg::Error { message: "Daily games need an account.".into() });
     }
     match msg {
@@ -120,12 +120,17 @@ pub async fn handle(server: &Arc<Server>, me: &User, msg: ClientMsg, send: &impl
                 send(msg);
             }
         }
-        ClientMsg::CorrChallenge { to, rated } => challenge(server, me, &to, rated, send).await,
+        ClientMsg::CorrChallenge { to, rated, rules } => {
+            challenge(server, me, &to, rated, rules, send).await
+        }
         ClientMsg::CorrAnswer { id, accept } => answer(server, me, id, accept, send).await,
         ClientMsg::CorrCancel { id } => cancel(server, me, id, send).await,
         ClientMsg::CorrOpen { id } => open(server, me, id, send).await,
         ClientMsg::CorrShoot { id, turn, shot, called_pocket, cue_ball } => {
             shoot(server, me, id, turn, shot, called_pocket, cue_ball, send).await
+        }
+        ClientMsg::CorrChoose { id, turn, option } => {
+            choose(server, me, id, turn, option, send).await
         }
         ClientMsg::CorrResign { id } => resign(server, me, id, send).await,
         _ => {}
@@ -194,22 +199,18 @@ async fn name_of(server: &Server, id: i64) -> String {
     server.store.user_by_id(id).await.ok().flatten().map(|u| u.username).unwrap_or_default()
 }
 
-/// Sends a correspondence message to `name` if their game knows it.
+/// Sends a correspondence message to `name` (if they are online).
 fn send_to(server: &Server, name: &str, msg: ServerMsg) {
-    server.with(|l| l.notify_since(name, SINCE_PROTOCOL, msg));
+    server.with(|l| l.notify(name, msg));
 }
 
 fn tell(server: &Server, name: &str, id: i64, opponent: &str, event: CorrEvent) {
     send_to(server, name, ServerMsg::CorrNotice { id, opponent: opponent.to_string(), event });
 }
 
-fn knows_corr(server: &Server, name: &str) -> bool {
-    server.with(|l| l.protocol_of(name)).is_some_and(|v| v >= SINCE_PROTOCOL)
-}
-
-/// Sends a fresh list to `name` if they are online with a game that knows it.
+/// Sends a fresh list to `name` if they are online.
 async fn push_list(server: &Server, user_id: i64, name: &str) {
-    if name.is_empty() || !knows_corr(server, name) {
+    if name.is_empty() || !server.with(|l| l.is_online(name)) {
         return;
     }
     if let Some(msg) = list_msg(server, user_id).await {
@@ -227,36 +228,14 @@ async fn infos(server: &Server, ids: impl IntoIterator<Item = i64>) -> HashMap<i
         let Ok(Some(u)) = server.store.user_by_id(id).await else { continue };
         let info = server
             .with(|l| l.player(&u.username))
-            .unwrap_or_else(|| player_info(&u, false, PlayerStatus::Available));
+            .unwrap_or_else(|| player_info(&u, false, PlayerStatus::Available, Rules::default()));
         out.insert(id, info);
     }
     out
 }
 
 fn unknown_player() -> PlayerInfo {
-    PlayerInfo {
-        username: "?".into(),
-        rating: 0,
-        games: 0,
-        wins: 0,
-        status: PlayerStatus::Available,
-        country: String::new(),
-        role: Default::default(),
-        guest: false,
-        vip: false,
-        cue: String::new(),
-        chalk: String::new(),
-        frame: String::new(),
-        name_style: String::new(),
-        effect: String::new(),
-        status_message: String::new(),
-        avatar: String::new(),
-        vs_computer: false,
-        away: false,
-        focus: false,
-        level: 0,
-        cue_level: 0,
-    }
+    PlayerInfo { username: "?".into(), ..Default::default() }
 }
 
 fn corr_game(g: &AsyncGame, seat: usize, infos: &HashMap<i64, PlayerInfo>) -> CorrGame {
@@ -276,6 +255,7 @@ fn corr_game(g: &AsyncGame, seat: usize, infos: &HashMap<i64, PlayerInfo>) -> Co
         players: [info(0), info(1)],
         seat,
         rated: g.rated,
+        rules: g.replay.rules,
         turn: g.turn,
         deadline: g.deadline,
         strokes,
@@ -308,6 +288,7 @@ async fn list_msg(server: &Server, user_id: i64) -> Option<ServerMsg> {
             from: info(c.from),
             to: info(c.to),
             rated: c.rated,
+            rules: c.rules,
             at: c.created_at,
             expires_at: c.created_at + CHALLENGE_SECS,
         })
@@ -324,6 +305,7 @@ async fn challenge(
     me: &User,
     to: &str,
     rated: bool,
+    rules: Rules,
     send: &impl Fn(ServerMsg),
 ) {
     let other = match server.store.user_by_name(to.trim()).await {
@@ -376,11 +358,12 @@ async fn challenge(
     if !server.corr.may_challenge(me.id) {
         return error(send, "You're sending challenges too quickly.");
     }
-    match server.store.create_async_challenge(me.id, other.id, rated, now()).await {
+    match server.store.create_async_challenge(me.id, other.id, rated, rules, now()).await {
         Ok(Some(id)) => {
             tracing::info!(id, "daily game challenge: {} -> {}", me.username, other.username);
             send(ServerMsg::Notice { text: "Challenge sent.".into() });
-            tell(server, &other.username, id, &me.username, CorrEvent::Challenged { rated });
+            let event = CorrEvent::Challenged { rated, rules };
+            tell(server, &other.username, id, &me.username, event);
             push_list(server, me.id, &me.username).await;
             push_list(server, other.id, &other.username).await;
         }
@@ -648,6 +631,79 @@ async fn shoot(
     }
 }
 
+/// `me` answers the choice the break left them (the official rules).
+async fn choose(
+    server: &Arc<Server>,
+    me: &User,
+    id: i64,
+    turn: u32,
+    option: BreakOption,
+    send: &impl Fn(ServerMsg),
+) {
+    let reject = |reason: &str, game: EightBallGame| {
+        send(ServerMsg::CorrShotRejected { id, turn, reason: reason.into(), game })
+    };
+    let lock = server.corr.lock_for(id);
+    let guard = lock.lock().await;
+    let Some((mut g, seat)) = load(server, me, id, send).await else { return };
+    let table = match table_of(server, &g).await {
+        Ok(t) => t,
+        Err(e) => {
+            tracing::error!(game = id, "correspondence game can't be rebuilt: {e}");
+            return error(send, "This game can't be played right now.");
+        }
+    };
+    if !g.is_active() || table.game_over().is_some() {
+        return reject("This game is over.", table);
+    }
+    let t = now();
+    if g.deadline < t {
+        drop(guard);
+        time_out(server, id, t).await;
+        return reject("Your time for this turn ran out.", table);
+    }
+    if g.turn != seat || table.current_player() != seat {
+        return reject("It's not your turn.", table);
+    }
+    if table.shots_taken() != turn {
+        return reject("That shot was for an earlier turn.", table);
+    }
+    let mut end = table.clone();
+    if end.choose(option).is_err() {
+        return reject("That choice can't be made now.", table);
+    }
+    let expected = g.replay.strokes.len();
+    g.replay.strokes.push(Stroke::Choice { option });
+    let n = g.replay.strokes.len();
+    g.seen[seat] = n as u32;
+    g.updated_at = t;
+    (g.groups, g.left) = summary(&end);
+    let next = end.current_player();
+    let passed = next != seat;
+    if passed {
+        g.turn = next;
+        g.deadline = t + TURN_SECS;
+    }
+    match server.store.update_async_game(&g, expected).await {
+        Ok(true) => {}
+        Ok(false) => return reject("This game changed meanwhile: open it again.", table),
+        Err(e) => {
+            tracing::error!(game = id, "saving a correspondence choice: {e}");
+            return reject("The server could not play that shot.", table);
+        }
+    }
+    server.corr.remember(id, n, &end);
+    drop(guard);
+    send(ServerMsg::CorrChose { id, turn, option, end });
+    if passed {
+        let other = g.players[1 - seat];
+        let other_name = name_of(server, other).await;
+        tell(server, &other_name, id, &me.username, CorrEvent::YourTurn);
+        push_list(server, me.id, &me.username).await;
+        push_list(server, other, &other_name).await;
+    }
+}
+
 async fn resign(server: &Arc<Server>, me: &User, id: i64, send: &impl Fn(ServerMsg)) {
     let lock = server.corr.lock_for(id);
     let guard = lock.lock().await;
@@ -767,15 +823,20 @@ async fn finish(
         .and_then(Result::ok)
         .unwrap_or_default();
     let (w, l) = (over.winner, 1 - over.winner);
+    let rules = g.replay.rules;
+    let rating = |seat: usize| users[seat].records.get(rules).rating;
     let mut delta = [0, 0];
-    let mut ratings_after = [users[0].rating, users[1].rating];
+    let mut ratings_after = [rating(0), rating(1)];
     let keys = [key(&users[0].username), key(&users[1].username)];
     if g.rated {
         // Counted once the game is recorded (below): one that changed
         // meanwhile counts for nothing.
         let repeats = server.with(|lounge| lounge.pair_games_today(&keys, true));
-        let change =
-            rating::apply_result(&EloConfig::default(), users[w].rating(), users[l].rating());
+        let change = rating::apply_result(
+            &EloConfig::default(),
+            users[w].rating(rules),
+            users[l].rating(rules),
+        );
         delta[w] = change.winner_delta;
         delta[l] = change.loser_delta;
         // The same two players again and again: less and less at stake.
@@ -786,7 +847,7 @@ async fn finish(
         };
         for seat in 0..2 {
             delta[seat] = (delta[seat] as f64 * scale).round() as i32;
-            ratings_after[seat] = users[seat].rating + delta[seat];
+            ratings_after[seat] = rating(seat) + delta[seat];
         }
     }
     let eight_win = over.reason == GameOverReason::PocketedEight;
@@ -795,6 +856,7 @@ async fn finish(
         winner: w,
         reason: over.reason,
         rated: g.rated,
+        rules,
         delta,
         ratings_after,
         shots: table.shots_taken(),

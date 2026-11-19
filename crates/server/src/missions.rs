@@ -38,7 +38,7 @@ pub async fn message(server: &Server, user: &User) -> ServerMsg {
 
 /// Sends `user` their missions (when online).
 pub async fn push(server: &Server, user: &User) {
-    if server.config.rules.lan {
+    if server.config.settings.lan {
         return;
     }
     let msg = message(server, user).await;

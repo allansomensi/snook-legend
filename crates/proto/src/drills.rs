@@ -511,8 +511,12 @@ pub fn game_for_try(d: &Drill, k: u32) -> EightBallGame {
 /// the same for everyone in that session and different from try to try, so
 /// one stroke that worked can't simply be sent for every try. Session 0 is
 /// the drill as drawn (a session played signed out, for practice).
+///
+/// A drill is the same whatever the rules a player plays: its positions are
+/// played under the Brazilian rules (a ball made keeps the table, with
+/// nothing to call).
 pub fn game_for_session_try(d: &Drill, session: u64, k: u32) -> EightBallGame {
-    let mut g = EightBallGame::new(1, 0);
+    let mut g = EightBallGame::new(1, 0, snook_legend_core::Rules::Brazilian);
     let mut balls = if d.goal == Goal::Streak { streak_position(k) } else { position(d) };
     let cue_at = balls.iter().position(|(id, _)| *id == BallId::CUE);
     if session != 0

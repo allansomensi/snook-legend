@@ -16,7 +16,7 @@ use std::collections::BTreeMap;
 
 use snook_legend_core::stats::ShotStats;
 use snook_legend_proto::replay::Replay;
-use snook_legend_proto::{CareerNumbers, LeaderboardEntry, Role, Stats};
+use snook_legend_proto::{CareerNumbers, LeaderboardEntry, PerRules, Role, Rules, Standing, Stats};
 
 #[derive(Debug, Clone)]
 pub struct StoreError(pub String);
@@ -39,10 +39,8 @@ pub struct User {
     pub password_hash: String,
     pub country: String,
     pub role: Role,
-    pub rating: i32,
-    pub peak_rating: i32,
-    pub games: u32,
-    pub wins: u32,
+    /// Their rating and rated games under each of the rules.
+    pub records: PerRules<Record>,
     pub eight_wins: u32,
     pub casual_games: u32,
     pub streak: u32,
@@ -82,6 +80,29 @@ pub struct User {
     pub chat_allowed_at: Option<i64>,
 }
 
+/// An account's record under one of the rules.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct Record {
+    pub rating: i32,
+    /// The highest rating they reached.
+    pub peak_rating: i32,
+    /// Rated games.
+    pub games: u32,
+    /// Rated wins.
+    pub wins: u32,
+}
+
+impl Record {
+    /// No rated game yet, at `rating`.
+    pub fn new(rating: i32) -> Record {
+        Record { rating, peak_rating: rating, games: 0, wins: 0 }
+    }
+
+    pub fn standing(&self) -> Standing {
+        Standing { rating: self.rating, games: self.games, wins: self.wins }
+    }
+}
+
 impl User {
     /// The chat with other players is off for them: it is off for everyone
     /// until they say they are 18 or older, or, under 18, until a parent or
@@ -96,8 +117,25 @@ impl User {
         self.minor != Some(false) && self.chat_allowed_at.is_none()
     }
 
-    pub fn rating(&self) -> snook_legend_core::rating::Rating {
-        snook_legend_core::rating::Rating { rating: self.rating, games: self.games }
+    /// Their rating under `rules`, for the Elo.
+    pub fn rating(&self, rules: Rules) -> snook_legend_core::rating::Rating {
+        let r = self.records.get(rules);
+        snook_legend_core::rating::Rating { rating: r.rating, games: r.games }
+    }
+
+    /// Their record under each of the rules, as players see it.
+    pub fn standings(&self) -> PerRules<Standing> {
+        self.records.map(|_, r| r.standing())
+    }
+
+    /// Rated games under either of the rules.
+    pub fn rated_games(&self) -> u32 {
+        self.records.iter().map(|(_, r)| r.games).sum()
+    }
+
+    /// The higher of their ratings (staff lists sort by it).
+    pub fn best_rating(&self) -> i32 {
+        self.records.brazilian.rating.max(self.records.official.rating)
     }
 
     pub fn is_banned(&self, now: i64) -> bool {
@@ -108,14 +146,17 @@ impl User {
         self.muted_until.is_some_and(|t| t > now)
     }
 
-    /// Lifetime numbers (`friends` must be filled in by the caller).
+    /// Lifetime numbers (`friends` must be filled in by the caller): the
+    /// rated games and wins under both rules, the highest rating under
+    /// either.
     pub fn stats(&self, now: i64) -> Stats {
+        let (b, o) = (self.records.brazilian, self.records.official);
         Stats {
-            games: self.games,
-            wins: self.wins,
+            games: b.games + o.games,
+            wins: b.wins + o.wins,
             eight_wins: self.eight_wins,
             casual_games: self.casual_games,
-            peak_rating: self.peak_rating,
+            peak_rating: b.peak_rating.max(o.peak_rating),
             streak: self.streak,
             best_streak: self.best_streak,
             runouts: self.runouts,
@@ -160,6 +201,7 @@ pub struct NewUser<'a> {
     pub username: &'a str,
     pub password_hash: &'a str,
     pub country: &'a str,
+    /// The starting rating, under both rules.
     pub rating: i32,
     pub role: Role,
     pub ip: &'a str,
@@ -180,6 +222,8 @@ pub struct MatchRecord {
     pub winner: usize,
     pub reason: snook_legend_core::GameOverReason,
     pub rated: bool,
+    /// The rules it was played under (the ratings are those under them).
+    pub rules: Rules,
     pub delta: [i32; 2],
     pub ratings_after: [i32; 2],
     pub shots: u32,
@@ -221,6 +265,7 @@ pub struct StoredReplay {
     pub winner: usize,
     pub rated: bool,
     pub at: i64,
+    /// The whole game, and the rules it was played under.
     pub replay: Replay,
 }
 
@@ -350,6 +395,7 @@ pub struct HistoryRow {
     pub won: bool,
     pub reason: String,
     pub rated: bool,
+    pub rules: Rules,
     pub delta: i32,
     pub rating_after: i32,
     pub tournament: bool,
@@ -409,6 +455,7 @@ pub struct AsyncChallenge {
     pub from: i64,
     pub to: i64,
     pub rated: bool,
+    pub rules: Rules,
     pub created_at: i64,
 }
 
@@ -789,6 +836,8 @@ pub struct GameEvent {
     /// A knockout's seats (0 for an arena or a boost).
     pub size: u32,
     pub rated: bool,
+    /// The rules a tournament is played under.
+    pub rules: Rules,
     pub entry_fee: u32,
     /// Coins the house adds to a tournament's prizes.
     pub prize: u32,
@@ -808,6 +857,7 @@ pub struct NewEvent<'a> {
     pub format: &'a str,
     pub size: u32,
     pub rated: bool,
+    pub rules: Rules,
     pub entry_fee: u32,
     pub prize: u32,
     pub created_by: i64,
@@ -1005,9 +1055,15 @@ impl Store {
     pub async fn career(&self, user_id: i64) -> StoreResult<CareerNumbers> {
         dispatch!(self, s => s.career(user_id))
     }
-    /// (time, rating after) of the last `limit` rated games, oldest first.
-    pub async fn rating_history(&self, user_id: i64, limit: u32) -> StoreResult<Vec<(i64, i32)>> {
-        dispatch!(self, s => s.rating_history(user_id, limit))
+    /// (time, rating after) of the last `limit` rated games under `rules`,
+    /// oldest first.
+    pub async fn rating_history(
+        &self,
+        user_id: i64,
+        rules: Rules,
+        limit: u32,
+    ) -> StoreResult<Vec<(i64, i32)>> {
+        dispatch!(self, s => s.rating_history(user_id, rules, limit))
     }
     pub async fn replay(&self, match_id: i64) -> StoreResult<Option<StoredReplay>> {
         dispatch!(self, s => s.replay(match_id))
@@ -1099,11 +1155,20 @@ impl Store {
     pub async fn history(&self, user_id: i64, limit: u32) -> StoreResult<Vec<HistoryRow>> {
         dispatch!(self, s => s.history(user_id, limit))
     }
-    pub async fn leaderboard(&self, limit: u32, now: i64) -> StoreResult<Vec<LeaderboardEntry>> {
-        dispatch!(self, s => s.leaderboard(limit, now))
+    /// The world ranking under `rules`: the players with rated games under
+    /// them, highest rating first.
+    pub async fn leaderboard(
+        &self,
+        rules: Rules,
+        limit: u32,
+        now: i64,
+    ) -> StoreResult<Vec<LeaderboardEntry>> {
+        dispatch!(self, s => s.leaderboard(rules, limit, now))
     }
-    pub async fn rank_of(&self, user_id: i64) -> StoreResult<Option<u32>> {
-        dispatch!(self, s => s.rank_of(user_id))
+    /// A player's place in the world ranking under `rules` (None: no rated
+    /// game under them).
+    pub async fn rank_of(&self, user_id: i64, rules: Rules) -> StoreResult<Option<u32>> {
+        dispatch!(self, s => s.rank_of(user_id, rules))
     }
     pub async fn friends(&self, user_id: i64) -> StoreResult<Vec<(User, FriendState)>> {
         dispatch!(self, s => s.friends(user_id))
@@ -1758,9 +1823,10 @@ impl Store {
         from: i64,
         to: i64,
         rated: bool,
+        rules: Rules,
         at: i64,
     ) -> StoreResult<Option<i64>> {
-        dispatch!(self, s => s.create_async_challenge(from, to, rated, at))
+        dispatch!(self, s => s.create_async_challenge(from, to, rated, rules, at))
     }
     pub async fn async_challenge(&self, id: i64) -> StoreResult<Option<AsyncChallenge>> {
         dispatch!(self, s => s.async_challenge(id))
@@ -1825,11 +1891,12 @@ impl Store {
 pub fn apply_match_numbers(u: &mut User, m: &MatchRecord, seat: usize) {
     let won = seat == m.winner;
     if m.rated {
-        u.rating += m.delta[seat];
-        u.peak_rating = u.peak_rating.max(u.rating);
-        u.games += 1;
+        let r = u.records.get_mut(m.rules);
+        r.rating += m.delta[seat];
+        r.peak_rating = r.peak_rating.max(r.rating);
+        r.games += 1;
         if won {
-            u.wins += 1;
+            r.wins += 1;
             u.streak += 1;
             u.best_streak = u.best_streak.max(u.streak);
         } else {

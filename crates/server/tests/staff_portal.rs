@@ -9,8 +9,8 @@ use std::time::Duration;
 
 use futures_util::{SinkExt, StreamExt};
 use serde_json::Value;
-use snook_legend_proto::{ClientMsg, PROTOCOL_VERSION, Role, ServerMsg, parse_server};
-use snook_legend_server::lounge::Rules;
+use snook_legend_proto::{ClientMsg, PROTOCOL_VERSION, Role, Rules, ServerMsg, parse_server};
+use snook_legend_server::lounge::Settings;
 use snook_legend_server::store::{NewUser, Store};
 use snook_legend_server::{Config, Server, serve};
 use tokio::net::{TcpListener, TcpStream};
@@ -32,8 +32,8 @@ struct Running {
 async fn start() -> Running {
     let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
     let addr = listener.local_addr().unwrap();
-    let rules = Rules { max_connections_per_ip: 100, ..Rules::default() };
-    let config = Config { bind: addr, rules, admins: vec!["boss".into()], ..Config::default() };
+    let settings = Settings { max_connections_per_ip: 100, ..Settings::default() };
+    let config = Config { bind: addr, settings, admins: vec!["boss".into()], ..Config::default() };
     let server = Server::with_store(config, Store::memory()).await;
     let hash = server.hash_password(PASSWORD).await.unwrap();
     let boss = NewUser {
@@ -59,7 +59,7 @@ impl Client {
     async fn connect(url: &str) -> Client {
         let (ws, _) = connect_async(url).await.unwrap();
         let mut c = Client { ws };
-        c.send(ClientMsg::Hello { version: PROTOCOL_VERSION }).await;
+        c.send(ClientMsg::Hello { version: PROTOCOL_VERSION, rules: Rules::Brazilian }).await;
         c
     }
 
@@ -397,6 +397,7 @@ async fn the_portal_moderates_the_lounge() {
         name: "Bad name cup".into(),
         size: 4,
         rated: false,
+        rules: Rules::Brazilian,
         password: None,
         entry_fee: 0,
         format: Default::default(),
@@ -450,9 +451,9 @@ async fn the_portal_shows_the_economy_and_the_server() {
     let (code, v) = request(&s.host, "GET", "/admin/api/system", &boss, "").await;
     assert_eq!(code, 200, "{v}");
     assert_eq!(v["protocol"], PROTOCOL_VERSION);
-    assert_eq!(v["ruleset"], snook_legend_core::RULESET);
     assert!(v["online"].as_u64().unwrap() >= 1);
-    assert_eq!(v["rules"]["shot_clock_secs"], 30);
+    assert_eq!(v["online_by_rules"]["brazilian"].as_u64(), v["online"].as_u64());
+    assert_eq!(v["settings"]["shot_clock_secs"], 30);
 
     let (code, v) = request(&s.host, "GET", "/admin/api/metrics", &boss, "").await;
     assert_eq!(code, 200);

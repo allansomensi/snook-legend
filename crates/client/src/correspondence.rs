@@ -935,29 +935,7 @@ mod tests {
     use snook_legend_proto::{PlayerInfo, PlayerStatus};
 
     fn player(name: &str) -> PlayerInfo {
-        PlayerInfo {
-            username: name.into(),
-            rating: 1200,
-            games: 0,
-            wins: 0,
-            status: PlayerStatus::Available,
-            country: "BR".into(),
-            role: Default::default(),
-            guest: false,
-            vip: false,
-            cue: String::new(),
-            chalk: String::new(),
-            frame: String::new(),
-            name_style: String::new(),
-            effect: String::new(),
-            status_message: String::new(),
-            avatar: String::new(),
-            vs_computer: false,
-            away: false,
-            focus: false,
-            level: 0,
-            cue_level: 0,
-        }
+        PlayerInfo { username: name.into(), country: "BR".into(), ..Default::default() }
     }
 
     fn info(seat: usize, turn: usize, strokes: u32) -> CorrGame {

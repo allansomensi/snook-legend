@@ -4,8 +4,7 @@
 use std::collections::HashSet;
 
 use snook_legend_proto::{
-    ClientMsg, GiftInfo, PlayerStatus, RecentOpponent, Role, SOCIAL_PROTOCOL, ServerMsg,
-    clean_status,
+    ClientMsg, GiftInfo, PlayerStatus, RecentOpponent, Role, Rules, ServerMsg, clean_status,
 };
 
 use crate::lounge::{key, player_info};
@@ -48,8 +47,7 @@ pub async fn handle(
             }
             let text = clean_status(&text);
             if fresh.chat_restricted() && !text.is_empty() {
-                let protocol = server.with(|l| l.protocol_of(&me.username)).unwrap_or(0);
-                error(crate::lounge::chat_off_reason(&fresh, protocol));
+                error(crate::lounge::chat_off_reason(&fresh));
                 return None;
             }
             if text == fresh.status_message {
@@ -128,11 +126,7 @@ pub async fn handle(
                 Ok(Some(gift)) => {
                     tracing::info!(from = me.id, gift = id, "thanked for a gift");
                     let msg = ServerMsg::GiftThanked { by: me.username.clone(), code: gift.code };
-                    server.with(|l| {
-                        if l.protocol_of(&gift.from).is_some_and(|v| v >= SOCIAL_PROTOCOL) {
-                            l.notify(&gift.from, msg);
-                        }
-                    });
+                    server.with(|l| l.notify(&gift.from, msg));
                 }
                 Ok(None) => {}
                 Err(e) => tracing::error!("thanks for gift {id}: {e}"),
@@ -158,12 +152,10 @@ pub fn gift_info(g: GiftRow) -> GiftInfo {
     }
 }
 
-/// Tells `to` about present `id` if they are online: the gift dialog in
-/// newer games, `legacy` (a toast) in older ones.
-pub async fn deliver_gift(server: &Server, to: &User, id: i64, legacy: ServerMsg) {
-    let Some(version) = server.with(|l| l.protocol_of(&to.username)) else { return };
-    if version < SOCIAL_PROTOCOL {
-        return server.with(|l| l.notify(&to.username, legacy));
+/// Tells `to` about present `id` if they are online (the gift dialog).
+pub async fn deliver_gift(server: &Server, to: &User, id: i64) {
+    if !server.with(|l| l.is_online(&to.username)) {
+        return;
     }
     match server.store.gift(id).await {
         Ok(Some(gift)) => {
@@ -175,13 +167,8 @@ pub async fn deliver_gift(server: &Server, to: &User, id: i64, legacy: ServerMsg
     }
 }
 
-/// After signing in: the presents that arrived meanwhile (newer games).
+/// After signing in: the presents that arrived meanwhile.
 pub async fn signed_in(server: &Server, user: &User) {
-    let newer =
-        server.with(|l| l.protocol_of(&user.username)).is_some_and(|v| v >= SOCIAL_PROTOCOL);
-    if !newer {
-        return;
-    }
     match server.store.unseen_gifts(user.id).await {
         Ok(gifts) if !gifts.is_empty() => {
             let msg = ServerMsg::NewGifts { gifts: gifts.into_iter().map(gift_info).collect() };
@@ -233,8 +220,9 @@ pub async fn recent_msg(server: &Server, me: &User) -> ServerMsg {
                 let live = l.player(&r.user.username);
                 RecentOpponent {
                     online: live.is_some(),
-                    player: live
-                        .unwrap_or_else(|| player_info(&r.user, false, PlayerStatus::Available)),
+                    player: live.unwrap_or_else(|| {
+                        player_info(&r.user, false, PlayerStatus::Available, Rules::default())
+                    }),
                     at: r.at,
                     won: r.won,
                     rated: r.rated,

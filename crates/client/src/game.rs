@@ -2519,26 +2519,8 @@ mod tests {
     fn players() -> [PlayerInfo; 2] {
         let p = |n: &str| PlayerInfo {
             username: n.into(),
-            rating: 1200,
-            games: 0,
-            wins: 0,
             status: snook_legend_proto::PlayerStatus::Playing,
-            country: String::new(),
-            role: snook_legend_proto::Role::Player,
-            guest: false,
-            vip: false,
-            cue: String::new(),
-            chalk: String::new(),
-            frame: String::new(),
-            name_style: String::new(),
-            effect: String::new(),
-            cue_level: 0,
-            status_message: String::new(),
-            avatar: String::new(),
-            vs_computer: false,
-            away: false,
-            focus: false,
-            level: 0,
+            ..Default::default()
         };
         [p("me"), p("them")]
     }

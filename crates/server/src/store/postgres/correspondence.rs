@@ -7,7 +7,7 @@ use sqlx::{Row, query};
 use super::super::{AsyncChallenge, AsyncGame, MatchRecord, NewAsyncGame, StoreResult, User};
 use super::{PgStore, replay_json, replay_of};
 
-const GAME_COLUMNS: &str = "id, player0, player1, rated, seed, breaker, strokes::text AS strokes, ruleset, \
+const GAME_COLUMNS: &str = "id, player0, player1, rated, seed, breaker, strokes::text AS strokes, rules, \
     turn, deadline, seen0, seen1, group0, group1, left0, left1, started_at, updated_at, \
     finished_at, winner, reason, timeout, delta0, delta1, rating0, rating1, match_id";
 
@@ -28,12 +28,12 @@ fn group_of_code(c: i16) -> Option<snook_legend_core::Group> {
     }
 }
 
-const CHALLENGE_COLUMNS: &str = "id, from_id, to_id, rated, created_at";
+const CHALLENGE_COLUMNS: &str = "id, from_id, to_id, rated, rules, created_at";
 
 fn game(r: &PgRow) -> Result<AsyncGame, sqlx::Error> {
     let strokes: String = r.try_get("strokes")?;
     let replay =
-        replay_of(r.try_get("seed")?, r.try_get("breaker")?, &strokes, r.try_get("ruleset")?)
+        replay_of(r.try_get("seed")?, r.try_get("breaker")?, &strokes, r.try_get("rules")?)
             .ok_or_else(|| sqlx::Error::Decode("unreadable strokes".into()))?;
     let n = |c: &str| -> Result<u32, sqlx::Error> { Ok(r.try_get::<i32, _>(c)?.max(0) as u32) };
     let small = |c: &str| -> Result<i16, sqlx::Error> { r.try_get::<i16, _>(c) };
@@ -65,6 +65,8 @@ fn challenge(r: &PgRow) -> Result<AsyncChallenge, sqlx::Error> {
         from: r.try_get("from_id")?,
         to: r.try_get("to_id")?,
         rated: r.try_get("rated")?,
+        rules: snook_legend_proto::Rules::parse(r.try_get("rules")?)
+            .ok_or_else(|| sqlx::Error::Decode("unknown rules".into()))?,
         created_at: r.try_get("created_at")?,
     })
 }
@@ -75,15 +77,17 @@ impl PgStore {
         from: i64,
         to: i64,
         rated: bool,
+        rules: snook_legend_proto::Rules,
         at: i64,
     ) -> StoreResult<Option<i64>> {
         let row = query(
-            "INSERT INTO async_challenges (from_id, to_id, rated, created_at) VALUES ($1, $2, $3, $4)
+            "INSERT INTO async_challenges (from_id, to_id, rated, rules, created_at) VALUES ($1, $2, $3, $4, $5)
              ON CONFLICT (from_id, to_id) DO NOTHING RETURNING id",
         )
         .bind(from)
         .bind(to)
         .bind(rated)
+        .bind(rules.code())
         .bind(at)
         .fetch_optional(&self.pool)
         .await?;
@@ -135,7 +139,7 @@ impl PgStore {
         let c = challenge(&c)?;
         let breaker = (new.breaker % 2) as i16;
         let row = query(&format!(
-            "INSERT INTO async_games (player0, player1, rated, seed, breaker, turn, deadline, started_at, updated_at, ruleset)
+            "INSERT INTO async_games (player0, player1, rated, seed, breaker, turn, deadline, started_at, updated_at, rules)
              VALUES ($1, $2, $3, $4, $5, $5, $6, $7, $7, $8) RETURNING {GAME_COLUMNS}"
         ))
         .bind(c.from)
@@ -145,8 +149,7 @@ impl PgStore {
         .bind(breaker)
         .bind(new.deadline)
         .bind(new.at)
-        // New games are played under the rules every game let in knows.
-        .bind(snook_legend_proto::correspondence::RULESET as i16)
+        .bind(c.rules.code())
         .fetch_one(&mut *tx)
         .await?;
         let game = game(&row)?;
@@ -272,8 +275,11 @@ impl PgStore {
             .bind(match_id)
             .execute(&mut *tx)
             .await?;
-        let rating =
-            |k: usize| users[k].as_ref().map(|u| u.rating).unwrap_or(record.ratings_after[k]);
+        let rating = |k: usize| {
+            users[k]
+                .as_ref()
+                .map_or(record.ratings_after[k], |u| u.records.get(record.rules).rating)
+        };
         query(
             "UPDATE async_games SET match_id = $2, delta0 = $3, delta1 = $4, rating0 = $5, rating1 = $6
              WHERE id = $1",

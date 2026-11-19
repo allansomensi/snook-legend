@@ -3,7 +3,7 @@
 use std::collections::{BTreeMap, HashMap, HashSet};
 use std::sync::Mutex;
 
-use snook_legend_proto::{LeaderboardEntry, Role};
+use snook_legend_proto::{LeaderboardEntry, PerRules, Role, Rules};
 
 use snook_legend_proto::CareerNumbers;
 
@@ -13,8 +13,8 @@ mod msstore;
 use super::{
     AimRow, AuditRow, BoardNote, BuyOutcome, FriendOutcome, FriendState, GiftRow, HistoryRow,
     LedgerRow, LiveMatch, MatchRecord, Metrics, NewGift, NewNote, NewReport, NewUser, Overview,
-    Payment, RECENT_SCAN, RecentRow, Rename, ReportRow, SessionKind, StoreError, StoreResult,
-    StoredReplay, TournamentRecord, User, Wallet, day_of, hour_of,
+    Payment, RECENT_SCAN, RecentRow, Record, Rename, ReportRow, SessionKind, StoreError,
+    StoreResult, StoredReplay, TournamentRecord, User, Wallet, day_of, hour_of,
 };
 use snook_legend_proto::analysis::ShotAnalysis;
 
@@ -192,10 +192,7 @@ impl MemoryStore {
             password_hash: new.password_hash.to_string(),
             country: new.country.to_string(),
             role: new.role,
-            rating: new.rating,
-            peak_rating: new.rating,
-            games: 0,
-            wins: 0,
+            records: PerRules::both(Record::new(new.rating)),
             eight_wins: 0,
             casual_games: 0,
             streak: 0,
@@ -439,13 +436,18 @@ impl MemoryStore {
         Ok(c)
     }
 
-    pub fn rating_history(&self, user_id: i64, limit: u32) -> StoreResult<Vec<(i64, i32)>> {
+    pub fn rating_history(
+        &self,
+        user_id: i64,
+        rules: Rules,
+        limit: u32,
+    ) -> StoreResult<Vec<(i64, i32)>> {
         let s = self.lock();
         let mut list: Vec<(i64, i32)> = s
             .matches
             .iter()
             .rev()
-            .filter(|m| m.rated)
+            .filter(|m| m.rated && m.rules == rules)
             .filter_map(|m| {
                 let seat = m.players.iter().position(|p| *p == user_id)?;
                 Some((m.ended_at, m.ratings_after[seat]))
@@ -670,7 +672,7 @@ impl MemoryStore {
                 Some(AimRow {
                     user_id: id,
                     username: u.username.clone(),
-                    rating: u.rating,
+                    rating: u.records.brazilian.rating.max(u.records.official.rating),
                     attempts,
                     made,
                 })
@@ -730,7 +732,8 @@ impl MemoryStore {
                 }
             })
             .collect();
-        let games = |u: &User| u.games + u.casual_games;
+        let games =
+            |u: &User| u.records.brazilian.games + u.records.official.games + u.casual_games;
         let mut revenue: BTreeMap<String, (i64, i64)> = BTreeMap::new();
         let mut revenue_days: BTreeMap<(i64, String), (i64, i64)> = BTreeMap::new();
         for p in s.payments.iter().filter(|p| !p.refunded && !p.test && p.at > now - 30 * 86_400) {
@@ -886,6 +889,7 @@ impl MemoryStore {
                     won: m.winner == seat,
                     reason: crate::reason_code(m.reason).to_string(),
                     rated: m.rated,
+                    rules: m.rules,
                     delta: m.delta[seat],
                     rating_after: m.ratings_after[seat],
                     tournament: m.tournament.is_some(),
@@ -899,16 +903,23 @@ impl MemoryStore {
             .collect())
     }
 
-    pub fn leaderboard(&self, limit: u32, now: i64) -> StoreResult<Vec<LeaderboardEntry>> {
+    pub fn leaderboard(
+        &self,
+        rules: Rules,
+        limit: u32,
+        now: i64,
+    ) -> StoreResult<Vec<LeaderboardEntry>> {
         let s = self.lock();
+        let rec = |u: &User| *u.records.get(rules);
         // Banned players are left out while the ban lasts.
         let mut users: Vec<&User> = s
             .users
             .values()
-            .filter(|u| u.games > 0 && !u.is_banned(now) && u.deleted_at.is_none())
+            .filter(|u| rec(u).games > 0 && !u.is_banned(now) && u.deleted_at.is_none())
             .collect();
         users.sort_by(|a, b| {
-            b.rating.cmp(&a.rating).then(b.wins.cmp(&a.wins)).then(a.username.cmp(&b.username))
+            let (ra, rb) = (rec(a), rec(b));
+            rb.rating.cmp(&ra.rating).then(rb.wins.cmp(&ra.wins)).then(a.username.cmp(&b.username))
         });
         Ok(users
             .into_iter()
@@ -917,9 +928,9 @@ impl MemoryStore {
             .map(|(i, u)| LeaderboardEntry {
                 rank: i as u32 + 1,
                 username: u.username.clone(),
-                rating: u.rating,
-                games: u.games,
-                wins: u.wins,
+                rating: rec(u).rating,
+                games: rec(u).games,
+                wins: rec(u).wins,
                 country: u.country.clone(),
                 vip: s.wallets.get(&u.id).is_some_and(|w| w.vip_until > now),
                 admin: u.role == Role::Admin,
@@ -927,15 +938,21 @@ impl MemoryStore {
             .collect())
     }
 
-    pub fn rank_of(&self, user_id: i64) -> StoreResult<Option<u32>> {
+    pub fn rank_of(&self, user_id: i64, rules: Rules) -> StoreResult<Option<u32>> {
         let s = self.lock();
-        let Some(me) = s.users.get(&user_id).filter(|u| u.games > 0) else { return Ok(None) };
+        let rec = |u: &User| *u.records.get(rules);
+        let Some(me) = s.users.get(&user_id).map(rec).filter(|r| r.games > 0) else {
+            return Ok(None);
+        };
         let now = crate::now();
         let above = s
             .users
             .values()
             .filter(|u| {
-                u.games > 0 && !u.is_banned(now) && u.deleted_at.is_none() && u.rating > me.rating
+                rec(u).games > 0
+                    && !u.is_banned(now)
+                    && u.deleted_at.is_none()
+                    && rec(u).rating > me.rating
             })
             .count();
         Ok(Some(above as u32 + 1))
@@ -1365,9 +1382,10 @@ impl MemoryStore {
         match search.sort {
             UserSort::Newest => all.sort_by_key(|u| std::cmp::Reverse(u.id)),
             UserSort::Name => all.sort_by_key(|u| (u.username.to_lowercase(), u.id)),
-            UserSort::Rating => {
-                all.sort_by_key(|u| (std::cmp::Reverse(u.rating), std::cmp::Reverse(u.id)))
-            }
+            UserSort::Rating => all.sort_by_key(|u| {
+                let best = u.records.brazilian.rating.max(u.records.official.rating);
+                (std::cmp::Reverse(best), std::cmp::Reverse(u.id))
+            }),
             UserSort::LastSeen => {
                 all.sort_by_key(|u| (std::cmp::Reverse(u.last_seen), std::cmp::Reverse(u.id)))
             }
@@ -1467,6 +1485,7 @@ impl MemoryStore {
             format: e.format.to_string(),
             size: e.size,
             rated: e.rated,
+            rules: e.rules,
             entry_fee: e.entry_fee,
             prize: e.prize,
             created_by: String::new(),

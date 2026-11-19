@@ -5,11 +5,11 @@
 
 use snook_legend_core::stats::ShotStats;
 use snook_legend_core::{GameOverReason, Shot};
-use snook_legend_proto::Role;
 use snook_legend_proto::replay::{Replay, Stroke};
+use snook_legend_proto::{Role, Rules};
 use snook_legend_server::store::{
     AuditSearch, BuyOutcome, FriendOutcome, FriendState, LiveMatch, MatchRecord, NewNote,
-    NewReport, NewUser, Payment, Rename, SessionKind, Store, TournamentRecord, UserFilter,
+    NewReport, NewUser, Payment, Rename, SessionKind, Store, TournamentRecord, User, UserFilter,
     UserSearch, UserSort, day_of,
 };
 
@@ -61,6 +61,7 @@ async fn exercise(store: Store) {
         winner: 0,
         reason: GameOverReason::PocketedEight,
         rated: true,
+        rules: Rules::Brazilian,
         delta: [16, -16],
         ratings_after: [1216, 1184],
         shots: 30,
@@ -73,7 +74,7 @@ async fn exercise(store: Store) {
         replay: Some(Replay {
             seed: u64::MAX - 5,
             breaker: 1,
-            ruleset: snook_legend_core::RULESET,
+            rules: Rules::Brazilian,
             strokes: vec![
                 Stroke::Shot {
                     shot: Shot::new(0.25, 3.5),
@@ -106,11 +107,18 @@ async fn exercise(store: Store) {
     };
     let ([ua, ub], match_id) = store.record_match(&m).await.unwrap();
     let (ua, ub) = (ua.unwrap(), ub.unwrap());
-    assert_eq!((ua.rating, ua.peak_rating, ua.games, ua.wins, ua.streak), (1216, 1216, 1, 1, 1));
+    let record = |u: &User, rules| {
+        let r = u.records.get(rules);
+        (r.rating, r.peak_rating, r.games, r.wins)
+    };
+    assert_eq!((record(&ua, Rules::Brazilian), ua.streak), ((1216, 1216, 1, 1), 1));
     assert_eq!((ua.eight_wins, ua.runouts, ua.shutouts), (1, 1, 0));
-    assert_eq!((ub.rating, ub.peak_rating, ub.games, ub.wins, ub.streak), (1184, 1200, 1, 0, 0));
+    assert_eq!((record(&ub, Rules::Brazilian), ub.streak), ((1184, 1200, 1, 0), 0));
+    // The other rules' record is untouched.
+    assert_eq!(record(&ua, Rules::Official), (1200, 1200, 0, 0));
     let casual = MatchRecord {
         rated: false,
+        rules: Rules::Brazilian,
         delta: [0, 0],
         winner: 1,
         replay: None,
@@ -131,7 +139,8 @@ async fn exercise(store: Store) {
     assert!(store.replay(match_id + 1).await.unwrap().is_none(), "the casual game has none");
     let c = store.career(a.id).await.unwrap();
     assert_eq!((c.games, c.shots, c.balls, c.best_run, c.pot_rate()), (1, 10, 7, 4, 60));
-    assert_eq!(store.rating_history(a.id, 10).await.unwrap(), vec![(t, 1216)]);
+    assert_eq!(store.rating_history(a.id, Rules::Brazilian, 10).await.unwrap(), vec![(t, 1216)]);
+    assert!(store.rating_history(a.id, Rules::Official, 10).await.unwrap().is_empty());
 
     let history = store.history(b.id, 10).await.unwrap();
     assert_eq!(history.len(), 2);
@@ -142,12 +151,42 @@ async fn exercise(store: Store) {
     assert_eq!(history[1].opponent, "Alice");
     assert_eq!((history[1].won, history[1].delta, history[1].rating_after), (false, -16, 1184));
     assert_eq!(history[1].reason, "pocketed_eight");
+    assert_eq!(history[1].rules, Rules::Brazilian);
 
-    let lb = store.leaderboard(10, t).await.unwrap();
+    let lb = store.leaderboard(Rules::Brazilian, 10, t).await.unwrap();
     assert_eq!(lb[0].username, "Alice");
     assert_eq!(lb[0].country, "BR");
     assert!(!lb[0].vip);
-    assert_eq!(store.rank_of(b.id).await.unwrap(), Some(2));
+    assert_eq!(store.rank_of(b.id, Rules::Brazilian).await.unwrap(), Some(2));
+    // Nobody has played under the official rules yet.
+    assert!(store.leaderboard(Rules::Official, 10, t).await.unwrap().is_empty());
+    assert_eq!(store.rank_of(b.id, Rules::Official).await.unwrap(), None);
+
+    // A rated game under the official rules: its own rating, peak and
+    // ranking, the Brazilian ones left as they were.
+    let official = MatchRecord {
+        rules: Rules::Official,
+        winner: 1,
+        delta: [-16, 16],
+        ratings_after: [1184, 1216],
+        abandoned: None,
+        ended_at: t + 5,
+        replay: m.replay.clone().map(|r| Replay { rules: Rules::Official, ..r }),
+        ..m.clone()
+    };
+    let ([ua, ub], official_id) = store.record_match(&official).await.unwrap();
+    let (ua, ub) = (ua.unwrap(), ub.unwrap());
+    assert_eq!(record(&ua, Rules::Official), (1184, 1200, 1, 0));
+    assert_eq!(record(&ub, Rules::Official), (1216, 1216, 1, 1));
+    assert_eq!(record(&ua, Rules::Brazilian), (1216, 1216, 1, 1));
+    let lb = store.leaderboard(Rules::Official, 10, t).await.unwrap();
+    assert_eq!(lb.iter().map(|e| e.username.as_str()).collect::<Vec<_>>(), ["bob", "Alice"]);
+    assert_eq!(store.rank_of(b.id, Rules::Official).await.unwrap(), Some(1));
+    assert_eq!(store.rank_of(b.id, Rules::Brazilian).await.unwrap(), Some(2));
+    assert_eq!(store.rating_history(a.id, Rules::Official, 10).await.unwrap(), vec![(t + 5, 1184)]);
+    let r = store.replay(official_id).await.unwrap().expect("replay kept");
+    assert_eq!(r.replay.rules, Rules::Official);
+    assert_eq!(store.history(a.id, 10).await.unwrap()[0].rules, Rules::Official);
 
     // The shop: credits are applied once per reference, purchases never
     // go below zero, refunds are recorded once.
@@ -196,7 +235,10 @@ async fn exercise(store: Store) {
     assert_eq!(store.payments_of(a.id, 10).await.unwrap().len(), 1);
     assert_eq!(store.payment_email(a.id).await.unwrap().as_deref(), Some("alice@example.com"));
     store.set_vip(a.id, t + 1000, false).await.unwrap();
-    assert!(store.leaderboard(10, t).await.unwrap()[0].vip, "the crown shows in the ranking");
+    assert!(
+        store.leaderboard(Rules::Brazilian, 10, t).await.unwrap()[0].vip,
+        "the crown shows in the ranking"
+    );
 
     // Coins for playing: the daily bonus once a day, games up to a cap.
     let day = day_of(t);
@@ -308,7 +350,7 @@ async fn exercise(store: Store) {
     // ended long ago).
     assert!(
         store
-            .leaderboard(10, snook_legend_server::now())
+            .leaderboard(Rules::Brazilian, 10, snook_legend_server::now())
             .await
             .unwrap()
             .iter()
@@ -317,15 +359,15 @@ async fn exercise(store: Store) {
     store.set_ban(a.id, Some(i64::MAX), Some("cheating")).await.unwrap();
     assert!(
         !store
-            .leaderboard(10, snook_legend_server::now())
+            .leaderboard(Rules::Brazilian, 10, snook_legend_server::now())
             .await
             .unwrap()
             .iter()
             .any(|e| e.username == "Alice")
     );
-    assert_eq!(store.rank_of(b.id).await.unwrap(), Some(1));
+    assert_eq!(store.rank_of(b.id, Rules::Brazilian).await.unwrap(), Some(1));
     store.set_ban(a.id, None, None).await.unwrap();
-    assert_eq!(store.rank_of(b.id).await.unwrap(), Some(2));
+    assert_eq!(store.rank_of(b.id, Rules::Brazilian).await.unwrap(), Some(2));
     store.set_mute(b.id, Some(t + 50)).await.unwrap();
     store.set_role(a.id, Role::Moderator).await.unwrap();
     assert_eq!(store.user_by_id(a.id).await.unwrap().unwrap().role, Role::Moderator);
@@ -336,7 +378,7 @@ async fn exercise(store: Store) {
     let (all, total) = store.search_users(&named(""), 0, 1).await.unwrap();
     assert_eq!((all.len(), total), (1, 2));
     let o = store.overview(t).await.unwrap();
-    assert_eq!((o.users, o.matches_total), (2, 2));
+    assert_eq!((o.users, o.matches_total), (2, 3));
 
     store
         .record_tournament(&TournamentRecord {
@@ -450,9 +492,12 @@ async fn exercise(store: Store) {
     assert!(store.session_user("hash_b", SessionKind::Game, t).await.unwrap().is_none());
     assert!(store.user_by_name("bob").await.unwrap().is_none());
     let history = store.history(a.id, 10).await.unwrap();
-    assert_eq!(history.len(), 2, "the other player's history stays");
+    assert_eq!(history.len(), 3, "the other player's history stays");
     assert_eq!(history[0].opponent, format!("deleted-{}", b.id));
-    assert!(store.leaderboard(10, t).await.unwrap().iter().all(|e| e.username != gone.username));
+    for rules in Rules::ALL {
+        let board = store.leaderboard(rules, 10, t).await.unwrap();
+        assert!(board.iter().all(|e| e.username != gone.username));
+    }
     // It leaves the other boards too: their rows, counts and places, and
     // the days it led.
     let (board, players) = store.daily_board(d, 10).await.unwrap();
@@ -744,6 +789,7 @@ async fn staff_tools(store: &Store) {
             format: if kind == "tournament" { "knockout" } else { "" },
             size: if kind == "tournament" { 8 } else { 0 },
             rated: true,
+            rules: snook_legend_proto::Rules::Official,
             entry_fee: 50,
             prize: 1000,
             created_by: a.id,

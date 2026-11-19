@@ -5,13 +5,13 @@ use std::collections::{HashMap, HashSet};
 use std::time::{Duration, Instant};
 
 use snook_legend_proto::{
-    ArenaStanding, MAX_NAME_LEN, PlayerInfo, PlayerStatus, ServerMsg, TournamentFormat,
+    ArenaStanding, MAX_NAME_LEN, PlayerInfo, PlayerStatus, Rules, ServerMsg, TournamentFormat,
     TournamentInfo, TournamentState, clean_text,
 };
 
 use super::{
-    Effect, HOSTLESS_TOURNAMENT, Lounge, TOO_MANY_PASSWORDS, UNUSABLE_PASSWORD, clean_password,
-    ct_eq, player_info, room_password,
+    Effect, Game, HOSTLESS_TOURNAMENT, Lounge, Offer, TOO_MANY_PASSWORDS, UNUSABLE_PASSWORD,
+    clean_password, ct_eq, player_info, room_password,
 };
 use crate::now;
 use crate::store::{TournamentRecord, User};
@@ -50,6 +50,7 @@ pub struct ScheduledTournament {
     /// A knockout's seats.
     pub size: u32,
     pub rated: bool,
+    pub rules: Rules,
     pub entry_fee: u32,
     pub house_prize: u32,
     pub starts_at: i64,
@@ -69,11 +70,13 @@ pub struct Cup {
     pub utc_offset: i32,
     pub minutes: u32,
     pub entry_fee: u32,
+    pub rules: Rules,
 }
 
 impl Cup {
     /// From `SNOOK_LEGEND_CUP`-style text: `sat 20:00` (optionally `60m`, `fee=100`,
-    /// `utc-3`).
+    /// `utc-3`, and `official` for a cup under the official rules: the
+    /// Brazilian rules otherwise).
     pub fn parse(text: &str) -> Option<Cup> {
         let mut cup = Cup {
             name: "Saturday Cup".into(),
@@ -83,6 +86,7 @@ impl Cup {
             utc_offset: -180,
             minutes: 60,
             entry_fee: 0,
+            rules: Rules::Brazilian,
         };
         let days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
         let names = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -99,6 +103,8 @@ impl Cup {
                 any = true;
             } else if let Some(m) = p.strip_suffix('m') {
                 cup.minutes = m.parse().ok().filter(|m| (10..=180).contains(m))?;
+            } else if let Some(rules) = Rules::parse(&p) {
+                cup.rules = rules;
             } else if let Some(f) = p.strip_prefix("fee=") {
                 cup.entry_fee = f.parse().ok().filter(|f| *f <= MAX_ENTRY_FEE)?;
             } else {
@@ -151,6 +157,7 @@ pub(super) struct Tournament {
     host: String,
     size: u32,
     rated: bool,
+    pub(super) rules: Rules,
     password: Option<String>,
     pub(super) state: TournamentState,
     /// Lower-case usernames, in sign-up order.
@@ -189,6 +196,11 @@ pub(super) struct Tournament {
 }
 
 impl Tournament {
+    /// `k`'s rating under the rules of the tournament (when they joined).
+    fn rating_of(&self, k: &str) -> i32 {
+        self.profiles.get(k).map_or(0, |(u, _)| u.records.get(self.rules).rating)
+    }
+
     /// Whether `k` plays in it or waits for a seat.
     pub(super) fn has_entered(&self, k: &str) -> bool {
         self.players.iter().chain(&self.waitlist).any(|p| p == k)
@@ -281,13 +293,13 @@ impl Lounge {
         let profile = |k: &String| -> PlayerInfo {
             self.info(k).unwrap_or_else(|| {
                 let (u, guest) = &t.profiles[k];
-                player_info(u, *guest, PlayerStatus::Available)
+                player_info(u, *guest, PlayerStatus::Available, t.rules)
             })
         };
         let display = |k: &str| {
             t.profiles.get(k).map(|(u, _)| u.username.clone()).unwrap_or_else(|| k.to_string())
         };
-        let rating = |k: &str| t.profiles.get(k).map(|(u, _)| u.rating).unwrap_or(0);
+        let rating = |k: &str| t.rating_of(k);
         TournamentInfo {
             id: t.id,
             name: t.name.clone(),
@@ -298,6 +310,7 @@ impl Lounge {
             },
             size: t.size,
             rated: t.rated,
+            rules: t.rules,
             private: t.password.is_some(),
             state: t.state,
             players: t.players.iter().map(profile).collect(),
@@ -380,7 +393,7 @@ impl Lounge {
             self.error(k, "Tournaments have 4, 8 or 16 players.");
             return false;
         }
-        if size == 16 && !arena && !vip && !self.rules.lan {
+        if size == 16 && !arena && !vip && !self.settings.lan {
             self.error(k, "16-player tournaments are for VIP members.");
             return false;
         }
@@ -398,7 +411,7 @@ impl Lounge {
         }
         let open =
             self.tournaments.values().filter(|t| t.state != TournamentState::Finished).count();
-        if open >= self.rules.max_open_tournaments {
+        if open >= self.settings.max_open_tournaments {
             self.error(k, "There are too many tournaments right now. Join one!");
             return false;
         }
@@ -414,7 +427,7 @@ impl Lounge {
         k: &str,
         name: &str,
         size: u32,
-        rated: bool,
+        offer: Offer,
         password: Option<String>,
         entry_fee: u32,
         format: TournamentFormat,
@@ -439,7 +452,8 @@ impl Lounge {
             name,
             host: k.to_string(),
             size: if arena { ARENA_MAX as u32 } else { size },
-            rated: rated && !s.guest,
+            rated: offer.rated && !s.guest,
+            rules: offer.rules,
             password: room_password(password).ok().flatten(),
             state: TournamentState::Registering,
             players: vec![k.to_string()],
@@ -639,7 +653,7 @@ impl Lounge {
         }
         let name = t.name.clone();
         let everyone: Vec<String> = t.players.iter().chain(&t.waitlist).cloned().collect();
-        let cup = self.rules.cup.as_ref().is_some_and(|c| c.name == t.name);
+        let cup = self.settings.cup.as_ref().is_some_and(|c| c.name == t.name);
         if t.host.is_empty() && cup {
             self.cup_called_off = t.starts_at;
         }
@@ -830,12 +844,8 @@ impl Lounge {
             t.players
                 .iter()
                 .map(|p| {
-                    let r = self
-                        .sessions
-                        .get(p)
-                        .map(|s| s.user.rating)
-                        .unwrap_or_else(|| t.profiles[p].0.rating);
-                    (p.clone(), r)
+                    let user = self.sessions.get(p).map_or(&t.profiles[p].0, |s| &s.user);
+                    (p.clone(), user.records.get(t.rules).rating)
                 })
                 .collect()
         };
@@ -949,7 +959,7 @@ impl Lounge {
         }
         let Some(t) = self.tournaments.get(&id) else { return };
         let Some(bracket) = t.bracket.as_ref() else { return };
-        let no_show = self.rules.tournament_no_show;
+        let no_show = self.settings.tournament_no_show;
         let mut starts = Vec::new();
         let mut walkovers = Vec::new();
         let mut closed = Vec::new();
@@ -1040,9 +1050,9 @@ impl Lounge {
     }
 
     /// Whether `k` is still looking at the end of a game that finished a
-    /// while ago (see [`super::Rules::tournament_pause`]).
+    /// while ago (see [`super::Settings::tournament_pause`]).
     fn done_looking(&self, k: &str) -> bool {
-        let pause = self.rules.tournament_pause;
+        let pause = self.settings.tournament_pause;
         self.room_of(k).is_some_and(|r| r.ended.is_some_and(|e| e.elapsed() >= pause))
     }
 
@@ -1081,15 +1091,14 @@ impl Lounge {
             self.close_table_of(p);
             self.queue_leave(p, false);
         }
-        let host = if users[0].rating >= users[1].rating {
-            players[0].clone()
-        } else {
-            players[1].clone()
-        };
-        let look = self.table_look_of(&host);
+        let Some(t) = self.tournaments.get(&at.0) else { return };
         // A private tournament's games stay off the lounge's TV.
-        let private = self.tournaments.get(&at.0).is_some_and(|t| t.password.is_some());
-        self.create_room(room_id, players, users, guests, rated, 0, Some(at), look, private);
+        let (rules, private) = (t.rules, t.password.is_some());
+        let rating = |u: &User| u.records.get(rules).rating;
+        let host = players[if rating(&users[0]) >= rating(&users[1]) { 0 } else { 1 }].clone();
+        let look = self.table_look_of(&host);
+        let game = Game { seed: rand::random(), breaker: 0, rules };
+        self.create_room(room_id, players, users, guests, rated, game, Some(at), look, private);
     }
 
     /// Arena: pairs the players who are free (closest points, then rating;
@@ -1121,7 +1130,8 @@ impl Lounge {
                 .iter()
                 .map(|p| {
                     let s = t.arena.get(p).cloned().unwrap_or_default();
-                    (p.clone(), s.points, self.sessions[p].user.rating, s.last)
+                    let rating = self.sessions[p].user.records.get(t.rules).rating;
+                    (p.clone(), s.points, rating, s.last)
                 })
                 .collect();
             free.sort_by(|a, b| b.1.cmp(&a.1).then(b.2.cmp(&a.2)));
@@ -1154,7 +1164,7 @@ impl Lounge {
             return;
         }
         let t = &self.tournaments[&id];
-        let rating = |k: &str| t.profiles.get(k).map(|(u, _)| u.rating).unwrap_or(0);
+        let rating = |k: &str| t.rating_of(k);
         let standings = t.standings(rating);
         let champion = standings.first().filter(|(_, s)| s.games > 0).map(|(k, _)| k.clone());
         let runner_up = standings.get(1).filter(|(_, s)| s.games > 0).map(|(k, _)| k.clone());
@@ -1328,7 +1338,7 @@ impl Lounge {
     /// Opens the staff's themed tournaments for sign-up when they are near,
     /// as the weekly cup.
     fn schedule_events(&mut self, t: i64) {
-        if self.draining.is_some() || self.rules.lan {
+        if self.draining.is_some() || self.settings.lan {
             return;
         }
         let due: Vec<ScheduledTournament> = self
@@ -1349,6 +1359,7 @@ impl Lounge {
                     host: String::new(),
                     size: if arena { ARENA_MAX as u32 } else { s.size },
                     rated: s.rated,
+                    rules: s.rules,
                     password: None,
                     state: TournamentState::Registering,
                     players: Vec::new(),
@@ -1382,8 +1393,8 @@ impl Lounge {
 
     /// Opens the weekly cup for sign-up when it is near.
     fn schedule_cup(&mut self, t: i64) {
-        let Some(cup) = self.rules.cup.clone() else { return };
-        if self.draining.is_some() || self.rules.lan {
+        let Some(cup) = self.settings.cup.clone() else { return };
+        if self.draining.is_some() || self.settings.lan {
             return;
         }
         // The next start after this second: the cup of this very second
@@ -1409,6 +1420,7 @@ impl Lounge {
                 host: String::new(),
                 size: ARENA_MAX as u32,
                 rated: true,
+                rules: cup.rules,
                 password: None,
                 state: TournamentState::Registering,
                 players: Vec::new(),
@@ -1442,7 +1454,7 @@ impl Lounge {
 #[cfg(test)]
 mod tests {
     use super::Cup;
-    use crate::lounge::{Lounge, Rules};
+    use crate::lounge::{Lounge, Settings};
 
     /// The weekly cup nobody signed up for is called off once: it is not
     /// made again (and called off again) in the very second it was due.
@@ -1450,7 +1462,7 @@ mod tests {
     fn a_cup_called_off_is_not_made_again() {
         let cup = Cup::parse("sat 20:00").unwrap();
         let (tx, _rx) = tokio::sync::mpsc::unbounded_channel();
-        let mut l = Lounge::new(Rules { cup: Some(cup.clone()), ..Rules::default() }, tx);
+        let mut l = Lounge::new(Settings { cup: Some(cup.clone()), ..Settings::default() }, tx);
         let start = cup.next_start(1_794_484_800);
         l.schedule_cup(start - 60);
         let id = *l.tournaments.keys().next().expect("open for sign-up");
@@ -1465,7 +1477,7 @@ mod tests {
     fn a_cup_the_staff_called_off_stays_off() {
         let cup = Cup::parse("sat 20:00").unwrap();
         let (tx, _rx) = tokio::sync::mpsc::unbounded_channel();
-        let mut l = Lounge::new(Rules { cup: Some(cup.clone()), ..Rules::default() }, tx);
+        let mut l = Lounge::new(Settings { cup: Some(cup.clone()), ..Settings::default() }, tx);
         let start = cup.next_start(1_794_484_800);
         l.schedule_cup(start - 3600);
         let id = *l.tournaments.keys().next().expect("open for sign-up");
@@ -1487,6 +1499,7 @@ mod tests {
             host: String::new(),
             size: 8,
             rated: false,
+            rules: Rules::Brazilian,
             password: None,
             state: TournamentState::Running,
             players: (0..n).map(|i| format!("p{i}")).collect(),

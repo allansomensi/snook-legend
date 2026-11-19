@@ -635,6 +635,34 @@ impl SettingsScreen {
 
                 self.updates_rows(ui, config, in_match, rows);
 
+                // The terms, the privacy policy and who made what.
+                rows.heading(ui, t("About"), None);
+                for (page, hint) in [
+                    (
+                        crate::legal::Page::Terms,
+                        t("Accounts, purchases and refunds, the rules of the online game."),
+                    ),
+                    (crate::legal::Page::Privacy, t("What the game keeps, and your rights.")),
+                ] {
+                    if let Some((_, c)) = rows.row(ui, page.label(), hint, Control::Wide(32.0)) {
+                        let b = Rect::new(c.x + c.w - c.w.min(150.0), c.y, c.w.min(150.0), 32.0);
+                        if ui.button(b, t("Open"), true) {
+                            crate::legal::open(&config.server, page);
+                        }
+                    }
+                }
+                if let Some((_, c)) = rows.row(
+                    ui,
+                    t("Credits"),
+                    t("Fonts: DejaVu. Flags: flag-icons (MIT). Reactions: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT)."),
+                    Control::Wide(32.0),
+                ) {
+                    let b = Rect::new(c.x + c.w - c.w.min(150.0), c.y, c.w.min(150.0), 32.0);
+                    if ui.button(b, t("Open"), true) {
+                        crate::util::open_url(concat!(env!("CARGO_PKG_REPOSITORY"), "#credits"));
+                    }
+                }
+
                 // The server, out of the way: few players ever change it.
                 if !in_match {
                     // Closed, it still says when another server is in use.

@@ -29,7 +29,7 @@ O build da Store usa a feature `store` do jogo (`crates/client/src/channel.rs`):
 | `crates/client/msix/Assets/` | os ícones do pacote (`cargo test --release -p snook-legend export_msix_assets -- --ignored` os refaz a partir do emblema) |
 | `tools/msix/make-msix.ps1` | preenche o manifesto e monta o `.msix` |
 | `.github/workflows/msstore.yml` | gera o MSIX (o envio à Store é manual) |
-| `crates/server/pages/` | a política de privacidade (`/privacidade` e `/privacy`) |
+| `crates/server/pages/` | os termos de uso (`/termos`, `/terms`, `/terminos`) e a política de privacidade (`/privacidade`, `/privacy`, `/privacidad`) |
 
 ## Uma vez só: preparar a Store
 
@@ -48,29 +48,41 @@ Actions → Variables**):
 | `MSSTORE_PUBLISHER_DISPLAY_NAME` | `Package/Properties/PublisherDisplayName` |
 | `MSSTORE_DISPLAY_NAME` | o nome reservado |
 
-### 2. Política de privacidade
+### 2. Termos de uso e política de privacidade
 
-O servidor publica a política em `https://<seu-servidor>/privacidade`
-(português) e `/privacy` (inglês). Antes de usá-la, **leia o texto** em
-`crates/server/pages/` e ajuste o que for preciso. Ele descreve o que o jogo
-guarda hoje, mas não é uma revisão jurídica.
+O servidor publica os termos de uso em `https://<seu-servidor>/termos`
+(português, o texto de referência), `/terms` (inglês) e `/terminos`
+(espanhol), e a política de privacidade em `/privacidade`, `/privacy` e
+`/privacidad`. Antes de usá-los, **leia os textos** em `crates/server/pages/`
+e ajuste o que for preciso. Eles descrevem o jogo como ele é hoje, mas não
+são uma revisão jurídica.
 
-Na Render (**Environment**), defina:
+Na Render (**Environment**), defina (veja também a seção 10 de
+[DEPLOY.pt-BR.md](DEPLOY.pt-BR.md)):
 
 | Variável | Exemplo |
 |---|---|
 | `SNOOK_LEGEND_GAME_NAME` | o nome do jogo na Store |
 | `SNOOK_LEGEND_PRIVACY_CONTROLLER` | seu nome ou o da sua empresa |
-| `SNOOK_LEGEND_PRIVACY_CONTACT` | um e-mail para pedidos de privacidade (sem ele, a página aponta para as *issues* do GitHub) |
+| `SNOOK_LEGEND_LEGAL_DOCUMENT` | o CPF ou o CNPJ |
+| `SNOOK_LEGEND_LEGAL_ADDRESS` | o endereço |
+| `SNOOK_LEGEND_PRIVACY_CONTACT` | o e-mail de atendimento (dúvidas, reembolsos, recursos e privacidade; sem ele, as páginas apontam para as *issues* do GitHub) |
 
-No Partner Center, use `https://<seu-servidor>/privacy` como **Privacy policy
-URL**.
+No Partner Center (**Store listings**, em cada idioma, e **Properties**):
+
+| Campo | Valor |
+|---|---|
+| **Privacy policy URL** | `https://snook-server.onrender.com/privacy` |
+| **Additional license terms** | "Termos de uso: https://snook-server.onrender.com/termos" (em inglês: `/terms`; em espanhol: `/terminos`) |
+| **Support contact info** | o mesmo e-mail de `SNOOK_LEGEND_PRIVACY_CONTACT` |
+| **Website** | a página do jogo (ou o repositório) |
 
 ### 3. Servidor sempre acordado
 
-No plano gratuito da Render o servidor dorme e o primeiro jogador espera
-cerca de um minuto: use um plano pago, que não dorme (é o caso do servidor
-oficial).
+O servidor oficial roda no plano **Starter** da Render, que não dorme. No
+plano gratuito o servidor dorme depois de 15 minutos sem tráfego e o primeiro
+jogador espera cerca de um minuto: não use o plano gratuito para o servidor
+dos jogadores.
 
 ### 4. Primeiro envio (pelo site)
 
@@ -88,7 +100,10 @@ página da loja, a classificação etária e o preço:
      **interação entre usuários (chat)**, **compartilhamento de nome de
      usuário** e **itens compráveis com moeda do jogo** (e, com a venda de
      moedas ligada, **compras com dinheiro**: veja
-     [Venda de moedas pela Store](#venda-de-moedas-pela-store)).
+     [Venda de moedas pela Store](#venda-de-moedas-pela-store)). Não há
+     *loot boxes*. Nas contas de menores de 18 anos o chat começa desligado
+     e só o responsável o liga (art. 20 da Lei 15.211/2025, o ECA Digital;
+     veja a seção 4 dos termos de uso).
    - **Packages:** envie o `.msix` baixado.
    - **Store listings** (português, inglês e espanhol): os textos de
      [STORE-LISTING.md](STORE-LISTING.md), as capturas de tela de

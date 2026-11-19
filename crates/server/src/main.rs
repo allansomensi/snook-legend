@@ -20,9 +20,11 @@
 //! | `SNOOK_LEGEND_MSSTORE_PRODUCTS` | — | `coins_500=9XXXXXXXXXXX;…`: the Store add-on of each coin pack |
 //! | `SNOOK_LEGEND_STRIPE_PRICES` | — | `code=price_id\|label;…` for coin packs and `vip_monthly` |
 //! | `SNOOK_LEGEND_PUBLIC_URL` | — | the server's public address (payment return pages) |
-//! | `SNOOK_LEGEND_GAME_NAME` | `Snook Legend` | the game's name on the privacy policy (`/privacidade`, `/privacy`) |
-//! | `SNOOK_LEGEND_PRIVACY_CONTROLLER` | the developer | who is responsible for the data, on the policy |
-//! | `SNOOK_LEGEND_PRIVACY_CONTACT` | the repository's issues | e-mail or web address for privacy requests |
+//! | `SNOOK_LEGEND_GAME_NAME` | `Snook Legend` | the game's name on the terms of use (`/termos`, `/terms`, `/terminos`) and the privacy policy (`/privacidade`, `/privacy`, `/privacidad`) |
+//! | `SNOOK_LEGEND_PRIVACY_CONTROLLER` | the developer | who provides the game and controls the data (person or company), on both pages |
+//! | `SNOOK_LEGEND_LEGAL_DOCUMENT` | — | their CPF or CNPJ, on both pages (required in Brazil when selling, Decreto 7.962/2013) |
+//! | `SNOOK_LEGEND_LEGAL_ADDRESS` | — | their address, on both pages (as above) |
+//! | `SNOOK_LEGEND_PRIVACY_CONTACT` | the repository's issues | e-mail or web address for customer service, refunds, appeals and privacy requests |
 //! | `SNOOK_LEGEND_DRAIN_SECS` | `240` | on SIGTERM: how long games in progress may go on before they are handed to the next server |
 //! | `SNOOK_LEGEND_CUP` | — | the weekly cup, e.g. `sat 20:00` (options: `60m`, `fee=100`, `utc-3`) |
 //! | `RUST_LOG` | `info` | log filter |
@@ -90,12 +92,18 @@ async fn main() {
         stripe: snook_legend_server::payments::StripeConfig::from_env(),
         msstore: snook_legend_server::msstore::MsStoreConfig::from_env(),
         privacy: {
-            let mut p = snook_legend_server::pages::PrivacyInfo::default();
+            let mut p = snook_legend_server::pages::LegalInfo::default();
             if let Some(v) = env("SNOOK_LEGEND_GAME_NAME") {
                 p.game = v;
             }
             if let Some(v) = env("SNOOK_LEGEND_PRIVACY_CONTROLLER") {
                 p.controller = v;
+            }
+            if let Some(v) = env("SNOOK_LEGEND_LEGAL_DOCUMENT") {
+                p.document = v;
+            }
+            if let Some(v) = env("SNOOK_LEGEND_LEGAL_ADDRESS") {
+                p.address = v;
             }
             if let Some(v) = env("SNOOK_LEGEND_PRIVACY_CONTACT") {
                 p.contact = v;
@@ -110,6 +118,27 @@ async fn main() {
     match &config.msstore {
         Some(m) => tracing::info!("Microsoft Store purchases on ({} packs)", m.products.len()),
         None => tracing::info!("Microsoft Store purchases off (SNOOK_LEGEND_MSSTORE_* not set)"),
+    }
+    // Brazilian law on online sales asks the seller's name, CPF or CNPJ,
+    // address and an electronic contact to be shown (the terms of use do).
+    let legal = &config.privacy;
+    let unset: Vec<&str> = [
+        ("SNOOK_LEGEND_LEGAL_DOCUMENT", legal.document.as_str()),
+        ("SNOOK_LEGEND_LEGAL_ADDRESS", legal.address.as_str()),
+        (
+            "SNOOK_LEGEND_PRIVACY_CONTACT",
+            if env("SNOOK_LEGEND_PRIVACY_CONTACT").is_some() { "set" } else { "" },
+        ),
+    ]
+    .into_iter()
+    .filter(|(_, v)| v.trim().is_empty())
+    .map(|(k, _)| k)
+    .collect();
+    if config.stripe.is_some() && !unset.is_empty() {
+        tracing::warn!(
+            "payments on, but the terms of use can't show who sells: set {}",
+            unset.join(", ")
+        );
     }
     if in_memory {
         tracing::warn!("running in memory: accounts and games are lost when the server stops");

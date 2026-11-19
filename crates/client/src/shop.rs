@@ -1385,15 +1385,19 @@ impl ShopScreen {
         if let Some(k) = clicked {
             online.send(ClientMsg::BuyCoins { pack: offers.packs[k].code.clone() });
         }
-        for (i, line) in [
+        let mut lines = vec![
             t("Payment opens in your browser (card, Pix…), on Stripe's secure page."),
             t("Coins arrive in a moment; they are only used for items in the game."),
-        ]
-        .iter()
-        .enumerate()
-        {
+            t("You have 7 days to change your mind and get your money back."),
+        ];
+        if online.age.is_some_and(|a| a.minor == Some(true)) {
+            lines.push(t("Under 18: buy only with a parent's or guardian's permission."));
+        }
+        for (i, line) in lines.iter().enumerate() {
             ui.text(line, area.x, y + i as f32 * 20.0, 13.0, MUTED, false);
         }
+        let server = online.server.clone();
+        crate::legal::links_at(ui, &server, area.x, y + lines.len() as f32 * 20.0 + 4.0, 13.0);
     }
 
     /// The Microsoft Store build: coin packs bought in the Store (prices
@@ -1543,7 +1547,13 @@ impl ShopScreen {
             if ui.primary_button(b, &tw("Become VIP · {p}", &[("p", &offers.vip_price)])) {
                 online.send(ClientMsg::SubscribeVip);
             }
-            y += 54.0;
+            y += 50.0;
+            // What subscribing means, and the terms it follows.
+            let note = t("Renews every month until you cancel. 7 days to change your mind.");
+            ui.text(note, area.x, y, 13.0, MUTED, false);
+            let server = online.server.clone();
+            crate::legal::links_at(ui, &server, area.x, y + 20.0, 13.0);
+            y += 50.0;
         } else {
             ui.text(t("VIP can't be bought on this server yet."), area.x, y, 14.0, MUTED, false);
             y += 28.0;

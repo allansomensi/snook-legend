@@ -36,6 +36,7 @@ impl Client {
             username: name.into(),
             password: "secret123".into(),
             country: "BR".into(),
+            minor: None,
         })
         .await;
         c.expect("auth", |m| matches!(m, ServerMsg::AuthOk { .. })).await;

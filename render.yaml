@@ -1,9 +1,10 @@
-# Render Blueprint for the Snook Legend server (free plan). See docs/DEPLOY.pt-BR.md.
+# Render Blueprint for the Snook Legend server (Starter plan: always on, no
+# sleeping between players). See docs/DEPLOY.pt-BR.md.
 services:
   - type: web
     name: snook-server
     runtime: docker
-    plan: free
+    plan: starter
     # Closest Render region to South America.
     region: virginia
     dockerfilePath: ./Dockerfile
@@ -27,6 +28,19 @@ services:
       - key: SNOOK_LEGEND_MSSTORE_CLIENT_SECRET
         sync: false
       - key: SNOOK_LEGEND_MSSTORE_PRODUCTS
+        sync: false
+      # Who provides the game, on the terms of use (/termos, /terms, /terminos)
+      # and the privacy policy (/privacidade, /privacy, /privacidad). Brazilian
+      # law on online sales (Decreto 7.962/2013) asks a seller to show their
+      # name, CPF or CNPJ, address and an e-mail: set them in the dashboard.
+      - key: SNOOK_LEGEND_PRIVACY_CONTROLLER
+        sync: false
+      - key: SNOOK_LEGEND_LEGAL_DOCUMENT
+        sync: false
+      - key: SNOOK_LEGEND_LEGAL_ADDRESS
+        sync: false
+      # The e-mail for customer service, refunds, appeals and privacy requests.
+      - key: SNOOK_LEGEND_PRIVACY_CONTACT
         sync: false
       # Your username: you become an administrator the next time you sign in.
       - key: SNOOK_LEGEND_ADMINS

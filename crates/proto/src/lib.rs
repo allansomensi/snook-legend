@@ -138,14 +138,20 @@ pub const SPECTATOR_SEAT: usize = 2;
 pub const GAME_NAME: &str = "Snook Legend";
 
 /// Bumped whenever messages change incompatibly.
-pub const PROTOCOL_VERSION: u32 = 20;
+pub const PROTOCOL_VERSION: u32 = 21;
 
 /// The oldest version the server still lets in. Version 20 plays the tour's
 /// final against a stronger opponent (see [`ladder::tour_form`]): the
 /// server checks the final against that player, so a game of an older
 /// version could never earn its reward, and it must update. (Version 19
-/// brought ruleset 6, which this one plays too.)
+/// brought ruleset 6, which this one plays too.) Version 21 only adds the
+/// age group ([`AGE_PROTOCOL`]): games of version 20 still play.
 pub const OLDEST_PROTOCOL_VERSION: u32 = 20;
+
+/// The first version that asks the player's age group and knows
+/// [`ClientMsg::SetAge`], [`ClientMsg::AllowChat`] and [`ServerMsg::Age`]
+/// (the server says its version in [`ServerMsg::Welcome`]).
+pub const AGE_PROTOCOL: u32 = 21;
 
 /// Username rules: 3–16 characters, letters, digits and underscores.
 pub fn valid_username(name: &str) -> bool {
@@ -175,7 +181,7 @@ pub fn valid_country(code: &str) -> bool {
 
 /// The profile pictures a player can choose (the client draws each one;
 /// the empty code is no picture: a plain silhouette).
-pub const AVATARS: [&str; 44] = [
+pub const AVATARS: [&str; 64] = [
     "sunny",
     "marco",
     "zuri",
@@ -221,6 +227,28 @@ pub const AVATARS: [&str; 44] = [
     "pic_table",
     "pic_flame",
     "pic_bolt",
+    // More things of the game. New pictures go at the end: a code, once
+    // chosen, stays.
+    "pic_medal",
+    "pic_laurel",
+    "pic_one",
+    "pic_fifteen",
+    "pic_fire_eight",
+    "pic_spin",
+    "pic_pocket",
+    "pic_lamp",
+    "pic_tip",
+    "pic_diamond",
+    "pic_shield",
+    "pic_target",
+    "pic_rocket",
+    "pic_rosette",
+    "pic_king_eight",
+    "pic_cues_star",
+    "pic_planet",
+    "pic_comet",
+    "pic_break",
+    "pic_silver_cup",
 ];
 
 /// A picture from [`AVATARS`] (or the empty string: none).
@@ -993,6 +1021,10 @@ pub enum ClientMsg {
         password: String,
         #[serde(default)]
         country: String,
+        /// Under 18 (`Some(true)`) or 18 or older; games before
+        /// [`AGE_PROTOCOL`] don't ask (`None`).
+        #[serde(default)]
+        minor: Option<bool>,
     },
     Login {
         username: String,
@@ -1274,6 +1306,16 @@ pub enum ClientMsg {
     },
     CorrResign {
         id: i64,
+    },
+    /// The age group of an account that has none yet (made before
+    /// [`AGE_PROTOCOL`]); it can't be changed afterwards from the game.
+    SetAge {
+        minor: bool,
+    },
+    /// A parent or guardian turns the chat of an account under 18 on or off
+    /// (see [`ServerMsg::Age`]).
+    AllowChat {
+        allowed: bool,
     },
     /// Sets this player's status message (empty clears it).
     SetStatusMessage {
@@ -1655,6 +1697,16 @@ pub enum ServerMsg {
     /// elsewhere, banned, server restarting…). Don't reconnect automatically.
     Kicked {
         reason: String,
+    },
+    /// The player's age group and whether they may write to and read from
+    /// other players (sent after signing in, and after [`ClientMsg::SetAge`]
+    /// or [`ClientMsg::AllowChat`]; only to games of [`AGE_PROTOCOL`] or
+    /// later).
+    Age {
+        /// `None`: not given yet (the game asks).
+        minor: Option<bool>,
+        /// Under 18, a parent or guardian turned the chat on.
+        chat_allowed: bool,
     },
     /// The account page.
     Account {

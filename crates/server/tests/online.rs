@@ -42,6 +42,7 @@ async fn make_account(server: &Server, name: &str) {
         rating: 1200,
         role: snook_legend_proto::Role::Player,
         ip: "127.0.0.1",
+        minor: None,
     };
     server.store.create_user(&user).await.unwrap().expect("a new account");
 }
@@ -91,6 +92,7 @@ impl Client {
             username: name.into(),
             password: PASSWORD.into(),
             country: "BR".into(),
+            minor: None,
         })
         .await;
         let ServerMsg::AuthOk { token, player } =
@@ -564,6 +566,7 @@ async fn login_errors_and_validation() {
         username: "alice".into(),
         password: PASSWORD.into(),
         country: String::new(),
+        minor: None,
     })
     .await;
     let ServerMsg::AuthError { reason } =
@@ -576,6 +579,7 @@ async fn login_errors_and_validation() {
         username: "admin".into(),
         password: PASSWORD.into(),
         country: String::new(),
+        minor: None,
     })
     .await;
     c.expect("reserved", |m| matches!(m, ServerMsg::AuthError { .. })).await;
@@ -879,6 +883,7 @@ async fn lan_guests_play_casual_games() {
         username: "x_y".into(),
         password: PASSWORD.into(),
         country: String::new(),
+        minor: None,
     })
     .await;
     a.expect("no accounts", |m| matches!(m, ServerMsg::AuthError { .. })).await;
@@ -945,6 +950,7 @@ async fn administrators_names_stay_theirs() {
             username: name.into(),
             password: PASSWORD.into(),
             country: "BR".into(),
+            minor: None,
         })
         .await;
         let ServerMsg::AuthError { reason } =

@@ -126,6 +126,9 @@ pub enum Effect {
 }
 
 /// A restarted server gives the players of a saved game this long to come back.
+/// What a player under 18 is told when they write while their chat is off.
+pub const CHAT_OFF_FOR_MINORS: &str = "The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.";
+
 const RESTORE_GRACE: Duration = Duration::from_secs(180);
 /// Games between the same two players in a day: from the third rated one
 /// the rating changes are halved, from the fifth they stop; from the fifth,
@@ -644,9 +647,12 @@ impl Lounge {
         let players: Vec<PlayerInfo> = self.sessions.keys().filter_map(|k| self.info(k)).collect();
         self.send(&k, ServerMsg::Lounge { players });
         let blocked = &self.sessions[&k].blocked;
+        // Under 18 without the chat: the server's notices only.
+        let restricted = self.sessions[&k].user.chat_restricted();
         let lines = self
             .chat
             .iter()
+            .filter(|l| !(restricted && l.kind == ChatKind::Player))
             .filter(|l| !self.chat_authors.get(&l.id).is_some_and(|a| blocked.contains(a)))
             .filter_map(|l| self.shown(l))
             .collect();
@@ -1261,6 +1267,8 @@ impl Lounge {
             | ClientMsg::SetRecoveryEmail { .. }
             | ClientMsg::DeleteAccount { .. }
             | ClientMsg::ChangeUsername { .. }
+            | ClientMsg::SetAge { .. }
+            | ClientMsg::AllowChat { .. }
             | ClientMsg::GiftItem { .. }
             | ClientMsg::Missions
             | ClientMsg::Replays
@@ -1334,6 +1342,10 @@ impl Lounge {
             self.error(k, format!("You are muted for {mins} more minutes."));
             return None;
         }
+        if s.user.chat_restricted() {
+            self.error(k, CHAT_OFF_FOR_MINORS);
+            return None;
+        }
         if !s.chat_bucket.take() {
             self.error(k, "You're sending messages too quickly.");
             return None;
@@ -1369,7 +1381,7 @@ impl Lounge {
         self.chat_authors.insert(line.id, sender);
         let msg = ServerMsg::Chat { line };
         for (other, session) in &self.sessions {
-            if !session.blocked.contains(&sender) {
+            if !session.blocked.contains(&sender) && !session.user.chat_restricted() {
                 self.send(other, msg.clone());
             }
         }
@@ -1399,7 +1411,10 @@ impl Lounge {
             room.chat.pop_front();
         }
         for p in room.keys.clone() {
-            let blocked = self.sessions.get(&p).is_some_and(|s| s.blocked.contains(&sender));
+            let blocked = self
+                .sessions
+                .get(&p)
+                .is_some_and(|s| s.blocked.contains(&sender) || s.user.chat_restricted());
             if !blocked {
                 self.send(&p, ServerMsg::MatchChat { line: line.clone() });
             }
@@ -1419,6 +1434,15 @@ impl Lounge {
                 self.sessions.get(w).is_some_and(|s| s.user.role == snook_legend_proto::Role::Admin)
             })
             .collect()
+    }
+
+    /// `name`'s age group or the chat a parent or guardian allowed changed
+    /// (see [`User::chat_restricted`]); a note on the board loses its text.
+    pub fn set_age(&mut self, name: &str, minor: Option<bool>, chat_allowed_at: Option<i64>) {
+        let k = key(name);
+        let Some(s) = self.sessions.get_mut(&k) else { return };
+        s.user.minor = minor;
+        s.user.chat_allowed_at = chat_allowed_at;
     }
 
     /// Sets what others see of `name`'s shop items (and tells everyone).

@@ -33,6 +33,7 @@ mod icons;
 mod keys;
 mod ladder;
 mod lan;
+mod legal;
 mod medals;
 mod menu;
 mod more_halls;
@@ -167,7 +168,7 @@ fn parse_args() -> LaunchOptions {
                      --demo                   computer vs computer\n  --top-view               overhead camera\n  \
                      --online                 open the online lounge\n  \
                      --settings               open the settings\n  \
-                     --screen <name>          open a screen (lan, setup, ranking)\n  \
+                     --screen <name>          open a screen (lan, setup, ranking, avatars)\n  \
                      --screenshot <file.png>  save a screenshot after --frames <n> frames and quit"
                 );
                 std::process::exit(0);
@@ -382,6 +383,11 @@ async fn main() {
             screen = Screen::Versus(versus::Versus::new(versus::Tab::Drills, &config))
         }
         Some("hotseat") => screen = Screen::Setup(Setup::new()),
+        // Development aid (screenshots): the settings with the picture picker.
+        Some("avatars") => {
+            settings_open = true;
+            avatars::open();
+        }
         Some(name) if name.starts_with("ghost:") => {
             online.connect();
             screen = Screen::Versus(versus::Versus::ghost_of(

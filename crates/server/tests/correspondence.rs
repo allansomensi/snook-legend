@@ -31,6 +31,7 @@ fn new_user(name: &str) -> NewUser<'_> {
         rating: 1200,
         role: Role::Player,
         ip: "1.2.3.4",
+        minor: None,
     }
 }
 

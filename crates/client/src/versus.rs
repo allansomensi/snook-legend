@@ -157,7 +157,7 @@ impl Versus {
                 &[("n", &progress.beaten), ("total", &ladder::RUNGS.len())],
             ),
             Tab::Daily => t("The same table for everyone, all day").to_string(),
-            Tab::Drills => t("Exercises with stars and a ranking").to_string(),
+            Tab::Drills => t("Exercises with stars").to_string(),
             Tab::Cup => t("Sixteen players: knockout or arena").to_string(),
         };
         // The tabs at the top right; the title keeps clear of them.
@@ -1246,56 +1246,72 @@ impl Versus {
                 .and_then(|i| i.drills.iter().find(|d| d.code == code))
                 .and_then(|d| d.best)
         };
-        let list_w = (body.w * 0.42).floor();
-        // The challenge rating, over the list.
-        let head = Rect::new(body.x, body.y, list_w, 54.0);
+        let list_w = (body.w * 0.56).floor();
+        // The stars earned, over the drills, with a bar to fill.
+        let head = Rect::new(body.x, body.y, list_w, 46.0);
         rrect(head, 8.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.08));
-        let (rating, stars, rank) =
-            info.as_ref().map_or((0, 0, None), |i| (i.rating, i.stars, i.rank));
-        ui.text(t("Challenge rating"), head.x + 12.0, head.y + 8.0, 12.0, MUTED, true);
-        ui.text(&rating.to_string(), head.x + 12.0, head.y + 24.0, 22.0, GOLD, true);
-        let sub = match rank {
-            Some(r) => tw(
-                "{s} / {max} stars · #{rank}",
-                &[("s", &stars), ("max", &drills::max_stars()), ("rank", &r)],
-            ),
-            None => tw("{s} / {max} stars", &[("s", &stars), ("max", &drills::max_stars())]),
-        };
-        let sw_ = ui.text_size(&sub, 13.0, false).x;
-        ui.text(&sub, head.x + head.w - 12.0 - sw_, head.y + 30.0, 13.0, CREAM, false);
-        // The drills.
+        let stars: u32 =
+            DRILLS.iter().map(|d| best_of(d.code).map_or(0, |b| drills::stars(d, b))).sum();
+        let max = drills::max_stars();
+        crate::icons::draw(Icon::Star, vec2(head.x + 22.0, head.y + head.h / 2.0), 20.0, GOLD);
+        let label = tw("{s} / {max} stars", &[("s", &stars), ("max", &max)]);
+        ui.text(&label, head.x + 40.0, text_y(head.y + head.h / 2.0, 16.0), 16.0, CREAM, true);
+        let lw = ui.text_size(&label, 16.0, true).x;
+        let bar_x = head.x + 40.0 + lw + 18.0;
+        let bar =
+            Rect::new(bar_x, head.y + head.h / 2.0 - 4.0, head.x + head.w - 14.0 - bar_x, 8.0);
+        if bar.w > 30.0 {
+            rrect(bar, 4.0, Color::new(1.0, 1.0, 1.0, 0.08));
+            let filled = bar.w * stars as f32 / max.max(1) as f32;
+            if filled > 0.0 {
+                rrect(Rect::new(bar.x, bar.y, filled.max(8.0), bar.h), 4.0, GOLD);
+            }
+        }
+        // The drills, in columns.
         let top = head.y + head.h + 10.0;
-        let row_h = ((body.y + body.h - top) / DRILLS.len() as f32).min(58.0);
+        let cols = if list_w > 760.0 { 3 } else { 2 };
+        let rows = DRILLS.len().div_ceil(cols);
+        let col_gap = 8.0;
+        let col_w = (list_w - (cols - 1) as f32 * col_gap) / cols as f32;
+        let row_h = ((body.y + body.h - top) / rows as f32).min(58.0);
         // Many drills: the rows close up and their stars shrink.
         let compact = row_h < 40.0;
         let (row_gap, star, star_step) =
-            if compact { (3.0, 13.0, 17.0) } else { (6.0, 17.0, 22.0) };
+            if compact { (3.0, 12.0, 15.0) } else { (6.0, 15.0, 19.0) };
         for (k, d) in DRILLS.iter().enumerate() {
-            let row = Rect::new(body.x, top + k as f32 * row_h, list_w, row_h - row_gap);
-            let hover = ui.hovering(row);
-            card_frame(row, self.drill == k, hover);
-            ui.block(row);
-            if ui.clicked(row) {
+            let (col, row) = (k / rows, k % rows);
+            let cell = Rect::new(
+                body.x + col as f32 * (col_w + col_gap),
+                top + row as f32 * row_h,
+                col_w,
+                row_h - row_gap,
+            );
+            let hover = ui.hovering(cell);
+            card_frame(cell, self.drill == k, hover);
+            ui.block(cell);
+            if ui.clicked(cell) {
                 self.drill = k;
             }
-            let mid = row.y + row.h / 2.0;
-            let size = if compact { 13.0 } else { 15.0 };
-            let (name, size) = ui.fitted(t(d.name), size, row.w - 110.0, true);
-            ui.text(&name, row.x + 12.0, text_y(mid, size), size, CREAM, true);
+            let mid = cell.y + cell.h / 2.0;
+            let size = if compact { 13.0 } else { 14.0 };
+            let stars_w = 3.0 * star_step + 6.0;
+            let (name, size) = ui.fitted(t(d.name), size, cell.w - 24.0 - stars_w, true);
+            ui.text(&name, cell.x + 12.0, text_y(mid, size), size, CREAM, true);
             let earned = best_of(d.code).map_or(0, |b| drills::stars(d, b));
             for s in 0..3 {
-                let c = vec2(row.x + row.w - 14.0 - (2 - s) as f32 * star_step - star / 2.0, mid);
+                let c = vec2(cell.x + cell.w - 12.0 - (2 - s) as f32 * star_step - star / 2.0, mid);
                 let color = if s < earned { GOLD } else { Color::new(1.0, 1.0, 1.0, 0.15) };
                 crate::icons::draw(Icon::Star, c, star, color);
             }
         }
-        // The drill picked: what it asks, the player's best, its table.
+        // The drill picked: what it asks, the player's best, its position.
         let d = &DRILLS[self.drill.min(DRILLS.len() - 1)];
         let right = Rect::new(body.x + list_w + 24.0, body.y, body.w - list_w - 24.0, body.h);
         let x = right.x + 4.0;
         let w = right.w - 8.0;
         let mut y = right.y + 4.0;
-        ui.text(t(d.name), x, y, 20.0, GOLD, true);
+        let (title, title_size) = ui.fitted(t(d.name), 20.0, w, true);
+        ui.text(&title, x, y, title_size, GOLD, true);
         y += 30.0;
         for l in ui.wrap(t(d.description), w, 14.0) {
             ui.text(&l, x, y, 14.0, CREAM, false);
@@ -1318,98 +1334,20 @@ impl Versus {
         if ui.primary_button(b, t("Start the drill")) {
             action = VersusAction::Drill(d.code.to_string());
         }
-        y += 50.0;
+        y += 52.0;
         if !online.signed_in() {
-            for l in ui.wrap(t("Sign in to be ranked: the server keeps the tables."), w, 13.0) {
+            for l in ui.wrap(t("Sign in to keep your stars in your account."), w, 13.0) {
                 ui.text(&l, x, y, 13.0, MUTED, false);
                 y += 18.0;
             }
-            return action;
+            y += 8.0;
         }
-        // The drill's table, then the challenge rating's leaders.
-        let half = (right.y + right.h - y - 8.0) / 2.0;
-        let board = info.as_ref().and_then(|i| i.drills.iter().find(|x| x.code == d.code));
-        let rows: Vec<(String, String, String)> = board
-            .map(|b| {
-                b.board
-                    .iter()
-                    .map(|e| {
-                        (
-                            e.username.clone(),
-                            e.country.clone(),
-                            tw("{n} of {total}", &[("n", &e.score), ("total", &d.tries)]),
-                        )
-                    })
-                    .collect()
-            })
-            .unwrap_or_default();
-        self.small_board(
-            ui,
-            online,
-            Rect::new(right.x, y, right.w, half),
-            t("Best on this drill"),
-            &rows,
-        );
-        let leaders: Vec<(String, String, String)> = info
-            .as_ref()
-            .map(|i| {
-                i.leaders
-                    .iter()
-                    .map(|e| {
-                        (
-                            e.username.clone(),
-                            e.country.clone(),
-                            tw("{r} · {s}★", &[("r", &e.rating), ("s", &e.stars)]),
-                        )
-                    })
-                    .collect()
-            })
-            .unwrap_or_default();
-        self.small_board(
-            ui,
-            online,
-            Rect::new(right.x, y + half + 8.0, right.w, half),
-            t("Challenge rating"),
-            &leaders,
-        );
+        // The position, from above.
+        let area = Rect::new(right.x, y, right.w, right.y + right.h - y);
+        if area.h > 80.0 {
+            drill_sketch(ui, d, area);
+        }
         action
-    }
-
-    /// A short table: a title and (name, country, value) rows, best first.
-    fn small_board(
-        &self,
-        ui: &mut Ui,
-        online: &Online,
-        r: Rect,
-        title: &str,
-        rows: &[(String, String, String)],
-    ) {
-        rrect(r, 8.0, Color::new(1.0, 1.0, 1.0, 0.03));
-        let x = r.x + 12.0;
-        let w = r.w - 24.0;
-        ui.text(title, x, r.y + 8.0, 14.0, GOLD, true);
-        if rows.is_empty() {
-            ui.text(t("Nobody yet. Be the first!"), x, r.y + 32.0, 13.0, MUTED, false);
-            return;
-        }
-        let me = online.me.as_ref().map(|m| m.username.as_str()).unwrap_or("");
-        let row_h = 22.0;
-        let fit = (((r.h - 32.0) / row_h).floor().max(1.0)) as usize;
-        for (k, (name, country, value)) in rows.iter().take(fit).enumerate() {
-            let y = r.y + 30.0 + k as f32 * row_h;
-            if name.eq_ignore_ascii_case(me) {
-                rrect(
-                    Rect::new(r.x + 4.0, y - 2.0, r.w - 8.0, row_h - 2.0),
-                    5.0,
-                    Color::new(GOLD.r, GOLD.g, GOLD.b, 0.12),
-                );
-            }
-            let color = if k == 0 { GOLD } else { CREAM };
-            ui.text(&format!("{}.", k + 1), x, y + 2.0, 13.0, color, true);
-            let vw = ui.text_size(value, 13.0, true).x;
-            ui.text(value, x + w - vw, y + 2.0, 13.0, color, true);
-            ui.name_with_flag(name, country, CREAM, x + 28.0, y + 2.0, 13.0, w - 28.0 - vw - 10.0);
-        }
     }
 
     /// The day's leaders.
@@ -1581,6 +1519,75 @@ fn cup_table(ui: &mut Ui, c: &crate::cup::Cup, config: &Config, board: Rect) {
         let record = format!("{} - {}", s.wins, s.losses);
         ui.text(&record, cols[2], text_y(mid, size), size, CREAM, false);
         ui.text(&s.points.to_string(), cols[3], text_y(mid, size), size, color, true);
+    }
+}
+
+/// A drill's position seen from above, in `area`: the table, the balls,
+/// the pocket to play (gold) and the circle for the cue ball (green).
+fn drill_sketch(ui: &Ui, d: &snook_legend_proto::drills::Drill, area: Rect) {
+    use snook_legend_proto::drills::Goal;
+    const RAIL: Color = Color::new(0.27, 0.16, 0.09, 1.0);
+    const CUSHION: Color = Color::new(0.06, 0.30, 0.18, 1.0);
+    const CLOTH: Color = Color::new(0.09, 0.40, 0.24, 1.0);
+    let table = snook_legend_core::Table::default();
+    let (len, wid) = (table.spec.length as f32, table.spec.width as f32);
+    let rail_k = 0.075;
+    let aspect = (len + 2.0 * rail_k * len) / (wid + 2.0 * rail_k * len);
+    let fw = area.w.min(area.h * aspect);
+    let fh = fw / aspect;
+    let frame = Rect::new(area.x + (area.w - fw) / 2.0, area.y, fw, fh);
+    let rail = rail_k * len / (len + 2.0 * rail_k * len) * fw;
+    let cloth =
+        Rect::new(frame.x + rail, frame.y + rail, frame.w - 2.0 * rail, frame.h - 2.0 * rail);
+    // +y up, as the top view shows it.
+    let at = |p: ::glam::DVec2| {
+        vec2(
+            cloth.x + (p.x as f32 / len + 0.5) * cloth.w,
+            cloth.y + (0.5 - p.y as f32 / wid) * cloth.h,
+        )
+    };
+    rrect(frame, rail * 0.8, RAIL);
+    rrect_lines(frame, rail * 0.8, 1.0, Color::new(0.0, 0.0, 0.0, 0.5));
+    let cushion = rail * 0.35;
+    draw_rectangle(
+        cloth.x - cushion,
+        cloth.y - cushion,
+        cloth.w + 2.0 * cushion,
+        cloth.h + 2.0 * cushion,
+        CUSHION,
+    );
+    draw_rectangle(cloth.x, cloth.y, cloth.w, cloth.h, CLOTH);
+    let hx = cloth.x + cloth.w * 0.25;
+    draw_line(hx, cloth.y, hx, cloth.y + cloth.h, 1.0, Color::new(1.0, 1.0, 1.0, 0.10));
+    let target = match d.goal {
+        Goal::Pot { pocket, .. } | Goal::Bank { pocket, .. } | Goal::Position { pocket, .. } => {
+            Some(pocket)
+        }
+        _ => None,
+    };
+    let pocket_r = (rail * 0.42).max(4.0);
+    for p in &table.pockets {
+        let c = at(p.hole_center);
+        draw_circle(c.x, c.y, pocket_r, Color::new(0.02, 0.01, 0.0, 1.0));
+        if Some(p.id) == target {
+            crate::paint::draw_circle_lines(c.x, c.y, pocket_r + 3.0, 2.0, GOLD);
+        }
+    }
+    let scale = cloth.w / len;
+    if let Goal::Position { zone, radius, .. } = d.goal {
+        let c = at(zone);
+        let r = radius as f32 * scale;
+        draw_circle(c.x, c.y, r, Color::new(0.35, 1.0, 0.5, 0.12));
+        crate::paint::draw_circle_lines(c.x, c.y, r, 1.5, Color::new(0.35, 1.0, 0.5, 0.8));
+    }
+    let palette = crate::textures::Palette::of("balls_classic");
+    let ball_r = (table.spec.ball_radius as f32 * scale).max(6.0);
+    let game = snook_legend_proto::drills::game(d);
+    let mut balls: Vec<_> = game.balls().iter().filter(|b| b.in_play()).collect();
+    // The cue ball last, over the others.
+    balls.sort_by_key(|b| b.id == snook_legend_core::BallId::CUE);
+    for b in balls {
+        crate::showroom::ball_chip(ui, b.id, &palette, at(b.xy()), ball_r, false);
     }
 }
 

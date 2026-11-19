@@ -17,8 +17,8 @@ use snook_legend_core::{BallId, EightBallGame, Event, PocketId, Shot, ShotReport
 pub enum Goal {
     /// Make `ball` in `pocket`.
     Pot { ball: BallId, pocket: PocketId },
-    /// Make `ball` in `pocket` off at least one cushion.
-    Bank { ball: BallId, pocket: PocketId },
+    /// Make `ball` in `pocket` off at least `cushions` cushions.
+    Bank { ball: BallId, pocket: PocketId, cushions: u8 },
     /// Make `ball` in `pocket` and stop the cue ball within `radius` of
     /// `zone`.
     Position { ball: BallId, pocket: PocketId, zone: DVec2, radius: f64 },
@@ -97,7 +97,7 @@ pub const DRILLS: &[Drill] = &[
         description: "Off one cushion into the side pocket. Five tries.",
         tries: 5,
         stars: [1, 2, 4],
-        goal: Goal::Bank { ball: ONE, pocket: PocketId::SideRight },
+        goal: Goal::Bank { ball: ONE, pocket: PocketId::SideRight, cushions: 1 },
     },
     Drill {
         code: "escape",
@@ -166,7 +166,7 @@ pub const DRILLS: &[Drill] = &[
         description: "Off the long cushion and across the table into the corner. Five tries.",
         tries: 5,
         stars: [1, 2, 3],
-        goal: Goal::Bank { ball: ONE, pocket: PocketId::FootRight },
+        goal: Goal::Bank { ball: ONE, pocket: PocketId::FootRight, cushions: 1 },
     },
     Drill {
         code: "kick",
@@ -182,6 +182,88 @@ pub const DRILLS: &[Drill] = &[
         description: "Ten different pots, one after another: a miss ends the session.",
         tries: 10,
         stars: [3, 6, 10],
+        goal: Goal::Streak,
+    },
+    Drill {
+        code: "back",
+        name: "The far corner",
+        description: "A cut back up the table into the corner behind you. Five tries.",
+        tries: 5,
+        stars: [1, 3, 5],
+        goal: Goal::Pot { ball: ONE, pocket: PocketId::HeadLeft },
+    },
+    Drill {
+        code: "side_long",
+        name: "Long into the side",
+        description: "From the far end of the table into the side pocket. Five tries.",
+        tries: 5,
+        stars: [1, 3, 5],
+        goal: Goal::Pot { ball: ONE, pocket: PocketId::SideRight },
+    },
+    Drill {
+        code: "frozen",
+        name: "Cue ball on the cushion",
+        description: "The cue ball touches the cushion: pot the ball into the corner all the same. Five tries.",
+        tries: 5,
+        stars: [1, 3, 5],
+        goal: Goal::Pot { ball: ONE, pocket: PocketId::FootRight },
+    },
+    Drill {
+        code: "plant",
+        name: "The plant",
+        description: "The 2 touches the 1 and points at the pocket: hit the 2 and the 1 goes in. Five tries.",
+        tries: 5,
+        stars: [2, 4, 5],
+        goal: Goal::Pot { ball: ONE, pocket: PocketId::FootLeft },
+    },
+    Drill {
+        code: "carom",
+        name: "The carom",
+        description: "The 2 is in the way: glance off it and send the 1 into the corner. Five tries.",
+        tries: 5,
+        stars: [1, 2, 4],
+        goal: Goal::Pot { ball: ONE, pocket: PocketId::FootRight },
+    },
+    Drill {
+        code: "long_draw",
+        name: "The long draw",
+        description: "Pot the ball and draw the cue ball all the way back into the circle. Five tries.",
+        tries: 5,
+        stars: [1, 2, 4],
+        goal: Goal::Position {
+            ball: ONE,
+            pocket: PocketId::FootLeft,
+            zone: DVec2::new(-0.30, -0.10),
+            radius: 0.18,
+        },
+    },
+    Drill {
+        code: "tangent",
+        name: "On the tangent line",
+        description: "Pot the ball in the side and let the cue ball run on into the circle. Five tries.",
+        tries: 5,
+        stars: [1, 3, 5],
+        goal: Goal::Position {
+            ball: ONE,
+            pocket: PocketId::SideLeft,
+            zone: DVec2::new(-0.60, 0.20),
+            radius: 0.18,
+        },
+    },
+    Drill {
+        code: "double_bank",
+        name: "Two-cushion bank",
+        description: "Off two cushions and into the corner. Five tries.",
+        tries: 5,
+        stars: [1, 2, 3],
+        goal: Goal::Bank { ball: ONE, pocket: PocketId::FootLeft, cushions: 2 },
+    },
+    Drill {
+        code: "fifteen",
+        name: "Fifteen in a row",
+        description: "Fifteen different pots, one after another: a miss ends the session.",
+        tries: 15,
+        stars: [5, 10, 15],
         goal: Goal::Streak,
     },
 ];
@@ -217,6 +299,8 @@ fn aim(pocket: PocketId) -> DVec2 {
 pub fn position(d: &Drill) -> Vec<(BallId, DVec2)> {
     let r = snook_legend_core::Table::default().spec.ball_radius;
     let eight = (BallId::EIGHT, DVec2::new(-0.80, 0.40));
+    // For drills played up the table: the 8 at the other end.
+    let eight_far = (BallId::EIGHT, DVec2::new(0.95, -0.40));
     match (d.code, d.goal) {
         ("straight", Goal::Pot { pocket, .. }) => {
             // Straight in from across the table.
@@ -311,7 +395,62 @@ pub fn position(d: &Drill) -> Vec<(BallId, DVec2)> {
                 eight,
             ]
         }
-        ("ten", _) => streak_position(0),
+        ("back", Goal::Pot { pocket, .. }) => {
+            // A cut back towards the head of the table, the cue ball
+            // further up it than the ball.
+            cut_position(DVec2::new(-0.78, 0.30), pocket, 35.0, 0.6, eight_far)
+        }
+        ("side_long", Goal::Pot { pocket, .. }) => {
+            // Nearly straight, from well down the table.
+            cut_position(DVec2::new(0.12, -0.42), pocket, 6.0, 0.95, eight)
+        }
+        ("frozen", _) => {
+            // The cue ball against the long cushion, the 1 out in the table.
+            let hw = snook_legend_core::Table::default().spec.width / 2.0;
+            vec![
+                (BallId::CUE, DVec2::new(0.05, -(hw - r - 0.001))),
+                (ONE, DVec2::new(0.62, -0.40)),
+                eight,
+            ]
+        }
+        ("plant", Goal::Pot { pocket, .. }) => {
+            // The 2 frozen to the 1, the line of their centres at the pocket.
+            let ball = DVec2::new(0.70, 0.22);
+            let line = (aim(pocket) - ball).normalize();
+            let two = ball - line * (2.0 * r + 0.0005);
+            let from = snook_legend_core::math::from_angle(20f64.to_radians()).rotate(line);
+            vec![
+                (BallId::CUE, two - line * 2.0 * r - from * 0.55),
+                (ONE, ball),
+                (BallId(2), two),
+                eight,
+            ]
+        }
+        ("carom", Goal::Pot { pocket, .. }) => {
+            // The 1 near the corner, the 2 half across the way to it.
+            let ball = DVec2::new(0.95, -0.40);
+            let line = (aim(pocket) - ball).normalize();
+            let ghost = ball - line * 2.0 * r;
+            let cue = ghost - line * 0.9;
+            let side = DVec2::new(-line.y, line.x);
+            let two = (cue + ghost) / 2.0 + side * 1.2 * r;
+            vec![(BallId::CUE, cue), (ONE, ball), (BallId(2), two), eight]
+        }
+        ("long_draw", Goal::Position { pocket, .. }) => {
+            // Straight in, the cue ball some way back.
+            let ball = DVec2::new(0.70, 0.28);
+            let back = (ball - aim(pocket)).normalize();
+            vec![(BallId::CUE, ball + back * 0.45), (ONE, ball), eight_far]
+        }
+        ("tangent", Goal::Position { pocket, .. }) => {
+            // A cut into the side; the cue ball runs off along the tangent.
+            cut_position(DVec2::new(0.20, 0.38), pocket, 35.0, 0.45, eight_far)
+        }
+        ("double_bank", _) => {
+            // The 1 in the middle of the table: two cushions to the corner.
+            vec![(BallId::CUE, DVec2::new(-0.55, -0.20)), (ONE, DVec2::new(-0.05, -0.30)), eight]
+        }
+        (_, Goal::Streak) => streak_position(0),
         _ => vec![(BallId::CUE, DVec2::new(-0.5, 0.0)), (ONE, DVec2::new(0.5, 0.0)), eight],
     }
 }
@@ -428,16 +567,20 @@ pub fn success(d: &Drill, report: &ShotReport, events: &[Event], after: &EightBa
     };
     match d.goal {
         Goal::Pot { ball, pocket } => made(ball, pocket),
-        Goal::Bank { ball, pocket } => {
+        Goal::Bank { ball, pocket, cushions } => {
             let dropped = events.iter().find_map(|e| match e {
                 Event::Pocketed { time, ball: b, .. } if *b == ball => Some(*time),
                 _ => None,
             });
             made(ball, pocket)
                 && dropped.is_some_and(|t| {
-                    events.iter().any(
-                        |e| matches!(e, Event::Cushion { ball: b, time, .. } if *b == ball && *time < t),
-                    )
+                    let hits = events
+                        .iter()
+                        .filter(|e| {
+                            matches!(e, Event::Cushion { ball: b, time, .. } if *b == ball && *time < t)
+                        })
+                        .count();
+                    hits >= cushions as usize
                 })
         }
         Goal::Position { ball, pocket, zone, radius } => {

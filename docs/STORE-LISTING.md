@@ -9,11 +9,17 @@ The screenshots for each language are in `store-art/screenshots/<language>/`
 (1920 × 1080, in the order to upload them); the logos and the hero art are in
 `store-art/` (see `tools/store_art.py`).
 
-**Coin purchases are off** in this version (the server isn't set up for the
-Store yet, see [MSSTORE.md](MSSTORE.md)): the texts below don't mention
-buying anything, and the age rating questionnaire shouldn't either. When the
-Store sale is turned on, add the block at the end of this file to each
-description and tick "in-game purchases" in the questionnaire.
+**Coin purchases in the Store** depend on the server: they are on only when
+the server has the `SNOOK_LEGEND_MSSTORE_*` variables and the add-ons are
+published (see [MSSTORE.md](MSSTORE.md), "Venda de moedas pela Store"). The
+texts below don't mention buying anything: while the Store sale is off, use
+them as they are, and the age rating questionnaire shouldn't mention
+purchases with money either. Once it is on, add the block at the end of this
+file to each description and tick "in-game purchases" in the questionnaire.
+
+Each language also has the links for the listing's legal fields (the terms of
+use and the privacy policy the server publishes, see [DEPLOY.pt-BR.md](DEPLOY.pt-BR.md),
+section 10).
 
 ---
 
@@ -51,18 +57,15 @@ Em português, inglês e espanhol.
 
 ### Novidades desta versão
 
-Versão 0.7.2: um Circuito mais difícil, medalhas nos torneios e a câmera da vitrine.
-• O Circuito ficou mais difícil a cada etapa, e a final, que vale o taco, ficou bem difícil.
-• Torneios contra o computador jogados até o fim dão medalha de ouro, prata ou bronze, contadas na aba Torneio e guardadas na sua conta.
-• Na vitrine da loja a câmera gira com o botão direito, como na mesa, suave, sem passar por baixo do chão ou da mesa.
+Versão 0.7.3: mais treinos, avatares novos, termos de uso e o chat dos menores.
+• 24 treinos, nove novos (carambola, bolas encostadas, duas tabelas, quinze seguidas…), cada um com a posição desenhada; o ranking dos treinos saiu.
+• Retratos redesenhados e novos avatares de objetos da sinuca; o seu avatar aparece na tela inicial.
+• Termos de uso e política de privacidade a um clique, no cadastro, na loja e em Configurações; 7 dias para se arrepender de uma compra.
+• O jogo pergunta a faixa de idade: para menores de 18 anos, o chat fica desligado até um responsável ligá-lo (ECA Digital).
 
-Da versão 0.7.1: a primeira bola decide, bola na mão só na saída, quem está online e modo foco.
-• Na saída, a primeira bola que cair decide o seu grupo; uma bola do adversário junto passa a vez.
-• A branca só fica na mão na saída; caída ou fora da mesa, ela volta para o ponto inicial.
-• Jogando contra o computador, um cantinho mostra quantas pessoas estão online, e os convites aparecem por cima da partida.
-• Modo foco: nenhum convite enquanto você joga.
-• Vitrine da loja: veja cada item sozinho num estúdio, gire, aproxime e confira mesas e panos em qualquer salão.
-• A 7 e a 15 agora são marrons de verdade, e os conjuntos perolados e metálicos brilham como tal.
+Da versão 0.7.2: um Circuito mais difícil e medalhas nos torneios.
+• O Circuito ficou mais difícil a cada etapa, e a final, que vale o taco, ficou bem difícil.
+• Torneios contra o computador jogados até o fim dão medalha de ouro, prata ou bronze.
 
 ### Recursos do produto
 
@@ -76,7 +79,7 @@ Da versão 0.7.1: a primeira bola decide, bola na mão só na saída, quem está
 8. Quinze adversários de computador com personalidade, que comentam a partida
 9. O Circuito: vença os quinze e ganhe um taco exclusivo
 10. Desafio diário com ranking do dia
-11. Treinos com até três estrelas e nota de desafio
+11. 24 treinos com até três estrelas cada
 12. Nível da conta, conquistas, estante de troféus e 44 fotos de perfil
 13. Tacos, panos, mesas e salões temáticos conquistados jogando
 14. Placar com as bolas de cada jogador na ordem em que caíram
@@ -88,6 +91,12 @@ Da versão 0.7.1: a primeira bola decide, bola na mão só na saída, quem está
 ### Termos de pesquisa
 
 sinuca, bilhar, bola 8, snooker, pool, sinuca online, jogo de sinuca
+
+### Termos e privacidade
+
+- **Privacy policy URL:** https://snook-server.onrender.com/privacidade
+- **Additional license terms:** Termos de uso: https://snook-server.onrender.com/termos
+- **Support contact info:** o e-mail de atendimento (`SNOOK_LEGEND_PRIVACY_CONTACT`)
 
 ---
 
@@ -125,18 +134,15 @@ In English, Portuguese and Spanish.
 
 ### What's new in this version
 
-Version 0.7.2: a harder tour, tournament medals and the showroom's camera.
-• The tour is harder at every stage, and its final, for the cue, is very hard.
-• Tournaments against the computer played to their end give a gold, silver or bronze medal, counted on the Tournament tab and kept in your account.
-• In the shop's showroom the camera turns with the right button, as at the table, smoothly, and never goes under the floor or the table.
+Version 0.7.3: more drills, new pictures, terms of use and the chat of players under 18.
+• 24 drills, nine new (the carom, the plant, two-cushion bank, fifteen in a row…), each with its position drawn; the drills' ranking is gone.
+• Portraits drawn again and new pictures of pool things; your picture shows on the start screen.
+• The terms of use and the privacy policy a click away, when signing up, in the shop and in Settings; 7 days to change your mind about a purchase.
+• The game asks your age group: under 18, the chat stays off until a parent or guardian turns it on (Brazil's ECA Digital).
 
-From version 0.7.1: the first ball decides, ball in hand on the break only, who is online and focus mode.
-• On the break, the first ball that goes down decides your group; one of your opponent's with it passes the turn.
-• The cue ball is in hand on the break only; pocketed or off the table, it comes back to the head spot.
-• Playing the computer, a corner shows how many people are online, and invitations show over the game.
-• Focus mode: no invitations while you play.
-• The shop's showroom: see each item alone in a studio, turn it, come close, and see tables and cloths in any hall.
-• The 7 and the 15 are truly brown now, and pearl and metal sets shine like it.
+From version 0.7.2: a harder tour and tournament medals.
+• Each stage of the tour is harder, and the final, for the cue, is very hard.
+• Tournaments against the computer played to their end give a gold, silver or bronze medal.
 
 ### Product features
 
@@ -150,7 +156,7 @@ From version 0.7.1: the first ball decides, ball in hand on the break only, who 
 8. Fifteen computer opponents with personality, who talk about the game
 9. The Tour: beat all fifteen to earn an exclusive cue
 10. A daily challenge with a ranking for the day
-11. Drills with up to three stars and a challenge rating
+11. 24 drills with up to three stars each
 12. Account level, achievements, a trophy shelf and 44 profile pictures
 13. Cues, cloths, tables and themed halls earned by playing
 14. A score panel with each player's balls in the order they went down
@@ -162,6 +168,12 @@ From version 0.7.1: the first ball decides, ball in hand on the break only, who 
 ### Search terms
 
 pool, billiards, 8 ball, eight ball, snooker, pool online, pool game
+
+### Terms and privacy
+
+- **Privacy policy URL:** https://snook-server.onrender.com/privacy
+- **Additional license terms:** Terms of use: https://snook-server.onrender.com/terms
+- **Support contact info:** the customer service e-mail (`SNOOK_LEGEND_PRIVACY_CONTACT`)
 
 ---
 
@@ -199,18 +211,15 @@ En español, inglés y portugués.
 
 ### Novedades de esta versión
 
-Versión 0.7.2: un circuito más difícil, medallas en los torneos y la cámara de la vitrina.
-• El circuito es más difícil en cada etapa, y la final, que da el taco, es muy difícil.
-• Los torneos contra la computadora jugados hasta el final dan medalla de oro, plata o bronce, contadas en la pestaña Torneo y guardadas en tu cuenta.
-• En la vitrina de la tienda la cámara gira con el botón derecho, como en la mesa, suave, y nunca pasa por debajo del suelo ni de la mesa.
+Versión 0.7.3: más ejercicios, avatares nuevos, términos de uso y el chat de los menores.
+• 24 ejercicios, nueve nuevos (carambola, bolas pegadas, dos bandas, quince seguidas…), cada uno con su posición dibujada; el ranking de los ejercicios ya no está.
+• Retratos dibujados de nuevo y avatares nuevos de cosas del billar; tu avatar aparece en la pantalla de inicio.
+• Los términos de uso y la política de privacidad a un clic, al registrarte, en la tienda y en Ajustes; 7 días para arrepentirte de una compra.
+• El juego pregunta tu franja de edad: para menores de 18 años, el chat queda apagado hasta que un tutor lo encienda (ECA Digital de Brasil).
 
-De la versión 0.7.1: la primera bola decide, bola en mano solo en el saque, quién está en línea y modo concentración.
-• En el saque, la primera bola que entra decide tu grupo; una del rival con ella pasa el turno.
-• La blanca solo está en mano en el saque; metida o fuera de la mesa, vuelve al punto de salida.
-• Jugando contra la computadora, un rincón muestra cuántas personas están en línea, y las invitaciones aparecen sobre la partida.
-• Modo concentración: ninguna invitación mientras juegas.
-• La vitrina de la tienda: mira cada objeto solo en un estudio, gíralo, acércate y mira mesas y paños en cualquier salón.
-• La 7 y la 15 ahora son marrones de verdad, y los juegos nacarados y metálicos brillan como tales.
+De la versión 0.7.2: un Circuito más difícil y medallas en los torneos.
+• Cada etapa del Circuito es más difícil, y la final, que vale el taco, es muy difícil.
+• Los torneos contra la computadora jugados hasta el final dan medalla de oro, plata o bronce.
 
 ### Características del producto
 
@@ -224,7 +233,7 @@ De la versión 0.7.1: la primera bola decide, bola en mano solo en el saque, qui
 8. Quince rivales de computadora con personalidad, que comentan la partida
 9. El Circuito: vence a los quince y gana un taco exclusivo
 10. Desafío diario con clasificación del día
-11. Entrenamientos con hasta tres estrellas y nota de desafío
+11. 24 ejercicios con hasta tres estrellas cada uno
 12. Nivel de cuenta, logros, vitrina de trofeos y 44 fotos de perfil
 13. Tacos, paños, mesas y salas temáticas ganados jugando
 14. Un marcador con las bolas de cada jugador en el orden en que entraron
@@ -236,6 +245,12 @@ De la versión 0.7.1: la primera bola decide, bola en mano solo en el saque, qui
 ### Términos de búsqueda
 
 pool, billar, bola 8, snooker, pool en línea, juego de pool, billar online
+
+### Términos y privacidad
+
+- **Privacy policy URL:** https://snook-server.onrender.com/privacidad
+- **Additional license terms:** Términos de uso: https://snook-server.onrender.com/terminos
+- **Support contact info:** el correo de atención (`SNOOK_LEGEND_PRIVACY_CONTACT`)
 
 ---
 

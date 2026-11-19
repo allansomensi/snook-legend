@@ -216,6 +216,8 @@ impl MemoryStore {
             xp: 0,
             name_changes: 0,
             avatar: String::new(),
+            minor: new.minor,
+            chat_allowed_at: None,
         };
         s.users.insert(user.id, user.clone());
         Ok(Some(user))
@@ -356,6 +358,23 @@ impl MemoryStore {
     pub fn set_avatar(&self, user_id: i64, avatar: &str) -> StoreResult<()> {
         if let Some(u) = self.lock().users.get_mut(&user_id) {
             u.avatar = avatar.to_string();
+        }
+        Ok(())
+    }
+
+    pub fn set_minor(&self, user_id: i64, minor: bool) -> StoreResult<bool> {
+        match self.lock().users.get_mut(&user_id) {
+            Some(u) if u.minor.is_none() => {
+                u.minor = Some(minor);
+                Ok(true)
+            }
+            _ => Ok(false),
+        }
+    }
+
+    pub fn set_chat_allowed(&self, user_id: i64, at: Option<i64>) -> StoreResult<()> {
+        if let Some(u) = self.lock().users.get_mut(&user_id) {
+            u.chat_allowed_at = at;
         }
         Ok(())
     }
@@ -775,6 +794,8 @@ impl MemoryStore {
             u.recovery_email = None;
             u.status_message = String::new();
             u.avatar = String::new();
+            u.minor = None;
+            u.chat_allowed_at = None;
             u.deleted_at = Some(now);
         }
         s.sessions.retain(|_, v| v.0 != user_id);

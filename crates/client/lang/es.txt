@@ -1488,25 +1488,20 @@ Malfunction. Please disregard.	Fallo. Por favor, ignórelo.
 Game complete. Thank you for playing.	Partida completada. Gracias por jugar.
 Defeat acknowledged. Well played.	Derrota reconocida. Bien jugado.
 Drills	Ejercicios
-Exercises with stars and a ranking	Ejercicios con estrellas y ranking
-Challenge rating	Rating de desafíos
-{s} / {max} stars · #{rank}	{s} / {max} estrellas · {rank}º
+Exercises with stars	Ejercicios con estrellas
 {s} / {max} stars	{s} / {max} estrellas
 Stars at {a}, {b} and {c}	Estrellas con {a}, {b} y {c}
 Your best: {n} of {total}	Tu mejor: {n} de {total}
 Not tried yet.	Todavía no lo intentaste.
 Start the drill	Empezar el ejercicio
-Sign in to be ranked: the server keeps the tables.	Inicia sesión para entrar en el ranking: el servidor guarda las clasificaciones.
+Sign in to keep your stars in your account.	Inicia sesión para guardar tus estrellas en tu cuenta.
 {n} of {total}	{n} de {total}
-Best on this drill	Mejores en este ejercicio
-{r} · {s}★	{r} · {s}★
-Nobody yet. Be the first!	Nadie todavía. ¡Sé el primero!
 {drill}: try {k} of {n} · {made} made	{drill}: intento {k} de {n} · {made} logrados
 Made it! {n} of {total}	¡Lo lograste! {n} de {total}
 Missed.	Fallaste.
 Sending to the server…	Enviando al servidor…
 Not signed in: this session is not ranked.	Sin sesión: esta sesión no entra en el ranking.
-Counted on the drill's table.	Contado en la clasificación del ejercicio.
+Kept in your account.	Guardado en tu cuenta.
 The session could not be counted.	No se pudo contar la sesión.
 Back to the drills	Volver a los ejercicios
 Straight in	Recta
@@ -1523,6 +1518,24 @@ Snooker escape	Bola tapada
 Hit the 1 first: it hides behind other balls. Five tries.	Toca primero la 1: está escondida detrás de otras bolas. Cinco intentos.
 Ten in a row	Diez seguidas
 Ten different pots, one after another: a miss ends the session.	Diez tiros distintos, uno tras otro: un fallo termina la sesión.
+The far corner	La tronera de atrás
+A cut back up the table into the corner behind you. Five tries.	Un corte de vuelta hacia la tronera de esquina que tienes detrás. Cinco intentos.
+Long into the side	Al centro desde lejos
+From the far end of the table into the side pocket. Five tries.	Desde el fondo de la mesa a la tronera del centro. Cinco intentos.
+Cue ball on the cushion	Blanca pegada a la banda
+The cue ball touches the cushion: pot the ball into the corner all the same. Five tries.	La blanca toca la banda: mete la bola en la esquina de todos modos. Cinco intentos.
+The plant	Bolas pegadas
+The 2 touches the 1 and points at the pocket: hit the 2 and the 1 goes in. Five tries.	La 2 toca la 1 y apunta a la tronera: golpea la 2 y la 1 entra. Cinco intentos.
+The carom	Carambola
+The 2 is in the way: glance off it and send the 1 into the corner. Five tries.	La 2 está en medio: rózala y manda la 1 a la esquina. Cinco intentos.
+The long draw	Retroceso largo
+Pot the ball and draw the cue ball all the way back into the circle. Five tries.	Mete la bola y haz retroceder la blanca hasta el círculo, bien atrás. Cinco intentos.
+On the tangent line	En la tangente
+Pot the ball in the side and let the cue ball run on into the circle. Five tries.	Mete la bola en el centro y deja que la blanca siga hasta el círculo. Cinco intentos.
+Two-cushion bank	Dos bandas
+Off two cushions and into the corner. Five tries.	A dos bandas hasta la tronera de esquina. Cinco intentos.
+Fifteen in a row	Quince seguidas
+Fifteen different pots, one after another: a miss ends the session.	Quince tiros distintos, uno tras otro: un fallo termina la sesión.
 Take back the shot (Z)	Deshacer el tiro (Z)
 Shot taken back.	Tiro deshecho.
 Solids	Lisas
@@ -1783,7 +1796,7 @@ The server didn't answer: this session won't be ranked.	El servidor no respondi�
 The server is dealing the final…	El servidor está preparando la final…
 The server is setting up the drill…	El servidor está preparando el ejercicio…
 Not signed in: a win in this final won't earn the reward.	Sin sesión: una victoria en esta final no da la recompensa.
-Not ranked: sessions count when started signed in.	Fuera del ranking: solo cuentan las sesiones empezadas con sesión iniciada.
+Not kept: sessions count when started signed in.	No guardado: las sesiones cuentan cuando empiezan con la sesión iniciada.
 Warning from the staff: {text}	Aviso del equipo: {text}
 The staff changed your username to {name}. Sign in again.	El equipo cambió tu nombre de usuario a {name}. Inicia sesión de nuevo.
 The staff called off the tournament you were in.	El equipo canceló el torneo en el que estabas.
@@ -1875,3 +1888,32 @@ Bronze medal	Medalla de bronce
 Your medals	Tus medallas
 Kept in your account the next time you're online.	Se guardan en tu cuenta la próxima vez que estés en línea.
 Sign in to keep them in your account.	Inicia sesión para guardarlas en tu cuenta.
+Age	Edad
+18 or older	18 años o más
+Under 18	Menos de 18 años
+A parent or guardian must agree to the terms with you. The chat with other players stays off until they turn it on.	Tu madre, padre o tutor debe aceptar los términos contigo. El chat con otros jugadores queda apagado hasta que lo encienda.
+Creating an account means accepting the	Al crear la cuenta, aceptas los
+Choose your age group.	Elige tu franja de edad.
+For a parent or guardian…	Para el tutor…
+Chat off: under 18.	Chat apagado: menor de 18 años.
+To play online, tell us your age group. It can't be changed from the game afterwards.	Para jugar en línea, indica tu franja de edad. No se puede cambiar después desde el juego.
+Under 18: a parent or guardian must agree to the terms with you, and the chat with other players stays off until they turn it on.	Menos de 18 años: tu madre, padre o tutor debe aceptar los términos contigo, y el chat con otros jugadores queda apagado hasta que lo encienda.
+Your age	Tu edad
+A parent or guardian turned the chat on for this account. They can turn it off here at any time.	Un tutor encendió el chat de esta cuenta. Puede apagarlo aquí en cualquier momento.
+This account belongs to someone under 18. By law, the chat with other players (messages in the lounge and in games, notes, status and gift messages) stays off until their mother, father or legal guardian turns it on.	Esta cuenta es de alguien menor de 18 años. Por ley, el chat con otros jugadores (mensajes en el salón y en las partidas, notas, estado y mensajes de regalos) queda apagado hasta que su madre, padre o tutor legal lo encienda.
+I am this player's mother, father or legal guardian, I have read the terms of use and I allow them to chat with other players.	Soy la madre, el padre o el tutor legal de este jugador, leí los términos de uso y autorizo el chat con otros jugadores.
+Chat for players under 18	Chat para menores de 18 años
+Turn the chat off	Apagar el chat
+Turn the chat on	Encender el chat
+Terms of use	Términos de uso
+Privacy policy	Política de privacidad
+You have 7 days to change your mind and get your money back.	Tienes 7 días para arrepentirte y recibir tu dinero de vuelta.
+Under 18: buy only with a parent's or guardian's permission.	Menos de 18 años: compra solo con el permiso de tu madre, padre o tutor.
+Renews every month until you cancel. 7 days to change your mind.	Se renueva cada mes hasta que canceles. 7 días para arrepentirte.
+About	Acerca de
+Accounts, purchases and refunds, the rules of the online game.	Cuentas, compras y reembolsos, las reglas del juego en línea.
+What the game keeps, and your rights.	Lo que el juego guarda, y tus derechos.
+Open	Abrir
+Credits	Créditos
+Fonts: DejaVu. Flags: flag-icons (MIT). Reactions: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Fuentes: DejaVu. Banderas: flag-icons (MIT). Reacciones: Twemoji (CC-BY 4.0). Nombres de países: iso-codes (LGPL-2.1). El código del juego es abierto (MIT).
+The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	El chat está apagado para menores de 18 años. Un tutor puede encenderlo debajo del chat del salón.

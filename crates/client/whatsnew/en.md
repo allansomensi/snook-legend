@@ -3,6 +3,20 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.7.3
+
+### More drills, no ranking
+There are 24 drills now, nine of them new: the far corner, long into the side, cue ball on the cushion, the plant, the carom, the long draw, on the tangent line, two-cushion bank and fifteen in a row. Each shows its position, and your stars are kept in your account. The drills' ranking is gone.
+
+### New pictures
+The portraits were drawn again, with more care, and there are new pictures of pool things. Your picture now shows on the card in the corner of the start screen when you're signed in.
+
+### Terms and privacy
+The terms of use and the privacy policy are a click away: when you sign up, in the shop and in Settings → Game → About. Purchases with money give you 7 days to change your mind and get your money back.
+
+### Age and chat
+The game asks your age group (once). Under 18, the chat with other players stays off until a parent or guardian turns it on, below the lounge's chat, as Brazilian law asks.
+
 ## 0.7.2
 
 ### A harder tour

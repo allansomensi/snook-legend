@@ -1,5 +1,66 @@
 # Changelog
 
+## 0.7.3 (protocol 21)
+
+Terms of use, an age group and the chat of players under 18, more drills
+without a ranking, and new profile pictures. The server lets in protocol 20
+and 21: games of 0.7.2 keep playing (they are not asked the age group). The
+server goes out first. One new migration (`0021_age`).
+
+### Terms of use and privacy
+- **The server publishes the terms of use** (`/termos`, `/terms`,
+  `/terminos`) and the **privacy policy** (`/privacidade`, `/privacy`,
+  `/privacidad`, Spanish new), in the game's colours, each linking the
+  others. The terms cover the provider (Decreto 7.962/2013), accounts,
+  minors, the community rules and sanctions, coins and items, paid
+  purchases with 7 days to change one's mind (CDC art. 49), VIP and its
+  cancellation, availability, the code's licence and credits, liability,
+  the law and the forum. The privacy policy now says everything the server
+  keeps (age group, the guardian's permission, presence, results of drills
+  and daily challenges, medals, ghost styles…), the legal bases, the rights
+  (LGPD art. 18) and how long data is kept.
+- **Who provides the game** comes from the server's configuration:
+  `SNOOK_LEGEND_PRIVACY_CONTROLLER` (name), `SNOOK_LEGEND_LEGAL_DOCUMENT`
+  (CPF or CNPJ), `SNOOK_LEGEND_LEGAL_ADDRESS` and
+  `SNOOK_LEGEND_PRIVACY_CONTACT`; a line whose value isn't set is left out,
+  and with payments on the server warns about the missing ones.
+- **The game links to them**: under the button that creates an account
+  ("creating an account means accepting…"), in the shop's Coins and VIP tabs
+  (with the 7 days to change one's mind and the renewal of VIP), and in
+  Settings → Game → About, with the credits (DejaVu, flag-icons, Twemoji,
+  iso-codes).
+
+### Age group and chat (Lei 15.211/2025, the ECA Digital)
+- **Signing up asks the age group**: 18 or older, or under 18. Accounts
+  made before are asked once, in the lounge. It can't be changed from the
+  game afterwards.
+- **Under 18, the chat is off both ways until a parent or guardian turns it
+  on**: the lounge's and the games' chat, notes on the "looking for a game"
+  board, status messages and gift messages. The server refuses what such an
+  account writes and passes on nothing others write; the game shows "Chat
+  off: under 18" and a button for the guardian, who turns it on (with a
+  declaration) or off again below the lounge's chat. Reactions, invitations,
+  friends and games are not affected. The server keeps the date of the
+  permission; deleting the account deletes both.
+- New messages (`SetAge`, `AllowChat`, `Age`; `Register` carries the age
+  group) for games of protocol 21 (`AGE_PROTOCOL`); the server sends `Age`
+  to those only.
+
+### Drills
+- **24 drills, nine new**: the far corner (a cut back into a head corner),
+  long into the side, cue ball on the cushion, the plant, the carom, the
+  long draw, on the tangent line, two-cushion bank (a bank now asks for a
+  number of cushions) and fifteen in a row. A test finds a way to do each.
+- **No more ranking on the drills tab**: completing everything only tied
+  first place. The tab shows the stars earned (out of 72) with a bar, the
+  drills in two columns and, where the tables were, the drill's position
+  drawn from above (the pocket to play in gold, the circle for the cue
+  ball in green). The stars are kept in the account as before.
+
+### Profile pictures
+- The player's picture shows on the card at the top right of the start
+  screen when an account is signed in.
+
 ## 0.7.2 (protocol 20)
 
 A harder tour, medals for the tournaments against the computer and a

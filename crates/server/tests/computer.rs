@@ -93,6 +93,7 @@ impl Client {
             username: name.into(),
             password: "secret123".into(),
             country: "BR".into(),
+            minor: None,
         })
         .await;
         c.expect("auth", |m| matches!(m, ServerMsg::AuthOk { .. })).await;
@@ -175,6 +176,7 @@ async fn exercise(store: Store) {
         rating: 1200,
         role: Role::Player,
         ip: "1.2.3.4",
+        minor: None,
     };
     let a = store.create_user(&new("Ladderer")).await.unwrap().unwrap();
     let b = store.create_user(&new("Other")).await.unwrap().unwrap();

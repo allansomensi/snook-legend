@@ -533,10 +533,8 @@ impl Hud {
                 None if run.session != 0 => {
                     (t("Will be sent when you're back online.").to_string(), MUTED)
                 }
-                None => {
-                    (t("Not ranked: sessions count when started signed in.").to_string(), MUTED)
-                }
-                Some(Ok(_)) => (t("Counted on the drill's table.").to_string(), CREAM),
+                None => (t("Not kept: sessions count when started signed in.").to_string(), MUTED),
+                Some(Ok(_)) => (t("Kept in your account.").to_string(), CREAM),
                 Some(Err(_)) => (t("The session could not be counted.").to_string(), ALERT),
             };
             // Two lines at most between the score and the buttons.

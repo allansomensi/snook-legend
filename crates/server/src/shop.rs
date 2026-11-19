@@ -194,9 +194,13 @@ pub async fn handle(server: &Arc<Server>, me: &User, msg: ClientMsg, send: &impl
                 Ok(f) => f,
                 Err(e) => return error(e),
             };
-            // A message is player text: filtered, and not from the muted.
-            let message =
-                snook_legend_proto::clean_text(&message, snook_legend_proto::MAX_GIFT_MESSAGE);
+            // A message is player text: filtered, and not from the muted
+            // (nor between players under 18 whose chat is off).
+            let message = if me.chat_restricted() || friend.chat_restricted() {
+                String::new()
+            } else {
+                snook_legend_proto::clean_text(&message, snook_legend_proto::MAX_GIFT_MESSAGE)
+            };
             let t = now();
             // (The lounge's copy of the account follows mutes by the staff.)
             let muted_until = server

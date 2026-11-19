@@ -43,6 +43,7 @@ async fn start() -> Running {
         rating: 1200,
         role: Role::Player,
         ip: "1.2.3.4",
+        minor: None,
     };
     server.store.create_user(&boss).await.unwrap().expect("a new account");
     tokio::spawn(serve(listener, server.clone()));
@@ -89,6 +90,7 @@ impl Client {
             username: name.into(),
             password: PASSWORD.into(),
             country: "BR".into(),
+            minor: None,
         })
         .await;
         c.expect("auth", |m| matches!(m, ServerMsg::AuthOk { .. })).await;

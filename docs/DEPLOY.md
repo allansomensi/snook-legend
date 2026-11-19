@@ -5,8 +5,10 @@ running matches in memory and stores accounts, ratings, history,
 achievements, friends, reports and the staff audit log in PostgreSQL. It also
 serves the staff panel at `/admin`.
 
-A step-by-step guide for **Render + Neon (free plans)**, in Portuguese, is in
-[DEPLOY.pt-BR.md](DEPLOY.pt-BR.md). This page is the reference.
+A step-by-step guide for **Render + Neon**, in Portuguese, is in
+[DEPLOY.pt-BR.md](DEPLOY.pt-BR.md). The official server runs on Render's
+**Starter** plan (always on; `render.yaml` asks for it); the free plans of
+Render and Neon are fine for testing. This page is the reference.
 
 ## Configuration
 
@@ -24,10 +26,18 @@ A step-by-step guide for **Render + Neon (free plans)**, in Portuguese, is in
 | `SNOOK_LEGEND_SHOT_CLOCK` | `30` | seconds per shot (10–120) |
 | `SNOOK_LEGEND_STRIPE_*` | — | real-money purchases through Stripe (see `crates/server/src/payments.rs`) |
 | `SNOOK_LEGEND_MSSTORE_*` | — | coin packs bought in the Microsoft Store (see [MSSTORE.md](MSSTORE.md)) |
+| `SNOOK_LEGEND_GAME_NAME` | `Snook Legend` | the game's name on the terms of use and the privacy policy |
+| `SNOOK_LEGEND_PRIVACY_CONTROLLER` | the developer | who provides the game and controls the data (a person or a company) |
+| `SNOOK_LEGEND_LEGAL_DOCUMENT` | — | their CPF or CNPJ (Brazilian law on online sales, Decreto 7.962/2013, asks a seller to show it) |
+| `SNOOK_LEGEND_LEGAL_ADDRESS` | — | their address (as above) |
+| `SNOOK_LEGEND_PRIVACY_CONTACT` | the repository's issues | the e-mail for customer service, refunds, appeals and privacy requests |
 | `RUST_LOG` | `info` | log filter |
 
 Endpoints: `GET /ws` (the game), `GET /health` (`ok`), `GET /api/status` and
-`GET /api/leaderboard` (public JSON with CORS, for a website), `/admin`.
+`GET /api/leaderboard` (public JSON with CORS, for a website), `/admin`, and
+the public pages: the terms of use (`/termos`, `/terms`, `/terminos`) and the
+privacy policy (`/privacidade`, `/privacy`, `/privacidad`), Portuguese being
+the reference text (see [DEPLOY.pt-BR.md](DEPLOY.pt-BR.md), section 10).
 
 ## Docker
 

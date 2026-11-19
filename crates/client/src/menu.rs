@@ -420,6 +420,17 @@ impl Menu {
             None => BORDER,
         };
         draw_circle(avatar.x, avatar.y, 21.0, Color::new(0.13, 0.09, 0.06, 1.0));
+        // The picture of the account signed in (none signed in: the plain
+        // person, as before).
+        let picture = match &online.me {
+            Some(me) if !me.avatar.is_empty() => me.avatar.clone(),
+            Some(me) if !me.guest => crate::avatars::mine(),
+            _ => String::new(),
+        };
+        let has_picture = snook_legend_proto::valid_avatar(&picture) && !picture.is_empty();
+        if has_picture {
+            crate::avatars::draw(&picture, avatar, 20.0);
+        }
         draw_circle_lines(avatar.x, avatar.y, 21.0, 1.5, ring);
         let text_x = r.x + 66.0;
         let text_w = r.w - 66.0 - 34.0;
@@ -433,7 +444,9 @@ impl Menu {
         };
         match &online.me {
             Some(me) => {
-                crate::icons::draw(Icon::Person, avatar, 24.0, crate::ui::name_color(me));
+                if !has_picture {
+                    crate::icons::draw(Icon::Person, avatar, 24.0, crate::ui::name_color(me));
+                }
                 // Online: a green dot on the avatar.
                 draw_circle(
                     avatar.x + 15.0,

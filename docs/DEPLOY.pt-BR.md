@@ -1,7 +1,9 @@
-# Colocando o servidor do Snook Legend no ar (Render + Neon, grátis)
+# Colocando o servidor do Snook Legend no ar (Render + Neon)
 
-Este guia leva o servidor do zero até o jogo conectando nele, usando apenas
-planos gratuitos. Leva uns 20 minutos.
+Este guia leva o servidor do zero até o jogo conectando nele. Leva uns 20
+minutos. O servidor oficial roda no plano **Starter** do Render (o
+`render.yaml` já pede esse plano); para testar, os planos gratuitos do Render
+e do Neon também servem, com os limites abaixo.
 
 ```
  Jogadores ──wss──▶  Render (servidor Snook Legend, Docker)  ──TLS──▶  Neon (PostgreSQL)
@@ -16,7 +18,10 @@ planos gratuitos. Leva uns 20 minutos.
   `GET /api/leaderboard` e `GET /api/status` (JSON público, com CORS) para o site
   mostrar o ranking e quantos estão online.
 
-## O que saber sobre os planos grátis
+## O que saber sobre os planos
+
+O servidor oficial usa o **Render Starter** (US$ 7/mês), que não dorme. Os
+limites dos planos gratuitos, para quem for testar:
 
 | | Limite | O que significa para o jogo |
 |---|---|---|
@@ -26,8 +31,9 @@ planos gratuitos. Leva uns 20 minutos.
 | Render Free | 512 MB RAM, CPU compartilhada | Suficiente para dezenas de jogadores simultâneos. A simulação das tacadas roda fora do lock principal. |
 | Neon Free | 0,5 GB, suspende após 5 min parado | Centenas de milhares de partidas cabem. Acordar o banco leva <1 s. |
 
-Quando lançar de verdade: Render Starter (US$ 7/mês, não dorme) resolve os
-três primeiros itens sem mudar nada no código.
+O Render Starter resolve os três primeiros itens sem mudar nada no código.
+Para testar de graça, troque `plan: starter` por `plan: free` no
+`render.yaml` (ou escolha o plano no painel do Render).
 
 ## 1. Banco de dados no Neon
 
@@ -50,13 +56,13 @@ Não precisa criar tabelas: o servidor aplica as migrations sozinho ao iniciar
 
 1. Crie uma conta em <https://render.com> e conecte seu GitHub.
 2. **New → Blueprint**, escolha o repositório `snook-legend`. O Render lê o
-   `render.yaml` da raiz e propõe o serviço `snook-legend-server` (Docker, plano Free,
+   `render.yaml` da raiz e propõe o serviço `snook-legend-server` (Docker, plano Starter,
    região Virginia, health check em `/health`).
 3. Ele vai pedir as variáveis marcadas como secretas:
    - `DATABASE_URL`: a string do Neon do passo 1.
    - `SNOOK_LEGEND_ADMINS`: seu nome de usuário no jogo (ex.: `allan`). Vários: `allan,maria`.
-4. **Apply**. O primeiro build (Rust em release) leva ~10–15 min no plano
-   grátis; os seguintes usam cache.
+4. **Apply**. O primeiro build (Rust em release) leva ~10–15 min; os
+   seguintes usam cache.
 5. Quando ficar "Live", teste:
 
    ```bash
@@ -161,9 +167,10 @@ salão, chat, mesas, torneios e partidas como no online.
 
 ## 7. Servidor sempre acordado
 
-No plano gratuito do Render o servidor dorme depois de 15 minutos sem
-tráfego. O servidor oficial roda num plano pago, que não dorme (o workflow
-que o acordava a cada 10 minutos foi retirado do repositório).
+O servidor oficial roda no plano **Starter** do Render, que não dorme. No
+plano gratuito o servidor dorme depois de 15 minutos sem tráfego e o
+primeiro jogador espera cerca de um minuto (o workflow que o acordava a cada
+10 minutos foi retirado do repositório).
 
 ## 8. Backups
 
@@ -237,11 +244,55 @@ não oferece a Stripe e vende os pacotes de moedas pela própria Store (veja
 [MSSTORE.md](MSSTORE.md), "Venda de moedas pela Store"). No site próprio,
 itch.io e GitHub, a Stripe é permitida.
 
+## 10. Termos de uso e política de privacidade
+
+O servidor publica as duas páginas, em três línguas:
+
+| Página | Português | English | Español |
+|---|---|---|---|
+| Termos de uso | `/termos` | `/terms` | `/terminos` |
+| Política de privacidade | `/privacidade` | `/privacy` | `/privacidad` |
+
+O texto fica em `crates/server/pages/` (o português é o texto de referência;
+a data no topo vem de `TERMS_UPDATED` e `PRIVACY_UPDATED` em
+`crates/server/src/pages.rs`: mude a data junto com o texto). **Leia os
+textos antes de usar**: eles descrevem o jogo como ele é hoje, mas não são
+uma revisão jurídica.
+
+Quem oferece o jogo vem das variáveis abaixo (**Render → Environment**). O
+Decreto 7.962/2013 (comércio eletrônico) pede que quem vende pela internet
+mostre nome, CPF ou CNPJ, endereço e um contato eletrônico: com a loja
+ligada, defina todas. O log avisa quando a Stripe está ligada e falta alguma.
+
+| Variável | O que é |
+|---|---|
+| `SNOOK_LEGEND_PRIVACY_CONTROLLER` | seu nome ou o da sua empresa (quem oferece o jogo e controla os dados) |
+| `SNOOK_LEGEND_LEGAL_DOCUMENT` | o CPF ou o CNPJ (sem ela, a linha não aparece) |
+| `SNOOK_LEGEND_LEGAL_ADDRESS` | o endereço (sem ela, a linha não aparece) |
+| `SNOOK_LEGEND_PRIVACY_CONTACT` | o e-mail de atendimento: dúvidas, reembolsos, recursos e pedidos de privacidade (sem ele, as páginas apontam para as *issues* do GitHub) |
+| `SNOOK_LEGEND_GAME_NAME` | o nome do jogo nas páginas (padrão: Snook Legend) |
+
+Onde usar os endereços:
+
+- **Stripe → Settings → Business → Public details:** *Terms of service* =
+  `https://snook-server.onrender.com/termos`, *Privacy policy* =
+  `https://snook-server.onrender.com/privacidade`, o e-mail de suporte e a
+  política de reembolso (o link dos termos: a seção 8 trata do direito de
+  arrependimento de 7 dias). A página de pagamento da Stripe mostra esses
+  links.
+- **Microsoft Partner Center** (veja [MSSTORE.md](MSSTORE.md)):
+  *Privacy policy URL* = `/privacy`, *Additional license terms* = o link de
+  `/terms`, e o e-mail em *Support contact info*.
+- **Reembolsos:** um pedido de arrependimento (até 7 dias) é feito na Stripe
+  (**Payments → o pagamento → Refund**). O servidor recebe o aviso
+  `charge.refunded` e tira de volta as moedas, o VIP e os itens do pacote de
+  boas-vindas sozinho.
+
 ## Problemas comuns
 
 | Sintoma | Causa provável |
 |---|---|
-| Jogo fica em "Conectando ao servidor…" ~1 min e entra | Instância grátis acordando. Normal. |
+| Jogo fica em "Conectando ao servidor…" ~1 min e entra | Instância do plano grátis acordando (no Starter isso não acontece). |
 | `could not start: … password authentication failed` nos logs | `DATABASE_URL` errada. Copie de novo do Neon. |
 | `… prepared statement … already exists` | Usou a string com `-pooler`. Use a conexão direta. |
 | Jogadores recebem "Muitas contas novas desta rede" sem motivo | `SNOOK_LEGEND_CLIENT_IP_HEADER` ausente. O painel mostra o aviso "Every player comes from the same address". |

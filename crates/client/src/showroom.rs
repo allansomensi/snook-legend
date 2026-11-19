@@ -1231,7 +1231,14 @@ fn chip(ui: &mut Ui, r: Rect, label: &str, picked: bool) -> bool {
 
 /// A ball of a set seen from the front, flat: its colour (a band on
 /// ivory for a stripe) and its number.
-fn ball_chip(ui: &Ui, id: BallId, palette: &crate::textures::Palette, c: Vec2, r: f32, lit: bool) {
+pub(crate) fn ball_chip(
+    ui: &Ui,
+    id: BallId,
+    palette: &crate::textures::Palette,
+    c: Vec2,
+    r: f32,
+    lit: bool,
+) {
     let col = crate::textures::ball_color_in(id, palette);
     let color = Color::from_rgba(col[0], col[1], col[2], 255);
     let ivory = Color::from_rgba(palette.ivory[0], palette.ivory[1], palette.ivory[2], 255);

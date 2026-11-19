@@ -3,6 +3,20 @@
 # un destacado, y las líneas siguientes son su texto. Mismas versiones y
 # mismo número de destacados en todos los idiomas.
 
+## 0.7.3
+
+### Más ejercicios, sin ranking
+Ahora hay 24 ejercicios, nueve nuevos: la tronera de atrás, al centro desde lejos, blanca pegada a la banda, bolas pegadas, carambola, retroceso largo, en la tangente, dos bandas y quince seguidas. Cada uno muestra su posición, y tus estrellas quedan en tu cuenta. El ranking de los ejercicios ya no está.
+
+### Avatares nuevos
+Los retratos se dibujaron de nuevo, con más cuidado, y hay avatares nuevos de cosas del billar. Tu avatar ahora aparece en la tarjeta de la esquina de la pantalla de inicio cuando tienes la sesión iniciada.
+
+### Términos y privacidad
+Los términos de uso y la política de privacidad están a un clic: al registrarte, en la tienda y en Ajustes → Juego → Acerca de. Las compras con dinero te dan 7 días para arrepentirte y recibir tu dinero de vuelta.
+
+### Edad y chat
+El juego pregunta tu franja de edad (una vez). Para menores de 18 años, el chat con otros jugadores queda apagado hasta que un tutor lo encienda, debajo del chat del salón, como pide la ley brasileña.
+
 ## 0.7.2
 
 ### Un circuito más difícil

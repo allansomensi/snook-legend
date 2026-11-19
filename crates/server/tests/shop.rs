@@ -18,6 +18,7 @@ async fn setup() -> (std::sync::Arc<Server>, i64) {
             rating: 1200,
             role: Role::Player,
             ip: "1.2.3.4",
+            minor: None,
         })
         .await
         .unwrap()
@@ -198,6 +199,7 @@ async fn a_vip_month_given_to_a_friend_is_theirs_once_and_taken_back_on_refund()
             rating: 1200,
             role: Role::Player,
             ip: "1.2.3.5",
+            minor: None,
         })
         .await
         .unwrap()

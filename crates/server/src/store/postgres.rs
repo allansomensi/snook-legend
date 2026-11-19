@@ -75,7 +75,7 @@ impl From<sqlx::migrate::MigrateError> for StoreError {
 const USER_COLUMNS: &str = "id, username, password_hash, country, role, rating, peak_rating, \
     games, wins, eight_wins, casual_games, streak, best_streak, runouts, shutouts, \
     tournaments_played, tournaments_won, created_at, last_seen, banned_until, ban_reason, muted_until, \
-    recovery_email, deleted_at, abandons, status_message, xp, name_changes, avatar";
+    recovery_email, deleted_at, abandons, status_message, xp, name_changes, avatar, minor, chat_allowed_at";
 
 fn user(r: &PgRow) -> Result<User, sqlx::Error> {
     let n = |c: &str| -> Result<u32, sqlx::Error> { Ok(r.try_get::<i32, _>(c)?.max(0) as u32) };
@@ -109,6 +109,8 @@ fn user(r: &PgRow) -> Result<User, sqlx::Error> {
         xp: r.try_get("xp")?,
         name_changes: r.try_get::<i16, _>("name_changes")?.max(0) as u32,
         avatar: r.try_get("avatar")?,
+        minor: r.try_get("minor")?,
+        chat_allowed_at: r.try_get("chat_allowed_at")?,
     })
 }
 
@@ -143,8 +145,8 @@ impl PgStore {
     pub async fn create_user(&self, new: &NewUser<'_>) -> StoreResult<Option<User>> {
         let now = crate::now();
         let row = query(&format!(
-            "INSERT INTO users (username, password_hash, country, role, rating, peak_rating, created_at, last_seen, register_ip)
-             VALUES ($1, $2, $3, $4, $5, $5, $6, $6, $7)
+            "INSERT INTO users (username, password_hash, country, role, rating, peak_rating, created_at, last_seen, register_ip, minor)
+             VALUES ($1, $2, $3, $4, $5, $5, $6, $6, $7, $8)
              ON CONFLICT DO NOTHING RETURNING {USER_COLUMNS}"
         ))
         .bind(new.username)
@@ -154,6 +156,7 @@ impl PgStore {
         .bind(new.rating)
         .bind(now)
         .bind(new.ip)
+        .bind(new.minor)
         .fetch_optional(&self.pool)
         .await?;
         Ok(row.map(|r| user(&r)).transpose()?)
@@ -899,7 +902,7 @@ impl PgStore {
         query(
             "UPDATE users SET username = $2, password_hash = '', country = '',
                 recovery_email = NULL, deleted_at = $3, register_ip = '', status_message = '',
-                avatar = ''
+                avatar = '', minor = NULL, chat_allowed_at = NULL
              WHERE id = $1",
         )
         .bind(user_id)
@@ -1270,6 +1273,24 @@ impl PgStore {
         query("UPDATE users SET avatar = $2 WHERE id = $1")
             .bind(user_id)
             .bind(avatar)
+            .execute(&self.pool)
+            .await?;
+        Ok(())
+    }
+
+    pub async fn set_minor(&self, user_id: i64, minor: bool) -> StoreResult<bool> {
+        let done = query("UPDATE users SET minor = $2 WHERE id = $1 AND minor IS NULL")
+            .bind(user_id)
+            .bind(minor)
+            .execute(&self.pool)
+            .await?;
+        Ok(done.rows_affected() > 0)
+    }
+
+    pub async fn set_chat_allowed(&self, user_id: i64, at: Option<i64>) -> StoreResult<()> {
+        query("UPDATE users SET chat_allowed_at = $2 WHERE id = $1")
+            .bind(user_id)
+            .bind(at)
             .execute(&self.pool)
             .await?;
         Ok(())

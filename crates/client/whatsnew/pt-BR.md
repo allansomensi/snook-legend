@@ -3,6 +3,20 @@
 # destaque, e as linhas seguintes são o texto dele. Mesmas versões e mesmo
 # número de destaques em todas as línguas.
 
+## 0.7.3
+
+### Mais treinos, sem ranking
+São 24 treinos agora, nove novos: caçapa de trás, meio de longe, branca na tabela, bolas encostadas, carambola, puxada longa, na tangente, duas tabelas e quinze seguidas. Cada um mostra a posição desenhada, e as estrelas ficam guardadas na sua conta. O ranking dos treinos saiu.
+
+### Avatares novos
+Os retratos foram redesenhados, mais caprichados, e há novos avatares de objetos da sinuca. O seu avatar agora aparece no cartão do canto da tela inicial quando você está conectado.
+
+### Termos de uso e privacidade
+Os termos de uso e a política de privacidade estão a um clique: no cadastro, na loja e em Configurações → Jogo → Sobre. Compras com dinheiro têm 7 dias para você se arrepender e receber o dinheiro de volta.
+
+### Idade e chat
+O jogo pergunta a sua faixa de idade (uma vez). Para menores de 18 anos, o chat com outros jogadores fica desligado até um responsável ligá-lo, embaixo do chat do salão, como pede a lei (ECA Digital).
+
 ## 0.7.2
 
 ### Um Circuito mais difícil

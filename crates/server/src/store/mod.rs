@@ -73,9 +73,25 @@ pub struct User {
     pub name_changes: u32,
     /// The profile picture (a code from `snook_legend_proto::AVATARS`).
     pub avatar: String,
+    /// The age group the player gave: under 18 (`Some(true)`), 18 or older
+    /// (`Some(false)`), or not asked yet (accounts made before 0.7.3, until
+    /// their game asks).
+    pub minor: Option<bool>,
+    /// When a parent or guardian turned the chat on for an account under 18
+    /// (Unix seconds); see [`User::chat_restricted`].
+    pub chat_allowed_at: Option<i64>,
 }
 
 impl User {
+    /// Under 18 and no parent or guardian turned the chat on: nothing
+    /// written by other players reaches them, and they write nothing to
+    /// others (the lounge's and the games' chat, the notes on the board,
+    /// status messages, gift messages). Predefined reactions, invitations
+    /// and games are not affected. Lei 15.211/2025 (ECA Digital), art. 20.
+    pub fn chat_restricted(&self) -> bool {
+        self.minor == Some(true) && self.chat_allowed_at.is_none()
+    }
+
     pub fn rating(&self) -> snook_legend_core::rating::Rating {
         snook_legend_core::rating::Rating { rating: self.rating, games: self.games }
     }
@@ -143,6 +159,8 @@ pub struct NewUser<'a> {
     pub rating: i32,
     pub role: Role,
     pub ip: &'a str,
+    /// The age group given at sign-up (`None`: an older game that doesn't ask).
+    pub minor: Option<bool>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -954,6 +972,16 @@ impl Store {
     /// Sets (or clears, when empty) a player's profile picture.
     pub async fn set_avatar(&self, user_id: i64, avatar: &str) -> StoreResult<()> {
         dispatch!(self, s => s.set_avatar(user_id, avatar))
+    }
+    /// Records the age group of an account that has none yet (it never
+    /// changes afterwards from the game); whether it was recorded.
+    pub async fn set_minor(&self, user_id: i64, minor: bool) -> StoreResult<bool> {
+        dispatch!(self, s => s.set_minor(user_id, minor))
+    }
+    /// A parent or guardian turned the chat of an account under 18 on (at
+    /// this time) or off (`None`).
+    pub async fn set_chat_allowed(&self, user_id: i64, at: Option<i64>) -> StoreResult<()> {
+        dispatch!(self, s => s.set_chat_allowed(user_id, at))
     }
     /// Sets (or clears, when empty) a player's status message.
     pub async fn set_status_message(&self, user_id: i64, text: &str) -> StoreResult<()> {

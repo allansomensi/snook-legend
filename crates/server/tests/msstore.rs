@@ -261,6 +261,7 @@ impl Client {
             username: name.into(),
             password: PASSWORD.into(),
             country: "BR".into(),
+            minor: None,
         })
         .await;
         c.expect("auth", |m| matches!(m, ServerMsg::AuthOk { .. })).await;
@@ -603,6 +604,7 @@ async fn exercise(store: Store) {
             rating: 1200,
             role: Role::Player,
             ip: "1.2.3.4",
+            minor: None,
         })
         .await
         .unwrap()

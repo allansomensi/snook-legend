@@ -21,7 +21,11 @@ world ranking that keeps everyone coming back.
 
 ## Download
 
-Get the latest version from the
+- **Windows**: get it from the
+  [Microsoft Store](https://apps.microsoft.com/search?query=Snook%20Legend)
+  (free; the Store installs and updates it).
+
+Or get the latest version from the
 [Releases page](https://github.com/allansomensi/snook-legend/releases/latest):
 
 - **Windows**: `snook-legend-x86_64-pc-windows-msvc.msi` installs the game with a
@@ -78,6 +82,10 @@ which every desktop installation has. How releases are made is described in
   bronze medals, kept in the account and shown with the tournaments.
   **Ghosts** play in the measured style of a real player. Games against
   the computer never touch ratings or coins.
+- **Daily challenge and drills**: the same position for everyone each day,
+  with the day's ranking, and **24 drills** (straight pots, cuts, draw and
+  follow, banks, the plant, the carom, snooker escapes, runs of ten and
+  fifteen…) with up to three stars each, kept in the account.
 - **Daily games**: correspondence games with up to 72 hours per turn, live
   notices and desktop notifications, several at once, rated or casual.
 - **Online lounge**: accounts with a country flag, players online with names
@@ -138,11 +146,27 @@ which every desktop installation has. How releases are made is described in
   from the furniture and halos round the lights; Ultra adds reflections in
   polished floors and sharper textures. Plus anti-aliasing (off, 2×,
   4×, 8×) and full screen, so it runs on old laptops and looks sharp on gaming PCs.
-- **Small and fast**: a ~5 MB executable that runs on OpenGL 2.1 / GLES 2, so it works
+- **Small and fast**: a single executable of about 20 MB that runs on OpenGL 2.1 / GLES 2, so it works
   on practically any PC, including old integrated GPUs. Textures and sounds
   (modal synthesis) are generated at start-up; the only bundled files are the
   fonts, the flag atlas and the reaction pictures. The interface scales down
   to small windows without anything spilling out.
+
+## Terms of use and privacy
+
+Playing online follows the [terms of use](https://snook-server.onrender.com/termos)
+([English](https://snook-server.onrender.com/terms),
+[español](https://snook-server.onrender.com/terminos)) and the
+[privacy policy](https://snook-server.onrender.com/privacidade)
+([English](https://snook-server.onrender.com/privacy),
+[español](https://snook-server.onrender.com/privacidad)); the game links to
+them when signing up, in the shop and in Settings → Game → About. Signing up
+asks the player's age group: under 18, the chat with other players (lounge,
+games, notes, status and gift messages) stays off until a parent or guardian
+turns it on, as Brazilian law asks of games that children and adolescents are
+likely to play (Lei 15.211/2025). There are no loot boxes: every item is sold
+at a price shown before buying. A server run by someone else publishes the
+same pages with its own provider details (see [docs/DEPLOY.md](docs/DEPLOY.md)).
 
 ## Controls
 
@@ -256,8 +280,9 @@ crates/
             wix/ the Windows installer
 vendor/
   miniquad/ miniquad with two platform fixes (see vendor/README.md)
-tools/      gen_countries.py, gen_reactions.py: regenerate the country list,
-            the flag atlas and the reaction atlas
+tools/      gen_countries.py, gen_reactions.py, gen_avatars.py: regenerate the
+            country list, the flag atlas, the reaction atlas and the profile
+            pictures' atlas (drawn as SVG, rasterised with Playwright's Chromium)
 Dockerfile, render.yaml: the server image and the Render blueprint
 dist-workspace.toml: packaging and releases with dist (docs/RELEASING.md)
 ```
@@ -276,7 +301,8 @@ client.
 5. ~~Friends, private tables, tournaments, achievements, profiles, LAN, staff panel~~
 6. ~~Spectating friends, Play now, reactions, the shop and VIP~~
 7. ~~Installers and packages for every platform (MSI, shell, PowerShell; dist)~~
-8. Signed installers and store releases (Microsoft Store, Steam, itch.io)
+8. Store releases: ~~Microsoft Store~~; Steam, itch.io and signed installers
+   for the other downloads
 9. Replays of whole matches
 
 ## License

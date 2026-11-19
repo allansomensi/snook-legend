@@ -302,9 +302,6 @@ fn half(poly: Vec<Vec2>, y: f32, above: bool) -> Vec<Vec2> {
     }
 }
 
-mod art;
-pub use art::draw_avatar;
-
 /// The portrait of an opponent in a disc of radius `r` at `c`.
 pub fn draw_portrait(o: &Opponent, c: Vec2, r: f32) {
     match o {

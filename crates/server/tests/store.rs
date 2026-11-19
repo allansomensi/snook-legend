@@ -26,6 +26,7 @@ fn new_user<'a>(name: &'a str) -> NewUser<'a> {
         rating: 1200,
         role: Role::Player,
         ip: "1.2.3.4",
+        minor: None,
     }
 }
 
@@ -597,6 +598,7 @@ async fn staff_tools(store: &Store) {
         rating,
         role: Role::Player,
         ip: "1.2.3.4",
+        minor: None,
     };
     let a = store.create_user(&make("st_ana", 1500, "BR")).await.unwrap().unwrap();
     let b = store.create_user(&make("st_bia", 1700, "BR")).await.unwrap().unwrap();

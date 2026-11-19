@@ -189,8 +189,9 @@ pub struct Config {
     pub stripe: Option<payments::StripeConfig>,
     /// Coin packs sold in the Microsoft Store (none when not configured).
     pub msstore: Option<msstore::MsStoreConfig>,
-    /// Who the privacy policy names (`/privacidade`, `/privacy`).
-    pub privacy: pages::PrivacyInfo,
+    /// Who provides the game, as the terms of use and the privacy policy
+    /// name them (see [`pages`]).
+    pub privacy: pages::LegalInfo,
 }
 
 impl Default for Config {
@@ -206,7 +207,7 @@ impl Default for Config {
             trusted_proxies: None,
             stripe: None,
             msstore: None,
-            privacy: pages::PrivacyInfo::default(),
+            privacy: pages::LegalInfo::default(),
         }
     }
 }
@@ -512,6 +513,10 @@ pub fn router(server: Arc<Server>) -> Router {
         .route("/shop/cancelled", get(shop::cancelled))
         .route("/privacidade", get(pages::privacy_pt))
         .route("/privacy", get(pages::privacy_en))
+        .route("/privacidad", get(pages::privacy_es))
+        .route("/termos", get(pages::terms_pt))
+        .route("/terms", get(pages::terms_en))
+        .route("/terminos", get(pages::terms_es))
         .merge(admin::router())
         .with_state(server)
 }
@@ -863,7 +868,7 @@ pub(crate) const DUMMY_HASH: &str =
 async fn authenticate(server: &Arc<Server>, msg: ClientMsg, ip: &str) -> Auth {
     let fail = |s: &str| Auth::Failed(s.to_string());
     match msg {
-        ClientMsg::Register { username, password, country } => {
+        ClientMsg::Register { username, password, country, minor } => {
             if server.config.rules.lan {
                 return fail("This is a LAN server: join as a guest.");
             }
@@ -900,6 +905,7 @@ async fn authenticate(server: &Arc<Server>, msg: ClientMsg, ip: &str) -> Auth {
                 rating: EloConfig::default().initial_rating,
                 role: Role::Player,
                 ip,
+                minor,
             };
             match server.store.create_user(&new).await {
                 Ok(Some(user)) => {
@@ -1051,6 +1057,8 @@ async fn authenticate(server: &Arc<Server>, msg: ClientMsg, ip: &str) -> Auth {
                 xp: 0,
                 name_changes: 0,
                 avatar: String::new(),
+                minor: None,
+                chat_allowed_at: None,
             };
             Auth::Ok { user: Box::new(user), token: String::new(), guest: true }
         }
@@ -1202,6 +1210,9 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                         });
                         if !guest {
                             token_in_use = Some(token);
+                            if version >= snook_legend_proto::AGE_PROTOCOL {
+                                send(age_msg(&row));
+                            }
                             let _ = server.store.touch(row.id, now()).await;
                             let s = server.clone();
                             let r = row.clone();
@@ -1311,6 +1322,50 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                     let token = token_in_use.clone().unwrap_or_default();
                     server.with(|l| l.renamed(&me.username, fresh.clone(), token));
                     user = Some((fresh, guest));
+                }
+            }
+            ClientMsg::SetAge { minor } => {
+                match server.store.set_minor(me.id, minor).await {
+                    Ok(true) => {
+                        let mut fresh = me.clone();
+                        fresh.minor = Some(minor);
+                        server
+                            .with(|l| l.set_age(&me.username, fresh.minor, fresh.chat_allowed_at));
+                        tracing::info!(player = %me.username, minor, "age group given");
+                        send(age_msg(&fresh));
+                        user = Some((fresh, guest));
+                    }
+                    // Given before: it stays (the game is told what it is).
+                    Ok(false) => send(age_msg(&me)),
+                    Err(e) => {
+                        tracing::error!("age of {}: {e}", me.username);
+                        send(ServerMsg::Error {
+                            message: "Something went wrong. Please try again.".into(),
+                        });
+                    }
+                }
+            }
+            ClientMsg::AllowChat { allowed } => {
+                if me.minor != Some(true) {
+                    send(age_msg(&me));
+                } else {
+                    let at = allowed.then(now);
+                    match server.store.set_chat_allowed(me.id, at).await {
+                        Ok(()) => {
+                            let mut fresh = me.clone();
+                            fresh.chat_allowed_at = at;
+                            server.with(|l| l.set_age(&me.username, fresh.minor, at));
+                            tracing::info!(player = %me.username, allowed, "chat for a minor");
+                            send(age_msg(&fresh));
+                            user = Some((fresh, guest));
+                        }
+                        Err(e) => {
+                            tracing::error!("chat consent of {}: {e}", me.username);
+                            send(ServerMsg::Error {
+                                message: "Something went wrong. Please try again.".into(),
+                            });
+                        }
+                    }
                 }
             }
             ClientMsg::Missions => send(missions::message(&server, &me).await),
@@ -1610,6 +1665,8 @@ fn is_query_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::SetRecoveryEmail { .. }
             | ClientMsg::DeleteAccount { .. }
             | ClientMsg::ChangeUsername { .. }
+            | ClientMsg::SetAge { .. }
+            | ClientMsg::AllowChat { .. }
             | ClientMsg::Replays
             | ClientMsg::Replay { .. }
             | ClientMsg::Missions
@@ -1638,6 +1695,11 @@ fn is_query_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::GiftsSeen { .. }
             | ClientMsg::ThankGift { .. }
     )
+}
+
+/// The player's age group, as their game is told it.
+fn age_msg(user: &User) -> ServerMsg {
+    ServerMsg::Age { minor: user.minor, chat_allowed: user.chat_allowed_at.is_some() }
 }
 
 fn is_account_msg(msg: &ClientMsg) -> bool {
@@ -1679,6 +1741,8 @@ fn is_account_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::SetRecoveryEmail { .. }
             | ClientMsg::DeleteAccount { .. }
             | ClientMsg::ChangeUsername { .. }
+            | ClientMsg::SetAge { .. }
+            | ClientMsg::AllowChat { .. }
             | ClientMsg::Replays
             | ClientMsg::Missions
             | ClientMsg::Replay { .. }

@@ -268,6 +268,38 @@ function userBadges(u, { online = true } = {}) {
 }
 const isAdmin = () => !!me && me.role === "admin";
 
+// ===================================================================== rules
+
+/** The two rules every game is played under, Brazilian first (as the
+ * server lists them). Each has its own rating, tiers and ranking. */
+const RULES = ["brazilian", "official"];
+const rulesName = (r) => (r === "official" ? t("Official rules") : t("Brazilian rules"));
+const rulesShort = (r) => (r === "official" ? t("Official") : t("Brazilian"));
+/** The rules' mark, as in the game: Brazil's flag, or a globe. */
+function rulesMark(r) {
+  return r === "official" ? icon("globe", "rules-mark") : el("span", { class: "rules-mark flag", "aria-hidden": "true" }, flagOf("BR"));
+}
+function rulesBadge(r, long = false) {
+  const k = r === "official" ? "official" : "brazilian";
+  return el("span", { class: "badge rules " + k, title: rulesName(k) }, rulesMark(k), long ? rulesName(k) : rulesShort(k));
+}
+/** A player's record under the rules: an account's `records`, or a player
+ * online's `standings`. */
+function recordOf(p, r) {
+  const x = (p.records && p.records[r]) || (p.standings && p.standings[r]) || {};
+  return { rating: x.rating ?? 1200, peak_rating: x.peak_rating ?? x.rating ?? 1200, tier: x.tier || "", games: x.games || 0, wins: x.wins || 0 };
+}
+const winRate = (x, digits = 0) => (x.games ? fmtPct(x.wins * 100 / x.games, digits) : "—");
+/** Both ratings side by side, each with its mark (lists, the search). */
+function ratingPair(p) {
+  return el("span", { class: "rating-pair" }, RULES.map((r) => {
+    const x = recordOf(p, r);
+    return el("span", { class: "rp" + (x.games ? "" : " unplayed"), title: rulesName(r) + " · " + tn(x.games, "{n} rated game", "{n} rated games") }, rulesMark(r), fmtNum(x.rating));
+  }));
+}
+/** A number under each of the rules, in words ("3 Brazilian · 1 official"). */
+const perRulesText = (n) => tf("{brazilian} Brazilian · {official} official", { brazilian: fmtNum((n && n.brazilian) || 0), official: fmtNum((n && n.official) || 0) });
+
 // ======================================================================= api
 
 class ApiError extends Error {
@@ -809,7 +841,7 @@ function searchBox() {
       if (mine !== seq) return;
       for (const u of d.users.slice(0, 7)) {
         items.push({
-          node: el("span", { class: "person grow" }, avatar(u.username, "sm"), el("b", {}, u.username), userBadges(u), el("span", { class: "meta" }, fmtNum(u.rating))),
+          node: el("span", { class: "person grow" }, avatar(u.username, "sm"), el("span", { class: "person-name" }, el("b", {}, u.username), userBadges(u)), el("span", { class: "meta" }, ratingPair(u))),
           go: () => go("players/" + encodeURIComponent(u.username)),
         });
       }
@@ -1134,13 +1166,13 @@ PAGES.dashboard = async () => {
     pageHead(tf(hello, { name: me.username }), today.charAt(0).toUpperCase() + today.slice(1), updatedLabel(refreshPage)),
     alerts.length ? el("div", { class: "stack" }, alerts) : null,
     el("div", { class: "kpis section" },
-      kpi({ label: t("Online now"), value: fmtNum(o.online), sub: tn(o.addresses, "{n} address", "{n} addresses"), iconName: "users", tone: "success", href: "#/live" }),
+      kpi({ label: t("Online now"), value: fmtNum(o.online), sub: perRulesText(o.online_by_rules), iconName: "users", tone: "success", href: "#/live" }),
       kpi({ label: t("Games now"), value: fmtNum(o.matches_live), sub: tn(o.tables_open, "{n} open table", "{n} open tables"), iconName: "activity", tone: "info", href: "#/live" }),
       kpi({ label: t("In the queue"), value: fmtNum(m.queue.size), sub: tf("median wait {s} s", { s: fmtNum(m.queue.median_wait_secs) }), iconName: "queue" }),
       kpi({ label: t("Open reports"), value: fmtNum(o.stored.open_reports), sub: o.stored.open_reports ? t("waiting for review") : t("all caught up"), iconName: "flag", tone: o.stored.open_reports ? "danger" : "success", href: "#/reports" }),
       kpi({ label: t("Accounts"), value: fmtNum(o.stored.users), sub: tf("+{n} in 7 days", { n: fmtNum(o.stored.new_users_7d) }), iconName: "user", href: "#/players" }),
       kpi({ label: t("Active in 7 days"), value: fmtNum(o.stored.active_users_7d), sub: o.stored.users ? fmtPct(o.stored.active_users_7d * 100 / o.stored.users) + " " + t("of the accounts") : null, iconName: "activity", tone: "success", href: "#/metrics" }),
-      kpi({ label: t("Games in 24 h"), value: fmtNum(o.stored.matches_24h), sub: tf("{n} in all", { n: fmtNum(o.stored.matches_total) }), iconName: "trophy", href: "#/metrics" }),
+      kpi({ label: t("Games in 24 h"), value: fmtNum(o.stored.matches_24h), sub: perRulesText(o.stored.matches_24h_by_rules) + " · " + tf("{n} in all", { n: fmtNum(o.stored.matches_total) }), iconName: "trophy", href: "#/metrics" }),
       kpi({ label: t("Revenue in 30 days"), value: revenue.length ? money(revenue[0][1], revenue[0][0]) : "—", sub: revenue.length > 1 ? tf("and {n} other currencies", { n: revenue.length - 1 }) : revenue.length ? tn(revenue[0][2], "{n} payment", "{n} payments") : t("no payments"), iconName: "coins", tone: "warning", href: "#/economy" })),
     el("div", { class: "grid-aside section" },
       el("div", { class: "stack" },
@@ -1157,6 +1189,7 @@ PAGES.dashboard = async () => {
           healthRow(o.persistent, o.persistent ? t("Saved in the database") : t("Kept in memory only")),
           healthRow(!m.draining, m.draining ? t("Restarting: no new games") : t("Taking new games")),
           healthRow(true, tf("Up for {time}", { time: fmtDuration(o.uptime_secs) }), "v" + o.version),
+          healthRow(true, tn(o.addresses, "Players online from {n} address", "Players online from {n} addresses")),
           o.motd ? el("div", { class: "preview-box" }, el("span", { class: "faint" }, t("Welcome message")), o.motd) : null)))));
 };
 function alertBox(tone, title, text, action) {
@@ -1170,7 +1203,7 @@ function healthRow(ok, text, side, warnOnly) {
 // =================================================================== players
 
 const PLAYER_FILTERS = [["all", "All"], ["online", "Online"], ["staff", "Staff"], ["banned", "Banned"], ["muted", "Muted"], ["deleted", "Deleted"]];
-const PLAYER_SORTS = [["newest", "Newest accounts"], ["last_seen", "Seen most recently"], ["rating", "Highest rating"], ["name", "Name"]];
+const PLAYER_SORTS = [["newest", "Newest accounts"], ["last_seen", "Seen most recently"], ["rating-brazilian", "Highest rating, Brazilian rules"], ["rating-official", "Highest rating, official rules"], ["name", "Name"]];
 
 PAGES.players = async (route) => {
   if (route.parts.length) return playerPage(route.parts[0], route.parts[1] || "overview");
@@ -1188,24 +1221,29 @@ PAGES.players = async (route) => {
   sortSel.addEventListener("change", () => apply({ sort: sortSel.value }));
   const pages = Math.max(1, Math.ceil(d.total / d.per_page));
   const from = d.total ? pageNo * d.per_page + 1 : 0, to = Math.min(d.total, (pageNo + 1) * d.per_page);
-  const rows = d.users.map((u) => {
-    const winRate = u.games ? fmtPct(u.wins * 100 / u.games, 0) : "—";
-    return clickable(el("tr", { class: "click" },
-      el("td", {}, el("span", { class: "person" }, avatar(u.username), el("span", { class: "grid" }, el("b", { class: "name" }, u.username), userBadges(u, { online: false })))),
-      el("td", {}, country(u.country)),
-      el("td", { class: "num" }, el("b", {}, fmtNum(u.rating)), el("div", { class: "faint" }, tierLabel(u.tier))),
-      el("td", { class: "num" }, fmtNum(u.games), el("div", { class: "faint" }, tn(u.casual_games, "+{n} casual", "+{n} casual"))),
-      el("td", { class: "num" }, winRate),
-      el("td", {}, timeEl(u.created_at)),
-      el("td", {}, u.online ? badge(t("Online"), "success dot") : timeEl(u.last_seen))), () => go("players/" + encodeURIComponent(u.username)));
-  });
+  // A player's rating under one of the rules: the tier and the record
+  // under it (faint when they never played those rules rated).
+  const ratingCell = (u, r) => {
+    const x = recordOf(u, r);
+    return el("td", { class: "num rating-cell" + (x.games ? "" : " unplayed"), title: tf("{wins} wins · {rate}", { wins: fmtNum(x.wins), rate: winRate(x) }) },
+      el("b", {}, fmtNum(x.rating)),
+      el("div", { class: "faint" }, x.games ? tierLabel(x.tier) + " · " + tn(x.games, "{n} game", "{n} games") : t("not played yet")));
+  };
+  const rows = d.users.map((u) => clickable(el("tr", { class: "click" },
+    el("td", {}, el("span", { class: "person" }, avatar(u.username), el("span", { class: "person-name" }, el("b", { class: "name" }, u.username), userBadges(u, { online: false })))),
+    el("td", {}, country(u.country)),
+    ratingCell(u, "brazilian"),
+    ratingCell(u, "official"),
+    el("td", { class: "nowrap" }, timeEl(u.created_at)),
+    el("td", { class: "nowrap" }, u.online ? badge(t("Online"), "success dot") : timeEl(u.last_seen))), () => go("players/" + encodeURIComponent(u.username))));
+  const rulesHead = (r) => ({ label: el("span", { class: "th-rules" }, rulesMark(r), rulesShort(r)), cls: "num" });
   const goPage = (p) => { setQuery({ page: p }); render(); };
   return el("div", {},
     pageHead(t("Players"), tn(d.total, "{n} account", "{n} accounts")),
     el("div", { class: "toolbar" }, search,
       segmented(PLAYER_FILTERS.map(([v, l]) => [v, t(l)]), filter, (v) => apply({ filter: v }), t("Filter")), sortSel),
     card(null,
-      rows.length ? table([t("Player"), t("Country"), { label: t("Rating"), cls: "num" }, { label: t("Rated games"), cls: "num" }, { label: t("Wins"), cls: "num" }, t("Joined"), t("Last seen")], rows)
+      rows.length ? table([t("Player"), t("Country"), rulesHead("brazilian"), rulesHead("official"), t("Joined"), t("Last seen")], rows)
         : empty("users", t("No players found"), q ? t("Try another name, or another filter.") : t("Nobody matches this filter.")),
       d.total > d.per_page ? el("div", { class: "pager" },
         el("span", {}, tf("{from}–{to} of {total}", { from: fmtNum(from), to: fmtNum(to), total: fmtNum(d.total) })),
@@ -1269,7 +1307,7 @@ async function playerPage(name, tab) {
         el("h1", {}, u.username, userBadges(u)),
         el("div", { class: "facts" },
           el("span", {}, country(u.country)),
-          el("span", {}, icon("trophy"), fmtNum(u.rating) + " · " + tierLabel(u.tier)),
+          RULES.map((r) => el("span", { class: "fact-rating" }, rulesBadge(r), fmtNum(recordOf(u, r).rating) + " · " + tierLabel(recordOf(u, r).tier))),
           el("span", {}, icon("calendar"), tf("joined {when}", { when: fmtDateOnly(u.created_at) })),
           el("span", {}, icon("clock"), u.online ? t("online now") : tf("seen {when}", { when: ago(u.last_seen) })),
           el("span", { class: "faint" }, "ID " + u.id))),
@@ -1285,15 +1323,32 @@ async function playerPage(name, tab) {
  * payments): said so, instead of "none". */
 const adminOnly = () => el("span", { class: "faint" }, t("Visible to administrators only"));
 
+/** A player's standing under one of the rules: the rating and its tier,
+ * the peak, and the record. `now` marks the rules they play right now. */
+function rulesStanding(u, r, now) {
+  const x = recordOf(u, r);
+  return el("section", { class: "card rules-card " + r + (x.games ? "" : " unplayed") },
+    el("div", { class: "rc-head" },
+      el("span", { class: "rc-title" }, rulesMark(r), rulesName(r)),
+      now ? badge(t("Playing these now"), "success dot") : null),
+    el("div", { class: "rc-main" },
+      el("span", { class: "rc-rating" }, fmtNum(x.rating)),
+      el("span", { class: "rc-tier" }, tierLabel(x.tier)),
+      el("span", { class: "rc-peak faint" }, tf("peak {n}", { n: fmtNum(x.peak_rating) }))),
+    x.games ? el("div", { class: "rc-stats" },
+      el("span", {}, el("b", {}, fmtNum(x.games)), " ", tn(x.games, "rated game", "rated games")),
+      el("span", {}, el("b", {}, fmtNum(x.wins)), " ", tn(x.wins, "win", "wins")),
+      el("span", {}, el("b", {}, winRate(x, 1)), " ", t("won")))
+      : el("div", { class: "rc-stats faint" }, t("No rated game under these rules yet.")));
+}
+
 function playerOverview(d) {
   const u = d.user, c = d.career || {};
-  const winRate = u.games ? fmtPct(u.wins * 100 / u.games) : "—";
   const pot = c.shots ? fmtPct(c.potting_shots * 100 / c.shots) : "—";
   const presence = d.presence ? ({ available: t("In the lounge"), waiting: t("At a table, waiting"), playing: t("Playing") }[d.presence.status] || d.presence.status) : null;
   return el("div", { class: "stack" },
-    el("div", { class: "kpis cols-3" },
-      kpi({ label: t("Rating"), value: fmtNum(u.rating), sub: tf("peak {n}", { n: fmtNum(u.peak_rating) }) + " · " + tierLabel(u.tier), iconName: "trophy" }),
-      kpi({ label: t("Rated games"), value: fmtNum(u.games), sub: tf("{wins} wins · {rate}", { wins: fmtNum(u.wins), rate: winRate }), iconName: "activity", tone: "info" }),
+    el("div", { class: "grid-2" }, RULES.map((r) => rulesStanding(u, r, d.presence && d.presence.rules === r))),
+    el("div", { class: "kpis" },
       kpi({ label: t("Casual games"), value: fmtNum(u.casual_games), iconName: "users", tone: "success" }),
       kpi({ label: t("Potting"), value: pot, sub: c.best_run ? tf("best run {n}", { n: c.best_run }) : null, iconName: "target", tone: "warning" }),
       kpi({ label: t("Games left unfinished"), value: fmtNum(u.abandons), iconName: "kick", tone: u.abandons > 3 ? "danger" : "" }),
@@ -1307,7 +1362,7 @@ function playerOverview(d) {
         el("dt", {}, t("Payment e-mail")), el("dd", {}, d.payment_email || (d.private_hidden ? adminOnly() : el("span", { class: "faint" }, t("none")))),
         el("dt", {}, t("Created")), el("dd", {}, fmtDate(u.created_at)),
         el("dt", {}, t("Last seen")), el("dd", {}, u.online ? t("online now") : fmtDate(u.last_seen)),
-        presence ? el("dt", {}, t("Right now")) : null, presence ? el("dd", {}, presence, d.presence.protocol ? el("span", { class: "faint" }, " · " + tf("protocol {n}", { n: d.presence.protocol })) : null) : null,
+        presence ? el("dt", {}, t("Right now")) : null, presence ? el("dd", { class: "row" }, presence, rulesBadge(d.presence.rules, true)) : null,
         el("dt", {}, t("Status message")), el("dd", {}, u.status_message ? el("span", {}, el("i", {}, "“" + u.status_message + "” "), btn(t("Clear"), { kind: "sm", onClick: () => playerAction(u, "clear-status", {}, t("Status message cleared.")) })) : el("span", { class: "faint" }, t("none")))))),
       card(cardHead(t("Standing")), el("div", { class: "card-body stack" },
         el("div", { class: "health" },
@@ -1394,18 +1449,31 @@ function playerModeration(d) {
 
 function playerGames(d) {
   if (!d.history.length) return card(null, empty("trophy", t("No games yet"), t("Their online games show up here.")));
-  const rows = d.history.map((h) => el("tr", {},
+  const count = (r) => d.history.filter((h) => h.rules === r).length;
+  let only = "all";
+  const holder = el("div");
+  const filter = el("div");
+  const draw = () => {
+    setKids(filter, segmented([["all", t("All"), d.history.length], ...RULES.map((r) => [r, rulesShort(r), count(r)])], only, (v) => { only = v; draw(); }, t("Rules")));
+    const list = d.history.filter((h) => only === "all" || h.rules === only);
+    setKids(holder, list.length ? table([t("When"), t("Rules"), t("Opponent"), t("Result"), t("How it ended"), { label: t("Rating"), cls: "num" }, { label: t("After"), cls: "num" }, ""], list.map(gameRow))
+      : empty("trophy", t("No games under these rules"), null));
+  };
+  draw();
+  return card(cardHead(t("Latest games"), tn(d.history.length, "{n} game", "{n} games"), filter), holder);
+}
+function gameRow(h) {
+  return el("tr", {},
     el("td", {}, fmtDate(h.at)),
+    el("td", {}, rulesBadge(h.rules)),
     el("td", {}, personLink(h.opponent)),
     el("td", {}, h.won ? badge(t("Won"), "success") : badge(t("Lost"), "danger")),
     el("td", {}, gameEnd(h.reason)),
-    el("td", { class: "num" }, h.rated ? el("b", { class: h.delta > 0 ? "" : "" }, (h.delta > 0 ? "+" : "") + fmtNum(h.delta)) : badge(t("Casual"))),
+    el("td", { class: "num" }, h.rated ? el("b", { class: "delta" + (h.delta > 0 ? " up" : h.delta < 0 ? " down" : "") }, (h.delta > 0 ? "+" : "") + fmtNum(h.delta)) : badge(t("Casual"))),
     el("td", { class: "num" }, h.rated ? fmtNum(h.rating_after) : "—"),
     el("td", { class: "actions-cell" }, h.replay ? el("span", { class: "row" },
       btn(t("Watch"), { kind: "sm", icon: "play", onClick: () => openViewer("/replay/" + h.match_id + "/view") }),
-      btn(t("Download"), { kind: "sm ghost icon-only", icon: "download", iconOnly: true, onClick: () => downloadReplay(h.match_id) })) : el("span", { class: "faint" }, t("no replay")))));
-  return card(cardHead(t("Latest games"), tn(d.history.length, "{n} game", "{n} games")),
-    table([t("When"), t("Opponent"), t("Result"), t("How it ended"), { label: t("Rating"), cls: "num" }, { label: t("After"), cls: "num" }, ""], rows));
+      btn(t("Download"), { kind: "sm ghost icon-only", icon: "download", iconOnly: true, onClick: () => downloadReplay(h.match_id) })) : el("span", { class: "faint" }, t("no replay"))));
 }
 const GAME_ENDS = {
   pocketed_eight: "8-ball made", eight_pocketed_early: "8-ball made too early", eight_in_wrong_pocket: "8-ball in the wrong pocket",
@@ -1812,7 +1880,7 @@ function gameBlock(r) {
   const when = live ? (g.finished ? t("just ended") : t("in progress when reported")) : tf("ended {when}", { when: ago(g.at) });
   return el("div", { class: "game-attach" },
     el("div", { class: "gi" }, el("b", {}, (live ? t("Game in progress") : t("The game")) + ": " + g.players[0] + " × " + g.players[1]),
-      el("span", {}, [when, g.rated ? t("rated") : t("casual"), tn(g.shots, "{n} stroke", "{n} strokes")].join(" · "))),
+      el("span", { class: "row" }, rulesBadge(g.rules), [when, g.rated ? t("rated") : t("casual"), tn(g.shots, "{n} stroke", "{n} strokes")].join(" · "))),
     el("div", { class: "row" },
       btn(live ? t("Watch so far") : t("Watch"), { kind: "sm primary", icon: "play", onClick: () => openViewer(live ? "/live/" + g.id + "/view" : "/replay/" + g.id + "/view") }),
       live ? null : btn(t("Download"), { kind: "sm ghost icon-only", icon: "download", iconOnly: true, onClick: () => downloadReplay(g.id) })));
@@ -1834,13 +1902,14 @@ PAGES.live = async (route) => {
     const rows = () => {
       const s = filter.value.trim().toLowerCase();
       return d.players.filter((p) => !s || p.username.toLowerCase().includes(s)).map((p) => clickable(el("tr", { class: "click" },
-        el("td", {}, el("span", { class: "person" }, avatar(p.username), el("b", {}, p.username),
-          p.role && p.role !== "player" ? badge(roleLabel(p.role), p.role === "admin" ? "danger" : "info") : null, p.vip ? badge("VIP", "accent", "star") : null, p.guest ? badge(t("Guest")) : null)),
-        el("td", {}, badge({ available: t("In the lounge"), waiting: t("At a table"), playing: t("Playing") }[p.status] || p.status, p.status === "playing" ? "info" : p.status === "waiting" ? "warning" : "success")),
-        el("td", { class: "num" }, fmtNum(p.rating)), el("td", {}, country(p.country))), () => go("players/" + encodeURIComponent(p.username))));
+        el("td", {}, el("span", { class: "person" }, avatar(p.username), el("span", { class: "person-name" }, el("b", {}, p.username),
+          el("span", { class: "badges" }, p.role && p.role !== "player" ? badge(roleLabel(p.role), p.role === "admin" ? "danger" : "info", "shield") : null, p.vip ? badge("VIP", "accent", "star") : null, p.guest ? badge(t("Guest")) : null)))),
+        el("td", {}, doing(p)),
+        el("td", {}, rulesBadge(p.rules)),
+        el("td", { class: "num" }, p.guest ? el("span", { class: "faint" }, "—") : fmtNum(recordOf(p, p.rules).rating)), el("td", {}, country(p.country))), () => go("players/" + encodeURIComponent(p.username))));
     };
     const holder = el("div");
-    const draw = () => setKids(holder, d.players.length ? table([t("Player"), t("Doing"), { label: t("Rating"), cls: "num" }, t("Country")], rows()) : empty("users", t("Nobody online"), null));
+    const draw = () => setKids(holder, d.players.length ? table([t("Player"), t("Doing"), t("Rules"), { label: t("Rating"), cls: "num", }, t("Country")], rows()) : empty("users", t("Nobody online"), null));
     filter.addEventListener("input", () => { setQuery({ who: filter.value.trim() }); draw(); });
     draw();
     body = el("div", {}, el("div", { class: "toolbar" }, filter), card(null, holder));
@@ -1850,7 +1919,7 @@ PAGES.live = async (route) => {
     const rows = d.rooms.map((r) => el("tr", { class: r.finished ? "dim" : "" },
       el("td", { class: "mono faint" }, "#" + r.id),
       el("td", {}, el("span", { class: "row" }, personLink(r.players[0]), el("span", { class: "faint" }, "×"), personLink(r.players[1]))),
-      el("td", {}, el("span", { class: "badges" }, r.rated ? badge(t("Rated"), "accent") : badge(t("Casual")), r.tournament ? badge(t("Tournament"), "info", "trophy") : null)),
+      el("td", {}, el("span", { class: "badges" }, rulesBadge(r.rules), r.rated ? badge(t("Rated"), "accent") : badge(t("Casual")), r.tournament ? badge(t("Tournament"), "info", "trophy") : null)),
       el("td", { class: "num" }, fmtNum(r.shots)),
       el("td", {}, r.finished ? badge(t("Finished")) : badge(t("Playing"), "success dot")),
       el("td", { class: "actions-cell" }, btn(t("Watch"), { kind: "sm", icon: "eye", onClick: () => openViewer("/live/" + r.id + "/view") }))));
@@ -1859,13 +1928,23 @@ PAGES.live = async (route) => {
   return el("div", {},
     pageHead(t("Live"), t("What happens on the server right now · refreshes every 10 seconds"), updatedLabel(refreshPage, true)),
     el("div", { class: "kpis" },
-      kpi({ label: t("Online now"), value: fmtNum(s.online), sub: tn(s.addresses, "{n} address", "{n} addresses"), iconName: "users", tone: "success" }),
-      kpi({ label: t("Games now"), value: fmtNum(s.games), iconName: "activity", tone: "info" }),
+      kpi({ label: t("Online now"), value: fmtNum(s.online), sub: perRulesText(s.online_by_rules), iconName: "users", tone: "success" }),
+      kpi({ label: t("Games now"), value: fmtNum(s.games), sub: perRulesText(gamesByRules(playing)), iconName: "activity", tone: "info" }),
       kpi({ label: t("Open tables"), value: fmtNum(s.tables), iconName: "table" }),
       kpi({ label: t("In the queue"), value: fmtNum(s.queue), iconName: "queue", tone: "warning" }),
       kpi({ label: t("Tournaments"), value: fmtNum(s.tournaments), iconName: "trophy" })),
     el("div", { class: "section" }, tabs, body));
 };
+
+/** What a player online is doing, as a badge. */
+function doing(p) {
+  if (p.status === "available" && p.searching) return badge(t("Looking for a game"), "warning", "search");
+  if (p.status === "available" && p.vs_computer) return badge(t("Against the computer"), "info", "target");
+  if (p.status === "available" && p.away) return badge(t("Away"), "", "clock");
+  return badge({ available: t("In the lounge"), waiting: t("At a table"), playing: t("Playing") }[p.status] || p.status, p.status === "playing" ? "info" : p.status === "waiting" ? "warning" : "success");
+}
+/** The games of a list under each of the rules. */
+const gamesByRules = (rooms) => ({ brazilian: rooms.filter((r) => r.rules !== "official").length, official: rooms.filter((r) => r.rules === "official").length });
 
 function tournamentCard(tm) {
   const state = { registering: [t("Signing up"), "warning"], running: [t("Running"), "success"], finished: [t("Finished"), ""] }[tm.state] || [tm.state, ""];
@@ -1878,12 +1957,12 @@ function tournamentCard(tm) {
     round.map((m) => el("div", { class: "match" + (m.live ? " live" : "") }, [0, 1].map((s) => el("div", { class: m.winner === s ? "won" : "" }, el("span", { class: "ellipsis" }, m.players[s] || "—"), m.winner === s ? icon("check") : null))))))) : null;
   const standings = tm.standings && tm.standings.length ? barList(tm.standings.slice(0, 10).map((s) => ({ label: el("span", { class: "ellipsis" }, s.username || s[0]), value: s.points ?? s[1] ?? 0 })), { tone: "success" }) : null;
   return card(el("div", { class: "card-head" },
-    el("div", {}, el("h3", { class: "row" }, tm.name, badge(state[0], state[1]), badge(tm.format === "arena" ? t("Arena") : t("Knockout"), "info"), tm.rated ? badge(t("Rated"), "accent") : null, tm.private ? badge(t("Private"), "", "lock") : null),
+    el("div", {}, el("h3", { class: "row" }, tm.name, badge(state[0], state[1]), rulesBadge(tm.rules), badge(tm.format === "arena" ? t("Arena") : t("Knockout"), "info"), tm.rated ? badge(t("Rated"), "accent") : null, tm.private ? badge(t("Private"), "", "lock") : null),
       el("div", { class: "sub" }, [tm.host ? tf("by {name}", { name: tm.host }) : t("organised by the server"), tf("{n} of {size} players", { n: tm.players.length, size: tm.size }),
         tm.entry_fee ? tf("entry {n} coins", { n: fmtNum(tm.entry_fee) }) : t("free entry"), tm.starts_at ? tf("starts {when}", { when: ago(tm.starts_at) }) : null].filter(Boolean).join(" · "))),
     cancel),
   el("div", { class: "card-body stack" },
-    tm.players.length ? el("div", { class: "item-chips" }, tm.players.map((p) => el("a", { class: "item-chip plain", href: "#/players/" + encodeURIComponent(p.username) }, p.username, el("span", { class: "faint" }, fmtNum(p.rating))))) : el("p", { class: "faint" }, t("Nobody has signed up yet.")),
+    tm.players.length ? el("div", { class: "item-chips" }, tm.players.map((p) => el("a", { class: "item-chip plain", href: "#/players/" + encodeURIComponent(p.username) }, p.username, el("span", { class: "faint" }, fmtNum(recordOf(p, tm.rules).rating))))) : el("p", { class: "faint" }, t("Nobody has signed up yet.")),
     tm.champion ? alertBox("success", tf("Champion: {name}", { name: tm.champion })) : null,
     bracket, standings));
 }
@@ -1941,18 +2020,18 @@ PAGES.fairplay = async () => {
   const d = await api("/aim");
   const rows = d.flagged.map((r) => clickable(el("tr", { class: "click" },
     el("td", {}, personLink(r.username)),
-    el("td", {}, fmtNum(r.rating), el("div", { class: "faint" }, tierLabel(r.tier))),
+    el("td", { class: "num" }, fmtNum(r.rating), el("div", { class: "faint" }, tierLabel(r.tier))),
     el("td", { class: "num" }, tf("{made} of {attempts}", { made: fmtNum(r.made), attempts: fmtNum(r.attempts) })),
     el("td", { class: "num" }, el("b", {}, fmtPct(r.rate * 100, 0))),
     el("td", { class: "num" }, fmtPct(r.tier_mean * 100, 0), el("div", { class: "faint" }, tn(r.tier_players, "{n} player", "{n} players"))),
     el("td", { class: "num" }, badge("+" + r.z.toFixed(1) + "σ", r.z >= 5 ? "danger" : "warning"))), () => go("players/" + encodeURIComponent(r.username))));
   return el("div", {},
     pageHead(t("Fair play"), t("Players who make far more hard shots than their tier")),
-    alertBox("info", t("How it works"), tf("Hard shots are cuts of 45° or more over 1.5 m. Only players with {n} or more of them are compared, each with the players of their tier. Nobody is punished by this list: open the player, watch their games, and decide.", { n: d.min_attempts })),
+    alertBox("info", t("How it works"), tf("Hard shots are cuts of 45° or more over 1.5 m, under either of the rules. Only players with {n} or more of them are compared, each with the players of their tier (by the higher of their two ratings). Nobody is punished by this list: open the player, watch their games, and decide.", { n: d.min_attempts })),
     el("div", { class: "kpis section" },
       kpi({ label: t("Players compared"), value: fmtNum(d.players), iconName: "users" }),
       kpi({ label: t("Standing out"), value: fmtNum(d.flagged.length), iconName: "target", tone: d.flagged.length ? "danger" : "success" })),
-    el("div", { class: "section" }, card(null, rows.length ? table([t("Player"), t("Rating"), { label: t("Hard shots made"), cls: "num" }, { label: t("Rate"), cls: "num" }, { label: t("Tier average"), cls: "num" }, { label: t("Above the tier"), cls: "num" }], rows)
+    el("div", { class: "section" }, card(null, rows.length ? table([t("Player"), { label: t("Higher rating"), cls: "num" }, { label: t("Hard shots made"), cls: "num" }, { label: t("Rate"), cls: "num" }, { label: t("Tier average"), cls: "num" }, { label: t("Above the tier"), cls: "num" }], rows)
       : empty("checkCircle", t("Nobody stands out"), t("No player's hard shots are out of line with their tier.")))));
 };
 
@@ -2059,7 +2138,7 @@ const EVENT_STATUS = { live: ["Running", "success dot"], scheduled: ["Scheduled"
 /** What an event does, in a line. */
 function eventWhat(e) {
   if (e.kind === "tournament") {
-    return [e.format === "arena" ? tf("Arena · {time}", { time: fmtMinutes(Math.round((e.ends_at - e.starts_at) / 60)) }) : tf("Knockout · {n} seats", { n: e.size }),
+    return [rulesName(e.rules), e.format === "arena" ? tf("Arena · {time}", { time: fmtMinutes(Math.round((e.ends_at - e.starts_at) / 60)) }) : tf("Knockout · {n} seats", { n: e.size }),
       e.rated ? t("rated") : t("casual"), e.entry_fee ? tf("entry {n} coins", { n: fmtNum(e.entry_fee) }) : t("free entry"),
       e.prize ? tf("the house adds {n} coins", { n: fmtNum(e.prize) }) : null].filter(Boolean).join(" · ");
   }
@@ -2145,7 +2224,7 @@ function nextAt(weekday, hour, minute, from = new Date()) {
 }
 
 function eventDialog(limits) {
-  let kind = "xp", mult = 2, format = "arena", size = 8;
+  let kind = "xp", mult = 2, format = "arena", size = 8, rules = "brazilian";
   // A field's name: a real label for an input. A row of buttons is named
   // where it is built (segmented's label, the chips' aria-label).
   const field = (label, input, hint) => {
@@ -2153,7 +2232,7 @@ function eventDialog(limits) {
     if (control && !input.id) input.id = newId("event");
     return el("div", { class: "field" }, el(control ? "label" : "div", { class: "label", for: control ? input.id : null }, label), input, hint ? el("div", { class: "hint" }, hint) : null);
   };
-  const kindBox = el("div"), multBox = el("div"), formatBox = el("div"), sizeBox = el("div");
+  const kindBox = el("div"), multBox = el("div"), formatBox = el("div"), sizeBox = el("div"), rulesBox = el("div");
   const title = el("input", { class: "input", id: newId("event"), placeholder: t("Double XP weekend"), "aria-label": t("Title") });
   const titleName = el("span", {}, t("Title"));
   const count = el("span", { class: "counter" });
@@ -2166,7 +2245,7 @@ function eventDialog(limits) {
   const prize = el("input", { class: "input", type: "number", min: "0", max: String(limits.max_prize), value: "0", step: "100" });
   const sizeField = field(t("Seats"), sizeBox);
   const boostFields = el("div", { class: "stack" }, field(t("Multiplier"), multBox, t("Boosts don't add up: the largest one running counts.")));
-  const tourFields = el("div", { class: "stack" }, field(t("Format"), formatBox), sizeField,
+  const tourFields = el("div", { class: "stack" }, field(t("Rules"), rulesBox, t("Every game of the tournament is played under these rules; a rated one counts for their rating.")), field(t("Format"), formatBox), sizeField,
     el("label", { class: "check" }, rated, t("Rated")),
     el("div", { class: "grid-2" }, field(t("Entry fee (coins)"), fee), field(t("Prize from the house (coins)"), prize)),
     el("div", { class: "hint" }, t("The house's prize goes 70% to the champion and 30% to the runner-up, on top of the entry fees. The tournament opens for sign-up two hours before it starts, in Tournaments.")));
@@ -2188,6 +2267,7 @@ function eventDialog(limits) {
   function draw() {
     refill(kindBox, segmented([["xp", t("Experience")], ["coins", t("Coins from games")], ["tournament", t("Themed tournament")]], kind, (v) => { kind = v; presetDefaults(); draw(); }, t("Kind of event")));
     refill(multBox, segmented([[2, "×2"], [3, "×3"]].slice(0, limits.max_multiplier - 1), mult, (v) => { mult = v; draw(); }, t("Multiplier")));
+    refill(rulesBox, segmented(RULES.map((r) => [r, rulesName(r)]), rules, (v) => { rules = v; draw(); }, t("Rules")));
     refill(formatBox, segmented([["arena", t("Arena")], ["knockout", t("Knockout")]], format, (v) => { format = v; presetDefaults(true); draw(); }, t("Format")));
     refill(sizeBox, segmented(limits.knockout_sizes.map((n) => [n, String(n)]), size, (v) => { size = v; draw(); }, t("Seats")));
     boostFields.classList.toggle("hidden", kind === "tournament");
@@ -2196,7 +2276,7 @@ function eventDialog(limits) {
     count.textContent = fmtNum([...title.value].length) + " / " + fmtNum(limits.max_title);
     count.classList.toggle("over", [...title.value].length > limits.max_title);
     const a = fromLocalInput(starts.value), b = fromLocalInput(ends.value);
-    const e = { kind, title: title.value || title.placeholder, multiplier: mult, format, size, rated: rated.checked, entry_fee: Number(fee.value) || 0, prize: Number(prize.value) || 0, starts_at: a, ends_at: b };
+    const e = { kind, title: title.value || title.placeholder, multiplier: mult, format, size, rules, rated: rated.checked, entry_fee: Number(fee.value) || 0, prize: Number(prize.value) || 0, starts_at: a, ends_at: b };
     setKids(summary, el("span", { class: "faint" }, t("Players see")),
       el("b", {}, e.title), el("div", {}, eventWhat(e)),
       a && b && b > a ? el("div", { class: "muted" }, tf("{from} → {to} ({length})", { from: fmtDate(a), to: fmtDate(b), length: fmtDuration(b - a) })) : null);
@@ -2264,7 +2344,7 @@ function eventDialog(limits) {
           if (where) where.focus();
           return;
         }
-        const body = { kind, title: title.value.trim(), multiplier: mult, starts_at: a, ends_at: b, format, size, rated: rated.checked, entry_fee: tour ? entryFee : 0, prize: tour ? housePrize : 0 };
+        const body = { kind, title: title.value.trim(), multiplier: mult, starts_at: a, ends_at: b, format, size, rules, rated: rated.checked, entry_fee: tour ? entryFee : 0, prize: tour ? housePrize : 0 };
         const label = button.textContent;
         button.disabled = true;
         setKids(button, el("span", { class: "spinner" }), label);
@@ -2412,9 +2492,9 @@ PAGES.metrics = async () => {
     pageHead(t("Metrics"), t("How many play, how long they stay, what they pay · refreshes every minute"), updatedLabel(refreshPage)),
     d.draining ? alertBox("warning", t("The server is restarting"), t("No new games start; the games in progress move to the next server.")) : null,
     el("div", { class: "kpis" },
-      kpi({ label: t("Online now"), value: fmtNum(d.online), iconName: "users", tone: "success" }),
+      kpi({ label: t("Online now"), value: fmtNum(d.online), sub: perRulesText(d.online_by_rules), iconName: "users", tone: "success" }),
       kpi({ label: t("Games now"), value: fmtNum(d.games), iconName: "activity", tone: "info" }),
-      kpi({ label: t("In the queue"), value: fmtNum(q.size), sub: q.size ? tf("longest {s} s", { s: fmtNum(q.waiting.reduce((a, w) => Math.max(a, w.secs), 0)) }) : t("nobody waiting"), iconName: "queue" }),
+      kpi({ label: t("In the queue"), value: fmtNum(q.size), sub: q.size ? perRulesText(gamesByRules(q.waiting)) + " · " + tf("longest {s} s", { s: fmtNum(q.waiting.reduce((a, w) => Math.max(a, w.secs), 0)) }) : t("nobody waiting"), iconName: "queue" }),
       kpi({ label: t("Median wait"), value: tf("{s} s", { s: fmtNum(q.median_wait_secs) }), sub: tf("average {s} s · {n} pairings", { s: fmtNum(Math.round(q.avg_wait_secs)), n: fmtNum(q.pairs) }), iconName: "clock" }),
       kpi({ label: t("Back the next day"), value: fmtPct(m.retention_d1), iconName: "undo", tone: "success" }),
       kpi({ label: t("Back after 7 days"), value: fmtPct(m.retention_d7), iconName: "undo", tone: "success" }),
@@ -2510,21 +2590,22 @@ const WEEKDAYS = (d) => new Intl.DateTimeFormat(lang, { weekday: "long", timeZon
 PAGES.system = async () => {
   const [s, staffList] = await Promise.all([api("/system"), api("/users?filter=staff&sort=name")]);
   every(30000, () => refreshIf("system"));
-  const r = s.rules;
+  const r = s.settings;
   const kv = (rows) => el("dl", { class: "kv" }, rows.filter(Boolean).map(([k, v]) => [el("dt", {}, k), el("dd", {}, v)]));
   const cup = r.cup ? kv([
     [t("Name"), r.cup.name],
     [t("When"), tf("{day} at {time} (UTC{offset})", { day: WEEKDAYS(r.cup.weekday), time: String(r.cup.hour).padStart(2, "0") + ":" + String(r.cup.minute).padStart(2, "0"), offset: (r.cup.utc_offset >= 0 ? "+" : "−") + Math.abs(r.cup.utc_offset / 60) })],
     [t("Lasts"), fmtMinutes(r.cup.minutes)],
     [t("Entry"), r.cup.entry_fee ? tf("{n} coins", { n: fmtNum(r.cup.entry_fee) }) : t("free")],
+    [t("Rules"), rulesBadge(r.cup.rules, true)],
   ]) : el("p", { class: "faint" }, t("No weekly cup is set up (SNOOK_LEGEND_CUP)."));
   return el("div", { class: "stack" },
     pageHead(t("Server"), t("What runs, how it is set up, how busy it is"), updatedLabel(refreshPage)),
     el("div", { class: "kpis" },
-      kpi({ label: t("Version"), value: s.version, sub: tf("protocol {p} · rules {r}", { p: s.protocol, r: s.ruleset }), iconName: "server" }),
+      kpi({ label: t("Version"), value: s.version, sub: tf("protocol {p}", { p: s.protocol }), iconName: "server" }),
       kpi({ label: t("Up for"), value: fmtDuration(s.uptime_secs), sub: tf("since {when}", { when: fmtDate(s.now - s.uptime_secs) }), iconName: "clock", tone: "success" }),
       kpi({ label: t("Memory"), value: fmtBytes(s.memory_bytes), iconName: "memory", tone: "info" }),
-      kpi({ label: t("Connections"), value: fmtNum(s.online), sub: tn(s.addresses, "{n} address", "{n} addresses"), iconName: "plug" }),
+      kpi({ label: t("Connections"), value: fmtNum(s.online), sub: tn(s.addresses, "{n} address", "{n} addresses") + " · " + perRulesText(s.online_by_rules), iconName: "plug" }),
       kpi({ label: t("Games now"), value: fmtNum(s.games), sub: tn(s.tables, "{n} open table", "{n} open tables"), iconName: "activity", tone: "warning" }),
       kpi({ label: t("Writes waiting"), value: fmtNum(s.pending_writes), sub: t("results, saves and payments on their way to the database"), iconName: "queue", tone: s.pending_writes > 50 ? "danger" : "" })),
     el("div", { class: "grid-2" },
@@ -2536,7 +2617,7 @@ PAGES.system = async () => {
         healthRow(s.msstore, s.msstore ? t("Microsoft Store purchases are on") : t("Microsoft Store purchases are off"), null, true),
         healthRow(s.pending_writes <= 50, tn(s.pending_writes, "{n} write waiting", "{n} writes waiting"), null, true),
         healthRow(true, tf("Only version {p} of the game is let in", { p: s.oldest_protocol === s.protocol ? s.protocol : s.oldest_protocol + "–" + s.protocol })))),
-      card(cardHead(t("Rules of this server")), el("div", { class: "card-body" }, kv([
+      card(cardHead(t("Server settings")), el("div", { class: "card-body" }, kv([
         [t("Shot clock"), tf("{s} s", { s: r.shot_clock_secs })],
         [t("Time to come back after a drop"), tf("{s} s", { s: r.reconnect_grace_secs })],
         [t("Lounge chat kept"), tn(r.chat_history, "{n} line", "{n} lines")],
@@ -2578,6 +2659,8 @@ function foulText(f) {
   if (m) return tf("Wrong ball hit first ({id})", { id: m[1] });
   m = String(f).match(/^The (.+) left the table$/);
   if (m) return tf("The {id} left the table", { id: m[1] });
+  m = String(f).match(/^The (.+) behind the head string was hit without crossing it first$/);
+  if (m) return tf("The {id} behind the head string was hit without crossing it first", { id: m[1] });
   return t(f);
 }
 
@@ -2621,11 +2704,29 @@ async function openViewer(path, fallback) {
   buildViewer(card, data);
 }
 
+/** A player's answer after some breaks of the official rules. */
+const CHOICES = {
+  play_on: "chose to play on", cue_ball_in_hand: "chose the cue ball in hand behind the head string",
+  break_again: "chose to break again", opponent_breaks: "chose to have the other player break",
+};
+/** What a break left to decide (the official rules, 4.3). */
+function breakChoiceText(c) {
+  const k = typeof c === "string" ? c : Object.keys(c || {})[0];
+  return {
+    illegal_break: t("Illegal break: the other player chooses how the game goes on"),
+    eight_on_break: t("The 8 on the break: it is spotted, and the breaker chooses how the game goes on"),
+    eight_on_foul_break: t("The 8 on a foul break: it is spotted, and the other player chooses how the game goes on"),
+    ball_off_on_break: t("A ball off the table on the break: the other player chooses how the game goes on"),
+  }[k] || k;
+}
+const isFoulStroke = (s) => s.kind === "resign" || s.kind === "abandon" || s.kind === "time_foul" || (s.kind === "shot" && s.fouls.length > 0);
+
 function strokeSummary(s, names) {
   const who = names[s.seat] || tf("Player {n}", { n: s.seat + 1 });
   if (s.kind === "resign") return [who, t("resigned")];
   if (s.kind === "abandon") return [who, t("left the game")];
   if (s.kind === "time_foul") return [who, t("ran out of time")];
+  if (s.kind === "choice") return [who, t(CHOICES[s.option] || String(s.option))];
   const made = s.pocketed.filter((p) => p.ball !== 0).map((p) => p.ball);
   const parts = [];
   if (s.break) parts.push(t("break"));
@@ -2633,12 +2734,18 @@ function strokeSummary(s, names) {
   if (s.fouls.length) parts.push(t("foul"));
   return [who, parts.join(" · ")];
 }
-function strokeDetails(s) {
+function strokeDetails(s, rules) {
   if (s.kind !== "shot") return [];
   const out = [];
+  // The official rules call every shot but the break (no call: a safety);
+  // the Brazilian rules call only the 8.
+  if (rules === "official" && !s.break) out.push(s.called ? tf("Called {pocket}", { pocket: pocketName(s.called) }) : t("No call: a safety"));
+  else if (s.called) out.push(tf("8-ball called in {pocket}", { pocket: pocketName(s.called) }));
   for (const p of s.pocketed) out.push(p.ball === 0 ? tf("The cue ball in {pocket}", { pocket: pocketName(p.pocket) }) : tf("The {n} in {pocket}", { n: p.ball, pocket: pocketName(p.pocket) }));
   for (const f of s.fouls) out.push(tf("Foul: {foul}", { foul: foulText(f) }));
-  if (s.called) out.push(tf("8-ball called in {pocket}", { pocket: pocketName(s.called) }));
+  if (s.penalty && s.penalty.length) out.push(tf("Penalty: {balls} off the table", { balls: s.penalty.join(", ") }));
+  if (s.break_again) out.push(t("The break is played again"));
+  if (s.choice) out.push(breakChoiceText(s.choice));
   if (s.in_hand) out.push(t("ball in hand"));
   if (s.timeout) out.push(t("played by the shot clock"));
   out.push(tf("power {n}%", { n: s.power }));
@@ -2702,8 +2809,7 @@ function buildViewer(card, data) {
   speed.addEventListener("change", () => { st.speed = Number(speed.value); });
   const list = el("ol", { class: "stroke-list" }, strokes.map((s, k) => {
     const [who, what] = strokeSummary(s, names);
-    const foul = s.kind !== "shot" || s.fouls.length > 0;
-    return clickable(el("li", { class: foul ? "foul" : "" }, el("span", { class: "n" }, k + 1), el("span", { class: "who seat" + s.seat }, who), el("span", { class: "what" }, what)),
+    return clickable(el("li", { class: isFoulStroke(s) ? "foul" : "" }, el("span", { class: "n" }, k + 1), el("span", { class: "who seat" + s.seat }, who), el("span", { class: "what" }, what)),
       () => { pause(); seek(k, 0); });
   }));
   const draw = () => {
@@ -2721,7 +2827,7 @@ function buildViewer(card, data) {
     const s = strokes[st.k];
     if (s) {
       const [who, what] = strokeSummary(s, names);
-      setKids(status, el("b", {}, tf("Stroke {n} of {total}", { n: st.k + 1, total: strokes.length })), " · ", who, " · ", what, el("div", { class: "muted details" }, strokeDetails(s).join(" · ")));
+      setKids(status, el("b", {}, tf("Stroke {n} of {total}", { n: st.k + 1, total: strokes.length })), " · ", who, " · ", what, el("div", { class: "muted details" }, strokeDetails(s, data.rules).join(" · ")));
     } else {
       setKids(status, el("b", {}, t("End of the game")), " · ", over());
     }
@@ -2787,7 +2893,7 @@ function buildViewer(card, data) {
   setKids(card, 
     el("div", { class: "viewer-head" },
       el("div", { class: "viewer-title" }, el("b", {}, names[0] + " × " + names[1]),
-        el("span", { class: "muted" }, [m.live ? t("in progress") : m.rated ? t("rated") : t("casual"), m.live ? t("so far") : fmtDate(m.at), m.id ? "#" + m.id : null].filter(Boolean).join(" · "))),
+        el("span", { class: "muted row" }, rulesBadge(data.rules, true), [m.live ? t("in progress") : m.rated ? t("rated") : t("casual"), m.live ? t("so far") : fmtDate(m.at), m.id ? "#" + m.id : null].filter(Boolean).join(" · "))),
       el("div", { class: "row" }, m.id && !m.live ? btn(t("Download"), { kind: "sm ghost", icon: "download", onClick: () => downloadReplay(m.id) }) : null, close)),
     el("div", { class: "viewer-body" },
       el("div", { class: "viewer-stage" }, board, scrub, el("div", { class: "viewer-controls" }, prev, back, play, fwd, next, speed), status),

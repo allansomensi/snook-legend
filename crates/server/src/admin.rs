@@ -324,8 +324,8 @@ async fn replay(
         .ok_or_else(|| err(StatusCode::NOT_FOUND, "No replay for that match."))?;
     Ok(Json(json!({
         "id": r.id, "players": r.players, "ratings": r.ratings, "winner": r.winner,
-        "rated": r.rated, "at": r.at, "seed": r.replay.seed, "breaker": r.replay.breaker,
-        "strokes": r.replay.strokes,
+        "rated": r.rated, "rules": r.replay.rules, "at": r.at, "seed": r.replay.seed,
+        "breaker": r.replay.breaker, "strokes": r.replay.strokes,
     })))
 }
 
@@ -457,6 +457,7 @@ async fn overview(State(server): State<Arc<Server>>, headers: HeaderMap) -> ApiR
         "stored": o,
         "online": live.players.len(),
         "addresses": server.with(|l| l.distinct_addresses()),
+        "online_by_rules": server.with(|l| l.online_by_rules()),
         "matches_live": live.rooms.iter().filter(|r| !r.finished).count(),
         "tables_open": live.tables,
         "tournaments": live.tournaments.len(),
@@ -525,7 +526,9 @@ async fn users(
         match search.sort {
             UserSort::Newest => all.sort_by_key(|u| std::cmp::Reverse(u.id)),
             UserSort::Name => all.sort_by_key(|u| u.username.to_lowercase()),
-            UserSort::Rating => all.sort_by_key(|u| std::cmp::Reverse(u.best_rating())),
+            UserSort::Rating(rules) => {
+                all.sort_by_key(|u| std::cmp::Reverse(u.records.get(rules).rating))
+            }
             UserSort::LastSeen => all.sort_by_key(|u| std::cmp::Reverse(u.last_seen)),
         }
         let total = all.len() as i64;
@@ -580,7 +583,7 @@ async fn user_detail(
         .map(|h| {
             json!({
                 "opponent": h.opponent, "won": h.won, "reason": h.reason, "rated": h.rated,
-                "delta": h.delta, "rating_after": h.rating_after, "at": h.at,
+                "rules": h.rules, "delta": h.delta, "rating_after": h.rating_after, "at": h.at,
                 "match_id": h.match_id, "replay": h.replay,
             })
         })

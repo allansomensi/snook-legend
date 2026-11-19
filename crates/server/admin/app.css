@@ -183,6 +183,13 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .badge.info { background: var(--info-soft); color: var(--info); }
 .badge.accent { background: var(--accent-soft); color: var(--accent); }
 .badges { display: inline-flex; gap: 5px; flex-wrap: wrap; vertical-align: middle; }
+/* The rules a game is played under: green for the Brazilian rules (with
+   Brazil's flag), blue for the official rules (with a globe), as in the game. */
+.badge.rules.brazilian { background: var(--success-soft); color: var(--success); }
+.badge.rules.official { background: var(--info-soft); color: var(--info); }
+.rules-mark.flag { font-size: 12px; line-height: 1; }
+.rules-mark.icon { color: var(--info); }
+.badge .rules-mark.icon { color: inherit; }
 
 /* ------------------------------------------------------------ login */
 .login { min-height: 100vh; display: grid; place-items: center; padding: 24px 16px; background:
@@ -350,6 +357,18 @@ table.data .dim td { opacity: .55; }
 
 .person { display: inline-flex; align-items: center; gap: 9px; min-width: 0; }
 .person .name { font-weight: 600; color: var(--text); }
+/* A name and the badges after it: apart, wrapping under it when narrow. */
+.person-name { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; min-width: 0; }
+.rating-pair { display: inline-flex; gap: 12px; font-variant-numeric: tabular-nums; }
+.rating-pair .rp { display: inline-flex; align-items: center; gap: 5px; }
+.rating-pair .rp .icon { width: 13px; height: 13px; }
+.rating-pair .rp.unplayed { color: var(--text-3); }
+td.unplayed b { color: var(--text-3); font-weight: 600; }
+.rating-cell .faint { white-space: nowrap; }
+.delta.up { color: var(--success); }
+.delta.down { color: var(--danger); }
+.th-rules { display: inline-flex; align-items: center; gap: 6px; }
+.th-rules .icon { width: 13px; height: 13px; }
 .person a.name:hover { color: var(--accent); text-decoration: none; }
 .avatar {
   width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; flex: none;
@@ -449,6 +468,21 @@ table.data .dim td { opacity: .55; }
 .profile-head .facts { display: flex; gap: 14px; flex-wrap: wrap; color: var(--text-2); font-size: 13px; }
 .profile-head .facts span { display: inline-flex; gap: 6px; align-items: center; }
 .profile-head .facts .icon { width: 14px; height: 14px; color: var(--text-3); }
+.profile-head .facts .rules-mark.icon { color: var(--info); }
+
+/* A player's standing under one of the rules (their profile). */
+.rules-card { padding: 16px 18px; display: grid; gap: 10px; border-left: 3px solid var(--success); }
+.rules-card.official { border-left-color: var(--info); }
+.rules-card .rc-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; min-height: 22px; }
+.rules-card .rc-title { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 650; color: var(--text-2); }
+.rules-card .rc-title .icon { width: 16px; height: 16px; }
+.rules-card .rc-main { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.rules-card .rc-rating { font-size: 30px; font-weight: 750; letter-spacing: -.02em; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.rules-card .rc-tier { font-weight: 650; color: var(--accent); }
+.rules-card .rc-peak { margin-left: auto; font-size: 12px; }
+.rules-card .rc-stats { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: var(--text-2); }
+.rules-card .rc-stats b { color: var(--text); font-variant-numeric: tabular-nums; }
+.rules-card.unplayed .rc-rating { color: var(--text-3); }
 .action-bar { display: flex; gap: 8px; flex-wrap: wrap; }
 .sanction { display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
 

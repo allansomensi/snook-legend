@@ -44,7 +44,7 @@ pub async fn game_json(server: &Server, r: &mut ReportRow) -> Value {
             let replay: &snook_legend_proto::replay::Replay = replay;
             json!({
                 "kind": "live", "id": live, "players": players, "rated": rated,
-                "finished": finished, "shots": replay.strokes.len(),
+                "rules": replay.rules, "finished": finished, "shots": replay.strokes.len(),
             })
         };
         if let Some(room) = room.as_ref().filter(|r| !r.2) {
@@ -81,8 +81,8 @@ pub async fn game_json(server: &Server, r: &mut ReportRow) -> Value {
     let Some(id) = r.match_id else { return Value::Null };
     match server.store.replay(id).await {
         Ok(Some(m)) => json!({
-            "kind": "match", "id": id, "players": m.players, "rated": m.rated, "at": m.at,
-            "winner": m.winner, "shots": m.replay.strokes.len(),
+            "kind": "match", "id": id, "players": m.players, "rated": m.rated,
+            "rules": m.replay.rules, "at": m.at, "winner": m.winner, "shots": m.replay.strokes.len(),
         }),
         _ => json!({ "kind": "gone", "id": id }),
     }

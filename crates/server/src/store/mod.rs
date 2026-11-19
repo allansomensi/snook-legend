@@ -133,11 +133,6 @@ impl User {
         self.records.iter().map(|(_, r)| r.games).sum()
     }
 
-    /// The higher of their ratings (staff lists sort by it).
-    pub fn best_rating(&self) -> i32 {
-        self.records.brazilian.rating.max(self.records.official.rating)
-    }
-
     pub fn is_banned(&self, now: i64) -> bool {
         self.banned_until.is_some_and(|t| t > now)
     }
@@ -734,8 +729,8 @@ pub enum UserSort {
     #[default]
     Newest,
     Name,
-    /// Highest rating first.
-    Rating,
+    /// Highest rating under these rules first.
+    Rating(Rules),
     /// Seen most recently first.
     LastSeen,
 }
@@ -744,9 +739,11 @@ impl UserSort {
     pub fn from_code(code: &str) -> UserSort {
         match code {
             "name" => UserSort::Name,
-            "rating" => UserSort::Rating,
             "last_seen" => UserSort::LastSeen,
-            _ => UserSort::Newest,
+            _ => match code.strip_prefix("rating-").and_then(Rules::parse) {
+                Some(rules) => UserSort::Rating(rules),
+                None => UserSort::Newest,
+            },
         }
     }
 }
@@ -918,6 +915,8 @@ pub struct Overview {
     pub active_users_7d: i64,
     pub matches_total: i64,
     pub matches_24h: i64,
+    /// The games of the last 24 hours under each of the rules.
+    pub matches_24h_by_rules: PerRules<i64>,
     pub open_reports: i64,
     pub banned: i64,
 }

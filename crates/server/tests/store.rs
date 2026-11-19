@@ -6,7 +6,7 @@
 use snook_legend_core::stats::ShotStats;
 use snook_legend_core::{GameOverReason, Shot};
 use snook_legend_proto::replay::{Replay, Stroke};
-use snook_legend_proto::{Role, Rules};
+use snook_legend_proto::{PerRules, Role, Rules};
 use snook_legend_server::store::{
     AuditSearch, BuyOutcome, FriendOutcome, FriendState, LiveMatch, MatchRecord, NewNote,
     NewReport, NewUser, Payment, Rename, SessionKind, Store, TournamentRecord, User, UserFilter,
@@ -379,6 +379,7 @@ async fn exercise(store: Store) {
     assert_eq!((all.len(), total), (1, 2));
     let o = store.overview(t).await.unwrap();
     assert_eq!((o.users, o.matches_total), (2, 3));
+    assert_eq!(o.matches_24h_by_rules, PerRules::new(2, 1));
 
     store
         .record_tournament(&TournamentRecord {
@@ -664,9 +665,38 @@ async fn staff_tools(store: &Store) {
         (names(all), total),
         (vec!["st_caio".to_string(), "st_bia".into(), "st_ana".into()], 3)
     );
-    let (by_rating, _) =
-        store.search_users(&search(UserFilter::All, UserSort::Rating), 0, 10).await.unwrap();
+    let (by_rating, _) = store
+        .search_users(&search(UserFilter::All, UserSort::Rating(Rules::Brazilian)), 0, 10)
+        .await
+        .unwrap();
     assert_eq!(names(by_rating), ["st_bia", "st_ana", "st_caio"]);
+    // A rated game under the official rules moves only those ratings: Caio
+    // first there, Bia last.
+    let official = MatchRecord {
+        players: [b.id, c.id],
+        winner: 1,
+        reason: GameOverReason::PocketedEight,
+        rated: true,
+        rules: Rules::Official,
+        delta: [-500, 500],
+        ratings_after: [1200, 1800],
+        shots: 20,
+        tournament: None,
+        eight_win: true,
+        runout: false,
+        shutout: false,
+        break_win: false,
+        ended_at: t,
+        replay: None,
+        stats: Default::default(),
+        abandoned: None,
+    };
+    store.record_match(&official).await.unwrap();
+    let by = |rules| search(UserFilter::All, UserSort::Rating(rules));
+    let (official, _) = store.search_users(&by(Rules::Official), 0, 10).await.unwrap();
+    assert_eq!(names(official), ["st_caio", "st_ana", "st_bia"]);
+    let (brazilian, _) = store.search_users(&by(Rules::Brazilian), 0, 10).await.unwrap();
+    assert_eq!(names(brazilian), ["st_bia", "st_ana", "st_caio"]);
     let (by_name, _) =
         store.search_users(&search(UserFilter::All, UserSort::Name), 1, 1).await.unwrap();
     assert_eq!(names(by_name), ["st_bia"], "the second by name");

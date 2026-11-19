@@ -1382,9 +1382,8 @@ impl MemoryStore {
         match search.sort {
             UserSort::Newest => all.sort_by_key(|u| std::cmp::Reverse(u.id)),
             UserSort::Name => all.sort_by_key(|u| (u.username.to_lowercase(), u.id)),
-            UserSort::Rating => all.sort_by_key(|u| {
-                let best = u.records.brazilian.rating.max(u.records.official.rating);
-                (std::cmp::Reverse(best), std::cmp::Reverse(u.id))
+            UserSort::Rating(rules) => all.sort_by_key(|u| {
+                (std::cmp::Reverse(u.records.get(rules).rating), std::cmp::Reverse(u.id))
             }),
             UserSort::LastSeen => {
                 all.sort_by_key(|u| (std::cmp::Reverse(u.last_seen), std::cmp::Reverse(u.id)))
@@ -1595,6 +1594,10 @@ impl MemoryStore {
             active_users_7d: s.users.values().filter(|u| u.last_seen > week).count() as i64,
             matches_total: s.matches.len() as i64,
             matches_24h: s.matches.iter().filter(|m| m.ended_at > now - 86_400).count() as i64,
+            matches_24h_by_rules: PerRules::<i64>::default().map(|rules, _| {
+                s.matches.iter().filter(|m| m.ended_at > now - 86_400 && m.rules == rules).count()
+                    as i64
+            }),
             open_reports: s.reports.iter().filter(|r| r.status == 0).count() as i64,
             banned: s.users.values().filter(|u| u.is_banned(now)).count() as i64,
         })

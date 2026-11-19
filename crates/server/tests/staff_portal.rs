@@ -176,7 +176,7 @@ async fn the_portal_manages_players() {
     assert!(online.windows(2).all(|w| w[0].to_lowercase() <= w[1].to_lowercase()));
     let (_, v) = get("/admin/api/users?filter=banned").await;
     assert_eq!(v["total"], 0);
-    let (_, v) = get("/admin/api/users?q=AN&sort=rating").await;
+    let (_, v) = get("/admin/api/users?q=AN&sort=rating-official").await;
     assert_eq!(names(&v), ["ana"]);
 
     // A warning reaches a player online at once…

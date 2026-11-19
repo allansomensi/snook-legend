@@ -2188,7 +2188,8 @@ impl PgStore {
         let order = match search.sort {
             UserSort::Newest => "id DESC",
             UserSort::Name => "lower(username), id",
-            UserSort::Rating => "GREATEST(rating, official_rating) DESC, id DESC",
+            UserSort::Rating(Rules::Brazilian) => "rating DESC, id DESC",
+            UserSort::Rating(Rules::Official) => "official_rating DESC, id DESC",
             UserSort::LastSeen => "last_seen DESC, id DESC",
         };
         let matching = format!(
@@ -2473,6 +2474,8 @@ impl PgStore {
                 (SELECT COUNT(*) FROM users WHERE last_seen > $1) AS active_users,
                 (SELECT COUNT(*) FROM matches) AS matches_total,
                 (SELECT COUNT(*) FROM matches WHERE ended_at > $2) AS matches_day,
+                (SELECT COUNT(*) FROM matches WHERE ended_at > $2 AND rules = 'official')
+                    AS official_matches_day,
                 (SELECT COUNT(*) FROM reports WHERE status = 0) AS open_reports,
                 (SELECT COUNT(*) FROM users WHERE banned_until > $3) AS banned",
         )
@@ -2487,6 +2490,11 @@ impl PgStore {
             active_users_7d: r.get("active_users"),
             matches_total: r.get("matches_total"),
             matches_24h: r.get("matches_day"),
+            matches_24h_by_rules: {
+                let (day, official): (i64, i64) =
+                    (r.get("matches_day"), r.get("official_matches_day"));
+                PerRules::new(day - official, official)
+            },
             open_reports: r.get("open_reports"),
             banned: r.get("banned"),
         })

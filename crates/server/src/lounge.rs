@@ -3111,7 +3111,6 @@ impl Lounge {
         self.sessions.values().filter(|s| !s.guest && s.user.id > 0).map(|s| s.user.id).collect()
     }
 
-    /// Who is waiting in "Play now": (rated, seconds waited so far).
     /// Who waits in the "Play now" queue: the game they want and how long
     /// they have waited (seconds).
     pub fn queue_now(&self) -> Vec<(Offer, u32)> {

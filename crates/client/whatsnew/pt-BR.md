@@ -5,8 +5,8 @@
 
 ## 0.7.3
 
-### Nova regra na saída
-Se a saída não tocar nenhuma bola, ou se a branca cair (ou sair da mesa) sem nenhuma bola encaçapada, a saída passa para o adversário: ele coloca a branca onde quiser atrás da linha de cabeceira, e a tacada dele vale como saída. As bolas ficam onde pararam.
+### Novas regras
+Se a saída não tocar nenhuma bola, ou se a branca cair (ou sair da mesa) sem nenhuma bola encaçapada, a saída passa para o adversário, com a branca na mão atrás da linha de cabeceira. Com uma bola feita, ela decide os grupos mesmo que a branca caia junto. E a branca fora da mesa custa uma bola, como quando é encaçapada.
 
 ### Mais treinos, sem ranking
 São 24 treinos agora, nove novos: caçapa de trás, meio de longe, branca na tabela, bolas encostadas, carambola, puxada longa, na tangente, duas tabelas e quinze seguidas. Cada um mostra a posição desenhada, e as estrelas ficam guardadas na sua conta. O ranking dos treinos saiu.

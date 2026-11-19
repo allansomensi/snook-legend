@@ -1919,3 +1919,5 @@ Fonts: DejaVu. Flags: flag-icons (MIT). Reactions: Twemoji (CC-BY 4.0). Country 
 The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	O chat está desligado para menores de 18 anos. Um responsável pode ligá-lo embaixo do chat do salão.
 No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	Nenhuma bola foi tocada na saída: {next} sai, com a branca na mão atrás da linha de cabeceira.
 The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	A branca caiu na saída sem nenhuma bola encaçapada: {next} sai, com a branca na mão atrás da linha de cabeceira.
+Users online	Usuários online
+ping {ms} ms	ping {ms} ms

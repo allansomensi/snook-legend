@@ -2,7 +2,7 @@
 
 ## 0.7.3 (protocol 21)
 
-Ruleset 7 (the break handed over), terms of use, an age group and the chat
+Ruleset 7 (the break handed over, the cue ball off the table costs a ball), terms of use, an age group and the chat
 of players under 18, more drills without a ranking, and new profile
 pictures. The server lets in protocol 20 and 21: games of 0.7.2 keep
 playing (they are not asked the age group, and play ruleset 6). The server
@@ -15,7 +15,15 @@ goes out first. One new migration (`0021_age`).
   cue ball is in hand behind the head string, and their shot is a break
   (any ball may be hit first, the 8 alone wins, it may be struck as hard).
   A break that makes a ball along with the cue ball is an ordinary foul, as
-  before. The rules in the game say so, in the three languages; the game
+  before.
+- **The first ball made on the break decides the groups even when the
+  cue ball goes down with it**: the 11 and the cue ball, stripes for the
+  breaker; the turn passes, the cue ball goes back to the head spot and the
+  scratch costs the opponent's lowest solid, as any scratch does (the table
+  stayed open before).
+- **The cue ball knocked off the table gives the opponent a ball**, as a
+  scratch does (it only cost the turn before): their lowest comes off, the
+  turn passes and the cue ball goes back to the head spot. With a miss, two. The rules in the game say so, in the three languages; the game
   tells the players ("No ball was hit on the break: … breaks").
 - **The computer** breaks a full rack as before and plays a break handed
   over on scattered balls like any shot, the cue ball behind the head

@@ -23,13 +23,13 @@ On the break, and only then, the cue ball is in hand: you may place it anywhere 
 Pocketing only the 8 on the break wins the game on the spot. Pocketing the 8 together with any other ball (the cue ball or any other) loses the game. If the 8 leaves the table on the break, it goes back on the table where the front ball of the rack stood (or as near as there is room) and you lose the turn: it's a foul.
 
 ### Only the cue ball on the break
-If the cue ball goes down or leaves the table on the break and no ball is made, you lose the turn and the break passes to your opponent. The balls stay where they stopped, and they place the cue ball anywhere behind the head string, as you did: their shot counts as a break. If a ball goes down along with the cue ball, it's an ordinary foul: the cue ball goes back to the head spot and your opponent plays from there, without ball in hand.
+If the cue ball goes down or leaves the table on the break and no ball is made, you lose the turn and the break passes to your opponent. The balls stay where they stopped, and they place the cue ball anywhere behind the head string, as you did: their shot counts as a break. If a ball goes down along with the cue ball, the first one down still decides the groups, and it's an ordinary foul: your opponent's lowest ball comes off, the cue ball goes back to the head spot and they play from there, without ball in hand.
 
 ### A break that hits no ball
 If the break hits no ball, you lose the turn and the break passes to your opponent: the balls are still racked, and they place the cue ball anywhere behind the head string.
 
 ### After the break
-On a break without a foul, the first ball that goes down decides your group. If only balls of your group go down, you shoot again. If one of your opponent's goes down too (the 3 and then the 13, say: you take the solids), it stays down, for them, and the turn passes.
+On the break, the first ball that goes down decides your group, even if the cue ball goes down too. If only balls of your group go down, you shoot again. If one of your opponent's goes down too (the 3 and then the 13, say: you take the solids), it stays down, for them, and the turn passes.
 
 ### Open table
 Until the groups are decided the table is open: you may hit any ball first except the 8. The first ball you pocket on a shot without a foul gives you its group, and your opponent the other. On an open table there is no opponent's ball yet: a foul costs only the turn. If no ball of either group is left on an open table, both players are on the 8.
@@ -49,7 +49,7 @@ Hitting one of your opponent's balls first, directly: their two lowest balls com
 One ball to your opponent, and the cue ball goes back to the head spot, where the break is played from (or right behind a ball lying there). There is no ball in hand: your opponent plays from there. The cue ball is in hand on the break only; after any other foul it is played from where it stopped.
 
 ### Balls off the table
-The cue ball off the table: you lose the turn, and it goes back to the head spot, as when it is pocketed. A ball of your group off the table comes back to the table, and you lose the turn. One of your opponent's balls off the table is out (it counts for them), and you lose the turn.
+The cue ball off the table costs the same as pocketing it: your opponent's lowest ball comes off (it counts for them), you lose the turn and the cue ball goes back to the head spot. A ball of your group off the table comes back to the table, and you lose the turn. One of your opponent's balls off the table is out (it counts for them), and you lose the turn.
 
 ### Your opponent's ball
 Pocketing one of your opponent's balls passes the turn, even if one of yours went down too. It stays down, for them.

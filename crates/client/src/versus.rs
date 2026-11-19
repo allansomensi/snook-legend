@@ -163,13 +163,13 @@ impl Versus {
         // The tabs at the top right; the title keeps clear of them.
         let labels =
             [t("Free game"), t("Tour"), t("Tournament"), t("Daily challenge"), t("Drills")];
-        let widest = labels.iter().map(|l| ui.text_size(l, 15.0, true).x).fold(0.0, f32::max);
-        // The tabs keep to the right half, clear of the title.
-        let count = labels.len() as f32;
+        // The tabs keep to the right, clear of the title: each as wide as
+        // its label, all labels at one size.
         let tab_gap = 6.0;
-        let tab_w =
-            (widest + 16.0).clamp(80.0, 108.0).min((r.w * 0.56 - (count - 1.0) * tab_gap) / count);
-        let tabs_x = r.x + r.w - PAD - count * tab_w - (count - 1.0) * tab_gap;
+        let natural: f32 = labels.iter().map(|l| ui.text_size(l, 15.0, true).x + 28.0).sum::<f32>()
+            + tab_gap * (labels.len() - 1) as f32;
+        let row_w = natural.min(r.w * 0.56);
+        let tabs_x = r.x + r.w - PAD - row_w;
         if screen_header_until(
             ui,
             r,
@@ -181,23 +181,12 @@ impl Versus {
         {
             action = VersusAction::Back;
         }
-        for (k, (tab, label)) in [
-            (Tab::Free, labels[0]),
-            (Tab::Ladder, labels[1]),
-            (Tab::Cup, labels[2]),
-            (Tab::Daily, labels[3]),
-            (Tab::Drills, labels[4]),
-        ]
-        .into_iter()
-        .enumerate()
-        {
-            let tr = Rect::new(tabs_x + k as f32 * (tab_w + tab_gap), r.y + 20.0, tab_w, 36.0);
-            let (label, _) = ui.fitted(label, 15.0, tab_w - 12.0, true);
-            let label = label.as_str();
-            if ui.tab(tr, label, self.tab == tab) {
-                self.tab = tab;
-                ui.focus = None;
-            }
+        let order = [Tab::Free, Tab::Ladder, Tab::Cup, Tab::Daily, Tab::Drills];
+        let picked = order.iter().position(|t| *t == self.tab).unwrap_or(0);
+        let row = Rect::new(tabs_x, r.y + 20.0, row_w, 36.0);
+        if let (Some(k), _) = crate::tabrow::tabs(ui, row, &labels, &[], picked, tab_gap) {
+            self.tab = order[k];
+            ui.focus = None;
         }
         let body =
             Rect::new(r.x + PAD, r.y + HEADER_H + 8.0, r.w - 2.0 * PAD, r.h - HEADER_H - 8.0 - PAD);

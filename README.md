@@ -60,8 +60,8 @@ which every desktop installation has. How releases are made is described in
 - **Eight-ball by a regional Brazilian rule** (the rule of bars and pool
   halls, with penalty balls; **not the official tournament rule** of the WPA
   or of a federation): a foul passes the turn and gives the opponent balls
-  (the lowest numbers of their group come off the table: one for a miss or
-  a scratch, two for hitting the opponent's ball first, one if the cue ball
+  (the lowest numbers of their group come off the table: one for a miss, a
+  scratch or the cue ball off the table, two for hitting the opponent's ball first, one if the cue ball
   went to a cushion before it, and they add up), the cue ball is in hand
   on the break only (one that goes down or leaves the table comes back to
   the head spot), a break that hits no ball or loses the cue ball with no

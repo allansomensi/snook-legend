@@ -50,7 +50,8 @@
 ///   ball, or that loses the cue ball (down or off the table) without
 ///   making a ball, passes the break to the opponent, who plays it from
 ///   where the balls lie with the cue ball in hand behind the head string
-///   (the 8 alone on it wins, as on any break).
+///   (the 8 alone on it wins, as on any break). And the cue ball knocked off
+///   the table gives the opponent a ball, as a scratch does.
 pub const RULESET: u8 = 7;
 
 /// The newest ruleset this version can play. It is ahead of [`RULESET`]

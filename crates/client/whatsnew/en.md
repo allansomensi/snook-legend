@@ -5,8 +5,8 @@
 
 ## 0.7.3
 
-### A new rule on the break
-If the break hits no ball, or loses the cue ball (down or off the table) with no ball made, the break passes to your opponent: they place the cue ball anywhere behind the head string, and their shot counts as a break. The balls stay where they stopped.
+### New rules
+If the break hits no ball, or loses the cue ball (down or off the table) with no ball made, the break passes to your opponent, with the cue ball in hand behind the head string. With a ball made, it decides the groups even if the cue ball goes down too. And the cue ball off the table costs a ball, as a scratch does.
 
 ### More drills, no ranking
 There are 24 drills now, nine of them new: the far corner, long into the side, cue ball on the cushion, the plant, the carom, the long draw, on the tangent line, two-cushion bank and fifteen in a row. Each shows its position, and your stars are kept in your account. The drills' ranking is gone.

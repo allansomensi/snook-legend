@@ -57,6 +57,7 @@ mod setup;
 mod shop;
 mod showroom;
 mod tables;
+mod tabrow;
 mod textures;
 mod theme_art;
 mod ui;

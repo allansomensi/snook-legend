@@ -2362,14 +2362,12 @@ impl Online {
             }
         }
         let title_end = title_x + title_w + 10.0 + sub_w;
-        let online_text = match self.rtt.filter(|_| config.show_ping) {
-            Some(rtt) => tw(
-                "{n} online · ping {ms} ms",
-                &[("n", &self.players.len()), ("ms", &rtt.as_millis())],
-            ),
-            None => tw("{n} online", &[("n", &self.players.len())]),
+        // The ping, when asked for, beside the count.
+        let ping = match self.rtt.filter(|_| config.show_ping) {
+            Some(rtt) => tw("ping {ms} ms", &[("ms", &rtt.as_millis())]),
+            None => String::new(),
         };
-        let online_w = ui.text_size(&online_text, 13.0, false).x;
+        let online_w = presence_width(ui, self.players.len(), 14.0, &ping);
         let mut right = header.x + header.w - 10.0;
         if !self.lan {
             right -= 36.0;
@@ -2425,10 +2423,8 @@ impl Online {
                 draw_circle(card.x + card.w - 7.0, card.y + 7.0, 4.5, ALERT);
             }
         }
-        // How many are here, with a green "live" dot.
-        let ox = right - 16.0 - online_w;
-        draw_circle(ox - 10.0, header.y + 28.0, 4.0, Color::new(0.35, 0.85, 0.45, 1.0));
-        ui.text(&online_text, ox, header.y + 21.5, 13.0, MUTED, false);
+        // How many are here: a green "live" dot, a person and the number.
+        self.draw_presence(ui, right - 16.0, header.y + 28.0, 14.0, &ping, 0.0, MUTED);
 
         let body_y = header.y + header.h + 10.0;
         let body_h = sh - body_y - margin;
@@ -2448,30 +2444,37 @@ impl Online {
             tabs.push((Tab::Friends, t("Friends")));
             tabs.push((Tab::Daily, t("Daily")));
         }
-        let n = tabs.len() as f32;
-        let tab_w = (left.w - pad * 2.0 - (n - 1.0) * 6.0) / n;
-        for (k, (tab, label)) in tabs.into_iter().enumerate() {
-            let r = Rect::new(left.x + pad + k as f32 * (tab_w + 6.0), left.y + pad, tab_w, 34.0);
-            let me = self.me.as_ref().map(|m| m.username.as_str()).unwrap_or("");
-            let waiting = self.corr.waiting(me);
-            let count = match tab {
+        // Each tab as wide as its label, all labels at one size.
+        let me = self.me.as_ref().map(|m| m.username.as_str()).unwrap_or("");
+        let waiting = self.corr.waiting(me);
+        let labels: Vec<&str> = tabs.iter().map(|(_, l)| *l).collect();
+        let counts: Vec<String> = tabs
+            .iter()
+            .map(|(tab, _)| match tab {
                 Tab::Tables if !self.tables.is_empty() => self.tables.len().to_string(),
                 _ => String::new(),
-            };
-            if ui.tab_with_count(r, label, &count, self.tab == tab) {
-                self.tab = tab;
-                self.list_first = 0;
-                if tab == Tab::Friends {
-                    self.send(ClientMsg::Friends);
-                    self.unread_friend_requests = false;
-                    if self.social.recent_view {
-                        self.request_recent();
-                    }
-                }
-                if tab == Tab::Daily {
-                    self.send(ClientMsg::CorrList);
+            })
+            .collect();
+        let counts: Vec<&str> = counts.iter().map(String::as_str).collect();
+        let picked = tabs.iter().position(|(tab, _)| *tab == self.tab).unwrap_or(0);
+        let row = Rect::new(left.x + pad, left.y + pad, left.w - pad * 2.0, 34.0);
+        let (clicked, rects) = crate::tabrow::tabs(ui, row, &labels, &counts, picked, 6.0);
+        if let Some(k) = clicked {
+            let tab = tabs[k].0;
+            self.tab = tab;
+            self.list_first = 0;
+            if tab == Tab::Friends {
+                self.send(ClientMsg::Friends);
+                self.unread_friend_requests = false;
+                if self.social.recent_view {
+                    self.request_recent();
                 }
             }
+            if tab == Tab::Daily {
+                self.send(ClientMsg::CorrList);
+            }
+        }
+        for ((tab, _), r) in tabs.iter().zip(&rects) {
             let badge = match tab {
                 Tab::Friends => self.unread_friend_requests || !self.friends.incoming.is_empty(),
                 Tab::Daily => waiting > 0,
@@ -4429,7 +4432,9 @@ impl Online {
     /// when `quiet`: in focus mode). Hovering lists who is there. Returns
     /// whether it was drawn.
     pub fn draw_online_count(&self, ui: &Ui, x_right: f32, y: f32, quiet: bool) -> bool {
-        let Some(n) = self.online_count() else { return false };
+        if self.online_count().is_none() {
+            return false;
+        }
         let now = get_time();
         let arrived = self
             .arrived
@@ -4440,21 +4445,47 @@ impl Online {
                     && self.players.iter().any(|p| p.username == *name)
             })
             .map(|(name, at)| (name.clone(), now - at));
-        let count = tw("{n} online", &[("n", &n)]);
-        let (text, color) = match &arrived {
-            Some((name, _)) => {
-                let came = tw("{name} came online", &[("name", name)]);
-                (format!("{came} · {count}"), GOLD)
-            }
-            None => (count, Color::new(MUTED.r, MUTED.g, MUTED.b, 0.9)),
-        };
-        let w = ui.text_size(&text, 12.0, true).x;
-        // The dot breathes while someone has just come.
-        let pulse = arrived.map_or(0.0, |(_, age)| (age as f32 * 5.0).sin().abs());
-        let dot = Color::new(0.35, 0.85, 0.45, 0.85);
-        draw_circle(x_right - w - 10.0, y + 7.0, 3.5 + 1.5 * pulse, dot);
-        ui.text(&text, x_right - w, y, 12.0, color, true);
-        let r = Rect::new(x_right - w - 16.0, y - 4.0, w + 18.0, 22.0);
+        // The dot breathes while someone has just come, whose name shows
+        // in gold to the left of the count for a moment.
+        let pulse = arrived.as_ref().map_or(0.0, |(_, age)| (*age as f32 * 5.0).sin().abs());
+        let color =
+            if arrived.is_some() { GOLD } else { Color::new(MUTED.r, MUTED.g, MUTED.b, 0.9) };
+        let r = self.draw_presence(ui, x_right, y + 7.0, 13.0, "", pulse, color);
+        if let Some((name, _)) = &arrived {
+            let came = tw("{name} came online", &[("name", name)]);
+            let w = ui.text_size(&came, 12.0, true).x;
+            ui.text(&came, r.x - 10.0 - w, y + 1.0, 12.0, GOLD, true);
+        }
+        true
+    }
+
+    /// The players online, compactly: a green dot, a person and the number
+    /// (then `extra`, muted), right-aligned at `x_right` and centred on
+    /// `cy`. Hovering says "Users online" and who they are. Its rect.
+    fn draw_presence(
+        &self,
+        ui: &Ui,
+        x_right: f32,
+        cy: f32,
+        size: f32,
+        extra: &str,
+        pulse: f32,
+        color: Color,
+    ) -> Rect {
+        let n = self.players.len();
+        let w = presence_width(ui, n, size, extra);
+        let x = x_right - w;
+        let icon = size + 2.0;
+        draw_circle(x + 4.0, cy, 3.5 + 1.5 * pulse, Color::new(0.35, 0.85, 0.45, 0.95));
+        crate::icons::draw(Icon::Person, vec2(x + 13.0 + icon / 2.0, cy), icon, color);
+        let number = n.to_string();
+        let nx = x + 13.0 + icon + 3.0;
+        ui.text(&number, nx, crate::ranking::text_y(cy, size), size, color, true);
+        if !extra.is_empty() {
+            let ex = nx + ui.text_size(&number, size, true).x + 8.0;
+            ui.text(extra, ex, crate::ranking::text_y(cy, size - 2.0), size - 2.0, MUTED, false);
+        }
+        let r = Rect::new(x - 4.0, cy - size / 2.0 - 6.0, w + 8.0, size + 12.0);
         if ui.hovering(r) {
             let me = self.me.as_ref().map(|me| me.username.as_str());
             let others: Vec<&str> = self
@@ -4463,19 +4494,26 @@ impl Online {
                 .map(|p| p.username.as_str())
                 .filter(|name| Some(*name) != me)
                 .collect();
-            let tip = if others.is_empty() {
+            let who = if others.is_empty() {
                 t("Nobody else is online right now.").to_string()
             } else {
                 let mut names = others.iter().take(12).copied().collect::<Vec<_>>().join(", ");
                 if others.len() > 12 {
                     names.push_str(", …");
                 }
-                tw("Online now: {names}", &[("names", &names)])
+                names
             };
-            ui.tooltip(&tip, r);
+            ui.tooltip(&format!("{}\n{who}", t("Users online")), r);
         }
-        true
+        r
     }
+}
+
+/// How wide [`Online::draw_presence`] draws `n` at `size`, with `extra`.
+fn presence_width(ui: &Ui, n: usize, size: f32, extra: &str) -> f32 {
+    let number = ui.text_size(&n.to_string(), size, true).x;
+    let extra = if extra.is_empty() { 0.0 } else { 8.0 + ui.text_size(extra, size - 2.0, false).x };
+    13.0 + size + 2.0 + 3.0 + number + extra
 }
 
 /// How wide a button `h` high must be for `label` (the toolkit's label size,

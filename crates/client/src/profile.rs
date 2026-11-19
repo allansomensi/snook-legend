@@ -345,7 +345,7 @@ impl ProfileScreen {
         // The switch runs over the whole body and names the pane itself.
         let seg = Rect::new(body.x, body.y - 4.0, body.w, 28.0);
         let selected = panes.iter().position(|(pane, _)| *pane == self.pane).unwrap_or(0);
-        if let Some(k) = ui.segmented(seg, &labels, selected) {
+        if let Some(k) = crate::tabrow::segmented(ui, seg, &labels, selected) {
             self.pane = panes[k].0;
             if self.pane == Pane::Gifts {
                 online.request_gifts();

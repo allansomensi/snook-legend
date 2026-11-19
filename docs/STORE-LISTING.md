@@ -57,8 +57,8 @@ Em português, inglês e espanhol.
 
 ### Novidades desta versão
 
-Versão 0.7.3: nova regra na saída, mais treinos, avatares novos, termos de uso e o chat dos menores.
-• Saída que não toca nenhuma bola, ou que perde a branca sem encaçapar nenhuma: a saída passa para o adversário, com a branca na mão atrás da linha de cabeceira.
+Versão 0.7.3: novas regras, mais treinos, avatares novos, termos de uso e o chat dos menores.
+• Saída que não toca nenhuma bola, ou que perde a branca sem encaçapar nenhuma: a saída passa para o adversário, com a branca na mão atrás da linha de cabeceira. Com uma bola feita, ela decide os grupos mesmo com a branca caindo junto; a branca fora da mesa custa uma bola.
 • 24 treinos, nove novos (carambola, bolas encostadas, duas tabelas, quinze seguidas…), cada um com a posição desenhada; o ranking dos treinos saiu.
 • Retratos redesenhados e novos avatares de objetos da sinuca; o seu avatar aparece na tela inicial.
 • Termos de uso e política de privacidade a um clique, no cadastro, na loja e em Configurações; 7 dias para se arrepender de uma compra.
@@ -135,8 +135,8 @@ In English, Portuguese and Spanish.
 
 ### What's new in this version
 
-Version 0.7.3: a new rule on the break, more drills, new pictures, terms of use and the chat of players under 18.
-• A break that hits no ball, or loses the cue ball with no ball made, passes the break to the opponent, with the cue ball in hand behind the head string.
+Version 0.7.3: new rules, more drills, new pictures, terms of use and the chat of players under 18.
+• A break that hits no ball, or loses the cue ball with no ball made, passes the break to the opponent, with the cue ball in hand behind the head string. A ball made on the break decides the groups even if the cue ball goes down too; the cue ball off the table costs a ball.
 • 24 drills, nine new (the carom, the plant, two-cushion bank, fifteen in a row…), each with its position drawn; the drills' ranking is gone.
 • Portraits drawn again and new pictures of pool things; your picture shows on the start screen.
 • The terms of use and the privacy policy a click away, when signing up, in the shop and in Settings; 7 days to change your mind about a purchase.
@@ -213,8 +213,8 @@ En español, inglés y portugués.
 
 ### Novedades de esta versión
 
-Versión 0.7.3: nueva regla en el saque, más ejercicios, avatares nuevos, términos de uso y el chat de los menores.
-• Un saque que no toca ninguna bola, o que pierde la blanca sin meter ninguna, pasa el saque al rival, con la blanca en mano detrás de la línea de cabecera.
+Versión 0.7.3: nuevas reglas, más ejercicios, avatares nuevos, términos de uso y el chat de los menores.
+• Un saque que no toca ninguna bola, o que pierde la blanca sin meter ninguna, pasa el saque al rival, con la blanca en mano detrás de la línea de cabecera. Una bola metida en el saque decide los grupos aunque entre la blanca; la blanca fuera de la mesa cuesta una bola.
 • 24 ejercicios, nueve nuevos (carambola, bolas pegadas, dos bandas, quince seguidas…), cada uno con su posición dibujada; el ranking de los ejercicios ya no está.
 • Retratos dibujados de nuevo y avatares nuevos de cosas del billar; tu avatar aparece en la pantalla de inicio.
 • Los términos de uso y la política de privacidad a un clic, al registrarte, en la tienda y en Ajustes; 7 días para arrepentirte de una compra.

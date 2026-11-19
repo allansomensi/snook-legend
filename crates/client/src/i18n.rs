@@ -383,6 +383,27 @@ pub fn rules_name(r: Rules) -> &'static str {
     })
 }
 
+/// The rules' name inside a sentence ("the Brazilian rules", "a regra
+/// brasileira", "las reglas oficiales"): in lower case, except that English
+/// keeps the capital of a people's name.
+pub fn rules_name_inline(r: Rules) -> String {
+    inline(r, rules_name(r))
+}
+
+/// The rules' short name inside a line ("Brazilian", "brasileira",
+/// "official"), as [`rules_name_inline`].
+pub fn rules_short_inline(r: Rules) -> String {
+    inline(r, rules_short(r))
+}
+
+fn inline(r: Rules, name: &str) -> String {
+    if r == Rules::Brazilian && lang() == Lang::English {
+        name.to_string()
+    } else {
+        name.to_lowercase()
+    }
+}
+
 /// The rules' short name, where the context says they are rules
 /// ("Brazilian", "Official").
 pub fn rules_short(r: Rules) -> &'static str {
@@ -524,8 +545,39 @@ mod tests {
         assert_eq!(tw("{name} wins!", &[("name", &"Ana")]), "Ana wins!");
     }
 
-    /// Every translation keeps the placeholders of its English text, and
-    /// every language translates the same texts.
+    /// A rules' name inside a sentence is in lower case, but for the
+    /// capital of a people's name in English.
+    #[test]
+    fn rules_names_inside_a_sentence() {
+        let _lang = lang_lock();
+        let names = |l| {
+            set_lang(l);
+            Rules::ALL.map(|r| (rules_name_inline(r), rules_short_inline(r)))
+        };
+        assert_eq!(
+            names(Lang::English),
+            [
+                ("Brazilian rules".into(), "Brazilian".into()),
+                ("official rules".into(), "official".into())
+            ]
+        );
+        assert_eq!(
+            names(Lang::Portuguese),
+            [
+                ("regra brasileira".into(), "brasileira".into()),
+                ("regra oficial".into(), "oficial".into())
+            ]
+        );
+        assert_eq!(
+            names(Lang::Spanish),
+            [
+                ("regla brasileña".into(), "brasileña".into()),
+                ("regla oficial".into(), "oficial".into())
+            ]
+        );
+        set_lang(Lang::English);
+    }
+
     /// The server's announcements and moderation notices, with their
     /// numbers and names, read in the player's language.
     #[test]

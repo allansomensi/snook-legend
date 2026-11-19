@@ -2094,8 +2094,8 @@ impl Online {
                 "{name} plays the {theirs} now; yours are the {mine}.",
                 &[
                     ("name", &p.username),
-                    ("theirs", &crate::i18n::rules_name(p.rules).to_lowercase()),
-                    ("mine", &crate::i18n::rules_name(self.rules).to_lowercase()),
+                    ("theirs", &crate::i18n::rules_name_inline(p.rules)),
+                    ("mine", &crate::i18n::rules_name_inline(self.rules)),
                 ],
             )
         });
@@ -2741,7 +2741,7 @@ impl Online {
             let bw = button_w(ui, cancel, 32.0).max(90.0);
             crate::ui::spinner(vec2(r.x + 22.0, r.y + 24.0), 7.0, GOLD);
             let kind = if rated { t("rated") } else { t("casual") };
-            let kind = format!("{kind} · {}", crate::i18n::rules_name(rules).to_lowercase());
+            let kind = format!("{kind} · {}", crate::i18n::rules_name_inline(rules));
             let text = tw("Waiting for {to} ({kind})…", &[("to", &to), ("kind", &kind)]);
             let (text, size) = fit_text(ui, &text, 15.0, r.w - 40.0 - bw - 24.0, false);
             ui.text(&text, r.x + 40.0, r.y + (r.h - size) / 2.0, size, CREAM, false);
@@ -2847,7 +2847,7 @@ impl Online {
             ui.text(on_tv, r.x + 26.0, r.y + 10.0, 11.0, ALERT, true);
             let avg = (f.players[0].rating_in(f.rules) + f.players[1].rating_in(f.rules)) / 2;
             let sub = tw("{n} watching · avg {r}", &[("n", &f.spectators), ("r", &avg)]);
-            let sub = format!("{sub} · {}", crate::i18n::rules_name(f.rules).to_lowercase());
+            let sub = format!("{sub} · {}", crate::i18n::rules_name_inline(f.rules));
             // After the label, however long it is in this language ("EN LA TELE").
             let sub_x = r.x + 26.0 + ui.text_size(on_tv, 11.0, true).x + 10.0;
             let (sub, sub_size) = fit_text(ui, &sub, 12.0, r.x + r.w - bw - 24.0 - sub_x, false);
@@ -3550,7 +3550,7 @@ impl Online {
                 if ui.hovering(r) {
                     let tip = tw(
                         "Find an opponent of your level automatically ({rules})",
-                        &[("rules", &crate::i18n::rules_name(self.rules).to_lowercase())],
+                        &[("rules", &crate::i18n::rules_name_inline(self.rules))],
                     );
                     ui.tooltip(&tip, r);
                 }
@@ -3577,7 +3577,7 @@ impl Online {
                 } else {
                     tw("rating ±{n} · {mode}", &[("n", &range), ("mode", &mode)])
                 };
-                let sub = format!("{sub} · {}", crate::i18n::rules_name(rules).to_lowercase());
+                let sub = format!("{sub} · {}", crate::i18n::rules_name_inline(rules));
                 let cw = 100.0f32.min(r.w * 0.3);
                 let (title, size) = ui.fitted(&title, 14.0, r.w - cw - 56.0, true);
                 ui.text(&title, r.x + 40.0, r.y + 7.0, size, CREAM, true);
@@ -3806,7 +3806,7 @@ impl Online {
                     (false, true) => t("casual · private"),
                     (false, false) => t("casual · public"),
                 };
-                let rules = crate::i18n::rules_name(table.rules).to_lowercase();
+                let rules = crate::i18n::rules_name_inline(table.rules);
                 let sub = format!("{kind} · {rules} — {}", t("waiting for an opponent…"));
                 let (sub, size) = fit_text(ui, &sub, 13.0, text_w, false);
                 ui.text(&sub, r.x + 34.0, r.y + 36.0, size, MUTED, false);
@@ -4253,7 +4253,7 @@ impl Online {
         ui.text(&name, area.x + 46.0, area.y + (34.0 - size) / 2.0, size, GOLD, true);
         let mut y = area.y + 34.0 + 12.0;
         let kind = if tour.rated { t("rated games") } else { t("casual games") };
-        let kind = format!("{kind} · {}", crate::i18n::rules_name(tour.rules).to_lowercase());
+        let kind = format!("{kind} · {}", crate::i18n::rules_name_inline(tour.rules));
         let arena = tour.format == snook_legend_proto::TournamentFormat::Arena;
         let line = if arena {
             tw(

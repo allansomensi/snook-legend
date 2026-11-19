@@ -357,8 +357,8 @@ impl DrillRun {
 /// (see `EightBallGame::max_cue_speed`: a power shot, or the break's own):
 /// a curve that keeps most of the bar for the paces most strokes are played
 /// at (half the bar is a medium stroke, about 1.7 m/s for the ball). A
-/// little less bent than a square: on the slower cloth of ruleset 4 the low
-/// end of the bar barely moved the ball.
+/// little less bent than a square, so the low end of the bar still moves
+/// the ball.
 pub const POWER_CURVE: f64 = 1.7;
 
 /// The cue speed for a point of the power bar (0 to 1).

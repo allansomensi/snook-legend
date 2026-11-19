@@ -845,7 +845,7 @@ pub fn draw_tab(o: &mut Online, ui: &mut Ui, area: Rect) -> Option<OnlineAction>
                 let room = accept_r.x - 12.0 - (r.x + 28.0);
                 ui.player_name(&c.from, r.x + 28.0, r.y + 7.0, 15.0, room);
                 let kind = if c.rated { t("rated") } else { t("casual") };
-                let kind = format!("{kind} · {}", crate::i18n::rules_name(c.rules).to_lowercase());
+                let kind = format!("{kind} · {}", crate::i18n::rules_name_inline(c.rules));
                 let sub = tw("challenges you · {kind}", &[("kind", &kind)]);
                 let (sub, size) = fit_text(ui, &sub, 12.0, room, false);
                 ui.text(&sub, r.x + 28.0, r.y + 27.0, size, GOLD, false);
@@ -865,7 +865,7 @@ pub fn draw_tab(o: &mut Online, ui: &mut Ui, area: Rect) -> Option<OnlineAction>
                 let room = b.x - 12.0 - (r.x + 28.0);
                 ui.player_name(&c.to, r.x + 28.0, r.y + 7.0, 15.0, room);
                 let kind = if c.rated { t("rated") } else { t("casual") };
-                let kind = format!("{kind} · {}", crate::i18n::rules_name(c.rules).to_lowercase());
+                let kind = format!("{kind} · {}", crate::i18n::rules_name_inline(c.rules));
                 let sub = tw(
                     "waiting for an answer · {kind} · {time} left",
                     &[("kind", &kind), ("time", &time_left(c.expires_at - now))],

@@ -430,9 +430,10 @@ async fn main() {
             ranking.open(&mut online);
             screen = Screen::Ranking;
         }
-        Some(tab @ ("tables" | "tournaments" | "friends" | "daily")) => {
+        Some(tab @ ("players" | "tables" | "tournaments" | "friends" | "daily")) => {
             online.connect();
             online.tab = match tab {
+                "players" => online::Tab::Players,
                 "tables" => online::Tab::Tables,
                 "tournaments" => online::Tab::Tournaments,
                 "daily" => online::Tab::Daily,
@@ -957,23 +958,6 @@ async fn main() {
                 m.avatars[0] = config.avatar.clone();
             }
         }
-        // Each game on its own table: a game played under an older ruleset
-        // (a correspondence game started before an update, an old replay)
-        // keeps the table it began on.
-        let wanted = current.as_ref().map_or_else(Table::default, |m| m.game.table().clone());
-        if wanted.spec != scene.table.spec {
-            retired.push(std::mem::replace(
-                &mut scene,
-                Scene::new(
-                    wanted.clone(),
-                    config.quality,
-                    config.focused_scene,
-                    &scene::Looks::of(&config.cloth, &config.balls)
-                        .themed(&config.table, &config.hall),
-                ),
-            ));
-        }
-        camera::set_table(wanted.spec);
         match current.as_ref() {
             Some(m) => {
                 let overlay = play::overlay(m, &scene, get_time() as f32);

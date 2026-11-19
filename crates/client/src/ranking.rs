@@ -176,7 +176,7 @@ impl Ranking {
                 "Each of the rules has its own rating: these games don't change your {rating} under the {other}.",
                 &[
                     ("rating", &me.rating_in(other)),
-                    ("other", &crate::i18n::rules_name(other).to_lowercase()),
+                    ("other", &crate::i18n::rules_name_inline(other)),
                 ],
             )
         });

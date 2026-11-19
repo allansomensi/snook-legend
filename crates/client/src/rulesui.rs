@@ -147,7 +147,7 @@ pub fn pill_w(ui: &Ui, h: f32, label: &str, swap: bool) -> f32 {
 /// A game's rules in a line of text: the mark and the short name, `size`
 /// high, its middle at `cy`, from `x`; the width it took.
 pub fn tag(ui: &Ui, rules: Rules, x: f32, cy: f32, size: f32) -> f32 {
-    let label = crate::i18n::rules_short(rules).to_lowercase();
+    let label = crate::i18n::rules_short_inline(rules);
     mark(rules, vec2(x + size * 0.6, cy), size * 1.2);
     let tx = x + size * 1.2 + 5.0;
     ui.text(&label, tx, crate::ranking::text_y(cy, size), size, accent(rules), false);
@@ -156,7 +156,7 @@ pub fn tag(ui: &Ui, rules: Rules, x: f32, cy: f32, size: f32) -> f32 {
 
 /// The width of [`tag`].
 pub fn tag_w(ui: &Ui, rules: Rules, size: f32) -> f32 {
-    let label = crate::i18n::rules_short(rules).to_lowercase();
+    let label = crate::i18n::rules_short_inline(rules);
     size * 1.2 + 5.0 + ui.text_size(&label, size, false).x
 }
 

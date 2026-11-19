@@ -114,21 +114,9 @@ impl Default for CameraRig {
     }
 }
 
-thread_local! {
-    /// The table being shown (see [`set_table`]).
-    static TABLE: std::cell::Cell<snook_legend_core::TableSpec> =
-        std::cell::Cell::new(snook_legend_core::TableSpec::default());
-}
-
-/// The table the camera frames: the game's own (a game played under an
-/// older ruleset keeps its table), else the current one.
-pub fn set_table(spec: snook_legend_core::TableSpec) {
-    TABLE.with(|t| t.set(spec));
-}
-
 /// Half extents of the table including rails (m), with a little room.
 fn table_half() -> Vec2 {
-    let spec = TABLE.with(|t| t.get());
+    let spec = snook_legend_core::TableSpec::default();
     let rail = spec.rail_width as f32 + 0.055;
     Vec2::new(spec.length as f32 / 2.0 + rail, spec.width as f32 / 2.0 + rail)
 }

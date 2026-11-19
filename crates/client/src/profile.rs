@@ -486,7 +486,7 @@ impl ProfileScreen {
         if hover && !shown {
             let tip = tw(
                 "Show the {rules}: the rank, the league and the chart",
-                &[("rules", &crate::i18n::rules_name(rules).to_lowercase())],
+                &[("rules", &crate::i18n::rules_name_inline(rules))],
             );
             ui.tooltip(&tip, c);
         }

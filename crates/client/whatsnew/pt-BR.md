@@ -3,6 +3,17 @@
 # destaque, e as linhas seguintes são o texto dele. Mesmas versões e mesmo
 # número de destaques em todas as línguas.
 
+## 0.7.4
+
+### O chat, quando você quiser
+O cadastro não pergunta mais a idade. O chat com outros jogadores começa desligado e só pergunta na primeira vez que você escreve: com 18 anos ou mais ele liga na hora, e para menores de 18 anos o responsável é quem liga. Quem não usa o chat nunca é perguntado.
+
+### Convites no canto
+O convite agora aparece como um cartão no canto superior direito, em qualquer tela e por cima de qualquer partida, com a foto do jogador, os botões para aceitar ou recusar e um sinal sonoro. Aceitou pelo menu? A partida começa na hora.
+
+### Aviso do Windows na hora
+Com o jogo atrás de outra janela ou minimizado, o Windows mostra o convite na hora (antes esperava alguns segundos).
+
 ## 0.7.3
 
 ### Novas regras

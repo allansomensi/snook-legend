@@ -1,9 +1,13 @@
 # Changelog
 
-## Unreleased
+## 0.7.4 (protocol 21)
 
-Not tied to a version yet. No new migration, no new messages: games of 0.7.3
-work with this server as they are.
+The chat with other players is asked for when it is used, invitations as a
+card in the top right corner on every screen, and a player's record against
+the computer in the staff portal. No new migration, no new messages: the
+protocol stays 21, and games of 0.7.3 and 0.7.4 play together with this
+server (a game of 0.7.2 still plays, with its chat off). The server can go
+out first.
 
 ### The chat with other players, asked for when it is used
 - **Signing up no longer asks the age group, nor does the lounge.** The chat

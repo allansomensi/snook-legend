@@ -3,6 +3,17 @@
 # un destacado, y las líneas siguientes son su texto. Mismas versiones y
 # mismo número de destacados en todos los idiomas.
 
+## 0.7.4
+
+### El chat, cuando lo quieras
+El registro ya no pregunta la edad. El chat con otros jugadores empieza apagado y solo pregunta la primera vez que escribes: con 18 años o más se enciende al momento, y para menores de 18 años lo enciende el tutor. Quien no usa el chat nunca recibe la pregunta.
+
+### Invitaciones en la esquina
+La invitación ahora aparece como una tarjeta en la esquina superior derecha, en cualquier pantalla y sobre cualquier partida, con la foto del jugador, los botones para aceptar o rechazar y un aviso sonoro. ¿La aceptas desde el menú? La partida empieza al momento.
+
+### Aviso de Windows al momento
+Con el juego detrás de otra ventana o minimizado, Windows muestra la invitación al momento (antes esperaba unos segundos).
+
 ## 0.7.3
 
 ### Nuevas reglas

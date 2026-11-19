@@ -57,16 +57,16 @@ Em português, inglês e espanhol.
 
 ### Novidades desta versão
 
-Versão 0.7.3: novas regras, mais treinos, avatares novos, termos de uso e o chat dos menores.
+Versão 0.7.4: o chat quando você quiser e convites no canto da tela.
+• O cadastro não pergunta mais a idade: o chat com outros jogadores começa desligado e pergunta só na primeira vez que você escreve. Para menores de 18 anos, o responsável é quem liga.
+• Convites aparecem como um cartão no canto superior direito, em qualquer tela e por cima de qualquer partida, com um sinal sonoro.
+• Com o jogo minimizado ou atrás de outra janela, o Windows avisa do convite na hora.
+
+Da versão 0.7.3: novas regras, mais treinos, avatares novos e termos de uso.
 • Saída que não toca nenhuma bola, ou que perde a branca sem encaçapar nenhuma: a saída passa para o adversário, com a branca na mão atrás da linha de cabeceira. Com uma bola feita, ela decide os grupos mesmo com a branca caindo junto; a branca fora da mesa custa uma bola.
 • 24 treinos, nove novos (carambola, bolas encostadas, duas tabelas, quinze seguidas…), cada um com a posição desenhada; o ranking dos treinos saiu.
 • Retratos redesenhados e novos avatares de objetos da sinuca; o seu avatar aparece na tela inicial.
 • Termos de uso e política de privacidade a um clique, no cadastro, na loja e em Configurações; 7 dias para se arrepender de uma compra.
-• O jogo pergunta a faixa de idade: para menores de 18 anos, o chat fica desligado até um responsável ligá-lo (ECA Digital).
-
-Da versão 0.7.2: um Circuito mais difícil e medalhas nos torneios.
-• O Circuito ficou mais difícil a cada etapa, e a final, que vale o taco, ficou bem difícil.
-• Torneios contra o computador jogados até o fim dão medalha de ouro, prata ou bronze.
 
 ### Recursos do produto
 
@@ -135,16 +135,16 @@ In English, Portuguese and Spanish.
 
 ### What's new in this version
 
-Version 0.7.3: new rules, more drills, new pictures, terms of use and the chat of players under 18.
+Version 0.7.4: the chat when you want it, and invitations in the corner.
+• Signing up no longer asks your age: the chat with other players starts off and asks only the first time you write. Under 18, a parent or guardian turns it on.
+• Invitations show as a card in the top right corner, on every screen and over any game, with a soft chime.
+• With the game minimised or behind another window, Windows tells you about an invitation at once.
+
+From version 0.7.3: new rules, more drills, new pictures and terms of use.
 • A break that hits no ball, or loses the cue ball with no ball made, passes the break to the opponent, with the cue ball in hand behind the head string. A ball made on the break decides the groups even if the cue ball goes down too; the cue ball off the table costs a ball.
 • 24 drills, nine new (the carom, the plant, two-cushion bank, fifteen in a row…), each with its position drawn; the drills' ranking is gone.
 • Portraits drawn again and new pictures of pool things; your picture shows on the start screen.
 • The terms of use and the privacy policy a click away, when signing up, in the shop and in Settings; 7 days to change your mind about a purchase.
-• The game asks your age group: under 18, the chat stays off until a parent or guardian turns it on (Brazil's ECA Digital).
-
-From version 0.7.2: a harder tour and tournament medals.
-• Each stage of the tour is harder, and the final, for the cue, is very hard.
-• Tournaments against the computer played to their end give a gold, silver or bronze medal.
 
 ### Product features
 
@@ -213,16 +213,16 @@ En español, inglés y portugués.
 
 ### Novedades de esta versión
 
-Versión 0.7.3: nuevas reglas, más ejercicios, avatares nuevos, términos de uso y el chat de los menores.
+Versión 0.7.4: el chat cuando lo quieras e invitaciones en la esquina.
+• El registro ya no pregunta la edad: el chat con otros jugadores empieza apagado y solo pregunta la primera vez que escribes. Para menores de 18 años, lo enciende el tutor.
+• Las invitaciones aparecen como una tarjeta en la esquina superior derecha, en cualquier pantalla y sobre cualquier partida, con un aviso sonoro.
+• Con el juego minimizado o detrás de otra ventana, Windows avisa de la invitación al momento.
+
+De la versión 0.7.3: nuevas reglas, más ejercicios, avatares nuevos y términos de uso.
 • Un saque que no toca ninguna bola, o que pierde la blanca sin meter ninguna, pasa el saque al rival, con la blanca en mano detrás de la línea de cabecera. Una bola metida en el saque decide los grupos aunque entre la blanca; la blanca fuera de la mesa cuesta una bola.
 • 24 ejercicios, nueve nuevos (carambola, bolas pegadas, dos bandas, quince seguidas…), cada uno con su posición dibujada; el ranking de los ejercicios ya no está.
 • Retratos dibujados de nuevo y avatares nuevos de cosas del billar; tu avatar aparece en la pantalla de inicio.
 • Los términos de uso y la política de privacidad a un clic, al registrarte, en la tienda y en Ajustes; 7 días para arrepentirte de una compra.
-• El juego pregunta tu franja de edad: para menores de 18 años, el chat queda apagado hasta que un tutor lo encienda (ECA Digital de Brasil).
-
-De la versión 0.7.2: un Circuito más difícil y medallas en los torneos.
-• Cada etapa del Circuito es más difícil, y la final, que vale el taco, es muy difícil.
-• Los torneos contra la computadora jugados hasta el final dan medalla de oro, plata o bronce.
 
 ### Características del producto
 

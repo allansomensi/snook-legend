@@ -3,6 +3,17 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.7.4
+
+### The chat, when you want it
+No more age question when signing up. The chat with other players starts off and asks only the first time you write: 18 or older turns it on at once, and under 18 a parent or guardian turns it on. Whoever doesn't chat is never asked.
+
+### Invitations in the corner
+An invitation now shows as a card in the top right corner on every screen and over any game, with the player's picture, the buttons to accept or decline and a soft chime. Accept it from the menu and the game starts right away.
+
+### Windows tells you at once
+With the game behind another window or minimised, Windows shows the invitation at once (it used to wait a few seconds).
+
 ## 0.7.3
 
 ### New rules

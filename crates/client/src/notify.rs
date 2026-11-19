@@ -3,8 +3,10 @@
 //! arrives, "Play now" finds an opponent, a friend comes online or a
 //! tournament is about to start. Settings → Game turns them off.
 //!
-//! The game can't see whether its window has the focus, so it notifies when
-//! nobody has touched it for a while (the player is somewhere else).
+//! On Windows the game asks the system whether its window is the one in
+//! front: behind another window or minimised, it notifies at once.
+//! Elsewhere it can't see that, so it notifies when nobody has touched it
+//! for a while (the player is somewhere else).
 
 use std::time::{Duration, Instant};
 
@@ -46,9 +48,11 @@ impl Notifier {
         self.last_input.elapsed()
     }
 
-    /// Shows `text` from the system if the player seems to be away.
+    /// Shows `text` from the system if the player seems to be away: the
+    /// game's window isn't in front (Windows), or nobody touched it lately.
     pub fn tell(&mut self, text: &str) {
-        if self.last_input.elapsed() < AWAY_AFTER {
+        let behind = in_front() == Some(false);
+        if !behind && self.last_input.elapsed() < AWAY_AFTER {
             return;
         }
         if self.last_sent.is_some_and(|t| t.elapsed() < MIN_GAP) {
@@ -59,6 +63,18 @@ impl Notifier {
         // Never hold the game up: the commands run on their own.
         std::thread::spawn(move || send(&text));
     }
+}
+
+/// Whether the game's window is the one in front and not minimised; `None`
+/// where the game can't tell.
+#[cfg(windows)]
+fn in_front() -> Option<bool> {
+    windows::in_front()
+}
+
+#[cfg(not(windows))]
+fn in_front() -> Option<bool> {
+    None
 }
 
 /// The text as given to the system's notifier: one line, not too long, and
@@ -126,6 +142,23 @@ mod windows {
     unsafe extern "system" {
         fn FindWindowW(class: *const u16, title: *const u16) -> *mut core::ffi::c_void;
         fn FlashWindowEx(info: *const FlashWInfo) -> i32;
+        fn GetForegroundWindow() -> *mut core::ffi::c_void;
+        fn IsIconic(hwnd: *mut core::ffi::c_void) -> i32;
+    }
+
+    /// The game's window is the foreground one and not minimised (`None`:
+    /// no window of the game's title was found).
+    pub fn in_front() -> Option<bool> {
+        let title: Vec<u16> = snook_legend_proto::GAME_NAME.encode_utf16().chain(Some(0)).collect();
+        // SAFETY: a null-terminated UTF-16 title and a null class are valid
+        // arguments; the handles are only compared and passed back.
+        unsafe {
+            let hwnd = FindWindowW(std::ptr::null(), title.as_ptr());
+            if hwnd.is_null() {
+                return None;
+            }
+            Some(GetForegroundWindow() == hwnd && IsIconic(hwnd) == 0)
+        }
     }
 
     /// Flashes the game's taskbar button until it is brought to the front.

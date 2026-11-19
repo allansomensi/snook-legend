@@ -34,6 +34,25 @@ work with this server as they are.
 - The terms of use (section 4 and the summary), the privacy policy, the
   README and the Store notes say so, in the three languages.
 
+### Invitations, like the system's notifications
+- **One card in the top right corner, on every screen**: the main menu, the
+  lounge (under its side's tabs), the shop, the profile, the ranking… and
+  over any game (under the online count in a game against the computer,
+  which accepting keeps; at an online table it can only be declined). It
+  used to show in a different place on each screen and on none of the
+  others, and not while the game's menu was open.
+- The card slides in from the right with the player's picture, flag and
+  name, "invites you to a casual game" (in two lines if it needs them) and
+  Decline / Accept along the bottom; up to three, then "{n} more
+  invitations". A new invitation rings once (the turn's chime). Nothing under
+  the cards takes the click. Focus mode and the settings keep them away, as
+  before.
+- **Windows notifications at once when the game is not in front**: the game
+  asks the system whether its window is the foreground one and not
+  minimised; behind another window or minimised, the notification (and the
+  flashing taskbar button) comes at once. It used to wait until nobody had
+  touched the game for 12 seconds, which is still how other systems tell.
+
 ### Tests
 - Tests that switch the game's language hold a lock while they do
   (`i18n::lang_lock`): run side by side, they changed each other's language

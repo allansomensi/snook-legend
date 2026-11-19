@@ -307,6 +307,8 @@ async fn main() {
     );
     let mut retired: Vec<Scene> = Vec::new();
     let sounds = audio::Sounds::load().await;
+    // Sounds of the interface, not of a game (an invitation's chime).
+    let mut ui_sounds: Vec<game::ImpactSound> = Vec::new();
     let mut menu = Menu::default();
     let mut hud = Hud::new(config.show_help);
     let mut rig = CameraRig::default();
@@ -469,6 +471,15 @@ async fn main() {
         let dt = get_frame_time().min(0.1);
         ui::update_scale(config.ui_size);
         ui.begin();
+        // Under the invitations' cards (drawn last, over everything) nothing
+        // drawn before them takes the pointer: one click answers the card
+        // only.
+        let under_invites = online.invite_cards_cover(ui.mouse())
+            || lan.as_ref().is_some_and(|l| l.net.invite_cards_cover(ui.mouse()));
+        let invite_cover = under_invites.then(|| ui.suspend_input());
+        // How far down the cards start: under the top bars of the screens,
+        // or under what a game shows on the right (set while drawing it).
+        let mut invite_top = 98.0;
         keys::install(&config.keys);
         // The settings may close without their Done button (an online game
         // starting): no key stays waited for.
@@ -1225,42 +1236,22 @@ async fn main() {
                             // played (the server turns them away; one that
                             // slipped through waits for the game's end).
                             let focus = config.focus_mode && m.is_focus_game();
-                            if m.is_online() {
-                                let net = if match_from_lan {
-                                    lan.as_mut().map(|l| &mut l.net)
-                                } else {
-                                    Some(&mut online)
-                                };
-                                if let Some(net) = net
-                                    && net.pending_invites() > 0
-                                    && !focus
-                                {
-                                    net.draw_invites(&mut ui, true);
-                                }
-                            } else {
+                            if !m.is_online() {
                                 // Any game here (the computer, a tournament
                                 // or the tour against it, two players, a
                                 // drill, a replay): still in the lounge, so
                                 // how many are online shows, discreet, under
                                 // the top bar on the right (someone to invite
-                                // may have come), and an invitation shows in
-                                // the corner below it and can be accepted (a
-                                // game against the computer is kept).
+                                // may have come); the invitations' cards come
+                                // under it (drawn at the end of the frame).
                                 let queue = online.queue_secs().is_some();
                                 let counted =
                                     online.draw_online_count(&ui, ui::vw() - 14.0, 70.0, focus);
-                                let y = match (queue, counted) {
+                                invite_top = match (queue, counted) {
                                     (true, _) => 134.0,
                                     (false, true) => 94.0,
                                     (false, false) => 62.0,
                                 };
-                                if !focus {
-                                    let saved = m.is_against_computer();
-                                    online.draw_invites_corner(&mut ui, y, saved);
-                                    if let Some(l) = lan.as_mut() {
-                                        l.net.draw_invites_corner(&mut ui, y, saved);
-                                    }
-                                }
                             }
                         }
                     }
@@ -1834,6 +1825,45 @@ async fn main() {
         if current.is_none() && !settings_open && waiting.is_none() {
             online.draw_staff_warning(&mut ui);
         }
+        // Invitations: cards in the top right corner, like the system's
+        // notifications, on any screen and over any game (an online one
+        // only declines them). Focus mode keeps them away during a game.
+        if let Some(saved) = invite_cover {
+            ui.resume_input(saved);
+        }
+        let focus = config.focus_mode && current.as_ref().is_some_and(Match::is_focus_game);
+        // In the lounge: under the side's tabs, which stay in reach.
+        if current.is_none()
+            && matches!(screen, Screen::Online)
+            && online.stage == online::Stage::Lounge
+        {
+            invite_top = 142.0;
+        }
+        let spot = match current.as_ref() {
+            Some(m) if m.is_online() => online::InviteSpot::OnlineMatch,
+            Some(m) => online::InviteSpot::VsComputer { saved: m.is_against_computer() },
+            None => online::InviteSpot::Lounge,
+        };
+        let invites_on = !focus && !settings_open;
+        let mut top = invite_top;
+        for net in [Some(&mut online), lan.as_mut().map(|l| &mut l.net)].into_iter().flatten() {
+            if invites_on {
+                // The local network's under the server's, if both have some.
+                top = net.draw_invite_cards(&mut ui, top, spot);
+            } else {
+                net.hide_invite_cards();
+            }
+        }
+        // A new invitation rings once (not in focus mode).
+        let chime = online.invite_sound || lan.as_ref().is_some_and(|l| l.net.invite_sound);
+        online.invite_sound = false;
+        if let Some(l) = lan.as_mut() {
+            l.net.invite_sound = false;
+        }
+        if chime && !focus {
+            ui_sounds.push(game::ImpactSound { kind: game::ImpactKind::Chime, speed: 1.0 });
+        }
+        sounds.play(&mut ui_sounds, config.volume);
         online.draw_toasts(&ui, toast_bottom);
         if let Some(l) = &lan {
             l.net.draw_toasts(&ui, toast_bottom);

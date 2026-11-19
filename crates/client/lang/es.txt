@@ -1897,6 +1897,8 @@ This account belongs to someone under 18. By law, the chat with other players (m
 I am this player's mother, father or legal guardian, I have read the terms of use and I allow them to chat with other players.	Soy la madre, el padre o el tutor legal de este jugador, leí los términos de uso y autorizo el chat con otros jugadores.
 Chat for players under 18	Chat para menores de 18 años
 Turn the chat off	Apagar el chat
+{n} more invitations	{n} invitaciones más
+Invitation	Invitación
 Turn the chat on	Encender el chat
 Chat off: under 18. A parent or guardian can turn it on.	Chat apagado: menor de 18 años. El tutor puede encenderlo.
 The chat with other players is off until you turn it on.	El chat con otros jugadores está apagado hasta que lo enciendas.

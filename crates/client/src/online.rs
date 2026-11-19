@@ -177,7 +177,13 @@ pub struct Online {
     pub leaderboard: Vec<LeaderboardEntry>,
     pub leaderboard_loaded: bool,
     leaderboard_age: f32,
-    incoming: Vec<(String, bool)>,
+    /// Invitations waiting for an answer, oldest first.
+    incoming: Vec<Invite>,
+    /// Where the invitation cards were last drawn: under them nothing else
+    /// takes the pointer (see [`Online::invite_cards_cover`]).
+    invite_area: Option<Rect>,
+    /// An invitation just came: the game rings once.
+    pub invite_sound: bool,
     outgoing: Option<(String, bool)>,
     motd: String,
     token: String,
@@ -349,10 +355,19 @@ pub const GHOST_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(45
 
 /// The update button, for how this copy of the game is updated (and how
 /// far the download is).
+/// An invitation received.
+#[derive(Debug, Clone)]
+struct Invite {
+    from: String,
+    rated: bool,
+    /// When it came (`get_time`): its card slides in.
+    at: f64,
+}
+
 /// Where invitations are answered.
 #[derive(Debug, Clone, Copy, PartialEq)]
-enum InviteSpot {
-    /// In the lounge.
+pub enum InviteSpot {
+    /// Not at a table (the lounge, the menu, the shop…): accepted at once.
     Lounge,
     /// At an online table: declined only (the game must end first).
     OnlineMatch,
@@ -572,6 +587,8 @@ impl Online {
             leaderboard_loaded: false,
             leaderboard_age: f32::MAX,
             incoming: Vec::new(),
+            invite_area: None,
+            invite_sound: false,
             outgoing: None,
             server_protocol: 0,
             activity_sent: (false, false, false),
@@ -714,11 +731,6 @@ impl Online {
                 self.stage = Stage::Connecting;
             }
         }
-    }
-
-    /// Number of invitations waiting for an answer (shown during matches).
-    pub fn pending_invites(&self) -> usize {
-        self.incoming.len()
     }
 
     /// Carries out what the Store part of the shop asked for.
@@ -1106,7 +1118,7 @@ impl Online {
             }
             ServerMsg::PlayerLeft { username } => {
                 self.players.retain(|p| p.username != username);
-                self.incoming.retain(|(from, _)| *from != username);
+                self.incoming.retain(|i| i.from != username);
                 for f in &mut self.friends.friends {
                     if f.player.username == username {
                         f.online = false;
@@ -1161,12 +1173,13 @@ impl Online {
                     config.focus_mode && current.as_ref().is_some_and(Match::is_focus_game);
                 if !focused {
                     self.attention = Some(tw("{name} invites you to play.", &[("name", &from)]));
+                    self.invite_sound = true;
                 }
-                self.incoming.retain(|(f, _)| *f != from);
-                self.incoming.push((from, rated));
+                self.incoming.retain(|i| i.from != from);
+                self.incoming.push(Invite { from, rated, at: get_time() });
             }
             ServerMsg::InviteSent { to, rated } => self.outgoing = Some((to, rated)),
-            ServerMsg::InviteCancelled { from } => self.incoming.retain(|(f, _)| *f != from),
+            ServerMsg::InviteCancelled { from } => self.incoming.retain(|i| i.from != from),
             ServerMsg::InviteDeclined { by } => {
                 self.outgoing = None;
                 self.toast(tw("{by} declined your invitation.", &[("by", &by)]), false);
@@ -1885,75 +1898,105 @@ impl Online {
         });
     }
 
-    /// Invitations received at an online table: answered from a banner.
-    pub fn draw_invites(&mut self, ui: &mut Ui, in_match: bool) {
-        let sw = crate::ui::vw();
-        let w = 520.0f32.min(sw - 32.0);
-        let y = if in_match { 64.0 } else { 74.0 };
-        let spot = if in_match { InviteSpot::OnlineMatch } else { InviteSpot::Lounge };
-        self.draw_invites_at(ui, spot, Rect::new((sw - w) / 2.0, y, w, 0.0));
+    /// The pointer is over the invitation cards (as last drawn): what is
+    /// drawn before them this frame must not take the click.
+    pub fn invite_cards_cover(&self, mouse: Vec2) -> bool {
+        self.invite_area.is_some_and(|r| r.contains(mouse))
     }
 
-    /// Invitations received during a game against the computer: in the top
-    /// right corner, under the top bar (and under the "Play now" banner, `y`),
-    /// to accept straight away (the online game takes the table).
-    pub fn draw_invites_corner(&mut self, ui: &mut Ui, y: f32, saved: bool) {
+    /// The invitations waiting, as cards stacked down from `top` in the top
+    /// right corner, like the system's notifications: over any screen and
+    /// any game, the newest sliding in. Drawn last, over everything. At an
+    /// online table they can only be declined; over a game against the
+    /// computer, accepting it gives the table to the online game.
+    /// Where the next cards may go (under these).
+    pub fn draw_invite_cards(&mut self, ui: &mut Ui, top: f32, spot: InviteSpot) -> f32 {
+        self.invite_area = None;
         if self.incoming.is_empty() {
-            return;
+            return top;
         }
         let sw = crate::ui::vw();
-        let w = 460.0f32.min(sw - 24.0);
-        let at = Rect::new(sw - w - 12.0, y, w, 0.0);
-        self.draw_invites_at(ui, InviteSpot::VsComputer { saved }, at);
-    }
-
-    /// The invitations stacked down from the top of `at` (its width).
-    fn draw_invites_at(&mut self, ui: &mut Ui, spot: InviteSpot, at: Rect) {
-        let in_match = spot == InviteSpot::OnlineMatch;
-        let w = at.w;
-        let mut y = at.y;
+        let w = 400.0f32.min(sw - 24.0);
+        let x = sw - w - 12.0;
+        let now = get_time();
+        let pad = 14.0;
+        let text_w = w - pad * 2.0 - 44.0 - 12.0;
+        let mut y = top;
         let mut answer = None;
-        for (from, rated) in self.incoming.iter().take(3) {
-            let r = Rect::new(at.x, y, w, 64.0);
-            ui.panel(r);
-            rrect_lines(r, 8.0, 1.6, GOLD);
-            let kind = if *rated { t("a rated game") } else { t("a casual game") };
-            let player = self.players.iter().find(|p| &p.username == from);
-            let color = player.map(name_color).unwrap_or(CREAM);
-            let country = player.map(|p| p.country.clone()).unwrap_or_default();
-            // The answers on the right, centred; who and what on the left.
-            let accept = t("Accept");
-            let decline = t("Decline");
-            let bw = button_w(ui, accept, 32.0).max(button_w(ui, decline, 32.0)).max(96.0);
-            let buttons = if in_match { bw } else { bw * 2.0 + 8.0 };
-            let text_w = w - 32.0 - buttons - 16.0;
-            ui.name_with_flag(from, &country, color, r.x + 16.0, r.y + 12.0, 16.0, text_w);
+        let shown = self.incoming.len().min(3);
+        for invite in self.incoming.iter().rev().take(shown) {
+            // Slides in from the right edge, easing out.
+            let kind = if invite.rated { t("a rated game") } else { t("a casual game") };
             let invites = tw("invites you to {kind}", &[("kind", &kind)]);
-            let line2 = match spot {
+            let line = match spot {
                 InviteSpot::OnlineMatch => format!("{invites} · {}", t("Finish this match first.")),
                 InviteSpot::VsComputer { saved: true } => {
                     format!("{invites} · {}", t("this game is saved"))
                 }
                 _ => invites,
             };
-            let (line2, size) = fit_text(ui, &line2, 13.0, text_w, false);
-            ui.text(&line2, r.x + 16.0, r.y + 36.0, size, CREAM, false);
-            let by = r.y + (r.h - 32.0) / 2.0;
-            let decline_r = Rect::new(r.x + w - 16.0 - bw, by, bw, 32.0);
-            if !in_match
-                && ui.primary_button(Rect::new(decline_r.x - 8.0 - bw, by, bw, 32.0), accept)
-            {
-                answer = Some((from.clone(), true));
+            // Up to two lines, the card as tall as they need.
+            let mut lines = ui.wrap(&line, text_w, 13.0);
+            lines.truncate(2);
+            let card_h = 112.0 + (lines.len().max(1) - 1) as f32 * 17.0;
+            let k = ((now - invite.at) / 0.28).clamp(0.0, 1.0) as f32;
+            let ease = 1.0 - (1.0 - k).powi(3);
+            let r = Rect::new(x + (1.0 - ease) * (w + 24.0), y, w, card_h);
+            crate::ui::soft_shadow(r, 10.0, 0.9);
+            ui.panel(r);
+            rrect_lines(r, 8.0, 1.6, GOLD);
+            // The gold edge of a notification.
+            rrect(Rect::new(r.x + 1.5, r.y + 10.0, 3.0, r.h - 20.0), 1.5, GOLD);
+            let player = self.players.iter().find(|p| p.username == invite.from);
+            let avatar = player.map(|p| p.avatar.clone()).unwrap_or_default();
+            crate::avatars::draw(&avatar, vec2(r.x + pad + 22.0, r.y + pad + 22.0), 22.0);
+            let text_x = r.x + pad + 44.0 + 12.0;
+            let label = t("Invitation").to_uppercase();
+            ui.text(&label, text_x, r.y + 11.0, 11.0, GOLD, true);
+            let color = player.map(name_color).unwrap_or(CREAM);
+            let country = player.map(|p| p.country.clone()).unwrap_or_default();
+            ui.name_with_flag(&invite.from, &country, color, text_x, r.y + 27.0, 16.0, text_w);
+            for (n, l) in lines.iter().enumerate() {
+                ui.text(l, text_x, r.y + 50.0 + n as f32 * 17.0, 13.0, CREAM, false);
             }
-            if ui.button(decline_r, decline, true) {
-                answer = Some((from.clone(), false));
+            // The answers along the bottom, under the text.
+            let by = r.y + r.h - pad - 32.0;
+            let bw = (text_w - 8.0) / 2.0;
+            let decline_r = Rect::new(text_x, by, bw, 32.0);
+            let accept_r = Rect::new(text_x + bw + 8.0, by, bw, 32.0);
+            if ui.button(decline_r, t("Decline"), true) {
+                answer = Some((invite.from.clone(), false));
             }
-            y += r.h + 8.0;
+            if spot == InviteSpot::OnlineMatch {
+                ui.button(accept_r, t("Accept"), false);
+            } else if ui.primary_button(accept_r, t("Accept")) {
+                answer = Some((invite.from.clone(), true));
+            }
+            ui.block(r);
+            y += card_h + 8.0;
         }
+        let more = self.incoming.len() - shown;
+        if more > 0 {
+            let text = tw("{n} more invitations", &[("n", &more)]);
+            let tw_ = ui.text_size(&text, 12.0, true).x + 24.0;
+            let r = Rect::new(x + w - tw_, y, tw_, 24.0);
+            rrect(r, 12.0, Color::new(0.05, 0.035, 0.025, 0.94));
+            rrect_lines(r, 12.0, 1.0, crate::ui::BORDER);
+            ui.text_centered(&text, r.x + r.w / 2.0, r.y + 5.0, 12.0, CREAM, true);
+            ui.block(r);
+            y += 24.0 + 8.0;
+        }
+        self.invite_area = Some(Rect::new(x, top, w, y - top));
         if let Some((from, accept)) = answer {
-            self.incoming.retain(|(f, _)| *f != from);
+            self.incoming.retain(|i| i.from != from);
             self.send(ClientMsg::AnswerInvite { from, accept });
         }
+        y
+    }
+
+    /// The cards are not shown this frame (focus mode, the settings).
+    pub fn hide_invite_cards(&mut self) {
+        self.invite_area = None;
     }
 
     /// The sign-in form, a waiting message or the lounge.
@@ -2520,18 +2563,6 @@ impl Online {
             self.side_tabs(ui, right_panel, config);
         }
         let mut log_top = right_panel.y + pad + 34.0 + 14.0;
-        // Invitations float over the top of this side, under its tabs: the
-        // tabs and the lists on the left stay in reach.
-        let invites_at = Rect::new(inner_x, log_top, inner_w, 0.0);
-        // The invitation cards are drawn over what is below them (the
-        // message of the day, the featured game, the side panels): under
-        // the cards, nothing below takes the pointer (one click declined an
-        // invitation and also opened the game behind it).
-        let cards = self.incoming.len().min(3) as f32;
-        let under_cards = cards > 0.0
-            && Rect::new(invites_at.x, invites_at.y, invites_at.w, cards * 72.0 - 8.0)
-                .contains(ui.mouse());
-        let covered = under_cards.then(|| ui.suspend_input());
         if !self.motd.is_empty() {
             let lines = ui.wrap(&self.motd, inner_w - 20.0, 13.0);
             let lines = &lines[..lines.len().min(3)];
@@ -2594,10 +2625,6 @@ impl Online {
                     }
                 }
             }
-            if let Some(saved) = covered {
-                ui.resume_input(saved);
-            }
-            self.draw_invites_at(ui, InviteSpot::Lounge, invites_at);
             return action;
         }
         // The featured game: anyone can watch it.
@@ -2723,11 +2750,6 @@ impl Online {
             self.chat_scroll = 0;
             ui.focus = if now { Some(30) } else { None };
         }
-
-        if let Some(saved) = covered {
-            ui.resume_input(saved);
-        }
-        self.draw_invites_at(ui, InviteSpot::Lounge, invites_at);
         action
     }
 

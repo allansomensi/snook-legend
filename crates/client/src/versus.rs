@@ -15,7 +15,7 @@ use crate::icons::Icon;
 use crate::ladder::{Claim, Claimer, Progress};
 use crate::online::{GHOST_TIMEOUT, Online};
 use crate::opponents::{self, Opponent};
-use crate::ranking::{HEADER_H, PAD, caps_y, screen_header, text_y};
+use crate::ranking::{HEADER_H, PAD, caps_y, screen_header_until, text_y};
 use crate::ui::{ALERT, BORDER, CREAM, GOLD, MUTED, Ui, rrect, rrect_lines};
 use crate::{MatchMode, MatchSettings};
 
@@ -170,8 +170,14 @@ impl Versus {
         let tab_w =
             (widest + 16.0).clamp(80.0, 108.0).min((r.w * 0.56 - (count - 1.0) * tab_gap) / count);
         let tabs_x = r.x + r.w - PAD - count * tab_w - (count - 1.0) * tab_gap;
-        if screen_header(ui, r, Icon::Robot, t("Against the computer"), Some(&subtitle))
-            || ui.escape()
+        if screen_header_until(
+            ui,
+            r,
+            Icon::Robot,
+            t("Against the computer"),
+            Some(&subtitle),
+            tabs_x - 12.0,
+        ) || ui.escape()
         {
             action = VersusAction::Back;
         }

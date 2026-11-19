@@ -50,17 +50,33 @@ pub(crate) fn screen_header(
     title: &str,
     subtitle: Option<&str>,
 ) -> bool {
+    screen_header_until(ui, r, icon, title, subtitle, r.x + r.w - PAD)
+}
+
+/// [`screen_header`] with its title and subtitle kept left of `right`
+/// (tabs on the right of the header): smaller, or shortened, to fit.
+pub(crate) fn screen_header_until(
+    ui: &mut Ui,
+    r: Rect,
+    icon: Icon,
+    title: &str,
+    subtitle: Option<&str>,
+    right: f32,
+) -> bool {
     let back =
         ui.icon_button(Rect::new(r.x + PAD, r.y + 20.0, 36.0, 36.0), Icon::Back, t("Back"), true);
     let mid = r.y + 38.0;
     let x = r.x + PAD + 36.0 + 16.0;
     crate::icons::draw(icon, vec2(x + 12.0, mid), 24.0, GOLD);
+    let room = (right - (x + 34.0)).max(60.0);
+    let (title, size) = ui.fitted(title, 24.0, room, true);
     match subtitle {
         Some(sub) => {
-            ui.text(title, x + 34.0, r.y + 15.0, 24.0, GOLD, true);
-            ui.text(sub, x + 34.0, r.y + 44.0, 13.0, MUTED, false);
+            ui.text(&title, x + 34.0, r.y + 15.0 + (24.0 - size) / 2.0, size, GOLD, true);
+            let (sub, sub_size) = ui.fitted(sub, 13.0, room, false);
+            ui.text(&sub, x + 34.0, r.y + 44.0, sub_size, MUTED, false);
         }
-        None => ui.text(title, x + 34.0, caps_y(mid, 24.0), 24.0, GOLD, true),
+        None => ui.text(&title, x + 34.0, caps_y(mid, size), size, GOLD, true),
     }
     back
 }

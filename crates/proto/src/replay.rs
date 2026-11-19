@@ -45,7 +45,10 @@ pub struct Replay {
     pub seed: u64,
     pub breaker: usize,
     pub strokes: Vec<Stroke>,
-    /// The rules it was played under.
+    /// The rules it was played under. A file of the player's own written
+    /// before there were two (the tour's final kept on disk) was played
+    /// under the Brazilian rules.
+    #[serde(default)]
     pub rules: Rules,
 }
 

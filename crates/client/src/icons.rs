@@ -22,6 +22,8 @@ pub enum Icon {
     Back,
     Lock,
     Globe,
+    /// Two arrows, one each way: switch between two things.
+    Swap,
     Network,
     Robot,
     Medal,
@@ -186,6 +188,12 @@ pub fn draw(icon: Icon, c: Vec2, s: f32, color: Color) {
             line(p(-0.8, 0.0), p(0.8, 0.0), w * 0.8, color);
             arc(c + vec2(0.9 * h, 0.0), 1.2 * h, 2.43, 3.85, w * 0.8, color);
             arc(c - vec2(0.9 * h, 0.0), 1.2 * h, -0.71, 0.71, w * 0.8, color);
+        }
+        Icon::Swap => {
+            line(p(-0.7, -0.3), p(0.7, -0.3), w * 1.1, color);
+            line(p(0.7, -0.3), p(0.32, -0.65), w * 1.1, color);
+            line(p(0.7, 0.3), p(-0.7, 0.3), w * 1.1, color);
+            line(p(-0.7, 0.3), p(-0.32, 0.65), w * 1.1, color);
         }
         Icon::Network => {
             crate::ui::rrect(

@@ -121,6 +121,7 @@ mod tests {
             guide: crate::config::AimGuide::Standard,
             shot_clock: Some(45),
             ladder: None,
+            rules: snook_legend_core::Rules::Brazilian,
         };
         let mut m = Match::new(&settings, 77);
         m.wins = [2, 1];
@@ -148,6 +149,7 @@ mod tests {
             guide: crate::config::AimGuide::Standard,
             shot_clock: None,
             ladder: Some(4),
+            rules: snook_legend_core::Rules::Brazilian,
         };
         let mut m = Match::new(&settings, 99);
         assert_eq!(m.names[1], "Marta");

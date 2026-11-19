@@ -5,8 +5,8 @@
 
 ## O jogo
 
-### Regra brasileira regional
-O Snook Legend segue uma regra brasileira regional de bola 8, a dos bares e salões, com bolas de penalidade. Não é a regra oficial de torneio (WPA nem das confederações): se você conhece a regra oficial, leia as faltas e a bola 8 abaixo, porque mudam bastante.
+### A regra brasileira
+A bola 8 dos bares e salões do Brasil, com bolas de penalidade. O Snook Legend tem também a regra oficial (WPA): escolha a regra das suas partidas no menu principal. Se você conhece a regra oficial, leia as faltas e a bola 8 abaixo, porque mudam bastante.
 
 ### O objetivo
 Cada jogador tem um grupo de sete bolas: as lisas (1 a 7) ou as listradas (9 a 15). Encaçape todas as suas e depois a bola 8, antes do adversário.

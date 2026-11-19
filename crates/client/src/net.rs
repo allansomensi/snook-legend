@@ -40,8 +40,9 @@ const SILENCE_LIMIT: Duration = Duration::from_secs(60);
 const CONNECT_TIMEOUT: Duration = Duration::from_secs(20);
 
 impl Connection {
-    /// Starts connecting to `url` (`ws://host:port/ws` or `wss://…`).
-    pub fn open(url: &str) -> Connection {
+    /// Starts connecting to `url` (`ws://host:port/ws` or `wss://…`), for
+    /// a player of `rules` (the hello says so).
+    pub fn open(url: &str, rules: snook_legend_core::Rules) -> Connection {
         let (tx, out_rx) = unbounded_channel::<ClientMsg>();
         let (in_tx, rx) = channel::<NetEvent>();
         let url = url.trim().to_string();
@@ -50,7 +51,7 @@ impl Connection {
             .spawn(move || {
                 let runtime = tokio::runtime::Builder::new_current_thread().enable_all().build();
                 let reason = match runtime {
-                    Ok(rt) => match rt.block_on(run(&url, out_rx, &in_tx)) {
+                    Ok(rt) => match rt.block_on(run(&url, rules, out_rx, &in_tx)) {
                         Ok(()) => "Disconnected.".to_string(),
                         Err(e) => e,
                     },
@@ -114,6 +115,7 @@ fn friendly(e: &tungstenite::Error) -> String {
 
 async fn run(
     url: &str,
+    rules: snook_legend_core::Rules,
     mut out_rx: UnboundedReceiver<ClientMsg>,
     in_tx: &Sender<NetEvent>,
 ) -> Result<(), String> {
@@ -145,7 +147,7 @@ async fn run(
     .map_err(|e| friendly(&e))?;
     let (mut sink, mut source) = ws.split();
     let send_msg = |msg: &ClientMsg| Message::text(msg.to_json());
-    sink.send(send_msg(&ClientMsg::Hello { version: PROTOCOL_VERSION }))
+    sink.send(send_msg(&ClientMsg::Hello { version: PROTOCOL_VERSION, rules }))
         .await
         .map_err(|e| friendly(&e))?;
     if in_tx.send(NetEvent::Connected).is_err() {
@@ -210,7 +212,7 @@ mod tests {
         let (_tx, out_rx) = unbounded_channel();
         let (in_tx, _rx) = channel();
         let rt = tokio::runtime::Builder::new_current_thread().enable_all().build().unwrap();
-        rt.block_on(run(url, out_rx, &in_tx))
+        rt.block_on(run(url, snook_legend_core::Rules::Brazilian, out_rx, &in_tx))
     }
 
     #[test]
@@ -253,8 +255,8 @@ mod tests {
     fn messages_cross_the_server_at_once() {
         let host = snook_legend_server::lan::LanHost::start("test").expect("host");
         let url = format!("ws://127.0.0.1:{}/ws", host.port);
-        let mut a = Connection::open(&url);
-        let mut b = Connection::open(&url);
+        let mut a = Connection::open(&url, snook_legend_core::Rules::Brazilian);
+        let mut b = Connection::open(&url, snook_legend_core::Rules::Official);
         for (c, name) in [(&mut a, "alpha"), (&mut b, "bravo")] {
             // The hello is queued first, so the sign-in can go at once.
             c.send(ClientMsg::Guest { name: name.into() });

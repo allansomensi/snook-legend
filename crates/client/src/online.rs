@@ -14,8 +14,9 @@ pub use social::{STATUS_COLOR, sub_line};
 
 use crate::i18n::{t, tw};
 use snook_legend_proto::{
-    ClientMsg, FriendInfo, LeaderboardEntry, MAX_CHAT_LEN, PlayerInfo, PlayerStatus, Profile,
-    ServerMsg, TableInfo, TournamentInfo, TournamentState, valid_password, valid_username,
+    ClientMsg, FriendInfo, LeaderboardEntry, MAX_CHAT_LEN, PerRules, PlayerInfo, PlayerStatus,
+    Profile, Rules, ServerMsg, TableInfo, TournamentInfo, TournamentState, valid_password,
+    valid_username,
 };
 
 #[allow(unused_imports)]
@@ -83,6 +84,7 @@ struct TournamentForm {
     /// Coins to enter (0: free).
     entry_fee: u32,
     format: snook_legend_proto::TournamentFormat,
+    rules: Rules,
 }
 
 #[derive(Default)]
@@ -174,9 +176,16 @@ pub struct Online {
     chat: Vec<FeedLine>,
     chat_input: String,
     chat_scroll: usize,
-    pub leaderboard: Vec<LeaderboardEntry>,
-    pub leaderboard_loaded: bool,
-    leaderboard_age: f32,
+    /// The world ranking of each of the rules, and whether it came.
+    pub leaderboard: PerRules<Vec<LeaderboardEntry>>,
+    pub leaderboard_loaded: PerRules<bool>,
+    /// The rules the player plays (the game's choice, see
+    /// [`Config::rules`]): the server is told when it changes.
+    pub rules: Rules,
+    /// The rules the server was last told (none: a new session).
+    rules_sent: Option<Rules>,
+    /// The invitation being set up (the game and the rules), before it goes.
+    pub invite_dialog: Option<InviteDialog>,
     /// Invitations waiting for an answer, oldest first.
     incoming: Vec<Invite>,
     /// Where the invitation cards were last drawn: under them nothing else
@@ -184,7 +193,8 @@ pub struct Online {
     invite_area: Option<Rect>,
     /// An invitation just came: the game rings once.
     pub invite_sound: bool,
-    outgoing: Option<(String, bool)>,
+    /// The invitation sent and waiting: who to, rated, under which rules.
+    outgoing: Option<(String, bool, Rules)>,
     motd: String,
     token: String,
     auto_resume: bool,
@@ -205,9 +215,9 @@ pub struct Online {
     friend_input: String,
     pub profile: Option<Profile>,
     unread_friend_requests: bool,
-    /// Searching in "Play now": rated, seconds waited and the rating range
-    /// when the server last said so, and when that was.
-    queue: Option<(bool, u32, u32, std::time::Instant)>,
+    /// Searching in "Play now": rated, under which rules, seconds waited
+    /// and the rating range when the server last said so, and when that was.
+    queue: Option<(bool, Rules, u32, u32, std::time::Instant)>,
     /// Correspondence ("daily") games and challenges.
     pub corr: crate::correspondence::Corr,
     /// Round trip to the server, measured with a ping every few seconds.
@@ -339,6 +349,46 @@ pub struct Online {
     offer_password: String,
 }
 
+/// How many players online play one of the rules (the menu and the
+/// lounge show them).
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
+pub struct RuleCounts {
+    /// Everyone online who plays them.
+    pub players: usize,
+    /// Of them, those in the lounge or in online games.
+    pub online: usize,
+    /// Of them, those playing the computer.
+    pub vs_computer: usize,
+    /// Of them, those looking for an opponent in "Play now".
+    pub searching: usize,
+}
+
+impl RuleCounts {
+    fn of(o: &Online, rules: Rules) -> RuleCounts {
+        let mut c = RuleCounts::default();
+        for p in o.players_of(rules) {
+            c.players += 1;
+            if p.vs_computer {
+                c.vs_computer += 1;
+            } else {
+                c.online += 1;
+            }
+            if p.searching {
+                c.searching += 1;
+            }
+        }
+        c
+    }
+}
+
+/// An invitation being set up: who to, and the game offered.
+#[derive(Debug, Clone, PartialEq)]
+pub struct InviteDialog {
+    pub to: String,
+    pub rated: bool,
+    pub rules: Rules,
+}
+
 /// A request for the style of a player's ghost.
 #[derive(Debug, Clone)]
 pub struct GhostRequest {
@@ -358,6 +408,7 @@ pub const GHOST_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(45
 struct Invite {
     from: String,
     rated: bool,
+    rules: Rules,
     /// When it came (`get_time`): its card slides in.
     at: f64,
 }
@@ -541,6 +592,7 @@ impl Online {
     pub fn new(config: &Config) -> Online {
         let mut o = Online::empty(&config.server, false);
         o.username = config.username.clone();
+        o.rules = config.rules();
         // Only the session this server gave (see `Config::session_token`).
         o.token = config.session_token().to_string();
         o.auto_resume = !o.token.is_empty();
@@ -581,9 +633,11 @@ impl Online {
             chat: Vec::new(),
             chat_input: String::new(),
             chat_scroll: 0,
-            leaderboard: Vec::new(),
-            leaderboard_loaded: false,
-            leaderboard_age: f32::MAX,
+            leaderboard: PerRules::default(),
+            leaderboard_loaded: PerRules::default(),
+            rules: Rules::default(),
+            rules_sent: None,
+            invite_dialog: None,
             incoming: Vec::new(),
             invite_area: None,
             invite_sound: false,
@@ -723,7 +777,7 @@ impl Online {
     pub fn connect(&mut self) {
         if self.conn.is_none() {
             self.authed = false;
-            self.conn = Some(Connection::open(&self.server));
+            self.conn = Some(Connection::open(&self.server, self.rules));
             if !matches!(self.stage, Stage::Reconnecting { .. }) {
                 self.stage = Stage::Connecting;
             }
@@ -747,10 +801,27 @@ impl Online {
         }
     }
 
-    pub fn request_leaderboard(&mut self) {
+    pub fn request_leaderboard(&mut self, rules: Rules) {
         self.connect();
-        self.send(ClientMsg::Leaderboard);
-        self.leaderboard_age = 0.0;
+        self.send(ClientMsg::Leaderboard { rules });
+    }
+
+    /// Players online who play `rules` (this one included).
+    pub fn players_of(&self, rules: Rules) -> impl Iterator<Item = &PlayerInfo> {
+        self.players.iter().filter(move |p| p.rules == rules)
+    }
+
+    /// Players online under each of the rules, and of those how many are
+    /// in online games or the lounge, and how many play the computer (the
+    /// menu's counts); `None` before the lounge's list came.
+    pub fn counts(&self) -> Option<PerRules<RuleCounts>> {
+        if !self.signed_in() || self.players.is_empty() {
+            return None;
+        }
+        Some(PerRules::new(
+            RuleCounts::of(self, Rules::Brazilian),
+            RuleCounts::of(self, Rules::Official),
+        ))
     }
 
     /// Whether this account has the achievement `code`.
@@ -853,10 +924,9 @@ impl Online {
             if *wait <= 0.0 && self.conn.is_none() {
                 *attempt += 1;
                 self.authed = false;
-                self.conn = Some(Connection::open(&self.server));
+                self.conn = Some(Connection::open(&self.server, self.rules));
             }
         }
-        self.leaderboard_age += dt;
         // Measure the round trip every few seconds while signed in.
         if self.signed_in() {
             self.ping_timer -= dt;
@@ -938,6 +1008,19 @@ impl Online {
             self.activity_sent = activity;
             self.send(ClientMsg::SetActivity { vs_computer, away: self.away, focus });
         }
+        // The rules the player plays: the lounge shows them (a new session
+        // says them in its hello).
+        self.rules = config.rules();
+        if self.signed_in() && self.rules_sent != Some(self.rules) {
+            self.rules_sent = Some(self.rules);
+            self.send(ClientMsg::SetRules { rules: self.rules });
+            // Searching under the other rules: the search goes on under these.
+            if let Some((rated, rules, ..)) = self.queue
+                && rules != self.rules
+            {
+                self.send(ClientMsg::QueueJoin { rated, rules: self.rules });
+            }
+        }
         save
     }
 
@@ -969,6 +1052,8 @@ impl Online {
                 // here before signing in becomes the account's.
                 let account_picture = player.avatar.clone();
                 let guest = player.guest;
+                // What the hello said.
+                self.rules_sent = Some(player.rules);
                 self.me = Some(player);
                 if !account_picture.is_empty() {
                     crate::avatars::set_mine(&account_picture);
@@ -996,14 +1081,18 @@ impl Online {
                     config.token_server = self.server.clone();
                     save = true;
                     self.send(ClientMsg::Friends);
-                    self.send(ClientMsg::Leaderboard);
+                    self.send(ClientMsg::Leaderboard { rules: self.rules });
                     // Development aid: SNOOK_LEGEND_AUTOINVITE=<name> invites that player.
                     if let Some(to) = crate::dev::var("SNOOK_LEGEND_AUTOINVITE") {
-                        self.send(ClientMsg::Invite { to, rated: true });
+                        self.send(ClientMsg::Invite { to, rated: true, rules: self.rules });
+                    }
+                    // SNOOK_LEGEND_INVITE_DIALOG=<name> opens the invitation to them.
+                    if let Some(to) = crate::dev::var("SNOOK_LEGEND_INVITE_DIALOG") {
+                        self.open_invite(&to);
                     }
                     // SNOOK_LEGEND_AUTOQUEUE=1 joins "Play now".
                     if crate::dev::flag("SNOOK_LEGEND_AUTOQUEUE") {
-                        self.send(ClientMsg::QueueJoin { rated: true });
+                        self.send(ClientMsg::QueueJoin { rated: true, rules: self.rules });
                     }
                     // SNOOK_LEGEND_AUTOWATCH=<name> watches that friend's game.
                     if let Some(username) = crate::dev::var("SNOOK_LEGEND_AUTOWATCH") {
@@ -1114,7 +1203,7 @@ impl Online {
                         f.online = false;
                     }
                 }
-                if self.outgoing.as_ref().is_some_and(|(to, _)| *to == username) {
+                if self.outgoing.as_ref().is_some_and(|(to, ..)| *to == username) {
                     self.outgoing = None;
                 }
             }
@@ -1150,7 +1239,7 @@ impl Online {
                     }
                 }
             }
-            ServerMsg::Invited { from, rated } => {
+            ServerMsg::Invited { from, rated, rules } => {
                 if crate::dev::flag("SNOOK_LEGEND_AUTOPLAY") && current.is_none() {
                     // Development aid: accept at once.
                     self.send(ClientMsg::AnswerInvite { from, accept: true });
@@ -1166,9 +1255,9 @@ impl Online {
                     self.invite_sound = true;
                 }
                 self.incoming.retain(|i| i.from != from);
-                self.incoming.push(Invite { from, rated, at: get_time() });
+                self.incoming.push(Invite { from, rated, rules, at: get_time() });
             }
-            ServerMsg::InviteSent { to, rated } => self.outgoing = Some((to, rated)),
+            ServerMsg::InviteSent { to, rated, rules } => self.outgoing = Some((to, rated, rules)),
             ServerMsg::InviteCancelled { from } => self.incoming.retain(|i| i.from != from),
             ServerMsg::InviteDeclined { by } => {
                 self.outgoing = None;
@@ -1209,9 +1298,9 @@ impl Online {
                     self.selected_tournament = None;
                 }
             }
-            ServerMsg::Leaderboard { entries } => {
-                self.leaderboard = entries;
-                self.leaderboard_loaded = true;
+            ServerMsg::Leaderboard { rules, entries } => {
+                *self.leaderboard.get_mut(rules) = entries;
+                *self.leaderboard_loaded.get_mut(rules) = true;
             }
             ServerMsg::Profile { profile } => self.profile = Some(*profile),
             ServerMsg::Friends { friends, incoming, outgoing, blocked } => {
@@ -1492,9 +1581,9 @@ impl Online {
                     self.toast(t("Could not open the browser."), true);
                 }
             }
-            ServerMsg::Queue { searching, rated, waited_secs, range } => {
-                self.queue =
-                    searching.then(|| (rated, waited_secs, range, std::time::Instant::now()));
+            ServerMsg::Queue { searching, rated, rules, waited_secs, range } => {
+                self.queue = searching
+                    .then(|| (rated, rules, waited_secs, range, std::time::Instant::now()));
             }
             ServerMsg::SpectateEnded { reason } => {
                 if current.as_ref().is_some_and(|m| m.is_spectating()) {
@@ -1918,7 +2007,8 @@ impl Online {
             // Up to two lines, the card as tall as they need.
             let mut lines = ui.wrap(&line, text_w, 13.0);
             lines.truncate(2);
-            let card_h = 112.0 + (lines.len().max(1) - 1) as f32 * 17.0;
+            // The rules of the game offered, in a pill under the text.
+            let card_h = 112.0 + 28.0 + (lines.len().max(1) - 1) as f32 * 17.0;
             let k = ((now - invite.at) / 0.28).clamp(0.0, 1.0) as f32;
             let ease = 1.0 - (1.0 - k).powi(3);
             let r = Rect::new(x + (1.0 - ease) * (w + 24.0), y, w, card_h);
@@ -1939,6 +2029,9 @@ impl Online {
             for (n, l) in lines.iter().enumerate() {
                 ui.text(l, text_x, r.y + 50.0 + n as f32 * 17.0, 13.0, CREAM, false);
             }
+            let pill_y = r.y + 50.0 + lines.len().max(1) as f32 * 17.0 + 5.0;
+            let label = crate::i18n::rules_name(invite.rules);
+            crate::rulesui::pill(ui, text_x, pill_y, 22.0, invite.rules, label, false);
             // The answers along the bottom, under the text.
             let by = r.y + r.h - pad - 32.0;
             let bw = (text_w - 8.0) / 2.0;
@@ -1972,6 +2065,114 @@ impl Online {
             self.send(ClientMsg::AnswerInvite { from, accept });
         }
         y
+    }
+
+    /// Opens the dialog that invites `to`: the game (rated or casual) and
+    /// the rules, this player's by default.
+    pub fn open_invite(&mut self, to: &str) {
+        self.invite_dialog = Some(InviteDialog {
+            to: to.to_string(),
+            rated: self.rated_games && !self.lan,
+            rules: self.rules,
+        });
+    }
+
+    /// The invitation dialog, over the lounge (`main` draws it last, with
+    /// the input of what is under it held).
+    pub fn draw_invite_dialog(&mut self, ui: &mut Ui) {
+        let Some(mut d) = self.invite_dialog.clone() else { return };
+        let sw = crate::ui::vw();
+        let sh = crate::ui::vh();
+        let w = 560.0f32.min(sw - 24.0);
+        let pad = 28.0;
+        let inner = w - pad * 2.0;
+        let them = self.players.iter().find(|p| p.username == d.to).cloned();
+        // What the other player plays, when it isn't this player's.
+        let theirs = them.as_ref().map(|p| p.rules).filter(|r| *r != self.rules);
+        let note = them.as_ref().filter(|p| p.rules != self.rules).map(|p| {
+            tw(
+                "{name} plays the {theirs} now; yours are the {mine}.",
+                &[
+                    ("name", &p.username),
+                    ("theirs", &crate::i18n::rules_name(p.rules).to_lowercase()),
+                    ("mine", &crate::i18n::rules_name(self.rules).to_lowercase()),
+                ],
+            )
+        });
+        let note_lines = note.as_ref().map_or(Vec::new(), |n| ui.wrap(n, inner - 24.0, 13.0));
+        let note_h =
+            if note_lines.is_empty() { 0.0 } else { 10.0 + note_lines.len() as f32 * 18.0 };
+        let h = pad + 64.0 + 22.0 + 24.0 + 44.0 + 20.0 + 24.0 + 48.0 + note_h + 28.0 + 44.0 + pad;
+        let r = Rect::new((sw - w) / 2.0, ((sh - h) / 2.0).max(8.0), w, h);
+        draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.55));
+        crate::ui::soft_shadow(r, 10.0, 1.0);
+        ui.panel(r);
+        let x = r.x + pad;
+        let mut y = r.y + pad;
+        // Who: the picture, the name, and their standing under the rules
+        // chosen.
+        let avatar = them.as_ref().map(|p| p.avatar.clone()).unwrap_or_default();
+        crate::avatars::draw(&avatar, vec2(x + 30.0, y + 30.0), 30.0);
+        let title = tw("Invite {name}", &[("name", &d.to)]);
+        let (title, size) = ui.fitted(&title, 24.0, inner - 76.0, true);
+        ui.text(&title, x + 76.0, y + 4.0, size, GOLD, true);
+        if let Some(p) = &them {
+            let mut sx = x + 76.0;
+            if crate::flags::draw(&p.country, sx, y + 38.0, 14.0) {
+                sx += crate::flags::width(14.0) + 8.0;
+            }
+            let standing = if p.guest {
+                t("guest").to_string()
+            } else {
+                format!("{} · {}", t(p.tier_in(d.rules).name()), p.rating_in(d.rules))
+            };
+            ui.text(&standing, sx, y + 37.0, 14.0, MUTED, false);
+        }
+        y += 64.0 + 22.0;
+        // The game: rated or casual.
+        ui.text(t("Game type"), x, y, 15.0, CREAM, true);
+        y += 24.0;
+        let seg = Rect::new(x, y, inner, 44.0);
+        if self.lan {
+            ui.text(t("LAN games don't change ratings."), x, y + 14.0, 14.0, MUTED, false);
+        } else if let Some(i) = ui.segmented(seg, &[t("Rated"), t("Casual")], !d.rated as usize) {
+            d.rated = i == 0;
+        }
+        y += 44.0 + 20.0;
+        // The rules.
+        ui.text(t("Rules"), x, y, 15.0, CREAM, true);
+        y += 24.0;
+        if let Some(rules) = crate::rulesui::switch(ui, Rect::new(x, y, inner, 48.0), d.rules, None)
+        {
+            d.rules = rules;
+        }
+        y += 48.0;
+        if let Some(theirs) = theirs.filter(|_| !note_lines.is_empty()) {
+            y += 10.0;
+            crate::rulesui::mark(theirs, vec2(x + 8.0, y + 9.0), 15.0);
+            let color = crate::rulesui::accent(theirs);
+            for (k, line) in note_lines.iter().enumerate() {
+                ui.text(line, x + 24.0, y + k as f32 * 18.0, 13.0, color, false);
+            }
+        }
+        // Cancel, and Invite (Enter).
+        let by = r.y + r.h - pad - 44.0;
+        let cw = (inner * 0.36).min(200.0);
+        let cancel = Rect::new(x, by, cw, 44.0);
+        let send = Rect::new(x + cw + 16.0, by, inner - cw - 16.0, 44.0);
+        ui.block(Rect::new(0.0, 0.0, sw, sh));
+        let enter = is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::KpEnter);
+        if ui.button(cancel, t("Cancel"), true) || is_key_pressed(KeyCode::Escape) {
+            self.invite_dialog = None;
+            return;
+        }
+        if ui.primary_button(send, t("Invite")) || enter {
+            self.invite_dialog = None;
+            let rated = d.rated && !self.lan;
+            self.send(ClientMsg::Invite { to: d.to, rated, rules: d.rules });
+            return;
+        }
+        self.invite_dialog = Some(d);
     }
 
     /// The cards are not shown this frame (focus mode, the settings).
@@ -2285,7 +2486,8 @@ impl Online {
         let esc = ui.escape()
             && self.email_offer.is_none()
             && !crate::countries::is_open()
-            && !self.chat_dialog_open;
+            && !self.chat_dialog_open
+            && self.invite_dialog.is_none();
         // A dark wash over the slowly turning table: the room is the backdrop.
         draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.42));
         let mut action = OnlineAction::None;
@@ -2365,7 +2567,25 @@ impl Online {
                 self.toast(t("Copied."), true);
             }
         }
-        let title_end = title_x + title_w + 10.0 + sub_w;
+        // The rules this player plays, beside the title: a click switches
+        // them ("Play now", tables and invitations follow).
+        let wide = header.w > 1150.0;
+        let label = if wide {
+            crate::i18n::rules_name(self.rules)
+        } else {
+            crate::i18n::rules_short(self.rules)
+        };
+        let pill_x = title_x + title_w + 10.0 + sub_w + 16.0;
+        let (pill_r, switch) =
+            crate::rulesui::pill(ui, pill_x, by + 2.0, 32.0, self.rules, label, true);
+        if ui.hovering(pill_r) {
+            ui.tooltip(t("The rules of your games: click to switch"), pill_r);
+        }
+        if switch {
+            config.set_rules(self.rules.other());
+            self.rules = config.rules();
+        }
+        let title_end = pill_r.x + pill_r.w;
         // The ping, when asked for, beside the count.
         let ping = match self.rtt.filter(|_| config.show_ping) {
             Some(rtt) => tw("ping {ms} ms", &[("ms", &rtt.as_millis())]),
@@ -2407,7 +2627,7 @@ impl Online {
             let sub = if me.guest {
                 t("guest").to_string()
             } else {
-                format!("{} · {}", me.rating, t(me.tier().name()))
+                format!("{} · {}", me.rating_in(self.rules), t(me.tier_in(self.rules).name()))
             };
             let content = name_width(ui, &me, 14.0).max(ui.text_size(&sub, 12.0, false).x);
             let room = right - gap - (title_end + 24.0 + online_w + 26.0);
@@ -2513,7 +2733,7 @@ impl Online {
         }
 
         // Outgoing invitation.
-        if let Some((to, rated)) = self.outgoing.clone() {
+        if let Some((to, rated, rules)) = self.outgoing.clone() {
             let r = Rect::new(left.x + pad, left.y + left.h - pad - 48.0, left.w - pad * 2.0, 48.0);
             rrect(r, 8.0, Color::new(0.18, 0.12, 0.06, 0.95));
             rrect_lines(r, 8.0, 1.5, GOLD);
@@ -2521,6 +2741,7 @@ impl Online {
             let bw = button_w(ui, cancel, 32.0).max(90.0);
             crate::ui::spinner(vec2(r.x + 22.0, r.y + 24.0), 7.0, GOLD);
             let kind = if rated { t("rated") } else { t("casual") };
+            let kind = format!("{kind} · {}", crate::i18n::rules_name(rules).to_lowercase());
             let text = tw("Waiting for {to} ({kind})…", &[("to", &to), ("kind", &kind)]);
             let (text, size) = fit_text(ui, &text, 15.0, r.w - 40.0 - bw - 24.0, false);
             ui.text(&text, r.x + 40.0, r.y + (r.h - size) / 2.0, size, CREAM, false);
@@ -2624,8 +2845,9 @@ impl Online {
             draw_circle(r.x + 16.0, r.y + 16.0, 4.0, Color::new(1.0, 0.3, 0.25, 0.5 + 0.5 * live));
             let on_tv = t("ON TV");
             ui.text(on_tv, r.x + 26.0, r.y + 10.0, 11.0, ALERT, true);
-            let avg = (f.players[0].rating + f.players[1].rating) / 2;
+            let avg = (f.players[0].rating_in(f.rules) + f.players[1].rating_in(f.rules)) / 2;
             let sub = tw("{n} watching · avg {r}", &[("n", &f.spectators), ("r", &avg)]);
+            let sub = format!("{sub} · {}", crate::i18n::rules_name(f.rules).to_lowercase());
             // After the label, however long it is in this language ("EN LA TELE").
             let sub_x = r.x + 26.0 + ui.text_size(on_tv, 11.0, true).x + 10.0;
             let (sub, sub_size) = fit_text(ui, &sub, 12.0, r.x + r.w - bw - 24.0 - sub_x, false);
@@ -2783,8 +3005,8 @@ impl Online {
                 self.buying = Some(code.clone());
                 self.send(ClientMsg::GiftItem { to, code, message: String::new() });
             }
-            Some(ClientMsg::PostSeek { rated, .. }) => {
-                self.send(ClientMsg::PostSeek { text: String::new(), rated });
+            Some(ClientMsg::PostSeek { rated, rules, .. }) => {
+                self.send(ClientMsg::PostSeek { text: String::new(), rated, rules });
             }
             Some(ClientMsg::Chat { text }) if self.chat_input.is_empty() => {
                 self.chat_input = text;
@@ -3283,7 +3505,7 @@ impl Online {
     /// "Play now": one click to be paired with someone of a similar rating.
     /// Seconds "Play now" has been looking for an opponent.
     pub fn queue_secs(&self) -> Option<u32> {
-        self.queue.map(|(_, waited, _, at)| waited + at.elapsed().as_secs() as u32)
+        self.queue.map(|(_, _, waited, _, at)| waited + at.elapsed().as_secs() as u32)
     }
 
     /// While a game against the computer fills the wait: the search, under
@@ -3312,13 +3534,28 @@ impl Online {
         match self.queue {
             None => {
                 if ui.primary_button(r, t("Play now")) {
-                    self.send(ClientMsg::QueueJoin { rated: self.rated_games && !self.lan });
+                    let rated = self.rated_games && !self.lan;
+                    self.send(ClientMsg::QueueJoin { rated, rules: self.rules });
+                }
+                // How many are looking for an opponent under these rules.
+                let waiting = self.players_of(self.rules).filter(|p| p.searching).count();
+                if waiting > 0 && r.w > 260.0 {
+                    let label = tw("{n} waiting", &[("n", &waiting)]);
+                    let lw = ui.text_size(&label, 13.0, true).x;
+                    let cy = r.y + r.h / 2.0;
+                    let lx = r.x + r.w - 14.0 - lw;
+                    crate::icons::draw(Icon::Person, vec2(lx - 11.0, cy), 13.0, CREAM);
+                    ui.text(&label, lx, crate::ranking::text_y(cy, 13.0), 13.0, CREAM, true);
                 }
                 if ui.hovering(r) {
-                    ui.tooltip(t("Find an opponent of your level automatically"), r);
+                    let tip = tw(
+                        "Find an opponent of your level automatically ({rules})",
+                        &[("rules", &crate::i18n::rules_name(self.rules).to_lowercase())],
+                    );
+                    ui.tooltip(&tip, r);
                 }
             }
-            Some((rated, waited, range, at)) => {
+            Some((rated, rules, waited, range, at)) => {
                 rrect(r, 8.0, Color::new(0.10, 0.30, 0.18, 0.55));
                 rrect_lines(r, 8.0, 1.5, Color::new(0.35, 0.8, 0.5, 0.8));
                 // A small spinner.
@@ -3334,14 +3571,13 @@ impl Online {
                     "Looking for an opponent… {t}",
                     &[("t", &format!("{}:{:02}", secs / 60, secs % 60))],
                 );
+                let mode = if rated { t("rated") } else { t("casual") };
                 let sub = if range == u32::MAX {
-                    t("any rating").to_string()
+                    format!("{} · {mode}", t("any rating"))
                 } else {
-                    tw(
-                        "rating ±{n} · {mode}",
-                        &[("n", &range), ("mode", &if rated { t("rated") } else { t("casual") })],
-                    )
+                    tw("rating ±{n} · {mode}", &[("n", &range), ("mode", &mode)])
                 };
+                let sub = format!("{sub} · {}", crate::i18n::rules_name(rules).to_lowercase());
                 let cw = 100.0f32.min(r.w * 0.3);
                 let (title, size) = ui.fitted(&title, 14.0, r.w - cw - 56.0, true);
                 ui.text(&title, r.x + 40.0, r.y + 7.0, size, CREAM, true);
@@ -3391,9 +3627,11 @@ impl Online {
         let me = self.me.as_ref().map(|m| m.username.clone()).unwrap_or_default();
         let mut players: Vec<PlayerInfo> =
             self.players.iter().filter(|p| p.username != me).cloned().collect();
-        // Those looking for a game first (newest note first), then who is free.
+        // Those looking for a game first (newest note first), then who is
+        // free, those of this player's rules before the others.
         let now = crate::game::unix_now();
         let note_at = |p: &PlayerInfo| self.social.note_of(&p.username, now).map(|n| n.at);
+        let mine = self.rules;
         players.sort_by(|a, b| {
             note_at(b)
                 .cmp(&note_at(a))
@@ -3401,7 +3639,8 @@ impl Online {
                     (a.status != PlayerStatus::Available)
                         .cmp(&(b.status != PlayerStatus::Available)),
                 )
-                .then(b.rating.cmp(&a.rating))
+                .then((a.rules != mine).cmp(&(b.rules != mine)))
+                .then(b.rating().cmp(&a.rating()))
         });
         let list = Rect::new(area.x, y, area.w, area.y + area.h - y);
         if players.is_empty() {
@@ -3462,10 +3701,18 @@ impl Online {
             match &note {
                 Some(n) => {
                     Self::rating_after_name(ui, p, nx, r.y + 5.0, name_w);
-                    Self::note_line(ui, n, nx, r.y + 23.0, name_w);
+                    Self::note_line(ui, n, mine, nx, r.y + 23.0, name_w);
                 }
                 None => {
-                    sub_line(ui, &Self::status_text(p), &p.status_message, nx, r.y + 23.0, name_w)
+                    // A player of the other rules says so at the end.
+                    let other = (p.rules != mine)
+                        .then(|| social::other_rules(ui, p.rules, 0.0, 0.0, false));
+                    let room = name_w - other.unwrap_or(0.0);
+                    let status = Self::status_text(p);
+                    let used = sub_line(ui, &status, &p.status_message, nx, r.y + 23.0, room);
+                    if other.is_some() {
+                        social::other_rules(ui, p.rules, nx + used, r.y + 23.0, true);
+                    }
                 }
             }
             if hover
@@ -3498,7 +3745,8 @@ impl Online {
                     ui.button(button, challenge_label, false)
                 };
                 if hit {
-                    self.send(ClientMsg::Invite { to: p.username.clone(), rated: n.rated });
+                    let (to, rated, rules) = (p.username.clone(), n.rated, n.rules);
+                    self.send(ClientMsg::Invite { to, rated, rules });
                 }
             } else if p.status == PlayerStatus::Playing && friend {
                 if ui.button(button, watch_label, true) {
@@ -3520,7 +3768,7 @@ impl Online {
             }
         }
         if let Some(to) = invite {
-            self.send(ClientMsg::Invite { to, rated: self.rated_games && !self.lan });
+            self.open_invite(&to);
         }
         if let Some(name) = watch {
             self.spectate(&name);
@@ -3558,7 +3806,8 @@ impl Online {
                     (false, true) => t("casual · private"),
                     (false, false) => t("casual · public"),
                 };
-                let sub = format!("{kind} — {}", t("waiting for an opponent…"));
+                let rules = crate::i18n::rules_name(table.rules).to_lowercase();
+                let sub = format!("{kind} · {rules} — {}", t("waiting for an opponent…"));
                 let (sub, size) = fit_text(ui, &sub, 13.0, text_w, false);
                 ui.text(&sub, r.x + 34.0, r.y + 36.0, size, MUTED, false);
                 if ui.button(Rect::new(r.x + r.w - 12.0 - bw, r.y + 16.0, bw, 32.0), close, true) {
@@ -3614,6 +3863,7 @@ impl Online {
                     let password = self.table_private.then(|| self.table_password.clone());
                     self.send(ClientMsg::OpenTable {
                         rated: self.rated_games && !self.lan,
+                        rules: self.rules,
                         password,
                     });
                 }
@@ -3622,7 +3872,8 @@ impl Online {
                 if let Some(code_r) = code_r
                     && ui.button(code_r, code_label, true)
                 {
-                    self.send(ClientMsg::CreateInviteCode { rated: self.rated_games });
+                    let (rated, rules) = (self.rated_games, self.rules);
+                    self.send(ClientMsg::CreateInviteCode { rated, rules });
                 }
                 y += 36.0 + 12.0;
                 if !self.lan {
@@ -3710,7 +3961,11 @@ impl Online {
                 (t("casual"), Color::new(0.6, 0.8, 1.0, 1.0))
             };
             px += ui.pill(label, px, r.y + 25.0, color) + 8.0;
-            ui.text(t(table.host.tier().name()), px, r.y + 26.0, 12.0, MUTED, false);
+            px += crate::rulesui::tag(ui, table.rules, px, r.y + 33.5, 12.0) + 10.0;
+            let tier = t(table.host.tier_in(table.rules).name());
+            if px + ui.text_size(tier, 12.0, false).x < text_right - lock_w {
+                ui.text(tier, px, r.y + 26.0, 12.0, MUTED, false);
+            }
             if table.private && !joining {
                 let c = vec2(text_right - 8.0, r.y + r.h / 2.0);
                 crate::icons::draw(Icon::Lock, c, 16.0, MUTED);
@@ -3745,7 +4000,15 @@ impl Online {
     fn draw_tournament_form(&mut self, ui: &mut Ui, area: Rect) {
         let lan = self.lan;
         let Some(form) = &mut self.tournament_form else { return };
-        let labels = [t("Name"), t("Format"), t("Players"), t("Entry"), t("Games"), t("Password")];
+        let labels = [
+            t("Name"),
+            t("Format"),
+            t("Rules"),
+            t("Players"),
+            t("Entry"),
+            t("Games"),
+            t("Password"),
+        ];
         let lw = labels.iter().map(|l| ui.text_size(l, 13.0, true).x).fold(70.0, f32::max) + 16.0;
         let cx = area.x + lw;
         let cw = area.w - lw;
@@ -3756,8 +4019,9 @@ impl Online {
         // When it would not fit (a large interface size), the rows close up
         // and the footnote goes.
         let hint_h = |text: &str| ui.wrap(text, cw, 12.0).len() as f32 * 16.0 + 2.0;
-        // Name, format, players (not in an arena), entry and games (online), password.
-        let rows = 4.0 - arena as u8 as f32 + if lan { 0.0 } else { 2.0 };
+        // Name, format, rules, players (not in an arena), entry and games
+        // (online), password.
+        let rows = 5.0 - arena as u8 as f32 + if lan { 0.0 } else { 2.0 };
         let mut needed = 34.0 + 16.0 + rows * 42.0 + note.len() as f32 * 16.0 + 12.0 + 36.0;
         if arena {
             needed += hint_h(t(ARENA_HINT));
@@ -3801,7 +4065,15 @@ impl Online {
         if arena {
             y -= 4.0;
             hint(ui, t(ARENA_HINT), &mut y);
-        } else {
+        }
+        label(ui, t("Rules"), y);
+        if let Some(rules) =
+            crate::rulesui::switch(ui, Rect::new(cx, y, seg_w, 32.0), form.rules, None)
+        {
+            form.rules = rules;
+        }
+        y += 32.0 + gap;
+        if !arena {
             label(ui, t("Players"), y);
             let sizes = [4u32, 8, 16];
             let labels = ["4", "8", "16 (VIP)"];
@@ -3867,6 +4139,7 @@ impl Online {
                 name: form.name.trim().to_string(),
                 size: form.size,
                 rated: form.rated && !lan,
+                rules: form.rules,
                 password: (!form.password.trim().is_empty()).then(|| form.password.clone()),
                 entry_fee: form.entry_fee,
                 format: form.format,
@@ -3894,8 +4167,12 @@ impl Online {
             }
         }
         if ui.button(Rect::new(area.x, area.y, area.w, 36.0), t("Create a tournament"), true) {
-            self.tournament_form =
-                Some(TournamentForm { size: 8, rated: !self.lan, ..Default::default() });
+            self.tournament_form = Some(TournamentForm {
+                size: 8,
+                rated: !self.lan,
+                rules: self.rules,
+                ..Default::default()
+            });
             ui.focus = Some(33);
         }
         let list = Rect::new(area.x, area.y + 36.0 + 12.0, area.w, area.h - 36.0 - 12.0);
@@ -3931,6 +4208,9 @@ impl Online {
                 ix -= 20.0;
                 crate::icons::draw(Icon::Lock, vec2(ix + 7.0, r.y + r.h / 2.0), 14.0, MUTED);
             }
+            // The rules its games are played under.
+            ix -= 8.0 + crate::rulesui::tag_w(ui, tour.rules, 12.0);
+            crate::rulesui::tag(ui, tour.rules, ix, r.y + r.h / 2.0, 12.0);
             let text_w = ix - 12.0 - (r.x + 44.0);
             let shown = crate::i18n::tournament_name(&tour.name);
             let (name, size) = fit_text(ui, &shown, 15.0, text_w, true);
@@ -3973,6 +4253,7 @@ impl Online {
         ui.text(&name, area.x + 46.0, area.y + (34.0 - size) / 2.0, size, GOLD, true);
         let mut y = area.y + 34.0 + 12.0;
         let kind = if tour.rated { t("rated games") } else { t("casual games") };
+        let kind = format!("{kind} · {}", crate::i18n::rules_name(tour.rules).to_lowercase());
         let arena = tour.format == snook_legend_proto::TournamentFormat::Arena;
         let line = if arena {
             tw(
@@ -4308,7 +4589,7 @@ impl Online {
             }
         }
         if let Some(to) = invite {
-            self.send(ClientMsg::Invite { to, rated: self.rated_games });
+            self.open_invite(&to);
         }
         if let Some(username) = remove {
             self.send(ClientMsg::FriendRemove { username });

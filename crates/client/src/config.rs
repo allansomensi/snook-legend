@@ -3,6 +3,8 @@
 
 use std::path::PathBuf;
 
+use snook_legend_core::Rules;
+
 /// Overall graphics detail.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Quality {
@@ -197,6 +199,10 @@ pub struct Config {
     /// The newest version whose "What's new" the player has seen (empty:
     /// a settings file from before the notes, i.e. before 0.2.0).
     pub last_version: String,
+    /// The rules the player's games are played under (online, against the
+    /// computer, two players); `None` until they choose, which the game
+    /// asks once (see [`Config::rules`]).
+    pub rules: Option<Rules>,
 }
 
 impl Default for Config {
@@ -254,6 +260,7 @@ impl Default for Config {
             auto_update: true,
             // A first run has nothing new to tell.
             last_version: env!("CARGO_PKG_VERSION").into(),
+            rules: None,
         }
     }
 }
@@ -320,6 +327,20 @@ fn config_path() -> Option<PathBuf> {
 }
 
 impl Config {
+    /// The rules the player's games are played under: the Brazilian rules
+    /// until they choose.
+    pub fn rules(&self) -> Rules {
+        self.rules.unwrap_or_default()
+    }
+
+    /// The player chose `rules` for their games (kept at once).
+    pub fn set_rules(&mut self, rules: Rules) {
+        if self.rules != Some(rules) {
+            self.rules = Some(rules);
+            self.save();
+        }
+    }
+
     /// Loads the settings, falling back to defaults for anything missing.
     pub fn load() -> Config {
         config_path()
@@ -415,6 +436,7 @@ impl Config {
                 "focus_mode" => c.focus_mode = v == "true",
                 "auto_update" => c.auto_update = v != "false",
                 "last_version" => c.last_version = v.chars().take(32).collect(),
+                "rules" => c.rules = Rules::parse(v),
                 _ => {}
             }
         }
@@ -427,7 +449,7 @@ impl Config {
             "# Snook Legend settings\nplayer_name = {}\nsecond_player_name = {}\nguide = {}\nhead_string = {}\ncoached = {}\nshow_help = {}\nshot_camera = {}\ncamera_follow = {}\ngraphics_checked = {}\nlanguage = {}\nvignette = {}\nfocused_scene = {}\nshow_fps = {}\nshow_ping = {}\nshadows = {}\nopponent_talk = {}\ntop_view_only = {}\navatar = {}\naim_sensitivity = {:.2}\nui_size = {:.2}\n\
              quality = {}\nmsaa = {}\nfullscreen = {}\nvolume = {:.2}\nserver = {}\nusername = {}\ntoken = {}\ntoken_server = {}\n\
              difficulty = {}\nopponent = {}\nshot_clock = {}\nlan_name = {}\ncloth = {}\ncue = {}\nchalk = {}\nballs = {}\neffect = {}\ntable = {}\nhall = {}\ncue_level = {}\nemail_offer_declined = {}\n\
-             board_seen = {}\ntv_view = {}\ndesktop_notifications = {}\nfocus_mode = {}\nauto_update = {}\nlast_version = {}\n{}",
+             board_seen = {}\ntv_view = {}\ndesktop_notifications = {}\nfocus_mode = {}\nauto_update = {}\nlast_version = {}\nrules = {}\n{}",
             self.player_name,
             self.second_player_name,
             self.guide.name(),
@@ -475,6 +497,7 @@ impl Config {
             self.focus_mode,
             self.auto_update,
             self.last_version,
+            self.rules.map_or("", Rules::code),
             self.keys.to_text()
         )
     }
@@ -576,6 +599,17 @@ mod tests {
         c.server = DEFAULT_SERVER.into();
         assert_eq!(c.session_token(), "");
         assert_eq!(Config::parse(&c.to_text()), c);
+    }
+
+    /// The rules are asked once: none until the player chooses, then kept.
+    #[test]
+    fn the_rules_are_kept_once_chosen() {
+        let c = Config::default();
+        assert_eq!((c.rules, c.rules()), (None, Rules::Brazilian));
+        assert_eq!(Config::parse(&c.to_text()).rules, None);
+        let chosen = Config { rules: Some(Rules::Official), ..Config::default() };
+        assert_eq!(Config::parse(&chosen.to_text()), chosen);
+        assert_eq!(Config::parse("rules = snooker").rules, None);
     }
 
     #[test]

@@ -64,6 +64,14 @@ impl Rules {
     pub fn index(self) -> usize {
         self as usize
     }
+
+    /// The other rules.
+    pub fn other(self) -> Rules {
+        match self {
+            Rules::Brazilian => Rules::Official,
+            Rules::Official => Rules::Brazilian,
+        }
+    }
 }
 
 impl std::fmt::Display for Rules {

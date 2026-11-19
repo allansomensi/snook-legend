@@ -5,8 +5,8 @@
 
 ## The game
 
-### A regional Brazilian rule
-Snook Legend plays a regional Brazilian eight-ball rule, the one of bars and pool halls, with penalty balls. It is not the official tournament rule (the WPA's or a federation's): if you know the official rule, read the fouls and the 8-ball below, because they differ a lot.
+### The Brazilian rules
+The eight-ball of Brazil's bars and pool halls, with penalty balls. Snook Legend has the official (WPA) rules too: choose the rules of your games in the main menu. If you know the official rules, read the fouls and the 8-ball below, because they differ a lot.
 
 ### The aim
 Each player has a group of seven balls: solids (1 to 7) or stripes (9 to 15). Pocket all of yours and then the 8-ball, before your opponent does.

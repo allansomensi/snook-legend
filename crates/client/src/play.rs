@@ -431,13 +431,26 @@ fn click(m: &mut Match, scene: &Scene, at: Option<DVec2>) {
     // sitting in the jaws is aimed at, not taken for the pocket's call).
     let on_ball =
         m.game.balls().iter().any(|b| b.in_play() && b.id != BallId::CUE && b.xy().distance(p) < r);
+    let nearest = PocketId::ALL
+        .into_iter()
+        .map(|id| (id, scene.pocket_center(id).distance(p)))
+        .filter(|(_, d)| *d < 0.12)
+        .min_by(|a, b| a.1.total_cmp(&b.1))
+        .filter(|_| !on_ball);
+    // The official rules: a click on a pocket calls it for this shot; on
+    // the pocket already called, the call follows the aim again.
+    if m.game.calls_shots() && m.is_human_turn() {
+        if let Some((id, _)) = nearest {
+            if m.call_locked && m.called_pocket == Some(id) {
+                m.call_from_aim();
+            } else {
+                m.set_call(Some(id));
+            }
+            return;
+        }
+    }
     // Calling a pocket for the 8 (only once: the call is then binding).
-    if m.game.may_call_pocket() && !on_ball {
-        let nearest = PocketId::ALL
-            .into_iter()
-            .map(|id| (id, scene.pocket_center(id).distance(p)))
-            .filter(|(_, d)| *d < 0.12)
-            .min_by(|a, b| a.1.total_cmp(&b.1));
+    if m.game.may_call_pocket() {
         if let Some((id, _)) = nearest {
             m.called_pocket = Some(id);
             let name = m.names[m.game.current_player()].clone();
@@ -620,6 +633,38 @@ fn first_stop(game: &snook_legend_core::EightBallGame, cue: DVec2, dir: DVec2) -
     stop
 }
 
+/// The pocket a shot along `yaw` sends the first ball it hits to, going
+/// straight on from the contact (the official rules call it for the player
+/// until they pick one): the one its path points into, if a ball they may
+/// hit is hit first and a pocket is within reach of that line.
+pub fn predicted_pocket(game: &snook_legend_core::EightBallGame, yaw: f64) -> Option<PocketId> {
+    let cue = game.ball(BallId::CUE).xy();
+    let dir = DVec2::from_angle(yaw);
+    let Stop { t, target: Some(id), .. } = first_stop(game, cue, dir)? else { return None };
+    if !game.legal_targets().contains(&id) {
+        return None;
+    }
+    let ball = game.ball(id).xy();
+    let out = (ball - (cue + dir * t)).normalize_or_zero();
+    if out == DVec2::ZERO {
+        return None;
+    }
+    let table = game.table();
+    PocketId::ALL
+        .into_iter()
+        .filter_map(|p| {
+            let pocket = table.pocket(p);
+            let to = pocket.mouth_center - ball;
+            let along = to.dot(out);
+            // Wide of the mouth by more than the ball itself: not this one.
+            let wide = (to - out * along).length();
+            (along > 0.0 && wide < pocket.half_mouth + table.spec.ball_radius)
+                .then_some((p, wide / along))
+        })
+        .min_by(|a, b| a.1.total_cmp(&b.1))
+        .map(|(p, _)| p)
+}
+
 /// How high above the cloth the ring round a pocket is drawn (m): over the
 /// rail and the casting (or leather) on it, which hid most of the ring.
 const POCKET_RING_HEIGHT: f32 = RAIL_HEIGHT + 0.012;
@@ -639,8 +684,10 @@ pub fn overlay(m: &Match, scene: &Scene, time: f32) -> Overlay {
     // Cue stick.
     let remote_waiting = m.current_controller() == Controller::Remote
         && m.online.as_ref().is_some_and(|o| !o.remote_aimed);
+    // A choice the break left comes before any shot: no cue until then.
+    let choosing = m.game.pending_choice().is_some();
     let gap = match &m.phase {
-        Phase::Turn { placing_cue_ball: false, .. } if !remote_waiting => {
+        Phase::Turn { placing_cue_ball: false, .. } if !remote_waiting && !choosing => {
             Some(0.006 + if m.aim.charging { 0.03 + m.aim.power as f64 * 0.25 } else { 0.03 })
         }
         Phase::Simulating(_) if m.shot_time().is_some_and(|t| t < 0.15) => Some(-0.012),
@@ -766,7 +813,22 @@ pub fn overlay(m: &Match, scene: &Scene, time: f32) -> Overlay {
         }
     }
 
-    if m.current_controller() != Controller::Human {
+    // The official rules: the pocket called for this shot, for everyone to
+    // see (a soft ring while it follows the aim, a bright one once chosen).
+    if m.game.calls_shots() && matches!(m.phase, Phase::Turn { .. }) && m.replay.is_none() {
+        if let Some(id) = m.called_pocket {
+            let pulse = 0.5 + 0.5 * (time * 3.0).sin();
+            let alpha = if m.call_locked { 1.0 } else { 0.5 + 0.3 * pulse };
+            out.guides.push(Guide::Ring {
+                center: surface(scene.pocket_center(id), POCKET_RING_HEIGHT),
+                radius: scene.pocket_radius(id) + 0.018,
+                width: if m.call_locked { 0.009 } else { 0.006 },
+                color: Color::new(1.0, 0.82, 0.25, alpha),
+            });
+        }
+    }
+
+    if m.current_controller() != Controller::Human || choosing {
         return out;
     }
 
@@ -854,7 +916,7 @@ mod tests {
     #[test]
     fn the_guide_stops_where_the_ball_would() {
         use snook_legend_core::{EightBallGame, PocketId};
-        let mut g = EightBallGame::new(1, 0);
+        let mut g = EightBallGame::new(1, 0, snook_legend_core::Rules::Brazilian);
         let (spec, r) = (g.table().spec, g.table().spec.ball_radius);
         let cue = DVec2::new(-0.4, 0.1);
         g.set_up_test_position(&[(BallId::CUE, cue), (BallId(3), cue + DVec2::new(2.0 * r, 0.0))]);

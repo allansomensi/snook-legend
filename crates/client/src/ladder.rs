@@ -363,7 +363,7 @@ mod tests {
     fn run(rung: u8) -> LadderRun {
         LadderRun {
             rung,
-            record: Replay::new(rung as u64, 1),
+            record: Replay::new(rung as u64, 1, snook_legend_core::Rules::Brazilian),
             reported: false,
             dealt: true,
             account: "ana".into(),
@@ -458,7 +458,7 @@ mod tests {
         assert_eq!(p.beaten, 10, "the ten of the old ladder");
         let p = Progress::parse(r#"{"version":2,"won":["leo","nobody","leo"]}"#).unwrap();
         assert_eq!((p.won, p.beaten), (vec!["leo".to_string()], 1));
-        let mut long = Replay::new(1, 0);
+        let mut long = Replay::new(1, 0, snook_legend_core::Rules::Brazilian);
         long.strokes = vec![snook_legend_proto::replay::Stroke::TimeFoul; ladder::MAX_STROKES + 1];
         let text = serde_json::to_string(&Progress {
             version: 1,

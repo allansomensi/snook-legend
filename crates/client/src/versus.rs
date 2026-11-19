@@ -170,16 +170,39 @@ impl Versus {
             + tab_gap * (labels.len() - 1) as f32;
         let row_w = natural.min(r.w * 0.56);
         let tabs_x = r.x + r.w - PAD - row_w;
+        // The free game, the tour and the tournaments are played under the
+        // player's rules: a pill under the title says which, and switches
+        // them. (The daily challenge and the drills set their own tables.)
+        let ruled = matches!(self.tab, Tab::Free | Tab::Ladder | Tab::Cup);
+        let shown_sub = if ruled { String::new() } else { subtitle.clone() };
         if screen_header_until(
             ui,
             r,
             Icon::Robot,
             t("Against the computer"),
-            Some(&subtitle),
+            Some(&shown_sub),
             tabs_x - 12.0,
         ) || ui.escape()
         {
             action = VersusAction::Back;
+        }
+        if ruled {
+            let rules = config.rules();
+            let x = r.x + PAD + 36.0 + 16.0 + 34.0;
+            let label = crate::i18n::rules_name(rules);
+            let (pill, switch) = crate::rulesui::pill(ui, x, r.y + 41.0, 22.0, rules, label, true);
+            if ui.hovering(pill) {
+                ui.tooltip(t("The rules of your games: click to switch"), pill);
+            }
+            if switch {
+                config.set_rules(rules.other());
+            }
+            let sx = pill.x + pill.w + 10.0;
+            let room = tabs_x - 12.0 - sx;
+            if room > 60.0 {
+                let (sub, size) = ui.fitted(&subtitle, 13.0, room, false);
+                ui.text(&sub, sx, r.y + 44.0, size, MUTED, false);
+            }
         }
         let order = [Tab::Free, Tab::Ladder, Tab::Cup, Tab::Daily, Tab::Drills];
         let picked = order.iter().position(|t| *t == self.tab).unwrap_or(0);
@@ -319,7 +342,16 @@ impl Versus {
         let options_h = 3.0 * field + 2.0 * GAP;
         let options_y = play_r.y - 16.0 - options_h;
         let mut enter = self.options(ui, config, Rect::new(dx, options_y, dw, options_h));
-        let top = Rect::new(dx, body.y, dw, options_y - 14.0 - body.y);
+        let mut top = Rect::new(dx, body.y, dw, options_y - 14.0 - body.y);
+        // What the rules of the game are about, over the options (when the
+        // opponent's details keep room enough).
+        let rules = config.rules();
+        let box_h = crate::rulesui::summary_box(ui, Rect::new(dx, 0.0, dw, 0.0), rules, false);
+        if top.h - box_h - 12.0 >= 230.0 {
+            let at = Rect::new(dx, top.y + top.h - box_h, dw, box_h);
+            crate::rulesui::summary_box(ui, at, rules, true);
+            top.h -= box_h + 12.0;
+        }
         let opponent = match self.pick {
             Pick::Personality(i) => {
                 let p = &PERSONALITIES[i];

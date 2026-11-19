@@ -6,7 +6,7 @@ use macroquad::prelude::*;
 use crate::paint::{draw_circle, draw_circle_lines, draw_line, draw_rectangle, draw_triangle};
 
 use crate::i18n::{t, tw};
-use snook_legend_core::{BallInHand, Group};
+use snook_legend_core::{BallInHand, Group, Rules};
 
 use crate::game::{Controller, Match, Phase};
 use crate::icons::Icon;
@@ -58,8 +58,11 @@ pub struct Hud {
     pub can_report: bool,
     /// Reporting the opponent.
     report: Option<crate::report::ReportDialog>,
-    /// The rules of the game, opened from the pause menu.
+    /// The rules of the game, opened from the pause menu (or the badge).
     rules: Option<crate::whatsnew::WhatsNew>,
+    /// The rules were opened from the badge in the top bar: closing them
+    /// goes back to the game, not to the pause menu.
+    rules_from_badge: bool,
     zoom_drag: bool,
     /// The reaction picker is open.
     reactions_open: bool,
@@ -134,6 +137,7 @@ impl Default for Hud {
             can_report: false,
             report: None,
             rules: None,
+            rules_from_badge: false,
         }
     }
 }
@@ -162,6 +166,40 @@ const CHAT_FIELD: u64 = 40;
 /// The status line in the top bar, from `x`, at most `width` wide: what is
 /// in brackets at its end ("… to shoot (stripes)") goes on a second, quieter
 /// line; a long line without them wraps onto two.
+/// The official rules: the button that declares a safety (no pocket
+/// called), at the right end of the top bar on the player's turn (the
+/// status beside it says which pocket is called). Its width, to keep the
+/// status clear of it (0 when not shown).
+fn draw_call(ui: &mut Ui, m: &mut Match) -> f32 {
+    if !m.game.calls_shots() || !m.is_human_turn() || m.replay.is_some() {
+        return 0.0;
+    }
+    let sw = crate::ui::vw();
+    let label = t("Safety");
+    let bw = ui.text_size(label, 13.0, true).x + 26.0;
+    let b = Rect::new(sw - 14.0 - bw, 12.0, bw, 30.0);
+    let declared = m.call_locked && m.called_pocket.is_none();
+    let pressed = if declared { ui.primary_button(b, label) } else { ui.button(b, label, true) };
+    if pressed {
+        if declared {
+            m.call_from_aim();
+        } else {
+            m.set_call(None);
+        }
+    }
+    if ui.hovering(b) {
+        let tip = if declared {
+            t("A safety: nothing called. Click again to call the pocket you aim at.")
+        } else {
+            t(
+                "A safety calls nothing: whatever goes in stays down, and the turn passes. To call another pocket, click it on the table.",
+            )
+        };
+        ui.tooltip(tip, b);
+    }
+    bw + 12.0
+}
+
 fn draw_status(ui: &Ui, status: &str, x: f32, width: f32) {
     if width < 80.0 {
         return;
@@ -225,6 +263,14 @@ fn status_line(m: &Match) -> Option<String> {
     let name = &m.names[m.game.current_player()];
     match &m.phase {
         Phase::Turn { placing_cue_ball, computer } => {
+            // The official rules: a choice the break left comes first.
+            if m.game.pending_choice().is_some() {
+                return Some(if m.current_controller() == Controller::Human {
+                    t("Choose how play goes on").to_string()
+                } else {
+                    tw("{name} is choosing how play goes on…", &[("name", name)])
+                });
+            }
             if computer.is_some() {
                 return Some(tw("{name} is thinking…", &[("name", name)]));
             }
@@ -283,12 +329,25 @@ fn status_line(m: &Match) -> Option<String> {
                     &[("n", &run.made), ("total", &run.balls)],
                 ));
             }
-            let target = match m.game.group_of(m.game.current_player()) {
-                Some(Group::Solids) => t("solids"),
-                Some(Group::Stripes) => t("stripes"),
-                // Official rule: the break never decides the groups; the
-                // first ball made after it does.
-                None => t("open table: the next ball you make sets your group"),
+            let target = match (m.game.group_of(m.game.current_player()), m.game.rules()) {
+                (Some(Group::Solids), _) => t("solids"),
+                (Some(Group::Stripes), _) => t("stripes"),
+                // The Brazilian rules: the first ball made decides.
+                (None, Rules::Brazilian) => t("open table: the next ball you make sets your group"),
+                // The official rules: the ball made in the called pocket.
+                (None, Rules::Official) => {
+                    t("open table: the called ball you make sets your group")
+                }
+            };
+            // The official rules: the pocket called, after the group.
+            let target = if m.game.calls_shots() {
+                let call = match m.called_pocket {
+                    Some(p) => tw("called: {pocket}", &[("pocket", &crate::i18n::pocket(p))]),
+                    None => t("no call: a safety").to_string(),
+                };
+                format!("{target} · {call}")
+            } else {
+                target.to_string()
             };
             Some(tw("{name} to shoot ({target})", &[("name", name), ("target", &target)]))
         }
@@ -340,7 +399,20 @@ impl Hud {
         // The score panel centred, but never under the buttons on the left.
         // (Three icons offline and in daily games: the history's too.)
         let icons = if !m.is_online() || crate::correspondence::is_corr(m) { 3.0 } else { 2.0 };
-        let buttons_w = ui.text_size(t("Menu"), 13.0, true).x + 22.0 + icons * 36.0 + 30.0;
+        // The rules of the game, in a badge after the buttons (not in a
+        // drill or the daily challenge, which set their own tables).
+        let badge = (m.drill.is_none() && m.daily.is_none()).then(|| {
+            let rules = m.game.rules();
+            let label = if sw > 1180.0 {
+                crate::i18n::rules_name(rules)
+            } else {
+                crate::i18n::rules_short(rules)
+            };
+            (rules, label, crate::rulesui::pill_w(ui, 30.0, label, false))
+        });
+        let badge_w = badge.map_or(0.0, |(_, _, w)| w + 12.0);
+        let buttons_w =
+            ui.text_size(t("Menu"), 13.0, true).x + 22.0 + icons * 36.0 + 30.0 + badge_w;
         let board = crate::scoreboard::Board::layout(sw, buttons_w, 4.0);
         let now = get_time();
         self.made.update(m, now);
@@ -382,10 +454,12 @@ impl Hud {
         // Whose turn it is and what they are on: in the top bar, beside the
         // score panel. Nothing lies over the table (a line across the top
         // rail hid the side pocket from above).
+        // The official rules: the safety button at the end of the bar.
+        let call_w = if m.is_spectating() { 0.0 } else { draw_call(ui, m) };
         if let Some(status) = status_line(m).filter(|_| m.replay.is_none()) {
             let watched = m.online.as_ref().is_some_and(|o| o.spectators > 0 || o.spectator);
             let left = x0 + total + if watched { 72.0 } else { 18.0 };
-            draw_status(ui, &status, left, sw - 14.0 - left);
+            draw_status(ui, &status, left, sw - 14.0 - call_w - left);
         }
         // Only important messages float on the table; everything is in the log.
         for n in m.notices.iter().filter(|n| n.important) {
@@ -394,14 +468,42 @@ impl Hud {
             let color = Color::new(base.r, base.g, base.b, alpha);
             // Never wider than the window (smaller type, then cut short).
             let (text, size) = ui.fitted(&n.text, 15.0, sw - 44.0, n.cheer);
-            let w = ui.text_size(&text, size, n.cheer).x + 20.0;
-            crate::ui::rrect(
-                Rect::new((sw - w) / 2.0, y, w, 22.0),
-                11.0,
-                Color::new(0.0, 0.0, 0.0, 0.45 * alpha),
-            );
-            ui.text_centered(&text, sw / 2.0, y + 3.0, size, color, n.cheer);
-            y += 25.0;
+            let Some(detail) = &n.detail else {
+                let w = ui.text_size(&text, size, n.cheer).x + 20.0;
+                crate::ui::rrect(
+                    Rect::new((sw - w) / 2.0, y, w, 22.0),
+                    11.0,
+                    Color::new(0.0, 0.0, 0.0, 0.45 * alpha),
+                );
+                ui.text_centered(&text, sw / 2.0, y + 3.0, size, color, n.cheer);
+                y += 25.0;
+                continue;
+            };
+            // What it means under the rules, under it: a card of its own.
+            let max = (sw - 44.0).min(720.0);
+            let mut lines = ui.wrap(detail, max - 28.0, 13.0);
+            lines.truncate(2);
+            let tw_ = ui.text_size(&text, size, true).x;
+            let w = lines
+                .iter()
+                .map(|l| ui.text_size(l, 13.0, false).x)
+                .fold(tw_, f32::max)
+                .min(max - 28.0)
+                + 28.0;
+            let h = 10.0 + 20.0 + lines.len() as f32 * 17.0 + 8.0;
+            let card = Rect::new((sw - w) / 2.0, y, w, h);
+            crate::ui::rrect(card, 9.0, Color::new(0.06, 0.04, 0.03, 0.82 * alpha));
+            crate::ui::rrect_lines(card, 9.0, 1.0, Color::new(base.r, base.g, base.b, 0.5 * alpha));
+            ui.text_centered(&text, sw / 2.0, y + 8.0, size, color, true);
+            for (k, line) in lines.iter().enumerate() {
+                let c = Color::new(CREAM.r, CREAM.g, CREAM.b, alpha);
+                ui.text_centered(line, sw / 2.0, y + 30.0 + k as f32 * 17.0, 13.0, c, false);
+            }
+            y += h + 4.0;
+        }
+        // The official rules: the choice a break left.
+        if m.replay.is_none() && !m.is_spectating() {
+            self.draw_choice(ui, m, y + 6.0);
         }
 
         self.draw_turn_banner(ui, m);
@@ -473,6 +575,18 @@ impl Hud {
                 let r = Rect::new(x, 12.0, 30.0, 30.0);
                 if ui.icon_button_ex(r, Icon::List, tip, true, self.history_open) {
                     self.history_open = !self.history_open;
+                }
+            }
+            if let Some((rules, label, _)) = badge {
+                x += 36.0 + 6.0;
+                let (r, _) = crate::rulesui::pill(ui, x, 12.0, 30.0, rules, label, false);
+                if ui.hovering(r) {
+                    ui.tooltip(t("The rules of this game: click to read them"), r);
+                    if ui.clicked(r) {
+                        self.rules = Some(crate::whatsnew::WhatsNew::rules(rules));
+                        self.rules_from_badge = true;
+                        self.paused = true;
+                    }
                 }
             }
             if let Some(z) = self.zoom_bar(ui) {
@@ -863,11 +977,15 @@ impl Hud {
                 }
             }
         }
-        // The rules, from the pause menu (back to it when closed).
+        // The rules, from the pause menu (back to it when closed) or the
+        // rules' badge (back to the game).
         if let Some(rules) = self.rules.as_mut()
             && (!self.paused || rules.draw(ui))
         {
             self.rules = None;
+            if std::mem::take(&mut self.rules_from_badge) {
+                self.paused = false;
+            }
         }
         if self.show_help && self.paused {
             draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.5));
@@ -975,7 +1093,7 @@ impl Hud {
                 self.show_help = true;
             }
             if ui.button(Rect::new(bx + half + GAP, y, half, BH), t("Rules"), true) {
-                self.rules = Some(crate::whatsnew::WhatsNew::rules());
+                self.rules = Some(crate::whatsnew::WhatsNew::rules(m.game.rules()));
             }
             y += BH + GAP;
             let my_turn = m.current_controller() == Controller::Human;
@@ -1936,6 +2054,98 @@ const BANNER_TIME: f32 = 1.9;
 
 impl Hud {
     /// A large t("Your turn") style message whenever the turn changes.
+    /// The official rules: what the break left to decide, with the answers
+    /// as buttons, for the player who decides (from `top` down).
+    fn draw_choice(&mut self, ui: &mut Ui, m: &mut Match, top: f32) {
+        let Some(choice) = m.game.pending_choice() else { return };
+        if !matches!(m.phase, Phase::Turn { .. }) || m.current_controller() != Controller::Human {
+            return;
+        }
+        let sw = crate::ui::vw();
+        let me = m.game.current_player();
+        let other = m.names[1 - me].clone();
+        let options = choice.options();
+        let w = (190.0 * options.len() as f32 + 40.0 + 10.0 * (options.len() - 1) as f32)
+            .min(sw - 24.0);
+        let title = crate::i18n::choice_title(choice);
+        let lead = t("How does play go on? Choose one:");
+        let r = Rect::new((sw - w) / 2.0, top, w, 24.0 + 24.0 + 20.0 + 12.0 + 66.0 + 18.0);
+        crate::ui::soft_shadow(r, 10.0, 0.9);
+        ui.panel(r);
+        crate::ui::rrect_lines(r, 8.0, 1.6, crate::rulesui::OFFICIAL);
+        ui.text_centered(title, sw / 2.0, r.y + 16.0, 19.0, GOLD, true);
+        ui.text_centered(lead, sw / 2.0, r.y + 44.0, 14.0, CREAM, false);
+        let sent = m.online.as_ref().and_then(|o| o.choice_sent);
+        let bw = (w - 40.0 - 10.0 * (options.len() - 1) as f32) / options.len() as f32;
+        let by = r.y + 24.0 + 24.0 + 20.0 + 12.0;
+        let mut chosen = None;
+        // The keys 1, 2 and 3 choose too.
+        let keys = [KeyCode::Key1, KeyCode::Key2, KeyCode::Key3];
+        for (k, option) in options.iter().copied().enumerate() {
+            let b = Rect::new(r.x + 20.0 + k as f32 * (bw + 10.0), by, bw, 66.0);
+            let (label, what) = crate::i18n::break_option(choice, option, &other);
+            let label = format!("{}. {label}", k + 1);
+            let enabled = sent.is_none();
+            let key =
+                enabled && !ui.wants_keyboard && keys.get(k).is_some_and(|c| is_key_pressed(*c));
+            if self.choice_button(ui, b, &label, &what, k == 0, enabled, sent == Some(option))
+                || key
+            {
+                chosen = Some(option);
+            }
+        }
+        ui.block(r);
+        if let Some(option) = chosen {
+            m.choose(option);
+        }
+    }
+
+    /// One answer to the break's choice: its label and what it does.
+    #[allow(clippy::too_many_arguments)]
+    fn choice_button(
+        &self,
+        ui: &mut Ui,
+        b: Rect,
+        label: &str,
+        what: &str,
+        first: bool,
+        enabled: bool,
+        sending: bool,
+    ) -> bool {
+        let hover = enabled && ui.hovering(b);
+        let base = if first {
+            Color::new(0.10, 0.38, 0.22, 1.0)
+        } else {
+            Color::new(0.20, 0.13, 0.08, 1.0)
+        };
+        let fill = if hover { crate::ui::shade(base, 0.12) } else { base };
+        crate::ui::rrect_gradient(
+            b,
+            8.0,
+            crate::ui::shade(fill, 0.06),
+            crate::ui::shade(fill, -0.12),
+        );
+        let edge = if hover {
+            GOLD
+        } else if first {
+            Color::new(0.35, 0.75, 0.5, 1.0)
+        } else {
+            BORDER
+        };
+        crate::ui::rrect_lines(b, 8.0, 1.2, edge);
+        let (label, size) = ui.fitted(label, 15.0, b.w - 16.0, true);
+        ui.text_centered(&label, b.x + b.w / 2.0, b.y + 10.0, size, WHITE, true);
+        let lines = ui.wrap(what, b.w - 16.0, 12.0);
+        for (k, line) in lines.iter().take(2).enumerate() {
+            let c = Color::new(0.88, 0.84, 0.76, 0.9);
+            ui.text_centered(line, b.x + b.w / 2.0, b.y + 32.0 + k as f32 * 15.0, 12.0, c, false);
+        }
+        if sending {
+            crate::ui::spinner(vec2(b.x + b.w - 14.0, b.y + 14.0), 6.0, GOLD);
+        }
+        enabled && ui.clicked(b)
+    }
+
     fn draw_turn_banner(&mut self, ui: &mut Ui, m: &Match) {
         let dt = get_frame_time();
         let all_computers = m.controllers.iter().all(|c| matches!(c, Controller::Computer(_)));

@@ -50,6 +50,7 @@ mod ranking;
 mod reactions;
 mod report;
 mod room;
+mod rulesui;
 mod saved;
 mod scene;
 mod scoreboard;
@@ -68,7 +69,7 @@ mod versus;
 mod whatsnew;
 
 use macroquad::prelude::*;
-use snook_legend_core::{Difficulty, Table};
+use snook_legend_core::{Difficulty, Rules, Table};
 
 use crate::camera::{CameraMode, CameraRig};
 use crate::config::Config;
@@ -104,6 +105,8 @@ pub struct MatchSettings {
     pub shot_clock: Option<u32>,
     /// A game of the ladder: its rung (0 is the first).
     pub ladder: Option<u8>,
+    /// The rules the game is played under.
+    pub rules: snook_legend_core::Rules,
 }
 
 impl MatchSettings {
@@ -116,6 +119,7 @@ impl MatchSettings {
             guide: c.guide,
             shot_clock: (c.shot_clock > 0).then_some(c.shot_clock),
             ladder: None,
+            rules: c.rules(),
         }
     }
 }
@@ -285,10 +289,11 @@ async fn main() {
     // The first start on a new version: what changed (on the main menu).
     let mut whats_new = whatsnew::WhatsNew::after_update(&config.last_version);
     // Development aid: SNOOK_LEGEND_WHATS_NEW=1 shows the notes, =0.2.0 that
-    // version's, =rules the rules.
+    // version's, =rules the rules (=official their official tab).
     if let Some(v) = crate::dev::var("SNOOK_LEGEND_WHATS_NEW") {
-        whats_new = if v == "rules" {
-            Some(whatsnew::WhatsNew::rules())
+        whats_new = if v == "rules" || v == "official" {
+            let rules = if v == "official" { Rules::Official } else { Rules::Brazilian };
+            Some(whatsnew::WhatsNew::rules(rules))
         } else {
             whatsnew::WhatsNew::of(&v).or_else(|| Some(whatsnew::WhatsNew::all()))
         };
@@ -359,6 +364,10 @@ async fn main() {
     }
     if let Some(mode) = options.start {
         let mut m = Match::new(&MatchSettings::from_config(mode, &config), game::clock_seed());
+        // SNOOK_LEGEND_SOFT_BREAK=1: a soft break first (the choice it leaves).
+        if crate::dev::flag("SNOOK_LEGEND_SOFT_BREAK") {
+            m.debug_soft_break();
+        }
         if options.on_eight {
             m.debug_on_eight();
         }
@@ -1066,6 +1075,29 @@ async fn main() {
             && !staff_up
             && waiting.is_none()
             && online.email_offer.is_some();
+        // The rules of the player's games, asked once (after what's new),
+        // on the main menu.
+        let ask_rules = config.rules.is_none()
+            && current.is_none()
+            && !settings_open
+            && !show_news
+            && !staff_up
+            && !offer_up
+            && waiting.is_none()
+            && matches!(screen, Screen::Menu)
+            // Development aid (screenshots): SNOOK_LEGEND_ASK_RULES shows it.
+            && (options.screenshot.is_none() || crate::dev::flag("SNOOK_LEGEND_ASK_RULES"));
+        // An invitation being set up, over the lounge.
+        let inviting = online.invite_dialog.is_some()
+            && current.is_none()
+            && !settings_open
+            && !staff_up
+            && matches!(screen, Screen::Online);
+        if !matches!(screen, Screen::Online) || current.is_some() {
+            online.invite_dialog = None;
+        }
+        let ask_saved = ask_rules.then(|| ui.suspend_input());
+        let invite_saved = inviting.then(|| ui.suspend_input());
         let offer_saved = offer_up.then(|| ui.suspend_input());
         let news_saved = show_news.then(|| ui.suspend_input());
         // A game waiting for the server: its overlay holds the keyboard too,
@@ -1274,110 +1306,116 @@ async fn main() {
                         (ui.suspend_input(), field)
                     });
                     match &mut screen {
-                        Screen::Menu => match menu.draw(&mut ui, &online, saved_balls) {
-                            action @ (MenuAction::VsComputer | MenuAction::TwoPlayers) => {
-                                // Signed in: the account's name, which can still be changed.
-                                if let Some(me) = online.me.as_ref().filter(|m| !m.guest) {
-                                    config.player_name = me.username.clone();
-                                }
-                                next = Some(if matches!(action, MenuAction::VsComputer) {
-                                    Screen::Versus(versus::Versus::new(versus::Tab::Free, &config))
-                                } else {
-                                    Screen::Setup(Setup::new())
-                                });
-                            }
-                            MenuAction::ContinueGame => match saved::load() {
-                                Some(s) => {
-                                    let mut m = Match::resume(&s, config.guide);
-                                    // The tournament's game, picked up here.
-                                    if cup.as_ref().is_some_and(|c| c.playing == Some(s.seed)) {
-                                        m.make_cup_game();
+                        Screen::Menu => {
+                            match menu.draw(&mut ui, &online, saved_balls, config.rules()) {
+                                action @ (MenuAction::VsComputer | MenuAction::TwoPlayers) => {
+                                    // Signed in: the account's name, which can still be changed.
+                                    if let Some(me) = online.me.as_ref().filter(|m| !m.guest) {
+                                        config.player_name = me.username.clone();
                                     }
-                                    current = Some(m);
-                                    save_key = None;
-                                    hud = Hud::new(config.show_help);
-                                    rig.reset();
+                                    next = Some(if matches!(action, MenuAction::VsComputer) {
+                                        Screen::Versus(versus::Versus::new(
+                                            versus::Tab::Free,
+                                            &config,
+                                        ))
+                                    } else {
+                                        Screen::Setup(Setup::new())
+                                    });
                                 }
-                                None => saved_balls = None,
-                            },
-                            MenuAction::Online => {
-                                online.connect();
-                                next = Some(Screen::Online);
-                            }
-                            MenuAction::Daily => {
-                                online.connect();
-                                online.tab = online::Tab::Daily;
-                                online.send(snook_legend_proto::ClientMsg::CorrList);
-                                next = Some(Screen::Online);
-                            }
-                            MenuAction::Lan => {
-                                lan_screen.get_or_insert_with(LanScreen::new);
-                                next = Some(if lan.is_some() {
-                                    Screen::LanLounge
-                                } else {
-                                    Screen::Lan
-                                });
-                            }
-                            MenuAction::Ranking => {
-                                ranking.open(&mut online);
-                                back_to_lounge = false;
-                                next = Some(Screen::Ranking);
-                            }
-                            MenuAction::Profile => {
-                                back_to_lounge = false;
-                                match online.me.clone() {
-                                    Some(me) => {
-                                        profile.open(&me.username, &mut online);
-                                        next = Some(Screen::Profile);
+                                MenuAction::ContinueGame => match saved::load() {
+                                    Some(s) => {
+                                        let mut m = Match::resume(&s, config.guide);
+                                        // The tournament's game, picked up here.
+                                        if cup.as_ref().is_some_and(|c| c.playing == Some(s.seed)) {
+                                            m.make_cup_game();
+                                        }
+                                        current = Some(m);
+                                        save_key = None;
+                                        hud = Hud::new(config.show_help);
+                                        rig.reset();
                                     }
+                                    None => saved_balls = None,
+                                },
+                                MenuAction::Online => {
+                                    online.connect();
+                                    next = Some(Screen::Online);
+                                }
+                                MenuAction::Daily => {
+                                    online.connect();
+                                    online.tab = online::Tab::Daily;
+                                    online.send(snook_legend_proto::ClientMsg::CorrList);
+                                    next = Some(Screen::Online);
+                                }
+                                MenuAction::Lan => {
+                                    lan_screen.get_or_insert_with(LanScreen::new);
+                                    next = Some(if lan.is_some() {
+                                        Screen::LanLounge
+                                    } else {
+                                        Screen::Lan
+                                    });
+                                }
+                                MenuAction::Ranking => {
+                                    ranking.open(&mut online);
+                                    back_to_lounge = false;
+                                    next = Some(Screen::Ranking);
+                                }
+                                MenuAction::Profile => {
+                                    back_to_lounge = false;
+                                    match online.me.clone() {
+                                        Some(me) => {
+                                            profile.open(&me.username, &mut online);
+                                            next = Some(Screen::Profile);
+                                        }
+                                        None => {
+                                            online.connect();
+                                            next = Some(Screen::Online);
+                                        }
+                                    }
+                                }
+                                MenuAction::Shop => {
+                                    shop.open(&mut online);
+                                    back_to_lounge = false;
+                                    next = Some(Screen::Shop);
+                                }
+                                MenuAction::Update => {
+                                    online.quit_for_update = update::start();
+                                }
+                                MenuAction::Note(a) => match online.note_action(a) {
+                                    Some(OnlineAction::ShopVip) => {
+                                        shop.open(&mut online);
+                                        shop.show_tab("shop-vip");
+                                        back_to_lounge = false;
+                                        next = Some(Screen::Shop);
+                                    }
+                                    Some(_) => {
+                                        shop.open(&mut online);
+                                        back_to_lounge = false;
+                                        next = Some(Screen::Shop);
+                                    }
+                                    // A page of the lounge.
                                     None => {
                                         online.connect();
                                         next = Some(Screen::Online);
                                     }
+                                },
+                                MenuAction::Settings => settings_open = true,
+                                MenuAction::WhatsNew => {
+                                    whats_new = Some(whatsnew::WhatsNew::all());
                                 }
-                            }
-                            MenuAction::Shop => {
-                                shop.open(&mut online);
-                                back_to_lounge = false;
-                                next = Some(Screen::Shop);
-                            }
-                            MenuAction::Update => {
-                                online.quit_for_update = update::start();
-                            }
-                            MenuAction::Note(a) => match online.note_action(a) {
-                                Some(OnlineAction::ShopVip) => {
-                                    shop.open(&mut online);
-                                    shop.show_tab("shop-vip");
-                                    back_to_lounge = false;
-                                    next = Some(Screen::Shop);
+                                MenuAction::Rules(rules) => {
+                                    whats_new = Some(whatsnew::WhatsNew::rules(rules));
                                 }
-                                Some(_) => {
-                                    shop.open(&mut online);
-                                    back_to_lounge = false;
-                                    next = Some(Screen::Shop);
+                                MenuAction::SetRules(rules) => config.set_rules(rules),
+                                MenuAction::Restart => {
+                                    config.save();
+                                    if update::restart() {
+                                        break;
+                                    }
                                 }
-                                // A page of the lounge.
-                                None => {
-                                    online.connect();
-                                    next = Some(Screen::Online);
-                                }
-                            },
-                            MenuAction::Settings => settings_open = true,
-                            MenuAction::WhatsNew => {
-                                whats_new = Some(whatsnew::WhatsNew::all());
+                                MenuAction::Quit => break,
+                                MenuAction::None => {}
                             }
-                            MenuAction::Rules => {
-                                whats_new = Some(whatsnew::WhatsNew::rules());
-                            }
-                            MenuAction::Restart => {
-                                config.save();
-                                if update::restart() {
-                                    break;
-                                }
-                            }
-                            MenuAction::Quit => break,
-                            MenuAction::None => {}
-                        },
+                        }
                         Screen::Versus(v) => match v.draw(
                             &mut ui,
                             &mut config,
@@ -1704,6 +1742,21 @@ async fn main() {
             if whats_new.as_mut().is_some_and(|w| w.draw(&mut ui)) {
                 whats_new = None;
             }
+        }
+        if let Some(saved) = ask_saved {
+            ui.resume_input(saved);
+            let counts = online.counts().map(|c| c.map(|_, n| n.players));
+            match rulesui::ask(&mut ui, counts) {
+                rulesui::Asked::Chose(rules) => config.set_rules(rules),
+                rulesui::Asked::Read => {
+                    whats_new = Some(whatsnew::WhatsNew::rules(Rules::Brazilian));
+                }
+                rulesui::Asked::None => {}
+            }
+        }
+        if let Some(saved) = invite_saved {
+            ui.resume_input(saved);
+            online.draw_invite_dialog(&mut ui);
         }
         if let Some(saved) = offer_saved {
             ui.resume_input(saved);

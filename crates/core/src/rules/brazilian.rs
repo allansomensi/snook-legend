@@ -101,8 +101,7 @@ impl EightBallGame {
 
         // A break that loses the cue ball with balls of both groups is
         // handed over like one that makes nothing (see below).
-        let both_groups =
-            Group::ALL.iter().all(|g| object_pocketed.iter().any(|b| g.contains(*b)));
+        let both_groups = Group::ALL.iter().all(|g| object_pocketed.iter().any(|b| g.contains(*b)));
         let break_lost_with_both = was_break && (cue_pocketed || cue_off) && both_groups;
 
         let eight_pocket = facts.pocket_of(BallId::EIGHT);

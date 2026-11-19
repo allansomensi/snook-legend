@@ -498,6 +498,15 @@ impl SettingsScreen {
                 rows.heading(ui, t("General"), None);
                 if let Some((_, c)) = rows.row(
                     ui,
+                    t("Rules of your games"),
+                    t("The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating."),
+                    Control::Wide(38.0),
+                ) && let Some(rules) = crate::rulesui::switch(ui, c, config.rules(), None)
+                {
+                    config.rules = Some(rules);
+                }
+                if let Some((_, c)) = rows.row(
+                    ui,
                     t("Profile picture"),
                     t("Shown by your name at the table and in your profile."),
                     Control::Wide(44.0),
@@ -935,6 +944,8 @@ fn defaults_keeping(config: &Config) -> Config {
         board_seen: keep.board_seen,
         language: keep.language,
         last_version: keep.last_version,
+        // A choice of the player's, not a setting to tune.
+        rules: keep.rules,
         graphics_checked: true,
         ..Config::default()
     }

@@ -5,6 +5,8 @@ use macroquad::prelude::*;
 #[allow(unused_imports)]
 use crate::paint::{draw_circle, draw_circle_lines, draw_line, draw_rectangle};
 
+use snook_legend_core::Rules;
+
 use crate::i18n::{t, tw};
 use crate::icons::Icon;
 use crate::online::{Online, Stage};
@@ -23,8 +25,10 @@ pub enum MenuAction {
     Restart,
     /// The notes of this version (the version label).
     WhatsNew,
-    /// The rules of the game.
-    Rules,
+    /// The rules of the game (the book open on these rules).
+    Rules(Rules),
+    /// The player switched the rules of their games.
+    SetRules(Rules),
     /// The button under a note on the board.
     Note(snook_legend_proto::NoteAction),
     /// The lounge's daily games (some are waiting for the player).
@@ -67,15 +71,36 @@ struct Metrics {
     card_h: f32,
     gap: f32,
     icon: f32,
+    /// The rules' switch, and the space over and under it.
+    switch_h: f32,
 }
 
 impl Metrics {
     fn for_height(sh: f32) -> Metrics {
-        if sh >= 600.0 {
-            Metrics { emblem: 92.0, title: 64.0, card_h: 66.0, gap: 12.0, icon: 46.0 }
+        if sh >= 640.0 {
+            Metrics {
+                emblem: 92.0,
+                title: 64.0,
+                card_h: 66.0,
+                gap: 12.0,
+                icon: 46.0,
+                switch_h: 46.0,
+            }
         } else {
-            Metrics { emblem: 72.0, title: 50.0, card_h: 58.0, gap: 8.0, icon: 42.0 }
+            Metrics {
+                emblem: 72.0,
+                title: 50.0,
+                card_h: 58.0,
+                gap: 8.0,
+                icon: 42.0,
+                switch_h: 38.0,
+            }
         }
+    }
+
+    /// The label over the switch, the switch and the gap under it.
+    fn rules_block(&self) -> f32 {
+        20.0 + self.switch_h + self.gap + 6.0
     }
 }
 
@@ -84,8 +109,15 @@ const CARD_W: f32 = 280.0;
 const EDGE: f32 = 20.0;
 
 impl Menu {
-    /// `saved`: object balls left in the saved game against the computer.
-    pub fn draw(&mut self, ui: &mut Ui, online: &Online, saved: Option<usize>) -> MenuAction {
+    /// `saved`: object balls left in the saved game against the computer;
+    /// `rules`: the rules of the player's games.
+    pub fn draw(
+        &mut self,
+        ui: &mut Ui,
+        online: &Online,
+        saved: Option<usize>,
+        rules: Rules,
+    ) -> MenuAction {
         let sw = crate::ui::vw();
         let sh = crate::ui::vh();
         let dt = get_frame_time();
@@ -158,7 +190,10 @@ impl Menu {
             (Icon::Network, t("Local network"), t("Play with friends on the same network")),
         ];
         // Wide enough for every line (and the "Continue" button beside the
-        // saved game's), as far as the window allows.
+        // saved game's, or the count of players), as far as the window
+        // allows.
+        let counts = online.counts();
+        let count_room = if counts.is_some() { 64.0 } else { 0.0 };
         let resume_w = 112.0;
         let daily_w = (ui.text_size(t("Daily games"), 14.0, true).x + 40.0).max(resume_w);
         let needed = items
@@ -169,6 +204,7 @@ impl Menu {
                 let button = match k {
                     0 if waiting > 0 => daily_w + 12.0,
                     1 if saved.is_some() => resume_w + 12.0,
+                    0 | 1 => count_room,
                     _ => 0.0,
                 };
                 70.0 + text + button + 24.0
@@ -176,9 +212,33 @@ impl Menu {
             .fold(0.0, f32::max);
         let w = (sw * 0.36).clamp(300.0, 440.0).max(needed).min(sw - left - EDGE);
         let h = m.card_h;
-        let block = 4.0 * h + 3.0 * m.gap;
+        let block = m.rules_block() + 4.0 * h + 3.0 * m.gap;
         let below = 24.0 + m.icon + EDGE;
         let mut y = ((sh - block) / 2.0 + 40.0).min(sh - below - block).max(top + m.emblem + 16.0);
+
+        // The rules of the player's games: one switch for everything (online,
+        // the computer, two players), with how many play each right now.
+        let label = t("RULES OF YOUR GAMES");
+        ui.text(label, left + 2.0, y, 12.0, MUTED, true);
+        let info = Rect::new(left + ui.text_size(label, 12.0, true).x + 8.0, y - 3.0, 18.0, 18.0);
+        crate::paint::draw_circle_lines(info.x + 9.0, info.y + 9.0, 7.0, 1.3, MUTED);
+        ui.text_centered("i", info.x + 9.0, info.y + 2.5, 11.0, MUTED, true);
+        if ui.hovering(info) {
+            ui.tooltip(t("What changes between the rules: click to read them"), info);
+            if ui.clicked(info) {
+                action = MenuAction::Rules(rules);
+            }
+        }
+        y += 20.0;
+        let players = counts.map(|c| c.map(|_, n| n.players));
+        if let Some(chosen) =
+            crate::rulesui::switch(ui, Rect::new(left, y, w, m.switch_h), rules, players)
+        {
+            action = MenuAction::SetRules(chosen);
+        }
+        y += m.switch_h + m.gap + 6.0;
+        // How many play this way under these rules (online, or the computer).
+        let mine = counts.map(|c| *c.get(rules));
         for (k, (icon, title, sub)) in items.into_iter().enumerate() {
             let r = Rect::new(left, y, w, h);
             let hover = ui.hovering(r);
@@ -234,7 +294,16 @@ impl Menu {
                 28.0,
                 if hover { GOLD } else { CREAM },
             );
-            let text_room = card.w - 70.0 - 16.0 - resume.map_or(0.0, |b| b.w + 12.0);
+            // Players here now under these rules, on the right.
+            let count = match (k, mine) {
+                (0, Some(c)) => Some(c.online),
+                (1, Some(c)) => Some(c.vs_computer),
+                _ => None,
+            }
+            .filter(|_| resume.is_none())
+            .map(|n| n.to_string());
+            let count_w = count.as_ref().map_or(0.0, |n| ui.text_size(n, 17.0, true).x + 40.0);
+            let text_room = card.w - 70.0 - 16.0 - resume.map_or(0.0, |b| b.w + 12.0) - count_w;
             let (title, title_size) = ui.fitted(title, 20.0, text_room, true);
             let lines = h / 2.0 - 20.0;
             ui.text(
@@ -255,6 +324,24 @@ impl Menu {
                 sub_color,
                 false,
             );
+            if let Some(n) = &count {
+                // Slides aside for the arrow on hover.
+                let right = card.x + card.w - 18.0 - a * 20.0;
+                let nw = ui.text_size(n, 17.0, true).x;
+                let cy = card.y + h / 2.0;
+                let nx = right - nw;
+                crate::icons::draw(Icon::Person, vec2(nx - 11.0, cy), 15.0, CREAM);
+                draw_circle(nx - 26.0, cy, 3.5, Color::new(0.35, 0.85, 0.45, 0.95));
+                ui.text(n, nx, crate::ranking::text_y(cy, 17.0), 17.0, CREAM, true);
+                let tip = if k == 0 {
+                    t("Players online under these rules (the lounge and online games)")
+                } else {
+                    t("Players against the computer under these rules")
+                };
+                if ui.hovering(Rect::new(nx - 34.0, cy - 14.0, nw + 38.0, 28.0)) {
+                    ui.tooltip(tip, Rect::new(nx - 34.0, cy - 14.0, nw + 38.0, 28.0));
+                }
+            }
             // An arrow slides in on hover: this card leads somewhere.
             if resume.is_none() && a > 0.02 {
                 let c = vec2(card.x + card.w - 22.0 - (1.0 - a) * 6.0, card.y + h / 2.0);
@@ -295,7 +382,7 @@ impl Menu {
             (Icon::Trophy, t("World ranking"), MenuAction::Ranking),
             (Icon::Person, t("Profile"), MenuAction::Profile),
             (Icon::Shop, t("Shop"), MenuAction::Shop),
-            (Icon::Book, t("Rules of the game"), MenuAction::Rules),
+            (Icon::Book, t("Rules of the game"), MenuAction::Rules(rules)),
             (Icon::Gear, t("Settings"), MenuAction::Settings),
             (Icon::Power, t("Quit"), MenuAction::Quit),
         ];
@@ -312,7 +399,7 @@ impl Menu {
         }
 
         // Who is signed in, top right, and the board under it.
-        let card = self.player_card(ui, online, &mut action);
+        let card = self.player_card(ui, online, rules, &mut action);
         // A new version, bottom right (never in the way of a game).
         let notice_top = update_notice(ui, left + w, &mut action);
         let bottom = notice_top.unwrap_or(sh - 60.0);
@@ -397,7 +484,13 @@ impl Menu {
 
     /// The player card: who is signed in (or how to), at the top right.
     /// Returns where it is.
-    fn player_card(&self, ui: &mut Ui, online: &Online, action: &mut MenuAction) -> Rect {
+    fn player_card(
+        &self,
+        ui: &mut Ui,
+        online: &Online,
+        rules: Rules,
+        action: &mut MenuAction,
+    ) -> Rect {
         let sw = crate::ui::vw();
         let w = player_card_w(sw);
         let r = Rect::new(sw - w - EDGE, EDGE, w, 64.0);
@@ -496,15 +589,20 @@ impl Menu {
                         ui.tooltip(&tip, r);
                     }
                 }
-                let rating = me.rating.to_string();
+                // The rating and the league under the rules of the
+                // player's games (their mark says which).
+                crate::rulesui::mark(rules, vec2(text_x + 8.0, r.y + 44.0), 15.0);
+                let rx = text_x + 22.0;
+                let rating = me.rating_in(rules).to_string();
                 let rw = ui.text_size(&rating, 13.0, true).x;
-                ui.text(&rating, text_x, r.y + 37.0, 13.0, CREAM, true);
+                ui.text(&rating, rx, r.y + 37.0, 13.0, CREAM, true);
+                let tier = me.tier_in(rules);
                 ui.text(
-                    &format!("·  {}", t(me.tier().name())),
-                    text_x + rw + 6.0,
+                    &format!("·  {}", t(tier.name())),
+                    rx + rw + 6.0,
                     r.y + 37.0,
                     13.0,
-                    crate::ui::tier_color(me.tier()),
+                    crate::ui::tier_color(tier),
                     false,
                 );
             }

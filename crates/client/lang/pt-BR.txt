@@ -1924,3 +1924,95 @@ The cue ball went down on the break with no ball made: {next} breaks, with the c
 Users online	Usuários online
 ping {ms} ms	ping {ms} ms
 The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks, with the cue ball in hand behind the head string.	A branca caiu na saída junto com bolas dos dois grupos: sem penalidade, a mesa continua aberta e {next} sai, com a branca na mão atrás da linha de cabeceira.
+Brazilian	Brasileira
+Official	Oficial
+Brazilian rules	Regra brasileira
+Official rules	Regra oficial
+As played in Brazil's bars	Como nos bares do Brasil
+As played in tournaments (WPA)	Como nos torneios (WPA)
+on the Brazilian rules	na regra brasileira
+on the official rules	na regra oficial
+A ball left the table on the break.	Uma bola saiu da mesa na saída.
+A ball off the table on the break	Bola fora da mesa na saída
+A safety calls nothing: whatever goes in stays down, and the turn passes.	Uma defesa não canta nada: o que cair fica encaçapado, e a vez passa.
+Break yourself	Sair você
+CALLED POCKET	CAÇAPA CANTADA
+Choose	Escolher
+Choose how play goes on	Escolha como o jogo segue
+Choose the rules of your games. You can switch them any time, in the main menu.	Escolha a regra das suas partidas. Dá para trocar quando quiser, no menu principal.
+Click a pocket on the table to call it; click it again to follow your aim.	Clique numa caçapa da mesa para cantá-la; clique de novo para seguir a sua mira.
+Cue ball in hand	Bola na mão
+Each of the rules has its own rating: these games don't change your {rating} under the {other}.	Cada regra tem o seu rating: estas partidas não mexem no seu {rating} da {other}.
+Find an opponent of your level automatically ({rules})	Encontra um adversário do seu nível automaticamente ({rules})
+How do you like to play?	Como você gosta de jogar?
+How does play go on? Choose one:	Como o jogo segue? Escolha uma opção:
+Illegal break: no ball made and fewer than four balls reached a cushion.	Saída ilegal: nenhuma bola caiu e menos de quatro chegaram à tabela.
+Invite {name}	Convidar {name}
+No ball went in the called pocket ({pocket}): {next} to shoot.	Nenhuma bola caiu na caçapa cantada ({pocket}): vez de {next}.
+No pocket was called (a safety): {next} to shoot.	Nenhuma caçapa foi cantada (defesa): vez de {next}.
+Not sure what changes?	Não sabe a diferença?
+Place it anywhere behind the head string.	Coloque-a onde quiser atrás da linha de cabeceira.
+Play on	Continuar jogando
+Players against the computer under these rules	Jogadores contra o computador nesta regra
+Players online under these rules (the lounge and online games)	Jogadores online nesta regra (o salão e as partidas online)
+RULES OF YOUR GAMES	REGRA DAS PARTIDAS
+Read both rules	Ver as duas regras
+Rules of your games	Regra das partidas
+Safety	Defesa
+Safety: no pocket	Defesa: nenhuma caçapa
+Show the {rules}: the rank, the league and the chart	Mostrar a {rules}: a posição, a liga e o gráfico
+The 8 is spotted and you keep shooting.	A 8 volta para a mesa e você continua jogando.
+The 8 is spotted; the cue ball in hand behind the head string.	A 8 volta para a mesa; a branca na mão atrás da linha de cabeceira.
+The 8 on a break with a foul	A 8 numa saída com falta
+The 8 on the break	A 8 na saída
+The 8 went down on a break with a foul: it is spotted.	A 8 caiu numa saída com falta: ela volta para a mesa.
+The 8 went down on the break: it is spotted.	A 8 caiu na saída: ela volta para a mesa.
+The balls are racked again and you break.	As bolas são arrumadas de novo e você sai.
+The balls are racked again and {name} breaks.	As bolas são arrumadas de novo e {name} sai.
+The balls are racked again: {name} breaks.	As bolas são arrumadas de novo: {name} sai.
+The balls are racked again: {other} breaks.	As bolas são arrumadas de novo: {other} sai.
+The rules of this game: click to read them	A regra desta partida: clique para ler
+The rules of your games: click to switch	A regra das suas partidas: clique para trocar
+The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	A mesma chave do menu principal: online, contra o computador e dois jogadores. Cada regra tem o seu rating.
+The table as it lies.	A mesa como está.
+The top 100 of each rules · rated games	Os 100 melhores de cada regra · partidas valendo rating
+The {ball} lay behind the head string and the cue ball hit it without crossing the line first	A {ball} estava atrás da linha de cabeceira e a branca a acertou sem atravessar a linha antes
+What changes between the rules: click to read them	O que muda entre as regras: clique para ler
+With the cue ball in hand behind the head string.	Com a branca na mão atrás da linha de cabeceira.
+follows your aim	segue a sua mira
+no rated games yet	nenhuma partida valendo rating
+open table: the called ball you make sets your group	mesa aberta: a bola cantada que cair decide o seu grupo
+peak {n} · {games} games	máximo {n} · {games} partidas
+playing now	jogando agora
+your call	cantada por você
+{name} breaks again	{name} sai de novo
+{name} chooses: play on, or rack the balls and break again.	{name} escolhe: continuar jogando, ou arrumar as bolas e sair de novo.
+{name} chooses: play the table as it lies, or take the cue ball in hand behind the head string.	{name} escolhe: jogar a mesa como está, ou ficar com a branca na mão atrás da linha de cabeceira.
+{name} chooses: play the table as it lies, rack the balls and break, or have {breaker} break again.	{name} escolhe: jogar a mesa como está, arrumar as bolas e sair, ou mandar {breaker} sair de novo.
+{name} chooses: the cue ball in hand behind the head string, or rack the balls and break.	{name} escolhe: a branca na mão atrás da linha de cabeceira, ou arrumar as bolas e sair.
+{name} is choosing how play goes on…	{name} está escolhendo como o jogo segue…
+{name} plays on (the 8 is spotted).	{name} continua jogando (a 8 volta para a mesa).
+{name} plays the table as it lies.	{name} joga a mesa como está.
+{name} plays the {theirs} now; yours are the {mine}.	{name} está na {theirs} agora; a sua é a {mine}.
+{name} takes the cue ball in hand.	{name} fica com a branca na mão.
+{next} has the cue ball in hand behind the head string.	{next} fica com a branca na mão atrás da linha de cabeceira.
+{next} has the cue ball in hand: anywhere on the table.	{next} fica com a branca na mão: em qualquer lugar da mesa.
+{n} points to {tier} ({rules})	{n} pontos para {tier} ({rules})
+{n} waiting	{n} na fila
+A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Falta dá ao adversário bolas do grupo dele. A branca fica na mão só na saída, e só a caçapa da 8 é cantada.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	Falta dá ao adversário a branca na mão, em qualquer lugar da mesa. Toda tacada é cantada, e a saída precisa levar quatro bolas à tabela.
+A foul gives balls to the opponent	Falta dá bolas ao adversário
+Ball in hand on the break only	Bola na mão só na saída
+Only the 8's pocket is called	Só a caçapa da 8 é cantada
+The most played in Brazil	A mais jogada no Brasil
+A foul gives ball in hand	Falta dá bola na mão
+The break drives four balls to a cushion	Saída com quatro bolas na tabela
+Every shot is called	Toda tacada é cantada
+The same all over the world	A mesma do mundo todo
+Game type	Partida
+called: {pocket}	cantada: {pocket}
+no call: a safety	sem cantar: defesa
+A safety: nothing called. Click again to call the pocket you aim at.	Defesa: nada cantado. Clique de novo para cantar a caçapa da sua mira.
+A safety calls nothing: whatever goes in stays down, and the turn passes. To call another pocket, click it on the table.	A defesa não canta nada: o que cair fica encaçapado, e a vez passa. Para cantar outra caçapa, clique nela na mesa.
+{games} games · {pct}% won	{games} partidas · {pct}% de vitórias
+Each of the rules has its own rating; the level, coins and achievements are shared.	Cada regra tem o seu rating; o nível, as moedas e as conquistas são os mesmos nas duas.

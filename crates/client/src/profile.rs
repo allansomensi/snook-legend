@@ -2,7 +2,7 @@
 //! the friend, block and report actions.
 
 use macroquad::prelude::*;
-use snook_legend_proto::{ACHIEVEMENTS, ClientMsg, Profile, Relation};
+use snook_legend_proto::{ACHIEVEMENTS, ClientMsg, Profile, Relation, Rules};
 
 #[allow(unused_imports)]
 use crate::paint::{draw_circle, draw_line, draw_rectangle};
@@ -60,6 +60,9 @@ pub struct ProfileScreen {
     gifts_first: usize,
     /// The first trophy shown.
     trophies_first: usize,
+    /// The rules whose rating, rank, league and chart are shown (a rating
+    /// card each, in the header).
+    rules: Rules,
 }
 
 /// The account dialog: username, recovery e-mail, password, deletion.
@@ -86,7 +89,7 @@ struct AccountForm {
 }
 
 /// Where the content starts under the header (from the panel's top).
-const BODY_TOP: f32 = 220.0;
+const BODY_TOP: f32 = 326.0;
 /// The body's height for the shot analysis (at least).
 const ANALYSIS_H: f32 = 352.0;
 /// The body's height: the summary on the left, a pane on the right.
@@ -202,6 +205,8 @@ fn heading(ui: &Ui, text: &str, x: f32, mid: f32) {
 impl ProfileScreen {
     pub fn open(&mut self, name: &str, online: &mut Online) {
         self.name = name.to_string();
+        // The rules of the viewer's games first.
+        self.rules = online.rules;
         self.history_first = 0;
         self.report = None;
         self.confirm_block = false;
@@ -358,7 +363,7 @@ impl ProfileScreen {
         let content = Rect::new(right.x, under.y, right.w, under.h);
         match self.pane {
             Pane::Games => self.history(ui, online, &p, content),
-            Pane::Rating => rating_chart(ui, &p, content),
+            Pane::Rating => rating_chart(ui, &p, self.rules, content),
             Pane::Numbers => numbers(ui, &p, content),
             Pane::Trophies => self.trophies(ui, &p, content),
             Pane::Analysis => crate::analysis::draw(
@@ -372,7 +377,7 @@ impl ProfileScreen {
             ),
             Pane::Gifts => online.draw_gift_history(ui, content, &mut self.gifts_first),
             Pane::Achievements => self.achievements(ui, &p, under),
-            Pane::Journey => journey(ui, online, &p, under),
+            Pane::Journey => journey(ui, online, &p, self.rules, under),
         }
         if let Some(saved) = saved {
             ui.resume_input(saved);
@@ -394,6 +399,98 @@ impl ProfileScreen {
         self.report_dialog(ui, online);
         self.account_dialog(ui, online);
         action
+    }
+
+    /// A rating card in the header: the rules, the rating and league, the
+    /// record under them and the way to the next league, lit when `shown`;
+    /// whether it was clicked.
+    fn rating_card(&self, ui: &mut Ui, p: &Profile, rules: Rules, shown: bool, c: Rect) -> bool {
+        use snook_legend_proto::Tier;
+        let standing = p.player.standing(rules);
+        let a = crate::rulesui::accent(rules);
+        let hover = ui.hovering(c);
+        let fill = if shown {
+            0.13
+        } else if hover {
+            0.08
+        } else {
+            0.04
+        };
+        rrect(c, 9.0, Color::new(a.r * fill * 1.6, a.g * fill * 1.6, a.b * fill * 1.6, 0.92));
+        let edge =
+            if shown { a } else { Color::new(a.r, a.g, a.b, if hover { 0.6 } else { 0.25 }) };
+        rrect_lines(c, 9.0, if shown { 1.8 } else { 1.0 }, edge);
+        let x = c.x + 16.0;
+        // The rules.
+        crate::rulesui::mark(rules, vec2(x + 9.0, c.y + 20.0), 18.0);
+        let name = crate::i18n::rules_name(rules);
+        ui.text(name, x + 26.0, text_y(c.y + 20.0, 14.0), 14.0, a, true);
+        // The rating, and the league.
+        let tier = p.player.tier_in(rules);
+        let rating = standing.rating.to_string();
+        ui.text(&rating, x, c.y + 36.0, 32.0, tier_color(tier), true);
+        let rw = ui.text_size(&rating, 32.0, true).x;
+        ui.text(t(tier.name()), x + rw + 10.0, c.y + 50.0, 14.0, MUTED, false);
+        // The record, on the right.
+        let right = c.x + c.w - 16.0;
+        let record = if standing.games == 0 {
+            t("no rated games yet").to_string()
+        } else {
+            tw(
+                "{games} games · {pct}% won",
+                &[("games", &standing.games), ("pct", &standing.win_rate())],
+            )
+        };
+        let peak = tw("peak {n}", &[("n", p.peaks.get(rules))]);
+        let (record, size) = ui.fitted(&record, 13.0, c.w * 0.42, false);
+        let w = ui.text_size(&record, size, false).x;
+        ui.text(&record, right - w, c.y + 14.0, size, CREAM, false);
+        let pw = ui.text_size(&peak, 12.0, false).x;
+        ui.text(&peak, right - pw, c.y + 33.0, 12.0, MUTED, false);
+        // The way to the next league.
+        let next = Tier::ALL.into_iter().find(|t| t.min_rating() > standing.rating);
+        let bar = Rect::new(x, c.y + c.h - 14.0, c.w - 32.0, 4.0);
+        rrect(bar, 2.0, Color::new(1.0, 1.0, 1.0, 0.08));
+        match next {
+            Some(next) => {
+                let from = if tier == Tier::Rookie {
+                    snook_legend_core::rating::EloConfig::default()
+                        .initial_rating
+                        .min(standing.rating)
+                } else {
+                    tier.min_rating()
+                };
+                let span = (next.min_rating() - from).max(1) as f32;
+                let k = ((standing.rating - from) as f32 / span).clamp(0.0, 1.0);
+                if k > 0.0 {
+                    rrect(
+                        Rect::new(bar.x, bar.y, (bar.w * k).max(4.0), bar.h),
+                        2.0,
+                        tier_color(next),
+                    );
+                }
+                let to = tw(
+                    "{n} points to {tier}",
+                    &[("n", &(next.min_rating() - standing.rating)), ("tier", &t(next.name()))],
+                );
+                let tw_ = ui.text_size(&to, 12.0, false).x;
+                ui.text(&to, right - tw_, c.y + 54.0, 12.0, MUTED, false);
+            }
+            None => {
+                rrect(bar, 2.0, tier_color(tier));
+                let top = t("Top tier");
+                let tw_ = ui.text_size(top, 12.0, false).x;
+                ui.text(top, right - tw_, c.y + 54.0, 12.0, tier_color(tier), false);
+            }
+        }
+        if hover && !shown {
+            let tip = tw(
+                "Show the {rules}: the rank, the league and the chart",
+                &[("rules", &crate::i18n::rules_name(rules).to_lowercase())],
+            );
+            ui.tooltip(&tip, c);
+        }
+        hover && !shown && ui.clicked(c)
     }
 
     fn header(&mut self, ui: &mut Ui, online: &mut Online, p: &Profile, r: Rect) {
@@ -464,19 +561,39 @@ impl ProfileScreen {
         if p.online {
             draw_circle(after + 9.0, mid, 5.0, Color::new(0.35, 0.85, 0.45, 1.0));
         }
-        // The status message, between the name and the rating.
+        // A rating card for each of the rules, under the name: the one shown
+        // (its rank, league and chart) is lit; a click shows the other.
+        let rules = self.rules;
+        if !player.guest {
+            let gap = 12.0;
+            let cw = (r.w - 2.0 * PAD - gap) / 2.0;
+            for (k, rr) in Rules::ALL.into_iter().enumerate() {
+                let c = Rect::new(r.x + PAD + k as f32 * (cw + gap), r.y + 100.0, cw, 92.0);
+                if self.rating_card(ui, p, rr, rr == rules, c) {
+                    self.rules = rr;
+                }
+            }
+        }
+
+        // The status message, between the name and the ghost's button (at
+        // the top right, signed in).
         let status_x = after + dot_w + 18.0 + pad;
-        let status_end = if player.guest {
-            r.x + r.w - PAD
+        let ghost_w = if online.signed_in() && !online.lan && !player.guest {
+            let label = if p.relation == Relation::Me {
+                t("Play your ghost")
+            } else {
+                t("Play their ghost")
+            };
+            ui.text_size(label, 14.0, true).x + 54.0 + 24.0
         } else {
-            let rw = ui.text_size(&player.rating.to_string(), 40.0, true).x;
-            r.x + r.w - PAD - rw - 24.0
+            0.0
         };
+        let status_end = r.x + r.w - PAD - ghost_w;
         self.status_message(ui, online, p, status_x, status_end, mid);
 
         // The tier and a line about the player, under the name. The pill's
         // text and the line share a baseline.
-        let tier = player.tier();
+        let tier = player.tier_in(rules);
         let info_mid = r.y + 76.0;
         let mut info_x = left;
         if !player.guest {
@@ -488,8 +605,8 @@ impl ProfileScreen {
             }
         }
         let mut parts = Vec::new();
-        if let Some(rank) = p.rank {
-            parts.push(tw("#{n} in the world", &[("n", &rank)]));
+        if let Some(rank) = p.ranks.get(rules) {
+            parts.push(tw("#{n} in the world", &[("n", rank)]));
         }
         if !player.country.is_empty() {
             parts.push(crate::flags::name(&player.country).to_string());
@@ -506,17 +623,6 @@ impl ProfileScreen {
         let baseline = info_mid + 0.365 * 12.0;
         ui.text(&parts.join("  ·  "), info_x, baseline - 0.8 * 13.0, 13.0, MUTED, false);
 
-        // The rating, large, on the right, with the peak under it.
-        if !player.guest {
-            let rating = player.rating.to_string();
-            let rw = ui.text_size(&rating, 40.0, true).x;
-            let rx = r.x + r.w - PAD;
-            ui.text(&rating, rx - rw, caps_y(mid, 40.0), 40.0, tier_color(tier), true);
-            let peak = tw("peak {n}", &[("n", &p.stats.peak_rating)]);
-            let pw = ui.text_size(&peak, 12.0, false).x;
-            ui.text(&peak, rx - pw, text_y(info_mid, 12.0), 12.0, MUTED, false);
-        }
-
         // Numbers.
         let s = &p.stats;
         let pct = (s.wins * 100).checked_div(s.games).unwrap_or(0);
@@ -531,50 +637,22 @@ impl ProfileScreen {
         let gap = 12.0;
         let cw = (r.w - 2.0 * PAD - 5.0 * gap) / 6.0;
         for (k, (n, label)) in cards.iter().enumerate() {
-            let c = Rect::new(r.x + PAD + k as f32 * (cw + gap), r.y + 100.0, cw, 58.0);
+            let c = Rect::new(r.x + PAD + k as f32 * (cw + gap), r.y + 204.0, cw, 58.0);
             rrect(c, 8.0, Color::new(1.0, 1.0, 1.0, 0.04));
             ui.text_centered(n, c.x + c.w / 2.0, c.y + 8.0, 22.0, CREAM, true);
             let size = fit_regular(ui, label, 12.0, c.w - 10.0);
             ui.text_centered(label, c.x + c.w / 2.0, c.y + 37.0, size, MUTED, false);
         }
 
-        // Progress towards the next tier, and the actions, on one row.
-        let row_mid = r.y + 186.0;
+        // The actions on the right of one row; on its left, what the two
+        // ratings mean (the rest of the account is the same under both).
+        let row_mid = r.y + 294.0;
         if !player.guest {
-            let next =
-                snook_legend_proto::Tier::ALL.into_iter().find(|t| t.min_rating() > player.rating);
-            let bx = r.x + PAD;
-            let bw = (r.w * 0.36).min(320.0);
-            match next {
-                Some(next) => {
-                    let from = if tier == snook_legend_proto::Tier::Rookie {
-                        snook_legend_core::rating::EloConfig::default()
-                            .initial_rating
-                            .min(player.rating)
-                    } else {
-                        tier.min_rating()
-                    };
-                    let span = (next.min_rating() - from).max(1) as f32;
-                    let k = ((player.rating - from) as f32 / span).clamp(0.0, 1.0);
-                    let label = tw(
-                        "{n} points to {tier}",
-                        &[("n", &(next.min_rating() - player.rating)), ("tier", &t(next.name()))],
-                    );
-                    ui.text(&label, bx, row_mid - 17.0, 12.0, MUTED, false);
-                    let bar = Rect::new(bx, row_mid + 4.0, bw, 6.0);
-                    rrect(bar, 3.0, Color::new(1.0, 1.0, 1.0, 0.08));
-                    if k > 0.0 {
-                        rrect(
-                            Rect::new(bar.x, bar.y, (bar.w * k).max(6.0), bar.h),
-                            3.0,
-                            tier_color(next),
-                        );
-                    }
-                }
-                None => {
-                    ui.text(t("Top tier"), bx, text_y(row_mid, 13.0), 13.0, tier_color(tier), true)
-                }
-            }
+            let note = t(
+                "Each of the rules has its own rating; the level, coins and achievements are shared.",
+            );
+            let (note, size) = ui.fitted(note, 12.0, r.w * 0.5, false);
+            ui.text(&note, r.x + PAD, text_y(row_mid, size), size, MUTED, false);
         }
 
         let line_y = r.y + BODY_TOP - 14.0;
@@ -814,10 +892,11 @@ impl ProfileScreen {
                 go = Some(Pane::Journey);
             }
             y += card.h + 10.0;
-            // The next league and its prize.
-            let tier = player.tier();
+            // The next league and its prize (under the rules shown).
+            let tier = player.tier_in(self.rules);
+            let rating = player.rating_in(self.rules);
             let next_tier =
-                snook_legend_proto::Tier::ALL.into_iter().find(|t| t.min_rating() > player.rating);
+                snook_legend_proto::Tier::ALL.into_iter().find(|t| t.min_rating() > rating);
             let card = Rect::new(area.x, y, area.w, 58.0);
             let color = tier_color(next_tier.unwrap_or(tier));
             rrect(card, 8.0, Color::new(color.r, color.g, color.b, 0.07));
@@ -1130,8 +1209,12 @@ impl ProfileScreen {
             } else {
                 how.to_string()
             };
-            let sub = ui.ellipsize(&sub, room, 12.0);
+            // The rules the game was played under, after the line.
+            let tag_w = crate::rulesui::tag_w(ui, h.rules, 12.0) + 10.0;
+            let sub = ui.ellipsize(&sub, room - tag_w, 12.0);
             ui.text(&sub, x, mid + 3.0, 12.0, MUTED, false);
+            let tx = x + ui.text_size(&sub, 12.0, false).x + 10.0;
+            crate::rulesui::tag(ui, h.rules, tx, mid + 10.0, 12.0);
         }
     }
 
@@ -1432,9 +1515,17 @@ fn tier_pill(ui: &Ui, text: &str, x: f32, mid: f32, color: Color) -> f32 {
     w
 }
 
-/// The rating after each rated game, as a line.
-fn rating_chart(ui: &mut Ui, p: &Profile, area: Rect) {
-    let pts = &p.rating_history;
+/// The rating after each rated game under `rules`, as a line.
+fn rating_chart(ui: &mut Ui, p: &Profile, rules: Rules, area: Rect) {
+    let pts = p.rating_history.get(rules);
+    // Which rules: the cards in the header switch them.
+    crate::rulesui::tag(
+        ui,
+        rules,
+        area.x + area.w - crate::rulesui::tag_w(ui, rules, 12.0),
+        area.y - 12.0,
+        12.0,
+    );
     if pts.len() < 2 {
         let text = if p.relation == Relation::Me {
             t("Play rated games to see your rating here.")
@@ -1614,7 +1705,7 @@ fn item_label(item: &snook_legend_proto::shop::Item) -> String {
 
 /// The leagues and the levels, each with what it brings: where the player
 /// stands on both roads and everything still ahead.
-fn journey(ui: &mut Ui, online: &Online, p: &Profile, area: Rect) {
+fn journey(ui: &mut Ui, online: &Online, p: &Profile, rules: Rules, area: Rect) {
     use snook_legend_proto::{Tier, xp};
     let player = &p.player;
     let col_w = (area.w - 24.0) / 2.0;
@@ -1639,8 +1730,10 @@ fn journey(ui: &mut Ui, online: &Online, p: &Profile, area: Rect) {
     let tiers: Vec<Tier> = Tier::ALL.into_iter().rev().collect();
     let top = area.y + 30.0;
     let row_h = ((area.h - 30.0) / tiers.len() as f32).min(50.0);
-    let current = player.tier();
-    let peak = p.stats.peak_rating.max(player.rating);
+    // The leagues under the rules shown (each league pays once, under
+    // either of the rules).
+    let current = player.tier_in(rules);
+    let peak = (*p.peaks.get(rules)).max(player.rating_in(rules));
     for (k, tier) in tiers.iter().enumerate() {
         let r = Rect::new(x, top + k as f32 * row_h, col_w, row_h - 5.0);
         let color = tier_color(*tier);

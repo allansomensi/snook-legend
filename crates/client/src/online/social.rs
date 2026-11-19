@@ -3,7 +3,9 @@
 //! Players tab) and status messages in the player rows.
 
 use macroquad::prelude::*;
-use snook_legend_proto::{ClientMsg, PlayerInfo, PlayerStatus, RecentOpponent, Relation, SeekNote};
+use snook_legend_proto::{
+    ClientMsg, PlayerInfo, PlayerStatus, RecentOpponent, Relation, Rules, SeekNote,
+};
 
 #[allow(unused_imports)]
 use crate::paint::{draw_circle, draw_line, draw_rectangle};
@@ -108,23 +110,39 @@ pub fn note_text(n: &SeekNote) -> String {
 
 /// A row's second line: `base` in muted text, then the player's status
 /// message (if any) after a dot, cut to `width`.
-pub fn sub_line(ui: &Ui, base: &str, status: &str, x: f32, y: f32, width: f32) {
+pub fn sub_line(ui: &Ui, base: &str, status: &str, x: f32, y: f32, width: f32) -> f32 {
     let base = ui.ellipsize(base, width, 12.0);
     ui.text(&base, x, y, 12.0, MUTED, false);
-    if status.is_empty() {
-        return;
-    }
     let used = ui.text_size(&base, 12.0, false).x;
+    if status.is_empty() {
+        return used;
+    }
     let sep = "  ·  ";
     let sep_w = ui.text_size(sep, 12.0, false).x;
     let room = width - used - sep_w;
     // Not worth a few letters: leave it for the profile.
     if room < 40.0 {
-        return;
+        return used;
     }
     ui.text(sep, x + used, y, 12.0, MUTED, false);
     let status = ui.ellipsize(status, room, 12.0);
     ui.text(&status, x + used + sep_w, y, 12.0, STATUS_COLOR, false);
+    used + sep_w + ui.text_size(&status, 12.0, false).x
+}
+
+/// "· (globe) on the official rules" after a line `y` high from `x`: a
+/// player (or a note) of the rules other than this player's. Its width.
+pub fn other_rules(ui: &Ui, rules: Rules, x: f32, y: f32, draw: bool) -> f32 {
+    let sep = "  ·  ";
+    let sep_w = ui.text_size(sep, 12.0, false).x;
+    let label = crate::i18n::rules_in(rules);
+    let w = sep_w + 14.0 + 4.0 + ui.text_size(label, 12.0, false).x;
+    if draw {
+        ui.text(sep, x, y, 12.0, MUTED, false);
+        crate::rulesui::mark(rules, vec2(x + sep_w + 7.0, y + 7.0), 14.0);
+        ui.text(label, x + sep_w + 18.0, y, 12.0, crate::rulesui::accent(rules), false);
+    }
+    w
 }
 
 impl Online {
@@ -208,7 +226,7 @@ impl Online {
                 self.tab = Tab::Players;
                 self.list_first = 0;
                 if self.queue.is_none() {
-                    self.send(ClientMsg::QueueJoin { rated: self.rated_games });
+                    self.send(ClientMsg::QueueJoin { rated: self.rated_games, rules: self.rules });
                 }
             }
             return None;
@@ -222,7 +240,7 @@ impl Online {
         let watch_label = t("Watch");
         let bw = button_w(ui, invite_label, 30.0).max(button_w(ui, watch_label, 30.0)).max(96.0);
         let mut action = None;
-        let mut send = None;
+        let mut invite = None;
         let mut befriend = None;
         let mut watch = None;
         for (k, r_) in recent.iter().skip(self.list_first).take(visible).enumerate() {
@@ -305,12 +323,12 @@ impl Online {
                 let can = live.is_some_and(|p| p.status == PlayerStatus::Available && !p.focus)
                     && self.outgoing.is_none();
                 if ui.button(button, invite_label, can) {
-                    send = Some(ClientMsg::Invite { to: name, rated: self.rated_games });
+                    invite = Some(name);
                 }
             }
         }
-        if let Some(msg) = send {
-            self.send(msg);
+        if let Some(to) = invite {
+            self.open_invite(&to);
         }
         if let Some(name) = befriend {
             self.befriend(&name);
@@ -355,7 +373,8 @@ impl Online {
             }
             if ui.primary_button(post_r, post) || enter {
                 let text = snook_legend_proto::clean_seek(&text);
-                self.send_text(ClientMsg::PostSeek { text, rated: self.rated_games });
+                let (rated, rules) = (self.rated_games, self.rules);
+                self.send_text(ClientMsg::PostSeek { text, rated, rules });
                 self.social.composing = None;
                 ui.focus = None;
             } else if ui.icon_button(close, Icon::Close, t("Cancel"), true) || ui.escape() {
@@ -411,15 +430,22 @@ impl Online {
 
     /// A player row's second line when they have a note up: the note, and
     /// whether the game would be rated.
-    pub(super) fn note_line(ui: &Ui, note: &SeekNote, x: f32, y: f32, width: f32) {
+    /// A note's text, then the game it asks for (rated or casual, and the
+    /// rules when they are not this player's: `mine`).
+    pub(super) fn note_line(ui: &Ui, note: &SeekNote, mine: Rules, x: f32, y: f32, width: f32) {
         let mode = if note.rated { t("rated") } else { t("casual") };
         let mode = format!("  ·  {mode}");
-        let mode_w = ui.text_size(&mode, 12.0, false).x;
+        let other = (note.rules != mine).then(|| other_rules(ui, note.rules, 0.0, 0.0, false));
+        let mode_w = ui.text_size(&mode, 12.0, false).x + other.unwrap_or(0.0);
         let text = ui.ellipsize(&note_text(note), (width - mode_w).max(20.0), 12.0);
         ui.text(&text, x, y, 12.0, GOLD, false);
         let used = ui.text_size(&text, 12.0, false).x;
         if used + mode_w <= width {
             ui.text(&mode, x + used, y, 12.0, MUTED, false);
+            if other.is_some() {
+                let at = x + used + ui.text_size(&mode, 12.0, false).x;
+                other_rules(ui, note.rules, at, y, true);
+            }
         }
     }
 
@@ -458,6 +484,7 @@ mod tests {
             username: name.into(),
             text: String::new(),
             rated: true,
+            rules: Rules::Brazilian,
             at,
             expires_at: at + 1800,
         };

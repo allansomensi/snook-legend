@@ -8,7 +8,9 @@ use macroquad::prelude::*;
 #[allow(unused_imports)]
 use crate::paint::{draw_circle, draw_line, draw_rectangle};
 
-use crate::i18n::t;
+use snook_legend_core::Rules;
+
+use crate::i18n::{t, tw};
 use crate::icons::Icon;
 use crate::online::Online;
 use crate::ui::{BORDER, CREAM, GOLD, MUTED, Ui, rrect, rrect_lines, tier_color};
@@ -22,6 +24,8 @@ pub enum RankingAction {
 #[derive(Default)]
 pub struct Ranking {
     first: usize,
+    /// The rules whose ranking is shown (a tab each).
+    rules: Rules,
 }
 
 /// Inner padding of the screens' panels.
@@ -119,28 +123,33 @@ const GAP: f32 = 20.0;
 const ROW_H: f32 = 36.0;
 
 impl Ranking {
+    /// Opens on the ranking of the rules the player plays.
     pub fn open(&mut self, online: &mut Online) {
         self.first = 0;
-        online.request_leaderboard();
+        self.rules = online.rules;
+        online.request_leaderboard(self.rules);
     }
 
     pub fn draw(&mut self, ui: &mut Ui, online: &mut Online) -> RankingAction {
         let sw = crate::ui::vw();
         let sh = crate::ui::vh();
         draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.5));
-        let entries = online.leaderboard.clone();
+        let entries = online.leaderboard.get(self.rules).clone();
         // The panel fits the list (up to the screen's height); an empty or
-        // loading list gets room for its message.
-        let head = HEADER_H + 12.0 + 26.0;
-        let room = ((sh - 40.0 - head - PAD) / ROW_H).floor().max(3.0) as usize;
+        // loading list gets room for its message. The tabs of the rules
+        // under the header, a note on the ratings under the list.
+        const TABS_H: f32 = 44.0;
+        const NOTE_H: f32 = 30.0;
+        let head = HEADER_H + TABS_H + 16.0 + 12.0 + 26.0;
+        let room = ((sh - 40.0 - head - NOTE_H - PAD) / ROW_H).floor().max(3.0) as usize;
         let body_h =
             if entries.is_empty() { 200.0 } else { entries.len().min(room) as f32 * ROW_H };
         let w = (sw - 40.0).min(760.0);
-        let h = (head + body_h + PAD - 4.0).min(sh - 40.0);
+        let h = (head + body_h + NOTE_H + PAD - 4.0).min(sh - 40.0);
         let r = Rect::new((sw - w) / 2.0, (sh - h) / 2.0, w, h);
         ui.panel(r);
         let mut action = RankingAction::None;
-        let subtitle = t("Top 100 · rated games");
+        let subtitle = t("The top 100 of each rules · rated games");
         if screen_header(ui, r, Icon::Trophy, t("World ranking"), Some(subtitle)) || ui.escape() {
             action = RankingAction::Back;
         }
@@ -150,7 +159,30 @@ impl Ranking {
             t("Refresh"),
             true,
         ) {
-            online.request_leaderboard();
+            online.request_leaderboard(self.rules);
+        }
+        // A tab for each of the rules, with how many play it now.
+        let tabs = Rect::new(r.x + PAD, r.y + HEADER_H, r.w - PAD * 2.0, TABS_H);
+        let players = online.counts().map(|c| c.map(|_, n| n.players));
+        if let Some(rules) = crate::rulesui::switch(ui, tabs, self.rules, players) {
+            self.rules = rules;
+            self.first = 0;
+            online.request_leaderboard(rules);
+        }
+        // Each of the rules has its own rating: said under the list.
+        let note = online.me.as_ref().filter(|m| !m.guest).map(|me| {
+            let other = self.rules.other();
+            tw(
+                "Each of the rules has its own rating: these games don't change your {rating} under the {other}.",
+                &[
+                    ("rating", &me.rating_in(other)),
+                    ("other", &crate::i18n::rules_name(other).to_lowercase()),
+                ],
+            )
+        });
+        if let Some(note) = &note {
+            let (note, size) = ui.fitted(note, 13.0, r.w - PAD * 2.0, false);
+            ui.text(&note, r.x + PAD, r.y + r.h - PAD - 8.0, size, MUTED, false);
         }
         // The rows run from x0 to x1; a scroll bar, when there is one, sits
         // to the right of x1.
@@ -168,7 +200,7 @@ impl Ranking {
         }
         let name_x = x0 + 52.0;
         let name_w = right + GAP - 12.0 - name_x;
-        let head_y = r.y + HEADER_H + 12.0;
+        let head_y = r.y + HEADER_H + TABS_H + 16.0 + 12.0;
         ui.text("#", x0 + 20.0 - ui.text_size("#", 12.0, true).x / 2.0, head_y, 12.0, MUTED, true);
         ui.text(t("Player"), name_x, head_y, 12.0, MUTED, true);
         for (k, (_, label, _)) in COLUMNS.iter().enumerate() {
@@ -181,7 +213,7 @@ impl Ranking {
         draw_line(r.x + PAD - 8.0, line_y, r.x + r.w - PAD + 8.0, line_y, 1.0, BORDER);
         let list = Rect::new(x0, line_y + 5.0, r.x + r.w - PAD + 8.0 - x0, body_h);
         if entries.is_empty() {
-            if online.leaderboard_loaded {
+            if *online.leaderboard_loaded.get(self.rules) {
                 empty_state(ui, list, Icon::Trophy, t("No rated games yet. Be the first!"));
             } else if let Some(error) = unreachable(online) {
                 empty_state(ui, list, Icon::Network, &error);

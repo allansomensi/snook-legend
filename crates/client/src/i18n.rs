@@ -10,7 +10,10 @@ use std::collections::HashMap;
 use std::sync::OnceLock;
 use std::sync::atomic::{AtomicU8, Ordering};
 
-use snook_legend_core::{BallId, Difficulty, Foul, GameOverReason, Group, PocketId, ShotError};
+use snook_legend_core::{
+    BallId, BreakChoice, BreakOption, Difficulty, Foul, GameOverReason, Group, PocketId, Rules,
+    ShotError,
+};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Lang {
@@ -365,6 +368,131 @@ pub fn foul(f: &Foul) -> String {
         Foul::NoRailAfterContact => t("No ball reached a cushion after contact").into(),
         Foul::ObjectBallOffTable(id) => tw("The {ball} left the table", &[("ball", &ball(*id))]),
         Foul::IllegalBreak => t("Illegal break").into(),
+        Foul::BallBehindHeadString(id) => tw(
+            "The {ball} lay behind the head string and the cue ball hit it without crossing the line first",
+            &[("ball", &ball(*id))],
+        ),
+    }
+}
+
+/// The rules' name, as the player picks them ("Brazilian rules").
+pub fn rules_name(r: Rules) -> &'static str {
+    t(match r {
+        Rules::Brazilian => "Brazilian rules",
+        Rules::Official => "Official rules",
+    })
+}
+
+/// The rules' short name, where the context says they are rules
+/// ("Brazilian", "Official").
+pub fn rules_short(r: Rules) -> &'static str {
+    t(match r {
+        Rules::Brazilian => "Brazilian",
+        Rules::Official => "Official",
+    })
+}
+
+/// A player (or a game) under the rules, after their status ("on the
+/// official rules").
+pub fn rules_in(r: Rules) -> &'static str {
+    t(match r {
+        Rules::Brazilian => "on the Brazilian rules",
+        Rules::Official => "on the official rules",
+    })
+}
+
+/// What the rules are in a few words (under their name).
+pub fn rules_tagline(r: Rules) -> &'static str {
+    t(match r {
+        Rules::Brazilian => "As played in Brazil's bars",
+        Rules::Official => "As played in tournaments (WPA)",
+    })
+}
+
+/// What a break that leaves a choice did (the notice's text), and who now
+/// decides what (its detail). `chooser` decides; `breaker` broke.
+pub fn break_choice(choice: BreakChoice, chooser: &str, breaker: &str) -> (String, String) {
+    let n = [("name", &chooser as &dyn std::fmt::Display), ("breaker", &breaker)];
+    match choice {
+        BreakChoice::IllegalBreak { .. } => (
+            t("Illegal break: no ball made and fewer than four balls reached a cushion.").into(),
+            tw(
+                "{name} chooses: play the table as it lies, rack the balls and break, or have {breaker} break again.",
+                &n,
+            ),
+        ),
+        BreakChoice::EightOnBreak => (
+            t("The 8 went down on the break: it is spotted.").into(),
+            tw("{name} chooses: play on, or rack the balls and break again.", &n),
+        ),
+        BreakChoice::EightOnFoulBreak => (
+            t("The 8 went down on a break with a foul: it is spotted.").into(),
+            tw(
+                "{name} chooses: the cue ball in hand behind the head string, or rack the balls and break.",
+                &n,
+            ),
+        ),
+        BreakChoice::BallOffOnBreak => (
+            t("A ball left the table on the break.").into(),
+            tw(
+                "{name} chooses: play the table as it lies, or take the cue ball in hand behind the head string.",
+                &n,
+            ),
+        ),
+    }
+}
+
+/// The question a choice asks, for the dialog's title.
+pub fn choice_title(choice: BreakChoice) -> &'static str {
+    t(match choice {
+        BreakChoice::IllegalBreak { .. } => "Illegal break",
+        BreakChoice::EightOnBreak => "The 8 on the break",
+        BreakChoice::EightOnFoulBreak => "The 8 on a break with a foul",
+        BreakChoice::BallOffOnBreak => "A ball off the table on the break",
+    })
+}
+
+/// One answer to a choice, from the chooser's side: its label and what it
+/// does (`other`: the other player).
+pub fn break_option(choice: BreakChoice, option: BreakOption, other: &str) -> (String, String) {
+    let n = [("name", &other as &dyn std::fmt::Display)];
+    match option {
+        BreakOption::PlayOn => {
+            let what = match choice {
+                BreakChoice::IllegalBreak { scratch: true } => {
+                    "With the cue ball in hand behind the head string."
+                }
+                BreakChoice::EightOnBreak => "The 8 is spotted and you keep shooting.",
+                BreakChoice::EightOnFoulBreak => {
+                    "The 8 is spotted; the cue ball in hand behind the head string."
+                }
+                _ => "The table as it lies.",
+            };
+            (t("Play on").into(), t(what).into())
+        }
+        BreakOption::CueBallInHand => {
+            (t("Cue ball in hand").into(), t("Place it anywhere behind the head string.").into())
+        }
+        BreakOption::BreakAgain => {
+            (t("Break yourself").into(), t("The balls are racked again and you break.").into())
+        }
+        BreakOption::OpponentBreaks => {
+            (tw("{name} breaks again", &n), tw("The balls are racked again and {name} breaks.", &n))
+        }
+    }
+}
+
+/// What a player chose, for everyone (`other`: the other player).
+pub fn chosen(choice: BreakChoice, option: BreakOption, name: &str, other: &str) -> String {
+    let n = [("name", &name as &dyn std::fmt::Display), ("other", &other)];
+    match option {
+        BreakOption::PlayOn if choice == BreakChoice::EightOnBreak => {
+            tw("{name} plays on (the 8 is spotted).", &n)
+        }
+        BreakOption::PlayOn => tw("{name} plays the table as it lies.", &n),
+        BreakOption::CueBallInHand => tw("{name} takes the cue ball in hand.", &n),
+        BreakOption::BreakAgain => tw("The balls are racked again: {name} breaks.", &n),
+        BreakOption::OpponentBreaks => tw("The balls are racked again: {other} breaks.", &n),
     }
 }
 

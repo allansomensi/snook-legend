@@ -6,8 +6,9 @@
 //! version (newest first), `### <title>` a highlight, and the lines after it
 //! are its text. Lines starting with a single `#` are comments.
 //!
-//! The same dialog shows the rules of the game, from `rules/<language>.md`
-//! (`## <part>`, then `### <rule>`).
+//! The same dialog shows the rules of the game, from
+//! `rules/<rules>/<language>.md` (`## <part>`, then `### <rule>`): the
+//! Brazilian rules and the official ones, a tab each.
 
 use std::sync::OnceLock;
 
@@ -15,6 +16,8 @@ use macroquad::prelude::*;
 
 #[allow(unused_imports)]
 use crate::paint::{draw_line, draw_rectangle};
+
+use snook_legend_core::Rules;
 
 use crate::i18n::{Lang, t, tw};
 use crate::ui::{BORDER, CREAM, GOLD, MUTED, Ui};
@@ -62,18 +65,21 @@ pub fn parse(text: &str) -> Vec<Notes> {
     out
 }
 
-fn rules_source(lang: Lang) -> &'static str {
-    match lang {
-        Lang::English => include_str!("../rules/en.md"),
-        Lang::Portuguese => include_str!("../rules/pt-BR.md"),
-        Lang::Spanish => include_str!("../rules/es.md"),
+fn rules_source(rules: Rules, lang: Lang) -> &'static str {
+    match (rules, lang) {
+        (Rules::Brazilian, Lang::English) => include_str!("../rules/brazilian/en.md"),
+        (Rules::Brazilian, Lang::Portuguese) => include_str!("../rules/brazilian/pt-BR.md"),
+        (Rules::Brazilian, Lang::Spanish) => include_str!("../rules/brazilian/es.md"),
+        (Rules::Official, Lang::English) => include_str!("../rules/official/en.md"),
+        (Rules::Official, Lang::Portuguese) => include_str!("../rules/official/pt-BR.md"),
+        (Rules::Official, Lang::Spanish) => include_str!("../rules/official/es.md"),
     }
 }
 
-/// The rules in `lang`, part by part.
-fn rules(lang: Lang) -> &'static [Notes] {
-    static CACHE: [OnceLock<Vec<Notes>>; 3] = [OnceLock::new(), OnceLock::new(), OnceLock::new()];
-    CACHE[lang as usize].get_or_init(|| parse(rules_source(lang)))
+/// The `rules` in `lang`, part by part.
+fn rules_book(rules: Rules, lang: Lang) -> &'static [Notes] {
+    static CACHE: [OnceLock<Vec<Notes>>; 6] = [const { OnceLock::new() }; 6];
+    CACHE[rules.index() * 3 + lang as usize].get_or_init(|| parse(rules_source(rules, lang)))
 }
 
 /// Every version's notes in `lang`, newest first.
@@ -103,17 +109,17 @@ fn unseen(seen: &str) -> Vec<String> {
 pub struct WhatsNew {
     versions: Vec<String>,
     scroll: f32,
-    /// The rules of the game instead of the notes.
-    rules: bool,
+    /// The rules of the game (the tab shown) instead of the notes.
+    rules: Option<Rules>,
     /// The text laid out (blocks and height), for the width, the language
     /// and the interface scale it was laid out at: wrapping every version's
     /// notes again each frame was the dialog's whole cost.
     layout: Option<(LayoutKey, Vec<Block>, f32)>,
 }
 
-/// What a layout was made for: the width, the interface scale (as bits)
-/// and the language.
-type LayoutKey = (u32, u32, crate::i18n::Lang);
+/// What a layout was made for: the width, the interface scale (as bits),
+/// the language and the rules shown.
+type LayoutKey = (u32, u32, crate::i18n::Lang, Option<Rules>);
 
 /// A run of lines: (top, lines, size, colour, bold).
 type Block = (f32, Vec<String>, f32, Color, bool);
@@ -125,7 +131,7 @@ impl WhatsNew {
         (!versions.is_empty()).then_some(WhatsNew {
             versions,
             scroll: 0.0,
-            rules: false,
+            rules: None,
             layout: None,
         })
     }
@@ -138,7 +144,7 @@ impl WhatsNew {
             .map(|n| n.version.clone())
             .filter(|v| !newer(v, VERSION))
             .collect();
-        WhatsNew { versions, scroll: 0.0, rules: false, layout: None }
+        WhatsNew { versions, scroll: 0.0, rules: None, layout: None }
     }
 
     /// One version's notes (development aid: SNOOK_LEGEND_WHATS_NEW=0.2.0
@@ -147,23 +153,23 @@ impl WhatsNew {
         version_notes(version).map(|n| WhatsNew {
             versions: vec![n.version.clone()],
             scroll: 0.0,
-            rules: false,
+            rules: None,
             layout: None,
         })
     }
 
-    /// The rules of the game, in the player's language.
-    pub fn rules() -> WhatsNew {
-        WhatsNew { versions: Vec::new(), scroll: 0.0, rules: true, layout: None }
+    /// The rules of the game, in the player's language, open on `rules`
+    /// (the other's tab beside it).
+    pub fn rules(rules: Rules) -> WhatsNew {
+        WhatsNew { versions: Vec::new(), scroll: 0.0, rules: Some(rules), layout: None }
     }
 
     /// Lays the notes (or the rules) out `inner` wide: the blocks of text and
     /// the height they take.
     fn lay_out(&self, ui: &Ui, inner: f32, several: bool) -> (Vec<Block>, f32) {
-        let shown: Vec<&Notes> = if self.rules {
-            rules(crate::i18n::lang()).iter().collect()
-        } else {
-            self.versions.iter().filter_map(|v| version_notes(v)).collect()
+        let shown: Vec<&Notes> = match self.rules {
+            Some(r) => rules_book(r, crate::i18n::lang()).iter().collect(),
+            None => self.versions.iter().filter_map(|v| version_notes(v)).collect(),
         };
         let mut blocks: Vec<Block> = Vec::new();
         let mut y = 0.0;
@@ -172,7 +178,7 @@ impl WhatsNew {
                 if k > 0 {
                     y += 10.0;
                 }
-                let title = if self.rules {
+                let title = if self.rules.is_some() {
                     n.version.clone()
                 } else {
                     tw("Version {v}", &[("v", &n.version)])
@@ -199,36 +205,38 @@ impl WhatsNew {
         let sh = crate::ui::vh();
         draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.55));
         const PAD: f32 = 28.0;
-        const HEADER: f32 = 76.0;
+        // The rules have their tabs under the title.
+        let header = if self.rules.is_some() { 76.0 + 58.0 } else { 76.0 };
         const FOOTER: f32 = 92.0;
-        let w = 600.0f32.min(sw - 16.0);
+        let w = 640.0f32.min(sw - 16.0);
         let inner = w - 2.0 * PAD;
-        let several = self.versions.len() > 1 || self.rules;
-        let shown: Vec<&Notes> = if self.rules {
-            rules(crate::i18n::lang()).iter().collect()
-        } else {
-            self.versions.iter().filter_map(|v| version_notes(v)).collect()
+        let several = self.versions.len() > 1 || self.rules.is_some();
+        let shown: Vec<&Notes> = match self.rules {
+            Some(r) => rules_book(r, crate::i18n::lang()).iter().collect(),
+            None => self.versions.iter().filter_map(|v| version_notes(v)).collect(),
         };
-        let key = (inner.to_bits(), crate::ui::ui_scale().to_bits(), crate::i18n::lang());
+        let key =
+            (inner.to_bits(), crate::ui::ui_scale().to_bits(), crate::i18n::lang(), self.rules);
         let (blocks, y) = match self.layout.take() {
             Some((k, blocks, y)) if k == key => (blocks, y),
             _ => self.lay_out(ui, inner, several),
         };
         self.layout = Some((key, blocks.clone(), y));
         let content = (y - 14.0).max(0.0);
-        let room = (sh - 16.0 - HEADER - FOOTER).max(80.0);
-        let body_h = content.min(room);
-        let h = HEADER + body_h + FOOTER;
+        let room = (sh - 16.0 - header - FOOTER).max(80.0);
+        // The rules keep their height from one tab to the other.
+        let body_h = if self.rules.is_some() { room.min(560.0) } else { content.min(room) };
+        let h = header + body_h + FOOTER;
         let r = Rect::new((sw - w) / 2.0, ((sh - h) / 2.0).max(8.0), w, h);
         ui.panel(r);
 
         crate::icons::draw(
-            if self.rules { crate::icons::Icon::Book } else { crate::icons::Icon::Star },
+            if self.rules.is_some() { crate::icons::Icon::Book } else { crate::icons::Icon::Star },
             vec2(r.x + PAD + 12.0, r.y + 36.0),
             24.0,
             GOLD,
         );
-        let title = if self.rules {
+        let title = if self.rules.is_some() {
             t("Rules of the game").to_string()
         } else if several || shown.is_empty() {
             t("What's new").to_string()
@@ -237,16 +245,22 @@ impl WhatsNew {
         };
         let (title, size) = ui.fitted(&title, 24.0, inner - 36.0, true);
         ui.text(&title, r.x + PAD + 34.0, r.y + 24.0, size, GOLD, true);
-        draw_line(
-            r.x + PAD,
-            r.y + HEADER - 12.0,
-            r.x + r.w - PAD,
-            r.y + HEADER - 12.0,
-            1.0,
-            BORDER,
-        );
+        draw_line(r.x + PAD, r.y + 64.0, r.x + r.w - PAD, r.y + 64.0, 1.0, BORDER);
+        // A tab for each of the rules.
+        if let Some(shown_rules) = self.rules
+            && let Some(other) = crate::rulesui::switch(
+                ui,
+                Rect::new(r.x + PAD, r.y + 76.0, inner, 44.0),
+                shown_rules,
+                None,
+            )
+        {
+            self.rules = Some(other);
+            self.scroll = 0.0;
+            self.layout = None;
+        }
 
-        let body = Rect::new(r.x + PAD, r.y + HEADER, inner, body_h);
+        let body = Rect::new(r.x + PAD, r.y + header, inner, body_h);
         let max_scroll = (content - body_h).max(0.0);
         if max_scroll > 0.0 && ui.hovering(body) {
             let (_, wheel) = mouse_wheel();
@@ -305,7 +319,7 @@ impl WhatsNew {
 
         let bw = 180.0f32.min(inner);
         let button = Rect::new(r.x + r.w - PAD - bw, r.y + r.h - PAD - 40.0, bw, 40.0);
-        ui.primary_button(button, if self.rules { t("Close") } else { t("Got it") })
+        ui.primary_button(button, if self.rules.is_some() { t("Close") } else { t("Got it") })
             || is_key_pressed(KeyCode::Escape)
             || is_key_pressed(KeyCode::Enter)
             || is_key_pressed(KeyCode::KpEnter)
@@ -350,10 +364,16 @@ mod tests {
 
     #[test]
     fn every_language_has_the_same_rules() {
-        let en = rules(Lang::English);
+        for book in Rules::ALL {
+            the_same_rules(book);
+        }
+    }
+
+    fn the_same_rules(book: Rules) {
+        let en = rules_book(book, Lang::English);
         assert!(en.len() >= 3);
         for lang in Lang::ALL {
-            let r = rules(lang);
+            let r = rules_book(book, lang);
             assert_eq!(r.len(), en.len(), "{lang:?}: as many parts");
             for (a, b) in r.iter().zip(en) {
                 assert_eq!(a.items.len(), b.items.len(), "{lang:?} {}: as many rules", a.version);

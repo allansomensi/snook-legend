@@ -119,10 +119,11 @@ fn table_mut(m: &mut Match) -> Option<&mut CorrTable> {
     m.online.as_mut()?.corr.as_mut()
 }
 
-/// Sends a challenge (rated or not as the lounge's switch says).
+/// Sends a challenge (rated or not as the lounge's switch says, under the
+/// player's rules).
 pub fn challenge(o: &mut Online, to: &str) {
     let rated = o.rated_games && !o.lan;
-    o.send(ClientMsg::CorrChallenge { to: to.to_string(), rated });
+    o.send(ClientMsg::CorrChallenge { to: to.to_string(), rated, rules: o.rules });
 }
 
 /// A message for the server from the table, as the correspondence game
@@ -136,6 +137,11 @@ pub fn outgoing(c: &mut CorrTable, msg: ClientMsg) -> Option<ClientMsg> {
             c.played = true;
             Some(ClientMsg::CorrShoot { id: c.id, turn, shot, called_pocket, cue_ball })
         }
+        ClientMsg::Choose { turn, option } => {
+            c.known += 1;
+            c.played = true;
+            Some(ClientMsg::CorrChoose { id: c.id, turn, option })
+        }
         ClientMsg::Resign => Some(ClientMsg::CorrResign { id: c.id }),
         _ => None,
     }
@@ -146,11 +152,13 @@ pub fn outgoing(c: &mut CorrTable, msg: ClientMsg) -> Option<ClientMsg> {
 pub fn event_text(event: &CorrEvent, name: &str) -> (String, bool) {
     let n = [("name", &name as &dyn std::fmt::Display)];
     match event {
-        CorrEvent::Challenged { rated: true } => {
-            (tw("{name} challenges you to a rated daily game.", &n), true)
-        }
-        CorrEvent::Challenged { rated: false } => {
-            (tw("{name} challenges you to a casual daily game.", &n), true)
+        CorrEvent::Challenged { rated, rules } => {
+            let text = if *rated {
+                tw("{name} challenges you to a rated daily game.", &n)
+            } else {
+                tw("{name} challenges you to a casual daily game.", &n)
+            };
+            (format!("{text} ({})", crate::i18n::rules_name(*rules)), true)
         }
         CorrEvent::Accepted => (tw("{name} accepted your daily game.", &n), true),
         CorrEvent::Declined => (tw("{name} declined your daily game.", &n), false),
@@ -209,6 +217,18 @@ pub fn handle(o: &mut Online, msg: ServerMsg, current: &mut Option<Match>, guide
         ServerMsg::CorrShot { id, turn, end, report } => {
             if let Some(m) = current.as_mut().filter(|m| table(m).is_some_and(|c| c.id == id)) {
                 m.handle_server(ServerMsg::ShotResult { turn, end, report, clock_left: 0.0 });
+            }
+        }
+        ServerMsg::CorrChose { id, turn, option, end } => {
+            if let Some(m) = current.as_mut().filter(|m| table(m).is_some_and(|c| c.id == id)) {
+                let seat = m.game.current_player();
+                m.handle_server(ServerMsg::Chose {
+                    seat,
+                    turn,
+                    option,
+                    game: end,
+                    clock_left: 0.0,
+                });
             }
         }
         ServerMsg::CorrShotRejected { id, turn, reason, game } => {
@@ -468,12 +488,20 @@ pub fn drive(m: &mut Match, dt: f32) {
             }
         }
         Some(Next::Other(step)) => {
-            if let Stroke::TimeFoul = step.stroke {
-                m.handle_server(ServerMsg::TimeFoul {
+            match step.stroke {
+                Stroke::TimeFoul => m.handle_server(ServerMsg::TimeFoul {
                     seat: step.seat,
                     game: step.end,
                     clock_left: 0.0,
-                });
+                }),
+                Stroke::Choice { option } => m.handle_server(ServerMsg::Chose {
+                    seat: step.seat,
+                    turn: step.turn,
+                    option,
+                    game: step.end,
+                    clock_left: 0.0,
+                }),
+                _ => {}
             }
             // A resignation or a turn that ran out: the result says it.
         }
@@ -817,6 +845,7 @@ pub fn draw_tab(o: &mut Online, ui: &mut Ui, area: Rect) -> Option<OnlineAction>
                 let room = accept_r.x - 12.0 - (r.x + 28.0);
                 ui.player_name(&c.from, r.x + 28.0, r.y + 7.0, 15.0, room);
                 let kind = if c.rated { t("rated") } else { t("casual") };
+                let kind = format!("{kind} · {}", crate::i18n::rules_name(c.rules).to_lowercase());
                 let sub = tw("challenges you · {kind}", &[("kind", &kind)]);
                 let (sub, size) = fit_text(ui, &sub, 12.0, room, false);
                 ui.text(&sub, r.x + 28.0, r.y + 27.0, size, GOLD, false);
@@ -836,6 +865,7 @@ pub fn draw_tab(o: &mut Online, ui: &mut Ui, area: Rect) -> Option<OnlineAction>
                 let room = b.x - 12.0 - (r.x + 28.0);
                 ui.player_name(&c.to, r.x + 28.0, r.y + 7.0, 15.0, room);
                 let kind = if c.rated { t("rated") } else { t("casual") };
+                let kind = format!("{kind} · {}", crate::i18n::rules_name(c.rules).to_lowercase());
                 let sub = tw(
                     "waiting for an answer · {kind} · {time} left",
                     &[("kind", &kind), ("time", &time_left(c.expires_at - now))],
@@ -874,7 +904,7 @@ pub fn draw_tab(o: &mut Online, ui: &mut Ui, area: Rect) -> Option<OnlineAction>
                 let room = b.x - 12.0 - score_w - 12.0 - (r.x + 28.0);
                 let opp = g.opponent();
                 let used = ui.player_name(opp, r.x + 28.0, r.y + 7.0, 15.0, room);
-                let rating = opp.rating.to_string();
+                let rating = opp.rating_in(g.rules).to_string();
                 if used + 8.0 + ui.text_size(&rating, 12.0, false).x <= room {
                     ui.text(&rating, r.x + 28.0 + used + 8.0, r.y + 9.5, 12.0, MUTED, false);
                 }
@@ -932,7 +962,7 @@ fn finished_line(g: &CorrGame, r: &CorrResult) -> (Color, String, Color) {
 mod tests {
     use super::*;
     use snook_legend_core::{Difficulty, ai};
-    use snook_legend_proto::{PlayerInfo, PlayerStatus};
+    use snook_legend_proto::{PlayerInfo, Rules};
 
     fn player(name: &str) -> PlayerInfo {
         PlayerInfo { username: name.into(), country: "BR".into(), ..Default::default() }
@@ -944,6 +974,7 @@ mod tests {
             players: [player("ana"), player("bia")],
             seat,
             rated: true,
+            rules: Rules::Brazilian,
             turn,
             deadline: crate::game::unix_now() + 3600,
             strokes,
@@ -958,7 +989,7 @@ mod tests {
 
     /// A game the computer played for `n` strokes.
     fn recorded(n: usize) -> Replay {
-        let mut replay = Replay::new(77, 0);
+        let mut replay = Replay::new(77, 0, Rules::Brazilian);
         let mut game = replay.start();
         for k in 0..n {
             let d = ai::decide(&game, Difficulty::Easy, k as u64);
@@ -1076,6 +1107,7 @@ mod tests {
             from: player("caio"),
             to: player("ana"),
             rated: false,
+            rules: Rules::Official,
             at: 0,
             expires_at: 100,
         }];

@@ -6,8 +6,8 @@ use std::sync::{Arc, Mutex};
 use ::glam::DVec2;
 use snook_legend_core::ai::{self, AiDecision, AiPlayer};
 use snook_legend_core::{
-    BallId, Difficulty, EightBallGame, Event, Foul, GameOverReason, PendingShot, PocketId, Shot,
-    ShotError, ShotReport, Simulation,
+    BallId, BallInHand, BreakChoice, BreakOption, Difficulty, EightBallGame, Event, Foul,
+    GameOverReason, PendingShot, PocketId, Rules, Shot, ShotError, ShotReport, Simulation,
 };
 
 use snook_legend_proto::{
@@ -92,6 +92,9 @@ pub struct Replay {
 
 pub struct Notice {
     pub text: String,
+    /// What it means under the rules of the game (a foul's consequence…),
+    /// shown under the text.
+    pub detail: Option<String>,
     pub important: bool,
     pub ttl: f32,
     /// Good news (balls in a row): floats on the table in gold, not in the
@@ -164,7 +167,7 @@ impl Video {
     /// recorded (`shots` strokes at most).
     pub fn sample(seed: u64, shots: usize) -> snook_legend_proto::ReplayInfo {
         use snook_legend_proto::replay::{Replay, Stroke};
-        let mut replay = Replay::new(seed, 0);
+        let mut replay = Replay::new(seed, 0, snook_legend_core::Rules::Brazilian);
         let mut game = replay.start();
         while replay.strokes.len() < shots && game.game_over().is_none() {
             let d = ai::decide(&game, Difficulty::Easy, seed ^ replay.strokes.len() as u64);
@@ -243,7 +246,14 @@ pub struct Match {
     pub controllers: [Controller; 2],
     pub phase: Phase,
     pub aim: Aim,
+    /// The pocket called for this shot: the 8's (the Brazilian rules), or
+    /// the shot's (the official rules: none is a safety).
     pub called_pocket: Option<PocketId>,
+    /// The official rules: the player chose the call (a pocket, or a
+    /// safety); otherwise it follows the aim (see [`Match::follow_call`]).
+    pub call_locked: bool,
+    /// How long the computer has been weighing the choice a break left it.
+    choice_wait: f32,
     pub notices: Vec<Notice>,
     /// Everything that happened this game, newest last (shown in the HUD).
     pub log: Vec<(String, bool)>,
@@ -442,6 +452,8 @@ pub struct OnlineMatch {
     turn_start: Option<EightBallGame>,
     /// The server's result for the shot being animated.
     pending_end: Option<(EightBallGame, ShotReport)>,
+    /// The answer to the break's choice, sent and not confirmed yet.
+    pub choice_sent: Option<BreakOption>,
     /// The match ended while a shot was still being shown.
     ended_pending: bool,
     aim_timer: f32,
@@ -506,18 +518,20 @@ impl Match {
         let ladder =
             settings.ladder.filter(|_| opponent.is_some()).map(|rung| crate::ladder::LadderRun {
                 rung,
-                record: snook_legend_proto::replay::Replay::new(seed, 0),
+                record: snook_legend_proto::replay::Replay::new(seed, 0, settings.rules),
                 reported: false,
                 dealt: false,
                 account: String::new(),
             });
         let mut m = Match {
-            game: EightBallGame::new(seed, 0),
+            game: EightBallGame::new(seed, 0, settings.rules),
             names,
             controllers,
             phase: Phase::GameOver,
             aim: Aim::default(),
             called_pocket: None,
+            call_locked: false,
+            choice_wait: 0.0,
             notices: Vec::new(),
             log: Vec::new(),
             last_report: None,
@@ -591,6 +605,7 @@ impl Match {
             guide,
             shot_clock: None,
             ladder: None,
+            rules: snook_legend_core::Rules::Brazilian,
         };
         let mut m = Match::new(&settings, 1);
         m.game = snook_legend_proto::drills::game_for_session_try(d, session, 0);
@@ -647,6 +662,7 @@ impl Match {
             guide,
             shot_clock: None,
             ladder: None,
+            rules: snook_legend_core::Rules::Brazilian,
         };
         let mut m = Match::new(&settings, seed);
         m.game = snook_legend_proto::daily::game(seed);
@@ -675,6 +691,7 @@ impl Match {
             guide,
             shot_clock: None,
             ladder: None,
+            rules: info.replay.rules,
         };
         let mut m = Match::new(&settings, info.replay.seed);
         m.game = info.replay.start();
@@ -727,6 +744,7 @@ impl Match {
             guide,
             shot_clock: saved.shot_clock,
             ladder: None,
+            rules: saved.game.rules(),
         };
         let mut m = Match::new(&settings, saved.seed);
         m.ladder = saved.ladder.clone();
@@ -799,6 +817,7 @@ impl Match {
         guide: AimGuide,
         spectating: bool,
     ) -> Self {
+        let rules = game.rules();
         let mut controllers = [Controller::Remote; 2];
         // Development aid: SNOOK_LEGEND_AUTOPLAY=1 lets the computer play this seat
         // (two such games can play a whole online match by themselves).
@@ -824,6 +843,8 @@ impl Match {
             phase: Phase::GameOver,
             aim: Aim::default(),
             called_pocket: None,
+            call_locked: false,
+            choice_wait: 0.0,
             notices: Vec::new(),
             log: Vec::new(),
             last_report: None,
@@ -838,7 +859,7 @@ impl Match {
             online: Some(OnlineMatch {
                 seat,
                 rated,
-                ratings: [players[0].rating, players[1].rating],
+                ratings: players.each_ref().map(|p| p.rating_in(rules)),
                 admins: players.each_ref().map(|p| p.role == snook_legend_proto::Role::Admin),
                 countries: [players[0].country.clone(), players[1].country.clone()],
                 tournament,
@@ -867,6 +888,7 @@ impl Match {
                 predicted: None,
                 turn_start: None,
                 pending_end: None,
+                choice_sent: None,
                 ended_pending: false,
                 aim_timer: 0.0,
                 last_aim: None,
@@ -980,9 +1002,10 @@ impl Match {
     /// tour's final, played for the reward, is dealt by the server.
     pub fn deal(&mut self, seed: u64, breaker: usize) {
         self.seed = seed;
-        self.game = EightBallGame::new(seed, breaker);
+        let rules = self.game.rules();
+        self.game = EightBallGame::new(seed, breaker, rules);
         if let Some(run) = self.ladder.as_mut() {
-            run.record = snook_legend_proto::replay::Replay::new(seed, breaker);
+            run.record = snook_legend_proto::replay::Replay::new(seed, breaker, rules);
             run.reported = false;
             run.dealt = false;
             run.account.clear();
@@ -1043,8 +1066,24 @@ impl Match {
         self.announce(text.into(), important, 4.0);
     }
 
+    /// An important notice with what it means under the rules (shown under
+    /// it on the table, and with it in the log).
+    pub fn notify_detail(&mut self, text: impl Into<String>, detail: Option<String>) {
+        let (text, ttl) = (text.into(), if detail.is_some() { 6.0 } else { 4.0 });
+        announce_into(
+            &mut self.notices,
+            &mut self.log,
+            self.online.as_mut(),
+            text,
+            detail,
+            true,
+            ttl,
+        );
+    }
+
     fn announce(&mut self, text: String, important: bool, ttl: f32) {
-        announce_into(&mut self.notices, &mut self.log, self.online.as_mut(), text, important, ttl);
+        let online = self.online.as_mut();
+        announce_into(&mut self.notices, &mut self.log, online, text, None, important, ttl);
     }
 
     /// Good news, shown on the table in gold (and in the log as an event).
@@ -1138,6 +1177,14 @@ impl Match {
                     self.notify(tw("{name} ran out of time.", &[("name", &name)]), false);
                     self.game.time_foul();
                 }
+                Some(Stroke::Choice { option }) => {
+                    let chooser = self.game.current_player();
+                    if let Some(choice) = self.game.pending_choice()
+                        && self.game.choose(option).is_ok()
+                    {
+                        self.tell_choice(chooser, choice, option);
+                    }
+                }
                 Some(stroke @ (Stroke::Resign { seat } | Stroke::Abandon { seat })) => {
                     if matches!(stroke, Stroke::Abandon { .. }) {
                         self.game.abandon(seat % 2);
@@ -1155,7 +1202,12 @@ impl Match {
                 }
             }
         }
+        // A choice the break left: no shot to work out (the computer
+        // answers it after a moment, see `run_computer_choice`).
+        let choosing = self.game.pending_choice().is_some() && scripted.is_none();
+        self.choice_wait = 0.0;
         let computer = match self.current_controller() {
+            _ if choosing => None,
             Controller::Computer(_) if scripted.is_some() => Some(ComputerTurn {
                 result: Arc::new(Mutex::new(scripted)),
                 decision: None,
@@ -1205,13 +1257,17 @@ impl Match {
             o.sim_turn = None;
             o.predicted = None;
             o.turn_start = None;
+            o.choice_sent = None;
         }
         if let Some((total, left)) = &mut self.clock {
             *left = *total;
         }
         self.aim = Aim { yaw: self.game.default_aim(), ..Aim::default() };
-        // A pocket called for the 8 in an earlier visit still stands.
+        // The Brazilian rules: a pocket called for the 8 in an earlier visit
+        // still stands. The official rules: every shot is called afresh
+        // (from the aim, until the player picks a pocket or a safety).
         self.called_pocket = self.game.called_pocket_of(self.game.current_player());
+        self.call_locked = false;
         // Ball in hand never locks the turn: the cue ball can be dragged at
         // any time, and the power bar and aiming work straight away.
         self.phase = Phase::Turn { placing_cue_ball: false, computer };
@@ -1235,6 +1291,7 @@ impl Match {
             return false;
         }
         self.replay = None;
+        self.follow_call();
         let shot = self.forced_shot.take().unwrap_or_else(|| self.shot_from_aim());
         match self.game.prepare_shot(&shot, self.called_pocket) {
             Ok(pending) => {
@@ -1317,14 +1374,18 @@ impl Match {
         }
         self.shot_in_hand = false;
         let shooter = self.names[report.shooter].clone();
-        for foul in &report.fouls {
-            self.notify(
-                tw(
-                    "Foul by {shooter}: {foul}.",
-                    &[("shooter", &shooter), ("foul", &crate::i18n::foul(foul))],
-                ),
-                true,
+        let next = self.names[self.game.current_player()].clone();
+        let rules = self.game.rules();
+        // A foul: what it was and, under it, what it gives the opponent.
+        let foul_said = report.is_foul() && report.game_over.is_none() && !report.break_again;
+        if report.is_foul() {
+            let fouls: Vec<String> = report.fouls.iter().map(crate::i18n::foul).collect();
+            let text = tw(
+                "Foul by {shooter}: {foul}.",
+                &[("shooter", &shooter), ("foul", &fouls.join("; "))],
             );
+            let detail = foul_said.then(|| self.foul_consequence(report, &next)).flatten();
+            self.notify_detail(text, detail);
         }
         if let Some(g) = report.group_assigned {
             self.notify(
@@ -1353,102 +1414,151 @@ impl Match {
         for b in &report.spotted {
             self.notify(tw("The {ball} was spotted.", &[("ball", &crate::i18n::ball(*b))]), false);
         }
-        // Balls of both groups on the break (ruleset 5 only): the turn
-        // passes and the table stays open. From ruleset 6 the first one made
-        // sets the groups, and the other kind passes the turn (said below).
-        let both = [snook_legend_core::Group::Solids, snook_legend_core::Group::Stripes]
-            .iter()
-            .all(|g| report.pocketed.iter().any(|(b, _)| g.contains(*b)));
-        if report.was_break
-            && both
-            && !report.continues
-            && !report.is_foul()
-            && report.game_over.is_none()
-            && self.game.ruleset() == 5
-        {
-            let next = self.names[self.game.current_player()].clone();
-            self.notify(
-                tw(
-                    "Balls of both groups on the break: the turn passes to {next}, the table is open.",
-                    &[("next", &next)],
-                ),
-                true,
-            );
-        }
-        if report.reracked {
-            // Only the cue ball went down on the break: racked again.
-            let next = self.names[self.game.current_player()].clone();
-            self.notify(
-                tw(
-                    "Only the cue ball went down on the break: the balls are racked again and {next} breaks.",
-                    &[("next", &next)],
-                ),
-                true,
-            );
-        }
-        if !report.penalty.is_empty() {
-            // The house rules: a foul gives the opponent balls.
-            let given: Vec<String> = report.penalty.iter().map(|b| crate::i18n::ball(*b)).collect();
-            let other = self.names[1 - report.shooter % 2].clone();
-            self.notify(
-                tw(
-                    "Penalty: {balls} off the table for {name}.",
-                    &[("balls", &given.join(", ")), ("name", &other)],
-                ),
-                true,
-            );
-        }
         if let Some(over) = report.game_over {
             let winner = self.names[over.winner].clone();
             let how = crate::i18n::result_line(over.reason, &winner, &self.names[1 - over.winner]);
             self.notify(tw("{winner} wins! ({how})", &[("winner", &winner), ("how", &how)]), true);
-        } else if !report.continues {
-            let next = self.names[self.game.current_player()].clone();
-            if report.break_again {
-                // From ruleset 7 the break is handed over.
-                let text = if report.first_contact.is_none() {
-                    "No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string."
-                } else {
-                    "The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string."
-                };
-                self.notify(tw(text, &[("next", &next)]), true);
-            } else if let Some(bih) = self.game.ball_in_hand() {
-                let where_ = match bih {
-                    snook_legend_core::BallInHand::Kitchen => t(" behind the head string"),
-                    snook_legend_core::BallInHand::Anywhere => "",
-                };
-                self.notify(
-                    tw("{next} has ball in hand{where}.", &[("next", &next), ("where", &where_)]),
-                    false,
-                );
-            } else if self.game.ruleset() >= 6
-                && report
+            return;
+        }
+        if let Some(choice) = report.choice {
+            // The official rules: the break leaves a decision to make.
+            let breaker = self.names[report.shooter % 2].clone();
+            let (text, detail) = crate::i18n::break_choice(choice, &next, &breaker);
+            self.notify_detail(text, Some(detail));
+            return;
+        }
+        if report.continues {
+            return;
+        }
+        if report.break_again {
+            // The Brazilian rules: the break is handed over.
+            let text = if report.first_contact.is_none() {
+                "No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string."
+            } else if report.pocketed.iter().any(|(b, _)| b.is_object()) {
+                "The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks, with the cue ball in hand behind the head string."
+            } else {
+                "The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string."
+            };
+            self.notify(tw(text, &[("next", &next)]), true);
+        } else if foul_said {
+            // Said under the foul.
+        } else if let Some(bih) = self.game.ball_in_hand() {
+            let where_ = match bih {
+                BallInHand::Kitchen => t(" behind the head string"),
+                BallInHand::Anywhere => "",
+            };
+            self.notify(
+                tw("{next} has ball in hand{where}.", &[("next", &next), ("where", &where_)]),
+                false,
+            );
+        } else if report.opponent_ball {
+            // The Brazilian rules: an opponent's ball made passes the turn,
+            // even with one's own.
+            self.notify(
+                tw(
+                    "{shooter} made an opponent's ball: {next} to shoot.",
+                    &[("shooter", &shooter), ("next", &next)],
+                ),
+                false,
+            );
+        } else if rules == Rules::Official && !report.was_break && !potted.is_empty() {
+            // The official rules: balls made without the call stay down,
+            // and the turn passes.
+            let text = match report.called {
+                None => tw("No pocket was called (a safety): {next} to shoot.", &[("next", &next)]),
+                Some(pocket) => tw(
+                    "No ball went in the called pocket ({pocket}): {next} to shoot.",
+                    &[("pocket", &crate::i18n::pocket(pocket)), ("next", &next)],
+                ),
+            };
+            self.notify(text, false);
+        }
+    }
+
+    /// What a foul gives the opponent, as the rules of the game say: the
+    /// cue ball in hand (the official rules), or balls and where the cue
+    /// ball is played from (the Brazilian rules).
+    fn foul_consequence(&self, report: &ShotReport, next: &str) -> Option<String> {
+        match self.game.rules() {
+            Rules::Official => self.game.ball_in_hand().map(|bih| match bih {
+                BallInHand::Anywhere => tw(
+                    "{next} has the cue ball in hand: anywhere on the table.",
+                    &[("next", &next)],
+                ),
+                BallInHand::Kitchen => tw(
+                    "{next} has the cue ball in hand behind the head string.",
+                    &[("next", &next)],
+                ),
+            }),
+            Rules::Brazilian => {
+                let mut parts = Vec::new();
+                if !report.penalty.is_empty() {
+                    let given: Vec<String> =
+                        report.penalty.iter().map(|b| crate::i18n::ball(*b)).collect();
+                    let other = &self.names[1 - report.shooter % 2];
+                    parts.push(tw(
+                        "Penalty: {balls} off the table for {name}.",
+                        &[("balls", &given.join(", ")), ("name", other)],
+                    ));
+                }
+                let scratched = report
                     .fouls
                     .iter()
-                    .any(|f| matches!(f, Foul::CueBallPocketed | Foul::CueBallOffTable))
-            {
-                // From ruleset 6 the cue ball isn't in hand: it is back on
-                // the head spot, where the next shot is played from.
-                self.notify(
-                    tw(
+                    .any(|f| matches!(f, Foul::CueBallPocketed | Foul::CueBallOffTable));
+                if let Some(bih) = self.game.ball_in_hand() {
+                    let where_ = match bih {
+                        BallInHand::Kitchen => t(" behind the head string"),
+                        BallInHand::Anywhere => "",
+                    };
+                    parts.push(tw(
+                        "{next} has ball in hand{where}.",
+                        &[("next", &next), ("where", &where_)],
+                    ));
+                } else if scratched {
+                    // No ball in hand: the cue ball is back on the head
+                    // spot, where the next shot is played from.
+                    parts.push(tw(
                         "The cue ball is back on the head spot: {next} plays from there.",
                         &[("next", &next)],
-                    ),
-                    false,
-                );
-            } else if report.opponent_ball {
-                // The new rule: an opponent's ball made passes the turn, even
-                // with one's own.
-                let shooter = self.names[report.shooter].clone();
-                self.notify(
-                    tw(
-                        "{shooter} made an opponent's ball: {next} to shoot.",
-                        &[("shooter", &shooter), ("next", &next)],
-                    ),
-                    false,
-                );
+                    ));
+                }
+                (!parts.is_empty()).then(|| parts.join(" "))
             }
         }
+    }
+
+    /// The player to move answers the choice the break left them (the
+    /// official rules): at once here; online, through the server.
+    pub fn choose(&mut self, option: BreakOption) {
+        let Some(choice) = self.game.pending_choice() else { return };
+        if !choice.options().contains(&option) || !matches!(self.phase, Phase::Turn { .. }) {
+            return;
+        }
+        if let Some(o) = self.online.as_mut() {
+            if o.choice_sent.is_none() {
+                let turn = self.game.shots_taken();
+                o.outbox.push(ClientMsg::Choose { turn, option });
+                o.choice_sent = Some(option);
+            }
+            return;
+        }
+        let chooser = self.game.current_player();
+        if self.game.choose(option).is_err() {
+            return;
+        }
+        if let Some(run) = self.ladder.as_mut() {
+            run.record.strokes.push(snook_legend_proto::replay::Stroke::Choice { option });
+        }
+        self.tell_choice(chooser, choice, option);
+        self.begin_turn();
+    }
+
+    /// Says what `chooser` chose.
+    fn tell_choice(&mut self, chooser: usize, choice: BreakChoice, option: BreakOption) {
+        let name = self.names[chooser % 2].clone();
+        let other = self.names[1 - chooser % 2].clone();
+        let text = crate::i18n::chosen(choice, option, &name, &other);
+        self.notify(text, true);
     }
 }
 
@@ -1474,6 +1584,8 @@ impl Match {
         };
         self.run_online(dt);
         self.run_offline_clock(dt);
+        self.follow_call();
+        self.run_computer_choice(dt);
         self.run_computer_turn(dt);
         self.run_simulation(dt);
         self.run_replay(dt);
@@ -1550,6 +1662,12 @@ impl Match {
             return;
         }
         let who = self.names[self.game.current_player()].clone();
+        // A choice not made in time takes its first option.
+        if let Some(choice) = self.game.pending_choice() {
+            self.notify(tw("{name} ran out of time.", &[("name", &who)]), false);
+            self.choose(choice.options()[0]);
+            return;
+        }
         self.game.time_foul();
         if let Some(run) = self.ladder.as_mut() {
             run.record.strokes.push(snook_legend_proto::replay::Stroke::TimeFoul);
@@ -1557,6 +1675,47 @@ impl Match {
         let text = time_foul_text(&self.game, &who);
         self.notify(text, true);
         self.begin_turn();
+    }
+
+    /// The official rules: while the player hasn't chosen the call, it is
+    /// the pocket their aim sends the object ball to (none: a safety).
+    fn follow_call(&mut self) {
+        if self.call_locked || !self.game.calls_shots() || !self.is_human_turn() {
+            return;
+        }
+        self.called_pocket = crate::play::predicted_pocket(&self.game, self.aim.yaw);
+    }
+
+    /// The official rules: the player calls `pocket` for this shot (none: a
+    /// safety) instead of the pocket their aim points at.
+    pub fn set_call(&mut self, pocket: Option<PocketId>) {
+        self.called_pocket = pocket;
+        self.call_locked = true;
+    }
+
+    /// The official rules: the call follows the aim again.
+    pub fn call_from_aim(&mut self) {
+        self.call_locked = false;
+        self.follow_call();
+    }
+
+    /// The computer answers the choice a break left it, after a moment
+    /// (as a person would read the table first).
+    fn run_computer_choice(&mut self, dt: f32) {
+        if self.replay.is_some()
+            || self.script.is_some()
+            || !matches!(self.phase, Phase::Turn { .. })
+            || !matches!(self.current_controller(), Controller::Computer(_))
+            || self.game.pending_choice().is_none()
+        {
+            return;
+        }
+        self.choice_wait += dt;
+        if self.choice_wait >= 1.6
+            && let Some(option) = ai::choose(&self.game)
+        {
+            self.choose(option);
+        }
     }
 
     fn run_computer_turn(&mut self, dt: f32) {
@@ -1584,7 +1743,15 @@ impl Match {
                             "{name} calls the 8-ball in the {pocket} pocket.",
                             &[("name", &name), ("pocket", &crate::i18n::pocket(pocket))],
                         );
-                        announce_into(&mut self.notices, &mut self.log, None, text, true, 5.0);
+                        announce_into(
+                            &mut self.notices,
+                            &mut self.log,
+                            None,
+                            text,
+                            None,
+                            true,
+                            5.0,
+                        );
                     }
                     turn.decision = Some(decision);
                     turn.start_yaw = current_yaw;
@@ -1963,6 +2130,23 @@ impl Match {
             self.begin_turn();
         }
     }
+
+    /// Development aid (screenshots): a soft break, as the game starts, so
+    /// the official rules' choice comes up.
+    pub fn debug_soft_break(&mut self) {
+        if !self.game.is_break() {
+            return;
+        }
+        let Ok(mut pending) =
+            self.game.prepare_shot(&Shot::new(self.game.default_aim(), 0.6), None)
+        else {
+            return;
+        };
+        pending.simulation.run_to_rest();
+        let report = self.game.finish_shot(pending);
+        self.report_shot(&report);
+        self.begin_turn();
+    }
 }
 
 /// The signed difference `to - from`, in (-π, π].
@@ -1990,17 +2174,23 @@ fn announce_into(
     log: &mut Vec<(String, bool)>,
     online: Option<&mut OnlineMatch>,
     text: String,
+    detail: Option<String>,
     important: bool,
     ttl: f32,
 ) {
-    log.push((text.clone(), important));
+    // The log and the chat say it in one line.
+    let line = match &detail {
+        Some(d) => format!("{text} {d}"),
+        None => text.clone(),
+    };
+    log.push((line.clone(), important));
     if log.len() > 60 {
         log.remove(0);
     }
     if let Some(o) = online {
-        o.push_feed(FeedLine::event(&text, important));
+        o.push_feed(FeedLine::event(&line, important));
     }
-    notices.push(Notice { text, important, ttl, cheer: false });
+    notices.push(Notice { text, detail, important, ttl, cheer: false });
     if notices.len() > 5 {
         notices.remove(0);
     }
@@ -2281,6 +2471,17 @@ impl Match {
                 }
                 self.notify(crate::i18n::server_text(&reason), true);
             }
+            ServerMsg::Chose { seat, option, game, clock_left, .. } => {
+                o.next_clock = clock_left;
+                o.choice_sent = None;
+                self.fast_forward();
+                let choice = self.game.pending_choice();
+                self.game = game;
+                if let Some(choice) = choice {
+                    self.tell_choice(seat, choice, option);
+                }
+                self.begin_turn();
+            }
             ServerMsg::TimeFoul { seat, game, clock_left } => {
                 o.next_clock = clock_left;
                 let who = self.names[seat].clone();
@@ -2459,8 +2660,9 @@ mod tests {
             game_over: None,
             opponent_ball: false,
             penalty: vec![],
-            reracked: false,
             break_again: false,
+            called: None,
+            choice: None,
         };
         let mut s = ShotStats::default();
         s.add(&report(&[1, 2], false, true), false);
@@ -2478,7 +2680,7 @@ mod tests {
     fn a_replay_plays_the_stored_game_exactly() {
         use snook_legend_proto::replay::{Replay, Stroke};
         // A game played by the computer, recorded stroke by stroke.
-        let mut replay = Replay::new(77, 0);
+        let mut replay = Replay::new(77, 0, snook_legend_core::Rules::Brazilian);
         let mut game = replay.start();
         for k in 0..6 {
             if game.game_over().is_some() {
@@ -2526,7 +2728,7 @@ mod tests {
     }
 
     fn online_match(seat: usize) -> Match {
-        let game = EightBallGame::new(4, 0);
+        let game = EightBallGame::new(4, 0, snook_legend_core::Rules::Brazilian);
         Match::online(1, seat, &players(), false, game, 30, 30.0, None, AimGuide::Full, false)
     }
 
@@ -2561,7 +2763,7 @@ mod tests {
         let mut m = online_match(0);
         m.guide = AimGuide::Full;
         assert_eq!(m.guide_in_use(), AimGuide::Standard);
-        let game = EightBallGame::new(4, 0);
+        let game = EightBallGame::new(4, 0, snook_legend_core::Rules::Brazilian);
         let mut rated =
             Match::online(1, 0, &players(), true, game, 30, 30.0, None, AimGuide::Full, false);
         rated.guide = AimGuide::Full;
@@ -2597,7 +2799,7 @@ mod tests {
             timeout: false,
         });
         assert!(matches!(m.phase, Phase::Simulating(_)));
-        let mut end = EightBallGame::new(4, 0);
+        let mut end = EightBallGame::new(4, 0, snook_legend_core::Rules::Brazilian);
         let report = end.play_shot(&shot, None).unwrap();
         // Stand-in for a game the 8-ball decided.
         end.conclude(0, GameOverReason::PocketedEight);
@@ -2638,7 +2840,7 @@ mod tests {
             cue_ball: None,
             timeout: false,
         });
-        let mut server = EightBallGame::new(4, 0);
+        let mut server = EightBallGame::new(4, 0, snook_legend_core::Rules::Brazilian);
         let report = server.play_shot(&shot, None).unwrap();
         finish_animation(&mut m);
         assert!(matches!(m.phase, Phase::Settling(_)), "waits for the verdict");
@@ -2714,7 +2916,7 @@ mod tests {
             game: before,
         });
         assert!(matches!(m.phase, Phase::Simulating(_)), "the clock's shot goes on");
-        let mut server = EightBallGame::new(4, 0);
+        let mut server = EightBallGame::new(4, 0, snook_legend_core::Rules::Brazilian);
         let report = server.play_shot(&late, None).unwrap();
         m.handle_server(ServerMsg::ShotResult {
             turn: 0,
@@ -2795,8 +2997,9 @@ mod tests {
             game_over: None,
             opponent_ball: false,
             penalty: vec![],
-            reracked: false,
             break_again: false,
+            called: None,
+            choice: None,
         };
         m.count_visit(&report(&[1, 2], true));
         assert_eq!(m.visit_run, (0, 2));
@@ -2807,6 +3010,96 @@ mod tests {
         assert_eq!(m.visit_run, (0, 0), "a miss ends the run");
     }
 
+    /// An offline game under `rules` between `controllers`.
+    fn offline(rules: Rules, controllers: [Controller; 2]) -> Match {
+        let settings = MatchSettings {
+            mode: MatchMode::HotSeat,
+            names: ["Ana".into(), "Bia".into()],
+            guide: AimGuide::Standard,
+            shot_clock: None,
+            ladder: None,
+            rules,
+        };
+        let mut m = Match::new(&settings, 3);
+        m.controllers = controllers;
+        m.begin_turn();
+        m
+    }
+
+    /// Plays `shot` and lets the balls stop and the pause run out.
+    fn play(m: &mut Match, shot: Shot) {
+        m.forced_shot = Some(shot);
+        assert!(m.shoot());
+        for _ in 0..4000 {
+            m.update(0.05);
+            if matches!(m.phase, Phase::Turn { .. } | Phase::GameOver) {
+                break;
+            }
+        }
+    }
+
+    /// The official rules: a soft break leaves the choice to the other
+    /// player; nobody shoots until it is made, and it says what was chosen.
+    #[test]
+    fn the_official_break_choice_is_made_before_any_shot() {
+        let mut m = offline(Rules::Official, [Controller::Human; 2]);
+        let soft = Shot::new(m.game.default_aim(), 0.6);
+        play(&mut m, soft);
+        let choice = m.game.pending_choice().expect("an illegal break");
+        assert_eq!(choice, BreakChoice::IllegalBreak { scratch: false });
+        assert_eq!(m.game.current_player(), 1, "the incoming player decides");
+        assert!(m.notices.iter().any(|n| n.text.contains("Illegal break")), "said");
+        assert!(!m.shoot(), "no shot before the choice");
+        m.choose(BreakOption::OpponentBreaks);
+        assert!(m.game.pending_choice().is_none());
+        assert!(m.game.is_break() && m.game.current_player() == 0, "Ana breaks again");
+        assert!(m.notices.iter().any(|n| n.text.contains("Ana breaks")), "the choice is told");
+    }
+
+    /// The computer answers a choice by itself, after a moment.
+    #[test]
+    fn the_computer_makes_its_choice() {
+        let cpu = Controller::Computer(Difficulty::Medium.player());
+        let mut m = offline(Rules::Official, [Controller::Human, cpu]);
+        let soft = Shot::new(m.game.default_aim(), 0.6);
+        play(&mut m, soft);
+        assert!(m.game.pending_choice().is_some());
+        m.update(0.5);
+        assert!(m.game.pending_choice().is_some(), "it reads the table first");
+        for _ in 0..40 {
+            m.update(0.1);
+        }
+        assert!(m.game.pending_choice().is_none(), "chosen");
+    }
+
+    /// A foul says, under it, what it gives the opponent under the rules of
+    /// the game: the cue ball in hand anywhere (official), or the head spot
+    /// and a ball (Brazilian).
+    #[test]
+    fn a_foul_says_what_it_gives_under_each_rules() {
+        for rules in Rules::ALL {
+            let mut m = offline(rules, [Controller::Human; 2]);
+            // After the break, the groups decided (through a saved game).
+            let mut v = serde_json::to_value(&m.game).unwrap();
+            v["is_break"] = false.into();
+            v["ball_in_hand"] = serde_json::Value::Null;
+            v["groups"] = serde_json::json!(["Solids", "Stripes"]);
+            m.game = serde_json::from_value(v).unwrap();
+            m.begin_turn();
+            // Away from every ball: no contact.
+            let cue = m.game.ball(BallId::CUE).xy();
+            let yaw = if cue.x < 0.0 { std::f64::consts::PI } else { 0.0 };
+            play(&mut m, Shot::new(yaw, 0.8));
+            let foul =
+                m.notices.iter().find(|n| n.text.starts_with("Foul by Ana")).expect("a foul");
+            let detail = foul.detail.clone().unwrap_or_default();
+            match rules {
+                Rules::Official => assert!(detail.contains("anywhere on the table"), "{detail}"),
+                Rules::Brazilian => assert!(detail.contains("Penalty"), "{detail}"),
+            }
+        }
+    }
+
     #[test]
     fn replay_does_not_touch_the_game() {
         let settings = MatchSettings {
@@ -2815,6 +3108,7 @@ mod tests {
             guide: AimGuide::Full,
             shot_clock: None,
             ladder: None,
+            rules: snook_legend_core::Rules::Brazilian,
         };
         let mut m = Match::new(&settings, 3);
         m.aim.power = 0.9;
@@ -2892,6 +3186,7 @@ mod ladder_tests {
             guide: AimGuide::Standard,
             shot_clock: None,
             ladder: Some(9),
+            rules: snook_legend_core::Rules::Brazilian,
         };
         let mut m = Match::new(&settings, 11);
         assert_eq!(m.names[1], "Leo");

@@ -104,8 +104,8 @@ impl Lounge {
             return self.error(k, "Slow down a little.");
         }
         let s = &self.sessions[k];
-        // Under 18 without the chat: the note says nothing but the wish.
-        let text = if s.user.chat_restricted() { String::new() } else { clean_seek(text) };
+        // With the chat off: the note says nothing but the wish.
+        let text = if self.chat_off(s) { String::new() } else { clean_seek(text) };
         let note = SeekNote {
             username: s.user.username.clone(),
             text,

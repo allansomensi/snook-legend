@@ -129,6 +129,25 @@ pub enum Effect {
 /// What a player under 18 is told when they write while their chat is off.
 pub const CHAT_OFF_FOR_MINORS: &str = "The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.";
 
+/// What a player who hasn't turned the chat on is told when they write (the
+/// game asks for the age group first, so this is rare).
+pub const CHAT_OFF: &str = "The chat with other players is off until you turn it on.";
+
+/// What a game too old to ask the age group is told when it writes.
+pub const CHAT_OFF_UPDATE: &str = "Update the game to chat with other players.";
+
+/// Why `user`'s chat is off (see [`User::chat_restricted`]), for a game of
+/// `protocol`.
+pub fn chat_off_reason(user: &User, protocol: u32) -> &'static str {
+    if user.minor == Some(true) {
+        CHAT_OFF_FOR_MINORS
+    } else if protocol < snook_legend_proto::AGE_PROTOCOL {
+        CHAT_OFF_UPDATE
+    } else {
+        CHAT_OFF
+    }
+}
+
 const RESTORE_GRACE: Duration = Duration::from_secs(180);
 /// Games between the same two players in a day: from the third rated one
 /// the rating changes are halved, from the fifth they stop; from the fifth,
@@ -646,17 +665,7 @@ impl Lounge {
         );
         let players: Vec<PlayerInfo> = self.sessions.keys().filter_map(|k| self.info(k)).collect();
         self.send(&k, ServerMsg::Lounge { players });
-        let blocked = &self.sessions[&k].blocked;
-        // Under 18 without the chat: the server's notices only.
-        let restricted = self.sessions[&k].user.chat_restricted();
-        let lines = self
-            .chat
-            .iter()
-            .filter(|l| !(restricted && l.kind == ChatKind::Player))
-            .filter(|l| !self.chat_authors.get(&l.id).is_some_and(|a| blocked.contains(a)))
-            .filter_map(|l| self.shown(l))
-            .collect();
-        self.send(&k, ServerMsg::ChatHistory { lines });
+        self.send_chat_history(&k);
         let tables = self.tables.values().filter_map(|t| self.table_info(t)).collect();
         self.send(&k, ServerMsg::Tables { tables });
         let tournaments = self.tournaments.values().map(|t| self.tournament_info(t)).collect();
@@ -1342,8 +1351,9 @@ impl Lounge {
             self.error(k, format!("You are muted for {mins} more minutes."));
             return None;
         }
-        if s.user.chat_restricted() {
-            self.error(k, CHAT_OFF_FOR_MINORS);
+        if !self.rules.lan && s.user.chat_restricted() {
+            let reason = chat_off_reason(&s.user, s.protocol);
+            self.error(k, reason);
             return None;
         }
         if !s.chat_bucket.take() {
@@ -1381,7 +1391,7 @@ impl Lounge {
         self.chat_authors.insert(line.id, sender);
         let msg = ServerMsg::Chat { line };
         for (other, session) in &self.sessions {
-            if !session.blocked.contains(&sender) && !session.user.chat_restricted() {
+            if !session.blocked.contains(&sender) && !self.chat_off(session) {
                 self.send(other, msg.clone());
             }
         }
@@ -1414,7 +1424,7 @@ impl Lounge {
             let blocked = self
                 .sessions
                 .get(&p)
-                .is_some_and(|s| s.blocked.contains(&sender) || s.user.chat_restricted());
+                .is_some_and(|s| s.blocked.contains(&sender) || self.chat_off(s));
             if !blocked {
                 self.send(&p, ServerMsg::MatchChat { line: line.clone() });
             }
@@ -1437,12 +1447,40 @@ impl Lounge {
     }
 
     /// `name`'s age group or the chat a parent or guardian allowed changed
-    /// (see [`User::chat_restricted`]); a note on the board loses its text.
+    /// (see [`User::chat_restricted`]). The chat turned on or off, the
+    /// lounge's chat comes again, with or without what players wrote.
     pub fn set_age(&mut self, name: &str, minor: Option<bool>, chat_allowed_at: Option<i64>) {
         let k = key(name);
         let Some(s) = self.sessions.get_mut(&k) else { return };
+        let was = s.user.chat_restricted();
         s.user.minor = minor;
         s.user.chat_allowed_at = chat_allowed_at;
+        if s.user.chat_restricted() != was {
+            self.send_chat_history(&k);
+        }
+    }
+
+    /// The chat with other players is off for this session (see
+    /// [`User::chat_restricted`]). Not on a LAN server: its guests are the
+    /// players of a local network, and have no account to keep an answer.
+    fn chat_off(&self, s: &Session) -> bool {
+        !self.rules.lan && s.user.chat_restricted()
+    }
+
+    /// The lounge's chat as the player at `k` sees it: without the lines of
+    /// those they blocked, and, with their chat off, the server's notices
+    /// only.
+    fn send_chat_history(&self, k: &str) {
+        let Some(s) = self.sessions.get(k) else { return };
+        let off = self.chat_off(s);
+        let lines = self
+            .chat
+            .iter()
+            .filter(|l| !(off && l.kind == ChatKind::Player))
+            .filter(|l| !self.chat_authors.get(&l.id).is_some_and(|a| s.blocked.contains(a)))
+            .filter_map(|l| self.shown(l))
+            .collect();
+        self.send(k, ServerMsg::ChatHistory { lines });
     }
 
     /// Sets what others see of `name`'s shop items (and tells everyone).

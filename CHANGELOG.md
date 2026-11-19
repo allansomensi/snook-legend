@@ -1,5 +1,44 @@
 # Changelog
 
+## Unreleased
+
+Not tied to a version yet. No new migration, no new messages: games of 0.7.3
+work with this server as they are.
+
+### The chat with other players, asked for when it is used
+- **Signing up no longer asks the age group, nor does the lounge.** The chat
+  with other players (the lounge's and the games' chat, notes on the board,
+  status messages, gift messages) starts off for everyone, both ways, and is
+  turned on in context: writing with it off (or the "Turn the chat on"
+  button in the empty lounge chat) opens a dialog, over any screen, that asks
+  the age group once ("18 or older", "Under 18", "Not now"; it can't be
+  changed from the game afterwards). 18 or older turns it on at once and what
+  was written goes out; under 18, the dialog goes on to the parent's or
+  guardian's declaration, as before. Whoever never writes is never asked.
+- "Not now" keeps the chat off: a line comes back to the lounge's field, a
+  gift goes without its message, a note without its text, a status message
+  is dropped. The lounge's chat shows "The chat with other players is off
+  until you turn it on." and the field "Write to turn the chat on…".
+- **The server turns the rule around** (`User::chat_restricted`): the chat is
+  off until the account says 18 or older, or a parent or guardian turned it
+  on (it was on unless the account said under 18). Turned on or off, the
+  lounge's chat comes again with or without what players wrote. Accounts
+  that answered with 0.7.3 keep their answer.
+- A game of 0.7.2 (protocol 20, which can't ask) has its chat off and is told
+  "Update the game to chat with other players." when it writes.
+- **A LAN server's guests chat as before**: they are the players of a local
+  network, with no account to keep an answer.
+- Under 18 with the chat on, a "For a parent or guardian…" button in the
+  lounge's chat lets the parent or guardian turn it off again (it could not
+  be reached before).
+- The terms of use (section 4 and the summary), the privacy policy, the
+  README and the Store notes say so, in the three languages.
+
+### Tests
+- Tests that switch the game's language hold a lock while they do
+  (`i18n::lang_lock`): run side by side, they changed each other's language
+  and the translation tests failed now and then.
+
 ## 0.7.3 (protocol 21)
 
 Ruleset 7 (the break handed over, the cue ball off the table costs a ball), terms of use, an age group and the chat

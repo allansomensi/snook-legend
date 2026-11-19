@@ -1088,11 +1088,18 @@ impl ShopScreen {
                 online.shop_error = None;
                 online.buying = Some(item.code.to_string());
                 match &confirm.gift_to {
-                    Some(to) => online.send(ClientMsg::GiftItem {
-                        to: to.clone(),
-                        code: item.code.to_string(),
-                        message: self.gift_message.trim().to_string(),
-                    }),
+                    Some(to) => {
+                        let gift = ClientMsg::GiftItem {
+                            to: to.clone(),
+                            code: item.code.to_string(),
+                            message: self.gift_message.trim().to_string(),
+                        };
+                        // With the chat off, a message waits for the dialog
+                        // that turns it on (and the gift with it).
+                        if !online.send_text(gift) {
+                            online.buying = None;
+                        }
+                    }
                     None => online.send(ClientMsg::BuyItem { code: item.code.to_string() }),
                 }
             }

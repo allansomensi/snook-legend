@@ -355,7 +355,7 @@ impl Online {
             }
             if ui.primary_button(post_r, post) || enter {
                 let text = snook_legend_proto::clean_seek(&text);
-                self.send(ClientMsg::PostSeek { text, rated: self.rated_games });
+                self.send_text(ClientMsg::PostSeek { text, rated: self.rated_games });
                 self.social.composing = None;
                 ui.focus = None;
             } else if ui.icon_button(close, Icon::Close, t("Cancel"), true) || ui.escape() {

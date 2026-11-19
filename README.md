@@ -162,11 +162,13 @@ Playing online follows the [terms of use](https://snook-server.onrender.com/term
 [privacy policy](https://snook-server.onrender.com/privacidade)
 ([English](https://snook-server.onrender.com/privacy),
 [español](https://snook-server.onrender.com/privacidad)); the game links to
-them when signing up, in the shop and in Settings → Game → About. Signing up
-asks the player's age group: under 18, the chat with other players (lounge,
-games, notes, status and gift messages) stays off until a parent or guardian
-turns it on, as Brazilian law asks of games that children and adolescents are
-likely to play (Lei 15.211/2025). There are no loot boxes: every item is sold
+them when signing up, in the shop and in Settings → Game → About. The chat
+with other players (lounge, games, notes, status and gift messages) starts
+off for everyone, as Brazilian law asks of games that children and
+adolescents are likely to play (Lei 15.211/2025): the first time a player
+writes, the game asks their age group, and 18 or older turns it on; under 18,
+only a parent or guardian turns it on, with a declaration. Nobody is asked
+anything who never writes to others. There are no loot boxes: every item is sold
 at a price shown before buying. A server run by someone else publishes the
 same pages with its own provider details (see [docs/DEPLOY.md](docs/DEPLOY.md)).
 

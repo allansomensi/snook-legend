@@ -1888,23 +1888,23 @@ Bronze medal	Medalha de bronze
 Your medals	Suas medalhas
 Kept in your account the next time you're online.	Ficam na sua conta na próxima vez que você estiver online.
 Sign in to keep them in your account.	Entre para guardá-las na sua conta.
-Age	Idade
 18 or older	18 anos ou mais
 Under 18	Menos de 18 anos
-A parent or guardian must agree to the terms with you. The chat with other players stays off until they turn it on.	Um responsável precisa aceitar os termos junto com você. O chat com outros jogadores fica desligado até que ele o ligue.
 Creating an account means accepting the	Ao criar a conta, você aceita os
-Choose your age group.	Escolha a sua faixa de idade.
 For a parent or guardian…	Para o responsável…
-Chat off: under 18.	Chat desligado: menor de 18 anos.
-To play online, tell us your age group. It can't be changed from the game afterwards.	Para jogar online, diga a sua faixa de idade. Ela não pode ser mudada depois pelo jogo.
-Under 18: a parent or guardian must agree to the terms with you, and the chat with other players stays off until they turn it on.	Menos de 18 anos: um responsável precisa aceitar os termos junto com você, e o chat com outros jogadores fica desligado até que ele o ligue.
-Your age	Sua idade
 A parent or guardian turned the chat on for this account. They can turn it off here at any time.	Um responsável ligou o chat desta conta. Ele pode desligá-lo aqui a qualquer momento.
 This account belongs to someone under 18. By law, the chat with other players (messages in the lounge and in games, notes, status and gift messages) stays off until their mother, father or legal guardian turns it on.	Esta conta é de alguém com menos de 18 anos. Por lei, o chat com outros jogadores (mensagens no salão e nas partidas, recados, status e mensagens de presentes) fica desligado até que a mãe, o pai ou o responsável legal o ligue.
 I am this player's mother, father or legal guardian, I have read the terms of use and I allow them to chat with other players.	Sou mãe, pai ou responsável legal por este jogador, li os termos de uso e autorizo o chat com outros jogadores.
 Chat for players under 18	Chat para menores de 18 anos
 Turn the chat off	Desligar o chat
 Turn the chat on	Ligar o chat
+Chat off: under 18. A parent or guardian can turn it on.	Chat desligado: menor de 18 anos. O responsável pode ligá-lo.
+The chat with other players is off until you turn it on.	O chat com outros jogadores fica desligado até você ligá-lo.
+Write to turn the chat on…	Escreva para ligar o chat…
+Chat with other players	Chat com outros jogadores
+The chat with other players is off until you turn it on. To turn it on, tell us your age group: it can't be changed from the game afterwards.	O chat com outros jogadores fica desligado até você ligá-lo. Para ligar, diga a sua faixa de idade: ela não pode ser mudada depois pelo jogo.
+Under 18: a parent or guardian must agree to the terms with you and turn the chat on.	Menos de 18 anos: o responsável precisa aceitar os termos com você e ligar o chat.
+Not now	Agora não
 Terms of use	Termos de uso
 Privacy policy	Política de privacidade
 You have 7 days to change your mind and get your money back.	Você tem 7 dias para se arrepender e receber o dinheiro de volta.

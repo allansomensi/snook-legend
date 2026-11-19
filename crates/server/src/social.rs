@@ -48,7 +48,8 @@ pub async fn handle(
             }
             let text = clean_status(&text);
             if fresh.chat_restricted() && !text.is_empty() {
-                error(crate::lounge::CHAT_OFF_FOR_MINORS);
+                let protocol = server.with(|l| l.protocol_of(&me.username)).unwrap_or(0);
+                error(crate::lounge::chat_off_reason(&fresh, protocol));
                 return None;
             }
             if text == fresh.status_message {

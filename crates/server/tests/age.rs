@@ -1,6 +1,8 @@
-//! The age group and the chat of players under 18 (Lei 15.211/2025, the ECA
-//! Digital, art. 20): off until a parent or guardian turns it on, both ways,
-//! enforced by the server; older games are not asked and keep playing.
+//! The chat with other players (Lei 15.211/2025, the ECA Digital, art. 20):
+//! off for everyone, both ways, until the player says they are 18 or older,
+//! or, under 18, until a parent or guardian turns it on; enforced by the
+//! server. Games too old to ask are told to update; a LAN server's guests
+//! chat as before.
 
 use std::time::Duration;
 
@@ -9,7 +11,7 @@ use snook_legend_proto::Role;
 use snook_legend_proto::{
     AGE_PROTOCOL, ClientMsg, OLDEST_PROTOCOL_VERSION, ServerMsg, parse_server,
 };
-use snook_legend_server::lounge::{CHAT_OFF_FOR_MINORS, Rules};
+use snook_legend_server::lounge::{CHAT_OFF, CHAT_OFF_FOR_MINORS, CHAT_OFF_UPDATE, Rules};
 use snook_legend_server::store::{NewUser, Store};
 use snook_legend_server::{Config, Server, serve};
 use tokio::net::{TcpListener, TcpStream};
@@ -21,9 +23,12 @@ type Ws = WebSocketStream<MaybeTlsStream<TcpStream>>;
 const PASSWORD: &str = "secret123";
 
 async fn start() -> String {
+    start_with(Rules { max_connections_per_ip: 100, ..Rules::default() }).await
+}
+
+async fn start_with(rules: Rules) -> String {
     let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
     let addr = listener.local_addr().unwrap();
-    let rules = Rules { max_connections_per_ip: 100, ..Rules::default() };
     let config = Config { bind: addr, rules, ..Config::default() };
     let server = Server::new(config).await.unwrap();
     tokio::spawn(serve(listener, server));
@@ -105,7 +110,34 @@ fn chat_from(msgs: &[ServerMsg], who: &str, text: &str) -> bool {
 }
 
 fn refused(msgs: &[ServerMsg]) -> bool {
-    msgs.iter().any(|m| matches!(m, ServerMsg::Error { message } if message == CHAT_OFF_FOR_MINORS))
+    refused_with(msgs, CHAT_OFF_FOR_MINORS)
+}
+
+fn refused_with(msgs: &[ServerMsg], why: &str) -> bool {
+    msgs.iter().any(|m| matches!(m, ServerMsg::Error { message } if message == why))
+}
+
+/// The age group and chat among `msgs` (the last told).
+fn age_in(msgs: &[ServerMsg]) -> Option<(Option<bool>, bool)> {
+    msgs.iter().rev().find_map(|m| match m {
+        ServerMsg::Age { minor, chat_allowed } => Some((*minor, *chat_allowed)),
+        _ => None,
+    })
+}
+
+/// The players' lines in the lounge's chat history among `msgs` (the last
+/// history sent).
+fn history(msgs: &[ServerMsg]) -> Option<Vec<String>> {
+    msgs.iter().rev().find_map(|m| match m {
+        ServerMsg::ChatHistory { lines } => Some(
+            lines
+                .iter()
+                .filter(|l| l.kind == snook_legend_proto::ChatKind::Player)
+                .map(|l| l.text.clone())
+                .collect(),
+        ),
+        _ => None,
+    })
 }
 
 #[tokio::test]
@@ -159,25 +191,100 @@ async fn players_under_18_chat_only_once_a_guardian_allows_it() {
 }
 
 #[tokio::test]
-async fn older_games_are_not_asked_and_older_accounts_answer_once() {
+async fn the_chat_is_off_until_the_player_turns_it_on() {
     let url = start().await;
-    // A game of the oldest version still let in: no age, nothing new sent.
+    let mut adult = Client::register(&url, "Adult", AGE_PROTOCOL, Some(false)).await;
+    assert_eq!(adult.age().await, (Some(false), false));
+    adult.drain().await;
+    adult.send(ClientMsg::Chat { text: "first".into() }).await;
+    adult
+        .expect("own line", |m| matches!(m, ServerMsg::Chat { line } if line.text == "first"))
+        .await;
+
+    // An account without an age group (the game asks when the player
+    // first writes): off both ways.
+    let mut new = Client::register(&url, "New", AGE_PROTOCOL, None).await;
+    let seen = new.drain().await;
+    assert_eq!(age_in(&seen), Some((None, false)));
+    assert_eq!(history(&seen), Some(vec![]), "no players' lines in the history");
+    new.send(ClientMsg::Chat { text: "hey".into() }).await;
+    assert!(refused_with(&new.drain().await, CHAT_OFF));
+    new.send(ClientMsg::SetStatusMessage { text: "hi".into() }).await;
+    assert!(refused_with(&new.drain().await, CHAT_OFF));
+    adult.send(ClientMsg::Chat { text: "second".into() }).await;
+    adult
+        .expect("own line", |m| matches!(m, ServerMsg::Chat { line } if line.text == "second"))
+        .await;
+    assert!(!chat_from(&new.drain().await, "Adult", "second"));
+
+    // 18 or older: the chat is on, and the lounge's chat comes with what
+    // players wrote.
+    new.send(ClientMsg::SetAge { minor: false }).await;
+    let seen = new.drain().await;
+    assert_eq!(age_in(&seen), Some((Some(false), false)));
+    assert_eq!(history(&seen), Some(vec!["first".to_string(), "second".to_string()]));
+    new.send(ClientMsg::Chat { text: "hey".into() }).await;
+    new.expect("own line", |m| matches!(m, ServerMsg::Chat { line } if line.text == "hey")).await;
+    // Given once, it stays.
+    new.send(ClientMsg::SetAge { minor: true }).await;
+    assert_eq!(new.age().await, (Some(false), false));
+
+    // Under 18, with a parent or guardian there: both answers in a row.
+    let mut kid = Client::register(&url, "Kid", AGE_PROTOCOL, None).await;
+    assert_eq!(kid.age().await, (None, false));
+    kid.send(ClientMsg::SetAge { minor: true }).await;
+    kid.send(ClientMsg::AllowChat { allowed: true }).await;
+    assert_eq!(kid.age().await, (Some(true), false));
+    assert_eq!(kid.age().await, (Some(true), true));
+    kid.send(ClientMsg::Chat { text: "oi".into() }).await;
+    kid.expect("own line", |m| matches!(m, ServerMsg::Chat { line } if line.text == "oi")).await;
+    // And no way to say 18 or older afterwards.
+    kid.send(ClientMsg::AllowChat { allowed: false }).await;
+    assert_eq!(kid.age().await, (Some(true), false));
+    kid.send(ClientMsg::SetAge { minor: false }).await;
+    assert_eq!(kid.age().await, (Some(true), false));
+    kid.drain().await;
+    kid.send(ClientMsg::Chat { text: "tchau".into() }).await;
+    assert!(refused(&kid.drain().await));
+}
+
+#[tokio::test]
+async fn older_games_are_told_to_update() {
+    let url = start().await;
+    // A game of the oldest version still let in: it can't ask the age
+    // group, so its chat stays off, and it is told why.
     let mut old = Client::register(&url, "Old", OLDEST_PROTOCOL_VERSION, None).await;
     let seen = old.drain().await;
     assert!(!seen.iter().any(|m| matches!(m, ServerMsg::Age { .. })));
     old.send(ClientMsg::Chat { text: "still here".into() }).await;
-    assert!(chat_from(&old.drain().await, "Old", "still here"));
+    assert!(refused_with(&old.drain().await, CHAT_OFF_UPDATE));
+}
 
-    // An account without an age group, on a newer game: asked once.
-    let mut later = Client::register(&url, "Later", AGE_PROTOCOL, None).await;
-    assert_eq!(later.age().await, (None, false));
-    later.send(ClientMsg::SetAge { minor: true }).await;
-    assert_eq!(later.age().await, (Some(true), false));
-    later.send(ClientMsg::SetAge { minor: false }).await;
-    assert_eq!(later.age().await, (Some(true), false));
-    later.drain().await;
-    later.send(ClientMsg::Chat { text: "hey".into() }).await;
-    assert!(refused(&later.drain().await));
+#[tokio::test]
+async fn guests_of_a_lan_server_chat() {
+    let url =
+        start_with(Rules { lan: true, max_connections_per_ip: 100, ..Rules::default() }).await;
+    let guest = |name: &'static str| {
+        let url = url.clone();
+        async move {
+            let (ws, _) = connect_async(&url).await.unwrap();
+            let mut c = Client { ws };
+            c.send(ClientMsg::Hello { version: AGE_PROTOCOL }).await;
+            c.send(ClientMsg::Guest { name: name.into() }).await;
+            c.expect("auth", |m| matches!(m, ServerMsg::AuthOk { .. })).await;
+            c
+        }
+    };
+    let mut host = guest("host").await;
+    let mut visitor = guest("visitor").await;
+    visitor.drain().await;
+    host.send(ClientMsg::Chat { text: "bem-vindo".into() }).await;
+    visitor
+        .expect(
+            "the host's line",
+            |m| matches!(m, ServerMsg::Chat { line } if line.from == "host" && line.text == "bem-vindo"),
+        )
+        .await;
 }
 
 // --- The stores. ---
@@ -197,13 +304,16 @@ async fn keeps_the_age(store: Store) {
     assert!(kid.chat_restricted());
     let old = store.create_user(&new("Old", None)).await.unwrap().unwrap();
     assert_eq!(old.minor, None);
-    assert!(!old.chat_restricted());
+    assert!(old.chat_restricted(), "off until the age group is given");
+    let adult = store.create_user(&new("Adult", Some(false))).await.unwrap().unwrap();
+    assert!(!adult.chat_restricted());
     // Once given, the age group stays.
     assert!(store.set_minor(old.id, false).await.unwrap());
     assert!(!store.set_minor(old.id, true).await.unwrap());
     assert!(!store.set_minor(kid.id, false).await.unwrap());
     let old = store.user_by_id(old.id).await.unwrap().unwrap();
     assert_eq!(old.minor, Some(false));
+    assert!(!old.chat_restricted());
     // The guardian's permission, on and off.
     store.set_chat_allowed(kid.id, Some(1_700_000_000)).await.unwrap();
     let kid = store.user_by_id(kid.id).await.unwrap().unwrap();

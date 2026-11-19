@@ -101,9 +101,10 @@ página da loja, a classificação etária e o preço:
      usuário** e **itens compráveis com moeda do jogo** (e, com a venda de
      moedas ligada, **compras com dinheiro**: veja
      [Venda de moedas pela Store](#venda-de-moedas-pela-store)). Não há
-     *loot boxes*. Nas contas de menores de 18 anos o chat começa desligado
-     e só o responsável o liga (art. 20 da Lei 15.211/2025, o ECA Digital;
-     veja a seção 4 dos termos de uso).
+     *loot boxes*. O chat começa desligado para todos: quem tem 18 anos ou
+     mais o liga ao informar a idade, na primeira vez que escreve, e nas
+     contas de menores de 18 anos só o responsável o liga (art. 20 da Lei
+     15.211/2025, o ECA Digital; veja a seção 4 dos termos de uso).
    - **Packages:** envie o `.msix` baixado.
    - **Store listings** (português, inglês e espanhol): os textos de
      [STORE-LISTING.md](STORE-LISTING.md), as capturas de tela de

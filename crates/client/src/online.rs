@@ -221,12 +221,14 @@ pub struct Online {
     /// The account's age group and chat, as the server says (servers of
     /// [`snook_legend_proto::AGE_PROTOCOL`] or later; `None` before).
     pub age: Option<AgeState>,
-    /// The age group picked on the sign-up form.
-    minor_choice: Option<bool>,
-    /// The dialog where a parent or guardian turns the chat on or off.
-    guardian_open: bool,
+    /// The dialog that turns the chat with other players on (the age group,
+    /// then, under 18, a parent's or guardian's permission) or off.
+    pub chat_dialog_open: bool,
     /// Its declaration is ticked.
     guardian_ticked: bool,
+    /// What the player wrote with the chat off: it goes once the chat is
+    /// on (see [`Online::send_text`]).
+    pending_text: Option<ClientMsg>,
     /// Games that can be watched again, and how many are kept (0: all).
     pub replays: Option<(Vec<snook_legend_proto::HistoryEntry>, u32)>,
     /// A replay to watch (opened by the replays screen).
@@ -612,9 +614,9 @@ impl Online {
             // Development aid (screenshots): SNOOK_LEGEND_EMAIL_OFFER=<e-mail> shows the offer.
             email_offer: crate::dev::var("SNOOK_LEGEND_EMAIL_OFFER"),
             age: None,
-            minor_choice: None,
-            guardian_open: false,
+            chat_dialog_open: false,
             guardian_ticked: false,
+            pending_text: None,
             replays: None,
             replay: None,
             featured: None,
@@ -808,6 +810,8 @@ impl Online {
         {
             // Keep messages while reconnecting; they go out once this
             // connection has signed in again.
+            let chat_off = self.chat_off();
+            let mut held = None;
             if let Some(c) = &self.conn
                 && self.signed_in()
                 && self.authed
@@ -822,8 +826,17 @@ impl Online {
                         },
                         None => msg,
                     };
+                    // A line to the opponent with the chat off waits for
+                    // the dialog that turns it on.
+                    if chat_off && matches!(msg, ClientMsg::MatchChat { .. }) {
+                        held = Some(msg);
+                        continue;
+                    }
                     c.send(msg);
                 }
+            }
+            if let Some(msg) = held {
+                self.send_text(msg);
             }
         }
         if let Stage::Reconnecting { attempt, wait } = &mut self.stage {
@@ -924,7 +937,7 @@ impl Online {
 
     fn handle(&mut self, msg: ServerMsg, current: &mut Option<Match>, config: &mut Config) -> bool {
         let mut msg = msg;
-        if self.chat_restricted() {
+        if self.chat_off() {
             let me = self.username.clone();
             hide_players_text(&mut msg, &me);
         }
@@ -1356,8 +1369,8 @@ impl Online {
             }
             ServerMsg::Age { minor, chat_allowed } => {
                 self.age = Some(AgeState { minor, chat_allowed });
-                if !self.chat_restricted() {
-                    self.guardian_open = false;
+                if !self.chat_off() {
+                    self.send_pending_text();
                 }
             }
             ServerMsg::Account { recovery_email, payment_email, name_changes_left } => {
@@ -2073,16 +2086,6 @@ impl Online {
         } else {
             Vec::new()
         };
-        // Under 18: what that means, under the choice.
-        let age_hint = if self.register && self.minor_choice == Some(true) {
-            ui.wrap(
-                t("A parent or guardian must agree to the terms with you. The chat with other players stays off until they turn it on."),
-                inner,
-                12.0,
-            )
-        } else {
-            Vec::new()
-        };
         let welcome = if !self.register && message.is_empty() {
             ui.wrap(t("New here? Choose “New account”: it takes ten seconds."), inner, 13.0)
         } else {
@@ -2093,8 +2096,8 @@ impl Online {
         let mut h = pad + 36.0 + 20.0 + 36.0 + 20.0 + FIELD * 2.0;
         if self.register {
             h += pass_hint.len() as f32 * 16.0 + 4.0 + FIELD;
-            // The age group, and the terms under the button.
-            h += FIELD + age_hint.len() as f32 * 16.0 + 14.0 + 17.0 + 20.0 - 4.0;
+            // The terms under the button.
+            h += 14.0 + 17.0 + 20.0 - 4.0;
         }
         if !message.is_empty() {
             h += message.len() as f32 * 19.0 + 8.0;
@@ -2168,26 +2171,6 @@ impl Online {
                 crate::countries::open();
                 just_opened = true;
             }
-            y += FIELD;
-            ui.text(t("Age"), x, y, 13.0, MUTED, true);
-            let ages = [t("18 or older"), t("Under 18")];
-            let picked = match self.minor_choice {
-                Some(false) => 0,
-                Some(true) => 1,
-                None => usize::MAX,
-            };
-            if let Some(i) = ui.segmented(Rect::new(x, y + 20.0, inner, 36.0), &ages, picked) {
-                self.minor_choice = Some(i == 1);
-                self.error = None;
-            }
-            if !age_hint.is_empty() {
-                let mut hy = y + 20.0 + 36.0 + 4.0;
-                for line in &age_hint {
-                    ui.text(line, x, hy, 12.0, MUTED, false);
-                    hy += 16.0;
-                }
-                y += age_hint.len() as f32 * 16.0;
-            }
         }
         y += FIELD + 4.0;
         if !message.is_empty() {
@@ -2244,8 +2227,6 @@ impl Online {
             } else if !pass_ok {
                 self.error =
                     Some(t("Passwords need at least 8 characters (not only digits).").into());
-            } else if self.register && self.minor_choice.is_none() {
-                self.error = Some(t("Choose your age group.").into());
             } else {
                 let username = self.username.trim().to_string();
                 let password = self.password.clone();
@@ -2254,7 +2235,8 @@ impl Online {
                         username,
                         password,
                         country: self.country.clone(),
-                        minor: self.minor_choice,
+                        // Asked when the player first writes to others.
+                        minor: None,
                     }
                 } else {
                     ClientMsg::Login { username, password }
@@ -2280,8 +2262,7 @@ impl Online {
         let esc = ui.escape()
             && self.email_offer.is_none()
             && !crate::countries::is_open()
-            && !self.guardian_open
-            && !self.asks_age();
+            && !self.chat_dialog_open;
         // A dark wash over the slowly turning table: the room is the backdrop.
         draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.42));
         let mut action = OnlineAction::None;
@@ -2671,7 +2652,25 @@ impl Online {
         let admin = self.me.as_ref().is_some_and(|m| m.role == snook_legend_proto::Role::Admin);
         if self.chat.is_empty() {
             ui.block(log);
-            empty_state(ui, log, Glyph::Chat, t("No messages yet."), None);
+            if self.chat_off() {
+                // What players write shows once the chat is on.
+                let (text, label) = if self.age.is_some_and(|a| a.minor == Some(true)) {
+                    (
+                        t("Chat off: under 18. A parent or guardian can turn it on."),
+                        t("For a parent or guardian…"),
+                    )
+                } else {
+                    (
+                        t("The chat with other players is off until you turn it on."),
+                        t("Turn the chat on"),
+                    )
+                };
+                if empty_state(ui, log, Glyph::Chat, text, Some(label)) {
+                    self.open_chat_dialog();
+                }
+            } else {
+                empty_state(ui, log, Glyph::Chat, t("No messages yet."), None);
+            }
         } else {
             let (scroll, act) =
                 ui.chat_log(log, &self.chat, me.as_deref(), admin, self.chat_scroll);
@@ -2696,155 +2695,179 @@ impl Online {
                 }
             }
         }
-        if self.chat_restricted() {
-            // Under 18: no field, what it takes to have one.
-            let bar = Rect::new(input.x, input.y, inner_w, input_h);
-            rrect(bar, 6.0, Color::new(1.0, 1.0, 1.0, 0.04));
+        // Under 18 with the chat a parent or guardian turned on: where they
+        // can turn it off again.
+        if self.age.is_some_and(|a| a.minor == Some(true) && a.chat_allowed) && !self.lan {
             let label = t("For a parent or guardian…");
-            let bw = (ui.text_size(label, 13.0, true).x + 24.0).min(bar.w * 0.5);
-            let note_w = bar.w - bw - 24.0;
-            let (note, size) = ui.fitted(t("Chat off: under 18."), 13.0, note_w, false);
-            ui.text(
-                &note,
-                bar.x + 10.0,
-                crate::ranking::text_y(bar.y + bar.h / 2.0, size),
-                size,
-                MUTED,
-                false,
-            );
-            let b = Rect::new(bar.x + bar.w - bw - 4.0, bar.y + 4.0, bw, bar.h - 8.0);
+            let w = ui.text_size(label, 13.0, true).x + 20.0;
+            let b = Rect::new(log.x + log.w - w - 6.0, log.y + 6.0, w, 26.0);
             if ui.button(b, label, true) {
-                self.guardian_open = true;
-                self.guardian_ticked = false;
+                self.open_chat_dialog();
             }
+        }
+        let sent = ui.text_input(30, input, &mut self.chat_input, MAX_CHAT_LEN);
+        let hint = if self.chat_off() {
+            t("Write to turn the chat on…")
         } else {
-            let sent = ui.text_input(30, input, &mut self.chat_input, MAX_CHAT_LEN);
-            placeholder(ui, 30, input, &self.chat_input, t("Say hello… (Enter to send)"));
-            let send_r = Rect::new(input.x + input.w + 8.0, input.y, input_h, input_h);
-            let can_send = !self.chat_input.trim().is_empty();
-            if (ui.icon_button(send_r, Icon::Play, t("Send"), can_send) || sent) && can_send {
-                let text = snook_legend_proto::clean_chat(&self.chat_input);
-                self.send(ClientMsg::Chat { text });
-                self.chat_input.clear();
-                self.chat_scroll = 0;
-                ui.focus = Some(30);
-            }
+            t("Say hello… (Enter to send)")
+        };
+        placeholder(ui, 30, input, &self.chat_input, hint);
+        let send_r = Rect::new(input.x + input.w + 8.0, input.y, input_h, input_h);
+        let can_send = !self.chat_input.trim().is_empty();
+        if (ui.icon_button(send_r, Icon::Play, t("Send"), can_send) || sent) && can_send {
+            let text = snook_legend_proto::clean_chat(&self.chat_input);
+            // With the chat off, it waits for the dialog (and comes back to
+            // the field if the player doesn't turn the chat on).
+            let now = self.send_text(ClientMsg::Chat { text });
+            self.chat_input.clear();
+            self.chat_scroll = 0;
+            ui.focus = if now { Some(30) } else { None };
         }
 
         if let Some(saved) = covered {
             ui.resume_input(saved);
         }
         self.draw_invites_at(ui, InviteSpot::Lounge, invites_at);
-        if self.asks_age() {
-            if self.draw_age_prompt(ui, config) {
-                action = OnlineAction::Leave;
-            }
-        } else if self.guardian_open {
-            self.draw_guardian(ui, config);
-        }
         action
     }
 
-    /// The age group of an account that has none yet: asked once, over the
-    /// lounge (which waits for the answer). Whether the player went back to
-    /// the menu instead.
-    fn draw_age_prompt(&mut self, ui: &mut Ui, config: &Config) -> bool {
-        let sw = crate::ui::vw();
-        let sh = crate::ui::vh();
-        let w = 500.0f32.min(sw - 32.0);
-        let pad = 24.0;
-        let inner = w - pad * 2.0;
-        let lines = ui.wrap(
-            t("To play online, tell us your age group. It can't be changed from the game afterwards."),
-            inner,
-            15.0,
-        );
-        let note = ui.wrap(
-            t("Under 18: a parent or guardian must agree to the terms with you, and the chat with other players stays off until they turn it on."),
-            inner,
-            13.0,
-        );
-        let h = pad
-            + 30.0
-            + 14.0
-            + lines.len() as f32 * 20.0
-            + 10.0
-            + note.len() as f32 * 17.0
-            + 16.0
-            + 44.0
-            + 10.0
-            + 44.0
-            + 14.0
-            + 20.0
-            + pad;
-        let r = Rect::new((sw - w) / 2.0, ((sh - h) / 2.0).max(8.0), w, h);
-        draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.6));
-        ui.panel(r);
-        let mut y = r.y + pad;
-        ui.text(t("Your age"), r.x + pad, y, 24.0, GOLD, true);
-        y += 30.0 + 14.0;
-        for line in &lines {
-            ui.text(line, r.x + pad, y, 15.0, CREAM, false);
-            y += 20.0;
+    /// Sends a message with text for other players: a line in a chat, a
+    /// note on the board, a status message, a gift's message. With the
+    /// chat off it waits instead, and the dialog that turns the chat on
+    /// opens; it goes once the chat is on. Whether it went at once.
+    pub fn send_text(&mut self, msg: ClientMsg) -> bool {
+        if self.chat_off() && has_text(&msg) {
+            self.pending_text = Some(msg);
+            self.open_chat_dialog();
+            false
+        } else {
+            self.send(msg);
+            true
         }
-        y += 10.0;
-        for line in &note {
-            ui.text(line, r.x + pad, y, 13.0, MUTED, false);
-            y += 17.0;
-        }
-        y += 16.0;
-        let half = (inner - 10.0) / 2.0;
-        let adult = ui.primary_button(Rect::new(r.x + pad, y, half, 44.0), t("18 or older"));
-        let minor =
-            ui.primary_button(Rect::new(r.x + pad + half + 10.0, y, half, 44.0), t("Under 18"));
-        y += 44.0 + 10.0;
-        let back = ui.button(Rect::new(r.x + pad, y, inner, 44.0), t("Main menu"), true);
-        y += 44.0 + 14.0;
-        crate::legal::links(ui, &config.server, sw / 2.0, y, 13.0);
-        // Nothing under the dialog takes a click.
-        ui.block(Rect::new(0.0, 0.0, sw, sh));
-        if adult || minor {
-            self.send(ClientMsg::SetAge { minor });
-            // Shown at once; the server's answer confirms it.
-            if let Some(a) = self.age.as_mut() {
-                a.minor = Some(minor);
-            }
-        }
-        back
     }
 
-    /// A parent or guardian turns the chat of an account under 18 on (with
-    /// a declaration) or off.
-    fn draw_guardian(&mut self, ui: &mut Ui, config: &Config) {
+    /// Opens the dialog that turns the chat on (or, under 18 with it on,
+    /// off).
+    pub fn open_chat_dialog(&mut self) {
+        self.chat_dialog_open = true;
+        self.guardian_ticked = false;
+    }
+
+    /// The chat is on: what the player wrote while it was off goes now.
+    fn send_pending_text(&mut self) {
+        self.chat_dialog_open = false;
+        let Some(msg) = self.pending_text.take() else { return };
+        if let ClientMsg::GiftItem { code, .. } = &msg {
+            self.buying = Some(code.clone());
+        }
+        if let ClientMsg::SetStatusMessage { text } = &msg {
+            let me = self.username.clone();
+            if let Some(p) =
+                self.profile.as_mut().filter(|p| p.player.username.eq_ignore_ascii_case(&me))
+            {
+                p.player.status_message = text.clone();
+            }
+        }
+        self.send(msg);
+    }
+
+    /// The player left the chat off: a gift or a note goes without its
+    /// text, a chat line comes back to the lounge's field, a status
+    /// message is dropped.
+    fn drop_pending_text(&mut self) {
+        self.chat_dialog_open = false;
+        match self.pending_text.take() {
+            Some(ClientMsg::GiftItem { to, code, .. }) => {
+                self.buying = Some(code.clone());
+                self.send(ClientMsg::GiftItem { to, code, message: String::new() });
+            }
+            Some(ClientMsg::PostSeek { rated, .. }) => {
+                self.send(ClientMsg::PostSeek { text: String::new(), rated });
+            }
+            Some(ClientMsg::Chat { text }) if self.chat_input.is_empty() => {
+                self.chat_input = text;
+            }
+            _ => {}
+        }
+    }
+
+    /// The dialog that turns the chat with other players on: the age group
+    /// first (it can't be changed from the game afterwards), then, under
+    /// 18, a parent's or guardian's permission, with a declaration. With
+    /// their permission given, they turn it off here. Over any screen.
+    pub fn draw_chat_dialog(&mut self, ui: &mut Ui, config: &Config) {
+        if !self.chat_dialog_open {
+            return;
+        }
+        let Some(age) = self.age.filter(|_| self.signed_in() && !self.lan) else {
+            // Signed out, or a server that doesn't ask: nothing to turn on.
+            self.drop_pending_text();
+            return;
+        };
+        if age.minor == Some(false) {
+            self.send_pending_text();
+            return;
+        }
+        // The dialog has the keyboard: no field under it takes the typing.
+        if ui.focus.is_some_and(|f| f < crate::ui::MODAL_FOCUS) {
+            ui.focus = None;
+        }
         let sw = crate::ui::vw();
         let sh = crate::ui::vh();
         let w = 520.0f32.min(sw - 32.0);
         let pad = 24.0;
         let inner = w - pad * 2.0;
-        let allowed = self.age.is_some_and(|a| a.chat_allowed);
-        let text = if allowed {
-            t(
-                "A parent or guardian turned the chat on for this account. They can turn it off here at any time.",
+        let asks_age = age.minor.is_none();
+        let allowed = age.chat_allowed;
+        let (title, text) = if asks_age {
+            (
+                t("Chat with other players"),
+                t(
+                    "The chat with other players is off until you turn it on. To turn it on, tell us your age group: it can't be changed from the game afterwards.",
+                ),
+            )
+        } else if allowed {
+            (
+                t("Chat for players under 18"),
+                t(
+                    "A parent or guardian turned the chat on for this account. They can turn it off here at any time.",
+                ),
             )
         } else {
-            t(
-                "This account belongs to someone under 18. By law, the chat with other players (messages in the lounge and in games, notes, status and gift messages) stays off until their mother, father or legal guardian turns it on.",
+            (
+                t("Chat for players under 18"),
+                t(
+                    "This account belongs to someone under 18. By law, the chat with other players (messages in the lounge and in games, notes, status and gift messages) stays off until their mother, father or legal guardian turns it on.",
+                ),
             )
         };
         let lines = ui.wrap(text, inner, 15.0);
+        let note = if asks_age {
+            ui.wrap(
+                t("Under 18: a parent or guardian must agree to the terms with you and turn the chat on."),
+                inner,
+                13.0,
+            )
+        } else {
+            Vec::new()
+        };
         let declaration = ui.wrap(
             t("I am this player's mother, father or legal guardian, I have read the terms of use and I allow them to chat with other players."),
             inner - 30.0,
             14.0,
         );
-        let decl_h = if allowed { 0.0 } else { 14.0 + declaration.len() as f32 * 19.0 };
+        let ticks = !asks_age && !allowed;
+        let decl_h = if ticks { 14.0 + declaration.len() as f32 * 19.0 } else { 0.0 };
+        let note_h = if note.is_empty() { 0.0 } else { 10.0 + note.len() as f32 * 17.0 };
+        let buttons_h = if asks_age { 44.0 + 10.0 + 44.0 } else { 44.0 };
         let h = pad
             + 30.0
             + 14.0
             + lines.len() as f32 * 20.0
+            + note_h
             + decl_h
             + 20.0
-            + 44.0
+            + buttons_h
             + 14.0
             + 20.0
             + pad;
@@ -2852,13 +2875,20 @@ impl Online {
         draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.6));
         ui.panel(r);
         let mut y = r.y + pad;
-        ui.text(t("Chat for players under 18"), r.x + pad, y, 22.0, GOLD, true);
+        ui.text(title, r.x + pad, y, 22.0, GOLD, true);
         y += 30.0 + 14.0;
         for line in &lines {
             ui.text(line, r.x + pad, y, 15.0, CREAM, false);
             y += 20.0;
         }
-        if !allowed {
+        if !note.is_empty() {
+            y += 10.0;
+            for line in &note {
+                ui.text(line, r.x + pad, y, 13.0, MUTED, false);
+                y += 17.0;
+            }
+        }
+        if ticks {
             y += 14.0;
             // The tick box, with the declaration beside it on several lines.
             let tick = Rect::new(r.x + pad, y, inner, declaration.len() as f32 * 19.0);
@@ -2880,23 +2910,55 @@ impl Online {
         }
         y += 20.0;
         let half = (inner - 10.0) / 2.0;
-        let close = ui.button(Rect::new(r.x + pad, y, half, 44.0), t("Close"), true);
-        let go = Rect::new(r.x + pad + half + 10.0, y, half, 44.0);
-        let act = if allowed {
-            ui.button(go, t("Turn the chat off"), true)
-        } else if self.guardian_ticked {
-            ui.primary_button(go, t("Turn the chat on"))
+        let later = if allowed { t("Close") } else { t("Not now") };
+        let close = if asks_age {
+            let adult = ui.primary_button(Rect::new(r.x + pad, y, half, 44.0), t("18 or older"));
+            let minor =
+                ui.primary_button(Rect::new(r.x + pad + half + 10.0, y, half, 44.0), t("Under 18"));
+            y += 44.0 + 10.0;
+            let close = ui.button(Rect::new(r.x + pad, y, inner, 44.0), later, true);
+            if adult || minor {
+                self.send(ClientMsg::SetAge { minor });
+                // Shown at once; the server's answer confirms it. 18 or
+                // older, what was written goes at once (after the answer,
+                // on the same connection); under 18, the permission next.
+                if let Some(a) = self.age.as_mut() {
+                    a.minor = Some(minor);
+                }
+                if adult {
+                    self.send_pending_text();
+                }
+            }
+            close
         } else {
-            ui.button(go, t("Turn the chat on"), false)
+            let close = ui.button(Rect::new(r.x + pad, y, half, 44.0), later, true);
+            let go = Rect::new(r.x + pad + half + 10.0, y, half, 44.0);
+            let act = if allowed {
+                ui.button(go, t("Turn the chat off"), true)
+            } else if self.guardian_ticked {
+                ui.primary_button(go, t("Turn the chat on"))
+            } else {
+                ui.button(go, t("Turn the chat on"), false)
+            };
+            if act && (allowed || self.guardian_ticked) {
+                self.send(ClientMsg::AllowChat { allowed: !allowed });
+                if let Some(a) = self.age.as_mut() {
+                    a.chat_allowed = !allowed;
+                }
+                if allowed {
+                    self.chat_dialog_open = false;
+                } else {
+                    self.send_pending_text();
+                }
+            }
+            close
         };
         y += 44.0 + 14.0;
         crate::legal::links(ui, &config.server, sw / 2.0, y, 13.0);
+        // Nothing under the dialog takes a click.
         ui.block(Rect::new(0.0, 0.0, sw, sh));
-        if act && (allowed || self.guardian_ticked) {
-            self.send(ClientMsg::AllowChat { allowed: !allowed });
-            self.guardian_open = false;
-        } else if close || ui.escape() {
-            self.guardian_open = false;
+        if self.chat_dialog_open && (close || ui.escape()) {
+            self.drop_pending_text();
         }
     }
 
@@ -4695,21 +4757,31 @@ fn hide_players_text(msg: &mut ServerMsg, me: &str) {
 /// The account's age group and chat (see [`snook_legend_proto::ServerMsg::Age`]).
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct AgeState {
-    /// `None`: not given yet (the lounge asks).
+    /// `None`: not given yet (the chat is off; asked when the player first
+    /// writes to others).
     pub minor: Option<bool>,
     pub chat_allowed: bool,
 }
 
 impl Online {
-    /// Under 18 and no parent or guardian turned the chat on: the server
-    /// passes on no messages either way (what others write is not shown).
-    pub fn chat_restricted(&self) -> bool {
-        self.age.is_some_and(|a| a.minor == Some(true) && !a.chat_allowed)
+    /// The chat with other players is off: the player hasn't said they are
+    /// 18 or older, nor, under 18, has a parent or guardian turned it on.
+    /// The server passes on no messages either way (what others write is
+    /// not shown), and what the player writes waits for the dialog that
+    /// turns it on. Never on a LAN server, nor with a server that doesn't
+    /// say (older than [`snook_legend_proto::AGE_PROTOCOL`]).
+    pub fn chat_off(&self) -> bool {
+        !self.lan && self.age.is_some_and(|a| a.minor != Some(false) && !a.chat_allowed)
     }
+}
 
-    /// The account has no age group yet: the lounge asks for it.
-    fn asks_age(&self) -> bool {
-        self.authed && !self.lan && self.age.is_some_and(|a| a.minor.is_none())
+/// `msg` carries text for other players (see [`Online::send_text`]).
+fn has_text(msg: &ClientMsg) -> bool {
+    match msg {
+        ClientMsg::Chat { text } | ClientMsg::MatchChat { text } => !text.is_empty(),
+        ClientMsg::SetStatusMessage { text } | ClientMsg::PostSeek { text, .. } => !text.is_empty(),
+        ClientMsg::GiftItem { message, .. } => !message.is_empty(),
+        _ => false,
     }
 }
 

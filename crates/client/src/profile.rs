@@ -697,9 +697,11 @@ impl ProfileScreen {
             let cancel = Rect::new(save.x + 34.0, mid - 15.0, 30.0, 30.0);
             if ui.icon_button(save, Icon::Check, t("Save (Enter)"), true) || enter {
                 let clean = snook_legend_proto::clean_status(&draft);
-                online.send(ClientMsg::SetStatusMessage { text: clean.clone() });
-                // Shown at once; the lounge hears it from the server.
-                if let Some(shown) = online.profile.as_mut() {
+                // Shown at once (with the chat off, once it is on); the
+                // lounge hears it from the server.
+                if online.send_text(ClientMsg::SetStatusMessage { text: clean.clone() })
+                    && let Some(shown) = online.profile.as_mut()
+                {
                     shown.player.status_message = clean;
                 }
                 self.status_edit = None;

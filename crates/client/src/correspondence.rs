@@ -1114,6 +1114,7 @@ mod tests {
 
     #[test]
     fn time_left_is_short() {
+        let _lang = crate::i18n::lang_lock();
         crate::i18n::set_lang(crate::i18n::Lang::English);
         assert_eq!(short_left(2 * 86_400 + 5 * 3600 + 7), "2 d 5 h");
         assert_eq!(short_left(5 * 3600 + 100), "5 h");

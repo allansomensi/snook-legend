@@ -174,7 +174,11 @@ mod ruleset_tests {
 
 /// The first version that asks the player's age group and knows
 /// [`ClientMsg::SetAge`], [`ClientMsg::AllowChat`] and [`ServerMsg::Age`]
-/// (the server says its version in [`ServerMsg::Welcome`]).
+/// (the server says its version in [`ServerMsg::Welcome`]). The chat with
+/// other players is off until the age group is given (18 or older) or, under
+/// 18, a parent or guardian turns it on; games of version 21 ask when
+/// signing up, later ones when the player first writes to others. An older
+/// game is told to update when it writes.
 pub const AGE_PROTOCOL: u32 = 21;
 
 /// Username rules: 3–16 characters, letters, digits and underscores.
@@ -1099,8 +1103,9 @@ pub enum ClientMsg {
         password: String,
         #[serde(default)]
         country: String,
-        /// Under 18 (`Some(true)`) or 18 or older; games before
-        /// [`AGE_PROTOCOL`] don't ask (`None`).
+        /// Under 18 (`Some(true)`) or 18 or older; `None` when not asked
+        /// (games before [`AGE_PROTOCOL`], and later games, which ask when
+        /// the player first writes to others).
         #[serde(default)]
         minor: Option<bool>,
     },
@@ -1385,13 +1390,14 @@ pub enum ClientMsg {
     CorrResign {
         id: i64,
     },
-    /// The age group of an account that has none yet (made before
-    /// [`AGE_PROTOCOL`]); it can't be changed afterwards from the game.
+    /// The age group of an account that has none yet, given to turn the
+    /// chat on; it can't be changed afterwards from the game.
     SetAge {
         minor: bool,
     },
     /// A parent or guardian turns the chat of an account under 18 on or off
-    /// (see [`ServerMsg::Age`]).
+    /// (see [`ServerMsg::Age`]); right after [`ClientMsg::SetAge`] for an
+    /// account that had no age group.
     AllowChat {
         allowed: bool,
     },
@@ -1781,7 +1787,8 @@ pub enum ServerMsg {
     /// or [`ClientMsg::AllowChat`]; only to games of [`AGE_PROTOCOL`] or
     /// later).
     Age {
-        /// `None`: not given yet (the game asks).
+        /// `None`: not given yet (the chat is off; the game asks when the
+        /// player first writes).
         minor: Option<bool>,
         /// Under 18, a parent or guardian turned the chat on.
         chat_allowed: bool,

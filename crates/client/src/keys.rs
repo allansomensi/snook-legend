@@ -613,6 +613,7 @@ mod tests {
         for k in KEYS.iter().filter(|k| !WORDS.contains(&k.label)) {
             assert_eq!(key_label(k.key), k.label);
         }
+        let _lang = crate::i18n::lang_lock();
         crate::i18n::set_lang(crate::i18n::Lang::Spanish);
         assert_eq!(key_label(KeyCode::W), "W");
         assert_eq!(key_label(KeyCode::Space), "Espacio");

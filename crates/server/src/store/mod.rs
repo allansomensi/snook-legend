@@ -74,8 +74,8 @@ pub struct User {
     /// The profile picture (a code from `snook_legend_proto::AVATARS`).
     pub avatar: String,
     /// The age group the player gave: under 18 (`Some(true)`), 18 or older
-    /// (`Some(false)`), or not asked yet (accounts made before 0.7.3, until
-    /// their game asks).
+    /// (`Some(false)`), or not given yet (the game asks it when the player
+    /// first writes to others; games of 0.7.3 asked it when signing up).
     pub minor: Option<bool>,
     /// When a parent or guardian turned the chat on for an account under 18
     /// (Unix seconds); see [`User::chat_restricted`].
@@ -83,13 +83,17 @@ pub struct User {
 }
 
 impl User {
-    /// Under 18 and no parent or guardian turned the chat on: nothing
+    /// The chat with other players is off for them: it is off for everyone
+    /// until they say they are 18 or older, or, under 18, until a parent or
+    /// guardian turns it on (the game asks when they first write). Nothing
     /// written by other players reaches them, and they write nothing to
     /// others (the lounge's and the games' chat, the notes on the board,
     /// status messages, gift messages). Predefined reactions, invitations
-    /// and games are not affected. Lei 15.211/2025 (ECA Digital), art. 20.
+    /// and games are not affected. Lei 15.211/2025 (ECA Digital), art. 20:
+    /// games likely played by children and adolescents limit what players
+    /// write to each other by default.
     pub fn chat_restricted(&self) -> bool {
-        self.minor == Some(true) && self.chat_allowed_at.is_none()
+        self.minor != Some(false) && self.chat_allowed_at.is_none()
     }
 
     pub fn rating(&self) -> snook_legend_core::rating::Rating {

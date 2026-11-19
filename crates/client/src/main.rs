@@ -1825,6 +1825,11 @@ async fn main() {
                 replace_save = None;
             }
         }
+        // The chat with other players turned on (opened by writing with it
+        // off), over any screen, a game too.
+        if !settings_open {
+            online.draw_chat_dialog(&mut ui, &config);
+        }
         // A warning from the staff, over everything else, until OK.
         if current.is_none() && !settings_open && waiting.is_none() {
             online.draw_staff_warning(&mut ui);

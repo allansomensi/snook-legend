@@ -73,6 +73,14 @@ pub fn set_lang(lang: Lang) {
     LANG.store(lang as u8, Ordering::Relaxed);
 }
 
+/// Tests that switch the language hold this while they do: it is the whole
+/// game's, and tests run side by side.
+#[cfg(test)]
+pub fn lang_lock() -> std::sync::MutexGuard<'static, ()> {
+    static LOCK: std::sync::Mutex<()> = std::sync::Mutex::new(());
+    LOCK.lock().unwrap_or_else(|e| e.into_inner())
+}
+
 pub fn lang() -> Lang {
     Lang::ALL
         .into_iter()
@@ -370,6 +378,7 @@ mod tests {
 
     #[test]
     fn translates_and_fills_placeholders() {
+        let _lang = lang_lock();
         set_lang(Lang::Portuguese);
         assert_eq!(t("Play"), "Jogar");
         assert_eq!(t("not in the table"), "not in the table");
@@ -393,6 +402,7 @@ mod tests {
     /// numbers and names, read in the player's language.
     #[test]
     fn server_announcements_are_translated() {
+        let _lang = lang_lock();
         set_lang(Lang::Portuguese);
         assert_eq!(
             server_text("You were muted for 60 minutes: spam"),

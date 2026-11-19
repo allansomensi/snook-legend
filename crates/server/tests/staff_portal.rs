@@ -43,7 +43,8 @@ async fn start() -> Running {
         rating: 1200,
         role: Role::Player,
         ip: "1.2.3.4",
-        minor: None,
+        // Adults: their chat is on (it is off until the age group is given).
+        minor: Some(false),
     };
     server.store.create_user(&boss).await.unwrap().expect("a new account");
     tokio::spawn(serve(listener, server.clone()));
@@ -90,7 +91,8 @@ impl Client {
             username: name.into(),
             password: PASSWORD.into(),
             country: "BR".into(),
-            minor: None,
+            // Adults: their chat is on (it is off until the age group is given).
+            minor: Some(false),
         })
         .await;
         c.expect("auth", |m| matches!(m, ServerMsg::AuthOk { .. })).await;

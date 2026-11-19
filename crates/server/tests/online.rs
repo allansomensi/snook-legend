@@ -42,7 +42,8 @@ async fn make_account(server: &Server, name: &str) {
         rating: 1200,
         role: snook_legend_proto::Role::Player,
         ip: "127.0.0.1",
-        minor: None,
+        // Adults: their chat is on (it is off until the age group is given).
+        minor: Some(false),
     };
     server.store.create_user(&user).await.unwrap().expect("a new account");
 }
@@ -92,7 +93,8 @@ impl Client {
             username: name.into(),
             password: PASSWORD.into(),
             country: "BR".into(),
-            minor: None,
+            // Adults: their chat is on (it is off until the age group is given).
+            minor: Some(false),
         })
         .await;
         let ServerMsg::AuthOk { token, player } =

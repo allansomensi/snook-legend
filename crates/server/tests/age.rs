@@ -136,10 +136,21 @@ async fn players_under_18_chat_only_once_a_guardian_allows_it() {
     // A guardian turns the chat on: both ways.
     kid.send(ClientMsg::AllowChat { allowed: true }).await;
     assert_eq!(kid.age().await, (Some(true), true));
+    // (Each line is awaited where it is sent: the other connection's ping
+    // may otherwise be answered before the line is even read.)
     kid.send(ClientMsg::Chat { text: "oi".into() }).await;
-    assert!(chat_from(&adult.drain().await, "Kid", "oi"));
+    kid.expect("own line", |m| matches!(m, ServerMsg::Chat { line } if line.text == "oi")).await;
+    adult
+        .expect(
+            "the kid's line",
+            |m| matches!(m, ServerMsg::Chat { line } if line.from == "Kid" && line.text == "oi"),
+        )
+        .await;
     adult.send(ClientMsg::Chat { text: "hello again".into() }).await;
-    assert!(chat_from(&kid.drain().await, "Adult", "hello again"));
+    kid.expect("the adult's line", |m| {
+        matches!(m, ServerMsg::Chat { line } if line.from == "Adult" && line.text == "hello again")
+    })
+    .await;
     // And off again.
     kid.send(ClientMsg::AllowChat { allowed: false }).await;
     assert_eq!(kid.age().await, (Some(true), false));

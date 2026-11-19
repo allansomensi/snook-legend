@@ -1271,6 +1271,55 @@ fn a_break_that_only_makes_the_cue_ball_passes_the_break() {
     assert!(report.was_break);
 }
 
+/// A break that loses the cue ball together with balls of both groups (a
+/// solid and then a stripe, or the other way round; in a pocket or off the
+/// table) hands the break over, as one that makes nothing: no penalty
+/// ball, the groups still open, the balls made stay down, and the opponent
+/// breaks with the cue ball in hand behind the head string. With balls of
+/// one group only it stays an ordinary foul: the groups are decided, the
+/// opponent's lowest ball is owed and the cue ball is played from the head
+/// spot, without ball in hand.
+#[test]
+fn a_break_that_loses_the_cue_ball_with_both_groups_passes_the_break() {
+    let lose_cue = |down: &[u8], off: bool| {
+        let mut g = EightBallGame::new(3, 0, Rules::Brazilian);
+        let mut pending = g.prepare_shot(&Shot::new(g.default_aim(), 1.0), None).unwrap();
+        pending.simulation.run_to_rest();
+        for (k, n) in down.iter().enumerate() {
+            pending.simulation.pocket_for_tests(BallId(*n), PocketId::ALL[k]);
+        }
+        if off {
+            pending.simulation.knock_off_for_tests(BallId::CUE);
+        } else {
+            pending.simulation.pocket_for_tests(BallId::CUE, PocketId::FootRight);
+        }
+        let report = g.finish_shot(pending);
+        (g, report)
+    };
+    for (down, off) in [([3u8, 13], false), ([13, 3], false), ([3, 13], true)] {
+        let (g, report) = lose_cue(&down, off);
+        assert!(!report.fouls.is_empty(), "{report:?}");
+        assert!(report.break_again && !report.continues, "{report:?}");
+        assert!(report.game_over.is_none() && report.group_assigned.is_none(), "{report:?}");
+        assert!(report.penalty.is_empty(), "no penalty ball: {report:?}");
+        assert!(g.is_break() && g.is_open_table());
+        assert_eq!(g.current_player(), 1);
+        assert_eq!(g.ball_in_hand(), Some(BallInHand::Kitchen));
+        assert!(g.ball(BallId::CUE).xy().x <= g.table.head_string_x());
+        assert!(down.iter().all(|n| !g.ball(BallId(*n)).in_play()), "the balls made stay down");
+        assert_eq!(g.remaining(Group::Solids).len() + g.remaining(Group::Stripes).len(), 12);
+    }
+    // Two solids and the cue ball: the ordinary foul of a break.
+    let (g, report) = lose_cue(&[3, 5], false);
+    assert!(!report.break_again && !report.continues, "{report:?}");
+    assert_eq!(report.group_assigned, Some(Group::Solids));
+    assert_eq!(report.penalty, vec![BallId(9)], "the opponent's lowest ball");
+    assert!(!g.is_break());
+    assert_eq!(g.ball_in_hand(), None);
+    assert_eq!(g.ball(BallId::CUE).xy(), g.table.head_spot());
+    assert_eq!(g.current_player(), 1);
+}
+
 /// A break that hits no ball hands the break over too, on the rack as it
 /// was.
 #[test]

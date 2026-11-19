@@ -1923,3 +1923,4 @@ No ball was hit on the break: {next} breaks, with the cue ball in hand behind th
 The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	La blanca entró en el saque sin ninguna bola metida: {next} saca, con la blanca en mano detrás de la línea de cabecera.
 Users online	Usuarios en línea
 ping {ms} ms	ping {ms} ms
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks, with the cue ball in hand behind the head string.	La blanca entró en el saque junto con bolas de los dos grupos: sin penalización, la mesa sigue abierta y {next} saca, con la blanca en mano detrás de la línea de cabecera.

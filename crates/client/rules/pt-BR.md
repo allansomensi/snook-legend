@@ -23,13 +23,13 @@ Na saída, e só nela, a branca fica na sua mão: você pode colocá-la onde qui
 Encaçapar somente a 8 na saída vence a partida na hora. Encaçapar a 8 junto com qualquer outra bola (a branca ou qualquer uma) perde a partida. Se a 8 sair da mesa na saída, ela volta para a mesa no lugar da bola da frente do triângulo (ou o mais perto dele que couber) e você perde a vez: é falta.
 
 ### Só a branca na saída
-Se na saída a branca cair na caçapa ou sair da mesa e nenhuma bola for encaçapada, você perde a vez e a saída passa para o adversário. As bolas ficam onde pararam, e ele coloca a branca onde quiser atrás da linha de cabeceira, como você fez: a tacada dele vale como saída. Se cair alguma bola junto com a branca, a primeira que caiu decide os grupos mesmo assim, e é uma falta comum: o adversário ganha a menor bola dele, a branca volta para o ponto inicial e ele joga dali, sem bola na mão.
+Se na saída a branca cair na caçapa ou sair da mesa e nenhuma bola for encaçapada, você perde a vez e a saída passa para o adversário. As bolas ficam onde pararam, e ele coloca a branca onde quiser atrás da linha de cabeceira, como você fez: a tacada dele vale como saída. O mesmo vale se a branca cair junto com bolas dos dois grupos (uma lisa e uma listrada, em qualquer ordem): a saída passa para o adversário, com a branca na mão atrás da linha de cabeceira, sem bola de penalidade; as bolas que caíram ficam encaçapadas e a mesa continua aberta. Se cair junto com a branca uma bola (ou bolas de um grupo só), a primeira que caiu decide os grupos mesmo assim, e é uma falta comum: o adversário ganha a menor bola dele, a branca volta para o ponto inicial e ele joga dali, sem bola na mão.
 
 ### Saída sem tocar nenhuma bola
 Se a saída não tocar nenhuma bola, você perde a vez e a saída passa para o adversário: as bolas continuam no triângulo e ele coloca a branca onde quiser atrás da linha de cabeceira.
 
 ### Depois da saída
-Na saída, a primeira bola que cair decide o seu grupo, mesmo que a branca caia junto. Se só caírem bolas do seu grupo, você joga de novo. Se cair também uma do adversário (a 3 e depois a 13, por exemplo: você fica com as lisas), ela fica encaçapada, a favor dele, e passa a vez.
+Na saída, a primeira bola que cair decide o seu grupo, mesmo que a branca caia junto (a não ser que caiam bolas dos dois grupos com a branca: veja acima). Se só caírem bolas do seu grupo, você joga de novo. Se cair também uma do adversário (a 3 e depois a 13, por exemplo: você fica com as lisas), ela fica encaçapada, a favor dele, e passa a vez.
 
 ### Mesa aberta
 Enquanto os grupos não estão decididos, a mesa está aberta: você pode acertar primeiro qualquer bola, menos a 8. A primeira bola que você encaçapar numa tacada sem falta lhe dá o grupo dela, e ao adversário o outro. Com a mesa aberta ainda não há bola do adversário: uma falta custa só a vez. Se não sobrar nenhuma bola dos grupos com a mesa aberta, os dois jogadores estão na 8.

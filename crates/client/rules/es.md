@@ -23,13 +23,13 @@ En el saque, y solo en él, la blanca está en tu mano: puedes colocarla donde q
 Meter solo la 8 en el saque gana la partida al momento. Meter la 8 junto con cualquier otra bola (la blanca o cualquiera) pierde la partida. Si la 8 sale de la mesa en el saque, vuelve a la mesa en el lugar de la bola delantera del triángulo (o lo más cerca que quepa) y pierdes el turno: es falta.
 
 ### Solo la blanca en el saque
-Si en el saque la blanca entra en una tronera o sale de la mesa y no entra ninguna bola, pierdes el turno y el saque pasa al rival. Las bolas quedan donde pararon, y él coloca la blanca donde quiera detrás de la línea de cabecera, como hiciste tú: su tiro cuenta como saque. Si entra alguna bola junto con la blanca, la primera que entró decide los grupos igualmente, y es una falta común: la bola más baja del rival queda eliminada, la blanca vuelve al punto de salida y él juega desde ahí, sin bola en mano.
+Si en el saque la blanca entra en una tronera o sale de la mesa y no entra ninguna bola, pierdes el turno y el saque pasa al rival. Las bolas quedan donde pararon, y él coloca la blanca donde quiera detrás de la línea de cabecera, como hiciste tú: su tiro cuenta como saque. Lo mismo vale si la blanca entra junto con bolas de los dos grupos (una lisa y una rayada, en cualquier orden): el saque pasa al rival, con la blanca en mano detrás de la línea de cabecera y sin bola de penalización; las bolas que entraron se quedan dentro y la mesa sigue abierta. Si entra una bola (o bolas de un solo grupo) junto con la blanca, la primera que entró decide los grupos igualmente, y es una falta común: la bola más baja del rival queda eliminada, la blanca vuelve al punto de salida y él juega desde ahí, sin bola en mano.
 
 ### Un saque que no toca ninguna bola
 Si el saque no toca ninguna bola, pierdes el turno y el saque pasa al rival: las bolas siguen en el triángulo, y él coloca la blanca donde quiera detrás de la línea de cabecera.
 
 ### Después del saque
-En el saque, la primera bola que entre decide tu grupo, aunque la blanca entre también. Si solo entran bolas de tu grupo, tiras otra vez. Si entra también una del rival (la 3 y después la 13, por ejemplo: te quedas con las lisas), queda metida, a su favor, y pasa el turno.
+En el saque, la primera bola que entre decide tu grupo, aunque la blanca entre también (salvo que entren bolas de los dos grupos con la blanca: mira arriba). Si solo entran bolas de tu grupo, tiras otra vez. Si entra también una del rival (la 3 y después la 13, por ejemplo: te quedas con las lisas), queda metida, a su favor, y pasa el turno.
 
 ### Mesa abierta
 Mientras los grupos no estén decididos, la mesa está abierta: puedes tocar primero cualquier bola menos la 8. La primera bola que metas en un tiro sin falta te da su grupo, y al rival el otro. Con la mesa abierta todavía no hay bola del rival: una falta cuesta solo el turno. Si con la mesa abierta no queda ninguna bola de los grupos, los dos jugadores están en la 8.

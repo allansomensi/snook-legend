@@ -13,14 +13,17 @@
 //!   back to the head spot (right behind a ball lying there) and is played
 //!   from there, along with the foul's penalty.
 //! - A break that hits no ball, or that loses the cue ball (down or off the
-//!   table) without making a ball, hands the break to the opponent: the
-//!   balls stay where they are, the cue ball is in hand behind the head
-//!   string and their shot is a break.
+//!   table) without making a ball or together with balls of both groups
+//!   (a solid and a stripe, in any order), hands the break to the
+//!   opponent: no penalty ball, the groups still open, the balls stay where
+//!   they are (the ones made stay down), the cue ball is in hand behind the
+//!   head string and their shot is a break.
 //! - The first ball made decides the groups, on the break too and whatever
 //!   goes down after it (the 3 and then the 13: solids for the breaker),
-//!   even on a break with a foul (the cue ball down with it: the turn
-//!   passes and the foul's penalty comes from the opponent's group). One of
-//!   the opponent's balls made passes the turn, made for them, on any shot.
+//!   even on a break with a foul when the balls made are of one group (the
+//!   cue ball down with them: the turn passes and the foul's penalty comes
+//!   from the opponent's group). One of the opponent's balls made passes the
+//!   turn, made for them, on any shot.
 //! - A ball of the shooter's knocked off the table comes back to it; one of
 //!   the opponent's stays off, made for them.
 //! - The 8 alone on the break wins; the 8 on the break with any other ball
@@ -96,6 +99,12 @@ impl EightBallGame {
             }
         }
 
+        // A break that loses the cue ball with balls of both groups is
+        // handed over like one that makes nothing (see below).
+        let both_groups =
+            Group::ALL.iter().all(|g| object_pocketed.iter().any(|b| g.contains(*b)));
+        let break_lost_with_both = was_break && (cue_pocketed || cue_off) && both_groups;
+
         let eight_pocket = facts.pocket_of(BallId::EIGHT);
         let eight_off = facts.off_table.contains(&BallId::EIGHT);
         let lost = |reason| Some(GameOver { winner: opponent, reason });
@@ -133,10 +142,11 @@ impl EightBallGame {
         // The first ball made decides the groups: on a shot without a foul,
         // and on the break with one too (the 11 made and the cue ball down:
         // stripes for the breaker, and the foul's penalty is paid from the
-        // opponent's group).
+        // opponent's group), unless the break is handed over.
         if game_over.is_none()
             && self.groups[shooter].is_none()
             && (fouls.is_empty() || was_break)
+            && !break_lost_with_both
             && let Some(g) = object_pocketed.iter().find_map(|b| Group::of(*b))
         {
             self.groups[shooter] = Some(g);
@@ -195,12 +205,13 @@ impl EightBallGame {
         self.game_over = game_over;
         self.ball_in_hand = None;
         // No ball hit on the break, or the cue ball lost on it with no ball
-        // made: the opponent breaks from where the balls lie, the cue ball
-        // in hand behind the head string.
+        // made or with balls of both groups: the opponent breaks from where
+        // the balls lie, the cue ball in hand behind the head string (and,
+        // the groups still open, no ball is owed).
         let break_again = was_break
             && game_over.is_none()
-            && object_pocketed.is_empty()
-            && (cue_pocketed || cue_off || first_contact.is_none());
+            && (cue_pocketed || cue_off || first_contact.is_none())
+            && (object_pocketed.is_empty() || break_lost_with_both);
         if break_again {
             self.respot_cue_ball();
             self.is_break = true;

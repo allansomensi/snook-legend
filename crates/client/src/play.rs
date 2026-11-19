@@ -439,30 +439,31 @@ fn click(m: &mut Match, scene: &Scene, at: Option<DVec2>) {
         .filter(|_| !on_ball);
     // The official rules: a click on a pocket calls it for this shot; on
     // the pocket already called, the call follows the aim again.
-    if m.game.calls_shots() && m.is_human_turn() {
-        if let Some((id, _)) = nearest {
-            if m.call_locked && m.called_pocket == Some(id) {
-                m.call_from_aim();
-            } else {
-                m.set_call(Some(id));
-            }
-            return;
+    if m.game.calls_shots()
+        && m.is_human_turn()
+        && let Some((id, _)) = nearest
+    {
+        if m.call_locked && m.called_pocket == Some(id) {
+            m.call_from_aim();
+        } else {
+            m.set_call(Some(id));
         }
+        return;
     }
     // Calling a pocket for the 8 (only once: the call is then binding).
-    if m.game.may_call_pocket() {
-        if let Some((id, _)) = nearest {
-            m.called_pocket = Some(id);
-            let name = m.names[m.game.current_player()].clone();
-            m.notify(
-                crate::i18n::tw(
-                    "{name} calls the 8-ball in the {pocket} pocket.",
-                    &[("name", &name), ("pocket", &crate::i18n::pocket(id))],
-                ),
-                false,
-            );
-            return;
-        }
+    if m.game.may_call_pocket()
+        && let Some((id, _)) = nearest
+    {
+        m.called_pocket = Some(id);
+        let name = m.names[m.game.current_player()].clone();
+        m.notify(
+            crate::i18n::tw(
+                "{name} calls the 8-ball in the {pocket} pocket.",
+                &[("name", &name), ("pocket", &crate::i18n::pocket(id))],
+            ),
+            false,
+        );
+        return;
     }
     let cue = m.game.ball(BallId::CUE).xy();
     // Snap to the centre of a ball that was clicked (or nearly).
@@ -815,17 +816,19 @@ pub fn overlay(m: &Match, scene: &Scene, time: f32) -> Overlay {
 
     // The official rules: the pocket called for this shot, for everyone to
     // see (a soft ring while it follows the aim, a bright one once chosen).
-    if m.game.calls_shots() && matches!(m.phase, Phase::Turn { .. }) && m.replay.is_none() {
-        if let Some(id) = m.called_pocket {
-            let pulse = 0.5 + 0.5 * (time * 3.0).sin();
-            let alpha = if m.call_locked { 1.0 } else { 0.5 + 0.3 * pulse };
-            out.guides.push(Guide::Ring {
-                center: surface(scene.pocket_center(id), POCKET_RING_HEIGHT),
-                radius: scene.pocket_radius(id) + 0.018,
-                width: if m.call_locked { 0.009 } else { 0.006 },
-                color: Color::new(1.0, 0.82, 0.25, alpha),
-            });
-        }
+    if m.game.calls_shots()
+        && matches!(m.phase, Phase::Turn { .. })
+        && m.replay.is_none()
+        && let Some(id) = m.called_pocket
+    {
+        let pulse = 0.5 + 0.5 * (time * 3.0).sin();
+        let alpha = if m.call_locked { 1.0 } else { 0.5 + 0.3 * pulse };
+        out.guides.push(Guide::Ring {
+            center: surface(scene.pocket_center(id), POCKET_RING_HEIGHT),
+            radius: scene.pocket_radius(id) + 0.018,
+            width: if m.call_locked { 0.009 } else { 0.006 },
+            color: Color::new(1.0, 0.82, 0.25, alpha),
+        });
     }
 
     if m.current_controller() != Controller::Human || choosing {

@@ -60,7 +60,9 @@ impl Setup {
                 + CONTROL_H
                 + if hint.is_empty() { 0.0 } else { 6.0 + hint.len() as f32 * (HINT + 3.0) - 3.0 }
         };
-        let body = field_h(&[]) + field_h(&guide_lines) + field_h(&clock_lines) + 2.0 * FIELD_GAP;
+        // Names, the rules, the aiming guide and the shot clock.
+        let body =
+            2.0 * field_h(&[]) + field_h(&guide_lines) + field_h(&clock_lines) + 3.0 * FIELD_GAP;
         let h = HEADER_H + body + FOOTER_H;
         let r = Rect::new((sw - w) / 2.0, ((sh - h) / 2.0).max(8.0), w, h);
         ui.panel(r);
@@ -93,6 +95,14 @@ impl Setup {
         enter |= ui.text_input(11, second, &mut config.second_player_name, 20);
         if config.second_player_name.is_empty() && ui.focus != Some(11) {
             placeholder(ui, second, t("Player 2"));
+        }
+        y += field_h(&[]) + FIELD_GAP;
+
+        // The rules (the same choice as on the main menu).
+        label(ui, t("Rules"), x, y);
+        let rules_r = Rect::new(x, y + LABEL_H, inner, CONTROL_H);
+        if let Some(rules) = crate::rulesui::switch(ui, rules_r, config.rules(), None) {
+            config.set_rules(rules);
         }
         y += field_h(&[]) + FIELD_GAP;
 

@@ -197,11 +197,11 @@ impl Versus {
             if switch {
                 config.set_rules(rules.other());
             }
+            // Beside the pill, the subtitle when it fits whole (a cut
+            // sentence reads worse than none).
             let sx = pill.x + pill.w + 10.0;
-            let room = tabs_x - 12.0 - sx;
-            if room > 60.0 {
-                let (sub, size) = ui.fitted(&subtitle, 13.0, room, false);
-                ui.text(&sub, sx, r.y + 44.0, size, MUTED, false);
+            if ui.text_size(&subtitle, 13.0, false).x <= tabs_x - 12.0 - sx {
+                ui.text(&subtitle, sx, r.y + 44.0, 13.0, MUTED, false);
             }
         }
         let order = [Tab::Free, Tab::Ladder, Tab::Cup, Tab::Daily, Tab::Drills];

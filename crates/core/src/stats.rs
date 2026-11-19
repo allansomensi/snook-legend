@@ -94,10 +94,11 @@ mod tests {
             group_assigned: None,
             continues: false,
             game_over: None,
+            called: None,
             opponent_ball: false,
             penalty: vec![],
-            reracked: false,
             break_again: false,
+            choice: None,
         }
     }
 
@@ -165,7 +166,7 @@ mod tests {
     #[test]
     fn a_combination_that_makes_both_counts_one() {
         use glam::DVec2;
-        let mut g = crate::EightBallGame::new(3, 0);
+        let mut g = crate::EightBallGame::new(3, 0, crate::Rules::Brazilian);
         let pocket = g.table().pocket(PocketId::FootLeft).aim_point();
         let r = g.table().spec.ball_radius;
         let dir = (pocket - DVec2::new(0.2, 0.0)).normalize();

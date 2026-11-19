@@ -4,7 +4,7 @@
 //! this on all of them against one fingerprint.
 
 use glam::DVec2;
-use snook_legend_core::{BallId, EightBallGame, Event, PocketId, Shot};
+use snook_legend_core::{BallId, EightBallGame, Event, PocketId, Rules, Shot};
 
 struct Fnv(u64);
 
@@ -20,10 +20,10 @@ impl Fnv {
     }
 }
 
-fn fingerprint(ruleset: u8) -> u64 {
+fn fingerprint(rules: Rules) -> u64 {
     let mut h = Fnv(0xcbf2_9ce4_8422_2325);
     for seed in 0..6u64 {
-        let mut g = EightBallGame::with_ruleset(seed, (seed % 2) as usize, ruleset);
+        let mut g = EightBallGame::new(seed, (seed % 2) as usize, rules);
         // Breaks with spin and elevation, then the computer plays on.
         let tip = DVec2::new((seed as f64 - 2.5) * 0.15, 0.2);
         let shot = Shot::new(0.003 * seed as f64, 6.5).with_tip(tip).with_elevation(0.05);
@@ -51,7 +51,10 @@ fn fingerprint(ruleset: u8) -> u64 {
             }
             // Shots from plain numbers, so that this pins the physics and
             // the rules alone (the computer's choices are pinned in
-            // ai_determinism.rs).
+            // ai_determinism.rs). A break's choice: the first option.
+            if let Some(choice) = g.pending_choice() {
+                g.choose(choice.options()[0]).expect("an option");
+            }
             if g.ball_in_hand().is_some() {
                 let spots =
                     (0..40).map(|k| DVec2::new(-0.9 + 0.045 * k as f64, -0.35 + 0.0175 * k as f64));
@@ -64,7 +67,7 @@ fn fingerprint(ruleset: u8) -> u64 {
             let k = seed * 13 + turns;
             let shot = Shot::new(0.37 * k as f64, 1.0 + (k % 6) as f64)
                 .with_tip(DVec2::new(((k % 5) as f64 - 2.0) * 0.2, ((k % 3) as f64 - 1.0) * 0.4));
-            let called = g.needs_called_pocket().then_some(PocketId::FootLeft);
+            let called = (g.needs_called_pocket() || g.calls_shots()).then_some(PocketId::FootLeft);
             pending = g.prepare_shot(&shot, called).ok();
         }
         h.f(g.ball(BallId::CUE).position.x);
@@ -74,30 +77,17 @@ fn fingerprint(ruleset: u8) -> u64 {
 
 #[test]
 fn simulation_is_bit_identical_everywhere() {
-    for (ruleset, expected) in EXPECTED {
-        let got = fingerprint(ruleset);
-        println!("ruleset {ruleset}: fingerprint {got:#x}");
-        assert_eq!(
-            got, expected,
-            "the physics gave different bits on this platform (ruleset {ruleset})"
-        );
+    let got: Vec<(Rules, u64)> =
+        EXPECTED.iter().map(|(rules, _)| (*rules, fingerprint(*rules))).collect();
+    for (rules, value) in &got {
+        println!("{rules}: fingerprint {value:#x}");
+    }
+    for ((rules, got), (_, expected)) in got.iter().zip(EXPECTED) {
+        assert_eq!(*got, expected, "the physics gave different bits on this platform ({rules})");
     }
 }
 
-/// Update only on purpose (a change to the physics, the rules or the AI of
-/// the current ruleset), from the values printed above. An older ruleset's
-/// value never changes: games recorded under it must replay the same.
-const EXPECTED: [(u8, u64); 6] = [
-    (1, 0xb7c0_baa6_646d_027c),
-    (2, 0x7b1a_f1d3_d312_aa3a),
-    (3, 0x4871_c5a2_44a0_108f),
-    (4, 0xdc1b_d36a_bee2_cbdb),
-    // 0.7.0: ruleset 4's physics and table; the bits differ from 4's where
-    // its rules do (a break that makes both groups passes the turn).
-    (5, 0x140c_a83e_b933_5d2a),
-    // The default from 0.7.1: ruleset 5's physics and table; the bits
-    // differ from 5's where its rules do (the first ball made on the break
-    // decides the groups; a cue ball that goes down comes back to the head
-    // spot, not in hand).
-    (6, 0x1d68_9bc0_a48f_760d),
-];
+/// Update only on purpose (a change to the physics or the rules), from the
+/// values printed above.
+const EXPECTED: [(Rules, u64); 2] =
+    [(Rules::Brazilian, 0x1d68_9bc0_a48f_760d), (Rules::Official, 0x3c08_df09_9043_8bd0)];

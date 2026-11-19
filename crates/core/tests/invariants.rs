@@ -2,15 +2,15 @@
 
 use glam::DVec2;
 use snook_legend_core::rng::Rng;
-use snook_legend_core::{EightBallGame, PocketId, Shot};
+use snook_legend_core::{EightBallGame, PocketId, Rules, Shot};
 
 #[test]
 fn random_shots_keep_the_table_physical() {
     let mut rng = Rng::new(7);
-    let mut g = EightBallGame::new(3, 0);
+    let mut g = EightBallGame::new(3, 0, Rules::Brazilian);
     for i in 0..400 {
         if g.game_over().is_some() {
-            g = EightBallGame::new(i, (i % 2) as usize);
+            g = EightBallGame::new(i, (i % 2) as usize, Rules::Brazilian);
         }
         if g.ball_in_hand().is_some() {
             for _ in 0..200 {
@@ -64,17 +64,22 @@ fn random_shots_keep_the_table_physical() {
     }
 }
 
-/// The same under ruleset 5 (0.7.0; ruleset 6 plays on its physics), where a ball that jumps
-/// onto a rail stays there (off the table) and the cue ball in hand may go
-/// against a cushion: every ball in play rests on the bed of the table or
-/// in a pocket's mouth, never in a cushion or out on a rail.
+/// The same under the official rules (the cue ball in hand anywhere after
+/// a foul, the choices after the break), where a ball that jumps onto a
+/// rail stays there (off the table) and the cue ball in hand may go against
+/// a cushion: every ball in play rests on the bed of the table or in a
+/// pocket's mouth, never in a cushion or out on a rail.
 #[test]
-fn random_shots_keep_the_table_physical_under_ruleset_5() {
+fn random_shots_keep_the_table_physical_under_the_official_rules() {
     let mut rng = Rng::new(11);
-    let mut g = EightBallGame::with_ruleset(3, 0, 5);
+    let mut g = EightBallGame::new(3, 0, Rules::Official);
     for i in 0..400 {
         if g.game_over().is_some() {
-            g = EightBallGame::with_ruleset(i, (i % 2) as usize, 5);
+            g = EightBallGame::new(i, (i % 2) as usize, Rules::Official);
+        }
+        if let Some(choice) = g.pending_choice() {
+            let options = choice.options();
+            g.choose(options[rng.below(options.len())]).expect("an option");
         }
         if g.ball_in_hand().is_some() {
             for _ in 0..200 {
@@ -90,7 +95,7 @@ fn random_shots_keep_the_table_physical_under_ruleset_5() {
             tip: DVec2::new(rng.next_f64() * 2.0 - 1.0, rng.next_f64() * 2.0 - 1.0),
             speed: rng.next_f64() * 8.0,
         };
-        let called = g.needs_called_pocket().then(|| PocketId::ALL[rng.below(6)]);
+        let called = (g.calls_shots() && rng.below(4) > 0).then(|| PocketId::ALL[rng.below(6)]);
         g.play_shot(&shot, called).expect("legal shot");
         // Every snapshot a game writes is read back as the same game (the
         // checks made when one is read refuse none of them).

@@ -128,7 +128,7 @@ mod tests {
     /// every time; the same ball cut thin from far is harder.
     #[test]
     fn straight_shots_are_easier_than_thin_cuts() {
-        let mut game = EightBallGame::new(1, 0);
+        let mut game = EightBallGame::new(1, 0, crate::Rules::Brazilian);
         let r = game.table().spec.ball_radius;
         let aim = game.table().pocket(PocketId::FootRight).aim_point();
         let solid = BallId(1);
@@ -161,7 +161,7 @@ mod tests {
     /// them its group, and is theirs.
     #[test]
     fn the_opponents_ball_is_not_a_pot() {
-        let mut game = EightBallGame::new(1, 0);
+        let mut game = EightBallGame::new(1, 0, crate::Rules::Brazilian);
         let r = game.table().spec.ball_radius;
         let aim = game.table().pocket(PocketId::FootRight).aim_point();
         let back = (DVec2::ZERO - aim).normalize();
@@ -191,7 +191,7 @@ mod tests {
 
     #[test]
     fn no_assessment_on_the_break() {
-        let game = EightBallGame::new(1, 0);
+        let game = EightBallGame::new(1, 0, crate::Rules::Brazilian);
         assert!(assess(&game, &Shot::new(0.0, 6.0), None, 4, 1).is_none());
     }
 }

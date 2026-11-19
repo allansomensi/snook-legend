@@ -2,19 +2,18 @@
 //! `cargo run --release -p snook_legend_core --example break_stats`.
 use glam::DVec2;
 use snook_legend_core::{
-    Ball, BallId, EightBallGame, Event, Motion, PhysicsParams, RULESET, Shot, Simulation, Table,
+    Ball, BallId, EightBallGame, Event, Motion, PhysicsParams, Rules, Shot, Simulation, Table,
 };
 
 fn main() {
-    for ruleset in 1..=RULESET {
-        let params = PhysicsParams::of_ruleset(ruleset);
-        println!("== ruleset {ruleset}");
+    {
+        let params = PhysicsParams::default();
         for power in [1.0f64, 0.8] {
             let (mut t_rest, mut cushions, mut hops, mut maxz, mut potted, mut t90) =
                 (0.0, 0.0, 0.0, 0.0f64, 0.0, 0.0);
             let n = 20;
             for seed in 0..n {
-                let g = EightBallGame::with_ruleset(seed, 0, ruleset);
+                let g = EightBallGame::new(seed, 0, Rules::Brazilian);
                 let shot = Shot::new(g.default_aim(), params.max_cue_speed * power);
                 let mut p = g.prepare_shot(&shot, None).unwrap();
                 let r = p.simulation.table.spec.ball_radius;
@@ -51,7 +50,7 @@ fn main() {
             );
         }
         // One ball up and down the table.
-        let table = Table::of_ruleset(ruleset);
+        let table = Table::default();
         let r = table.spec.ball_radius;
         for speed in [1.0, 2.0, 4.0, 7.0] {
             let ball = Ball::at_rest(BallId::CUE, DVec2::new(-table.spec.length / 4.0, 0.0), r);

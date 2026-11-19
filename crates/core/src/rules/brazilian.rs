@@ -1,0 +1,236 @@
+//! The Brazilian rules of the bars and pool halls ([`Rules::Brazilian`]).
+//!
+//! - A foul costs the turn and gives the opponent balls: the lowest numbers
+//!   of their group still on the table come off it, as if they had made
+//!   them. One for missing every ball, one for a scratch or the cue ball off
+//!   the table, two for hitting one of the opponent's balls first, or one
+//!   when the cue ball went to a cushion before it. The counts add up (a
+//!   miss that scratches gives two; the 8 hit first before one's group is
+//!   cleared counts as a miss: one). While the table is open there is no
+//!   opponent's group yet, and a foul costs the turn alone.
+//! - The cue ball is in hand for the break only (behind the head string).
+//!   One that goes down or leaves the table, on the break or later, goes
+//!   back to the head spot (right behind a ball lying there) and is played
+//!   from there, along with the foul's penalty.
+//! - A break that hits no ball, or that loses the cue ball (down or off the
+//!   table) without making a ball, hands the break to the opponent: the
+//!   balls stay where they are, the cue ball is in hand behind the head
+//!   string and their shot is a break.
+//! - The first ball made decides the groups, on the break too and whatever
+//!   goes down after it (the 3 and then the 13: solids for the breaker),
+//!   even on a break with a foul (the cue ball down with it: the turn
+//!   passes and the foul's penalty comes from the opponent's group). One of
+//!   the opponent's balls made passes the turn, made for them, on any shot.
+//! - A ball of the shooter's knocked off the table comes back to it; one of
+//!   the opponent's stays off, made for them.
+//! - The 8 alone on the break wins; the 8 on the break with any other ball
+//!   loses. At the end, the 8 loses if the cue ball or one of the
+//!   opponent's balls goes down with it. The pocket called for the 8 is
+//!   binding from the first shot taken with it.
+//! - Nothing has to reach a cushion, on the break or after a contact.
+
+use super::*;
+
+impl EightBallGame {
+    pub(super) fn finish_brazilian(&mut self, pending: PendingShot) -> ShotReport {
+        let sim = &pending.simulation;
+        let shooter = self.current;
+        let opponent = 1 - shooter;
+        let was_break = self.is_break;
+        let on_eight = self.is_on_eight(shooter);
+        if on_eight && !was_break && pending.called_pocket.is_some() {
+            self.called[shooter] = pending.called_pocket;
+        }
+        let events = sim.events();
+        let facts = Facts::of(events);
+        let first_contact = facts.first_contact();
+        let object_pocketed = facts.object_pocketed();
+        let cue_pocketed = facts.cue_pocketed();
+        let cue_off = facts.cue_off();
+        // The cue ball went to a cushion before it reached a ball.
+        let cushion_first = facts.first_contact.is_some_and(|(t0, _)| {
+            events.iter().any(
+                |e| matches!(e, Event::Cushion { time, ball, .. } if *ball == BallId::CUE && *time < t0),
+            )
+        });
+
+        let mut fouls = Vec::new();
+        // How many of the opponent's balls the fouls give them.
+        let mut owed = 0usize;
+        if cue_pocketed {
+            fouls.push(Foul::CueBallPocketed);
+            owed += 1;
+        }
+        if cue_off {
+            fouls.push(Foul::CueBallOffTable);
+            owed += 1;
+        }
+        for &b in facts.off_table.iter().filter(|b| b.is_object()) {
+            fouls.push(Foul::ObjectBallOffTable(b));
+        }
+        match first_contact {
+            None => {
+                fouls.push(Foul::NoContact);
+                owed += 1;
+            }
+            Some(hit) => {
+                let legal = if was_break {
+                    true
+                } else if on_eight {
+                    hit == BallId::EIGHT
+                } else {
+                    match self.groups[shooter] {
+                        Some(g) => g.contains(hit),
+                        None => hit != BallId::EIGHT,
+                    }
+                };
+                if !legal {
+                    fouls.push(Foul::WrongBallFirst(hit));
+                    // One of the opponent's balls hit directly costs two.
+                    // Off a cushion it costs one, and so does the 8 hit
+                    // too soon (it is nobody's ball: the same as hitting
+                    // none of one's own).
+                    let theirs = self.groups[opponent].is_some_and(|g| g.contains(hit));
+                    owed += if theirs && !cushion_first { 2 } else { 1 };
+                }
+            }
+        }
+
+        let eight_pocket = facts.pocket_of(BallId::EIGHT);
+        let eight_off = facts.off_table.contains(&BallId::EIGHT);
+        let lost = |reason| Some(GameOver { winner: opponent, reason });
+        let mut game_over = None;
+        let mut group_assigned = None;
+        let mut spotted = Vec::new();
+        if was_break {
+            if eight_pocket.is_some() {
+                game_over = if facts.pocketed.len() > 1 {
+                    lost(GameOverReason::EightWithAnotherBall)
+                } else if !fouls.is_empty() {
+                    lost(GameOverReason::EightPocketedOnFoul)
+                } else {
+                    Some(GameOver { winner: shooter, reason: GameOverReason::PocketedEight })
+                };
+            } else if eight_off {
+                spotted.push(BallId::EIGHT);
+            }
+        } else if eight_off {
+            game_over = lost(GameOverReason::EightOffTable);
+        } else if let Some(pocket) = eight_pocket {
+            let with_opponents_ball = object_pocketed.iter().any(|b| *b != BallId::EIGHT);
+            game_over = if !on_eight {
+                lost(GameOverReason::EightPocketedEarly)
+            } else if !fouls.is_empty() {
+                lost(GameOverReason::EightPocketedOnFoul)
+            } else if with_opponents_ball {
+                lost(GameOverReason::EightWithAnotherBall)
+            } else if pending.called_pocket != Some(pocket) {
+                lost(GameOverReason::EightInWrongPocket)
+            } else {
+                Some(GameOver { winner: shooter, reason: GameOverReason::PocketedEight })
+            };
+        }
+        // The first ball made decides the groups: on a shot without a foul,
+        // and on the break with one too (the 11 made and the cue ball down:
+        // stripes for the breaker, and the foul's penalty is paid from the
+        // opponent's group).
+        if game_over.is_none()
+            && self.groups[shooter].is_none()
+            && (fouls.is_empty() || was_break)
+            && let Some(g) = object_pocketed.iter().find_map(|b| Group::of(*b))
+        {
+            self.groups[shooter] = Some(g);
+            self.groups[opponent] = Some(g.opposite());
+            group_assigned = Some(g);
+        }
+        let theirs = self.groups[opponent];
+        // Balls knocked off the table: the opponent's stay off, the others
+        // come back.
+        let mut penalty = Vec::new();
+        for &b in facts.off_table.iter().filter(|b| b.is_object() && **b != BallId::EIGHT) {
+            if theirs.is_some_and(|g| g.contains(b)) {
+                penalty.push(b);
+            } else {
+                spotted.push(b);
+            }
+        }
+
+        // One of the opponent's balls made passes the turn, on the break
+        // too (the first ball made gave the shooter the other kind).
+        let opponent_ball = self.groups[shooter]
+            .is_some_and(|g| object_pocketed.iter().any(|b| g.opposite().contains(*b)));
+        let continues = game_over.is_none()
+            && fouls.is_empty()
+            && !opponent_ball
+            && if was_break {
+                !object_pocketed.is_empty()
+            } else {
+                match self.groups[shooter] {
+                    Some(g) => object_pocketed.iter().any(|b| g.contains(*b)),
+                    None => false,
+                }
+            };
+
+        // Commit the new ball positions.
+        self.balls = sim.balls.clone();
+        self.balls.sort_by_key(|b| b.id);
+        for &b in &spotted {
+            self.spot_ball(b);
+        }
+        // (The opponent's balls knocked off the table stay off it as they
+        // are: gone, like the ones made.)
+        if game_over.is_none()
+            && let Some(g) = theirs
+        {
+            let mut given = self.remaining(g);
+            given.sort();
+            given.truncate(owed);
+            for &b in &given {
+                self.take_off(b);
+            }
+            penalty.extend(given);
+        }
+        self.shots_taken += 1;
+        self.is_break = false;
+        self.game_over = game_over;
+        self.ball_in_hand = None;
+        // No ball hit on the break, or the cue ball lost on it with no ball
+        // made: the opponent breaks from where the balls lie, the cue ball
+        // in hand behind the head string.
+        let break_again = was_break
+            && game_over.is_none()
+            && object_pocketed.is_empty()
+            && (cue_pocketed || cue_off || first_contact.is_none());
+        if break_again {
+            self.respot_cue_ball();
+            self.is_break = true;
+            self.ball_in_hand = Some(BallInHand::Kitchen);
+            self.current = opponent;
+        } else if game_over.is_none() {
+            if cue_pocketed || cue_off {
+                // Back where it began, without ball in hand.
+                self.return_cue_ball();
+            }
+            if !continues {
+                self.current = opponent;
+            }
+        }
+
+        ShotReport {
+            shooter,
+            was_break,
+            first_contact,
+            pocketed: facts.pocketed,
+            fouls,
+            spotted,
+            group_assigned,
+            continues,
+            game_over,
+            called: pending.called_pocket.filter(|_| on_eight && !was_break),
+            opponent_ball,
+            penalty,
+            break_again,
+            choice: None,
+        }
+    }
+}

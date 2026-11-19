@@ -50,54 +50,9 @@ pub struct TableSpec {
     /// Radius of the corner and side holes in the slate (m).
     pub corner_hole_radius: f64,
     pub side_hole_radius: f64,
-    /// The side pockets have a liner behind the hole, as real ones do: a
-    /// ball that gets as deep as the hole's centre drops, wherever it is
-    /// across the throat (no resting in the throat beside the hole).
-    #[serde(default)]
-    pub side_liner: bool,
 }
 
 impl TableSpec {
-    /// A regulation 9-foot tournament table, to the WPA's equipment
-    /// specifications: a 100" × 50" playing surface, 2 1/4" balls of 6 oz,
-    /// 4 1/2" corner and 5" side pocket mouths, cushion noses at 63.5% of a
-    /// ball's height, regulation shelves and facing angles.
-    pub const TOURNAMENT_9FT: TableSpec = TableSpec {
-        length: 2.540,
-        width: 1.270,
-        ball_radius: 0.028_575,
-        ball_mass: 0.170,
-        corner_mouth: 0.1143,
-        side_mouth: 0.1270,
-        cushion_height: 0.036_5,
-        rail_width: 0.115,
-        jaw_length: 0.075,
-        corner_shelf: 0.030,
-        side_shelf: 0.006,
-        corner_facing_turn: 7.0 * std::f64::consts::PI / 180.0,
-        side_facing_open: 14.0 * std::f64::consts::PI / 180.0,
-        corner_hole_radius: 0.057,
-        side_hole_radius: 0.0625,
-        side_liner: false,
-    };
-
-    /// An 8-foot table (WPA: an 88" × 44" playing surface) with open, more
-    /// forgiving side pockets: a 6.1" mouth (a little past the WPA's 5 5/8")
-    /// whose facings open out at 22°, a hole that starts right behind the
-    /// mouth and spans the throat, and a liner behind it, so a ball off the
-    /// centre or rolling in at an angle still drops, and none can rest in
-    /// the throat (see `tests/pockets.rs` and `examples/pocket_angles.rs`).
-    pub const TOURNAMENT_8FT: TableSpec = TableSpec {
-        length: 2.235,
-        width: 1.118,
-        side_mouth: 0.155,
-        side_shelf: 0.0,
-        side_facing_open: 22.0 * std::f64::consts::PI / 180.0,
-        side_hole_radius: 0.085,
-        side_liner: true,
-        ..Self::TOURNAMENT_9FT
-    };
-
     /// The WPA's 8-foot tournament table, to its equipment specifications
     /// throughout: a 92" × 46" playing surface, 2 1/4" balls of 6 oz,
     /// cushion noses at 63.5% of a ball's height, 4 1/2" corner mouths with
@@ -108,32 +63,25 @@ impl TableSpec {
     pub const WPA_8FT: TableSpec = TableSpec {
         length: 2.3368,
         width: 1.1684,
-        cushion_height: 0.0363,
+        ball_radius: 0.028_575,
+        ball_mass: 0.170,
         corner_mouth: 0.1143,
-        corner_shelf: 0.0381,
-        corner_facing_turn: 7.0 * std::f64::consts::PI / 180.0,
-        corner_hole_radius: 0.05715,
         side_mouth: 0.1270,
+        cushion_height: 0.0363,
+        rail_width: 0.115,
+        jaw_length: 0.075,
+        corner_shelf: 0.0381,
         side_shelf: 0.00635,
+        corner_facing_turn: 7.0 * std::f64::consts::PI / 180.0,
         side_facing_open: -14.0 * std::f64::consts::PI / 180.0,
+        corner_hole_radius: 0.05715,
         side_hole_radius: 0.0635,
-        side_liner: true,
-        ..Self::TOURNAMENT_9FT
     };
-
-    /// The table of a ruleset (see [`crate::RULESET`]).
-    pub fn of_ruleset(ruleset: u8) -> TableSpec {
-        match crate::known_ruleset(ruleset) {
-            1 => Self::TOURNAMENT_9FT,
-            2 => Self::TOURNAMENT_8FT,
-            _ => Self::WPA_8FT,
-        }
-    }
 }
 
 impl Default for TableSpec {
     fn default() -> Self {
-        Self::of_ruleset(crate::RULESET)
+        Self::WPA_8FT
     }
 }
 
@@ -198,8 +146,9 @@ pub struct Pocket {
     pub hole_center: DVec2,
     /// Radius of the hole: a ball whose centre is inside it drops.
     pub hole_radius: f64,
-    /// A liner behind the hole: a ball as deep as the hole's centre drops
-    /// (see [`TableSpec::side_liner`]).
+    /// A liner behind the hole (the side pockets have one, as real ones
+    /// do): a ball that gets as deep as the hole's centre drops, wherever
+    /// it is across the throat (no resting in the throat beside the hole).
     pub liner: bool,
 }
 
@@ -225,8 +174,7 @@ impl Pocket {
 
     /// True if `p` is past the mouth line and between its ends, straight
     /// back: over the opening of the pocket, not over the rail beside it
-    /// (the facings narrow the throat on the tables from ruleset 3, so it
-    /// lies within). [`Self::in_throat`] widens with depth, for a ball
+    /// (the facings narrow the throat, so it lies within). [`Self::in_throat`] widens with depth, for a ball
     /// that has rolled past the jaws.
     pub fn in_mouth(&self, p: DVec2) -> bool {
         let rel = p - self.mouth_center;
@@ -329,7 +277,7 @@ impl Table {
                 shelf: spec.side_shelf,
                 hole_center: DVec2::new(0.0, sy * (hw + spec.side_shelf + hole_radius)),
                 hole_radius,
-                liner: spec.side_liner,
+                liner: true,
             });
         }
 
@@ -391,7 +339,7 @@ impl Table {
     }
 
     /// True if a ball may be put down with its centre at `p` (the cue ball
-    /// in hand, from ruleset 5): on the bed of the table, against a cushion
+    /// in hand): on the bed of the table, against a cushion
     /// at most, and never past the line across a pocket's mouth.
     /// [`Self::is_inside_playing_area`] keeps a ball a whole radius from the
     /// cushion lines, which leaves a gap of a millimetre at a cushion and,
@@ -417,13 +365,6 @@ impl Table {
 impl Default for Table {
     fn default() -> Self {
         Table::new(TableSpec::default())
-    }
-}
-
-impl Table {
-    /// The table of a ruleset (see [`crate::RULESET`]).
-    pub fn of_ruleset(ruleset: u8) -> Table {
-        Table::new(TableSpec::of_ruleset(ruleset))
     }
 }
 

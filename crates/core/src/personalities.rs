@@ -259,7 +259,7 @@ mod tests {
     fn every_opponent_plays_legal_strokes() {
         use crate::EightBallGame;
         for (k, p) in PERSONALITIES.iter().enumerate() {
-            let mut g = EightBallGame::new(k as u64 + 1, 0);
+            let mut g = EightBallGame::new(k as u64 + 1, 0, crate::Rules::Brazilian);
             for turn in 0..3u64 {
                 if g.game_over().is_some() {
                     break;

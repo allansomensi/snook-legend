@@ -4,12 +4,12 @@
 //! platform. So the AI, like the physics and the rules it plays with, may
 //! only use the portable maths of `snook_legend_core::math`, never the
 //! platform's own `sin`, `cos`, `atan2`, `ln`…, and CI pins its decisions
-//! to one fingerprint per ruleset on Linux, Windows and macOS.
+//! to one fingerprint per rules on Linux, Windows and macOS.
 
 use glam::DVec2;
-use snook_legend_core::ai::{AiPlayer, decide_with};
+use snook_legend_core::ai::{AiPlayer, choose, decide_with};
 use snook_legend_core::personalities::personality;
-use snook_legend_core::{BallId, EightBallGame};
+use snook_legend_core::{BallId, EightBallGame, Rules};
 
 /// Calls that come from the platform's maths library (or that use it) and
 /// may round differently from one system to another.
@@ -71,7 +71,9 @@ fn the_ai_uses_only_portable_maths() {
         ("personalities.rs", include_str!("../src/personalities.rs")),
         ("rng.rs", include_str!("../src/rng.rs")),
         ("physics.rs", include_str!("../src/physics.rs")),
-        ("rules.rs", include_str!("../src/rules.rs")),
+        ("rules/mod.rs", include_str!("../src/rules/mod.rs")),
+        ("rules/brazilian.rs", include_str!("../src/rules/brazilian.rs")),
+        ("rules/official.rs", include_str!("../src/rules/official.rs")),
         ("table.rs", include_str!("../src/table.rs")),
     ];
     for (name, source) in sources {
@@ -102,21 +104,24 @@ impl Fnv {
 }
 
 /// Decisions of several computer players on a few tables, hashed bit by bit.
-fn fingerprint(ruleset: u8) -> u64 {
+fn fingerprint(rules: Rules) -> u64 {
     let mut h = Fnv(0xcbf2_9ce4_8422_2325);
     let players: Vec<AiPlayer> = ["leo", "lola", "bruno", "marta", "otto", "viktor"]
         .iter()
         .map(|c| personality(c).expect("exists").player)
         .collect();
     for seed in 0..3u64 {
-        let mut g = EightBallGame::with_ruleset(seed, 0, ruleset);
+        let mut g = EightBallGame::new(seed, 0, rules);
         // The break (with the cue ball in hand behind the head string).
         let d = decide_with(&g, &players[(seed % 2) as usize], seed);
         if let Some(p) = d.cue_ball {
             g.place_cue_ball(p);
         }
         g.play_shot(&d.shot, d.called_pocket).expect("legal");
-        if g.game_over().is_some() {
+        if let Some(option) = choose(&g) {
+            g.choose(option).expect("an option");
+        }
+        if g.game_over().is_some() || g.is_break() {
             continue;
         }
         // Then each player decides on the same table.
@@ -139,30 +144,17 @@ fn fingerprint(ruleset: u8) -> u64 {
 
 #[test]
 fn decisions_are_bit_identical_everywhere() {
-    for (ruleset, expected) in EXPECTED {
-        let got = fingerprint(ruleset);
-        println!("ruleset {ruleset}: ai fingerprint {got:#x}");
-        assert_eq!(
-            got, expected,
-            "the computer decided differently on this platform (ruleset {ruleset})"
-        );
+    let got: Vec<(Rules, u64)> =
+        EXPECTED.iter().map(|(rules, _)| (*rules, fingerprint(*rules))).collect();
+    for (rules, value) in &got {
+        println!("{rules}: ai fingerprint {value:#x}");
+    }
+    for ((rules, got), (_, expected)) in got.iter().zip(EXPECTED) {
+        assert_eq!(*got, expected, "the computer decided differently on this platform ({rules})");
     }
 }
 
-/// Update only on purpose (a change to the physics, the rules or the AI of
-/// the current ruleset), from the values printed above. An older ruleset's
-/// value never changes: games recorded under it must replay the same (the
-/// server checks the ladder's final game under the ruleset it was played
-/// with).
-const EXPECTED: [(u8, u64); 6] = [
-    (1, 0x5f9e_be78_d9d8_361f),
-    (2, 0x7f8d_52de_242c_eb40),
-    (3, 0x9234_f79e_23ac_772c),
-    (4, 0x0dc7_88cb_89fb_6a39),
-    // 0.7.0: frozen like the others.
-    (5, 0xe866_92d6_0300_b481),
-    // The default from 0.7.1: the same decisions as 5's on these tables
-    // (none of them comes after a scratch or on a break that makes both
-    // kinds, where its rules differ). Frozen like the others.
-    (6, 0xe866_92d6_0300_b481),
-];
+/// Update only on purpose (a change to the physics, the rules or the AI),
+/// from the values printed above.
+const EXPECTED: [(Rules, u64); 2] =
+    [(Rules::Brazilian, 0xe866_92d6_0300_b481), (Rules::Official, 0x09b9_141a_cff9_a646)];

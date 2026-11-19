@@ -561,6 +561,7 @@ async fn user_detail(
     );
     let msstore = server.store.ms_consumes_of(u.id, 50).await?;
     let notes = server.store.staff_notes(u.id, 100).await?;
+    let computer = computer_record(&server, u.id).await?;
     let search =
         crate::store::AuditSearch { target: Some(u.username.clone()), ..Default::default() };
     let moderation = server.store.audit_search(&search, 100).await?;
@@ -596,8 +597,58 @@ async fn user_detail(
         "notes": notes,
         "moderation": moderation,
         "presence": presence,
+        "computer": computer,
         "private_hidden": !admin,
     })))
+}
+
+/// What a player did against the computer, as far as the server knows it:
+/// the tour (when its final was won, how many finals were dealt), the
+/// medals of the tournaments against the computer (kept once the player is
+/// online), the drills' best scores and stars, and the daily challenges they
+/// topped. A game's progress on the tour is kept by the game, not here.
+async fn computer_record(server: &Server, user_id: i64) -> Result<Value, ApiError> {
+    use snook_legend_proto::drills;
+    let today = snook_legend_proto::daily::day_of(now());
+    let (medals, recent, tour, finals, bests, daily) = tokio::join!(
+        server.store.cup_medals(user_id),
+        server.store.cup_medal_list(user_id, 30),
+        server.store.ladder_claim(user_id),
+        server.store.ladder_finals(user_id),
+        server.store.drill_bests(user_id),
+        server.store.daily_wins(user_id, today),
+    );
+    let recent: Vec<Value> = recent?
+        .into_iter()
+        .map(|(m, at)| {
+            // The tournament's number as text: it is larger than a script's
+            // numbers keep exactly.
+            json!({ "cup": m.cup.to_string(), "format": m.format, "place": m.place, "at": at })
+        })
+        .collect();
+    let mut stars = 0;
+    let drills: Vec<Value> = bests?
+        .into_iter()
+        .map(|(code, best)| {
+            let drill = drills::drill(&code);
+            let earned = drill.map_or(0, |d| drills::stars(d, best));
+            stars += earned;
+            json!({ "code": code, "name": drill.map(|d| d.name), "best": best, "stars": earned })
+        })
+        .collect();
+    let (finals, last_final) = finals?;
+    Ok(json!({
+        "tour_won_at": tour?,
+        "finals": finals,
+        "finals_kept": crate::store::LADDER_TICKETS_KEPT,
+        "last_final": last_final,
+        "medals": medals?,
+        "recent_medals": recent,
+        "drills": drills,
+        "drill_stars": stars,
+        "drill_stars_max": drills::max_stars(),
+        "daily_wins": daily?.len(),
+    }))
 }
 
 #[derive(Deserialize, Default)]

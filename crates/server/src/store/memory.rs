@@ -568,6 +568,30 @@ impl MemoryStore {
             as u32)
     }
 
+    pub fn cup_medal_list(
+        &self,
+        user_id: i64,
+        limit: u32,
+    ) -> StoreResult<Vec<(snook_legend_proto::cup::Medal, i64)>> {
+        let mut list: Vec<_> = self
+            .lock()
+            .cup_medals
+            .iter()
+            .filter(|((u, _), _)| *u == user_id)
+            .map(|(_, (m, at))| (*m, *at))
+            .collect();
+        list.sort_by_key(|(m, at)| std::cmp::Reverse((*at, m.cup)));
+        list.truncate(limit as usize);
+        Ok(list)
+    }
+
+    pub fn ladder_finals(&self, user_id: i64) -> StoreResult<(u32, Option<i64>)> {
+        let s = self.lock();
+        let mine: Vec<i64> =
+            s.ladder_tickets.iter().filter(|((u, _), _)| *u == user_id).map(|(_, t)| t.1).collect();
+        Ok((mine.len() as u32, mine.iter().copied().max()))
+    }
+
     pub fn ladder_ticket(&self, user_id: i64, seed: u64) -> StoreResult<Option<(usize, i64)>> {
         Ok(self.lock().ladder_tickets.get(&(user_id, seed)).copied())
     }

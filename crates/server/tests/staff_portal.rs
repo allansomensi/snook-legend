@@ -639,6 +639,48 @@ async fn events_boost_and_organise() {
     assert_eq!(v["entries"][0]["target"], "Halloween Arena");
 }
 
+/// A player's record against the computer: the tour, the tournaments'
+/// medals, the drills.
+#[tokio::test]
+async fn the_portal_shows_the_record_against_the_computer() {
+    use snook_legend_proto::cup::{Format, Medal};
+    let s = start().await;
+    let boss = token(&s.host, "boss").await;
+    let id = s.server.store.user_by_name("boss").await.unwrap().unwrap().id;
+    let (_, v) = request(&s.host, "GET", "/admin/api/users/boss", &boss, "").await;
+    let c = &v["computer"];
+    assert!(c["tour_won_at"].is_null(), "{v}");
+    assert_eq!((c["finals"].as_u64(), c["daily_wins"].as_u64()), (Some(0), Some(0)));
+    assert_eq!(c["medals"]["knockout"], serde_json::json!([0, 0, 0]));
+    assert_eq!(c["drill_stars_max"].as_u64(), Some(snook_legend_proto::drills::max_stars() as u64));
+
+    let store = &s.server.store;
+    let big = u64::MAX - 7;
+    store
+        .add_cup_medal(id, &Medal { cup: big, format: Format::Knockout, place: 1 }, 100)
+        .await
+        .unwrap();
+    store.add_cup_medal(id, &Medal { cup: 2, format: Format::Arena, place: 3 }, 200).await.unwrap();
+    store.issue_ladder_ticket(id, 77, 0, 300).await.unwrap();
+    store.issue_ladder_ticket(id, 78, 1, 400).await.unwrap();
+    store.record_ladder_claim(id, 78, 30, 500).await.unwrap();
+    let code = snook_legend_proto::drills::DRILLS[0].code;
+    store.drill_record(id, code, 9_999, 600).await.unwrap();
+    let (_, v) = request(&s.host, "GET", "/admin/api/users/boss", &boss, "").await;
+    let c = &v["computer"];
+    assert_eq!(c["tour_won_at"].as_i64(), Some(500), "{v}");
+    assert_eq!((c["finals"].as_u64(), c["last_final"].as_i64()), (Some(2), Some(400)));
+    assert_eq!(c["medals"]["knockout"], serde_json::json!([1, 0, 0]));
+    assert_eq!(c["medals"]["arena"], serde_json::json!([0, 0, 1]));
+    // Newest first; a tournament's number as text, whole.
+    assert_eq!(c["recent_medals"][0]["cup"], "2");
+    assert_eq!(c["recent_medals"][1]["cup"], big.to_string());
+    assert_eq!(c["recent_medals"][1]["format"], "knockout");
+    assert_eq!(c["drills"][0]["code"], code);
+    assert_eq!(c["drills"][0]["stars"].as_u64(), Some(3));
+    assert_eq!(c["drill_stars"].as_u64(), Some(3));
+}
+
 /// Every text the portal shows through `t(…)` or `tf(…)` has its Portuguese
 /// and Spanish (a new text without them would show in English).
 #[test]

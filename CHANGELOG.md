@@ -53,6 +53,18 @@ work with this server as they are.
   flashing taskbar button) comes at once. It used to wait until nobody had
   touched the game for 12 seconds, which is still how other systems tell.
 
+### The staff portal: a player's record against the computer
+- **A new tab on a player's page, "Against the computer"**: whether they won
+  the tour (when, with its cue and achievement) and how many finals the
+  server dealt them (of the latest 16 kept, and when the last was); the
+  medals of the tournaments against the computer, knockout and arena apart,
+  gold, silver and bronze, and the latest thirty with their date; the
+  drills' stars (of 72) and best score in each, by name in the portal's
+  language; the daily challenges they topped. The stages of the tour before
+  its final are kept by the game, not the server, so they don't show.
+- New store queries for it: `cup_medal_list` and `ladder_finals` (both
+  stores; no migration).
+
 ### Tests
 - Tests that switch the game's language hold a lock while they do
   (`i18n::lang_lock`): run side by side, they changed each other's language

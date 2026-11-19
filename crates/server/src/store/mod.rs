@@ -1664,6 +1664,20 @@ impl Store {
     pub async fn cup_medals(&self, user_id: i64) -> StoreResult<snook_legend_proto::cup::Medals> {
         dispatch!(self, s => s.cup_medals(user_id))
     }
+    /// A player's medals of the tournaments against the computer, newest
+    /// first, with when each was kept (for the staff).
+    pub async fn cup_medal_list(
+        &self,
+        user_id: i64,
+        limit: u32,
+    ) -> StoreResult<Vec<(snook_legend_proto::cup::Medal, i64)>> {
+        dispatch!(self, s => s.cup_medal_list(user_id, limit))
+    }
+    /// How many finals of the tour were dealt to `user_id` (of the newest
+    /// [`LADDER_TICKETS_KEPT`] kept) and when the latest was.
+    pub async fn ladder_finals(&self, user_id: i64) -> StoreResult<(u32, Option<i64>)> {
+        dispatch!(self, s => s.ladder_finals(user_id))
+    }
     /// Medals kept for a player since `since` (a day's worth is limited).
     pub async fn cup_medals_since(&self, user_id: i64, since: i64) -> StoreResult<u32> {
         dispatch!(self, s => s.cup_medals_since(user_id, since))

@@ -549,6 +549,42 @@ impl PgStore {
         Ok(row.get::<i64, _>("n").max(0) as u32)
     }
 
+    pub async fn cup_medal_list(
+        &self,
+        user_id: i64,
+        limit: u32,
+    ) -> StoreResult<Vec<(snook_legend_proto::cup::Medal, i64)>> {
+        let rows = query(
+            "SELECT cup, format, place, won_at FROM cup_medals WHERE user_id = $1
+             ORDER BY won_at DESC, cup DESC LIMIT $2",
+        )
+        .bind(user_id)
+        .bind(limit as i64)
+        .fetch_all(&self.pool)
+        .await?;
+        Ok(rows
+            .into_iter()
+            .map(|r| {
+                let medal = snook_legend_proto::cup::Medal {
+                    cup: r.get::<i64, _>("cup") as u64,
+                    format: snook_legend_proto::cup::Format::from_code(r.get("format")),
+                    place: r.get::<i16, _>("place").clamp(0, 255) as u8,
+                };
+                (medal, r.get("won_at"))
+            })
+            .collect())
+    }
+
+    pub async fn ladder_finals(&self, user_id: i64) -> StoreResult<(u32, Option<i64>)> {
+        let row = query(
+            "SELECT COUNT(*) AS n, MAX(issued_at) AS latest FROM ladder_tickets WHERE user_id = $1",
+        )
+        .bind(user_id)
+        .fetch_one(&self.pool)
+        .await?;
+        Ok((row.get::<i64, _>("n").max(0) as u32, row.get("latest")))
+    }
+
     pub async fn ladder_ticket(
         &self,
         user_id: i64,

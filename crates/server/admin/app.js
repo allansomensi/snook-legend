@@ -1217,7 +1217,7 @@ PAGES.players = async (route) => {
 
 // ------------------------------------------------------------ one player
 
-const PLAYER_TABS = [["overview", "Overview", "user"], ["moderation", "Moderation", "shield"], ["games", "Games", "trophy"], ["economy", "Economy", "coins"], ["achievements", "Achievements", "star"]];
+const PLAYER_TABS = [["overview", "Overview", "user"], ["moderation", "Moderation", "shield"], ["games", "Games", "trophy"], ["computer", "Against the computer", "target"], ["economy", "Economy", "coins"], ["achievements", "Achievements", "star"]];
 
 async function playerPage(name, tab) {
   const d = await api("/users/" + encodeURIComponent(name));
@@ -1260,7 +1260,7 @@ async function playerPage(name, tab) {
       icon(ic), t(label), n ? el("span", { class: "count" + (id === "moderation" && reportsOpen ? " alert" : "") }, fmtNum(n)) : null);
   }));
   tabs.querySelectorAll(".tab").forEach((a) => { a.style.textDecoration = "none"; });
-  const body = { overview: playerOverview, moderation: playerModeration, games: playerGames, economy: playerEconomy, achievements: playerAchievements }[tab] || playerOverview;
+  const body = { overview: playerOverview, moderation: playerModeration, games: playerGames, computer: playerComputer, economy: playerEconomy, achievements: playerAchievements }[tab] || playerOverview;
   return el("div", {},
     el("div", { class: "crumbs" }, el("a", { href: "#/players" }, t("Players")), icon("chevronRight"), el("span", {}, u.username)),
     card(null, el("div", { class: "card-body profile-head" },
@@ -1450,6 +1450,55 @@ function playerEconomy(d) {
     ms,
     card(cardHead(t("Coin history"), t("The latest 50 changes")), d.ledger.length ? table([t("When"), { label: t("Coins"), cls: "num" }, t("Why")], d.ledger.map((l) => el("tr", {},
       el("td", {}, fmtDate(l.at)), el("td", { class: "num" }, el("b", {}, (l.delta > 0 ? "+" : "") + fmtNum(l.delta))), el("td", { class: "wrap" }, l.reason)))) : empty("coins", t("No coins moved yet"), null)));
+}
+
+/** What the player did against the computer: the tour, the medals of its
+ * tournaments, the drills and the daily challenges (as the server knows
+ * them: progress on the tour before its final stays in the player's game). */
+function playerComputer(d) {
+  const c = d.computer || {};
+  const medals = c.medals || { knockout: [0, 0, 0], arena: [0, 0, 0] };
+  const sum = (a) => a[0] + a[1] + a[2];
+  const allMedals = sum(medals.knockout) + sum(medals.arena);
+  const golds = medals.knockout[0] + medals.arena[0];
+  const formatName = (f) => (f === "arena" ? t("Arena") : t("Knockout"));
+  const placeName = (p) => [t("Gold"), t("Silver"), t("Bronze")][p - 1] || String(p);
+  const placeTone = (p) => ["warning", "", "danger"][p - 1] || "";
+  const finals = c.finals || 0;
+  const tourSub = c.tour_won_at ? tf("on {when}", { when: fmtDate(c.tour_won_at) })
+    : finals ? tn(finals, "{n} final played", "{n} finals played") : t("No final played yet");
+  const medalRow = (label, m) => el("tr", {},
+    el("td", {}, label), el("td", { class: "num" }, fmtNum(m[0])), el("td", { class: "num" }, fmtNum(m[1])), el("td", { class: "num" }, fmtNum(m[2])),
+    el("td", { class: "num" }, fmtNum(sum(m))));
+  const recent = c.recent_medals || [];
+  const drills = (c.drills || []).slice().sort((a, b) => b.stars - a.stars || b.best - a.best);
+  return el("div", { class: "stack" },
+    el("div", { class: "kpis cols-3" },
+      kpi({ label: t("The tour"), value: c.tour_won_at ? t("Won") : t("Not won yet"), sub: tourSub, iconName: "crown", tone: c.tour_won_at ? "success" : "" }),
+      kpi({ label: t("Tournament medals"), value: fmtNum(allMedals), sub: tn(golds, "{n} gold", "{n} gold"), iconName: "trophy", tone: "warning" }),
+      kpi({ label: t("Drill stars"), value: tf("{n} of {max}", { n: c.drill_stars || 0, max: c.drill_stars_max || 0 }), sub: tn(drills.length, "{n} drill done", "{n} drills done"), iconName: "target", tone: "info" }),
+      kpi({ label: t("Daily challenges topped"), value: fmtNum(c.daily_wins || 0), iconName: "calendar" })),
+    card(cardHead(t("The tour"), t("Its final is checked by the server; the stages before it stay in the player's game.")),
+      el("div", { class: "card-body stack" },
+        el("div", {}, c.tour_won_at ? tf("Won the final on {when}: the tour's cue and achievement.", { when: fmtDate(c.tour_won_at) }) : t("Has not won the tour's final yet.")),
+        el("div", { class: "faint" }, finals
+          ? tf("{n} finals dealt by the server (of the latest {kept} kept), the last on {when}.", { n: fmtNum(finals), kept: c.finals_kept || finals, when: fmtDate(c.last_final) })
+          : t("No final dealt yet.")))),
+    card(cardHead(t("Medals of the tournaments against the computer"), t("Kept in the account once the player is online; shown only here and on the game's Tournament tab.")),
+      table([t("Format"), { label: t("Gold"), cls: "num" }, { label: t("Silver"), cls: "num" }, { label: t("Bronze"), cls: "num" }, { label: t("Total"), cls: "num" }],
+        [medalRow(t("Knockout"), medals.knockout), medalRow(t("Arena"), medals.arena)])),
+    recent.length ? card(cardHead(t("Latest medals"), tn(recent.length, "{n} shown", "{n} shown")),
+      table([t("When"), t("Medal"), t("Format"), t("Tournament")], recent.map((m) => el("tr", {},
+        el("td", {}, fmtDate(m.at)),
+        el("td", {}, el("span", { class: ("badge " + placeTone(m.place)).trim() }, placeName(m.place))),
+        el("td", {}, formatName(m.format)),
+        el("td", { class: "mono faint" }, "#" + m.cup))))) : null,
+    card(cardHead(t("Drills"), tf("{n} of {max} stars", { n: c.drill_stars || 0, max: c.drill_stars_max || 0 })),
+      drills.length ? table([t("Drill"), { label: t("Best"), cls: "num" }, t("Stars")], drills.map((x) => el("tr", {},
+        el("td", {}, x.name ? t(x.name) : x.code),
+        el("td", { class: "num" }, fmtNum(x.best)),
+        el("td", {}, "★".repeat(x.stars) + "☆".repeat(Math.max(0, 3 - x.stars))))))
+        : el("div", { class: "card-body" }, empty("target", t("No drill done yet"), null))));
 }
 
 function playerAchievements(d) {

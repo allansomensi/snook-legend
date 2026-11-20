@@ -384,6 +384,21 @@ async fn answer(server: &Arc<Server>, me: &User, id: i64, accept: bool, send: &i
         }
     };
     let from = name_of(server, c.from).await;
+    // A challenger banned (or gone) since: the challenge is no longer good
+    // (accepted, it would be a win on the clock for nothing).
+    if accept
+        && !server
+            .store
+            .user_by_id(c.from)
+            .await
+            .ok()
+            .flatten()
+            .is_some_and(|u| u.deleted_at.is_none() && !u.is_banned(now()))
+    {
+        let _ = server.store.delete_async_challenge(id).await;
+        push_list(server, me.id, &me.username).await;
+        return error(send, "That challenge is no longer valid.");
+    }
     if !accept {
         if server.store.delete_async_challenge(id).await.unwrap_or(false) {
             tell(server, &from, id, &me.username, CorrEvent::Declined);
@@ -711,11 +726,13 @@ async fn resign(server: &Arc<Server>, me: &User, id: i64, send: &impl Fn(ServerM
     if !g.is_active() {
         return error(send, "This game is over.");
     }
+    // A game that can't be rebuilt any more can still be resigned (from its
+    // first table): it doesn't hold both players for ever.
     let mut table = match table_of(server, &g).await {
         Ok(t) => t,
         Err(e) => {
-            tracing::error!(game = id, "correspondence game can't be rebuilt: {e}");
-            return error(send, "This game can't be played right now.");
+            tracing::error!(game = id, "correspondence game can't be rebuilt, resigned: {e}");
+            g.replay.start()
         }
     };
     let expected = g.replay.strokes.len();
@@ -731,6 +748,42 @@ async fn resign(server: &Arc<Server>, me: &User, id: i64, send: &impl Fn(ServerM
     }
 }
 
+/// `user_id`'s account is being deleted: they lose their games going on
+/// (their opponents don't wait days for a player who is gone).
+pub async fn account_deleted(server: &Arc<Server>, user_id: i64) {
+    let Ok(games) = server.store.async_games_of(user_id, 0).await else { return };
+    for g in games.into_iter().filter(|g| g.is_active()) {
+        forfeit(server, g.id, user_id).await;
+    }
+}
+
+/// `user_id` leaves correspondence game `id`: they lose it.
+async fn forfeit(server: &Arc<Server>, id: i64, user_id: i64) {
+    let lock = server.corr.lock_for(id);
+    let guard = lock.lock().await;
+    let Ok(Some(mut g)) = server.store.async_game(id).await else { return };
+    let Some(seat) = g.players.iter().position(|p| *p == user_id) else { return };
+    if !g.is_active() {
+        return;
+    }
+    let mut table = match table_of(server, &g).await {
+        Ok(t) => t,
+        Err(e) => {
+            tracing::error!(game = id, "correspondence game can't be rebuilt, left: {e}");
+            g.replay.start()
+        }
+    };
+    let expected = g.replay.strokes.len();
+    table.abandon(seat);
+    g.replay.strokes.push(Stroke::Abandon { seat });
+    let Some(over) = table.game_over() else { return };
+    let finished = finish(server, g, expected, &table, over, true, now()).await;
+    drop(guard);
+    if let Some(f) = finished {
+        announce(server, f).await;
+    }
+}
+
 /// The player to move ran out of time: they lose the game.
 async fn time_out(server: &Arc<Server>, id: i64, now: i64) {
     let lock = server.corr.lock_for(id);
@@ -739,16 +792,13 @@ async fn time_out(server: &Arc<Server>, id: i64, now: i64) {
     if !g.is_active() || g.deadline >= now {
         return;
     }
+    // A game that can't be rebuilt any more ends all the same (from its
+    // first table): it doesn't hold both players for ever.
     let mut table = match table_of(server, &g).await {
         Ok(t) => t,
         Err(e) => {
-            tracing::error!(game = id, "correspondence game can't be rebuilt: {e}");
-            // Looked at again in a day, not at every sweep (where such games,
-            // first in line, would keep the others from being settled).
-            g.deadline = now + 86_400;
-            let expected = g.replay.strokes.len();
-            let _ = server.store.update_async_game(&g, expected).await;
-            return;
+            tracing::error!(game = id, "correspondence game can't be rebuilt, timed out: {e}");
+            g.replay.start()
         }
     };
     let seat = g.turn;

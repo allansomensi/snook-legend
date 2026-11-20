@@ -49,8 +49,8 @@ pub struct Hud {
     /// The cue-setting panel that is open above the bottom bar.
     popover: Option<Pop>,
     /// The turn the power bar was last set to its starting place for.
-    power_key: Option<(u32, u32)>,
-    panel_key: Option<(u32, u32)>,
+    power_key: Option<(u32, u32, u32)>,
+    panel_key: Option<(u32, u32, u32)>,
     /// Camera zoom, 0 (far) to 1 (close): set by the caller, changed by the zoom bar.
     pub zoom: f32,
     /// Set by the caller: the opponent can be reported (signed in online,
@@ -404,7 +404,10 @@ impl Hud {
             }
         }
         // Top bar: menu and camera on the left, the players in the middle.
+        // All of it is the interface's: a click on it (between its buttons,
+        // on the names) never aims the cue under it.
         draw_bar(Rect::new(0.0, 0.0, sw, TOP_BAR), true);
+        ui.block(Rect::new(0.0, 0.0, sw, TOP_BAR));
         // The score panel centred, but never under the buttons on the left.
         // (Three icons offline and in daily games: the history's too.)
         let icons = if !m.is_online() || crate::correspondence::is_corr(m) { 3.0 } else { 2.0 };
@@ -934,6 +937,17 @@ impl Hud {
                 // A tournament's game: the result stands, on with it.
                 let b = Rect::new(sw / 2.0 - 130.0, r.y + 128.0, 260.0, 38.0);
                 if ui.primary_button(b, t("Back to the tournament")) {
+                    action = HudAction::MainMenu;
+                }
+            } else if m.video.is_some() {
+                // A stored game watched to its end: from the start again, or
+                // back (no rematch: it was someone's game, already played).
+                let bx = sw / 2.0 - 180.0;
+                if ui.primary_button(Rect::new(bx, r.y + 128.0, 170.0, 38.0), t("Watch again")) {
+                    m.seek(0);
+                }
+                if ui.button(Rect::new(bx + 190.0, r.y + 128.0, 170.0, 38.0), t("Main menu"), true)
+                {
                     action = HudAction::MainMenu;
                 }
             } else {
@@ -1784,7 +1798,15 @@ fn draw_video_bar(ui: &mut Ui, m: &mut Match) {
     if media_button(ui, b(x), Media::Previous, t("Previous shot (←)"))
         || (keys && is_key_pressed(KeyCode::Left))
     {
-        m.seek(shown.saturating_sub(2));
+        // The shot before this one (a clock run out or a choice in between
+        // is played on the way: going back to it would only come here again).
+        let current = shown - 1;
+        let previous = m.video.as_ref().and_then(|v| {
+            (0..current).rev().find(|&j| {
+                matches!(v.strokes.get(j), Some(snook_legend_proto::replay::Stroke::Shot { .. }))
+            })
+        });
+        m.seek(previous.unwrap_or(0));
     }
     x += 40.0;
     let (kind, tip) =
@@ -2335,6 +2357,7 @@ impl Hud {
         let sh = crate::ui::vh();
         let bar = Rect::new(0.0, sh - BOTTOM_BAR, sw, BOTTOM_BAR);
         draw_bar(bar, false);
+        ui.block(bar);
         let Some(o) = m.online.as_ref() else { return false };
         let friend = m.names[o.seat].clone();
         let cy = bar.y + bar.h / 2.0;
@@ -2355,6 +2378,7 @@ impl Hud {
         let sh = crate::ui::vh();
         let bar = Rect::new(0.0, sh - BOTTOM_BAR, sw, BOTTOM_BAR);
         draw_bar(bar, false);
+        ui.block(bar);
         // The game is over (the result panel has the way on), or no one here
         // holds a cue (a recorded game, the computer against itself): no
         // cue to set up.
@@ -2410,7 +2434,8 @@ impl Hud {
         let px0 = left_end + 24.0 + (room - tw) / 2.0;
         let track = Rect::new(px0, bar.y + bar.h / 2.0 - 9.0, tw, 18.0);
 
-        let key = (m.games_played, m.game.shots_taken());
+        // Every turn (a clock run out or a choice passes one too).
+        let key = (m.games_played, m.game.shots_taken(), m.turns_begun);
         // Any shot (by anyone) closes the open cue-setting panel.
         if self.panel_key != Some(key) {
             self.panel_key = Some(key);

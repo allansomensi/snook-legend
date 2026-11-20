@@ -222,6 +222,7 @@ impl ProfileScreen {
         };
         self.status_edit = None;
         self.gifts_first = 0;
+        self.trophies_first = 0;
         self.asked_signed_in = online.signed_in();
         online.request_profile(name);
         // Presents put off with "Later": they are shown again here.
@@ -858,7 +859,13 @@ impl ProfileScreen {
         let player = &p.player;
         let mut go = None;
         let mut y = area.y;
+        // Each card only where it fits whole (a large interface in a small
+        // window leaves room for fewer): the rest is in the panes.
+        let bottom = area.y + area.h;
         if !player.guest {
+            if y + 84.0 > bottom {
+                return go;
+            }
             // The level: its bar (one's own), and what the next one with an
             // item brings.
             let own = p.relation == Relation::Me;
@@ -892,6 +899,9 @@ impl ProfileScreen {
                 go = Some(Pane::Journey);
             }
             y += card.h + 10.0;
+            if y + 58.0 > bottom {
+                return go;
+            }
             // The next league and its prize (under the rules shown).
             let tier = player.tier_in(self.rules);
             let rating = player.rating_in(self.rules);
@@ -924,6 +934,9 @@ impl ProfileScreen {
             })
             .collect();
         won.sort_by_key(|(_, at)| std::cmp::Reverse(*at));
+        if y + 22.0 + MEDAL > bottom {
+            return go;
+        }
         let row = Rect::new(area.x, y, area.w, 22.0 + MEDAL);
         heading(
             ui,
@@ -1239,7 +1252,7 @@ impl ProfileScreen {
                 TrophyKind::Tournament => (
                     Icon::Trophy,
                     GOLD,
-                    trophy.name.clone(),
+                    crate::i18n::tournament_name(&trophy.name),
                     tw("Tournament won · {n} players", &[("n", &trophy.players)]),
                 ),
                 TrophyKind::Ladder => (

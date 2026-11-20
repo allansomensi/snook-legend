@@ -109,7 +109,7 @@ pub fn lines(code: &str, moment: Moment) -> &'static [&'static str] {
             &["Good stroke. Reminds me of a fellow in '78.", "Smooth. Very smooth."]
         }
         ("otto", YouMiss) => &["Keep your head down, kid.", "The cue ball doesn't lie."],
-        ("otto", YouFoul) => &["Ah, the old penalty ball. Thank you kindly."],
+        ("otto", YouFoul) => &["Ah, a little present. Thank you kindly."],
         ("otto", IPot) => &["Like riding a bicycle.", "Still got it."],
         ("otto", IMiss) => {
             &["The eyes aren't what they used to be.", "In my day the pockets were bigger."]

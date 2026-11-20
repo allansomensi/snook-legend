@@ -1426,7 +1426,7 @@ Good stroke. Reminds me of a fellow in '78.	Buen golpe. Me recuerda a un muchach
 Smooth. Very smooth.	Suave. Muy suave.
 Keep your head down, kid.	Cabeza abajo, chico.
 The cue ball doesn't lie.	La blanca no miente.
-Ah, the old penalty ball. Thank you kindly.	Ah, la vieja bola de penalización. Muy amable.
+Ah, a little present. Thank you kindly.	Ah, un regalito. Muy amable.
 Like riding a bicycle.	Es como montar en bicicleta.
 Still got it.	Todavía lo tengo.
 The eyes aren't what they used to be.	La vista ya no es lo que era.
@@ -2029,3 +2029,13 @@ A safety: nothing called. Click again to call the pocket you aim at.	Defensa: na
 A safety calls nothing: whatever goes in stays down, and the turn passes. To call another pocket, click it on the table.	La defensa no canta nada: lo que entre se queda dentro, y el turno pasa. Para cantar otra tronera, haz clic en ella en la mesa.
 {games} games · {pct}% won	{games} partidas · {pct}% ganadas
 Each of the rules has its own rating; the level, coins and achievements are shared.	Cada regla tiene su rating; el nivel, las monedas y los logros son los mismos en las dos.
+You already have a VIP subscription: manage it with Manage subscription.	Ya tienes una suscripción VIP: gestiónala en Gestionar suscripción.
+Your opponent can't start another game yet.	Tu rival todavía no puede empezar otra partida.
+A tournament's name is shown to everyone: with your chat off, you can join tournaments but not create one.	El nombre de un torneo lo ve todo el mundo: con tu chat apagado, puedes unirte a torneos pero no crear uno.
+The connection dropped: check your coins before trying again.	Se cayó la conexión: revisa tus monedas antes de intentarlo de nuevo.
+Sign in to buy coins.	Inicia sesión para comprar monedas.
+Sign in to become VIP.	Inicia sesión para hacerte VIP.
+how play goes on after the break is undecided	todavía no se decidió cómo sigue el juego después del saque
+Finish your game, and leave your table, the queue or your tournament first.	Termina tu partida y sal de tu mesa, de la cola o de tu torneo antes.
+That choice can't be made now.	Esa elección no se puede hacer ahora.
+That medal can't be.	Esa medalla no existe.

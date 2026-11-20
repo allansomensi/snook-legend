@@ -523,8 +523,13 @@ pub fn game_for_session_try(d: &Drill, session: u64, k: u32) -> EightBallGame {
         && let Some(i) = cue_at
     {
         let mut rng = Rng::new(session ^ (k as u64 + 1).wrapping_mul(0x9E37_79B9_7F4A_7C15));
-        let shift =
+        let mut shift =
             DVec2::new(rng.next_f64() * 2.0 - 1.0, rng.next_f64() * 2.0 - 1.0) * SESSION_JITTER;
+        // A cue ball against the cushion stays against it (only along it):
+        // off it, the drill would be another, easier one.
+        if d.code == "frozen" {
+            shift.y = 0.0;
+        }
         let moved = balls[i].1 + shift;
         // Only where the ball may lie: on the cloth, clear of the other
         // balls (a table's ball-in-hand check would need a ball in hand).

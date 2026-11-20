@@ -526,12 +526,30 @@ async fn main() {
             if !was_online_match && current.as_ref().is_some_and(|m| m.is_online()) {
                 match_from_lan = false;
             }
+            // A game of the official server that started while one on the
+            // local network has the table (a search left running): resigned
+            // at once, rather than lost later on the clock unseen.
+            if let Some(m) = none.take()
+                && m.is_online()
+                && !m.is_spectating()
+                && !correspondence::is_corr(&m)
+            {
+                online.send(snook_legend_proto::ClientMsg::Resign);
+            }
         }
         if let Some(l) = lan.as_mut() {
             let mut none = None;
             let owned = current.as_ref().is_some_and(|m| m.is_online());
             let slot = if owned && !match_from_lan { &mut none } else { &mut current };
             l.net.update(dt, slot, &mut config);
+            // The same the other way round: a local game that started while
+            // one of the official server's has the table.
+            if let Some(m) = none.take()
+                && m.is_online()
+                && !m.is_spectating()
+            {
+                l.net.send(snook_legend_proto::ClientMsg::Resign);
+            }
             // Only a match that wasn't there before came from the local
             // network: one of the global server's stays its own (the slot
             // above was empty then, which once made it look new).
@@ -570,8 +588,9 @@ async fn main() {
         // The daily challenge: an attempt the server started begins here
         // (unless an online game has the table); its strokes go back once
         // the visit is over, and the server's count comes to the table.
-        if let Some((day, seed)) = online.daily_started.take()
-            && !current.as_ref().is_some_and(|m| m.is_online())
+        // (Kept, not dropped, while an online game has the table.)
+        if !current.as_ref().is_some_and(|m| m.is_online())
+            && let Some((day, seed)) = online.daily_started.take()
         {
             let name =
                 online.me.as_ref().map_or(config.player_name.clone(), |me| me.username.clone());
@@ -691,8 +710,8 @@ async fn main() {
             }
         }
         // A stored game to watch again (from the profile).
-        if let Some(replay) = online.replay.take()
-            && !current.as_ref().is_some_and(|m| m.is_online())
+        if !current.as_ref().is_some_and(|m| m.is_online())
+            && let Some(replay) = online.replay.take()
         {
             current = Some(Match::replay_of(&replay, config.guide));
             hud = Hud::new(config.show_help);
@@ -1508,7 +1527,11 @@ async fn main() {
                             versus::VersusAction::None => {}
                         },
                         Screen::Setup(setup) => match setup.draw(&mut ui, &mut config) {
-                            SetupAction::Back => next = Some(Screen::Menu),
+                            SetupAction::Back => {
+                                // The names and the clock chosen are kept.
+                                config.save();
+                                next = Some(Screen::Menu);
+                            }
                             SetupAction::Start(settings) => {
                                 config.save();
                                 current = Some(Match::new(&settings, game::clock_seed()));
@@ -1556,6 +1579,9 @@ async fn main() {
                                 // you like, racked again when it's over.
                                 let mut settings =
                                     MatchSettings::from_config(MatchMode::HotSeat, &config);
+                                // No clock on a table to oneself (it would
+                                // give balls away "to" the same player).
+                                settings.shot_clock = None;
                                 let name = online
                                     .me
                                     .as_ref()
@@ -1925,6 +1951,11 @@ async fn main() {
             invite_top = 142.0;
         }
         let spot = match current.as_ref() {
+            // Only watching, or at a daily game's table: free to play (the
+            // server stops the watching when the game starts).
+            Some(m) if m.is_spectating() || correspondence::is_corr(m) => {
+                online::InviteSpot::Lounge
+            }
             Some(m) if m.is_online() => online::InviteSpot::OnlineMatch,
             Some(m) => online::InviteSpot::VsComputer { saved: m.is_against_computer() },
             None => online::InviteSpot::Lounge,

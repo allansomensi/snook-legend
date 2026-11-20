@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+Protocol 23 (the oldest let in too: the rules a replay is played back with
+changed, and a game of 0.8.1 would show other tables than the server's) and
+two migrations (0023: indexes; 0024: the room a match was played in).
+
 ### The Brazilian rule: the shot clock gives a ball
 - **The shot clock running out is a foul that gives a ball**: the
   opponent's lowest ball comes off (with none left for them, the 8 pays and
@@ -92,6 +96,96 @@ The server:
 - Arena standings rank those who played above those who didn't; the
   metrics count official and casual games too; the career in the memory
   store skips games with no shots.
+
+### A deeper review
+The rules and the physics:
+- **An official game whose break made the 8 no longer gets stuck**: the
+  table waiting for the choice (the 8 to spot or a new rack) is read back
+  when it is sent or saved (it was refused, and the game stopped there).
+- **The ball hit first is the one the cue ball touched first**: two balls
+  touched in the same sub-step were taken in the order of their numbers
+  (the 8 against an 11 was "the 8 first" whatever the geometry). Contacts
+  carry the moment they happened.
+- **A ball lying against a cushion and pushed into it isn't driven to it**
+  (the official rail after the contact, the Brazilian cushion before the
+  ball): it has to leave the cushion and come back. The rules books say so.
+- The computer no longer puts the cue ball in hand for a ball behind the
+  head string it may not hit from there (official rules).
+- The Brazilian book's sentence on fouls while on the 8 says what the rule
+  does (the usual penalty; you lose only if it gives more than they have).
+
+Payments (Stripe):
+- A renewal adds its month to the VIP there is: a month given, bought in
+  the Store or from the staff isn't swallowed by it. A cancellation after a
+  renewal that was never paid takes back nothing unpaid for.
+- VIP time and its coins are given or taken back in one step, once: a
+  delivery that stops half way gives (or takes) both when it comes again.
+- The customer a subscription is under is the account's (the one its page
+  is managed and cancelled through); a second subscription isn't sold over
+  one Stripe still tries to charge; only a VIP subscription's invoice gives
+  VIP; a refund Stripe couldn't be asked about is tried again; a welcome
+  pack paid twice keeps its items when one is refunded; a deleted account's
+  subscription is cancelled, never another product's.
+
+The server:
+- **A result is stored once**, its game's saved copy deleted in the same
+  step, and the write is tried for minutes (a database's trouble no longer
+  loses it, nor does an answer lost on the way store it twice).
+- Games two friends farm, or resigned before they were played, give no win,
+  streak or feat (the rating keeps its own rules for them); the golden
+  break is only for a win on a break.
+- Deploys: a game a player left while a shot was played moves to the next
+  server; a game that just ended isn't handed over; one finished while its
+  copy was being rebuilt isn't played again.
+- A finished room only talks to the players still at it (a rematch offer,
+  a chat line or "left" no longer reach a game they went on to); a rematch
+  is checked like any new game and offered once; a chat line is deleted
+  once, by its writer's account; the limits of a connection (shop, queries,
+  status) outlive a reconnection; renames act on the connection that asked.
+- Tournaments: the players of a match nobody turned up for are free again;
+  a player who withdrew is never crowned; arenas skip players who are away
+  or waiting after leaving a game; a player with the chat off can't name a
+  tournament, and a player's tournament isn't announced in the chat.
+- Correspondence: a choice after the break is applied (the game ignored the
+  answer); a game that can't be rebuilt any more can still end; a deleted
+  account's games end at once; a challenge from a player banned since is
+  no longer good; the daily challenge refuses a result with no attempt
+  under way before working it out, and its coins are tried again.
+- The staff: renames logged under the new name; payment ids hidden from
+  moderators; moderators can't remove other staff's notes; only items owning
+  makes usable can be given; a permanent ban is logged as such; indexes for
+  the audit log, the ledger, payments and new accounts.
+- The memory store answers as the database does (staff names, ranks of a
+  banned player, the order of names on a tie, renames, spending).
+
+The game:
+- **Signing in as another account forgets everything of the last one** (its
+  e-mail, presents, warnings, friends, chat line, purchases): the check was
+  made against the name typed in the form.
+- A sign-in password written under the older rules (shorter in letters)
+  signs in again.
+- Clicks on the bars of the table (between the buttons, on the names, on the
+  rules' badge) no longer aim the cue.
+- A stored game: Previous goes to the shot before (it got stuck on a clock
+  run out or a choice); its end offers to watch it again, not a rematch,
+  and a resignation or a game left counts in its score.
+- The shop: a purchase whose answer was lost no longer locks it; signed out,
+  it says to sign in; the welcome pack's items only where it is sold.
+- A game of the official server that starts while one on the local network
+  has the table (or the other way round) is resigned, not lost unseen; a
+  LAN host can't sign the player out of their account.
+- Invitations can be accepted while watching a game or at a daily game's
+  table; the present dialog doesn't take a key meant for something else; a
+  refused break choice brings its buttons back.
+- A larger interface stops where the screens fit the window; the profile's
+  cards only where they fit; the camera survives a window with no size.
+- The power bar starts each turn where it should (also after a clock or a
+  choice); a run of balls ends with a turn without a shot; no clock on the
+  free table; "Reset to defaults" doesn't show the first-game pointers
+  again; the two-player setup keeps its names on Back; a daily attempt or
+  a replay started during an online game waits for it.
+- Weekly cups' names translated on the trophy shelf; translations for the
+  texts that had none.
 
 ## 0.8.1 (protocol 22)
 

@@ -134,6 +134,8 @@ pub fn pill(
         let sx = tx + ui.text_size(label, size, true).x + 8.0 + size / 2.0;
         crate::icons::draw(Icon::Swap, vec2(sx, cy), size, Color::new(a.r, a.g, a.b, 0.9));
     }
+    // Part of the interface (a click on it is not one on the table under it).
+    ui.block(r);
     (r, swap && ui.clicked(r))
 }
 

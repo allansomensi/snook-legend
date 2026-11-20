@@ -288,6 +288,9 @@ pub struct Match {
     pub last_report: Option<ShotReport>,
     pub guide: AimGuide,
     pub games_played: u32,
+    /// Turns begun so far (a turn passed on the clock or by a choice too,
+    /// which `shots_taken` doesn't count).
+    pub turns_begun: u32,
     pub wins: [u32; 2],
     /// Collisions to play as sounds (drained by the audio module).
     pub sounds: Vec<ImpactSound>,
@@ -572,6 +575,7 @@ impl Match {
             shot_in_hand: false,
             guide: settings.guide,
             games_played: 0,
+            turns_begun: 0,
             wins: [0, 0],
             sounds: Vec::new(),
             online: None,
@@ -895,6 +899,7 @@ impl Match {
             // No full guide against people.
             guide: guide.online(),
             games_played: 0,
+            turns_begun: 0,
             wins: [0, 0],
             sounds: Vec::new(),
             online: Some(OnlineMatch {
@@ -1179,6 +1184,7 @@ impl Match {
     }
 
     fn begin_turn(&mut self) {
+        self.turns_begun = self.turns_begun.wrapping_add(1);
         // Development aid (screenshots): SNOOK_LEGEND_AUTOPLAY_SHOTS=<n> lets
         // the computer play the first player's turns of an offline game for
         // its first n shots, then hands the cue back.
@@ -1229,13 +1235,19 @@ impl Match {
                     }
                 }
                 Some(stroke @ (Stroke::Resign { seat } | Stroke::Abandon { seat })) => {
+                    let name = self.names[seat % 2].clone();
                     if matches!(stroke, Stroke::Abandon { .. }) {
                         self.game.abandon(seat % 2);
+                        self.notify(tw("{name} left the game.", &[("name", &name)]), true);
                     } else {
                         self.game.resign(seat % 2);
+                        self.notify(tw("{name} resigned.", &[("name", &name)]), true);
                     }
-                    let name = self.names[seat % 2].clone();
-                    self.notify(tw("{name} resigned.", &[("name", &name)]), true);
+                    // The score says who won it, as for any other ending.
+                    if self.game.game_over().is_some() {
+                        self.wins[1 - seat % 2] += 1;
+                        self.games_played += 1;
+                    }
                     self.phase = Phase::GameOver;
                     return;
                 }
@@ -1416,7 +1428,7 @@ impl Match {
             });
         }
         self.shot_in_hand = false;
-        let shooter = self.names[report.shooter].clone();
+        let shooter = self.names[report.shooter % 2].clone();
         let next = self.names[self.game.current_player()].clone();
         let rules = self.game.rules();
         // A foul: what it was and, under it, what it gives the opponent.
@@ -1468,7 +1480,7 @@ impl Match {
             self.notify(tw("The {ball} was spotted.", &[("ball", &crate::i18n::ball(*b))]), false);
         }
         if let Some(over) = report.game_over {
-            let winner = self.names[over.winner].clone();
+            let winner = self.names[over.winner % 2].clone();
             let how = crate::i18n::result_line(over.reason, &winner, &self.names[1 - over.winner]);
             self.notify(tw("{winner} wins! ({how})", &[("winner", &winner), ("how", &how)]), true);
             return;
@@ -1612,6 +1624,8 @@ impl Match {
         let other = self.names[1 - chooser % 2].clone();
         let text = crate::i18n::chosen(choice, option, &name, &other);
         self.notify(text, true);
+        // A turn without a shot ends any run of balls in a row.
+        self.visit_run = (0, 0);
     }
 }
 
@@ -1738,13 +1752,14 @@ impl Match {
         let other = self.names[1 - seat % 2].clone();
         let text = time_foul_text(before, &self.game, &who, &other);
         self.notify(text, true);
+        self.visit_run = (0, 0);
         let Some(over) = self.game.game_over() else { return false };
         // Counted here, as a shot that ends the game is (online too: the
         // server's result that follows finds the game over already).
         self.wins[over.winner] += 1;
         self.games_played += 1;
         self.replay = None;
-        let winner = self.names[over.winner].clone();
+        let winner = self.names[over.winner % 2].clone();
         let how = crate::i18n::result_line(over.reason, &winner, &self.names[1 - over.winner]);
         self.notify(tw("{winner} wins! ({how})", &[("winner", &winner), ("how", &how)]), true);
         self.phase = Phase::GameOver;
@@ -2094,8 +2109,9 @@ impl Match {
         // Practice on one's own: a finished rack (the 8 down, however)
         // just starts another.
         if self.free_play && report.game_over.is_some() {
-            self.notify(t("A new rack."), false);
+            // Told after the new rack is dealt (dealing clears the notices).
             self.rematch();
+            self.notify(t("A new rack."), false);
             return;
         }
         // The daily challenge: the visit ends at the first stroke that
@@ -2398,7 +2414,7 @@ impl Match {
         };
         self.game.conclude(result.winner, result.reason);
         self.notify(text, true);
-        self.wins[result.winner] += 1;
+        self.wins[result.winner % 2] += 1;
         self.games_played += 1;
         self.replay = None;
         self.phase = Phase::GameOver;
@@ -2452,7 +2468,7 @@ impl Match {
                 if timeout {
                     let text = tw(
                         "Time's up: {name}'s shot was played at full power.",
-                        &[("name", &self.names[seat])],
+                        &[("name", &self.names[seat % 2])],
                     );
                     self.announce(text, true, 5.0);
                 }
@@ -2462,7 +2478,10 @@ impl Match {
                 {
                     let text = tw(
                         "{name} calls the 8-ball in the {pocket} pocket.",
-                        &[("name", &self.names[seat]), ("pocket", &crate::i18n::pocket(pocket))],
+                        &[
+                            ("name", &self.names[seat % 2]),
+                            ("pocket", &crate::i18n::pocket(pocket)),
+                        ],
                     );
                     self.announce(text, false, 4.0);
                 }
@@ -2644,6 +2663,13 @@ impl Match {
             ServerMsg::Spectators { count } => o.spectators = count,
             ServerMsg::Support { counts } => o.support = counts,
             ServerMsg::Error { message } => {
+                // A choice refused (made too late, say): the buttons come
+                // back rather than wait for the clock.
+                if message == "That choice can't be made now."
+                    && let Some(o) = self.online.as_mut()
+                {
+                    o.choice_sent = None;
+                }
                 self.notify(crate::i18n::server_text(&message), true);
             }
             _ => {}

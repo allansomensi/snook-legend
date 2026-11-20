@@ -233,8 +233,10 @@ pub fn handle(o: &mut Online, msg: ServerMsg, current: &mut Option<Match>, guide
         }
         ServerMsg::CorrShotRejected { id, turn, reason, game } => {
             if let Some(m) = current.as_mut().filter(|m| table(m).is_some_and(|c| c.id == id)) {
+                // The stroke counted when it was sent isn't there (strokes
+                // count choices too, which `shots_taken` doesn't).
                 if let Some(c) = table_mut(m) {
-                    c.known = game.shots_taken() as usize;
+                    c.known = c.known.saturating_sub(1);
                 }
                 m.handle_server(ServerMsg::ShotRejected { turn, reason, game });
             }

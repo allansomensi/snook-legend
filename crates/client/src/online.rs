@@ -167,6 +167,9 @@ pub struct Online {
     /// A LAN game (guest name, nothing saved).
     pub lan: bool,
     username: String,
+    /// The account the last session signed in as (a session that comes
+    /// back as another one forgets everything of it).
+    signed_in_as: String,
     password: String,
     country: String,
     register: bool,
@@ -626,6 +629,7 @@ impl Online {
             server: server.to_string(),
             lan,
             username: String::new(),
+            signed_in_as: String::new(),
             password: String::new(),
             country: String::new(),
             register: false,
@@ -968,8 +972,16 @@ impl Online {
                     self.queue = None;
                     // The server drops a session's invitations and table.
                     self.forget_invitations();
-                    // Nothing asked on that connection will be answered.
+                    // Nothing asked on that connection will be answered: a
+                    // purchase may have gone through or not (the wallet
+                    // says, once back).
                     self.drill_starts = 0;
+                    if self.buying.take().is_some() {
+                        self.shop_error = Some(
+                            t("The connection dropped: check your coins before trying again.")
+                                .to_string(),
+                        );
+                    }
                     let was_in = self.signed_in();
                     let attempt = match self.stage {
                         Stage::Reconnecting { attempt, .. } => attempt,
@@ -1052,17 +1064,22 @@ impl Online {
                     | ServerMsg::ShopInfo { .. }
                     | ServerMsg::StoreTicket { .. }
                     | ServerMsg::StoreRedeemed { .. }
+                    // Nor over the account of the official server.
+                    | ServerMsg::AccountDeleted
             )
         {
             return save;
         }
         match msg {
             ServerMsg::AuthOk { player, token } => {
-                // Another account than the last one: nothing of that one's
-                // stays (its e-mail, wallet, offers, warnings, profile).
-                if !self.username.eq_ignore_ascii_case(&player.username) {
+                // Another account than the last one signed in (not the name
+                // typed in the form): nothing of that one's stays.
+                if !self.signed_in_as.is_empty()
+                    && !self.signed_in_as.eq_ignore_ascii_case(&player.username)
+                {
                     self.forget_account();
                 }
+                self.signed_in_as = player.username.clone();
                 // A new session: no invitation or code of the last one is
                 // still valid, and the server says again if it restarts.
                 self.forget_invitations();
@@ -1509,6 +1526,7 @@ impl Online {
                     Some(AccountView { recovery_email, payment_email, name_changes_left });
             }
             ServerMsg::AccountDeleted => {
+                self.forget_account();
                 self.auto_resume = false;
                 self.me = None;
                 self.authed = false;
@@ -1708,6 +1726,7 @@ impl Online {
             | ServerMsg::CorrState { .. }
             | ServerMsg::CorrShot { .. }
             | ServerMsg::CorrShotRejected { .. }
+            | ServerMsg::CorrChose { .. }
             | ServerMsg::CorrNotice { .. }) => {
                 crate::correspondence::handle(self, msg, current, config.guide);
             }
@@ -1756,8 +1775,12 @@ impl Online {
 
     /// Whether this player may use `item` now.
     pub fn can_use(&self, item: &snook_legend_proto::shop::Item) -> bool {
-        let w = self.wallet.clone().unwrap_or_default();
-        snook_legend_proto::shop::can_use(item, &w.owned, &self.achievements, w.is_vip())
+        // Borrowed (the shop asks for every item, every frame).
+        let (owned, vip) = match &self.wallet {
+            Some(w) => (&w.owned[..], w.is_vip()),
+            None => (&[][..], false),
+        };
+        snook_legend_proto::shop::can_use(item, owned, &self.achievements, vip)
     }
 
     /// Starts watching a friend's game.
@@ -1793,15 +1816,51 @@ impl Online {
     }
 
     /// What belongs to the account signed in: forgotten when another one
-    /// signs in (or no one is).
+    /// signs in (or no one is): nothing of it is shown to the next one, or
+    /// sent as theirs.
     fn forget_account(&mut self) {
         self.forget_invitations();
         self.account = None;
         self.email_offer = None;
         self.offer_password.clear();
         self.wallet = None;
+        self.offers = None;
         self.staff_warnings.clear();
+        self.staff_shown = None;
         self.profile = None;
+        self.friends = FriendsData::default();
+        self.unread_friend_requests = false;
+        self.corr = Default::default();
+        self.social = Default::default();
+        self.gifts = Default::default();
+        self.achievements.clear();
+        self.achievements_of.clear();
+        // What they wrote (and what waited for their chat to be on).
+        self.pending_text = None;
+        self.chat_input.clear();
+        self.chat_dialog_open = false;
+        self.buying = None;
+        self.bought = None;
+        self.shop_error = None;
+        self.replays = None;
+        self.replay = None;
+        self.missions = None;
+        self.mission_done = false;
+        self.xp = None;
+        self.daily = None;
+        self.daily_started = None;
+        self.daily_result = None;
+        self.daily_refused = None;
+        self.drills = None;
+        self.drill_result = None;
+        self.drill_session = None;
+        self.ladder_claim = None;
+        self.ladder_ticket = None;
+        self.awaiting_ticket = false;
+        self.ticket_refused = false;
+        self.ghost = None;
+        self.cup_medal_news.clear();
+        self.signed_in_as.clear();
     }
 
     pub fn logout(&mut self, config: &mut Config) {
@@ -1813,10 +1872,6 @@ impl Online {
         self.held.borrow_mut().clear();
         self.token.clear();
         self.auto_resume = false;
-        self.friends = FriendsData::default();
-        self.corr = Default::default();
-        self.social = Default::default();
-        self.gifts = Default::default();
         self.forget_account();
         self.draining = None;
         // The next account checks its own Store purchases.

@@ -484,7 +484,11 @@ fn side_tab(ui: &mut Ui, r: Rect, label: &str, note: SideNote, selected: bool) -
 /// Items the shop lists: the welcome pack's only where it is sold (or
 /// for those who have them).
 fn listed(item: &Item, online: &Online) -> bool {
-    item.price != Price::Pack || crate::channel::real_money_purchases() || online.can_use(item)
+    // Where the server says it doesn't sell the pack, its items would lead
+    // to nothing.
+    let pack_sold = crate::channel::real_money_purchases()
+        && online.offers.as_ref().is_none_or(|o| !o.welcome_price.is_empty());
+    item.price != Price::Pack || pack_sold || online.can_use(item)
 }
 
 /// The achievement an item comes with: (title, description).
@@ -533,6 +537,8 @@ impl ShopScreen {
         self.done = None;
         online.bought = None;
         online.shop_error = None;
+        // A purchase whose answer never came doesn't hold the next one.
+        online.buying = None;
         self.asked = online.signed_in();
         if online.signed_in() {
             online.send(ClientMsg::Shop);
@@ -1343,14 +1349,13 @@ impl ShopScreen {
         }
         let below = y + 14.0;
         if !offers.payments || offers.packs.is_empty() {
-            ui.text(
-                t("Coins can't be bought on this server yet."),
-                area.x,
-                below,
-                14.0,
-                MUTED,
-                false,
-            );
+            // The server says what it sells to players signed in only.
+            let text = if online.signed_in() {
+                t("Coins can't be bought on this server yet.")
+            } else {
+                t("Sign in to buy coins.")
+            };
+            ui.text(text, area.x, below, 14.0, MUTED, false);
             return;
         }
         ui.text(t("If you like, you can also buy them:"), area.x, below, 15.0, MUTED, false);
@@ -1636,7 +1641,12 @@ impl ShopScreen {
             crate::legal::links_at(ui, &server, area.x, y + 20.0, 13.0);
             y += 50.0;
         } else {
-            ui.text(t("VIP can't be bought on this server yet."), area.x, y, 14.0, MUTED, false);
+            let text = if online.signed_in() {
+                t("VIP can't be bought on this server yet.")
+            } else {
+                t("Sign in to become VIP.")
+            };
+            ui.text(text, area.x, y, 14.0, MUTED, false);
             y += 28.0;
         }
         // A month for a friend: one payment, no subscription.

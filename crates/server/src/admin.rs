@@ -856,7 +856,7 @@ async fn user_action(
                     ));
                 }
             }
-            if server.store.wallet(target.id).await?.owned.iter().any(|o| *o == body.item) {
+            if server.store.wallet(target.id).await?.owned.contains(&body.item) {
                 return Err(err(StatusCode::CONFLICT, "They already have it."));
             }
             server.store.grant_item(target.id, &body.item, "staff", t).await?;

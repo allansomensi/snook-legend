@@ -148,12 +148,17 @@ pub fn vh() -> f32 {
 
 /// Works out the interface scale for this frame. `preference` is the
 /// player's setting (1.0 = automatic size).
+/// The fewest interface units the window is ever tall (see [`update_scale`]).
+const MIN_UI_HEIGHT: f32 = 560.0;
+
 pub fn update_scale(preference: f32) {
     let (sw, sh) = (screen_width().max(1.0), screen_height().max(1.0));
     // The layout is designed for about 1180×720 interface units.
     // Small windows scale everything down rather than let it overflow.
     let auto = (sw / 1180.0).min(sh / 720.0).clamp(0.45, 2.6);
-    let scale = (auto * preference.clamp(0.7, 1.5)).max(0.42);
+    // A larger interface stops where the screens no longer fit in the
+    // window's height (the menu's last row went below it).
+    let scale = (auto * preference.clamp(0.7, 1.5)).min(sh / MIN_UI_HEIGHT).max(0.42);
     UI_SCALE.store(scale.to_bits(), std::sync::atomic::Ordering::Relaxed);
 }
 

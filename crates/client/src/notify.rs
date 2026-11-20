@@ -104,7 +104,8 @@ fn send(text: &str) {
                 snook_legend_proto::GAME_NAME,
                 &text,
             ])
-            .spawn();
+            // Waited for (on this thread of its own): no process left over.
+            .status();
     }
     #[cfg(target_os = "macos")]
     {
@@ -114,7 +115,7 @@ fn send(text: &str) {
         );
         let _ = std::process::Command::new("osascript")
             .args(["-e", "on run argv", "-e", &show, "-e", "end run", &text])
-            .spawn();
+            .status();
     }
     #[cfg(windows)]
     {
@@ -207,7 +208,7 @@ mod windows {
             .args(["-NoProfile", "-NonInteractive", "-Command", &script])
             .env("SNOOK_LEGEND_TOAST", text)
             .creation_flags(CREATE_NO_WINDOW)
-            .spawn();
+            .status();
     }
 }
 

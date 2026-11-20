@@ -186,6 +186,10 @@ pub async fn handle(
                 error("Your VIP subscription could not be cancelled. Try again in a moment.");
                 return false;
             }
+            // Their games by correspondence end now, lost (not days later).
+            if !server.config.settings.lan {
+                crate::correspondence::account_deleted(server, me.id).await;
+            }
             if server.store.delete_account(me.id, now()).await.is_err() {
                 error("Something went wrong. Please try again.");
                 return false;

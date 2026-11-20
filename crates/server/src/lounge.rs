@@ -3438,7 +3438,12 @@ impl Rebuilt {
         let mut turns = [0, 0];
         turns[replay.breaker % 2] = 1;
         for stroke in &replay.strokes {
-            let before = game.clone();
+            // Measured as the live game does: with the cue ball where it was
+            // placed (in hand).
+            let mut before = game.clone();
+            if let Stroke::Shot { cue_ball, .. } = stroke {
+                let _ = snook_legend_proto::replay::place_cue_ball(&mut before, *cue_ball);
+            }
             let shooter = game.current_player();
             let in_hand = game.ball_in_hand().is_some();
             let report = snook_legend_proto::replay::apply(&mut game, stroke)?;

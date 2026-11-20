@@ -358,7 +358,7 @@ impl CameraRig {
                     CameraMode::Top => {
                         // Height that fits the whole table (with the HUD) in the window.
                         // The space between the top and bottom bars of the HUD.
-                        let (sw, sh) = (screen_width(), screen_height().max(1.0));
+                        let (sw, sh) = (screen_width().max(1.0), screen_height().max(1.0));
                         let k = crate::ui::ui_scale();
                         let (top_px, bottom_px) = ((crate::scoreboard::AVATAR + 8.0) * k, 78.0 * k);
                         let free = (sh - top_px - bottom_px).max(100.0) / sh;
@@ -468,6 +468,12 @@ impl CameraRig {
             self.eye.lerp(eye, k)
         };
         self.target = next_target;
+        // A bad frame (a window with no size, say) never leaves the view
+        // broken for good: it starts again from where it is going.
+        if !self.eye.is_finite() || !self.target.is_finite() {
+            self.eye = eye;
+            self.target = target;
+        }
         self.up = self.up.lerp(up, k).normalize_or(Vec3::Y);
         // Avoid a degenerate look-at when the view direction and up align.
         let dir = (self.target - self.eye).normalize_or(Vec3::NEG_Z);

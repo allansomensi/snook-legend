@@ -2608,6 +2608,28 @@ async fn the_shot_clock_is_a_foul_under_the_official_rules() {
     assert_eq!(game.ball_in_hand(), Some(BallInHand::Kitchen));
 }
 
+/// A player who lets the clock run out three times in a row left the game:
+/// a game nobody plays (the official rules never end on the clock) ends.
+#[tokio::test]
+async fn a_player_who_never_shoots_leaves_the_game() {
+    let settings = Settings { shot_clock: Duration::from_secs(1), ..Settings::default() };
+    let url = start(settings).await;
+    let (mut alice, _) = Client::register(&url, "alice").await;
+    let (mut bob, _) = Client::register(&url, "bob").await;
+    let (game, _, _) =
+        start_match_under(&mut alice, &mut bob, "bob", "alice", false, Rules::Official).await;
+    let first = game.current_player();
+    // Neither shoots: the first to let their clock run out a third time
+    // (after the other's second) loses.
+    let ServerMsg::MatchEnded { result } =
+        alice.expect("end", |m| matches!(m, ServerMsg::MatchEnded { .. })).await
+    else {
+        unreachable!()
+    };
+    assert_eq!(result.reason, snook_legend_core::GameOverReason::Abandoned);
+    assert_eq!(result.winner, 1 - first);
+}
+
 /// The lounge counts who plays each of the rules (the public status too).
 #[tokio::test]
 async fn players_are_counted_under_their_rules() {

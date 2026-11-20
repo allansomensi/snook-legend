@@ -846,8 +846,8 @@ impl PgStore {
         }
         let f = query(
             "SELECT COUNT(*) AS created,
-                COUNT(*) FILTER (WHERE games + casual_games >= 1) AS one,
-                COUNT(*) FILTER (WHERE games + casual_games >= 5) AS five
+                COUNT(*) FILTER (WHERE games + official_games + casual_games >= 1) AS one,
+                COUNT(*) FILTER (WHERE games + official_games + casual_games >= 5) AS five
              FROM users WHERE created_at / 86400 >= $1",
         )
         .bind(today - 30)

@@ -451,7 +451,8 @@ async fn user_of(server: &Server, obj: &Value) -> Option<User> {
             None => None,
         },
     }?;
-    server.store.user_by_id(id).await.ok().flatten()
+    // A deleted account is no one's: nothing is credited to it.
+    server.store.user_by_id(id).await.ok().flatten().filter(|u| u.deleted_at.is_none())
 }
 
 async fn notify(server: &Server, user: &User, text: &str) {
@@ -533,8 +534,12 @@ async fn vip_gift_paid(
         tracing::warn!("VIP gift for {friend:?}: ignored");
         return Ok(());
     };
-    let Some(friend) = server.store.user_by_id(friend).await.map_err(err)? else {
-        tracing::warn!("VIP gift for a deleted player");
+    let friend = server.store.user_by_id(friend).await.map_err(err)?;
+    let Some(friend) = friend.filter(|f| f.deleted_at.is_none()) else {
+        // Paid for an account deleted meanwhile: the staff refund it (the
+        // payment's id is in the log).
+        let payment = str_of(obj, "payment_intent").or(str_of(obj, "id")).unwrap_or("");
+        tracing::error!(payment, giver = giver.id, "VIP gift for a deleted player: refund it");
         return Ok(());
     };
     let payment_id = str_of(obj, "payment_intent").or(str_of(obj, "id")).unwrap_or("");
@@ -682,9 +687,21 @@ async fn apply(server: &Server, event: &Value) -> Result<(), String> {
         "checkout.session.completed" | "checkout.session.async_payment_succeeded" => {
             let Some(user) = user_of(server, obj).await else {
                 tracing::warn!("{kind} for an unknown player");
+                // A subscription started from a page opened before the
+                // account was deleted: it would bill no one, every month.
+                if str_of(obj, "mode") == Some("subscription")
+                    && let (Some(stripe), Some(c)) = (&server.stripe, str_of(obj, "customer"))
+                    && let Err(e) = stripe.cancel_subscriptions(c).await
+                {
+                    tracing::error!("a subscription with no player left: not cancelled: {e}");
+                }
                 return Ok(());
             };
-            if let Some(c) = str_of(obj, "customer") {
+            // The account's first customer stays: the one its subscription
+            // is under (a second page paid with another doesn't replace it).
+            if let Some(c) = str_of(obj, "customer")
+                && server.store.wallet(user.id).await.map_err(err)?.stripe_customer.is_none()
+            {
                 server.store.set_stripe_customer(user.id, c).await.map_err(err)?;
             }
             // A new subscription, paid: its first month. The invoice says the
@@ -777,11 +794,20 @@ async fn apply(server: &Server, event: &Value) -> Result<(), String> {
         }
         "customer.subscription.deleted" => {
             if let Some(user) = user_of(server, obj).await {
-                // The paid period is over (or the subscription was ended now).
+                // The paid period is over (or the subscription was ended now):
+                // what it would still have given goes, and only that. VIP
+                // from elsewhere (a month given, bought in the Store, from
+                // the staff) stays, after now.
                 let ended = obj["ended_at"].as_i64().unwrap_or(now());
+                let period_end = obj["current_period_end"]
+                    .as_i64()
+                    .or_else(|| obj.pointer("/items/data/0/current_period_end")?.as_i64())
+                    .unwrap_or(ended);
+                let unused = (period_end + VIP_GRACE - ended).max(0);
                 let w = server.store.wallet(user.id).await.map_err(err)?;
-                if w.vip_until > ended {
-                    server.store.set_vip(user.id, ended, true).await.map_err(err)?;
+                let until = (w.vip_until - unused).max(ended).min(w.vip_until);
+                if until < w.vip_until {
+                    server.store.set_vip(user.id, until, true).await.map_err(err)?;
                 }
                 push_wallet(server, &user).await;
             }
@@ -829,8 +855,14 @@ async fn apply(server: &Server, event: &Value) -> Result<(), String> {
                 .credit(p.user_id, -p.coins, kind, Some(&format!("refund:{}", p.id)), now())
                 .await
                 .map_err(err)?;
+            // The month refunded goes, and only it: other VIP time (other
+            // months, gifts, the Store, the staff) stays.
             if first && (p.kind == "vip" || p.kind == "vip_gift") {
-                server.store.set_vip(p.user_id, now(), true).await.map_err(err)?;
+                let w = server.store.wallet(p.user_id).await.map_err(err)?;
+                let until = (w.vip_until - VIP_GIFT_SECS).max(now()).min(w.vip_until);
+                if until < w.vip_until {
+                    server.store.set_vip(p.user_id, until, true).await.map_err(err)?;
+                }
             }
             if first || taken {
                 tracing::warn!(user = p.user_id, payment = %p.id, "payment reversed ({kind})");

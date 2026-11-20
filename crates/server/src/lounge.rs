@@ -152,6 +152,9 @@ const CODE_LIFETIME: Duration = Duration::from_secs(30 * 60);
 /// Extra time after a shot's simulated duration before the next shot clock
 /// starts (the players watch the balls stop and read the result).
 const SHOT_MARGIN: Duration = Duration::from_millis(1500);
+/// The shot clocks a player can let run out in a row before they are taken
+/// to have left the game.
+const IDLE_TURNS: u8 = 3;
 /// Aim and cue-ball updates are relayed at most this often.
 const AIM_RELAY: Duration = Duration::from_millis(33);
 const MATCH_CHAT_KEEP: usize = 40;
@@ -235,6 +238,9 @@ struct Room {
     breaker: usize,
     /// The shot being simulated (no other shot or aim is accepted meanwhile).
     busy: Option<u32>,
+    /// The shot clocks each seat let run out in a row (a stroke or a choice
+    /// of theirs starts over): at [`IDLE_TURNS`] they left the game.
+    idle: [u8; 2],
     shot_at: Instant,
     /// Turns each seat has had (for "break and run").
     turns: [u32; 2],
@@ -2211,6 +2217,7 @@ impl Lounge {
             present: [true, true],
             breaker,
             busy: None,
+            idle: [0, 0],
             shot_at: Instant::now(),
             turns,
             tournament,
@@ -2402,6 +2409,7 @@ impl Lounge {
         let cue_ball = room.game.ball_in_hand().map(|_| room.game.ball(BallId::CUE).xy());
         room.busy = Some(turn);
         room.shot_at = Instant::now();
+        room.idle[seat % 2] = 0;
         room.replay.strokes.push(Stroke::Shot { shot, called, cue_ball, timeout });
         let msg =
             ServerMsg::ShotTaken { seat, turn, shot, called_pocket: called, cue_ball, timeout };
@@ -2486,8 +2494,20 @@ impl Lounge {
     /// [`EightBallGame::time_foul`]). A choice after the break that isn't
     /// made in time takes its first option.
     fn timeout_shot(&mut self, id: u64) {
-        let Some(room) = self.rooms.get(&id) else { return };
+        let Some(room) = self.rooms.get_mut(&id) else { return };
         let seat = room.game.current_player();
+        // A player who lets the clock run out again and again isn't playing
+        // (a break or an open table owes nothing, and the official rules
+        // never end on the clock): they left the game, and it (a
+        // tournament's too) doesn't wait for them forever.
+        room.idle[seat % 2] = room.idle[seat % 2].saturating_add(1);
+        if room.idle[seat % 2] >= IDLE_TURNS {
+            tracing::info!(room = id, seat, "the shot clock ran out {IDLE_TURNS} times in a row");
+            room.game.abandon(seat);
+            room.replay.strokes.push(Stroke::Abandon { seat });
+            self.finish(id);
+            return;
+        }
         if let Some(choice) = room.game.pending_choice() {
             let turn = room.game.shots_taken();
             return self.make_choice(id, seat, turn, choice.options()[0]);
@@ -2527,6 +2547,9 @@ impl Lounge {
         }
         match game.pending_choice() {
             Some(choice) if choice.options().contains(&option) => {
+                if let Some(room) = self.rooms.get_mut(&id) {
+                    room.idle[seat % 2] = 0;
+                }
                 self.make_choice(id, seat, turn, option)
             }
             _ => self.error(k, "That choice can't be made now."),
@@ -3165,6 +3188,7 @@ impl Lounge {
             present: [true, true],
             breaker: live.replay.breaker,
             busy: None,
+            idle: [0, 0],
             shot_at: nowi,
             turns: rebuilt.turns,
             tournament: None,

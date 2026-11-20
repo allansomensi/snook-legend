@@ -423,7 +423,8 @@ impl MemoryStore {
         for m in &s.matches {
             let Some(seat) = m.players.iter().position(|p| *p == user_id) else { continue };
             let st = &m.stats[seat];
-            if m.replay.is_none() && st.shots == 0 {
+            // As PostgreSQL counts them: the games this player took a shot in.
+            if st.shots == 0 {
                 continue;
             }
             c.games += 1;

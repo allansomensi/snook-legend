@@ -242,13 +242,15 @@ impl Tournament {
             }
     }
 
-    /// Arena standings, best first.
+    /// Arena standings, best first: by points, then (on the same points)
+    /// who played before who never did, then fewer games.
     fn standings(&self, rating: impl Fn(&str) -> i32) -> Vec<(String, ArenaScore)> {
         let mut list: Vec<(String, ArenaScore)> =
             self.arena.iter().map(|(k, s)| (k.clone(), s.clone())).collect();
         list.sort_by(|a, b| {
             b.1.points
                 .cmp(&a.1.points)
+                .then((a.1.games == 0).cmp(&(b.1.games == 0)))
                 .then(a.1.games.cmp(&b.1.games))
                 .then(rating(&b.0).cmp(&rating(&a.0)))
                 .then(a.0.cmp(&b.0))
@@ -1166,8 +1168,10 @@ impl Lounge {
         let t = &self.tournaments[&id];
         let rating = |k: &str| t.rating_of(k);
         let standings = t.standings(rating);
-        let champion = standings.first().filter(|(_, s)| s.games > 0).map(|(k, _)| k.clone());
-        let runner_up = standings.get(1).filter(|(_, s)| s.games > 0).map(|(k, _)| k.clone());
+        // The best two who played (one who never did is no runner-up).
+        let mut played = standings.iter().filter(|(_, s)| s.games > 0).map(|(k, _)| k.clone());
+        let champion = played.next();
+        let runner_up = played.next();
         match champion {
             Some(c) => self.crown(id, c, runner_up),
             // Nobody played: no champion, fees back.

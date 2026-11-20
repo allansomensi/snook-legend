@@ -48,6 +48,7 @@ impl EightBallGame {
         let opponent = 1 - shooter;
         let was_break = self.is_break;
         let on_eight = self.is_on_eight(shooter);
+        let open_table = self.groups[shooter].is_none();
         if on_eight && !was_break && pending.called_pocket.is_some() {
             self.called[shooter] = pending.called_pocket;
         }
@@ -204,6 +205,17 @@ impl EightBallGame {
                 game_over = lost(GameOverReason::EightPocketedOnFoul);
             }
             penalty.extend(given);
+        } else if game_over.is_none()
+            && theirs.is_none()
+            && owed > 0
+            && !was_break
+            && self.only_the_eight_left()
+        {
+            // An open table with only the 8 left: both players are on it,
+            // and a foul that gives a ball loses (the 8 pays).
+            self.take_off(BallId::EIGHT);
+            penalty.push(BallId::EIGHT);
+            game_over = lost(GameOverReason::EightPocketedOnFoul);
         }
         self.shots_taken += 1;
         self.is_break = false;
@@ -247,6 +259,7 @@ impl EightBallGame {
             penalty,
             break_again,
             choice: None,
+            open_table,
         }
     }
 }

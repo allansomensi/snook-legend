@@ -32,7 +32,7 @@ If the break hits no ball, you lose the turn and the break passes to your oppone
 On the break, the first ball that goes down decides your group, even if the cue ball goes down too (unless balls of both groups go down with the cue ball: see above). If only balls of your group go down, you shoot again. If one of your opponent's goes down too (the 3 and then the 13, say: you take the solids), it stays down, for them, and the turn passes.
 
 ### Open table
-Until the groups are decided the table is open: you may hit any ball first except the 8. The first ball you pocket on a shot without a foul gives you its group, and your opponent the other. On an open table there is no opponent's ball yet: a foul costs only the turn. If no ball of either group is left on an open table, both players are on the 8.
+Until the groups are decided the table is open: you may hit any ball first except the 8. The first ball you pocket on a shot without a foul gives you its group, and your opponent the other. On an open table there is no opponent's ball yet: a foul costs only the turn. If no ball of either group is left on an open table, both players are on the 8, and any foul that would give a ball loses the game (the 8 pays).
 
 ## Fouls and penalties
 
@@ -55,7 +55,7 @@ The cue ball off the table costs the same as pocketing it: your opponent's lowes
 Pocketing one of your opponent's balls passes the turn, even if one of yours went down too. It stays down, for them.
 
 ### The shot clock
-When a game has a shot clock and it runs out, it is a foul: the cue ball goes back to the head spot (not in hand), your opponent gets a ball (their lowest on the table; if they are on the 8 already, the 8 pays and you lose) and the turn passes. While the table is open, no ball is owed. On the break, the break passes to your opponent, with the cue ball in hand behind the head string.
+When a game has a shot clock and it runs out, it is a foul: the cue ball goes back to the head spot (not in hand), your opponent gets a ball (their lowest on the table; if they are on the 8 already, the 8 pays and you lose) and the turn passes. While the table is open, no ball is owed (unless only the 8 is left: then the clock loses the game). On the break, the break passes to your opponent, with the cue ball in hand behind the head string.
 
 ## The 8-ball
 

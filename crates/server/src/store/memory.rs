@@ -305,6 +305,14 @@ impl MemoryStore {
         Ok(e.0)
     }
 
+    pub fn purge_old(&self, day: i64, now: i64) -> StoreResult<u64> {
+        let mut s = self.lock();
+        let before = s.activity.len() + s.board.len();
+        s.activity.retain(|(d, _)| *d >= day);
+        s.board.retain(|n| n.expires_at.is_none_or(|e| e > now));
+        Ok((before - s.activity.len() - s.board.len()) as u64)
+    }
+
     pub fn purge_missions(&self, now: i64) -> StoreResult<u64> {
         let mut s = self.lock();
         let before = s.missions.len();
@@ -878,6 +886,7 @@ impl MemoryStore {
         for p in s.payments.iter_mut().filter(|p| p.user_id == user_id) {
             p.email = None;
         }
+        s.forget_store_keys(user_id);
         Ok(())
     }
 
@@ -1185,8 +1194,11 @@ impl MemoryStore {
         Ok((before - s.active_hours.len()) as u64)
     }
 
-    pub fn record_tournament(&self, t: &TournamentRecord) -> StoreResult<()> {
+    pub fn record_tournament(&self, t: &TournamentRecord) -> StoreResult<bool> {
         let mut s = self.lock();
+        if t.lounge_id.is_some() && s.tournaments.iter().any(|x| x.lounge_id == t.lounge_id) {
+            return Ok(false);
+        }
         for id in &t.players {
             if let Some(u) = s.users.get_mut(id) {
                 u.tournaments_played += 1;
@@ -1196,7 +1208,7 @@ impl MemoryStore {
             }
         }
         s.tournaments.push(t.clone());
-        Ok(())
+        Ok(true)
     }
 
     pub fn drill_bests(&self, user_id: i64) -> StoreResult<Vec<(String, u32)>> {
@@ -1317,7 +1329,7 @@ impl MemoryStore {
         user_id: i64,
         day: i64,
         now: i64,
-        balls: u32,
+        balls: Option<u32>,
         cleared: bool,
         limit: i64,
     ) -> StoreResult<super::DailyFinish> {
@@ -1329,9 +1341,10 @@ impl MemoryStore {
             return Ok(super::DailyFinish::NotStarted);
         }
         row.started_at = 0;
-        let improved = row.best.is_none_or(|b| balls > b);
+        // A refused attempt (no balls) ends without a score.
+        let improved = balls.is_some_and(|n| row.best.is_none_or(|b| n > b));
         if improved {
-            row.best = Some(balls);
+            row.best = balls;
             row.best_at = now;
         }
         let first_clear = cleared && !row.cleared;

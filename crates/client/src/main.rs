@@ -329,6 +329,9 @@ async fn main() {
     // waits for the player to say which one (the new one takes the save's
     // place).
     let mut replace_save: Option<MatchSettings> = None;
+    // The game saved that a new one would replace is the tournament's (lost
+    // if it is replaced).
+    let mut replace_loses_cup = false;
     // The new game asked for is a tournament's (it begins the round).
     let mut replace_cup = false;
     // The online match came from the LAN game (not the global server).
@@ -710,8 +713,12 @@ async fn main() {
             }
         }
         // A stored game to watch again (from the profile).
+        // Only over nothing (or another stored game): one that comes after
+        // the player went on to a game of their own (a daily attempt, two
+        // players) is dropped, not played over it.
         if !current.as_ref().is_some_and(|m| m.is_online())
             && let Some(replay) = online.replay.take()
+            && current.as_ref().is_none_or(|m| m.is_replay())
         {
             current = Some(Match::replay_of(&replay, config.guide));
             hud = Hud::new(config.show_help);
@@ -1450,6 +1457,9 @@ async fn main() {
                                 config.save();
                                 replace_save = Some(settings);
                                 replace_cup = false;
+                                replace_loses_cup = saved::load().is_some_and(|s| {
+                                    cup.as_ref().is_some_and(|c| c.playing == Some(s.seed))
+                                });
                             }
                             versus::VersusAction::Start(settings)
                                 if wants_deal(&settings, &online) =>
@@ -1478,6 +1488,7 @@ async fn main() {
                                 config.save();
                                 replace_save = Some(settings);
                                 replace_cup = true;
+                                replace_loses_cup = false;
                             }
                             versus::VersusAction::StartCup(settings) => {
                                 config.save();
@@ -1869,7 +1880,7 @@ async fn main() {
             && !settings_open
             && !staff_up
         {
-            match draw_replace_save(&mut ui, saved_balls.unwrap_or(0)) {
+            match draw_replace_save(&mut ui, saved_balls.unwrap_or(0), replace_loses_cup) {
                 Some(Some(true)) if replace_cup => {
                     replace_save = None;
                     let seed = game::clock_seed();
@@ -1964,6 +1975,12 @@ async fn main() {
         let mut top = invite_top;
         for net in [Some(&mut online), lan.as_mut().map(|l| &mut l.net)].into_iter().flatten() {
             if invites_on {
+                // A game (or a game watched) of the other network has the
+                // table: this one's invitations can only be declined (one
+                // accepted would start a game with nowhere to go).
+                let other =
+                    current.as_ref().is_some_and(|m| m.is_online()) && match_from_lan != net.lan;
+                let spot = if other { online::InviteSpot::OnlineMatch } else { spot };
                 // The local network's under the server's, if both have some.
                 top = net.draw_invite_cards(&mut ui, top, spot);
             } else {
@@ -2043,15 +2060,26 @@ async fn main() {
                 in_play,
                 m.at_rest(),
                 over,
+                // (A turn passed by a choice that changed nothing else.)
+                m.turns_begun,
             );
             if save_key != Some(key) {
                 save_key = Some(key);
-                if let Some(s) = saved::SavedGame::of(m) {
-                    saved::save(&s);
-                    saved_balls = Some(s.balls_left());
-                } else if over {
-                    saved::delete();
-                    saved_balls = None;
+                match saved::SavedGame::kept(m) {
+                    saved::Kept::Game(s) => {
+                        saved::save(&s);
+                        saved_balls = Some(s.balls_left());
+                    }
+                    // The shot being played ends it: nothing to come back to.
+                    saved::Kept::Over => {
+                        saved::delete();
+                        saved_balls = None;
+                    }
+                    saved::Kept::Not if over => {
+                        saved::delete();
+                        saved_balls = None;
+                    }
+                    saved::Kept::Not => {}
                 }
             }
         }
@@ -2074,12 +2102,15 @@ async fn main() {
 /// in progress: Some(Some(true)) starts the new one, Some(Some(false)) goes
 /// back to the saved one, Some(None) is neither (Esc, or a press on the
 /// dimmed screen around it), None while the player decides.
-fn draw_replace_save(ui: &mut Ui, balls_left: usize) -> Option<Option<bool>> {
+fn draw_replace_save(ui: &mut Ui, balls_left: usize, cup_game: bool) -> Option<Option<bool>> {
     use crate::i18n::{t, tw};
     let (sw, sh) = (ui::vw(), ui::vh());
     draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.45));
     let w = 460.0f32.min(sw - 24.0);
-    let text = if balls_left == 1 {
+    let text = if cup_game {
+        t("You have your tournament game in progress. A new game takes its place, and the tournament game counts as lost.")
+            .to_string()
+    } else if balls_left == 1 {
         t("You have a game in progress against the computer, with 1 ball left. A new game takes its place.")
             .to_string()
     } else {

@@ -39,36 +39,64 @@ pub struct SavedGame {
     pub saved_at: i64,
 }
 
+/// What [`SavedGame::kept`] makes of a game.
+pub enum Kept {
+    Game(Box<SavedGame>),
+    /// Over (or about to be): nothing to keep.
+    Over,
+    /// Not a game that is kept.
+    Not,
+}
+
 impl SavedGame {
-    /// What to keep of `m`: only a game against the computer, between shots,
-    /// still being played.
+    /// What to keep of `m`: only a game against the computer, still being
+    /// played. A shot being played is kept as it will end: leaving while the
+    /// balls roll never takes it back.
+    #[cfg(test)]
     pub fn of(m: &Match) -> Option<SavedGame> {
-        let Controller::Computer(_) = m.controllers[1] else { return None };
-        let opponent = m.opponent.clone()?;
-        if m.controllers[0] != Controller::Human
-            || m.practice
-            || m.is_online()
-            || m.is_replay()
-            || m.game.game_over().is_some()
-            || !m.at_rest()
-        {
-            return None;
+        match Self::kept(m) {
+            Kept::Game(s) => Some(*s),
+            _ => None,
         }
-        Some(SavedGame {
+    }
+
+    /// [`Self::of`], or whether the game is over (the shot being played
+    /// ends it): the saved game is then forgotten.
+    pub fn kept(m: &Match) -> Kept {
+        let Controller::Computer(_) = m.controllers[1] else { return Kept::Not };
+        let Some(opponent) = m.opponent.clone() else { return Kept::Not };
+        if m.controllers[0] != Controller::Human || m.practice || m.is_online() || m.is_replay() {
+            return Kept::Not;
+        }
+        let game = match &m.phase {
+            crate::game::Phase::Turn { .. } | crate::game::Phase::Pause(_) => m.game.clone(),
+            crate::game::Phase::Simulating(p) => {
+                let mut game = m.game.clone();
+                let mut pending = (**p).clone();
+                pending.simulation.run_to_rest();
+                game.finish_shot(pending);
+                game
+            }
+            _ => return Kept::Not,
+        };
+        if game.game_over().is_some() {
+            return Kept::Over;
+        }
+        Kept::Game(Box::new(SavedGame {
             version: VERSION,
             names: m.names.clone(),
             level: opponent.level(),
             opponent: Some(opponent),
             ladder: m.ladder.clone(),
             seed: m.seed(),
-            game: m.game.clone(),
+            game,
             stats: m.stats,
             timeline: m.timeline.clone(),
             wins: m.wins,
             games_played: m.games_played,
             shot_clock: m.clock.map(|(s, _)| s.round() as u32),
             saved_at: crate::game::unix_now(),
-        })
+        }))
     }
 
     /// Who the computer is.
@@ -139,6 +167,29 @@ mod tests {
         // Two players on one computer: nothing to keep.
         let hot = MatchSettings { mode: MatchMode::HotSeat, ..settings };
         assert!(SavedGame::of(&Match::new(&hot, 1)).is_none());
+    }
+
+    /// Leaving while the balls roll keeps the table the shot leaves (not the
+    /// one before it: the shot can't be taken back by coming back).
+    #[test]
+    fn a_shot_being_played_is_kept_as_it_ends() {
+        let settings = MatchSettings {
+            mode: MatchMode::VsComputer(Opponent::Level { level: Difficulty::Medium }),
+            names: ["Ana".into(), "CPU".into()],
+            guide: crate::config::AimGuide::Standard,
+            shot_clock: None,
+            ladder: None,
+            rules: snook_legend_core::Rules::Brazilian,
+        };
+        let mut m = Match::new(&settings, 77);
+        let before = m.game.shots_taken();
+        assert!(m.shoot(), "a stroke is played");
+        assert!(matches!(m.phase, crate::game::Phase::Simulating(_)));
+        match SavedGame::kept(&m) {
+            Kept::Game(s) => assert_eq!(s.game.shots_taken(), before + 1),
+            Kept::Over => {}
+            Kept::Not => panic!("a shot being played is kept"),
+        }
     }
 
     #[test]

@@ -32,7 +32,7 @@ Si el saque no toca ninguna bola, pierdes el turno y el saque pasa al rival: las
 En el saque, la primera bola que entre decide tu grupo, aunque la blanca entre también (salvo que entren bolas de los dos grupos con la blanca: mira arriba). Si solo entran bolas de tu grupo, tiras otra vez. Si entra también una del rival (la 3 y después la 13, por ejemplo: te quedas con las lisas), queda metida, a su favor, y pasa el turno.
 
 ### Mesa abierta
-Mientras los grupos no estén decididos, la mesa está abierta: puedes tocar primero cualquier bola menos la 8. La primera bola que metas en un tiro sin falta te da su grupo, y al rival el otro. Con la mesa abierta todavía no hay bola del rival: una falta cuesta solo el turno. Si con la mesa abierta no queda ninguna bola de los grupos, los dos jugadores están en la 8.
+Mientras los grupos no estén decididos, la mesa está abierta: puedes tocar primero cualquier bola menos la 8. La primera bola que metas en un tiro sin falta te da su grupo, y al rival el otro. Con la mesa abierta todavía no hay bola del rival: una falta cuesta solo el turno. Si con la mesa abierta no queda ninguna bola de los grupos, los dos jugadores están en la 8, y cualquier falta que daría una bola pierde la partida (la 8 paga).
 
 ## Faltas y penalizaciones
 
@@ -55,7 +55,7 @@ La blanca fuera de la mesa cuesta lo mismo que meterla: la bola más baja del ri
 Meter una bola del rival pasa el turno, aunque también haya entrado una tuya. Se queda metida, a su favor.
 
 ### El tiempo de tiro
-Cuando la partida tiene tiempo de tiro y se acaba, es falta: la blanca vuelve al punto de salida (sin bola en mano), el rival gana una bola (la menor suya en la mesa; si ya está en la 8, la 8 paga y pierdes) y el turno pasa. Con la mesa todavía abierta, no se paga ninguna bola. En el saque, el saque pasa al rival, con la blanca en mano detrás de la línea de cabecera.
+Cuando la partida tiene tiempo de tiro y se acaba, es falta: la blanca vuelve al punto de salida (sin bola en mano), el rival gana una bola (la menor suya en la mesa; si ya está en la 8, la 8 paga y pierdes) y el turno pasa. Con la mesa todavía abierta, no se paga ninguna bola (salvo que solo quede la 8: entonces el tiempo pierde la partida). En el saque, el saque pasa al rival, con la blanca en mano detrás de la línea de cabecera.
 
 ## La bola 8
 

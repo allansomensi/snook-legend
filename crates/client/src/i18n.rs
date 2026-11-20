@@ -278,6 +278,18 @@ pub fn server_text(text: &str) -> String {
 
 /// A tournament's name: the server's weekly cups ("Saturday Cup") in the
 /// player's language, any other name as its organiser wrote it.
+/// What the shot clock running out does, under `rules`.
+pub fn clock_hint(rules: snook_legend_core::Rules) -> &'static str {
+    t(match rules {
+        snook_legend_core::Rules::Brazilian => {
+            "When time runs out, it's a foul: your opponent gets a ball and the cue ball goes back to the head spot."
+        }
+        snook_legend_core::Rules::Official => {
+            "When time runs out, it's a foul: your opponent gets the cue ball in hand."
+        }
+    })
+}
+
 pub fn tournament_name(name: &str) -> String {
     const CUPS: [&str; 7] = [
         "Sunday Cup",

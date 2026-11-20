@@ -125,8 +125,9 @@ async fn submit(
     let outcome = tokio::task::spawn_blocking(move || daily::score(seed, &strokes))
         .await
         .unwrap_or(Err(Refused::Other));
-    // A refused attempt still ends the one under way.
-    let (balls, cleared) = outcome.map_or((0, false), |o| (o.balls, o.cleared));
+    // A refused attempt still ends the one under way (without a score: it
+    // doesn't put the player on the day's table).
+    let (balls, cleared) = outcome.as_ref().map_or((None, false), |o| (Some(o.balls), o.cleared));
     let finish = server
         .store
         .daily_finish(me.id, day, t, balls, cleared, daily::TIME_LIMIT_SECS)

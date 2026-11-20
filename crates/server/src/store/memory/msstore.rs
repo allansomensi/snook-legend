@@ -229,3 +229,12 @@ impl MemoryStore {
             .collect())
     }
 }
+
+impl super::Inner {
+    /// A deleted account's keys to their Microsoft account's purchases go.
+    pub(super) fn forget_store_keys(&mut self, user_id: i64) {
+        for r in self.ms_consumes.iter_mut().filter(|r| r.consume.user_id == user_id) {
+            r.consume.store_key.clear();
+        }
+    }
+}

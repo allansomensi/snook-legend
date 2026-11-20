@@ -373,6 +373,9 @@ impl Hud {
                 self.reactions_open = false;
             } else if is_key_pressed(KeyCode::Escape) && self.quick_open {
                 self.quick_open = false;
+            } else if is_key_pressed(KeyCode::Escape) && self.paused && self.show_help {
+                // The list of controls closes back to the menu (as its Back).
+                self.show_help = false;
             } else if is_key_pressed(KeyCode::Escape) && !escape_used {
                 self.paused = !self.paused;
                 self.confirm_leave = false;
@@ -924,7 +927,7 @@ impl Hud {
             let score = format!("{}  {} – {}  {}", m.names[0], m.wins[0], m.wins[1], m.names[1]);
             ui.text_centered(&score, sw / 2.0, r.y + 88.0, 16.0, CREAM, true);
             // (A stored game being watched ends there.)
-            if all_computers && m.video.is_none() {
+            if all_computers && !m.is_replay() {
                 ui.text_centered(
                     t("Next game starts in a moment…"),
                     sw / 2.0,
@@ -939,11 +942,13 @@ impl Hud {
                 if ui.primary_button(b, t("Back to the tournament")) {
                     action = HudAction::MainMenu;
                 }
-            } else if m.video.is_some() {
-                // A stored game watched to its end: from the start again, or
-                // back (no rematch: it was someone's game, already played).
+            } else if m.is_replay() {
+                // A stored game watched to its end: from the start again (one
+                // that can be gone through), or back (no rematch: it was
+                // someone's game, already played).
                 let bx = sw / 2.0 - 180.0;
-                if ui.primary_button(Rect::new(bx, r.y + 128.0, 170.0, 38.0), t("Watch again")) {
+                let again = Rect::new(bx, r.y + 128.0, 170.0, 38.0);
+                if m.video.is_some() && ui.primary_button(again, t("Watch again")) {
                     m.seek(0);
                 }
                 if ui.button(Rect::new(bx + 190.0, r.y + 128.0, 170.0, 38.0), t("Main menu"), true)

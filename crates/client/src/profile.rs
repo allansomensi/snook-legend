@@ -1383,6 +1383,8 @@ impl ProfileScreen {
         if ui.button(Rect::new(x + fw - bw, y, bw, 34.0), label, ok) {
             if form.confirm_rename.is_some() {
                 online.send(ClientMsg::ChangeUsername { username: wanted.clone() });
+                // The session comes back under the new name: the same account.
+                online.renaming_to = Some(wanted.clone());
                 form.confirm_rename = None;
                 form.renaming = Some(wanted);
             } else {

@@ -57,6 +57,9 @@ pub struct Controls {
     orbit_drag: f32,
     /// The shoot key went down during this turn (its release may shoot).
     shoot_armed: bool,
+    /// The turn the input is about (a new one, also from one person to the
+    /// next at the same computer, starts with nothing held).
+    turn: u32,
 }
 
 impl Controls {
@@ -206,6 +209,11 @@ impl Controls {
         let delta = mouse - self.last_mouse;
         self.last_mouse = mouse;
         rig.hold = false;
+        if self.turn != m.turns_begun {
+            self.turn = m.turns_begun;
+            self.mode = DragMode::None;
+            self.shoot_armed = false;
+        }
         if !m.is_human_turn() {
             self.mode = DragMode::None;
             self.set_over_cue(false);

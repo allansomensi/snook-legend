@@ -110,6 +110,13 @@ pub enum Effect {
     RecordTournament(TournamentRecord),
     /// Save a game in progress (after every stroke).
     SaveLive(LiveMatch),
+    /// A game handed to the next server: its copy is written as it is now,
+    /// and only then are its players' connections closed (they come back
+    /// on the next server, which plays it from that copy, not an older one).
+    HandOff {
+        live: LiveMatch,
+        kills: Vec<Arc<Notify>>,
+    },
     /// The game ended (or was handed over): forget the saved copy.
     DeleteLive(i64),
     /// Add a player's shots by difficulty band: (band, attempts, made).
@@ -187,6 +194,9 @@ const ACTION_RATE: f64 = 1.0;
 /// A tournament still taking names is dropped when its host has been gone
 /// this long (it would hold one of the few tournament slots forever).
 const HOSTLESS_TOURNAMENT: Duration = Duration::from_secs(300);
+/// A player's tournament still taking names after this long is dropped
+/// (its fees given back): nobody came, and it holds one of the few slots.
+const STALE_REGISTRATION: Duration = Duration::from_secs(3600);
 
 pub struct Session {
     pub conn_id: u64,
@@ -371,6 +381,9 @@ pub struct Lounge {
     seeks: social::Seeks,
     /// (player, table or tournament) -> wrong passwords given, since when.
     password_misses: HashMap<(String, u64), (u32, Instant)>,
+    /// Results of each account (id) still waiting for the effect worker: the
+    /// numbers it stored aren't the newest while another is on its way.
+    records_pending: HashMap<i64, u32>,
     /// The rate limits of players who left a moment ago, since when:
     /// signing in again doesn't fill them up (see [`LIMITS_KEPT`]).
     left_limits: HashMap<String, (Limits, Instant)>,
@@ -860,6 +873,14 @@ impl Lounge {
 
     /// Why `name` can't change their username right now, if they can't: the
     /// game, table, queue or tournament they are in knows them by it.
+    /// `name` is about to stop being an account's (renamed or deleted): the
+    /// invitations to and from them end now, so none is accepted while the
+    /// change is being made (a game would start under the old name).
+    pub fn drop_invites_named(&mut self, name: &str) {
+        let k = key(name);
+        self.drop_invites_of(&k);
+    }
+
     pub fn rename_blocker(&self, name: &str) -> Option<&'static str> {
         let k = key(name);
         let s = self.sessions.get(&k)?;
@@ -900,8 +921,13 @@ impl Lounge {
     pub fn renamed(&mut self, old: &str, conn: u64, user: User, token: String) {
         let (old_k, new_k) = (key(old), key(&user.username));
         // This connection's session (not another device that signed in
-        // meanwhile, still under the old name).
-        let Some(s) = self.sessions.get(&old_k).filter(|s| s.conn_id == conn) else { return };
+        // meanwhile, still under the old name: that name is no longer the
+        // account's, and someone else may take it).
+        let Some(s) = self.sessions.get(&old_k) else { return };
+        if s.conn_id != conn {
+            self.kick(old, "Your username was changed. Sign in again.");
+            return;
+        }
         let (conn_id, tx, kill, ip) = (s.conn_id, s.tx.clone(), s.kill.clone(), s.ip.clone());
         let (blocked, look, achievements) =
             (s.blocked.clone(), s.look.clone(), s.achievements.clone());
@@ -943,6 +969,27 @@ impl Lounge {
         if let Some(s) = self.sessions.get_mut(&k) {
             s.user = user;
             self.announce(&k);
+        }
+    }
+
+    /// The effect worker wrote a result of these players (or gave up).
+    pub fn record_written(&mut self, players: [i64; 2]) {
+        for id in players {
+            if let Some(n) = self.records_pending.get_mut(&id) {
+                *n = n.saturating_sub(1);
+                if *n == 0 {
+                    self.records_pending.remove(&id);
+                }
+            }
+        }
+    }
+
+    /// [`Self::refresh_user`] with the numbers a written result left, unless
+    /// another of their results is still on its way (the session already
+    /// counts it: the stored numbers are older).
+    pub fn refresh_recorded(&mut self, user: User) {
+        if !self.records_pending.contains_key(&user.id) {
+            self.refresh_user(user);
         }
     }
 
@@ -1521,7 +1568,7 @@ impl Lounge {
         while room.chat.len() > MATCH_CHAT_KEEP {
             room.chat.pop_front();
         }
-        for p in room.keys.clone() {
+        for p in self.members(id) {
             let blocked = self
                 .sessions
                 .get(&p)
@@ -1631,8 +1678,7 @@ impl Lounge {
             (None, None) => return,
         };
         let msg = ServerMsg::Reaction { seat, code: r.code.to_string() };
-        let room = &self.rooms[&id];
-        for p in room.keys.iter().cloned().chain(self.spectators(id)) {
+        for p in self.members(id).into_iter().chain(self.spectators(id)) {
             let blocked = self.sessions.get(&p).is_some_and(|s| s.blocked.contains(&sender));
             if !blocked {
                 self.send(&p, msg.clone());
@@ -1805,9 +1851,11 @@ impl Lounge {
     /// another game, hears nothing more from it).
     fn members(&self, id: u64) -> Vec<String> {
         let Some(room) = self.rooms.get(&id) else { return Vec::new() };
+        // (One who is offline is still theirs: their friends watching them
+        // hear how it ended.)
         room.keys
             .iter()
-            .filter(|k| !room.finished || self.sessions.get(*k).is_some_and(|s| s.room == Some(id)))
+            .filter(|k| !room.finished || self.sessions.get(*k).is_none_or(|s| s.room == Some(id)))
             .cloned()
             .collect()
     }
@@ -2585,6 +2633,7 @@ impl Lounge {
         let Some(room) = self.rooms.get_mut(&id) else { return };
         room.game.time_foul();
         room.replay.strokes.push(Stroke::TimeFoul);
+        room.stats[seat % 2].end_visit();
         let over = room.game.game_over().is_some();
         if !over {
             room.turns[room.game.current_player()] += 1;
@@ -2811,6 +2860,9 @@ impl Lounge {
                 }
             }
             // Recorded with its saved copy deleted in the same step.
+            for id in record.players {
+                *self.records_pending.entry(id).or_default() += 1;
+            }
             self.effect(Effect::RecordMatch { record, keys: keys.clone(), farmed });
         }
         tracing::info!(room = id, "match finished: {:?}", over);
@@ -3138,7 +3190,16 @@ impl Lounge {
             self.close_table_of(&h);
             self.announce(&h);
         }
-        self.invites.clear();
+        // Invitations end, and those who sent or got them are told (their
+        // dialogs would wait for an answer that won't come); the board too.
+        let inviters: Vec<String> = self.invites.keys().map(|(from, _)| from.clone()).collect();
+        for k in inviters {
+            self.drop_invites_of(&k);
+        }
+        let seekers: Vec<String> = self.sessions.keys().cloned().collect();
+        for k in seekers {
+            self.drop_seek(&k);
+        }
         // Tournaments live in this server's memory alone: whatever is still
         // open or being played is called off, every entry fee given back
         // (the games already on go on, as games of their own).
@@ -3226,6 +3287,7 @@ impl Lounge {
             return;
         }
         tracing::info!(room = id, "game handed to the next server");
+        let mut kills = Vec::new();
         for k in &room.keys {
             if let Some(set) = self.watchers.remove(k) {
                 for w in set {
@@ -3242,10 +3304,19 @@ impl Lounge {
                 && s.room == Some(id)
             {
                 s.room = None;
-                // Closing the connection: the game reconnects by itself.
-                s.kill.notify_one();
+                // Closing the connection (once the copy is written): the
+                // game reconnects by itself.
+                kills.push(s.kill.clone());
             }
         }
+        let live = LiveMatch {
+            id: id as i64,
+            players: [room.users[0].id, room.users[1].id],
+            rated: room.rated,
+            replay: room.replay.clone(),
+            updated_at: now(),
+        };
+        self.effect(Effect::HandOff { live, kills });
     }
 
     /// Rebuilds a saved game after a restart (or a hand-over). The players
@@ -3447,6 +3518,9 @@ impl Rebuilt {
             let shooter = game.current_player();
             let in_hand = game.ball_in_hand().is_some();
             let report = snook_legend_proto::replay::apply(&mut game, stroke)?;
+            if matches!(stroke, Stroke::TimeFoul) {
+                stats[shooter % 2].end_visit();
+            }
             if let (Some(report), Stroke::Shot { shot, .. }) = (report, stroke) {
                 stats[shooter].add(&report, in_hand);
                 stats[shooter].add_spin(shot, &report);

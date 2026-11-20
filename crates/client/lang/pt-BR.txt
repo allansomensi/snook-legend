@@ -2039,3 +2039,8 @@ how play goes on after the break is undecided	ainda não foi decidido como o jog
 Finish your game, and leave your table, the queue or your tournament first.	Termine sua partida e saia da sua mesa, da fila ou do seu torneio antes.
 That choice can't be made now.	Essa escolha não pode ser feita agora.
 That medal can't be.	Essa medalha não existe.
+{name}'s tournament	Torneio de {name}
+When time runs out, it's a foul: your opponent gets a ball and the cue ball goes back to the head spot.	Quando o tempo acaba, é falta: o adversário ganha uma bola e a branca volta para a marca de saída.
+When time runs out, it's a foul: your opponent gets the cue ball in hand.	Quando o tempo acaba, é falta: o adversário fica com a branca na mão.
+Your username was changed. Sign in again.	Seu nome de usuário foi mudado. Entre de novo.
+You have your tournament game in progress. A new game takes its place, and the tournament game counts as lost.	Você tem sua partida do torneio em andamento. Uma partida nova toma o lugar dela, e a partida do torneio conta como derrota.

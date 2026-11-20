@@ -261,11 +261,14 @@ pub struct Claimer {
     account: String,
     /// The game last sent (its rack): the verdict is about that one.
     sent: Option<u64>,
+    /// The session it was sent in: one that ended before the verdict came
+    /// (a lost connection) never answers it, so it goes again.
+    sent_session: u32,
 }
 
 impl Default for Claimer {
     fn default() -> Self {
-        Claimer { state: Claim::Idle, account: String::new(), sent: None }
+        Claimer { state: Claim::Idle, account: String::new(), sent: None, sent_session: 0 }
     }
 }
 
@@ -323,6 +326,9 @@ impl Claimer {
                 self.state = Claim::Failed(Failure::NoAnswer);
             }
             Claim::Claiming(_) if !online.signed_in() => self.state = Claim::Idle,
+            Claim::Claiming(_) if online.session_count != self.sent_session => {
+                self.state = Claim::Idle;
+            }
             _ => {}
         }
         changed
@@ -340,6 +346,7 @@ impl Claimer {
     fn send(&mut self, progress: &Progress, online: &mut Online, now: f64) {
         if let Some(replay) = progress.pending_for(&self.account).cloned() {
             self.sent = Some(replay.seed);
+            self.sent_session = online.session_count;
             online.send(ClientMsg::LadderClaim { replay });
             self.state = Claim::Claiming(now);
         }

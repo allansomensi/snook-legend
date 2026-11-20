@@ -65,7 +65,9 @@ pub struct Versus {
     /// Today's challenge was asked for (the day it was asked).
     daily_asked: Option<i64>,
     /// "Start" was pressed: waiting for the server.
-    daily_starting: bool,
+    /// An attempt was asked for: when, and in which session (an answer that
+    /// never comes, a connection lost, gives the button back).
+    daily_starting: Option<(f64, u32)>,
     /// The drill picked on the list.
     drill: usize,
     /// The drills were asked for (once per visit).
@@ -101,7 +103,7 @@ impl Versus {
             ghost_focused: false,
             waiting: false,
             daily_asked: None,
-            daily_starting: false,
+            daily_starting: None,
             drill: 0,
             drills_asked: false,
             cup_abandon: false,
@@ -430,7 +432,7 @@ impl Versus {
             config.shot_clock = [0, 30, 60][i];
         }
         if ui.hovering(seg) {
-            ui.tooltip(t("When time runs out, the turn passes."), seg);
+            ui.tooltip(crate::i18n::clock_hint(config.rules()), seg);
         }
         enter
     }
@@ -886,8 +888,11 @@ impl Versus {
             self.daily_asked = Some(today);
             online.send(snook_legend_proto::ClientMsg::Daily);
         }
-        if online.daily_refused.is_some() {
-            self.daily_starting = false;
+        let unanswered = self
+            .daily_starting
+            .is_some_and(|(at, session)| get_time() - at > 15.0 || session != online.session_count);
+        if online.daily_refused.is_some() || unanswered {
+            self.daily_starting = None;
         }
         let left_w = (body.w * 0.46).floor();
         let left = Rect::new(body.x, body.y, left_w, body.h);
@@ -967,12 +972,12 @@ impl Versus {
                 say(ui, text, 13.0, ALERT, &mut y);
             }
             let b = Rect::new(x, y + 4.0, w.min(240.0), 40.0);
-            if self.daily_starting {
+            if self.daily_starting.is_some() {
                 crate::ui::spinner(vec2(b.x + 12.0, b.y + 20.0), 8.0, GOLD);
                 ui.text(t("Setting up the table…"), b.x + 30.0, b.y + 12.0, 14.0, MUTED, false);
             } else if info.attempts_left > 0 {
                 if ui.primary_button(b, t("Start an attempt")) {
-                    self.daily_starting = true;
+                    self.daily_starting = Some((get_time(), online.session_count));
                     online.daily_refused = None;
                     online.send(snook_legend_proto::ClientMsg::DailyStart);
                 }

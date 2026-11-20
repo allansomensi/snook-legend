@@ -52,7 +52,7 @@ impl Setup {
             AimGuide::Short => t("Only a short line from the cue ball."),
             AimGuide::Off => t("No lines on the table: aim by eye, along the cue."),
         };
-        let clock_hint = t("When time runs out, the turn passes.");
+        let clock_hint = crate::i18n::clock_hint(config.rules());
         let guide_lines = ui.wrap(guide_hint, inner, HINT);
         let clock_lines = ui.wrap(clock_hint, inner, HINT);
         let field_h = |hint: &[String]| {

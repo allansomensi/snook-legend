@@ -405,19 +405,18 @@ pub fn position(d: &Drill) -> Vec<(BallId, DVec2)> {
             cut_position(DVec2::new(0.12, -0.42), pocket, 6.0, 0.95, eight)
         }
         ("frozen", _) => {
-            // The cue ball against the long cushion, the 1 out in the table.
-            let hw = snook_legend_core::Table::default().spec.width / 2.0;
-            vec![
-                (BallId::CUE, DVec2::new(0.05, -(hw - r - 0.001))),
-                (ONE, DVec2::new(0.62, -0.40)),
-                eight,
-            ]
+            // The cue ball against the long cushion (touching it, as a ball
+            // that came to rest there), the 1 out in the table.
+            let table = snook_legend_core::Table::default();
+            let against = table.spec.width / 2.0 - table.cushion_contact();
+            vec![(BallId::CUE, DVec2::new(0.05, -against)), (ONE, DVec2::new(0.62, -0.40)), eight]
         }
         ("plant", Goal::Pot { pocket, .. }) => {
             // The 2 frozen to the 1, the line of their centres at the pocket.
             let ball = DVec2::new(0.70, 0.22);
             let line = (aim(pocket) - ball).normalize();
-            let two = ball - line * (2.0 * r + 0.0005);
+            // (Touching, as balls in a rack do.)
+            let two = ball - line * (2.0 * r + 1e-4);
             let from = snook_legend_core::math::from_angle(20f64.to_radians()).rotate(line);
             vec![
                 (BallId::CUE, two - line * 2.0 * r - from * 0.55),
@@ -571,8 +570,10 @@ fn play(g: &EightBallGame, shot: &Shot) -> Option<(ShotReport, Vec<Event>, Eight
 
 /// Whether a try of a single-shot drill worked.
 pub fn success(d: &Drill, report: &ShotReport, events: &[Event], after: &EightBallGame) -> bool {
+    // A try that lost the game (the 8 knocked in) never counts.
+    let clean = !report.is_foul() && report.game_over.is_none();
     let made = |ball: BallId, pocket: PocketId| {
-        !report.is_foul() && report.pocketed.iter().any(|&(b, p)| b == ball && p == pocket)
+        clean && report.pocketed.iter().any(|&(b, p)| b == ball && p == pocket)
     };
     match d.goal {
         Goal::Pot { ball, pocket } => made(ball, pocket),
@@ -596,8 +597,8 @@ pub fn success(d: &Drill, report: &ShotReport, events: &[Event], after: &EightBa
             let cue = after.ball(BallId::CUE);
             made(ball, pocket) && cue.in_play() && cue.xy().distance(zone) <= radius
         }
-        Goal::Escape { ball } => !report.is_foul() && report.first_contact == Some(ball),
-        Goal::Streak => !report.is_foul() && report.pocketed.iter().any(|&(b, _)| b == ONE),
+        Goal::Escape { ball } => clean && report.first_contact == Some(ball),
+        Goal::Streak => clean && report.pocketed.iter().any(|&(b, _)| b == ONE),
     }
 }
 
@@ -809,7 +810,7 @@ mod tests {
         for d in DRILLS {
             let balls = position(d);
             for (k, (id, p)) in balls.iter().enumerate() {
-                assert!(table.is_inside_playing_area(*p), "{}: {id} off the cloth", d.code);
+                assert!(table.can_place_ball(*p), "{}: {id} off the cloth", d.code);
                 for (other, q) in &balls[k + 1..] {
                     assert!(p.distance(*q) > 2.0 * r, "{}: {id} and {other} overlap", d.code);
                 }

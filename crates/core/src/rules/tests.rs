@@ -755,6 +755,26 @@ fn with_only_the_eight_on_the_table_a_miss_or_a_scratch_loses() {
     assert_eq!(report.game_over, lost);
 }
 
+/// The same on an open table whose group balls are all gone (down on
+/// fouls or breaks handed over): both are on the 8, a foul loses, and so
+/// does the clock.
+#[test]
+fn on_an_open_table_with_only_the_eight_a_foul_loses() {
+    let open = || {
+        let mut g = house(&[(0, DVec2::new(-0.2, 0.0)), (8, DVec2::new(-0.6, -0.3))]);
+        g.groups = [None, None];
+        g
+    };
+    let lost = Some(GameOver { winner: 1, reason: GameOverReason::EightPocketedOnFoul });
+    let mut g = open();
+    let report = g.play_shot(&Shot::new(0.0, 1.0), Some(PocketId::HeadLeft)).unwrap();
+    assert_eq!(report.fouls, vec![Foul::NoContact]);
+    assert_eq!((report.penalty, report.game_over), (vec![BallId::EIGHT], lost));
+    let mut g = open();
+    assert_eq!(g.time_foul(), vec![BallId::EIGHT]);
+    assert_eq!(g.game_over(), lost);
+}
+
 #[test]
 fn on_the_eight_a_foul_gives_a_ball_while_the_opponent_has_them() {
     // The shooter cleared the stripes; the opponent has three solids.

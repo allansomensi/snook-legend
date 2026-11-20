@@ -4,7 +4,8 @@
 
 Protocol 23 (the oldest let in too: the rules a replay is played back with
 changed, and a game of 0.8.1 would show other tables than the server's) and
-two migrations (0023: indexes; 0024: the room a match was played in).
+two migrations (0023: indexes; 0024: the room a match was played in and
+the lounge's id of a tournament, so each is recorded once).
 
 ### The Brazilian rule: the shot clock gives a ball
 - **The shot clock running out is a foul that gives a ball**: the
@@ -186,6 +187,94 @@ The game:
   a replay started during an online game waits for it.
 - Weekly cups' names translated on the trophy shelf; translations for the
   texts that had none.
+
+### A third review
+The rules:
+- **The Brazilian rules: an open table with only the 8 left** (every group
+  ball down on fouls or breaks handed over): both players are on the 8, and
+  a foul that gives a ball, or the clock, loses (it cost nothing). The book
+  says so.
+- The official rules: a ball made on an open table that gave no group (off
+  its call, on a safety) isn't counted as the shooter's (numbers, XP,
+  missions).
+- A saved or sent table with a speed or a spin that isn't a number is
+  refused (it turned the balls it met into nowhere).
+
+The game:
+- **Leaving while the balls roll keeps the shot**: the game against the
+  computer is saved as the shot will leave it (it kept the table before
+  it, and a missed shot, even in the tour's final, could be played again).
+- **Renaming the account no longer forgets the account's things** (wallet,
+  VIP, achievements, presents) until the next sign-in.
+- **Accepting an invitation of one network while watching a game of the
+  other no longer resigns the new game at once** (only declining is offered).
+- A stroke of a daily game the server didn't take (asked too fast, a
+  moment's trouble) no longer stays on the table as played: the game opens
+  again as the server has it; a daily game that missed strokes while the
+  connection was down asks for them; a late answer doesn't open its table
+  over another screen; its table uses the players' own cloth.
+- After a reconnection: a friend's game being watched is watched again (it
+  froze); the tour final's deal and a ladder claim asked on the lost
+  session are asked again; what was said at the table meanwhile still goes.
+- Watching a game keeps the player's invitation and search; a live game
+  against a daily-game opponent starts its own score.
+- The daily challenge's "Setting up the table…" gives the button back when
+  no answer comes; a replay that arrives after the player started a game of
+  their own doesn't replace it.
+- Signing in as another account forgets what was typed for the last one
+  (a table's password among them) and checks its own Store purchases.
+- A LAN host can't send coins, XP, achievements, presents, missions,
+  medals, events or the daily challenge (only the official server does).
+- Player-written tournament names are hidden from players with the chat
+  off.
+- Two players at one computer: a stroke being charged doesn't carry over
+  to the next player after a clock runs out.
+- A run of balls ends with a clock that runs out (the end panel, and the
+  server's "runs" missions).
+- Stored games: jumping to the end shows its score; the last shot watched
+  again plays while the game is paused; one that can't be gone through
+  ends with a way out.
+- Esc in the list of controls goes back to the menu; the shot clock's hint
+  says what it does under each rules; a new game replacing a saved
+  tournament game says the tournament game will count as lost; taking a
+  shot back on the free table takes its counts back too.
+- The payment page's notices have their colours right.
+
+The server:
+- **Stripe: a subscription ended and a refund of its month take that month
+  back once between them** (and each only once, however often delivered);
+  two VIP pages paid at once end the second subscription (logged for a
+  refund); a delivery cut short before a refund still cancels out; money
+  paid for a deleted account is logged for a refund; a lookup refused for
+  too many requests is asked again (only "no such thing" is an answer); the
+  first month counts from the payment.
+- A match stored by a write whose answer was lost still pays its rewards;
+  a tournament is recorded once (migration 0024); the stored numbers of a
+  player don't overwrite newer ones still on their way.
+- Bans: a banned player is out of their tournaments (no standing, prize or
+  crown) and, for longer than a turn lasts, out of their daily games.
+- A finished game's chat and reactions only reach players still at it; a
+  friend watching a player who dropped hears how the game ended.
+- Deploys: a game handed over is written as it is before its players are
+  moved (the next server played an older copy); the results still being
+  written are waited for; invitations and board notes end with notice.
+- Renames and deletions end the player's invitations first (one accepted
+  meanwhile started a game under the old name); a device left signed in
+  under the old name is signed out.
+- Tournaments: a player who withdrew while waiting is free at once; players
+  rejoining an arena (or starting a tournament) leave their table and board
+  note; arenas never pair a player with one who blocked them; a player's
+  tournament nobody joins closes after an hour (fees given back).
+- Daily games: a database hiccup no longer deletes a challenge; one game
+  that can't be read no longer stops the others; a forfeit is told as one;
+  the golden break needs a game that counts. A refused daily-challenge
+  attempt no longer puts the player on the day's table.
+- Moderators can't find payment ids by searching; a deleted account's
+  Microsoft Store keys go; old activity days and expired board notes are
+  cleared; names sort the same in both stores.
+- Drills: the "cue ball on the cushion" drill has it against the cushion,
+  and "the plant" balls touching; a try that knocks the 8 in doesn't count.
+- The ghost's style counts ordinary strokes at their own top speed.
 
 ## 0.8.1 (protocol 22)
 

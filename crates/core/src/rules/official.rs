@@ -49,6 +49,7 @@ impl EightBallGame {
         let opponent = 1 - shooter;
         let call = pending.called_pocket;
         let on_eight = self.is_on_eight(shooter);
+        let open_table = self.groups[shooter].is_none();
         let from_kitchen = self.ball_in_hand == Some(BallInHand::Kitchen);
         let events = sim.events();
         let facts = Facts::of(events);
@@ -178,6 +179,7 @@ impl EightBallGame {
             penalty: Vec::new(),
             break_again: false,
             choice: None,
+            open_table,
         }
     }
 
@@ -279,6 +281,7 @@ impl EightBallGame {
             penalty: Vec::new(),
             break_again: false,
             choice,
+            open_table: true,
         }
     }
 

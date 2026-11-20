@@ -168,7 +168,14 @@ pub async fn handle(
             }
             // Not in the middle of a game or a tournament: the name is freed
             // at once, and whoever took it could take the seat.
-            if server.with(|l| l.is_busy(&fresh.username)) {
+            let busy = server.with(|l| {
+                let busy = l.is_busy(&fresh.username);
+                if !busy {
+                    l.drop_invites_named(&fresh.username);
+                }
+                busy
+            });
+            if busy {
                 error(
                     "Finish your game, and leave your table, the queue or your tournament first.",
                 );
@@ -188,7 +195,7 @@ pub async fn handle(
             }
             // Their games by correspondence end now, lost (not days later).
             if !server.config.settings.lan {
-                crate::correspondence::account_deleted(server, me.id).await;
+                crate::correspondence::forfeit_all(server, me.id).await;
             }
             if server.store.delete_account(me.id, now()).await.is_err() {
                 error("Something went wrong. Please try again.");
@@ -245,7 +252,14 @@ pub async fn change_username(
         error("That username is taken.");
         return None;
     }
-    if let Some(why) = server.with(|l| l.rename_blocker(&me.username)) {
+    let blocker = server.with(|l| {
+        let why = l.rename_blocker(&me.username);
+        if why.is_none() {
+            l.drop_invites_named(&me.username);
+        }
+        why
+    });
+    if let Some(why) = blocker {
         error(why);
         return None;
     }

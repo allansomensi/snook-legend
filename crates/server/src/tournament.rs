@@ -183,7 +183,10 @@ impl Bracket {
         !self.rounds.iter().flatten().any(|s| {
             let lost = s.winner.is_some_and(|w| s.players[1 - w].as_deref() == Some(player));
             let closed = s.is_dead() && s.players.iter().any(|p| p.as_deref() == Some(player));
-            lost || closed
+            // Withdrew while waiting for their opponent (their seat closed).
+            let withdrew =
+                s.players.iter().zip(s.dead).any(|(p, d)| d && p.as_deref() == Some(player));
+            lost || closed || withdrew
         })
     }
 
@@ -287,6 +290,7 @@ mod tests {
         let mut b = Bracket::new(&names(3));
         b.withdraw(1, 0, 0);
         assert!(b.champion().is_none());
+        assert!(!b.alive("p0"), "out once withdrawn, not when the other match ends");
         b.set_no_winner(0, 1);
         assert!(b.champion().is_none() && b.closed(), "{b:?}");
         // The same, but the other match is played: its winner goes through.

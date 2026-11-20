@@ -739,7 +739,19 @@ async fn user_action(
                 Some(h) if h > 0 => format!("Your account was suspended for {h} hours: {reason}"),
                 _ => format!("Your account was banned: {reason}"),
             };
-            server.with(|l| l.kick(&target.username, &msg));
+            // Out of the tournaments (no prize or crown for them), and, for
+            // longer than a turn lasts, out of their games by correspondence
+            // (their opponents don't wait days on them).
+            server.with(|l| {
+                l.disqualify(&target.username);
+                l.kick(&target.username, &msg);
+            });
+            let long = body.hours.is_none_or(|h| {
+                h == 0 || h as i64 * 3600 > snook_legend_proto::correspondence::TURN_SECS
+            });
+            if long && !server.config.settings.lan {
+                crate::correspondence::forfeit_all(&server, target.id).await;
+            }
             let dur = match body.hours {
                 Some(h) if h > 0 => format!("{h}h"),
                 _ => "permanent".into(),
@@ -911,7 +923,14 @@ async fn user_action(
                 return Err(err(StatusCode::CONFLICT, "That username is taken."));
             }
             // Whoever registered the name freed could take their seat.
-            if server.with(|l| l.is_busy(&target.username)) {
+            let busy = server.with(|l| {
+                let busy = l.is_busy(&target.username);
+                if !busy {
+                    l.drop_invites_named(&target.username);
+                }
+                busy
+            });
+            if busy {
                 return Err(err(
                     StatusCode::CONFLICT,
                     "They are in a game, at a table, in the queue or in a tournament: rename them once they are out.",
@@ -1087,7 +1106,11 @@ async fn audit(
     // A moderator's words don't search the addresses of sign-ins (they
     // would spell them out letter by letter): such an entry is found only
     // by its staff member or target.
+    // Nor the ids of payments, which they don't see (a search on them would
+    // tell, letter by letter, which there are).
     let q = search.q.to_lowercase();
+    let hidden_target =
+        |e: &crate::store::AuditRow| matches!(e.action.as_str(), "payment" | "msstore-retry");
     let entries: Vec<crate::store::AuditRow> = entries
         .into_iter()
         .filter(|e| {
@@ -1096,6 +1119,12 @@ async fn audit(
                 || e.action != "login"
                 || e.staff.to_lowercase().contains(&q)
                 || e.target.to_lowercase().contains(&q)
+        })
+        .filter(|e| {
+            admin
+                || !hidden_target(e)
+                || (search.target.is_none()
+                    && (q.is_empty() || e.staff.to_lowercase().contains(&q)))
         })
         .map(|e| private_audit(e, admin))
         .collect();

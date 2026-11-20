@@ -56,6 +56,12 @@ impl ShotStats {
         }
     }
 
+    /// The player's visit ended without a shot (their clock ran out): a run
+    /// going ends with it.
+    pub fn end_visit(&mut self) {
+        self.run = 0;
+    }
+
     /// Counts the balls `report` legally made (the same as [`Self::add`]) if
     /// `shot` had spin: the tip clearly off centre, or the cue raised (a
     /// jump or a massé).
@@ -99,7 +105,21 @@ mod tests {
             penalty: vec![],
             break_again: false,
             choice: None,
+            open_table: false,
         }
+    }
+
+    /// The official rules: a ball made on an open table off its call (or
+    /// on a safety) gives no group, and isn't the shooter's.
+    #[test]
+    fn a_ball_made_on_an_open_table_that_gave_no_group_isnt_counted() {
+        let open = ShotReport { open_table: true, ..report(3, &[5]) };
+        assert!(open.balls_made().is_empty());
+        let mut s = ShotStats::default();
+        s.add(&open, false);
+        assert_eq!((s.balls, s.potting_shots), (0, 0));
+        let given = ShotReport { group_assigned: Some(Group::Solids), continues: true, ..open };
+        assert_eq!(given.balls_made(), vec![BallId(5)]);
     }
 
     #[test]

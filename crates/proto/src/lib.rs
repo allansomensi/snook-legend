@@ -726,7 +726,7 @@ pub struct AimState {
     pub elevation: f64,
     pub tip: DVec2,
     pub power: f32,
-    /// The pocket called for the 8-ball, if any (used if time runs out).
+    /// The pocket called for the 8-ball, if any.
     #[serde(default)]
     pub called_pocket: Option<PocketId>,
 }
@@ -1678,8 +1678,8 @@ pub enum ServerMsg {
         shot: Shot,
         called_pocket: Option<PocketId>,
         cue_ball: Option<DVec2>,
-        /// The shot clock ran out: the server played the shot at full power
-        /// in the direction the player was aiming.
+        /// Kept for older games: the server no longer plays a shot when the
+        /// clock runs out (it is a foul, see `TimeFoul`), so it is false.
         #[serde(default)]
         timeout: bool,
     },

@@ -157,22 +157,38 @@ impl Stripe {
         Ok(intent.and_then(|i| i["invoice"].as_str().map(str::to_string)))
     }
 
-    /// Whether `customer` has a subscription that bills (or will try to
-    /// again): a second one would charge the player twice.
-    pub async fn has_live_subscription(&self, customer: &str) -> Result<bool, String> {
+    /// The subscriptions of `customer` that bill (or will try to again).
+    pub async fn live_subscriptions(&self, customer: &str) -> Result<Vec<String>, String> {
         let c = urlencode(customer);
         let list =
             self.call("GET", &format!("subscriptions?customer={c}&status=all&limit=20")).await?;
-        Ok(list["data"].as_array().into_iter().flatten().any(|sub| {
-            matches!(
-                sub["status"].as_str(),
-                Some("active" | "trialing" | "past_due" | "unpaid" | "incomplete")
-            )
-        }))
+        Ok(list["data"]
+            .as_array()
+            .into_iter()
+            .flatten()
+            .filter(|sub| {
+                matches!(
+                    sub["status"].as_str(),
+                    Some("active" | "trialing" | "past_due" | "unpaid" | "incomplete")
+                )
+            })
+            .filter_map(|sub| sub["id"].as_str().map(str::to_string))
+            .collect())
     }
 
-    /// A GET whose refusal (a 4xx: no such thing) is `None`; Err only when
-    /// it could not be asked (unreachable, a bad reply, a 5xx).
+    /// Whether `customer` has a subscription that bills (or will try to
+    /// again): a second one would charge the player twice.
+    pub async fn has_live_subscription(&self, customer: &str) -> Result<bool, String> {
+        Ok(!self.live_subscriptions(customer).await?.is_empty())
+    }
+
+    /// Ends subscription `id` now.
+    pub async fn cancel_subscription(&self, id: &str) -> Result<(), String> {
+        self.call("DELETE", &format!("subscriptions/{}", urlencode(id))).await.map(|_| ())
+    }
+
+    /// A GET whose "no such thing" (404) is `None`; Err when it could not be
+    /// asked or answered (unreachable, a bad reply, any other error).
     #[cfg(feature = "payments")]
     async fn lookup(&self, path: &str) -> Result<Option<Value>, String> {
         let url = format!("https://api.stripe.com/v1/{path}");
@@ -184,7 +200,9 @@ impl Stripe {
             .await
             .map_err(|e| format!("payment provider unreachable: {e}"))?;
         let status = res.status();
-        if status.is_client_error() {
+        // Only "no such thing" is an answer; a refusal for too many
+        // requests (or a key) is asked again later.
+        if status == reqwest::StatusCode::NOT_FOUND {
             return Ok(None);
         }
         let body: Value = res.json().await.map_err(|e| format!("bad reply: {e}"))?;

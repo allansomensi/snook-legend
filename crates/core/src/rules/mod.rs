@@ -362,6 +362,9 @@ pub struct ShotReport {
     /// The official rules: a player must decide how play goes on after
     /// this break before anyone shoots (see [`EightBallGame::choose`]).
     pub choice: Option<BreakChoice>,
+    /// The table was open (no groups) when the shot was played.
+    #[serde(default)]
+    pub open_table: bool,
 }
 
 impl ShotReport {
@@ -390,7 +393,10 @@ impl ShotReport {
             let won = over.winner == self.shooter && over.reason == GameOverReason::PocketedEight;
             return made.filter(|b| won && *b == BallId::EIGHT).collect();
         }
-        if self.was_break && self.group_assigned.is_none() {
+        // A break that set no groups, or a shot on an open table that gave
+        // none (the official rules: a ball made off its call, or on a
+        // safety), made nothing for the shooter.
+        if (self.was_break || self.open_table) && self.group_assigned.is_none() {
             return Vec::new();
         }
         let own = self.group_assigned.or_else(|| self.first_contact.and_then(Group::of));
@@ -510,6 +516,14 @@ impl TryFrom<GameData> for EightBallGame {
         }
         if d.balls.iter().any(|b| !b.position.is_finite()) {
             return Err("a ball is nowhere");
+        }
+        // (A ball at rest with a speed or a spin that isn't a number would
+        // turn every ball it meets into nowhere.)
+        let unreal = |b: &Ball| {
+            !b.velocity.is_finite() || !b.angular_velocity.is_finite() || !b.orientation.is_finite()
+        };
+        if d.balls.iter().any(unreal) {
+            return Err("a ball moves in a way that can't be");
         }
         // Between shots everything on the table is at rest (a ball left
         // spinning in place may stay so: it no longer moves).
@@ -1007,6 +1021,11 @@ impl EightBallGame {
                 // it may have left free.
                 if let Some(g) = self.groups[opponent] {
                     paid = self.pay_penalty(g, 1);
+                } else if self.only_the_eight_left() {
+                    // An open table with only the 8: both are on it, and the
+                    // ball owed is the 8.
+                    self.take_off(BallId::EIGHT);
+                    paid.push(BallId::EIGHT);
                 }
                 if paid.contains(&BallId::EIGHT) {
                     self.end_with(opponent, GameOverReason::EightPocketedOnFoul);
@@ -1028,6 +1047,12 @@ impl EightBallGame {
         }
         self.current = opponent;
         paid
+    }
+
+    /// No object ball on the table but the 8.
+    pub(super) fn only_the_eight_left(&self) -> bool {
+        self.ball(BallId::EIGHT).in_play()
+            && self.balls.iter().all(|b| !b.id.is_object() || b.id == BallId::EIGHT || !b.in_play())
     }
 
     /// The Brazilian rules: `owed` balls of `group` come off the table for

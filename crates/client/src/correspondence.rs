@@ -99,6 +99,8 @@ pub struct CorrTable {
     sent: bool,
     /// The result was applied to the table.
     concluded: bool,
+    /// A stroke was sent and the server hasn't answered it yet.
+    awaiting: bool,
 }
 
 impl CorrTable {
@@ -135,11 +137,13 @@ pub fn outgoing(c: &mut CorrTable, msg: ClientMsg) -> Option<ClientMsg> {
         ClientMsg::Shoot { turn, shot, called_pocket, cue_ball } => {
             c.known += 1;
             c.played = true;
+            c.awaiting = true;
             Some(ClientMsg::CorrShoot { id: c.id, turn, shot, called_pocket, cue_ball })
         }
         ClientMsg::Choose { turn, option } => {
             c.known += 1;
             c.played = true;
+            c.awaiting = true;
             Some(ClientMsg::CorrChoose { id: c.id, turn, option })
         }
         ClientMsg::Resign => Some(ClientMsg::CorrResign { id: c.id }),
@@ -184,11 +188,22 @@ pub fn handle(o: &mut Online, msg: ServerMsg, current: &mut Option<Match>, guide
     match msg {
         ServerMsg::CorrList { games, challenges } => {
             o.corr.loaded = true;
+            let mut behind = None;
             if let Some(m) = current.as_mut()
                 && let Some(c) = table_mut(m)
                 && let Some(g) = games.iter().find(|g| g.id == c.id)
             {
+                // Strokes (or an end) the table missed (played while the
+                // connection was down): the game is asked for again.
+                let missed = (g.strokes as usize > c.known && !c.awaiting)
+                    || (g.result.is_some() && c.info.result.is_none());
+                if missed {
+                    behind = Some(c.id);
+                }
                 c.info = g.clone();
+            }
+            if let Some(id) = behind {
+                o.send(ClientMsg::CorrOpen { id });
             }
             o.corr.games = games;
             o.corr.challenges = challenges;
@@ -201,7 +216,13 @@ pub fn handle(o: &mut Online, msg: ServerMsg, current: &mut Option<Match>, guide
                 }
                 return;
             }
-            let asked = o.corr.opening.take().is_some_and(|(id, _)| id == game.id);
+            // (Asked a moment ago: an answer that took too long doesn't open
+            // the table over whatever the player went on to.)
+            let asked = o
+                .corr
+                .opening
+                .take()
+                .is_some_and(|(id, at)| id == game.id && get_time() - at <= OPEN_TIMEOUT);
             // Never over a live game.
             let free = current.as_ref().is_none_or(is_corr);
             if asked && free {
@@ -209,18 +230,29 @@ pub fn handle(o: &mut Online, msg: ServerMsg, current: &mut Option<Match>, guide
                     g.unseen = 0;
                 }
                 match open(game, &replay, seen, guide) {
-                    Some(m) => *current = Some(m),
+                    Some(m) => {
+                        // The players' own cloth and balls (not the last live
+                        // game's table).
+                        o.table_look = Default::default();
+                        *current = Some(m);
+                    }
                     None => o.toast(t("This game can't be shown."), false),
                 }
             }
         }
         ServerMsg::CorrShot { id, turn, end, report } => {
             if let Some(m) = current.as_mut().filter(|m| table(m).is_some_and(|c| c.id == id)) {
+                if let Some(c) = table_mut(m) {
+                    c.awaiting = false;
+                }
                 m.handle_server(ServerMsg::ShotResult { turn, end, report, clock_left: 0.0 });
             }
         }
         ServerMsg::CorrChose { id, turn, option, end } => {
             if let Some(m) = current.as_mut().filter(|m| table(m).is_some_and(|c| c.id == id)) {
+                if let Some(c) = table_mut(m) {
+                    c.awaiting = false;
+                }
                 let seat = m.game.current_player();
                 m.handle_server(ServerMsg::Chose {
                     seat,
@@ -237,6 +269,7 @@ pub fn handle(o: &mut Online, msg: ServerMsg, current: &mut Option<Match>, guide
                 // count choices too, which `shots_taken` doesn't).
                 if let Some(c) = table_mut(m) {
                     c.known = c.known.saturating_sub(1);
+                    c.awaiting = false;
                 }
                 m.handle_server(ServerMsg::ShotRejected { turn, reason, game });
             }
@@ -262,6 +295,20 @@ pub fn handle(o: &mut Online, msg: ServerMsg, current: &mut Option<Match>, guide
         }
         _ => {}
     }
+}
+
+/// A stroke sent from the daily game's table is waiting for its answer.
+pub fn awaiting(current: &Option<Match>) -> bool {
+    current.as_ref().and_then(table).is_some_and(|c| c.awaiting)
+}
+
+/// The server answered that stroke with an error (not with its rejection,
+/// which brings the table): what the table shows wasn't played. The game is
+/// opened again as the server has it.
+pub fn refused(o: &mut Online, current: &mut Option<Match>) {
+    let Some(id) = current.as_ref().and_then(table).map(|c| c.id) else { return };
+    *current = None;
+    request(o, id);
 }
 
 /// Asks the server for a game, to open it at the table.
@@ -363,6 +410,7 @@ pub fn open(info: CorrGame, replay: &Replay, seen: u32, guide: AimGuide) -> Opti
             played: false,
             sent: false,
             concluded: false,
+            awaiting: false,
         });
     }
     settle_controllers(&mut m);

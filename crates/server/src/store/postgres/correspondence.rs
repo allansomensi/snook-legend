@@ -30,6 +30,22 @@ fn group_of_code(c: i16) -> Option<snook_legend_core::Group> {
 
 const CHALLENGE_COLUMNS: &str = "id, from_id, to_id, rated, rules, created_at";
 
+/// The games of `rows` that can be read: one that can't (strokes an older
+/// or newer server wrote, say) is left out and logged, rather than keep
+/// every other game of the list (both players', the clock's sweep) away.
+fn readable(rows: &[PgRow]) -> Vec<AsyncGame> {
+    rows.iter()
+        .filter_map(|r| match game(r) {
+            Ok(g) => Some(g),
+            Err(e) => {
+                let id: i64 = r.try_get("id").unwrap_or(0);
+                tracing::error!(game = id, "a correspondence game can't be read: {e}");
+                None
+            }
+        })
+        .collect()
+}
+
 fn game(r: &PgRow) -> Result<AsyncGame, sqlx::Error> {
     let strokes: String = r.try_get("strokes")?;
     let replay =
@@ -183,7 +199,7 @@ impl PgStore {
         .bind(user_id)
         .fetch_all(&self.pool)
         .await?;
-        let mut list: Vec<AsyncGame> = active.iter().map(game).collect::<Result<_, _>>()?;
+        let mut list: Vec<AsyncGame> = readable(&active);
         if finished > 0 {
             let done = query(&format!(
                 "SELECT {GAME_COLUMNS} FROM async_games
@@ -194,9 +210,7 @@ impl PgStore {
             .bind(finished as i64)
             .fetch_all(&self.pool)
             .await?;
-            for r in &done {
-                list.push(game(r)?);
-            }
+            list.extend(readable(&done));
         }
         Ok(list)
     }
@@ -305,6 +319,6 @@ impl PgStore {
         .bind(limit as i64)
         .fetch_all(&self.pool)
         .await?;
-        Ok(rows.iter().map(game).collect::<Result<_, _>>()?)
+        Ok(readable(&rows))
     }
 }

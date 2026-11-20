@@ -32,7 +32,7 @@ Se a saída não tocar nenhuma bola, você perde a vez e a saída passa para o a
 Na saída, a primeira bola que cair decide o seu grupo, mesmo que a branca caia junto (a não ser que caiam bolas dos dois grupos com a branca: veja acima). Se só caírem bolas do seu grupo, você joga de novo. Se cair também uma do adversário (a 3 e depois a 13, por exemplo: você fica com as lisas), ela fica encaçapada, a favor dele, e passa a vez.
 
 ### Mesa aberta
-Enquanto os grupos não estão decididos, a mesa está aberta: você pode acertar primeiro qualquer bola, menos a 8. A primeira bola que você encaçapar numa tacada sem falta lhe dá o grupo dela, e ao adversário o outro. Com a mesa aberta ainda não há bola do adversário: uma falta custa só a vez. Se não sobrar nenhuma bola dos grupos com a mesa aberta, os dois jogadores estão na 8.
+Enquanto os grupos não estão decididos, a mesa está aberta: você pode acertar primeiro qualquer bola, menos a 8. A primeira bola que você encaçapar numa tacada sem falta lhe dá o grupo dela, e ao adversário o outro. Com a mesa aberta ainda não há bola do adversário: uma falta custa só a vez. Se não sobrar nenhuma bola dos grupos com a mesa aberta, os dois jogadores estão na 8, e qualquer falta que daria uma bola perde a partida (a 8 paga).
 
 ## Faltas e penalidades
 
@@ -55,7 +55,7 @@ A branca fora da mesa vale o mesmo que encaçapá-la: a menor bola do adversári
 Encaçapar uma bola do adversário passa a vez, mesmo que uma sua também tenha caído. Ela fica encaçapada, a favor dele.
 
 ### O tempo de tacada
-Quando a partida tem tempo de tacada e ele acaba, é falta: a branca volta para o ponto inicial (sem bola na mão), o adversário ganha uma bola (a menor dele na mesa; se ele já estiver na 8, a 8 paga e você perde) e a vez passa. Com a mesa ainda aberta, nenhuma bola é paga. Na saída, a saída passa para o adversário, com a branca na mão atrás da linha de cabeceira.
+Quando a partida tem tempo de tacada e ele acaba, é falta: a branca volta para o ponto inicial (sem bola na mão), o adversário ganha uma bola (a menor dele na mesa; se ele já estiver na 8, a 8 paga e você perde) e a vez passa. Com a mesa ainda aberta, nenhuma bola é paga (a não ser que só reste a 8: aí o tempo perde a partida). Na saída, a saída passa para o adversário, com a branca na mão atrás da linha de cabeceira.
 
 ## A bola 8
 

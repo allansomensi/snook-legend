@@ -1036,6 +1036,8 @@ impl PgStore {
             "DELETE FROM async_challenges WHERE from_id = $1 OR to_id = $1",
             "UPDATE wallets SET stripe_customer = NULL WHERE user_id = $1",
             "UPDATE payments SET email = NULL WHERE user_id = $1",
+            // The keys to their Microsoft account's purchases go too.
+            "UPDATE msstore_consumes SET store_key = NULL WHERE user_id = $1",
         ] {
             query(sql).bind(user_id).execute(&mut *tx).await?;
         }
@@ -1087,6 +1089,15 @@ impl PgStore {
         .fetch_one(&self.pool)
         .await?;
         Ok(r.get::<i32, _>("progress").max(0) as u32)
+    }
+
+    pub async fn purge_old(&self, day: i64, now: i64) -> StoreResult<u64> {
+        let a = query("DELETE FROM activity WHERE day < $1").bind(day).execute(&self.pool).await?;
+        let b = query("DELETE FROM board_notes WHERE expires_at IS NOT NULL AND expires_at <= $1")
+            .bind(now)
+            .execute(&self.pool)
+            .await?;
+        Ok(a.rows_affected() + b.rows_affected())
     }
 
     pub async fn purge_missions(&self, now: i64) -> StoreResult<u64> {
@@ -1924,7 +1935,7 @@ impl PgStore {
         user_id: i64,
         day: i64,
         now: i64,
-        balls: u32,
+        balls: Option<u32>,
         cleared: bool,
         limit: i64,
     ) -> StoreResult<super::DailyFinish> {
@@ -1945,7 +1956,8 @@ impl PgStore {
         };
         let best: Option<i32> = row.get("best");
         let was_cleared: bool = row.get("cleared");
-        let improved = best.is_none_or(|b| balls as i32 > b);
+        // A refused attempt (no balls) ends without a score.
+        let improved = balls.is_some_and(|n| best.is_none_or(|b| n as i32 > b));
         query(
             "UPDATE daily_scores SET started_at = 0, cleared = cleared OR $3,
                 best = CASE WHEN $4 THEN $5 ELSE best END,
@@ -1956,7 +1968,7 @@ impl PgStore {
         .bind(user_id)
         .bind(cleared)
         .bind(improved)
-        .bind(balls as i32)
+        .bind(balls.unwrap_or(0) as i32)
         .bind(now)
         .execute(&mut *tx)
         .await?;
@@ -2215,11 +2227,12 @@ impl PgStore {
             .collect())
     }
 
-    pub async fn record_tournament(&self, t: &TournamentRecord) -> StoreResult<()> {
+    pub async fn record_tournament(&self, t: &TournamentRecord) -> StoreResult<bool> {
         let mut tx = self.pool.begin().await?;
-        query(
-            "INSERT INTO tournaments (name, host_id, size, rated, players, winner_id, finished_at, entry_fee, prizes)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)",
+        let inserted = query(
+            "INSERT INTO tournaments (name, host_id, size, rated, players, winner_id, finished_at, entry_fee, prizes, lounge_id)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+             ON CONFLICT (lounge_id) WHERE lounge_id IS NOT NULL DO NOTHING",
         )
         .bind(&t.name)
         .bind(t.host)
@@ -2230,8 +2243,13 @@ impl PgStore {
         .bind(t.finished_at)
         .bind(t.entry_fee as i32)
         .bind(&t.prizes)
+        .bind(t.lounge_id)
         .execute(&mut *tx)
-        .await?;
+        .await?
+        .rows_affected();
+        if inserted == 0 {
+            return Ok(false);
+        }
         query(
             "UPDATE users SET tournaments_played = tournaments_played + 1,
                 tournaments_won = tournaments_won + CASE WHEN id = $2 THEN 1 ELSE 0 END
@@ -2242,7 +2260,7 @@ impl PgStore {
         .execute(&mut *tx)
         .await?;
         tx.commit().await?;
-        Ok(())
+        Ok(true)
     }
 
     pub async fn search_users(
@@ -2264,7 +2282,7 @@ impl PgStore {
         };
         let order = match search.sort {
             UserSort::Newest => "id DESC",
-            UserSort::Name => "lower(username), id",
+            UserSort::Name => "lower(username) COLLATE \"C\", id",
             UserSort::Rating(Rules::Brazilian) => "rating DESC, id DESC",
             UserSort::Rating(Rules::Official) => "official_rating DESC, id DESC",
             UserSort::LastSeen => "last_seen DESC, id DESC",
@@ -2496,7 +2514,7 @@ impl PgStore {
         let richest = query(
             "SELECT u.username, w.coins FROM wallets w JOIN users u ON u.id = w.user_id
              WHERE w.coins > 0 AND u.deleted_at IS NULL
-             ORDER BY w.coins DESC, u.username LIMIT 10",
+             ORDER BY w.coins DESC, u.username COLLATE \"C\" LIMIT 10",
         )
         .fetch_all(&self.pool)
         .await?;

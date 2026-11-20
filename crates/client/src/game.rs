@@ -80,6 +80,10 @@ pub struct ReplayShot {
     pub start: EightBallGame,
     pub shot: Shot,
     pub called: Option<PocketId>,
+    /// The numbers before the shot (taking it back takes its counts back).
+    stats: [ShotStats; 2],
+    visit_run: (usize, u32),
+    timeline: usize,
 }
 
 /// A replay being shown (the real game is untouched).
@@ -153,6 +157,11 @@ impl Video {
                         made,
                         foul: r.is_foul(),
                     })
+                }
+                // A clock run out ends the visit's run.
+                (_, Stroke::TimeFoul) => {
+                    stats[shooter % 2].end_visit();
+                    None
                 }
                 _ => None,
             };
@@ -622,6 +631,10 @@ impl Match {
         }
         let Some(last) = self.last_shot.take() else { return false };
         self.game = last.start;
+        // Its numbers go with it (a run of balls, the end panel's charts).
+        self.stats = last.stats;
+        self.visit_run = last.visit_run;
+        self.timeline.truncate(last.timeline);
         self.replay = None;
         self.begin_turn();
         true
@@ -760,6 +773,12 @@ impl Match {
         self.games_played = 0;
         self.log.clear();
         self.visit_run = (0, 0);
+        // Jumped to its end: the score says who won it (no stroke is played
+        // again to tell it).
+        if let Some(over) = self.game.game_over() {
+            self.wins[over.winner % 2] = 1;
+            self.games_played = 1;
+        }
         self.begin_turn();
     }
 
@@ -983,6 +1002,10 @@ impl Match {
         let wins = self.wins;
         let games = self.games_played;
         let feed = self.online.as_ref().map(|o| o.feed.clone()).unwrap_or_default();
+        // What was said or asked while reconnecting still goes out (the same
+        // game only: a rematch's table starts afresh).
+        let outbox =
+            self.online.as_mut().map(|o| std::mem::take(&mut o.outbox)).unwrap_or_default();
         let log = std::mem::take(&mut self.log);
         let guide = self.guide;
         let swapped = next.names[0] != self.names[0];
@@ -995,6 +1018,9 @@ impl Match {
         self.guide = guide;
         if let Some(o) = self.online.as_mut() {
             o.feed = feed;
+            if same_game {
+                o.outbox.splice(0..0, outbox);
+            }
         }
     }
 
@@ -1393,8 +1419,14 @@ impl Match {
 
     fn start_animation(&mut self, pending: PendingShot, shot: Shot) {
         self.shot_in_hand = self.game.ball_in_hand().is_some();
-        self.last_shot =
-            Some(ReplayShot { start: self.game.clone(), shot, called: pending.called_pocket });
+        self.last_shot = Some(ReplayShot {
+            start: self.game.clone(),
+            shot,
+            called: pending.called_pocket,
+            stats: self.stats,
+            visit_run: self.visit_run,
+            timeline: self.timeline.len(),
+        });
         self.replay = None;
         self.sounds.push(ImpactSound { kind: ImpactKind::Cue, speed: shot.speed as f32 });
         self.events_seen = 0;
@@ -1645,7 +1677,11 @@ impl Match {
         }
         // A stored game: paused, slowed down or sped up.
         let dt = match &self.video {
-            Some(v) if v.paused => return,
+            // (The last shot watched again still plays while it is paused.)
+            Some(v) if v.paused => {
+                self.run_replay(dt);
+                return;
+            }
             Some(v) => dt * v.speed,
             None => dt,
         };
@@ -1753,6 +1789,7 @@ impl Match {
         let text = time_foul_text(before, &self.game, &who, &other);
         self.notify(text, true);
         self.visit_run = (0, 0);
+        self.stats[seat % 2].end_visit();
         let Some(over) = self.game.game_over() else { return false };
         // Counted here, as a shot that ends the game is (online too: the
         // server's result that follows finds the game over already).
@@ -2762,6 +2799,7 @@ mod tests {
             break_again: false,
             called: None,
             choice: None,
+            open_table: false,
         };
         let mut s = ShotStats::default();
         s.add(&report(&[1, 2], false, true), false);
@@ -3099,6 +3137,7 @@ mod tests {
             break_again: false,
             called: None,
             choice: None,
+            open_table: false,
         };
         m.count_visit(&report(&[1, 2], true));
         assert_eq!(m.visit_run, (0, 2));

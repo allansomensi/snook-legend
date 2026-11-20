@@ -166,6 +166,8 @@ pub(super) struct Tournament {
     profiles: HashMap<String, (User, bool)>,
     pub(super) bracket: Option<Bracket>,
     missing_since: HashMap<String, Instant>,
+    /// When it opened for sign-up.
+    opened_at: Instant,
     finished_at: Option<Instant>,
     format: TournamentFormat,
     entry_fee: u32,
@@ -469,6 +471,7 @@ impl Lounge {
             profiles,
             bracket: None,
             missing_since: HashMap::new(),
+            opened_at: Instant::now(),
             finished_at: None,
             format,
             entry_fee,
@@ -581,6 +584,13 @@ impl Lounge {
             Entry::Back if paid.is_none() => {
                 let t = self.tournaments.get_mut(&id).expect("checked");
                 t.withdrawn.remove(k);
+                // Back in a running arena: away from their table, the
+                // queue, invitations and the board, as on a first entry.
+                self.queue_leave(k, false);
+                self.close_table_of(k);
+                self.drop_invites_of(k);
+                self.drop_seek(k);
+                self.announce(k);
                 self.broadcast_tournament(id);
                 return Joined::In;
             }
@@ -625,6 +635,7 @@ impl Lounge {
         if running {
             self.close_table_of(k);
             self.drop_invites_of(k);
+            self.drop_seek(k);
             self.announce(k);
         }
         self.broadcast_tournament(id);
@@ -732,6 +743,26 @@ impl Lounge {
         );
         if now_full && !official {
             self.begin_tournament(id);
+        }
+    }
+
+    /// `name` was banned: out of every tournament not over (a game going on
+    /// lost, no standing in an arena, no prize, no crown).
+    pub fn disqualify(&mut self, name: &str) {
+        let k = super::key(name);
+        let ids: Vec<u64> = self
+            .tournaments
+            .values()
+            .filter(|t| t.state != TournamentState::Finished)
+            .filter(|t| t.players.contains(&k) || t.waitlist.contains(&k))
+            .map(|t| t.id)
+            .collect();
+        for id in ids {
+            self.leave_tournament(&k, id);
+            if let Some(t) = self.tournaments.get_mut(&id) {
+                t.arena.remove(&k);
+            }
+            self.broadcast_tournament(id);
         }
     }
 
@@ -889,6 +920,7 @@ impl Lounge {
             self.close_table_of(&p);
             self.drop_invites_of(&p);
             self.queue_leave(&p, false);
+            self.drop_seek(&p);
             self.announce(&p);
         }
         self.tournament_progress(id);
@@ -1160,8 +1192,11 @@ impl Lounge {
                 let a = free.remove(0);
                 // The nearest who isn't the last opponent; the last one only
                 // after both waited a while.
+                // Never two players one of whom blocked the other.
                 let pick = free.iter().position(|b| {
-                    a.3.as_deref() != Some(b.0.as_str()) || (waited(&a.0) && waited(&b.0))
+                    (a.3.as_deref() != Some(b.0.as_str()) || (waited(&a.0) && waited(&b.0)))
+                        && !self.blocks(&a.0, &b.0)
+                        && !self.blocks(&b.0, &a.0)
                 });
                 let Some(pick) = pick else { continue };
                 let b = free.remove(pick);
@@ -1242,6 +1277,7 @@ impl Lounge {
                 .map(|(_, n, c)| format!("{n}:{c}"))
                 .collect::<Vec<_>>()
                 .join(", "),
+            lounge_id: Some(id as i64),
         };
         let name = t.name.clone();
         let display =
@@ -1305,6 +1341,10 @@ impl Lounge {
         let mut expired: Vec<u64> = Vec::new();
         for t in self.tournaments.values_mut() {
             if t.state != TournamentState::Registering || t.host.is_empty() {
+                continue;
+            }
+            if nowi.duration_since(t.opened_at) > super::STALE_REGISTRATION {
+                expired.push(t.id);
                 continue;
             }
             if self.sessions.contains_key(&t.host) {
@@ -1393,6 +1433,7 @@ impl Lounge {
                     profiles: HashMap::new(),
                     bracket: None,
                     missing_since: HashMap::new(),
+                    opened_at: Instant::now(),
                     finished_at: None,
                     format: s.format,
                     entry_fee: s.entry_fee,
@@ -1454,6 +1495,7 @@ impl Lounge {
                 profiles: HashMap::new(),
                 bracket: None,
                 missing_since: HashMap::new(),
+                opened_at: Instant::now(),
                 finished_at: None,
                 format: TournamentFormat::Arena,
                 entry_fee: cup.entry_fee,
@@ -1533,6 +1575,7 @@ mod tests {
             profiles: HashMap::new(),
             bracket: None,
             missing_since: HashMap::new(),
+            opened_at: Instant::now(),
             finished_at: None,
             format: TournamentFormat::Knockout,
             entry_fee: 0,

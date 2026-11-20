@@ -969,6 +969,9 @@ pub struct TournamentRecord {
     pub entry_fee: u32,
     /// Who got which prize ("name:coins, …").
     pub prizes: String,
+    /// The lounge's id of the tournament: recorded once, however often the
+    /// write is tried (None in tests).
+    pub lounge_id: Option<i64>,
 }
 
 /// The storage back end (one per server, so the size difference doesn't matter).
@@ -1294,7 +1297,9 @@ impl Store {
     pub async fn purge_active_hours(&self, hour: i64) -> StoreResult<u64> {
         dispatch!(self, s => s.purge_active_hours(hour))
     }
-    pub async fn record_tournament(&self, t: &TournamentRecord) -> StoreResult<()> {
+    /// Records a tournament and counts it for its players; false if that
+    /// tournament was recorded already.
+    pub async fn record_tournament(&self, t: &TournamentRecord) -> StoreResult<bool> {
         dispatch!(self, s => s.record_tournament(t))
     }
     /// The seed of a day's challenge: `fresh` the first time it is asked
@@ -1320,7 +1325,7 @@ impl Store {
         user_id: i64,
         day: i64,
         now: i64,
-        balls: u32,
+        balls: Option<u32>,
         cleared: bool,
         limit: i64,
     ) -> StoreResult<DailyFinish> {
@@ -1732,6 +1737,12 @@ impl Store {
     /// Removes progress on missions that ended before `now`.
     pub async fn purge_missions(&self, now: i64) -> StoreResult<u64> {
         dispatch!(self, s => s.purge_missions(now))
+    }
+    /// What is kept only for a while: the days players were active before
+    /// `day` (the metrics look back 90 days), and board notes expired
+    /// before `now`.
+    pub async fn purge_old(&self, day: i64, now: i64) -> StoreResult<u64> {
+        dispatch!(self, s => s.purge_old(day, now))
     }
     /// The notes on the lounge's board that are up at `now`: pinned ones
     /// first, then newest first.

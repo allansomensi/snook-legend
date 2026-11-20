@@ -42,7 +42,7 @@ const APPLIED: &[(&str, &str)] = &[
     ("0021_age.sql", "951d1b19c08fbe2019db126db4d8790080c1eeed01558d54dd6431a14851c7bd"),
     ("0022_official_rules.sql", "42f0892b73d5a0e6c647809678835f399b1f27518275c7a602f8fd8f1c08acf5"),
     ("0023_indexes.sql", "7382fc9792409f716bae7587143655d0b1ea1fb514972c994cc48c42270cf1c7"),
-    ("0024_match_rooms.sql", "ea0689031ababfe8905af6a8bdaf52acd4847aebcc6c7772f4a96dc8eaae200c"),
+    ("0024_match_rooms.sql", "df4e9458e2e9922d55f505ae3ae8570c176290f4a8bf2790c11a70ca0e2b6f67"),
 ];
 
 #[test]

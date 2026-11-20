@@ -386,18 +386,17 @@ async fn answer(server: &Arc<Server>, me: &User, id: i64, accept: bool, send: &i
     let from = name_of(server, c.from).await;
     // A challenger banned (or gone) since: the challenge is no longer good
     // (accepted, it would be a win on the clock for nothing).
-    if accept
-        && !server
-            .store
-            .user_by_id(c.from)
-            .await
-            .ok()
-            .flatten()
-            .is_some_and(|u| u.deleted_at.is_none() && !u.is_banned(now()))
-    {
-        let _ = server.store.delete_async_challenge(id).await;
-        push_list(server, me.id, &me.username).await;
-        return error(send, "That challenge is no longer valid.");
+    // (A database that can't answer now deletes nothing: try again.)
+    if accept {
+        let gone = match server.store.user_by_id(c.from).await {
+            Ok(u) => !u.is_some_and(|u| u.deleted_at.is_none() && !u.is_banned(now())),
+            Err(_) => return error(send, "Something went wrong. Please try again."),
+        };
+        if gone {
+            let _ = server.store.delete_async_challenge(id).await;
+            push_list(server, me.id, &me.username).await;
+            return error(send, "That challenge is no longer valid.");
+        }
     }
     if !accept {
         if server.store.delete_async_challenge(id).await.unwrap_or(false) {
@@ -748,9 +747,10 @@ async fn resign(server: &Arc<Server>, me: &User, id: i64, send: &impl Fn(ServerM
     }
 }
 
-/// `user_id`'s account is being deleted: they lose their games going on
-/// (their opponents don't wait days for a player who is gone).
-pub async fn account_deleted(server: &Arc<Server>, user_id: i64) {
+/// `user_id`'s account is being deleted (or banned for longer than a turn
+/// lasts): they lose their games going on (their opponents don't wait days
+/// for a player who is gone).
+pub async fn forfeit_all(server: &Arc<Server>, user_id: i64) {
     let Ok(games) = server.store.async_games_of(user_id, 0).await else { return };
     for g in games.into_iter().filter(|g| g.is_active()) {
         forfeit(server, g.id, user_id).await;
@@ -777,7 +777,8 @@ async fn forfeit(server: &Arc<Server>, id: i64, user_id: i64) {
     table.abandon(seat);
     g.replay.strokes.push(Stroke::Abandon { seat });
     let Some(over) = table.game_over() else { return };
-    let finished = finish(server, g, expected, &table, over, true, now()).await;
+    // Not the clock: the player left (told as such).
+    let finished = finish(server, g, expected, &table, over, false, now()).await;
     drop(guard);
     if let Some(f) = finished {
         announce(server, f).await;
@@ -976,7 +977,7 @@ async fn announce(server: &Arc<Server>, f: Finished) {
             let after = f.game.ratings[seat];
             crate::account::league_rewards(server, user, after - f.game.delta[seat], after).await;
         }
-        if f.game.rated && f.over.winner == seat && f.break_win {
+        if f.game.rated && f.counts && f.over.winner == seat && f.break_win {
             server.award_achievement(user, snook_legend_proto::GOLDEN_BREAK).await;
         }
         let event = CorrEvent::Ended {

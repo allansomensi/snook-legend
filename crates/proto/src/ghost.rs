@@ -206,7 +206,9 @@ impl Tally {
     /// Counts one shot of the player (`shot` as struck, `before` the table
     /// it was struck on).
     pub fn add_shot(&mut self, before: &EightBallGame, shot: &Shot, report: &ShotReport) {
-        let shot = shot.sanitized(before.params());
+        // As the game struck it: an ordinary stroke has a lower top speed
+        // than the break.
+        let shot = shot.sanitized_for(before.params(), report.was_break);
         if report.was_break {
             self.breaks += 1;
             self.break_speed += shot.speed;

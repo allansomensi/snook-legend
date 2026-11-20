@@ -170,6 +170,9 @@ pub struct Online {
     /// The account the last session signed in as (a session that comes
     /// back as another one forgets everything of it).
     signed_in_as: String,
+    /// The name this account asked to take (its session comes back under
+    /// it: the same account, nothing forgotten).
+    pub renaming_to: Option<String>,
     password: String,
     country: String,
     register: bool,
@@ -630,6 +633,7 @@ impl Online {
             lan,
             username: String::new(),
             signed_in_as: String::new(),
+            renaming_to: None,
             password: String::new(),
             country: String::new(),
             register: false,
@@ -1066,6 +1070,32 @@ impl Online {
                     | ServerMsg::StoreRedeemed { .. }
                     // Nor over the account of the official server.
                     | ServerMsg::AccountDeleted
+                    | ServerMsg::Account { .. }
+                    | ServerMsg::Age { .. }
+                    // Nor over what only that server gives: coins, VIP, XP,
+                    // achievements, presents, missions, medals, the daily
+                    // challenge, the drills, the tour, its events.
+                    | ServerMsg::ItemBought { .. }
+                    | ServerMsg::VipGift { .. }
+                    | ServerMsg::CoinsEarned { .. }
+                    | ServerMsg::Xp { .. }
+                    | ServerMsg::AchievementUnlocked { .. }
+                    | ServerMsg::MyAchievements { .. }
+                    | ServerMsg::NewGifts { .. }
+                    | ServerMsg::Gifts { .. }
+                    | ServerMsg::GiftThanked { .. }
+                    | ServerMsg::Missions { .. }
+                    | ServerMsg::CupMedals { .. }
+                    | ServerMsg::Daily { .. }
+                    | ServerMsg::DailyStarted { .. }
+                    | ServerMsg::DailyResult { .. }
+                    | ServerMsg::Drills { .. }
+                    | ServerMsg::DrillStarted { .. }
+                    | ServerMsg::DrillResult { .. }
+                    | ServerMsg::LadderClaim { .. }
+                    | ServerMsg::LadderTicket { .. }
+                    | ServerMsg::GhostStyle { .. }
+                    | ServerMsg::Events { .. }
             )
         {
             return save;
@@ -1073,8 +1103,18 @@ impl Online {
         match msg {
             ServerMsg::AuthOk { player, token } => {
                 // Another account than the last one signed in (not the name
-                // typed in the form): nothing of that one's stays.
-                if !self.signed_in_as.is_empty()
+                // typed in the form, nor the new name this one asked for):
+                // nothing of that one's stays.
+                let renamed = self
+                    .renaming_to
+                    .take()
+                    .is_some_and(|n| n.eq_ignore_ascii_case(&player.username));
+                if renamed {
+                    // Its achievements are its own under the new name too.
+                    if self.achievements_of.eq_ignore_ascii_case(&self.signed_in_as) {
+                        self.achievements_of = player.username.clone();
+                    }
+                } else if !self.signed_in_as.is_empty()
                     && !self.signed_in_as.eq_ignore_ascii_case(&player.username)
                 {
                     self.forget_account();
@@ -1146,6 +1186,19 @@ impl Online {
                         self.send(ClientMsg::Spectate { username });
                     }
                 }
+                // The tour final's deal asked on the lost session: asked
+                // again (its answer would never come).
+                if self.awaiting_ticket {
+                    self.send(ClientMsg::LadderTicket);
+                }
+                // A friend's game being watched: the new session watches it
+                // again (the server forgot the old session's watching).
+                if let Some(m) = current.as_ref().filter(|m| m.is_spectating())
+                    && let Some(o) = m.online.as_ref()
+                {
+                    let username = m.names[o.seat % 2].clone();
+                    self.send(ClientMsg::Spectate { username });
+                }
                 // What was sent while reconnecting goes now, in order.
                 let held = std::mem::take(&mut *self.held.borrow_mut());
                 for msg in held {
@@ -1154,8 +1207,9 @@ impl Online {
             }
             ServerMsg::AuthError { reason } => {
                 // A message that went out before this connection signed in
-                // again: the session itself is fine (the Resume answers).
-                if reason == "Please log in first." && self.me.is_some() {
+                // (again): it says nothing of a sign-in (the Resume or the
+                // Login answers that), whatever was asked.
+                if reason == "Please log in first." {
                     return save;
                 }
                 // Back on the local network while the host still holds the
@@ -1396,9 +1450,11 @@ impl Online {
                     self.attention =
                         Some(tw("Your game against {name} is starting.", &[("name", other)]));
                 }
-                self.outgoing = None;
-                self.queue = None;
+                // Watching doesn't end the player's invitation or search (the
+                // server keeps both).
                 if !spectating {
+                    self.outgoing = None;
+                    self.queue = None;
                     self.incoming.clear();
                 }
                 // Development aid: SNOOK_LEGEND_AUTOCHAT="text" says it at the start of a match.
@@ -1424,7 +1480,13 @@ impl Online {
                 );
                 match current.as_mut() {
                     // Same match after reconnecting, or a rematch with the same opponent.
-                    Some(m) if m.is_online() && same_players(m, &next) => {
+                    // (Not a daily game's table, nor watching against playing.)
+                    Some(m)
+                        if m.is_online()
+                            && !crate::correspondence::is_corr(m)
+                            && m.is_spectating() == next.is_spectating()
+                            && same_players(m, &next) =>
+                    {
                         let same_game = m.match_id() == match_id;
                         m.continue_online(next, same_game)
                     }
@@ -1449,6 +1511,12 @@ impl Online {
                 {
                     m.notify(text, true);
                 }
+            }
+            // A stroke of a daily game the server didn't take (asked too fast,
+            // a moment's trouble): the table shows it played, it isn't.
+            ServerMsg::Error { message } if crate::correspondence::awaiting(current) => {
+                crate::correspondence::refused(self, current);
+                self.toast(crate::i18n::server_text(&message), false);
             }
             ServerMsg::Error { message } if self.buying.is_some() => {
                 self.buying = None;
@@ -1641,9 +1709,9 @@ impl Online {
             ServerMsg::PaymentPage { .. } if !crate::channel::real_money_purchases() => {}
             ServerMsg::PaymentPage { url } => {
                 if crate::util::open_url(&url) {
-                    self.toast(t("The payment page opened in your browser."), false);
+                    self.toast(t("The payment page opened in your browser."), true);
                 } else {
-                    self.toast(t("Could not open the browser."), true);
+                    self.toast(t("Could not open the browser."), false);
                 }
             }
             ServerMsg::Queue { searching, rated, rules, waited_secs, range } => {
@@ -1861,6 +1929,17 @@ impl Online {
         self.ghost = None;
         self.cup_medal_news.clear();
         self.signed_in_as.clear();
+        self.renaming_to = None;
+        // What was typed for the last one (a table's password among them).
+        self.table_password.clear();
+        self.tournament_password.clear();
+        self.tournament_form = None;
+        self.joining = None;
+        self.code_input.clear();
+        self.friend_input.clear();
+        self.table_look = Default::default();
+        // The next account checks its own Store purchases.
+        self.store_shop.signed_out();
     }
 
     pub fn logout(&mut self, config: &mut Config) {
@@ -1874,8 +1953,6 @@ impl Online {
         self.auto_resume = false;
         self.forget_account();
         self.draining = None;
-        // The next account checks its own Store purchases.
-        self.store_shop.signed_out();
         config.token.clear();
         config.save();
         self.stage = Stage::Idle;
@@ -5180,6 +5257,15 @@ fn hide_players_text(msg: &mut ServerMsg, me: &str) {
         }
         ServerMsg::Friends { friends, .. } => {
             friends.iter_mut().for_each(|f| player(&mut f.player))
+        }
+        // A tournament's name its host wrote (not the server's cups).
+        ServerMsg::Tournaments { tournaments } => tournaments.iter_mut().for_each(|t| {
+            if !t.host.is_empty() && other(&t.host) {
+                t.name = tw("{name}'s tournament", &[("name", &t.host)]);
+            }
+        }),
+        ServerMsg::TournamentUpdated { tournament: t } if !t.host.is_empty() && other(&t.host) => {
+            t.name = tw("{name}'s tournament", &[("name", &t.host)]);
         }
         _ => {}
     }

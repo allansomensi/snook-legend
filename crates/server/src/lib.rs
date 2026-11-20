@@ -593,8 +593,9 @@ pub async fn drain(server: Arc<Server>, secs: u64) {
         tokio::time::sleep(Duration::from_secs(1)).await;
     }
     // What the effect worker still has to write (results, prizes, refunds,
-    // saved games) is written before the process ends.
-    let deadline = Instant::now() + Duration::from_secs(30);
+    // saved games) is written before the process ends: long enough for a
+    // result tried again through a database's trouble (see `retrying_long`).
+    let deadline = Instant::now() + Duration::from_secs(60);
     while server.effects_pending.load(Ordering::SeqCst) > 0 && Instant::now() < deadline {
         tokio::time::sleep(Duration::from_millis(100)).await;
     }
@@ -620,6 +621,8 @@ pub fn spawn_background(server: Arc<Server>) {
                 tokio::spawn(async move {
                     let _ = s.store.purge_sessions(now()).await;
                     let _ = s.store.purge_missions(now()).await;
+                    // A year of activity is more than the metrics read.
+                    let _ = s.store.purge_old(store::day_of(now()) - 400, now()).await;
                     // Saved games nobody came back to within a day.
                     let _ = s.store.purge_live(now() - 86_400).await;
                 });
@@ -681,10 +684,42 @@ async fn run_effect(server: &Arc<Server>, effect: Effect) {
             // is tried again, for minutes, rather than lost to the
             // database's trouble; one stored already (an answer lost on the
             // way) is not stored again.
-            let write = || server.store.record_match(&record);
-            match retrying_long("recording a match", write).await {
-                Ok(None) => tracing::warn!("the match {keys:?} was recorded already"),
-                Ok(Some((users, _))) => {
+            let failed = std::sync::atomic::AtomicBool::new(false);
+            let write = || {
+                let attempt = server.store.record_match(&record);
+                let failed = &failed;
+                async move {
+                    let r = attempt.await;
+                    if r.is_err() {
+                        failed.store(true, Ordering::SeqCst);
+                    }
+                    r
+                }
+            };
+            let users = match retrying_long("recording a match", write).await {
+                Ok(Some((users, _))) => Some(users),
+                // Stored by a try whose answer was lost on the way (one
+                // failed): what follows it hasn't been done, and is now.
+                Ok(None) if failed.load(Ordering::SeqCst) => {
+                    let (a, b) = tokio::join!(
+                        server.store.user_by_id(record.players[0]),
+                        server.store.user_by_id(record.players[1])
+                    );
+                    Some([a.ok().flatten(), b.ok().flatten()])
+                }
+                Ok(None) => {
+                    tracing::warn!("the match {keys:?} was recorded already");
+                    None
+                }
+                Err(e) => {
+                    tracing::error!("could not record the match {keys:?}: {e}");
+                    None
+                }
+            };
+            server.with(|l| l.record_written(record.players));
+            match users {
+                None => {}
+                Some(users) => {
                     server.invalidate_leaderboard();
                     // The shot analysis replays the game: off the effect queue.
                     let (s, r) = (server.clone(), record.clone());
@@ -702,7 +737,7 @@ async fn run_effect(server: &Arc<Server>, effect: Effect) {
                         && !server.with(|l| l.settings.lan);
                     for (seat, user) in users.into_iter().enumerate() {
                         let Some(user) = user else { continue };
-                        server.with(|l| l.refresh_user(user.clone()));
+                        server.with(|l| l.refresh_recorded(user.clone()));
                         if cue_game {
                             let won = record.winner == seat;
                             let potted = record.stats[seat].balls;
@@ -737,12 +772,20 @@ async fn run_effect(server: &Arc<Server>, effect: Effect) {
                         }
                     }
                 }
-                Err(e) => tracing::error!("could not record the match {keys:?}: {e}"),
             }
         }
         Effect::SaveLive(m) => {
             if let Err(e) = server.store.save_live(&m).await {
                 tracing::warn!(room = m.id, "could not save the game in progress: {e}");
+            }
+        }
+        Effect::HandOff { live, kills } => {
+            if let Err(e) = retrying("handing a game over", || server.store.save_live(&live)).await
+            {
+                tracing::error!(room = live.id, "could not save the game handed over: {e}");
+            }
+            for kill in kills {
+                kill.notify_one();
             }
         }
         Effect::DeleteLive(id) => {
@@ -2248,7 +2291,7 @@ const WRITE_TRIES: u32 = 4;
 /// connection), a few times with growing waits, rather than losing what it
 /// pays or records to a moment's trouble. Only for writes that are safe to
 /// repeat.
-/// [`retrying`] for longer (a few minutes): for a write that can't be lost,
+/// [`retrying`] for longer (about 45 s): for a write that can't be lost,
 /// such as a match's result.
 async fn retrying_long<T, F, Fut>(what: &str, mut write: F) -> store::StoreResult<T>
 where
@@ -2259,10 +2302,10 @@ where
     let mut tries = 1;
     loop {
         match write().await {
-            Err(e) if tries < 10 => {
+            Err(e) if tries < 8 => {
                 tracing::warn!("{what} (try {tries}): {e}; trying again");
                 tokio::time::sleep(wait).await;
-                wait = (wait * 2).min(Duration::from_secs(30));
+                wait = (wait * 2).min(Duration::from_secs(15));
                 tries += 1;
             }
             done => return done,

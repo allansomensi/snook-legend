@@ -398,6 +398,7 @@ async fn exercise(store: Store) {
             finished_at: t,
             entry_fee: 50,
             prizes: "Alice:70".into(),
+            lounge_id: Some(42),
         })
         .await
         .unwrap();
@@ -413,9 +414,26 @@ async fn exercise(store: Store) {
             finished_at: t,
             entry_fee: 0,
             prizes: String::new(),
+            lounge_id: None,
         })
         .await
         .unwrap();
+    let ua = store.user_by_id(a.id).await.unwrap().unwrap();
+    assert_eq!((ua.tournaments_played, ua.tournaments_won), (2, 1));
+    // The same tournament written again (an answer lost on the way): once.
+    let again = TournamentRecord {
+        name: "Cup".into(),
+        host: Some(a.id),
+        size: 4,
+        rated: false,
+        players: vec![a.id, b.id],
+        winner: Some(a.id),
+        finished_at: t,
+        entry_fee: 50,
+        prizes: "Alice:70".into(),
+        lounge_id: Some(42),
+    };
+    assert!(!store.record_tournament(&again).await.unwrap());
     let ua = store.user_by_id(a.id).await.unwrap().unwrap();
     assert_eq!((ua.tournaments_played, ua.tournaments_won), (2, 1));
     // The daily challenge.
@@ -423,25 +441,25 @@ async fn exercise(store: Store) {
     assert_eq!(store.daily_seed(d, 42).await.unwrap(), 42);
     assert_eq!(store.daily_seed(d, 43).await.unwrap(), 42, "drawn once");
     assert_eq!(
-        store.daily_finish(a.id, d, t, 3, false, 60).await.unwrap(),
+        store.daily_finish(a.id, d, t, Some(3), false, 60).await.unwrap(),
         snook_legend_server::store::DailyFinish::NotStarted
     );
     assert!(store.daily_start(a.id, d, t, 2).await.unwrap());
     assert_eq!(store.daily_row(a.id, d).await.unwrap().started_at, t);
     assert_eq!(
-        store.daily_finish(a.id, d, t + 61, 3, false, 60).await.unwrap(),
+        store.daily_finish(a.id, d, t + 61, Some(3), false, 60).await.unwrap(),
         snook_legend_server::store::DailyFinish::NotStarted,
         "too late"
     );
     assert!(store.daily_start(a.id, d, t + 100, 2).await.unwrap());
     assert!(!store.daily_start(a.id, d, t + 101, 2).await.unwrap(), "two attempts");
     assert_eq!(
-        store.daily_finish(a.id, d, t + 110, 4, false, 60).await.unwrap(),
+        store.daily_finish(a.id, d, t + 110, Some(4), false, 60).await.unwrap(),
         snook_legend_server::store::DailyFinish::Counted { improved: true, first_clear: false }
     );
     assert!(store.daily_start(b.id, d, t, 2).await.unwrap());
     assert_eq!(
-        store.daily_finish(b.id, d, t + 5, 4, true, 60).await.unwrap(),
+        store.daily_finish(b.id, d, t + 5, Some(4), true, 60).await.unwrap(),
         snook_legend_server::store::DailyFinish::Counted { improved: true, first_clear: true }
     );
     let (board, players) = store.daily_board(d, 10).await.unwrap();
@@ -666,7 +684,7 @@ async fn audit_fixes(store: &Store) {
         store.drill_record(u, "af_drill", score, t).await.unwrap();
         store.set_challenge_rating(u, 1000 + score, 1, t).await.unwrap();
         assert!(store.daily_start(u, day, t, 5).await.unwrap());
-        store.daily_finish(u, day, t, score, false, 600).await.unwrap();
+        store.daily_finish(u, day, t, Some(score), false, 600).await.unwrap();
     }
     store.set_ban(bad.id, Some(t + 3600), Some("cheating")).await.unwrap();
     let drill = store.drill_board("af_drill", 10).await.unwrap();

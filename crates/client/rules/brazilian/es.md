@@ -37,13 +37,13 @@ Mientras los grupos no estén decididos, la mesa está abierta: puedes tocar pri
 ## Faltas y penalizaciones
 
 ### Bolas de penalización
-Toda falta pasa el turno, y la mayoría da bolas al rival: las de menor número de su grupo que estén en la mesa salen de ella, como si él las hubiera metido. Las penalizaciones se suman. Si el rival tiene menos bolas de las que da la falta, la 8 paga el resto y pierdes el partido: dos bolas de penalización con una sola en la mesa, salen esa y la 8. Cuando él ya está en la 8 (sin bolas de su grupo), cualquier falta que dé bola pierde: no tocar ninguna bola, meter la blanca, sacarla de la mesa o tocar primero la bola equivocada. Lo mismo vale cuando solo queda la 8 en la mesa. Si tú estás en la 8 y el rival todavía tiene bolas, una falta solo le quita la menor y pasa el turno.
+Toda falta pasa el turno, y la mayoría da bolas al rival: las de menor número de su grupo que estén en la mesa salen de ella, como si él las hubiera metido. Las penalizaciones se suman. Si el rival tiene menos bolas de las que da la falta, la 8 paga el resto y pierdes la partida: dos bolas de penalización con una sola en la mesa, salen esa y la 8. Cuando él ya está en la 8 (sin bolas de su grupo), cualquier falta que dé bola pierde: no tocar ninguna bola, meter la blanca, sacarla de la mesa o tocar primero la bola equivocada. Lo mismo vale cuando solo queda la 8 en la mesa. Si tú estás en la 8 y el rival todavía tiene bolas, una falta le da bolas como siempre (un fallo, la menor suya) y pasa el turno; solo pierdes si da más bolas de las que tiene.
 
 ### Fallar la bola
 No tocar ninguna bola tuya: la bola más baja del rival que esté en la mesa queda eliminada (cuenta para él), y pierdes el turno. Tocar primero la bola 8 antes de acabar tu grupo vale lo mismo. Fallar la bola y además meter la blanca: las dos bolas más bajas del rival.
 
 ### Tocar la bola del rival
-Tocar primero una bola del rival, directamente: sus dos bolas más bajas quedan eliminadas, y pierdes el turno. Si la bola tocada entra, se queda metida y las dos salen igualmente. Si la blanca tocó antes una banda: una bola. Tocar directamente la bola del rival y además meter la blanca: las tres más bajas.
+Tocar primero una bola del rival, directamente: sus dos bolas más bajas quedan eliminadas, y pierdes el turno. Si la bola tocada entra, se queda metida y las dos salen igualmente. Si la blanca tocó antes una banda: una bola (no cuenta la banda a la que estaba pegada). Tocar directamente la bola del rival y además meter la blanca: las tres más bajas.
 
 ### Meter la blanca
 Una bola para el rival, y la blanca vuelve al punto de salida, el del saque (o justo detrás de la bola que esté en él). No hay bola en mano: el rival juega desde ahí. La blanca solo está en mano en el saque; después de cualquier otra falta, se juega desde donde quedó.

@@ -139,11 +139,14 @@ pub const SPECTATOR_SEAT: usize = 2;
 pub const GAME_NAME: &str = "Snook Legend";
 
 /// Bumped whenever messages change incompatibly.
-pub const PROTOCOL_VERSION: u32 = 22;
+pub const PROTOCOL_VERSION: u32 = 23;
 
-/// The oldest version the server still lets in: version 22 brought the
-/// official rules, and every game plays under rules both players chose.
-pub const OLDEST_PROTOCOL_VERSION: u32 = 22;
+/// The oldest version the server still lets in: version 23 changed the
+/// rules a replay is played back with (the Brazilian shot clock gives a
+/// ball; an illegal official break with a ball off the table offers the
+/// cue ball in hand): an older game would show other tables than the
+/// server's, so it is asked to update.
+pub const OLDEST_PROTOCOL_VERSION: u32 = 23;
 
 /// Username rules: 3–16 characters, letters, digits and underscores.
 pub fn valid_username(name: &str) -> bool {

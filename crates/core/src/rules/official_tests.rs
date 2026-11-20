@@ -145,6 +145,10 @@ fn the_eight_on_a_legal_break_is_the_breakers_choice() {
     assert_eq!(report.choice, Some(BreakChoice::EightOnBreak));
     assert_eq!(g.current_player(), 0, "the breaker decides");
     assert!(!g.ball(BallId::EIGHT).in_play());
+    // The table as it waits for the choice is read back (a game sent over
+    // the network, or saved, meanwhile).
+    let back: EightBallGame = serde_json::from_str(&serde_json::to_string(&g).unwrap()).unwrap();
+    assert_eq!(back.pending_choice(), Some(BreakChoice::EightOnBreak));
 
     let mut spotted = g.clone();
     spotted.choose(BreakOption::PlayOn).unwrap();
@@ -165,6 +169,8 @@ fn the_eight_on_a_break_foul_is_the_incoming_players_choice() {
     let (g, report) = break_with(&[8, 0], &[]);
     assert!(report.fouls.contains(&Foul::CueBallPocketed), "{report:?}");
     assert_eq!(report.choice, Some(BreakChoice::EightOnFoulBreak));
+    let back: EightBallGame = serde_json::from_str(&serde_json::to_string(&g).unwrap()).unwrap();
+    assert_eq!(back.pending_choice(), Some(BreakChoice::EightOnFoulBreak));
     assert_eq!(g.current_player(), 1);
     assert!(g.ball(BallId::CUE).in_play(), "the cue ball waits on the table");
 
@@ -448,6 +454,29 @@ fn a_foul_gives_the_cue_ball_in_hand_anywhere() {
         scratch.ball(BallId::CUE).in_play()
             && scratch.can_place_cue_ball(scratch.ball(BallId::CUE).xy())
     );
+}
+
+/// A ball lying against a cushion and pushed into it wasn't driven to it
+/// (only by leaving it and coming back): no rail, a foul. The same ball a
+/// little off the cushion is driven to it.
+#[test]
+fn a_ball_frozen_to_a_cushion_pushed_into_it_is_no_rail() {
+    let spec = EightBallGame::new(3, 0, Rules::Official).table.spec;
+    let r = spec.ball_radius;
+    let dh = spec.cushion_height - r;
+    let against = spec.width / 2.0 - (r * r - dh * dh).sqrt();
+    let shot = Shot::new(std::f64::consts::FRAC_PI_2, 0.5);
+    for (gap, foul) in [(0.0, true), (0.02, false)] {
+        let y = against - gap;
+        let mut g = solids_to_shoot(&[
+            (0, DVec2::new(0.4, y - 0.25)),
+            (3, DVec2::new(0.4, y)),
+            (8, DVec2::new(-0.7, 0.0)),
+        ]);
+        let report = g.play_shot(&shot, None).unwrap();
+        assert_eq!(report.first_contact, Some(BallId(3)), "{report:?}");
+        assert_eq!(report.fouls.contains(&Foul::NoRailAfterContact), foul, "gap {gap}: {report:?}");
+    }
 }
 
 /// 3.3: no ball made, and no ball driven to a cushion after the contact.

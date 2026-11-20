@@ -104,8 +104,10 @@ async fn exercise(store: Store) {
             },
         ],
         abandoned: None,
+        room: None,
+        counts: true,
     };
-    let ([ua, ub], match_id) = store.record_match(&m).await.unwrap();
+    let ([ua, ub], match_id) = store.record_match(&m).await.unwrap().unwrap();
     let (ua, ub) = (ua.unwrap(), ub.unwrap());
     let record = |u: &User, rules| {
         let r = u.records.get(rules);
@@ -124,9 +126,11 @@ async fn exercise(store: Store) {
         replay: None,
         stats: Default::default(),
         abandoned: Some(0),
+        room: None,
+        counts: true,
         ..m.clone()
     };
-    let ([ua, ub], _) = store.record_match(&casual).await.unwrap();
+    let ([ua, ub], _) = store.record_match(&casual).await.unwrap().unwrap();
     let ua = ua.unwrap();
     assert_eq!((ua.casual_games, ua.abandons), (1, 1));
     // Feats only count in rated games.
@@ -170,11 +174,13 @@ async fn exercise(store: Store) {
         delta: [-16, 16],
         ratings_after: [1184, 1216],
         abandoned: None,
+        room: None,
+        counts: true,
         ended_at: t + 5,
         replay: m.replay.clone().map(|r| Replay { rules: Rules::Official, ..r }),
         ..m.clone()
     };
-    let ([ua, ub], official_id) = store.record_match(&official).await.unwrap();
+    let ([ua, ub], official_id) = store.record_match(&official).await.unwrap().unwrap();
     let (ua, ub) = (ua.unwrap(), ub.unwrap());
     assert_eq!(record(&ua, Rules::Official), (1184, 1200, 1, 0));
     assert_eq!(record(&ub, Rules::Official), (1216, 1216, 1, 1));
@@ -210,7 +216,7 @@ async fn exercise(store: Store) {
     assert_eq!(store.wallet(a.id).await.unwrap().vip_until, t + 100, "never shortened");
     store.set_vip(a.id, t, true).await.unwrap();
     assert_eq!(store.wallet(a.id).await.unwrap().vip_until, t);
-    store.set_stripe_customer(a.id, "cus_1").await.unwrap();
+    store.set_stripe_customer(a.id, "cus_1", true).await.unwrap();
     assert_eq!(store.user_by_stripe_customer("cus_1").await.unwrap(), Some(a.id));
     let p = Payment {
         id: "pi_1".into(),
@@ -709,6 +715,43 @@ async fn audit_fixes(store: &Store) {
     let gone = snook_legend_server::store::deleted_name(old.id);
     assert_eq!(about(&gone).await, ["ban"]);
 
+    // A live game's result is stored once (the write tried again after an
+    // answer lost on the way), its saved copy deleted with it; a game that
+    // doesn't count gives no win nor streak (the rating still moves).
+    let p = make("af_p").await.unwrap().unwrap();
+    let q = make("af_q").await.unwrap().unwrap();
+    let replay = Replay { seed: 7, breaker: 0, rules: Rules::Brazilian, strokes: vec![] };
+    let live =
+        LiveMatch { id: 9_000_001, players: [p.id, q.id], rated: true, replay, updated_at: t };
+    store.save_live(&live).await.unwrap();
+    let game = MatchRecord {
+        players: [p.id, q.id],
+        winner: 0,
+        reason: GameOverReason::Resignation,
+        rated: true,
+        rules: Rules::Brazilian,
+        delta: [8, -8],
+        ratings_after: [1208, 1192],
+        shots: 1,
+        tournament: None,
+        eight_win: false,
+        runout: false,
+        shutout: false,
+        break_win: false,
+        ended_at: t,
+        replay: None,
+        stats: Default::default(),
+        abandoned: None,
+        room: Some(live.id),
+        counts: false,
+    };
+    assert!(store.record_match(&game).await.unwrap().is_some());
+    assert!(store.record_match(&game).await.unwrap().is_none(), "stored once");
+    assert!(store.live_match_of(p.id).await.unwrap().is_none(), "its saved copy is gone");
+    let p = store.user_by_id(p.id).await.unwrap().unwrap();
+    let r = p.records.get(Rules::Brazilian);
+    assert_eq!((r.rating, r.games, r.wins, p.streak), (1208, 1, 0, 0));
+
     // Two requests sent to each other at once make friends.
     let x = make("af_x").await.unwrap().unwrap();
     let y = make("af_y").await.unwrap().unwrap();
@@ -779,6 +822,8 @@ async fn staff_tools(store: &Store) {
         replay: None,
         stats: Default::default(),
         abandoned: None,
+        room: None,
+        counts: true,
     };
     store.record_match(&official).await.unwrap();
     let by = |rules| search(UserFilter::All, UserSort::Rating(rules));

@@ -52,7 +52,7 @@ Con la blanca en mano detrás de la línea de cabecera, no puedes tocar una bola
 Después de cualquier falta, el rival tiene la blanca en mano: la coloca donde quiera en la mesa. Ninguna bola sale de la mesa como penalización.
 
 ### Qué es falta
-La blanca en una tronera o fuera de la mesa; no tocar ninguna bola, o tocar primero la equivocada (una del rival, o la 8 antes de tiempo); después del contacto, ninguna bola metida y ninguna llegando a una banda; una bola fuera de la mesa (queda fuera).
+La blanca en una tronera o fuera de la mesa; no tocar ninguna bola, o tocar primero la equivocada (una del rival, o la 8 antes de tiempo); después del contacto, ninguna bola metida y ninguna llegando a una banda (una bola pegada a la banda solo llega a ella si sale y vuelve); una bola fuera de la mesa (queda fuera).
 
 ### El tiempo de tiro
 Cuando la partida tiene tiempo de tiro y se acaba, es falta: el rival tiene la blanca en mano. Una elección después del saque que no se hace a tiempo se queda con la primera opción.
@@ -62,5 +62,5 @@ Cuando la partida tiene tiempo de tiro y se acaba, es falta: el rival tiene la b
 ### Ganar
 Cuando tu grupo haya salido entero de la mesa, mete la 8 en la tronera que cantaste, en un tiro sin falta.
 
-### Perder en la 8
+### Perder con la 8
 Pierdes si metes la 8 en una falta, antes de que tu grupo salga de la mesa o en una tronera que no cantaste, y si sacas la 8 de la mesa. Nada de esto vale en el saque.

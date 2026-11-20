@@ -89,7 +89,11 @@ impl EightBallGame {
                 // Something made, or some ball driven to a cushion after
                 // the contact.
                 let rail_after_contact =
-                    events.iter().any(|e| matches!(e, Event::Cushion { time, .. } if *time >= t0));
+                    // (A ball lying against a cushion, pushed into it, wasn't
+                    // driven to it.)
+                    events.iter().any(
+                        |e| matches!(e, Event::Cushion { time, frozen: false, .. } if *time >= t0),
+                    );
                 if facts.pocketed.is_empty() && !rail_after_contact {
                     fouls.push(Foul::NoRailAfterContact);
                 }

@@ -140,19 +140,63 @@ impl Stripe {
     /// The invoice a payment paid, if it paid one (a VIP month is recorded
     /// under its invoice; its refunds and disputes name the payment). Asked
     /// as the newer API answers it (the invoice's payments), then as the
-    /// older one does (the payment's own `invoice`).
-    pub async fn invoice_of_payment(&self, payment_intent: &str) -> Option<String> {
+    /// older one does (the payment's own `invoice`). Err when Stripe could
+    /// not be asked (the webhook fails, and Stripe sends it again), not
+    /// when it says there is no such thing.
+    pub async fn invoice_of_payment(&self, payment_intent: &str) -> Result<Option<String>, String> {
         let pi = urlencode(payment_intent);
         let path = format!(
             "invoice_payments?payment[type]=payment_intent&payment[payment_intent]={pi}&limit=1"
         );
-        if let Ok(list) = self.call("GET", &path).await
+        if let Some(list) = self.lookup(&path).await?
             && let Some(invoice) = list.pointer("/data/0/invoice").and_then(Value::as_str)
         {
-            return Some(invoice.to_string());
+            return Ok(Some(invoice.to_string()));
         }
-        let intent = self.call("GET", &format!("payment_intents/{pi}")).await.ok()?;
-        intent["invoice"].as_str().map(str::to_string)
+        let intent = self.lookup(&format!("payment_intents/{pi}")).await?;
+        Ok(intent.and_then(|i| i["invoice"].as_str().map(str::to_string)))
+    }
+
+    /// Whether `customer` has a subscription that bills (or will try to
+    /// again): a second one would charge the player twice.
+    pub async fn has_live_subscription(&self, customer: &str) -> Result<bool, String> {
+        let c = urlencode(customer);
+        let list =
+            self.call("GET", &format!("subscriptions?customer={c}&status=all&limit=20")).await?;
+        Ok(list["data"].as_array().into_iter().flatten().any(|sub| {
+            matches!(
+                sub["status"].as_str(),
+                Some("active" | "trialing" | "past_due" | "unpaid" | "incomplete")
+            )
+        }))
+    }
+
+    /// A GET whose refusal (a 4xx: no such thing) is `None`; Err only when
+    /// it could not be asked (unreachable, a bad reply, a 5xx).
+    #[cfg(feature = "payments")]
+    async fn lookup(&self, path: &str) -> Result<Option<Value>, String> {
+        let url = format!("https://api.stripe.com/v1/{path}");
+        let res = self
+            .http
+            .get(url)
+            .bearer_auth(&self.cfg.secret)
+            .send()
+            .await
+            .map_err(|e| format!("payment provider unreachable: {e}"))?;
+        let status = res.status();
+        if status.is_client_error() {
+            return Ok(None);
+        }
+        let body: Value = res.json().await.map_err(|e| format!("bad reply: {e}"))?;
+        if !status.is_success() {
+            return Err(format!("payment provider failed: {status}"));
+        }
+        Ok(Some(body))
+    }
+
+    #[cfg(not(feature = "payments"))]
+    async fn lookup(&self, _path: &str) -> Result<Option<Value>, String> {
+        Ok(None)
     }
 
     /// Ends every subscription of `customer` that would bill again (the

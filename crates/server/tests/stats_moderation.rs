@@ -60,6 +60,8 @@ fn record(players: [i64; 2], ended_at: i64, replay: bool) -> MatchRecord {
         }),
         stats: [ShotStats::default(); 2],
         abandoned: None,
+        room: None,
+        counts: true,
     }
 }
 
@@ -70,9 +72,12 @@ async fn exercise(store: Store) {
     let c = store.create_user(&new_user("cris")).await.unwrap().unwrap();
 
     // Games between two players, newest first, only those with a replay.
-    let (_, old) = store.record_match(&record([a.id, b.id], t - 90_000, true)).await.unwrap();
-    let (_, first) = store.record_match(&record([b.id, a.id], t - 3_000, true)).await.unwrap();
-    let (_, latest) = store.record_match(&record([a.id, b.id], t - 1_000, true)).await.unwrap();
+    let (_, old) =
+        store.record_match(&record([a.id, b.id], t - 90_000, true)).await.unwrap().unwrap();
+    let (_, first) =
+        store.record_match(&record([b.id, a.id], t - 3_000, true)).await.unwrap().unwrap();
+    let (_, latest) =
+        store.record_match(&record([a.id, b.id], t - 1_000, true)).await.unwrap().unwrap();
     store.record_match(&record([a.id, b.id], t - 500, false)).await.unwrap();
     store.record_match(&record([a.id, c.id], t - 100, true)).await.unwrap();
     let between = store.matches_between(b.id, a.id, t - 86_400, t, 10).await.unwrap();

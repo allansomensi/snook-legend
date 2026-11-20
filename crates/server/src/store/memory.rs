@@ -54,6 +54,9 @@ struct Inner {
     reports: Vec<ReportRow>,
     report_ids: Vec<(i64, i64)>,
     audit: Vec<AuditRow>,
+    /// Who wrote each audit entry (by index): shown under their name as it
+    /// is now, as the database does.
+    audit_staff: Vec<i64>,
     tournaments: Vec<TournamentRecord>,
     wallets: HashMap<i64, Wallet>,
     /// (user, delta, reason, reference, at)
@@ -423,8 +426,15 @@ impl MemoryStore {
         Ok(out)
     }
 
-    pub fn record_match(&self, m: &MatchRecord) -> StoreResult<([Option<User>; 2], i64)> {
-        Ok(self.lock().record_match(m))
+    pub fn record_match(&self, m: &MatchRecord) -> StoreResult<Option<([Option<User>; 2], i64)>> {
+        let mut s = self.lock();
+        if let Some(room) = m.room {
+            if s.matches.iter().any(|x| x.room == Some(room)) {
+                return Ok(None);
+            }
+            s.live.remove(&room);
+        }
+        Ok(Some(s.record_match(m)))
     }
 
     pub fn career(&self, user_id: i64) -> StoreResult<CareerNumbers> {
@@ -639,6 +649,10 @@ impl MemoryStore {
         at: i64,
     ) -> StoreResult<bool> {
         let mut s = self.lock();
+        // Too few coins first, as the database answers it.
+        if s.wallets.get(&user_id).map_or(0, |w| w.coins) < amount {
+            return Ok(false);
+        }
         // A reference names one change of the ledger, as the database's
         // unique column has it: a second spend under it is an error.
         if let Some(r) = reference
@@ -647,9 +661,6 @@ impl MemoryStore {
             return Err(StoreError(format!("ledger reference {r} used already")));
         }
         let w = s.wallets.entry(user_id).or_default();
-        if w.coins < amount {
-            return Ok(false);
-        }
         w.coins -= amount;
         s.ledger.push((user_id, -amount, reason.to_string(), reference.map(str::to_string), at));
         Ok(true)
@@ -796,15 +807,14 @@ impl MemoryStore {
 
     pub fn change_username(&self, user_id: i64, name: &str, limit: u32) -> StoreResult<Rename> {
         let mut s = self.lock();
+        // As the database: no changes left first, then a name taken.
+        if s.users.get(&user_id).is_none_or(|u| u.deleted_at.is_some() || u.name_changes >= limit) {
+            return Ok(Rename::NoChangesLeft);
+        }
         if s.by_name(name).is_some_and(|u| u.id != user_id) {
             return Ok(Rename::Taken);
         }
-        let Some(u) = s.users.get_mut(&user_id).filter(|u| u.deleted_at.is_none()) else {
-            return Ok(Rename::NoChangesLeft);
-        };
-        if u.name_changes >= limit {
-            return Ok(Rename::NoChangesLeft);
-        }
+        let Some(u) = s.users.get_mut(&user_id) else { return Ok(Rename::NoChangesLeft) };
         let old = std::mem::replace(&mut u.username, name.to_string());
         u.name_changes += 1;
         // The board keeps its authors by name here (the database looks them up).
@@ -827,8 +837,14 @@ impl MemoryStore {
     pub fn delete_account(&self, user_id: i64, now: i64) -> StoreResult<()> {
         let mut s = self.lock();
         if let Some(u) = s.users.get_mut(&user_id).filter(|u| u.deleted_at.is_none()) {
-            let old = std::mem::replace(&mut u.username, super::deleted_name(user_id));
-            s.move_audit(&old, &super::deleted_name(user_id));
+            let gone = super::deleted_name(user_id);
+            let old = std::mem::replace(&mut u.username, gone.clone());
+            s.move_audit(&old, &gone);
+            // The board keeps its authors by name here (the database looks
+            // them up, and finds the deleted name).
+            for n in s.board.iter_mut().filter(|n| n.author == old) {
+                n.author = gone.clone();
+            }
         }
         if let Some(u) = s.users.get_mut(&user_id) {
             u.password_hash = String::new();
@@ -1720,6 +1736,7 @@ impl MemoryStore {
             at,
         };
         s.audit.push(row);
+        s.audit_staff.push(staff);
         Ok(())
     }
 
@@ -1731,10 +1748,11 @@ impl MemoryStore {
         let s = self.lock();
         Ok(s.audit
             .iter()
+            .zip(&s.audit_staff)
             .rev()
+            .map(|(a, staff)| AuditRow { staff: s.name(*staff), ..a.clone() })
             .filter(|a| search.matches(a))
             .take(limit as usize)
-            .cloned()
             .collect())
     }
 
@@ -1837,6 +1855,31 @@ impl MemoryStore {
         Ok(true)
     }
 
+    pub fn credit_vip(
+        &self,
+        user_id: i64,
+        delta: i64,
+        reason: &str,
+        reference: &str,
+        at: i64,
+        vip: super::VipChange,
+    ) -> StoreResult<bool> {
+        let mut s = self.lock();
+        if s.ledger.iter().any(|l| l.3.as_deref() == Some(reference)) {
+            return Ok(false);
+        }
+        let w = s.wallets.entry(user_id).or_default();
+        w.coins += delta;
+        w.vip_until = match vip {
+            super::VipChange::Add { from, secs } => w.vip_until.max(from) + secs,
+            super::VipChange::Take { secs, floor } => {
+                w.vip_until.min((w.vip_until - secs).max(floor))
+            }
+        };
+        s.ledger.push((user_id, delta, reason.to_string(), Some(reference.to_string()), at));
+        Ok(true)
+    }
+
     pub fn set_vip(&self, user_id: i64, until: i64, force: bool) -> StoreResult<()> {
         let mut s = self.lock();
         let w = s.wallets.entry(user_id).or_default();
@@ -1859,9 +1902,17 @@ impl MemoryStore {
         Ok(())
     }
 
-    pub fn set_stripe_customer(&self, user_id: i64, customer: &str) -> StoreResult<()> {
+    pub fn set_stripe_customer(
+        &self,
+        user_id: i64,
+        customer: &str,
+        replace: bool,
+    ) -> StoreResult<()> {
         let mut s = self.lock();
-        s.wallets.entry(user_id).or_default().stripe_customer = Some(customer.to_string());
+        let w = s.wallets.entry(user_id).or_default();
+        if replace || w.stripe_customer.is_none() {
+            w.stripe_customer = Some(customer.to_string());
+        }
         Ok(())
     }
 

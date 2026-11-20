@@ -90,4 +90,4 @@ fn simulation_is_bit_identical_everywhere() {
 /// Update only on purpose (a change to the physics or the rules), from the
 /// values printed above.
 const EXPECTED: [(Rules, u64); 2] =
-    [(Rules::Brazilian, 0x1d68_9bc0_a48f_760d), (Rules::Official, 0x3c08_df09_9043_8bd0)];
+    [(Rules::Brazilian, 0x65f6_75cb_2fbd_67f2), (Rules::Official, 0xcb10_2195_dd34_1769)];

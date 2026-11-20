@@ -238,6 +238,15 @@ pub struct MatchRecord {
     pub stats: [ShotStats; 2],
     /// The seat that left the game unfinished (lost on the reconnection clock).
     pub abandoned: Option<usize>,
+    /// The live game it was (its room's id, also its saved copy's): stored
+    /// once whatever happens (an answer lost on the way, the write tried
+    /// again), and its saved copy goes in the same step. None for a
+    /// correspondence game.
+    pub room: Option<i64>,
+    /// Whether the wins, the streak and the feats count it: not a game two
+    /// friends farm, nor one resigned or left before it was played (the
+    /// rating already follows its own rules for those).
+    pub counts: bool,
 }
 
 /// A game in progress, saved after every stroke.
@@ -1071,8 +1080,12 @@ impl Store {
         dispatch!(self, s => s.recent_opponents(user_id, limit))
     }
     /// Stores a match and updates both players' numbers; returns them
-    /// updated and the match id.
-    pub async fn record_match(&self, m: &MatchRecord) -> StoreResult<([Option<User>; 2], i64)> {
+    /// updated and the match id, or None when that game was stored already
+    /// (see [`MatchRecord::room`]).
+    pub async fn record_match(
+        &self,
+        m: &MatchRecord,
+    ) -> StoreResult<Option<([Option<User>; 2], i64)>> {
         dispatch!(self, s => s.record_match(m))
     }
     /// Lifetime numbers from the games with stored statistics.
@@ -1570,6 +1583,19 @@ impl Store {
     ) -> StoreResult<bool> {
         dispatch!(self, s => s.credit(user_id, delta, reason, reference, at))
     }
+    /// [`Store::credit`] with VIP time added or taken back in the same step:
+    /// both happen once (keyed by `reference`), or neither.
+    pub async fn credit_vip(
+        &self,
+        user_id: i64,
+        delta: i64,
+        reason: &str,
+        reference: &str,
+        at: i64,
+        vip: VipChange,
+    ) -> StoreResult<bool> {
+        dispatch!(self, s => s.credit_vip(user_id, delta, reason, reference, at, vip))
+    }
     /// VIP until `until` (never shortens it unless `force`).
     pub async fn set_vip(&self, user_id: i64, until: i64, force: bool) -> StoreResult<()> {
         dispatch!(self, s => s.set_vip(user_id, until, force))
@@ -1584,8 +1610,15 @@ impl Store {
     pub async fn take_vip(&self, user_id: i64, secs: i64, floor: i64) -> StoreResult<()> {
         dispatch!(self, s => s.take_vip(user_id, secs, floor))
     }
-    pub async fn set_stripe_customer(&self, user_id: i64, customer: &str) -> StoreResult<()> {
-        dispatch!(self, s => s.set_stripe_customer(user_id, customer))
+    /// The player's Stripe customer: the one their subscription is under
+    /// (`replace`), else kept when they have one already (in one step).
+    pub async fn set_stripe_customer(
+        &self,
+        user_id: i64,
+        customer: &str,
+        replace: bool,
+    ) -> StoreResult<()> {
+        dispatch!(self, s => s.set_stripe_customer(user_id, customer, replace))
     }
     pub async fn user_by_stripe_customer(&self, customer: &str) -> StoreResult<Option<i64>> {
         dispatch!(self, s => s.user_by_stripe_customer(customer))
@@ -1930,7 +1963,9 @@ pub fn apply_match_numbers(u: &mut User, m: &MatchRecord, seat: usize) {
         r.rating += m.delta[seat];
         r.peak_rating = r.peak_rating.max(r.rating);
         r.games += 1;
-        if won {
+        if !m.counts {
+            // Neither a win nor a lost streak.
+        } else if won {
             r.wins += 1;
             u.streak += 1;
             u.best_streak = u.best_streak.max(u.streak);
@@ -1940,7 +1975,7 @@ pub fn apply_match_numbers(u: &mut User, m: &MatchRecord, seat: usize) {
     } else {
         u.casual_games += 1;
     }
-    if won && m.rated {
+    if won && m.rated && m.counts {
         u.eight_wins += m.eight_win as u32;
         u.runouts += m.runout as u32;
         u.shutouts += m.shutout as u32;
@@ -1968,6 +2003,15 @@ pub const AUDIT_NOT_PLAYERS: &[&str] = &[
     "pin",
     "unpin",
 ];
+
+/// VIP time changed along with a coin credit ([`Store::credit_vip`]).
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum VipChange {
+    /// `secs` more, counted from `from` or from the end of the VIP there is.
+    Add { from: i64, secs: i64 },
+    /// `secs` fewer, never ending before `floor` (nor lengthened).
+    Take { secs: i64, floor: i64 },
+}
 
 /// The username a deleted account is left with.
 pub fn deleted_name(id: i64) -> String {

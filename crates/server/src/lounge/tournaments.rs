@@ -380,6 +380,13 @@ impl Lounge {
             self.error(k, format!("You are muted for {mins} more minutes."));
             return false;
         }
+        if self.chat_off(s) {
+            self.error(
+                k,
+                "A tournament's name is shown to everyone: with your chat off, you can join tournaments but not create one.",
+            );
+            return false;
+        }
         let (guest, vip) = (s.guest, s.look.vip);
         let name = clean_text(name, MAX_NAME_LEN);
         if name.chars().count() < 3 {
@@ -795,7 +802,9 @@ impl Lounge {
                                 None if slot.players[1 - seat].is_some() => {
                                     b.set_winner(r, i, 1 - seat)
                                 }
-                                None => {}
+                                // The opponent isn't known yet: whoever comes
+                                // goes through (if nobody does, no one).
+                                None => b.withdraw(r, i, seat),
                             }
                         }
                     }
@@ -1111,7 +1120,15 @@ impl Lounge {
         let open = t.ends_at.is_some_and(|e| now() < e);
         if open && self.draining.is_none() {
             let nowi = Instant::now();
-            let is_free = |p: &String| !t.withdrawn.contains(p) && self.available(p);
+            // Not one who is away from the game, or waiting after leaving a
+            // game (one idled out, say): paired, they would only leave the
+            // next one too.
+            let is_free = |p: &String| {
+                !t.withdrawn.contains(p)
+                    && self.available(p)
+                    && !self.sessions.get(p).is_some_and(|s| s.away)
+                    && self.abandon_cooldown(p).is_none()
+            };
             let free_now: Vec<String> = t.players.iter().filter(|p| is_free(p)).cloned().collect();
             let t = self.tournaments.get_mut(&id).expect("checked");
             for (k, score) in t.arena.iter_mut() {
@@ -1189,6 +1206,10 @@ impl Lounge {
         t.state = TournamentState::Finished;
         t.finished_at = Some(Instant::now());
         t.champion = Some(champion.clone());
+        // A player's tournament has a name its host wrote: not a line for
+        // the lounge's chat (no one's to block, and read by players with
+        // their chat off). The server's cups and the staff's events are.
+        let announced = t.host.is_empty();
         let (fees, house) = (t.fee_prizes(), t.house_prizes());
         let mut paid_out = Vec::new();
         for (place, k) in [Some(champion.clone()), runner_up].into_iter().enumerate() {
@@ -1242,7 +1263,9 @@ impl Lounge {
         if !record.players.is_empty() {
             self.effect(Effect::RecordTournament(record));
         }
-        self.announce_text(&format!("{display} won the tournament \u{201c}{name}\u{201d}!"));
+        if announced {
+            self.announce_text(&format!("{display} won the tournament \u{201c}{name}\u{201d}!"));
+        }
     }
 
     /// Called by the ticker: running tournaments move on, tournaments

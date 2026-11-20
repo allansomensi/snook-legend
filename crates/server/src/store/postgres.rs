@@ -281,11 +281,26 @@ impl PgStore {
         Ok(())
     }
 
-    pub async fn record_match(&self, m: &MatchRecord) -> StoreResult<([Option<User>; 2], i64)> {
+    pub async fn record_match(
+        &self,
+        m: &MatchRecord,
+    ) -> StoreResult<Option<([Option<User>; 2], i64)>> {
         let mut tx = self.pool.begin().await?;
+        if let Some(room) = m.room {
+            let stored = query("SELECT 1 AS one FROM matches WHERE room_id = $1")
+                .bind(room)
+                .fetch_optional(&mut *tx)
+                .await?;
+            if stored.is_some() {
+                return Ok(None);
+            }
+            // Its saved copy goes with it: never a result without the game
+            // gone, nor the game gone without its result.
+            query("DELETE FROM live_matches WHERE id = $1").bind(room).execute(&mut *tx).await?;
+        }
         let out = Self::record_match_in(&mut tx, m).await?;
         tx.commit().await?;
-        Ok(out)
+        Ok(Some(out))
     }
 
     /// Stores a match inside a transaction (see [`PgStore::record_match`]).
@@ -298,7 +313,7 @@ impl PgStore {
             let won = seat == m.winner;
             let (rated, delta) = (m.rated, m.delta[seat]);
             // Feats only count in rated games (casual ones are easy to arrange).
-            let bonus = |flag: bool| (rated && won && flag) as i32;
+            let bonus = |flag: bool| (rated && won && flag && m.counts) as i32;
             let p = record_columns(m.rules);
             let row = query(&format!(
                 "UPDATE users SET
@@ -306,7 +321,7 @@ impl PgStore {
                     {p}peak_rating = GREATEST({p}peak_rating, {p}rating + $2),
                     {p}games = {p}games + $3,
                     {p}wins = {p}wins + $4,
-                    streak = CASE WHEN $3 = 0 THEN streak WHEN $4 = 1 THEN streak + 1 ELSE 0 END,
+                    streak = CASE WHEN $3 = 0 OR NOT $10 THEN streak WHEN $4 = 1 THEN streak + 1 ELSE 0 END,
                     best_streak = GREATEST(best_streak, CASE WHEN $3 = 1 AND $4 = 1 THEN streak + 1 ELSE 0 END),
                     casual_games = casual_games + $5,
                     eight_wins = eight_wins + $6,
@@ -318,19 +333,20 @@ impl PgStore {
             .bind(m.players[seat])
             .bind(if rated { delta } else { 0 })
             .bind(rated as i32)
-            .bind((rated && won) as i32)
+            .bind((rated && won && m.counts) as i32)
             .bind((!rated) as i32)
             .bind(bonus(m.eight_win))
             .bind(bonus(m.runout))
             .bind(bonus(m.shutout))
             .bind((m.abandoned == Some(seat)) as i32)
+            .bind(m.counts)
             .fetch_optional(&mut **tx)
             .await?;
             *slot = row.map(|r| user(&r)).transpose()?;
         }
         let id: i64 = query(
-            "INSERT INTO matches (player0, player1, winner_seat, reason, rated, delta0, delta1, rating0, rating1, shots, tournament_id, ended_at, seed, breaker, strokes, rules)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15::jsonb, $16) RETURNING id",
+            "INSERT INTO matches (player0, player1, winner_seat, reason, rated, delta0, delta1, rating0, rating1, shots, tournament_id, ended_at, seed, breaker, strokes, rules, room_id)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15::jsonb, $16, $17) RETURNING id",
         )
         .bind(m.players[0])
         .bind(m.players[1])
@@ -348,6 +364,7 @@ impl PgStore {
         .bind(m.replay.as_ref().map(|r| r.breaker as i16))
         .bind(m.replay.as_ref().map(replay_json))
         .bind(m.rules.code())
+        .bind(m.room)
         .fetch_one(&mut **tx)
         .await?
         .get("id");
@@ -806,7 +823,7 @@ impl PgStore {
                 "SELECT COUNT(*) AS eligible,
                     COUNT(*) FILTER (WHERE EXISTS (SELECT 1 FROM activity a
                         WHERE a.user_id = u.id AND a.day = u.created_at / 86400 + $3)) AS came
-                 FROM users u WHERE u.created_at / 86400 BETWEEN $1 AND $2
+                 FROM users u WHERE u.created_at >= $1 * 86400 AND u.created_at < ($2 + 1) * 86400
                     AND u.created_at / 86400 + $3 <= $4",
             )
             .bind(from)
@@ -829,13 +846,15 @@ impl PgStore {
         for w in 0..super::COHORT_WEEKS {
             let first_day = today - 6 - 7 * w;
             let last = first_day + 6;
-            let accounts: i64 =
-                query("SELECT COUNT(*) AS n FROM users WHERE created_at / 86400 BETWEEN $1 AND $2")
-                    .bind(first_day)
-                    .bind(last)
-                    .fetch_one(&self.pool)
-                    .await?
-                    .get("n");
+            let accounts: i64 = query(
+                "SELECT COUNT(*) AS n FROM users
+                     WHERE created_at >= $1 * 86400 AND created_at < ($2 + 1) * 86400",
+            )
+            .bind(first_day)
+            .bind(last)
+            .fetch_one(&self.pool)
+            .await?
+            .get("n");
             cohorts.push(super::Cohort {
                 first_day,
                 accounts,
@@ -848,7 +867,7 @@ impl PgStore {
             "SELECT COUNT(*) AS created,
                 COUNT(*) FILTER (WHERE games + official_games + casual_games >= 1) AS one,
                 COUNT(*) FILTER (WHERE games + official_games + casual_games >= 5) AS five
-             FROM users WHERE created_at / 86400 >= $1",
+             FROM users WHERE created_at >= $1 * 86400",
         )
         .bind(today - 30)
         .fetch_one(&self.pool)
@@ -1495,7 +1514,7 @@ impl PgStore {
              FROM users u LEFT JOIN wallets w ON w.user_id = u.id
              WHERE u.{p}games > 0 AND (u.banned_until IS NULL OR u.banned_until <= $2)
                AND u.deleted_at IS NULL
-             ORDER BY u.{p}rating DESC, u.{p}wins DESC, u.username ASC LIMIT $1"
+             ORDER BY u.{p}rating DESC, u.{p}wins DESC, u.username COLLATE \"C\" ASC LIMIT $1"
         ))
         .bind(limit as i64)
         .bind(now)
@@ -1524,7 +1543,7 @@ impl PgStore {
                        AND (o.banned_until IS NULL OR o.banned_until <= $2) AND o.deleted_at IS NULL
                        AND (o.{p}rating > u.{p}rating OR (o.{p}rating = u.{p}rating
                             AND (o.{p}wins > u.{p}wins OR (o.{p}wins = u.{p}wins
-                                 AND o.username < u.username))))) AS above
+                                 AND o.username COLLATE \"C\" < u.username COLLATE \"C\"))))) AS above
              FROM users u WHERE u.id = $1 AND u.{p}games > 0"
         ))
         .bind(user_id)
@@ -2010,7 +2029,9 @@ impl PgStore {
                        AND (ou.banned_until IS NULL OR ou.banned_until <= $3)
                        AND (o.best > me.best OR (o.best = me.best
                             AND (o.best_at, o.user_id) < (me.best_at, me.user_id)))) AS ahead
-             FROM daily_scores me WHERE me.day = $1 AND me.user_id = $2 AND me.best IS NOT NULL",
+             FROM daily_scores me JOIN users mu ON mu.id = me.user_id
+             WHERE me.day = $1 AND me.user_id = $2 AND me.best IS NOT NULL
+               AND mu.deleted_at IS NULL AND (mu.banned_until IS NULL OR mu.banned_until <= $3)",
         )
         .bind(day)
         .bind(user_id)
@@ -2142,7 +2163,9 @@ impl PgStore {
                        AND (ou.banned_until IS NULL OR ou.banned_until <= $2)
                        AND (o.rating > me.rating OR (o.rating = me.rating
                        AND (o.updated_at, o.user_id) < (me.updated_at, me.user_id)))) AS ahead
-             FROM challenge_ratings me WHERE me.user_id = $1",
+             FROM challenge_ratings me JOIN users mu ON mu.id = me.user_id
+             WHERE me.user_id = $1
+               AND mu.deleted_at IS NULL AND (mu.banned_until IS NULL OR mu.banned_until <= $2)",
         )
         .bind(user_id)
         .bind(crate::now())
@@ -2900,6 +2923,57 @@ impl PgStore {
         Ok(true)
     }
 
+    pub async fn credit_vip(
+        &self,
+        user_id: i64,
+        delta: i64,
+        reason: &str,
+        reference: &str,
+        at: i64,
+        vip: super::VipChange,
+    ) -> StoreResult<bool> {
+        let mut tx = self.pool.begin().await?;
+        let inserted = query(
+            "INSERT INTO coin_ledger (user_id, delta, reason, reference, at) VALUES ($1, $2, $3, $4, $5)
+             ON CONFLICT (reference) DO NOTHING",
+        )
+        .bind(user_id)
+        .bind(delta)
+        .bind(reason)
+        .bind(reference)
+        .bind(at)
+        .execute(&mut *tx)
+        .await?
+        .rows_affected();
+        if inserted == 0 {
+            return Ok(false);
+        }
+        query(
+            "INSERT INTO wallets (user_id, coins) VALUES ($1, $2)
+             ON CONFLICT (user_id) DO UPDATE SET coins = wallets.coins + EXCLUDED.coins",
+        )
+        .bind(user_id)
+        .bind(delta)
+        .execute(&mut *tx)
+        .await?;
+        let (sql, a, b) = match vip {
+            super::VipChange::Add { from, secs } => (
+                "UPDATE wallets SET vip_until = GREATEST(vip_until, $2) + $3 WHERE user_id = $1",
+                from,
+                secs,
+            ),
+            super::VipChange::Take { secs, floor } => (
+                "UPDATE wallets SET vip_until = LEAST(vip_until, GREATEST(vip_until - $3, $2))
+                 WHERE user_id = $1",
+                floor,
+                secs,
+            ),
+        };
+        query(sql).bind(user_id).bind(a).bind(b).execute(&mut *tx).await?;
+        tx.commit().await?;
+        Ok(true)
+    }
+
     pub async fn set_vip(&self, user_id: i64, until: i64, force: bool) -> StoreResult<()> {
         let sql = if force {
             "INSERT INTO wallets (user_id, vip_until) VALUES ($1, $2)
@@ -2938,15 +3012,21 @@ impl PgStore {
         Ok(())
     }
 
-    pub async fn set_stripe_customer(&self, user_id: i64, customer: &str) -> StoreResult<()> {
-        query(
+    pub async fn set_stripe_customer(
+        &self,
+        user_id: i64,
+        customer: &str,
+        replace: bool,
+    ) -> StoreResult<()> {
+        let sql = if replace {
             "INSERT INTO wallets (user_id, stripe_customer) VALUES ($1, $2)
-             ON CONFLICT (user_id) DO UPDATE SET stripe_customer = EXCLUDED.stripe_customer",
-        )
-        .bind(user_id)
-        .bind(customer)
-        .execute(&self.pool)
-        .await?;
+             ON CONFLICT (user_id) DO UPDATE SET stripe_customer = EXCLUDED.stripe_customer"
+        } else {
+            "INSERT INTO wallets (user_id, stripe_customer) VALUES ($1, $2)
+             ON CONFLICT (user_id) DO UPDATE
+             SET stripe_customer = COALESCE(wallets.stripe_customer, EXCLUDED.stripe_customer)"
+        };
+        query(sql).bind(user_id).bind(customer).execute(&self.pool).await?;
         Ok(())
     }
 

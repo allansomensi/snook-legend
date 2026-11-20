@@ -52,7 +52,7 @@ Com a branca na mão atrás da linha de cabeceira, você não pode acertar uma b
 Depois de qualquer falta, o adversário fica com a branca na mão: coloca-a onde quiser na mesa. Nenhuma bola sai da mesa como penalidade.
 
 ### O que é falta
-A branca na caçapa ou fora da mesa; não acertar nenhuma bola, ou acertar primeiro a bola errada (uma do adversário, ou a 8 antes da hora); depois do contato, nenhuma bola encaçapada e nenhuma chegando à tabela; uma bola fora da mesa (ela fica fora).
+A branca na caçapa ou fora da mesa; não acertar nenhuma bola, ou acertar primeiro a bola errada (uma do adversário, ou a 8 antes da hora); depois do contato, nenhuma bola encaçapada e nenhuma chegando à tabela (uma bola encostada na tabela só chega a ela se sair e voltar); uma bola fora da mesa (ela fica fora).
 
 ### O tempo de tacada
 Quando a partida tem tempo de tacada e ele acaba, é falta: o adversário fica com a branca na mão. Uma escolha depois da saída que não é feita a tempo fica com a primeira opção.

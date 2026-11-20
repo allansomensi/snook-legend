@@ -273,7 +273,9 @@ pub async fn handle(server: &Arc<Server>, me: &User, msg: ClientMsg, send: &impl
         }
         ClientMsg::BuyWelcomePack => {
             let Some(stripe) = &server.stripe else { return error("Purchases are not available.") };
-            let w = server.store.wallet(me.id).await.unwrap_or_default();
+            let Ok(w) = server.store.wallet(me.id).await else {
+                return error("Something went wrong. Please try again.");
+            };
             if shop::has_welcome_pack(&w.owned) {
                 return error("You already have the welcome pack.");
             }
@@ -290,9 +292,30 @@ pub async fn handle(server: &Arc<Server>, me: &User, msg: ClientMsg, send: &impl
         }
         ClientMsg::SubscribeVip => {
             let Some(stripe) = &server.stripe else { return error("Purchases are not available.") };
-            let w = server.store.wallet(me.id).await.unwrap_or_default();
+            let Ok(w) = server.store.wallet(me.id).await else {
+                return error("Something went wrong. Please try again.");
+            };
             if is_vip(&w, now()) {
                 return error("You are already VIP.");
+            }
+            // A subscription whose renewal failed (VIP over, Stripe still
+            // trying to charge it) is taken up again in the portal: a second
+            // one would charge twice.
+            if let Some(c) = &w.stripe_customer {
+                match stripe.has_live_subscription(c).await {
+                    Ok(false) => {}
+                    Ok(true) => {
+                        return error(
+                            "You already have a VIP subscription: manage it with Manage subscription.",
+                        );
+                    }
+                    Err(e) => {
+                        tracing::warn!("VIP subscriptions of {}: {e}", me.username);
+                        return error(
+                            "The payment page could not be opened. Try again in a moment.",
+                        );
+                    }
+                }
             }
             match stripe.checkout_vip(me.id, &me.username, w.stripe_customer.as_deref()).await {
                 Ok(url) => send(ServerMsg::PaymentPage { url }),
@@ -310,7 +333,9 @@ pub async fn handle(server: &Arc<Server>, me: &User, msg: ClientMsg, send: &impl
             };
             // A subscriber's months come from the subscription; a gift on top
             // would be cut short by its next renewal.
-            let theirs = server.store.wallet(friend.id).await.unwrap_or_default();
+            let Ok(theirs) = server.store.wallet(friend.id).await else {
+                return error("Something went wrong. Please try again.");
+            };
             if is_vip(&theirs, now()) {
                 return error("Your friend is already VIP.");
             }
@@ -428,9 +453,9 @@ async fn offer_email(server: &Server, user: &User) {
     }
 }
 
-async fn user_of(server: &Server, obj: &Value) -> Option<User> {
-    // Our own reference first, then the customer.
-    let id = str_of(obj, "client_reference_id")
+/// The account an object names itself (our reference or metadata), if any.
+fn named_account(obj: &Value) -> Option<i64> {
+    str_of(obj, "client_reference_id")
         .or_else(|| obj.get("metadata").and_then(|m| str_of(m, "user_id")))
         // A subscription's invoice: where the subscription's own metadata is
         // copied to (the place moved between Stripe API versions).
@@ -443,7 +468,31 @@ async fn user_of(server: &Server, obj: &Value) -> Option<User> {
             .iter()
             .find_map(|p| obj.pointer(p).and_then(Value::as_str))
         })
-        .and_then(|s| s.parse::<i64>().ok());
+        .and_then(|s| s.parse::<i64>().ok())
+}
+
+/// Whether the account an object names was deleted (its subscription
+/// would bill no one, every month). Not a payment that names no account
+/// of ours (another product of the same Stripe account).
+async fn names_deleted_account(server: &Server, obj: &Value) -> Result<bool, String> {
+    let Some(id) = named_account(obj) else { return Ok(false) };
+    let user = server.store.user_by_id(id).await.map_err(|e| e.to_string())?;
+    Ok(user.is_some_and(|u| u.deleted_at.is_some()))
+}
+
+/// Ends the subscriptions of the customer an object names (its account is
+/// gone); Err (Stripe sends the event again) when they could not be ended.
+async fn cancel_orphan_subscriptions(server: &Server, obj: &Value) -> Result<(), String> {
+    if let (Some(stripe), Some(c)) = (&server.stripe, str_of(obj, "customer")) {
+        let ended = stripe.cancel_subscriptions(c).await?;
+        tracing::warn!(customer = c, ended, "subscriptions of a deleted account cancelled");
+    }
+    Ok(())
+}
+
+async fn user_of(server: &Server, obj: &Value) -> Option<User> {
+    // Our own reference first, then the customer.
+    let id = named_account(obj);
     let id = match id {
         Some(id) => Some(id),
         None => match str_of(obj, "customer") {
@@ -461,12 +510,14 @@ async fn notify(server: &Server, user: &User, text: &str) {
     push_wallet(server, user).await;
 }
 
-/// A VIP month was paid with `invoice`: VIP until `end` and the month's
-/// coins. Safe to run more than once for the same invoice.
+/// A VIP month was paid with `invoice`, for the period `start`..`end`:
+/// its time and its coins. Safe to run more than once for the same invoice.
+#[allow(clippy::too_many_arguments)]
 async fn vip_paid(
     server: &Server,
     user: &User,
     invoice: &str,
+    start: i64,
     end: i64,
     amount: i64,
     currency: &str,
@@ -477,7 +528,6 @@ async fn vip_paid(
     if server.store.payment(invoice).await.map_err(err)?.is_some_and(|p| p.refunded) {
         return Ok(());
     }
-    server.store.set_vip(user.id, end + VIP_GRACE, false).await.map_err(err)?;
     let first = server
         .store
         .record_payment(&Payment {
@@ -495,20 +545,19 @@ async fn vip_paid(
         })
         .await
         .map_err(err)?;
-    // The monthly coins (not for a free trial month).
-    if amount > 0 {
-        server
-            .store
-            .credit(
-                user.id,
-                VIP_MONTHLY_COINS as i64,
-                "vip month",
-                Some(&format!("vip:{invoice}")),
-                now(),
-            )
-            .await
-            .map_err(err)?;
-    }
+    // The month's time, added once (with the coins: none for a free trial
+    // month) to whatever VIP there is: a month given or bought in the
+    // Store on top of the subscription isn't swallowed by its renewal. VIP
+    // that had lapsed starts again with the period (and a few hours'
+    // grace, which a renewal on time carries over).
+    let coins = if amount > 0 { VIP_MONTHLY_COINS as i64 } else { 0 };
+    let secs = (end - start).clamp(0, 40 * 86_400);
+    let vip = crate::store::VipChange::Add { from: start + VIP_GRACE, secs };
+    server
+        .store
+        .credit_vip(user.id, coins, "vip month", &format!("vip:{invoice}"), now(), vip)
+        .await
+        .map_err(err)?;
     if first {
         tracing::info!(user = user.id, until = end, "VIP paid");
         notify(server, user, "Welcome to VIP!").await;
@@ -568,20 +617,18 @@ async fn vip_gift_paid(
         .map_err(err)?;
     // The month counts from the payment. Two gifts at once add up; a
     // repeated delivery only makes sure the month is there.
+    // The time and the coins go in one step, once: a delivery that stopped
+    // half way gives both when it comes again.
     let from = obj["created"].as_i64().unwrap_or(now());
-    if first {
-        server.store.add_vip(friend.id, from, VIP_GIFT_SECS).await.map_err(err)?;
-    } else {
-        server.store.set_vip(friend.id, from + VIP_GIFT_SECS, false).await.map_err(err)?;
-    }
     server
         .store
-        .credit(
+        .credit_vip(
             friend.id,
             VIP_MONTHLY_COINS as i64,
             &format!("vip gift from {}", giver.username),
-            Some(&format!("vipgift:{payment_id}")),
+            &format!("vipgift:{payment_id}"),
             now(),
+            crate::store::VipChange::Add { from, secs: VIP_GIFT_SECS },
         )
         .await
         .map_err(err)?;
@@ -616,6 +663,16 @@ async fn welcome_paid(server: &Server, user: &User, obj: &Value) -> Result<(), S
     let payment_id = str_of(obj, "payment_intent").or(str_of(obj, "id")).unwrap_or("");
     if server.store.payment(payment_id).await.map_err(err)?.is_some_and(|p| p.refunded) {
         return Ok(());
+    }
+    // Two pages paid (opened together, or a boleto paid late): the coins of
+    // the second come too, the items were already there; the staff can
+    // refund it (its items stay: the other pack paid for them).
+    if welcome_paid_elsewhere(server, user.id, payment_id).await? {
+        tracing::error!(
+            user = user.id,
+            payment = payment_id,
+            "welcome pack paid twice: refund one"
+        );
     }
     server
         .store
@@ -660,6 +717,33 @@ async fn welcome_paid(server: &Server, user: &User, obj: &Value) -> Result<(), S
     Ok(())
 }
 
+/// Whether the player has a welcome pack paid (and not refunded) other than
+/// `payment`.
+async fn welcome_paid_elsewhere(server: &Server, user: i64, payment: &str) -> Result<bool, String> {
+    let payments = server.store.payments_of(user, 200).await.map_err(|e| e.to_string())?;
+    Ok(payments.iter().any(|p| p.kind == "welcome" && !p.refunded && p.id != payment))
+}
+
+/// Whether an invoice is a VIP month: one of a subscription, and of the VIP
+/// price when it says which (not another product of the same Stripe
+/// account).
+fn is_vip_invoice(server: &Server, obj: &Value) -> bool {
+    let subscription = str_of(obj, "subscription").is_some()
+        || obj.pointer("/parent/subscription_details").is_some_and(|d| !d.is_null())
+        || obj.pointer("/subscription_details").is_some_and(|d| !d.is_null())
+        || obj.pointer("/lines/data/0/subscription").is_some_and(|d| !d.is_null());
+    let price = obj
+        .pointer("/lines/data/0/price/id")
+        .or_else(|| obj.pointer("/lines/data/0/pricing/price_details/price"))
+        .and_then(Value::as_str);
+    let vip_price = server
+        .stripe
+        .as_ref()
+        .and_then(|s| s.cfg.prices.get(snook_legend_proto::shop::VIP_PLAN))
+        .map(|(id, _)| id.as_str());
+    subscription && (price.is_none() || vip_price.is_none() || price == vip_price)
+}
+
 /// Applies one Stripe event. Safe to run more than once.
 pub async fn apply_event(server: &Server, event: &Value) -> Result<(), String> {
     apply(server, event).await?;
@@ -688,19 +772,18 @@ async fn apply(server: &Server, event: &Value) -> Result<(), String> {
                 // A subscription started from a page opened before the
                 // account was deleted: it would bill no one, every month.
                 if str_of(obj, "mode") == Some("subscription")
-                    && let (Some(stripe), Some(c)) = (&server.stripe, str_of(obj, "customer"))
-                    && let Err(e) = stripe.cancel_subscriptions(c).await
+                    && names_deleted_account(server, obj).await?
                 {
-                    tracing::error!("a subscription with no player left: not cancelled: {e}");
+                    cancel_orphan_subscriptions(server, obj).await?;
                 }
                 return Ok(());
             };
-            // The account's first customer stays: the one its subscription
-            // is under (a second page paid with another doesn't replace it).
-            if let Some(c) = str_of(obj, "customer")
-                && server.store.wallet(user.id).await.map_err(err)?.stripe_customer.is_none()
-            {
-                server.store.set_stripe_customer(user.id, c).await.map_err(err)?;
+            // The customer the subscription is under is the account's (the
+            // one its page is managed and cancelled through); a coin pack's
+            // doesn't replace one the account has.
+            if let Some(c) = str_of(obj, "customer") {
+                let subscription = str_of(obj, "mode") == Some("subscription");
+                server.store.set_stripe_customer(user.id, c, subscription).await.map_err(err)?;
             }
             // A new subscription, paid: its first month. The invoice says the
             // same (and the exact dates), but the two can come in any order,
@@ -712,8 +795,9 @@ async fn apply(server: &Server, event: &Value) -> Result<(), String> {
                 let amount = obj["amount_total"].as_i64().unwrap_or(0);
                 let currency = str_of(obj, "currency").unwrap_or("");
                 let email = email_of(obj);
-                vip_paid(server, &user, invoice, now() + 31 * 86_400, amount, currency, email)
-                    .await?;
+                let start = obj["created"].as_i64().unwrap_or(now());
+                let end = start + 31 * 86_400;
+                vip_paid(server, &user, invoice, start, end, amount, currency, email).await?;
             }
             // Coin packs; Pix and boleto are paid later (async_payment_succeeded).
             if str_of(obj, "mode") == Some("payment")
@@ -776,7 +860,16 @@ async fn apply(server: &Server, event: &Value) -> Result<(), String> {
         "invoice.paid" => {
             // An invoice that arrives before the checkout that says whose
             // customer this is: the checkout event grants the month (above).
+            if !is_vip_invoice(server, obj) {
+                tracing::warn!("invoice.paid for something else than VIP: ignored");
+                return Ok(());
+            }
             let Some(user) = user_of(server, obj).await else {
+                // A renewal of an account deleted meanwhile: its subscription
+                // is ended (else it bills no one, every month).
+                if names_deleted_account(server, obj).await? {
+                    return cancel_orphan_subscriptions(server, obj).await;
+                }
                 tracing::warn!("invoice.paid for an unknown player");
                 return Ok(());
             };
@@ -786,9 +879,15 @@ async fn apply(server: &Server, event: &Value) -> Result<(), String> {
                 .and_then(Value::as_i64)
                 .or_else(|| obj["period_end"].as_i64())
                 .unwrap_or(now() + 31 * 86_400);
+            let start = obj
+                .pointer("/lines/data/0/period/start")
+                .and_then(Value::as_i64)
+                .or_else(|| obj["period_start"].as_i64())
+                .filter(|s| *s < end)
+                .unwrap_or(end - 31 * 86_400);
             let amount = obj["amount_paid"].as_i64().unwrap_or(0);
             let currency = str_of(obj, "currency").unwrap_or("");
-            vip_paid(server, &user, invoice, end, amount, currency, email_of(obj)).await?;
+            vip_paid(server, &user, invoice, start, end, amount, currency, email_of(obj)).await?;
         }
         "customer.subscription.deleted" => {
             if let Some(user) = user_of(server, obj).await {
@@ -797,9 +896,14 @@ async fn apply(server: &Server, event: &Value) -> Result<(), String> {
                 // from elsewhere (a month given, bought in the Store, from
                 // the staff) stays, after now.
                 let ended = obj["ended_at"].as_i64().unwrap_or(now());
-                let period_end = obj["current_period_end"]
+                // Ended for a renewal never paid: the period under way wasn't
+                // paid for (it began where the paid time ended).
+                let unpaid = obj.pointer("/cancellation_details/reason").and_then(Value::as_str)
+                    == Some("payment_failed");
+                let field = if unpaid { "current_period_start" } else { "current_period_end" };
+                let period_end = obj[field]
                     .as_i64()
-                    .or_else(|| obj.pointer("/items/data/0/current_period_end")?.as_i64())
+                    .or_else(|| obj.pointer(&format!("/items/data/0/{field}"))?.as_i64())
                     .unwrap_or(ended);
                 let unused = (period_end + VIP_GRACE - ended).max(0);
                 server.store.take_vip(user.id, unused, ended).await.map_err(err)?;
@@ -826,34 +930,39 @@ async fn apply(server: &Server, event: &Value) -> Result<(), String> {
             // A dispute names no invoice, and a charge no longer does on the
             // newer API: a VIP month (recorded under its invoice) is found
             // through the payment's invoice, asked from Stripe.
+            // Stripe that can't be asked now is asked again: the event fails
+            // and comes back (a month refunded is never kept by mistake).
             if found.is_none()
                 && let (Some(stripe), Some(pi)) = (&server.stripe, str_of(obj, "payment_intent"))
-                && let Some(invoice) = stripe.invoice_of_payment(pi).await
+                && let Some(invoice) = stripe.invoice_of_payment(pi).await?
             {
                 found = server.store.payment(&invoice).await.map_err(err)?;
             }
             let Some(p) = found else { return Ok(()) };
             // The welcome pack's items go back with its coins (whatever of
-            // them is in use is no longer shown). Before the payment is
-            // marked refunded: a delivery that stops half way is done again
-            // in full, and one that comes after (the pack bought again)
-            // takes nothing.
-            if p.kind == "welcome" && !p.refunded {
+            // them is in use is no longer shown), unless another pack paid
+            // for them too. Before the payment is marked refunded: a delivery
+            // that stops half way is done again in full, and one that comes
+            // after (the pack bought again) takes nothing.
+            if p.kind == "welcome"
+                && !p.refunded
+                && !welcome_paid_elsewhere(server, p.user_id, &p.id).await?
+            {
                 server.store.revoke_items(p.user_id, &WELCOME_ITEMS).await.map_err(err)?;
             }
             let first = server.store.refund_payment(&p.id).await.map_err(err)?;
             // Keyed by the payment: taken back exactly once, even when an
-            // earlier delivery stopped half-way.
-            let taken = server
-                .store
-                .credit(p.user_id, -p.coins, kind, Some(&format!("refund:{}", p.id)), now())
-                .await
-                .map_err(err)?;
-            // The month refunded goes, and only it: other VIP time (other
-            // months, gifts, the Store, the staff) stays.
-            if first && (p.kind == "vip" || p.kind == "vip_gift") {
-                server.store.take_vip(p.user_id, VIP_GIFT_SECS, now()).await.map_err(err)?;
+            // earlier delivery stopped half-way. The month refunded goes
+            // with its coins, in the same step, and only it: other VIP time
+            // (other months, gifts, the Store, the staff) stays.
+            let reference = format!("refund:{}", p.id);
+            let taken = if p.kind == "vip" || p.kind == "vip_gift" {
+                let vip = crate::store::VipChange::Take { secs: VIP_GIFT_SECS, floor: now() };
+                server.store.credit_vip(p.user_id, -p.coins, kind, &reference, now(), vip).await
+            } else {
+                server.store.credit(p.user_id, -p.coins, kind, Some(&reference), now()).await
             }
+            .map_err(err)?;
             if first || taken {
                 tracing::warn!(user = p.user_id, payment = %p.id, "payment reversed ({kind})");
                 if let Ok(Some(user)) = server.store.user_by_id(p.user_id).await {

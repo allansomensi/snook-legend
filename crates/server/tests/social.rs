@@ -50,6 +50,8 @@ fn game(players: [i64; 2], winner: usize, rated: bool, ended_at: i64) -> MatchRe
         replay: None,
         stats: Default::default(),
         abandoned: None,
+        room: None,
+        counts: true,
     }
 }
 

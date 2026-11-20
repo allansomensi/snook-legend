@@ -165,6 +165,8 @@ fn record(players: [i64; 2], replay: Replay, winner: usize, at: i64) -> MatchRec
         replay: Some(replay),
         stats: Default::default(),
         abandoned: None,
+        room: None,
+        counts: true,
     }
 }
 
@@ -213,8 +215,10 @@ async fn exercise(store: Store) {
     let r1 = Replay { strokes: vec![Stroke::TimeFoul], ..Replay::new(1, 0, Rules::Brazilian) };
     let r2 =
         Replay { strokes: vec![Stroke::TimeFoul; 2], ..Replay::new(u64::MAX, 1, Rules::Brazilian) };
-    let (_, first) = store.record_match(&record([a.id, b.id], r1.clone(), 0, 10)).await.unwrap();
-    let (_, second) = store.record_match(&record([b.id, a.id], r2.clone(), 1, 20)).await.unwrap();
+    let (_, first) =
+        store.record_match(&record([a.id, b.id], r1.clone(), 0, 10)).await.unwrap().unwrap();
+    let (_, second) =
+        store.record_match(&record([b.id, a.id], r2.clone(), 1, 20)).await.unwrap().unwrap();
     // A game without a replay is left out.
     let mut bare = record([a.id, b.id], r1.clone(), 0, 30);
     bare.replay = None;

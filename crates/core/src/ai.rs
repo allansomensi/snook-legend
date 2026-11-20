@@ -22,7 +22,7 @@ use crate::ball::BallId;
 use crate::math;
 use crate::physics::Shot;
 use crate::rng::Rng;
-use crate::rules::{BreakChoice, BreakOption, EightBallGame, Rules};
+use crate::rules::{BallInHand, BreakChoice, BreakOption, EightBallGame, Rules};
 use crate::table::PocketId;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
@@ -696,12 +696,29 @@ fn pockets_for(g: &EightBallGame, target: BallId) -> impl Iterator<Item = Pocket
     PocketId::ALL.into_iter().filter(move |p| only.is_none_or(|c| c == *p))
 }
 
+/// The balls the player may hit first from where the cue ball can be: under
+/// the official rules, with the cue ball in hand behind the head string, a
+/// ball lying behind it is only hit after crossing it (3.11), never
+/// straight: those are left out (all of them behind, the nearest is
+/// spotted: see 1.6).
+fn playable_targets(g: &EightBallGame) -> Vec<BallId> {
+    let kitchen = g.rules() == Rules::Official
+        && !g.is_break()
+        && g.ball_in_hand() == Some(BallInHand::Kitchen);
+    let line = g.table().head_string_x();
+    let mut targets = g.legal_targets();
+    if kitchen {
+        targets.retain(|b| g.ball(*b).xy().x >= line);
+    }
+    targets
+}
+
 /// How easy the best available shot is for the player to move (0 to ~1).
 fn position_quality(g: &EightBallGame) -> f64 {
     let cue = g.ball(BallId::CUE).xy();
     let mut best: f64 = 0.0;
     let mut count = 0.0;
-    for target in g.legal_targets() {
+    for target in playable_targets(g) {
         let mut ball_best: f64 = 0.0;
         for pocket in pockets_for(g, target) {
             ball_best = ball_best.max(shot_ease(g, cue, target, pocket));
@@ -770,7 +787,7 @@ fn pocket_candidates(g: &EightBallGame, prof: &Profile) -> Vec<Candidate> {
     let cue = g.ball(BallId::CUE).xy();
     let r = g.table().spec.ball_radius;
     let mut out = Vec::new();
-    for target in g.legal_targets() {
+    for target in playable_targets(g) {
         for pocket in PocketId::ALL {
             if shot_ease(g, cue, target, pocket) <= 0.0 {
                 continue;
@@ -802,7 +819,7 @@ fn bank_candidates(g: &EightBallGame) -> Vec<Candidate> {
     let r = spec.ball_radius;
     let (hl, hw) = (spec.length / 2.0 - r, spec.width / 2.0 - r);
     let mut out = Vec::new();
-    for target in g.legal_targets() {
+    for target in playable_targets(g) {
         let t = g.ball(target).xy();
         for pocket in PocketId::ALL {
             let aim = g.table().pocket(pocket).aim_point();
@@ -866,7 +883,7 @@ fn safety_options(g: &EightBallGame, me: usize, prof: &Profile) -> Vec<Scored> {
     } else {
         &[1.4, 2.4]
     };
-    for target in g.legal_targets() {
+    for target in playable_targets(g) {
         let t = g.ball(target).xy();
         let dir = (t - cue).normalize_or_zero();
         for &offset in offsets {
@@ -954,7 +971,7 @@ fn choose_cue_ball_position(g: &EightBallGame, prof: &Profile, rng: &mut Rng) ->
     }
     let r = g.table().spec.ball_radius;
     let mut best: Vec<(f64, DVec2)> = Vec::new();
-    for target in g.legal_targets() {
+    for target in playable_targets(g) {
         let t = g.ball(target).xy();
         for pocket in pockets_for(g, target) {
             let aim = g.table().pocket(pocket).aim_point();

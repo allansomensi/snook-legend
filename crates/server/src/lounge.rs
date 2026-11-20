@@ -267,6 +267,8 @@ struct Room {
     /// The shot clocks each seat let run out in a row (a stroke or a choice
     /// of theirs starts over): at [`IDLE_TURNS`] they left the game.
     idle: [u8; 2],
+    /// The last shot played was a break (a win on it is a golden break).
+    last_was_break: bool,
     shot_at: Instant,
     /// Turns each seat has had (for "break and run").
     turns: [u32; 2],
@@ -690,11 +692,9 @@ impl Lounge {
                 .try_send(ServerMsg::Kicked { reason: "You signed in from another place.".into() });
             old.kill.notify_one();
         }
-        let room = self
-            .rooms
-            .values()
-            .find(|r| r.keys.contains(&k) && r.present[r.seat_of(&k)])
-            .map(|r| r.id);
+        // A game going on first (one just finished could also be waiting).
+        let mine = |r: &&Room| r.keys.contains(&k) && r.present[r.seat_of(&k)];
+        let room = self.rooms.values().filter(mine).min_by_key(|r| r.finished).map(|r| r.id);
         let info = player_info(
             &user,
             guest,
@@ -798,7 +798,9 @@ impl Lounge {
             let opponent = room.keys[1 - seat].clone();
             if room.finished {
                 room.present[seat] = false;
-                self.send(&opponent, ServerMsg::OpponentLeft);
+                if self.sessions.get(&opponent).is_some_and(|s| s.room == Some(id)) {
+                    self.send(&opponent, ServerMsg::OpponentLeft);
+                }
                 self.end_watching_of(&k, id);
                 self.close_room_if_empty(id);
             } else if self.draining.is_some()
@@ -895,9 +897,11 @@ impl Lounge {
     /// their session starts again under the new name on the same
     /// connection (everyone sees the old name leave and the new one come).
     /// Only when [`Lounge::rename_blocker`] has nothing against it.
-    pub fn renamed(&mut self, old: &str, user: User, token: String) {
+    pub fn renamed(&mut self, old: &str, conn: u64, user: User, token: String) {
         let (old_k, new_k) = (key(old), key(&user.username));
-        let Some(s) = self.sessions.get(&old_k) else { return };
+        // This connection's session (not another device that signed in
+        // meanwhile, still under the old name).
+        let Some(s) = self.sessions.get(&old_k).filter(|s| s.conn_id == conn) else { return };
         let (conn_id, tx, kill, ip) = (s.conn_id, s.tx.clone(), s.kill.clone(), s.ip.clone());
         let (blocked, look, achievements) =
             (s.blocked.clone(), s.look.clone(), s.achievements.clone());
@@ -1028,11 +1032,17 @@ impl Lounge {
     fn delete_chat(&mut self, k: &str, id: u64, silent: bool) {
         let Some(s) = self.sessions.get(k) else { return };
         let admin = s.user.role == snook_legend_proto::Role::Admin;
-        let Some(line) = self.chat.iter().find(|l| l.id == id && l.kind == ChatKind::Player) else {
+        if !self.chat.iter().any(|l| l.id == id && l.kind == ChatKind::Player) {
             return;
-        };
-        let own = key(&line.from) == k;
+        }
+        // The writer by account (not by a name someone else may have now).
+        let own = self.chat_authors.get(&id).is_some_and(|a| *a == s.user.id);
         if self.chat_removed.contains(&id) || !(own || admin) || (silent && !admin) {
+            return;
+        }
+        // Deleted once (asking again would tell the whole lounge again); an
+        // administrator may still take a deleted line away for good.
+        if !silent && self.chat_deleted.contains_key(&id) {
             return;
         }
         tracing::info!(by = k, line = id, silent, "chat line deleted");
@@ -1790,10 +1800,22 @@ impl Lounge {
     }
 
     /// Everyone watching room `id` (not its players).
+    /// The players still at room `id`: both while it is played; once it is
+    /// over, those who haven't gone on (a player back in the lounge, or in
+    /// another game, hears nothing more from it).
+    fn members(&self, id: u64) -> Vec<String> {
+        let Some(room) = self.rooms.get(&id) else { return Vec::new() };
+        room.keys
+            .iter()
+            .filter(|k| !room.finished || self.sessions.get(*k).is_some_and(|s| s.room == Some(id)))
+            .cloned()
+            .collect()
+    }
+
     fn spectators(&self, id: u64) -> Vec<String> {
         let Some(room) = self.rooms.get(&id) else { return Vec::new() };
-        let mut out: Vec<String> = room
-            .keys
+        let mut out: Vec<String> = self
+            .members(id)
             .iter()
             .filter_map(|k| self.watchers.get(k))
             .flatten()
@@ -1807,8 +1829,7 @@ impl Lounge {
 
     /// Sends to both players and everyone watching.
     fn send_room(&self, id: u64, msg: &ServerMsg) {
-        let Some(room) = self.rooms.get(&id) else { return };
-        for k in room.keys.iter().cloned().chain(self.spectators(id)) {
+        for k in self.members(id).into_iter().chain(self.spectators(id)) {
             self.send(&k, msg.clone());
         }
     }
@@ -2257,6 +2278,7 @@ impl Lounge {
             breaker,
             busy: None,
             idle: [0, 0],
+            last_was_break: false,
             shot_at: Instant::now(),
             turns,
             tournament,
@@ -2492,6 +2514,7 @@ impl Lounge {
         // of aim assistance (measured on the table as it was).
         let in_hand = room.game.ball_in_hand().is_some();
         room.stats[shooter].add(&report, in_hand);
+        room.last_was_break = report.was_break;
         if let Some(Stroke::Shot { shot, .. }) = room.replay.strokes.last() {
             room.stats[shooter].add_spin(shot, &report);
             if let Some(band) = shot_difficulty(&room.game, shot, &report) {
@@ -2713,6 +2736,13 @@ impl Lounge {
         }
         let room = &self.rooms[&id];
         let eight_win = over.reason == GameOverReason::PocketedEight;
+        let farmed = repeats > 4;
+        // A game resigned or left after a few shots (as short as a game
+        // that earns no coins) was arranged or never played: no arena
+        // points, and no win or streak.
+        let played =
+            !matches!(over.reason, GameOverReason::Resignation | GameOverReason::Abandoned)
+                || room.game.shots_taken() >= crate::account::MIN_SHOTS_FOR_COINS;
         let shutout = eight_win
             && room.game.group_of(loser).is_some_and(|g| room.game.remaining(g).len() == 7);
         let record = MatchRecord {
@@ -2728,22 +2758,17 @@ impl Lounge {
             eight_win,
             runout: eight_win && room.turns[loser] == 0 && room.breaker == over.winner,
             shutout,
-            // Won on the 8 with the groups never decided: only a break
-            // that makes the 8 alone does that.
-            break_win: eight_win && room.game.group_of(over.winner).is_none(),
+            // Won with the 8 alone on a break (not later on an open table).
+            break_win: eight_win && room.last_was_break,
             ended_at: now(),
             replay: Some(room.replay.clone()),
             stats: room.stats,
             abandoned: (over.reason == GameOverReason::Abandoned).then_some(loser),
+            room: Some(id as i64),
+            counts: !farmed && played,
         };
-        let farmed = repeats > 4;
         let guests = room.guests;
         let tournament = room.tournament;
-        // A game resigned or left after a few shots (as short as a game
-        // that earns no coins) was arranged or never played: no arena points.
-        let played =
-            !matches!(over.reason, GameOverReason::Resignation | GameOverReason::Abandoned)
-                || record.shots >= crate::account::MIN_SHOTS_FOR_COINS;
         let result = MatchResult {
             winner: over.winner,
             reason: over.reason,
@@ -2785,7 +2810,7 @@ impl Lounge {
                     });
                 }
             }
-            self.effect(Effect::DeleteLive(id as i64));
+            // Recorded with its saved copy deleted in the same step.
             self.effect(Effect::RecordMatch { record, keys: keys.clone(), farmed });
         }
         tracing::info!(room = id, "match finished: {:?}", over);
@@ -2804,9 +2829,25 @@ impl Lounge {
             return self.error(k, "Tournament games have no rematch.");
         }
         let seat = room.seat_of(k);
-        if !room.present[1 - seat] || !self.sessions.contains_key(&room.keys[1 - seat]) {
+        let opponent = room.keys[1 - seat].clone();
+        // Gone, or on to another game (or back in the lounge).
+        let there = self.sessions.get(&opponent).is_some_and(|s| s.room == Some(id));
+        if !room.present[1 - seat] || !there {
             return self.send(k, ServerMsg::OpponentLeft);
         }
+        // What every other way of starting a game asks too, before the
+        // room is touched.
+        if self.refuse_if_draining(k) || self.refuse_if_cooling_down(k) {
+            return;
+        }
+        if self.abandon_cooldown(&opponent).is_some() {
+            return self.error(k, "Your opponent can't start another game yet.");
+        }
+        if self.tournament_busy(k) || self.tournament_busy(&opponent) {
+            return self.error(k, "Players in a tournament can't start other games.");
+        }
+        let Some(room) = self.rooms.get_mut(&id) else { return };
+        let offered = room.rematch[seat];
         room.rematch[seat] = true;
         if room.rematch[1 - seat] {
             let keys = room.keys.clone();
@@ -2829,19 +2870,13 @@ impl Lounge {
             }
             let users =
                 [self.sessions[&keys[0]].user.clone(), self.sessions[&keys[1]].user.clone()];
-            if self.draining.is_some() {
-                for k in &keys {
-                    self.error(k, "The server is restarting: new games start in a moment.");
-                }
-                return;
-            }
             let new_id = self.new_id();
             self.create_room(new_id, keys, users, guests, rated, game, None, table_look, private);
             if let Some(r) = self.rooms.get_mut(&new_id) {
                 r.chat = chat;
             }
-        } else {
-            let opponent = room.keys[1 - seat].clone();
+        } else if !offered {
+            // Offered once (asking again changes nothing).
             self.send(&opponent, ServerMsg::RematchOffered);
         }
     }
@@ -2869,7 +2904,9 @@ impl Lounge {
         if let Some(s) = self.sessions.get_mut(k) {
             s.room = None;
         }
-        self.send(&opponent, ServerMsg::OpponentLeft);
+        if self.sessions.get(&opponent).is_some_and(|s| s.room == Some(id)) {
+            self.send(&opponent, ServerMsg::OpponentLeft);
+        }
         self.end_watching_of(k, id);
         self.close_room_if_empty(id);
         self.announce(k);
@@ -2936,12 +2973,20 @@ impl Lounge {
         for id in timeouts {
             self.timeout_shot(id);
         }
-        // The server is going away: hand the remaining games over.
-        if self.draining.is_some_and(|t| nowi >= t) {
+        // The server is going away: hand the remaining games over (not one
+        // just ended, whose result is recorded below), and at once a game a
+        // player left while a shot was being played (they reconnect to the
+        // next server: it has to be there).
+        if let Some(deadline) = self.draining {
             let running: Vec<u64> = self
                 .rooms
                 .values()
-                .filter(|r| !r.finished && r.busy.is_none())
+                .filter(|r| !r.finished && r.busy.is_none() && r.game.game_over().is_none())
+                .filter(|r| {
+                    nowi >= deadline
+                        || (r.disconnected.iter().any(Option::is_some)
+                            && !r.guests.iter().any(|g| *g))
+                })
                 .map(|r| r.id)
                 .collect();
             for id in running {
@@ -3208,7 +3253,10 @@ impl Lounge {
     pub fn restore(&mut self, live: &LiveMatch, users: [User; 2], rebuilt: Rebuilt) -> bool {
         let id = live.id as u64;
         let keys = [key(&users[0].username), key(&users[1].username)];
+        // A game finished here meanwhile (while its copy was being rebuilt)
+        // isn't played again.
         if self.rooms.contains_key(&id)
+            || self.finished_rooms.contains_key(&id)
             || self.rooms.values().any(|r| !r.finished && r.keys.iter().any(|k| keys.contains(k)))
         {
             return false;
@@ -3229,6 +3277,7 @@ impl Lounge {
             breaker: live.replay.breaker,
             busy: None,
             idle: [0, 0],
+            last_was_break: false,
             shot_at: nowi,
             turns: rebuilt.turns,
             tournament: None,

@@ -60,12 +60,12 @@ async fn coin_packs_are_credited_once_and_taken_back_on_refund() {
 #[tokio::test]
 async fn vip_invoices_extend_vip_and_bring_coins() {
     let (server, id) = setup().await;
-    server.store.set_stripe_customer(id, "cus_9").await.unwrap();
+    server.store.set_stripe_customer(id, "cus_9", true).await.unwrap();
     let end = now() + 30 * 86_400;
     let invoice = json!({
         "type": "invoice.paid",
         "data": { "object": {
-            "id": "in_1", "customer": "cus_9", "amount_paid": 1490, "currency": "brl",
+            "id": "in_1", "customer": "cus_9", "subscription": "sub_1", "amount_paid": 1490, "currency": "brl",
             "lines": { "data": [ { "period": { "end": end } } ] }
         }}
     });
@@ -94,6 +94,34 @@ async fn vip_invoices_extend_vip_and_bring_coins() {
     apply_event(&server, &deleted).await.unwrap();
     let left = server.store.wallet(id).await.unwrap().vip_until - now();
     assert!(left > 9 * 86_400, "{left}");
+}
+
+/// A renewal adds its month to whatever VIP there is: a week given by the
+/// staff (or a month bought in the Store) isn't swallowed by it.
+#[tokio::test]
+async fn a_renewal_keeps_vip_from_elsewhere() {
+    let (server, id) = setup().await;
+    server.store.set_stripe_customer(id, "cus_9", true).await.unwrap();
+    let month = 30 * 86_400;
+    let start = now() - 86_400;
+    let invoice = |n: &str, start: i64| {
+        json!({
+            "type": "invoice.paid",
+            "data": { "object": {
+                "id": n, "customer": "cus_9", "subscription": "sub_1",
+                "amount_paid": 1490, "currency": "brl",
+                "lines": { "data": [ { "period": { "start": start, "end": start + month } } ] }
+            }}
+        })
+    };
+    apply_event(&server, &invoice("in_a", start)).await.unwrap();
+    let first = server.store.wallet(id).await.unwrap().vip_until;
+    assert!(first >= start + month, "{first}");
+    server.store.add_vip(id, now(), 7 * 86_400).await.unwrap();
+    apply_event(&server, &invoice("in_b", start + month)).await.unwrap();
+    apply_event(&server, &invoice("in_b", start + month)).await.unwrap(); // delivered twice
+    let after = server.store.wallet(id).await.unwrap().vip_until;
+    assert_eq!(after, first + 7 * 86_400 + month, "the week stays, the month is added once");
 }
 
 #[tokio::test]
@@ -125,11 +153,11 @@ async fn unknown_players_and_events_are_ignored() {
 #[tokio::test]
 async fn refunded_vip_months_end_vip_and_take_the_coins_back() {
     let (server, id) = setup().await;
-    server.store.set_stripe_customer(id, "cus_9").await.unwrap();
+    server.store.set_stripe_customer(id, "cus_9", true).await.unwrap();
     let invoice = json!({
         "type": "invoice.paid",
         "data": { "object": {
-            "id": "in_5", "customer": "cus_9", "amount_paid": 1490, "currency": "brl",
+            "id": "in_5", "customer": "cus_9", "subscription": "sub_1", "amount_paid": 1490, "currency": "brl",
             "lines": { "data": [ { "period": { "end": now() + 30 * 86_400 } } ] }
         }}
     });
@@ -165,7 +193,7 @@ async fn a_new_subscription_is_granted_whatever_the_order_of_events() {
     let invoice = json!({
         "type": "invoice.paid",
         "data": { "object": {
-            "id": "in_8", "customer": "cus_new", "amount_paid": 1490, "currency": "brl",
+            "id": "in_8", "customer": "cus_new", "subscription": "sub_8", "amount_paid": 1490, "currency": "brl",
             "lines": { "data": [ { "period": { "end": now() + 30 * 86_400 } } ] }
         }}
     });

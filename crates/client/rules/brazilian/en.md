@@ -37,13 +37,13 @@ Until the groups are decided the table is open: you may hit any ball first excep
 ## Fouls and penalties
 
 ### Penalty balls
-Every foul passes the turn, and most of them give your opponent balls: the lowest numbers of their group still on the table come off it, as if they had pocketed them. Penalties add up. If your opponent has fewer balls left than the foul gives them, the 8 pays the rest and you lose the game: two penalty balls with only one on the table, that one and the 8 come off. Once they are on the 8 (no balls of their group left), any foul that gives a ball loses: missing every ball, pocketing the cue ball, knocking it off the table or hitting the wrong ball first. The same goes when only the 8 is left on the table. If you are on the 8 and your opponent still has balls, a foul only takes their lowest one off and passes the turn.
+Every foul passes the turn, and most of them give your opponent balls: the lowest numbers of their group still on the table come off it, as if they had pocketed them. Penalties add up. If your opponent has fewer balls left than the foul gives them, the 8 pays the rest and you lose the game: two penalty balls with only one on the table, that one and the 8 come off. Once they are on the 8 (no balls of their group left), any foul that gives a ball loses: missing every ball, pocketing the cue ball, knocking it off the table or hitting the wrong ball first. The same goes when only the 8 is left on the table. If you are on the 8 and your opponent still has balls, a foul gives them balls as usual (a miss, their lowest one) and passes the turn; you lose only if it gives more than they have.
 
 ### Missing the ball
 Hitting none of your balls: your opponent's lowest ball on the table comes off (it counts for them), and you lose the turn. Hitting the 8 first before your group is cleared costs the same. Missing and pocketing the cue ball as well: your opponent's two lowest balls.
 
 ### Hitting your opponent's ball
-Hitting one of your opponent's balls first, directly: their two lowest balls come off, and you lose the turn. If the ball you hit goes down, it stays down and the two come off all the same. If the cue ball went to a cushion first: one ball. Hitting your opponent's ball directly and pocketing the cue ball as well: their three lowest.
+Hitting one of your opponent's balls first, directly: their two lowest balls come off, and you lose the turn. If the ball you hit goes down, it stays down and the two come off all the same. If the cue ball went to a cushion first: one ball (not the cushion it lay against). Hitting your opponent's ball directly and pocketing the cue ball as well: their three lowest.
 
 ### Pocketing the cue ball
 One ball to your opponent, and the cue ball goes back to the head spot, where the break is played from (or right behind a ball lying there). There is no ball in hand: your opponent plays from there. The cue ball is in hand on the break only; after any other foul it is played from where it stopped.

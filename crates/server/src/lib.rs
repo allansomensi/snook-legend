@@ -234,6 +234,9 @@ pub struct Server {
     /// The world ranking of each of the rules, with when it was read.
     leaderboard: Mutex<PerRules<Option<CachedBoard>>>,
     connections: Mutex<HashMap<IpAddr, usize>>,
+    /// The connection-level limits of accounts whose connection closed a
+    /// moment ago, since when: signing in again doesn't fill them up.
+    kept_limits: Mutex<HashMap<i64, (ConnLimits, Instant)>>,
     pub stripe: Option<payments::Stripe>,
     /// Microsoft Store purchases (see [`msstore`]).
     pub msstore: Option<msstore::MsStore>,
@@ -327,6 +330,7 @@ impl Server {
             hashing: Semaphore::new(2),
             leaderboard: Mutex::new(PerRules::default()),
             connections: Mutex::new(HashMap::new()),
+            kept_limits: Mutex::new(HashMap::new()),
             corr: correspondence::State::default(),
             computer: computer::Computer::default(),
             events: events::Events::default(),
@@ -674,9 +678,13 @@ async fn run_effect(server: &Arc<Server>, effect: Effect) {
         }
         Effect::RecordMatch { record, keys, farmed } => {
             // A failed attempt writes nothing (one transaction): the match
-            // is tried again rather than lost to a moment's trouble.
-            match retrying("recording a match", || server.store.record_match(&record)).await {
-                Ok((users, _)) => {
+            // is tried again, for minutes, rather than lost to the
+            // database's trouble; one stored already (an answer lost on the
+            // way) is not stored again.
+            let write = || server.store.record_match(&record);
+            match retrying_long("recording a match", write).await {
+                Ok(None) => tracing::warn!("the match {keys:?} was recorded already"),
+                Ok(Some((users, _))) => {
                     server.invalidate_leaderboard();
                     // The shot analysis replays the game: off the effect queue.
                     let (s, r) = (server.clone(), record.clone());
@@ -706,7 +714,7 @@ async fn run_effect(server: &Arc<Server>, effect: Effect) {
                                 account::award_xp(server, &user, xp).await;
                             }
                         }
-                        let rated_win = record.rated && record.winner == seat;
+                        let rated_win = record.rated && record.counts && record.winner == seat;
                         server.check_achievements_after(&user, rated_win).await;
                         if record.rated {
                             let after = record.ratings_after[seat];
@@ -1123,14 +1131,12 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
     let mut token_in_use: Option<String> = None;
     // ~40 messages a second sustained (aim updates are ~20), short bursts more.
     let mut flood = Bucket::new(120.0, 40.0);
-    // Shop actions (some open payment pages at the provider).
-    let mut shop_bucket = Bucket::new(6.0, 0.1);
-    let mut store_bucket = Bucket::new(12.0, 0.2);
-    // Requests that read or write the database (profiles, friends, blocks,
-    // reports…): plenty for a person, far too few to wear the database down.
-    let mut query_bucket = Bucket::new(30.0, 2.0);
-    // Status messages (everyone in the lounge sees each change).
-    let mut status_bucket = Bucket::new(4.0, 1.0 / 15.0);
+    let ConnLimits {
+        shop: mut shop_bucket,
+        store: mut store_bucket,
+        query: mut query_bucket,
+        status: mut status_bucket,
+    } = ConnLimits::fresh();
     loop {
         let next = tokio::select! {
             // Checked first: a connection that was told to go (signed in
@@ -1249,6 +1255,15 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                                 send(friends_msg(&server, row.id, friends).await);
                             }
                         }
+                        // The account's limits as its last connection left them.
+                        if let Some(kept) = server.take_limits(row.id) {
+                            ConnLimits {
+                                shop: shop_bucket,
+                                store: store_bucket,
+                                query: query_bucket,
+                                status: status_bucket,
+                            } = kept;
+                        }
                         user = Some((row, guest));
                     }
                     Auth::Failed(reason) => {
@@ -1336,7 +1351,7 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                     // The lounge knows players by name: sign in again under
                     // the new one, on this same connection.
                     let token = token_in_use.clone().unwrap_or_default();
-                    server.with(|l| l.renamed(&me.username, fresh.clone(), token));
+                    server.with(|l| l.renamed(&me.username, conn_id, fresh.clone(), token));
                     user = Some((fresh, guest));
                 }
             }
@@ -1655,6 +1670,13 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
     }
 
     if let Some((u, guest)) = user {
+        let limits = ConnLimits {
+            shop: shop_bucket,
+            store: store_bucket,
+            query: query_bucket,
+            status: status_bucket,
+        };
+        server.keep_limits(u.id, limits);
         server.with(|l| l.leave(&u.username, conn_id));
         if !guest {
             let _ = server.store.touch(u.id, now()).await;
@@ -1666,6 +1688,47 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
     // a connection open that the limit per address no longer counted).
     if tokio::time::timeout(Duration::from_secs(2), &mut writer).await.is_err() {
         writer.abort();
+    }
+}
+
+/// A connection's own limits, kept for its account a while after it closes
+/// (see [`Server::keep_limits`]).
+#[derive(Clone)]
+struct ConnLimits {
+    /// Shop actions (some open payment pages at the provider).
+    shop: Bucket,
+    store: Bucket,
+    /// Requests that read or write the database (profiles, friends, blocks,
+    /// reports…): plenty for a person, far too few to wear the database down.
+    query: Bucket,
+    /// Status messages (everyone in the lounge sees each change).
+    status: Bucket,
+}
+
+impl ConnLimits {
+    fn fresh() -> ConnLimits {
+        ConnLimits {
+            shop: Bucket::new(6.0, 0.1),
+            store: Bucket::new(12.0, 0.2),
+            query: Bucket::new(30.0, 2.0),
+            status: Bucket::new(4.0, 1.0 / 15.0),
+        }
+    }
+}
+
+/// How long an account's connection limits outlive its connection.
+const LIMITS_KEPT: Duration = Duration::from_secs(600);
+
+impl Server {
+    fn keep_limits(&self, id: i64, limits: ConnLimits) {
+        let mut kept = self.kept_limits.lock().unwrap_or_else(|e| e.into_inner());
+        kept.retain(|_, (_, at)| at.elapsed() < LIMITS_KEPT);
+        kept.insert(id, (limits, Instant::now()));
+    }
+
+    fn take_limits(&self, id: i64) -> Option<ConnLimits> {
+        let mut kept = self.kept_limits.lock().unwrap_or_else(|e| e.into_inner());
+        kept.remove(&id).filter(|(_, at)| at.elapsed() < LIMITS_KEPT).map(|(l, _)| l)
     }
 }
 
@@ -1700,6 +1763,7 @@ fn is_query_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::CorrCancel { .. }
             | ClientMsg::CorrOpen { .. }
             | ClientMsg::CorrShoot { .. }
+            | ClientMsg::CorrChoose { .. }
             | ClientMsg::CorrResign { .. }
             | ClientMsg::LadderClaim { .. }
             | ClientMsg::GhostStyle { .. }
@@ -2184,7 +2248,29 @@ const WRITE_TRIES: u32 = 4;
 /// connection), a few times with growing waits, rather than losing what it
 /// pays or records to a moment's trouble. Only for writes that are safe to
 /// repeat.
-async fn retrying<T, F, Fut>(what: &str, mut write: F) -> store::StoreResult<T>
+/// [`retrying`] for longer (a few minutes): for a write that can't be lost,
+/// such as a match's result.
+async fn retrying_long<T, F, Fut>(what: &str, mut write: F) -> store::StoreResult<T>
+where
+    F: FnMut() -> Fut,
+    Fut: std::future::Future<Output = store::StoreResult<T>>,
+{
+    let mut wait = Duration::from_millis(500);
+    let mut tries = 1;
+    loop {
+        match write().await {
+            Err(e) if tries < 10 => {
+                tracing::warn!("{what} (try {tries}): {e}; trying again");
+                tokio::time::sleep(wait).await;
+                wait = (wait * 2).min(Duration::from_secs(30));
+                tries += 1;
+            }
+            done => return done,
+        }
+    }
+}
+
+pub(crate) async fn retrying<T, F, Fut>(what: &str, mut write: F) -> store::StoreResult<T>
 where
     F: FnMut() -> Fut,
     Fut: std::future::Future<Output = store::StoreResult<T>>,

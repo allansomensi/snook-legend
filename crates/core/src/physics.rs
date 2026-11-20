@@ -192,13 +192,17 @@ pub enum Event {
         speed: f64,
     },
     /// `jaw`: only a pocket's jaw was touched (in its throat, past the
-    /// cushion's nose): no bank.
+    /// cushion's nose): no bank. `frozen`: only a cushion the ball lay
+    /// against when the shot was struck, and hasn't left since: it wasn't
+    /// driven to it.
     Cushion {
         time: f64,
         ball: BallId,
         speed: f64,
         #[serde(default)]
         jaw: bool,
+        #[serde(default)]
+        frozen: bool,
     },
     Slate {
         time: f64,
@@ -244,7 +248,13 @@ pub struct Simulation {
     accumulator: f64,
     events: Vec<Event>,
     crossing: Option<Crossing>,
+    /// For each ball, the cushion sections (bits by index) it lay against
+    /// when the shot was struck and hasn't left since.
+    frozen: Vec<u32>,
 }
+
+/// How close to a cushion a ball at rest counts as touching it.
+const FROZEN_EPS: f64 = 2e-5;
 
 /// A ball watched for when it first gets past a line across the table
 /// (see [`Simulation::watch_crossing`]).
@@ -275,6 +285,7 @@ impl Simulation {
             accumulator: 0.0,
             events: Vec::new(),
             crossing: None,
+            frozen: Vec::new(),
         }
     }
 
@@ -369,6 +380,22 @@ impl Simulation {
             return Err(StrikeError::BallNotInPlay);
         }
         let (v, w) = cue_impulse(&self.params, &self.table, &shot.sanitized(&self.params));
+        // The balls lying against a cushion (a ball driven into it from
+        // there isn't driven to it).
+        let r = self.radius();
+        let dh = self.table.spec.cushion_height - r;
+        let contact_radius = (r * r - dh * dh).max(0.0).sqrt();
+        self.frozen = self
+            .balls
+            .iter()
+            .map(|b| {
+                let c = b.position.truncate();
+                self.table.cushions.iter().take(32).enumerate().fold(0u32, |mask, (k, seg)| {
+                    let near = c.distance(seg.closest_point(c)) <= contact_radius + FROZEN_EPS;
+                    if b.in_play() && near { mask | 1 << k } else { mask }
+                })
+            })
+            .collect();
         let b = &mut self.balls[idx];
         b.velocity = v;
         b.angular_velocity = w;
@@ -567,7 +594,35 @@ impl Simulation {
             if !self.balls[i].in_play() {
                 continue;
             }
-            for j in (i + 1)..n_balls {
+            // The cue ball meets the balls it touched during the sub-step in
+            // the order it touched them (not by their numbers): which one it
+            // hit first decides fouls. On the stack: this runs every sub-step.
+            let mut order = [(0.0f64, 0usize); 32];
+            let count = n_balls.saturating_sub(i + 1).min(order.len());
+            for (k, slot) in order[..count].iter_mut().enumerate() {
+                slot.1 = i + 1 + k;
+            }
+            if self.balls[i].id == BallId::CUE && self.balls[i].is_moving() {
+                let cue = self.balls[i];
+                for slot in &mut order[..count] {
+                    let b = self.balls[slot.1];
+                    let delta = b.position - cue.position;
+                    let touch = touch_time(delta, b.velocity - cue.velocity, min_dist, dt);
+                    slot.0 = if !b.in_play() {
+                        f64::MIN
+                    } else if delta.length_squared() < min_dist * min_dist {
+                        // Touching now: since the moment found, or since the
+                        // sub-step began.
+                        touch.unwrap_or(dt)
+                    } else {
+                        touch.unwrap_or(f64::MIN)
+                    };
+                }
+                // Earliest touch first (the longest way back); ties by number
+                // (a stable sort, without allocating at this length).
+                order[..count].sort_by(|a, b| b.0.total_cmp(&a.0));
+            }
+            for &(_, j) in &order[..count] {
                 if !self.balls[j].in_play() {
                     continue;
                 }
@@ -664,8 +719,9 @@ impl Simulation {
                     // The rest of the sub-step, after the contact.
                     b.position += b.velocity * rewind;
                 }
+                // When they touched (within the sub-step).
                 self.events.push(Event::BallBall {
-                    time: self.time,
+                    time: self.time - rewind,
                     a: bi.id,
                     b: bj.id,
                     speed: vn,
@@ -691,12 +747,18 @@ impl Simulation {
         let mut b = ball;
         let mut hit_speed: Option<f64> = None;
         let mut rail = false;
+        let mut fresh = false;
+        let mut frozen = self.frozen.get(i).copied().unwrap_or(0);
         let (hl, hw) = (self.table.spec.length / 2.0, self.table.spec.width / 2.0);
-        for seg in &self.table.cushions {
+        for (k, seg) in self.table.cushions.iter().enumerate() {
             let c = b.position.truncate();
             let q = seg.closest_point(c);
             let delta = c - q;
             let dist = delta.length();
+            let bit = if k < 32 { 1u32 << k } else { 0 };
+            if dist > contact_radius + FROZEN_EPS {
+                frozen &= !bit; // Off that cushion: a touch from now on counts.
+            }
             if dist >= contact_radius || dist == 0.0 {
                 continue;
             }
@@ -734,10 +796,15 @@ impl Simulation {
             // The jaws run outward from the cushion lines (from the
             // noses either side of a mouth).
             rail |= q.x.abs() <= hl + 1e-9 && q.y.abs() <= hw + 1e-9;
+            fresh |= frozen & bit == 0;
         }
         self.balls[i] = b;
+        if let Some(f) = self.frozen.get_mut(i) {
+            *f = frozen;
+        }
         if let Some(speed) = hit_speed {
-            self.events.push(Event::Cushion { time, ball: b.id, speed, jaw: !rail });
+            let event = Event::Cushion { time, ball: b.id, speed, jaw: !rail, frozen: !fresh };
+            self.events.push(event);
         }
     }
 

@@ -141,6 +141,8 @@ async fn exercise(store: Store) {
         replay: Some(end.replay.clone()),
         stats: [ShotStats { shots: 1, ..Default::default() }, ShotStats::default()],
         abandoned: None,
+        room: None,
+        counts: true,
     };
     assert!(store.finish_async_game(&end, 0, &record).await.unwrap().is_none(), "stale version");
     let ([ua, ub], match_id) = store.finish_async_game(&end, 1, &record).await.unwrap().unwrap();

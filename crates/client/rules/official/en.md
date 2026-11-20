@@ -52,7 +52,7 @@ With the cue ball in hand behind the head string, you can't hit a ball that also
 After any foul, your opponent has the cue ball in hand: they place it anywhere on the table. No ball comes off the table as a penalty.
 
 ### What is a foul
-The cue ball in a pocket or off the table; hitting no ball, or the wrong ball first (one of your opponent's, or the 8 too soon); after the contact, no ball made and no ball reaching a cushion; an object ball off the table (it stays off).
+The cue ball in a pocket or off the table; hitting no ball, or the wrong ball first (one of your opponent's, or the 8 too soon); after the contact, no ball made and no ball reaching a cushion (a ball lying against a cushion only reaches it by leaving it and coming back); an object ball off the table (it stays off).
 
 ### The shot clock
 When the game has a shot clock and it runs out, it is a foul: your opponent has the cue ball in hand. A choice after the break that isn't made in time takes its first option.

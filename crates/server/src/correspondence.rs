@@ -772,17 +772,24 @@ struct Finished {
     timeout: bool,
     /// Won by making only the 8 on a break.
     break_win: bool,
+    /// The game counts for the wins and feats (see [`MatchRecord::counts`]).
+    counts: bool,
 }
 
-/// Each seat's numbers and turns over the whole game (for the record).
-fn analyse(replay: &Replay) -> Result<([ShotStats; 2], [u32; 2]), String> {
+/// Each seat's numbers and turns over the whole game (for the record), and
+/// whether its last shot was a break.
+fn analyse(replay: &Replay) -> Result<([ShotStats; 2], [u32; 2], bool), String> {
     let mut game = replay.start();
     let mut stats = [ShotStats::default(); 2];
     let mut turns = [0u32; 2];
+    let mut last_break = false;
     turns[replay.breaker % 2] = 1;
     for stroke in &replay.strokes {
         let shooter = game.current_player();
         let in_hand = game.ball_in_hand().is_some();
+        if matches!(stroke, Stroke::Shot { .. }) {
+            last_break = game.is_break();
+        }
         if let Some(r) = apply(&mut game, stroke)? {
             stats[shooter].add(&r, in_hand);
             if let Stroke::Shot { shot, .. } = stroke {
@@ -794,7 +801,7 @@ fn analyse(replay: &Replay) -> Result<([ShotStats; 2], [u32; 2]), String> {
             turns[next] += 1;
         }
     }
-    Ok((stats, turns))
+    Ok((stats, turns, last_break))
 }
 
 /// Records the end of `g` (with its last stroke already in it, made on
@@ -817,7 +824,7 @@ async fn finish(
     };
     let users = [a, b];
     let replay = g.replay.clone();
-    let (stats, turns) = tokio::task::spawn_blocking(move || analyse(&replay))
+    let (stats, turns, last_break) = tokio::task::spawn_blocking(move || analyse(&replay))
         .await
         .ok()
         .and_then(Result::ok)
@@ -828,10 +835,10 @@ async fn finish(
     let mut delta = [0, 0];
     let mut ratings_after = [rating(0), rating(1)];
     let keys = [key(&users[0].username), key(&users[1].username)];
+    // Counted once the game is recorded (below): one that changed meanwhile
+    // counts for nothing.
+    let repeats = server.with(|lounge| lounge.pair_games_today(&keys, g.rated));
     if g.rated {
-        // Counted once the game is recorded (below): one that changed
-        // meanwhile counts for nothing.
-        let repeats = server.with(|lounge| lounge.pair_games_today(&keys, true));
         let change = rating::apply_result(
             &EloConfig::default(),
             users[w].rating(rules),
@@ -864,11 +871,18 @@ async fn finish(
         eight_win,
         runout: eight_win && turns[l] == 0 && g.replay.breaker == w,
         shutout: eight_win && table.group_of(l).is_some_and(|gr| table.remaining(gr).len() == 7),
-        break_win: eight_win && table.group_of(w).is_none(),
+        // The 8 alone on a break (not a win on an open table later on).
+        break_win: eight_win && last_break,
         ended_at: at,
         replay: Some(g.replay.clone()),
         stats,
         abandoned: None,
+        room: None,
+        // Not a game the same two keep playing, nor one resigned or let
+        // run out before it was played.
+        counts: repeats <= 4
+            && (table.shots_taken() >= crate::account::MIN_SHOTS_FOR_COINS
+                || !matches!(over.reason, GameOverReason::Resignation | GameOverReason::Abandoned)),
     };
     (g.groups, g.left) = summary(table);
     g.timeout = timeout;
@@ -884,7 +898,8 @@ async fn finish(
             g.reason = Some(crate::reason_code(over.reason).to_string());
             g.match_id = Some(match_id);
             tracing::info!(game = g.id, match_id, "correspondence game over: {:?}", over);
-            Some(Finished { game: g, users, over, timeout, break_win: record.break_win })
+            let (break_win, counts) = (record.break_win, record.counts);
+            Some(Finished { game: g, users, over, timeout, break_win, counts })
         }
         Ok(None) => None,
         Err(e) => {
@@ -905,7 +920,8 @@ async fn announce(server: &Arc<Server>, f: Finished) {
     for (seat, user) in f.users.iter().enumerate() {
         let Some(user) = user else { continue };
         server.with(|l| l.refresh_user(user.clone()));
-        server.check_achievements_after(user, f.game.rated && f.over.winner == seat).await;
+        let rated_win = f.game.rated && f.counts && f.over.winner == seat;
+        server.check_achievements_after(user, rated_win).await;
         if f.game.rated {
             let after = f.game.ratings[seat];
             crate::account::league_rewards(server, user, after - f.game.delta[seat], after).await;

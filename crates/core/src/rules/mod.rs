@@ -525,8 +525,11 @@ impl TryFrom<GameData> for EightBallGame {
         if d.choice.is_some() && (d.rules != Rules::Official || d.game_over.is_some()) {
             return Err("only an official game going on waits for a choice");
         }
-        // The 8 off the table ends the game (or is spotted at once).
-        if d.game_over.is_none() && !d.balls[BallId::EIGHT.index()].in_play() {
+        // The 8 off the table ends the game (or is spotted at once), but for
+        // the official choice it went down on the break (spotted with it).
+        let eight_waits =
+            matches!(d.choice, Some(BreakChoice::EightOnBreak | BreakChoice::EightOnFoulBreak));
+        if d.game_over.is_none() && !d.balls[BallId::EIGHT.index()].in_play() && !eight_waits {
             return Err("the 8 is off the table and the game goes on");
         }
         // The groups are decided for both players at once.
@@ -563,11 +566,15 @@ struct Facts {
 
 impl Facts {
     fn of(events: &[Event]) -> Facts {
-        let first_contact = events.iter().find_map(|e| match *e {
-            Event::BallBall { time, a, b, .. } if a == BallId::CUE => Some((time, b)),
-            Event::BallBall { time, a, b, .. } if b == BallId::CUE => Some((time, a)),
-            _ => None,
-        });
+        // The earliest touch of the cue ball (the first one listed on a tie).
+        let first_contact = events
+            .iter()
+            .filter_map(|e| match *e {
+                Event::BallBall { time, a, b, .. } if a == BallId::CUE => Some((time, b)),
+                Event::BallBall { time, a, b, .. } if b == BallId::CUE => Some((time, a)),
+                _ => None,
+            })
+            .reduce(|first, e| if e.0 < first.0 { e } else { first });
         let pocketed = events
             .iter()
             .filter_map(|e| match *e {

@@ -60,7 +60,7 @@ impl EightBallGame {
         // The cue ball went to a cushion before it reached a ball.
         let cushion_first = facts.first_contact.is_some_and(|(t0, _)| {
             events.iter().any(
-                |e| matches!(e, Event::Cushion { time, ball, .. } if *ball == BallId::CUE && *time < t0),
+                |e| matches!(e, Event::Cushion { time, ball, frozen: false, .. } if *ball == BallId::CUE && *time < t0),
             )
         });
 

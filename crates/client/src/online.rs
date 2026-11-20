@@ -2509,7 +2509,15 @@ impl Online {
             }
         } else if clicked || submit {
             let name_ok = valid_username(self.username.trim());
-            let pass_ok = valid_password(&self.password);
+            // The rules for a new password are only for new accounts: one
+            // made under older rules (shorter in letters, but not in bytes)
+            // still signs in.
+            let pass_ok = if self.register {
+                valid_password(&self.password)
+            } else {
+                !self.password.is_empty()
+                    && self.password.len() <= snook_legend_proto::MAX_PASSWORD_BYTES
+            };
             if !connected {
                 if self.server != config.server {
                     // Another server: the session of the last one stays home.
@@ -2521,6 +2529,8 @@ impl Online {
                 self.error = None;
             } else if !name_ok {
                 self.error = Some(t("Usernames have 3–16 letters, digits or underscores.").into());
+            } else if !pass_ok && !self.register {
+                self.error = Some(t("Wrong username or password.").into());
             } else if !pass_ok {
                 self.error =
                     Some(t("Passwords need at least 8 characters (not only digits).").into());

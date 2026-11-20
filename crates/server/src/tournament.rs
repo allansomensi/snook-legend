@@ -27,7 +27,8 @@ impl Slot {
         self.winner.is_none()
             && self.players[0].is_some()
             && self.players[1].is_some()
-            && !self.is_dead()
+            && !self.dead[0]
+            && !self.dead[1]
     }
 
     /// Nobody will come out of this slot.
@@ -85,18 +86,16 @@ impl Bracket {
             for r in 0..self.rounds.len() {
                 for i in 0..self.rounds[r].len() {
                     let slot = &mut self.rounds[r][i];
-                    if slot.winner.is_none() && !slot.is_dead() {
-                        match (&slot.players, slot.dead) {
-                            ([Some(_), None], [false, true]) => {
-                                slot.winner = Some(0);
-                                changed = true;
-                            }
-                            ([None, Some(_)], [true, false]) => {
-                                slot.winner = Some(1);
-                                changed = true;
-                            }
-                            _ => {}
-                        }
+                    // A seat nobody will take (an empty branch, a player who
+                    // withdrew): the other player, there, goes through.
+                    if slot.winner.is_none()
+                        && !slot.is_dead()
+                        && let Some(s) = (0..2).find(|&s| {
+                            slot.dead[1 - s] && !slot.dead[s] && slot.players[s].is_some()
+                        })
+                    {
+                        slot.winner = Some(s);
+                        changed = true;
                     }
                     if r + 1 < self.rounds.len() {
                         let (winner, dead) = {
@@ -121,6 +120,19 @@ impl Bracket {
             if !changed {
                 break;
             }
+        }
+    }
+
+    /// The player in `seat` of a slot withdrew before their opponent was
+    /// known: whoever comes goes through, and if nobody does, no one.
+    pub fn withdraw(&mut self, round: usize, index: usize, seat: usize) {
+        if let Some(slot) = self.rounds.get_mut(round).and_then(|r| r.get_mut(index))
+            && slot.winner.is_none()
+            && seat < 2
+        {
+            slot.dead[seat] = true;
+            slot.room = None;
+            self.resolve();
         }
     }
 
@@ -166,12 +178,13 @@ impl Bracket {
         if self.champion().is_some() {
             return false;
         }
-        // Eliminated players lost a decided slot.
-        !self
-            .rounds
-            .iter()
-            .flatten()
-            .any(|s| s.winner.is_some_and(|w| s.players[1 - w].as_deref() == Some(player)))
+        // Eliminated players lost a decided slot, or were in one closed with
+        // no winner (both gone, or a match nobody came to).
+        !self.rounds.iter().flatten().any(|s| {
+            let lost = s.winner.is_some_and(|w| s.players[1 - w].as_deref() == Some(player));
+            let closed = s.is_dead() && s.players.iter().any(|p| p.as_deref() == Some(player));
+            lost || closed
+        })
     }
 
     /// (round, index) of every slot ready to be played.
@@ -258,6 +271,29 @@ mod tests {
         let mut b = Bracket::new(&names(2));
         b.set_no_winner(0, 0);
         assert!(b.champion().is_none() && b.closed() && b.playable().is_empty());
+    }
+
+    /// The players of a match nobody turned up for are out (free to play
+    /// elsewhere); one who withdrew before their opponent was known is never
+    /// carried on, and with nobody else there's no champion.
+    #[test]
+    fn closed_slots_and_withdrawals_send_nobody_on() {
+        let mut b = Bracket::new(&names(4));
+        b.set_no_winner(0, 0);
+        assert!(!b.alive("p0") && !b.alive("p3"));
+        assert!(b.alive("p1") && b.alive("p2"));
+        // 3 players: p0 waits in the final, withdraws; the other match is
+        // closed with no winner: nobody is crowned.
+        let mut b = Bracket::new(&names(3));
+        b.withdraw(1, 0, 0);
+        assert!(b.champion().is_none());
+        b.set_no_winner(0, 1);
+        assert!(b.champion().is_none() && b.closed(), "{b:?}");
+        // The same, but the other match is played: its winner goes through.
+        let mut b = Bracket::new(&names(3));
+        b.withdraw(1, 0, 0);
+        b.set_winner(0, 1, 0);
+        assert_eq!(b.champion().map(String::as_str), Some("p1"));
     }
 
     #[test]

@@ -178,6 +178,10 @@ fn private_audit(mut e: crate::store::AuditRow, admin: bool) -> crate::store::Au
     if !admin && e.action == "login" {
         e.details.clear();
     }
+    // Payments are for administrators: their ids too.
+    if !admin && matches!(e.action.as_str(), "payment" | "msstore-retry") {
+        e.target = "-".into();
+    }
     e
 }
 
@@ -736,7 +740,10 @@ async fn user_action(
                 _ => format!("Your account was banned: {reason}"),
             };
             server.with(|l| l.kick(&target.username, &msg));
-            let dur = body.hours.map(|h| format!("{h}h")).unwrap_or_else(|| "permanent".into());
+            let dur = match body.hours {
+                Some(h) if h > 0 => format!("{h}h"),
+                _ => "permanent".into(),
+            };
             log(&server, &s, "ban", &target.username, &format!("{dur}: {reason}")).await;
         }
         "unban" => {
@@ -836,8 +843,21 @@ async fn user_action(
         }
         "item" => {
             require_admin(&s)?;
-            if snook_legend_proto::shop::item(&body.item).is_none() {
-                return Err(err(StatusCode::BAD_REQUEST, "No such item."));
+            // Only what owning can make usable: not what comes with VIP or
+            // an achievement, nor what everyone has.
+            use snook_legend_proto::shop::Price;
+            match snook_legend_proto::shop::item(&body.item).map(|i| i.price) {
+                None => return Err(err(StatusCode::BAD_REQUEST, "No such item.")),
+                Some(Price::Coins(_) | Price::Pack) => {}
+                Some(_) => {
+                    return Err(err(
+                        StatusCode::BAD_REQUEST,
+                        "That item comes with VIP, an achievement, or to everyone: it can't be given.",
+                    ));
+                }
+            }
+            if server.store.wallet(target.id).await?.owned.iter().any(|o| *o == body.item) {
+                return Err(err(StatusCode::CONFLICT, "They already have it."));
             }
             server.store.grant_item(target.id, &body.item, "staff", t).await?;
             crate::shop::push_wallet(&server, &target).await;
@@ -912,9 +932,15 @@ async fn user_action(
                     &format!("The staff changed your username to {name}. Sign in again."),
                 )
             });
-            let detail =
-                if reason.is_empty() { name.to_string() } else { format!("{name}: {reason}") };
-            log(&server, &s, "rename", &target.username, &detail).await;
+            // Under the new name, where the rest of their history went (the
+            // old one may be someone else's next).
+            let old = &target.username;
+            let detail = if reason.is_empty() {
+                format!("from {old}")
+            } else {
+                format!("from {old}: {reason}")
+            };
+            log(&server, &s, "rename", name, &detail).await;
             let fresh = find(&server, name).await?;
             return Ok(Json(json!({ "ok": true, "user": user_json(&fresh, false) })));
         }
@@ -1651,7 +1677,7 @@ async fn unpin_note(
         let author = notes.iter().find(|n| n.id == id).map(|n| n.author.clone());
         if let Some(author) = author
             && let Some(u) = server.store.user_by_name(&author).await?
-            && u.role == Role::Admin
+            && !crate::social::may_moderate(s.user.role, u.role)
             && u.id != s.user.id
         {
             return Err(err(StatusCode::FORBIDDEN, "Only administrators can act on staff."));

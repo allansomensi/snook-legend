@@ -114,6 +114,12 @@ async fn submit(
     if strokes.len() > MAX_STROKES {
         return Err(Refused::BadStroke);
     }
+    // No attempt under way (or one that ran out of time): refused before
+    // the simulation costs anything.
+    let row = server.store.daily_row(me.id, day).await.map_err(|_| Refused::Other)?;
+    if row.started_at == 0 || t - row.started_at > daily::TIME_LIMIT_SECS {
+        return Err(Refused::NotStarted);
+    }
     let seed = seed(server, day).await.ok_or(Refused::Other)?;
     // A few strokes of simulation: off the async threads.
     let outcome = tokio::task::spawn_blocking(move || daily::score(seed, &strokes))
@@ -139,12 +145,13 @@ async fn submit(
     crate::account::award_xp(server, me, xp).await;
     let mut coins = 0;
     if first_clear {
+        // Tried again on a moment's trouble: the first clear is counted
+        // once, and its coins would be lost with it.
         let reference = format!("daily:{day}:{}", me.id);
-        if let Ok(true) = server
-            .store
-            .credit(me.id, daily::CLEAR_COINS, "daily challenge", Some(&reference), t)
-            .await
-        {
+        let credit = || {
+            server.store.credit(me.id, daily::CLEAR_COINS, "daily challenge", Some(&reference), t)
+        };
+        if let Ok(true) = crate::retrying("paying the daily challenge", credit).await {
             coins = daily::CLEAR_COINS;
             crate::shop::push_wallet(server, me).await;
         }

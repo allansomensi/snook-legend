@@ -268,8 +268,10 @@ async fn the_portal_manages_players() {
     let entries = v["entries"].as_array().unwrap();
     assert!(entries.iter().all(|e| e["target"].as_str().unwrap().eq_ignore_ascii_case("caio")));
     assert!(entries.iter().any(|e| e["action"] == "revoke"));
+    // Under the new name (the old one may be someone else's next).
     let (_, v) = get("/admin/api/audit?action=rename").await;
-    assert_eq!(v["entries"][0]["details"], "ana_clean: name");
+    assert_eq!(v["entries"][0]["target"], "ana_clean");
+    assert_eq!(v["entries"][0]["details"], "from ana: name");
     let (_, v) = get("/admin/api/audit?q=mistake").await;
     assert_eq!(v["entries"].as_array().unwrap().len(), 1);
     assert!(v["next"].is_null());

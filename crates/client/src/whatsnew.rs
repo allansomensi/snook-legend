@@ -199,7 +199,7 @@ impl WhatsNew {
     }
 
     /// Draws the dialog over everything; returns true when it is closed
-    /// (the button, Esc or Enter).
+    /// (the button, Esc, Enter or a press on the dimmed screen around it).
     pub fn draw(&mut self, ui: &mut Ui) -> bool {
         let sw = crate::ui::vw();
         let sh = crate::ui::vh();
@@ -323,6 +323,7 @@ impl WhatsNew {
             || is_key_pressed(KeyCode::Escape)
             || is_key_pressed(KeyCode::Enter)
             || is_key_pressed(KeyCode::KpEnter)
+            || ui.dismissed(r)
     }
 }
 

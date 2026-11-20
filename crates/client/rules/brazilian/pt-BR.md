@@ -37,7 +37,7 @@ Enquanto os grupos não estão decididos, a mesa está aberta: você pode acerta
 ## Faltas e penalidades
 
 ### Bolas de penalidade
-Toda falta passa a vez, e a maioria dá bolas ao adversário: as de menor número do grupo dele que estiverem na mesa saem dela, como se ele as tivesse encaçapado. As penalidades se somam. A bola 8 nunca sai por penalidade: se o adversário ficar sem bolas, ele passa a jogar na 8.
+Toda falta passa a vez, e a maioria dá bolas ao adversário: as de menor número do grupo dele que estiverem na mesa saem dela, como se ele as tivesse encaçapado. As penalidades se somam. Se o adversário tiver menos bolas do que a falta dá, a 8 paga o resto e você perde a partida: duas bolas de penalidade com uma só na mesa, saem essa e a 8. Quando ele já está na 8 (sem bolas do grupo), qualquer falta que dê bola perde: errar a bola, encaçapar a branca, jogá-la para fora da mesa ou acertar primeiro a bola errada. O mesmo vale quando só resta a 8 na mesa. Se você está na 8 e o adversário ainda tem bolas, uma falta só tira a menor dele e passa a vez.
 
 ### Errar a bola
 Não acertar nenhuma bola sua: a menor bola do adversário que estiver na mesa é eliminada (conta para ele), e você perde a vez. Acertar primeiro a bola 8 antes de acabar o seu grupo vale o mesmo. Errar a bola e ainda encaçapar a branca: as duas menores bolas do adversário.
@@ -63,4 +63,4 @@ Quando a partida tem tempo de tacada e ele acaba, a vez passa.
 Quando o seu grupo acabar, escolha a caçapa da 8 antes de tacar. Encaçape somente a 8 ali, sem falta, e você vence. A caçapa cantada vale da sua primeira tacada na 8 até o fim da partida, mesmo que essa tacada seja uma defesa ou um erro: não dá para trocar.
 
 ### Perder na 8
-Você perde se encaçapar a 8 antes de acabar o seu grupo, numa caçapa diferente da cantada, junto com a branca ou com uma bola do adversário, numa falta, ou se jogá-la para fora da mesa depois da saída.
+Você perde se encaçapar a 8 antes de acabar o seu grupo, numa caçapa diferente da cantada, junto com a branca ou com uma bola do adversário, numa falta, ou se jogá-la para fora da mesa depois da saída. Perde também quem comete uma falta que dá mais bolas do que o adversário tem: a 8 paga o resto (veja as bolas de penalidade).

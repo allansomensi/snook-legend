@@ -37,7 +37,7 @@ Mientras los grupos no estén decididos, la mesa está abierta: puedes tocar pri
 ## Faltas y penalizaciones
 
 ### Bolas de penalización
-Toda falta pasa el turno, y la mayoría da bolas al rival: las de menor número de su grupo que estén en la mesa salen de ella, como si él las hubiera metido. Las penalizaciones se suman. La bola 8 nunca sale por penalización: si el rival se queda sin bolas, pasa a jugar la 8.
+Toda falta pasa el turno, y la mayoría da bolas al rival: las de menor número de su grupo que estén en la mesa salen de ella, como si él las hubiera metido. Las penalizaciones se suman. Si el rival tiene menos bolas de las que da la falta, la 8 paga el resto y pierdes el partido: dos bolas de penalización con una sola en la mesa, salen esa y la 8. Cuando él ya está en la 8 (sin bolas de su grupo), cualquier falta que dé bola pierde: no tocar ninguna bola, meter la blanca, sacarla de la mesa o tocar primero la bola equivocada. Lo mismo vale cuando solo queda la 8 en la mesa. Si tú estás en la 8 y el rival todavía tiene bolas, una falta solo le quita la menor y pasa el turno.
 
 ### Fallar la bola
 No tocar ninguna bola tuya: la bola más baja del rival que esté en la mesa queda eliminada (cuenta para él), y pierdes el turno. Tocar primero la bola 8 antes de acabar tu grupo vale lo mismo. Fallar la bola y además meter la blanca: las dos bolas más bajas del rival.
@@ -63,4 +63,4 @@ Cuando la partida tiene tiempo de tiro y se acaba, el turno pasa.
 Cuando tu grupo se acabe, elige la tronera de la 8 antes de tirar. Mete solo la 8 allí, sin falta, y ganas. La tronera cantada vale desde tu primer tiro a la 8 hasta el final de la partida, aunque ese tiro sea una defensa o un fallo: no se puede cambiar.
 
 ### Perder con la 8
-Pierdes si metes la 8 antes de acabar tu grupo, en una tronera distinta de la cantada, junto con la blanca o con una bola del rival, en una falta, o si la sacas de la mesa después del saque.
+Pierdes si metes la 8 antes de acabar tu grupo, en una tronera distinta de la cantada, junto con la blanca o con una bola del rival, en una falta, o si la sacas de la mesa después del saque. También pierde quien comete una falta que da más bolas de las que tiene el rival: la 8 paga el resto (mira las bolas de penalización).

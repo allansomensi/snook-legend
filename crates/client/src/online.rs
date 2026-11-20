@@ -1863,8 +1863,9 @@ impl Online {
             let password = std::mem::take(&mut self.offer_password);
             self.send(ClientMsg::SetRecoveryEmail { email, password });
             close(self, ui);
-        } else if is_key_pressed(KeyCode::Escape) {
-            // Not now: asked again after the next payment.
+        } else if is_key_pressed(KeyCode::Escape) || (!typed && ui.dismissed(r)) {
+            // Not now (Esc, or a press around it before the password is
+            // typed): asked again after the next payment.
             close(self, ui);
         }
         changed
@@ -2167,7 +2168,10 @@ impl Online {
         let send = Rect::new(x + cw + 16.0, by, inner - cw - 16.0, 44.0);
         ui.block(Rect::new(0.0, 0.0, sw, sh));
         let enter = is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::KpEnter);
-        if ui.button(cancel, t("Cancel"), true) || is_key_pressed(KeyCode::Escape) {
+        if ui.button(cancel, t("Cancel"), true)
+            || is_key_pressed(KeyCode::Escape)
+            || ui.dismissed(r)
+        {
             self.invite_dialog = None;
             return;
         }
@@ -3186,7 +3190,8 @@ impl Online {
         crate::legal::links(ui, &config.server, sw / 2.0, y, 13.0);
         // Nothing under the dialog takes a click.
         ui.block(Rect::new(0.0, 0.0, sw, sh));
-        if self.chat_dialog_open && (close || ui.escape()) {
+        // A press on the dimmed screen around it is "Not now" (or Close).
+        if self.chat_dialog_open && (close || ui.escape() || ui.dismissed(r)) {
             self.drop_pending_text();
         }
     }

@@ -238,7 +238,8 @@ impl Online {
             if more > 0 { tw("Next ({n} more)", &[("n", &more)]) } else { t("OK").to_string() };
         let ok = ui.primary_button(Rect::new(r.x + pad + half + gap, y, half, 38.0), &ok_label);
         let enter = is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::KpEnter);
-        if ok || enter || is_key_pressed(KeyCode::Escape) || seen {
+        // A press on the dimmed screen around it is OK, as Esc is.
+        if ok || enter || is_key_pressed(KeyCode::Escape) || seen || ui.dismissed(r) {
             if let Some(id) = self.gifts.done() {
                 self.send(ClientMsg::GiftsSeen { ids: vec![id] });
             }

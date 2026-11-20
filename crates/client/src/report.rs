@@ -130,7 +130,12 @@ impl ReportDialog {
                 details: self.details.clone(),
             });
         }
-        if ui.button(Rect::new(x, by, 120.0, 40.0), t("Cancel"), true) || ui.escape() {
+        // A press on the dimmed screen around it cancels too, unless
+        // something was written (it would be lost).
+        if ui.button(Rect::new(x, by, 120.0, 40.0), t("Cancel"), true)
+            || ui.escape()
+            || (self.details.trim().is_empty() && ui.dismissed(r))
+        {
             ui.focus = None;
             return ReportOutcome::Cancelled;
         }

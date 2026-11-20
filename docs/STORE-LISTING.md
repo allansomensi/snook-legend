@@ -57,16 +57,15 @@ Em português, inglês e espanhol.
 
 ### Novidades desta versão
 
-Versão 0.8.0: a regra oficial.
+Versão 0.8.1: a 8 paga a penalidade, e clique fora para fechar.
+• Regra brasileira: uma falta que dá mais bolas do que o adversário ainda tem perde a partida, e a 8 paga o resto. Com o adversário já na 8, qualquer falta que dê bola perde.
+• O chat da partida, o histórico e os painéis de efeito e elevação fecham com um clique fora deles; menus e diálogos também.
+
+Da versão 0.8.0: a regra oficial.
 • Além da regra brasileira, agora dá para jogar a regra oficial da WPA: toda tacada é cantada (a caçapa segue a sua mira) e falta dá bola na mão em qualquer lugar, sem bola de penalidade.
 • Cada regra tem o seu rating, a sua liga e o seu ranking mundial; nível, moedas e conquistas são os mesmos.
 • Convites, mesas, Jogar agora, torneios e partidas diárias mostram a regra; o Jogar agora junta jogadores da mesma regra.
 • Regra brasileira: a saída que perde a branca junto com bolas dos dois grupos passa para o adversário, sem bola de penalidade.
-
-Da versão 0.7.4: o chat quando você quiser e convites no canto da tela.
-• O cadastro não pergunta mais a idade: o chat com outros jogadores começa desligado e pergunta só na primeira vez que você escreve. Para menores de 18 anos, o responsável é quem liga.
-• Convites aparecem como um cartão no canto superior direito, em qualquer tela e por cima de qualquer partida, com um sinal sonoro.
-• Com o jogo minimizado ou atrás de outra janela, o Windows avisa do convite na hora.
 
 ### Recursos do produto
 
@@ -135,16 +134,15 @@ In English, Portuguese and Spanish.
 
 ### What's new in this version
 
-Version 0.8.0: the official rules.
+Version 0.8.1: the 8 pays the penalty, and click outside to close.
+• Brazilian rule: a foul that gives more balls than your opponent has left loses the game, and the 8 pays the rest. With your opponent on the 8, any foul that gives a ball loses.
+• The match's chat, the game history and the spin and elevation panels close with a click outside them; so do menus and dialogs.
+
+From version 0.8.0: the official rules.
 • Besides the Brazilian rule, you can now play the official WPA rules: every shot is called (the pocket follows your aim) and a foul gives ball in hand anywhere, with no penalty balls.
 • Each rules has its own rating, tier and world ranking; your level, coins and achievements are shared.
 • Invitations, tables, Play now, tournaments and daily games show their rules; Play now pairs players of the same rules.
 • Brazilian rule: a break that loses the cue ball together with balls of both groups passes to the opponent, with no penalty ball.
-
-From version 0.7.4: the chat when you want it, and invitations in the corner.
-• Signing up no longer asks your age: the chat with other players starts off and asks only the first time you write. Under 18, a parent or guardian turns it on.
-• Invitations show as a card in the top right corner, on every screen and over any game, with a soft chime.
-• With the game minimised or behind another window, Windows tells you about an invitation at once.
 
 ### Product features
 
@@ -213,16 +211,15 @@ En español, inglés y portugués.
 
 ### Novedades de esta versión
 
-Versión 0.8.0: la regla oficial.
+Versión 0.8.1: la 8 paga la penalización, y clic fuera para cerrar.
+• Regla brasileña: una falta que da más bolas de las que le quedan al rival pierde el partido, y la 8 paga el resto. Con el rival ya en la 8, cualquier falta que dé bola pierde.
+• El chat de la partida, el historial y los paneles de efecto y elevación se cierran con un clic fuera de ellos; los menús y diálogos también.
+
+De la versión 0.8.0: la regla oficial.
 • Además de la regla brasileña, ahora puedes jugar la regla oficial de la WPA: cada tiro se canta (la tronera sigue tu mira) y una falta da bola en mano en cualquier lugar, sin bolas de penalización.
 • Cada regla tiene su rating, su liga y su ranking mundial; nivel, monedas y logros son los mismos.
 • Invitaciones, mesas, Jugar ahora, torneos y partidas diarias muestran su regla; Jugar ahora empareja jugadores de la misma regla.
 • Regla brasileña: el saque que pierde la blanca junto con bolas de los dos grupos pasa al rival, sin bola de penalización.
-
-De la versión 0.7.4: el chat cuando lo quieras e invitaciones en la esquina.
-• El registro ya no pregunta la edad: el chat con otros jugadores empieza apagado y solo pregunta la primera vez que escribes. Para menores de 18 años, lo enciende el tutor.
-• Las invitaciones aparecen como una tarjeta en la esquina superior derecha, en cualquier pantalla y sobre cualquier partida, con un aviso sonoro.
-• Con el juego minimizado o detrás de otra ventana, Windows avisa de la invitación al momento.
 
 ### Características del producto
 

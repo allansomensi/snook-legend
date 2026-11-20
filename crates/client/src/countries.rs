@@ -232,7 +232,13 @@ pub fn draw_picker(ui: &mut Ui) -> Option<String> {
         if ui.button(none, label, !p.current.is_empty()) && armed {
             chosen = Some(String::new());
         }
-        if chosen.is_some() || (close && armed) || is_key_pressed(KeyCode::Escape) {
+        // Closed also by a press on the dimmed screen around it (not by
+        // the click that opened it).
+        if chosen.is_some()
+            || (close && armed)
+            || is_key_pressed(KeyCode::Escape)
+            || (armed && ui.dismissed(r))
+        {
             p.open = false;
             ui.focus = None;
         }

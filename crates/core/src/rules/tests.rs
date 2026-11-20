@@ -100,6 +100,8 @@ fn a_scratch_brings_the_cue_ball_back_to_the_head_spot() {
             (0, start),
             (2, DVec2::new(-0.5, 0.0)),
             (10, DVec2::new(-0.5, 0.3)),
+            // Enough for the two balls owed (else the 8 pays and it loses).
+            (11, DVec2::new(-0.3, 0.4)),
             (8, DVec2::new(-0.6, -0.3)),
         ],
     );
@@ -350,7 +352,14 @@ fn pocketing_only_the_opponents_ball_passes_the_turn() {
     g.groups = [Some(Group::Solids), Some(Group::Stripes)];
     layout(
         &mut g,
-        &[(0, DVec2::new(-0.2, 0.0)), (12, DVec2::new(0.3, 0.2)), (3, DVec2::new(0.0, -0.3))],
+        &[
+            (0, DVec2::new(-0.2, 0.0)),
+            (12, DVec2::new(0.3, 0.2)),
+            (3, DVec2::new(0.0, -0.3)),
+            // Stripes left for the two balls owed (else the 8 pays).
+            (11, DVec2::new(-0.6, 0.35)),
+            (13, DVec2::new(-0.7, -0.35)),
+        ],
     );
     let shot = straight_shot(&g, BallId(12), PocketId::FootLeft, 2.0);
     let report = g.play_shot(&shot, None).unwrap();
@@ -684,19 +693,78 @@ fn a_foul_on_an_open_table_costs_only_the_turn() {
 }
 
 #[test]
-fn a_penalty_never_takes_the_eight_and_stops_at_the_last_ball() {
+fn two_owed_with_one_left_that_one_and_the_eight_pay_and_the_foul_loses() {
     let mut g = house(&[
         (0, DVec2::new(-0.2, 0.0)),
         (3, DVec2::new(0.3, 0.0)),
         (12, DVec2::new(0.0, -0.4)),
         (8, DVec2::new(-0.6, -0.3)),
     ]);
-    // Two balls owed, the opponent has one: they are on the 8 now.
+    // The opponent's 3 hit first: two balls owed, and they have one.
     let report = g.play_shot(&Shot::new(0.0, 1.0), None).unwrap();
-    assert_eq!(report.penalty, vec![BallId(3)]);
-    assert!(g.ball(BallId::EIGHT).in_play());
+    assert_eq!(report.fouls, vec![Foul::WrongBallFirst(BallId(3))]);
+    assert_eq!(report.penalty, vec![BallId(3), BallId::EIGHT]);
+    assert!(!g.ball(BallId(3)).in_play() && !g.ball(BallId::EIGHT).in_play());
+    let lost = GameOver { winner: 1, reason: GameOverReason::EightPocketedOnFoul };
+    assert_eq!((report.game_over, g.game_over()), (Some(lost), Some(lost)));
+}
+
+#[test]
+fn with_only_the_eight_left_for_the_opponent_any_foul_loses() {
+    // The opponent cleared their group; the shooter still has the 12.
+    let mut g = house(&[
+        (0, DVec2::new(-0.2, 0.0)),
+        (12, DVec2::new(0.0, -0.4)),
+        (8, DVec2::new(-0.6, -0.3)),
+    ]);
     assert!(g.is_on_eight(1));
-    assert_eq!(g.game_over(), None);
+    let report = g.play_shot(&Shot::new(0.0, 1.0), None).unwrap();
+    assert_eq!(report.fouls, vec![Foul::NoContact]);
+    assert_eq!(report.penalty, vec![BallId::EIGHT], "the 8 pays the ball owed");
+    assert_eq!(
+        report.game_over,
+        Some(GameOver { winner: 1, reason: GameOverReason::EightPocketedOnFoul })
+    );
+}
+
+#[test]
+fn with_only_the_eight_on_the_table_a_miss_or_a_scratch_loses() {
+    let only_the_eight = || house(&[(0, DVec2::new(-0.2, 0.0)), (8, DVec2::new(-0.6, -0.3))]);
+    let lost = Some(GameOver { winner: 1, reason: GameOverReason::EightPocketedOnFoul });
+    // A miss.
+    let mut g = only_the_eight();
+    assert!(g.is_on_eight(0) && g.is_on_eight(1));
+    let report = g.play_shot(&Shot::new(0.0, 1.0), Some(PocketId::HeadLeft)).unwrap();
+    assert_eq!(report.fouls, vec![Foul::NoContact]);
+    assert_eq!((report.penalty, report.game_over), (vec![BallId::EIGHT], lost));
+    // The cue ball straight into a pocket.
+    let mut g = only_the_eight();
+    let pocket = g.table.pocket(PocketId::FootRight);
+    let (mouth, out) = (pocket.mouth_center, pocket.outward);
+    layout(&mut g, &[(0, mouth - out * 0.15), (8, DVec2::new(-0.6, -0.3))]);
+    let report =
+        g.play_shot(&Shot::new(out.y.atan2(out.x), 1.0), Some(PocketId::HeadLeft)).unwrap();
+    assert!(report.fouls.contains(&Foul::CueBallPocketed), "{report:?}");
+    assert_eq!(report.game_over, lost);
+}
+
+#[test]
+fn on_the_eight_a_foul_gives_a_ball_while_the_opponent_has_them() {
+    // The shooter cleared the stripes; the opponent has three solids.
+    let mut g = house(&[
+        (0, DVec2::new(-0.2, 0.0)),
+        (8, DVec2::new(-0.6, -0.3)),
+        (1, DVec2::new(0.5, 0.3)),
+        (4, DVec2::new(0.6, -0.3)),
+        (6, DVec2::new(0.0, 0.4)),
+    ]);
+    assert!(g.is_on_eight(0));
+    let report = g.play_shot(&Shot::new(0.0, 1.0), Some(PocketId::HeadLeft)).unwrap();
+    assert_eq!(report.fouls, vec![Foul::NoContact]);
+    assert_eq!(report.penalty, vec![BallId(1)]);
+    assert_eq!(on_table(&g, Group::Solids), vec![4, 6]);
+    assert!(g.ball(BallId::EIGHT).in_play());
+    assert_eq!((g.current_player(), g.game_over()), (1, None));
 }
 
 #[test]

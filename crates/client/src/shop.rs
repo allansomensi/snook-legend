@@ -1104,7 +1104,8 @@ impl ShopScreen {
                 }
             }
         }
-        if (cancel || is_key_pressed(KeyCode::Escape)) && !busy {
+        // A press on the dimmed screen around it cancels too.
+        if !busy && (cancel || is_key_pressed(KeyCode::Escape) || ui.dismissed(r)) {
             self.confirm = None;
             online.shop_error = None;
         }
@@ -1219,6 +1220,7 @@ impl ShopScreen {
         if ui.primary_button(b, t("Great!"))
             || is_key_pressed(KeyCode::Escape)
             || is_key_pressed(KeyCode::Enter)
+            || ui.dismissed(r)
         {
             self.done = None;
         }
@@ -1290,7 +1292,8 @@ impl ShopScreen {
             }
         }
         let b = Rect::new(r.x + 24.0, r.y + h - 24.0 - 40.0, 140.0, 40.0);
-        if ui.button(b, t("Cancel"), true) || is_key_pressed(KeyCode::Escape) {
+        // The message written so far stays (it is the shop's).
+        if ui.button(b, t("Cancel"), true) || is_key_pressed(KeyCode::Escape) || ui.dismissed(r) {
             self.gift_pick = None;
         }
     }

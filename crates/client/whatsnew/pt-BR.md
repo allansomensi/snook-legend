@@ -3,6 +3,14 @@
 # destaque, e as linhas seguintes são o texto dele. Mesmas versões e mesmo
 # número de destaques em todas as línguas.
 
+## 0.8.1
+
+### A 8 paga a penalidade
+Na regra brasileira, uma falta que dá mais bolas do que o adversário ainda tem perde a partida: as bolas dele saem e a 8 paga o resto. Quando o adversário já está na 8, qualquer falta que dê bola perde: errar a bola, encaçapar a branca ou jogá-la para fora da mesa.
+
+### Clique fora para fechar
+O chat da partida, o histórico da partida e os painéis de efeito e elevação fecham quando você clica fora deles, e o clique continua valendo na mesa. Menus e diálogos também fecham com um clique fora, como no Cancelar.
+
 ## 0.8.0
 
 ### A regra oficial

@@ -1384,7 +1384,17 @@ impl Match {
                 "Foul by {shooter}: {foul}.",
                 &[("shooter", &shooter), ("foul", &fouls.join("; "))],
             );
-            let detail = foul_said.then(|| self.foul_consequence(report, &next)).flatten();
+            // The Brazilian rules: the opponent had fewer balls left than
+            // the foul gave them, and the 8 paid the rest.
+            let detail = if report.penalty.contains(&BallId::EIGHT) {
+                let other = &self.names[1 - report.shooter % 2];
+                Some(tw(
+                    "{name} had fewer balls left than the foul gives: the 8 pays the rest, and the foul loses the game.",
+                    &[("name", other)],
+                ))
+            } else {
+                foul_said.then(|| self.foul_consequence(report, &next)).flatten()
+            };
             self.notify_detail(text, detail);
         }
         if let Some(g) = report.group_assigned {

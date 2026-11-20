@@ -1483,7 +1483,21 @@ impl ProfileScreen {
                 }
             }
         }
-        if ui.button(Rect::new(x, y + 34.0 + 24.0, 140.0, 40.0), t("Close"), true) || ui.escape() {
+        // A press on the dimmed screen around it closes it too, while
+        // nothing has been typed (it would be lost).
+        let typed = [
+            &form.new_name,
+            &form.email_password,
+            &form.old_password,
+            &form.new_password,
+            &form.delete_password,
+        ]
+        .iter()
+        .any(|f| !f.is_empty());
+        if ui.button(Rect::new(x, y + 34.0 + 24.0, 140.0, 40.0), t("Close"), true)
+            || ui.escape()
+            || (!typed && ui.dismissed(r))
+        {
             self.account = None;
             ui.focus = None;
         }

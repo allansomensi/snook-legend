@@ -1080,6 +1080,10 @@ async fn main() {
         if !matches!(screen, Screen::Online) || current.is_some() {
             online.invite_dialog = None;
         }
+        // The chat with other players' dialog is over every screen and game
+        // (drawn near the end): nothing under it takes the pointer. Saved
+        // first, given back last.
+        let chat_saved = (!settings_open && online.chat_dialog_open).then(|| ui.suspend_input());
         let ask_saved = ask_rules.then(|| ui.suspend_input());
         let invite_saved = inviting.then(|| ui.suspend_input());
         let offer_saved = offer_up.then(|| ui.suspend_input());
@@ -1817,11 +1821,11 @@ async fn main() {
             && !staff_up
         {
             match draw_replace_save(&mut ui, saved_balls.unwrap_or(0)) {
-                Some(true) if wants_deal(&settings, &online) => {
+                Some(Some(true)) if wants_deal(&settings, &online) => {
                     replace_save = None;
                     waiting = Some((ask_deal(&mut online, settings), get_time()));
                 }
-                Some(true) => {
+                Some(Some(true)) => {
                     replace_save = None;
                     let mut m = Match::new(&settings, game::clock_seed());
                     warn_unrewarded(&mut m, &settings, &online, &ladder_progress);
@@ -1831,7 +1835,7 @@ async fn main() {
                     rig.reset();
                     screen = Screen::Menu;
                 }
-                Some(false) => {
+                Some(Some(false)) => {
                     replace_save = None;
                     if let Some(s) = saved::load() {
                         let mut m = Match::resume(&s, config.guide);
@@ -1847,14 +1851,16 @@ async fn main() {
                         saved_balls = None;
                     }
                 }
+                // Neither (Esc, or a press on the dimmed screen around it).
+                Some(None) => replace_save = None,
                 None => {}
-            }
-            if ui.escape() {
-                replace_save = None;
             }
         }
         // The chat with other players turned on (opened by writing with it
         // off), over any screen, a game too.
+        if let Some(saved) = chat_saved {
+            ui.resume_input(saved);
+        }
         if !settings_open {
             online.draw_chat_dialog(&mut ui, &config);
         }
@@ -1982,9 +1988,10 @@ async fn main() {
 
 /// Darkened screen corners, like a camera lens: draws the eye to the table.
 /// Asks before a new game against the computer takes the place of the one
-/// in progress: Some(true) starts the new one, Some(false) goes back to the
-/// saved one, None while the player decides (Esc: neither).
-fn draw_replace_save(ui: &mut Ui, balls_left: usize) -> Option<bool> {
+/// in progress: Some(Some(true)) starts the new one, Some(Some(false)) goes
+/// back to the saved one, Some(None) is neither (Esc, or a press on the
+/// dimmed screen around it), None while the player decides.
+fn draw_replace_save(ui: &mut Ui, balls_left: usize) -> Option<Option<bool>> {
     use crate::i18n::{t, tw};
     let (sw, sh) = (ui::vw(), ui::vh());
     draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.45));
@@ -2013,10 +2020,13 @@ fn draw_replace_save(ui: &mut Ui, balls_left: usize) -> Option<bool> {
     let by = r.y + r.h - 24.0 - 40.0;
     let bw = (w - 48.0 - 12.0) / 2.0;
     if ui.button(Rect::new(r.x + 24.0, by, bw, 40.0), t("Continue that game"), true) {
-        return Some(false);
+        return Some(Some(false));
     }
     if ui.primary_button(Rect::new(r.x + 24.0 + bw + 12.0, by, bw, 40.0), t("Start a new one")) {
-        return Some(true);
+        return Some(Some(true));
+    }
+    if ui.escape() || ui.dismissed(r) {
+        return Some(None);
     }
     None
 }

@@ -1647,6 +1647,7 @@ the opponent sank the 8 with another ball	el rival metió la 8 junto con otra bo
 sank the 8 with another ball	metió la 8 junto con otra bola
 opponent pocketed the 8-ball together with another ball	el rival metió la bola 8 junto con otra bola
 Penalty: {balls} off the table for {name}.	Penalización: {balls} fuera de la mesa a favor de {name}.
+{name} had fewer balls left than the foul gives: the 8 pays the rest, and the foul loses the game.	{name} tenía menos bolas de las que da la falta: la 8 paga el resto, y la falta pierde el partido.
 Shadows	Sombras
 The shadows of the balls and of the cue on the table.	Las sombras de las bolas y del taco en la mesa.
 Sixteen players: knockout or arena	Dieciséis jugadores: eliminatoria o arena

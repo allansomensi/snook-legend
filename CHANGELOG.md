@@ -1,10 +1,51 @@
 # Changelog
 
-## Unreleased
+## 0.8.1 (protocol 22)
 
-A month of VIP sold in the Microsoft Store version. Still protocol 22 (two
-new fields, which games of 0.8.0 skip) and no new migration: the server can
-go out first, and only the next game sells the month.
+The Brazilian rule's penalty paid with the 8, windows that close with a
+click outside them, and a month of VIP sold in the Microsoft Store version.
+Still protocol 22 (two new fields, which games of 0.8.0 skip) and no new
+migration: games of 0.8.0 keep playing with this server, which can go out
+first (a game of 0.8.0 still shows a foul the 8 paid as going on until the
+server's table comes in), and only this game sells the month of VIP.
+
+### The Brazilian rule: the 8 pays what the opponent doesn't have
+- **A foul that gives more balls than the opponent has left loses the
+  game**: their balls come off and the 8 pays the rest. With only the 8 left
+  for them (and so with only the 8 on the table), any foul that gives a
+  ball loses: a miss, the cue ball down or off the table, the wrong ball
+  first. Two balls owed with one left: that one and the 8 come off. On the
+  8 with the opponent still holding balls, a foul takes their lowest off and
+  passes the turn, as before. (Until now the penalty stopped at the last
+  ball and the 8 never came off.)
+- The game ends as a foul on the 8 (`EightPocketedOnFoul`, "fouled on the
+  8"), the report's `penalty` ends with the 8, and the table says why: the
+  opponent had fewer balls left than the foul gives. The computer, which
+  plays to win, now steers clear of such fouls by itself.
+- The rules book says so in the three languages. The rule is not versioned:
+  a game stored before in which this happened no longer replays past it.
+
+### Windows close with a click outside them
+- **Panels at the table** close when the button is pressed anywhere else:
+  the match's chat (what was typed stays), the game history, and the spin
+  and elevation panels (the setting stays). The press goes on to what is
+  under it, so a click on the table closes the chat and aims; a list the
+  chat opened (quick phrases, reactions) closes first, on its own.
+- **Dialogs over a dimmed screen** close when the dimmed part is pressed,
+  as with their Cancel, Close or Esc, and that press does nothing else: the
+  pause menu (back to the game), the controls, the rules book and what's
+  new, the invitation dialog, Settings, the shop's confirmation, the friend
+  to give a present to and "Great!", the country and picture pickers, a
+  present received, "a game against the computer is saved", and the chat's
+  dialog ("Not now"). The report, the account and the recovery e-mail close
+  that way only while nothing has been typed. The first choice of rules, a
+  warning from the staff and the wait for the server still need their own
+  answer.
+- `Ui::pressed_outside` (panels: the press goes on) and `Ui::dismissed`
+  (dialogs: the press is spent) do it everywhere; the quick phrases use it
+  too, so a faded or covered HUD no longer closes them.
+- The chat's dialog now holds the pointer like the other dialogs: a click on
+  it no longer reaches the lounge or the game under it.
 
 ### A month of VIP in the Microsoft Store
 - **The Store version sells VIP a month at a time**: a fifth add-on,
@@ -32,6 +73,11 @@ go out first, and only the next game sells the month.
 - `docs/MSSTORE.md`: the fifth add-on, its texts in three languages, and the
   titles and descriptions of every add-on; `docs/STORE-LISTING.md`: the VIP
   month in the "in-game purchases" paragraph.
+
+### Notes
+- What's new in the game (three languages) and the Store listing's notes
+  for 0.8.1: the 8 paying the penalty and closing with a click outside. The
+  month of VIP is left out of both until the server sells it.
 
 ### Deploying
 - Put `vip_month` in `SNOOK_LEGEND_MSSTORE_PRODUCTS` only once this server is

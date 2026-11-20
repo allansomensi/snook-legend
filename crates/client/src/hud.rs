@@ -68,6 +68,9 @@ pub struct Hud {
     reactions_open: bool,
     /// Offline: the game history panel is open (it starts folded).
     history_open: bool,
+    /// Where the history's icon in the top bar was drawn (pressing it is
+    /// not a press outside the history).
+    history_toggle: Rect,
     /// Set by the caller: the camera is already in its default place.
     pub camera_default: bool,
     /// Set by the caller, online: how the player relates to the opponent
@@ -134,6 +137,7 @@ impl Default for Hud {
             camera_default: true,
             opponent_relation: None,
             history_open: false,
+            history_toggle: Rect::new(0.0, 0.0, 0.0, 0.0),
             can_report: false,
             report: None,
             rules: None,
@@ -573,6 +577,7 @@ impl Hud {
                 x += 36.0;
                 let tip = if self.history_open { t("Hide the history") } else { t("Game history") };
                 let r = Rect::new(x, 12.0, 30.0, 30.0);
+                self.history_toggle = r;
                 if ui.icon_button_ex(r, Icon::List, tip, true, self.history_open) {
                     self.history_open = !self.history_open;
                 }
@@ -1022,7 +1027,7 @@ impl Hud {
             let note = ui.ellipsize(note, r.w - 2.0 * PAD, 12.0);
             ui.text_centered(&note, sw / 2.0, note_y, 12.0, MUTED, false);
             let back = Rect::new(sw / 2.0 - 80.0, r.y + r.h - PAD - 38.0, 160.0, 38.0);
-            if ui.button(back, t("Back"), true) {
+            if ui.button(back, t("Back"), true) || ui.dismissed(r) {
                 self.show_help = false;
             }
         }
@@ -1153,6 +1158,11 @@ impl Hud {
                     self.paused = false;
                     action = if online { HudAction::Lounge } else { HudAction::MainMenu };
                 }
+            }
+            // A press on the dimmed game around it: back to the game.
+            if self.paused && ui.dismissed(r) {
+                self.paused = false;
+                self.confirm_leave = false;
             }
         }
         action
@@ -1299,6 +1309,9 @@ impl Hud {
         }
         o.unread = 0;
         o.preview = None;
+        // A list open by the chat (quick phrases, reactions) closes first:
+        // the press that closes it leaves the chat open.
+        let list_open = self.quick_open || self.reactions_open;
         let r = Rect::new(12.0, sh - BOTTOM_BAR - chat_h() - 8.0, chat_w(), chat_h());
         ui.panel(r);
         let watching = o.spectator;
@@ -1314,6 +1327,9 @@ impl Hud {
         let me = (!watching).then_some(me.as_str());
         self.chat_scroll = ui.chat_log(log, &o.feed, me, false, self.chat_scroll).0;
         if watching {
+            if ui.pressed_outside(&[r]) {
+                self.chat_open = false;
+            }
             return;
         }
         let input = Rect::new(r.x + 6.0, r.y + r.h - 36.0, r.w - 12.0, 30.0);
@@ -1339,8 +1355,15 @@ impl Hud {
             self.chat_scroll = 0;
             ui.focus = None;
         }
-        self.reaction_button(ui, m, Rect::new(r.x + r.w + 6.0, r.y + r.h - 34.0, 32.0, 32.0));
-        self.quick_phrases(ui, m, Rect::new(r.x + r.w + 6.0, r.y + r.h - 72.0, 32.0, 32.0));
+        let reactions = Rect::new(r.x + r.w + 6.0, r.y + r.h - 34.0, 32.0, 32.0);
+        let quick = Rect::new(r.x + r.w + 6.0, r.y + r.h - 72.0, 32.0, 32.0);
+        self.reaction_button(ui, m, reactions);
+        self.quick_phrases(ui, m, quick);
+        // A press anywhere else hides the chat (what was typed stays). The
+        // press still reaches the table: a click on a ball hides it and aims.
+        if !list_open && ui.pressed_outside(&[r, reactions, quick]) {
+            self.chat_open = false;
+        }
     }
 
     /// The quick phrases: a button, and the list it opens above it. A phrase
@@ -1391,7 +1414,7 @@ impl Hud {
         if let Some(p) = chosen {
             m.send_chat(p);
             self.quick_open = false;
-        } else if is_mouse_button_pressed(MouseButton::Left) && !ui.hovering(r) && !ui.hovering(b) {
+        } else if ui.pressed_outside(&[r, b]) {
             self.quick_open = false;
         }
     }
@@ -1414,7 +1437,10 @@ impl Hud {
         ui.panel(r);
         ui.text(t("Game history"), r.x + 10.0, r.y + 7.0, 14.0, GOLD, true);
         let hide = Rect::new(r.x + r.w - 30.0, r.y + 4.0, 24.0, 24.0);
-        if ui.icon_button_ex(hide, Icon::Minus, t("Hide"), true, true) {
+        // Hidden by its button, its icon, or a press anywhere else.
+        if ui.icon_button_ex(hide, Icon::Minus, t("Hide"), true, true)
+            || ui.pressed_outside(&[r, self.history_toggle])
+        {
             self.history_open = false;
         }
         let lines: Vec<FeedLine> = m
@@ -2342,8 +2368,10 @@ impl Hud {
             crate::paint::set_opacity(opacity * 0.45);
             ui.suspend_input()
         });
+        let mut toggles = [Rect::new(0.0, 0.0, 0.0, 0.0); 2];
         for (k, pop) in pops.into_iter().enumerate() {
             let r = Rect::new(bx0 + k as f32 * (bw + gap), bar.y + 9.0, bw, bh);
+            toggles[k] = r;
             anchors[k] = r.x + r.w / 2.0;
             let open = self.popover == Some(pop);
             if ui.toggle(r, open) {
@@ -2461,6 +2489,11 @@ impl Hud {
             match pop {
                 Pop::Spin => self.spin_panel(ui, m, r),
                 Pop::Elevation => elevation_panel(ui, m, r),
+            }
+            // A press anywhere else closes it (the setting stays; the press
+            // goes on to the table or the bar).
+            if ui.pressed_outside(&[r, toggles[0], toggles[1]]) {
+                self.popover = None;
             }
         }
     }

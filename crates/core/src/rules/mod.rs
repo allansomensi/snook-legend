@@ -222,7 +222,9 @@ pub enum GameOverReason {
     /// The loser pocketed the eight in a pocket other than the one called
     /// (under the official rules, also on a shot called a safety).
     EightInWrongPocket,
-    /// The loser pocketed the eight on a foul.
+    /// The loser pocketed the eight on a foul, or, under the Brazilian
+    /// rules, fouled when the opponent had fewer balls left than the foul
+    /// gave them: the 8 paid the rest.
     EightPocketedOnFoul,
     /// The loser knocked the eight off the table.
     EightOffTable,
@@ -339,7 +341,8 @@ pub struct ShotReport {
     /// which passed the turn, even if they made one of their own too.
     pub opponent_ball: bool,
     /// The Brazilian rules: the opponent's balls taken off the table for
-    /// them by this shot's fouls, lowest number first.
+    /// them by this shot's fouls, lowest number first, and the 8 last when it
+    /// paid what they didn't have (the foul lost the game).
     pub penalty: Vec<BallId>,
     /// The Brazilian rules: the break hit no ball, or lost the cue ball
     /// without making one, and the opponent breaks, from where the balls

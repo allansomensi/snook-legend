@@ -1520,6 +1520,30 @@ impl Ui {
         self.released_in(r) && r.contains(self.mouse)
     }
 
+    /// A floating panel or popover (the match's chat, the spin panel)
+    /// closes when the button is pressed anywhere outside it: true when it
+    /// was pressed this frame outside every one of `keep` (the panel, and
+    /// the buttons that open it or belong to it). The press still reaches
+    /// what is under it, so a click on the table closes the chat and aims.
+    /// Never while the input is suspended (a faded HUD, a dialog above).
+    pub fn pressed_outside(&self, keep: &[Rect]) -> bool {
+        self.pressed && !keep.iter().any(|r| r.contains(self.mouse))
+    }
+
+    /// A dialog over a dimmed screen closes when the dimmed part is
+    /// pressed, as with its Cancel or Close: true when the button was
+    /// pressed this frame outside `panel`. That press is spent, so nothing
+    /// under the dimming acts when it is let go.
+    pub fn dismissed(&mut self, panel: Rect) -> bool {
+        if self.pressed && !panel.contains(self.mouse) {
+            self.pressed = false;
+            self.press_at = vec2(-1.0e6, -1.0e6);
+            true
+        } else {
+            false
+        }
+    }
+
     pub fn hovering(&self, r: Rect) -> bool {
         r.contains(self.mouse)
     }

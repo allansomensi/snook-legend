@@ -3,6 +3,14 @@
 # un destacado, y las líneas siguientes son su texto. Mismas versiones y
 # mismo número de destacados en todos los idiomas.
 
+## 0.8.1
+
+### La 8 paga la penalización
+En la regla brasileña, una falta que da más bolas de las que le quedan al rival pierde el partido: salen sus bolas y la 8 paga el resto. Cuando el rival ya está en la 8, cualquier falta que dé bola pierde: no tocar ninguna bola, meter la blanca o sacarla de la mesa.
+
+### Clic fuera para cerrar
+El chat de la partida, el historial de la partida y los paneles de efecto y elevación se cierran al hacer clic fuera de ellos, y el clic sigue valiendo en la mesa. Los menús y diálogos también se cierran con un clic fuera, como con Cancelar.
+
 ## 0.8.0
 
 ### La regla oficial

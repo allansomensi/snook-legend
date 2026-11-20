@@ -8,6 +8,11 @@
 //!   miss that scratches gives two; the 8 hit first before one's group is
 //!   cleared counts as a miss: one). While the table is open there is no
 //!   opponent's group yet, and a foul costs the turn alone.
+//! - When the opponent has fewer balls left than the foul gives them, the 8
+//!   pays the rest and the foul loses the game: with only the 8 left for
+//!   them, any foul that gives a ball (a miss, the cue ball down or off the
+//!   table, the wrong ball first) loses; two owed with one left, that one
+//!   and the 8 come off.
 //! - The cue ball is in hand for the break only (behind the head string).
 //!   One that goes down or leaves the table, on the break or later, goes
 //!   back to the head spot (right behind a ball lying there) and is played
@@ -193,7 +198,13 @@ impl EightBallGame {
         {
             let mut given = self.remaining(g);
             given.sort();
+            // Fewer left than owed: the 8 pays the rest, and the foul loses.
+            let eight_pays = owed > given.len();
             given.truncate(owed);
+            if eight_pays {
+                given.push(BallId::EIGHT);
+                game_over = lost(GameOverReason::EightPocketedOnFoul);
+            }
             for &b in &given {
                 self.take_off(b);
             }

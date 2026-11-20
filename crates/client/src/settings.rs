@@ -216,6 +216,8 @@ impl SettingsScreen {
         // "What's new" is over the settings: nothing under it reacts.
         let dialog =
             (self.whats_new.is_some() || crate::avatars::is_open()).then(|| ui.suspend_input());
+        // Setting a key when the frame began: a press elsewhere only stops it.
+        let was_capturing = self.capture.is_some();
         let esc_used = dialog.is_none() && self.capture_keys(ui, &mut config.keys);
         draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.5));
 
@@ -348,8 +350,11 @@ impl SettingsScreen {
             ui.tooltip(tip, reset);
         }
         let mut action = SettingsAction::None;
+        // A press on the dimmed screen around the settings is Done too (not
+        // while a key is being set: that press only stops it).
         if ui.primary_button(Rect::new(x + inner - 190.0, by, 190.0, 40.0), t("Done"))
             || (ui.escape() && !esc_used && dialog.is_none())
+            || (dialog.is_none() && !was_capturing && ui.dismissed(r))
         {
             if config.server.trim().is_empty() {
                 config.server = DEFAULT_SERVER.into();

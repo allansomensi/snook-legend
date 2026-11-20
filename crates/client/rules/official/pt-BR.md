@@ -30,7 +30,7 @@ Uma bola encaçapada numa saída válida mantém a vez, mas a mesa continua aber
 Encaçapar a 8 na saída não vence nem perde: ela volta para o ponto do pé da mesa, e você continua jogando ou pede para arrumar as bolas e sair de novo. Se houve falta também, o adversário escolhe: a branca na mão atrás da linha de cabeceira, ou as bolas arrumadas de novo e ele sai.
 
 ### Bola fora da mesa na saída
-É falta, e a bola fica fora (só a 8 volta). O adversário joga a mesa como está ou fica com a branca na mão atrás da linha de cabeceira.
+É falta, e a bola fica fora (só a 8 volta). O adversário joga a mesa como está ou fica com a branca na mão atrás da linha de cabeceira. Se a saída também foi ilegal, ele ainda pode pedir as bolas arrumadas de novo, como acima.
 
 ## Cantar e jogar
 

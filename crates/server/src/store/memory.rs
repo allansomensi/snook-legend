@@ -109,7 +109,7 @@ impl Inner {
         let mut rows: Vec<(i64, u32, i64)> = self
             .daily
             .range((day, i64::MIN)..=(day, i64::MAX))
-            .filter(|&(&(_, u), _)| !self.deleted(u))
+            .filter(|&(&(_, u), _)| !self.off_boards(u))
             .filter_map(|(&(_, u), r)| r.best.map(|b| (u, b, r.best_at)))
             .collect();
         rows.sort_by(|a, b| b.1.cmp(&a.1).then(a.2.cmp(&b.2)).then(a.0.cmp(&b.0)));
@@ -126,9 +126,19 @@ impl Inner {
         self.users.get(&id).map(|u| u.username.clone()).unwrap_or_default()
     }
 
-    /// A deleted account (gone from every board, as from the leaderboard).
-    fn deleted(&self, id: i64) -> bool {
-        self.users.get(&id).is_some_and(|u| u.deleted_at.is_some())
+    /// The audit log's entries about the player `old` now name them `new`.
+    fn move_audit(&mut self, old: &str, new: &str) {
+        for e in self.audit.iter_mut().filter(|e| {
+            e.target.eq_ignore_ascii_case(old) && !super::AUDIT_NOT_PLAYERS.contains(&&*e.action)
+        }) {
+            e.target = new.to_string();
+        }
+    }
+
+    /// Left out of the boards: a deleted account, or a banned one while
+    /// the ban lasts (as on the rating leaderboard).
+    fn off_boards(&self, id: i64) -> bool {
+        self.users.get(&id).is_some_and(|u| u.deleted_at.is_some() || u.is_banned(crate::now()))
     }
 
     fn record_match(&mut self, m: &MatchRecord) -> ([Option<User>; 2], i64) {
@@ -801,6 +811,7 @@ impl MemoryStore {
         for n in s.board.iter_mut().filter(|n| n.author == old) {
             n.author = name.to_string();
         }
+        s.move_audit(&old, name);
         Ok(Rename::Done)
     }
 
@@ -815,8 +826,11 @@ impl MemoryStore {
 
     pub fn delete_account(&self, user_id: i64, now: i64) -> StoreResult<()> {
         let mut s = self.lock();
+        if let Some(u) = s.users.get_mut(&user_id).filter(|u| u.deleted_at.is_none()) {
+            let old = std::mem::replace(&mut u.username, super::deleted_name(user_id));
+            s.move_audit(&old, &super::deleted_name(user_id));
+        }
         if let Some(u) = s.users.get_mut(&user_id) {
-            u.username = super::deleted_name(user_id);
             u.password_hash = String::new();
             u.country = String::new();
             u.recovery_email = None;
@@ -945,15 +959,19 @@ impl MemoryStore {
         let Some(me) = s.users.get(&user_id).map(rec).filter(|r| r.games > 0) else {
             return Ok(None);
         };
+        let name = &s.users[&user_id].username;
         let now = crate::now();
+        // In the leaderboard's order: the rating, then the wins, then the name.
         let above = s
             .users
             .values()
             .filter(|u| {
-                rec(u).games > 0
+                let r = rec(u);
+                r.games > 0
                     && !u.is_banned(now)
                     && u.deleted_at.is_none()
-                    && rec(u).rating > me.rating
+                    && (r.rating, r.wins, std::cmp::Reverse(&u.username))
+                        > (me.rating, me.wins, std::cmp::Reverse(name))
             })
             .count();
         Ok(Some(above as u32 + 1))
@@ -1195,7 +1213,7 @@ impl MemoryStore {
         let mut rows: Vec<(u32, i64, i64)> = s
             .drills
             .iter()
-            .filter(|((u, c), _)| c == code && !s.deleted(*u))
+            .filter(|((u, c), _)| c == code && !s.off_boards(*u))
             .map(|((u, _), (b, at))| (*b, *at, *u))
             .collect();
         rows.sort_by(|a, b| b.0.cmp(&a.0).then(a.1.cmp(&b.1)).then(a.2.cmp(&b.2)));
@@ -1234,7 +1252,7 @@ impl MemoryStore {
         let mut rows: Vec<(u32, i64, i64, u32)> = s
             .challenge
             .iter()
-            .filter(|(u, _)| !s.deleted(**u))
+            .filter(|(u, _)| !s.off_boards(**u))
             .map(|(u, (r, st, at))| (*r, *at, *u, *st))
             .collect();
         rows.sort_by(|a, b| b.0.cmp(&a.0).then(a.1.cmp(&b.1)).then(a.2.cmp(&b.2)));
@@ -1406,6 +1424,7 @@ impl MemoryStore {
         for n in s.board.iter_mut().filter(|n| n.author == old) {
             n.author = name.to_string();
         }
+        s.move_audit(&old, name);
         Ok(Rename::Done)
     }
 
@@ -1822,6 +1841,21 @@ impl MemoryStore {
         let mut s = self.lock();
         let w = s.wallets.entry(user_id).or_default();
         w.vip_until = if force { until } else { w.vip_until.max(until) };
+        Ok(())
+    }
+
+    pub fn add_vip(&self, user_id: i64, from: i64, secs: i64) -> StoreResult<()> {
+        let mut s = self.lock();
+        let w = s.wallets.entry(user_id).or_default();
+        w.vip_until = w.vip_until.max(from) + secs;
+        Ok(())
+    }
+
+    pub fn take_vip(&self, user_id: i64, secs: i64, floor: i64) -> StoreResult<()> {
+        let mut s = self.lock();
+        if let Some(w) = s.wallets.get_mut(&user_id) {
+            w.vip_until = w.vip_until.min((w.vip_until - secs).max(floor));
+        }
         Ok(())
     }
 

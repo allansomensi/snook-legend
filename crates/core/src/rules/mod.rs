@@ -270,8 +270,13 @@ pub enum BreakChoice {
     /// (4.3 d). The incoming player plays the table as it lies (with the
     /// cue ball in hand behind the head string if the breaker scratched),
     /// or the balls are racked again and they break, or the breaker breaks
-    /// again.
-    IllegalBreak { scratch: bool },
+    /// again. With an object ball off the table too (`ball_off`, 4.3 g)
+    /// they may also take the cue ball in hand behind the head string.
+    IllegalBreak {
+        scratch: bool,
+        #[serde(default)]
+        ball_off: bool,
+    },
     /// The 8 went down on a legal break (4.3 e). The breaker has it spotted
     /// and plays on, or breaks again.
     EightOnBreak,
@@ -308,6 +313,12 @@ impl BreakChoice {
     /// when the shot clock runs out).
     pub fn options(self) -> &'static [BreakOption] {
         match self {
+            BreakChoice::IllegalBreak { scratch: false, ball_off: true } => &[
+                BreakOption::PlayOn,
+                BreakOption::CueBallInHand,
+                BreakOption::BreakAgain,
+                BreakOption::OpponentBreaks,
+            ],
             BreakChoice::IllegalBreak { .. } => {
                 &[BreakOption::PlayOn, BreakOption::BreakAgain, BreakOption::OpponentBreaks]
             }

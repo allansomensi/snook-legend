@@ -581,7 +581,7 @@ pub fn success(d: &Drill, report: &ShotReport, events: &[Event], after: &EightBa
                     let hits = events
                         .iter()
                         .filter(|e| {
-                            matches!(e, Event::Cushion { ball: b, time, .. } if *b == ball && *time < t)
+                            matches!(e, Event::Cushion { ball: b, time, jaw: false, .. } if *b == ball && *time < t)
                         })
                         .count();
                     hits >= cushions as usize

@@ -30,7 +30,7 @@ Una bola metida en un saque válido mantiene el turno, pero la mesa sigue abiert
 Meter la 8 en el saque no gana ni pierde: vuelve al punto de pie de la mesa, y sigues tirando o pides armar las bolas y sacar otra vez. Si además hubo falta, el rival elige: la blanca en mano detrás de la línea de cabecera, o las bolas armadas de nuevo y saca él.
 
 ### Bola fuera de la mesa en el saque
-Es falta, y la bola queda fuera (solo la 8 vuelve). El rival juega la mesa como está o toma la blanca en mano detrás de la línea de cabecera.
+Es falta, y la bola queda fuera (solo la 8 vuelve). El rival juega la mesa como está o toma la blanca en mano detrás de la línea de cabecera. Si el saque también fue ilegal, además puede pedir las bolas armadas de nuevo, como arriba.
 
 ## Cantar y jugar
 

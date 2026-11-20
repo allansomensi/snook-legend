@@ -435,6 +435,13 @@ pub fn rules_tagline(r: Rules) -> &'static str {
 pub fn break_choice(choice: BreakChoice, chooser: &str, breaker: &str) -> (String, String) {
     let n = [("name", &chooser as &dyn std::fmt::Display), ("breaker", &breaker)];
     match choice {
+        BreakChoice::IllegalBreak { scratch: false, ball_off: true } => (
+            t("Illegal break: no ball made and fewer than four balls reached a cushion.").into(),
+            tw(
+                "{name} chooses: play the table as it lies, take the cue ball in hand behind the head string, rack the balls and break, or have {breaker} break again.",
+                &n,
+            ),
+        ),
         BreakChoice::IllegalBreak { .. } => (
             t("Illegal break: no ball made and fewer than four balls reached a cushion.").into(),
             tw(
@@ -480,7 +487,7 @@ pub fn break_option(choice: BreakChoice, option: BreakOption, other: &str) -> (S
     match option {
         BreakOption::PlayOn => {
             let what = match choice {
-                BreakChoice::IllegalBreak { scratch: true } => {
+                BreakChoice::IllegalBreak { scratch: true, .. } => {
                     "With the cue ball in hand behind the head string."
                 }
                 BreakChoice::EightOnBreak => "The 8 is spotted and you keep shooting.",

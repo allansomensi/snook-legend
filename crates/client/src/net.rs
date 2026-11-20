@@ -156,13 +156,23 @@ async fn run(
     let mut ping = tokio::time::interval(PING_EVERY);
     ping.tick().await;
     let mut last_heard = tokio::time::Instant::now();
+    // Whose each ping on its way is (the answers come back in order): the
+    // keepalive's own (true) aren't passed on, or the game would take one
+    // for the answer to its own and measure too short a delay.
+    let mut pings: std::collections::VecDeque<bool> = std::collections::VecDeque::new();
     loop {
         tokio::select! {
             out = out_rx.recv() => match out {
                 Some(msg) => {
+                    if matches!(msg, ClientMsg::Ping) {
+                        pings.push_back(false);
+                    }
                     sink.send(send_msg(&msg)).await.map_err(|e| friendly(&e))?;
                     // Send whatever else is already queued in the same go.
                     while let Ok(more) = out_rx.try_recv() {
+                        if matches!(more, ClientMsg::Ping) {
+                            pings.push_back(false);
+                        }
                         sink.send(send_msg(&more)).await.map_err(|e| friendly(&e))?;
                     }
                 }
@@ -176,6 +186,7 @@ async fn run(
                 Some(Ok(Message::Text(text))) => {
                     last_heard = tokio::time::Instant::now();
                     match parse_server(text.as_str()) {
+                        Ok(ServerMsg::Pong) if pings.pop_front() == Some(true) => {}
                         Ok(msg) => {
                             if in_tx.send(NetEvent::Message(Box::new(msg))).is_err() {
                                 return Ok(());
@@ -198,6 +209,11 @@ async fn run(
                     return Err("Lost contact with the server.".into());
                 }
                 sink.send(send_msg(&ClientMsg::Ping)).await.map_err(|e| friendly(&e))?;
+                // An answer lost on the way can't shift the rest for long.
+                if pings.len() >= 16 {
+                    pings.clear();
+                }
+                pings.push_back(true);
             }
         }
     }

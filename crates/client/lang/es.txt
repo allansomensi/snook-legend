@@ -2001,6 +2001,7 @@ your call	cantada por ti
 {name} chooses: play on, or rack the balls and break again.	{name} elige: seguir jugando, o armar las bolas y sacar otra vez.
 {name} chooses: play the table as it lies, or take the cue ball in hand behind the head string.	{name} elige: jugar la mesa como está, o tomar la blanca en mano detrás de la línea de cabecera.
 {name} chooses: play the table as it lies, rack the balls and break, or have {breaker} break again.	{name} elige: jugar la mesa como está, armar las bolas y sacar, o que {breaker} saque otra vez.
+{name} chooses: play the table as it lies, take the cue ball in hand behind the head string, rack the balls and break, or have {breaker} break again.	{name} elige: jugar la mesa como está, tomar la blanca en mano detrás de la línea de cabecera, armar las bolas y sacar, o que {breaker} saque otra vez.
 {name} chooses: the cue ball in hand behind the head string, or rack the balls and break.	{name} elige: la blanca en mano detrás de la línea de cabecera, o armar las bolas y sacar.
 {name} is choosing how play goes on…	{name} está eligiendo cómo sigue el juego…
 {name} plays on (the 8 is spotted).	{name} sigue jugando (la 8 vuelve a la mesa).

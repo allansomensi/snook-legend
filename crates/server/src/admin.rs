@@ -847,9 +847,7 @@ async fn user_action(
             require_admin(&s)?;
             let days = body.days.filter(|d| *d > 0 && *d <= 366);
             let days = days.ok_or_else(|| err(StatusCode::BAD_REQUEST, "Give 1–366 days."))?;
-            let w = server.store.wallet(target.id).await?;
-            let until = w.vip_until.max(t) + days as i64 * 86_400;
-            server.store.set_vip(target.id, until, false).await?;
+            server.store.add_vip(target.id, t, days as i64 * 86_400).await?;
             crate::shop::push_wallet(&server, &target).await;
             log(&server, &s, "vip", &target.username, &format!("+{days} days: {reason}")).await;
         }

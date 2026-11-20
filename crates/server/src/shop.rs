@@ -569,13 +569,11 @@ async fn vip_gift_paid(
     // The month counts from the payment. Two gifts at once add up; a
     // repeated delivery only makes sure the month is there.
     let from = obj["created"].as_i64().unwrap_or(now());
-    let until = if first {
-        let w = server.store.wallet(friend.id).await.map_err(err)?;
-        w.vip_until.max(from) + VIP_GIFT_SECS
+    if first {
+        server.store.add_vip(friend.id, from, VIP_GIFT_SECS).await.map_err(err)?;
     } else {
-        from + VIP_GIFT_SECS
-    };
-    server.store.set_vip(friend.id, until, false).await.map_err(err)?;
+        server.store.set_vip(friend.id, from + VIP_GIFT_SECS, false).await.map_err(err)?;
+    }
     server
         .store
         .credit(
@@ -804,11 +802,7 @@ async fn apply(server: &Server, event: &Value) -> Result<(), String> {
                     .or_else(|| obj.pointer("/items/data/0/current_period_end")?.as_i64())
                     .unwrap_or(ended);
                 let unused = (period_end + VIP_GRACE - ended).max(0);
-                let w = server.store.wallet(user.id).await.map_err(err)?;
-                let until = (w.vip_until - unused).max(ended).min(w.vip_until);
-                if until < w.vip_until {
-                    server.store.set_vip(user.id, until, true).await.map_err(err)?;
-                }
+                server.store.take_vip(user.id, unused, ended).await.map_err(err)?;
                 push_wallet(server, &user).await;
             }
         }
@@ -858,11 +852,7 @@ async fn apply(server: &Server, event: &Value) -> Result<(), String> {
             // The month refunded goes, and only it: other VIP time (other
             // months, gifts, the Store, the staff) stays.
             if first && (p.kind == "vip" || p.kind == "vip_gift") {
-                let w = server.store.wallet(p.user_id).await.map_err(err)?;
-                let until = (w.vip_until - VIP_GIFT_SECS).max(now()).min(w.vip_until);
-                if until < w.vip_until {
-                    server.store.set_vip(p.user_id, until, true).await.map_err(err)?;
-                }
+                server.store.take_vip(p.user_id, VIP_GIFT_SECS, now()).await.map_err(err)?;
             }
             if first || taken {
                 tracing::warn!(user = p.user_id, payment = %p.id, "payment reversed ({kind})");

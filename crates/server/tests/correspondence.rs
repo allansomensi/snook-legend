@@ -717,7 +717,7 @@ async fn the_choice_a_break_leaves_is_made_by_the_player_to_move() {
     };
     assert_eq!(
         report.choice,
-        Some(snook_legend_core::BreakChoice::IllegalBreak { scratch: false })
+        Some(snook_legend_core::BreakChoice::IllegalBreak { scratch: false, ball_off: false })
     );
     assert_eq!(end.pending_choice(), report.choice);
     let (_, _, event) = other.notice().await;

@@ -2119,8 +2119,8 @@ impl Hud {
         let bw = (w - 40.0 - 10.0 * (options.len() - 1) as f32) / options.len() as f32;
         let by = r.y + 24.0 + 24.0 + 20.0 + 12.0;
         let mut chosen = None;
-        // The keys 1, 2 and 3 choose too.
-        let keys = [KeyCode::Key1, KeyCode::Key2, KeyCode::Key3];
+        // The keys 1 to 4 choose too.
+        let keys = [KeyCode::Key1, KeyCode::Key2, KeyCode::Key3, KeyCode::Key4];
         for (k, option) in options.iter().copied().enumerate() {
             let b = Rect::new(r.x + 20.0 + k as f32 * (bw + 10.0), by, bw, 66.0);
             let (label, what) = crate::i18n::break_option(choice, option, &other);

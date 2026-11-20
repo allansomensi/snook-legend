@@ -607,6 +607,7 @@ async fn memory_store() {
     retention(Store::memory()).await;
     renames(&Store::memory()).await;
     staff_tools(&Store::memory()).await;
+    audit_fixes(&Store::memory()).await;
 }
 
 #[tokio::test]
@@ -630,6 +631,94 @@ async fn postgres_store() {
     retention(Store::postgres(&url, 3).await.unwrap()).await;
     renames(&Store::postgres(&url, 3).await.unwrap()).await;
     staff_tools(&Store::postgres(&url, 3).await.unwrap()).await;
+    audit_fixes(&Store::postgres(&url, 3).await.unwrap()).await;
+}
+
+/// VIP time added and taken back in one step, banned players off the
+/// boards, the audit log following a renamed or deleted account, and two
+/// friend requests crossing.
+async fn audit_fixes(store: &Store) {
+    let t = snook_legend_server::now();
+    let make = |name: &'static str| async move { store.create_user(&new_user(name)).await };
+    let v = make("af_vip").await.unwrap().unwrap();
+    // VIP: two months at once add up; what is taken back never ends it
+    // before the floor, nor lengthens it.
+    let (add1, add2) = tokio::join!(store.add_vip(v.id, t, 100), store.add_vip(v.id, t, 100));
+    add1.unwrap();
+    add2.unwrap();
+    assert_eq!(store.wallet(v.id).await.unwrap().vip_until, t + 200);
+    store.take_vip(v.id, 150, t + 10).await.unwrap();
+    assert_eq!(store.wallet(v.id).await.unwrap().vip_until, t + 50);
+    store.take_vip(v.id, 1000, t + 80).await.unwrap();
+    assert_eq!(store.wallet(v.id).await.unwrap().vip_until, t + 50);
+
+    // A banned player is off the boards while the ban lasts.
+    let good = make("af_good").await.unwrap().unwrap();
+    let bad = make("af_bad").await.unwrap().unwrap();
+    let day = day_of(t);
+    for (u, score) in [(good.id, 3), (bad.id, 9)] {
+        store.drill_record(u, "af_drill", score, t).await.unwrap();
+        store.set_challenge_rating(u, 1000 + score, 1, t).await.unwrap();
+        assert!(store.daily_start(u, day, t, 5).await.unwrap());
+        store.daily_finish(u, day, t, score, false, 600).await.unwrap();
+    }
+    store.set_ban(bad.id, Some(t + 3600), Some("cheating")).await.unwrap();
+    let drill = store.drill_board("af_drill", 10).await.unwrap();
+    assert_eq!(drill.iter().map(|r| r.username.as_str()).collect::<Vec<_>>(), ["af_good"]);
+    let (challenge, rank) = store.challenge_board(good.id, 100).await.unwrap();
+    assert!(challenge.iter().all(|r| r.username != "af_bad"));
+    assert!(challenge.iter().any(|r| r.username == "af_good"));
+    let above = challenge.iter().position(|r| r.username == "af_good").unwrap() as u32 + 1;
+    assert_eq!(rank, Some(above));
+    let (daily, players) = store.daily_board(day, 10).await.unwrap();
+    assert!(daily.iter().all(|r| r.username != "af_bad"));
+    let place = daily.iter().position(|r| r.username == "af_good").unwrap() as u32 + 1;
+    assert_eq!(store.daily_rank(good.id, day).await.unwrap(), Some(place));
+    assert_eq!(players, daily.len() as u32);
+    let won = store.daily_wins(good.id, day + 1).await.unwrap().iter().any(|(d, _)| *d == day);
+    assert_eq!(won, place == 1);
+    assert_eq!(store.rank_of(good.id, Rules::Brazilian).await.unwrap(), None, "no games");
+
+    // The audit log's entries about a player follow their account.
+    let staff = make("af_staff").await.unwrap().unwrap();
+    let old = make("af_old").await.unwrap().unwrap();
+    store.audit(staff.id, "ban", "af_old", "first", t).await.unwrap();
+    store.audit(staff.id, "event", "af_old", "an event named so", t).await.unwrap();
+    let about = |name: &str| {
+        let search = AuditSearch { target: Some(name.into()), ..Default::default() };
+        async move {
+            let mut a: Vec<String> = store
+                .audit_search(&search, 50)
+                .await
+                .unwrap()
+                .into_iter()
+                .map(|e| e.action)
+                .collect();
+            a.sort();
+            a
+        }
+    };
+    assert_eq!(store.change_username(old.id, "af_new", 3).await.unwrap(), Rename::Done);
+    assert_eq!(about("af_new").await, ["ban"]);
+    assert_eq!(about("af_old").await, ["event"]);
+    assert_eq!(store.staff_rename(old.id, "af_newer").await.unwrap(), Rename::Done);
+    assert_eq!(about("af_newer").await, ["ban"]);
+    // Whoever takes the name next doesn't inherit the history.
+    store.delete_account(old.id, t).await.unwrap();
+    assert!(about("af_newer").await.is_empty());
+    let gone = snook_legend_server::store::deleted_name(old.id);
+    assert_eq!(about(&gone).await, ["ban"]);
+
+    // Two requests sent to each other at once make friends.
+    let x = make("af_x").await.unwrap().unwrap();
+    let y = make("af_y").await.unwrap().unwrap();
+    let (r1, r2) =
+        tokio::join!(store.friend_request(x.id, y.id, t), store.friend_request(y.id, x.id, t));
+    let mut outcomes = [r1.unwrap(), r2.unwrap()];
+    outcomes.sort_by_key(|o| format!("{o:?}"));
+    assert_eq!(outcomes, [FriendOutcome::Accepted, FriendOutcome::Sent]);
+    let friends = store.friends(x.id).await.unwrap();
+    assert!(friends.iter().all(|(u, s)| u.id != y.id || *s == FriendState::Friends), "{friends:?}");
 }
 
 /// What the staff portal asks of the store: the list of players filtered

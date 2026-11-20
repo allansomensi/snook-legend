@@ -97,7 +97,7 @@ fn a_ball_made_on_the_break_keeps_the_table_open() {
 fn an_illegal_break_is_the_incoming_players_choice() {
     let (g, report) = break_with(&[], &[]);
     assert_eq!(report.fouls, vec![Foul::IllegalBreak], "{report:?}");
-    assert_eq!(report.choice, Some(BreakChoice::IllegalBreak { scratch: false }));
+    assert_eq!(report.choice, Some(BreakChoice::IllegalBreak { scratch: false, ball_off: false }));
     assert_eq!(g.pending_choice(), report.choice);
     assert_eq!(g.current_player(), 1, "the incoming player decides");
     assert_eq!(g.prepare_shot(&Shot::new(0.0, 1.0), None).unwrap_err(), ShotError::ChoicePending);
@@ -201,10 +201,28 @@ fn a_scratch_on_the_break_gives_the_cue_ball_in_hand_behind_the_head_string() {
 fn an_illegal_break_with_a_scratch() {
     let (g, report) = break_with(&[0], &[]);
     assert!(report.fouls.contains(&Foul::IllegalBreak), "{report:?}");
-    assert_eq!(report.choice, Some(BreakChoice::IllegalBreak { scratch: true }));
+    assert_eq!(report.choice, Some(BreakChoice::IllegalBreak { scratch: true, ball_off: false }));
     let mut g = g;
     g.choose(BreakOption::PlayOn).unwrap();
     assert_eq!((g.current_player(), g.ball_in_hand()), (1, Some(BallInHand::Kitchen)));
+}
+
+/// 4.3 (d) and (g) at once: after an illegal break that drove a ball off
+/// the table, the incoming player may also take the cue ball in hand
+/// behind the head string.
+#[test]
+fn an_illegal_break_with_a_ball_off_the_table() {
+    let (g, report) = break_with(&[], &[5]);
+    assert!(report.fouls.contains(&Foul::IllegalBreak), "{report:?}");
+    let choice = BreakChoice::IllegalBreak { scratch: false, ball_off: true };
+    assert_eq!(report.choice, Some(choice));
+    assert!(choice.options().contains(&BreakOption::CueBallInHand));
+    let mut as_lies = g.clone();
+    as_lies.choose(BreakOption::PlayOn).unwrap();
+    assert_eq!((as_lies.current_player(), as_lies.ball_in_hand()), (1, None));
+    let mut in_hand = g;
+    in_hand.choose(BreakOption::CueBallInHand).unwrap();
+    assert_eq!((in_hand.current_player(), in_hand.ball_in_hand()), (1, Some(BallInHand::Kitchen)));
 }
 
 /// 4.3 (g): a ball driven off the table on the break is a foul and stays

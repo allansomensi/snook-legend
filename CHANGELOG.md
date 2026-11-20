@@ -19,6 +19,80 @@
   which ball came off, or that the 8 paid.
 - The rules book in three languages and the README say so.
 
+### Fixes from a review of the whole game
+The rules:
+- The official rules: after an illegal break that also drove a ball off
+  the table, the incoming player may take the cue ball in hand behind the
+  head string as well (a new `ball_off` on `IllegalBreak`, which older
+  games skip); the clock gives the cue ball in hand from a place it can be
+  played from; on an open table a shot at the 8 no longer hands the shooter
+  the other group. The rules book says so.
+- A saved table with the 8 gone while the game goes on, or with groups that
+  don't go together, is refused.
+- A ball that only rattles in a pocket's jaws no longer counts as a bank in
+  the drills and the shot assessment (`Event::Cushion` says `jaw`; the
+  rules still count the jaws as cushions).
+
+The game:
+- A clock that ends the game counts the win; drills and the daily challenge
+  can't be resigned into the ordinary end panel; seeking a stored game
+  resets its score and history.
+- The chat's dialog holds the keyboard; the pointer works on the table
+  while the chat has the keyboard; the HUD's keys wait under the pause
+  menu; the e-mail offer over the invitation dialog gets the pointer.
+- A clock or a choice refreshes the saved game; a tournament game asks
+  before replacing a saved one, and its computer plays in the cup's form
+  from its first shot.
+- The ping shown is the game's own round trip: the connection's keepalive
+  answers no longer pass for it (they made it look shorter).
+- The official choice after the break takes the keys 1 to 4.
+
+Online:
+- Under 18 without the chat, friends' status messages and what came before
+  the age are hidden; another account signing in forgets the last one's
+  e-mail, wallet, offers and warnings; invitations and the table code end
+  with the session; the server set in Settings isn't overwritten at sign
+  in; "NaN" in the settings file is ignored; the restart notice goes away.
+- A LAN host can't open payment pages or rewrite the wallet, and a bracket
+  with an impossible winner is refused.
+- Passwords need 8 characters, not bytes, and digits of any script count
+  as digits; more invisible characters are cleaned from texts; the shot
+  analysis credits the ball the shot was about, not a kissed one that
+  dropped first.
+
+The server:
+- **A player who lets the shot clock run out three times in a row leaves
+  the game** (it ends as abandoned): a game nobody plays (the official
+  rules never end on the clock) no longer runs forever, nor holds up a
+  tournament.
+- A player put back at a restored game loses their open table, place in
+  the queue, invitations, note on the board and the game they were
+  watching (someone could have sat down at the table).
+- The rate limits (chat, invitations, lounge actions, reactions, the
+  board) outlive the connection for ten minutes: signing in again no
+  longer fills them up.
+- Banned players are off the daily challenge's, the drills' and the
+  challenge rating's tables while the ban lasts, as on the leaderboard; a
+  player's place on the leaderboard follows its order on a tie (the wins,
+  then the name).
+- The staff's audit log follows a renamed account (by the player or the
+  staff), and a deleted one goes under its deleted name: whoever takes the
+  name next doesn't inherit its history.
+- Moderators no longer get recovery e-mails from player actions, payment
+  references and Stripe customers, nor sign-in addresses through the audit
+  search.
+- Stripe: a cancelled subscription takes back only the unused period, a
+  refunded month (bought or given) only that month; VIP time is added and
+  taken back in one step (two months at once add up); the account's first
+  Stripe customer stays; a subscription started for an account deleted
+  meanwhile is cancelled, and a month given to one is logged for a refund.
+- Two friend requests sent to each other at once make friends.
+- A database hiccup no longer deletes a saved game; a game finished here
+  is never played again from its saved copy.
+- Arena standings rank those who played above those who didn't; the
+  metrics count official and casual games too; the career in the memory
+  store skips games with no shots.
+
 ## 0.8.1 (protocol 22)
 
 The Brazilian rule's penalty paid with the 8, windows that close with a

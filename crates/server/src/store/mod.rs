@@ -1574,6 +1574,16 @@ impl Store {
     pub async fn set_vip(&self, user_id: i64, until: i64, force: bool) -> StoreResult<()> {
         dispatch!(self, s => s.set_vip(user_id, until, force))
     }
+    /// `secs` more VIP, counted from `from` or from the end of the VIP
+    /// there is (in one step: two at once add up).
+    pub async fn add_vip(&self, user_id: i64, from: i64, secs: i64) -> StoreResult<()> {
+        dispatch!(self, s => s.add_vip(user_id, from, secs))
+    }
+    /// `secs` of VIP taken back, never ending it before `floor` (nor
+    /// lengthening it), in one step.
+    pub async fn take_vip(&self, user_id: i64, secs: i64, floor: i64) -> StoreResult<()> {
+        dispatch!(self, s => s.take_vip(user_id, secs, floor))
+    }
     pub async fn set_stripe_customer(&self, user_id: i64, customer: &str) -> StoreResult<()> {
         dispatch!(self, s => s.set_stripe_customer(user_id, customer))
     }
@@ -1939,6 +1949,25 @@ pub fn apply_match_numbers(u: &mut User, m: &MatchRecord, seat: usize) {
         u.abandons += 1;
     }
 }
+
+/// The staff actions in the audit log whose target is not a player (a
+/// report, a tournament, an event, the lounge...): the others name one,
+/// and follow the account when it is renamed or deleted (its history
+/// is its own, not that of whoever takes the old name next).
+pub const AUDIT_NOT_PLAYERS: &[&str] = &[
+    "report",
+    "tournament-cancel",
+    "event",
+    "event-cancel",
+    "note-remove",
+    "announce",
+    "clear-chat",
+    "motd",
+    "payment",
+    "msstore-retry",
+    "pin",
+    "unpin",
+];
 
 /// The username a deleted account is left with.
 pub fn deleted_name(id: i64) -> String {

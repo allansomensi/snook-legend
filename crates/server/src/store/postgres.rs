@@ -930,23 +930,41 @@ impl PgStore {
         name: &str,
         limit: u32,
     ) -> StoreResult<Rename> {
-        // One statement: two changes at once can't both get under the limit,
-        // and the unique index settles who gets a name.
-        let done = query(
-            "UPDATE users SET username = $2, name_changes = name_changes + 1
-             WHERE id = $1 AND name_changes < $3 AND deleted_at IS NULL",
+        self.rename(user_id, name, Some(limit)).await
+    }
+
+    /// Renames a player (within `limit` changes, unless it is the staff),
+    /// the audit log's entries about them with them.
+    async fn rename(&self, user_id: i64, name: &str, limit: Option<u32>) -> StoreResult<Rename> {
+        let mut tx = self.pool.begin().await?;
+        // The row is locked: two changes at once can't both get under the
+        // limit, and the unique index settles who gets a name.
+        let old: Option<String> = query(
+            "SELECT username FROM users WHERE id = $1 AND deleted_at IS NULL
+               AND ($2::INT IS NULL OR name_changes < $2) FOR UPDATE",
         )
         .bind(user_id)
-        .bind(name)
-        .bind(limit as i32)
-        .execute(&self.pool)
-        .await;
+        .bind(limit.map(|l| l as i32))
+        .fetch_optional(&mut *tx)
+        .await?
+        .map(|r| r.get("username"));
+        let Some(old) = old else { return Ok(Rename::NoChangesLeft) };
+        let counted = if limit.is_some() { 1 } else { 0 };
+        let done =
+            query("UPDATE users SET username = $2, name_changes = name_changes + $3 WHERE id = $1")
+                .bind(user_id)
+                .bind(name)
+                .bind(counted)
+                .execute(&mut *tx)
+                .await;
         match done {
-            Ok(r) if r.rows_affected() == 0 => Ok(Rename::NoChangesLeft),
-            Ok(_) => Ok(Rename::Done),
-            Err(sqlx::Error::Database(e)) if e.is_unique_violation() => Ok(Rename::Taken),
-            Err(e) => Err(e.into()),
+            Ok(_) => {}
+            Err(sqlx::Error::Database(e)) if e.is_unique_violation() => return Ok(Rename::Taken),
+            Err(e) => return Err(e.into()),
         }
+        move_audit(&mut tx, &old, name).await?;
+        tx.commit().await?;
+        Ok(Rename::Done)
     }
 
     pub async fn payment_email(&self, user_id: i64) -> StoreResult<Option<String>> {
@@ -963,6 +981,15 @@ impl PgStore {
 
     pub async fn delete_account(&self, user_id: i64, now: i64) -> StoreResult<()> {
         let mut tx = self.pool.begin().await?;
+        let old: Option<String> =
+            query("SELECT username FROM users WHERE id = $1 AND deleted_at IS NULL FOR UPDATE")
+                .bind(user_id)
+                .fetch_optional(&mut *tx)
+                .await?
+                .map(|r| r.get("username"));
+        if let Some(old) = old {
+            move_audit(&mut tx, &old, &super::deleted_name(user_id)).await?;
+        }
         query(
             "UPDATE users SET username = $2, password_hash = '', country = '',
                 recovery_email = NULL, deleted_at = $3, register_ip = '', status_message = '',
@@ -1493,7 +1520,11 @@ impl PgStore {
     pub async fn rank_of(&self, user_id: i64, rules: Rules) -> StoreResult<Option<u32>> {
         let p = record_columns(rules);
         let row = query(&format!(
-            "SELECT (SELECT COUNT(*) FROM users o WHERE o.{p}games > 0 AND (o.banned_until IS NULL OR o.banned_until <= $2) AND o.deleted_at IS NULL AND o.{p}rating > u.{p}rating) AS above
+            "SELECT (SELECT COUNT(*) FROM users o WHERE o.{p}games > 0
+                       AND (o.banned_until IS NULL OR o.banned_until <= $2) AND o.deleted_at IS NULL
+                       AND (o.{p}rating > u.{p}rating OR (o.{p}rating = u.{p}rating
+                            AND (o.{p}wins > u.{p}wins OR (o.{p}wins = u.{p}wins
+                                 AND o.username < u.username))))) AS above
              FROM users u WHERE u.id = $1 AND u.{p}games > 0"
         ))
         .bind(user_id)
@@ -1535,6 +1566,14 @@ impl PgStore {
 
     pub async fn friend_request(&self, from: i64, to: i64, at: i64) -> StoreResult<FriendOutcome> {
         let mut tx = self.pool.begin().await?;
+        // One request between two players at a time: two sent to each other
+        // at once make friends (not two requests waiting), and the same one
+        // sent twice is sent once.
+        let (lo, hi) = (from.min(to), from.max(to));
+        query("SELECT pg_advisory_xact_lock($1)")
+            .bind(lo.wrapping_mul(0x9E37_79B9_7F4A_7C15_u64 as i64) ^ hi)
+            .execute(&mut *tx)
+            .await?;
         let mine: Option<bool> =
             query("SELECT accepted FROM friendships WHERE user_id = $1 AND friend_id = $2")
                 .bind(from)
@@ -1933,17 +1972,21 @@ impl PgStore {
             "SELECT d.user_id, u.username, u.country, d.best, d.best_at
              FROM daily_scores d JOIN users u ON u.id = d.user_id
              WHERE d.day = $1 AND d.best IS NOT NULL AND u.deleted_at IS NULL
+               AND (u.banned_until IS NULL OR u.banned_until <= $3)
              ORDER BY d.best DESC, d.best_at, d.user_id LIMIT $2",
         )
         .bind(day)
         .bind(limit as i64)
+        .bind(crate::now())
         .fetch_all(&self.pool)
         .await?;
         let players: i64 = query(
             "SELECT COUNT(*) AS n FROM daily_scores d JOIN users u ON u.id = d.user_id
-             WHERE d.day = $1 AND d.best IS NOT NULL AND u.deleted_at IS NULL",
+             WHERE d.day = $1 AND d.best IS NOT NULL AND u.deleted_at IS NULL
+               AND (u.banned_until IS NULL OR u.banned_until <= $2)",
         )
         .bind(day)
+        .bind(crate::now())
         .fetch_one(&self.pool)
         .await?
         .get("n");
@@ -1964,12 +2007,14 @@ impl PgStore {
         let row = query(
             "SELECT (SELECT COUNT(*) FROM daily_scores o JOIN users ou ON ou.id = o.user_id
                      WHERE o.day = me.day AND o.best IS NOT NULL AND ou.deleted_at IS NULL
+                       AND (ou.banned_until IS NULL OR ou.banned_until <= $3)
                        AND (o.best > me.best OR (o.best = me.best
                             AND (o.best_at, o.user_id) < (me.best_at, me.user_id)))) AS ahead
              FROM daily_scores me WHERE me.day = $1 AND me.user_id = $2 AND me.best IS NOT NULL",
         )
         .bind(day)
         .bind(user_id)
+        .bind(crate::now())
         .fetch_optional(&self.pool)
         .await?;
         Ok(row.map(|r| r.get::<i64, _>("ahead") as u32 + 1))
@@ -1982,12 +2027,14 @@ impl PgStore {
                     ROW_NUMBER() OVER (PARTITION BY d.day ORDER BY d.best DESC, d.best_at, d.user_id) AS place
                 FROM daily_scores d JOIN users u ON u.id = d.user_id
                 WHERE d.best IS NOT NULL AND d.day < $2 AND u.deleted_at IS NULL
+                  AND (u.banned_until IS NULL OR u.banned_until <= $3)
                   AND d.day IN (SELECT day FROM daily_scores
                                 WHERE user_id = $1 AND best IS NOT NULL AND day < $2)
              ) ranked WHERE user_id = $1 AND place = 1 ORDER BY day DESC LIMIT 100",
         )
         .bind(user_id)
         .bind(before)
+        .bind(crate::now())
         .fetch_all(&self.pool)
         .await?;
         Ok(rows.iter().map(|r| (r.get("day"), r.get::<i64, _>("n") as u32)).collect())
@@ -2035,10 +2082,12 @@ impl PgStore {
         let rows = query(
             "SELECT u.username, u.country, d.best FROM drill_scores d JOIN users u ON u.id = d.user_id
              WHERE d.code = $1 AND u.deleted_at IS NULL
+               AND (u.banned_until IS NULL OR u.banned_until <= $3)
              ORDER BY d.best DESC, d.best_at, d.user_id LIMIT $2",
         )
         .bind(code)
         .bind(limit as i64)
+        .bind(crate::now())
         .fetch_all(&self.pool)
         .await?;
         Ok(rows
@@ -2080,18 +2129,23 @@ impl PgStore {
         let rows = query(
             "SELECT u.username, u.country, c.rating, c.stars FROM challenge_ratings c
              JOIN users u ON u.id = c.user_id WHERE u.deleted_at IS NULL
+               AND (u.banned_until IS NULL OR u.banned_until <= $2)
              ORDER BY c.rating DESC, c.updated_at, c.user_id LIMIT $1",
         )
         .bind(limit as i64)
+        .bind(crate::now())
         .fetch_all(&self.pool)
         .await?;
         let rank: Option<i64> = query(
             "SELECT (SELECT COUNT(*) FROM challenge_ratings o JOIN users ou ON ou.id = o.user_id
-                     WHERE ou.deleted_at IS NULL AND (o.rating > me.rating OR (o.rating = me.rating
+                     WHERE ou.deleted_at IS NULL
+                       AND (ou.banned_until IS NULL OR ou.banned_until <= $2)
+                       AND (o.rating > me.rating OR (o.rating = me.rating
                        AND (o.updated_at, o.user_id) < (me.updated_at, me.user_id)))) AS ahead
              FROM challenge_ratings me WHERE me.user_id = $1",
         )
         .bind(user_id)
+        .bind(crate::now())
         .fetch_optional(&self.pool)
         .await?
         .map(|r| r.get("ahead"));
@@ -2216,17 +2270,7 @@ impl PgStore {
     }
 
     pub async fn staff_rename(&self, user_id: i64, name: &str) -> StoreResult<Rename> {
-        let done = query("UPDATE users SET username = $2 WHERE id = $1 AND deleted_at IS NULL")
-            .bind(user_id)
-            .bind(name)
-            .execute(&self.pool)
-            .await;
-        match done {
-            Ok(r) if r.rows_affected() == 0 => Ok(Rename::NoChangesLeft),
-            Ok(_) => Ok(Rename::Done),
-            Err(sqlx::Error::Database(e)) if e.is_unique_violation() => Ok(Rename::Taken),
-            Err(e) => Err(e.into()),
-        }
+        self.rename(user_id, name, None).await
     }
 
     pub async fn add_staff_note(
@@ -2868,6 +2912,32 @@ impl PgStore {
         Ok(())
     }
 
+    pub async fn add_vip(&self, user_id: i64, from: i64, secs: i64) -> StoreResult<()> {
+        query(
+            "INSERT INTO wallets (user_id, vip_until) VALUES ($1, $2 + $3)
+             ON CONFLICT (user_id) DO UPDATE SET vip_until = GREATEST(wallets.vip_until, $2) + $3",
+        )
+        .bind(user_id)
+        .bind(from)
+        .bind(secs)
+        .execute(&self.pool)
+        .await?;
+        Ok(())
+    }
+
+    pub async fn take_vip(&self, user_id: i64, secs: i64, floor: i64) -> StoreResult<()> {
+        query(
+            "UPDATE wallets SET vip_until = LEAST(vip_until, GREATEST(vip_until - $2, $3))
+             WHERE user_id = $1",
+        )
+        .bind(user_id)
+        .bind(secs)
+        .bind(floor)
+        .execute(&self.pool)
+        .await?;
+        Ok(())
+    }
+
     pub async fn set_stripe_customer(&self, user_id: i64, customer: &str) -> StoreResult<()> {
         query(
             "INSERT INTO wallets (user_id, stripe_customer) VALUES ($1, $2)
@@ -2978,4 +3048,22 @@ fn payment_row(r: &PgRow) -> Payment {
         email: r.get("email"),
         test: r.get("test"),
     }
+}
+
+/// The audit log's entries about the player `old` now name them `new`.
+async fn move_audit(
+    tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
+    old: &str,
+    new: &str,
+) -> StoreResult<()> {
+    query(
+        "UPDATE audit_log SET target = $2
+         WHERE lower(target) = lower($1) AND NOT (action = ANY($3))",
+    )
+    .bind(old)
+    .bind(new)
+    .bind(super::AUDIT_NOT_PLAYERS)
+    .execute(&mut **tx)
+    .await?;
+    Ok(())
 }

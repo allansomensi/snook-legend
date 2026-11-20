@@ -185,11 +185,35 @@ impl Shot {
 /// Something that happened during a shot. Used by the rules engine and for sound.
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
 pub enum Event {
-    BallBall { time: f64, a: BallId, b: BallId, speed: f64 },
-    Cushion { time: f64, ball: BallId, speed: f64 },
-    Slate { time: f64, ball: BallId, speed: f64 },
-    Pocketed { time: f64, ball: BallId, pocket: PocketId },
-    OffTable { time: f64, ball: BallId },
+    BallBall {
+        time: f64,
+        a: BallId,
+        b: BallId,
+        speed: f64,
+    },
+    /// `jaw`: only a pocket's jaw was touched (in its throat, past the
+    /// cushion's nose): no bank.
+    Cushion {
+        time: f64,
+        ball: BallId,
+        speed: f64,
+        #[serde(default)]
+        jaw: bool,
+    },
+    Slate {
+        time: f64,
+        ball: BallId,
+        speed: f64,
+    },
+    Pocketed {
+        time: f64,
+        ball: BallId,
+        pocket: PocketId,
+    },
+    OffTable {
+        time: f64,
+        ball: BallId,
+    },
 }
 
 impl Event {
@@ -666,6 +690,8 @@ impl Simulation {
         let contact_radius = (r * r - dh * dh).sqrt();
         let mut b = ball;
         let mut hit_speed: Option<f64> = None;
+        let mut rail = false;
+        let (hl, hw) = (self.table.spec.length / 2.0, self.table.spec.width / 2.0);
         for seg in &self.table.cushions {
             let c = b.position.truncate();
             let q = seg.closest_point(c);
@@ -705,10 +731,13 @@ impl Simulation {
             }
             b.motion = Motion::Sliding;
             hit_speed = Some(hit_speed.unwrap_or(0.0).max(-vn));
+            // The jaws run outward from the cushion lines (from the
+            // noses either side of a mouth).
+            rail |= q.x.abs() <= hl + 1e-9 && q.y.abs() <= hw + 1e-9;
         }
         self.balls[i] = b;
         if let Some(speed) = hit_speed {
-            self.events.push(Event::Cushion { time, ball: b.id, speed });
+            self.events.push(Event::Cushion { time, ball: b.id, speed, jaw: !rail });
         }
     }
 

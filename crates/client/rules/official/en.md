@@ -30,7 +30,7 @@ A ball made on a legal break keeps the table, but the table stays open: the brea
 Pocketing the 8 on the break neither wins nor loses: it comes back to the foot spot, and you play on or have the balls racked and break again. If you also fouled, your opponent chooses: the cue ball in hand behind the head string, or the balls racked again and they break.
 
 ### A ball off the table on the break
-It is a foul, and the ball stays off (only the 8 comes back). Your opponent plays the table as it lies or takes the cue ball in hand behind the head string.
+It is a foul, and the ball stays off (only the 8 comes back). Your opponent plays the table as it lies or takes the cue ball in hand behind the head string. If the break was illegal too, they may also have the balls racked again, as above.
 
 ## Calling and playing
 

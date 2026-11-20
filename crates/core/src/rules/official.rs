@@ -235,7 +235,7 @@ impl EightBallGame {
         let choice = if eight_down {
             Some(if foul { BreakChoice::EightOnFoulBreak } else { BreakChoice::EightOnBreak })
         } else if !legal {
-            Some(BreakChoice::IllegalBreak { scratch })
+            Some(BreakChoice::IllegalBreak { scratch, ball_off: !objects_off.is_empty() })
         } else if foul && !scratch {
             Some(BreakChoice::BallOffOnBreak)
         } else {
@@ -285,8 +285,8 @@ impl EightBallGame {
         match (choice, option) {
             (_, BreakOption::BreakAgain) => self.rerack(chooser),
             (_, BreakOption::OpponentBreaks) => self.rerack(1 - chooser),
-            (BreakChoice::IllegalBreak { scratch }, _) => {
-                if scratch {
+            (BreakChoice::IllegalBreak { scratch, .. }, _) => {
+                if scratch || option == BreakOption::CueBallInHand {
                     self.grant_hand(BallInHand::Kitchen);
                 }
             }

@@ -3119,7 +3119,7 @@ mod tests {
         let soft = Shot::new(m.game.default_aim(), 0.6);
         play(&mut m, soft);
         let choice = m.game.pending_choice().expect("an illegal break");
-        assert_eq!(choice, BreakChoice::IllegalBreak { scratch: false });
+        assert_eq!(choice, BreakChoice::IllegalBreak { scratch: false, ball_off: false });
         assert_eq!(m.game.current_player(), 1, "the incoming player decides");
         assert!(m.notices.iter().any(|n| n.text.contains("Illegal break")), "said");
         assert!(!m.shoot(), "no shot before the choice");

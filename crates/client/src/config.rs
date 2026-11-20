@@ -538,6 +538,12 @@ fn write_private(path: &std::path::Path, data: &[u8]) -> std::io::Result<()> {
     file.sync_all()
 }
 
+/// A number from the settings file, if it is one ("NaN" and "inf" parse,
+/// but no setting can take them: the default stays).
+fn finite(v: &str) -> Option<f32> {
+    v.parse::<f32>().ok().filter(|x| x.is_finite())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -652,10 +658,4 @@ mod tests {
         assert_eq!(bad.keys.get(Action::Shoot), Action::Shoot.defaults());
         assert_eq!(bad.keys.get(Action::Replay), [None, None]);
     }
-}
-
-/// A number from the settings file, if it is one ("NaN" and "inf" parse,
-/// but no setting can take them: the default stays).
-fn finite(v: &str) -> Option<f32> {
-    v.parse::<f32>().ok().filter(|x| x.is_finite())
 }

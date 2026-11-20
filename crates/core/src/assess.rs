@@ -69,7 +69,7 @@ pub fn assess(
             .unwrap_or(f64::MAX);
         events
             .iter()
-            .filter(|e| matches!(e, Event::Cushion { ball: b, time, .. } if *b == ball && *time < dropped))
+            .filter(|e| matches!(e, Event::Cushion { ball: b, time, jaw: false, .. } if *b == ball && *time < dropped))
             .count() as u32
     });
     let cut_deg = first_contact.and_then(|b| cut_angle(game, shot.yaw, b));

@@ -1423,7 +1423,7 @@ mod tests {
         assert_eq!(choose(&EightBallGame::new(1, 0, Rules::Official)), None);
         let mut g = EightBallGame::new(3, 0, Rules::Official);
         let report = g.play_shot(&Shot::new(g.default_aim(), 1.0), None).unwrap();
-        if report.choice == Some(BreakChoice::IllegalBreak { scratch: false }) {
+        if matches!(report.choice, Some(BreakChoice::IllegalBreak { scratch: false, .. })) {
             assert_eq!(choose(&g), Some(BreakOption::BreakAgain));
         }
     }

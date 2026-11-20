@@ -163,6 +163,22 @@ const MATCH_CHAT_KEEP: usize = 40;
 /// [`ClientMsg::SetActivity`]).
 const FOCUSED: &str =
     "That player is in focus mode and isn't taking invitations until their game is over.";
+/// How long a player's rate limits outlive their connection.
+const LIMITS_KEPT: Duration = Duration::from_secs(600);
+/// A session's rate limits: chat, invitations, lounge actions, reactions
+/// and the "looking for a game" board.
+type Limits = [Bucket; 5];
+
+fn fresh_limits() -> Limits {
+    [
+        Bucket::new(5.0, 0.8),
+        Bucket::new(6.0, 0.2),
+        Bucket::new(ACTION_BURST, ACTION_RATE),
+        Bucket::new(3.0, 0.5),
+        Bucket::new(social::SEEK_BURST, social::SEEK_RATE),
+    ]
+}
+
 /// Opening and closing tables, tournaments and the queue are announced to
 /// the whole lounge: a dozen at once, then one a second (a person clicking
 /// never gets near it; a script can't flood everyone through it).
@@ -215,6 +231,16 @@ pub struct Session {
 }
 
 impl Session {
+    fn limits(&self) -> Limits {
+        [
+            self.chat_bucket.clone(),
+            self.invite_bucket.clone(),
+            self.action_bucket.clone(),
+            self.reaction_bucket.clone(),
+            self.seek_bucket.clone(),
+        ]
+    }
+
     /// The player's rating under the rules they play now (none for a guest).
     fn shown_rating(&self) -> i32 {
         if self.guest { 0 } else { self.user.records.get(self.rules).rating }
@@ -343,6 +369,9 @@ pub struct Lounge {
     seeks: social::Seeks,
     /// (player, table or tournament) -> wrong passwords given, since when.
     password_misses: HashMap<(String, u64), (u32, Instant)>,
+    /// The rate limits of players who left a moment ago, since when:
+    /// signing in again doesn't fill them up (see [`LIMITS_KEPT`]).
+    left_limits: HashMap<String, (Limits, Instant)>,
     /// Who wrote each lounge chat line (its number -> the account's id):
     /// hidden from those who blocked them, online or not.
     chat_authors: HashMap<u64, i64>,
@@ -639,6 +668,12 @@ impl Lounge {
         blocked: HashSet<i64>,
     ) {
         let k = key(&user.username);
+        // Signing in again (or from somewhere else) keeps the limits.
+        let limits = match self.sessions.get(&k) {
+            Some(s) => s.limits(),
+            None => self.left_limits.remove(&k).map_or_else(fresh_limits, |(l, _)| l),
+        };
+        let [chat_bucket, invite_bucket, action_bucket, reaction_bucket, seek_bucket] = limits;
         if self.sessions.contains_key(&k) {
             // Signed in again from somewhere else: whatever the old connection
             // had going in the lounge (an open table, a place in the queue,
@@ -683,18 +718,18 @@ impl Lounge {
                 room,
                 table: None,
                 blocked,
-                chat_bucket: Bucket::new(5.0, 0.8),
+                chat_bucket,
                 last_chat: String::new(),
                 repeats: 0,
-                invite_bucket: Bucket::new(6.0, 0.2),
-                action_bucket: Bucket::new(ACTION_BURST, ACTION_RATE),
+                invite_bucket,
+                action_bucket,
                 last_aim: None,
                 achievements: Vec::new(),
-                reaction_bucket: Bucket::new(3.0, 0.5),
+                reaction_bucket,
                 watching: None,
                 watching_tv: false,
                 look: Look::default(),
-                seek_bucket: Bucket::new(social::SEEK_BURST, social::SEEK_RATE),
+                seek_bucket,
                 vs_computer: false,
                 away: false,
                 focus: false,
@@ -755,6 +790,7 @@ impl Lounge {
         self.queue.retain(|q| q.key != k);
         self.drop_seek(&k);
         let session = self.sessions.remove(&k).expect("checked");
+        self.left_limits.insert(k.clone(), (session.limits(), Instant::now()));
         if let Some(id) = session.room
             && let Some(room) = self.rooms.get_mut(&id)
         {
@@ -888,6 +924,9 @@ impl Lounge {
         }
         let name = user.username.clone();
         self.leave(old, conn_id);
+        if let Some(limits) = self.left_limits.remove(&old_k) {
+            self.left_limits.insert(new_k.clone(), limits);
+        }
         self.join(conn_id, user, guest, rules, tx, kill, token, ip, blocked);
         self.set_achievements(&name, achievements);
         self.set_look(&name, look);
@@ -2915,6 +2954,7 @@ impl Lounge {
         }
         self.codes.retain(|_, (_, at)| at.elapsed() < CODE_LIFETIME);
         self.password_misses.retain(|_, (_, since)| since.elapsed() < PASSWORD_LOCKOUT);
+        self.left_limits.retain(|_, (_, at)| at.elapsed() < LIMITS_KEPT);
         for (id, seat) in finished {
             self.finish(id);
             // The player who left is gone: close their side of the room (not
@@ -3213,6 +3253,14 @@ impl Lounge {
         // not coming back).
         for k in &keys {
             if self.sessions.contains_key(k) {
+                // Whatever they had going in the lounge ends (a table someone
+                // could sit down at, the queue, invitations, a game being
+                // watched): they are at this table now.
+                self.close_table_of(k);
+                self.drop_invites_of(k);
+                self.stop_watching(k);
+                self.queue.retain(|q| q.key != *k);
+                self.drop_seek(k);
                 self.leave_finished(k);
                 if let Some(s) = self.sessions.get_mut(k) {
                     s.room = Some(id);

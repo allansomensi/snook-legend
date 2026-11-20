@@ -286,6 +286,9 @@ fn cooldown_message(left: Duration) -> String {
 #[derive(Default)]
 pub struct Lounge {
     pub settings: Settings,
+    /// Games finished here, and when: their saved copy may still be on its
+    /// way out of the database, and must not be played again from it.
+    finished_rooms: HashMap<u64, Instant>,
     sessions: HashMap<String, Session>,
     /// (from, to) -> the game offered, lower-case names.
     invites: HashMap<(String, String), Offer>,
@@ -2689,6 +2692,7 @@ impl Lounge {
         let room = self.rooms.get_mut(&id).expect("room");
         room.finished = true;
         room.ended = Some(Instant::now());
+        self.finished_rooms.insert(id, Instant::now());
         room.rematch = [false, false];
         // Show the new numbers at once; the database catches up.
         for (seat, k) in keys.iter().enumerate() {
@@ -2816,6 +2820,8 @@ impl Lounge {
         }
         self.expire_seeks();
         let nowi = Instant::now();
+        // A saved game is gone from the database within a day at most.
+        self.finished_rooms.retain(|_, at| nowi.duration_since(*at) < Duration::from_secs(86_400));
         let grace = self.settings.reconnect_grace;
         let mut finished = Vec::new();
         let mut timeouts = Vec::new();
@@ -3050,6 +3056,11 @@ impl Lounge {
 
     pub fn has_room(&self, id: u64) -> bool {
         self.rooms.contains_key(&id)
+    }
+
+    /// The game `id` was finished here (its saved copy is stale).
+    pub fn was_finished(&self, id: u64) -> bool {
+        self.finished_rooms.contains_key(&id)
     }
 
     pub fn is_draining(&self) -> bool {

@@ -123,8 +123,12 @@ impl EightBallGame {
             Some(g) => g.contains(b),
             None => Group::of(b).is_some(),
         };
+        // A shooter on an open table who played the 8 (their group off the
+        // table) shot at the 8: a ball of the other group made with it is
+        // not theirs to take.
+        let at_eight_open = shooting_eight && self.groups[shooter].is_none();
         let made_call = match call {
-            Some(c) if game_over.is_none() && fouls.is_empty() => {
+            Some(c) if game_over.is_none() && fouls.is_empty() && !at_eight_open => {
                 facts.pocketed.iter().find(|(b, p)| *p == c && callable(*b)).map(|(b, _)| *b)
             }
             _ => None,

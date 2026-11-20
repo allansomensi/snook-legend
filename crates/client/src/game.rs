@@ -750,6 +750,12 @@ impl Match {
         self.last_report = None;
         self.win_effect = None;
         self.notices.clear();
+        // The game as it was then: not won yet, its history up to here
+        // (the strokes played again tell it again), no run going.
+        self.wins = [0, 0];
+        self.games_played = 0;
+        self.log.clear();
+        self.visit_run = (0, 0);
         self.begin_turn();
     }
 
@@ -761,6 +767,13 @@ impl Match {
         if let Some(o) = &self.opponent {
             self.controllers[1] =
                 Controller::Computer(snook_legend_proto::ladder::cup_form(&o.player()));
+        }
+        // The computer may be thinking already (its break, or a game picked
+        // up on its turn) with its usual form: it thinks again, in the cup's.
+        if matches!(self.phase, Phase::Turn { .. })
+            && matches!(self.current_controller(), Controller::Computer(_))
+        {
+            self.begin_turn();
         }
     }
 
@@ -1726,6 +1739,11 @@ impl Match {
         let text = time_foul_text(before, &self.game, &who, &other);
         self.notify(text, true);
         let Some(over) = self.game.game_over() else { return false };
+        // Counted here, as a shot that ends the game is (online too: the
+        // server's result that follows finds the game over already).
+        self.wins[over.winner] += 1;
+        self.games_played += 1;
+        self.replay = None;
         let winner = self.names[over.winner].clone();
         let how = crate::i18n::result_line(over.reason, &winner, &self.names[1 - over.winner]);
         self.notify(tw("{winner} wins! ({how})", &[("winner", &winner), ("how", &how)]), true);

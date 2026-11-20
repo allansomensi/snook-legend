@@ -501,7 +501,12 @@ fn judge(before: &EightBallGame, shot: &Shot, t: &Trace, report: &ShotReport) ->
     let cue = start(BallId::CUE);
     // The ball that went (or should have gone) in, its pocket, how far it
     // had to go and whether it went off a cushion.
-    let potted = report.pocketed.iter().find(|(b, _)| b.is_object()).copied();
+    // The target if it went in, else the ball it sent on, else the first
+    // ball down (a kissed ball dropping first is not the shot's).
+    let down = |id: BallId| report.pocketed.iter().find(|(b, _)| *b == id).copied();
+    let potted = down(target)
+        .or_else(|| t.second.and_then(|(id, _)| down(id)))
+        .or_else(|| report.pocketed.iter().find(|(b, _)| b.is_object()).copied());
     let (ball, pocket, run, banked) = match potted {
         Some((ball, pocket)) => {
             let to_pocket = before.table().pocket(pocket).mouth_center - start(ball);

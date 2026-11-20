@@ -389,7 +389,12 @@ impl Hud {
 
         // The pause menu and the list of controls are modal: nothing behind
         // them reacts to the pointer (they are drawn last, with input back).
-        let modal = (self.paused || self.report.is_some()).then(|| ui.suspend_input());
+        // Nor the keyboard: the keys of what is under them (the break's
+        // choice, taking a shot back, the replay's arrows) wait.
+        let modal = (self.paused || self.report.is_some()).then(|| {
+            let keyboard = std::mem::replace(&mut ui.wants_keyboard, true);
+            (ui.suspend_input(), keyboard)
+        });
 
         if !ui.wants_keyboard && !self.modal_open() && keys::pressed(Action::Replay) {
             if m.replay.is_some() {
@@ -885,6 +890,8 @@ impl Hud {
             }
         } else if let (Phase::GameOver, Some(over), None) =
             (&m.phase, m.game.game_over(), &m.replay)
+            && m.drill.is_none()
+            && m.daily.is_none()
         {
             let all_computers = m.controllers.iter().all(|c| matches!(c, Controller::Computer(_)));
             let title = tw("{name} wins!", &[("name", &m.names[over.winner])]);
@@ -913,7 +920,8 @@ impl Hud {
             );
             let score = format!("{}  {} – {}  {}", m.names[0], m.wins[0], m.wins[1], m.names[1]);
             ui.text_centered(&score, sw / 2.0, r.y + 88.0, 16.0, CREAM, true);
-            if all_computers {
+            // (A stored game being watched ends there.)
+            if all_computers && m.video.is_none() {
                 ui.text_centered(
                     t("Next game starts in a moment…"),
                     sw / 2.0,
@@ -966,8 +974,9 @@ impl Hud {
         if replay_now {
             m.start_replay();
         }
-        if let Some(saved) = modal {
+        if let Some((saved, keyboard)) = modal {
             ui.resume_input(saved);
+            ui.wants_keyboard = keyboard;
         }
         // The report dialog, over everything (its input is its own).
         if let Some(dialog) = self.report.as_mut() {
@@ -1102,7 +1111,12 @@ impl Hud {
             }
             y += BH + GAP;
             let my_turn = m.current_controller() == Controller::Human;
-            let can_resign = m.game.game_over().is_none() && (online || my_turn);
+            // Not in a drill or the daily challenge: they end with their
+            // own panel (and are left from the menu).
+            let can_resign = m.game.game_over().is_none()
+                && (online || my_turn)
+                && m.drill.is_none()
+                && m.daily.is_none();
             if ui.button(Rect::new(bx, y, bw, BH), t("Resign this game"), can_resign) {
                 m.resign();
                 self.paused = false;

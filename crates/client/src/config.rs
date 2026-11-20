@@ -380,12 +380,10 @@ impl Config {
                 "opponent_talk" => c.opponent_talk = v != "false",
                 "top_view_only" => c.top_view_only = v == "true",
                 "avatar" if snook_legend_proto::valid_avatar(v) => c.avatar = v.to_string(),
-                "ui_size" => {
-                    c.ui_size = v.parse::<f32>().map(|x| x.clamp(0.7, 1.5)).unwrap_or(c.ui_size)
-                }
+                "ui_size" => c.ui_size = finite(v).map(|x| x.clamp(0.7, 1.5)).unwrap_or(c.ui_size),
                 "aim_sensitivity" => {
                     c.aim_sensitivity =
-                        v.parse::<f32>().map(|x| x.clamp(0.3, 2.5)).unwrap_or(c.aim_sensitivity)
+                        finite(v).map(|x| x.clamp(0.3, 2.5)).unwrap_or(c.aim_sensitivity)
                 }
                 "quality" => c.quality = Quality::parse(v).unwrap_or(c.quality),
                 "msaa" => {
@@ -393,9 +391,7 @@ impl Config {
                         v.parse::<i32>().ok().filter(|n| [1, 2, 4, 8].contains(n)).unwrap_or(c.msaa)
                 }
                 "fullscreen" => c.fullscreen = v == "true",
-                "volume" => {
-                    c.volume = v.parse::<f32>().map(|x| x.clamp(0.0, 1.0)).unwrap_or(c.volume)
-                }
+                "volume" => c.volume = finite(v).map(|x| x.clamp(0.0, 1.0)).unwrap_or(c.volume),
                 "server" if !v.is_empty() && v != OLD_DEFAULT_SERVER => c.server = v.to_string(),
                 "username" => c.username = v.to_string(),
                 "token" => c.token = v.to_string(),
@@ -656,4 +652,10 @@ mod tests {
         assert_eq!(bad.keys.get(Action::Shoot), Action::Shoot.defaults());
         assert_eq!(bad.keys.get(Action::Replay), [None, None]);
     }
+}
+
+/// A number from the settings file, if it is one ("NaN" and "inf" parse,
+/// but no setting can take them: the default stays).
+fn finite(v: &str) -> Option<f32> {
+    v.parse::<f32>().ok().filter(|x| x.is_finite())
 }

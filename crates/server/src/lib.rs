@@ -2250,14 +2250,26 @@ async fn restore_live(server: &Arc<Server>, user: &User) {
     if server.with(|l| l.has_room(live.id as u64)) {
         return;
     }
+    // Finished here already (its result recorded), the copy not deleted
+    // yet: it is not played again.
+    if server.with(|l| l.was_finished(live.id as u64)) {
+        let _ = server.store.delete_live(live.id).await;
+        return;
+    }
     let other = if live.players[0] == user.id { live.players[1] } else { live.players[0] };
     let (a, b) = tokio::join!(
         server.store.user_by_id(live.players[0]),
         server.store.user_by_id(live.players[1])
     );
-    let (Ok(Some(a)), Ok(Some(b))) = (a, b) else {
-        let _ = server.store.delete_live(live.id).await;
-        return;
+    let (a, b) = match (a, b) {
+        (Ok(Some(a)), Ok(Some(b))) => (a, b),
+        // A player gone for good: the game can't go on.
+        (Ok(None), _) | (_, Ok(None)) => {
+            let _ = server.store.delete_live(live.id).await;
+            return;
+        }
+        // The database didn't answer: the game is kept for the next try.
+        _ => return,
     };
     let replay = live.replay.clone();
     let rebuilt = tokio::task::spawn_blocking(move || lounge::Rebuilt::from(&replay)).await;

@@ -966,6 +966,8 @@ impl Online {
                     self.conn = None;
                     self.authed = false;
                     self.queue = None;
+                    // The server drops a session's invitations and table.
+                    self.forget_invitations();
                     // Nothing asked on that connection will be answered.
                     self.drill_starts = 0;
                     let was_in = self.signed_in();
@@ -1039,8 +1041,32 @@ impl Online {
         if !plausible(&msg) {
             return save;
         }
+        // On the local network the host is anyone: it has no say in the
+        // player's purchases, wallet or settings (a payment page from it
+        // could be anything).
+        if self.lan
+            && matches!(
+                msg,
+                ServerMsg::PaymentPage { .. }
+                    | ServerMsg::Wallet { .. }
+                    | ServerMsg::ShopInfo { .. }
+                    | ServerMsg::StoreTicket { .. }
+                    | ServerMsg::StoreRedeemed { .. }
+            )
+        {
+            return save;
+        }
         match msg {
             ServerMsg::AuthOk { player, token } => {
+                // Another account than the last one: nothing of that one's
+                // stays (its e-mail, wallet, offers, warnings, profile).
+                if !self.username.eq_ignore_ascii_case(&player.username) {
+                    self.forget_account();
+                }
+                // A new session: no invitation or code of the last one is
+                // still valid, and the server says again if it restarts.
+                self.forget_invitations();
+                self.draining = None;
                 self.outdated = false;
                 self.authed = true;
                 // The server says it next (a server that knows it).
@@ -1058,7 +1084,7 @@ impl Online {
                 // What the hello said.
                 self.rules_sent = Some(player.rules);
                 self.me = Some(player);
-                if !account_picture.is_empty() {
+                if !account_picture.is_empty() && !self.lan {
                     crate::avatars::set_mine(&account_picture);
                     config.avatar = account_picture;
                     save = true;
@@ -1080,7 +1106,8 @@ impl Online {
                     self.token = token.clone();
                     config.username = self.username.clone();
                     config.token = token;
-                    config.server = self.server.clone();
+                    // (The server in the settings is the player's: one
+                    // changed there while signed in stays changed.)
                     config.token_server = self.server.clone();
                     save = true;
                     self.send(ClientMsg::Friends);
@@ -1151,6 +1178,7 @@ impl Online {
                 // Signed in elsewhere, banned, or disconnected by the staff:
                 // don't fight over the account by reconnecting.
                 self.auto_resume = false;
+                self.forget_invitations();
                 self.me = None;
                 self.held.borrow_mut().clear();
                 self.authed = false;
@@ -1456,6 +1484,20 @@ impl Online {
                 self.age = Some(AgeState { minor, chat_allowed });
                 if !self.chat_off() {
                     self.send_pending_text();
+                } else {
+                    // What came before the age (the lounge, the board, the
+                    // friends, sent as the session began) is cleaned now.
+                    let me = self.username.clone();
+                    let other = |n: &str| !n.eq_ignore_ascii_case(&me);
+                    for p in self.players.iter_mut().filter(|p| other(&p.username)) {
+                        p.status_message.clear();
+                    }
+                    for f in self.friends.friends.iter_mut().filter(|f| other(&f.player.username)) {
+                        f.player.status_message.clear();
+                    }
+                    for n in self.social.seeks.iter_mut().filter(|n| other(&n.username)) {
+                        n.text.clear();
+                    }
                 }
             }
             ServerMsg::Account { recovery_email, payment_email, name_changes_left } => {
@@ -1742,6 +1784,26 @@ impl Online {
         self.send(ClientMsg::LeaveMatch);
     }
 
+    /// Invitations to and from this player, and the code of their table:
+    /// the server drops them when the session ends.
+    fn forget_invitations(&mut self) {
+        self.incoming.clear();
+        self.outgoing = None;
+        self.invite_code = None;
+    }
+
+    /// What belongs to the account signed in: forgotten when another one
+    /// signs in (or no one is).
+    fn forget_account(&mut self) {
+        self.forget_invitations();
+        self.account = None;
+        self.email_offer = None;
+        self.offer_password.clear();
+        self.wallet = None;
+        self.staff_warnings.clear();
+        self.profile = None;
+    }
+
     pub fn logout(&mut self, config: &mut Config) {
         self.send(ClientMsg::Logout);
         self.conn = None;
@@ -1755,6 +1817,8 @@ impl Online {
         self.corr = Default::default();
         self.social = Default::default();
         self.gifts = Default::default();
+        self.forget_account();
+        self.draining = None;
         // The next account checks its own Store purchases.
         self.store_shop.signed_out();
         config.token.clear();
@@ -2786,14 +2850,17 @@ impl Online {
             log_top += mh + 8.0;
         }
         // The server is about to restart (drawn under the events).
-        let restart = self.draining.map(|until| {
-            let left = until.saturating_duration_since(std::time::Instant::now()).as_secs();
-            let text = tw(
-                "The server restarts in {m}:{s} for an update. Games in progress go on.",
-                &[("m", &(left / 60)), ("s", &format!("{:02}", left % 60))],
-            );
-            ui.wrap(&text, inner_w - 20.0, 13.0)
-        });
+        // (Gone once the time is up: the next session says it again if the
+        // server is still on its way out.)
+        let restart =
+            self.draining.filter(|until| *until > std::time::Instant::now()).map(|until| {
+                let left = until.saturating_duration_since(std::time::Instant::now()).as_secs();
+                let text = tw(
+                    "The server restarts in {m}:{s} for an update. Games in progress go on.",
+                    &[("m", &(left / 60)), ("s", &format!("{:02}", left % 60))],
+                );
+                ui.wrap(&text, inner_w - 20.0, 13.0)
+            });
         // What goes under the events: the restart notice, the featured game
         // and the chat's field. An event card is left out when the chat (or
         // the missions, the board) would keep less than this.
@@ -3870,6 +3937,8 @@ impl Online {
                     ui.button(open_r, open_label, false)
                 };
                 if open {
+                    // A new table: the code of an earlier one is no more.
+                    self.invite_code = None;
                     let password = self.table_private.then(|| self.table_password.clone());
                     self.send(ClientMsg::OpenTable {
                         rated: self.rated_games && !self.lan,
@@ -3883,6 +3952,7 @@ impl Online {
                     && ui.button(code_r, code_label, true)
                 {
                     let (rated, rules) = (self.rated_games, self.rules);
+                    self.invite_code = None;
                     self.send(ClientMsg::CreateInviteCode { rated, rules });
                 }
                 y += 36.0 + 12.0;
@@ -5043,6 +5113,9 @@ fn hide_players_text(msg: &mut ServerMsg, me: &str) {
         ServerMsg::NewGifts { gifts } | ServerMsg::Gifts { gifts } => {
             gifts.iter_mut().filter(|g| other(&g.from)).for_each(|g| g.message.clear())
         }
+        ServerMsg::Friends { friends, .. } => {
+            friends.iter_mut().for_each(|f| player(&mut f.player))
+        }
         _ => {}
     }
 }
@@ -5121,8 +5194,15 @@ fn plausible(msg: &ServerMsg) -> bool {
         ServerMsg::ShotResult { report, .. } => {
             report.shooter < 2 && report.game_over.is_none_or(|g| g.winner < 2)
         }
+        // A bracket's winner is one of its match's two players.
+        ServerMsg::Tournaments { tournaments } => tournaments.iter().all(sound_bracket),
+        ServerMsg::TournamentUpdated { tournament } => sound_bracket(tournament),
         _ => true,
     }
+}
+
+fn sound_bracket(t: &snook_legend_proto::TournamentInfo) -> bool {
+    t.rounds.iter().flatten().all(|m| m.winner.is_none_or(|w| w < 2))
 }
 
 #[cfg(test)]

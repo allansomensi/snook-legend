@@ -588,9 +588,27 @@ async fn user_detail(
             })
         })
         .collect();
-    // E-mails, payments and sign-in addresses are for administrators.
+    // E-mails, payments and sign-in addresses are for administrators: so
+    // are the wallet's Stripe customer and the payment references in the
+    // ledger.
     let moderation: Vec<crate::store::AuditRow> =
         moderation.into_iter().map(|e| private_audit(e, admin)).collect();
+    let wallet = wallet.map(|mut w| {
+        if !admin {
+            w.stripe_customer = None;
+        }
+        w
+    });
+    let ledger = ledger.map(|rows| {
+        rows.into_iter()
+            .map(|mut l| {
+                if !admin {
+                    l.reference = None;
+                }
+                l
+            })
+            .collect::<Vec<_>>()
+    });
     Ok(Json(json!({
         "user": private_for(user_json(&u, online), admin),
         "history": history,
@@ -918,7 +936,9 @@ async fn user_action(
     }
     let fresh = find(&server, &target.username).await?;
     let online = server.with(|l| l.is_online(&fresh.username));
-    Ok(Json(json!({ "ok": true, "user": user_json(&fresh, online) })))
+    // The recovery e-mail is for administrators (as on the player's page).
+    let user = private_for(user_json(&fresh, online), s.user.role == Role::Admin);
+    Ok(Json(json!({ "ok": true, "user": user })))
 }
 
 /// Reloads an online player's account into the lounge.
@@ -1040,8 +1060,21 @@ async fn audit(
     let entries = server.store.audit_search(&search, AUDIT_PAGE).await?;
     let next =
         (entries.len() == AUDIT_PAGE as usize).then(|| entries.last().map(|e| e.id)).flatten();
-    let entries: Vec<crate::store::AuditRow> =
-        entries.into_iter().map(|e| private_audit(e, admin)).collect();
+    // A moderator's words don't search the addresses of sign-ins (they
+    // would spell them out letter by letter): such an entry is found only
+    // by its staff member or target.
+    let q = search.q.to_lowercase();
+    let entries: Vec<crate::store::AuditRow> = entries
+        .into_iter()
+        .filter(|e| {
+            admin
+                || q.is_empty()
+                || e.action != "login"
+                || e.staff.to_lowercase().contains(&q)
+                || e.target.to_lowercase().contains(&q)
+        })
+        .map(|e| private_audit(e, admin))
+        .collect();
     Ok(Json(json!({ "entries": entries, "next": next })))
 }
 

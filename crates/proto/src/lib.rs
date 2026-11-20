@@ -157,12 +157,15 @@ pub const MAX_NAME_CHANGES: u32 = 3;
 /// The longest password, in bytes (the hashing limit).
 pub const MAX_PASSWORD_BYTES: usize = 72;
 
-/// Password rules: 8–72 bytes (the hashing limit), any characters, not
-/// made only of digits or of one repeated character.
+/// Password rules: at least 8 characters (counted as characters, not
+/// bytes: "çãõé" is four) and at most 72 bytes (the hashing limit), any
+/// characters, not made only of digits (of any script) or of one repeated
+/// character.
 pub fn valid_password(password: &str) -> bool {
     let first = password.chars().next();
-    (8..=MAX_PASSWORD_BYTES).contains(&password.len())
-        && !password.chars().all(|c| c.is_ascii_digit())
+    password.chars().count() >= 8
+        && password.len() <= MAX_PASSWORD_BYTES
+        && !password.chars().all(|c| c.is_numeric())
         && !password.chars().all(|c| Some(c) == first)
 }
 
@@ -344,16 +347,20 @@ fn joined(s: &[char], k: usize) -> bool {
 /// have (a name or a line made only of them looks empty).
 fn is_invisible(c: char) -> bool {
     matches!(c,
-        '\u{200B}'..='\u{200F}' | '\u{202A}'..='\u{202E}' | '\u{2060}'..='\u{2069}'
-        | '\u{FEFF}' | '\u{00AD}' | '\u{034F}' | '\u{180E}'
-        // The Arabic letter mark, Mongolian variation selectors.
-        | '\u{061C}' | '\u{180B}'..='\u{180D}'
+        '\u{200B}'..='\u{200F}' | '\u{202A}'..='\u{202E}' | '\u{2060}'..='\u{206F}'
+        | '\u{FEFF}' | '\u{00AD}' | '\u{034F}'
+        // The Arabic letter mark, Mongolian variation selectors and vowel
+        // separator.
+        | '\u{061C}' | '\u{180B}'..='\u{180F}'
         // Hangul fillers and the braille blank.
         | '\u{115F}' | '\u{1160}' | '\u{3164}' | '\u{FFA0}' | '\u{2800}'
         // Khmer's inherent vowels, shorthand format controls.
         | '\u{17B4}' | '\u{17B5}' | '\u{1BCA0}'..='\u{1BCA3}'
         // Variation selectors, interlinear annotations, musical formatting.
-        | '\u{FE00}'..='\u{FE0F}' | '\u{FFF9}'..='\u{FFFB}' | '\u{1D173}'..='\u{1D17A}'
+        | '\u{FE00}'..='\u{FE0F}' | '\u{FFF9}'..='\u{FFFB}' | '\u{1D159}'
+        | '\u{1D173}'..='\u{1D17A}'
+        // Egyptian hieroglyph format controls.
+        | '\u{13430}'..='\u{1343F}'
         // Tags and the supplementary variation selectors.
         | '\u{E0000}'..='\u{E007F}' | '\u{E0100}'..='\u{E01EF}')
 }
@@ -2187,6 +2194,13 @@ mod tests {
         assert!(!valid_password("short1"));
         assert!(!valid_password("12345678"));
         assert!(!valid_password("aaaaaaaa"));
+        // Characters, not bytes: four accented letters or three CJK
+        // characters are too short; digits of any script are only digits.
+        assert!(!valid_password("çãõé"));
+        assert!(!valid_password("日本語"));
+        assert!(!valid_password("１２３４５６７８"));
+        assert!(valid_password("çãõéçãõé"));
+        assert!(!valid_password(&"é".repeat(37)), "74 bytes");
     }
 
     #[test]
@@ -2200,6 +2214,7 @@ mod tests {
         assert_eq!(clean_chat("o\u{E0041}\u{061C}k\u{FE0F}"), "ok");
         assert_eq!(clean_chat("good\ngame\r\n\tall"), "good game all");
         assert_eq!(clean_chat("\u{17B4}\u{17B5}\u{1BCA0}\u{1BCA3}"), "");
+        assert_eq!(clean_chat("\u{206A}\u{206B}\u{206F}\u{180F}\u{1D159}\u{13430}"), "");
         assert_eq!(clean_text("Copa da Ana", MAX_NAME_LEN), "Copa da Ana");
     }
 

@@ -234,6 +234,13 @@ fn impossible_snapshots_are_refused() {
     broken(&|v| v["game_over"] = serde_json::json!({ "winner": 5, "reason": "Resignation" }));
     broken(&|v| v["balls"][3]["motion"] = "Rolling".into());
     broken(&|v| v["balls"][0]["status"] = serde_json::json!({ "Pocketed": "FootLeft" }));
+    // The 8 gone while the game goes on, and groups that don't go together.
+    broken(&|v| v["balls"][8]["status"] = serde_json::json!({ "Pocketed": "FootLeft" }));
+    broken(&|v| v["groups"] = serde_json::json!(["Solids", null]));
+    broken(&|v| v["groups"] = serde_json::json!(["Solids", "Solids"]));
+    let mut v = good.clone();
+    v["groups"] = serde_json::json!(["Stripes", "Solids"]);
+    assert!(read(&v).is_ok());
     // The same cue ball is fine once the game is over (a scratch on the 8).
     let mut v = good.clone();
     v["balls"][0]["status"] = serde_json::json!({ "Pocketed": "FootLeft" });
@@ -1072,6 +1079,22 @@ fn a_clock_that_runs_out_sends_the_cue_ball_back_to_the_head_spot() {
     assert_eq!(g.game_over(), Some(GameOver { winner: 0, reason: GameOverReason::Abandoned }));
     assert!(g.time_foul().is_empty());
     assert_eq!(g.current_player(), 1, "no changes after the game ended");
+}
+
+/// The ball paid lay on the head spot: it comes off first, and the cue
+/// ball goes onto the spot it left free.
+#[test]
+fn a_clock_pays_before_the_cue_ball_goes_back() {
+    let spot = EightBallGame::new(3, 0, Rules::Brazilian).table.head_spot();
+    let mut g = house(&[
+        (0, DVec2::new(0.4, 0.2)),
+        (2, spot),
+        (5, DVec2::new(0.6, -0.3)),
+        (12, DVec2::new(0.0, -0.4)),
+        (8, DVec2::new(-0.2, -0.3)),
+    ]);
+    assert_eq!(g.time_foul(), vec![BallId(2)]);
+    assert_eq!(g.ball(BallId::CUE).xy(), spot);
 }
 
 /// With the groups decided, a clock that runs out gives the opponent

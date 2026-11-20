@@ -487,7 +487,8 @@ impl TryFrom<GameData> for EightBallGame {
     /// could be in (a ball missing or out of order, a third player, a ball
     /// still rolling, no cue ball while the game goes on, a choice the
     /// Brazilian rules never ask for) would make the game index out of
-    /// bounds, or find nothing to strike, later on: it is refused here
+    /// bounds, or find nothing to strike, or never end, later on: it is
+    /// refused here
     /// instead. Every snapshot a game writes passes.
     fn try_from(d: GameData) -> Result<Self, Self::Error> {
         if d.balls.len() != 16 || d.balls.iter().enumerate().any(|(i, b)| b.id.index() != i) {
@@ -512,6 +513,16 @@ impl TryFrom<GameData> for EightBallGame {
         }
         if d.choice.is_some() && (d.rules != Rules::Official || d.game_over.is_some()) {
             return Err("only an official game going on waits for a choice");
+        }
+        // The 8 off the table ends the game (or is spotted at once).
+        if d.game_over.is_none() && !d.balls[BallId::EIGHT.index()].in_play() {
+            return Err("the 8 is off the table and the game goes on");
+        }
+        // The groups are decided for both players at once.
+        match d.groups {
+            [None, None] => {}
+            [Some(a), Some(b)] if b == a.opposite() => {}
+            _ => return Err("the players' groups don't go together"),
         }
         Ok(EightBallGame {
             table: Table::default(),
@@ -974,7 +985,8 @@ impl EightBallGame {
                 self.ball_in_hand = Some(BallInHand::Kitchen);
             }
             Rules::Brazilian => {
-                self.return_cue_ball();
+                // The ball paid first: the cue ball goes to the head spot
+                // it may have left free.
                 if let Some(g) = self.groups[opponent] {
                     paid = self.pay_penalty(g, 1);
                 }
@@ -982,16 +994,18 @@ impl EightBallGame {
                     self.end_with(opponent, GameOverReason::EightPocketedOnFoul);
                     return paid;
                 }
+                self.return_cue_ball();
+            }
+            Rules::Official if self.is_break => {
+                self.respot_cue_ball();
+                self.ball_in_hand = Some(BallInHand::Kitchen);
             }
             Rules::Official => {
-                if !self.ball(BallId::CUE).in_play() {
-                    self.return_cue_ball();
-                }
-                self.ball_in_hand =
-                    Some(if self.is_break { BallInHand::Kitchen } else { BallInHand::Anywhere });
-                if self.is_break {
-                    self.respot_cue_ball();
-                }
+                // In hand for the opponent, from a place it may be played
+                // from (as after any foul).
+                self.current = opponent;
+                self.grant_hand(BallInHand::Anywhere);
+                return paid;
             }
         }
         self.current = opponent;

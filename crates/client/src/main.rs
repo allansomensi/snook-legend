@@ -69,7 +69,7 @@ mod versus;
 mod whatsnew;
 
 use macroquad::prelude::*;
-use snook_legend_core::{Difficulty, Rules, Table};
+use snook_legend_core::{BallId, Difficulty, Rules, Table};
 
 use crate::camera::{CameraMode, CameraRig};
 use crate::config::Config;
@@ -329,6 +329,8 @@ async fn main() {
     // waits for the player to say which one (the new one takes the save's
     // place).
     let mut replace_save: Option<MatchSettings> = None;
+    // The new game asked for is a tournament's (it begins the round).
+    let mut replace_cup = false;
     // The online match came from the LAN game (not the global server).
     let mut match_from_lan = false;
     let mut screen = Screen::Menu;
@@ -481,6 +483,14 @@ async fn main() {
         let dt = get_frame_time().min(0.1);
         ui::update_scale(config.ui_size);
         ui.begin();
+        // The chat's dialog (drawn near the end, over any screen or game)
+        // holds the keyboard too: no Esc, Space or arrow reaches the game,
+        // the HUD or the screen under it. It gets it back to draw itself.
+        let chat_dialog = online.chat_dialog_open && !settings_open;
+        if chat_dialog {
+            ui.focus = Some(CHAT_DIALOG_FOCUS);
+            ui.wants_keyboard = true;
+        }
         // Under the invitations' cards (drawn last, over everything) nothing
         // drawn before them takes the pointer: one click answers the card
         // only.
@@ -982,9 +992,7 @@ async fn main() {
                     showroom.as_ref().filter(|_| in_showroom).and_then(|s| s.cue_on_table(&config))
                 {
                     // The cue lined up behind the cue ball.
-                    if let Some(ball) =
-                        menu_rack.iter().find(|b| b.id == snook_legend_core::BallId::CUE)
-                    {
+                    if let Some(ball) = menu_rack.iter().find(|b| b.id == BallId::CUE) {
                         let params = snook_legend_core::PhysicsParams::default();
                         let pose = scene.cue_pose(
                             &params,
@@ -1085,8 +1093,10 @@ async fn main() {
         // first, given back last.
         let chat_saved = (!settings_open && online.chat_dialog_open).then(|| ui.suspend_input());
         let ask_saved = ask_rules.then(|| ui.suspend_input());
-        let invite_saved = inviting.then(|| ui.suspend_input());
+        // The offer before the invitation: drawn over it, it is given the
+        // pointer back last (the invitation under it gets none).
         let offer_saved = offer_up.then(|| ui.suspend_input());
+        let invite_saved = inviting.then(|| ui.suspend_input());
         let news_saved = show_news.then(|| ui.suspend_input());
         // A game waiting for the server: its overlay holds the keyboard too,
         // so the screen or the game under it gets neither Esc nor Enter.
@@ -1420,6 +1430,7 @@ async fn main() {
                             versus::VersusAction::Start(settings) if saved_balls.is_some() => {
                                 config.save();
                                 replace_save = Some(settings);
+                                replace_cup = false;
                             }
                             versus::VersusAction::Start(settings)
                                 if wants_deal(&settings, &online) =>
@@ -1436,6 +1447,18 @@ async fn main() {
                                 hud = Hud::new(config.show_help);
                                 rig.reset();
                                 next = Some(Screen::Menu);
+                            }
+                            // A game saved that isn't this tournament's: which
+                            // one, first (as for any new game).
+                            versus::VersusAction::StartCup(settings)
+                                if saved_balls.is_some()
+                                    && !saved::load().is_some_and(|s| {
+                                        cup.as_ref().is_some_and(|c| c.playing == Some(s.seed))
+                                    }) =>
+                            {
+                                config.save();
+                                replace_save = Some(settings);
+                                replace_cup = true;
                             }
                             versus::VersusAction::StartCup(settings) => {
                                 config.save();
@@ -1821,6 +1844,21 @@ async fn main() {
             && !staff_up
         {
             match draw_replace_save(&mut ui, saved_balls.unwrap_or(0)) {
+                Some(Some(true)) if replace_cup => {
+                    replace_save = None;
+                    let seed = game::clock_seed();
+                    if let Some(c) = cup.as_mut() {
+                        c.begin(seed);
+                        c.save();
+                    }
+                    let mut m = Match::new(&settings, seed);
+                    m.make_cup_game();
+                    current = Some(m);
+                    save_key = None;
+                    hud = Hud::new(config.show_help);
+                    rig.reset();
+                    screen = Screen::Menu;
+                }
                 Some(Some(true)) if wants_deal(&settings, &online) => {
                     replace_save = None;
                     waiting = Some((ask_deal(&mut online, settings), get_time()));
@@ -1860,6 +1898,10 @@ async fn main() {
         // off), over any screen, a game too.
         if let Some(saved) = chat_saved {
             ui.resume_input(saved);
+        }
+        if ui.focus == Some(CHAT_DIALOG_FOCUS) {
+            ui.focus = None;
+            ui.wants_keyboard = false;
         }
         if !settings_open {
             online.draw_chat_dialog(&mut ui, &config);
@@ -1960,7 +2002,17 @@ async fn main() {
         // the window never loses it; a finished game is forgotten.
         if let Some(m) = current.as_ref().filter(|m| m.is_against_computer()) {
             let over = m.game.game_over().is_some();
-            let key = (m.games_played, m.game.shots_taken(), m.at_rest(), over);
+            // A clock that ran out (or a choice) changes the turn and the
+            // balls without a shot: they count too.
+            let in_play = (0..16u8).filter(|&b| m.game.ball(BallId(b)).in_play()).count();
+            let key = (
+                m.games_played,
+                m.game.shots_taken(),
+                m.game.current_player(),
+                in_play,
+                m.at_rest(),
+                over,
+            );
             if save_key != Some(key) {
                 save_key = Some(key);
                 if let Some(s) = saved::SavedGame::of(m) {
@@ -2056,6 +2108,8 @@ const GIFT_DIALOG_FOCUS: u64 = ui::MODAL_FOCUS;
 /// The same for the overlay of a game waiting for the server: the screen
 /// or the game under it leaves Esc and Enter alone.
 const WAITING_FOCUS: u64 = ui::MODAL_FOCUS + 1;
+/// The keyboard is the chat dialog's (see the start of the frame).
+const CHAT_DIALOG_FOCUS: u64 = ui::MODAL_FOCUS + 2;
 
 fn name_or(name: &str, default: &str) -> String {
     match name.trim() {

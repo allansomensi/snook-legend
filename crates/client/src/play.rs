@@ -206,14 +206,41 @@ impl Controls {
         let delta = mouse - self.last_mouse;
         self.last_mouse = mouse;
         rig.hold = false;
-        if !m.is_human_turn() || typing {
+        if !m.is_human_turn() {
             self.mode = DragMode::None;
             self.set_over_cue(false);
-            // A stroke being charged ends with the turn, or when the chat
-            // takes the keyboard (its release would never be seen).
+            // A stroke being charged ends with the turn.
             self.shoot_armed = false;
             return;
         }
+        if typing {
+            // The chat has the keyboard: no shortcut counts, and a stroke
+            // charged with Space ends (its release would never be seen).
+            // The pointer still works: a click on the table aims.
+            self.shoot_armed = false;
+            let was = keys::capturing();
+            keys::set_capturing(true);
+            self.player_controls(m, scene, cam, rig, ui_hovered, (mouse, delta), true);
+            keys::set_capturing(was);
+            return;
+        }
+        self.player_controls(m, scene, cam, rig, ui_hovered, (mouse, delta), false);
+    }
+
+    /// The body of [`Controls::player`]: `(mouse, delta)` is the pointer
+    /// and how far it moved; `typing`: a field has the keyboard, and only
+    /// the pointer counts (the shortcuts are held).
+    #[allow(clippy::too_many_arguments)]
+    fn player_controls(
+        &mut self,
+        m: &mut Match,
+        scene: &Scene,
+        cam: &SceneCamera,
+        rig: &mut CameraRig,
+        ui_hovered: bool,
+        (mouse, delta): (Vec2, Vec2),
+        typing: bool,
+    ) {
         let dt = get_frame_time() as f64;
         let fine = keys::down(Action::FineAim);
         let pointer_free = !ui_hovered;
@@ -226,7 +253,7 @@ impl Controls {
             let placing = m.is_placing_cue_ball();
             m.set_placing(!placing);
         }
-        if is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::KpEnter) {
+        if !typing && (is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::KpEnter)) {
             m.set_placing(false);
         }
 
@@ -366,7 +393,7 @@ impl Controls {
         if m.aim.charging && self.shoot_armed {
             // Esc cancels a stroke being charged with Space; a power set on
             // the bar is no stroke (Esc opens the menu and keeps it).
-            if is_key_pressed(KeyCode::Escape) && keys::down(Action::Shoot) {
+            if !typing && is_key_pressed(KeyCode::Escape) && keys::down(Action::Shoot) {
                 m.aim.charging = false;
                 m.aim.power = 0.0;
                 self.shoot_armed = false;

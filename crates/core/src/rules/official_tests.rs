@@ -528,6 +528,17 @@ fn a_clock_that_runs_out() {
     ]);
     g.time_foul();
     assert_eq!((g.current_player(), g.ball_in_hand()), (1, Some(BallInHand::Anywhere)));
+    // A cue ball frozen against a ball can't be played from where it lies:
+    // the ball in hand starts from a place it can.
+    let r = g.table.spec.ball_radius;
+    let mut f = solids_to_shoot(&[
+        (0, DVec2::new(0.3 - 2.0 * r - 0.00005, 0.2)),
+        (3, DVec2::new(0.3, 0.2)),
+        (8, DVec2::new(-0.7, 0.3)),
+    ]);
+    f.time_foul();
+    assert_eq!(f.ball_in_hand(), Some(BallInHand::Anywhere));
+    assert!(f.can_place_cue_ball(f.ball(BallId::CUE).xy()));
 
     let mut b = EightBallGame::new(1, 0, Rules::Official);
     b.time_foul();

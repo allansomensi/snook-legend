@@ -55,7 +55,7 @@ A branca fora da mesa vale o mesmo que encaçapá-la: a menor bola do adversári
 Encaçapar uma bola do adversário passa a vez, mesmo que uma sua também tenha caído. Ela fica encaçapada, a favor dele.
 
 ### O tempo de tacada
-Quando a partida tem tempo de tacada e ele acaba, a vez passa.
+Quando a partida tem tempo de tacada e ele acaba, é falta: a branca volta para o ponto inicial (sem bola na mão), o adversário ganha uma bola (a menor dele na mesa; se ele já estiver na 8, a 8 paga e você perde) e a vez passa. Com a mesa ainda aberta, nenhuma bola é paga. Na saída, a saída passa para o adversário, com a branca na mão atrás da linha de cabeceira.
 
 ## A bola 8
 

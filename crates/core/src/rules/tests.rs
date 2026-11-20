@@ -1051,24 +1051,57 @@ fn the_cue_ball_in_hand_goes_against_a_cushion_but_never_in_a_pocket() {
 
 /// The cue ball is in hand for the break only: a clock that runs out on
 /// the break hands it over with the cue ball still in hand behind the
-/// head string; elsewhere the clock only passes the turn, and nothing
+/// head string. Elsewhere it is a foul: the cue ball goes back to the head
+/// spot, not in hand, and (the table open) nothing is owed. Nothing
 /// changes once the game is over.
 #[test]
-fn a_clock_that_runs_out_keeps_the_cue_ball_in_hand_as_it_was() {
+fn a_clock_that_runs_out_sends_the_cue_ball_back_to_the_head_spot() {
     let mut g = EightBallGame::new(3, 0, Rules::Brazilian);
     assert_eq!(g.ball_in_hand(), Some(BallInHand::Kitchen));
-    g.time_foul();
+    assert!(g.time_foul().is_empty());
     assert_eq!((g.current_player(), g.ball_in_hand()), (1, Some(BallInHand::Kitchen)));
     assert!(g.is_break());
     let report = g.play_shot(&Shot::new(g.default_aim(), g.max_cue_speed()), None).unwrap();
     assert!(report.was_break);
     let mut g = open_table(&[(0, DVec2::new(-0.2, 0.0)), (3, DVec2::new(0.3, 0.1))]);
-    g.time_foul();
+    assert!(g.time_foul().is_empty(), "an open table owes nothing");
     assert_eq!((g.current_player(), g.ball_in_hand()), (1, None));
+    assert_eq!(g.ball(BallId::CUE).xy(), g.table.head_spot());
+    assert!(g.ball(BallId(3)).in_play());
     g.abandon(1);
     assert_eq!(g.game_over(), Some(GameOver { winner: 0, reason: GameOverReason::Abandoned }));
-    g.time_foul();
+    assert!(g.time_foul().is_empty());
     assert_eq!(g.current_player(), 1, "no changes after the game ended");
+}
+
+/// With the groups decided, a clock that runs out gives the opponent
+/// their lowest ball and sends the cue ball back to the head spot; with
+/// none left for them, the 8 pays and the game is lost.
+#[test]
+fn a_clock_that_runs_out_gives_a_ball() {
+    let mut g = house(&[
+        (0, DVec2::new(0.4, 0.2)),
+        (2, DVec2::new(0.5, 0.3)),
+        (5, DVec2::new(0.6, -0.3)),
+        (12, DVec2::new(0.0, -0.4)),
+        (8, DVec2::new(-0.6, -0.3)),
+    ]);
+    assert_eq!(g.time_foul(), vec![BallId(2)]);
+    assert_eq!(on_table(&g, Group::Solids), vec![5]);
+    assert_eq!((g.current_player(), g.ball_in_hand(), g.game_over()), (1, None, None));
+    assert_eq!(g.ball(BallId::CUE).xy(), g.table.head_spot());
+    // Player 1 runs out of time in turn: player 0's 12 comes off. Then 0
+    // again (the 5), and 1 once more: player 0 has only the 8 left, so the
+    // 8 pays and player 1 loses.
+    assert_eq!(g.time_foul(), vec![BallId(12)]);
+    assert_eq!(g.current_player(), 0);
+    assert_eq!(g.time_foul(), vec![BallId(5)]);
+    assert_eq!(g.current_player(), 1);
+    assert_eq!(g.time_foul(), vec![BallId::EIGHT]);
+    assert_eq!(
+        g.game_over(),
+        Some(GameOver { winner: 0, reason: GameOverReason::EightPocketedOnFoul })
+    );
 }
 
 /// A tip so far out that its length overflows an f64 is struck at the
@@ -1224,8 +1257,10 @@ fn the_cue_ball_off_the_table_comes_back_to_the_head_spot() {
     assert_eq!(g.ball_in_hand(), None);
     assert_eq!(g.ball(BallId::CUE).xy(), g.table.head_spot());
     assert_eq!(g.current_player(), 1);
-    // A clock that runs out now passes the turn alone.
-    g.time_foul();
+    // A clock that runs out now gives player 0 their lowest ball.
+    let paid = g.time_foul();
+    assert_eq!(paid.len(), 1);
+    assert!(g.groups[0].is_some_and(|grp| grp.contains(paid[0])), "{paid:?}");
     assert_eq!((g.current_player(), g.ball_in_hand()), (0, None));
 }
 

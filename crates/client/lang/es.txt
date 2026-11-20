@@ -1750,6 +1750,9 @@ chalk	tiza
 Always show the head string	Mostrar siempre la línea de salida
 The line the break is played from, always on the table (off: only while placing the cue ball behind it).	La línea desde la que se hace el saque, siempre en la mesa (apagado: solo al colocar la blanca detrás de ella).
 {who} ran out of time: the turn passes.	A {who} se le acabó el tiempo: pasa el turno.
+{who} ran out of time with no ball left to give {other}: the 8 pays, and {who} loses.	A {who} se le acabó el tiempo y {other} no tenía más bolas que recibir: la 8 paga, y {who} pierde.
+{who} ran out of time: the cue ball goes back to the head spot and the turn passes.	A {who} se le acabó el tiempo: la blanca vuelve al punto de salida y pasa el turno.
+{who} ran out of time: {balls} off the table for {other}, and the cue ball goes back to the head spot.	A {who} se le acabó el tiempo: {balls} sale de la mesa para {other}, y la blanca vuelve al punto de salida.
 You were muted for {n} minutes: {r}	Te silenciaron durante {n} minutos: {r}
 Your account was suspended for {n} hours: {r}	Tu cuenta fue suspendida durante {n} horas: {r}
 The server restarts in {minutes} min for an update. Games in progress go on; new games start right after.	El servidor se reinicia en {minutes} min por una actualización. Las partidas en curso continúan; las nuevas empiezan justo después.

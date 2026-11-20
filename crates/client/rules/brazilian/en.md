@@ -55,7 +55,7 @@ The cue ball off the table costs the same as pocketing it: your opponent's lowes
 Pocketing one of your opponent's balls passes the turn, even if one of yours went down too. It stays down, for them.
 
 ### The shot clock
-When a game has a shot clock and it runs out, the turn passes.
+When a game has a shot clock and it runs out, it is a foul: the cue ball goes back to the head spot (not in hand), your opponent gets a ball (their lowest on the table; if they are on the 8 already, the 8 pays and you lose) and the turn passes. While the table is open, no ball is owed. On the break, the break passes to your opponent, with the cue ball in hand behind the head string.
 
 ## The 8-ball
 

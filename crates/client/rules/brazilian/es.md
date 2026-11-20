@@ -55,7 +55,7 @@ La blanca fuera de la mesa cuesta lo mismo que meterla: la bola más baja del ri
 Meter una bola del rival pasa el turno, aunque también haya entrado una tuya. Se queda metida, a su favor.
 
 ### El tiempo de tiro
-Cuando la partida tiene tiempo de tiro y se acaba, el turno pasa.
+Cuando la partida tiene tiempo de tiro y se acaba, es falta: la blanca vuelve al punto de salida (sin bola en mano), el rival gana una bola (la menor suya en la mesa; si ya está en la 8, la 8 paga y pierdes) y el turno pasa. Con la mesa todavía abierta, no se paga ninguna bola. En el saque, el saque pasa al rival, con la blanca en mano detrás de la línea de cabecera.
 
 ## La bola 8
 

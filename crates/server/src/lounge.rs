@@ -233,8 +233,6 @@ struct Room {
     rematch: [bool; 2],
     present: [bool; 2],
     breaker: usize,
-    /// The shooter's latest aim this turn (played if the shot clock runs out).
-    last_aim: Option<AimState>,
     /// The shot being simulated (no other shot or aim is accepted meanwhile).
     busy: Option<u32>,
     shot_at: Instant,
@@ -2209,7 +2207,6 @@ impl Lounge {
             rematch: [false, false],
             present: [true, true],
             breaker,
-            last_aim: None,
             busy: None,
             shot_at: Instant::now(),
             turns,
@@ -2329,10 +2326,6 @@ impl Lounge {
         let max_elevation = self.rooms.get(&id).map_or(0.0, |r| r.game.params().max_elevation);
         let aim = aim.tidied();
         let aim = AimState { elevation: aim.elevation.min(max_elevation), ..aim };
-        // Always remember the newest aim; only relaying is throttled.
-        if let Some(room) = self.rooms.get_mut(&id) {
-            room.last_aim = Some(aim);
-        }
         if !self.aim_allowed(k) {
             return;
         }
@@ -2406,7 +2399,6 @@ impl Lounge {
         let cue_ball = room.game.ball_in_hand().map(|_| room.game.ball(BallId::CUE).xy());
         room.busy = Some(turn);
         room.shot_at = Instant::now();
-        room.last_aim = None;
         room.replay.strokes.push(Stroke::Shot { shot, called, cue_ball, timeout });
         let msg =
             ServerMsg::ShotTaken { seat, turn, shot, called_pocket: called, cue_ball, timeout };
@@ -2487,54 +2479,40 @@ impl Lounge {
         true
     }
 
-    /// The shot clock ran out.
-    ///
-    /// The Brazilian rules: the shot is played at full power where the
-    /// player was aiming (or at the nearest legal ball if they never aimed).
-    /// The official rules: a foul, and the opponent has the cue ball in hand
-    /// (see [`EightBallGame::time_foul`]). A choice after the break that
-    /// isn't made in time takes its first option.
+    /// The shot clock ran out: a foul under both rules (see
+    /// [`EightBallGame::time_foul`]). A choice after the break that isn't
+    /// made in time takes its first option.
     fn timeout_shot(&mut self, id: u64) {
         let Some(room) = self.rooms.get(&id) else { return };
         let seat = room.game.current_player();
-        let game = &room.game;
-        if let Some(choice) = game.pending_choice() {
-            let turn = game.shots_taken();
+        if let Some(choice) = room.game.pending_choice() {
+            let turn = room.game.shots_taken();
             return self.make_choice(id, seat, turn, choice.options()[0]);
         }
-        if game.rules() == Rules::Official {
-            return self.time_foul(id, seat);
-        }
-        let aim = room.last_aim;
-        let shot = Shot {
-            yaw: aim.map(|a| a.yaw).unwrap_or_else(|| game.default_aim()),
-            elevation: aim.map(|a| a.elevation).unwrap_or(0.0),
-            tip: aim.map(|a| a.tip).unwrap_or(DVec2::ZERO),
-            speed: game.max_cue_speed(),
-        };
-        let called = game.needs_called_pocket().then(|| {
-            aim.and_then(|a| a.called_pocket).unwrap_or_else(|| game.nearest_pocket(BallId::EIGHT))
-        });
-        if self.start_shot(id, seat, shot, called, None, true).is_err() {
-            // The cue ball is somewhere it can't be shot from: pass the turn.
-            self.time_foul(id, seat);
-        }
+        self.time_foul(id, seat);
     }
 
-    /// `seat` ran out of time: the turn passes (see
-    /// [`EightBallGame::time_foul`]).
+    /// `seat` ran out of time (see [`EightBallGame::time_foul`]): under
+    /// the Brazilian rules the ball it gives can be the 8, which ends the
+    /// game.
     fn time_foul(&mut self, id: u64, seat: usize) {
         let clock = self.settings.shot_clock;
         let Some(room) = self.rooms.get_mut(&id) else { return };
         room.game.time_foul();
         room.replay.strokes.push(Stroke::TimeFoul);
-        room.turns[room.game.current_player()] += 1;
+        let over = room.game.game_over().is_some();
+        if !over {
+            room.turns[room.game.current_player()] += 1;
+        }
         room.deadline = Instant::now() + clock;
-        room.last_aim = None;
         let msg =
             ServerMsg::TimeFoul { seat, game: room.game.clone(), clock_left: clock.as_secs_f32() };
         self.send_room(id, &msg);
-        self.save_live(id);
+        if over {
+            self.finish(id);
+        } else {
+            self.save_live(id);
+        }
     }
 
     /// `k` answers the choice the break left them (the official rules).
@@ -2565,7 +2543,6 @@ impl Lounge {
             room.turns[next] += 1;
         }
         room.deadline = Instant::now() + clock;
-        room.last_aim = None;
         let msg = ServerMsg::Chose {
             seat,
             turn,
@@ -3176,7 +3153,6 @@ impl Lounge {
             rematch: [false, false],
             present: [true, true],
             breaker: live.replay.breaker,
-            last_aim: None,
             busy: None,
             shot_at: nowi,
             turns: rebuilt.turns,

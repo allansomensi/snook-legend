@@ -1,5 +1,24 @@
 # Changelog
 
+## Unreleased
+
+### The Brazilian rule: the shot clock gives a ball
+- **The shot clock running out is a foul that gives a ball**: the
+  opponent's lowest ball comes off (with none left for them, the 8 pays and
+  the game is lost, as with any foul), the cue ball goes back to the head
+  spot, not in hand, and the turn passes. With the table still open
+  nothing is owed; on the break, the break passes to the opponent with the
+  cue ball in hand behind the head string, as before. Online, the server no
+  longer plays the shot at full power where the player was aiming: the
+  clock is a foul under both rules (the room's last aim, kept only for that,
+  is gone).
+- `EightBallGame::time_foul` returns the balls it gave, and the penalty of
+  a foul and of the clock is paid in one place (`pay_penalty`). A clock
+  that ends the game finishes the match on the server (result, ratings)
+  and in the game (offline, in replays and online), and the table says
+  which ball came off, or that the 8 paid.
+- The rules book in three languages and the README say so.
+
 ## 0.8.1 (protocol 22)
 
 The Brazilian rule's penalty paid with the 8, windows that close with a

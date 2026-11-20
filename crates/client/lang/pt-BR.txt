@@ -1750,6 +1750,9 @@ chalk	giz
 Always show the head string	Mostrar sempre a linha de cabeceira
 The line the break is played from, always on the table (off: only while placing the cue ball behind it).	A linha de onde se dá a saída, sempre na mesa (desligado: só ao posicionar a branca atrás dela).
 {who} ran out of time: the turn passes.	O tempo de {who} acabou: a vez passa.
+{who} ran out of time with no ball left to give {other}: the 8 pays, and {who} loses.	O tempo de {who} acabou e {other} não tinha mais bola para receber: a 8 paga, e {who} perde.
+{who} ran out of time: the cue ball goes back to the head spot and the turn passes.	O tempo de {who} acabou: a branca volta para o ponto inicial e a vez passa.
+{who} ran out of time: {balls} off the table for {other}, and the cue ball goes back to the head spot.	O tempo de {who} acabou: {balls} sai da mesa para {other}, e a branca volta para o ponto inicial.
 You were muted for {n} minutes: {r}	Você foi silenciado por {n} minutos: {r}
 Your account was suspended for {n} hours: {r}	Sua conta foi suspensa por {n} horas: {r}
 The server restarts in {minutes} min for an update. Games in progress go on; new games start right after.	O servidor reinicia em {minutes} min para uma atualização. As partidas em andamento continuam; as novas começam logo depois.

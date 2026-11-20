@@ -73,7 +73,8 @@ which every desktop installation has. How releases are made is described in
   (the lowest numbers of their group come off the table: one for a miss, a
   scratch or the cue ball off the table, two for hitting the opponent's ball first, one if the cue ball
   went to a cushion before it, and they add up; with fewer balls left than
-  the foul gives, the 8 pays the rest and the foul loses), the cue ball is in hand
+  the foul gives, the 8 pays the rest and the foul loses; the shot clock
+  running out gives a ball too, with the cue ball back on the head spot), the cue ball is in hand
   on the break only (one that goes down or leaves the table comes back to
   the head spot), a break that hits no ball or loses the cue ball with no
   ball made passes the break to the opponent (cue ball in hand behind the

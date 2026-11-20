@@ -22,9 +22,10 @@ pub enum Stroke {
         #[serde(default)]
         timeout: bool,
     },
-    /// The shot clock ran out: under the Brazilian rules the turn passed,
-    /// under the official rules it was a foul (or the break's choice took
-    /// its first option).
+    /// The shot clock ran out: a foul (under the Brazilian rules a ball for
+    /// the opponent and the cue ball back on the head spot; until 0.8.1
+    /// the server played the shot instead), or the break's choice took its
+    /// first option.
     TimeFoul,
     /// The answer to the break's choice of the official rules.
     Choice {

@@ -941,35 +941,78 @@ impl EightBallGame {
         }
     }
 
-    /// The shot clock ran out.
+    /// The shot clock ran out. Returns the balls it gave the opponent (the
+    /// Brazilian rules' penalty, the 8 last when it paid).
     ///
-    /// The Brazilian rules: the turn passes, and the cue ball stays where
-    /// it lies (in hand only if it already was, as on the break).
+    /// The Brazilian rules: a foul that gives the opponent a ball (their
+    /// lowest; with none left, the 8 pays it and the game is lost), and the
+    /// cue ball goes back to the head spot, not in hand; with the table
+    /// still open nothing is owed. On the break, the break passes to the
+    /// opponent, the cue ball in hand behind the head string.
     ///
     /// The official rules: slow play is a standard foul (3.14), and the
     /// opponent has the cue ball in hand anywhere on the table; on the
     /// break they break instead. A player who had to decide how play goes
     /// on after a break gets the first of the options (see
     /// [`BreakChoice::options`]).
-    pub fn time_foul(&mut self) {
+    pub fn time_foul(&mut self) -> Vec<BallId> {
         if self.game_over.is_some() {
-            return;
+            return Vec::new();
         }
         if let Some(choice) = self.choice {
             self.apply_choice(choice, choice.options()[0]);
-            return;
+            return Vec::new();
         }
-        if !self.ball(BallId::CUE).in_play() {
-            self.return_cue_ball();
-        }
-        if self.rules == Rules::Official {
-            self.ball_in_hand =
-                Some(if self.is_break { BallInHand::Kitchen } else { BallInHand::Anywhere });
-            if self.is_break {
-                self.respot_cue_ball();
+        let shooter = self.current;
+        let opponent = 1 - shooter;
+        let mut paid = Vec::new();
+        match self.rules {
+            Rules::Brazilian if self.is_break => {
+                if !self.ball(BallId::CUE).in_play() {
+                    self.respot_cue_ball();
+                }
+                self.ball_in_hand = Some(BallInHand::Kitchen);
+            }
+            Rules::Brazilian => {
+                self.return_cue_ball();
+                if let Some(g) = self.groups[opponent] {
+                    paid = self.pay_penalty(g, 1);
+                }
+                if paid.contains(&BallId::EIGHT) {
+                    self.end_with(opponent, GameOverReason::EightPocketedOnFoul);
+                    return paid;
+                }
+            }
+            Rules::Official => {
+                if !self.ball(BallId::CUE).in_play() {
+                    self.return_cue_ball();
+                }
+                self.ball_in_hand =
+                    Some(if self.is_break { BallInHand::Kitchen } else { BallInHand::Anywhere });
+                if self.is_break {
+                    self.respot_cue_ball();
+                }
             }
         }
-        self.current = 1 - self.current;
+        self.current = opponent;
+        paid
+    }
+
+    /// The Brazilian rules: `owed` balls of `group` come off the table for
+    /// its player, lowest number first; with fewer left, the 8 pays the
+    /// rest (it comes off last, and the foul loses the game). Returns them.
+    pub(super) fn pay_penalty(&mut self, group: Group, owed: usize) -> Vec<BallId> {
+        let mut given = self.remaining(group);
+        given.sort();
+        let eight_pays = owed > given.len();
+        given.truncate(owed);
+        if eight_pays {
+            given.push(BallId::EIGHT);
+        }
+        for &b in &given {
+            self.take_off(b);
+        }
+        given
     }
 
     /// Takes a ball off the table as if it had been made (a penalty ball):

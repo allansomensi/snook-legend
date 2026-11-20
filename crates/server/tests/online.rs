@@ -3,7 +3,7 @@
 use std::time::Duration;
 
 use futures_util::{SinkExt, StreamExt};
-use snook_legend_core::{Difficulty, EightBallGame, ai};
+use snook_legend_core::{BallInHand, Difficulty, EightBallGame, ai};
 use snook_legend_proto::{
     ClientMsg, PROTOCOL_VERSION, ReportReason, Rules, ServerMsg, TournamentState, parse_server,
 };
@@ -729,22 +729,26 @@ async fn disconnect_reconnect_and_abandon() {
 }
 
 #[tokio::test]
-async fn shot_clock_plays_a_full_power_shot() {
+async fn the_shot_clock_is_a_foul() {
     let settings = Settings { shot_clock: Duration::from_secs(1), ..Settings::default() };
     let url = start(settings).await;
     let (mut alice, _) = Client::register(&url, "alice").await;
     let (mut bob, _) = Client::register(&url, "bob").await;
     let (game, _, _) = start_match(&mut alice, &mut bob, "bob", "alice", false).await;
     let first = game.current_player();
-    let ServerMsg::ShotTaken { seat, shot, timeout, .. } =
-        alice.expect("timeout shot", |m| matches!(m, ServerMsg::ShotTaken { .. })).await
-    else {
-        unreachable!()
-    };
-    assert!(timeout);
+    // No shot is played for the player: the clock is a foul. On the break
+    // (the Brazilian rules), the break passes, the cue ball in hand.
+    let m = alice
+        .expect("time foul", |m| {
+            matches!(m, ServerMsg::TimeFoul { .. } | ServerMsg::ShotTaken { .. })
+        })
+        .await;
+    let ServerMsg::TimeFoul { seat, game, .. } = m else { panic!("a shot was played: {m:?}") };
     assert_eq!(seat, first);
-    assert!((shot.speed - game.params().max_cue_speed).abs() < 1e-9);
-    alice.expect("result", |m| matches!(m, ServerMsg::ShotResult { .. })).await;
+    assert_eq!(game.current_player(), 1 - first);
+    assert!(game.is_break());
+    assert_eq!(game.ball_in_hand(), Some(BallInHand::Kitchen));
+    assert!(game.game_over().is_none());
 }
 
 #[tokio::test]
@@ -2601,7 +2605,7 @@ async fn the_shot_clock_is_a_foul_under_the_official_rules() {
     assert_eq!(seat, first);
     assert_eq!(game.current_player(), 1 - first);
     assert!(game.is_break(), "the opponent breaks");
-    assert_eq!(game.ball_in_hand(), Some(snook_legend_core::BallInHand::Kitchen));
+    assert_eq!(game.ball_in_hand(), Some(BallInHand::Kitchen));
 }
 
 /// The lounge counts who plays each of the rules (the public status too).

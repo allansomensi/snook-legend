@@ -218,8 +218,36 @@ pub struct ShotMark {
 
 /// What a shot clock running out did, as the rules of the game say: the
 /// turn passes (with the cue ball in hand only where the rules give it).
-fn time_foul_text(game: &EightBallGame, who: &str) -> String {
-    if game.ball_in_hand().is_some() {
+/// What a shot clock that ran out did: `before` and `after` it, `who` ran
+/// out of time and `other` is their opponent.
+fn time_foul_text(before: &EightBallGame, after: &EightBallGame, who: &str, other: &str) -> String {
+    // The Brazilian rules (but on the break): a ball for the opponent, and
+    // the cue ball back on the head spot.
+    if after.rules() == Rules::Brazilian && !before.is_break() {
+        let paid: Vec<String> = (1..16u8)
+            .map(BallId)
+            .filter(|&b| before.ball(b).in_play() && !after.ball(b).in_play())
+            .map(crate::i18n::ball)
+            .collect();
+        let names = [("who", &who as &dyn std::fmt::Display), ("other", &other)];
+        return if after.game_over().is_some() {
+            tw(
+                "{who} ran out of time with no ball left to give {other}: the 8 pays, and {who} loses.",
+                &names,
+            )
+        } else if paid.is_empty() {
+            tw(
+                "{who} ran out of time: the cue ball goes back to the head spot and the turn passes.",
+                &names,
+            )
+        } else {
+            tw(
+                "{who} ran out of time: {balls} off the table for {other}, and the cue ball goes back to the head spot.",
+                &[("who", &who), ("other", &other), ("balls", &paid.join(", "))],
+            )
+        };
+    }
+    if after.ball_in_hand().is_some() {
         tw("{who} ran out of time: ball in hand for the opponent.", &[("who", &who)])
     } else {
         tw("{who} ran out of time: the turn passes.", &[("who", &who)])
@@ -1173,9 +1201,11 @@ impl Match {
                     break;
                 }
                 Some(Stroke::TimeFoul) => {
-                    let name = self.names[self.game.current_player()].clone();
-                    self.notify(tw("{name} ran out of time.", &[("name", &name)]), false);
+                    let (before, seat) = (self.game.clone(), self.game.current_player());
                     self.game.time_foul();
+                    if self.tell_time_foul(&before, seat) {
+                        return;
+                    }
                 }
                 Some(Stroke::Choice { option }) => {
                     let chooser = self.game.current_player();
@@ -1678,13 +1708,29 @@ impl Match {
             self.choose(choice.options()[0]);
             return;
         }
+        let (before, seat) = (self.game.clone(), self.game.current_player());
         self.game.time_foul();
         if let Some(run) = self.ladder.as_mut() {
             run.record.strokes.push(snook_legend_proto::replay::Stroke::TimeFoul);
         }
-        let text = time_foul_text(&self.game, &who);
+        if !self.tell_time_foul(&before, seat) {
+            self.begin_turn();
+        }
+    }
+
+    /// `seat` ran out of time (the game was `before` it): says what it
+    /// gave the opponent, and ends the game when the 8 paid (true then).
+    fn tell_time_foul(&mut self, before: &EightBallGame, seat: usize) -> bool {
+        let who = self.names[seat % 2].clone();
+        let other = self.names[1 - seat % 2].clone();
+        let text = time_foul_text(before, &self.game, &who, &other);
         self.notify(text, true);
-        self.begin_turn();
+        let Some(over) = self.game.game_over() else { return false };
+        let winner = self.names[over.winner].clone();
+        let how = crate::i18n::result_line(over.reason, &winner, &self.names[1 - over.winner]);
+        self.notify(tw("{winner} wins! ({how})", &[("winner", &winner), ("how", &how)]), true);
+        self.phase = Phase::GameOver;
+        true
     }
 
     /// The official rules: while the player hasn't chosen the call, it is
@@ -1812,14 +1858,14 @@ impl Match {
                     // stored game that no longer fits): the turn passes,
                     // as when the clock runs out, instead of trying again
                     // every frame.
-                    let who = self.names[self.game.current_player()].clone();
+                    let (before, seat) = (self.game.clone(), self.game.current_player());
                     self.game.time_foul();
                     if let Some(run) = self.ladder.as_mut() {
                         run.record.strokes.push(snook_legend_proto::replay::Stroke::TimeFoul);
                     }
-                    let text = time_foul_text(&self.game, &who);
-                    self.notify(text, false);
-                    self.begin_turn();
+                    if !self.tell_time_foul(&before, seat) {
+                        self.begin_turn();
+                    }
                 }
             }
         }
@@ -2494,12 +2540,11 @@ impl Match {
             }
             ServerMsg::TimeFoul { seat, game, clock_left } => {
                 o.next_clock = clock_left;
-                let who = self.names[seat].clone();
                 self.fast_forward();
-                self.game = game;
-                let text = time_foul_text(&self.game, &who);
-                self.notify(text, true);
-                self.begin_turn();
+                let before = std::mem::replace(&mut self.game, game);
+                if !self.tell_time_foul(&before, seat) {
+                    self.begin_turn();
+                }
             }
             ServerMsg::MatchEnded { result } => {
                 for (r, d) in o.ratings.iter_mut().zip(result.new_ratings) {

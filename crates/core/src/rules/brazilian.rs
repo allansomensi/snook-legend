@@ -36,6 +36,8 @@
 //!   opponent's balls goes down with it. The pocket called for the 8 is
 //!   binding from the first shot taken with it.
 //! - Nothing has to reach a cushion, on the break or after a contact.
+//! - The shot clock running out is a foul that gives a ball, with the cue
+//!   ball back on the head spot (see [`EightBallGame::time_foul`]).
 
 use super::*;
 
@@ -196,17 +198,10 @@ impl EightBallGame {
         if game_over.is_none()
             && let Some(g) = theirs
         {
-            let mut given = self.remaining(g);
-            given.sort();
             // Fewer left than owed: the 8 pays the rest, and the foul loses.
-            let eight_pays = owed > given.len();
-            given.truncate(owed);
-            if eight_pays {
-                given.push(BallId::EIGHT);
+            let given = self.pay_penalty(g, owed);
+            if given.contains(&BallId::EIGHT) {
                 game_over = lost(GameOverReason::EightPocketedOnFoul);
-            }
-            for &b in &given {
-                self.take_off(b);
             }
             penalty.extend(given);
         }

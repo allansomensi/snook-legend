@@ -74,13 +74,26 @@ async fn vip_invoices_extend_vip_and_bring_coins() {
     let w = server.store.wallet(id).await.unwrap();
     assert!(w.vip_until > end);
     assert_eq!(w.coins, VIP_MONTHLY_COINS as i64);
-    // Cancelled now: VIP ends now.
+    // Cancelled now: VIP ends now (the period paid for is taken back)...
     let deleted = json!({
         "type": "customer.subscription.deleted",
-        "data": { "object": { "customer": "cus_9", "ended_at": now() } }
+        "data": { "object": { "customer": "cus_9", "ended_at": now(), "current_period_end": end } }
     });
     apply_event(&server, &deleted).await.unwrap();
     assert!(server.store.wallet(id).await.unwrap().vip_until <= now());
+    // ...but not VIP from elsewhere (a month given, here by the staff); the
+    // newer API has the period's end on the item.
+    server.store.add_vip(id, now(), 10 * 86_400).await.unwrap();
+    let deleted = json!({
+        "type": "customer.subscription.deleted",
+        "data": { "object": {
+            "customer": "cus_9", "ended_at": now(),
+            "items": { "data": [ { "current_period_end": now() } ] }
+        }}
+    });
+    apply_event(&server, &deleted).await.unwrap();
+    let left = server.store.wallet(id).await.unwrap().vip_until - now();
+    assert!(left > 9 * 86_400, "{left}");
 }
 
 #[tokio::test]

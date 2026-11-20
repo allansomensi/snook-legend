@@ -2427,7 +2427,7 @@ PAGES.economy = async (route) => {
       kpi({ label: t("Given in 30 days"), value: "+" + fmtNum(credited), sub: t("coins credited"), iconName: "gift", tone: "success" }),
       kpi({ label: t("Spent in 30 days"), value: "−" + fmtNum(debited), sub: t("coins taken"), iconName: "coins", tone: "danger" }),
       ...revenue.map((r) => kpi({ label: tf("Revenue in 30 days ({currency})", { currency: r[0].toUpperCase() }), value: money(r[1], r[0]), sub: tn(r[2], "{n} payment", "{n} payments"), iconName: "chart", tone: "info" })),
-      ms ? kpi({ label: "Microsoft Store", value: fmtNum(ms[2]), sub: t("coin packs in 30 days"), iconName: "coins" }) : null),
+      ms ? kpi({ label: "Microsoft Store", value: fmtNum(ms[2]), sub: t("purchases in 30 days"), iconName: "coins" }) : null),
     !e.stripe ? el("div", { class: "section" }, alertBox("info", t("Card payments are off"), t("Stripe is not configured on this server."))) : null,
     el("div", { class: "section" }, el("div", { class: "tabs" }, [["coins", t("Coins"), null], ["payments", t("Payments"), e.private_hidden ? null : e.payments.length], ["catalog", t("The shop's catalogue"), e.catalog.length]]
       .map(([id, label, n]) => el("button", { type: "button", class: "tab" + (tab === id ? " on" : ""), onclick: () => { setQuery({ tab: id }); render(); } }, label, n !== null ? el("span", { class: "count" }, fmtNum(n)) : null))),

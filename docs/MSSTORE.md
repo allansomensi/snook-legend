@@ -8,15 +8,20 @@ sozinha. O instalador `.msi` e os arquivos do GitHub continuam como estão.
 
 O build da Store usa a feature `store` do jogo (`crates/client/src/channel.rs`):
 
-- **Moedas compradas pela própria Store, nunca pelo Stripe.** A política da
-  Store (10.8.1) pede que jogos vendam itens digitais pelo sistema de compras
-  da Store. Os pacotes de moedas viram *add-ons* da Store (veja
-  [Venda de moedas pela Store](#venda-de-moedas-pela-store)); enquanto o
-  servidor não estiver configurado para isso, a aba Moedas explica que as
-  moedas vêm de jogar, como antes. O VIP e o pacote de boas-vindas não são
+- **Moedas e VIP comprados pela própria Store, nunca pelo Stripe.** A
+  política da Store (10.8.1) pede que jogos vendam itens digitais pelo
+  sistema de compras da Store. Os pacotes de moedas e **um mês de VIP**
+  viram *add-ons* da Store (veja
+  [Venda de moedas e VIP pela Store](#venda-de-moedas-e-vip-pela-store));
+  enquanto o servidor não estiver configurado para isso, a aba Moedas explica
+  que as moedas vêm de jogar e a aba VIP diz que o VIP não é vendido nesta
+  versão, como antes. Na Store, o VIP é **um mês por compra, sem renovação
+  automática**: quem quer mais um mês compra de novo, e o mês novo começa
+  quando o atual acaba. O pacote de boas-vindas e o VIP de presente não são
   vendidos nesta versão. Moedas e itens comprados em outra versão continuam
-  valendo (a política permite usar o que já foi comprado). Quem já é VIP
-  continua vendo até quando, mas sem o botão de gerenciar a assinatura.
+  valendo (a política permite usar o que já foi comprado). Quem é VIP por
+  uma assinatura de outra versão continua vendo até quando, sem o botão de
+  gerenciar a assinatura.
 - **Runtime do C embutido** (`+crt-static`): o `.exe` não depende do Visual
   C++ Redistributable.
 - **Firewall da rede local já liberado** pelo pacote (portas 47879/TCP e
@@ -100,7 +105,7 @@ página da loja, a classificação etária e o preço:
      **interação entre usuários (chat)**, **compartilhamento de nome de
      usuário** e **itens compráveis com moeda do jogo** (e, com a venda de
      moedas ligada, **compras com dinheiro**: veja
-     [Venda de moedas pela Store](#venda-de-moedas-pela-store)). Não há
+     [Venda de moedas e VIP pela Store](#venda-de-moedas-e-vip-pela-store)). Não há
      *loot boxes*. O chat começa desligado para todos: quem tem 18 anos ou
      mais o liga ao informar a idade, na primeira vez que escreve, e nas
      contas de menores de 18 anos só o responsável o liga (art. 20 da Lei
@@ -112,23 +117,23 @@ página da loja, a classificação etária e o preço:
      link de suporte.
 3. Envie para certificação (até três dias úteis).
 
-## Venda de moedas pela Store
+## Venda de moedas e VIP pela Store
 
 Os quatro pacotes de moedas (`coins_500`, `coins_1200`, `coins_2800`,
-`coins_7000`) são vendidos como *add-ons* da Store. O dinheiro fica com a
-Microsoft (que repassa pelo Partner Center, menos a comissão dela); o jogo
-nunca vê dados de pagamento.
+`coins_7000`) e o mês de VIP (`vip_month`) são vendidos como *add-ons* da
+Store. O dinheiro fica com a Microsoft (que repassa pelo Partner Center,
+menos a comissão dela); o jogo nunca vê dados de pagamento.
 
 **Roteiro, na ordem** (detalhes de cada passo abaixo):
 
-1. Partner Center: criar os 4 *add-ons* como *developer-managed
+1. Partner Center: criar os 5 *add-ons* como *developer-managed
    consumable* e enviá-los para certificação; anotar o Store ID de cada um.
 2. Microsoft Entra: registrar uma aplicação para o servidor, criar um
    *client secret* e pôr o *Application (client) ID* em **Services →
    Product collections and purchases** do jogo.
 3. Render: definir as quatro variáveis `SNOOK_LEGEND_MSSTORE_*` e publicar o
    servidor novo (as migrações 0013, 0014 e 0015 rodam sozinhas); conferir no
-   log `Microsoft Store purchases on (4 packs)`.
+   log `Microsoft Store purchases on (4 packs, VIP month)`.
 4. Atualizar o questionário IARC (compras no jogo) e a descrição da loja
    (faixa de preços).
 5. Gerar o MSIX da versão nova, publicá-lo para um público privado e testar
@@ -136,8 +141,9 @@ nunca vê dados de pagamento.
 
 ### Como funciona (e por que é seguro)
 
-1. O jogador clica num pacote; o jogo abre a **janela de compra da própria
-   Store**. O jogo nunca decide sozinho que algo foi comprado.
+1. O jogador clica num pacote (ou no mês de VIP); o jogo abre a **janela de
+   compra da própria Store**. O jogo nunca decide sozinho que algo foi
+   comprado.
 2. Depois da compra, o servidor dá ao jogo um *ticket* (um token da sua
    aplicação no Microsoft Entra que só serve para a Store criar uma chave)
    e um identificador anônimo do jogador. A Store, no computador do jogador,
@@ -145,8 +151,9 @@ nunca vê dados de pagamento.
 3. O servidor confere que a chave foi feita para aquele jogador, **pergunta à
    Microsoft** quais pacotes aquela conta Microsoft comprou e ainda não
    recebeu e, para cada um, grava um pedido com um `trackingId` próprio
-   **antes** de pedir à Microsoft que o consuma. As moedas só entram depois
-   que a Microsoft confirma, na mesma transação do banco que fecha o pedido.
+   **antes** de pedir à Microsoft que o consuma. As moedas (e o mês de VIP)
+   só entram depois que a Microsoft confirma, na mesma transação do banco que
+   fecha o pedido.
 4. Se a resposta da Microsoft se perder (rede, servidor reiniciando), o
    pedido fica pendente e é reenviado com o **mesmo** `trackingId` (a
    Microsoft responde sempre igual para o mesmo `trackingId`): na próxima vez
@@ -173,20 +180,59 @@ conectada quando a loja for aberta (sempre para uma só).
 
 ### 1. Criar os add-ons (Partner Center)
 
-No produto do jogo: **Add-ons → Create a new add-on**, um para cada pacote:
+No produto do jogo: **Add-ons → Create a new add-on**, um para cada pacote e
+um para o mês de VIP:
 
 | Campo | Valor |
 |---|---|
 | Product type | **Developer-managed consumable** (consumível gerenciado pelo desenvolvedor) |
-| Product ID | o código do pacote: `coins_500`, `coins_1200`, `coins_2800`, `coins_7000` |
-| Pricing | o preço de cada pacote (a Store converte para cada país) |
-| Store listing | título (ex.: "500 moedas"; "1300 moedas (1200 + 100 de bônus)") e descrição |
+| Product ID | o código do pacote: `coins_500`, `coins_1200`, `coins_2800`, `coins_7000`; o do mês de VIP: `vip_month` (o servidor liga cada um pelo Store ID, então outro nome também serve) |
+| Pricing | o preço de cada um (a Store converte para cada país) |
+| Discoverability | **Hidden in the Microsoft Store** → **Available for purchase from within the parent product only**: a compra é feita dentro do jogo, com a conta do jogo conectada |
+| Store listing | título e descrição em cada idioma (abaixo) |
+
+Títulos e descrições (a descrição tem até 200 caracteres):
+
+| Add-on | Português (Brasil) | English | Español |
+|---|---|---|---|
+| `coins_500` | 500 moedas | 500 coins | 500 monedas |
+| `coins_1200` | 1300 moedas (1200 + 100 de bônus) | 1300 coins (1200 + 100 bonus) | 1300 monedas (1200 + 100 de bono) |
+| `coins_2800` | 3200 moedas (2800 + 400 de bônus) | 3200 coins (2800 + 400 bonus) | 3200 monedas (2800 + 400 de bono) |
+| `coins_7000` | 8500 moedas (7000 + 1500 de bônus) | 8500 coins (7000 + 1500 bonus) | 8500 monedas (7000 + 1500 de bono) |
+| `vip_month` | 1 mês de VIP | 1 month of VIP | 1 mes de VIP |
+
+- Pacotes, depois do número do título: "… para comprar itens cosméticos na
+  loja do jogo: panos, tacos, giz e jogos de bolas. As moedas também vêm de
+  jogar." / "… to buy cosmetic items in the game's shop: cloths, cues, chalk
+  and ball sets. Coins also come from playing." / "… para comprar artículos
+  cosméticos en la tienda del juego: paños, tacos, tiza y juegos de bolas.
+  Las monedas también se ganan jugando."
+- Mês de VIP: "Um mês de VIP: coroa ao lado do nome, itens exclusivos e 400
+  moedas. Não se renova sozinho: para mais um mês, compre de novo." / "One
+  month of VIP: a crown by your name, exclusive items and 400 coins. It
+  doesn't renew by itself: buy again for another month." / "Un mes de VIP:
+  una corona junto a tu nombre, artículos exclusivos y 400 monedas. No se
+  renueva solo: compra de nuevo para otro mes."
 
 Envie os add-ons para certificação. Depois de publicados, cada um tem um
 **Store ID** de 12 caracteres (`9…`), em **Product identity** do add-on.
 
 > O tipo precisa ser *developer-managed consumable*: o servidor ignora (e
-> registra no log) pacotes de outro tipo.
+> registra no log) add-ons de outro tipo.
+
+#### O mês de VIP
+
+- Cada compra dá **31 dias de VIP e as 400 moedas do mês**, como um mês pago
+  pela Stripe. Se o jogador ainda é VIP, o mês novo começa quando o atual
+  acaba: na aba VIP, o botão vira "Mais um mês".
+- **Nada se renova sozinho**: a Store cobra uma vez por compra. (Um add-on
+  do tipo *Subscription*, que renova, exigiria acompanhar renovações,
+  cancelamentos e reembolsos pela API de assinaturas da Microsoft; não é
+  usado.)
+- No painel da equipe, a compra aparece em **Microsoft Store purchases** com
+  o pacote `vip_month` e, em **Payments**, como VIP.
+- Preço sugerido: perto do VIP mensal da Stripe (por exemplo US$ 2.99, e
+  R$ 14,90 num grupo de mercado só do Brasil).
 
 ### 2. Aplicação no Microsoft Entra para o servidor
 
@@ -211,17 +257,26 @@ compras: não a use para mais nada.
 | `SNOOK_LEGEND_MSSTORE_TENANT_ID` | o *Directory (tenant) ID* |
 | `SNOOK_LEGEND_MSSTORE_CLIENT_ID` | o *Application (client) ID* |
 | `SNOOK_LEGEND_MSSTORE_CLIENT_SECRET` | o *client secret* (marque como secreto) |
-| `SNOOK_LEGEND_MSSTORE_PRODUCTS` | `coins_500=9XXXXXXXXXXX;coins_1200=9XXXXXXXXXXX;coins_2800=9XXXXXXXXXXX;coins_7000=9XXXXXXXXXXX` |
+| `SNOOK_LEGEND_MSSTORE_PRODUCTS` | `coins_500=9XXXXXXXXXXX;coins_1200=9XXXXXXXXXXX;coins_2800=9XXXXXXXXXXX;coins_7000=9XXXXXXXXXXX;vip_month=9XXXXXXXXXXX` |
 
-No log de início deve aparecer `Microsoft Store purchases on (4 packs)`. Se a
-lista tiver um erro (pacote desconhecido, Store ID inválido, repetido), o
-servidor **não** liga as compras da Store e diz o motivo no log: um
-mapeamento errado creditaria o pacote errado. Pode ligar só alguns pacotes:
-os que não estiverem na lista não aparecem no jogo.
+No log de início deve aparecer
+`Microsoft Store purchases on (4 packs, VIP month)`. Se a lista tiver um erro
+(pacote desconhecido, Store ID inválido, repetido), o servidor **não** liga as
+compras da Store e diz o motivo no log: um mapeamento errado creditaria o
+pacote errado. Pode ligar só alguns add-ons: os que não estiverem na lista não
+aparecem no jogo (sem `vip_month`, a aba VIP continua dizendo que o VIP não é
+vendido nesta versão).
+
+> **Só ponha `vip_month` na lista com o servidor novo no ar.** Um servidor de
+> antes do mês de VIP (0.8.0) não conhece `vip_month`, recusa a lista inteira
+> e desliga também a venda de moedas. Na dúvida, comece só com os pacotes e
+> acrescente `;vip_month=…` depois do deploy.
 
 **Ordem:** primeiro o servidor (com as migrações novas, que rodam sozinhas no
 início), depois a versão do jogo. Um servidor sem estas variáveis faz a aba
-Moedas da versão da Store voltar ao texto de antes; nada quebra.
+Moedas da versão da Store voltar ao texto de antes; nada quebra. O mês de VIP
+não tem migração; uma versão do jogo de antes dele (0.8.0) não o mostra e
+ignora o campo novo das mensagens, então ele só é vendido pela versão nova.
 
 ### 4. Classificação etária e página da loja
 
@@ -232,7 +287,8 @@ Moedas da versão da Store voltar ao texto de antes; nada quebra.
   mudar, não publique esta versão e reavalie.
 - **Política 10.8.4:** a descrição da loja deve dizer que há compras no jogo e
   a faixa de preços, por exemplo: "Opcional: pacotes de moedas para itens
-  cosméticos, de R$ X a R$ Y. As moedas também vêm de jogar."
+  cosméticos, de R$ X a R$ Y, e um mês de VIP por R$ Z. As moedas também vêm
+  de jogar."
 
 ### 5. Testar antes de abrir para todos
 
@@ -246,14 +302,16 @@ Moedas da versão da Store voltar ao texto de antes; nada quebra.
    **Mark as test** separa essa compra da contagem.
 4. Teste também fechar o jogo logo depois de pagar: ao abrir a loja de novo,
    as moedas chegam.
+5. Compre o mês de VIP: a aba VIP passa a mostrar até quando, com o botão
+   "Mais um mês", e o painel mostra o pedido `vip_month` como `done`.
 
 ### Reembolsos
 
 Diferente do Stripe, a Microsoft **não avisa o servidor** de reembolsos ou
-estornos: as moedas de uma compra reembolsada não são retiradas sozinhas.
-Os ids de pedido (*order ids*) ficam gravados em cada compra, para cruzar com
-o relatório do Partner Center e tirar as moedas pelo painel quando for o
-caso. Uma próxima etapa pode automatizar isso (a API *Clawback* da
+estornos: as moedas de uma compra reembolsada não são retiradas sozinhas,
+nem o mês de VIP. Os ids de pedido (*order ids*) ficam gravados em cada
+compra, para cruzar com o relatório do Partner Center e tirar as moedas (e,
+pelo botão **VIP** do painel, os dias de VIP) quando for o caso. Uma próxima etapa pode automatizar isso (a API *Clawback* da
 Microsoft, que exige uma fila no Azure).
 
 ## Lançar uma versão

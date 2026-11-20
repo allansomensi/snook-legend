@@ -622,7 +622,7 @@ pub struct MsConsume {
     pub user_id: i64,
     /// The add-on's Store ID.
     pub product_id: String,
-    /// The coin pack it stands for, and its coins.
+    /// What it stands for (a coin pack, or `vip_month`), and its coins.
     pub pack: String,
     pub coins: i64,
     /// The purchase, as the Store's collection names it.
@@ -685,6 +685,31 @@ pub fn ms_payment_id(tracking_id: &str) -> String {
 /// What a Store purchase records in `payments.currency`: Microsoft keeps the
 /// price (and pays out through Partner Center), so the amount is 0.
 pub const MS_CURRENCY: &str = "msstore";
+
+/// How a fulfilled Store purchase of `pack` is recorded, and what it gives
+/// besides its coins.
+#[derive(Debug, Clone, PartialEq)]
+pub struct MsGrant {
+    /// The payment's kind ("coins" or "vip").
+    pub kind: &'static str,
+    /// The coin ledger's reason.
+    pub reason: String,
+    /// VIP added after the time left (0: none).
+    pub vip_secs: i64,
+}
+
+pub fn ms_grant(pack: &str) -> MsGrant {
+    use snook_legend_proto::shop::{VIP_MONTH, VIP_MONTH_SECS};
+    if pack == VIP_MONTH {
+        MsGrant {
+            kind: "vip",
+            reason: "vip month (Microsoft Store)".into(),
+            vip_secs: VIP_MONTH_SECS,
+        }
+    } else {
+        MsGrant { kind: "coins", reason: format!("pack {pack} (Microsoft Store)"), vip_secs: 0 }
+    }
+}
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize)]
 pub struct LedgerRow {
@@ -1602,7 +1627,8 @@ impl Store {
         dispatch!(self, s => s.ms_due(now, limit))
     }
     /// Microsoft consumed the purchase: in one step, the row is done, the
-    /// payment recorded and the coins credited. Microsoft's confirmation of
+    /// payment recorded and the coins credited (and, for a month of VIP,
+    /// the month added after the VIP time left). Microsoft's confirmation of
     /// the row's own request counts even if the row was closed meanwhile
     /// (failed or stuck); false (nothing changes) when it was done already.
     pub async fn ms_fulfil(

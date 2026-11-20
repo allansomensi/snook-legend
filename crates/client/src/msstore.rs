@@ -1,12 +1,14 @@
-//! Coin packs bought in the Microsoft Store (the Store build on Windows).
+//! Coin packs and months of VIP bought in the Microsoft Store (the Store
+//! build on Windows).
 //!
-//! The game only drives the Store's own pieces: it asks for the packs'
+//! The game only drives the Store's own pieces: it asks for the add-ons'
 //! prices, opens the Store's purchase dialog, and turns the server's ticket
 //! into a Microsoft Store ID key. It never decides that something was
 //! bought: the server asks Microsoft, consumes the purchase and credits the
-//! coins (see `crates/server/src/msstore.rs`). A purchase whose coins did
-//! not arrive (the game closed, the network dropped) is found again by the
-//! next check, which runs once per session when the shop's offers come in.
+//! coins, and the month of VIP (see `crates/server/src/msstore.rs`). A
+//! purchase that did not arrive (the game closed, the network dropped) is
+//! found again by the next check, which runs once per session when the
+//! shop's offers come in.
 //!
 //! The Store's calls wait on the network and its dialog, so they run on a
 //! thread of their own; answers come back through [`StoreApi::poll`].
@@ -220,14 +222,19 @@ pub enum Busy {
 /// made but the collection doesn't show yet (it can take a moment).
 const RECHECKS: [f32; 3] = [3.0, 10.0, 30.0];
 
-/// The Microsoft Store build's coin packs: prices, the purchase and the
-/// server's check that follows it.
+/// The Microsoft Store build's coin packs and month of VIP: prices, the
+/// purchase and the server's check that follows it.
 #[derive(Default)]
 pub struct StoreShop {
     api: Option<StoreApi>,
     /// Store ID -> price, once the Store answered (`None` while waiting).
     pub prices: Option<std::collections::HashMap<String, String>>,
     asked: Vec<String>,
+    /// The Store ID of the month of VIP (empty: not on sale).
+    vip_id: String,
+    /// The purchase being confirmed is a month of VIP (what the notices
+    /// talk about).
+    vip: bool,
     pub busy: Option<Busy>,
     /// The quiet check of this session was made.
     checked: bool,
@@ -247,9 +254,15 @@ impl StoreShop {
         self.api.get_or_insert_with(StoreApi::start)
     }
 
-    /// The server's offers came in: ask the Store for the prices, and
+    /// The server's offers came in (the coin packs' Store IDs and the month
+    /// of VIP's, empty when not on sale): ask the Store for the prices, and
     /// receive what an earlier session paid for but never got.
-    pub fn offers(&mut self, store_ids: Vec<String>, signed_in: bool) -> Vec<Effect> {
+    pub fn offers(&mut self, packs: Vec<String>, vip_id: String, signed_in: bool) -> Vec<Effect> {
+        let mut store_ids = packs;
+        if !vip_id.is_empty() {
+            store_ids.push(vip_id.clone());
+        }
+        self.vip_id = vip_id;
         if !crate::channel::STORE || store_ids.is_empty() {
             return Vec::new();
         }
@@ -268,6 +281,7 @@ impl StoreShop {
     /// Opens the Store's purchase dialog for `store_id`.
     pub fn buy(&mut self, store_id: &str) {
         if self.busy.is_none() {
+            self.vip = !self.vip_id.is_empty() && store_id == self.vip_id;
             self.busy = Some(Busy::Buying(store_id.to_string()));
             self.recheck_in = None;
             self.api().send(Request::Buy(store_id.to_string()));
@@ -293,10 +307,7 @@ impl StoreShop {
                 self.checked = false;
                 self.recheck_in = None;
                 if loud {
-                    let text = crate::i18n::t(
-                        "The Microsoft Store couldn't confirm the purchase right now. Its coins arrive the next time you open the shop.",
-                    );
-                    out.push(Effect::Toast(text.to_string(), false));
+                    out.push(Effect::Toast(self.not_confirmed(), false));
                 }
             }
         }
@@ -358,14 +369,7 @@ impl StoreShop {
                 let loud = self.take_busy();
                 // Tried again when the shop opens next.
                 self.checked = false;
-                if loud {
-                    let text = t(
-                        "The Microsoft Store couldn't confirm the purchase right now. Its coins arrive the next time you open the shop.",
-                    );
-                    vec![Effect::Toast(text.to_string(), false)]
-                } else {
-                    Vec::new()
-                }
+                if loud { vec![Effect::Toast(self.not_confirmed(), false)] } else { Vec::new() }
             }
         }
     }
@@ -382,8 +386,25 @@ impl StoreShop {
         matches!(self.busy.take(), Some(Busy::Checking { loud: true }))
     }
 
-    /// The server checked (or credited a purchase by itself).
-    pub fn redeemed(&mut self, coins: i64, pending: bool, error: &str) -> Vec<Effect> {
+    /// The purchase could not be confirmed now (it arrives later).
+    fn not_confirmed(&self) -> String {
+        crate::i18n::t(if self.vip {
+            "The Microsoft Store couldn't confirm the purchase right now. Your VIP month starts the next time you open the shop."
+        } else {
+            "The Microsoft Store couldn't confirm the purchase right now. Its coins arrive the next time you open the shop."
+        })
+        .to_string()
+    }
+
+    /// The server checked (or credited a purchase by itself). `vip_until`:
+    /// a month of VIP was credited, and VIP lasts until then (0: none).
+    pub fn redeemed(
+        &mut self,
+        coins: i64,
+        pending: bool,
+        error: &str,
+        vip_until: i64,
+    ) -> Vec<Effect> {
         use crate::i18n::{t, tw};
         // An answer to another step (the server's own retries) leaves
         // the purchase dialog alone.
@@ -391,9 +412,17 @@ impl StoreShop {
             Some(Busy::Checking { .. }) => self.take_busy(),
             _ => false,
         };
-        if coins > 0 {
+        if coins > 0 || vip_until > 0 {
             self.recheck_in = None;
-            let text = tw("{n} coins added to your wallet.", &[("n", &coins)]);
+            let text = if vip_until > 0 {
+                let until = crate::profile::date(vip_until);
+                tw(
+                    "You are VIP until {d}, and {n} coins were added to your wallet.",
+                    &[("d", &until), ("n", &coins)],
+                )
+            } else {
+                tw("{n} coins added to your wallet.", &[("n", &coins)])
+            };
             return vec![Effect::Toast(text, true)];
         }
         if !error.is_empty() {
@@ -408,7 +437,11 @@ impl StoreShop {
             return Vec::new();
         }
         if pending {
-            let text = t("Microsoft is confirming your purchase: the coins arrive in a moment.");
+            let text = t(if self.vip {
+                "Microsoft is confirming your purchase: your VIP month starts in a moment."
+            } else {
+                "Microsoft is confirming your purchase: the coins arrive in a moment."
+            });
             return vec![Effect::Toast(text.to_string(), true)];
         }
         // Paid, but not in the collection yet: look again a little later.
@@ -419,9 +452,11 @@ impl StoreShop {
             return Vec::new();
         }
         self.checked = false;
-        let text = t(
-            "The purchase hasn't reached us yet. Its coins arrive the next time you open the shop.",
-        );
+        let text = t(if self.vip {
+            "The purchase hasn't reached us yet. Your VIP month starts the next time you open the shop."
+        } else {
+            "The purchase hasn't reached us yet. Its coins arrive the next time you open the shop."
+        });
         vec![Effect::Toast(text.to_string(), false)]
     }
 
@@ -511,12 +546,12 @@ mod tests {
         assert_eq!(shop.busy, Some(Busy::Checking { loud: true }));
         // Not in the collection yet: looked for again, three times.
         for _ in 0..RECHECKS.len() {
-            assert!(shop.redeemed(0, false, "").is_empty());
+            assert!(shop.redeemed(0, false, "", 0).is_empty());
             assert!(shop.waiting());
             let effects = shop.update(60.0);
             assert_eq!(effects, [Effect::Send(snook_legend_proto::ClientMsg::StoreTicket)]);
         }
-        let effects = shop.redeemed(0, false, "");
+        let effects = shop.redeemed(0, false, "", 0);
         assert_eq!(toasts(&effects), 1);
         assert!(!shop.waiting());
         assert!(!shop.checked, "tried again when the shop opens");
@@ -526,21 +561,22 @@ mod tests {
     fn coins_end_the_wait() {
         let mut shop =
             StoreShop { busy: Some(Busy::Checking { loud: true }), ..Default::default() };
-        let effects = shop.redeemed(1300, false, "");
+        let effects = shop.redeemed(1300, false, "", 0);
         assert!(matches!(&effects[..], [Effect::Toast(_, true)]));
         assert_eq!(shop.busy, None);
         // Coins credited later by the server's own retries also show.
-        assert_eq!(toasts(&shop.redeemed(500, false, "")), 1);
+        assert_eq!(toasts(&shop.redeemed(500, false, "", 0)), 1);
     }
 
     #[test]
     fn quiet_checks_stay_quiet() {
         let mut shop =
             StoreShop { busy: Some(Busy::Checking { loud: false }), ..Default::default() };
-        assert!(shop.redeemed(0, false, "").is_empty());
+        assert!(shop.redeemed(0, false, "", 0).is_empty());
         shop.busy = Some(Busy::Checking { loud: false });
         assert!(
-            shop.redeemed(0, false, "The Microsoft Store can't be reached right now.").is_empty()
+            shop.redeemed(0, false, "The Microsoft Store can't be reached right now.", 0)
+                .is_empty()
         );
         shop.busy = Some(Busy::Checking { loud: false });
         assert!(shop.reply(Reply::Key(Err("no".into()))).is_empty());
@@ -589,6 +625,32 @@ mod tests {
         };
         shop.signed_out();
         assert_eq!((shop.checked, shop.busy.clone()), (false, None));
+    }
+
+    #[test]
+    fn a_month_of_vip_is_told_as_vip() {
+        let _lang = crate::i18n::lang_lock();
+        crate::i18n::set_lang(crate::i18n::Lang::English);
+        let mut shop = StoreShop::default();
+        let _ = shop.offers(vec!["9A".into()], "9V".into(), false);
+        shop.buy("9V");
+        assert!(shop.vip);
+        let _ = shop.reply(Reply::Bought(Purchase::Paid));
+        let effects = shop.redeemed(0, true, "", 0);
+        assert!(matches!(&effects[..], [Effect::Toast(text, true)] if text.contains("VIP")));
+        // Credited: the toast says until when, and the coins.
+        shop.busy = Some(Busy::Checking { loud: true });
+        let effects = shop.redeemed(400, false, "", 1_800_000_000);
+        assert!(
+            matches!(&effects[..], [Effect::Toast(text, true)] if text.contains("VIP") && text.contains("400"))
+        );
+        // A coin pack bought next talks about coins again.
+        shop.busy = None;
+        shop.buy("9A");
+        assert!(!shop.vip);
+        let _ = shop.reply(Reply::Bought(Purchase::Paid));
+        let effects = shop.redeemed(0, true, "", 0);
+        assert!(matches!(&effects[..], [Effect::Toast(text, true)] if !text.contains("VIP")));
     }
 
     #[test]

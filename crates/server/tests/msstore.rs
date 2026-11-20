@@ -1,4 +1,5 @@
-//! Coin packs bought in the Microsoft Store, end to end: the game's messages
+//! Coin packs and months of VIP bought in the Microsoft Store, end to end:
+//! the game's messages
 //! over a WebSocket, and a stand-in for Microsoft's sign-in and collections
 //! services that behaves as their documentation says (the same tracking id
 //! always gets the same answer; a developer-managed consumable can only be
@@ -33,6 +34,7 @@ const PASSWORD: &str = "secret123";
 const SECRET: &str = "entra-secret";
 const PACK_500: &str = "9AAAAAAAAAAA";
 const PACK_1200: &str = "9BBBBBBBBBBB";
+const VIP_MONTH: &str = "9VVVVVVVVVVV";
 const KEY_AUDIENCE: &str = "https://collections.mp.microsoft.com/v6.0/keys";
 const USER_ID_CLAIM: &str = "http://schemas.microsoft.com/marketplace/2015/08/claims/key/userId";
 
@@ -218,7 +220,10 @@ fn store_config(base: &str) -> MsStoreConfig {
         tenant_id: "tenant".into(),
         client_id: "client".into(),
         client_secret: SECRET.into(),
-        products: parse_products(&format!("coins_500={PACK_500};coins_1200={PACK_1200}")).unwrap(),
+        products: parse_products(&format!(
+            "coins_500={PACK_500};coins_1200={PACK_1200};vip_month={VIP_MONTH}"
+        ))
+        .unwrap(),
         login_url: base.into(),
         collections_url: base.into(),
     }
@@ -312,7 +317,7 @@ impl Client {
     async fn redeem(&mut self, key: &str) -> (i64, bool, String) {
         self.send(ClientMsg::StoreRedeem { key: key.into() }).await;
         match self.expect("redeemed", |m| matches!(m, ServerMsg::StoreRedeemed { .. })).await {
-            ServerMsg::StoreRedeemed { coins, pending, error } => (coins, pending, error),
+            ServerMsg::StoreRedeemed { coins, pending, error, .. } => (coins, pending, error),
             _ => unreachable!(),
         }
     }
@@ -345,11 +350,72 @@ async fn the_shop_offers_the_store_packs() {
     let mut a = Client::register(&url, "ana").await;
     a.send(ClientMsg::Shop).await;
     let info = a.expect("shop", |m| matches!(m, ServerMsg::ShopInfo { .. })).await;
-    let ServerMsg::ShopInfo { store_packs, .. } = info else { unreachable!() };
+    let ServerMsg::ShopInfo { store_packs, store_vip, .. } = info else { unreachable!() };
+    // The month of VIP is offered apart, never as a pack of coins.
     assert_eq!(store_packs.len(), 2);
     assert_eq!(store_packs[1].code, "coins_1200");
     assert_eq!(store_packs[1].store_id, PACK_1200);
     assert_eq!((store_packs[1].coins, store_packs[1].bonus), (1200, 100));
+    assert_eq!(store_vip, VIP_MONTH);
+}
+
+#[tokio::test]
+async fn a_month_of_vip_is_credited_once_after_the_time_left() {
+    use snook_legend_proto::shop::{VIP_MONTH_SECS, VIP_MONTHLY_COINS};
+    let (base, fake) = microsoft().await;
+    let (url, server) = start_on(Store::memory(), &base).await;
+    let mut a = Client::register(&url, "ana").await;
+    let user = server.store.user_by_name("ana").await.unwrap().unwrap();
+    let vip_until = || async { server.store.wallet(user.id).await.unwrap().vip_until };
+    assert_eq!(vip_until().await, 0);
+    fake.lock().unwrap().buy("msa-ana", VIP_MONTH);
+    let before = now();
+    let (_, id) = a.ticket().await;
+    a.send(ClientMsg::StoreRedeem { key: store_key("msa-ana", &id) }).await;
+    let m = a.expect("redeemed", |m| matches!(m, ServerMsg::StoreRedeemed { .. })).await;
+    let ServerMsg::StoreRedeemed { coins, pending, error, vip_until: told } = m else {
+        unreachable!()
+    };
+    assert_eq!((coins, pending, error.as_str()), (VIP_MONTHLY_COINS as i64, false, ""));
+    // A month from now, and the game is told until when.
+    let first = vip_until().await;
+    assert!((before + VIP_MONTH_SECS..=now() + VIP_MONTH_SECS).contains(&first));
+    assert_eq!(told, first);
+    assert_eq!(coins_of(&server, "ana").await, VIP_MONTHLY_COINS as i64);
+    // Recorded as VIP for the staff.
+    let payments = server.store.payments_of(user.id, 10).await.unwrap();
+    assert_eq!((payments[0].kind.as_str(), payments[0].currency.as_str()), ("vip", "msstore"));
+    // Checking again adds nothing.
+    assert_eq!(a.check("msa-ana").await, (0, false, String::new()));
+    assert_eq!(vip_until().await, first);
+    // Another month, bought while still VIP, comes after the time left;
+    // with a coin pack in the same check, both arrive.
+    {
+        let mut ms = fake.lock().unwrap();
+        ms.buy("msa-ana", VIP_MONTH);
+        ms.buy("msa-ana", PACK_500);
+    }
+    assert_eq!(a.check("msa-ana").await.0, VIP_MONTHLY_COINS as i64 + 500);
+    assert_eq!(vip_until().await, first + VIP_MONTH_SECS);
+    // A month whose answer was lost arrives with the background task, and
+    // the player is told how long VIP lasts now.
+    {
+        let mut ms = fake.lock().unwrap();
+        ms.buy("msa-ana", VIP_MONTH);
+        ms.faults.push_back(Fault::LoseAnswer);
+    }
+    assert_eq!(a.check("msa-ana").await, (0, true, String::new()));
+    assert_eq!(vip_until().await, first + VIP_MONTH_SECS);
+    msstore::retry_due(&server, now() + 3600).await;
+    let third = first + 2 * VIP_MONTH_SECS;
+    assert_eq!(vip_until().await, third);
+    a.expect(
+        "told",
+        |m| matches!(m, ServerMsg::StoreRedeemed { vip_until, .. } if *vip_until == third),
+    )
+    .await;
+    assert_eq!(coins_of(&server, "ana").await, 3 * VIP_MONTHLY_COINS as i64 + 500);
+    assert_eq!(fake.lock().unwrap().consumed, 4);
 }
 
 #[tokio::test]
@@ -679,6 +745,31 @@ async fn exercise(store: Store) {
         ["a", "d", "e", "f", "g", "h"].iter().map(|k| by[*k].as_str()).collect();
     assert_eq!(states, ["done", "done", "pending", "failed", "failed", "done"]);
     assert_eq!(coins().await, 1500);
+    // Coin packs never touch VIP.
+    assert_eq!(store.wallet(user.id).await.unwrap().vip_until, 0);
+    // A month of VIP: its coins and a month after the time left, once.
+    let vip = |tracking: &str, transaction: &str| MsConsume {
+        product_id: VIP_MONTH.into(),
+        pack: "vip_month".into(),
+        coins: 400,
+        ..row(tracking, transaction)
+    };
+    let month = snook_legend_proto::shop::VIP_MONTH_SECS;
+    assert!(store.ms_open(&vip("v1", "tx5")).await.unwrap());
+    assert!(store.ms_fulfil("v1", "o5", t).await.unwrap());
+    assert!(!store.ms_fulfil("v1", "o5", t).await.unwrap());
+    assert_eq!(store.wallet(user.id).await.unwrap().vip_until, t + month);
+    assert!(store.ms_open(&vip("v2", "tx6")).await.unwrap());
+    assert!(store.ms_fulfil("v2", "o6", t + 10).await.unwrap());
+    assert_eq!(store.wallet(user.id).await.unwrap().vip_until, t + 2 * month);
+    assert_eq!(coins().await, 2300);
+    let payment = store.payment("ms:v2").await.unwrap().unwrap();
+    assert_eq!((payment.kind.as_str(), payment.coins), ("vip", 400));
+    // A month bought after VIP ended starts when it is credited.
+    store.set_vip(user.id, t - 100, true).await.unwrap();
+    assert!(store.ms_open(&vip("v3", "tx7")).await.unwrap());
+    assert!(store.ms_fulfil("v3", "o7", t + 50).await.unwrap());
+    assert_eq!(store.wallet(user.id).await.unwrap().vip_until, t + 50 + month);
 }
 
 #[tokio::test]

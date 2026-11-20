@@ -242,7 +242,7 @@ Como funciona por dentro (e por que é seguro):
 **Lojas de aplicativos:** a Steam e a Microsoft Store exigem os sistemas de
 pagamento delas para compras dentro do jogo. A versão da Microsoft Store já
 não oferece a Stripe e vende os pacotes de moedas pela própria Store (veja
-[MSSTORE.md](MSSTORE.md), "Venda de moedas pela Store"). No site próprio,
+[MSSTORE.md](MSSTORE.md), "Venda de moedas e VIP pela Store"). No site próprio,
 itch.io e GitHub, a Stripe é permitida.
 
 ## 10. Termos de uso e política de privacidade

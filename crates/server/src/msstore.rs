@@ -1,10 +1,13 @@
-//! Coin packs bought in the Microsoft Store (the Store build of the game).
+//! Coin packs and months of VIP bought in the Microsoft Store (the Store
+//! build of the game).
 //!
 //! The Store's policy for games (10.8.1) asks for digital items to be sold
-//! through the Store's own purchases, so the Store build sells coin packs as
-//! add-ons of the kind "developer-managed consumable". The money never comes
-//! near the game or this server: Microsoft takes it, and this server only
-//! learns, from Microsoft itself, that a pack was bought.
+//! through the Store's own purchases, so the Store build sells coin packs,
+//! and a month of VIP ([`shop::VIP_MONTH`]: bought once, with the month's
+//! coins; nothing renews by itself), as add-ons of the kind
+//! "developer-managed consumable". The money never comes near the game or
+//! this server: Microsoft takes it, and this server only learns, from
+//! Microsoft itself, that an add-on was bought.
 //!
 //! How a purchase becomes coins:
 //!
@@ -19,12 +22,13 @@
 //!    publisher id inside, and the game sends the key back
 //!    ([`ClientMsg::StoreRedeem`]).
 //! 4. The server checks that the key carries this player's publisher id, asks
-//!    Microsoft which of the game's coin packs that Microsoft account bought
+//!    Microsoft which of the game's add-ons that Microsoft account bought
 //!    and has not received yet (the collections query), and for each one:
 //!    a row with a fresh tracking id is saved first, then Microsoft is asked
 //!    to consume the purchase with that tracking id, and only Microsoft's
-//!    confirmation credits the coins (in the same database transaction that
-//!    marks the row done; the ledger reference makes the credit single).
+//!    confirmation credits the coins, and the month of VIP (in the same
+//!    database transaction that marks the row done; the ledger reference
+//!    makes the credit single).
 //!
 //! Answers lost on the way: Microsoft gives the same answer to the same
 //! tracking id however often it is sent, and says to send it again when
@@ -39,8 +43,9 @@
 //!   `SNOOK_LEGEND_MSSTORE_CLIENT_SECRET`: the Entra application associated
 //!   with the game in Partner Center (Services → Product collections and
 //!   purchases);
-//! - `SNOOK_LEGEND_MSSTORE_PRODUCTS`: `pack=StoreID` pairs separated by `;`, one
-//!   per coin pack sold in the Store, e.g. `coins_500=9NXXXXXXXXXX`.
+//! - `SNOOK_LEGEND_MSSTORE_PRODUCTS`: `product=StoreID` pairs separated by `;`,
+//!   one per coin pack sold in the Store and `vip_month` for the month of
+//!   VIP, e.g. `coins_500=9NXXXXXXXXXX;vip_month=9NYYYYYYYYYY`.
 //!
 //! See `docs/MSSTORE.md` for setting it up.
 
@@ -67,7 +72,7 @@ const COLLECTIONS_AUDIENCE: &str = "https://onestore.microsoft.com/b2b/keys/crea
 const KEY_AUDIENCE: &str = "https://collections.mp.microsoft.com/v6.0/keys";
 /// The claim with the publisher user id given when the key was made.
 const USER_ID_CLAIM: &str = "http://schemas.microsoft.com/marketplace/2015/08/claims/key/userId";
-/// The add-on kind the coin packs must have in Partner Center.
+/// The add-on kind every product must have in Partner Center.
 const UNMANAGED_CONSUMABLE: &str = "UnmanagedConsumable";
 
 pub const LOGIN_URL: &str = "https://login.microsoftonline.com";
@@ -89,13 +94,48 @@ const RETRY_EVERY: Duration = Duration::from_secs(60);
 const UNREACHABLE: &str = "The Microsoft Store can't be reached right now. Try again in a moment.";
 const NOT_CONFIRMED: &str = "The Microsoft Store could not confirm the purchase.";
 
+/// What an add-on sold in the Store gives.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Product {
+    /// A coin pack.
+    Coins(&'static CoinPack),
+    /// A month of VIP and the month's coins ([`shop::VIP_MONTH`]).
+    VipMonth,
+}
+
+impl Product {
+    /// A coin pack's code, or `vip_month`.
+    pub fn parse(code: &str) -> Option<Product> {
+        if code == shop::VIP_MONTH {
+            return Some(Product::VipMonth);
+        }
+        shop::coin_pack(code).map(Product::Coins)
+    }
+
+    /// What its purchases record (the code it was parsed from).
+    pub fn code(self) -> &'static str {
+        match self {
+            Product::Coins(pack) => pack.code,
+            Product::VipMonth => shop::VIP_MONTH,
+        }
+    }
+
+    /// The coins it brings.
+    pub fn coins(self) -> i64 {
+        match self {
+            Product::Coins(pack) => (pack.coins + pack.bonus) as i64,
+            Product::VipMonth => shop::VIP_MONTHLY_COINS as i64,
+        }
+    }
+}
+
 #[derive(Debug, Clone)]
 pub struct MsStoreConfig {
     pub tenant_id: String,
     pub client_id: String,
     pub client_secret: String,
-    /// Each coin pack sold in the Store and its add-on's Store ID.
-    pub products: Vec<(&'static CoinPack, String)>,
+    /// Each product sold in the Store and its add-on's Store ID.
+    pub products: Vec<(Product, String)>,
     /// Microsoft's addresses (tests point them at a local stand-in).
     pub login_url: String,
     pub collections_url: String,
@@ -126,36 +166,52 @@ impl MsStoreConfig {
         })
     }
 
-    /// The coin pack sold as the add-on `store_id`.
-    pub fn pack_of(&self, store_id: &str) -> Option<&'static CoinPack> {
+    /// The product sold as the add-on `store_id`.
+    pub fn product_of(&self, store_id: &str) -> Option<Product> {
         self.products.iter().find(|(_, id)| id.eq_ignore_ascii_case(store_id)).map(|(p, _)| *p)
     }
 
-    /// The packs as offered to the game.
+    /// The coin packs as offered to the game.
     pub fn offers(&self) -> Vec<StorePack> {
         self.products
             .iter()
-            .map(|(p, id)| StorePack {
-                code: p.code.to_string(),
-                coins: p.coins,
-                bonus: p.bonus,
-                store_id: id.clone(),
+            .filter_map(|(p, id)| match p {
+                Product::Coins(pack) => Some(StorePack {
+                    code: pack.code.to_string(),
+                    coins: pack.coins,
+                    bonus: pack.bonus,
+                    store_id: id.clone(),
+                }),
+                Product::VipMonth => None,
             })
             .collect()
     }
 
-    /// The game's coin packs in a page of the collections query: active,
+    /// The Store ID of the month of VIP (empty: not sold in the Store).
+    pub fn vip_offer(&self) -> String {
+        self.products
+            .iter()
+            .find(|(p, _)| *p == Product::VipMonth)
+            .map(|(_, id)| id.clone())
+            .unwrap_or_default()
+    }
+
+    /// The game's products in a page of the collections query: active,
     /// developer-managed consumables that are still to be received.
-    fn packs_in(&self, reply: &Value) -> Vec<Owned> {
+    fn products_in(&self, reply: &Value) -> Vec<Owned> {
         let Some(items) = reply["items"].as_array() else { return Vec::new() };
         items
             .iter()
             .filter_map(|item| {
-                let product = item["productId"].as_str()?;
-                let pack = self.pack_of(product)?;
+                let product_id = item["productId"].as_str()?;
+                let product = self.product_of(product_id)?;
                 let kind = item["productKind"].as_str().unwrap_or("");
                 if !kind.eq_ignore_ascii_case(UNMANAGED_CONSUMABLE) {
-                    tracing::warn!(product, kind, "Store add-on of the wrong kind; not credited");
+                    tracing::warn!(
+                        product = product_id,
+                        kind,
+                        "Store add-on of the wrong kind; not credited"
+                    );
                     return None;
                 }
                 let active =
@@ -165,10 +221,13 @@ impl MsStoreConfig {
                     return None;
                 }
                 let Some(transaction_id) = purchase_id(item) else {
-                    tracing::error!(product, "Store purchase without a transaction id; skipped");
+                    tracing::error!(
+                        product = product_id,
+                        "Store purchase without a transaction id; skipped"
+                    );
                     return None;
                 };
-                Some(Owned { product_id: product.to_string(), pack, transaction_id })
+                Some(Owned { product_id: product_id.to_string(), product, transaction_id })
             })
             .collect()
     }
@@ -192,21 +251,22 @@ fn purchase_id(item: &Value) -> Option<String> {
     Some(format!("item:{id}@{when}"))
 }
 
-/// `pack=StoreID;pack=StoreID`: every pack a coin pack of the game, every
-/// Store ID twelve letters and digits, nothing twice.
-pub fn parse_products(text: &str) -> Result<Vec<(&'static CoinPack, String)>, String> {
-    let mut out: Vec<(&'static CoinPack, String)> = Vec::new();
+/// `product=StoreID;product=StoreID`: every product a coin pack of the game
+/// or `vip_month`, every Store ID twelve letters and digits, nothing twice.
+pub fn parse_products(text: &str) -> Result<Vec<(Product, String)>, String> {
+    let mut out: Vec<(Product, String)> = Vec::new();
     for entry in text.split(';').map(str::trim).filter(|e| !e.is_empty()) {
         let (code, id) = entry.split_once('=').ok_or_else(|| format!("`{entry}` has no `=`"))?;
         let (code, id) = (code.trim(), id.trim().to_ascii_uppercase());
-        let pack = shop::coin_pack(code).ok_or_else(|| format!("`{code}` is not a coin pack"))?;
+        let product = Product::parse(code)
+            .ok_or_else(|| format!("`{code}` is neither a coin pack nor `{}`", shop::VIP_MONTH))?;
         if id.len() != 12 || !id.chars().all(|c| c.is_ascii_alphanumeric()) {
             return Err(format!("`{id}` is not a Store ID (12 letters and digits)"));
         }
-        if out.iter().any(|(p, i)| p.code == pack.code || *i == id) {
-            return Err(format!("`{entry}` repeats a pack or a Store ID"));
+        if out.iter().any(|(p, i)| *p == product || *i == id) {
+            return Err(format!("`{entry}` repeats a product or a Store ID"));
         }
-        out.push((pack, id));
+        out.push((product, id));
     }
     if out.is_empty() {
         return Err("no products".into());
@@ -214,12 +274,34 @@ pub fn parse_products(text: &str) -> Result<Vec<(&'static CoinPack, String)>, St
     Ok(out)
 }
 
-/// A coin pack bought and not yet received.
+/// A product bought and not yet received.
 #[derive(Debug, Clone, PartialEq)]
 struct Owned {
     product_id: String,
-    pack: &'static CoinPack,
+    product: Product,
     transaction_id: String,
+}
+
+/// What purchases credited.
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
+struct Credited {
+    coins: i64,
+    /// A month of VIP was among them.
+    vip: bool,
+}
+
+impl Credited {
+    /// Something was credited.
+    fn any(self) -> bool {
+        self.coins > 0 || self.vip
+    }
+}
+
+impl std::ops::AddAssign for Credited {
+    fn add_assign(&mut self, other: Credited) {
+        self.coins += other.coins;
+        self.vip |= other.vip;
+    }
 }
 
 /// Microsoft's answer to a consume request.
@@ -326,7 +408,7 @@ impl MsStore {
         self.token(COLLECTIONS_AUDIENCE).await
     }
 
-    /// The game's coin packs that the key's Microsoft account bought and has
+    /// The game's products that the key's Microsoft account bought and has
     /// not received yet.
     async fn owned(&self, key: &str, user_ref: &str) -> Result<Vec<Owned>, String> {
         let token = self.token(SERVICE_AUDIENCE).await?;
@@ -354,7 +436,7 @@ impl MsStore {
                 self.forget_tokens_if_refused(status, &reply).await;
                 return Err(format!("collections query refused ({status}): {}", describe(&reply)));
             }
-            out.extend(self.cfg.packs_in(&reply));
+            out.extend(self.cfg.products_in(&reply));
             continuation =
                 reply["continuationToken"].as_str().filter(|c| !c.is_empty()).map(str::to_string);
             if continuation.is_none() {
@@ -597,7 +679,23 @@ pub async fn handle(server: &Arc<Server>, me: &User, msg: ClientMsg, send: &impl
 }
 
 fn redeemed(coins: i64, pending: bool, error: &str) -> ServerMsg {
-    ServerMsg::StoreRedeemed { coins, pending, error: error.to_string() }
+    ServerMsg::StoreRedeemed { coins, pending, error: error.to_string(), vip_until: 0 }
+}
+
+/// What a player is told about `got`: with when VIP ends, when a month of
+/// VIP was among it.
+async fn credited_msg(
+    server: &Server,
+    user_id: i64,
+    got: Credited,
+    pending: bool,
+    error: &str,
+) -> ServerMsg {
+    let vip_until = match got.vip {
+        true => server.store.wallet(user_id).await.map(|w| w.vip_until).unwrap_or(0),
+        false => 0,
+    };
+    ServerMsg::StoreRedeemed { coins: got.coins, pending, error: error.to_string(), vip_until }
 }
 
 /// Finds and credits what `me` bought in the Store (step 4 above).
@@ -611,13 +709,13 @@ async fn redeem(server: &Arc<Server>, ms: &MsStore, me: &User, key: &str) -> Ser
     let Some(_checking) = MsStore::claim(&ms.checking, me.id.to_string()) else {
         return redeemed(0, true, "");
     };
-    let mut coins = 0;
+    let mut got = Credited::default();
     // Requests still without an answer first: one of them may be the
     // purchase the collection no longer shows.
     match server.store.ms_pending_of(me.id).await {
         Ok(rows) => {
             for row in rows {
-                coins += lease_and_settle(server, ms, &row.tracking_id).await;
+                got += lease_and_settle(server, ms, &row.tracking_id).await;
             }
         }
         Err(e) => {
@@ -632,8 +730,8 @@ async fn redeem(server: &Arc<Server>, ms: &MsStore, me: &User, key: &str) -> Ser
                 tracking_id: new_tracking_id(),
                 user_id: me.id,
                 product_id: item.product_id.clone(),
-                pack: item.pack.code.to_string(),
-                coins: (item.pack.coins + item.pack.bonus) as i64,
+                pack: item.product.code().to_string(),
+                coins: item.product.coins(),
                 transaction_id: item.transaction_id.clone(),
                 store_key: key.to_string(),
                 // The request about to go out.
@@ -644,7 +742,7 @@ async fn redeem(server: &Arc<Server>, ms: &MsStore, me: &User, key: &str) -> Ser
             match server.store.ms_open(&c).await {
                 Ok(true) => {
                     tracing::info!(user = me.id, pack = c.pack, "Store purchase found");
-                    coins += settle(server, ms, &c).await;
+                    got += settle(server, ms, &c).await;
                 }
                 // Being received already (or received).
                 Ok(false) => {}
@@ -653,38 +751,40 @@ async fn redeem(server: &Arc<Server>, ms: &MsStore, me: &User, key: &str) -> Ser
         }
     }
     let pending = !server.store.ms_pending_of(me.id).await.unwrap_or_default().is_empty();
-    if coins > 0 {
+    if got.any() {
         crate::shop::push_wallet(server, me).await;
     }
     match owned {
         Err(e) => {
             tracing::warn!("Store collection of {}: {e}", me.username);
-            redeemed(coins, pending, if coins > 0 { "" } else { UNREACHABLE })
+            let error = if got.any() { "" } else { UNREACHABLE };
+            credited_msg(server, me.id, got, pending, error).await
         }
-        Ok(_) => redeemed(coins, pending, ""),
+        Ok(_) => credited_msg(server, me.id, got, pending, "").await,
     }
 }
 
 /// Takes a pending purchase (if no one else is sending it) and sends it.
-async fn lease_and_settle(server: &Server, ms: &MsStore, tracking_id: &str) -> i64 {
+async fn lease_and_settle(server: &Server, ms: &MsStore, tracking_id: &str) -> Credited {
     match server.store.ms_lease(tracking_id, now()).await {
         Ok(Some(c)) => settle(server, ms, &c).await,
         // Settled, or being sent by someone else right now.
-        Ok(None) => 0,
+        Ok(None) => Credited::default(),
         Err(e) => {
             tracing::error!(tracking = tracking_id, "leasing a Store purchase: {e}");
-            0
+            Credited::default()
         }
     }
 }
 
 /// Sends the consume request of a purchase leased to us (`c.attempts`
-/// counts it) and acts on the answer. Returns the coins credited now.
-async fn settle(server: &Server, ms: &MsStore, c: &MsConsume) -> i64 {
+/// counts it) and acts on the answer. Returns what was credited now.
+async fn settle(server: &Server, ms: &MsStore, c: &MsConsume) -> Credited {
     let t = now();
+    let nothing = Credited::default();
     if c.store_key.is_empty() {
         let _ = server.store.ms_close(&c.tracking_id, MsState::Stuck, "no key to send", t).await;
-        return 0;
+        return nothing;
     }
     match ms.consume(c).await {
         Consumed::Done(orders) => match server.store.ms_fulfil(&c.tracking_id, &orders, t).await {
@@ -693,19 +793,19 @@ async fn settle(server: &Server, ms: &MsStore, c: &MsConsume) -> i64 {
                     user = c.user_id,
                     pack = c.pack,
                     coins = c.coins,
-                    "Store coins credited"
+                    "Store purchase credited"
                 );
-                c.coins
+                Credited { coins: c.coins, vip: c.pack == shop::VIP_MONTH }
             }
             // Only when it was credited already (by another server).
             Ok(false) => {
                 tracing::warn!(tracking = c.tracking_id, "Store purchase confirmed again");
-                0
+                nothing
             }
             // Still pending: the next try gets the same answer and credits.
             Err(e) => {
                 tracing::error!(tracking = c.tracking_id, "crediting a Store purchase: {e}");
-                0
+                nothing
             }
         },
         Consumed::Refused(why) => {
@@ -716,7 +816,7 @@ async fn settle(server: &Server, ms: &MsStore, c: &MsConsume) -> i64 {
                 "Store consume refused: {why}"
             );
             let _ = server.store.ms_close(&c.tracking_id, MsState::Failed, &why, t).await;
-            0
+            nothing
         }
         Consumed::NoAnswer(why) => {
             let why: String = why.chars().take(500).collect();
@@ -732,7 +832,7 @@ async fn settle(server: &Server, ms: &MsStore, c: &MsConsume) -> i64 {
                 let next = t + retry_delay(c.attempts);
                 let _ = server.store.ms_retry_later(&c.tracking_id, &why, next).await;
             }
-            0
+            nothing
         }
     }
 }
@@ -751,7 +851,7 @@ pub async fn run(server: Arc<Server>) {
 }
 
 /// Sends again the requests whose next try is due at `at`, and tells the
-/// players who got coins.
+/// players who got something.
 pub async fn retry_due(server: &Arc<Server>, at: i64) {
     let Some(ms) = &server.msstore else { return };
     let due = match server.store.ms_due(at, 25).await {
@@ -761,16 +861,17 @@ pub async fn retry_due(server: &Arc<Server>, at: i64) {
             return;
         }
     };
-    let mut credited: HashMap<i64, i64> = HashMap::new();
+    let mut credited: HashMap<i64, Credited> = HashMap::new();
     for c in due {
-        let coins = lease_and_settle(server, ms, &c.tracking_id).await;
-        if coins > 0 {
-            *credited.entry(c.user_id).or_default() += coins;
+        let got = lease_and_settle(server, ms, &c.tracking_id).await;
+        if got.any() {
+            *credited.entry(c.user_id).or_default() += got;
         }
     }
-    for (user_id, coins) in credited {
+    for (user_id, got) in credited {
         if let Ok(Some(user)) = server.store.user_by_id(user_id).await {
-            server.with(|l| l.notify(&user.username, redeemed(coins, false, "")));
+            let msg = credited_msg(server, user_id, got, false, "").await;
+            server.with(|l| l.notify(&user.username, msg));
             crate::shop::push_wallet(server, &user).await;
         }
     }
@@ -824,10 +925,14 @@ mod tests {
     fn product_lists() {
         let p = parse_products("coins_500=9nblggh42cfd; coins_1200 = 9NBLGGH42CFE ;").unwrap();
         assert_eq!(p.len(), 2);
-        assert_eq!(p[0].0.code, "coins_500");
+        assert_eq!(p[0].0.code(), "coins_500");
         assert_eq!(p[0].1, "9NBLGGH42CFD");
+        let p = parse_products("vip_month=9NBLGGH42CFF").unwrap();
+        assert_eq!(p, [(Product::VipMonth, "9NBLGGH42CFF".to_string())]);
         assert!(parse_products("").is_err());
         assert!(parse_products("coins_1=9NBLGGH42CFD").is_err(), "not a pack");
+        assert!(parse_products("vip_monthly=9NBLGGH42CFD").is_err(), "the Stripe plan");
+        assert!(parse_products("vip_month=9NBLGGH42CFD;vip_month=9NBLGGH42CFE").is_err());
         assert!(parse_products("coins_500=9NBLGGH42").is_err(), "short id");
         assert!(parse_products("coins_500=9NBLGGH42CF!").is_err());
         assert!(parse_products("coins_500").is_err());
@@ -840,14 +945,17 @@ mod tests {
             tenant_id: "t".into(),
             client_id: "c".into(),
             client_secret: "s".into(),
-            products: parse_products("coins_500=9AAAAAAAAAAA;coins_1200=9BBBBBBBBBBB").unwrap(),
+            products: parse_products(
+                "coins_500=9AAAAAAAAAAA;coins_1200=9BBBBBBBBBBB;vip_month=9VVVVVVVVVVV",
+            )
+            .unwrap(),
             login_url: LOGIN_URL.into(),
             collections_url: COLLECTIONS_URL.into(),
         }
     }
 
     #[test]
-    fn only_the_games_packs_are_taken_from_a_collection() {
+    fn only_the_games_products_are_taken_from_a_collection() {
         let cfg = config();
         let item = |id: &str, kind: &str, status: &str, tx: &str| {
             json!({ "productId": id, "productKind": kind, "status": status,
@@ -860,14 +968,33 @@ mod tests {
             item("9CCCCCCCCCCC", "UnmanagedConsumable", "Active", "T3"),
             item("9BBBBBBBBBBB", "Durable", "Active", "T4"),
             item("9BBBBBBBBBBB", "UnmanagedConsumable", "Active", "00000000-0000-0000-0000-000000000000"),
+            item("9VVVVVVVVVVV", "UnmanagedConsumable", "Active", "T5"),
+            item("9VVVVVVVVVVV", "Consumable", "Active", "T6"),
         ]});
-        let owned = cfg.packs_in(&reply);
-        assert_eq!(owned.len(), 2);
-        assert_eq!(owned[0].pack.code, "coins_500");
+        let owned = cfg.products_in(&reply);
+        assert_eq!(owned.len(), 3);
+        assert_eq!(owned[0].product.code(), "coins_500");
         assert_eq!(owned[0].transaction_id, "t1");
-        assert_eq!(owned[1].pack.code, "coins_1200");
+        assert_eq!(owned[1].product.code(), "coins_1200");
         assert_eq!(owned[1].transaction_id, "item:item1@2026-11-16T10:00:00Z/");
-        assert!(cfg.packs_in(&json!({})).is_empty());
+        assert_eq!(owned[2].product, Product::VipMonth);
+        assert_eq!(owned[2].product.coins(), shop::VIP_MONTHLY_COINS as i64);
+        assert!(cfg.products_in(&json!({})).is_empty());
+    }
+
+    /// The game sees the coin packs as packs and the month of VIP apart
+    /// (a game from before it never shows it as a pack of coins).
+    #[test]
+    fn the_month_of_vip_is_offered_apart() {
+        let cfg = config();
+        let packs: Vec<String> = cfg.offers().into_iter().map(|p| p.code).collect();
+        assert_eq!(packs, ["coins_500", "coins_1200"]);
+        assert_eq!(cfg.vip_offer(), "9VVVVVVVVVVV");
+        let coins_only = MsStoreConfig {
+            products: parse_products("coins_500=9AAAAAAAAAAA").unwrap(),
+            ..config()
+        };
+        assert_eq!(coins_only.vip_offer(), "");
     }
 
     fn consume_row() -> MsConsume {

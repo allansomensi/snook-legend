@@ -3,7 +3,7 @@
 
 use super::super::{
     MS_CURRENCY, MS_FIRST_RETRY, MS_LEASE, MsConsume, MsRecord, MsState, Payment, StoreError,
-    StoreResult, ms_payment_id,
+    StoreResult, ms_grant, ms_payment_id,
 };
 use super::MemoryStore;
 
@@ -108,12 +108,13 @@ impl MemoryStore {
         row.last_error = None;
         row.leased_until = 0;
         let c = row.consume.clone();
+        let grant = ms_grant(&c.pack);
         let reference = ms_payment_id(tracking_id);
         if !s.payments.iter().any(|p| p.id == reference) {
             s.payments.push(Payment {
                 id: reference.clone(),
                 user_id: c.user_id,
-                kind: "coins".into(),
+                kind: grant.kind.into(),
                 coins: c.coins,
                 amount: 0,
                 currency: MS_CURRENCY.into(),
@@ -126,9 +127,12 @@ impl MemoryStore {
         if s.ledger.iter().any(|l| l.3.as_deref() == Some(reference.as_str())) {
             return Ok(false);
         }
-        s.wallets.entry(c.user_id).or_default().coins += c.coins;
-        let reason = format!("pack {} (Microsoft Store)", c.pack);
-        s.ledger.push((c.user_id, c.coins, reason, Some(reference), at));
+        let wallet = s.wallets.entry(c.user_id).or_default();
+        wallet.coins += c.coins;
+        if grant.vip_secs > 0 {
+            wallet.vip_until = wallet.vip_until.max(at) + grant.vip_secs;
+        }
+        s.ledger.push((c.user_id, c.coins, grant.reason, Some(reference), at));
         Ok(true)
     }
 

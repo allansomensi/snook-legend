@@ -1476,6 +1476,7 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                         coins: 0,
                         pending: false,
                         error: "Slow down a little.".into(),
+                        vip_until: 0,
                     });
                 }
             }

@@ -5,7 +5,8 @@ use sqlx::postgres::PgRow;
 use sqlx::{Row, query};
 
 use super::super::{
-    MS_CURRENCY, MS_FIRST_RETRY, MS_LEASE, MsConsume, MsRecord, MsState, StoreResult, ms_payment_id,
+    MS_CURRENCY, MS_FIRST_RETRY, MS_LEASE, MsConsume, MsRecord, MsState, StoreResult, ms_grant,
+    ms_payment_id,
 };
 use super::PgStore;
 
@@ -120,13 +121,15 @@ impl PgStore {
         let user_id: i64 = row.get("user_id");
         let pack: String = row.get("pack");
         let coins: i64 = row.get("coins");
+        let grant = ms_grant(&pack);
         let reference = ms_payment_id(tracking_id);
         query(
             "INSERT INTO payments (id, user_id, kind, coins, amount, currency, at, refunded, email, test)
-             VALUES ($1, $2, 'coins', $3, 0, $4, $5, FALSE, NULL, FALSE) ON CONFLICT DO NOTHING",
+             VALUES ($1, $2, $3, $4, 0, $5, $6, FALSE, NULL, FALSE) ON CONFLICT DO NOTHING",
         )
         .bind(&reference)
         .bind(user_id)
+        .bind(grant.kind)
         .bind(coins)
         .bind(MS_CURRENCY)
         .bind(at)
@@ -138,19 +141,27 @@ impl PgStore {
         )
         .bind(user_id)
         .bind(coins)
-        .bind(format!("pack {pack} (Microsoft Store)"))
+        .bind(&grant.reason)
         .bind(&reference)
         .bind(at)
         .execute(&mut *tx)
         .await?
         .rows_affected();
+        // The ledger's reference makes this once per purchase: the VIP time
+        // too (a month after the time left, or from now).
         if credited > 0 {
             query(
-                "INSERT INTO wallets (user_id, coins) VALUES ($1, $2)
-                 ON CONFLICT (user_id) DO UPDATE SET coins = wallets.coins + EXCLUDED.coins",
+                "INSERT INTO wallets (user_id, coins, vip_until)
+                 VALUES ($1, $2, CASE WHEN $4 > 0 THEN $3 + $4 ELSE 0 END)
+                 ON CONFLICT (user_id) DO UPDATE SET coins = wallets.coins + EXCLUDED.coins,
+                     vip_until = CASE WHEN $4 > 0
+                         THEN GREATEST(wallets.vip_until, $3) + $4
+                         ELSE wallets.vip_until END",
             )
             .bind(user_id)
             .bind(coins)
+            .bind(at)
+            .bind(grant.vip_secs)
             .execute(&mut *tx)
             .await?;
         }

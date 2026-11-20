@@ -124,6 +124,7 @@ pub async fn count_cue_game(server: &Server, user: &User, won: bool, potted: u32
 fn shop_info(server: &Server) -> ServerMsg {
     // Only the Microsoft Store build shows these (and only it can buy them).
     let store_packs = server.msstore.as_ref().map(|m| m.cfg.offers()).unwrap_or_default();
+    let store_vip = server.msstore.as_ref().map(|m| m.cfg.vip_offer()).unwrap_or_default();
     match &server.stripe {
         Some(stripe) => ServerMsg::ShopInfo {
             payments: true,
@@ -143,6 +144,7 @@ fn shop_info(server: &Server) -> ServerMsg {
             vip_gift_price: stripe.label(VIP_GIFT).unwrap_or_default(),
             welcome_price: stripe.label(WELCOME_PACK).unwrap_or_default(),
             store_packs,
+            store_vip,
         },
         None => ServerMsg::ShopInfo {
             payments: false,
@@ -152,6 +154,7 @@ fn shop_info(server: &Server) -> ServerMsg {
             vip_gift_price: String::new(),
             welcome_price: String::new(),
             store_packs,
+            store_vip,
         },
     }
 }

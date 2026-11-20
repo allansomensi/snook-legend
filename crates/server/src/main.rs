@@ -17,7 +17,7 @@
 //! | `SNOOK_LEGEND_STRIPE_SECRET` | — | Stripe secret key (payments; see `payments.rs`) |
 //! | `SNOOK_LEGEND_STRIPE_WEBHOOK_SECRET` | — | Stripe webhook signing secret |
 //! | `SNOOK_LEGEND_MSSTORE_TENANT_ID`, `_CLIENT_ID`, `_CLIENT_SECRET` | — | Microsoft Entra app for Store purchases (see `msstore.rs`) |
-//! | `SNOOK_LEGEND_MSSTORE_PRODUCTS` | — | `coins_500=9XXXXXXXXXXX;…`: the Store add-on of each coin pack |
+//! | `SNOOK_LEGEND_MSSTORE_PRODUCTS` | — | `coins_500=9XXXXXXXXXXX;…;vip_month=9XXXXXXXXXXX`: the Store add-on of each coin pack and of the month of VIP |
 //! | `SNOOK_LEGEND_STRIPE_PRICES` | — | `code=price_id\|label;…` for coin packs and `vip_monthly` |
 //! | `SNOOK_LEGEND_PUBLIC_URL` | — | the server's public address (payment return pages) |
 //! | `SNOOK_LEGEND_GAME_NAME` | `Snook Legend` | the game's name on the terms of use (`/termos`, `/terms`, `/terminos`) and the privacy policy (`/privacidade`, `/privacy`, `/privacidad`) |
@@ -116,7 +116,11 @@ async fn main() {
         None => tracing::info!("payments off (SNOOK_LEGEND_STRIPE_* not set)"),
     }
     match &config.msstore {
-        Some(m) => tracing::info!("Microsoft Store purchases on ({} packs)", m.products.len()),
+        Some(m) => {
+            let packs = m.offers().len();
+            let vip = if m.vip_offer().is_empty() { "" } else { ", VIP month" };
+            tracing::info!("Microsoft Store purchases on ({packs} packs{vip})");
+        }
         None => tracing::info!("Microsoft Store purchases off (SNOOK_LEGEND_MSSTORE_* not set)"),
     }
     // Brazilian law on online sales asks the seller's name, CPF or CNPJ,

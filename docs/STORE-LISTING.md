@@ -11,7 +11,7 @@ The screenshots for each language are in `store-art/screenshots/<language>/`
 
 **Coin purchases in the Store** depend on the server: they are on only when
 the server has the `SNOOK_LEGEND_MSSTORE_*` variables and the add-ons are
-published (see [MSSTORE.md](MSSTORE.md), "Venda de moedas pela Store"). The
+published (see [MSSTORE.md](MSSTORE.md), "Venda de moedas e VIP pela Store"). The
 texts below don't mention buying anything: while the Store sale is off, use
 them as they are, and the age rating questionnaire shouldn't mention
 purchases with money either. Once it is on, add the block at the end of this
@@ -261,19 +261,21 @@ pool, billar, bola 8, snooker, pool en línea, juego de pool, billar online
 
 Add this paragraph to each description (before the last line), replace
 **X** and **Y** with the prices of the cheapest and the dearest coin pack
-set in Partner Center (Add-ons → Pricing), change "Grátis." / "Free." /
+and **Z** with the price of the month of VIP, as set in Partner Center
+(Add-ons → Pricing; drop the sentence about VIP if `vip_month` is not on
+sale), change "Grátis." / "Free." /
 "Gratis." at the end of the short descriptions to "Grátis, com compras
 opcionais de moedas." / "Free, with optional coin purchases." / "Gratis,
 con compras opcionales de monedas.", and add a line to "What's new".
 
 **Português:**
 COMPRAS NO JOGO
-O jogo é grátis. As moedas vêm de jogar (partidas valendo ranking e um bônus por dia jogado) e também podem ser compradas, de forma opcional, em pacotes de R$ X a R$ Y. Elas servem só para itens cosméticos: nada que faça ganhar partidas.
+O jogo é grátis. As moedas vêm de jogar (partidas valendo ranking e um bônus por dia jogado) e também podem ser compradas, de forma opcional, em pacotes de R$ X a R$ Y. Elas servem só para itens cosméticos: nada que faça ganhar partidas. O VIP (itens exclusivos e 400 moedas) é vendido um mês por vez, por R$ Z, e não se renova sozinho.
 
 **English:**
 IN-GAME PURCHASES
-The game is free. Coins come from playing (rated games and a bonus for every day you play) and can also be bought, if you like, in packs from US$ X to US$ Y. They are only for cosmetic items: nothing that wins games.
+The game is free. Coins come from playing (rated games and a bonus for every day you play) and can also be bought, if you like, in packs from US$ X to US$ Y. They are only for cosmetic items: nothing that wins games. VIP (exclusive items and 400 coins) is sold a month at a time, for US$ Z, and doesn't renew by itself.
 
 **Español:**
 COMPRAS EN EL JUEGO
-El juego es gratis. Las monedas se ganan jugando (partidas con clasificación y un bono por cada día que juegas) y también se pueden comprar, si quieres, en paquetes de US$ X a US$ Y. Sirven solo para objetos cosméticos: nada que haga ganar partidas.
+El juego es gratis. Las monedas se ganan jugando (partidas con clasificación y un bono por cada día que juegas) y también se pueden comprar, si quieres, en paquetes de US$ X a US$ Y. Sirven solo para objetos cosméticos: nada que haga ganar partidas. El VIP (artículos exclusivos y 400 monedas) se vende un mes a la vez, por US$ Z, y no se renueva solo.

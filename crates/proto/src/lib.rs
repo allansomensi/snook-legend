@@ -1731,6 +1731,10 @@ pub enum ServerMsg {
         /// shows them; empty when the server doesn't take Store purchases).
         #[serde(default)]
         store_packs: Vec<StorePack>,
+        /// The Store ID of the add-on that sells a month of VIP in the
+        /// Microsoft Store ([`shop::VIP_MONTH`]; empty: not on sale there).
+        #[serde(default)]
+        store_vip: String,
     },
     /// This player's coins, VIP time, items and what they use (after
     /// signing in and whenever it changes).
@@ -1758,13 +1762,16 @@ pub enum ServerMsg {
     /// The Store purchases were checked: `coins` were credited now (0: none
     /// new). `pending`: a purchase is still waiting for Microsoft's answer
     /// (its coins arrive by themselves once it comes). `error`: why the
-    /// check could not be made (empty when it was).
+    /// check could not be made (empty when it was). `vip_until`: a month of
+    /// VIP was among them, and VIP lasts until then (0: none).
     StoreRedeemed {
         coins: i64,
         #[serde(default)]
         pending: bool,
         #[serde(default)]
         error: String,
+        #[serde(default)]
+        vip_until: i64,
     },
     /// The player's place in the "Play now" queue (sent when it changes and
     /// every few seconds while searching). `range` is how far from their
@@ -2115,14 +2122,56 @@ mod tests {
         let old =
             r#"{"type":"shop_info","payments":true,"packs":[],"vip_price":"","vip_coins":400}"#;
         match parse_server(old).unwrap() {
-            ServerMsg::ShopInfo { store_packs, .. } => assert!(store_packs.is_empty()),
+            ServerMsg::ShopInfo { store_packs, store_vip, .. } => {
+                assert!(store_packs.is_empty());
+                assert!(store_vip.is_empty());
+            }
             other => panic!("{other:?}"),
         }
         let redeemed = parse_server(r#"{"type":"store_redeemed","coins":500}"#).unwrap();
         assert_eq!(
             redeemed,
-            ServerMsg::StoreRedeemed { coins: 500, pending: false, error: String::new() }
+            ServerMsg::StoreRedeemed {
+                coins: 500,
+                pending: false,
+                error: String::new(),
+                vip_until: 0
+            }
         );
+        // A game from before the VIP month reads the new messages too
+        // (fields it doesn't know are skipped).
+        #[derive(serde::Deserialize)]
+        #[serde(tag = "type", rename_all = "snake_case")]
+        enum Before {
+            ShopInfo { store_packs: Vec<StorePack> },
+            StoreRedeemed { coins: i64 },
+        }
+        let info = ServerMsg::ShopInfo {
+            payments: false,
+            packs: Vec::new(),
+            vip_price: String::new(),
+            vip_coins: 400,
+            vip_gift_price: String::new(),
+            welcome_price: String::new(),
+            store_packs: Vec::new(),
+            store_vip: "9VVVVVVVVVVV".into(),
+        };
+        let json = serde_json::to_string(&info).unwrap();
+        assert!(matches!(
+            serde_json::from_str(&json).unwrap(),
+            Before::ShopInfo { store_packs } if store_packs.is_empty()
+        ));
+        let vip = ServerMsg::StoreRedeemed {
+            coins: 400,
+            pending: false,
+            error: String::new(),
+            vip_until: 1_800_000_000,
+        };
+        let json = serde_json::to_string(&vip).unwrap();
+        assert!(matches!(
+            serde_json::from_str(&json).unwrap(),
+            Before::StoreRedeemed { coins: 400 }
+        ));
         assert_eq!(ClientMsg::StoreTicket.to_json(), r#"{"type":"store_ticket"}"#);
         let key = ClientMsg::StoreRedeem { key: "k".into() };
         assert_eq!(serde_json::from_str::<ClientMsg>(&key.to_json()).unwrap(), key);

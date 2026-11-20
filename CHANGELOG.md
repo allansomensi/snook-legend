@@ -1,5 +1,45 @@
 # Changelog
 
+## Unreleased
+
+A month of VIP sold in the Microsoft Store version. Still protocol 22 (two
+new fields, which games of 0.8.0 skip) and no new migration: the server can
+go out first, and only the next game sells the month.
+
+### A month of VIP in the Microsoft Store
+- **The Store version sells VIP a month at a time**: a fifth add-on,
+  `vip_month`, a developer-managed consumable like the coin packs, bought and
+  confirmed the same way (the server asks Microsoft, consumes the purchase
+  and credits it once). Each purchase gives 31 days of VIP and the month's
+  400 coins; nothing renews by itself. Bought while VIP, the month starts when
+  the current one ends.
+- **The VIP tab** of the Store version shows "A month of VIP · {price}" (the
+  Store's price, in the player's currency), and "Add a month · {price}" under
+  the end date while VIP ("The new month starts when this one ends."); the
+  perk about cancelling becomes "A month at a time: nothing renews by
+  itself". Without the add-on on the server it still
+  says VIP isn't sold in this version. The notices while Microsoft confirms
+  talk about the VIP month, and the one when it arrives says until when.
+- `SNOOK_LEGEND_MSSTORE_PRODUCTS` takes `vip_month=<Store ID>`; the start-up
+  log says `Microsoft Store purchases on (4 packs, VIP month)`.
+- `ShopInfo.store_vip` (the add-on's Store ID, empty when not on sale) and
+  `StoreRedeemed.vip_until` (when VIP ends, when a month was credited). The
+  month is never among `store_packs`, so a game of 0.8.0 never shows it as a
+  pack of coins.
+- **The staff portal**: the purchase shows as `vip_month` among a player's
+  Microsoft Store purchases and as VIP among the payments; the Store's count
+  in Economy reads "purchases in 30 days".
+- `docs/MSSTORE.md`: the fifth add-on, its texts in three languages, and the
+  titles and descriptions of every add-on; `docs/STORE-LISTING.md`: the VIP
+  month in the "in-game purchases" paragraph.
+
+### Deploying
+- Put `vip_month` in `SNOOK_LEGEND_MSSTORE_PRODUCTS` only once this server is
+  out: a server of 0.8.0 doesn't know it, refuses the whole list and turns
+  the Store's coin packs off too.
+- `render.yaml` names the service `snook-legend-server`, its name on Render
+  (the address stays `snook-server.onrender.com`).
+
 ## 0.8.0 (protocol 22)
 
 The official rules of the World Pool-Billiard Association next to the

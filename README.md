@@ -144,7 +144,8 @@ which every desktop installation has. How releases are made is described in
   some come with
   achievements, some cost coins, some are for **VIP** members. Coins and the
   monthly VIP are paid through Stripe (card, Pix, boleto) on its hosted page;
-  in the Microsoft Store version, coin packs are bought in the Store itself.
+  in the Microsoft Store version, coin packs and a month of VIP at a time
+  (nothing renews by itself) are bought in the Store itself.
   The server keeps the only wallet, confirms every purchase with the payment
   provider and credits it exactly once.
 - **Cues that level up** with the online games you win with them, and

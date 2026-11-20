@@ -130,6 +130,9 @@ pub struct ShopOffers {
     pub welcome_price: String,
     /// Coin packs sold in the Microsoft Store (the Store build shows them).
     pub store_packs: Vec<snook_legend_proto::StorePack>,
+    /// The Store ID of the month of VIP sold in the Microsoft Store (empty:
+    /// not on sale there).
+    pub store_vip: String,
 }
 
 pub struct Online {
@@ -1543,9 +1546,10 @@ impl Online {
                 vip_gift_price,
                 welcome_price,
                 store_packs,
+                store_vip,
             } => {
                 let ids = store_packs.iter().map(|p| p.store_id.clone()).collect();
-                let effects = self.store_shop.offers(ids, self.signed_in());
+                let effects = self.store_shop.offers(ids, store_vip.clone(), self.signed_in());
                 self.offers = Some(ShopOffers {
                     payments,
                     packs,
@@ -1554,13 +1558,14 @@ impl Online {
                     vip_gift_price,
                     welcome_price,
                     store_packs,
+                    store_vip,
                 });
                 self.store_effects(effects);
             }
             // Only the Store build asks for these.
             ServerMsg::StoreTicket { ticket, user_id } => self.store_shop.ticket(ticket, user_id),
-            ServerMsg::StoreRedeemed { coins, pending, error } => {
-                let effects = self.store_shop.redeemed(coins, pending, &error);
+            ServerMsg::StoreRedeemed { coins, pending, error, vip_until } => {
+                let effects = self.store_shop.redeemed(coins, pending, &error, vip_until);
                 self.store_effects(effects);
             }
             ServerMsg::VipGift { from, to } => {

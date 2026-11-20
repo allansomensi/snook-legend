@@ -1259,7 +1259,7 @@ Players' chat (administrator)	Chat de los jugadores (administrador)
 Play the computer while you wait	Jugar contra la computadora mientras esperas
 Looking for an opponent… {t} · the game starts as soon as one is found	Buscando rival… {t} · la partida empieza en cuanto aparezca alguien
 Stop	Detener
-# Coin packs bought in the Microsoft Store (the Store build).
+# Coin packs and months of VIP bought in the Microsoft Store (the Store build).
 The Microsoft Store couldn't complete the purchase.	Microsoft Store no pudo completar la compra.
 The Microsoft Store couldn't confirm the purchase right now. Its coins arrive the next time you open the shop.	Microsoft Store no pudo confirmar la compra ahora. Las monedas llegarán la próxima vez que abras la tienda.
 {n} coins added to your wallet.	{n} monedas añadidas a tu cartera.
@@ -1273,6 +1273,14 @@ Paid in the Microsoft Store, with your Microsoft account.	Se paga en Microsoft S
 The Microsoft Store can't be reached right now. Try again in a moment.	No se puede contactar con Microsoft Store ahora. Inténtalo de nuevo en un momento.
 The Microsoft Store could not confirm the purchase.	Microsoft Store no confirmó la compra.
 Sign in to the Microsoft Store with your Microsoft account, then open the shop again.	Inicia sesión en Microsoft Store con tu cuenta Microsoft y vuelve a abrir la tienda.
+The Microsoft Store couldn't confirm the purchase right now. Your VIP month starts the next time you open the shop.	Microsoft Store no pudo confirmar la compra ahora. Tu mes de VIP empezará la próxima vez que abras la tienda.
+You are VIP until {d}, and {n} coins were added to your wallet.	Eres VIP hasta el {d}, y se añadieron {n} monedas a tu cartera.
+Microsoft is confirming your purchase: your VIP month starts in a moment.	Microsoft está confirmando tu compra: tu mes de VIP empezará en un momento.
+The purchase hasn't reached us yet. Your VIP month starts the next time you open the shop.	La compra aún no nos ha llegado. Tu mes de VIP empezará la próxima vez que abras la tienda.
+A month at a time: nothing renews by itself	Un mes a la vez: nada se renueva solo
+Add a month · {p}	Un mes más · {p}
+A month of VIP · {p}	Un mes de VIP · {p}
+The new month starts when this one ends.	El nuevo mes empieza cuando termine este.
 Trophies	Trofeos
 No trophies yet.	Aún no hay trofeos.
 Tournament won · {n} players	Torneo ganado · {n} jugadores

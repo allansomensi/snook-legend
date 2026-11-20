@@ -2,7 +2,9 @@
 # sleeping between players). See docs/DEPLOY.pt-BR.md.
 services:
   - type: web
-    name: snook-server
+    # The service's name on Render (its address, snook-server.onrender.com,
+    # was given when it was made and stays).
+    name: snook-legend-server
     runtime: docker
     plan: starter
     # Closest Render region to South America.
@@ -18,9 +20,9 @@ services:
       # Neon connection string (the direct one, not "-pooler"). Set it in the dashboard.
       - key: DATABASE_URL
         sync: false
-      # Coin packs sold in the Microsoft Store (docs/MSSTORE.md, "Venda de
-      # moedas pela Store"). Set them in the dashboard; without them the
-      # Store version only earns coins by playing.
+      # Coin packs and the month of VIP sold in the Microsoft Store
+      # (docs/MSSTORE.md, "Venda de moedas e VIP pela Store"). Set them in the
+      # dashboard; without them the Store version only earns coins by playing.
       - key: SNOOK_LEGEND_MSSTORE_TENANT_ID
         sync: false
       - key: SNOOK_LEGEND_MSSTORE_CLIENT_ID

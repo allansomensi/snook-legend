@@ -1053,8 +1053,14 @@ pub const VIP_PLAN: &str = "vip_monthly";
 pub const VIP_MONTHLY_COINS: u32 = 400;
 /// A month of VIP given to a friend (a one-off payment, not a subscription).
 pub const VIP_GIFT: &str = "vip_gift";
+/// A month of VIP bought in the Microsoft Store: an add-on bought once,
+/// with the month's coins. Nothing renews by itself: another month is
+/// another purchase, added after the time left.
+pub const VIP_MONTH: &str = "vip_month";
+/// How long a month of VIP bought once (in the Store) lasts, in seconds.
+pub const VIP_MONTH_SECS: i64 = 31 * 86_400;
 /// How long a given VIP month lasts, in seconds.
-pub const VIP_GIFT_SECS: i64 = 31 * 86_400;
+pub const VIP_GIFT_SECS: i64 = VIP_MONTH_SECS;
 
 /// The welcome pack: a one-off purchase, once per account, with two items
 /// sold nowhere else and some coins.

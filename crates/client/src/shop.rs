@@ -1478,6 +1478,75 @@ impl ShopScreen {
         }
     }
 
+    /// The Microsoft Store build: a month of VIP bought in the Store (its
+    /// price from the Store, in the player's currency), at the top left of
+    /// `at` (its width for the button). `vip`: the player is VIP already, and
+    /// the month comes after the time left. Returns the height below.
+    fn store_vip(
+        &mut self,
+        ui: &mut Ui,
+        online: &mut Online,
+        offers: &crate::online::ShopOffers,
+        at: Rect,
+        vip: bool,
+    ) -> f32 {
+        let (x, mut y) = (at.x, at.y);
+        let not_sold = |ui: &mut Ui, y: f32| {
+            if !vip {
+                ui.text(t("VIP isn't sold in this version of the game."), x, y, 14.0, MUTED, false);
+                return y + 28.0;
+            }
+            y
+        };
+        if offers.store_vip.is_empty() {
+            return not_sold(ui, y);
+        }
+        let Some(prices) = online.store_shop.prices.clone() else {
+            ui.text(t("Loading prices from the Microsoft Store…"), x, y, 14.0, MUTED, false);
+            return y + 28.0;
+        };
+        // Not published yet, or not sold in the player's market.
+        let Some(price) = prices.get(&offers.store_vip).cloned() else {
+            return not_sold(ui, y);
+        };
+        let label = if vip {
+            tw("Add a month · {p}", &[("p", &price)])
+        } else {
+            tw("A month of VIP · {p}", &[("p", &price)])
+        };
+        let b = Rect::new(x, y, at.w, 42.0);
+        // One purchase at a time: the button waits for the Store and the server.
+        let waiting = online.store_shop.waiting();
+        let clicked = if online.signed_in() && !waiting {
+            if vip { ui.button(b, &label, true) } else { ui.primary_button(b, &label) }
+        } else {
+            ui.button(b, &label, false)
+        };
+        if clicked {
+            online.store_shop.buy(&offers.store_vip);
+        }
+        y += 50.0;
+        let status = match &online.store_shop.busy {
+            Some(crate::msstore::Busy::Buying(_)) => {
+                Some(t("Finish the purchase in the Microsoft Store window…"))
+            }
+            _ if waiting => Some(t("Confirming your purchase…")),
+            _ => None,
+        };
+        let mut lines = vec![t("Paid in the Microsoft Store, with your Microsoft account.")];
+        if vip {
+            lines.push(t("The new month starts when this one ends."));
+        }
+        if let Some(status) = status {
+            lines.insert(0, status);
+        }
+        for (i, line) in lines.iter().enumerate() {
+            let first = status.is_some() && i == 0;
+            ui.text(line, x, y + i as f32 * 20.0, 13.0, if first { GOLD } else { MUTED }, first);
+        }
+        y + lines.len() as f32 * 20.0 + 10.0
+    }
+
     fn vip(&mut self, ui: &mut Ui, online: &mut Online, area: Rect) {
         let offers = online.offers.clone().unwrap_or_default();
         let wallet = online.wallet.clone().unwrap_or_default();
@@ -1497,7 +1566,14 @@ impl ShopScreen {
             t("16-player tournaments, and first place on the waiting list of a full one")
                 .to_string(),
             t("Nothing that wins games: VIP only changes the look").to_string(),
-            t("Cancel whenever you want: VIP lasts until the end of the paid month").to_string(),
+            // The Store build sells a month at a time; elsewhere it is a
+            // subscription.
+            if crate::channel::real_money_purchases() {
+                t("Cancel whenever you want: VIP lasts until the end of the paid month")
+            } else {
+                t("A month at a time: nothing renews by itself")
+            }
+            .to_string(),
         ];
         // The perks on a card edged in gold, under the crown and the name.
         let pad = 20.0;
@@ -1531,24 +1607,19 @@ impl ShopScreen {
             let until = crate::profile::date(wallet.vip_until);
             ui.text(&tw("You are VIP until {d}.", &[("d", &until)]), area.x, y, 15.0, GOLD, true);
             y += 28.0;
-            // The subscription is managed on the payment provider's pages.
+            // The subscription is managed on the payment provider's pages;
+            // in the Store build, another month is added after this one.
             if crate::channel::real_money_purchases() {
                 let b = Rect::new(area.x, y, bw, 40.0);
                 if ui.button(b, t("Manage subscription"), offers.payments) {
                     online.send(ClientMsg::ManageVip);
                 }
                 y += 52.0;
+            } else {
+                y = self.store_vip(ui, online, &offers, Rect::new(area.x, y, bw, 0.0), true);
             }
         } else if !crate::channel::real_money_purchases() {
-            ui.text(
-                t("VIP isn't sold in this version of the game."),
-                area.x,
-                y,
-                14.0,
-                MUTED,
-                false,
-            );
-            y += 28.0;
+            y = self.store_vip(ui, online, &offers, Rect::new(area.x, y, bw, 0.0), false);
         } else if offers.payments && !offers.vip_price.is_empty() {
             let b = Rect::new(area.x, y, bw, 42.0);
             if ui.primary_button(b, &tw("Become VIP · {p}", &[("p", &offers.vip_price)])) {

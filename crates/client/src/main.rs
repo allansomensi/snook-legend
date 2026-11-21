@@ -764,6 +764,15 @@ async fn main() {
                 m.notify(text, true);
             }
         }
+        // A rematch at this computer: the break alternates on from it (the
+        // next game started is broken by the one who doesn't break this one).
+        if let Some(m) = current.as_mut()
+            && std::mem::take(&mut m.rematched)
+            && m.game.rules() == snook_legend_core::Rules::Brazilian
+        {
+            config.next_breaker = 1 - (m.breaker % 2) as u8;
+            config.save();
+        }
         // The player's game of the tournament just ended: the round is
         // played out and the tournament moves on.
         if let Some(m) = current.as_mut()
@@ -1222,6 +1231,21 @@ async fn main() {
                             }
                         }
                         HudAction::MainMenu => {
+                            // A tournament's game left while its last shot
+                            // was rolling: the shot counts (a game left over
+                            // is a game lost, and this one is won or lost).
+                            if let Some(c) = cup.as_mut()
+                                && m.is_against_computer()
+                                && c.playing == Some(m.seed())
+                            {
+                                m.settle_shot();
+                                if let Some(over) = m.game.game_over() {
+                                    c.report(
+                                        over.winner == snook_legend_proto::ladder::PLAYER_SEAT,
+                                    );
+                                    c.save();
+                                }
+                            }
                             // Back from a replay: to the profile it was opened
                             // from; from a game while waiting: to the lounge.
                             let replay = m.is_replay();

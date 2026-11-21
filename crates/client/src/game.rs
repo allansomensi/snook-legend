@@ -305,6 +305,9 @@ pub struct Match {
     pub last_report: Option<ShotReport>,
     pub guide: AimGuide,
     pub games_played: u32,
+    /// An offline rematch was just dealt (the game's loop notes who breaks
+    /// the game after it, and clears this).
+    pub rematched: bool,
     /// Turns begun so far (a turn passed on the clock or by a choice too,
     /// which `shots_taken` doesn't count).
     pub turns_begun: u32,
@@ -594,6 +597,7 @@ impl Match {
             shot_in_hand: false,
             guide: settings.guide,
             games_played: 0,
+            rematched: false,
             turns_begun: 0,
             breaker: 0,
             wins: [0, 0],
@@ -839,7 +843,7 @@ impl Match {
         m.timeline = saved.timeline.clone();
         m.wins = saved.wins;
         m.games_played = saved.games_played;
-        m.breaker = saved.breaker % 2;
+        m.breaker = saved.breaker.unwrap_or(saved.games_played as usize) % 2;
         m.begin_turn();
         m
     }
@@ -930,6 +934,7 @@ impl Match {
             // No full guide against people.
             guide: guide.online(),
             games_played: 0,
+            rematched: false,
             turns_begun: 0,
             breaker: 0,
             wins: [0, 0],
@@ -1082,6 +1087,8 @@ impl Match {
         // The break alternates: the one who didn't break this game breaks
         // the next.
         self.deal(seed, 1 - self.breaker % 2);
+        let human = self.controllers.contains(&Controller::Human);
+        self.rematched = human && !self.free_play && !self.practice;
     }
 
     /// Starts a new game from the rack `seed`, `breaker` to break. The
@@ -1555,7 +1562,13 @@ impl Match {
         }
         if report.break_again {
             // The Brazilian rules: the break is handed over.
-            let text = if report.first_contact.is_none() {
+            // (A break that hit nothing and lost the cue ball is played from
+            // the head spot as well: the cue ball isn't in hand.)
+            let cue_lost = report
+                .fouls
+                .iter()
+                .any(|f| matches!(f, Foul::CueBallPocketed | Foul::CueBallOffTable));
+            let text = if report.first_contact.is_none() && !cue_lost {
                 "No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string."
             } else if report.pocketed.iter().any(|(b, _)| b.is_object()) {
                 "The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks again, from the head spot."
@@ -2042,6 +2055,18 @@ impl Match {
         Self::collect_sounds(pending.simulation.events(), events_seen, &mut self.sounds);
         self.events_seen = pending.simulation.events().len();
         if !moving {
+            self.end_animation();
+        }
+    }
+
+    /// Offline: the shot on its way is played to its end at once (the game
+    /// is being left, and what the shot does still counts).
+    pub fn settle_shot(&mut self) {
+        if self.online.is_some() {
+            return;
+        }
+        if let Phase::Simulating(pending) = &mut self.phase {
+            pending.simulation.run_to_rest();
             self.end_animation();
         }
     }

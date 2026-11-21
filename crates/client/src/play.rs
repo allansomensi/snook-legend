@@ -118,6 +118,10 @@ fn aiming_cue(m: &Match, scene: &Scene, gap: f64) -> crate::scene::CuePose {
 /// is drawn, anywhere from the tip to the butt: the height of the stick
 /// there (in the world, for [`pointer_at_height`]).
 fn pointer_on_cue(m: &Match, scene: &Scene, cam: &SceneCamera, mouse: Vec2) -> Option<f32> {
+    // No cue is drawn while a decision after the break is pending.
+    if m.game.pending_choice().is_some() {
+        return None;
+    }
     let pose = aiming_cue(m, scene, aim_gap(m));
     let (tip, butt) = (pose.tip, pose.butt());
     // Pixels per metre at a point (how thick the stick looks there).
@@ -393,6 +397,17 @@ impl Controls {
                     m.aim.yaw = self.yaw_before;
                     click(m, scene, pointer);
                 }
+                // A click on the stick is a click on the ball or the pocket
+                // lying under it (on bare cloth it does nothing: the aim
+                // isn't turned around by a touch of the cue).
+                DragMode::Cue
+                    if self.drag < 4.0
+                        && pointer_free
+                        && pointer.is_some_and(|p| on_ball_or_pocket(m, scene, p)) =>
+                {
+                    m.aim.yaw = self.yaw_before;
+                    click(m, scene, pointer);
+                }
                 _ => {}
             }
             self.mode = DragMode::None;
@@ -511,6 +526,16 @@ fn place_near(m: &mut Match, p: DVec2) {
 
 /// A click on the table: calls a pocket for the 8-ball, or points the cue at
 /// the clicked spot (a ball, or any point on the cloth).
+/// Whether a click at `p` would aim at a ball or call a pocket.
+fn on_ball_or_pocket(m: &Match, scene: &Scene, p: DVec2) -> bool {
+    let r = scene.ball_radius() as f64;
+    m.game
+        .balls()
+        .iter()
+        .any(|b| b.in_play() && b.id != BallId::CUE && b.xy().distance(p) < r * 1.6)
+        || PocketId::ALL.into_iter().any(|id| scene.pocket_center(id).distance(p) < 0.12)
+}
+
 fn click(m: &mut Match, scene: &Scene, at: Option<DVec2>) {
     let Some(p) = at else { return };
     if !matches!(m.phase, Phase::Turn { .. }) {

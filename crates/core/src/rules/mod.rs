@@ -357,7 +357,8 @@ pub struct ShotReport {
     pub penalty: Vec<BallId>,
     /// The Brazilian rules: the break hit no ball, or lost the cue ball
     /// without making one, and the opponent breaks, from where the balls
-    /// lie, with the cue ball in hand behind the head string.
+    /// lie: the cue ball on the head spot when it was lost, in hand behind
+    /// the head string when the break hit no ball.
     pub break_again: bool,
     /// The official rules: a player must decide how play goes on after
     /// this break before anyone shoots (see [`EightBallGame::choose`]).
@@ -683,7 +684,7 @@ impl EightBallGame {
     }
 
     pub fn group_of(&self, player: usize) -> Option<Group> {
-        self.groups[player]
+        self.groups[player % 2]
     }
 
     pub fn is_break(&self) -> bool {
@@ -726,7 +727,7 @@ impl EightBallGame {
     /// group is off the table (4.4: the shooter may claim it and shoot the
     /// 8).
     pub fn is_on_eight(&self, player: usize) -> bool {
-        match self.groups[player] {
+        match self.groups[player % 2] {
             Some(g) => self.remaining(g).is_empty(),
             None => match self.rules {
                 Rules::Brazilian => {
@@ -991,7 +992,7 @@ impl EightBallGame {
     /// lowest; with none left, the 8 pays it and the game is lost), and the
     /// cue ball goes back to the head spot, not in hand; with the table
     /// still open nothing is owed. On the break, the break passes to the
-    /// opponent, the cue ball in hand behind the head string.
+    /// opponent, the cue ball on the head spot (not in hand).
     ///
     /// The official rules: slow play is a standard foul (3.14), and the
     /// opponent has the cue ball in hand anywhere on the table; on the

@@ -66,7 +66,14 @@ pub struct Cup {
     /// screen after it).
     #[serde(default)]
     pub counted: Option<u64>,
+    /// How many rounds an arena has. (A file that doesn't say is from
+    /// before the arena said so: see [`Cup::parse`].)
+    #[serde(default)]
+    arena_rounds: usize,
 }
+
+/// The rounds of an arena before it had seven.
+const OLD_ARENA_ROUNDS: usize = 5;
 
 fn path() -> Option<std::path::PathBuf> {
     crate::config::config_dir().map(|d| d.join("cup.json"))
@@ -87,6 +94,7 @@ impl Cup {
             rounds: Vec::new(),
             playing: None,
             counted: None,
+            arena_rounds: ARENA_ROUNDS,
         }
     }
 
@@ -99,8 +107,15 @@ impl Cup {
     /// Reads a saved tournament; anything that doesn't hold together is
     /// refused (the player starts a new one).
     pub fn parse(text: &str) -> Option<Cup> {
-        let cup: Cup = serde_json::from_str(text).ok()?;
+        let mut cup: Cup = serde_json::from_str(text).ok()?;
+        if cup.arena_rounds == 0 {
+            // An arena of five rounds that ended stays ended (its medal was
+            // given); one still being played goes on to seven.
+            let ended = cup.rounds.len() == OLD_ARENA_ROUNDS && cup.playing.is_none();
+            cup.arena_rounds = if ended { OLD_ARENA_ROUNDS } else { ARENA_ROUNDS };
+        }
         let sound = cup.version == VERSION
+            && (cup.arena_rounds == ARENA_ROUNDS || cup.arena_rounds == OLD_ARENA_ROUNDS)
             && cup.entrants.len() == ENTRANTS
             && cup.entrants.iter().filter(|e| e.is_empty()).count() == 1
             && cup.entrants.iter().all(|e| e.is_empty() || personalities::personality(e).is_some())
@@ -169,7 +184,7 @@ impl Cup {
     pub fn total_rounds(&self) -> usize {
         match self.format {
             Format::Knockout => 4,
-            Format::Arena => ARENA_ROUNDS,
+            Format::Arena => self.arena_rounds,
         }
     }
 
@@ -429,6 +444,26 @@ mod tests {
         assert_eq!(cup.champion(), Some(cup.player()));
         assert_eq!(cup.player_place(), Some(1));
         assert_eq!(cup.rounds.len(), 4);
+    }
+
+    #[test]
+    fn an_arena_of_five_rounds_that_ended_stays_ended() {
+        let mut cup = Cup::new(Format::Arena, 7);
+        for _ in 0..OLD_ARENA_ROUNDS {
+            cup.report(true);
+        }
+        // As an older version wrote it: without the number of rounds.
+        let mut json = serde_json::to_value(&cup).unwrap();
+        json.as_object_mut().unwrap().remove("arena_rounds");
+        let old = Cup::parse(&json.to_string()).unwrap();
+        assert!(old.finished());
+        assert_eq!(old.total_rounds(), OLD_ARENA_ROUNDS);
+        // One still under way goes on to seven.
+        let mut cup = Cup::new(Format::Arena, 7);
+        cup.report(true);
+        let mut json = serde_json::to_value(&cup).unwrap();
+        json.as_object_mut().unwrap().remove("arena_rounds");
+        assert_eq!(Cup::parse(&json.to_string()).unwrap().total_rounds(), ARENA_ROUNDS);
     }
 
     #[test]

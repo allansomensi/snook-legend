@@ -148,3 +148,160 @@ Links alleen wat ertoe doet: je niveau, de volgende prijs, en de prestaties en r
 
 ### Het bovenaanzicht zoals het was, met ronde ballen
 De tafel heeft weer haar diepte en haar gewone licht, en de camera springt niet meer als hij het bovenaanzicht verlaat.
+
+## 0.6.1
+
+### Een bovenaanzicht zonder vervorming
+De tafel wordt nu van hoog boven bekeken, bijna zonder perspectief: ballen blijven rond tot in de hoeken, en de keu, de richtlijn en de spookbal liggen altijd op één lijn. Het licht op de ballen is zachter, zodat het nummer leesbaar is.
+
+### Een toernooi en een tour die menens zijn
+In een toernooi tegen de computer telt een partij één keer: halverwege weggaan wist haar niet (ze gaat verder waar ze was) en er is geen revanche. De kampioen krijgt een gouden medaille. En de tour is zwaar: elke tegenstander speelt op zijn best.
+
+### Nieuwe prestaties, afbeeldingen en geluiden
+De nul gehouden, Gouden afstoot en accountverjaardagen. Gezichten die op mensen lijken en twaalf profielfoto's die geen gezichten zijn (de 8-bal, een trofee, een kroon…). Nieuwe geluiden voor de ballen, de keu, de banden en de pockets.
+
+### Klassen, niveaus die lonen en schaarse munten
+Andere spelers worden getoond met hun klasse (de rating staat in het profiel en op de ranglijst). Elk accountniveau levert munten op en niveaus 5 tot 50 brengen eigen items, maar de klim is lang. Munten zijn schaarser: alles in de winkel kost tijd om te verdienen.
+
+## 0.6.0
+
+### Braziliaanse regels, met strafballen
+Het spel speelt nu de regionale Braziliaanse regels van 8-ball, die van cafés en poolzalen (niet de officiële toernooiregels). Een fout geeft de beurt door en haalt de laagste ballen van je tegenstander van tafel, alleen een gepotte speelbal geeft bal in de hand, en de 8 alleen bij de afstoot wint. De volledige regels staan in het menu.
+
+### Zwaardere ballen
+Het laken remt de bal meer af en de afstoot is minder heftig: de ballen vliegen niet meer over de hele tafel.
+
+### Toernooien tegen de computer en meer oefeningen
+Speel een knock-out met zestien of een arena op punten tegen de vijftien tegenstanders. En er zijn acht nieuwe oefeningen, vijftien in totaal.
+
+### Richten en de keu
+De elevatie van de keu stel je in door met de muis te slepen, de richtlijn wijst naar het midden van de spookbal, vage pijlen laten zien wanneer de speelbal verplaatst kan worden, en de schaduwen kunnen uit.
+
+## 0.5.1
+
+### Schonere ballen
+De bleke schijf boven op elke bal is weg: een bal wordt belicht als één rond geheel en toont de lamp als één strak puntje. Beslag, kleden en de kwaliteit Laag zien er ook beter uit.
+
+### De krachtbalk onthoudt niets
+Geen markering meer van je vorige stoot, en elke beurt begint in het midden van de balk: het tempo inschatten hoort bij het spel.
+
+### Niets boven de tafel
+Wie er aan de beurt is, staat nu in de bovenste balk, naast het scorepaneel, zodat de middenpocket altijd in zicht is. Richtlijnen zijn vloeiend, en de ringen rond de pockets zijn heel.
+
+## 0.5.0
+
+### Natuurkunde van een toernooitafel
+De ballen wegen wat ze op een echte tafel wegen: de krachtbalk gaat tot een harde stoot (alleen de afstoot gebruikt volle kracht), banden geven minder terug naarmate ze harder geraakt worden, en een gepotte bal valt in de pocket met het tempo waarmee hij aankwam.
+
+### Een officiële toernooitafel
+De tafel is de reglementaire van 8 voet, maat voor maat: ballen, hoek- en middenpockets met de officiële openingen en hoeken. Het laken is diepgroen onder de lampen en de ballen glanzen als gepolijste ballen, met scherpe nummers.
+
+### Een eerlijkere hulplijn, of geen
+De spookbal stopt nu waar de speelbal echt zou stoppen, de openingen van de pockets inbegrepen. En een nieuwe keuze: speel helemaal zonder richthulp.
+
+## 0.4.0
+
+### Een nieuwe naam: Snook Legend
+Het spel heet nu Snook Legend. Je account, munten, items, instellingen en voortgang zijn er allemaal nog, zoals voorheen.
+
+### Tafel van 8 voet, open middenpockets
+Een kleinere tafel (8 voet) en middenpockets die een bal buiten het midden of onder een hoek vergeven. De ballen rollen iets vrijer.
+
+### Nieuwe regel: de bal van je tegenstander
+Een bal van je tegenstander potten geeft de beurt door, ook als er ook een van jou viel. Het is geen fout: geen bal in de hand.
+
+### Beter zichtbaar
+Het laken is gelijkmatig belicht, de ballen hebben een zachte glans zodat hun nummers leesbaar zijn, schaduwen zijn lichter, en niets van de zaal zit het bovenaanzicht in de weg. Wie aan de beurt is, valt op in de scorekaarten.
+
+### Vijftien tegenstanders
+Tito, Inês, Diego, Amara en Yuri komen bij de computertegenstanders, elk met een eigen stijl en stem. De tour heeft nu vijftien etappes; je eerdere overwinningen blijven bewaard.
+
+### Stillere tegenstanders
+Instellingen → Spel → Opmerkingen van tegenstanders zet hun tekstballonnen uit.
+
+### Een nieuw scorepaneel
+Foto's en namen in vakken, en de ballen die elke speler potte rollen langs hun band op hun plek, in de volgorde waarin ze vielen.
+
+### Richten op het oog
+Hef de keu door hem te slepen in een zijaanzicht van de stoot. Geen getallen meer bij de kracht of de elevatie: schat ze op het oog. Liever plat? Instellingen → Spel → Alleen bovenaanzicht.
+
+### Regels en afbeeldingen
+De spelregels zijn één klik weg (het boek in het hoofdmenu, of Regels in het pauzemenu). Kies een van 32 profielfoto's in je profiel.
+
+### Je partijen zijn veilig
+Herhalingen en dagelijkse partijen die vóór deze update begonnen, houden de oude tafel en regels tot ze afgelopen zijn.
+
+## 0.3.0
+
+### Een reglementaire tafel van 9 voet
+De tafel heeft nu toernooiformaat (100" × 50"), met ballen, pockets, banden en keu op officiële maat. De ballen zijn zwaarder en stuiteren minder, zoals echte.
+
+### Een nieuwe afstootregel
+Bij de afstoot bepaalt de eerste bal die je pot je groep: hele of halve. Een fout bij de afstoot laat de tafel open.
+
+### Nieuwe zalen, tafels en keus
+Vier nieuwe zalen en vier nieuwe tafels, en elke oude is vernieuwd. Premium keus die totaal niet op elkaar lijken. Op Ultra weerspiegelen vloeren de zaal.
+
+### Dagelijkse uitdaging
+Elke dag een nieuwe positie, voor iedereen dezelfde, met een dagranglijst: drie pogingen om zo veel mogelijk ballen te potten.
+
+### Oefeningen met sterren
+Zeven oefeningen in potten, effect, bandstoten en uit de snooker komen, met elk tot drie sterren, met ranglijsten en een uitdagingsrating die je niveau toont.
+
+### Accountniveau
+Verdien ervaring in elke partij, gewonnen of verloren, en in oefeningen, de dagelijkse uitdaging en prestaties. Je niveau staat in je profiel.
+
+### De tour
+De oude ladder is nu de tour: tien etappes, met elk één tegenstander. De tegenstanders hebben nieuwe portretten en praten tijdens de partij.
+
+### Eerlijk spel
+Een partij verlaten kost meer dan verliezen. De volledige richthulp is alleen voor vrije partijen tegen de computer en oefenen: nooit online, in de tour, de dagelijkse uitdaging of oefeningen.
+
+### Je profiel
+Een trofeeënplank en statistieken per keu: partijen, overwinningen en gepotte ballen ermee. Je kunt je gebruikersnaam nu tot drie keer wijzigen.
+
+### In de lounge
+Een status ‘afwezig’, snelle berichten vertaald in de taal van je tegenstander en een oefentafel terwijl er naar een tegenstander wordt gezocht.
+
+## 0.2.0
+
+### Tien tegenstanders met karakter
+Kies tegen wie je speelt: van Leo, die nog leert, tot Marta, die leeft van safety's, en Lola, die alles via de band speelt. Elk heeft een eigen stijl, portret en sterkte.
+
+### De ladder
+Versla de tien tegenstanders een voor een, tot de laatste. Bereik de top om de exclusieve keu ‘Ladder king’ en een nieuwe prestatie te verdienen.
+
+### Speel tegen de geest
+De computer leert de stijl van een echte speler uit diens online partijen. Daag de geest van een vriend uit, of je eigen, vanuit het profiel of het scherm tegen de computer.
+
+### Dagelijkse partijen
+Daag iemand uit en speel je beurt wanneer het jou uitkomt: elke speler heeft tot 3 dagen per beurt. Je krijgt bericht als je aan de beurt bent, en je kunt meerdere partijen tegelijk spelen.
+
+### Vrienden en cadeaus
+Zie met wie je onlangs speelde, schrijf een status in je profiel en plaats een oproep op het prikbord ‘Zoekt een partij’ van de lounge. Cadeaus van vrienden komen nu met een melding, een bericht en een ‘bedankt’.
+
+### Keus, tafels en zalen
+Je keu krijgt ringen en inlegwerk naarmate je ermee wint. In de winkel: tafels en zalen met een thema: strandbar, industriële loft en Engelse club.
+
+### Je spel geanalyseerd
+Het nieuwe tabblad Analyse in het profiel toont hoe je pot per pocket, afstand en soort stoot, met een heatmap van de tafel.
+
+### Jouw toetsen
+Elke sneltoets kun je wijzigen in Instellingen → Besturing, en de tips in het spel volgen je keuzes.
+
+### Automatische updates
+Nieuwe versies worden op de achtergrond gedownload en bij het herstarten geïnstalleerd, nooit tijdens een partij. Dit venster vertelt wat er veranderd is.
+
+### Een nagelopen interface
+Elk scherm is nagelopen in de drie talen en bij elke venstergrootte. Fixes: Esc opent het menu aan tafel, de computer pot de 8 betrouwbaarder in de aangegeven pocket, en het bovenaanzicht wordt niet meer zwart.
+
+## 0.1.4
+
+### Een partij terwijl je wacht
+Na een halve minuut ‘Nu spelen’ zonder tegenstander kun je tegen de computer spelen terwijl het zoeken doorgaat.
+
+### Chatmoderatie
+Je kunt je eigen chatregels verwijderen, en moderators kunnen misbruik weghalen.
+
+### Keus die je ziet
+Tegenstanders zien het patroon van de keu die je kocht, en VIP-leden hebben eigen reacties.

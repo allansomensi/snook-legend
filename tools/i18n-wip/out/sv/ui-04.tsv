@@ -1,0 +1,300 @@
+901	Gränssnittets storlek
+902	Text, knappar och paneler.
+903	Dra för att ställa in kraften
+904	Stöt!
+905	Ställ in kraften och tryck sedan på den gröna knappen
+906	+{n} mynt · {why}
+907	Turneringar med 16 spelare och första plats i kön till en full turnering
+908	30 minuter: spela så många partier du kan. En vinst ger 2 poäng, 4 från tredje vinsten i rad.
+909	En krona vid ditt namn, överallt (lounge, profil, ranking)
+910	Konto
+911	Lägg till vänner för att ge dem föremål.
+912	Arena
+913	Arena · värd {host} · {n} spelare · {kind}
+914	Köp nu
+915	Köper…
+916	Byt lösenord
+917	Klicka igen för att radera
+918	Har du en kod? Skriv den här
+919	Bekräfta köp
+920	Kopierat: skicka den till en vän.
+921	Kopiera
+922	Nuvarande
+923	Radera konto
+924	Insats
+925	Insats {n} mynt
+926	Alla repriser sparas (gratisspelare sparar sina senaste 10 partier)
+927	Till {name}
+928	Lägg till ett meddelande (valfritt)
+929	Format
+930	Ramar
+931	Gratis
+932	Skaffa mynt
+933	Gåvan skickad!
+934	Ge som gåva
+935	Ge bort
+936	Ge till en vän
+937	Toppen!
+938	Om du glömmer ditt lösenord bekräftar vi att det är du via den här e-postadressen.
+939	Bjud in med en kod
+940	Det används direkt. Föremål ändrar bara utseendet, aldrig spelet.
+941	Kom till mitt bord i Snook Legend:
+942	Ställ dig i kön
+943	Gå med · {n} mynt
+944	Utslagning
+945	Namnfärg
+946	Namnfärger i loungen och exklusiva ramar, dukar, köer, bollar och effekter
+947	Ny
+948	Nej tack
+949	Inget som vinner partier: VIP ändrar bara utseendet
+950	Siffror
+951	PÅ TV
+952	Spela rankade partier för att se din rating här.
+953	Inga rankade partier än.
+954	Pris
+955	Priser {a} + {b}
+956	Skydda dina köp
+957	Köpet är klart!
+958	E-post för återställning
+959	Spara
+960	Insatserna blir prispotten: 70 % till vinnaren, 20 % till tvåan.
+961	Servern startar om om {m}:{s} för en uppdatering. Pågående partier fortsätter.
+962	Använd den här e-postadressen
+963	Använda {email} för att återställa ditt konto om du någon gång glömmer lösenordet?
+964	Titta
+965	Titta igen
+966	Vinsteffekter
+967	Hallar
+968	Du paras ihop så fort du och en motståndare är lediga.
+969	Du kan ändra det när som helst i din profil (Konto).
+970	Du behöver {n} mynt till.
+971	Ditt konto
+972	Ditt konto har raderats.
+973	Dina mynt
+974	Din vän får den direkt.
+975	Ditt parti mot {name} börjar.
+976	Ditt namn, din e-post, dina vänner och föremål raderas för gott. Dina motståndare behåller partierna ni spelat (utan ditt namn).
+977	bollar per parti
+978	bästa serie någonsin
+979	daglig bonus
+980	insatsen tillbaka
+981	för partiet
+982	för vinsten
+983	räknade partier
+984	Analys
+985	Stötanalysen är inte tillgänglig på den här servern än.
+986	Bara onlinekonton har stötanalys.
+987	Spela online för att se hur du sänker: analysen visas efter {n} stötar till mot ett hål.
+988	{name} har inte spelat tillräckligt många onlinepartier för en analys än.
+989	1 parti
+990	{pct}% av {n} stötar mot ett hål sänkta · {games}
+991	{made} av {n} sänkta ({pct})
+992	Per stöttyp
+993	stötar
+994	Rak
+995	Snitt 8–25°
+996	Snitt 25–45°
+997	Tunt snitt 45°+
+998	Dubblé
+999	Vallstöt
+1000	Kombination
+1001	Hopp
+1002	Massé
+1003	Utslag
+1004	Per avstånd
+1005	Kort (under 0,75 m)
+1006	Medel (upp till 1,5 m)
+1007	Lång (över 1,5 m)
+1008	lämnade motståndaren inget
+1009	Utslag
+1010	sänkte en boll
+1011	Sänkta
+1012	Missade
+1013	Var och i vilket hål
+1014	{pocket}: {made} av {n} sänkta
+1015	Var de sänkta bollarna låg
+1016	Var de missade bollarna låg
+1017	få
+1018	många
+1019	{made} sänkta · {missed} missade ({pct})
+1020	Övre vänstra hörnet
+1021	Nedre vänstra hörnet
+1022	Övre mitthålet
+1023	Nedre mitthålet
+1024	Övre högra hörnet
+1025	Nedre högra hörnet
+1026	partier lämnade ofullbordade
+1027	träffsäkerhet
+1028	stötar med foul
+1029	börjar om {n} min
+1030	turneringspris
+1031	Det mörka rummet döljer hallen runt bordet.
+1032	Visa hallen
+1033	Nivå {n} · 1 vinst
+1034	Nivå {n} · {w} vinster
+1035	{left} onlinevinster till med den här kön för nivå {n}. Nivåer lägger bara till märken på kön.
+1036	Högsta nivån: den här kön har alla märken.
+1037	Din kö {cue} nådde nivå {n}!
+1038	Flest vinster: {cue} (nivå {n})
+1039	{games} partier · {rate}% vunna · {balls} sänkta bollar
+1040	mot
+1041	{from} gav dig {item}!
+1042	Du har fått en gåva!
+1043	Från
+1044	Till
+1045	någon
+1046	En månad VIP
+1047	Tacka
+1048	Tackat
+1049	Hen tackade dig
+1050	Använd nu
+1051	Senare
+1052	OK
+1053	Nästa ({n} till)
+1054	{from} gav dig {item}! Den väntar på dig i loungen.
+1055	{name} tackade dig för {item}.
+1056	Gåvor
+1057	Inga gåvor än. Vänner kan ge dig föremål från butiken.
+1058	{item} är din och används redan.
+1059	{m}:{s} kvar
+1060	{name} bjuder in dig att spela.
+1061	{name} är online.
+1062	{name} fick slut på tid.
+1063	{name} fick {item}.
+1064	{n} p · {g} partier
+1065	{n} tittar · snitt {r}
+1066	{title}: {how}
+1067	Oliv
+1068	Marinblå
+1069	Skog
+1070	Skiffergrå
+1071	Rödvin
+1072	Bränd orange
+1073	Gammelrosa
+1074	Sand
+1075	Isblå
+1076	Lime
+1077	Smoking
+1078	Kobolt
+1079	Smaragd
+1080	Naturlig lönn
+1081	Strandbar
+1082	Modern
+1083	Engelsk klubb
+1084	Ebenholts och guld
+1085	Biljardhall
+1086	Industriloft
+1087	Stål och ek
+1088	Turnering
+1089	Viktoriansk valnöt
+1090	Elfenbensdeco
+1091	Fjällstuga
+1092	Neonarkad
+1093	Art deco-lounge
+1094	Takvåning med utsikt
+1095	Valnöt
+1096	Zebrano
+1097	Bocote
+1098	Djuphav
+1099	Körsbär
+1100	Jade
+1101	Tiger
+1102	Ametist
+1103	Arktisk kolfiber
+1104	Inferno
+1105	Obsidian och guld
+1106	Beige krita
+1107	Grå krita
+1108	Orange krita
+1109	Rosa krita
+1110	Blågrön krita
+1111	Gul krita
+1112	Svart krita
+1113	Vit krita
+1114	Silverkrita
+1115	TV-set
+1116	Jordtoner
+1117	Hav
+1118	Solnedgång
+1119	Godis
+1120	Pärla
+1121	Monokrom
+1122	Krom
+1123	Guldfeber
+1124	Ingen ram
+1125	Brons
+1126	Silver
+1127	Guld
+1128	Grön filt
+1129	Mahogny
+1130	Is
+1131	Eld
+1132	Diamant
+1133	VIP-krona
+1134	Roséguld
+1135	Aqua
+1136	Violett
+1137	Glöd
+1138	Mint
+1139	Frost
+1140	Ingen effekt
+1141	Gnistor
+1142	Konfetti
+1143	Tryckvåg
+1144	Myntregn
+1145	Lågor
+1146	Kungliga gnistor
+1147	Nivåns färg
+1148	Turneringar med 16 spelare är för VIP-medlemmar.
+1149	En plats blev ledig: du är med i turneringen!
+1150	Insatsen kan vara upp till 1000 mynt.
+1151	Gäster kan inte spela om mynt.
+1152	Bara föremål som säljs för mynt kan ges bort.
+1153	Lösenordet har ändrats.
+1154	Lösenord behöver 8 eller fler tecken, inte bara siffror.
+1155	E-post för återställning borttagen.
+1156	E-post för återställning sparad.
+1157	Något gick fel. Försök igen.
+1158	Koden är inte giltig (eller så har bordet stängts).
+1159	Det ser inte ut som en e-postadress.
+1160	Det partiet är slut.
+1161	Det nuvarande lösenordet är fel.
+1162	Servern startar om.
+1163	Servern startar om: nya partier börjar om en stund.
+1164	Turneringen är full: du står i kön.
+1165	Den här reprisen är inte tillgänglig.
+1166	Du kan bara ge föremål till dina vänner.
+1167	Din vän har redan det här föremålet.
+1168	16 (VIP)
+1169	VIP säljs inte i den här versionen av spelet.
+1170	I den här versionen av spelet tjänar du mynt genom att spela:
+1171	rankade partier och en bonus varje dag du spelar.
+1172	Mynt tjänar du genom att spela:
+1173	Om du vill kan du också köpa dem:
+1174	en månad
+1175	redan VIP
+1176	Ge en månad till en vän · {p}
+1177	{from} gav dig en månad VIP!
+1178	{name} fick en månad VIP.
+1179	Din vän är redan VIP.
+1180	Pågående parti: {n} bollar kvar
+1181	Fortsätt
+1182	Uppdrag
+1183	Tavlan
+1184	I dag
+1185	Den här veckan
+1186	nya uppdrag om {t}
+1187	slutar om {t}
+1188	{n} dagar
+1189	{n} h
+1190	{n} min
+1191	uppdrag klart
+1192	Uppdrag räknar rankade partier som spelats till slut. Mynten kommer så fort ett är klart.
+1193	Inget på tavlan just nu.
+1194	Öppna turneringar
+1195	{n}/{size} spelare
+1196	börjar om {t}
+1197	insats {n} mynt
+1198	Visa
+1199	Spela {n} rankade partier
+1200	Vinn {n} rankade partier

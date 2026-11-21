@@ -1,307 +1,307 @@
-# Snook Legend: what's new, shown in the game after an update.
-# "## <version>" starts a version (newest first), "### <title>" a highlight,
-# and the lines after it are its text. Keep it short and about what players
-# see; every language has the same versions and the same number of highlights.
+# Snook Legend: wat is er nieuw, getoond in het spel na een update.
+# "## <versie>" begint een versie (nieuwste eerst), "### <titel>" een hoogtepunt,
+# en de regels erna zijn de tekst ervan. Elke taal heeft dezelfde versies en
+# hetzelfde aantal hoogtepunten.
 
 ## 0.8.3
 
-### What you earn is shown
-An item that comes with an achievement, such as a level reached, now arrives with a "Congratulations!" window that shows it and lets you use it at once.
+### Je ziet wat je verdient
+Een item dat bij een prestatie hoort, zoals een bereikt niveau, komt nu met een venster ‘Gefeliciteerd!’ dat het laat zien en waarmee je het meteen kunt gebruiken.
 
-### One game at a time
-Starting the game while it is already open brings its window to the front instead of opening a second one. Two games on one computer wrote over each other's settings and saved game.
+### Eén spel tegelijk
+Start je het spel terwijl het al open is, dan komt het bestaande venster naar voren in plaats van dat er een tweede opent. Twee spellen op één computer overschreven elkaars instellingen en opgeslagen partij.
 
-### The 8 on a break handed over
-Under the Brazilian rule, a break handed over after the cue ball was lost, with the balls already scattered, no longer wins by potting the 8: hitting it first is a foul and pocketing it loses, as on any shot. Only the break of the rack has the 8 alone winning.
+### De 8 bij een doorgegeven afstoot
+Bij de Braziliaanse regels wint een afstoot die is doorgegeven nadat de speelbal verloren ging, met de ballen al verspreid, niet meer door de 8 te potten: die eerst raken is een fout en hem potten is verlies, zoals bij elke stoot. Alleen bij de afstoot van een vers rek wint de 8 alleen.
 
-### Cleaner pockets, a steadier camera, and many fixes
-The pockets are finished without rough edges, and going from the overhead view to 3D keeps your zoom. Two more reviews of the whole game fixed many bugs: a rematch keeps the break alternating, a private arena asks for its password while it runs, a table rejoined after its game ended shows the result, and more.
+### Nettere pockets, een rustigere camera en veel fixes
+De pockets zijn afgewerkt zonder ruwe randen, en van bovenaanzicht naar 3D gaan behoudt je zoom. Nog twee controles van het hele spel losten veel bugs op: een revanche houdt de afstoot afwisselend, een privé-arena vraagt om het wachtwoord terwijl hij loopt, een tafel waar je terugkomt nadat de partij is afgelopen toont de uitslag, en meer.
 
 ## 0.8.2
 
-### The shot clock gives a ball
-Under the Brazilian rule, running out of time is a foul: your opponent's lowest ball comes off (if they are on the 8 already, the 8 pays and you lose), the cue ball goes back to the head spot, not in hand, and the turn passes.
+### De shotclock geeft een bal
+Bij de Braziliaanse regels is tijd op een fout: de laagste bal van je tegenstander gaat van tafel (speelt die al op de 8, dan betaalt de 8 en verlies jij), de speelbal gaat terug naar het afstootpunt, niet in de hand, en de beurt gaat over.
 
-### The break, one each
-Under the Brazilian rule the players break in turn, one break each. A break that loses the cue ball with no ball made, or with balls of both groups, passes the break: your opponent breaks again from the head spot, with the balls where they stopped.
+### De afstoot, om de beurt
+Bij de Braziliaanse regels stoten de spelers om de beurt af, één afstoot per keer. Een afstoot die de speelbal verliest zonder gepotte bal, of met ballen van beide groepen, geeft de afstoot door: je tegenstander stoot opnieuw af vanaf het afstootpunt, met de ballen waar ze stillagen.
 
-### Grab the cue anywhere
-Click and drag the cue anywhere along it, from the tip to the butt, even drawn back or raised over the rail: it follows the pointer as it swings.
+### Pak de keu overal vast
+Klik en sleep de keu waar je maar wilt, van pomerans tot kolf, zelfs naar achteren getrokken of geheven boven de band: hij volgt de aanwijzer terwijl hij zwaait.
 
-### Seven rounds in the arena, and many fixes
-The arena against the computer is seven rounds for everyone, and the shop has a new icon. Three reviews of the whole game fixed many bugs: leaving while the balls roll no longer undoes a shot against the computer, the first ball hit is the one the cue ball really touched first, and more.
+### Zeven rondes in de arena, en veel fixes
+De arena tegen de computer telt zeven rondes voor iedereen, en de winkel heeft een nieuw pictogram. Drie controles van het hele spel losten veel bugs op: weggaan terwijl de ballen rollen maakt een stoot tegen de computer niet meer ongedaan, de eerst geraakte bal is de bal die de speelbal echt als eerste raakte, en meer.
 
 ## 0.8.1
 
-### The 8 pays the penalty
-Under the Brazilian rule, a foul that gives more balls than your opponent has left loses the game: their balls come off and the 8 pays the rest. Once your opponent is on the 8, any foul that gives a ball loses: missing every ball, pocketing the cue ball or knocking it off the table.
+### De 8 betaalt de straf
+Bij de Braziliaanse regels kost een fout die meer ballen oplevert dan je tegenstander nog heeft de partij: diens ballen gaan van tafel en de 8 betaalt de rest. Speelt je tegenstander op de 8, dan kost elke fout die een bal oplevert de partij: alle ballen missen, de speelbal potten of hem van tafel spelen.
 
-### Click outside to close
-The match's chat, the game history and the spin and elevation panels close when you click outside them, and the click still counts on the table. Menus and dialogs close with a click outside them too, like Cancel.
+### Klik ernaast om te sluiten
+De chat van de partij, het partijverloop en de panelen voor effect en elevatie sluiten als je ernaast klikt, en de klik telt dan nog steeds op de tafel. Menu's en dialogen sluiten ook met een klik ernaast, zoals Annuleren.
 
 ## 0.8.0
 
-### The official rules
-You can now also play the official rules of the WPA, the eight-ball of international tournaments: every shot is called, a foul gives ball in hand anywhere and no ball comes off as a penalty. Choose your rules in the main menu. The Brazilian rule is still there, just as it was.
+### De officiële regels
+Je kunt nu ook met de officiële regels van de WPA spelen, het 8-ball van internationale toernooien: elke stoot wordt aangegeven, een fout geeft bal in de hand overal op tafel en er gaat geen bal als straf van tafel. Kies je regels in het hoofdmenu. De Braziliaanse regels zijn er nog, precies zoals ze waren.
 
-### A rating for each rules
-Each rules has its own rating, tier and world ranking: the ranking has a tab for each and your profile a card for each. Your level, coins and achievements are shared.
+### Een rating per regelset
+Elke regelset heeft een eigen rating, klasse en wereldranglijst: de ranglijst heeft voor elk een tabblad en je profiel voor elk een kaart. Je niveau, munten en prestaties zijn gedeeld.
 
-### Calling your shots
-Under the official rules the pocket you aim at is called (a ring shows it). Click another pocket to call it, or Safety to call none. After some breaks you choose how the game goes on, with the buttons or 1, 2 and 3.
+### Je stoten aangeven
+Bij de officiële regels wordt de pocket waarop je richt aangegeven (een ring laat hem zien). Klik op een andere pocket om die aan te geven, of op Safety om niets aan te geven. Na sommige afstoten kies je hoe het spel verdergaat, met de knoppen of met 1, 2 en 3.
 
-### Online, by rules
-Invitations, tables, Play now, tournaments and daily games all say their rules, and Play now pairs you with players of yours. The menu shows how many people play each.
+### Online, per regelset
+Uitnodigingen, tafels, Nu spelen, toernooien en dagelijkse partijen vermelden allemaal hun regels, en Nu spelen koppelt je aan spelers met jouw regels. Het menu toont hoeveel mensen elke regelset spelen.
 
-### The break, Brazilian rule
-If the break loses the cue ball together with balls of both groups, the break now passes to your opponent, with the cue ball in hand behind the head string and no penalty ball.
+### De afstoot, Braziliaanse regels
+Verliest de afstoot de speelbal samen met ballen van beide groepen, dan gaat de afstoot nu naar je tegenstander, met de speelbal in de hand achter de afstootlijn en zonder strafbal.
 
 ## 0.7.4
 
-### The chat, when you want it
-No more age question when signing up. The chat with other players starts off and asks only the first time you write: 18 or older turns it on at once, and under 18 a parent or guardian turns it on. Whoever doesn't chat is never asked.
+### De chat, wanneer jij wilt
+Geen leeftijdsvraag meer bij het aanmelden. De chat met andere spelers staat eerst uit en vraagt het alleen de eerste keer dat je schrijft: met 18 of ouder gaat hij meteen aan, en onder de 18 zet een ouder of voogd hem aan. Wie niet chat, krijgt de vraag nooit.
 
-### Invitations in the corner
-An invitation now shows as a card in the top right corner on every screen and over any game, with the player's picture, the buttons to accept or decline and a soft chime. Accept it from the menu and the game starts right away.
+### Uitnodigingen in de hoek
+Een uitnodiging verschijnt nu als kaart rechtsboven op elk scherm en over elke partij, met de foto van de speler, de knoppen om te accepteren of te weigeren en een zacht belletje. Accepteer je hem vanuit het menu, dan begint de partij meteen.
 
-### Windows tells you at once
-With the game behind another window or minimised, Windows shows the invitation at once (it used to wait a few seconds).
+### Windows meldt het meteen
+Staat het spel achter een ander venster of is het geminimaliseerd, dan toont Windows de uitnodiging meteen (eerst duurde dat een paar seconden).
 
 ## 0.7.3
 
-### New rules
-If the break hits no ball, or loses the cue ball (down or off the table) with no ball made, the break passes to your opponent, with the cue ball in hand behind the head string. With a ball made, it decides the groups even if the cue ball goes down too. And the cue ball off the table costs a ball, as a scratch does.
+### Nieuwe regels
+Raakt de afstoot geen bal, of verliest hij de speelbal (gepot of van tafel) zonder gepotte bal, dan gaat de afstoot naar je tegenstander, met de speelbal in de hand achter de afstootlijn. Met een gepotte bal bepaalt die de groepen, ook als de speelbal ook valt. En de speelbal van tafel kost een bal, net als de speelbal potten.
 
-### More drills, no ranking
-There are 24 drills now, nine of them new: the far corner, long into the side, cue ball on the cushion, the plant, the carom, the long draw, on the tangent line, two-cushion bank and fifteen in a row. Each shows its position, and your stars are kept in your account. The drills' ranking is gone.
+### Meer oefeningen, geen ranglijst
+Er zijn nu 24 oefeningen, waarvan negen nieuw: de verre hoek, lang in het midden, speelbal tegen de band, tegen elkaar aan, de carambole, de lange trekstoot, op de raaklijn, via twee banden en vijftien op rij. Elke oefening toont haar positie, en je sterren worden in je account bewaard. De ranglijst van de oefeningen is verdwenen.
 
-### New pictures
-The portraits were drawn again, with more care, and there are new pictures of pool things. Your picture now shows on the card in the corner of the start screen when you're signed in.
+### Nieuwe afbeeldingen
+De portretten zijn opnieuw getekend, met meer zorg, en er zijn nieuwe afbeeldingen van poolspullen. Je foto staat nu op de kaart in de hoek van het startscherm als je bent ingelogd.
 
-### Terms and privacy
-The terms of use and the privacy policy are a click away: when you sign up, in the shop and in Settings → Game → About. Purchases with money give you 7 days to change your mind and get your money back.
+### Voorwaarden en privacy
+De gebruiksvoorwaarden en het privacybeleid zijn één klik weg: bij het aanmelden, in de winkel en in Instellingen → Spel → Over. Bij aankopen met geld heb je 7 dagen bedenktijd om je geld terug te krijgen.
 
-### Age and chat
-The game asks your age group (once). Under 18, the chat with other players stays off until a parent or guardian turns it on, below the lounge's chat, as Brazilian law asks.
+### Leeftijd en chat
+Het spel vraagt (één keer) naar je leeftijdsgroep. Onder de 18 blijft de chat met andere spelers uit tot een ouder of voogd hem aanzet, onder de chat van de lounge, zoals de Braziliaanse wet vraagt.
 
-### Emoji in the chat
-Emoji now show as pictures in the chat, notes and statuses, flags and all. Tabs have all their names at one size, and the count of who is online is smaller: the green dot, a person and the number.
+### Emoji in de chat
+Emoji verschijnen nu als afbeeldingen in de chat, oproepen en statussen, vlaggen incluis. Tabbladen hebben al hun namen in één grootte, en de teller van wie er online is, is kleiner: het groene bolletje, een poppetje en het aantal.
 
 ## 0.7.2
 
-### A harder tour
-Each stage of the tour is harder than before, and more so the further up: opponents miss less, look at every shot and play for position. The final against Viktor, for the cue, is very hard now: he barely misses and plays safe more often. Tournaments against the computer stay as they were.
+### Een zwaardere tour
+Elke etappe van de tour is moeilijker dan voorheen, en hoe hoger, hoe meer: tegenstanders missen minder, bekijken elke stoot en spelen op positie. De finale tegen Viktor, om de keu, is nu heel zwaar: hij mist bijna nooit en speelt vaker een safety. Toernooien tegen de computer blijven zoals ze waren.
 
-### Tournament medals
-Play a tournament against the computer to its end and finish in the first three for a gold, silver or bronze medal. The Tournament tab counts them, knockout and arena apart; they are kept in your account the next time you're online.
+### Toernooimedailles
+Speel een toernooi tegen de computer uit en eindig bij de eerste drie voor een gouden, zilveren of bronzen medaille. Het tabblad Toernooi telt ze, knock-out en arena apart; ze worden in je account bewaard zodra je weer online bent.
 
-### A camera like the table's
-In the shop's showroom the camera turns with the right button, as at the table, smoothly, and never goes under the floor or the table. The wheel brings you closer.
+### Een camera zoals aan tafel
+In de showroom van de winkel draait de camera met de rechterknop, zoals aan tafel, soepel, en gaat hij nooit onder de vloer of de tafel. Met het scrollwiel kom je dichterbij.
 
 ## 0.7.1
 
-### The first ball decides
-On the break, the first ball that goes down decides your group, even if others go down after it: the 3 and then the 13, and you take the solids. The 13 is your opponent's, so it stays down for them and the turn passes.
+### De eerste bal beslist
+Bij de afstoot bepaalt de eerste bal die valt je groep, ook als er daarna andere vallen: eerst de 3 en dan de 13, en jij krijgt de hele. De 13 is van je tegenstander, dus die blijft erin voor je tegenstander en de beurt gaat over.
 
-### Ball in hand on the break only
-The cue ball is in hand on the break only, behind the head string. If it goes down or leaves the table, it comes back to the head spot (right behind a ball lying there), without ball in hand, with the usual penalties. A break that makes only the cue ball is no longer racked again: your opponent plays on from there.
+### Bal in de hand alleen bij de afstoot
+De speelbal is alleen bij de afstoot in de hand, achter de afstootlijn. Valt hij of gaat hij van tafel, dan komt hij terug op het afstootpunt (direct achter een bal die daar ligt), zonder bal in de hand, met de gewone straffen. Een afstoot waarbij alleen de speelbal valt, wordt niet meer opnieuw opgezet: je tegenstander speelt vanaf daar verder.
 
-### Who is online
-Playing the computer (in a tournament, on the tour or in a drill), a discreet corner shows how many people are online and says when someone comes: time to go and invite them. Invitations show over the game.
+### Wie is er online
+Speel je tegen de computer (in een toernooi, op de tour of in een oefening), dan toont een bescheiden hoekje hoeveel mensen er online zijn en meldt het wanneer er iemand bij komt: tijd om die uit te nodigen. Uitnodigingen verschijnen over de partij.
 
-### The shop's showroom
-"Look at it closely" opens a showroom: the item alone in a dark studio, turning. Drag to turn it, use the wheel to come close and pause it at will. Ready views show a cue's tip and joint or a table's pockets; click a ball to see it float close up, and see tables and cloths in any hall.
+### De showroom van de winkel
+‘Van dichtbij bekijken’ opent een showroom: het item alleen in een donkere studio, draaiend. Sleep om het te draaien, gebruik het scrollwiel om dichterbij te komen en pauzeer wanneer je wilt. Kant-en-klare standpunten tonen de pomerans en de verbinding van een keu of de pockets van een tafel; klik op een bal om hem van dichtbij te zien zweven, en bekijk tafels en lakens in elke zaal.
 
-### Truly brown
-The 7 and the 15 are now brown, no longer a dark red easily taken for the 3 and the 11. The shop's sets where they looked alike are put right too.
+### Echt bruin
+De 7 en de 15 zijn nu bruin, en niet meer donkerrood, dat makkelijk voor de 3 en de 11 werd aangezien. De sets in de winkel waar ze op elkaar leken, zijn ook rechtgezet.
 
-### Focus mode
-Settings → Game → "Focus mode": no invitations while you play. Whoever tries to invite you is told you're in focus mode. It comes off.
+### Focusmodus
+Instellingen → Spel → ‘Focusmodus’: geen uitnodigingen terwijl je speelt. Wie je probeert uit te nodigen, krijgt te horen dat je in focusmodus bent. Hij is uit te zetten.
 
 ## 0.7.0
 
-### One kind on the break
-A new house rule: if the break makes balls of both groups (the 3 and the 14, say), the turn passes and the table stays open. Balls of one kind only and you shoot again, as before. The rules in the menu explain it, with a few rare cases now put right, and the computer plays a little better.
+### Eén soort bij de afstoot
+Een nieuwe huisregel: pot de afstoot ballen van beide groepen (de 3 en de 14, bijvoorbeeld), dan gaat de beurt over en blijft de tafel open. Alleen ballen van één soort, en je blijft aan stoot, zoals voorheen. De regels in het menu leggen het uit, een paar zeldzame gevallen zijn rechtgezet, en de computer speelt iets beter.
 
-### Every ball counts
-The balls you make in a row show by your picture with a little flame, and three, five and seven in a row are cheered (and a table cleared in one visit). The clock's last seconds tick, a chime says when your turn comes back online, and the rating counts up at the end of a game.
+### Elke bal telt
+De ballen die je op rij pot, verschijnen bij je foto met een vlammetje, en drie, vijf en zeven op rij krijgen applaus (net als een tafel die in één beurt wordt leeggespeeld). De laatste seconden van de klok tikken, een belletje meldt online dat je weer aan de beurt bent, en de rating telt op aan het einde van een partij.
 
-### Events
-Now and then the staff run events: a weekend of double (or triple) experience, coins from games counting double, or a themed tournament the server organises, sometimes with a prize from the house on top of the entry fees. The main menu and the lounge show what is on and what is coming.
+### Evenementen
+Af en toe organiseert de staf evenementen: een weekend met dubbele (of driedubbele) ervaring, munten uit partijen die dubbel tellen, of een thematoernooi dat de server organiseert, soms met een prijs van het huis bovenop het inleggeld. Het hoofdmenu en de lounge tonen wat er loopt en wat er komt.
 
-### On to the next one
-After a win on the tour, "Next" takes you straight to the next opponent; after a drill, "Try again". The deciding shot can be watched again from the end panel, and a first game points out where to aim, set the power and shoot.
+### Door naar de volgende
+Na een overwinning op de tour brengt ‘Volgende’ je direct naar de volgende tegenstander; na een oefening ‘Opnieuw proberen’. De beslissende stoot kun je opnieuw bekijken vanuit het eindpaneel, en een eerste partij laat zien waar je richt, de kracht instelt en stoot.
 
-### The head string, if you want it
-Settings → Game → "Always show the head string" keeps the line the break is played from on the table. Off by default: it shows only while you place the cue ball behind it.
+### De afstootlijn, als je wilt
+Instellingen → Spel → ‘Afstootlijn altijd tonen’ houdt de lijn vanwaar wordt afgestoten op tafel. Standaard uit: hij verschijnt alleen terwijl je de speelbal erachter plaatst.
 
-### Fair rewards, softer light
-The tour's final and the ranked drills are now set up by the server, so their cue and their tables are earned the same way by everyone (play them signed in). A dropped connection no longer closes the game, a game against the computer is never replaced without asking, and the light under the lamps falls softly, without hard edges.
+### Eerlijke beloningen, zachter licht
+De finale van de tour en de oefeningen met ranglijst worden nu door de server klaargezet, zodat iedereen hun keu en tafels op dezelfde manier verdient (speel ze ingelogd). Een verbroken verbinding sluit het spel niet meer, een partij tegen de computer wordt nooit zonder te vragen vervangen, en het licht onder de lampen valt zacht, zonder harde randen.
 
 ## 0.6.2
 
-### Leagues and levels on one page
-In the profile, the "Leagues and levels" tab shows every league, from which rating and what it pays, and every level that brings an item. Reaching a league for the first time now pays coins and, from Skilled up, an item of the league's own.
+### Klassen en niveaus op één pagina
+In het profiel toont het tabblad ‘Klassen en niveaus’ elke klasse, vanaf welke rating en wat die oplevert, en elk niveau dat een item brengt. Een klasse voor het eerst bereiken levert nu munten op en, vanaf Bedreven, een eigen item van die klasse.
 
-### A cleaner profile
-On the left, just what matters: your level, the next prize, and the achievements and reactions already won. Every medal and reaction has a tab of its own, and nothing runs off the screen.
+### Een overzichtelijker profiel
+Links alleen wat ertoe doet: je niveau, de volgende prijs, en de prestaties en reacties die je al hebt gewonnen. Elke medaille en reactie heeft een eigen tabblad, en niets loopt meer van het scherm.
 
-### The view from above as it was, with round balls
-The table has its depth and its usual light again, and the camera no longer jumps when it leaves the view from above.
+### Het bovenaanzicht zoals het was, met ronde ballen
+De tafel heeft weer haar diepte en haar gewone licht, en de camera springt niet meer als hij het bovenaanzicht verlaat.
 
 ## 0.6.1
 
-### A view from above without distortion
-The table is now seen from high up, almost without perspective: balls stay round out to the corners, and the cue, the aiming line and the ghost ball always line up. The light on the balls is softer, so the number shows.
+### Een bovenaanzicht zonder vervorming
+De tafel wordt nu van hoog boven bekeken, bijna zonder perspectief: ballen blijven rond tot in de hoeken, en de keu, de richtlijn en de spookbal liggen altijd op één lijn. Het licht op de ballen is zachter, zodat het nummer leesbaar is.
 
-### A tournament and a tour that mean it
-In a tournament against the computer a game counts once: leaving half way doesn't wipe it (it goes on from where it was) and there is no rematch. The champion gets a gold medal. And the tour is hard: every opponent plays at their best.
+### Een toernooi en een tour die menens zijn
+In een toernooi tegen de computer telt een partij één keer: halverwege weggaan wist haar niet (ze gaat verder waar ze was) en er is geen revanche. De kampioen krijgt een gouden medaille. En de tour is zwaar: elke tegenstander speelt op zijn best.
 
-### New achievements, pictures and sounds
-Shutout, Golden break and account anniversaries. Faces that look like people and twelve profile pictures that are not faces (the 8-ball, a trophy, a crown…). New sounds for the balls, the cue, the cushions and the pockets.
+### Nieuwe prestaties, afbeeldingen en geluiden
+De nul gehouden, Gouden afstoot en accountverjaardagen. Gezichten die op mensen lijken en twaalf profielfoto's die geen gezichten zijn (de 8-bal, een trofee, een kroon…). Nieuwe geluiden voor de ballen, de keu, de banden en de pockets.
 
-### Leagues, levels that pay and scarce coins
-Other players are shown by their league (the rating is on the profile and in the ranking). Every account level pays coins and levels 5 to 50 bring items of their own, but the climb is long. Coins are scarcer: everything in the shop takes time to earn.
+### Klassen, niveaus die lonen en schaarse munten
+Andere spelers worden getoond met hun klasse (de rating staat in het profiel en op de ranglijst). Elk accountniveau levert munten op en niveaus 5 tot 50 brengen eigen items, maar de klim is lang. Munten zijn schaarser: alles in de winkel kost tijd om te verdienen.
 
 ## 0.6.0
 
-### A Brazilian rule, with penalty balls
-The game now plays the regional Brazilian rule of eight-ball, the one of bars and pool halls (not the official tournament rule). A foul passes the turn and takes your opponent's lowest balls off the table, only a pocketed cue ball gives ball in hand, and the 8 alone on the break wins. The full rules are in the menu.
+### Braziliaanse regels, met strafballen
+Het spel speelt nu de regionale Braziliaanse regels van 8-ball, die van cafés en poolzalen (niet de officiële toernooiregels). Een fout geeft de beurt door en haalt de laagste ballen van je tegenstander van tafel, alleen een gepotte speelbal geeft bal in de hand, en de 8 alleen bij de afstoot wint. De volledige regels staan in het menu.
 
-### Heavier balls
-The cloth holds the ball more and the break is less violent: the balls no longer scatter all over the table.
+### Zwaardere ballen
+Het laken remt de bal meer af en de afstoot is minder heftig: de ballen vliegen niet meer over de hele tafel.
 
-### Tournaments against the computer and more drills
-Play a knockout of sixteen or an arena on points against the fifteen opponents. And there are eight new drills, fifteen in all.
+### Toernooien tegen de computer en meer oefeningen
+Speel een knock-out met zestien of een arena op punten tegen de vijftien tegenstanders. En er zijn acht nieuwe oefeningen, vijftien in totaal.
 
-### Aiming and the cue
-The cue's elevation can be set by dragging with the mouse, the aiming line points at the centre of the ghost ball, faint arrows show when the cue ball can be moved, and the shadows can be turned off.
+### Richten en de keu
+De elevatie van de keu stel je in door met de muis te slepen, de richtlijn wijst naar het midden van de spookbal, vage pijlen laten zien wanneer de speelbal verplaatst kan worden, en de schaduwen kunnen uit.
 
 ## 0.5.1
 
-### Cleaner balls
-The pale disc on top of every ball is gone: a ball is lit as one round thing and shows the lamp as a single clean dot. Castings, rugs and Low quality look better too.
+### Schonere ballen
+De bleke schijf boven op elke bal is weg: een bal wordt belicht als één rond geheel en toont de lamp als één strak puntje. Beslag, kleden en de kwaliteit Laag zien er ook beter uit.
 
-### The power bar keeps no memory
-No more mark for your last stroke, and every turn starts from the middle of the bar: judging the pace is part of the game.
+### De krachtbalk onthoudt niets
+Geen markering meer van je vorige stoot, en elke beurt begint in het midden van de balk: het tempo inschatten hoort bij het spel.
 
-### Nothing over the table
-Whose turn it is now reads in the top bar, beside the score panel, so the side pocket is always in sight. Aiming lines are smooth, and the rings round the pockets are whole.
+### Niets boven de tafel
+Wie er aan de beurt is, staat nu in de bovenste balk, naast het scorepaneel, zodat de middenpocket altijd in zicht is. Richtlijnen zijn vloeiend, en de ringen rond de pockets zijn heel.
 
 ## 0.5.0
 
-### Tournament-table physics
-The balls weigh what they do on a real table: the power bar goes up to a hard stroke (only the break uses full power), cushions give back less the harder they are hit, and a ball made falls into the pocket at the pace it arrived with.
+### Natuurkunde van een toernooitafel
+De ballen wegen wat ze op een echte tafel wegen: de krachtbalk gaat tot een harde stoot (alleen de afstoot gebruikt volle kracht), banden geven minder terug naarmate ze harder geraakt worden, en een gepotte bal valt in de pocket met het tempo waarmee hij aankwam.
 
-### An official tournament table
-The table is the regulation 8-foot one, measure for measure: balls, corner and side pockets with the official mouths and angles. The cloth is a deep green under the lamps and the balls shine like polished ones, their numbers crisp.
+### Een officiële toernooitafel
+De tafel is de reglementaire van 8 voet, maat voor maat: ballen, hoek- en middenpockets met de officiële openingen en hoeken. Het laken is diepgroen onder de lampen en de ballen glanzen als gepolijste ballen, met scherpe nummers.
 
-### A truer guide, or none
-The ghost ball now stops where the cue ball really would, the mouths of the pockets included. And a new choice: play with no aiming guide at all.
+### Een eerlijkere hulplijn, of geen
+De spookbal stopt nu waar de speelbal echt zou stoppen, de openingen van de pockets inbegrepen. En een nieuwe keuze: speel helemaal zonder richthulp.
 
 ## 0.4.0
 
-### A new name: Snook Legend
-The game is now called Snook Legend. Your account, coins, items, settings and progress are all here, as before.
+### Een nieuwe naam: Snook Legend
+Het spel heet nu Snook Legend. Je account, munten, items, instellingen en voortgang zijn er allemaal nog, zoals voorheen.
 
-### 8-foot table, open side pockets
-A smaller table (8 feet) and side pockets that forgive a ball off the centre or rolling in at an angle. The balls roll a little more freely.
+### Tafel van 8 voet, open middenpockets
+Een kleinere tafel (8 voet) en middenpockets die een bal buiten het midden of onder een hoek vergeven. De ballen rollen iets vrijer.
 
-### New rule: the opponent's ball
-Making one of your opponent's balls passes the turn, even if one of yours went down too. It is not a foul: no ball in hand.
+### Nieuwe regel: de bal van je tegenstander
+Een bal van je tegenstander potten geeft de beurt door, ook als er ook een van jou viel. Het is geen fout: geen bal in de hand.
 
-### Easier to see
-The cloth is lit evenly, the balls have a soft sheen so their numbers read, shadows are lighter, and nothing of the hall gets in the way of the view from above. Whose turn it is stands out on the score cards.
+### Beter zichtbaar
+Het laken is gelijkmatig belicht, de ballen hebben een zachte glans zodat hun nummers leesbaar zijn, schaduwen zijn lichter, en niets van de zaal zit het bovenaanzicht in de weg. Wie aan de beurt is, valt op in de scorekaarten.
 
-### Fifteen opponents
-Tito, Inês, Diego, Amara and Yuri join the computer opponents, each with a style and a voice of their own. The Tour now has fifteen stages; your wins so far are kept.
+### Vijftien tegenstanders
+Tito, Inês, Diego, Amara en Yuri komen bij de computertegenstanders, elk met een eigen stijl en stem. De tour heeft nu vijftien etappes; je eerdere overwinningen blijven bewaard.
 
-### Quieter opponents
-Settings → Game → Opponents' remarks turns their speech bubbles off.
+### Stillere tegenstanders
+Instellingen → Spel → Opmerkingen van tegenstanders zet hun tekstballonnen uit.
 
-### A new score panel
-Pictures and names in boxes, and the balls each player made rolling into place along their rail, in the order they went down.
+### Een nieuw scorepaneel
+Foto's en namen in vakken, en de ballen die elke speler potte rollen langs hun band op hun plek, in de volgorde waarin ze vielen.
 
-### Aim by eye
-Raise the cue by dragging it in a side view of the shot. No more numbers on the power or the elevation: judge them by eye. Prefer it flat? Settings → Game → Top view only.
+### Richten op het oog
+Hef de keu door hem te slepen in een zijaanzicht van de stoot. Geen getallen meer bij de kracht of de elevatie: schat ze op het oog. Liever plat? Instellingen → Spel → Alleen bovenaanzicht.
 
-### Rules and pictures
-The rules of the game are a click away (the book on the main menu, or Rules in the pause menu). Pick one of 32 profile pictures in your profile.
+### Regels en afbeeldingen
+De spelregels zijn één klik weg (het boek in het hoofdmenu, of Regels in het pauzemenu). Kies een van 32 profielfoto's in je profiel.
 
-### Your games are safe
-Replays and daily games that started before this update keep the old table and rules until they end.
+### Je partijen zijn veilig
+Herhalingen en dagelijkse partijen die vóór deze update begonnen, houden de oude tafel en regels tot ze afgelopen zijn.
 
 ## 0.3.0
 
-### A regulation 9-foot table
-The table is now tournament size (100" × 50"), with the balls, pockets, cushions and cue to official measurements. The balls are heavier and bounce less, like real ones.
+### Een reglementaire tafel van 9 voet
+De tafel heeft nu toernooiformaat (100" × 50"), met ballen, pockets, banden en keu op officiële maat. De ballen zijn zwaarder en stuiteren minder, zoals echte.
 
-### A new break rule
-On the break, the first ball you pocket sets your group: solids or stripes. A foul on the break leaves the table open.
+### Een nieuwe afstootregel
+Bij de afstoot bepaalt de eerste bal die je pot je groep: hele of halve. Een fout bij de afstoot laat de tafel open.
 
-### New halls, tables and cues
-Four new halls and four new tables, and every old one reworked. Premium cues that look nothing alike. On Ultra, floors that reflect the hall.
+### Nieuwe zalen, tafels en keus
+Vier nieuwe zalen en vier nieuwe tafels, en elke oude is vernieuwd. Premium keus die totaal niet op elkaar lijken. Op Ultra weerspiegelen vloeren de zaal.
 
-### Daily challenge
-A new position every day, the same for everyone, with a ranking of the day: three attempts to make as many balls as you can.
+### Dagelijkse uitdaging
+Elke dag een nieuwe positie, voor iedereen dezelfde, met een dagranglijst: drie pogingen om zo veel mogelijk ballen te potten.
 
-### Drills with stars
-Seven drills on potting, spin, banks and escaping snookers, up to three stars each, with rankings and a challenge rating that shows your level.
+### Oefeningen met sterren
+Zeven oefeningen in potten, effect, bandstoten en uit de snooker komen, met elk tot drie sterren, met ranglijsten en een uitdagingsrating die je niveau toont.
 
-### Account level
-Earn experience in every game, won or lost, and in drills, the daily challenge and achievements. Your level shows on your profile.
+### Accountniveau
+Verdien ervaring in elke partij, gewonnen of verloren, en in oefeningen, de dagelijkse uitdaging en prestaties. Je niveau staat in je profiel.
 
-### The Tour
-The old ladder is now the Tour: ten stages, one opponent each. The opponents have new portraits and talk during the game.
+### De tour
+De oude ladder is nu de tour: tien etappes, met elk één tegenstander. De tegenstanders hebben nieuwe portretten en praten tijdens de partij.
 
-### Fair play
-Leaving a game costs more than losing it. The full aiming guide is for free games against the computer and practice only: never online, in the Tour, the daily challenge or drills.
+### Eerlijk spel
+Een partij verlaten kost meer dan verliezen. De volledige richthulp is alleen voor vrije partijen tegen de computer en oefenen: nooit online, in de tour, de dagelijkse uitdaging of oefeningen.
 
-### Your profile
-A trophy shelf and statistics for each cue: games, wins and balls made with it. You can now change your username up to three times.
+### Je profiel
+Een trofeeënplank en statistieken per keu: partijen, overwinningen en gepotte ballen ermee. Je kunt je gebruikersnaam nu tot drie keer wijzigen.
 
-### In the lounge
-An "away" status, quick phrases translated into your opponent's language and a practice table while the search for an opponent goes on.
+### In de lounge
+Een status ‘afwezig’, snelle berichten vertaald in de taal van je tegenstander en een oefentafel terwijl er naar een tegenstander wordt gezocht.
 
 ## 0.2.0
 
-### Ten opponents with personality
-Choose who to play: from Leo, still learning, to Marta, who lives on safeties, and Lola, who banks everything. Each has their own style, portrait and strength.
+### Tien tegenstanders met karakter
+Kies tegen wie je speelt: van Leo, die nog leert, tot Marta, die leeft van safety's, en Lola, die alles via de band speelt. Elk heeft een eigen stijl, portret en sterkte.
 
-### The ladder
-Beat the ten opponents one by one, up to the last. Reach the top to earn the exclusive "Ladder king" cue and a new achievement.
+### De ladder
+Versla de tien tegenstanders een voor een, tot de laatste. Bereik de top om de exclusieve keu ‘Ladder king’ en een nieuwe prestatie te verdienen.
 
-### Play the ghost
-The computer learns a real player's style from their online games. Challenge a friend's ghost, or your own, from the profile or the vs-computer screen.
+### Speel tegen de geest
+De computer leert de stijl van een echte speler uit diens online partijen. Daag de geest van een vriend uit, of je eigen, vanuit het profiel of het scherm tegen de computer.
 
-### Daily games
-Challenge someone and play your turn when you can: each player has up to 3 days per turn. You are told when it's your turn, and you can have several games at once.
+### Dagelijkse partijen
+Daag iemand uit en speel je beurt wanneer het jou uitkomt: elke speler heeft tot 3 dagen per beurt. Je krijgt bericht als je aan de beurt bent, en je kunt meerdere partijen tegelijk spelen.
 
-### Friends and gifts
-See who you played recently, write a status on your profile and post on the lounge's "looking for a game" board. Gifts from friends now arrive with a notice, a message and a "thank you".
+### Vrienden en cadeaus
+Zie met wie je onlangs speelde, schrijf een status in je profiel en plaats een oproep op het prikbord ‘Zoekt een partij’ van de lounge. Cadeaus van vrienden komen nu met een melding, een bericht en een ‘bedankt’.
 
-### Cues, tables and halls
-Your cue earns bands and inlays as you win with it. In the shop, themed tables and halls: beach bar, industrial loft and English club.
+### Keus, tafels en zalen
+Je keu krijgt ringen en inlegwerk naarmate je ermee wint. In de winkel: tafels en zalen met een thema: strandbar, industriële loft en Engelse club.
 
-### Your game, analysed
-The profile's new Analysis tab shows your potting by pocket, distance and kind of shot, with a heat map of the table.
+### Je spel geanalyseerd
+Het nieuwe tabblad Analyse in het profiel toont hoe je pot per pocket, afstand en soort stoot, met een heatmap van de tafel.
 
-### Your keys
-Every shortcut can be changed in Settings → Controls, and the game's hints follow your choices.
+### Jouw toetsen
+Elke sneltoets kun je wijzigen in Instellingen → Besturing, en de tips in het spel volgen je keuzes.
 
-### Automatic updates
-New versions download in the background and install when you restart, never during a game. This window tells you what changed.
+### Automatische updates
+Nieuwe versies worden op de achtergrond gedownload en bij het herstarten geïnstalleerd, nooit tijdens een partij. Dit venster vertelt wat er veranderd is.
 
-### A reviewed interface
-Every screen was reviewed in the three languages and at every window size. Fixes: Esc opens the menu at the table, the computer sinks the 8 in its called pocket more reliably, and the overhead view no longer goes black.
+### Een nagelopen interface
+Elk scherm is nagelopen in de drie talen en bij elke venstergrootte. Fixes: Esc opent het menu aan tafel, de computer pot de 8 betrouwbaarder in de aangegeven pocket, en het bovenaanzicht wordt niet meer zwart.
 
 ## 0.1.4
 
-### A game while you wait
-After half a minute of "Play now" without an opponent, you can play the computer while the search goes on.
+### Een partij terwijl je wacht
+Na een halve minuut ‘Nu spelen’ zonder tegenstander kun je tegen de computer spelen terwijl het zoeken doorgaat.
 
-### Chat moderation
-You can delete your own chat lines, and moderators can remove abuse.
+### Chatmoderatie
+Je kunt je eigen chatregels verwijderen, en moderators kunnen misbruik weghalen.
 
-### Cues you can see
-Opponents see the pattern of the cue you bought, and VIP members have reactions of their own.
+### Keus die je ziet
+Tegenstanders zien het patroon van de keu die je kocht, en VIP-leden hebben eigen reacties.

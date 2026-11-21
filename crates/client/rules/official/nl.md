@@ -1,66 +1,66 @@
-# Snook Legend: the official rules of eight-ball (the World Pool-Billiard
-# Association's Rules of Play), shown in the game.
-# "## <part>" starts a part, "### <title>" a rule, and the lines after it
-# are its text. The same parts and rules, in the same order, in every
-# language.
+# Snook Legend: de officiële regels van 8-ball (de Rules of Play van de
+# World Pool-Billiard Association), getoond in het spel.
+# "## <deel>" begint een deel, "### <titel>" een regel, en de regels erna
+# zijn de tekst ervan. Dezelfde delen en regels, in dezelfde volgorde, in
+# elke taal.
 
-## The game
+## Het spel
 
-### The official rules (WPA)
-The eight-ball of international tournaments, as the World Pool-Billiard Association plays it. Snook Legend has the Brazilian rules too: choose the rules of your games in the main menu. If you play the Brazilian rules, read the break, the calls and the fouls below, because they differ a lot.
+### De officiële regels (WPA)
+Het 8-ball van internationale toernooien, zoals de World Pool-Billiard Association het speelt. Snook Legend heeft ook de Braziliaanse regels: kies de regels van je partijen in het hoofdmenu. Speel je met de Braziliaanse regels, lees dan hieronder de afstoot, het aangeven en de fouten, want die verschillen flink.
 
-### The aim
-Each player has a group of seven balls: solids (1 to 7) or stripes (9 to 15). Pocket all of yours and then the 8-ball, in the pocket you call, before your opponent does.
+### Het doel
+Elke speler heeft een groep van zeven ballen: de hele (1 t/m 7) of de halve (9 t/m 15). Pot al die van jou en daarna de 8-bal, in de pocket die je aangeeft, voordat je tegenstander dat doet.
 
-### Your turn
-You keep shooting while you make a ball of your group in the pocket you called, on a shot without a foul. Otherwise the turn passes, and the balls that went in stay down.
+### Jouw beurt
+Je blijft aan stoot zolang je een bal van je groep pot in de pocket die je aangaf, met een stoot zonder fout. Anders gaat de beurt over, en de ballen die vielen blijven erin.
 
-## The break
+## De afstoot
 
-### The break shot
-The cue ball is in your hand: place it anywhere behind the head string. Nothing is called on the break. For it to be legal you must make a ball or drive at least four object balls to a cushion.
+### De afstoot
+Je hebt de speelbal in de hand: leg hem waar je wilt achter de afstootlijn. Bij de afstoot wordt niets aangegeven. Om geldig te zijn moet je een bal potten of minstens vier objectballen naar een band sturen.
 
-### An illegal break
-If no ball goes in and fewer than four reach a cushion, your opponent chooses: play the table as it lies, have the balls racked and break themselves, or have you break again.
+### Een ongeldige afstoot
+Valt er geen bal en bereiken minder dan vier ballen een band, dan kiest je tegenstander: de tafel spelen zoals hij ligt, de ballen laten opzetten en zelf afstoten, of jou opnieuw laten afstoten.
 
-### After the break
-A ball made on a legal break keeps the table, but the table stays open: the break never decides the groups. If the cue ball goes in or leaves the table on a legal break, your opponent has it in hand behind the head string.
+### Na de afstoot
+Een bal gepot bij een geldige afstoot houdt je aan tafel, maar de tafel blijft open: de afstoot bepaalt nooit de groepen. Valt de speelbal of gaat hij van tafel bij een geldige afstoot, dan heeft je tegenstander hem in de hand achter de afstootlijn.
 
-### The 8-ball on the break
-Pocketing the 8 on the break neither wins nor loses: it comes back to the foot spot, and you play on or have the balls racked and break again. If you also fouled, your opponent chooses: the cue ball in hand behind the head string, or the balls racked again and they break.
+### De 8-bal bij de afstoot
+De 8 potten bij de afstoot is geen winst en geen verlies: hij wordt teruggeplaatst op het voetpunt, en je speelt door of laat de ballen opzetten en stoot opnieuw af. Maakte je ook een fout, dan kiest je tegenstander: de speelbal in de hand achter de afstootlijn, of de ballen opnieuw opgezet en zelf afstoten.
 
-### A ball off the table on the break
-It is a foul, and the ball stays off (only the 8 comes back). Your opponent plays the table as it lies or takes the cue ball in hand behind the head string. If the break was illegal too, they may also have the balls racked again, as above.
+### Een bal van tafel bij de afstoot
+Het is een fout, en de bal blijft eraf (alleen de 8 komt terug). Je tegenstander speelt de tafel zoals hij ligt of neemt de speelbal in de hand achter de afstootlijn. Was de afstoot ook ongeldig, dan mag die ook de ballen opnieuw laten opzetten, zoals hierboven.
 
-## Calling and playing
+## Aangeven en spelen
 
-### Open table
-While the groups are not decided, the table is open: you may hit any ball first except the 8. The group of the ball you make in the called pocket becomes yours. If one group is already off the table, you may play the 8.
+### Open tafel
+Zolang de groepen niet bepaald zijn, is de tafel open: je mag elke bal eerst raken, behalve de 8. De groep van de bal die je in de aangegeven pocket pot, wordt de jouwe. Is een groep al helemaal van tafel, dan mag je op de 8 spelen.
 
-### Calling your shot
-Every shot except the break is called. In the game you call a pocket: following your aim, it calls the pocket the ball you hit is heading for (the ring on the pocket). Click another pocket to call it, or play a safety. A ball of your group (or the 8, when you are on it) made in the called pocket keeps the table, also off a cushion or another ball.
+### Je stoot aangeven
+Elke stoot behalve de afstoot wordt aangegeven. In het spel geef je een pocket aan: die volgt je richting en geeft de pocket aan waar de geraakte bal naartoe gaat (de ring op de pocket). Klik op een andere pocket om die aan te geven, of speel een safety. Een bal van je groep (of de 8, als je erop speelt) gepot in de aangegeven pocket houdt je aan tafel, ook via een band of een andere bal.
 
 ### Safety
-A shot with no pocket called is a safety: whatever goes in stays down, and the turn passes to your opponent.
+Een stoot zonder aangegeven pocket is een safety: wat erin gaat, blijft erin, en de beurt gaat naar je tegenstander.
 
-### The cue ball behind the head string
-With the cue ball in hand behind the head string, you can't hit a ball that also lies behind it unless the cue ball crosses the head string first. If every ball you may hit lies behind it, the one nearest to the head string comes back to the foot spot.
+### De speelbal achter de afstootlijn
+Met de speelbal in de hand achter de afstootlijn mag je geen bal raken die ook achter die lijn ligt, tenzij de speelbal eerst de afstootlijn passeert. Liggen alle ballen die je mag raken erachter, dan wordt de bal die het dichtst bij de afstootlijn ligt teruggeplaatst op het voetpunt.
 
-## Fouls
+## Fouten
 
-### Ball in hand
-After any foul, your opponent has the cue ball in hand: they place it anywhere on the table. No ball comes off the table as a penalty.
+### Bal in de hand
+Na elke fout heeft je tegenstander de speelbal in de hand: die legt hem waar hij wil op de tafel. Er gaat als straf geen bal van tafel.
 
-### What is a foul
-The cue ball in a pocket or off the table; hitting no ball, or the wrong ball first (one of your opponent's, or the 8 too soon); after the contact, no ball made and no ball reaching a cushion (a ball lying against a cushion only reaches it by leaving it and coming back); an object ball off the table (it stays off).
+### Wat is een fout
+De speelbal in een pocket of van tafel; geen bal raken, of eerst de verkeerde bal (een van je tegenstander, of de 8 te vroeg); na het raken geen bal gepot en geen bal die een band bereikt (een bal die tegen een band ligt, bereikt die alleen door ervan los te komen en terug te keren); een objectbal van tafel (die blijft eraf).
 
-### The shot clock
-When the game has a shot clock and it runs out, it is a foul: your opponent has the cue ball in hand. A choice after the break that isn't made in time takes its first option.
+### De shotclock
+Heeft de partij een shotclock en loopt die af, dan is het een fout: je tegenstander krijgt de speelbal in de hand. Een keuze na de afstoot die niet op tijd wordt gemaakt, valt op de eerste optie.
 
-## The 8-ball
+## De 8-bal
 
-### Winning
-Once your group is off the table, pocket the 8 in the pocket you called, on a shot without a foul.
+### Winnen
+Is je groep van tafel, pot dan de 8 in de pocket die je aangaf, met een stoot zonder fout.
 
-### Losing on the 8
-You lose by pocketing the 8 on a foul, before your group is off the table or in a pocket you didn't call, and by knocking the 8 off the table. None of this applies to the break.
+### Verliezen op de 8
+Je verliest door de 8 te potten bij een fout, voordat je groep van tafel is of in een pocket die je niet aangaf, en door de 8 van tafel te spelen. Niets hiervan geldt bij de afstoot.

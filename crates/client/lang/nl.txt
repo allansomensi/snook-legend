@@ -1,4 +1,4 @@
-# Snook Legend: Brazilian Portuguese.
+# Snook Legend: Dutch.
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} speelt op de 8, aangegeven: {pocket}
@@ -1503,4 +1503,554 @@ Your best: {n} of {total}	Je beste: {n} van {total}
 Not tried yet.	Nog niet geprobeerd.
 Start the drill	Oefening starten
 Sign in to keep your stars in your account.	Log in om je sterren in je account te bewaren.
+{n} of {total}	{n} van {total}
+{drill}: try {k} of {n} · {made} made	{drill}: poging {k} van {n} · {made} gelukt
+Made it! {n} of {total}	Gelukt! {n} van {total}
+Missed.	Gemist.
+Sending to the server…	Versturen naar de server…
+Not signed in: this session is not ranked.	Niet ingelogd: deze sessie telt niet voor de ranglijst.
+Kept in your account.	Bewaard in je account.
+The session could not be counted.	De sessie kon niet worden geteld.
+Back to the drills	Terug naar de oefeningen
+Straight in	Recht erin
+A long straight pot into the corner. Five tries.	Een lange rechte bal in de hoek. Vijf pogingen.
+The cut	De snijbal
+A half-ball cut into the corner. Five tries.	Een snijbal op halve bal in de hoek. Vijf pogingen.
+Draw it back	Trekstoot
+Pot the ball and draw the cue ball back into the circle. Five tries.	Pot de bal en trek de speelbal terug in de cirkel. Vijf pogingen.
+Follow through	Doorstoot
+Pot the ball and leave the cue ball in the circle past it. Five tries.	Pot de bal en laat de speelbal doorlopen tot in de cirkel erachter. Vijf pogingen.
+Bank shot	Bandstoot
+Off one cushion into the side pocket. Five tries.	Via één band in de middenpocket. Vijf pogingen.
+Snooker escape	Uit de snooker
+Hit the 1 first: it hides behind other balls. Five tries.	Raak eerst de 1: die ligt verstopt achter andere ballen. Vijf pogingen.
+Ten in a row	Tien op rij
+Ten different pots, one after another: a miss ends the session.	Tien verschillende ballen, de een na de ander: een misser beëindigt de sessie.
+The far corner	De verre hoek
+A cut back up the table into the corner behind you. Five tries.	Een snijbal terug de tafel op, in de hoek achter je. Vijf pogingen.
+Long into the side	Lang in het midden
+From the far end of the table into the side pocket. Five tries.	Van het andere eind van de tafel in de middenpocket. Vijf pogingen.
+Cue ball on the cushion	Speelbal tegen de band
+The cue ball touches the cushion: pot the ball into the corner all the same. Five tries.	De speelbal ligt tegen de band: pot de bal toch in de hoek. Vijf pogingen.
+The plant	Tegen elkaar aan
+The 2 touches the 1 and points at the pocket: hit the 2 and the 1 goes in. Five tries.	De 2 raakt de 1 en wijst naar de pocket: raak de 2 en de 1 gaat erin. Vijf pogingen.
+The carom	De carambole
+The 2 is in the way: glance off it and send the 1 into the corner. Five tries.	De 2 ligt in de weg: kets ertegenaan en stuur zo de 1 in de hoek. Vijf pogingen.
+The long draw	De lange trekstoot
+Pot the ball and draw the cue ball all the way back into the circle. Five tries.	Pot de bal en trek de speelbal helemaal terug in de cirkel. Vijf pogingen.
+On the tangent line	Op de raaklijn
+Pot the ball in the side and let the cue ball run on into the circle. Five tries.	Pot de bal in het midden en laat de speelbal doorlopen tot in de cirkel. Vijf pogingen.
+Two-cushion bank	Via twee banden
+Off two cushions and into the corner. Five tries.	Via twee banden in de hoek. Vijf pogingen.
+Fifteen in a row	Vijftien op rij
+Fifteen different pots, one after another: a miss ends the session.	Vijftien verschillende ballen, de een na de ander: een misser beëindigt de sessie.
+Take back the shot (Z)	Stoot terugnemen (Z)
+Shot taken back.	Stoot teruggenomen.
+Solids	Hele
+Stripes	Halve
+Hide the history	Partijverloop verbergen
+New username	Nieuwe gebruikersnaam
+Click again to confirm	Klik nogmaals om te bevestigen
+{n} of {total} name changes left	Nog {n} van {total} naamswijzigingen over
+You can't change your username again.	Je kunt je gebruikersnaam niet meer wijzigen.
+That is already your username.	Dat is al je gebruikersnaam.
+Finish your game before changing your username.	Maak je partij af voordat je je gebruikersnaam wijzigt.
+Leave your table or the queue before changing your username.	Verlaat je tafel of de wachtrij voordat je je gebruikersnaam wijzigt.
+Leave your tournament before changing your username.	Verlaat je toernooi voordat je je gebruikersnaam wijzigt.
+Username changed.	Gebruikersnaam gewijzigd.
+The server is still being updated to the new version. Try again in a few minutes.	De server wordt nog bijgewerkt naar de nieuwe versie. Probeer het over een paar minuten opnieuw.
+{shooter} made an opponent's ball: {next} to shoot.	{shooter} potte een bal van de tegenstander: {next} is aan stoot.
 # Five more computer opponents: Tito, Inês, Diego, Amara and Yuri.
+The Gambler	De Gokker
+Bets on every shot: as hard as the cue allows, with all the spin he can find. Safe play bores him.	Zet in op elke stoot: zo hard als de keu toelaat, met al het effect dat hij kan vinden. Veilig spel verveelt hem.
+The Soft Touch	De Zachte Hand
+Never hits harder than she must: the balls die at the pocket's edge and the cue ball stops where she wants it.	Stoot nooit harder dan nodig: de ballen sterven aan de rand van de pocket en de speelbal stopt waar zij hem wil hebben.
+The Showman	De Showman
+Plays to the crowd: a raised cue, swerving spin and a bank whenever there's one. It works more often than it should.	Speelt voor het publiek: een geheven keu, krullend effect en een bandstoot waar het maar kan. Het werkt vaker dan het zou moeten.
+The Tactician	De Strateeg
+Plans the whole rack: snookers you when the pot isn't sure, and runs out when it is.	Plant de hele tafel: zet je snooker als de bal niet zeker is, en speelt de tafel uit als hij dat wel is.
+The Machine	De Machine
+No nerves, no flair: centre ball, measured pace, the same perfect stroke every time.	Geen zenuwen, geen fratsen: midden op de bal, afgemeten tempo, elke keer dezelfde perfecte stoot.
+Place your bets! Mine's on me.	Inzetten maar! Ik wed op mezelf.
+Lucky roll. Let it ride!	Gelukkige worp. Ik laat alles staan!
+Okay, okay. Double or nothing?	Oké, oké. Dubbel of niets?
+The house always wins!	De bank wint altijd!
+Free chips! Thank you!	Gratis fiches! Bedankt!
+All in, and it paid!	Alles ingezet, en het pakte goed uit!
+That's how you play the odds!	Zo speel je met de kansen!
+Bad beat. Next hand.	Pech gehad. Volgende hand.
+Too much spin? There's no such thing.	Te veel effect? Bestaat niet.
+Busted. Worth the risk!	Verloren. Het risico was het waard!
+Jackpot! Same stakes again?	Jackpot! Zelfde inzet nog eens?
+You beat the odds. Respect.	Je hebt de kansen verslagen. Respect.
+Softly, now. The table likes a gentle hand.	Rustig aan nu. De tafel houdt van een zachte hand.
+Nicely done.	Netjes gedaan.
+A little hard, but it went in.	Iets te hard, maar hij ging erin.
+Less power, more feel.	Minder kracht, meer gevoel.
+Oh dear. A free ball for me.	Och. Een gratis bal voor mij.
+Just enough to drop.	Net genoeg om te vallen.
+See? No need to hit it hard.	Zie je? Je hoeft niet hard te stoten.
+A touch too soft.	Een tikje te zacht.
+Clumsy of me. Sorry.	Onhandig van me. Sorry.
+Slow and steady. Thank you for the game.	Rustig en gestaag. Bedankt voor de partij.
+Beautifully played. Well deserved.	Prachtig gespeeld. Verdiend.
+Ladies and gentlemen... the show begins!	Dames en heren... de show begint!
+Not bad! Bow to the crowd!	Niet slecht! Buig voor het publiek!
+You stole my applause!	Je hebt mijn applaus gestolen!
+The crowd wanted more!	Het publiek wilde meer!
+Ooh, a plot twist!	Ooh, een plotwending!
+Ta-da!	Tadaa!
+And for my next trick...	En voor mijn volgende truc...
+Even magicians have off nights.	Ook goochelaars hebben weleens een slechte avond.
+That was... part of the act.	Dat was... onderdeel van de act.
+Thank you, thank you! Encore?	Dank jullie, dank jullie! Toegift?
+Take a bow, champion. You earned it.	Buig maar, kampioen. Je hebt het verdiend.
+Every rack is a puzzle. Let's solve this one.	Elke tafel is een puzzel. Laten we deze oplossen.
+Good. Now where is your cue ball?	Goed. En waar ligt je speelbal nu?
+I saw that coming.	Dat zag ik aankomen.
+That left me something. Thank you.	Daar liet je me iets mee over. Dank je.
+As planned.	Zoals gepland.
+Exactly as I calculated.	Precies zoals ik had berekend.
+Three moves ahead.	Drie zetten vooruit.
+A variable I missed.	Een variabele die ik over het hoofd zag.
+Hm. Recalculating.	Hm. Herberekenen.
+Checkmate.	Schaakmat.
+You out-thought me. That's rare.	Je was me te slim af. Dat is zeldzaam.
+Game initialised.	Partij geïnitialiseerd.
+Noted.	Genoteerd.
+Error margin exceeded.	Foutmarge overschreden.
+Penalty applied.	Straf toegepast.
+As expected.	Zoals verwacht.
+Next.	Volgende.
+Deviation logged.	Afwijking gelogd.
+Malfunction. It will not repeat.	Defect. Het zal niet opnieuw gebeuren.
+Result: win. Thank you for the data.	Resultaat: overwinning. Bedankt voor de data.
+Unexpected outcome. Impressive.	Onverwachte uitkomst. Indrukwekkend.
+Opponents' remarks	Opmerkingen van tegenstanders
+The computer opponents comment on the game in speech bubbles.	De computertegenstanders becommentariëren de partij in tekstballonnen.
+Top view only	Alleen bovenaanzicht
+The table is always seen from above: no 3D view, no turning.	De tafel wordt altijd van bovenaf getoond: geen 3D-weergave, niet draaien.
+Not with the top view only.	Niet met alleen bovenaanzicht.
+Wheel	Scrollwiel
+Rules	Regels
+Rules of the game	Spelregels
+Level	Vlak
+Drag the cue: jump & massé	Sleep de keu: springen en massé
+Drag to raise or lower the cue	Sleep om de keu te heffen of te laten zakken
+Drag the cue · {keys}	Sleep de keu · {keys}
+Profile picture	Profielfoto
+Shown by your name at the table and in your profile.	Getoond bij je naam aan tafel en in je profiel.
+No picture	Geen foto
+Change your picture	Je foto wijzigen
+{name} sank the 8 together with another ball	{name} heeft de 8 samen met een andere bal gepot
+the opponent sank the 8 with another ball	tegenstander potte de 8 samen met een andere bal
+sank the 8 with another ball	8 samen met een andere bal gepot
+opponent pocketed the 8-ball together with another ball	tegenstander potte de 8-bal samen met een andere bal
+Penalty: {balls} off the table for {name}.	Straf: {balls} van tafel voor {name}.
+{name} had fewer balls left than the foul gives: the 8 pays the rest, and the foul loses the game.	{name} had minder ballen over dan de fout oplevert: de 8 betaalt de rest, en de fout kost de partij.
+Shadows	Schaduwen
+The shadows of the balls and of the cue on the table.	De schaduwen van de ballen en de keu op de tafel.
+Sixteen players: knockout or arena	Zestien spelers: knock-out of arena
+New knockout	Nieuwe knock-out
+New arena	Nieuwe arena
+Knockout: sixteen players, four rounds. Lose a game and you are out.	Knock-out: zestien spelers, vier rondes. Verlies een partij en je ligt eruit.
+Arena: seven rounds for everyone. A win is 2 points, 3 from the third win in a row. The most points wins.	Arena: zeven rondes voor iedereen. Een overwinning is 2 punten, 3 vanaf de derde zege op rij. Wie de meeste punten heeft, wint.
+The games between the other players are decided by their strength and a draw.	De partijen tussen de andere spelers worden beslist door hun sterkte en loting.
+You won the tournament!	Je hebt het toernooi gewonnen!
+{name} won the tournament.	{name} heeft het toernooi gewonnen.
+You finished in place {n}.	Je bent op plaats {n} geëindigd.
+Round of 16	Achtste finales
+Quarter-finals	Kwartfinales
+Round {n} of {total}	Ronde {n} van {total}
+Play {name}	Speel tegen {name}
+Abandon the tournament	Toernooi verlaten
+W - L	W - V
+Points	Punten
+The tournament is over.	Het toernooi is afgelopen.
+The round is over: see who you play next.	De ronde is voorbij: kijk tegen wie je hierna speelt.
+You are out of the tournament.	Je ligt uit het toernooi.
+Side pocket	Middenpocket
+A cut into the side pocket, where the angle is tight. Five tries.	Een snijbal in de middenpocket, waar de hoek krap is. Vijf pogingen.
+The long cut	De lange snijbal
+A cut from the far end of the table into the corner. Five tries.	Een snijbal van het andere eind van de tafel in de hoek. Vijf pogingen.
+Thin cut	Dunne snijbal
+Barely graze the ball: a thin cut into the corner. Five tries.	Raak de bal maar net: een dunne snijbal in de hoek. Vijf pogingen.
+Along the cushion	Langs de band
+The ball sits by the cushion: run it along into the corner. Five tries.	De bal ligt tegen de band: speel hem erlangs in de hoek. Vijf pogingen.
+Stop shot	Stopstoot
+Pot the ball and stop the cue ball dead where the ball was. Five tries.	Pot de bal en laat de speelbal stilliggen waar de bal lag. Vijf pogingen.
+The combination	De combinatie
+Pot the 1 by playing the 2 into it. Five tries.	Pot de 1 door de 2 ertegen te spelen. Vijf pogingen.
+Cross-corner bank	Kruislingse bandstoot
+Off the long cushion and across the table into the corner. Five tries.	Via de lange band dwars over de tafel in de hoek. Vijf pogingen.
+Kick shot	Kickshot
+The 1 is walled off: send the cue ball off a cushion to hit it first. Five tries.	De 1 is afgeschermd: stuur de speelbal via een band om hem eerst te raken. Vijf pogingen.
+Only the cue ball went down on the break: the balls are racked again and {next} breaks.	Alleen de speelbal viel bij de afstoot: de ballen worden opnieuw opgezet en {next} stoot af.
+Golden break	Gouden afstoot
+Win a rated game by sinking only the 8-ball on the break.	Win een ratingpartij door bij de afstoot alleen de 8-bal te potten.
+Half a year	Een half jaar
+Have an account for six months.	Heb zes maanden een account.
+First anniversary	Eerste verjaardag
+Second anniversary	Tweede verjaardag
+Have an account for two years.	Heb twee jaar een account.
+Third anniversary	Derde verjaardag
+Have an account for three years.	Heb drie jaar een account.
+Five years at the table	Vijf jaar aan de tafel
+Have an account for five years.	Heb vijf jaar een account.
+Back to the tournament	Terug naar het toernooi
+Continue against {name}	Verder tegen {name}
+You left your game: it counts as a loss.	Je hebt je partij verlaten: die telt als nederlaag.
+new level	nieuw niveau
+Level {n} brings: {item}	Niveau {n} brengt: {item}
+Level 5	Niveau 5
+Reach level 5.	Bereik niveau 5.
+Level 10	Niveau 10
+Reach level 10.	Bereik niveau 10.
+Level 15	Niveau 15
+Reach level 15.	Bereik niveau 15.
+Level 20	Niveau 20
+Reach level 20.	Bereik niveau 20.
+Level 30	Niveau 30
+Reach level 30.	Bereik niveau 30.
+Level 40	Niveau 40
+Reach level 40.	Bereik niveau 40.
+Level 50	Niveau 50
+Reach level 50.	Bereik niveau 50.
+Regular's teal	Petrol van de vaste gast
+Veteran's plum	Pruim van de veteraan
+Old hand	Rot in het vak
+Lifer	Voor het leven
+Apprentice's chalk	Krijt van de leerling
+Journeyman's chalk	Krijt van de gezel
+Achievements	Prestaties
+Leagues and levels	Klassen en niveaus
+Next league: {tier}	Volgende klasse: {tier}
+The top league.	De hoogste klasse.
+Every prize of the levels is won.	Alle prijzen van de niveaus zijn gewonnen.
+None yet: the first is one game away.	Nog geen: de eerste ligt één partij verderop.
+{coins} and {item}	{coins} en {item}
+Leagues	Klassen
+Levels	Niveaus
+By playing. Every level pays {n} coins.	Door te spelen. Elk niveau levert {n} munten op.
+where everyone starts	waar iedereen begint
+from {n}	vanaf {n}
+The top level.	Het hoogste niveau.
+{n} XP to level {next}	{n} XP tot niveau {next}
+{n} levels to go	nog {n} niveaus
+new league	nieuwe klasse
+Old-timer's black	Zwart van de oudgediende
+Expert league blue	Blauw van de klasse Expert
+Master league violet	Violet van de klasse Meester
+Legend league gold	Goud van de klasse Legende
+Skilled league chalk	Krijt van de klasse Bedreven
+By rating. Each league pays once.	Op rating. Elke klasse betaalt één keer uit.
+cue	keu
+cloth	laken
+chalk	krijt
+Always show the head string	Afstootlijn altijd tonen
+The line the break is played from, always on the table (off: only while placing the cue ball behind it).	De lijn vanwaar wordt afgestoten, altijd op tafel (uit: alleen tijdens het plaatsen van de speelbal erachter).
+{who} ran out of time: the turn passes.	De tijd van {who} is op: de beurt gaat over.
+{who} ran out of time with no ball left to give {other}: the 8 pays, and {who} loses.	De tijd van {who} is op en {other} heeft geen ballen meer te krijgen: de 8 betaalt, en {who} verliest.
+{who} ran out of time: the cue ball goes back to the head spot and the turn passes.	De tijd van {who} is op: de speelbal gaat terug naar het afstootpunt en de beurt gaat over.
+{who} ran out of time: {balls} off the table for {other}, and the cue ball goes back to the head spot.	De tijd van {who} is op: {balls} van tafel voor {other}, en de speelbal gaat terug naar het afstootpunt.
+You were muted for {n} minutes: {r}	Je kunt {n} minuten niet chatten: {r}
+Your account was suspended for {n} hours: {r}	Je account is {n} uur geschorst: {r}
+The server restarts in {minutes} min for an update. Games in progress go on; new games start right after.	De server herstart over {minutes} min voor een update. Lopende partijen gaan door; nieuwe partijen beginnen direct daarna.
+The {cup} was called off: not enough players signed up.	De {cup} is afgelast: er hebben zich niet genoeg spelers ingeschreven.
+The {cup} is open for sign-up: it starts soon in Tournaments.	De inschrijving voor de {cup} is open: hij begint binnenkort bij Toernooien.
+{display} won the tournament “{name}”!	{display} heeft het toernooi ‘{name}’ gewonnen!
+Sunday Cup	Zondagcup
+Monday Cup	Maandagcup
+Tuesday Cup	Dinsdagcup
+Wednesday Cup	Woensdagcup
+Thursday Cup	Donderdagcup
+Friday Cup	Vrijdagcup
+Saturday Cup	Zaterdagcup
+{name} · rating {r}	{name} · rating {r}
+Something went wrong. Try again.	Er ging iets mis. Probeer het opnieuw.
+member for 1 day	1 dag lid
+Game in progress: 1 ball left	Partij bezig: nog 1 bal
+1 level to go	nog 1 niveau
+1 more online win with this cue for level {n}. Levels only add marks to the cue.	Nog 1 online overwinning met deze keu voor niveau {n}. Niveaus voegen alleen markeringen toe aan de keu.
+Home	Home
+End	End
+PgUp	PgUp
+PgDn	PgDn
+Ins	Ins
+Could not join the LAN game	Meedoen aan de LAN-partij is mislukt
+LAN game · others join at {address}	LAN-partij · anderen doen mee via {address}
+Click to copy	Klik om te kopiëren
+Copied.	Gekopieerd.
+Start a new game?	Nieuwe partij starten?
+You have a game in progress against the computer, with 1 ball left. A new game takes its place.	Je hebt een lopende partij tegen de computer, met nog 1 bal. Een nieuwe partij komt in de plaats.
+You have a game in progress against the computer, with {n} balls left. A new game takes its place.	Je hebt een lopende partij tegen de computer, met nog {n} ballen. Een nieuwe partij komt in de plaats.
+Continue that game	Die partij voortzetten
+Start a new one	Nieuwe starten
+Click again to close the game: {n} will be disconnected	Klik nogmaals om de partij te sluiten: de verbinding wordt verbroken voor {n} speler(s)
+{name} cleared the table in one visit!	{name} speelde de tafel in één beurt leeg!
+{name}: {n} in a row!	{name}: {n} op rij!
+Watch the deciding shot again	Beslissende stoot opnieuw bekijken
+Next: {name}	Volgende: {name}
+Drag on the table to aim, or click a ball	Sleep op de tafel om te richten, of klik op een bal
+Set the power	Stel de kracht in
+Let go of {key} to shoot · Esc cancels	Laat {key} los om te stoten · Esc annuleert
+Staff accounts can't change their username.	Stafaccounts kunnen hun gebruikersnaam niet wijzigen.
+That password can't be used. Choose another one.	Dat wachtwoord kan niet worden gebruikt. Kies een ander.
+That tournament is full.	Dat toernooi is vol.
+The server is restarting: your tournament was called off.	De server wordt herstart: je toernooi is afgelast.
+Too many sign-ins. Wait a minute and try again.	Te vaak ingelogd. Wacht een minuut en probeer het opnieuw.
+Too many wrong passwords. Try again in a few minutes.	Te veel verkeerde wachtwoorden. Probeer het over een paar minuten opnieuw.
+Your VIP subscription could not be cancelled. Try again in a moment.	Je VIP-abonnement kon niet worden opgezegd. Probeer het zo opnieuw.
+Balls of both groups on the break: the turn passes to {next}, the table is open.	Ballen van beide groepen bij de afstoot: de beurt gaat naar {next}, de tafel is open.
+Only a final started while signed in counts: play the last stage again signed in.	Alleen een finale die je ingelogd begon, telt: speel de laatste etappe opnieuw terwijl je bent ingelogd.
+The server didn't deal the final: this game won't earn the reward.	De server heeft de finale niet klaargezet: deze partij levert de beloning niet op.
+The server didn't answer: this session won't be ranked.	De server antwoordde niet: deze sessie telt niet voor de ranglijst.
+The server is dealing the final…	De server zet de finale klaar…
+The server is setting up the drill…	De server zet de oefening klaar…
+Not signed in: a win in this final won't earn the reward.	Niet ingelogd: een overwinning in deze finale levert de beloning niet op.
+Not kept: sessions count when started signed in.	Niet bewaard: sessies tellen als je ze ingelogd begint.
+Warning from the staff: {text}	Waarschuwing van de staf: {text}
+The staff changed your username to {name}. Sign in again.	De staf heeft je gebruikersnaam gewijzigd in {name}. Log opnieuw in.
+The staff called off the tournament you were in.	De staf heeft het toernooi waarin je zat afgelast.
+Experience ×{n}	Ervaring ×{n}
+Coins from games ×{n}	Munten uit partijen ×{n}
+Themed tournament	Thematoernooi
+Event	Evenement
+Events	Evenementen
+Warning from the staff	Waarschuwing van de staf
+Esc to cancel	Esc om te annuleren
+Will be sent when you're back online.	Wordt verstuurd zodra je weer online bent.
+Your strokes will be sent when you're back online.	Je stoten worden verstuurd zodra je weer online bent.
+The final you won was dealt to {name}: sign in as {name} to claim the reward.	De finale die je won, was klaargezet voor {name}: log in als {name} om de beloning op te eisen.
+Type your password to confirm it's you.	Typ je wachtwoord om te bevestigen dat jij het bent.
+The cue ball is back on the head spot: {next} plays from there.	De speelbal staat weer op het afstootpunt: {next} speelt vanaf daar.
+{name} came online	{name} is online gekomen
+Online now: {names}	Nu online: {names}
+Nobody else is online right now.	Er is nu verder niemand online.
+Focus mode	Focusmodus
+No invitations while you play: they are turned away until the game is over.	Geen uitnodigingen terwijl je speelt: ze worden geweigerd tot de partij voorbij is.
+in focus mode	in focusmodus
+In focus mode: no invitations until their game is over.	In focusmodus: geen uitnodigingen tot de partij voorbij is.
+That player is in focus mode and isn't taking invitations until their game is over.	Die speler staat in focusmodus en neemt geen uitnodigingen aan tot de partij voorbij is.
+Look at it closely	Van dichtbij bekijken
+Sign in to buy	Log in om te kopen
+Sign in to use	Log in om te gebruiken
+Back to the shop (Esc)	Terug naar de winkel (Esc)
+Show the interface (H)	Interface tonen (H)
+Hide the interface (H)	Interface verbergen (H)
+Turn (Space)	Draaien (Spatie)
+Stop turning (Space)	Stoppen met draaien (Spatie)
+Zoom in (+)	Inzoomen (+)
+Zoom out (−)	Uitzoomen (−)
+Back to the start (R)	Terug naar het begin (R)
+Previous setting ([)	Vorige omgeving ([)
+Next setting (])	Volgende omgeving (])
+Setting	Omgeving
+Studio	Studio
+Your table	Jouw tafel
+Drag with the right button to turn · wheel to zoom · double-click to look closer	Sleep met de rechterknop om te draaien · scrollwiel om te zoomen · dubbelklik om dichterbij te kijken
+Drag with the right button to turn · wheel to zoom · click a ball to look at it	Sleep met de rechterknop om te draaien · scrollwiel om te zoomen · klik op een bal om hem te bekijken
+The set	De set
+From above	Van bovenaf
+Low angle	Laag standpunt
+Cue ball	Speelbal
+Ball {n}	Bal {n}
+Whole	Geheel
+Tip	Pomerans
+Joint	Verbinding
+Butt	Kolf
+Top	Boven
+Cue	Keu
+Table	Tafel
+Hall	Zaal
+Corner	Hoekpocket
+Side	Middenpocket
+Leg	Poot
+Close-up	Close-up
+Cushion	Band
+Phenolic resin under a bright clear coat	Fenolhars onder een glanzende blanke lak
+A pearly sheen that shifts with the light	Een parelmoerglans die verandert met het licht
+Brushed metal, bright as a mirror	Geborsteld metaal, glanzend als een spiegel
+Old ivory: soft, warm and matte	Oud ivoor: zacht, warm en mat
+A full-size cue, tip to butt: turn it, come close to its joint and its butt	Een keu op ware grootte, van pomerans tot kolf: draai hem, kom dicht bij de verbinding en de kolf
+A cube of chalk, and the colour it leaves on the tip	Een blokje krijt, en de kleur die het op de pomerans achterlaat
+The cloth on the table: come close to see its weave	Het laken op de tafel: kom dichtbij om de weving te zien
+Dark mahogany, turned legs and brass castings	Donker mahonie, gedraaide poten en messing beslag
+Light teak, square legs and chrome castings	Licht teakhout, vierkante poten en verchroomd beslag
+Deep mahogany, carved legs and leather pocket nets	Diep mahonie, gesneden poten en leren pocketnetjes
+Black lacquer and brushed aluminium on two slab legs	Zwarte lak en geborsteld aluminium op twee plaatpoten
+Black ebony with gold castings and inlays	Zwart ebbenhout met gouden beslag en inlegwerk
+Reclaimed oak rails on a riveted black steel frame	Banden van gerecycled eiken op een geklonken frame van zwart staal
+A pro tournament table: charcoal rails, block legs, chrome	Een professionele toernooitafel: antraciet banden, blokpoten, chroom
+Figured walnut on barley-twist legs, brass and leather	Gevlamd notenhout op getorste poten, messing en leer
+Ivory lacquer and gold on fluted columns	Ivoorkleurige lak en goud op gecanneleerde zuilen
+Panelling, the bar, cue racks, posters and neon	Lambrisering, de bar, keurekken, posters en neon
+A deck at sunset, open windows, palms and string lights	Een terras bij zonsondergang, open ramen, palmen en lichtsnoeren
+Panelling, bookshelves, leather sofas and a fireplace	Lambrisering, boekenkasten, leren banken en een open haard
+Brick, steel windows over the city and Edison bulbs	Baksteen, stalen ramen boven de stad en edisonlampen
+Log walls, a stone fireplace and snowy peaks outside	Blokhutwanden, een stenen open haard en besneeuwde toppen buiten
+A black mirror floor, neon tubes and arcade cabinets	Een zwarte spiegelvloer, neonbuizen en arcadekasten
+A marble chessboard floor, gold, velvet and mirrors	Een marmeren dambordvloer, goud, fluweel en spiegels
+Glass walls on the city at night, pale marble and oak	Glazen wanden op de stad bij nacht, licht marmer en eiken
+A gold medal!	Een gouden medaille!
+A silver medal!	Een zilveren medaille!
+A bronze medal!	Een bronzen medaille!
+Silver medal	Zilveren medaille
+Bronze medal	Bronzen medaille
+Your medals	Jouw medailles
+Kept in your account the next time you're online.	Wordt in je account bewaard zodra je weer online bent.
+Sign in to keep them in your account.	Log in om ze in je account te bewaren.
+18 or older	18 of ouder
+Under 18	Jonger dan 18
+Creating an account means accepting the	Door een account aan te maken, accepteer je de
+For a parent or guardian…	Voor een ouder of voogd…
+A parent or guardian turned the chat on for this account. They can turn it off here at any time.	Een ouder of voogd heeft de chat voor dit account aangezet. Die kan hem hier altijd weer uitzetten.
+This account belongs to someone under 18. By law, the chat with other players (messages in the lounge and in games, notes, status and gift messages) stays off until their mother, father or legal guardian turns it on.	Dit account is van iemand jonger dan 18. Volgens de wet blijft de chat met andere spelers (berichten in de lounge en in partijen, oproepen, status en cadeauberichten) uit tot de moeder, vader of wettelijke voogd hem aanzet.
+I am this player's mother, father or legal guardian, I have read the terms of use and I allow them to chat with other players.	Ik ben de moeder, vader of wettelijke voogd van deze speler, ik heb de gebruiksvoorwaarden gelezen en ik sta toe dat deze speler met andere spelers chat.
+Chat for players under 18	Chat voor spelers jonger dan 18
+Turn the chat off	Chat uitzetten
+{n} more invitations	nog {n} uitnodigingen
+Invitation	Uitnodiging
+Turn the chat on	Chat aanzetten
+Chat off: under 18. A parent or guardian can turn it on.	Chat uit: jonger dan 18. Een ouder of voogd kan hem aanzetten.
+The chat with other players is off until you turn it on.	De chat met andere spelers staat uit tot je hem aanzet.
+Write to turn the chat on…	Schrijf iets om de chat aan te zetten…
+Chat with other players	Chatten met andere spelers
+The chat with other players is off until you turn it on. To turn it on, tell us your age group: it can't be changed from the game afterwards.	De chat met andere spelers staat uit tot je hem aanzet. Geef daarvoor je leeftijdsgroep op: die kun je daarna niet meer in het spel wijzigen.
+Under 18: a parent or guardian must agree to the terms with you and turn the chat on.	Jonger dan 18: een ouder of voogd moet samen met jou de voorwaarden accepteren en de chat aanzetten.
+Not now	Niet nu
+Terms of use	Gebruiksvoorwaarden
+Privacy policy	Privacybeleid
+You have 7 days to change your mind and get your money back.	Je hebt 7 dagen bedenktijd om je geld terug te krijgen.
+Under 18: buy only with a parent's or guardian's permission.	Jonger dan 18: koop alleen met toestemming van een ouder of voogd.
+Renews every month until you cancel. 7 days to change your mind.	Wordt elke maand verlengd tot je opzegt. 7 dagen bedenktijd.
+About	Over
+Accounts, purchases and refunds, the rules of the online game.	Accounts, aankopen en terugbetalingen, de regels van het online spel.
+What the game keeps, and your rights.	Wat het spel bewaart, en je rechten.
+Open	Openen
+Credits	Credits
+Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Lettertypen: DejaVu en Noto (OFL). Vlaggen: flag-icons (MIT). Reacties en emoji: Twemoji (CC-BY 4.0). Landnamen: iso-codes (LGPL-2.1). De code van het spel is open (MIT).
+The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	De chat staat uit voor spelers jonger dan 18. Een ouder of voogd kan hem aanzetten onder de chat van de lounge.
+No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	De afstoot raakte geen bal: {next} stoot af, met de speelbal in de hand achter de afstootlijn.
+The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	De speelbal viel bij de afstoot zonder gepotte bal: {next} stoot af, met de speelbal in de hand achter de afstootlijn.
+Users online	Gebruikers online
+ping {ms} ms	ping {ms} ms
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks, with the cue ball in hand behind the head string.	De speelbal viel bij de afstoot samen met ballen van beide groepen: geen straf, de tafel blijft open en {next} stoot af, met de speelbal in de hand achter de afstootlijn.
+Brazilian	Braziliaans
+Official	Officieel
+Brazilian rules	Braziliaanse regels
+Official rules	Officiële regels
+Brazilian rules (inside a sentence)	Braziliaanse regels
+Official rules (inside a sentence)	officiële regels
+Brazilian (inside a sentence)	Braziliaans
+Official (inside a sentence)	officieel
+As played in Brazil's bars	Zoals in de cafés van Brazilië
+As played in tournaments (WPA)	Zoals op toernooien (WPA)
+on the Brazilian rules	met Braziliaanse regels
+on the official rules	met officiële regels
+A ball left the table on the break.	Er ging een bal van tafel bij de afstoot.
+A ball off the table on the break	Bal van tafel bij de afstoot
+A safety calls nothing: whatever goes in stays down, and the turn passes.	Een safety geeft niets aan: wat erin gaat, blijft erin, en de beurt gaat over.
+Break yourself	Zelf afstoten
+CALLED POCKET	AANGEGEVEN POCKET
+Choose	Kiezen
+Choose how play goes on	Kies hoe het spel verdergaat
+Choose the rules of your games. You can switch them any time, in the main menu.	Kies de regels van je partijen. Je kunt altijd wisselen, in het hoofdmenu.
+Click a pocket on the table to call it; click it again to follow your aim.	Klik op een pocket op de tafel om die aan te geven; klik er nog eens op om je richting te volgen.
+Cue ball in hand	Speelbal in de hand
+Each of the rules has its own rating: these games don't change your {rating} under the {other}.	Elke regelset heeft een eigen rating: deze partijen veranderen je {rating} bij de {other} niet.
+Find an opponent of your level automatically ({rules})	Vind automatisch een tegenstander van jouw niveau ({rules})
+How do you like to play?	Hoe speel jij het liefst?
+How does play go on? Choose one:	Hoe gaat het spel verder? Kies er een:
+Illegal break: no ball made and fewer than four balls reached a cushion.	Ongeldige afstoot: geen bal gepot en minder dan vier ballen raakten een band.
+Invite {name}	{name} uitnodigen
+No ball went in the called pocket ({pocket}): {next} to shoot.	Geen bal in de aangegeven pocket ({pocket}): {next} is aan stoot.
+No pocket was called (a safety): {next} to shoot.	Geen pocket aangegeven (een safety): {next} is aan stoot.
+Not sure what changes?	Weet je niet wat er verandert?
+Place it anywhere behind the head string.	Plaats hem waar je wilt achter de afstootlijn.
+Play on	Doorspelen
+Players against the computer under these rules	Spelers tegen de computer met deze regels
+Players online under these rules (the lounge and online games)	Spelers online met deze regels (de lounge en online partijen)
+RULES OF YOUR GAMES	REGELS VAN JE PARTIJEN
+Read both rules	Lees beide regelsets
+Rules of your games	Regels van je partijen
+Safety	Safety
+Safety: no pocket	Safety: geen pocket
+Show the {rules}: the rank, the league and the chart	Toon je stand bij de {rules}: positie, klasse en grafiek
+The 8 is spotted and you keep shooting.	De 8 wordt teruggeplaatst en je blijft aan stoot.
+The 8 is spotted; the cue ball in hand behind the head string.	De 8 wordt teruggeplaatst; speelbal in de hand achter de afstootlijn.
+The 8 on a break with a foul	De 8 bij een afstoot met een fout
+The 8 on the break	De 8 bij de afstoot
+The 8 went down on a break with a foul: it is spotted.	De 8 viel bij een afstoot met een fout: hij wordt teruggeplaatst.
+The 8 went down on the break: it is spotted.	De 8 viel bij de afstoot: hij wordt teruggeplaatst.
+The balls are racked again and you break.	De ballen worden opnieuw opgezet en jij stoot af.
+The balls are racked again and {name} breaks.	De ballen worden opnieuw opgezet en {name} stoot af.
+The balls are racked again: {name} breaks.	De ballen worden opnieuw opgezet: {name} stoot af.
+The balls are racked again: {other} breaks.	De ballen worden opnieuw opgezet: {other} stoot af.
+The rules of this game: click to read them	De regels van deze partij: klik om ze te lezen
+The rules of your games: click to switch	De regels van je partijen: klik om te wisselen
+The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	De schakelaar in het hoofdmenu: online, tegen de computer en twee spelers. Elke regelset heeft een eigen rating.
+The table as it lies.	De tafel zoals hij ligt.
+The top 100 of each rules · rated games	De top 100 van elke regelset · ratingpartijen
+The {ball} lay behind the head string and the cue ball hit it without crossing the line first	De {ball} lag achter de afstootlijn en de speelbal raakte hem zonder eerst de lijn over te gaan
+What changes between the rules: click to read them	Wat er verschilt tussen de regels: klik om ze te lezen
+With the cue ball in hand behind the head string.	Met de speelbal in de hand achter de afstootlijn.
+follows your aim	volgt je richting
+no rated games yet	nog geen ratingpartijen
+open table: the called ball you make sets your group	open tafel: de aangegeven bal die je pot, bepaalt je groep
+peak {n} · {games} games	piek {n} · {games} partijen
+playing now	speelt nu
+your call	door jou aangegeven
+{name} breaks again	{name} stoot opnieuw af
+{name} chooses: play on, or rack the balls and break again.	{name} kiest: doorspelen, of de ballen opnieuw opzetten en opnieuw afstoten.
+{name} chooses: play the table as it lies, or take the cue ball in hand behind the head string.	{name} kiest: de tafel spelen zoals hij ligt, of de speelbal in de hand nemen achter de afstootlijn.
+{name} chooses: play the table as it lies, rack the balls and break, or have {breaker} break again.	{name} kiest: de tafel spelen zoals hij ligt, de ballen opnieuw opzetten en zelf afstoten, of {breaker} opnieuw laten afstoten.
+{name} chooses: play the table as it lies, take the cue ball in hand behind the head string, rack the balls and break, or have {breaker} break again.	{name} kiest: de tafel spelen zoals hij ligt, de speelbal in de hand nemen achter de afstootlijn, de ballen opnieuw opzetten en zelf afstoten, of {breaker} opnieuw laten afstoten.
+{name} chooses: the cue ball in hand behind the head string, or rack the balls and break.	{name} kiest: de speelbal in de hand achter de afstootlijn, of de ballen opnieuw opzetten en zelf afstoten.
+{name} is choosing how play goes on…	{name} kiest hoe het spel verdergaat…
+{name} plays on (the 8 is spotted).	{name} speelt door (de 8 wordt teruggeplaatst).
+{name} plays the table as it lies.	{name} speelt de tafel zoals hij ligt.
+{name} plays the {theirs} now; yours are the {mine}.	{name} speelt nu met de {theirs}; jij met de {mine}.
+{name} takes the cue ball in hand.	{name} neemt de speelbal in de hand.
+{next} has the cue ball in hand behind the head string.	{next} heeft de speelbal in de hand achter de afstootlijn.
+{next} has the cue ball in hand: anywhere on the table.	{next} heeft de speelbal in de hand: overal op de tafel.
+{n} points to {tier} ({rules})	Nog {n} punten tot {tier} ({rules})
+{n} waiting	{n} wachtend
+A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Een fout geeft de tegenstander ballen van diens groep. Alleen bij de afstoot heb je de speelbal in de hand, en alleen de pocket van de 8 wordt aangegeven.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	Een fout geeft de tegenstander de speelbal in de hand, overal op de tafel. Elke stoot wordt aangegeven, en de afstoot moet vier ballen naar een band sturen.
+A foul gives balls to the opponent	Een fout geeft ballen aan de tegenstander
+Ball in hand on the break only	Bal in de hand alleen bij de afstoot
+Only the 8's pocket is called	Alleen de pocket van de 8 wordt aangegeven
+The most played in Brazil	Het meest gespeeld in Brazilië
+A foul gives ball in hand	Een fout geeft bal in de hand
+The break drives four balls to a cushion	De afstoot stuurt vier ballen naar een band
+Every shot is called	Elke stoot wordt aangegeven
+The same all over the world	Overal ter wereld hetzelfde
+Game type	Soort partij
+called: {pocket}	aangegeven: {pocket}
+no call: a safety	niets aangegeven: een safety
+A safety: nothing called. Click again to call the pocket you aim at.	Een safety: niets aangegeven. Klik nogmaals om de pocket aan te geven waarop je richt.
+A safety calls nothing: whatever goes in stays down, and the turn passes. To call another pocket, click it on the table.	Een safety geeft niets aan: wat erin gaat, blijft erin, en de beurt gaat over. Klik op een andere pocket op de tafel om die aan te geven.
+{games} games · {pct}% won	{games} partijen · {pct}% gewonnen
+Each of the rules has its own rating; the level, coins and achievements are shared.	Elke regelset heeft een eigen rating; niveau, munten en prestaties zijn gedeeld.
+You already have a VIP subscription: manage it with Manage subscription.	Je hebt al een VIP-abonnement: beheer het via Abonnement beheren.
+Your opponent can't start another game yet.	Je tegenstander kan nog geen nieuwe partij starten.
+A tournament's name is shown to everyone: with your chat off, you can join tournaments but not create one.	De naam van een toernooi is voor iedereen zichtbaar: met je chat uit kun je aan toernooien meedoen, maar er geen aanmaken.
+The connection dropped: check your coins before trying again.	De verbinding is verbroken: controleer je munten voordat je het opnieuw probeert.
+Sign in to buy coins.	Log in om munten te kopen.
+Sign in to become VIP.	Log in om VIP te worden.
+how play goes on after the break is undecided	hoe het spel na de afstoot verdergaat, is nog niet gekozen
+Finish your game, and leave your table, the queue or your tournament first.	Maak eerst je partij af en verlaat je tafel, de wachtrij of je toernooi.
+That choice can't be made now.	Die keuze kan nu niet worden gemaakt.
+That medal can't be.	Die medaille bestaat niet.
+{name}'s tournament	Toernooi van {name}
+When time runs out, it's a foul: your opponent gets a ball and the cue ball goes back to the head spot.	Als de tijd op is, is het een fout: je tegenstander krijgt een bal en de speelbal gaat terug naar het afstootpunt.
+When time runs out, it's a foul: your opponent gets the cue ball in hand.	Als de tijd op is, is het een fout: je tegenstander krijgt de speelbal in de hand.
+Your username was changed. Sign in again.	Je gebruikersnaam is gewijzigd. Log opnieuw in.
+You have your tournament game in progress. A new game takes its place, and the tournament game counts as lost.	Je toernooipartij is nog bezig. Een nieuwe partij komt in de plaats, en de toernooipartij telt als verloren.
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks again, from the head spot.	De speelbal viel bij de afstoot samen met ballen van beide groepen: geen straf, de tafel blijft open en {next} stoot opnieuw af, vanaf het afstootpunt.
+The cue ball went down on the break with no ball made: {next} breaks again, from the head spot.	De speelbal viel bij de afstoot zonder dat er een bal werd gepot: {next} stoot opnieuw af, vanaf het afstootpunt.
+{who} ran out of time: {other} breaks, from the head spot.	De tijd van {who} is op: {other} stoot af, vanaf het afstootpunt.
+Congratulations!	Gefeliciteerd!
+You earned a new item: {title}	Je hebt een nieuw item verdiend: {title}
+You earned a new item!	Je hebt een nieuw item verdiend!

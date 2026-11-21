@@ -57,15 +57,15 @@ Em português, inglês e espanhol.
 
 ### Novidades desta versão
 
-Versão 0.8.1: a 8 paga a penalidade, e clique fora para fechar.
+Versão 0.8.2: a saída e o tempo de tacada na regra brasileira, e o taco em qualquer parte.
+• Regra brasileira: acabar o tempo de tacada é falta: sai a menor bola do adversário e a branca volta ao ponto inicial, sem bola na mão.
+• Regra brasileira: os jogadores saem alternando, uma vez cada um; a saída que perde a branca sem encaçapar nenhuma bola, ou com bolas dos dois grupos, passa ao adversário, do ponto inicial.
+• Dá para pegar e arrastar o taco em qualquer parte dele, da ponta ao fim.
+• A arena contra a máquina tem sete rodadas, a loja tem um ícone novo e muitos bugs foram corrigidos.
+
+Da versão 0.8.1: a 8 paga a penalidade, e clique fora para fechar.
 • Regra brasileira: uma falta que dá mais bolas do que o adversário ainda tem perde a partida, e a 8 paga o resto. Com o adversário já na 8, qualquer falta que dê bola perde.
 • O chat da partida, o histórico e os painéis de efeito e elevação fecham com um clique fora deles; menus e diálogos também.
-
-Da versão 0.8.0: a regra oficial.
-• Além da regra brasileira, agora dá para jogar a regra oficial da WPA: toda tacada é cantada (a caçapa segue a sua mira) e falta dá bola na mão em qualquer lugar, sem bola de penalidade.
-• Cada regra tem o seu rating, a sua liga e o seu ranking mundial; nível, moedas e conquistas são os mesmos.
-• Convites, mesas, Jogar agora, torneios e partidas diárias mostram a regra; o Jogar agora junta jogadores da mesma regra.
-• Regra brasileira: a saída que perde a branca junto com bolas dos dois grupos passa para o adversário, sem bola de penalidade.
 
 ### Recursos do produto
 
@@ -134,15 +134,15 @@ In English, Portuguese and Spanish.
 
 ### What's new in this version
 
-Version 0.8.1: the 8 pays the penalty, and click outside to close.
+Version 0.8.2: the Brazilian break and shot clock, and the cue grabbed anywhere.
+• Brazilian rule: running out of time is a foul: your opponent's lowest ball comes off and the cue ball goes back to the head spot, not in hand.
+• Brazilian rule: the players break in turn, one break each; a break that loses the cue ball with no ball made, or with balls of both groups, passes to your opponent, from the head spot.
+• Grab and drag the cue anywhere along it, from the tip to the butt.
+• The arena against the computer is seven rounds, the shop has a new icon and many bugs are fixed.
+
+From version 0.8.1: the 8 pays the penalty, and click outside to close.
 • Brazilian rule: a foul that gives more balls than your opponent has left loses the game, and the 8 pays the rest. With your opponent on the 8, any foul that gives a ball loses.
 • The match's chat, the game history and the spin and elevation panels close with a click outside them; so do menus and dialogs.
-
-From version 0.8.0: the official rules.
-• Besides the Brazilian rule, you can now play the official WPA rules: every shot is called (the pocket follows your aim) and a foul gives ball in hand anywhere, with no penalty balls.
-• Each rules has its own rating, tier and world ranking; your level, coins and achievements are shared.
-• Invitations, tables, Play now, tournaments and daily games show their rules; Play now pairs players of the same rules.
-• Brazilian rule: a break that loses the cue ball together with balls of both groups passes to the opponent, with no penalty ball.
 
 ### Product features
 
@@ -211,15 +211,15 @@ En español, inglés y portugués.
 
 ### Novedades de esta versión
 
-Versión 0.8.1: la 8 paga la penalización, y clic fuera para cerrar.
+Versión 0.8.2: el saque y el tiempo de tiro en la regla brasileña, y el taco por cualquier parte.
+• Regla brasileña: quedarse sin tiempo de tiro es falta: sale la menor bola del rival y la blanca vuelve al punto de salida, sin bola en mano.
+• Regla brasileña: los jugadores sacan por turnos, una vez cada uno; el saque que pierde la blanca sin meter ninguna bola, o con bolas de los dos grupos, pasa al rival, desde el punto de salida.
+• Puedes agarrar y arrastrar el taco por cualquier parte, de la punta a la culata.
+• La arena contra la máquina tiene siete rondas, la tienda tiene un icono nuevo y se corrigieron muchos errores.
+
+De la versión 0.8.1: la 8 paga la penalización, y clic fuera para cerrar.
 • Regla brasileña: una falta que da más bolas de las que le quedan al rival pierde el partido, y la 8 paga el resto. Con el rival ya en la 8, cualquier falta que dé bola pierde.
 • El chat de la partida, el historial y los paneles de efecto y elevación se cierran con un clic fuera de ellos; los menús y diálogos también.
-
-De la versión 0.8.0: la regla oficial.
-• Además de la regla brasileña, ahora puedes jugar la regla oficial de la WPA: cada tiro se canta (la tronera sigue tu mira) y una falta da bola en mano en cualquier lugar, sin bolas de penalización.
-• Cada regla tiene su rating, su liga y su ranking mundial; nivel, monedas y logros son los mismos.
-• Invitaciones, mesas, Jugar ahora, torneos y partidas diarias muestran su regla; Jugar ahora empareja jugadores de la misma regla.
-• Regla brasileña: el saque que pierde la blanca junto con bolas de los dos grupos pasa al rival, sin bola de penalización.
 
 ### Características del producto
 

@@ -143,9 +143,10 @@ pub const PROTOCOL_VERSION: u32 = 23;
 
 /// The oldest version the server still lets in: version 23 changed the
 /// rules a replay is played back with (the Brazilian shot clock gives a
-/// ball; an illegal official break with a ball off the table offers the
-/// cue ball in hand): an older game would show other tables than the
-/// server's, so it is asked to update.
+/// ball, and a Brazilian break that loses the cue ball is broken again
+/// from the head spot; an illegal official break with a ball off the table
+/// offers the cue ball in hand): an older game would show other tables than
+/// the server's, so it is asked to update.
 pub const OLDEST_PROTOCOL_VERSION: u32 = 23;
 
 /// Username rules: 3–16 characters, letters, digits and underscores.

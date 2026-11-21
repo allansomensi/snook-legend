@@ -3,6 +3,20 @@
 # destaque, e as linhas seguintes são o texto dele. Mesmas versões e mesmo
 # número de destaques em todas as línguas.
 
+## 0.8.2
+
+### O tempo de tacada dá bola
+Na regra brasileira, acabar o tempo é falta: sai a menor bola do adversário (se ele já está na 8, a 8 paga e você perde), a branca volta para o ponto inicial, sem bola na mão, e a vez passa.
+
+### A saída, uma vez cada um
+Na regra brasileira, os jogadores saem alternando, uma vez cada um. A saída que perde a branca sem encaçapar nenhuma bola, ou com bolas dos dois grupos, passa para o adversário: ele sai de novo do ponto inicial, com as bolas onde pararam.
+
+### Pegue o taco em qualquer parte
+Clique e arraste o taco em qualquer ponto, da ponta ao fim, mesmo recuado ou levantado por cima da tabela: ele segue o ponteiro enquanto gira.
+
+### Sete rodadas na arena, e muitas correções
+A arena contra a máquina tem sete rodadas para todos, e a loja ganhou um ícone novo. Três revisões do jogo inteiro corrigiram muitos bugs: sair com as bolas rolando não desfaz mais a tacada contra a máquina, a primeira bola tocada é a que a branca tocou primeiro de verdade, e mais.
+
 ## 0.8.1
 
 ### A 8 paga a penalidade

@@ -3,6 +3,20 @@
 # un destacado, y las líneas siguientes son su texto. Mismas versiones y
 # mismo número de destacados en todos los idiomas.
 
+## 0.8.2
+
+### El tiempo de tiro da bola
+En la regla brasileña, quedarse sin tiempo es falta: sale la menor bola del rival (si ya está en la 8, la 8 paga y pierdes), la blanca vuelve al punto de salida, sin bola en mano, y el turno pasa.
+
+### El saque, uno cada uno
+En la regla brasileña los jugadores sacan por turnos, una vez cada uno. El saque que pierde la blanca sin meter ninguna bola, o con bolas de los dos grupos, pasa al rival: vuelve a sacar desde el punto de salida, con las bolas donde quedaron.
+
+### Agarra el taco por cualquier parte
+Haz clic y arrastra el taco por cualquier punto, de la punta a la culata, aunque esté atrás o levantado sobre la banda: sigue el puntero mientras gira.
+
+### Siete rondas en la arena, y muchas correcciones
+La arena contra la máquina tiene siete rondas para todos, y la tienda tiene un icono nuevo. Tres revisiones de todo el juego corrigieron muchos errores: salir con las bolas rodando ya no deshace un tiro contra la máquina, la primera bola tocada es la que la blanca tocó primero de verdad, y más.
+
 ## 0.8.1
 
 ### La 8 paga la penalización

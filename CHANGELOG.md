@@ -1,11 +1,14 @@
 # Changelog
 
-## Unreleased
+## 0.8.2 (protocol 23)
 
-Protocol 23 (the oldest let in too: the rules a replay is played back with
-changed, and a game of 0.8.1 would show other tables than the server's) and
-two migrations (0023: indexes; 0024: the room a match was played in and
-the lounge's id of a tournament, so each is recorded once).
+The Brazilian break and shot clock, the break taken in turn, the cue
+grabbed anywhere along it, a seven-round arena, and three reviews of the
+whole game. Protocol 23, the oldest let in too: the rules a replay is
+played back with changed, and a game of 0.8.1 would show other tables than
+the server's, so it is asked to update. Two migrations (0023: indexes;
+0024: the room a match was played in and the lounge's id of a tournament,
+so each is recorded once), which the server runs as it starts.
 
 ### The Brazilian rules: the break
 - **A break that loses the cue ball** (down or off the table) with no ball
@@ -304,6 +307,19 @@ The server:
 - Drills: the "cue ball on the cushion" drill has it against the cushion,
   and "the plant" balls touching; a try that knocks the 8 in doesn't count.
 - The ghost's style counts ordinary strokes at their own top speed.
+
+### Notes
+- What's new in the game (three languages) and the Store listing's notes
+  for 0.8.2: the shot clock and the break under the Brazilian rule, the cue
+  grabbed anywhere, the seven-round arena and the fixes. The Store notes
+  keep 0.8.1's and drop 0.8.0's.
+
+### Deploying
+- The server and the game go out together: once this server is up, a game
+  of 0.8.1 is asked to update (protocol 23), so publish the release (and the
+  Store package) when the server goes out. Render builds the service from
+  `main`: `main` has to get this commit along with the tag.
+- The two migrations run on their own when the server starts.
 
 ## 0.8.1 (protocol 22)
 

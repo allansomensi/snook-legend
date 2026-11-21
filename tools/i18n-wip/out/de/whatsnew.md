@@ -176,3 +176,132 @@ Spiel ein K.-o.-Turnier mit sechzehn Spielern oder eine Arena nach Punkten gegen
 
 ### Zielen und das Queue
 Die Neigung des Queues lässt sich durch Ziehen mit der Maus einstellen, die Ziellinie zeigt auf die Mitte der Geisterkugel, schwache Pfeile zeigen, wann der Spielball bewegt werden kann, und die Schatten lassen sich ausschalten.
+
+## 0.5.1
+
+### Sauberere Kugeln
+Die blasse Scheibe oben auf jeder Kugel ist weg: Eine Kugel wird als ein rundes Ganzes beleuchtet und zeigt die Lampe als einen einzigen sauberen Punkt. Beschläge, Teppiche und die Qualität „Niedrig“ sehen auch besser aus.
+
+### Der Kraftbalken merkt sich nichts
+Keine Markierung mehr für deinen letzten Stoß, und jeder Zug beginnt in der Mitte des Balkens: Das Tempo einzuschätzen gehört zum Spiel.
+
+### Nichts über dem Tisch
+Wer am Zug ist, steht jetzt in der oberen Leiste neben der Anzeigetafel, sodass die Mitteltasche immer zu sehen ist. Ziellinien sind glatt, und die Ringe um die Taschen sind vollständig.
+
+## 0.5.0
+
+### Physik wie am Turniertisch
+Die Kugeln wiegen so viel wie an einem echten Tisch: Der Kraftbalken reicht bis zu einem harten Stoß (nur der Anstoß nutzt volle Kraft), Banden geben weniger zurück, je härter sie getroffen werden, und eine versenkte Kugel fällt mit dem Tempo in die Tasche, mit dem sie ankam.
+
+### Ein offizieller Turniertisch
+Der Tisch ist der vorschriftsmäßige 8-Fuß-Tisch, Maß für Maß: Kugeln, Eck- und Mitteltaschen mit den offiziellen Öffnungen und Winkeln. Das Tuch ist unter den Lampen tiefgrün, und die Kugeln glänzen wie poliert, ihre Nummern gestochen scharf.
+
+### Eine genauere Hilfe, oder keine
+Die Geisterkugel bleibt jetzt dort stehen, wo der Spielball wirklich landen würde, Taschenöffnungen inklusive. Und eine neue Option: ganz ohne Zielhilfe spielen.
+
+## 0.4.0
+
+### Ein neuer Name: Snook Legend
+Das Spiel heißt jetzt Snook Legend. Dein Konto, deine Münzen, Artikel, Einstellungen und Fortschritte sind alle noch da, wie vorher.
+
+### 8-Fuß-Tisch, offene Mitteltaschen
+Ein kleinerer Tisch (8 Fuß) und Mitteltaschen, die eine Kugel verzeihen, die nicht mittig oder schräg hineinrollt. Die Kugeln rollen etwas freier.
+
+### Neue Regel: die Kugel des Gegners
+Versenkst du eine Kugel deines Gegners, ist er am Zug, auch wenn eine deiner Kugeln mitgefallen ist. Es ist kein Foul: kein Ball in Hand.
+
+### Besser zu sehen
+Das Tuch ist gleichmäßig beleuchtet, die Kugeln haben einen sanften Glanz, damit ihre Nummern lesbar sind, Schatten sind heller, und nichts aus der Halle stört die Draufsicht. Wer am Zug ist, hebt sich auf den Spielerkarten hervor.
+
+### Fünfzehn Gegner
+Tito, Inês, Diego, Amara und Yuri kommen zu den Computergegnern dazu, jeder mit eigenem Stil und eigener Stimme. Die Tour hat jetzt fünfzehn Etappen; deine bisherigen Siege bleiben erhalten.
+
+### Ruhigere Gegner
+Einstellungen → Spiel → „Sprüche der Gegner“ schaltet ihre Sprechblasen aus.
+
+### Eine neue Anzeigetafel
+Bilder und Namen in Kästen, und die von jedem Spieler versenkten Kugeln rollen entlang seiner Leiste an ihren Platz, in der Reihenfolge, in der sie gefallen sind.
+
+### Nach Augenmaß zielen
+Heb das Queue an, indem du es in einer Seitenansicht des Stoßes ziehst. Keine Zahlen mehr für Kraft oder Neigung: Schätz sie nach Augenmaß. Lieber flach? Einstellungen → Spiel → „Nur Draufsicht“.
+
+### Regeln und Bilder
+Die Spielregeln sind einen Klick entfernt (das Buch im Hauptmenü oder „Regeln“ im Pausenmenü). Wähle in deinem Profil eins von 32 Profilbildern.
+
+### Deine Partien sind sicher
+Wiederholungen und Tagespartien, die vor diesem Update begonnen haben, behalten bis zu ihrem Ende den alten Tisch und die alten Regeln.
+
+## 0.3.0
+
+### Ein vorschriftsmäßiger 9-Fuß-Tisch
+Der Tisch hat jetzt Turniergröße (100" × 50"), mit Kugeln, Taschen, Banden und Queue in offiziellen Maßen. Die Kugeln sind schwerer und springen weniger, wie echte.
+
+### Eine neue Anstoßregel
+Beim Anstoß bestimmt die erste versenkte Kugel deine Gruppe: Volle oder Halbe. Ein Foul beim Anstoß lässt den Tisch offen.
+
+### Neue Hallen, Tische und Queues
+Vier neue Hallen und vier neue Tische, und alle alten überarbeitet. Premium-Queues, die sich kein bisschen ähneln. Auf „Ultra“ spiegeln die Böden die Halle.
+
+### Tages-Challenge
+Jeden Tag eine neue Stellung, für alle gleich, mit einer Tagesrangliste: drei Versuche, so viele Kugeln wie möglich zu versenken.
+
+### Übungen mit Sternen
+Sieben Übungen zu Versenken, Effet, Banden und Snooker-Befreiung, jeweils bis zu drei Sterne, mit Ranglisten und einer Wertung, die dein Niveau zeigt.
+
+### Kontolevel
+Sammle Erfahrung in jeder Partie, gewonnen oder verloren, und in Übungen, der Tages-Challenge und durch Erfolge. Dein Level steht in deinem Profil.
+
+### Die Tour
+Die alte Leiter ist jetzt die Tour: zehn Etappen, jede mit einem Gegner. Die Gegner haben neue Porträts und reden während der Partie.
+
+### Fairplay
+Eine Partie zu verlassen kostet mehr, als sie zu verlieren. Die volle Zielhilfe gibt es nur in freien Partien gegen den Computer und im Training: nie online, auf der Tour, in der Tages-Challenge oder in Übungen.
+
+### Dein Profil
+Ein Trophäenregal und Statistiken für jedes Queue: Partien, Siege und damit versenkte Kugeln. Du kannst deinen Benutzernamen jetzt bis zu dreimal ändern.
+
+### In der Lounge
+Ein Status „abwesend“, Schnellsätze, die in die Sprache deines Gegners übersetzt werden, und ein Trainingstisch, während die Gegnersuche läuft.
+
+## 0.2.0
+
+### Zehn Gegner mit Persönlichkeit
+Wähle, gegen wen du spielst: von Leo, der noch lernt, über Marta, die von Safetys lebt, bis Lola, die alles über die Bande spielt. Jeder hat eigenen Stil, eigenes Porträt und eigene Stärke.
+
+### Die Leiter
+Besiege die zehn Gegner einen nach dem anderen, bis zum letzten. Erreiche die Spitze, um das exklusive Queue „Leiterkönig“ und einen neuen Erfolg zu verdienen.
+
+### Gegen den Geist spielen
+Der Computer lernt den Stil eines echten Spielers aus dessen Online-Partien. Fordere den Geist eines Freundes heraus, oder deinen eigenen, im Profil oder im Bildschirm gegen den Computer.
+
+### Tagespartien
+Fordere jemanden heraus und spiel deinen Zug, wann du kannst: Jeder Spieler hat bis zu 3 Tage pro Zug. Du wirst benachrichtigt, wenn du dran bist, und kannst mehrere Partien gleichzeitig haben.
+
+### Freunde und Geschenke
+Sieh, gegen wen du zuletzt gespielt hast, schreib einen Status in dein Profil und poste an die Pinnwand „Suche eine Partie“ der Lounge. Geschenke von Freunden kommen jetzt mit einer Benachrichtigung, einer Nachricht und einem „Danke“.
+
+### Queues, Tische und Hallen
+Dein Queue bekommt Ringe und Intarsien, wenn du damit gewinnst. Im Shop gibt es Thementische und -hallen: Strandbar, Industrie-Loft und Englischer Club.
+
+### Dein Spiel, analysiert
+Der neue Tab „Analyse“ im Profil zeigt deine Trefferquote nach Tasche, Entfernung und Stoßart, mit einer Heatmap des Tisches.
+
+### Deine Tasten
+Jedes Tastenkürzel lässt sich unter Einstellungen → Steuerung ändern, und die Hinweise im Spiel folgen deiner Wahl.
+
+### Automatische Updates
+Neue Versionen werden im Hintergrund geladen und beim Neustart installiert, nie während einer Partie. Dieses Fenster zeigt dir, was sich geändert hat.
+
+### Eine überarbeitete Oberfläche
+Jeder Bildschirm wurde in den drei Sprachen und in jeder Fenstergröße geprüft. Korrekturen: Esc öffnet am Tisch das Menü, der Computer versenkt die 8 zuverlässiger in der angesagten Tasche, und die Draufsicht wird nicht mehr schwarz.
+
+## 0.1.4
+
+### Eine Partie, während du wartest
+Nach einer halben Minute „Jetzt spielen“ ohne Gegner kannst du gegen den Computer spielen, während die Suche weiterläuft.
+
+### Chat-Moderation
+Du kannst deine eigenen Chatzeilen löschen, und Moderatoren können Beleidigungen entfernen.
+
+### Queues, die man sieht
+Gegner sehen das Muster des Queues, das du gekauft hast, und VIP-Mitglieder haben eigene Reaktionen.

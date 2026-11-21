@@ -1,307 +1,307 @@
-# Snook Legend: what's new, shown in the game after an update.
-# "## <version>" starts a version (newest first), "### <title>" a highlight,
-# and the lines after it are its text. Keep it short and about what players
-# see; every language has the same versions and the same number of highlights.
+# Snook Legend: novità, mostrate nel gioco dopo un aggiornamento.
+# "## <versione>" inizia una versione (dalla più recente), "### <titolo>" una
+# novità, e le righe che seguono sono il suo testo. Ogni lingua ha le stesse
+# versioni e lo stesso numero di novità.
 
 ## 0.8.3
 
-### What you earn is shown
-An item that comes with an achievement, such as a level reached, now arrives with a "Congratulations!" window that shows it and lets you use it at once.
+### Ciò che ottieni si vede
+Un oggetto che arriva con un obiettivo, come un livello raggiunto, ora compare in una finestra «Congratulazioni!» che lo mostra e ti permette di usarlo subito.
 
-### One game at a time
-Starting the game while it is already open brings its window to the front instead of opening a second one. Two games on one computer wrote over each other's settings and saved game.
+### Una partita alla volta
+Avviare il gioco quando è già aperto porta in primo piano la sua finestra invece di aprirne una seconda. Due giochi sullo stesso computer si sovrascrivevano impostazioni e partita salvata.
 
-### The 8 on a break handed over
-Under the Brazilian rule, a break handed over after the cue ball was lost, with the balls already scattered, no longer wins by potting the 8: hitting it first is a foul and pocketing it loses, as on any shot. Only the break of the rack has the 8 alone winning.
+### La 8 su una spaccata ceduta
+Con le regole brasiliane, una spaccata ceduta dopo aver perso la bianca, con le palle già sparpagliate, non si vince più imbucando la 8: colpirla per prima è fallo e imbucarla fa perdere, come in ogni tiro. Solo sulla spaccata del triangolo la 8 da sola fa vincere.
 
-### Cleaner pockets, a steadier camera, and many fixes
-The pockets are finished without rough edges, and going from the overhead view to 3D keeps your zoom. Two more reviews of the whole game fixed many bugs: a rematch keeps the break alternating, a private arena asks for its password while it runs, a table rejoined after its game ended shows the result, and more.
+### Buche più pulite, visuale più stabile e molte correzioni
+Le buche sono rifinite senza spigoli, e passare dalla vista dall'alto al 3D mantiene lo zoom. Altre due revisioni di tutto il gioco hanno corretto molti bug: una rivincita mantiene l'alternanza della spaccata, un'arena privata chiede la password mentre è in corso, un tavolo in cui rientri a partita finita mostra il risultato, e altro ancora.
 
 ## 0.8.2
 
-### The shot clock gives a ball
-Under the Brazilian rule, running out of time is a foul: your opponent's lowest ball comes off (if they are on the 8 already, the 8 pays and you lose), the cue ball goes back to the head spot, not in hand, and the turn passes.
+### Il tempo di tiro dà una palla
+Con le regole brasiliane, esaurire il tempo è fallo: la palla più bassa dell'avversario viene tolta (se è già sulla 8, paga la 8 e perdi), la bianca torna sul punto di testa, non in mano, e il turno passa.
 
-### The break, one each
-Under the Brazilian rule the players break in turn, one break each. A break that loses the cue ball with no ball made, or with balls of both groups, passes the break: your opponent breaks again from the head spot, with the balls where they stopped.
+### La spaccata, una a testa
+Con le regole brasiliane i giocatori spaccano a turno, una spaccata a testa. Una spaccata che perde la bianca senza palle imbucate, o con palle di entrambi i gruppi, cede la spaccata: l'avversario spacca di nuovo dal punto di testa, con le palle dove si sono fermate.
 
-### Grab the cue anywhere
-Click and drag the cue anywhere along it, from the tip to the butt, even drawn back or raised over the rail: it follows the pointer as it swings.
+### Afferra la stecca dove vuoi
+Clicca e trascina la stecca in qualsiasi punto, dalla punta al calcio, anche arretrata o alzata sopra la sponda: segue il puntatore mentre ruota.
 
-### Seven rounds in the arena, and many fixes
-The arena against the computer is seven rounds for everyone, and the shop has a new icon. Three reviews of the whole game fixed many bugs: leaving while the balls roll no longer undoes a shot against the computer, the first ball hit is the one the cue ball really touched first, and more.
+### Sette round nell'arena e molte correzioni
+L'arena contro il computer è di sette round per tutti, e il negozio ha una nuova icona. Tre revisioni di tutto il gioco hanno corretto molti bug: uscire mentre le palle rotolano non annulla più un tiro contro il computer, la prima palla colpita è quella che la bianca ha davvero toccato per prima, e altro ancora.
 
 ## 0.8.1
 
-### The 8 pays the penalty
-Under the Brazilian rule, a foul that gives more balls than your opponent has left loses the game: their balls come off and the 8 pays the rest. Once your opponent is on the 8, any foul that gives a ball loses: missing every ball, pocketing the cue ball or knocking it off the table.
+### La 8 paga la penalità
+Con le regole brasiliane, un fallo che dà più palle di quante ne restino all'avversario fa perdere la partita: le sue palle vengono tolte e la 8 paga il resto. Quando l'avversario è sulla 8, qualsiasi fallo che dà una palla fa perdere: mancare tutte le palle, imbucare la bianca o mandarla fuori dal tavolo.
 
-### Click outside to close
-The match's chat, the game history and the spin and elevation panels close when you click outside them, and the click still counts on the table. Menus and dialogs close with a click outside them too, like Cancel.
+### Clicca fuori per chiudere
+La chat della partita, la cronologia e i pannelli di effetto e inclinazione si chiudono quando clicchi fuori, e il clic vale comunque sul tavolo. Anche menu e finestre si chiudono con un clic fuori, come con Annulla.
 
 ## 0.8.0
 
-### The official rules
-You can now also play the official rules of the WPA, the eight-ball of international tournaments: every shot is called, a foul gives ball in hand anywhere and no ball comes off as a penalty. Choose your rules in the main menu. The Brazilian rule is still there, just as it was.
+### Le regole ufficiali
+Ora puoi giocare anche con le regole ufficiali della WPA, la palla 8 dei tornei internazionali: ogni tiro va chiamato, un fallo dà palla in mano ovunque e nessuna palla viene tolta come penalità. Scegli le regole nel menu principale. Le regole brasiliane ci sono ancora, come prima.
 
-### A rating for each rules
-Each rules has its own rating, tier and world ranking: the ranking has a tab for each and your profile a card for each. Your level, coins and achievements are shared.
+### Un punteggio per ogni regolamento
+Ogni regolamento ha il suo punteggio, la sua categoria e la sua classifica mondiale: la classifica ha una scheda per ciascuno e il tuo profilo una scheda per ciascuno. Livello, monete e obiettivi sono condivisi.
 
-### Calling your shots
-Under the official rules the pocket you aim at is called (a ring shows it). Click another pocket to call it, or Safety to call none. After some breaks you choose how the game goes on, with the buttons or 1, 2 and 3.
+### Chiama i tuoi tiri
+Con le regole ufficiali la buca a cui miri viene chiamata (la mostra un anello). Clicca un'altra buca per chiamarla, o Difesa per non chiamarne nessuna. Dopo alcune spaccate scegli come continua il gioco, con i pulsanti o con 1, 2 e 3.
 
-### Online, by rules
-Invitations, tables, Play now, tournaments and daily games all say their rules, and Play now pairs you with players of yours. The menu shows how many people play each.
+### Online, per regolamento
+Inviti, tavoli, Gioca ora, tornei e partite giornaliere indicano tutti le loro regole, e Gioca ora ti abbina a giocatori con le tue. Il menu mostra quante persone giocano con ciascuno.
 
-### The break, Brazilian rule
-If the break loses the cue ball together with balls of both groups, the break now passes to your opponent, with the cue ball in hand behind the head string and no penalty ball.
+### La spaccata, regole brasiliane
+Se la spaccata perde la bianca insieme a palle di entrambi i gruppi, ora la spaccata passa all'avversario, con la bianca in mano dietro la linea di testa e nessuna palla di penalità.
 
 ## 0.7.4
 
-### The chat, when you want it
-No more age question when signing up. The chat with other players starts off and asks only the first time you write: 18 or older turns it on at once, and under 18 a parent or guardian turns it on. Whoever doesn't chat is never asked.
+### La chat, quando la vuoi
+Niente più domanda sull'età all'iscrizione. La chat con gli altri giocatori parte disattivata e chiede solo la prima volta che scrivi: con 18 anni o più si attiva subito, e sotto i 18 la attiva un genitore o tutore. Chi non usa la chat non riceve mai la domanda.
 
-### Invitations in the corner
-An invitation now shows as a card in the top right corner on every screen and over any game, with the player's picture, the buttons to accept or decline and a soft chime. Accept it from the menu and the game starts right away.
+### Inviti nell'angolo
+Ora un invito compare come scheda nell'angolo in alto a destra in ogni schermata e sopra ogni partita, con l'immagine del giocatore, i pulsanti per accettare o rifiutare e un suono discreto. Accettalo dal menu e la partita inizia subito.
 
-### Windows tells you at once
-With the game behind another window or minimised, Windows shows the invitation at once (it used to wait a few seconds).
+### Windows ti avvisa subito
+Con il gioco dietro un'altra finestra o ridotto a icona, Windows mostra subito l'invito (prima aspettava qualche secondo).
 
 ## 0.7.3
 
-### New rules
-If the break hits no ball, or loses the cue ball (down or off the table) with no ball made, the break passes to your opponent, with the cue ball in hand behind the head string. With a ball made, it decides the groups even if the cue ball goes down too. And the cue ball off the table costs a ball, as a scratch does.
+### Nuove regole
+Se la spaccata non colpisce nessuna palla, o perde la bianca (in buca o fuori dal tavolo) senza palle imbucate, la spaccata passa all'avversario, con la bianca in mano dietro la linea di testa. Con una palla imbucata, la spaccata decide i gruppi anche se va in buca anche la bianca. E la bianca fuori dal tavolo costa una palla, come la bianca in buca.
 
-### More drills, no ranking
-There are 24 drills now, nine of them new: the far corner, long into the side, cue ball on the cushion, the plant, the carom, the long draw, on the tangent line, two-cushion bank and fifteen in a row. Each shows its position, and your stars are kept in your account. The drills' ranking is gone.
+### Più esercizi, niente classifica
+Ora ci sono 24 esercizi, nove dei quali nuovi: l'angolo alle spalle, lungo in centrale, bianca sulla sponda, palle a contatto, la carambola, retro lungo, sulla tangente, due sponde e quindici di fila. Ognuno mostra la sua posizione, e le tue stelle vengono salvate nel tuo account. La classifica degli esercizi non c'è più.
 
-### New pictures
-The portraits were drawn again, with more care, and there are new pictures of pool things. Your picture now shows on the card in the corner of the start screen when you're signed in.
+### Nuove immagini
+I ritratti sono stati ridisegnati, con più cura, e ci sono nuove immagini a tema biliardo. Ora la tua immagine compare sulla scheda nell'angolo della schermata iniziale quando hai effettuato l'accesso.
 
-### Terms and privacy
-The terms of use and the privacy policy are a click away: when you sign up, in the shop and in Settings → Game → About. Purchases with money give you 7 days to change your mind and get your money back.
+### Termini e privacy
+I termini d'uso e l'informativa sulla privacy sono a un clic: all'iscrizione, nel negozio e in Impostazioni → Gioco → Informazioni. Gli acquisti con denaro ti danno 7 giorni per ripensarci e ottenere il rimborso.
 
-### Age and chat
-The game asks your age group (once). Under 18, the chat with other players stays off until a parent or guardian turns it on, below the lounge's chat, as Brazilian law asks.
+### Età e chat
+Il gioco chiede la tua fascia d'età (una volta). Sotto i 18 anni, la chat con gli altri giocatori resta disattivata finché un genitore o tutore non la attiva, sotto la chat della sala, come richiede la legge brasiliana.
 
-### Emoji in the chat
-Emoji now show as pictures in the chat, notes and statuses, flags and all. Tabs have all their names at one size, and the count of who is online is smaller: the green dot, a person and the number.
+### Emoji nella chat
+Ora le emoji compaiono come immagini nella chat, negli annunci e negli stati, bandiere comprese. Le schede hanno tutti i nomi della stessa dimensione, e il conteggio di chi è online è più piccolo: il punto verde, una persona e il numero.
 
 ## 0.7.2
 
-### A harder tour
-Each stage of the tour is harder than before, and more so the further up: opponents miss less, look at every shot and play for position. The final against Viktor, for the cue, is very hard now: he barely misses and plays safe more often. Tournaments against the computer stay as they were.
+### Un circuito più difficile
+Ogni tappa del circuito è più difficile di prima, e sempre di più man mano che si sale: gli avversari sbagliano meno, valutano ogni tiro e giocano per la posizione. La finale contro Viktor, per la stecca, ora è difficilissima: non sbaglia quasi mai e gioca più spesso in difesa. I tornei contro il computer restano come prima.
 
-### Tournament medals
-Play a tournament against the computer to its end and finish in the first three for a gold, silver or bronze medal. The Tournament tab counts them, knockout and arena apart; they are kept in your account the next time you're online.
+### Medaglie dei tornei
+Gioca un torneo contro il computer fino alla fine e chiudi tra i primi tre per una medaglia d'oro, d'argento o di bronzo. La scheda Torneo le conta, eliminazione diretta e arena separate; vengono salvate nel tuo account la prossima volta che sei online.
 
-### A camera like the table's
-In the shop's showroom the camera turns with the right button, as at the table, smoothly, and never goes under the floor or the table. The wheel brings you closer.
+### Una visuale come quella del tavolo
+Nella vetrina del negozio la visuale ruota con il tasto destro, come al tavolo, in modo fluido, e non va mai sotto il pavimento o il tavolo. La rotella ti avvicina.
 
 ## 0.7.1
 
-### The first ball decides
-On the break, the first ball that goes down decides your group, even if others go down after it: the 3 and then the 13, and you take the solids. The 13 is your opponent's, so it stays down for them and the turn passes.
+### Decide la prima palla
+Alla spaccata, la prima palla che va in buca decide il tuo gruppo, anche se dopo ne entrano altre: la 3 e poi la 13, e tu prendi le piene. La 13 è dell'avversario, quindi resta in buca a suo favore e il turno passa.
 
-### Ball in hand on the break only
-The cue ball is in hand on the break only, behind the head string. If it goes down or leaves the table, it comes back to the head spot (right behind a ball lying there), without ball in hand, with the usual penalties. A break that makes only the cue ball is no longer racked again: your opponent plays on from there.
+### Palla in mano solo alla spaccata
+La bianca è in mano solo alla spaccata, dietro la linea di testa. Se va in buca o esce dal tavolo, torna sul punto di testa (subito dietro una palla che vi si trovi), senza palla in mano, con le solite penalità. Una spaccata che imbuca solo la bianca non rifà più il triangolo: l'avversario continua a giocare da lì.
 
-### Who is online
-Playing the computer (in a tournament, on the tour or in a drill), a discreet corner shows how many people are online and says when someone comes: time to go and invite them. Invitations show over the game.
+### Chi è online
+Mentre giochi contro il computer (in un torneo, nel circuito o in un esercizio), un angolo discreto mostra quante persone sono online e avvisa quando arriva qualcuno: il momento giusto per invitarlo. Gli inviti compaiono sopra la partita.
 
-### The shop's showroom
-"Look at it closely" opens a showroom: the item alone in a dark studio, turning. Drag to turn it, use the wheel to come close and pause it at will. Ready views show a cue's tip and joint or a table's pockets; click a ball to see it float close up, and see tables and cloths in any hall.
+### La vetrina del negozio
+«Guardalo da vicino» apre una vetrina: l'oggetto da solo in uno studio buio, che ruota. Trascina per ruotarlo, usa la rotella per avvicinarti e fermalo quando vuoi. Viste pronte mostrano la punta e il giunto di una stecca o le buche di un tavolo; clicca una palla per vederla fluttuare in primo piano, e guarda tavoli e panni in qualsiasi ambiente.
 
-### Truly brown
-The 7 and the 15 are now brown, no longer a dark red easily taken for the 3 and the 11. The shop's sets where they looked alike are put right too.
+### Marrone davvero
+La 7 e la 15 ora sono marroni, non più di un rosso scuro facile da confondere con la 3 e la 11. Anche i set del negozio in cui si somigliavano sono stati sistemati.
 
-### Focus mode
-Settings → Game → "Focus mode": no invitations while you play. Whoever tries to invite you is told you're in focus mode. It comes off.
+### Modalità concentrazione
+Impostazioni → Gioco → «Modalità concentrazione»: niente inviti mentre giochi. Chi prova a invitarti viene avvisato che sei in modalità concentrazione. Si può disattivare.
 
 ## 0.7.0
 
-### One kind on the break
-A new house rule: if the break makes balls of both groups (the 3 and the 14, say), the turn passes and the table stays open. Balls of one kind only and you shoot again, as before. The rules in the menu explain it, with a few rare cases now put right, and the computer plays a little better.
+### Un solo tipo alla spaccata
+Una nuova regola della casa: se la spaccata imbuca palle di entrambi i gruppi (la 3 e la 14, per esempio), il turno passa e il tavolo resta aperto. Con palle di un solo tipo tiri di nuovo, come prima. Le regole nel menu lo spiegano, con alcuni rari casi ora sistemati, e il computer gioca un po' meglio.
 
-### Every ball counts
-The balls you make in a row show by your picture with a little flame, and three, five and seven in a row are cheered (and a table cleared in one visit). The clock's last seconds tick, a chime says when your turn comes back online, and the rating counts up at the end of a game.
+### Ogni palla conta
+Le palle che imbuchi di fila compaiono accanto alla tua immagine con una fiammella, e tre, cinque e sette di fila vengono festeggiate (come un tavolo ripulito in un solo turno). Gli ultimi secondi del timer ticchettano, un suono avvisa quando online torna il tuo turno, e il punteggio sale a fine partita.
 
-### Events
-Now and then the staff run events: a weekend of double (or triple) experience, coins from games counting double, or a themed tournament the server organises, sometimes with a prize from the house on top of the entry fees. The main menu and the lounge show what is on and what is coming.
+### Eventi
+Di tanto in tanto lo staff organizza eventi: un weekend di esperienza doppia (o tripla), monete delle partite che valgono doppio, o un torneo a tema organizzato dal server, a volte con un premio della casa in aggiunta alle iscrizioni. Il menu principale e la sala mostrano cosa c'è e cosa arriva.
 
-### On to the next one
-After a win on the tour, "Next" takes you straight to the next opponent; after a drill, "Try again". The deciding shot can be watched again from the end panel, and a first game points out where to aim, set the power and shoot.
+### Avanti il prossimo
+Dopo una vittoria nel circuito, «Prossimo» ti porta subito all'avversario successivo; dopo un esercizio, «Riprova». Il tiro decisivo si può rivedere dal pannello finale, e una prima partita indica dove mirare, regolare la potenza e tirare.
 
-### The head string, if you want it
-Settings → Game → "Always show the head string" keeps the line the break is played from on the table. Off by default: it shows only while you place the cue ball behind it.
+### La linea di testa, se la vuoi
+Impostazioni → Gioco → «Mostra sempre la linea di testa» tiene sul tavolo la linea da cui si spacca. Disattivata di default: compare solo mentre metti la bianca dietro di essa.
 
-### Fair rewards, softer light
-The tour's final and the ranked drills are now set up by the server, so their cue and their tables are earned the same way by everyone (play them signed in). A dropped connection no longer closes the game, a game against the computer is never replaced without asking, and the light under the lamps falls softly, without hard edges.
+### Premi equi, luce più morbida
+La finale del circuito e gli esercizi in classifica ora sono preparati dal server, così la loro stecca e i loro tavoli si ottengono allo stesso modo per tutti (giocali dopo aver effettuato l'accesso). Una connessione caduta non chiude più la partita, una partita contro il computer non viene mai sostituita senza chiedere, e la luce sotto le lampade cade morbida, senza bordi netti.
 
 ## 0.6.2
 
-### Leagues and levels on one page
-In the profile, the "Leagues and levels" tab shows every league, from which rating and what it pays, and every level that brings an item. Reaching a league for the first time now pays coins and, from Skilled up, an item of the league's own.
+### Leghe e livelli in una pagina
+Nel profilo, la scheda «Leghe e livelli» mostra ogni lega, da quale punteggio inizia e cosa paga, e ogni livello che porta un oggetto. Raggiungere una lega per la prima volta ora paga monete e, da Abile in su, un oggetto proprio della lega.
 
-### A cleaner profile
-On the left, just what matters: your level, the next prize, and the achievements and reactions already won. Every medal and reaction has a tab of its own, and nothing runs off the screen.
+### Un profilo più pulito
+A sinistra, solo ciò che conta: il tuo livello, il prossimo premio, e gli obiettivi e le reazioni già ottenuti. Ogni medaglia e reazione ha una scheda propria, e niente esce dallo schermo.
 
-### The view from above as it was, with round balls
-The table has its depth and its usual light again, and the camera no longer jumps when it leaves the view from above.
+### La vista dall'alto come prima, con palle rotonde
+Il tavolo ha di nuovo la sua profondità e la sua luce abituale, e la visuale non salta più quando lascia la vista dall'alto.
 
 ## 0.6.1
 
-### A view from above without distortion
-The table is now seen from high up, almost without perspective: balls stay round out to the corners, and the cue, the aiming line and the ghost ball always line up. The light on the balls is softer, so the number shows.
+### Una vista dall'alto senza distorsioni
+Ora il tavolo si vede dall'alto, quasi senza prospettiva: le palle restano rotonde fino agli angoli, e stecca, linea di mira e palla fantasma sono sempre allineate. La luce sulle palle è più morbida, così il numero si legge.
 
-### A tournament and a tour that mean it
-In a tournament against the computer a game counts once: leaving half way doesn't wipe it (it goes on from where it was) and there is no rematch. The champion gets a gold medal. And the tour is hard: every opponent plays at their best.
+### Un torneo e un circuito che fanno sul serio
+In un torneo contro il computer una partita conta una volta sola: uscire a metà non la cancella (riprende da dov'era) e non c'è rivincita. Il campione riceve una medaglia d'oro. E il circuito è duro: ogni avversario gioca al meglio.
 
-### New achievements, pictures and sounds
-Shutout, Golden break and account anniversaries. Faces that look like people and twelve profile pictures that are not faces (the 8-ball, a trophy, a crown…). New sounds for the balls, the cue, the cushions and the pockets.
+### Nuovi obiettivi, immagini e suoni
+Cappotto, Spaccata d'oro e gli anniversari dell'account. Volti che sembrano persone e dodici immagini del profilo che non sono volti (la palla 8, un trofeo, una corona…). Nuovi suoni per le palle, la stecca, le sponde e le buche.
 
-### Leagues, levels that pay and scarce coins
-Other players are shown by their league (the rating is on the profile and in the ranking). Every account level pays coins and levels 5 to 50 bring items of their own, but the climb is long. Coins are scarcer: everything in the shop takes time to earn.
+### Leghe, livelli che pagano e monete più rare
+Gli altri giocatori sono mostrati con la loro lega (il punteggio è nel profilo e in classifica). Ogni livello dell'account paga monete e i livelli dal 5 al 50 portano oggetti propri, ma la salita è lunga. Le monete sono più rare: tutto nel negozio richiede tempo per essere guadagnato.
 
 ## 0.6.0
 
-### A Brazilian rule, with penalty balls
-The game now plays the regional Brazilian rule of eight-ball, the one of bars and pool halls (not the official tournament rule). A foul passes the turn and takes your opponent's lowest balls off the table, only a pocketed cue ball gives ball in hand, and the 8 alone on the break wins. The full rules are in the menu.
+### Regole brasiliane, con le palle di penalità
+Ora il gioco usa le regole regionali brasiliane della palla 8, quelle dei bar e delle sale da biliardo (non le regole ufficiali dei tornei). Un fallo passa il turno e toglie dal tavolo le palle più basse dell'avversario, solo la bianca in buca dà palla in mano, e la 8 da sola alla spaccata fa vincere. Le regole complete sono nel menu.
 
-### Heavier balls
-The cloth holds the ball more and the break is less violent: the balls no longer scatter all over the table.
+### Palle più pesanti
+Il panno frena di più la palla e la spaccata è meno violenta: le palle non si sparpagliano più per tutto il tavolo.
 
-### Tournaments against the computer and more drills
-Play a knockout of sixteen or an arena on points against the fifteen opponents. And there are eight new drills, fifteen in all.
+### Tornei contro il computer e più esercizi
+Gioca un'eliminazione diretta a sedici o un'arena a punti contro i quindici avversari. E ci sono otto nuovi esercizi, quindici in tutto.
 
-### Aiming and the cue
-The cue's elevation can be set by dragging with the mouse, the aiming line points at the centre of the ghost ball, faint arrows show when the cue ball can be moved, and the shadows can be turned off.
+### La mira e la stecca
+L'inclinazione della stecca si regola trascinando con il mouse, la linea di mira punta al centro della palla fantasma, frecce tenui mostrano quando si può spostare la bianca, e le ombre si possono disattivare.
 
 ## 0.5.1
 
-### Cleaner balls
-The pale disc on top of every ball is gone: a ball is lit as one round thing and shows the lamp as a single clean dot. Castings, rugs and Low quality look better too.
+### Palle più pulite
+Il disco chiaro sopra ogni palla è sparito: una palla è illuminata come un unico oggetto rotondo e riflette la lampada come un solo punto netto. Anche angolari, tappeti e la qualità Bassa hanno un aspetto migliore.
 
-### The power bar keeps no memory
-No more mark for your last stroke, and every turn starts from the middle of the bar: judging the pace is part of the game.
+### La barra della potenza non ha memoria
+Niente più segno del tuo ultimo tiro, e ogni turno parte dal centro della barra: dosare la potenza fa parte del gioco.
 
-### Nothing over the table
-Whose turn it is now reads in the top bar, beside the score panel, so the side pocket is always in sight. Aiming lines are smooth, and the rings round the pockets are whole.
+### Niente sopra il tavolo
+Di chi è il turno ora si legge nella barra in alto, accanto al tabellone, così la buca centrale è sempre in vista. Le linee di mira sono fluide e gli anelli attorno alle buche sono interi.
 
 ## 0.5.0
 
-### Tournament-table physics
-The balls weigh what they do on a real table: the power bar goes up to a hard stroke (only the break uses full power), cushions give back less the harder they are hit, and a ball made falls into the pocket at the pace it arrived with.
+### Fisica da tavolo da torneo
+Le palle pesano come su un tavolo vero: la barra della potenza arriva fino a un colpo forte (solo la spaccata usa la potenza massima), le sponde restituiscono meno quanto più forte vengono colpite, e una palla imbucata cade nella buca alla velocità con cui è arrivata.
 
-### An official tournament table
-The table is the regulation 8-foot one, measure for measure: balls, corner and side pockets with the official mouths and angles. The cloth is a deep green under the lamps and the balls shine like polished ones, their numbers crisp.
+### Un tavolo da torneo ufficiale
+Il tavolo è quello regolamentare da 8 piedi, misura per misura: palle, buche d'angolo e centrali con imbocchi e angoli ufficiali. Il panno è di un verde intenso sotto le lampade e le palle brillano come lucidate, con i numeri nitidi.
 
-### A truer guide, or none
-The ghost ball now stops where the cue ball really would, the mouths of the pockets included. And a new choice: play with no aiming guide at all.
+### Una guida più fedele, o nessuna
+La palla fantasma ora si ferma dove si fermerebbe davvero la bianca, compresi gli imbocchi delle buche. E una nuova scelta: giocare senza alcuna guida di mira.
 
 ## 0.4.0
 
-### A new name: Snook Legend
-The game is now called Snook Legend. Your account, coins, items, settings and progress are all here, as before.
+### Un nuovo nome: Snook Legend
+Ora il gioco si chiama Snook Legend. Il tuo account, le monete, gli oggetti, le impostazioni e i progressi sono tutti qui, come prima.
 
-### 8-foot table, open side pockets
-A smaller table (8 feet) and side pockets that forgive a ball off the centre or rolling in at an angle. The balls roll a little more freely.
+### Tavolo da 8 piedi, buche centrali più aperte
+Un tavolo più piccolo (8 piedi) e buche centrali che perdonano una palla fuori centro o che entra di sbieco. Le palle rotolano un po' più libere.
 
-### New rule: the opponent's ball
-Making one of your opponent's balls passes the turn, even if one of yours went down too. It is not a foul: no ball in hand.
+### Nuova regola: la palla dell'avversario
+Imbucare una palla dell'avversario passa il turno, anche se è andata in buca anche una delle tue. Non è fallo: niente palla in mano.
 
-### Easier to see
-The cloth is lit evenly, the balls have a soft sheen so their numbers read, shadows are lighter, and nothing of the hall gets in the way of the view from above. Whose turn it is stands out on the score cards.
+### Più facile da vedere
+Il panno è illuminato in modo uniforme, le palle hanno una lucentezza morbida che lascia leggere i numeri, le ombre sono più chiare e niente dell'ambiente intralcia la vista dall'alto. Di chi è il turno risalta sulle schede del punteggio.
 
-### Fifteen opponents
-Tito, Inês, Diego, Amara and Yuri join the computer opponents, each with a style and a voice of their own. The Tour now has fifteen stages; your wins so far are kept.
+### Quindici avversari
+Tito, Inês, Diego, Amara e Yuri si aggiungono agli avversari del computer, ognuno con il suo stile e la sua voce. Il Circuito ora ha quindici tappe; le vittorie ottenute finora restano.
 
-### Quieter opponents
-Settings → Game → Opponents' remarks turns their speech bubbles off.
+### Avversari più silenziosi
+Impostazioni → Gioco → Commenti degli avversari disattiva i loro fumetti.
 
-### A new score panel
-Pictures and names in boxes, and the balls each player made rolling into place along their rail, in the order they went down.
+### Un nuovo tabellone
+Immagini e nomi in riquadri, e le palle imbucate da ciascun giocatore che rotolano al loro posto lungo la sua sponda, nell'ordine in cui sono entrate.
 
-### Aim by eye
-Raise the cue by dragging it in a side view of the shot. No more numbers on the power or the elevation: judge them by eye. Prefer it flat? Settings → Game → Top view only.
+### Mira a occhio
+Alza la stecca trascinandola in una vista laterale del tiro. Niente più numeri su potenza e inclinazione: valutale a occhio. La preferisci piatta? Impostazioni → Gioco → Solo vista dall'alto.
 
-### Rules and pictures
-The rules of the game are a click away (the book on the main menu, or Rules in the pause menu). Pick one of 32 profile pictures in your profile.
+### Regole e immagini
+Le regole del gioco sono a un clic (il libro nel menu principale, o Regole nel menu di pausa). Scegli una delle 32 immagini del profilo nel tuo profilo.
 
-### Your games are safe
-Replays and daily games that started before this update keep the old table and rules until they end.
+### Le tue partite sono al sicuro
+I replay e le partite giornaliere iniziati prima di questo aggiornamento mantengono il vecchio tavolo e le vecchie regole fino alla fine.
 
 ## 0.3.0
 
-### A regulation 9-foot table
-The table is now tournament size (100" × 50"), with the balls, pockets, cushions and cue to official measurements. The balls are heavier and bounce less, like real ones.
+### Un tavolo regolamentare da 9 piedi
+Ora il tavolo ha la misura da torneo (100" × 50"), con palle, buche, sponde e stecca a misure ufficiali. Le palle sono più pesanti e rimbalzano meno, come quelle vere.
 
-### A new break rule
-On the break, the first ball you pocket sets your group: solids or stripes. A foul on the break leaves the table open.
+### Una nuova regola della spaccata
+Alla spaccata, la prima palla che imbuchi decide il tuo gruppo: piene o rigate. Un fallo alla spaccata lascia il tavolo aperto.
 
-### New halls, tables and cues
-Four new halls and four new tables, and every old one reworked. Premium cues that look nothing alike. On Ultra, floors that reflect the hall.
+### Nuovi ambienti, tavoli e stecche
+Quattro nuovi ambienti e quattro nuovi tavoli, e tutti quelli vecchi rifatti. Stecche premium tutte diverse tra loro. In Ultra, pavimenti che riflettono l'ambiente.
 
-### Daily challenge
-A new position every day, the same for everyone, with a ranking of the day: three attempts to make as many balls as you can.
+### Sfida del giorno
+Una nuova posizione ogni giorno, uguale per tutti, con una classifica del giorno: tre tentativi per imbucare più palle che puoi.
 
-### Drills with stars
-Seven drills on potting, spin, banks and escaping snookers, up to three stars each, with rankings and a challenge rating that shows your level.
+### Esercizi con stelle
+Sette esercizi su imbucate, effetto, sponde e uscite dallo snooker, fino a tre stelle ciascuno, con classifiche e un punteggio di sfida che mostra il tuo livello.
 
-### Account level
-Earn experience in every game, won or lost, and in drills, the daily challenge and achievements. Your level shows on your profile.
+### Livello dell'account
+Guadagna esperienza in ogni partita, vinta o persa, e negli esercizi, nella sfida del giorno e con gli obiettivi. Il tuo livello compare nel profilo.
 
-### The Tour
-The old ladder is now the Tour: ten stages, one opponent each. The opponents have new portraits and talk during the game.
+### Il Circuito
+La vecchia scalata ora è il Circuito: dieci tappe, un avversario ciascuna. Gli avversari hanno nuovi ritratti e parlano durante la partita.
 
 ### Fair play
-Leaving a game costs more than losing it. The full aiming guide is for free games against the computer and practice only: never online, in the Tour, the daily challenge or drills.
+Lasciare una partita costa più che perderla. La guida di mira completa è solo per le partite libere contro il computer e l'allenamento: mai online, nel Circuito, nella sfida del giorno o negli esercizi.
 
-### Your profile
-A trophy shelf and statistics for each cue: games, wins and balls made with it. You can now change your username up to three times.
+### Il tuo profilo
+Una bacheca dei trofei e statistiche per ogni stecca: partite, vittorie e palle imbucate con essa. Ora puoi cambiare il nome utente fino a tre volte.
 
-### In the lounge
-An "away" status, quick phrases translated into your opponent's language and a practice table while the search for an opponent goes on.
+### Nella sala
+Uno stato «assente», frasi rapide tradotte nella lingua dell'avversario e un tavolo di allenamento mentre prosegue la ricerca di un avversario.
 
 ## 0.2.0
 
-### Ten opponents with personality
-Choose who to play: from Leo, still learning, to Marta, who lives on safeties, and Lola, who banks everything. Each has their own style, portrait and strength.
+### Dieci avversari con personalità
+Scegli contro chi giocare: da Leo, che sta ancora imparando, a Marta, che vive di difese, e Lola, che gioca tutto di sponda. Ognuno ha il suo stile, il suo ritratto e la sua forza.
 
-### The ladder
-Beat the ten opponents one by one, up to the last. Reach the top to earn the exclusive "Ladder king" cue and a new achievement.
+### La scalata
+Batti i dieci avversari uno alla volta, fino all'ultimo. Arriva in cima per ottenere l'esclusiva stecca «Re della scalata» e un nuovo obiettivo.
 
-### Play the ghost
-The computer learns a real player's style from their online games. Challenge a friend's ghost, or your own, from the profile or the vs-computer screen.
+### Gioca contro il fantasma
+Il computer impara lo stile di un giocatore reale dalle sue partite online. Sfida il fantasma di un amico, o il tuo, dal profilo o dalla schermata contro il computer.
 
-### Daily games
-Challenge someone and play your turn when you can: each player has up to 3 days per turn. You are told when it's your turn, and you can have several games at once.
+### Partite giornaliere
+Sfida qualcuno e gioca il tuo turno quando puoi: ogni giocatore ha fino a 3 giorni per turno. Ti avvisiamo quando tocca a te, e puoi avere più partite contemporaneamente.
 
-### Friends and gifts
-See who you played recently, write a status on your profile and post on the lounge's "looking for a game" board. Gifts from friends now arrive with a notice, a message and a "thank you".
+### Amici e regali
+Vedi con chi hai giocato di recente, scrivi uno stato nel tuo profilo e pubblica nella bacheca «cerco partita» della sala. I regali degli amici ora arrivano con un avviso, un messaggio e un «grazie».
 
-### Cues, tables and halls
-Your cue earns bands and inlays as you win with it. In the shop, themed tables and halls: beach bar, industrial loft and English club.
+### Stecche, tavoli e ambienti
+La tua stecca guadagna fasce e intarsi man mano che vinci con essa. Nel negozio, tavoli e ambienti a tema: bar sulla spiaggia, loft industriale e club inglese.
 
-### Your game, analysed
-The profile's new Analysis tab shows your potting by pocket, distance and kind of shot, with a heat map of the table.
+### Il tuo gioco, analizzato
+La nuova scheda Analisi del profilo mostra le tue imbucate per buca, distanza e tipo di tiro, con una mappa di calore del tavolo.
 
-### Your keys
-Every shortcut can be changed in Settings → Controls, and the game's hints follow your choices.
+### I tuoi tasti
+Ogni scorciatoia si può cambiare in Impostazioni → Comandi, e i suggerimenti del gioco seguono le tue scelte.
 
-### Automatic updates
-New versions download in the background and install when you restart, never during a game. This window tells you what changed.
+### Aggiornamenti automatici
+Le nuove versioni si scaricano in background e si installano al riavvio, mai durante una partita. Questa finestra ti dice cosa è cambiato.
 
-### A reviewed interface
-Every screen was reviewed in the three languages and at every window size. Fixes: Esc opens the menu at the table, the computer sinks the 8 in its called pocket more reliably, and the overhead view no longer goes black.
+### Un'interfaccia rivista
+Ogni schermata è stata rivista nelle tre lingue e a ogni dimensione di finestra. Correzioni: Esc apre il menu al tavolo, il computer imbuca la 8 nella buca chiamata in modo più affidabile, e la vista dall'alto non diventa più nera.
 
 ## 0.1.4
 
-### A game while you wait
-After half a minute of "Play now" without an opponent, you can play the computer while the search goes on.
+### Una partita mentre aspetti
+Dopo mezzo minuto di «Gioca ora» senza avversario, puoi giocare contro il computer mentre la ricerca continua.
 
-### Chat moderation
-You can delete your own chat lines, and moderators can remove abuse.
+### Moderazione della chat
+Puoi eliminare i tuoi messaggi in chat, e i moderatori possono rimuovere gli abusi.
 
-### Cues you can see
-Opponents see the pattern of the cue you bought, and VIP members have reactions of their own.
+### Stecche che si vedono
+Gli avversari vedono il disegno della stecca che hai comprato, e i membri VIP hanno reazioni esclusive.

@@ -152,9 +152,9 @@
 452	host
 453	tě zve na {kind}
 454	připojil(a) se dnes
-455	členem {n} dní
-456	členem {n} měsíců
-457	členem {n} let
+455	členem {n} d
+456	členem {n} měs.
+457	členem {n} r.
 458	offline
 459	otevřený
 460	nepovinné: připojit se můžou jen přátelé, kteří ho znají
@@ -297,4 +297,4 @@
 597	Mířit doprava
 598	Jemné míření (držet)
 599	Šťouch (držet, pustit)
-600	Lower the cue	Bajar el taco
+600	Horní falš

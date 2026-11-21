@@ -1,5 +1,150 @@
 # Changelog
 
+## 0.8.3 (protocol 24)
+
+Two more reviews of the whole game and what players asked for: an item
+earned is shown, the pockets are finished cleanly, the zoom stays into the
+3D view, one game at a time on a computer, and the 8 on a break handed
+over is the 8 of any shot. Protocol 24, the oldest let in too: the rules a
+replay is played back with changed (the 8 on a Brazilian break handed
+over), and a game of 0.8.2 would show other tables than the server's, so
+it is asked to update. No new migration.
+
+### A fourth review
+The game:
+- **A break that hits nothing and loses the cue ball** was told as "cue
+  ball in hand behind the head string": it is played from the head spot,
+  and the table says so.
+- **A rematch moves the alternating break on**: after a rematch at this
+  computer, the next game started was broken by the same side again.
+- **A click on the cue** aims at the ball, or calls the pocket, lying under
+  the stick (it was swallowed along the whole stick); on bare cloth it does
+  nothing. No cue is grabbed while a decision after the break is pending
+  (none is drawn).
+- **A five-round arena that ended before 0.8.2** stays ended: it reopened
+  at "round 6 of 7" (`cup.json` now says how many rounds its arena has).
+- **A tournament game left while its last shot rolls** counts as that shot
+  ends it, not as a game lost.
+- A game saved by 0.8.1 resumes with the breaker it had.
+
+- **The 8 on a break handed over** (the cue ball lost on the break, the
+  balls lying where they stopped) is the 8 of any shot: hit first it is a
+  foul, and made it loses the game. The incoming player could win at once
+  by potting it straight in, and the computer went for it. Only the break
+  of the rack (the game's first shot, or a break passed over with the balls
+  still racked) has the 8 alone winning (`EightBallGame::break_on_rack`).
+  The rules book in three languages says so.
+
+Online, in the game:
+- **A table joined after its game ended** (back from a lost connection,
+  or watching a friend at the end panel) shows the end and its result, not
+  a turn nobody can play: the server sends the result again.
+- **Both back after the server restarted**: the first one back saw a shot
+  clock of minutes, and lost a ball with time apparently left. The clock
+  shown starts afresh when the opponent is back, as the server's does.
+- **A rematch the server refused** (it is closing, a cooldown) left
+  "Waiting for…" for ever, with no way to accept the opponent's.
+- A shot that left as the clock ran out isn't kept as the last shot, and a
+  stroke queued while reconnecting isn't sent to a table that changed
+  meanwhile.
+
+The server:
+- **The break alternates by who broke last** between two players (within a
+  day), not by the parity of their games: a game under the official rules,
+  a correspondence game ending or the day's count rolling over gave the
+  same player two breaks running.
+- **A knockout's host away while it filled up** lost the first round at
+  once: the time away before the start no longer counts.
+- A game dropped with both players gone can't be rebuilt from its saved
+  copy; a player back at a finished table doesn't announce it to an
+  opponent who is already elsewhere.
+- **A month of VIP given** counts from the payment, not from when the
+  payment page was opened (a boleto paid three days later gave 28 days). A
+  delivery that stopped half way still records and announces the present
+  (and the welcome to VIP) when it comes again.
+- Friendships accepted and removed at the same moment no longer end up
+  one-way (PostgreSQL); a moderator can't act on a listed administrator
+  who hasn't signed in yet.
+
+### Things asked for
+- **An item earned is shown**: one that comes with an achievement (a level
+  reached, say) only turned up in the shop. A dialog now says
+  "Congratulations!", shows it and offers to use it at once (after the
+  game, one after another when there are several).
+- **The pockets are finished cleanly**: the facing of a jaw follows the
+  rubber's cut-back under its nose (it stood out in front of the cushion
+  like a fin), and the hole's wall and its leather lip stop with the
+  casting (they ran on over the rubber, a centimetre proud of it).
+- **From the overhead view to 3D the zoom stays**: dragging into 3D jumped
+  back to the whole table.
+- **The profile's note on the two ratings** takes the room the buttons
+  leave: it ran under "Daily game".
+- **The staff portal draws the countries' flags** from the game's own
+  atlas (`/admin/flags.png`, `/admin/flags.css`): the flag emoji aren't in
+  every system's fonts, and Windows showed two letters.
+
+### One game at a time
+- **A second start of the game doesn't open another one**: it brings the
+  window of the game that is running to the front (Windows) and ends.
+  Two games on one computer shared the settings, the saved game and the
+  account's session, each writing over the other's. The game holds a lock
+  on `instance.lock` in its settings folder while it runs (the system
+  frees it however the game ends); a start right after an update waits a
+  few seconds for the old game to close. Development builds can still run
+  side by side with `SNOOK_LEGEND_MANY=1`.
+
+### A fifth review
+- A private arena asks for its password once it is running too (joining
+  it was refused, each try counting as a wrong password).
+- Signed out after changing the game server in the settings, the game
+  signs in to the server chosen.
+- Microsoft Store build: no purchase begins while the Store is still
+  being asked what was bought (the click was swallowed).
+- The shop's dialogs leave Enter and Esc to a dialog drawn over them (a
+  present arriving bought the item underneath).
+- The wheel at the zoom bar's far end no longer zooms in; a size dragged as
+  the settings close isn't shown as chosen; a LAN address pasted with
+  "http://" in front connects.
+
+The server and what it shares with the game (the same review):
+- **An account deleted while it signed in from another place** left that
+  connection online under a name that was free again, out of the staff's
+  reach: it is closed, with any session made meanwhile, and a session of
+  a deleted account can't be resumed.
+- **Watching a friend's games ends with the friendship** (only a block
+  ended it), and a minor's status message and note on the board go when
+  their chat is turned off.
+- The address of a player behind a proxy is read from every line of the
+  forwarding header (a proxy adding its own line left the client's word
+  first); profiles asked for before signing in count per address; a
+  trusted-proxy entry that can't be read is said at startup.
+- **The tour's achievement gives its experience**, as every other does.
+- A flag emoji can't carry a long run of invisible tag characters past
+  the chat's filters; drill sessions are scored a couple at a time; a
+  first drill with nothing made is no place on the challenge table.
+- The shot analysis, the ghost's style and a shot's difficulty count a
+  break handed over on scattered balls as the ordinary shot it now is.
+- The staff portal's report counts work for a player called
+  "constructor".
+
+### Notes
+- What's new in the game (three languages) and the Store listing's notes
+  for 0.8.3: the item earned, the pockets, the zoom into 3D, one game at a
+  time and the fixes. The Store notes keep 0.8.2's and drop 0.8.1's.
+- Left as they are, for another version: a refunded VIP month always
+  takes back 31 days; a subscription ended with its event delivered late
+  can take time from the next one; a daily game begun under 0.8.1 whose
+  break lost the cue ball may not rebuild to the table its players saw;
+  the staff portal's actions go by name, not by account id.
+
+### Deploying
+- The server and the game go out together: once this server is up, a game
+  of 0.8.2 is asked to update (protocol 24), so publish the release (and the
+  Store package) when the server goes out. Render builds the service from
+  `main`: `main` has to get this commit along with the tag.
+- The staff portal serves two new files (`/admin/flags.png`,
+  `/admin/flags.css`); nothing to configure.
+
 ## 0.8.2 (protocol 23)
 
 The Brazilian break and shot clock, the break taken in turn, the cue
@@ -307,123 +452,6 @@ The server:
 - Drills: the "cue ball on the cushion" drill has it against the cushion,
   and "the plant" balls touching; a try that knocks the 8 in doesn't count.
 - The ghost's style counts ordinary strokes at their own top speed.
-
-### A fourth review
-The game:
-- **A break that hits nothing and loses the cue ball** was told as "cue
-  ball in hand behind the head string": it is played from the head spot,
-  and the table says so.
-- **A rematch moves the alternating break on**: after a rematch at this
-  computer, the next game started was broken by the same side again.
-- **A click on the cue** aims at the ball, or calls the pocket, lying under
-  the stick (it was swallowed along the whole stick); on bare cloth it does
-  nothing. No cue is grabbed while a decision after the break is pending
-  (none is drawn).
-- **A five-round arena that ended before 0.8.2** stays ended: it reopened
-  at "round 6 of 7" (`cup.json` now says how many rounds its arena has).
-- **A tournament game left while its last shot rolls** counts as that shot
-  ends it, not as a game lost.
-- A game saved by 0.8.1 resumes with the breaker it had.
-
-- **The 8 on a break handed over** (the cue ball lost on the break, the
-  balls lying where they stopped) is the 8 of any shot: hit first it is a
-  foul, and made it loses the game. The incoming player could win at once
-  by potting it straight in, and the computer went for it. Only the break
-  of the rack (the game's first shot, or a break passed over with the balls
-  still racked) has the 8 alone winning (`EightBallGame::break_on_rack`).
-  The rules book in three languages says so.
-
-Online, in the game:
-- **A table joined after its game ended** (back from a lost connection,
-  or watching a friend at the end panel) shows the end and its result, not
-  a turn nobody can play: the server sends the result again.
-- **Both back after the server restarted**: the first one back saw a shot
-  clock of minutes, and lost a ball with time apparently left. The clock
-  shown starts afresh when the opponent is back, as the server's does.
-- **A rematch the server refused** (it is closing, a cooldown) left
-  "Waiting for…" for ever, with no way to accept the opponent's.
-- A shot that left as the clock ran out isn't kept as the last shot, and a
-  stroke queued while reconnecting isn't sent to a table that changed
-  meanwhile.
-
-The server:
-- **The break alternates by who broke last** between two players (within a
-  day), not by the parity of their games: a game under the official rules,
-  a correspondence game ending or the day's count rolling over gave the
-  same player two breaks running.
-- **A knockout's host away while it filled up** lost the first round at
-  once: the time away before the start no longer counts.
-- A game dropped with both players gone can't be rebuilt from its saved
-  copy; a player back at a finished table doesn't announce it to an
-  opponent who is already elsewhere.
-- **A month of VIP given** counts from the payment, not from when the
-  payment page was opened (a boleto paid three days later gave 28 days). A
-  delivery that stopped half way still records and announces the present
-  (and the welcome to VIP) when it comes again.
-- Friendships accepted and removed at the same moment no longer end up
-  one-way (PostgreSQL); a moderator can't act on a listed administrator
-  who hasn't signed in yet.
-
-### Things asked for
-- **An item earned is shown**: one that comes with an achievement (a level
-  reached, say) only turned up in the shop. A dialog now says
-  "Congratulations!", shows it and offers to use it at once (after the
-  game, one after another when there are several).
-- **The pockets are finished cleanly**: the facing of a jaw follows the
-  rubber's cut-back under its nose (it stood out in front of the cushion
-  like a fin), and the hole's wall and its leather lip stop with the
-  casting (they ran on over the rubber, a centimetre proud of it).
-- **From the overhead view to 3D the zoom stays**: dragging into 3D jumped
-  back to the whole table.
-- **The profile's note on the two ratings** takes the room the buttons
-  leave: it ran under "Daily game".
-- **The staff portal draws the countries' flags** from the game's own
-  atlas (`/admin/flags.png`, `/admin/flags.css`): the flag emoji aren't in
-  every system's fonts, and Windows showed two letters.
-
-### One game at a time
-- **A second start of the game doesn't open another one**: it brings the
-  window of the game that is running to the front (Windows) and ends.
-  Two games on one computer shared the settings, the saved game and the
-  account's session, each writing over the other's. The game holds a lock
-  on `instance.lock` in its settings folder while it runs (the system
-  frees it however the game ends); a start right after an update waits a
-  few seconds for the old game to close. Development builds can still run
-  side by side with `SNOOK_LEGEND_MANY=1`.
-
-### A fifth review
-- A private arena asks for its password once it is running too (joining
-  it was refused, each try counting as a wrong password).
-- Signed out after changing the game server in the settings, the game
-  signs in to the server chosen.
-- Microsoft Store build: no purchase begins while the Store is still
-  being asked what was bought (the click was swallowed).
-- The shop's dialogs leave Enter and Esc to a dialog drawn over them (a
-  present arriving bought the item underneath).
-- The wheel at the zoom bar's far end no longer zooms in; a size dragged as
-  the settings close isn't shown as chosen; a LAN address pasted with
-  "http://" in front connects.
-
-The server and what it shares with the game (the same review):
-- **An account deleted while it signed in from another place** left that
-  connection online under a name that was free again, out of the staff's
-  reach: it is closed, with any session made meanwhile, and a session of
-  a deleted account can't be resumed.
-- **Watching a friend's games ends with the friendship** (only a block
-  ended it), and a minor's status message and note on the board go when
-  their chat is turned off.
-- The address of a player behind a proxy is read from every line of the
-  forwarding header (a proxy adding its own line left the client's word
-  first); profiles asked for before signing in count per address; a
-  trusted-proxy entry that can't be read is said at startup.
-- **The tour's achievement gives its experience**, as every other does.
-- A flag emoji can't carry a long run of invisible tag characters past
-  the chat's filters; drill sessions are scored a couple at a time; a
-  first drill with nothing made is no place on the challenge table.
-- The shot analysis, the ghost's style and a shot's difficulty count a
-  break handed over on scattered balls as the ordinary shot it now is.
-- The staff portal's report counts work for a player called
-  "constructor".
 
 ### Notes
 - What's new in the game (three languages) and the Store listing's notes

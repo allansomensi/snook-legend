@@ -3,6 +3,20 @@
 # destaque, e as linhas seguintes são o texto dele. Mesmas versões e mesmo
 # número de destaques em todas as línguas.
 
+## 0.8.3
+
+### O que você ganha aparece
+Um item que vem com uma conquista, como ao subir de nível, agora chega com uma janela de "Parabéns!" que mostra o item e deixa usar na hora.
+
+### Um jogo por vez
+Abrir o jogo com ele já aberto traz a janela dele para a frente em vez de abrir um segundo. Dois jogos no mesmo computador escreviam por cima das configurações e da partida salva um do outro.
+
+### A 8 na saída repassada
+Na regra brasileira, a saída repassada depois de perder a branca, com as bolas já espalhadas, não vence mais encaçapando a 8: acertar a 8 primeiro é falta e encaçapá-la perde, como em qualquer tacada. Só na saída do triângulo a 8 sozinha vence.
+
+### Caçapas mais limpas, câmera mais firme e muitas correções
+As caçapas ficaram sem rebarbas, e passar da visão de cima para o 3D mantém o zoom. Mais duas revisões do jogo inteiro corrigiram muitos bugs: a revanche mantém a saída alternada, a arena privada pede a senha mesmo em andamento, a mesa reaberta depois do fim mostra o resultado, e mais.
+
 ## 0.8.2
 
 ### O tempo de tacada dá bola

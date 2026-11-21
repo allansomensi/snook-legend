@@ -3,6 +3,20 @@
 # un destacado, y las líneas siguientes son su texto. Mismas versiones y
 # mismo número de destacados en todos los idiomas.
 
+## 0.8.3
+
+### Lo que ganas se muestra
+Un artículo que viene con un logro, como al subir de nivel, ahora llega con una ventana de "¡Felicidades!" que lo muestra y deja usarlo al momento.
+
+### Un juego a la vez
+Abrir el juego cuando ya está abierto trae su ventana al frente en vez de abrir un segundo. Dos juegos en el mismo ordenador escribían encima de los ajustes y de la partida guardada del otro.
+
+### La 8 en el saque traspasado
+En la regla brasileña, el saque traspasado tras perder la blanca, con las bolas ya repartidas, ya no gana embocando la 8: tocarla primero es falta y embocarla pierde, como en cualquier tiro. Solo en el saque del triángulo la 8 sola gana.
+
+### Troneras más limpias, cámara más firme y muchas correcciones
+Las troneras quedaron sin rebabas, y pasar de la vista superior al 3D mantiene el zoom. Dos revisiones más de todo el juego corrigieron muchos errores: la revancha mantiene el saque alterno, la arena privada pide su contraseña también en marcha, la mesa reabierta tras el final muestra el resultado, y más.
+
 ## 0.8.2
 
 ### El tiempo de tiro da bola

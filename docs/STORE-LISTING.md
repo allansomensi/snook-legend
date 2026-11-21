@@ -57,15 +57,17 @@ Em português, inglês e espanhol.
 
 ### Novidades desta versão
 
-Versão 0.8.2: a saída e o tempo de tacada na regra brasileira, e o taco em qualquer parte.
+Versão 0.8.3: o que você ganha aparece, um jogo por vez e caçapas mais limpas.
+• Um item que vem com uma conquista, como ao subir de nível, chega com uma janela de "Parabéns!" e pode ser usado na hora.
+• Abrir o jogo com ele já aberto traz a janela dele para a frente em vez de abrir um segundo.
+• Regra brasileira: na saída repassada com as bolas já espalhadas, acertar a 8 primeiro é falta e encaçapá-la perde; só na saída do triângulo a 8 sozinha vence.
+• Caçapas sem rebarbas, o zoom mantido ao passar da visão de cima para o 3D, e muitos bugs corrigidos.
+
+Da versão 0.8.2: a saída e o tempo de tacada na regra brasileira, e o taco em qualquer parte.
 • Regra brasileira: acabar o tempo de tacada é falta: sai a menor bola do adversário e a branca volta ao ponto inicial, sem bola na mão.
 • Regra brasileira: os jogadores saem alternando, uma vez cada um; a saída que perde a branca sem encaçapar nenhuma bola, ou com bolas dos dois grupos, passa ao adversário, do ponto inicial.
 • Dá para pegar e arrastar o taco em qualquer parte dele, da ponta ao fim.
 • A arena contra a máquina tem sete rodadas, a loja tem um ícone novo e muitos bugs foram corrigidos.
-
-Da versão 0.8.1: a 8 paga a penalidade, e clique fora para fechar.
-• Regra brasileira: uma falta que dá mais bolas do que o adversário ainda tem perde a partida, e a 8 paga o resto. Com o adversário já na 8, qualquer falta que dê bola perde.
-• O chat da partida, o histórico e os painéis de efeito e elevação fecham com um clique fora deles; menus e diálogos também.
 
 ### Recursos do produto
 
@@ -134,15 +136,17 @@ In English, Portuguese and Spanish.
 
 ### What's new in this version
 
-Version 0.8.2: the Brazilian break and shot clock, and the cue grabbed anywhere.
+Version 0.8.3: what you earn is shown, one game at a time, and cleaner pockets.
+• An item that comes with an achievement, such as a level reached, arrives with a "Congratulations!" window and can be used at once.
+• Starting the game while it is already open brings its window to the front instead of opening a second one.
+• Brazilian rule: on a break handed over with the balls already scattered, hitting the 8 first is a foul and pocketing it loses; only the break of the rack has the 8 alone winning.
+• Pockets without rough edges, the zoom kept from the overhead view into 3D, and many bugs fixed.
+
+From version 0.8.2: the Brazilian break and shot clock, and the cue grabbed anywhere.
 • Brazilian rule: running out of time is a foul: your opponent's lowest ball comes off and the cue ball goes back to the head spot, not in hand.
 • Brazilian rule: the players break in turn, one break each; a break that loses the cue ball with no ball made, or with balls of both groups, passes to your opponent, from the head spot.
 • Grab and drag the cue anywhere along it, from the tip to the butt.
 • The arena against the computer is seven rounds, the shop has a new icon and many bugs are fixed.
-
-From version 0.8.1: the 8 pays the penalty, and click outside to close.
-• Brazilian rule: a foul that gives more balls than your opponent has left loses the game, and the 8 pays the rest. With your opponent on the 8, any foul that gives a ball loses.
-• The match's chat, the game history and the spin and elevation panels close with a click outside them; so do menus and dialogs.
 
 ### Product features
 
@@ -211,15 +215,17 @@ En español, inglés y portugués.
 
 ### Novedades de esta versión
 
-Versión 0.8.2: el saque y el tiempo de tiro en la regla brasileña, y el taco por cualquier parte.
+Versión 0.8.3: lo que ganas se muestra, un juego a la vez y troneras más limpias.
+• Un artículo que viene con un logro, como al subir de nivel, llega con una ventana de "¡Felicidades!" y puede usarse al momento.
+• Abrir el juego cuando ya está abierto trae su ventana al frente en vez de abrir un segundo.
+• Regla brasileña: en el saque traspasado con las bolas ya repartidas, tocar primero la 8 es falta y embocarla pierde; solo en el saque del triángulo la 8 sola gana.
+• Troneras sin rebabas, el zoom mantenido al pasar de la vista superior al 3D, y muchos errores corregidos.
+
+De la versión 0.8.2: el saque y el tiempo de tiro en la regla brasileña, y el taco por cualquier parte.
 • Regla brasileña: quedarse sin tiempo de tiro es falta: sale la menor bola del rival y la blanca vuelve al punto de salida, sin bola en mano.
 • Regla brasileña: los jugadores sacan por turnos, una vez cada uno; el saque que pierde la blanca sin meter ninguna bola, o con bolas de los dos grupos, pasa al rival, desde el punto de salida.
 • Puedes agarrar y arrastrar el taco por cualquier parte, de la punta a la culata.
 • La arena contra la máquina tiene siete rondas, la tienda tiene un icono nuevo y se corrigieron muchos errores.
-
-De la versión 0.8.1: la 8 paga la penalización, y clic fuera para cerrar.
-• Regla brasileña: una falta que da más bolas de las que le quedan al rival pierde el partido, y la 8 paga el resto. Con el rival ya en la 8, cualquier falta que dé bola pierde.
-• El chat de la partida, el historial y los paneles de efecto y elevación se cierran con un clic fuera de ellos; los menús y diálogos también.
 
 ### Características del producto
 

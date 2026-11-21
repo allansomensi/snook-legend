@@ -51,6 +51,11 @@ pub struct Controls {
     pub sensitivity: f32,
     /// The pointer is over the cue (shown with a "move" cursor).
     over_cue: bool,
+    /// The cue grabbed by the stick: the height of the point grabbed (the
+    /// pointer is followed at that height, so that point stays under it in
+    /// any view) and how far the aim is turned from the line pointer → cue
+    /// ball at the grab (kept while it swings: no jump).
+    cue_grab: (f32, f64),
     /// A right-button drag that turns the camera.
     orbiting: bool,
     /// How far the pointer moved during that drag.
@@ -88,39 +93,75 @@ impl Controls {
     }
 }
 
-/// True if the screen point `mouse` is on (or very near) the cue stick.
-fn pointer_on_cue(m: &Match, cam: &SceneCamera, radius: f32, mouse: Vec2) -> bool {
-    let cue = m.game.ball(BallId::CUE).xy();
-    let dir = DVec2::from_angle(m.aim.yaw);
-    let r = radius as f64;
-    // Test the first ~70 cm of the stick in short pieces (the far end can be
-    // behind the camera).
-    let mut prev: Option<Vec2> = None;
-    for k in 0..=14 {
-        let along = r + 0.02 + k as f64 * 0.05;
-        let lift = radius + along as f32 * 0.04;
-        let Some(p) = cam.project(surface(cue - dir * along, lift)) else { break };
-        if let Some(a) = prev {
+/// How far the cue tip stands off the cue ball while aiming: drawn back as
+/// the stroke is charged.
+fn aim_gap(m: &Match) -> f64 {
+    0.006 + if m.aim.charging { 0.03 + m.aim.power as f64 * 0.25 } else { 0.03 }
+}
+
+/// The cue as it is drawn while aiming, `gap` off the cue ball: raised just
+/// enough to clear the rail and other balls, like a player would, so it
+/// never passes through anything.
+fn aiming_cue(m: &Match, scene: &Scene, gap: f64) -> crate::scene::CuePose {
+    let elevation = m.aim.elevation.max(cue_clearance(m, scene, m.aim.yaw, gap));
+    scene.cue_pose(
+        m.game.params(),
+        m.game.ball(BallId::CUE).position,
+        m.aim.yaw,
+        elevation,
+        m.aim.tip,
+        gap,
+    )
+}
+
+/// Where the screen point `mouse` is on (or very near) the cue stick, as it
+/// is drawn, anywhere from the tip to the butt: the height of the stick
+/// there (in the world, for [`pointer_at_height`]).
+fn pointer_on_cue(m: &Match, scene: &Scene, cam: &SceneCamera, mouse: Vec2) -> Option<f32> {
+    let pose = aiming_cue(m, scene, aim_gap(m));
+    let (tip, butt) = (pose.tip, pose.butt());
+    // Pixels per metre at a point (how thick the stick looks there).
+    let scale = screen_height() / (2.0 * (cam.fovy * 0.5).tan());
+    // The stick in short pieces: the part behind the camera (from a low
+    // view behind the butt) is left out, the rest still counts.
+    const PIECES: usize = 32;
+    let mut prev: Option<(Vec2, Vec3)> = None;
+    for k in 0..=PIECES {
+        let t = k as f32 / PIECES as f32;
+        let at = tip.lerp(butt, t);
+        let Some(p) = cam.project(at) else {
+            prev = None;
+            continue;
+        };
+        if let Some((a, from)) = prev {
             let ab = p - a;
-            let t = ((mouse - a).dot(ab) / ab.length_squared().max(1e-6)).clamp(0.0, 1.0);
-            if mouse.distance(a + ab * t) < 16.0 {
-                return true;
+            let s = ((mouse - a).dot(ab) / ab.length_squared().max(1e-6)).clamp(0.0, 1.0);
+            // The stick's half thickness (6 mm at the tip to 14 mm at the
+            // butt) on the screen, plus a margin for the fingers.
+            let half = (0.006 + 0.008 * t) * scale / at.distance(cam.eye).max(0.05);
+            if mouse.distance(a + ab * s) < 14.0 + half {
+                return Some(from.lerp(at, s).y);
             }
         }
-        prev = Some(p);
+        prev = Some((p, at));
     }
-    false
+    None
+}
+
+/// Point on the table (in table coordinates) under the screen point
+/// `mouse`, on the level plane at the world height `y`.
+fn pointer_at_height(cam: &SceneCamera, mouse: Vec2, y: f32) -> Option<DVec2> {
+    let (origin, dir) = cam.ray(mouse);
+    if dir.y.abs() < 1e-5 {
+        return None;
+    }
+    let t = (y - origin.y) / dir.y;
+    (t > 0.0).then(|| to_table(origin + dir * t))
 }
 
 /// Point on the table plane (at ball-centre height) under the mouse.
 pub fn pointer_on_table(cam: &SceneCamera, radius: f32) -> Option<DVec2> {
-    let (origin, dir) = cam.ray(mouse_position().into());
-    let plane_y = TABLE_HEIGHT + radius;
-    if dir.y.abs() < 1e-5 {
-        return None;
-    }
-    let t = (plane_y - origin.y) / dir.y;
-    (t > 0.0).then(|| to_table(origin + dir * t))
+    pointer_at_height(cam, mouse_position().into(), TABLE_HEIGHT + radius)
 }
 
 impl Controls {
@@ -270,7 +311,7 @@ impl Controls {
             || (self.mode == DragMode::None
                 && !ui_hovered
                 && !m.is_placing_cue_ball()
-                && pointer_on_cue(m, cam, radius, mouse));
+                && pointer_on_cue(m, scene, cam, mouse).is_some());
         self.set_over_cue(hovering_cue);
 
         // Start of a mouse drag: decide what it does.
@@ -282,10 +323,23 @@ impl Controls {
                 if m.game.ball_in_hand().is_some() && (m.is_placing_cue_ball() || on_cue_ball) {
                     m.set_placing(true);
                     DragMode::Place
-                } else if !m.is_placing_cue_ball()
-                    && (pointer_on_cue(m, cam, radius, mouse)
-                        || pointer_on_cue(m, cam, radius, mouse - delta))
+                } else if let Some(height) = (!m.is_placing_cue_ball())
+                    .then(|| {
+                        pointer_on_cue(m, scene, cam, mouse)
+                            .or_else(|| pointer_on_cue(m, scene, cam, mouse - delta))
+                    })
+                    .flatten()
                 {
+                    // Grabbed anywhere along the stick: it swings from there.
+                    let turn = pointer_at_height(cam, mouse, height)
+                        .filter(|p| p.distance(cue) > radius as f64 * 1.5)
+                        .map_or(0.0, |p| {
+                            let d = cue - p;
+                            let off = m.aim.yaw - d.y.atan2(d.x);
+                            (off + std::f64::consts::PI).rem_euclid(std::f64::consts::TAU)
+                                - std::f64::consts::PI
+                        });
+                    self.cue_grab = (height, turn);
                     DragMode::Cue
                 } else if fine {
                     DragMode::Fine
@@ -319,11 +373,12 @@ impl Controls {
                 // The cue swings around the cue ball, following the pointer:
                 // the shot goes from the pointer through the ball.
                 rig.hold = true;
-                if let Some(p) = pointer
+                let (height, turn) = self.cue_grab;
+                if let Some(p) = pointer_at_height(cam, mouse, height)
                     && p.distance(cue) > radius as f64 * 1.5
                 {
                     let d = cue - p;
-                    m.aim.yaw = d.y.atan2(d.x);
+                    m.aim.yaw = d.y.atan2(d.x) + turn;
                 }
             }
             DragMode::Fine if down => {
@@ -724,7 +779,7 @@ pub fn overlay(m: &Match, scene: &Scene, time: f32) -> Overlay {
     let choosing = m.game.pending_choice().is_some();
     let gap = match &m.phase {
         Phase::Turn { placing_cue_ball: false, .. } if !remote_waiting && !choosing => {
-            Some(0.006 + if m.aim.charging { 0.03 + m.aim.power as f64 * 0.25 } else { 0.03 })
+            Some(aim_gap(m))
         }
         Phase::Simulating(_) if m.shot_time().is_some_and(|t| t < 0.15) => Some(-0.012),
         _ => None,
@@ -750,17 +805,7 @@ pub fn overlay(m: &Match, scene: &Scene, time: f32) -> Overlay {
         return out;
     }
     if let Some(gap) = gap {
-        // Raise the cue just enough to clear the rail and other balls, like a
-        // player would, so it never passes through anything.
-        let elevation = m.aim.elevation.max(cue_clearance(m, scene, m.aim.yaw, gap));
-        out.cue = Some(scene.cue_pose(
-            m.game.params(),
-            m.game.ball(BallId::CUE).position,
-            m.aim.yaw,
-            elevation,
-            m.aim.tip,
-            gap,
-        ));
+        out.cue = Some(aiming_cue(m, scene, gap));
     }
 
     // A drill: the pocket to use, and the circle to leave the cue ball in.

@@ -230,9 +230,17 @@ pub struct ShotMark {
 /// What a shot clock that ran out did: `before` and `after` it, `who` ran
 /// out of time and `other` is their opponent.
 fn time_foul_text(before: &EightBallGame, after: &EightBallGame, who: &str, other: &str) -> String {
-    // The Brazilian rules (but on the break): a ball for the opponent, and
-    // the cue ball back on the head spot.
-    if after.rules() == Rules::Brazilian && !before.is_break() {
+    // The Brazilian rules: on the break, the break passes, from the head
+    // spot.
+    if after.rules() == Rules::Brazilian && before.is_break() {
+        return tw(
+            "{who} ran out of time: {other} breaks, from the head spot.",
+            &[("who", &who), ("other", &other)],
+        );
+    }
+    // Elsewhere a ball for the opponent, and the cue ball back on the head
+    // spot.
+    if after.rules() == Rules::Brazilian {
         let paid: Vec<String> = (1..16u8)
             .map(BallId)
             .filter(|&b| before.ball(b).in_play() && !after.ball(b).in_play())
@@ -300,6 +308,8 @@ pub struct Match {
     /// Turns begun so far (a turn passed on the clock or by a choice too,
     /// which `shots_taken` doesn't count).
     pub turns_begun: u32,
+    /// Who broke the game on the table (the next one is the other's).
+    pub breaker: usize,
     pub wins: [u32; 2],
     /// Collisions to play as sounds (drained by the audio module).
     pub sounds: Vec<ImpactSound>,
@@ -585,6 +595,7 @@ impl Match {
             guide: settings.guide,
             games_played: 0,
             turns_begun: 0,
+            breaker: 0,
             wins: [0, 0],
             sounds: Vec::new(),
             online: None,
@@ -828,6 +839,7 @@ impl Match {
         m.timeline = saved.timeline.clone();
         m.wins = saved.wins;
         m.games_played = saved.games_played;
+        m.breaker = saved.breaker % 2;
         m.begin_turn();
         m
     }
@@ -919,6 +931,7 @@ impl Match {
             guide: guide.online(),
             games_played: 0,
             turns_begun: 0,
+            breaker: 0,
             wins: [0, 0],
             sounds: Vec::new(),
             online: Some(OnlineMatch {
@@ -1066,14 +1079,16 @@ impl Match {
             return;
         }
         let seed = self.seed.wrapping_mul(6364136223846793005).wrapping_add(1442695040888963407);
-        let breaker = (self.games_played % 2) as usize;
-        self.deal(seed, breaker);
+        // The break alternates: the one who didn't break this game breaks
+        // the next.
+        self.deal(seed, 1 - self.breaker % 2);
     }
 
     /// Starts a new game from the rack `seed`, `breaker` to break. The
     /// tour's final, played for the reward, is dealt by the server.
     pub fn deal(&mut self, seed: u64, breaker: usize) {
         self.seed = seed;
+        self.breaker = breaker % 2;
         let rules = self.game.rules();
         self.game = EightBallGame::new(seed, breaker, rules);
         if let Some(run) = self.ladder.as_mut() {
@@ -1091,6 +1106,17 @@ impl Match {
         self.notices.clear();
         self.log.clear();
         self.begin_turn();
+    }
+
+    /// The Brazilian rules: `breaker` breaks this game, not started yet (the
+    /// break alternates from game to game).
+    pub fn set_breaker(&mut self, breaker: usize) {
+        if self.game.rules() == snook_legend_core::Rules::Brazilian
+            && self.game.shots_taken() == 0
+            && breaker % 2 != self.breaker
+        {
+            self.deal(self.seed, breaker % 2);
+        }
     }
 
     pub fn current_controller(&self) -> Controller {
@@ -1532,9 +1558,9 @@ impl Match {
             let text = if report.first_contact.is_none() {
                 "No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string."
             } else if report.pocketed.iter().any(|(b, _)| b.is_object()) {
-                "The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks, with the cue ball in hand behind the head string."
+                "The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks again, from the head spot."
             } else {
-                "The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string."
+                "The cue ball went down on the break with no ball made: {next} breaks again, from the head spot."
             };
             self.notify(tw(text, &[("next", &next)]), true);
         } else if foul_said {

@@ -307,16 +307,21 @@ pub fn draw(icon: Icon, c: Vec2, s: f32, color: Color) {
             }
         }
         Icon::Shop => {
-            // Bag body and a handle.
-            draw_rectangle(c.x - 0.62 * h, c.y - 0.25 * h, 1.24 * h, 1.05 * h, color);
-            arc(
-                c - vec2(0.0, 0.25 * h),
-                0.36 * h,
-                std::f32::consts::PI,
-                std::f32::consts::TAU,
-                w,
-                color,
-            );
+            // A shopping cart (a bag with a handle read as a padlock): the
+            // handle and its post, the basket with its slats, the rail and
+            // the wheels.
+            line(p(-0.98, -0.74), p(-0.66, -0.74), w * 1.3, color);
+            line(p(-0.66, -0.74), p(-0.4, 0.36), w * 1.3, color);
+            let (a, b, d, e) = (p(-0.6, -0.5), p(0.96, -0.5), p(0.74, 0.18), p(-0.45, 0.18));
+            draw_triangle(a, b, d, color);
+            draw_triangle(a, d, e, color);
+            let slat = Color::new(0.0, 0.0, 0.0, 0.4 * color.a);
+            line(p(-0.07, -0.44), p(-0.05, 0.12), w * 0.7, slat);
+            line(p(0.42, -0.44), p(0.36, 0.12), w * 0.7, slat);
+            line(p(-0.4, 0.36), p(0.76, 0.36), w * 1.3, color);
+            let wheel = 0.17 * h;
+            draw_circle(c.x - 0.22 * h, c.y + 0.68 * h, wheel, color);
+            draw_circle(c.x + 0.56 * h, c.y + 0.68 * h, wheel, color);
         }
         Icon::Coin => {
             draw_circle(c.x, c.y, 0.82 * h, color);

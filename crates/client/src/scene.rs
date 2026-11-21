@@ -467,11 +467,7 @@ impl Scene {
                 *slot = vec4(p.x, p.y, p.z, r);
             }
         }
-        // The cue mesh runs along its local +Y from the tip (see `cue_mesh`).
-        let cue = overlay.cue.as_ref().map(|c| {
-            let butt = c.tip + c.rotation * (Vec3::Y * CUE_LENGTH);
-            (c.tip.extend(0.0061), butt.extend(0.0148))
-        });
+        let cue = overlay.cue.as_ref().map(|c| (c.tip.extend(0.0061), c.butt().extend(0.0148)));
         self.materials.set_shadows(soft_shadows, soft_shadows, &casters, cue);
         self.materials.set_pockets(&self.holes, &self.throats);
         let half = half_table(&self.table);
@@ -1317,6 +1313,14 @@ fn cue_marks(m: &mut MeshBuilder, level: u8, wood: Color) -> Option<MeshBuilder>
 pub struct CuePose {
     pub tip: Vec3,
     pub rotation: Quat,
+}
+
+impl CuePose {
+    /// The far end of the cue (the mesh runs along its local +Y from the
+    /// tip; see `cue_mesh`).
+    pub fn butt(&self) -> Vec3 {
+        self.tip + self.rotation * (Vec3::Y * CUE_LENGTH)
+    }
 }
 
 /// Flat markings drawn on the cloth.

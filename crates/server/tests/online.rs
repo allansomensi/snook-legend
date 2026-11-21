@@ -737,7 +737,7 @@ async fn the_shot_clock_is_a_foul() {
     let (game, _, _) = start_match(&mut alice, &mut bob, "bob", "alice", false).await;
     let first = game.current_player();
     // No shot is played for the player: the clock is a foul. On the break
-    // (the Brazilian rules), the break passes, the cue ball in hand.
+    // (the Brazilian rules), the break passes, the cue ball on the head spot.
     let m = alice
         .expect("time foul", |m| {
             matches!(m, ServerMsg::TimeFoul { .. } | ServerMsg::ShotTaken { .. })
@@ -747,7 +747,7 @@ async fn the_shot_clock_is_a_foul() {
     assert_eq!(seat, first);
     assert_eq!(game.current_player(), 1 - first);
     assert!(game.is_break());
-    assert_eq!(game.ball_in_hand(), Some(BallInHand::Kitchen));
+    assert_eq!(game.ball_in_hand(), None);
     assert!(game.game_over().is_none());
 }
 

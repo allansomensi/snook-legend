@@ -1067,7 +1067,7 @@ impl Versus {
                 say(
                     ui,
                     t(
-                        "Arena: five rounds for everyone. A win is 2 points, 3 from the third win in a row. The most points wins.",
+                        "Arena: seven rounds for everyone. A win is 2 points, 3 from the third win in a row. The most points wins.",
                     ),
                     14.0,
                     CREAM,

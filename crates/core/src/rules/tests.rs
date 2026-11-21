@@ -1076,17 +1076,17 @@ fn the_cue_ball_in_hand_goes_against_a_cushion_but_never_in_a_pocket() {
     assert!(into.events().iter().any(cushion));
 }
 
-/// The cue ball is in hand for the break only: a clock that runs out on
-/// the break hands it over with the cue ball still in hand behind the
-/// head string. Elsewhere it is a foul: the cue ball goes back to the head
-/// spot, not in hand, and (the table open) nothing is owed. Nothing
-/// changes once the game is over.
+/// A clock that runs out on the break hands the break over, the cue ball
+/// on the head spot (not in hand), nothing owed. Elsewhere it is a foul:
+/// the cue ball goes back to the head spot, not in hand, and (the table
+/// open) nothing is owed. Nothing changes once the game is over.
 #[test]
 fn a_clock_that_runs_out_sends_the_cue_ball_back_to_the_head_spot() {
     let mut g = EightBallGame::new(3, 0, Rules::Brazilian);
     assert_eq!(g.ball_in_hand(), Some(BallInHand::Kitchen));
     assert!(g.time_foul().is_empty());
-    assert_eq!((g.current_player(), g.ball_in_hand()), (1, Some(BallInHand::Kitchen)));
+    assert_eq!((g.current_player(), g.ball_in_hand()), (1, None));
+    assert_eq!(g.ball(BallId::CUE).xy(), g.table.head_spot());
     assert!(g.is_break());
     let report = g.play_shot(&Shot::new(g.default_aim(), g.max_cue_speed()), None).unwrap();
     assert!(report.was_break);
@@ -1201,7 +1201,18 @@ fn the_brazilian_rules_hold_over_random_games() {
                 assert_eq!(g.group_of(0), Some(old), "groups changed");
             }
             if g.game_over().is_none() {
-                assert_eq!(g.ball_in_hand().is_some(), report.break_again, "{report:?}");
+                // The break handed over: in hand behind the head string if
+                // the rack wasn't hit, on the head spot if the cue ball was
+                // lost; never in hand otherwise.
+                let lost = report
+                    .fouls
+                    .iter()
+                    .any(|f| matches!(f, Foul::CueBallPocketed | Foul::CueBallOffTable));
+                let in_hand = report.break_again && !lost;
+                assert_eq!(g.ball_in_hand().is_some(), in_hand, "{report:?}");
+                if report.break_again && lost {
+                    assert_eq!(g.ball(BallId::CUE).xy(), g.table.head_spot(), "{report:?}");
+                }
                 assert_eq!(g.is_break(), report.break_again, "{report:?}");
                 assert_eq!(g.current_player() == shooter, report.continues);
                 assert!(g.ball(BallId::CUE).in_play() && g.ball(BallId::EIGHT).in_play());
@@ -1388,8 +1399,8 @@ fn the_cue_ball_off_the_table_gives_a_ball() {
 
 /// A break that loses the cue ball without making a
 /// ball hands the break over: the balls stay where they went, the cue
-/// ball is in hand behind the head string and the opponent's shot is a
-/// break.
+/// ball goes on the head spot (not in hand) and the opponent's shot from
+/// there is a break.
 #[test]
 fn a_break_that_only_makes_the_cue_ball_passes_the_break() {
     let mut g = EightBallGame::new(3, 0, Rules::Brazilian);
@@ -1405,13 +1416,11 @@ fn a_break_that_only_makes_the_cue_ball_passes_the_break() {
     assert!(report.penalty.is_empty() && report.game_over.is_none());
     assert_eq!(g.current_player(), 1);
     assert!(g.is_break() && g.is_open_table());
-    assert_eq!(g.ball_in_hand(), Some(BallInHand::Kitchen));
-    assert!(g.ball(BallId::CUE).xy().x <= g.table.head_string_x());
+    // On the head spot, where the new break is played from (not in hand).
+    assert_eq!(g.ball_in_hand(), None);
+    assert_eq!(g.ball(BallId::CUE).xy(), g.table.head_spot());
+    assert!(!g.place_cue_ball(DVec2::new(g.table.head_string_x() - 0.1, 0.3)));
     assert_eq!(g.ball(BallId(5)).xy(), DVec2::new(-0.3, 0.0), "nothing is racked again");
-    // Anywhere behind the head string, never past it.
-    let hx = g.table.head_string_x();
-    assert!(!g.place_cue_ball(DVec2::new(hx + 0.2, 0.3)));
-    assert!(g.place_cue_ball(DVec2::new(hx - 0.1, 0.3)));
     let shot = straight_shot(&g, BallId(5), PocketId::FootLeft, 2.0);
     let report = g.play_shot(&shot, None).unwrap();
     assert!(report.was_break);
@@ -1421,7 +1430,7 @@ fn a_break_that_only_makes_the_cue_ball_passes_the_break() {
 /// solid and then a stripe, or the other way round; in a pocket or off the
 /// table) hands the break over, as one that makes nothing: no penalty
 /// ball, the groups still open, the balls made stay down, and the opponent
-/// breaks with the cue ball in hand behind the head string. With balls of
+/// breaks with the cue ball on the head spot. With balls of
 /// one group only it stays an ordinary foul: the groups are decided, the
 /// opponent's lowest ball is owed and the cue ball is played from the head
 /// spot, without ball in hand.
@@ -1450,8 +1459,8 @@ fn a_break_that_loses_the_cue_ball_with_both_groups_passes_the_break() {
         assert!(report.penalty.is_empty(), "no penalty ball: {report:?}");
         assert!(g.is_break() && g.is_open_table());
         assert_eq!(g.current_player(), 1);
-        assert_eq!(g.ball_in_hand(), Some(BallInHand::Kitchen));
-        assert!(g.ball(BallId::CUE).xy().x <= g.table.head_string_x());
+        assert_eq!(g.ball_in_hand(), None);
+        assert_eq!(g.ball(BallId::CUE).xy(), g.table.head_spot());
         assert!(down.iter().all(|n| !g.ball(BallId(*n)).in_play()), "the balls made stay down");
         assert_eq!(g.remaining(Group::Solids).len() + g.remaining(Group::Stripes).len(), 12);
     }

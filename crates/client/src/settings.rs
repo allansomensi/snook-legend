@@ -949,6 +949,7 @@ fn defaults_keeping(config: &Config) -> Config {
         board_seen: keep.board_seen,
         // The first-game pointers were seen: not shown again.
         coached: keep.coached,
+        next_breaker: keep.next_breaker,
         language: keep.language,
         last_version: keep.last_version,
         // A choice of the player's, not a setting to tune.

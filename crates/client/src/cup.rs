@@ -1,6 +1,6 @@
 //! Tournaments against the computer: the player and the fifteen named
 //! opponents, sixteen in all, in a knockout (four rounds, lose and you are
-//! out) or an arena (five rounds for everyone, on points). The player plays
+//! out) or an arena (seven rounds for everyone, on points). The player plays
 //! their own games at the table; the games between the others are decided
 //! by their strength and a draw. Kept in a file next to the settings, so a
 //! tournament goes on after the game is closed.
@@ -15,7 +15,7 @@ const VERSION: u32 = 1;
 /// Who plays: the player and the fifteen opponents.
 pub const ENTRANTS: usize = 16;
 /// Rounds of an arena.
-pub const ARENA_ROUNDS: usize = 5;
+pub const ARENA_ROUNDS: usize = 7;
 /// Points for a win in an arena, and for one on a run (the third win in a
 /// row and every one after it).
 pub const WIN_POINTS: u32 = 2;
@@ -432,7 +432,7 @@ mod tests {
     }
 
     #[test]
-    fn an_arena_is_five_rounds_for_everyone_on_points() {
+    fn an_arena_is_seven_rounds_for_everyone_on_points() {
         for seed in 0..40 {
             let mut cup = Cup::new(Format::Arena, seed);
             let mut met = Vec::new();
@@ -453,9 +453,10 @@ mod tests {
             assert!(table.windows(2).all(|w| w[0].points >= w[1].points));
             assert!(table.iter().all(|s| s.wins + s.losses == ARENA_ROUNDS as u32));
             let me = table.iter().find(|s| cup.is_player(s.entrant)).unwrap();
-            // Won, lost, then three in a row: the third of them on a run.
-            assert_eq!((me.wins, me.losses), (4, 1));
-            assert_eq!(me.points, 3 * WIN_POINTS + STREAK_POINTS);
+            // Won, lost, then the rest in a row: from the third of them on a run.
+            let after = ARENA_ROUNDS as u32 - 2;
+            assert_eq!((me.wins, me.losses), (after + 1, 1));
+            assert_eq!(me.points, 3 * WIN_POINTS + (after - 2) * STREAK_POINTS);
             assert!(cup.player_place().is_some_and(|p| (1..=16).contains(&p)));
             assert_eq!(cup.champion(), Some(table[0].entrant));
         }

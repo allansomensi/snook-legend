@@ -1010,11 +1010,11 @@ impl EightBallGame {
         let opponent = 1 - shooter;
         let mut paid = Vec::new();
         match self.rules {
+            // The break passes, the cue ball on the head spot (not in hand),
+            // as after the cue ball lost on a break; nothing is owed (the
+            // table is open).
             Rules::Brazilian if self.is_break => {
-                if !self.ball(BallId::CUE).in_play() {
-                    self.respot_cue_ball();
-                }
-                self.ball_in_hand = Some(BallInHand::Kitchen);
+                self.return_cue_ball();
             }
             Rules::Brazilian => {
                 // The ball paid first: the cue ball goes to the head spot

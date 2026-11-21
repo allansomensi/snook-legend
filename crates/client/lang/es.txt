@@ -1654,7 +1654,7 @@ Sixteen players: knockout or arena	Dieciséis jugadores: eliminatoria o arena
 New knockout	Nueva eliminatoria
 New arena	Nueva arena
 Knockout: sixteen players, four rounds. Lose a game and you are out.	Eliminatoria: dieciséis jugadores, cuatro rondas. Si pierdes una partida, quedas fuera.
-Arena: five rounds for everyone. A win is 2 points, 3 from the third win in a row. The most points wins.	Arena: cinco rondas para todos. La victoria vale 2 puntos, y 3 a partir de la tercera seguida. Gana quien sume más puntos.
+Arena: seven rounds for everyone. A win is 2 points, 3 from the third win in a row. The most points wins.	Arena: siete rondas para todos. La victoria vale 2 puntos, y 3 a partir de la tercera seguida. Gana quien sume más puntos.
 The games between the other players are decided by their strength and a draw.	Las partidas entre los demás jugadores se deciden por la fuerza de cada uno y por sorteo.
 You won the tournament!	¡Ganaste el torneo!
 {name} won the tournament.	{name} ganó el torneo.
@@ -2044,3 +2044,6 @@ When time runs out, it's a foul: your opponent gets a ball and the cue ball goes
 When time runs out, it's a foul: your opponent gets the cue ball in hand.	Cuando se acaba el tiempo, es falta: el rival tiene la blanca en mano.
 Your username was changed. Sign in again.	Tu nombre de usuario cambió. Inicia sesión de nuevo.
 You have your tournament game in progress. A new game takes its place, and the tournament game counts as lost.	Tienes tu partida del torneo en curso. Una partida nueva ocupa su lugar, y la partida del torneo cuenta como perdida.
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks again, from the head spot.	La blanca entró en el saque junto con bolas de los dos grupos: sin penalización, la mesa sigue abierta y {next} saca de nuevo, desde el punto de salida.
+The cue ball went down on the break with no ball made: {next} breaks again, from the head spot.	La blanca entró en el saque sin meter ninguna bola: {next} saca de nuevo, desde el punto de salida.
+{who} ran out of time: {other} breaks, from the head spot.	A {who} se le acabó el tiempo: {other} saca, desde el punto de salida.

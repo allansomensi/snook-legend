@@ -199,6 +199,9 @@ pub struct Config {
     /// The newest version whose "What's new" the player has seen (empty:
     /// a settings file from before the notes, i.e. before 0.2.0).
     pub last_version: String,
+    /// The Brazilian rules: who breaks the next game started at this
+    /// computer (0: the player, 1: the other); the break alternates.
+    pub next_breaker: u8,
     /// The rules the player's games are played under (online, against the
     /// computer, two players); `None` until they choose, which the game
     /// asks once (see [`Config::rules`]).
@@ -260,6 +263,7 @@ impl Default for Config {
             auto_update: true,
             // A first run has nothing new to tell.
             last_version: env!("CARGO_PKG_VERSION").into(),
+            next_breaker: 0,
             rules: None,
         }
     }
@@ -432,6 +436,7 @@ impl Config {
                 "focus_mode" => c.focus_mode = v == "true",
                 "auto_update" => c.auto_update = v != "false",
                 "last_version" => c.last_version = v.chars().take(32).collect(),
+                "next_breaker" => c.next_breaker = u8::from(v == "1"),
                 "rules" => c.rules = Rules::parse(v),
                 _ => {}
             }
@@ -445,7 +450,7 @@ impl Config {
             "# Snook Legend settings\nplayer_name = {}\nsecond_player_name = {}\nguide = {}\nhead_string = {}\ncoached = {}\nshow_help = {}\nshot_camera = {}\ncamera_follow = {}\ngraphics_checked = {}\nlanguage = {}\nvignette = {}\nfocused_scene = {}\nshow_fps = {}\nshow_ping = {}\nshadows = {}\nopponent_talk = {}\ntop_view_only = {}\navatar = {}\naim_sensitivity = {:.2}\nui_size = {:.2}\n\
              quality = {}\nmsaa = {}\nfullscreen = {}\nvolume = {:.2}\nserver = {}\nusername = {}\ntoken = {}\ntoken_server = {}\n\
              difficulty = {}\nopponent = {}\nshot_clock = {}\nlan_name = {}\ncloth = {}\ncue = {}\nchalk = {}\nballs = {}\neffect = {}\ntable = {}\nhall = {}\ncue_level = {}\nemail_offer_declined = {}\n\
-             board_seen = {}\ntv_view = {}\ndesktop_notifications = {}\nfocus_mode = {}\nauto_update = {}\nlast_version = {}\nrules = {}\n{}",
+             board_seen = {}\ntv_view = {}\ndesktop_notifications = {}\nfocus_mode = {}\nauto_update = {}\nlast_version = {}\nnext_breaker = {}\nrules = {}\n{}",
             self.player_name,
             self.second_player_name,
             self.guide.name(),
@@ -493,6 +498,7 @@ impl Config {
             self.focus_mode,
             self.auto_update,
             self.last_version,
+            self.next_breaker,
             self.rules.map_or("", Rules::code),
             self.keys.to_text()
         )

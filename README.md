@@ -76,10 +76,11 @@ which every desktop installation has. How releases are made is described in
   the foul gives, the 8 pays the rest and the foul loses; the shot clock
   running out gives a ball too, with the cue ball back on the head spot), the cue ball is in hand
   on the break only (one that goes down or leaves the table comes back to
-  the head spot), a break that hits no ball or loses the cue ball with no
-  ball made passes the break to the opponent (cue ball in hand behind the
-  head string), as does the cue ball lost together with balls of both
-  groups, the first ball made decides the groups (one of the
+  the head spot), a break that loses the cue ball with no ball made, or
+  with balls of both groups, passes the break to the opponent (from the head
+  spot, not in hand), as does one that hits no ball (cue ball in hand
+  behind the head string), the break alternates (one each), the shot clock
+  on the break passes it too, the first ball made decides the groups (one of the
   opponent's with it passes the turn), a ball of one's own knocked off the
   table comes back and one of the opponent's stays off, the 8 alone on the
   break wins and the 8 with any other ball loses, a called pocket for the 8

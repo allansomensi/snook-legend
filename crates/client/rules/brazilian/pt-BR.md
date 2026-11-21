@@ -17,13 +17,13 @@ Você continua jogando enquanto encaçapar uma bola do seu grupo numa tacada sem
 ## A saída
 
 ### A tacada de saída
-Na saída, e só nela, a branca fica na sua mão: você pode colocá-la onde quiser atrás da linha de cabeceira, até encostada na tabela, mas nunca na boca de uma caçapa. Nenhuma bola precisa cair nem chegar à tabela, mas a branca precisa tocar alguma bola (veja abaixo).
+Na saída, e só nela, a branca fica na sua mão: você pode colocá-la onde quiser atrás da linha de cabeceira, até encostada na tabela, mas nunca na boca de uma caçapa (uma saída que passou depois de a branca cair é dada do ponto inicial: veja abaixo). Nenhuma bola precisa cair nem chegar à tabela, mas a branca precisa tocar alguma bola (veja abaixo). A saída se alterna: numa sequência de partidas, cada jogador sai uma vez.
 
 ### A bola 8 na saída
 Encaçapar somente a 8 na saída vence a partida na hora. Encaçapar a 8 junto com qualquer outra bola (a branca ou qualquer uma) perde a partida. Se a 8 sair da mesa na saída, ela volta para a mesa no lugar da bola da frente do triângulo (ou o mais perto dele que couber) e você perde a vez: é falta.
 
 ### Só a branca na saída
-Se na saída a branca cair na caçapa ou sair da mesa e nenhuma bola for encaçapada, você perde a vez e a saída passa para o adversário. As bolas ficam onde pararam, e ele coloca a branca onde quiser atrás da linha de cabeceira, como você fez: a tacada dele vale como saída. O mesmo vale se a branca cair junto com bolas dos dois grupos (uma lisa e uma listrada, em qualquer ordem): a saída passa para o adversário, com a branca na mão atrás da linha de cabeceira, sem bola de penalidade; as bolas que caíram ficam encaçapadas e a mesa continua aberta. Se cair junto com a branca uma bola (ou bolas de um grupo só), a primeira que caiu decide os grupos mesmo assim, e é uma falta comum: o adversário ganha a menor bola dele, a branca volta para o ponto inicial e ele joga dali, sem bola na mão.
+Se na saída a branca cair na caçapa ou sair da mesa e nenhuma bola for encaçapada, você perde a vez e a saída passa para o adversário. As bolas ficam onde pararam, e ele coloca a branca no ponto inicial e dá a tacada dali (sem bola na mão), como nova saída. O mesmo vale se a branca cair junto com bolas dos dois grupos (uma lisa e uma listrada, em qualquer ordem): a saída passa para o adversário, com a branca no ponto inicial, sem bola de penalidade; as bolas que caíram ficam encaçapadas e a mesa continua aberta. Se cair junto com a branca uma bola (ou bolas de um grupo só), a primeira que caiu decide os grupos mesmo assim, e é uma falta comum: o adversário ganha a menor bola dele, a branca volta para o ponto inicial e ele joga dali, sem bola na mão.
 
 ### Saída sem tocar nenhuma bola
 Se a saída não tocar nenhuma bola, você perde a vez e a saída passa para o adversário: as bolas continuam no triângulo e ele coloca a branca onde quiser atrás da linha de cabeceira.
@@ -55,7 +55,7 @@ A branca fora da mesa vale o mesmo que encaçapá-la: a menor bola do adversári
 Encaçapar uma bola do adversário passa a vez, mesmo que uma sua também tenha caído. Ela fica encaçapada, a favor dele.
 
 ### O tempo de tacada
-Quando a partida tem tempo de tacada e ele acaba, é falta: a branca volta para o ponto inicial (sem bola na mão), o adversário ganha uma bola (a menor dele na mesa; se ele já estiver na 8, a 8 paga e você perde) e a vez passa. Com a mesa ainda aberta, nenhuma bola é paga (a não ser que só reste a 8: aí o tempo perde a partida). Na saída, a saída passa para o adversário, com a branca na mão atrás da linha de cabeceira.
+Quando a partida tem tempo de tacada e ele acaba, é falta: a branca volta para o ponto inicial (sem bola na mão), o adversário ganha uma bola (a menor dele na mesa; se ele já estiver na 8, a 8 paga e você perde) e a vez passa. Com a mesa ainda aberta, nenhuma bola é paga (a não ser que só reste a 8: aí o tempo perde a partida). Na saída, a saída passa para o adversário, com a branca no ponto inicial (sem bola na mão), e nenhuma bola é paga.
 
 ## A bola 8
 

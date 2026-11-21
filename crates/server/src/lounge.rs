@@ -2283,8 +2283,21 @@ impl Lounge {
         let id = self.new_id();
         let look = self.table_look_of(&host);
         let seed: u64 = rand::thread_rng().r#gen();
-        let game = Game { seed, breaker: 0, rules };
+        let breaker = self.first_breaker(&keys, rules);
+        let game = Game { seed, breaker, rules };
         self.create_room(id, keys, users, guests, rated, game, tournament, look, private);
+    }
+
+    /// Who breaks a new game between these two: under the Brazilian rules
+    /// one break each, game after game (the one whose name sorts first
+    /// breaks the first of the day); the first seat otherwise.
+    pub(crate) fn first_breaker(&mut self, keys: &[String; 2], rules: Rules) -> usize {
+        if rules != Rules::Brazilian {
+            return 0;
+        }
+        let played = self.pair_games_today(keys, true) + self.pair_games_today(keys, false);
+        let first = usize::from(keys[0] > keys[1]);
+        if played.is_multiple_of(2) { first } else { 1 - first }
     }
 
     /// The cloth and ball set `host` brings to the table.

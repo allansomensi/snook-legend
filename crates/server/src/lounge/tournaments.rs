@@ -1140,7 +1140,8 @@ impl Lounge {
         let rating = |u: &User| u.records.get(rules).rating;
         let host = players[if rating(&users[0]) >= rating(&users[1]) { 0 } else { 1 }].clone();
         let look = self.table_look_of(&host);
-        let game = Game { seed: rand::random(), breaker: 0, rules };
+        let breaker = self.first_breaker(&players, rules);
+        let game = Game { seed: rand::random(), breaker, rules };
         self.create_room(room_id, players, users, guests, rated, game, Some(at), look, private);
     }
 

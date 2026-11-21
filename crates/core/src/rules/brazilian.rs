@@ -21,8 +21,11 @@
 //!   table) without making a ball or together with balls of both groups
 //!   (a solid and a stripe, in any order), hands the break to the
 //!   opponent: no penalty ball, the groups still open, the balls stay where
-//!   they are (the ones made stay down), the cue ball is in hand behind the
-//!   head string and their shot is a break.
+//!   they are (the ones made stay down) and their shot is a break: from the
+//!   head spot when the cue ball was lost (not in hand), in hand behind the
+//!   head string when the rack was never hit.
+//! - The break alternates between the players, one break each (the client
+//!   and the server pick the breaker; see `Match::set_breaker`).
 //! - The first ball made decides the groups, on the break too and whatever
 //!   goes down after it (the 3 and then the 13: solids for the breaker),
 //!   even on a break with a foul when the balls made are of one group (the
@@ -223,17 +226,23 @@ impl EightBallGame {
         self.ball_in_hand = None;
         // No ball hit on the break, or the cue ball lost on it with no ball
         // made or with balls of both groups: the opponent breaks from where
-        // the balls lie, the cue ball in hand behind the head string (and,
-        // the groups still open, no ball is owed).
+        // the balls lie (and, the groups still open, no ball is owed). The
+        // cue ball lost: it goes on the head spot, where they break from
+        // (not in hand); the rack never hit: in hand behind the head string,
+        // as on any break.
         let break_again = was_break
             && game_over.is_none()
             && (cue_pocketed || cue_off || first_contact.is_none())
             && (object_pocketed.is_empty() || break_lost_with_both);
         if break_again {
-            self.respot_cue_ball();
             self.is_break = true;
-            self.ball_in_hand = Some(BallInHand::Kitchen);
             self.current = opponent;
+            if cue_pocketed || cue_off {
+                self.return_cue_ball();
+            } else {
+                self.respot_cue_ball();
+                self.ball_in_hand = Some(BallInHand::Kitchen);
+            }
         } else if game_over.is_none() {
             if cue_pocketed || cue_off {
                 // Back where it began, without ball in hand.

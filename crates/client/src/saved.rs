@@ -33,6 +33,9 @@ pub struct SavedGame {
     pub timeline: Vec<ShotMark>,
     pub wins: [u32; 2],
     pub games_played: u32,
+    /// Who broke this game (the next one is the other's).
+    #[serde(default)]
+    pub breaker: usize,
     /// Seconds per shot, if timed.
     pub shot_clock: Option<u32>,
     /// Unix seconds.
@@ -94,6 +97,7 @@ impl SavedGame {
             timeline: m.timeline.clone(),
             wins: m.wins,
             games_played: m.games_played,
+            breaker: m.breaker,
             shot_clock: m.clock.map(|(s, _)| s.round() as u32),
             saved_at: crate::game::unix_now(),
         }))

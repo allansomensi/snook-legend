@@ -7,13 +7,42 @@ changed, and a game of 0.8.1 would show other tables than the server's) and
 two migrations (0023: indexes; 0024: the room a match was played in and
 the lounge's id of a tournament, so each is recorded once).
 
+### The Brazilian rules: the break
+- **A break that loses the cue ball** (down or off the table) with no ball
+  made, or with balls of both groups, passes the break to the opponent with
+  the cue ball **on the head spot**, not in hand: the balls stay where they
+  stopped (the ones made stay down), no ball is owed, the table stays open
+  and the shot is a new break. With balls of one group only, the first one
+  down still decides the groups and it is an ordinary foul: the opponent's
+  lowest ball comes off and they play from the head spot. A break that hits
+  no ball still hands over the cue ball in hand behind the head string.
+- **The break alternates**: one break each. Offline the game remembers who
+  broke last (`next_breaker` in the settings) for games against the
+  computer, the ladder and two players at one computer; a rematch is broken
+  by the other player; the rounds of a cup alternate; online, two players
+  who meet again on the same day take turns (the rematch in a room already
+  did), in tournaments too.
+- The rules book in three languages says so, and the table explains a
+  break passed over and a clock run out on the break.
+
+### The game
+- **The arena against the computer is seven rounds** for everyone, on
+  points.
+- **The shop's icon is a cart**: the bag looked like a padlock.
+- **The cue can be grabbed anywhere along the stick**: only the first
+  70 cm or so, about half of it, took a click, at a guessed height. The
+  test now follows the cue as it is drawn (its real elevation, drawn back
+  while charging) from the tip to the butt, a bit wider where the stick is
+  thicker, and the cue swings from where it was grabbed without jumping
+  in a low view.
+
 ### The Brazilian rule: the shot clock gives a ball
 - **The shot clock running out is a foul that gives a ball**: the
   opponent's lowest ball comes off (with none left for them, the 8 pays and
   the game is lost, as with any foul), the cue ball goes back to the head
   spot, not in hand, and the turn passes. With the table still open
   nothing is owed; on the break, the break passes to the opponent with the
-  cue ball in hand behind the head string, as before. Online, the server no
+  cue ball on the head spot, not in hand, and no ball owed. Online, the server no
   longer plays the shot at full power where the player was aiming: the
   clock is a foul under both rules (the room's last aim, kept only for that,
   is gone).

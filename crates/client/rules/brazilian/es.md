@@ -17,13 +17,13 @@ Sigues tirando mientras metas una bola de tu grupo en un tiro sin falta. Si fall
 ## El saque
 
 ### El tiro de saque
-En el saque, y solo en él, la blanca está en tu mano: puedes colocarla donde quieras detrás de la línea de cabecera, incluso pegada a una banda, pero nunca en la boca de una tronera. Ninguna bola tiene que entrar ni llegar a una banda, pero la blanca tiene que tocar alguna bola (ver abajo).
+En el saque, y solo en él, la blanca está en tu mano: puedes colocarla donde quieras detrás de la línea de cabecera, incluso pegada a una banda, pero nunca en la boca de una tronera (un saque que pasó después de perder la blanca se tira desde el punto de salida: ver abajo). Ninguna bola tiene que entrar ni llegar a una banda, pero la blanca tiene que tocar alguna bola (ver abajo). El saque se alterna: en una serie de partidas, cada jugador saca una vez.
 
 ### La bola 8 en el saque
 Meter solo la 8 en el saque gana la partida al momento. Meter la 8 junto con cualquier otra bola (la blanca o cualquiera) pierde la partida. Si la 8 sale de la mesa en el saque, vuelve a la mesa en el lugar de la bola delantera del triángulo (o lo más cerca que quepa) y pierdes el turno: es falta.
 
 ### Solo la blanca en el saque
-Si en el saque la blanca entra en una tronera o sale de la mesa y no entra ninguna bola, pierdes el turno y el saque pasa al rival. Las bolas quedan donde pararon, y él coloca la blanca donde quiera detrás de la línea de cabecera, como hiciste tú: su tiro cuenta como saque. Lo mismo vale si la blanca entra junto con bolas de los dos grupos (una lisa y una rayada, en cualquier orden): el saque pasa al rival, con la blanca en mano detrás de la línea de cabecera y sin bola de penalización; las bolas que entraron se quedan dentro y la mesa sigue abierta. Si entra una bola (o bolas de un solo grupo) junto con la blanca, la primera que entró decide los grupos igualmente, y es una falta común: la bola más baja del rival queda eliminada, la blanca vuelve al punto de salida y él juega desde ahí, sin bola en mano.
+Si en el saque la blanca entra en una tronera o sale de la mesa y no entra ninguna bola, pierdes el turno y el saque pasa al rival. Las bolas quedan donde pararon, y él coloca la blanca en el punto de salida y tira desde ahí (sin bola en mano), como nuevo saque. Lo mismo vale si la blanca entra junto con bolas de los dos grupos (una lisa y una rayada, en cualquier orden): el saque pasa al rival, con la blanca en el punto de salida y sin bola de penalización; las bolas que entraron se quedan dentro y la mesa sigue abierta. Si entra una bola (o bolas de un solo grupo) junto con la blanca, la primera que entró decide los grupos igualmente, y es una falta común: la bola más baja del rival queda eliminada, la blanca vuelve al punto de salida y él juega desde ahí, sin bola en mano.
 
 ### Un saque que no toca ninguna bola
 Si el saque no toca ninguna bola, pierdes el turno y el saque pasa al rival: las bolas siguen en el triángulo, y él coloca la blanca donde quiera detrás de la línea de cabecera.
@@ -55,7 +55,7 @@ La blanca fuera de la mesa cuesta lo mismo que meterla: la bola más baja del ri
 Meter una bola del rival pasa el turno, aunque también haya entrado una tuya. Se queda metida, a su favor.
 
 ### El tiempo de tiro
-Cuando la partida tiene tiempo de tiro y se acaba, es falta: la blanca vuelve al punto de salida (sin bola en mano), el rival gana una bola (la menor suya en la mesa; si ya está en la 8, la 8 paga y pierdes) y el turno pasa. Con la mesa todavía abierta, no se paga ninguna bola (salvo que solo quede la 8: entonces el tiempo pierde la partida). En el saque, el saque pasa al rival, con la blanca en mano detrás de la línea de cabecera.
+Cuando la partida tiene tiempo de tiro y se acaba, es falta: la blanca vuelve al punto de salida (sin bola en mano), el rival gana una bola (la menor suya en la mesa; si ya está en la 8, la 8 paga y pierdes) y el turno pasa. Con la mesa todavía abierta, no se paga ninguna bola (salvo que solo quede la 8: entonces el tiempo pierde la partida). En el saque, el saque pasa al rival, con la blanca en el punto de salida (sin bola en mano), y no se paga ninguna bola.
 
 ## La bola 8
 

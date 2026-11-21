@@ -1212,6 +1212,7 @@ async fn main() {
                                     waiting = Some((ask_deal(&mut online, settings), get_time()));
                                 } else {
                                     let mut m = Match::new(&settings, game::clock_seed());
+                                    alternate_break(&mut m, &mut config);
                                     warn_unrewarded(&mut m, &settings, &online, &ladder_progress);
                                     current = Some(m);
                                     save_key = None;
@@ -1470,6 +1471,7 @@ async fn main() {
                             versus::VersusAction::Start(settings) => {
                                 config.save();
                                 let mut m = Match::new(&settings, game::clock_seed());
+                                alternate_break(&mut m, &mut config);
                                 warn_unrewarded(&mut m, &settings, &online, &ladder_progress);
                                 current = Some(m);
                                 save_key = None;
@@ -1498,6 +1500,8 @@ async fn main() {
                                     c.save();
                                 }
                                 let mut m = Match::new(&settings, seed);
+                                // One break each, round after round.
+                                m.set_breaker(cup.as_ref().map_or(0, |c| c.rounds.len() % 2));
                                 m.make_cup_game();
                                 current = Some(m);
                                 save_key = None;
@@ -1545,7 +1549,9 @@ async fn main() {
                             }
                             SetupAction::Start(settings) => {
                                 config.save();
-                                current = Some(Match::new(&settings, game::clock_seed()));
+                                let mut m = Match::new(&settings, game::clock_seed());
+                                alternate_break(&mut m, &mut config);
+                                current = Some(m);
                                 hud = Hud::new(config.show_help);
                                 rig.reset();
                                 next = Some(Screen::Menu);
@@ -1889,6 +1895,7 @@ async fn main() {
                         c.save();
                     }
                     let mut m = Match::new(&settings, seed);
+                    m.set_breaker(cup.as_ref().map_or(0, |c| c.rounds.len() % 2));
                     m.make_cup_game();
                     current = Some(m);
                     save_key = None;
@@ -1903,6 +1910,7 @@ async fn main() {
                 Some(Some(true)) => {
                     replace_save = None;
                     let mut m = Match::new(&settings, game::clock_seed());
+                    alternate_break(&mut m, &mut config);
                     warn_unrewarded(&mut m, &settings, &online, &ladder_progress);
                     current = Some(m);
                     save_key = None;
@@ -2280,6 +2288,18 @@ fn send_run(
 }
 
 /// The tour's final, played for the reward: dealt by the server.
+/// The Brazilian rules: the break alternates from one game to the next
+/// started at this computer (the player one game, the other the next).
+fn alternate_break(m: &mut Match, config: &mut Config) {
+    if m.game.rules() != snook_legend_core::Rules::Brazilian {
+        return;
+    }
+    let breaker = (config.next_breaker % 2) as usize;
+    m.set_breaker(breaker);
+    config.next_breaker = 1 - breaker as u8;
+    config.save();
+}
+
 fn wants_deal(settings: &MatchSettings, online: &Online) -> bool {
     let last = snook_legend_proto::ladder::RUNGS.len() as u8 - 1;
     settings.ladder == Some(last)

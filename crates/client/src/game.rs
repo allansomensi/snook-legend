@@ -469,6 +469,9 @@ pub struct OnlineMatch {
     pub opponent_left: bool,
     pub rematch_offered: bool,
     pub rematch_requested: bool,
+    /// Seconds left in which an error from the server is taken for its
+    /// answer to the rematch asked for.
+    pub rematch_answer: f32,
     /// Chat with the opponent and what happened in the game, in order.
     pub feed: Vec<FeedLine>,
     /// Chat lines the player has not looked at.
@@ -536,6 +539,21 @@ pub enum ImpactKind {
     Tick,
     /// The turn comes to the player (online, or the computer is done).
     Chime,
+}
+
+/// Whether a stroke made on table `b` can still be played on table `a`:
+/// the same turn of the same game, the balls where they were. (The cue
+/// ball in hand may lie elsewhere: the shot says where it is played from.)
+fn same_table(a: &EightBallGame, b: &EightBallGame) -> bool {
+    let in_hand = a.ball_in_hand().is_some();
+    a.shots_taken() == b.shots_taken()
+        && a.current_player() == b.current_player()
+        && a.game_over() == b.game_over()
+        && a.pending_choice() == b.pending_choice()
+        && a.ball_in_hand() == b.ball_in_hand()
+        && a.is_break() == b.is_break()
+        && a.balls().len() == b.balls().len()
+        && a.balls().iter().zip(b.balls()).all(|(x, y)| (in_hand && x.id == BallId::CUE) || x == y)
 }
 
 impl Match {
@@ -954,6 +972,7 @@ impl Match {
                 opponent_left: false,
                 rematch_offered: false,
                 rematch_requested: false,
+                rematch_answer: 0.0,
                 feed: Vec::new(),
                 unread: 0,
                 preview: None,
@@ -1034,7 +1053,10 @@ impl Match {
         let swapped = next.names[0] != self.names[0];
         // (A stroke made for a table that has changed since isn't played on
         // the one that came back.)
-        let moved = next.game != self.game;
+        let moved = !same_table(&next.game, &self.game);
+        // The game ended while away: it counts in the score of the series.
+        let ended =
+            (same_game && self.game.game_over().is_none()).then(|| next.game.game_over()).flatten();
         let outbox: Vec<ClientMsg> = outbox
             .into_iter()
             .filter(|c| {
@@ -1050,6 +1072,10 @@ impl Match {
         *self = next;
         self.wins = if swapped { [wins[1], wins[0]] } else { wins };
         self.games_played = games;
+        if let Some(over) = ended {
+            self.wins[over.winner % 2] += 1;
+            self.games_played += 1;
+        }
         if same_game {
             self.log = log;
         }
@@ -1099,6 +1125,7 @@ impl Match {
         if let Some(o) = self.online.as_mut() {
             if !o.rematch_requested && !o.opponent_left && o.tournament.is_none() {
                 o.rematch_requested = true;
+                o.rematch_answer = 3.0;
                 o.outbox.push(ClientMsg::Rematch);
             }
             return;
@@ -2448,6 +2475,7 @@ impl Match {
         let Some(o) = self.online.as_mut() else { return };
         if matches!(self.phase, Phase::Turn { .. }) {
             o.clock_left = (o.clock_left - dt).max(0.0);
+            o.rematch_answer = (o.rematch_answer - dt).max(0.0);
         } else {
             // The server's clock for the next turn already runs during playback.
             o.next_clock = (o.next_clock - dt).max(0.0);
@@ -2687,7 +2715,8 @@ impl Match {
                 o.next_clock = clock_left;
                 // A shot of ours that left as the clock ran out was never
                 // played: it isn't the last shot to watch again.
-                let unplayed = o.predicted.take().is_some();
+                let unplayed =
+                    in_progress && o.pending_end.is_none() && o.predicted.take().is_some();
                 if unplayed {
                     o.sim_turn = None;
                     o.turn_start = None;
@@ -2795,10 +2824,14 @@ impl Match {
                 }
                 // A rematch the server refused isn't being waited for: the
                 // button comes back (to ask again, or to accept theirs).
+                // (An error right after asking: one about something else,
+                // later, leaves the request standing.)
                 if self.game.game_over().is_some()
                     && let Some(o) = self.online.as_mut()
+                    && o.rematch_answer > 0.0
                 {
                     o.rematch_requested = false;
+                    o.rematch_answer = 0.0;
                 }
                 self.notify(crate::i18n::server_text(&message), true);
             }

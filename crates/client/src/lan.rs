@@ -267,7 +267,10 @@ impl LanScreen {
 
 /// "192.168.0.10" or "192.168.0.10:47879" → a WebSocket URL.
 fn address_url(address: &str) -> String {
-    let a = address.trim().trim_start_matches("ws://").trim_end_matches("/ws");
+    let a = address.trim();
+    // (Whatever was pasted in front or after: "http://…/".)
+    let a = a.split_once("://").map_or(a, |(_, rest)| rest);
+    let a = a.trim_end_matches('/').trim_end_matches("/ws").trim_end_matches('/');
     if a.contains(':') {
         format!("ws://{a}/ws")
     } else {

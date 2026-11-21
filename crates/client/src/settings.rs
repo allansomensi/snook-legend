@@ -144,6 +144,8 @@ impl SettingsScreen {
 
     /// Stops waiting for a key (the settings are closing).
     pub fn stop_capture(&mut self) {
+        // (A size being dragged when the settings closed wasn't chosen.)
+        self.pending_size = None;
         self.capture = None;
         keys::set_capturing(false);
     }

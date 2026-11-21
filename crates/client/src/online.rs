@@ -1956,6 +1956,9 @@ impl Online {
         config.token.clear();
         config.save();
         self.stage = Stage::Idle;
+        // (The server chosen in the settings meanwhile: signed out, it is
+        // the one to sign in to.)
+        self.server = config.server.clone();
         self.connect();
     }
 
@@ -4591,8 +4594,22 @@ impl Online {
                     0 => t("Join").to_string(),
                     fee => tw("Join · {n} coins", &[("n", &fee)]),
                 };
-                if ui.primary_button(Rect::new(area.x, y, area.w, 36.0), &label) {
-                    self.send(ClientMsg::JoinTournament { id: tour.id, password: None });
+                // (A private one asks for its password here as well.)
+                let bw = (area.w - 8.0) / 2.0;
+                let mut enter = false;
+                if tour.private {
+                    let field = Rect::new(area.x, y, bw, 36.0);
+                    enter = ui.password_input(35, field, &mut self.tournament_password, 32);
+                    placeholder(ui, 35, field, &self.tournament_password, t("password"));
+                }
+                let jr = if tour.private {
+                    Rect::new(area.x + bw + 8.0, y, bw, 36.0)
+                } else {
+                    Rect::new(area.x, y, area.w, 36.0)
+                };
+                if ui.primary_button(jr, &label) || enter {
+                    let password = tour.private.then(|| self.tournament_password.clone());
+                    self.send(ClientMsg::JoinTournament { id: tour.id, password });
                 }
                 y += 36.0 + 14.0;
             } else if withdraw(

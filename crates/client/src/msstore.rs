@@ -472,8 +472,8 @@ impl StoreShop {
 
     /// Waiting for the Store or the server (the buttons say so).
     pub fn waiting(&self) -> bool {
-        matches!(self.busy, Some(Busy::Buying(_)) | Some(Busy::Checking { loud: true }))
-            || self.recheck_in.is_some()
+        // (The quiet check too: a purchase can't begin before it answers.)
+        self.busy.is_some() || self.recheck_in.is_some()
     }
 }
 

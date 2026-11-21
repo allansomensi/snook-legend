@@ -769,7 +769,7 @@ impl EightBallGame {
     /// the break, otherwise the nearest ball they may hit.
     pub fn default_aim(&self) -> f64 {
         let cue = self.ball(BallId::CUE).xy();
-        if self.is_break {
+        if self.is_break && (self.rules == Rules::Official || self.break_on_rack()) {
             let d = self.table.foot_spot() - cue;
             return crate::math::atan2(d.y, d.x);
         }

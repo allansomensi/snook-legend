@@ -127,9 +127,12 @@ impl CameraRig {
     /// Zooms by `step` (< 1 is closer) towards `toward`, a point on the cloth
     /// under the mouse pointer, keeping that point roughly where it was.
     pub fn zoom(&mut self, step: f32, toward: Option<Vec3>) {
-        let min = if self.follow_cue && self.mode == CameraMode::Aim { 0.9 } else { 0.55 };
+        let min: f32 = if self.follow_cue && self.mode == CameraMode::Aim { 0.9 } else { 0.55 };
+        // (The zoom bar goes a little further out than the wheel: turning
+        // the wheel from there doesn't zoom in.)
+        let max = self.distance.max(3.8);
         let old = self.distance;
-        self.distance = (self.distance * step).clamp(min, 3.8);
+        self.distance = (self.distance * step).clamp(min.min(old), max);
         let k = 1.0 - self.distance / old;
         if self.follow_cue && self.mode == CameraMode::Aim {
             return;

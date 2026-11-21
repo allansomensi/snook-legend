@@ -1031,7 +1031,7 @@ impl ShopScreen {
             ui.text_centered(&line, cx, y + 4.0, 15.0, CREAM, true);
             y += 28.0;
             // A few words with it (optional; Enter gives it).
-            const MESSAGE: u64 = 64;
+            const MESSAGE: u64 = GIFT_MESSAGE;
             let field = Rect::new(r.x + 32.0, y + 2.0, w - 64.0, 34.0);
             let max = snook_legend_proto::MAX_GIFT_MESSAGE;
             ui.text_input(MESSAGE, field, &mut self.gift_message, max);
@@ -1090,7 +1090,7 @@ impl ShopScreen {
             }
         } else {
             let label = if gift { t("Give it") } else { t("Buy now") };
-            if ui.primary_button(ok_rect, label) || is_key_pressed(KeyCode::Enter) {
+            if ui.primary_button(ok_rect, label) || key_for_shop(ui, KeyCode::Enter) {
                 online.shop_error = None;
                 online.buying = Some(item.code.to_string());
                 match &confirm.gift_to {
@@ -1111,7 +1111,7 @@ impl ShopScreen {
             }
         }
         // A press on the dimmed screen around it cancels too.
-        if !busy && (cancel || is_key_pressed(KeyCode::Escape) || ui.dismissed(r)) {
+        if !busy && (cancel || key_for_shop(ui, KeyCode::Escape) || ui.dismissed(r)) {
             self.confirm = None;
             online.shop_error = None;
         }
@@ -1224,8 +1224,8 @@ impl ShopScreen {
         }
         let b = Rect::new(cx - 100.0, r.y + h - 24.0 - 40.0, 200.0, 40.0);
         if ui.primary_button(b, t("Great!"))
-            || is_key_pressed(KeyCode::Escape)
-            || is_key_pressed(KeyCode::Enter)
+            || key_for_shop(ui, KeyCode::Escape)
+            || key_for_shop(ui, KeyCode::Enter)
             || ui.dismissed(r)
         {
             self.done = None;
@@ -1299,7 +1299,7 @@ impl ShopScreen {
         }
         let b = Rect::new(r.x + 24.0, r.y + h - 24.0 - 40.0, 140.0, 40.0);
         // The message written so far stays (it is the shop's).
-        if ui.button(b, t("Cancel"), true) || is_key_pressed(KeyCode::Escape) || ui.dismissed(r) {
+        if ui.button(b, t("Cancel"), true) || key_for_shop(ui, KeyCode::Escape) || ui.dismissed(r) {
             self.gift_pick = None;
         }
     }
@@ -1718,4 +1718,14 @@ fn pack_cards(
     }
     let rows = n.div_ceil(cols) as f32;
     (clicked, area.y + rows * (card_h + GAP) + 4.0)
+}
+
+/// The field of the words that go with a present.
+const GIFT_MESSAGE: u64 = 64;
+
+/// A key pressed for the shop's own dialog: not one meant for a dialog
+/// drawn over it (a present arriving, a warning from the staff), which
+/// holds the keyboard meanwhile.
+fn key_for_shop(ui: &Ui, key: KeyCode) -> bool {
+    is_key_pressed(key) && ui.focus.is_none_or(|f| f == GIFT_MESSAGE)
 }

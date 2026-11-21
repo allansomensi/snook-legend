@@ -3386,6 +3386,11 @@ impl Lounge {
             return false;
         }
         let nowi = Instant::now();
+        // (The break after this game is the other player's.)
+        if live.replay.rules == Rules::Brazilian {
+            let (a, b, _) = pair_key(&keys, false);
+            self.last_break.insert((a, b), (keys[live.replay.breaker % 2].clone(), nowi));
+        }
         let room = Room {
             id,
             keys: keys.clone(),

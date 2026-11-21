@@ -558,7 +558,10 @@ async fn vip_paid(
         .credit_vip(user.id, coins, "vip month", &format!("vip:{invoice}"), now(), vip)
         .await
         .map_err(err)?;
-    if first || applied {
+    // (Told by whichever delivery gave the month: two of them can run at
+    // once, and the ledger lets one through.)
+    let _ = first;
+    if applied {
         tracing::info!(user = user.id, until = end, "VIP paid");
         notify(server, user, "Welcome to VIP!").await;
         offer_email(server, user).await;
@@ -634,7 +637,8 @@ async fn vip_gift_paid(
         .map_err(err)?;
     // (A delivery that stopped after the payment was noted: the present is
     // recorded and told when the month is given.)
-    if first || applied {
+    let _ = first;
+    if applied {
         tracing::info!(from = giver.id, to = friend.id, "VIP given");
         let msg = ServerMsg::VipGift { from: giver.username.clone(), to: friend.username.clone() };
         server.with(|l| l.notify(&giver.username, msg.clone()));

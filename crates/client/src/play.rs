@@ -533,7 +533,8 @@ fn on_ball_or_pocket(m: &Match, scene: &Scene, p: DVec2) -> bool {
         .balls()
         .iter()
         .any(|b| b.in_play() && b.id != BallId::CUE && b.xy().distance(p) < r * 1.6)
-        || PocketId::ALL.into_iter().any(|id| scene.pocket_center(id).distance(p) < 0.12)
+        || ((m.game.calls_shots() || m.game.may_call_pocket())
+            && PocketId::ALL.into_iter().any(|id| scene.pocket_center(id).distance(p) < 0.12))
 }
 
 fn click(m: &mut Match, scene: &Scene, at: Option<DVec2>) {

@@ -161,7 +161,10 @@ impl EightBallGame {
         // opponent's group), unless the break is handed over.
         if game_over.is_none()
             && self.groups[shooter].is_none()
-            && (fouls.is_empty() || was_break)
+            // (The 8 hit first on a break handed over is the foul of any
+            // shot: it decides nothing.)
+            && (fouls.is_empty()
+                || (was_break && !fouls.iter().any(|f| matches!(f, Foul::WrongBallFirst(_)))))
             && !break_lost_with_both
             && let Some(g) = object_pocketed.iter().find_map(|b| Group::of(*b))
         {

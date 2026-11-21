@@ -1,307 +1,306 @@
-# Snook Legend: what's new, shown in the game after an update.
-# "## <version>" starts a version (newest first), "### <title>" a highlight,
-# and the lines after it are its text. Keep it short and about what players
-# see; every language has the same versions and the same number of highlights.
+# Snook Legend: có gì mới, hiển thị trong game sau khi cập nhật.
+# "## <phiên bản>" mở đầu một phiên bản (mới nhất trước), "### <tiêu đề>" là một điểm nổi bật,
+# và các dòng sau đó là nội dung. Mọi ngôn ngữ có cùng các phiên bản và cùng số điểm nổi bật.
 
 ## 0.8.3
 
-### What you earn is shown
-An item that comes with an achievement, such as a level reached, now arrives with a "Congratulations!" window that shows it and lets you use it at once.
+### Hiện rõ những gì bạn nhận được
+Vật phẩm đi kèm một thành tích, chẳng hạn khi đạt một cấp, giờ đến cùng cửa sổ "Chúc mừng!" để hiện vật phẩm và cho bạn dùng ngay.
 
-### One game at a time
-Starting the game while it is already open brings its window to the front instead of opening a second one. Two games on one computer wrote over each other's settings and saved game.
+### Mỗi lần một game
+Mở game khi game đang chạy sẽ đưa cửa sổ hiện có lên trước thay vì mở cửa sổ thứ hai. Hai game trên cùng một máy từng ghi đè cài đặt và ván đã lưu của nhau.
 
-### The 8 on a break handed over
-Under the Brazilian rule, a break handed over after the cue ball was lost, with the balls already scattered, no longer wins by potting the 8: hitting it first is a foul and pocketing it loses, as on any shot. Only the break of the rack has the 8 alone winning.
+### Bi số 8 ở cú phá bi được trao lại
+Theo luật Brazil, cú phá bi được trao lại sau khi bi cái bị mất, khi các bi đã tản ra, không còn thắng nhờ đưa bi số 8 vào lỗ: chạm nó trước là phạm lỗi và đưa nó vào lỗ là thua, như mọi cú đánh khác. Chỉ ở cú phá giàn bi thì riêng bi số 8 vào lỗ mới thắng.
 
-### Cleaner pockets, a steadier camera, and many fixes
-The pockets are finished without rough edges, and going from the overhead view to 3D keeps your zoom. Two more reviews of the whole game fixed many bugs: a rematch keeps the break alternating, a private arena asks for its password while it runs, a table rejoined after its game ended shows the result, and more.
+### Lỗ gọn hơn, camera ổn định hơn và nhiều bản sửa lỗi
+Các lỗ được hoàn thiện không còn cạnh thô, và chuyển từ góc nhìn trên xuống sang 3D vẫn giữ mức thu phóng. Thêm hai lượt rà soát toàn bộ game đã sửa nhiều lỗi: tái đấu vẫn giữ luân phiên phá bi, đấu trường riêng tư hỏi mật khẩu khi đang diễn ra, bàn được vào lại sau khi ván kết thúc sẽ hiện kết quả, và nhiều hơn nữa.
 
 ## 0.8.2
 
-### The shot clock gives a ball
-Under the Brazilian rule, running out of time is a foul: your opponent's lowest ball comes off (if they are on the 8 already, the 8 pays and you lose), the cue ball goes back to the head spot, not in hand, and the turn passes.
+### Hết giờ thì mất bi
+Theo luật Brazil, hết giờ là phạm lỗi: bi số nhỏ nhất của đối thủ được lấy khỏi bàn (nếu họ đã chỉ còn bi số 8, bi số 8 bù vào và bạn thua), bi cái về điểm đầu bàn, không được đặt tự do, và lượt chuyển sang đối thủ.
 
-### The break, one each
-Under the Brazilian rule the players break in turn, one break each. A break that loses the cue ball with no ball made, or with balls of both groups, passes the break: your opponent breaks again from the head spot, with the balls where they stopped.
+### Phá bi, mỗi người một lần
+Theo luật Brazil, người chơi lần lượt phá bi, mỗi người một lần. Cú phá làm mất bi cái mà không có bi nào vào, hoặc cùng với bi của cả hai nhóm, sẽ chuyển quyền phá bi: đối thủ phá bi lại từ điểm đầu bàn, các bi giữ nguyên chỗ đã dừng.
 
-### Grab the cue anywhere
-Click and drag the cue anywhere along it, from the tip to the butt, even drawn back or raised over the rail: it follows the pointer as it swings.
+### Cầm cơ ở bất cứ đâu
+Bấm và kéo cơ ở bất kỳ điểm nào dọc thân cơ, từ đầu đến chuôi, kể cả khi đã kéo lùi hay nâng cao qua thành bàn: cơ đi theo con trỏ khi xoay.
 
-### Seven rounds in the arena, and many fixes
-The arena against the computer is seven rounds for everyone, and the shop has a new icon. Three reviews of the whole game fixed many bugs: leaving while the balls roll no longer undoes a shot against the computer, the first ball hit is the one the cue ball really touched first, and more.
+### Bảy vòng ở đấu trường và nhiều bản sửa lỗi
+Đấu trường với máy giờ có bảy vòng cho tất cả, và cửa hàng có biểu tượng mới. Ba lượt rà soát toàn bộ game đã sửa nhiều lỗi: rời đi khi bi đang lăn không còn hủy cú đánh khi đấu với máy, bi chạm đầu tiên là bi mà bi cái thực sự chạm trước, và nhiều hơn nữa.
 
 ## 0.8.1
 
-### The 8 pays the penalty
-Under the Brazilian rule, a foul that gives more balls than your opponent has left loses the game: their balls come off and the 8 pays the rest. Once your opponent is on the 8, any foul that gives a ball loses: missing every ball, pocketing the cue ball or knocking it off the table.
+### Bi số 8 bù phần phạt
+Theo luật Brazil, lỗi phải trả nhiều bi hơn số đối thủ còn lại sẽ khiến thua ván: các bi của họ được lấy khỏi bàn và bi số 8 bù phần còn lại. Khi đối thủ đã chỉ còn bi số 8, mọi lỗi phải trả bi đều khiến thua: không chạm bi nào, bi cái rơi lỗ hoặc đánh bi cái văng khỏi bàn.
 
-### Click outside to close
-The match's chat, the game history and the spin and elevation panels close when you click outside them, and the click still counts on the table. Menus and dialogs close with a click outside them too, like Cancel.
+### Bấm ra ngoài để đóng
+Khung chat của ván, diễn biến ván và các bảng xoáy và độ nâng cơ sẽ đóng khi bạn bấm ra ngoài, và cú bấm vẫn có tác dụng trên bàn. Menu và hộp thoại cũng đóng khi bấm ra ngoài, như nút Hủy.
 
 ## 0.8.0
 
-### The official rules
-You can now also play the official rules of the WPA, the eight-ball of international tournaments: every shot is called, a foul gives ball in hand anywhere and no ball comes off as a penalty. Choose your rules in the main menu. The Brazilian rule is still there, just as it was.
+### Luật chính thức
+Giờ bạn có thể chơi cả luật chính thức của WPA, bi-a 8 bi của các giải đấu quốc tế: mọi cú đánh đều phải chỉ định lỗ, phạm lỗi thì đối thủ được đặt bi cái tự do ở bất cứ đâu và không có bi phạt nào bị lấy khỏi bàn. Hãy chọn luật trong menu chính. Luật Brazil vẫn còn đó, y như trước.
 
-### A rating for each rules
-Each rules has its own rating, tier and world ranking: the ranking has a tab for each and your profile a card for each. Your level, coins and achievements are shared.
+### Điểm xếp hạng riêng cho mỗi luật
+Mỗi luật có điểm xếp hạng, hạng và bảng xếp hạng thế giới riêng: bảng xếp hạng có một thẻ cho mỗi luật và hồ sơ của bạn có một thẻ cho mỗi luật. Cấp, xu và thành tích thì dùng chung.
 
-### Calling your shots
-Under the official rules the pocket you aim at is called (a ring shows it). Click another pocket to call it, or Safety to call none. After some breaks you choose how the game goes on, with the buttons or 1, 2 and 3.
+### Chỉ định cú đánh
+Theo luật chính thức, lỗ bạn đang ngắm sẽ được chỉ định (có vòng tròn đánh dấu). Bấm vào lỗ khác để chỉ định lỗ đó, hoặc Đánh an toàn để không chỉ định lỗ nào. Sau một số cú phá bi, bạn chọn cách tiếp tục ván đấu bằng các nút hoặc phím 1, 2 và 3.
 
-### Online, by rules
-Invitations, tables, Play now, tournaments and daily games all say their rules, and Play now pairs you with players of yours. The menu shows how many people play each.
+### Trực tuyến, theo luật
+Lời mời, bàn chơi, Chơi ngay, giải đấu và ván hằng ngày đều ghi rõ luật, và Chơi ngay ghép bạn với người chơi cùng luật. Menu cho biết có bao nhiêu người chơi mỗi luật.
 
-### The break, Brazilian rule
-If the break loses the cue ball together with balls of both groups, the break now passes to your opponent, with the cue ball in hand behind the head string and no penalty ball.
+### Phá bi, luật Brazil
+Nếu cú phá bi làm mất bi cái cùng với bi của cả hai nhóm, quyền phá bi giờ chuyển sang đối thủ, với bi cái tự do sau vạch đầu bàn và không có bi phạt.
 
 ## 0.7.4
 
-### The chat, when you want it
-No more age question when signing up. The chat with other players starts off and asks only the first time you write: 18 or older turns it on at once, and under 18 a parent or guardian turns it on. Whoever doesn't chat is never asked.
+### Chat, khi bạn muốn
+Không còn câu hỏi về tuổi khi đăng ký. Chat với người chơi khác mặc định tắt và chỉ hỏi vào lần đầu bạn viết: từ 18 tuổi trở lên thì bật ngay, còn dưới 18 tuổi thì cha mẹ hoặc người giám hộ bật cho. Ai không chat thì không bao giờ bị hỏi.
 
-### Invitations in the corner
-An invitation now shows as a card in the top right corner on every screen and over any game, with the player's picture, the buttons to accept or decline and a soft chime. Accept it from the menu and the game starts right away.
+### Lời mời ở góc màn hình
+Lời mời giờ hiện thành một thẻ ở góc trên bên phải trên mọi màn hình và trong mọi ván đấu, với ảnh của người chơi, các nút chấp nhận hoặc từ chối và một tiếng chuông nhẹ. Chấp nhận từ menu là ván đấu bắt đầu ngay.
 
-### Windows tells you at once
-With the game behind another window or minimised, Windows shows the invitation at once (it used to wait a few seconds).
+### Windows báo ngay
+Khi game nằm sau cửa sổ khác hoặc bị thu nhỏ, Windows hiện lời mời ngay lập tức (trước đây phải chờ vài giây).
 
 ## 0.7.3
 
-### New rules
-If the break hits no ball, or loses the cue ball (down or off the table) with no ball made, the break passes to your opponent, with the cue ball in hand behind the head string. With a ball made, it decides the groups even if the cue ball goes down too. And the cue ball off the table costs a ball, as a scratch does.
+### Luật mới
+Nếu cú phá bi không chạm bi nào, hoặc làm mất bi cái (rơi lỗ hoặc văng khỏi bàn) mà không có bi nào vào, quyền phá bi chuyển sang đối thủ, với bi cái tự do sau vạch đầu bàn. Khi có bi vào lỗ, bi đó quyết định nhóm kể cả khi bi cái cũng rơi lỗ. Và bi cái văng khỏi bàn bị phạt một bi, như khi bi cái rơi lỗ.
 
-### More drills, no ranking
-There are 24 drills now, nine of them new: the far corner, long into the side, cue ball on the cushion, the plant, the carom, the long draw, on the tangent line, two-cushion bank and fifteen in a row. Each shows its position, and your stars are kept in your account. The drills' ranking is gone.
+### Thêm bài tập, bỏ bảng xếp hạng
+Giờ có 24 bài tập, chín bài mới: lỗ góc phía sau, từ xa vào lỗ giữa, bi cái sát băng, hai bi kề nhau, cú dội bi, kéo bi xa, theo đường tiếp tuyến, dội hai băng và mười lăm cú liên tiếp. Mỗi bài hiện thế bi của nó, và số sao của bạn được lưu trong tài khoản. Bảng xếp hạng bài tập đã bị bỏ.
 
-### New pictures
-The portraits were drawn again, with more care, and there are new pictures of pool things. Your picture now shows on the card in the corner of the start screen when you're signed in.
+### Hình ảnh mới
+Các chân dung được vẽ lại kỹ lưỡng hơn, và có thêm hình ảnh mới về bi-a. Ảnh của bạn giờ hiện trên thẻ ở góc màn hình bắt đầu khi bạn đã đăng nhập.
 
-### Terms and privacy
-The terms of use and the privacy policy are a click away: when you sign up, in the shop and in Settings → Game → About. Purchases with money give you 7 days to change your mind and get your money back.
+### Điều khoản và quyền riêng tư
+Điều khoản sử dụng và chính sách quyền riêng tư chỉ cách một cú bấm: khi đăng ký, trong cửa hàng và trong Cài đặt → Trò chơi → Giới thiệu. Các giao dịch mua bằng tiền cho bạn 7 ngày để đổi ý và được hoàn tiền.
 
-### Age and chat
-The game asks your age group (once). Under 18, the chat with other players stays off until a parent or guardian turns it on, below the lounge's chat, as Brazilian law asks.
+### Tuổi và chat
+Game hỏi nhóm tuổi của bạn (một lần). Dưới 18 tuổi, chat với người chơi khác sẽ tắt cho đến khi cha mẹ hoặc người giám hộ bật lên, bên dưới khung chat của sảnh, theo yêu cầu của luật pháp Brazil.
 
-### Emoji in the chat
-Emoji now show as pictures in the chat, notes and statuses, flags and all. Tabs have all their names at one size, and the count of who is online is smaller: the green dot, a person and the number.
+### Emoji trong chat
+Emoji giờ hiện thành hình trong chat, ghi chú và dòng trạng thái, cả cờ quốc gia. Tên các thẻ đều cùng một cỡ chữ, và số người trực tuyến được thu gọn: chấm xanh, hình người và con số.
 
 ## 0.7.2
 
-### A harder tour
-Each stage of the tour is harder than before, and more so the further up: opponents miss less, look at every shot and play for position. The final against Viktor, for the cue, is very hard now: he barely misses and plays safe more often. Tournaments against the computer stay as they were.
+### Hành trình khó hơn
+Mỗi chặng của hành trình đều khó hơn trước, càng lên cao càng khó: đối thủ ít trượt hơn, xem xét mọi cú đánh và chơi để đi bi. Trận chung kết với Viktor, để giành cây cơ, giờ rất khó: anh ta hầu như không trượt và đánh an toàn thường xuyên hơn. Các giải đấu với máy vẫn giữ nguyên.
 
-### Tournament medals
-Play a tournament against the computer to its end and finish in the first three for a gold, silver or bronze medal. The Tournament tab counts them, knockout and arena apart; they are kept in your account the next time you're online.
+### Huy chương giải đấu
+Chơi một giải đấu với máy đến cuối và về trong top ba để nhận huy chương vàng, bạc hoặc đồng. Thẻ Giải đấu đếm số huy chương, riêng loại trực tiếp và đấu trường; chúng được lưu vào tài khoản lần tới bạn trực tuyến.
 
-### A camera like the table's
-In the shop's showroom the camera turns with the right button, as at the table, smoothly, and never goes under the floor or the table. The wheel brings you closer.
+### Camera như ở bàn chơi
+Trong phòng trưng bày của cửa hàng, camera xoay bằng chuột phải như ở bàn chơi, mượt mà, và không bao giờ chui xuống dưới sàn hay dưới bàn. Con lăn giúp bạn lại gần hơn.
 
 ## 0.7.1
 
-### The first ball decides
-On the break, the first ball that goes down decides your group, even if others go down after it: the 3 and then the 13, and you take the solids. The 13 is your opponent's, so it stays down for them and the turn passes.
+### Bi đầu tiên quyết định
+Khi phá bi, bi đầu tiên rơi lỗ quyết định nhóm của bạn, kể cả khi các bi khác rơi sau nó: bi số 3 rồi đến bi số 13, và bạn nhận bi trơn. Bi số 13 là của đối thủ, nên nó nằm dưới lỗ, tính cho họ, và lượt chuyển sang đối thủ.
 
-### Ball in hand on the break only
-The cue ball is in hand on the break only, behind the head string. If it goes down or leaves the table, it comes back to the head spot (right behind a ball lying there), without ball in hand, with the usual penalties. A break that makes only the cue ball is no longer racked again: your opponent plays on from there.
+### Bi cái tự do chỉ khi phá bi
+Bi cái chỉ được đặt tự do khi phá bi, sau vạch đầu bàn. Nếu bi cái rơi lỗ hoặc văng khỏi bàn, nó về điểm đầu bàn (ngay sau một bi đang nằm ở đó), không được đặt tự do, với các hình phạt như thường lệ. Cú phá chỉ làm bi cái rơi lỗ không còn được xếp lại bi: đối thủ đánh tiếp từ đó.
 
-### Who is online
-Playing the computer (in a tournament, on the tour or in a drill), a discreet corner shows how many people are online and says when someone comes: time to go and invite them. Invitations show over the game.
+### Ai đang trực tuyến
+Khi đấu với máy (trong giải đấu, hành trình hay bài tập), một góc nhỏ kín đáo cho biết có bao nhiêu người trực tuyến và báo khi có người vừa vào: đến lúc mời họ rồi. Lời mời hiện ngay trên ván đấu.
 
-### The shop's showroom
-"Look at it closely" opens a showroom: the item alone in a dark studio, turning. Drag to turn it, use the wheel to come close and pause it at will. Ready views show a cue's tip and joint or a table's pockets; click a ball to see it float close up, and see tables and cloths in any hall.
+### Phòng trưng bày của cửa hàng
+"Xem cận cảnh" mở phòng trưng bày: vật phẩm một mình xoay trong một studio tối. Kéo để xoay, dùng con lăn để lại gần và tạm dừng tùy ý. Các góc nhìn có sẵn cho thấy đầu cơ và khớp nối của cây cơ hoặc các lỗ của bàn; bấm vào một bi để xem nó lơ lửng cận cảnh, và xem bàn và nỉ trong bất kỳ phòng chơi nào.
 
-### Truly brown
-The 7 and the 15 are now brown, no longer a dark red easily taken for the 3 and the 11. The shop's sets where they looked alike are put right too.
+### Nâu thật sự
+Bi số 7 và bi số 15 giờ có màu nâu, không còn là màu đỏ sẫm dễ nhầm với bi số 3 và bi số 11. Các bộ bi trong cửa hàng có màu dễ nhầm cũng đã được chỉnh lại.
 
-### Focus mode
-Settings → Game → "Focus mode": no invitations while you play. Whoever tries to invite you is told you're in focus mode. It comes off.
+### Chế độ tập trung
+Cài đặt → Trò chơi → "Chế độ tập trung": không nhận lời mời khi bạn đang chơi. Ai cố mời bạn sẽ được báo là bạn đang ở chế độ tập trung. Có thể tắt đi.
 
 ## 0.7.0
 
-### One kind on the break
-A new house rule: if the break makes balls of both groups (the 3 and the 14, say), the turn passes and the table stays open. Balls of one kind only and you shoot again, as before. The rules in the menu explain it, with a few rare cases now put right, and the computer plays a little better.
+### Một nhóm khi phá bi
+Luật nhà mới: nếu cú phá bi đưa vào lỗ bi của cả hai nhóm (chẳng hạn bi số 3 và bi số 14), lượt chuyển sang đối thủ và bàn vẫn mở. Chỉ bi của một nhóm thì bạn đánh tiếp, như trước. Phần luật trong menu giải thích điều này, một vài trường hợp hiếm đã được chỉnh lại, và máy chơi giỏi hơn một chút.
 
-### Every ball counts
-The balls you make in a row show by your picture with a little flame, and three, five and seven in a row are cheered (and a table cleared in one visit). The clock's last seconds tick, a chime says when your turn comes back online, and the rating counts up at the end of a game.
+### Bi nào cũng đáng giá
+Số bi bạn ăn liên tiếp hiện cạnh ảnh của bạn với một ngọn lửa nhỏ, và ba, năm, bảy bi liên tiếp được reo hò cổ vũ (cả khi dọn sạch bàn trong một lượt). Những giây cuối của đồng hồ kêu tích tắc, một tiếng chuông báo khi lại đến lượt bạn trong ván trực tuyến, và điểm xếp hạng đếm tăng dần khi kết thúc ván.
 
-### Events
-Now and then the staff run events: a weekend of double (or triple) experience, coins from games counting double, or a themed tournament the server organises, sometimes with a prize from the house on top of the entry fees. The main menu and the lounge show what is on and what is coming.
+### Sự kiện
+Thỉnh thoảng ban quản trị tổ chức sự kiện: một cuối tuần nhân đôi (hoặc nhân ba) kinh nghiệm, xu từ ván đấu được tính gấp đôi, hoặc một giải đấu chủ đề do máy chủ tổ chức, đôi khi có thêm giải thưởng của nhà tài trợ ngoài phí tham gia. Menu chính và sảnh cho biết sự kiện đang diễn ra và sắp tới.
 
-### On to the next one
-After a win on the tour, "Next" takes you straight to the next opponent; after a drill, "Try again". The deciding shot can be watched again from the end panel, and a first game points out where to aim, set the power and shoot.
+### Tiếp tục với đối thủ kế tiếp
+Sau khi thắng một chặng hành trình, "Tiếp theo" đưa bạn thẳng đến đối thủ kế tiếp; sau một bài tập, "Thử lại". Cú đánh quyết định có thể xem lại từ bảng kết thúc, và ván đầu tiên chỉ cho bạn cách ngắm, chỉnh lực và đánh.
 
-### The head string, if you want it
-Settings → Game → "Always show the head string" keeps the line the break is played from on the table. Off by default: it shows only while you place the cue ball behind it.
+### Vạch đầu bàn, nếu bạn muốn
+Cài đặt → Trò chơi → "Luôn hiện vạch đầu bàn" giữ vạch dùng để phá bi luôn hiện trên bàn. Mặc định tắt: vạch chỉ hiện khi bạn đặt bi cái sau vạch.
 
-### Fair rewards, softer light
-The tour's final and the ranked drills are now set up by the server, so their cue and their tables are earned the same way by everyone (play them signed in). A dropped connection no longer closes the game, a game against the computer is never replaced without asking, and the light under the lamps falls softly, without hard edges.
+### Phần thưởng công bằng, ánh sáng dịu hơn
+Trận chung kết của hành trình và các bài tập xếp hạng giờ do máy chủ chuẩn bị, nên cây cơ và các bàn thưởng được mọi người giành theo cùng một cách (hãy chơi khi đã đăng nhập). Mất kết nối không còn đóng game, ván đấu với máy không bao giờ bị thay thế mà không hỏi, và ánh sáng dưới đèn rọi xuống dịu dàng, không còn viền gắt.
 
 ## 0.6.2
 
-### Leagues and levels on one page
-In the profile, the "Leagues and levels" tab shows every league, from which rating and what it pays, and every level that brings an item. Reaching a league for the first time now pays coins and, from Skilled up, an item of the league's own.
+### Hạng và cấp trên một trang
+Trong hồ sơ, thẻ "Hạng và cấp" hiện mọi hạng, từ mức điểm nào và thưởng gì, cùng mọi cấp mang đến vật phẩm. Lần đầu lên một hạng giờ được thưởng xu và, từ hạng Lành nghề trở lên, một vật phẩm riêng của hạng đó.
 
-### A cleaner profile
-On the left, just what matters: your level, the next prize, and the achievements and reactions already won. Every medal and reaction has a tab of its own, and nothing runs off the screen.
+### Hồ sơ gọn gàng hơn
+Bên trái chỉ còn những gì quan trọng: cấp của bạn, phần thưởng tiếp theo, cùng các thành tích và biểu cảm đã đạt được. Mỗi huy chương và biểu cảm có thẻ riêng, và không còn gì tràn ra khỏi màn hình.
 
-### The view from above as it was, with round balls
-The table has its depth and its usual light again, and the camera no longer jumps when it leaves the view from above.
+### Góc nhìn từ trên như cũ, với bi tròn
+Bàn đã có lại chiều sâu và ánh sáng quen thuộc, và camera không còn giật khi rời góc nhìn từ trên.
 
 ## 0.6.1
 
-### A view from above without distortion
-The table is now seen from high up, almost without perspective: balls stay round out to the corners, and the cue, the aiming line and the ghost ball always line up. The light on the balls is softer, so the number shows.
+### Góc nhìn từ trên không bị méo
+Bàn giờ được nhìn từ trên cao, gần như không có phối cảnh: bi vẫn tròn đến tận các góc, và cơ, đường ngắm cùng bi ảo luôn thẳng hàng. Ánh sáng trên bi dịu hơn để số bi dễ đọc.
 
-### A tournament and a tour that mean it
-In a tournament against the computer a game counts once: leaving half way doesn't wipe it (it goes on from where it was) and there is no rematch. The champion gets a gold medal. And the tour is hard: every opponent plays at their best.
+### Giải đấu và hành trình nghiêm túc
+Trong giải đấu với máy, mỗi ván chỉ tính một lần: rời đi giữa chừng không xóa được ván (ván tiếp tục từ chỗ dừng) và không có tái đấu. Nhà vô địch nhận huy chương vàng. Và hành trình rất khó: mọi đối thủ đều chơi hết sức.
 
-### New achievements, pictures and sounds
-Shutout, Golden break and account anniversaries. Faces that look like people and twelve profile pictures that are not faces (the 8-ball, a trophy, a crown…). New sounds for the balls, the cue, the cushions and the pockets.
+### Thành tích, hình ảnh và âm thanh mới
+Thắng trắng, Cú phá vàng và các mốc kỷ niệm tài khoản. Những gương mặt trông giống người thật và mười hai ảnh đại diện không phải gương mặt (bi số 8, chiếc cúp, vương miện…). Âm thanh mới cho bi, cơ, băng và lỗ.
 
-### Leagues, levels that pay and scarce coins
-Other players are shown by their league (the rating is on the profile and in the ranking). Every account level pays coins and levels 5 to 50 bring items of their own, but the climb is long. Coins are scarcer: everything in the shop takes time to earn.
+### Hạng, cấp có thưởng và xu khan hiếm
+Người chơi khác được hiển thị theo hạng (điểm xếp hạng nằm trong hồ sơ và bảng xếp hạng). Mỗi cấp tài khoản đều thưởng xu và các cấp 5 đến 50 mang đến vật phẩm riêng, nhưng đường lên rất dài. Xu khan hiếm hơn: mọi thứ trong cửa hàng đều cần thời gian để kiếm.
 
 ## 0.6.0
 
-### A Brazilian rule, with penalty balls
-The game now plays the regional Brazilian rule of eight-ball, the one of bars and pool halls (not the official tournament rule). A foul passes the turn and takes your opponent's lowest balls off the table, only a pocketed cue ball gives ball in hand, and the 8 alone on the break wins. The full rules are in the menu.
+### Luật Brazil, với bi phạt
+Game giờ chơi theo luật 8 bi vùng miền của Brazil, luật của các quán bar và quán bi-a (không phải luật thi đấu chính thức). Phạm lỗi thì mất lượt và các bi số nhỏ nhất của đối thủ được lấy khỏi bàn, chỉ khi bi cái rơi lỗ thì mới được đặt bi cái tự do, và riêng bi số 8 vào lỗ khi phá bi là thắng. Luật đầy đủ có trong menu.
 
-### Heavier balls
-The cloth holds the ball more and the break is less violent: the balls no longer scatter all over the table.
+### Bi nặng hơn
+Nỉ giữ bi tốt hơn và cú phá bi bớt dữ dội: bi không còn văng tán loạn khắp bàn.
 
-### Tournaments against the computer and more drills
-Play a knockout of sixteen or an arena on points against the fifteen opponents. And there are eight new drills, fifteen in all.
+### Giải đấu với máy và thêm bài tập
+Chơi giải loại trực tiếp mười sáu người hoặc đấu trường tính điểm với mười lăm đối thủ. Và có tám bài tập mới, tổng cộng mười lăm bài.
 
-### Aiming and the cue
-The cue's elevation can be set by dragging with the mouse, the aiming line points at the centre of the ghost ball, faint arrows show when the cue ball can be moved, and the shadows can be turned off.
+### Ngắm và cây cơ
+Có thể chỉnh độ nâng cơ bằng cách kéo chuột, đường ngắm chỉ vào tâm bi ảo, các mũi tên mờ cho biết khi nào bi cái có thể di chuyển, và có thể tắt bóng đổ.
 
 ## 0.5.1
 
-### Cleaner balls
-The pale disc on top of every ball is gone: a ball is lit as one round thing and shows the lamp as a single clean dot. Castings, rugs and Low quality look better too.
+### Bi sạch hơn
+Đốm sáng nhạt trên đỉnh mỗi bi đã biến mất: mỗi bi được chiếu sáng như một khối tròn và phản chiếu đèn thành một chấm gọn gàng. Các góc bàn, thảm và chất lượng Thấp cũng đẹp hơn.
 
-### The power bar keeps no memory
-No more mark for your last stroke, and every turn starts from the middle of the bar: judging the pace is part of the game.
+### Thanh lực không còn ghi nhớ
+Không còn dấu cho cú đánh trước, và mỗi lượt bắt đầu từ giữa thanh: phán đoán lực đánh là một phần của trò chơi.
 
-### Nothing over the table
-Whose turn it is now reads in the top bar, beside the score panel, so the side pocket is always in sight. Aiming lines are smooth, and the rings round the pockets are whole.
+### Không còn gì che bàn
+Lượt của ai giờ hiện ở thanh trên cùng, cạnh bảng điểm, nên lỗ giữa luôn trong tầm nhìn. Đường ngắm mượt mà, và các vòng quanh lỗ đã liền mạch.
 
 ## 0.5.0
 
-### Tournament-table physics
-The balls weigh what they do on a real table: the power bar goes up to a hard stroke (only the break uses full power), cushions give back less the harder they are hit, and a ball made falls into the pocket at the pace it arrived with.
+### Vật lý bàn thi đấu
+Bi nặng đúng như trên bàn thật: thanh lực lên đến một cú đánh mạnh (chỉ cú phá bi dùng hết lực), băng bật lại ít hơn khi bị đánh càng mạnh, và bi vào lỗ rơi xuống với đúng tốc độ khi đến.
 
-### An official tournament table
-The table is the regulation 8-foot one, measure for measure: balls, corner and side pockets with the official mouths and angles. The cloth is a deep green under the lamps and the balls shine like polished ones, their numbers crisp.
+### Bàn thi đấu chính thức
+Bàn là loại 8 feet theo tiêu chuẩn, đúng từng số đo: bi, lỗ góc và lỗ giữa với miệng lỗ và góc chính thức. Nỉ màu xanh đậm dưới ánh đèn và bi sáng bóng như được đánh bóng, số bi sắc nét.
 
-### A truer guide, or none
-The ghost ball now stops where the cue ball really would, the mouths of the pockets included. And a new choice: play with no aiming guide at all.
+### Đường ngắm chính xác hơn, hoặc không có
+Bi ảo giờ dừng đúng chỗ bi cái thực sự dừng, kể cả ở miệng lỗ. Và một lựa chọn mới: chơi hoàn toàn không có đường ngắm.
 
 ## 0.4.0
 
-### A new name: Snook Legend
-The game is now called Snook Legend. Your account, coins, items, settings and progress are all here, as before.
+### Tên mới: Snook Legend
+Game giờ có tên Snook Legend. Tài khoản, xu, vật phẩm, cài đặt và tiến độ của bạn vẫn còn nguyên, như trước.
 
-### 8-foot table, open side pockets
-A smaller table (8 feet) and side pockets that forgive a ball off the centre or rolling in at an angle. The balls roll a little more freely.
+### Bàn 8 feet, lỗ giữa rộng hơn
+Bàn nhỏ hơn (8 feet) và lỗ giữa dễ tính hơn với bi lệch tâm hoặc lăn vào theo góc xiên. Bi lăn tự do hơn một chút.
 
-### New rule: the opponent's ball
-Making one of your opponent's balls passes the turn, even if one of yours went down too. It is not a foul: no ball in hand.
+### Luật mới: bi của đối thủ
+Đưa một bi của đối thủ vào lỗ thì chuyển lượt, kể cả khi một bi của bạn cũng vào lỗ. Đó không phải là lỗi: không có bi cái tự do.
 
-### Easier to see
-The cloth is lit evenly, the balls have a soft sheen so their numbers read, shadows are lighter, and nothing of the hall gets in the way of the view from above. Whose turn it is stands out on the score cards.
+### Dễ nhìn hơn
+Nỉ được chiếu sáng đều, bi có độ bóng nhẹ để dễ đọc số, bóng đổ nhạt hơn, và không gì trong phòng chơi cản góc nhìn từ trên. Lượt của ai được làm nổi bật trên thẻ điểm.
 
-### Fifteen opponents
-Tito, Inês, Diego, Amara and Yuri join the computer opponents, each with a style and a voice of their own. The Tour now has fifteen stages; your wins so far are kept.
+### Mười lăm đối thủ
+Tito, Inês, Diego, Amara và Yuri gia nhập hàng ngũ đối thủ máy, mỗi người một phong cách và giọng nói riêng. Hành trình giờ có mười lăm chặng; các trận thắng của bạn vẫn được giữ.
 
-### Quieter opponents
-Settings → Game → Opponents' remarks turns their speech bubbles off.
+### Đối thủ im lặng hơn
+Cài đặt → Trò chơi → Lời bình của đối thủ để tắt bong bóng thoại của họ.
 
-### A new score panel
-Pictures and names in boxes, and the balls each player made rolling into place along their rail, in the order they went down.
+### Bảng điểm mới
+Ảnh và tên trong khung, và các bi mỗi người đã ăn lăn vào chỗ dọc theo thanh của họ, theo đúng thứ tự rơi lỗ.
 
-### Aim by eye
-Raise the cue by dragging it in a side view of the shot. No more numbers on the power or the elevation: judge them by eye. Prefer it flat? Settings → Game → Top view only.
+### Ngắm bằng mắt
+Nâng cơ bằng cách kéo nó trong góc nhìn ngang của cú đánh. Không còn con số cho lực hay độ nâng cơ: hãy phán đoán bằng mắt. Thích nhìn phẳng? Cài đặt → Trò chơi → Chỉ nhìn từ trên.
 
-### Rules and pictures
-The rules of the game are a click away (the book on the main menu, or Rules in the pause menu). Pick one of 32 profile pictures in your profile.
+### Luật và hình ảnh
+Luật chơi chỉ cách một cú bấm (quyển sách ở menu chính, hoặc Luật trong menu tạm dừng). Chọn một trong 32 ảnh đại diện trong hồ sơ của bạn.
 
-### Your games are safe
-Replays and daily games that started before this update keep the old table and rules until they end.
+### Ván đấu của bạn an toàn
+Các bản phát lại và ván hằng ngày bắt đầu trước bản cập nhật này vẫn giữ bàn và luật cũ cho đến khi kết thúc.
 
 ## 0.3.0
 
-### A regulation 9-foot table
-The table is now tournament size (100" × 50"), with the balls, pockets, cushions and cue to official measurements. The balls are heavier and bounce less, like real ones.
+### Bàn 9 feet tiêu chuẩn
+Bàn giờ có kích thước thi đấu (100" × 50"), với bi, lỗ, băng và cơ theo số đo chính thức. Bi nặng hơn và ít nảy hơn, như bi thật.
 
-### A new break rule
-On the break, the first ball you pocket sets your group: solids or stripes. A foul on the break leaves the table open.
+### Luật phá bi mới
+Khi phá bi, bi đầu tiên bạn đưa vào lỗ quyết định nhóm của bạn: bi trơn hoặc bi sọc. Phạm lỗi khi phá bi thì bàn vẫn mở.
 
-### New halls, tables and cues
-Four new halls and four new tables, and every old one reworked. Premium cues that look nothing alike. On Ultra, floors that reflect the hall.
+### Phòng chơi, bàn và cơ mới
+Bốn phòng chơi mới và bốn bàn mới, và mọi phòng chơi, bàn cũ đều được làm lại. Cơ cao cấp với vẻ ngoài khác hẳn nhau. Ở mức Ultra, sàn phản chiếu cả phòng chơi.
 
-### Daily challenge
-A new position every day, the same for everyone, with a ranking of the day: three attempts to make as many balls as you can.
+### Thử thách hằng ngày
+Mỗi ngày một thế bi mới, giống nhau cho mọi người, với bảng xếp hạng trong ngày: ba lượt thử để ăn càng nhiều bi càng tốt.
 
-### Drills with stars
-Seven drills on potting, spin, banks and escaping snookers, up to three stars each, with rankings and a challenge rating that shows your level.
+### Bài tập có sao
+Bảy bài tập về ăn bi, xoáy, đánh băng và gỡ bi bị khóa, mỗi bài tối đa ba sao, có bảng xếp hạng và điểm thử thách cho thấy trình độ của bạn.
 
-### Account level
-Earn experience in every game, won or lost, and in drills, the daily challenge and achievements. Your level shows on your profile.
+### Cấp tài khoản
+Nhận kinh nghiệm trong mọi ván đấu, thắng hay thua, cũng như trong bài tập, thử thách hằng ngày và thành tích. Cấp của bạn hiện trong hồ sơ.
 
-### The Tour
-The old ladder is now the Tour: ten stages, one opponent each. The opponents have new portraits and talk during the game.
+### Hành trình
+Bảng leo hạng cũ giờ là Hành trình: mười chặng, mỗi chặng một đối thủ. Các đối thủ có chân dung mới và trò chuyện trong ván đấu.
 
-### Fair play
-Leaving a game costs more than losing it. The full aiming guide is for free games against the computer and practice only: never online, in the Tour, the daily challenge or drills.
+### Chơi đẹp
+Rời ván bị phạt nặng hơn thua ván. Đường ngắm đầy đủ chỉ dành cho ván tự do với máy và luyện tập: không bao giờ có khi chơi trực tuyến, trong Hành trình, thử thách hằng ngày hay bài tập.
 
-### Your profile
-A trophy shelf and statistics for each cue: games, wins and balls made with it. You can now change your username up to three times.
+### Hồ sơ của bạn
+Kệ cúp và thống kê cho từng cây cơ: số ván, số trận thắng và số bi đã ăn với cây cơ đó. Giờ bạn có thể đổi tên người dùng tối đa ba lần.
 
-### In the lounge
-An "away" status, quick phrases translated into your opponent's language and a practice table while the search for an opponent goes on.
+### Trong sảnh
+Trạng thái "vắng mặt", câu nói nhanh được dịch sang ngôn ngữ của đối thủ và bàn luyện tập trong lúc tìm đối thủ.
 
 ## 0.2.0
 
-### Ten opponents with personality
-Choose who to play: from Leo, still learning, to Marta, who lives on safeties, and Lola, who banks everything. Each has their own style, portrait and strength.
+### Mười đối thủ đầy cá tính
+Chọn người bạn muốn đấu: từ Leo, vẫn còn đang học, đến Marta, chuyên đánh an toàn, và Lola, đánh băng mọi thứ. Mỗi người có phong cách, chân dung và sức mạnh riêng.
 
-### The ladder
-Beat the ten opponents one by one, up to the last. Reach the top to earn the exclusive "Ladder king" cue and a new achievement.
+### Bảng leo hạng
+Đánh bại lần lượt mười đối thủ, đến người cuối cùng. Lên đến đỉnh để nhận cây cơ độc quyền "Vua leo hạng" và một thành tích mới.
 
-### Play the ghost
-The computer learns a real player's style from their online games. Challenge a friend's ghost, or your own, from the profile or the vs-computer screen.
+### Đấu với bóng ma
+Máy học phong cách của một người chơi thật từ các ván trực tuyến của họ. Thách đấu bóng ma của bạn bè, hoặc của chính bạn, từ hồ sơ hoặc màn hình đấu với máy.
 
-### Daily games
-Challenge someone and play your turn when you can: each player has up to 3 days per turn. You are told when it's your turn, and you can have several games at once.
+### Ván hằng ngày
+Thách đấu một người và đánh lượt của bạn khi rảnh: mỗi người chơi có tối đa 3 ngày cho mỗi lượt. Bạn sẽ được báo khi đến lượt mình, và có thể chơi nhiều ván cùng lúc.
 
-### Friends and gifts
-See who you played recently, write a status on your profile and post on the lounge's "looking for a game" board. Gifts from friends now arrive with a notice, a message and a "thank you".
+### Bạn bè và quà tặng
+Xem những người bạn đã chơi cùng gần đây, viết dòng trạng thái trên hồ sơ và đăng lên bảng "tìm ván đấu" của sảnh. Quà từ bạn bè giờ đến kèm thông báo, lời nhắn và nút "cảm ơn".
 
-### Cues, tables and halls
-Your cue earns bands and inlays as you win with it. In the shop, themed tables and halls: beach bar, industrial loft and English club.
+### Cơ, bàn và phòng chơi
+Cây cơ của bạn có thêm vòng và họa tiết khảm khi bạn thắng với nó. Trong cửa hàng có bàn và phòng chơi theo chủ đề: quán bar bãi biển, gác xép công nghiệp và câu lạc bộ Anh.
 
-### Your game, analysed
-The profile's new Analysis tab shows your potting by pocket, distance and kind of shot, with a heat map of the table.
+### Phân tích lối chơi của bạn
+Thẻ Phân tích mới trong hồ sơ cho thấy khả năng ăn bi của bạn theo lỗ, khoảng cách và loại cú đánh, kèm bản đồ nhiệt của bàn.
 
-### Your keys
-Every shortcut can be changed in Settings → Controls, and the game's hints follow your choices.
+### Phím của bạn
+Mọi phím tắt đều có thể đổi trong Cài đặt → Điều khiển, và các gợi ý trong game sẽ theo lựa chọn của bạn.
 
-### Automatic updates
-New versions download in the background and install when you restart, never during a game. This window tells you what changed.
+### Cập nhật tự động
+Phiên bản mới được tải xuống ngầm và cài đặt khi bạn khởi động lại, không bao giờ giữa ván đấu. Cửa sổ này cho bạn biết những gì đã thay đổi.
 
-### A reviewed interface
-Every screen was reviewed in the three languages and at every window size. Fixes: Esc opens the menu at the table, the computer sinks the 8 in its called pocket more reliably, and the overhead view no longer goes black.
+### Giao diện được rà soát
+Mọi màn hình đều được rà soát bằng cả ba ngôn ngữ và ở mọi kích thước cửa sổ. Các bản sửa lỗi: Esc mở menu tại bàn, máy đưa bi số 8 vào lỗ đã chỉ định ổn định hơn, và góc nhìn từ trên không còn bị đen màn hình.
 
 ## 0.1.4
 
-### A game while you wait
-After half a minute of "Play now" without an opponent, you can play the computer while the search goes on.
+### Một ván trong lúc chờ
+Sau nửa phút "Chơi ngay" mà chưa có đối thủ, bạn có thể đấu với máy trong khi việc tìm kiếm vẫn tiếp tục.
 
-### Chat moderation
-You can delete your own chat lines, and moderators can remove abuse.
+### Kiểm duyệt chat
+Bạn có thể xóa tin nhắn chat của chính mình, và điều hành viên có thể gỡ nội dung lạm dụng.
 
-### Cues you can see
-Opponents see the pattern of the cue you bought, and VIP members have reactions of their own.
+### Cơ ai cũng thấy
+Đối thủ thấy họa tiết cây cơ bạn đã mua, và thành viên VIP có biểu cảm riêng.

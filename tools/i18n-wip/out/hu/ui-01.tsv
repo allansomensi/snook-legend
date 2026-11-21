@@ -1,0 +1,300 @@
+1	{name} a 8-asra jön: bemondott lyuk: {pocket}
+2	A 8-as golyó: {pocket} lyuk
+3	Ping mutatása
+4	A kapcsolatod késleltetése online játszmákban.
+5	Reakciók
+6	Bolt
+7	Posztó
+8	Dákók
+9	Kréta
+10	Golyók
+11	Érmék
+12	érme
+13	Jelentkezz be a tárgyak vásárlásához és használatához. Ez a kínálat:
+14	Használatban
+15	Használ
+16	Megvesz
+17	még {n} kell
+18	{n} érme
+19	Nincs elég érméd: szerezz többet az Érmék lapon.
+20	Csak VIP
+21	ingyenes
+22	a tiéd
+23	trófea
+24	Ezen a szerveren még nem lehet érmét vásárolni.
+25	+{n} ajándék
+26	A fizetés a böngésződben nyílik meg (kártya, Pix…), a Stripe biztonságos oldalán.
+27	Az érmék pillanatokon belül megérkeznek; csak a játék tárgyaira költhetők.
+28	Exkluzív tárgyak: {list}
+29	Havonta {n} érme
+30	Bármikor lemondhatod: a VIP a kifizetett hónap végéig tart
+31	VIP vagy eddig: {d}.
+32	Előfizetés kezelése
+33	Legyél VIP · {p}
+34	Ezen a szerveren még nem lehet VIP-et vásárolni.
+35	A fizetési oldal megnyílt a böngésződben.
+36	Nem sikerült megnyitni a böngészőt.
+37	Versenyzöld
+38	Elektromos kék
+39	Bordó
+40	Szénszürke
+41	Kékeszöld
+42	Királylila
+43	Teveszín
+44	Éjfél
+45	Bajnoki vörös
+46	Klasszikus
+47	Paliszander
+48	Ében és ezüst
+49	Karbon
+50	Elefántcsont berakás
+51	Korona
+52	Ékkövek
+53	Kék kréta
+54	Zöld kréta
+55	Piros kréta
+56	Lila kréta
+57	Arany kréta
+58	Vintage
+59	Pasztell
+60	Neon
+61	Ez a tárgy már a tiéd.
+62	Nincs elég érméd.
+63	A vásárlás nem sikerült; nem vontunk le érmét.
+64	Nincs ilyen tárgy.
+65	Ez a tárgy nem vehető meg érmékért.
+66	Nincs meg neked ez a tárgy.
+67	A vásárlás nem érhető el.
+68	Ez a csomag nem kapható.
+69	Nem sikerült megnyitni a fizetési oldalt. Próbáld újra egy kicsit később.
+70	Már VIP vagy.
+71	Nincs kezelhető előfizetés.
+72	Nem sikerült megnyitni az oldalt. Próbáld újra egy kicsit később.
+73	Az érmék bekerültek a pénztárcádba.
+74	Üdv a VIP-ben!
+75	Lassíts egy kicsit.
+76	Ezt nem teheted meg.
+77	Most túl sok üzenet van. Próbáld újra pár perc múlva.
+78	Egy moderátor eltávolította az üzenetedet.
+79	Egy moderátor törölte az állapotüzenetedet.
+80	Állapotüzenet törölve.
+81	VIP
+82	Játék most
+83	Találj automatikusan a szintednek megfelelő ellenfelet
+84	Ellenfél keresése… {t}
+85	bármilyen értékszám
+86	értékszám ±{n} · {mode}
+87	Lökéspontosság
+88	Elrakott golyók
+89	Legjobb sorozat
+90	Szabálytalanságok
+91	épp most láttuk
+92	{n} perce láttuk
+93	{n} órája láttuk
+94	tegnap láttuk
+95	{n} napja láttuk
+96	{n} hónapja láttuk
+97	épp most
+98	{n} perce
+99	{n} órája
+100	tegnap
+101	{n} napja
+102	A játszma története
+103	Még semmi.
+104	Finom célzás: kattints a nyilakra, vagy húzd itt
+105	{n} néző
+106	Nézed: {name}
+107	A reakcióid csendben jutnak el az asztalhoz.
+108	Nézés befejezése
+109	Ha újra játszanak, tovább nézheted.
+110	A barátod elhagyta az asztalt.
+111	A barátod most nem játszik.
+112	Csak a barátaidat nézheted.
+113	Ezt a játszmát nem nézheted.
+114	Még {n} pont: {tier}
+115	Legfelső szint
+116	Reakciók {n}/{total}
+117	Kísértetjárta asztal
+118	Nyerj egy értékelt játszmát halloweenkor (okt. 24. – nov. 2.).
+119	Téli liga
+120	Nyerj egy értékelt játszmát az ünnepek alatt (dec. 15. – jan. 6.).
+121	Tűzijáték
+122	Nyerj egy értékelt játszmát az évfordulón (dec. 31. – jan. 1.).
+123	Megmutatja, merre megy a célgolyó és a fehér golyó (csak szabad játszmákban és gyakorlásban).
+124	{n} online · ping {ms} ms
+125	Jobb gombos húzás · Görgő
+126	Győzelem %
+127	Kamera visszaállítása: felülnézet, nagyítás nélkül
+128	{name} elrakta a 8-as golyót
+129	{name} túl korán rakta el a 8-ast
+130	{name} rossz lyukba rakta el a 8-ast
+131	{name} szabálytalanságot követett el a 8-asnál
+132	{name} leütötte a 8-ast az asztalról
+133	{name} feladta
+134	{name} kilépett a játszmából
+135	Győztes: {winner}! ({how})
+136	#{n} a világon
+137	3–16 betű, számjegy vagy aláhúzásjel.
+138	Nincsenek vonalak az asztalon: célozz szemre, a dákó mentén.
+139	Nincs segédvonal
+140	Csak egy rövid vonal a fehér golyótól.
+141	Barátság elfogadása
+142	Trófea megszerezve: {title}
+143	Trófeák {n}/{total}
+144	Hozzáadás
+145	Barát hozzáadása felhasználónév alapján
+146	Barát hozzáadása
+147	A gép ellen
+148	Minden verseny
+149	Amatőr
+150	Legalább 8 karakter. Olyan jelszót használj, amelyet máshol nem.
+151	Legalább két játékos kell.
+152	Vissza
+153	Fekete golyó
+154	Letiltás
+155	Kezdés és kipucolás
+156	Kezdőlökés után pucold ki az asztalt 10-szer.
+157	Itt nem lehet játszmákat keresni: csatlakozz lent cím alapján.
+158	Kérés visszavonása
+159	Verseny törlése
+160	Barátságos
+161	Centurió
+162	Bajnok
+163	Bajnok: {name}
+164	Ország módosítása
+165	Állapotüzenet hozzáadása
+166	Egy mondat rólad
+167	Mentés (Enter)
+168	Mégse (Esc)
+169	Állapotüzenet módosítása
+170	Állapotüzenet törlése
+171	Csalás vagy visszaélés
+172	Válassz…
+173	Kattints újra a letiltáshoz
+174	Bezárás
+175	Befejező
+176	Versenyző
+177	Csatlakozás a szerverhez…
+178	Nem sikerült létrehozni a játszmát: {e}
+179	Ország
+180	Létrehozás
+181	Verseny létrehozása
+182	Ne mutasson zászlót
+183	Nincs ilyen ország.
+184	Dinasztia
+185	A 8-as elég
+186	Hóhér
+187	Szakértő
+188	Ismerős arc
+189	Döntő
+190	Előbb fejezd be a játszmádat.
+191	Első vér
+192	Első kezdőlökés
+193	Barátkérés elküldve.
+194	Barátok
+195	napi játszma
+196	Napi
+197	Napi játszma
+198	Napi játszmák
+199	Hívj ki egy játékost felhasználónév alapján
+200	Kihívás napi játszmára
+201	Körönként 3 nap
+202	Még nincs napi játszmád. Hívj ki egy barátot: mindketten akkor lökhettek, amikor ráértek.
+203	kihív · {kind}
+204	válaszra vár · {kind} · még {time}
+205	te jössz · még {time}
+206	az ellenfél jön · még {time}
+207	győzelem · {how}
+208	vereség · {how}
+209	lejárt az időd
+210	lejárt az ellenfél ideje
+211	nyitott asztal
+212	Te: {mine}, még {a} · {name}: {theirs}, még {b}
+213	Megnéz
+214	Kihagy
+215	{name} körének visszajátszása
+216	{n}. lökés / {total}
+217	Kör elküldve
+218	Kör elküldve.
+219	Várakozás az ellenfélre: {name}
+220	{name} ennyi időt kapott a lökésre: {time}. Szólunk, ha te jössz.
+221	Még {time} a lökésre. Szólunk, ha te jössz.
+222	Vissza a napi játszmákhoz
+223	A játszmád el van mentve: térj vissza, amikor csak szeretnél.
+224	{d} n {h} ó
+225	{name} ideje lejárt
+226	Ez a játszma nem jeleníthető meg.
+227	Egy napi játszma vár rád
+228	{n} napi játszma vár rád
+229	{name} kihív egy értékelt napi játszmára.
+230	{name} kihív egy barátságos napi játszmára.
+231	{name} elfogadta a napi játszmádat.
+232	{name} elutasította a napi játszmádat.
+233	{name} visszavonta a napi játszmára szóló kihívását.
+234	Te jössz a napi játszmában. Ellenfél: {name}.
+235	{name} ideje lejárt: megnyerted a napi játszmát.
+236	Megnyerted a napi játszmát! Ellenfél: {name}.
+237	Lejárt az időd a napi játszmában. Ellenfél: {name}.
+238	Elvesztetted a napi játszmát. Ellenfél: {name}.
+239	Kihívás elküldve.
+240	A napi játszmákhoz fiók kell.
+241	Nincs ilyen játszma.
+242	Ez a kihívás már nem érvényes.
+243	Ez a játékos már kihívott téged: válaszolj a kihívására.
+244	Ennek a játékosnak túl sok kihívása vár.
+245	Ennek a játékosnak túl sok napi játszmája van folyamatban.
+246	Ez a játékos nem fogad kihívásokat.
+247	Ez a játszma most nem játszható.
+248	A játszma közben megváltozott: nyisd meg újra.
+249	Ez a játszma véget ért.
+250	Ezt a játékost már kihívtad.
+251	Már folyik egy játszmád ez ellen a játékos ellen.
+252	Letiltottad ezt a játékost.
+253	Saját magadat nem hívhatod ki.
+254	Elérted az egyszerre játszható napi játszmák számának maximumát.
+255	Túl sok kihívásod vár válaszra.
+256	Túl gyorsan küldöd a kihívásokat.
+257	Lejárt az időd ebben a körben.
+258	Játszmák
+259	Játszmák a hálózatodon
+260	Adj nevet a versenynek (legalább 3 karakter).
+261	Jó társaság
+262	Nagymester
+263	Vendégek csak LAN-játszmákhoz csatlakozhatnak. Hozz létre fiókot.
+264	Vendégek nem játszhatnak értékelt versenyeken.
+265	Vendégeknek ez nem elérhető.
+266	Zaklatás
+267	Mesterhármas
+268	Legyen 10 barátod.
+269	Legyen 30 napos fiókod.
+270	Legyen egyéves fiókod.
+271	Játszma indítása ezen a gépen
+272	Házigazda: {host} · {n}/{size} játékos · {kind}
+273	Forró kéz
+274	Hasper
+275	Érvénytelen lökés.
+276	Csatlakozás
+277	Csatlakozás a LAN-játszmához…
+278	Csak szórakozásból
+279	V
+280	LAN-játszma
+281	Helyi hálózati játszma. Házigazda: {name}.
+282	A LAN-játszmák nem változtatják az értékszámot.
+283	Legenda
+284	Az asztalnál él
+285	Profil betöltése…
+286	Betöltés…
+287	Helyi hálózat
+288	Zárolva
+289	Játszmák keresése
+290	Szerezz egy barátot.
+291	Mester
+292	Név
+293	A név 3–16 betűből, számjegyből vagy aláhúzásjelből áll.
+294	Új fiók
+295	Van már fiókom
+296	Új vagy itt? Válaszd az „Új fiók” lehetőséget: tíz másodperc az egész.
+297	Új verseny
+298	Még nincsenek barátaid. Adj hozzá valakit, akivel játszottál!
+299	Még nincsenek játszmák.
+300	Nincs korlát

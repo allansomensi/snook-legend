@@ -1,66 +1,66 @@
-# Snook Legend: the official rules of eight-ball (the World Pool-Billiard
-# Association's Rules of Play), shown in the game.
-# "## <part>" starts a part, "### <title>" a rule, and the lines after it
-# are its text. The same parts and rules, in the same order, in every
-# language.
+# Snook Legend: luật chính thức của bi-a 8 bi (Luật thi đấu của Hiệp hội
+# Bi-a Pool Thế giới, WPA), hiển thị trong game.
+# "## <phần>" mở đầu một phần, "### <tiêu đề>" là một luật, và các dòng sau đó
+# là nội dung của luật. Cùng các phần và các luật, theo cùng thứ tự, trong mọi
+# ngôn ngữ.
 
-## The game
+## Ván đấu
 
-### The official rules (WPA)
-The eight-ball of international tournaments, as the World Pool-Billiard Association plays it. Snook Legend has the Brazilian rules too: choose the rules of your games in the main menu. If you play the Brazilian rules, read the break, the calls and the fouls below, because they differ a lot.
+### Luật chính thức (WPA)
+Bi-a 8 bi của các giải đấu quốc tế, theo cách Hiệp hội Bi-a Pool Thế giới (WPA) thi đấu. Snook Legend cũng có luật Brazil: hãy chọn luật cho các ván của bạn trong menu chính. Nếu bạn chơi luật Brazil, hãy đọc phần phá bi, phần chỉ định lỗ và phần lỗi bên dưới, vì chúng khác nhau rất nhiều.
 
-### The aim
-Each player has a group of seven balls: solids (1 to 7) or stripes (9 to 15). Pocket all of yours and then the 8-ball, in the pocket you call, before your opponent does.
+### Mục tiêu
+Mỗi người chơi có một nhóm bảy bi: bi trơn (1 đến 7) hoặc bi sọc (9 đến 15). Hãy đưa hết bi của bạn vào lỗ rồi đến bi số 8, vào lỗ bạn chỉ định, trước khi đối thủ làm được.
 
-### Your turn
-You keep shooting while you make a ball of your group in the pocket you called, on a shot without a foul. Otherwise the turn passes, and the balls that went in stay down.
+### Lượt của bạn
+Bạn được đánh tiếp chừng nào còn đưa được một bi trong nhóm của mình vào lỗ đã chỉ định, trong một cú đánh không phạm lỗi. Nếu không, lượt chuyển sang đối thủ, và các bi đã vào lỗ vẫn nằm dưới lỗ.
 
-## The break
+## Phá bi
 
-### The break shot
-The cue ball is in your hand: place it anywhere behind the head string. Nothing is called on the break. For it to be legal you must make a ball or drive at least four object balls to a cushion.
+### Cú phá bi
+Bạn được đặt bi cái tự do: đặt nó ở bất cứ đâu sau vạch đầu bàn. Không cần chỉ định gì khi phá bi. Để cú phá hợp lệ, bạn phải đưa một bi vào lỗ hoặc làm ít nhất bốn bi mục tiêu chạm băng.
 
-### An illegal break
-If no ball goes in and fewer than four reach a cushion, your opponent chooses: play the table as it lies, have the balls racked and break themselves, or have you break again.
+### Phá bi không hợp lệ
+Nếu không bi nào vào lỗ và chưa đến bốn bi chạm băng, đối thủ được chọn: đánh tiếp với thế bàn hiện tại, cho xếp lại bi và tự phá bi, hoặc để bạn phá bi lại.
 
-### After the break
-A ball made on a legal break keeps the table, but the table stays open: the break never decides the groups. If the cue ball goes in or leaves the table on a legal break, your opponent has it in hand behind the head string.
+### Sau cú phá bi
+Một bi vào lỗ trong cú phá hợp lệ giúp bạn giữ lượt, nhưng bàn vẫn mở: cú phá bi không bao giờ quyết định nhóm. Nếu bi cái rơi lỗ hoặc văng khỏi bàn trong cú phá hợp lệ, đối thủ được đặt bi cái tự do sau vạch đầu bàn.
 
-### The 8-ball on the break
-Pocketing the 8 on the break neither wins nor loses: it comes back to the foot spot, and you play on or have the balls racked and break again. If you also fouled, your opponent chooses: the cue ball in hand behind the head string, or the balls racked again and they break.
+### Bi số 8 khi phá bi
+Đưa bi số 8 vào lỗ khi phá bi không thắng cũng không thua: bi số 8 được đặt lại ở điểm cuối bàn, và bạn đánh tiếp hoặc cho xếp lại bi và phá bi lại. Nếu bạn còn phạm lỗi, đối thủ được chọn: bi cái tự do sau vạch đầu bàn, hoặc xếp lại bi và họ phá bi.
 
-### A ball off the table on the break
-It is a foul, and the ball stays off (only the 8 comes back). Your opponent plays the table as it lies or takes the cue ball in hand behind the head string. If the break was illegal too, they may also have the balls racked again, as above.
+### Bi văng khỏi bàn khi phá bi
+Đó là một lỗi, và bi đó không được đặt lại (chỉ bi số 8 được đặt lại lên bàn). Đối thủ đánh tiếp với thế bàn hiện tại hoặc lấy bi cái tự do sau vạch đầu bàn. Nếu cú phá cũng không hợp lệ, họ còn có thể cho xếp lại bi, như ở trên.
 
-## Calling and playing
+## Chỉ định và đánh
 
-### Open table
-While the groups are not decided, the table is open: you may hit any ball first except the 8. The group of the ball you make in the called pocket becomes yours. If one group is already off the table, you may play the 8.
+### Bàn mở
+Khi các nhóm chưa được quyết định, bàn ở trạng thái mở: bạn có thể chạm trước bất kỳ bi nào trừ bi số 8. Nhóm của bi bạn đưa vào lỗ chỉ định sẽ thành nhóm của bạn. Nếu một nhóm đã hết bi trên bàn, bạn có thể đánh bi số 8.
 
-### Calling your shot
-Every shot except the break is called. In the game you call a pocket: following your aim, it calls the pocket the ball you hit is heading for (the ring on the pocket). Click another pocket to call it, or play a safety. A ball of your group (or the 8, when you are on it) made in the called pocket keeps the table, also off a cushion or another ball.
+### Chỉ định cú đánh
+Mọi cú đánh trừ cú phá bi đều phải chỉ định. Trong game, bạn chỉ định một lỗ: theo hướng ngắm của bạn, game chỉ định lỗ mà bi bạn chạm đang hướng tới (vòng tròn ở lỗ). Bấm vào lỗ khác để chỉ định lỗ đó, hoặc đánh an toàn. Một bi trong nhóm của bạn (hoặc bi số 8, khi bạn đã đến bi số 8) vào lỗ chỉ định thì bạn giữ lượt, kể cả khi bi đó dội băng hoặc chạm bi khác.
 
-### Safety
-A shot with no pocket called is a safety: whatever goes in stays down, and the turn passes to your opponent.
+### Đánh an toàn
+Cú đánh không chỉ định lỗ là đánh an toàn: bi nào vào lỗ thì nằm luôn dưới lỗ, và lượt chuyển sang đối thủ.
 
-### The cue ball behind the head string
-With the cue ball in hand behind the head string, you can't hit a ball that also lies behind it unless the cue ball crosses the head string first. If every ball you may hit lies behind it, the one nearest to the head string comes back to the foot spot.
+### Bi cái sau vạch đầu bàn
+Khi được đặt bi cái tự do sau vạch đầu bàn, bạn không thể chạm một bi cũng nằm sau vạch trừ khi bi cái vượt qua vạch đầu bàn trước. Nếu mọi bi bạn được phép chạm đều nằm sau vạch, bi gần vạch đầu bàn nhất được đặt lại ở điểm cuối bàn.
 
-## Fouls
+## Lỗi
 
-### Ball in hand
-After any foul, your opponent has the cue ball in hand: they place it anywhere on the table. No ball comes off the table as a penalty.
+### Bi cái tự do
+Sau mọi lỗi, đối thủ được đặt bi cái tự do: họ đặt nó ở bất cứ đâu trên bàn. Không có bi nào bị lấy khỏi bàn để phạt.
 
-### What is a foul
-The cue ball in a pocket or off the table; hitting no ball, or the wrong ball first (one of your opponent's, or the 8 too soon); after the contact, no ball made and no ball reaching a cushion (a ball lying against a cushion only reaches it by leaving it and coming back); an object ball off the table (it stays off).
+### Thế nào là lỗi
+Bi cái rơi lỗ hoặc văng khỏi bàn; không chạm bi nào, hoặc chạm sai bi trước (một bi của đối thủ, hoặc bi số 8 quá sớm); sau va chạm, không bi nào vào lỗ và không bi nào chạm băng (bi đang nằm sát băng chỉ được tính là chạm băng khi rời băng rồi quay lại); bi mục tiêu văng khỏi bàn (bi đó không được đặt lại).
 
-### The shot clock
-When the game has a shot clock and it runs out, it is a foul: your opponent has the cue ball in hand. A choice after the break that isn't made in time takes its first option.
+### Đồng hồ bấm giờ
+Khi ván đấu có đồng hồ bấm giờ và hết giờ, đó là một lỗi: đối thủ được đặt bi cái tự do. Lựa chọn sau cú phá bi mà không được đưa ra kịp thời sẽ lấy phương án đầu tiên.
 
-## The 8-ball
+## Bi số 8
 
-### Winning
-Once your group is off the table, pocket the 8 in the pocket you called, on a shot without a foul.
+### Chiến thắng
+Khi nhóm của bạn đã hết bi trên bàn, hãy đưa bi số 8 vào lỗ bạn chỉ định, trong một cú đánh không phạm lỗi.
 
-### Losing on the 8
-You lose by pocketing the 8 on a foul, before your group is off the table or in a pocket you didn't call, and by knocking the 8 off the table. None of this applies to the break.
+### Thua ở bi số 8
+Bạn thua khi đưa bi số 8 vào lỗ trong một cú đánh phạm lỗi, trước khi nhóm của bạn hết bi trên bàn hoặc vào lỗ bạn không chỉ định, và khi đánh bi số 8 văng khỏi bàn. Những điều này không áp dụng cho cú phá bi.

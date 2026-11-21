@@ -147,3 +147,160 @@ Finala circuitului și exercițiile cu clasament sunt acum pregătite de server,
 
 ### Vederea de sus ca înainte, cu bile rotunde
 Masa și-a recăpătat adâncimea și lumina obișnuită, iar camera nu mai sare când iese din vederea de sus.
+
+## 0.6.1
+
+### O vedere de sus fără distorsiuni
+Masa se vede acum de foarte sus, aproape fără perspectivă: bilele rămân rotunde până în colțuri, iar tacul, linia de țintire și bila fantomă se aliniază mereu. Lumina pe bile e mai blândă, ca să se vadă numărul.
+
+### Un turneu și un circuit serioase
+Într-un turneu contra computerului, o partidă contează o singură dată: dacă pleci la jumătate, nu se șterge (continuă de unde a rămas) și nu există revanșă. Campionul primește o medalie de aur. Iar circuitul e greu: fiecare adversar joacă la maximum.
+
+### Realizări, imagini și sunete noi
+La zero, Spargere de aur și aniversările contului. Fețe care arată ca oamenii și douăsprezece poze de profil care nu sunt fețe (bila 8, un trofeu, o coroană…). Sunete noi pentru bile, tac, mante și buzunare.
+
+### Ligi, niveluri care aduc monede și monede mai rare
+Ceilalți jucători sunt afișați după liga lor (ratingul e în profil și în clasament). Fiecare nivel al contului aduce monede, iar nivelurile de la 5 la 50 aduc obiecte proprii, dar urcușul e lung. Monedele sunt mai rare: orice din magazin se câștigă în timp.
+
+## 0.6.0
+
+### Regulile braziliene, cu bile de penalizare
+Jocul se joacă acum după regulile regionale braziliene ale jocului cu bila 8, cele din baruri și săli de biliard (nu regulile oficiale de turneu). Un fault trece tura la adversar și scoate de pe masă bilele lui cu numerele cele mai mici, doar bila albă băgată dă bila în mână, iar bila 8 singură la spargere câștigă. Regulile complete sunt în meniu.
+
+### Bile mai grele
+Postavul ține mai mult bila, iar spargerea e mai puțin violentă: bilele nu se mai împrăștie peste toată masa.
+
+### Turnee contra computerului și mai multe exerciții
+Joacă un eliminatoriu cu șaisprezece jucători sau o arenă pe puncte contra celor cincisprezece adversari. Și sunt opt exerciții noi, cincisprezece în total.
+
+### Țintirea și tacul
+Elevația tacului se poate seta trăgând cu mouse-ul, linia de țintire arată spre centrul bilei fantomă, săgeți discrete arată când bila albă poate fi mutată, iar umbrele pot fi dezactivate.
+
+## 0.5.1
+
+### Bile mai curate
+Discul palid de deasupra fiecărei bile a dispărut: o bilă e luminată ca un singur obiect rotund și arată lampa ca un singur punct curat. Ornamentele, covoarele și calitatea Scăzută arată și ele mai bine.
+
+### Bara de forță nu mai ține minte
+Nu mai există semnul ultimei tale lovituri, iar fiecare tură începe de la mijlocul barei: aprecierea forței face parte din joc.
+
+### Nimic peste masă
+Al cui e rândul se citește acum în bara de sus, lângă panoul de scor, așa că buzunarul lateral e mereu la vedere. Liniile de țintire sunt netede, iar inelele din jurul buzunarelor sunt întregi.
+
+## 0.5.0
+
+### Fizică de masă de turneu
+Bilele cântăresc cât pe o masă reală: bara de forță merge până la o lovitură puternică (doar spargerea folosește forța maximă), mantele returnează mai puțin cu cât sunt lovite mai tare, iar o bilă băgată cade în buzunar cu viteza cu care a ajuns.
+
+### O masă oficială de turneu
+Masa e cea regulamentară de 8 picioare, la milimetru: bile, buzunare de colț și laterale cu deschiderile și unghiurile oficiale. Postavul e de un verde intens sub lămpi, iar bilele strălucesc ca proaspăt lustruite, cu numere clare.
+
+### Un ghidaj mai fidel sau niciunul
+Bila fantomă se oprește acum unde s-ar opri cu adevărat bila albă, inclusiv la gura buzunarelor. Și o opțiune nouă: joacă fără niciun ghidaj de țintire.
+
+## 0.4.0
+
+### Un nume nou: Snook Legend
+Jocul se numește acum Snook Legend. Contul, monedele, obiectele, setările și progresul tău sunt toate aici, ca înainte.
+
+### Masă de 8 picioare, buzunare laterale deschise
+O masă mai mică (8 picioare) și buzunare laterale care iartă o bilă venită din afara centrului sau în unghi. Bilele se rostogolesc puțin mai liber.
+
+### Regulă nouă: bila adversarului
+Dacă bagi una dintre bilele adversarului, tura trece la el, chiar dacă a intrat și una de-a ta. Nu e fault: fără bila în mână.
+
+### Mai ușor de văzut
+Postavul e luminat uniform, bilele au un luciu discret ca să li se citească numerele, umbrele sunt mai deschise, iar nimic din sală nu mai încurcă vederea de sus. Al cui e rândul se vede clar pe cardurile de scor.
+
+### Cincisprezece adversari
+Tito, Inês, Diego, Amara și Yuri se alătură adversarilor computerului, fiecare cu stilul și vocea lui. Circuitul are acum cincisprezece etape; victoriile de până acum se păstrează.
+
+### Adversari mai tăcuți
+Setări → Joc → Comentariile adversarilor le dezactivează baloanele de text.
+
+### Un panou de scor nou
+Poze și nume în casete, iar bilele băgate de fiecare jucător se rostogolesc la locul lor de-a lungul mantalei, în ordinea în care au intrat.
+
+### Țintește din ochi
+Ridică tacul trăgându-l într-o vedere laterală a loviturii. Nu mai există cifre pentru forță sau elevație: apreciază-le din ochi. Preferi totul plat? Setări → Joc → Doar vedere de sus.
+
+### Reguli și imagini
+Regulile jocului sunt la un clic distanță (cartea din meniul principal sau Reguli în meniul de pauză). Alege una dintre cele 32 de poze de profil din profilul tău.
+
+### Partidele tale sunt în siguranță
+Reluările și partidele zilnice începute înainte de această actualizare păstrează masa și regulile vechi până se termină.
+
+## 0.3.0
+
+### O masă regulamentară de 9 picioare
+Masa are acum dimensiunea de turneu (100" × 50"), cu bile, buzunare, mante și tac la dimensiunile oficiale. Bilele sunt mai grele și sar mai puțin, ca cele reale.
+
+### O regulă nouă la spargere
+La spargere, prima bilă pe care o bagi îți stabilește grupa: pline sau dungate. Un fault la spargere lasă masa deschisă.
+
+### Săli, mese și tacuri noi
+Patru săli noi și patru mese noi, iar toate cele vechi au fost refăcute. Tacuri premium care nu seamănă deloc între ele. Pe Ultra, podele care reflectă sala.
+
+### Provocarea zilei
+O poziție nouă în fiecare zi, aceeași pentru toți, cu un clasament al zilei: trei încercări să bagi cât mai multe bile.
+
+### Exerciții cu stele
+Șapte exerciții de băgat bile, efect, mante și ieșit din snooker, cu până la trei stele fiecare, cu clasamente și un rating de provocare care îți arată nivelul.
+
+### Nivelul contului
+Câștigi experiență în fiecare partidă, câștigată sau pierdută, precum și la exerciții, la provocarea zilei și din realizări. Nivelul tău apare în profil.
+
+### Circuitul
+Vechiul clasament pe trepte e acum Circuitul: zece etape, câte un adversar fiecare. Adversarii au portrete noi și vorbesc în timpul partidei.
+
+### Fair-play
+Dacă părăsești o partidă, pierzi mai mult decât dacă o pierzi jucând. Ghidajul complet de țintire e doar pentru partidele libere contra computerului și pentru antrenament: niciodată online, în Circuit, la provocarea zilei sau la exerciții.
+
+### Profilul tău
+Un raft de trofee și statistici pentru fiecare tac: partide, victorii și bile băgate cu el. Acum îți poți schimba numele de utilizator de până la trei ori.
+
+### În salon
+O stare „absent”, fraze rapide traduse în limba adversarului și o masă de antrenament cât timp se caută un adversar.
+
+## 0.2.0
+
+### Zece adversari cu personalitate
+Alege cu cine joci: de la Leo, care încă învață, la Marta, care trăiește din lovituri de siguranță, și Lola, care joacă totul din manta. Fiecare are stilul, portretul și forța lui.
+
+### Clasamentul pe trepte
+Învinge-i pe cei zece adversari unul câte unul, până la ultimul. Ajunge în vârf ca să câștigi tacul exclusiv „Regele treptelor” și o realizare nouă.
+
+### Joacă cu fantoma
+Computerul învață stilul unui jucător real din partidele lui online. Provoacă fantoma unui prieten sau pe a ta, din profil sau din ecranul de joc contra computerului.
+
+### Partide zilnice
+Provoacă pe cineva și joacă-ți tura când poți: fiecare jucător are până la 3 zile pentru fiecare tură. Ești anunțat când e rândul tău și poți avea mai multe partide în același timp.
+
+### Prieteni și cadouri
+Vezi cu cine ai jucat recent, scrie un mesaj de stare în profil și publică anunțuri pe avizierul „caut partidă” din salon. Cadourile de la prieteni sosesc acum cu o notificare, un mesaj și un „mulțumesc”.
+
+### Tacuri, mese și săli
+Tacul tău primește benzi și incrustații pe măsură ce câștigi cu el. În magazin, mese și săli tematice: bar pe plajă, loft industrial și club englezesc.
+
+### Jocul tău, analizat
+Noua filă Analiză din profil îți arată cum bagi bilele după buzunar, distanță și tipul loviturii, cu o hartă termică a mesei.
+
+### Tastele tale
+Orice scurtătură se poate schimba în Setări → Comenzi, iar indicațiile jocului îți urmează alegerile.
+
+### Actualizări automate
+Versiunile noi se descarcă în fundal și se instalează la repornire, niciodată în timpul unei partide. Această fereastră îți spune ce s-a schimbat.
+
+### O interfață revizuită
+Fiecare ecran a fost revizuit în cele trei limbi și la orice dimensiune a ferestrei. Reparații: Esc deschide meniul la masă, computerul bagă mai sigur bila 8 în buzunarul anunțat, iar vederea de sus nu mai devine neagră.
+
+## 0.1.4
+
+### O partidă cât aștepți
+După o jumătate de minut de „Joacă acum” fără adversar, poți juca cu computerul cât timp căutarea continuă.
+
+### Moderarea chatului
+Îți poți șterge propriile mesaje din chat, iar moderatorii pot elimina abuzurile.
+
+### Tacuri pe care le vezi
+Adversarii văd modelul tacului pe care l-ai cumpărat, iar membrii VIP au reacțiile lor proprii.

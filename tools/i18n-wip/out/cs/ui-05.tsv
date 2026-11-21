@@ -1,0 +1,300 @@
+1201	Potop koule: {n}
+1202	Potop koule s falší: {n}
+1203	Potop 3 koule v řadě v jednom náběhu
+1204	Vyhraj hru bez faulu
+1205	Potop 3 koule v řadě, {n}×
+1206	Vyhraj {n}× hru bez faulu
+1207	TV kamera při sledování
+1208	Televizní záběry u her ostatních hráčů a záznamů.
+1209	Systémová oznámení
+1210	Pozvánky, přátelé, kteří se připojí, a začínající hry, když nejsi u hry.
+1211	{name} začíná za pár minut: připrav se!
+1212	{name} začíná za pár minut: ještě jsou volná místa.
+1213	Start! {name} začíná.
+1214	Převaha
+1215	Mapa šťouchů
+1216	Zatím žádné šťouchy.
+1217	potopeno
+1218	minuto
+1219	faul
+1220	Zobrazit turnaje
+1221	Otevřít obchod
+1222	Zobrazit VIP
+1223	Zobrazit mise
+1224	Vyšla nová verze hry: pro hraní online aktualizuj.
+1225	Aktualizovat v Microsoft Store
+1226	Aktualizovat
+1227	Stáhnout novou verzi
+1228	Vyšla nová verze
+1229	Pro hraní online si stáhni novou verzi
+1230	Fandit: {name}
+1231	Publikum: {a} pro {p0}, {b} pro {p1}
+1232	uvítací balíček
+1233	Uvítací balíček
+1234	Tágo „{cue}“, sukno „{cloth}“ a mince ({n}) · jen jednou, nikde jinde se neprodává
+1235	Laguna
+1236	Uvítací balíček už máš.
+1237	Tvůj uvítací balíček je tady!
+1238	Předchozí šťouch (←)
+1239	Další šťouch (→)
+1240	Přehrát (mezerník)
+1241	Pauza (mezerník)
+1242	Rychlost
+1243	Šťouch {n} z {total}
+1244	Pro členy VIP
+1245	Vlastní reakce do her: {n}
+1246	Předměty {a}–{b} z {n}
+1247	(zprávu smazal autor)
+1248	(zprávu smazal administrátor)
+1249	Smazat (zobrazí se jako smazaná)
+1250	Odstranit beze stopy
+1251	Chat vyčistil(a) {name}.
+1252	Klikni znovu pro vyčištění
+1253	Vyčistit chat
+1254	Chat hráčů (administrátor)
+1255	Zahraj si proti počítači, zatímco čekáš
+1256	Hledám soupeře… {t} · hra začne, jakmile se někdo najde
+1257	Zastavit
+1258	Microsoft Store nákup nedokončil.
+1259	Microsoft Store teď nákup nepotvrdil. Mince dorazí, až příště otevřeš obchod.
+1260	Mince přidány do tvé peněženky: {n}.
+1261	Microsoft potvrzuje tvůj nákup: mince dorazí za chvilku.
+1262	Nákup k nám zatím nedorazil. Mince dorazí, až příště otevřeš obchod.
+1263	Načítám ceny z Microsoft Store…
+1264	V této verzi zatím nejde mince koupit.
+1265	Dokonči nákup v okně Microsoft Store…
+1266	Potvrzuji tvůj nákup…
+1267	Platí se v Microsoft Store tvým účtem Microsoft.
+1268	Microsoft Store je teď nedostupný. Zkus to za chvilku znovu.
+1269	Microsoft Store nákup nepotvrdil.
+1270	Přihlas se do Microsoft Store svým účtem Microsoft a pak znovu otevři obchod.
+1271	Microsoft Store teď nákup nepotvrdil. Tvůj měsíc VIP začne, až příště otevřeš obchod.
+1272	VIP máš do {d} a do peněženky ti přibyly mince: {n}.
+1273	Microsoft potvrzuje tvůj nákup: tvůj měsíc VIP začne za chvilku.
+1274	Nákup k nám zatím nedorazil. Tvůj měsíc VIP začne, až příště otevřeš obchod.
+1275	Vždy na měsíc: nic se samo neobnovuje
+1276	Přidat měsíc · {p}
+1277	Měsíc VIP · {p}
+1278	Nový měsíc začne, až tento skončí.
+1279	Trofeje
+1280	Zatím žádné trofeje.
+1281	Vyhraný turnaj · hráči: {n}
+1282	Turné proti počítači
+1283	Všech patnáct soupeřů poraženo
+1284	Denní výzva
+1285	První z hráčů: {n}
+1286	Snadný šťouch
+1287	Středně těžký šťouch
+1288	Těžký šťouch
+1289	Velmi těžký šťouch
+1290	šance ~{n} %
+1291	Takhle žádná koule nespadne
+1292	rovně
+1293	řez {n}°
+1294	od jednoho mantinelu
+1295	mantinely: {n}
+1296	Potop co nejvíc koulí v jednom náběhu: chyba nebo faul pokus ukončí.
+1297	Stejný stůl pro všechny, celý den
+1298	Pokusy za den: {n}. Vyčisti stůl a získáš mince ({coins}); vítěz dne dostane trofej.
+1299	Nový stůl za {h} h {m} min
+1300	Přihlas se a zapoj se: server vede denní pořadí.
+1301	Koule na dnešním stole
+1302	Zbývající pokusy
+1303	Koule: {n} · {rank}.
+1304	Koule: {n}
+1305	zatím ne
+1306	Tvůj dnešní nejlepší
+1307	Dnes už nemáš žádné pokusy: vrať se zítra.
+1308	Pokus se nepodařilo započítat.
+1309	Připravuji stůl…
+1310	Začít pokus
+1311	Začátek stojí pokus, i když od stolu odejdeš.
+1312	Načítám dnešní pořadí…
+1313	Dnešní pořadí
+1314	Hráči: {n}
+1315	Dnešní stůl zatím nikdo nehrál. Buď první!
+1316	Stůl vyčištěn!
+1317	Koule: {n} z {total}
+1318	Posílám tvůj pokus na server…
+1319	Započteno: koule {n} · mince +{coins}
+1320	Započteno: koule {n}
+1321	Zobrazit dnešní pořadí
+1322	Stůl vyčištěn! Mince +{n}
+1323	Denní výzva: potopeno {n} z {total} koulí
+1324	1 hráč
+1325	Fénix
+1326	Carrarský mramor
+1327	Dračí šupiny
+1328	Galaxie
+1329	Rubínový trůn
+1330	Zavřít hru teď znamená ji opustit: ztratíš rating navíc a budeš muset čekat na další hru.
+1331	Opustil(a) jsi rozehranou hru: online můžeš znovu hrát za {n} min.
+1332	Rychlé fráze
+1333	Hodně štěstí a zábavy!
+1334	Pěkný šťouch!
+1335	Skvělé safety!
+1336	Smůla!
+1337	Jejda!
+1338	Páni!
+1339	To bylo těsně!
+1340	Nespěchej.
+1341	Promiň!
+1342	Díky!
+1343	Dobře zahráno!
+1344	Dobrá hra!
+1345	Odveta?
+1346	Musím jít, díky za hru!
+1347	Trénuj, zatímco čekáš
+1348	Nová sestava.
+1349	Úroveň {n}! (+{xp} XP)
+1350	+{xp} XP
+1351	Úroveň {n} · {into} / {span} XP do další
+1352	Úroveň {n}
+1353	Ahoj! Viděl jsem spoustu videí, jsem připravený!
+1354	Buď na mě hodný, jo?
+1355	Páni, jak se ti to povedlo?
+1356	Tohle mě pak nauč!
+1357	Uf! Jsem na řadě!
+1358	I ty mineš? Dobré vědět.
+1359	Volná koule! Co s ní mám dělat?
+1360	Vidíš to?! Spadla!
+1361	Štěstí začátečníka se taky počítá!
+1362	Jejda. To byl zkušební šťouch.
+1363	Miř, Leo, miř...
+1364	Promiň! Zase jsem trefil tu špatnou.
+1365	JÁ VYHRÁL? Volám mámě!
+1366	Dobrá hra! Zlepšuju se, ne?
+1367	Sobota, stůl a dobrá společnost. Jdeme hrát!
+1368	Pěkná!
+1369	Tak ty to umíš. Teď budu dávat pozor.
+1370	To se stane i nejlepším.
+1371	Neboj, je to jen hra!
+1372	Díky za dárek!
+1373	Jo! Víkendový talent!
+1374	To mám ale štěstí!
+1375	Hm, kam jsem to mířila?
+1376	Moc povídání, málo míření.
+1377	Jejda, moje chyba!
+1378	To byla zábava! Příští víkend ve stejnou dobu?
+1379	Dobře zahráno! Odveta u limonády?
+1380	Čtyři mantinely, nekonečné možnosti.
+1381	Rovnou? Jak... přímočaré.
+1382	Pěkné, ale od mantinelu by to bylo hezčí.
+1383	Měl(a) jsi použít mantinel.
+1384	Mantinel byl přímo tam a přímo si o to říkal.
+1385	Stolu se to nelíbilo.
+1386	Od mantinelu a dovnitř. Umění!
+1387	Geometrie nikdy nelže.
+1388	Úhel byl správně. Mantinel nesouhlasil.
+1389	Vedle o jeden diamant. Jen o jeden!
+1390	Moc fantazie, málo kontaktu.
+1391	Mistrovské dílo, smím-li to říct.
+1392	Dobře zahráno. Teď to zkus přes dva mantinely.
+1393	Doufám, že ty koule jsou z oceli.
+1394	Jemný dotek, jo? To není můj styl.
+1395	Příště to napal víc!
+1396	Moc jemně! Síla vyřeší všechno.
+1397	HA!
+1398	Teď je stůl můj. Zacpi si uši.
+1399	BUM!
+1400	Tu díru bylo slyšet, co?
+1401	Moc síly? Nic takového neexistuje.
+1402	Díra se pohnula.
+1403	Koule letěla. Stává se. Často.
+1404	Síla zase vítězí! BUM!
+1405	No dobře, jemnost funguje taky. Občas.
+1406	Nespěchej. Mám na to celý den.
+1407	Přijatelné.
+1408	Užij si to, dokud to trvá.
+1409	Trpělivost je ctnost. Zjevně ne tvoje.
+1410	Děkuji.
+1411	Ledabylé.
+1412	Vytrvalost vítězí.
+1413	Jednu po druhé.
+1414	Hm. Stejně ti nic nenechám.
+1415	Záměrně. Asi.
+1416	Nepřijatelné. Z mé strany.
+1417	Jak jsem řekla: trpělivost.
+1418	Prorazil(a) jsi zeď. Jsem ohromená.
+1419	Hraju už od dob, kdy tyhle koule ještě nebyly z plastu.
+1420	Dobrý šťouch. Připomíná mi jednoho chlapíka v roce 78.
+1421	Plynulé. Velmi plynulé.
+1422	Hlavu dolů, mladej.
+1423	Bílá nelže.
+1424	Á, malý dárek. Srdečně děkuji.
+1425	Jako jízda na kole.
+1426	Pořád to umím.
+1427	Oči už nejsou, co bývaly.
+1428	Za mých časů byly díry větší.
+1429	I staří profíci uklouznou.
+1430	Zkušenost, příteli. Zkušenost.
+1431	V téhle hře máš budoucnost.
+1432	Já? Ale, já skoro nehraju...
+1433	Štěstí! Zopakuj to, jestli si troufneš.
+1434	Ó, někdo trénoval.
+1435	Ach, takový kousek! Chudinka.
+1436	Mám ti ukázat, jak na to?
+1437	Děkuju, zlato.
+1438	Jejda, to jsem udělala já?
+1439	To bude štěstí začátečníka. Zase.
+1440	Minula jsem schválně. Ať je to napínavé.
+1441	Jen se rozehrávám.
+1442	Ach jo, já jsem ale nešika. Mrk.
+1443	Říkala jsem, že skoro nehraju. Skoro.
+1444	No dobře, dostal(a) jsi mě. Tentokrát.
+1445	Tření, hybnost, rotace. Začněme.
+1446	Pěkný řez. Tak třicet stupňů, řekl bych.
+1447	Jak z učebnice.
+1448	Podcenil(a) jsi strhávání.
+1449	Zajímavé. Statisticky očekávané.
+1450	Bílá se řídila fyzikálními zákony, ne tvým plánem.
+1451	Jak bylo spočítáno.
+1452	Pružná srážka, elegantní výsledek.
+1453	Chyba v mém měření.
+1454	Upravím model.
+1455	Hm. Nečekaná rotace.
+1456	Čísla byla na mé straně.
+1457	Výsledek mimo mé předpovědi. Výborně.
+1458	Soustředění.
+1459	Čisté.
+1460	Ujde to.
+1461	Půl milimetru.
+1462	Před šťouchem se nadechni.
+1463	Nedbalost.
+1464	Cíl zasažen.
+1465	Přímo do středu díry.
+1466	Hm. Překalibrovávám.
+1467	Tohle se nikdy nestává.
+1468	Nepřijatelné.
+1469	Přesnost vítězí.
+1470	Dobrá muška.
+1471	Vítej u mého stolu. Užij si představení.
+1472	Velmi dobře. Máš to nastudované.
+1473	Potlesk pro vyzyvatele!
+1474	Tlak. Dostane každého.
+1475	Děkuji za stůl.
+1476	Šampion nikdy neodmítá dárek.
+1477	Pochopitelně.
+1478	Takhle se to dělá.
+1479	I šampioni dají publiku šanci.
+1480	Něco ti nechám, ze zdvořilosti.
+1481	Vzácný pohled. Zapamatuj si ho.
+1482	Titul zůstává u mě. Dobrá hra.
+1483	Pozoruhodné. Získal(a) sis můj respekt.
+1484	Kalibrace dokončena. Hodně štěstí, člověče.
+1485	Šťouch zaznamenán: úspěšný.
+1486	Pravděpodobnost mého vítězství: roste.
+1487	Zjištěn faul. Zpracovávám trest.
+1488	Provedeno podle plánu.
+1489	Chyba. Přepočítávám.
+1490	Porucha. Prosím ignorujte.
+1491	Hra dokončena. Děkuji za hru.
+1492	Porážka potvrzena. Dobře zahráno.
+1493	Cvičení
+1494	Cvičení s hvězdami
+1495	Hvězdy {s} / {max}
+1496	Hvězdy za {a}, {b} a {c}
+1497	Tvůj nejlepší: {n} z {total}
+1498	Zatím nezkoušeno.
+1499	Začít cvičení
+1500	Přihlas se a hvězdy se ti uloží do účtu.

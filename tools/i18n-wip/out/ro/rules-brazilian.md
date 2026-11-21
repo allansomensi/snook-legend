@@ -43,7 +43,7 @@ Orice fault trece tura la adversar, iar majoritatea îi dau și bile: bilele cu 
 Dacă nu atingi niciuna dintre bilele tale: bila cu numărul cel mai mic a adversarului iese de pe masă (contează pentru el) și pierzi tura. Dacă lovești mai întâi bila 8 înainte să-ți termini grupa, costul e același. Dacă ratezi și bagi și bila albă: cele două bile cu numerele cele mai mici ale adversarului.
 
 ### Lovirea unei bile a adversarului
-Dacă lovești mai întâi, direct, una dintre bilele adversarului: cele două bile cu numerele cele mai mici ale lui ies de pe masă și pierzi tura. Dacă bila lovită intră, rămâne în buzunar, iar cele două ies oricum. Dacă bila albă a atins mai întâi o manta: o bilă (nu contează manta de care era lipită). Dacă lovești direct o bilă a adversarului și bagi și bila albă: cele trei bile cu numerele cele mai mici ale lui.
+Dacă lovești mai întâi, direct, una dintre bilele adversarului: cele două bile cu numerele cele mai mici ale lui ies de pe masă și pierzi tura. Dacă bila lovită intră, rămâne în buzunar, iar cele două ies oricum. Dacă bila albă a atins mai întâi o manta: o bilă (nu contează mantaua de care era lipită). Dacă lovești direct o bilă a adversarului și bagi și bila albă: cele trei bile cu numerele cele mai mici ale lui.
 
 ### Bila albă în buzunar
 O bilă pentru adversar, iar bila albă revine pe punctul de start, de unde se joacă spargerea (sau imediat în spatele unei bile aflate acolo). Nu există bila în mână: adversarul joacă de acolo. Bila albă e în mână doar la spargere; după orice alt fault se joacă de unde s-a oprit.

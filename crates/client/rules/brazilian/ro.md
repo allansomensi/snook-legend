@@ -1,66 +1,66 @@
-# Snook Legend: the rules of eight-ball, shown in the game.
-# "## <part>" starts a part, "### <title>" a rule, and the lines after it
-# are its text. The same parts and rules, in the same order, in every
-# language.
+# Snook Legend: regulile jocului cu bila 8, afișate în joc.
+# "## <parte>" începe o parte, "### <titlu>" o regulă, iar rândurile de după
+# sunt textul ei. Aceleași părți și reguli, în aceeași ordine, în fiecare
+# limbă.
 
-## The game
+## Jocul
 
-### The Brazilian rules
-The eight-ball of Brazil's bars and pool halls, with penalty balls. Snook Legend has the official (WPA) rules too: choose the rules of your games in the main menu. If you know the official rules, read the fouls and the 8-ball below, because they differ a lot.
+### Regulile braziliene
+Jocul cu bila 8 din barurile și sălile de biliard din Brazilia, cu bile de penalizare. Snook Legend are și regulile oficiale (WPA): alege regulile partidelor tale din meniul principal. Dacă știi regulile oficiale, citește mai jos faulturile și bila 8, pentru că diferă mult.
 
-### The aim
-Each player has a group of seven balls: solids (1 to 7) or stripes (9 to 15). Pocket all of yours and then the 8-ball, before your opponent does.
+### Scopul
+Fiecare jucător are o grupă de șapte bile: pline (de la 1 la 7) sau dungate (de la 9 la 15). Bagă-le pe toate ale tale și apoi bila 8, înaintea adversarului.
 
-### Your turn
-You keep shooting as long as you pocket a ball of your group without a foul. If you miss, foul or pocket one of your opponent's balls, the turn passes.
+### Tura ta
+Continui să joci cât timp bagi o bilă din grupa ta fără fault. Dacă ratezi, faci fault sau bagi una dintre bilele adversarului, tura trece la el.
 
-## The break
+## Spargerea
 
-### The break shot
-On the break, and only then, the cue ball is in hand: you may place it anywhere behind the head string, even against a cushion, but never in a pocket's mouth (a break handed over after the cue ball was lost is played from the head spot: see below). No ball has to go down or reach a cushion, but the cue ball must hit a ball (see below). The break alternates: in a series of games each player breaks in turn, one break each.
+### Lovitura de spargere
+La spargere, și numai atunci, bila albă e în mână: o poți pune oriunde în spatele liniei de start, chiar lipită de o manta, dar niciodată la gura unui buzunar (o spargere predată după ce bila albă a fost pierdută se joacă de pe punctul de start: vezi mai jos). Nu e obligatoriu ca vreo bilă să intre sau să atingă o manta, dar bila albă trebuie să lovească o bilă (vezi mai jos). Spargerea alternează: într-o serie de partide, fiecare jucător sparge pe rând, câte o spargere fiecare.
 
-### The 8-ball on the break
-Pocketing only the 8 on the break wins the game on the spot. Pocketing the 8 together with any other ball (the cue ball or any other) loses the game. If the 8 leaves the table on the break, it goes back on the table where the front ball of the rack stood (or as near as there is room) and you lose the turn: it's a foul.
+### Bila 8 la spargere
+Dacă la spargere bagi doar bila 8, câștigi partida pe loc. Dacă bagi bila 8 împreună cu orice altă bilă (bila albă sau oricare alta), pierzi partida. Dacă bila 8 iese de pe masă la spargere, e repusă pe masă unde stătea bila din vârful triunghiului (sau cât mai aproape, unde e loc) și pierzi tura: e fault.
 
-### Only the cue ball on the break
-If the cue ball goes down or leaves the table on the break and no ball is made, you lose the turn and the break passes to your opponent. The balls stay where they stopped, and they put the cue ball on the head spot and play from there (not in hand): their shot counts as a new break. The 8 is not a ball to go for on it, though: with the balls already scattered, hitting the 8 first is a foul and pocketing it loses the game, as on any other shot (only on the break of the rack does the 8 alone win). The same goes if the cue ball goes down with balls of both groups (a solid and a stripe, in any order): the break passes to your opponent, with the cue ball on the head spot and no penalty ball; the balls made stay down and the table stays open. If one ball (or balls of one group only) goes down along with the cue ball, the first one down still decides the groups, and it's an ordinary foul: your opponent's lowest ball comes off, the cue ball goes back to the head spot and they play from there, without ball in hand.
+### Doar bila albă la spargere
+Dacă bila albă intră în buzunar sau iese de pe masă la spargere și nu intră nicio bilă, pierzi tura, iar spargerea trece la adversar. Bilele rămân unde s-au oprit, iar adversarul pune bila albă pe punctul de start și joacă de acolo (nu din mână): lovitura lui contează ca o nouă spargere. Bila 8 nu e însă o bilă de jucat la ea: cu bilele deja împrăștiate, dacă atinge mai întâi bila 8 e fault, iar dacă o bagă pierde partida, ca la orice altă lovitură (doar la spargerea triunghiului bila 8 singură câștigă). La fel dacă bila albă intră împreună cu bile din ambele grupe (o bilă plină și una dungată, în orice ordine): spargerea trece la adversar, cu bila albă pe punctul de start și fără bilă de penalizare; bilele băgate rămân în buzunar, iar masa rămâne deschisă. Dacă împreună cu bila albă intră o singură bilă (sau bile dintr-o singură grupă), prima bilă intrată tot stabilește grupele și e un fault obișnuit: bila cu numărul cel mai mic a adversarului iese de pe masă, bila albă revine pe punctul de start, iar adversarul joacă de acolo, fără bila în mână.
 
-### A break that hits no ball
-If the break hits no ball, you lose the turn and the break passes to your opponent: the balls are still racked, and they place the cue ball anywhere behind the head string.
+### O spargere care nu atinge nicio bilă
+Dacă spargerea nu atinge nicio bilă, pierzi tura, iar spargerea trece la adversar: bilele sunt încă în triunghi, iar el pune bila albă oriunde în spatele liniei de start.
 
-### After the break
-On the break, the first ball that goes down decides your group, even if the cue ball goes down too (unless balls of both groups go down with the cue ball: see above). If only balls of your group go down, you shoot again. If one of your opponent's goes down too (the 3 and then the 13, say: you take the solids), it stays down, for them, and the turn passes.
+### După spargere
+La spargere, prima bilă care intră îți stabilește grupa, chiar dacă intră și bila albă (în afară de cazul când intră bile din ambele grupe împreună cu bila albă: vezi mai sus). Dacă intră doar bile din grupa ta, joci din nou. Dacă intră și una de-a adversarului (de exemplu bila 3 și apoi bila 13: tu iei plinele), ea rămâne în buzunar, în favoarea lui, iar tura trece la el.
 
-### Open table
-Until the groups are decided the table is open: you may hit any ball first except the 8. The first ball you pocket on a shot without a foul gives you its group, and your opponent the other. On an open table there is no opponent's ball yet: a foul costs only the turn. If no ball of either group is left on an open table, both players are on the 8, and any foul that would give a ball loses the game (the 8 pays).
+### Masă deschisă
+Până se stabilesc grupele, masa e deschisă: poți lovi mai întâi orice bilă, în afară de bila 8. Prima bilă pe care o bagi la o lovitură fără fault îți dă grupa ei, iar adversarului cealaltă. Pe masă deschisă nu există încă bile ale adversarului: un fault te costă doar tura. Dacă pe o masă deschisă nu mai rămâne nicio bilă din vreo grupă, ambii jucători sunt la bila 8, iar orice fault care ar da o bilă pierde partida (plătește bila 8).
 
-## Fouls and penalties
+## Faulturi și penalizări
 
-### Penalty balls
-Every foul passes the turn, and most of them give your opponent balls: the lowest numbers of their group still on the table come off it, as if they had pocketed them. Penalties add up. If your opponent has fewer balls left than the foul gives them, the 8 pays the rest and you lose the game: two penalty balls with only one on the table, that one and the 8 come off. Once they are on the 8 (no balls of their group left), any foul that gives a ball loses: missing every ball, pocketing the cue ball, knocking it off the table or hitting the wrong ball first. The same goes when only the 8 is left on the table. If you are on the 8 and your opponent still has balls, a foul gives them balls as usual (a miss, their lowest one) and passes the turn; you lose only if it gives more than they have.
+### Bilele de penalizare
+Orice fault trece tura la adversar, iar majoritatea îi dau și bile: bilele cu numerele cele mai mici din grupa lui aflate încă pe masă ies de pe ea, ca și cum le-ar fi băgat el. Penalizările se adună. Dacă adversarul are mai puține bile rămase decât îi dă faultul, bila 8 plătește restul și pierzi partida: două bile de penalizare când pe masă e doar una, ies de pe masă aceea și bila 8. Odată ce adversarul e la bila 8 (nu mai are bile din grupa lui), orice fault care dă o bilă pierde partida: să nu atingi nicio bilă, să bagi bila albă, s-o scoți de pe masă sau să lovești mai întâi bila greșită. La fel când pe masă a rămas doar bila 8. Dacă tu ești la bila 8 și adversarul mai are bile, un fault îi dă bile ca de obicei (la o ratare, pe cea cu numărul cel mai mic) și trece tura la el; pierzi doar dacă îi dă mai multe decât are.
 
-### Missing the ball
-Hitting none of your balls: your opponent's lowest ball on the table comes off (it counts for them), and you lose the turn. Hitting the 8 first before your group is cleared costs the same. Missing and pocketing the cue ball as well: your opponent's two lowest balls.
+### Ratarea bilei
+Dacă nu atingi niciuna dintre bilele tale: bila cu numărul cel mai mic a adversarului iese de pe masă (contează pentru el) și pierzi tura. Dacă lovești mai întâi bila 8 înainte să-ți termini grupa, costul e același. Dacă ratezi și bagi și bila albă: cele două bile cu numerele cele mai mici ale adversarului.
 
-### Hitting your opponent's ball
-Hitting one of your opponent's balls first, directly: their two lowest balls come off, and you lose the turn. If the ball you hit goes down, it stays down and the two come off all the same. If the cue ball went to a cushion first: one ball (not the cushion it lay against). Hitting your opponent's ball directly and pocketing the cue ball as well: their three lowest.
+### Lovirea unei bile a adversarului
+Dacă lovești mai întâi, direct, una dintre bilele adversarului: cele două bile cu numerele cele mai mici ale lui ies de pe masă și pierzi tura. Dacă bila lovită intră, rămâne în buzunar, iar cele două ies oricum. Dacă bila albă a atins mai întâi o manta: o bilă (nu contează mantaua de care era lipită). Dacă lovești direct o bilă a adversarului și bagi și bila albă: cele trei bile cu numerele cele mai mici ale lui.
 
-### Pocketing the cue ball
-One ball to your opponent, and the cue ball goes back to the head spot, where the break is played from (or right behind a ball lying there). There is no ball in hand: your opponent plays from there. The cue ball is in hand on the break only; after any other foul it is played from where it stopped.
+### Bila albă în buzunar
+O bilă pentru adversar, iar bila albă revine pe punctul de start, de unde se joacă spargerea (sau imediat în spatele unei bile aflate acolo). Nu există bila în mână: adversarul joacă de acolo. Bila albă e în mână doar la spargere; după orice alt fault se joacă de unde s-a oprit.
 
-### Balls off the table
-The cue ball off the table costs the same as pocketing it: your opponent's lowest ball comes off (it counts for them), you lose the turn and the cue ball goes back to the head spot. A ball of your group off the table comes back to the table, and you lose the turn. One of your opponent's balls off the table is out (it counts for them), and you lose the turn.
+### Bile scoase de pe masă
+Bila albă scoasă de pe masă costă la fel ca bila albă băgată: bila cu numărul cel mai mic a adversarului iese de pe masă (contează pentru el), pierzi tura, iar bila albă revine pe punctul de start. O bilă din grupa ta scoasă de pe masă revine pe masă și pierzi tura. O bilă a adversarului scoasă de pe masă rămâne afară (contează pentru el) și pierzi tura.
 
-### Your opponent's ball
-Pocketing one of your opponent's balls passes the turn, even if one of yours went down too. It stays down, for them.
+### Bila adversarului
+Dacă bagi una dintre bilele adversarului, tura trece la el, chiar dacă a intrat și una de-a ta. Bila rămâne în buzunar, în favoarea lui.
 
-### The shot clock
-When a game has a shot clock and it runs out, it is a foul: the cue ball goes back to the head spot (not in hand), your opponent gets a ball (their lowest on the table; if they are on the 8 already, the 8 pays and you lose) and the turn passes. While the table is open, no ball is owed (unless only the 8 is left: then the clock loses the game). On the break, the break passes to your opponent, with the cue ball on the head spot (not in hand) and no ball owed.
+### Timpul pe lovitură
+Când o partidă are timp pe lovitură și acesta expiră, e fault: bila albă revine pe punctul de start (nu în mână), adversarul primește o bilă (cea cu numărul cel mai mic de pe masă; dacă e deja la bila 8, plătește bila 8 și pierzi) și tura trece la el. Cât timp masa e deschisă, nu se datorează nicio bilă (în afară de cazul când a rămas doar bila 8: atunci expirarea timpului pierde partida). La spargere, spargerea trece la adversar, cu bila albă pe punctul de start (nu în mână) și fără nicio bilă datorată.
 
-## The 8-ball
+## Bila 8
 
-### Calling the pocket
-When your group is cleared, choose a pocket for the 8 before you shoot. Pocket only the 8 there, without a foul, and you win. The pocket you call stands from your first shot on the 8 to the end of the game, even if that shot is a safety or a miss: you can't change it.
+### Anunțarea buzunarului
+Când ți-ai terminat grupa, alege un buzunar pentru bila 8 înainte să lovești. Bagă acolo doar bila 8, fără fault, și câștigi. Buzunarul anunțat rămâne valabil de la prima ta lovitură la bila 8 până la sfârșitul partidei, chiar dacă acea lovitură e una de siguranță sau o ratare: nu-l mai poți schimba.
 
-### Losing on the 8
-You lose if you pocket the 8 before your group is cleared, in a pocket other than the one you called, together with the cue ball or one of your opponent's balls, on a foul, or if you knock it off the table after the break. You also lose with a foul that gives more balls than your opponent has: the 8 pays the rest (see penalty balls).
+### Pierderea la bila 8
+Pierzi dacă bagi bila 8 înainte să-ți termini grupa, în alt buzunar decât cel anunțat, împreună cu bila albă sau cu una dintre bilele adversarului, cu fault, ori dacă o scoți de pe masă după spargere. Pierzi și cu un fault care dă mai multe bile decât are adversarul: bila 8 plătește restul (vezi bilele de penalizare).

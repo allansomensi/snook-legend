@@ -1,66 +1,66 @@
-# Snook Legend: the official rules of eight-ball (the World Pool-Billiard
-# Association's Rules of Play), shown in the game.
-# "## <part>" starts a part, "### <title>" a rule, and the lines after it
-# are its text. The same parts and rules, in the same order, in every
-# language.
+# Snook Legend: regulile oficiale ale jocului cu bila 8 (Regulile de joc ale
+# World Pool-Billiard Association), afișate în joc.
+# "## <parte>" începe o parte, "### <titlu>" o regulă, iar rândurile de după
+# sunt textul ei. Aceleași părți și reguli, în aceeași ordine, în fiecare
+# limbă.
 
-## The game
+## Jocul
 
-### The official rules (WPA)
-The eight-ball of international tournaments, as the World Pool-Billiard Association plays it. Snook Legend has the Brazilian rules too: choose the rules of your games in the main menu. If you play the Brazilian rules, read the break, the calls and the fouls below, because they differ a lot.
+### Regulile oficiale (WPA)
+Jocul cu bila 8 al turneelor internaționale, așa cum îl joacă World Pool-Billiard Association. Snook Legend are și regulile braziliene: alege regulile partidelor tale din meniul principal. Dacă joci după regulile braziliene, citește mai jos spargerea, anunțurile și faulturile, pentru că diferă mult.
 
-### The aim
-Each player has a group of seven balls: solids (1 to 7) or stripes (9 to 15). Pocket all of yours and then the 8-ball, in the pocket you call, before your opponent does.
+### Scopul
+Fiecare jucător are o grupă de șapte bile: pline (de la 1 la 7) sau dungate (de la 9 la 15). Bagă-le pe toate ale tale și apoi bila 8, în buzunarul pe care îl anunți, înaintea adversarului.
 
-### Your turn
-You keep shooting while you make a ball of your group in the pocket you called, on a shot without a foul. Otherwise the turn passes, and the balls that went in stay down.
+### Tura ta
+Continui să joci cât timp bagi o bilă din grupa ta în buzunarul anunțat, la o lovitură fără fault. Altfel tura trece la adversar, iar bilele care au intrat rămân în buzunar.
 
-## The break
+## Spargerea
 
-### The break shot
-The cue ball is in your hand: place it anywhere behind the head string. Nothing is called on the break. For it to be legal you must make a ball or drive at least four object balls to a cushion.
+### Lovitura de spargere
+Bila albă e în mâna ta: pune-o oriunde în spatele liniei de start. La spargere nu se anunță nimic. Ca spargerea să fie regulamentară, trebuie să bagi o bilă sau să trimiți cel puțin patru bile la mante.
 
-### An illegal break
-If no ball goes in and fewer than four reach a cushion, your opponent chooses: play the table as it lies, have the balls racked and break themselves, or have you break again.
+### O spargere neregulamentară
+Dacă nu intră nicio bilă și mai puțin de patru ajung la o manta, adversarul alege: joacă masa așa cum e, cere ca bilele să fie așezate din nou în triunghi și sparge el sau te pune să spargi din nou.
 
-### After the break
-A ball made on a legal break keeps the table, but the table stays open: the break never decides the groups. If the cue ball goes in or leaves the table on a legal break, your opponent has it in hand behind the head string.
+### După spargere
+O bilă băgată la o spargere regulamentară îți păstrează masa, dar masa rămâne deschisă: spargerea nu stabilește niciodată grupele. Dacă bila albă intră în buzunar sau iese de pe masă la o spargere regulamentară, adversarul o are în mână în spatele liniei de start.
 
-### The 8-ball on the break
-Pocketing the 8 on the break neither wins nor loses: it comes back to the foot spot, and you play on or have the balls racked and break again. If you also fouled, your opponent chooses: the cue ball in hand behind the head string, or the balls racked again and they break.
+### Bila 8 la spargere
+Dacă bagi bila 8 la spargere, nici nu câștigi, nici nu pierzi: ea revine pe punctul din fund, iar tu joci mai departe sau ceri ca bilele să fie așezate din nou în triunghi și spargi din nou. Dacă ai făcut și fault, adversarul alege: bila albă în mână în spatele liniei de start sau bilele așezate din nou în triunghi și sparge el.
 
-### A ball off the table on the break
-It is a foul, and the ball stays off (only the 8 comes back). Your opponent plays the table as it lies or takes the cue ball in hand behind the head string. If the break was illegal too, they may also have the balls racked again, as above.
+### O bilă scoasă de pe masă la spargere
+E fault, iar bila rămâne afară (doar bila 8 revine). Adversarul joacă masa așa cum e sau ia bila albă în mână în spatele liniei de start. Dacă spargerea a fost și neregulamentară, poate cere și ca bilele să fie așezate din nou în triunghi, ca mai sus.
 
-## Calling and playing
+## Anunțul și jocul
 
-### Open table
-While the groups are not decided, the table is open: you may hit any ball first except the 8. The group of the ball you make in the called pocket becomes yours. If one group is already off the table, you may play the 8.
+### Masă deschisă
+Cât timp grupele nu sunt stabilite, masa e deschisă: poți lovi mai întâi orice bilă, în afară de bila 8. Grupa bilei pe care o bagi în buzunarul anunțat devine a ta. Dacă o grupă a ieșit deja în întregime de pe masă, poți juca bila 8.
 
-### Calling your shot
-Every shot except the break is called. In the game you call a pocket: following your aim, it calls the pocket the ball you hit is heading for (the ring on the pocket). Click another pocket to call it, or play a safety. A ball of your group (or the 8, when you are on it) made in the called pocket keeps the table, also off a cushion or another ball.
+### Anunțarea loviturii
+Fiecare lovitură, în afară de spargere, se anunță. În joc anunți un buzunar: urmându-ți țintirea, se anunță buzunarul spre care se îndreaptă bila lovită (inelul de pe buzunar). Dă clic pe alt buzunar ca să-l anunți sau joacă o lovitură de siguranță. O bilă din grupa ta (sau bila 8, când ești la ea) băgată în buzunarul anunțat îți păstrează masa, chiar și din manta sau dintr-o altă bilă.
 
-### Safety
-A shot with no pocket called is a safety: whatever goes in stays down, and the turn passes to your opponent.
+### Lovitura de siguranță
+O lovitură fără niciun buzunar anunțat e o lovitură de siguranță: ce intră rămâne în buzunar, iar tura trece la adversar.
 
-### The cue ball behind the head string
-With the cue ball in hand behind the head string, you can't hit a ball that also lies behind it unless the cue ball crosses the head string first. If every ball you may hit lies behind it, the one nearest to the head string comes back to the foot spot.
+### Bila albă în spatele liniei de start
+Cu bila albă în mână în spatele liniei de start, nu poți lovi o bilă aflată tot în spatele ei decât dacă bila albă trece mai întâi linia de start. Dacă toate bilele pe care le poți lovi sunt în spatele ei, cea mai apropiată de linia de start revine pe punctul din fund.
 
-## Fouls
+## Faulturi
 
-### Ball in hand
-After any foul, your opponent has the cue ball in hand: they place it anywhere on the table. No ball comes off the table as a penalty.
+### Bila în mână
+După orice fault, adversarul are bila albă în mână: o pune oriunde pe masă. Nicio bilă nu iese de pe masă ca penalizare.
 
-### What is a foul
-The cue ball in a pocket or off the table; hitting no ball, or the wrong ball first (one of your opponent's, or the 8 too soon); after the contact, no ball made and no ball reaching a cushion (a ball lying against a cushion only reaches it by leaving it and coming back); an object ball off the table (it stays off).
+### Ce e un fault
+Bila albă în buzunar sau scoasă de pe masă; să nu atingi nicio bilă sau să atingi mai întâi bila greșită (una a adversarului sau bila 8 prea devreme); după contact, nicio bilă băgată și nicio bilă care să atingă o manta (o bilă lipită de manta o atinge doar dacă se desprinde de ea și revine); o bilă scoasă de pe masă (rămâne afară).
 
-### The shot clock
-When the game has a shot clock and it runs out, it is a foul: your opponent has the cue ball in hand. A choice after the break that isn't made in time takes its first option.
+### Timpul pe lovitură
+Când partida are timp pe lovitură și acesta expiră, e fault: adversarul are bila albă în mână. O alegere de după spargere care nu e făcută la timp ia prima opțiune.
 
-## The 8-ball
+## Bila 8
 
-### Winning
-Once your group is off the table, pocket the 8 in the pocket you called, on a shot without a foul.
+### Victoria
+După ce grupa ta a ieșit de pe masă, bagă bila 8 în buzunarul anunțat, la o lovitură fără fault.
 
-### Losing on the 8
-You lose by pocketing the 8 on a foul, before your group is off the table or in a pocket you didn't call, and by knocking the 8 off the table. None of this applies to the break.
+### Pierderea la bila 8
+Pierzi dacă bagi bila 8 cu fault, înainte ca grupa ta să fi ieșit de pe masă sau într-un buzunar pe care nu l-ai anunțat, și dacă scoți bila 8 de pe masă. Nimic din toate acestea nu se aplică la spargere.

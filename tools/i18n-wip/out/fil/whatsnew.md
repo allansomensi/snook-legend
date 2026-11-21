@@ -96,3 +96,211 @@ Maglaro ng torneo laban sa computer hanggang matapos at pumasok sa unang tatlo p
 
 ### Camera na gaya ng sa mesa
 Sa showroom ng shop, umiikot ang camera gamit ang kanang button, gaya sa mesa, nang swabe, at hindi kailanman bumababa sa ilalim ng sahig o ng mesa. Inilalapit ka ng scroll wheel.
+
+## 0.7.1
+
+### Ang unang bola ang nagtatakda
+Sa break, ang unang bolang pumasok ang magtatakda ng grupo mo, kahit may pumasok pang iba pagkatapos nito: ang 3 at saka ang 13, at sa iyo ang solids. Sa kalaban mo ang 13, kaya mananatili ito sa loob para sa kanya at lilipat ang turn.
+
+### Ball in hand sa break lang
+Sa break lang ball in hand ang cue ball, sa likod ng head string. Kapag pumasok ito o lumabas sa mesa, babalik ito sa head spot (sa likod mismo ng bolang nakapuwesto roon), nang walang ball in hand, kasama ang karaniwang parusa. Hindi na nire-rack ulit ang break na cue ball lang ang pumasok: doon na itutuloy ng kalaban mo ang laro.
+
+### Sino ang online
+Habang kalaban mo ang computer (sa torneo, sa tour o sa drill), ipinapakita ng isang maliit na sulok kung ilan ang online at sinasabi kapag may dumating: oras na para imbitahan sila. Lumalabas sa ibabaw ng laro ang mga imbitasyon.
+
+### Ang showroom ng shop
+Binubuksan ng "Tingnan nang malapitan" ang isang showroom: ang item lang sa isang madilim na studio, umiikot. I-drag para paikutin ito, gamitin ang scroll wheel para lumapit at i-pause ito kahit kailan. May mga nakahandang view para sa tip at joint ng cue o sa mga pocket ng mesa; i-click ang isang bola para makita itong lumutang nang malapitan, at tingnan ang mga mesa at tela sa kahit anong hall.
+
+### Talagang kayumanggi
+Kayumanggi na ngayon ang 7 at ang 15, hindi na madilim na pula na madaling mapagkamalang 3 at 11. Inayos din ang mga set sa shop kung saan magkamukha sila.
+
+### Focus mode
+Settings → Laro → "Focus mode": walang imbitasyon habang naglalaro ka. Sinasabihan ang sinumang mag-imbita sa iyo na naka-focus mode ka. Kusa itong namamatay.
+
+## 0.7.0
+
+### Iisang uri sa break
+Bagong house rule: kapag pumasok sa break ang mga bola ng dalawang grupo (halimbawa, ang 3 at ang 14), lilipat ang turn at open table pa rin. Kapag mga bola lang ng iisang uri, titira ka ulit, gaya ng dati. Ipinapaliwanag ito ng patakaran sa menu, inayos ang ilang bihirang kaso, at medyo gumaling ang laro ng computer.
+
+### Bilang ang bawat bola
+Lumalabas sa tabi ng larawan mo ang mga bolang sunod-sunod mong naipasok, may maliit na apoy, at pinapalakpakan ang tatlo, lima at pitong sunod-sunod (at ang mesang inubos sa iisang turn). Tumutunog ang huling mga segundo ng orasan, may chime kapag bumalik ang turn mo online, at umaakyat ang bilang ng rating sa pagtatapos ng laro.
+
+### Mga event
+Paminsan-minsan, may mga event ang staff: isang weekend ng dobleng (o tripleng) experience, dobleng coins mula sa mga laro, o espesyal na torneong inoorganisa ng server, minsan may dagdag na premyo mula sa bahay bukod sa mga entry fee. Ipinapakita ng main menu at ng lounge kung ano ang meron at ano ang darating.
+
+### Diretso sa susunod
+Pagkatapos ng panalo sa tour, dadalhin ka agad ng "Susunod" sa susunod na kalaban; pagkatapos ng drill, "Subukan ulit". Mapapanood ulit ang tirang nagpasya mula sa panel sa dulo, at itinuturo ng unang laro kung saan uumasinta, paano itakda ang lakas at tumira.
+
+### Ang head string, kung gusto mo
+Pinapanatili ng Settings → Laro → "Laging ipakita ang head string" sa mesa ang linya kung saan tinitira ang break. Off sa default: lumalabas lang ito habang inilalagay mo ang cue ball sa likod nito.
+
+### Patas na gantimpala, mas malambot na liwanag
+Inihahanda na ngayon ng server ang final ng tour at ang mga drill na may ranking, kaya pare-pareho ang paraan ng pagkuha ng lahat sa cue at mga mesa nila (laruin ang mga ito nang naka-sign in). Hindi na isinasara ng naputol na koneksiyon ang laro, hindi kailanman pinapalitan ang laro laban sa computer nang hindi nagtatanong, at malambot na ang pagbagsak ng liwanag sa ilalim ng mga lampara, walang matigas na gilid.
+
+## 0.6.2
+
+### Mga liga at level sa iisang page
+Sa profile, ipinapakita ng tab na "Mga liga at level" ang bawat liga, mula sa anong rating at ano ang ibinabayad nito, at ang bawat level na may kasamang item. Nagbabayad na ngayon ng coins ang pag-abot sa isang liga sa unang beses at, mula Bihasa pataas, ng sariling item ng liga.
+
+### Mas malinis na profile
+Sa kaliwa, ang mahalaga lang: ang level mo, ang susunod na premyo, at ang mga achievement at reaksyong napanalunan na. May sariling tab ang bawat medalya at reaksyon, at walang lumalampas sa screen.
+
+### Ang view mula sa itaas gaya ng dati, may bilog na bola
+Bumalik ang lalim at karaniwang liwanag ng mesa, at hindi na tumatalon ang camera kapag umalis sa view mula sa itaas.
+
+## 0.6.1
+
+### View mula sa itaas nang walang distortion
+Tinitingnan na ngayon ang mesa mula sa mataas, halos walang perspective: bilog pa rin ang mga bola hanggang sa mga sulok, at laging magkakahanay ang cue, ang aiming line at ang ghost ball. Mas malambot ang liwanag sa mga bola, kaya kita ang numero.
+
+### Torneo at tour na seryoso
+Sa torneo laban sa computer, minsan lang binibilang ang isang laro: hindi ito nabubura kapag umalis sa gitna (itinutuloy ito mula sa kung saan ito naiwan) at walang rematch. Gintong medalya ang para sa kampeon. At mahirap ang tour: buong husay na naglalaro ang bawat kalaban.
+
+### Mga bagong achievement, larawan at tunog
+Bokya, Golden break at mga anibersaryo ng account. Mga mukhang parang tao at labindalawang profile picture na hindi mukha (ang 8-ball, isang tropeo, isang korona…). Mga bagong tunog para sa mga bola, cue, cushion at pocket.
+
+### Mga liga, level na nagbabayad at kakaunting coins
+Ipinapakita ang ibang manlalaro ayon sa liga nila (nasa profile at sa ranking ang rating). Nagbabayad ng coins ang bawat level ng account at may sariling item ang level 5 hanggang 50, pero mahaba ang pag-akyat. Mas kakaunti ang coins: matagal bago makuha ang lahat sa shop.
+
+## 0.6.0
+
+### Patakarang Brazilian, may mga penalty ball
+Nilalaro na ngayon ng laro ang rehiyonal na patakarang Brazilian ng 8-ball, ang sa mga bar at bilyaran (hindi ang opisyal na patakaran ng torneo). Inililipat ng foul ang turn at inaalis sa mesa ang mga pinakamababang bola ng kalaban mo, ang naipasok na cue ball lang ang nagbibigay ng ball in hand, at panalo ang 8 nang mag-isa sa break. Nasa menu ang buong patakaran.
+
+### Mas mabibigat na bola
+Mas pinipigilan ng tela ang bola at hindi na kasinlakas ang break: hindi na nagkakalat ang mga bola sa buong mesa.
+
+### Mga torneo laban sa computer at mas maraming drill
+Maglaro ng knockout ng labing-anim o arena sa puntos laban sa labinlimang kalaban. At may walong bagong drill, labinlima lahat.
+
+### Pag-asinta at ang cue
+Naitatakda ang elevation ng cue sa pag-drag gamit ang mouse, nakatutok ang aiming line sa gitna ng ghost ball, ipinapakita ng malalabong arrow kapag puwedeng ilipat ang cue ball, at puwedeng patayin ang mga anino.
+
+## 0.5.1
+
+### Mas malinis na bola
+Wala na ang maputlang bilog sa ibabaw ng bawat bola: iniilawan ang bola bilang iisang bilog na bagay at ipinapakita ang lampara bilang iisang malinis na tuldok. Mas maganda na rin ang castings, mga alpombra at ang kalidad na Mababa.
+
+### Walang alaala ang power bar
+Wala nang marka para sa huli mong stroke, at nagsisimula sa gitna ng bar ang bawat turn: bahagi ng laro ang pagtantiya ng lakas.
+
+### Walang nakaharang sa mesa
+Nasa itaas na bar na ngayon kung kaninong turn, katabi ng score panel, kaya laging kita ang gitnang pocket. Makinis ang mga aiming line, at buo ang mga bilog sa paligid ng mga pocket.
+
+## 0.5.0
+
+### Physics ng mesang pantorneo
+Kasimbigat ng sa totoong mesa ang mga bola: umaabot ang power bar hanggang sa malakas na stroke (ang break lang ang gumagamit ng buong lakas), mas kaunti ang ibinabalik ng cushion habang mas malakas ang tama, at nahuhulog sa pocket ang naipasok na bola sa bilis na dala nito.
+
+### Opisyal na mesang pantorneo
+Ang mesa ay ang regulation na 8-foot, eksakto ang sukat: mga bola, sulok at gitnang pocket na may opisyal na bibig at anggulo. Malalim na berde ang tela sa ilalim ng mga lampara at kumikinang ang mga bola na parang pinakintab, malinaw ang mga numero.
+
+### Mas tapat na gabay, o wala
+Humihinto na ngayon ang ghost ball kung saan talaga hihinto ang cue ball, kasama ang mga bibig ng pocket. At may bagong pagpipilian: maglaro nang walang kahit anong aiming guide.
+
+## 0.4.0
+
+### Bagong pangalan: Snook Legend
+Snook Legend na ngayon ang pangalan ng laro. Nandito pa rin ang account, coins, item, settings at progreso mo, gaya ng dati.
+
+### 8-foot na mesa, bukas na gitnang pocket
+Mas maliit na mesa (8 feet) at mga gitnang pocket na mapagpatawad sa bolang wala sa gitna o pumapasok nang pahilis. Mas malayang gumulong ang mga bola.
+
+### Bagong patakaran: ang bola ng kalaban
+Inililipat ang turn kapag naipasok mo ang bola ng kalaban mo, kahit may pumasok ding bola mo. Hindi ito foul: walang ball in hand.
+
+### Mas madaling makita
+Pantay ang ilaw sa tela, may malambot na kinang ang mga bola para mabasa ang mga numero, mas magaan ang mga anino, at walang bahagi ng hall na nakaharang sa view mula sa itaas. Litaw sa mga score card kung kaninong turn.
+
+### Labinlimang kalaban
+Sumali sina Tito, Inês, Diego, Amara at Yuri sa mga kalabang computer, bawat isa may sariling istilo at boses. May labinlimang stage na ngayon ang Tour; naitabi ang mga panalo mo hanggang ngayon.
+
+### Mas tahimik na kalaban
+Pinapatay ng Settings → Laro → Mga komento ng kalaban ang mga speech bubble nila.
+
+### Bagong score panel
+Mga larawan at pangalan sa mga kahon, at ang mga bolang naipasok ng bawat manlalaro na gumugulong papunta sa puwesto sa rail nila, ayon sa pagkakasunod ng pagpasok.
+
+### Umasinta gamit ang mata
+Itaas ang cue sa pag-drag nito sa side view ng tira. Wala nang numero sa lakas o sa elevation: tantiyahin ang mga ito gamit ang mata. Mas gusto mo ng patag? Settings → Laro → View mula sa itaas lang.
+
+### Patakaran at mga larawan
+Isang click lang ang mga patakaran ng laro (ang libro sa main menu, o ang Patakaran sa pause menu). Pumili ng isa sa 32 profile picture sa profile mo.
+
+### Ligtas ang mga laro mo
+Ang mga replay at daily game na nagsimula bago ang update na ito ay mananatili sa lumang mesa at patakaran hanggang matapos.
+
+## 0.3.0
+
+### Regulation na 9-foot na mesa
+Pang-torneo na ang laki ng mesa ngayon (100" × 50"), at opisyal ang sukat ng mga bola, pocket, cushion at cue. Mas mabigat ang mga bola at mas kaunti ang talbog, gaya ng totoo.
+
+### Bagong patakaran sa break
+Sa break, ang unang bolang maipasok mo ang magtatakda ng grupo mo: solids o stripes. Ang foul sa break ay nag-iiwan ng open table.
+
+### Mga bagong hall, mesa at cue
+Apat na bagong hall at apat na bagong mesa, at inayos ulit ang bawat luma. Mga premium na cue na walang pagkakahawig. Sa Ultra, mga sahig na nagre-reflect ng hall.
+
+### Daily challenge
+Bagong posisyon araw-araw, pareho para sa lahat, may ranking ng araw: tatlong pagtatangka para magpasok ng pinakamaraming bola na kaya mo.
+
+### Mga drill na may bituin
+Pitong drill sa pagpasok, spin, bank at paglusot sa snooker, hanggang tatlong bituin bawat isa, may ranking at challenge rating na nagpapakita ng level mo.
+
+### Level ng account
+Kumita ng experience sa bawat laro, panalo man o talo, at sa mga drill, daily challenge at achievement. Lumalabas ang level mo sa profile mo.
+
+### Ang Tour
+Tour na ngayon ang dating ladder: sampung stage, tig-isang kalaban. May mga bagong portrait ang mga kalaban at nagsasalita sila habang naglalaro.
+
+### Patas na laro
+Mas mabigat ang parusa sa pag-alis sa laro kaysa sa pagkatalo. Para lang sa malayang laro laban sa computer at practice ang buong aiming guide: hindi kailanman online, sa Tour, sa daily challenge o sa mga drill.
+
+### Ang profile mo
+Isang estante ng tropeo at statistics para sa bawat cue: mga laro, panalo at bolang naipasok gamit ito. Mapapalitan mo na ang username mo hanggang tatlong beses.
+
+### Sa lounge
+Status na "wala muna", mga mabilisang mensahe na isinasalin sa wika ng kalaban mo at isang practice table habang naghahanap ng kalaban.
+
+## 0.2.0
+
+### Sampung kalabang may personalidad
+Piliin kung sino ang kalaban: mula kay Leo, na nag-aaral pa, hanggang kay Marta, na nabubuhay sa safety, at kay Lola, na ibina-bank ang lahat. May sariling istilo, portrait at lakas ang bawat isa.
+
+### Ang ladder
+Talunin isa-isa ang sampung kalaban, hanggang sa huli. Abutin ang tuktok para makuha ang eksklusibong cue na "Ladder king" at isang bagong achievement.
+
+### Kalabanin ang ghost
+Natututunan ng computer ang istilo ng isang totoong manlalaro mula sa mga online na laro niya. Hamunin ang ghost ng kaibigan, o ang sa iyo, mula sa profile o sa screen ng laban sa computer.
+
+### Mga daily game
+Hamunin ang isang tao at tumira kapag may oras ka: may hanggang 3 araw bawat turn ang bawat manlalaro. Sasabihan ka kapag turn mo na, at puwede kang magkaroon ng ilang laro nang sabay-sabay.
+
+### Mga kaibigan at regalo
+Tingnan kung sino ang mga nakalaro mo kamakailan, magsulat ng status sa profile mo at mag-post sa board na "naghahanap ng laro" ng lounge. Dumarating na ngayon ang mga regalo mula sa kaibigan na may abiso, mensahe at "salamat".
+
+### Mga cue, mesa at hall
+Nagkakaroon ng mga band at inlay ang cue mo habang nananalo ka gamit ito. Sa shop, mga themed na mesa at hall: beach bar, industrial loft at English club.
+
+### Sinuri ang laro mo
+Ipinapakita ng bagong tab na Pagsusuri sa profile ang pagpasok mo ayon sa pocket, layo at uri ng tira, kasama ang heat map ng mesa.
+
+### Mga key mo
+Mapapalitan ang bawat shortcut sa Settings → Controls, at sinusunod ng mga hint ng laro ang mga pinili mo.
+
+### Awtomatikong update
+Nada-download sa background ang mga bagong bersiyon at nai-install kapag nag-restart ka, hindi kailanman habang may laro. Sinasabi sa iyo ng window na ito kung ano ang nagbago.
+
+### Sinuring interface
+Sinuri ang bawat screen sa tatlong wika at sa bawat laki ng window. Mga ayos: binubuksan ng Esc ang menu sa mesa, mas maaasahang naipapasok ng computer ang 8 sa ini-call nitong pocket, at hindi na nagiging itim ang view mula sa itaas.
+
+## 0.1.4
+
+### Laro habang naghihintay
+Pagkalipas ng kalahating minuto sa "Maglaro na" nang walang kalaban, puwede mong kalabanin ang computer habang tuloy ang paghahanap.
+
+### Moderation ng chat
+Puwede mong burahin ang sarili mong mga linya sa chat, at puwedeng mag-alis ng pang-aabuso ang mga moderator.
+
+### Mga cue na nakikita
+Nakikita ng mga kalaban ang disenyo ng cue na binili mo, at may sariling reaksyon ang mga VIP member.

@@ -63,4 +63,4 @@ Kapag may shot clock ang laro at naubos ito, foul ito: ball in hand ang cue ball
 Kapag wala na sa mesa ang grupo mo, ipasok ang 8 sa pocket na ini-call mo, sa tirang walang foul.
 
 ### Pagkatalo sa 8
-Talo ka kapag naipasok mo ang 8 sa isang foul, bago maubos sa mesa ang grupo mo o sa pocket na hindi mo ini-call, at kapag napalabas mo ang 8 sa mesa. Wala sa mga ito ang tumatama sa break.
+Talo ka kapag naipasok mo ang 8 sa isang foul, bago maubos sa mesa ang grupo mo o sa pocket na hindi mo ini-call, at kapag napalabas mo ang 8 sa mesa. Wala sa mga ito ang naaangkop sa break.

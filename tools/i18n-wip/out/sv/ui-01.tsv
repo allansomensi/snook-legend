@@ -1,5 +1,5 @@
 1	{name} är på 8-bollen: anmält hål {pocket}
-2	På 8-bollen: hål {pocket}
+2	På 8-bollen: {pocket}
 3	Visa ping
 4	Din anslutnings fördröjning i onlinepartier.
 5	Reaktioner
@@ -74,8 +74,8 @@
 74	Välkommen till VIP!
 75	Ta det lite lugnare.
 76	Det kan du inte göra.
-77	Det finns för många anteckningar just nu. Försök igen om några minuter.
-78	En moderator tog bort din anteckning.
+77	Det finns för många lappar just nu. Försök igen om några minuter.
+78	En moderator tog ner din lapp.
 79	En moderator rensade ditt statusmeddelande.
 80	Statusmeddelandet rensat.
 81	VIP
@@ -112,7 +112,7 @@
 112	Du kan bara titta på dina vänner.
 113	Du kan inte titta på det här partiet.
 114	{n} poäng till {tier}
-115	Högsta nivån
+115	Högsta ligan
 116	Reaktioner {n}/{total}
 117	Spökbordet
 118	Vinn ett rankat parti under halloween (24 okt – 2 nov).

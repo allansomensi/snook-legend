@@ -1,307 +1,306 @@
-# Snook Legend: what's new, shown in the game after an update.
-# "## <version>" starts a version (newest first), "### <title>" a highlight,
-# and the lines after it are its text. Keep it short and about what players
-# see; every language has the same versions and the same number of highlights.
+# Snook Legend: noutăți, afișate în joc după o actualizare.
+# "## <versiune>" începe o versiune (cea mai nouă prima), "### <titlu>" o noutate,
+# iar rândurile de după sunt textul ei.
 
 ## 0.8.3
 
-### What you earn is shown
-An item that comes with an achievement, such as a level reached, now arrives with a "Congratulations!" window that shows it and lets you use it at once.
+### Vezi ce câștigi
+Un obiect care vine cu o realizare, cum ar fi un nivel atins, sosește acum cu o fereastră „Felicitări!” care ți-l arată și te lasă să-l folosești imediat.
 
-### One game at a time
-Starting the game while it is already open brings its window to the front instead of opening a second one. Two games on one computer wrote over each other's settings and saved game.
+### O singură partidă odată
+Dacă pornești jocul când e deja deschis, fereastra lui vine în față în loc să se deschidă a doua. Două jocuri pe același computer își suprascriau setările și partida salvată.
 
-### The 8 on a break handed over
-Under the Brazilian rule, a break handed over after the cue ball was lost, with the balls already scattered, no longer wins by potting the 8: hitting it first is a foul and pocketing it loses, as on any shot. Only the break of the rack has the 8 alone winning.
+### Bila 8 la o spargere predată
+La regulile braziliene, o spargere predată după ce bila albă a fost pierdută, cu bilele deja împrăștiate, nu mai câștigă dacă bagi bila 8: dacă o atingi prima e fault, iar dacă o bagi pierzi, ca la orice lovitură. Doar la spargerea triunghiului bila 8 singură câștigă.
 
-### Cleaner pockets, a steadier camera, and many fixes
-The pockets are finished without rough edges, and going from the overhead view to 3D keeps your zoom. Two more reviews of the whole game fixed many bugs: a rematch keeps the break alternating, a private arena asks for its password while it runs, a table rejoined after its game ended shows the result, and more.
+### Buzunare mai curate, o cameră mai stabilă și multe reparații
+Buzunarele sunt finisate fără margini aspre, iar trecerea de la vederea de sus la 3D îți păstrează zoomul. Încă două verificări ale întregului joc au reparat multe erori: o revanșă păstrează alternarea spargerii, o arenă privată îți cere parola cât timp se desfășoară, o masă la care revii după ce partida s-a terminat arată rezultatul și altele.
 
 ## 0.8.2
 
-### The shot clock gives a ball
-Under the Brazilian rule, running out of time is a foul: your opponent's lowest ball comes off (if they are on the 8 already, the 8 pays and you lose), the cue ball goes back to the head spot, not in hand, and the turn passes.
+### Timpul pe lovitură dă o bilă
+La regulile braziliene, expirarea timpului e fault: bila cu numărul cel mai mic a adversarului iese de pe masă (dacă e deja la bila 8, plătește bila 8 și pierzi), bila albă revine pe punctul de start, nu în mână, iar tura trece la adversar.
 
-### The break, one each
-Under the Brazilian rule the players break in turn, one break each. A break that loses the cue ball with no ball made, or with balls of both groups, passes the break: your opponent breaks again from the head spot, with the balls where they stopped.
+### Spargerea, câte una fiecare
+La regulile braziliene, jucătorii sparg pe rând, câte o spargere fiecare. O spargere care pierde bila albă fără nicio bilă băgată sau cu bile din ambele grupe predă spargerea: adversarul sparge din nou de pe punctul de start, cu bilele unde s-au oprit.
 
-### Grab the cue anywhere
-Click and drag the cue anywhere along it, from the tip to the butt, even drawn back or raised over the rail: it follows the pointer as it swings.
+### Prinde tacul de oriunde
+Dă clic și trage tacul de oriunde de-a lungul lui, de la vârf la mâner, chiar retras sau ridicat peste manta: urmează cursorul în timp ce se rotește.
 
-### Seven rounds in the arena, and many fixes
-The arena against the computer is seven rounds for everyone, and the shop has a new icon. Three reviews of the whole game fixed many bugs: leaving while the balls roll no longer undoes a shot against the computer, the first ball hit is the one the cue ball really touched first, and more.
+### Șapte runde în arenă și multe reparații
+Arena contra computerului are șapte runde pentru toți, iar magazinul are o pictogramă nouă. Trei verificări ale întregului joc au reparat multe erori: dacă pleci cât timp bilele se rostogolesc, lovitura contra computerului nu se mai anulează, prima bilă lovită e cea pe care bila albă a atins-o cu adevărat prima și altele.
 
 ## 0.8.1
 
-### The 8 pays the penalty
-Under the Brazilian rule, a foul that gives more balls than your opponent has left loses the game: their balls come off and the 8 pays the rest. Once your opponent is on the 8, any foul that gives a ball loses: missing every ball, pocketing the cue ball or knocking it off the table.
+### Bila 8 plătește penalizarea
+La regulile braziliene, un fault care dă mai multe bile decât îi mai rămân adversarului pierde partida: bilele lui ies de pe masă, iar bila 8 plătește restul. Odată ce adversarul e la bila 8, orice fault care dă o bilă pierde partida: să nu atingi nicio bilă, să bagi bila albă sau s-o scoți de pe masă.
 
-### Click outside to close
-The match's chat, the game history and the spin and elevation panels close when you click outside them, and the click still counts on the table. Menus and dialogs close with a click outside them too, like Cancel.
+### Dă clic în afară ca să închizi
+Chatul meciului, istoricul partidei și panourile de efect și elevație se închid când dai clic în afara lor, iar clicul contează totuși pe masă. Meniurile și dialogurile se închid și ele cu un clic în afară, ca la Anulează.
 
 ## 0.8.0
 
-### The official rules
-You can now also play the official rules of the WPA, the eight-ball of international tournaments: every shot is called, a foul gives ball in hand anywhere and no ball comes off as a penalty. Choose your rules in the main menu. The Brazilian rule is still there, just as it was.
+### Regulile oficiale
+Acum poți juca și după regulile oficiale WPA, jocul cu bila 8 al turneelor internaționale: fiecare lovitură se anunță, un fault dă bila în mână oriunde și nicio bilă nu iese de pe masă ca penalizare. Alege-ți regulile din meniul principal. Regulile braziliene sunt tot acolo, exact cum erau.
 
-### A rating for each rules
-Each rules has its own rating, tier and world ranking: the ranking has a tab for each and your profile a card for each. Your level, coins and achievements are shared.
+### Un rating pentru fiecare set de reguli
+Fiecare set de reguli are propriul rating, propria ligă și propriul clasament mondial: clasamentul are câte o filă pentru fiecare, iar profilul tău câte un card. Nivelul, monedele și realizările sunt comune.
 
-### Calling your shots
-Under the official rules the pocket you aim at is called (a ring shows it). Click another pocket to call it, or Safety to call none. After some breaks you choose how the game goes on, with the buttons or 1, 2 and 3.
+### Anunțarea loviturilor
+La regulile oficiale, buzunarul spre care țintești e anunțat (un inel îl arată). Dă clic pe alt buzunar ca să-l anunți sau pe Siguranță ca să nu anunți niciunul. După unele spargeri alegi cum continuă jocul, cu butoanele sau cu 1, 2 și 3.
 
-### Online, by rules
-Invitations, tables, Play now, tournaments and daily games all say their rules, and Play now pairs you with players of yours. The menu shows how many people play each.
+### Online, după reguli
+Invitațiile, mesele, Joacă acum, turneele și partidele zilnice își arată toate regulile, iar Joacă acum te pune cu jucători care joacă după regulile tale. Meniul arată câți oameni joacă după fiecare.
 
-### The break, Brazilian rule
-If the break loses the cue ball together with balls of both groups, the break now passes to your opponent, with the cue ball in hand behind the head string and no penalty ball.
+### Spargerea, la regulile braziliene
+Dacă la spargere se pierde bila albă împreună cu bile din ambele grupe, spargerea trece acum la adversar, cu bila albă în mână în spatele liniei de start și fără bilă de penalizare.
 
 ## 0.7.4
 
-### The chat, when you want it
-No more age question when signing up. The chat with other players starts off and asks only the first time you write: 18 or older turns it on at once, and under 18 a parent or guardian turns it on. Whoever doesn't chat is never asked.
+### Chatul, când îl vrei
+Nu mai există întrebarea despre vârstă la înscriere. Chatul cu alți jucători pornește dezactivat și întreabă doar prima dată când scrii: dacă ai 18 ani sau mai mult, se activează imediat, iar sub 18 ani îl activează un părinte sau tutore. Cine nu scrie pe chat nu e întrebat niciodată.
 
-### Invitations in the corner
-An invitation now shows as a card in the top right corner on every screen and over any game, with the player's picture, the buttons to accept or decline and a soft chime. Accept it from the menu and the game starts right away.
+### Invitațiile în colț
+O invitație apare acum ca un card în colțul din dreapta sus, pe orice ecran și peste orice partidă, cu poza jucătorului, butoanele de acceptare și refuz și un sunet discret. Accept-o din meniu și partida începe imediat.
 
-### Windows tells you at once
-With the game behind another window or minimised, Windows shows the invitation at once (it used to wait a few seconds).
+### Windows te anunță imediat
+Cu jocul în spatele altei ferestre sau minimizat, Windows arată invitația imediat (înainte aștepta câteva secunde).
 
 ## 0.7.3
 
-### New rules
-If the break hits no ball, or loses the cue ball (down or off the table) with no ball made, the break passes to your opponent, with the cue ball in hand behind the head string. With a ball made, it decides the groups even if the cue ball goes down too. And the cue ball off the table costs a ball, as a scratch does.
+### Reguli noi
+Dacă spargerea nu atinge nicio bilă sau pierde bila albă (în buzunar sau de pe masă) fără nicio bilă băgată, spargerea trece la adversar, cu bila albă în mână în spatele liniei de start. Cu o bilă băgată, ea stabilește grupele chiar dacă intră și bila albă. Iar bila albă scoasă de pe masă costă o bilă, la fel ca bila albă băgată.
 
-### More drills, no ranking
-There are 24 drills now, nine of them new: the far corner, long into the side, cue ball on the cushion, the plant, the carom, the long draw, on the tangent line, two-cushion bank and fifteen in a row. Each shows its position, and your stars are kept in your account. The drills' ranking is gone.
+### Mai multe exerciții, fără clasament
+Acum sunt 24 de exerciții, nouă dintre ele noi: colțul din spate, lung în lateral, bila albă lipită de manta, bile lipite, caramboleta, efect jos lung, pe linia tangentă, din două mante și cincisprezece la rând. Fiecare își arată poziția, iar stelele tale se păstrează în cont. Clasamentul exercițiilor a dispărut.
 
-### New pictures
-The portraits were drawn again, with more care, and there are new pictures of pool things. Your picture now shows on the card in the corner of the start screen when you're signed in.
+### Imagini noi
+Portretele au fost redesenate, cu mai multă grijă, și sunt imagini noi cu lucruri de biliard. Poza ta apare acum pe cardul din colțul ecranului de start când ești conectat.
 
-### Terms and privacy
-The terms of use and the privacy policy are a click away: when you sign up, in the shop and in Settings → Game → About. Purchases with money give you 7 days to change your mind and get your money back.
+### Termeni și confidențialitate
+Termenii de utilizare și politica de confidențialitate sunt la un clic distanță: la înscriere, în magazin și în Setări → Joc → Despre. Achizițiile pe bani îți dau 7 zile să te răzgândești și să-ți primești banii înapoi.
 
-### Age and chat
-The game asks your age group (once). Under 18, the chat with other players stays off until a parent or guardian turns it on, below the lounge's chat, as Brazilian law asks.
+### Vârsta și chatul
+Jocul îți cere grupa de vârstă (o singură dată). Sub 18 ani, chatul cu alți jucători rămâne dezactivat până când un părinte sau tutore îl activează, sub chatul salonului, cum cere legea braziliană.
 
-### Emoji in the chat
-Emoji now show as pictures in the chat, notes and statuses, flags and all. Tabs have all their names at one size, and the count of who is online is smaller: the green dot, a person and the number.
+### Emoji în chat
+Emoji apar acum ca imagini în chat, în anunțuri și în mesajele de stare, inclusiv steagurile. Filele au toate numele la aceeași dimensiune, iar numărul celor online e mai mic: punctul verde, o persoană și numărul.
 
 ## 0.7.2
 
-### A harder tour
-Each stage of the tour is harder than before, and more so the further up: opponents miss less, look at every shot and play for position. The final against Viktor, for the cue, is very hard now: he barely misses and plays safe more often. Tournaments against the computer stay as they were.
+### Un circuit mai greu
+Fiecare etapă a circuitului e mai grea decât înainte, cu atât mai mult cu cât urci: adversarii ratează mai puțin, analizează fiecare lovitură și joacă pentru poziție. Finala cu Viktor, pentru tac, e acum foarte grea: aproape că nu ratează și joacă mai des la siguranță. Turneele contra computerului rămân cum erau.
 
-### Tournament medals
-Play a tournament against the computer to its end and finish in the first three for a gold, silver or bronze medal. The Tournament tab counts them, knockout and arena apart; they are kept in your account the next time you're online.
+### Medalii de turneu
+Joacă un turneu contra computerului până la capăt și termină între primii trei pentru o medalie de aur, argint sau bronz. Fila Turneu le numără, separat pentru eliminatoriu și arenă; se păstrează în cont data viitoare când ești online.
 
-### A camera like the table's
-In the shop's showroom the camera turns with the right button, as at the table, smoothly, and never goes under the floor or the table. The wheel brings you closer.
+### O cameră ca la masă
+În showroom-ul magazinului, camera se rotește cu butonul drept, ca la masă, lin, și nu trece niciodată sub podea sau sub masă. Rotița te apropie.
 
 ## 0.7.1
 
-### The first ball decides
-On the break, the first ball that goes down decides your group, even if others go down after it: the 3 and then the 13, and you take the solids. The 13 is your opponent's, so it stays down for them and the turn passes.
+### Prima bilă decide
+La spargere, prima bilă care intră îți stabilește grupa, chiar dacă după ea intră și altele: bila 3 și apoi bila 13, iar tu iei plinele. Bila 13 e a adversarului, așa că rămâne în buzunar în favoarea lui, iar tura trece la el.
 
-### Ball in hand on the break only
-The cue ball is in hand on the break only, behind the head string. If it goes down or leaves the table, it comes back to the head spot (right behind a ball lying there), without ball in hand, with the usual penalties. A break that makes only the cue ball is no longer racked again: your opponent plays on from there.
+### Bila în mână doar la spargere
+Bila albă e în mână doar la spargere, în spatele liniei de start. Dacă intră în buzunar sau iese de pe masă, revine pe punctul de start (imediat în spatele unei bile aflate acolo), fără bila în mână, cu penalizările obișnuite. O spargere la care intră doar bila albă nu mai duce la reașezarea bilelor: adversarul joacă mai departe de acolo.
 
-### Who is online
-Playing the computer (in a tournament, on the tour or in a drill), a discreet corner shows how many people are online and says when someone comes: time to go and invite them. Invitations show over the game.
+### Cine e online
+Când joci cu computerul (într-un turneu, în circuit sau la un exercițiu), un colț discret arată câți oameni sunt online și îți spune când intră cineva: e momentul să-l inviți. Invitațiile apar peste partidă.
 
-### The shop's showroom
-"Look at it closely" opens a showroom: the item alone in a dark studio, turning. Drag to turn it, use the wheel to come close and pause it at will. Ready views show a cue's tip and joint or a table's pockets; click a ball to see it float close up, and see tables and cloths in any hall.
+### Showroom-ul magazinului
+„Privește de aproape” deschide un showroom: obiectul singur, într-un studio întunecat, rotindu-se. Trage ca să-l rotești, folosește rotița ca să te apropii și pune pauză când vrei. Vederi gata făcute arată vârful și îmbinarea unui tac sau buzunarele unei mese; dă clic pe o bilă ca s-o vezi plutind de aproape și vezi mesele și postavurile în orice sală.
 
-### Truly brown
-The 7 and the 15 are now brown, no longer a dark red easily taken for the 3 and the 11. The shop's sets where they looked alike are put right too.
+### Maro cu adevărat
+Bilele 7 și 15 sunt acum maro, nu mai sunt un roșu închis ușor de confundat cu bilele 3 și 11. Seturile din magazin în care semănau au fost și ele corectate.
 
-### Focus mode
-Settings → Game → "Focus mode": no invitations while you play. Whoever tries to invite you is told you're in focus mode. It comes off.
+### Mod concentrare
+Setări → Joc → „Mod concentrare”: fără invitații cât joci. Cine încearcă să te invite află că ești în mod concentrare. Se poate dezactiva.
 
 ## 0.7.0
 
-### One kind on the break
-A new house rule: if the break makes balls of both groups (the 3 and the 14, say), the turn passes and the table stays open. Balls of one kind only and you shoot again, as before. The rules in the menu explain it, with a few rare cases now put right, and the computer plays a little better.
+### Un singur fel la spargere
+O regulă nouă a casei: dacă la spargere intră bile din ambele grupe (bila 3 și bila 14, de exemplu), tura trece la adversar și masa rămâne deschisă. Dacă intră bile de un singur fel, joci din nou, ca înainte. Regulile din meniu explică asta, câteva cazuri rare au fost corectate, iar computerul joacă puțin mai bine.
 
-### Every ball counts
-The balls you make in a row show by your picture with a little flame, and three, five and seven in a row are cheered (and a table cleared in one visit). The clock's last seconds tick, a chime says when your turn comes back online, and the rating counts up at the end of a game.
+### Fiecare bilă contează
+Bilele pe care le bagi la rând apar lângă poza ta cu o mică flacără, iar trei, cinci și șapte la rând sunt aplaudate (la fel și o masă curățată într-o singură tură). Ultimele secunde ale ceasului ticăie, un sunet te anunță când îți vine rândul online, iar ratingul crește treptat la sfârșitul partidei.
 
-### Events
-Now and then the staff run events: a weekend of double (or triple) experience, coins from games counting double, or a themed tournament the server organises, sometimes with a prize from the house on top of the entry fees. The main menu and the lounge show what is on and what is coming.
+### Evenimente
+Din când în când, echipa organizează evenimente: un weekend cu experiență dublă (sau triplă), monede din partide care contează dublu sau un turneu tematic organizat de server, uneori cu un premiu din partea casei pe lângă taxele de înscriere. Meniul principal și salonul arată ce se întâmplă acum și ce urmează.
 
-### On to the next one
-After a win on the tour, "Next" takes you straight to the next opponent; after a drill, "Try again". The deciding shot can be watched again from the end panel, and a first game points out where to aim, set the power and shoot.
+### Mai departe, la următorul
+După o victorie în circuit, „Următorul” te duce direct la următorul adversar; după un exercițiu, „Încearcă din nou”. Lovitura decisivă poate fi revăzută din panoul de final, iar prima partidă îți arată unde să țintești, cum să setezi forța și cum să lovești.
 
-### The head string, if you want it
-Settings → Game → "Always show the head string" keeps the line the break is played from on the table. Off by default: it shows only while you place the cue ball behind it.
+### Linia de start, dacă o vrei
+Setări → Joc → „Afișează mereu linia de start” păstrează pe masă linia de la care se face spargerea. Dezactivat implicit: apare doar cât timp pui bila albă în spatele ei.
 
-### Fair rewards, softer light
-The tour's final and the ranked drills are now set up by the server, so their cue and their tables are earned the same way by everyone (play them signed in). A dropped connection no longer closes the game, a game against the computer is never replaced without asking, and the light under the lamps falls softly, without hard edges.
+### Recompense corecte, lumină mai blândă
+Finala circuitului și exercițiile cu clasament sunt acum pregătite de server, așa că tacul și mesele lor se câștigă la fel de către toți (joacă-le cu contul conectat). O conexiune pierdută nu mai închide jocul, o partidă contra computerului nu mai e înlocuită fără să te întrebe, iar lumina de sub lămpi cade blând, fără margini dure.
 
 ## 0.6.2
 
-### Leagues and levels on one page
-In the profile, the "Leagues and levels" tab shows every league, from which rating and what it pays, and every level that brings an item. Reaching a league for the first time now pays coins and, from Skilled up, an item of the league's own.
+### Ligi și niveluri pe o singură pagină
+În profil, fila „Ligi și niveluri” arată fiecare ligă, de la ce rating începe și ce aduce, și fiecare nivel care aduce un obiect. Când ajungi prima dată într-o ligă primești acum monede și, de la Priceput în sus, un obiect al ligii.
 
-### A cleaner profile
-On the left, just what matters: your level, the next prize, and the achievements and reactions already won. Every medal and reaction has a tab of its own, and nothing runs off the screen.
+### Un profil mai curat
+În stânga, doar ce contează: nivelul tău, următorul premiu și realizările și reacțiile deja câștigate. Fiecare medalie și reacție are fila ei, iar nimic nu mai iese din ecran.
 
-### The view from above as it was, with round balls
-The table has its depth and its usual light again, and the camera no longer jumps when it leaves the view from above.
+### Vederea de sus ca înainte, cu bile rotunde
+Masa și-a recăpătat adâncimea și lumina obișnuită, iar camera nu mai sare când iese din vederea de sus.
 
 ## 0.6.1
 
-### A view from above without distortion
-The table is now seen from high up, almost without perspective: balls stay round out to the corners, and the cue, the aiming line and the ghost ball always line up. The light on the balls is softer, so the number shows.
+### O vedere de sus fără distorsiuni
+Masa se vede acum de foarte sus, aproape fără perspectivă: bilele rămân rotunde până în colțuri, iar tacul, linia de țintire și bila fantomă se aliniază mereu. Lumina pe bile e mai blândă, ca să se vadă numărul.
 
-### A tournament and a tour that mean it
-In a tournament against the computer a game counts once: leaving half way doesn't wipe it (it goes on from where it was) and there is no rematch. The champion gets a gold medal. And the tour is hard: every opponent plays at their best.
+### Un turneu și un circuit serioase
+Într-un turneu contra computerului, o partidă contează o singură dată: dacă pleci la jumătate, nu se șterge (continuă de unde a rămas) și nu există revanșă. Campionul primește o medalie de aur. Iar circuitul e greu: fiecare adversar joacă la maximum.
 
-### New achievements, pictures and sounds
-Shutout, Golden break and account anniversaries. Faces that look like people and twelve profile pictures that are not faces (the 8-ball, a trophy, a crown…). New sounds for the balls, the cue, the cushions and the pockets.
+### Realizări, imagini și sunete noi
+La zero, Spargere de aur și aniversările contului. Fețe care arată ca oamenii și douăsprezece poze de profil care nu sunt fețe (bila 8, un trofeu, o coroană…). Sunete noi pentru bile, tac, mante și buzunare.
 
-### Leagues, levels that pay and scarce coins
-Other players are shown by their league (the rating is on the profile and in the ranking). Every account level pays coins and levels 5 to 50 bring items of their own, but the climb is long. Coins are scarcer: everything in the shop takes time to earn.
+### Ligi, niveluri care aduc monede și monede mai rare
+Ceilalți jucători sunt afișați după liga lor (ratingul e în profil și în clasament). Fiecare nivel al contului aduce monede, iar nivelurile de la 5 la 50 aduc obiecte proprii, dar urcușul e lung. Monedele sunt mai rare: orice din magazin se câștigă în timp.
 
 ## 0.6.0
 
-### A Brazilian rule, with penalty balls
-The game now plays the regional Brazilian rule of eight-ball, the one of bars and pool halls (not the official tournament rule). A foul passes the turn and takes your opponent's lowest balls off the table, only a pocketed cue ball gives ball in hand, and the 8 alone on the break wins. The full rules are in the menu.
+### Regulile braziliene, cu bile de penalizare
+Jocul se joacă acum după regulile regionale braziliene ale jocului cu bila 8, cele din baruri și săli de biliard (nu regulile oficiale de turneu). Un fault trece tura la adversar și scoate de pe masă bilele lui cu numerele cele mai mici, doar bila albă băgată dă bila în mână, iar bila 8 singură la spargere câștigă. Regulile complete sunt în meniu.
 
-### Heavier balls
-The cloth holds the ball more and the break is less violent: the balls no longer scatter all over the table.
+### Bile mai grele
+Postavul ține mai mult bila, iar spargerea e mai puțin violentă: bilele nu se mai împrăștie peste toată masa.
 
-### Tournaments against the computer and more drills
-Play a knockout of sixteen or an arena on points against the fifteen opponents. And there are eight new drills, fifteen in all.
+### Turnee contra computerului și mai multe exerciții
+Joacă un eliminatoriu cu șaisprezece jucători sau o arenă pe puncte contra celor cincisprezece adversari. Și sunt opt exerciții noi, cincisprezece în total.
 
-### Aiming and the cue
-The cue's elevation can be set by dragging with the mouse, the aiming line points at the centre of the ghost ball, faint arrows show when the cue ball can be moved, and the shadows can be turned off.
+### Țintirea și tacul
+Elevația tacului se poate seta trăgând cu mouse-ul, linia de țintire arată spre centrul bilei fantomă, săgeți discrete arată când bila albă poate fi mutată, iar umbrele pot fi dezactivate.
 
 ## 0.5.1
 
-### Cleaner balls
-The pale disc on top of every ball is gone: a ball is lit as one round thing and shows the lamp as a single clean dot. Castings, rugs and Low quality look better too.
+### Bile mai curate
+Discul palid de deasupra fiecărei bile a dispărut: o bilă e luminată ca un singur obiect rotund și arată lampa ca un singur punct curat. Ornamentele, covoarele și calitatea Scăzută arată și ele mai bine.
 
-### The power bar keeps no memory
-No more mark for your last stroke, and every turn starts from the middle of the bar: judging the pace is part of the game.
+### Bara de forță nu mai ține minte
+Nu mai există semnul ultimei tale lovituri, iar fiecare tură începe de la mijlocul barei: aprecierea forței face parte din joc.
 
-### Nothing over the table
-Whose turn it is now reads in the top bar, beside the score panel, so the side pocket is always in sight. Aiming lines are smooth, and the rings round the pockets are whole.
+### Nimic peste masă
+Al cui e rândul se citește acum în bara de sus, lângă panoul de scor, așa că buzunarul lateral e mereu la vedere. Liniile de țintire sunt netede, iar inelele din jurul buzunarelor sunt întregi.
 
 ## 0.5.0
 
-### Tournament-table physics
-The balls weigh what they do on a real table: the power bar goes up to a hard stroke (only the break uses full power), cushions give back less the harder they are hit, and a ball made falls into the pocket at the pace it arrived with.
+### Fizică de masă de turneu
+Bilele cântăresc cât pe o masă reală: bara de forță merge până la o lovitură puternică (doar spargerea folosește forța maximă), mantele returnează mai puțin cu cât sunt lovite mai tare, iar o bilă băgată cade în buzunar cu viteza cu care a ajuns.
 
-### An official tournament table
-The table is the regulation 8-foot one, measure for measure: balls, corner and side pockets with the official mouths and angles. The cloth is a deep green under the lamps and the balls shine like polished ones, their numbers crisp.
+### O masă oficială de turneu
+Masa e cea regulamentară de 8 picioare, la milimetru: bile, buzunare de colț și laterale cu deschiderile și unghiurile oficiale. Postavul e de un verde intens sub lămpi, iar bilele strălucesc ca proaspăt lustruite, cu numere clare.
 
-### A truer guide, or none
-The ghost ball now stops where the cue ball really would, the mouths of the pockets included. And a new choice: play with no aiming guide at all.
+### Un ghidaj mai fidel sau niciunul
+Bila fantomă se oprește acum unde s-ar opri cu adevărat bila albă, inclusiv la gura buzunarelor. Și o opțiune nouă: joacă fără niciun ghidaj de țintire.
 
 ## 0.4.0
 
-### A new name: Snook Legend
-The game is now called Snook Legend. Your account, coins, items, settings and progress are all here, as before.
+### Un nume nou: Snook Legend
+Jocul se numește acum Snook Legend. Contul, monedele, obiectele, setările și progresul tău sunt toate aici, ca înainte.
 
-### 8-foot table, open side pockets
-A smaller table (8 feet) and side pockets that forgive a ball off the centre or rolling in at an angle. The balls roll a little more freely.
+### Masă de 8 picioare, buzunare laterale deschise
+O masă mai mică (8 picioare) și buzunare laterale care iartă o bilă venită din afara centrului sau în unghi. Bilele se rostogolesc puțin mai liber.
 
-### New rule: the opponent's ball
-Making one of your opponent's balls passes the turn, even if one of yours went down too. It is not a foul: no ball in hand.
+### Regulă nouă: bila adversarului
+Dacă bagi una dintre bilele adversarului, tura trece la el, chiar dacă a intrat și una de-a ta. Nu e fault: fără bila în mână.
 
-### Easier to see
-The cloth is lit evenly, the balls have a soft sheen so their numbers read, shadows are lighter, and nothing of the hall gets in the way of the view from above. Whose turn it is stands out on the score cards.
+### Mai ușor de văzut
+Postavul e luminat uniform, bilele au un luciu discret ca să li se citească numerele, umbrele sunt mai deschise, iar nimic din sală nu mai încurcă vederea de sus. Al cui e rândul se vede clar pe cardurile de scor.
 
-### Fifteen opponents
-Tito, Inês, Diego, Amara and Yuri join the computer opponents, each with a style and a voice of their own. The Tour now has fifteen stages; your wins so far are kept.
+### Cincisprezece adversari
+Tito, Inês, Diego, Amara și Yuri se alătură adversarilor computerului, fiecare cu stilul și vocea lui. Circuitul are acum cincisprezece etape; victoriile de până acum se păstrează.
 
-### Quieter opponents
-Settings → Game → Opponents' remarks turns their speech bubbles off.
+### Adversari mai tăcuți
+Setări → Joc → Comentariile adversarilor le dezactivează baloanele de text.
 
-### A new score panel
-Pictures and names in boxes, and the balls each player made rolling into place along their rail, in the order they went down.
+### Un panou de scor nou
+Poze și nume în casete, iar bilele băgate de fiecare jucător se rostogolesc la locul lor de-a lungul mantalei, în ordinea în care au intrat.
 
-### Aim by eye
-Raise the cue by dragging it in a side view of the shot. No more numbers on the power or the elevation: judge them by eye. Prefer it flat? Settings → Game → Top view only.
+### Țintește din ochi
+Ridică tacul trăgându-l într-o vedere laterală a loviturii. Nu mai există cifre pentru forță sau elevație: apreciază-le din ochi. Preferi totul plat? Setări → Joc → Doar vedere de sus.
 
-### Rules and pictures
-The rules of the game are a click away (the book on the main menu, or Rules in the pause menu). Pick one of 32 profile pictures in your profile.
+### Reguli și imagini
+Regulile jocului sunt la un clic distanță (cartea din meniul principal sau Reguli în meniul de pauză). Alege una dintre cele 32 de poze de profil din profilul tău.
 
-### Your games are safe
-Replays and daily games that started before this update keep the old table and rules until they end.
+### Partidele tale sunt în siguranță
+Reluările și partidele zilnice începute înainte de această actualizare păstrează masa și regulile vechi până se termină.
 
 ## 0.3.0
 
-### A regulation 9-foot table
-The table is now tournament size (100" × 50"), with the balls, pockets, cushions and cue to official measurements. The balls are heavier and bounce less, like real ones.
+### O masă regulamentară de 9 picioare
+Masa are acum dimensiunea de turneu (100" × 50"), cu bile, buzunare, mante și tac la dimensiunile oficiale. Bilele sunt mai grele și sar mai puțin, ca cele reale.
 
-### A new break rule
-On the break, the first ball you pocket sets your group: solids or stripes. A foul on the break leaves the table open.
+### O regulă nouă la spargere
+La spargere, prima bilă pe care o bagi îți stabilește grupa: pline sau dungate. Un fault la spargere lasă masa deschisă.
 
-### New halls, tables and cues
-Four new halls and four new tables, and every old one reworked. Premium cues that look nothing alike. On Ultra, floors that reflect the hall.
+### Săli, mese și tacuri noi
+Patru săli noi și patru mese noi, iar toate cele vechi au fost refăcute. Tacuri premium care nu seamănă deloc între ele. Pe Ultra, podele care reflectă sala.
 
-### Daily challenge
-A new position every day, the same for everyone, with a ranking of the day: three attempts to make as many balls as you can.
+### Provocarea zilei
+O poziție nouă în fiecare zi, aceeași pentru toți, cu un clasament al zilei: trei încercări să bagi cât mai multe bile.
 
-### Drills with stars
-Seven drills on potting, spin, banks and escaping snookers, up to three stars each, with rankings and a challenge rating that shows your level.
+### Exerciții cu stele
+Șapte exerciții de băgat bile, efect, mante și ieșit din snooker, cu până la trei stele fiecare, cu clasamente și un rating de provocare care îți arată nivelul.
 
-### Account level
-Earn experience in every game, won or lost, and in drills, the daily challenge and achievements. Your level shows on your profile.
+### Nivelul contului
+Câștigi experiență în fiecare partidă, câștigată sau pierdută, precum și la exerciții, la provocarea zilei și din realizări. Nivelul tău apare în profil.
 
-### The Tour
-The old ladder is now the Tour: ten stages, one opponent each. The opponents have new portraits and talk during the game.
+### Circuitul
+Vechiul clasament pe trepte e acum Circuitul: zece etape, câte un adversar fiecare. Adversarii au portrete noi și vorbesc în timpul partidei.
 
-### Fair play
-Leaving a game costs more than losing it. The full aiming guide is for free games against the computer and practice only: never online, in the Tour, the daily challenge or drills.
+### Fair-play
+Dacă părăsești o partidă, pierzi mai mult decât dacă o pierzi jucând. Ghidajul complet de țintire e doar pentru partidele libere contra computerului și pentru antrenament: niciodată online, în Circuit, la provocarea zilei sau la exerciții.
 
-### Your profile
-A trophy shelf and statistics for each cue: games, wins and balls made with it. You can now change your username up to three times.
+### Profilul tău
+Un raft de trofee și statistici pentru fiecare tac: partide, victorii și bile băgate cu el. Acum îți poți schimba numele de utilizator de până la trei ori.
 
-### In the lounge
-An "away" status, quick phrases translated into your opponent's language and a practice table while the search for an opponent goes on.
+### În salon
+O stare „absent”, fraze rapide traduse în limba adversarului și o masă de antrenament cât timp se caută un adversar.
 
 ## 0.2.0
 
-### Ten opponents with personality
-Choose who to play: from Leo, still learning, to Marta, who lives on safeties, and Lola, who banks everything. Each has their own style, portrait and strength.
+### Zece adversari cu personalitate
+Alege cu cine joci: de la Leo, care încă învață, la Marta, care trăiește din lovituri de siguranță, și Lola, care joacă totul din manta. Fiecare are stilul, portretul și forța lui.
 
-### The ladder
-Beat the ten opponents one by one, up to the last. Reach the top to earn the exclusive "Ladder king" cue and a new achievement.
+### Clasamentul pe trepte
+Învinge-i pe cei zece adversari unul câte unul, până la ultimul. Ajunge în vârf ca să câștigi tacul exclusiv „Regele treptelor” și o realizare nouă.
 
-### Play the ghost
-The computer learns a real player's style from their online games. Challenge a friend's ghost, or your own, from the profile or the vs-computer screen.
+### Joacă cu fantoma
+Computerul învață stilul unui jucător real din partidele lui online. Provoacă fantoma unui prieten sau pe a ta, din profil sau din ecranul de joc contra computerului.
 
-### Daily games
-Challenge someone and play your turn when you can: each player has up to 3 days per turn. You are told when it's your turn, and you can have several games at once.
+### Partide zilnice
+Provoacă pe cineva și joacă-ți tura când poți: fiecare jucător are până la 3 zile pentru fiecare tură. Ești anunțat când e rândul tău și poți avea mai multe partide în același timp.
 
-### Friends and gifts
-See who you played recently, write a status on your profile and post on the lounge's "looking for a game" board. Gifts from friends now arrive with a notice, a message and a "thank you".
+### Prieteni și cadouri
+Vezi cu cine ai jucat recent, scrie un mesaj de stare în profil și publică anunțuri pe avizierul „caut partidă” din salon. Cadourile de la prieteni sosesc acum cu o notificare, un mesaj și un „mulțumesc”.
 
-### Cues, tables and halls
-Your cue earns bands and inlays as you win with it. In the shop, themed tables and halls: beach bar, industrial loft and English club.
+### Tacuri, mese și săli
+Tacul tău primește benzi și incrustații pe măsură ce câștigi cu el. În magazin, mese și săli tematice: bar pe plajă, loft industrial și club englezesc.
 
-### Your game, analysed
-The profile's new Analysis tab shows your potting by pocket, distance and kind of shot, with a heat map of the table.
+### Jocul tău, analizat
+Noua filă Analiză din profil îți arată cum bagi bilele după buzunar, distanță și tipul loviturii, cu o hartă termică a mesei.
 
-### Your keys
-Every shortcut can be changed in Settings → Controls, and the game's hints follow your choices.
+### Tastele tale
+Orice scurtătură se poate schimba în Setări → Comenzi, iar indicațiile jocului îți urmează alegerile.
 
-### Automatic updates
-New versions download in the background and install when you restart, never during a game. This window tells you what changed.
+### Actualizări automate
+Versiunile noi se descarcă în fundal și se instalează la repornire, niciodată în timpul unei partide. Această fereastră îți spune ce s-a schimbat.
 
-### A reviewed interface
-Every screen was reviewed in the three languages and at every window size. Fixes: Esc opens the menu at the table, the computer sinks the 8 in its called pocket more reliably, and the overhead view no longer goes black.
+### O interfață revizuită
+Fiecare ecran a fost revizuit în cele trei limbi și la orice dimensiune a ferestrei. Reparații: Esc deschide meniul la masă, computerul bagă mai sigur bila 8 în buzunarul anunțat, iar vederea de sus nu mai devine neagră.
 
 ## 0.1.4
 
-### A game while you wait
-After half a minute of "Play now" without an opponent, you can play the computer while the search goes on.
+### O partidă cât aștepți
+După o jumătate de minut de „Joacă acum” fără adversar, poți juca cu computerul cât timp căutarea continuă.
 
-### Chat moderation
-You can delete your own chat lines, and moderators can remove abuse.
+### Moderarea chatului
+Îți poți șterge propriile mesaje din chat, iar moderatorii pot elimina abuzurile.
 
-### Cues you can see
-Opponents see the pattern of the cue you bought, and VIP members have reactions of their own.
+### Tacuri pe care le vezi
+Adversarii văd modelul tacului pe care l-ai cumpărat, iar membrii VIP au reacțiile lor proprii.

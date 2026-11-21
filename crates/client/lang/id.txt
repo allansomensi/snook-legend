@@ -1,4 +1,4 @@
-# Snook Legend: Brazilian Portuguese.
+# Snook Legend: Indonesian.
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} di bola 8: lubang pilihan {pocket}

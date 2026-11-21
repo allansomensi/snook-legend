@@ -1,0 +1,300 @@
+1501	{n} van {total}
+1502	{drill}: poging {k} van {n} · {made} gelukt
+1503	Gelukt! {n} van {total}
+1504	Gemist.
+1505	Versturen naar de server…
+1506	Niet ingelogd: deze sessie telt niet voor de ranglijst.
+1507	Bewaard in je account.
+1508	De sessie kon niet worden geteld.
+1509	Terug naar de oefeningen
+1510	Recht erin
+1511	Een lange rechte bal in de hoek. Vijf pogingen.
+1512	De snijbal
+1513	Een snijbal op halve bal in de hoek. Vijf pogingen.
+1514	Trekstoot
+1515	Pot de bal en trek de speelbal terug in de cirkel. Vijf pogingen.
+1516	Doorstoot
+1517	Pot de bal en laat de speelbal doorlopen tot in de cirkel erachter. Vijf pogingen.
+1518	Bandstoot
+1519	Via één band in de middenpocket. Vijf pogingen.
+1520	Uit de snooker
+1521	Raak eerst de 1: die ligt verstopt achter andere ballen. Vijf pogingen.
+1522	Tien op rij
+1523	Tien verschillende ballen, de een na de ander: een misser beëindigt de sessie.
+1524	De verre hoek
+1525	Een snijbal terug de tafel op, in de hoek achter je. Vijf pogingen.
+1526	Lang in het midden
+1527	Van het andere eind van de tafel in de middenpocket. Vijf pogingen.
+1528	Speelbal tegen de band
+1529	De speelbal ligt tegen de band: pot de bal toch in de hoek. Vijf pogingen.
+1530	Tegen elkaar aan
+1531	De 2 raakt de 1 en wijst naar de pocket: raak de 2 en de 1 gaat erin. Vijf pogingen.
+1532	De carambole
+1533	De 2 ligt in de weg: kets ertegenaan en stuur zo de 1 in de hoek. Vijf pogingen.
+1534	De lange trekstoot
+1535	Pot de bal en trek de speelbal helemaal terug in de cirkel. Vijf pogingen.
+1536	Op de raaklijn
+1537	Pot de bal in het midden en laat de speelbal doorlopen tot in de cirkel. Vijf pogingen.
+1538	Via twee banden
+1539	Via twee banden in de hoek. Vijf pogingen.
+1540	Vijftien op rij
+1541	Vijftien verschillende ballen, de een na de ander: een misser beëindigt de sessie.
+1542	Stoot terugnemen (Z)
+1543	Stoot teruggenomen.
+1544	Hele
+1545	Halve
+1546	Partijverloop verbergen
+1547	Nieuwe gebruikersnaam
+1548	Klik nogmaals om te bevestigen
+1549	Nog {n} van {total} naamswijzigingen over
+1550	Je kunt je gebruikersnaam niet meer wijzigen.
+1551	Dat is al je gebruikersnaam.
+1552	Maak je partij af voordat je je gebruikersnaam wijzigt.
+1553	Verlaat je tafel of de wachtrij voordat je je gebruikersnaam wijzigt.
+1554	Verlaat je toernooi voordat je je gebruikersnaam wijzigt.
+1555	Gebruikersnaam gewijzigd.
+1556	De server wordt nog bijgewerkt naar de nieuwe versie. Probeer het over een paar minuten opnieuw.
+1557	{shooter} potte een bal van de tegenstander: {next} is aan stoot.
+1558	De Gokker
+1559	Zet in op elke stoot: zo hard als de keu toelaat, met al het effect dat hij kan vinden. Veilig spel verveelt hem.
+1560	De Zachte Hand
+1561	Stoot nooit harder dan nodig: de ballen sterven aan de rand van de pocket en de speelbal stopt waar zij hem wil hebben.
+1562	De Showman
+1563	Speelt voor het publiek: een geheven keu, krullend effect en een bandstoot waar het maar kan. Het werkt vaker dan het zou moeten.
+1564	De Strateeg
+1565	Plant de hele tafel: zet je snooker als de bal niet zeker is, en speelt de tafel uit als hij dat wel is.
+1566	De Machine
+1567	Geen zenuwen, geen fratsen: midden op de bal, afgemeten tempo, elke keer dezelfde perfecte stoot.
+1568	Inzetten maar! Ik wed op mezelf.
+1569	Gelukkige worp. Ik laat alles staan!
+1570	Oké, oké. Dubbel of niets?
+1571	De bank wint altijd!
+1572	Gratis fiches! Bedankt!
+1573	Alles ingezet, en het pakte goed uit!
+1574	Zo speel je met de kansen!
+1575	Pech gehad. Volgende hand.
+1576	Te veel effect? Bestaat niet.
+1577	Verloren. Het risico was het waard!
+1578	Jackpot! Zelfde inzet nog eens?
+1579	Je hebt de kansen verslagen. Respect.
+1580	Rustig aan nu. De tafel houdt van een zachte hand.
+1581	Netjes gedaan.
+1582	Iets te hard, maar hij ging erin.
+1583	Minder kracht, meer gevoel.
+1584	Och. Een gratis bal voor mij.
+1585	Net genoeg om te vallen.
+1586	Zie je? Je hoeft niet hard te stoten.
+1587	Een tikje te zacht.
+1588	Onhandig van me. Sorry.
+1589	Rustig en gestaag. Bedankt voor de partij.
+1590	Prachtig gespeeld. Verdiend.
+1591	Dames en heren... de show begint!
+1592	Niet slecht! Buig voor het publiek!
+1593	Je hebt mijn applaus gestolen!
+1594	Het publiek wilde meer!
+1595	Ooh, een plotwending!
+1596	Tadaa!
+1597	En voor mijn volgende truc...
+1598	Ook goochelaars hebben weleens een slechte avond.
+1599	Dat was... onderdeel van de act.
+1600	Dank jullie, dank jullie! Toegift?
+1601	Buig maar, kampioen. Je hebt het verdiend.
+1602	Elke tafel is een puzzel. Laten we deze oplossen.
+1603	Goed. En waar ligt je speelbal nu?
+1604	Dat zag ik aankomen.
+1605	Daar liet je me iets mee over. Dank je.
+1606	Zoals gepland.
+1607	Precies zoals ik had berekend.
+1608	Drie zetten vooruit.
+1609	Een variabele die ik over het hoofd zag.
+1610	Hm. Herberekenen.
+1611	Schaakmat.
+1612	Je was me te slim af. Dat is zeldzaam.
+1613	Partij geïnitialiseerd.
+1614	Genoteerd.
+1615	Foutmarge overschreden.
+1616	Straf toegepast.
+1617	Zoals verwacht.
+1618	Volgende.
+1619	Afwijking gelogd.
+1620	Defect. Het zal niet opnieuw gebeuren.
+1621	Resultaat: overwinning. Bedankt voor de data.
+1622	Onverwachte uitkomst. Indrukwekkend.
+1623	Opmerkingen van tegenstanders
+1624	De computertegenstanders becommentariëren de partij in tekstballonnen.
+1625	Alleen bovenaanzicht
+1626	De tafel wordt altijd van bovenaf getoond: geen 3D-weergave, niet draaien.
+1627	Niet met alleen bovenaanzicht.
+1628	Scrollwiel
+1629	Regels
+1630	Spelregels
+1631	Vlak
+1632	Sleep de keu: springen en massé
+1633	Sleep om de keu te heffen of te laten zakken
+1634	Sleep de keu · {keys}
+1635	Profielfoto
+1636	Getoond bij je naam aan tafel en in je profiel.
+1637	Geen foto
+1638	Je foto wijzigen
+1639	{name} heeft de 8 samen met een andere bal gepot
+1640	tegenstander potte de 8 samen met een andere bal
+1641	8 samen met een andere bal gepot
+1642	tegenstander potte de 8-bal samen met een andere bal
+1643	Straf: {balls} van tafel voor {name}.
+1644	{name} had minder ballen over dan de fout oplevert: de 8 betaalt de rest, en de fout kost de partij.
+1645	Schaduwen
+1646	De schaduwen van de ballen en de keu op de tafel.
+1647	Zestien spelers: knock-out of arena
+1648	Nieuwe knock-out
+1649	Nieuwe arena
+1650	Knock-out: zestien spelers, vier rondes. Verlies een partij en je ligt eruit.
+1651	Arena: zeven rondes voor iedereen. Een overwinning is 2 punten, 3 vanaf de derde zege op rij. Wie de meeste punten heeft, wint.
+1652	De partijen tussen de andere spelers worden beslist door hun sterkte en loting.
+1653	Je hebt het toernooi gewonnen!
+1654	{name} heeft het toernooi gewonnen.
+1655	Je bent op plaats {n} geëindigd.
+1656	Achtste finales
+1657	Kwartfinales
+1658	Ronde {n} van {total}
+1659	Speel tegen {name}
+1660	Toernooi verlaten
+1661	W - V
+1662	Punten
+1663	Het toernooi is afgelopen.
+1664	De ronde is voorbij: kijk tegen wie je hierna speelt.
+1665	Je ligt uit het toernooi.
+1666	Middenpocket
+1667	Een snijbal in de middenpocket, waar de hoek krap is. Vijf pogingen.
+1668	De lange snijbal
+1669	Een snijbal van het andere eind van de tafel in de hoek. Vijf pogingen.
+1670	Dunne snijbal
+1671	Raak de bal maar net: een dunne snijbal in de hoek. Vijf pogingen.
+1672	Langs de band
+1673	De bal ligt tegen de band: speel hem erlangs in de hoek. Vijf pogingen.
+1674	Stopstoot
+1675	Pot de bal en laat de speelbal stilliggen waar de bal lag. Vijf pogingen.
+1676	De combinatie
+1677	Pot de 1 door de 2 ertegen te spelen. Vijf pogingen.
+1678	Kruislingse bandstoot
+1679	Via de lange band dwars over de tafel in de hoek. Vijf pogingen.
+1680	Kickshot
+1681	De 1 is afgeschermd: stuur de speelbal via een band om hem eerst te raken. Vijf pogingen.
+1682	Alleen de speelbal viel bij de afstoot: de ballen worden opnieuw opgezet en {next} stoot af.
+1683	Gouden afstoot
+1684	Win een ratingpartij door bij de afstoot alleen de 8-bal te potten.
+1685	Een half jaar
+1686	Heb zes maanden een account.
+1687	Eerste verjaardag
+1688	Tweede verjaardag
+1689	Heb twee jaar een account.
+1690	Derde verjaardag
+1691	Heb drie jaar een account.
+1692	Vijf jaar aan de tafel
+1693	Heb vijf jaar een account.
+1694	Terug naar het toernooi
+1695	Verder tegen {name}
+1696	Je hebt je partij verlaten: die telt als nederlaag.
+1697	nieuw niveau
+1698	Niveau {n} brengt: {item}
+1699	Niveau 5
+1700	Bereik niveau 5.
+1701	Niveau 10
+1702	Bereik niveau 10.
+1703	Niveau 15
+1704	Bereik niveau 15.
+1705	Niveau 20
+1706	Bereik niveau 20.
+1707	Niveau 30
+1708	Bereik niveau 30.
+1709	Niveau 40
+1710	Bereik niveau 40.
+1711	Niveau 50
+1712	Bereik niveau 50.
+1713	Petrol van de vaste gast
+1714	Pruim van de veteraan
+1715	Rot in het vak
+1716	Voor het leven
+1717	Krijt van de leerling
+1718	Krijt van de gezel
+1719	Prestaties
+1720	Klassen en niveaus
+1721	Volgende klasse: {tier}
+1722	De hoogste klasse.
+1723	Alle prijzen van de niveaus zijn gewonnen.
+1724	Nog geen: de eerste ligt één partij verderop.
+1725	{coins} en {item}
+1726	Klassen
+1727	Niveaus
+1728	Door te spelen. Elk niveau levert {n} munten op.
+1729	waar iedereen begint
+1730	vanaf {n}
+1731	Het hoogste niveau.
+1732	{n} XP tot niveau {next}
+1733	nog {n} niveaus
+1734	nieuwe klasse
+1735	Zwart van de oudgediende
+1736	Blauw van de klasse Expert
+1737	Violet van de klasse Meester
+1738	Goud van de klasse Legende
+1739	Krijt van de klasse Bedreven
+1740	Op rating. Elke klasse betaalt één keer uit.
+1741	keu
+1742	laken
+1743	krijt
+1744	Afstootlijn altijd tonen
+1745	De lijn vanwaar wordt afgestoten, altijd op tafel (uit: alleen tijdens het plaatsen van de speelbal erachter).
+1746	De tijd van {who} is op: de beurt gaat over.
+1747	De tijd van {who} is op en {other} heeft geen ballen meer te krijgen: de 8 betaalt, en {who} verliest.
+1748	De tijd van {who} is op: de speelbal gaat terug naar het afstootpunt en de beurt gaat over.
+1749	De tijd van {who} is op: {balls} van tafel voor {other}, en de speelbal gaat terug naar het afstootpunt.
+1750	Je kunt {n} minuten niet chatten: {r}
+1751	Je account is {n} uur geschorst: {r}
+1752	De server herstart over {minutes} min voor een update. Lopende partijen gaan door; nieuwe partijen beginnen direct daarna.
+1753	De {cup} is afgelast: er hebben zich niet genoeg spelers ingeschreven.
+1754	De inschrijving voor de {cup} is open: hij begint binnenkort bij Toernooien.
+1755	{display} heeft het toernooi ‘{name}’ gewonnen!
+1756	Zondagcup
+1757	Maandagcup
+1758	Dinsdagcup
+1759	Woensdagcup
+1760	Donderdagcup
+1761	Vrijdagcup
+1762	Zaterdagcup
+1763	{name} · rating {r}
+1764	Er ging iets mis. Probeer het opnieuw.
+1765	1 dag lid
+1766	Partij bezig: nog 1 bal
+1767	nog 1 niveau
+1768	Nog 1 online overwinning met deze keu voor niveau {n}. Niveaus voegen alleen markeringen toe aan de keu.
+1769	Home
+1770	End
+1771	PgUp
+1772	PgDn
+1773	Ins
+1774	Meedoen aan de LAN-partij is mislukt
+1775	LAN-partij · anderen doen mee via {address}
+1776	Klik om te kopiëren
+1777	Gekopieerd.
+1778	Nieuwe partij starten?
+1779	Je hebt een lopende partij tegen de computer, met nog 1 bal. Een nieuwe partij komt in de plaats.
+1780	Je hebt een lopende partij tegen de computer, met nog {n} ballen. Een nieuwe partij komt in de plaats.
+1781	Die partij voortzetten
+1782	Nieuwe starten
+1783	Klik nogmaals om de partij te sluiten: de verbinding wordt verbroken voor {n} speler(s)
+1784	{name} speelde de tafel in één beurt leeg!
+1785	{name}: {n} op rij!
+1786	Beslissende stoot opnieuw bekijken
+1787	Volgende: {name}
+1788	Sleep op de tafel om te richten, of klik op een bal
+1789	Stel de kracht in
+1790	Laat {key} los om te stoten · Esc annuleert
+1791	Stafaccounts kunnen hun gebruikersnaam niet wijzigen.
+1792	Dat wachtwoord kan niet worden gebruikt. Kies een ander.
+1793	Dat toernooi is vol.
+1794	De server wordt herstart: je toernooi is afgelast.
+1795	Te vaak ingelogd. Wacht een minuut en probeer het opnieuw.
+1796	Te veel verkeerde wachtwoorden. Probeer het over een paar minuten opnieuw.
+1797	Je VIP-abonnement kon niet worden opgezegd. Probeer het zo opnieuw.
+1798	Ballen van beide groepen bij de afstoot: de beurt gaat naar {next}, de tafel is open.
+1799	Alleen een finale die je ingelogd begon, telt: speel de laatste etappe opnieuw terwijl je bent ingelogd.
+1800	De server heeft de finale niet klaargezet: deze partij levert de beloning niet op.

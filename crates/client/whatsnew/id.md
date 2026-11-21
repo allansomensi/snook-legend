@@ -1,307 +1,307 @@
-# Snook Legend: what's new, shown in the game after an update.
-# "## <version>" starts a version (newest first), "### <title>" a highlight,
-# and the lines after it are its text. Keep it short and about what players
-# see; every language has the same versions and the same number of highlights.
+# Snook Legend: yang baru, ditampilkan di game setelah pembaruan.
+# "## <versi>" memulai sebuah versi (terbaru di atas), "### <judul>" sorotan,
+# dan baris sesudahnya adalah teksnya. Singkat dan tentang apa yang dilihat
+# pemain; setiap bahasa punya versi yang sama dan jumlah sorotan yang sama.
 
 ## 0.8.3
 
-### What you earn is shown
-An item that comes with an achievement, such as a level reached, now arrives with a "Congratulations!" window that shows it and lets you use it at once.
+### Hadiahmu ditampilkan
+Item yang datang bersama pencapaian, misalnya saat mencapai level tertentu, kini muncul dengan jendela "Selamat!" yang menampilkannya dan memungkinkanmu langsung memakainya.
 
-### One game at a time
-Starting the game while it is already open brings its window to the front instead of opening a second one. Two games on one computer wrote over each other's settings and saved game.
+### Satu game dalam satu waktu
+Membuka game saat game sudah terbuka kini membawa jendelanya ke depan alih-alih membuka jendela kedua. Dua game di satu komputer saling menimpa pengaturan dan game tersimpan.
 
-### The 8 on a break handed over
-Under the Brazilian rule, a break handed over after the cue ball was lost, with the balls already scattered, no longer wins by potting the 8: hitting it first is a foul and pocketing it loses, as on any shot. Only the break of the rack has the 8 alone winning.
+### Bola 8 pada break yang dialihkan
+Dengan aturan Brasil, break yang dialihkan setelah bola putih masuk, dengan bola-bola yang sudah tersebar, tidak lagi menang dengan memasukkan bola 8: mengenainya lebih dulu adalah foul dan memasukkannya berarti kalah, seperti pada pukulan lain. Hanya pada break pembuka bola 8 sendirian bisa memberi kemenangan.
 
-### Cleaner pockets, a steadier camera, and many fixes
-The pockets are finished without rough edges, and going from the overhead view to 3D keeps your zoom. Two more reviews of the whole game fixed many bugs: a rematch keeps the break alternating, a private arena asks for its password while it runs, a table rejoined after its game ended shows the result, and more.
+### Lubang lebih rapi, kamera lebih stabil, dan banyak perbaikan
+Lubang kini dibuat tanpa tepi kasar, dan beralih dari tampak atas ke 3D tetap mempertahankan zoom-mu. Dua tinjauan lagi terhadap seluruh game memperbaiki banyak bug: tanding ulang tetap menjaga break bergantian, arena privat meminta kata sandinya selama berjalan, meja yang dimasuki lagi setelah game-nya selesai menampilkan hasilnya, dan lainnya.
 
 ## 0.8.2
 
-### The shot clock gives a ball
-Under the Brazilian rule, running out of time is a foul: your opponent's lowest ball comes off (if they are on the 8 already, the 8 pays and you lose), the cue ball goes back to the head spot, not in hand, and the turn passes.
+### Batas waktu pukulan memberi bola
+Dengan aturan Brasil, kehabisan waktu adalah foul: bola terendah lawanmu diangkat dari meja (jika lawan sudah di bola 8, bola 8 yang membayar dan kamu kalah), bola putih kembali ke titik kepala, bukan bola di tangan, dan giliran berpindah.
 
-### The break, one each
-Under the Brazilian rule the players break in turn, one break each. A break that loses the cue ball with no ball made, or with balls of both groups, passes the break: your opponent breaks again from the head spot, with the balls where they stopped.
+### Break, bergantian
+Dengan aturan Brasil, para pemain break bergiliran, masing-masing sekali. Break yang memasukkan bola putih tanpa ada bola lain yang masuk, atau bersama bola dari kedua grup, mengalihkan break: lawanmu break lagi dari titik kepala, dengan bola-bola di tempatnya berhenti.
 
-### Grab the cue anywhere
-Click and drag the cue anywhere along it, from the tip to the butt, even drawn back or raised over the rail: it follows the pointer as it swings.
+### Pegang stik di mana saja
+Klik dan seret stik di bagian mana pun, dari ujung hingga pangkal, bahkan saat ditarik ke belakang atau diangkat di atas tepi meja: stik mengikuti penunjuk saat berayun.
 
-### Seven rounds in the arena, and many fixes
-The arena against the computer is seven rounds for everyone, and the shop has a new icon. Three reviews of the whole game fixed many bugs: leaving while the balls roll no longer undoes a shot against the computer, the first ball hit is the one the cue ball really touched first, and more.
+### Tujuh babak di arena, dan banyak perbaikan
+Arena melawan komputer kini tujuh babak untuk semua pemain, dan toko punya ikon baru. Tiga tinjauan terhadap seluruh game memperbaiki banyak bug: keluar saat bola masih bergulir tidak lagi membatalkan pukulan melawan komputer, bola pertama yang dikenai adalah bola yang benar-benar pertama disentuh bola putih, dan lainnya.
 
 ## 0.8.1
 
-### The 8 pays the penalty
-Under the Brazilian rule, a foul that gives more balls than your opponent has left loses the game: their balls come off and the 8 pays the rest. Once your opponent is on the 8, any foul that gives a ball loses: missing every ball, pocketing the cue ball or knocking it off the table.
+### Bola 8 membayar penalti
+Dengan aturan Brasil, foul yang memberi lebih banyak bola daripada sisa bola lawanmu membuatmu kalah: bola-bola lawan diangkat dan bola 8 membayar sisanya. Begitu lawanmu sudah di bola 8, foul apa pun yang memberi bola membuatmu kalah: tidak mengenai bola sama sekali, memasukkan bola putih, atau membuatnya keluar meja.
 
-### Click outside to close
-The match's chat, the game history and the spin and elevation panels close when you click outside them, and the click still counts on the table. Menus and dialogs close with a click outside them too, like Cancel.
+### Klik di luar untuk menutup
+Chat pertandingan, riwayat game, serta panel efek dan elevasi tertutup saat kamu mengklik di luarnya, dan klik itu tetap berlaku di meja. Menu dan dialog juga tertutup dengan klik di luarnya, seperti Batal.
 
 ## 0.8.0
 
-### The official rules
-You can now also play the official rules of the WPA, the eight-ball of international tournaments: every shot is called, a foul gives ball in hand anywhere and no ball comes off as a penalty. Choose your rules in the main menu. The Brazilian rule is still there, just as it was.
+### Aturan resmi
+Kini kamu juga bisa bermain dengan aturan resmi WPA, biliar bola 8 turnamen internasional: lubang dipilih di setiap pukulan, foul memberi bola di tangan di mana saja, dan tidak ada bola yang diangkat sebagai penalti. Pilih aturanmu di menu utama. Aturan Brasil tetap ada, persis seperti sebelumnya.
 
-### A rating for each rules
-Each rules has its own rating, tier and world ranking: the ranking has a tab for each and your profile a card for each. Your level, coins and achievements are shared.
+### Rating untuk tiap aturan
+Setiap aturan punya rating, tingkat, dan peringkat dunia sendiri: halaman peringkat punya tab untuk masing-masing dan profilmu punya kartu untuk masing-masing. Level, koin, dan pencapaianmu dipakai bersama.
 
-### Calling your shots
-Under the official rules the pocket you aim at is called (a ring shows it). Click another pocket to call it, or Safety to call none. After some breaks you choose how the game goes on, with the buttons or 1, 2 and 3.
+### Memilih lubang
+Dengan aturan resmi, lubang yang kamu bidik otomatis dipilih (ditandai lingkaran). Klik lubang lain untuk memilihnya, atau Safety untuk tidak memilih lubang. Setelah beberapa jenis break, kamu memilih kelanjutan permainan, dengan tombol atau dengan 1, 2, dan 3.
 
-### Online, by rules
-Invitations, tables, Play now, tournaments and daily games all say their rules, and Play now pairs you with players of yours. The menu shows how many people play each.
+### Online, menurut aturan
+Undangan, meja, Main sekarang, turnamen, dan game harian semuanya menampilkan aturannya, dan Main sekarang memasangkanmu dengan pemain yang memakai aturan yang sama. Menu menampilkan berapa banyak orang yang memainkan masing-masing.
 
-### The break, Brazilian rule
-If the break loses the cue ball together with balls of both groups, the break now passes to your opponent, with the cue ball in hand behind the head string and no penalty ball.
+### Break, aturan Brasil
+Jika break memasukkan bola putih bersama bola dari kedua grup, break kini berpindah ke lawanmu, dengan bola putih di tangan di belakang garis kepala dan tanpa bola penalti.
 
 ## 0.7.4
 
-### The chat, when you want it
-No more age question when signing up. The chat with other players starts off and asks only the first time you write: 18 or older turns it on at once, and under 18 a parent or guardian turns it on. Whoever doesn't chat is never asked.
+### Chat, saat kamu mau
+Tidak ada lagi pertanyaan usia saat mendaftar. Chat dengan pemain lain awalnya mati dan hanya bertanya saat pertama kali kamu menulis: 18 tahun ke atas langsung menyalakannya, dan untuk di bawah 18 tahun orang tua atau wali yang menyalakannya. Yang tidak chat tidak pernah ditanya.
 
-### Invitations in the corner
-An invitation now shows as a card in the top right corner on every screen and over any game, with the player's picture, the buttons to accept or decline and a soft chime. Accept it from the menu and the game starts right away.
+### Undangan di pojok
+Undangan kini muncul sebagai kartu di pojok kanan atas di setiap layar dan di atas game apa pun, dengan foto pemain, tombol untuk menerima atau menolak, dan bunyi lembut. Terima dari menu dan game langsung dimulai.
 
-### Windows tells you at once
-With the game behind another window or minimised, Windows shows the invitation at once (it used to wait a few seconds).
+### Windows langsung memberi tahu
+Saat game berada di belakang jendela lain atau diminimalkan, Windows langsung menampilkan undangan (dulu menunggu beberapa detik).
 
 ## 0.7.3
 
-### New rules
-If the break hits no ball, or loses the cue ball (down or off the table) with no ball made, the break passes to your opponent, with the cue ball in hand behind the head string. With a ball made, it decides the groups even if the cue ball goes down too. And the cue ball off the table costs a ball, as a scratch does.
+### Aturan baru
+Jika break tidak mengenai bola apa pun, atau bola putih masuk (atau keluar meja) tanpa ada bola lain yang masuk, break berpindah ke lawanmu, dengan bola putih di tangan di belakang garis kepala. Jika ada bola yang masuk, bola itu menentukan grup meskipun bola putih juga masuk. Dan bola putih yang keluar meja dikenai penalti satu bola, sama seperti bola putih yang masuk lubang.
 
-### More drills, no ranking
-There are 24 drills now, nine of them new: the far corner, long into the side, cue ball on the cushion, the plant, the carom, the long draw, on the tangent line, two-cushion bank and fifteen in a row. Each shows its position, and your stars are kept in your account. The drills' ranking is gone.
+### Lebih banyak latihan, tanpa peringkat
+Kini ada 24 latihan, sembilan di antaranya baru: pojok jauh, jauh ke tengah, bola putih menempel bantalan, bola tempel, karambol, tarikan jauh, di garis singgung, pantulan dua bantalan, dan lima belas beruntun. Setiap latihan menampilkan posisinya, dan bintangmu disimpan di akunmu. Peringkat latihan sudah dihapus.
 
-### New pictures
-The portraits were drawn again, with more care, and there are new pictures of pool things. Your picture now shows on the card in the corner of the start screen when you're signed in.
+### Gambar baru
+Potret digambar ulang dengan lebih teliti, dan ada gambar-gambar baru bertema biliar. Fotomu kini tampil di kartu di pojok layar awal saat kamu sudah masuk.
 
-### Terms and privacy
-The terms of use and the privacy policy are a click away: when you sign up, in the shop and in Settings → Game → About. Purchases with money give you 7 days to change your mind and get your money back.
+### Ketentuan dan privasi
+Ketentuan penggunaan dan kebijakan privasi hanya sejauh satu klik: saat mendaftar, di toko, dan di Pengaturan → Game → Tentang. Pembelian dengan uang memberimu 7 hari untuk berubah pikiran dan mendapatkan uangmu kembali.
 
-### Age and chat
-The game asks your age group (once). Under 18, the chat with other players stays off until a parent or guardian turns it on, below the lounge's chat, as Brazilian law asks.
+### Usia dan chat
+Game menanyakan kelompok usiamu (sekali). Di bawah 18 tahun, chat dengan pemain lain tetap mati sampai orang tua atau wali menyalakannya, di bawah chat lobi, sesuai ketentuan hukum Brasil.
 
-### Emoji in the chat
-Emoji now show as pictures in the chat, notes and statuses, flags and all. Tabs have all their names at one size, and the count of who is online is smaller: the green dot, a person and the number.
+### Emoji di chat
+Emoji kini tampil sebagai gambar di chat, catatan, dan status, termasuk bendera. Semua nama tab memakai ukuran yang sama, dan jumlah orang yang online lebih ringkas: titik hijau, ikon orang, dan angkanya.
 
 ## 0.7.2
 
-### A harder tour
-Each stage of the tour is harder than before, and more so the further up: opponents miss less, look at every shot and play for position. The final against Viktor, for the cue, is very hard now: he barely misses and plays safe more often. Tournaments against the computer stay as they were.
+### Tur yang lebih sulit
+Setiap tahap tur lebih sulit daripada sebelumnya, makin tinggi makin sulit: lawan lebih jarang meleset, memperhitungkan setiap pukulan, dan bermain untuk posisi. Final melawan Viktor, demi stiknya, kini sangat sulit: dia hampir tidak pernah meleset dan lebih sering bermain safety. Turnamen melawan komputer tetap seperti sebelumnya.
 
-### Tournament medals
-Play a tournament against the computer to its end and finish in the first three for a gold, silver or bronze medal. The Tournament tab counts them, knockout and arena apart; they are kept in your account the next time you're online.
+### Medali turnamen
+Mainkan turnamen melawan komputer sampai selesai dan finis di tiga besar untuk medali emas, perak, atau perunggu. Tab Turnamen menghitungnya, sistem gugur dan arena terpisah; medali disimpan di akunmu saat kamu online lagi.
 
-### A camera like the table's
-In the shop's showroom the camera turns with the right button, as at the table, smoothly, and never goes under the floor or the table. The wheel brings you closer.
+### Kamera seperti di meja
+Di ruang pamer toko, kamera berputar dengan tombol kanan, seperti di meja, dengan mulus, dan tidak pernah masuk ke bawah lantai atau meja. Roda mouse membawamu lebih dekat.
 
 ## 0.7.1
 
-### The first ball decides
-On the break, the first ball that goes down decides your group, even if others go down after it: the 3 and then the 13, and you take the solids. The 13 is your opponent's, so it stays down for them and the turn passes.
+### Bola pertama yang menentukan
+Saat break, bola pertama yang masuk menentukan grupmu, meskipun bola lain masuk sesudahnya: bola 3 lalu bola 13, dan kamu mendapat polos. Bola 13 milik lawanmu, jadi bola itu tetap di dalam untuknya dan giliran berpindah.
 
-### Ball in hand on the break only
-The cue ball is in hand on the break only, behind the head string. If it goes down or leaves the table, it comes back to the head spot (right behind a ball lying there), without ball in hand, with the usual penalties. A break that makes only the cue ball is no longer racked again: your opponent plays on from there.
+### Bola di tangan hanya saat break
+Bola putih di tangan hanya saat break, di belakang garis kepala. Jika bola putih masuk atau keluar meja, bola putih kembali ke titik kepala (tepat di belakang bola yang ada di sana), tanpa bola di tangan, dengan penalti seperti biasa. Break yang hanya memasukkan bola putih tidak lagi disusun ulang: lawanmu lanjut bermain dari posisi itu.
 
-### Who is online
-Playing the computer (in a tournament, on the tour or in a drill), a discreet corner shows how many people are online and says when someone comes: time to go and invite them. Invitations show over the game.
+### Siapa yang online
+Saat melawan komputer (di turnamen, tur, atau latihan), pojok kecil yang tidak mengganggu menampilkan berapa orang yang online dan memberi tahu saat ada yang datang: saatnya mengundang mereka. Undangan muncul di atas game.
 
-### The shop's showroom
-"Look at it closely" opens a showroom: the item alone in a dark studio, turning. Drag to turn it, use the wheel to come close and pause it at will. Ready views show a cue's tip and joint or a table's pockets; click a ball to see it float close up, and see tables and cloths in any hall.
+### Ruang pamer toko
+"Lihat lebih dekat" membuka ruang pamer: item sendirian di studio gelap, berputar. Seret untuk memutarnya, pakai roda mouse untuk mendekat, dan jeda kapan saja. Tampilan siap pakai memperlihatkan ujung dan sambungan stik atau lubang-lubang meja; klik bola untuk melihatnya melayang dari dekat, dan lihat meja serta kain di ruangan mana pun.
 
-### Truly brown
-The 7 and the 15 are now brown, no longer a dark red easily taken for the 3 and the 11. The shop's sets where they looked alike are put right too.
+### Benar-benar cokelat
+Bola 7 dan 15 kini berwarna cokelat, bukan lagi merah tua yang mudah tertukar dengan bola 3 dan 11. Set di toko yang warnanya mirip juga sudah diperbaiki.
 
-### Focus mode
-Settings → Game → "Focus mode": no invitations while you play. Whoever tries to invite you is told you're in focus mode. It comes off.
+### Mode fokus
+Pengaturan → Game → "Mode fokus": tanpa undangan saat kamu bermain. Siapa pun yang mencoba mengundangmu diberi tahu bahwa kamu sedang dalam mode fokus. Mode ini bisa dimatikan.
 
 ## 0.7.0
 
-### One kind on the break
-A new house rule: if the break makes balls of both groups (the 3 and the 14, say), the turn passes and the table stays open. Balls of one kind only and you shoot again, as before. The rules in the menu explain it, with a few rare cases now put right, and the computer plays a little better.
+### Satu jenis saat break
+Aturan rumah baru: jika break memasukkan bola dari kedua grup (misalnya bola 3 dan bola 14), giliran berpindah dan meja tetap terbuka. Jika hanya bola dari satu jenis, kamu memukul lagi, seperti sebelumnya. Aturan di menu menjelaskannya, beberapa kasus langka kini sudah diperbaiki, dan komputer bermain sedikit lebih baik.
 
-### Every ball counts
-The balls you make in a row show by your picture with a little flame, and three, five and seven in a row are cheered (and a table cleared in one visit). The clock's last seconds tick, a chime says when your turn comes back online, and the rating counts up at the end of a game.
+### Setiap bola berarti
+Bola yang kamu masukkan beruntun tampil di samping fotomu dengan api kecil, dan tiga, lima, dan tujuh beruntun disambut sorakan (begitu juga meja yang dibersihkan dalam satu giliran). Detik-detik terakhir waktu berdetak, bunyi lembut memberi tahu saat giliranmu tiba di game online, dan rating dihitung naik di akhir game.
 
-### Events
-Now and then the staff run events: a weekend of double (or triple) experience, coins from games counting double, or a themed tournament the server organises, sometimes with a prize from the house on top of the entry fees. The main menu and the lounge show what is on and what is coming.
+### Event
+Sesekali staf mengadakan event: akhir pekan pengalaman ganda (atau tiga kali lipat), koin dari game dihitung ganda, atau turnamen bertema yang diselenggarakan server, kadang dengan hadiah tambahan dari pengelola di atas biaya masuk. Menu utama dan lobi menampilkan event yang sedang berlangsung dan yang akan datang.
 
-### On to the next one
-After a win on the tour, "Next" takes you straight to the next opponent; after a drill, "Try again". The deciding shot can be watched again from the end panel, and a first game points out where to aim, set the power and shoot.
+### Lanjut ke berikutnya
+Setelah menang di tur, "Berikutnya" langsung membawamu ke lawan berikutnya; setelah latihan, "Coba lagi". Pukulan penentu bisa ditonton lagi dari panel akhir, dan game pertama menunjukkan cara membidik, mengatur tenaga, dan memukul.
 
-### The head string, if you want it
-Settings → Game → "Always show the head string" keeps the line the break is played from on the table. Off by default: it shows only while you place the cue ball behind it.
+### Garis kepala, jika kamu mau
+Pengaturan → Game → "Selalu tampilkan garis kepala" membuat garis tempat break dimulai tetap tampil di meja. Mati secara bawaan: garis hanya tampil saat kamu menaruh bola putih di belakangnya.
 
-### Fair rewards, softer light
-The tour's final and the ranked drills are now set up by the server, so their cue and their tables are earned the same way by everyone (play them signed in). A dropped connection no longer closes the game, a game against the computer is never replaced without asking, and the light under the lamps falls softly, without hard edges.
+### Hadiah yang adil, cahaya lebih lembut
+Final tur dan latihan berperingkat kini disiapkan oleh server, sehingga stik dan mejanya didapat dengan cara yang sama oleh semua orang (mainkan dalam keadaan masuk). Koneksi yang terputus tidak lagi menutup game, game melawan komputer tidak pernah diganti tanpa bertanya, dan cahaya di bawah lampu jatuh dengan lembut, tanpa tepi tajam.
 
 ## 0.6.2
 
-### Leagues and levels on one page
-In the profile, the "Leagues and levels" tab shows every league, from which rating and what it pays, and every level that brings an item. Reaching a league for the first time now pays coins and, from Skilled up, an item of the league's own.
+### Liga dan level dalam satu halaman
+Di profil, tab "Liga dan level" menampilkan setiap liga, mulai dari rating berapa dan apa hadiahnya, serta setiap level yang memberi item. Mencapai sebuah liga untuk pertama kalinya kini memberi koin dan, mulai dari Terampil ke atas, item khas liga tersebut.
 
-### A cleaner profile
-On the left, just what matters: your level, the next prize, and the achievements and reactions already won. Every medal and reaction has a tab of its own, and nothing runs off the screen.
+### Profil yang lebih rapi
+Di sebelah kiri, hanya yang penting: levelmu, hadiah berikutnya, serta pencapaian dan reaksi yang sudah didapat. Setiap medali dan reaksi punya tab sendiri, dan tidak ada yang terpotong di luar layar.
 
-### The view from above as it was, with round balls
-The table has its depth and its usual light again, and the camera no longer jumps when it leaves the view from above.
+### Tampak atas seperti dulu, dengan bola bulat
+Meja kembali punya kedalaman dan pencahayaan seperti biasa, dan kamera tidak lagi melompat saat meninggalkan tampak atas.
 
 ## 0.6.1
 
-### A view from above without distortion
-The table is now seen from high up, almost without perspective: balls stay round out to the corners, and the cue, the aiming line and the ghost ball always line up. The light on the balls is softer, so the number shows.
+### Tampak atas tanpa distorsi
+Meja kini dilihat dari tempat tinggi, hampir tanpa perspektif: bola tetap bulat sampai ke pojok, dan stik, garis bidik, serta bola bayangan selalu sejajar. Cahaya di bola lebih lembut, sehingga nomornya terlihat.
 
-### A tournament and a tour that mean it
-In a tournament against the computer a game counts once: leaving half way doesn't wipe it (it goes on from where it was) and there is no rematch. The champion gets a gold medal. And the tour is hard: every opponent plays at their best.
+### Turnamen dan tur yang serius
+Di turnamen melawan komputer, sebuah game hanya dihitung sekali: keluar di tengah jalan tidak menghapusnya (game dilanjutkan dari posisi terakhir) dan tidak ada tanding ulang. Juaranya mendapat medali emas. Dan tur-nya sulit: setiap lawan bermain sebaik mungkin.
 
-### New achievements, pictures and sounds
-Shutout, Golden break and account anniversaries. Faces that look like people and twelve profile pictures that are not faces (the 8-ball, a trophy, a crown…). New sounds for the balls, the cue, the cushions and the pockets.
+### Pencapaian, gambar, dan suara baru
+Tanpa balas, Break emas, dan ulang tahun akun. Wajah yang terlihat seperti manusia dan dua belas foto profil yang bukan wajah (bola 8, trofi, mahkota…). Suara baru untuk bola, stik, bantalan, dan lubang.
 
-### Leagues, levels that pay and scarce coins
-Other players are shown by their league (the rating is on the profile and in the ranking). Every account level pays coins and levels 5 to 50 bring items of their own, but the climb is long. Coins are scarcer: everything in the shop takes time to earn.
+### Liga, level yang memberi hadiah, dan koin yang langka
+Pemain lain ditampilkan berdasarkan liganya (rating ada di profil dan di peringkat). Setiap level akun memberi koin dan level 5 sampai 50 memberi item khusus, tapi pendakiannya panjang. Koin lebih langka: semua isi toko butuh waktu untuk didapat.
 
 ## 0.6.0
 
-### A Brazilian rule, with penalty balls
-The game now plays the regional Brazilian rule of eight-ball, the one of bars and pool halls (not the official tournament rule). A foul passes the turn and takes your opponent's lowest balls off the table, only a pocketed cue ball gives ball in hand, and the 8 alone on the break wins. The full rules are in the menu.
+### Aturan Brasil, dengan bola penalti
+Game kini memakai aturan regional Brasil untuk bola 8, aturan bar dan rumah biliar (bukan aturan resmi turnamen). Foul memindahkan giliran dan mengangkat bola-bola terendah lawanmu dari meja, hanya bola putih yang masuk yang memberi bola di tangan, dan bola 8 sendirian saat break berarti menang. Aturan lengkap ada di menu.
 
-### Heavier balls
-The cloth holds the ball more and the break is less violent: the balls no longer scatter all over the table.
+### Bola lebih berat
+Kain lebih menahan bola dan break tidak sekeras dulu: bola tidak lagi berhamburan ke seluruh meja.
 
-### Tournaments against the computer and more drills
-Play a knockout of sixteen or an arena on points against the fifteen opponents. And there are eight new drills, fifteen in all.
+### Turnamen melawan komputer dan lebih banyak latihan
+Mainkan sistem gugur enam belas pemain atau arena berbasis poin melawan lima belas lawan. Dan ada delapan latihan baru, total lima belas.
 
-### Aiming and the cue
-The cue's elevation can be set by dragging with the mouse, the aiming line points at the centre of the ghost ball, faint arrows show when the cue ball can be moved, and the shadows can be turned off.
+### Membidik dan stik
+Elevasi stik bisa diatur dengan menyeret mouse, garis bidik mengarah ke tengah bola bayangan, panah samar menunjukkan kapan bola putih bisa dipindahkan, dan bayangan bisa dimatikan.
 
 ## 0.5.1
 
-### Cleaner balls
-The pale disc on top of every ball is gone: a ball is lit as one round thing and shows the lamp as a single clean dot. Castings, rugs and Low quality look better too.
+### Bola lebih bersih
+Cakram pucat di atas setiap bola sudah hilang: bola diterangi sebagai satu benda bulat dan memantulkan lampu sebagai satu titik bersih. Hiasan, karpet, dan kualitas Rendah juga terlihat lebih bagus.
 
-### The power bar keeps no memory
-No more mark for your last stroke, and every turn starts from the middle of the bar: judging the pace is part of the game.
+### Bar tenaga tanpa ingatan
+Tidak ada lagi tanda untuk pukulan terakhirmu, dan setiap giliran dimulai dari tengah bar: menakar tenaga adalah bagian dari permainan.
 
-### Nothing over the table
-Whose turn it is now reads in the top bar, beside the score panel, so the side pocket is always in sight. Aiming lines are smooth, and the rings round the pockets are whole.
+### Tidak ada apa-apa di atas meja
+Giliran siapa kini terbaca di bar atas, di samping panel skor, sehingga lubang tengah selalu terlihat. Garis bidik halus, dan lingkaran di sekitar lubang utuh.
 
 ## 0.5.0
 
-### Tournament-table physics
-The balls weigh what they do on a real table: the power bar goes up to a hard stroke (only the break uses full power), cushions give back less the harder they are hit, and a ball made falls into the pocket at the pace it arrived with.
+### Fisika meja turnamen
+Bola punya bobot seperti di meja sungguhan: bar tenaga naik hingga pukulan keras (hanya break yang memakai tenaga penuh), bantalan memantul lebih lemah makin keras dipukul, dan bola yang masuk jatuh ke lubang dengan kecepatan saat tiba.
 
-### An official tournament table
-The table is the regulation 8-foot one, measure for measure: balls, corner and side pockets with the official mouths and angles. The cloth is a deep green under the lamps and the balls shine like polished ones, their numbers crisp.
+### Meja turnamen resmi
+Meja kini berukuran resmi 8 kaki, dengan ukuran yang presisi: bola, lubang pojok, dan lubang tengah dengan mulut dan sudut resmi. Kainnya hijau pekat di bawah lampu dan bola berkilau seperti baru dipoles, nomornya tajam.
 
-### A truer guide, or none
-The ghost ball now stops where the cue ball really would, the mouths of the pockets included. And a new choice: play with no aiming guide at all.
+### Panduan yang lebih akurat, atau tanpa panduan
+Bola bayangan kini berhenti tepat di tempat bola putih benar-benar akan berhenti, termasuk di mulut lubang. Dan pilihan baru: bermain tanpa panduan bidikan sama sekali.
 
 ## 0.4.0
 
-### A new name: Snook Legend
-The game is now called Snook Legend. Your account, coins, items, settings and progress are all here, as before.
+### Nama baru: Snook Legend
+Game ini kini bernama Snook Legend. Akun, koin, item, pengaturan, dan progresmu semuanya tetap ada, seperti sebelumnya.
 
-### 8-foot table, open side pockets
-A smaller table (8 feet) and side pockets that forgive a ball off the centre or rolling in at an angle. The balls roll a little more freely.
+### Meja 8 kaki, lubang tengah lebih lebar
+Meja lebih kecil (8 kaki) dan lubang tengah yang memaafkan bola yang tidak pas di tengah atau masuk dengan sudut. Bola bergulir sedikit lebih bebas.
 
-### New rule: the opponent's ball
-Making one of your opponent's balls passes the turn, even if one of yours went down too. It is not a foul: no ball in hand.
+### Aturan baru: bola lawan
+Memasukkan salah satu bola lawanmu memindahkan giliran, meskipun bolamu juga ikut masuk. Ini bukan foul: tidak ada bola di tangan.
 
-### Easier to see
-The cloth is lit evenly, the balls have a soft sheen so their numbers read, shadows are lighter, and nothing of the hall gets in the way of the view from above. Whose turn it is stands out on the score cards.
+### Lebih mudah dilihat
+Kain diterangi merata, bola punya kilau lembut agar nomornya terbaca, bayangan lebih tipis, dan tidak ada bagian ruangan yang menghalangi tampak atas. Giliran siapa terlihat jelas di kartu skor.
 
-### Fifteen opponents
-Tito, Inês, Diego, Amara and Yuri join the computer opponents, each with a style and a voice of their own. The Tour now has fifteen stages; your wins so far are kept.
+### Lima belas lawan
+Tito, Inês, Diego, Amara, dan Yuri bergabung dengan lawan komputer, masing-masing dengan gaya dan suaranya sendiri. Tur kini punya lima belas tahap; kemenanganmu sejauh ini tetap tersimpan.
 
-### Quieter opponents
-Settings → Game → Opponents' remarks turns their speech bubbles off.
+### Lawan yang lebih tenang
+Pengaturan → Game → Komentar lawan mematikan balon kata mereka.
 
-### A new score panel
-Pictures and names in boxes, and the balls each player made rolling into place along their rail, in the order they went down.
+### Panel skor baru
+Foto dan nama di dalam kotak, dan bola yang dimasukkan setiap pemain bergulir ke tempatnya di sepanjang relnya, sesuai urutan masuknya.
 
-### Aim by eye
-Raise the cue by dragging it in a side view of the shot. No more numbers on the power or the elevation: judge them by eye. Prefer it flat? Settings → Game → Top view only.
+### Membidik dengan mata
+Angkat stik dengan menyeretnya di tampilan samping pukulan. Tidak ada lagi angka untuk tenaga atau elevasi: takar dengan mata. Lebih suka datar? Pengaturan → Game → Hanya tampak atas.
 
-### Rules and pictures
-The rules of the game are a click away (the book on the main menu, or Rules in the pause menu). Pick one of 32 profile pictures in your profile.
+### Aturan dan gambar
+Aturan permainan hanya sejauh satu klik (buku di menu utama, atau Aturan di menu jeda). Pilih salah satu dari 32 foto profil di profilmu.
 
-### Your games are safe
-Replays and daily games that started before this update keep the old table and rules until they end.
+### Game kamu aman
+Replay dan game harian yang dimulai sebelum pembaruan ini tetap memakai meja dan aturan lama sampai selesai.
 
 ## 0.3.0
 
-### A regulation 9-foot table
-The table is now tournament size (100" × 50"), with the balls, pockets, cushions and cue to official measurements. The balls are heavier and bounce less, like real ones.
+### Meja resmi 9 kaki
+Meja kini berukuran turnamen (100" × 50"), dengan bola, lubang, bantalan, dan stik sesuai ukuran resmi. Bola lebih berat dan tidak terlalu memantul, seperti bola sungguhan.
 
-### A new break rule
-On the break, the first ball you pocket sets your group: solids or stripes. A foul on the break leaves the table open.
+### Aturan break baru
+Saat break, bola pertama yang kamu masukkan menentukan grupmu: polos atau belang. Foul saat break membuat meja tetap terbuka.
 
-### New halls, tables and cues
-Four new halls and four new tables, and every old one reworked. Premium cues that look nothing alike. On Ultra, floors that reflect the hall.
+### Ruangan, meja, dan stik baru
+Empat ruangan baru dan empat meja baru, dan semua yang lama diperbarui. Stik premium yang tampilannya sangat berbeda satu sama lain. Di Ultra, lantai yang memantulkan ruangan.
 
-### Daily challenge
-A new position every day, the same for everyone, with a ranking of the day: three attempts to make as many balls as you can.
+### Tantangan harian
+Posisi baru setiap hari, sama untuk semua orang, dengan klasemen hari itu: tiga percobaan untuk memasukkan bola sebanyak mungkin.
 
-### Drills with stars
-Seven drills on potting, spin, banks and escaping snookers, up to three stars each, with rankings and a challenge rating that shows your level.
+### Latihan dengan bintang
+Tujuh latihan tentang memasukkan bola, efek, pantulan, dan lolos dari snooker, hingga tiga bintang masing-masing, dengan peringkat dan rating tantangan yang menunjukkan levelmu.
 
-### Account level
-Earn experience in every game, won or lost, and in drills, the daily challenge and achievements. Your level shows on your profile.
+### Level akun
+Dapatkan pengalaman di setiap game, menang atau kalah, serta di latihan, tantangan harian, dan pencapaian. Levelmu tampil di profilmu.
 
-### The Tour
-The old ladder is now the Tour: ten stages, one opponent each. The opponents have new portraits and talk during the game.
+### Tur
+Tangga peringkat lama kini menjadi Tur: sepuluh tahap, satu lawan di tiap tahap. Para lawan punya potret baru dan berbicara selama game.
 
-### Fair play
-Leaving a game costs more than losing it. The full aiming guide is for free games against the computer and practice only: never online, in the Tour, the daily challenge or drills.
+### Main sportif
+Keluar dari game kini lebih merugikan daripada kalah. Panduan bidikan lengkap hanya untuk game bebas melawan komputer dan latihan bebas: tidak pernah online, di Tur, tantangan harian, atau latihan berbintang.
 
-### Your profile
-A trophy shelf and statistics for each cue: games, wins and balls made with it. You can now change your username up to three times.
+### Profilmu
+Rak trofi dan statistik untuk setiap stik: game, kemenangan, dan bola yang dimasukkan dengannya. Kini kamu bisa mengganti nama pengguna hingga tiga kali.
 
-### In the lounge
-An "away" status, quick phrases translated into your opponent's language and a practice table while the search for an opponent goes on.
+### Di lobi
+Status "tidak di tempat", frasa cepat yang diterjemahkan ke bahasa lawanmu, dan meja latihan selama pencarian lawan berlangsung.
 
 ## 0.2.0
 
-### Ten opponents with personality
-Choose who to play: from Leo, still learning, to Marta, who lives on safeties, and Lola, who banks everything. Each has their own style, portrait and strength.
+### Sepuluh lawan berkarakter
+Pilih lawanmu: dari Leo, yang masih belajar, sampai Marta, yang hidup dari safety, dan Lola, yang memantulkan semua bola. Masing-masing punya gaya, potret, dan kekuatan sendiri.
 
-### The ladder
-Beat the ten opponents one by one, up to the last. Reach the top to earn the exclusive "Ladder king" cue and a new achievement.
+### Tangga peringkat
+Kalahkan sepuluh lawan satu per satu, sampai yang terakhir. Capai puncak untuk mendapatkan stik eksklusif "Raja Tangga" dan pencapaian baru.
 
-### Play the ghost
-The computer learns a real player's style from their online games. Challenge a friend's ghost, or your own, from the profile or the vs-computer screen.
+### Lawan hantu
+Komputer mempelajari gaya pemain sungguhan dari game online mereka. Tantang hantu temanmu, atau hantumu sendiri, dari profil atau layar melawan komputer.
 
-### Daily games
-Challenge someone and play your turn when you can: each player has up to 3 days per turn. You are told when it's your turn, and you can have several games at once.
+### Game harian
+Tantang seseorang dan mainkan giliranmu kapan sempat: setiap pemain punya waktu hingga 3 hari per giliran. Kamu diberi tahu saat giliranmu tiba, dan kamu bisa punya beberapa game sekaligus.
 
-### Friends and gifts
-See who you played recently, write a status on your profile and post on the lounge's "looking for a game" board. Gifts from friends now arrive with a notice, a message and a "thank you".
+### Teman dan hadiah
+Lihat siapa yang baru-baru ini kamu lawan, tulis status di profilmu, dan pasang catatan di papan "Cari lawan main" di lobi. Hadiah dari teman kini datang dengan pemberitahuan, pesan, dan ucapan "terima kasih".
 
-### Cues, tables and halls
-Your cue earns bands and inlays as you win with it. In the shop, themed tables and halls: beach bar, industrial loft and English club.
+### Stik, meja, dan ruangan
+Stikmu mendapat cincin dan tatahan seiring kemenanganmu dengannya. Di toko, meja dan ruangan bertema: bar pantai, loteng industrial, dan klub Inggris.
 
-### Your game, analysed
-The profile's new Analysis tab shows your potting by pocket, distance and kind of shot, with a heat map of the table.
+### Analisis permainanmu
+Tab Analisis baru di profil menampilkan cara kamu memasukkan bola per lubang, jarak, dan jenis pukulan, dengan peta panas meja.
 
-### Your keys
-Every shortcut can be changed in Settings → Controls, and the game's hints follow your choices.
+### Tombolmu
+Setiap pintasan bisa diubah di Pengaturan → Kontrol, dan petunjuk di game mengikuti pilihanmu.
 
-### Automatic updates
-New versions download in the background and install when you restart, never during a game. This window tells you what changed.
+### Pembaruan otomatis
+Versi baru diunduh di latar belakang dan dipasang saat kamu memulai ulang, tidak pernah saat bermain. Jendela ini memberi tahu apa yang berubah.
 
-### A reviewed interface
-Every screen was reviewed in the three languages and at every window size. Fixes: Esc opens the menu at the table, the computer sinks the 8 in its called pocket more reliably, and the overhead view no longer goes black.
+### Antarmuka yang ditinjau ulang
+Setiap layar ditinjau dalam ketiga bahasa dan di setiap ukuran jendela. Perbaikan: Esc membuka menu di meja, komputer lebih andal memasukkan bola 8 ke lubang pilihannya, dan tampak atas tidak lagi menjadi hitam.
 
 ## 0.1.4
 
-### A game while you wait
-After half a minute of "Play now" without an opponent, you can play the computer while the search goes on.
+### Main sambil menunggu
+Setelah setengah menit "Main sekarang" tanpa lawan, kamu bisa melawan komputer sambil pencarian berlangsung.
 
-### Chat moderation
-You can delete your own chat lines, and moderators can remove abuse.
+### Moderasi chat
+Kamu bisa menghapus pesan chat-mu sendiri, dan moderator bisa menghapus pesan kasar.
 
-### Cues you can see
-Opponents see the pattern of the cue you bought, and VIP members have reactions of their own.
+### Stik yang terlihat
+Lawan melihat motif stik yang kamu beli, dan anggota VIP punya reaksi eksklusif.

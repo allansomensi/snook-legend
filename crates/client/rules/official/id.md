@@ -1,66 +1,66 @@
-# Snook Legend: the official rules of eight-ball (the World Pool-Billiard
-# Association's Rules of Play), shown in the game.
-# "## <part>" starts a part, "### <title>" a rule, and the lines after it
-# are its text. The same parts and rules, in the same order, in every
-# language.
+# Snook Legend: aturan resmi biliar bola 8 (Rules of Play dari World
+# Pool-Billiard Association), sebagaimana ditampilkan di game.
+# "## <bagian>" memulai sebuah bagian, "### <judul>" sebuah aturan, dan baris
+# sesudahnya adalah teksnya. Bagian dan aturan yang sama, dalam urutan yang
+# sama, di setiap bahasa.
 
-## The game
+## Permainan
 
-### The official rules (WPA)
-The eight-ball of international tournaments, as the World Pool-Billiard Association plays it. Snook Legend has the Brazilian rules too: choose the rules of your games in the main menu. If you play the Brazilian rules, read the break, the calls and the fouls below, because they differ a lot.
+### Aturan resmi (WPA)
+Biliar bola 8 turnamen internasional, sebagaimana dimainkan oleh World Pool-Billiard Association. Snook Legend juga punya aturan Brasil: pilih aturan game kamu di menu utama. Jika kamu biasa bermain dengan aturan Brasil, baca bagian break, pemilihan lubang, dan foul di bawah, karena perbedaannya cukup besar.
 
-### The aim
-Each player has a group of seven balls: solids (1 to 7) or stripes (9 to 15). Pocket all of yours and then the 8-ball, in the pocket you call, before your opponent does.
+### Tujuan
+Setiap pemain punya grup tujuh bola: polos (1 sampai 7) atau belang (9 sampai 15). Masukkan semua bolamu lalu bola 8, ke lubang yang kamu pilih, sebelum lawanmu melakukannya.
 
-### Your turn
-You keep shooting while you make a ball of your group in the pocket you called, on a shot without a foul. Otherwise the turn passes, and the balls that went in stay down.
+### Giliranmu
+Kamu terus memukul selama memasukkan bola dari grupmu ke lubang yang kamu pilih, pada pukulan tanpa foul. Jika tidak, giliran berpindah, dan bola yang sudah masuk tetap di dalam.
 
-## The break
+## Break
 
-### The break shot
-The cue ball is in your hand: place it anywhere behind the head string. Nothing is called on the break. For it to be legal you must make a ball or drive at least four object balls to a cushion.
+### Pukulan break
+Bola putih ada di tanganmu: letakkan di mana saja di belakang garis kepala. Tidak ada lubang yang dipilih saat break. Agar break sah, kamu harus memasukkan satu bola atau membuat setidaknya empat bola sasaran menyentuh bantalan.
 
-### An illegal break
-If no ball goes in and fewer than four reach a cushion, your opponent chooses: play the table as it lies, have the balls racked and break themselves, or have you break again.
+### Break tidak sah
+Jika tidak ada bola yang masuk dan kurang dari empat bola menyentuh bantalan, lawanmu memilih: main dengan meja apa adanya, menyusun ulang bola lalu break sendiri, atau menyuruhmu break lagi.
 
-### After the break
-A ball made on a legal break keeps the table, but the table stays open: the break never decides the groups. If the cue ball goes in or leaves the table on a legal break, your opponent has it in hand behind the head string.
+### Setelah break
+Bola yang masuk pada break sah membuatmu tetap memukul, tapi meja tetap terbuka: break tidak pernah menentukan grup. Jika bola putih masuk atau keluar meja pada break sah, lawanmu mendapat bola putih di tangan di belakang garis kepala.
 
-### The 8-ball on the break
-Pocketing the 8 on the break neither wins nor loses: it comes back to the foot spot, and you play on or have the balls racked and break again. If you also fouled, your opponent chooses: the cue ball in hand behind the head string, or the balls racked again and they break.
+### Bola 8 saat break
+Memasukkan bola 8 saat break tidak membuatmu menang maupun kalah: bola 8 dikembalikan ke titik kaki, dan kamu lanjut memukul atau menyusun ulang bola lalu break lagi. Jika kamu juga melakukan foul, lawanmu memilih: bola putih di tangan di belakang garis kepala, atau bola disusun ulang dan dia yang break.
 
-### A ball off the table on the break
-It is a foul, and the ball stays off (only the 8 comes back). Your opponent plays the table as it lies or takes the cue ball in hand behind the head string. If the break was illegal too, they may also have the balls racked again, as above.
+### Bola keluar meja saat break
+Itu foul, dan bola tersebut tetap di luar (hanya bola 8 yang dikembalikan). Lawanmu main dengan meja apa adanya atau mengambil bola putih di tangan di belakang garis kepala. Jika break juga tidak sah, lawan juga boleh meminta bola disusun ulang, seperti di atas.
 
-## Calling and playing
+## Memilih lubang dan bermain
 
-### Open table
-While the groups are not decided, the table is open: you may hit any ball first except the 8. The group of the ball you make in the called pocket becomes yours. If one group is already off the table, you may play the 8.
+### Meja terbuka
+Selama grup belum ditentukan, meja terbuka: kamu boleh mengenai bola mana pun lebih dulu kecuali bola 8. Grup dari bola yang kamu masukkan ke lubang pilihan menjadi grupmu. Jika satu grup sudah habis dari meja, kamu boleh memainkan bola 8.
 
-### Calling your shot
-Every shot except the break is called. In the game you call a pocket: following your aim, it calls the pocket the ball you hit is heading for (the ring on the pocket). Click another pocket to call it, or play a safety. A ball of your group (or the 8, when you are on it) made in the called pocket keeps the table, also off a cushion or another ball.
+### Memilih lubang
+Setiap pukulan kecuali break harus memilih lubang. Di game, lubang dipilih otomatis mengikuti bidikanmu: lubang yang dituju bola yang kamu kenai (lingkaran di lubang). Klik lubang lain untuk memilihnya, atau mainkan safety. Bola dari grupmu (atau bola 8, saat kamu sudah di bola 8) yang masuk ke lubang pilihan membuatmu tetap memukul, termasuk jika lewat bantalan atau bola lain.
 
 ### Safety
-A shot with no pocket called is a safety: whatever goes in stays down, and the turn passes to your opponent.
+Pukulan tanpa lubang pilihan adalah safety: bola apa pun yang masuk tetap di dalam, dan giliran berpindah ke lawanmu.
 
-### The cue ball behind the head string
-With the cue ball in hand behind the head string, you can't hit a ball that also lies behind it unless the cue ball crosses the head string first. If every ball you may hit lies behind it, the one nearest to the head string comes back to the foot spot.
+### Bola putih di belakang garis kepala
+Dengan bola putih di tangan di belakang garis kepala, kamu tidak boleh mengenai bola yang juga berada di belakang garis itu kecuali bola putih melewati garis kepala lebih dulu. Jika semua bola yang boleh kamu kenai berada di belakang garis, bola yang paling dekat dengan garis kepala dikembalikan ke titik kaki.
 
-## Fouls
+## Foul
 
-### Ball in hand
-After any foul, your opponent has the cue ball in hand: they place it anywhere on the table. No ball comes off the table as a penalty.
+### Bola di tangan
+Setelah foul apa pun, lawanmu mendapat bola putih di tangan: dia boleh meletakkannya di mana saja di meja. Tidak ada bola yang diangkat dari meja sebagai penalti.
 
-### What is a foul
-The cue ball in a pocket or off the table; hitting no ball, or the wrong ball first (one of your opponent's, or the 8 too soon); after the contact, no ball made and no ball reaching a cushion (a ball lying against a cushion only reaches it by leaving it and coming back); an object ball off the table (it stays off).
+### Apa itu foul
+Bola putih masuk lubang atau keluar meja; tidak mengenai bola apa pun, atau mengenai bola yang salah lebih dulu (bola lawan, atau bola 8 terlalu cepat); setelah kontak, tidak ada bola yang masuk dan tidak ada bola yang menyentuh bantalan (bola yang menempel di bantalan baru dihitung menyentuhnya jika menjauh lalu kembali); bola sasaran keluar meja (bola itu tetap di luar).
 
-### The shot clock
-When the game has a shot clock and it runs out, it is a foul: your opponent has the cue ball in hand. A choice after the break that isn't made in time takes its first option.
+### Batas waktu pukulan
+Jika game memakai batas waktu pukulan dan waktunya habis, itu foul: lawanmu mendapat bola putih di tangan. Pilihan setelah break yang tidak dibuat tepat waktu otomatis memakai opsi pertama.
 
-## The 8-ball
+## Bola 8
 
-### Winning
-Once your group is off the table, pocket the 8 in the pocket you called, on a shot without a foul.
+### Menang
+Begitu grupmu habis dari meja, masukkan bola 8 ke lubang yang kamu pilih, pada pukulan tanpa foul.
 
-### Losing on the 8
-You lose by pocketing the 8 on a foul, before your group is off the table or in a pocket you didn't call, and by knocking the 8 off the table. None of this applies to the break.
+### Kalah di bola 8
+Kamu kalah jika memasukkan bola 8 saat foul, sebelum grupmu habis dari meja, atau ke lubang yang tidak kamu pilih, dan jika membuat bola 8 keluar meja. Semua ini tidak berlaku saat break.

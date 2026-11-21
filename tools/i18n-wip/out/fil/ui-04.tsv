@@ -1,0 +1,300 @@
+901	Laki ng interface
+902	Text, mga button at panel.
+903	I-drag para itakda ang lakas
+904	Tira!
+905	Itakda ang lakas, saka pindutin ang berdeng button
+906	+{n} coins · {why}
+907	Mga torneong may 16 na manlalaro, at unang puwesto sa waiting list ng punong torneo
+908	30 minuto: maglaro ng pinakamaraming laro na kaya mo. 2 puntos ang panalo, 4 mula sa ikatlong sunod-sunod na panalo.
+909	Korona sa tabi ng pangalan mo, kahit saan (lounge, profile, ranking)
+910	Account
+911	Magdagdag ng kaibigan para mabigyan sila ng item.
+912	Arena
+913	Arena · host {host} · {n} manlalaro · {kind}
+914	Bilhin na
+915	Binibili…
+916	Palitan ang password
+917	I-click ulit para burahin
+918	May code ka? I-type dito
+919	Kumpirmahin ang pagbili
+920	Nakopya: ipadala sa isang kaibigan.
+921	Kopyahin
+922	Kasalukuyan
+923	Burahin ang account
+924	Entry fee
+925	Entry fee {n} coins
+926	Naka-save ang lahat ng replay (ang huling 10 laro lang ang naka-save sa mga libreng manlalaro)
+927	Para kay {name}
+928	Magdagdag ng mensahe (opsiyonal)
+929	Format
+930	Mga Frame
+931	Libre
+932	Kumuha ng coins
+933	Naipadala ang regalo!
+934	Iregalo
+935	Iregalo ito
+936	Iregalo sa kaibigan
+937	Ayos!
+938	Kung makalimutan mo ang password mo, kukumpirmahin naming ikaw iyan gamit ang e-mail na ito.
+939	Mag-imbita gamit ang code
+940	Gagamitin agad ito. Itsura lang ang binabago ng mga item, hindi kailanman ang laro.
+941	Sumali sa mesa ko sa Snook Legend:
+942	Sumali sa waiting list
+943	Sumali · {n} coins
+944	Knockout
+945	Kulay ng pangalan
+946	Mga kulay ng pangalan para sa lounge at mga eksklusibong frame, tela, cue, bola at effect
+947	Bago
+948	Hindi, salamat
+949	Walang nakakapagpanalo ng laro: itsura lang ang binabago ng VIP
+950	Mga numero
+951	NASA TV
+952	Maglaro ng rated na laro para makita rito ang rating mo.
+953	Wala pang rated na laro.
+954	Presyo
+955	Premyo {a} + {b}
+956	Protektahan ang mga binili mo
+957	Kumpleto na ang pagbili!
+958	Recovery e-mail
+959	I-save
+960	Ang mga entry fee ang bumubuo sa premyo: 70% sa kampeon, 20% sa pumangalawa.
+961	Magre-restart ang server sa loob ng {m}:{s} para sa update. Tuloy ang mga kasalukuyang laro.
+962	Gamitin ang e-mail na ito
+963	Gamitin ang {email} para ma-recover ang account mo kung sakaling makalimutan mo ang password mo?
+964	Panoorin
+965	Panoorin ulit
+966	Mga effect ng panalo
+967	Mga Hall
+968	Ipapares ka agad kapag libre na kayo ng isang kalaban.
+969	Mapapalitan mo ito kahit kailan sa profile mo (Account).
+970	Kailangan mo pa ng {n} coins.
+971	Account mo
+972	Nabura na ang account mo.
+973	Coins mo
+974	Matatanggap agad ito ng kaibigan mo.
+975	Magsisimula na ang laro mo laban kay {name}.
+976	Permanenteng mabubura ang pangalan, e-mail, mga kaibigan at item mo. Mananatili sa mga kalaban mo ang mga larong nilaro ninyo (nang wala ang pangalan mo).
+977	bola bawat laro
+978	pinakamahabang run kailanman
+979	daily bonus
+980	ibinalik ang entry fee
+981	para sa laro
+982	para sa panalo
+983	larong binilang
+984	Pagsusuri
+985	Hindi pa available ang pagsusuri ng tira sa server na ito.
+986	Ang mga online account lang ang may pagsusuri ng tira.
+987	Maglaro online para makita kung paano ka magpasok: lalabas ang pagsusuri pagkatapos ng {n} pang tira sa pocket.
+988	Hindi pa sapat ang online na laro ni {name} para sa pagsusuri.
+989	1 laro
+990	{pct}% ng {n} tira sa pocket ang pumasok · {games}
+991	{made} sa {n} ang pumasok ({pct})
+992	Ayon sa uri ng tira
+993	tira
+994	Diretso
+995	Cut 8–25°
+996	Cut 25–45°
+997	Manipis na cut 45°+
+998	Bank
+999	Kick
+1000	Combination
+1001	Jump
+1002	Massé
+1003	Break
+1004	Ayon sa layo
+1005	Maikli (wala pang 0.75 m)
+1006	Katamtaman (hanggang 1.5 m)
+1007	Mahaba (lampas 1.5 m)
+1008	walang naiwang tira sa kalaban
+1009	Mga break
+1010	nakapasok ng bola
+1011	Pumasok
+1012	Mintis
+1013	Saan at sa aling pocket
+1014	{pocket}: {made} sa {n} ang pumasok
+1015	Kung nasaan ang mga bolang pumasok
+1016	Kung nasaan ang mga bolang hindi pumasok
+1017	kaunti
+1018	marami
+1019	{made} pasok · {missed} mintis ({pct})
+1020	Kaliwang sulok sa itaas
+1021	Kaliwang sulok sa ibaba
+1022	Gitnang pocket sa itaas
+1023	Gitnang pocket sa ibaba
+1024	Kanang sulok sa itaas
+1025	Kanang sulok sa ibaba
+1026	larong iniwang hindi tapos
+1027	pasok na tira
+1028	tirang may foul
+1029	magsisimula sa loob ng {n} min
+1030	premyo sa torneo
+1031	Itinatago ng madilim na kuwarto ang hall sa paligid ng mesa.
+1032	Ipakita ang hall
+1033	Level {n} · 1 panalo
+1034	Level {n} · {w} panalo
+1035	{left} pang online na panalo gamit ang cue na ito para sa level {n}. Marka lang sa cue ang idinadagdag ng mga level.
+1036	Pinakamataas na level: nasa cue na ito ang lahat ng marka.
+1037	Umabot sa level {n} ang cue mong {cue}!
+1038	Pinakamaraming panalo: {cue} (level {n})
+1039	{games} laro · {rate}% panalo · {balls} bolang naipasok
+1040	vs
+1041	Binigyan ka ni {from} ng {item}!
+1042	May natanggap kang regalo!
+1043	Mula kay
+1044	Para kay
+1045	di-kilala
+1046	Isang buwan ng VIP
+1047	Magpasalamat
+1048	Napasalamatan na
+1049	Nagpasalamat siya sa iyo
+1050	Gamitin ngayon
+1051	Mamaya
+1052	OK
+1053	Susunod ({n} pa)
+1054	Binigyan ka ni {from} ng {item}! Naghihintay ito sa iyo sa lounge.
+1055	Nagpasalamat si {name} para sa {item}.
+1056	Mga Regalo
+1057	Wala pang regalo. Puwede kang bigyan ng mga kaibigan mo ng item mula sa shop.
+1058	Sa iyo na ang {item} at ginagamit mo na ito.
+1059	{m}:{s} pa
+1060	Iniimbitahan ka ni {name} na maglaro.
+1061	Online si {name}.
+1062	Naubusan ng oras si {name}.
+1063	Natanggap ni {name} ang {item}.
+1064	{n} pts · {g} laro
+1065	{n} nanonood · average {r}
+1066	{title}: {how}
+1067	Olive
+1068	Navy blue
+1069	Gubat
+1070	Slate gray
+1071	Red wine
+1072	Burnt orange
+1073	Dusty rose
+1074	Buhangin
+1075	Ice blue
+1076	Lime
+1077	Black tie
+1078	Cobalt
+1079	Esmeralda
+1080	Natural na maple
+1081	Beach bar
+1082	Moderno
+1083	English club
+1084	Ebony at ginto
+1085	Bilyaran
+1086	Industrial loft
+1087	Bakal at oak
+1088	Torneo
+1089	Victorian walnut
+1090	Ivory deco
+1091	Mountain lodge
+1092	Neon arcade
+1093	Art deco lounge
+1094	Skyline penthouse
+1095	Walnut
+1096	Zebrawood
+1097	Bocote
+1098	Malalim na karagatan
+1099	Cherry
+1100	Jade
+1101	Tigre
+1102	Amethyst
+1103	Arctic carbon
+1104	Inferno
+1105	Obsidian at ginto
+1106	Tan na chalk
+1107	Abong chalk
+1108	Orange na chalk
+1109	Pink na chalk
+1110	Teal na chalk
+1111	Dilaw na chalk
+1112	Itim na chalk
+1113	Puting chalk
+1114	Pilak na chalk
+1115	TV set
+1116	Kulay-lupa
+1117	Karagatan
+1118	Paglubog ng araw
+1119	Kendi
+1120	Perlas
+1121	Monochrome
+1122	Chrome
+1123	Gold rush
+1124	Walang frame
+1125	Tanso
+1126	Pilak
+1127	Ginto
+1128	Berdeng felt
+1129	Mahogany
+1130	Yelo
+1131	Apoy
+1132	Diyamante
+1133	Koronang VIP
+1134	Rose gold
+1135	Aqua
+1136	Violet
+1137	Baga
+1138	Mint
+1139	Frost
+1140	Walang effect
+1141	Mga kislap
+1142	Confetti
+1143	Shockwave
+1144	Ulan ng coins
+1145	Liyab
+1146	Maharlikang kislap
+1147	Kulay ng tier
+1148	Para sa mga VIP member ang mga torneong may 16 na manlalaro.
+1149	May nabakanteng puwesto: kasali ka na sa torneo!
+1150	Umaabot nang 1000 coins ang entry fee.
+1151	Hindi puwedeng maglaro para sa coins ang mga guest.
+1152	Ang mga item lang na ibinebenta sa coins ang puwedeng iregalo.
+1153	Napalitan ang password.
+1154	Kailangan ng password na may 8 o higit pang character, hindi puro numero.
+1155	Inalis ang recovery e-mail.
+1156	Na-save ang recovery e-mail.
+1157	Nagkaproblema. Subukan ulit.
+1158	Hindi valid ang code na iyan (o isinara na ang mesa).
+1159	Mukhang hindi e-mail address iyan.
+1160	Tapos na ang larong iyan.
+1161	Mali ang kasalukuyang password.
+1162	Nagre-restart ang server.
+1163	Nagre-restart ang server: magsisimula ang mga bagong laro maya-maya.
+1164	Puno na ang torneo: nasa waiting list ka.
+1165	Hindi available ang replay na ito.
+1166	Sa mga kaibigan mo lang puwedeng magregalo ng item.
+1167	Mayroon na ng item na ito ang kaibigan mo.
+1168	16 (VIP)
+1169	Hindi ibinebenta ang VIP sa bersiyong ito ng laro.
+1170	Sa bersiyong ito ng laro, nakukuha ang coins sa paglalaro:
+1171	rated na laro, at bonus bawat araw na naglalaro ka.
+1172	Nakukuha ang coins sa paglalaro:
+1173	Kung gusto mo, puwede mo rin itong bilhin:
+1174	isang buwan
+1175	VIP na
+1176	Iregalo ang isang buwan sa kaibigan · {p}
+1177	Binigyan ka ni {from} ng isang buwan ng VIP!
+1178	Nakatanggap si {name} ng isang buwan ng VIP.
+1179	VIP na ang kaibigan mo.
+1180	Kasalukuyang laro: {n} bola pa
+1181	Magpatuloy
+1182	Mga Misyon
+1183	Board
+1184	Ngayon
+1185	Ngayong linggo
+1186	mga bagong misyon sa loob ng {t}
+1187	matatapos sa loob ng {t}
+1188	{n} araw
+1189	{n} oras
+1190	{n} min
+1191	natapos ang misyon
+1192	Binibilang ng mga misyon ang mga rated na larong tinapos. Darating ang coins kapag natapos ang isa.
+1193	Walang laman ang board ngayon.
+1194	Mga bukas na torneo
+1195	{n}/{size} manlalaro
+1196	magsisimula sa loob ng {t}
+1197	entry fee {n} coins
+1198	Tingnan
+1199	Maglaro ng {n} rated na laro
+1200	Manalo ng {n} rated na laro

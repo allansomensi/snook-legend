@@ -1,66 +1,66 @@
-# Snook Legend: the rules of eight-ball, shown in the game.
-# "## <part>" starts a part, "### <title>" a rule, and the lines after it
-# are its text. The same parts and rules, in the same order, in every
-# language.
+# Snook Legend: правила «вісімки», як їх показує гра.
+# "## <part>" починає частину, "### <title>" — правило, а рядки після нього
+# — його текст. Ті самі частини й правила, в тому самому порядку, у кожній
+# мові.
 
-## The game
+## Гра
 
-### The Brazilian rules
-The eight-ball of Brazil's bars and pool halls, with penalty balls. Snook Legend has the official (WPA) rules too: choose the rules of your games in the main menu. If you know the official rules, read the fouls and the 8-ball below, because they differ a lot.
+### Бразильські правила
+«Вісімка» бразильських барів і більярдних, зі штрафними кулями. У Snook Legend є й офіційні правила (WPA): виберіть правила своїх партій у головному меню. Якщо ви знаєте офіційні правила, прочитайте про фоли й вісімку нижче, бо вони дуже відрізняються.
 
-### The aim
-Each player has a group of seven balls: solids (1 to 7) or stripes (9 to 15). Pocket all of yours and then the 8-ball, before your opponent does.
+### Мета
+Кожен гравець має групу із семи куль: суцільні (від 1 до 7) або смугасті (від 9 до 15). Забийте всі свої, а потім вісімку раніше за суперника.
 
-### Your turn
-You keep shooting as long as you pocket a ball of your group without a foul. If you miss, foul or pocket one of your opponent's balls, the turn passes.
+### Ваш хід
+Ви б’єте далі, доки забиваєте кулю своєї групи без фолу. Якщо ви промахнулися, зробили фол або забили кулю суперника, хід переходить до нього.
 
-## The break
+## Розбиття
 
-### The break shot
-On the break, and only then, the cue ball is in hand: you may place it anywhere behind the head string, even against a cushion, but never in a pocket's mouth (a break handed over after the cue ball was lost is played from the head spot: see below). No ball has to go down or reach a cushion, but the cue ball must hit a ball (see below). The break alternates: in a series of games each player breaks in turn, one break each.
+### Удар розбиття
+На розбитті, і лише тоді, биток з руки: його можна поставити будь-де за лінією дому, навіть біля борту, але ніколи не в створі лузи (розбиття, передане після втрати битка, виконують з передньої точки: див. нижче). Жодна куля не мусить зайти чи дійти до борту, але биток має влучити в кулю (див. нижче). Розбиття чергується: у серії партій гравці розбивають по черзі, по одному розбиттю кожен.
 
-### The 8-ball on the break
-Pocketing only the 8 on the break wins the game on the spot. Pocketing the 8 together with any other ball (the cue ball or any other) loses the game. If the 8 leaves the table on the break, it goes back on the table where the front ball of the rack stood (or as near as there is room) and you lose the turn: it's a foul.
+### Вісімка на розбитті
+Якщо на розбитті забито лише вісімку, ви одразу виграєте партію. Якщо вісімку забито разом з будь-якою іншою кулею (битком чи будь-якою іншою), ви програєте партію. Якщо вісімка вилетіла зі столу на розбитті, її повертають на місце передньої кулі піраміди (або якомога ближче, де є місце), і ви втрачаєте хід: це фол.
 
-### Only the cue ball on the break
-If the cue ball goes down or leaves the table on the break and no ball is made, you lose the turn and the break passes to your opponent. The balls stay where they stopped, and they put the cue ball on the head spot and play from there (not in hand): their shot counts as a new break. The 8 is not a ball to go for on it, though: with the balls already scattered, hitting the 8 first is a foul and pocketing it loses the game, as on any other shot (only on the break of the rack does the 8 alone win). The same goes if the cue ball goes down with balls of both groups (a solid and a stripe, in any order): the break passes to your opponent, with the cue ball on the head spot and no penalty ball; the balls made stay down and the table stays open. If one ball (or balls of one group only) goes down along with the cue ball, the first one down still decides the groups, and it's an ordinary foul: your opponent's lowest ball comes off, the cue ball goes back to the head spot and they play from there, without ball in hand.
+### Лише биток на розбитті
+Якщо на розбитті биток зайшов у лузу або вилетів зі столу, а жодної кулі не забито, ви втрачаєте хід, і розбиття переходить до суперника. Кулі лишаються там, де зупинилися, а суперник ставить биток на передню точку й б’є звідти (не з руки): його удар вважається новим розбиттям. Проте вісімка на ньому не мета: коли кулі вже розкотилися, влучити першою у вісімку — фол, а забити її — поразка, як і на будь-якому іншому ударі (лише на розбитті піраміди сама вісімка дає перемогу). Так само, якщо биток зайшов у лузу разом із кулями обох груп (суцільною і смугастою, у будь-якому порядку): розбиття переходить до суперника, биток стоїть на передній точці, і штрафної кулі немає; забиті кулі лишаються в лузах, а стіл — відкритим. Якщо разом із битком зайшла одна куля (або кулі лише однієї групи), перша забита все одно визначає групи, і це звичайний фол: найменша куля суперника знімається зі столу, биток повертається на передню точку, і суперник б’є звідти, без битка з руки.
 
-### A break that hits no ball
-If the break hits no ball, you lose the turn and the break passes to your opponent: the balls are still racked, and they place the cue ball anywhere behind the head string.
+### Розбиття, що не влучило в жодну кулю
+Якщо на розбитті биток не влучив у жодну кулю, ви втрачаєте хід, і розбиття переходить до суперника: кулі ще стоять у піраміді, а він ставить биток будь-де за лінією дому.
 
-### After the break
-On the break, the first ball that goes down decides your group, even if the cue ball goes down too (unless balls of both groups go down with the cue ball: see above). If only balls of your group go down, you shoot again. If one of your opponent's goes down too (the 3 and then the 13, say: you take the solids), it stays down, for them, and the turn passes.
+### Після розбиття
+На розбитті перша забита куля визначає вашу групу, навіть якщо биток теж зайшов у лузу (якщо тільки разом із битком не зайшли кулі обох груп: див. вище). Якщо зайшли лише кулі вашої групи, ви б’єте знову. Якщо зайшла й куля суперника (скажімо, 3, а потім 13: ви берете суцільні), вона лишається в лузі на його користь, а хід переходить до нього.
 
-### Open table
-Until the groups are decided the table is open: you may hit any ball first except the 8. The first ball you pocket on a shot without a foul gives you its group, and your opponent the other. On an open table there is no opponent's ball yet: a foul costs only the turn. If no ball of either group is left on an open table, both players are on the 8, and any foul that would give a ball loses the game (the 8 pays).
+### Відкритий стіл
+Поки групи не визначено, стіл відкритий: першою можна влучати в будь-яку кулю, крім вісімки. Перша куля, яку ви забили ударом без фолу, дає вам свою групу, а суперникові — іншу. На відкритому столі куль суперника ще немає: фол коштує лише ходу. Якщо на відкритому столі не лишилося жодної кулі жодної групи, обидва гравці на вісімці, і будь-який фол, що мав би дати кулю, програє партію (платить вісімка).
 
-## Fouls and penalties
+## Фоли й штрафи
 
-### Penalty balls
-Every foul passes the turn, and most of them give your opponent balls: the lowest numbers of their group still on the table come off it, as if they had pocketed them. Penalties add up. If your opponent has fewer balls left than the foul gives them, the 8 pays the rest and you lose the game: two penalty balls with only one on the table, that one and the 8 come off. Once they are on the 8 (no balls of their group left), any foul that gives a ball loses: missing every ball, pocketing the cue ball, knocking it off the table or hitting the wrong ball first. The same goes when only the 8 is left on the table. If you are on the 8 and your opponent still has balls, a foul gives them balls as usual (a miss, their lowest one) and passes the turn; you lose only if it gives more than they have.
+### Штрафні кулі
+Кожен фол передає хід, а більшість із них дає суперникові кулі: зі столу знімають кулі його групи з найменшими номерами, ніби він їх забив. Штрафи додаються. Якщо в суперника лишилося менше куль, ніж дає фол, решту покриває вісімка, і ви програєте партію: дві штрафні кулі, а на столі лише одна — знімають її і вісімку. Коли суперник уже на вісімці (куль його групи не лишилося), будь-який фол, що дає кулю, програє: промах по всіх кулях, биток у лузі, биток поза столом або удар першою не по тій кулі. Так само, коли на столі лишилася лише вісімка. Якщо на вісімці ви, а в суперника ще є кулі, фол, як завжди, дає йому кулі (за промах — його найменшу) і передає хід; ви програєте, лише якщо фол дає більше, ніж у нього є.
 
-### Missing the ball
-Hitting none of your balls: your opponent's lowest ball on the table comes off (it counts for them), and you lose the turn. Hitting the 8 first before your group is cleared costs the same. Missing and pocketing the cue ball as well: your opponent's two lowest balls.
+### Промах по кулі
+Ви не влучили в жодну свою кулю: найменша куля суперника знімається зі столу (зараховується йому), і ви втрачаєте хід. Те саме коштує удар першою у вісімку, поки вашу групу не забито. Промах і ще й биток у лузі: дві найменші кулі суперника.
 
-### Hitting your opponent's ball
-Hitting one of your opponent's balls first, directly: their two lowest balls come off, and you lose the turn. If the ball you hit goes down, it stays down and the two come off all the same. If the cue ball went to a cushion first: one ball (not the cushion it lay against). Hitting your opponent's ball directly and pocketing the cue ball as well: their three lowest.
+### Удар у кулю суперника
+Першою прямо влучили в кулю суперника: знімають дві його найменші кулі, і ви втрачаєте хід. Якщо куля, у яку ви влучили, зайшла, вона лишається в лузі, а дві кулі однаково знімають. Якщо биток спершу торкнувся борту: одна куля (не враховуючи борту, біля якого він лежав). Пряме влучання в кулю суперника і ще й биток у лузі: три його найменші кулі.
 
-### Pocketing the cue ball
-One ball to your opponent, and the cue ball goes back to the head spot, where the break is played from (or right behind a ball lying there). There is no ball in hand: your opponent plays from there. The cue ball is in hand on the break only; after any other foul it is played from where it stopped.
+### Биток у лузі
+Одна куля супернику, а биток повертається на передню точку, звідки виконують розбиття (або одразу за кулю, що там лежить). Битка з руки немає: суперник б’є звідти. Биток з руки буває лише на розбитті; після будь-якого іншого фолу ним грають з того місця, де він зупинився.
 
-### Balls off the table
-The cue ball off the table costs the same as pocketing it: your opponent's lowest ball comes off (it counts for them), you lose the turn and the cue ball goes back to the head spot. A ball of your group off the table comes back to the table, and you lose the turn. One of your opponent's balls off the table is out (it counts for them), and you lose the turn.
+### Кулі поза столом
+Биток поза столом коштує стільки ж, скільки биток у лузі: найменша куля суперника знімається зі столу (зараховується йому), ви втрачаєте хід, а биток повертається на передню точку. Куля вашої групи, що вилетіла зі столу, повертається на стіл, і ви втрачаєте хід. Куля суперника, що вилетіла зі столу, вибуває (зараховується йому), і ви втрачаєте хід.
 
-### Your opponent's ball
-Pocketing one of your opponent's balls passes the turn, even if one of yours went down too. It stays down, for them.
+### Куля суперника
+Якщо ви забили кулю суперника, хід переходить до нього, навіть якщо зайшла й ваша. Вона лишається в лузі на його користь.
 
-### The shot clock
-When a game has a shot clock and it runs out, it is a foul: the cue ball goes back to the head spot (not in hand), your opponent gets a ball (their lowest on the table; if they are on the 8 already, the 8 pays and you lose) and the turn passes. While the table is open, no ball is owed (unless only the 8 is left: then the clock loses the game). On the break, the break passes to your opponent, with the cue ball on the head spot (not in hand) and no ball owed.
+### Таймер удару
+Коли в партії є таймер удару і час спливає, це фол: биток повертається на передню точку (не з руки), суперник отримує кулю (свою найменшу на столі; якщо він уже на вісімці, платить вісімка, і ви програєте), а хід переходить до нього. Поки стіл відкритий, кулі не віддають (якщо тільки на столі не лишилася сама вісімка: тоді таймер програє партію). На розбитті розбиття переходить до суперника, биток стоїть на передній точці (не з руки), кулі не віддають.
 
-## The 8-ball
+## Вісімка
 
-### Calling the pocket
-When your group is cleared, choose a pocket for the 8 before you shoot. Pocket only the 8 there, without a foul, and you win. The pocket you call stands from your first shot on the 8 to the end of the game, even if that shot is a safety or a miss: you can't change it.
+### Замовлення лузи
+Коли вашу групу забито, перед ударом виберіть лузу для вісімки. Забийте туди лише вісімку, без фолу, і ви виграєте. Замовлена луза діє від першого вашого удару по вісімці до кінця партії, навіть якщо той удар — відіграш чи промах: змінити її не можна.
 
-### Losing on the 8
-You lose if you pocket the 8 before your group is cleared, in a pocket other than the one you called, together with the cue ball or one of your opponent's balls, on a foul, or if you knock it off the table after the break. You also lose with a foul that gives more balls than your opponent has: the 8 pays the rest (see penalty balls).
+### Поразка на вісімці
+Ви програєте, якщо забиваєте вісімку раніше, ніж забито вашу групу, в іншу лузу, ніж замовлена, разом із битком або кулею суперника, з фолом, а також якщо викидаєте її зі столу після розбиття. Ви також програєте через фол, що дає більше куль, ніж є в суперника: решту покриває вісімка (див. «Штрафні кулі»).

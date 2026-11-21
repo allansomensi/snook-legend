@@ -1,4 +1,4 @@
-# Snook Legend: Brazilian Portuguese.
+# Snook Legend: Ukrainian.
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} на вісімці: замовлена {pocket} луза
@@ -1202,5 +1202,855 @@ entry {n} coins	внесок {n} монет
 See	Переглянути
 Play {n} rated games	Зіграйте рейтингові партії: {n}
 Win {n} rated games	Виграйте рейтингові партії: {n}
+Pot {n} balls	Забийте кулі: {n}
+Pot {n} balls with spin	Забийте кулі з гвинтом: {n}
+Pot 3 balls in a row in one visit	Забийте 3 кулі поспіль за один підхід
+Win a game without a foul	Виграйте партію без жодного фолу
+Pot 3 balls in a row {n} times	Забийте 3 кулі поспіль стільки разів: {n}
+Win {n} games without a foul	Виграйте партії без жодного фолу: {n}
+TV camera when watching	ТВ-камера під час перегляду
+Broadcast angles for other players' games and replays.	Ракурси трансляції для чужих партій і повторів.
+System notifications	Системні сповіщення
+Invites, friends coming online and games starting, while you're away.	Запрошення, друзі в мережі й початок партій, поки вас немає.
+{name} starts in a few minutes: get ready!	{name} починається за кілька хвилин: приготуйтеся!
+{name} starts in a few minutes: there is still room.	{name} починається за кілька хвилин: ще є місця.
+{name} has started!	{name} розпочався!
+Momentum	Перевага
+Shot map	Карта ударів
+No shots yet.	Ударів поки немає.
+made	забито
+missed	промах
+foul	фол
+See the tournaments	Переглянути турніри
+Open the shop	Відкрити крамницю
+See VIP	Переглянути VIP
+See the missions	Переглянути місії
+A new version of the game is out: update to play online.	Вийшла нова версія гри: оновіть її, щоб грати онлайн.
+Update in the Microsoft Store	Оновити в Microsoft Store
+Update now	Оновити зараз
+Download the new version	Завантажити нову версію
+New version out	Вийшла нова версія
+Get the new version to play online	Встановіть нову версію, щоб грати онлайн
+Cheer for {name}	Уболівати за {name}
+Crowd: {a} for {p0}, {b} for {p1}	Глядачі: {a} за {p0}, {b} за {p1}
+welcome pack	вітальний набір
+Welcome pack	Вітальний набір
+Cue “{cue}”, cloth “{cloth}” and {n} coins · only once, sold nowhere else	Кий «{cue}», сукно «{cloth}» і монети ({n}) · лише один раз, більше ніде не продається
+Lagoon	Лагуна
+You already have the welcome pack.	У вас уже є вітальний набір.
+Your welcome pack is here!	Ваш вітальний набір прибув!
+Previous shot (←)	Попередній удар (←)
+Next shot (→)	Наступний удар (→)
+Play (Space)	Відтворити (Пробіл)
+Pause (Space)	Пауза (Пробіл)
+Speed	Швидкість
+Shot {n} of {total}	Удар {n} з {total}
+For VIP members	Для учасників VIP
+{n} reactions of your own to send during games	Власні реакції для партій: {n}
+Items {a}–{b} of {n}	Предмети {a}–{b} з {n}
+(message deleted by its author)	(повідомлення видалено автором)
+(message deleted by an administrator)	(повідомлення видалено адміністратором)
+Delete (it shows as deleted)	Видалити (буде позначено як видалене)
+Remove without a trace	Прибрати без сліду
+The chat was cleared by {name}.	{name}: чат очищено.
+Click again to clear	Клацніть ще раз, щоб очистити
+Clear the chat	Очистити чат
+Players' chat (administrator)	Чат гравців (адміністратор)
+Play the computer while you wait	Грати з комп’ютером під час очікування
+Looking for an opponent… {t} · the game starts as soon as one is found	Пошук суперника… {t} · партія почнеться, щойно його буде знайдено
+Stop	Зупинити
 # Coin packs and months of VIP bought in the Microsoft Store (the Store build).
+The Microsoft Store couldn't complete the purchase.	Microsoft Store не вдалося завершити покупку.
+The Microsoft Store couldn't confirm the purchase right now. Its coins arrive the next time you open the shop.	Microsoft Store зараз не вдалося підтвердити покупку. Монети надійдуть, коли ви наступного разу відкриєте крамницю.
+{n} coins added to your wallet.	До вашого гаманця додано монет: {n}.
+Microsoft is confirming your purchase: the coins arrive in a moment.	Microsoft підтверджує вашу покупку: монети надійдуть за мить.
+The purchase hasn't reached us yet. Its coins arrive the next time you open the shop.	Покупка до нас ще не надійшла. Монети надійдуть, коли ви наступного разу відкриєте крамницю.
+Loading prices from the Microsoft Store…	Завантаження цін із Microsoft Store…
+Coins can't be bought in this version yet.	У цій версії поки не можна купити монети.
+Finish the purchase in the Microsoft Store window…	Завершіть покупку у вікні Microsoft Store…
+Confirming your purchase…	Підтвердження покупки…
+Paid in the Microsoft Store, with your Microsoft account.	Оплата в Microsoft Store через ваш обліковий запис Microsoft.
+The Microsoft Store can't be reached right now. Try again in a moment.	Зараз не вдається зв’язатися з Microsoft Store. Спробуйте ще раз за мить.
+The Microsoft Store could not confirm the purchase.	Microsoft Store не підтвердив покупку.
+Sign in to the Microsoft Store with your Microsoft account, then open the shop again.	Увійдіть у Microsoft Store зі своїм обліковим записом Microsoft, а потім знову відкрийте крамницю.
+The Microsoft Store couldn't confirm the purchase right now. Your VIP month starts the next time you open the shop.	Microsoft Store зараз не вдалося підтвердити покупку. Ваш місяць VIP почнеться, коли ви наступного разу відкриєте крамницю.
+You are VIP until {d}, and {n} coins were added to your wallet.	Ви VIP до {d}, а до вашого гаманця додано монет: {n}.
+Microsoft is confirming your purchase: your VIP month starts in a moment.	Microsoft підтверджує вашу покупку: ваш місяць VIP почнеться за мить.
+The purchase hasn't reached us yet. Your VIP month starts the next time you open the shop.	Покупка до нас ще не надійшла. Ваш місяць VIP почнеться, коли ви наступного разу відкриєте крамницю.
+A month at a time: nothing renews by itself	По місяцю: нічого не поновлюється автоматично
+Add a month · {p}	Додати місяць · {p}
+A month of VIP · {p}	Місяць VIP · {p}
+The new month starts when this one ends.	Новий місяць почнеться, коли закінчиться цей.
+Trophies	Трофеї
+No trophies yet.	Трофеїв поки немає.
+Tournament won · {n} players	Виграний турнір · гравці: {n}
+The computer tour	Комп’ютерний тур
+All fifteen opponents beaten	Переможено всіх п’ятнадцятьох суперників
+Daily challenge	Виклик дня
+First of {n} players	Перше місце серед гравців: {n}
+Easy shot	Легкий удар
+Fair shot	Середній удар
+Hard shot	Складний удар
+Very hard shot	Дуже складний удар
+~{n}% chance	шанс ~{n}%
+No ball goes down as aimed	Жодна куля так не зайде
+straight in	прямий
+{n}° cut	різання {n}°
+off one cushion	від одного борту
+off {n} cushions	від бортів: {n}
+Make as many balls as you can in one visit: a miss or a foul ends the attempt.	Забийте якомога більше куль за один підхід: промах або фол завершує спробу.
+The same table for everyone, all day	Той самий стіл для всіх, увесь день
+{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	Спроб на день: {n}. Очистьте стіл і отримайте монети ({coins}); переможець дня отримує трофей.
+A new table in {h} h {m} min	Новий стіл через {h} год {m} хв
+Sign in to take part: the server keeps the day's table.	Увійдіть, щоб узяти участь: сервер веде таблицю дня.
+Balls on today's table	Кулі на сьогоднішньому столі
+Attempts left	Залишилося спроб
+{n} balls · #{rank}	куль: {n} · #{rank}
+{n} balls	куль: {n}
+not yet	ще ні
+Your best today	Ваш найкращий результат сьогодні
+No attempts left today: come back tomorrow.	Спроби на сьогодні закінчилися: повертайтеся завтра.
+The attempt could not be counted.	Не вдалося зарахувати спробу.
+Setting up the table…	Підготовка столу…
+Start an attempt	Почати спробу
+Starting uses an attempt, even if you leave the table.	Початок витрачає спробу, навіть якщо ви покинете стіл.
+Loading today's table…	Завантаження сьогоднішнього столу…
+Today's table	Таблиця дня
+{n} players	гравці: {n}
+Nobody has played today's table yet. Be the first!	Сьогоднішній стіл ще ніхто не зіграв. Будьте першими!
+Table cleared!	Стіл очищено!
+{n} of {total} balls	{n} з {total} куль
+Sending your attempt to the server…	Надсилання спроби на сервер…
+Counted: {n} balls · +{coins} coins	Зараховано: куль {n} · монети +{coins}
+Counted: {n} balls	Зараховано: куль {n}
+See today's table	Переглянути таблицю дня
+Table cleared! +{n} coins	Стіл очищено! Монети +{n}
+Daily challenge: {n} of {total} balls made	Виклик дня: забито {n} з {total}
+1 player	1 гравець
+Phoenix	Фенікс
+Carrara marble	Каррарський мармур
+Dragon scale	Драконяча луска
+Galaxy	Галактика
+Ruby throne	Рубіновий трон
+Closing the game now is leaving it: extra rating lost and a wait to play again.	Закрити гру зараз — означає покинути партію: додаткова втрата рейтингу й очікування перед новою грою.
+You left a game in progress: you can play online again in {n} min.	Ви покинули поточну партію: знову грати онлайн можна буде через {n} хв.
+Quick phrases	Швидкі фрази
+Good luck, have fun!	Удачі й гарної гри!
+Nice shot!	Гарний удар!
+Great safety!	Чудовий відіграш!
+Unlucky!	Не пощастило!
+Oops!	Ой!
+Wow!	Ого!
+That was close!	Майже!
+Take your time.	Не поспішайте.
+Sorry!	Вибачте!
+Thanks!	Дякую!
+Well played!	Добре зіграно!
+Good game!	Гарна гра!
+Rematch?	Реванш?
+I have to go, thanks for the game!	Мушу йти, дякую за гру!
+Practise while you wait	Тренуватися під час очікування
+A new rack.	Нова піраміда.
+Level {n}! (+{xp} XP)	Рівень {n}! (+{xp} XP)
++{xp} XP	+{xp} XP
+Level {n} · {into} / {span} XP to the next	Рівень {n} · {into} / {span} XP до наступного
+Level {n}	Рівень {n}
+Hi! I watched a lot of videos, I'm ready!	Привіт! Я переглянув купу відео, я готовий!
+Be gentle, okay?	Тільки не жорстко, гаразд?
+Whoa, how did you do that?	Ого, як ви це зробили?
+Teach me that one later!	Потім навчіть мене цього!
+Phew! My turn!	Фух! Мій хід!
+Even you miss? Good to know.	Навіть ви промахуєтеся? Добре знати.
+A free ball! What do I do with it?	Биток з руки! А що з ним робити?
+Did you see that?! It went in!	Ви бачили?! Зайшла!
+Beginner's luck counts too!	Новачкам теж щастить!
+Oops. That was a practice shot.	Ой. Це був пробний удар.
+Aim, Leo, aim...	Цілься, Leo, цілься...
+Sorry! I touched the wrong one again.	Вибачте! Знову зачепив не ту.
+I WON? I'm calling my mum!	Я ВИГРАВ? Дзвоню мамі!
+Good game! I'm getting better, right?	Гарна гра! Я ж краще граю, правда?
+Saturday, a table and good company. Let's play!	Субота, стіл і добра компанія. Граймо!
+Nice one!	Гарно!
+Oh, you're good. I'll pay attention now.	О, а ви вмієте. Тепер буду уважнішою.
+Happens to the best of us.	Буває й з найкращими.
+Don't worry, it's just a game!	Не переймайтеся, це лише гра!
+Thanks for the gift!	Дякую за подарунок!
+Yes! Weekend skills!	Так! Талант вихідного дня!
+Lucky me!	Пощастило!
+Hm, where was I aiming?	Хм, куди ж я цілилася?
+Too much chatting, not enough aiming.	Забагато балачок, замало прицілу.
+Oops, my bad!	Ой, моя провина!
+That was fun! Same time next weekend?	Було весело! Наступних вихідних о тій самій порі?
+Well played! Rematch over a lemonade?	Добре зіграно! Реванш за лимонадом?
+Four cushions, endless possibilities.	Чотири борти — безліч можливостей.
+Straight in? So... direct.	Прямо в лузу? Як... прямолінійно.
+Nice, but a bank would have been prettier.	Гарно, але дуплетом було б красивіше.
+You should have used the cushion.	Треба було зіграти від борту.
+The rail was right there, asking for it.	Борт був отут, просто напрошувався.
+The table didn't like that.	Столу це не сподобалося.
+Off the rail and in. Art!	Від борту — і в лузу. Мистецтво!
+Geometry never lies.	Геометрія ніколи не бреше.
+The angle was right. The cushion disagreed.	Кут був правильний. Борт не погодився.
+One diamond off. Just one!	Помилилася на один ромбик. Лише на один!
+Too much imagination, not enough contact.	Забагато уяви, замало контакту.
+A masterpiece, if I may say so.	Шедевр, якщо дозволите.
+Well played. Now try it off two rails.	Добре зіграно. А тепер спробуйте від двох бортів.
+I hope these balls are made of steel.	Сподіваюся, ці кулі зі сталі.
+Soft touch, huh? Not my style.	М’який удар, еге ж? Не мій стиль.
+Hit it harder next time!	Наступного разу бийте сильніше!
+Too gentle! Power solves everything.	Надто ніжно! Сила вирішує все.
+HA!	ХА!
+My table now. Cover your ears.	Тепер стіл мій. Затуліть вуха.
+BOOM!	БАХ!
+Did you hear that pocket?	Чули, як луза гупнула?
+Too much power? No such thing.	Забагато сили? Такого не буває.
+The pocket moved.	Луза зрушила з місця.
+The ball flew. It happens. A lot.	Куля полетіла. Буває. Часто.
+Power wins again! BOOM!	Сила знову перемагає! БАХ!
+Fine, finesse works too. Sometimes.	Гаразд, тонкість теж працює. Іноді.
+Take your time. I have all day.	Не поспішайте. У мене цілий день.
+Acceptable.	Прийнятно.
+Enjoy it while it lasts.	Насолоджуйтеся, поки триває.
+Patience is a virtue. Not yours, apparently.	Терпіння — чеснота. Не ваша, як видно.
+Thank you.	Дякую.
+Sloppy.	Неохайно.
+Steady wins.	Стабільність перемагає.
+One at a time.	По одній.
+Hm. I'll leave you nothing anyway.	Хм. Однаково нічого вам не залишу.
+Intentional. Probably.	Навмисно. Мабуть.
+Unacceptable. Of me.	Неприпустимо. З мого боку.
+As I said: patience.	Як я й казала: терпіння.
+You got through the wall. I'm impressed.	Ви пробили стіну. Я вражена.
+I've been playing since before these balls were plastic.	Я граю ще відтоді, коли кулі не були пластиковими.
+Good stroke. Reminds me of a fellow in '78.	Гарний удар. Нагадує одного хлопця з 78-го.
+Smooth. Very smooth.	Плавно. Дуже плавно.
+Keep your head down, kid.	Голову нижче, юначе.
+The cue ball doesn't lie.	Биток не бреше.
+Ah, a little present. Thank you kindly.	А, маленький подарунок. Красно дякую.
+Like riding a bicycle.	Як їзда на велосипеді.
+Still got it.	Ще не розучився.
+The eyes aren't what they used to be.	Очі вже не ті.
+In my day the pockets were bigger.	За моїх часів лузи були більші.
+Even old pros slip.	Навіть старі профі помиляються.
+Experience, my friend. Experience.	Досвід, друже. Досвід.
+You've got a future in this game.	У вас є майбутнє в цій грі.
+Me? Oh, I hardly ever play...	Я? Ой, я майже не граю...
+Lucky! Do it again, I dare you.	Пощастило! Ану повторіть, якщо зможете.
+Ooh, someone's been practising.	Ого, хтось тренувався.
+Aw, so close! Bless.	Ой, майже! Яка мила спроба.
+Want me to show you how?	Показати, як треба?
+Thank you, sweetie.	Дякую, любонько.
+Oops, did I do that?	Ой, невже це я?
+Must be beginner's luck. Again.	Мабуть, знову новачкам щастить.
+Missed on purpose. Keeps it interesting.	Промахнулася навмисно. Так цікавіше.
+Just warming up.	Я лише розминаюся.
+Oh dear, how clumsy of me. Wink.	Ой, яка ж я незграбна. Підморгую.
+Hardly ever play, I said. Hardly.	Майже не граю, я ж казала. Майже.
+Fine, you got me. This time.	Гаразд, ваша взяла. Цього разу.
+Friction, momentum, spin. Let us begin.	Тертя, імпульс, обертання. Почнімо.
+A fine cut. About thirty degrees, I'd say.	Гарне різання. Градусів тридцять, я б сказав.
+Textbook.	Як за підручником.
+You underestimated the throw.	Ви недооцінили відхилення.
+Interesting. Statistically expected.	Цікаво. Статистично очікувано.
+The cue ball followed the laws of physics, not your plan.	Биток підкорився законам фізики, а не вашому плану.
+As calculated.	Як і розраховано.
+Elastic collision, elegant result.	Пружне зіткнення, елегантний результат.
+An error in my measurement.	Похибка мого вимірювання.
+I'll revise the model.	Перегляну модель.
+Hm. Unexpected spin.	Хм. Неочікуваний гвинт.
+The numbers were on my side.	Цифри були на моєму боці.
+A result outside my predictions. Well done.	Результат поза моїми прогнозами. Чудово.
+Focus.	Зосередженість.
+Clean.	Чисто.
+Not bad.	Непогано.
+Half a millimetre.	Пів міліметра.
+Breathe before you shoot.	Видихніть перед ударом.
+Careless.	Недбало.
+Target down.	Ціль уражено.
+Centre pocket.	Точно в центр лузи.
+Hm. Recalibrating.	Хм. Перекалібрування.
+That never happens.	Такого не буває.
+Unacceptable.	Неприпустимо.
+Precision wins.	Точність перемагає.
+Good shooting.	Влучна стрільба.
+Welcome to my table. Enjoy the show.	Ласкаво прошу до мого столу. Насолоджуйтеся шоу.
+Very good. You've done your homework.	Дуже добре. Ви виконали домашнє завдання.
+Applause for the challenger!	Оплески претендентові!
+Pressure. It gets to everyone.	Тиск. Він дістає всіх.
+Thank you for the table.	Дякую за стіл.
+A champion never refuses a gift.	Чемпіон ніколи не відмовляється від подарунка.
+Naturally.	Природно.
+That's how it's done.	Ось як це робиться.
+Even champions give the crowd a chance.	Навіть чемпіони дають публіці шанс.
+Leaving you something, out of courtesy.	Залишаю вам дещо — з ввічливості.
+A rare sight. Remember it.	Рідкісне видовище. Запам’ятайте його.
+The title stays with me. Good game.	Титул лишається в мене. Гарна гра.
+Remarkable. You've earned my respect.	Вражає. Ви заслужили мою повагу.
+Calibration complete. Good luck, human.	Калібрування завершено. Удачі, людино.
+Shot registered: successful.	Удар зареєстровано: успішно.
+Probability of my victory: increasing.	Імовірність моєї перемоги: зростає.
+Foul detected. Processing penalty.	Виявлено фол. Обробка штрафу.
+Executed as planned.	Виконано за планом.
+Error. Recalculating.	Помилка. Перерахунок.
+Malfunction. Please disregard.	Збій. Прошу не зважати.
+Game complete. Thank you for playing.	Партію завершено. Дякуємо за гру.
+Defeat acknowledged. Well played.	Поразку визнано. Добре зіграно.
+Drills	Вправи
+Exercises with stars	Вправи із зірками
+{s} / {max} stars	Зірки: {s} / {max}
+Stars at {a}, {b} and {c}	Зірки за {a}, {b} і {c}
+Your best: {n} of {total}	Ваш найкращий: {n} з {total}
+Not tried yet.	Ще не пробували.
+Start the drill	Почати вправу
+Sign in to keep your stars in your account.	Увійдіть, щоб зберігати зірки у своєму обліковому записі.
+{n} of {total}	{n} з {total}
+{drill}: try {k} of {n} · {made} made	{drill}: спроба {k} з {n} · забито: {made}
+Made it! {n} of {total}	Є! {n} з {total}
+Missed.	Промах.
+Sending to the server…	Надсилання на сервер…
+Not signed in: this session is not ranked.	Ви не ввійшли: ця сесія не йде в залік.
+Kept in your account.	Збережено у вашому обліковому записі.
+The session could not be counted.	Не вдалося зарахувати сесію.
+Back to the drills	До вправ
+Straight in	Прямий удар
+A long straight pot into the corner. Five tries.	Довгий прямий удар у кутову лузу. П’ять спроб.
+The cut	Різання
+A half-ball cut into the corner. Five tries.	Різання в пів кулі в кутову лузу. П’ять спроб.
+Draw it back	Відтяжка
+Pot the ball and draw the cue ball back into the circle. Five tries.	Забийте кулю й відтягніть биток назад у коло. П’ять спроб.
+Follow through	Накат
+Pot the ball and leave the cue ball in the circle past it. Five tries.	Забийте кулю й залиште биток у колі за нею. П’ять спроб.
+Bank shot	Дуплет
+Off one cushion into the side pocket. Five tries.	Від одного борту в середню лузу. П’ять спроб.
+Snooker escape	Вихід зі снукеру
+Hit the 1 first: it hides behind other balls. Five tries.	Спершу влучте в кулю 1: вона схована за іншими кулями. П’ять спроб.
+Ten in a row	Десять поспіль
+Ten different pots, one after another: a miss ends the session.	Десять різних ударів поспіль: промах завершує сесію.
+The far corner	Дальня кутова
+A cut back up the table into the corner behind you. Five tries.	Різання назад, у кутову лузу позаду вас. П’ять спроб.
+Long into the side	Довгий у середню
+From the far end of the table into the side pocket. Five tries.	З дальнього кінця столу в середню лузу. П’ять спроб.
+Cue ball on the cushion	Биток біля борту
+The cue ball touches the cushion: pot the ball into the corner all the same. Five tries.	Биток торкається борту: однаково забийте кулю в кутову лузу. П’ять спроб.
+The plant	Підставка
+The 2 touches the 1 and points at the pocket: hit the 2 and the 1 goes in. Five tries.	Куля 2 торкається кулі 1 і дивиться на лузу: влучте в 2, і 1 зайде. П’ять спроб.
+The carom	Карамболь
+The 2 is in the way: glance off it and send the 1 into the corner. Five tries.	Куля 2 заважає: зачепіть її по дотичній і відправте 1 у кутову лузу. П’ять спроб.
+The long draw	Довга відтяжка
+Pot the ball and draw the cue ball all the way back into the circle. Five tries.	Забийте кулю й відтягніть биток аж назад у коло. П’ять спроб.
+On the tangent line	По дотичній
+Pot the ball in the side and let the cue ball run on into the circle. Five tries.	Забийте кулю в середню лузу, а биток нехай прокотиться далі в коло. П’ять спроб.
+Two-cushion bank	Дуплет від двох бортів
+Off two cushions and into the corner. Five tries.	Від двох бортів у кутову лузу. П’ять спроб.
+Fifteen in a row	П’ятнадцять поспіль
+Fifteen different pots, one after another: a miss ends the session.	П’ятнадцять різних ударів поспіль: промах завершує сесію.
+Take back the shot (Z)	Скасувати удар (Z)
+Shot taken back.	Удар скасовано.
+Solids	Суцільні
+Stripes	Смугасті
+Hide the history	Сховати історію
+New username	Нове ім’я користувача
+Click again to confirm	Клацніть ще раз, щоб підтвердити
+{n} of {total} name changes left	Залишилося змін імені: {n} з {total}
+You can't change your username again.	Ви більше не можете змінити ім’я користувача.
+That is already your username.	Це вже ваше ім’я користувача.
+Finish your game before changing your username.	Завершіть партію, перш ніж змінювати ім’я користувача.
+Leave your table or the queue before changing your username.	Покиньте стіл або чергу, перш ніж змінювати ім’я користувача.
+Leave your tournament before changing your username.	Покиньте турнір, перш ніж змінювати ім’я користувача.
+Username changed.	Ім’я користувача змінено.
+The server is still being updated to the new version. Try again in a few minutes.	Сервер ще оновлюється до нової версії. Спробуйте ще раз за кілька хвилин.
+{shooter} made an opponent's ball: {next} to shoot.	{shooter} забиває кулю суперника: б’є {next}.
 # Five more computer opponents: Tito, Inês, Diego, Amara and Yuri.
+The Gambler	Гравець
+Bets on every shot: as hard as the cue allows, with all the spin he can find. Safe play bores him.	Ставить на кожен удар: б’є так сильно, як дозволяє кий, і з максимальним гвинтом. Обережна гра його нудить.
+The Soft Touch	М’яка рука
+Never hits harder than she must: the balls die at the pocket's edge and the cue ball stops where she wants it.	Ніколи не б’є сильніше, ніж треба: кулі завмирають на краю лузи, а биток зупиняється там, де вона хоче.
+The Showman	Шоумен
+Plays to the crowd: a raised cue, swerving spin and a bank whenever there's one. It works more often than it should.	Грає на публіку: піднятий кий, крутий гвинт і дуплет за першої нагоди. Спрацьовує частіше, ніж мало б.
+The Tactician	Тактик
+Plans the whole rack: snookers you when the pot isn't sure, and runs out when it is.	Планує всю піраміду: ставить вам снукер, коли удар ненадійний, і чистить стіл, коли надійний.
+The Machine	Машина
+No nerves, no flair: centre ball, measured pace, the same perfect stroke every time.	Ні нервів, ні фантазії: удар по центру, виважена сила, той самий ідеальний удар щоразу.
+Place your bets! Mine's on me.	Робіть ставки! Я ставлю на себе.
+Lucky roll. Let it ride!	Пощастило. Граємо далі!
+Okay, okay. Double or nothing?	Гаразд, гаразд. Ва-банк?
+The house always wins!	Казино завжди виграє!
+Free chips! Thank you!	Безкоштовні фішки! Дякую!
+All in, and it paid!	Усе на кон — і зіграло!
+That's how you play the odds!	Ось як грають на шансах!
+Bad beat. Next hand.	Прикрий програш. Наступна роздача.
+Too much spin? There's no such thing.	Забагато гвинта? Такого не буває.
+Busted. Worth the risk!	Програв. Але ризик того вартий!
+Jackpot! Same stakes again?	Джекпот! Ще раз на ту саму ставку?
+You beat the odds. Respect.	Ви обіграли шанси. Повага.
+Softly, now. The table likes a gentle hand.	Тихенько. Стіл любить ніжну руку.
+Nicely done.	Гарно зроблено.
+A little hard, but it went in.	Трохи сильнувато, але зайшла.
+Less power, more feel.	Менше сили, більше чуття.
+Oh dear. A free ball for me.	Отакої. Биток з руки для мене.
+Just enough to drop.	Рівно стільки, щоб упала.
+See? No need to hit it hard.	Бачите? Сильно бити не треба.
+A touch too soft.	Трішки заслабко.
+Clumsy of me. Sorry.	Яка я незграбна. Вибачте.
+Slow and steady. Thank you for the game.	Повільно й упевнено. Дякую за гру.
+Beautifully played. Well deserved.	Чудово зіграно. Заслужено.
+Ladies and gentlemen... the show begins!	Пані та панове... шоу починається!
+Not bad! Bow to the crowd!	Непогано! Вклоніться публіці!
+You stole my applause!	Ви вкрали мої оплески!
+The crowd wanted more!	Публіка хотіла більшого!
+Ooh, a plot twist!	О, несподіваний поворот!
+Ta-da!	Та-дам!
+And for my next trick...	А тепер наступний фокус...
+Even magicians have off nights.	Навіть у чарівників бувають невдалі вечори.
+That was... part of the act.	Це було... частиною номера.
+Thank you, thank you! Encore?	Дякую, дякую! Ще на біс?
+Take a bow, champion. You earned it.	Уклоніться, чемпіоне. Ви це заслужили.
+Every rack is a puzzle. Let's solve this one.	Кожна піраміда — головоломка. Розв’яжімо цю.
+Good. Now where is your cue ball?	Добре. А де ж ваш биток?
+I saw that coming.	Я це передбачав.
+That left me something. Thank you.	Мені дещо залишилося. Дякую.
+As planned.	За планом.
+Exactly as I calculated.	Точно як я розрахував.
+Three moves ahead.	На три ходи вперед.
+A variable I missed.	Змінна, яку я не врахував.
+Hm. Recalculating.	Хм. Перераховую.
+Checkmate.	Шах і мат.
+You out-thought me. That's rare.	Ви мене перехитрили. Таке буває рідко.
+Game initialised.	Гру ініціалізовано.
+Noted.	Взято до уваги.
+Error margin exceeded.	Похибку перевищено.
+Penalty applied.	Штраф застосовано.
+As expected.	Як і очікувалося.
+Next.	Далі.
+Deviation logged.	Відхилення зафіксовано.
+Malfunction. It will not repeat.	Збій. Не повториться.
+Result: win. Thank you for the data.	Результат: перемога. Дякую за дані.
+Unexpected outcome. Impressive.	Неочікуваний результат. Вражає.
+Opponents' remarks	Репліки суперників
+The computer opponents comment on the game in speech bubbles.	Комп’ютерні суперники коментують гру в бульбашках реплік.
+Top view only	Лише вид згори
+The table is always seen from above: no 3D view, no turning.	Стіл завжди видно згори: без 3D-виду й обертання.
+Not with the top view only.	Недоступно, коли ввімкнено лише вид згори.
+Wheel	Коліщатко
+Rules	Правила
+Rules of the game	Правила гри
+Level	Рівень
+Drag the cue: jump & massé	Тягніть кий: стрибок і массе
+Drag to raise or lower the cue	Тягніть, щоб підняти або опустити кий
+Drag the cue · {keys}	Тягніть кий · {keys}
+Profile picture	Аватар
+Shown by your name at the table and in your profile.	Показується біля вашого імені за столом і у вашому профілі.
+No picture	Без аватара
+Change your picture	Змінити аватар
+{name} sank the 8 together with another ball	{name} забиває вісімку разом з іншою кулею
+the opponent sank the 8 with another ball	суперник забив вісімку разом з іншою кулею
+sank the 8 with another ball	вісімку забито разом з іншою кулею
+opponent pocketed the 8-ball together with another ball	суперник забив вісімку разом з іншою кулею
+Penalty: {balls} off the table for {name}.	Штраф: {balls} знято зі столу на користь {name}.
+{name} had fewer balls left than the foul gives: the 8 pays the rest, and the foul loses the game.	{name}: куль лишилося менше, ніж дає фол, тож вісімка покриває решту, і фол програє партію.
+Shadows	Тіні
+The shadows of the balls and of the cue on the table.	Тіні куль і кия на столі.
+Sixteen players: knockout or arena	Шістнадцять гравців: на вибування або арена
+New knockout	Новий турнір на вибування
+New arena	Нова арена
+Knockout: sixteen players, four rounds. Lose a game and you are out.	На вибування: шістнадцять гравців, чотири раунди. Програли партію — вибули.
+Arena: seven rounds for everyone. A win is 2 points, 3 from the third win in a row. The most points wins.	Арена: сім раундів для всіх. Перемога дає 2 очки, а з третьої поспіль — 3. Перемагає той, хто набрав найбільше очок.
+The games between the other players are decided by their strength and a draw.	Партії між іншими гравцями вирішуються їхньою силою і жеребом.
+You won the tournament!	Ви виграли турнір!
+{name} won the tournament.	{name} — переможець турніру.
+You finished in place {n}.	Ваше місце: {n}.
+Round of 16	1/8 фіналу
+Quarter-finals	Чвертьфінали
+Round {n} of {total}	Раунд {n} з {total}
+Play {name}	Зіграти з {name}
+Abandon the tournament	Покинути турнір
+W - L	В - П
+Points	Очки
+The tournament is over.	Турнір завершено.
+The round is over: see who you play next.	Раунд завершено: подивіться, з ким ви граєте далі.
+You are out of the tournament.	Ви вибули з турніру.
+Side pocket	Середня луза
+A cut into the side pocket, where the angle is tight. Five tries.	Різання в середню лузу, де кут гострий. П’ять спроб.
+The long cut	Довге різання
+A cut from the far end of the table into the corner. Five tries.	Різання з дальнього кінця столу в кутову лузу. П’ять спроб.
+Thin cut	Тонке різання
+Barely graze the ball: a thin cut into the corner. Five tries.	Ледь зачепіть кулю: тонке різання в кутову лузу. П’ять спроб.
+Along the cushion	Уздовж борту
+The ball sits by the cushion: run it along into the corner. Five tries.	Куля стоїть біля борту: проведіть її вздовж борту в кутову лузу. П’ять спроб.
+Stop shot	Стоп-удар
+Pot the ball and stop the cue ball dead where the ball was. Five tries.	Забийте кулю й зупиніть биток там, де стояла куля. П’ять спроб.
+The combination	Комбінація
+Pot the 1 by playing the 2 into it. Five tries.	Забийте кулю 1, спрямувавши в неї кулю 2. П’ять спроб.
+Cross-corner bank	Дуплет через стіл
+Off the long cushion and across the table into the corner. Five tries.	Від довгого борту через стіл у кутову лузу. П’ять спроб.
+Kick shot	Удар від борту
+The 1 is walled off: send the cue ball off a cushion to hit it first. Five tries.	Кулю 1 закрито: відправте биток від борту, щоб влучити в неї першою. П’ять спроб.
+Only the cue ball went down on the break: the balls are racked again and {next} breaks.	На розбитті в лузу зайшов лише биток: кулі знову ставлять у піраміду, і розбиває {next}.
+Golden break	Золоте розбиття
+Win a rated game by sinking only the 8-ball on the break.	Виграйте рейтингову партію, забивши на розбитті лише вісімку.
+Half a year	Пів року
+Have an account for six months.	Будьте з нами пів року.
+First anniversary	Перша річниця
+Second anniversary	Друга річниця
+Have an account for two years.	Будьте з нами два роки.
+Third anniversary	Третя річниця
+Have an account for three years.	Будьте з нами три роки.
+Five years at the table	П’ять років за столом
+Have an account for five years.	Будьте з нами п’ять років.
+Back to the tournament	Назад до турніру
+Continue against {name}	Продовжити проти {name}
+You left your game: it counts as a loss.	Ви покинули партію: вам зараховано поразку.
+new level	новий рівень
+Level {n} brings: {item}	Рівень {n} дає: {item}
+Level 5	Рівень 5
+Reach level 5.	Досягніть 5-го рівня.
+Level 10	Рівень 10
+Reach level 10.	Досягніть 10-го рівня.
+Level 15	Рівень 15
+Reach level 15.	Досягніть 15-го рівня.
+Level 20	Рівень 20
+Reach level 20.	Досягніть 20-го рівня.
+Level 30	Рівень 30
+Reach level 30.	Досягніть 30-го рівня.
+Level 40	Рівень 40
+Reach level 40.	Досягніть 40-го рівня.
+Level 50	Рівень 50
+Reach level 50.	Досягніть 50-го рівня.
+Regular's teal	Бірюза завсідника
+Veteran's plum	Слива ветерана
+Old hand	Бувалий
+Lifer	Довічний
+Apprentice's chalk	Крейда учня
+Journeyman's chalk	Крейда підмайстра
+Achievements	Досягнення
+Leagues and levels	Ліги та рівні
+Next league: {tier}	Наступна ліга: {tier}
+The top league.	Найвища ліга.
+Every prize of the levels is won.	Усі призи за рівні здобуто.
+None yet: the first is one game away.	Поки жодного: перший — за одну партію.
+{coins} and {item}	{coins} і {item}
+Leagues	Ліги
+Levels	Рівні
+By playing. Every level pays {n} coins.	За гру. Кожен рівень дає монети: {n}.
+where everyone starts	тут починають усі
+from {n}	від {n}
+The top level.	Найвищий рівень.
+{n} XP to level {next}	{n} XP до рівня {next}
+{n} levels to go	Залишилося рівнів: {n}
+new league	нова ліга
+Old-timer's black	Чорний старожила
+Expert league blue	Синій ліги «Експерт»
+Master league violet	Фіолетовий ліги «Майстер»
+Legend league gold	Золотий ліги «Легенда»
+Skilled league chalk	Крейда ліги «Вправний»
+By rating. Each league pays once.	За рейтингом. Кожна ліга дає приз один раз.
+cue	кий
+cloth	сукно
+chalk	крейда
+Always show the head string	Завжди показувати лінію дому
+The line the break is played from, always on the table (off: only while placing the cue ball behind it).	Лінія, з-за якої виконують розбиття, завжди на столі (вимкнено: лише поки ви ставите биток за неї).
+{who} ran out of time: the turn passes.	{who}: час вичерпано, хід переходить до суперника.
+{who} ran out of time with no ball left to give {other}: the 8 pays, and {who} loses.	{who}: час вичерпано, а віддати {other} уже нічого: вісімка покриває штраф, і {who} програє.
+{who} ran out of time: the cue ball goes back to the head spot and the turn passes.	{who}: час вичерпано, биток повертається на передню точку, хід переходить до суперника.
+{who} ran out of time: {balls} off the table for {other}, and the cue ball goes back to the head spot.	{who}: час вичерпано, {balls} знято зі столу на користь {other}, биток повертається на передню точку.
+You were muted for {n} minutes: {r}	Чат для вас вимкнено на {n} хв: {r}
+Your account was suspended for {n} hours: {r}	Ваш обліковий запис призупинено на {n} год: {r}
+The server restarts in {minutes} min for an update. Games in progress go on; new games start right after.	Сервер перезапуститься через {minutes} хв для оновлення. Поточні партії тривають; нові почнуться одразу після.
+The {cup} was called off: not enough players signed up.	{cup} скасовано: зареєструвалося замало гравців.
+The {cup} is open for sign-up: it starts soon in Tournaments.	Відкрито реєстрацію на {cup}: скоро старт у розділі «Турніри».
+{display} won the tournament “{name}”!	{display} виграє турнір «{name}»!
+Sunday Cup	Недільний кубок
+Monday Cup	Понеділковий кубок
+Tuesday Cup	Вівторковий кубок
+Wednesday Cup	Середовий кубок
+Thursday Cup	Четверговий кубок
+Friday Cup	П’ятничний кубок
+Saturday Cup	Суботній кубок
+{name} · rating {r}	{name} · рейтинг {r}
+Something went wrong. Try again.	Щось пішло не так. Спробуйте ще раз.
+member for 1 day	з нами 1 день
+Game in progress: 1 ball left	Партія триває · лишилася 1 куля
+1 level to go	Залишився 1 рівень
+1 more online win with this cue for level {n}. Levels only add marks to the cue.	Ще 1 онлайн-перемога цим києм до рівня {n}. Рівні лише додають на кий позначки.
+Home	Home
+End	End
+PgUp	PgUp
+PgDn	PgDn
+Ins	Ins
+Could not join the LAN game	Не вдалося приєднатися до гри в LAN
+LAN game · others join at {address}	Гра в LAN · інші приєднуються за адресою {address}
+Click to copy	Клацніть, щоб скопіювати
+Copied.	Скопійовано.
+Start a new game?	Почати нову партію?
+You have a game in progress against the computer, with 1 ball left. A new game takes its place.	У вас є незавершена партія з комп’ютером, на столі лишилася 1 куля. Нова партія її замінить.
+You have a game in progress against the computer, with {n} balls left. A new game takes its place.	У вас є незавершена партія з комп’ютером, куль на столі: {n}. Нова партія її замінить.
+Continue that game	Продовжити ту партію
+Start a new one	Почати нову
+Click again to close the game: {n} will be disconnected	Клацніть ще раз, щоб закрити гру: {n} буде від’єднано
+{name} cleared the table in one visit!	{name} очищає стіл за один підхід!
+{name}: {n} in a row!	{name}: {n} поспіль!
+Watch the deciding shot again	Переглянути вирішальний удар ще раз
+Next: {name}	Далі: {name}
+Drag on the table to aim, or click a ball	Тягніть по столу, щоб прицілитися, або клацніть кулю
+Set the power	Задайте силу
+Let go of {key} to shoot · Esc cancels	Відпустіть {key}, щоб ударити · Esc — скасувати
+Staff accounts can't change their username.	Облікові записи персоналу не можуть змінювати ім’я користувача.
+That password can't be used. Choose another one.	Цей пароль не можна використати. Виберіть інший.
+That tournament is full.	Цей турнір заповнено.
+The server is restarting: your tournament was called off.	Сервер перезапускається: ваш турнір скасовано.
+Too many sign-ins. Wait a minute and try again.	Забагато входів. Зачекайте хвилину й спробуйте ще раз.
+Too many wrong passwords. Try again in a few minutes.	Забагато неправильних паролів. Спробуйте ще раз за кілька хвилин.
+Your VIP subscription could not be cancelled. Try again in a moment.	Не вдалося скасувати вашу підписку VIP. Спробуйте ще раз за мить.
+Balls of both groups on the break: the turn passes to {next}, the table is open.	Кулі обох груп на розбитті: хід переходить до {next}, стіл відкритий.
+Only a final started while signed in counts: play the last stage again signed in.	Зараховується лише фінал, розпочатий після входу: зіграйте останній етап ще раз, увійшовши в обліковий запис.
+The server didn't deal the final: this game won't earn the reward.	Сервер не роздав фінал: ця партія не принесе нагороди.
+The server didn't answer: this session won't be ranked.	Сервер не відповів: ця сесія не йде в залік.
+The server is dealing the final…	Сервер роздає фінал…
+The server is setting up the drill…	Сервер готує вправу…
+Not signed in: a win in this final won't earn the reward.	Ви не ввійшли: перемога в цьому фіналі не принесе нагороди.
+Not kept: sessions count when started signed in.	Не збережено: сесії зараховуються, лише якщо почати їх після входу.
+Warning from the staff: {text}	Попередження від адміністрації: {text}
+The staff changed your username to {name}. Sign in again.	Адміністрація змінила ваше ім’я користувача на {name}. Увійдіть знову.
+The staff called off the tournament you were in.	Адміністрація скасувала турнір, у якому ви брали участь.
+Experience ×{n}	Досвід ×{n}
+Coins from games ×{n}	Монети за партії ×{n}
+Themed tournament	Тематичний турнір
+Event	Подія
+Events	Події
+Warning from the staff	Попередження від адміністрації
+Esc to cancel	Esc — скасувати
+Will be sent when you're back online.	Буде надіслано, коли ви знову будете в мережі.
+Your strokes will be sent when you're back online.	Ваші удари буде надіслано, коли ви знову будете в мережі.
+The final you won was dealt to {name}: sign in as {name} to claim the reward.	Виграний вами фінал було роздано для {name}: увійдіть як {name}, щоб отримати нагороду.
+Type your password to confirm it's you.	Введіть пароль, щоб підтвердити, що це ви.
+The cue ball is back on the head spot: {next} plays from there.	Биток повернуто на передню точку: {next} б’є звідти.
+{name} came online	{name} у мережі
+Online now: {names}	Зараз у мережі: {names}
+Nobody else is online right now.	Зараз більше нікого немає в мережі.
+Focus mode	Режим зосередження
+No invitations while you play: they are turned away until the game is over.	Жодних запрошень під час гри: їх відхиляють, доки партія не завершиться.
+in focus mode	у режимі зосередження
+In focus mode: no invitations until their game is over.	У режимі зосередження: без запрошень до кінця партії.
+That player is in focus mode and isn't taking invitations until their game is over.	Цей гравець у режимі зосередження й не приймає запрошень до кінця партії.
+Look at it closely	Роздивитися зблизька
+Sign in to buy	Увійдіть, щоб купити
+Sign in to use	Увійдіть, щоб обрати
+Back to the shop (Esc)	Назад до крамниці (Esc)
+Show the interface (H)	Показати інтерфейс (H)
+Hide the interface (H)	Сховати інтерфейс (H)
+Turn (Space)	Обертати (Пробіл)
+Stop turning (Space)	Зупинити обертання (Пробіл)
+Zoom in (+)	Наблизити (+)
+Zoom out (−)	Віддалити (−)
+Back to the start (R)	На початок (R)
+Previous setting ([)	Попередня обстановка ([)
+Next setting (])	Наступна обстановка (])
+Setting	Обстановка
+Studio	Студія
+Your table	Ваш стіл
+Drag with the right button to turn · wheel to zoom · double-click to look closer	Тягніть правою кнопкою, щоб обертати · коліщатко — масштаб · подвійне клацання — роздивитися ближче
+Drag with the right button to turn · wheel to zoom · click a ball to look at it	Тягніть правою кнопкою, щоб обертати · коліщатко — масштаб · клацніть кулю, щоб роздивитися її
+The set	Набір
+From above	Згори
+Low angle	Низький ракурс
+Cue ball	Биток
+Ball {n}	Куля {n}
+Whole	Повністю
+Tip	Наклейка
+Joint	З’єднання
+Butt	Турняк
+Top	Верх
+Cue	Кий
+Table	Стіл
+Hall	Зала
+Corner	Кут
+Side	Бік
+Leg	Ніжка
+Close-up	Крупний план
+Cushion	Борт
+Phenolic resin under a bright clear coat	Фенольна смола під яскравим прозорим лаком
+A pearly sheen that shifts with the light	Перламутровий блиск, що змінюється зі світлом
+Brushed metal, bright as a mirror	Шліфований метал, яскравий, як дзеркало
+Old ivory: soft, warm and matte	Стара слонова кістка: м’яка, тепла й матова
+A full-size cue, tip to butt: turn it, come close to its joint and its butt	Повнорозмірний кий від наклейки до турняка: обертайте його, роздивіться з’єднання й турняк
+A cube of chalk, and the colour it leaves on the tip	Кубик крейди й колір, який він лишає на наклейці
+The cloth on the table: come close to see its weave	Сукно на столі: наблизьтеся, щоб побачити його плетіння
+Dark mahogany, turned legs and brass castings	Темне червоне дерево, точені ніжки й латунне литво
+Light teak, square legs and chrome castings	Світлий тик, квадратні ніжки й хромоване литво
+Deep mahogany, carved legs and leather pocket nets	Глибоке червоне дерево, різьблені ніжки й шкіряні сітки луз
+Black lacquer and brushed aluminium on two slab legs	Чорний лак і шліфований алюміній на двох масивних опорах
+Black ebony with gold castings and inlays	Чорне дерево із золотим литвом та інкрустаціями
+Reclaimed oak rails on a riveted black steel frame	Борти з відновленого дуба на клепаній рамі з чорної сталі
+A pro tournament table: charcoal rails, block legs, chrome	Професійний турнірний стіл: графітові борти, масивні ніжки, хром
+Figured walnut on barley-twist legs, brass and leather	Візерунчастий горіх на кручених ніжках, латунь і шкіра
+Ivory lacquer and gold on fluted columns	Лак кольору слонової кістки й золото на рифлених колонах
+Panelling, the bar, cue racks, posters and neon	Панелі, барна стійка, стійки для київ, постери й неон
+A deck at sunset, open windows, palms and string lights	Тераса на заході сонця, відчинені вікна, пальми й гірлянди
+Panelling, bookshelves, leather sofas and a fireplace	Панелі, книжкові полиці, шкіряні дивани й камін
+Brick, steel windows over the city and Edison bulbs	Цегла, сталеві вікна з видом на місто й лампи Едісона
+Log walls, a stone fireplace and snowy peaks outside	Стіни з колод, кам’яний камін і засніжені вершини за вікном
+A black mirror floor, neon tubes and arcade cabinets	Чорна дзеркальна підлога, неонові трубки й ігрові автомати
+A marble chessboard floor, gold, velvet and mirrors	Мармурова підлога в шахову клітинку, золото, оксамит і дзеркала
+Glass walls on the city at night, pale marble and oak	Скляні стіни з видом на нічне місто, світлий мармур і дуб
+A gold medal!	Золота медаль!
+A silver medal!	Срібна медаль!
+A bronze medal!	Бронзова медаль!
+Silver medal	Срібна медаль
+Bronze medal	Бронзова медаль
+Your medals	Ваші медалі
+Kept in your account the next time you're online.	Буде збережено у вашому обліковому записі, коли ви наступного разу будете в мережі.
+Sign in to keep them in your account.	Увійдіть, щоб зберегти їх у своєму обліковому записі.
+18 or older	18 років або більше
+Under 18	До 18 років
+Creating an account means accepting the	Створюючи обліковий запис, ви приймаєте
+For a parent or guardian…	Для батьків або опікунів…
+A parent or guardian turned the chat on for this account. They can turn it off here at any time.	Батьки або опікун увімкнули чат для цього облікового запису. Вони можуть будь-коли вимкнути його тут.
+This account belongs to someone under 18. By law, the chat with other players (messages in the lounge and in games, notes, status and gift messages) stays off until their mother, father or legal guardian turns it on.	Цей обліковий запис належить особі, молодшій за 18 років. За законом чат з іншими гравцями (повідомлення в лобі та в партіях, оголошення, статус і повідомлення до подарунків) вимкнено, доки його не ввімкне мати, батько або законний опікун.
+I am this player's mother, father or legal guardian, I have read the terms of use and I allow them to chat with other players.	Я мати, батько або законний опікун цього гравця, я прочитав(-ла) умови використання й дозволяю йому спілкуватися з іншими гравцями.
+Chat for players under 18	Чат для гравців до 18 років
+Turn the chat off	Вимкнути чат
+{n} more invitations	Ще запрошень: {n}
+Invitation	Запрошення
+Turn the chat on	Увімкнути чат
+Chat off: under 18. A parent or guardian can turn it on.	Чат вимкнено: до 18 років. Батьки або опікун можуть його ввімкнути.
+The chat with other players is off until you turn it on.	Чат з іншими гравцями вимкнено, доки ви його не ввімкнете.
+Write to turn the chat on…	Напишіть, щоб увімкнути чат…
+Chat with other players	Чат з іншими гравцями
+The chat with other players is off until you turn it on. To turn it on, tell us your age group: it can't be changed from the game afterwards.	Чат з іншими гравцями вимкнено, доки ви його не ввімкнете. Щоб увімкнути, вкажіть свою вікову групу: згодом її не можна буде змінити в грі.
+Under 18: a parent or guardian must agree to the terms with you and turn the chat on.	До 18 років: батьки або опікун мають разом із вами прийняти умови й увімкнути чат.
+Not now	Не зараз
+Terms of use	Умови використання
+Privacy policy	Політика конфіденційності
+You have 7 days to change your mind and get your money back.	У вас є 7 днів, щоб передумати й повернути гроші.
+Under 18: buy only with a parent's or guardian's permission.	До 18 років: купуйте лише з дозволу батьків або опікуна.
+Renews every month until you cancel. 7 days to change your mind.	Поновлюється щомісяця, доки ви не скасуєте. 7 днів, щоб передумати.
+About	Про гру
+Accounts, purchases and refunds, the rules of the online game.	Облікові записи, покупки й повернення коштів, правила онлайн-гри.
+What the game keeps, and your rights.	Які дані зберігає гра, і ваші права.
+Open	Відкрити
+Credits	Автори
+Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Шрифти: DejaVu і Noto (OFL). Прапори: flag-icons (MIT). Реакції й емодзі: Twemoji (CC-BY 4.0). Назви країн: iso-codes (LGPL-2.1). Код гри відкритий (MIT).
+The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	Для гравців до 18 років чат вимкнено. Батьки або опікун можуть увімкнути його під чатом лобі.
+No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	На розбитті жодної кулі не зачеплено: розбиває {next}, биток з руки за лінією дому.
+The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	На розбитті в лузу зайшов биток і жодної кулі: розбиває {next}, биток з руки за лінією дому.
+Users online	Користувачі в мережі
+ping {ms} ms	пінг {ms} мс
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks, with the cue ball in hand behind the head string.	На розбитті в лузу зайшов биток разом із кулями обох груп: без штрафу, стіл лишається відкритим, розбиває {next}, биток з руки за лінією дому.
+Brazilian	Бразильські
+Official	Офіційні
+Brazilian rules	Бразильські правила
+Official rules	Офіційні правила
+Brazilian rules (inside a sentence)	бразильські правила
+Official rules (inside a sentence)	офіційні правила
+Brazilian (inside a sentence)	бразильські
+Official (inside a sentence)	офіційні
+As played in Brazil's bars	Як у барах Бразилії
+As played in tournaments (WPA)	Як на турнірах (WPA)
+on the Brazilian rules	за бразильськими правилами
+on the official rules	за офіційними правилами
+A ball left the table on the break.	На розбитті куля вилетіла зі столу.
+A ball off the table on the break	Куля зі столу на розбитті
+A safety calls nothing: whatever goes in stays down, and the turn passes.	Відіграш нічого не замовляє: усе, що зайде, лишається в лузах, а хід переходить до суперника.
+Break yourself	Розбити самому
+CALLED POCKET	ЗАМОВЛЕНА ЛУЗА
+Choose	Вибрати
+Choose how play goes on	Виберіть, як продовжити гру
+Choose the rules of your games. You can switch them any time, in the main menu.	Виберіть правила своїх партій. Змінити їх можна будь-коли в головному меню.
+Click a pocket on the table to call it; click it again to follow your aim.	Клацніть лузу на столі, щоб замовити її; клацніть ще раз, щоб луза знову йшла за прицілом.
+Cue ball in hand	Биток з руки
+Each of the rules has its own rating: these games don't change your {rating} under the {other}.	Кожні правила мають власний рейтинг: ці партії не змінюють ваш рейтинг {rating} за іншими правилами ({other}).
+Find an opponent of your level automatically ({rules})	Автоматично знайти суперника вашого рівня ({rules})
+How do you like to play?	Як вам більше подобається грати?
+How does play go on? Choose one:	Як продовжити гру? Виберіть:
+Illegal break: no ball made and fewer than four balls reached a cushion.	Неправильне розбиття: жодної кулі не забито, і менше ніж чотири кулі дійшли до борту.
+Invite {name}	Запросити {name}
+No ball went in the called pocket ({pocket}): {next} to shoot.	У замовлену лузу ({pocket}) нічого не зайшло: б’є {next}.
+No pocket was called (a safety): {next} to shoot.	Лузу не замовлено (відіграш): б’є {next}.
+Not sure what changes?	Не знаєте, що змінюється?
+Place it anywhere behind the head string.	Поставте його будь-де за лінією дому.
+Play on	Грати далі
+Players against the computer under these rules	Гравці проти комп’ютера за цими правилами
+Players online under these rules (the lounge and online games)	Гравці онлайн за цими правилами (лобі й онлайн-партії)
+RULES OF YOUR GAMES	ПРАВИЛА ВАШИХ ПАРТІЙ
+Read both rules	Прочитати обидва правила
+Rules of your games	Правила ваших партій
+Safety	Відіграш
+Safety: no pocket	Відіграш: без лузи
+Show the {rules}: the rank, the league and the chart	Показати {rules}: ранг, ліга й графік
+The 8 is spotted and you keep shooting.	Вісімку повертають на задню точку, і ви б’єте далі.
+The 8 is spotted; the cue ball in hand behind the head string.	Вісімку повертають на задню точку; биток з руки за лінією дому.
+The 8 on a break with a foul	Вісімка на розбитті з фолом
+The 8 on the break	Вісімка на розбитті
+The 8 went down on a break with a foul: it is spotted.	Вісімка зайшла на розбитті з фолом: її повертають на задню точку.
+The 8 went down on the break: it is spotted.	Вісімка зайшла на розбитті: її повертають на задню точку.
+The balls are racked again and you break.	Кулі знову ставлять у піраміду, і розбиваєте ви.
+The balls are racked again and {name} breaks.	Кулі знову ставлять у піраміду, і розбиває {name}.
+The balls are racked again: {name} breaks.	Кулі знову ставлять у піраміду: розбиває {name}.
+The balls are racked again: {other} breaks.	Кулі знову ставлять у піраміду: розбиває {other}.
+The rules of this game: click to read them	Правила цієї партії: клацніть, щоб прочитати
+The rules of your games: click to switch	Правила ваших партій: клацніть, щоб змінити
+The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	Перемикач у головному меню: онлайн, проти комп’ютера й на двох гравців. Кожні правила мають власний рейтинг.
+The table as it lies.	Стіл як є.
+The top 100 of each rules · rated games	Топ-100 за кожними правилами · рейтингові партії
+The {ball} lay behind the head string and the cue ball hit it without crossing the line first	За лінією дому стояла {ball}, і биток влучив у неї, не перетнувши спершу лінію
+What changes between the rules: click to read them	Що змінюється між правилами: клацніть, щоб прочитати
+With the cue ball in hand behind the head string.	Биток з руки за лінією дому.
+follows your aim	за прицілом
+no rated games yet	рейтингових партій поки немає
+open table: the called ball you make sets your group	відкритий стіл: забита в замовлену лузу куля визначить вашу групу
+peak {n} · {games} games	пік {n} · партії: {games}
+playing now	зараз грає
+your call	ваше замовлення
+{name} breaks again	{name} розбиває знову
+{name} chooses: play on, or rack the balls and break again.	{name} вибирає: грати далі або поставити піраміду й розбити знову.
+{name} chooses: play the table as it lies, or take the cue ball in hand behind the head string.	{name} вибирає: грати стіл як є або взяти биток з руки за лінією дому.
+{name} chooses: play the table as it lies, rack the balls and break, or have {breaker} break again.	{name} вибирає: грати стіл як є, поставити піраміду й розбити самому або дати {breaker} розбити знову.
+{name} chooses: play the table as it lies, take the cue ball in hand behind the head string, rack the balls and break, or have {breaker} break again.	{name} вибирає: грати стіл як є, взяти биток з руки за лінією дому, поставити піраміду й розбити самому або дати {breaker} розбити знову.
+{name} chooses: the cue ball in hand behind the head string, or rack the balls and break.	{name} вибирає: биток з руки за лінією дому або поставити піраміду й розбити самому.
+{name} is choosing how play goes on…	{name} вибирає, як продовжити гру…
+{name} plays on (the 8 is spotted).	{name} грає далі (вісімку повернуто на задню точку).
+{name} plays the table as it lies.	{name} грає стіл як є.
+{name} plays the {theirs} now; yours are the {mine}.	{name} зараз грає за правилами: {theirs}; ваші — {mine}.
+{name} takes the cue ball in hand.	{name} бере биток з руки.
+{next} has the cue ball in hand behind the head string.	{next}: биток з руки за лінією дому.
+{next} has the cue ball in hand: anywhere on the table.	{next}: биток з руки, будь-де на столі.
+{n} points to {tier} ({rules})	Ще {n} оч. до ліги «{tier}» ({rules})
+{n} waiting	Очікують: {n}
+A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Фол дає суперникові кулі його групи. Биток з руки лише на розбитті, і замовляють лише лузу для вісімки.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	Фол дає суперникові биток з руки будь-де на столі. Кожен удар замовляють, а розбиття має довести чотири кулі до борту.
+A foul gives balls to the opponent	Фол дає суперникові кулі
+Ball in hand on the break only	Биток з руки лише на розбитті
+Only the 8's pocket is called	Замовляють лише лузу для вісімки
+The most played in Brazil	Найпопулярніші в Бразилії
+A foul gives ball in hand	Фол дає биток з руки
+The break drives four balls to a cushion	Розбиття доводить чотири кулі до борту
+Every shot is called	Кожен удар замовляють
+The same all over the world	Однакові в усьому світі
+Game type	Тип гри
+called: {pocket}	замовлено: {pocket} луза
+no call: a safety	без замовлення: відіграш
+A safety: nothing called. Click again to call the pocket you aim at.	Відіграш: нічого не замовлено. Клацніть ще раз, щоб замовити лузу, у яку цілитеся.
+A safety calls nothing: whatever goes in stays down, and the turn passes. To call another pocket, click it on the table.	Відіграш нічого не замовляє: усе, що зайде, лишається в лузах, а хід переходить до суперника. Щоб замовити іншу лузу, клацніть її на столі.
+{games} games · {pct}% won	Партії: {games} · виграно {pct}%
+Each of the rules has its own rating; the level, coins and achievements are shared.	Кожні правила мають власний рейтинг; рівень, монети й досягнення спільні.
+You already have a VIP subscription: manage it with Manage subscription.	У вас уже є підписка VIP: керуйте нею через «Керувати підпискою».
+Your opponent can't start another game yet.	Ваш суперник поки не може почати нову партію.
+A tournament's name is shown to everyone: with your chat off, you can join tournaments but not create one.	Назву турніру бачать усі: коли чат вимкнено, ви можете приєднуватися до турнірів, але не створювати їх.
+The connection dropped: check your coins before trying again.	З’єднання розірвано: перевірте монети, перш ніж пробувати знову.
+Sign in to buy coins.	Увійдіть, щоб купити монети.
+Sign in to become VIP.	Увійдіть, щоб стати VIP.
+how play goes on after the break is undecided	як продовжити гру після розбиття, ще не вирішено
+Finish your game, and leave your table, the queue or your tournament first.	Спершу завершіть партію й покиньте стіл, чергу або турнір.
+That choice can't be made now.	Цей вибір зараз неможливий.
+That medal can't be.	Такої медалі не може бути.
+{name}'s tournament	Турнір {name}
+When time runs out, it's a foul: your opponent gets a ball and the cue ball goes back to the head spot.	Коли час спливає, це фол: суперник отримує кулю, а биток повертається на передню точку.
+When time runs out, it's a foul: your opponent gets the cue ball in hand.	Коли час спливає, це фол: суперник отримує биток з руки.
+Your username was changed. Sign in again.	Ваше ім’я користувача змінено. Увійдіть знову.
+You have your tournament game in progress. A new game takes its place, and the tournament game counts as lost.	У вас триває турнірна партія. Нова партія її замінить, а турнірну партію буде зараховано як програну.
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks again, from the head spot.	На розбитті в лузу зайшов биток разом із кулями обох груп: без штрафу, стіл лишається відкритим, і {next} розбиває знову з передньої точки.
+The cue ball went down on the break with no ball made: {next} breaks again, from the head spot.	На розбитті в лузу зайшов биток і жодної кулі: {next} розбиває знову з передньої точки.
+{who} ran out of time: {other} breaks, from the head spot.	{who}: час вичерпано, розбиває {other} з передньої точки.
+Congratulations!	Вітаємо!
+You earned a new item: {title}	Ви отримали новий предмет: {title}
+You earned a new item!	Ви отримали новий предмет!

@@ -1,0 +1,300 @@
+901	Größe der Oberfläche
+902	Texte, Schaltflächen und Felder.
+903	Ziehen, um die Kraft einzustellen
+904	Stoß!
+905	Stell die Kraft ein und drück dann den grünen Knopf
+906	+{n} Münzen · {why}
+907	Turniere mit 16 Spielern und der erste Platz auf der Warteliste eines vollen Turniers
+908	30 Minuten: Spiel so viele Partien wie möglich. Ein Sieg bringt 2 Punkte, ab dem dritten Sieg in Folge 4.
+909	Eine Krone neben deinem Namen, überall (Lounge, Profil, Rangliste)
+910	Konto
+911	Füge Freunde hinzu, um ihnen Artikel zu schenken.
+912	Arena
+913	Arena · Gastgeber {host} · {n} Spieler · {kind}
+914	Jetzt kaufen
+915	Kaufe…
+916	Passwort ändern
+917	Zum Löschen erneut klicken
+918	Hast du einen Code? Gib ihn hier ein
+919	Kauf bestätigen
+920	Kopiert: Schick ihn einem Freund.
+921	Kopieren
+922	Aktuell
+923	Konto löschen
+924	Startgeld
+925	Startgeld {n} Münzen
+926	Alle Wiederholungen bleiben gespeichert (ohne VIP nur die letzten 10 Partien)
+927	Für {name}
+928	Nachricht hinzufügen (optional)
+929	Format
+930	Rahmen
+931	Gratis
+932	Münzen holen
+933	Geschenk gesendet!
+934	Verschenken
+935	Verschenken
+936	Einem Freund schenken
+937	Super!
+938	Wenn du dein Passwort vergisst, bestätigen wir über diese E-Mail, dass du es bist.
+939	Per Code einladen
+940	Wird sofort angelegt. Artikel ändern nur das Aussehen, nie das Spiel.
+941	Komm an meinen Tisch in Snook Legend:
+942	Auf die Warteliste
+943	Beitreten · {n} Münzen
+944	K.-o.-System
+945	Namensfarbe
+946	Namensfarben für die Lounge und exklusive Rahmen, Tücher, Queues, Kugeln und Effekte
+947	Neu
+948	Nein, danke
+949	Nichts, was Partien gewinnt: VIP ändert nur das Aussehen
+950	Zahlen
+951	IM TV
+952	Spiel gewertete Partien, um hier deine Wertung zu sehen.
+953	Noch keine gewerteten Partien.
+954	Preis
+955	Preise {a} + {b}
+956	Schütze deine Käufe
+957	Kauf abgeschlossen!
+958	Wiederherstellungs-E-Mail
+959	Speichern
+960	Die Startgelder bilden das Preisgeld: 70 % für den Sieger, 20 % für den Zweiten.
+961	Der Server startet in {m}:{s} für ein Update neu. Laufende Partien gehen weiter.
+962	Diese E-Mail verwenden
+963	{email} verwenden, um dein Konto wiederherzustellen, falls du dein Passwort mal vergisst?
+964	Zuschauen
+965	Noch mal ansehen
+966	Siegeffekte
+967	Hallen
+968	Du bekommst einen Gegner, sobald ihr beide frei seid.
+969	Du kannst sie jederzeit in deinem Profil ändern (Konto).
+970	Dir fehlen {n} Münzen.
+971	Dein Konto
+972	Dein Konto wurde gelöscht.
+973	Deine Münzen
+974	Dein Freund bekommt es sofort.
+975	Deine Partie gegen {name} beginnt.
+976	Dein Name, deine E-Mail, Freunde und Artikel werden endgültig gelöscht. Deine Gegner behalten die gespielten Partien (ohne deinen Namen).
+977	Kugeln pro Partie
+978	beste Serie überhaupt
+979	Tagesbonus
+980	Startgeld zurück
+981	für die Partie
+982	für den Sieg
+983	gezählte Partien
+984	Analyse
+985	Die Stoßanalyse ist auf diesem Server noch nicht verfügbar.
+986	Nur Online-Konten haben eine Stoßanalyse.
+987	Spiel online, um zu sehen, wie du versenkst: Die Analyse erscheint nach {n} weiteren Stößen auf eine Tasche.
+988	{name} hat noch nicht genug Online-Partien für eine Analyse gespielt.
+989	1 Partie
+990	{pct} % von {n} Stößen auf eine Tasche versenkt · {games}
+991	{made} von {n} versenkt ({pct})
+992	Nach Stoßart
+993	Stöße
+994	Gerade
+995	Schnitt 8–25°
+996	Schnitt 25–45°
+997	Dünner Schnitt 45°+
+998	Bandenstoß
+999	Vorbande
+1000	Kombination
+1001	Sprung
+1002	Massé
+1003	Anstoß
+1004	Nach Entfernung
+1005	Kurz (unter 0,75 m)
+1006	Mittel (bis 1,5 m)
+1007	Lang (über 1,5 m)
+1008	ließen dem Gegner nichts
+1009	Anstöße
+1010	versenkten eine Kugel
+1011	Versenkt
+1012	Verfehlt
+1013	Wo und in welche Tasche
+1014	{pocket}: {made} von {n} versenkt
+1015	Wo die versenkten Kugeln lagen
+1016	Wo die verfehlten Kugeln lagen
+1017	wenige
+1018	viele
+1019	{made} versenkt · {missed} verfehlt ({pct})
+1020	Ecke oben links
+1021	Ecke unten links
+1022	Mitteltasche oben
+1023	Mitteltasche unten
+1024	Ecke oben rechts
+1025	Ecke unten rechts
+1026	abgebrochene Partien
+1027	Trefferquote
+1028	Stöße mit Foul
+1029	beginnt in {n} Min.
+1030	Turnierpreis
+1031	Der dunkle Raum blendet die Halle um den Tisch aus.
+1032	Halle zeigen
+1033	Level {n} · 1 Sieg
+1034	Level {n} · {w} Siege
+1035	Noch {left} Online-Siege mit diesem Queue bis Level {n}. Level fügen dem Queue nur Markierungen hinzu.
+1036	Höchstes Level: Dieses Queue hat alle Markierungen.
+1037	Dein Queue {cue} hat Level {n} erreicht!
+1038	Meiste Siege: {cue} (Level {n})
+1039	{games} Partien · {rate} % gewonnen · {balls} Kugeln versenkt
+1040	vs.
+1041	{from} hat dir {item} geschenkt!
+1042	Du hast ein Geschenk bekommen!
+1043	Von
+1044	An
+1045	Unbekannt
+1046	Ein Monat VIP
+1047	Danken
+1048	Bedankt
+1049	Hat sich bedankt
+1050	Jetzt nutzen
+1051	Später
+1052	OK
+1053	Weiter (noch {n})
+1054	{from} hat dir {item} geschenkt! Es wartet in der Lounge auf dich.
+1055	{name} bedankt sich für {item}.
+1056	Geschenke
+1057	Noch keine Geschenke. Freunde können dir Artikel aus dem Shop schenken.
+1058	{item} gehört dir und ist schon aktiv.
+1059	noch {m}:{s}
+1060	{name} lädt dich zum Spielen ein.
+1061	{name} ist online.
+1062	Die Zeit von {name} ist abgelaufen.
+1063	{name} hat {item} erhalten.
+1064	{n} Pkt. · {g} Partien
+1065	{n} schauen zu · Ø {r}
+1066	{title}: {how}
+1067	Oliv
+1068	Marineblau
+1069	Waldgrün
+1070	Schiefergrau
+1071	Rotwein
+1072	Gebranntes Orange
+1073	Altrosa
+1074	Sand
+1075	Eisblau
+1076	Limette
+1077	Smoking
+1078	Kobalt
+1079	Smaragd
+1080	Ahorn natur
+1081	Strandbar
+1082	Modern
+1083	Englischer Club
+1084	Ebenholz & Gold
+1085	Billardhalle
+1086	Industrie-Loft
+1087	Stahl & Eiche
+1088	Turnier
+1089	Viktorianischer Nussbaum
+1090	Elfenbein-Déco
+1091	Berghütte
+1092	Neon-Spielhalle
+1093	Art-déco-Lounge
+1094	Skyline-Penthouse
+1095	Nussbaum
+1096	Zebrano
+1097	Bocote
+1098	Tiefsee
+1099	Kirsche
+1100	Jade
+1101	Tiger
+1102	Amethyst
+1103	Arktis-Carbon
+1104	Inferno
+1105	Obsidian & Gold
+1106	Beige Kreide
+1107	Graue Kreide
+1108	Orange Kreide
+1109	Rosa Kreide
+1110	Petrol-Kreide
+1111	Gelbe Kreide
+1112	Schwarze Kreide
+1113	Weiße Kreide
+1114	Silberne Kreide
+1115	TV-Set
+1116	Erdtöne
+1117	Ozean
+1118	Sonnenuntergang
+1119	Bonbon
+1120	Perle
+1121	Monochrom
+1122	Chrom
+1123	Goldrausch
+1124	Kein Rahmen
+1125	Bronze
+1126	Silber
+1127	Gold
+1128	Grüner Filz
+1129	Mahagoni
+1130	Eis
+1131	Feuer
+1132	Diamant
+1133	VIP-Krone
+1134	Roségold
+1135	Aqua
+1136	Violett
+1137	Glut
+1138	Minze
+1139	Frost
+1140	Kein Effekt
+1141	Funken
+1142	Konfetti
+1143	Schockwelle
+1144	Münzregen
+1145	Flammen
+1146	Königliche Funken
+1147	Ligafarbe
+1148	Turniere mit 16 Spielern sind für VIP-Mitglieder.
+1149	Ein Platz ist frei geworden: Du bist im Turnier!
+1150	Das Startgeld beträgt höchstens 1000 Münzen.
+1151	Gäste können nicht um Münzen spielen.
+1152	Verschenken kann man nur Artikel, die es für Münzen gibt.
+1153	Passwort geändert.
+1154	Passwörter brauchen 8 oder mehr Zeichen, nicht nur Ziffern.
+1155	Wiederherstellungs-E-Mail entfernt.
+1156	Wiederherstellungs-E-Mail gespeichert.
+1157	Etwas ist schiefgelaufen. Bitte versuch es noch einmal.
+1158	Dieser Code ist ungültig (oder der Tisch wurde geschlossen).
+1159	Das sieht nicht nach einer E-Mail-Adresse aus.
+1160	Diese Partie ist vorbei.
+1161	Das aktuelle Passwort ist falsch.
+1162	Der Server startet neu.
+1163	Der Server startet neu: Neue Partien beginnen gleich.
+1164	Das Turnier ist voll: Du stehst auf der Warteliste.
+1165	Diese Wiederholung ist nicht verfügbar.
+1166	Du kannst nur deinen Freunden Artikel schenken.
+1167	Dein Freund hat diesen Artikel schon.
+1168	16 (VIP)
+1169	In dieser Version des Spiels gibt es kein VIP zu kaufen.
+1170	In dieser Version des Spiels verdienst du Münzen durchs Spielen:
+1171	gewertete Partien und ein Bonus an jedem Tag, an dem du spielst.
+1172	Münzen verdienst du durchs Spielen:
+1173	Wenn du magst, kannst du sie auch kaufen:
+1174	ein Monat
+1175	schon VIP
+1176	Einen Monat verschenken · {p}
+1177	{from} hat dir einen Monat VIP geschenkt!
+1178	{name} hat einen Monat VIP erhalten.
+1179	Dein Freund ist schon VIP.
+1180	Laufende Partie: noch {n} Kugeln
+1181	Weiter
+1182	Missionen
+1183	Pinnwand
+1184	Heute
+1185	Diese Woche
+1186	neue Missionen in {t}
+1187	endet in {t}
+1188	{n} Tage
+1189	{n} Std.
+1190	{n} Min.
+1191	Mission erfüllt
+1192	Missionen zählen gewertete Partien, die zu Ende gespielt werden. Die Münzen kommen, sobald eine erfüllt ist.
+1193	Gerade hängt nichts an der Pinnwand.
+1194	Offene Turniere
+1195	{n}/{size} Spieler
+1196	beginnt in {t}
+1197	Startgeld {n} Münzen
+1198	Ansehen
+1199	Spiele {n} gewertete Partien
+1200	Gewinne {n} gewertete Partien

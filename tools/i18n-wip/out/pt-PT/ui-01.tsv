@@ -1,0 +1,300 @@
+1	{name} está na bola 8: cantou o buraco {pocket}
+2	Na bola 8: buraco {pocket}
+3	Mostrar ping
+4	O atraso da tua ligação nas partidas online.
+5	Reações
+6	Loja
+7	Panos
+8	Tacos
+9	Giz
+10	Bolas
+11	Moedas
+12	moedas
+13	Inicia sessão para comprar e usar artigos. Eis o que há:
+14	Em uso
+15	Usar
+16	Comprar
+17	faltam {n}
+18	{n} moedas
+19	Moedas insuficientes: obtém mais no separador Moedas.
+20	Só VIP
+21	grátis
+22	teu
+23	conquista
+24	Ainda não é possível comprar moedas neste servidor.
+25	+{n} de bónus
+26	O pagamento abre no navegador (cartão, Pix…), na página segura da Stripe.
+27	As moedas chegam num instante; servem apenas para artigos do jogo.
+28	Artigos exclusivos: {list}
+29	{n} moedas todos os meses
+30	Cancela quando quiseres: o VIP dura até ao fim do mês pago
+31	És VIP até {d}.
+32	Gerir subscrição
+33	Torna-te VIP · {p}
+34	Ainda não é possível subscrever o VIP neste servidor.
+35	A página de pagamento abriu no teu navegador.
+36	Não foi possível abrir o navegador.
+37	Verde torneio
+38	Azul elétrico
+39	Bordeaux
+40	Antracite
+41	Verde-azulado
+42	Roxo real
+43	Camelo
+44	Meia-noite
+45	Vermelho campeão
+46	Clássico
+47	Pau-rosa
+48	Ébano e prata
+49	Carbono
+50	Embutido de marfim
+51	Coroa
+52	Joias
+53	Giz azul
+54	Giz verde
+55	Giz vermelho
+56	Giz roxo
+57	Giz dourado
+58	Vintage
+59	Pastel
+60	Néon
+61	Já tens este artigo.
+62	Moedas insuficientes.
+63	A compra falhou; não foram descontadas moedas.
+64	Artigo inexistente.
+65	Este artigo não se compra com moedas.
+66	Não tens este artigo.
+67	Compras indisponíveis.
+68	Este pacote não está à venda.
+69	Não foi possível abrir a página de pagamento. Tenta novamente daqui a pouco.
+70	Já és VIP.
+71	Não há nenhuma subscrição para gerir.
+72	Não foi possível abrir a página. Tenta novamente daqui a pouco.
+73	Moedas adicionadas à tua carteira.
+74	Bem-vindo ao VIP!
+75	Mais devagar.
+76	Não podes fazer isso.
+77	Há demasiados recados neste momento. Tenta novamente daqui a uns minutos.
+78	Um moderador retirou o teu recado.
+79	Um moderador apagou a tua mensagem de estado.
+80	Mensagem de estado apagada.
+81	VIP
+82	Jogar agora
+83	Encontra automaticamente um adversário do teu nível
+84	À procura de adversário… {t}
+85	qualquer rating
+86	rating ±{n} · {mode}
+87	Acerto
+88	Bolas metidas
+89	Melhor série
+90	Faltas
+91	visto agora mesmo
+92	visto há {n} min
+93	visto há {n} h
+94	visto ontem
+95	visto há {n} dias
+96	visto há {n} meses
+97	agora mesmo
+98	há {n} min
+99	há {n} h
+100	ontem
+101	há {n} dias
+102	Histórico da partida
+103	Ainda nada.
+104	Mira fina: clica nas setas ou arrasta aqui
+105	{n} a ver
+106	A ver {name}
+107	As tuas reações chegam à mesa com discrição.
+108	Deixar de ver
+109	Se voltarem a jogar, continuas a ver.
+110	O teu amigo saiu da mesa.
+111	O teu amigo não está a jogar neste momento.
+112	Só podes ver os teus amigos.
+113	Não podes ver esta partida.
+114	{n} pontos para {tier}
+115	Escalão máximo
+116	Reações {n}/{total}
+117	Mesa assombrada
+118	Vence uma partida com rating no Halloween (24/10 – 2/11).
+119	Liga de inverno
+120	Vence uma partida com rating nas festas (15/12 – 6/1).
+121	Fogo de artifício
+122	Vence uma partida com rating na passagem de ano (31/12 – 1/1).
+123	Mostra para onde vão a bola alvo e a bola branca (só em partidas livres e no treino).
+124	{n} online · ping {ms} ms
+125	Arrastar com o botão direito · Roda
+126	% vitórias
+127	Repor a câmara: vista de cima, sem zoom
+128	{name} meteu a bola 8
+129	{name} meteu a 8 antes do tempo
+130	{name} meteu a 8 no buraco errado
+131	{name} fez falta na 8
+132	{name} atirou a 8 para fora da mesa
+133	{name} desistiu
+134	{name} saiu da partida
+135	{winner} ganha! ({how})
+136	#{n} do mundo
+137	3 a 16 letras, algarismos ou sublinhados.
+138	Sem linhas na mesa: aponta a olho, ao longo do taco.
+139	Sem guia
+140	Só uma linha curta a partir da bola branca.
+141	Aceitar amizade
+142	Conquista desbloqueada: {title}
+143	Conquistas {n}/{total}
+144	Adicionar
+145	Adiciona um amigo pelo nome de utilizador
+146	Adicionar amigo
+147	Contra o computador
+148	Todos os torneios
+149	Amador
+150	Pelo menos 8 caracteres. Usa uma palavra-passe que não uses noutro sítio.
+151	São precisos pelo menos dois jogadores.
+152	Voltar
+153	Bola preta
+154	Bloquear
+155	Abrir e limpar
+156	Abre e limpa a mesa 10 vezes.
+157	Não é possível procurar partidas aqui: entra pelo endereço abaixo.
+158	Cancelar pedido
+159	Cancelar torneio
+160	Amigável
+161	Centurião
+162	Campeão
+163	Campeão: {name}
+164	Mudar de país
+165	Adicionar mensagem de estado
+166	Uma frase sobre ti
+167	Guardar (Enter)
+168	Cancelar (Esc)
+169	Mudar a tua mensagem de estado
+170	Apagar a mensagem de estado
+171	Batota ou abuso
+172	Escolher…
+173	Clica outra vez para bloquear
+174	Fechar
+175	Finalizador
+176	Competidor
+177	A ligar ao servidor…
+178	Não foi possível criar a partida: {e}
+179	País
+180	Criar
+181	Criar um torneio
+182	Não mostrar bandeira
+183	Nenhum país encontrado.
+184	Dinastia
+185	Com a 8 chega
+186	Carrasco
+187	Perito
+188	Cara conhecida
+189	Final
+190	Termina primeiro a tua partida.
+191	Primeira vitória
+192	Primeira abertura
+193	Pedido de amizade enviado.
+194	Amigos
+195	partida diária
+196	Diárias
+197	Partida diária
+198	Partidas diárias
+199	Desafia um jogador pelo nome de utilizador
+200	Desafiar para uma partida diária
+201	3 dias para cada vez
+202	Ainda não há partidas diárias. Desafia um amigo: cada um joga a sua vez quando puder.
+203	desafia-te · {kind}
+204	à espera de resposta · {kind} · faltam {time}
+205	a tua vez · faltam {time}
+206	vez do adversário · faltam {time}
+207	vitória · {how}
+208	derrota · {how}
+209	o teu tempo acabou
+210	o tempo do adversário acabou
+211	mesa aberta
+212	Tu: {mine}, faltam {a} · {name}: {theirs}, faltam {b}
+213	Ver
+214	Saltar
+215	A rever a vez de {name}
+216	Jogada {n} de {total}
+217	Jogada enviada
+218	Jogada enviada.
+219	À espera da jogada de {name}
+220	{name} tem {time} para jogar. Serás avisado quando for a tua vez.
+221	Faltam {time} para jogar. Serás avisado quando for a tua vez.
+222	Voltar às partidas diárias
+223	A tua partida fica guardada: volta quando quiseres.
+224	{d} d {h} h
+225	o tempo de {name} acabou
+226	Não é possível mostrar esta partida.
+227	Tens uma partida diária à tua espera
+228	Tens {n} partidas diárias à tua espera
+229	{name} desafia-te para uma partida diária com rating.
+230	{name} desafia-te para uma partida diária amigável.
+231	{name} aceitou a tua partida diária.
+232	{name} recusou a tua partida diária.
+233	{name} retirou o desafio para a partida diária.
+234	É a tua vez na partida diária contra {name}.
+235	O tempo de {name} acabou: ganhaste a partida diária.
+236	Ganhaste a partida diária contra {name}!
+237	O teu tempo acabou na partida diária contra {name}.
+238	Perdeste a partida diária contra {name}.
+239	Desafio enviado.
+240	As partidas diárias precisam de uma conta.
+241	Partida inexistente.
+242	Esse desafio já não é válido.
+243	Esse jogador já te desafiou: responde ao desafio dele.
+244	Esse jogador tem demasiados desafios pendentes.
+245	Esse jogador tem demasiadas partidas diárias a decorrer.
+246	Esse jogador não está a aceitar desafios.
+247	Não é possível jogar esta partida neste momento.
+248	Esta partida mudou entretanto: abre-a de novo.
+249	Esta partida terminou.
+250	Já desafiaste esse jogador.
+251	Já tens uma partida a decorrer contra esse jogador.
+252	Bloqueaste esse jogador.
+253	Não te podes desafiar a ti próprio.
+254	Já tens o máximo de partidas diárias em simultâneo.
+255	Tens demasiados desafios à espera de resposta.
+256	Estás a enviar desafios depressa demais.
+257	O teu tempo para esta vez acabou.
+258	Partidas
+259	Partidas na tua rede
+260	Dá um nome ao torneio (pelo menos 3 caracteres).
+261	Boa companhia
+262	Grão-mestre
+263	Os convidados só podem entrar em partidas LAN. Cria uma conta.
+264	Os convidados não podem jogar torneios com rating.
+265	Os convidados não têm isto.
+266	Assédio
+267	Hat-trick
+268	Tem 10 amigos.
+269	Tem uma conta há 30 dias.
+270	Tem uma conta há um ano.
+271	Criar uma partida neste computador
+272	Anfitrião {host} · {n}/{size} jogadores · {kind}
+273	Mão quente
+274	Calejado
+275	Jogada inválida.
+276	Entrar
+277	A entrar na partida LAN…
+278	Só por diversão
+279	D
+280	partida LAN
+281	Partida LAN criada por {name}.
+282	As partidas LAN não alteram o rating.
+283	Lenda
+284	Vive na mesa
+285	A carregar o perfil…
+286	A carregar…
+287	Rede local
+288	Bloqueado
+289	À procura de partidas
+290	Faz um amigo.
+291	Mestre
+292	Nome
+293	Os nomes têm 3 a 16 letras, algarismos ou sublinhados.
+294	Nova conta
+295	Já tenho conta
+296	És novo por aqui? Escolhe “Nova conta”: demora dez segundos.
+297	Novo torneio
+298	Ainda não tens amigos. Adiciona alguém com quem jogaste!
+299	Ainda não há partidas.
+300	Sem limite

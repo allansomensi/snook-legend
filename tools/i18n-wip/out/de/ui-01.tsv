@@ -1,0 +1,300 @@
+1	{name} spielt auf die 8: angesagte Tasche {pocket}
+2	Auf die 8: Tasche {pocket}
+3	Ping anzeigen
+4	Die Verzögerung deiner Verbindung in Online-Partien.
+5	Reaktionen
+6	Shop
+7	Tuch
+8	Queues
+9	Kreide
+10	Kugeln
+11	Münzen
+12	Münzen
+13	Melde dich an, um Artikel zu kaufen und zu nutzen. Das gibt es:
+14	Aktiv
+15	Nutzen
+16	Kaufen
+17	{n} fehlen
+18	{n} Münzen
+19	Nicht genug Münzen: Hol dir mehr im Tab „Münzen“.
+20	Nur VIP
+21	gratis
+22	deins
+23	Erfolg
+24	Auf diesem Server kann man noch keine Münzen kaufen.
+25	+{n} Bonus
+26	Die Zahlung öffnet sich in deinem Browser (Karte, Pix…) auf der sicheren Seite von Stripe.
+27	Die Münzen kommen gleich an; sie gelten nur für Artikel im Spiel.
+28	Exklusive Artikel: {list}
+29	{n} Münzen jeden Monat
+30	Jederzeit kündbar: VIP gilt bis zum Ende des bezahlten Monats
+31	Du bist VIP bis {d}.
+32	Abo verwalten
+33	VIP werden · {p}
+34	Auf diesem Server kann man VIP noch nicht kaufen.
+35	Die Zahlungsseite wurde in deinem Browser geöffnet.
+36	Der Browser konnte nicht geöffnet werden.
+37	Turniergrün
+38	Elektroblau
+39	Bordeaux
+40	Anthrazit
+41	Petrol
+42	Königspurpur
+43	Camel
+44	Mitternacht
+45	Champion-Rot
+46	Klassik
+47	Rosenholz
+48	Ebenholz & Silber
+49	Carbon
+50	Elfenbein-Intarsie
+51	Krone
+52	Juwelen
+53	Blaue Kreide
+54	Grüne Kreide
+55	Rote Kreide
+56	Lila Kreide
+57	Goldene Kreide
+58	Vintage
+59	Pastell
+60	Neon
+61	Diesen Artikel hast du schon.
+62	Nicht genug Münzen.
+63	Der Kauf ist fehlgeschlagen; es wurden keine Münzen abgebucht.
+64	Diesen Artikel gibt es nicht.
+65	Diesen Artikel kann man nicht mit Münzen kaufen.
+66	Diesen Artikel hast du nicht.
+67	Käufe sind nicht verfügbar.
+68	Dieses Paket ist nicht erhältlich.
+69	Die Zahlungsseite konnte nicht geöffnet werden. Versuch es gleich noch einmal.
+70	Du bist schon VIP.
+71	Es gibt kein Abo zu verwalten.
+72	Die Seite konnte nicht geöffnet werden. Versuch es gleich noch einmal.
+73	Münzen wurden gutgeschrieben.
+74	Willkommen als VIP!
+75	Etwas langsamer, bitte.
+76	Das kannst du nicht tun.
+77	Gerade gibt es zu viele Notizen. Versuch es in ein paar Minuten noch einmal.
+78	Ein Moderator hat deine Notiz entfernt.
+79	Ein Moderator hat deine Statusnachricht gelöscht.
+80	Statusnachricht gelöscht.
+81	VIP
+82	Jetzt spielen
+83	Finde automatisch einen Gegner auf deinem Niveau
+84	Suche Gegner… {t}
+85	jede Wertung
+86	Wertung ±{n} · {mode}
+87	Trefferquote
+88	Versenkte Kugeln
+89	Beste Serie
+90	Fouls
+91	gerade eben gesehen
+92	vor {n} Min. gesehen
+93	vor {n} Std. gesehen
+94	gestern gesehen
+95	vor {n} Tagen gesehen
+96	vor {n} Monaten gesehen
+97	gerade eben
+98	vor {n} Min.
+99	vor {n} Std.
+100	gestern
+101	vor {n} Tagen
+102	Spielverlauf
+103	Noch nichts.
+104	Feinzielen: Klick auf die Pfeile oder zieh hier
+105	{n} schauen zu
+106	Du schaust {name} zu
+107	Deine Reaktionen kommen leise am Tisch an.
+108	Nicht mehr zuschauen
+109	Wenn sie noch mal spielen, schaust du weiter zu.
+110	Dein Freund hat den Tisch verlassen.
+111	Dein Freund spielt gerade nicht.
+112	Du kannst nur deinen Freunden zuschauen.
+113	Dieser Partie kannst du nicht zuschauen.
+114	Noch {n} Punkte bis {tier}
+115	Höchste Liga
+116	Reaktionen {n}/{total}
+117	Spuktisch
+118	Gewinne an Halloween (24. Okt. – 2. Nov.) eine gewertete Partie.
+119	Winterliga
+120	Gewinne über die Feiertage (15. Dez. – 6. Jan.) eine gewertete Partie.
+121	Feuerwerk
+122	Gewinne zum Jahreswechsel (31. Dez. – 1. Jan.) eine gewertete Partie.
+123	Zeigt, wohin Objektkugel und Spielball laufen (nur in freien Partien und im Training).
+124	{n} online · Ping {ms} ms
+125	Rechts ziehen · Mausrad
+126	Sieg-%
+127	Kamera zurücksetzen: Draufsicht, kein Zoom
+128	{name} hat die 8 versenkt
+129	{name} hat die 8 zu früh versenkt
+130	{name} hat die 8 in die falsche Tasche versenkt
+131	{name} hat auf die 8 gefoult
+132	{name} hat die 8 vom Tisch gespielt
+133	{name} hat aufgegeben
+134	{name} hat die Partie verlassen
+135	{winner} gewinnt! ({how})
+136	#{n} weltweit
+137	3–16 Buchstaben, Ziffern oder Unterstriche.
+138	Keine Linien auf dem Tisch: Ziele nach Augenmaß, entlang des Queues.
+139	Keine Hilfe
+140	Nur eine kurze Linie vom Spielball aus.
+141	Freund annehmen
+142	Erfolg freigeschaltet: {title}
+143	Erfolge {n}/{total}
+144	Hinzufügen
+145	Freund per Benutzername hinzufügen
+146	Als Freund hinzufügen
+147	Gegen den Computer
+148	Alle Turniere
+149	Amateur
+150	Mindestens 8 Zeichen. Nimm ein Passwort, das du sonst nirgends nutzt.
+151	Es werden mindestens zwei Spieler gebraucht.
+152	Zurück
+153	Schwarze Kugel
+154	Blockieren
+155	Break & Run
+156	Schaffe 10-mal ein Break & Run.
+157	Hier kann nicht nach Partien gesucht werden: Tritt unten per Adresse bei.
+158	Anfrage zurückziehen
+159	Turnier absagen
+160	Ungewertet
+161	Zenturio
+162	Champion
+163	Champion: {name}
+164	Land ändern
+165	Statusnachricht hinzufügen
+166	Eine Zeile über dich
+167	Speichern (Enter)
+168	Abbrechen (Esc)
+169	Statusnachricht ändern
+170	Statusnachricht löschen
+171	Betrug oder Missbrauch
+172	Auswählen…
+173	Zum Blockieren erneut klicken
+174	Schließen
+175	Vollstrecker
+176	Wettkämpfer
+177	Verbinde mit dem Server…
+178	Partie konnte nicht erstellt werden: {e}
+179	Land
+180	Erstellen
+181	Turnier erstellen
+182	Keine Flagge zeigen
+183	Kein Land gefunden.
+184	Dynastie
+185	Acht reicht
+186	Henker
+187	Experte
+188	Bekanntes Gesicht
+189	Finale
+190	Beende zuerst deine Partie.
+191	Erstes Blut
+192	Erster Anstoß
+193	Freundschaftsanfrage gesendet.
+194	Freunde
+195	Tagespartie
+196	Täglich
+197	Tagespartie
+198	Tagespartien
+199	Spieler per Benutzername herausfordern
+200	Zu einer Tagespartie herausfordern
+201	3 Tage pro Zug
+202	Noch keine Tagespartien. Fordere einen Freund heraus: Jeder macht seinen Zug, wann er kann.
+203	fordert dich heraus · {kind}
+204	wartet auf Antwort · {kind} · noch {time}
+205	du bist dran · noch {time}
+206	Gegner ist dran · noch {time}
+207	gewonnen · {how}
+208	verloren · {how}
+209	Zeit abgelaufen
+210	Zeit des Gegners abgelaufen
+211	offener Tisch
+212	Du: {mine}, noch {a} · {name}: {theirs}, noch {b}
+213	Ansehen
+214	Überspringen
+215	Zug von {name} wird abgespielt
+216	Stoß {n} von {total}
+217	Zug gesendet
+218	Zug gesendet.
+219	Warte auf den Zug von {name}
+220	{name} hat {time} Zeit für den Zug. Du wirst benachrichtigt, wenn du dran bist.
+221	Noch {time} Zeit für den Zug. Du wirst benachrichtigt, wenn du dran bist.
+222	Zurück zu den Tagespartien
+223	Deine Partie ist gespeichert: Komm zurück, wann du willst.
+224	{d} T. {h} Std.
+225	Zeit von {name} abgelaufen
+226	Diese Partie kann nicht angezeigt werden.
+227	Eine Tagespartie wartet auf dich
+228	{n} Tagespartien warten auf dich
+229	{name} fordert dich zu einer gewerteten Tagespartie heraus.
+230	{name} fordert dich zu einer ungewerteten Tagespartie heraus.
+231	{name} hat deine Tagespartie angenommen.
+232	{name} hat deine Tagespartie abgelehnt.
+233	{name} hat die Herausforderung zur Tagespartie zurückgezogen.
+234	Du bist dran in der Tagespartie gegen {name}.
+235	Die Zeit von {name} ist abgelaufen: Du hast die Tagespartie gewonnen.
+236	Du hast die Tagespartie gegen {name} gewonnen!
+237	Deine Zeit in der Tagespartie gegen {name} ist abgelaufen.
+238	Du hast die Tagespartie gegen {name} verloren.
+239	Herausforderung gesendet.
+240	Für Tagespartien brauchst du ein Konto.
+241	Diese Partie gibt es nicht.
+242	Diese Herausforderung ist nicht mehr gültig.
+243	Dieser Spieler hat dich schon herausgefordert: Antworte auf seine Herausforderung.
+244	Dieser Spieler hat zu viele offene Herausforderungen.
+245	Dieser Spieler hat zu viele laufende Tagespartien.
+246	Dieser Spieler nimmt keine Herausforderungen an.
+247	Diese Partie kann gerade nicht gespielt werden.
+248	Die Partie hat sich inzwischen geändert: Öffne sie erneut.
+249	Diese Partie ist vorbei.
+250	Du hast diesen Spieler schon herausgefordert.
+251	Du hast schon eine laufende Partie gegen diesen Spieler.
+252	Du hast diesen Spieler blockiert.
+253	Du kannst dich nicht selbst herausfordern.
+254	Du hast schon so viele Tagespartien, wie gleichzeitig möglich sind.
+255	Zu viele deiner Herausforderungen warten noch auf Antwort.
+256	Du sendest Herausforderungen zu schnell.
+257	Deine Zeit für diesen Zug ist abgelaufen.
+258	Partien
+259	Partien in deinem Netzwerk
+260	Gib dem Turnier einen Namen (mindestens 3 Zeichen).
+261	Gute Gesellschaft
+262	Großmeister
+263	Gäste können nur LAN-Partien beitreten. Erstelle ein Konto.
+264	Gäste können keine gewerteten Turniere spielen.
+265	Für Gäste nicht verfügbar.
+266	Belästigung
+267	Hattrick
+268	Habe 10 Freunde.
+269	Habe seit 30 Tagen ein Konto.
+270	Habe seit einem Jahr ein Konto.
+271	Auf diesem Computer eine Partie eröffnen
+272	Gastgeber {host} · {n}/{size} Spieler · {kind}
+273	Heißes Händchen
+274	Abzocker
+275	Ungültiger Stoß.
+276	Beitreten
+277	Trete der LAN-Partie bei…
+278	Nur zum Spaß
+279	N
+280	LAN-Partie
+281	LAN-Partie von {name}.
+282	LAN-Partien ändern die Wertung nicht.
+283	Legende
+284	Wohnt am Tisch
+285	Profil wird geladen…
+286	Lädt…
+287	Lokales Netzwerk
+288	Gesperrt
+289	Suche nach Partien
+290	Finde einen Freund.
+291	Meister
+292	Name
+293	Namen haben 3–16 Buchstaben, Ziffern oder Unterstriche.
+294	Neues Konto
+295	Ich habe ein Konto
+296	Neu hier? Wähle „Neues Konto“: Das dauert zehn Sekunden.
+297	Neues Turnier
+298	Noch keine Freunde. Füge jemanden hinzu, mit dem du gespielt hast!
+299	Noch keine Partien.
+300	Kein Limit

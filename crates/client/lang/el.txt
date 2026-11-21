@@ -1,0 +1,306 @@
+# Snook Legend: Brazilian Portuguese.
+# One text per line: the English text (as written in the code), a tab, the translation.
+# Placeholders like {name} must stay as they are; \n is a new line.
+{name} is on the 8: called pocket {pocket}	Ο/Η {name} είναι στην 8: δηλωμένη τρύπα {pocket}
+On the 8-ball: {pocket} pocket	Στη μπάλα 8: τρύπα {pocket}
+Show ping	Εμφάνιση ping
+Your connection's delay, in online games.	Η καθυστέρηση της σύνδεσής σου στα online παιχνίδια.
+Reactions	Αντιδράσεις
+Shop	Κατάστημα
+Cloth	Τσόχα
+Cues	Στέκες
+Chalk	Κιμωλία
+Balls	Μπάλες
+Coins	Νομίσματα
+coins	νομίσματα
+Sign in to buy and use items. Here is what there is:	Συνδέσου για να αγοράζεις και να χρησιμοποιείς αντικείμενα. Δες τι υπάρχει:
+In use	Σε χρήση
+Use	Χρήση
+Buy	Αγορά
+{n} short	λείπουν {n}
+{n} coins	Νομίσματα: {n}
+Not enough coins: get more in the Coins tab.	Δεν έχεις αρκετά νομίσματα: πάρε κι άλλα στην καρτέλα Νομίσματα.
+VIP only	Μόνο VIP
+free	δωρεάν
+yours	δικό σου
+achievement	επίτευγμα
+Coins can't be bought on this server yet.	Δεν μπορείς ακόμα να αγοράσεις νομίσματα σε αυτόν τον διακομιστή.
++{n} bonus	+{n} δώρο
+Payment opens in your browser (card, Pix…), on Stripe's secure page.	Η πληρωμή ανοίγει στον browser σου (κάρτα, Pix…), στην ασφαλή σελίδα της Stripe.
+Coins arrive in a moment; they are only used for items in the game.	Τα νομίσματα φτάνουν σε λίγο· χρησιμοποιούνται μόνο για αντικείμενα του παιχνιδιού.
+Exclusive items: {list}	Αποκλειστικά αντικείμενα: {list}
+{n} coins every month	Νομίσματα κάθε μήνα: {n}
+Cancel whenever you want: VIP lasts until the end of the paid month	Ακύρωσε όποτε θέλεις: το VIP διαρκεί ως το τέλος του πληρωμένου μήνα
+You are VIP until {d}.	Είσαι VIP έως {d}.
+Manage subscription	Διαχείριση συνδρομής
+Become VIP · {p}	Γίνε VIP · {p}
+VIP can't be bought on this server yet.	Δεν μπορείς ακόμα να αγοράσεις VIP σε αυτόν τον διακομιστή.
+The payment page opened in your browser.	Η σελίδα πληρωμής άνοιξε στον browser σου.
+Could not open the browser.	Δεν ήταν δυνατό να ανοίξει ο browser.
+Tournament green	Πράσινο τουρνουά
+Electric blue	Ηλεκτρίκ μπλε
+Burgundy	Μπορντό
+Charcoal	Ανθρακί
+Teal	Πετρόλ
+Royal purple	Βασιλικό μωβ
+Camel	Καμηλό
+Midnight	Μεσάνυχτα
+Champion's red	Κόκκινο πρωταθλητή
+Classic	Κλασική
+Rosewood	Τριανταφυλλόξυλο
+Ebony & silver	Έβενος και ασήμι
+Carbon	Άνθρακας
+Ivory inlay	Ένθετο ελεφαντόδοντο
+Crown	Στέμμα
+Jewels	Κοσμήματα
+Blue chalk	Μπλε κιμωλία
+Green chalk	Πράσινη κιμωλία
+Red chalk	Κόκκινη κιμωλία
+Purple chalk	Μωβ κιμωλία
+Gold chalk	Χρυσή κιμωλία
+Vintage	Vintage
+Pastel	Παστέλ
+Neon	Νέον
+You already have this item.	Έχεις ήδη αυτό το αντικείμενο.
+Not enough coins.	Δεν έχεις αρκετά νομίσματα.
+The purchase failed; no coins were taken.	Η αγορά απέτυχε· δεν χρεώθηκαν νομίσματα.
+No such item.	Αυτό το αντικείμενο δεν υπάρχει.
+This item can't be bought with coins.	Αυτό το αντικείμενο δεν αγοράζεται με νομίσματα.
+You don't have this item.	Δεν έχεις αυτό το αντικείμενο.
+Purchases are not available.	Οι αγορές δεν είναι διαθέσιμες.
+This pack is not on sale.	Αυτό το πακέτο δεν πωλείται.
+The payment page could not be opened. Try again in a moment.	Δεν ήταν δυνατό να ανοίξει η σελίδα πληρωμής. Δοκίμασε ξανά σε λίγο.
+You are already VIP.	Είσαι ήδη VIP.
+There is no subscription to manage.	Δεν υπάρχει συνδρομή για διαχείριση.
+The page could not be opened. Try again in a moment.	Δεν ήταν δυνατό να ανοίξει η σελίδα. Δοκίμασε ξανά σε λίγο.
+Coins added to your wallet.	Τα νομίσματα προστέθηκαν στο πορτοφόλι σου.
+Welcome to VIP!	Καλώς ήρθες στο VIP!
+Slow down a little.	Πιο αργά λίγο.
+You can't do that.	Δεν μπορείς να το κάνεις αυτό.
+There are too many notes right now. Try again in a few minutes.	Υπάρχουν πάρα πολλές σημειώσεις αυτή τη στιγμή. Δοκίμασε ξανά σε λίγα λεπτά.
+A moderator took down your note.	Ένας συντονιστής αφαίρεσε τη σημείωσή σου.
+A moderator cleared your status message.	Ένας συντονιστής διέγραψε το μήνυμα κατάστασής σου.
+Status message cleared.	Το μήνυμα κατάστασης διαγράφηκε.
+VIP	VIP
+Play now	Παίξε τώρα
+Find an opponent of your level automatically	Βρες αυτόματα αντίπαλο του επιπέδου σου
+Looking for an opponent… {t}	Αναζήτηση αντιπάλου… {t}
+any rating	οποιαδήποτε βαθμολογία
+rating ±{n} · {mode}	βαθμολογία ±{n} · {mode}
+Potting success	Ποσοστό επιτυχίας
+Balls made	Μπάλες στην τρύπα
+Best run	Καλύτερο σερί
+Fouls	Φάουλ
+seen just now	εμφανίστηκε μόλις τώρα
+seen {n} min ago	εμφανίστηκε πριν από {n} λ.
+seen {n} h ago	εμφανίστηκε πριν από {n} ώ.
+seen yesterday	εμφανίστηκε χθες
+seen {n} days ago	εμφανίστηκε πριν από {n} ημ.
+seen {n} months ago	εμφανίστηκε πριν από {n} μήν.
+just now	μόλις τώρα
+{n} min ago	πριν από {n} λ.
+{n} h ago	πριν από {n} ώ.
+yesterday	χθες
+{n} days ago	πριν από {n} ημ.
+Game history	Ιστορικό παρτίδας
+Nothing yet.	Τίποτα ακόμα.
+Fine aim: click the arrows, or drag here	Λεπτή σκόπευση: πάτα τα βέλη ή σύρε εδώ
+{n} watching	Θεατές: {n}
+Watching {name}	Παρακολουθείς: {name}
+Your reactions reach the table quietly.	Οι αντιδράσεις σου φτάνουν στο τραπέζι αθόρυβα.
+Stop watching	Τέλος παρακολούθησης
+If they play again, you keep watching.	Αν ξαναπαίξουν, συνεχίζεις να παρακολουθείς.
+Your friend left the table.	Ο φίλος σου έφυγε από το τραπέζι.
+Your friend isn't playing right now.	Ο φίλος σου δεν παίζει αυτή τη στιγμή.
+You can only watch your friends.	Μπορείς να παρακολουθείς μόνο τους φίλους σου.
+You can't watch this game.	Δεν μπορείς να παρακολουθήσεις αυτή την παρτίδα.
+{n} points to {tier}	{n} πόντοι για {tier}
+Top tier	Ανώτατη κατηγορία
+Reactions {n}/{total}	Αντιδράσεις {n}/{total}
+Haunted table	Στοιχειωμένο τραπέζι
+Win a rated game during Halloween (Oct 24 – Nov 2).	Κέρδισε μια βαθμολογημένη παρτίδα το Halloween (24 Οκτ – 2 Νοε).
+Winter league	Χειμερινό πρωτάθλημα
+Win a rated game over the holidays (Dec 15 – Jan 6).	Κέρδισε μια βαθμολογημένη παρτίδα στις γιορτές (15 Δεκ – 6 Ιαν).
+Fireworks	Πυροτεχνήματα
+Win a rated game at the turn of the year (Dec 31 – Jan 1).	Κέρδισε μια βαθμολογημένη παρτίδα στην αλλαγή του χρόνου (31 Δεκ – 1 Ιαν).
+Shows where the object ball and the cue ball go (only in free games and practice).	Δείχνει πού πηγαίνουν η μπάλα-στόχος και η λευκή (μόνο σε ελεύθερες παρτίδες και στην εξάσκηση).
+{n} online · ping {ms} ms	Online: {n} · ping {ms} ms
+Right-drag · Wheel	Δεξί σύρσιμο · Ροδέλα
+Win %	% νικών
+Reset the camera: top view, no zoom	Επαναφορά κάμερας: κάτοψη, χωρίς ζουμ
+{name} sank the 8-ball	Ο/Η {name} έβαλε τη μπάλα 8
+{name} sank the 8 too early	Ο/Η {name} έβαλε την 8 πολύ νωρίς
+{name} sank the 8 in the wrong pocket	Ο/Η {name} έβαλε την 8 σε λάθος τρύπα
+{name} fouled on the 8	Ο/Η {name} έκανε φάουλ στην 8
+{name} knocked the 8 off the table	Ο/Η {name} έβγαλε την 8 εκτός τραπεζιού
+{name} resigned	Ο/Η {name} παραιτήθηκε
+{name} left the game	Ο/Η {name} αποχώρησε από την παρτίδα
+{winner} wins! ({how})	Νικητής: {winner}! ({how})
+#{n} in the world	#{n} στον κόσμο
+3–16 letters, digits or underscores.	3–16 γράμματα, ψηφία ή κάτω παύλες.
+No lines on the table: aim by eye, along the cue.	Χωρίς γραμμές στο τραπέζι: σημάδεψε με το μάτι, κατά μήκος της στέκας.
+No guide	Χωρίς οδηγό
+Only a short line from the cue ball.	Μόνο μια κοντή γραμμή από τη λευκή.
+Accept friend	Αποδοχή φίλου
+Achievement unlocked: {title}	Επίτευγμα ξεκλειδώθηκε: {title}
+Achievements {n}/{total}	Επιτεύγματα {n}/{total}
+Add	Προσθήκη
+Add a friend by username	Πρόσθεσε φίλο με το όνομα χρήστη
+Add friend	Προσθήκη φίλου
+Against the computer	Κατά του υπολογιστή
+All tournaments	Όλα τα τουρνουά
+Amateur	Ερασιτέχνης
+At least 8 characters. Use a password you don't use elsewhere.	Τουλάχιστον 8 χαρακτήρες. Χρησιμοποίησε κωδικό που δεν χρησιμοποιείς αλλού.
+At least two players are needed.	Χρειάζονται τουλάχιστον δύο παίκτες.
+Back	Πίσω
+Black ball	Μαύρη μπάλα
+Block	Αποκλεισμός
+Break and run	Σπάσιμο και καθάρισμα
+Break and run 10 times.	Σπάσε και καθάρισε το τραπέζι 10 φορές.
+Can't listen for games here: join by address below.	Δεν γίνεται αναζήτηση παιχνιδιών εδώ: μπες με διεύθυνση παρακάτω.
+Cancel request	Ακύρωση αιτήματος
+Cancel tournament	Ακύρωση τουρνουά
+Casual	Φιλική
+Centurion	Εκατόνταρχος
+Champion	Πρωταθλητής
+Champion: {name}	Πρωταθλητής: {name}
+Change country	Αλλαγή χώρας
+Add a status message	Πρόσθεσε μήνυμα κατάστασης
+A line about you	Μια φράση για σένα
+Save (Enter)	Αποθήκευση (Enter)
+Cancel (Esc)	Ακύρωση (Esc)
+Change your status message	Άλλαξε το μήνυμα κατάστασής σου
+Clear the status message	Διαγραφή μηνύματος κατάστασης
+Cheating or abuse	Κλεψιά ή κατάχρηση
+Choose…	Επίλεξε…
+Click again to block	Κάνε ξανά κλικ για αποκλεισμό
+Close	Κλείσιμο
+Closer	Φινιρισμένος
+Competitor	Αγωνιστής
+Connecting to the server…	Σύνδεση με τον διακομιστή…
+Could not host a game: {e}	Δεν ήταν δυνατή η δημιουργία παρτίδας: {e}
+Country	Χώρα
+Create	Δημιουργία
+Create a tournament	Δημιούργησε τουρνουά
+Don't show a flag	Χωρίς σημαία
+No country found.	Δεν βρέθηκε χώρα.
+Dynasty	Δυναστεία
+Eight is enough	Η οχτώ αρκεί
+Executioner	Δήμιος
+Expert	Ειδήμων
+Familiar face	Γνώριμο πρόσωπο
+Final	Τελικός
+Finish your game first.	Τελείωσε πρώτα την παρτίδα σου.
+First blood	Πρώτο αίμα
+First break	Πρώτο σπάσιμο
+Friend request sent.	Το αίτημα φιλίας στάλθηκε.
+Friends	Φίλοι
+# Daily (correspondence) games.
+daily game	ημερήσια παρτίδα
+Daily	Ημερήσιες
+Daily game	Ημερήσια παρτίδα
+Daily games	Ημερήσιες παρτίδες
+Challenge a player by username	Προκάλεσε παίκτη με το όνομα χρήστη
+Challenge to a daily game	Πρόκληση σε ημερήσια παρτίδα
+3 days for each turn	3 ημέρες για κάθε σειρά
+No daily games yet. Challenge a friend: each of you plays a turn whenever you can.	Δεν υπάρχουν ακόμα ημερήσιες παρτίδες. Προκάλεσε έναν φίλο: ο καθένας παίζει τη σειρά του όποτε μπορεί.
+challenges you · {kind}	σε προκαλεί · {kind}
+waiting for an answer · {kind} · {time} left	αναμονή απάντησης · {kind} · απομένουν {time}
+your turn · {time} left	σειρά σου · απομένουν {time}
+their turn · {time} left	σειρά αντιπάλου · απομένουν {time}
+won · {how}	νίκη · {how}
+lost · {how}	ήττα · {how}
+ran out of time	τελείωσε ο χρόνος σου
+the opponent ran out of time	τελείωσε ο χρόνος του αντιπάλου
+open table	ανοιχτό τραπέζι
+You: {mine}, {a} left · {name}: {theirs}, {b} left	Εσύ: {mine}, απομένουν {a} · {name}: {theirs}, απομένουν {b}
+Look	Δες
+Skip	Παράλειψη
+Replaying {name}'s turn	Επανάληψη σειράς: {name}
+Stroke {n} of {total}	Χτύπημα {n} από {total}
+Turn sent	Η σειρά στάλθηκε
+Turn sent.	Η σειρά στάλθηκε.
+Waiting for {name} to play	Αναμονή για να παίξει: {name}
+{name} has {time} to play. You'll be told when it's your turn.	Ο/Η {name} έχει {time} για να παίξει. Θα ειδοποιηθείς όταν έρθει η σειρά σου.
+{time} left to play. You'll be told when it's your turn.	Απομένουν {time} για να παίξει. Θα ειδοποιηθείς όταν έρθει η σειρά σου.
+Back to daily games	Πίσω στις ημερήσιες παρτίδες
+Your game is saved: come back whenever you like.	Η παρτίδα σου αποθηκεύτηκε: γύρνα όποτε θέλεις.
+{d} d {h} h	{d} ημ. {h} ώ.
+{name} ran out of time	Τελείωσε ο χρόνος: {name}
+This game can't be shown.	Αυτή η παρτίδα δεν μπορεί να εμφανιστεί.
+A daily game is waiting for you	Μια ημερήσια παρτίδα σε περιμένει
+{n} daily games are waiting for you	Ημερήσιες παρτίδες σε αναμονή: {n}
+{name} challenges you to a rated daily game.	Ο/Η {name} σε προκαλεί σε βαθμολογημένη ημερήσια παρτίδα.
+{name} challenges you to a casual daily game.	Ο/Η {name} σε προκαλεί σε φιλική ημερήσια παρτίδα.
+{name} accepted your daily game.	Ο/Η {name} αποδέχτηκε την ημερήσια παρτίδα σου.
+{name} declined your daily game.	Ο/Η {name} απέρριψε την ημερήσια παρτίδα σου.
+{name} withdrew their daily game challenge.	Ο/Η {name} απέσυρε την πρόκληση για ημερήσια παρτίδα.
+Your turn in the daily game against {name}.	Σειρά σου στην ημερήσια παρτίδα με {name}.
+{name} ran out of time: you won the daily game.	Τελείωσε ο χρόνος του/της {name}: κέρδισες την ημερήσια παρτίδα.
+You won the daily game against {name}!	Κέρδισες την ημερήσια παρτίδα με {name}!
+You ran out of time in the daily game against {name}.	Τελείωσε ο χρόνος σου στην ημερήσια παρτίδα με {name}.
+You lost the daily game against {name}.	Έχασες την ημερήσια παρτίδα με {name}.
+Challenge sent.	Η πρόκληση στάλθηκε.
+Daily games need an account.	Οι ημερήσιες παρτίδες χρειάζονται λογαριασμό.
+No such game.	Αυτή η παρτίδα δεν υπάρχει.
+That challenge is no longer valid.	Αυτή η πρόκληση δεν ισχύει πια.
+That player already challenged you: answer their challenge.	Αυτός ο παίκτης σε έχει ήδη προκαλέσει: απάντησε στην πρόκλησή του.
+That player has too many challenges waiting.	Αυτός ο παίκτης έχει ήδη πάρα πολλές προκλήσεις σε αναμονή.
+That player has too many daily games going on.	Αυτός ο παίκτης έχει ήδη πάρα πολλές ημερήσιες παρτίδες σε εξέλιξη.
+That player is not accepting challenges.	Αυτός ο παίκτης δεν δέχεται προκλήσεις.
+This game can't be played right now.	Αυτή η παρτίδα δεν μπορεί να παιχτεί τώρα.
+This game changed meanwhile: open it again.	Η παρτίδα άλλαξε στο μεταξύ: άνοιξέ την ξανά.
+This game is over.	Αυτή η παρτίδα έχει τελειώσει.
+You already challenged that player.	Έχεις ήδη προκαλέσει αυτόν τον παίκτη.
+You already have a game going on against that player.	Έχεις ήδη παρτίδα σε εξέλιξη με αυτόν τον παίκτη.
+You blocked that player.	Έχεις αποκλείσει αυτόν τον παίκτη.
+You can't challenge yourself.	Δεν μπορείς να προκαλέσεις τον εαυτό σου.
+You have as many daily games as you can play at once.	Έχεις ήδη το μέγιστο αριθμό ημερήσιων παρτίδων ταυτόχρονα.
+You have too many challenges waiting for an answer.	Έχεις πάρα πολλές προκλήσεις που περιμένουν απάντηση.
+You're sending challenges too quickly.	Στέλνεις προκλήσεις πολύ γρήγορα.
+Your time for this turn ran out.	Ο χρόνος σου γι' αυτή τη σειρά τελείωσε.
+Games	Παρτίδες
+Games on your network	Παρτίδες στο δίκτυό σου
+Give the tournament a name (at least 3 characters).	Δώσε όνομα στο τουρνουά (τουλάχιστον 3 χαρακτήρες).
+Good company	Καλή παρέα
+Grandmaster	Γκραν μάστερ
+Guests can only join LAN games. Create an account.	Οι επισκέπτες μπαίνουν μόνο σε παρτίδες LAN. Δημιούργησε λογαριασμό.
+Guests can't play rated tournaments.	Οι επισκέπτες δεν μπορούν να παίξουν βαθμολογημένα τουρνουά.
+Guests don't have this.	Οι επισκέπτες δεν το έχουν αυτό.
+Harassment	Παρενόχληση
+Hat trick	Χατ τρικ
+Have 10 friends.	Κάνε 10 φίλους.
+Have an account for 30 days.	Έχε λογαριασμό για 30 ημέρες.
+Have an account for a year.	Έχε λογαριασμό για έναν χρόνο.
+Host a game on this computer	Φιλοξένησε παρτίδα σε αυτόν τον υπολογιστή
+Host {host} · {n}/{size} players · {kind}	Οικοδεσπότης {host} · {n}/{size} παίκτες · {kind}
+Hot hand	Καυτό χέρι
+Hustler	Χάσλερ
+Invalid shot.	Μη έγκυρο χτύπημα.
+Join	Συμμετοχή
+Joining the LAN game…	Σύνδεση στην παρτίδα LAN…
+Just for fun	Μόνο για πλάκα
+L	Η
+LAN game	Παρτίδα LAN
+LAN game hosted by {name}.	Παρτίδα LAN του/της {name}.
+LAN games don't change ratings.	Οι παρτίδες LAN δεν αλλάζουν τη βαθμολογία.
+Legend	Θρύλος
+Lives at the table	Ζει στο τραπέζι
+Loading the profile…	Φόρτωση προφίλ…
+Loading…	Φόρτωση…
+Local network	Τοπικό δίκτυο
+Locked	Κλειδωμένο
+Looking for games	Αναζήτηση παρτίδων
+Make a friend.	Κάνε έναν φίλο.
+Master	Μάστερ
+Name	Όνομα
+Names have 3–16 letters, digits or underscores.	Τα ονόματα έχουν 3–16 γράμματα, ψηφία ή κάτω παύλες.
+New account	Νέος λογαριασμός
+I have an account	Έχω λογαριασμό
+New here? Choose “New account”: it takes ten seconds.	Νέος εδώ; Επίλεξε «Νέος λογαριασμός»: θέλει δέκα δευτερόλεπτα.
+New tournament	Νέο τουρνουά
+No friends yet. Add someone you played with!	Δεν έχεις ακόμα φίλους. Πρόσθεσε κάποιον με τον οποίο έπαιξες!
+No games yet.	Δεν υπάρχουν ακόμα παρτίδες.
+No limit	Χωρίς όριο
+# Coin packs and months of VIP bought in the Microsoft Store (the Store build).
+# Five more computer opponents: Tito, Inês, Diego, Amara and Yuri.

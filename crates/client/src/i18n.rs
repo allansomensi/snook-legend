@@ -1,10 +1,11 @@
-//! Interface languages: English (the source text), Brazilian Portuguese and
-//! Spanish.
+//! Interface languages: English (the source text) and 26 translations,
+//! the world's most spoken languages and more.
 //!
 //! Texts are written in English in the code and looked up with [`t`]; texts
 //! with values use named placeholders, filled in by [`tw`]. The translations
 //! live in one file per language (`lang/*.txt`: the English text, a tab, the
-//! translation), so adding a language is adding a file, not code.
+//! translation), so adding a language is adding a file and a line to
+//! [`Lang`]. The fonts for every script are in [`crate::fonts`].
 
 use std::collections::HashMap;
 use std::sync::OnceLock;
@@ -15,44 +16,174 @@ use snook_legend_core::{
     ShotError,
 };
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum Lang {
     English,
-    Portuguese,
     Spanish,
+    Portuguese,
+    EuropeanPortuguese,
+    French,
+    German,
+    Italian,
+    Dutch,
+    Swedish,
+    Polish,
+    Czech,
+    Hungarian,
+    Romanian,
+    Greek,
+    Russian,
+    Ukrainian,
+    Turkish,
+    Indonesian,
+    Filipino,
+    Vietnamese,
+    Thai,
+    Hindi,
+    Bengali,
+    Arabic,
+    Chinese,
+    Japanese,
+    Korean,
 }
 
 impl Lang {
-    pub const ALL: [Lang; 3] = [Lang::English, Lang::Portuguese, Lang::Spanish];
+    /// Every language, in the order the settings list them.
+    pub const ALL: [Lang; 27] = [
+        Lang::English,
+        Lang::Spanish,
+        Lang::Portuguese,
+        Lang::EuropeanPortuguese,
+        Lang::French,
+        Lang::German,
+        Lang::Italian,
+        Lang::Dutch,
+        Lang::Swedish,
+        Lang::Polish,
+        Lang::Czech,
+        Lang::Hungarian,
+        Lang::Romanian,
+        Lang::Greek,
+        Lang::Russian,
+        Lang::Ukrainian,
+        Lang::Turkish,
+        Lang::Indonesian,
+        Lang::Filipino,
+        Lang::Vietnamese,
+        Lang::Thai,
+        Lang::Hindi,
+        Lang::Bengali,
+        Lang::Arabic,
+        Lang::Chinese,
+        Lang::Japanese,
+        Lang::Korean,
+    ];
 
     /// The language's own name, as shown in the settings.
     pub fn name(self) -> &'static str {
         match self {
             Lang::English => "English",
-            Lang::Portuguese => "Português (Brasil)",
             Lang::Spanish => "Español",
+            Lang::Portuguese => "Português (Brasil)",
+            Lang::EuropeanPortuguese => "Português (Portugal)",
+            Lang::French => "Français",
+            Lang::German => "Deutsch",
+            Lang::Italian => "Italiano",
+            Lang::Dutch => "Nederlands",
+            Lang::Swedish => "Svenska",
+            Lang::Polish => "Polski",
+            Lang::Czech => "Čeština",
+            Lang::Hungarian => "Magyar",
+            Lang::Romanian => "Română",
+            Lang::Greek => "Ελληνικά",
+            Lang::Russian => "Русский",
+            Lang::Ukrainian => "Українська",
+            Lang::Turkish => "Türkçe",
+            Lang::Indonesian => "Bahasa Indonesia",
+            Lang::Filipino => "Filipino",
+            Lang::Vietnamese => "Tiếng Việt",
+            Lang::Thai => "ไทย",
+            Lang::Hindi => "हिन्दी",
+            Lang::Bengali => "বাংলা",
+            Lang::Arabic => "العربية",
+            Lang::Chinese => "简体中文",
+            Lang::Japanese => "日本語",
+            Lang::Korean => "한국어",
         }
     }
 
     pub fn code(self) -> &'static str {
         match self {
             Lang::English => "en",
-            Lang::Portuguese => "pt-BR",
             Lang::Spanish => "es",
+            Lang::Portuguese => "pt-BR",
+            Lang::EuropeanPortuguese => "pt-PT",
+            Lang::French => "fr",
+            Lang::German => "de",
+            Lang::Italian => "it",
+            Lang::Dutch => "nl",
+            Lang::Swedish => "sv",
+            Lang::Polish => "pl",
+            Lang::Czech => "cs",
+            Lang::Hungarian => "hu",
+            Lang::Romanian => "ro",
+            Lang::Greek => "el",
+            Lang::Russian => "ru",
+            Lang::Ukrainian => "uk",
+            Lang::Turkish => "tr",
+            Lang::Indonesian => "id",
+            Lang::Filipino => "fil",
+            Lang::Vietnamese => "vi",
+            Lang::Thai => "th",
+            Lang::Hindi => "hi",
+            Lang::Bengali => "bn",
+            Lang::Arabic => "ar",
+            Lang::Chinese => "zh-CN",
+            Lang::Japanese => "ja",
+            Lang::Korean => "ko",
         }
     }
 
+    /// The language of a locale or a code ("pt_BR.UTF-8", "de-AT", "zh-Hans-CN").
     pub fn parse(s: &str) -> Option<Lang> {
-        let s = s.trim().to_ascii_lowercase();
-        if s.starts_with("pt") {
-            Some(Lang::Portuguese)
-        } else if s.starts_with("es") {
-            Some(Lang::Spanish)
-        } else if s.starts_with("en") {
-            Some(Lang::English)
-        } else {
-            None
-        }
+        let s = s.trim().to_ascii_lowercase().replace('_', "-");
+        let mut parts = s.split(['-', '.', '@']);
+        let primary = parts.next()?;
+        let region = parts.next().unwrap_or("");
+        Some(match primary {
+            "en" => Lang::English,
+            "es" => Lang::Spanish,
+            // Portuguese is Brazil's but in Portugal and the countries that
+            // write as Portugal does (Angola, Mozambique, …).
+            "pt" if region.is_empty() || region == "br" => Lang::Portuguese,
+            "pt" => Lang::EuropeanPortuguese,
+            "fr" => Lang::French,
+            // German, also of Austria and Switzerland.
+            "de" | "gsw" => Lang::German,
+            "it" => Lang::Italian,
+            "nl" => Lang::Dutch,
+            "sv" => Lang::Swedish,
+            "pl" => Lang::Polish,
+            "cs" => Lang::Czech,
+            "hu" => Lang::Hungarian,
+            "ro" => Lang::Romanian,
+            "el" => Lang::Greek,
+            "ru" => Lang::Russian,
+            "uk" => Lang::Ukrainian,
+            "tr" => Lang::Turkish,
+            // "in": Indonesian's old code, still used by some systems.
+            "id" | "in" => Lang::Indonesian,
+            "fil" | "tl" => Lang::Filipino,
+            "vi" => Lang::Vietnamese,
+            "th" => Lang::Thai,
+            "hi" => Lang::Hindi,
+            "bn" => Lang::Bengali,
+            "ar" => Lang::Arabic,
+            "zh" => Lang::Chinese,
+            "ja" => Lang::Japanese,
+            "ko" => Lang::Korean,
+            _ => return None,
+        })
     }
 
     /// The language of the operating system, if we have a translation for it.
@@ -60,12 +191,63 @@ impl Lang {
         sys_locale::get_locale().and_then(|l| Lang::parse(&l)).unwrap_or(Lang::English)
     }
 
+    /// The languages with a translation file (all but English).
+    #[cfg(test)]
+    pub fn translated() -> impl Iterator<Item = Lang> {
+        Lang::ALL.into_iter().filter(|l| *l != Lang::English)
+    }
+
+    /// Written right to left.
+    pub fn rtl(self) -> bool {
+        self == Lang::Arabic
+    }
+
+    /// A date in the way the language writes it.
+    pub fn date(self, y: i64, m: i64, d: i64) -> String {
+        use Lang::*;
+        match self {
+            English | Swedish => format!("{y}-{m:02}-{d:02}"),
+            Chinese | Japanese => format!("{y}/{m:02}/{d:02}"),
+            Korean | Hungarian => format!("{y}. {m:02}. {d:02}."),
+            German | Russian | Ukrainian | Polish | Czech | Romanian | Turkish => {
+                format!("{d:02}.{m:02}.{y}")
+            }
+            Dutch => format!("{d:02}-{m:02}-{y}"),
+            Filipino => format!("{m:02}/{d:02}/{y}"),
+            _ => format!("{d:02}/{m:02}/{y}"),
+        }
+    }
+
     /// The translation file (none for English, the source).
     fn source(self) -> Option<&'static str> {
         match self {
             Lang::English => None,
-            Lang::Portuguese => Some(include_str!("../lang/pt-BR.txt")),
             Lang::Spanish => Some(include_str!("../lang/es.txt")),
+            Lang::Portuguese => Some(include_str!("../lang/pt-BR.txt")),
+            Lang::EuropeanPortuguese => Some(include_str!("../lang/pt-PT.txt")),
+            Lang::French => Some(include_str!("../lang/fr.txt")),
+            Lang::German => Some(include_str!("../lang/de.txt")),
+            Lang::Italian => Some(include_str!("../lang/it.txt")),
+            Lang::Dutch => Some(include_str!("../lang/nl.txt")),
+            Lang::Swedish => Some(include_str!("../lang/sv.txt")),
+            Lang::Polish => Some(include_str!("../lang/pl.txt")),
+            Lang::Czech => Some(include_str!("../lang/cs.txt")),
+            Lang::Hungarian => Some(include_str!("../lang/hu.txt")),
+            Lang::Romanian => Some(include_str!("../lang/ro.txt")),
+            Lang::Greek => Some(include_str!("../lang/el.txt")),
+            Lang::Russian => Some(include_str!("../lang/ru.txt")),
+            Lang::Ukrainian => Some(include_str!("../lang/uk.txt")),
+            Lang::Turkish => Some(include_str!("../lang/tr.txt")),
+            Lang::Indonesian => Some(include_str!("../lang/id.txt")),
+            Lang::Filipino => Some(include_str!("../lang/fil.txt")),
+            Lang::Vietnamese => Some(include_str!("../lang/vi.txt")),
+            Lang::Thai => Some(include_str!("../lang/th.txt")),
+            Lang::Hindi => Some(include_str!("../lang/hi.txt")),
+            Lang::Bengali => Some(include_str!("../lang/bn.txt")),
+            Lang::Arabic => Some(include_str!("../lang/ar.txt")),
+            Lang::Chinese => Some(include_str!("../lang/zh-CN.txt")),
+            Lang::Japanese => Some(include_str!("../lang/ja.txt")),
+            Lang::Korean => Some(include_str!("../lang/ko.txt")),
         }
     }
 }
@@ -126,7 +308,8 @@ fn parse_table(text: &'static str) -> Table {
 }
 
 fn table(lang: Lang) -> Option<&'static Table> {
-    static TABLES: [OnceLock<Table>; 3] = [OnceLock::new(), OnceLock::new(), OnceLock::new()];
+    static TABLES: [OnceLock<Table>; Lang::ALL.len()] =
+        [const { OnceLock::new() }; Lang::ALL.len()];
     let source = lang.source()?;
     Some(TABLES[lang as usize].get_or_init(|| parse_table(source)))
 }
@@ -396,23 +579,32 @@ pub fn rules_name(r: Rules) -> &'static str {
 }
 
 /// The rules' name inside a sentence ("the Brazilian rules", "a regra
-/// brasileira", "las reglas oficiales"): in lower case, except that English
-/// keeps the capital of a people's name.
+/// brasileira", "las reglas oficiales", "die brasilianischen Regeln"): as
+/// each language writes it there (the translations' "(inside a sentence)"
+/// texts); English keeps the capital of a people's name.
 pub fn rules_name_inline(r: Rules) -> String {
-    inline(r, rules_name(r))
+    let key = match r {
+        Rules::Brazilian => "Brazilian rules (inside a sentence)",
+        Rules::Official => "Official rules (inside a sentence)",
+    };
+    inline(r, rules_name(r), key)
 }
 
 /// The rules' short name inside a line ("Brazilian", "brasileira",
 /// "official"), as [`rules_name_inline`].
 pub fn rules_short_inline(r: Rules) -> String {
-    inline(r, rules_short(r))
+    let key = match r {
+        Rules::Brazilian => "Brazilian (inside a sentence)",
+        Rules::Official => "Official (inside a sentence)",
+    };
+    inline(r, rules_short(r), key)
 }
 
-fn inline(r: Rules, name: &str) -> String {
-    if r == Rules::Brazilian && lang() == Lang::English {
-        name.to_string()
-    } else {
-        name.to_lowercase()
+fn inline(r: Rules, name: &str, key: &str) -> String {
+    match lang() {
+        Lang::English if r == Rules::Brazilian => name.to_string(),
+        Lang::English => name.to_lowercase(),
+        other => translate(other, key).map_or_else(|| name.to_lowercase(), str::to_string),
     }
 }
 
@@ -632,7 +824,7 @@ mod tests {
 
     #[test]
     fn quick_phrases_are_translated_everywhere() {
-        for lang in [Lang::Portuguese, Lang::Spanish] {
+        for lang in Lang::translated() {
             for p in snook_legend_proto::QUICK_CHAT {
                 assert!(translate(lang, p).is_some(), "{lang:?}: {p}");
             }
@@ -641,7 +833,7 @@ mod tests {
 
     #[test]
     fn drills_are_translated_everywhere() {
-        for lang in [Lang::Portuguese, Lang::Spanish] {
+        for lang in Lang::translated() {
             for d in snook_legend_proto::drills::DRILLS {
                 assert!(translate(lang, d.name).is_some(), "{lang:?}: {}", d.name);
                 assert!(translate(lang, d.description).is_some(), "{lang:?}: {}", d.description);
@@ -661,15 +853,18 @@ mod tests {
             v
         };
         let pt = table(Lang::Portuguese).unwrap();
-        let es = table(Lang::Spanish).unwrap();
-        for lang in [Lang::Portuguese, Lang::Spanish] {
-            for (en, tr) in table(lang).unwrap() {
+        for lang in Lang::translated() {
+            let table = table(lang).unwrap();
+            for (en, tr) in table {
                 assert_eq!(placeholders(en), placeholders(tr), "{lang:?}: {en} → {tr}");
             }
+            // Every language translates the same texts.
+            let mut missing: Vec<&&str> = pt.keys().filter(|k| !table.contains_key(*k)).collect();
+            missing.sort();
+            assert!(missing.is_empty(), "not in {lang:?}: {missing:?}");
+            let mut extra: Vec<&&str> = table.keys().filter(|k| !pt.contains_key(*k)).collect();
+            extra.sort();
+            assert!(extra.is_empty(), "{lang:?} only: {extra:?}");
         }
-        let missing: Vec<&&str> = pt.keys().filter(|k| !es.contains_key(*k)).collect();
-        assert!(missing.is_empty(), "not in Spanish: {missing:?}");
-        let extra: Vec<&&str> = es.keys().filter(|k| !pt.contains_key(*k)).collect();
-        assert!(extra.is_empty(), "not in Portuguese: {extra:?}");
     }
 }

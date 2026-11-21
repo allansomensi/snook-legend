@@ -1,0 +1,300 @@
+301	Keine offenen Tische. Eröffne einen, dann können sich andere dazusetzen.
+302	Gerade keine anderen offenen Tische.
+303	Diesen Spieler gibt es nicht.
+304	Gerade keine Turniere. Erstelle eins!
+305	Anstößiger Name
+306	Im Lauf
+307	Brandheiß
+308	Nur der Gastgeber kann das Turnier starten.
+309	Tisch eröffnen
+310	Oder per Adresse beitreten
+311	Sonstiges
+312	Andere können unter {ip}:{port} beitreten
+313	Passwörter brauchen mindestens 8 Zeichen (nicht nur Ziffern).
+314	Spiele 1.000 gewertete Partien.
+315	Spiele 10 gewertete Partien.
+316	Spiele 100 gewertete Partien.
+317	Spiele 25 ungewertete Partien.
+318	Spiele 500 gewertete Partien.
+319	Spiele in einem Turnier.
+320	Online spielen
+321	Mit Freunden im selben Netzwerk spielen
+322	Spiele deine erste gewertete Partie.
+323	Spieler 1
+324	Spieler
+325	Spieler in einem Turnier können keine anderen Partien starten.
+326	Bitte wiederhole nicht dieselbe Nachricht.
+327	Hallenlegende
+328	Beliebt
+329	Privat
+330	damit sich deine Freunde setzen können
+331	Profil
+332	{key}: letzten Stoß noch mal ansehen
+333	WIEDERHOLUNG
+334	Gewertet
+335	Gewertete Partien, Tische, Turniere und Freunde
+336	Erreiche eine Wertung von 1300.
+337	Erreiche eine Wertung von 1500.
+338	Erreiche eine Wertung von 1700.
+339	Erreiche eine Wertung von 1900.
+340	Erreiche eine Wertung von 2100.
+341	Aktualisieren
+342	Stammgast
+343	Freund entfernen
+344	Wiederholung
+345	Melden
+346	{name} melden
+347	Anfrage gesendet
+348	Freund
+349	Zuletzt
+350	Noch niemand. Hier erscheinen die Leute, gegen die du online spielst.
+351	{n} Partien
+352	Neuling
+353	Runde {n}
+354	Suchen…
+355	Halbfinale
+356	Meldung senden
+357	Diese Partie wird mit der Meldung gesendet, damit die Moderatoren sie ansehen können.
+358	Deine Partie mit {name} ({date}) wird mit der Meldung gesendet, damit die Moderatoren sie ansehen können.
+359	Du hast in den letzten 24 Stunden nicht gegen {name} gespielt: Die Moderatoren sehen den aktuellen Chat.
+360	Hai
+361	Zeigt den Kontaktpunkt; den Schnitt schätzt du selbst ein.
+362	Zu null
+363	Anmelden
+364	Anmelden oder Konto erstellen
+365	Abmelden
+366	Hinsetzen
+367	Könner
+368	Jemand mit diesem Namen ist schon da.
+369	Spam
+370	Jetzt starten
+371	Wiederholung beenden
+372	Tischabräumer
+373	Tische
+374	Abwechselnd an diesem Computer
+375	Danke. Die Moderatoren sehen sich das an.
+376	Danke. Die Moderatoren sehen sich das an, mitsamt deiner Partie.
+377	Dieser Spieler nimmt keine Einladungen an.
+378	Dieser Stoß gehörte zu einem früheren Zug.
+379	Dieser Tisch ist nicht mehr offen.
+380	Dieses Turnier hat schon begonnen.
+381	Dieses Turnier gibt es nicht mehr.
+382	Die erste Verbindung des Tages kann bis zu einer Minute dauern, während der Server aufwacht.
+383	Erlaube Snook Legend beim ersten Mal den Zugriff durch die Firewall, wenn du gefragt wirst.
+384	Der Server konnte diesen Stoß nicht ausführen.
+385	Der Server ist ausgelastet. Versuch es gleich noch einmal.
+386	Das Turnier beginnt, wenn es voll ist (der Gastgeber kann es früher starten).
+387	Gerade gibt es zu viele Turniere. Tritt einem bei!
+388	Das ist ein LAN-Server: Tritt als Gast bei.
+389	Fünfzehn Gegner, eine Tour und Geister echter Spieler
+390	Liga
+391	Zeit pro Stoß
+392	Zu viele Fehlversuche. Warte ein paar Minuten und versuch es noch einmal.
+393	Zu viele Nachrichten.
+394	Zu viele neue Konten aus diesem Netzwerk. Versuch es später noch einmal.
+395	Top 100 · gewertete Partien
+396	Turnierpartie: Die nächste Runde startet aus der Lounge.
+397	Turnierpartien haben keine Revanche.
+398	Turniere
+399	Turniere haben 4, 8 oder 16 Spieler.
+400	Zwei Spieler
+401	Freigeben
+402	Freigeschaltet am {date}
+403	Unaufhaltsam
+404	S
+405	Letzten Stoß noch mal ansehen
+406	Was ist passiert? (optional)
+407	Wenn die Zeit abläuft, ist der Gegner am Zug.
+408	Weiße Weste
+409	Gewinne 10 gewertete Partien mit der 8.
+410	Gewinne 10 gewertete Partien in Folge.
+411	Gewinne 10 gewertete Partien.
+412	Gewinne 10 gewertete Partien zu null.
+413	Gewinne 100 gewertete Partien mit der 8.
+414	Gewinne 100 gewertete Partien.
+415	Gewinne 250 gewertete Partien mit der 8.
+416	Gewinne 3 gewertete Partien in Folge.
+417	Gewinne 5 gewertete Partien in Folge.
+418	Gewinne 5 Turniere.
+419	Gewinne 50 gewertete Partien mit der 8.
+420	Gewinne 50 gewertete Partien.
+421	Gewinne 500 gewertete Partien.
+422	Gewinne eine gewertete Partie.
+423	Gewinne ein Turnier.
+424	Gewinne eine gewertete Partie, bevor dein Gegner eine Kugel seiner Gruppe versenkt.
+425	Gewinne eine gewertete Partie ab dem Anstoß, ohne dass dein Gegner an den Tisch kommt.
+426	Abmelden
+427	Weltrangliste
+428	Falsches Tischpasswort.
+429	Falsches Turnierpasswort.
+430	Du bist schon in einem Turnier.
+431	Du bist Gastgeber einer Partie
+432	Du kannst diesem Tisch nicht beitreten.
+433	Du hast dich woanders angemeldet.
+434	Du sendest Einladungen zu schnell.
+435	Du sendest Nachrichten zu schnell.
+436	Du hast viele Meldungen gesendet. Bitte warte, bevor du weitere sendest.
+437	Deine Freundesliste ist voll.
+438	Deine nächste Partie startet von selbst, sobald beide Spieler frei sind.
+439	Dein Profil
+440	Dein Tisch ist offen
+441	Hineinzoomen
+442	Herauszoomen
+443	an einem Tisch
+444	beste Siegesserie
+445	von {host} · {n}/{size} Spieler
+446	ungewertete Partien
+447	ungewertet · privat
+448	ungewertet · öffentlich
+449	verbinde mit dem Server
+450	8-Ball-Pool
+451	beendet
+452	Gast
+453	lädt dich zu {kind} ein
+454	heute beigetreten
+455	seit {n} Tagen dabei
+456	seit {n} Monaten dabei
+457	seit {n} Jahren dabei
+458	offline
+459	offen
+460	optional: Nur Freunde mit Passwort können beitreten
+461	Passwort
+462	Bestwert {n}
+463	spielt
+464	spielt gegen den Computer
+465	abwesend
+466	diese Partie ist gespeichert
+467	gewertete Partien
+468	gewertet · privat
+469	gewertet · öffentlich
+470	Anfrage gesendet
+471	die Verbindung ist abgebrochen
+472	um online zu spielen
+473	Turnier
+474	gewonnene Turniere
+475	warte auf einen Gegner…
+476	Siegquote
+477	Siege
+478	mit der 8 gewonnen
+479	Partie von {host}
+480	{name} möchte befreundet sein
+481	{name} möchte mit dir befreundet sein.
+482	{n} online
+483	die 8 versenkt
+484	Gegner hat die 8 versenkt
+485	Gegner hat die 8 zu früh versenkt
+486	die 8 zu früh versenkt
+487	Gegner hat die 8 in die falsche Tasche versenkt
+488	die 8 in die falsche Tasche versenkt
+489	Gegner hat auf die 8 gefoult
+490	auf die 8 gefoult
+491	Gegner hat die 8 vom Tisch gespielt
+492	die 8 vom Tisch gespielt
+493	Gegner hat aufgegeben
+494	aufgegeben
+495	Gegner ist gegangen
+496	Partie verlassen
+497	Du bist noch {n} Minuten stummgeschaltet.
+498	Dieses Konto ist noch {n} Tag(e) gesperrt. Grund: {reason}.
+499	Dieses Konto ist dauerhaft gesperrt. Grund: {reason}.
+500	Du wurdest stummgeschaltet: {r}
+501	Dein Konto wurde vorübergehend gesperrt: {r}
+502	Dein Konto wurde dauerhaft gesperrt: {r}
+503	Ein Moderator hat deine Verbindung getrennt: {r}
+504	Ein Moderator hat deine Verbindung getrennt.
+505	Bitte melde dich erneut an.
+506	Dein Passwort wurde geändert. Melde dich erneut an.
+507	Revanche annehmen
+508	Annehmen
+509	Zielen
+510	Zielhilfe
+511	Zielen
+512	Kantenglättung
+513	Glättet die gezackten Kanten von Linien und Kugeln.
+514	Zurück zur Lounge
+515	Ausgewogen: flüssig auf den meisten Laptops.
+516	Ball in Hand
+517	Stoß an
+518	Die Kamera zoomt für jeden Stoß heraus
+519	Kamera
+520	Abbrechen
+521	Ungewertete Partie: Wertung bleibt gleich
+522	Mitte
+523	Chat
+524	Klick auf eine Kugel oder einen Punkt
+525	Klicken zum Chatten, Enter zum Senden
+526	Steuerung
+527	Konto erstellen
+528	Treffpunkt am Spielball
+529	Ablehnen
+530	Fertig
+531	Zieh den Spielball
+532	Neigung
+533	Alles, mit Spiegelungen auf polierten Böden: für Gaming-PCs.
+534	Feinzielen
+535	Beende zuerst diese Partie.
+536	Für alte oder sehr langsame Computer.
+537	Vollbild
+538	Auch mit {key}.
+539	Komplett
+540	Spielserver
+541	Ändere ihn nur, um auf einem anderen Server zu spielen.
+542	Erweitert
+543	Eigener Server
+544	Grafikqualität
+545	Qualität
+546	Anzeige
+547	Hoch
+548	Einladen
+549	Zur Lounge gehen
+550	Verlassen
+551	Wenn du jetzt gehst, zählt das als Niederlage.
+552	Lounge-Chat
+553	Niedrig
+554	Hauptmenü
+555	Mittel
+556	Menü / Hilfe
+557	Die nächste Partie startet gleich…
+558	Noch keine gewerteten Partien. Sei der Erste!
+559	Gerade ist niemand sonst hier.
+560	Suchst du eine Partie?
+561	Sucht eine Partie
+562	Notiz posten
+563	Alle in der Lounge sehen sie 30 Minuten lang
+564	Was suchst du? ({kind})
+565	Posten
+566	Deine Notiz: {text}
+567	{mode} · noch {left}
+568	Entfernen
+569	Herausfordern
+570	Notiz entfernen
+571	Aus
+572	Auf die 8: Sag eine Tasche an
+573	Auf die 8
+574	Offener Tisch
+575	Passwort
+576	Pausiert
+577	Spielen
+578	Spieler 2
+579	Spieler
+580	Schnellzielen
+581	Beenden
+582	Wieder verbunden.
+583	Revanche
+584	Diese Partie aufgeben
+585	Starte das Spiel neu, um die Änderung zu übernehmen.
+586	Fortsetzen
+587	Erneut versuchen
+588	Ergebnis wird gespeichert…
+589	Sag Hallo… (Enter zum Senden)
+590	Senden
+591	Einstellungen
+592	{key} + Ziehen
+593	{key}: 3D / Draufsicht
+594	{keys}: Zoom
+595	Ansicht
+596	Nach links zielen
+597	Nach rechts zielen
+598	Feinzielen (halten)
+599	Stoßen (halten, loslassen)
+600	Effet oben

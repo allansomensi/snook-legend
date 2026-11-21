@@ -1,5 +1,30 @@
 # Changelog
 
+## Unreleased
+
+### The game in 27 languages
+- **24 new interface languages**, for the world's most spoken languages and
+  more: Portuguese of Portugal, French, German, Italian, Dutch, Swedish,
+  Polish, Czech, Hungarian, Romanian, Greek, Russian, Ukrainian, Turkish,
+  Indonesian, Filipino, Vietnamese, Thai, Hindi, Bengali, Arabic, Chinese
+  (Simplified), Japanese and Korean — every text, the rules of both games,
+  "what's new" and the countries' names (iso-codes). The system's language
+  is picked on the first start (Austria and Switzerland get German, Angola
+  and Mozambique the Portuguese of Portugal).
+- **Every script is drawn**: Chinese, Japanese and Korean from Noto Sans CJK
+  (cut down to the common characters, so chat and names read too), and
+  Arabic, Devanagari, Bengali and Thai shaped as a browser would (rustybuzz,
+  a port of HarfBuzz), with Arabic read right to left and the numbers and
+  Latin names inside it left to right. Lines break between Chinese and
+  Japanese characters, never before their closing punctuation, and at the
+  word breaks of Thai.
+- **The language is chosen from a list** in Settings → Game (a row of
+  buttons no longer fits them), each language in its own name.
+- Dates are written the way each language writes them; the rules' names
+  inside a sentence are each translation's own ("die brasilianischen
+  Regeln"). The terms of use and the privacy policy stay in Portuguese,
+  Spanish and English (legal texts are not machine-translated).
+
 ## 0.8.3 (protocol 24)
 
 Two more reviews of the whole game and what players asked for: an item

@@ -1,0 +1,2056 @@
+# Snook Legend: European Portuguese.
+# One text per line: the English text (as written in the code), a tab, the translation.
+# Placeholders like {name} must stay as they are; \n is a new line.
+{name} is on the 8: called pocket {pocket}	{name} está na bola 8: cantou o buraco {pocket}
+On the 8-ball: {pocket} pocket	Na bola 8: buraco {pocket}
+Show ping	Mostrar ping
+Your connection's delay, in online games.	O atraso da tua ligação nas partidas online.
+Reactions	Reações
+Shop	Loja
+Cloth	Panos
+Cues	Tacos
+Chalk	Giz
+Balls	Bolas
+Coins	Moedas
+coins	moedas
+Sign in to buy and use items. Here is what there is:	Inicia sessão para comprar e usar artigos. Eis o que há:
+In use	Em uso
+Use	Usar
+Buy	Comprar
+{n} short	faltam {n}
+{n} coins	{n} moedas
+Not enough coins: get more in the Coins tab.	Moedas insuficientes: obtém mais no separador Moedas.
+VIP only	Só VIP
+free	grátis
+yours	teu
+achievement	conquista
+Coins can't be bought on this server yet.	Ainda não é possível comprar moedas neste servidor.
++{n} bonus	+{n} de bónus
+Payment opens in your browser (card, Pix…), on Stripe's secure page.	O pagamento abre no navegador (cartão, Pix…), na página segura da Stripe.
+Coins arrive in a moment; they are only used for items in the game.	As moedas chegam num instante; servem apenas para artigos do jogo.
+Exclusive items: {list}	Artigos exclusivos: {list}
+{n} coins every month	{n} moedas todos os meses
+Cancel whenever you want: VIP lasts until the end of the paid month	Cancela quando quiseres: o VIP dura até ao fim do mês pago
+You are VIP until {d}.	És VIP até {d}.
+Manage subscription	Gerir subscrição
+Become VIP · {p}	Torna-te VIP · {p}
+VIP can't be bought on this server yet.	Ainda não é possível subscrever o VIP neste servidor.
+The payment page opened in your browser.	A página de pagamento abriu no teu navegador.
+Could not open the browser.	Não foi possível abrir o navegador.
+Tournament green	Verde torneio
+Electric blue	Azul elétrico
+Burgundy	Bordeaux
+Charcoal	Antracite
+Teal	Verde-azulado
+Royal purple	Roxo real
+Camel	Camelo
+Midnight	Meia-noite
+Champion's red	Vermelho campeão
+Classic	Clássico
+Rosewood	Pau-rosa
+Ebony & silver	Ébano e prata
+Carbon	Carbono
+Ivory inlay	Embutido de marfim
+Crown	Coroa
+Jewels	Joias
+Blue chalk	Giz azul
+Green chalk	Giz verde
+Red chalk	Giz vermelho
+Purple chalk	Giz roxo
+Gold chalk	Giz dourado
+Vintage	Vintage
+Pastel	Pastel
+Neon	Néon
+You already have this item.	Já tens este artigo.
+Not enough coins.	Moedas insuficientes.
+The purchase failed; no coins were taken.	A compra falhou; não foram descontadas moedas.
+No such item.	Artigo inexistente.
+This item can't be bought with coins.	Este artigo não se compra com moedas.
+You don't have this item.	Não tens este artigo.
+Purchases are not available.	Compras indisponíveis.
+This pack is not on sale.	Este pacote não está à venda.
+The payment page could not be opened. Try again in a moment.	Não foi possível abrir a página de pagamento. Tenta novamente daqui a pouco.
+You are already VIP.	Já és VIP.
+There is no subscription to manage.	Não há nenhuma subscrição para gerir.
+The page could not be opened. Try again in a moment.	Não foi possível abrir a página. Tenta novamente daqui a pouco.
+Coins added to your wallet.	Moedas adicionadas à tua carteira.
+Welcome to VIP!	Bem-vindo ao VIP!
+Slow down a little.	Mais devagar.
+You can't do that.	Não podes fazer isso.
+There are too many notes right now. Try again in a few minutes.	Há demasiados recados neste momento. Tenta novamente daqui a uns minutos.
+A moderator took down your note.	Um moderador retirou o teu recado.
+A moderator cleared your status message.	Um moderador apagou a tua mensagem de estado.
+Status message cleared.	Mensagem de estado apagada.
+VIP	VIP
+Play now	Jogar agora
+Find an opponent of your level automatically	Encontra automaticamente um adversário do teu nível
+Looking for an opponent… {t}	À procura de adversário… {t}
+any rating	qualquer rating
+rating ±{n} · {mode}	rating ±{n} · {mode}
+Potting success	Acerto
+Balls made	Bolas metidas
+Best run	Melhor série
+Fouls	Faltas
+seen just now	visto agora mesmo
+seen {n} min ago	visto há {n} min
+seen {n} h ago	visto há {n} h
+seen yesterday	visto ontem
+seen {n} days ago	visto há {n} dias
+seen {n} months ago	visto há {n} meses
+just now	agora mesmo
+{n} min ago	há {n} min
+{n} h ago	há {n} h
+yesterday	ontem
+{n} days ago	há {n} dias
+Game history	Histórico da partida
+Nothing yet.	Ainda nada.
+Fine aim: click the arrows, or drag here	Mira fina: clica nas setas ou arrasta aqui
+{n} watching	{n} a ver
+Watching {name}	A ver {name}
+Your reactions reach the table quietly.	As tuas reações chegam à mesa com discrição.
+Stop watching	Deixar de ver
+If they play again, you keep watching.	Se voltarem a jogar, continuas a ver.
+Your friend left the table.	O teu amigo saiu da mesa.
+Your friend isn't playing right now.	O teu amigo não está a jogar neste momento.
+You can only watch your friends.	Só podes ver os teus amigos.
+You can't watch this game.	Não podes ver esta partida.
+{n} points to {tier}	{n} pontos para {tier}
+Top tier	Escalão máximo
+Reactions {n}/{total}	Reações {n}/{total}
+Haunted table	Mesa assombrada
+Win a rated game during Halloween (Oct 24 – Nov 2).	Vence uma partida com rating no Halloween (24/10 – 2/11).
+Winter league	Liga de inverno
+Win a rated game over the holidays (Dec 15 – Jan 6).	Vence uma partida com rating nas festas (15/12 – 6/1).
+Fireworks	Fogo de artifício
+Win a rated game at the turn of the year (Dec 31 – Jan 1).	Vence uma partida com rating na passagem de ano (31/12 – 1/1).
+Shows where the object ball and the cue ball go (only in free games and practice).	Mostra para onde vão a bola alvo e a bola branca (só em partidas livres e no treino).
+{n} online · ping {ms} ms	{n} online · ping {ms} ms
+Right-drag · Wheel	Arrastar com o botão direito · Roda
+Win %	% vitórias
+Reset the camera: top view, no zoom	Repor a câmara: vista de cima, sem zoom
+{name} sank the 8-ball	{name} meteu a bola 8
+{name} sank the 8 too early	{name} meteu a 8 antes do tempo
+{name} sank the 8 in the wrong pocket	{name} meteu a 8 no buraco errado
+{name} fouled on the 8	{name} fez falta na 8
+{name} knocked the 8 off the table	{name} atirou a 8 para fora da mesa
+{name} resigned	{name} desistiu
+{name} left the game	{name} saiu da partida
+{winner} wins! ({how})	{winner} ganha! ({how})
+#{n} in the world	#{n} do mundo
+3–16 letters, digits or underscores.	3 a 16 letras, algarismos ou sublinhados.
+No lines on the table: aim by eye, along the cue.	Sem linhas na mesa: aponta a olho, ao longo do taco.
+No guide	Sem guia
+Only a short line from the cue ball.	Só uma linha curta a partir da bola branca.
+Accept friend	Aceitar amizade
+Achievement unlocked: {title}	Conquista desbloqueada: {title}
+Achievements {n}/{total}	Conquistas {n}/{total}
+Add	Adicionar
+Add a friend by username	Adiciona um amigo pelo nome de utilizador
+Add friend	Adicionar amigo
+Against the computer	Contra o computador
+All tournaments	Todos os torneios
+Amateur	Amador
+At least 8 characters. Use a password you don't use elsewhere.	Pelo menos 8 caracteres. Usa uma palavra-passe que não uses noutro sítio.
+At least two players are needed.	São precisos pelo menos dois jogadores.
+Back	Voltar
+Black ball	Bola preta
+Block	Bloquear
+Break and run	Abrir e limpar
+Break and run 10 times.	Abre e limpa a mesa 10 vezes.
+Can't listen for games here: join by address below.	Não é possível procurar partidas aqui: entra pelo endereço abaixo.
+Cancel request	Cancelar pedido
+Cancel tournament	Cancelar torneio
+Casual	Amigável
+Centurion	Centurião
+Champion	Campeão
+Champion: {name}	Campeão: {name}
+Change country	Mudar de país
+Add a status message	Adicionar mensagem de estado
+A line about you	Uma frase sobre ti
+Save (Enter)	Guardar (Enter)
+Cancel (Esc)	Cancelar (Esc)
+Change your status message	Mudar a tua mensagem de estado
+Clear the status message	Apagar a mensagem de estado
+Cheating or abuse	Batota ou abuso
+Choose…	Escolher…
+Click again to block	Clica outra vez para bloquear
+Close	Fechar
+Closer	Finalizador
+Competitor	Competidor
+Connecting to the server…	A ligar ao servidor…
+Could not host a game: {e}	Não foi possível criar a partida: {e}
+Country	País
+Create	Criar
+Create a tournament	Criar um torneio
+Don't show a flag	Não mostrar bandeira
+No country found.	Nenhum país encontrado.
+Dynasty	Dinastia
+Eight is enough	Com a 8 chega
+Executioner	Carrasco
+Expert	Perito
+Familiar face	Cara conhecida
+Final	Final
+Finish your game first.	Termina primeiro a tua partida.
+First blood	Primeira vitória
+First break	Primeira abertura
+Friend request sent.	Pedido de amizade enviado.
+Friends	Amigos
+# Daily (correspondence) games.
+daily game	partida diária
+Daily	Diárias
+Daily game	Partida diária
+Daily games	Partidas diárias
+Challenge a player by username	Desafia um jogador pelo nome de utilizador
+Challenge to a daily game	Desafiar para uma partida diária
+3 days for each turn	3 dias para cada vez
+No daily games yet. Challenge a friend: each of you plays a turn whenever you can.	Ainda não há partidas diárias. Desafia um amigo: cada um joga a sua vez quando puder.
+challenges you · {kind}	desafia-te · {kind}
+waiting for an answer · {kind} · {time} left	à espera de resposta · {kind} · faltam {time}
+your turn · {time} left	a tua vez · faltam {time}
+their turn · {time} left	vez do adversário · faltam {time}
+won · {how}	vitória · {how}
+lost · {how}	derrota · {how}
+ran out of time	o teu tempo acabou
+the opponent ran out of time	o tempo do adversário acabou
+open table	mesa aberta
+You: {mine}, {a} left · {name}: {theirs}, {b} left	Tu: {mine}, faltam {a} · {name}: {theirs}, faltam {b}
+Look	Ver
+Skip	Saltar
+Replaying {name}'s turn	A rever a vez de {name}
+Stroke {n} of {total}	Jogada {n} de {total}
+Turn sent	Jogada enviada
+Turn sent.	Jogada enviada.
+Waiting for {name} to play	À espera da jogada de {name}
+{name} has {time} to play. You'll be told when it's your turn.	{name} tem {time} para jogar. Serás avisado quando for a tua vez.
+{time} left to play. You'll be told when it's your turn.	Faltam {time} para jogar. Serás avisado quando for a tua vez.
+Back to daily games	Voltar às partidas diárias
+Your game is saved: come back whenever you like.	A tua partida fica guardada: volta quando quiseres.
+{d} d {h} h	{d} d {h} h
+{name} ran out of time	o tempo de {name} acabou
+This game can't be shown.	Não é possível mostrar esta partida.
+A daily game is waiting for you	Tens uma partida diária à tua espera
+{n} daily games are waiting for you	Tens {n} partidas diárias à tua espera
+{name} challenges you to a rated daily game.	{name} desafia-te para uma partida diária com rating.
+{name} challenges you to a casual daily game.	{name} desafia-te para uma partida diária amigável.
+{name} accepted your daily game.	{name} aceitou a tua partida diária.
+{name} declined your daily game.	{name} recusou a tua partida diária.
+{name} withdrew their daily game challenge.	{name} retirou o desafio para a partida diária.
+Your turn in the daily game against {name}.	É a tua vez na partida diária contra {name}.
+{name} ran out of time: you won the daily game.	O tempo de {name} acabou: ganhaste a partida diária.
+You won the daily game against {name}!	Ganhaste a partida diária contra {name}!
+You ran out of time in the daily game against {name}.	O teu tempo acabou na partida diária contra {name}.
+You lost the daily game against {name}.	Perdeste a partida diária contra {name}.
+Challenge sent.	Desafio enviado.
+Daily games need an account.	As partidas diárias precisam de uma conta.
+No such game.	Partida inexistente.
+That challenge is no longer valid.	Esse desafio já não é válido.
+That player already challenged you: answer their challenge.	Esse jogador já te desafiou: responde ao desafio dele.
+That player has too many challenges waiting.	Esse jogador tem demasiados desafios pendentes.
+That player has too many daily games going on.	Esse jogador tem demasiadas partidas diárias a decorrer.
+That player is not accepting challenges.	Esse jogador não está a aceitar desafios.
+This game can't be played right now.	Não é possível jogar esta partida neste momento.
+This game changed meanwhile: open it again.	Esta partida mudou entretanto: abre-a de novo.
+This game is over.	Esta partida terminou.
+You already challenged that player.	Já desafiaste esse jogador.
+You already have a game going on against that player.	Já tens uma partida a decorrer contra esse jogador.
+You blocked that player.	Bloqueaste esse jogador.
+You can't challenge yourself.	Não te podes desafiar a ti próprio.
+You have as many daily games as you can play at once.	Já tens o máximo de partidas diárias em simultâneo.
+You have too many challenges waiting for an answer.	Tens demasiados desafios à espera de resposta.
+You're sending challenges too quickly.	Estás a enviar desafios depressa demais.
+Your time for this turn ran out.	O teu tempo para esta vez acabou.
+Games	Partidas
+Games on your network	Partidas na tua rede
+Give the tournament a name (at least 3 characters).	Dá um nome ao torneio (pelo menos 3 caracteres).
+Good company	Boa companhia
+Grandmaster	Grão-mestre
+Guests can only join LAN games. Create an account.	Os convidados só podem entrar em partidas LAN. Cria uma conta.
+Guests can't play rated tournaments.	Os convidados não podem jogar torneios com rating.
+Guests don't have this.	Os convidados não têm isto.
+Harassment	Assédio
+Hat trick	Hat-trick
+Have 10 friends.	Tem 10 amigos.
+Have an account for 30 days.	Tem uma conta há 30 dias.
+Have an account for a year.	Tem uma conta há um ano.
+Host a game on this computer	Criar uma partida neste computador
+Host {host} · {n}/{size} players · {kind}	Anfitrião {host} · {n}/{size} jogadores · {kind}
+Hot hand	Mão quente
+Hustler	Calejado
+Invalid shot.	Jogada inválida.
+Join	Entrar
+Joining the LAN game…	A entrar na partida LAN…
+Just for fun	Só por diversão
+L	D
+LAN game	partida LAN
+LAN game hosted by {name}.	Partida LAN criada por {name}.
+LAN games don't change ratings.	As partidas LAN não alteram o rating.
+Legend	Lenda
+Lives at the table	Vive na mesa
+Loading the profile…	A carregar o perfil…
+Loading…	A carregar…
+Local network	Rede local
+Locked	Bloqueado
+Looking for games	À procura de partidas
+Make a friend.	Faz um amigo.
+Master	Mestre
+Name	Nome
+Names have 3–16 letters, digits or underscores.	Os nomes têm 3 a 16 letras, algarismos ou sublinhados.
+New account	Nova conta
+I have an account	Já tenho conta
+New here? Choose “New account”: it takes ten seconds.	És novo por aqui? Escolhe “Nova conta”: demora dez segundos.
+New tournament	Novo torneio
+No friends yet. Add someone you played with!	Ainda não tens amigos. Adiciona alguém com quem jogaste!
+No games yet.	Ainda não há partidas.
+No limit	Sem limite
+No open tables. Open one and others can sit down.	Não há mesas abertas. Abre uma e outros podem sentar-se.
+No other open tables right now.	Não há outras mesas abertas neste momento.
+No such player.	Jogador inexistente.
+No tournaments right now. Create one!	Não há torneios neste momento. Cria um!
+Offensive name	Nome ofensivo
+On a roll	Lançado
+On fire	Em chamas
+Only the host can start the tournament.	Só o anfitrião pode iniciar o torneio.
+Open a table	Abrir uma mesa
+Or join by address	Ou entra pelo endereço
+Other	Outro
+Others can join at {ip}:{port}	Os outros podem entrar em {ip}:{port}
+Passwords need at least 8 characters (not only digits).	A palavra-passe precisa de pelo menos 8 caracteres (não só algarismos).
+Play 1,000 rated games.	Joga 1000 partidas com rating.
+Play 10 rated games.	Joga 10 partidas com rating.
+Play 100 rated games.	Joga 100 partidas com rating.
+Play 25 casual games.	Joga 25 partidas amigáveis.
+Play 500 rated games.	Joga 500 partidas com rating.
+Play in a tournament.	Joga um torneio.
+Play online	Jogar online
+Play with friends on the same network	Joga com amigos na mesma rede
+Play your first rated game.	Joga a tua primeira partida com rating.
+Player 1	Jogador 1
+Players	Jogadores
+Players in a tournament can't start other games.	Os jogadores de um torneio não podem começar outras partidas.
+Please don't repeat the same message.	Por favor, não repitas a mesma mensagem.
+Pool hall legend	Lenda do salão
+Popular	Popular
+Private	Privada
+for your friends to sit down	para os teus amigos se sentarem
+Profile	Perfil
+{key}: watch the last shot again	{key}: rever a última jogada
+REPLAY	REPETIÇÃO
+Rated	Com rating
+Rated games, tables, tournaments and friends	Partidas com rating, mesas, torneios e amigos
+Reach a rating of 1300.	Atinge um rating de 1300.
+Reach a rating of 1500.	Atinge um rating de 1500.
+Reach a rating of 1700.	Atinge um rating de 1700.
+Reach a rating of 1900.	Atinge um rating de 1900.
+Reach a rating of 2100.	Atinge um rating de 2100.
+Refresh	Atualizar
+Regular	Habitual
+Remove friend	Remover amigo
+Replay	Repetição
+Report	Denunciar
+Report {name}	Denunciar {name}
+Request sent	Pedido enviado
+Friend	Amigo
+Recent	Recentes
+Nobody yet. The people you play online will show up here.	Ainda ninguém. As pessoas com quem jogares online aparecem aqui.
+{n} games	{n} partidas
+Rookie	Novato
+Round {n}	Ronda {n}
+Search…	Pesquisar…
+Semi-finals	Meias-finais
+Send report	Enviar denúncia
+This game goes with the report, so the moderators can watch it.	Esta partida segue com a denúncia, para os moderadores a poderem ver.
+Your game with {name} ({date}) goes with the report, so the moderators can watch it.	A tua partida com {name} ({date}) segue com a denúncia, para os moderadores a poderem ver.
+You haven't played {name} in the last day: the moderators see the recent chat.	Não jogaste com {name} no último dia: os moderadores veem o chat recente.
+Shark	Tubarão
+Shows the contact point; judging the cut is up to you.	Mostra o ponto de contacto; o corte fica por tua conta.
+Shutout	Em branco
+Sign in	Iniciar sessão
+Sign in or create an account	Inicia sessão ou cria uma conta
+Sign out	Terminar sessão
+Sit down	Sentar
+Skilled	Habilidoso
+Someone with that name is already here.	Já há alguém com esse nome aqui.
+Spam	Spam
+Start now	Começar já
+Stop the replay	Parar a repetição
+Table runner	Limpa-mesas
+Tables	Mesas
+Take turns on this computer	Joguem à vez neste computador
+Thank you. The moderators will look into it.	Obrigado. Os moderadores vão analisar.
+Thank you. The moderators will look into it, with your game attached.	Obrigado. Os moderadores vão analisar, com a tua partida em anexo.
+That player is not accepting invitations.	Esse jogador não está a aceitar convites.
+That shot was for an earlier turn.	Essa jogada era de uma vez anterior.
+That table is no longer open.	Essa mesa já não está aberta.
+That tournament has already started.	Esse torneio já começou.
+That tournament no longer exists.	Esse torneio já não existe.
+The first connection of the day can take up to a minute while the server wakes up.	A primeira ligação do dia pode demorar até um minuto enquanto o servidor acorda.
+The first time, allow Snook Legend through the firewall when asked.	Da primeira vez, permite o Snook Legend na firewall quando te for pedido.
+The server could not play that shot.	O servidor não conseguiu executar essa jogada.
+The server is busy. Try again in a moment.	O servidor está ocupado. Tenta novamente daqui a pouco.
+The tournament starts when it is full (the host can start it earlier).	O torneio começa quando estiver cheio (o anfitrião pode iniciá-lo antes).
+There are too many tournaments right now. Join one!	Há demasiados torneios neste momento. Entra num!
+This is a LAN server: join as a guest.	Este é um servidor LAN: entra como convidado.
+Fifteen rivals, a tour and ghosts of real players	Quinze rivais, um circuito e fantasmas de jogadores reais
+Tier	Escalão
+Time per shot	Tempo por jogada
+Too many failed attempts. Wait a few minutes and try again.	Demasiadas tentativas falhadas. Espera uns minutos e tenta novamente.
+Too many messages.	Demasiadas mensagens.
+Too many new accounts from this network. Try again later.	Demasiadas contas novas a partir desta rede. Tenta novamente mais tarde.
+Top 100 · rated games	Top 100 · partidas com rating
+Tournament game: the next round starts from the lounge.	Partida de torneio: a próxima ronda começa a partir do salão.
+Tournament games have no rematch.	As partidas de torneio não têm desforra.
+Tournaments	Torneios
+Tournaments have 4, 8 or 16 players.	Os torneios têm 4, 8 ou 16 jogadores.
+Two players	Dois jogadores
+Unblock	Desbloquear
+Unlocked {date}	Desbloqueado a {date}
+Unstoppable	Imparável
+W	V
+Watch the last shot again	Rever a última jogada
+What happened? (optional)	O que aconteceu? (opcional)
+When time runs out, the turn passes.	Quando o tempo acaba, a vez passa.
+Whitewash	Cabazada
+Win 10 rated games on the 8-ball.	Vence 10 partidas com rating na bola 8.
+Win 10 rated games in a row.	Vence 10 partidas com rating seguidas.
+Win 10 rated games.	Vence 10 partidas com rating.
+Win 10 rated shutouts.	Vence 10 partidas com rating sem o adversário meter uma bola.
+Win 100 rated games on the 8-ball.	Vence 100 partidas com rating na bola 8.
+Win 100 rated games.	Vence 100 partidas com rating.
+Win 250 rated games on the 8-ball.	Vence 250 partidas com rating na bola 8.
+Win 3 rated games in a row.	Vence 3 partidas com rating seguidas.
+Win 5 rated games in a row.	Vence 5 partidas com rating seguidas.
+Win 5 tournaments.	Vence 5 torneios.
+Win 50 rated games on the 8-ball.	Vence 50 partidas com rating na bola 8.
+Win 50 rated games.	Vence 50 partidas com rating.
+Win 500 rated games.	Vence 500 partidas com rating.
+Win a rated game.	Vence uma partida com rating.
+Win a tournament.	Vence um torneio.
+Win a rated game before your opponent sinks a ball of their group.	Vence uma partida com rating antes de o adversário meter uma bola do grupo dele.
+Win a rated game from the break without your opponent getting a shot.	Vence uma partida com rating desde a abertura, sem o adversário chegar a jogar.
+Withdraw	Desistir
+World ranking	Ranking mundial
+Wrong table password.	Palavra-passe da mesa errada.
+Wrong tournament password.	Palavra-passe do torneio errada.
+You are already in a tournament.	Já estás num torneio.
+You are hosting a game	És o anfitrião de uma partida
+You can't join this table.	Não podes entrar nesta mesa.
+You signed in from another place.	Iniciaste sessão noutro local.
+You're sending invitations too quickly.	Estás a enviar convites depressa demais.
+You're sending messages too quickly.	Estás a enviar mensagens depressa demais.
+You've sent many reports. Please wait before sending more.	Enviaste muitas denúncias. Espera um pouco antes de enviares mais.
+Your friend list is full.	A tua lista de amigos está cheia.
+Your next match starts by itself when both players are free.	A tua próxima partida começa sozinha quando os dois jogadores estiverem livres.
+Your profile	O teu perfil
+Your table is open	A tua mesa está aberta
+Zoom in	Aproximar
+Zoom out	Afastar
+at a table	numa mesa
+best streak	melhor série
+by {host} · {n}/{size} players	de {host} · {n}/{size} jogadores
+casual games	partidas amigáveis
+casual · private	amigável · privada
+casual · public	amigável · pública
+connecting to the server	a ligar ao servidor
+eight-ball pool	bilhar bola 8
+finished	terminado
+guest	convidado
+invites you to {kind}	convida-te para {kind}
+joined today	membro desde hoje
+member for {n} days	membro há {n} dias
+member for {n} months	membro há {n} meses
+member for {n} years	membro há {n} anos
+offline	offline
+open	aberto
+optional: only friends with it can join	opcional: só entram os amigos que a souberem
+password	palavra-passe
+peak {n}	máximo {n}
+playing	a jogar
+playing the computer	a jogar contra o computador
+away	ausente
+this game is saved	esta partida fica guardada
+rated games	partidas com rating
+rated · private	com rating · privada
+rated · public	com rating · pública
+request sent	pedido enviado
+the connection dropped	a ligação caiu
+to play online	para jogar online
+tournament	torneio
+tournaments won	torneios ganhos
+waiting for an opponent…	à espera de um adversário…
+win rate	% de vitórias
+wins	vitórias
+won on the 8	vitórias na bola 8
+{host}'s game	Partida de {host}
+{name} wants to be friends	{name} quer ser teu amigo
+{name} wants to be your friend.	{name} quer ser teu amigo.
+{n} online	{n} online
+sank the 8-ball	meteu a bola 8
+the opponent sank the 8-ball	o adversário meteu a bola 8
+the opponent sank the 8 too early	o adversário meteu a 8 antes do tempo
+sank the 8 too early	meteu a 8 antes do tempo
+the opponent sank the 8 in the wrong pocket	o adversário meteu a 8 no buraco errado
+sank the 8 in the wrong pocket	meteu a 8 no buraco errado
+the opponent fouled on the 8	o adversário fez falta na 8
+fouled on the 8	fez falta na 8
+the opponent knocked the 8 off the table	o adversário atirou a 8 para fora da mesa
+knocked the 8 off the table	atirou a 8 para fora da mesa
+the opponent resigned	o adversário desistiu
+resigned	desistiu
+the opponent left	o adversário saiu
+left the game	saiu da partida
+You are muted for {n} more minutes.	Estás silenciado durante mais {n} minutos.
+This account is suspended for {n} more day(s). Reason: {reason}.	Esta conta está suspensa durante mais {n} dia(s). Motivo: {reason}.
+This account is banned. Reason: {reason}.	Esta conta está banida. Motivo: {reason}.
+You were muted: {r}	Foste silenciado: {r}
+Your account was suspended: {r}	A tua conta foi suspensa: {r}
+Your account was banned: {r}	A tua conta foi banida: {r}
+You were disconnected by a moderator: {r}	Foste desligado por um moderador: {r}
+You were disconnected by a moderator.	Foste desligado por um moderador.
+Please sign in again.	Inicia sessão novamente.
+Your password was changed. Sign in again.	A tua palavra-passe foi alterada. Inicia sessão novamente.
+Accept rematch	Aceitar desforra
+Accept	Aceitar
+Aim	Apontar
+Aiming guide	Guia de mira
+Aiming	Mira
+Anti-aliasing	Antialiasing
+Smooths the jagged edges of lines and balls.	Suaviza as arestas serrilhadas das linhas e das bolas.
+Back to lounge	Voltar ao salão
+Balanced: smooth on most laptops.	Equilibrado: fluido na maioria dos portáteis.
+Ball in hand	Bola na mão
+Break the rack	Faz a abertura
+Camera pulls back to watch each shot	A câmara afasta-se para mostrar cada jogada
+Camera	Câmara
+Cancel	Cancelar
+Casual game: ratings unchanged	Partida amigável: o rating não muda
+Center	Centrar
+Chat	Chat
+Click a ball or a spot	Clica numa bola ou num ponto
+Click to chat, Enter to send	Clica para conversar, Enter para enviar
+Controls	Controlos
+Create account	Criar conta
+Cue ball contact	Contacto na bola branca
+Decline	Recusar
+Done	Concluído
+Drag the cue ball	Arrasta a bola branca
+Elevation	Elevação
+Everything, with reflections in polished floors: for gaming PCs.	Tudo no máximo, com reflexos no chão polido: para PCs de gaming.
+Fine aim	Mira fina
+Finish this match first.	Termina primeiro esta partida.
+For old or very slow computers.	Para computadores antigos ou muito lentos.
+Full screen	Ecrã inteiro
+Also with {key}.	Também com {key}.
+Full	Completa
+Game server	Servidor de jogo
+Change it only to play on another server.	Muda-o só para jogar noutro servidor.
+Advanced	Avançado
+Custom server	Outro servidor
+Graphics quality	Qualidade gráfica
+Quality	Qualidade
+Display	Ecrã
+High	Alta
+Invite	Convidar
+Leave to the lounge	Sair para o salão
+Leave	Sair
+Leaving now counts as a loss.	Sair agora conta como derrota.
+Lounge chat	Chat do salão
+Low	Baixa
+Main menu	Menu principal
+Medium	Média
+Menu / help	Menu / ajuda
+Next game starts in a moment…	A próxima partida começa daqui a pouco…
+No rated games yet. Be the first!	Ainda não há partidas com rating. Sê o primeiro!
+Nobody else is here right now.	Não está mais ninguém aqui neste momento.
+Looking for a game?	À procura de partida?
+Looking for a game	À procura de partida
+Post a note	Publicar recado
+Everyone in the lounge sees it for 30 minutes	Todos no salão o veem durante 30 minutos
+What are you after? ({kind})	O que procuras? ({kind})
+Post	Publicar
+Your note: {text}	O teu recado: {text}
+{mode} · {left} left	{mode} · faltam {left}
+Take down	Retirar
+Challenge	Desafiar
+Take the note down	Retirar o recado
+Off	Não
+On the 8-ball: call a pocket	Na bola 8: canta um buraco
+On the 8-ball	Na bola 8
+Open table	Mesa aberta
+Password	Palavra-passe
+Paused	Em pausa
+Play	Jogar
+Player 2	Jogador 2
+Player	Jogador
+Quick aim	Mira rápida
+Quit	Sair
+Reconnected.	Ligação restabelecida.
+Rematch	Desforra
+Resign this game	Desistir desta partida
+Restart the game to apply this change.	Reinicia o jogo para aplicar esta alteração.
+Resume	Continuar
+Retry	Tentar de novo
+Saving the result…	A guardar o resultado…
+Say hello… (Enter to send)	Diz olá… (Enter para enviar)
+Send	Enviar
+Settings	Definições
+{key} + drag	{key} + arrastar
+{key}: 3D / top view	{key}: 3D / vista de cima
+{keys}: zoom	{keys}: zoom
+View	Vista
+Aim left	Apontar à esquerda
+Aim right	Apontar à direita
+Fine aim (hold)	Mira fina (manter)
+Shoot (hold, release)	Jogar (manter e soltar)
+Top spin	Efeito alto
+Back spin	Efeito baixo
+Left spin	Efeito à esquerda
+Right spin	Efeito à direita
+Raise the cue	Levantar o taco
+Lower the cue	Baixar o taco
+Pick up the cue ball in hand	Pegar na bola branca (bola na mão)
+3D / top view	3D / vista de cima
+Reset the camera	Repor a câmara
+Replay the last shot	Rever a última jogada
+List of controls	Lista de controlos
+Keys can be changed in Settings → Controls.	As teclas podem ser alteradas em Definições → Controlos.
+Space	Espaço
+Right Shift	Shift direito
+Right Ctrl	Ctrl direito
+Right Alt	Alt direito
+Aiming and shooting	Apontar e jogar
+Spin and elevation	Efeito e elevação
+Fixed keys	Teclas fixas
+Menu, back and cancel	Menu, voltar e cancelar
+Confirm (forms, the cue ball in hand)	Confirmar (formulários, bola branca na mão)
+This key can't be changed.	Esta tecla não pode ser alterada.
+Press a key · Esc cancels · Backspace clears	Prime uma tecla · Esc cancela · Backspace apaga
+Press a key…	Prime uma tecla…
+Click to change	Clica para mudar
+Click to add a key	Clica para adicionar uma tecla
+Back to no key	Voltar a ficar sem tecla
+Back to {keys}	Voltar a {keys}
+Swapped: {action} is now on {key}.	Trocadas: {action} está agora em {key}.
+Taken from {action}, which now has no key.	Retirada de {action}, que fica sem tecla.
+Taken from {action}.	Retirada de {action}.
+That key can't be used: try another.	Essa tecla não pode ser usada: experimenta outra.
+Shoot	Jogar
+Short	Curta
+Signing in…	A iniciar sessão…
+Signing in	A iniciar sessão
+Soft shadows from every lamp, glossy halls, halos.	Sombras suaves de cada candeeiro, salões com brilho, halos.
+Solids (1–7)	Lisas (1–7)
+Spin ball	Bola de efeito
+Spin	Efeito
+Standard	Normal
+Stay	Ficar
+Stripes (9–15)	Riscadas (9–15)
+The game goes on while this is open.	A partida continua enquanto isto estiver aberto.
+Use default	Usar predefinição
+Username	Nome de utilizador
+Usernames have 3–16 letters, digits or underscores.	Os nomes de utilizador têm 3 a 16 letras, algarismos ou sublinhados.
+{keys} (jump & massé)	{keys} (salto e massé)
+You win!	Ganhaste!
+Your name	O teu nome
+Your opponent went back to the lounge.	O teu adversário voltou ao salão.
+Your turn	A tua vez
+open table: the next ball you make sets your group	mesa aberta: a próxima bola que meteres define o teu grupo
+draw	retrocesso
+follow	seguimento
+stun	pancada seca
+solids	lisas
+stripes	riscadas
+lounge	salão
+ · left english	 · efeito à esquerda
+ · right english	 · efeito à direita
+Language	Idioma
+General	Geral
+Graphics	Gráficos
+Game	Jogo
+Sound	Som
+Reset to defaults	Repor predefinições
+Reset all keys	Repor todas as teclas
+Reset every key?	Repor todas as teclas?
+Click again to put every key back	Clica outra vez para repor todas as teclas
+Updates	Atualizações
+Update automatically	Atualizar automaticamente
+New versions download in the background and install when you restart.	As novas versões são transferidas em segundo plano e instaladas quando reinicias.
+Version {v}	Versão {v}
+What's new	Novidades
+What's new in version {v}	Novidades da versão {v}
+No notes for this version.	Não há notas para esta versão.
+Got it	Entendido
+Restart now	Reiniciar agora
+After the game, from the main menu.	Depois da partida, a partir do menu principal.
+Download	Transferir
+Check now	Verificar agora
+Couldn't reach the update server.	Não foi possível contactar o servidor de atualizações.
+The download was damaged. It will be tried again later.	A transferência chegou danificada. Será tentada novamente mais tarde.
+The new version couldn't be installed. This one stays.	Não foi possível instalar a nova versão. Fica esta.
+Downloading… {p}%	A transferir… {p}%
+Updating…	A atualizar…
+The Microsoft Store keeps the game up to date.	A Microsoft Store mantém o jogo atualizado.
+Development build: no automatic updates.	Versão de desenvolvimento: sem atualizações automáticas.
+Looking for a new version…	À procura de uma nova versão…
+This is the latest version.	Esta é a versão mais recente.
+Downloading version {v}… {p}%	A transferir a versão {v}… {p}%
+Installing version {v}…	A instalar a versão {v}…
+Version {v} is ready: restart the game to use it.	A versão {v} está pronta: reinicia o jogo para a usares.
+Version {v} is out: download it from the releases page.	Saiu a versão {v}: transfere-a na página de versões.
+Version {v} is ready	A versão {v} está pronta
+Restart to play it; nothing is lost.	Reinicia para a jogares; não se perde nada.
+Version {v} is out	Saiu a versão {v}
+Get it from the releases page.	Transfere-a na página de versões.
+Reset everything?	Repor tudo?
+Click again to reset every setting	Clica outra vez para repor todas as definições
+Online	Online
+Menu	Menu
+Rating	Rating
+Ultra	Ultra
+hold {key} and release	mantém {key} premida e solta
+Change	Mudar
+Mouse aim sensitivity	Sensibilidade da mira (rato)
+How fast the cue turns with the mouse.	A velocidade a que o taco roda com o rato.
+Vignette	Vinheta
+Darkens the edges of the picture, like a film.	Escurece as margens da imagem, como num filme.
+Show FPS	Mostrar FPS
+Frames per second, in a corner of the screen.	Imagens por segundo, num canto do ecrã.
+Call a pocket for the 8-ball first: click a pocket.	Primeiro canta um buraco para a bola 8: clica num buraco.
+Reconnecting	A restabelecer a ligação
+the game is over	a partida terminou
+the cue ball cannot be placed there	a bola branca não pode ficar aí
+call a pocket for the 8-ball	canta um buraco para a bola 8
+That username is taken.	Esse nome de utilizador já existe.
+Wrong username or password.	Nome de utilizador ou palavra-passe errados.
+Your session expired. Please log in again.	A tua sessão expirou. Inicia sessão novamente.
+This version of Snook Legend is out of date. Please update the game.	Esta versão do Snook Legend está desatualizada. Atualiza o jogo.
+It's not your turn.	Não é a tua vez.
+That player is not online.	Esse jogador não está online.
+That player is in a game.	Esse jogador está numa partida.
+You can't invite yourself.	Não te podes convidar a ti próprio.
+That invitation is no longer valid.	Esse convite já não é válido.
+That player is no longer available.	Esse jogador já não está disponível.
+Resign first to leave a game in progress.	Desiste primeiro para saíres de uma partida a decorrer.
+Malformed message.	Mensagem mal formada.
+Please log in first.	Inicia sessão primeiro.
+Could not create the account.	Não foi possível criar a conta.
+The cue ball can't be placed there.	A bola branca não pode ficar aí.
+Disconnected.	Desligado.
+Lost contact with the server.	Perdeu-se o contacto com o servidor.
+The server closed the connection.	O servidor fechou a ligação.
+The server took too long to answer.	O servidor demorou demasiado a responder.
+The server is not answering (connection refused).	O servidor não está a responder (ligação recusada).
+The server address is not valid (example: wss://snook-legend.example.com/ws).	O endereço do servidor não é válido (exemplo: wss://snook-legend.example.com/ws).
+The server address has no host name.	O endereço do servidor não tem nome de anfitrião.
+Welcome to Snook Legend! Be kind, play fair.	Bem-vindo ao Snook Legend! Sê simpático, joga limpo.
+Ball in hand: drag the cue ball{zone} to move it	Bola na mão: arrasta a bola branca{zone} para a mover
+ behind the line	 atrás da linha
+Ball in hand  ·  {group}	Bola na mão  ·  {group}
+Can't shoot: {e}.	Não é possível jogar: {e}.
+Chat ({n})	Chat ({n})
+Computer ({level})	Computador ({level})
+Computer	Computador
+Each opponent has a style of their own	Cada adversário tem o seu próprio estilo
+Free game	Partida livre
+Tour	Circuito
+Tour: {n} of {total} beaten	Circuito: {n} de {total} vencidos
+Strength {n}/5	Nível {n}/5
+Ghost	Fantasma
+Accuracy	Precisão
+Safeties	Defesas
+Banks	Tabelas
+Position	Posição
+Ghost of {name}	Fantasma de {name}
+A player's ghost	Fantasma de um jogador
+Plays like a real player	Joga como um jogador real
+The computer plays in the style of a real player, measured on their online games.	O computador joga no estilo de um jogador real, medido nas partidas online dele.
+Sign in to play the ghost of a real player.	Inicia sessão para jogar contra o fantasma de um jogador real.
+Load	Carregar
+Friends:	Amigos:
+Type a username or pick a friend, then Load.	Escreve um nome de utilizador ou escolhe um amigo e carrega em Carregar.
+Measuring how {name} plays…	A medir como {name} joga…
+Pots {pots}% · safeties {safe}% · banks {banks}% · {shots} shots	Mete {pots}% · defesas {safe}% · tabelas {banks}% · {shots} jogadas
+{name} has only {shots} recorded shots; a ghost needs {needed}. More online games will do it.	{name} só tem {shots} jogadas registadas; um fantasma precisa de {needed}. Mais partidas online resolvem isso.
+There is no player called {name}.	Não há nenhum jogador chamado {name}.
+The server can't be reached right now. Try again later.	Não é possível contactar o servidor neste momento. Tenta novamente mais tarde.
+Wait a moment before asking again.	Espera um pouco antes de voltares a pedir.
+Something went wrong on the server. Try again later.	Algo correu mal no servidor. Tenta novamente mais tarde.
+Play your ghost	Jogar contra o teu fantasma
+Play their ghost	Jogar contra o fantasma
+Beaten	Vencido
+Next	Próximo
+Win the previous stage to unlock this one.	Vence a etapa anterior para desbloqueares esta.
+Stage {n} of {total}	Etapa {n} de {total}
+Challenge {name}	Desafiar {name}
+Stage {n} won! Next on the tour: {name}.	Etapa {n} ganha! A seguir no circuito: {name}.
+You won the whole tour!	Ganhaste o circuito inteiro!
+Reward	Prémio
+{item} cue · exclusive	Taco {item} · exclusivo
+Yours: find it in the shop, under Cues.	É teu: encontra-o na loja, em Tacos.
+Win the last stage again while signed in to claim it.	Vence de novo a última etapa com sessão iniciada para o receberes.
+Beat all fifteen opponents to earn it. It is sold nowhere.	Vence os quinze adversários para o ganhares. Não se vende em lado nenhum.
+You won the tour! Sign in to claim your reward.	Ganhaste o circuito! Inicia sessão para receberes o teu prémio.
+The server is checking your final game…	O servidor está a verificar a tua partida final…
+Try again	Tentar de novo
+The server did not answer. Try again in a moment.	O servidor não respondeu. Tenta novamente daqui a pouco.
+The server is busy checking other games. Try again in a moment.	O servidor está ocupado a verificar outras partidas. Tenta novamente daqui a pouco.
+Wait a minute before trying again.	Espera um minuto antes de tentares de novo.
+That game is too long to be checked.	Essa partida é demasiado longa para ser verificada.
+That game has a move the rules don't allow.	Essa partida tem uma jogada que as regras não permitem.
+That game was not played to the end.	Essa partida não foi jogada até ao fim.
+That game was not a win.	Essa partida não foi uma vitória.
+The computer's shots in that game don't match how it plays (another version of the game?).	As jogadas do computador nessa partida não correspondem à forma como ele joga (outra versão do jogo?).
+The Rookie	O Novato
+Still learning: aims at the nearest pocket, centre ball, and hopes. Never plays safe.	Ainda a aprender: aponta ao buraco mais próximo, bate ao centro e reza. Nunca joga à defesa.
+The Weekend Player	A Jogadora de Fim de Semana
+Knows the basics and drops the easy ones, but rarely thinks about where the cue ball goes.	Sabe o básico e mete as fáceis, mas raramente pensa para onde vai a bola branca.
+The Bank Artist	A Artista da Tabela
+Sees angles nobody else does: whenever a ball can go off a cushion and in, she banks it.	Vê ângulos que mais ninguém vê: sempre que uma bola pode entrar de tabela, ela joga de tabela.
+The Cannon	O Canhão
+Goes for everything, as hard as he can: long pots, thunderous breaks, hardly ever a safety.	Vai a tudo, com toda a força: bolas compridas, aberturas estrondosas, quase nunca uma defesa.
+The Wall	A Muralha
+Only shoots when the pot is on. Otherwise she tucks the cue ball away and waits for your mistake.	Só ataca quando a bola está feita. Caso contrário, esconde a branca e espera pelo teu erro.
+The Old Pro	O Veterano
+Forty years at the table: a smooth stroke, a raised cue, side spin, and never in a hurry.	Quarenta anos de mesa: pancada suave, taco levantado, efeito lateral e nunca com pressa.
+The Hustler	A Astuta
+Plays just well enough to win, then a little better. Balanced, sharp and hard to read.	Joga só o suficiente para ganhar, e depois um pouco melhor. Equilibrada, perspicaz e difícil de ler.
+The Professor	O Professor
+Thinks three balls ahead: every shot leaves the cue ball where the next one is easy.	Pensa três bolas à frente: cada jogada deixa a branca onde a seguinte é fácil.
+The Sharpshooter	A Atiradora de Elite
+Pots from anywhere, at any angle. Her safeties are an afterthought: she doesn't need them.	Mete de qualquer lado, em qualquer ângulo. As defesas são o menos: não precisa delas.
+The Champion	O Campeão
+Unbeaten for years. Precise, patient and merciless: the last stage of the tour.	Invicto há anos. Preciso, paciente e implacável: a última etapa do circuito.
+Tour champion	Campeão do circuito
+Champion of the tour	Campeão do circuito
+Beat all fifteen opponents of the computer tour.	Vence os quinze adversários do circuito contra o computador.
+Connection lost. Reconnecting (attempt {n})…	Ligação perdida. A restabelecer (tentativa {n})…
+Connection lost. Reconnecting…	Ligação perdida. A restabelecer…
+Foul by {shooter}: {foul}.	Falta de {shooter}: {foul}.
+Graphics set to {q} for smooth play. You can change this in Settings.	Gráficos ajustados para {q} para o jogo correr bem. Podes mudar isto nas Definições.
+Rating {r} ({d})	Rating {r} ({d})
+The {ball} was spotted.	A {ball} voltou à mesa.
+Waiting for {to} ({kind})…	À espera de {to} ({kind})…
+rated	com rating
+casual	amigável
+Waiting for {name}…	À espera de {name}…
+{by} declined your invitation.	{by} recusou o teu convite.
+a rated game	uma partida com rating
+a casual game	uma partida amigável
+{name} calls the 8-ball in the {pocket} pocket.	{name} canta a bola 8 no buraco {pocket}.
+{name} has ball in hand…	{name} tem bola na mão…
+{name} is aiming…	{name} está a apontar…
+{name} is on the 8: click a pocket to call it	{name} está na bola 8: clica num buraco para o cantar
+{name} is thinking…	{name} está a pensar…
+{name} left the game.	{name} saiu da partida.
+{name} resigned.	{name} desistiu.
+{name} to break	{name} faz a abertura
+{name} to shoot ({target})	Vez de {name} ({target})
+{name}'s turn	Vez de {name}
+{next} has ball in hand{where}.	{next} tem bola na mão{where}.
+ behind the head string	 atrás da linha de cabeceira
+{opponent} is back.	{opponent} voltou.
+{opponent} lost the connection. Waiting up to {secs} s…	{opponent} perdeu a ligação. À espera até {secs} s…
+{opponent} wants a rematch.	{opponent} quer a desforra.
+{opponent} went back to the lounge.	{opponent} voltou ao salão.
+{shooter} pocketed {balls}.	{shooter} meteu {balls}.
+{shooter} takes {group}.	{shooter} fica com as {group}.
+{who} ran out of time: ball in hand for the opponent.	O tempo de {who} acabou: bola na mão para o adversário.
+{name} wants a rematch!	{name} quer a desforra!
+{name} wins!	{name} ganha!
+{name} wins	{name} ganha
+Volume	Volume
+The cue, the balls, the cushions and the pockets.	O taco, as bolas, as tabelas e os buracos.
+Notifications	Notificações
+Could not find the server “{host}”.	Não foi possível encontrar o servidor “{host}”.
+Network error: {e}.	Erro de rede: {e}.
+Secure connection failed: {e}.	Falha na ligação segura: {e}.
+The server refused the connection (HTTP {code}).	O servidor recusou a ligação (HTTP {code}).
+Connection error: {e}.	Erro de ligação: {e}.
+cue ball	bola branca
+{n}-ball	bola {n}
+Scratch: the cue ball was pocketed	A bola branca entrou num buraco
+The cue ball left the table	A bola branca saiu da mesa
+The cue ball didn't hit any ball	A bola branca não tocou em nenhuma bola
+Wrong ball hit first ({ball})	Tocou primeiro na bola errada ({ball})
+No ball reached a cushion after contact	Nenhuma bola chegou a uma tabela depois do contacto
+The {ball} left the table	A {ball} saiu da mesa
+Illegal break	Abertura ilegal
+pocketed the 8-ball	meteu a bola 8
+opponent pocketed the 8-ball too early	o adversário meteu a bola 8 antes do tempo
+opponent sank the 8-ball in the wrong pocket	o adversário meteu a bola 8 no buraco errado
+opponent fouled on the 8-ball	o adversário fez falta na bola 8
+opponent knocked the 8-ball off the table	o adversário atirou a bola 8 para fora da mesa
+opponent resigned	o adversário desistiu
+opponent left the game	o adversário saiu da partida
+head left corner	esquerdo da cabeceira
+head right corner	direito da cabeceira
+left side	lateral esquerdo
+right side	lateral direito
+foot left corner	esquerdo do fundo
+foot right corner	direito do fundo
+Easy	Fácil
+Hard	Difícil
+Normal	Normal
+Power	Força
+No messages yet.	Ainda não há mensagens.
+▼ newer messages	▼ mensagens novas
+Camera follows the cue	A câmara segue o taco
+Off: it stays where you put it.	Desligada: fica onde a deixares.
+Pull back for shots	Afastar nas jogadas
+Only when the camera follows the cue.	Só quando a câmara segue o taco.
+Drag the cue · click a spot	Arrasta o taco · clica num ponto
+Time's up: {name}'s shot was played at full power.	Tempo esgotado: a jogada de {name} foi feita com força máxima.
+Dark room	Sala escura
+A spotlight on the table, the room in shadow.	Um foco na mesa, a sala na sombra.
+Hide	Ocultar
+Interface size	Tamanho da interface
+Text, buttons and panels.	Textos, botões e painéis.
+Drag to set the power	Arrasta para ajustar a força
+Shoot!	Jogar!
+Set the power, then press the green button	Ajusta a força e carrega no botão verde
++{n} coins · {why}	+{n} moedas · {why}
+16-player tournaments, and first place on the waiting list of a full one	Torneios de 16 jogadores e o primeiro lugar na lista de espera de um torneio cheio
+30 minutes: play as many games as you can. A win is 2 points, 4 from the third win in a row.	30 minutos: joga o máximo de partidas que conseguires. Uma vitória vale 2 pontos, 4 a partir da terceira vitória seguida.
+A crown by your name, everywhere (lounge, profile, ranking)	Uma coroa junto ao teu nome, em todo o lado (salão, perfil, ranking)
+Account	Conta
+Add friends to give them items.	Adiciona amigos para lhes ofereceres artigos.
+Arena	Arena
+Arena · host {host} · {n} players · {kind}	Arena · anfitrião {host} · {n} jogadores · {kind}
+Buy now	Comprar agora
+Buying…	A comprar…
+Change password	Mudar palavra-passe
+Click again to delete	Clica outra vez para eliminar
+Got a code? Type it here	Recebeste um código? Escreve-o aqui
+Confirm purchase	Confirmar compra
+Copied: send it to a friend.	Copiado: envia-o a um amigo.
+Copy	Copiar
+Current	Atual
+Delete account	Eliminar conta
+Entry	Inscrição
+Entry {n} coins	Inscrição {n} moedas
+Every replay kept (free players keep their last 10 games)	Todas as repetições guardadas (os jogadores gratuitos guardam as últimas 10 partidas)
+For {name}	Para {name}
+Add a message (optional)	Adiciona uma mensagem (opcional)
+Format	Formato
+Frames	Molduras
+Free	Grátis
+Get coins	Obter moedas
+Gift sent!	Presente enviado!
+Give as a gift	Oferecer como presente
+Give it	Oferecer
+Give to a friend	Oferecer a um amigo
+Great!	Ótimo!
+If you forget your password, we confirm it's you by this e-mail.	Se te esqueceres da palavra-passe, confirmamos que és tu através deste e-mail.
+Invite with a code	Convidar com código
+It goes on right away. Items only change the look, never the game.	Fica logo em uso. Os artigos só mudam o aspeto, nunca o jogo.
+Join my table in Snook Legend:	Junta-te à minha mesa no Snook Legend:
+Join the waiting list	Entrar na lista de espera
+Join · {n} coins	Entrar · {n} moedas
+Knockout	Eliminatórias
+Name colour	Cor do nome
+Name colours for the lounge and exclusive frames, cloth, cues, balls and effects	Cores de nome para o salão e molduras, panos, tacos, bolas e efeitos exclusivos
+New	Nova
+No, thanks	Não, obrigado
+Nothing that wins games: VIP only changes the look	Nada que ganhe partidas: o VIP só muda o aspeto
+Numbers	Números
+ON TV	NA TV
+Play rated games to see your rating here.	Joga partidas com rating para veres aqui o teu rating.
+No rated games yet.	Ainda não há partidas com rating.
+Price	Preço
+Prizes {a} + {b}	Prémios {a} + {b}
+Protect your purchases	Protege as tuas compras
+Purchase complete!	Compra concluída!
+Recovery e-mail	E-mail de recuperação
+Save	Guardar
+The fees make the prize: 70% to the champion, 20% to the runner-up.	As inscrições fazem o prémio: 70% para o campeão, 20% para o vice-campeão.
+The server restarts in {m}:{s} for an update. Games in progress go on.	O servidor reinicia dentro de {m}:{s} para uma atualização. As partidas a decorrer continuam.
+Use this e-mail	Usar este e-mail
+Use {email} to recover your account if you ever forget your password?	Usar {email} para recuperar a tua conta se algum dia te esqueceres da palavra-passe?
+Watch	Ver
+Watch again	Ver de novo
+Winning effects	Efeitos de vitória
+Halls	Salões
+You are paired as soon as you and an opponent are free.	Ficas emparelhado assim que tu e um adversário estiverem livres.
+You can change it any time in your profile (Account).	Podes mudá-lo quando quiseres no teu perfil (Conta).
+You need {n} more coins.	Faltam-te {n} moedas.
+Your account	A tua conta
+Your account was deleted.	A tua conta foi eliminada.
+Your coins	As tuas moedas
+Your friend gets it right away.	O teu amigo recebe-o de imediato.
+Your game against {name} is starting.	A tua partida contra {name} está a começar.
+Your name, e-mail, friends and items are erased for good. Your opponents keep the games you played (without your name).	O teu nome, e-mail, amigos e artigos são apagados para sempre. Os teus adversários mantêm as partidas que jogaste (sem o teu nome).
+balls per game	bolas por partida
+best run ever	melhor série de sempre
+daily bonus	bónus diário
+entry fee back	inscrição devolvida
+for the game	pela partida
+for the win	pela vitória
+games counted	partidas contadas
+Analysis	Análise
+The shot analysis isn't available on this server yet.	A análise das jogadas ainda não está disponível neste servidor.
+Only online accounts have a shot analysis.	Só as contas online têm análise das jogadas.
+Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Joga online para veres como metes as bolas: a análise aparece depois de mais {n} jogadas a um buraco.
+{name} hasn't played enough online games for an analysis yet.	{name} ainda não jogou partidas online suficientes para uma análise.
+1 game	1 partida
+{pct}% of {n} shots at a pocket potted · {games}	{pct}% metidas em {n} jogadas a um buraco · {games}
+{made} of {n} potted ({pct})	{made} de {n} metidas ({pct})
+By kind of shot	Por tipo de jogada
+shots	jogadas
+Straight	Direta
+Cut 8–25°	Corte 8–25°
+Cut 25–45°	Corte 25–45°
+Thin cut 45°+	Corte fino 45°+
+Bank	Tabela
+Kick	Tabela da branca
+Combination	Combinação
+Jump	Salto
+Massé	Massé
+Break	Abertura
+By distance	Por distância
+Short (under 0.75 m)	Curta (até 0,75 m)
+Medium (to 1.5 m)	Média (até 1,5 m)
+Long (over 1.5 m)	Longa (mais de 1,5 m)
+left the opponent nothing	deixaram o adversário sem nada
+Breaks	Aberturas
+made a ball	meteram uma bola
+Potted	Metidas
+Missed	Falhadas
+Where and in which pocket	Onde e em que buraco
+{pocket}: {made} of {n} potted	{pocket}: {made} de {n} metidas
+Where the potted balls were	Onde estavam as bolas metidas
+Where the missed balls were	Onde estavam as bolas falhadas
+few	poucas
+many	muitas
+{made} potted · {missed} missed ({pct})	{made} metidas · {missed} falhadas ({pct})
+Top left corner	Canto superior esquerdo
+Bottom left corner	Canto inferior esquerdo
+Top side pocket	Buraco do meio de cima
+Bottom side pocket	Buraco do meio de baixo
+Top right corner	Canto superior direito
+Bottom right corner	Canto inferior direito
+games left unfinished	partidas abandonadas
+potting success	acerto
+shots with a foul	jogadas com falta
+starts in {n} min	começa dentro de {n} min
+tournament prize	prémio de torneio
+The dark room hides the hall around the table.	A sala escura esconde o salão à volta da mesa.
+Show the hall	Mostrar o salão
+Level {n} · 1 win	Nível {n} · 1 vitória
+Level {n} · {w} wins	Nível {n} · {w} vitórias
+{left} more online wins with this cue for level {n}. Levels only add marks to the cue.	Mais {left} vitórias online com este taco para o nível {n}. Os níveis só acrescentam marcas ao taco.
+The top level: this cue has every mark.	O nível máximo: este taco tem todas as marcas.
+Your cue {cue} reached level {n}!	O teu taco {cue} chegou ao nível {n}!
+Most wins: {cue} (level {n})	Mais vitórias: {cue} (nível {n})
+{games} games · {rate}% won · {balls} balls made	{games} partidas · {rate}% de vitórias · {balls} bolas metidas
+vs	vs
+{from} gave you {item}!	{from} ofereceu-te {item}!
+You received a gift!	Recebeste um presente!
+From	De
+To	Para
+someone	alguém
+A month of VIP	Um mês de VIP
+Thank	Agradecer
+Thanked	Agradecido
+They thanked you	Agradeceu-te
+Use it now	Usar agora
+Later	Mais tarde
+OK	OK
+Next ({n} more)	Seguinte (mais {n})
+{from} gave you {item}! It's waiting for you in the lounge.	{from} ofereceu-te {item}! Está à tua espera no salão.
+{name} thanked you for {item}.	{name} agradeceu-te por {item}.
+Gifts	Presentes
+No gifts yet. Friends can give you items from the shop.	Ainda não tens presentes. Os amigos podem oferecer-te artigos da loja.
+{item} is yours and already in use.	{item} é teu e já está em uso.
+{m}:{s} left	faltam {m}:{s}
+{name} invites you to play.	{name} convida-te para jogar.
+{name} is online.	{name} está online.
+{name} ran out of time.	O tempo de {name} acabou.
+{name} received {item}.	{name} recebeu {item}.
+{n} pts · {g} games	{n} pts · {g} partidas
+{n} watching · avg {r}	{n} a ver · média {r}
+{title}: {how}	{title}: {how}
+Olive	Azeitona
+Navy	Azul-marinho
+Forest	Floresta
+Slate grey	Cinzento-ardósia
+Red wine	Vinho tinto
+Burnt orange	Laranja queimado
+Dusty rose	Rosa antigo
+Sand	Areia
+Ice blue	Azul-gelo
+Lime	Lima
+Black tie	Traje de rigor
+Cobalt	Cobalto
+Emerald	Esmeralda
+Natural maple	Ácer natural
+Beach bar	Bar de praia
+Modern	Moderna
+English club	Clube inglês
+Ebony & gold	Ébano e ouro
+Pool hall	Sala de bilhar
+Industrial loft	Loft industrial
+Steel & oak	Aço e carvalho
+Tournament	Torneio
+Victorian walnut	Nogueira vitoriana
+Ivory deco	Déco marfim
+Mountain lodge	Chalé de montanha
+Neon arcade	Salão de jogos néon
+Art deco lounge	Salão art déco
+Skyline penthouse	Penthouse com vista
+Walnut	Nogueira
+Zebrawood	Zebrano
+Bocote	Bocote
+Deep ocean	Oceano profundo
+Cherry	Cerejeira
+Jade	Jade
+Tiger	Tigre
+Amethyst	Ametista
+Arctic carbon	Carbono ártico
+Inferno	Inferno
+Obsidian gold	Obsidiana e ouro
+Tan chalk	Giz bege
+Grey chalk	Giz cinzento
+Orange chalk	Giz laranja
+Pink chalk	Giz rosa
+Teal chalk	Giz verde-azulado
+Yellow chalk	Giz amarelo
+Black chalk	Giz preto
+White chalk	Giz branco
+Silver chalk	Giz prateado
+TV set	Estilo TV
+Earth tones	Tons de terra
+Ocean	Oceano
+Sunset	Pôr do sol
+Candy	Rebuçado
+Pearl	Pérola
+Monochrome	Monocromático
+Chrome	Cromado
+Gold rush	Corrida ao ouro
+No frame	Sem moldura
+Bronze	Bronze
+Silver	Prata
+Gold	Ouro
+Green felt	Feltro verde
+Mahogany	Mogno
+Ice	Gelo
+Fire	Fogo
+Diamond	Diamante
+VIP crown	Coroa VIP
+Rose gold	Ouro rosa
+Aqua	Água-marinha
+Violet	Violeta
+Ember	Brasa
+Mint	Menta
+Frost	Geada
+No effect	Sem efeito
+Sparks	Faíscas
+Confetti	Confetti
+Shockwave	Onda de choque
+Coin shower	Chuva de moedas
+Flames	Chamas
+Royal sparks	Faíscas reais
+Tier colour	Cor do escalão
+16-player tournaments are for VIP members.	Os torneios de 16 jogadores são para membros VIP.
+A seat opened: you are in the tournament!	Abriu-se uma vaga: estás no torneio!
+Entry fees go up to 1000 coins.	As inscrições vão até 1000 moedas.
+Guests can't play for coins.	Os convidados não podem jogar por moedas.
+Only items sold for coins can be given.	Só se podem oferecer artigos vendidos por moedas.
+Password changed.	Palavra-passe alterada.
+Passwords need 8 or more characters, not only digits.	As palavras-passe precisam de 8 ou mais caracteres, não só algarismos.
+Recovery e-mail removed.	E-mail de recuperação removido.
+Recovery e-mail saved.	E-mail de recuperação guardado.
+Something went wrong. Please try again.	Algo correu mal. Tenta novamente.
+That code is not valid (or the table was closed).	Esse código não é válido (ou a mesa foi fechada).
+That doesn't look like an e-mail address.	Isso não parece um endereço de e-mail.
+That game is over.	Essa partida terminou.
+The current password is wrong.	A palavra-passe atual está errada.
+The server is restarting.	O servidor está a reiniciar.
+The server is restarting: new games start in a moment.	O servidor está a reiniciar: as novas partidas começam daqui a pouco.
+The tournament is full: you are on the waiting list.	O torneio está cheio: estás na lista de espera.
+This replay is not available.	Esta repetição não está disponível.
+You can only give items to your friends.	Só podes oferecer artigos aos teus amigos.
+Your friend already has this item.	O teu amigo já tem este artigo.
+16 (VIP)	16 (VIP)
+VIP isn't sold in this version of the game.	O VIP não está à venda nesta versão do jogo.
+In this version of the game, coins are earned by playing:	Nesta versão do jogo, as moedas ganham-se a jogar:
+rated games, and a bonus every day you play.	partidas com rating, e um bónus por cada dia em que jogas.
+Coins are earned by playing:	As moedas ganham-se a jogar:
+If you like, you can also buy them:	Se quiseres, também as podes comprar:
+one month	um mês
+already VIP	já é VIP
+Give a month to a friend · {p}	Oferecer um mês a um amigo · {p}
+{from} gave you a month of VIP!	{from} ofereceu-te um mês de VIP!
+{name} received a month of VIP.	{name} recebeu um mês de VIP.
+Your friend is already VIP.	O teu amigo já é VIP.
+Game in progress: {n} balls left	Partida a decorrer: faltam {n} bolas
+Continue	Continuar
+Missions	Missões
+Board	Mural
+Today	Hoje
+This week	Esta semana
+new missions in {t}	novas missões dentro de {t}
+ends in {t}	termina dentro de {t}
+{n} days	{n} dias
+{n} h	{n} h
+{n} min	{n} min
+mission complete	missão cumprida
+Missions count rated games played to the end. The coins arrive as soon as one is complete.	As missões contam partidas com rating jogadas até ao fim. As moedas chegam assim que uma estiver cumprida.
+Nothing on the board right now.	Nada no mural por agora.
+Open tournaments	Torneios abertos
+{n}/{size} players	{n}/{size} jogadores
+starts in {t}	começa dentro de {t}
+entry {n} coins	inscrição {n} moedas
+See	Ver
+Play {n} rated games	Joga {n} partidas com rating
+Win {n} rated games	Vence {n} partidas com rating
+Pot {n} balls	Mete {n} bolas
+Pot {n} balls with spin	Mete {n} bolas com efeito
+Pot 3 balls in a row in one visit	Mete 3 bolas seguidas numa só vez
+Win a game without a foul	Vence uma partida sem fazer faltas
+Pot 3 balls in a row {n} times	Mete 3 bolas seguidas {n} vezes
+Win {n} games without a foul	Vence {n} partidas sem fazer faltas
+TV camera when watching	Câmara de TV ao ver
+Broadcast angles for other players' games and replays.	Ângulos de transmissão nas partidas dos outros e nas repetições.
+System notifications	Notificações do sistema
+Invites, friends coming online and games starting, while you're away.	Convites, amigos que ficam online e partidas a começar, enquanto estás ausente.
+{name} starts in a few minutes: get ready!	{name} começa dentro de poucos minutos: prepara-te!
+{name} starts in a few minutes: there is still room.	{name} começa dentro de poucos minutos: ainda há vagas.
+{name} has started!	{name} começou!
+Momentum	Domínio
+Shot map	Mapa de jogadas
+No shots yet.	Ainda não há jogadas.
+made	metida
+missed	falhada
+foul	falta
+See the tournaments	Ver os torneios
+Open the shop	Abrir a loja
+See VIP	Ver o VIP
+See the missions	Ver as missões
+A new version of the game is out: update to play online.	Saiu uma nova versão do jogo: atualiza para jogar online.
+Update in the Microsoft Store	Atualizar na Microsoft Store
+Update now	Atualizar agora
+Download the new version	Transferir a nova versão
+New version out	Nova versão disponível
+Get the new version to play online	Obtém a nova versão para jogar online
+Cheer for {name}	Apoiar {name}
+Crowd: {a} for {p0}, {b} for {p1}	Público: {a} por {p0}, {b} por {p1}
+welcome pack	pacote de boas-vindas
+Welcome pack	Pacote de boas-vindas
+Cue “{cue}”, cloth “{cloth}” and {n} coins · only once, sold nowhere else	Taco “{cue}”, pano “{cloth}” e {n} moedas · só uma vez, não se vende em mais lado nenhum
+Lagoon	Lagoa
+You already have the welcome pack.	Já tens o pacote de boas-vindas.
+Your welcome pack is here!	O teu pacote de boas-vindas chegou!
+Previous shot (←)	Jogada anterior (←)
+Next shot (→)	Jogada seguinte (→)
+Play (Space)	Reproduzir (Espaço)
+Pause (Space)	Pausa (Espaço)
+Speed	Velocidade
+Shot {n} of {total}	Jogada {n} de {total}
+For VIP members	Para membros VIP
+{n} reactions of your own to send during games	{n} reações só tuas para enviar durante as partidas
+Items {a}–{b} of {n}	Artigos {a}–{b} de {n}
+(message deleted by its author)	(mensagem apagada pelo autor)
+(message deleted by an administrator)	(mensagem apagada por um administrador)
+Delete (it shows as deleted)	Apagar (aparece como apagada)
+Remove without a trace	Remover sem deixar rasto
+The chat was cleared by {name}.	O chat foi limpo por {name}.
+Click again to clear	Clica outra vez para limpar
+Clear the chat	Limpar o chat
+Players' chat (administrator)	Chat dos jogadores (administrador)
+Play the computer while you wait	Jogar contra o computador enquanto esperas
+Looking for an opponent… {t} · the game starts as soon as one is found	À procura de adversário… {t} · a partida começa assim que for encontrado
+Stop	Parar
+# Coin packs and months of VIP bought in the Microsoft Store (the Store build).
+The Microsoft Store couldn't complete the purchase.	A Microsoft Store não conseguiu concluir a compra.
+The Microsoft Store couldn't confirm the purchase right now. Its coins arrive the next time you open the shop.	A Microsoft Store não conseguiu confirmar a compra neste momento. As moedas chegam da próxima vez que abrires a loja.
+{n} coins added to your wallet.	{n} moedas adicionadas à tua carteira.
+Microsoft is confirming your purchase: the coins arrive in a moment.	A Microsoft está a confirmar a tua compra: as moedas chegam daqui a pouco.
+The purchase hasn't reached us yet. Its coins arrive the next time you open the shop.	A compra ainda não nos chegou. As moedas chegam da próxima vez que abrires a loja.
+Loading prices from the Microsoft Store…	A carregar os preços da Microsoft Store…
+Coins can't be bought in this version yet.	Ainda não é possível comprar moedas nesta versão.
+Finish the purchase in the Microsoft Store window…	Conclui a compra na janela da Microsoft Store…
+Confirming your purchase…	A confirmar a tua compra…
+Paid in the Microsoft Store, with your Microsoft account.	Pago na Microsoft Store, com a tua conta Microsoft.
+The Microsoft Store can't be reached right now. Try again in a moment.	Não é possível contactar a Microsoft Store neste momento. Tenta novamente daqui a pouco.
+The Microsoft Store could not confirm the purchase.	A Microsoft Store não conseguiu confirmar a compra.
+Sign in to the Microsoft Store with your Microsoft account, then open the shop again.	Inicia sessão na Microsoft Store com a tua conta Microsoft e volta a abrir a loja.
+The Microsoft Store couldn't confirm the purchase right now. Your VIP month starts the next time you open the shop.	A Microsoft Store não conseguiu confirmar a compra neste momento. O teu mês de VIP começa da próxima vez que abrires a loja.
+You are VIP until {d}, and {n} coins were added to your wallet.	És VIP até {d}, e foram adicionadas {n} moedas à tua carteira.
+Microsoft is confirming your purchase: your VIP month starts in a moment.	A Microsoft está a confirmar a tua compra: o teu mês de VIP começa daqui a pouco.
+The purchase hasn't reached us yet. Your VIP month starts the next time you open the shop.	A compra ainda não nos chegou. O teu mês de VIP começa da próxima vez que abrires a loja.
+A month at a time: nothing renews by itself	Um mês de cada vez: nada se renova sozinho
+Add a month · {p}	Mais um mês · {p}
+A month of VIP · {p}	Um mês de VIP · {p}
+The new month starts when this one ends.	O novo mês começa quando este acabar.
+Trophies	Troféus
+No trophies yet.	Ainda não tens troféus.
+Tournament won · {n} players	Torneio ganho · {n} jogadores
+The computer tour	O circuito contra o computador
+All fifteen opponents beaten	Os quinze adversários vencidos
+Daily challenge	Desafio do dia
+First of {n} players	Primeiro entre {n} jogadores
+Easy shot	Jogada fácil
+Fair shot	Jogada média
+Hard shot	Jogada difícil
+Very hard shot	Jogada muito difícil
+~{n}% chance	~{n}% de probabilidade
+No ball goes down as aimed	Nenhuma bola entra assim
+straight in	direta
+{n}° cut	corte de {n}°
+off one cushion	com uma tabela
+off {n} cushions	com {n} tabelas
+Make as many balls as you can in one visit: a miss or a foul ends the attempt.	Mete o máximo de bolas que conseguires numa só vez: uma falha ou uma falta termina a tentativa.
+The same table for everyone, all day	A mesma mesa para todos, durante todo o dia
+{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	{n} tentativas por dia. Limpa a mesa e ganha {coins} moedas; o vencedor do dia recebe um troféu.
+A new table in {h} h {m} min	Nova mesa dentro de {h} h {m} min
+Sign in to take part: the server keeps the day's table.	Inicia sessão para participar: o servidor guarda a classificação do dia.
+Balls on today's table	Bolas na mesa de hoje
+Attempts left	Tentativas restantes
+{n} balls · #{rank}	{n} bolas · {rank}.º
+{n} balls	{n} bolas
+not yet	ainda não
+Your best today	O teu melhor hoje
+No attempts left today: come back tomorrow.	Já não tens tentativas hoje: volta amanhã.
+The attempt could not be counted.	Não foi possível contar a tentativa.
+Setting up the table…	A preparar a mesa…
+Start an attempt	Começar uma tentativa
+Starting uses an attempt, even if you leave the table.	Começar gasta uma tentativa, mesmo que saias da mesa.
+Loading today's table…	A carregar a mesa de hoje…
+Today's table	Classificação de hoje
+{n} players	{n} jogadores
+Nobody has played today's table yet. Be the first!	Ainda ninguém jogou a mesa de hoje. Sê o primeiro!
+Table cleared!	Mesa limpa!
+{n} of {total} balls	{n} de {total} bolas
+Sending your attempt to the server…	A enviar a tua tentativa para o servidor…
+Counted: {n} balls · +{coins} coins	Contabilizado: {n} bolas · +{coins} moedas
+Counted: {n} balls	Contabilizado: {n} bolas
+See today's table	Ver a classificação de hoje
+Table cleared! +{n} coins	Mesa limpa! +{n} moedas
+Daily challenge: {n} of {total} balls made	Desafio do dia: {n} de {total} bolas metidas
+1 player	1 jogador
+Phoenix	Fénix
+Carrara marble	Mármore de Carrara
+Dragon scale	Escama de dragão
+Galaxy	Galáxia
+Ruby throne	Trono de rubi
+Closing the game now is leaving it: extra rating lost and a wait to play again.	Fechar o jogo agora é abandonar a partida: perdes rating extra e tens de esperar para voltar a jogar.
+You left a game in progress: you can play online again in {n} min.	Abandonaste uma partida a decorrer: podes voltar a jogar online dentro de {n} min.
+Quick phrases	Frases rápidas
+Good luck, have fun!	Boa sorte, diverte-te!
+Nice shot!	Boa jogada!
+Great safety!	Grande defesa!
+Unlucky!	Que azar!
+Oops!	Ups!
+Wow!	Uau!
+That was close!	Foi por pouco!
+Take your time.	Pensa com calma.
+Sorry!	Desculpa!
+Thanks!	Obrigado!
+Well played!	Bem jogado!
+Good game!	Boa partida!
+Rematch?	Desforra?
+I have to go, thanks for the game!	Tenho de ir, obrigado pela partida!
+Practise while you wait	Treinar enquanto esperas
+A new rack.	Novo triângulo.
+Level {n}! (+{xp} XP)	Nível {n}! (+{xp} XP)
++{xp} XP	+{xp} XP
+Level {n} · {into} / {span} XP to the next	Nível {n} · {into} / {span} XP para o seguinte
+Level {n}	Nível {n}
+Hi! I watched a lot of videos, I'm ready!	Olá! Vi imensos vídeos, estou pronto!
+Be gentle, okay?	Vai com calma, ok?
+Whoa, how did you do that?	Uau, como é que fizeste isso?
+Teach me that one later!	Depois ensinas-me essa!
+Phew! My turn!	Ufa! A minha vez!
+Even you miss? Good to know.	Até tu falhas? É bom saber.
+A free ball! What do I do with it?	Uma bola de borla! O que é que eu faço com ela?
+Did you see that?! It went in!	Viste aquilo?! Entrou!
+Beginner's luck counts too!	A sorte de principiante também conta!
+Oops. That was a practice shot.	Ups. Aquela foi de treino.
+Aim, Leo, aim...	Aponta, Leo, aponta...
+Sorry! I touched the wrong one again.	Desculpa! Toquei na errada outra vez.
+I WON? I'm calling my mum!	GANHEI? Vou ligar à minha mãe!
+Good game! I'm getting better, right?	Boa partida! Estou a melhorar, não estou?
+Saturday, a table and good company. Let's play!	Sábado, uma mesa e boa companhia. Vamos a isso!
+Nice one!	Boa!
+Oh, you're good. I'll pay attention now.	Olha, és bom. Agora vou prestar atenção.
+Happens to the best of us.	Acontece aos melhores.
+Don't worry, it's just a game!	Não te preocupes, é só um jogo!
+Thanks for the gift!	Obrigada pelo presente!
+Yes! Weekend skills!	Isso! Talento de fim de semana!
+Lucky me!	Que sorte a minha!
+Hm, where was I aiming?	Hum, para onde é que eu estava a apontar?
+Too much chatting, not enough aiming.	Muita conversa, pouca pontaria.
+Oops, my bad!	Ups, culpa minha!
+That was fun! Same time next weekend?	Foi divertido! À mesma hora no próximo fim de semana?
+Well played! Rematch over a lemonade?	Bem jogado! Desforra com uma limonada?
+Four cushions, endless possibilities.	Quatro tabelas, possibilidades infinitas.
+Straight in? So... direct.	Direta ao buraco? Que... direto.
+Nice, but a bank would have been prettier.	Boa, mas de tabela teria sido mais bonito.
+You should have used the cushion.	Devias ter usado a tabela.
+The rail was right there, asking for it.	A tabela estava mesmo ali, a pedi-las.
+The table didn't like that.	A mesa não gostou disso.
+Off the rail and in. Art!	Na tabela e para dentro. Arte!
+Geometry never lies.	A geometria nunca mente.
+The angle was right. The cushion disagreed.	O ângulo estava certo. A tabela discordou.
+One diamond off. Just one!	Falhei por um diamante. Só um!
+Too much imagination, not enough contact.	Demasiada imaginação, pouco contacto.
+A masterpiece, if I may say so.	Uma obra-prima, se me permites.
+Well played. Now try it off two rails.	Bem jogado. Agora experimenta com duas tabelas.
+I hope these balls are made of steel.	Espero que estas bolas sejam de aço.
+Soft touch, huh? Not my style.	Toque suave, hã? Não é o meu estilo.
+Hit it harder next time!	Bate com mais força da próxima vez!
+Too gentle! Power solves everything.	Demasiado fraco! A força resolve tudo.
+HA!	HA!
+My table now. Cover your ears.	Agora a mesa é minha. Tapa os ouvidos.
+BOOM!	BUM!
+Did you hear that pocket?	Ouviste aquele buraco?
+Too much power? No such thing.	Força a mais? Isso não existe.
+The pocket moved.	O buraco mudou de sítio.
+The ball flew. It happens. A lot.	A bola voou. Acontece. Muitas vezes.
+Power wins again! BOOM!	A força ganha outra vez! BUM!
+Fine, finesse works too. Sometimes.	Pronto, a finura também funciona. Às vezes.
+Take your time. I have all day.	Pensa com calma. Tenho o dia todo.
+Acceptable.	Aceitável.
+Enjoy it while it lasts.	Aproveita enquanto dura.
+Patience is a virtue. Not yours, apparently.	A paciência é uma virtude. Não a tua, pelos vistos.
+Thank you.	Obrigada.
+Sloppy.	Desleixado.
+Steady wins.	A constância ganha.
+One at a time.	Uma de cada vez.
+Hm. I'll leave you nothing anyway.	Hum. Mesmo assim, não te vou deixar nada.
+Intentional. Probably.	Foi de propósito. Provavelmente.
+Unacceptable. Of me.	Inaceitável. Da minha parte.
+As I said: patience.	Como eu disse: paciência.
+You got through the wall. I'm impressed.	Passaste a muralha. Estou impressionada.
+I've been playing since before these balls were plastic.	Jogo desde antes de estas bolas serem de plástico.
+Good stroke. Reminds me of a fellow in '78.	Boa pancada. Lembra-me um rapaz em 78.
+Smooth. Very smooth.	Suave. Muito suave.
+Keep your head down, kid.	Cabeça baixa, miúdo.
+The cue ball doesn't lie.	A bola branca não mente.
+Ah, a little present. Thank you kindly.	Ah, um presentinho. Muito obrigado.
+Like riding a bicycle.	É como andar de bicicleta.
+Still got it.	Ainda tenho jeito.
+The eyes aren't what they used to be.	Os olhos já não são o que eram.
+In my day the pockets were bigger.	No meu tempo os buracos eram maiores.
+Even old pros slip.	Até os velhos profissionais escorregam.
+Experience, my friend. Experience.	Experiência, meu amigo. Experiência.
+You've got a future in this game.	Tens futuro neste jogo.
+Me? Oh, I hardly ever play...	Eu? Ah, quase nunca jogo...
+Lucky! Do it again, I dare you.	Sorte! Faz outra vez, se és capaz.
+Ooh, someone's been practising.	Ui, alguém tem andado a treinar.
+Aw, so close! Bless.	Ah, quase! Que querido.
+Want me to show you how?	Queres que te mostre como é?
+Thank you, sweetie.	Obrigada, querido.
+Oops, did I do that?	Ups, fui eu que fiz isso?
+Must be beginner's luck. Again.	Deve ser sorte de principiante. Outra vez.
+Missed on purpose. Keeps it interesting.	Falhei de propósito. Fica mais interessante.
+Just warming up.	Estou só a aquecer.
+Oh dear, how clumsy of me. Wink.	Ai, que desastrada que eu sou. Piscadela.
+Hardly ever play, I said. Hardly.	Quase nunca jogo, eu disse. Quase.
+Fine, you got me. This time.	Pronto, apanhaste-me. Desta vez.
+Friction, momentum, spin. Let us begin.	Atrito, momento, efeito. Comecemos.
+A fine cut. About thirty degrees, I'd say.	Um belo corte. Uns trinta graus, diria eu.
+Textbook.	De manual.
+You underestimated the throw.	Subestimaste o desvio.
+Interesting. Statistically expected.	Interessante. Estatisticamente esperado.
+The cue ball followed the laws of physics, not your plan.	A bola branca seguiu as leis da física, não o teu plano.
+As calculated.	Conforme calculado.
+Elastic collision, elegant result.	Colisão elástica, resultado elegante.
+An error in my measurement.	Um erro na minha medição.
+I'll revise the model.	Vou rever o modelo.
+Hm. Unexpected spin.	Hum. Efeito inesperado.
+The numbers were on my side.	Os números estavam do meu lado.
+A result outside my predictions. Well done.	Um resultado fora das minhas previsões. Muito bem.
+Focus.	Foco.
+Clean.	Limpo.
+Not bad.	Nada mal.
+Half a millimetre.	Meio milímetro.
+Breathe before you shoot.	Respira antes de jogar.
+Careless.	Descuido.
+Target down.	Alvo abatido.
+Centre pocket.	Mesmo ao centro do buraco.
+Hm. Recalibrating.	Hum. A recalibrar.
+That never happens.	Isso nunca acontece.
+Unacceptable.	Inaceitável.
+Precision wins.	A precisão ganha.
+Good shooting.	Boa pontaria.
+Welcome to my table. Enjoy the show.	Bem-vindo à minha mesa. Aprecia o espetáculo.
+Very good. You've done your homework.	Muito bem. Fizeste os trabalhos de casa.
+Applause for the challenger!	Aplausos para o desafiante!
+Pressure. It gets to everyone.	Pressão. Acontece a todos.
+Thank you for the table.	Obrigado pela mesa.
+A champion never refuses a gift.	Um campeão nunca recusa um presente.
+Naturally.	Naturalmente.
+That's how it's done.	É assim que se faz.
+Even champions give the crowd a chance.	Até os campeões dão uma oportunidade ao público.
+Leaving you something, out of courtesy.	Deixo-te qualquer coisa, por cortesia.
+A rare sight. Remember it.	Uma cena rara. Guarda-a na memória.
+The title stays with me. Good game.	O título fica comigo. Boa partida.
+Remarkable. You've earned my respect.	Notável. Ganhaste o meu respeito.
+Calibration complete. Good luck, human.	Calibração concluída. Boa sorte, humano.
+Shot registered: successful.	Jogada registada: sucesso.
+Probability of my victory: increasing.	Probabilidade da minha vitória: a aumentar.
+Foul detected. Processing penalty.	Falta detetada. A processar penalização.
+Executed as planned.	Executado conforme planeado.
+Error. Recalculating.	Erro. A recalcular.
+Malfunction. Please disregard.	Avaria. Por favor, ignorar.
+Game complete. Thank you for playing.	Partida concluída. Obrigado por jogar.
+Defeat acknowledged. Well played.	Derrota reconhecida. Bem jogado.
+Drills	Treinos
+Exercises with stars	Exercícios com estrelas
+{s} / {max} stars	{s} / {max} estrelas
+Stars at {a}, {b} and {c}	Estrelas com {a}, {b} e {c}
+Your best: {n} of {total}	O teu melhor: {n} de {total}
+Not tried yet.	Ainda não tentaste.
+Start the drill	Começar o treino
+Sign in to keep your stars in your account.	Inicia sessão para guardar as estrelas na tua conta.
+{n} of {total}	{n} de {total}
+{drill}: try {k} of {n} · {made} made	{drill}: tentativa {k} de {n} · {made} certas
+Made it! {n} of {total}	Conseguiste! {n} de {total}
+Missed.	Falhaste.
+Sending to the server…	A enviar para o servidor…
+Not signed in: this session is not ranked.	Sem sessão iniciada: esta sessão não conta para a classificação.
+Kept in your account.	Guardado na tua conta.
+The session could not be counted.	Não foi possível contar a sessão.
+Back to the drills	Voltar aos treinos
+Straight in	A direito
+A long straight pot into the corner. Five tries.	Uma bola direita e comprida para o buraco do canto. Cinco tentativas.
+The cut	O corte
+A half-ball cut into the corner. Five tries.	Um corte de meia bola para o buraco do canto. Cinco tentativas.
+Draw it back	Retrocesso
+Pot the ball and draw the cue ball back into the circle. Five tries.	Mete a bola e faz a bola branca recuar até ao círculo. Cinco tentativas.
+Follow through	Seguimento
+Pot the ball and leave the cue ball in the circle past it. Five tries.	Mete a bola e deixa a bola branca no círculo logo a seguir. Cinco tentativas.
+Bank shot	Tabela
+Off one cushion into the side pocket. Five tries.	Com uma tabela para o buraco do meio. Cinco tentativas.
+Snooker escape	Bola tapada
+Hit the 1 first: it hides behind other balls. Five tries.	Acerta primeiro na 1: está escondida atrás de outras bolas. Cinco tentativas.
+Ten in a row	Dez seguidas
+Ten different pots, one after another: a miss ends the session.	Dez bolas diferentes, umas atrás das outras: uma falha termina a sessão.
+The far corner	O canto do fundo
+A cut back up the table into the corner behind you. Five tries.	Um corte para trás, para o buraco do canto que está atrás de ti. Cinco tentativas.
+Long into the side	Ao meio, de longe
+From the far end of the table into the side pocket. Five tries.	Do fundo da mesa para o buraco do meio. Cinco tentativas.
+Cue ball on the cushion	Branca na tabela
+The cue ball touches the cushion: pot the ball into the corner all the same. Five tries.	A bola branca está encostada à tabela: mete a bola no canto na mesma. Cinco tentativas.
+The plant	Bolas encostadas
+The 2 touches the 1 and points at the pocket: hit the 2 and the 1 goes in. Five tries.	A 2 encosta na 1 e aponta para o buraco: acerta na 2 e a 1 entra. Cinco tentativas.
+The carom	Carambola
+The 2 is in the way: glance off it and send the 1 into the corner. Five tries.	A 2 está no caminho: raspa nela e manda a 1 para o canto. Cinco tentativas.
+The long draw	Retrocesso longo
+Pot the ball and draw the cue ball all the way back into the circle. Five tries.	Mete a bola e faz a bola branca recuar até lá atrás, ao círculo. Cinco tentativas.
+On the tangent line	Na tangente
+Pot the ball in the side and let the cue ball run on into the circle. Five tries.	Mete a bola no meio e deixa a bola branca seguir até ao círculo. Cinco tentativas.
+Two-cushion bank	Duas tabelas
+Off two cushions and into the corner. Five tries.	Com duas tabelas para o buraco do canto. Cinco tentativas.
+Fifteen in a row	Quinze seguidas
+Fifteen different pots, one after another: a miss ends the session.	Quinze bolas diferentes, umas atrás das outras: uma falha termina a sessão.
+Take back the shot (Z)	Anular a jogada (Z)
+Shot taken back.	Jogada anulada.
+Solids	Lisas
+Stripes	Riscadas
+Hide the history	Ocultar o histórico
+New username	Novo nome de utilizador
+Click again to confirm	Clica outra vez para confirmar
+{n} of {total} name changes left	{n} de {total} mudanças de nome restantes
+You can't change your username again.	Já não podes mudar o teu nome de utilizador.
+That is already your username.	Esse já é o teu nome de utilizador.
+Finish your game before changing your username.	Termina a tua partida antes de mudares o nome de utilizador.
+Leave your table or the queue before changing your username.	Sai da tua mesa ou da fila antes de mudares o nome de utilizador.
+Leave your tournament before changing your username.	Sai do teu torneio antes de mudares o nome de utilizador.
+Username changed.	Nome de utilizador alterado.
+The server is still being updated to the new version. Try again in a few minutes.	O servidor ainda está a ser atualizado para a nova versão. Tenta novamente daqui a uns minutos.
+{shooter} made an opponent's ball: {next} to shoot.	{shooter} meteu uma bola do adversário: vez de {next}.
+# Five more computer opponents: Tito, Inês, Diego, Amara and Yuri.
+The Gambler	O Apostador
+Bets on every shot: as hard as the cue allows, with all the spin he can find. Safe play bores him.	Aposta em todas as jogadas: com toda a força que o taco permite e todo o efeito que encontrar. Jogar à defesa aborrece-o.
+The Soft Touch	A Mão Leve
+Never hits harder than she must: the balls die at the pocket's edge and the cue ball stops where she wants it.	Nunca bate com mais força do que precisa: as bolas morrem à boca do buraco e a bola branca para onde ela quer.
+The Showman	O Showman
+Plays to the crowd: a raised cue, swerving spin and a bank whenever there's one. It works more often than it should.	Joga para o público: taco levantado, efeitos que fazem curva e tabela sempre que dá. Resulta mais vezes do que devia.
+The Tactician	A Estratega
+Plans the whole rack: snookers you when the pot isn't sure, and runs out when it is.	Planeia a mesa toda: deixa-te tapado quando a bola não é certa e limpa a mesa quando é.
+The Machine	A Máquina
+No nerves, no flair: centre ball, measured pace, the same perfect stroke every time.	Sem nervos, sem floreados: bola ao centro, força medida, a mesma pancada perfeita de todas as vezes.
+Place your bets! Mine's on me.	Façam as vossas apostas! A minha é em mim.
+Lucky roll. Let it ride!	Sorte nos dados. Deixa correr!
+Okay, okay. Double or nothing?	Pronto, pronto. Dobro ou nada?
+The house always wins!	A casa ganha sempre!
+Free chips! Thank you!	Fichas de borla! Obrigado!
+All in, and it paid!	Apostei tudo, e deu!
+That's how you play the odds!	É assim que se jogam as probabilidades!
+Bad beat. Next hand.	Azar. Próxima mão.
+Too much spin? There's no such thing.	Efeito a mais? Isso não existe.
+Busted. Worth the risk!	Rebentei. Valeu o risco!
+Jackpot! Same stakes again?	Jackpot! A mesma aposta outra vez?
+You beat the odds. Respect.	Contrariaste as probabilidades. Respeito.
+Softly, now. The table likes a gentle hand.	Com calma. A mesa gosta de uma mão leve.
+Nicely done.	Muito bem feito.
+A little hard, but it went in.	Um pouco forte, mas entrou.
+Less power, more feel.	Menos força, mais toque.
+Oh dear. A free ball for me.	Ai, ai. Uma bola de borla para mim.
+Just enough to drop.	Só o suficiente para cair.
+See? No need to hit it hard.	Vês? Não é preciso bater com força.
+A touch too soft.	Um bocadinho fraca demais.
+Clumsy of me. Sorry.	Que desastrada. Desculpa.
+Slow and steady. Thank you for the game.	Devagar se vai ao longe. Obrigada pelo jogo.
+Beautifully played. Well deserved.	Lindamente jogado. Bem merecido.
+Ladies and gentlemen... the show begins!	Senhoras e senhores... o espetáculo vai começar!
+Not bad! Bow to the crowd!	Nada mal! Faz uma vénia ao público!
+You stole my applause!	Roubaste-me os aplausos!
+The crowd wanted more!	O público queria mais!
+Ooh, a plot twist!	Uh, uma reviravolta!
+Ta-da!	Tcharan!
+And for my next trick...	E para o meu próximo truque...
+Even magicians have off nights.	Até os mágicos têm noites más.
+That was... part of the act.	Isso foi... parte do número.
+Thank you, thank you! Encore?	Obrigado, obrigado! Bis?
+Take a bow, champion. You earned it.	Faz uma vénia, campeão. Mereceste.
+Every rack is a puzzle. Let's solve this one.	Cada mesa é um quebra-cabeças. Vamos resolver este.
+Good. Now where is your cue ball?	Bom. E agora, onde ficou a tua bola branca?
+I saw that coming.	Já estava à espera dessa.
+That left me something. Thank you.	Isso deixou-me uma hipótese. Obrigada.
+As planned.	Como planeado.
+Exactly as I calculated.	Exatamente como calculei.
+Three moves ahead.	Três jogadas à frente.
+A variable I missed.	Uma variável que me escapou.
+Hm. Recalculating.	Hm. A recalcular.
+Checkmate.	Xeque-mate.
+You out-thought me. That's rare.	Pensaste melhor do que eu. Isso é raro.
+Game initialised.	Partida iniciada.
+Noted.	Registado.
+Error margin exceeded.	Margem de erro excedida.
+Penalty applied.	Penalização aplicada.
+As expected.	Como esperado.
+Next.	Próxima.
+Deviation logged.	Desvio registado.
+Malfunction. It will not repeat.	Avaria. Não se vai repetir.
+Result: win. Thank you for the data.	Resultado: vitória. Obrigado pelos dados.
+Unexpected outcome. Impressive.	Resultado inesperado. Impressionante.
+Opponents' remarks	Comentários dos adversários
+The computer opponents comment on the game in speech bubbles.	Os adversários do computador comentam o jogo em balões de fala.
+Top view only	Só vista de cima
+The table is always seen from above: no 3D view, no turning.	A mesa é sempre vista de cima: sem vista 3D, sem rodar.
+Not with the top view only.	Não com a vista só de cima.
+Wheel	Roda do rato
+Rules	Regras
+Rules of the game	Regras do jogo
+Level	Nivelar
+Drag the cue: jump & massé	Arrasta o taco: salto e massé
+Drag to raise or lower the cue	Arrasta para levantar ou baixar o taco
+Drag the cue · {keys}	Arrasta o taco · {keys}
+Profile picture	Foto de perfil
+Shown by your name at the table and in your profile.	Aparece junto ao teu nome na mesa e no teu perfil.
+No picture	Sem foto
+Change your picture	Mudar a tua foto
+{name} sank the 8 together with another ball	{name} meteu a 8 juntamente com outra bola
+the opponent sank the 8 with another ball	o adversário meteu a 8 juntamente com outra bola
+sank the 8 with another ball	meteu a 8 juntamente com outra bola
+opponent pocketed the 8-ball together with another ball	o adversário meteu a bola 8 juntamente com outra bola
+Penalty: {balls} off the table for {name}.	Penalização: {balls} fora da mesa a favor de {name}.
+{name} had fewer balls left than the foul gives: the 8 pays the rest, and the foul loses the game.	{name} tinha menos bolas do que a falta dá: a 8 paga o resto, e a falta perde a partida.
+Shadows	Sombras
+The shadows of the balls and of the cue on the table.	As sombras das bolas e do taco na mesa.
+Sixteen players: knockout or arena	Dezasseis jogadores: eliminatórias ou arena
+New knockout	Novas eliminatórias
+New arena	Nova arena
+Knockout: sixteen players, four rounds. Lose a game and you are out.	Eliminatórias: dezasseis jogadores, quatro rondas. Quem perde uma partida está fora.
+Arena: seven rounds for everyone. A win is 2 points, 3 from the third win in a row. The most points wins.	Arena: sete rondas para todos. Uma vitória vale 2 pontos, 3 a partir da terceira seguida. Ganha quem somar mais pontos.
+The games between the other players are decided by their strength and a draw.	As partidas entre os outros jogadores são decididas pela força de cada um e por sorteio.
+You won the tournament!	Ganhaste o torneio!
+{name} won the tournament.	{name} ganhou o torneio.
+You finished in place {n}.	Terminaste em {n}.º lugar.
+Round of 16	Oitavos de final
+Quarter-finals	Quartos de final
+Round {n} of {total}	Ronda {n} de {total}
+Play {name}	Jogar contra {name}
+Abandon the tournament	Abandonar o torneio
+W - L	V - D
+Points	Pontos
+The tournament is over.	O torneio terminou.
+The round is over: see who you play next.	A ronda terminou: vê contra quem jogas a seguir.
+You are out of the tournament.	Estás fora do torneio.
+Side pocket	Buraco do meio
+A cut into the side pocket, where the angle is tight. Five tries.	Um corte para o buraco do meio, onde o ângulo é apertado. Cinco tentativas.
+The long cut	Corte longo
+A cut from the far end of the table into the corner. Five tries.	Um corte do fundo da mesa para o buraco do canto. Cinco tentativas.
+Thin cut	Corte fino
+Barely graze the ball: a thin cut into the corner. Five tries.	Mal toca na bola: um corte fino para o buraco do canto. Cinco tentativas.
+Along the cushion	Rente à tabela
+The ball sits by the cushion: run it along into the corner. Five tries.	A bola está junto à tabela: leva-a rente até ao buraco do canto. Cinco tentativas.
+Stop shot	Bola parada
+Pot the ball and stop the cue ball dead where the ball was. Five tries.	Mete a bola e para a bola branca no sítio onde estava a bola. Cinco tentativas.
+The combination	A combinação
+Pot the 1 by playing the 2 into it. Five tries.	Mete a 1 jogando a 2 contra ela. Cinco tentativas.
+Cross-corner bank	Tabela cruzada
+Off the long cushion and across the table into the corner. Five tries.	Na tabela comprida e a atravessar a mesa até ao buraco do canto. Cinco tentativas.
+Kick shot	Tabela da branca
+The 1 is walled off: send the cue ball off a cushion to hit it first. Five tries.	A 1 está tapada: manda a bola branca a uma tabela para lhe acertar primeiro. Cinco tentativas.
+Only the cue ball went down on the break: the balls are racked again and {next} breaks.	Só a bola branca entrou na abertura: as bolas voltam ao triângulo e {next} faz a abertura.
+Golden break	Abertura de ouro
+Win a rated game by sinking only the 8-ball on the break.	Vence uma partida com rating ao meter só a bola 8 na abertura.
+Half a year	Meio ano
+Have an account for six months.	Tem uma conta há seis meses.
+First anniversary	Primeiro aniversário
+Second anniversary	Segundo aniversário
+Have an account for two years.	Tem uma conta há dois anos.
+Third anniversary	Terceiro aniversário
+Have an account for three years.	Tem uma conta há três anos.
+Five years at the table	Cinco anos de mesa
+Have an account for five years.	Tem uma conta há cinco anos.
+Back to the tournament	Voltar ao torneio
+Continue against {name}	Continuar contra {name}
+You left your game: it counts as a loss.	Saíste da partida: conta como derrota.
+new level	novo nível
+Level {n} brings: {item}	O nível {n} traz: {item}
+Level 5	Nível 5
+Reach level 5.	Chega ao nível 5.
+Level 10	Nível 10
+Reach level 10.	Chega ao nível 10.
+Level 15	Nível 15
+Reach level 15.	Chega ao nível 15.
+Level 20	Nível 20
+Reach level 20.	Chega ao nível 20.
+Level 30	Nível 30
+Reach level 30.	Chega ao nível 30.
+Level 40	Nível 40
+Reach level 40.	Chega ao nível 40.
+Level 50	Nível 50
+Reach level 50.	Chega ao nível 50.
+Regular's teal	Verde-azulado do habitual
+Veteran's plum	Ameixa do veterano
+Old hand	Raposa velha
+Lifer	Para a vida
+Apprentice's chalk	Giz do aprendiz
+Journeyman's chalk	Giz do oficial
+Achievements	Conquistas
+Leagues and levels	Ligas e níveis
+Next league: {tier}	Próxima liga: {tier}
+The top league.	A liga mais alta.
+Every prize of the levels is won.	Todos os prémios dos níveis foram ganhos.
+None yet: the first is one game away.	Ainda nenhum: o primeiro está a uma partida de distância.
+{coins} and {item}	{coins} e {item}
+Leagues	Ligas
+Levels	Níveis
+By playing. Every level pays {n} coins.	A jogar. Cada nível dá {n} moedas.
+where everyone starts	onde todos começam
+from {n}	a partir de {n}
+The top level.	O nível máximo.
+{n} XP to level {next}	{n} XP para o nível {next}
+{n} levels to go	faltam {n} níveis
+new league	nova liga
+Old-timer's black	Preto do decano
+Expert league blue	Azul da liga Perito
+Master league violet	Violeta da liga Mestre
+Legend league gold	Dourado da liga Lenda
+Skilled league chalk	Giz da liga Habilidoso
+By rating. Each league pays once.	Pelo rating. Cada liga paga uma vez.
+cue	taco
+cloth	pano
+chalk	giz
+Always show the head string	Mostrar sempre a linha de cabeceira
+The line the break is played from, always on the table (off: only while placing the cue ball behind it).	A linha de onde se faz a abertura, sempre na mesa (desligado: só ao colocar a bola branca atrás dela).
+{who} ran out of time: the turn passes.	O tempo de {who} acabou: a vez passa.
+{who} ran out of time with no ball left to give {other}: the 8 pays, and {who} loses.	O tempo de {who} acabou e {other} já não tinha bolas para receber: a 8 paga, e {who} perde.
+{who} ran out of time: the cue ball goes back to the head spot and the turn passes.	O tempo de {who} acabou: a bola branca volta ao ponto de cabeceira e a vez passa.
+{who} ran out of time: {balls} off the table for {other}, and the cue ball goes back to the head spot.	O tempo de {who} acabou: {balls} sai da mesa a favor de {other}, e a bola branca volta ao ponto de cabeceira.
+You were muted for {n} minutes: {r}	Foste silenciado durante {n} minutos: {r}
+Your account was suspended for {n} hours: {r}	A tua conta foi suspensa durante {n} horas: {r}
+The server restarts in {minutes} min for an update. Games in progress go on; new games start right after.	O servidor reinicia dentro de {minutes} min para uma atualização. As partidas a decorrer continuam; as novas começam logo a seguir.
+The {cup} was called off: not enough players signed up.	A {cup} foi cancelada: não houve inscritos suficientes.
+The {cup} is open for sign-up: it starts soon in Tournaments.	As inscrições para a {cup} estão abertas: começa em breve, em Torneios.
+{display} won the tournament “{name}”!	{display} ganhou o torneio “{name}”!
+Sunday Cup	Taça de Domingo
+Monday Cup	Taça de Segunda
+Tuesday Cup	Taça de Terça
+Wednesday Cup	Taça de Quarta
+Thursday Cup	Taça de Quinta
+Friday Cup	Taça de Sexta
+Saturday Cup	Taça de Sábado
+{name} · rating {r}	{name} · rating {r}
+Something went wrong. Try again.	Algo correu mal. Tenta novamente.
+member for 1 day	membro há 1 dia
+Game in progress: 1 ball left	Partida a decorrer: falta 1 bola
+1 level to go	falta 1 nível
+1 more online win with this cue for level {n}. Levels only add marks to the cue.	Mais 1 vitória online com este taco para o nível {n}. Os níveis só acrescentam marcas ao taco.
+Home	Home
+End	End
+PgUp	PgUp
+PgDn	PgDn
+Ins	Ins
+Could not join the LAN game	Não foi possível entrar na partida LAN
+LAN game · others join at {address}	Partida LAN · os outros entram em {address}
+Click to copy	Clica para copiar
+Copied.	Copiado.
+Start a new game?	Começar outra partida?
+You have a game in progress against the computer, with 1 ball left. A new game takes its place.	Tens uma partida a decorrer contra o computador, com 1 bola na mesa. Uma nova partida substitui-a.
+You have a game in progress against the computer, with {n} balls left. A new game takes its place.	Tens uma partida a decorrer contra o computador, com {n} bolas na mesa. Uma nova partida substitui-a.
+Continue that game	Continuar essa
+Start a new one	Começar outra
+Click again to close the game: {n} will be disconnected	Clica outra vez para fechar a partida: {n} jogador(es) vão ser desligados
+{name} cleared the table in one visit!	{name} limpou a mesa numa só vez!
+{name}: {n} in a row!	{name}: {n} seguidas!
+Watch the deciding shot again	Rever a jogada decisiva
+Next: {name}	A seguir: {name}
+Drag on the table to aim, or click a ball	Arrasta na mesa para apontar ou clica numa bola
+Set the power	Ajusta a força
+Let go of {key} to shoot · Esc cancels	Solta {key} para jogar · Esc cancela
+Staff accounts can't change their username.	As contas da equipa não podem mudar o nome de utilizador.
+That password can't be used. Choose another one.	Essa palavra-passe não pode ser usada. Escolhe outra.
+That tournament is full.	Esse torneio está cheio.
+The server is restarting: your tournament was called off.	O servidor está a reiniciar: o teu torneio foi cancelado.
+Too many sign-ins. Wait a minute and try again.	Demasiados inícios de sessão. Espera um minuto e tenta novamente.
+Too many wrong passwords. Try again in a few minutes.	Demasiadas palavras-passe erradas. Tenta novamente daqui a uns minutos.
+Your VIP subscription could not be cancelled. Try again in a moment.	Não foi possível cancelar a tua subscrição VIP. Tenta novamente daqui a pouco.
+Balls of both groups on the break: the turn passes to {next}, the table is open.	Bolas dos dois grupos na abertura: a vez passa para {next}, a mesa está aberta.
+Only a final started while signed in counts: play the last stage again signed in.	Só conta uma final começada com sessão iniciada: joga de novo a última etapa com sessão iniciada.
+The server didn't deal the final: this game won't earn the reward.	O servidor não preparou a final: esta partida não dá direito à recompensa.
+The server didn't answer: this session won't be ranked.	O servidor não respondeu: esta sessão não conta para a classificação.
+The server is dealing the final…	O servidor está a preparar a final…
+The server is setting up the drill…	O servidor está a preparar o treino…
+Not signed in: a win in this final won't earn the reward.	Sem sessão iniciada: uma vitória nesta final não dá direito à recompensa.
+Not kept: sessions count when started signed in.	Não guardado: só conta se começares com a sessão iniciada.
+Warning from the staff: {text}	Aviso da equipa: {text}
+The staff changed your username to {name}. Sign in again.	A equipa mudou o teu nome de utilizador para {name}. Inicia sessão novamente.
+The staff called off the tournament you were in.	A equipa cancelou o torneio em que estavas.
+Experience ×{n}	Experiência ×{n}
+Coins from games ×{n}	Moedas das partidas ×{n}
+Themed tournament	Torneio temático
+Event	Evento
+Events	Eventos
+Warning from the staff	Aviso da equipa
+Esc to cancel	Esc para cancelar
+Will be sent when you're back online.	Será enviado quando voltares a estar online.
+Your strokes will be sent when you're back online.	As tuas jogadas serão enviadas quando voltares a estar online.
+The final you won was dealt to {name}: sign in as {name} to claim the reward.	A final que ganhaste foi preparada para {name}: inicia sessão como {name} para receberes a recompensa.
+Type your password to confirm it's you.	Escreve a tua palavra-passe para confirmar que és tu.
+The cue ball is back on the head spot: {next} plays from there.	A bola branca voltou ao ponto de cabeceira: {next} joga a partir daí.
+{name} came online	{name} ficou online
+Online now: {names}	Online agora: {names}
+Nobody else is online right now.	Não está mais ninguém online neste momento.
+Focus mode	Modo foco
+No invitations while you play: they are turned away until the game is over.	Sem convites enquanto jogas: são recusados até a partida terminar.
+in focus mode	em modo foco
+In focus mode: no invitations until their game is over.	Em modo foco: sem convites até a partida terminar.
+That player is in focus mode and isn't taking invitations until their game is over.	Esse jogador está em modo foco e não aceita convites até a partida dele terminar.
+Look at it closely	Ver de perto
+Sign in to buy	Inicia sessão para comprar
+Sign in to use	Inicia sessão para usar
+Back to the shop (Esc)	Voltar à loja (Esc)
+Show the interface (H)	Mostrar a interface (H)
+Hide the interface (H)	Ocultar a interface (H)
+Turn (Space)	Rodar (Espaço)
+Stop turning (Space)	Parar de rodar (Espaço)
+Zoom in (+)	Aproximar (+)
+Zoom out (−)	Afastar (−)
+Back to the start (R)	Voltar ao início (R)
+Previous setting ([)	Cenário anterior ([)
+Next setting (])	Cenário seguinte (])
+Setting	Cenário
+Studio	Estúdio
+Your table	Na tua mesa
+Drag with the right button to turn · wheel to zoom · double-click to look closer	Arrasta com o botão direito para rodar · roda para aproximar · duplo clique para ver de perto
+Drag with the right button to turn · wheel to zoom · click a ball to look at it	Arrasta com o botão direito para rodar · roda para aproximar · clica numa bola para a veres
+The set	O conjunto
+From above	De cima
+Low angle	Rasante
+Cue ball	Bola branca
+Ball {n}	Bola {n}
+Whole	Inteiro
+Tip	Ponta
+Joint	Junção
+Butt	Cabo
+Top	Topo
+Cue	Taco
+Table	Mesa
+Hall	Salão
+Corner	Buraco de canto
+Side	Buraco do meio
+Leg	Pé
+Close-up	De perto
+Cushion	Tabela
+Phenolic resin under a bright clear coat	Resina fenólica sob um verniz brilhante
+A pearly sheen that shifts with the light	Um brilho perolado que muda com a luz
+Brushed metal, bright as a mirror	Metal escovado, brilhante como um espelho
+Old ivory: soft, warm and matte	Marfim antigo: suave, quente e mate
+A full-size cue, tip to butt: turn it, come close to its joint and its butt	Um taco em tamanho real, da ponta ao cabo: roda-o, aproxima-te da junção e do cabo
+A cube of chalk, and the colour it leaves on the tip	Um cubo de giz, e a cor que deixa na ponta
+The cloth on the table: come close to see its weave	O pano na mesa: aproxima-te para veres a trama
+Dark mahogany, turned legs and brass castings	Mogno escuro, pés torneados e ferragens de latão
+Light teak, square legs and chrome castings	Teca clara, pés quadrados e ferragens cromadas
+Deep mahogany, carved legs and leather pocket nets	Mogno profundo, pés entalhados e redes de couro nos buracos
+Black lacquer and brushed aluminium on two slab legs	Laca preta e alumínio escovado sobre dois pés de placa
+Black ebony with gold castings and inlays	Ébano preto com ferragens e embutidos de ouro
+Reclaimed oak rails on a riveted black steel frame	Bordas de carvalho recuperado sobre uma estrutura de aço preto rebitado
+A pro tournament table: charcoal rails, block legs, chrome	Uma mesa de torneio profissional: bordas antracite, pés em bloco, cromados
+Figured walnut on barley-twist legs, brass and leather	Nogueira figurada sobre pés torneados em espiral, latão e couro
+Ivory lacquer and gold on fluted columns	Laca marfim e ouro sobre colunas caneladas
+Panelling, the bar, cue racks, posters and neon	Lambrim, o balcão, suportes de tacos, cartazes e néon
+A deck at sunset, open windows, palms and string lights	Um deque ao pôr do sol, janelas abertas, palmeiras e grinaldas de luzes
+Panelling, bookshelves, leather sofas and a fireplace	Lambrim, estantes de livros, sofás de couro e uma lareira
+Brick, steel windows over the city and Edison bulbs	Tijolo, janelas de aço sobre a cidade e lâmpadas Edison
+Log walls, a stone fireplace and snowy peaks outside	Paredes de troncos, uma lareira de pedra e picos nevados lá fora
+A black mirror floor, neon tubes and arcade cabinets	Um chão preto espelhado, tubos de néon e máquinas de arcada
+A marble chessboard floor, gold, velvet and mirrors	Um chão de mármore em xadrez, ouro, veludo e espelhos
+Glass walls on the city at night, pale marble and oak	Paredes de vidro sobre a cidade à noite, mármore claro e carvalho
+A gold medal!	Uma medalha de ouro!
+A silver medal!	Uma medalha de prata!
+A bronze medal!	Uma medalha de bronze!
+Silver medal	Medalha de prata
+Bronze medal	Medalha de bronze
+Your medals	As tuas medalhas
+Kept in your account the next time you're online.	Ficam na tua conta da próxima vez que estiveres online.
+Sign in to keep them in your account.	Inicia sessão para as guardares na tua conta.
+18 or older	18 anos ou mais
+Under 18	Menos de 18 anos
+Creating an account means accepting the	Ao criar uma conta, aceitas os
+For a parent or guardian…	Para o encarregado de educação…
+A parent or guardian turned the chat on for this account. They can turn it off here at any time.	Um encarregado de educação ligou o chat desta conta. Pode desligá-lo aqui a qualquer momento.
+This account belongs to someone under 18. By law, the chat with other players (messages in the lounge and in games, notes, status and gift messages) stays off until their mother, father or legal guardian turns it on.	Esta conta pertence a alguém com menos de 18 anos. Por lei, o chat com outros jogadores (mensagens no salão e nas partidas, recados, mensagens de estado e de presentes) fica desligado até que a mãe, o pai ou o tutor legal o ligue.
+I am this player's mother, father or legal guardian, I have read the terms of use and I allow them to chat with other players.	Sou a mãe, o pai ou o tutor legal deste jogador, li os termos de utilização e autorizo-o a conversar com outros jogadores.
+Chat for players under 18	Chat para jogadores com menos de 18 anos
+Turn the chat off	Desligar o chat
+{n} more invitations	mais {n} convites
+Invitation	Convite
+Turn the chat on	Ligar o chat
+Chat off: under 18. A parent or guardian can turn it on.	Chat desligado: menor de 18 anos. Um encarregado de educação pode ligá-lo.
+The chat with other players is off until you turn it on.	O chat com outros jogadores está desligado até o ligares.
+Write to turn the chat on…	Escreve para ligar o chat…
+Chat with other players	Chat com outros jogadores
+The chat with other players is off until you turn it on. To turn it on, tell us your age group: it can't be changed from the game afterwards.	O chat com outros jogadores está desligado até o ligares. Para o ligares, indica a tua faixa etária: depois não pode ser alterada no jogo.
+Under 18: a parent or guardian must agree to the terms with you and turn the chat on.	Menos de 18 anos: um encarregado de educação tem de aceitar os termos contigo e ligar o chat.
+Not now	Agora não
+Terms of use	Termos de utilização
+Privacy policy	Política de privacidade
+You have 7 days to change your mind and get your money back.	Tens 7 dias para mudar de ideias e reaver o teu dinheiro.
+Under 18: buy only with a parent's or guardian's permission.	Menos de 18 anos: compra só com autorização de um encarregado de educação.
+Renews every month until you cancel. 7 days to change your mind.	Renova-se todos os meses até cancelares. 7 dias para mudar de ideias.
+About	Acerca de
+Accounts, purchases and refunds, the rules of the online game.	Contas, compras e reembolsos, as regras do jogo online.
+What the game keeps, and your rights.	O que o jogo guarda, e os teus direitos.
+Open	Abrir
+Credits	Créditos
+Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Tipos de letra: DejaVu e Noto (OFL). Bandeiras: flag-icons (MIT). Reações e emojis: Twemoji (CC-BY 4.0). Nomes dos países: iso-codes (LGPL-2.1). O código do jogo é aberto (MIT).
+The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	O chat está desligado para jogadores com menos de 18 anos. Um encarregado de educação pode ligá-lo por baixo do chat do salão.
+No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	Nenhuma bola foi tocada na abertura: {next} faz a abertura, com a bola branca na mão atrás da linha de cabeceira.
+The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	A bola branca entrou na abertura sem nenhuma bola metida: {next} faz a abertura, com a bola branca na mão atrás da linha de cabeceira.
+Users online	Utilizadores online
+ping {ms} ms	ping {ms} ms
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks, with the cue ball in hand behind the head string.	A bola branca entrou na abertura com bolas dos dois grupos: sem penalização, a mesa continua aberta e {next} faz a abertura, com a bola branca na mão atrás da linha de cabeceira.
+Brazilian	Brasileiras
+Official	Oficiais
+Brazilian rules	Regras brasileiras
+Official rules	Regras oficiais
+Brazilian rules (inside a sentence)	regras brasileiras
+Official rules (inside a sentence)	regras oficiais
+Brazilian (inside a sentence)	brasileiras
+Official (inside a sentence)	oficiais
+As played in Brazil's bars	Como nos bares do Brasil
+As played in tournaments (WPA)	Como nos torneios (WPA)
+on the Brazilian rules	com as regras brasileiras
+on the official rules	com as regras oficiais
+A ball left the table on the break.	Uma bola saiu da mesa na abertura.
+A ball off the table on the break	Bola fora da mesa na abertura
+A safety calls nothing: whatever goes in stays down, and the turn passes.	Uma defesa não canta nada: o que entrar não volta à mesa, e a vez passa.
+Break yourself	Fazer tu a abertura
+CALLED POCKET	BURACO CANTADO
+Choose	Escolher
+Choose how play goes on	Escolhe como continua o jogo
+Choose the rules of your games. You can switch them any time, in the main menu.	Escolhe as regras das tuas partidas. Podes mudá-las quando quiseres, no menu principal.
+Click a pocket on the table to call it; click it again to follow your aim.	Clica num buraco da mesa para o cantar; clica outra vez para seguir a tua mira.
+Cue ball in hand	Bola na mão
+Each of the rules has its own rating: these games don't change your {rating} under the {other}.	Cada conjunto de regras tem o seu rating: estas partidas não alteram o teu rating ({rating}) nas {other}.
+Find an opponent of your level automatically ({rules})	Encontra automaticamente um adversário do teu nível ({rules})
+How do you like to play?	Como gostas de jogar?
+How does play go on? Choose one:	Como continua o jogo? Escolhe uma opção:
+Illegal break: no ball made and fewer than four balls reached a cushion.	Abertura ilegal: nenhuma bola entrou e menos de quatro bolas chegaram a uma tabela.
+Invite {name}	Convidar {name}
+No ball went in the called pocket ({pocket}): {next} to shoot.	Nenhuma bola entrou no buraco cantado ({pocket}): vez de {next}.
+No pocket was called (a safety): {next} to shoot.	Nenhum buraco foi cantado (defesa): vez de {next}.
+Not sure what changes?	Não sabes o que muda?
+Place it anywhere behind the head string.	Coloca-a onde quiseres atrás da linha de cabeceira.
+Play on	Continuar a jogar
+Players against the computer under these rules	Jogadores contra o computador com estas regras
+Players online under these rules (the lounge and online games)	Jogadores online com estas regras (o salão e as partidas online)
+RULES OF YOUR GAMES	REGRAS DAS TUAS PARTIDAS
+Read both rules	Ler todas as regras
+Rules of your games	Regras das tuas partidas
+Safety	Defesa
+Safety: no pocket	Defesa: nenhum buraco
+Show the {rules}: the rank, the league and the chart	Mostrar o ranking das {rules}: a posição, a liga e o gráfico
+The 8 is spotted and you keep shooting.	A 8 volta à mesa e continuas a jogar.
+The 8 is spotted; the cue ball in hand behind the head string.	A 8 volta à mesa; bola branca na mão atrás da linha de cabeceira.
+The 8 on a break with a foul	A 8 numa abertura com falta
+The 8 on the break	A 8 na abertura
+The 8 went down on a break with a foul: it is spotted.	A 8 entrou numa abertura com falta: volta à mesa.
+The 8 went down on the break: it is spotted.	A 8 entrou na abertura: volta à mesa.
+The balls are racked again and you break.	As bolas voltam ao triângulo e fazes tu a abertura.
+The balls are racked again and {name} breaks.	As bolas voltam ao triângulo e {name} faz a abertura.
+The balls are racked again: {name} breaks.	As bolas voltam ao triângulo: {name} faz a abertura.
+The balls are racked again: {other} breaks.	As bolas voltam ao triângulo: {other} faz a abertura.
+The rules of this game: click to read them	As regras desta partida: clica para as leres
+The rules of your games: click to switch	As regras das tuas partidas: clica para mudar
+The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	O mesmo seletor do menu principal: online, contra o computador e dois jogadores. Cada conjunto de regras tem o seu rating.
+The table as it lies.	A mesa tal como está.
+The top 100 of each rules · rated games	Os 100 melhores de cada conjunto de regras · partidas com rating
+The {ball} lay behind the head string and the cue ball hit it without crossing the line first	A {ball} estava atrás da linha de cabeceira e a bola branca acertou-lhe sem atravessar primeiro a linha
+What changes between the rules: click to read them	O que muda entre as regras: clica para as leres
+With the cue ball in hand behind the head string.	Com a bola branca na mão atrás da linha de cabeceira.
+follows your aim	segue a tua mira
+no rated games yet	ainda sem partidas com rating
+open table: the called ball you make sets your group	mesa aberta: a bola cantada que meteres define o teu grupo
+peak {n} · {games} games	máximo {n} · {games} partidas
+playing now	a jogar agora
+your call	cantado por ti
+{name} breaks again	{name} faz de novo a abertura
+{name} chooses: play on, or rack the balls and break again.	{name} escolhe: continuar a jogar, ou pôr as bolas de novo no triângulo e fazer outra vez a abertura.
+{name} chooses: play the table as it lies, or take the cue ball in hand behind the head string.	{name} escolhe: jogar a mesa tal como está, ou ficar com a bola branca na mão atrás da linha de cabeceira.
+{name} chooses: play the table as it lies, rack the balls and break, or have {breaker} break again.	{name} escolhe: jogar a mesa tal como está, pôr as bolas no triângulo e fazer a abertura, ou mandar {breaker} fazer de novo a abertura.
+{name} chooses: play the table as it lies, take the cue ball in hand behind the head string, rack the balls and break, or have {breaker} break again.	{name} escolhe: jogar a mesa tal como está, ficar com a bola branca na mão atrás da linha de cabeceira, pôr as bolas no triângulo e fazer a abertura, ou mandar {breaker} fazer de novo a abertura.
+{name} chooses: the cue ball in hand behind the head string, or rack the balls and break.	{name} escolhe: bola branca na mão atrás da linha de cabeceira, ou pôr as bolas no triângulo e fazer a abertura.
+{name} is choosing how play goes on…	{name} está a escolher como continua o jogo…
+{name} plays on (the 8 is spotted).	{name} continua a jogar (a 8 volta à mesa).
+{name} plays the table as it lies.	{name} joga a mesa tal como está.
+{name} plays the {theirs} now; yours are the {mine}.	{name} joga agora com as {theirs}; as tuas são as {mine}.
+{name} takes the cue ball in hand.	{name} fica com a bola branca na mão.
+{next} has the cue ball in hand behind the head string.	{next} tem a bola branca na mão atrás da linha de cabeceira.
+{next} has the cue ball in hand: anywhere on the table.	{next} tem a bola branca na mão: em qualquer ponto da mesa.
+{n} points to {tier} ({rules})	{n} pontos para {tier} ({rules})
+{n} waiting	{n} à espera
+A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Uma falta dá ao adversário bolas do grupo dele. A bola branca só fica na mão na abertura, e só se canta o buraco da 8.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	Uma falta dá ao adversário bola na mão, em qualquer ponto da mesa. Todas as jogadas são cantadas, e a abertura tem de levar quatro bolas a uma tabela.
+A foul gives balls to the opponent	Uma falta dá bolas ao adversário
+Ball in hand on the break only	Bola na mão só na abertura
+Only the 8's pocket is called	Só se canta o buraco da 8
+The most played in Brazil	As mais jogadas no Brasil
+A foul gives ball in hand	Uma falta dá bola na mão
+The break drives four balls to a cushion	A abertura leva quatro bolas à tabela
+Every shot is called	Todas as jogadas são cantadas
+The same all over the world	As mesmas no mundo inteiro
+Game type	Tipo de partida
+called: {pocket}	cantado: {pocket}
+no call: a safety	sem cantar: defesa
+A safety: nothing called. Click again to call the pocket you aim at.	Defesa: nada cantado. Clica outra vez para cantar o buraco para onde apontas.
+A safety calls nothing: whatever goes in stays down, and the turn passes. To call another pocket, click it on the table.	Uma defesa não canta nada: o que entrar não volta à mesa, e a vez passa. Para cantar outro buraco, clica nele na mesa.
+{games} games · {pct}% won	{games} partidas · {pct}% ganhas
+Each of the rules has its own rating; the level, coins and achievements are shared.	Cada conjunto de regras tem o seu rating; o nível, as moedas e as conquistas são partilhados.
+You already have a VIP subscription: manage it with Manage subscription.	Já tens uma subscrição VIP: gere-a em Gerir subscrição.
+Your opponent can't start another game yet.	O teu adversário ainda não pode começar outra partida.
+A tournament's name is shown to everyone: with your chat off, you can join tournaments but not create one.	O nome de um torneio é visível para todos: com o chat desligado, podes entrar em torneios, mas não criá-los.
+The connection dropped: check your coins before trying again.	A ligação caiu: confirma as tuas moedas antes de tentares de novo.
+Sign in to buy coins.	Inicia sessão para comprar moedas.
+Sign in to become VIP.	Inicia sessão para te tornares VIP.
+how play goes on after the break is undecided	ainda não está decidido como continua o jogo depois da abertura
+Finish your game, and leave your table, the queue or your tournament first.	Termina primeiro a tua partida e sai da tua mesa, da fila ou do teu torneio.
+That choice can't be made now.	Essa escolha não pode ser feita agora.
+That medal can't be.	Essa medalha não existe.
+{name}'s tournament	Torneio de {name}
+When time runs out, it's a foul: your opponent gets a ball and the cue ball goes back to the head spot.	Quando o tempo acaba, é falta: o adversário recebe uma bola e a bola branca volta ao ponto de cabeceira.
+When time runs out, it's a foul: your opponent gets the cue ball in hand.	Quando o tempo acaba, é falta: o adversário fica com bola na mão.
+Your username was changed. Sign in again.	O teu nome de utilizador foi alterado. Inicia sessão novamente.
+You have your tournament game in progress. A new game takes its place, and the tournament game counts as lost.	Tens a tua partida do torneio a decorrer. Uma nova partida substitui-a, e a partida do torneio conta como derrota.
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks again, from the head spot.	A bola branca entrou na abertura com bolas dos dois grupos: sem penalização, a mesa continua aberta e {next} faz de novo a abertura, a partir do ponto de cabeceira.
+The cue ball went down on the break with no ball made: {next} breaks again, from the head spot.	A bola branca entrou na abertura sem nenhuma bola metida: {next} faz de novo a abertura, a partir do ponto de cabeceira.
+{who} ran out of time: {other} breaks, from the head spot.	O tempo de {who} acabou: {other} faz a abertura, a partir do ponto de cabeceira.
+Congratulations!	Parabéns!
+You earned a new item: {title}	Ganhaste um novo artigo: {title}
+You earned a new item!	Ganhaste um novo artigo!

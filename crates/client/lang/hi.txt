@@ -1,0 +1,2056 @@
+# Snook Legend: Brazilian Portuguese.
+# One text per line: the English text (as written in the code), a tab, the translation.
+# Placeholders like {name} must stay as they are; \n is a new line.
+{name} is on the 8: called pocket {pocket}	{name} 8 बॉल पर · कॉल किया गया पॉकेट: {pocket}
+On the 8-ball: {pocket} pocket	8 बॉल पर · पॉकेट: {pocket}
+Show ping	पिंग दिखाएँ
+Your connection's delay, in online games.	ऑनलाइन गेम में आपके कनेक्शन की देरी।
+Reactions	रिएक्शन
+Shop	शॉप
+Cloth	क्लॉथ
+Cues	क्यू
+Chalk	चॉक
+Balls	बॉल
+Coins	कॉइन
+coins	कॉइन
+Sign in to buy and use items. Here is what there is:	आइटम ख़रीदने और इस्तेमाल करने के लिए साइन इन करें। ये रहे आइटम:
+In use	इस्तेमाल में
+Use	इस्तेमाल करें
+Buy	ख़रीदें
+{n} short	{n} कम
+{n} coins	{n} कॉइन
+Not enough coins: get more in the Coins tab.	कॉइन कम हैं: कॉइन टैब में और पाएँ।
+VIP only	सिर्फ़ VIP
+free	मुफ़्त
+yours	आपका
+achievement	उपलब्धि
+Coins can't be bought on this server yet.	इस सर्वर पर अभी कॉइन नहीं ख़रीदे जा सकते।
++{n} bonus	+{n} बोनस
+Payment opens in your browser (card, Pix…), on Stripe's secure page.	पेमेंट आपके ब्राउज़र में Stripe के सुरक्षित पेज पर खुलेगा (कार्ड, Pix…)।
+Coins arrive in a moment; they are only used for items in the game.	कॉइन कुछ ही पलों में आ जाते हैं; ये सिर्फ़ गेम के आइटम के लिए हैं।
+Exclusive items: {list}	ख़ास आइटम: {list}
+{n} coins every month	हर महीने {n} कॉइन
+Cancel whenever you want: VIP lasts until the end of the paid month	जब चाहें रद्द करें: VIP चुकाए गए महीने के आख़िर तक चलता है
+You are VIP until {d}.	आप {d} तक VIP हैं।
+Manage subscription	सब्सक्रिप्शन मैनेज करें
+Become VIP · {p}	VIP बनें · {p}
+VIP can't be bought on this server yet.	इस सर्वर पर अभी VIP नहीं ख़रीदा जा सकता।
+The payment page opened in your browser.	पेमेंट पेज आपके ब्राउज़र में खुल गया है।
+Could not open the browser.	ब्राउज़र नहीं खुल सका।
+Tournament green	टूर्नामेंट हरा
+Electric blue	इलेक्ट्रिक नीला
+Burgundy	बरगंडी
+Charcoal	चारकोल
+Teal	टील
+Royal purple	शाही बैंगनी
+Camel	कैमल
+Midnight	आधी रात
+Champion's red	चैंपियन लाल
+Classic	क्लासिक
+Rosewood	शीशम
+Ebony & silver	आबनूस और चाँदी
+Carbon	कार्बन
+Ivory inlay	हाथीदाँत की जड़ाई
+Crown	ताज
+Jewels	रत्न
+Blue chalk	नीली चॉक
+Green chalk	हरी चॉक
+Red chalk	लाल चॉक
+Purple chalk	बैंगनी चॉक
+Gold chalk	सुनहरी चॉक
+Vintage	विंटेज
+Pastel	पेस्टल
+Neon	नियॉन
+You already have this item.	यह आइटम आपके पास पहले से है।
+Not enough coins.	कॉइन कम हैं।
+The purchase failed; no coins were taken.	ख़रीदारी नहीं हो सकी; कोई कॉइन नहीं कटा।
+No such item.	ऐसा कोई आइटम नहीं है।
+This item can't be bought with coins.	यह आइटम कॉइन से नहीं ख़रीदा जा सकता।
+You don't have this item.	यह आइटम आपके पास नहीं है।
+Purchases are not available.	ख़रीदारी उपलब्ध नहीं है।
+This pack is not on sale.	यह पैक बिक्री पर नहीं है।
+The payment page could not be opened. Try again in a moment.	पेमेंट पेज नहीं खुल सका। थोड़ी देर में फिर कोशिश करें।
+You are already VIP.	आप पहले से VIP हैं।
+There is no subscription to manage.	मैनेज करने के लिए कोई सब्सक्रिप्शन नहीं है।
+The page could not be opened. Try again in a moment.	पेज नहीं खुल सका। थोड़ी देर में फिर कोशिश करें।
+Coins added to your wallet.	कॉइन आपके वॉलेट में जुड़ गए।
+Welcome to VIP!	VIP में आपका स्वागत है!
+Slow down a little.	थोड़ा धीरे।
+You can't do that.	आप ऐसा नहीं कर सकते।
+There are too many notes right now. Try again in a few minutes.	अभी बहुत सारे नोट हैं। कुछ मिनट बाद फिर कोशिश करें।
+A moderator took down your note.	एक मॉडरेटर ने आपका नोट हटा दिया।
+A moderator cleared your status message.	एक मॉडरेटर ने आपका स्टेटस मैसेज हटा दिया।
+Status message cleared.	स्टेटस मैसेज हटा दिया गया।
+VIP	VIP
+Play now	अभी खेलें
+Find an opponent of your level automatically	अपने लेवल का विरोधी अपने-आप खोजें
+Looking for an opponent… {t}	विरोधी खोजा जा रहा है… {t}
+any rating	कोई भी रेटिंग
+rating ±{n} · {mode}	रेटिंग ±{n} · {mode}
+Potting success	पॉट सफलता
+Balls made	पॉट की गई बॉल
+Best run	सबसे लंबा रन
+Fouls	फ़ाउल
+seen just now	अभी-अभी देखा गया
+seen {n} min ago	{n} मिनट पहले देखा गया
+seen {n} h ago	{n} घंटे पहले देखा गया
+seen yesterday	कल देखा गया
+seen {n} days ago	{n} दिन पहले देखा गया
+seen {n} months ago	{n} महीने पहले देखा गया
+just now	अभी-अभी
+{n} min ago	{n} मिनट पहले
+{n} h ago	{n} घंटे पहले
+yesterday	कल
+{n} days ago	{n} दिन पहले
+Game history	गेम का इतिहास
+Nothing yet.	अभी कुछ नहीं।
+Fine aim: click the arrows, or drag here	बारीक निशाना: तीरों पर क्लिक करें या यहाँ खींचें
+{n} watching	{n} देख रहे हैं
+Watching {name}	{name} को देख रहे हैं
+Your reactions reach the table quietly.	आपके रिएक्शन टेबल तक चुपचाप पहुँचते हैं।
+Stop watching	देखना बंद करें
+If they play again, you keep watching.	अगर वे फिर खेलें, तो आप देखते रहेंगे।
+Your friend left the table.	आपके दोस्त ने टेबल छोड़ दी।
+Your friend isn't playing right now.	आपका दोस्त अभी नहीं खेल रहा है।
+You can only watch your friends.	आप सिर्फ़ अपने दोस्तों का गेम देख सकते हैं।
+You can't watch this game.	आप यह गेम नहीं देख सकते।
+{n} points to {tier}	{tier} तक {n} पॉइंट
+Top tier	सबसे ऊँचा टियर
+Reactions {n}/{total}	रिएक्शन {n}/{total}
+Haunted table	भूतिया टेबल
+Win a rated game during Halloween (Oct 24 – Nov 2).	हैलोवीन के दौरान (24 अक्टू – 2 नवं) एक रेटेड गेम जीतें।
+Winter league	सर्दियों की लीग
+Win a rated game over the holidays (Dec 15 – Jan 6).	छुट्टियों में (15 दिसं – 6 जन) एक रेटेड गेम जीतें।
+Fireworks	आतिशबाज़ी
+Win a rated game at the turn of the year (Dec 31 – Jan 1).	साल बदलते समय (31 दिसं – 1 जन) एक रेटेड गेम जीतें।
+Shows where the object ball and the cue ball go (only in free games and practice).	दिखाता है कि ऑब्जेक्ट बॉल और क्यू बॉल कहाँ जाएँगी (सिर्फ़ कंप्यूटर के साथ आम गेम और प्रैक्टिस में)।
+{n} online · ping {ms} ms	{n} ऑनलाइन · पिंग {ms} ms
+Right-drag · Wheel	राइट-ड्रैग · व्हील
+Win %	जीत %
+Reset the camera: top view, no zoom	कैमरा रीसेट करें: ऊपर से व्यू, बिना ज़ूम
+{name} sank the 8-ball	{name} ने 8 बॉल पॉट की
+{name} sank the 8 too early	{name} ने 8 बॉल समय से पहले पॉट कर दी
+{name} sank the 8 in the wrong pocket	{name} ने 8 बॉल ग़लत पॉकेट में डाल दी
+{name} fouled on the 8	{name} ने 8 बॉल पर फ़ाउल किया
+{name} knocked the 8 off the table	{name} ने 8 बॉल टेबल से बाहर गिरा दी
+{name} resigned	{name} ने हार मान ली
+{name} left the game	{name} ने गेम छोड़ दिया
+{winner} wins! ({how})	{winner} की जीत! ({how})
+#{n} in the world	दुनिया में #{n}
+3–16 letters, digits or underscores.	3–16 अक्षर, अंक या अंडरस्कोर।
+No lines on the table: aim by eye, along the cue.	टेबल पर कोई लाइन नहीं: क्यू की सीध में अंदाज़े से निशाना लगाएँ।
+No guide	कोई गाइड नहीं
+Only a short line from the cue ball.	क्यू बॉल से बस एक छोटी लाइन।
+Accept friend	दोस्ती स्वीकारें
+Achievement unlocked: {title}	उपलब्धि अनलॉक: {title}
+Achievements {n}/{total}	उपलब्धियाँ {n}/{total}
+Add	जोड़ें
+Add a friend by username	यूज़रनेम से दोस्त जोड़ें
+Add friend	दोस्त जोड़ें
+Against the computer	कंप्यूटर के ख़िलाफ़
+All tournaments	सभी टूर्नामेंट
+Amateur	शौकिया
+At least 8 characters. Use a password you don't use elsewhere.	कम से कम 8 अक्षर। ऐसा पासवर्ड रखें जो आप कहीं और इस्तेमाल नहीं करते।
+At least two players are needed.	कम से कम दो खिलाड़ी चाहिए।
+Back	वापस
+Black ball	काली बॉल
+Block	ब्लॉक करें
+Break and run	ब्रेक एंड रन
+Break and run 10 times.	10 बार ब्रेक एंड रन करें।
+Can't listen for games here: join by address below.	यहाँ गेम नहीं खोजे जा सकते: नीचे पते से जुड़ें।
+Cancel request	रिक्वेस्ट रद्द करें
+Cancel tournament	टूर्नामेंट रद्द करें
+Casual	कैज़ुअल
+Centurion	शतकवीर
+Champion	चैंपियन
+Champion: {name}	चैंपियन: {name}
+Change country	देश बदलें
+Add a status message	स्टेटस मैसेज जोड़ें
+A line about you	अपने बारे में एक लाइन
+Save (Enter)	सेव करें (Enter)
+Cancel (Esc)	रद्द करें (Esc)
+Change your status message	अपना स्टेटस मैसेज बदलें
+Clear the status message	स्टेटस मैसेज हटाएँ
+Cheating or abuse	चीटिंग या दुर्व्यवहार
+Choose…	चुनें…
+Click again to block	ब्लॉक करने के लिए फिर क्लिक करें
+Close	बंद करें
+Closer	फ़िनिशर
+Competitor	प्रतियोगी
+Connecting to the server…	सर्वर से कनेक्ट हो रहा है…
+Could not host a game: {e}	गेम होस्ट नहीं हो सका: {e}
+Country	देश
+Create	बनाएँ
+Create a tournament	टूर्नामेंट बनाएँ
+Don't show a flag	झंडा न दिखाएँ
+No country found.	कोई देश नहीं मिला।
+Dynasty	बादशाहत
+Eight is enough	8 ही काफ़ी है
+Executioner	जल्लाद
+Expert	एक्सपर्ट
+Familiar face	जाना-पहचाना चेहरा
+Final	फ़ाइनल
+Finish your game first.	पहले अपना गेम पूरा करें।
+First blood	पहला वार
+First break	पहला ब्रेक
+Friend request sent.	फ़्रेंड रिक्वेस्ट भेजी गई।
+Friends	दोस्त
+# Daily (correspondence) games.
+daily game	डेली गेम
+Daily	डेली
+Daily game	डेली गेम
+Daily games	डेली गेम
+Challenge a player by username	यूज़रनेम से किसी खिलाड़ी को चुनौती दें
+Challenge to a daily game	डेली गेम की चुनौती दें
+3 days for each turn	हर बारी के लिए 3 दिन
+No daily games yet. Challenge a friend: each of you plays a turn whenever you can.	अभी कोई डेली गेम नहीं। किसी दोस्त को चुनौती दें: आप दोनों जब समय मिले, अपनी बारी खेलें।
+challenges you · {kind}	आपको चुनौती दे रहे हैं · {kind}
+waiting for an answer · {kind} · {time} left	जवाब का इंतज़ार · {kind} · {time} बाकी
+your turn · {time} left	आपकी बारी · {time} बाकी
+their turn · {time} left	उनकी बारी · {time} बाकी
+won · {how}	जीत · {how}
+lost · {how}	हार · {how}
+ran out of time	समय ख़त्म हो गया
+the opponent ran out of time	विरोधी का समय ख़त्म हो गया
+open table	ओपन टेबल
+You: {mine}, {a} left · {name}: {theirs}, {b} left	आप: {mine}, {a} बाकी · {name}: {theirs}, {b} बाकी
+Look	देखें
+Skip	छोड़ें
+Replaying {name}'s turn	{name} की बारी का रीप्ले
+Stroke {n} of {total}	शॉट {n}/{total}
+Turn sent	बारी भेजी गई
+Turn sent.	बारी भेजी गई।
+Waiting for {name} to play	{name} के खेलने का इंतज़ार
+{name} has {time} to play. You'll be told when it's your turn.	{name} के पास खेलने के लिए {time} है। आपकी बारी आने पर आपको बताया जाएगा।
+{time} left to play. You'll be told when it's your turn.	खेलने के लिए {time} बाकी है। आपकी बारी आने पर आपको बताया जाएगा।
+Back to daily games	डेली गेम पर वापस
+Your game is saved: come back whenever you like.	आपका गेम सेव है: जब चाहें वापस आएँ।
+{d} d {h} h	{d} दिन {h} घंटे
+{name} ran out of time	{name} का समय ख़त्म हो गया
+This game can't be shown.	यह गेम नहीं दिखाया जा सकता।
+A daily game is waiting for you	एक डेली गेम आपका इंतज़ार कर रहा है
+{n} daily games are waiting for you	{n} डेली गेम आपका इंतज़ार कर रहे हैं
+{name} challenges you to a rated daily game.	{name} ने आपको रेटेड डेली गेम की चुनौती दी है।
+{name} challenges you to a casual daily game.	{name} ने आपको कैज़ुअल डेली गेम की चुनौती दी है।
+{name} accepted your daily game.	{name} ने आपका डेली गेम स्वीकार किया।
+{name} declined your daily game.	{name} ने आपका डेली गेम ठुकरा दिया।
+{name} withdrew their daily game challenge.	{name} ने डेली गेम की अपनी चुनौती वापस ले ली।
+Your turn in the daily game against {name}.	{name} के ख़िलाफ़ डेली गेम में आपकी बारी।
+{name} ran out of time: you won the daily game.	{name} का समय ख़त्म हो गया: आपने डेली गेम जीत लिया।
+You won the daily game against {name}!	आपने {name} के ख़िलाफ़ डेली गेम जीत लिया!
+You ran out of time in the daily game against {name}.	{name} के ख़िलाफ़ डेली गेम में आपका समय ख़त्म हो गया।
+You lost the daily game against {name}.	{name} के ख़िलाफ़ डेली गेम में आपकी हार हुई।
+Challenge sent.	चुनौती भेजी गई।
+Daily games need an account.	डेली गेम के लिए अकाउंट चाहिए।
+No such game.	ऐसा कोई गेम नहीं है।
+That challenge is no longer valid.	वह चुनौती अब मान्य नहीं है।
+That player already challenged you: answer their challenge.	उस खिलाड़ी ने आपको पहले ही चुनौती दी है: उनकी चुनौती का जवाब दें।
+That player has too many challenges waiting.	उस खिलाड़ी के पास पहले ही बहुत सारी चुनौतियाँ बाकी हैं।
+That player has too many daily games going on.	उस खिलाड़ी के पहले ही बहुत सारे डेली गेम चल रहे हैं।
+That player is not accepting challenges.	वह खिलाड़ी चुनौतियाँ स्वीकार नहीं कर रहा है।
+This game can't be played right now.	यह गेम अभी नहीं खेला जा सकता।
+This game changed meanwhile: open it again.	इस बीच गेम बदल गया: इसे फिर से खोलें।
+This game is over.	यह गेम ख़त्म हो चुका है।
+You already challenged that player.	आपने उस खिलाड़ी को पहले ही चुनौती दी है।
+You already have a game going on against that player.	उस खिलाड़ी के ख़िलाफ़ आपका एक गेम पहले से चल रहा है।
+You blocked that player.	आपने उस खिलाड़ी को ब्लॉक किया है।
+You can't challenge yourself.	आप ख़ुद को चुनौती नहीं दे सकते।
+You have as many daily games as you can play at once.	आप एक साथ जितने डेली गेम खेल सकते हैं, उतने पहले से चल रहे हैं।
+You have too many challenges waiting for an answer.	आपकी बहुत सारी चुनौतियाँ जवाब का इंतज़ार कर रही हैं।
+You're sending challenges too quickly.	आप बहुत जल्दी-जल्दी चुनौतियाँ भेज रहे हैं।
+Your time for this turn ran out.	इस बारी के लिए आपका समय ख़त्म हो गया।
+Games	गेम
+Games on your network	आपके नेटवर्क पर गेम
+Give the tournament a name (at least 3 characters).	टूर्नामेंट को एक नाम दें (कम से कम 3 अक्षर)।
+Good company	अच्छी संगत
+Grandmaster	ग्रैंडमास्टर
+Guests can only join LAN games. Create an account.	गेस्ट सिर्फ़ LAN गेम में शामिल हो सकते हैं। अकाउंट बनाएँ।
+Guests can't play rated tournaments.	गेस्ट रेटेड टूर्नामेंट नहीं खेल सकते।
+Guests don't have this.	गेस्ट के लिए यह उपलब्ध नहीं है।
+Harassment	उत्पीड़न
+Hat trick	हैट्रिक
+Have 10 friends.	10 दोस्त बनाएँ।
+Have an account for 30 days.	अकाउंट के 30 दिन पूरे करें।
+Have an account for a year.	अकाउंट का एक साल पूरा करें।
+Host a game on this computer	इस कंप्यूटर पर गेम होस्ट करें
+Host {host} · {n}/{size} players · {kind}	होस्ट {host} · {n}/{size} खिलाड़ी · {kind}
+Hot hand	लय में
+Hustler	पक्का खिलाड़ी
+Invalid shot.	अमान्य शॉट।
+Join	जुड़ें
+Joining the LAN game…	LAN गेम से जुड़ रहे हैं…
+Just for fun	बस मज़े के लिए
+L	हा
+LAN game	LAN गेम
+LAN game hosted by {name}.	{name} का होस्ट किया हुआ LAN गेम।
+LAN games don't change ratings.	LAN गेम से रेटिंग नहीं बदलती।
+Legend	लेजेंड
+Lives at the table	टेबल ही घर है
+Loading the profile…	प्रोफ़ाइल लोड हो रही है…
+Loading…	लोड हो रहा है…
+Local network	लोकल नेटवर्क
+Locked	लॉक
+Looking for games	गेम खोजे जा रहे हैं
+Make a friend.	एक दोस्त बनाएँ।
+Master	मास्टर
+Name	नाम
+Names have 3–16 letters, digits or underscores.	नाम में 3–16 अक्षर, अंक या अंडरस्कोर होते हैं।
+New account	नया अकाउंट
+I have an account	मेरा अकाउंट है
+New here? Choose “New account”: it takes ten seconds.	पहली बार आए हैं? “नया अकाउंट” चुनें: बस दस सेकंड लगेंगे।
+New tournament	नया टूर्नामेंट
+No friends yet. Add someone you played with!	अभी कोई दोस्त नहीं। जिनके साथ आपने खेला है, उनमें से किसी को जोड़ें!
+No games yet.	अभी कोई गेम नहीं।
+No limit	कोई सीमा नहीं
+No open tables. Open one and others can sit down.	कोई ओपन टेबल नहीं। एक टेबल खोलें, ताकि दूसरे बैठ सकें।
+No other open tables right now.	अभी कोई और ओपन टेबल नहीं।
+No such player.	ऐसा कोई खिलाड़ी नहीं है।
+No tournaments right now. Create one!	अभी कोई टूर्नामेंट नहीं। एक बनाएँ!
+Offensive name	आपत्तिजनक नाम
+On a roll	जीत का सिलसिला
+On fire	धुआँधार
+Only the host can start the tournament.	सिर्फ़ होस्ट टूर्नामेंट शुरू कर सकता है।
+Open a table	टेबल खोलें
+Or join by address	या पते से जुड़ें
+Other	अन्य
+Others can join at {ip}:{port}	दूसरे {ip}:{port} पर जुड़ सकते हैं
+Passwords need at least 8 characters (not only digits).	पासवर्ड में कम से कम 8 अक्षर होने चाहिए (सिर्फ़ अंक नहीं)।
+Play 1,000 rated games.	1,000 रेटेड गेम खेलें।
+Play 10 rated games.	10 रेटेड गेम खेलें।
+Play 100 rated games.	100 रेटेड गेम खेलें।
+Play 25 casual games.	25 कैज़ुअल गेम खेलें।
+Play 500 rated games.	500 रेटेड गेम खेलें।
+Play in a tournament.	एक टूर्नामेंट में खेलें।
+Play online	ऑनलाइन खेलें
+Play with friends on the same network	एक ही नेटवर्क पर दोस्तों के साथ खेलें
+Play your first rated game.	अपना पहला रेटेड गेम खेलें।
+Player 1	खिलाड़ी 1
+Players	खिलाड़ी
+Players in a tournament can't start other games.	टूर्नामेंट के खिलाड़ी दूसरे गेम शुरू नहीं कर सकते।
+Please don't repeat the same message.	कृपया एक ही मैसेज बार-बार न भेजें।
+Pool hall legend	पूल हॉल का लेजेंड
+Popular	लोकप्रिय
+Private	प्राइवेट
+for your friends to sit down	ताकि आपके दोस्त बैठ सकें
+Profile	प्रोफ़ाइल
+{key}: watch the last shot again	{key}: आख़िरी शॉट फिर से देखें
+REPLAY	रीप्ले
+Rated	रेटेड
+Rated games, tables, tournaments and friends	रेटेड गेम, टेबल, टूर्नामेंट और दोस्त
+Reach a rating of 1300.	1300 रेटिंग तक पहुँचें।
+Reach a rating of 1500.	1500 रेटिंग तक पहुँचें।
+Reach a rating of 1700.	1700 रेटिंग तक पहुँचें।
+Reach a rating of 1900.	1900 रेटिंग तक पहुँचें।
+Reach a rating of 2100.	2100 रेटिंग तक पहुँचें।
+Refresh	रीफ़्रेश करें
+Regular	नियमित
+Remove friend	दोस्त हटाएँ
+Replay	रीप्ले
+Report	रिपोर्ट करें
+Report {name}	{name} को रिपोर्ट करें
+Request sent	रिक्वेस्ट भेजी गई
+Friend	दोस्त
+Recent	हाल के
+Nobody yet. The people you play online will show up here.	अभी कोई नहीं। जिनके साथ आप ऑनलाइन खेलेंगे, वे यहाँ दिखेंगे।
+{n} games	{n} गेम
+Rookie	नौसिखिया
+Round {n}	राउंड {n}
+Search…	खोजें…
+Semi-finals	सेमीफ़ाइनल
+Send report	रिपोर्ट भेजें
+This game goes with the report, so the moderators can watch it.	यह गेम रिपोर्ट के साथ जाता है, ताकि मॉडरेटर इसे देख सकें।
+Your game with {name} ({date}) goes with the report, so the moderators can watch it.	{name} के साथ आपका गेम ({date}) रिपोर्ट के साथ जाता है, ताकि मॉडरेटर इसे देख सकें।
+You haven't played {name} in the last day: the moderators see the recent chat.	पिछले एक दिन में आपने {name} के साथ नहीं खेला है: मॉडरेटर हाल की चैट देखेंगे।
+Shark	शार्क
+Shows the contact point; judging the cut is up to you.	कॉन्टैक्ट पॉइंट दिखाता है; कट का अंदाज़ा आपको ख़ुद लगाना है।
+Shutout	एकतरफ़ा जीत
+Sign in	साइन इन
+Sign in or create an account	साइन इन करें या अकाउंट बनाएँ
+Sign out	साइन आउट
+Sit down	बैठें
+Skilled	कुशल
+Someone with that name is already here.	उस नाम का कोई पहले से यहाँ है।
+Spam	स्पैम
+Start now	अभी शुरू करें
+Stop the replay	रीप्ले रोकें
+Table runner	टेबल का सफ़ाया
+Tables	टेबल
+Take turns on this computer	इस कंप्यूटर पर बारी-बारी से खेलें
+Thank you. The moderators will look into it.	धन्यवाद। मॉडरेटर इसकी जाँच करेंगे।
+Thank you. The moderators will look into it, with your game attached.	धन्यवाद। मॉडरेटर आपके गेम के साथ इसकी जाँच करेंगे।
+That player is not accepting invitations.	वह खिलाड़ी इनवाइट स्वीकार नहीं कर रहा है।
+That shot was for an earlier turn.	वह शॉट पिछली बारी का था।
+That table is no longer open.	वह टेबल अब खुली नहीं है।
+That tournament has already started.	वह टूर्नामेंट शुरू हो चुका है।
+That tournament no longer exists.	वह टूर्नामेंट अब मौजूद नहीं है।
+The first connection of the day can take up to a minute while the server wakes up.	दिन के पहले कनेक्शन में एक मिनट तक लग सकता है, जब तक सर्वर जागता है।
+The first time, allow Snook Legend through the firewall when asked.	पहली बार पूछे जाने पर Snook Legend को फ़ायरवॉल में अनुमति दें।
+The server could not play that shot.	सर्वर वह शॉट नहीं खेल सका।
+The server is busy. Try again in a moment.	सर्वर व्यस्त है। थोड़ी देर में फिर कोशिश करें।
+The tournament starts when it is full (the host can start it earlier).	टूर्नामेंट भरते ही शुरू हो जाता है (होस्ट इसे पहले भी शुरू कर सकता है)।
+There are too many tournaments right now. Join one!	अभी बहुत सारे टूर्नामेंट हैं। किसी एक में शामिल हों!
+This is a LAN server: join as a guest.	यह LAN सर्वर है: गेस्ट के रूप में जुड़ें।
+Fifteen rivals, a tour and ghosts of real players	पंद्रह विरोधी, एक टूर और असली खिलाड़ियों के घोस्ट
+Tier	टियर
+Time per shot	हर शॉट का समय
+Too many failed attempts. Wait a few minutes and try again.	बहुत सारी नाकाम कोशिशें। कुछ मिनट रुककर फिर कोशिश करें।
+Too many messages.	बहुत सारे मैसेज।
+Too many new accounts from this network. Try again later.	इस नेटवर्क से बहुत सारे नए अकाउंट। बाद में फिर कोशिश करें।
+Top 100 · rated games	टॉप 100 · रेटेड गेम
+Tournament game: the next round starts from the lounge.	टूर्नामेंट गेम: अगला राउंड लाउंज से शुरू होता है।
+Tournament games have no rematch.	टूर्नामेंट गेम में रीमैच नहीं होता।
+Tournaments	टूर्नामेंट
+Tournaments have 4, 8 or 16 players.	टूर्नामेंट में 4, 8 या 16 खिलाड़ी होते हैं।
+Two players	दो खिलाड़ी
+Unblock	अनब्लॉक करें
+Unlocked {date}	{date} को अनलॉक हुई
+Unstoppable	अजेय
+W	जी
+Watch the last shot again	आख़िरी शॉट फिर से देखें
+What happened? (optional)	क्या हुआ? (वैकल्पिक)
+When time runs out, the turn passes.	समय ख़त्म होने पर बारी बदल जाती है।
+Whitewash	व्हाइटवॉश
+Win 10 rated games on the 8-ball.	8 बॉल पॉट करके 10 रेटेड गेम जीतें।
+Win 10 rated games in a row.	लगातार 10 रेटेड गेम जीतें।
+Win 10 rated games.	10 रेटेड गेम जीतें।
+Win 10 rated shutouts.	10 रेटेड गेम एकतरफ़ा जीतें।
+Win 100 rated games on the 8-ball.	8 बॉल पॉट करके 100 रेटेड गेम जीतें।
+Win 100 rated games.	100 रेटेड गेम जीतें।
+Win 250 rated games on the 8-ball.	8 बॉल पॉट करके 250 रेटेड गेम जीतें।
+Win 3 rated games in a row.	लगातार 3 रेटेड गेम जीतें।
+Win 5 rated games in a row.	लगातार 5 रेटेड गेम जीतें।
+Win 5 tournaments.	5 टूर्नामेंट जीतें।
+Win 50 rated games on the 8-ball.	8 बॉल पॉट करके 50 रेटेड गेम जीतें।
+Win 50 rated games.	50 रेटेड गेम जीतें।
+Win 500 rated games.	500 रेटेड गेम जीतें।
+Win a rated game.	एक रेटेड गेम जीतें।
+Win a tournament.	एक टूर्नामेंट जीतें।
+Win a rated game before your opponent sinks a ball of their group.	विरोधी के अपने ग्रुप की एक भी बॉल पॉट करने से पहले रेटेड गेम जीतें।
+Win a rated game from the break without your opponent getting a shot.	ब्रेक से ही रेटेड गेम जीतें, विरोधी को एक भी शॉट मिले बिना।
+Withdraw	नाम वापस लें
+World ranking	वर्ल्ड रैंकिंग
+Wrong table password.	टेबल का पासवर्ड ग़लत है।
+Wrong tournament password.	टूर्नामेंट का पासवर्ड ग़लत है।
+You are already in a tournament.	आप पहले से एक टूर्नामेंट में हैं।
+You are hosting a game	आप एक गेम होस्ट कर रहे हैं
+You can't join this table.	आप इस टेबल से नहीं जुड़ सकते।
+You signed in from another place.	आपने किसी दूसरी जगह से साइन इन किया है।
+You're sending invitations too quickly.	आप बहुत जल्दी-जल्दी इनवाइट भेज रहे हैं।
+You're sending messages too quickly.	आप बहुत जल्दी-जल्दी मैसेज भेज रहे हैं।
+You've sent many reports. Please wait before sending more.	आपने बहुत सारी रिपोर्ट भेजी हैं। और भेजने से पहले थोड़ा रुकें।
+Your friend list is full.	आपकी दोस्तों की सूची भर गई है।
+Your next match starts by itself when both players are free.	दोनों खिलाड़ी ख़ाली होते ही आपका अगला गेम अपने-आप शुरू हो जाएगा।
+Your profile	आपकी प्रोफ़ाइल
+Your table is open	आपकी टेबल खुली है
+Zoom in	ज़ूम इन
+Zoom out	ज़ूम आउट
+at a table	टेबल पर
+best streak	सबसे लंबा सिलसिला
+by {host} · {n}/{size} players	{host} का · {n}/{size} खिलाड़ी
+casual games	कैज़ुअल गेम
+casual · private	कैज़ुअल · प्राइवेट
+casual · public	कैज़ुअल · पब्लिक
+connecting to the server	सर्वर से कनेक्ट हो रहा है
+eight-ball pool	8 बॉल पूल
+finished	ख़त्म
+guest	गेस्ट
+invites you to {kind}	आपको {kind} के लिए बुला रहे हैं
+joined today	आज जुड़े
+member for {n} days	{n} दिन से सदस्य
+member for {n} months	{n} महीने से सदस्य
+member for {n} years	{n} साल से सदस्य
+offline	ऑफ़लाइन
+open	खुला
+optional: only friends with it can join	वैकल्पिक: सिर्फ़ इसे जानने वाले दोस्त जुड़ सकते हैं
+password	पासवर्ड
+peak {n}	सबसे ज़्यादा {n}
+playing	खेल रहे हैं
+playing the computer	कंप्यूटर से खेल रहे हैं
+away	दूर
+this game is saved	यह गेम सेव है
+rated games	रेटेड गेम
+rated · private	रेटेड · प्राइवेट
+rated · public	रेटेड · पब्लिक
+request sent	रिक्वेस्ट भेजी गई
+the connection dropped	कनेक्शन टूट गया
+to play online	ऑनलाइन खेलने के लिए
+tournament	टूर्नामेंट
+tournaments won	जीते गए टूर्नामेंट
+waiting for an opponent…	विरोधी का इंतज़ार…
+win rate	जीत दर
+wins	जीत
+won on the 8	8 बॉल से जीत
+{host}'s game	{host} का गेम
+{name} wants to be friends	{name} दोस्त बनना चाहते हैं
+{name} wants to be your friend.	{name} आपका दोस्त बनना चाहते हैं।
+{n} online	{n} ऑनलाइन
+sank the 8-ball	8 बॉल पॉट की
+the opponent sank the 8-ball	विरोधी ने 8 बॉल पॉट की
+the opponent sank the 8 too early	विरोधी ने 8 बॉल समय से पहले पॉट कर दी
+sank the 8 too early	8 बॉल समय से पहले पॉट कर दी
+the opponent sank the 8 in the wrong pocket	विरोधी ने 8 बॉल ग़लत पॉकेट में डाल दी
+sank the 8 in the wrong pocket	8 बॉल ग़लत पॉकेट में डाल दी
+the opponent fouled on the 8	विरोधी ने 8 बॉल पर फ़ाउल किया
+fouled on the 8	8 बॉल पर फ़ाउल किया
+the opponent knocked the 8 off the table	विरोधी ने 8 बॉल टेबल से बाहर गिरा दी
+knocked the 8 off the table	8 बॉल टेबल से बाहर गिरा दी
+the opponent resigned	विरोधी ने हार मान ली
+resigned	हार मान ली
+the opponent left	विरोधी ने गेम छोड़ दिया
+left the game	गेम छोड़ दिया
+You are muted for {n} more minutes.	आप {n} और मिनट के लिए म्यूट हैं।
+This account is suspended for {n} more day(s). Reason: {reason}.	यह अकाउंट {n} और दिन के लिए सस्पेंड है। कारण: {reason}।
+This account is banned. Reason: {reason}.	यह अकाउंट बैन है। कारण: {reason}।
+You were muted: {r}	आपको म्यूट किया गया: {r}
+Your account was suspended: {r}	आपका अकाउंट सस्पेंड किया गया: {r}
+Your account was banned: {r}	आपका अकाउंट बैन किया गया: {r}
+You were disconnected by a moderator: {r}	एक मॉडरेटर ने आपको डिस्कनेक्ट किया: {r}
+You were disconnected by a moderator.	एक मॉडरेटर ने आपको डिस्कनेक्ट किया।
+Please sign in again.	कृपया फिर से साइन इन करें।
+Your password was changed. Sign in again.	आपका पासवर्ड बदल दिया गया। फिर से साइन इन करें।
+Accept rematch	रीमैच स्वीकारें
+Accept	स्वीकारें
+Aim	निशाना
+Aiming guide	निशाना गाइड
+Aiming	निशाना
+Anti-aliasing	एंटी-एलियासिंग
+Smooths the jagged edges of lines and balls.	लाइनों और बॉल के खुरदुरे किनारों को चिकना करता है।
+Back to lounge	लाउंज पर वापस
+Balanced: smooth on most laptops.	संतुलित: ज़्यादातर लैपटॉप पर स्मूद चलता है।
+Ball in hand	बॉल इन हैंड
+Break the rack	ब्रेक करें
+Camera pulls back to watch each shot	हर शॉट देखने के लिए कैमरा पीछे हटता है
+Camera	कैमरा
+Cancel	रद्द करें
+Casual game: ratings unchanged	कैज़ुअल गेम: रेटिंग नहीं बदलेगी
+Center	सेंटर
+Chat	चैट
+Click a ball or a spot	किसी बॉल या जगह पर क्लिक करें
+Click to chat, Enter to send	चैट के लिए क्लिक करें, भेजने के लिए Enter
+Controls	कंट्रोल
+Create account	अकाउंट बनाएँ
+Cue ball contact	क्यू बॉल पर हिट
+Decline	मना करें
+Done	हो गया
+Drag the cue ball	क्यू बॉल खींचें
+Elevation	ऊँचाई
+Everything, with reflections in polished floors: for gaming PCs.	सब कुछ, चमकदार फ़र्श पर प्रतिबिंबों के साथ: गेमिंग PC के लिए।
+Fine aim	बारीक निशाना
+Finish this match first.	पहले यह गेम पूरा करें।
+For old or very slow computers.	पुराने या बहुत धीमे कंप्यूटरों के लिए।
+Full screen	फ़ुल स्क्रीन
+Also with {key}.	{key} से भी।
+Full	पूरी
+Game server	गेम सर्वर
+Change it only to play on another server.	इसे सिर्फ़ किसी दूसरे सर्वर पर खेलने के लिए बदलें।
+Advanced	एडवांस्ड
+Custom server	दूसरा सर्वर
+Graphics quality	ग्राफ़िक्स क्वालिटी
+Quality	क्वालिटी
+Display	डिस्प्ले
+High	हाई
+Invite	इनवाइट करें
+Leave to the lounge	लाउंज में जाएँ
+Leave	छोड़ें
+Leaving now counts as a loss.	अभी छोड़ने पर इसे हार माना जाएगा।
+Lounge chat	लाउंज चैट
+Low	लो
+Main menu	मेन मेन्यू
+Medium	मीडियम
+Menu / help	मेन्यू / मदद
+Next game starts in a moment…	अगला गेम कुछ ही पलों में शुरू होगा…
+No rated games yet. Be the first!	अभी कोई रेटेड गेम नहीं। पहले खिलाड़ी बनें!
+Nobody else is here right now.	अभी यहाँ और कोई नहीं है।
+Looking for a game?	गेम की तलाश है?
+Looking for a game	गेम की तलाश
+Post a note	नोट पोस्ट करें
+Everyone in the lounge sees it for 30 minutes	लाउंज में सभी इसे 30 मिनट तक देखेंगे
+What are you after? ({kind})	आप क्या चाहते हैं? ({kind})
+Post	पोस्ट करें
+Your note: {text}	आपका नोट: {text}
+{mode} · {left} left	{mode} · {left} बाकी
+Take down	हटाएँ
+Challenge	चुनौती दें
+Take the note down	नोट हटाएँ
+Off	बंद
+On the 8-ball: call a pocket	8 बॉल पर: पॉकेट कॉल करें
+On the 8-ball	8 बॉल पर
+Open table	ओपन टेबल
+Password	पासवर्ड
+Paused	पॉज़
+Play	खेलें
+Player 2	खिलाड़ी 2
+Player	खिलाड़ी
+Quick aim	तेज़ निशाना
+Quit	बाहर निकलें
+Reconnected.	फिर से कनेक्ट हो गया।
+Rematch	रीमैच
+Resign this game	इस गेम में हार मानें
+Restart the game to apply this change.	यह बदलाव लागू करने के लिए गेम रीस्टार्ट करें।
+Resume	जारी रखें
+Retry	फिर कोशिश करें
+Saving the result…	नतीजा सेव हो रहा है…
+Say hello… (Enter to send)	नमस्ते कहें… (भेजने के लिए Enter)
+Send	भेजें
+Settings	सेटिंग्स
+{key} + drag	{key} + खींचें
+{key}: 3D / top view	{key}: 3D / ऊपर से व्यू
+{keys}: zoom	{keys}: ज़ूम
+View	व्यू
+Aim left	निशाना बाएँ
+Aim right	निशाना दाएँ
+Fine aim (hold)	बारीक निशाना (दबाए रखें)
+Shoot (hold, release)	शॉट मारें (दबाए रखें, छोड़ें)
+Top spin	टॉप स्पिन
+Back spin	बैक स्पिन
+Left spin	लेफ़्ट स्पिन
+Right spin	राइट स्पिन
+Raise the cue	क्यू ऊपर उठाएँ
+Lower the cue	क्यू नीचे करें
+Pick up the cue ball in hand	बॉल इन हैंड: क्यू बॉल उठाएँ
+3D / top view	3D / ऊपर से व्यू
+Reset the camera	कैमरा रीसेट करें
+Replay the last shot	आख़िरी शॉट का रीप्ले
+List of controls	कंट्रोल की सूची
+Keys can be changed in Settings → Controls.	कीज़ सेटिंग्स → कंट्रोल में बदली जा सकती हैं।
+Space	स्पेस
+Right Shift	राइट Shift
+Right Ctrl	राइट Ctrl
+Right Alt	राइट Alt
+Aiming and shooting	निशाना और शॉट
+Spin and elevation	स्पिन और ऊँचाई
+Fixed keys	फ़िक्स्ड कीज़
+Menu, back and cancel	मेन्यू, वापस और रद्द
+Confirm (forms, the cue ball in hand)	पुष्टि करें (फ़ॉर्म, बॉल इन हैंड)
+This key can't be changed.	यह की बदली नहीं जा सकती।
+Press a key · Esc cancels · Backspace clears	कोई की दबाएँ · Esc रद्द करता है · Backspace मिटाता है
+Press a key…	कोई की दबाएँ…
+Click to change	बदलने के लिए क्लिक करें
+Click to add a key	की जोड़ने के लिए क्लिक करें
+Back to no key	बिना की के वापस
+Back to {keys}	{keys} पर वापस
+Swapped: {action} is now on {key}.	अदला-बदली: {action} अब {key} पर है।
+Taken from {action}, which now has no key.	{action} से ली गई, जिसकी अब कोई की नहीं है।
+Taken from {action}.	{action} से ली गई।
+That key can't be used: try another.	वह की इस्तेमाल नहीं हो सकती: कोई और आज़माएँ।
+Shoot	शॉट मारें
+Short	छोटी
+Signing in…	साइन इन हो रहा है…
+Signing in	साइन इन हो रहा है
+Soft shadows from every lamp, glossy halls, halos.	हर लैंप से हल्की परछाइयाँ, चमकदार हॉल, रोशनी के घेरे।
+Solids (1–7)	सॉलिड (1–7)
+Spin ball	स्पिन बॉल
+Spin	स्पिन
+Standard	स्टैंडर्ड
+Stay	रुकें
+Stripes (9–15)	स्ट्राइप (9–15)
+The game goes on while this is open.	इसके खुले रहते गेम चलता रहता है।
+Use default	डिफ़ॉल्ट इस्तेमाल करें
+Username	यूज़रनेम
+Usernames have 3–16 letters, digits or underscores.	यूज़रनेम में 3–16 अक्षर, अंक या अंडरस्कोर होते हैं।
+{keys} (jump & massé)	{keys} (जंप और मासे)
+You win!	आपकी जीत!
+Your name	आपका नाम
+Your opponent went back to the lounge.	आपका विरोधी लाउंज में लौट गया।
+Your turn	आपकी बारी
+open table: the next ball you make sets your group	ओपन टेबल: आप जो अगली बॉल पॉट करेंगे, उससे आपका ग्रुप तय होगा
+draw	ड्रॉ
+follow	फ़ॉलो
+stun	स्टन
+solids	सॉलिड
+stripes	स्ट्राइप
+lounge	लाउंज
+ · left english	 · लेफ़्ट स्पिन
+ · right english	 · राइट स्पिन
+Language	भाषा
+General	सामान्य
+Graphics	ग्राफ़िक्स
+Game	गेम
+Sound	साउंड
+Reset to defaults	डिफ़ॉल्ट पर रीसेट करें
+Reset all keys	सभी कीज़ रीसेट करें
+Reset every key?	सभी कीज़ रीसेट करें?
+Click again to put every key back	सभी कीज़ वापस लाने के लिए फिर क्लिक करें
+Updates	अपडेट
+Update automatically	अपने-आप अपडेट करें
+New versions download in the background and install when you restart.	नए वर्ज़न बैकग्राउंड में डाउनलोड होते हैं और रीस्टार्ट करने पर इंस्टॉल हो जाते हैं।
+Version {v}	वर्ज़न {v}
+What's new	नया क्या है
+What's new in version {v}	वर्ज़न {v} में नया क्या है
+No notes for this version.	इस वर्ज़न के लिए कोई नोट नहीं।
+Got it	ठीक है
+Restart now	अभी रीस्टार्ट करें
+After the game, from the main menu.	गेम के बाद, मेन मेन्यू से।
+Download	डाउनलोड करें
+Check now	अभी जाँचें
+Couldn't reach the update server.	अपडेट सर्वर तक नहीं पहुँच सके।
+The download was damaged. It will be tried again later.	डाउनलोड ख़राब हो गया। बाद में फिर कोशिश की जाएगी।
+The new version couldn't be installed. This one stays.	नया वर्ज़न इंस्टॉल नहीं हो सका। यही वर्ज़न रहेगा।
+Downloading… {p}%	डाउनलोड हो रहा है… {p}%
+Updating…	अपडेट हो रहा है…
+The Microsoft Store keeps the game up to date.	Microsoft Store गेम को अप-टू-डेट रखता है।
+Development build: no automatic updates.	डेवलपमेंट बिल्ड: अपने-आप अपडेट नहीं होगा।
+Looking for a new version…	नया वर्ज़न खोजा जा रहा है…
+This is the latest version.	यह सबसे नया वर्ज़न है।
+Downloading version {v}… {p}%	वर्ज़न {v} डाउनलोड हो रहा है… {p}%
+Installing version {v}…	वर्ज़न {v} इंस्टॉल हो रहा है…
+Version {v} is ready: restart the game to use it.	वर्ज़न {v} तैयार है: इसे इस्तेमाल करने के लिए गेम रीस्टार्ट करें।
+Version {v} is out: download it from the releases page.	वर्ज़न {v} आ गया है: इसे रिलीज़ पेज से डाउनलोड करें।
+Version {v} is ready	वर्ज़न {v} तैयार है
+Restart to play it; nothing is lost.	इसे खेलने के लिए रीस्टार्ट करें; कुछ भी नहीं खोएगा।
+Version {v} is out	वर्ज़न {v} आ गया है
+Get it from the releases page.	इसे रिलीज़ पेज से पाएँ।
+Reset everything?	सब कुछ रीसेट करें?
+Click again to reset every setting	सभी सेटिंग्स रीसेट करने के लिए फिर क्लिक करें
+Online	ऑनलाइन
+Menu	मेन्यू
+Rating	रेटिंग
+Ultra	अल्ट्रा
+hold {key} and release	{key} दबाए रखें और छोड़ें
+Change	बदलें
+Mouse aim sensitivity	माउस से निशाने की सेंसिटिविटी
+How fast the cue turns with the mouse.	माउस से क्यू कितनी तेज़ी से घूमता है।
+Vignette	विनेट
+Darkens the edges of the picture, like a film.	फ़िल्म की तरह तस्वीर के किनारों को गहरा करता है।
+Show FPS	FPS दिखाएँ
+Frames per second, in a corner of the screen.	फ़्रेम प्रति सेकंड, स्क्रीन के एक कोने में।
+Call a pocket for the 8-ball first: click a pocket.	पहले 8 बॉल के लिए पॉकेट कॉल करें: किसी पॉकेट पर क्लिक करें।
+Reconnecting	फिर से कनेक्ट हो रहा है
+the game is over	गेम ख़त्म हो चुका है
+the cue ball cannot be placed there	क्यू बॉल वहाँ नहीं रखी जा सकती
+call a pocket for the 8-ball	8 बॉल के लिए पॉकेट कॉल करें
+That username is taken.	वह यूज़रनेम पहले से लिया जा चुका है।
+Wrong username or password.	यूज़रनेम या पासवर्ड ग़लत है।
+Your session expired. Please log in again.	आपका सेशन ख़त्म हो गया। कृपया फिर से साइन इन करें।
+This version of Snook Legend is out of date. Please update the game.	Snook Legend का यह वर्ज़न पुराना हो गया है। कृपया गेम अपडेट करें।
+It's not your turn.	यह आपकी बारी नहीं है।
+That player is not online.	वह खिलाड़ी ऑनलाइन नहीं है।
+That player is in a game.	वह खिलाड़ी एक गेम में है।
+You can't invite yourself.	आप ख़ुद को इनवाइट नहीं कर सकते।
+That invitation is no longer valid.	वह इनवाइट अब मान्य नहीं है।
+That player is no longer available.	वह खिलाड़ी अब उपलब्ध नहीं है।
+Resign first to leave a game in progress.	चल रहा गेम छोड़ने के लिए पहले हार मानें।
+Malformed message.	ग़लत फ़ॉर्मेट वाला मैसेज।
+Please log in first.	कृपया पहले साइन इन करें।
+Could not create the account.	अकाउंट नहीं बन सका।
+The cue ball can't be placed there.	क्यू बॉल वहाँ नहीं रखी जा सकती।
+Disconnected.	डिस्कनेक्ट हो गया।
+Lost contact with the server.	सर्वर से संपर्क टूट गया।
+The server closed the connection.	सर्वर ने कनेक्शन बंद कर दिया।
+The server took too long to answer.	सर्वर ने जवाब देने में बहुत देर लगाई।
+The server is not answering (connection refused).	सर्वर जवाब नहीं दे रहा (कनेक्शन अस्वीकार)।
+The server address is not valid (example: wss://snook-legend.example.com/ws).	सर्वर का पता मान्य नहीं है (उदाहरण: wss://snook-legend.example.com/ws)।
+The server address has no host name.	सर्वर के पते में होस्ट नाम नहीं है।
+Welcome to Snook Legend! Be kind, play fair.	Snook Legend में आपका स्वागत है! सबके साथ अच्छा बर्ताव करें, ईमानदारी से खेलें।
+Ball in hand: drag the cue ball{zone} to move it	बॉल इन हैंड: क्यू बॉल को{zone} खींचकर रखें
+ behind the line	 लाइन के पीछे
+Ball in hand  ·  {group}	बॉल इन हैंड  ·  {group}
+Can't shoot: {e}.	शॉट नहीं मार सकते: {e}।
+Chat ({n})	चैट ({n})
+Computer ({level})	कंप्यूटर ({level})
+Computer	कंप्यूटर
+Each opponent has a style of their own	हर विरोधी का अपना अलग अंदाज़ है
+Free game	आम गेम
+Tour	टूर
+Tour: {n} of {total} beaten	टूर: {total} में से {n} को हराया
+Strength {n}/5	ताक़त {n}/5
+Ghost	घोस्ट
+Accuracy	सटीकता
+Safeties	सेफ़्टी
+Banks	बैंक शॉट
+Position	पोज़िशन
+Ghost of {name}	{name} का घोस्ट
+A player's ghost	किसी खिलाड़ी का घोस्ट
+Plays like a real player	असली खिलाड़ी की तरह खेलता है
+The computer plays in the style of a real player, measured on their online games.	कंप्यूटर किसी असली खिलाड़ी के अंदाज़ में खेलता है, जो उसके ऑनलाइन गेम से मापा गया है।
+Sign in to play the ghost of a real player.	किसी असली खिलाड़ी के घोस्ट से खेलने के लिए साइन इन करें।
+Load	लोड करें
+Friends:	दोस्त:
+Type a username or pick a friend, then Load.	यूज़रनेम लिखें या कोई दोस्त चुनें, फिर लोड करें।
+Measuring how {name} plays…	{name} के खेलने का अंदाज़ मापा जा रहा है…
+Pots {pots}% · safeties {safe}% · banks {banks}% · {shots} shots	पॉट {pots}% · सेफ़्टी {safe}% · बैंक {banks}% · {shots} शॉट
+{name} has only {shots} recorded shots; a ghost needs {needed}. More online games will do it.	{name} के सिर्फ़ {shots} शॉट रिकॉर्ड हैं; घोस्ट के लिए {needed} चाहिए। और ऑनलाइन गेम खेलने से यह हो जाएगा।
+There is no player called {name}.	{name} नाम का कोई खिलाड़ी नहीं है।
+The server can't be reached right now. Try again later.	अभी सर्वर तक नहीं पहुँच सकते। बाद में फिर कोशिश करें।
+Wait a moment before asking again.	दोबारा माँगने से पहले थोड़ा रुकें।
+Something went wrong on the server. Try again later.	सर्वर पर कुछ गड़बड़ हो गई। बाद में फिर कोशिश करें।
+Play your ghost	अपने घोस्ट से खेलें
+Play their ghost	उनके घोस्ट से खेलें
+Beaten	हराया
+Next	अगला
+Win the previous stage to unlock this one.	इसे अनलॉक करने के लिए पिछला स्टेज जीतें।
+Stage {n} of {total}	स्टेज {n}/{total}
+Challenge {name}	{name} को चुनौती दें
+Stage {n} won! Next on the tour: {name}.	स्टेज {n} जीत लिया! टूर में अगला: {name}।
+You won the whole tour!	आपने पूरा टूर जीत लिया!
+Reward	इनाम
+{item} cue · exclusive	{item} क्यू · ख़ास
+Yours: find it in the shop, under Cues.	अब यह आपका है: शॉप में क्यू टैब में देखें।
+Win the last stage again while signed in to claim it.	इसे पाने के लिए साइन इन रहते हुए आख़िरी स्टेज फिर से जीतें।
+Beat all fifteen opponents to earn it. It is sold nowhere.	इसे पाने के लिए सभी पंद्रह विरोधियों को हराएँ। यह कहीं नहीं बिकता।
+You won the tour! Sign in to claim your reward.	आपने टूर जीत लिया! अपना इनाम पाने के लिए साइन इन करें।
+The server is checking your final game…	सर्वर आपका आख़िरी गेम जाँच रहा है…
+Try again	फिर कोशिश करें
+The server did not answer. Try again in a moment.	सर्वर ने जवाब नहीं दिया। थोड़ी देर में फिर कोशिश करें।
+The server is busy checking other games. Try again in a moment.	सर्वर दूसरे गेम जाँचने में व्यस्त है। थोड़ी देर में फिर कोशिश करें।
+Wait a minute before trying again.	फिर कोशिश करने से पहले एक मिनट रुकें।
+That game is too long to be checked.	वह गेम जाँचने के लिए बहुत लंबा है।
+That game has a move the rules don't allow.	उस गेम में ऐसी चाल है जिसकी नियम अनुमति नहीं देते।
+That game was not played to the end.	वह गेम अंत तक नहीं खेला गया।
+That game was not a win.	उस गेम में जीत नहीं हुई थी।
+The computer's shots in that game don't match how it plays (another version of the game?).	उस गेम में कंप्यूटर के शॉट उसके खेलने के तरीक़े से मेल नहीं खाते (गेम का कोई दूसरा वर्ज़न?)।
+The Rookie	नौसिखिया
+Still learning: aims at the nearest pocket, centre ball, and hopes. Never plays safe.	अभी सीख रहा है: सबसे पास के पॉकेट पर निशाना, बीच से हिट, और बस उम्मीद। कभी सेफ़्टी नहीं खेलता।
+The Weekend Player	वीकेंड की खिलाड़ी
+Knows the basics and drops the easy ones, but rarely thinks about where the cue ball goes.	बुनियादी बातें जानती है और आसान बॉल डाल देती है, पर क्यू बॉल कहाँ जाएगी, इस पर कम ही सोचती है।
+The Bank Artist	बैंक की कलाकार
+Sees angles nobody else does: whenever a ball can go off a cushion and in, she banks it.	वो एंगल देखती है जो कोई और नहीं देखता: जब भी कोई बॉल कुशन से लगकर पॉकेट में जा सकती है, वह बैंक शॉट खेलती है।
+The Cannon	तोप
+Goes for everything, as hard as he can: long pots, thunderous breaks, hardly ever a safety.	हर शॉट पूरी ताक़त से: लंबे पॉट, धमाकेदार ब्रेक, सेफ़्टी लगभग कभी नहीं।
+The Wall	दीवार
+Only shoots when the pot is on. Otherwise she tucks the cue ball away and waits for your mistake.	सिर्फ़ तभी मारती है जब पॉट पक्का हो। वरना क्यू बॉल छिपा देती है और आपकी ग़लती का इंतज़ार करती है।
+The Old Pro	पुराना उस्ताद
+Forty years at the table: a smooth stroke, a raised cue, side spin, and never in a hurry.	टेबल पर चालीस साल: नरम स्ट्रोक, उठा हुआ क्यू, साइड स्पिन, और कभी कोई जल्दबाज़ी नहीं।
+The Hustler	चालाक
+Plays just well enough to win, then a little better. Balanced, sharp and hard to read.	बस जीतने भर का खेलती है, फिर थोड़ा और बेहतर। संतुलित, तेज़-तर्रार और उसे भाँपना मुश्किल।
+The Professor	प्रोफ़ेसर
+Thinks three balls ahead: every shot leaves the cue ball where the next one is easy.	तीन बॉल आगे की सोचता है: हर शॉट क्यू बॉल को वहाँ छोड़ता है जहाँ से अगला शॉट आसान हो।
+The Sharpshooter	निशानेबाज़
+Pots from anywhere, at any angle. Her safeties are an afterthought: she doesn't need them.	कहीं से भी, किसी भी एंगल से पॉट करती है। सेफ़्टी की उसे परवाह नहीं: उसे इसकी ज़रूरत ही नहीं।
+The Champion	चैंपियन
+Unbeaten for years. Precise, patient and merciless: the last stage of the tour.	सालों से अजेय। सटीक, धैर्यवान और बेरहम: टूर का आख़िरी स्टेज।
+Tour champion	टूर चैंपियन
+Champion of the tour	टूर का चैंपियन
+Beat all fifteen opponents of the computer tour.	कंप्यूटर टूर के सभी पंद्रह विरोधियों को हराएँ।
+Connection lost. Reconnecting (attempt {n})…	कनेक्शन टूट गया। फिर से कनेक्ट हो रहा है (कोशिश {n})…
+Connection lost. Reconnecting…	कनेक्शन टूट गया। फिर से कनेक्ट हो रहा है…
+Foul by {shooter}: {foul}.	{shooter} का फ़ाउल: {foul}।
+Graphics set to {q} for smooth play. You can change this in Settings.	स्मूद गेम के लिए ग्राफ़िक्स {q} पर सेट किए गए। आप इसे सेटिंग्स में बदल सकते हैं।
+Rating {r} ({d})	रेटिंग {r} ({d})
+The {ball} was spotted.	{ball} वापस स्पॉट पर रखी गई।
+Waiting for {to} ({kind})…	{to} का इंतज़ार ({kind})…
+rated	रेटेड
+casual	कैज़ुअल
+Waiting for {name}…	{name} का इंतज़ार…
+{by} declined your invitation.	{by} ने आपका इनवाइट ठुकरा दिया।
+a rated game	रेटेड गेम
+a casual game	कैज़ुअल गेम
+{name} calls the 8-ball in the {pocket} pocket.	{name} ने 8 बॉल के लिए पॉकेट कॉल किया: {pocket}।
+{name} has ball in hand…	{name} के पास बॉल इन हैंड है…
+{name} is aiming…	{name} निशाना लगा रहे हैं…
+{name} is on the 8: click a pocket to call it	{name} 8 बॉल पर: कॉल करने के लिए किसी पॉकेट पर क्लिक करें
+{name} is thinking…	{name} सोच रहे हैं…
+{name} left the game.	{name} ने गेम छोड़ दिया।
+{name} resigned.	{name} ने हार मान ली।
+{name} to break	{name} का ब्रेक
+{name} to shoot ({target})	{name} की बारी ({target})
+{name}'s turn	{name} की बारी
+{next} has ball in hand{where}.	{next} के पास बॉल इन हैंड है{where}।
+ behind the head string	 (हेड स्ट्रिंग के पीछे)
+{opponent} is back.	{opponent} वापस आ गए।
+{opponent} lost the connection. Waiting up to {secs} s…	{opponent} का कनेक्शन टूट गया। {secs} सेकंड तक इंतज़ार…
+{opponent} wants a rematch.	{opponent} रीमैच चाहते हैं।
+{opponent} went back to the lounge.	{opponent} लाउंज में लौट गए।
+{shooter} pocketed {balls}.	{shooter} ने पॉट किया: {balls}।
+{shooter} takes {group}.	{shooter} का ग्रुप: {group}।
+{who} ran out of time: ball in hand for the opponent.	{who} का समय ख़त्म: विरोधी को बॉल इन हैंड।
+{name} wants a rematch!	{name} रीमैच चाहते हैं!
+{name} wins!	{name} की जीत!
+{name} wins	{name} की जीत
+Volume	वॉल्यूम
+The cue, the balls, the cushions and the pockets.	क्यू, बॉल, कुशन और पॉकेट।
+Notifications	नोटिफ़िकेशन
+Could not find the server “{host}”.	सर्वर “{host}” नहीं मिला।
+Network error: {e}.	नेटवर्क एरर: {e}।
+Secure connection failed: {e}.	सुरक्षित कनेक्शन नहीं हो सका: {e}।
+The server refused the connection (HTTP {code}).	सर्वर ने कनेक्शन अस्वीकार कर दिया (HTTP {code})।
+Connection error: {e}.	कनेक्शन एरर: {e}।
+cue ball	क्यू बॉल
+{n}-ball	{n} बॉल
+Scratch: the cue ball was pocketed	स्क्रैच: क्यू बॉल पॉकेट में चली गई
+The cue ball left the table	क्यू बॉल टेबल से बाहर चली गई
+The cue ball didn't hit any ball	क्यू बॉल किसी बॉल से नहीं टकराई
+Wrong ball hit first ({ball})	पहले ग़लत बॉल पर हिट ({ball})
+No ball reached a cushion after contact	टक्कर के बाद कोई बॉल कुशन तक नहीं पहुँची
+The {ball} left the table	{ball} टेबल से बाहर चली गई
+Illegal break	अवैध ब्रेक
+pocketed the 8-ball	8 बॉल पॉट की
+opponent pocketed the 8-ball too early	विरोधी ने 8 बॉल समय से पहले पॉट कर दी
+opponent sank the 8-ball in the wrong pocket	विरोधी ने 8 बॉल ग़लत पॉकेट में डाल दी
+opponent fouled on the 8-ball	विरोधी ने 8 बॉल पर फ़ाउल किया
+opponent knocked the 8-ball off the table	विरोधी ने 8 बॉल टेबल से बाहर गिरा दी
+opponent resigned	विरोधी ने हार मान ली
+opponent left the game	विरोधी ने गेम छोड़ दिया
+head left corner	हेड का बायाँ कोना
+head right corner	हेड का दायाँ कोना
+left side	बाईं साइड
+right side	दाईं साइड
+foot left corner	फ़ुट का बायाँ कोना
+foot right corner	फ़ुट का दायाँ कोना
+Easy	आसान
+Hard	मुश्किल
+Normal	नॉर्मल
+Power	पावर
+No messages yet.	अभी कोई मैसेज नहीं।
+▼ newer messages	▼ नए मैसेज
+Camera follows the cue	कैमरा क्यू के साथ घूमे
+Off: it stays where you put it.	बंद: कैमरा वहीं रहता है जहाँ आप उसे रखते हैं।
+Pull back for shots	शॉट के समय कैमरा पीछे हटे
+Only when the camera follows the cue.	सिर्फ़ तब, जब कैमरा क्यू के साथ घूमे।
+Drag the cue · click a spot	क्यू खींचें · किसी जगह पर क्लिक करें
+Time's up: {name}'s shot was played at full power.	समय ख़त्म: {name} का शॉट पूरी पावर से खेला गया।
+Dark room	अँधेरा कमरा
+A spotlight on the table, the room in shadow.	रोशनी सिर्फ़ टेबल पर, बाक़ी कमरा अँधेरे में।
+Hide	छिपाएँ
+Interface size	इंटरफ़ेस का आकार
+Text, buttons and panels.	टेक्स्ट, बटन और पैनल।
+Drag to set the power	पावर सेट करने के लिए खींचें
+Shoot!	शॉट मारें!
+Set the power, then press the green button	पावर सेट करें, फिर हरा बटन दबाएँ
++{n} coins · {why}	+{n} कॉइन · {why}
+16-player tournaments, and first place on the waiting list of a full one	16 खिलाड़ियों वाले टूर्नामेंट, और भरे हुए टूर्नामेंट की वेटिंग लिस्ट में पहला नंबर
+30 minutes: play as many games as you can. A win is 2 points, 4 from the third win in a row.	30 मिनट: जितने हो सकें उतने गेम खेलें। एक जीत पर 2 पॉइंट, लगातार तीसरी जीत से 4।
+A crown by your name, everywhere (lounge, profile, ranking)	आपके नाम के साथ हर जगह एक ताज (लाउंज, प्रोफ़ाइल, रैंकिंग)
+Account	अकाउंट
+Add friends to give them items.	दोस्तों को आइटम गिफ़्ट करने के लिए उन्हें जोड़ें।
+Arena	एरीना
+Arena · host {host} · {n} players · {kind}	एरीना · होस्ट {host} · {n} खिलाड़ी · {kind}
+Buy now	अभी ख़रीदें
+Buying…	ख़रीदा जा रहा है…
+Change password	पासवर्ड बदलें
+Click again to delete	डिलीट करने के लिए फिर क्लिक करें
+Got a code? Type it here	कोड मिला है? यहाँ लिखें
+Confirm purchase	ख़रीदारी की पुष्टि करें
+Copied: send it to a friend.	कॉपी हो गया: इसे किसी दोस्त को भेजें।
+Copy	कॉपी करें
+Current	मौजूदा
+Delete account	अकाउंट डिलीट करें
+Entry	एंट्री
+Entry {n} coins	एंट्री {n} कॉइन
+Every replay kept (free players keep their last 10 games)	हर रीप्ले सेव रहता है (फ़्री खिलाड़ियों के आख़िरी 10 गेम सेव रहते हैं)
+For {name}	{name} के लिए
+Add a message (optional)	मैसेज जोड़ें (वैकल्पिक)
+Format	फ़ॉर्मेट
+Frames	फ़्रेम
+Free	मुफ़्त
+Get coins	कॉइन पाएँ
+Gift sent!	गिफ़्ट भेज दिया!
+Give as a gift	गिफ़्ट करें
+Give it	गिफ़्ट करें
+Give to a friend	किसी दोस्त को गिफ़्ट करें
+Great!	बढ़िया!
+If you forget your password, we confirm it's you by this e-mail.	अगर आप पासवर्ड भूल जाएँ, तो हम इसी ई-मेल से पुष्टि करेंगे कि यह आप ही हैं।
+Invite with a code	कोड से इनवाइट करें
+It goes on right away. Items only change the look, never the game.	यह तुरंत लग जाता है। आइटम सिर्फ़ लुक बदलते हैं, गेम कभी नहीं।
+Join my table in Snook Legend:	Snook Legend में मेरी टेबल पर आइए:
+Join the waiting list	वेटिंग लिस्ट में शामिल हों
+Join · {n} coins	जुड़ें · {n} कॉइन
+Knockout	नॉकआउट
+Name colour	नाम का रंग
+Name colours for the lounge and exclusive frames, cloth, cues, balls and effects	लाउंज के लिए नाम के रंग, और ख़ास फ़्रेम, क्लॉथ, क्यू, बॉल और इफ़ेक्ट
+New	नया
+No, thanks	नहीं, धन्यवाद
+Nothing that wins games: VIP only changes the look	ऐसा कुछ नहीं जो गेम जिताए: VIP सिर्फ़ लुक बदलता है
+Numbers	आँकड़े
+ON TV	TV पर
+Play rated games to see your rating here.	यहाँ अपनी रेटिंग देखने के लिए रेटेड गेम खेलें।
+No rated games yet.	अभी कोई रेटेड गेम नहीं।
+Price	क़ीमत
+Prizes {a} + {b}	इनाम {a} + {b}
+Protect your purchases	अपनी ख़रीदारी सुरक्षित रखें
+Purchase complete!	ख़रीदारी पूरी हुई!
+Recovery e-mail	रिकवरी ई-मेल
+Save	सेव करें
+The fees make the prize: 70% to the champion, 20% to the runner-up.	एंट्री फ़ीस से ही इनाम बनता है: 70% चैंपियन को, 20% रनर-अप को।
+The server restarts in {m}:{s} for an update. Games in progress go on.	अपडेट के लिए सर्वर {m}:{s} में रीस्टार्ट होगा। चल रहे गेम जारी रहेंगे।
+Use this e-mail	यह ई-मेल इस्तेमाल करें
+Use {email} to recover your account if you ever forget your password?	अगर आप कभी पासवर्ड भूल जाएँ, तो अकाउंट वापस पाने के लिए {email} इस्तेमाल करें?
+Watch	देखें
+Watch again	फिर से देखें
+Winning effects	जीत के इफ़ेक्ट
+Halls	हॉल
+You are paired as soon as you and an opponent are free.	जैसे ही आप और कोई विरोधी ख़ाली होंगे, आपकी जोड़ी बना दी जाएगी।
+You can change it any time in your profile (Account).	आप इसे कभी भी अपनी प्रोफ़ाइल (अकाउंट) में बदल सकते हैं।
+You need {n} more coins.	आपको {n} और कॉइन चाहिए।
+Your account	आपका अकाउंट
+Your account was deleted.	आपका अकाउंट डिलीट कर दिया गया।
+Your coins	आपके कॉइन
+Your friend gets it right away.	आपके दोस्त को यह तुरंत मिल जाता है।
+Your game against {name} is starting.	{name} के ख़िलाफ़ आपका गेम शुरू हो रहा है।
+Your name, e-mail, friends and items are erased for good. Your opponents keep the games you played (without your name).	आपका नाम, ई-मेल, दोस्त और आइटम हमेशा के लिए मिट जाएँगे। आपके विरोधियों के पास आपके साथ खेले गए गेम रहेंगे (आपके नाम के बिना)।
+balls per game	प्रति गेम बॉल
+best run ever	अब तक का सबसे लंबा रन
+daily bonus	डेली बोनस
+entry fee back	एंट्री फ़ीस वापस
+for the game	गेम के लिए
+for the win	जीत के लिए
+games counted	गिने गए गेम
+Analysis	विश्लेषण
+The shot analysis isn't available on this server yet.	इस सर्वर पर शॉट विश्लेषण अभी उपलब्ध नहीं है।
+Only online accounts have a shot analysis.	शॉट विश्लेषण सिर्फ़ ऑनलाइन अकाउंट के लिए है।
+Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	आप कैसे पॉट करते हैं, यह देखने के लिए ऑनलाइन खेलें: पॉकेट पर {n} और शॉट के बाद विश्लेषण दिखेगा।
+{name} hasn't played enough online games for an analysis yet.	{name} ने विश्लेषण के लिए अभी काफ़ी ऑनलाइन गेम नहीं खेले हैं।
+1 game	1 गेम
+{pct}% of {n} shots at a pocket potted · {games}	पॉकेट पर {n} शॉट में से {pct}% पॉट हुए · {games}
+{made} of {n} potted ({pct})	{n} में से {made} पॉट ({pct})
+By kind of shot	शॉट के प्रकार से
+shots	शॉट
+Straight	सीधा
+Cut 8–25°	कट 8–25°
+Cut 25–45°	कट 25–45°
+Thin cut 45°+	पतला कट 45°+
+Bank	बैंक
+Kick	किक
+Combination	कॉम्बिनेशन
+Jump	जंप
+Massé	मासे
+Break	ब्रेक
+By distance	दूरी से
+Short (under 0.75 m)	छोटी (0.75 मी से कम)
+Medium (to 1.5 m)	मध्यम (1.5 मी तक)
+Long (over 1.5 m)	लंबी (1.5 मी से ज़्यादा)
+left the opponent nothing	विरोधी को कुछ नहीं छोड़ा
+Breaks	ब्रेक
+made a ball	बॉल पॉट हुई
+Potted	पॉट हुईं
+Missed	मिस हुईं
+Where and in which pocket	कहाँ से और किस पॉकेट में
+{pocket}: {made} of {n} potted	{pocket}: {n} में से {made} पॉट
+Where the potted balls were	पॉट हुई बॉल कहाँ थीं
+Where the missed balls were	मिस हुई बॉल कहाँ थीं
+few	कम
+many	ज़्यादा
+{made} potted · {missed} missed ({pct})	{made} पॉट · {missed} मिस ({pct})
+Top left corner	ऊपर बायाँ कोना
+Bottom left corner	नीचे बायाँ कोना
+Top side pocket	ऊपर साइड पॉकेट
+Bottom side pocket	नीचे साइड पॉकेट
+Top right corner	ऊपर दायाँ कोना
+Bottom right corner	नीचे दायाँ कोना
+games left unfinished	अधूरे छोड़े गए गेम
+potting success	पॉट सफलता
+shots with a foul	फ़ाउल वाले शॉट
+starts in {n} min	{n} मिनट में शुरू
+tournament prize	टूर्नामेंट इनाम
+The dark room hides the hall around the table.	अँधेरा कमरा टेबल के आसपास का हॉल छिपा देता है।
+Show the hall	हॉल दिखाएँ
+Level {n} · 1 win	लेवल {n} · 1 जीत
+Level {n} · {w} wins	लेवल {n} · {w} जीत
+{left} more online wins with this cue for level {n}. Levels only add marks to the cue.	लेवल {n} के लिए इस क्यू से {left} और ऑनलाइन जीत चाहिए। लेवल सिर्फ़ क्यू पर निशान जोड़ते हैं।
+The top level: this cue has every mark.	सबसे ऊँचा लेवल: इस क्यू पर सारे निशान हैं।
+Your cue {cue} reached level {n}!	आपका क्यू {cue} लेवल {n} पर पहुँच गया!
+Most wins: {cue} (level {n})	सबसे ज़्यादा जीत: {cue} (लेवल {n})
+{games} games · {rate}% won · {balls} balls made	{games} गेम · {rate}% जीते · {balls} बॉल पॉट
+vs	बनाम
+{from} gave you {item}!	{from} ने आपको {item} गिफ़्ट किया!
+You received a gift!	आपको एक गिफ़्ट मिला!
+From	भेजने वाले
+To	पाने वाले
+someone	कोई
+A month of VIP	एक महीने का VIP
+Thank	शुक्रिया कहें
+Thanked	शुक्रिया कहा
+They thanked you	उन्होंने शुक्रिया कहा
+Use it now	अभी इस्तेमाल करें
+Later	बाद में
+OK	ठीक है
+Next ({n} more)	अगला ({n} और)
+{from} gave you {item}! It's waiting for you in the lounge.	{from} ने आपको {item} गिफ़्ट किया! यह लाउंज में आपका इंतज़ार कर रहा है।
+{name} thanked you for {item}.	{name} ने {item} के लिए आपको शुक्रिया कहा।
+Gifts	गिफ़्ट
+No gifts yet. Friends can give you items from the shop.	अभी कोई गिफ़्ट नहीं। दोस्त आपको शॉप से आइटम गिफ़्ट कर सकते हैं।
+{item} is yours and already in use.	{item} आपका है और इस्तेमाल में है।
+{m}:{s} left	{m}:{s} बाकी
+{name} invites you to play.	{name} आपको खेलने के लिए बुला रहे हैं।
+{name} is online.	{name} ऑनलाइन हैं।
+{name} ran out of time.	{name} का समय ख़त्म हो गया।
+{name} received {item}.	{name} को {item} मिला।
+{n} pts · {g} games	{n} पॉइंट · {g} गेम
+{n} watching · avg {r}	{n} देख रहे हैं · औसत {r}
+{title}: {how}	{title}: {how}
+Olive	जैतूनी
+Navy	नेवी ब्लू
+Forest	गहरा हरा
+Slate grey	स्लेटी
+Red wine	वाइन लाल
+Burnt orange	गहरा नारंगी
+Dusty rose	धूसर गुलाबी
+Sand	रेतीला
+Ice blue	बर्फ़ीला नीला
+Lime	नींबू हरा
+Black tie	ब्लैक टाई
+Cobalt	कोबाल्ट
+Emerald	पन्ना
+Natural maple	नेचुरल मेपल
+Beach bar	बीच बार
+Modern	मॉडर्न
+English club	इंग्लिश क्लब
+Ebony & gold	आबनूस और सोना
+Pool hall	पूल हॉल
+Industrial loft	इंडस्ट्रियल लॉफ़्ट
+Steel & oak	स्टील और ओक
+Tournament	टूर्नामेंट
+Victorian walnut	विक्टोरियन अखरोट
+Ivory deco	हाथीदाँत डेको
+Mountain lodge	पहाड़ी लॉज
+Neon arcade	नियॉन आर्केड
+Art deco lounge	आर्ट डेको लाउंज
+Skyline penthouse	स्काईलाइन पेंटहाउस
+Walnut	अखरोट
+Zebrawood	ज़ेबरावुड
+Bocote	बोकोटे
+Deep ocean	गहरा समंदर
+Cherry	चेरी
+Jade	जेड
+Tiger	बाघ
+Amethyst	जमुनिया
+Arctic carbon	आर्कटिक कार्बन
+Inferno	ज्वाला
+Obsidian gold	ऑब्सीडियन और सोना
+Tan chalk	हल्की भूरी चॉक
+Grey chalk	स्लेटी चॉक
+Orange chalk	नारंगी चॉक
+Pink chalk	गुलाबी चॉक
+Teal chalk	टील चॉक
+Yellow chalk	पीली चॉक
+Black chalk	काली चॉक
+White chalk	सफ़ेद चॉक
+Silver chalk	रुपहली चॉक
+TV set	TV सेट
+Earth tones	मिट्टी के रंग
+Ocean	समंदर
+Sunset	सूर्यास्त
+Candy	कैंडी
+Pearl	मोती
+Monochrome	मोनोक्रोम
+Chrome	क्रोम
+Gold rush	गोल्ड रश
+No frame	कोई फ़्रेम नहीं
+Bronze	कांस्य
+Silver	चाँदी
+Gold	सोना
+Green felt	हरा फ़ेल्ट
+Mahogany	महोगनी
+Ice	बर्फ़
+Fire	आग
+Diamond	हीरा
+VIP crown	VIP ताज
+Rose gold	रोज़ गोल्ड
+Aqua	एक्वा
+Violet	जामुनी
+Ember	अंगारा
+Mint	पुदीना
+Frost	हिम
+No effect	कोई इफ़ेक्ट नहीं
+Sparks	चिंगारियाँ
+Confetti	कॉन्फ़ेटी
+Shockwave	शॉकवेव
+Coin shower	कॉइन की बारिश
+Flames	लपटें
+Royal sparks	शाही चिंगारियाँ
+Tier colour	टियर का रंग
+16-player tournaments are for VIP members.	16 खिलाड़ियों वाले टूर्नामेंट VIP सदस्यों के लिए हैं।
+A seat opened: you are in the tournament!	एक जगह ख़ाली हुई: आप टूर्नामेंट में हैं!
+Entry fees go up to 1000 coins.	एंट्री फ़ीस 1000 कॉइन तक होती है।
+Guests can't play for coins.	गेस्ट कॉइन के लिए नहीं खेल सकते।
+Only items sold for coins can be given.	सिर्फ़ कॉइन से बिकने वाले आइटम ही गिफ़्ट किए जा सकते हैं।
+Password changed.	पासवर्ड बदल गया।
+Passwords need 8 or more characters, not only digits.	पासवर्ड में 8 या ज़्यादा अक्षर होने चाहिए, सिर्फ़ अंक नहीं।
+Recovery e-mail removed.	रिकवरी ई-मेल हटा दिया गया।
+Recovery e-mail saved.	रिकवरी ई-मेल सेव हो गया।
+Something went wrong. Please try again.	कुछ गड़बड़ हो गई। कृपया फिर कोशिश करें।
+That code is not valid (or the table was closed).	वह कोड मान्य नहीं है (या टेबल बंद हो गई)।
+That doesn't look like an e-mail address.	यह ई-मेल पता नहीं लगता।
+That game is over.	वह गेम ख़त्म हो चुका है।
+The current password is wrong.	मौजूदा पासवर्ड ग़लत है।
+The server is restarting.	सर्वर रीस्टार्ट हो रहा है।
+The server is restarting: new games start in a moment.	सर्वर रीस्टार्ट हो रहा है: नए गेम कुछ ही पलों में शुरू होंगे।
+The tournament is full: you are on the waiting list.	टूर्नामेंट भर गया है: आप वेटिंग लिस्ट में हैं।
+This replay is not available.	यह रीप्ले उपलब्ध नहीं है।
+You can only give items to your friends.	आप सिर्फ़ अपने दोस्तों को आइटम गिफ़्ट कर सकते हैं।
+Your friend already has this item.	आपके दोस्त के पास यह आइटम पहले से है।
+16 (VIP)	16 (VIP)
+VIP isn't sold in this version of the game.	गेम के इस वर्ज़न में VIP नहीं बिकता।
+In this version of the game, coins are earned by playing:	गेम के इस वर्ज़न में कॉइन खेलकर कमाए जाते हैं:
+rated games, and a bonus every day you play.	रेटेड गेम से, और हर उस दिन बोनस, जिस दिन आप खेलते हैं।
+Coins are earned by playing:	कॉइन खेलकर कमाए जाते हैं:
+If you like, you can also buy them:	चाहें तो आप इन्हें ख़रीद भी सकते हैं:
+one month	एक महीना
+already VIP	पहले से VIP
+Give a month to a friend · {p}	किसी दोस्त को एक महीना गिफ़्ट करें · {p}
+{from} gave you a month of VIP!	{from} ने आपको एक महीने का VIP गिफ़्ट किया!
+{name} received a month of VIP.	{name} को एक महीने का VIP मिला।
+Your friend is already VIP.	आपका दोस्त पहले से VIP है।
+Game in progress: {n} balls left	चल रहा गेम: {n} बॉल बाकी
+Continue	जारी रखें
+Missions	मिशन
+Board	बोर्ड
+Today	आज
+This week	इस हफ़्ते
+new missions in {t}	{t} में नए मिशन
+ends in {t}	{t} में ख़त्म
+{n} days	{n} दिन
+{n} h	{n} घंटे
+{n} min	{n} मिनट
+mission complete	मिशन पूरा
+Missions count rated games played to the end. The coins arrive as soon as one is complete.	मिशन में अंत तक खेले गए रेटेड गेम गिने जाते हैं। मिशन पूरा होते ही कॉइन मिल जाते हैं।
+Nothing on the board right now.	अभी बोर्ड पर कुछ नहीं।
+Open tournaments	खुले टूर्नामेंट
+{n}/{size} players	{n}/{size} खिलाड़ी
+starts in {t}	{t} में शुरू
+entry {n} coins	एंट्री {n} कॉइन
+See	देखें
+Play {n} rated games	{n} रेटेड गेम खेलें
+Win {n} rated games	{n} रेटेड गेम जीतें
+Pot {n} balls	{n} बॉल पॉट करें
+Pot {n} balls with spin	स्पिन के साथ {n} बॉल पॉट करें
+Pot 3 balls in a row in one visit	एक बारी में लगातार 3 बॉल पॉट करें
+Win a game without a foul	बिना फ़ाउल के एक गेम जीतें
+Pot 3 balls in a row {n} times	{n} बार लगातार 3 बॉल पॉट करें
+Win {n} games without a foul	बिना फ़ाउल के {n} गेम जीतें
+TV camera when watching	देखते समय TV कैमरा
+Broadcast angles for other players' games and replays.	दूसरे खिलाड़ियों के गेम और रीप्ले में ब्रॉडकास्ट जैसे एंगल।
+System notifications	सिस्टम नोटिफ़िकेशन
+Invites, friends coming online and games starting, while you're away.	जब आप दूर हों: इनवाइट, दोस्तों के ऑनलाइन आने और गेम शुरू होने की सूचना।
+{name} starts in a few minutes: get ready!	{name} कुछ ही मिनटों में शुरू होगा: तैयार हो जाएँ!
+{name} starts in a few minutes: there is still room.	{name} कुछ ही मिनटों में शुरू होगा: अभी जगह बाकी है।
+{name} has started!	{name} शुरू हो गया!
+Momentum	दबदबा
+Shot map	शॉट मैप
+No shots yet.	अभी कोई शॉट नहीं।
+made	पॉट
+missed	मिस
+foul	फ़ाउल
+See the tournaments	टूर्नामेंट देखें
+Open the shop	शॉप खोलें
+See VIP	VIP देखें
+See the missions	मिशन देखें
+A new version of the game is out: update to play online.	गेम का नया वर्ज़न आ गया है: ऑनलाइन खेलने के लिए अपडेट करें।
+Update in the Microsoft Store	Microsoft Store में अपडेट करें
+Update now	अभी अपडेट करें
+Download the new version	नया वर्ज़न डाउनलोड करें
+New version out	नया वर्ज़न आ गया
+Get the new version to play online	ऑनलाइन खेलने के लिए नया वर्ज़न पाएँ
+Cheer for {name}	{name} के लिए चीयर करें
+Crowd: {a} for {p0}, {b} for {p1}	दर्शक: {p0} के साथ {a}, {p1} के साथ {b}
+welcome pack	वेलकम पैक
+Welcome pack	वेलकम पैक
+Cue “{cue}”, cloth “{cloth}” and {n} coins · only once, sold nowhere else	क्यू “{cue}”, क्लॉथ “{cloth}” और {n} कॉइन · सिर्फ़ एक बार, कहीं और नहीं बिकता
+Lagoon	लैगून
+You already have the welcome pack.	वेलकम पैक आपके पास पहले से है।
+Your welcome pack is here!	आपका वेलकम पैक आ गया!
+Previous shot (←)	पिछला शॉट (←)
+Next shot (→)	अगला शॉट (→)
+Play (Space)	चलाएँ (स्पेस)
+Pause (Space)	रोकें (स्पेस)
+Speed	स्पीड
+Shot {n} of {total}	शॉट {n}/{total}
+For VIP members	VIP सदस्यों के लिए
+{n} reactions of your own to send during games	गेम के दौरान भेजने के लिए आपके अपने {n} रिएक्शन
+Items {a}–{b} of {n}	आइटम {a}–{b} / {n}
+(message deleted by its author)	(भेजने वाले ने मैसेज डिलीट किया)
+(message deleted by an administrator)	(एडमिनिस्ट्रेटर ने मैसेज डिलीट किया)
+Delete (it shows as deleted)	डिलीट करें (डिलीट किया हुआ दिखेगा)
+Remove without a trace	बिना निशान छोड़े हटाएँ
+The chat was cleared by {name}.	{name} ने चैट साफ़ कर दी।
+Click again to clear	साफ़ करने के लिए फिर क्लिक करें
+Clear the chat	चैट साफ़ करें
+Players' chat (administrator)	खिलाड़ियों की चैट (एडमिनिस्ट्रेटर)
+Play the computer while you wait	इंतज़ार करते हुए कंप्यूटर से खेलें
+Looking for an opponent… {t} · the game starts as soon as one is found	विरोधी खोजा जा रहा है… {t} · कोई मिलते ही गेम शुरू हो जाएगा
+Stop	रोकें
+# Coin packs and months of VIP bought in the Microsoft Store (the Store build).
+The Microsoft Store couldn't complete the purchase.	Microsoft Store ख़रीदारी पूरी नहीं कर सका।
+The Microsoft Store couldn't confirm the purchase right now. Its coins arrive the next time you open the shop.	Microsoft Store अभी ख़रीदारी की पुष्टि नहीं कर सका। अगली बार शॉप खोलने पर इसके कॉइन आ जाएँगे।
+{n} coins added to your wallet.	{n} कॉइन आपके वॉलेट में जुड़ गए।
+Microsoft is confirming your purchase: the coins arrive in a moment.	Microsoft आपकी ख़रीदारी की पुष्टि कर रहा है: कॉइन कुछ ही पलों में आ जाएँगे।
+The purchase hasn't reached us yet. Its coins arrive the next time you open the shop.	ख़रीदारी अभी हम तक नहीं पहुँची है। अगली बार शॉप खोलने पर इसके कॉइन आ जाएँगे।
+Loading prices from the Microsoft Store…	Microsoft Store से क़ीमतें लोड हो रही हैं…
+Coins can't be bought in this version yet.	इस वर्ज़न में अभी कॉइन नहीं ख़रीदे जा सकते।
+Finish the purchase in the Microsoft Store window…	Microsoft Store की विंडो में ख़रीदारी पूरी करें…
+Confirming your purchase…	आपकी ख़रीदारी की पुष्टि हो रही है…
+Paid in the Microsoft Store, with your Microsoft account.	भुगतान Microsoft Store में, आपके Microsoft अकाउंट से होता है।
+The Microsoft Store can't be reached right now. Try again in a moment.	अभी Microsoft Store तक नहीं पहुँच सकते। थोड़ी देर में फिर कोशिश करें।
+The Microsoft Store could not confirm the purchase.	Microsoft Store ख़रीदारी की पुष्टि नहीं कर सका।
+Sign in to the Microsoft Store with your Microsoft account, then open the shop again.	अपने Microsoft अकाउंट से Microsoft Store में साइन इन करें, फिर शॉप दोबारा खोलें।
+The Microsoft Store couldn't confirm the purchase right now. Your VIP month starts the next time you open the shop.	Microsoft Store अभी ख़रीदारी की पुष्टि नहीं कर सका। अगली बार शॉप खोलने पर आपका VIP महीना शुरू होगा।
+You are VIP until {d}, and {n} coins were added to your wallet.	आप {d} तक VIP हैं, और आपके वॉलेट में {n} कॉइन जोड़ दिए गए।
+Microsoft is confirming your purchase: your VIP month starts in a moment.	Microsoft आपकी ख़रीदारी की पुष्टि कर रहा है: आपका VIP महीना कुछ ही पलों में शुरू होगा।
+The purchase hasn't reached us yet. Your VIP month starts the next time you open the shop.	ख़रीदारी अभी हम तक नहीं पहुँची है। अगली बार शॉप खोलने पर आपका VIP महीना शुरू होगा।
+A month at a time: nothing renews by itself	एक बार में एक महीना: कुछ भी अपने-आप रिन्यू नहीं होता
+Add a month · {p}	एक महीना और · {p}
+A month of VIP · {p}	एक महीने का VIP · {p}
+The new month starts when this one ends.	नया महीना इस महीने के ख़त्म होने पर शुरू होगा।
+Trophies	ट्रॉफ़ी
+No trophies yet.	अभी कोई ट्रॉफ़ी नहीं।
+Tournament won · {n} players	टूर्नामेंट जीता · {n} खिलाड़ी
+The computer tour	कंप्यूटर टूर
+All fifteen opponents beaten	सभी पंद्रह विरोधियों को हराया
+Daily challenge	आज की चुनौती
+First of {n} players	{n} खिलाड़ियों में पहला स्थान
+Easy shot	आसान शॉट
+Fair shot	ठीक-ठाक शॉट
+Hard shot	मुश्किल शॉट
+Very hard shot	बहुत मुश्किल शॉट
+~{n}% chance	~{n}% संभावना
+No ball goes down as aimed	इस निशाने पर कोई बॉल पॉकेट में नहीं जाएगी
+straight in	सीधा
+{n}° cut	{n}° कट
+off one cushion	एक कुशन से
+off {n} cushions	{n} कुशन से
+Make as many balls as you can in one visit: a miss or a foul ends the attempt.	एक ही बारी में जितनी हो सकें उतनी बॉल पॉट करें: मिस या फ़ाउल होते ही कोशिश ख़त्म।
+The same table for everyone, all day	सबके लिए एक ही टेबल, पूरे दिन
+{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	दिन में {n} कोशिशें। टेबल साफ़ करें और {coins} कॉइन पाएँ; दिन के विजेता को ट्रॉफ़ी मिलती है।
+A new table in {h} h {m} min	{h} घंटे {m} मिनट में नई टेबल
+Sign in to take part: the server keeps the day's table.	हिस्सा लेने के लिए साइन इन करें: सर्वर दिन का लीडरबोर्ड रखता है।
+Balls on today's table	आज की टेबल पर बॉल
+Attempts left	बाकी कोशिशें
+{n} balls · #{rank}	{n} बॉल · #{rank}
+{n} balls	{n} बॉल
+not yet	अभी नहीं
+Your best today	आज का आपका बेस्ट
+No attempts left today: come back tomorrow.	आज की कोशिशें ख़त्म: कल फिर आएँ।
+The attempt could not be counted.	यह कोशिश गिनी नहीं जा सकी।
+Setting up the table…	टेबल तैयार हो रही है…
+Start an attempt	कोशिश शुरू करें
+Starting uses an attempt, even if you leave the table.	शुरू करते ही एक कोशिश गिन ली जाती है, भले ही आप टेबल छोड़ दें।
+Loading today's table…	आज की टेबल लोड हो रही है…
+Today's table	आज का लीडरबोर्ड
+{n} players	{n} खिलाड़ी
+Nobody has played today's table yet. Be the first!	अभी तक किसी ने आज की टेबल नहीं खेली। पहले खिलाड़ी बनें!
+Table cleared!	टेबल साफ़!
+{n} of {total} balls	{total} में से {n} बॉल
+Sending your attempt to the server…	आपकी कोशिश सर्वर पर भेजी जा रही है…
+Counted: {n} balls · +{coins} coins	गिना गया: {n} बॉल · +{coins} कॉइन
+Counted: {n} balls	गिना गया: {n} बॉल
+See today's table	आज का लीडरबोर्ड देखें
+Table cleared! +{n} coins	टेबल साफ़! +{n} कॉइन
+Daily challenge: {n} of {total} balls made	आज की चुनौती: {total} में से {n} बॉल पॉट
+1 player	1 खिलाड़ी
+Phoenix	फ़ीनिक्स
+Carrara marble	कैरारा मार्बल
+Dragon scale	ड्रैगन स्केल
+Galaxy	आकाशगंगा
+Ruby throne	माणिक सिंहासन
+Closing the game now is leaving it: extra rating lost and a wait to play again.	अभी गेम बंद करना उसे छोड़ना माना जाएगा: अतिरिक्त रेटिंग कटेगी और दोबारा खेलने के लिए इंतज़ार करना होगा।
+You left a game in progress: you can play online again in {n} min.	आपने चलता हुआ गेम छोड़ा: आप {n} मिनट बाद फिर ऑनलाइन खेल सकेंगे।
+Quick phrases	झटपट मैसेज
+Good luck, have fun!	शुभकामनाएँ, मज़े करें!
+Nice shot!	बढ़िया शॉट!
+Great safety!	शानदार सेफ़्टी!
+Unlucky!	क़िस्मत ख़राब!
+Oops!	उफ़!
+Wow!	वाह!
+That was close!	बाल-बाल रह गया!
+Take your time.	आराम से खेलें।
+Sorry!	माफ़ कीजिए!
+Thanks!	शुक्रिया!
+Well played!	अच्छा खेला!
+Good game!	अच्छा गेम रहा!
+Rematch?	रीमैच?
+I have to go, thanks for the game!	मुझे जाना होगा, गेम के लिए शुक्रिया!
+Practise while you wait	इंतज़ार करते हुए प्रैक्टिस करें
+A new rack.	नया रैक।
+Level {n}! (+{xp} XP)	लेवल {n}! (+{xp} XP)
++{xp} XP	+{xp} XP
+Level {n} · {into} / {span} XP to the next	लेवल {n} · अगले लेवल तक {into} / {span} XP
+Level {n}	लेवल {n}
+Hi! I watched a lot of videos, I'm ready!	हाय! मैंने बहुत सारे वीडियो देखे हैं, मैं तैयार हूँ!
+Be gentle, okay?	थोड़ा रहम कीजिए, ठीक है?
+Whoa, how did you do that?	वाह, आपने यह कैसे किया?
+Teach me that one later!	बाद में यह मुझे भी सिखाइएगा!
+Phew! My turn!	उफ़! मेरी बारी!
+Even you miss? Good to know.	आप भी मिस करते हैं? अच्छा हुआ, पता चल गया।
+A free ball! What do I do with it?	मुफ़्त की बॉल! अब इसका क्या करूँ?
+Did you see that?! It went in!	देखा आपने?! चली गई!
+Beginner's luck counts too!	नौसिखिए की क़िस्मत भी गिनी जाती है!
+Oops. That was a practice shot.	उफ़। वो तो प्रैक्टिस शॉट था।
+Aim, Leo, aim...	निशाना, Leo, निशाना...
+Sorry! I touched the wrong one again.	सॉरी! फिर से ग़लत बॉल को छू दिया।
+I WON? I'm calling my mum!	मैं जीत गया? मम्मी को फ़ोन लगाता हूँ!
+Good game! I'm getting better, right?	अच्छा गेम रहा! मैं बेहतर हो रहा हूँ, है ना?
+Saturday, a table and good company. Let's play!	शनिवार, एक टेबल और अच्छी संगत। चलिए, खेलते हैं!
+Nice one!	बढ़िया!
+Oh, you're good. I'll pay attention now.	ओह, आप तो अच्छा खेलते हैं। अब मैं ध्यान दूँगी।
+Happens to the best of us.	अच्छे-अच्छों के साथ होता है।
+Don't worry, it's just a game!	चिंता मत कीजिए, बस एक गेम ही तो है!
+Thanks for the gift!	गिफ़्ट के लिए शुक्रिया!
+Yes! Weekend skills!	हाँ! वीकेंड वाला हुनर!
+Lucky me!	वाह, मेरी क़िस्मत!
+Hm, where was I aiming?	हम्म, मैं निशाना कहाँ लगा रही थी?
+Too much chatting, not enough aiming.	बातें ज़्यादा, निशाना कम।
+Oops, my bad!	उफ़, मेरी ग़लती!
+That was fun! Same time next weekend?	मज़ा आ गया! अगले वीकेंड इसी समय?
+Well played! Rematch over a lemonade?	अच्छा खेला! नींबू पानी पर रीमैच?
+Four cushions, endless possibilities.	चार कुशन, अनगिनत संभावनाएँ।
+Straight in? So... direct.	सीधा पॉट? कितना... सीधा-सादा।
+Nice, but a bank would have been prettier.	अच्छा है, पर बैंक शॉट ज़्यादा ख़ूबसूरत होता।
+You should have used the cushion.	आपको कुशन का इस्तेमाल करना चाहिए था।
+The rail was right there, asking for it.	कुशन तो वहीं था, बुला रहा था।
+The table didn't like that.	टेबल को यह पसंद नहीं आया।
+Off the rail and in. Art!	कुशन से लगकर अंदर। कला!
+Geometry never lies.	ज्यामिति कभी झूठ नहीं बोलती।
+The angle was right. The cushion disagreed.	एंगल सही था। कुशन सहमत नहीं हुआ।
+One diamond off. Just one!	एक डायमंड से चूकी। बस एक!
+Too much imagination, not enough contact.	कल्पना ज़्यादा, टक्कर कम।
+A masterpiece, if I may say so.	एक मास्टरपीस, अगर मैं ख़ुद कहूँ तो।
+Well played. Now try it off two rails.	अच्छा खेला। अब इसे दो कुशन से करके देखिए।
+I hope these balls are made of steel.	उम्मीद है, ये बॉल स्टील की बनी हैं।
+Soft touch, huh? Not my style.	हल्का टच, हाँ? मेरा स्टाइल नहीं।
+Hit it harder next time!	अगली बार और ज़ोर से मारिए!
+Too gentle! Power solves everything.	बहुत हल्का! ताक़त हर मसला हल कर देती है।
+HA!	हा!
+My table now. Cover your ears.	अब टेबल मेरी है। कान बंद कर लीजिए।
+BOOM!	धड़ाम!
+Did you hear that pocket?	पॉकेट की वो आवाज़ सुनी?
+Too much power? No such thing.	बहुत ज़्यादा ताक़त? ऐसा कुछ नहीं होता।
+The pocket moved.	पॉकेट हिल गया।
+The ball flew. It happens. A lot.	बॉल उड़ गई। होता है। अक्सर।
+Power wins again! BOOM!	ताक़त फिर जीती! धड़ाम!
+Fine, finesse works too. Sometimes.	ठीक है, नज़ाकत भी काम करती है। कभी-कभी।
+Take your time. I have all day.	आराम से। मेरे पास पूरा दिन है।
+Acceptable.	चलेगा।
+Enjoy it while it lasts.	जब तक है, मज़े लीजिए।
+Patience is a virtue. Not yours, apparently.	धैर्य एक गुण है। आपका नहीं, लगता है।
+Thank you.	धन्यवाद।
+Sloppy.	लापरवाह।
+Steady wins.	धीरज की जीत।
+One at a time.	एक बार में एक।
+Hm. I'll leave you nothing anyway.	हम्म। फिर भी मैं आपके लिए कुछ नहीं छोड़ूँगी।
+Intentional. Probably.	जानबूझकर। शायद।
+Unacceptable. Of me.	अस्वीकार्य। मेरी तरफ़ से।
+As I said: patience.	जैसा मैंने कहा था: धैर्य।
+You got through the wall. I'm impressed.	आपने दीवार पार कर ली। मैं प्रभावित हूँ।
+I've been playing since before these balls were plastic.	मैं तब से खेल रहा हूँ, जब ये बॉल प्लास्टिक की भी नहीं थीं।
+Good stroke. Reminds me of a fellow in '78.	अच्छा स्ट्रोक। '78 के एक लड़के की याद दिलाता है।
+Smooth. Very smooth.	स्मूद। बहुत स्मूद।
+Keep your head down, kid.	सिर नीचे रखिए, बरख़ुरदार।
+The cue ball doesn't lie.	क्यू बॉल झूठ नहीं बोलती।
+Ah, a little present. Thank you kindly.	अहा, छोटा-सा तोहफ़ा। बहुत मेहरबानी।
+Like riding a bicycle.	साइकिल चलाने जैसा है।
+Still got it.	हुनर अब भी बाक़ी है।
+The eyes aren't what they used to be.	आँखें अब पहले जैसी नहीं रहीं।
+In my day the pockets were bigger.	हमारे ज़माने में पॉकेट बड़े होते थे।
+Even old pros slip.	पुराने उस्ताद भी फिसल जाते हैं।
+Experience, my friend. Experience.	तजुर्बा, मेरे दोस्त। तजुर्बा।
+You've got a future in this game.	इस खेल में आपका भविष्य है।
+Me? Oh, I hardly ever play...	मैं? अरे, मैं तो कभी-कभार ही खेलती हूँ...
+Lucky! Do it again, I dare you.	क़िस्मत! हिम्मत है तो फिर से करके दिखाइए।
+Ooh, someone's been practising.	ओहो, किसी ने प्रैक्टिस की है।
+Aw, so close! Bless.	अरे, बस ज़रा-सा रह गया! बेचारे।
+Want me to show you how?	मैं दिखाऊँ, कैसे करते हैं?
+Thank you, sweetie.	शुक्रिया, डियर।
+Oops, did I do that?	उफ़, क्या ये मैंने किया?
+Must be beginner's luck. Again.	नौसिखिए की क़िस्मत होगी। फिर से।
+Missed on purpose. Keeps it interesting.	जानबूझकर मिस किया। मज़ा बना रहे।
+Just warming up.	बस वॉर्म-अप कर रही हूँ।
+Oh dear, how clumsy of me. Wink.	हाय, मैं भी कितनी अनाड़ी हूँ। (आँख मारते हुए)
+Hardly ever play, I said. Hardly.	कभी-कभार खेलती हूँ, मैंने कहा था। कभी-कभार।
+Fine, you got me. This time.	ठीक है, जीत आपकी हुई। इस बार।
+Friction, momentum, spin. Let us begin.	घर्षण, संवेग, स्पिन। आइए शुरू करें।
+A fine cut. About thirty degrees, I'd say.	बढ़िया कट। लगभग तीस डिग्री, मेरे हिसाब से।
+Textbook.	बिल्कुल किताबी।
+You underestimated the throw.	आपने थ्रो का अंदाज़ा कम लगाया।
+Interesting. Statistically expected.	दिलचस्प। आँकड़ों के हिसाब से अपेक्षित।
+The cue ball followed the laws of physics, not your plan.	क्यू बॉल ने भौतिकी के नियम माने, आपकी योजना नहीं।
+As calculated.	हिसाब के मुताबिक़।
+Elastic collision, elegant result.	इलास्टिक टक्कर, ख़ूबसूरत नतीजा।
+An error in my measurement.	मेरे माप में एक ग़लती।
+I'll revise the model.	मैं मॉडल में सुधार करूँगा।
+Hm. Unexpected spin.	हम्म। अनपेक्षित स्पिन।
+The numbers were on my side.	आँकड़े मेरे साथ थे।
+A result outside my predictions. Well done.	मेरी भविष्यवाणी से बाहर का नतीजा। शाबाश।
+Focus.	ध्यान।
+Clean.	साफ़।
+Not bad.	बुरा नहीं।
+Half a millimetre.	आधा मिलीमीटर।
+Breathe before you shoot.	शॉट से पहले साँस लीजिए।
+Careless.	लापरवाही।
+Target down.	निशाना ढेर।
+Centre pocket.	पॉकेट के ठीक बीच में।
+Hm. Recalibrating.	हम्म। फिर से कैलिब्रेट कर रही हूँ।
+That never happens.	ऐसा कभी नहीं होता।
+Unacceptable.	अस्वीकार्य।
+Precision wins.	सटीकता जीतती है।
+Good shooting.	अच्छा निशाना।
+Welcome to my table. Enjoy the show.	मेरी टेबल पर आपका स्वागत है। शो का मज़ा लीजिए।
+Very good. You've done your homework.	बहुत बढ़िया। आपने होमवर्क किया है।
+Applause for the challenger!	चैलेंजर के लिए तालियाँ!
+Pressure. It gets to everyone.	दबाव। सब पर असर करता है।
+Thank you for the table.	टेबल के लिए धन्यवाद।
+A champion never refuses a gift.	चैंपियन कभी तोहफ़ा नहीं ठुकराता।
+Naturally.	ज़ाहिर है।
+That's how it's done.	ऐसे किया जाता है।
+Even champions give the crowd a chance.	चैंपियन भी दर्शकों को एक मौक़ा देते हैं।
+Leaving you something, out of courtesy.	शिष्टाचार के नाते, आपके लिए कुछ छोड़ रहा हूँ।
+A rare sight. Remember it.	दुर्लभ नज़ारा। याद रखिएगा।
+The title stays with me. Good game.	ख़िताब मेरे पास ही रहेगा। अच्छा गेम रहा।
+Remarkable. You've earned my respect.	क़ाबिले-तारीफ़। आपने मेरा सम्मान कमा लिया।
+Calibration complete. Good luck, human.	कैलिब्रेशन पूरा। शुभकामनाएँ, इंसान।
+Shot registered: successful.	शॉट दर्ज: सफल।
+Probability of my victory: increasing.	मेरी जीत की संभावना: बढ़ रही है।
+Foul detected. Processing penalty.	फ़ाउल का पता चला। पेनल्टी प्रोसेस हो रही है।
+Executed as planned.	योजना के अनुसार पूरा किया।
+Error. Recalculating.	त्रुटि। फिर से गणना हो रही है।
+Malfunction. Please disregard.	ख़राबी। कृपया अनदेखा करें।
+Game complete. Thank you for playing.	गेम पूरा। खेलने के लिए धन्यवाद।
+Defeat acknowledged. Well played.	हार स्वीकार की गई। अच्छा खेला।
+Drills	ड्रिल
+Exercises with stars	स्टार वाले अभ्यास
+{s} / {max} stars	{s} / {max} स्टार
+Stars at {a}, {b} and {c}	{a}, {b} और {c} पर स्टार
+Your best: {n} of {total}	आपका बेस्ट: {total} में से {n}
+Not tried yet.	अभी तक नहीं आज़माया।
+Start the drill	ड्रिल शुरू करें
+Sign in to keep your stars in your account.	अपने स्टार अपने अकाउंट में रखने के लिए साइन इन करें।
+{n} of {total}	{total} में से {n}
+{drill}: try {k} of {n} · {made} made	{drill}: कोशिश {k}/{n} · {made} सफल
+Made it! {n} of {total}	हो गया! {total} में से {n}
+Missed.	मिस हो गया।
+Sending to the server…	सर्वर पर भेजा जा रहा है…
+Not signed in: this session is not ranked.	साइन इन नहीं: यह सेशन रैंकिंग में नहीं गिना जाएगा।
+Kept in your account.	आपके अकाउंट में सेव है।
+The session could not be counted.	यह सेशन गिना नहीं जा सका।
+Back to the drills	ड्रिल पर वापस
+Straight in	सीधा पॉट
+A long straight pot into the corner. Five tries.	कोने में एक लंबा सीधा पॉट। पाँच कोशिशें।
+The cut	कट
+A half-ball cut into the corner. Five tries.	कोने में हाफ़-बॉल कट। पाँच कोशिशें।
+Draw it back	ड्रॉ बैक
+Pot the ball and draw the cue ball back into the circle. Five tries.	बॉल पॉट करें और क्यू बॉल को ड्रॉ करके घेरे में वापस लाएँ। पाँच कोशिशें।
+Follow through	फ़ॉलो थ्रू
+Pot the ball and leave the cue ball in the circle past it. Five tries.	बॉल पॉट करें और क्यू बॉल को उसके आगे वाले घेरे में छोड़ें। पाँच कोशिशें।
+Bank shot	बैंक शॉट
+Off one cushion into the side pocket. Five tries.	एक कुशन से साइड पॉकेट में। पाँच कोशिशें।
+Snooker escape	स्नूकर से बचाव
+Hit the 1 first: it hides behind other balls. Five tries.	पहले 1 को हिट करें: वह दूसरी बॉल के पीछे छिपी है। पाँच कोशिशें।
+Ten in a row	लगातार दस
+Ten different pots, one after another: a miss ends the session.	दस अलग-अलग पॉट, एक के बाद एक: एक मिस और सेशन ख़त्म।
+The far corner	दूर का कोना
+A cut back up the table into the corner behind you. Five tries.	टेबल पर वापस ऊपर की ओर, आपके पीछे वाले कोने में कट। पाँच कोशिशें।
+Long into the side	दूर से साइड में
+From the far end of the table into the side pocket. Five tries.	टेबल के दूसरे छोर से साइड पॉकेट में। पाँच कोशिशें।
+Cue ball on the cushion	कुशन से सटी क्यू बॉल
+The cue ball touches the cushion: pot the ball into the corner all the same. Five tries.	क्यू बॉल कुशन को छू रही है: फिर भी बॉल को कोने में पॉट करें। पाँच कोशिशें।
+The plant	प्लांट
+The 2 touches the 1 and points at the pocket: hit the 2 and the 1 goes in. Five tries.	2 बॉल 1 को छू रही है और पॉकेट की सीध में है: 2 को हिट करें और 1 अंदर जाएगी। पाँच कोशिशें।
+The carom	कैरम
+The 2 is in the way: glance off it and send the 1 into the corner. Five tries.	2 रास्ते में है: उसे छूते हुए निकलें और 1 को कोने में भेजें। पाँच कोशिशें।
+The long draw	लंबा ड्रॉ
+Pot the ball and draw the cue ball all the way back into the circle. Five tries.	बॉल पॉट करें और क्यू बॉल को ड्रॉ करके पूरा पीछे घेरे तक लाएँ। पाँच कोशिशें।
+On the tangent line	टैंजेंट लाइन पर
+Pot the ball in the side and let the cue ball run on into the circle. Five tries.	बॉल को साइड पॉकेट में पॉट करें और क्यू बॉल को आगे घेरे तक जाने दें। पाँच कोशिशें।
+Two-cushion bank	दो कुशन बैंक
+Off two cushions and into the corner. Five tries.	दो कुशन से लगकर कोने में। पाँच कोशिशें।
+Fifteen in a row	लगातार पंद्रह
+Fifteen different pots, one after another: a miss ends the session.	पंद्रह अलग-अलग पॉट, एक के बाद एक: एक मिस और सेशन ख़त्म।
+Take back the shot (Z)	शॉट वापस लें (Z)
+Shot taken back.	शॉट वापस लिया गया।
+Solids	सॉलिड
+Stripes	स्ट्राइप
+Hide the history	इतिहास छिपाएँ
+New username	नया यूज़रनेम
+Click again to confirm	पुष्टि के लिए फिर क्लिक करें
+{n} of {total} name changes left	नाम बदलने के {total} में से {n} मौक़े बाकी
+You can't change your username again.	आप अपना यूज़रनेम अब नहीं बदल सकते।
+That is already your username.	यह पहले से आपका यूज़रनेम है।
+Finish your game before changing your username.	यूज़रनेम बदलने से पहले अपना गेम पूरा करें।
+Leave your table or the queue before changing your username.	यूज़रनेम बदलने से पहले अपनी टेबल या क़तार छोड़ें।
+Leave your tournament before changing your username.	यूज़रनेम बदलने से पहले अपना टूर्नामेंट छोड़ें।
+Username changed.	यूज़रनेम बदल गया।
+The server is still being updated to the new version. Try again in a few minutes.	सर्वर अभी नए वर्ज़न पर अपडेट हो रहा है। कुछ मिनट बाद फिर कोशिश करें।
+{shooter} made an opponent's ball: {next} to shoot.	{shooter} ने विरोधी की बॉल पॉट कर दी: अब {next} की बारी।
+# Five more computer opponents: Tito, Inês, Diego, Amara and Yuri.
+The Gambler	जुआरी
+Bets on every shot: as hard as the cue allows, with all the spin he can find. Safe play bores him.	हर शॉट पर दाँव: जितना ज़ोर क्यू दे सके, जितनी स्पिन मिल सके। सुरक्षित खेल उसे बोर करता है।
+The Soft Touch	नरम हाथ
+Never hits harder than she must: the balls die at the pocket's edge and the cue ball stops where she wants it.	ज़रूरत से ज़्यादा ज़ोर से कभी नहीं मारती: बॉल पॉकेट के मुँह पर जाकर गिरती हैं और क्यू बॉल वहीं रुकती है, जहाँ वह चाहती है।
+The Showman	शोमैन
+Plays to the crowd: a raised cue, swerving spin and a bank whenever there's one. It works more often than it should.	दर्शकों के लिए खेलता है: उठा हुआ क्यू, मुड़ती स्पिन और जब भी मौक़ा हो, बैंक शॉट। जितना चलना चाहिए, उससे ज़्यादा चल जाता है।
+The Tactician	रणनीतिकार
+Plans the whole rack: snookers you when the pot isn't sure, and runs out when it is.	पूरा रैक प्लान करती है: पॉट पक्का न हो तो आपको स्नूकर कर देती है, और पक्का हो तो टेबल साफ़ कर देती है।
+The Machine	मशीन
+No nerves, no flair: centre ball, measured pace, the same perfect stroke every time.	न घबराहट, न दिखावा: बीच से हिट, नपी-तुली रफ़्तार, हर बार वही परफ़ेक्ट स्ट्रोक।
+Place your bets! Mine's on me.	दाँव लगाइए! मेरा दाँव मुझ पर है।
+Lucky roll. Let it ride!	क़िस्मत ने साथ दिया। चलने दो!
+Okay, okay. Double or nothing?	ठीक है, ठीक है। डबल या कुछ नहीं?
+The house always wins!	कैसीनो हमेशा जीतता है!
+Free chips! Thank you!	मुफ़्त के चिप्स! शुक्रिया!
+All in, and it paid!	सब कुछ दाँव पर, और जीत गया!
+That's how you play the odds!	ऐसे खेलते हैं संभावनाओं से!
+Bad beat. Next hand.	बुरी क़िस्मत। अगला हाथ।
+Too much spin? There's no such thing.	बहुत ज़्यादा स्पिन? ऐसा कुछ नहीं होता।
+Busted. Worth the risk!	दाँव उल्टा पड़ा। पर जोखिम वसूल था!
+Jackpot! Same stakes again?	जैकपॉट! फिर से वही दाँव?
+You beat the odds. Respect.	आपने संभावनाओं को मात दे दी। सलाम।
+Softly, now. The table likes a gentle hand.	धीरे से। टेबल को नरम हाथ पसंद है।
+Nicely done.	बहुत ख़ूब।
+A little hard, but it went in.	थोड़ा ज़ोर से था, पर चली गई।
+Less power, more feel.	ताक़त कम, एहसास ज़्यादा।
+Oh dear. A free ball for me.	अरे। मेरे लिए मुफ़्त की बॉल।
+Just enough to drop.	बस गिरने भर का।
+See? No need to hit it hard.	देखा? ज़ोर से मारने की ज़रूरत नहीं।
+A touch too soft.	ज़रा-सा हल्का रह गया।
+Clumsy of me. Sorry.	मेरी ग़लती। माफ़ कीजिए।
+Slow and steady. Thank you for the game.	धीरे और स्थिर। गेम के लिए धन्यवाद।
+Beautifully played. Well deserved.	बहुत ख़ूबसूरती से खेला। आप इसके हक़दार थे।
+Ladies and gentlemen... the show begins!	देवियो और सज्जनो... शो शुरू होता है!
+Not bad! Bow to the crowd!	बुरा नहीं! दर्शकों को सलाम कीजिए!
+You stole my applause!	आपने मेरी तालियाँ चुरा लीं!
+The crowd wanted more!	दर्शक और चाहते थे!
+Ooh, a plot twist!	ओहो, कहानी में ट्विस्ट!
+Ta-da!	टा-डा!
+And for my next trick...	और मेरा अगला करतब...
+Even magicians have off nights.	जादूगरों की भी रातें ख़राब जाती हैं।
+That was... part of the act.	वो... शो का हिस्सा था।
+Thank you, thank you! Encore?	शुक्रिया, शुक्रिया! वन्स मोर?
+Take a bow, champion. You earned it.	झुककर सलाम कीजिए, चैंपियन। आपने यह कमाया है।
+Every rack is a puzzle. Let's solve this one.	हर रैक एक पहेली है। आइए इसे सुलझाएँ।
+Good. Now where is your cue ball?	अच्छा। अब आपकी क्यू बॉल कहाँ है?
+I saw that coming.	मुझे पता था, ऐसा होगा।
+That left me something. Thank you.	इससे मेरे लिए कुछ बचा। शुक्रिया।
+As planned.	जैसा प्लान था।
+Exactly as I calculated.	बिल्कुल वैसा ही, जैसा मैंने हिसाब लगाया था।
+Three moves ahead.	तीन चाल आगे।
+A variable I missed.	एक वेरिएबल, जो मुझसे छूट गया।
+Hm. Recalculating.	हम्म। फिर से हिसाब लगा रही हूँ।
+Checkmate.	शह और मात।
+You out-thought me. That's rare.	आपने मुझसे बेहतर सोचा। ऐसा कम होता है।
+Game initialised.	गेम शुरू।
+Noted.	नोट किया।
+Error margin exceeded.	त्रुटि सीमा पार।
+Penalty applied.	पेनल्टी लागू।
+As expected.	जैसी उम्मीद थी।
+Next.	अगला।
+Deviation logged.	विचलन दर्ज।
+Malfunction. It will not repeat.	ख़राबी। दोबारा नहीं होगी।
+Result: win. Thank you for the data.	नतीजा: जीत। डेटा के लिए धन्यवाद।
+Unexpected outcome. Impressive.	अप्रत्याशित नतीजा। प्रभावशाली।
+Opponents' remarks	विरोधियों की टिप्पणियाँ
+The computer opponents comment on the game in speech bubbles.	कंप्यूटर विरोधी स्पीच बबल में गेम पर टिप्पणी करते हैं।
+Top view only	सिर्फ़ ऊपर से व्यू
+The table is always seen from above: no 3D view, no turning.	टेबल हमेशा ऊपर से दिखती है: न 3D व्यू, न घुमाना।
+Not with the top view only.	सिर्फ़-ऊपर-से व्यू के साथ नहीं।
+Wheel	माउस व्हील
+Rules	नियम
+Rules of the game	गेम के नियम
+Level	सीधा करें
+Drag the cue: jump & massé	क्यू खींचें: जंप और मासे
+Drag to raise or lower the cue	क्यू ऊपर या नीचे करने के लिए खींचें
+Drag the cue · {keys}	क्यू खींचें · {keys}
+Profile picture	प्रोफ़ाइल फ़ोटो
+Shown by your name at the table and in your profile.	टेबल पर और आपकी प्रोफ़ाइल में आपके नाम के साथ दिखती है।
+No picture	कोई फ़ोटो नहीं
+Change your picture	अपनी फ़ोटो बदलें
+{name} sank the 8 together with another ball	{name} ने 8 बॉल किसी दूसरी बॉल के साथ पॉट कर दी
+the opponent sank the 8 with another ball	विरोधी ने 8 बॉल किसी दूसरी बॉल के साथ पॉट कर दी
+sank the 8 with another ball	8 बॉल किसी दूसरी बॉल के साथ पॉट कर दी
+opponent pocketed the 8-ball together with another ball	विरोधी ने 8 बॉल किसी दूसरी बॉल के साथ पॉट कर दी
+Penalty: {balls} off the table for {name}.	पेनल्टी: {balls} टेबल से हटकर {name} के खाते में।
+{name} had fewer balls left than the foul gives: the 8 pays the rest, and the foul loses the game.	{name} के पास फ़ाउल की पेनल्टी जितनी बॉल नहीं बची थीं: बाक़ी की भरपाई 8 बॉल से होती है, और यह फ़ाउल गेम हरा देता है।
+Shadows	परछाइयाँ
+The shadows of the balls and of the cue on the table.	टेबल पर बॉल और क्यू की परछाइयाँ।
+Sixteen players: knockout or arena	सोलह खिलाड़ी: नॉकआउट या एरीना
+New knockout	नया नॉकआउट
+New arena	नया एरीना
+Knockout: sixteen players, four rounds. Lose a game and you are out.	नॉकआउट: सोलह खिलाड़ी, चार राउंड। एक गेम हारे और आप बाहर।
+Arena: seven rounds for everyone. A win is 2 points, 3 from the third win in a row. The most points wins.	एरीना: सबके लिए सात राउंड। जीत पर 2 पॉइंट, लगातार तीसरी जीत से 3। सबसे ज़्यादा पॉइंट वाला जीतता है।
+The games between the other players are decided by their strength and a draw.	बाक़ी खिलाड़ियों के बीच के गेम उनकी ताक़त और रैंडम ड्रॉ से तय होते हैं।
+You won the tournament!	आपने टूर्नामेंट जीत लिया!
+{name} won the tournament.	{name} ने टूर्नामेंट जीत लिया।
+You finished in place {n}.	आपका स्थान: {n}।
+Round of 16	प्री-क्वार्टर फ़ाइनल
+Quarter-finals	क्वार्टर फ़ाइनल
+Round {n} of {total}	राउंड {n}/{total}
+Play {name}	{name} से खेलें
+Abandon the tournament	टूर्नामेंट छोड़ें
+W - L	जी - हा
+Points	पॉइंट
+The tournament is over.	टूर्नामेंट ख़त्म हो गया।
+The round is over: see who you play next.	राउंड ख़त्म: देखें, अब आपका मुक़ाबला किससे है।
+You are out of the tournament.	टूर्नामेंट में आपका सफ़र ख़त्म हुआ।
+Side pocket	साइड पॉकेट
+A cut into the side pocket, where the angle is tight. Five tries.	साइड पॉकेट में कट, जहाँ एंगल तंग है। पाँच कोशिशें।
+The long cut	लंबा कट
+A cut from the far end of the table into the corner. Five tries.	टेबल के दूसरे छोर से कोने में कट। पाँच कोशिशें।
+Thin cut	पतला कट
+Barely graze the ball: a thin cut into the corner. Five tries.	बॉल को बस हल्का-सा छुएँ: कोने में पतला कट। पाँच कोशिशें।
+Along the cushion	कुशन के साथ-साथ
+The ball sits by the cushion: run it along into the corner. Five tries.	बॉल कुशन से सटी है: उसे कुशन के साथ-साथ कोने में भेजें। पाँच कोशिशें।
+Stop shot	स्टॉप शॉट
+Pot the ball and stop the cue ball dead where the ball was. Five tries.	बॉल पॉट करें और क्यू बॉल को ठीक वहीं रोकें, जहाँ बॉल थी। पाँच कोशिशें।
+The combination	कॉम्बिनेशन
+Pot the 1 by playing the 2 into it. Five tries.	2 को 1 पर मारकर 1 को पॉट करें। पाँच कोशिशें।
+Cross-corner bank	क्रॉस-कॉर्नर बैंक
+Off the long cushion and across the table into the corner. Five tries.	लंबे कुशन से लगकर, टेबल के आर-पार कोने में। पाँच कोशिशें।
+Kick shot	किक शॉट
+The 1 is walled off: send the cue ball off a cushion to hit it first. Five tries.	1 के आगे दीवार है: उसे पहले हिट करने के लिए क्यू बॉल को कुशन से भेजें। पाँच कोशिशें।
+Only the cue ball went down on the break: the balls are racked again and {next} breaks.	ब्रेक पर सिर्फ़ क्यू बॉल पॉकेट में गई: बॉल फिर से रैक होंगी और {next} ब्रेक करेंगे।
+Golden break	गोल्डन ब्रेक
+Win a rated game by sinking only the 8-ball on the break.	ब्रेक पर सिर्फ़ 8 बॉल पॉट करके रेटेड गेम जीतें।
+Half a year	आधा साल
+Have an account for six months.	अकाउंट के छह महीने पूरे करें।
+First anniversary	पहली सालगिरह
+Second anniversary	दूसरी सालगिरह
+Have an account for two years.	अकाउंट के दो साल पूरे करें।
+Third anniversary	तीसरी सालगिरह
+Have an account for three years.	अकाउंट के तीन साल पूरे करें।
+Five years at the table	टेबल पर पाँच साल
+Have an account for five years.	अकाउंट के पाँच साल पूरे करें।
+Back to the tournament	टूर्नामेंट पर वापस
+Continue against {name}	{name} के ख़िलाफ़ जारी रखें
+You left your game: it counts as a loss.	आपने अपना गेम छोड़ा: इसे हार माना जाएगा।
+new level	नया लेवल
+Level {n} brings: {item}	लेवल {n} पर मिलेगा: {item}
+Level 5	लेवल 5
+Reach level 5.	लेवल 5 तक पहुँचें।
+Level 10	लेवल 10
+Reach level 10.	लेवल 10 तक पहुँचें।
+Level 15	लेवल 15
+Reach level 15.	लेवल 15 तक पहुँचें।
+Level 20	लेवल 20
+Reach level 20.	लेवल 20 तक पहुँचें।
+Level 30	लेवल 30
+Reach level 30.	लेवल 30 तक पहुँचें।
+Level 40	लेवल 40
+Reach level 40.	लेवल 40 तक पहुँचें।
+Level 50	लेवल 50
+Reach level 50.	लेवल 50 तक पहुँचें।
+Regular's teal	नियमित खिलाड़ी का टील
+Veteran's plum	दिग्गज का प्लम
+Old hand	मँजा हुआ खिलाड़ी
+Lifer	उम्र भर का खिलाड़ी
+Apprentice's chalk	शागिर्द की चॉक
+Journeyman's chalk	कारीगर की चॉक
+Achievements	उपलब्धियाँ
+Leagues and levels	लीग और लेवल
+Next league: {tier}	अगली लीग: {tier}
+The top league.	सबसे ऊँची लीग।
+Every prize of the levels is won.	लेवल के सारे इनाम जीत लिए गए हैं।
+None yet: the first is one game away.	अभी कोई नहीं: पहला बस एक गेम दूर है।
+{coins} and {item}	{coins} और {item}
+Leagues	लीग
+Levels	लेवल
+By playing. Every level pays {n} coins.	खेलकर। हर लेवल पर {n} कॉइन मिलते हैं।
+where everyone starts	जहाँ से सब शुरू करते हैं
+from {n}	{n} से
+The top level.	सबसे ऊँचा लेवल।
+{n} XP to level {next}	लेवल {next} तक {n} XP
+{n} levels to go	{n} लेवल बाकी
+new league	नई लीग
+Old-timer's black	पुराने उस्ताद का काला
+Expert league blue	एक्सपर्ट लीग नीला
+Master league violet	मास्टर लीग जामुनी
+Legend league gold	लेजेंड लीग सुनहरा
+Skilled league chalk	कुशल लीग चॉक
+By rating. Each league pays once.	रेटिंग से। हर लीग एक बार इनाम देती है।
+cue	क्यू
+cloth	क्लॉथ
+chalk	चॉक
+Always show the head string	हेड स्ट्रिंग हमेशा दिखाएँ
+The line the break is played from, always on the table (off: only while placing the cue ball behind it).	वह लाइन जिसके पीछे से ब्रेक खेला जाता है, हमेशा टेबल पर (बंद: सिर्फ़ उसके पीछे क्यू बॉल रखते समय)।
+{who} ran out of time: the turn passes.	{who} का समय ख़त्म: बारी बदल गई।
+{who} ran out of time with no ball left to give {other}: the 8 pays, and {who} loses.	{who} का समय ख़त्म हो गया और {other} को देने के लिए कोई बॉल नहीं बची: भरपाई 8 बॉल से होती है, और {who} हार जाते हैं।
+{who} ran out of time: the cue ball goes back to the head spot and the turn passes.	{who} का समय ख़त्म: क्यू बॉल हेड स्पॉट पर वापस जाती है और बारी बदल जाती है।
+{who} ran out of time: {balls} off the table for {other}, and the cue ball goes back to the head spot.	{who} का समय ख़त्म: {balls} टेबल से हटकर {other} के खाते में, और क्यू बॉल हेड स्पॉट पर वापस।
+You were muted for {n} minutes: {r}	आपको {n} मिनट के लिए म्यूट किया गया: {r}
+Your account was suspended for {n} hours: {r}	आपका अकाउंट {n} घंटे के लिए सस्पेंड किया गया: {r}
+The server restarts in {minutes} min for an update. Games in progress go on; new games start right after.	अपडेट के लिए सर्वर {minutes} मिनट में रीस्टार्ट होगा। चल रहे गेम जारी रहेंगे; नए गेम उसके तुरंत बाद शुरू होंगे।
+The {cup} was called off: not enough players signed up.	{cup} रद्द हो गया: काफ़ी खिलाड़ियों ने साइन अप नहीं किया।
+The {cup} is open for sign-up: it starts soon in Tournaments.	{cup} के लिए साइन-अप खुला है: यह जल्द ही टूर्नामेंट में शुरू होगा।
+{display} won the tournament “{name}”!	{display} ने टूर्नामेंट “{name}” जीत लिया!
+Sunday Cup	रविवार कप
+Monday Cup	सोमवार कप
+Tuesday Cup	मंगलवार कप
+Wednesday Cup	बुधवार कप
+Thursday Cup	गुरुवार कप
+Friday Cup	शुक्रवार कप
+Saturday Cup	शनिवार कप
+{name} · rating {r}	{name} · रेटिंग {r}
+Something went wrong. Try again.	कुछ गड़बड़ हो गई। फिर कोशिश करें।
+member for 1 day	1 दिन से सदस्य
+Game in progress: 1 ball left	चल रहा गेम: 1 बॉल बाकी
+1 level to go	1 लेवल बाकी
+1 more online win with this cue for level {n}. Levels only add marks to the cue.	लेवल {n} के लिए इस क्यू से 1 और ऑनलाइन जीत चाहिए। लेवल सिर्फ़ क्यू पर निशान जोड़ते हैं।
+Home	Home
+End	End
+PgUp	PgUp
+PgDn	PgDn
+Ins	Ins
+Could not join the LAN game	LAN गेम से नहीं जुड़ सके
+LAN game · others join at {address}	LAN गेम · दूसरे {address} पर जुड़ें
+Click to copy	कॉपी करने के लिए क्लिक करें
+Copied.	कॉपी हो गया।
+Start a new game?	नया गेम शुरू करें?
+You have a game in progress against the computer, with 1 ball left. A new game takes its place.	कंप्यूटर के ख़िलाफ़ आपका एक गेम चल रहा है, टेबल पर 1 बॉल बाकी है। नया गेम उसकी जगह ले लेगा।
+You have a game in progress against the computer, with {n} balls left. A new game takes its place.	कंप्यूटर के ख़िलाफ़ आपका एक गेम चल रहा है, टेबल पर {n} बॉल बाकी हैं। नया गेम उसकी जगह ले लेगा।
+Continue that game	वही गेम जारी रखें
+Start a new one	नया शुरू करें
+Click again to close the game: {n} will be disconnected	गेम बंद करने के लिए फिर क्लिक करें: {n} डिस्कनेक्ट हो जाएँगे
+{name} cleared the table in one visit!	{name} ने एक ही बारी में टेबल साफ़ कर दी!
+{name}: {n} in a row!	{name}: लगातार {n}!
+Watch the deciding shot again	निर्णायक शॉट फिर से देखें
+Next: {name}	अगला: {name}
+Drag on the table to aim, or click a ball	निशाना लगाने के लिए टेबल पर खींचें, या किसी बॉल पर क्लिक करें
+Set the power	पावर सेट करें
+Let go of {key} to shoot · Esc cancels	शॉट मारने के लिए {key} छोड़ें · Esc रद्द करता है
+Staff accounts can't change their username.	स्टाफ़ अकाउंट अपना यूज़रनेम नहीं बदल सकते।
+That password can't be used. Choose another one.	वह पासवर्ड इस्तेमाल नहीं हो सकता। कोई और चुनें।
+That tournament is full.	वह टूर्नामेंट भर गया है।
+The server is restarting: your tournament was called off.	सर्वर रीस्टार्ट हो रहा है: आपका टूर्नामेंट रद्द कर दिया गया।
+Too many sign-ins. Wait a minute and try again.	बहुत सारे साइन इन। एक मिनट रुककर फिर कोशिश करें।
+Too many wrong passwords. Try again in a few minutes.	बहुत सारे ग़लत पासवर्ड। कुछ मिनट बाद फिर कोशिश करें।
+Your VIP subscription could not be cancelled. Try again in a moment.	आपका VIP सब्सक्रिप्शन रद्द नहीं हो सका। थोड़ी देर में फिर कोशिश करें।
+Balls of both groups on the break: the turn passes to {next}, the table is open.	ब्रेक पर दोनों ग्रुप की बॉल: बारी {next} को, टेबल ओपन है।
+Only a final started while signed in counts: play the last stage again signed in.	सिर्फ़ साइन इन रहते हुए शुरू किया गया फ़ाइनल गिना जाता है: साइन इन करके आख़िरी स्टेज फिर से खेलें।
+The server didn't deal the final: this game won't earn the reward.	सर्वर ने फ़ाइनल तैयार नहीं किया: इस गेम से इनाम नहीं मिलेगा।
+The server didn't answer: this session won't be ranked.	सर्वर ने जवाब नहीं दिया: यह सेशन रैंकिंग में नहीं गिना जाएगा।
+The server is dealing the final…	सर्वर फ़ाइनल तैयार कर रहा है…
+The server is setting up the drill…	सर्वर ड्रिल तैयार कर रहा है…
+Not signed in: a win in this final won't earn the reward.	साइन इन नहीं: इस फ़ाइनल में जीत से इनाम नहीं मिलेगा।
+Not kept: sessions count when started signed in.	सेव नहीं हुआ: सेशन तभी गिने जाते हैं, जब साइन इन रहते हुए शुरू हों।
+Warning from the staff: {text}	स्टाफ़ की चेतावनी: {text}
+The staff changed your username to {name}. Sign in again.	स्टाफ़ ने आपका यूज़रनेम बदलकर {name} कर दिया। फिर से साइन इन करें।
+The staff called off the tournament you were in.	स्टाफ़ ने वह टूर्नामेंट रद्द कर दिया, जिसमें आप थे।
+Experience ×{n}	अनुभव ×{n}
+Coins from games ×{n}	गेम से कॉइन ×{n}
+Themed tournament	थीम टूर्नामेंट
+Event	इवेंट
+Events	इवेंट
+Warning from the staff	स्टाफ़ की चेतावनी
+Esc to cancel	रद्द करने के लिए Esc
+Will be sent when you're back online.	आपके फिर से ऑनलाइन आने पर भेजा जाएगा।
+Your strokes will be sent when you're back online.	आपके फिर से ऑनलाइन आने पर आपके शॉट भेजे जाएँगे।
+The final you won was dealt to {name}: sign in as {name} to claim the reward.	आपने जो फ़ाइनल जीता, वह {name} के लिए तैयार हुआ था: इनाम पाने के लिए {name} के रूप में साइन इन करें।
+Type your password to confirm it's you.	यह आप ही हैं, इसकी पुष्टि के लिए अपना पासवर्ड लिखें।
+The cue ball is back on the head spot: {next} plays from there.	क्यू बॉल हेड स्पॉट पर वापस है: {next} वहीं से खेलेंगे।
+{name} came online	{name} ऑनलाइन आए
+Online now: {names}	अभी ऑनलाइन: {names}
+Nobody else is online right now.	अभी और कोई ऑनलाइन नहीं है।
+Focus mode	फ़ोकस मोड
+No invitations while you play: they are turned away until the game is over.	खेलते समय कोई इनवाइट नहीं: गेम ख़त्म होने तक इनवाइट लौटा दिए जाते हैं।
+in focus mode	फ़ोकस मोड में
+In focus mode: no invitations until their game is over.	फ़ोकस मोड में: उनका गेम ख़त्म होने तक कोई इनवाइट नहीं।
+That player is in focus mode and isn't taking invitations until their game is over.	वह खिलाड़ी फ़ोकस मोड में है और अपना गेम ख़त्म होने तक इनवाइट नहीं ले रहा।
+Look at it closely	पास से देखें
+Sign in to buy	ख़रीदने के लिए साइन इन करें
+Sign in to use	इस्तेमाल करने के लिए साइन इन करें
+Back to the shop (Esc)	शॉप पर वापस (Esc)
+Show the interface (H)	इंटरफ़ेस दिखाएँ (H)
+Hide the interface (H)	इंटरफ़ेस छिपाएँ (H)
+Turn (Space)	घुमाएँ (स्पेस)
+Stop turning (Space)	घुमाना रोकें (स्पेस)
+Zoom in (+)	ज़ूम इन (+)
+Zoom out (−)	ज़ूम आउट (−)
+Back to the start (R)	शुरुआत पर वापस (R)
+Previous setting ([)	पिछला सीन ([)
+Next setting (])	अगला सीन (])
+Setting	सीन
+Studio	स्टूडियो
+Your table	आपकी टेबल
+Drag with the right button to turn · wheel to zoom · double-click to look closer	घुमाने के लिए राइट बटन से खींचें · ज़ूम के लिए व्हील · पास से देखने के लिए डबल-क्लिक
+Drag with the right button to turn · wheel to zoom · click a ball to look at it	घुमाने के लिए राइट बटन से खींचें · ज़ूम के लिए व्हील · किसी बॉल को देखने के लिए उस पर क्लिक करें
+The set	सेट
+From above	ऊपर से
+Low angle	नीचा एंगल
+Cue ball	क्यू बॉल
+Ball {n}	बॉल {n}
+Whole	पूरा
+Tip	टिप
+Joint	जोड़
+Butt	बट
+Top	ऊपर
+Cue	क्यू
+Table	टेबल
+Hall	हॉल
+Corner	कॉर्नर पॉकेट
+Side	साइड पॉकेट
+Leg	पाया
+Close-up	क्लोज़-अप
+Cushion	कुशन
+Phenolic resin under a bright clear coat	चमकदार पारदर्शी कोट के नीचे फ़िनॉलिक रेज़िन
+A pearly sheen that shifts with the light	मोती जैसी चमक, जो रोशनी के साथ बदलती है
+Brushed metal, bright as a mirror	ब्रश किया हुआ मेटल, आईने जैसा चमकदार
+Old ivory: soft, warm and matte	पुराना हाथीदाँत: मुलायम, गर्म और मैट
+A full-size cue, tip to butt: turn it, come close to its joint and its butt	पूरे आकार का क्यू, टिप से बट तक: इसे घुमाएँ, इसके जोड़ और बट को पास से देखें
+A cube of chalk, and the colour it leaves on the tip	चॉक का एक क्यूब, और टिप पर छूटा उसका रंग
+The cloth on the table: come close to see its weave	टेबल पर क्लॉथ: इसकी बुनावट देखने के लिए पास आएँ
+Dark mahogany, turned legs and brass castings	गहरी महोगनी, ख़रादे हुए पाये और पीतल की फ़िटिंग
+Light teak, square legs and chrome castings	हल्का सागौन, चौकोर पाये और क्रोम की फ़िटिंग
+Deep mahogany, carved legs and leather pocket nets	गहरी महोगनी, नक़्क़ाशीदार पाये और पॉकेट में चमड़े की जालियाँ
+Black lacquer and brushed aluminium on two slab legs	दो चौड़े पायों पर काला लैकर और ब्रश किया हुआ एल्युमिनियम
+Black ebony with gold castings and inlays	सोने की फ़िटिंग और जड़ाई के साथ काला आबनूस
+Reclaimed oak rails on a riveted black steel frame	रिवेट लगे काले स्टील फ़्रेम पर पुरानी ओक लकड़ी के किनारे
+A pro tournament table: charcoal rails, block legs, chrome	प्रो टूर्नामेंट टेबल: चारकोल किनारे, ब्लॉक पाये, क्रोम
+Figured walnut on barley-twist legs, brass and leather	बल खाए पायों पर धारीदार अखरोट, पीतल और चमड़ा
+Ivory lacquer and gold on fluted columns	नालीदार खंभों पर हाथीदाँत रंग का लैकर और सोना
+Panelling, the bar, cue racks, posters and neon	लकड़ी के पैनल, बार, क्यू रैक, पोस्टर और नियॉन
+A deck at sunset, open windows, palms and string lights	सूर्यास्त के समय डेक, खुली खिड़कियाँ, ताड़ के पेड़ और झालर वाली लाइटें
+Panelling, bookshelves, leather sofas and a fireplace	लकड़ी के पैनल, किताबों की अलमारियाँ, चमड़े के सोफ़े और एक अँगीठी
+Brick, steel windows over the city and Edison bulbs	ईंटें, शहर की ओर स्टील की खिड़कियाँ और एडिसन बल्ब
+Log walls, a stone fireplace and snowy peaks outside	लट्ठों की दीवारें, पत्थर की अँगीठी और बाहर बर्फ़ से ढकी चोटियाँ
+A black mirror floor, neon tubes and arcade cabinets	काला शीशे जैसा फ़र्श, नियॉन ट्यूब और आर्केड मशीनें
+A marble chessboard floor, gold, velvet and mirrors	शतरंज जैसा मार्बल फ़र्श, सोना, मख़मल और आईने
+Glass walls on the city at night, pale marble and oak	रात के शहर की ओर काँच की दीवारें, हल्का मार्बल और ओक
+A gold medal!	गोल्ड मेडल!
+A silver medal!	सिल्वर मेडल!
+A bronze medal!	ब्रॉन्ज़ मेडल!
+Silver medal	सिल्वर मेडल
+Bronze medal	ब्रॉन्ज़ मेडल
+Your medals	आपके मेडल
+Kept in your account the next time you're online.	अगली बार ऑनलाइन आने पर आपके अकाउंट में सेव हो जाएँगे।
+Sign in to keep them in your account.	इन्हें अपने अकाउंट में रखने के लिए साइन इन करें।
+18 or older	18 या उससे ज़्यादा
+Under 18	18 से कम
+Creating an account means accepting the	अकाउंट बनाकर आप इन्हें स्वीकार करते हैं:
+For a parent or guardian…	माता-पिता या अभिभावक के लिए…
+A parent or guardian turned the chat on for this account. They can turn it off here at any time.	माता-पिता या अभिभावक ने इस अकाउंट के लिए चैट चालू की है। वे इसे यहाँ कभी भी बंद कर सकते हैं।
+This account belongs to someone under 18. By law, the chat with other players (messages in the lounge and in games, notes, status and gift messages) stays off until their mother, father or legal guardian turns it on.	यह अकाउंट 18 साल से कम उम्र के किसी व्यक्ति का है। क़ानून के अनुसार, दूसरे खिलाड़ियों के साथ चैट (लाउंज और गेम के मैसेज, नोट, स्टेटस और गिफ़्ट मैसेज) तब तक बंद रहती है, जब तक उनकी माँ, पिता या क़ानूनी अभिभावक इसे चालू नहीं करते।
+I am this player's mother, father or legal guardian, I have read the terms of use and I allow them to chat with other players.	मैं इस खिलाड़ी की माँ, पिता या क़ानूनी अभिभावक हूँ, मैंने उपयोग की शर्तें पढ़ ली हैं, और मेरी ओर से उन्हें दूसरे खिलाड़ियों के साथ चैट करने की अनुमति है।
+Chat for players under 18	18 साल से कम उम्र के खिलाड़ियों के लिए चैट
+Turn the chat off	चैट बंद करें
+{n} more invitations	{n} और इनवाइट
+Invitation	इनवाइट
+Turn the chat on	चैट चालू करें
+Chat off: under 18. A parent or guardian can turn it on.	चैट बंद: 18 से कम उम्र। माता-पिता या अभिभावक इसे चालू कर सकते हैं।
+The chat with other players is off until you turn it on.	दूसरे खिलाड़ियों के साथ चैट तब तक बंद है, जब तक आप इसे चालू नहीं करते।
+Write to turn the chat on…	चैट चालू करने के लिए लिखें…
+Chat with other players	दूसरे खिलाड़ियों के साथ चैट
+The chat with other players is off until you turn it on. To turn it on, tell us your age group: it can't be changed from the game afterwards.	दूसरे खिलाड़ियों के साथ चैट तब तक बंद है, जब तक आप इसे चालू नहीं करते। इसे चालू करने के लिए अपना आयु वर्ग बताएँ: इसे बाद में गेम से बदला नहीं जा सकता।
+Under 18: a parent or guardian must agree to the terms with you and turn the chat on.	18 से कम: माता-पिता या अभिभावक को आपके साथ शर्तें स्वीकार करनी होंगी और चैट चालू करनी होगी।
+Not now	अभी नहीं
+Terms of use	उपयोग की शर्तें
+Privacy policy	गोपनीयता नीति
+You have 7 days to change your mind and get your money back.	आपके पास अपना फ़ैसला बदलने और पैसे वापस पाने के लिए 7 दिन हैं।
+Under 18: buy only with a parent's or guardian's permission.	18 से कम: सिर्फ़ माता-पिता या अभिभावक की अनुमति से ख़रीदें।
+Renews every month until you cancel. 7 days to change your mind.	रद्द करने तक हर महीने रिन्यू होता है। फ़ैसला बदलने के लिए 7 दिन।
+About	जानकारी
+Accounts, purchases and refunds, the rules of the online game.	अकाउंट, ख़रीदारी और रिफ़ंड, ऑनलाइन गेम के नियम।
+What the game keeps, and your rights.	गेम क्या सेव करता है, और आपके अधिकार।
+Open	खोलें
+Credits	क्रेडिट
+Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	फ़ॉन्ट: DejaVu और Noto (OFL)। झंडे: flag-icons (MIT)। रिएक्शन और इमोजी: Twemoji (CC-BY 4.0)। देशों के नाम: iso-codes (LGPL-2.1)। गेम का कोड ओपन है (MIT)।
+The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	18 साल से कम उम्र के खिलाड़ियों के लिए चैट बंद है। माता-पिता या अभिभावक इसे लाउंज की चैट के नीचे चालू कर सकते हैं।
+No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	ब्रेक पर कोई बॉल हिट नहीं हुई: {next} ब्रेक करेंगे, हेड स्ट्रिंग के पीछे बॉल इन हैंड के साथ।
+The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	ब्रेक पर कोई बॉल पॉट हुए बिना क्यू बॉल पॉकेट में चली गई: {next} ब्रेक करेंगे, हेड स्ट्रिंग के पीछे बॉल इन हैंड के साथ।
+Users online	ऑनलाइन यूज़र
+ping {ms} ms	पिंग {ms} ms
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks, with the cue ball in hand behind the head string.	ब्रेक पर क्यू बॉल दोनों ग्रुप की बॉल के साथ पॉकेट में चली गई: कोई पेनल्टी नहीं, टेबल ओपन रहती है और {next} ब्रेक करेंगे, हेड स्ट्रिंग के पीछे बॉल इन हैंड के साथ।
+Brazilian	ब्राज़ीलियाई
+Official	आधिकारिक
+Brazilian rules	ब्राज़ीलियाई नियम
+Official rules	आधिकारिक नियम
+Brazilian rules (inside a sentence)	ब्राज़ीलियाई नियम
+Official rules (inside a sentence)	आधिकारिक नियम
+Brazilian (inside a sentence)	ब्राज़ीलियाई
+Official (inside a sentence)	आधिकारिक
+As played in Brazil's bars	जैसे ब्राज़ील के बार में खेला जाता है
+As played in tournaments (WPA)	जैसे टूर्नामेंट में खेला जाता है (WPA)
+on the Brazilian rules	ब्राज़ीलियाई नियमों से
+on the official rules	आधिकारिक नियमों से
+A ball left the table on the break.	ब्रेक पर एक बॉल टेबल से बाहर चली गई।
+A ball off the table on the break	ब्रेक पर बॉल टेबल से बाहर
+A safety calls nothing: whatever goes in stays down, and the turn passes.	सेफ़्टी में कुछ कॉल नहीं होता: जो भी पॉकेट में जाए, वहीं रहता है, और बारी बदल जाती है।
+Break yourself	ख़ुद ब्रेक करें
+CALLED POCKET	कॉल किया गया पॉकेट
+Choose	चुनें
+Choose how play goes on	चुनें कि खेल कैसे आगे बढ़े
+Choose the rules of your games. You can switch them any time, in the main menu.	अपने गेम के नियम चुनें। आप इन्हें कभी भी मेन मेन्यू में बदल सकते हैं।
+Click a pocket on the table to call it; click it again to follow your aim.	किसी पॉकेट को कॉल करने के लिए टेबल पर उस पर क्लिक करें; फिर से क्लिक करें, तो कॉल आपके निशाने के साथ बदलेगी।
+Cue ball in hand	बॉल इन हैंड
+Each of the rules has its own rating: these games don't change your {rating} under the {other}.	हर नियम की अपनी रेटिंग होती है: ये गेम {other} वाली आपकी रेटिंग ({rating}) नहीं बदलते।
+Find an opponent of your level automatically ({rules})	अपने लेवल का विरोधी अपने-आप खोजें ({rules})
+How do you like to play?	आप कैसे खेलना पसंद करते हैं?
+How does play go on? Choose one:	खेल कैसे आगे बढ़े? एक चुनें:
+Illegal break: no ball made and fewer than four balls reached a cushion.	अवैध ब्रेक: कोई बॉल पॉट नहीं हुई और चार से कम बॉल कुशन तक पहुँचीं।
+Invite {name}	{name} को इनवाइट करें
+No ball went in the called pocket ({pocket}): {next} to shoot.	कॉल किए गए पॉकेट ({pocket}) में कोई बॉल नहीं गई: अब {next} की बारी।
+No pocket was called (a safety): {next} to shoot.	कोई पॉकेट कॉल नहीं किया गया (सेफ़्टी): अब {next} की बारी।
+Not sure what changes?	पता नहीं, क्या बदलता है?
+Place it anywhere behind the head string.	इसे हेड स्ट्रिंग के पीछे कहीं भी रखें।
+Play on	खेल जारी रखें
+Players against the computer under these rules	इन नियमों से कंप्यूटर के ख़िलाफ़ खेल रहे खिलाड़ी
+Players online under these rules (the lounge and online games)	इन नियमों से ऑनलाइन खेल रहे खिलाड़ी (लाउंज और ऑनलाइन गेम)
+RULES OF YOUR GAMES	आपके गेम के नियम
+Read both rules	दोनों नियम पढ़ें
+Rules of your games	आपके गेम के नियम
+Safety	सेफ़्टी
+Safety: no pocket	सेफ़्टी: कोई पॉकेट नहीं
+Show the {rules}: the rank, the league and the chart	{rules} दिखाएँ: रैंक, लीग और चार्ट
+The 8 is spotted and you keep shooting.	8 बॉल स्पॉट पर रखी जाती है और आप खेलते रहते हैं।
+The 8 is spotted; the cue ball in hand behind the head string.	8 बॉल स्पॉट पर रखी जाती है; हेड स्ट्रिंग के पीछे बॉल इन हैंड।
+The 8 on a break with a foul	फ़ाउल वाले ब्रेक पर 8 बॉल
+The 8 on the break	ब्रेक पर 8 बॉल
+The 8 went down on a break with a foul: it is spotted.	फ़ाउल वाले ब्रेक पर 8 बॉल पॉकेट में गई: इसे स्पॉट पर रखा जाता है।
+The 8 went down on the break: it is spotted.	ब्रेक पर 8 बॉल पॉकेट में गई: इसे स्पॉट पर रखा जाता है।
+The balls are racked again and you break.	बॉल फिर से रैक होती हैं और आप ब्रेक करते हैं।
+The balls are racked again and {name} breaks.	बॉल फिर से रैक होती हैं और {name} ब्रेक करते हैं।
+The balls are racked again: {name} breaks.	बॉल फिर से रैक होती हैं: {name} ब्रेक करेंगे।
+The balls are racked again: {other} breaks.	बॉल फिर से रैक होती हैं: {other} ब्रेक करेंगे।
+The rules of this game: click to read them	इस गेम के नियम: पढ़ने के लिए क्लिक करें
+The rules of your games: click to switch	आपके गेम के नियम: बदलने के लिए क्लिक करें
+The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	वही स्विच, जो मेन मेन्यू में है: ऑनलाइन, कंप्यूटर के ख़िलाफ़ और दो खिलाड़ी। हर नियम की अपनी रेटिंग होती है।
+The table as it lies.	टेबल जैसी है, वैसी।
+The top 100 of each rules · rated games	हर नियम के टॉप 100 · रेटेड गेम
+The {ball} lay behind the head string and the cue ball hit it without crossing the line first	{ball} हेड स्ट्रिंग के पीछे थी और क्यू बॉल ने पहले लाइन पार किए बिना उसे हिट किया
+What changes between the rules: click to read them	नियमों में क्या फ़र्क़ है: पढ़ने के लिए क्लिक करें
+With the cue ball in hand behind the head string.	हेड स्ट्रिंग के पीछे बॉल इन हैंड के साथ।
+follows your aim	निशाने के साथ बदलता है
+no rated games yet	अभी कोई रेटेड गेम नहीं
+open table: the called ball you make sets your group	ओपन टेबल: आप कॉल की हुई जो बॉल पॉट करेंगे, उससे आपका ग्रुप तय होगा
+peak {n} · {games} games	सबसे ज़्यादा {n} · {games} गेम
+playing now	अभी खेल रहे हैं
+your call	आपकी कॉल
+{name} breaks again	{name} फिर से ब्रेक करेंगे
+{name} chooses: play on, or rack the balls and break again.	{name} चुनेंगे: खेल जारी रखें, या बॉल रैक करके फिर से ब्रेक करें।
+{name} chooses: play the table as it lies, or take the cue ball in hand behind the head string.	{name} चुनेंगे: टेबल जैसी है वैसी खेलें, या हेड स्ट्रिंग के पीछे बॉल इन हैंड लें।
+{name} chooses: play the table as it lies, rack the balls and break, or have {breaker} break again.	{name} चुनेंगे: टेबल जैसी है वैसी खेलें, बॉल रैक करके ब्रेक करें, या {breaker} से फिर से ब्रेक करवाएँ।
+{name} chooses: play the table as it lies, take the cue ball in hand behind the head string, rack the balls and break, or have {breaker} break again.	{name} चुनेंगे: टेबल जैसी है वैसी खेलें, हेड स्ट्रिंग के पीछे बॉल इन हैंड लें, बॉल रैक करके ब्रेक करें, या {breaker} से फिर से ब्रेक करवाएँ।
+{name} chooses: the cue ball in hand behind the head string, or rack the balls and break.	{name} चुनेंगे: हेड स्ट्रिंग के पीछे बॉल इन हैंड, या बॉल रैक करके ब्रेक।
+{name} is choosing how play goes on…	{name} चुन रहे हैं कि खेल कैसे आगे बढ़े…
+{name} plays on (the 8 is spotted).	{name} खेल जारी रखते हैं (8 बॉल स्पॉट पर रखी गई)।
+{name} plays the table as it lies.	{name} टेबल जैसी है, वैसी खेलते हैं।
+{name} plays the {theirs} now; yours are the {mine}.	{name} अभी {theirs} से खेल रहे हैं; आप {mine} से।
+{name} takes the cue ball in hand.	{name} बॉल इन हैंड लेते हैं।
+{next} has the cue ball in hand behind the head string.	{next} के पास हेड स्ट्रिंग के पीछे बॉल इन हैंड है।
+{next} has the cue ball in hand: anywhere on the table.	{next} के पास बॉल इन हैंड है: टेबल पर कहीं भी।
+{n} points to {tier} ({rules})	{tier} तक {n} पॉइंट ({rules})
+{n} waiting	{n} इंतज़ार में
+A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	फ़ाउल पर विरोधी को उसके ग्रुप की बॉल मिलती हैं। बॉल इन हैंड सिर्फ़ ब्रेक पर होता है, और सिर्फ़ 8 बॉल का पॉकेट कॉल किया जाता है।
+A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	फ़ाउल पर विरोधी को बॉल इन हैंड मिलता है, टेबल पर कहीं भी। हर शॉट कॉल किया जाता है, और ब्रेक में चार बॉल कुशन तक पहुँचनी चाहिए।
+A foul gives balls to the opponent	फ़ाउल पर विरोधी को बॉल मिलती हैं
+Ball in hand on the break only	बॉल इन हैंड सिर्फ़ ब्रेक पर
+Only the 8's pocket is called	सिर्फ़ 8 बॉल का पॉकेट कॉल होता है
+The most played in Brazil	ब्राज़ील में सबसे लोकप्रिय
+A foul gives ball in hand	फ़ाउल पर बॉल इन हैंड
+The break drives four balls to a cushion	ब्रेक में चार बॉल कुशन तक
+Every shot is called	हर शॉट कॉल होता है
+The same all over the world	पूरी दुनिया में एक जैसे
+Game type	गेम का प्रकार
+called: {pocket}	कॉल किया: {pocket}
+no call: a safety	कोई कॉल नहीं: सेफ़्टी
+A safety: nothing called. Click again to call the pocket you aim at.	सेफ़्टी: कुछ कॉल नहीं किया। निशाने वाले पॉकेट को कॉल करने के लिए फिर क्लिक करें।
+A safety calls nothing: whatever goes in stays down, and the turn passes. To call another pocket, click it on the table.	सेफ़्टी में कुछ कॉल नहीं होता: जो भी पॉकेट में जाए, वहीं रहता है, और बारी बदल जाती है। कोई और पॉकेट कॉल करने के लिए टेबल पर उस पर क्लिक करें।
+{games} games · {pct}% won	{games} गेम · {pct}% जीते
+Each of the rules has its own rating; the level, coins and achievements are shared.	हर नियम की अपनी रेटिंग होती है; लेवल, कॉइन और उपलब्धियाँ दोनों में एक ही हैं।
+You already have a VIP subscription: manage it with Manage subscription.	आपके पास पहले से VIP सब्सक्रिप्शन है: इसे “सब्सक्रिप्शन मैनेज करें” से मैनेज करें।
+Your opponent can't start another game yet.	आपका विरोधी अभी दूसरा गेम शुरू नहीं कर सकता।
+A tournament's name is shown to everyone: with your chat off, you can join tournaments but not create one.	टूर्नामेंट का नाम सबको दिखता है: चैट बंद होने पर आप टूर्नामेंट में शामिल हो सकते हैं, पर नया नहीं बना सकते।
+The connection dropped: check your coins before trying again.	कनेक्शन टूट गया: फिर कोशिश करने से पहले अपने कॉइन जाँच लें।
+Sign in to buy coins.	कॉइन ख़रीदने के लिए साइन इन करें।
+Sign in to become VIP.	VIP बनने के लिए साइन इन करें।
+how play goes on after the break is undecided	ब्रेक के बाद खेल कैसे आगे बढ़े, यह अभी तय नहीं हुआ
+Finish your game, and leave your table, the queue or your tournament first.	पहले अपना गेम पूरा करें, और अपनी टेबल, क़तार या टूर्नामेंट छोड़ें।
+That choice can't be made now.	वह विकल्प अभी नहीं चुना जा सकता।
+That medal can't be.	वह मेडल मौजूद नहीं है।
+{name}'s tournament	{name} का टूर्नामेंट
+When time runs out, it's a foul: your opponent gets a ball and the cue ball goes back to the head spot.	समय ख़त्म होने पर फ़ाउल होता है: विरोधी को एक बॉल मिलती है और क्यू बॉल हेड स्पॉट पर वापस जाती है।
+When time runs out, it's a foul: your opponent gets the cue ball in hand.	समय ख़त्म होने पर फ़ाउल होता है: विरोधी को बॉल इन हैंड मिलता है।
+Your username was changed. Sign in again.	आपका यूज़रनेम बदल दिया गया। फिर से साइन इन करें।
+You have your tournament game in progress. A new game takes its place, and the tournament game counts as lost.	आपका टूर्नामेंट गेम चल रहा है। नया गेम उसकी जगह ले लेगा, और टूर्नामेंट गेम हारा हुआ माना जाएगा।
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks again, from the head spot.	ब्रेक पर क्यू बॉल दोनों ग्रुप की बॉल के साथ पॉकेट में चली गई: कोई पेनल्टी नहीं, टेबल ओपन रहती है और {next} हेड स्पॉट से फिर से ब्रेक करेंगे।
+The cue ball went down on the break with no ball made: {next} breaks again, from the head spot.	ब्रेक पर कोई बॉल पॉट हुए बिना क्यू बॉल पॉकेट में चली गई: {next} हेड स्पॉट से फिर से ब्रेक करेंगे।
+{who} ran out of time: {other} breaks, from the head spot.	{who} का समय ख़त्म: {other} हेड स्पॉट से ब्रेक करेंगे।
+Congratulations!	बधाई हो!
+You earned a new item: {title}	आपने एक नया आइटम जीता: {title}
+You earned a new item!	आपने एक नया आइटम जीता!

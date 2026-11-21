@@ -1,0 +1,1506 @@
+# Snook Legend: Brazilian Portuguese.
+# One text per line: the English text (as written in the code), a tab, the translation.
+# Placeholders like {name} must stay as they are; \n is a new line.
+{name} is on the 8: called pocket {pocket}	{name} 8'e kaldı: söylenen cep {pocket}
+On the 8-ball: {pocket} pocket	8 için cep: {pocket}
+Show ping	Ping'i göster
+Your connection's delay, in online games.	Çevrim içi oyunlarda bağlantının gecikmesi.
+Reactions	Tepkiler
+Shop	Mağaza
+Cloth	Çuha
+Cues	İstekalar
+Chalk	Tebeşir
+Balls	Toplar
+Coins	Jetonlar
+coins	jeton
+Sign in to buy and use items. Here is what there is:	Eşya satın almak ve kullanmak için giriş yap. İşte neler var:
+In use	Kullanımda
+Use	Kullan
+Buy	Satın al
+{n} short	{n} eksik
+{n} coins	{n} jeton
+Not enough coins: get more in the Coins tab.	Yeterli jetonun yok: Jetonlar sekmesinden daha fazlasını al.
+VIP only	Sadece VIP
+free	ücretsiz
+yours	senin
+achievement	başarım
+Coins can't be bought on this server yet.	Bu sunucuda henüz jeton satın alınamıyor.
++{n} bonus	+{n} hediye
+Payment opens in your browser (card, Pix…), on Stripe's secure page.	Ödeme, tarayıcında Stripe'ın güvenli sayfasında açılır (kart, Pix…).
+Coins arrive in a moment; they are only used for items in the game.	Jetonlar birazdan gelir; yalnızca oyundaki eşyalar için kullanılır.
+Exclusive items: {list}	Özel eşyalar: {list}
+{n} coins every month	Her ay {n} jeton
+Cancel whenever you want: VIP lasts until the end of the paid month	İstediğin zaman iptal et: VIP, ödenen ayın sonuna kadar sürer
+You are VIP until {d}.	{d} tarihine kadar VIP'sin.
+Manage subscription	Aboneliği yönet
+Become VIP · {p}	VIP ol · {p}
+VIP can't be bought on this server yet.	Bu sunucuda henüz VIP satın alınamıyor.
+The payment page opened in your browser.	Ödeme sayfası tarayıcında açıldı.
+Could not open the browser.	Tarayıcı açılamadı.
+Tournament green	Turnuva yeşili
+Electric blue	Elektrik mavisi
+Burgundy	Bordo
+Charcoal	Antrasit
+Teal	Petrol yeşili
+Royal purple	Kraliyet moru
+Camel	Deve tüyü
+Midnight	Gece yarısı
+Champion's red	Şampiyon kırmızısı
+Classic	Klasik
+Rosewood	Gül ağacı
+Ebony & silver	Abanoz ve gümüş
+Carbon	Karbon
+Ivory inlay	Fildişi kakma
+Crown	Taç
+Jewels	Mücevherler
+Blue chalk	Mavi tebeşir
+Green chalk	Yeşil tebeşir
+Red chalk	Kırmızı tebeşir
+Purple chalk	Mor tebeşir
+Gold chalk	Altın tebeşir
+Vintage	Vintage
+Pastel	Pastel
+Neon	Neon
+You already have this item.	Bu eşya zaten sende var.
+Not enough coins.	Yeterli jetonun yok.
+The purchase failed; no coins were taken.	Satın alma başarısız oldu; jeton düşülmedi.
+No such item.	Böyle bir eşya yok.
+This item can't be bought with coins.	Bu eşya jetonla satın alınamaz.
+You don't have this item.	Bu eşya sende yok.
+Purchases are not available.	Satın alma şu anda kullanılamıyor.
+This pack is not on sale.	Bu paket satışta değil.
+The payment page could not be opened. Try again in a moment.	Ödeme sayfası açılamadı. Birazdan tekrar dene.
+You are already VIP.	Zaten VIP'sin.
+There is no subscription to manage.	Yönetilecek bir abonelik yok.
+The page could not be opened. Try again in a moment.	Sayfa açılamadı. Birazdan tekrar dene.
+Coins added to your wallet.	Jetonlar cüzdanına eklendi.
+Welcome to VIP!	VIP'ye hoş geldin!
+Slow down a little.	Biraz yavaşla.
+You can't do that.	Bunu yapamazsın.
+There are too many notes right now. Try again in a few minutes.	Şu anda çok fazla not var. Birkaç dakika sonra tekrar dene.
+A moderator took down your note.	Bir moderatör notunu kaldırdı.
+A moderator cleared your status message.	Bir moderatör durum mesajını sildi.
+Status message cleared.	Durum mesajı silindi.
+VIP	VIP
+Play now	Hemen oyna
+Find an opponent of your level automatically	Seviyene uygun bir rakibi otomatik olarak bul
+Looking for an opponent… {t}	Rakip aranıyor… {t}
+any rating	puan sınırı yok
+rating ±{n} · {mode}	puan ±{n} · {mode}
+Potting success	Sokma başarısı
+Balls made	Sokulan toplar
+Best run	En iyi seri
+Fouls	Fauller
+seen just now	az önce görüldü
+seen {n} min ago	{n} dk önce görüldü
+seen {n} h ago	{n} sa önce görüldü
+seen yesterday	dün görüldü
+seen {n} days ago	{n} gün önce görüldü
+seen {n} months ago	{n} ay önce görüldü
+just now	az önce
+{n} min ago	{n} dk önce
+{n} h ago	{n} sa önce
+yesterday	dün
+{n} days ago	{n} gün önce
+Game history	Oyun geçmişi
+Nothing yet.	Henüz bir şey yok.
+Fine aim: click the arrows, or drag here	Hassas nişan: oklara tıkla ya da burada sürükle
+{n} watching	{n} izleyici
+Watching {name}	İzleniyor: {name}
+Your reactions reach the table quietly.	Tepkilerin masaya sessizce ulaşır.
+Stop watching	İzlemeyi bırak
+If they play again, you keep watching.	Yeniden oynarlarsa izlemeye devam edersin.
+Your friend left the table.	Arkadaşın masadan ayrıldı.
+Your friend isn't playing right now.	Arkadaşın şu anda oynamıyor.
+You can only watch your friends.	Yalnızca arkadaşlarını izleyebilirsin.
+You can't watch this game.	Bu oyunu izleyemezsin.
+{n} points to {tier}	{tier} için {n} puan
+Top tier	En üst kademe
+Reactions {n}/{total}	Tepkiler {n}/{total}
+Haunted table	Perili masa
+Win a rated game during Halloween (Oct 24 – Nov 2).	Cadılar Bayramı'nda (24 Eki – 2 Kas) puanlı bir oyun kazan.
+Winter league	Kış ligi
+Win a rated game over the holidays (Dec 15 – Jan 6).	Yılbaşı tatilinde (15 Ara – 6 Oca) puanlı bir oyun kazan.
+Fireworks	Havai fişek
+Win a rated game at the turn of the year (Dec 31 – Jan 1).	Yeni yıla girerken (31 Ara – 1 Oca) puanlı bir oyun kazan.
+Shows where the object ball and the cue ball go (only in free games and practice).	Hedef topun ve beyaz topun nereye gideceğini gösterir (yalnızca serbest oyunlarda ve antrenmanda).
+{n} online · ping {ms} ms	{n} çevrim içi · ping {ms} ms
+Right-drag · Wheel	Sağ tuşla sürükle · Tekerlek
+Win %	Galibiyet %
+Reset the camera: top view, no zoom	Kamerayı sıfırla: üstten görünüm, yakınlaştırma yok
+{name} sank the 8-ball	{name} 8 numaralı topu soktu
+{name} sank the 8 too early	{name} 8'i erken soktu
+{name} sank the 8 in the wrong pocket	{name} 8'i yanlış cebe soktu
+{name} fouled on the 8	{name} 8'de faul yaptı
+{name} knocked the 8 off the table	{name} 8'i masadan düşürdü
+{name} resigned	{name} pes etti
+{name} left the game	{name} oyundan ayrıldı
+{winner} wins! ({how})	{winner} kazandı! ({how})
+#{n} in the world	Dünyada #{n}
+3–16 letters, digits or underscores.	3–16 harf, rakam veya alt çizgi.
+No lines on the table: aim by eye, along the cue.	Masada çizgi yok: istekanın doğrultusunda gözle nişan al.
+No guide	Kılavuz yok
+Only a short line from the cue ball.	Beyaz toptan çıkan yalnızca kısa bir çizgi.
+Accept friend	Arkadaşlığı kabul et
+Achievement unlocked: {title}	Başarım açıldı: {title}
+Achievements {n}/{total}	Başarımlar {n}/{total}
+Add	Ekle
+Add a friend by username	Kullanıcı adıyla arkadaş ekle
+Add friend	Arkadaş ekle
+Against the computer	Bilgisayara karşı
+All tournaments	Tüm turnuvalar
+Amateur	Amatör
+At least 8 characters. Use a password you don't use elsewhere.	En az 8 karakter. Başka bir yerde kullanmadığın bir şifre seç.
+At least two players are needed.	En az iki oyuncu gerekli.
+Back	Geri
+Black ball	Siyah top
+Block	Engelle
+Break and run	Açılıştan bitiş
+Break and run 10 times.	Açılışta başlayıp masayı 10 kez bitir.
+Can't listen for games here: join by address below.	Burada oyun aranamıyor: aşağıdan adresle katıl.
+Cancel request	İsteği iptal et
+Cancel tournament	Turnuvayı iptal et
+Casual	Puansız
+Centurion	Yüzbaşı
+Champion	Şampiyon
+Champion: {name}	Şampiyon: {name}
+Change country	Ülkeyi değiştir
+Add a status message	Durum mesajı ekle
+A line about you	Kendin hakkında bir cümle
+Save (Enter)	Kaydet (Enter)
+Cancel (Esc)	İptal (Esc)
+Change your status message	Durum mesajını değiştir
+Clear the status message	Durum mesajını sil
+Cheating or abuse	Hile veya kötüye kullanım
+Choose…	Seç…
+Click again to block	Engellemek için tekrar tıkla
+Close	Kapat
+Closer	Bitirici
+Competitor	Yarışmacı
+Connecting to the server…	Sunucuya bağlanılıyor…
+Could not host a game: {e}	Oyun kurulamadı: {e}
+Country	Ülke
+Create	Oluştur
+Create a tournament	Turnuva oluştur
+Don't show a flag	Bayrak gösterme
+No country found.	Ülke bulunamadı.
+Dynasty	Hanedan
+Eight is enough	Sekiz yeter
+Executioner	Cellat
+Expert	Uzman
+Familiar face	Tanıdık yüz
+Final	Final
+Finish your game first.	Önce oyununu bitir.
+First blood	İlk kan
+First break	İlk açılış
+Friend request sent.	Arkadaşlık isteği gönderildi.
+Friends	Arkadaşlar
+# Daily (correspondence) games.
+daily game	günlük oyun
+Daily	Günlük
+Daily game	Günlük oyun
+Daily games	Günlük oyunlar
+Challenge a player by username	Kullanıcı adıyla bir oyuncuya meydan oku
+Challenge to a daily game	Günlük oyun için meydan oku
+3 days for each turn	Her sıra için 3 gün
+No daily games yet. Challenge a friend: each of you plays a turn whenever you can.	Henüz günlük oyun yok. Bir arkadaşına meydan oku: ikiniz de fırsat buldukça sıranızı oynarsınız.
+challenges you · {kind}	sana meydan okuyor · {kind}
+waiting for an answer · {kind} · {time} left	yanıt bekleniyor · {kind} · {time} kaldı
+your turn · {time} left	sıra sende · {time} kaldı
+their turn · {time} left	sıra rakipte · {time} kaldı
+won · {how}	galibiyet · {how}
+lost · {how}	mağlubiyet · {how}
+ran out of time	süre doldu
+the opponent ran out of time	rakibin süresi doldu
+open table	açık masa
+You: {mine}, {a} left · {name}: {theirs}, {b} left	Sen: {mine}, {a} kaldı · {name}: {theirs}, {b} kaldı
+Look	Bak
+Skip	Geç
+Replaying {name}'s turn	Sıra tekrarı: {name}
+Stroke {n} of {total}	Vuruş {n}/{total}
+Turn sent	Hamle gönderildi
+Turn sent.	Hamle gönderildi.
+Waiting for {name} to play	Sıra rakipte: {name}
+{name} has {time} to play. You'll be told when it's your turn.	{name} için kalan süre: {time}. Sıra sana gelince haber vereceğiz.
+{time} left to play. You'll be told when it's your turn.	Oynamak için {time} kaldı. Sıra sana gelince haber vereceğiz.
+Back to daily games	Günlük oyunlara dön
+Your game is saved: come back whenever you like.	Oyunun kaydedildi: istediğin zaman geri gel.
+{d} d {h} h	{d} g {h} sa
+{name} ran out of time	{name} için süre doldu
+This game can't be shown.	Bu oyun gösterilemiyor.
+A daily game is waiting for you	Bir günlük oyun seni bekliyor
+{n} daily games are waiting for you	{n} günlük oyun seni bekliyor
+{name} challenges you to a rated daily game.	{name} sana puanlı bir günlük oyun için meydan okuyor.
+{name} challenges you to a casual daily game.	{name} sana puansız bir günlük oyun için meydan okuyor.
+{name} accepted your daily game.	{name} günlük oyun davetini kabul etti.
+{name} declined your daily game.	{name} günlük oyun davetini reddetti.
+{name} withdrew their daily game challenge.	{name} günlük oyun davetini geri çekti.
+Your turn in the daily game against {name}.	{name} ile günlük oyunda sıra sende.
+{name} ran out of time: you won the daily game.	{name} için süre doldu: günlük oyunu kazandın.
+You won the daily game against {name}!	{name} ile günlük oyunu kazandın!
+You ran out of time in the daily game against {name}.	{name} ile günlük oyunda süren doldu.
+You lost the daily game against {name}.	{name} ile günlük oyunu kaybettin.
+Challenge sent.	Meydan okuma gönderildi.
+Daily games need an account.	Günlük oyunlar için hesap gerekir.
+No such game.	Böyle bir oyun yok.
+That challenge is no longer valid.	Bu meydan okuma artık geçerli değil.
+That player already challenged you: answer their challenge.	Bu oyuncu sana zaten meydan okudu: onun davetine yanıt ver.
+That player has too many challenges waiting.	Bu oyuncunun bekleyen çok fazla daveti var.
+That player has too many daily games going on.	Bu oyuncunun süren çok fazla günlük oyunu var.
+That player is not accepting challenges.	Bu oyuncu meydan okumaları kabul etmiyor.
+This game can't be played right now.	Bu oyun şu anda oynanamaz.
+This game changed meanwhile: open it again.	Bu oyun bu arada değişti: yeniden aç.
+This game is over.	Bu oyun bitti.
+You already challenged that player.	Bu oyuncuya zaten meydan okudun.
+You already have a game going on against that player.	Bu oyuncuyla zaten süren bir oyunun var.
+You blocked that player.	Bu oyuncuyu engelledin.
+You can't challenge yourself.	Kendine meydan okuyamazsın.
+You have as many daily games as you can play at once.	Aynı anda oynayabileceğin en fazla günlük oyuna ulaştın.
+You have too many challenges waiting for an answer.	Yanıt bekleyen çok fazla meydan okuman var.
+You're sending challenges too quickly.	Çok hızlı meydan okuma gönderiyorsun.
+Your time for this turn ran out.	Bu sıra için süren doldu.
+Games	Oyunlar
+Games on your network	Ağındaki oyunlar
+Give the tournament a name (at least 3 characters).	Turnuvaya bir ad ver (en az 3 karakter).
+Good company	Güzel dostluk
+Grandmaster	Büyük usta
+Guests can only join LAN games. Create an account.	Misafirler yalnızca LAN oyunlarına katılabilir. Hesap oluştur.
+Guests can't play rated tournaments.	Misafirler puanlı turnuvalarda oynayamaz.
+Guests don't have this.	Misafirlerde bu özellik yok.
+Harassment	Taciz
+Hat trick	Hat-trick
+Have 10 friends.	10 arkadaşın olsun.
+Have an account for 30 days.	30 gündür hesabın olsun.
+Have an account for a year.	Bir yıldır hesabın olsun.
+Host a game on this computer	Bu bilgisayarda oyun kur
+Host {host} · {n}/{size} players · {kind}	Kurucu {host} · {n}/{size} oyuncu · {kind}
+Hot hand	Sıcak el
+Hustler	Salon kurdu
+Invalid shot.	Geçersiz vuruş.
+Join	Katıl
+Joining the LAN game…	LAN oyununa katılınıyor…
+Just for fun	Sadece eğlencesine
+L	M
+LAN game	LAN oyunu
+LAN game hosted by {name}.	LAN oyunu · kurucu: {name}.
+LAN games don't change ratings.	LAN oyunları puanı değiştirmez.
+Legend	Efsane
+Lives at the table	Masanın demirbaşı
+Loading the profile…	Profil yükleniyor…
+Loading…	Yükleniyor…
+Local network	Yerel ağ
+Locked	Kilitli
+Looking for games	Oyun aranıyor
+Make a friend.	Bir arkadaş edin.
+Master	Usta
+Name	Ad
+Names have 3–16 letters, digits or underscores.	Adlar 3–16 harf, rakam veya alt çizgiden oluşur.
+New account	Yeni hesap
+I have an account	Hesabım var
+New here? Choose “New account”: it takes ten seconds.	Yeni misin? “Yeni hesap” seçeneğine tıkla: on saniye sürer.
+New tournament	Yeni turnuva
+No friends yet. Add someone you played with!	Henüz arkadaşın yok. Birlikte oynadığın birini ekle!
+No games yet.	Henüz oyun yok.
+No limit	Sınırsız
+No open tables. Open one and others can sit down.	Açık masa yok. Bir masa aç, başkaları da otursun.
+No other open tables right now.	Şu anda başka açık masa yok.
+No such player.	Böyle bir oyuncu yok.
+No tournaments right now. Create one!	Şu anda turnuva yok. Bir tane oluştur!
+Offensive name	Rahatsız edici ad
+On a roll	Yükselişte
+On fire	Alev alev
+Only the host can start the tournament.	Turnuvayı yalnızca kurucusu başlatabilir.
+Open a table	Masa aç
+Or join by address	Ya da adresle katıl
+Other	Diğer
+Others can join at {ip}:{port}	Diğerleri şu adresten katılabilir: {ip}:{port}
+Passwords need at least 8 characters (not only digits).	Şifre en az 8 karakter olmalı (yalnızca rakamlardan oluşmamalı).
+Play 1,000 rated games.	1.000 puanlı oyun oyna.
+Play 10 rated games.	10 puanlı oyun oyna.
+Play 100 rated games.	100 puanlı oyun oyna.
+Play 25 casual games.	25 puansız oyun oyna.
+Play 500 rated games.	500 puanlı oyun oyna.
+Play in a tournament.	Bir turnuvada oyna.
+Play online	Çevrim içi oyna
+Play with friends on the same network	Aynı ağdaki arkadaşlarınla oyna
+Play your first rated game.	İlk puanlı oyununu oyna.
+Player 1	Oyuncu 1
+Players	Oyuncular
+Players in a tournament can't start other games.	Turnuvadaki oyuncular başka oyun başlatamaz.
+Please don't repeat the same message.	Lütfen aynı mesajı tekrarlama.
+Pool hall legend	Salon efsanesi
+Popular	Popüler
+Private	Özel
+for your friends to sit down	arkadaşlarının oturması için
+Profile	Profil
+{key}: watch the last shot again	{key}: son vuruşu tekrar izle
+REPLAY	TEKRAR
+Rated	Puanlı
+Rated games, tables, tournaments and friends	Puanlı oyunlar, masalar, turnuvalar ve arkadaşlar
+Reach a rating of 1300.	1300 puana ulaş.
+Reach a rating of 1500.	1500 puana ulaş.
+Reach a rating of 1700.	1700 puana ulaş.
+Reach a rating of 1900.	1900 puana ulaş.
+Reach a rating of 2100.	2100 puana ulaş.
+Refresh	Yenile
+Regular	Müdavim
+Remove friend	Arkadaşlıktan çıkar
+Replay	Tekrar
+Report	Şikâyet et
+Report {name}	Şikâyet et: {name}
+Request sent	İstek gönderildi
+Friend	Arkadaş
+Recent	Son rakipler
+Nobody yet. The people you play online will show up here.	Henüz kimse yok. Çevrim içi oynadığın kişiler burada görünür.
+{n} games	{n} oyun
+Rookie	Çaylak
+Round {n}	Tur {n}
+Search…	Ara…
+Semi-finals	Yarı final
+Send report	Şikâyeti gönder
+This game goes with the report, so the moderators can watch it.	Bu oyun şikâyete eklenir, böylece moderatörler izleyebilir.
+Your game with {name} ({date}) goes with the report, so the moderators can watch it.	{name} ile oynadığın oyun ({date}) şikâyete eklenir, böylece moderatörler izleyebilir.
+You haven't played {name} in the last day: the moderators see the recent chat.	Son bir gün içinde {name} ile oynamadın: moderatörler son sohbeti görür.
+Shark	Köpekbalığı
+Shows the contact point; judging the cut is up to you.	Temas noktasını gösterir; kesme açısını sen ayarlarsın.
+Shutout	Sıfır çektir
+Sign in	Giriş yap
+Sign in or create an account	Giriş yap veya hesap oluştur
+Sign out	Çıkış yap
+Sit down	Otur
+Skilled	Yetenekli
+Someone with that name is already here.	Bu adda biri zaten burada.
+Spam	Spam
+Start now	Şimdi başlat
+Stop the replay	Tekrarı durdur
+Table runner	Masa süpürücü
+Tables	Masalar
+Take turns on this computer	Bu bilgisayarda sırayla oynayın
+Thank you. The moderators will look into it.	Teşekkürler. Moderatörler inceleyecek.
+Thank you. The moderators will look into it, with your game attached.	Teşekkürler. Moderatörler, oyununla birlikte inceleyecek.
+That player is not accepting invitations.	Bu oyuncu davet kabul etmiyor.
+That shot was for an earlier turn.	Bu vuruş önceki bir sıraya aitti.
+That table is no longer open.	Bu masa artık açık değil.
+That tournament has already started.	Bu turnuva çoktan başladı.
+That tournament no longer exists.	Bu turnuva artık yok.
+The first connection of the day can take up to a minute while the server wakes up.	Günün ilk bağlantısı, sunucu uyanırken bir dakikayı bulabilir.
+The first time, allow Snook Legend through the firewall when asked.	İlk seferde, sorulduğunda Snook Legend'ın güvenlik duvarından geçmesine izin ver.
+The server could not play that shot.	Sunucu bu vuruşu oynayamadı.
+The server is busy. Try again in a moment.	Sunucu meşgul. Birazdan tekrar dene.
+The tournament starts when it is full (the host can start it earlier).	Turnuva dolunca başlar (kurucu daha önce başlatabilir).
+There are too many tournaments right now. Join one!	Şu anda çok fazla turnuva var. Birine katıl!
+This is a LAN server: join as a guest.	Bu bir LAN sunucusu: misafir olarak katıl.
+Fifteen rivals, a tour and ghosts of real players	On beş rakip, bir turne ve gerçek oyuncuların hayaletleri
+Tier	Kademe
+Time per shot	Vuruş süresi
+Too many failed attempts. Wait a few minutes and try again.	Çok fazla başarısız deneme. Birkaç dakika bekleyip tekrar dene.
+Too many messages.	Çok fazla mesaj.
+Too many new accounts from this network. Try again later.	Bu ağdan çok fazla yeni hesap açıldı. Daha sonra tekrar dene.
+Top 100 · rated games	İlk 100 · puanlı oyunlar
+Tournament game: the next round starts from the lounge.	Turnuva oyunu: sonraki tur lobiden başlar.
+Tournament games have no rematch.	Turnuva oyunlarında rövanş yok.
+Tournaments	Turnuvalar
+Tournaments have 4, 8 or 16 players.	Turnuvalar 4, 8 veya 16 oyunculudur.
+Two players	İki oyuncu
+Unblock	Engeli kaldır
+Unlocked {date}	Açıldı: {date}
+Unstoppable	Durdurulamaz
+W	G
+Watch the last shot again	Son vuruşu tekrar izle
+What happened? (optional)	Ne oldu? (isteğe bağlı)
+When time runs out, the turn passes.	Süre dolunca sıra rakibe geçer.
+Whitewash	Silindir
+Win 10 rated games on the 8-ball.	8 numaralı topu sokarak 10 puanlı oyun kazan.
+Win 10 rated games in a row.	Üst üste 10 puanlı oyun kazan.
+Win 10 rated games.	10 puanlı oyun kazan.
+Win 10 rated shutouts.	Rakibine kendi grubundan top sokturmadan 10 puanlı oyun kazan.
+Win 100 rated games on the 8-ball.	8 numaralı topu sokarak 100 puanlı oyun kazan.
+Win 100 rated games.	100 puanlı oyun kazan.
+Win 250 rated games on the 8-ball.	8 numaralı topu sokarak 250 puanlı oyun kazan.
+Win 3 rated games in a row.	Üst üste 3 puanlı oyun kazan.
+Win 5 rated games in a row.	Üst üste 5 puanlı oyun kazan.
+Win 5 tournaments.	5 turnuva kazan.
+Win 50 rated games on the 8-ball.	8 numaralı topu sokarak 50 puanlı oyun kazan.
+Win 50 rated games.	50 puanlı oyun kazan.
+Win 500 rated games.	500 puanlı oyun kazan.
+Win a rated game.	Puanlı bir oyun kazan.
+Win a tournament.	Bir turnuva kazan.
+Win a rated game before your opponent sinks a ball of their group.	Rakibin kendi grubundan bir top sokmadan puanlı bir oyun kazan.
+Win a rated game from the break without your opponent getting a shot.	Rakibine hiç vuruş sırası vermeden, açılıştan puanlı bir oyun kazan.
+Withdraw	Çekil
+World ranking	Dünya sıralaması
+Wrong table password.	Masa şifresi yanlış.
+Wrong tournament password.	Turnuva şifresi yanlış.
+You are already in a tournament.	Zaten bir turnuvadasın.
+You are hosting a game	Bir oyuna ev sahipliği yapıyorsun
+You can't join this table.	Bu masaya katılamazsın.
+You signed in from another place.	Başka bir yerden giriş yaptın.
+You're sending invitations too quickly.	Çok hızlı davet gönderiyorsun.
+You're sending messages too quickly.	Çok hızlı mesaj gönderiyorsun.
+You've sent many reports. Please wait before sending more.	Çok sayıda şikâyet gönderdin. Daha fazlasını göndermeden önce lütfen bekle.
+Your friend list is full.	Arkadaş listen dolu.
+Your next match starts by itself when both players are free.	Sonraki maçın, iki oyuncu da müsait olunca kendiliğinden başlar.
+Your profile	Profilin
+Your table is open	Masan açık
+Zoom in	Yakınlaştır
+Zoom out	Uzaklaştır
+at a table	bir masada
+best streak	en uzun galibiyet serisi
+by {host} · {n}/{size} players	kurucu {host} · {n}/{size} oyuncu
+casual games	puansız oyun
+casual · private	puansız · özel
+casual · public	puansız · herkese açık
+connecting to the server	sunucuya bağlanılıyor
+eight-ball pool	8 top bilardo
+finished	bitti
+guest	misafir
+invites you to {kind}	seni davet ediyor: {kind}
+joined today	bugün katıldı
+member for {n} days	{n} gündür üye
+member for {n} months	{n} aydır üye
+member for {n} years	{n} yıldır üye
+offline	çevrim dışı
+open	açık
+optional: only friends with it can join	isteğe bağlı: yalnızca şifreyi bilen arkadaşlar katılabilir
+password	şifre
+peak {n}	zirve {n}
+playing	oynuyor
+playing the computer	bilgisayara karşı oynuyor
+away	uzakta
+this game is saved	bu oyun kaydedildi
+rated games	puanlı oyun
+rated · private	puanlı · özel
+rated · public	puanlı · herkese açık
+request sent	istek gönderildi
+the connection dropped	bağlantı koptu
+to play online	çevrim içi oynamak için
+tournament	turnuva
+tournaments won	kazanılan turnuva
+waiting for an opponent…	rakip bekleniyor…
+win rate	galibiyet oranı
+wins	galibiyet
+won on the 8	8'le kazanılan
+{host}'s game	Kurucu: {host}
+{name} wants to be friends	{name} arkadaş olmak istiyor
+{name} wants to be your friend.	{name} seninle arkadaş olmak istiyor.
+{n} online	{n} çevrim içi
+sank the 8-ball	8 numaralı topu soktu
+the opponent sank the 8-ball	rakip 8 numaralı topu soktu
+the opponent sank the 8 too early	rakip 8'i erken soktu
+sank the 8 too early	8'i erken soktu
+the opponent sank the 8 in the wrong pocket	rakip 8'i yanlış cebe soktu
+sank the 8 in the wrong pocket	8'i yanlış cebe soktu
+the opponent fouled on the 8	rakip 8'de faul yaptı
+fouled on the 8	8'de faul yaptı
+the opponent knocked the 8 off the table	rakip 8'i masadan düşürdü
+knocked the 8 off the table	8'i masadan düşürdü
+the opponent resigned	rakip pes etti
+resigned	pes etti
+the opponent left	rakip ayrıldı
+left the game	oyundan ayrıldı
+You are muted for {n} more minutes.	{n} dakika daha susturuldun.
+This account is suspended for {n} more day(s). Reason: {reason}.	Bu hesap {n} gün daha askıya alındı. Sebep: {reason}.
+This account is banned. Reason: {reason}.	Bu hesap yasaklandı. Sebep: {reason}.
+You were muted: {r}	Susturuldun: {r}
+Your account was suspended: {r}	Hesabın askıya alındı: {r}
+Your account was banned: {r}	Hesabın yasaklandı: {r}
+You were disconnected by a moderator: {r}	Bir moderatör bağlantını kesti: {r}
+You were disconnected by a moderator.	Bir moderatör bağlantını kesti.
+Please sign in again.	Lütfen tekrar giriş yap.
+Your password was changed. Sign in again.	Şifren değiştirildi. Tekrar giriş yap.
+Accept rematch	Rövanşı kabul et
+Accept	Kabul et
+Aim	Nişan al
+Aiming guide	Nişan kılavuzu
+Aiming	Nişan
+Anti-aliasing	Kenar yumuşatma
+Smooths the jagged edges of lines and balls.	Çizgilerin ve topların tırtıklı kenarlarını yumuşatır.
+Back to lounge	Lobiye dön
+Balanced: smooth on most laptops.	Dengeli: çoğu dizüstü bilgisayarda akıcı.
+Ball in hand	Elde top
+Break the rack	Açılışı yap
+Camera pulls back to watch each shot	Kamera her vuruşu izlemek için geri çekilir
+Camera	Kamera
+Cancel	İptal
+Casual game: ratings unchanged	Puansız oyun: puanlar değişmez
+Center	Ortala
+Chat	Sohbet
+Click a ball or a spot	Bir topa veya bir noktaya tıkla
+Click to chat, Enter to send	Sohbet için tıkla, göndermek için Enter
+Controls	Kontroller
+Create account	Hesap oluştur
+Cue ball contact	Beyaz topta vuruş noktası
+Decline	Reddet
+Done	Tamam
+Drag the cue ball	Beyaz topu sürükle
+Elevation	Yükseklik
+Everything, with reflections in polished floors: for gaming PCs.	Her şey, cilalı zeminlerde yansımalarla: oyun bilgisayarları için.
+Fine aim	Hassas nişan
+Finish this match first.	Önce bu maçı bitir.
+For old or very slow computers.	Eski veya çok yavaş bilgisayarlar için.
+Full screen	Tam ekran
+Also with {key}.	{key} ile de olur.
+Full	Tam
+Game server	Oyun sunucusu
+Change it only to play on another server.	Yalnızca başka bir sunucuda oynamak için değiştir.
+Advanced	Gelişmiş
+Custom server	Özel sunucu
+Graphics quality	Grafik kalitesi
+Quality	Kalite
+Display	Ekran
+High	Yüksek
+Invite	Davet et
+Leave to the lounge	Lobiye çık
+Leave	Ayrıl
+Leaving now counts as a loss.	Şimdi ayrılmak mağlubiyet sayılır.
+Lounge chat	Lobi sohbeti
+Low	Düşük
+Main menu	Ana menü
+Medium	Orta
+Menu / help	Menü / yardım
+Next game starts in a moment…	Sonraki oyun birazdan başlıyor…
+No rated games yet. Be the first!	Henüz puanlı oyun yok. İlk sen ol!
+Nobody else is here right now.	Şu anda burada başka kimse yok.
+Looking for a game?	Oyun mu arıyorsun?
+Looking for a game	Oyun arıyor
+Post a note	Not paylaş
+Everyone in the lounge sees it for 30 minutes	Lobideki herkes 30 dakika boyunca görür
+What are you after? ({kind})	Ne arıyorsun? ({kind})
+Post	Paylaş
+Your note: {text}	Notun: {text}
+{mode} · {left} left	{mode} · {left} kaldı
+Take down	Kaldır
+Challenge	Meydan oku
+Take the note down	Notu kaldır
+Off	Kapalı
+On the 8-ball: call a pocket	8 için cep söyle
+On the 8-ball	8'e kaldı
+Open table	Açık masa
+Password	Şifre
+Paused	Duraklatıldı
+Play	Oyna
+Player 2	Oyuncu 2
+Player	Oyuncu
+Quick aim	Hızlı nişan
+Quit	Çık
+Reconnected.	Yeniden bağlandı.
+Rematch	Rövanş
+Resign this game	Bu oyunda pes et
+Restart the game to apply this change.	Bu değişikliği uygulamak için oyunu yeniden başlat.
+Resume	Devam et
+Retry	Tekrar dene
+Saving the result…	Sonuç kaydediliyor…
+Say hello… (Enter to send)	Merhaba de… (göndermek için Enter)
+Send	Gönder
+Settings	Ayarlar
+{key} + drag	{key} + sürükle
+{key}: 3D / top view	{key}: 3D / üstten görünüm
+{keys}: zoom	{keys}: yakınlaştırma
+View	Görünüm
+Aim left	Sola nişan al
+Aim right	Sağa nişan al
+Fine aim (hold)	Hassas nişan (basılı tut)
+Shoot (hold, release)	Vur (basılı tut, bırak)
+Top spin	Üst falso
+Back spin	Alt falso
+Left spin	Sol falso
+Right spin	Sağ falso
+Raise the cue	İstekayı kaldır
+Lower the cue	İstekayı indir
+Pick up the cue ball in hand	Beyaz topu eline al
+3D / top view	3D / üstten görünüm
+Reset the camera	Kamerayı sıfırla
+Replay the last shot	Son vuruşu tekrar oynat
+List of controls	Kontrol listesi
+Keys can be changed in Settings → Controls.	Tuşları Ayarlar → Kontroller bölümünden değiştirebilirsin.
+Space	Boşluk
+Right Shift	Sağ Shift
+Right Ctrl	Sağ Ctrl
+Right Alt	Sağ Alt
+Aiming and shooting	Nişan ve vuruş
+Spin and elevation	Falso ve yükseklik
+Fixed keys	Sabit tuşlar
+Menu, back and cancel	Menü, geri ve iptal
+Confirm (forms, the cue ball in hand)	Onayla (formlar, elde top)
+This key can't be changed.	Bu tuş değiştirilemez.
+Press a key · Esc cancels · Backspace clears	Bir tuşa bas · Esc iptal eder · Backspace siler
+Press a key…	Bir tuşa bas…
+Click to change	Değiştirmek için tıkla
+Click to add a key	Tuş eklemek için tıkla
+Back to no key	Tuşsuz duruma dön
+Back to {keys}	Eski haline dön: {keys}
+Swapped: {action} is now on {key}.	Yer değiştirildi: {action} artık {key} tuşunda.
+Taken from {action}, which now has no key.	{action} eyleminden alındı; o eylemin artık tuşu yok.
+Taken from {action}.	{action} eyleminden alındı.
+That key can't be used: try another.	Bu tuş kullanılamaz: başka birini dene.
+Shoot	Vur
+Short	Kısa
+Signing in…	Giriş yapılıyor…
+Signing in	Giriş yapılıyor
+Soft shadows from every lamp, glossy halls, halos.	Her lambadan yumuşak gölgeler, parlak salonlar, ışık haleleri.
+Solids (1–7)	Düzler (1–7)
+Spin ball	Falso topu
+Spin	Falso
+Standard	Standart
+Stay	Kal
+Stripes (9–15)	Çizgililer (9–15)
+The game goes on while this is open.	Bu açıkken oyun devam eder.
+Use default	Varsayılanı kullan
+Username	Kullanıcı adı
+Usernames have 3–16 letters, digits or underscores.	Kullanıcı adları 3–16 harf, rakam veya alt çizgiden oluşur.
+{keys} (jump & massé)	{keys} (zıplatma ve masse)
+You win!	Kazandın!
+Your name	Adın
+Your opponent went back to the lounge.	Rakibin lobiye döndü.
+Your turn	Sıra sende
+open table: the next ball you make sets your group	açık masa: sokacağın ilk top grubunu belirler
+draw	geri falso
+follow	ileri falso
+stun	stop
+solids	düzler
+stripes	çizgililer
+lounge	lobi
+ · left english	 · sol falso
+ · right english	 · sağ falso
+Language	Dil
+General	Genel
+Graphics	Grafik
+Game	Oyun
+Sound	Ses
+Reset to defaults	Varsayılanlara dön
+Reset all keys	Tüm tuşları sıfırla
+Reset every key?	Tüm tuşlar sıfırlansın mı?
+Click again to put every key back	Tüm tuşları eski haline getirmek için tekrar tıkla
+Updates	Güncellemeler
+Update automatically	Otomatik güncelle
+New versions download in the background and install when you restart.	Yeni sürümler arka planda iner ve oyunu yeniden başlattığında kurulur.
+Version {v}	Sürüm {v}
+What's new	Yenilikler
+What's new in version {v}	Sürüm {v} yenilikleri
+No notes for this version.	Bu sürüm için not yok.
+Got it	Anladım
+Restart now	Şimdi yeniden başlat
+After the game, from the main menu.	Oyundan sonra, ana menüden.
+Download	İndir
+Check now	Şimdi kontrol et
+Couldn't reach the update server.	Güncelleme sunucusuna ulaşılamadı.
+The download was damaged. It will be tried again later.	İndirilen dosya bozuk. Daha sonra yeniden denenecek.
+The new version couldn't be installed. This one stays.	Yeni sürüm kurulamadı. Bu sürüm kalıyor.
+Downloading… {p}%	İndiriliyor… %{p}
+Updating…	Güncelleniyor…
+The Microsoft Store keeps the game up to date.	Oyunu Microsoft Store güncel tutar.
+Development build: no automatic updates.	Geliştirme sürümü: otomatik güncelleme yok.
+Looking for a new version…	Yeni sürüm aranıyor…
+This is the latest version.	Bu en son sürüm.
+Downloading version {v}… {p}%	Sürüm {v} indiriliyor… %{p}
+Installing version {v}…	Sürüm {v} kuruluyor…
+Version {v} is ready: restart the game to use it.	Sürüm {v} hazır: kullanmak için oyunu yeniden başlat.
+Version {v} is out: download it from the releases page.	Sürüm {v} çıktı: sürümler sayfasından indir.
+Version {v} is ready	Sürüm {v} hazır
+Restart to play it; nothing is lost.	Oynamak için yeniden başlat; hiçbir şey kaybolmaz.
+Version {v} is out	Sürüm {v} çıktı
+Get it from the releases page.	Sürümler sayfasından indir.
+Reset everything?	Her şey sıfırlansın mı?
+Click again to reset every setting	Tüm ayarları sıfırlamak için tekrar tıkla
+Online	Çevrim içi
+Menu	Menü
+Rating	Puan
+Ultra	Ultra
+hold {key} and release	{key} tuşunu basılı tut ve bırak
+Change	Değiştir
+Mouse aim sensitivity	Fareyle nişan hassasiyeti
+How fast the cue turns with the mouse.	Fareyle istekanın ne kadar hızlı döndüğü.
+Vignette	Vinyet
+Darkens the edges of the picture, like a film.	Görüntünün kenarlarını film gibi karartır.
+Show FPS	FPS'yi göster
+Frames per second, in a corner of the screen.	Saniyedeki kare sayısı, ekranın bir köşesinde.
+Call a pocket for the 8-ball first: click a pocket.	Önce 8 numaralı top için bir cep söyle: bir cebe tıkla.
+Reconnecting	Yeniden bağlanılıyor
+the game is over	oyun bitti
+the cue ball cannot be placed there	beyaz top oraya konamaz
+call a pocket for the 8-ball	8 numaralı top için bir cep söyle
+That username is taken.	Bu kullanıcı adı alınmış.
+Wrong username or password.	Kullanıcı adı veya şifre yanlış.
+Your session expired. Please log in again.	Oturumunun süresi doldu. Lütfen tekrar giriş yap.
+This version of Snook Legend is out of date. Please update the game.	Snook Legend'ın bu sürümü eski. Lütfen oyunu güncelle.
+It's not your turn.	Sıra sende değil.
+That player is not online.	Bu oyuncu çevrim içi değil.
+That player is in a game.	Bu oyuncu bir oyunda.
+You can't invite yourself.	Kendini davet edemezsin.
+That invitation is no longer valid.	Bu davet artık geçerli değil.
+That player is no longer available.	Bu oyuncu artık müsait değil.
+Resign first to leave a game in progress.	Süren bir oyundan ayrılmak için önce pes et.
+Malformed message.	Hatalı mesaj.
+Please log in first.	Lütfen önce giriş yap.
+Could not create the account.	Hesap oluşturulamadı.
+The cue ball can't be placed there.	Beyaz top oraya konamaz.
+Disconnected.	Bağlantı kesildi.
+Lost contact with the server.	Sunucuyla bağlantı kayboldu.
+The server closed the connection.	Sunucu bağlantıyı kapattı.
+The server took too long to answer.	Sunucunun yanıt vermesi çok uzun sürdü.
+The server is not answering (connection refused).	Sunucu yanıt vermiyor (bağlantı reddedildi).
+The server address is not valid (example: wss://snook-legend.example.com/ws).	Sunucu adresi geçerli değil (örnek: wss://snook-legend.example.com/ws).
+The server address has no host name.	Sunucu adresinde ana makine adı yok.
+Welcome to Snook Legend! Be kind, play fair.	Snook Legend'a hoş geldin! Nazik ol, adil oyna.
+Ball in hand: drag the cue ball{zone} to move it	Elde top: yerini değiştirmek için beyaz topu{zone} sürükle
+ behind the line	 çizginin gerisinde
+Ball in hand  ·  {group}	Elde top  ·  {group}
+Can't shoot: {e}.	Vuruş yapılamıyor: {e}.
+Chat ({n})	Sohbet ({n})
+Computer ({level})	Bilgisayar ({level})
+Computer	Bilgisayar
+Each opponent has a style of their own	Her rakibin kendine özgü bir tarzı var
+Free game	Serbest oyun
+Tour	Turne
+Tour: {n} of {total} beaten	Turne: {n}/{total} rakip yenildi
+Strength {n}/5	Zorluk {n}/5
+Ghost	Hayalet
+Accuracy	İsabet
+Safeties	Savunma
+Banks	Bant
+Position	Pozisyon
+Ghost of {name}	Hayalet: {name}
+A player's ghost	Bir oyuncunun hayaleti
+Plays like a real player	Gerçek bir oyuncu gibi oynar
+The computer plays in the style of a real player, measured on their online games.	Bilgisayar, gerçek bir oyuncunun çevrim içi oyunlarından ölçülen tarzıyla oynar.
+Sign in to play the ghost of a real player.	Gerçek bir oyuncunun hayaletine karşı oynamak için giriş yap.
+Load	Yükle
+Friends:	Arkadaşlar:
+Type a username or pick a friend, then Load.	Bir kullanıcı adı yaz veya bir arkadaş seç, sonra Yükle'ye bas.
+Measuring how {name} plays…	Oyun tarzı ölçülüyor: {name}…
+Pots {pots}% · safeties {safe}% · banks {banks}% · {shots} shots	Sokma %{pots} · savunma %{safe} · bant %{banks} · {shots} vuruş
+{name} has only {shots} recorded shots; a ghost needs {needed}. More online games will do it.	{name} için yalnızca {shots} vuruş kayıtlı; bir hayalet için {needed} gerekiyor. Daha fazla çevrim içi oyunla olacak.
+There is no player called {name}.	{name} adında bir oyuncu yok.
+The server can't be reached right now. Try again later.	Sunucuya şu anda ulaşılamıyor. Daha sonra tekrar dene.
+Wait a moment before asking again.	Tekrar istemeden önce biraz bekle.
+Something went wrong on the server. Try again later.	Sunucuda bir sorun oluştu. Daha sonra tekrar dene.
+Play your ghost	Kendi hayaletine karşı oyna
+Play their ghost	Hayaletine karşı oyna
+Beaten	Yenildi
+Next	Sonraki
+Win the previous stage to unlock this one.	Bu etabı açmak için önceki etabı kazan.
+Stage {n} of {total}	Etap {n}/{total}
+Challenge {name}	Meydan oku: {name}
+Stage {n} won! Next on the tour: {name}.	Etap {n} kazanıldı! Turnede sıradaki: {name}.
+You won the whole tour!	Turnenin tamamını kazandın!
+Reward	Ödül
+{item} cue · exclusive	{item} istekası · özel
+Yours: find it in the shop, under Cues.	Artık senin: mağazada, İstekalar bölümünde bulabilirsin.
+Win the last stage again while signed in to claim it.	Ödülü almak için giriş yapmışken son etabı tekrar kazan.
+Beat all fifteen opponents to earn it. It is sold nowhere.	Kazanmak için on beş rakibin hepsini yen. Hiçbir yerde satılmaz.
+You won the tour! Sign in to claim your reward.	Turneyi kazandın! Ödülünü almak için giriş yap.
+The server is checking your final game…	Sunucu final oyununu kontrol ediyor…
+Try again	Tekrar dene
+The server did not answer. Try again in a moment.	Sunucu yanıt vermedi. Birazdan tekrar dene.
+The server is busy checking other games. Try again in a moment.	Sunucu diğer oyunları kontrol etmekle meşgul. Birazdan tekrar dene.
+Wait a minute before trying again.	Tekrar denemeden önce bir dakika bekle.
+That game is too long to be checked.	Bu oyun kontrol edilemeyecek kadar uzun.
+That game has a move the rules don't allow.	Bu oyunda kuralların izin vermediği bir hamle var.
+That game was not played to the end.	Bu oyun sonuna kadar oynanmadı.
+That game was not a win.	Bu oyun bir galibiyet değildi.
+The computer's shots in that game don't match how it plays (another version of the game?).	Bu oyundaki bilgisayar vuruşları onun oyun tarzıyla uyuşmuyor (oyunun başka bir sürümü mü?).
+The Rookie	Acemi
+Still learning: aims at the nearest pocket, centre ball, and hopes. Never plays safe.	Henüz öğreniyor: en yakın cebe nişan alır, topa ortadan vurur ve umut eder. Asla savunma oynamaz.
+The Weekend Player	Hafta Sonu Oyuncusu
+Knows the basics and drops the easy ones, but rarely thinks about where the cue ball goes.	Temel şeyleri bilir ve kolay topları sokar, ama beyaz topun nereye gideceğini pek düşünmez.
+The Bank Artist	Bant Sanatçısı
+Sees angles nobody else does: whenever a ball can go off a cushion and in, she banks it.	Kimsenin görmediği açıları görür: bir top banttan dönüp cebe girebiliyorsa, o topu bantla oynar.
+The Cannon	Gülle
+Goes for everything, as hard as he can: long pots, thunderous breaks, hardly ever a safety.	Her şeye elinden geldiğince sert gider: uzun vuruşlar, gök gürültüsü gibi açılışlar, neredeyse hiç savunma yok.
+The Wall	Duvar
+Only shoots when the pot is on. Otherwise she tucks the cue ball away and waits for your mistake.	Yalnızca top girecekse vurur. Yoksa beyaz topu saklar ve senin hata yapmanı bekler.
+The Old Pro	Emektar Usta
+Forty years at the table: a smooth stroke, a raised cue, side spin, and never in a hurry.	Masada kırk yıl: yumuşak bir vuruş, kaldırılmış isteka, yan falso ve asla acele yok.
+The Hustler	Kurnaz
+Plays just well enough to win, then a little better. Balanced, sharp and hard to read.	Kazanacak kadar iyi oynar, sonra biraz daha iyi. Dengeli, keskin ve okunması zor.
+The Professor	Profesör
+Thinks three balls ahead: every shot leaves the cue ball where the next one is easy.	Üç top sonrasını düşünür: her vuruşta beyaz topu, sıradakini kolaylaştıracak yere bırakır.
+The Sharpshooter	Keskin Nişancı
+Pots from anywhere, at any angle. Her safeties are an afterthought: she doesn't need them.	Her yerden, her açıdan sokar. Savunmayı pek umursamaz: ona ihtiyacı yok.
+The Champion	Şampiyon
+Unbeaten for years. Precise, patient and merciless: the last stage of the tour.	Yıllardır yenilmedi. Hassas, sabırlı ve acımasız: turnenin son etabı.
+Tour champion	Turne şampiyonu
+Champion of the tour	Turnenin şampiyonu
+Beat all fifteen opponents of the computer tour.	Bilgisayar turnesindeki on beş rakibin hepsini yen.
+Connection lost. Reconnecting (attempt {n})…	Bağlantı koptu. Yeniden bağlanılıyor (deneme {n})…
+Connection lost. Reconnecting…	Bağlantı koptu. Yeniden bağlanılıyor…
+Foul by {shooter}: {foul}.	Faul ({shooter}): {foul}.
+Graphics set to {q} for smooth play. You can change this in Settings.	Akıcı oyun için grafikler {q} olarak ayarlandı. Bunu Ayarlar'dan değiştirebilirsin.
+Rating {r} ({d})	Puan {r} ({d})
+The {ball} was spotted.	{ball} masaya geri kondu.
+Waiting for {to} ({kind})…	{to} bekleniyor ({kind})…
+rated	puanlı
+casual	puansız
+Waiting for {name}…	{name} bekleniyor…
+{by} declined your invitation.	{by} davetini reddetti.
+a rated game	puanlı bir oyun
+a casual game	puansız bir oyun
+{name} calls the 8-ball in the {pocket} pocket.	{name}, 8 numaralı top için cep söyledi: {pocket}.
+{name} has ball in hand…	{name} elde topu yerleştiriyor…
+{name} is aiming…	{name} nişan alıyor…
+{name} is on the 8: click a pocket to call it	{name} 8'e kaldı: söylemek için bir cebe tıkla
+{name} is thinking…	{name} düşünüyor…
+{name} left the game.	{name} oyundan ayrıldı.
+{name} resigned.	{name} pes etti.
+{name} to break	Açılış: {name}
+{name} to shoot ({target})	Sıra: {name} ({target})
+{name}'s turn	Sıra: {name}
+{next} has ball in hand{where}.	{next} için elde top{where}.
+ behind the head string	 baş çizgisinin gerisinde
+{opponent} is back.	{opponent} geri döndü.
+{opponent} lost the connection. Waiting up to {secs} s…	{opponent} bağlantısını kaybetti. En fazla {secs} sn bekleniyor…
+{opponent} wants a rematch.	{opponent} rövanş istiyor.
+{opponent} went back to the lounge.	{opponent} lobiye döndü.
+{shooter} pocketed {balls}.	{shooter} soktu: {balls}.
+{shooter} takes {group}.	{shooter} artık {group} ile oynuyor.
+{who} ran out of time: ball in hand for the opponent.	{who} için süre doldu: rakibe elde top.
+{name} wants a rematch!	{name} rövanş istiyor!
+{name} wins!	{name} kazandı!
+{name} wins	{name} kazandı
+Volume	Ses düzeyi
+The cue, the balls, the cushions and the pockets.	İsteka, toplar, bantlar ve cepler.
+Notifications	Bildirimler
+Could not find the server “{host}”.	“{host}” sunucusu bulunamadı.
+Network error: {e}.	Ağ hatası: {e}.
+Secure connection failed: {e}.	Güvenli bağlantı başarısız: {e}.
+The server refused the connection (HTTP {code}).	Sunucu bağlantıyı reddetti (HTTP {code}).
+Connection error: {e}.	Bağlantı hatası: {e}.
+cue ball	beyaz top
+{n}-ball	{n} numaralı top
+Scratch: the cue ball was pocketed	Faul: beyaz top cebe girdi
+The cue ball left the table	Beyaz top masadan çıktı
+The cue ball didn't hit any ball	Beyaz top hiçbir topa değmedi
+Wrong ball hit first ({ball})	İlk önce yanlış topa vuruldu ({ball})
+No ball reached a cushion after contact	Temastan sonra hiçbir top banda ulaşmadı
+The {ball} left the table	{ball} masadan çıktı
+Illegal break	Geçersiz açılış
+pocketed the 8-ball	8 numaralı topu soktu
+opponent pocketed the 8-ball too early	rakip 8 numaralı topu erken soktu
+opponent sank the 8-ball in the wrong pocket	rakip 8 numaralı topu yanlış cebe soktu
+opponent fouled on the 8-ball	rakip 8 numaralı topta faul yaptı
+opponent knocked the 8-ball off the table	rakip 8 numaralı topu masadan düşürdü
+opponent resigned	rakip pes etti
+opponent left the game	rakip oyundan ayrıldı
+head left corner	baş sol köşe
+head right corner	baş sağ köşe
+left side	sol orta
+right side	sağ orta
+foot left corner	dip sol köşe
+foot right corner	dip sağ köşe
+Easy	Kolay
+Hard	Zor
+Normal	Normal
+Power	Güç
+No messages yet.	Henüz mesaj yok.
+▼ newer messages	▼ yeni mesajlar
+Camera follows the cue	Kamera istekayı takip eder
+Off: it stays where you put it.	Kapalı: kamera, koyduğun yerde kalır.
+Pull back for shots	Vuruşlarda geri çekil
+Only when the camera follows the cue.	Yalnızca kamera istekayı takip ederken.
+Drag the cue · click a spot	İstekayı sürükle · bir noktaya tıkla
+Time's up: {name}'s shot was played at full power.	Süre doldu: {name} için vuruş tam güçle yapıldı.
+Dark room	Karanlık oda
+A spotlight on the table, the room in shadow.	Masada bir spot ışığı, salonun geri kalanı gölgede.
+Hide	Gizle
+Interface size	Arayüz boyutu
+Text, buttons and panels.	Yazılar, düğmeler ve paneller.
+Drag to set the power	Gücü ayarlamak için sürükle
+Shoot!	Vur!
+Set the power, then press the green button	Gücü ayarla, sonra yeşil düğmeye bas
++{n} coins · {why}	+{n} jeton · {why}
+16-player tournaments, and first place on the waiting list of a full one	16 oyunculu turnuvalar ve dolu bir turnuvanın bekleme listesinde ilk sıra
+30 minutes: play as many games as you can. A win is 2 points, 4 from the third win in a row.	30 dakika: olabildiğince çok oyun oyna. Galibiyet 2 puan, üst üste üçüncü galibiyetten itibaren 4 puan.
+A crown by your name, everywhere (lounge, profile, ranking)	Adının yanında her yerde bir taç (lobi, profil, sıralama)
+Account	Hesap
+Add friends to give them items.	Eşya hediye etmek için arkadaş ekle.
+Arena	Arena
+Arena · host {host} · {n} players · {kind}	Arena · kurucu {host} · {n} oyuncu · {kind}
+Buy now	Hemen al
+Buying…	Satın alınıyor…
+Change password	Şifreyi değiştir
+Click again to delete	Silmek için tekrar tıkla
+Got a code? Type it here	Kodun mu var? Buraya yaz
+Confirm purchase	Satın almayı onayla
+Copied: send it to a friend.	Kopyalandı: bir arkadaşına gönder.
+Copy	Kopyala
+Current	Mevcut
+Delete account	Hesabı sil
+Entry	Giriş ücreti
+Entry {n} coins	Giriş ücreti {n} jeton
+Every replay kept (free players keep their last 10 games)	Tüm tekrarlar saklanır (ücretsiz oyuncular son 10 oyununu saklar)
+For {name}	Alıcı: {name}
+Add a message (optional)	Mesaj ekle (isteğe bağlı)
+Format	Format
+Frames	Çerçeveler
+Free	Ücretsiz
+Get coins	Jeton al
+Gift sent!	Hediye gönderildi!
+Give as a gift	Hediye et
+Give it	Hediyeyi gönder
+Give to a friend	Bir arkadaşa hediye et
+Great!	Harika!
+If you forget your password, we confirm it's you by this e-mail.	Şifreni unutursan, sen olduğunu bu e-postayla doğrularız.
+Invite with a code	Kodla davet et
+It goes on right away. Items only change the look, never the game.	Hemen kullanılır. Eşyalar yalnızca görünümü değiştirir, oyunu asla.
+Join my table in Snook Legend:	Snook Legend'da masama katıl:
+Join the waiting list	Bekleme listesine katıl
+Join · {n} coins	Katıl · {n} jeton
+Knockout	Eleme
+Name colour	Ad rengi
+Name colours for the lounge and exclusive frames, cloth, cues, balls and effects	Lobide ad renkleri; özel çerçeveler, çuhalar, istekalar, toplar ve efektler
+New	Yeni
+No, thanks	Hayır, teşekkürler
+Nothing that wins games: VIP only changes the look	Oyun kazandıran hiçbir şey yok: VIP yalnızca görünümü değiştirir
+Numbers	Rakamlar
+ON TV	TV'DE
+Play rated games to see your rating here.	Puanını burada görmek için puanlı oyunlar oyna.
+No rated games yet.	Henüz puanlı oyun yok.
+Price	Fiyat
+Prizes {a} + {b}	Ödüller {a} + {b}
+Protect your purchases	Satın aldıklarını koru
+Purchase complete!	Satın alma tamamlandı!
+Recovery e-mail	Kurtarma e-postası
+Save	Kaydet
+The fees make the prize: 70% to the champion, 20% to the runner-up.	Ödülü giriş ücretleri oluşturur: %70 şampiyona, %20 ikinciye.
+The server restarts in {m}:{s} for an update. Games in progress go on.	Sunucu bir güncelleme için {m}:{s} içinde yeniden başlayacak. Süren oyunlar devam eder.
+Use this e-mail	Bu e-postayı kullan
+Use {email} to recover your account if you ever forget your password?	Şifreni unutursan hesabını kurtarmak için {email} kullanılsın mı?
+Watch	İzle
+Watch again	Tekrar izle
+Winning effects	Galibiyet efektleri
+Halls	Salonlar
+You are paired as soon as you and an opponent are free.	Sen ve bir rakip müsait olur olmaz eşleştirilirsiniz.
+You can change it any time in your profile (Account).	Bunu istediğin zaman profilinden (Hesap) değiştirebilirsin.
+You need {n} more coins.	{n} jeton daha gerekiyor.
+Your account	Hesabın
+Your account was deleted.	Hesabın silindi.
+Your coins	Jetonların
+Your friend gets it right away.	Arkadaşın hemen alır.
+Your game against {name} is starting.	{name} ile oyunun başlıyor.
+Your name, e-mail, friends and items are erased for good. Your opponents keep the games you played (without your name).	Adın, e-postan, arkadaşların ve eşyaların kalıcı olarak silinir. Rakiplerin, oynadığın oyunları (adın olmadan) saklar.
+balls per game	oyun başına top
+best run ever	tüm zamanların en iyi serisi
+daily bonus	günlük bonus
+entry fee back	giriş ücreti iadesi
+for the game	oyun için
+for the win	galibiyet için
+games counted	sayılan oyun
+Analysis	Analiz
+The shot analysis isn't available on this server yet.	Vuruş analizi bu sunucuda henüz yok.
+Only online accounts have a shot analysis.	Yalnızca çevrim içi hesapların vuruş analizi var.
+Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Nasıl soktuğunu görmek için çevrim içi oyna: analiz, cebe {n} vuruş daha yaptıktan sonra görünür.
+{name} hasn't played enough online games for an analysis yet.	{name} henüz analiz için yeterince çevrim içi oyun oynamadı.
+1 game	1 oyun
+{pct}% of {n} shots at a pocket potted · {games}	Cebe {n} vuruşta %{pct} isabet · {games}
+{made} of {n} potted ({pct})	{n} vuruştan {made} girdi ({pct})
+By kind of shot	Vuruş türüne göre
+shots	vuruş
+Straight	Düz vuruş
+Cut 8–25°	Kesme 8–25°
+Cut 25–45°	Kesme 25–45°
+Thin cut 45°+	İnce kesme 45°+
+Bank	Bant
+Kick	Önce bant
+Combination	Kombinasyon
+Jump	Zıplatma
+Massé	Masse
+Break	Açılış
+By distance	Mesafeye göre
+Short (under 0.75 m)	Kısa (0,75 m altı)
+Medium (to 1.5 m)	Orta (1,5 m'ye kadar)
+Long (over 1.5 m)	Uzun (1,5 m üstü)
+left the opponent nothing	rakibe vuruş bırakmadı
+Breaks	Açılışlar
+made a ball	top soktu
+Potted	Giren
+Missed	Kaçan
+Where and in which pocket	Nereden ve hangi cebe
+{pocket}: {made} of {n} potted	{pocket}: {n} vuruştan {made} girdi
+Where the potted balls were	Giren topların yerleri
+Where the missed balls were	Kaçan topların yerleri
+few	az
+many	çok
+{made} potted · {missed} missed ({pct})	{made} giren · {missed} kaçan ({pct})
+Top left corner	Sol üst köşe
+Bottom left corner	Sol alt köşe
+Top side pocket	Üst orta cep
+Bottom side pocket	Alt orta cep
+Top right corner	Sağ üst köşe
+Bottom right corner	Sağ alt köşe
+games left unfinished	yarım bırakılan oyun
+potting success	sokma başarısı
+shots with a foul	faullü vuruş
+starts in {n} min	{n} dk sonra başlıyor
+tournament prize	turnuva ödülü
+The dark room hides the hall around the table.	Karanlık oda, masanın etrafındaki salonu gizler.
+Show the hall	Salonu göster
+Level {n} · 1 win	Seviye {n} · 1 galibiyet
+Level {n} · {w} wins	Seviye {n} · {w} galibiyet
+{left} more online wins with this cue for level {n}. Levels only add marks to the cue.	Seviye {n} için bu istekayla {left} çevrim içi galibiyet daha. Seviyeler istekaya yalnızca işaret ekler.
+The top level: this cue has every mark.	En üst seviye: bu istekada tüm işaretler var.
+Your cue {cue} reached level {n}!	{cue} istekan {n}. seviyeye ulaştı!
+Most wins: {cue} (level {n})	En çok galibiyet: {cue} (seviye {n})
+{games} games · {rate}% won · {balls} balls made	{games} oyun · %{rate} galibiyet · {balls} top sokuldu
+vs	vs
+{from} gave you {item}!	{from} sana hediye etti: {item}!
+You received a gift!	Bir hediye aldın!
+From	Gönderen
+To	Alıcı
+someone	biri
+A month of VIP	Bir aylık VIP
+Thank	Teşekkür et
+Thanked	Teşekkür edildi
+They thanked you	Sana teşekkür etti
+Use it now	Hemen kullan
+Later	Sonra
+OK	Tamam
+Next ({n} more)	Sonraki ({n} tane daha)
+{from} gave you {item}! It's waiting for you in the lounge.	{from} sana hediye etti: {item}! Lobide seni bekliyor.
+{name} thanked you for {item}.	{name}, {item} için sana teşekkür etti.
+Gifts	Hediyeler
+No gifts yet. Friends can give you items from the shop.	Henüz hediye yok. Arkadaşların sana mağazadan eşya hediye edebilir.
+{item} is yours and already in use.	{item} artık senin ve kullanımda.
+{m}:{s} left	{m}:{s} kaldı
+{name} invites you to play.	{name} seni oyuna davet ediyor.
+{name} is online.	{name} çevrim içi.
+{name} ran out of time.	{name} için süre doldu.
+{name} received {item}.	{name}, {item} hediyesini aldı.
+{n} pts · {g} games	{n} puan · {g} oyun
+{n} watching · avg {r}	{n} izleyici · ort. {r}
+{title}: {how}	{title}: {how}
+Olive	Zeytin yeşili
+Navy	Lacivert
+Forest	Orman yeşili
+Slate grey	Arduvaz grisi
+Red wine	Şarap kırmızısı
+Burnt orange	Yanık turuncu
+Dusty rose	Gül kurusu
+Sand	Kum
+Ice blue	Buz mavisi
+Lime	Limon yeşili
+Black tie	Smokin
+Cobalt	Kobalt
+Emerald	Zümrüt
+Natural maple	Doğal akçaağaç
+Beach bar	Plaj barı
+Modern	Modern
+English club	İngiliz kulübü
+Ebony & gold	Abanoz ve altın
+Pool hall	Bilardo salonu
+Industrial loft	Endüstriyel loft
+Steel & oak	Çelik ve meşe
+Tournament	Turnuva
+Victorian walnut	Viktorya cevizi
+Ivory deco	Fildişi deko
+Mountain lodge	Dağ evi
+Neon arcade	Neon atari salonu
+Art deco lounge	Art deco salon
+Skyline penthouse	Manzaralı çatı katı
+Walnut	Ceviz
+Zebrawood	Zebra ağacı
+Bocote	Bocote
+Deep ocean	Derin okyanus
+Cherry	Kiraz
+Jade	Yeşim
+Tiger	Kaplan
+Amethyst	Ametist
+Arctic carbon	Arktik karbon
+Inferno	Cehennem
+Obsidian gold	Obsidyen ve altın
+Tan chalk	Bej tebeşir
+Grey chalk	Gri tebeşir
+Orange chalk	Turuncu tebeşir
+Pink chalk	Pembe tebeşir
+Teal chalk	Petrol yeşili tebeşir
+Yellow chalk	Sarı tebeşir
+Black chalk	Siyah tebeşir
+White chalk	Beyaz tebeşir
+Silver chalk	Gümüş tebeşir
+TV set	TV takımı
+Earth tones	Toprak tonları
+Ocean	Okyanus
+Sunset	Gün batımı
+Candy	Şeker
+Pearl	İnci
+Monochrome	Tek renk
+Chrome	Krom
+Gold rush	Altına hücum
+No frame	Çerçeve yok
+Bronze	Bronz
+Silver	Gümüş
+Gold	Altın
+Green felt	Yeşil çuha
+Mahogany	Maun
+Ice	Buz
+Fire	Ateş
+Diamond	Elmas
+VIP crown	VIP tacı
+Rose gold	Pembe altın
+Aqua	Su mavisi
+Violet	Menekşe
+Ember	Kor
+Mint	Nane
+Frost	Kırağı
+No effect	Efekt yok
+Sparks	Kıvılcımlar
+Confetti	Konfeti
+Shockwave	Şok dalgası
+Coin shower	Jeton yağmuru
+Flames	Alevler
+Royal sparks	Kraliyet kıvılcımları
+Tier colour	Kademe rengi
+16-player tournaments are for VIP members.	16 oyunculu turnuvalar VIP üyeler içindir.
+A seat opened: you are in the tournament!	Bir yer açıldı: turnuvadasın!
+Entry fees go up to 1000 coins.	Giriş ücreti 1000 jetona kadar çıkabilir.
+Guests can't play for coins.	Misafirler jetonla oynayamaz.
+Only items sold for coins can be given.	Yalnızca jetonla satılan eşyalar hediye edilebilir.
+Password changed.	Şifre değiştirildi.
+Passwords need 8 or more characters, not only digits.	Şifre en az 8 karakter olmalı ve yalnızca rakamlardan oluşmamalı.
+Recovery e-mail removed.	Kurtarma e-postası kaldırıldı.
+Recovery e-mail saved.	Kurtarma e-postası kaydedildi.
+Something went wrong. Please try again.	Bir sorun oluştu. Lütfen tekrar dene.
+That code is not valid (or the table was closed).	Bu kod geçerli değil (ya da masa kapandı).
+That doesn't look like an e-mail address.	Bu bir e-posta adresine benzemiyor.
+That game is over.	Bu oyun bitti.
+The current password is wrong.	Mevcut şifre yanlış.
+The server is restarting.	Sunucu yeniden başlatılıyor.
+The server is restarting: new games start in a moment.	Sunucu yeniden başlatılıyor: yeni oyunlar birazdan başlayacak.
+The tournament is full: you are on the waiting list.	Turnuva dolu: bekleme listesindesin.
+This replay is not available.	Bu tekrar kullanılamıyor.
+You can only give items to your friends.	Yalnızca arkadaşlarına eşya hediye edebilirsin.
+Your friend already has this item.	Arkadaşında bu eşya zaten var.
+16 (VIP)	16 (VIP)
+VIP isn't sold in this version of the game.	Oyunun bu sürümünde VIP satılmıyor.
+In this version of the game, coins are earned by playing:	Oyunun bu sürümünde jetonlar oynayarak kazanılır:
+rated games, and a bonus every day you play.	puanlı oyunlar ve oynadığın her gün bir bonus.
+Coins are earned by playing:	Jetonlar oynayarak kazanılır:
+If you like, you can also buy them:	İstersen satın da alabilirsin:
+one month	bir ay
+already VIP	zaten VIP
+Give a month to a friend · {p}	Bir arkadaşına bir ay hediye et · {p}
+{from} gave you a month of VIP!	{from} sana bir aylık VIP hediye etti!
+{name} received a month of VIP.	{name} bir aylık VIP aldı.
+Your friend is already VIP.	Arkadaşın zaten VIP.
+Game in progress: {n} balls left	Süren oyun: {n} top kaldı
+Continue	Devam et
+Missions	Görevler
+Board	Pano
+Today	Bugün
+This week	Bu hafta
+new missions in {t}	{t} sonra yeni görevler
+ends in {t}	{t} sonra bitiyor
+{n} days	{n} gün
+{n} h	{n} sa
+{n} min	{n} dk
+mission complete	görev tamamlandı
+Missions count rated games played to the end. The coins arrive as soon as one is complete.	Görevler, sonuna kadar oynanan puanlı oyunları sayar. Bir görev tamamlanır tamamlanmaz jetonlar gelir.
+Nothing on the board right now.	Şu anda panoda bir şey yok.
+Open tournaments	Açık turnuvalar
+{n}/{size} players	{n}/{size} oyuncu
+starts in {t}	{t} sonra başlıyor
+entry {n} coins	giriş ücreti {n} jeton
+See	Gör
+Play {n} rated games	{n} puanlı oyun oyna
+Win {n} rated games	{n} puanlı oyun kazan
+Pot {n} balls	{n} top sok
+Pot {n} balls with spin	Falsoyla {n} top sok
+Pot 3 balls in a row in one visit	Tek sırada üst üste 3 top sok
+Win a game without a foul	Faul yapmadan bir oyun kazan
+Pot 3 balls in a row {n} times	{n} kez üst üste 3 top sok
+Win {n} games without a foul	Faul yapmadan {n} oyun kazan
+TV camera when watching	İzlerken TV kamerası
+Broadcast angles for other players' games and replays.	Başka oyuncuların oyunlarında ve tekrarlarda yayın açıları.
+System notifications	Sistem bildirimleri
+Invites, friends coming online and games starting, while you're away.	Sen yokken gelen davetler, çevrim içi olan arkadaşlar ve başlayan oyunlar.
+{name} starts in a few minutes: get ready!	{name} birkaç dakika içinde başlıyor: hazırlan!
+{name} starts in a few minutes: there is still room.	{name} birkaç dakika içinde başlıyor: hâlâ yer var.
+{name} has started!	{name} başladı!
+Momentum	Üstünlük
+Shot map	Vuruş haritası
+No shots yet.	Henüz vuruş yok.
+made	girdi
+missed	kaçtı
+foul	faul
+See the tournaments	Turnuvaları gör
+Open the shop	Mağazayı aç
+See VIP	VIP'yi gör
+See the missions	Görevleri gör
+A new version of the game is out: update to play online.	Oyunun yeni bir sürümü çıktı: çevrim içi oynamak için güncelle.
+Update in the Microsoft Store	Microsoft Store'da güncelle
+Update now	Şimdi güncelle
+Download the new version	Yeni sürümü indir
+New version out	Yeni sürüm çıktı
+Get the new version to play online	Çevrim içi oynamak için yeni sürümü edin
+Cheer for {name}	Destekle: {name}
+Crowd: {a} for {p0}, {b} for {p1}	Seyirci: {p0} için {a}, {p1} için {b}
+welcome pack	hoş geldin paketi
+Welcome pack	Hoş geldin paketi
+Cue “{cue}”, cloth “{cloth}” and {n} coins · only once, sold nowhere else	“{cue}” istekası, “{cloth}” çuhası ve {n} jeton · yalnızca bir kez, başka yerde satılmaz
+Lagoon	Lagün
+You already have the welcome pack.	Hoş geldin paketi zaten sende var.
+Your welcome pack is here!	Hoş geldin paketin geldi!
+Previous shot (←)	Önceki vuruş (←)
+Next shot (→)	Sonraki vuruş (→)
+Play (Space)	Oynat (Boşluk)
+Pause (Space)	Duraklat (Boşluk)
+Speed	Hız
+Shot {n} of {total}	Vuruş {n}/{total}
+For VIP members	VIP üyeler için
+{n} reactions of your own to send during games	Oyunlarda gönderebileceğin {n} özel tepki
+Items {a}–{b} of {n}	Eşyalar {a}–{b} / {n}
+(message deleted by its author)	(mesaj, yazarı tarafından silindi)
+(message deleted by an administrator)	(mesaj bir yönetici tarafından silindi)
+Delete (it shows as deleted)	Sil (silindi olarak görünür)
+Remove without a trace	İz bırakmadan kaldır
+The chat was cleared by {name}.	Sohbeti {name} temizledi.
+Click again to clear	Temizlemek için tekrar tıkla
+Clear the chat	Sohbeti temizle
+Players' chat (administrator)	Oyuncuların sohbeti (yönetici)
+Play the computer while you wait	Beklerken bilgisayara karşı oyna
+Looking for an opponent… {t} · the game starts as soon as one is found	Rakip aranıyor… {t} · biri bulunur bulunmaz oyun başlar
+Stop	Durdur
+# Coin packs and months of VIP bought in the Microsoft Store (the Store build).
+The Microsoft Store couldn't complete the purchase.	Microsoft Store satın almayı tamamlayamadı.
+The Microsoft Store couldn't confirm the purchase right now. Its coins arrive the next time you open the shop.	Microsoft Store satın almayı şu anda onaylayamadı. Jetonlar, mağazayı bir sonraki açışında gelir.
+{n} coins added to your wallet.	{n} jeton cüzdanına eklendi.
+Microsoft is confirming your purchase: the coins arrive in a moment.	Microsoft satın alımını onaylıyor: jetonlar birazdan gelir.
+The purchase hasn't reached us yet. Its coins arrive the next time you open the shop.	Satın alma bize henüz ulaşmadı. Jetonlar, mağazayı bir sonraki açışında gelir.
+Loading prices from the Microsoft Store…	Fiyatlar Microsoft Store'dan yükleniyor…
+Coins can't be bought in this version yet.	Bu sürümde henüz jeton satın alınamıyor.
+Finish the purchase in the Microsoft Store window…	Satın almayı Microsoft Store penceresinde tamamla…
+Confirming your purchase…	Satın alma onaylanıyor…
+Paid in the Microsoft Store, with your Microsoft account.	Ödeme, Microsoft hesabınla Microsoft Store'da yapılır.
+The Microsoft Store can't be reached right now. Try again in a moment.	Microsoft Store'a şu anda ulaşılamıyor. Birazdan tekrar dene.
+The Microsoft Store could not confirm the purchase.	Microsoft Store satın almayı onaylayamadı.
+Sign in to the Microsoft Store with your Microsoft account, then open the shop again.	Microsoft hesabınla Microsoft Store'a giriş yap, sonra mağazayı yeniden aç.
+The Microsoft Store couldn't confirm the purchase right now. Your VIP month starts the next time you open the shop.	Microsoft Store satın almayı şu anda onaylayamadı. VIP ayın, mağazayı bir sonraki açışında başlar.
+You are VIP until {d}, and {n} coins were added to your wallet.	{d} tarihine kadar VIP'sin ve cüzdanına {n} jeton eklendi.
+Microsoft is confirming your purchase: your VIP month starts in a moment.	Microsoft satın alımını onaylıyor: VIP ayın birazdan başlıyor.
+The purchase hasn't reached us yet. Your VIP month starts the next time you open the shop.	Satın alma bize henüz ulaşmadı. VIP ayın, mağazayı bir sonraki açışında başlar.
+A month at a time: nothing renews by itself	Her seferinde bir ay: hiçbir şey kendiliğinden yenilenmez
+Add a month · {p}	Bir ay ekle · {p}
+A month of VIP · {p}	Bir aylık VIP · {p}
+The new month starts when this one ends.	Yeni ay, bu ay bittiğinde başlar.
+Trophies	Kupalar
+No trophies yet.	Henüz kupa yok.
+Tournament won · {n} players	Kazanılan turnuva · {n} oyuncu
+The computer tour	Bilgisayar turnesi
+All fifteen opponents beaten	On beş rakibin hepsi yenildi
+Daily challenge	Günün mücadelesi
+First of {n} players	{n} oyuncu arasında birinci
+Easy shot	Kolay vuruş
+Fair shot	Orta vuruş
+Hard shot	Zor vuruş
+Very hard shot	Çok zor vuruş
+~{n}% chance	~%{n} ihtimal
+No ball goes down as aimed	Bu nişanla hiçbir top girmez
+straight in	düz
+{n}° cut	{n}° kesme
+off one cushion	tek bantlı
+off {n} cushions	{n} bantlı
+Make as many balls as you can in one visit: a miss or a foul ends the attempt.	Tek sırada olabildiğince çok top sok: kaçan bir top ya da faul denemeyi bitirir.
+The same table for everyone, all day	Herkes için aynı masa, bütün gün
+{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	Günde {n} deneme. Masayı bitir, {coins} jeton kazan; günün birincisi kupa alır.
+A new table in {h} h {m} min	{h} sa {m} dk sonra yeni masa
+Sign in to take part: the server keeps the day's table.	Katılmak için giriş yap: günün sıralamasını sunucu tutar.
+Balls on today's table	Bugünkü masadaki toplar
+Attempts left	Kalan deneme
+{n} balls · #{rank}	{n} top · #{rank}
+{n} balls	{n} top
+not yet	henüz yok
+Your best today	Bugünkü en iyin
+No attempts left today: come back tomorrow.	Bugün deneme hakkın kalmadı: yarın tekrar gel.
+The attempt could not be counted.	Deneme sayılamadı.
+Setting up the table…	Masa hazırlanıyor…
+Start an attempt	Denemeye başla
+Starting uses an attempt, even if you leave the table.	Başlamak bir deneme hakkı harcar, masadan ayrılsan bile.
+Loading today's table…	Bugünün masası yükleniyor…
+Today's table	Bugünün sıralaması
+{n} players	{n} oyuncu
+Nobody has played today's table yet. Be the first!	Bugünün masasını henüz kimse oynamadı. İlk sen ol!
+Table cleared!	Masa bitti!
+{n} of {total} balls	{n}/{total} top
+Sending your attempt to the server…	Denemen sunucuya gönderiliyor…
+Counted: {n} balls · +{coins} coins	Sayıldı: {n} top · +{coins} jeton
+Counted: {n} balls	Sayıldı: {n} top
+See today's table	Sıralamayı gör
+Table cleared! +{n} coins	Masa bitti! +{n} jeton
+Daily challenge: {n} of {total} balls made	Günün mücadelesi: {n}/{total} top sokuldu
+1 player	1 oyuncu
+Phoenix	Anka kuşu
+Carrara marble	Carrara mermeri
+Dragon scale	Ejderha pulu
+Galaxy	Galaksi
+Ruby throne	Yakut taht
+Closing the game now is leaving it: extra rating lost and a wait to play again.	Oyunu şimdi kapatmak, oyunu terk etmek demek: fazladan puan kaybedersin ve tekrar oynamak için beklemen gerekir.
+You left a game in progress: you can play online again in {n} min.	Süren bir oyunu terk ettin: {n} dk sonra tekrar çevrim içi oynayabilirsin.
+Quick phrases	Hızlı mesajlar
+Good luck, have fun!	İyi şanslar, iyi eğlenceler!
+Nice shot!	Güzel vuruş!
+Great safety!	Harika savunma!
+Unlucky!	Şanssızlık!
+Oops!	Hay aksi!
+Wow!	Vay!
+That was close!	Az kalsın!
+Take your time.	Acele etme.
+Sorry!	Pardon!
+Thanks!	Teşekkürler!
+Well played!	İyi oynadın!
+Good game!	İyi oyundu!
+Rematch?	Rövanş?
+I have to go, thanks for the game!	Gitmem lazım, oyun için teşekkürler!
+Practise while you wait	Beklerken antrenman yap
+A new rack.	Toplar yeniden dizildi.
+Level {n}! (+{xp} XP)	Seviye {n}! (+{xp} XP)
++{xp} XP	+{xp} XP
+Level {n} · {into} / {span} XP to the next	Seviye {n} · sonrakine {into} / {span} XP
+Level {n}	Seviye {n}
+Hi! I watched a lot of videos, I'm ready!	Selam! Bir sürü video izledim, hazırım!
+Be gentle, okay?	Bana acı, tamam mı?
+Whoa, how did you do that?	Vay, bunu nasıl yaptın?
+Teach me that one later!	Bunu sonra bana da öğret!
+Phew! My turn!	Oh be! Sıra bende!
+Even you miss? Good to know.	Sen de mi kaçırıyorsun? Bunu bildiğim iyi oldu.
+A free ball! What do I do with it?	Bedava top! Bununla ne yapıyordum?
+Did you see that?! It went in!	Gördün mü?! Girdi!
+Beginner's luck counts too!	Acemi şansı da sayılır!
+Oops. That was a practice shot.	Hop. O deneme vuruşuydu.
+Aim, Leo, aim...	Nişan al Leo, nişan al...
+Sorry! I touched the wrong one again.	Pardon! Yine yanlış topa değdim.
+I WON? I'm calling my mum!	KAZANDIM MI? Annemi arıyorum!
+Good game! I'm getting better, right?	İyi oyundu! Gelişiyorum, değil mi?
+Saturday, a table and good company. Let's play!	Cumartesi, bir masa ve güzel arkadaşlar. Hadi oynayalım!
+Nice one!	Güzeldi!
+Oh, you're good. I'll pay attention now.	Vay, iyisin. Artık dikkat edeceğim.
+Happens to the best of us.	En iyilerin bile başına gelir.
+Don't worry, it's just a game!	Dert etme, sadece bir oyun!
+Thanks for the gift!	Hediye için teşekkürler!
+Yes! Weekend skills!	Evet! Hafta sonu yetenekleri!
+Lucky me!	Şansa bak!
+Hm, where was I aiming?	Hmm, nereye nişan alıyordum?
+Too much chatting, not enough aiming.	Çok muhabbet, az nişan.
+Oops, my bad!	Hay aksi, benim hatam!
+That was fun! Same time next weekend?	Çok eğlenceliydi! Haftaya aynı saatte?
+Well played! Rematch over a lemonade?	İyi oynadın! Bir limonata eşliğinde rövanş?
+Four cushions, endless possibilities.	Dört bant, sonsuz olasılık.
+Straight in? So... direct.	Düz mü? Ne kadar da... dolaysız.
+Nice, but a bank would have been prettier.	Güzel, ama banttan çok daha zarif olurdu.
+You should have used the cushion.	Bandı kullanmalıydın.
+The rail was right there, asking for it.	Bant oradaydı, resmen yalvarıyordu.
+The table didn't like that.	Masa bundan hoşlanmadı.
+Off the rail and in. Art!	Banttan dönüp girdi. Sanat!
+Geometry never lies.	Geometri asla yalan söylemez.
+The angle was right. The cushion disagreed.	Açı doğruydu. Bant aynı fikirde değildi.
+One diamond off. Just one!	Bir elmas farkla kaçtı. Sadece bir!
+Too much imagination, not enough contact.	Fazla hayal gücü, az temas.
+A masterpiece, if I may say so.	Bir başyapıt, kendi adıma söylemem gerekirse.
+Well played. Now try it off two rails.	İyi oynadın. Şimdi iki banttan dene.
+I hope these balls are made of steel.	Umarım bu toplar çeliktendir.
+Soft touch, huh? Not my style.	Yumuşak dokunuş, ha? Benim tarzım değil.
+Hit it harder next time!	Bir dahakine daha sert vur!
+Too gentle! Power solves everything.	Çok yumuşak! Güç her şeyi çözer.
+HA!	HA!
+My table now. Cover your ears.	Masa artık benim. Kulaklarını tıka.
+BOOM!	BUM!
+Did you hear that pocket?	O cebin sesini duydun mu?
+Too much power? No such thing.	Fazla güç mü? Öyle bir şey yok.
+The pocket moved.	Cep yer değiştirdi.
+The ball flew. It happens. A lot.	Top uçtu. Olur. Hem de sık sık.
+Power wins again! BOOM!	Güç yine kazandı! BUM!
+Fine, finesse works too. Sometimes.	Peki, incelik de işe yarıyor. Bazen.
+Take your time. I have all day.	Acele etme. Bütün günüm var.
+Acceptable.	Kabul edilebilir.
+Enjoy it while it lasts.	Sürerken tadını çıkar.
+Patience is a virtue. Not yours, apparently.	Sabır bir erdemdir. Seninki değil, anlaşılan.
+Thank you.	Teşekkür ederim.
+Sloppy.	Özensiz.
+Steady wins.	İstikrar kazanır.
+One at a time.	Teker teker.
+Hm. I'll leave you nothing anyway.	Hmm. Yine de sana bir şey bırakmayacağım.
+Intentional. Probably.	Kasıtlıydı. Muhtemelen.
+Unacceptable. Of me.	Kabul edilemez. Benim açımdan.
+As I said: patience.	Dediğim gibi: sabır.
+You got through the wall. I'm impressed.	Duvarı aştın. Etkilendim.
+I've been playing since before these balls were plastic.	Bu toplar plastik olmadan önce de oynuyordum.
+Good stroke. Reminds me of a fellow in '78.	Güzel vuruş. Bana '78'deki bir delikanlıyı hatırlattı.
+Smooth. Very smooth.	Yumuşak. Çok yumuşak.
+Keep your head down, kid.	Başını eğik tut, evlat.
+The cue ball doesn't lie.	Beyaz top yalan söylemez.
+Ah, a little present. Thank you kindly.	Ah, küçük bir hediye. Çok naziksin.
+Like riding a bicycle.	Bisiklet sürmek gibi.
+Still got it.	Hâlâ formdayım.
+The eyes aren't what they used to be.	Gözler eskisi gibi değil.
+In my day the pockets were bigger.	Bizim zamanımızda cepler daha büyüktü.
+Even old pros slip.	Eski ustalar da hata yapar.
+Experience, my friend. Experience.	Tecrübe, dostum. Tecrübe.
+You've got a future in this game.	Bu oyunda bir geleceğin var.
+Me? Oh, I hardly ever play...	Ben mi? Aa, neredeyse hiç oynamam...
+Lucky! Do it again, I dare you.	Şans! Hadi bir daha yap da görelim.
+Ooh, someone's been practising.	Ooo, birileri antrenman yapmış.
+Aw, so close! Bless.	Ah, az kalsın! Tatlım.
+Want me to show you how?	Nasıl yapıldığını göstereyim mi?
+Thank you, sweetie.	Teşekkürler, şekerim.
+Oops, did I do that?	Hay aksi, bunu ben mi yaptım?
+Must be beginner's luck. Again.	Acemi şansı olmalı. Yine.
+Missed on purpose. Keeps it interesting.	Bilerek kaçırdım. Heyecan olsun.
+Just warming up.	Daha ısınıyorum.
+Oh dear, how clumsy of me. Wink.	Of, ne sakarım. Göz kırpma.
+Hardly ever play, I said. Hardly.	Neredeyse hiç oynamam, dedim. Neredeyse.
+Fine, you got me. This time.	Peki, yakaladın beni. Bu seferlik.
+Friction, momentum, spin. Let us begin.	Sürtünme, momentum, falso. Başlayalım.
+A fine cut. About thirty degrees, I'd say.	Güzel bir kesme. Yaklaşık otuz derece, derdim.
+Textbook.	Ders kitabı gibi.
+You underestimated the throw.	Sapmayı hafife aldın.
+Interesting. Statistically expected.	İlginç. İstatistiksel olarak beklenen.
+The cue ball followed the laws of physics, not your plan.	Beyaz top senin planına değil, fizik kurallarına uydu.
+As calculated.	Hesapladığım gibi.
+Elastic collision, elegant result.	Esnek çarpışma, zarif sonuç.
+An error in my measurement.	Ölçümümde bir hata.
+I'll revise the model.	Modeli gözden geçireceğim.
+Hm. Unexpected spin.	Hmm. Beklenmedik falso.
+The numbers were on my side.	Sayılar benden yanaydı.
+A result outside my predictions. Well done.	Tahminlerimin dışında bir sonuç. Tebrikler.
+Focus.	Odaklan.
+Clean.	Temiz.
+Not bad.	Fena değil.
+Half a millimetre.	Yarım milimetre.
+Breathe before you shoot.	Vurmadan önce nefes al.
+Careless.	Dikkatsizlik.
+Target down.	Hedef vuruldu.
+Centre pocket.	Cebin tam ortası.
+Hm. Recalibrating.	Hmm. Yeniden kalibre ediliyor.
+That never happens.	Bu asla olmaz.
+Unacceptable.	Kabul edilemez.
+Precision wins.	Hassasiyet kazanır.
+Good shooting.	İyi nişan.
+Welcome to my table. Enjoy the show.	Masama hoş geldin. Gösterinin tadını çıkar.
+Very good. You've done your homework.	Çok iyi. Ödevini yapmışsın.
+Applause for the challenger!	Meydan okuyana alkış!
+Pressure. It gets to everyone.	Baskı. Herkesi etkiler.
+Thank you for the table.	Masa için teşekkürler.
+A champion never refuses a gift.	Bir şampiyon hediyeyi asla geri çevirmez.
+Naturally.	Doğal olarak.
+That's how it's done.	İşte böyle yapılır.
+Even champions give the crowd a chance.	Şampiyonlar bile seyirciye bir şans tanır.
+Leaving you something, out of courtesy.	Nezaketen sana bir şey bırakıyorum.
+A rare sight. Remember it.	Nadir bir manzara. Aklında tut.
+The title stays with me. Good game.	Unvan bende kalıyor. İyi oyundu.
+Remarkable. You've earned my respect.	Olağanüstü. Saygımı kazandın.
+Calibration complete. Good luck, human.	Kalibrasyon tamamlandı. İyi şanslar, insan.
+Shot registered: successful.	Vuruş kaydedildi: başarılı.
+Probability of my victory: increasing.	Zafer olasılığım: artıyor.
+Foul detected. Processing penalty.	Faul algılandı. Ceza işleniyor.
+Executed as planned.	Planlandığı gibi uygulandı.
+Error. Recalculating.	Hata. Yeniden hesaplanıyor.
+Malfunction. Please disregard.	Arıza. Lütfen yok say.
+Game complete. Thank you for playing.	Oyun tamamlandı. Oynadığın için teşekkürler.
+Defeat acknowledged. Well played.	Yenilgi kabul edildi. İyi oynadın.
+Drills	Alıştırmalar
+Exercises with stars	Yıldızlı alıştırmalar
+{s} / {max} stars	{s} / {max} yıldız
+Stars at {a}, {b} and {c}	Yıldızlar: {a}, {b} ve {c}
+Your best: {n} of {total}	En iyin: {n}/{total}
+Not tried yet.	Henüz denemedin.
+Start the drill	Alıştırmaya başla
+Sign in to keep your stars in your account.	Yıldızlarını hesabında saklamak için giriş yap.
+# Five more computer opponents: Tito, Inês, Diego, Amara and Yuri.

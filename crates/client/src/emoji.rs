@@ -156,7 +156,11 @@ fn scan(text: &str, mut f: impl FnMut(usize, usize, Unit)) {
             continue;
         }
         let end = i + c.len_utf8();
-        f(i, end, if is_blank(c) { Unit::Blank } else { Unit::Plain });
+        // A joiner after a letter of a shaped script (an Indic conjunct)
+        // is the letter's, not an emoji's.
+        let joins_letter = c == '\u{200D}'
+            && text[..i].chars().next_back().is_some_and(|p| ('\u{0600}'..'\u{0E80}').contains(&p));
+        f(i, end, if is_blank(c) && !joins_letter { Unit::Blank } else { Unit::Plain });
         i = end;
     }
 }

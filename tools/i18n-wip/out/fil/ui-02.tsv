@@ -1,0 +1,300 @@
+301	Walang bukas na mesa. Magbukas ka ng isa at puwedeng umupo ang iba.
+302	Walang ibang bukas na mesa ngayon.
+303	Walang ganoong manlalaro.
+304	Walang torneo ngayon. Gumawa ng isa!
+305	Bastos na pangalan
+306	Tuloy-tuloy
+307	Nag-aapoy
+308	Ang host lang ang puwedeng magsimula ng torneo.
+309	Magbukas ng mesa
+310	O sumali gamit ang address
+311	Iba pa
+312	Puwedeng sumali ang iba sa {ip}:{port}
+313	Kailangan ng password na may hindi bababa sa 8 character (hindi puro numero).
+314	Maglaro ng 1,000 rated na laro.
+315	Maglaro ng 10 rated na laro.
+316	Maglaro ng 100 rated na laro.
+317	Maglaro ng 25 casual na laro.
+318	Maglaro ng 500 rated na laro.
+319	Sumali sa isang torneo.
+320	Maglaro online
+321	Makipaglaro sa mga kaibigan sa iisang network
+322	Laruin ang una mong rated na laro.
+323	Manlalaro 1
+324	Mga Manlalaro
+325	Hindi puwedeng magsimula ng ibang laro ang mga manlalaro sa torneo.
+326	Pakiusap, huwag ulitin ang parehong mensahe.
+327	Alamat ng bilyaran
+328	Sikat
+329	Pribado
+330	para makaupo ang mga kaibigan mo
+331	Profile
+332	{key}: panoorin ulit ang huling tira
+333	REPLAY
+334	Rated
+335	Rated na laro, mesa, torneo at kaibigan
+336	Umabot sa rating na 1300.
+337	Umabot sa rating na 1500.
+338	Umabot sa rating na 1700.
+339	Umabot sa rating na 1900.
+340	Umabot sa rating na 2100.
+341	I-refresh
+342	Suki
+343	Alisin sa kaibigan
+344	Replay
+345	I-report
+346	I-report si {name}
+347	Naipadala ang request
+348	Kaibigan
+349	Kamakailan
+350	Wala pa. Lalabas dito ang mga nakalaro mo online.
+351	{n} laro
+352	Baguhan
+353	Round {n}
+354	Maghanap…
+355	Semifinals
+356	Ipadala ang report
+357	Kasama ng report ang larong ito, para mapanood ito ng mga moderator.
+358	Kasama ng report ang laro mo kay {name} ({date}), para mapanood ito ng mga moderator.
+359	Hindi mo nakalaro si {name} sa nakaraang araw: makikita ng mga moderator ang mga chat kamakailan.
+360	Pating
+361	Ipinapakita ang contact point; ikaw na ang bahala sa cut.
+362	Bokya
+363	Mag-sign in
+364	Mag-sign in o gumawa ng account
+365	Mag-sign out
+366	Umupo
+367	Bihasa
+368	May tao na rito na ganyan ang pangalan.
+369	Spam
+370	Magsimula na
+371	Ihinto ang replay
+372	Ubos-mesa
+373	Mga Mesa
+374	Magsalitan sa computer na ito
+375	Salamat. Titingnan ito ng mga moderator.
+376	Salamat. Titingnan ito ng mga moderator, kasama ang laro mo.
+377	Hindi tumatanggap ng imbitasyon ang manlalarong iyan.
+378	Para sa naunang turn ang tirang iyan.
+379	Hindi na bukas ang mesang iyan.
+380	Nagsimula na ang torneong iyan.
+381	Wala na ang torneong iyan.
+382	Puwedeng umabot nang isang minuto ang unang koneksiyon sa araw habang gumigising ang server.
+383	Sa unang beses, payagan ang Snook Legend sa firewall kapag tinanong.
+384	Hindi nalaro ng server ang tirang iyan.
+385	Busy ang server. Subukan ulit maya-maya.
+386	Magsisimula ang torneo kapag puno na (puwede itong simulan nang mas maaga ng host).
+387	Masyadong marami ang torneo ngayon. Sumali sa isa!
+388	LAN server ito: sumali bilang guest.
+389	Labinlimang kalaban, isang tour at mga ghost ng totoong manlalaro
+390	Tier
+391	Oras bawat tira
+392	Masyadong maraming bigong pagtatangka. Maghintay nang ilang minuto at subukan ulit.
+393	Masyadong maraming mensahe.
+394	Masyadong maraming bagong account mula sa network na ito. Subukan ulit mamaya.
+395	Top 100 · rated na laro
+396	Laro sa torneo: sa lounge magsisimula ang susunod na round.
+397	Walang rematch sa mga laro sa torneo.
+398	Mga Torneo
+399	May 4, 8 o 16 na manlalaro ang mga torneo.
+400	Dalawang manlalaro
+401	I-unblock
+402	Na-unlock noong {date}
+403	Di-mapigilan
+404	P
+405	Panoorin ulit ang huling tira
+406	Ano'ng nangyari? (opsiyonal)
+407	Kapag naubos ang oras, lilipat ang turn.
+408	Lampaso
+409	Manalo ng 10 rated na laro sa pagpasok ng 8-ball.
+410	Manalo ng 10 sunod-sunod na rated na laro.
+411	Manalo ng 10 rated na laro.
+412	Manalo ng 10 rated na laro nang bokya ang kalaban.
+413	Manalo ng 100 rated na laro sa pagpasok ng 8-ball.
+414	Manalo ng 100 rated na laro.
+415	Manalo ng 250 rated na laro sa pagpasok ng 8-ball.
+416	Manalo ng 3 sunod-sunod na rated na laro.
+417	Manalo ng 5 sunod-sunod na rated na laro.
+418	Manalo ng 5 torneo.
+419	Manalo ng 50 rated na laro sa pagpasok ng 8-ball.
+420	Manalo ng 50 rated na laro.
+421	Manalo ng 500 rated na laro.
+422	Manalo ng isang rated na laro.
+423	Manalo ng isang torneo.
+424	Manalo ng rated na laro bago makapasok ang kalaban mo ng bola ng grupo niya.
+425	Manalo ng rated na laro mula sa break nang hindi nakakatira ang kalaban mo.
+426	Umatras
+427	Ranking sa mundo
+428	Maling password ng mesa.
+429	Maling password ng torneo.
+430	Nasa isang torneo ka na.
+431	Nagho-host ka ng laro
+432	Hindi ka puwedeng sumali sa mesang ito.
+433	Nag-sign in ka mula sa ibang lugar.
+434	Masyadong mabilis ang pagpapadala mo ng imbitasyon.
+435	Masyadong mabilis ang pagpapadala mo ng mensahe.
+436	Marami ka nang naipadalang report. Maghintay muna bago magpadala ulit.
+437	Puno na ang listahan mo ng kaibigan.
+438	Kusang magsisimula ang susunod mong laban kapag libre na ang dalawang manlalaro.
+439	Profile mo
+440	Bukas ang mesa mo
+441	Mag-zoom in
+442	Mag-zoom out
+443	nasa isang mesa
+444	pinakamahabang streak
+445	ni {host} · {n}/{size} manlalaro
+446	casual na laro
+447	casual · pribado
+448	casual · publiko
+449	kumokonekta sa server
+450	8-ball pool
+451	tapos na
+452	guest
+453	iniimbitahan ka sa {kind}
+454	sumali ngayong araw
+455	miyembro nang {n} araw
+456	miyembro nang {n} buwan
+457	miyembro nang {n} taon
+458	offline
+459	bukas
+460	opsiyonal: ang mga kaibigang may password lang ang makakasali
+461	password
+462	pinakamataas: {n}
+463	naglalaro
+464	naglalaro laban sa computer
+465	wala muna
+466	naka-save ang larong ito
+467	rated na laro
+468	rated · pribado
+469	rated · publiko
+470	naipadala ang request
+471	naputol ang koneksiyon
+472	para maglaro online
+473	torneo
+474	torneong napanalunan
+475	naghihintay ng kalaban…
+476	% ng panalo
+477	panalo
+478	panalo sa 8
+479	laro ni {host}
+480	Gustong makipagkaibigan ni {name}
+481	Gusto kang maging kaibigan ni {name}.
+482	{n} online
+483	naipasok ang 8-ball
+484	naipasok ng kalaban ang 8-ball
+485	masyadong maagang naipasok ng kalaban ang 8
+486	masyadong maagang naipasok ang 8
+487	naipasok ng kalaban ang 8 sa maling pocket
+488	naipasok ang 8 sa maling pocket
+489	nag-foul ang kalaban sa 8
+490	nag-foul sa 8
+491	napalabas ng kalaban sa mesa ang 8
+492	napalabas sa mesa ang 8
+493	sumuko ang kalaban
+494	sumuko
+495	umalis ang kalaban
+496	umalis sa laro
+497	Naka-mute ka pa nang {n} minuto.
+498	Suspendido ang account na ito nang {n} araw pa. Dahilan: {reason}.
+499	Banned ang account na ito. Dahilan: {reason}.
+500	Na-mute ka: {r}
+501	Na-suspend ang account mo: {r}
+502	Na-ban ang account mo: {r}
+503	Na-disconnect ka ng isang moderator: {r}
+504	Na-disconnect ka ng isang moderator.
+505	Mag-sign in ulit.
+506	Napalitan ang password mo. Mag-sign in ulit.
+507	Tanggapin ang rematch
+508	Tanggapin
+509	Asinta
+510	Gabay sa pag-asinta
+511	Pag-asinta
+512	Anti-aliasing
+513	Pinapakinis ang magagaspang na gilid ng mga linya at bola.
+514	Bumalik sa lounge
+515	Balanse: smooth sa karamihan ng laptop.
+516	Ball in hand
+517	Mag-break
+518	Umaatras ang camera para mapanood ang bawat tira
+519	Camera
+520	Kanselahin
+521	Casual na laro: hindi magbabago ang rating
+522	Gitna
+523	Chat
+524	I-click ang isang bola o puwesto
+525	I-click para mag-chat, Enter para ipadala
+526	Controls
+527	Gumawa ng account
+528	Tama sa cue ball
+529	Tanggihan
+530	Tapos na
+531	I-drag ang cue ball
+532	Elevation
+533	Lahat, may reflection sa makikinang na sahig: para sa mga gaming PC.
+534	Pinong asinta
+535	Tapusin muna ang laban na ito.
+536	Para sa luma o napakabagal na computer.
+537	Full screen
+538	Puwede ring gamit ang {key}.
+539	Full
+540	Server ng laro
+541	Palitan lang ito para maglaro sa ibang server.
+542	Advanced
+543	Custom na server
+544	Kalidad ng graphics
+545	Kalidad
+546	Display
+547	Mataas
+548	Imbitahan
+549	Umalis papunta sa lounge
+550	Umalis
+551	Bibilangin itong talo kapag umalis ka ngayon.
+552	Chat ng lounge
+553	Mababa
+554	Main menu
+555	Katamtaman
+556	Menu / tulong
+557	Magsisimula na ang susunod na laro…
+558	Wala pang rated na laro. Ikaw na ang mauna!
+559	Walang ibang tao rito ngayon.
+560	Naghahanap ng laro?
+561	Naghahanap ng laro
+562	Mag-post ng note
+563	Makikita ito ng lahat sa lounge nang 30 minuto
+564	Ano'ng hanap mo? ({kind})
+565	I-post
+566	Note mo: {text}
+567	{mode} · {left} pa
+568	Alisin
+569	Hamunin
+570	Alisin ang note
+571	Off
+572	Sa 8-ball: mag-call ng pocket
+573	Sa 8-ball
+574	Open table
+575	Password
+576	Naka-pause
+577	Maglaro
+578	Manlalaro 2
+579	Manlalaro
+580	Mabilis na asinta
+581	Lumabas
+582	Nakakonekta ulit.
+583	Rematch
+584	Sumuko sa larong ito
+585	I-restart ang laro para mailapat ang pagbabagong ito.
+586	Ituloy
+587	Subukan ulit
+588	Sine-save ang resulta…
+589	Bumati… (Enter para ipadala)
+590	Ipadala
+591	Settings
+592	{key} + drag
+593	{key}: 3D / view mula sa itaas
+594	{keys}: zoom
+595	View
+596	Asinta pakaliwa
+597	Asinta pakanan
+598	Pinong asinta (pindutin nang matagal)
+599	Tumira (pindutin nang matagal, bitawan)
+600	Top spin

@@ -1,0 +1,300 @@
+1201	Ăn {n} bi
+1202	Ăn {n} bi có xoáy
+1203	Ăn 3 bi liên tiếp trong một lượt
+1204	Thắng một ván mà không phạm lỗi
+1205	Ăn 3 bi liên tiếp {n} lần
+1206	Thắng {n} ván mà không phạm lỗi
+1207	Camera truyền hình khi xem
+1208	Góc quay kiểu truyền hình khi xem ván của người khác và bản phát lại.
+1209	Thông báo hệ thống
+1210	Lời mời, bạn bè vừa trực tuyến và ván đấu bắt đầu, trong lúc bạn vắng mặt.
+1211	{name} bắt đầu sau vài phút: hãy chuẩn bị!
+1212	{name} bắt đầu sau vài phút: vẫn còn chỗ.
+1213	{name} đã bắt đầu!
+1214	Thế trận
+1215	Bản đồ cú đánh
+1216	Chưa có cú đánh nào.
+1217	ăn
+1218	trượt
+1219	lỗi
+1220	Xem các giải đấu
+1221	Mở cửa hàng
+1222	Xem VIP
+1223	Xem nhiệm vụ
+1224	Đã có phiên bản game mới: hãy cập nhật để chơi trực tuyến.
+1225	Cập nhật trên Microsoft Store
+1226	Cập nhật ngay
+1227	Tải phiên bản mới
+1228	Đã có phiên bản mới
+1229	Tải phiên bản mới để chơi trực tuyến
+1230	Cổ vũ {name}
+1231	Khán giả: {a} cổ vũ {p0}, {b} cổ vũ {p1}
+1232	gói chào mừng
+1233	Gói chào mừng
+1234	Cơ “{cue}”, nỉ “{cloth}” và {n} xu · chỉ một lần, không bán ở nơi khác
+1235	Đầm phá
+1236	Bạn đã có gói chào mừng.
+1237	Gói chào mừng của bạn đã đến!
+1238	Cú trước (←)
+1239	Cú sau (→)
+1240	Phát (Space)
+1241	Tạm dừng (Space)
+1242	Tốc độ
+1243	Cú đánh {n}/{total}
+1244	Dành cho thành viên VIP
+1245	{n} biểu cảm riêng để gửi trong ván đấu
+1246	Vật phẩm {a}–{b} / {n}
+1247	(tin nhắn đã bị người gửi xóa)
+1248	(tin nhắn đã bị quản trị viên xóa)
+1249	Xóa (hiện là đã xóa)
+1250	Xóa không để lại dấu vết
+1251	Đoạn chat đã được {name} xóa sạch.
+1252	Bấm lần nữa để xóa sạch
+1253	Xóa sạch đoạn chat
+1254	Chat của người chơi (quản trị viên)
+1255	Đấu với máy trong lúc chờ
+1256	Đang tìm đối thủ… {t} · ván đấu bắt đầu ngay khi tìm thấy
+1257	Dừng
+1258	Microsoft Store không thể hoàn tất giao dịch.
+1259	Microsoft Store hiện không thể xác nhận giao dịch. Xu sẽ đến vào lần tới bạn mở cửa hàng.
+1260	Đã thêm {n} xu vào ví của bạn.
+1261	Microsoft đang xác nhận giao dịch của bạn: xu sẽ đến trong giây lát.
+1262	Chúng tôi chưa nhận được giao dịch. Xu sẽ đến vào lần tới bạn mở cửa hàng.
+1263	Đang tải giá từ Microsoft Store…
+1264	Phiên bản này chưa thể mua xu.
+1265	Hãy hoàn tất giao dịch trong cửa sổ Microsoft Store…
+1266	Đang xác nhận giao dịch…
+1267	Thanh toán trên Microsoft Store, bằng tài khoản Microsoft của bạn.
+1268	Hiện không kết nối được Microsoft Store. Hãy thử lại sau giây lát.
+1269	Microsoft Store không thể xác nhận giao dịch.
+1270	Hãy đăng nhập Microsoft Store bằng tài khoản Microsoft của bạn, rồi mở lại cửa hàng.
+1271	Microsoft Store hiện không thể xác nhận giao dịch. Tháng VIP của bạn sẽ bắt đầu vào lần tới bạn mở cửa hàng.
+1272	Bạn là VIP đến {d}, và {n} xu đã được thêm vào ví của bạn.
+1273	Microsoft đang xác nhận giao dịch của bạn: tháng VIP sẽ bắt đầu trong giây lát.
+1274	Chúng tôi chưa nhận được giao dịch. Tháng VIP của bạn sẽ bắt đầu vào lần tới bạn mở cửa hàng.
+1275	Từng tháng một: không tự động gia hạn
+1276	Thêm một tháng · {p}
+1277	Một tháng VIP · {p}
+1278	Tháng mới bắt đầu khi tháng này kết thúc.
+1279	Cúp
+1280	Chưa có cúp nào.
+1281	Vô địch giải đấu · {n} người chơi
+1282	Hành trình đấu với máy
+1283	Đã đánh bại cả mười lăm đối thủ
+1284	Thử thách hằng ngày
+1285	Hạng nhất trong {n} người chơi
+1286	Cú dễ
+1287	Cú vừa
+1288	Cú khó
+1289	Cú rất khó
+1290	~{n}% khả năng
+1291	Không bi nào vào lỗ theo hướng ngắm này
+1292	thẳng vào lỗ
+1293	cắt {n}°
+1294	dội một băng
+1295	dội {n} băng
+1296	Ăn càng nhiều bi càng tốt trong một lượt: đánh trượt hoặc phạm lỗi sẽ kết thúc lượt thử.
+1297	Cùng một bàn cho mọi người, suốt cả ngày
+1298	{n} lượt thử mỗi ngày. Dọn sạch bàn để nhận {coins} xu; người thắng trong ngày được nhận cúp.
+1299	Bàn mới sau {h} giờ {m} phút
+1300	Đăng nhập để tham gia: máy chủ lưu bảng xếp hạng trong ngày.
+1301	Số bi trên bàn hôm nay
+1302	Lượt thử còn lại
+1303	{n} bi · #{rank}
+1304	{n} bi
+1305	chưa có
+1306	Thành tích tốt nhất hôm nay
+1307	Hôm nay bạn đã hết lượt thử: hãy quay lại vào ngày mai.
+1308	Không thể tính lượt thử này.
+1309	Đang chuẩn bị bàn…
+1310	Bắt đầu một lượt thử
+1311	Bắt đầu là mất một lượt thử, kể cả khi bạn rời bàn.
+1312	Đang tải bàn hôm nay…
+1313	Bảng xếp hạng hôm nay
+1314	{n} người chơi
+1315	Chưa ai chơi bàn hôm nay. Hãy là người đầu tiên!
+1316	Đã dọn sạch bàn!
+1317	{n}/{total} bi
+1318	Đang gửi lượt thử của bạn đến máy chủ…
+1319	Đã tính: {n} bi · +{coins} xu
+1320	Đã tính: {n} bi
+1321	Xem bảng xếp hạng hôm nay
+1322	Đã dọn sạch bàn! +{n} xu
+1323	Thử thách hằng ngày: ăn {n}/{total} bi
+1324	1 người chơi
+1325	Phượng hoàng
+1326	Cẩm thạch Carrara
+1327	Vảy rồng
+1328	Thiên hà
+1329	Ngai hồng ngọc
+1330	Đóng game lúc này là bỏ ván: bị trừ thêm điểm xếp hạng và phải chờ mới được chơi lại.
+1331	Bạn đã bỏ một ván đang diễn ra: bạn có thể chơi trực tuyến lại sau {n} phút.
+1332	Câu nói nhanh
+1333	Chúc may mắn, chơi vui nhé!
+1334	Cú đánh đẹp!
+1335	Đánh an toàn hay lắm!
+1336	Xui quá!
+1337	Ối!
+1338	Wow!
+1339	Suýt nữa thì!
+1340	Cứ từ từ.
+1341	Xin lỗi!
+1342	Cảm ơn!
+1343	Chơi hay lắm!
+1344	Ván hay!
+1345	Tái đấu không?
+1346	Mình phải đi rồi, cảm ơn ván đấu nhé!
+1347	Luyện tập trong lúc chờ
+1348	Một giàn bi mới.
+1349	Cấp {n}! (+{xp} XP)
+1350	+{xp} XP
+1351	Cấp {n} · {into} / {span} XP đến cấp tiếp theo
+1352	Cấp {n}
+1353	Chào! Mình xem cả đống video rồi, sẵn sàng lắm!
+1354	Nương tay nhé, được không?
+1355	Ồ, bạn làm thế nào vậy?
+1356	Lát nữa dạy mình cú đó nhé!
+1357	Phù! Đến lượt mình!
+1358	Bạn cũng đánh trượt à? Biết vậy cũng mừng.
+1359	Được cho không một bi! Giờ mình làm gì với nó đây?
+1360	Bạn thấy không?! Vào rồi!
+1361	May mắn của người mới cũng tính chứ!
+1362	Ối. Cú đó là đánh thử thôi.
+1363	Ngắm đi, Leo, ngắm đi...
+1364	Xin lỗi! Mình lại chạm nhầm bi rồi.
+1365	MÌNH THẮNG Á? Phải gọi cho mẹ mới được!
+1366	Ván hay! Mình đang tiến bộ, đúng không?
+1367	Thứ Bảy, một bàn bi-a và bạn tốt. Chơi thôi!
+1368	Hay đấy!
+1369	Ồ, bạn giỏi đấy. Giờ mình phải tập trung rồi.
+1370	Cao thủ cũng có lúc vậy mà.
+1371	Đừng lo, chỉ là trò chơi thôi!
+1372	Cảm ơn món quà nhé!
+1373	Tuyệt! Tay nghề cuối tuần đấy!
+1374	Mình may ghê!
+1375	Hừm, nãy mình ngắm đi đâu nhỉ?
+1376	Tán chuyện thì nhiều, ngắm thì ít.
+1377	Ối, lỗi tại mình!
+1378	Vui thật! Cuối tuần sau cùng giờ nhé?
+1379	Chơi hay lắm! Tái đấu bên ly nước chanh nhé?
+1380	Bốn băng, vô vàn khả năng.
+1381	Thẳng vào lỗ à? Thật là... thẳng thắn.
+1382	Đẹp, nhưng đánh băng thì còn đẹp hơn.
+1383	Lẽ ra bạn nên dùng băng.
+1384	Băng ở ngay đó, như đang mời gọi.
+1385	Bàn không thích cú đó.
+1386	Dội băng và vào lỗ. Nghệ thuật!
+1387	Hình học không bao giờ nói dối.
+1388	Góc thì đúng. Băng thì không đồng ý.
+1389	Lệch một điểm kim cương. Chỉ một thôi!
+1390	Tưởng tượng quá nhiều, tiếp xúc quá ít.
+1391	Một kiệt tác, nếu tôi được phép nói vậy.
+1392	Chơi hay. Giờ thử dội hai băng xem.
+1393	Mong là mấy quả bi này làm bằng thép.
+1394	Đánh nhẹ hả? Không phải phong cách của tôi.
+1395	Lần sau đánh mạnh hơn vào!
+1396	Nhẹ quá! Sức mạnh giải quyết tất cả.
+1397	HA!
+1398	Giờ bàn là của tôi. Bịt tai lại đi.
+1399	BÙM!
+1400	Nghe tiếng lỗ đó chưa?
+1401	Mạnh quá ư? Làm gì có chuyện đó.
+1402	Cái lỗ nó tự dịch đi.
+1403	Bi bay rồi. Chuyện thường. Rất thường.
+1404	Sức mạnh lại thắng! BÙM!
+1405	Thôi được, khéo léo cũng hiệu quả. Đôi khi.
+1406	Cứ từ từ. Tôi có cả ngày mà.
+1407	Chấp nhận được.
+1408	Tận hưởng đi khi còn có thể.
+1409	Kiên nhẫn là một đức tính. Có vẻ không phải của bạn.
+1410	Cảm ơn.
+1411	Cẩu thả.
+1412	Vững vàng sẽ thắng.
+1413	Từng bi một.
+1414	Hừm. Dù sao tôi cũng sẽ không để lại gì cho bạn.
+1415	Cố ý đấy. Chắc vậy.
+1416	Không thể chấp nhận. Lỗi của tôi.
+1417	Như tôi đã nói: kiên nhẫn.
+1418	Bạn đã vượt qua bức tường. Tôi rất ấn tượng.
+1419	Tôi chơi từ hồi bi còn chưa làm bằng nhựa.
+1420	Cú đánh đẹp. Làm tôi nhớ một anh chàng hồi năm 78.
+1421	Mượt. Rất mượt.
+1422	Cúi đầu xuống, nhóc.
+1423	Bi cái không biết nói dối.
+1424	À, một món quà nhỏ. Cảm ơn nhiều nhé.
+1425	Như đi xe đạp thôi.
+1426	Vẫn còn phong độ.
+1427	Mắt không còn như xưa nữa.
+1428	Thời của tôi, lỗ còn to hơn.
+1429	Lão làng cũng có lúc trượt chân.
+1430	Kinh nghiệm, bạn tôi ạ. Kinh nghiệm.
+1431	Bạn có tương lai trong môn này đấy.
+1432	Tôi á? Ôi, tôi hiếm khi chơi lắm...
+1433	Ăn may! Làm lại xem nào, tôi thách đấy.
+1434	Ồ, có người đã luyện tập rồi nha.
+1435	Ôi, suýt nữa! Tội nghiệp.
+1436	Muốn tôi chỉ cho cách làm không?
+1437	Cảm ơn nhé, cưng.
+1438	Ối, tôi làm thế à?
+1439	Chắc lại là may mắn của người mới. Lần nữa.
+1440	Cố tình trượt đấy. Cho thêm phần thú vị.
+1441	Mới khởi động thôi.
+1442	Trời ạ, tôi vụng quá. Nháy mắt.
+1443	Tôi đã nói là hiếm khi chơi. Hiếm thôi.
+1444	Được rồi, bạn thắng. Lần này.
+1445	Ma sát, động lượng, độ xoáy. Chúng ta bắt đầu.
+1446	Một cú cắt đẹp. Khoảng ba mươi độ, tôi đoán vậy.
+1447	Chuẩn sách giáo khoa.
+1448	Bạn đã đánh giá thấp độ lệch do ma sát.
+1449	Thú vị. Đúng như thống kê dự đoán.
+1450	Bi cái tuân theo định luật vật lý, không theo kế hoạch của bạn.
+1451	Đúng như tính toán.
+1452	Va chạm đàn hồi, kết quả thanh lịch.
+1453	Sai số trong phép đo của tôi.
+1454	Tôi sẽ xem lại mô hình.
+1455	Hừm. Độ xoáy ngoài dự kiến.
+1456	Các con số đứng về phía tôi.
+1457	Một kết quả ngoài dự đoán của tôi. Làm tốt lắm.
+1458	Tập trung.
+1459	Gọn.
+1460	Không tệ.
+1461	Nửa milimét.
+1462	Hít thở trước khi đánh.
+1463	Bất cẩn.
+1464	Mục tiêu đã hạ.
+1465	Chính giữa lỗ.
+1466	Hừm. Đang hiệu chỉnh lại.
+1467	Chuyện đó không bao giờ xảy ra.
+1468	Không thể chấp nhận.
+1469	Chính xác sẽ thắng.
+1470	Ngắm tốt đấy.
+1471	Chào mừng đến bàn của tôi. Hãy thưởng thức màn trình diễn.
+1472	Rất tốt. Bạn đã làm bài tập về nhà.
+1473	Một tràng pháo tay cho người thách đấu!
+1474	Áp lực. Ai rồi cũng bị.
+1475	Cảm ơn vì đã nhường bàn.
+1476	Nhà vô địch không bao giờ từ chối một món quà.
+1477	Đương nhiên.
+1478	Phải đánh như thế.
+1479	Nhà vô địch cũng cho khán giả một cơ hội.
+1480	Để lại cho bạn chút gì, gọi là lịch sự.
+1481	Cảnh hiếm thấy. Hãy nhớ lấy.
+1482	Danh hiệu vẫn ở lại với tôi. Ván hay.
+1483	Đáng nể. Bạn đã giành được sự tôn trọng của tôi.
+1484	Hiệu chỉnh hoàn tất. Chúc may mắn, con người.
+1485	Đã ghi nhận cú đánh: thành công.
+1486	Xác suất chiến thắng của tôi: đang tăng.
+1487	Phát hiện lỗi. Đang xử lý hình phạt.
+1488	Thực hiện đúng kế hoạch.
+1489	Lỗi. Đang tính toán lại.
+1490	Trục trặc. Vui lòng bỏ qua.
+1491	Ván đấu hoàn tất. Cảm ơn bạn đã chơi.
+1492	Ghi nhận thất bại. Chơi hay lắm.
+1493	Bài tập
+1494	Bài tập có sao
+1495	{s} / {max} sao
+1496	Sao ở mức {a}, {b} và {c}
+1497	Tốt nhất: {n}/{total}
+1498	Chưa thử.
+1499	Bắt đầu bài tập
+1500	Đăng nhập để lưu sao vào tài khoản của bạn.

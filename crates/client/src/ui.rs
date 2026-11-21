@@ -3,6 +3,7 @@
 use macroquad::prelude::*;
 
 use crate::emoji::{self, Piece};
+use crate::fonts::{Face, Run};
 #[allow(unused_imports)]
 use crate::paint::{draw_circle, draw_circle_lines, draw_line, draw_rectangle, draw_triangle};
 
@@ -379,9 +380,36 @@ impl Ui {
         vec2(width, size)
     }
 
-    /// The width of text without emoji, in the font.
+    /// The width of text without emoji, in the fonts (see [`crate::fonts`]).
     fn font_width(&self, text: &str, size: f32, bold: bool) -> f32 {
-        let font = if bold { &self.bold } else { &self.regular };
+        if crate::fonts::simple(text) {
+            return self.chars_width(text, None, size, bold);
+        }
+        crate::fonts::layout(text, bold)
+            .runs
+            .iter()
+            .map(|run| match run {
+                Run::Chars { face, text } => self.chars_width(text, Some(*face), size, bold),
+                Run::Glyphs { glyphs, units_per_em, .. } => {
+                    crate::fonts::glyphs_width(glyphs, *units_per_em, size)
+                }
+            })
+            .sum()
+    }
+
+    /// The font that draws `face` character by character (None and `Main`:
+    /// the interface's own).
+    fn chars_font(&self, face: Option<Face>, bold: bool) -> Option<Font> {
+        match face {
+            None | Some(Face::Main) => None,
+            Some(face) => crate::fonts::chars_font(face, bold),
+        }
+    }
+
+    /// The width of characters drawn one by one in `face`.
+    fn chars_width(&self, text: &str, face: Option<Face>, size: f32, bold: bool) -> f32 {
+        let other = self.chars_font(face, bold);
+        let font = other.as_ref().unwrap_or(if bold { &self.bold } else { &self.regular });
         // Fonts are rasterised at the real pixel size, so text stays sharp at
         // any interface scale.
         let k = ui_scale();
@@ -471,9 +499,53 @@ impl Ui {
         }
     }
 
-    /// Draws text without emoji, in the font.
+    /// Draws text without emoji, in the fonts (see [`crate::fonts`]).
     fn draw_font_text(&self, text: &str, x: f32, y: f32, size: f32, color: Color, bold: bool) {
-        let font = if bold { &self.bold } else { &self.regular };
+        if crate::fonts::simple(text) {
+            self.draw_chars(text, None, x, y, size, color, bold);
+            return;
+        }
+        let x = (x * ui_scale()).round() / ui_scale();
+        let baseline = ((y + size * 0.8) * ui_scale()).round() / ui_scale();
+        let mut x = x;
+        for run in &crate::fonts::layout(text, bold).runs {
+            match run {
+                Run::Chars { face, text } => {
+                    self.draw_chars(text, Some(*face), x, y, size, color, bold);
+                    x += self.chars_width(text, Some(*face), size, bold);
+                }
+                Run::Glyphs { face, glyphs, units_per_em } => {
+                    let c = crate::paint::fade(color);
+                    crate::fonts::draw_glyphs(
+                        *face,
+                        bold,
+                        glyphs,
+                        *units_per_em,
+                        x,
+                        baseline,
+                        size,
+                        c,
+                    );
+                    x += crate::fonts::glyphs_width(glyphs, *units_per_em, size);
+                }
+            }
+        }
+    }
+
+    /// Draws characters one by one in `face`.
+    #[allow(clippy::too_many_arguments)]
+    fn draw_chars(
+        &self,
+        text: &str,
+        face: Option<Face>,
+        x: f32,
+        y: f32,
+        size: f32,
+        color: Color,
+        bold: bool,
+    ) {
+        let other = self.chars_font(face, bold);
+        let font = other.as_ref().unwrap_or(if bold { &self.bold } else { &self.regular });
         draw_text_ex(
             text,
             (x * ui_scale()).round() / ui_scale(),
@@ -1049,36 +1121,42 @@ impl Ui {
         hover && self.released_in(r) && !selected
     }
 
-    /// Splits `text` into lines no wider than `width`.
+    /// Splits `text` into lines no wider than `width`: at spaces, and also
+    /// between Chinese and Japanese characters and at the zero-width spaces
+    /// of Thai (see [`break_points`]).
     pub fn wrap(&self, text: &str, width: f32, size: f32) -> Vec<String> {
         let mut lines = Vec::new();
         let mut line = String::new();
-        for word in text.split_whitespace() {
-            let candidate =
-                if line.is_empty() { word.to_string() } else { format!("{line} {word}") };
+        for (word, spaced) in break_points(text) {
+            let candidate = if line.is_empty() {
+                word.to_string()
+            } else if spaced {
+                format!("{line} {word}")
+            } else {
+                format!("{line}{word}")
+            };
             if self.text_size(&candidate, size, false).x <= width || line.is_empty() {
                 line = candidate;
-                // A single word longer than the line: cut it (between
-                // characters, never inside an emoji).
-                while self.text_size(&line, size, false).x > width && emoji::units(&line).len() > 1
-                {
-                    let mut head = 0;
-                    for (_, end) in emoji::units(&line) {
-                        if self.text_size(&line[..end], size, false).x > width {
-                            break;
-                        }
-                        head = end;
-                    }
-                    if head == 0 {
-                        break;
-                    }
-                    let rest = line[head..].to_string();
-                    line.truncate(head);
-                    lines.push(std::mem::replace(&mut line, rest));
-                }
             } else {
                 lines.push(std::mem::take(&mut line));
                 line = word.to_string();
+            }
+            // A single word longer than the line: cut it (between
+            // characters, never inside an emoji).
+            while self.text_size(&line, size, false).x > width && emoji::units(&line).len() > 1 {
+                let mut head = 0;
+                for (_, end) in emoji::units(&line) {
+                    if self.text_size(&line[..end], size, false).x > width {
+                        break;
+                    }
+                    head = end;
+                }
+                if head == 0 {
+                    break;
+                }
+                let rest = line[head..].to_string();
+                line.truncate(head);
+                lines.push(std::mem::replace(&mut line, rest));
             }
         }
         if !line.is_empty() {
@@ -1821,6 +1899,113 @@ fn word_end(chars: &[char], mut i: usize) -> usize {
         i += 1;
     }
     i
+}
+
+/// Chinese and Japanese characters (and their punctuation): a line may
+/// break before or after any of them.
+fn breaks_anywhere(c: char) -> bool {
+    matches!(c as u32,
+        0x2E80..=0x2FDF | 0x3000..=0x303F | 0x3040..=0x30FF | 0x31F0..=0x31FF
+        | 0x3400..=0x4DBF | 0x4E00..=0x9FFF | 0xF900..=0xFAFF | 0xFF00..=0xFFEF)
+}
+
+/// Punctuation a line never starts with (it stays with what it closes).
+fn closes(c: char) -> bool {
+    matches!(
+        c,
+        '、' | '。'
+            | '，'
+            | '．'
+            | '：'
+            | '；'
+            | '！'
+            | '？'
+            | '）'
+            | '」'
+            | '』'
+            | '】'
+            | '〕'
+            | '〉'
+            | '》'
+            | '〟'
+            | '’'
+            | '”'
+            | 'ー'
+            | '…'
+            | '・'
+            | '々'
+            | 'ぁ'
+            | 'ぃ'
+            | 'ぅ'
+            | 'ぇ'
+            | 'ぉ'
+            | 'っ'
+            | 'ゃ'
+            | 'ゅ'
+            | 'ょ'
+            | 'ァ'
+            | 'ィ'
+            | 'ゥ'
+            | 'ェ'
+            | 'ォ'
+            | 'ッ'
+            | 'ャ'
+            | 'ュ'
+            | 'ョ'
+            | ')'
+            | ']'
+            | '}'
+            | ','
+            | '.'
+            | ':'
+            | ';'
+            | '!'
+            | '?'
+            | '%'
+    )
+}
+
+/// Punctuation a line never ends with (it stays with what it opens).
+fn opens(c: char) -> bool {
+    matches!(c, '（' | '「' | '『' | '【' | '〔' | '〈' | '《' | '〝' | '‘' | '“' | '(' | '[' | '{')
+}
+
+/// The pieces a line may break between, with whether a space stood
+/// before each (spaces themselves left out): words, and inside a word,
+/// each Chinese or Japanese character and each part between Thai's
+/// zero-width spaces.
+pub fn break_points(text: &str) -> Vec<(&str, bool)> {
+    let mut out = Vec::new();
+    for word in text.split_whitespace() {
+        let mut spaced = true;
+        let mut start = 0;
+        let mut prev: Option<char> = None;
+        for (i, c) in word.char_indices() {
+            let cut = if c == crate::fonts::ZWSP {
+                true
+            } else if let Some(p) = prev {
+                (breaks_anywhere(p) || breaks_anywhere(c))
+                    && !closes(c)
+                    && !opens(p)
+                    && p != crate::fonts::ZWSP
+            } else {
+                false
+            };
+            if cut && i > start {
+                out.push((&word[start..i], spaced));
+                spaced = false;
+                start = i;
+            }
+            if c == crate::fonts::ZWSP {
+                start = i + c.len_utf8();
+            }
+            prev = Some(c);
+        }
+        if start < word.len() {
+            out.push((&word[start..], spaced));
+        }
+    }
+    out
 }
 
 #[cfg(test)]

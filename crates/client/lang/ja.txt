@@ -1,0 +1,2056 @@
+# Snook Legend: Brazilian Portuguese.
+# One text per line: the English text (as written in the code), a tab, the translation.
+# Placeholders like {name} must stay as they are; \n is a new line.
+{name} is on the 8: called pocket {pocket}	{name}は8番狙い：{pocket}をコール
+On the 8-ball: {pocket} pocket	8番狙い：{pocket}ポケット
+Show ping	Pingを表示
+Your connection's delay, in online games.	オンライン対戦での通信の遅延です。
+Reactions	リアクション
+Shop	ショップ
+Cloth	ラシャ
+Cues	キュー
+Chalk	チョーク
+Balls	ボール
+Coins	コイン
+coins	コイン
+Sign in to buy and use items. Here is what there is:	ログインするとアイテムを購入・使用できます。ラインナップはこちら：
+In use	使用中
+Use	使う
+Buy	購入
+{n} short	{n}不足
+{n} coins	{n}コイン
+Not enough coins: get more in the Coins tab.	コインが足りません：コインタブで入手できます。
+VIP only	VIP限定
+free	無料
+yours	所持済み
+achievement	実績
+Coins can't be bought on this server yet.	このサーバーではまだコインを購入できません。
++{n} bonus	+{n}ボーナス
+Payment opens in your browser (card, Pix…), on Stripe's secure page.	支払いはブラウザで開くStripeの安全なページで行います（カード、Pix…）。
+Coins arrive in a moment; they are only used for items in the game.	コインはすぐに届きます。使い道はゲーム内のアイテムだけです。
+Exclusive items: {list}	限定アイテム：{list}
+{n} coins every month	毎月{n}コイン
+Cancel whenever you want: VIP lasts until the end of the paid month	いつでも解約できます：VIPは支払い済みの月の終わりまで続きます
+You are VIP until {d}.	{d}までVIPです。
+Manage subscription	サブスクリプション管理
+Become VIP · {p}	VIPになる · {p}
+VIP can't be bought on this server yet.	このサーバーではまだVIPを購入できません。
+The payment page opened in your browser.	ブラウザで支払いページを開きました。
+Could not open the browser.	ブラウザを開けませんでした。
+Tournament green	トーナメントグリーン
+Electric blue	エレクトリックブルー
+Burgundy	バーガンディ
+Charcoal	チャコール
+Teal	ティール
+Royal purple	ロイヤルパープル
+Camel	キャメル
+Midnight	ミッドナイト
+Champion's red	チャンピオンレッド
+Classic	クラシック
+Rosewood	ローズウッド
+Ebony & silver	黒檀とシルバー
+Carbon	カーボン
+Ivory inlay	アイボリー象嵌
+Crown	クラウン
+Jewels	ジュエル
+Blue chalk	青のチョーク
+Green chalk	緑のチョーク
+Red chalk	赤のチョーク
+Purple chalk	紫のチョーク
+Gold chalk	金のチョーク
+Vintage	ヴィンテージ
+Pastel	パステル
+Neon	ネオン
+You already have this item.	このアイテムはすでに持っています。
+Not enough coins.	コインが足りません。
+The purchase failed; no coins were taken.	購入に失敗しました。コインは消費されていません。
+No such item.	そのアイテムは存在しません。
+This item can't be bought with coins.	このアイテムはコインでは購入できません。
+You don't have this item.	このアイテムを持っていません。
+Purchases are not available.	現在、購入はできません。
+This pack is not on sale.	このパックは販売されていません。
+The payment page could not be opened. Try again in a moment.	支払いページを開けませんでした。しばらくしてからもう一度お試しください。
+You are already VIP.	すでにVIPです。
+There is no subscription to manage.	管理するサブスクリプションはありません。
+The page could not be opened. Try again in a moment.	ページを開けませんでした。しばらくしてからもう一度お試しください。
+Coins added to your wallet.	コインが追加されました。
+Welcome to VIP!	VIPへようこそ！
+Slow down a little.	少しペースを落としてください。
+You can't do that.	その操作はできません。
+There are too many notes right now. Try again in a few minutes.	現在、書き込みが多すぎます。数分後にもう一度お試しください。
+A moderator took down your note.	モデレーターがあなたの書き込みを削除しました。
+A moderator cleared your status message.	モデレーターがあなたのひとことを削除しました。
+Status message cleared.	ひとことを削除しました。
+VIP	VIP
+Play now	今すぐ対戦
+Find an opponent of your level automatically	同じくらいの実力の相手を自動で探します
+Looking for an opponent… {t}	相手を探しています… {t}
+any rating	レート制限なし
+rating ±{n} · {mode}	レート±{n} · {mode}
+Potting success	ポケット成功率
+Balls made	入れた球
+Best run	最多連続ポケット
+Fouls	ファウル
+seen just now	たった今オンライン
+seen {n} min ago	{n}分前にオンライン
+seen {n} h ago	{n}時間前にオンライン
+seen yesterday	昨日オンライン
+seen {n} days ago	{n}日前にオンライン
+seen {n} months ago	{n}か月前にオンライン
+just now	たった今
+{n} min ago	{n}分前
+{n} h ago	{n}時間前
+yesterday	昨日
+{n} days ago	{n}日前
+Game history	ゲーム履歴
+Nothing yet.	まだ何もありません。
+Fine aim: click the arrows, or drag here	照準の微調整：矢印をクリックするか、ここをドラッグ
+{n} watching	{n}人が観戦中
+Watching {name}	{name}を観戦中
+Your reactions reach the table quietly.	あなたのリアクションは控えめにテーブルへ届きます。
+Stop watching	観戦をやめる
+If they play again, you keep watching.	再戦になっても、そのまま観戦を続けます。
+Your friend left the table.	フレンドがテーブルを離れました。
+Your friend isn't playing right now.	フレンドは現在プレイしていません。
+You can only watch your friends.	観戦できるのはフレンドだけです。
+You can't watch this game.	このゲームは観戦できません。
+{n} points to {tier}	{tier}まであと{n}ポイント
+Top tier	最上位リーグ
+Reactions {n}/{total}	リアクション{n}/{total}
+Haunted table	呪われたテーブル
+Win a rated game during Halloween (Oct 24 – Nov 2).	ハロウィン期間中（10月24日〜11月2日）にレート戦で勝つ。
+Winter league	ウィンターリーグ
+Win a rated game over the holidays (Dec 15 – Jan 6).	年末年始（12月15日〜1月6日）にレート戦で勝つ。
+Fireworks	花火
+Win a rated game at the turn of the year (Dec 31 – Jan 1).	年越し（12月31日〜1月1日）にレート戦で勝つ。
+Shows where the object ball and the cue ball go (only in free games and practice).	的球と手球の進む先を表示します（フリー対戦と練習のみ）。
+{n} online · ping {ms} ms	{n}人がオンライン · ping {ms} ms
+Right-drag · Wheel	右ドラッグ · ホイール
+Win %	勝率
+Reset the camera: top view, no zoom	カメラをリセット：トップビュー、ズームなし
+{name} sank the 8-ball	{name}が8番ボールを入れた
+{name} sank the 8 too early	{name}が8番を早く入れすぎた
+{name} sank the 8 in the wrong pocket	{name}が8番を違うポケットに入れた
+{name} fouled on the 8	{name}が8番でファウル
+{name} knocked the 8 off the table	{name}が8番をテーブルの外に出した
+{name} resigned	{name}が投了
+{name} left the game	{name}がゲームから退出
+{winner} wins! ({how})	{winner}の勝ち！（{how}）
+#{n} in the world	世界{n}位
+3–16 letters, digits or underscores.	半角英数字とアンダースコアで3〜16文字。
+No lines on the table: aim by eye, along the cue.	テーブルにラインを表示しません。キューに沿って目で狙います。
+No guide	ガイドなし
+Only a short line from the cue ball.	手球から短いラインだけを表示します。
+Accept friend	フレンド承認
+Achievement unlocked: {title}	実績解除：{title}
+Achievements {n}/{total}	実績{n}/{total}
+Add	追加
+Add a friend by username	ユーザー名でフレンドを追加
+Add friend	フレンド追加
+Against the computer	コンピューター対戦
+All tournaments	すべてのトーナメント
+Amateur	アマチュア
+At least 8 characters. Use a password you don't use elsewhere.	8文字以上。ほかで使っていないパスワードにしてください。
+At least two players are needed.	2人以上のプレイヤーが必要です。
+Back	戻る
+Black ball	ブラックボール
+Block	ブロック
+Break and run	マスワリ
+Break and run 10 times.	マスワリを10回達成する。
+Can't listen for games here: join by address below.	ここではゲームを検索できません。下のアドレスから参加してください。
+Cancel request	申請を取り消す
+Cancel tournament	トーナメントを中止
+Casual	カジュアル
+Centurion	百勝
+Champion	チャンピオン
+Champion: {name}	チャンピオン：{name}
+Change country	国を変更
+Add a status message	ひとことを追加
+A line about you	あなたについてひとこと
+Save (Enter)	保存（Enter）
+Cancel (Esc)	キャンセル（Esc）
+Change your status message	ひとことを変更
+Clear the status message	ひとことを削除
+Cheating or abuse	不正行為・迷惑行為
+Choose…	選択…
+Click again to block	もう一度クリックでブロック
+Close	閉じる
+Closer	クローザー
+Competitor	参戦者
+Connecting to the server…	サーバーに接続中…
+Could not host a game: {e}	ゲームをホストできませんでした：{e}
+Country	国
+Create	作成
+Create a tournament	トーナメントを作成
+Don't show a flag	国旗を表示しない
+No country found.	国が見つかりません。
+Dynasty	王朝
+Eight is enough	8番で十分
+Executioner	処刑人
+Expert	エキスパート
+Familiar face	おなじみの顔
+Final	決勝
+Finish your game first.	先にゲームを終えてください。
+First blood	初勝利
+First break	初ブレイク
+Friend request sent.	フレンド申請を送りました。
+Friends	フレンド
+# Daily (correspondence) games.
+daily game	デイリー対戦
+Daily	デイリー
+Daily game	デイリー対戦
+Daily games	デイリー対戦
+Challenge a player by username	ユーザー名でプレイヤーに挑戦
+Challenge to a daily game	デイリー対戦を申し込む
+3 days for each turn	1回の番につき3日
+No daily games yet. Challenge a friend: each of you plays a turn whenever you can.	デイリー対戦はまだありません。フレンドに挑戦しましょう：お互い、都合のよいときに自分の番をプレイします。
+challenges you · {kind}	あなたに挑戦 · {kind}
+waiting for an answer · {kind} · {time} left	返事待ち · {kind} · 残り{time}
+your turn · {time} left	あなたの番 · 残り{time}
+their turn · {time} left	相手の番 · 残り{time}
+won · {how}	勝利 · {how}
+lost · {how}	敗北 · {how}
+ran out of time	時間切れ
+the opponent ran out of time	相手の時間切れ
+open table	オープンテーブル
+You: {mine}, {a} left · {name}: {theirs}, {b} left	あなた：{mine}、残り{a} · {name}：{theirs}、残り{b}
+Look	見る
+Skip	スキップ
+Replaying {name}'s turn	{name}の番を再生中
+Stroke {n} of {total}	ショット{n}/{total}
+Turn sent	送信済み
+Turn sent.	自分の番を送信しました。
+Waiting for {name} to play	{name}のプレイを待っています
+{name} has {time} to play. You'll be told when it's your turn.	{name}の持ち時間は{time}です。あなたの番になったらお知らせします。
+{time} left to play. You'll be told when it's your turn.	残り時間は{time}です。あなたの番になったらお知らせします。
+Back to daily games	デイリー対戦に戻る
+Your game is saved: come back whenever you like.	ゲームは保存されています。いつでも戻ってきてください。
+{d} d {h} h	{d}日{h}時間
+{name} ran out of time	{name}の時間切れ
+This game can't be shown.	このゲームは表示できません。
+A daily game is waiting for you	デイリー対戦があなたを待っています
+{n} daily games are waiting for you	{n}件のデイリー対戦があなたを待っています
+{name} challenges you to a rated daily game.	{name}がデイリー対戦（レート戦）を申し込んできました。
+{name} challenges you to a casual daily game.	{name}がデイリー対戦（カジュアル）を申し込んできました。
+{name} accepted your daily game.	{name}がデイリー対戦を承諾しました。
+{name} declined your daily game.	{name}がデイリー対戦を断りました。
+{name} withdrew their daily game challenge.	{name}がデイリー対戦の申し込みを取り消しました。
+Your turn in the daily game against {name}.	{name}とのデイリー対戦で、あなたの番です。
+{name} ran out of time: you won the daily game.	{name}の時間切れ：デイリー対戦はあなたの勝ちです。
+You won the daily game against {name}!	{name}とのデイリー対戦に勝ちました！
+You ran out of time in the daily game against {name}.	{name}とのデイリー対戦で時間切れになりました。
+You lost the daily game against {name}.	{name}とのデイリー対戦に負けました。
+Challenge sent.	挑戦を送りました。
+Daily games need an account.	デイリー対戦にはアカウントが必要です。
+No such game.	そのゲームは存在しません。
+That challenge is no longer valid.	その挑戦はすでに無効です。
+That player already challenged you: answer their challenge.	そのプレイヤーからすでに挑戦が届いています。そちらに返事をしてください。
+That player has too many challenges waiting.	そのプレイヤーには返事待ちの挑戦が多すぎます。
+That player has too many daily games going on.	そのプレイヤーは進行中のデイリー対戦が多すぎます。
+That player is not accepting challenges.	そのプレイヤーは挑戦を受け付けていません。
+This game can't be played right now.	このゲームは現在プレイできません。
+This game changed meanwhile: open it again.	このゲームはその間に更新されました。もう一度開いてください。
+This game is over.	このゲームは終了しました。
+You already challenged that player.	そのプレイヤーにはすでに挑戦しています。
+You already have a game going on against that player.	そのプレイヤーとはすでに対戦中です。
+You blocked that player.	そのプレイヤーをブロックしています。
+You can't challenge yourself.	自分自身には挑戦できません。
+You have as many daily games as you can play at once.	同時にプレイできるデイリー対戦の上限に達しています。
+You have too many challenges waiting for an answer.	返事待ちの挑戦が多すぎます。
+You're sending challenges too quickly.	挑戦の送信が早すぎます。
+Your time for this turn ran out.	この番の持ち時間が切れました。
+Games	ゲーム
+Games on your network	ネットワーク上のゲーム
+Give the tournament a name (at least 3 characters).	トーナメント名を入力してください（3文字以上）。
+Good company	良き仲間
+Grandmaster	グランドマスター
+Guests can only join LAN games. Create an account.	ゲストはLANゲームにしか参加できません。アカウントを作成してください。
+Guests can't play rated tournaments.	ゲストはレート戦のトーナメントに参加できません。
+Guests don't have this.	ゲストは利用できません。
+Harassment	嫌がらせ
+Hat trick	ハットトリック
+Have 10 friends.	フレンドを10人つくる。
+Have an account for 30 days.	アカウント作成から30日が経つ。
+Have an account for a year.	アカウント作成から1年が経つ。
+Host a game on this computer	このコンピューターでゲームをホスト
+Host {host} · {n}/{size} players · {kind}	ホスト：{host} · {n}/{size}人 · {kind}
+Hot hand	絶好調
+Hustler	ハスラー
+Invalid shot.	無効なショットです。
+Join	参加
+Joining the LAN game…	LANゲームに参加中…
+Just for fun	お楽しみ
+L	敗
+LAN game	LANゲーム
+LAN game hosted by {name}.	{name}がホストするLANゲーム。
+LAN games don't change ratings.	LANゲームではレートは変動しません。
+Legend	レジェンド
+Lives at the table	テーブルの住人
+Loading the profile…	プロフィールを読み込み中…
+Loading…	読み込み中…
+Local network	ローカルネットワーク
+Locked	ロック中
+Looking for games	ゲームを検索中
+Make a friend.	フレンドをつくる。
+Master	マスター
+Name	名前
+Names have 3–16 letters, digits or underscores.	名前は半角英数字とアンダースコアで3〜16文字です。
+New account	新規アカウント
+I have an account	アカウントを持っている
+New here? Choose “New account”: it takes ten seconds.	はじめての方は「新規アカウント」を選んでください。10秒で完了します。
+New tournament	新しいトーナメント
+No friends yet. Add someone you played with!	フレンドはまだいません。対戦した人を追加しましょう！
+No games yet.	ゲームはまだありません。
+No limit	制限なし
+No open tables. Open one and others can sit down.	開いているテーブルはありません。テーブルを開くと、ほかのプレイヤーが着席できます。
+No other open tables right now.	現在、ほかに開いているテーブルはありません。
+No such player.	そのプレイヤーは存在しません。
+No tournaments right now. Create one!	現在、トーナメントはありません。作成してみましょう！
+Offensive name	不快な名前
+On a roll	波に乗る
+On fire	快進撃
+Only the host can start the tournament.	トーナメントを開始できるのはホストだけです。
+Open a table	テーブルを開く
+Or join by address	またはアドレスで参加
+Other	その他
+Others can join at {ip}:{port}	ほかのプレイヤーは{ip}:{port}で参加できます
+Passwords need at least 8 characters (not only digits).	パスワードは8文字以上必要です（数字だけは不可）。
+Play 1,000 rated games.	レート戦を1,000回プレイする。
+Play 10 rated games.	レート戦を10回プレイする。
+Play 100 rated games.	レート戦を100回プレイする。
+Play 25 casual games.	カジュアル戦を25回プレイする。
+Play 500 rated games.	レート戦を500回プレイする。
+Play in a tournament.	トーナメントに参加する。
+Play online	オンライン対戦
+Play with friends on the same network	同じネットワークのフレンドと対戦
+Play your first rated game.	初めてのレート戦をプレイする。
+Player 1	プレイヤー1
+Players	プレイヤー
+Players in a tournament can't start other games.	トーナメント参加中は、ほかのゲームを始められません。
+Please don't repeat the same message.	同じメッセージをくり返さないでください。
+Pool hall legend	ビリヤード場の伝説
+Popular	人気者
+Private	非公開
+for your friends to sit down	フレンドの着席用
+Profile	プロフィール
+{key}: watch the last shot again	{key}：直前のショットをもう一度見る
+REPLAY	リプレイ
+Rated	レート戦
+Rated games, tables, tournaments and friends	レート戦、テーブル、トーナメント、フレンド
+Reach a rating of 1300.	レート1300に到達する。
+Reach a rating of 1500.	レート1500に到達する。
+Reach a rating of 1700.	レート1700に到達する。
+Reach a rating of 1900.	レート1900に到達する。
+Reach a rating of 2100.	レート2100に到達する。
+Refresh	更新
+Regular	常連
+Remove friend	フレンドから削除
+Replay	リプレイ
+Report	通報
+Report {name}	{name}を通報
+Request sent	申請済み
+Friend	フレンド
+Recent	最近
+Nobody yet. The people you play online will show up here.	まだ誰もいません。オンラインで対戦した人がここに表示されます。
+{n} games	{n}戦
+Rookie	ルーキー
+Round {n}	ラウンド{n}
+Search…	検索…
+Semi-finals	準決勝
+Send report	通報を送信
+This game goes with the report, so the moderators can watch it.	モデレーターが確認できるよう、このゲームも通報に添付されます。
+Your game with {name} ({date}) goes with the report, so the moderators can watch it.	モデレーターが確認できるよう、{name}とのゲーム（{date}）も通報に添付されます。
+You haven't played {name} in the last day: the moderators see the recent chat.	この1日、{name}とは対戦していません。モデレーターは最近のチャットを確認します。
+Shark	勝負師
+Shows the contact point; judging the cut is up to you.	当たる位置を表示します。厚みの判断はあなた次第です。
+Shutout	完封
+Sign in	ログイン
+Sign in or create an account	ログインまたはアカウント作成
+Sign out	ログアウト
+Sit down	着席
+Skilled	熟練者
+Someone with that name is already here.	その名前の人がすでにいます。
+Spam	スパム
+Start now	今すぐ開始
+Stop the replay	リプレイを停止
+Table runner	マスワリ名人
+Tables	テーブル
+Take turns on this computer	このコンピューターで交代でプレイ
+Thank you. The moderators will look into it.	ありがとうございます。モデレーターが確認します。
+Thank you. The moderators will look into it, with your game attached.	ありがとうございます。添付されたゲームとあわせて、モデレーターが確認します。
+That player is not accepting invitations.	そのプレイヤーは招待を受け付けていません。
+That shot was for an earlier turn.	そのショットは前の番のものです。
+That table is no longer open.	そのテーブルはもう開いていません。
+That tournament has already started.	そのトーナメントはすでに始まっています。
+That tournament no longer exists.	そのトーナメントはもう存在しません。
+The first connection of the day can take up to a minute while the server wakes up.	その日最初の接続は、サーバーの起動に最大1分ほどかかることがあります。
+The first time, allow Snook Legend through the firewall when asked.	初回は、確認が表示されたらファイアウォールでSnook Legendを許可してください。
+The server could not play that shot.	サーバーがそのショットを処理できませんでした。
+The server is busy. Try again in a moment.	サーバーが混み合っています。しばらくしてからもう一度お試しください。
+The tournament starts when it is full (the host can start it earlier).	トーナメントは定員になると始まります（ホストは早めに開始できます）。
+There are too many tournaments right now. Join one!	現在、トーナメントが多すぎます。どれかに参加しましょう！
+This is a LAN server: join as a guest.	これはLANサーバーです。ゲストとして参加してください。
+Fifteen rivals, a tour and ghosts of real players	15人のライバル、ツアー、実在プレイヤーのゴースト
+Tier	リーグ
+Time per shot	1ショットの持ち時間
+Too many failed attempts. Wait a few minutes and try again.	失敗が多すぎます。数分待ってからもう一度お試しください。
+Too many messages.	メッセージが多すぎます。
+Too many new accounts from this network. Try again later.	このネットワークからの新規アカウントが多すぎます。後でもう一度お試しください。
+Top 100 · rated games	トップ100 · レート戦
+Tournament game: the next round starts from the lounge.	トーナメント戦：次のラウンドはロビーから始まります。
+Tournament games have no rematch.	トーナメント戦に再戦はありません。
+Tournaments	トーナメント
+Tournaments have 4, 8 or 16 players.	トーナメントの人数は4人、8人、16人のいずれかです。
+Two players	2人対戦
+Unblock	ブロック解除
+Unlocked {date}	{date}に解除
+Unstoppable	無敵
+W	勝
+Watch the last shot again	直前のショットをもう一度見る
+What happened? (optional)	何がありましたか？（任意）
+When time runs out, the turn passes.	時間切れになると、相手の番になります。
+Whitewash	完封王
+Win 10 rated games on the 8-ball.	8番ボールを入れてレート戦に10勝する。
+Win 10 rated games in a row.	レート戦で10連勝する。
+Win 10 rated games.	レート戦で10勝する。
+Win 10 rated shutouts.	レート戦で10回完封勝ちする。
+Win 100 rated games on the 8-ball.	8番ボールを入れてレート戦に100勝する。
+Win 100 rated games.	レート戦で100勝する。
+Win 250 rated games on the 8-ball.	8番ボールを入れてレート戦に250勝する。
+Win 3 rated games in a row.	レート戦で3連勝する。
+Win 5 rated games in a row.	レート戦で5連勝する。
+Win 5 tournaments.	トーナメントで5回優勝する。
+Win 50 rated games on the 8-ball.	8番ボールを入れてレート戦に50勝する。
+Win 50 rated games.	レート戦で50勝する。
+Win 500 rated games.	レート戦で500勝する。
+Win a rated game.	レート戦で1勝する。
+Win a tournament.	トーナメントで優勝する。
+Win a rated game before your opponent sinks a ball of their group.	相手が自分のグループの球を1つも入れないうちに、レート戦で勝つ。
+Win a rated game from the break without your opponent getting a shot.	ブレイクから相手に一度も打たせずに、レート戦で勝つ。
+Withdraw	棄権
+World ranking	世界ランキング
+Wrong table password.	テーブルのパスワードが違います。
+Wrong tournament password.	トーナメントのパスワードが違います。
+You are already in a tournament.	すでにトーナメントに参加しています。
+You are hosting a game	ゲームをホスト中
+You can't join this table.	このテーブルには参加できません。
+You signed in from another place.	別の場所でログインされました。
+You're sending invitations too quickly.	招待の送信が早すぎます。
+You're sending messages too quickly.	メッセージの送信が早すぎます。
+You've sent many reports. Please wait before sending more.	通報が多すぎます。しばらく待ってから送ってください。
+Your friend list is full.	フレンドリストがいっぱいです。
+Your next match starts by itself when both players are free.	次の試合は、両プレイヤーの手が空くと自動で始まります。
+Your profile	マイプロフィール
+Your table is open	テーブルを開いています
+Zoom in	ズームイン
+Zoom out	ズームアウト
+at a table	テーブルで待機中
+best streak	最多連勝
+by {host} · {n}/{size} players	ホスト：{host} · {n}/{size}人
+casual games	カジュアル戦
+casual · private	カジュアル · 非公開
+casual · public	カジュアル · 公開
+connecting to the server	サーバーに接続中
+eight-ball pool	エイトボール
+finished	終了
+guest	ゲスト
+invites you to {kind}	あなたを{kind}に招待
+joined today	今日参加
+member for {n} days	メンバー歴{n}日
+member for {n} months	メンバー歴{n}か月
+member for {n} years	メンバー歴{n}年
+offline	オフライン
+open	受付中
+optional: only friends with it can join	任意：パスワードを知っているフレンドだけが参加できます
+password	パスワード
+peak {n}	最高{n}
+playing	プレイ中
+playing the computer	コンピューターと対戦中
+away	離席中
+this game is saved	このゲームは保存されます
+rated games	レート戦
+rated · private	レート戦 · 非公開
+rated · public	レート戦 · 公開
+request sent	申請済み
+the connection dropped	接続が切れました
+to play online	オンラインで対戦するには
+tournament	トーナメント
+tournaments won	トーナメント優勝
+waiting for an opponent…	相手を待っています…
+win rate	勝率
+wins	勝利数
+won on the 8	8番で勝利
+{host}'s game	{host}のゲーム
+{name} wants to be friends	{name}からフレンド申請
+{name} wants to be your friend.	{name}からフレンド申請が届きました。
+{n} online	{n}人がオンライン
+sank the 8-ball	8番ボールを入れた
+the opponent sank the 8-ball	相手が8番ボールを入れた
+the opponent sank the 8 too early	相手が8番を早く入れすぎた
+sank the 8 too early	8番を早く入れすぎた
+the opponent sank the 8 in the wrong pocket	相手が8番を違うポケットに入れた
+sank the 8 in the wrong pocket	8番を違うポケットに入れた
+the opponent fouled on the 8	相手が8番でファウル
+fouled on the 8	8番でファウル
+the opponent knocked the 8 off the table	相手が8番をテーブルの外に出した
+knocked the 8 off the table	8番をテーブルの外に出した
+the opponent resigned	相手が投了
+resigned	投了
+the opponent left	相手が退出
+left the game	ゲームから退出
+You are muted for {n} more minutes.	あと{n}分間ミュートされています。
+This account is suspended for {n} more day(s). Reason: {reason}.	このアカウントはあと{n}日間停止されています。理由：{reason}。
+This account is banned. Reason: {reason}.	このアカウントは永久停止されています。理由：{reason}。
+You were muted: {r}	ミュートされました：{r}
+Your account was suspended: {r}	アカウントが停止されました：{r}
+Your account was banned: {r}	アカウントが永久停止されました：{r}
+You were disconnected by a moderator: {r}	モデレーターにより切断されました：{r}
+You were disconnected by a moderator.	モデレーターにより切断されました。
+Please sign in again.	もう一度ログインしてください。
+Your password was changed. Sign in again.	パスワードが変更されました。もう一度ログインしてください。
+Accept rematch	再戦を受ける
+Accept	承諾
+Aim	照準
+Aiming guide	照準ガイド
+Aiming	照準
+Anti-aliasing	アンチエイリアス
+Smooths the jagged edges of lines and balls.	ラインやボールのギザギザを滑らかにします。
+Back to lounge	ロビーに戻る
+Balanced: smooth on most laptops.	バランス重視：ほとんどのノートPCで快適に動作します。
+Ball in hand	フリーボール
+Break the rack	ブレイク
+Camera pulls back to watch each shot	ショットのたびにカメラが引いて見守ります
+Camera	カメラ
+Cancel	キャンセル
+Casual game: ratings unchanged	カジュアル戦：レートは変動しません
+Center	中心
+Chat	チャット
+Click a ball or a spot	ボールか地点をクリック
+Click to chat, Enter to send	クリックで入力、Enterで送信
+Controls	操作
+Create account	アカウント作成
+Cue ball contact	撞点
+Decline	断る
+Done	完了
+Drag the cue ball	手球をドラッグ
+Elevation	キューの角度
+Everything, with reflections in polished floors: for gaming PCs.	すべての効果に加え、磨かれた床の映り込みも：ゲーミングPC向け。
+Fine aim	照準の微調整
+Finish this match first.	先にこの試合を終えてください。
+For old or very slow computers.	古いPCやとても遅いPC向け。
+Full screen	フルスクリーン
+Also with {key}.	{key}でも切り替えられます。
+Full	フル
+Game server	ゲームサーバー
+Change it only to play on another server.	別のサーバーでプレイするときだけ変更してください。
+Advanced	詳細設定
+Custom server	カスタムサーバー
+Graphics quality	グラフィック品質
+Quality	品質
+Display	表示
+High	高
+Invite	招待
+Leave to the lounge	ロビーへ退出
+Leave	退出
+Leaving now counts as a loss.	今退出すると負けになります。
+Lounge chat	ロビーチャット
+Low	低
+Main menu	メインメニュー
+Medium	中
+Menu / help	メニュー / ヘルプ
+Next game starts in a moment…	まもなく次のゲームが始まります…
+No rated games yet. Be the first!	レート戦はまだありません。最初の1人になりましょう！
+Nobody else is here right now.	現在、ほかには誰もいません。
+Looking for a game?	対戦相手を募集しますか？
+Looking for a game	対戦相手募集
+Post a note	書き込む
+Everyone in the lounge sees it for 30 minutes	ロビーの全員に30分間表示されます
+What are you after? ({kind})	どんな相手を探していますか？（{kind}）
+Post	投稿
+Your note: {text}	あなたの書き込み：{text}
+{mode} · {left} left	{mode} · 残り{left}
+Take down	削除
+Challenge	挑戦
+Take the note down	書き込みを削除
+Off	オフ
+On the 8-ball: call a pocket	8番狙い：ポケットをコール
+On the 8-ball	8番狙い
+Open table	オープンテーブル
+Password	パスワード
+Paused	一時停止中
+Play	プレイ
+Player 2	プレイヤー2
+Player	プレイヤー
+Quick aim	クイック照準
+Quit	終了
+Reconnected.	再接続しました。
+Rematch	再戦
+Resign this game	このゲームを投了
+Restart the game to apply this change.	変更を反映するにはゲームを再起動してください。
+Resume	再開
+Retry	再試行
+Saving the result…	結果を保存中…
+Say hello… (Enter to send)	あいさつしよう…（Enterで送信）
+Send	送信
+Settings	設定
+{key} + drag	{key}+ドラッグ
+{key}: 3D / top view	{key}：3D / トップビュー
+{keys}: zoom	{keys}：ズーム
+View	視点
+Aim left	照準を左へ
+Aim right	照準を右へ
+Fine aim (hold)	照準の微調整（長押し）
+Shoot (hold, release)	ショット（長押しして離す）
+Top spin	トップスピン
+Back spin	バックスピン
+Left spin	左ひねり
+Right spin	右ひねり
+Raise the cue	キューを立てる
+Lower the cue	キューを寝かせる
+Pick up the cue ball in hand	フリーボールの手球を持つ
+3D / top view	3D / トップビュー
+Reset the camera	カメラをリセット
+Replay the last shot	直前のショットをリプレイ
+List of controls	操作一覧
+Keys can be changed in Settings → Controls.	キーは「設定 → 操作」で変更できます。
+Space	スペース
+Right Shift	右Shift
+Right Ctrl	右Ctrl
+Right Alt	右Alt
+Aiming and shooting	照準とショット
+Spin and elevation	スピンとキューの角度
+Fixed keys	固定キー
+Menu, back and cancel	メニュー、戻る、キャンセル
+Confirm (forms, the cue ball in hand)	決定（フォーム、フリーボールの手球）
+This key can't be changed.	このキーは変更できません。
+Press a key · Esc cancels · Backspace clears	キーを押してください · Escでキャンセル · Backspaceで消去
+Press a key…	キーを押してください…
+Click to change	クリックして変更
+Click to add a key	クリックしてキーを追加
+Back to no key	キーなしに戻す
+Back to {keys}	{keys}に戻す
+Swapped: {action} is now on {key}.	入れ替えました：{action}は{key}になりました。
+Taken from {action}, which now has no key.	{action}から移しました（そちらはキーなしになります）。
+Taken from {action}.	{action}から移しました。
+That key can't be used: try another.	そのキーは使えません。別のキーを試してください。
+Shoot	ショット
+Short	ショート
+Signing in…	ログイン中…
+Signing in	ログイン中
+Soft shadows from every lamp, glossy halls, halos.	すべてのランプからの柔らかい影、光沢のあるホール、光の輪。
+Solids (1–7)	ソリッド（1〜7）
+Spin ball	撞点ボール
+Spin	スピン
+Standard	標準
+Stay	とどまる
+Stripes (9–15)	ストライプ（9〜15）
+The game goes on while this is open.	この画面を開いている間もゲームは進行します。
+Use default	デフォルトを使用
+Username	ユーザー名
+Usernames have 3–16 letters, digits or underscores.	ユーザー名は半角英数字とアンダースコアで3〜16文字です。
+{keys} (jump & massé)	{keys}（ジャンプとマッセ）
+You win!	あなたの勝ち！
+Your name	あなたの名前
+Your opponent went back to the lounge.	相手がロビーに戻りました。
+Your turn	あなたの番
+open table: the next ball you make sets your group	オープンテーブル：次に入れた球でグループが決まります
+draw	引き
+follow	押し
+stun	ストップ
+solids	ソリッド
+stripes	ストライプ
+lounge	ロビー
+ · left english	 · 左ひねり
+ · right english	 · 右ひねり
+Language	言語
+General	一般
+Graphics	グラフィック
+Game	ゲーム
+Sound	サウンド
+Reset to defaults	初期設定に戻す
+Reset all keys	すべてのキーをリセット
+Reset every key?	すべてのキーをリセットしますか？
+Click again to put every key back	もう一度クリックすると、すべてのキーを元に戻します
+Updates	アップデート
+Update automatically	自動アップデート
+New versions download in the background and install when you restart.	新しいバージョンはバックグラウンドでダウンロードされ、再起動時にインストールされます。
+Version {v}	バージョン{v}
+What's new	更新内容
+What's new in version {v}	バージョン{v}の更新内容
+No notes for this version.	このバージョンの更新内容はありません。
+Got it	わかりました
+Restart now	今すぐ再起動
+After the game, from the main menu.	ゲーム終了後、メインメニューから行えます。
+Download	ダウンロード
+Check now	今すぐ確認
+Couldn't reach the update server.	アップデートサーバーに接続できませんでした。
+The download was damaged. It will be tried again later.	ダウンロードしたファイルが破損していました。後で再試行します。
+The new version couldn't be installed. This one stays.	新しいバージョンをインストールできませんでした。現在のバージョンを使い続けます。
+Downloading… {p}%	ダウンロード中… {p}%
+Updating…	アップデート中…
+The Microsoft Store keeps the game up to date.	ゲームはMicrosoft Storeで最新の状態に保たれます。
+Development build: no automatic updates.	開発版：自動アップデートはありません。
+Looking for a new version…	新しいバージョンを確認中…
+This is the latest version.	最新バージョンです。
+Downloading version {v}… {p}%	バージョン{v}をダウンロード中… {p}%
+Installing version {v}…	バージョン{v}をインストール中…
+Version {v} is ready: restart the game to use it.	バージョン{v}の準備ができました。ゲームを再起動すると使えます。
+Version {v} is out: download it from the releases page.	バージョン{v}が公開されました。リリースページからダウンロードしてください。
+Version {v} is ready	バージョン{v}の準備完了
+Restart to play it; nothing is lost.	再起動すると遊べます。データは失われません。
+Version {v} is out	バージョン{v}公開
+Get it from the releases page.	リリースページから入手してください。
+Reset everything?	すべてリセットしますか？
+Click again to reset every setting	もう一度クリックすると、すべての設定をリセットします
+Online	オンライン
+Menu	メニュー
+Rating	レート
+Ultra	ウルトラ
+hold {key} and release	{key}を長押しして離す
+Change	変更
+Mouse aim sensitivity	マウス照準の感度
+How fast the cue turns with the mouse.	マウスでキューが回る速さです。
+Vignette	ビネット
+Darkens the edges of the picture, like a film.	映画のように画面の端を暗くします。
+Show FPS	FPSを表示
+Frames per second, in a corner of the screen.	画面の隅に1秒あたりのフレーム数を表示します。
+Call a pocket for the 8-ball first: click a pocket.	先に8番ボールのポケットをコールしてください：ポケットをクリックします。
+Reconnecting	再接続中
+the game is over	ゲームは終了しています
+the cue ball cannot be placed there	そこには手球を置けません
+call a pocket for the 8-ball	8番ボールのポケットをコールしてください
+That username is taken.	そのユーザー名はすでに使われています。
+Wrong username or password.	ユーザー名またはパスワードが違います。
+Your session expired. Please log in again.	セッションの有効期限が切れました。もう一度ログインしてください。
+This version of Snook Legend is out of date. Please update the game.	このバージョンのSnook Legendは古くなっています。ゲームをアップデートしてください。
+It's not your turn.	あなたの番ではありません。
+That player is not online.	そのプレイヤーはオンラインではありません。
+That player is in a game.	そのプレイヤーはゲーム中です。
+You can't invite yourself.	自分自身は招待できません。
+That invitation is no longer valid.	その招待はすでに無効です。
+That player is no longer available.	そのプレイヤーは現在対応できません。
+Resign first to leave a game in progress.	進行中のゲームから退出するには、先に投了してください。
+Malformed message.	不正な形式のメッセージです。
+Please log in first.	先にログインしてください。
+Could not create the account.	アカウントを作成できませんでした。
+The cue ball can't be placed there.	そこには手球を置けません。
+Disconnected.	切断されました。
+Lost contact with the server.	サーバーとの接続が途切れました。
+The server closed the connection.	サーバーが接続を終了しました。
+The server took too long to answer.	サーバーの応答に時間がかかりすぎました。
+The server is not answering (connection refused).	サーバーが応答しません（接続拒否）。
+The server address is not valid (example: wss://snook-legend.example.com/ws).	サーバーアドレスが無効です（例：wss://snook-legend.example.com/ws）。
+The server address has no host name.	サーバーアドレスにホスト名がありません。
+Welcome to Snook Legend! Be kind, play fair.	Snook Legendへようこそ！マナーを守って、フェアにプレイしましょう。
+Ball in hand: drag the cue ball{zone} to move it	フリーボール：手球をドラッグして動かします{zone}
+ behind the line	 （ラインの後ろ）
+Ball in hand  ·  {group}	フリーボール  ·  {group}
+Can't shoot: {e}.	ショットできません：{e}。
+Chat ({n})	チャット（{n}）
+Computer ({level})	コンピューター（{level}）
+Computer	コンピューター
+Each opponent has a style of their own	相手ごとに独自のプレイスタイル
+Free game	フリー対戦
+Tour	ツアー
+Tour: {n} of {total} beaten	ツアー：{total}人中{n}人撃破
+Strength {n}/5	強さ{n}/5
+Ghost	ゴースト
+Accuracy	精度
+Safeties	セーフティ
+Banks	バンク
+Position	ポジション
+Ghost of {name}	{name}のゴースト
+A player's ghost	プレイヤーのゴースト
+Plays like a real player	実在のプレイヤーのようにプレイ
+The computer plays in the style of a real player, measured on their online games.	コンピューターが、実在のプレイヤーのオンライン対戦から分析したスタイルでプレイします。
+Sign in to play the ghost of a real player.	ログインすると、実在のプレイヤーのゴーストと対戦できます。
+Load	読み込む
+Friends:	フレンド：
+Type a username or pick a friend, then Load.	ユーザー名を入力するかフレンドを選んで、「読み込む」を押してください。
+Measuring how {name} plays…	{name}のプレイを分析中…
+Pots {pots}% · safeties {safe}% · banks {banks}% · {shots} shots	ポケット{pots}% · セーフティ{safe}% · バンク{banks}% · {shots}ショット
+{name} has only {shots} recorded shots; a ghost needs {needed}. More online games will do it.	{name}の記録されたショットは{shots}回だけです。ゴーストには{needed}回必要です。オンライン対戦を重ねれば作れます。
+There is no player called {name}.	{name}というプレイヤーはいません。
+The server can't be reached right now. Try again later.	現在サーバーに接続できません。後でもう一度お試しください。
+Wait a moment before asking again.	少し待ってからもう一度リクエストしてください。
+Something went wrong on the server. Try again later.	サーバーで問題が発生しました。後でもう一度お試しください。
+Play your ghost	自分のゴーストと対戦
+Play their ghost	このプレイヤーのゴーストと対戦
+Beaten	撃破
+Next	次へ
+Win the previous stage to unlock this one.	前のステージに勝つと解除されます。
+Stage {n} of {total}	ステージ{n}/{total}
+Challenge {name}	{name}に挑戦
+Stage {n} won! Next on the tour: {name}.	ステージ{n}クリア！ツアーの次の相手は{name}です。
+You won the whole tour!	ツアーを完全制覇しました！
+Reward	報酬
+{item} cue · exclusive	キュー「{item}」 · 限定
+Yours: find it in the shop, under Cues.	獲得済み：ショップの「キュー」にあります。
+Win the last stage again while signed in to claim it.	受け取るには、ログインした状態で最終ステージにもう一度勝ってください。
+Beat all fifteen opponents to earn it. It is sold nowhere.	15人の相手全員に勝つと獲得できます。どこにも売っていません。
+You won the tour! Sign in to claim your reward.	ツアーを制覇しました！ログインして報酬を受け取りましょう。
+The server is checking your final game…	サーバーが最終戦を確認しています…
+Try again	もう一度
+The server did not answer. Try again in a moment.	サーバーが応答しませんでした。しばらくしてからもう一度お試しください。
+The server is busy checking other games. Try again in a moment.	サーバーはほかのゲームを確認中です。しばらくしてからもう一度お試しください。
+Wait a minute before trying again.	1分待ってからもう一度お試しください。
+That game is too long to be checked.	そのゲームは長すぎて確認できません。
+That game has a move the rules don't allow.	そのゲームにはルールで認められないプレイが含まれています。
+That game was not played to the end.	そのゲームは最後までプレイされていません。
+That game was not a win.	そのゲームは勝利ではありません。
+The computer's shots in that game don't match how it plays (another version of the game?).	そのゲームでのコンピューターのショットが、本来のプレイと一致しません（ゲームのバージョンが違う？）。
+The Rookie	ルーキー
+Still learning: aims at the nearest pocket, centre ball, and hopes. Never plays safe.	まだ勉強中：いちばん近いポケットを狙い、真ん中を撞いて、あとは祈るだけ。セーフティは一切しません。
+The Weekend Player	週末プレイヤー
+Knows the basics and drops the easy ones, but rarely thinks about where the cue ball goes.	基本はわかっていて簡単な球は入れますが、手球の行方はほとんど考えません。
+The Bank Artist	バンクの芸術家
+Sees angles nobody else does: whenever a ball can go off a cushion and in, she banks it.	誰にも見えない角度が見えます：クッションを使って入れられる球なら、必ずバンクで狙います。
+The Cannon	大砲
+Goes for everything, as hard as he can: long pots, thunderous breaks, hardly ever a safety.	どんな球も全力で狙います：ロングショット、轟音のブレイク、セーフティはほぼなし。
+The Wall	鉄壁
+Only shoots when the pot is on. Otherwise she tucks the cue ball away and waits for your mistake.	確実に入るときだけ攻めます。それ以外は手球を隠し、あなたのミスを待ちます。
+The Old Pro	ベテラン
+Forty years at the table: a smooth stroke, a raised cue, side spin, and never in a hurry.	キャリア40年：なめらかなストローク、立てたキュー、ひねり。そして決して急ぎません。
+The Hustler	ハスラー
+Plays just well enough to win, then a little better. Balanced, sharp and hard to read.	勝てるぎりぎりの実力を見せ、そこから少しだけ上回ります。バランスがよく、鋭く、読みにくい相手です。
+The Professor	教授
+Thinks three balls ahead: every shot leaves the cue ball where the next one is easy.	3球先まで読みます：どのショットも、次が簡単になる位置に手球を残します。
+The Sharpshooter	スナイパー
+Pots from anywhere, at any angle. Her safeties are an afterthought: she doesn't need them.	どこからでも、どんな角度でも入れてきます。セーフティはおまけ：必要ないのです。
+The Champion	チャンピオン
+Unbeaten for years. Precise, patient and merciless: the last stage of the tour.	何年も無敗。正確で、忍耐強く、容赦がありません：ツアーの最終ステージです。
+Tour champion	ツアー王者
+Champion of the tour	ツアーチャンピオン
+Beat all fifteen opponents of the computer tour.	コンピューターツアーの15人の相手全員に勝つ。
+Connection lost. Reconnecting (attempt {n})…	接続が切れました。再接続中（{n}回目）…
+Connection lost. Reconnecting…	接続が切れました。再接続中…
+Foul by {shooter}: {foul}.	{shooter}のファウル：{foul}。
+Graphics set to {q} for smooth play. You can change this in Settings.	快適にプレイできるよう、グラフィックを「{q}」に設定しました。設定で変更できます。
+Rating {r} ({d})	レート{r}（{d}）
+The {ball} was spotted.	{ball}がスポットに戻されました。
+Waiting for {to} ({kind})…	{to}を待っています（{kind}）…
+rated	レート戦
+casual	カジュアル
+Waiting for {name}…	{name}を待っています…
+{by} declined your invitation.	{by}が招待を断りました。
+a rated game	レート戦
+a casual game	カジュアル戦
+{name} calls the 8-ball in the {pocket} pocket.	{name}が8番ボールを{pocket}ポケットにコールしました。
+{name} has ball in hand…	{name}のフリーボール…
+{name} is aiming…	{name}が狙っています…
+{name} is on the 8: click a pocket to call it	{name}は8番狙い：ポケットをクリックしてコール
+{name} is thinking…	{name}が考えています…
+{name} left the game.	{name}がゲームから退出しました。
+{name} resigned.	{name}が投了しました。
+{name} to break	{name}のブレイク
+{name} to shoot ({target})	{name}の番（{target}）
+{name}'s turn	{name}の番
+{next} has ball in hand{where}.	{next}にフリーボール{where}。
+ behind the head string	 （ヘッドストリングの後ろから）
+{opponent} is back.	{opponent}が戻りました。
+{opponent} lost the connection. Waiting up to {secs} s…	{opponent}の接続が切れました。最大{secs}秒待ちます…
+{opponent} wants a rematch.	{opponent}が再戦を希望しています。
+{opponent} went back to the lounge.	{opponent}がロビーに戻りました。
+{shooter} pocketed {balls}.	{shooter}が{balls}を入れました。
+{shooter} takes {group}.	{shooter}は{group}に決まりました。
+{who} ran out of time: ball in hand for the opponent.	{who}の時間切れ：相手にフリーボール。
+{name} wants a rematch!	{name}が再戦を希望しています！
+{name} wins!	{name}の勝ち！
+{name} wins	{name}の勝ち
+Volume	音量
+The cue, the balls, the cushions and the pockets.	キュー、ボール、クッション、ポケットの音。
+Notifications	通知
+Could not find the server “{host}”.	サーバー「{host}」が見つかりませんでした。
+Network error: {e}.	ネットワークエラー：{e}。
+Secure connection failed: {e}.	セキュア接続に失敗しました：{e}。
+The server refused the connection (HTTP {code}).	サーバーが接続を拒否しました（HTTP {code}）。
+Connection error: {e}.	接続エラー：{e}。
+cue ball	手球
+{n}-ball	{n}番ボール
+Scratch: the cue ball was pocketed	スクラッチ：手球がポケットに入った
+The cue ball left the table	手球がテーブルの外に出た
+The cue ball didn't hit any ball	手球がどの球にも当たらなかった
+Wrong ball hit first ({ball})	最初に違う球に当てた（{ball}）
+No ball reached a cushion after contact	当てた後、どの球もクッションに届かなかった
+The {ball} left the table	{ball}がテーブルの外に出た
+Illegal break	イリーガルブレイク
+pocketed the 8-ball	8番ボールを入れた
+opponent pocketed the 8-ball too early	相手が8番ボールを早く入れすぎた
+opponent sank the 8-ball in the wrong pocket	相手が8番ボールを違うポケットに入れた
+opponent fouled on the 8-ball	相手が8番ボールでファウル
+opponent knocked the 8-ball off the table	相手が8番ボールをテーブルの外に出した
+opponent resigned	相手が投了
+opponent left the game	相手がゲームから退出
+head left corner	ヘッド側の左コーナー
+head right corner	ヘッド側の右コーナー
+left side	左サイド
+right side	右サイド
+foot left corner	フット側の左コーナー
+foot right corner	フット側の右コーナー
+Easy	かんたん
+Hard	むずかしい
+Normal	ふつう
+Power	パワー
+No messages yet.	まだメッセージはありません。
+▼ newer messages	▼ 新しいメッセージ
+Camera follows the cue	カメラがキューを追う
+Off: it stays where you put it.	オフ：カメラは置いた位置にとどまります。
+Pull back for shots	ショット時にカメラを引く
+Only when the camera follows the cue.	カメラがキューを追う設定のときのみ。
+Drag the cue · click a spot	キューをドラッグ · 地点をクリック
+Time's up: {name}'s shot was played at full power.	時間切れ：{name}のショットが最大パワーで打たれました。
+Dark room	ダークルーム
+A spotlight on the table, the room in shadow.	テーブルだけをスポットライトで照らし、部屋は暗くします。
+Hide	隠す
+Interface size	インターフェースのサイズ
+Text, buttons and panels.	テキスト、ボタン、パネル。
+Drag to set the power	ドラッグしてパワーを調整
+Shoot!	ショット！
+Set the power, then press the green button	パワーを調整して、緑のボタンを押す
++{n} coins · {why}	+{n}コイン · {why}
+16-player tournaments, and first place on the waiting list of a full one	16人トーナメント、満員のトーナメントではキャンセル待ちの先頭に
+30 minutes: play as many games as you can. A win is 2 points, 4 from the third win in a row.	30分間でできるだけ多くのゲームをプレイします。勝利は2ポイント、3連勝目からは4ポイントです。
+A crown by your name, everywhere (lounge, profile, ranking)	あらゆる場所で名前の横に王冠（ロビー、プロフィール、ランキング）
+Account	アカウント
+Add friends to give them items.	フレンドを追加すると、アイテムをプレゼントできます。
+Arena	アリーナ
+Arena · host {host} · {n} players · {kind}	アリーナ · ホスト：{host} · {n}人 · {kind}
+Buy now	今すぐ購入
+Buying…	購入中…
+Change password	パスワード変更
+Click again to delete	もう一度クリックで削除
+Got a code? Type it here	コードをお持ちの方はここに入力
+Confirm purchase	購入を確定
+Copied: send it to a friend.	コピーしました：フレンドに送りましょう。
+Copy	コピー
+Current	現在
+Delete account	アカウント削除
+Entry	参加費
+Entry {n} coins	参加費{n}コイン
+Every replay kept (free players keep their last 10 games)	すべてのリプレイを保存（無料プレイヤーは直近10ゲームまで）
+For {name}	{name}へ
+Add a message (optional)	メッセージを追加（任意）
+Format	形式
+Frames	フレーム
+Free	無料
+Get coins	コインを入手
+Gift sent!	プレゼントを送りました！
+Give as a gift	プレゼントする
+Give it	プレゼント
+Give to a friend	フレンドにプレゼント
+Great!	やった！
+If you forget your password, we confirm it's you by this e-mail.	パスワードを忘れた場合、このメールで本人確認を行います。
+Invite with a code	コードで招待
+It goes on right away. Items only change the look, never the game.	すぐに適用されます。アイテムが変えるのは見た目だけで、ゲームには影響しません。
+Join my table in Snook Legend:	Snook Legendで私のテーブルに参加してね：
+Join the waiting list	キャンセル待ちに登録
+Join · {n} coins	参加 · {n}コイン
+Knockout	ノックアウト
+Name colour	名前の色
+Name colours for the lounge and exclusive frames, cloth, cues, balls and effects	ロビーでの名前の色、限定のフレーム・ラシャ・キュー・ボール・エフェクト
+New	新規
+No, thanks	いいえ、結構です
+Nothing that wins games: VIP only changes the look	勝敗に関わるものはありません：VIPで変わるのは見た目だけ
+Numbers	数値
+ON TV	中継中
+Play rated games to see your rating here.	レート戦をプレイすると、ここにレートが表示されます。
+No rated games yet.	レート戦はまだありません。
+Price	価格
+Prizes {a} + {b}	賞金{a} + {b}
+Protect your purchases	購入したアイテムを守りましょう
+Purchase complete!	購入完了！
+Recovery e-mail	復旧用メール
+Save	保存
+The fees make the prize: 70% to the champion, 20% to the runner-up.	参加費が賞金になります：優勝者に70%、準優勝者に20%。
+The server restarts in {m}:{s} for an update. Games in progress go on.	アップデートのため、{m}:{s}後にサーバーを再起動します。進行中のゲームは続行されます。
+Use this e-mail	このメールを使う
+Use {email} to recover your account if you ever forget your password?	パスワードを忘れたときのアカウント復旧に{email}を使いますか？
+Watch	観戦
+Watch again	もう一度見る
+Winning effects	勝利エフェクト
+Halls	ホール
+You are paired as soon as you and an opponent are free.	あなたと相手の手が空きしだい、組み合わせが決まります。
+You can change it any time in your profile (Account).	プロフィール（アカウント）でいつでも変更できます。
+You need {n} more coins.	あと{n}コイン必要です。
+Your account	あなたのアカウント
+Your account was deleted.	アカウントは削除されました。
+Your coins	所持コイン
+Your friend gets it right away.	フレンドにすぐ届きます。
+Your game against {name} is starting.	{name}とのゲームが始まります。
+Your name, e-mail, friends and items are erased for good. Your opponents keep the games you played (without your name).	名前、メールアドレス、フレンド、アイテムは完全に削除されます。対戦相手には、あなたとのゲームが（名前なしで）残ります。
+balls per game	1ゲームあたりの球数
+best run ever	自己最多連続ポケット
+daily bonus	デイリーボーナス
+entry fee back	参加費の返却
+for the game	対戦報酬
+for the win	勝利報酬
+games counted	集計ゲーム数
+Analysis	分析
+The shot analysis isn't available on this server yet.	このサーバーではまだショット分析を利用できません。
+Only online accounts have a shot analysis.	ショット分析はオンラインアカウントのみです。
+Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	オンラインで対戦すると、ポケットの傾向がわかります：ポケットを狙ったショットがあと{n}回で分析が表示されます。
+{name} hasn't played enough online games for an analysis yet.	{name}はまだ分析に十分なオンライン対戦をしていません。
+1 game	1戦
+{pct}% of {n} shots at a pocket potted · {games}	ポケットを狙った{n}ショット中{pct}%成功 · {games}
+{made} of {n} potted ({pct})	{n}回中{made}回成功（{pct}）
+By kind of shot	ショットの種類別
+shots	ショット
+Straight	ストレート
+Cut 8–25°	カット8〜25°
+Cut 25–45°	カット25〜45°
+Thin cut 45°+	薄いカット45°以上
+Bank	バンク
+Kick	キック
+Combination	コンビネーション
+Jump	ジャンプ
+Massé	マッセ
+Break	ブレイク
+By distance	距離別
+Short (under 0.75 m)	短距離（0.75m未満）
+Medium (to 1.5 m)	中距離（1.5mまで）
+Long (over 1.5 m)	長距離（1.5m超）
+left the opponent nothing	相手に何も残さなかった
+Breaks	ブレイク
+made a ball	球を入れた
+Potted	成功
+Missed	ミス
+Where and in which pocket	どこから、どのポケットに
+{pocket}: {made} of {n} potted	{pocket}：{n}回中{made}回成功
+Where the potted balls were	入った球の位置
+Where the missed balls were	外した球の位置
+few	少
+many	多
+{made} potted · {missed} missed ({pct})	成功{made} · ミス{missed}（{pct}）
+Top left corner	左上コーナー
+Bottom left corner	左下コーナー
+Top side pocket	上のサイドポケット
+Bottom side pocket	下のサイドポケット
+Top right corner	右上コーナー
+Bottom right corner	右下コーナー
+games left unfinished	途中退出したゲーム
+potting success	ポケット成功率
+shots with a foul	ファウルしたショット
+starts in {n} min	{n}分後に開始
+tournament prize	トーナメント賞金
+The dark room hides the hall around the table.	ダークルームでは、テーブルの周りのホールが見えなくなります。
+Show the hall	ホールを表示
+Level {n} · 1 win	レベル{n} · 1勝
+Level {n} · {w} wins	レベル{n} · {w}勝
+{left} more online wins with this cue for level {n}. Levels only add marks to the cue.	このキューでオンライン対戦にあと{left}勝するとレベル{n}。レベルはキューに模様が増えるだけです。
+The top level: this cue has every mark.	最高レベル：このキューにはすべての模様があります。
+Your cue {cue} reached level {n}!	キュー「{cue}」がレベル{n}になりました！
+Most wins: {cue} (level {n})	最多勝利：{cue}（レベル{n}）
+{games} games · {rate}% won · {balls} balls made	{games}戦 · 勝率{rate}% · {balls}球
+vs	vs
+{from} gave you {item}!	{from}から{item}が届きました！
+You received a gift!	プレゼントが届きました！
+From	送り主
+To	宛先
+someone	誰か
+A month of VIP	VIP 1か月
+Thank	お礼する
+Thanked	お礼済み
+They thanked you	お礼が届きました
+Use it now	今すぐ使う
+Later	あとで
+OK	OK
+Next ({n} more)	次へ（あと{n}件）
+{from} gave you {item}! It's waiting for you in the lounge.	{from}から{item}が届きました！ロビーで受け取れます。
+{name} thanked you for {item}.	{name}から{item}のお礼が届きました。
+Gifts	プレゼント
+No gifts yet. Friends can give you items from the shop.	プレゼントはまだありません。フレンドはショップのアイテムをあなたにプレゼントできます。
+{item} is yours and already in use.	{item}を獲得し、すでに使用中です。
+{m}:{s} left	残り{m}:{s}
+{name} invites you to play.	{name}から対戦の招待が届きました。
+{name} is online.	{name}がオンラインになりました。
+{name} ran out of time.	{name}の時間切れです。
+{name} received {item}.	{name}に{item}が届きました。
+{n} pts · {g} games	{n}pt · {g}戦
+{n} watching · avg {r}	{n}人が観戦中 · 平均{r}
+{title}: {how}	{title}：{how}
+Olive	オリーブ
+Navy	ネイビー
+Forest	フォレスト
+Slate grey	スレートグレー
+Red wine	ワインレッド
+Burnt orange	バーントオレンジ
+Dusty rose	ダスティローズ
+Sand	サンド
+Ice blue	アイスブルー
+Lime	ライム
+Black tie	ブラックタイ
+Cobalt	コバルト
+Emerald	エメラルド
+Natural maple	ナチュラルメープル
+Beach bar	ビーチバー
+Modern	モダン
+English club	イングリッシュクラブ
+Ebony & gold	黒檀とゴールド
+Pool hall	ビリヤード場
+Industrial loft	インダストリアルロフト
+Steel & oak	スチールとオーク
+Tournament	トーナメント
+Victorian walnut	ヴィクトリアンウォルナット
+Ivory deco	アイボリーデコ
+Mountain lodge	山小屋
+Neon arcade	ネオンアーケード
+Art deco lounge	アールデコラウンジ
+Skyline penthouse	スカイラインペントハウス
+Walnut	ウォルナット
+Zebrawood	ゼブラウッド
+Bocote	ボコテ
+Deep ocean	ディープオーシャン
+Cherry	チェリー
+Jade	翡翠
+Tiger	タイガー
+Amethyst	アメジスト
+Arctic carbon	アークティックカーボン
+Inferno	インフェルノ
+Obsidian gold	オブシディアンゴールド
+Tan chalk	ベージュのチョーク
+Grey chalk	灰色のチョーク
+Orange chalk	オレンジのチョーク
+Pink chalk	ピンクのチョーク
+Teal chalk	ティールのチョーク
+Yellow chalk	黄色のチョーク
+Black chalk	黒のチョーク
+White chalk	白のチョーク
+Silver chalk	銀のチョーク
+TV set	TV仕様
+Earth tones	アーストーン
+Ocean	オーシャン
+Sunset	サンセット
+Candy	キャンディ
+Pearl	パール
+Monochrome	モノクローム
+Chrome	クローム
+Gold rush	ゴールドラッシュ
+No frame	フレームなし
+Bronze	ブロンズ
+Silver	シルバー
+Gold	ゴールド
+Green felt	グリーンフェルト
+Mahogany	マホガニー
+Ice	アイス
+Fire	ファイア
+Diamond	ダイヤモンド
+VIP crown	VIPクラウン
+Rose gold	ローズゴールド
+Aqua	アクア
+Violet	バイオレット
+Ember	残り火
+Mint	ミント
+Frost	フロスト
+No effect	エフェクトなし
+Sparks	スパーク
+Confetti	紙吹雪
+Shockwave	衝撃波
+Coin shower	コインシャワー
+Flames	炎
+Royal sparks	ロイヤルスパーク
+Tier colour	リーグカラー
+16-player tournaments are for VIP members.	16人トーナメントはVIPメンバー限定です。
+A seat opened: you are in the tournament!	空きが出ました：トーナメントに参加できます！
+Entry fees go up to 1000 coins.	参加費は最大1000コインです。
+Guests can't play for coins.	ゲストはコインを賭けてプレイできません。
+Only items sold for coins can be given.	プレゼントできるのは、コインで販売されているアイテムだけです。
+Password changed.	パスワードを変更しました。
+Passwords need 8 or more characters, not only digits.	パスワードは8文字以上必要で、数字だけは使えません。
+Recovery e-mail removed.	復旧用メールを削除しました。
+Recovery e-mail saved.	復旧用メールを保存しました。
+Something went wrong. Please try again.	問題が発生しました。もう一度お試しください。
+That code is not valid (or the table was closed).	そのコードは無効です（またはテーブルが閉じられました）。
+That doesn't look like an e-mail address.	メールアドレスの形式ではないようです。
+That game is over.	そのゲームは終了しました。
+The current password is wrong.	現在のパスワードが違います。
+The server is restarting.	サーバーを再起動しています。
+The server is restarting: new games start in a moment.	サーバーを再起動しています：まもなく新しいゲームを始められます。
+The tournament is full: you are on the waiting list.	トーナメントは満員です：キャンセル待ちに登録されました。
+This replay is not available.	このリプレイは利用できません。
+You can only give items to your friends.	アイテムをプレゼントできるのはフレンドだけです。
+Your friend already has this item.	フレンドはすでにこのアイテムを持っています。
+16 (VIP)	16（VIP）
+VIP isn't sold in this version of the game.	このバージョンのゲームではVIPを販売していません。
+In this version of the game, coins are earned by playing:	このバージョンのゲームでは、コインはプレイして獲得します：
+rated games, and a bonus every day you play.	レート戦と、プレイした日ごとのボーナス。
+Coins are earned by playing:	コインはプレイして獲得できます：
+If you like, you can also buy them:	購入することもできます：
+one month	1か月
+already VIP	すでにVIP
+Give a month to a friend · {p}	フレンドに1か月プレゼント · {p}
+{from} gave you a month of VIP!	{from}からVIP 1か月が届きました！
+{name} received a month of VIP.	{name}にVIP 1か月が届きました。
+Your friend is already VIP.	フレンドはすでにVIPです。
+Game in progress: {n} balls left	ゲーム進行中：残り{n}球
+Continue	続ける
+Missions	ミッション
+Board	掲示板
+Today	今日
+This week	今週
+new missions in {t}	新しいミッションまで{t}
+ends in {t}	終了まで{t}
+{n} days	{n}日
+{n} h	{n}時間
+{n} min	{n}分
+mission complete	ミッション達成
+Missions count rated games played to the end. The coins arrive as soon as one is complete.	ミッションは最後までプレイしたレート戦をカウントします。達成するとすぐにコインが届きます。
+Nothing on the board right now.	現在、掲示板には何もありません。
+Open tournaments	参加受付中のトーナメント
+{n}/{size} players	{n}/{size}人
+starts in {t}	{t}後に開始
+entry {n} coins	参加費{n}コイン
+See	見る
+Play {n} rated games	レート戦を{n}回プレイする
+Win {n} rated games	レート戦で{n}勝する
+Pot {n} balls	{n}球を入れる
+Pot {n} balls with spin	スピンをかけて{n}球を入れる
+Pot 3 balls in a row in one visit	1回の番で3球連続で入れる
+Win a game without a foul	ファウルなしで1勝する
+Pot 3 balls in a row {n} times	3球連続ポケットを{n}回達成する
+Win {n} games without a foul	ファウルなしで{n}勝する
+TV camera when watching	観戦時はTVカメラ
+Broadcast angles for other players' games and replays.	ほかのプレイヤーのゲームやリプレイを、中継風のアングルで映します。
+System notifications	システム通知
+Invites, friends coming online and games starting, while you're away.	離れている間の招待、フレンドのログイン、ゲーム開始をお知らせします。
+{name} starts in a few minutes: get ready!	{name}はまもなく開始です：準備しましょう！
+{name} starts in a few minutes: there is still room.	{name}はまもなく開始です：まだ参加できます。
+{name} has started!	{name}が始まりました！
+Momentum	流れ
+Shot map	ショットマップ
+No shots yet.	まだショットはありません。
+made	成功
+missed	ミス
+foul	ファウル
+See the tournaments	トーナメントを見る
+Open the shop	ショップを開く
+See VIP	VIPを見る
+See the missions	ミッションを見る
+A new version of the game is out: update to play online.	ゲームの新しいバージョンが公開されました：オンラインで対戦するにはアップデートしてください。
+Update in the Microsoft Store	Microsoft Storeでアップデート
+Update now	今すぐアップデート
+Download the new version	新しいバージョンをダウンロード
+New version out	新バージョン公開
+Get the new version to play online	オンラインで対戦するには新しいバージョンを入手してください
+Cheer for {name}	{name}を応援
+Crowd: {a} for {p0}, {b} for {p1}	観客：{p0}に{a}人、{p1}に{b}人
+welcome pack	ウェルカムパック
+Welcome pack	ウェルカムパック
+Cue “{cue}”, cloth “{cloth}” and {n} coins · only once, sold nowhere else	キュー「{cue}」、ラシャ「{cloth}」、{n}コイン · 1回限り、ここだけの販売
+Lagoon	ラグーン
+You already have the welcome pack.	ウェルカムパックはすでに持っています。
+Your welcome pack is here!	ウェルカムパックが届きました！
+Previous shot (←)	前のショット（←）
+Next shot (→)	次のショット（→）
+Play (Space)	再生（スペース）
+Pause (Space)	一時停止（スペース）
+Speed	速度
+Shot {n} of {total}	ショット{n}/{total}
+For VIP members	VIPメンバー向け
+{n} reactions of your own to send during games	ゲーム中に送れる専用リアクション{n}種
+Items {a}–{b} of {n}	アイテム{a}〜{b}（全{n}）
+(message deleted by its author)	（投稿者がメッセージを削除しました）
+(message deleted by an administrator)	（管理者がメッセージを削除しました）
+Delete (it shows as deleted)	削除（削除済みと表示）
+Remove without a trace	跡を残さず削除
+The chat was cleared by {name}.	{name}がチャットを消去しました。
+Click again to clear	もう一度クリックで消去
+Clear the chat	チャットを消去
+Players' chat (administrator)	プレイヤーのチャット（管理者）
+Play the computer while you wait	待っている間にコンピューターと対戦
+Looking for an opponent… {t} · the game starts as soon as one is found	相手を探しています… {t} · 見つかりしだいゲームが始まります
+Stop	中止
+# Coin packs and months of VIP bought in the Microsoft Store (the Store build).
+The Microsoft Store couldn't complete the purchase.	Microsoft Storeで購入を完了できませんでした。
+The Microsoft Store couldn't confirm the purchase right now. Its coins arrive the next time you open the shop.	現在、Microsoft Storeで購入を確認できませんでした。コインは次にショップを開いたときに届きます。
+{n} coins added to your wallet.	{n}コインが追加されました。
+Microsoft is confirming your purchase: the coins arrive in a moment.	Microsoftが購入を確認しています：まもなくコインが届きます。
+The purchase hasn't reached us yet. Its coins arrive the next time you open the shop.	購入情報がまだ届いていません。コインは次にショップを開いたときに届きます。
+Loading prices from the Microsoft Store…	Microsoft Storeから価格を読み込み中…
+Coins can't be bought in this version yet.	このバージョンではまだコインを購入できません。
+Finish the purchase in the Microsoft Store window…	Microsoft Storeのウィンドウで購入を完了してください…
+Confirming your purchase…	購入を確認中…
+Paid in the Microsoft Store, with your Microsoft account.	Microsoftアカウントを使い、Microsoft Storeで支払います。
+The Microsoft Store can't be reached right now. Try again in a moment.	現在、Microsoft Storeに接続できません。しばらくしてからもう一度お試しください。
+The Microsoft Store could not confirm the purchase.	Microsoft Storeで購入を確認できませんでした。
+Sign in to the Microsoft Store with your Microsoft account, then open the shop again.	MicrosoftアカウントでMicrosoft Storeにサインインしてから、もう一度ショップを開いてください。
+The Microsoft Store couldn't confirm the purchase right now. Your VIP month starts the next time you open the shop.	現在、Microsoft Storeで購入を確認できませんでした。VIPの1か月は、次にショップを開いたときに始まります。
+You are VIP until {d}, and {n} coins were added to your wallet.	{d}までVIPです。{n}コインが追加されました。
+Microsoft is confirming your purchase: your VIP month starts in a moment.	Microsoftが購入を確認しています：まもなくVIPの1か月が始まります。
+The purchase hasn't reached us yet. Your VIP month starts the next time you open the shop.	購入情報がまだ届いていません。VIPの1か月は、次にショップを開いたときに始まります。
+A month at a time: nothing renews by itself	1か月ずつの購入：自動更新はありません
+Add a month · {p}	1か月追加 · {p}
+A month of VIP · {p}	VIP 1か月 · {p}
+The new month starts when this one ends.	新しい1か月は、今の期間が終わってから始まります。
+Trophies	トロフィー
+No trophies yet.	トロフィーはまだありません。
+Tournament won · {n} players	トーナメント優勝 · {n}人
+The computer tour	コンピューターツアー
+All fifteen opponents beaten	15人の相手を全員撃破
+Daily challenge	デイリーチャレンジ
+First of {n} players	{n}人中1位
+Easy shot	簡単なショット
+Fair shot	ふつうのショット
+Hard shot	難しいショット
+Very hard shot	とても難しいショット
+~{n}% chance	成功率約{n}%
+No ball goes down as aimed	この狙いでは入りません
+straight in	ストレート
+{n}° cut	{n}°のカット
+off one cushion	ワンクッション
+off {n} cushions	{n}クッション
+Make as many balls as you can in one visit: a miss or a foul ends the attempt.	1回の番でできるだけ多くの球を入れてください：ミスかファウルで挑戦終了です。
+The same table for everyone, all day	1日中、全員が同じ配置に挑戦
+{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	1日{n}回挑戦できます。取り切れば{coins}コイン、その日の1位にはトロフィーが贈られます。
+A new table in {h} h {m} min	新しい配置まで{h}時間{m}分
+Sign in to take part: the server keeps the day's table.	参加するにはログインしてください：その日の順位はサーバーに記録されます。
+Balls on today's table	今日の配置の球数
+Attempts left	残り挑戦回数
+{n} balls · #{rank}	{n}球 · {rank}位
+{n} balls	{n}球
+not yet	未挑戦
+Your best today	今日の自己ベスト
+No attempts left today: come back tomorrow.	今日の挑戦回数は残っていません：また明日どうぞ。
+The attempt could not be counted.	挑戦を記録できませんでした。
+Setting up the table…	配置を準備中…
+Start an attempt	挑戦する
+Starting uses an attempt, even if you leave the table.	開始すると、途中でテーブルを離れても挑戦を1回使います。
+Loading today's table…	今日のチャレンジを読み込み中…
+Today's table	今日の順位
+{n} players	{n}人
+Nobody has played today's table yet. Be the first!	今日のチャレンジにはまだ誰も挑戦していません。最初の1人になりましょう！
+Table cleared!	取り切り！
+{n} of {total} balls	{total}球中{n}球
+Sending your attempt to the server…	挑戦結果をサーバーに送信中…
+Counted: {n} balls · +{coins} coins	記録：{n}球 · +{coins}コイン
+Counted: {n} balls	記録：{n}球
+See today's table	今日の順位を見る
+Table cleared! +{n} coins	取り切り！+{n}コイン
+Daily challenge: {n} of {total} balls made	デイリーチャレンジ：{total}球中{n}球
+1 player	1人
+Phoenix	フェニックス
+Carrara marble	カララ大理石
+Dragon scale	竜の鱗
+Galaxy	ギャラクシー
+Ruby throne	ルビーの玉座
+Closing the game now is leaving it: extra rating lost and a wait to play again.	今ゲームを閉じると途中退出になります：レートが余分に下がり、再びプレイできるまで待ち時間が発生します。
+You left a game in progress: you can play online again in {n} min.	進行中のゲームから退出しました：{n}分後に再びオンライン対戦できます。
+Quick phrases	定型文
+Good luck, have fun!	よろしくお願いします！
+Nice shot!	ナイスショット！
+Great safety!	ナイスセーフティ！
+Unlucky!	惜しい！
+Oops!	おっと！
+Wow!	すごい！
+That was close!	あとちょっと！
+Take your time.	ごゆっくりどうぞ。
+Sorry!	ごめんなさい！
+Thanks!	ありがとう！
+Well played!	お見事！
+Good game!	いい勝負でした！
+Rematch?	再戦しますか？
+I have to go, thanks for the game!	そろそろ行きます。対戦ありがとうございました！
+Practise while you wait	待っている間に練習
+A new rack.	新しいラックです。
+Level {n}! (+{xp} XP)	レベル{n}！（+{xp} XP）
++{xp} XP	+{xp} XP
+Level {n} · {into} / {span} XP to the next	レベル{n} · 次まで{into} / {span} XP
+Level {n}	レベル{n}
+Hi! I watched a lot of videos, I'm ready!	こんにちは！動画をいっぱい見てきたから、準備万端だよ！
+Be gentle, okay?	お手やわらかにね？
+Whoa, how did you do that?	うわっ、今のどうやったの？
+Teach me that one later!	あとでそれ教えてよ！
+Phew! My turn!	ふう！ぼくの番だ！
+Even you miss? Good to know.	きみでも外すんだ？いいこと知った。
+A free ball! What do I do with it?	フリーボールだ！これ、どうすればいいの？
+Did you see that?! It went in!	見た？！入ったよ！
+Beginner's luck counts too!	ビギナーズラックだって実力のうち！
+Oops. That was a practice shot.	あっ。今のは練習だから。
+Aim, Leo, aim...	狙え、Leo、狙え…
+Sorry! I touched the wrong one again.	ごめん！また違う球に当てちゃった。
+I WON? I'm calling my mum!	ぼくの勝ち？ママに電話しなきゃ！
+Good game! I'm getting better, right?	いい勝負だったね！ぼく、うまくなってるよね？
+Saturday, a table and good company. Let's play!	土曜日、テーブル、いい仲間。さあ、遊ぼう！
+Nice one!	いいね！
+Oh, you're good. I'll pay attention now.	あら、上手ね。ちゃんと集中しなきゃ。
+Happens to the best of us.	誰にでもあることよ。
+Don't worry, it's just a game!	気にしないで、ただのゲームだから！
+Thanks for the gift!	プレゼントありがとう！
+Yes! Weekend skills!	やった！週末仕込みの腕前よ！
+Lucky me!	ラッキー！
+Hm, where was I aiming?	あれ、どこを狙ってたんだっけ？
+Too much chatting, not enough aiming.	おしゃべりしすぎて、狙いがおろそかに。
+Oops, my bad!	おっと、ごめんね！
+That was fun! Same time next weekend?	楽しかった！来週末も同じ時間にどう？
+Well played! Rematch over a lemonade?	お見事！レモネードでも飲みながら再戦しない？
+Four cushions, endless possibilities.	4つのクッション、無限の可能性。
+Straight in? So... direct.	ストレート？ずいぶん…直球ね。
+Nice, but a bank would have been prettier.	いいけど、バンクのほうが美しかったわ。
+You should have used the cushion.	クッションを使えばよかったのに。
+The rail was right there, asking for it.	クッションがすぐそこで待っていたのに。
+The table didn't like that.	テーブルはお気に召さなかったみたい。
+Off the rail and in. Art!	クッションに当てて、イン。芸術よ！
+Geometry never lies.	幾何学は嘘をつかないわ。
+The angle was right. The cushion disagreed.	角度は正しかった。クッションが反対しただけ。
+One diamond off. Just one!	1ポイントずれた。たった1つよ！
+Too much imagination, not enough contact.	想像力が豊かすぎて、当たりが足りなかった。
+A masterpiece, if I may say so.	自分で言うのもなんだけど、傑作ね。
+Well played. Now try it off two rails.	お見事。次はツークッションでやってみて。
+I hope these balls are made of steel.	この球、鋼鉄製だといいがな。
+Soft touch, huh? Not my style.	そっと撞く？俺の流儀じゃねえ。
+Hit it harder next time!	次はもっと強く撞けよ！
+Too gentle! Power solves everything.	優しすぎる！パワーがすべてを解決する。
+HA!	ハッ！
+My table now. Cover your ears.	ここからは俺のテーブルだ。耳をふさいどけ。
+BOOM!	ドカン！
+Did you hear that pocket?	今のポケットの音、聞いたか？
+Too much power? No such thing.	パワーの出しすぎ？そんなものはない。
+The pocket moved.	ポケットが動いたんだ。
+The ball flew. It happens. A lot.	球が飛んだ。よくあることだ。かなりな。
+Power wins again! BOOM!	またパワーの勝ちだ！ドカン！
+Fine, finesse works too. Sometimes.	まあいい、繊細さも効くってことだな。たまには。
+Take your time. I have all day.	ごゆっくり。時間はいくらでもあるから。
+Acceptable.	まあまあね。
+Enjoy it while it lasts.	今のうちに楽しんでおきなさい。
+Patience is a virtue. Not yours, apparently.	忍耐は美徳。あなたの美徳ではないようね。
+Thank you.	どうも。
+Sloppy.	雑ね。
+Steady wins.	堅実が勝つ。
+One at a time.	ひとつずつ。
+Hm. I'll leave you nothing anyway.	ふむ。どのみち何も残してあげない。
+Intentional. Probably.	わざとよ。たぶん。
+Unacceptable. Of me.	ありえない。私としたことが。
+As I said: patience.	言ったでしょう：忍耐よ。
+You got through the wall. I'm impressed.	壁を突破したのね。感心したわ。
+I've been playing since before these balls were plastic.	この球がプラスチックになる前から撞いておるよ。
+Good stroke. Reminds me of a fellow in '78.	いいストロークだ。78年のある男を思い出す。
+Smooth. Very smooth.	なめらかだ。実になめらかだ。
+Keep your head down, kid.	頭を上げるな、若いの。
+The cue ball doesn't lie.	手球は嘘をつかん。
+Ah, a little present. Thank you kindly.	おや、ささやかな贈り物だ。ありがたく頂こう。
+Like riding a bicycle.	自転車と同じで、体が覚えておる。
+Still got it.	まだまだ衰えておらんよ。
+The eyes aren't what they used to be.	目が昔ほどきかなくてな。
+In my day the pockets were bigger.	わしの若い頃は、ポケットがもっと大きかった。
+Even old pros slip.	老いたプロでも、しくじることはある。
+Experience, my friend. Experience.	経験だよ、きみ。経験だ。
+You've got a future in this game.	きみには、この世界での将来があるな。
+Me? Oh, I hardly ever play...	私？ううん、ほとんどやったことないのよ…
+Lucky! Do it again, I dare you.	まぐれね！もう一回やってみせてよ。
+Ooh, someone's been practising.	あら、誰かさん練習してきたのね。
+Aw, so close! Bless.	あら、惜しい！かわいいわね。
+Want me to show you how?	やり方、教えてあげようか？
+Thank you, sweetie.	ありがとね、いい子。
+Oops, did I do that?	あら、今の私がやったの？
+Must be beginner's luck. Again.	きっとビギナーズラックね。またしても。
+Missed on purpose. Keeps it interesting.	わざと外したの。そのほうが面白いでしょ。
+Just warming up.	まだウォーミングアップよ。
+Oh dear, how clumsy of me. Wink.	あらやだ、私ったら不器用ね。ウインク。
+Hardly ever play, I said. Hardly.	ほとんどやらないって言ったでしょ。ほとんど、ね。
+Fine, you got me. This time.	わかった、私の負け。今回はね。
+Friction, momentum, spin. Let us begin.	摩擦、運動量、回転。始めようか。
+A fine cut. About thirty degrees, I'd say.	見事なカットだ。およそ30度といったところか。
+Textbook.	教科書どおりだ。
+You underestimated the throw.	スローを甘く見たね。
+Interesting. Statistically expected.	興味深い。統計的には予想どおりだ。
+The cue ball followed the laws of physics, not your plan.	手球は君の計画ではなく、物理法則に従ったのだよ。
+As calculated.	計算どおり。
+Elastic collision, elegant result.	弾性衝突、エレガントな結果だ。
+An error in my measurement.	私の測定誤差だ。
+I'll revise the model.	モデルを修正しよう。
+Hm. Unexpected spin.	ふむ。想定外の回転だ。
+The numbers were on my side.	数字は私に味方した。
+A result outside my predictions. Well done.	予測の範囲外の結果だ。見事だよ。
+Focus.	集中。
+Clean.	クリーン。
+Not bad.	悪くない。
+Half a millimetre.	0.5ミリ。
+Breathe before you shoot.	撞く前に呼吸を。
+Careless.	不注意ね。
+Target down.	目標撃破。
+Centre pocket.	ど真ん中。
+Hm. Recalibrating.	ふむ。再調整。
+That never happens.	ありえない。
+Unacceptable.	許されない。
+Precision wins.	精度が勝つ。
+Good shooting.	いい腕ね。
+Welcome to my table. Enjoy the show.	私のテーブルへようこそ。ショーを楽しんでくれたまえ。
+Very good. You've done your homework.	素晴らしい。よく研究してきたね。
+Applause for the challenger!	挑戦者に拍手を！
+Pressure. It gets to everyone.	プレッシャーだよ。誰もが感じるものさ。
+Thank you for the table.	テーブルをありがとう。
+A champion never refuses a gift.	チャンピオンは贈り物を断らない。
+Naturally.	当然だ。
+That's how it's done.	こうやるんだよ。
+Even champions give the crowd a chance.	チャンピオンだって、観客に夢を見せることはある。
+Leaving you something, out of courtesy.	礼儀として、少し残しておいたよ。
+A rare sight. Remember it.	めったに見られない光景だ。覚えておくといい。
+The title stays with me. Good game.	タイトルは私のものだ。いい勝負だった。
+Remarkable. You've earned my respect.	見事だ。君は私の敬意に値する。
+Calibration complete. Good luck, human.	キャリブレーション完了。幸運を祈ります、人間。
+Shot registered: successful.	ショットを記録：成功。
+Probability of my victory: increasing.	当機の勝率：上昇中。
+Foul detected. Processing penalty.	ファウルを検出。ペナルティを処理中。
+Executed as planned.	計画どおりに実行しました。
+Error. Recalculating.	エラー。再計算中。
+Malfunction. Please disregard.	誤作動です。無視してください。
+Game complete. Thank you for playing.	ゲーム終了。プレイしていただき、ありがとうございました。
+Defeat acknowledged. Well played.	敗北を確認。お見事でした。
+Drills	ドリル
+Exercises with stars	星を集める練習問題
+{s} / {max} stars	星{s} / {max}
+Stars at {a}, {b} and {c}	{a}、{b}、{c}で星を獲得
+Your best: {n} of {total}	自己ベスト：{total}中{n}
+Not tried yet.	まだ挑戦していません。
+Start the drill	ドリルを開始
+Sign in to keep your stars in your account.	ログインすると、星がアカウントに保存されます。
+{n} of {total}	{total}中{n}
+{drill}: try {k} of {n} · {made} made	{drill}：{n}回中{k}回目 · 成功{made}
+Made it! {n} of {total}	成功！{total}中{n}
+Missed.	ミス。
+Sending to the server…	サーバーに送信中…
+Not signed in: this session is not ranked.	未ログイン：このセッションはランキングに記録されません。
+Kept in your account.	アカウントに保存しました。
+The session could not be counted.	このセッションを記録できませんでした。
+Back to the drills	ドリルに戻る
+Straight in	ストレート
+A long straight pot into the corner. Five tries.	コーナーへの長いストレート。5回挑戦。
+The cut	カット
+A half-ball cut into the corner. Five tries.	コーナーへ厚み1/2のカット。5回挑戦。
+Draw it back	引き球
+Pot the ball and draw the cue ball back into the circle. Five tries.	的球を入れ、手球を引いて円の中に戻してください。5回挑戦。
+Follow through	押し球
+Pot the ball and leave the cue ball in the circle past it. Five tries.	的球を入れ、手球を押してその先の円の中に止めてください。5回挑戦。
+Bank shot	バンクショット
+Off one cushion into the side pocket. Five tries.	ワンクッションでサイドポケットへ。5回挑戦。
+Snooker escape	スヌーカー脱出
+Hit the 1 first: it hides behind other balls. Five tries.	先に1番に当ててください：ほかの球の陰に隠れています。5回挑戦。
+Ten in a row	10連続
+Ten different pots, one after another: a miss ends the session.	10種類のショットを連続で：1回ミスすると終了です。
+The far corner	背後のコーナー
+A cut back up the table into the corner behind you. Five tries.	テーブルを戻る向きのカットで、背後のコーナーへ。5回挑戦。
+Long into the side	遠くからサイドへ
+From the far end of the table into the side pocket. Five tries.	テーブルの奥の端からサイドポケットへ。5回挑戦。
+Cue ball on the cushion	クッション際の手球
+The cue ball touches the cushion: pot the ball into the corner all the same. Five tries.	手球がクッションに付いています：それでも的球をコーナーに入れてください。5回挑戦。
+The plant	セットボール
+The 2 touches the 1 and points at the pocket: hit the 2 and the 1 goes in. Five tries.	2番が1番に接してポケットを向いています：2番に当てれば1番が入ります。5回挑戦。
+The carom	キャノン
+The 2 is in the way: glance off it and send the 1 into the corner. Five tries.	2番が邪魔をしています：2番をかすめて、1番をコーナーに入れてください。5回挑戦。
+The long draw	ロングの引き球
+Pot the ball and draw the cue ball all the way back into the circle. Five tries.	的球を入れ、手球を遠くまで引いて円の中に戻してください。5回挑戦。
+On the tangent line	タンジェントライン
+Pot the ball in the side and let the cue ball run on into the circle. Five tries.	的球をサイドに入れ、手球をそのまま円の中まで走らせてください。5回挑戦。
+Two-cushion bank	ツークッションのバンク
+Off two cushions and into the corner. Five tries.	ツークッションでコーナーへ。5回挑戦。
+Fifteen in a row	15連続
+Fifteen different pots, one after another: a miss ends the session.	15種類のショットを連続で：1回ミスすると終了です。
+Take back the shot (Z)	ショットを取り消す（Z）
+Shot taken back.	ショットを取り消しました。
+Solids	ソリッド
+Stripes	ストライプ
+Hide the history	履歴を隠す
+New username	新しいユーザー名
+Click again to confirm	もう一度クリックで確定
+{n} of {total} name changes left	名前の変更：残り{n}/{total}回
+You can't change your username again.	ユーザー名はこれ以上変更できません。
+That is already your username.	それはすでにあなたのユーザー名です。
+Finish your game before changing your username.	ユーザー名を変更する前に、ゲームを終えてください。
+Leave your table or the queue before changing your username.	ユーザー名を変更する前に、テーブルか待機列から抜けてください。
+Leave your tournament before changing your username.	ユーザー名を変更する前に、トーナメントから抜けてください。
+Username changed.	ユーザー名を変更しました。
+The server is still being updated to the new version. Try again in a few minutes.	サーバーはまだ新しいバージョンにアップデート中です。数分後にもう一度お試しください。
+{shooter} made an opponent's ball: {next} to shoot.	{shooter}が相手の球を入れました：{next}の番です。
+# Five more computer opponents: Tito, Inês, Diego, Amara and Yuri.
+The Gambler	ギャンブラー
+Bets on every shot: as hard as the cue allows, with all the spin he can find. Safe play bores him.	毎ショットが賭け：キューが許す限り強く、かけられるだけのスピンをかけます。手堅いプレイは退屈なのです。
+The Soft Touch	ソフトタッチ
+Never hits harder than she must: the balls die at the pocket's edge and the cue ball stops where she wants it.	必要以上に強く撞きません：球はポケットの縁でぴたりと落ち、手球は思いどおりの位置に止まります。
+The Showman	ショーマン
+Plays to the crowd: a raised cue, swerving spin and a bank whenever there's one. It works more often than it should.	観客のためにプレイします：立てたキュー、曲がるスピン、チャンスがあればバンク。それが意外なほど決まります。
+The Tactician	策士
+Plans the whole rack: snookers you when the pot isn't sure, and runs out when it is.	ラック全体を計画します：入るか怪しいときはスヌーカーに封じ、確実なときは取り切ります。
+The Machine	マシン
+No nerves, no flair: centre ball, measured pace, the same perfect stroke every time.	緊張も遊び心もなし：中心撞き、計算された強さ、毎回同じ完璧なストローク。
+Place your bets! Mine's on me.	さあ、張った張った！俺は自分に賭けるぜ。
+Lucky roll. Let it ride!	いい目が出たな。このまま張り続けだ！
+Okay, okay. Double or nothing?	わかった、わかった。倍賭けでどうだ？
+The house always wins!	胴元はいつも勝つのさ！
+Free chips! Thank you!	タダのチップだ！ありがとよ！
+All in, and it paid!	オールインで大当たり！
+That's how you play the odds!	確率ってのはこう使うんだ！
+Bad beat. Next hand.	バッドビートだ。次の勝負だ。
+Too much spin? There's no such thing.	スピンのかけすぎ？そんなものはない。
+Busted. Worth the risk!	ドボンだ。でも賭ける価値はあった！
+Jackpot! Same stakes again?	ジャックポット！同じレートでもう一勝負どうだ？
+You beat the odds. Respect.	確率をひっくり返したな。リスペクトだ。
+Softly, now. The table likes a gentle hand.	そっとね。テーブルは優しい手が好きなの。
+Nicely done.	お上手です。
+A little hard, but it went in.	少し強いけれど、入りましたね。
+Less power, more feel.	力より、感覚を。
+Oh dear. A free ball for me.	あらあら。思わぬ贈り物ね。
+Just enough to drop.	ちょうど落ちるだけの強さで。
+See? No need to hit it hard.	ほらね？強く撞く必要はないの。
+A touch too soft.	ほんの少し弱すぎました。
+Clumsy of me. Sorry.	不器用でした。ごめんなさい。
+Slow and steady. Thank you for the game.	ゆっくり、着実に。対戦ありがとうございました。
+Beautifully played. Well deserved.	美しいプレイでした。当然の勝利です。
+Ladies and gentlemen... the show begins!	紳士淑女の皆さま…ショーの始まりだ！
+Not bad! Bow to the crowd!	悪くない！観客にお辞儀を！
+You stole my applause!	俺の拍手を横取りしたな！
+The crowd wanted more!	観客はもっと見たがってたぜ！
+Ooh, a plot twist!	おおっと、まさかの展開！
+Ta-da!	ジャジャーン！
+And for my next trick...	さて、次のトリックは…
+Even magicians have off nights.	マジシャンにも調子の悪い夜はある。
+That was... part of the act.	今のは…演出のうちさ。
+Thank you, thank you! Encore?	ありがとう、ありがとう！アンコールは？
+Take a bow, champion. You earned it.	お辞儀をどうぞ、チャンピオン。その資格がある。
+Every rack is a puzzle. Let's solve this one.	どのラックもパズル。これを解きましょう。
+Good. Now where is your cue ball?	いいわね。で、手球はどこにあるの？
+I saw that coming.	読んでいたわ。
+That left me something. Thank you.	おかげでチャンスが残ったわ。ありがとう。
+As planned.	計画どおり。
+Exactly as I calculated.	まさに計算どおり。
+Three moves ahead.	3手先まで読んでいるの。
+A variable I missed.	見落とした変数があったわね。
+Hm. Recalculating.	ふむ。計算し直しね。
+Checkmate.	チェックメイト。
+You out-thought me. That's rare.	読み負けたわ。珍しいことよ。
+Game initialised.	ゲームを初期化。
+Noted.	記録した。
+Error margin exceeded.	許容誤差を超過。
+Penalty applied.	ペナルティ適用。
+As expected.	予想どおり。
+Next.	次。
+Deviation logged.	偏差を記録。
+Malfunction. It will not repeat.	誤作動。再発はしない。
+Result: win. Thank you for the data.	結果：勝利。データの提供に感謝する。
+Unexpected outcome. Impressive.	想定外の結果。見事だ。
+Opponents' remarks	対戦相手のセリフ
+The computer opponents comment on the game in speech bubbles.	コンピューターの対戦相手が、吹き出しでゲームにコメントします。
+Top view only	トップビューのみ
+The table is always seen from above: no 3D view, no turning.	テーブルを常に真上から表示します：3D視点や回転はありません。
+Not with the top view only.	トップビューのみの設定では使えません。
+Wheel	ホイール
+Rules	ルール
+Rules of the game	ゲームのルール
+Level	水平
+Drag the cue: jump & massé	キューをドラッグ：ジャンプとマッセ
+Drag to raise or lower the cue	ドラッグでキューを立てる・寝かせる
+Drag the cue · {keys}	キューをドラッグ · {keys}
+Profile picture	プロフィール画像
+Shown by your name at the table and in your profile.	テーブルとプロフィールで、名前の横に表示されます。
+No picture	画像なし
+Change your picture	画像を変更
+{name} sank the 8 together with another ball	{name}が8番をほかの球と一緒に入れた
+the opponent sank the 8 with another ball	相手が8番をほかの球と一緒に入れた
+sank the 8 with another ball	8番をほかの球と一緒に入れた
+opponent pocketed the 8-ball together with another ball	相手が8番ボールをほかの球と一緒に入れた
+Penalty: {balls} off the table for {name}.	ペナルティ：{name}の{balls}がテーブルから取り除かれます。
+{name} had fewer balls left than the foul gives: the 8 pays the rest, and the foul loses the game.	{name}の残り球はファウルで与える数より少ないため、残りは8番で支払われ、ファウルした側の負けになります。
+Shadows	影
+The shadows of the balls and of the cue on the table.	テーブルに落ちるボールとキューの影。
+Sixteen players: knockout or arena	16人：ノックアウトかアリーナ
+New knockout	新しいノックアウト
+New arena	新しいアリーナ
+Knockout: sixteen players, four rounds. Lose a game and you are out.	ノックアウト：16人、4ラウンド。1回負けたら敗退です。
+Arena: seven rounds for everyone. A win is 2 points, 3 from the third win in a row. The most points wins.	アリーナ：全員が7ラウンドを戦います。勝利は2ポイント、3連勝目からは3ポイント。最も多くポイントを獲得した人が優勝です。
+The games between the other players are decided by their strength and a draw.	ほかのプレイヤー同士のゲームは、それぞれの強さと抽選で決まります。
+You won the tournament!	トーナメント優勝！
+{name} won the tournament.	{name}がトーナメントで優勝しました。
+You finished in place {n}.	あなたは{n}位でした。
+Round of 16	ベスト16
+Quarter-finals	準々決勝
+Round {n} of {total}	ラウンド{n}/{total}
+Play {name}	{name}と対戦
+Abandon the tournament	トーナメントを棄権
+W - L	勝 - 敗
+Points	ポイント
+The tournament is over.	トーナメントは終了しました。
+The round is over: see who you play next.	ラウンド終了：次の対戦相手を確認しましょう。
+You are out of the tournament.	トーナメントで敗退しました。
+Side pocket	サイドポケット
+A cut into the side pocket, where the angle is tight. Five tries.	角度の厳しいサイドポケットへのカット。5回挑戦。
+The long cut	ロングカット
+A cut from the far end of the table into the corner. Five tries.	テーブルの奥の端からコーナーへのカット。5回挑戦。
+Thin cut	薄いカット
+Barely graze the ball: a thin cut into the corner. Five tries.	的球をかすめるように：コーナーへの薄いカット。5回挑戦。
+Along the cushion	クッション沿い
+The ball sits by the cushion: run it along into the corner. Five tries.	的球がクッション際にあります：クッションに沿わせてコーナーへ。5回挑戦。
+Stop shot	ストップショット
+Pot the ball and stop the cue ball dead where the ball was. Five tries.	的球を入れ、手球を的球のあった位置にぴたりと止めてください。5回挑戦。
+The combination	コンビネーション
+Pot the 1 by playing the 2 into it. Five tries.	2番を当てて1番を入れてください。5回挑戦。
+Cross-corner bank	クロスコーナーバンク
+Off the long cushion and across the table into the corner. Five tries.	長クッションに当て、テーブルを横切ってコーナーへ。5回挑戦。
+Kick shot	キックショット
+The 1 is walled off: send the cue ball off a cushion to hit it first. Five tries.	1番がふさがれています：手球をクッションに当ててから1番に当ててください。5回挑戦。
+Only the cue ball went down on the break: the balls are racked again and {next} breaks.	ブレイクで手球だけが落ちました：ラックし直して、{next}がブレイクします。
+Golden break	ゴールデンブレイク
+Win a rated game by sinking only the 8-ball on the break.	ブレイクで8番ボールだけを入れて、レート戦で勝つ。
+Half a year	半年
+Have an account for six months.	アカウント作成から6か月が経つ。
+First anniversary	1周年
+Second anniversary	2周年
+Have an account for two years.	アカウント作成から2年が経つ。
+Third anniversary	3周年
+Have an account for three years.	アカウント作成から3年が経つ。
+Five years at the table	テーブルで5年
+Have an account for five years.	アカウント作成から5年が経つ。
+Back to the tournament	トーナメントに戻る
+Continue against {name}	{name}との対戦を続ける
+You left your game: it counts as a loss.	ゲームから退出しました：負けとして扱われます。
+new level	新レベル
+Level {n} brings: {item}	レベル{n}の報酬：{item}
+Level 5	レベル5
+Reach level 5.	レベル5に到達する。
+Level 10	レベル10
+Reach level 10.	レベル10に到達する。
+Level 15	レベル15
+Reach level 15.	レベル15に到達する。
+Level 20	レベル20
+Reach level 20.	レベル20に到達する。
+Level 30	レベル30
+Reach level 30.	レベル30に到達する。
+Level 40	レベル40
+Reach level 40.	レベル40に到達する。
+Level 50	レベル50
+Reach level 50.	レベル50に到達する。
+Regular's teal	常連のティール
+Veteran's plum	ベテランのプラム
+Old hand	古株
+Lifer	生涯プレイヤー
+Apprentice's chalk	見習いのチョーク
+Journeyman's chalk	職人のチョーク
+Achievements	実績
+Leagues and levels	リーグとレベル
+Next league: {tier}	次のリーグ：{tier}
+The top league.	最上位リーグです。
+Every prize of the levels is won.	レベル報酬をすべて獲得しました。
+None yet: the first is one game away.	まだありません：最初の1つはあと1ゲームで手に入ります。
+{coins} and {item}	{coins}と{item}
+Leagues	リーグ
+Levels	レベル
+By playing. Every level pays {n} coins.	プレイで上がります。レベルごとに{n}コイン。
+where everyone starts	全員のスタート地点
+from {n}	{n}から
+The top level.	最高レベルです。
+{n} XP to level {next}	レベル{next}まで{n} XP
+{n} levels to go	あと{n}レベル
+new league	新リーグ
+Old-timer's black	古参のブラック
+Expert league blue	エキスパートリーグのブルー
+Master league violet	マスターリーグのバイオレット
+Legend league gold	レジェンドリーグのゴールド
+Skilled league chalk	熟練者リーグのチョーク
+By rating. Each league pays once.	レートで決まります。各リーグの報酬は1回のみ。
+cue	キュー
+cloth	ラシャ
+chalk	チョーク
+Always show the head string	ヘッドストリングを常に表示
+The line the break is played from, always on the table (off: only while placing the cue ball behind it).	ブレイクを撞くラインを常にテーブルに表示します（オフ：手球をその後ろに置くときだけ表示）。
+{who} ran out of time: the turn passes.	{who}の時間切れ：相手の番になります。
+{who} ran out of time with no ball left to give {other}: the 8 pays, and {who} loses.	{who}の時間切れ：{other}に与える球が残っていないため、8番で支払い、{who}の負けです。
+{who} ran out of time: the cue ball goes back to the head spot and the turn passes.	{who}の時間切れ：手球はヘッドスポットに戻り、相手の番になります。
+{who} ran out of time: {balls} off the table for {other}, and the cue ball goes back to the head spot.	{who}の時間切れ：{other}の{balls}がテーブルから取り除かれ、手球はヘッドスポットに戻ります。
+You were muted for {n} minutes: {r}	{n}分間ミュートされました：{r}
+Your account was suspended for {n} hours: {r}	アカウントが{n}時間停止されました：{r}
+The server restarts in {minutes} min for an update. Games in progress go on; new games start right after.	アップデートのため、{minutes}分後にサーバーを再起動します。進行中のゲームは続行され、新しいゲームは再起動後すぐに始められます。
+The {cup} was called off: not enough players signed up.	{cup}は中止になりました：参加者が足りませんでした。
+The {cup} is open for sign-up: it starts soon in Tournaments.	{cup}の参加受付中：まもなく「トーナメント」で始まります。
+{display} won the tournament “{name}”!	{display}がトーナメント「{name}」で優勝しました！
+Sunday Cup	日曜カップ
+Monday Cup	月曜カップ
+Tuesday Cup	火曜カップ
+Wednesday Cup	水曜カップ
+Thursday Cup	木曜カップ
+Friday Cup	金曜カップ
+Saturday Cup	土曜カップ
+{name} · rating {r}	{name} · レート{r}
+Something went wrong. Try again.	問題が発生しました。もう一度お試しください。
+member for 1 day	メンバー歴1日
+Game in progress: 1 ball left	ゲーム進行中：残り1球
+1 level to go	あと1レベル
+1 more online win with this cue for level {n}. Levels only add marks to the cue.	このキューでオンライン対戦にあと1勝するとレベル{n}。レベルはキューに模様が増えるだけです。
+Home	Home
+End	End
+PgUp	PgUp
+PgDn	PgDn
+Ins	Ins
+Could not join the LAN game	LANゲームに参加できませんでした
+LAN game · others join at {address}	LANゲーム · ほかのプレイヤーは{address}で参加
+Click to copy	クリックでコピー
+Copied.	コピーしました。
+Start a new game?	新しいゲームを始めますか？
+You have a game in progress against the computer, with 1 ball left. A new game takes its place.	コンピューターとの対戦が進行中です（残り1球）。新しいゲームを始めると、そのゲームは置き換えられます。
+You have a game in progress against the computer, with {n} balls left. A new game takes its place.	コンピューターとの対戦が進行中です（残り{n}球）。新しいゲームを始めると、そのゲームは置き換えられます。
+Continue that game	そのゲームを続ける
+Start a new one	新しく始める
+Click again to close the game: {n} will be disconnected	もう一度クリックでゲームを閉じます：{n}人が切断されます
+{name} cleared the table in one visit!	{name}が1回の番で取り切りました！
+{name}: {n} in a row!	{name}：{n}連続！
+Watch the deciding shot again	決着のショットをもう一度見る
+Next: {name}	次：{name}
+Drag on the table to aim, or click a ball	テーブルをドラッグして狙うか、ボールをクリック
+Set the power	パワーを調整
+Let go of {key} to shoot · Esc cancels	{key}を離すとショット · Escでキャンセル
+Staff accounts can't change their username.	運営アカウントはユーザー名を変更できません。
+That password can't be used. Choose another one.	そのパスワードは使えません。別のパスワードを選んでください。
+That tournament is full.	そのトーナメントは満員です。
+The server is restarting: your tournament was called off.	サーバーを再起動しています：あなたのトーナメントは中止になりました。
+Too many sign-ins. Wait a minute and try again.	ログインが多すぎます。1分待ってからもう一度お試しください。
+Too many wrong passwords. Try again in a few minutes.	パスワードの入力ミスが多すぎます。数分後にもう一度お試しください。
+Your VIP subscription could not be cancelled. Try again in a moment.	VIPサブスクリプションを解約できませんでした。しばらくしてからもう一度お試しください。
+Balls of both groups on the break: the turn passes to {next}, the table is open.	ブレイクで両グループの球が入りました：{next}の番になり、テーブルはオープンです。
+Only a final started while signed in counts: play the last stage again signed in.	ログインした状態で始めた最終戦だけが有効です：ログインして最終ステージをもう一度プレイしてください。
+The server didn't deal the final: this game won't earn the reward.	サーバーが最終戦を用意できませんでした：このゲームでは報酬を獲得できません。
+The server didn't answer: this session won't be ranked.	サーバーが応答しませんでした：このセッションはランキングに記録されません。
+The server is dealing the final…	サーバーが最終戦を用意しています…
+The server is setting up the drill…	サーバーがドリルを用意しています…
+Not signed in: a win in this final won't earn the reward.	未ログイン：この最終戦に勝っても報酬は獲得できません。
+Not kept: sessions count when started signed in.	保存されません：ログインした状態で始めたセッションだけが記録されます。
+Warning from the staff: {text}	運営からの警告：{text}
+The staff changed your username to {name}. Sign in again.	運営があなたのユーザー名を{name}に変更しました。もう一度ログインしてください。
+The staff called off the tournament you were in.	参加していたトーナメントを運営が中止しました。
+Experience ×{n}	経験値×{n}
+Coins from games ×{n}	ゲームで獲得するコイン×{n}
+Themed tournament	特別トーナメント
+Event	イベント
+Events	イベント
+Warning from the staff	運営からの警告
+Esc to cancel	Escでキャンセル
+Will be sent when you're back online.	オンラインに戻ったときに送信されます。
+Your strokes will be sent when you're back online.	あなたのショットは、オンラインに戻ったときに送信されます。
+The final you won was dealt to {name}: sign in as {name} to claim the reward.	勝った最終戦は{name}用に用意されたものです：報酬を受け取るには{name}でログインしてください。
+Type your password to confirm it's you.	本人確認のため、パスワードを入力してください。
+The cue ball is back on the head spot: {next} plays from there.	手球はヘッドスポットに戻りました：{next}はそこから撞きます。
+{name} came online	{name}がオンラインになりました
+Online now: {names}	オンライン中：{names}
+Nobody else is online right now.	現在、ほかにオンラインの人はいません。
+Focus mode	集中モード
+No invitations while you play: they are turned away until the game is over.	プレイ中は招待を受け付けません：ゲームが終わるまで招待は自動でお断りします。
+in focus mode	集中モード中
+In focus mode: no invitations until their game is over.	集中モード中：ゲームが終わるまで招待できません。
+That player is in focus mode and isn't taking invitations until their game is over.	そのプレイヤーは集中モード中のため、ゲームが終わるまで招待を受け付けていません。
+Look at it closely	じっくり見る
+Sign in to buy	ログインして購入
+Sign in to use	ログインして使う
+Back to the shop (Esc)	ショップに戻る（Esc）
+Show the interface (H)	UIを表示（H）
+Hide the interface (H)	UIを隠す（H）
+Turn (Space)	回転（スペース）
+Stop turning (Space)	回転を止める（スペース）
+Zoom in (+)	ズームイン（+）
+Zoom out (−)	ズームアウト（−）
+Back to the start (R)	最初に戻る（R）
+Previous setting ([)	前の背景（[）
+Next setting (])	次の背景（]）
+Setting	背景
+Studio	スタジオ
+Your table	あなたのテーブル
+Drag with the right button to turn · wheel to zoom · double-click to look closer	右ボタンでドラッグして回転 · ホイールでズーム · ダブルクリックで近くから見る
+Drag with the right button to turn · wheel to zoom · click a ball to look at it	右ボタンでドラッグして回転 · ホイールでズーム · ボールをクリックで近くから見る
+The set	セット全体
+From above	真上から
+Low angle	ローアングル
+Cue ball	手球
+Ball {n}	{n}番ボール
+Whole	全体
+Tip	タップ
+Joint	ジョイント
+Butt	バット
+Top	上面
+Cue	キュー
+Table	テーブル
+Hall	ホール
+Corner	コーナー
+Side	サイド
+Leg	脚
+Close-up	クローズアップ
+Cushion	クッション
+Phenolic resin under a bright clear coat	明るいクリアコートの下にフェノール樹脂
+A pearly sheen that shifts with the light	光で移ろう真珠のような光沢
+Brushed metal, bright as a mirror	鏡のように輝くヘアライン仕上げの金属
+Old ivory: soft, warm and matte	古い象牙：柔らかく温かみのあるマット仕上げ
+A full-size cue, tip to butt: turn it, come close to its joint and its butt	タップからバットまで実物大のキュー：回転させたり、ジョイントやバットに近づいたりできます
+A cube of chalk, and the colour it leaves on the tip	チョーク1個と、タップに付く色
+The cloth on the table: come close to see its weave	テーブルに張られたラシャ：近づくと織り目が見えます
+Dark mahogany, turned legs and brass castings	ダークマホガニー、ろくろ仕上げの脚、真鍮の金具
+Light teak, square legs and chrome castings	明るいチーク、角脚、クロームの金具
+Deep mahogany, carved legs and leather pocket nets	深みのあるマホガニー、彫刻入りの脚、革のポケットネット
+Black lacquer and brushed aluminium on two slab legs	黒いラッカーとヘアラインのアルミ、2枚の板脚
+Black ebony with gold castings and inlays	黒檀に金の金具と象嵌
+Reclaimed oak rails on a riveted black steel frame	リベット留めの黒いスチールフレームに古材オークのレール
+A pro tournament table: charcoal rails, block legs, chrome	プロのトーナメント台：チャコールのレール、ブロック脚、クローム
+Figured walnut on barley-twist legs, brass and leather	杢目の美しいウォルナット、ねじり脚、真鍮と革
+Ivory lacquer and gold on fluted columns	溝彫りの柱にアイボリーのラッカーと金
+Panelling, the bar, cue racks, posters and neon	羽目板、バーカウンター、キューラック、ポスター、ネオン
+A deck at sunset, open windows, palms and string lights	夕暮れのデッキ、開いた窓、ヤシの木、ストリングライト
+Panelling, bookshelves, leather sofas and a fireplace	羽目板、本棚、革のソファ、暖炉
+Brick, steel windows over the city and Edison bulbs	レンガ、街を見下ろすスチール窓、エジソン電球
+Log walls, a stone fireplace and snowy peaks outside	丸太の壁、石造りの暖炉、窓の外には雪山
+A black mirror floor, neon tubes and arcade cabinets	鏡のような黒い床、ネオン管、アーケード筐体
+A marble chessboard floor, gold, velvet and mirrors	大理石の市松模様の床、金、ベルベット、鏡
+Glass walls on the city at night, pale marble and oak	夜の街を望むガラスの壁、淡い大理石とオーク
+A gold medal!	金メダル！
+A silver medal!	銀メダル！
+A bronze medal!	銅メダル！
+Silver medal	銀メダル
+Bronze medal	銅メダル
+Your medals	あなたのメダル
+Kept in your account the next time you're online.	次にオンラインになったときに、アカウントに保存されます。
+Sign in to keep them in your account.	ログインすると、アカウントに保存されます。
+18 or older	18歳以上
+Under 18	18歳未満
+Creating an account means accepting the	アカウントを作成すると、以下に同意したものとみなされます：
+For a parent or guardian…	保護者の方へ…
+A parent or guardian turned the chat on for this account. They can turn it off here at any time.	保護者がこのアカウントのチャットをオンにしました。ここからいつでもオフにできます。
+This account belongs to someone under 18. By law, the chat with other players (messages in the lounge and in games, notes, status and gift messages) stays off until their mother, father or legal guardian turns it on.	このアカウントは18歳未満の方のものです。法律により、ほかのプレイヤーとのチャット（ロビーやゲーム中のメッセージ、書き込み、ひとこと、プレゼントのメッセージ）は、母親、父親、または法定後見人がオンにするまでオフになります。
+I am this player's mother, father or legal guardian, I have read the terms of use and I allow them to chat with other players.	私はこのプレイヤーの母親、父親、または法定後見人であり、利用規約を読んだうえで、ほかのプレイヤーとのチャットを許可します。
+Chat for players under 18	18歳未満のプレイヤーのチャット
+Turn the chat off	チャットをオフにする
+{n} more invitations	ほか{n}件の招待
+Invitation	招待
+Turn the chat on	チャットをオンにする
+Chat off: under 18. A parent or guardian can turn it on.	チャットはオフです：18歳未満。保護者がオンにできます。
+The chat with other players is off until you turn it on.	ほかのプレイヤーとのチャットは、オンにするまでオフです。
+Write to turn the chat on…	入力するとチャットをオンにできます…
+Chat with other players	ほかのプレイヤーとのチャット
+The chat with other players is off until you turn it on. To turn it on, tell us your age group: it can't be changed from the game afterwards.	ほかのプレイヤーとのチャットは、オンにするまでオフです。オンにするには年齢層を選んでください：あとからゲーム内で変更することはできません。
+Under 18: a parent or guardian must agree to the terms with you and turn the chat on.	18歳未満の方：保護者があなたと一緒に規約に同意し、チャットをオンにする必要があります。
+Not now	今はしない
+Terms of use	利用規約
+Privacy policy	プライバシーポリシー
+You have 7 days to change your mind and get your money back.	7日以内であれば、購入を取り消して返金を受けられます。
+Under 18: buy only with a parent's or guardian's permission.	18歳未満の方：保護者の許可を得てから購入してください。
+Renews every month until you cancel. 7 days to change your mind.	解約するまで毎月更新されます。7日以内なら取り消せます。
+About	このゲームについて
+Accounts, purchases and refunds, the rules of the online game.	アカウント、購入と返金、オンラインゲームのルール。
+What the game keeps, and your rights.	ゲームが保存する情報と、あなたの権利。
+Open	開く
+Credits	クレジット
+Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	フォント：DejaVu、Noto（OFL）。国旗：flag-icons（MIT）。リアクションと絵文字：Twemoji（CC-BY 4.0）。国名：iso-codes（LGPL-2.1）。ゲームのコードはオープンソースです（MIT）。
+The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	18歳未満のプレイヤーはチャットがオフです。保護者がロビーチャットの下からオンにできます。
+No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	ブレイクでどの球にも当たりませんでした：{next}がヘッドストリングの後ろからフリーボールでブレイクします。
+The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	ブレイクで的球が入らずに手球が落ちました：{next}がヘッドストリングの後ろからフリーボールでブレイクします。
+Users online	オンラインのユーザー
+ping {ms} ms	ping {ms} ms
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks, with the cue ball in hand behind the head string.	ブレイクで両グループの球と一緒に手球が落ちました：ペナルティはなく、テーブルはオープンのまま、{next}がヘッドストリングの後ろからフリーボールでブレイクします。
+Brazilian	ブラジル
+Official	公式
+Brazilian rules	ブラジルルール
+Official rules	公式ルール
+Brazilian rules (inside a sentence)	ブラジルルール
+Official rules (inside a sentence)	公式ルール
+Brazilian (inside a sentence)	ブラジル
+Official (inside a sentence)	公式
+As played in Brazil's bars	ブラジルのバーでの遊び方
+As played in tournaments (WPA)	トーナメントでの遊び方（WPA）
+on the Brazilian rules	ブラジルルールで
+on the official rules	公式ルールで
+A ball left the table on the break.	ブレイクで球がテーブルの外に出ました。
+A ball off the table on the break	ブレイクで球がテーブルの外に
+A safety calls nothing: whatever goes in stays down, and the turn passes.	セーフティでは何もコールしません：入った球はそのままで、相手の番になります。
+Break yourself	自分でブレイク
+CALLED POCKET	コールしたポケット
+Choose	選択
+Choose how play goes on	続け方を選択
+Choose the rules of your games. You can switch them any time, in the main menu.	ゲームのルールを選んでください。メインメニューでいつでも切り替えられます。
+Click a pocket on the table to call it; click it again to follow your aim.	テーブルのポケットをクリックしてコールします。もう一度クリックすると、狙いに合わせたコールに戻ります。
+Cue ball in hand	フリーボール
+Each of the rules has its own rating: these games don't change your {rating} under the {other}.	ルールごとにレートは別々です：ここでのゲームで{other}のレート（{rating}）は変わりません。
+Find an opponent of your level automatically ({rules})	同じくらいの実力の相手を自動で探します（{rules}）
+How do you like to play?	どのルールで遊びますか？
+How does play go on? Choose one:	どう続けますか？1つ選んでください：
+Illegal break: no ball made and fewer than four balls reached a cushion.	イリーガルブレイク：入った球がなく、クッションに届いた球が4つ未満でした。
+Invite {name}	{name}を招待
+No ball went in the called pocket ({pocket}): {next} to shoot.	コールしたポケット（{pocket}）に球が入りませんでした：{next}の番です。
+No pocket was called (a safety): {next} to shoot.	ポケットのコールなし（セーフティ）：{next}の番です。
+Not sure what changes?	何が違うかわかりませんか？
+Place it anywhere behind the head string.	ヘッドストリングの後ろならどこにでも置けます。
+Play on	そのまま続ける
+Players against the computer under these rules	このルールでコンピューターと対戦中のプレイヤー
+Players online under these rules (the lounge and online games)	このルールでオンライン中のプレイヤー（ロビーとオンライン対戦）
+RULES OF YOUR GAMES	ゲームのルール
+Read both rules	両方のルールを読む
+Rules of your games	ゲームのルール
+Safety	セーフティ
+Safety: no pocket	セーフティ：コールなし
+Show the {rules}: the rank, the league and the chart	{rules}を表示：順位、リーグ、グラフ
+The 8 is spotted and you keep shooting.	8番はスポットに戻され、あなたが続けて撞きます。
+The 8 is spotted; the cue ball in hand behind the head string.	8番はスポットに戻され、ヘッドストリングの後ろからフリーボールです。
+The 8 on a break with a foul	ファウルのあるブレイクでの8番
+The 8 on the break	ブレイクでの8番
+The 8 went down on a break with a foul: it is spotted.	ファウルのあるブレイクで8番が入りました：スポットに戻されます。
+The 8 went down on the break: it is spotted.	ブレイクで8番が入りました：スポットに戻されます。
+The balls are racked again and you break.	ラックし直して、あなたがブレイクします。
+The balls are racked again and {name} breaks.	ラックし直して、{name}がブレイクします。
+The balls are racked again: {name} breaks.	ラックし直し：{name}がブレイクします。
+The balls are racked again: {other} breaks.	ラックし直し：{other}がブレイクします。
+The rules of this game: click to read them	このゲームのルール：クリックで表示
+The rules of your games: click to switch	ゲームのルール：クリックで切り替え
+The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	メインメニューと同じ切り替えです：オンライン、コンピューター対戦、2人対戦に適用されます。ルールごとにレートは別々です。
+The table as it lies.	今の配置のままプレイ。
+The top 100 of each rules · rated games	ルール別トップ100 · レート戦
+The {ball} lay behind the head string and the cue ball hit it without crossing the line first	{ball}はヘッドストリングの後ろにあり、手球が先にラインを越えずに当たった
+What changes between the rules: click to read them	ルールの違い：クリックで表示
+With the cue ball in hand behind the head string.	ヘッドストリングの後ろからフリーボールで。
+follows your aim	狙いに連動
+no rated games yet	レート戦なし
+open table: the called ball you make sets your group	オープンテーブル：コールして入れた球でグループが決まります
+peak {n} · {games} games	最高{n} · {games}戦
+playing now	プレイ中
+your call	あなたのコール
+{name} breaks again	{name}が再びブレイク
+{name} chooses: play on, or rack the balls and break again.	{name}が選択します：そのまま続けるか、ラックし直して再ブレイクするか。
+{name} chooses: play the table as it lies, or take the cue ball in hand behind the head string.	{name}が選択します：今の配置のままプレイするか、ヘッドストリングの後ろからフリーボールにするか。
+{name} chooses: play the table as it lies, rack the balls and break, or have {breaker} break again.	{name}が選択します：今の配置のままプレイするか、ラックし直して自分でブレイクするか、{breaker}にもう一度ブレイクさせるか。
+{name} chooses: play the table as it lies, take the cue ball in hand behind the head string, rack the balls and break, or have {breaker} break again.	{name}が選択します：今の配置のままプレイするか、ヘッドストリングの後ろからフリーボールにするか、ラックし直して自分でブレイクするか、{breaker}にもう一度ブレイクさせるか。
+{name} chooses: the cue ball in hand behind the head string, or rack the balls and break.	{name}が選択します：ヘッドストリングの後ろからフリーボールにするか、ラックし直して自分でブレイクするか。
+{name} is choosing how play goes on…	{name}が続け方を選んでいます…
+{name} plays on (the 8 is spotted).	{name}はそのまま続けます（8番はスポットに戻されます）。
+{name} plays the table as it lies.	{name}は今の配置のままプレイします。
+{name} plays the {theirs} now; yours are the {mine}.	{name}は現在{theirs}でプレイしています。あなたは{mine}です。
+{name} takes the cue ball in hand.	{name}はフリーボールを選びました。
+{next} has the cue ball in hand behind the head string.	{next}はヘッドストリングの後ろからフリーボールです。
+{next} has the cue ball in hand: anywhere on the table.	{next}にフリーボール：テーブルのどこにでも置けます。
+{n} points to {tier} ({rules})	{tier}まであと{n}ポイント（{rules}）
+{n} waiting	{n}人待機中
+A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	ファウルすると、相手のグループの球が相手に与えられます。フリーボールはブレイク時のみで、コールするのは8番のポケットだけです。
+A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	ファウルすると、相手にフリーボール（テーブルのどこでも）が与えられます。すべてのショットでコールし、ブレイクでは4球以上をクッションに届かせる必要があります。
+A foul gives balls to the opponent	ファウルで相手に球が渡る
+Ball in hand on the break only	フリーボールはブレイク時のみ
+Only the 8's pocket is called	コールは8番のポケットのみ
+The most played in Brazil	ブラジルで最も遊ばれているルール
+A foul gives ball in hand	ファウルでフリーボール
+The break drives four balls to a cushion	ブレイクは4球以上をクッションへ
+Every shot is called	すべてのショットでコール
+The same all over the world	世界共通のルール
+Game type	対戦の種類
+called: {pocket}	コール：{pocket}
+no call: a safety	コールなし：セーフティ
+A safety: nothing called. Click again to call the pocket you aim at.	セーフティ：コールなし。もう一度クリックすると、狙っているポケットをコールします。
+A safety calls nothing: whatever goes in stays down, and the turn passes. To call another pocket, click it on the table.	セーフティでは何もコールしません：入った球はそのままで、相手の番になります。別のポケットをコールするには、テーブル上でクリックしてください。
+{games} games · {pct}% won	{games}戦 · 勝率{pct}%
+Each of the rules has its own rating; the level, coins and achievements are shared.	レートはルールごとに別々です。レベル、コイン、実績は共通です。
+You already have a VIP subscription: manage it with Manage subscription.	すでにVIPサブスクリプションに加入しています：「サブスクリプション管理」から管理できます。
+Your opponent can't start another game yet.	相手はまだ次のゲームを始められません。
+A tournament's name is shown to everyone: with your chat off, you can join tournaments but not create one.	トーナメント名は全員に表示されます：チャットがオフの場合、トーナメントへの参加はできますが、作成はできません。
+The connection dropped: check your coins before trying again.	接続が切れました：もう一度試す前に、コインの残高を確認してください。
+Sign in to buy coins.	コインを購入するにはログインしてください。
+Sign in to become VIP.	VIPになるにはログインしてください。
+how play goes on after the break is undecided	ブレイク後の続け方がまだ決まっていません
+Finish your game, and leave your table, the queue or your tournament first.	先にゲームを終え、テーブル、待機列、トーナメントから抜けてください。
+That choice can't be made now.	今はその選択はできません。
+That medal can't be.	そのメダルは存在しません。
+{name}'s tournament	{name}のトーナメント
+When time runs out, it's a foul: your opponent gets a ball and the cue ball goes back to the head spot.	時間切れはファウルです：相手に球が1つ渡り、手球はヘッドスポットに戻ります。
+When time runs out, it's a foul: your opponent gets the cue ball in hand.	時間切れはファウルです：相手にフリーボールが与えられます。
+Your username was changed. Sign in again.	ユーザー名が変更されました。もう一度ログインしてください。
+You have your tournament game in progress. A new game takes its place, and the tournament game counts as lost.	トーナメントのゲームが進行中です。新しいゲームを始めるとそのゲームは置き換えられ、トーナメントのゲームは負けになります。
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks again, from the head spot.	ブレイクで両グループの球と一緒に手球が落ちました：ペナルティはなく、テーブルはオープンのまま、{next}がヘッドスポットから再びブレイクします。
+The cue ball went down on the break with no ball made: {next} breaks again, from the head spot.	ブレイクで的球が入らずに手球が落ちました：{next}がヘッドスポットから再びブレイクします。
+{who} ran out of time: {other} breaks, from the head spot.	{who}の時間切れ：{other}がヘッドスポットからブレイクします。
+Congratulations!	おめでとうございます！
+You earned a new item: {title}	新しいアイテムを獲得しました：{title}
+You earned a new item!	新しいアイテムを獲得しました！

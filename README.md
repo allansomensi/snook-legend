@@ -199,7 +199,14 @@ same pages with its own provider details (see [docs/DEPLOY.md](docs/DEPLOY.md)).
 ## Controls
 
 Everything can be played with the mouse alone; the keyboard is optional.
-The interface is available in English, Brazilian Portuguese and Spanish (Settings → Game).
+The interface is available in 27 languages (Settings → Game; the system's language
+is picked on the first start): English, Spanish, Portuguese (Brazil and Portugal),
+French, German, Italian, Dutch, Swedish, Polish, Czech, Hungarian, Romanian, Greek,
+Russian, Ukrainian, Turkish, Indonesian, Filipino, Vietnamese, Thai, Hindi, Bengali,
+Arabic, Chinese (Simplified), Japanese and Korean. Arabic, Devanagari, Bengali and
+Thai are shaped as a browser would (rustybuzz), and Arabic reads right to left.
+A translation is one file, `crates/client/lang/<code>.txt` (plus the rules and
+"what's new" in `crates/client/rules/` and `crates/client/whatsnew/`).
 
 | Action | Mouse | Keyboard |
 |---|---|---|
@@ -337,11 +344,14 @@ client.
 
 ## License
 
-[MIT](LICENSE). The bundled DejaVu fonts keep their own license (below).
+[MIT](LICENSE). The bundled DejaVu and Noto fonts keep their own licenses (below).
 
 ## Credits
 
 Fonts: DejaVu Sans (Bitstream Vera license, see https://dejavu-fonts.github.io/License.html).
+Chinese, Japanese, Korean, Arabic, Devanagari, Bengali and Thai: subsets of
+[Noto](https://notofonts.github.io/) Sans (SIL Open Font License 1.1, see
+`crates/client/assets/noto/OFL.txt`; made by `tools/gen_fonts.py`).
 
 Flags: [flag-icons](https://github.com/lipis/flag-icons) (MIT, see
 `crates/client/assets/flag-icons-LICENSE.txt`). Country names: ISO 3166 data

@@ -1,0 +1,1206 @@
+# Snook Legend: Brazilian Portuguese.
+# One text per line: the English text (as written in the code), a tab, the translation.
+# Placeholders like {name} must stay as they are; \n is a new line.
+{name} is on the 8: called pocket {pocket}	{name} e la bila 8: buzunar anunțat {pocket}
+On the 8-ball: {pocket} pocket	La bila 8: {pocket}
+Show ping	Afișează pingul
+Your connection's delay, in online games.	Întârzierea conexiunii tale în partidele online.
+Reactions	Reacții
+Shop	Magazin
+Cloth	Postav
+Cues	Tacuri
+Chalk	Cretă
+Balls	Bile
+Coins	Monede
+coins	monede
+Sign in to buy and use items. Here is what there is:	Conectează-te ca să cumperi și să folosești obiecte. Iată ce există:
+In use	În uz
+Use	Folosește
+Buy	Cumpără
+{n} short	mai trebuie {n}
+{n} coins	{n} de monede
+Not enough coins: get more in the Coins tab.	Nu ai destule monede: obține mai multe în fila Monede.
+VIP only	Doar VIP
+free	gratuit
+yours	al tău
+achievement	realizare
+Coins can't be bought on this server yet.	Monedele nu se pot cumpăra încă pe acest server.
++{n} bonus	+{n} bonus
+Payment opens in your browser (card, Pix…), on Stripe's secure page.	Plata se deschide în browser (card, Pix…), pe pagina securizată Stripe.
+Coins arrive in a moment; they are only used for items in the game.	Monedele sosesc imediat; se folosesc doar pentru obiecte din joc.
+Exclusive items: {list}	Obiecte exclusive: {list}
+{n} coins every month	{n} de monede în fiecare lună
+Cancel whenever you want: VIP lasts until the end of the paid month	Anulezi oricând: VIP-ul durează până la sfârșitul lunii plătite
+You are VIP until {d}.	Ești VIP până la {d}.
+Manage subscription	Gestionează abonamentul
+Become VIP · {p}	Devino VIP · {p}
+VIP can't be bought on this server yet.	VIP-ul nu se poate cumpăra încă pe acest server.
+The payment page opened in your browser.	Pagina de plată s-a deschis în browser.
+Could not open the browser.	Browserul nu a putut fi deschis.
+Tournament green	Verde de turneu
+Electric blue	Albastru electric
+Burgundy	Bordo
+Charcoal	Antracit
+Teal	Verde petrol
+Royal purple	Mov regal
+Camel	Camel
+Midnight	Miez de noapte
+Champion's red	Roșu de campion
+Classic	Clasic
+Rosewood	Palisandru
+Ebony & silver	Abanos și argint
+Carbon	Carbon
+Ivory inlay	Incrustație de fildeș
+Crown	Coroană
+Jewels	Bijuterii
+Blue chalk	Cretă albastră
+Green chalk	Cretă verde
+Red chalk	Cretă roșie
+Purple chalk	Cretă mov
+Gold chalk	Cretă aurie
+Vintage	Vintage
+Pastel	Pastel
+Neon	Neon
+You already have this item.	Ai deja acest obiect.
+Not enough coins.	Nu ai destule monede.
+The purchase failed; no coins were taken.	Achiziția a eșuat; nu ți s-au luat monede.
+No such item.	Obiectul nu există.
+This item can't be bought with coins.	Acest obiect nu se poate cumpăra cu monede.
+You don't have this item.	Nu ai acest obiect.
+Purchases are not available.	Achizițiile nu sunt disponibile.
+This pack is not on sale.	Acest pachet nu e de vânzare.
+The payment page could not be opened. Try again in a moment.	Pagina de plată nu a putut fi deschisă. Încearcă din nou peste puțin timp.
+You are already VIP.	Ești deja VIP.
+There is no subscription to manage.	Nu ai niciun abonament de gestionat.
+The page could not be opened. Try again in a moment.	Pagina nu a putut fi deschisă. Încearcă din nou peste puțin timp.
+Coins added to your wallet.	Monedele au fost adăugate în portofel.
+Welcome to VIP!	Bine ai venit în VIP!
+Slow down a little.	Mai încet puțin.
+You can't do that.	Nu poți face asta.
+There are too many notes right now. Try again in a few minutes.	Sunt prea multe anunțuri acum. Încearcă din nou peste câteva minute.
+A moderator took down your note.	Un moderator ți-a retras anunțul.
+A moderator cleared your status message.	Un moderator ți-a șters mesajul de stare.
+Status message cleared.	Mesajul de stare a fost șters.
+VIP	VIP
+Play now	Joacă acum
+Find an opponent of your level automatically	Găsește automat un adversar de nivelul tău
+Looking for an opponent… {t}	Se caută adversar… {t}
+any rating	orice rating
+rating ±{n} · {mode}	rating ±{n} · {mode}
+Potting success	Precizie
+Balls made	Bile băgate
+Best run	Cea mai bună serie
+Fouls	Faulturi
+seen just now	online adineauri
+seen {n} min ago	online acum {n} min
+seen {n} h ago	online acum {n} h
+seen yesterday	online ieri
+seen {n} days ago	online acum {n} zile
+seen {n} months ago	online acum {n} luni
+just now	adineauri
+{n} min ago	acum {n} min
+{n} h ago	acum {n} h
+yesterday	ieri
+{n} days ago	acum {n} zile
+Game history	Istoricul partidei
+Nothing yet.	Nimic deocamdată.
+Fine aim: click the arrows, or drag here	Țintire fină: apasă săgețile sau trage aici
+{n} watching	Spectatori: {n}
+Watching {name}	Urmărești jocul lui {name}
+Your reactions reach the table quietly.	Reacțiile tale ajung la masă discret.
+Stop watching	Oprește vizionarea
+If they play again, you keep watching.	Dacă joacă din nou, continui să privești.
+Your friend left the table.	Prietenul tău a părăsit masa.
+Your friend isn't playing right now.	Prietenul tău nu joacă acum.
+You can only watch your friends.	Poți urmări doar partidele prietenilor.
+You can't watch this game.	Nu poți urmări această partidă.
+{n} points to {tier}	{n} pct. până la {tier}
+Top tier	Categoria maximă
+Reactions {n}/{total}	Reacții {n}/{total}
+Haunted table	Masa bântuită
+Win a rated game during Halloween (Oct 24 – Nov 2).	Câștigă o partidă cu rating de Halloween (24 oct. – 2 nov.).
+Winter league	Liga de iarnă
+Win a rated game over the holidays (Dec 15 – Jan 6).	Câștigă o partidă cu rating în timpul sărbătorilor (15 dec. – 6 ian.).
+Fireworks	Artificii
+Win a rated game at the turn of the year (Dec 31 – Jan 1).	Câștigă o partidă cu rating de Revelion (31 dec. – 1 ian.).
+Shows where the object ball and the cue ball go (only in free games and practice).	Arată unde merg bila țintă și bila albă (doar în partidele libere și la antrenament).
+{n} online · ping {ms} ms	{n} online · ping {ms} ms
+Right-drag · Wheel	Trage cu clic dreapta · Rotiță
+Win %	% victorii
+Reset the camera: top view, no zoom	Resetează camera: vedere de sus, fără zoom
+{name} sank the 8-ball	{name} a băgat bila 8
+{name} sank the 8 too early	{name} a băgat bila 8 prea devreme
+{name} sank the 8 in the wrong pocket	{name} a băgat bila 8 în buzunarul greșit
+{name} fouled on the 8	{name} a făcut fault la bila 8
+{name} knocked the 8 off the table	{name} a scos bila 8 de pe masă
+{name} resigned	{name} a cedat
+{name} left the game	{name} a părăsit partida
+{winner} wins! ({how})	{winner} câștigă! ({how})
+#{n} in the world	#{n} în lume
+3–16 letters, digits or underscores.	3–16 litere, cifre sau caractere „_”.
+No lines on the table: aim by eye, along the cue.	Nicio linie pe masă: țintești din ochi, de-a lungul tacului.
+No guide	Fără ghidaj
+Only a short line from the cue ball.	Doar o linie scurtă de la bila albă.
+Accept friend	Acceptă cererea
+Achievement unlocked: {title}	Realizare deblocată: {title}
+Achievements {n}/{total}	Realizări {n}/{total}
+Add	Adaugă
+Add a friend by username	Adaugă un prieten după numele de utilizator
+Add friend	Adaugă prieten
+Against the computer	Contra computerului
+All tournaments	Toate turneele
+Amateur	Amator
+At least 8 characters. Use a password you don't use elsewhere.	Cel puțin 8 caractere. Folosește o parolă pe care nu o mai folosești în altă parte.
+At least two players are needed.	Sunt necesari cel puțin doi jucători.
+Back	Înapoi
+Black ball	Bila neagră
+Block	Blochează
+Break and run	Totul din spargere
+Break and run 10 times.	Câștigă direct din spargere de 10 ori.
+Can't listen for games here: join by address below.	Nu se pot căuta partide aici: intră după adresă, mai jos.
+Cancel request	Anulează cererea
+Cancel tournament	Anulează turneul
+Casual	Amicală
+Centurion	Centurion
+Champion	Campion
+Champion: {name}	Campion: {name}
+Change country	Schimbă țara
+Add a status message	Adaugă un mesaj de stare
+A line about you	Un rând despre tine
+Save (Enter)	Salvează (Enter)
+Cancel (Esc)	Anulează (Esc)
+Change your status message	Schimbă-ți mesajul de stare
+Clear the status message	Șterge mesajul de stare
+Cheating or abuse	Trișat sau abuz
+Choose…	Alege…
+Click again to block	Dă clic din nou ca să blochezi
+Close	Închide
+Closer	Finalizatorul
+Competitor	Competitor
+Connecting to the server…	Conectare la server…
+Could not host a game: {e}	Nu s-a putut crea partida: {e}
+Country	Țara
+Create	Creează
+Create a tournament	Creează un turneu
+Don't show a flag	Nu afișa steagul
+No country found.	Nicio țară găsită.
+Dynasty	Dinastie
+Eight is enough	Opt e de ajuns
+Executioner	Călăul
+Expert	Expert
+Familiar face	Față cunoscută
+Final	Finala
+Finish your game first.	Termină-ți mai întâi partida.
+First blood	Primul sânge
+First break	Prima spargere
+Friend request sent.	Cererea de prietenie a fost trimisă.
+Friends	Prieteni
+# Daily (correspondence) games.
+daily game	partidă zilnică
+Daily	Zilnice
+Daily game	Partidă zilnică
+Daily games	Partide zilnice
+Challenge a player by username	Provoacă un jucător după numele de utilizator
+Challenge to a daily game	Provoacă la o partidă zilnică
+3 days for each turn	3 zile pentru fiecare tură
+No daily games yet. Challenge a friend: each of you plays a turn whenever you can.	Încă nu ai partide zilnice. Provoacă un prieten: fiecare își joacă tura când poate.
+challenges you · {kind}	te provoacă · {kind}
+waiting for an answer · {kind} · {time} left	se așteaptă răspunsul · {kind} · mai sunt {time}
+your turn · {time} left	rândul tău · mai ai {time}
+their turn · {time} left	rândul adversarului · mai are {time}
+won · {how}	victorie · {how}
+lost · {how}	înfrângere · {how}
+ran out of time	ai rămas fără timp
+the opponent ran out of time	adversarul a rămas fără timp
+open table	masă deschisă
+You: {mine}, {a} left · {name}: {theirs}, {b} left	Tu: {mine}, încă {a} · {name}: {theirs}, încă {b}
+Look	Vezi
+Skip	Sari peste
+Replaying {name}'s turn	Se reia tura lui {name}
+Stroke {n} of {total}	Lovitura {n} din {total}
+Turn sent	Tură trimisă
+Turn sent.	Tura a fost trimisă.
+Waiting for {name} to play	Se așteaptă ca {name} să joace
+{name} has {time} to play. You'll be told when it's your turn.	{name} are {time} ca să joace. Te anunțăm când e rândul tău.
+{time} left to play. You'll be told when it's your turn.	Timp rămas: {time}. Te anunțăm când e rândul tău.
+Back to daily games	Înapoi la partidele zilnice
+Your game is saved: come back whenever you like.	Partida ta e salvată: revino când vrei.
+{d} d {h} h	{d} z {h} h
+{name} ran out of time	{name} a rămas fără timp
+This game can't be shown.	Partida nu poate fi afișată.
+A daily game is waiting for you	O partidă zilnică te așteaptă
+{n} daily games are waiting for you	Partide zilnice care te așteaptă: {n}
+{name} challenges you to a rated daily game.	{name} te provoacă la o partidă zilnică cu rating.
+{name} challenges you to a casual daily game.	{name} te provoacă la o partidă zilnică amicală.
+{name} accepted your daily game.	{name} ți-a acceptat partida zilnică.
+{name} declined your daily game.	{name} ți-a refuzat partida zilnică.
+{name} withdrew their daily game challenge.	{name} și-a retras provocarea la partida zilnică.
+Your turn in the daily game against {name}.	E rândul tău în partida zilnică cu {name}.
+{name} ran out of time: you won the daily game.	{name} a rămas fără timp: ai câștigat partida zilnică.
+You won the daily game against {name}!	Ai câștigat partida zilnică cu {name}!
+You ran out of time in the daily game against {name}.	Ai rămas fără timp în partida zilnică cu {name}.
+You lost the daily game against {name}.	Ai pierdut partida zilnică cu {name}.
+Challenge sent.	Provocarea a fost trimisă.
+Daily games need an account.	Partidele zilnice necesită un cont.
+No such game.	Partida nu există.
+That challenge is no longer valid.	Provocarea nu mai este valabilă.
+That player already challenged you: answer their challenge.	Jucătorul te-a provocat deja: răspunde-i la provocare.
+That player has too many challenges waiting.	Jucătorul are prea multe provocări în așteptare.
+That player has too many daily games going on.	Jucătorul are prea multe partide zilnice în desfășurare.
+That player is not accepting challenges.	Jucătorul nu acceptă provocări.
+This game can't be played right now.	Partida nu poate fi jucată acum.
+This game changed meanwhile: open it again.	Partida s-a schimbat între timp: deschide-o din nou.
+This game is over.	Partida s-a încheiat.
+You already challenged that player.	Ai provocat deja acest jucător.
+You already have a game going on against that player.	Ai deja o partidă în desfășurare cu acest jucător.
+You blocked that player.	Ai blocat acest jucător.
+You can't challenge yourself.	Nu te poți provoca singur.
+You have as many daily games as you can play at once.	Ai deja numărul maxim de partide zilnice simultane.
+You have too many challenges waiting for an answer.	Ai prea multe provocări care așteaptă răspuns.
+You're sending challenges too quickly.	Trimiți provocări prea repede.
+Your time for this turn ran out.	Timpul tău pentru această tură a expirat.
+Games	Partide
+Games on your network	Partide în rețeaua ta
+Give the tournament a name (at least 3 characters).	Dă-i un nume turneului (cel puțin 3 caractere).
+Good company	În companie bună
+Grandmaster	Mare maestru
+Guests can only join LAN games. Create an account.	Invitații pot intra doar în partide LAN. Creează un cont.
+Guests can't play rated tournaments.	Invitații nu pot juca turnee cu rating.
+Guests don't have this.	Invitații nu au acces la asta.
+Harassment	Hărțuire
+Hat trick	Hat-trick
+Have 10 friends.	Ai 10 prieteni.
+Have an account for 30 days.	Ai contul de 30 de zile.
+Have an account for a year.	Ai contul de un an.
+Host a game on this computer	Găzduiește o partidă pe acest computer
+Host {host} · {n}/{size} players · {kind}	Gazdă {host} · {n}/{size} jucători · {kind}
+Hot hand	Mână fierbinte
+Hustler	Șmecher
+Invalid shot.	Lovitură nevalidă.
+Join	Intră
+Joining the LAN game…	Conectare la partida LAN…
+Just for fun	Doar de distracție
+L	Î
+LAN game	Partidă LAN
+LAN game hosted by {name}.	Partidă LAN găzduită de {name}.
+LAN games don't change ratings.	Partidele LAN nu schimbă ratingul.
+Legend	Legendă
+Lives at the table	Trăiește la masă
+Loading the profile…	Se încarcă profilul…
+Loading…	Se încarcă…
+Local network	Rețea locală
+Locked	Blocat
+Looking for games	Se caută partide
+Make a friend.	Fă-ți un prieten.
+Master	Maestru
+Name	Nume
+Names have 3–16 letters, digits or underscores.	Numele au 3–16 litere, cifre sau caractere „_”.
+New account	Cont nou
+I have an account	Am deja cont
+New here? Choose “New account”: it takes ten seconds.	Ești nou? Alege „Cont nou”: durează zece secunde.
+New tournament	Turneu nou
+No friends yet. Add someone you played with!	Încă nu ai prieteni. Adaugă pe cineva cu care ai jucat!
+No games yet.	Încă nu sunt partide.
+No limit	Fără limită
+No open tables. Open one and others can sit down.	Nicio masă deschisă. Deschide una și alții se pot așeza.
+No other open tables right now.	Nicio altă masă deschisă acum.
+No such player.	Jucătorul nu există.
+No tournaments right now. Create one!	Niciun turneu acum. Creează unul!
+Offensive name	Nume ofensator
+On a roll	Pe val
+On fire	În flăcări
+Only the host can start the tournament.	Doar gazda poate începe turneul.
+Open a table	Deschide o masă
+Or join by address	Sau intră după adresă
+Other	Altceva
+Others can join at {ip}:{port}	Alții pot intra la {ip}:{port}
+Passwords need at least 8 characters (not only digits).	Parola trebuie să aibă cel puțin 8 caractere (nu doar cifre).
+Play 1,000 rated games.	Joacă 1.000 de partide cu rating.
+Play 10 rated games.	Joacă 10 partide cu rating.
+Play 100 rated games.	Joacă 100 de partide cu rating.
+Play 25 casual games.	Joacă 25 de partide amicale.
+Play 500 rated games.	Joacă 500 de partide cu rating.
+Play in a tournament.	Joacă într-un turneu.
+Play online	Joacă online
+Play with friends on the same network	Joacă cu prietenii în aceeași rețea
+Play your first rated game.	Joacă prima ta partidă cu rating.
+Player 1	Jucătorul 1
+Players	Jucători
+Players in a tournament can't start other games.	Jucătorii dintr-un turneu nu pot începe alte partide.
+Please don't repeat the same message.	Te rugăm să nu repeți același mesaj.
+Pool hall legend	Legenda sălii
+Popular	Popular
+Private	Privată
+for your friends to sit down	ca să se așeze prietenii tăi
+Profile	Profil
+{key}: watch the last shot again	{key}: revezi ultima lovitură
+REPLAY	RELUARE
+Rated	Cu rating
+Rated games, tables, tournaments and friends	Partide cu rating, mese, turnee și prieteni
+Reach a rating of 1300.	Atinge un rating de 1300.
+Reach a rating of 1500.	Atinge un rating de 1500.
+Reach a rating of 1700.	Atinge un rating de 1700.
+Reach a rating of 1900.	Atinge un rating de 1900.
+Reach a rating of 2100.	Atinge un rating de 2100.
+Refresh	Reîmprospătează
+Regular	Client fidel
+Remove friend	Elimină prietenul
+Replay	Reluare
+Report	Raportează
+Report {name}	Raportează jucătorul {name}
+Request sent	Cerere trimisă
+Friend	Prieten
+Recent	Recenți
+Nobody yet. The people you play online will show up here.	Nimeni deocamdată. Aici vor apărea cei cu care joci online.
+{n} games	partide: {n}
+Rookie	Începător
+Round {n}	Runda {n}
+Search…	Caută…
+Semi-finals	Semifinale
+Send report	Trimite raportul
+This game goes with the report, so the moderators can watch it.	Partida aceasta se trimite odată cu raportul, ca moderatorii să o poată vedea.
+Your game with {name} ({date}) goes with the report, so the moderators can watch it.	Partida ta cu {name} ({date}) se trimite odată cu raportul, ca moderatorii să o poată vedea.
+You haven't played {name} in the last day: the moderators see the recent chat.	Nu ai jucat cu {name} în ultima zi: moderatorii văd chatul recent.
+Shark	Rechin
+Shows the contact point; judging the cut is up to you.	Arată punctul de contact; tăietura o apreciezi tu.
+Shutout	La zero
+Sign in	Conectare
+Sign in or create an account	Conectează-te sau creează un cont
+Sign out	Deconectare
+Sit down	Așază-te
+Skilled	Priceput
+Someone with that name is already here.	Cineva cu acest nume e deja aici.
+Spam	Spam
+Start now	Începe acum
+Stop the replay	Oprește reluarea
+Table runner	Stăpânul mesei
+Tables	Mese
+Take turns on this computer	Jucați pe rând la acest computer
+Thank you. The moderators will look into it.	Mulțumim. Moderatorii vor analiza situația.
+Thank you. The moderators will look into it, with your game attached.	Mulțumim. Moderatorii vor analiza situația, cu partida ta atașată.
+That player is not accepting invitations.	Jucătorul nu acceptă invitații.
+That shot was for an earlier turn.	Lovitura era pentru o tură anterioară.
+That table is no longer open.	Masa nu mai este deschisă.
+That tournament has already started.	Turneul a început deja.
+That tournament no longer exists.	Turneul nu mai există.
+The first connection of the day can take up to a minute while the server wakes up.	Prima conectare din zi poate dura până la un minut, cât timp serverul pornește.
+The first time, allow Snook Legend through the firewall when asked.	Prima dată, permite accesul pentru Snook Legend în firewall când ți se cere.
+The server could not play that shot.	Serverul nu a putut juca lovitura.
+The server is busy. Try again in a moment.	Serverul e ocupat. Încearcă din nou peste puțin timp.
+The tournament starts when it is full (the host can start it earlier).	Turneul începe când e complet (gazda îl poate începe mai devreme).
+There are too many tournaments right now. Join one!	Sunt prea multe turnee acum. Intră într-unul!
+This is a LAN server: join as a guest.	Acesta e un server LAN: intră ca invitat.
+Fifteen rivals, a tour and ghosts of real players	Cincisprezece adversari, un circuit și fantomele unor jucători reali
+Tier	Ligă
+Time per shot	Timp pe lovitură
+Too many failed attempts. Wait a few minutes and try again.	Prea multe încercări eșuate. Așteaptă câteva minute și încearcă din nou.
+Too many messages.	Prea multe mesaje.
+Too many new accounts from this network. Try again later.	Prea multe conturi noi din această rețea. Încearcă mai târziu.
+Top 100 · rated games	Top 100 · partide cu rating
+Tournament game: the next round starts from the lounge.	Partidă de turneu: runda următoare începe din salon.
+Tournament games have no rematch.	Partidele de turneu nu au revanșă.
+Tournaments	Turnee
+Tournaments have 4, 8 or 16 players.	Turneele au 4, 8 sau 16 jucători.
+Two players	Doi jucători
+Unblock	Deblochează
+Unlocked {date}	Deblocată pe {date}
+Unstoppable	De neoprit
+W	V
+Watch the last shot again	Revezi ultima lovitură
+What happened? (optional)	Ce s-a întâmplat? (opțional)
+When time runs out, the turn passes.	Când expiră timpul, tura trece la adversar.
+Whitewash	Fără milă
+Win 10 rated games on the 8-ball.	Câștigă 10 partide cu rating băgând bila 8.
+Win 10 rated games in a row.	Câștigă 10 partide cu rating la rând.
+Win 10 rated games.	Câștigă 10 partide cu rating.
+Win 10 rated shutouts.	Câștigă la zero 10 partide cu rating.
+Win 100 rated games on the 8-ball.	Câștigă 100 de partide cu rating băgând bila 8.
+Win 100 rated games.	Câștigă 100 de partide cu rating.
+Win 250 rated games on the 8-ball.	Câștigă 250 de partide cu rating băgând bila 8.
+Win 3 rated games in a row.	Câștigă 3 partide cu rating la rând.
+Win 5 rated games in a row.	Câștigă 5 partide cu rating la rând.
+Win 5 tournaments.	Câștigă 5 turnee.
+Win 50 rated games on the 8-ball.	Câștigă 50 de partide cu rating băgând bila 8.
+Win 50 rated games.	Câștigă 50 de partide cu rating.
+Win 500 rated games.	Câștigă 500 de partide cu rating.
+Win a rated game.	Câștigă o partidă cu rating.
+Win a tournament.	Câștigă un turneu.
+Win a rated game before your opponent sinks a ball of their group.	Câștigă o partidă cu rating înainte ca adversarul să bage o bilă din grupa lui.
+Win a rated game from the break without your opponent getting a shot.	Câștigă o partidă cu rating din spargere, fără ca adversarul să ajungă la masă.
+Withdraw	Retrage-te
+World ranking	Clasament mondial
+Wrong table password.	Parolă de masă greșită.
+Wrong tournament password.	Parolă de turneu greșită.
+You are already in a tournament.	Ești deja într-un turneu.
+You are hosting a game	Găzduiești o partidă
+You can't join this table.	Nu poți intra la această masă.
+You signed in from another place.	Te-ai conectat din alt loc.
+You're sending invitations too quickly.	Trimiți invitații prea repede.
+You're sending messages too quickly.	Trimiți mesaje prea repede.
+You've sent many reports. Please wait before sending more.	Ai trimis multe rapoarte. Așteaptă puțin înainte să trimiți altele.
+Your friend list is full.	Lista ta de prieteni e plină.
+Your next match starts by itself when both players are free.	Următorul tău meci începe automat când ambii jucători sunt liberi.
+Your profile	Profilul tău
+Your table is open	Masa ta e deschisă
+Zoom in	Apropie
+Zoom out	Depărtează
+at a table	la o masă
+best streak	record de victorii la rând
+by {host} · {n}/{size} players	de {host} · {n}/{size} jucători
+casual games	partide amicale
+casual · private	amicală · privată
+casual · public	amicală · publică
+connecting to the server	conectare la server
+eight-ball pool	biliard 8-ball
+finished	încheiat
+guest	invitat
+invites you to {kind}	te invită la {kind}
+joined today	s-a înscris azi
+member for {n} days	membru de {n} zile
+member for {n} months	membru de {n} luni
+member for {n} years	membru de {n} ani
+offline	offline
+open	deschis
+optional: only friends with it can join	opțional: doar prietenii care o au pot intra
+password	parolă
+peak {n}	maxim {n}
+playing	joacă
+playing the computer	joacă cu computerul
+away	absent
+this game is saved	partida e salvată
+rated games	partide cu rating
+rated · private	cu rating · privată
+rated · public	cu rating · publică
+request sent	cerere trimisă
+the connection dropped	conexiunea s-a întrerupt
+to play online	ca să joci online
+tournament	turneu
+tournaments won	turnee câștigate
+waiting for an opponent…	se așteaptă un adversar…
+win rate	% victorii
+wins	victorii
+won on the 8	câștigate la bila 8
+{host}'s game	partida lui {host}
+{name} wants to be friends	{name} vrea să fiți prieteni
+{name} wants to be your friend.	{name} vrea să fiți prieteni.
+{n} online	{n} online
+sank the 8-ball	a băgat bila 8
+the opponent sank the 8-ball	adversarul a băgat bila 8
+the opponent sank the 8 too early	adversarul a băgat bila 8 prea devreme
+sank the 8 too early	a băgat bila 8 prea devreme
+the opponent sank the 8 in the wrong pocket	adversarul a băgat bila 8 în buzunarul greșit
+sank the 8 in the wrong pocket	a băgat bila 8 în buzunarul greșit
+the opponent fouled on the 8	adversarul a făcut fault la bila 8
+fouled on the 8	a făcut fault la bila 8
+the opponent knocked the 8 off the table	adversarul a scos bila 8 de pe masă
+knocked the 8 off the table	a scos bila 8 de pe masă
+the opponent resigned	adversarul a cedat
+resigned	a cedat
+the opponent left	adversarul a plecat
+left the game	a părăsit partida
+You are muted for {n} more minutes.	Chatul tău e blocat încă {n} min.
+This account is suspended for {n} more day(s). Reason: {reason}.	Acest cont e suspendat încă {n} zi(le). Motiv: {reason}.
+This account is banned. Reason: {reason}.	Acest cont e blocat definitiv. Motiv: {reason}.
+You were muted: {r}	Chatul tău a fost blocat: {r}
+Your account was suspended: {r}	Contul tău a fost suspendat: {r}
+Your account was banned: {r}	Contul tău a fost blocat definitiv: {r}
+You were disconnected by a moderator: {r}	Un moderator te-a deconectat: {r}
+You were disconnected by a moderator.	Un moderator te-a deconectat.
+Please sign in again.	Conectează-te din nou.
+Your password was changed. Sign in again.	Parola ta a fost schimbată. Conectează-te din nou.
+Accept rematch	Acceptă revanșa
+Accept	Acceptă
+Aim	Țintește
+Aiming guide	Ghidaj de țintire
+Aiming	Țintire
+Anti-aliasing	Anti-aliasing
+Smooths the jagged edges of lines and balls.	Netezește marginile zimțate ale liniilor și bilelor.
+Back to lounge	Înapoi în salon
+Balanced: smooth on most laptops.	Echilibrat: fluid pe majoritatea laptopurilor.
+Ball in hand	Bila în mână
+Break the rack	Fă spargerea
+Camera pulls back to watch each shot	Camera se retrage ca să urmărească fiecare lovitură
+Camera	Cameră
+Cancel	Anulează
+Casual game: ratings unchanged	Partidă amicală: ratingul nu se schimbă
+Center	Centru
+Chat	Chat
+Click a ball or a spot	Dă clic pe o bilă sau pe un punct
+Click to chat, Enter to send	Dă clic ca să scrii, Enter ca să trimiți
+Controls	Comenzi
+Create account	Creează cont
+Cue ball contact	Punctul de lovire pe bila albă
+Decline	Refuză
+Done	Gata
+Drag the cue ball	Trage bila albă
+Elevation	Elevație
+Everything, with reflections in polished floors: for gaming PCs.	Totul, cu reflexii în podelele lustruite: pentru PC-uri de gaming.
+Fine aim	Țintire fină
+Finish this match first.	Termină mai întâi acest meci.
+For old or very slow computers.	Pentru computere vechi sau foarte lente.
+Full screen	Ecran complet
+Also with {key}.	Și cu {key}.
+Full	Complet
+Game server	Server de joc
+Change it only to play on another server.	Schimbă-l doar ca să joci pe alt server.
+Advanced	Avansat
+Custom server	Server personalizat
+Graphics quality	Calitate grafică
+Quality	Calitate
+Display	Afișaj
+High	Ridicată
+Invite	Invită
+Leave to the lounge	Ieși în salon
+Leave	Ieși
+Leaving now counts as a loss.	Dacă ieși acum, pierzi partida.
+Lounge chat	Chatul salonului
+Low	Scăzută
+Main menu	Meniu principal
+Medium	Medie
+Menu / help	Meniu / ajutor
+Next game starts in a moment…	Următoarea partidă începe imediat…
+No rated games yet. Be the first!	Încă nu există partide cu rating. Fii primul!
+Nobody else is here right now.	Nu mai e nimeni aici acum.
+Looking for a game?	Cauți o partidă?
+Looking for a game	Caut partidă
+Post a note	Publică un anunț
+Everyone in the lounge sees it for 30 minutes	Toți cei din salon îl văd timp de 30 de minute
+What are you after? ({kind})	Ce cauți? ({kind})
+Post	Publică
+Your note: {text}	Anunțul tău: {text}
+{mode} · {left} left	{mode} · mai sunt {left}
+Take down	Retrage
+Challenge	Provoacă
+Take the note down	Retrage anunțul
+Off	Oprit
+On the 8-ball: call a pocket	La bila 8: anunță un buzunar
+On the 8-ball	La bila 8
+Open table	Masă deschisă
+Password	Parolă
+Paused	În pauză
+Play	Joacă
+Player 2	Jucătorul 2
+Player	Jucător
+Quick aim	Țintire rapidă
+Quit	Ieșire
+Reconnected.	Reconectat.
+Rematch	Revanșă
+Resign this game	Cedează partida
+Restart the game to apply this change.	Repornește jocul ca să aplici schimbarea.
+Resume	Continuă
+Retry	Reîncearcă
+Saving the result…	Se salvează rezultatul…
+Say hello… (Enter to send)	Salută… (Enter ca să trimiți)
+Send	Trimite
+Settings	Setări
+{key} + drag	{key} + trage
+{key}: 3D / top view	{key}: 3D / vedere de sus
+{keys}: zoom	{keys}: zoom
+View	Vedere
+Aim left	Țintește la stânga
+Aim right	Țintește la dreapta
+Fine aim (hold)	Țintire fină (ține apăsat)
+Shoot (hold, release)	Lovește (ține apăsat, apoi eliberează)
+Top spin	Efect sus
+Back spin	Efect jos
+Left spin	Efect stânga
+Right spin	Efect dreapta
+Raise the cue	Ridică tacul
+Lower the cue	Coboară tacul
+Pick up the cue ball in hand	Ia bila albă în mână
+3D / top view	3D / vedere de sus
+Reset the camera	Resetează camera
+Replay the last shot	Revezi ultima lovitură
+List of controls	Lista comenzilor
+Keys can be changed in Settings → Controls.	Tastele se pot schimba în Setări → Comenzi.
+Space	Spațiu
+Right Shift	Shift dreapta
+Right Ctrl	Ctrl dreapta
+Right Alt	Alt dreapta
+Aiming and shooting	Țintire și lovire
+Spin and elevation	Efect și elevație
+Fixed keys	Taste fixe
+Menu, back and cancel	Meniu, înapoi și anulare
+Confirm (forms, the cue ball in hand)	Confirmă (formulare, bila albă în mână)
+This key can't be changed.	Această tastă nu poate fi schimbată.
+Press a key · Esc cancels · Backspace clears	Apasă o tastă · Esc anulează · Backspace șterge
+Press a key…	Apasă o tastă…
+Click to change	Dă clic ca să schimbi
+Click to add a key	Dă clic ca să adaugi o tastă
+Back to no key	Revino la: fără tastă
+Back to {keys}	Revino la {keys}
+Swapped: {action} is now on {key}.	Inversate: {action} e acum pe {key}.
+Taken from {action}, which now has no key.	Luată de la {action}, care acum nu mai are tastă.
+Taken from {action}.	Luată de la {action}.
+That key can't be used: try another.	Tasta nu poate fi folosită: încearcă alta.
+Shoot	Lovește
+Short	Scurt
+Signing in…	Conectare…
+Signing in	Conectare
+Soft shadows from every lamp, glossy halls, halos.	Umbre fine de la fiecare lampă, săli lucioase, halouri.
+Solids (1–7)	Pline (1–7)
+Spin ball	Bila de efect
+Spin	Efect
+Standard	Standard
+Stay	Rămâi
+Stripes (9–15)	Dungate (9–15)
+The game goes on while this is open.	Jocul continuă cât timp fereastra e deschisă.
+Use default	Valoare implicită
+Username	Nume de utilizator
+Usernames have 3–16 letters, digits or underscores.	Numele de utilizator au 3–16 litere, cifre sau caractere „_”.
+{keys} (jump & massé)	{keys} (salt și massé)
+You win!	Ai câștigat!
+Your name	Numele tău
+Your opponent went back to the lounge.	Adversarul tău s-a întors în salon.
+Your turn	Rândul tău
+open table: the next ball you make sets your group	masă deschisă: următoarea bilă pe care o bagi îți stabilește grupa
+draw	efect jos
+follow	efect sus
+stun	stop
+solids	pline
+stripes	dungate
+lounge	salon
+ · left english	 · efect stânga
+ · right english	 · efect dreapta
+Language	Limbă
+General	General
+Graphics	Grafică
+Game	Joc
+Sound	Sunet
+Reset to defaults	Valori implicite
+Reset all keys	Resetează toate tastele
+Reset every key?	Resetezi toate tastele?
+Click again to put every key back	Dă clic din nou ca să readuci toate tastele la valorile implicite
+Updates	Actualizări
+Update automatically	Actualizează automat
+New versions download in the background and install when you restart.	Versiunile noi se descarcă în fundal și se instalează la repornire.
+Version {v}	Versiunea {v}
+What's new	Noutăți
+What's new in version {v}	Noutăți în versiunea {v}
+No notes for this version.	Nicio notă pentru această versiune.
+Got it	Am înțeles
+Restart now	Repornește acum
+After the game, from the main menu.	După partidă, din meniul principal.
+Download	Descarcă
+Check now	Verifică acum
+Couldn't reach the update server.	Serverul de actualizări nu a putut fi contactat.
+The download was damaged. It will be tried again later.	Descărcarea s-a corupt. Se va reîncerca mai târziu.
+The new version couldn't be installed. This one stays.	Versiunea nouă nu a putut fi instalată. Rămâne cea actuală.
+Downloading… {p}%	Se descarcă… {p}%
+Updating…	Se actualizează…
+The Microsoft Store keeps the game up to date.	Microsoft Store ține jocul la zi.
+Development build: no automatic updates.	Versiune de dezvoltare: fără actualizări automate.
+Looking for a new version…	Se caută o versiune nouă…
+This is the latest version.	Aceasta e cea mai recentă versiune.
+Downloading version {v}… {p}%	Se descarcă versiunea {v}… {p}%
+Installing version {v}…	Se instalează versiunea {v}…
+Version {v} is ready: restart the game to use it.	Versiunea {v} e gata: repornește jocul ca s-o folosești.
+Version {v} is out: download it from the releases page.	A apărut versiunea {v}: descarc-o de pe pagina de versiuni.
+Version {v} is ready	Versiunea {v} e gata
+Restart to play it; nothing is lost.	Repornește ca s-o joci; nu se pierde nimic.
+Version {v} is out	A apărut versiunea {v}
+Get it from the releases page.	Descarc-o de pe pagina de versiuni.
+Reset everything?	Resetezi tot?
+Click again to reset every setting	Dă clic din nou ca să resetezi toate setările
+Online	Online
+Menu	Meniu
+Rating	Rating
+Ultra	Ultra
+hold {key} and release	ține apăsat {key} și eliberează
+Change	Schimbă
+Mouse aim sensitivity	Sensibilitatea mouse-ului la țintire
+How fast the cue turns with the mouse.	Cât de repede se rotește tacul cu mouse-ul.
+Vignette	Vignetare
+Darkens the edges of the picture, like a film.	Întunecă marginile imaginii, ca într-un film.
+Show FPS	Afișează FPS
+Frames per second, in a corner of the screen.	Cadre pe secundă, într-un colț al ecranului.
+Call a pocket for the 8-ball first: click a pocket.	Mai întâi anunță un buzunar pentru bila 8: dă clic pe un buzunar.
+Reconnecting	Reconectare
+the game is over	partida s-a încheiat
+the cue ball cannot be placed there	bila albă nu poate fi pusă acolo
+call a pocket for the 8-ball	anunță un buzunar pentru bila 8
+That username is taken.	Numele de utilizator e deja luat.
+Wrong username or password.	Nume de utilizator sau parolă greșite.
+Your session expired. Please log in again.	Sesiunea a expirat. Conectează-te din nou.
+This version of Snook Legend is out of date. Please update the game.	Această versiune de Snook Legend e învechită. Actualizează jocul.
+It's not your turn.	Nu e rândul tău.
+That player is not online.	Jucătorul nu e online.
+That player is in a game.	Jucătorul e într-o partidă.
+You can't invite yourself.	Nu te poți invita singur.
+That invitation is no longer valid.	Invitația nu mai este valabilă.
+That player is no longer available.	Jucătorul nu mai este disponibil.
+Resign first to leave a game in progress.	Cedează mai întâi ca să părăsești o partidă în desfășurare.
+Malformed message.	Mesaj invalid.
+Please log in first.	Conectează-te mai întâi.
+Could not create the account.	Contul nu a putut fi creat.
+The cue ball can't be placed there.	Bila albă nu poate fi pusă acolo.
+Disconnected.	Deconectat.
+Lost contact with the server.	S-a pierdut legătura cu serverul.
+The server closed the connection.	Serverul a închis conexiunea.
+The server took too long to answer.	Serverul a întârziat prea mult cu răspunsul.
+The server is not answering (connection refused).	Serverul nu răspunde (conexiune refuzată).
+The server address is not valid (example: wss://snook-legend.example.com/ws).	Adresa serverului nu e validă (exemplu: wss://snook-legend.example.com/ws).
+The server address has no host name.	Adresa serverului nu are nume de gazdă.
+Welcome to Snook Legend! Be kind, play fair.	Bine ai venit în Snook Legend! Respectă-i pe ceilalți și joacă cinstit.
+Ball in hand: drag the cue ball{zone} to move it	Bila în mână: trage bila albă{zone} ca s-o muți
+ behind the line	 în spatele liniei
+Ball in hand  ·  {group}	Bila în mână  ·  {group}
+Can't shoot: {e}.	Nu poți lovi: {e}.
+Chat ({n})	Chat ({n})
+Computer ({level})	Computer ({level})
+Computer	Computer
+Each opponent has a style of their own	Fiecare adversar are stilul lui
+Free game	Partidă liberă
+Tour	Circuit
+Tour: {n} of {total} beaten	Circuit: {n} din {total} învinși
+Strength {n}/5	Nivel {n}/5
+Ghost	Fantomă
+Accuracy	Precizie
+Safeties	Siguranță
+Banks	Mante
+Position	Poziționare
+Ghost of {name}	Fantoma lui {name}
+A player's ghost	Fantoma unui jucător
+Plays like a real player	Joacă precum un jucător real
+The computer plays in the style of a real player, measured on their online games.	Computerul joacă în stilul unui jucător real, măsurat din partidele lui online.
+Sign in to play the ghost of a real player.	Conectează-te ca să joci cu fantoma unui jucător real.
+Load	Încarcă
+Friends:	Prieteni:
+Type a username or pick a friend, then Load.	Scrie un nume de utilizator sau alege un prieten, apoi Încarcă.
+Measuring how {name} plays…	Se măsoară cum joacă {name}…
+Pots {pots}% · safeties {safe}% · banks {banks}% · {shots} shots	Bile băgate {pots}% · siguranță {safe}% · mante {banks}% · lovituri: {shots}
+{name} has only {shots} recorded shots; a ghost needs {needed}. More online games will do it.	{name} are prea puține lovituri înregistrate ({shots}); o fantomă are nevoie de {needed}. Mai multe partide online vor rezolva asta.
+There is no player called {name}.	Nu există niciun jucător numit {name}.
+The server can't be reached right now. Try again later.	Serverul nu poate fi contactat acum. Încearcă mai târziu.
+Wait a moment before asking again.	Așteaptă puțin înainte să ceri din nou.
+Something went wrong on the server. Try again later.	Ceva n-a mers bine pe server. Încearcă mai târziu.
+Play your ghost	Joacă cu fantoma ta
+Play their ghost	Joacă cu fantoma jucătorului
+Beaten	Învins
+Next	Următorul
+Win the previous stage to unlock this one.	Câștigă etapa anterioară ca s-o deblochezi pe aceasta.
+Stage {n} of {total}	Etapa {n} din {total}
+Challenge {name}	Joacă cu {name}
+Stage {n} won! Next on the tour: {name}.	Etapa {n} câștigată! Urmează în circuit: {name}.
+You won the whole tour!	Ai câștigat tot circuitul!
+Reward	Recompensă
+{item} cue · exclusive	Tacul {item} · exclusiv
+Yours: find it in the shop, under Cues.	E al tău: îl găsești în magazin, la Tacuri.
+Win the last stage again while signed in to claim it.	Câștigă din nou ultima etapă cu contul conectat ca să-l primești.
+Beat all fifteen opponents to earn it. It is sold nowhere.	Învinge-i pe toți cei cincisprezece adversari ca să-l obții. Nu se vinde nicăieri.
+You won the tour! Sign in to claim your reward.	Ai câștigat circuitul! Conectează-te ca să-ți primești recompensa.
+The server is checking your final game…	Serverul îți verifică partida finală…
+Try again	Încearcă din nou
+The server did not answer. Try again in a moment.	Serverul nu a răspuns. Încearcă din nou peste puțin timp.
+The server is busy checking other games. Try again in a moment.	Serverul e ocupat cu verificarea altor partide. Încearcă din nou peste puțin timp.
+Wait a minute before trying again.	Așteaptă un minut înainte să încerci din nou.
+That game is too long to be checked.	Partida e prea lungă ca să fie verificată.
+That game has a move the rules don't allow.	Partida are o mutare pe care regulile nu o permit.
+That game was not played to the end.	Partida nu a fost jucată până la capăt.
+That game was not a win.	Partida nu a fost o victorie.
+The computer's shots in that game don't match how it plays (another version of the game?).	Loviturile computerului din partidă nu se potrivesc cu felul în care joacă (altă versiune a jocului?).
+The Rookie	Începătorul
+Still learning: aims at the nearest pocket, centre ball, and hopes. Never plays safe.	Încă învață: țintește spre cel mai apropiat buzunar, lovește bila albă la centru și speră. Nu joacă niciodată la siguranță.
+The Weekend Player	Jucătoarea de weekend
+Knows the basics and drops the easy ones, but rarely thinks about where the cue ball goes.	Știe elementele de bază și bagă bilele ușoare, dar rareori se gândește unde ajunge bila albă.
+The Bank Artist	Artista mantelor
+Sees angles nobody else does: whenever a ball can go off a cushion and in, she banks it.	Vede unghiuri pe care nu le vede nimeni: ori de câte ori o bilă poate intra din manta, o joacă din manta.
+The Cannon	Tunul
+Goes for everything, as hard as he can: long pots, thunderous breaks, hardly ever a safety.	Atacă orice, cât de tare poate: lovituri lungi, spargeri asurzitoare și aproape niciodată o lovitură de siguranță.
+The Wall	Zidul
+Only shoots when the pot is on. Otherwise she tucks the cue ball away and waits for your mistake.	Atacă doar când bila e sigură. Altfel, ascunde bila albă și așteaptă să greșești.
+The Old Pro	Veteranul
+Forty years at the table: a smooth stroke, a raised cue, side spin, and never in a hurry.	Patruzeci de ani la masă: lovitură lină, tac ridicat, efect lateral și nicio grabă.
+The Hustler	Șireata
+Plays just well enough to win, then a little better. Balanced, sharp and hard to read.	Joacă exact cât să câștige, apoi puțin mai bine. Echilibrată, ageră și greu de citit.
+The Professor	Profesorul
+Thinks three balls ahead: every shot leaves the cue ball where the next one is easy.	Gândește cu trei bile înainte: fiecare lovitură lasă bila albă acolo unde următoarea e ușoară.
+The Sharpshooter	Lunetista
+Pots from anywhere, at any angle. Her safeties are an afterthought: she doesn't need them.	Bagă bile de oriunde, din orice unghi. Loviturile de siguranță nu o preocupă: nu are nevoie de ele.
+The Champion	Campionul
+Unbeaten for years. Precise, patient and merciless: the last stage of the tour.	Neînvins de ani de zile. Precis, răbdător și necruțător: ultima etapă a circuitului.
+Tour champion	Campionul circuitului
+Champion of the tour	Campion al circuitului
+Beat all fifteen opponents of the computer tour.	Învinge-i pe toți cei cincisprezece adversari din circuitul contra computerului.
+Connection lost. Reconnecting (attempt {n})…	Conexiune pierdută. Reconectare (încercarea {n})…
+Connection lost. Reconnecting…	Conexiune pierdută. Reconectare…
+Foul by {shooter}: {foul}.	Fault comis de {shooter}: {foul}.
+Graphics set to {q} for smooth play. You can change this in Settings.	Calitate grafică setată la „{q}” pentru un joc fluid. O poți schimba în Setări.
+Rating {r} ({d})	Rating {r} ({d})
+The {ball} was spotted.	A fost repusă pe masă {ball}.
+Waiting for {to} ({kind})…	Se așteaptă răspunsul lui {to} ({kind})…
+rated	cu rating
+casual	amicală
+Waiting for {name}…	În așteptarea lui {name}…
+{by} declined your invitation.	{by} ți-a refuzat invitația.
+a rated game	o partidă cu rating
+a casual game	o partidă amicală
+{name} calls the 8-ball in the {pocket} pocket.	{name} anunță bila 8 în {pocket}.
+{name} has ball in hand…	{name} are bila în mână…
+{name} is aiming…	{name} țintește…
+{name} is on the 8: click a pocket to call it	{name} e la bila 8: dă clic pe un buzunar ca să-l anunți
+{name} is thinking…	{name} se gândește…
+{name} left the game.	{name} a părăsit partida.
+{name} resigned.	{name} a cedat.
+{name} to break	{name} sparge
+{name} to shoot ({target})	{name} joacă ({target})
+{name}'s turn	Rândul lui {name}
+{next} has ball in hand{where}.	{next} are bila în mână{where}.
+ behind the head string	 în spatele liniei de start
+{opponent} is back.	{opponent} a revenit.
+{opponent} lost the connection. Waiting up to {secs} s…	{opponent} a pierdut conexiunea. Se așteaptă până la {secs} s…
+{opponent} wants a rematch.	{opponent} vrea revanșa.
+{opponent} went back to the lounge.	{opponent} s-a întors în salon.
+{shooter} pocketed {balls}.	{shooter} a băgat {balls}.
+{shooter} takes {group}.	{shooter} ia bilele {group}.
+{who} ran out of time: ball in hand for the opponent.	{who} a rămas fără timp: bila în mână pentru adversar.
+{name} wants a rematch!	{name} vrea revanșa!
+{name} wins!	{name} câștigă!
+{name} wins	{name} câștigă
+Volume	Volum
+The cue, the balls, the cushions and the pockets.	Tacul, bilele, mantele și buzunarele.
+Notifications	Notificări
+Could not find the server “{host}”.	Serverul „{host}” nu a fost găsit.
+Network error: {e}.	Eroare de rețea: {e}.
+Secure connection failed: {e}.	Conexiunea securizată a eșuat: {e}.
+The server refused the connection (HTTP {code}).	Serverul a refuzat conexiunea (HTTP {code}).
+Connection error: {e}.	Eroare de conexiune: {e}.
+cue ball	bila albă
+{n}-ball	bila {n}
+Scratch: the cue ball was pocketed	Bila albă a intrat în buzunar
+The cue ball left the table	Bila albă a ieșit de pe masă
+The cue ball didn't hit any ball	Bila albă n-a atins nicio bilă
+Wrong ball hit first ({ball})	Prima bilă atinsă e greșită ({ball})
+No ball reached a cushion after contact	Nicio bilă n-a atins o manta după contact
+The {ball} left the table	A ieșit de pe masă {ball}
+Illegal break	Spargere neregulamentară
+pocketed the 8-ball	a băgat bila 8
+opponent pocketed the 8-ball too early	adversarul a băgat bila 8 prea devreme
+opponent sank the 8-ball in the wrong pocket	adversarul a băgat bila 8 în buzunarul greșit
+opponent fouled on the 8-ball	adversarul a făcut fault la bila 8
+opponent knocked the 8-ball off the table	adversarul a scos bila 8 de pe masă
+opponent resigned	adversarul a cedat
+opponent left the game	adversarul a părăsit partida
+head left corner	colțul stâng de la start
+head right corner	colțul drept de la start
+left side	buzunarul lateral stâng
+right side	buzunarul lateral drept
+foot left corner	colțul stâng din fund
+foot right corner	colțul drept din fund
+Easy	Ușor
+Hard	Greu
+Normal	Normal
+Power	Forță
+No messages yet.	Încă nu sunt mesaje.
+▼ newer messages	▼ mesaje noi
+Camera follows the cue	Camera urmărește tacul
+Off: it stays where you put it.	Oprit: camera rămâne unde o lași.
+Pull back for shots	Depărtare la lovituri
+Only when the camera follows the cue.	Doar când camera urmărește tacul.
+Drag the cue · click a spot	Trage tacul · dă clic pe un punct
+Time's up: {name}'s shot was played at full power.	Timpul a expirat: lovitura lui {name} s-a jucat cu forță maximă.
+Dark room	Sală întunecată
+A spotlight on the table, the room in shadow.	Un reflector pe masă, sala în umbră.
+Hide	Ascunde
+Interface size	Dimensiunea interfeței
+Text, buttons and panels.	Texte, butoane și panouri.
+Drag to set the power	Trage ca să setezi forța
+Shoot!	Lovește!
+Set the power, then press the green button	Setează forța, apoi apasă butonul verde
++{n} coins · {why}	Monede +{n} · {why}
+16-player tournaments, and first place on the waiting list of a full one	Turnee de 16 jucători și primul loc pe lista de așteptare a unui turneu plin
+30 minutes: play as many games as you can. A win is 2 points, 4 from the third win in a row.	30 de minute: joacă oricâte partide poți. O victorie valorează 2 puncte, iar de la a treia victorie la rând, 4.
+A crown by your name, everywhere (lounge, profile, ranking)	O coroană lângă numele tău, peste tot (salon, profil, clasament)
+Account	Cont
+Add friends to give them items.	Adaugă prieteni ca să le dăruiești obiecte.
+Arena	Arenă
+Arena · host {host} · {n} players · {kind}	Arenă · gazdă {host} · jucători: {n} · {kind}
+Buy now	Cumpără acum
+Buying…	Se cumpără…
+Change password	Schimbă parola
+Click again to delete	Dă clic din nou ca să ștergi
+Got a code? Type it here	Ai un cod? Scrie-l aici
+Confirm purchase	Confirmă achiziția
+Copied: send it to a friend.	Copiat: trimite-l unui prieten.
+Copy	Copiază
+Current	Actuală
+Delete account	Șterge contul
+Entry	Înscriere
+Entry {n} coins	Înscriere: {n} de monede
+Every replay kept (free players keep their last 10 games)	Toate reluările păstrate (jucătorii fără VIP își păstrează ultimele 10 partide)
+For {name}	Pentru {name}
+Add a message (optional)	Adaugă un mesaj (opțional)
+Format	Format
+Frames	Rame
+Free	Gratuit
+Get coins	Obține monede
+Gift sent!	Cadou trimis!
+Give as a gift	Oferă cadou
+Give it	Dăruiește-l
+Give to a friend	Dăruiește unui prieten
+Great!	Super!
+If you forget your password, we confirm it's you by this e-mail.	Dacă îți uiți parola, confirmăm că ești tu prin acest e-mail.
+Invite with a code	Invită cu un cod
+It goes on right away. Items only change the look, never the game.	Se aplică imediat. Obiectele schimbă doar aspectul, niciodată jocul.
+Join my table in Snook Legend:	Vino la masa mea în Snook Legend:
+Join the waiting list	Intră pe lista de așteptare
+Join · {n} coins	Intră · {n} de monede
+Knockout	Eliminatoriu
+Name colour	Culoarea numelui
+Name colours for the lounge and exclusive frames, cloth, cues, balls and effects	Culori de nume pentru salon și rame, postavuri, tacuri, bile și efecte exclusive
+New	Nouă
+No, thanks	Nu, mulțumesc
+Nothing that wins games: VIP only changes the look	Nimic care câștigă partide: VIP-ul schimbă doar aspectul
+Numbers	Cifre
+ON TV	LA TV
+Play rated games to see your rating here.	Joacă partide cu rating ca să-ți vezi ratingul aici.
+No rated games yet.	Încă nu sunt partide cu rating.
+Price	Preț
+Prizes {a} + {b}	Premii {a} + {b}
+Protect your purchases	Protejează-ți achizițiile
+Purchase complete!	Achiziție finalizată!
+Recovery e-mail	E-mail de recuperare
+Save	Salvează
+The fees make the prize: 70% to the champion, 20% to the runner-up.	Taxele de înscriere formează premiul: 70% pentru campion, 20% pentru finalist.
+The server restarts in {m}:{s} for an update. Games in progress go on.	Serverul repornește în {m}:{s} pentru o actualizare. Partidele în desfășurare continuă.
+Use this e-mail	Folosește acest e-mail
+Use {email} to recover your account if you ever forget your password?	Folosești {email} ca să-ți recuperezi contul dacă îți uiți vreodată parola?
+Watch	Urmărește
+Watch again	Revezi
+Winning effects	Efecte de victorie
+Halls	Săli
+You are paired as soon as you and an opponent are free.	Primești un adversar imediat ce amândoi sunteți liberi.
+You can change it any time in your profile (Account).	Îl poți schimba oricând din profil (Cont).
+You need {n} more coins.	Monede lipsă: {n}.
+Your account	Contul tău
+Your account was deleted.	Contul tău a fost șters.
+Your coins	Monedele tale
+Your friend gets it right away.	Prietenul tău îl primește imediat.
+Your game against {name} is starting.	Partida ta cu {name} începe.
+Your name, e-mail, friends and items are erased for good. Your opponents keep the games you played (without your name).	Numele, e-mailul, prietenii și obiectele tale se șterg definitiv. Adversarii tăi păstrează partidele jucate (fără numele tău).
+balls per game	bile pe partidă
+best run ever	cea mai bună serie
+daily bonus	bonus zilnic
+entry fee back	taxa de înscriere returnată
+for the game	pentru partidă
+for the win	pentru victorie
+games counted	partide numărate
+Analysis	Analiză
+The shot analysis isn't available on this server yet.	Analiza loviturilor nu e disponibilă încă pe acest server.
+Only online accounts have a shot analysis.	Doar conturile online au analiza loviturilor.
+Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Joacă online ca să vezi cum bagi bilele: analiza apare după alte lovituri spre buzunar (încă {n}).
+{name} hasn't played enough online games for an analysis yet.	{name} nu a jucat încă destule partide online pentru o analiză.
+1 game	1 partidă
+{pct}% of {n} shots at a pocket potted · {games}	Reușită {pct}% (lovituri spre buzunar: {n}) · {games}
+{made} of {n} potted ({pct})	{made} din {n} băgate ({pct})
+By kind of shot	După tipul loviturii
+shots	lovituri
+Straight	Dreaptă
+Cut 8–25°	Tăiată 8–25°
+Cut 25–45°	Tăiată 25–45°
+Thin cut 45°+	Tăiată fin 45°+
+Bank	Din manta
+Kick	Albă din manta
+Combination	Combinație
+Jump	Salt
+Massé	Massé
+Break	Spargere
+By distance	După distanță
+Short (under 0.75 m)	Scurtă (sub 0,75 m)
+Medium (to 1.5 m)	Medie (până la 1,5 m)
+Long (over 1.5 m)	Lungă (peste 1,5 m)
+left the opponent nothing	nu i-au lăsat nimic adversarului
+Breaks	Spargeri
+made a ball	au băgat o bilă
+Potted	Băgate
+Missed	Ratate
+Where and in which pocket	Unde și în ce buzunar
+{pocket}: {made} of {n} potted	{pocket}: {made} din {n} băgate
+Where the potted balls were	Unde erau bilele băgate
+Where the missed balls were	Unde erau bilele ratate
+few	puține
+many	multe
+{made} potted · {missed} missed ({pct})	băgate: {made} · ratate: {missed} ({pct})
+Top left corner	Colțul stânga sus
+Bottom left corner	Colțul stânga jos
+Top side pocket	Buzunarul lateral de sus
+Bottom side pocket	Buzunarul lateral de jos
+Top right corner	Colțul dreapta sus
+Bottom right corner	Colțul dreapta jos
+games left unfinished	partide abandonate
+potting success	rată de reușită
+shots with a foul	lovituri cu fault
+starts in {n} min	începe în {n} min
+tournament prize	premiu de turneu
+The dark room hides the hall around the table.	Sala întunecată ascunde decorul din jurul mesei.
+Show the hall	Arată sala
+Level {n} · 1 win	Nivelul {n} · 1 victorie
+Level {n} · {w} wins	Nivelul {n} · victorii: {w}
+{left} more online wins with this cue for level {n}. Levels only add marks to the cue.	Victorii online necesare cu acest tac până la nivelul {n}: {left}. Nivelurile doar adaugă semne pe tac.
+The top level: this cue has every mark.	Nivelul maxim: acest tac are toate semnele.
+Your cue {cue} reached level {n}!	Tacul tău {cue} a ajuns la nivelul {n}!
+Most wins: {cue} (level {n})	Cele mai multe victorii: {cue} (nivelul {n})
+{games} games · {rate}% won · {balls} balls made	Partide: {games} · {rate}% câștigate · bile băgate: {balls}
+vs	vs
+{from} gave you {item}!	{from} ți-a dăruit {item}!
+You received a gift!	Ai primit un cadou!
+From	De la
+To	Pentru
+someone	cineva
+A month of VIP	O lună de VIP
+Thank	Mulțumește
+Thanked	Ai mulțumit
+They thanked you	Ți-a mulțumit
+Use it now	Folosește acum
+Later	Mai târziu
+OK	OK
+Next ({n} more)	Următorul (încă {n})
+{from} gave you {item}! It's waiting for you in the lounge.	{from} ți-a dăruit {item}! Te așteaptă în salon.
+{name} thanked you for {item}.	{name} ți-a mulțumit pentru {item}.
+Gifts	Cadouri
+No gifts yet. Friends can give you items from the shop.	Încă nu ai cadouri. Prietenii îți pot dărui obiecte din magazin.
+{item} is yours and already in use.	{item} îți aparține și e deja în uz.
+{m}:{s} left	mai sunt {m}:{s}
+{name} invites you to play.	{name} te invită la joc.
+{name} is online.	{name} e online.
+{name} ran out of time.	{name} a rămas fără timp.
+{name} received {item}.	{name} a primit {item}.
+{n} pts · {g} games	{n} pct. · partide: {g}
+{n} watching · avg {r}	spectatori: {n} · medie {r}
+{title}: {how}	{title}: {how}
+Olive	Măsliniu
+Navy	Bleumarin
+Forest	Verde pădure
+Slate grey	Gri ardezie
+Red wine	Vin roșu
+Burnt orange	Portocaliu ars
+Dusty rose	Roz pudrat
+Sand	Nisip
+Ice blue	Albastru gheață
+Lime	Verde lime
+Black tie	Ținută de gală
+Cobalt	Cobalt
+Emerald	Smarald
+Natural maple	Arțar natural
+Beach bar	Bar pe plajă
+Modern	Modern
+English club	Club englezesc
+Ebony & gold	Abanos și aur
+Pool hall	Sală de biliard
+Industrial loft	Loft industrial
+Steel & oak	Oțel și stejar
+Tournament	Turneu
+Victorian walnut	Nuc victorian
+Ivory deco	Deco fildeș
+Mountain lodge	Cabană la munte
+Neon arcade	Sală de jocuri neon
+Art deco lounge	Salon art deco
+Skyline penthouse	Penthouse cu panoramă
+Walnut	Nuc
+Zebrawood	Zebrano
+Bocote	Bocote
+Deep ocean	Ocean adânc
+Cherry	Cireș
+Jade	Jad
+Tiger	Tigru
+Amethyst	Ametist
+Arctic carbon	Carbon arctic
+Inferno	Infern
+Obsidian gold	Obsidian și aur
+Tan chalk	Cretă bej
+Grey chalk	Cretă gri
+Orange chalk	Cretă portocalie
+Pink chalk	Cretă roz
+Teal chalk	Cretă verde petrol
+Yellow chalk	Cretă galbenă
+Black chalk	Cretă neagră
+White chalk	Cretă albă
+Silver chalk	Cretă argintie
+TV set	Set TV
+Earth tones	Tonuri de pământ
+Ocean	Ocean
+Sunset	Apus
+Candy	Bomboane
+Pearl	Perlă
+Monochrome	Monocrom
+Chrome	Crom
+Gold rush	Goana după aur
+No frame	Fără ramă
+Bronze	Bronz
+Silver	Argint
+Gold	Aur
+Green felt	Postav verde
+Mahogany	Mahon
+Ice	Gheață
+Fire	Foc
+Diamond	Diamant
+VIP crown	Coroană VIP
+Rose gold	Aur roz
+Aqua	Acvamarin
+Violet	Violet
+Ember	Jar
+Mint	Mentă
+Frost	Chiciură
+No effect	Fără efect
+Sparks	Scântei
+Confetti	Confetti
+Shockwave	Undă de șoc
+Coin shower	Ploaie de monede
+Flames	Flăcări
+Royal sparks	Scântei regale
+Tier colour	Culoarea ligii
+16-player tournaments are for VIP members.	Turneele de 16 jucători sunt pentru membrii VIP.
+A seat opened: you are in the tournament!	S-a eliberat un loc: ești în turneu!
+Entry fees go up to 1000 coins.	Taxa de înscriere poate ajunge la 1000 de monede.
+Guests can't play for coins.	Invitații nu pot juca pe monede.
+Only items sold for coins can be given.	Se pot dărui doar obiectele care se vând pe monede.
+Password changed.	Parola a fost schimbată.
+Passwords need 8 or more characters, not only digits.	Parola trebuie să aibă 8 sau mai multe caractere, nu doar cifre.
+Recovery e-mail removed.	E-mailul de recuperare a fost eliminat.
+Recovery e-mail saved.	E-mailul de recuperare a fost salvat.
+Something went wrong. Please try again.	Ceva n-a mers bine. Încearcă din nou.
+That code is not valid (or the table was closed).	Codul nu e valid (sau masa a fost închisă).
+That doesn't look like an e-mail address.	Nu pare o adresă de e-mail.
+That game is over.	Partida s-a încheiat.
+The current password is wrong.	Parola actuală e greșită.
+The server is restarting.	Serverul repornește.
+The server is restarting: new games start in a moment.	Serverul repornește: partidele noi încep imediat.
+The tournament is full: you are on the waiting list.	Turneul e plin: ești pe lista de așteptare.
+This replay is not available.	Această reluare nu e disponibilă.
+You can only give items to your friends.	Poți dărui obiecte doar prietenilor tăi.
+Your friend already has this item.	Prietenul tău are deja acest obiect.
+16 (VIP)	16 (VIP)
+VIP isn't sold in this version of the game.	VIP-ul nu se vinde în această versiune a jocului.
+In this version of the game, coins are earned by playing:	În această versiune a jocului, monedele se câștigă jucând:
+rated games, and a bonus every day you play.	partide cu rating și un bonus în fiecare zi în care joci.
+Coins are earned by playing:	Monedele se câștigă jucând:
+If you like, you can also buy them:	Dacă vrei, le poți și cumpăra:
+one month	o lună
+already VIP	deja VIP
+Give a month to a friend · {p}	Dăruiește o lună unui prieten · {p}
+{from} gave you a month of VIP!	{from} ți-a dăruit o lună de VIP!
+{name} received a month of VIP.	{name} a primit o lună de VIP.
+Your friend is already VIP.	Prietenul tău e deja VIP.
+Game in progress: {n} balls left	Partidă în desfășurare (bile rămase: {n})
+Continue	Continuă
+Missions	Misiuni
+Board	Avizier
+Today	Azi
+This week	Săptămâna asta
+new missions in {t}	misiuni noi în {t}
+ends in {t}	se termină în {t}
+{n} days	{n} zile
+{n} h	{n} h
+{n} min	{n} min
+mission complete	misiune îndeplinită
+Missions count rated games played to the end. The coins arrive as soon as one is complete.	Misiunile numără partidele cu rating jucate până la capăt. Monedele sosesc imediat ce una e îndeplinită.
+Nothing on the board right now.	Nimic pe avizier acum.
+Open tournaments	Turnee deschise
+{n}/{size} players	{n}/{size} jucători
+starts in {t}	începe în {t}
+entry {n} coins	înscriere {n} de monede
+See	Vezi
+Play {n} rated games	Joacă partide cu rating: {n}
+Win {n} rated games	Câștigă partide cu rating: {n}
+# Coin packs and months of VIP bought in the Microsoft Store (the Store build).
+# Five more computer opponents: Tito, Inês, Diego, Amara and Yuri.

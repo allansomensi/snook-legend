@@ -1,0 +1,2056 @@
+# Snook Legend: Brazilian Portuguese.
+# One text per line: the English text (as written in the code), a tab, the translation.
+# Placeholders like {name} must stay as they are; \n is a new line.
+{name} is on the 8: called pocket {pocket}	{name} على الكرة 8: الجيب المعلن {pocket}
+On the 8-ball: {pocket} pocket	على الكرة 8: الجيب {pocket}
+Show ping	إظهار البينغ
+Your connection's delay, in online games.	تأخر اتصالك في المباريات عبر الإنترنت.
+Reactions	التفاعلات
+Shop	المتجر
+Cloth	القماش
+Cues	العصي
+Chalk	الطباشير
+Balls	الكرات
+Coins	العملات
+coins	عملة
+Sign in to buy and use items. Here is what there is:	سجل الدخول لشراء العناصر واستخدامها. إليك ما يتوفر:
+In use	قيد الاستخدام
+Use	استخدام
+Buy	شراء
+{n} short	ينقصك {n}
+{n} coins	{n} عملة
+Not enough coins: get more in the Coins tab.	عملاتك لا تكفي: احصل على المزيد من تبويب العملات.
+VIP only	VIP فقط
+free	مجاني
+yours	لديك
+achievement	إنجاز
+Coins can't be bought on this server yet.	لا يمكن شراء العملات على هذا الخادم بعد.
++{n} bonus	+{n} هدية
+Payment opens in your browser (card, Pix…), on Stripe's secure page.	يفتح الدفع في متصفحك (بطاقة، Pix…)، على صفحة Stripe الآمنة.
+Coins arrive in a moment; they are only used for items in the game.	تصل العملات خلال لحظات؛ وتستخدم فقط لعناصر اللعبة.
+Exclusive items: {list}	عناصر حصرية: {list}
+{n} coins every month	{n} عملة كل شهر
+Cancel whenever you want: VIP lasts until the end of the paid month	يمكنك الإلغاء متى شئت: تستمر عضوية VIP حتى نهاية الشهر المدفوع
+You are VIP until {d}.	أنت عضو VIP حتى {d}.
+Manage subscription	إدارة الاشتراك
+Become VIP · {p}	انضم إلى VIP · {p}
+VIP can't be bought on this server yet.	لا يمكن شراء VIP على هذا الخادم بعد.
+The payment page opened in your browser.	تم فتح صفحة الدفع في متصفحك.
+Could not open the browser.	تعذر فتح المتصفح.
+Tournament green	أخضر البطولات
+Electric blue	أزرق كهربائي
+Burgundy	عنابي
+Charcoal	فحمي
+Teal	أزرق مخضر
+Royal purple	أرجواني ملكي
+Camel	جملي
+Midnight	منتصف الليل
+Champion's red	أحمر الأبطال
+Classic	كلاسيكي
+Rosewood	خشب الورد
+Ebony & silver	أبنوس وفضة
+Carbon	كربون
+Ivory inlay	تطعيم عاجي
+Crown	التاج
+Jewels	الجواهر
+Blue chalk	طباشير زرقاء
+Green chalk	طباشير خضراء
+Red chalk	طباشير حمراء
+Purple chalk	طباشير بنفسجية
+Gold chalk	طباشير ذهبية
+Vintage	عتيق
+Pastel	باستيل
+Neon	نيون
+You already have this item.	لديك هذا العنصر بالفعل.
+Not enough coins.	عملاتك لا تكفي.
+The purchase failed; no coins were taken.	فشل الشراء؛ لم يتم خصم أي عملات.
+No such item.	هذا العنصر غير موجود.
+This item can't be bought with coins.	لا يمكن شراء هذا العنصر بالعملات.
+You don't have this item.	لا تملك هذا العنصر.
+Purchases are not available.	عمليات الشراء غير متاحة.
+This pack is not on sale.	هذه الحزمة غير معروضة للبيع.
+The payment page could not be opened. Try again in a moment.	تعذر فتح صفحة الدفع. حاول مرة أخرى بعد قليل.
+You are already VIP.	أنت عضو VIP بالفعل.
+There is no subscription to manage.	لا يوجد اشتراك لإدارته.
+The page could not be opened. Try again in a moment.	تعذر فتح الصفحة. حاول مرة أخرى بعد قليل.
+Coins added to your wallet.	تمت إضافة العملات إلى محفظتك.
+Welcome to VIP!	مرحبا بك في VIP!
+Slow down a little.	تمهل قليلا.
+You can't do that.	لا يمكنك فعل ذلك.
+There are too many notes right now. Try again in a few minutes.	هناك ملاحظات كثيرة جدا الآن. حاول مرة أخرى بعد بضع دقائق.
+A moderator took down your note.	أزال أحد المشرفين ملاحظتك.
+A moderator cleared your status message.	مسح أحد المشرفين رسالة حالتك.
+Status message cleared.	تم مسح رسالة الحالة.
+VIP	VIP
+Play now	العب الآن
+Find an opponent of your level automatically	اعثر تلقائيا على خصم في مستواك
+Looking for an opponent… {t}	يجري البحث عن خصم… {t}
+any rating	أي تصنيف
+rating ±{n} · {mode}	التصنيف ±{n} · {mode}
+Potting success	دقة الإدخال
+Balls made	الكرات المدخلة
+Best run	أفضل سلسلة
+Fouls	الأخطاء
+seen just now	شوهد للتو
+seen {n} min ago	شوهد منذ {n} د
+seen {n} h ago	شوهد منذ {n} س
+seen yesterday	شوهد أمس
+seen {n} days ago	شوهد منذ {n} يوم
+seen {n} months ago	شوهد منذ {n} شهر
+just now	للتو
+{n} min ago	منذ {n} د
+{n} h ago	منذ {n} س
+yesterday	أمس
+{n} days ago	منذ {n} يوم
+Game history	سجل المباراة
+Nothing yet.	لا شيء بعد.
+Fine aim: click the arrows, or drag here	تصويب دقيق: انقر الأسهم أو اسحب هنا
+{n} watching	{n} يشاهدون
+Watching {name}	تشاهد {name}
+Your reactions reach the table quietly.	تصل تفاعلاتك إلى الطاولة بهدوء.
+Stop watching	إيقاف المشاهدة
+If they play again, you keep watching.	إذا لعبا مرة أخرى، تواصل المشاهدة.
+Your friend left the table.	غادر صديقك الطاولة.
+Your friend isn't playing right now.	صديقك لا يلعب الآن.
+You can only watch your friends.	يمكنك مشاهدة أصدقائك فقط.
+You can't watch this game.	لا يمكنك مشاهدة هذه المباراة.
+{n} points to {tier}	{n} نقطة للوصول إلى {tier}
+Top tier	الفئة العليا
+Reactions {n}/{total}	التفاعلات {n}/{total}
+Haunted table	الطاولة المسكونة
+Win a rated game during Halloween (Oct 24 – Nov 2).	فز في مباراة مصنفة خلال الهالوين (24 أكتوبر – 2 نوفمبر).
+Winter league	دوري الشتاء
+Win a rated game over the holidays (Dec 15 – Jan 6).	فز في مباراة مصنفة خلال العطلات (15 ديسمبر – 6 يناير).
+Fireworks	ألعاب نارية
+Win a rated game at the turn of the year (Dec 31 – Jan 1).	فز في مباراة مصنفة عند حلول العام الجديد (31 ديسمبر – 1 يناير).
+Shows where the object ball and the cue ball go (only in free games and practice).	يظهر إلى أين تذهب الكرة المستهدفة والكرة البيضاء (فقط في المباريات الحرة والتدريب).
+{n} online · ping {ms} ms	{n} متصل · البينغ {ms} ms
+Right-drag · Wheel	سحب بالزر الأيمن · العجلة
+Win %	نسبة الفوز
+Reset the camera: top view, no zoom	إعادة ضبط الكاميرا: منظر علوي، بلا تكبير
+{name} sank the 8-ball	{name} أدخل الكرة 8
+{name} sank the 8 too early	{name} أدخل الكرة 8 مبكرا
+{name} sank the 8 in the wrong pocket	{name} أدخل الكرة 8 في الجيب الخطأ
+{name} fouled on the 8	{name} ارتكب خطأ على الكرة 8
+{name} knocked the 8 off the table	{name} أخرج الكرة 8 من الطاولة
+{name} resigned	{name} استسلم
+{name} left the game	{name} غادر المباراة
+{winner} wins! ({how})	{winner} يفوز! ({how})
+#{n} in the world	المركز {n} عالميا
+3–16 letters, digits or underscores.	من 3 إلى 16 حرفا أو رقما أو شرطة سفلية.
+No lines on the table: aim by eye, along the cue.	لا خطوط على الطاولة: صوب بعينك على امتداد العصا.
+No guide	بلا دليل
+Only a short line from the cue ball.	خط قصير فقط من الكرة البيضاء.
+Accept friend	قبول الصداقة
+Achievement unlocked: {title}	إنجاز جديد: {title}
+Achievements {n}/{total}	الإنجازات {n}/{total}
+Add	إضافة
+Add a friend by username	أضف صديقا باسم المستخدم
+Add friend	إضافة صديق
+Against the computer	ضد الكمبيوتر
+All tournaments	كل البطولات
+Amateur	هاو
+At least 8 characters. Use a password you don't use elsewhere.	8 أحرف على الأقل. استخدم كلمة مرور لا تستخدمها في مكان آخر.
+At least two players are needed.	يلزم لاعبان على الأقل.
+Back	رجوع
+Black ball	الكرة السوداء
+Block	حظر
+Break and run	تنظيف الطاولة
+Break and run 10 times.	نظف الطاولة من الافتتاحية 10 مرات.
+Can't listen for games here: join by address below.	تعذر البحث عن مباريات هنا: انضم بالعنوان أدناه.
+Cancel request	إلغاء الطلب
+Cancel tournament	إلغاء البطولة
+Casual	ودية
+Centurion	قائد المئة
+Champion	البطل
+Champion: {name}	البطل: {name}
+Change country	تغيير الدولة
+Add a status message	أضف رسالة حالة
+A line about you	سطر عنك
+Save (Enter)	حفظ (Enter)
+Cancel (Esc)	إلغاء (Esc)
+Change your status message	تغيير رسالة حالتك
+Clear the status message	مسح رسالة الحالة
+Cheating or abuse	غش أو إساءة
+Choose…	اختر…
+Click again to block	انقر مرة أخرى للحظر
+Close	إغلاق
+Closer	الحاسم
+Competitor	المنافس
+Connecting to the server…	يجري الاتصال بالخادم…
+Could not host a game: {e}	تعذر إنشاء مباراة: {e}
+Country	الدولة
+Create	إنشاء
+Create a tournament	إنشاء بطولة
+Don't show a flag	عدم إظهار علم
+No country found.	لم يتم العثور على أي دولة.
+Dynasty	سلالة الأبطال
+Eight is enough	الكرة 8 تكفي
+Executioner	الجلاد
+Expert	خبير
+Familiar face	وجه مألوف
+Final	النهائي
+Finish your game first.	أكمل مباراتك أولا.
+First blood	أول فوز
+First break	أول افتتاحية
+Friend request sent.	تم إرسال طلب الصداقة.
+Friends	الأصدقاء
+# Daily (correspondence) games.
+daily game	مباراة يومية
+Daily	اليومية
+Daily game	مباراة يومية
+Daily games	المباريات اليومية
+Challenge a player by username	تحدي لاعب باسم المستخدم
+Challenge to a daily game	تحدي لمباراة يومية
+3 days for each turn	3 أيام لكل دور
+No daily games yet. Challenge a friend: each of you plays a turn whenever you can.	لا توجد مباريات يومية بعد. وجه تحديا لصديق: يلعب كل منكما دوره متى استطاع.
+challenges you · {kind}	يتحداك · {kind}
+waiting for an answer · {kind} · {time} left	بانتظار الرد · {kind} · يتبقى {time}
+your turn · {time} left	دورك · يتبقى {time}
+their turn · {time} left	دور الخصم · يتبقى {time}
+won · {how}	فوز · {how}
+lost · {how}	خسارة · {how}
+ran out of time	انتهى وقتك
+the opponent ran out of time	انتهى وقت الخصم
+open table	طاولة مفتوحة
+You: {mine}, {a} left · {name}: {theirs}, {b} left	أنت: {mine}، يتبقى {a} · {name}: {theirs}، يتبقى {b}
+Look	عرض
+Skip	تخطي
+Replaying {name}'s turn	إعادة عرض دور {name}
+Stroke {n} of {total}	الضربة {n} من {total}
+Turn sent	تم إرسال الدور
+Turn sent.	تم إرسال الدور.
+Waiting for {name} to play	بانتظار أن يلعب {name}
+{name} has {time} to play. You'll be told when it's your turn.	لدى {name} مهلة {time} للعب. سننبهك عندما يحين دورك.
+{time} left to play. You'll be told when it's your turn.	يتبقى {time} للعب. سننبهك عندما يحين دورك.
+Back to daily games	العودة إلى المباريات اليومية
+Your game is saved: come back whenever you like.	تم حفظ مباراتك: عد متى شئت.
+{d} d {h} h	{d} ي {h} س
+{name} ran out of time	انتهى وقت {name}
+This game can't be shown.	لا يمكن عرض هذه المباراة.
+A daily game is waiting for you	مباراة يومية بانتظارك
+{n} daily games are waiting for you	مباريات يومية بانتظارك: {n}
+{name} challenges you to a rated daily game.	يتحداك {name} في مباراة يومية مصنفة.
+{name} challenges you to a casual daily game.	يتحداك {name} في مباراة يومية ودية.
+{name} accepted your daily game.	قبل {name} مباراتك اليومية.
+{name} declined your daily game.	رفض {name} مباراتك اليومية.
+{name} withdrew their daily game challenge.	سحب {name} تحديه لمباراة يومية.
+Your turn in the daily game against {name}.	دورك في المباراة اليومية ضد {name}.
+{name} ran out of time: you won the daily game.	انتهى وقت {name}: فزت بالمباراة اليومية.
+You won the daily game against {name}!	فزت بالمباراة اليومية ضد {name}!
+You ran out of time in the daily game against {name}.	انتهى وقتك في المباراة اليومية ضد {name}.
+You lost the daily game against {name}.	خسرت المباراة اليومية ضد {name}.
+Challenge sent.	تم إرسال التحدي.
+Daily games need an account.	تتطلب المباريات اليومية حسابا.
+No such game.	هذه المباراة غير موجودة.
+That challenge is no longer valid.	لم يعد هذا التحدي صالحا.
+That player already challenged you: answer their challenge.	تحداك هذا اللاعب بالفعل: رد على تحديه.
+That player has too many challenges waiting.	لدى هذا اللاعب تحديات معلقة كثيرة جدا.
+That player has too many daily games going on.	لدى هذا اللاعب مباريات يومية جارية كثيرة جدا.
+That player is not accepting challenges.	هذا اللاعب لا يقبل التحديات.
+This game can't be played right now.	لا يمكن لعب هذه المباراة الآن.
+This game changed meanwhile: open it again.	تغيرت هذه المباراة في الأثناء: افتحها مرة أخرى.
+This game is over.	انتهت هذه المباراة.
+You already challenged that player.	لقد تحديت هذا اللاعب بالفعل.
+You already have a game going on against that player.	لديك بالفعل مباراة جارية ضد هذا اللاعب.
+You blocked that player.	لقد حظرت هذا اللاعب.
+You can't challenge yourself.	لا يمكنك تحدي نفسك.
+You have as many daily games as you can play at once.	وصلت إلى الحد الأقصى من المباريات اليومية في وقت واحد.
+You have too many challenges waiting for an answer.	لديك تحديات كثيرة جدا بانتظار الرد.
+You're sending challenges too quickly.	أنت ترسل التحديات بسرعة كبيرة.
+Your time for this turn ran out.	انتهى وقتك لهذا الدور.
+Games	المباريات
+Games on your network	مباريات على شبكتك
+Give the tournament a name (at least 3 characters).	أعط البطولة اسما (3 أحرف على الأقل).
+Good company	رفقة طيبة
+Grandmaster	أستاذ كبير
+Guests can only join LAN games. Create an account.	يمكن للضيوف الانضمام إلى مباريات LAN فقط. أنشئ حسابا.
+Guests can't play rated tournaments.	لا يمكن للضيوف لعب البطولات المصنفة.
+Guests don't have this.	هذه الميزة غير متاحة للضيوف.
+Harassment	مضايقة
+Hat trick	هاتريك
+Have 10 friends.	اجمع 10 أصدقاء.
+Have an account for 30 days.	احتفظ بحسابك لمدة 30 يوما.
+Have an account for a year.	احتفظ بحسابك لمدة عام.
+Host a game on this computer	استضف مباراة على هذا الكمبيوتر
+Host {host} · {n}/{size} players · {kind}	المضيف {host} · {n}/{size} لاعبين · {kind}
+Hot hand	اليد الساخنة
+Hustler	المراوغ
+Invalid shot.	ضربة غير صالحة.
+Join	انضمام
+Joining the LAN game…	يجري الانضمام إلى مباراة LAN…
+Just for fun	للمتعة فقط
+L	خ
+LAN game	مباراة LAN
+LAN game hosted by {name}.	مباراة على الشبكة المحلية يستضيفها {name}.
+LAN games don't change ratings.	مباريات LAN لا تغير التصنيف.
+Legend	أسطورة
+Lives at the table	يعيش على الطاولة
+Loading the profile…	يجري تحميل الملف الشخصي…
+Loading…	يجري التحميل…
+Local network	الشبكة المحلية
+Locked	مقفل
+Looking for games	البحث عن مباريات
+Make a friend.	أضف صديقا.
+Master	أستاذ
+Name	الاسم
+Names have 3–16 letters, digits or underscores.	تتكون الأسماء من 3 إلى 16 حرفا أو رقما أو شرطة سفلية.
+New account	حساب جديد
+I have an account	لدي حساب
+New here? Choose “New account”: it takes ten seconds.	جديد هنا؟ اختر «حساب جديد»: يستغرق الأمر عشر ثوان.
+New tournament	بطولة جديدة
+No friends yet. Add someone you played with!	لا أصدقاء بعد. أضف شخصا لعبت معه!
+No games yet.	لا مباريات بعد.
+No limit	بلا حد
+No open tables. Open one and others can sit down.	لا توجد طاولات مفتوحة. افتح طاولة ليجلس إليها الآخرون.
+No other open tables right now.	لا توجد طاولات مفتوحة أخرى الآن.
+No such player.	هذا اللاعب غير موجود.
+No tournaments right now. Create one!	لا توجد بطولات الآن. أنشئ واحدة!
+Offensive name	اسم مسيء
+On a roll	سلسلة انتصارات
+On fire	مشتعل
+Only the host can start the tournament.	المضيف وحده يمكنه بدء البطولة.
+Open a table	فتح طاولة
+Or join by address	أو انضم بالعنوان
+Other	أخرى
+Others can join at {ip}:{port}	يمكن للآخرين الانضمام عبر {ip}:{port}
+Passwords need at least 8 characters (not only digits).	يجب أن تتكون كلمة المرور من 8 أحرف على الأقل (لا أرقام فقط).
+Play 1,000 rated games.	العب 1000 مباراة مصنفة.
+Play 10 rated games.	العب 10 مباريات مصنفة.
+Play 100 rated games.	العب 100 مباراة مصنفة.
+Play 25 casual games.	العب 25 مباراة ودية.
+Play 500 rated games.	العب 500 مباراة مصنفة.
+Play in a tournament.	شارك في بطولة.
+Play online	اللعب عبر الإنترنت
+Play with friends on the same network	العب مع أصدقائك على الشبكة نفسها
+Play your first rated game.	العب أول مباراة مصنفة لك.
+Player 1	اللاعب 1
+Players	اللاعبون
+Players in a tournament can't start other games.	لا يمكن للاعبين المشاركين في بطولة بدء مباريات أخرى.
+Please don't repeat the same message.	يرجى عدم تكرار الرسالة نفسها.
+Pool hall legend	أسطورة الصالة
+Popular	محبوب
+Private	خاصة
+for your friends to sit down	ليجلس أصدقاؤك
+Profile	الملف الشخصي
+{key}: watch the last shot again	{key}: شاهد الضربة الأخيرة مرة أخرى
+REPLAY	إعادة
+Rated	مصنفة
+Rated games, tables, tournaments and friends	مباريات مصنفة وطاولات وبطولات وأصدقاء
+Reach a rating of 1300.	ابلغ تصنيف 1300.
+Reach a rating of 1500.	ابلغ تصنيف 1500.
+Reach a rating of 1700.	ابلغ تصنيف 1700.
+Reach a rating of 1900.	ابلغ تصنيف 1900.
+Reach a rating of 2100.	ابلغ تصنيف 2100.
+Refresh	تحديث
+Regular	زبون دائم
+Remove friend	إزالة الصديق
+Replay	إعادة العرض
+Report	إبلاغ
+Report {name}	الإبلاغ عن {name}
+Request sent	تم إرسال الطلب
+Friend	صديق
+Recent	الأحدث
+Nobody yet. The people you play online will show up here.	لا أحد بعد. سيظهر هنا من تلعب معهم عبر الإنترنت.
+{n} games	{n} مباراة
+Rookie	مبتدئ
+Round {n}	الدور {n}
+Search…	بحث…
+Semi-finals	نصف النهائي
+Send report	إرسال البلاغ
+This game goes with the report, so the moderators can watch it.	ترفق هذه المباراة بالبلاغ ليتمكن المشرفون من مشاهدتها.
+Your game with {name} ({date}) goes with the report, so the moderators can watch it.	ترفق مباراتك مع {name} ({date}) بالبلاغ ليتمكن المشرفون من مشاهدتها.
+You haven't played {name} in the last day: the moderators see the recent chat.	لم تلعب ضد {name} خلال اليوم الأخير: سيطلع المشرفون على الدردشة الأخيرة.
+Shark	القرش
+Shows the contact point; judging the cut is up to you.	يظهر نقطة التلامس؛ وتقدير زاوية القطع متروك لك.
+Shutout	فوز نظيف
+Sign in	تسجيل الدخول
+Sign in or create an account	سجل الدخول أو أنشئ حسابا
+Sign out	تسجيل الخروج
+Sit down	الجلوس
+Skilled	ماهر
+Someone with that name is already here.	يوجد هنا بالفعل شخص بهذا الاسم.
+Spam	رسائل مزعجة
+Start now	ابدأ الآن
+Stop the replay	إيقاف الإعادة
+Table runner	سيد الطاولة
+Tables	الطاولات
+Take turns on this computer	العب بالتناوب على هذا الكمبيوتر
+Thank you. The moderators will look into it.	شكرا. سيراجع المشرفون الأمر.
+Thank you. The moderators will look into it, with your game attached.	شكرا. سيراجع المشرفون الأمر مع مباراتك المرفقة.
+That player is not accepting invitations.	هذا اللاعب لا يقبل الدعوات.
+That shot was for an earlier turn.	كانت تلك الضربة لدور سابق.
+That table is no longer open.	لم تعد تلك الطاولة مفتوحة.
+That tournament has already started.	بدأت تلك البطولة بالفعل.
+That tournament no longer exists.	لم تعد تلك البطولة موجودة.
+The first connection of the day can take up to a minute while the server wakes up.	قد يستغرق أول اتصال في اليوم حتى دقيقة ريثما يستيقظ الخادم.
+The first time, allow Snook Legend through the firewall when asked.	في المرة الأولى، اسمح للعبة Snook Legend بالمرور عبر جدار الحماية عند الطلب.
+The server could not play that shot.	تعذر على الخادم تنفيذ تلك الضربة.
+The server is busy. Try again in a moment.	الخادم مشغول. حاول مرة أخرى بعد قليل.
+The tournament starts when it is full (the host can start it earlier).	تبدأ البطولة عند اكتمالها (يمكن للمضيف بدؤها قبل ذلك).
+There are too many tournaments right now. Join one!	هناك بطولات كثيرة جدا الآن. انضم إلى إحداها!
+This is a LAN server: join as a guest.	هذا خادم LAN: انضم كضيف.
+Fifteen rivals, a tour and ghosts of real players	خمسة عشر منافسا وجولة احترافية وأشباح للاعبين حقيقيين
+Tier	الفئة
+Time per shot	الوقت لكل ضربة
+Too many failed attempts. Wait a few minutes and try again.	محاولات فاشلة كثيرة جدا. انتظر بضع دقائق ثم حاول مرة أخرى.
+Too many messages.	رسائل كثيرة جدا.
+Too many new accounts from this network. Try again later.	حسابات جديدة كثيرة جدا من هذه الشبكة. حاول مرة أخرى لاحقا.
+Top 100 · rated games	أفضل 100 · مباريات مصنفة
+Tournament game: the next round starts from the lounge.	مباراة بطولة: يبدأ الدور التالي من الصالة.
+Tournament games have no rematch.	لا تتاح إعادة المباراة في مباريات البطولات.
+Tournaments	البطولات
+Tournaments have 4, 8 or 16 players.	تضم البطولات 4 أو 8 أو 16 لاعبا.
+Two players	لاعبان
+Unblock	إلغاء الحظر
+Unlocked {date}	تحقق في {date}
+Unstoppable	لا يقهر
+W	ف
+Watch the last shot again	شاهد الضربة الأخيرة مرة أخرى
+What happened? (optional)	ماذا حدث؟ (اختياري)
+When time runs out, the turn passes.	عند انتهاء الوقت، ينتقل الدور.
+Whitewash	اكتساح
+Win 10 rated games on the 8-ball.	فز في 10 مباريات مصنفة بإدخال الكرة 8.
+Win 10 rated games in a row.	فز في 10 مباريات مصنفة متتالية.
+Win 10 rated games.	فز في 10 مباريات مصنفة.
+Win 10 rated shutouts.	حقق 10 انتصارات نظيفة في مباريات مصنفة.
+Win 100 rated games on the 8-ball.	فز في 100 مباراة مصنفة بإدخال الكرة 8.
+Win 100 rated games.	فز في 100 مباراة مصنفة.
+Win 250 rated games on the 8-ball.	فز في 250 مباراة مصنفة بإدخال الكرة 8.
+Win 3 rated games in a row.	فز في 3 مباريات مصنفة متتالية.
+Win 5 rated games in a row.	فز في 5 مباريات مصنفة متتالية.
+Win 5 tournaments.	فز في 5 بطولات.
+Win 50 rated games on the 8-ball.	فز في 50 مباراة مصنفة بإدخال الكرة 8.
+Win 50 rated games.	فز في 50 مباراة مصنفة.
+Win 500 rated games.	فز في 500 مباراة مصنفة.
+Win a rated game.	فز في مباراة مصنفة.
+Win a tournament.	فز ببطولة.
+Win a rated game before your opponent sinks a ball of their group.	فز في مباراة مصنفة قبل أن يدخل خصمك أي كرة من مجموعته.
+Win a rated game from the break without your opponent getting a shot.	فز في مباراة مصنفة من الافتتاحية دون أن يلعب خصمك أي ضربة.
+Withdraw	انسحاب
+World ranking	الترتيب العالمي
+Wrong table password.	كلمة مرور الطاولة خاطئة.
+Wrong tournament password.	كلمة مرور البطولة خاطئة.
+You are already in a tournament.	أنت مشارك في بطولة بالفعل.
+You are hosting a game	أنت تستضيف مباراة
+You can't join this table.	لا يمكنك الانضمام إلى هذه الطاولة.
+You signed in from another place.	سجلت الدخول من مكان آخر.
+You're sending invitations too quickly.	أنت ترسل الدعوات بسرعة كبيرة.
+You're sending messages too quickly.	أنت ترسل الرسائل بسرعة كبيرة.
+You've sent many reports. Please wait before sending more.	أرسلت بلاغات كثيرة. يرجى الانتظار قبل إرسال المزيد.
+Your friend list is full.	قائمة أصدقائك ممتلئة.
+Your next match starts by itself when both players are free.	تبدأ مباراتك التالية تلقائيا عندما يكون اللاعبان متاحين.
+Your profile	ملفك الشخصي
+Your table is open	طاولتك مفتوحة
+Zoom in	تكبير
+Zoom out	تصغير
+at a table	على طاولة
+best streak	أطول سلسلة انتصارات
+by {host} · {n}/{size} players	المضيف {host} · {n}/{size} لاعبين
+casual games	مباريات ودية
+casual · private	ودية · خاصة
+casual · public	ودية · عامة
+connecting to the server	الاتصال بالخادم
+eight-ball pool	بلياردو الكرة 8
+finished	انتهت
+guest	ضيف
+invites you to {kind}	يدعوك إلى {kind}
+joined today	انضم اليوم
+member for {n} days	عضو منذ {n} يوم
+member for {n} months	عضو منذ {n} شهر
+member for {n} years	عضو منذ {n} سنة
+offline	غير متصل
+open	مفتوحة
+optional: only friends with it can join	اختيارية: ينضم فقط الأصدقاء الذين يعرفونها
+password	كلمة المرور
+peak {n}	الأعلى {n}
+playing	يلعب
+playing the computer	يلعب ضد الكمبيوتر
+away	غائب
+this game is saved	تم حفظ هذه المباراة
+rated games	مباريات مصنفة
+rated · private	مصنفة · خاصة
+rated · public	مصنفة · عامة
+request sent	تم إرسال الطلب
+the connection dropped	انقطع الاتصال
+to play online	للعب عبر الإنترنت
+tournament	بطولة
+tournaments won	بطولات فاز بها
+waiting for an opponent…	بانتظار خصم…
+win rate	نسبة الفوز
+wins	انتصارات
+won on the 8	فوز بالكرة 8
+{host}'s game	مباراة {host}
+{name} wants to be friends	{name} يريد مصادقتك
+{name} wants to be your friend.	{name} يريد أن يكون صديقك.
+{n} online	{n} متصل
+sank the 8-ball	إدخال الكرة 8
+the opponent sank the 8-ball	الخصم أدخل الكرة 8
+the opponent sank the 8 too early	الخصم أدخل الكرة 8 مبكرا
+sank the 8 too early	إدخال الكرة 8 مبكرا
+the opponent sank the 8 in the wrong pocket	الخصم أدخل الكرة 8 في الجيب الخطأ
+sank the 8 in the wrong pocket	إدخال الكرة 8 في الجيب الخطأ
+the opponent fouled on the 8	الخصم ارتكب خطأ على الكرة 8
+fouled on the 8	خطأ على الكرة 8
+the opponent knocked the 8 off the table	الخصم أخرج الكرة 8 من الطاولة
+knocked the 8 off the table	إخراج الكرة 8 من الطاولة
+the opponent resigned	الخصم استسلم
+resigned	استسلام
+the opponent left	الخصم غادر
+left the game	مغادرة المباراة
+You are muted for {n} more minutes.	تم كتمك لمدة {n} دقيقة إضافية.
+This account is suspended for {n} more day(s). Reason: {reason}.	هذا الحساب موقوف لمدة {n} يوم إضافي. السبب: {reason}.
+This account is banned. Reason: {reason}.	هذا الحساب محظور. السبب: {reason}.
+You were muted: {r}	تم كتمك: {r}
+Your account was suspended: {r}	تم إيقاف حسابك: {r}
+Your account was banned: {r}	تم حظر حسابك: {r}
+You were disconnected by a moderator: {r}	قطع أحد المشرفين اتصالك: {r}
+You were disconnected by a moderator.	قطع أحد المشرفين اتصالك.
+Please sign in again.	يرجى تسجيل الدخول مرة أخرى.
+Your password was changed. Sign in again.	تم تغيير كلمة مرورك. سجل الدخول مرة أخرى.
+Accept rematch	قبول إعادة المباراة
+Accept	قبول
+Aim	التصويب
+Aiming guide	دليل التصويب
+Aiming	التصويب
+Anti-aliasing	تنعيم الحواف
+Smooths the jagged edges of lines and balls.	ينعم الحواف المسننة للخطوط والكرات.
+Back to lounge	العودة إلى الصالة
+Balanced: smooth on most laptops.	متوازن: سلس على معظم الحواسيب المحمولة.
+Ball in hand	الكرة في اليد
+Break the rack	نفذ الضربة الافتتاحية
+Camera pulls back to watch each shot	تبتعد الكاميرا لمتابعة كل ضربة
+Camera	الكاميرا
+Cancel	إلغاء
+Casual game: ratings unchanged	مباراة ودية: لا يتغير التصنيف
+Center	توسيط
+Chat	الدردشة
+Click a ball or a spot	انقر على كرة أو نقطة
+Click to chat, Enter to send	انقر للدردشة، Enter للإرسال
+Controls	التحكم
+Create account	إنشاء حساب
+Cue ball contact	نقطة ضرب الكرة البيضاء
+Decline	رفض
+Done	تم
+Drag the cue ball	اسحب الكرة البيضاء
+Elevation	ارتفاع العصا
+Everything, with reflections in polished floors: for gaming PCs.	كل شيء، مع انعكاسات على الأرضيات اللامعة: لأجهزة الألعاب القوية.
+Fine aim	تصويب دقيق
+Finish this match first.	أكمل هذه المباراة أولا.
+For old or very slow computers.	للأجهزة القديمة أو البطيئة جدا.
+Full screen	ملء الشاشة
+Also with {key}.	أيضا بالمفتاح {key}.
+Full	كامل
+Game server	خادم اللعبة
+Change it only to play on another server.	لا تغيره إلا للعب على خادم آخر.
+Advanced	متقدم
+Custom server	خادم مخصص
+Graphics quality	جودة الرسومات
+Quality	الجودة
+Display	العرض
+High	عالية
+Invite	دعوة
+Leave to the lounge	المغادرة إلى الصالة
+Leave	مغادرة
+Leaving now counts as a loss.	المغادرة الآن تحتسب خسارة.
+Lounge chat	دردشة الصالة
+Low	منخفضة
+Main menu	القائمة الرئيسية
+Medium	متوسطة
+Menu / help	القائمة / المساعدة
+Next game starts in a moment…	تبدأ المباراة التالية بعد لحظات…
+No rated games yet. Be the first!	لا مباريات مصنفة بعد. كن الأول!
+Nobody else is here right now.	لا أحد غيرك هنا الآن.
+Looking for a game?	تبحث عن مباراة؟
+Looking for a game	يبحث عن مباراة
+Post a note	نشر ملاحظة
+Everyone in the lounge sees it for 30 minutes	يراها الجميع في الصالة لمدة 30 دقيقة
+What are you after? ({kind})	عم تبحث؟ ({kind})
+Post	نشر
+Your note: {text}	ملاحظتك: {text}
+{mode} · {left} left	{mode} · يتبقى {left}
+Take down	إزالة
+Challenge	تحدي
+Take the note down	إزالة الملاحظة
+Off	إيقاف
+On the 8-ball: call a pocket	على الكرة 8: أعلن جيبا
+On the 8-ball	على الكرة 8
+Open table	طاولة مفتوحة
+Password	كلمة المرور
+Paused	متوقف مؤقتا
+Play	العب
+Player 2	اللاعب 2
+Player	اللاعب
+Quick aim	تصويب سريع
+Quit	خروج
+Reconnected.	تمت إعادة الاتصال.
+Rematch	إعادة المباراة
+Resign this game	الاستسلام في هذه المباراة
+Restart the game to apply this change.	أعد تشغيل اللعبة لتطبيق هذا التغيير.
+Resume	استئناف
+Retry	إعادة المحاولة
+Saving the result…	يجري حفظ النتيجة…
+Say hello… (Enter to send)	قل مرحبا… (Enter للإرسال)
+Send	إرسال
+Settings	الإعدادات
+{key} + drag	{key} + سحب
+{key}: 3D / top view	{key}: ثلاثي الأبعاد / منظر علوي
+{keys}: zoom	{keys}: تكبير/تصغير
+View	المنظر
+Aim left	التصويب يسارا
+Aim right	التصويب يمينا
+Fine aim (hold)	تصويب دقيق (اضغط مطولا)
+Shoot (hold, release)	الضرب (اضغط مطولا ثم أفلت)
+Top spin	تأثير علوي
+Back spin	تأثير سفلي
+Left spin	تأثير لليسار
+Right spin	تأثير لليمين
+Raise the cue	رفع العصا
+Lower the cue	خفض العصا
+Pick up the cue ball in hand	التقاط الكرة البيضاء في اليد
+3D / top view	ثلاثي الأبعاد / منظر علوي
+Reset the camera	إعادة ضبط الكاميرا
+Replay the last shot	إعادة عرض الضربة الأخيرة
+List of controls	قائمة عناصر التحكم
+Keys can be changed in Settings → Controls.	يمكن تغيير المفاتيح من الإعدادات، في قسم التحكم.
+Space	مسافة
+Right Shift	Shift الأيمن
+Right Ctrl	Ctrl الأيمن
+Right Alt	Alt الأيمن
+Aiming and shooting	التصويب والضرب
+Spin and elevation	التأثير وارتفاع العصا
+Fixed keys	مفاتيح ثابتة
+Menu, back and cancel	القائمة والرجوع والإلغاء
+Confirm (forms, the cue ball in hand)	تأكيد (النماذج، الكرة البيضاء في اليد)
+This key can't be changed.	لا يمكن تغيير هذا المفتاح.
+Press a key · Esc cancels · Backspace clears	اضغط مفتاحا · Esc للإلغاء · Backspace للمسح
+Press a key…	اضغط مفتاحا…
+Click to change	انقر للتغيير
+Click to add a key	انقر لإضافة مفتاح
+Back to no key	إرجاع: بلا مفتاح
+Back to {keys}	إرجاع إلى {keys}
+Swapped: {action} is now on {key}.	تم التبديل: {action} الآن على {key}.
+Taken from {action}, which now has no key.	تم أخذه من {action}، الذي أصبح بلا مفتاح.
+Taken from {action}.	تم أخذه من {action}.
+That key can't be used: try another.	لا يمكن استخدام هذا المفتاح: جرب مفتاحا آخر.
+Shoot	الضرب
+Short	قصير
+Signing in…	يجري تسجيل الدخول…
+Signing in	تسجيل الدخول
+Soft shadows from every lamp, glossy halls, halos.	ظلال ناعمة من كل مصباح، وقاعات لامعة، وهالات.
+Solids (1–7)	الكرات الصلبة (1–7)
+Spin ball	كرة التأثير
+Spin	التأثير
+Standard	قياسي
+Stay	البقاء
+Stripes (9–15)	الكرات المخططة (9–15)
+The game goes on while this is open.	تستمر اللعبة أثناء فتح هذه النافذة.
+Use default	استخدام الافتراضي
+Username	اسم المستخدم
+Usernames have 3–16 letters, digits or underscores.	تتكون أسماء المستخدمين من 3 إلى 16 حرفا أو رقما أو شرطة سفلية.
+{keys} (jump & massé)	{keys} (القفز والماسيه)
+You win!	فزت!
+Your name	اسمك
+Your opponent went back to the lounge.	عاد خصمك إلى الصالة.
+Your turn	دورك
+open table: the next ball you make sets your group	طاولة مفتوحة: الكرة التالية التي تدخلها تحدد مجموعتك
+draw	سحب
+follow	متابعة
+stun	ضربة جافة
+solids	الكرات الصلبة
+stripes	الكرات المخططة
+lounge	الصالة
+ · left english	 · تأثير لليسار
+ · right english	 · تأثير لليمين
+Language	اللغة
+General	عام
+Graphics	الرسومات
+Game	اللعبة
+Sound	الصوت
+Reset to defaults	استعادة الافتراضيات
+Reset all keys	إعادة ضبط كل المفاتيح
+Reset every key?	إعادة ضبط كل المفاتيح؟
+Click again to put every key back	انقر مرة أخرى لإرجاع كل المفاتيح
+Updates	التحديثات
+Update automatically	التحديث تلقائيا
+New versions download in the background and install when you restart.	يتم تنزيل الإصدارات الجديدة في الخلفية وتثبيتها عند إعادة التشغيل.
+Version {v}	الإصدار {v}
+What's new	الجديد
+What's new in version {v}	الجديد في الإصدار {v}
+No notes for this version.	لا توجد ملاحظات لهذا الإصدار.
+Got it	فهمت
+Restart now	إعادة التشغيل الآن
+After the game, from the main menu.	بعد المباراة، من القائمة الرئيسية.
+Download	تنزيل
+Check now	التحقق الآن
+Couldn't reach the update server.	تعذر الوصول إلى خادم التحديثات.
+The download was damaged. It will be tried again later.	التنزيل تالف. ستتم إعادة المحاولة لاحقا.
+The new version couldn't be installed. This one stays.	تعذر تثبيت الإصدار الجديد. سيبقى الإصدار الحالي.
+Downloading… {p}%	يجري التنزيل… {p}%
+Updating…	يجري التحديث…
+The Microsoft Store keeps the game up to date.	يتولى Microsoft Store تحديث اللعبة.
+Development build: no automatic updates.	إصدار تطويري: بلا تحديثات تلقائية.
+Looking for a new version…	يجري البحث عن إصدار جديد…
+This is the latest version.	هذا هو أحدث إصدار.
+Downloading version {v}… {p}%	يجري تنزيل الإصدار {v}… {p}%
+Installing version {v}…	يجري تثبيت الإصدار {v}…
+Version {v} is ready: restart the game to use it.	الإصدار {v} جاهز: أعد تشغيل اللعبة لاستخدامه.
+Version {v} is out: download it from the releases page.	صدر الإصدار {v}: نزله من صفحة الإصدارات.
+Version {v} is ready	الإصدار {v} جاهز
+Restart to play it; nothing is lost.	أعد التشغيل لتلعب به؛ لن تفقد شيئا.
+Version {v} is out	صدر الإصدار {v}
+Get it from the releases page.	نزله من صفحة الإصدارات.
+Reset everything?	إعادة ضبط كل شيء؟
+Click again to reset every setting	انقر مرة أخرى لإعادة ضبط كل الإعدادات
+Online	عبر الإنترنت
+Menu	القائمة
+Rating	التصنيف
+Ultra	فائقة
+hold {key} and release	اضغط {key} مطولا ثم أفلت
+Change	تغيير
+Mouse aim sensitivity	حساسية التصويب بالفأرة
+How fast the cue turns with the mouse.	سرعة دوران العصا مع الفأرة.
+Vignette	تعتيم الأطراف
+Darkens the edges of the picture, like a film.	يعتم أطراف الصورة كما في الأفلام.
+Show FPS	إظهار FPS
+Frames per second, in a corner of the screen.	عدد الإطارات في الثانية، في زاوية الشاشة.
+Call a pocket for the 8-ball first: click a pocket.	أعلن أولا جيبا للكرة 8: انقر على جيب.
+Reconnecting	إعادة الاتصال
+the game is over	انتهت المباراة
+the cue ball cannot be placed there	لا يمكن وضع الكرة البيضاء هناك
+call a pocket for the 8-ball	أعلن جيبا للكرة 8
+That username is taken.	اسم المستخدم هذا مأخوذ.
+Wrong username or password.	اسم المستخدم أو كلمة المرور خاطئة.
+Your session expired. Please log in again.	انتهت جلستك. يرجى تسجيل الدخول مرة أخرى.
+This version of Snook Legend is out of date. Please update the game.	هذا الإصدار من Snook Legend قديم. يرجى تحديث اللعبة.
+It's not your turn.	ليس دورك.
+That player is not online.	هذا اللاعب غير متصل.
+That player is in a game.	هذا اللاعب في مباراة.
+You can't invite yourself.	لا يمكنك دعوة نفسك.
+That invitation is no longer valid.	لم تعد هذه الدعوة صالحة.
+That player is no longer available.	لم يعد هذا اللاعب متاحا.
+Resign first to leave a game in progress.	استسلم أولا لمغادرة مباراة جارية.
+Malformed message.	رسالة غير صالحة.
+Please log in first.	يرجى تسجيل الدخول أولا.
+Could not create the account.	تعذر إنشاء الحساب.
+The cue ball can't be placed there.	لا يمكن وضع الكرة البيضاء هناك.
+Disconnected.	انقطع الاتصال.
+Lost contact with the server.	انقطع التواصل مع الخادم.
+The server closed the connection.	أغلق الخادم الاتصال.
+The server took too long to answer.	استغرق الخادم وقتا طويلا للرد.
+The server is not answering (connection refused).	الخادم لا يستجيب (تم رفض الاتصال).
+The server address is not valid (example: wss://snook-legend.example.com/ws).	عنوان الخادم غير صالح (مثال: wss://snook-legend.example.com/ws).
+The server address has no host name.	عنوان الخادم لا يتضمن اسم مضيف.
+Welcome to Snook Legend! Be kind, play fair.	مرحبا بك في Snook Legend! كن لطيفا والعب بنزاهة.
+Ball in hand: drag the cue ball{zone} to move it	الكرة في اليد: اسحب الكرة البيضاء{zone} لتحريكها
+ behind the line	 خلف الخط
+Ball in hand  ·  {group}	الكرة في اليد  ·  {group}
+Can't shoot: {e}.	لا يمكن الضرب: {e}.
+Chat ({n})	الدردشة ({n})
+Computer ({level})	الكمبيوتر ({level})
+Computer	الكمبيوتر
+Each opponent has a style of their own	لكل خصم أسلوبه الخاص
+Free game	مباراة حرة
+Tour	الجولة
+Tour: {n} of {total} beaten	الجولة: هزمت {n} من {total}
+Strength {n}/5	المستوى {n}/5
+Ghost	الشبح
+Accuracy	الدقة
+Safeties	الدفاع
+Banks	الارتداد
+Position	التمركز
+Ghost of {name}	شبح {name}
+A player's ghost	شبح لاعب
+Plays like a real player	يلعب كلاعب حقيقي
+The computer plays in the style of a real player, measured on their online games.	يلعب الكمبيوتر بأسلوب لاعب حقيقي، مستخلص من مبارياته عبر الإنترنت.
+Sign in to play the ghost of a real player.	سجل الدخول لتلعب ضد شبح لاعب حقيقي.
+Load	تحميل
+Friends:	الأصدقاء:
+Type a username or pick a friend, then Load.	اكتب اسم مستخدم أو اختر صديقا، ثم اضغط تحميل.
+Measuring how {name} plays…	يجري تحليل أسلوب لعب {name}…
+Pots {pots}% · safeties {safe}% · banks {banks}% · {shots} shots	الإدخال {pots}% · الدفاع {safe}% · الارتداد {banks}% · {shots} ضربة
+{name} has only {shots} recorded shots; a ghost needs {needed}. More online games will do it.	عدد ضربات {name} المسجلة {shots} فقط؛ ويحتاج الشبح إلى {needed}. ستكفي مباريات أخرى عبر الإنترنت.
+There is no player called {name}.	لا يوجد لاعب باسم {name}.
+The server can't be reached right now. Try again later.	تعذر الوصول إلى الخادم الآن. حاول مرة أخرى لاحقا.
+Wait a moment before asking again.	انتظر قليلا قبل الطلب مرة أخرى.
+Something went wrong on the server. Try again later.	حدث عطل في الخادم. حاول مرة أخرى لاحقا.
+Play your ghost	العب ضد شبحك
+Play their ghost	العب ضد شبحه
+Beaten	مهزوم
+Next	التالي
+Win the previous stage to unlock this one.	فز بالمرحلة السابقة لفتح هذه المرحلة.
+Stage {n} of {total}	المرحلة {n} من {total}
+Challenge {name}	تحدي {name}
+Stage {n} won! Next on the tour: {name}.	فزت بالمرحلة {n}! التالي في الجولة: {name}.
+You won the whole tour!	فزت بالجولة كاملة!
+Reward	الجائزة
+{item} cue · exclusive	عصا {item} · حصرية
+Yours: find it in the shop, under Cues.	إنها لك: تجدها في المتجر، ضمن العصي.
+Win the last stage again while signed in to claim it.	فز بالمرحلة الأخيرة مرة أخرى وأنت مسجل الدخول لتحصل عليها.
+Beat all fifteen opponents to earn it. It is sold nowhere.	اهزم الخصوم الخمسة عشر للحصول عليها. لا تباع في أي مكان.
+You won the tour! Sign in to claim your reward.	فزت بالجولة! سجل الدخول لتحصل على جائزتك.
+The server is checking your final game…	يتحقق الخادم من مباراتك الأخيرة…
+Try again	حاول مرة أخرى
+The server did not answer. Try again in a moment.	لم يرد الخادم. حاول مرة أخرى بعد قليل.
+The server is busy checking other games. Try again in a moment.	الخادم مشغول بالتحقق من مباريات أخرى. حاول مرة أخرى بعد قليل.
+Wait a minute before trying again.	انتظر دقيقة قبل المحاولة مرة أخرى.
+That game is too long to be checked.	هذه المباراة أطول من أن يتم التحقق منها.
+That game has a move the rules don't allow.	في هذه المباراة حركة لا تسمح بها القواعد.
+That game was not played to the end.	لم تلعب هذه المباراة حتى النهاية.
+That game was not a win.	لم تكن هذه المباراة فوزا.
+The computer's shots in that game don't match how it plays (another version of the game?).	ضربات الكمبيوتر في هذه المباراة لا تطابق أسلوب لعبه (إصدار آخر من اللعبة؟).
+The Rookie	المبتدئ
+Still learning: aims at the nearest pocket, centre ball, and hopes. Never plays safe.	ما زال يتعلم: يصوب نحو أقرب جيب، ويضرب منتصف الكرة، ويأمل خيرا. لا يلعب ضربة دفاعية أبدا.
+The Weekend Player	لاعبة نهاية الأسبوع
+Knows the basics and drops the easy ones, but rarely thinks about where the cue ball goes.	تعرف الأساسيات وتدخل الكرات السهلة، لكنها نادرا ما تفكر في مكان الكرة البيضاء بعد الضربة.
+The Bank Artist	فنانة الارتداد
+Sees angles nobody else does: whenever a ball can go off a cushion and in, she banks it.	ترى زوايا لا يراها أحد: كلما أمكن إدخال كرة بارتدادها عن الحافة، فعلت ذلك.
+The Cannon	المدفع
+Goes for everything, as hard as he can: long pots, thunderous breaks, hardly ever a safety.	يهاجم كل شيء بأقصى قوته: إدخالات بعيدة، وضربات افتتاحية مدوية، ونادرا ما يلعب ضربة دفاعية.
+The Wall	الجدار
+Only shoots when the pot is on. Otherwise she tucks the cue ball away and waits for your mistake.	لا تهاجم إلا عندما يكون الإدخال مضمونا. وإلا فإنها تخبئ الكرة البيضاء وتنتظر غلطتك.
+The Old Pro	المحترف المخضرم
+Forty years at the table: a smooth stroke, a raised cue, side spin, and never in a hurry.	أربعون عاما على الطاولة: ضربة سلسة، وعصا مرفوعة، وتأثير جانبي، ولا عجلة أبدا.
+The Hustler	الماكرة
+Plays just well enough to win, then a little better. Balanced, sharp and hard to read.	تلعب بالقدر الكافي للفوز، ثم أفضل قليلا. متوازنة وحادة الذكاء ويصعب توقعها.
+The Professor	البروفيسور
+Thinks three balls ahead: every shot leaves the cue ball where the next one is easy.	يفكر في الكرات الثلاث التالية: كل ضربة تترك الكرة البيضاء حيث تكون التالية سهلة.
+The Sharpshooter	القناصة
+Pots from anywhere, at any angle. Her safeties are an afterthought: she doesn't need them.	تدخل الكرات من أي مكان وبأي زاوية. لا تهتم بالضربات الدفاعية: فهي لا تحتاجها.
+The Champion	البطل
+Unbeaten for years. Precise, patient and merciless: the last stage of the tour.	لم يهزم منذ سنوات. دقيق وصبور ولا يرحم: المرحلة الأخيرة من الجولة.
+Tour champion	بطل الجولة
+Champion of the tour	بطل الجولة
+Beat all fifteen opponents of the computer tour.	اهزم الخصوم الخمسة عشر في جولة الكمبيوتر.
+Connection lost. Reconnecting (attempt {n})…	انقطع الاتصال. إعادة الاتصال (المحاولة {n})…
+Connection lost. Reconnecting…	انقطع الاتصال. إعادة الاتصال…
+Foul by {shooter}: {foul}.	خطأ من {shooter}: {foul}.
+Graphics set to {q} for smooth play. You can change this in Settings.	تم ضبط الرسومات على {q} لضمان سلاسة اللعب. يمكنك تغيير ذلك من الإعدادات.
+Rating {r} ({d})	التصنيف {r} ({d})
+The {ball} was spotted.	أعيدت {ball} إلى الطاولة.
+Waiting for {to} ({kind})…	بانتظار {to} ({kind})…
+rated	مصنفة
+casual	ودية
+Waiting for {name}…	بانتظار {name}…
+{by} declined your invitation.	رفض {by} دعوتك.
+a rated game	مباراة مصنفة
+a casual game	مباراة ودية
+{name} calls the 8-ball in the {pocket} pocket.	{name} يعلن الكرة 8 في الجيب {pocket}.
+{name} has ball in hand…	{name} لديه الكرة في اليد…
+{name} is aiming…	{name} يصوب…
+{name} is on the 8: click a pocket to call it	{name} على الكرة 8: انقر على جيب لإعلانه
+{name} is thinking…	{name} يفكر…
+{name} left the game.	غادر {name} المباراة.
+{name} resigned.	استسلم {name}.
+{name} to break	{name} يفتتح
+{name} to shoot ({target})	دور {name} ({target})
+{name}'s turn	دور {name}
+{next} has ball in hand{where}.	{next} لديه الكرة في اليد{where}.
+ behind the head string	 خلف خط الرأس
+{opponent} is back.	عاد {opponent}.
+{opponent} lost the connection. Waiting up to {secs} s…	انقطع اتصال {opponent}. الانتظار حتى {secs} ث…
+{opponent} wants a rematch.	{opponent} يريد إعادة المباراة.
+{opponent} went back to the lounge.	عاد {opponent} إلى الصالة.
+{shooter} pocketed {balls}.	{shooter} أدخل {balls}.
+{shooter} takes {group}.	{shooter} يأخذ {group}.
+{who} ran out of time: ball in hand for the opponent.	انتهى وقت {who}: الكرة في اليد للخصم.
+{name} wants a rematch!	{name} يريد إعادة المباراة!
+{name} wins!	{name} يفوز!
+{name} wins	{name} يفوز
+Volume	مستوى الصوت
+The cue, the balls, the cushions and the pockets.	العصا والكرات والحواف والجيوب.
+Notifications	الإشعارات
+Could not find the server “{host}”.	تعذر العثور على الخادم «{host}».
+Network error: {e}.	خطأ في الشبكة: {e}.
+Secure connection failed: {e}.	فشل الاتصال الآمن: {e}.
+The server refused the connection (HTTP {code}).	رفض الخادم الاتصال (HTTP {code}).
+Connection error: {e}.	خطأ في الاتصال: {e}.
+cue ball	الكرة البيضاء
+{n}-ball	الكرة {n}
+Scratch: the cue ball was pocketed	خطأ: دخلت الكرة البيضاء في الجيب
+The cue ball left the table	خرجت الكرة البيضاء من الطاولة
+The cue ball didn't hit any ball	لم تلمس الكرة البيضاء أي كرة
+Wrong ball hit first ({ball})	لمست كرة خاطئة أولا ({ball})
+No ball reached a cushion after contact	لم تصل أي كرة إلى الحافة بعد التلامس
+The {ball} left the table	خرجت {ball} من الطاولة
+Illegal break	افتتاحية غير قانونية
+pocketed the 8-ball	أدخل الكرة 8
+opponent pocketed the 8-ball too early	الخصم أدخل الكرة 8 مبكرا
+opponent sank the 8-ball in the wrong pocket	الخصم أدخل الكرة 8 في الجيب الخطأ
+opponent fouled on the 8-ball	الخصم ارتكب خطأ على الكرة 8
+opponent knocked the 8-ball off the table	الخصم أخرج الكرة 8 من الطاولة
+opponent resigned	الخصم استسلم
+opponent left the game	الخصم غادر المباراة
+head left corner	الأيسر عند الرأس
+head right corner	الأيمن عند الرأس
+left side	الجانبي الأيسر
+right side	الجانبي الأيمن
+foot left corner	الأيسر عند القدم
+foot right corner	الأيمن عند القدم
+Easy	سهل
+Hard	صعب
+Normal	عادي
+Power	القوة
+No messages yet.	لا رسائل بعد.
+▼ newer messages	▼ رسائل أحدث
+Camera follows the cue	الكاميرا تتبع العصا
+Off: it stays where you put it.	عند الإيقاف: تبقى حيث تضعها.
+Pull back for shots	الابتعاد عند الضربات
+Only when the camera follows the cue.	فقط عندما تتبع الكاميرا العصا.
+Drag the cue · click a spot	اسحب العصا · انقر على نقطة
+Time's up: {name}'s shot was played at full power.	انتهى الوقت: نفذت ضربة {name} بأقصى قوة.
+Dark room	غرفة مظلمة
+A spotlight on the table, the room in shadow.	ضوء مسلط على الطاولة، والغرفة في الظل.
+Hide	إخفاء
+Interface size	حجم الواجهة
+Text, buttons and panels.	النصوص والأزرار واللوحات.
+Drag to set the power	اسحب لضبط القوة
+Shoot!	اضرب!
+Set the power, then press the green button	اضبط القوة ثم اضغط الزر الأخضر
++{n} coins · {why}	+{n} عملة · {why}
+16-player tournaments, and first place on the waiting list of a full one	بطولات من 16 لاعبا، والمركز الأول في قائمة انتظار البطولة الممتلئة
+30 minutes: play as many games as you can. A win is 2 points, 4 from the third win in a row.	30 دقيقة: العب أكبر عدد ممكن من المباريات. الفوز بنقطتين، و4 نقاط بدءا من الفوز الثالث على التوالي.
+A crown by your name, everywhere (lounge, profile, ranking)	تاج بجانب اسمك في كل مكان (الصالة، الملف الشخصي، الترتيب)
+Account	الحساب
+Add friends to give them items.	أضف أصدقاء لتهديهم عناصر.
+Arena	الساحة
+Arena · host {host} · {n} players · {kind}	الساحة · المضيف {host} · {n} لاعبين · {kind}
+Buy now	اشتر الآن
+Buying…	يجري الشراء…
+Change password	تغيير كلمة المرور
+Click again to delete	انقر مرة أخرى للحذف
+Got a code? Type it here	لديك رمز؟ اكتبه هنا
+Confirm purchase	تأكيد الشراء
+Copied: send it to a friend.	تم النسخ: أرسله إلى صديق.
+Copy	نسخ
+Current	الحالية
+Delete account	حذف الحساب
+Entry	رسم الدخول
+Entry {n} coins	رسم الدخول {n} عملة
+Every replay kept (free players keep their last 10 games)	حفظ كل الإعادات (يحتفظ اللاعبون المجانيون بآخر 10 مباريات)
+For {name}	إلى {name}
+Add a message (optional)	أضف رسالة (اختياري)
+Format	النظام
+Frames	الإطارات
+Free	مجاني
+Get coins	احصل على عملات
+Gift sent!	تم إرسال الهدية!
+Give as a gift	إهداء
+Give it	أرسل الهدية
+Give to a friend	إهداء لصديق
+Great!	رائع!
+If you forget your password, we confirm it's you by this e-mail.	إذا نسيت كلمة المرور، نتأكد من هويتك عبر هذا البريد الإلكتروني.
+Invite with a code	الدعوة برمز
+It goes on right away. Items only change the look, never the game.	يطبق فورا. العناصر تغير المظهر فقط، ولا تؤثر في اللعب أبدا.
+Join my table in Snook Legend:	انضم إلى طاولتي في Snook Legend:
+Join the waiting list	الانضمام إلى قائمة الانتظار
+Join · {n} coins	انضمام · {n} عملة
+Knockout	خروج المغلوب
+Name colour	لون الاسم
+Name colours for the lounge and exclusive frames, cloth, cues, balls and effects	ألوان للاسم في الصالة، وإطارات وأقمشة وعصي وكرات ومؤثرات حصرية
+New	الجديدة
+No, thanks	لا، شكرا
+Nothing that wins games: VIP only changes the look	لا شيء يمنحك الفوز: VIP يغير المظهر فقط
+Numbers	الأرقام
+ON TV	على الهواء
+Play rated games to see your rating here.	العب مباريات مصنفة لترى تصنيفك هنا.
+No rated games yet.	لا مباريات مصنفة بعد.
+Price	السعر
+Prizes {a} + {b}	الجوائز {a} + {b}
+Protect your purchases	احم مشترياتك
+Purchase complete!	اكتمل الشراء!
+Recovery e-mail	بريد الاسترداد
+Save	حفظ
+The fees make the prize: 70% to the champion, 20% to the runner-up.	رسوم الدخول تشكل الجائزة: 70% للبطل، و20% للوصيف.
+The server restarts in {m}:{s} for an update. Games in progress go on.	يعاد تشغيل الخادم بعد {m}:{s} للتحديث. تستمر المباريات الجارية.
+Use this e-mail	استخدام هذا البريد
+Use {email} to recover your account if you ever forget your password?	هل تريد استخدام {email} لاسترداد حسابك إذا نسيت كلمة المرور؟
+Watch	مشاهدة
+Watch again	إعادة المشاهدة
+Winning effects	مؤثرات الفوز
+Halls	القاعات
+You are paired as soon as you and an opponent are free.	تتم مطابقتك فور أن تكون أنت وخصم متاحين.
+You can change it any time in your profile (Account).	يمكنك تغييره في أي وقت من ملفك الشخصي (الحساب).
+You need {n} more coins.	تحتاج إلى {n} عملة إضافية.
+Your account	حسابك
+Your account was deleted.	تم حذف حسابك.
+Your coins	عملاتك
+Your friend gets it right away.	يحصل عليها صديقك فورا.
+Your game against {name} is starting.	تبدأ مباراتك ضد {name}.
+Your name, e-mail, friends and items are erased for good. Your opponents keep the games you played (without your name).	يمحى اسمك وبريدك وأصدقاؤك وعناصرك نهائيا. يحتفظ خصومك بالمباريات التي لعبتها (بدون اسمك).
+balls per game	كرة لكل مباراة
+best run ever	أفضل سلسلة على الإطلاق
+daily bonus	مكافأة يومية
+entry fee back	استرداد رسم الدخول
+for the game	مقابل المباراة
+for the win	مقابل الفوز
+games counted	مباريات محتسبة
+Analysis	التحليل
+The shot analysis isn't available on this server yet.	تحليل الضربات غير متاح على هذا الخادم بعد.
+Only online accounts have a shot analysis.	تحليل الضربات متاح لحسابات الإنترنت فقط.
+Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	العب عبر الإنترنت لترى كيف تدخل الكرات: يظهر التحليل بعد {n} ضربة أخرى نحو الجيوب.
+{name} hasn't played enough online games for an analysis yet.	لم يلعب {name} ما يكفي من المباريات عبر الإنترنت للتحليل بعد.
+1 game	مباراة واحدة
+{pct}% of {n} shots at a pocket potted · {games}	نجحت {pct}% من {n} ضربة نحو الجيوب · {games}
+{made} of {n} potted ({pct})	دخلت {made} من {n} ({pct})
+By kind of shot	حسب نوع الضربة
+shots	ضربات
+Straight	مستقيمة
+Cut 8–25°	قطع 8–25°
+Cut 25–45°	قطع 25–45°
+Thin cut 45°+	قطع رفيع 45° فأكثر
+Bank	ارتداد
+Kick	ارتداد البيضاء
+Combination	مركبة
+Jump	قفز
+Massé	ماسيه
+Break	الافتتاحية
+By distance	حسب المسافة
+Short (under 0.75 m)	قصيرة (أقل من 0.75 م)
+Medium (to 1.5 m)	متوسطة (حتى 1.5 م)
+Long (over 1.5 m)	طويلة (أكثر من 1.5 م)
+left the opponent nothing	لم تترك للخصم شيئا
+Breaks	الافتتاحيات
+made a ball	أدخلت كرة
+Potted	الناجحة
+Missed	الضائعة
+Where and in which pocket	أين وفي أي جيب
+{pocket}: {made} of {n} potted	{pocket}: دخلت {made} من {n}
+Where the potted balls were	أماكن الكرات التي دخلت
+Where the missed balls were	أماكن الكرات الضائعة
+few	قليلة
+many	كثيرة
+{made} potted · {missed} missed ({pct})	{made} ناجحة · {missed} ضائعة ({pct})
+Top left corner	الزاوية العلوية اليسرى
+Bottom left corner	الزاوية السفلية اليسرى
+Top side pocket	الجيب الجانبي العلوي
+Bottom side pocket	الجيب الجانبي السفلي
+Top right corner	الزاوية العلوية اليمنى
+Bottom right corner	الزاوية السفلية اليمنى
+games left unfinished	مباريات لم تكتمل
+potting success	دقة الإدخال
+shots with a foul	ضربات بخطأ
+starts in {n} min	تبدأ بعد {n} د
+tournament prize	جائزة بطولة
+The dark room hides the hall around the table.	الغرفة المظلمة تخفي القاعة حول الطاولة.
+Show the hall	إظهار القاعة
+Level {n} · 1 win	المستوى {n} · فوز واحد
+Level {n} · {w} wins	المستوى {n} · {w} فوز
+{left} more online wins with this cue for level {n}. Levels only add marks to the cue.	{left} فوز إضافي عبر الإنترنت بهذه العصا للوصول إلى المستوى {n}. المستويات تضيف علامات على العصا فقط.
+The top level: this cue has every mark.	المستوى الأعلى: تحمل هذه العصا كل العلامات.
+Your cue {cue} reached level {n}!	وصلت عصاك {cue} إلى المستوى {n}!
+Most wins: {cue} (level {n})	الأكثر فوزا: {cue} (المستوى {n})
+{games} games · {rate}% won · {balls} balls made	{games} مباراة · فوز {rate}% · {balls} كرة مدخلة
+vs	ضد
+{from} gave you {item}!	{from} أهداك {item}!
+You received a gift!	تلقيت هدية!
+From	من
+To	إلى
+someone	شخص ما
+A month of VIP	شهر من VIP
+Thank	شكر
+Thanked	تم الشكر
+They thanked you	شكرك
+Use it now	استخدمه الآن
+Later	لاحقا
+OK	حسنا
+Next ({n} more)	التالي (يتبقى {n})
+{from} gave you {item}! It's waiting for you in the lounge.	{from} أهداك {item}! الهدية بانتظارك في الصالة.
+{name} thanked you for {item}.	{name} شكرك على {item}.
+Gifts	الهدايا
+No gifts yet. Friends can give you items from the shop.	لا هدايا بعد. يمكن لأصدقائك إهداؤك عناصر من المتجر.
+{item} is yours and already in use.	العنصر {item} لك الآن وهو قيد الاستخدام بالفعل.
+{m}:{s} left	يتبقى {m}:{s}
+{name} invites you to play.	{name} يدعوك للعب.
+{name} is online.	{name} متصل الآن.
+{name} ran out of time.	انتهى وقت {name}.
+{name} received {item}.	{name} تلقى {item}.
+{n} pts · {g} games	{n} نقطة · {g} مباراة
+{n} watching · avg {r}	{n} يشاهدون · المتوسط {r}
+{title}: {how}	{title}: {how}
+Olive	زيتوني
+Navy	كحلي
+Forest	أخضر الغابة
+Slate grey	رمادي أردوازي
+Red wine	نبيذي
+Burnt orange	برتقالي محروق
+Dusty rose	وردي باهت
+Sand	رملي
+Ice blue	أزرق جليدي
+Lime	ليموني
+Black tie	سهرة رسمية
+Cobalt	كوبالت
+Emerald	زمردي
+Natural maple	قيقب طبيعي
+Beach bar	مقهى الشاطئ
+Modern	عصري
+English club	النادي الإنجليزي
+Ebony & gold	أبنوس وذهب
+Pool hall	صالة البلياردو
+Industrial loft	لوفت صناعي
+Steel & oak	فولاذ وبلوط
+Tournament	بطولة
+Victorian walnut	جوز فيكتوري
+Ivory deco	ديكو عاجي
+Mountain lodge	كوخ جبلي
+Neon arcade	صالة ألعاب نيون
+Art deco lounge	صالة آرت ديكو
+Skyline penthouse	بنتهاوس مطل على المدينة
+Walnut	جوز
+Zebrawood	خشب الزيبرا
+Bocote	بوكوتي
+Deep ocean	المحيط العميق
+Cherry	كرز
+Jade	يشم
+Tiger	نمر
+Amethyst	جمشت
+Arctic carbon	كربون قطبي
+Inferno	الجحيم
+Obsidian gold	سبج وذهب
+Tan chalk	طباشير بيج
+Grey chalk	طباشير رمادية
+Orange chalk	طباشير برتقالية
+Pink chalk	طباشير وردية
+Teal chalk	طباشير زرقاء مخضرة
+Yellow chalk	طباشير صفراء
+Black chalk	طباشير سوداء
+White chalk	طباشير بيضاء
+Silver chalk	طباشير فضية
+TV set	طقم البث التلفزيوني
+Earth tones	ألوان ترابية
+Ocean	المحيط
+Sunset	الغروب
+Candy	حلوى
+Pearl	لؤلؤ
+Monochrome	أحادي اللون
+Chrome	كروم
+Gold rush	حمى الذهب
+No frame	بلا إطار
+Bronze	برونزي
+Silver	فضي
+Gold	ذهبي
+Green felt	جوخ أخضر
+Mahogany	ماهوجني
+Ice	جليد
+Fire	نار
+Diamond	ماسي
+VIP crown	تاج VIP
+Rose gold	ذهبي وردي
+Aqua	مائي
+Violet	بنفسجي
+Ember	جمر
+Mint	نعناعي
+Frost	صقيع
+No effect	بلا مؤثرات
+Sparks	شرارات
+Confetti	قصاصات ملونة
+Shockwave	موجة صادمة
+Coin shower	مطر العملات
+Flames	لهب
+Royal sparks	شرارات ملكية
+Tier colour	لون الفئة
+16-player tournaments are for VIP members.	البطولات من 16 لاعبا لأعضاء VIP.
+A seat opened: you are in the tournament!	شغر مكان: أنت في البطولة!
+Entry fees go up to 1000 coins.	يصل رسم الدخول إلى 1000 عملة كحد أقصى.
+Guests can't play for coins.	لا يمكن للضيوف اللعب مقابل العملات.
+Only items sold for coins can be given.	لا يمكن إهداء إلا العناصر التي تباع بالعملات.
+Password changed.	تم تغيير كلمة المرور.
+Passwords need 8 or more characters, not only digits.	يجب أن تتكون كلمة المرور من 8 أحرف أو أكثر، لا أرقام فقط.
+Recovery e-mail removed.	تمت إزالة بريد الاسترداد.
+Recovery e-mail saved.	تم حفظ بريد الاسترداد.
+Something went wrong. Please try again.	حدث خلل ما. يرجى المحاولة مرة أخرى.
+That code is not valid (or the table was closed).	هذا الرمز غير صالح (أو أغلقت الطاولة).
+That doesn't look like an e-mail address.	لا يبدو هذا عنوان بريد إلكتروني.
+That game is over.	انتهت تلك المباراة.
+The current password is wrong.	كلمة المرور الحالية خاطئة.
+The server is restarting.	يعاد تشغيل الخادم.
+The server is restarting: new games start in a moment.	يعاد تشغيل الخادم: تبدأ المباريات الجديدة بعد لحظات.
+The tournament is full: you are on the waiting list.	البطولة ممتلئة: أنت في قائمة الانتظار.
+This replay is not available.	هذه الإعادة غير متاحة.
+You can only give items to your friends.	يمكنك إهداء العناصر لأصدقائك فقط.
+Your friend already has this item.	لدى صديقك هذا العنصر بالفعل.
+16 (VIP)	16 (VIP)
+VIP isn't sold in this version of the game.	لا تباع عضوية VIP في هذا الإصدار من اللعبة.
+In this version of the game, coins are earned by playing:	في هذا الإصدار من اللعبة، تكسب العملات باللعب:
+rated games, and a bonus every day you play.	المباريات المصنفة، ومكافأة في كل يوم تلعب فيه.
+Coins are earned by playing:	تكسب العملات باللعب:
+If you like, you can also buy them:	ويمكنك أيضا شراؤها إن أردت:
+one month	شهر واحد
+already VIP	عضو VIP بالفعل
+Give a month to a friend · {p}	إهداء شهر لصديق · {p}
+{from} gave you a month of VIP!	{from} أهداك شهرا من VIP!
+{name} received a month of VIP.	{name} تلقى شهرا من VIP.
+Your friend is already VIP.	صديقك عضو VIP بالفعل.
+Game in progress: {n} balls left	مباراة جارية: الكرات المتبقية {n}
+Continue	متابعة
+Missions	المهام
+Board	اللوحة
+Today	اليوم
+This week	هذا الأسبوع
+new missions in {t}	مهام جديدة بعد {t}
+ends in {t}	ينتهي بعد {t}
+{n} days	{n} يوم
+{n} h	{n} س
+{n} min	{n} د
+mission complete	اكتملت المهمة
+Missions count rated games played to the end. The coins arrive as soon as one is complete.	تحتسب المهام المباريات المصنفة التي تلعب حتى النهاية. تصل العملات فور اكتمال أي مهمة.
+Nothing on the board right now.	لا شيء على اللوحة حاليا.
+Open tournaments	بطولات مفتوحة
+{n}/{size} players	{n}/{size} لاعبين
+starts in {t}	تبدأ بعد {t}
+entry {n} coins	رسم الدخول {n} عملة
+See	عرض
+Play {n} rated games	العب {n} من المباريات المصنفة
+Win {n} rated games	فز في {n} من المباريات المصنفة
+Pot {n} balls	أدخل {n} من الكرات
+Pot {n} balls with spin	أدخل {n} من الكرات باستخدام التأثير
+Pot 3 balls in a row in one visit	أدخل 3 كرات متتالية في دور واحد
+Win a game without a foul	فز في مباراة دون ارتكاب أي خطأ
+Pot 3 balls in a row {n} times	أدخل 3 كرات متتالية {n} مرات
+Win {n} games without a foul	فز في {n} من المباريات دون ارتكاب أي خطأ
+TV camera when watching	كاميرا تلفزيونية عند المشاهدة
+Broadcast angles for other players' games and replays.	زوايا البث التلفزيوني لمباريات اللاعبين الآخرين والإعادات.
+System notifications	إشعارات النظام
+Invites, friends coming online and games starting, while you're away.	الدعوات، واتصال الأصدقاء، وبدء المباريات، أثناء غيابك.
+{name} starts in a few minutes: get ready!	تبدأ {name} بعد بضع دقائق: استعد!
+{name} starts in a few minutes: there is still room.	تبدأ {name} بعد بضع دقائق: ما زالت هناك أماكن شاغرة.
+{name} has started!	بدأت {name}!
+Momentum	الزخم
+Shot map	خريطة الضربات
+No shots yet.	لا ضربات بعد.
+made	دخلت
+missed	ضائعة
+foul	خطأ
+See the tournaments	عرض البطولات
+Open the shop	فتح المتجر
+See VIP	عرض VIP
+See the missions	عرض المهام
+A new version of the game is out: update to play online.	صدر إصدار جديد من اللعبة: حدثها للعب عبر الإنترنت.
+Update in the Microsoft Store	التحديث من Microsoft Store
+Update now	التحديث الآن
+Download the new version	تنزيل الإصدار الجديد
+New version out	صدر إصدار جديد
+Get the new version to play online	احصل على الإصدار الجديد للعب عبر الإنترنت
+Cheer for {name}	شجع {name}
+Crowd: {a} for {p0}, {b} for {p1}	الجمهور: {a} مع {p0}، {b} مع {p1}
+welcome pack	حزمة الترحيب
+Welcome pack	حزمة الترحيب
+Cue “{cue}”, cloth “{cloth}” and {n} coins · only once, sold nowhere else	عصا «{cue}» وقماش «{cloth}» و{n} عملة · مرة واحدة فقط، لا تباع في أي مكان آخر
+Lagoon	البحيرة
+You already have the welcome pack.	لديك حزمة الترحيب بالفعل.
+Your welcome pack is here!	وصلت حزمة الترحيب الخاصة بك!
+Previous shot (←)	الضربة السابقة (←)
+Next shot (→)	الضربة التالية (→)
+Play (Space)	تشغيل (مسافة)
+Pause (Space)	إيقاف مؤقت (مسافة)
+Speed	السرعة
+Shot {n} of {total}	الضربة {n} من {total}
+For VIP members	لأعضاء VIP
+{n} reactions of your own to send during games	{n} من التفاعلات الخاصة بك لإرسالها أثناء المباريات
+Items {a}–{b} of {n}	العناصر {a}–{b} من {n}
+(message deleted by its author)	(رسالة حذفها كاتبها)
+(message deleted by an administrator)	(رسالة حذفها أحد المسؤولين)
+Delete (it shows as deleted)	حذف (تظهر كمحذوفة)
+Remove without a trace	إزالة دون أثر
+The chat was cleared by {name}.	مسح {name} الدردشة.
+Click again to clear	انقر مرة أخرى للمسح
+Clear the chat	مسح الدردشة
+Players' chat (administrator)	دردشة اللاعبين (المسؤول)
+Play the computer while you wait	العب ضد الكمبيوتر أثناء الانتظار
+Looking for an opponent… {t} · the game starts as soon as one is found	يجري البحث عن خصم… {t} · تبدأ المباراة فور العثور على أحد
+Stop	إيقاف
+# Coin packs and months of VIP bought in the Microsoft Store (the Store build).
+The Microsoft Store couldn't complete the purchase.	تعذر على Microsoft Store إتمام الشراء.
+The Microsoft Store couldn't confirm the purchase right now. Its coins arrive the next time you open the shop.	تعذر على Microsoft Store تأكيد الشراء الآن. ستصل عملاتها في المرة القادمة التي تفتح فيها المتجر.
+{n} coins added to your wallet.	تمت إضافة {n} عملة إلى محفظتك.
+Microsoft is confirming your purchase: the coins arrive in a moment.	تؤكد Microsoft عملية شرائك: ستصل العملات بعد لحظات.
+The purchase hasn't reached us yet. Its coins arrive the next time you open the shop.	لم تصلنا عملية الشراء بعد. ستصل عملاتها في المرة القادمة التي تفتح فيها المتجر.
+Loading prices from the Microsoft Store…	يجري تحميل الأسعار من Microsoft Store…
+Coins can't be bought in this version yet.	لا يمكن شراء العملات في هذا الإصدار بعد.
+Finish the purchase in the Microsoft Store window…	أكمل الشراء في نافذة Microsoft Store…
+Confirming your purchase…	يجري تأكيد عملية الشراء…
+Paid in the Microsoft Store, with your Microsoft account.	الدفع في Microsoft Store، بحساب Microsoft الخاص بك.
+The Microsoft Store can't be reached right now. Try again in a moment.	تعذر الوصول إلى Microsoft Store الآن. حاول مرة أخرى بعد قليل.
+The Microsoft Store could not confirm the purchase.	تعذر على Microsoft Store تأكيد الشراء.
+Sign in to the Microsoft Store with your Microsoft account, then open the shop again.	سجل الدخول إلى Microsoft Store بحساب Microsoft الخاص بك، ثم افتح المتجر مرة أخرى.
+The Microsoft Store couldn't confirm the purchase right now. Your VIP month starts the next time you open the shop.	تعذر على Microsoft Store تأكيد الشراء الآن. سيبدأ شهر VIP الخاص بك في المرة القادمة التي تفتح فيها المتجر.
+You are VIP until {d}, and {n} coins were added to your wallet.	أنت عضو VIP حتى {d}، وتمت إضافة {n} عملة إلى محفظتك.
+Microsoft is confirming your purchase: your VIP month starts in a moment.	تؤكد Microsoft عملية شرائك: سيبدأ شهر VIP الخاص بك بعد لحظات.
+The purchase hasn't reached us yet. Your VIP month starts the next time you open the shop.	لم تصلنا عملية الشراء بعد. سيبدأ شهر VIP الخاص بك في المرة القادمة التي تفتح فيها المتجر.
+A month at a time: nothing renews by itself	شهر في كل مرة: لا شيء يتجدد تلقائيا
+Add a month · {p}	أضف شهرا · {p}
+A month of VIP · {p}	شهر من VIP · {p}
+The new month starts when this one ends.	يبدأ الشهر الجديد عند انتهاء الشهر الحالي.
+Trophies	الكؤوس
+No trophies yet.	لا كؤوس بعد.
+Tournament won · {n} players	الفوز ببطولة · {n} لاعبين
+The computer tour	جولة الكمبيوتر
+All fifteen opponents beaten	هزيمة الخصوم الخمسة عشر جميعا
+Daily challenge	تحدي اليوم
+First of {n} players	الأول من بين {n} لاعبين
+Easy shot	ضربة سهلة
+Fair shot	ضربة متوسطة
+Hard shot	ضربة صعبة
+Very hard shot	ضربة صعبة جدا
+~{n}% chance	احتمال نحو {n}%
+No ball goes down as aimed	لن تدخل أي كرة بهذا التصويب
+straight in	مستقيمة
+{n}° cut	قطع {n}°
+off one cushion	عبر حافة واحدة
+off {n} cushions	عبر {n} حواف
+Make as many balls as you can in one visit: a miss or a foul ends the attempt.	أدخل أكبر عدد ممكن من الكرات في دور واحد: الإخفاق أو الخطأ ينهي المحاولة.
+The same table for everyone, all day	الطاولة نفسها للجميع، طوال اليوم
+{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	{n} محاولات في اليوم. نظف الطاولة لتربح {coins} عملة؛ ويحصل فائز اليوم على كأس.
+A new table in {h} h {m} min	طاولة جديدة بعد {h} س {m} د
+Sign in to take part: the server keeps the day's table.	سجل الدخول للمشاركة: يحفظ الخادم ترتيب اليوم.
+Balls on today's table	الكرات على طاولة اليوم
+Attempts left	المحاولات المتبقية
+{n} balls · #{rank}	{n} كرة · المركز {rank}
+{n} balls	{n} كرة
+not yet	ليس بعد
+Your best today	أفضل نتيجة لك اليوم
+No attempts left today: come back tomorrow.	لم تتبق لك محاولات اليوم: عد غدا.
+The attempt could not be counted.	تعذر احتساب المحاولة.
+Setting up the table…	يجري تجهيز الطاولة…
+Start an attempt	بدء محاولة
+Starting uses an attempt, even if you leave the table.	البدء يستهلك محاولة، حتى لو غادرت الطاولة.
+Loading today's table…	يجري تحميل طاولة اليوم…
+Today's table	ترتيب اليوم
+{n} players	{n} لاعبين
+Nobody has played today's table yet. Be the first!	لم يلعب أحد طاولة اليوم بعد. كن الأول!
+Table cleared!	تم تنظيف الطاولة!
+{n} of {total} balls	{n} من {total} كرة
+Sending your attempt to the server…	يجري إرسال محاولتك إلى الخادم…
+Counted: {n} balls · +{coins} coins	تم الاحتساب: {n} كرة · +{coins} عملة
+Counted: {n} balls	تم الاحتساب: {n} كرة
+See today's table	عرض ترتيب اليوم
+Table cleared! +{n} coins	تم تنظيف الطاولة! +{n} عملة
+Daily challenge: {n} of {total} balls made	تحدي اليوم: دخلت {n} من {total} كرة
+1 player	لاعب واحد
+Phoenix	العنقاء
+Carrara marble	رخام كارارا
+Dragon scale	حراشف التنين
+Galaxy	المجرة
+Ruby throne	عرش الياقوت
+Closing the game now is leaving it: extra rating lost and a wait to play again.	إغلاق اللعبة الآن يعني مغادرة المباراة: تخسر تصنيفا إضافيا وتنتظر قبل اللعب مجددا.
+You left a game in progress: you can play online again in {n} min.	غادرت مباراة جارية: يمكنك اللعب عبر الإنترنت مرة أخرى بعد {n} د.
+Quick phrases	عبارات سريعة
+Good luck, have fun!	حظا موفقا، واستمتع!
+Nice shot!	ضربة جميلة!
+Great safety!	ضربة دفاعية رائعة!
+Unlucky!	حظ سيئ!
+Oops!	أوه!
+Wow!	واو!
+That was close!	كانت قريبة!
+Take your time.	خذ وقتك.
+Sorry!	آسف!
+Thanks!	شكرا!
+Well played!	أحسنت اللعب!
+Good game!	مباراة جيدة!
+Rematch?	مباراة أخرى؟
+I have to go, thanks for the game!	علي الذهاب، شكرا على المباراة!
+Practise while you wait	تدرب أثناء الانتظار
+A new rack.	ترتيب جديد للكرات.
+Level {n}! (+{xp} XP)	المستوى {n}! (+{xp} XP)
++{xp} XP	+{xp} XP
+Level {n} · {into} / {span} XP to the next	المستوى {n} · {into} / {span} XP للمستوى التالي
+Level {n}	المستوى {n}
+Hi! I watched a lot of videos, I'm ready!	مرحبا! شاهدت فيديوهات كثيرة، أنا جاهز!
+Be gentle, okay?	ترفق بي، اتفقنا؟
+Whoa, how did you do that?	واو، كيف فعلت ذلك؟
+Teach me that one later!	علمني هذه لاحقا!
+Phew! My turn!	أخيرا! دوري!
+Even you miss? Good to know.	حتى أنت تضيع الكرات؟ جيد أن أعرف.
+A free ball! What do I do with it?	كرة مجانية! ماذا أفعل بها؟
+Did you see that?! It went in!	هل رأيت ذلك؟! لقد دخلت!
+Beginner's luck counts too!	حظ المبتدئين يحتسب أيضا!
+Oops. That was a practice shot.	عفوا. كانت تلك ضربة تجريبية.
+Aim, Leo, aim...	صوب يا Leo، صوب...
+Sorry! I touched the wrong one again.	آسف! لمست الكرة الخطأ مرة أخرى.
+I WON? I'm calling my mum!	أنا فزت؟! سأتصل بأمي!
+Good game! I'm getting better, right?	مباراة جيدة! أنا أتحسن، أليس كذلك؟
+Saturday, a table and good company. Let's play!	سبت، وطاولة، ورفقة طيبة. هيا نلعب!
+Nice one!	جميلة!
+Oh, you're good. I'll pay attention now.	أوه، أنت جيد. سأنتبه الآن.
+Happens to the best of us.	يحدث هذا لأفضلنا.
+Don't worry, it's just a game!	لا تقلق، إنها مجرد لعبة!
+Thanks for the gift!	شكرا على الهدية!
+Yes! Weekend skills!	نعم! مهارات نهاية الأسبوع!
+Lucky me!	يا لحظي!
+Hm, where was I aiming?	همم، أين كنت أصوب؟
+Too much chatting, not enough aiming.	ثرثرة كثيرة وتصويب قليل.
+Oops, my bad!	عفوا، خطئي!
+That was fun! Same time next weekend?	كان ذلك ممتعا! في الموعد نفسه نهاية الأسبوع القادم؟
+Well played! Rematch over a lemonade?	أحسنت اللعب! مباراة أخرى مع كوب ليموناضة؟
+Four cushions, endless possibilities.	أربع حواف، وإمكانيات لا تنتهي.
+Straight in? So... direct.	ضربة مستقيمة؟ يا لها من... مباشرة.
+Nice, but a bank would have been prettier.	جميل، لكن الارتداد عن الحافة كان سيكون أجمل.
+You should have used the cushion.	كان عليك استخدام الحافة.
+The rail was right there, asking for it.	كانت الحافة هناك تماما، تنتظرك.
+The table didn't like that.	الطاولة لم يعجبها ذلك.
+Off the rail and in. Art!	من الحافة إلى الجيب. فن!
+Geometry never lies.	الهندسة لا تكذب أبدا.
+The angle was right. The cushion disagreed.	الزاوية كانت صحيحة. الحافة كان لها رأي آخر.
+One diamond off. Just one!	فارق علامة واحدة على الحافة. واحدة فقط!
+Too much imagination, not enough contact.	خيال كثير وتلامس قليل.
+A masterpiece, if I may say so.	تحفة فنية، إن سمحت لي بالقول.
+Well played. Now try it off two rails.	أحسنت اللعب. والآن جربها عبر حافتين.
+I hope these balls are made of steel.	آمل أن تكون هذه الكرات مصنوعة من الفولاذ.
+Soft touch, huh? Not my style.	لمسة ناعمة، ها؟ ليس أسلوبي.
+Hit it harder next time!	اضربها بقوة أكبر في المرة القادمة!
+Too gentle! Power solves everything.	ناعمة جدا! القوة تحل كل شيء.
+HA!	ها!
+My table now. Cover your ears.	الطاولة لي الآن. سد أذنيك.
+BOOM!	بوم!
+Did you hear that pocket?	هل سمعت صوت ذلك الجيب؟
+Too much power? No such thing.	قوة زائدة؟ لا يوجد شيء كهذا.
+The pocket moved.	الجيب تحرك.
+The ball flew. It happens. A lot.	طارت الكرة. يحدث هذا. كثيرا.
+Power wins again! BOOM!	القوة تفوز مجددا! بوم!
+Fine, finesse works too. Sometimes.	حسنا، البراعة تنجح أيضا. أحيانا.
+Take your time. I have all day.	خذ وقتك. لدي اليوم بطوله.
+Acceptable.	مقبول.
+Enjoy it while it lasts.	استمتع بها ما دامت.
+Patience is a virtue. Not yours, apparently.	الصبر فضيلة. ليست فضيلتك على ما يبدو.
+Thank you.	شكرا لك.
+Sloppy.	إهمال.
+Steady wins.	الثبات يفوز.
+One at a time.	واحدة تلو الأخرى.
+Hm. I'll leave you nothing anyway.	همم. لن أترك لك شيئا على أي حال.
+Intentional. Probably.	مقصودة. على الأرجح.
+Unacceptable. Of me.	غير مقبول. مني أنا.
+As I said: patience.	كما قلت: الصبر.
+You got through the wall. I'm impressed.	اخترقت الجدار. أنا معجبة.
+I've been playing since before these balls were plastic.	ألعب منذ ما قبل أن تصنع هذه الكرات من البلاستيك.
+Good stroke. Reminds me of a fellow in '78.	ضربة جيدة. تذكرني بشاب عرفته عام 78.
+Smooth. Very smooth.	سلسة. سلسة جدا.
+Keep your head down, kid.	أبق رأسك منخفضا يا بني.
+The cue ball doesn't lie.	الكرة البيضاء لا تكذب.
+Ah, a little present. Thank you kindly.	آه، هدية صغيرة. شكرا جزيلا.
+Like riding a bicycle.	مثل ركوب الدراجة.
+Still got it.	ما زلت بارعا.
+The eyes aren't what they used to be.	النظر لم يعد كما كان.
+In my day the pockets were bigger.	في أيامي كانت الجيوب أكبر.
+Even old pros slip.	حتى المحترفون القدامى يخطئون.
+Experience, my friend. Experience.	الخبرة يا صديقي. الخبرة.
+You've got a future in this game.	لديك مستقبل في هذه اللعبة.
+Me? Oh, I hardly ever play...	أنا؟ أوه، نادرا ما ألعب...
+Lucky! Do it again, I dare you.	محظوظ! أعدها إن استطعت، أتحداك.
+Ooh, someone's been practising.	أوه، يبدو أن أحدهم كان يتدرب.
+Aw, so close! Bless.	آه، كانت قريبة جدا! مسكين.
+Want me to show you how?	أتريدني أن أريك كيف؟
+Thank you, sweetie.	شكرا يا عزيزي.
+Oops, did I do that?	عفوا، هل فعلت ذلك أنا؟
+Must be beginner's luck. Again.	لا بد أنه حظ المبتدئين. مرة أخرى.
+Missed on purpose. Keeps it interesting.	أضعتها عمدا. لتبقى الأمور مشوقة.
+Just warming up.	مجرد إحماء.
+Oh dear, how clumsy of me. Wink.	يا إلهي، ما أخرقني. غمزة.
+Hardly ever play, I said. Hardly.	قلت إنني نادرا ما ألعب. نادرا.
+Fine, you got me. This time.	حسنا، هزمتني. هذه المرة.
+Friction, momentum, spin. Let us begin.	احتكاك، وزخم، وتأثير. فلنبدأ.
+A fine cut. About thirty degrees, I'd say.	قطع جميل. نحو ثلاثين درجة، على ما أظن.
+Textbook.	كما في الكتب.
+You underestimated the throw.	استهنت بانحراف الكرة.
+Interesting. Statistically expected.	مثير للاهتمام. متوقع إحصائيا.
+The cue ball followed the laws of physics, not your plan.	اتبعت الكرة البيضاء قوانين الفيزياء، لا خطتك.
+As calculated.	كما حسبت.
+Elastic collision, elegant result.	تصادم مرن، ونتيجة أنيقة.
+An error in my measurement.	خطأ في قياسي.
+I'll revise the model.	سأراجع النموذج.
+Hm. Unexpected spin.	همم. تأثير غير متوقع.
+The numbers were on my side.	كانت الأرقام في صفي.
+A result outside my predictions. Well done.	نتيجة خارج توقعاتي. أحسنت.
+Focus.	تركيز.
+Clean.	نظيفة.
+Not bad.	ليس سيئا.
+Half a millimetre.	نصف مليمتر.
+Breathe before you shoot.	تنفس قبل أن تضرب.
+Careless.	تسرع.
+Target down.	أصيب الهدف.
+Centre pocket.	في منتصف الجيب تماما.
+Hm. Recalibrating.	همم. أعيد المعايرة.
+That never happens.	هذا لا يحدث أبدا.
+Unacceptable.	غير مقبول.
+Precision wins.	الدقة تفوز.
+Good shooting.	تصويب جيد.
+Welcome to my table. Enjoy the show.	مرحبا بك إلى طاولتي. استمتع بالعرض.
+Very good. You've done your homework.	جيد جدا. لقد أديت واجبك.
+Applause for the challenger!	صفقوا للمتحدي!
+Pressure. It gets to everyone.	الضغط. يطال الجميع.
+Thank you for the table.	شكرا على الطاولة.
+A champion never refuses a gift.	البطل لا يرفض هدية أبدا.
+Naturally.	بطبيعة الحال.
+That's how it's done.	هكذا تكون.
+Even champions give the crowd a chance.	حتى الأبطال يمنحون الجمهور فرصة.
+Leaving you something, out of courtesy.	أترك لك شيئا، من باب المجاملة.
+A rare sight. Remember it.	مشهد نادر. تذكره.
+The title stays with me. Good game.	اللقب يبقى معي. مباراة جيدة.
+Remarkable. You've earned my respect.	مذهل. لقد كسبت احترامي.
+Calibration complete. Good luck, human.	اكتملت المعايرة. حظا موفقا أيها البشري.
+Shot registered: successful.	تم تسجيل الضربة: ناجحة.
+Probability of my victory: increasing.	احتمال فوزي: في ازدياد.
+Foul detected. Processing penalty.	تم رصد خطأ. تتم معالجة العقوبة.
+Executed as planned.	تم التنفيذ وفق الخطة.
+Error. Recalculating.	خلل. إعادة الحساب.
+Malfunction. Please disregard.	عطل. يرجى التجاهل.
+Game complete. Thank you for playing.	اكتملت المباراة. شكرا على اللعب.
+Defeat acknowledged. Well played.	تم الإقرار بالهزيمة. أحسنت اللعب.
+Drills	التمارين
+Exercises with stars	تمارين بالنجوم
+{s} / {max} stars	{s} / {max} نجمة
+Stars at {a}, {b} and {c}	النجوم عند {a} و{b} و{c}
+Your best: {n} of {total}	أفضل نتيجة لك: {n} من {total}
+Not tried yet.	لم تجربه بعد.
+Start the drill	بدء التمرين
+Sign in to keep your stars in your account.	سجل الدخول لحفظ نجومك في حسابك.
+{n} of {total}	{n} من {total}
+{drill}: try {k} of {n} · {made} made	{drill}: المحاولة {k} من {n} · نجحت {made}
+Made it! {n} of {total}	نجحت! {n} من {total}
+Missed.	لم تدخل.
+Sending to the server…	يجري الإرسال إلى الخادم…
+Not signed in: this session is not ranked.	لم تسجل الدخول: هذه الجلسة لا تدخل الترتيب.
+Kept in your account.	حفظت في حسابك.
+The session could not be counted.	تعذر احتساب الجلسة.
+Back to the drills	العودة إلى التمارين
+Straight in	مستقيمة
+A long straight pot into the corner. Five tries.	إدخال مستقيم طويل في جيب الزاوية. خمس محاولات.
+The cut	القطع
+A half-ball cut into the corner. Five tries.	قطع بنصف كرة في جيب الزاوية. خمس محاولات.
+Draw it back	السحب
+Pot the ball and draw the cue ball back into the circle. Five tries.	أدخل الكرة واسحب الكرة البيضاء للخلف إلى داخل الدائرة. خمس محاولات.
+Follow through	المتابعة
+Pot the ball and leave the cue ball in the circle past it. Five tries.	أدخل الكرة واترك الكرة البيضاء في الدائرة التي تليها. خمس محاولات.
+Bank shot	ضربة ارتدادية
+Off one cushion into the side pocket. Five tries.	عبر حافة واحدة إلى الجيب الجانبي. خمس محاولات.
+Snooker escape	الخروج من الحصار
+Hit the 1 first: it hides behind other balls. Five tries.	المس الكرة 1 أولا: إنها مختبئة خلف كرات أخرى. خمس محاولات.
+Ten in a row	عشر متتالية
+Ten different pots, one after another: a miss ends the session.	عشر ضربات إدخال مختلفة، واحدة تلو الأخرى: الإخفاق ينهي الجلسة.
+The far corner	الزاوية البعيدة
+A cut back up the table into the corner behind you. Five tries.	قطع عائد على الطاولة إلى جيب الزاوية خلفك. خمس محاولات.
+Long into the side	طويلة إلى الجانب
+From the far end of the table into the side pocket. Five tries.	من الطرف البعيد للطاولة إلى الجيب الجانبي. خمس محاولات.
+Cue ball on the cushion	البيضاء على الحافة
+The cue ball touches the cushion: pot the ball into the corner all the same. Five tries.	الكرة البيضاء ملاصقة للحافة: أدخل الكرة في جيب الزاوية رغم ذلك. خمس محاولات.
+The plant	الكرتان المتلاصقتان
+The 2 touches the 1 and points at the pocket: hit the 2 and the 1 goes in. Five tries.	الكرة 2 تلامس الكرة 1 وتشير إلى الجيب: اضرب الكرة 2 فتدخل الكرة 1. خمس محاولات.
+The carom	الكارامبول
+The 2 is in the way: glance off it and send the 1 into the corner. Five tries.	الكرة 2 تعترض الطريق: المسها بخفة وأرسل الكرة 1 إلى جيب الزاوية. خمس محاولات.
+The long draw	السحب الطويل
+Pot the ball and draw the cue ball all the way back into the circle. Five tries.	أدخل الكرة واسحب الكرة البيضاء للخلف حتى الدائرة البعيدة. خمس محاولات.
+On the tangent line	على خط المماس
+Pot the ball in the side and let the cue ball run on into the circle. Five tries.	أدخل الكرة في الجيب الجانبي ودع الكرة البيضاء تواصل طريقها إلى الدائرة. خمس محاولات.
+Two-cushion bank	ارتداد عبر حافتين
+Off two cushions and into the corner. Five tries.	عبر حافتين إلى جيب الزاوية. خمس محاولات.
+Fifteen in a row	خمس عشرة متتالية
+Fifteen different pots, one after another: a miss ends the session.	خمس عشرة ضربة إدخال مختلفة، واحدة تلو الأخرى: الإخفاق ينهي الجلسة.
+Take back the shot (Z)	التراجع عن الضربة (Z)
+Shot taken back.	تم التراجع عن الضربة.
+Solids	الكرات الصلبة
+Stripes	الكرات المخططة
+Hide the history	إخفاء السجل
+New username	اسم المستخدم الجديد
+Click again to confirm	انقر مرة أخرى للتأكيد
+{n} of {total} name changes left	يتبقى لك {n} من {total} تغييرات للاسم
+You can't change your username again.	لا يمكنك تغيير اسم المستخدم مرة أخرى.
+That is already your username.	هذا هو اسم المستخدم الخاص بك بالفعل.
+Finish your game before changing your username.	أكمل مباراتك قبل تغيير اسم المستخدم.
+Leave your table or the queue before changing your username.	غادر طاولتك أو قائمة الانتظار قبل تغيير اسم المستخدم.
+Leave your tournament before changing your username.	غادر بطولتك قبل تغيير اسم المستخدم.
+Username changed.	تم تغيير اسم المستخدم.
+The server is still being updated to the new version. Try again in a few minutes.	ما زال الخادم قيد التحديث إلى الإصدار الجديد. حاول مرة أخرى بعد بضع دقائق.
+{shooter} made an opponent's ball: {next} to shoot.	{shooter} أدخل كرة للخصم: الدور على {next}.
+# Five more computer opponents: Tito, Inês, Diego, Amara and Yuri.
+The Gambler	المقامر
+Bets on every shot: as hard as the cue allows, with all the spin he can find. Safe play bores him.	يراهن في كل ضربة: بأقصى ما تسمح به العصا من قوة، ومع كل ما يجده من تأثير. اللعب الدفاعي يضجره.
+The Soft Touch	اللمسة الناعمة
+Never hits harder than she must: the balls die at the pocket's edge and the cue ball stops where she wants it.	لا تضرب أقوى مما يلزم: تموت الكرات عند حافة الجيب وتتوقف الكرة البيضاء حيث تريد.
+The Showman	الاستعراضي
+Plays to the crowd: a raised cue, swerving spin and a bank whenever there's one. It works more often than it should.	يلعب للجمهور: عصا مرفوعة، وتأثير يلتف بالكرة، وارتداد عن الحافة كلما أمكن. وينجح ذلك أكثر مما ينبغي.
+The Tactician	الاستراتيجية
+Plans the whole rack: snookers you when the pot isn't sure, and runs out when it is.	تخطط للطاولة كلها: تحاصرك عندما لا يكون الإدخال مضمونا، وتنظف الطاولة عندما يكون كذلك.
+The Machine	الآلة
+No nerves, no flair: centre ball, measured pace, the same perfect stroke every time.	بلا أعصاب ولا استعراض: ضرب منتصف الكرة، وقوة محسوبة، والضربة المثالية نفسها في كل مرة.
+Place your bets! Mine's on me.	ضعوا رهاناتكم! رهاني على نفسي.
+Lucky roll. Let it ride!	رمية محظوظة. فلنكمل!
+Okay, okay. Double or nothing?	حسنا، حسنا. الضعف أو لا شيء؟
+The house always wins!	الكازينو يربح دائما!
+Free chips! Thank you!	رقائق مجانية! شكرا!
+All in, and it paid!	راهنت بكل شيء، وربحت!
+That's how you play the odds!	هكذا تلعب بالاحتمالات!
+Bad beat. Next hand.	حظ سيئ. اليد التالية.
+Too much spin? There's no such thing.	تأثير زائد؟ لا يوجد شيء كهذا.
+Busted. Worth the risk!	خسرت الرهان. لكنها مخاطرة تستحق!
+Jackpot! Same stakes again?	الجائزة الكبرى! الرهان نفسه مرة أخرى؟
+You beat the odds. Respect.	تحديت الاحتمالات. احترامي.
+Softly, now. The table likes a gentle hand.	بهدوء الآن. الطاولة تحب اليد اللطيفة.
+Nicely done.	أحسنت.
+A little hard, but it went in.	قوية قليلا، لكنها دخلت.
+Less power, more feel.	قوة أقل، وإحساس أكثر.
+Oh dear. A free ball for me.	يا للأسف. كرة مجانية لي.
+Just enough to drop.	بالقدر الكافي لتسقط فقط.
+See? No need to hit it hard.	أرأيت؟ لا داعي للضرب بقوة.
+A touch too soft.	ناعمة أكثر من اللازم بقليل.
+Clumsy of me. Sorry.	يا لي من خرقاء. آسفة.
+Slow and steady. Thank you for the game.	ببطء وثبات. شكرا على المباراة.
+Beautifully played. Well deserved.	لعب رائع. فوز مستحق.
+Ladies and gentlemen... the show begins!	سيداتي سادتي... يبدأ العرض!
+Not bad! Bow to the crowd!	ليس سيئا! انحن للجمهور!
+You stole my applause!	سرقت تصفيقي!
+The crowd wanted more!	الجمهور أراد المزيد!
+Ooh, a plot twist!	أوه، تطور غير متوقع!
+Ta-da!	تادا!
+And for my next trick...	وفي خدعتي التالية...
+Even magicians have off nights.	حتى السحرة لديهم ليال سيئة.
+That was... part of the act.	كان ذلك... جزءا من العرض.
+Thank you, thank you! Encore?	شكرا، شكرا! مرة أخرى؟
+Take a bow, champion. You earned it.	انحن للجمهور يا بطل. لقد استحققت ذلك.
+Every rack is a puzzle. Let's solve this one.	كل ترتيب للكرات لغز. فلنحل هذا.
+Good. Now where is your cue ball?	جيد. والآن أين كرتك البيضاء؟
+I saw that coming.	توقعت ذلك.
+That left me something. Thank you.	ترك لي ذلك فرصة. شكرا.
+As planned.	كما خططت.
+Exactly as I calculated.	تماما كما حسبت.
+Three moves ahead.	ثلاث خطوات إلى الأمام.
+A variable I missed.	متغير فاتني.
+Hm. Recalculating.	همم. أعيد الحساب.
+Checkmate.	كش مات.
+You out-thought me. That's rare.	تفوقت علي في التفكير. هذا نادر.
+Game initialised.	تمت تهيئة المباراة.
+Noted.	سجلت.
+Error margin exceeded.	تم تجاوز هامش الخطأ.
+Penalty applied.	تم تطبيق العقوبة.
+As expected.	كما هو متوقع.
+Next.	التالي.
+Deviation logged.	تم تسجيل الانحراف.
+Malfunction. It will not repeat.	عطل. لن يتكرر.
+Result: win. Thank you for the data.	النتيجة: فوز. شكرا على البيانات.
+Unexpected outcome. Impressive.	نتيجة غير متوقعة. مثير للإعجاب.
+Opponents' remarks	تعليقات الخصوم
+The computer opponents comment on the game in speech bubbles.	يعلق خصوم الكمبيوتر على المباراة في فقاعات كلام.
+Top view only	منظر علوي فقط
+The table is always seen from above: no 3D view, no turning.	تظهر الطاولة دائما من الأعلى: بلا منظر ثلاثي الأبعاد ولا دوران.
+Not with the top view only.	غير متاح مع المنظر العلوي فقط.
+Wheel	عجلة الفأرة
+Rules	القواعد
+Rules of the game	قواعد اللعبة
+Level	تسوية
+Drag the cue: jump & massé	اسحب العصا: القفز والماسيه
+Drag to raise or lower the cue	اسحب لرفع العصا أو خفضها
+Drag the cue · {keys}	اسحب العصا · {keys}
+Profile picture	صورة الملف الشخصي
+Shown by your name at the table and in your profile.	تظهر بجانب اسمك على الطاولة وفي ملفك الشخصي.
+No picture	بلا صورة
+Change your picture	تغيير صورتك
+{name} sank the 8 together with another ball	{name} أدخل الكرة 8 مع كرة أخرى
+the opponent sank the 8 with another ball	الخصم أدخل الكرة 8 مع كرة أخرى
+sank the 8 with another ball	إدخال الكرة 8 مع كرة أخرى
+opponent pocketed the 8-ball together with another ball	الخصم أدخل الكرة 8 مع كرة أخرى
+Penalty: {balls} off the table for {name}.	عقوبة: تخرج {balls} من الطاولة لصالح {name}.
+{name} had fewer balls left than the foul gives: the 8 pays the rest, and the foul loses the game.	كان لدى {name} كرات أقل مما يمنحه الخطأ: تدفع الكرة 8 الباقي، ويخسر مرتكب الخطأ المباراة.
+Shadows	الظلال
+The shadows of the balls and of the cue on the table.	ظلال الكرات والعصا على الطاولة.
+Sixteen players: knockout or arena	ستة عشر لاعبا: خروج المغلوب أو الساحة
+New knockout	بطولة خروج مغلوب جديدة
+New arena	ساحة جديدة
+Knockout: sixteen players, four rounds. Lose a game and you are out.	خروج المغلوب: ستة عشر لاعبا وأربعة أدوار. إذا خسرت مباراة، تخرج.
+Arena: seven rounds for everyone. A win is 2 points, 3 from the third win in a row. The most points wins.	الساحة: سبعة أدوار للجميع. الفوز بنقطتين، و3 نقاط بدءا من الفوز الثالث على التوالي. يفوز صاحب أكبر عدد من النقاط.
+The games between the other players are decided by their strength and a draw.	تحسم المباريات بين اللاعبين الآخرين حسب قوتهم وبالقرعة.
+You won the tournament!	فزت بالبطولة!
+{name} won the tournament.	فاز {name} بالبطولة.
+You finished in place {n}.	أنهيت في المركز {n}.
+Round of 16	دور الستة عشر
+Quarter-finals	ربع النهائي
+Round {n} of {total}	الدور {n} من {total}
+Play {name}	العب ضد {name}
+Abandon the tournament	الانسحاب من البطولة
+W - L	ف - خ
+Points	النقاط
+The tournament is over.	انتهت البطولة.
+The round is over: see who you play next.	انتهى الدور: اعرف من ستواجه الآن.
+You are out of the tournament.	خرجت من البطولة.
+Side pocket	الجيب الجانبي
+A cut into the side pocket, where the angle is tight. Five tries.	قطع إلى الجيب الجانبي، حيث الزاوية ضيقة. خمس محاولات.
+The long cut	القطع الطويل
+A cut from the far end of the table into the corner. Five tries.	قطع من الطرف البعيد للطاولة إلى جيب الزاوية. خمس محاولات.
+Thin cut	القطع الرفيع
+Barely graze the ball: a thin cut into the corner. Five tries.	المس الكرة بالكاد: قطع رفيع إلى جيب الزاوية. خمس محاولات.
+Along the cushion	بمحاذاة الحافة
+The ball sits by the cushion: run it along into the corner. Five tries.	الكرة بجانب الحافة: مررها بمحاذاتها إلى جيب الزاوية. خمس محاولات.
+Stop shot	ضربة التوقف
+Pot the ball and stop the cue ball dead where the ball was. Five tries.	أدخل الكرة وأوقف الكرة البيضاء تماما في مكان الكرة. خمس محاولات.
+The combination	الضربة المركبة
+Pot the 1 by playing the 2 into it. Five tries.	أدخل الكرة 1 بضرب الكرة 2 نحوها. خمس محاولات.
+Cross-corner bank	ارتداد قطري
+Off the long cushion and across the table into the corner. Five tries.	عبر الحافة الطويلة ثم عرض الطاولة إلى جيب الزاوية. خمس محاولات.
+Kick shot	ارتداد البيضاء
+The 1 is walled off: send the cue ball off a cushion to hit it first. Five tries.	الكرة 1 محاصرة: أرسل الكرة البيضاء عبر الحافة لتلمسها أولا. خمس محاولات.
+Only the cue ball went down on the break: the balls are racked again and {next} breaks.	دخلت الكرة البيضاء وحدها في الافتتاحية: يعاد ترتيب الكرات ويفتتح {next}.
+Golden break	الافتتاحية الذهبية
+Win a rated game by sinking only the 8-ball on the break.	فز في مباراة مصنفة بإدخال الكرة 8 وحدها في الافتتاحية.
+Half a year	نصف عام
+Have an account for six months.	احتفظ بحسابك لمدة ستة أشهر.
+First anniversary	الذكرى الأولى
+Second anniversary	الذكرى الثانية
+Have an account for two years.	احتفظ بحسابك لمدة عامين.
+Third anniversary	الذكرى الثالثة
+Have an account for three years.	احتفظ بحسابك لمدة ثلاثة أعوام.
+Five years at the table	خمسة أعوام على الطاولة
+Have an account for five years.	احتفظ بحسابك لمدة خمسة أعوام.
+Back to the tournament	العودة إلى البطولة
+Continue against {name}	المتابعة ضد {name}
+You left your game: it counts as a loss.	غادرت مباراتك: تحتسب خسارة.
+new level	مستوى جديد
+Level {n} brings: {item}	المستوى {n} يمنحك: {item}
+Level 5	المستوى 5
+Reach level 5.	ابلغ المستوى 5.
+Level 10	المستوى 10
+Reach level 10.	ابلغ المستوى 10.
+Level 15	المستوى 15
+Reach level 15.	ابلغ المستوى 15.
+Level 20	المستوى 20
+Reach level 20.	ابلغ المستوى 20.
+Level 30	المستوى 30
+Reach level 30.	ابلغ المستوى 30.
+Level 40	المستوى 40
+Reach level 40.	ابلغ المستوى 40.
+Level 50	المستوى 50
+Reach level 50.	ابلغ المستوى 50.
+Regular's teal	أزرق مخضر للزبون الدائم
+Veteran's plum	برقوقي المخضرم
+Old hand	صاحب الخبرة
+Lifer	مدى الحياة
+Apprentice's chalk	طباشير المتدرب
+Journeyman's chalk	طباشير الحرفي
+Achievements	الإنجازات
+Leagues and levels	الدوريات والمستويات
+Next league: {tier}	الدوري التالي: {tier}
+The top league.	أعلى دوري.
+Every prize of the levels is won.	تم الفوز بكل جوائز المستويات.
+None yet: the first is one game away.	لا شيء بعد: الأولى على بعد مباراة واحدة.
+{coins} and {item}	{coins} و{item}
+Leagues	الدوريات
+Levels	المستويات
+By playing. Every level pays {n} coins.	باللعب. كل مستوى يمنح {n} عملة.
+where everyone starts	حيث يبدأ الجميع
+from {n}	من {n}
+The top level.	أعلى مستوى.
+{n} XP to level {next}	{n} XP للمستوى {next}
+{n} levels to go	يتبقى {n} مستويات
+new league	دوري جديد
+Old-timer's black	أسود القدامى
+Expert league blue	أزرق دوري الخبير
+Master league violet	بنفسجي دوري الأستاذ
+Legend league gold	ذهبي دوري الأسطورة
+Skilled league chalk	طباشير دوري الماهر
+By rating. Each league pays once.	حسب التصنيف. كل دوري يمنح جائزته مرة واحدة.
+cue	عصا
+cloth	قماش
+chalk	طباشير
+Always show the head string	إظهار خط الرأس دائما
+The line the break is played from, always on the table (off: only while placing the cue ball behind it).	الخط الذي تلعب منه الافتتاحية، ظاهر دائما على الطاولة (عند الإيقاف: فقط أثناء وضع الكرة البيضاء خلفه).
+{who} ran out of time: the turn passes.	انتهى وقت {who}: ينتقل الدور.
+{who} ran out of time with no ball left to give {other}: the 8 pays, and {who} loses.	انتهى وقت {who} ولم تبق أي كرة يمكن منحها إلى {other}: تدفع الكرة 8 الثمن، ويخسر {who}.
+{who} ran out of time: the cue ball goes back to the head spot and the turn passes.	انتهى وقت {who}: تعود الكرة البيضاء إلى نقطة الرأس وينتقل الدور.
+{who} ran out of time: {balls} off the table for {other}, and the cue ball goes back to the head spot.	انتهى وقت {who}: تخرج {balls} من الطاولة لصالح {other}، وتعود الكرة البيضاء إلى نقطة الرأس.
+You were muted for {n} minutes: {r}	تم كتمك لمدة {n} دقيقة: {r}
+Your account was suspended for {n} hours: {r}	تم إيقاف حسابك لمدة {n} ساعة: {r}
+The server restarts in {minutes} min for an update. Games in progress go on; new games start right after.	يعاد تشغيل الخادم بعد {minutes} د للتحديث. تستمر المباريات الجارية؛ وتبدأ المباريات الجديدة بعدها مباشرة.
+The {cup} was called off: not enough players signed up.	ألغيت {cup}: لم يسجل عدد كاف من اللاعبين.
+The {cup} is open for sign-up: it starts soon in Tournaments.	التسجيل في {cup} مفتوح: تبدأ قريبا في البطولات.
+{display} won the tournament “{name}”!	{display} فاز ببطولة «{name}»!
+Sunday Cup	كأس الأحد
+Monday Cup	كأس الإثنين
+Tuesday Cup	كأس الثلاثاء
+Wednesday Cup	كأس الأربعاء
+Thursday Cup	كأس الخميس
+Friday Cup	كأس الجمعة
+Saturday Cup	كأس السبت
+{name} · rating {r}	{name} · التصنيف {r}
+Something went wrong. Try again.	حدث خلل ما. حاول مرة أخرى.
+member for 1 day	عضو منذ يوم واحد
+Game in progress: 1 ball left	مباراة جارية: تبقت كرة واحدة
+1 level to go	يتبقى مستوى واحد
+1 more online win with this cue for level {n}. Levels only add marks to the cue.	فوز واحد إضافي عبر الإنترنت بهذه العصا للوصول إلى المستوى {n}. المستويات تضيف علامات على العصا فقط.
+Home	Home
+End	End
+PgUp	PgUp
+PgDn	PgDn
+Ins	Ins
+Could not join the LAN game	تعذر الانضمام إلى مباراة LAN
+LAN game · others join at {address}	مباراة LAN · ينضم الآخرون عبر {address}
+Click to copy	انقر للنسخ
+Copied.	تم النسخ.
+Start a new game?	بدء مباراة جديدة؟
+You have a game in progress against the computer, with 1 ball left. A new game takes its place.	لديك مباراة جارية ضد الكمبيوتر، تبقت فيها كرة واحدة. ستحل المباراة الجديدة محلها.
+You have a game in progress against the computer, with {n} balls left. A new game takes its place.	لديك مباراة جارية ضد الكمبيوتر، والكرات المتبقية فيها {n}. ستحل المباراة الجديدة محلها.
+Continue that game	متابعة تلك المباراة
+Start a new one	بدء مباراة جديدة
+Click again to close the game: {n} will be disconnected	انقر مرة أخرى لإغلاق المباراة: سينقطع اتصال {n} من اللاعبين
+{name} cleared the table in one visit!	{name} نظف الطاولة في دور واحد!
+{name}: {n} in a row!	{name}: {n} على التوالي!
+Watch the deciding shot again	شاهد الضربة الحاسمة مرة أخرى
+Next: {name}	التالي: {name}
+Drag on the table to aim, or click a ball	اسحب على الطاولة للتصويب، أو انقر على كرة
+Set the power	اضبط القوة
+Let go of {key} to shoot · Esc cancels	أفلت {key} للضرب · Esc للإلغاء
+Staff accounts can't change their username.	لا يمكن لحسابات فريق العمل تغيير اسم المستخدم.
+That password can't be used. Choose another one.	لا يمكن استخدام كلمة المرور هذه. اختر كلمة أخرى.
+That tournament is full.	تلك البطولة ممتلئة.
+The server is restarting: your tournament was called off.	يعاد تشغيل الخادم: ألغيت بطولتك.
+Too many sign-ins. Wait a minute and try again.	محاولات تسجيل دخول كثيرة جدا. انتظر دقيقة ثم حاول مرة أخرى.
+Too many wrong passwords. Try again in a few minutes.	كلمات مرور خاطئة كثيرة جدا. حاول مرة أخرى بعد بضع دقائق.
+Your VIP subscription could not be cancelled. Try again in a moment.	تعذر إلغاء اشتراك VIP الخاص بك. حاول مرة أخرى بعد قليل.
+Balls of both groups on the break: the turn passes to {next}, the table is open.	كرات من المجموعتين في الافتتاحية: ينتقل الدور إلى {next}، والطاولة مفتوحة.
+Only a final started while signed in counts: play the last stage again signed in.	لا تحتسب إلا المباراة النهائية التي تبدأ وأنت مسجل الدخول: العب المرحلة الأخيرة مرة أخرى بعد تسجيل الدخول.
+The server didn't deal the final: this game won't earn the reward.	لم يعد الخادم المباراة النهائية: لن تمنحك هذه المباراة الجائزة.
+The server didn't answer: this session won't be ranked.	لم يرد الخادم: لن تدخل هذه الجلسة الترتيب.
+The server is dealing the final…	يجهز الخادم المباراة النهائية…
+The server is setting up the drill…	يجهز الخادم التمرين…
+Not signed in: a win in this final won't earn the reward.	لم تسجل الدخول: الفوز في هذه المباراة النهائية لن يمنحك الجائزة.
+Not kept: sessions count when started signed in.	لم تحفظ: تحتسب الجلسات عندما تبدأ وأنت مسجل الدخول.
+Warning from the staff: {text}	تحذير من فريق العمل: {text}
+The staff changed your username to {name}. Sign in again.	غير فريق العمل اسم المستخدم الخاص بك إلى {name}. سجل الدخول مرة أخرى.
+The staff called off the tournament you were in.	ألغى فريق العمل البطولة التي كنت فيها.
+Experience ×{n}	الخبرة ×{n}
+Coins from games ×{n}	عملات المباريات ×{n}
+Themed tournament	بطولة خاصة
+Event	فعالية
+Events	الفعاليات
+Warning from the staff	تحذير من فريق العمل
+Esc to cancel	Esc للإلغاء
+Will be sent when you're back online.	سترسل عند عودتك إلى الاتصال.
+Your strokes will be sent when you're back online.	سترسل ضرباتك عند عودتك إلى الاتصال.
+The final you won was dealt to {name}: sign in as {name} to claim the reward.	جهزت المباراة النهائية التي فزت بها للاعب {name}: سجل الدخول باسم {name} لتحصل على الجائزة.
+Type your password to confirm it's you.	اكتب كلمة المرور لتأكيد هويتك.
+The cue ball is back on the head spot: {next} plays from there.	عادت الكرة البيضاء إلى نقطة الرأس: يلعب {next} من هناك.
+{name} came online	{name} أصبح متصلا
+Online now: {names}	متصلون الآن: {names}
+Nobody else is online right now.	لا أحد غيرك متصل الآن.
+Focus mode	وضع التركيز
+No invitations while you play: they are turned away until the game is over.	لا دعوات أثناء اللعب: ترفض حتى تنتهي المباراة.
+in focus mode	في وضع التركيز
+In focus mode: no invitations until their game is over.	في وضع التركيز: لا دعوات حتى تنتهي مباراته.
+That player is in focus mode and isn't taking invitations until their game is over.	هذا اللاعب في وضع التركيز ولا يقبل الدعوات حتى تنتهي مباراته.
+Look at it closely	معاينة عن قرب
+Sign in to buy	سجل الدخول للشراء
+Sign in to use	سجل الدخول للاستخدام
+Back to the shop (Esc)	العودة إلى المتجر (Esc)
+Show the interface (H)	إظهار الواجهة (H)
+Hide the interface (H)	إخفاء الواجهة (H)
+Turn (Space)	تدوير (مسافة)
+Stop turning (Space)	إيقاف التدوير (مسافة)
+Zoom in (+)	تكبير (+)
+Zoom out (−)	تصغير (−)
+Back to the start (R)	العودة إلى البداية (R)
+Previous setting ([)	المشهد السابق ([)
+Next setting (])	المشهد التالي (])
+Setting	المشهد
+Studio	استوديو
+Your table	طاولتك
+Drag with the right button to turn · wheel to zoom · double-click to look closer	اسحب بالزر الأيمن للتدوير · العجلة للتكبير · انقر نقرا مزدوجا للنظر عن قرب
+Drag with the right button to turn · wheel to zoom · click a ball to look at it	اسحب بالزر الأيمن للتدوير · العجلة للتكبير · انقر على كرة لمعاينتها
+The set	الطقم
+From above	من الأعلى
+Low angle	زاوية منخفضة
+Cue ball	الكرة البيضاء
+Ball {n}	الكرة {n}
+Whole	كاملة
+Tip	الطرف
+Joint	الوصلة
+Butt	المقبض
+Top	أعلى
+Cue	العصا
+Table	الطاولة
+Hall	القاعة
+Corner	جيب الزاوية
+Side	الجيب الجانبي
+Leg	الساق
+Close-up	عن قرب
+Cushion	الحافة
+Phenolic resin under a bright clear coat	راتنج فينولي تحت طبقة شفافة لامعة
+A pearly sheen that shifts with the light	لمعان لؤلؤي يتغير مع الضوء
+Brushed metal, bright as a mirror	معدن مصقول، لامع كالمرآة
+Old ivory: soft, warm and matte	عاج قديم: ناعم ودافئ وغير لامع
+A full-size cue, tip to butt: turn it, come close to its joint and its butt	عصا بالحجم الكامل، من الطرف إلى المقبض: دورها، واقترب من وصلتها ومقبضها
+A cube of chalk, and the colour it leaves on the tip	مكعب طباشير، واللون الذي يتركه على طرف العصا
+The cloth on the table: come close to see its weave	القماش على الطاولة: اقترب لترى نسيجه
+Dark mahogany, turned legs and brass castings	ماهوجني داكن، وأرجل مخروطة، وزوايا نحاسية
+Light teak, square legs and chrome castings	ساج فاتح، وأرجل مربعة، وزوايا كروم
+Deep mahogany, carved legs and leather pocket nets	ماهوجني عميق، وأرجل منحوتة، وشباك جيوب جلدية
+Black lacquer and brushed aluminium on two slab legs	طلاء أسود لامع وألومنيوم مصقول على قائمتين مسطحتين
+Black ebony with gold castings and inlays	أبنوس أسود بزوايا وتطعيمات ذهبية
+Reclaimed oak rails on a riveted black steel frame	حواف من خشب بلوط معاد تدويره على هيكل من الفولاذ الأسود المبرشم
+A pro tournament table: charcoal rails, block legs, chrome	طاولة بطولات احترافية: حواف فحمية، وأرجل مكعبة، وكروم
+Figured walnut on barley-twist legs, brass and leather	جوز مزخرف على أرجل ملتوية، ونحاس وجلد
+Ivory lacquer and gold on fluted columns	طلاء عاجي وذهب على أعمدة مخددة
+Panelling, the bar, cue racks, posters and neon	ألواح خشبية، والبار، وحوامل العصي، وملصقات، ونيون
+A deck at sunset, open windows, palms and string lights	شرفة خشبية عند الغروب، ونوافذ مفتوحة، ونخيل، وسلاسل أضواء
+Panelling, bookshelves, leather sofas and a fireplace	ألواح خشبية، ورفوف كتب، وأرائك جلدية، ومدفأة
+Brick, steel windows over the city and Edison bulbs	طوب، ونوافذ فولاذية تطل على المدينة، ومصابيح إديسون
+Log walls, a stone fireplace and snowy peaks outside	جدران من جذوع الخشب، ومدفأة حجرية، وقمم مثلجة في الخارج
+A black mirror floor, neon tubes and arcade cabinets	أرضية سوداء كالمرآة، وأنابيب نيون، وآلات ألعاب
+A marble chessboard floor, gold, velvet and mirrors	أرضية رخامية كرقعة الشطرنج، وذهب، ومخمل، ومرايا
+Glass walls on the city at night, pale marble and oak	جدران زجاجية تطل على المدينة ليلا، ورخام فاتح، وبلوط
+A gold medal!	ميدالية ذهبية!
+A silver medal!	ميدالية فضية!
+A bronze medal!	ميدالية برونزية!
+Silver medal	ميدالية فضية
+Bronze medal	ميدالية برونزية
+Your medals	ميدالياتك
+Kept in your account the next time you're online.	ستحفظ في حسابك في المرة القادمة التي تكون فيها متصلا.
+Sign in to keep them in your account.	سجل الدخول لحفظها في حسابك.
+18 or older	18 عاما أو أكثر
+Under 18	أقل من 18 عاما
+Creating an account means accepting the	إنشاء حساب يعني قبول
+For a parent or guardian…	لولي الأمر…
+A parent or guardian turned the chat on for this account. They can turn it off here at any time.	فعل ولي الأمر الدردشة لهذا الحساب. ويمكنه إيقافها من هنا في أي وقت.
+This account belongs to someone under 18. By law, the chat with other players (messages in the lounge and in games, notes, status and gift messages) stays off until their mother, father or legal guardian turns it on.	هذا الحساب لشخص دون 18 عاما. بحكم القانون، تبقى الدردشة مع اللاعبين الآخرين (الرسائل في الصالة وفي المباريات، والملاحظات، ورسائل الحالة والهدايا) متوقفة حتى تفعلها أمه أو أبوه أو وليه القانوني.
+I am this player's mother, father or legal guardian, I have read the terms of use and I allow them to chat with other players.	أنا أم هذا اللاعب أو أبوه أو وليه القانوني، وقد قرأت شروط الاستخدام وأسمح له بالدردشة مع اللاعبين الآخرين.
+Chat for players under 18	الدردشة للاعبين دون 18 عاما
+Turn the chat off	إيقاف الدردشة
+{n} more invitations	{n} من الدعوات الأخرى
+Invitation	دعوة
+Turn the chat on	تفعيل الدردشة
+Chat off: under 18. A parent or guardian can turn it on.	الدردشة متوقفة: دون 18 عاما. يمكن لولي الأمر تفعيلها.
+The chat with other players is off until you turn it on.	الدردشة مع اللاعبين الآخرين متوقفة حتى تفعلها.
+Write to turn the chat on…	اكتب لتفعيل الدردشة…
+Chat with other players	الدردشة مع اللاعبين الآخرين
+The chat with other players is off until you turn it on. To turn it on, tell us your age group: it can't be changed from the game afterwards.	الدردشة مع اللاعبين الآخرين متوقفة حتى تفعلها. لتفعيلها، أخبرنا بفئتك العمرية: لا يمكن تغييرها من اللعبة بعد ذلك.
+Under 18: a parent or guardian must agree to the terms with you and turn the chat on.	دون 18 عاما: يجب أن يوافق ولي الأمر معك على الشروط وأن يفعل الدردشة.
+Not now	ليس الآن
+Terms of use	شروط الاستخدام
+Privacy policy	سياسة الخصوصية
+You have 7 days to change your mind and get your money back.	لديك 7 أيام لتغيير رأيك واسترداد أموالك.
+Under 18: buy only with a parent's or guardian's permission.	دون 18 عاما: لا تشتر إلا بإذن ولي الأمر.
+Renews every month until you cancel. 7 days to change your mind.	يتجدد كل شهر حتى تلغيه. 7 أيام لتغيير رأيك.
+About	حول اللعبة
+Accounts, purchases and refunds, the rules of the online game.	الحسابات، والمشتريات والاسترداد، وقواعد اللعب عبر الإنترنت.
+What the game keeps, and your rights.	ما تحتفظ به اللعبة، وحقوقك.
+Open	فتح
+Credits	الشكر والتقدير
+Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	الخطوط: DejaVu وNoto (OFL). الأعلام: flag-icons (MIT). التفاعلات والرموز التعبيرية: Twemoji (CC-BY 4.0). أسماء الدول: iso-codes (LGPL-2.1). شيفرة اللعبة مفتوحة المصدر (MIT).
+The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	الدردشة متوقفة للاعبين دون 18 عاما. يمكن لولي الأمر تفعيلها أسفل دردشة الصالة.
+No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	لم تلمس الافتتاحية أي كرة: يفتتح {next}، والكرة البيضاء في يده خلف خط الرأس.
+The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	دخلت الكرة البيضاء في الافتتاحية دون إدخال أي كرة: يفتتح {next}، والكرة البيضاء في يده خلف خط الرأس.
+Users online	المستخدمون المتصلون
+ping {ms} ms	البينغ {ms} ms
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks, with the cue ball in hand behind the head string.	دخلت الكرة البيضاء في الافتتاحية مع كرات من المجموعتين: بلا عقوبة، تبقى الطاولة مفتوحة ويفتتح {next}، والكرة البيضاء في يده خلف خط الرأس.
+Brazilian	البرازيلية
+Official	الرسمية
+Brazilian rules	القواعد البرازيلية
+Official rules	القواعد الرسمية
+Brazilian rules (inside a sentence)	القواعد البرازيلية
+Official rules (inside a sentence)	القواعد الرسمية
+Brazilian (inside a sentence)	البرازيلية
+Official (inside a sentence)	الرسمية
+As played in Brazil's bars	كما تلعب في مقاهي البرازيل
+As played in tournaments (WPA)	كما تلعب في البطولات (WPA)
+on the Brazilian rules	وفق القواعد البرازيلية
+on the official rules	وفق القواعد الرسمية
+A ball left the table on the break.	خرجت كرة من الطاولة في الافتتاحية.
+A ball off the table on the break	كرة خارج الطاولة في الافتتاحية
+A safety calls nothing: whatever goes in stays down, and the turn passes.	الضربة الدفاعية لا تعلن شيئا: كل ما يدخل يبقى في الجيب، وينتقل الدور.
+Break yourself	افتتح بنفسك
+CALLED POCKET	الجيب المعلن
+Choose	اختر
+Choose how play goes on	اختر كيف يستمر اللعب
+Choose the rules of your games. You can switch them any time, in the main menu.	اختر قواعد مبارياتك. يمكنك تغييرها في أي وقت من القائمة الرئيسية.
+Click a pocket on the table to call it; click it again to follow your aim.	انقر على جيب في الطاولة لإعلانه؛ وانقر عليه مرة أخرى ليتبع تصويبك.
+Cue ball in hand	الكرة البيضاء في اليد
+Each of the rules has its own rating: these games don't change your {rating} under the {other}.	لكل نوع من القواعد تصنيفه الخاص: هذه المباريات لا تغير تصنيفك {rating} في {other}.
+Find an opponent of your level automatically ({rules})	اعثر تلقائيا على خصم في مستواك ({rules})
+How do you like to play?	كيف تحب أن تلعب؟
+How does play go on? Choose one:	كيف يستمر اللعب؟ اختر واحدا:
+Illegal break: no ball made and fewer than four balls reached a cushion.	افتتاحية غير قانونية: لم تدخل أي كرة ووصلت أقل من أربع كرات إلى الحافة.
+Invite {name}	دعوة {name}
+No ball went in the called pocket ({pocket}): {next} to shoot.	لم تدخل أي كرة في الجيب المعلن ({pocket}): الدور على {next}.
+No pocket was called (a safety): {next} to shoot.	لم يعلن أي جيب (ضربة دفاعية): الدور على {next}.
+Not sure what changes?	لست متأكدا مما يتغير؟
+Place it anywhere behind the head string.	ضعها في أي مكان خلف خط الرأس.
+Play on	متابعة اللعب
+Players against the computer under these rules	اللاعبون ضد الكمبيوتر بهذه القواعد
+Players online under these rules (the lounge and online games)	اللاعبون المتصلون بهذه القواعد (الصالة والمباريات عبر الإنترنت)
+RULES OF YOUR GAMES	قواعد مبارياتك
+Read both rules	قراءة القواعد بنوعيها
+Rules of your games	قواعد مبارياتك
+Safety	ضربة دفاعية
+Safety: no pocket	ضربة دفاعية: بلا جيب
+Show the {rules}: the rank, the league and the chart	إظهار إحصاءات {rules}: المركز والدوري والرسم البياني
+The 8 is spotted and you keep shooting.	تعاد الكرة 8 إلى الطاولة وتواصل اللعب.
+The 8 is spotted; the cue ball in hand behind the head string.	تعاد الكرة 8 إلى الطاولة؛ والكرة البيضاء في اليد خلف خط الرأس.
+The 8 on a break with a foul	الكرة 8 في افتتاحية بخطأ
+The 8 on the break	الكرة 8 في الافتتاحية
+The 8 went down on a break with a foul: it is spotted.	دخلت الكرة 8 في افتتاحية بخطأ: تعاد إلى الطاولة.
+The 8 went down on the break: it is spotted.	دخلت الكرة 8 في الافتتاحية: تعاد إلى الطاولة.
+The balls are racked again and you break.	يعاد ترتيب الكرات وتفتتح أنت.
+The balls are racked again and {name} breaks.	يعاد ترتيب الكرات ويفتتح {name}.
+The balls are racked again: {name} breaks.	يعاد ترتيب الكرات: يفتتح {name}.
+The balls are racked again: {other} breaks.	يعاد ترتيب الكرات: يفتتح {other}.
+The rules of this game: click to read them	قواعد هذه المباراة: انقر لقراءتها
+The rules of your games: click to switch	قواعد مبارياتك: انقر للتبديل
+The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	المفتاح نفسه في القائمة الرئيسية: عبر الإنترنت، وضد الكمبيوتر، ولاعبان. لكل نوع من القواعد تصنيفه الخاص.
+The table as it lies.	الطاولة كما هي.
+The top 100 of each rules · rated games	أفضل 100 في كل نوع من القواعد · مباريات مصنفة
+The {ball} lay behind the head string and the cue ball hit it without crossing the line first	كانت {ball} خلف خط الرأس ولمستها الكرة البيضاء دون أن تعبر الخط أولا
+What changes between the rules: click to read them	ما الذي يختلف بين القواعد: انقر لقراءتها
+With the cue ball in hand behind the head string.	مع الكرة البيضاء في اليد خلف خط الرأس.
+follows your aim	يتبع تصويبك
+no rated games yet	لا مباريات مصنفة بعد
+open table: the called ball you make sets your group	طاولة مفتوحة: الكرة المعلنة التي تدخلها تحدد مجموعتك
+peak {n} · {games} games	الأعلى {n} · {games} مباراة
+playing now	يلعب الآن
+your call	إعلانك
+{name} breaks again	{name} يفتتح مرة أخرى
+{name} chooses: play on, or rack the balls and break again.	{name} يختار: متابعة اللعب، أو إعادة ترتيب الكرات والافتتاح من جديد.
+{name} chooses: play the table as it lies, or take the cue ball in hand behind the head string.	{name} يختار: لعب الطاولة كما هي، أو أخذ الكرة البيضاء في اليد خلف خط الرأس.
+{name} chooses: play the table as it lies, rack the balls and break, or have {breaker} break again.	{name} يختار: لعب الطاولة كما هي، أو إعادة ترتيب الكرات والافتتاح، أو أن يفتتح {breaker} مرة أخرى.
+{name} chooses: play the table as it lies, take the cue ball in hand behind the head string, rack the balls and break, or have {breaker} break again.	{name} يختار: لعب الطاولة كما هي، أو أخذ الكرة البيضاء في اليد خلف خط الرأس، أو إعادة ترتيب الكرات والافتتاح، أو أن يفتتح {breaker} مرة أخرى.
+{name} chooses: the cue ball in hand behind the head string, or rack the balls and break.	{name} يختار: الكرة البيضاء في اليد خلف خط الرأس، أو إعادة ترتيب الكرات والافتتاح.
+{name} is choosing how play goes on…	{name} يختار كيف يستمر اللعب…
+{name} plays on (the 8 is spotted).	{name} يتابع اللعب (تعاد الكرة 8 إلى الطاولة).
+{name} plays the table as it lies.	{name} يلعب الطاولة كما هي.
+{name} plays the {theirs} now; yours are the {mine}.	{name} يلعب الآن وفق {theirs}؛ وأنت وفق {mine}.
+{name} takes the cue ball in hand.	{name} يأخذ الكرة البيضاء في اليد.
+{next} has the cue ball in hand behind the head string.	{next} لديه الكرة البيضاء في اليد خلف خط الرأس.
+{next} has the cue ball in hand: anywhere on the table.	{next} لديه الكرة البيضاء في اليد: في أي مكان على الطاولة.
+{n} points to {tier} ({rules})	{n} نقطة للوصول إلى {tier} ({rules})
+{n} waiting	{n} في الانتظار
+A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	الخطأ يمنح الخصم كرات من مجموعته. الكرة البيضاء في اليد في الافتتاحية فقط، ولا يعلن إلا جيب الكرة 8.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	الخطأ يمنح الخصم الكرة البيضاء في اليد، في أي مكان على الطاولة. تعلن كل ضربة، ويجب أن توصل الافتتاحية أربع كرات إلى الحواف.
+A foul gives balls to the opponent	الخطأ يمنح الخصم كرات
+Ball in hand on the break only	الكرة في اليد في الافتتاحية فقط
+Only the 8's pocket is called	لا يعلن إلا جيب الكرة 8
+The most played in Brazil	الأكثر لعبا في البرازيل
+A foul gives ball in hand	الخطأ يمنح الكرة في اليد
+The break drives four balls to a cushion	الافتتاحية توصل أربع كرات إلى الحواف
+Every shot is called	تعلن كل ضربة
+The same all over the world	هي نفسها في كل العالم
+Game type	نوع المباراة
+called: {pocket}	المعلن: {pocket}
+no call: a safety	بلا إعلان: ضربة دفاعية
+A safety: nothing called. Click again to call the pocket you aim at.	ضربة دفاعية: لا شيء معلن. انقر مرة أخرى لإعلان الجيب الذي تصوب نحوه.
+A safety calls nothing: whatever goes in stays down, and the turn passes. To call another pocket, click it on the table.	الضربة الدفاعية لا تعلن شيئا: كل ما يدخل يبقى في الجيب، وينتقل الدور. لإعلان جيب آخر، انقر عليه في الطاولة.
+{games} games · {pct}% won	{games} مباراة · فوز {pct}%
+Each of the rules has its own rating; the level, coins and achievements are shared.	لكل نوع من القواعد تصنيفه الخاص؛ أما المستوى والعملات والإنجازات فمشتركة.
+You already have a VIP subscription: manage it with Manage subscription.	لديك اشتراك VIP بالفعل: أدره من «إدارة الاشتراك».
+Your opponent can't start another game yet.	لا يمكن لخصمك بدء مباراة أخرى بعد.
+A tournament's name is shown to everyone: with your chat off, you can join tournaments but not create one.	اسم البطولة يظهر للجميع: والدردشة متوقفة لديك، يمكنك الانضمام إلى البطولات دون إنشائها.
+The connection dropped: check your coins before trying again.	انقطع الاتصال: تحقق من عملاتك قبل المحاولة مرة أخرى.
+Sign in to buy coins.	سجل الدخول لشراء العملات.
+Sign in to become VIP.	سجل الدخول لتصبح عضو VIP.
+how play goes on after the break is undecided	لم يحسم بعد كيف يستمر اللعب بعد الافتتاحية
+Finish your game, and leave your table, the queue or your tournament first.	أكمل مباراتك، وغادر طاولتك أو قائمة الانتظار أو بطولتك أولا.
+That choice can't be made now.	لا يمكن اتخاذ هذا الاختيار الآن.
+That medal can't be.	هذه الميدالية غير ممكنة.
+{name}'s tournament	بطولة {name}
+When time runs out, it's a foul: your opponent gets a ball and the cue ball goes back to the head spot.	عند انتهاء الوقت، يحتسب خطأ: يحصل خصمك على كرة وتعود الكرة البيضاء إلى نقطة الرأس.
+When time runs out, it's a foul: your opponent gets the cue ball in hand.	عند انتهاء الوقت، يحتسب خطأ: يحصل خصمك على الكرة البيضاء في اليد.
+Your username was changed. Sign in again.	تم تغيير اسم المستخدم الخاص بك. سجل الدخول مرة أخرى.
+You have your tournament game in progress. A new game takes its place, and the tournament game counts as lost.	لديك مباراة بطولة جارية. ستحل مباراة جديدة محلها، وتحتسب مباراة البطولة خسارة.
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks again, from the head spot.	دخلت الكرة البيضاء في الافتتاحية مع كرات من المجموعتين: بلا عقوبة، تبقى الطاولة مفتوحة ويفتتح {next} من جديد، من نقطة الرأس.
+The cue ball went down on the break with no ball made: {next} breaks again, from the head spot.	دخلت الكرة البيضاء في الافتتاحية دون إدخال أي كرة: يفتتح {next} من جديد، من نقطة الرأس.
+{who} ran out of time: {other} breaks, from the head spot.	انتهى وقت {who}: يفتتح {other}، من نقطة الرأس.
+Congratulations!	تهانينا!
+You earned a new item: {title}	حصلت على عنصر جديد: {title}
+You earned a new item!	حصلت على عنصر جديد!

@@ -1,0 +1,300 @@
+601	Effet unten
+602	Effet links
+603	Effet rechts
+604	Queue anheben
+605	Queue absenken
+606	Spielball aufnehmen (Ball in Hand)
+607	3D / Draufsicht
+608	Kamera zurücksetzen
+609	Letzten Stoß noch mal zeigen
+610	Tastenbelegung
+611	Tasten lassen sich unter Einstellungen → Steuerung ändern.
+612	Leertaste
+613	Shift rechts
+614	Ctrl rechts
+615	Alt rechts
+616	Zielen und Stoßen
+617	Effet und Neigung
+618	Feste Tasten
+619	Menü, zurück und abbrechen
+620	Bestätigen (Formulare, Ball in Hand)
+621	Diese Taste lässt sich nicht ändern.
+622	Drück eine Taste · Esc bricht ab · Rücktaste löscht
+623	Drück eine Taste…
+624	Zum Ändern klicken
+625	Klicken, um eine Taste hinzuzufügen
+626	Wieder ohne Taste
+627	Zurück zu {keys}
+628	Getauscht: {action} liegt jetzt auf {key}.
+629	Von {action} übernommen; diese Aktion hat jetzt keine Taste.
+630	Von {action} übernommen.
+631	Diese Taste geht nicht: Probier eine andere.
+632	Stoßen
+633	Kurz
+634	Anmeldung läuft…
+635	Anmeldung läuft
+636	Weiche Schatten jeder Lampe, glänzende Hallen, Halos.
+637	Volle (1–7)
+638	Effet-Kugel
+639	Effet
+640	Standard
+641	Bleiben
+642	Halbe (9–15)
+643	Das Spiel läuft weiter, solange das hier offen ist.
+644	Standard verwenden
+645	Benutzername
+646	Benutzernamen haben 3–16 Buchstaben, Ziffern oder Unterstriche.
+647	{keys} (Sprung & Massé)
+648	Du gewinnst!
+649	Dein Name
+650	Dein Gegner ist zurück in die Lounge gegangen.
+651	Du bist dran
+652	offener Tisch: Die nächste versenkte Kugel bestimmt deine Gruppe
+653	Rückläufer
+654	Nachläufer
+655	Stoppball
+656	Volle
+657	Halbe
+658	Lounge
+659	 · Effet links
+660	 · Effet rechts
+661	Sprache
+662	Allgemein
+663	Grafik
+664	Spiel
+665	Ton
+666	Auf Standard zurücksetzen
+667	Alle Tasten zurücksetzen
+668	Alle Tasten zurücksetzen?
+669	Erneut klicken, um alle Tasten zurückzusetzen
+670	Updates
+671	Automatisch aktualisieren
+672	Neue Versionen werden im Hintergrund geladen und beim Neustart installiert.
+673	Version {v}
+674	Neuigkeiten
+675	Neu in Version {v}
+676	Keine Hinweise zu dieser Version.
+677	Verstanden
+678	Jetzt neu starten
+679	Nach der Partie, im Hauptmenü.
+680	Herunterladen
+681	Jetzt prüfen
+682	Der Update-Server ist nicht erreichbar.
+683	Der Download war beschädigt. Er wird später erneut versucht.
+684	Die neue Version konnte nicht installiert werden. Diese bleibt.
+685	Lädt herunter… {p} %
+686	Aktualisiere…
+687	Der Microsoft Store hält das Spiel aktuell.
+688	Entwicklerversion: keine automatischen Updates.
+689	Suche nach neuer Version…
+690	Das ist die neueste Version.
+691	Lade Version {v} herunter… {p} %
+692	Installiere Version {v}…
+693	Version {v} ist bereit: Starte das Spiel neu, um sie zu nutzen.
+694	Version {v} ist da: Lade sie von der Release-Seite herunter.
+695	Version {v} ist bereit
+696	Starte neu, um sie zu spielen; nichts geht verloren.
+697	Version {v} ist da
+698	Hol sie dir von der Release-Seite.
+699	Alles zurücksetzen?
+700	Erneut klicken, um alle Einstellungen zurückzusetzen
+701	Online
+702	Menü
+703	Wertung
+704	Ultra
+705	{key} halten und loslassen
+706	Ändern
+707	Mausempfindlichkeit beim Zielen
+708	Wie schnell sich das Queue mit der Maus dreht.
+709	Vignette
+710	Dunkelt die Bildränder ab, wie im Kino.
+711	FPS anzeigen
+712	Bilder pro Sekunde, in einer Ecke des Bildschirms.
+713	Sag zuerst eine Tasche für die 8 an: Klick auf eine Tasche.
+714	Verbinde neu
+715	die Partie ist vorbei
+716	der Spielball kann dort nicht platziert werden
+717	sag eine Tasche für die 8 an
+718	Dieser Benutzername ist vergeben.
+719	Falscher Benutzername oder falsches Passwort.
+720	Deine Sitzung ist abgelaufen. Bitte melde dich erneut an.
+721	Diese Version von Snook Legend ist veraltet. Bitte aktualisiere das Spiel.
+722	Du bist nicht am Zug.
+723	Dieser Spieler ist nicht online.
+724	Dieser Spieler ist in einer Partie.
+725	Du kannst dich nicht selbst einladen.
+726	Diese Einladung ist nicht mehr gültig.
+727	Dieser Spieler ist nicht mehr verfügbar.
+728	Gib zuerst auf, um eine laufende Partie zu verlassen.
+729	Fehlerhafte Nachricht.
+730	Bitte melde dich zuerst an.
+731	Das Konto konnte nicht erstellt werden.
+732	Der Spielball kann dort nicht platziert werden.
+733	Verbindung getrennt.
+734	Kontakt zum Server verloren.
+735	Der Server hat die Verbindung geschlossen.
+736	Der Server hat zu lange nicht geantwortet.
+737	Der Server antwortet nicht (Verbindung abgelehnt).
+738	Die Serveradresse ist ungültig (Beispiel: wss://snook-legend.example.com/ws).
+739	Die Serveradresse enthält keinen Hostnamen.
+740	Willkommen bei Snook Legend! Sei freundlich und spiel fair.
+741	Ball in Hand: Zieh den Spielball{zone}, um ihn zu bewegen
+742	 hinter der Linie
+743	Ball in Hand  ·  {group}
+744	Stoß nicht möglich: {e}.
+745	Chat ({n})
+746	Computer ({level})
+747	Computer
+748	Jeder Gegner hat seinen eigenen Stil
+749	Freies Spiel
+750	Tour
+751	Tour: {n} von {total} besiegt
+752	Stärke {n}/5
+753	Geist
+754	Präzision
+755	Safetys
+756	Banden
+757	Stellungsspiel
+758	Geist von {name}
+759	Geist eines Spielers
+760	Spielt wie ein echter Spieler
+761	Der Computer spielt im Stil eines echten Spielers, gemessen an dessen Online-Partien.
+762	Melde dich an, um gegen den Geist eines echten Spielers zu spielen.
+763	Laden
+764	Freunde:
+765	Gib einen Benutzernamen ein oder wähle einen Freund, dann „Laden“.
+766	Messe, wie {name} spielt…
+767	Versenkt {pots} % · Safetys {safe} % · Banden {banks} % · {shots} Stöße
+768	{name} hat erst {shots} erfasste Stöße; ein Geist braucht {needed}. Mit mehr Online-Partien klappt es.
+769	Es gibt keinen Spieler namens {name}.
+770	Der Server ist gerade nicht erreichbar. Versuch es später noch einmal.
+771	Warte einen Moment, bevor du erneut fragst.
+772	Auf dem Server ist etwas schiefgelaufen. Versuch es später noch einmal.
+773	Gegen deinen Geist spielen
+774	Gegen seinen Geist spielen
+775	Besiegt
+776	Weiter
+777	Gewinne die vorige Etappe, um diese freizuschalten.
+778	Etappe {n} von {total}
+779	{name} herausfordern
+780	Etappe {n} gewonnen! Als Nächstes auf der Tour: {name}.
+781	Du hast die ganze Tour gewonnen!
+782	Belohnung
+783	Queue {item} · exklusiv
+784	Gehört dir: Du findest es im Shop unter „Queues“.
+785	Gewinne die letzte Etappe noch einmal angemeldet, um sie abzuholen.
+786	Besiege alle fünfzehn Gegner, um es zu verdienen. Es wird nirgends verkauft.
+787	Du hast die Tour gewonnen! Melde dich an, um deine Belohnung abzuholen.
+788	Der Server prüft deine Finalpartie…
+789	Erneut versuchen
+790	Der Server hat nicht geantwortet. Versuch es gleich noch einmal.
+791	Der Server prüft gerade andere Partien. Versuch es gleich noch einmal.
+792	Warte eine Minute, bevor du es erneut versuchst.
+793	Diese Partie ist zu lang für eine Prüfung.
+794	Diese Partie enthält einen Zug, den die Regeln nicht erlauben.
+795	Diese Partie wurde nicht zu Ende gespielt.
+796	Diese Partie war kein Sieg.
+797	Die Stöße des Computers in dieser Partie passen nicht zu seiner Spielweise (andere Spielversion?).
+798	Der Neuling
+799	Lernt noch: zielt auf die nächste Tasche, trifft mittig und hofft. Spielt nie Safety.
+800	Die Wochenendspielerin
+801	Kennt die Grundlagen und versenkt die leichten Kugeln, denkt aber selten daran, wo der Spielball hinläuft.
+802	Die Bandenkünstlerin
+803	Sieht Winkel, die sonst keiner sieht: Wann immer eine Kugel über die Bande fallen kann, spielt sie sie über die Bande.
+804	Die Kanone
+805	Geht auf alles, so hart er kann: lange Stöße, donnernde Anstöße, kaum je ein Safety.
+806	Die Mauer
+807	Greift nur an, wenn die Kugel sicher fällt. Sonst versteckt sie den Spielball und wartet auf deinen Fehler.
+808	Der alte Profi
+809	Vierzig Jahre am Tisch: ein weicher Stoß, ein angehobenes Queue, Seiteneffet und nie in Eile.
+810	Die Abzockerin
+811	Spielt gerade gut genug, um zu gewinnen, dann ein bisschen besser. Ausgewogen, scharfsinnig und schwer zu durchschauen.
+812	Der Professor
+813	Denkt drei Kugeln voraus: Jeder Stoß legt den Spielball so, dass der nächste leicht ist.
+814	Die Scharfschützin
+815	Versenkt von überall, aus jedem Winkel. Safetys sind ihr Nebensache: Sie braucht sie nicht.
+816	Der Champion
+817	Seit Jahren unbesiegt. Präzise, geduldig und gnadenlos: die letzte Etappe der Tour.
+818	Tour-Champion
+819	Champion der Tour
+820	Besiege alle fünfzehn Gegner der Computer-Tour.
+821	Verbindung verloren. Verbinde neu (Versuch {n})…
+822	Verbindung verloren. Verbinde neu…
+823	Foul von {shooter}: {foul}.
+824	Grafik auf {q} gestellt, damit es flüssig läuft. Du kannst das in den Einstellungen ändern.
+825	Wertung {r} ({d})
+826	Die {ball} wurde wieder aufgesetzt.
+827	Warte auf {to} ({kind})…
+828	gewertet
+829	ungewertet
+830	Warte auf {name}…
+831	{by} hat deine Einladung abgelehnt.
+832	einer gewerteten Partie
+833	einer ungewerteten Partie
+834	{name} sagt die 8 an: Tasche {pocket}.
+835	{name} hat Ball in Hand…
+836	{name} zielt…
+837	{name} spielt auf die 8: Klick auf eine Tasche, um sie anzusagen
+838	{name} überlegt…
+839	{name} hat die Partie verlassen.
+840	{name} hat aufgegeben.
+841	{name} stößt an
+842	{name} ist am Stoß ({target})
+843	{name} ist dran
+844	{next} hat Ball in Hand{where}.
+845	 hinter der Kopflinie
+846	{opponent} ist zurück.
+847	{opponent} hat die Verbindung verloren. Warte bis zu {secs} s…
+848	{opponent} möchte eine Revanche.
+849	{opponent} ist zurück in die Lounge gegangen.
+850	{shooter} hat {balls} versenkt.
+851	{shooter} spielt {group}.
+852	Zeit von {who} abgelaufen: Ball in Hand für den Gegner.
+853	{name} möchte eine Revanche!
+854	{name} gewinnt!
+855	{name} gewinnt
+856	Lautstärke
+857	Das Queue, die Kugeln, die Banden und die Taschen.
+858	Benachrichtigungen
+859	Server „{host}“ nicht gefunden.
+860	Netzwerkfehler: {e}.
+861	Sichere Verbindung fehlgeschlagen: {e}.
+862	Der Server hat die Verbindung abgelehnt (HTTP {code}).
+863	Verbindungsfehler: {e}.
+864	Spielball
+865	Kugel {n}
+866	Der Spielball wurde versenkt
+867	Der Spielball hat den Tisch verlassen
+868	Der Spielball hat keine Kugel getroffen
+869	Falsche Kugel zuerst getroffen ({ball})
+870	Nach dem Kontakt hat keine Kugel eine Bande erreicht
+871	Die {ball} hat den Tisch verlassen
+872	Ungültiger Anstoß
+873	die 8 versenkt
+874	Gegner hat die 8 zu früh versenkt
+875	Gegner hat die 8 in die falsche Tasche versenkt
+876	Gegner hat auf die 8 gefoult
+877	Gegner hat die 8 vom Tisch gespielt
+878	Gegner hat aufgegeben
+879	Gegner hat die Partie verlassen
+880	Kopf links
+881	Kopf rechts
+882	Mitte links
+883	Mitte rechts
+884	Fuß links
+885	Fuß rechts
+886	Leicht
+887	Schwer
+888	Normal
+889	Kraft
+890	Noch keine Nachrichten.
+891	▼ neuere Nachrichten
+892	Kamera folgt dem Queue
+893	Aus: Sie bleibt, wo du sie hinstellst.
+894	Beim Stoß herauszoomen
+895	Nur wenn die Kamera dem Queue folgt.
+896	Queue ziehen · Punkt anklicken
+897	Zeit abgelaufen: Der Stoß von {name} wurde mit voller Kraft gespielt.
+898	Dunkler Raum
+899	Ein Spot auf den Tisch, der Raum im Schatten.
+900	Ausblenden

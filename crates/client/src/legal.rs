@@ -37,13 +37,15 @@ fn url_in(server: &str, page: Page, lang: Lang) -> Option<String> {
         ("http", server.strip_prefix("ws://")?)
     };
     let host = rest.split('/').next().filter(|h| !h.is_empty())?;
+    // The server has them in Portuguese, Spanish and English (the legal
+    // texts are not machine-translated): English for the other languages.
     let path = match (page, lang) {
-        (Page::Terms, Lang::Portuguese) => "termos",
+        (Page::Terms, Lang::Portuguese | Lang::EuropeanPortuguese) => "termos",
         (Page::Terms, Lang::Spanish) => "terminos",
-        (Page::Terms, Lang::English) => "terms",
-        (Page::Privacy, Lang::Portuguese) => "privacidade",
+        (Page::Terms, _) => "terms",
+        (Page::Privacy, Lang::Portuguese | Lang::EuropeanPortuguese) => "privacidade",
         (Page::Privacy, Lang::Spanish) => "privacidad",
-        (Page::Privacy, Lang::English) => "privacy",
+        (Page::Privacy, _) => "privacy",
     };
     Some(format!("{scheme}://{host}/{path}"))
 }
@@ -116,6 +118,10 @@ mod tests {
         assert_eq!(
             url_in("ws://127.0.0.1:7878/ws", Page::Terms, Lang::English).as_deref(),
             Some("http://127.0.0.1:7878/terms")
+        );
+        assert_eq!(
+            url_in(s, Page::Terms, Lang::Japanese).as_deref(),
+            Some("https://snook.example.com/terms")
         );
         assert_eq!(url_in("https://example.com", Page::Terms, Lang::English), None);
     }

@@ -1,0 +1,1506 @@
+# Snook Legend: Brazilian Portuguese.
+# One text per line: the English text (as written in the code), a tab, the translation.
+# Placeholders like {name} must stay as they are; \n is a new line.
+{name} is on the 8: called pocket {pocket}	{name} speelt op de 8, aangegeven: {pocket}
+On the 8-ball: {pocket} pocket	Op de 8-bal: {pocket}
+Show ping	Ping tonen
+Your connection's delay, in online games.	De vertraging van je verbinding in online partijen.
+Reactions	Reacties
+Shop	Winkel
+Cloth	Laken
+Cues	Keus
+Chalk	Krijt
+Balls	Ballen
+Coins	Munten
+coins	munten
+Sign in to buy and use items. Here is what there is:	Log in om items te kopen en te gebruiken. Dit is het aanbod:
+In use	In gebruik
+Use	Gebruiken
+Buy	Kopen
+{n} short	{n} tekort
+{n} coins	{n} munten
+Not enough coins: get more in the Coins tab.	Niet genoeg munten: koop er meer op het tabblad Munten.
+VIP only	Alleen VIP
+free	gratis
+yours	van jou
+achievement	prestatie
+Coins can't be bought on this server yet.	Op deze server kun je nog geen munten kopen.
++{n} bonus	+{n} bonus
+Payment opens in your browser (card, Pix…), on Stripe's secure page.	De betaling opent in je browser (kaart, Pix…), op de beveiligde pagina van Stripe.
+Coins arrive in a moment; they are only used for items in the game.	De munten komen zo binnen; ze zijn alleen voor items in het spel.
+Exclusive items: {list}	Exclusieve items: {list}
+{n} coins every month	{n} munten per maand
+Cancel whenever you want: VIP lasts until the end of the paid month	Opzeggen wanneer je wilt: VIP loopt door tot het einde van de betaalde maand
+You are VIP until {d}.	Je bent VIP tot {d}.
+Manage subscription	Abonnement beheren
+Become VIP · {p}	Word VIP · {p}
+VIP can't be bought on this server yet.	Op deze server kun je nog geen VIP kopen.
+The payment page opened in your browser.	De betaalpagina is geopend in je browser.
+Could not open the browser.	De browser kon niet worden geopend.
+Tournament green	Toernooigroen
+Electric blue	Elektrisch blauw
+Burgundy	Bordeaux
+Charcoal	Antraciet
+Teal	Petrol
+Royal purple	Koningspaars
+Camel	Camel
+Midnight	Middernacht
+Champion's red	Kampioensrood
+Classic	Klassiek
+Rosewood	Rozenhout
+Ebony & silver	Ebbenhout & zilver
+Carbon	Carbon
+Ivory inlay	Ivoren inleg
+Crown	Kroon
+Jewels	Juwelen
+Blue chalk	Blauw krijt
+Green chalk	Groen krijt
+Red chalk	Rood krijt
+Purple chalk	Paars krijt
+Gold chalk	Gouden krijt
+Vintage	Vintage
+Pastel	Pastel
+Neon	Neon
+You already have this item.	Je hebt dit item al.
+Not enough coins.	Niet genoeg munten.
+The purchase failed; no coins were taken.	De aankoop is mislukt; er zijn geen munten afgeschreven.
+No such item.	Dit item bestaat niet.
+This item can't be bought with coins.	Dit item kun je niet met munten kopen.
+You don't have this item.	Je hebt dit item niet.
+Purchases are not available.	Aankopen zijn niet beschikbaar.
+This pack is not on sale.	Dit pakket is niet te koop.
+The payment page could not be opened. Try again in a moment.	De betaalpagina kon niet worden geopend. Probeer het zo opnieuw.
+You are already VIP.	Je bent al VIP.
+There is no subscription to manage.	Er is geen abonnement om te beheren.
+The page could not be opened. Try again in a moment.	De pagina kon niet worden geopend. Probeer het zo opnieuw.
+Coins added to your wallet.	Munten toegevoegd aan je portemonnee.
+Welcome to VIP!	Welkom bij VIP!
+Slow down a little.	Iets rustiger aan.
+You can't do that.	Dat kun je niet doen.
+There are too many notes right now. Try again in a few minutes.	Er zijn nu te veel oproepen. Probeer het over een paar minuten opnieuw.
+A moderator took down your note.	Een moderator heeft je oproep verwijderd.
+A moderator cleared your status message.	Een moderator heeft je statusbericht gewist.
+Status message cleared.	Statusbericht gewist.
+VIP	VIP
+Play now	Nu spelen
+Find an opponent of your level automatically	Vind automatisch een tegenstander van jouw niveau
+Looking for an opponent… {t}	Tegenstander zoeken… {t}
+any rating	elke rating
+rating ±{n} · {mode}	rating ±{n} · {mode}
+Potting success	Trefzekerheid
+Balls made	Gepotte ballen
+Best run	Hoogste serie
+Fouls	Fouten
+seen just now	zojuist gezien
+seen {n} min ago	{n} min geleden gezien
+seen {n} h ago	{n} u geleden gezien
+seen yesterday	gisteren gezien
+seen {n} days ago	{n} dagen geleden gezien
+seen {n} months ago	{n} maanden geleden gezien
+just now	zojuist
+{n} min ago	{n} min geleden
+{n} h ago	{n} u geleden
+yesterday	gisteren
+{n} days ago	{n} dagen geleden
+Game history	Partijverloop
+Nothing yet.	Nog niets.
+Fine aim: click the arrows, or drag here	Fijn richten: klik op de pijlen of sleep hier
+{n} watching	{n} kijken mee
+Watching {name}	Je kijkt mee met {name}
+Your reactions reach the table quietly.	Je reacties verschijnen stilletjes aan tafel.
+Stop watching	Stoppen met kijken
+If they play again, you keep watching.	Als ze opnieuw spelen, blijf je kijken.
+Your friend left the table.	Je vriend heeft de tafel verlaten.
+Your friend isn't playing right now.	Je vriend speelt nu niet.
+You can only watch your friends.	Je kunt alleen bij je vrienden meekijken.
+You can't watch this game.	Je kunt deze partij niet bekijken.
+{n} points to {tier}	Nog {n} punten tot {tier}
+Top tier	Hoogste klasse
+Reactions {n}/{total}	Reacties {n}/{total}
+Haunted table	Spooktafel
+Win a rated game during Halloween (Oct 24 – Nov 2).	Win een ratingpartij tijdens Halloween (24 okt – 2 nov).
+Winter league	Wintercompetitie
+Win a rated game over the holidays (Dec 15 – Jan 6).	Win een ratingpartij tijdens de feestdagen (15 dec – 6 jan).
+Fireworks	Vuurwerk
+Win a rated game at the turn of the year (Dec 31 – Jan 1).	Win een ratingpartij rond de jaarwisseling (31 dec – 1 jan).
+Shows where the object ball and the cue ball go (only in free games and practice).	Laat zien waar de objectbal en de speelbal heen gaan (alleen in vrije partijen en bij het oefenen).
+{n} online · ping {ms} ms	{n} online · ping {ms} ms
+Right-drag · Wheel	Rechts slepen · Scrollwiel
+Win %	Winst %
+Reset the camera: top view, no zoom	Camera resetten: bovenaanzicht, geen zoom
+{name} sank the 8-ball	{name} heeft de 8-bal gepot
+{name} sank the 8 too early	{name} heeft de 8 te vroeg gepot
+{name} sank the 8 in the wrong pocket	{name} heeft de 8 in de verkeerde pocket gepot
+{name} fouled on the 8	{name} maakte een fout op de 8
+{name} knocked the 8 off the table	{name} heeft de 8 van tafel gespeeld
+{name} resigned	{name} heeft opgegeven
+{name} left the game	{name} heeft de partij verlaten
+{winner} wins! ({how})	{winner} wint! ({how})
+#{n} in the world	#{n} ter wereld
+3–16 letters, digits or underscores.	3–16 letters, cijfers of underscores.
+No lines on the table: aim by eye, along the cue.	Geen lijnen op tafel: richt op het oog, langs de keu.
+No guide	Geen richthulp
+Only a short line from the cue ball.	Alleen een korte lijn vanaf de speelbal.
+Accept friend	Vriend accepteren
+Achievement unlocked: {title}	Prestatie ontgrendeld: {title}
+Achievements {n}/{total}	Prestaties {n}/{total}
+Add	Toevoegen
+Add a friend by username	Voeg een vriend toe via gebruikersnaam
+Add friend	Vriend toevoegen
+Against the computer	Tegen de computer
+All tournaments	Alle toernooien
+Amateur	Amateur
+At least 8 characters. Use a password you don't use elsewhere.	Minstens 8 tekens. Gebruik een wachtwoord dat je nergens anders gebruikt.
+At least two players are needed.	Er zijn minstens twee spelers nodig.
+Back	Terug
+Black ball	Zwarte bal
+Block	Blokkeren
+Break and run	Afstoot en uit
+Break and run 10 times.	Speel 10 keer de tafel uit vanaf je afstoot.
+Can't listen for games here: join by address below.	Hier kan niet naar partijen worden gezocht: doe mee via het adres hieronder.
+Cancel request	Verzoek annuleren
+Cancel tournament	Toernooi annuleren
+Casual	Vriendschappelijk
+Centurion	Centurion
+Champion	Kampioen
+Champion: {name}	Kampioen: {name}
+Change country	Land wijzigen
+Add a status message	Statusbericht toevoegen
+A line about you	Iets over jezelf
+Save (Enter)	Opslaan (Enter)
+Cancel (Esc)	Annuleren (Esc)
+Change your status message	Statusbericht wijzigen
+Clear the status message	Statusbericht wissen
+Cheating or abuse	Valsspelen of misbruik
+Choose…	Kiezen…
+Click again to block	Klik nogmaals om te blokkeren
+Close	Sluiten
+Closer	Afmaker
+Competitor	Deelnemer
+Connecting to the server…	Verbinden met de server…
+Could not host a game: {e}	Kan geen partij hosten: {e}
+Country	Land
+Create	Aanmaken
+Create a tournament	Toernooi aanmaken
+Don't show a flag	Geen vlag tonen
+No country found.	Geen land gevonden.
+Dynasty	Dynastie
+Eight is enough	Acht is genoeg
+Executioner	Beul
+Expert	Expert
+Familiar face	Bekend gezicht
+Final	Finale
+Finish your game first.	Maak eerst je partij af.
+First blood	Eerste bloed
+First break	Eerste afstoot
+Friend request sent.	Vriendschapsverzoek verstuurd.
+Friends	Vrienden
+# Daily (correspondence) games.
+daily game	dagelijkse partij
+Daily	Dagelijks
+Daily game	Dagelijkse partij
+Daily games	Dagelijkse partijen
+Challenge a player by username	Daag een speler uit via gebruikersnaam
+Challenge to a daily game	Uitdagen voor een dagelijkse partij
+3 days for each turn	3 dagen per beurt
+No daily games yet. Challenge a friend: each of you plays a turn whenever you can.	Nog geen dagelijkse partijen. Daag een vriend uit: jullie spelen elk een beurt wanneer het jullie uitkomt.
+challenges you · {kind}	daagt je uit · {kind}
+waiting for an answer · {kind} · {time} left	wacht op antwoord · {kind} · nog {time}
+your turn · {time} left	jouw beurt · nog {time}
+their turn · {time} left	beurt tegenstander · nog {time}
+won · {how}	gewonnen · {how}
+lost · {how}	verloren · {how}
+ran out of time	je tijd was op
+the opponent ran out of time	de tijd van je tegenstander was op
+open table	open tafel
+You: {mine}, {a} left · {name}: {theirs}, {b} left	Jij: {mine}, nog {a} · {name}: {theirs}, nog {b}
+Look	Bekijken
+Skip	Overslaan
+Replaying {name}'s turn	Herhaling van de beurt van {name}
+Stroke {n} of {total}	Stoot {n} van {total}
+Turn sent	Beurt verstuurd
+Turn sent.	Beurt verstuurd.
+Waiting for {name} to play	Wachten tot {name} speelt
+{name} has {time} to play. You'll be told when it's your turn.	{name} heeft {time} om te spelen. Je krijgt bericht als je aan de beurt bent.
+{time} left to play. You'll be told when it's your turn.	Nog {time} om te spelen. Je krijgt bericht als je aan de beurt bent.
+Back to daily games	Terug naar dagelijkse partijen
+Your game is saved: come back whenever you like.	Je partij is opgeslagen: kom terug wanneer je wilt.
+{d} d {h} h	{d} d {h} u
+{name} ran out of time	de tijd van {name} was op
+This game can't be shown.	Deze partij kan niet worden getoond.
+A daily game is waiting for you	Er wacht een dagelijkse partij op je
+{n} daily games are waiting for you	Er wachten {n} dagelijkse partijen op je
+{name} challenges you to a rated daily game.	{name} daagt je uit voor een dagelijkse ratingpartij.
+{name} challenges you to a casual daily game.	{name} daagt je uit voor een vriendschappelijke dagelijkse partij.
+{name} accepted your daily game.	{name} heeft je dagelijkse partij geaccepteerd.
+{name} declined your daily game.	{name} heeft je dagelijkse partij afgewezen.
+{name} withdrew their daily game challenge.	{name} heeft de uitdaging voor een dagelijkse partij ingetrokken.
+Your turn in the daily game against {name}.	Jouw beurt in de dagelijkse partij tegen {name}.
+{name} ran out of time: you won the daily game.	De tijd van {name} is op: je hebt de dagelijkse partij gewonnen.
+You won the daily game against {name}!	Je hebt de dagelijkse partij tegen {name} gewonnen!
+You ran out of time in the daily game against {name}.	Je tijd is op in de dagelijkse partij tegen {name}.
+You lost the daily game against {name}.	Je hebt de dagelijkse partij tegen {name} verloren.
+Challenge sent.	Uitdaging verstuurd.
+Daily games need an account.	Voor dagelijkse partijen heb je een account nodig.
+No such game.	Deze partij bestaat niet.
+That challenge is no longer valid.	Die uitdaging is niet meer geldig.
+That player already challenged you: answer their challenge.	Die speler heeft jou al uitgedaagd: beantwoord die uitdaging.
+That player has too many challenges waiting.	Die speler heeft te veel openstaande uitdagingen.
+That player has too many daily games going on.	Die speler heeft te veel lopende dagelijkse partijen.
+That player is not accepting challenges.	Die speler accepteert geen uitdagingen.
+This game can't be played right now.	Deze partij kan nu niet worden gespeeld.
+This game changed meanwhile: open it again.	Deze partij is intussen veranderd: open hem opnieuw.
+This game is over.	Deze partij is afgelopen.
+You already challenged that player.	Je hebt die speler al uitgedaagd.
+You already have a game going on against that player.	Je speelt al een partij tegen die speler.
+You blocked that player.	Je hebt die speler geblokkeerd.
+You can't challenge yourself.	Je kunt jezelf niet uitdagen.
+You have as many daily games as you can play at once.	Je speelt al het maximale aantal dagelijkse partijen tegelijk.
+You have too many challenges waiting for an answer.	Je hebt te veel uitdagingen die op antwoord wachten.
+You're sending challenges too quickly.	Je verstuurt te snel uitdagingen.
+Your time for this turn ran out.	Je tijd voor deze beurt is op.
+Games	Partijen
+Games on your network	Partijen op je netwerk
+Give the tournament a name (at least 3 characters).	Geef het toernooi een naam (minstens 3 tekens).
+Good company	Goed gezelschap
+Grandmaster	Grootmeester
+Guests can only join LAN games. Create an account.	Gasten kunnen alleen aan LAN-partijen meedoen. Maak een account aan.
+Guests can't play rated tournaments.	Gasten kunnen geen ratingtoernooien spelen.
+Guests don't have this.	Niet beschikbaar voor gasten.
+Harassment	Intimidatie
+Hat trick	Hattrick
+Have 10 friends.	Heb 10 vrienden.
+Have an account for 30 days.	Heb 30 dagen een account.
+Have an account for a year.	Heb een jaar een account.
+Host a game on this computer	Een partij hosten op deze computer
+Host {host} · {n}/{size} players · {kind}	Host {host} · {n}/{size} spelers · {kind}
+Hot hand	In vorm
+Hustler	Hustler
+Invalid shot.	Ongeldige stoot.
+Join	Meedoen
+Joining the LAN game…	Verbinden met de LAN-partij…
+Just for fun	Gewoon voor de lol
+L	V
+LAN game	LAN-partij
+LAN game hosted by {name}.	LAN-partij van {name}.
+LAN games don't change ratings.	LAN-partijen veranderen de rating niet.
+Legend	Legende
+Lives at the table	Woont aan de tafel
+Loading the profile…	Profiel laden…
+Loading…	Laden…
+Local network	Lokaal netwerk
+Locked	Vergrendeld
+Looking for games	Partijen zoeken
+Make a friend.	Voeg een vriend toe.
+Master	Meester
+Name	Naam
+Names have 3–16 letters, digits or underscores.	Namen hebben 3–16 letters, cijfers of underscores.
+New account	Nieuw account
+I have an account	Ik heb een account
+New here? Choose “New account”: it takes ten seconds.	Nieuw hier? Kies ‘Nieuw account’: het duurt tien seconden.
+New tournament	Nieuw toernooi
+No friends yet. Add someone you played with!	Nog geen vrienden. Voeg iemand toe met wie je hebt gespeeld!
+No games yet.	Nog geen partijen.
+No limit	Geen limiet
+No open tables. Open one and others can sit down.	Geen open tafels. Open er een, dan kunnen anderen aanschuiven.
+No other open tables right now.	Er zijn nu geen andere open tafels.
+No such player.	Deze speler bestaat niet.
+No tournaments right now. Create one!	Er zijn nu geen toernooien. Maak er een aan!
+Offensive name	Aanstootgevende naam
+On a roll	Op dreef
+On fire	In vuur en vlam
+Only the host can start the tournament.	Alleen de host kan het toernooi starten.
+Open a table	Tafel openen
+Or join by address	Of doe mee via een adres
+Other	Anders
+Others can join at {ip}:{port}	Anderen kunnen meedoen via {ip}:{port}
+Passwords need at least 8 characters (not only digits).	Wachtwoorden hebben minstens 8 tekens nodig (niet alleen cijfers).
+Play 1,000 rated games.	Speel 1.000 ratingpartijen.
+Play 10 rated games.	Speel 10 ratingpartijen.
+Play 100 rated games.	Speel 100 ratingpartijen.
+Play 25 casual games.	Speel 25 vriendschappelijke partijen.
+Play 500 rated games.	Speel 500 ratingpartijen.
+Play in a tournament.	Speel een toernooi.
+Play online	Online spelen
+Play with friends on the same network	Speel met vrienden op hetzelfde netwerk
+Play your first rated game.	Speel je eerste ratingpartij.
+Player 1	Speler 1
+Players	Spelers
+Players in a tournament can't start other games.	Spelers in een toernooi kunnen geen andere partijen starten.
+Please don't repeat the same message.	Herhaal alsjeblieft niet hetzelfde bericht.
+Pool hall legend	Legende van de zaal
+Popular	Populair
+Private	Privé
+for your friends to sit down	zodat je vrienden kunnen aanschuiven
+Profile	Profiel
+{key}: watch the last shot again	{key}: laatste stoot opnieuw bekijken
+REPLAY	HERHALING
+Rated	Met rating
+Rated games, tables, tournaments and friends	Ratingpartijen, tafels, toernooien en vrienden
+Reach a rating of 1300.	Bereik een rating van 1300.
+Reach a rating of 1500.	Bereik een rating van 1500.
+Reach a rating of 1700.	Bereik een rating van 1700.
+Reach a rating of 1900.	Bereik een rating van 1900.
+Reach a rating of 2100.	Bereik een rating van 2100.
+Refresh	Vernieuwen
+Regular	Vaste gast
+Remove friend	Vriend verwijderen
+Replay	Herhaling
+Report	Rapporteren
+Report {name}	{name} rapporteren
+Request sent	Verzoek verstuurd
+Friend	Vriend
+Recent	Recent
+Nobody yet. The people you play online will show up here.	Nog niemand. De mensen met wie je online speelt, verschijnen hier.
+{n} games	{n} partijen
+Rookie	Groentje
+Round {n}	Ronde {n}
+Search…	Zoeken…
+Semi-finals	Halve finales
+Send report	Melding versturen
+This game goes with the report, so the moderators can watch it.	Deze partij gaat mee met de melding, zodat de moderators hem kunnen bekijken.
+Your game with {name} ({date}) goes with the report, so the moderators can watch it.	Je partij met {name} ({date}) gaat mee met de melding, zodat de moderators hem kunnen bekijken.
+You haven't played {name} in the last day: the moderators see the recent chat.	Je hebt de afgelopen dag niet tegen {name} gespeeld: de moderators zien de recente chat.
+Shark	Haai
+Shows the contact point; judging the cut is up to you.	Toont het raakpunt; de snijhoek inschatten doe je zelf.
+Shutout	De nul gehouden
+Sign in	Inloggen
+Sign in or create an account	Log in of maak een account aan
+Sign out	Uitloggen
+Sit down	Aanschuiven
+Skilled	Bedreven
+Someone with that name is already here.	Er is hier al iemand met die naam.
+Spam	Spam
+Start now	Nu starten
+Stop the replay	Herhaling stoppen
+Table runner	Tafelopruimer
+Tables	Tafels
+Take turns on this computer	Om de beurt op deze computer
+Thank you. The moderators will look into it.	Bedankt. De moderators gaan ernaar kijken.
+Thank you. The moderators will look into it, with your game attached.	Bedankt. De moderators gaan ernaar kijken, met je partij erbij.
+That player is not accepting invitations.	Die speler accepteert geen uitnodigingen.
+That shot was for an earlier turn.	Die stoot hoorde bij een eerdere beurt.
+That table is no longer open.	Die tafel is niet meer open.
+That tournament has already started.	Dat toernooi is al begonnen.
+That tournament no longer exists.	Dat toernooi bestaat niet meer.
+The first connection of the day can take up to a minute while the server wakes up.	De eerste verbinding van de dag kan tot een minuut duren, terwijl de server opstart.
+The first time, allow Snook Legend through the firewall when asked.	Sta Snook Legend de eerste keer toe in de firewall als daarom wordt gevraagd.
+The server could not play that shot.	De server kon die stoot niet spelen.
+The server is busy. Try again in a moment.	De server heeft het druk. Probeer het zo opnieuw.
+The tournament starts when it is full (the host can start it earlier).	Het toernooi begint als het vol is (de host kan het eerder starten).
+There are too many tournaments right now. Join one!	Er zijn nu te veel toernooien. Doe mee aan een ervan!
+This is a LAN server: join as a guest.	Dit is een LAN-server: doe mee als gast.
+Fifteen rivals, a tour and ghosts of real players	Vijftien tegenstanders, een tour en geesten van echte spelers
+Tier	Klasse
+Time per shot	Tijd per stoot
+Too many failed attempts. Wait a few minutes and try again.	Te veel mislukte pogingen. Wacht een paar minuten en probeer het opnieuw.
+Too many messages.	Te veel berichten.
+Too many new accounts from this network. Try again later.	Te veel nieuwe accounts vanaf dit netwerk. Probeer het later opnieuw.
+Top 100 · rated games	Top 100 · ratingpartijen
+Tournament game: the next round starts from the lounge.	Toernooipartij: de volgende ronde start vanuit de lounge.
+Tournament games have no rematch.	Toernooipartijen hebben geen revanche.
+Tournaments	Toernooien
+Tournaments have 4, 8 or 16 players.	Toernooien hebben 4, 8 of 16 spelers.
+Two players	Twee spelers
+Unblock	Deblokkeren
+Unlocked {date}	Ontgrendeld op {date}
+Unstoppable	Onstuitbaar
+W	W
+Watch the last shot again	Laatste stoot opnieuw bekijken
+What happened? (optional)	Wat is er gebeurd? (optioneel)
+When time runs out, the turn passes.	Als de tijd op is, gaat de beurt over.
+Whitewash	Ingemaakt
+Win 10 rated games on the 8-ball.	Win 10 ratingpartijen op de 8-bal.
+Win 10 rated games in a row.	Win 10 ratingpartijen op rij.
+Win 10 rated games.	Win 10 ratingpartijen.
+Win 10 rated shutouts.	Houd in 10 gewonnen ratingpartijen de nul.
+Win 100 rated games on the 8-ball.	Win 100 ratingpartijen op de 8-bal.
+Win 100 rated games.	Win 100 ratingpartijen.
+Win 250 rated games on the 8-ball.	Win 250 ratingpartijen op de 8-bal.
+Win 3 rated games in a row.	Win 3 ratingpartijen op rij.
+Win 5 rated games in a row.	Win 5 ratingpartijen op rij.
+Win 5 tournaments.	Win 5 toernooien.
+Win 50 rated games on the 8-ball.	Win 50 ratingpartijen op de 8-bal.
+Win 50 rated games.	Win 50 ratingpartijen.
+Win 500 rated games.	Win 500 ratingpartijen.
+Win a rated game.	Win een ratingpartij.
+Win a tournament.	Win een toernooi.
+Win a rated game before your opponent sinks a ball of their group.	Win een ratingpartij voordat je tegenstander een eigen bal pot.
+Win a rated game from the break without your opponent getting a shot.	Win een ratingpartij vanaf de afstoot zonder dat je tegenstander aan stoot komt.
+Withdraw	Terugtrekken
+World ranking	Wereldranglijst
+Wrong table password.	Verkeerd tafelwachtwoord.
+Wrong tournament password.	Verkeerd toernooiwachtwoord.
+You are already in a tournament.	Je zit al in een toernooi.
+You are hosting a game	Je host een partij
+You can't join this table.	Je kunt niet aan deze tafel aanschuiven.
+You signed in from another place.	Je bent ergens anders ingelogd.
+You're sending invitations too quickly.	Je verstuurt te snel uitnodigingen.
+You're sending messages too quickly.	Je verstuurt te snel berichten.
+You've sent many reports. Please wait before sending more.	Je hebt veel meldingen verstuurd. Wacht even voordat je er meer verstuurt.
+Your friend list is full.	Je vriendenlijst is vol.
+Your next match starts by itself when both players are free.	Je volgende wedstrijd begint vanzelf als beide spelers vrij zijn.
+Your profile	Jouw profiel
+Your table is open	Je tafel is open
+Zoom in	Inzoomen
+Zoom out	Uitzoomen
+at a table	aan een tafel
+best streak	beste reeks
+by {host} · {n}/{size} players	van {host} · {n}/{size} spelers
+casual games	vriendschappelijke partijen
+casual · private	vriendschappelijk · privé
+casual · public	vriendschappelijk · openbaar
+connecting to the server	verbinden met de server
+eight-ball pool	8-ball pool
+finished	afgelopen
+guest	gast
+invites you to {kind}	nodigt je uit voor {kind}
+joined today	vandaag lid geworden
+member for {n} days	{n} dagen lid
+member for {n} months	{n} maanden lid
+member for {n} years	{n} jaar lid
+offline	offline
+open	open
+optional: only friends with it can join	optioneel: alleen vrienden met het wachtwoord kunnen aanschuiven
+password	wachtwoord
+peak {n}	piek {n}
+playing	speelt
+playing the computer	speelt tegen de computer
+away	afwezig
+this game is saved	deze partij wordt bewaard
+rated games	ratingpartijen
+rated · private	met rating · privé
+rated · public	met rating · openbaar
+request sent	verzoek verstuurd
+the connection dropped	de verbinding is verbroken
+to play online	om online te spelen
+tournament	toernooi
+tournaments won	toernooien gewonnen
+waiting for an opponent…	wachten op een tegenstander…
+win rate	winstpercentage
+wins	overwinningen
+won on the 8	gewonnen op de 8
+{host}'s game	partij van {host}
+{name} wants to be friends	{name} wil vrienden worden
+{name} wants to be your friend.	{name} wil je vriend worden.
+{n} online	{n} online
+sank the 8-ball	8-bal gepot
+the opponent sank the 8-ball	tegenstander potte de 8-bal
+the opponent sank the 8 too early	tegenstander potte de 8 te vroeg
+sank the 8 too early	8 te vroeg gepot
+the opponent sank the 8 in the wrong pocket	tegenstander potte de 8 in de verkeerde pocket
+sank the 8 in the wrong pocket	8 in de verkeerde pocket gepot
+the opponent fouled on the 8	tegenstander maakte een fout op de 8
+fouled on the 8	fout op de 8
+the opponent knocked the 8 off the table	tegenstander speelde de 8 van tafel
+knocked the 8 off the table	8 van tafel gespeeld
+the opponent resigned	tegenstander gaf op
+resigned	opgegeven
+the opponent left	tegenstander is weggegaan
+left the game	partij verlaten
+You are muted for {n} more minutes.	Je kunt nog {n} minuten niet chatten.
+This account is suspended for {n} more day(s). Reason: {reason}.	Dit account is nog {n} dag(en) geschorst. Reden: {reason}.
+This account is banned. Reason: {reason}.	Dit account is verbannen. Reden: {reason}.
+You were muted: {r}	Je mag niet meer chatten: {r}
+Your account was suspended: {r}	Je account is geschorst: {r}
+Your account was banned: {r}	Je account is verbannen: {r}
+You were disconnected by a moderator: {r}	Een moderator heeft je verbinding verbroken: {r}
+You were disconnected by a moderator.	Een moderator heeft je verbinding verbroken.
+Please sign in again.	Log opnieuw in.
+Your password was changed. Sign in again.	Je wachtwoord is gewijzigd. Log opnieuw in.
+Accept rematch	Revanche accepteren
+Accept	Accepteren
+Aim	Richten
+Aiming guide	Richthulp
+Aiming	Richten
+Anti-aliasing	Anti-aliasing
+Smooths the jagged edges of lines and balls.	Maakt de gekartelde randen van lijnen en ballen glad.
+Back to lounge	Terug naar de lounge
+Balanced: smooth on most laptops.	Gebalanceerd: soepel op de meeste laptops.
+Ball in hand	Bal in de hand
+Break the rack	Stoot af
+Camera pulls back to watch each shot	De camera beweegt achteruit om elke stoot te volgen
+Camera	Camera
+Cancel	Annuleren
+Casual game: ratings unchanged	Vriendschappelijke partij: rating blijft gelijk
+Center	Midden
+Chat	Chat
+Click a ball or a spot	Klik op een bal of een punt
+Click to chat, Enter to send	Klik om te chatten, Enter om te versturen
+Controls	Besturing
+Create account	Account aanmaken
+Cue ball contact	Raakpunt op de speelbal
+Decline	Weigeren
+Done	Klaar
+Drag the cue ball	Sleep de speelbal
+Elevation	Elevatie
+Everything, with reflections in polished floors: for gaming PCs.	Alles, met reflecties in glanzende vloeren: voor gaming-pc's.
+Fine aim	Fijn richten
+Finish this match first.	Maak eerst deze wedstrijd af.
+For old or very slow computers.	Voor oude of heel trage computers.
+Full screen	Volledig scherm
+Also with {key}.	Ook met {key}.
+Full	Volledig
+Game server	Spelserver
+Change it only to play on another server.	Wijzig dit alleen om op een andere server te spelen.
+Advanced	Geavanceerd
+Custom server	Andere server
+Graphics quality	Grafische kwaliteit
+Quality	Kwaliteit
+Display	Beeld
+High	Hoog
+Invite	Uitnodigen
+Leave to the lounge	Naar de lounge
+Leave	Verlaten
+Leaving now counts as a loss.	Nu weggaan telt als een nederlaag.
+Lounge chat	Loungechat
+Low	Laag
+Main menu	Hoofdmenu
+Medium	Gemiddeld
+Menu / help	Menu / help
+Next game starts in a moment…	De volgende partij begint zo…
+No rated games yet. Be the first!	Nog geen ratingpartijen. Wees de eerste!
+Nobody else is here right now.	Er is nu verder niemand.
+Looking for a game?	Zoek je een partij?
+Looking for a game	Zoekt een partij
+Post a note	Oproep plaatsen
+Everyone in the lounge sees it for 30 minutes	Iedereen in de lounge ziet hem 30 minuten lang
+What are you after? ({kind})	Wat zoek je? ({kind})
+Post	Plaatsen
+Your note: {text}	Je oproep: {text}
+{mode} · {left} left	{mode} · nog {left}
+Take down	Verwijderen
+Challenge	Uitdagen
+Take the note down	Oproep verwijderen
+Off	Uit
+On the 8-ball: call a pocket	Op de 8-bal: geef een pocket aan
+On the 8-ball	Op de 8-bal
+Open table	Open tafel
+Password	Wachtwoord
+Paused	Gepauzeerd
+Play	Spelen
+Player 2	Speler 2
+Player	Speler
+Quick aim	Snel richten
+Quit	Afsluiten
+Reconnected.	Weer verbonden.
+Rematch	Revanche
+Resign this game	Deze partij opgeven
+Restart the game to apply this change.	Start het spel opnieuw om deze wijziging toe te passen.
+Resume	Hervatten
+Retry	Opnieuw proberen
+Saving the result…	Uitslag opslaan…
+Say hello… (Enter to send)	Zeg hallo… (Enter om te versturen)
+Send	Versturen
+Settings	Instellingen
+{key} + drag	{key} + slepen
+{key}: 3D / top view	{key}: 3D / bovenaanzicht
+{keys}: zoom	{keys}: zoomen
+View	Weergave
+Aim left	Naar links richten
+Aim right	Naar rechts richten
+Fine aim (hold)	Fijn richten (ingedrukt houden)
+Shoot (hold, release)	Stoten (ingedrukt houden, loslaten)
+Top spin	Doorloopeffect
+Back spin	Trekeffect
+Left spin	Effect links
+Right spin	Effect rechts
+Raise the cue	Keu heffen
+Lower the cue	Keu laten zakken
+Pick up the cue ball in hand	Speelbal in de hand oppakken
+3D / top view	3D / bovenaanzicht
+Reset the camera	Camera resetten
+Replay the last shot	Laatste stoot opnieuw afspelen
+List of controls	Overzicht besturing
+Keys can be changed in Settings → Controls.	Toetsen kun je wijzigen in Instellingen → Besturing.
+Space	Spatie
+Right Shift	Rechter Shift
+Right Ctrl	Rechter Ctrl
+Right Alt	Rechter Alt
+Aiming and shooting	Richten en stoten
+Spin and elevation	Effect en elevatie
+Fixed keys	Vaste toetsen
+Menu, back and cancel	Menu, terug en annuleren
+Confirm (forms, the cue ball in hand)	Bevestigen (formulieren, speelbal in de hand)
+This key can't be changed.	Deze toets kan niet worden gewijzigd.
+Press a key · Esc cancels · Backspace clears	Druk op een toets · Esc annuleert · Backspace wist
+Press a key…	Druk op een toets…
+Click to change	Klik om te wijzigen
+Click to add a key	Klik om een toets toe te voegen
+Back to no key	Terug naar geen toets
+Back to {keys}	Terug naar {keys}
+Swapped: {action} is now on {key}.	Gewisseld: {action} zit nu op {key}.
+Taken from {action}, which now has no key.	Weggehaald bij {action}, dat nu geen toets heeft.
+Taken from {action}.	Weggehaald bij {action}.
+That key can't be used: try another.	Die toets kan niet worden gebruikt: probeer een andere.
+Shoot	Stoten
+Short	Kort
+Signing in…	Inloggen…
+Signing in	Inloggen
+Soft shadows from every lamp, glossy halls, halos.	Zachte schaduwen van elke lamp, glanzende zalen, halo's.
+Solids (1–7)	Hele (1–7)
+Spin ball	Effectbal
+Spin	Effect
+Standard	Standaard
+Stay	Blijven
+Stripes (9–15)	Halve (9–15)
+The game goes on while this is open.	Het spel gaat door terwijl dit open is.
+Use default	Standaard gebruiken
+Username	Gebruikersnaam
+Usernames have 3–16 letters, digits or underscores.	Gebruikersnamen hebben 3–16 letters, cijfers of underscores.
+{keys} (jump & massé)	{keys} (springen en massé)
+You win!	Je hebt gewonnen!
+Your name	Je naam
+Your opponent went back to the lounge.	Je tegenstander is teruggegaan naar de lounge.
+Your turn	Jouw beurt
+open table: the next ball you make sets your group	open tafel: de volgende bal die je pot, bepaalt je groep
+draw	trekstoot
+follow	doorstoot
+stun	stopstoot
+solids	hele ballen
+stripes	halve ballen
+lounge	lounge
+ · left english	 · effect links
+ · right english	 · effect rechts
+Language	Taal
+General	Algemeen
+Graphics	Grafisch
+Game	Spel
+Sound	Geluid
+Reset to defaults	Standaardwaarden herstellen
+Reset all keys	Alle toetsen resetten
+Reset every key?	Alle toetsen resetten?
+Click again to put every key back	Klik nogmaals om alle toetsen terug te zetten
+Updates	Updates
+Update automatically	Automatisch bijwerken
+New versions download in the background and install when you restart.	Nieuwe versies worden op de achtergrond gedownload en bij het herstarten geïnstalleerd.
+Version {v}	Versie {v}
+What's new	Wat is er nieuw
+What's new in version {v}	Nieuw in versie {v}
+No notes for this version.	Geen notities voor deze versie.
+Got it	Begrepen
+Restart now	Nu herstarten
+After the game, from the main menu.	Na de partij, vanuit het hoofdmenu.
+Download	Downloaden
+Check now	Nu controleren
+Couldn't reach the update server.	De updateserver is niet bereikbaar.
+The download was damaged. It will be tried again later.	De download was beschadigd. Het wordt later opnieuw geprobeerd.
+The new version couldn't be installed. This one stays.	De nieuwe versie kon niet worden geïnstalleerd. Deze versie blijft.
+Downloading… {p}%	Downloaden… {p}%
+Updating…	Bijwerken…
+The Microsoft Store keeps the game up to date.	De Microsoft Store houdt het spel up-to-date.
+Development build: no automatic updates.	Ontwikkelversie: geen automatische updates.
+Looking for a new version…	Zoeken naar een nieuwe versie…
+This is the latest version.	Dit is de nieuwste versie.
+Downloading version {v}… {p}%	Versie {v} downloaden… {p}%
+Installing version {v}…	Versie {v} installeren…
+Version {v} is ready: restart the game to use it.	Versie {v} staat klaar: herstart het spel om hem te gebruiken.
+Version {v} is out: download it from the releases page.	Versie {v} is uit: download hem via de releasepagina.
+Version {v} is ready	Versie {v} staat klaar
+Restart to play it; nothing is lost.	Herstart om ermee te spelen; er gaat niets verloren.
+Version {v} is out	Versie {v} is uit
+Get it from the releases page.	Download hem via de releasepagina.
+Reset everything?	Alles resetten?
+Click again to reset every setting	Klik nogmaals om alle instellingen te resetten
+Online	Online
+Menu	Menu
+Rating	Rating
+Ultra	Ultra
+hold {key} and release	houd {key} ingedrukt en laat los
+Change	Wijzigen
+Mouse aim sensitivity	Muisgevoeligheid bij richten
+How fast the cue turns with the mouse.	Hoe snel de keu draait met de muis.
+Vignette	Vignet
+Darkens the edges of the picture, like a film.	Maakt de randen van het beeld donkerder, zoals in een film.
+Show FPS	FPS tonen
+Frames per second, in a corner of the screen.	Frames per seconde, in een hoek van het scherm.
+Call a pocket for the 8-ball first: click a pocket.	Geef eerst een pocket aan voor de 8-bal: klik op een pocket.
+Reconnecting	Opnieuw verbinden
+the game is over	de partij is afgelopen
+the cue ball cannot be placed there	de speelbal kan daar niet worden geplaatst
+call a pocket for the 8-ball	geef een pocket aan voor de 8-bal
+That username is taken.	Die gebruikersnaam is al bezet.
+Wrong username or password.	Verkeerde gebruikersnaam of wachtwoord.
+Your session expired. Please log in again.	Je sessie is verlopen. Log opnieuw in.
+This version of Snook Legend is out of date. Please update the game.	Deze versie van Snook Legend is verouderd. Werk het spel bij.
+It's not your turn.	Je bent niet aan de beurt.
+That player is not online.	Die speler is niet online.
+That player is in a game.	Die speler zit in een partij.
+You can't invite yourself.	Je kunt jezelf niet uitnodigen.
+That invitation is no longer valid.	Die uitnodiging is niet meer geldig.
+That player is no longer available.	Die speler is niet meer beschikbaar.
+Resign first to leave a game in progress.	Geef eerst op om een lopende partij te verlaten.
+Malformed message.	Ongeldig bericht.
+Please log in first.	Log eerst in.
+Could not create the account.	Het account kon niet worden aangemaakt.
+The cue ball can't be placed there.	De speelbal kan daar niet worden geplaatst.
+Disconnected.	Verbinding verbroken.
+Lost contact with the server.	Contact met de server verloren.
+The server closed the connection.	De server heeft de verbinding verbroken.
+The server took too long to answer.	De server deed er te lang over om te antwoorden.
+The server is not answering (connection refused).	De server antwoordt niet (verbinding geweigerd).
+The server address is not valid (example: wss://snook-legend.example.com/ws).	Het serveradres is ongeldig (voorbeeld: wss://snook-legend.example.com/ws).
+The server address has no host name.	Het serveradres heeft geen hostnaam.
+Welcome to Snook Legend! Be kind, play fair.	Welkom bij Snook Legend! Wees aardig, speel eerlijk.
+Ball in hand: drag the cue ball{zone} to move it	Bal in de hand: sleep de speelbal{zone} om hem te verplaatsen
+ behind the line	 achter de lijn
+Ball in hand  ·  {group}	Bal in de hand  ·  {group}
+Can't shoot: {e}.	Kan niet stoten: {e}.
+Chat ({n})	Chat ({n})
+Computer ({level})	Computer ({level})
+Computer	Computer
+Each opponent has a style of their own	Elke tegenstander heeft een eigen stijl
+Free game	Vrije partij
+Tour	Tour
+Tour: {n} of {total} beaten	Tour: {n} van {total} verslagen
+Strength {n}/5	Sterkte {n}/5
+Ghost	Geest
+Accuracy	Nauwkeurigheid
+Safeties	Safety's
+Banks	Bandstoten
+Position	Positie
+Ghost of {name}	Geest van {name}
+A player's ghost	De geest van een speler
+Plays like a real player	Speelt als een echte speler
+The computer plays in the style of a real player, measured on their online games.	De computer speelt in de stijl van een echte speler, gemeten aan diens online partijen.
+Sign in to play the ghost of a real player.	Log in om tegen de geest van een echte speler te spelen.
+Load	Laden
+Friends:	Vrienden:
+Type a username or pick a friend, then Load.	Typ een gebruikersnaam of kies een vriend en klik op Laden.
+Measuring how {name} plays…	Meten hoe {name} speelt…
+Pots {pots}% · safeties {safe}% · banks {banks}% · {shots} shots	Pot {pots}% · safety's {safe}% · bandstoten {banks}% · {shots} stoten
+{name} has only {shots} recorded shots; a ghost needs {needed}. More online games will do it.	{name} heeft pas {shots} opgenomen stoten; een geest heeft er {needed} nodig. Met meer online partijen lukt het.
+There is no player called {name}.	Er is geen speler met de naam {name}.
+The server can't be reached right now. Try again later.	De server is nu niet bereikbaar. Probeer het later opnieuw.
+Wait a moment before asking again.	Wacht even voordat je het opnieuw vraagt.
+Something went wrong on the server. Try again later.	Er ging iets mis op de server. Probeer het later opnieuw.
+Play your ghost	Tegen je eigen geest spelen
+Play their ghost	Tegen deze geest spelen
+Beaten	Verslagen
+Next	Volgende
+Win the previous stage to unlock this one.	Win de vorige etappe om deze te ontgrendelen.
+Stage {n} of {total}	Etappe {n} van {total}
+Challenge {name}	{name} uitdagen
+Stage {n} won! Next on the tour: {name}.	Etappe {n} gewonnen! Volgende in de tour: {name}.
+You won the whole tour!	Je hebt de hele tour gewonnen!
+Reward	Beloning
+{item} cue · exclusive	Keu {item} · exclusief
+Yours: find it in the shop, under Cues.	Van jou: je vindt hem in de winkel, onder Keus.
+Win the last stage again while signed in to claim it.	Win de laatste etappe nog eens terwijl je bent ingelogd om hem op te eisen.
+Beat all fifteen opponents to earn it. It is sold nowhere.	Versla alle vijftien tegenstanders om hem te verdienen. Hij is nergens te koop.
+You won the tour! Sign in to claim your reward.	Je hebt de tour gewonnen! Log in om je beloning op te eisen.
+The server is checking your final game…	De server controleert je laatste partij…
+Try again	Opnieuw proberen
+The server did not answer. Try again in a moment.	De server antwoordde niet. Probeer het zo opnieuw.
+The server is busy checking other games. Try again in a moment.	De server is bezig met het controleren van andere partijen. Probeer het zo opnieuw.
+Wait a minute before trying again.	Wacht een minuut voordat je het opnieuw probeert.
+That game is too long to be checked.	Die partij is te lang om te controleren.
+That game has a move the rules don't allow.	In die partij zit een stoot die de regels niet toestaan.
+That game was not played to the end.	Die partij is niet uitgespeeld.
+That game was not a win.	Die partij was geen overwinning.
+The computer's shots in that game don't match how it plays (another version of the game?).	De stoten van de computer in die partij kloppen niet met hoe hij speelt (een andere versie van het spel?).
+The Rookie	Het Groentje
+Still learning: aims at the nearest pocket, centre ball, and hopes. Never plays safe.	Leert nog: richt op de dichtstbijzijnde pocket, raakt de bal in het midden en hoopt er het beste van. Speelt nooit een safety.
+The Weekend Player	De Zondagsspeler
+Knows the basics and drops the easy ones, but rarely thinks about where the cue ball goes.	Kent de basis en pot de makkelijke ballen, maar denkt zelden na over waar de speelbal heen gaat.
+The Bank Artist	De Bandenkoningin
+Sees angles nobody else does: whenever a ball can go off a cushion and in, she banks it.	Ziet hoeken die niemand anders ziet: als een bal via een band kan vallen, speelt ze hem via de band.
+The Cannon	Het Kanon
+Goes for everything, as hard as he can: long pots, thunderous breaks, hardly ever a safety.	Gaat overal voor, zo hard als hij kan: lange ballen, donderende afstoten, bijna nooit een safety.
+The Wall	De Muur
+Only shoots when the pot is on. Otherwise she tucks the cue ball away and waits for your mistake.	Stoot alleen als de bal erin ligt. Anders verstopt ze de speelbal en wacht ze op jouw fout.
+The Old Pro	De Oude Rot
+Forty years at the table: a smooth stroke, a raised cue, side spin, and never in a hurry.	Veertig jaar aan de tafel: een soepele stoot, een geheven keu, zijeffect, en nooit haast.
+The Hustler	De Hustler
+Plays just well enough to win, then a little better. Balanced, sharp and hard to read.	Speelt net goed genoeg om te winnen, en dan nog iets beter. Evenwichtig, scherp en moeilijk te lezen.
+The Professor	De Professor
+Thinks three balls ahead: every shot leaves the cue ball where the next one is easy.	Denkt drie ballen vooruit: na elke stoot ligt de speelbal waar de volgende makkelijk is.
+The Sharpshooter	De Scherpschutter
+Pots from anywhere, at any angle. Her safeties are an afterthought: she doesn't need them.	Pot vanaf elke plek, onder elke hoek. Aan safety's denkt ze nauwelijks: ze heeft ze niet nodig.
+The Champion	De Kampioen
+Unbeaten for years. Precise, patient and merciless: the last stage of the tour.	Al jaren ongeslagen. Precies, geduldig en genadeloos: de laatste etappe van de tour.
+Tour champion	Tourkampioen
+Champion of the tour	Kampioen van de tour
+Beat all fifteen opponents of the computer tour.	Versla alle vijftien tegenstanders van de computertour.
+Connection lost. Reconnecting (attempt {n})…	Verbinding verbroken. Opnieuw verbinden (poging {n})…
+Connection lost. Reconnecting…	Verbinding verbroken. Opnieuw verbinden…
+Foul by {shooter}: {foul}.	Fout van {shooter}: {foul}.
+Graphics set to {q} for smooth play. You can change this in Settings.	Grafische kwaliteit ingesteld op {q} voor soepel spel. Je kunt dit wijzigen in Instellingen.
+Rating {r} ({d})	Rating {r} ({d})
+The {ball} was spotted.	De {ball} is teruggeplaatst.
+Waiting for {to} ({kind})…	Wachten op {to} ({kind})…
+rated	met rating
+casual	vriendschappelijk
+Waiting for {name}…	Wachten op {name}…
+{by} declined your invitation.	{by} heeft je uitnodiging afgewezen.
+a rated game	een ratingpartij
+a casual game	een vriendschappelijke partij
+{name} calls the 8-ball in the {pocket} pocket.	{name} geeft de 8-bal aan in de {pocket}.
+{name} has ball in hand…	{name} heeft bal in de hand…
+{name} is aiming…	{name} richt…
+{name} is on the 8: click a pocket to call it	{name} speelt op de 8: klik op een pocket om die aan te geven
+{name} is thinking…	{name} denkt na…
+{name} left the game.	{name} heeft de partij verlaten.
+{name} resigned.	{name} heeft opgegeven.
+{name} to break	{name} stoot af
+{name} to shoot ({target})	{name} aan stoot ({target})
+{name}'s turn	Beurt van {name}
+{next} has ball in hand{where}.	{next} heeft bal in de hand{where}.
+ behind the head string	 achter de afstootlijn
+{opponent} is back.	{opponent} is terug.
+{opponent} lost the connection. Waiting up to {secs} s…	{opponent} heeft de verbinding verloren. Maximaal {secs} s wachten…
+{opponent} wants a rematch.	{opponent} wil een revanche.
+{opponent} went back to the lounge.	{opponent} is teruggegaan naar de lounge.
+{shooter} pocketed {balls}.	Gepot door {shooter}: {balls}.
+{shooter} takes {group}.	{shooter} krijgt de {group}.
+{who} ran out of time: ball in hand for the opponent.	De tijd van {who} is op: bal in de hand voor de tegenstander.
+{name} wants a rematch!	{name} wil een revanche!
+{name} wins!	{name} wint!
+{name} wins	{name} wint
+Volume	Volume
+The cue, the balls, the cushions and the pockets.	De keu, de ballen, de banden en de pockets.
+Notifications	Meldingen
+Could not find the server “{host}”.	Kan de server ‘{host}’ niet vinden.
+Network error: {e}.	Netwerkfout: {e}.
+Secure connection failed: {e}.	Beveiligde verbinding mislukt: {e}.
+The server refused the connection (HTTP {code}).	De server weigerde de verbinding (HTTP {code}).
+Connection error: {e}.	Verbindingsfout: {e}.
+cue ball	speelbal
+{n}-ball	{n}-bal
+Scratch: the cue ball was pocketed	De speelbal is gepot
+The cue ball left the table	De speelbal is van tafel gegaan
+The cue ball didn't hit any ball	De speelbal heeft geen bal geraakt
+Wrong ball hit first ({ball})	Verkeerde bal eerst geraakt ({ball})
+No ball reached a cushion after contact	Na het raken heeft geen bal een band bereikt
+The {ball} left the table	De {ball} is van tafel gegaan
+Illegal break	Ongeldige afstoot
+pocketed the 8-ball	8-bal gepot
+opponent pocketed the 8-ball too early	tegenstander potte de 8-bal te vroeg
+opponent sank the 8-ball in the wrong pocket	tegenstander potte de 8-bal in de verkeerde pocket
+opponent fouled on the 8-ball	tegenstander maakte een fout op de 8-bal
+opponent knocked the 8-ball off the table	tegenstander speelde de 8-bal van tafel
+opponent resigned	tegenstander gaf op
+opponent left the game	tegenstander verliet de partij
+head left corner	linkerhoek kopzijde
+head right corner	rechterhoek kopzijde
+left side	linker middenpocket
+right side	rechter middenpocket
+foot left corner	linkerhoek voetzijde
+foot right corner	rechterhoek voetzijde
+Easy	Makkelijk
+Hard	Moeilijk
+Normal	Normaal
+Power	Kracht
+No messages yet.	Nog geen berichten.
+▼ newer messages	▼ nieuwere berichten
+Camera follows the cue	Camera volgt de keu
+Off: it stays where you put it.	Uit: hij blijft waar je hem neerzet.
+Pull back for shots	Uitzoomen bij stoten
+Only when the camera follows the cue.	Alleen als de camera de keu volgt.
+Drag the cue · click a spot	Sleep de keu · klik op een punt
+Time's up: {name}'s shot was played at full power.	Tijd om: de stoot van {name} is op volle kracht gespeeld.
+Dark room	Donkere zaal
+A spotlight on the table, the room in shadow.	Een spot op de tafel, de zaal in het donker.
+Hide	Verbergen
+Interface size	Interfacegrootte
+Text, buttons and panels.	Tekst, knoppen en panelen.
+Drag to set the power	Sleep om de kracht in te stellen
+Shoot!	Stoot!
+Set the power, then press the green button	Stel de kracht in en druk op de groene knop
++{n} coins · {why}	+{n} munten · {why}
+16-player tournaments, and first place on the waiting list of a full one	Toernooien met 16 spelers, en de eerste plek op de wachtlijst van een vol toernooi
+30 minutes: play as many games as you can. A win is 2 points, 4 from the third win in a row.	30 minuten: speel zo veel partijen als je kunt. Een overwinning is 2 punten, 4 vanaf de derde zege op rij.
+A crown by your name, everywhere (lounge, profile, ranking)	Een kroon bij je naam, overal (lounge, profiel, ranglijst)
+Account	Account
+Add friends to give them items.	Voeg vrienden toe om ze items cadeau te geven.
+Arena	Arena
+Arena · host {host} · {n} players · {kind}	Arena · host {host} · {n} spelers · {kind}
+Buy now	Nu kopen
+Buying…	Kopen…
+Change password	Wachtwoord wijzigen
+Click again to delete	Klik nogmaals om te verwijderen
+Got a code? Type it here	Een code gekregen? Typ hem hier
+Confirm purchase	Aankoop bevestigen
+Copied: send it to a friend.	Gekopieerd: stuur hem naar een vriend.
+Copy	Kopiëren
+Current	Huidig
+Delete account	Account verwijderen
+Entry	Inleg
+Entry {n} coins	Inleg {n} munten
+Every replay kept (free players keep their last 10 games)	Alle herhalingen bewaard (gratis spelers bewaren hun laatste 10 partijen)
+For {name}	Voor {name}
+Add a message (optional)	Voeg een bericht toe (optioneel)
+Format	Opzet
+Frames	Kaders
+Free	Gratis
+Get coins	Munten halen
+Gift sent!	Cadeau verstuurd!
+Give as a gift	Cadeau geven
+Give it	Geven
+Give to a friend	Geef aan een vriend
+Great!	Top!
+If you forget your password, we confirm it's you by this e-mail.	Als je je wachtwoord vergeet, bevestigen we via dit e-mailadres dat jij het bent.
+Invite with a code	Uitnodigen met een code
+It goes on right away. Items only change the look, never the game.	Het is meteen actief. Items veranderen alleen het uiterlijk, nooit het spel.
+Join my table in Snook Legend:	Kom aan mijn tafel in Snook Legend:
+Join the waiting list	Op de wachtlijst
+Join · {n} coins	Meedoen · {n} munten
+Knockout	Knock-out
+Name colour	Naamkleur
+Name colours for the lounge and exclusive frames, cloth, cues, balls and effects	Naamkleuren voor de lounge en exclusieve kaders, lakens, keus, ballen en effecten
+New	Nieuw
+No, thanks	Nee, bedankt
+Nothing that wins games: VIP only changes the look	Niets dat partijen wint: VIP verandert alleen het uiterlijk
+Numbers	Cijfers
+ON TV	OP TV
+Play rated games to see your rating here.	Speel ratingpartijen om hier je rating te zien.
+No rated games yet.	Nog geen ratingpartijen.
+Price	Prijs
+Prizes {a} + {b}	Prijzen {a} + {b}
+Protect your purchases	Bescherm je aankopen
+Purchase complete!	Aankoop voltooid!
+Recovery e-mail	Herstel-e-mailadres
+Save	Opslaan
+The fees make the prize: 70% to the champion, 20% to the runner-up.	Het inleggeld vormt de prijzenpot: 70% voor de kampioen, 20% voor de nummer twee.
+The server restarts in {m}:{s} for an update. Games in progress go on.	De server herstart over {m}:{s} voor een update. Lopende partijen gaan door.
+Use this e-mail	Dit e-mailadres gebruiken
+Use {email} to recover your account if you ever forget your password?	{email} gebruiken om je account te herstellen als je ooit je wachtwoord vergeet?
+Watch	Kijken
+Watch again	Opnieuw kijken
+Winning effects	Overwinningseffecten
+Halls	Zalen
+You are paired as soon as you and an opponent are free.	Je wordt gekoppeld zodra jij en een tegenstander vrij zijn.
+You can change it any time in your profile (Account).	Je kunt het altijd wijzigen in je profiel (Account).
+You need {n} more coins.	Je hebt nog {n} munten nodig.
+Your account	Jouw account
+Your account was deleted.	Je account is verwijderd.
+Your coins	Jouw munten
+Your friend gets it right away.	Je vriend krijgt het meteen.
+Your game against {name} is starting.	Je partij tegen {name} begint.
+Your name, e-mail, friends and items are erased for good. Your opponents keep the games you played (without your name).	Je naam, e-mailadres, vrienden en items worden definitief gewist. Je tegenstanders houden de partijen die je speelde (zonder je naam).
+balls per game	ballen per partij
+best run ever	hoogste serie ooit
+daily bonus	dagbonus
+entry fee back	inleg terug
+for the game	voor de partij
+for the win	voor de overwinning
+games counted	getelde partijen
+Analysis	Analyse
+The shot analysis isn't available on this server yet.	De stootanalyse is nog niet beschikbaar op deze server.
+Only online accounts have a shot analysis.	Alleen online accounts hebben een stootanalyse.
+Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Speel online om te zien hoe je pot: de analyse verschijnt na nog {n} stoten op een pocket.
+{name} hasn't played enough online games for an analysis yet.	{name} heeft nog niet genoeg online partijen gespeeld voor een analyse.
+1 game	1 partij
+{pct}% of {n} shots at a pocket potted · {games}	{pct}% van {n} stoten op een pocket gepot · {games}
+{made} of {n} potted ({pct})	{made} van {n} gepot ({pct})
+By kind of shot	Per soort stoot
+shots	stoten
+Straight	Recht
+Cut 8–25°	Gesneden 8–25°
+Cut 25–45°	Gesneden 25–45°
+Thin cut 45°+	Dun gesneden 45°+
+Bank	Bandstoot
+Kick	Kickshot
+Combination	Combinatie
+Jump	Sprongstoot
+Massé	Massé
+Break	Afstoot
+By distance	Per afstand
+Short (under 0.75 m)	Kort (tot 0,75 m)
+Medium (to 1.5 m)	Gemiddeld (tot 1,5 m)
+Long (over 1.5 m)	Lang (meer dan 1,5 m)
+left the opponent nothing	lieten de tegenstander niets over
+Breaks	Afstoten
+made a ball	met een gepotte bal
+Potted	Gepot
+Missed	Gemist
+Where and in which pocket	Waar en in welke pocket
+{pocket}: {made} of {n} potted	{pocket}: {made} van {n} gepot
+Where the potted balls were	Waar de gepotte ballen lagen
+Where the missed balls were	Waar de gemiste ballen lagen
+few	weinig
+many	veel
+{made} potted · {missed} missed ({pct})	{made} gepot · {missed} gemist ({pct})
+Top left corner	Hoek linksboven
+Bottom left corner	Hoek linksonder
+Top side pocket	Middenpocket boven
+Bottom side pocket	Middenpocket onder
+Top right corner	Hoek rechtsboven
+Bottom right corner	Hoek rechtsonder
+games left unfinished	onafgemaakte partijen
+potting success	trefzekerheid
+shots with a foul	stoten met een fout
+starts in {n} min	begint over {n} min
+tournament prize	toernooiprijs
+The dark room hides the hall around the table.	De donkere zaal verbergt de ruimte rond de tafel.
+Show the hall	De zaal tonen
+Level {n} · 1 win	Niveau {n} · 1 overwinning
+Level {n} · {w} wins	Niveau {n} · {w} overwinningen
+{left} more online wins with this cue for level {n}. Levels only add marks to the cue.	Nog {left} online overwinningen met deze keu voor niveau {n}. Niveaus voegen alleen markeringen toe aan de keu.
+The top level: this cue has every mark.	Het hoogste niveau: deze keu heeft alle markeringen.
+Your cue {cue} reached level {n}!	Je keu {cue} heeft niveau {n} bereikt!
+Most wins: {cue} (level {n})	Meeste overwinningen: {cue} (niveau {n})
+{games} games · {rate}% won · {balls} balls made	{games} partijen · {rate}% gewonnen · {balls} ballen gepot
+vs	vs
+{from} gave you {item}!	{from} heeft je {item} gegeven!
+You received a gift!	Je hebt een cadeau gekregen!
+From	Van
+To	Aan
+someone	iemand
+A month of VIP	Een maand VIP
+Thank	Bedanken
+Thanked	Bedankt
+They thanked you	Heeft je bedankt
+Use it now	Nu gebruiken
+Later	Later
+OK	OK
+Next ({n} more)	Volgende (nog {n})
+{from} gave you {item}! It's waiting for you in the lounge.	{from} heeft je {item} gegeven! Het ligt voor je klaar in de lounge.
+{name} thanked you for {item}.	{name} bedankt je voor {item}.
+Gifts	Cadeaus
+No gifts yet. Friends can give you items from the shop.	Nog geen cadeaus. Vrienden kunnen je items uit de winkel cadeau geven.
+{item} is yours and already in use.	{item} is van jou en al in gebruik.
+{m}:{s} left	nog {m}:{s}
+{name} invites you to play.	{name} nodigt je uit om te spelen.
+{name} is online.	{name} is online.
+{name} ran out of time.	De tijd van {name} is op.
+{name} received {item}.	{name} heeft {item} ontvangen.
+{n} pts · {g} games	{n} ptn · {g} partijen
+{n} watching · avg {r}	{n} kijken mee · gem. {r}
+{title}: {how}	{title}: {how}
+Olive	Olijf
+Navy	Marineblauw
+Forest	Bosgroen
+Slate grey	Leisteengrijs
+Red wine	Wijnrood
+Burnt orange	Gebrand oranje
+Dusty rose	Oudroze
+Sand	Zand
+Ice blue	IJsblauw
+Lime	Limoen
+Black tie	Black tie
+Cobalt	Kobalt
+Emerald	Smaragd
+Natural maple	Naturel esdoorn
+Beach bar	Strandbar
+Modern	Modern
+English club	Engelse club
+Ebony & gold	Ebbenhout & goud
+Pool hall	Poolzaal
+Industrial loft	Industriële loft
+Steel & oak	Staal & eiken
+Tournament	Toernooi
+Victorian walnut	Victoriaans notenhout
+Ivory deco	Ivoordeco
+Mountain lodge	Berghut
+Neon arcade	Neon-arcade
+Art deco lounge	Art-deco-lounge
+Skyline penthouse	Penthouse met skyline
+Walnut	Notenhout
+Zebrawood	Zebrano
+Bocote	Bocote
+Deep ocean	Diepe oceaan
+Cherry	Kersenhout
+Jade	Jade
+Tiger	Tijger
+Amethyst	Amethist
+Arctic carbon	Arctisch carbon
+Inferno	Inferno
+Obsidian gold	Obsidiaan & goud
+Tan chalk	Beige krijt
+Grey chalk	Grijs krijt
+Orange chalk	Oranje krijt
+Pink chalk	Roze krijt
+Teal chalk	Petrol krijt
+Yellow chalk	Geel krijt
+Black chalk	Zwart krijt
+White chalk	Wit krijt
+Silver chalk	Zilveren krijt
+TV set	TV-set
+Earth tones	Aardetinten
+Ocean	Oceaan
+Sunset	Zonsondergang
+Candy	Snoep
+Pearl	Parel
+Monochrome	Monochroom
+Chrome	Chroom
+Gold rush	Goudkoorts
+No frame	Geen kader
+Bronze	Brons
+Silver	Zilver
+Gold	Goud
+Green felt	Groen vilt
+Mahogany	Mahonie
+Ice	IJs
+Fire	Vuur
+Diamond	Diamant
+VIP crown	VIP-kroon
+Rose gold	Roségoud
+Aqua	Aqua
+Violet	Violet
+Ember	Gloed
+Mint	Mint
+Frost	Rijp
+No effect	Geen effect
+Sparks	Vonken
+Confetti	Confetti
+Shockwave	Schokgolf
+Coin shower	Muntenregen
+Flames	Vlammen
+Royal sparks	Koninklijke vonken
+Tier colour	Klassekleur
+16-player tournaments are for VIP members.	Toernooien met 16 spelers zijn voor VIP-leden.
+A seat opened: you are in the tournament!	Er is een plek vrijgekomen: je doet mee aan het toernooi!
+Entry fees go up to 1000 coins.	Het inleggeld kan oplopen tot 1000 munten.
+Guests can't play for coins.	Gasten kunnen niet om munten spelen.
+Only items sold for coins can be given.	Alleen items die voor munten worden verkocht, kun je cadeau geven.
+Password changed.	Wachtwoord gewijzigd.
+Passwords need 8 or more characters, not only digits.	Wachtwoorden hebben 8 of meer tekens nodig, niet alleen cijfers.
+Recovery e-mail removed.	Herstel-e-mailadres verwijderd.
+Recovery e-mail saved.	Herstel-e-mailadres opgeslagen.
+Something went wrong. Please try again.	Er ging iets mis. Probeer het opnieuw.
+That code is not valid (or the table was closed).	Die code is niet geldig (of de tafel is gesloten).
+That doesn't look like an e-mail address.	Dat lijkt geen e-mailadres.
+That game is over.	Die partij is afgelopen.
+The current password is wrong.	Het huidige wachtwoord is onjuist.
+The server is restarting.	De server wordt herstart.
+The server is restarting: new games start in a moment.	De server wordt herstart: nieuwe partijen beginnen zo.
+The tournament is full: you are on the waiting list.	Het toernooi is vol: je staat op de wachtlijst.
+This replay is not available.	Deze herhaling is niet beschikbaar.
+You can only give items to your friends.	Je kunt alleen items aan je vrienden cadeau geven.
+Your friend already has this item.	Je vriend heeft dit item al.
+16 (VIP)	16 (VIP)
+VIP isn't sold in this version of the game.	VIP wordt in deze versie van het spel niet verkocht.
+In this version of the game, coins are earned by playing:	In deze versie van het spel verdien je munten door te spelen:
+rated games, and a bonus every day you play.	ratingpartijen, en een bonus elke dag dat je speelt.
+Coins are earned by playing:	Munten verdien je door te spelen:
+If you like, you can also buy them:	Als je wilt, kun je ze ook kopen:
+one month	een maand
+already VIP	al VIP
+Give a month to a friend · {p}	Geef een vriend een maand cadeau · {p}
+{from} gave you a month of VIP!	{from} heeft je een maand VIP gegeven!
+{name} received a month of VIP.	{name} heeft een maand VIP ontvangen.
+Your friend is already VIP.	Je vriend is al VIP.
+Game in progress: {n} balls left	Partij bezig: nog {n} ballen
+Continue	Doorgaan
+Missions	Missies
+Board	Prikbord
+Today	Vandaag
+This week	Deze week
+new missions in {t}	nieuwe missies over {t}
+ends in {t}	eindigt over {t}
+{n} days	{n} dagen
+{n} h	{n} u
+{n} min	{n} min
+mission complete	missie voltooid
+Missions count rated games played to the end. The coins arrive as soon as one is complete.	Missies tellen ratingpartijen die zijn uitgespeeld. De munten komen binnen zodra er een voltooid is.
+Nothing on the board right now.	Nu niets op het prikbord.
+Open tournaments	Open toernooien
+{n}/{size} players	{n}/{size} spelers
+starts in {t}	begint over {t}
+entry {n} coins	inleg {n} munten
+See	Bekijken
+Play {n} rated games	Speel {n} ratingpartijen
+Win {n} rated games	Win {n} ratingpartijen
+Pot {n} balls	Pot {n} ballen
+Pot {n} balls with spin	Pot {n} ballen met effect
+Pot 3 balls in a row in one visit	Pot 3 ballen op rij in één beurt
+Win a game without a foul	Win een partij zonder fout
+Pot 3 balls in a row {n} times	Pot {n} keer 3 ballen op rij
+Win {n} games without a foul	Win {n} partijen zonder fout
+TV camera when watching	Tv-camera bij het kijken
+Broadcast angles for other players' games and replays.	Uitzendhoeken bij partijen van anderen en herhalingen.
+System notifications	Systeemmeldingen
+Invites, friends coming online and games starting, while you're away.	Uitnodigingen, vrienden die online komen en partijen die beginnen, terwijl je weg bent.
+{name} starts in a few minutes: get ready!	{name} begint over een paar minuten: maak je klaar!
+{name} starts in a few minutes: there is still room.	{name} begint over een paar minuten: er is nog plaats.
+{name} has started!	{name} is begonnen!
+Momentum	Momentum
+Shot map	Stootkaart
+No shots yet.	Nog geen stoten.
+made	gepot
+missed	gemist
+foul	fout
+See the tournaments	Bekijk de toernooien
+Open the shop	Open de winkel
+See VIP	Bekijk VIP
+See the missions	Bekijk de missies
+A new version of the game is out: update to play online.	Er is een nieuwe versie van het spel: werk bij om online te spelen.
+Update in the Microsoft Store	Bijwerken in de Microsoft Store
+Update now	Nu bijwerken
+Download the new version	Download de nieuwe versie
+New version out	Nieuwe versie uit
+Get the new version to play online	Haal de nieuwe versie om online te spelen
+Cheer for {name}	Moedig {name} aan
+Crowd: {a} for {p0}, {b} for {p1}	Publiek: {a} voor {p0}, {b} voor {p1}
+welcome pack	welkomstpakket
+Welcome pack	Welkomstpakket
+Cue “{cue}”, cloth “{cloth}” and {n} coins · only once, sold nowhere else	Keu ‘{cue}’, laken ‘{cloth}’ en {n} munten · maar één keer, nergens anders te koop
+Lagoon	Lagune
+You already have the welcome pack.	Je hebt het welkomstpakket al.
+Your welcome pack is here!	Je welkomstpakket is er!
+Previous shot (←)	Vorige stoot (←)
+Next shot (→)	Volgende stoot (→)
+Play (Space)	Afspelen (Spatie)
+Pause (Space)	Pauze (Spatie)
+Speed	Snelheid
+Shot {n} of {total}	Stoot {n} van {total}
+For VIP members	Voor VIP-leden
+{n} reactions of your own to send during games	{n} eigen reacties om tijdens partijen te sturen
+Items {a}–{b} of {n}	Items {a}–{b} van {n}
+(message deleted by its author)	(bericht verwijderd door de afzender)
+(message deleted by an administrator)	(bericht verwijderd door een beheerder)
+Delete (it shows as deleted)	Verwijderen (blijft zichtbaar als verwijderd)
+Remove without a trace	Spoorloos verwijderen
+The chat was cleared by {name}.	De chat is gewist door {name}.
+Click again to clear	Klik nogmaals om te wissen
+Clear the chat	Chat wissen
+Players' chat (administrator)	Spelerschat (beheerder)
+Play the computer while you wait	Speel tegen de computer terwijl je wacht
+Looking for an opponent… {t} · the game starts as soon as one is found	Tegenstander zoeken… {t} · de partij begint zodra er een is gevonden
+Stop	Stoppen
+# Coin packs and months of VIP bought in the Microsoft Store (the Store build).
+The Microsoft Store couldn't complete the purchase.	De Microsoft Store kon de aankoop niet voltooien.
+The Microsoft Store couldn't confirm the purchase right now. Its coins arrive the next time you open the shop.	De Microsoft Store kon de aankoop nu niet bevestigen. De munten komen binnen als je de winkel weer opent.
+{n} coins added to your wallet.	{n} munten toegevoegd aan je portemonnee.
+Microsoft is confirming your purchase: the coins arrive in a moment.	Microsoft bevestigt je aankoop: de munten komen zo binnen.
+The purchase hasn't reached us yet. Its coins arrive the next time you open the shop.	De aankoop is nog niet bij ons binnen. De munten komen binnen als je de winkel weer opent.
+Loading prices from the Microsoft Store…	Prijzen laden uit de Microsoft Store…
+Coins can't be bought in this version yet.	In deze versie kun je nog geen munten kopen.
+Finish the purchase in the Microsoft Store window…	Rond de aankoop af in het venster van de Microsoft Store…
+Confirming your purchase…	Je aankoop bevestigen…
+Paid in the Microsoft Store, with your Microsoft account.	Betaald in de Microsoft Store, met je Microsoft-account.
+The Microsoft Store can't be reached right now. Try again in a moment.	De Microsoft Store is nu niet bereikbaar. Probeer het zo opnieuw.
+The Microsoft Store could not confirm the purchase.	De Microsoft Store kon de aankoop niet bevestigen.
+Sign in to the Microsoft Store with your Microsoft account, then open the shop again.	Log in bij de Microsoft Store met je Microsoft-account en open de winkel opnieuw.
+The Microsoft Store couldn't confirm the purchase right now. Your VIP month starts the next time you open the shop.	De Microsoft Store kon de aankoop nu niet bevestigen. Je VIP-maand begint als je de winkel weer opent.
+You are VIP until {d}, and {n} coins were added to your wallet.	Je bent VIP tot {d}, en er zijn {n} munten aan je portemonnee toegevoegd.
+Microsoft is confirming your purchase: your VIP month starts in a moment.	Microsoft bevestigt je aankoop: je VIP-maand begint zo.
+The purchase hasn't reached us yet. Your VIP month starts the next time you open the shop.	De aankoop is nog niet bij ons binnen. Je VIP-maand begint als je de winkel weer opent.
+A month at a time: nothing renews by itself	Per maand: niets wordt automatisch verlengd
+Add a month · {p}	Maand toevoegen · {p}
+A month of VIP · {p}	Een maand VIP · {p}
+The new month starts when this one ends.	De nieuwe maand begint als deze afloopt.
+Trophies	Trofeeën
+No trophies yet.	Nog geen trofeeën.
+Tournament won · {n} players	Toernooi gewonnen · {n} spelers
+The computer tour	De computertour
+All fifteen opponents beaten	Alle vijftien tegenstanders verslagen
+Daily challenge	Dagelijkse uitdaging
+First of {n} players	Eerste van {n} spelers
+Easy shot	Makkelijke stoot
+Fair shot	Redelijke stoot
+Hard shot	Moeilijke stoot
+Very hard shot	Heel moeilijke stoot
+~{n}% chance	~{n}% kans
+No ball goes down as aimed	Zo valt er geen bal
+straight in	recht erin
+{n}° cut	{n}° gesneden
+off one cushion	via één band
+off {n} cushions	via {n} banden
+Make as many balls as you can in one visit: a miss or a foul ends the attempt.	Pot zo veel ballen als je kunt in één beurt: een misser of een fout beëindigt de poging.
+The same table for everyone, all day	Dezelfde tafel voor iedereen, de hele dag
+{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	{n} pogingen per dag. Speel de tafel leeg voor {coins} munten; de dagwinnaar krijgt een trofee.
+A new table in {h} h {m} min	Nieuwe tafel over {h} u {m} min
+Sign in to take part: the server keeps the day's table.	Log in om mee te doen: de server houdt de dagranglijst bij.
+Balls on today's table	Ballen op de tafel van vandaag
+Attempts left	Pogingen over
+{n} balls · #{rank}	{n} ballen · #{rank}
+{n} balls	{n} ballen
+not yet	nog niet
+Your best today	Je beste van vandaag
+No attempts left today: come back tomorrow.	Geen pogingen meer vandaag: kom morgen terug.
+The attempt could not be counted.	De poging kon niet worden geteld.
+Setting up the table…	Tafel klaarzetten…
+Start an attempt	Poging starten
+Starting uses an attempt, even if you leave the table.	Starten kost een poging, ook als je de tafel verlaat.
+Loading today's table…	Tafel van vandaag laden…
+Today's table	Ranglijst van vandaag
+{n} players	{n} spelers
+Nobody has played today's table yet. Be the first!	Nog niemand heeft de tafel van vandaag gespeeld. Wees de eerste!
+Table cleared!	Tafel leeg!
+{n} of {total} balls	{n} van {total} ballen
+Sending your attempt to the server…	Je poging naar de server sturen…
+Counted: {n} balls · +{coins} coins	Geteld: {n} ballen · +{coins} munten
+Counted: {n} balls	Geteld: {n} ballen
+See today's table	Bekijk de ranglijst
+Table cleared! +{n} coins	Tafel leeg! +{n} munten
+Daily challenge: {n} of {total} balls made	Dagelijkse uitdaging: {n} van {total} ballen gepot
+1 player	1 speler
+Phoenix	Feniks
+Carrara marble	Carraramarmer
+Dragon scale	Drakenschub
+Galaxy	Melkweg
+Ruby throne	Robijnen troon
+Closing the game now is leaving it: extra rating lost and a wait to play again.	Het spel nu sluiten is de partij verlaten: extra ratingverlies en een wachttijd voor je weer kunt spelen.
+You left a game in progress: you can play online again in {n} min.	Je hebt een lopende partij verlaten: je kunt over {n} min weer online spelen.
+Quick phrases	Snelle berichten
+Good luck, have fun!	Succes en veel plezier!
+Nice shot!	Mooie stoot!
+Great safety!	Sterke safety!
+Unlucky!	Pech!
+Oops!	Oeps!
+Wow!	Wauw!
+That was close!	Dat scheelde weinig!
+Take your time.	Neem je tijd.
+Sorry!	Sorry!
+Thanks!	Bedankt!
+Well played!	Goed gespeeld!
+Good game!	Goede partij!
+Rematch?	Revanche?
+I have to go, thanks for the game!	Ik moet gaan, bedankt voor de partij!
+Practise while you wait	Oefen terwijl je wacht
+A new rack.	De ballen staan weer klaar.
+Level {n}! (+{xp} XP)	Niveau {n}! (+{xp} XP)
++{xp} XP	+{xp} XP
+Level {n} · {into} / {span} XP to the next	Niveau {n} · {into} / {span} XP tot het volgende
+Level {n}	Niveau {n}
+Hi! I watched a lot of videos, I'm ready!	Hoi! Ik heb heel veel video's gekeken, ik ben er klaar voor!
+Be gentle, okay?	Doe je een beetje rustig aan?
+Whoa, how did you do that?	Wow, hoe deed je dat?
+Teach me that one later!	Dat moet je me straks leren!
+Phew! My turn!	Pff! Mijn beurt!
+Even you miss? Good to know.	Mis jij ook weleens? Goed om te weten.
+A free ball! What do I do with it?	Een gratis bal! Wat moet ik daarmee?
+Did you see that?! It went in!	Zag je dat?! Hij ging erin!
+Beginner's luck counts too!	Beginnersgeluk telt ook!
+Oops. That was a practice shot.	Oeps. Dat was een oefenstoot.
+Aim, Leo, aim...	Richten, Leo, richten...
+Sorry! I touched the wrong one again.	Sorry! Ik raakte weer de verkeerde.
+I WON? I'm calling my mum!	HEB IK GEWONNEN? Ik bel mijn moeder!
+Good game! I'm getting better, right?	Goede partij! Ik word beter, toch?
+Saturday, a table and good company. Let's play!	Zaterdag, een tafel en goed gezelschap. Spelen maar!
+Nice one!	Mooi!
+Oh, you're good. I'll pay attention now.	Oh, jij bent goed. Nu ga ik opletten.
+Happens to the best of us.	Dat overkomt de besten.
+Don't worry, it's just a game!	Geen zorgen, het is maar een spelletje!
+Thanks for the gift!	Bedankt voor het cadeautje!
+Yes! Weekend skills!	Ja! Weekendtalent!
+Lucky me!	Geluk gehad!
+Hm, where was I aiming?	Hm, waar was ik op aan het richten?
+Too much chatting, not enough aiming.	Te veel kletsen, te weinig richten.
+Oops, my bad!	Oeps, mijn fout!
+That was fun! Same time next weekend?	Dat was leuk! Volgend weekend zelfde tijd?
+Well played! Rematch over a lemonade?	Goed gespeeld! Revanche onder het genot van een limonade?
+Four cushions, endless possibilities.	Vier banden, eindeloze mogelijkheden.
+Straight in? So... direct.	Recht erin? Wel erg... direct.
+Nice, but a bank would have been prettier.	Mooi, maar via de band was mooier geweest.
+You should have used the cushion.	Je had de band moeten gebruiken.
+The rail was right there, asking for it.	De band lag daar gewoon, die vroeg erom.
+The table didn't like that.	Dat vond de tafel niet leuk.
+Off the rail and in. Art!	Via de band en erin. Kunst!
+Geometry never lies.	Geometrie liegt nooit.
+The angle was right. The cushion disagreed.	De hoek klopte. De band was het er niet mee eens.
+One diamond off. Just one!	Eén diamant ernaast. Maar één!
+Too much imagination, not enough contact.	Te veel fantasie, te weinig contact.
+A masterpiece, if I may say so.	Een meesterwerk, al zeg ik het zelf.
+Well played. Now try it off two rails.	Goed gespeeld. Probeer het nu via twee banden.
+I hope these balls are made of steel.	Ik hoop dat deze ballen van staal zijn.
+Soft touch, huh? Not my style.	Zachtjes aantikken, hè? Niet mijn stijl.
+Hit it harder next time!	Stoot de volgende keer harder!
+Too gentle! Power solves everything.	Te zacht! Kracht lost alles op.
+HA!	HA!
+My table now. Cover your ears.	Nu is de tafel van mij. Oren dicht.
+BOOM!	BOEM!
+Did you hear that pocket?	Hoorde je die pocket?
+Too much power? No such thing.	Te veel kracht? Bestaat niet.
+The pocket moved.	De pocket bewoog.
+The ball flew. It happens. A lot.	De bal vloog weg. Gebeurt. Vaak.
+Power wins again! BOOM!	Kracht wint weer! BOEM!
+Fine, finesse works too. Sometimes.	Goed, finesse werkt ook. Soms.
+Take your time. I have all day.	Neem je tijd. Ik heb de hele dag.
+Acceptable.	Aanvaardbaar.
+Enjoy it while it lasts.	Geniet ervan zolang het duurt.
+Patience is a virtue. Not yours, apparently.	Geduld is een schone zaak. Niet de jouwe, zo te zien.
+Thank you.	Dank je.
+Sloppy.	Slordig.
+Steady wins.	Wie gestaag speelt, wint.
+One at a time.	Eén voor één.
+Hm. I'll leave you nothing anyway.	Hm. Ik laat je toch niets over.
+Intentional. Probably.	Met opzet. Waarschijnlijk.
+Unacceptable. Of me.	Onaanvaardbaar. Van mij.
+As I said: patience.	Zoals ik zei: geduld.
+You got through the wall. I'm impressed.	Je bent door de muur gekomen. Ik ben onder de indruk.
+I've been playing since before these balls were plastic.	Ik speel al sinds de tijd dat deze ballen nog geen plastic waren.
+Good stroke. Reminds me of a fellow in '78.	Mooie stoot. Doet me denken aan een knul in '78.
+Smooth. Very smooth.	Soepel. Heel soepel.
+Keep your head down, kid.	Hoofd omlaag, jochie.
+The cue ball doesn't lie.	De speelbal liegt niet.
+Ah, a little present. Thank you kindly.	Ah, een cadeautje. Heel vriendelijk.
+Like riding a bicycle.	Net als fietsen.
+Still got it.	Ik kan het nog steeds.
+The eyes aren't what they used to be.	De ogen zijn niet meer wat ze geweest zijn.
+In my day the pockets were bigger.	Vroeger waren de pockets groter.
+Even old pros slip.	Ook oude rotten glijden weleens uit.
+Experience, my friend. Experience.	Ervaring, vriend. Ervaring.
+You've got a future in this game.	Jij hebt toekomst in dit spel.
+Me? Oh, I hardly ever play...	Ik? Och, ik speel bijna nooit...
+Lucky! Do it again, I dare you.	Geluk! Doe het nog eens, als je durft.
+Ooh, someone's been practising.	Ooh, er heeft iemand geoefend.
+Aw, so close! Bless.	Ah, zo dichtbij! Schattig.
+Want me to show you how?	Zal ik je laten zien hoe het moet?
+Thank you, sweetie.	Dank je, schat.
+Oops, did I do that?	Oeps, deed ik dat?
+Must be beginner's luck. Again.	Zal wel beginnersgeluk zijn. Alweer.
+Missed on purpose. Keeps it interesting.	Expres gemist. Dan blijft het spannend.
+Just warming up.	Ik ben nog maar aan het opwarmen.
+Oh dear, how clumsy of me. Wink.	Och, wat onhandig van me. Knipoog.
+Hardly ever play, I said. Hardly.	Bijna nooit, zei ik. Bijna.
+Fine, you got me. This time.	Goed, je hebt me. Deze keer.
+Friction, momentum, spin. Let us begin.	Wrijving, impuls, effect. Laten we beginnen.
+A fine cut. About thirty degrees, I'd say.	Mooi gesneden. Zo'n dertig graden, zou ik zeggen.
+Textbook.	Volgens het boekje.
+You underestimated the throw.	Je hebt de afwijking onderschat.
+Interesting. Statistically expected.	Interessant. Statistisch te verwachten.
+The cue ball followed the laws of physics, not your plan.	De speelbal volgde de wetten van de natuurkunde, niet jouw plan.
+As calculated.	Zoals berekend.
+Elastic collision, elegant result.	Elastische botsing, elegant resultaat.
+An error in my measurement.	Een fout in mijn meting.
+I'll revise the model.	Ik herzie het model.
+Hm. Unexpected spin.	Hm. Onverwacht effect.
+The numbers were on my side.	De cijfers stonden aan mijn kant.
+A result outside my predictions. Well done.	Een resultaat buiten mijn voorspellingen. Goed gedaan.
+Focus.	Focus.
+Clean.	Strak.
+Not bad.	Niet slecht.
+Half a millimetre.	Een halve millimeter.
+Breathe before you shoot.	Adem in voor je stoot.
+Careless.	Onzorgvuldig.
+Target down.	Doel uitgeschakeld.
+Centre pocket.	Midden in de pocket.
+Hm. Recalibrating.	Hm. Opnieuw kalibreren.
+That never happens.	Dat gebeurt nooit.
+Unacceptable.	Onaanvaardbaar.
+Precision wins.	Precisie wint.
+Good shooting.	Goed geschoten.
+Welcome to my table. Enjoy the show.	Welkom aan mijn tafel. Geniet van de show.
+Very good. You've done your homework.	Heel goed. Je hebt je huiswerk gedaan.
+Applause for the challenger!	Applaus voor de uitdager!
+Pressure. It gets to everyone.	Druk. Iedereen krijgt er last van.
+Thank you for the table.	Bedankt voor de tafel.
+A champion never refuses a gift.	Een kampioen slaat nooit een cadeau af.
+Naturally.	Uiteraard.
+That's how it's done.	Zo doe je dat.
+Even champions give the crowd a chance.	Ook kampioenen gunnen het publiek een kans.
+Leaving you something, out of courtesy.	Ik laat je iets over, uit beleefdheid.
+A rare sight. Remember it.	Een zeldzaam gezicht. Onthoud het.
+The title stays with me. Good game.	De titel blijft bij mij. Goede partij.
+Remarkable. You've earned my respect.	Opmerkelijk. Je hebt mijn respect verdiend.
+Calibration complete. Good luck, human.	Kalibratie voltooid. Succes, mens.
+Shot registered: successful.	Stoot geregistreerd: geslaagd.
+Probability of my victory: increasing.	Kans op mijn overwinning: stijgend.
+Foul detected. Processing penalty.	Fout gedetecteerd. Straf wordt verwerkt.
+Executed as planned.	Uitgevoerd volgens plan.
+Error. Recalculating.	Storing. Herberekenen.
+Malfunction. Please disregard.	Defect. Gelieve te negeren.
+Game complete. Thank you for playing.	Partij voltooid. Bedankt voor het spelen.
+Defeat acknowledged. Well played.	Nederlaag erkend. Goed gespeeld.
+Drills	Oefeningen
+Exercises with stars	Oefeningen met sterren
+{s} / {max} stars	{s} / {max} sterren
+Stars at {a}, {b} and {c}	Sterren bij {a}, {b} en {c}
+Your best: {n} of {total}	Je beste: {n} van {total}
+Not tried yet.	Nog niet geprobeerd.
+Start the drill	Oefening starten
+Sign in to keep your stars in your account.	Log in om je sterren in je account te bewaren.
+# Five more computer opponents: Tito, Inês, Diego, Amara and Yuri.

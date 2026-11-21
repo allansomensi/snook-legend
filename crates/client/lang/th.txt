@@ -1,0 +1,6 @@
+# Snook Legend: Brazilian Portuguese.
+# One text per line: the English text (as written in the code), a tab, the translation.
+# Placeholders like {name} must stay as they are; \n is a new line.
+# Daily (correspondence) games.
+# Coin packs and months of VIP bought in the Microsoft Store (the Store build).
+# Five more computer opponents: Tito, Inês, Diego, Amara and Yuri.

@@ -1929,7 +1929,7 @@ Accounts, purchases and refunds, the rules of the online game.	Cuentas, compras 
 What the game keeps, and your rights.	Lo que el juego guarda, y tus derechos.
 Open	Abrir
 Credits	Créditos
-Fonts: DejaVu. Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Fuentes: DejaVu. Banderas: flag-icons (MIT). Reacciones y emojis: Twemoji (CC-BY 4.0). Nombres de países: iso-codes (LGPL-2.1). El código del juego es abierto (MIT).
+Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Fuentes: DejaVu y Noto (OFL). Banderas: flag-icons (MIT). Reacciones y emojis: Twemoji (CC-BY 4.0). Nombres de países: iso-codes (LGPL-2.1). El código del juego es abierto (MIT).
 The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	El chat está apagado para menores de 18 años. Un tutor puede encenderlo debajo del chat del salón.
 No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	El saque no tocó ninguna bola: {next} saca, con la blanca en mano detrás de la línea de cabecera.
 The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	La blanca entró en el saque sin ninguna bola metida: {next} saca, con la blanca en mano detrás de la línea de cabecera.
@@ -1940,6 +1940,10 @@ Brazilian	Brasileña
 Official	Oficial
 Brazilian rules	Regla brasileña
 Official rules	Regla oficial
+Brazilian rules (inside a sentence)	regla brasileña
+Official rules (inside a sentence)	regla oficial
+Brazilian (inside a sentence)	brasileña
+Official (inside a sentence)	oficial
 As played in Brazil's bars	Como en los bares de Brasil
 As played in tournaments (WPA)	Como en los torneos (WPA)
 on the Brazilian rules	con la regla brasileña

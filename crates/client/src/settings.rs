@@ -11,7 +11,7 @@ use macroquad::prelude::*;
 use crate::paint::{draw_circle, draw_circle_lines, draw_line, draw_rectangle, draw_triangle};
 
 use crate::config::{AimGuide, Config, DEFAULT_SERVER, Quality};
-use crate::i18n::{Lang, t, tw};
+use crate::i18n::{t, tw};
 use crate::icons::Icon;
 use crate::keys::{self, Action, Bindings, Conflict};
 use crate::ui::{ALERT, BORDER, CREAM, Drag, GOLD, MUTED, Ui, rrect, rrect_lines};
@@ -217,7 +217,8 @@ impl SettingsScreen {
         let advanced = self.advanced;
         // "What's new" is over the settings: nothing under it reacts.
         let dialog =
-            (self.whats_new.is_some() || crate::avatars::is_open()).then(|| ui.suspend_input());
+            (self.whats_new.is_some() || crate::avatars::is_open() || crate::languages::is_open())
+                .then(|| ui.suspend_input());
         // Setting a key when the frame began: a press elsewhere only stops it.
         let was_capturing = self.capture.is_some();
         let esc_used = dialog.is_none() && self.capture_keys(ui, &mut config.keys);
@@ -375,6 +376,9 @@ impl SettingsScreen {
             }
             // The chosen picture is saved (and sent to the account) by the game.
             crate::avatars::draw_picker(ui);
+            if let Some(lang) = crate::languages::draw_picker(ui, config.language) {
+                config.language = lang;
+            }
         }
         keys::set_capturing(self.capture.is_some());
         action
@@ -525,12 +529,10 @@ impl SettingsScreen {
                         crate::avatars::open();
                     }
                 }
-                if let Some((_, c)) = rows.row(ui, t("Language"), "", Control::Wide(32.0)) {
-                    let names: Vec<&str> = Lang::ALL.iter().map(|l| short_name(*l)).collect();
-                    let sel = Lang::ALL.iter().position(|l| *l == config.language).unwrap_or(0);
-                    if let Some(i) = ui.segmented(c, &names, sel) {
-                        config.language = Lang::ALL[i];
-                    }
+                if let Some((_, c)) = rows.row(ui, t("Language"), "", Control::Wide(34.0))
+                    && crate::languages::field(ui, c, config.language)
+                {
+                    crate::languages::open();
                 }
 
                 switch_row(
@@ -958,14 +960,6 @@ fn defaults_keeping(config: &Config) -> Config {
         rules: keep.rules,
         graphics_checked: true,
         ..Config::default()
-    }
-}
-
-/// The language's name as the selector shows it (short enough for its cell).
-fn short_name(lang: Lang) -> &'static str {
-    match lang {
-        Lang::Portuguese => "Português",
-        other => other.name(),
     }
 }
 

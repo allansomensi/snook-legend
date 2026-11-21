@@ -1,0 +1,2056 @@
+# Snook Legend: Brazilian Portuguese.
+# One text per line: the English text (as written in the code), a tab, the translation.
+# Placeholders like {name} must stay as they are; \n is a new line.
+{name} is on the 8: called pocket {pocket}	{name} 님 8번 공 차례: 지정 포켓 {pocket}
+On the 8-ball: {pocket} pocket	8번 공 차례: {pocket} 포켓
+Show ping	핑 표시
+Your connection's delay, in online games.	온라인 게임의 연결 지연 시간이에요.
+Reactions	리액션
+Shop	상점
+Cloth	테이블 천
+Cues	큐
+Chalk	초크
+Balls	공
+Coins	코인
+coins	코인
+Sign in to buy and use items. Here is what there is:	아이템을 구매하고 사용하려면 로그인하세요. 이런 아이템이 있어요:
+In use	사용 중
+Use	사용
+Buy	구매
+{n} short	{n} 부족
+{n} coins	{n} 코인
+Not enough coins: get more in the Coins tab.	코인이 부족해요. 코인 탭에서 더 받으세요.
+VIP only	VIP 전용
+free	무료
+yours	보유 중
+achievement	업적
+Coins can't be bought on this server yet.	이 서버에서는 아직 코인을 구매할 수 없어요.
++{n} bonus	+{n} 보너스
+Payment opens in your browser (card, Pix…), on Stripe's secure page.	결제는 브라우저의 Stripe 보안 페이지에서 진행돼요(카드, Pix…).
+Coins arrive in a moment; they are only used for items in the game.	코인은 곧 지급되며, 게임 내 아이템에만 사용할 수 있어요.
+Exclusive items: {list}	전용 아이템: {list}
+{n} coins every month	매달 {n} 코인
+Cancel whenever you want: VIP lasts until the end of the paid month	언제든 해지할 수 있어요. VIP는 결제한 달의 마지막 날까지 유지돼요
+You are VIP until {d}.	{d}까지 VIP예요.
+Manage subscription	구독 관리
+Become VIP · {p}	VIP 가입 · {p}
+VIP can't be bought on this server yet.	이 서버에서는 아직 VIP를 구매할 수 없어요.
+The payment page opened in your browser.	브라우저에서 결제 페이지가 열렸어요.
+Could not open the browser.	브라우저를 열 수 없어요.
+Tournament green	토너먼트 그린
+Electric blue	일렉트릭 블루
+Burgundy	버건디
+Charcoal	차콜
+Teal	틸
+Royal purple	로열 퍼플
+Camel	카멜
+Midnight	미드나이트
+Champion's red	챔피언 레드
+Classic	클래식
+Rosewood	로즈우드
+Ebony & silver	에보니 & 실버
+Carbon	카본
+Ivory inlay	상아 상감
+Crown	크라운
+Jewels	보석
+Blue chalk	파란 초크
+Green chalk	초록 초크
+Red chalk	빨간 초크
+Purple chalk	보라 초크
+Gold chalk	골드 초크
+Vintage	빈티지
+Pastel	파스텔
+Neon	네온
+You already have this item.	이미 가지고 있는 아이템이에요.
+Not enough coins.	코인이 부족해요.
+The purchase failed; no coins were taken.	구매에 실패했어요. 코인은 차감되지 않았어요.
+No such item.	존재하지 않는 아이템이에요.
+This item can't be bought with coins.	이 아이템은 코인으로 구매할 수 없어요.
+You don't have this item.	보유하지 않은 아이템이에요.
+Purchases are not available.	지금은 구매할 수 없어요.
+This pack is not on sale.	판매 중인 팩이 아니에요.
+The payment page could not be opened. Try again in a moment.	결제 페이지를 열 수 없어요. 잠시 후 다시 시도하세요.
+You are already VIP.	이미 VIP예요.
+There is no subscription to manage.	관리할 구독이 없어요.
+The page could not be opened. Try again in a moment.	페이지를 열 수 없어요. 잠시 후 다시 시도하세요.
+Coins added to your wallet.	지갑에 코인이 추가됐어요.
+Welcome to VIP!	VIP가 되신 것을 환영해요!
+Slow down a little.	조금 천천히 해 주세요.
+You can't do that.	그렇게 할 수 없어요.
+There are too many notes right now. Try again in a few minutes.	지금은 게시판에 모집글이 너무 많아요. 몇 분 후 다시 시도하세요.
+A moderator took down your note.	운영자가 회원님의 모집글을 내렸어요.
+A moderator cleared your status message.	운영자가 회원님의 상태 메시지를 지웠어요.
+Status message cleared.	상태 메시지를 지웠어요.
+VIP	VIP
+Play now	바로 플레이
+Find an opponent of your level automatically	실력이 비슷한 상대를 자동으로 찾아요
+Looking for an opponent… {t}	상대를 찾는 중… {t}
+any rating	레이팅 무관
+rating ±{n} · {mode}	레이팅 ±{n} · {mode}
+Potting success	포켓 성공률
+Balls made	넣은 공
+Best run	최다 연속 포켓
+Fouls	파울
+seen just now	방금 접속
+seen {n} min ago	{n}분 전 접속
+seen {n} h ago	{n}시간 전 접속
+seen yesterday	어제 접속
+seen {n} days ago	{n}일 전 접속
+seen {n} months ago	{n}개월 전 접속
+just now	방금
+{n} min ago	{n}분 전
+{n} h ago	{n}시간 전
+yesterday	어제
+{n} days ago	{n}일 전
+Game history	게임 기록
+Nothing yet.	아직 없어요.
+Fine aim: click the arrows, or drag here	미세 조준: 화살표를 클릭하거나 여기를 드래그하세요
+{n} watching	{n}명 관전 중
+Watching {name}	{name} 님 관전 중
+Your reactions reach the table quietly.	리액션은 테이블에 조용히 전달돼요.
+Stop watching	관전 종료
+If they play again, you keep watching.	다시 게임을 하면 계속 관전해요.
+Your friend left the table.	친구가 테이블을 떠났어요.
+Your friend isn't playing right now.	친구가 지금 게임 중이 아니에요.
+You can only watch your friends.	친구의 게임만 관전할 수 있어요.
+You can't watch this game.	이 게임은 관전할 수 없어요.
+{n} points to {tier}	{tier}까지 {n}점
+Top tier	최고 티어
+Reactions {n}/{total}	리액션 {n}/{total}
+Haunted table	유령 테이블
+Win a rated game during Halloween (Oct 24 – Nov 2).	핼러윈 기간(10월 24일~11월 2일)에 레이팅 게임에서 승리하세요.
+Winter league	윈터 리그
+Win a rated game over the holidays (Dec 15 – Jan 6).	연말연시(12월 15일~1월 6일)에 레이팅 게임에서 승리하세요.
+Fireworks	불꽃놀이
+Win a rated game at the turn of the year (Dec 31 – Jan 1).	해가 바뀔 때(12월 31일~1월 1일) 레이팅 게임에서 승리하세요.
+Shows where the object ball and the cue ball go (only in free games and practice).	적구와 수구가 어디로 가는지 보여 줘요(자유 게임과 연습에서만).
+{n} online · ping {ms} ms	{n}명 접속 중 · 핑 {ms} ms
+Right-drag · Wheel	우클릭 드래그 · 휠
+Win %	승률
+Reset the camera: top view, no zoom	카메라 초기화: 탑뷰, 줌 없음
+{name} sank the 8-ball	{name} 님이 8번 공을 넣었어요
+{name} sank the 8 too early	{name} 님이 8번 공을 너무 일찍 넣었어요
+{name} sank the 8 in the wrong pocket	{name} 님이 8번 공을 잘못된 포켓에 넣었어요
+{name} fouled on the 8	{name} 님이 8번 공을 넣으며 파울했어요
+{name} knocked the 8 off the table	{name} 님이 8번 공을 테이블 밖으로 내보냈어요
+{name} resigned	{name} 님이 기권했어요
+{name} left the game	{name} 님이 게임을 나갔어요
+{winner} wins! ({how})	{winner} 님 승리! ({how})
+#{n} in the world	세계 {n}위
+3–16 letters, digits or underscores.	문자, 숫자, 밑줄(_)로 3–16자.
+No lines on the table: aim by eye, along the cue.	테이블에 선이 없어요. 큐를 따라 눈으로 조준하세요.
+No guide	가이드 없음
+Only a short line from the cue ball.	수구에서 나가는 짧은 선만 보여 줘요.
+Accept friend	친구 수락
+Achievement unlocked: {title}	업적 달성: {title}
+Achievements {n}/{total}	업적 {n}/{total}
+Add	추가
+Add a friend by username	사용자 이름으로 친구 추가
+Add friend	친구 추가
+Against the computer	컴퓨터와 대전
+All tournaments	모든 토너먼트
+Amateur	아마추어
+At least 8 characters. Use a password you don't use elsewhere.	8자 이상. 다른 곳에서 쓰지 않는 비밀번호를 사용하세요.
+At least two players are needed.	플레이어가 2명 이상 필요해요.
+Back	뒤로
+Black ball	블랙 볼
+Block	차단
+Break and run	브레이크 앤 런
+Break and run 10 times.	브레이크 앤 런을 10번 달성하세요.
+Can't listen for games here: join by address below.	여기서는 게임을 찾을 수 없어요. 아래에서 주소로 참가하세요.
+Cancel request	요청 취소
+Cancel tournament	토너먼트 취소
+Casual	친선
+Centurion	센추리온
+Champion	챔피언
+Champion: {name}	챔피언: {name}
+Change country	국가 변경
+Add a status message	상태 메시지 추가
+A line about you	나를 소개하는 한 줄
+Save (Enter)	저장 (Enter)
+Cancel (Esc)	취소 (Esc)
+Change your status message	상태 메시지 변경
+Clear the status message	상태 메시지 지우기
+Cheating or abuse	부정행위 또는 악용
+Choose…	선택…
+Click again to block	한 번 더 클릭하면 차단돼요
+Close	닫기
+Closer	클로저
+Competitor	도전자
+Connecting to the server…	서버에 연결하는 중…
+Could not host a game: {e}	게임을 열 수 없어요: {e}
+Country	국가
+Create	만들기
+Create a tournament	토너먼트 만들기
+Don't show a flag	국기 표시 안 함
+No country found.	국가를 찾을 수 없어요.
+Dynasty	왕조
+Eight is enough	8이면 충분해
+Executioner	처형인
+Expert	전문가
+Familiar face	낯익은 얼굴
+Final	결승
+Finish your game first.	먼저 진행 중인 게임을 끝내세요.
+First blood	첫 승
+First break	첫 브레이크
+Friend request sent.	친구 요청을 보냈어요.
+Friends	친구
+# Daily (correspondence) games.
+daily game	데일리 게임
+Daily	데일리
+Daily game	데일리 게임
+Daily games	데일리 게임
+Challenge a player by username	사용자 이름으로 플레이어에게 도전
+Challenge to a daily game	데일리 게임 도전 신청
+3 days for each turn	차례마다 3일
+No daily games yet. Challenge a friend: each of you plays a turn whenever you can.	아직 데일리 게임이 없어요. 친구에게 도전해 보세요. 각자 시간 날 때 차례를 진행하면 돼요.
+challenges you · {kind}	도전 신청 받음 · {kind}
+waiting for an answer · {kind} · {time} left	응답 대기 중 · {kind} · {time} 남음
+your turn · {time} left	내 차례 · {time} 남음
+their turn · {time} left	상대 차례 · {time} 남음
+won · {how}	승리 · {how}
+lost · {how}	패배 · {how}
+ran out of time	시간 초과
+the opponent ran out of time	상대 시간 초과
+open table	오픈 테이블
+You: {mine}, {a} left · {name}: {theirs}, {b} left	나: {mine}, {a}개 남음 · {name}: {theirs}, {b}개 남음
+Look	보기
+Skip	건너뛰기
+Replaying {name}'s turn	{name} 님의 차례 다시 보기
+Stroke {n} of {total}	샷 {n}/{total}
+Turn sent	차례 전송됨
+Turn sent.	차례를 보냈어요.
+Waiting for {name} to play	{name} 님의 플레이를 기다리는 중
+{name} has {time} to play. You'll be told when it's your turn.	{name} 님에게 {time}의 시간이 있어요. 내 차례가 되면 알려 드릴게요.
+{time} left to play. You'll be told when it's your turn.	플레이 시간이 {time} 남았어요. 내 차례가 되면 알려 드릴게요.
+Back to daily games	데일리 게임으로 돌아가기
+Your game is saved: come back whenever you like.	게임이 저장됐어요. 언제든 다시 오세요.
+{d} d {h} h	{d}일 {h}시간
+{name} ran out of time	{name} 님의 시간이 초과됐어요
+This game can't be shown.	이 게임은 표시할 수 없어요.
+A daily game is waiting for you	데일리 게임이 기다리고 있어요
+{n} daily games are waiting for you	데일리 게임 {n}개가 기다리고 있어요
+{name} challenges you to a rated daily game.	{name} 님이 레이팅 데일리 게임을 신청했어요.
+{name} challenges you to a casual daily game.	{name} 님이 친선 데일리 게임을 신청했어요.
+{name} accepted your daily game.	{name} 님이 데일리 게임 신청을 수락했어요.
+{name} declined your daily game.	{name} 님이 데일리 게임 신청을 거절했어요.
+{name} withdrew their daily game challenge.	{name} 님이 데일리 게임 신청을 취소했어요.
+Your turn in the daily game against {name}.	{name} 님과의 데일리 게임에서 내 차례예요.
+{name} ran out of time: you won the daily game.	{name} 님의 시간이 초과됐어요. 데일리 게임에서 승리했어요.
+You won the daily game against {name}!	{name} 님과의 데일리 게임에서 승리했어요!
+You ran out of time in the daily game against {name}.	{name} 님과의 데일리 게임에서 시간이 초과됐어요.
+You lost the daily game against {name}.	{name} 님과의 데일리 게임에서 패배했어요.
+Challenge sent.	도전 신청을 보냈어요.
+Daily games need an account.	데일리 게임은 계정이 있어야 해요.
+No such game.	존재하지 않는 게임이에요.
+That challenge is no longer valid.	더 이상 유효하지 않은 도전 신청이에요.
+That player already challenged you: answer their challenge.	그 플레이어가 이미 도전을 신청했어요. 그 신청에 답해 주세요.
+That player has too many challenges waiting.	그 플레이어에게 대기 중인 도전 신청이 너무 많아요.
+That player has too many daily games going on.	그 플레이어는 진행 중인 데일리 게임이 너무 많아요.
+That player is not accepting challenges.	그 플레이어는 도전 신청을 받지 않아요.
+This game can't be played right now.	지금은 이 게임을 플레이할 수 없어요.
+This game changed meanwhile: open it again.	그사이에 게임이 바뀌었어요. 다시 열어 주세요.
+This game is over.	이미 끝난 게임이에요.
+You already challenged that player.	이미 그 플레이어에게 도전을 신청했어요.
+You already have a game going on against that player.	그 플레이어와 이미 진행 중인 게임이 있어요.
+You blocked that player.	차단한 플레이어예요.
+You can't challenge yourself.	자신에게는 도전할 수 없어요.
+You have as many daily games as you can play at once.	동시에 플레이할 수 있는 데일리 게임이 가득 찼어요.
+You have too many challenges waiting for an answer.	응답을 기다리는 도전 신청이 너무 많아요.
+You're sending challenges too quickly.	도전 신청을 너무 빨리 보내고 있어요.
+Your time for this turn ran out.	이번 차례의 시간이 초과됐어요.
+Games	게임
+Games on your network	내 네트워크의 게임
+Give the tournament a name (at least 3 characters).	토너먼트 이름을 지어 주세요(3자 이상).
+Good company	좋은 친구
+Grandmaster	그랜드마스터
+Guests can only join LAN games. Create an account.	게스트는 LAN 게임에만 참가할 수 있어요. 계정을 만드세요.
+Guests can't play rated tournaments.	게스트는 레이팅 토너먼트에 참가할 수 없어요.
+Guests don't have this.	게스트는 이용할 수 없어요.
+Harassment	괴롭힘
+Hat trick	해트트릭
+Have 10 friends.	친구 10명을 사귀세요.
+Have an account for 30 days.	계정을 30일 동안 유지하세요.
+Have an account for a year.	계정을 1년 동안 유지하세요.
+Host a game on this computer	이 컴퓨터에서 게임 열기
+Host {host} · {n}/{size} players · {kind}	호스트 {host} · {n}/{size}명 · {kind}
+Hot hand	핫 핸드
+Hustler	허슬러
+Invalid shot.	잘못된 샷이에요.
+Join	참가
+Joining the LAN game…	LAN 게임에 참가하는 중…
+Just for fun	그냥 재미로
+L	패
+LAN game	LAN 게임
+LAN game hosted by {name}.	{name} 님이 연 LAN 게임이에요.
+LAN games don't change ratings.	LAN 게임은 레이팅에 반영되지 않아요.
+Legend	레전드
+Lives at the table	당구장 붙박이
+Loading the profile…	프로필을 불러오는 중…
+Loading…	불러오는 중…
+Local network	로컬 네트워크
+Locked	잠김
+Looking for games	게임 찾는 중
+Make a friend.	친구를 사귀세요.
+Master	마스터
+Name	이름
+Names have 3–16 letters, digits or underscores.	이름은 문자, 숫자, 밑줄(_)로 3–16자여야 해요.
+New account	새 계정
+I have an account	계정이 있어요
+New here? Choose “New account”: it takes ten seconds.	처음이세요? “새 계정”을 선택하세요. 10초면 돼요.
+New tournament	새 토너먼트
+No friends yet. Add someone you played with!	아직 친구가 없어요. 함께 플레이한 사람을 추가해 보세요!
+No games yet.	아직 게임이 없어요.
+No limit	제한 없음
+No open tables. Open one and others can sit down.	열린 테이블이 없어요. 테이블을 열면 다른 사람이 앉을 수 있어요.
+No other open tables right now.	지금은 다른 열린 테이블이 없어요.
+No such player.	존재하지 않는 플레이어예요.
+No tournaments right now. Create one!	지금은 토너먼트가 없어요. 하나 만들어 보세요!
+Offensive name	불쾌한 이름
+On a roll	상승세
+On fire	불타는 연승
+Only the host can start the tournament.	호스트만 토너먼트를 시작할 수 있어요.
+Open a table	테이블 열기
+Or join by address	또는 주소로 참가
+Other	기타
+Others can join at {ip}:{port}	다른 사람은 {ip}:{port}로 참가할 수 있어요
+Passwords need at least 8 characters (not only digits).	비밀번호는 8자 이상이어야 해요(숫자만은 안 돼요).
+Play 1,000 rated games.	레이팅 게임을 1,000판 플레이하세요.
+Play 10 rated games.	레이팅 게임을 10판 플레이하세요.
+Play 100 rated games.	레이팅 게임을 100판 플레이하세요.
+Play 25 casual games.	친선 게임을 25판 플레이하세요.
+Play 500 rated games.	레이팅 게임을 500판 플레이하세요.
+Play in a tournament.	토너먼트에 참가하세요.
+Play online	온라인 플레이
+Play with friends on the same network	같은 네트워크의 친구와 플레이
+Play your first rated game.	첫 레이팅 게임을 플레이하세요.
+Player 1	플레이어 1
+Players	플레이어
+Players in a tournament can't start other games.	토너먼트 참가자는 다른 게임을 시작할 수 없어요.
+Please don't repeat the same message.	같은 메시지를 반복하지 마세요.
+Pool hall legend	당구장의 전설
+Popular	인기인
+Private	비공개
+for your friends to sit down	친구가 입장할 때 쓸 비밀번호
+Profile	프로필
+{key}: watch the last shot again	{key}: 마지막 샷 다시 보기
+REPLAY	리플레이
+Rated	레이팅
+Rated games, tables, tournaments and friends	레이팅 게임, 테이블, 토너먼트, 친구
+Reach a rating of 1300.	레이팅 1300을 달성하세요.
+Reach a rating of 1500.	레이팅 1500을 달성하세요.
+Reach a rating of 1700.	레이팅 1700을 달성하세요.
+Reach a rating of 1900.	레이팅 1900을 달성하세요.
+Reach a rating of 2100.	레이팅 2100을 달성하세요.
+Refresh	새로고침
+Regular	단골
+Remove friend	친구 삭제
+Replay	리플레이
+Report	신고
+Report {name}	{name} 님 신고
+Request sent	요청 보냄
+Friend	친구
+Recent	최근
+Nobody yet. The people you play online will show up here.	아직 아무도 없어요. 온라인에서 함께 플레이한 사람이 여기에 표시돼요.
+{n} games	{n}게임
+Rookie	루키
+Round {n}	{n}라운드
+Search…	검색…
+Semi-finals	준결승
+Send report	신고 보내기
+This game goes with the report, so the moderators can watch it.	이 게임이 신고와 함께 전송되어 운영자가 확인할 수 있어요.
+Your game with {name} ({date}) goes with the report, so the moderators can watch it.	{name} 님과의 게임({date})이 신고와 함께 전송되어 운영자가 확인할 수 있어요.
+You haven't played {name} in the last day: the moderators see the recent chat.	최근 하루 동안 {name} 님과 플레이하지 않았어요. 운영자는 최근 채팅을 확인해요.
+Shark	타짜
+Shows the contact point; judging the cut is up to you.	접촉점을 보여 줘요. 두께 판단은 직접 하세요.
+Shutout	완봉승
+Sign in	로그인
+Sign in or create an account	로그인 또는 계정 만들기
+Sign out	로그아웃
+Sit down	앉기
+Skilled	숙련자
+Someone with that name is already here.	이미 같은 이름을 쓰는 사람이 있어요.
+Spam	스팸
+Start now	지금 시작
+Stop the replay	리플레이 중지
+Table runner	테이블 청소부
+Tables	테이블
+Take turns on this computer	이 컴퓨터에서 번갈아 플레이
+Thank you. The moderators will look into it.	감사합니다. 운영자가 확인할게요.
+Thank you. The moderators will look into it, with your game attached.	감사합니다. 첨부된 게임과 함께 운영자가 확인할게요.
+That player is not accepting invitations.	그 플레이어는 초대를 받지 않아요.
+That shot was for an earlier turn.	이전 차례의 샷이었어요.
+That table is no longer open.	더 이상 열려 있지 않은 테이블이에요.
+That tournament has already started.	이미 시작된 토너먼트예요.
+That tournament no longer exists.	더 이상 존재하지 않는 토너먼트예요.
+The first connection of the day can take up to a minute while the server wakes up.	하루 중 첫 연결은 서버가 깨어나는 동안 최대 1분까지 걸릴 수 있어요.
+The first time, allow Snook Legend through the firewall when asked.	처음에는 요청이 나오면 방화벽에서 Snook Legend를 허용하세요.
+The server could not play that shot.	서버가 그 샷을 처리하지 못했어요.
+The server is busy. Try again in a moment.	서버가 혼잡해요. 잠시 후 다시 시도하세요.
+The tournament starts when it is full (the host can start it earlier).	토너먼트는 인원이 다 차면 시작돼요(호스트가 먼저 시작할 수도 있어요).
+There are too many tournaments right now. Join one!	지금은 토너먼트가 너무 많아요. 기존 토너먼트에 참가해 보세요!
+This is a LAN server: join as a guest.	LAN 서버예요. 게스트로 참가하세요.
+Fifteen rivals, a tour and ghosts of real players	15명의 라이벌, 투어, 실제 플레이어의 고스트
+Tier	티어
+Time per shot	샷당 시간
+Too many failed attempts. Wait a few minutes and try again.	실패한 시도가 너무 많아요. 몇 분 기다린 후 다시 시도하세요.
+Too many messages.	메시지가 너무 많아요.
+Too many new accounts from this network. Try again later.	이 네트워크에서 새 계정이 너무 많이 만들어졌어요. 나중에 다시 시도하세요.
+Top 100 · rated games	톱 100 · 레이팅 게임
+Tournament game: the next round starts from the lounge.	토너먼트 게임: 다음 라운드는 라운지에서 시작돼요.
+Tournament games have no rematch.	토너먼트 게임에는 재대결이 없어요.
+Tournaments	토너먼트
+Tournaments have 4, 8 or 16 players.	토너먼트는 4명, 8명 또는 16명으로 진행돼요.
+Two players	2인 플레이
+Unblock	차단 해제
+Unlocked {date}	{date} 달성
+Unstoppable	무적
+W	승
+Watch the last shot again	마지막 샷 다시 보기
+What happened? (optional)	무슨 일이 있었나요? (선택 사항)
+When time runs out, the turn passes.	시간이 다 되면 차례가 넘어가요.
+Whitewash	싹쓸이
+Win 10 rated games on the 8-ball.	레이팅 게임에서 8번 공으로 10승을 거두세요.
+Win 10 rated games in a row.	레이팅 게임에서 10연승을 거두세요.
+Win 10 rated games.	레이팅 게임에서 10승을 거두세요.
+Win 10 rated shutouts.	레이팅 게임에서 완봉승을 10번 거두세요.
+Win 100 rated games on the 8-ball.	레이팅 게임에서 8번 공으로 100승을 거두세요.
+Win 100 rated games.	레이팅 게임에서 100승을 거두세요.
+Win 250 rated games on the 8-ball.	레이팅 게임에서 8번 공으로 250승을 거두세요.
+Win 3 rated games in a row.	레이팅 게임에서 3연승을 거두세요.
+Win 5 rated games in a row.	레이팅 게임에서 5연승을 거두세요.
+Win 5 tournaments.	토너먼트에서 5번 우승하세요.
+Win 50 rated games on the 8-ball.	레이팅 게임에서 8번 공으로 50승을 거두세요.
+Win 50 rated games.	레이팅 게임에서 50승을 거두세요.
+Win 500 rated games.	레이팅 게임에서 500승을 거두세요.
+Win a rated game.	레이팅 게임에서 승리하세요.
+Win a tournament.	토너먼트에서 우승하세요.
+Win a rated game before your opponent sinks a ball of their group.	상대가 자기 그룹의 공을 하나도 넣기 전에 레이팅 게임에서 승리하세요.
+Win a rated game from the break without your opponent getting a shot.	브레이크부터 상대에게 샷 기회를 주지 않고 레이팅 게임에서 승리하세요.
+Withdraw	참가 취소
+World ranking	세계 랭킹
+Wrong table password.	테이블 비밀번호가 틀렸어요.
+Wrong tournament password.	토너먼트 비밀번호가 틀렸어요.
+You are already in a tournament.	이미 토너먼트에 참가 중이에요.
+You are hosting a game	게임을 호스팅하는 중
+You can't join this table.	이 테이블에 참가할 수 없어요.
+You signed in from another place.	다른 곳에서 로그인했어요.
+You're sending invitations too quickly.	초대를 너무 빨리 보내고 있어요.
+You're sending messages too quickly.	메시지를 너무 빨리 보내고 있어요.
+You've sent many reports. Please wait before sending more.	신고를 많이 보냈어요. 잠시 후에 다시 보내 주세요.
+Your friend list is full.	친구 목록이 가득 찼어요.
+Your next match starts by itself when both players are free.	다음 경기는 두 플레이어가 모두 준비되면 자동으로 시작돼요.
+Your profile	내 프로필
+Your table is open	테이블이 열려 있어요
+Zoom in	확대
+Zoom out	축소
+at a table	테이블에 있음
+best streak	최다 연승
+by {host} · {n}/{size} players	{host} 님 · {n}/{size}명
+casual games	친선 게임
+casual · private	친선 · 비공개
+casual · public	친선 · 공개
+connecting to the server	서버에 연결하는 중
+eight-ball pool	8볼 포켓볼
+finished	종료
+guest	게스트
+invites you to {kind}	{kind}에 초대했어요
+joined today	오늘 가입
+member for {n} days	가입 {n}일째
+member for {n} months	가입 {n}개월째
+member for {n} years	가입 {n}년째
+offline	오프라인
+open	모집 중
+optional: only friends with it can join	선택 사항: 비밀번호를 아는 친구만 참가할 수 있어요
+password	비밀번호
+peak {n}	최고 {n}
+playing	게임 중
+playing the computer	컴퓨터와 게임 중
+away	자리 비움
+this game is saved	이 게임은 저장돼요
+rated games	레이팅 게임
+rated · private	레이팅 · 비공개
+rated · public	레이팅 · 공개
+request sent	요청 보냄
+the connection dropped	연결이 끊어졌어요
+to play online	온라인으로 플레이하려면
+tournament	토너먼트
+tournaments won	토너먼트 우승
+waiting for an opponent…	상대를 기다리는 중…
+win rate	승률
+wins	승리
+won on the 8	8번 공으로 승리
+{host}'s game	{host} 님의 게임
+{name} wants to be friends	{name} 님이 친구가 되고 싶어 해요
+{name} wants to be your friend.	{name} 님이 친구 요청을 보냈어요.
+{n} online	{n}명 접속 중
+sank the 8-ball	8번 공을 넣음
+the opponent sank the 8-ball	상대가 8번 공을 넣음
+the opponent sank the 8 too early	상대가 8번 공을 너무 일찍 넣음
+sank the 8 too early	8번 공을 너무 일찍 넣음
+the opponent sank the 8 in the wrong pocket	상대가 8번 공을 잘못된 포켓에 넣음
+sank the 8 in the wrong pocket	8번 공을 잘못된 포켓에 넣음
+the opponent fouled on the 8	상대가 8번 공을 넣으며 파울
+fouled on the 8	8번 공을 넣으며 파울
+the opponent knocked the 8 off the table	상대가 8번 공을 테이블 밖으로 내보냄
+knocked the 8 off the table	8번 공을 테이블 밖으로 내보냄
+the opponent resigned	상대 기권
+resigned	기권
+the opponent left	상대가 나감
+left the game	게임을 나감
+You are muted for {n} more minutes.	앞으로 {n}분 동안 채팅이 금지돼요.
+This account is suspended for {n} more day(s). Reason: {reason}.	이 계정은 앞으로 {n}일 동안 정지돼요. 사유: {reason}.
+This account is banned. Reason: {reason}.	이 계정은 영구 정지됐어요. 사유: {reason}.
+You were muted: {r}	채팅이 금지됐어요: {r}
+Your account was suspended: {r}	계정이 정지됐어요: {r}
+Your account was banned: {r}	계정이 영구 정지됐어요: {r}
+You were disconnected by a moderator: {r}	운영자가 연결을 끊었어요: {r}
+You were disconnected by a moderator.	운영자가 연결을 끊었어요.
+Please sign in again.	다시 로그인하세요.
+Your password was changed. Sign in again.	비밀번호가 변경됐어요. 다시 로그인하세요.
+Accept rematch	재대결 수락
+Accept	수락
+Aim	조준
+Aiming guide	조준 가이드
+Aiming	조준
+Anti-aliasing	안티에일리어싱
+Smooths the jagged edges of lines and balls.	선과 공의 계단 현상을 부드럽게 해요.
+Back to lounge	라운지로 돌아가기
+Balanced: smooth on most laptops.	균형: 대부분의 노트북에서 부드럽게 실행돼요.
+Ball in hand	볼 인 핸드
+Break the rack	브레이크 샷
+Camera pulls back to watch each shot	샷마다 카메라가 뒤로 빠져서 보여 줘요
+Camera	카메라
+Cancel	취소
+Casual game: ratings unchanged	친선 게임: 레이팅 변동 없음
+Center	중앙
+Chat	채팅
+Click a ball or a spot	공이나 지점을 클릭하세요
+Click to chat, Enter to send	클릭해서 채팅, Enter로 전송
+Controls	조작
+Create account	계정 만들기
+Cue ball contact	수구 당점
+Decline	거절
+Done	완료
+Drag the cue ball	수구를 드래그하세요
+Elevation	큐 각도
+Everything, with reflections in polished floors: for gaming PCs.	모든 효과와 광택 바닥 반사: 게이밍 PC용.
+Fine aim	미세 조준
+Finish this match first.	먼저 이 경기를 끝내세요.
+For old or very slow computers.	오래되었거나 매우 느린 컴퓨터용.
+Full screen	전체 화면
+Also with {key}.	{key}로도 할 수 있어요.
+Full	전체
+Game server	게임 서버
+Change it only to play on another server.	다른 서버에서 플레이할 때만 바꾸세요.
+Advanced	고급
+Custom server	사용자 지정 서버
+Graphics quality	그래픽 품질
+Quality	품질
+Display	디스플레이
+High	높음
+Invite	초대
+Leave to the lounge	라운지로 나가기
+Leave	나가기
+Leaving now counts as a loss.	지금 나가면 패배로 처리돼요.
+Lounge chat	라운지 채팅
+Low	낮음
+Main menu	메인 메뉴
+Medium	중간
+Menu / help	메뉴 / 도움말
+Next game starts in a moment…	곧 다음 게임이 시작돼요…
+No rated games yet. Be the first!	아직 레이팅 게임이 없어요. 첫 주인공이 되어 보세요!
+Nobody else is here right now.	지금은 아무도 없어요.
+Looking for a game?	게임 상대를 찾나요?
+Looking for a game	게임 상대 구해요
+Post a note	모집글 올리기
+Everyone in the lounge sees it for 30 minutes	라운지의 모든 사람에게 30분 동안 보여요
+What are you after? ({kind})	어떤 게임을 원하세요? ({kind})
+Post	올리기
+Your note: {text}	내 모집글: {text}
+{mode} · {left} left	{mode} · {left} 남음
+Take down	내리기
+Challenge	도전
+Take the note down	모집글 내리기
+Off	끔
+On the 8-ball: call a pocket	8번 공 차례: 포켓을 지정하세요
+On the 8-ball	8번 공 차례
+Open table	오픈 테이블
+Password	비밀번호
+Paused	일시 정지
+Play	플레이
+Player 2	플레이어 2
+Player	플레이어
+Quick aim	빠른 조준
+Quit	종료
+Reconnected.	다시 연결됐어요.
+Rematch	재대결
+Resign this game	이 게임 기권
+Restart the game to apply this change.	변경 사항을 적용하려면 게임을 다시 시작하세요.
+Resume	계속하기
+Retry	다시 시도
+Saving the result…	결과를 저장하는 중…
+Say hello… (Enter to send)	인사를 건네 보세요… (Enter로 전송)
+Send	보내기
+Settings	설정
+{key} + drag	{key} + 드래그
+{key}: 3D / top view	{key}: 3D / 탑뷰
+{keys}: zoom	{keys}: 줌
+View	시점
+Aim left	왼쪽 조준
+Aim right	오른쪽 조준
+Fine aim (hold)	미세 조준 (누르고 있기)
+Shoot (hold, release)	샷 (눌렀다 떼기)
+Top spin	탑스핀
+Back spin	백스핀
+Left spin	왼쪽 회전
+Right spin	오른쪽 회전
+Raise the cue	큐 올리기
+Lower the cue	큐 내리기
+Pick up the cue ball in hand	볼 인 핸드 수구 집기
+3D / top view	3D / 탑뷰
+Reset the camera	카메라 초기화
+Replay the last shot	마지막 샷 다시 보기
+List of controls	조작 목록
+Keys can be changed in Settings → Controls.	키는 설정 → 조작에서 바꿀 수 있어요.
+Space	스페이스
+Right Shift	오른쪽 Shift
+Right Ctrl	오른쪽 Ctrl
+Right Alt	오른쪽 Alt
+Aiming and shooting	조준과 샷
+Spin and elevation	회전과 큐 각도
+Fixed keys	고정 키
+Menu, back and cancel	메뉴, 뒤로, 취소
+Confirm (forms, the cue ball in hand)	확인 (입력 양식, 볼 인 핸드)
+This key can't be changed.	이 키는 바꿀 수 없어요.
+Press a key · Esc cancels · Backspace clears	키를 누르세요 · Esc 취소 · Backspace 지우기
+Press a key…	키를 누르세요…
+Click to change	클릭해서 변경
+Click to add a key	클릭해서 키 추가
+Back to no key	키 없음으로 되돌리기
+Back to {keys}	되돌리기: {keys}
+Swapped: {action} is now on {key}.	맞바꿨어요: {action} → {key}.
+Taken from {action}, which now has no key.	{action}에서 가져왔어요. 이제 그 동작에는 키가 없어요.
+Taken from {action}.	{action}에서 가져왔어요.
+That key can't be used: try another.	사용할 수 없는 키예요. 다른 키를 눌러 보세요.
+Shoot	샷
+Short	짧게
+Signing in…	로그인하는 중…
+Signing in	로그인 중
+Soft shadows from every lamp, glossy halls, halos.	모든 조명의 부드러운 그림자, 광택 있는 홀, 후광 효과.
+Solids (1–7)	솔리드 (1–7)
+Spin ball	당점 공
+Spin	회전
+Standard	기본
+Stay	남기
+Stripes (9–15)	스트라이프 (9–15)
+The game goes on while this is open.	이 창이 열려 있어도 게임은 계속돼요.
+Use default	기본값 사용
+Username	사용자 이름
+Usernames have 3–16 letters, digits or underscores.	사용자 이름은 문자, 숫자, 밑줄(_)로 3–16자여야 해요.
+{keys} (jump & massé)	{keys} (점프 & 마세)
+You win!	승리했어요!
+Your name	내 이름
+Your opponent went back to the lounge.	상대가 라운지로 돌아갔어요.
+Your turn	내 차례
+open table: the next ball you make sets your group	오픈 테이블: 다음에 넣는 공이 내 그룹이 돼요
+draw	끌어치기
+follow	밀어치기
+stun	스톱샷
+solids	솔리드
+stripes	스트라이프
+lounge	라운지
+ · left english	 · 왼쪽 회전
+ · right english	 · 오른쪽 회전
+Language	언어
+General	일반
+Graphics	그래픽
+Game	게임
+Sound	사운드
+Reset to defaults	기본값으로 초기화
+Reset all keys	모든 키 초기화
+Reset every key?	모든 키를 초기화할까요?
+Click again to put every key back	한 번 더 클릭하면 모든 키가 기본값으로 돌아가요
+Updates	업데이트
+Update automatically	자동 업데이트
+New versions download in the background and install when you restart.	새 버전은 백그라운드에서 다운로드되고 다시 시작할 때 설치돼요.
+Version {v}	버전 {v}
+What's new	새로운 소식
+What's new in version {v}	버전 {v}의 새로운 소식
+No notes for this version.	이 버전에 대한 안내가 없어요.
+Got it	확인
+Restart now	지금 다시 시작
+After the game, from the main menu.	게임이 끝난 후 메인 메뉴에서.
+Download	다운로드
+Check now	지금 확인
+Couldn't reach the update server.	업데이트 서버에 연결할 수 없어요.
+The download was damaged. It will be tried again later.	다운로드한 파일이 손상됐어요. 나중에 다시 시도할게요.
+The new version couldn't be installed. This one stays.	새 버전을 설치할 수 없어요. 현재 버전을 계속 사용해요.
+Downloading… {p}%	다운로드 중… {p}%
+Updating…	업데이트 중…
+The Microsoft Store keeps the game up to date.	Microsoft Store에서 게임을 최신 상태로 유지해요.
+Development build: no automatic updates.	개발 빌드: 자동 업데이트 없음.
+Looking for a new version…	새 버전을 확인하는 중…
+This is the latest version.	최신 버전이에요.
+Downloading version {v}… {p}%	버전 {v} 다운로드 중… {p}%
+Installing version {v}…	버전 {v} 설치 중…
+Version {v} is ready: restart the game to use it.	버전 {v} 준비 완료: 게임을 다시 시작하면 적용돼요.
+Version {v} is out: download it from the releases page.	버전 {v} 출시: 릴리스 페이지에서 다운로드하세요.
+Version {v} is ready	버전 {v} 준비 완료
+Restart to play it; nothing is lost.	다시 시작하면 적용돼요. 잃는 건 없어요.
+Version {v} is out	버전 {v} 출시
+Get it from the releases page.	릴리스 페이지에서 받으세요.
+Reset everything?	모두 초기화할까요?
+Click again to reset every setting	한 번 더 클릭하면 모든 설정이 초기화돼요
+Online	온라인
+Menu	메뉴
+Rating	레이팅
+Ultra	울트라
+hold {key} and release	{key} 누르고 있다가 떼기
+Change	변경
+Mouse aim sensitivity	마우스 조준 감도
+How fast the cue turns with the mouse.	마우스로 큐를 돌리는 속도예요.
+Vignette	비네트
+Darkens the edges of the picture, like a film.	영화처럼 화면 가장자리를 어둡게 해요.
+Show FPS	FPS 표시
+Frames per second, in a corner of the screen.	화면 구석에 초당 프레임 수를 표시해요.
+Call a pocket for the 8-ball first: click a pocket.	먼저 8번 공을 넣을 포켓을 지정하세요. 포켓을 클릭하면 돼요.
+Reconnecting	다시 연결하는 중
+the game is over	게임이 끝났어요
+the cue ball cannot be placed there	수구를 거기에 놓을 수 없어요
+call a pocket for the 8-ball	8번 공을 넣을 포켓을 지정하세요
+That username is taken.	이미 사용 중인 사용자 이름이에요.
+Wrong username or password.	사용자 이름 또는 비밀번호가 틀렸어요.
+Your session expired. Please log in again.	세션이 만료됐어요. 다시 로그인하세요.
+This version of Snook Legend is out of date. Please update the game.	이 버전의 Snook Legend는 오래되었어요. 게임을 업데이트하세요.
+It's not your turn.	내 차례가 아니에요.
+That player is not online.	그 플레이어는 오프라인이에요.
+That player is in a game.	그 플레이어는 게임 중이에요.
+You can't invite yourself.	자신을 초대할 수 없어요.
+That invitation is no longer valid.	더 이상 유효하지 않은 초대예요.
+That player is no longer available.	그 플레이어는 더 이상 참가할 수 없어요.
+Resign first to leave a game in progress.	진행 중인 게임을 나가려면 먼저 기권하세요.
+Malformed message.	잘못된 형식의 메시지예요.
+Please log in first.	먼저 로그인하세요.
+Could not create the account.	계정을 만들 수 없어요.
+The cue ball can't be placed there.	수구를 거기에 놓을 수 없어요.
+Disconnected.	연결이 끊어졌어요.
+Lost contact with the server.	서버와의 연결이 끊겼어요.
+The server closed the connection.	서버가 연결을 종료했어요.
+The server took too long to answer.	서버 응답이 너무 오래 걸렸어요.
+The server is not answering (connection refused).	서버가 응답하지 않아요(연결 거부).
+The server address is not valid (example: wss://snook-legend.example.com/ws).	서버 주소가 올바르지 않아요(예: wss://snook-legend.example.com/ws).
+The server address has no host name.	서버 주소에 호스트 이름이 없어요.
+Welcome to Snook Legend! Be kind, play fair.	Snook Legend에 오신 것을 환영해요! 서로 배려하며 페어플레이하세요.
+Ball in hand: drag the cue ball{zone} to move it	볼 인 핸드: 수구를{zone} 드래그해서 옮기세요
+ behind the line	 라인 뒤로
+Ball in hand  ·  {group}	볼 인 핸드  ·  {group}
+Can't shoot: {e}.	샷을 칠 수 없어요: {e}.
+Chat ({n})	채팅 ({n})
+Computer ({level})	컴퓨터 ({level})
+Computer	컴퓨터
+Each opponent has a style of their own	상대마다 고유한 스타일이 있어요
+Free game	자유 게임
+Tour	투어
+Tour: {n} of {total} beaten	투어: {total}명 중 {n}명 격파
+Strength {n}/5	실력 {n}/5
+Ghost	고스트
+Accuracy	정확도
+Safeties	세이프티
+Banks	뱅크샷
+Position	포지션
+Ghost of {name}	{name} 님의 고스트
+A player's ghost	플레이어의 고스트
+Plays like a real player	실제 플레이어처럼 플레이해요
+The computer plays in the style of a real player, measured on their online games.	컴퓨터가 실제 플레이어의 온라인 게임을 분석해 그 스타일대로 플레이해요.
+Sign in to play the ghost of a real player.	실제 플레이어의 고스트와 대전하려면 로그인하세요.
+Load	불러오기
+Friends:	친구:
+Type a username or pick a friend, then Load.	사용자 이름을 입력하거나 친구를 선택한 다음 불러오기를 누르세요.
+Measuring how {name} plays…	{name} 님의 플레이 스타일을 분석하는 중…
+Pots {pots}% · safeties {safe}% · banks {banks}% · {shots} shots	포켓 {pots}% · 세이프티 {safe}% · 뱅크샷 {banks}% · 샷 {shots}회
+{name} has only {shots} recorded shots; a ghost needs {needed}. More online games will do it.	{name} 님의 기록된 샷이 {shots}회뿐이에요. 고스트에는 {needed}회가 필요해요. 온라인 게임을 더 하면 돼요.
+There is no player called {name}.	‘{name}’ 플레이어를 찾을 수 없어요.
+The server can't be reached right now. Try again later.	지금은 서버에 연결할 수 없어요. 나중에 다시 시도하세요.
+Wait a moment before asking again.	잠시 후에 다시 요청하세요.
+Something went wrong on the server. Try again later.	서버에 문제가 생겼어요. 나중에 다시 시도하세요.
+Play your ghost	내 고스트와 대전
+Play their ghost	이 플레이어의 고스트와 대전
+Beaten	격파
+Next	다음
+Win the previous stage to unlock this one.	이전 스테이지에서 이기면 열려요.
+Stage {n} of {total}	스테이지 {n}/{total}
+Challenge {name}	{name} 님에게 도전
+Stage {n} won! Next on the tour: {name}.	스테이지 {n} 클리어! 다음 투어 상대: {name}.
+You won the whole tour!	투어 전체를 우승했어요!
+Reward	보상
+{item} cue · exclusive	{item} 큐 · 전용
+Yours: find it in the shop, under Cues.	획득 완료: 상점의 큐 탭에서 찾을 수 있어요.
+Win the last stage again while signed in to claim it.	보상을 받으려면 로그인한 상태로 마지막 스테이지에서 다시 이기세요.
+Beat all fifteen opponents to earn it. It is sold nowhere.	15명의 상대를 모두 이기면 얻을 수 있어요. 어디에서도 팔지 않아요.
+You won the tour! Sign in to claim your reward.	투어에서 우승했어요! 로그인하고 보상을 받으세요.
+The server is checking your final game…	서버가 마지막 게임을 확인하는 중…
+Try again	다시 시도
+The server did not answer. Try again in a moment.	서버가 응답하지 않았어요. 잠시 후 다시 시도하세요.
+The server is busy checking other games. Try again in a moment.	서버가 다른 게임을 확인하느라 바빠요. 잠시 후 다시 시도하세요.
+Wait a minute before trying again.	1분 후에 다시 시도하세요.
+That game is too long to be checked.	게임이 너무 길어서 확인할 수 없어요.
+That game has a move the rules don't allow.	규칙상 허용되지 않는 샷이 포함된 게임이에요.
+That game was not played to the end.	끝까지 플레이하지 않은 게임이에요.
+That game was not a win.	승리한 게임이 아니에요.
+The computer's shots in that game don't match how it plays (another version of the game?).	그 게임에서 컴퓨터의 샷이 실제 플레이 방식과 맞지 않아요(다른 버전의 게임인가요?).
+The Rookie	루키
+Still learning: aims at the nearest pocket, centre ball, and hopes. Never plays safe.	아직 배우는 중: 가장 가까운 포켓을 노리고, 중앙 당점으로 치고, 운에 맡겨요. 세이프티는 절대 안 해요.
+The Weekend Player	주말 플레이어
+Knows the basics and drops the easy ones, but rarely thinks about where the cue ball goes.	기본은 알고 쉬운 공은 넣지만, 수구가 어디로 갈지는 거의 생각하지 않아요.
+The Bank Artist	뱅크샷 아티스트
+Sees angles nobody else does: whenever a ball can go off a cushion and in, she banks it.	남들이 못 보는 각도를 봐요. 쿠션을 맞고 들어갈 수 있는 공이면 늘 뱅크샷으로 쳐요.
+The Cannon	대포
+Goes for everything, as hard as he can: long pots, thunderous breaks, hardly ever a safety.	무엇이든 있는 힘껏 노려요. 긴 거리 샷, 천둥 같은 브레이크, 세이프티는 거의 없어요.
+The Wall	철벽
+Only shoots when the pot is on. Otherwise she tucks the cue ball away and waits for your mistake.	확실한 공만 노려요. 아니면 수구를 숨겨 두고 상대의 실수를 기다려요.
+The Old Pro	노장
+Forty years at the table: a smooth stroke, a raised cue, side spin, and never in a hurry.	테이블 앞에서 40년: 부드러운 스트로크, 높이 든 큐, 사이드 회전, 그리고 절대 서두르지 않아요.
+The Hustler	승부사
+Plays just well enough to win, then a little better. Balanced, sharp and hard to read.	이길 만큼만 치다가 조금 더 잘 쳐요. 균형 잡히고 날카로우며 속을 알 수 없어요.
+The Professor	교수
+Thinks three balls ahead: every shot leaves the cue ball where the next one is easy.	세 수 앞을 내다봐요. 매번 다음 샷이 쉬운 자리에 수구를 보내요.
+The Sharpshooter	명사수
+Pots from anywhere, at any angle. Her safeties are an afterthought: she doesn't need them.	어디서든 어떤 각도든 넣어요. 세이프티는 뒷전이에요. 필요가 없거든요.
+The Champion	챔피언
+Unbeaten for years. Precise, patient and merciless: the last stage of the tour.	수년째 무패. 정확하고 끈질기며 무자비해요. 투어의 마지막 스테이지예요.
+Tour champion	투어 챔피언
+Champion of the tour	투어 챔피언
+Beat all fifteen opponents of the computer tour.	컴퓨터 투어의 15명 상대를 모두 이기세요.
+Connection lost. Reconnecting (attempt {n})…	연결이 끊겼어요. 다시 연결하는 중(시도 {n})…
+Connection lost. Reconnecting…	연결이 끊겼어요. 다시 연결하는 중…
+Foul by {shooter}: {foul}.	{shooter} 님 파울: {foul}.
+Graphics set to {q} for smooth play. You can change this in Settings.	원활한 플레이를 위해 그래픽 품질을 조정했어요: {q}. 설정에서 바꿀 수 있어요.
+Rating {r} ({d})	레이팅 {r} ({d})
+The {ball} was spotted.	{ball}이 테이블에 다시 놓였어요.
+Waiting for {to} ({kind})…	{to} 님을 기다리는 중 ({kind})…
+rated	레이팅
+casual	친선
+Waiting for {name}…	{name} 님을 기다리는 중…
+{by} declined your invitation.	{by} 님이 초대를 거절했어요.
+a rated game	레이팅 게임
+a casual game	친선 게임
+{name} calls the 8-ball in the {pocket} pocket.	{name} 님이 8번 공을 {pocket} 포켓으로 지정했어요.
+{name} has ball in hand…	{name} 님이 수구를 놓는 중…
+{name} is aiming…	{name} 님이 조준하는 중…
+{name} is on the 8: click a pocket to call it	{name} 님 8번 공 차례: 포켓을 클릭해 지정하세요
+{name} is thinking…	{name} 님이 생각하는 중…
+{name} left the game.	{name} 님이 게임을 나갔어요.
+{name} resigned.	{name} 님이 기권했어요.
+{name} to break	{name} 님 브레이크 차례
+{name} to shoot ({target})	{name} 님 샷 차례 ({target})
+{name}'s turn	{name} 님 차례
+{next} has ball in hand{where}.	{next} 님이{where} 볼 인 핸드를 얻었어요.
+ behind the head string	 헤드 스트링 뒤에서
+{opponent} is back.	{opponent} 님이 돌아왔어요.
+{opponent} lost the connection. Waiting up to {secs} s…	{opponent} 님의 연결이 끊겼어요. 최대 {secs}초 기다리는 중…
+{opponent} wants a rematch.	{opponent} 님이 재대결을 원해요.
+{opponent} went back to the lounge.	{opponent} 님이 라운지로 돌아갔어요.
+{shooter} pocketed {balls}.	{shooter} 님이 {balls}을 넣었어요.
+{shooter} takes {group}.	{shooter} 님은 {group} 그룹이 됐어요.
+{who} ran out of time: ball in hand for the opponent.	{who} 님의 시간 초과: 상대에게 볼 인 핸드.
+{name} wants a rematch!	{name} 님이 재대결을 원해요!
+{name} wins!	{name} 님 승리!
+{name} wins	{name} 님 승리
+Volume	음량
+The cue, the balls, the cushions and the pockets.	큐, 공, 쿠션, 포켓 소리.
+Notifications	알림
+Could not find the server “{host}”.	서버를 찾을 수 없어요: “{host}”.
+Network error: {e}.	네트워크 오류: {e}.
+Secure connection failed: {e}.	보안 연결 실패: {e}.
+The server refused the connection (HTTP {code}).	서버가 연결을 거부했어요(HTTP {code}).
+Connection error: {e}.	연결 오류: {e}.
+cue ball	수구
+{n}-ball	{n}번 공
+Scratch: the cue ball was pocketed	스크래치: 수구가 포켓에 들어갔어요
+The cue ball left the table	수구가 테이블 밖으로 나갔어요
+The cue ball didn't hit any ball	수구가 아무 공도 맞히지 못했어요
+Wrong ball hit first ({ball})	다른 공을 먼저 맞혔어요({ball})
+No ball reached a cushion after contact	접촉 후 쿠션에 닿은 공이 없어요
+The {ball} left the table	{ball}이 테이블 밖으로 나갔어요
+Illegal break	불법 브레이크
+pocketed the 8-ball	8번 공을 넣음
+opponent pocketed the 8-ball too early	상대가 8번 공을 너무 일찍 넣음
+opponent sank the 8-ball in the wrong pocket	상대가 8번 공을 잘못된 포켓에 넣음
+opponent fouled on the 8-ball	상대가 8번 공을 넣으며 파울
+opponent knocked the 8-ball off the table	상대가 8번 공을 테이블 밖으로 내보냄
+opponent resigned	상대 기권
+opponent left the game	상대가 게임을 나감
+head left corner	헤드 왼쪽 코너
+head right corner	헤드 오른쪽 코너
+left side	왼쪽 사이드
+right side	오른쪽 사이드
+foot left corner	풋 왼쪽 코너
+foot right corner	풋 오른쪽 코너
+Easy	쉬움
+Hard	어려움
+Normal	보통
+Power	파워
+No messages yet.	아직 메시지가 없어요.
+▼ newer messages	▼ 새 메시지
+Camera follows the cue	카메라가 큐를 따라감
+Off: it stays where you put it.	끄면 카메라가 둔 자리에 그대로 있어요.
+Pull back for shots	샷 때 카메라 뒤로 빼기
+Only when the camera follows the cue.	카메라가 큐를 따라갈 때만.
+Drag the cue · click a spot	큐 드래그 · 지점 클릭
+Time's up: {name}'s shot was played at full power.	시간 종료: {name} 님의 샷이 최대 파워로 실행됐어요.
+Dark room	어두운 방
+A spotlight on the table, the room in shadow.	테이블에만 조명을 비추고 방은 어둡게.
+Hide	숨기기
+Interface size	인터페이스 크기
+Text, buttons and panels.	텍스트, 버튼, 패널.
+Drag to set the power	드래그해서 파워 조절
+Shoot!	샷!
+Set the power, then press the green button	파워를 정한 다음 초록 버튼을 누르세요
++{n} coins · {why}	+{n} 코인 · {why}
+16-player tournaments, and first place on the waiting list of a full one	16인 토너먼트, 그리고 꽉 찬 토너먼트의 대기 명단 1순위
+30 minutes: play as many games as you can. A win is 2 points, 4 from the third win in a row.	30분 동안 최대한 많은 게임을 플레이해요. 승리는 2점, 3연승째부터는 4점이에요.
+A crown by your name, everywhere (lounge, profile, ranking)	어디서나 이름 옆에 왕관 표시(라운지, 프로필, 랭킹)
+Account	계정
+Add friends to give them items.	친구를 추가하면 아이템을 선물할 수 있어요.
+Arena	아레나
+Arena · host {host} · {n} players · {kind}	아레나 · 호스트 {host} · {n}명 · {kind}
+Buy now	지금 구매
+Buying…	구매하는 중…
+Change password	비밀번호 변경
+Click again to delete	한 번 더 클릭하면 삭제돼요
+Got a code? Type it here	코드가 있나요? 여기에 입력하세요
+Confirm purchase	구매 확인
+Copied: send it to a friend.	복사했어요. 친구에게 보내세요.
+Copy	복사
+Current	현재 비밀번호
+Delete account	계정 삭제
+Entry	참가비
+Entry {n} coins	참가비 {n} 코인
+Every replay kept (free players keep their last 10 games)	모든 리플레이 보관(무료 플레이어는 최근 10게임만 보관)
+For {name}	받는 사람: {name}
+Add a message (optional)	메시지 추가(선택 사항)
+Format	방식
+Frames	프레임
+Free	무료
+Get coins	코인 받기
+Gift sent!	선물을 보냈어요!
+Give as a gift	선물하기
+Give it	선물하기
+Give to a friend	친구에게 선물
+Great!	좋아요!
+If you forget your password, we confirm it's you by this e-mail.	비밀번호를 잊어버리면 이 이메일로 본인 확인을 해요.
+Invite with a code	코드로 초대
+It goes on right away. Items only change the look, never the game.	바로 적용돼요. 아이템은 겉모습만 바꾸고 게임에는 영향을 주지 않아요.
+Join my table in Snook Legend:	Snook Legend에서 내 테이블에 참가하세요:
+Join the waiting list	대기 명단에 등록
+Join · {n} coins	참가 · {n} 코인
+Knockout	녹아웃
+Name colour	이름 색상
+Name colours for the lounge and exclusive frames, cloth, cues, balls and effects	라운지 이름 색상, 전용 프레임, 테이블 천, 큐, 공, 효과
+New	새 비밀번호
+No, thanks	괜찮아요
+Nothing that wins games: VIP only changes the look	승패에는 영향 없음: VIP는 겉모습만 바꿔요
+Numbers	통계
+ON TV	TV 중계
+Play rated games to see your rating here.	레이팅 게임을 플레이하면 여기에 레이팅이 표시돼요.
+No rated games yet.	아직 레이팅 게임이 없어요.
+Price	가격
+Prizes {a} + {b}	상금 {a} + {b}
+Protect your purchases	구매한 아이템을 지키세요
+Purchase complete!	구매 완료!
+Recovery e-mail	복구 이메일
+Save	저장
+The fees make the prize: 70% to the champion, 20% to the runner-up.	참가비가 상금이 돼요: 우승자 70%, 준우승자 20%.
+The server restarts in {m}:{s} for an update. Games in progress go on.	업데이트를 위해 {m}:{s} 후 서버가 다시 시작돼요. 진행 중인 게임은 계속돼요.
+Use this e-mail	이 이메일 사용
+Use {email} to recover your account if you ever forget your password?	비밀번호를 잊어버렸을 때 계정 복구용으로 {email} 주소를 사용할까요?
+Watch	관전
+Watch again	다시 보기
+Winning effects	승리 효과
+Halls	홀
+You are paired as soon as you and an opponent are free.	나와 상대가 모두 대기 상태가 되면 바로 매칭돼요.
+You can change it any time in your profile (Account).	프로필(계정)에서 언제든 바꿀 수 있어요.
+You need {n} more coins.	코인이 {n}개 더 필요해요.
+Your account	내 계정
+Your account was deleted.	계정이 삭제됐어요.
+Your coins	내 코인
+Your friend gets it right away.	친구가 바로 받아요.
+Your game against {name} is starting.	{name} 님과의 게임이 시작돼요.
+Your name, e-mail, friends and items are erased for good. Your opponents keep the games you played (without your name).	이름, 이메일, 친구, 아이템이 영구 삭제돼요. 상대는 함께 플레이한 게임을 계속 갖게 돼요(내 이름은 빠져요).
+balls per game	게임당 넣은 공
+best run ever	역대 최다 연속 포켓
+daily bonus	일일 보너스
+entry fee back	참가비 환불
+for the game	게임 보상
+for the win	승리 보상
+games counted	집계된 게임
+Analysis	분석
+The shot analysis isn't available on this server yet.	이 서버에서는 아직 샷 분석을 이용할 수 없어요.
+Only online accounts have a shot analysis.	온라인 계정만 샷 분석을 이용할 수 있어요.
+Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	온라인으로 플레이하고 포켓 실력을 확인해 보세요. 포켓을 노린 샷을 {n}번 더 하면 분석이 표시돼요.
+{name} hasn't played enough online games for an analysis yet.	{name} 님은 아직 분석에 필요한 만큼 온라인 게임을 하지 않았어요.
+1 game	1게임
+{pct}% of {n} shots at a pocket potted · {games}	포켓을 노린 샷 {n}회 중 {pct}% 성공 · {games}
+{made} of {n} potted ({pct})	{n}회 중 {made}회 성공 ({pct})
+By kind of shot	샷 종류별
+shots	샷
+Straight	직선
+Cut 8–25°	컷 8–25°
+Cut 25–45°	컷 25–45°
+Thin cut 45°+	얇은 컷 45°+
+Bank	뱅크샷
+Kick	킥샷
+Combination	콤비네이션
+Jump	점프
+Massé	마세
+Break	브레이크
+By distance	거리별
+Short (under 0.75 m)	짧은 거리 (0.75m 미만)
+Medium (to 1.5 m)	중간 거리 (1.5m까지)
+Long (over 1.5 m)	긴 거리 (1.5m 초과)
+left the opponent nothing	상대에게 기회를 주지 않음
+Breaks	브레이크
+made a ball	공을 넣음
+Potted	성공
+Missed	실패
+Where and in which pocket	위치와 포켓별
+{pocket}: {made} of {n} potted	{pocket}: {n}회 중 {made}회 성공
+Where the potted balls were	성공한 공의 위치
+Where the missed balls were	실패한 공의 위치
+few	적음
+many	많음
+{made} potted · {missed} missed ({pct})	성공 {made} · 실패 {missed} ({pct})
+Top left corner	왼쪽 위 코너
+Bottom left corner	왼쪽 아래 코너
+Top side pocket	위쪽 사이드 포켓
+Bottom side pocket	아래쪽 사이드 포켓
+Top right corner	오른쪽 위 코너
+Bottom right corner	오른쪽 아래 코너
+games left unfinished	중도 포기한 게임
+potting success	포켓 성공률
+shots with a foul	파울 샷
+starts in {n} min	{n}분 후 시작
+tournament prize	토너먼트 상금
+The dark room hides the hall around the table.	어두운 방에서는 테이블 주변의 홀이 보이지 않아요.
+Show the hall	홀 보이기
+Level {n} · 1 win	레벨 {n} · 1승
+Level {n} · {w} wins	레벨 {n} · {w}승
+{left} more online wins with this cue for level {n}. Levels only add marks to the cue.	레벨 {n}까지 이 큐로 온라인 {left}승이 더 필요해요. 레벨은 큐에 마크만 추가해요.
+The top level: this cue has every mark.	최고 레벨: 이 큐에는 모든 마크가 있어요.
+Your cue {cue} reached level {n}!	내 큐 {cue}, 레벨 {n} 달성!
+Most wins: {cue} (level {n})	최다 승리: {cue} (레벨 {n})
+{games} games · {rate}% won · {balls} balls made	{games}게임 · 승률 {rate}% · 넣은 공 {balls}개
+vs	vs
+{from} gave you {item}!	{from} 님의 선물: {item}!
+You received a gift!	선물을 받았어요!
+From	보낸 사람
+To	받는 사람
+someone	누군가
+A month of VIP	VIP 1개월
+Thank	감사 인사
+Thanked	인사 완료
+They thanked you	상대가 고마워했어요
+Use it now	지금 사용
+Later	나중에
+OK	확인
+Next ({n} more)	다음 ({n}개 더)
+{from} gave you {item}! It's waiting for you in the lounge.	{from} 님의 선물: {item}! 라운지에서 기다리고 있어요.
+{name} thanked you for {item}.	{name} 님이 {item} 선물에 고마워했어요.
+Gifts	선물
+No gifts yet. Friends can give you items from the shop.	아직 받은 선물이 없어요. 친구가 상점의 아이템을 선물할 수 있어요.
+{item} is yours and already in use.	{item} 획득! 이미 사용 중이에요.
+{m}:{s} left	{m}:{s} 남음
+{name} invites you to play.	{name} 님이 게임에 초대했어요.
+{name} is online.	{name} 님이 접속했어요.
+{name} ran out of time.	{name} 님의 시간이 초과됐어요.
+{name} received {item}.	{name} 님이 {item} 선물을 받았어요.
+{n} pts · {g} games	{n}점 · {g}게임
+{n} watching · avg {r}	{n}명 관전 · 평균 {r}
+{title}: {how}	{title}: {how}
+Olive	올리브
+Navy	네이비
+Forest	포레스트
+Slate grey	슬레이트 그레이
+Red wine	레드 와인
+Burnt orange	번트 오렌지
+Dusty rose	더스티 로즈
+Sand	샌드
+Ice blue	아이스 블루
+Lime	라임
+Black tie	블랙 타이
+Cobalt	코발트
+Emerald	에메랄드
+Natural maple	내추럴 메이플
+Beach bar	비치 바
+Modern	모던
+English club	잉글리시 클럽
+Ebony & gold	에보니 & 골드
+Pool hall	당구장
+Industrial loft	인더스트리얼 로프트
+Steel & oak	스틸 & 오크
+Tournament	토너먼트
+Victorian walnut	빅토리안 월넛
+Ivory deco	아이보리 데코
+Mountain lodge	산장
+Neon arcade	네온 오락실
+Art deco lounge	아르데코 라운지
+Skyline penthouse	스카이라인 펜트하우스
+Walnut	월넛
+Zebrawood	지브라우드
+Bocote	보코테
+Deep ocean	딥 오션
+Cherry	체리
+Jade	비취
+Tiger	타이거
+Amethyst	자수정
+Arctic carbon	아크틱 카본
+Inferno	인페르노
+Obsidian gold	옵시디언 골드
+Tan chalk	황갈색 초크
+Grey chalk	회색 초크
+Orange chalk	주황 초크
+Pink chalk	분홍 초크
+Teal chalk	청록 초크
+Yellow chalk	노란 초크
+Black chalk	검정 초크
+White chalk	흰색 초크
+Silver chalk	실버 초크
+TV set	TV 세트
+Earth tones	어스 톤
+Ocean	오션
+Sunset	선셋
+Candy	캔디
+Pearl	펄
+Monochrome	모노크롬
+Chrome	크롬
+Gold rush	골드 러시
+No frame	프레임 없음
+Bronze	브론즈
+Silver	실버
+Gold	골드
+Green felt	그린 펠트
+Mahogany	마호가니
+Ice	아이스
+Fire	파이어
+Diamond	다이아몬드
+VIP crown	VIP 왕관
+Rose gold	로즈 골드
+Aqua	아쿠아
+Violet	바이올렛
+Ember	엠버
+Mint	민트
+Frost	프로스트
+No effect	효과 없음
+Sparks	불꽃
+Confetti	색종이
+Shockwave	충격파
+Coin shower	코인 샤워
+Flames	화염
+Royal sparks	로열 불꽃
+Tier colour	티어 색상
+16-player tournaments are for VIP members.	16인 토너먼트는 VIP 회원 전용이에요.
+A seat opened: you are in the tournament!	자리가 났어요. 토너먼트에 참가했어요!
+Entry fees go up to 1000 coins.	참가비는 최대 1000 코인이에요.
+Guests can't play for coins.	게스트는 코인을 걸고 플레이할 수 없어요.
+Only items sold for coins can be given.	코인으로 판매하는 아이템만 선물할 수 있어요.
+Password changed.	비밀번호를 변경했어요.
+Passwords need 8 or more characters, not only digits.	비밀번호는 8자 이상이어야 하고, 숫자만으로는 안 돼요.
+Recovery e-mail removed.	복구 이메일을 삭제했어요.
+Recovery e-mail saved.	복구 이메일을 저장했어요.
+Something went wrong. Please try again.	문제가 생겼어요. 다시 시도하세요.
+That code is not valid (or the table was closed).	유효하지 않은 코드예요(또는 테이블이 닫혔어요).
+That doesn't look like an e-mail address.	이메일 주소 형식이 아니에요.
+That game is over.	이미 끝난 게임이에요.
+The current password is wrong.	현재 비밀번호가 틀렸어요.
+The server is restarting.	서버를 다시 시작하는 중이에요.
+The server is restarting: new games start in a moment.	서버를 다시 시작하는 중이에요. 곧 새 게임을 시작할 수 있어요.
+The tournament is full: you are on the waiting list.	토너먼트가 꽉 찼어요. 대기 명단에 등록됐어요.
+This replay is not available.	이 리플레이는 볼 수 없어요.
+You can only give items to your friends.	친구에게만 아이템을 선물할 수 있어요.
+Your friend already has this item.	친구가 이미 가지고 있는 아이템이에요.
+16 (VIP)	16 (VIP)
+VIP isn't sold in this version of the game.	이 버전의 게임에서는 VIP를 판매하지 않아요.
+In this version of the game, coins are earned by playing:	이 버전의 게임에서는 플레이해서 코인을 얻어요:
+rated games, and a bonus every day you play.	레이팅 게임, 그리고 플레이하는 날마다 받는 보너스.
+Coins are earned by playing:	코인은 플레이해서 얻어요:
+If you like, you can also buy them:	원하면 구매할 수도 있어요:
+one month	1개월
+already VIP	이미 VIP
+Give a month to a friend · {p}	친구에게 1개월 선물 · {p}
+{from} gave you a month of VIP!	{from} 님이 VIP 1개월을 선물했어요!
+{name} received a month of VIP.	{name} 님이 VIP 1개월을 받았어요.
+Your friend is already VIP.	친구가 이미 VIP예요.
+Game in progress: {n} balls left	진행 중인 게임: 공 {n}개 남음
+Continue	계속하기
+Missions	미션
+Board	게시판
+Today	오늘
+This week	이번 주
+new missions in {t}	{t} 후 새 미션
+ends in {t}	{t} 후 종료
+{n} days	{n}일
+{n} h	{n}시간
+{n} min	{n}분
+mission complete	미션 완료
+Missions count rated games played to the end. The coins arrive as soon as one is complete.	미션은 끝까지 플레이한 레이팅 게임만 집계해요. 미션을 완료하면 바로 코인이 지급돼요.
+Nothing on the board right now.	지금은 게시판에 글이 없어요.
+Open tournaments	모집 중인 토너먼트
+{n}/{size} players	{n}/{size}명
+starts in {t}	{t} 후 시작
+entry {n} coins	참가비 {n} 코인
+See	보기
+Play {n} rated games	레이팅 게임 {n}판 플레이
+Win {n} rated games	레이팅 게임 {n}승
+Pot {n} balls	공 {n}개 넣기
+Pot {n} balls with spin	회전을 줘서 공 {n}개 넣기
+Pot 3 balls in a row in one visit	한 차례에 공 3개 연속 넣기
+Win a game without a foul	파울 없이 게임 승리
+Pot 3 balls in a row {n} times	공 3개 연속 넣기 {n}회
+Win {n} games without a foul	파울 없이 {n}승
+TV camera when watching	관전 시 TV 카메라
+Broadcast angles for other players' games and replays.	다른 플레이어의 게임과 리플레이를 중계 화면 각도로 보여 줘요.
+System notifications	시스템 알림
+Invites, friends coming online and games starting, while you're away.	자리를 비운 동안 초대, 친구 접속, 게임 시작을 알려 줘요.
+{name} starts in a few minutes: get ready!	{name}, 몇 분 후 시작해요. 준비하세요!
+{name} starts in a few minutes: there is still room.	{name}, 몇 분 후 시작해요. 아직 자리가 있어요.
+{name} has started!	{name} 시작!
+Momentum	흐름
+Shot map	샷 맵
+No shots yet.	아직 샷이 없어요.
+made	성공
+missed	실패
+foul	파울
+See the tournaments	토너먼트 보기
+Open the shop	상점 열기
+See VIP	VIP 보기
+See the missions	미션 보기
+A new version of the game is out: update to play online.	게임의 새 버전이 나왔어요. 온라인으로 플레이하려면 업데이트하세요.
+Update in the Microsoft Store	Microsoft Store에서 업데이트
+Update now	지금 업데이트
+Download the new version	새 버전 다운로드
+New version out	새 버전 출시
+Get the new version to play online	온라인으로 플레이하려면 새 버전을 받으세요
+Cheer for {name}	{name} 님 응원하기
+Crowd: {a} for {p0}, {b} for {p1}	관중: {p0} {a}명, {p1} {b}명
+welcome pack	웰컴 팩
+Welcome pack	웰컴 팩
+Cue “{cue}”, cloth “{cloth}” and {n} coins · only once, sold nowhere else	큐 “{cue}”, 테이블 천 “{cloth}”, {n} 코인 · 1회 한정, 다른 곳에서는 팔지 않아요
+Lagoon	라군
+You already have the welcome pack.	이미 웰컴 팩을 받았어요.
+Your welcome pack is here!	웰컴 팩이 도착했어요!
+Previous shot (←)	이전 샷 (←)
+Next shot (→)	다음 샷 (→)
+Play (Space)	재생 (스페이스)
+Pause (Space)	일시 정지 (스페이스)
+Speed	속도
+Shot {n} of {total}	샷 {n}/{total}
+For VIP members	VIP 회원 전용
+{n} reactions of your own to send during games	게임 중에 보낼 수 있는 전용 리액션 {n}개
+Items {a}–{b} of {n}	아이템 {n}개 중 {a}–{b}
+(message deleted by its author)	(작성자가 삭제한 메시지)
+(message deleted by an administrator)	(관리자가 삭제한 메시지)
+Delete (it shows as deleted)	삭제 (삭제됨으로 표시)
+Remove without a trace	흔적 없이 제거
+The chat was cleared by {name}.	{name} 님이 채팅을 지웠어요.
+Click again to clear	한 번 더 클릭하면 지워져요
+Clear the chat	채팅 지우기
+Players' chat (administrator)	플레이어 채팅 (관리자)
+Play the computer while you wait	기다리는 동안 컴퓨터와 대전
+Looking for an opponent… {t} · the game starts as soon as one is found	상대를 찾는 중… {t} · 상대를 찾으면 바로 게임이 시작돼요
+Stop	중지
+# Coin packs and months of VIP bought in the Microsoft Store (the Store build).
+The Microsoft Store couldn't complete the purchase.	Microsoft Store에서 구매를 완료하지 못했어요.
+The Microsoft Store couldn't confirm the purchase right now. Its coins arrive the next time you open the shop.	Microsoft Store에서 지금은 구매를 확인할 수 없어요. 다음에 상점을 열 때 코인이 지급돼요.
+{n} coins added to your wallet.	지갑에 {n} 코인이 추가됐어요.
+Microsoft is confirming your purchase: the coins arrive in a moment.	Microsoft에서 구매를 확인하는 중이에요. 곧 코인이 지급돼요.
+The purchase hasn't reached us yet. Its coins arrive the next time you open the shop.	아직 구매 정보가 도착하지 않았어요. 다음에 상점을 열 때 코인이 지급돼요.
+Loading prices from the Microsoft Store…	Microsoft Store에서 가격을 불러오는 중…
+Coins can't be bought in this version yet.	이 버전에서는 아직 코인을 구매할 수 없어요.
+Finish the purchase in the Microsoft Store window…	Microsoft Store 창에서 구매를 완료하세요…
+Confirming your purchase…	구매를 확인하는 중…
+Paid in the Microsoft Store, with your Microsoft account.	Microsoft 계정으로 Microsoft Store에서 결제해요.
+The Microsoft Store can't be reached right now. Try again in a moment.	지금은 Microsoft Store에 연결할 수 없어요. 잠시 후 다시 시도하세요.
+The Microsoft Store could not confirm the purchase.	Microsoft Store에서 구매를 확인하지 못했어요.
+Sign in to the Microsoft Store with your Microsoft account, then open the shop again.	Microsoft 계정으로 Microsoft Store에 로그인한 다음 상점을 다시 여세요.
+The Microsoft Store couldn't confirm the purchase right now. Your VIP month starts the next time you open the shop.	Microsoft Store에서 지금은 구매를 확인할 수 없어요. 다음에 상점을 열 때 VIP 1개월이 시작돼요.
+You are VIP until {d}, and {n} coins were added to your wallet.	{d}까지 VIP이며, 지갑에 {n} 코인이 추가됐어요.
+Microsoft is confirming your purchase: your VIP month starts in a moment.	Microsoft에서 구매를 확인하는 중이에요. 곧 VIP 1개월이 시작돼요.
+The purchase hasn't reached us yet. Your VIP month starts the next time you open the shop.	아직 구매 정보가 도착하지 않았어요. 다음에 상점을 열 때 VIP 1개월이 시작돼요.
+A month at a time: nothing renews by itself	1개월 단위 구매: 자동 갱신 없음
+Add a month · {p}	1개월 추가 · {p}
+A month of VIP · {p}	VIP 1개월 · {p}
+The new month starts when this one ends.	새 1개월은 현재 기간이 끝나면 시작돼요.
+Trophies	트로피
+No trophies yet.	아직 트로피가 없어요.
+Tournament won · {n} players	토너먼트 우승 · {n}명
+The computer tour	컴퓨터 투어
+All fifteen opponents beaten	15명의 상대 모두 격파
+Daily challenge	일일 챌린지
+First of {n} players	{n}명 중 1위
+Easy shot	쉬운 샷
+Fair shot	보통 샷
+Hard shot	어려운 샷
+Very hard shot	매우 어려운 샷
+~{n}% chance	성공 확률 ~{n}%
+No ball goes down as aimed	이 조준으로는 들어가는 공이 없어요
+straight in	직선
+{n}° cut	{n}° 컷
+off one cushion	원 쿠션
+off {n} cushions	{n}쿠션
+Make as many balls as you can in one visit: a miss or a foul ends the attempt.	한 차례에 최대한 많은 공을 넣으세요. 실패하거나 파울하면 도전이 끝나요.
+The same table for everyone, all day	하루 종일 모두에게 같은 테이블
+{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	하루 {n}번 도전할 수 있어요. 테이블을 비우면 {coins} 코인, 그날의 1위는 트로피를 받아요.
+A new table in {h} h {m} min	{h}시간 {m}분 후 새 테이블
+Sign in to take part: the server keeps the day's table.	참가하려면 로그인하세요. 서버에 그날의 순위가 기록돼요.
+Balls on today's table	오늘 테이블의 공
+Attempts left	남은 도전 횟수
+{n} balls · #{rank}	공 {n}개 · {rank}위
+{n} balls	공 {n}개
+not yet	아직 없음
+Your best today	오늘 내 최고 기록
+No attempts left today: come back tomorrow.	오늘은 도전 횟수를 모두 썼어요. 내일 다시 오세요.
+The attempt could not be counted.	도전 기록을 집계하지 못했어요.
+Setting up the table…	테이블을 준비하는 중…
+Start an attempt	도전 시작
+Starting uses an attempt, even if you leave the table.	시작하면 테이블을 떠나도 도전 1회가 차감돼요.
+Loading today's table…	오늘의 테이블을 불러오는 중…
+Today's table	오늘의 순위
+{n} players	{n}명
+Nobody has played today's table yet. Be the first!	아직 오늘의 테이블에 도전한 사람이 없어요. 첫 주인공이 되어 보세요!
+Table cleared!	테이블 클리어!
+{n} of {total} balls	공 {total}개 중 {n}개
+Sending your attempt to the server…	서버로 도전 기록을 보내는 중…
+Counted: {n} balls · +{coins} coins	집계 완료: 공 {n}개 · +{coins} 코인
+Counted: {n} balls	집계 완료: 공 {n}개
+See today's table	오늘의 순위 보기
+Table cleared! +{n} coins	테이블 클리어! +{n} 코인
+Daily challenge: {n} of {total} balls made	일일 챌린지: 공 {total}개 중 {n}개 성공
+1 player	1명
+Phoenix	피닉스
+Carrara marble	카라라 대리석
+Dragon scale	용비늘
+Galaxy	갤럭시
+Ruby throne	루비 왕좌
+Closing the game now is leaving it: extra rating lost and a wait to play again.	지금 게임을 닫으면 게임을 나간 것으로 처리돼요. 레이팅을 추가로 잃고, 다시 플레이하려면 기다려야 해요.
+You left a game in progress: you can play online again in {n} min.	진행 중인 게임을 나갔어요. {n}분 후에 다시 온라인으로 플레이할 수 있어요.
+Quick phrases	빠른 메시지
+Good luck, have fun!	행운을 빌어요, 즐겁게 해요!
+Nice shot!	나이스 샷!
+Great safety!	멋진 세이프티!
+Unlucky!	아깝네요!
+Oops!	앗!
+Wow!	와!
+That was close!	아슬아슬했어요!
+Take your time.	천천히 하세요.
+Sorry!	미안해요!
+Thanks!	고마워요!
+Well played!	잘했어요!
+Good game!	좋은 게임이었어요!
+Rematch?	한 판 더?
+I have to go, thanks for the game!	이만 가 볼게요. 게임 고마워요!
+Practise while you wait	기다리는 동안 연습
+A new rack.	새 랙을 놓았어요.
+Level {n}! (+{xp} XP)	레벨 {n}! (+{xp} XP)
++{xp} XP	+{xp} XP
+Level {n} · {into} / {span} XP to the next	레벨 {n} · 다음 레벨까지 {into} / {span} XP
+Level {n}	레벨 {n}
+Hi! I watched a lot of videos, I'm ready!	안녕하세요! 영상을 엄청 많이 봤어요. 준비 완료예요!
+Be gentle, okay?	살살 해 주세요, 네?
+Whoa, how did you do that?	우와, 그거 어떻게 한 거예요?
+Teach me that one later!	그거 나중에 알려 주세요!
+Phew! My turn!	휴! 제 차례예요!
+Even you miss? Good to know.	그쪽도 실수하네요? 알아 둘게요.
+A free ball! What do I do with it?	프리볼이다! 이걸로 뭘 하면 되죠?
+Did you see that?! It went in!	봤어요?! 들어갔어요!
+Beginner's luck counts too!	초심자의 행운도 실력이에요!
+Oops. That was a practice shot.	앗. 방금 건 연습 샷이었어요.
+Aim, Leo, aim...	조준하자, Leo, 조준...
+Sorry! I touched the wrong one again.	죄송해요! 또 엉뚱한 공을 맞혔어요.
+I WON? I'm calling my mum!	제가 이겼어요? 엄마한테 전화해야지!
+Good game! I'm getting better, right?	좋은 게임이었어요! 저 실력 늘고 있죠?
+Saturday, a table and good company. Let's play!	토요일, 당구대, 그리고 좋은 친구. 시작해 볼까요!
+Nice one!	좋은데요!
+Oh, you're good. I'll pay attention now.	오, 잘하시네요. 이제 집중할게요.
+Happens to the best of us.	고수들도 다 그래요.
+Don't worry, it's just a game!	걱정 마요, 그냥 게임인걸요!
+Thanks for the gift!	선물 고마워요!
+Yes! Weekend skills!	좋아요! 이게 주말 실력이죠!
+Lucky me!	운이 좋네요!
+Hm, where was I aiming?	음, 제가 어디를 노렸더라?
+Too much chatting, not enough aiming.	수다가 길면 조준이 흔들려요.
+Oops, my bad!	앗, 제 실수예요!
+That was fun! Same time next weekend?	재밌었어요! 다음 주말 같은 시간에 또 할까요?
+Well played! Rematch over a lemonade?	잘하셨어요! 레모네이드 한잔하면서 한 판 더 할래요?
+Four cushions, endless possibilities.	쿠션 네 개, 가능성은 무한대예요.
+Straight in? So... direct.	직선으로요? 참… 직설적이네요.
+Nice, but a bank would have been prettier.	좋아요. 그래도 뱅크샷이었으면 더 예뻤을 텐데요.
+You should have used the cushion.	쿠션을 썼어야죠.
+The rail was right there, asking for it.	쿠션이 바로 거기서 불렀잖아요.
+The table didn't like that.	테이블이 마음에 안 들었나 봐요.
+Off the rail and in. Art!	쿠션 맞고 쏙. 예술이죠!
+Geometry never lies.	기하학은 거짓말을 안 해요.
+The angle was right. The cushion disagreed.	각도는 맞았어요. 쿠션이 동의하지 않았을 뿐이에요.
+One diamond off. Just one!	포인트 하나 차이였어요. 딱 하나!
+Too much imagination, not enough contact.	상상력은 넘치는데 맞히질 못했네요.
+A masterpiece, if I may say so.	제 입으로 말하긴 뭣하지만, 걸작이네요.
+Well played. Now try it off two rails.	잘했어요. 이제 투 쿠션으로 해 보세요.
+I hope these balls are made of steel.	이 공들, 강철로 만들었길 바라요.
+Soft touch, huh? Not my style.	살살 치는 거요? 제 스타일 아니에요.
+Hit it harder next time!	다음엔 더 세게 쳐요!
+Too gentle! Power solves everything.	너무 약해요! 힘이면 다 해결돼요.
+HA!	하!
+My table now. Cover your ears.	이제 제 테이블이에요. 귀 막으세요.
+BOOM!	쾅!
+Did you hear that pocket?	포켓 소리 들었어요?
+Too much power? No such thing.	힘이 너무 세다고요? 그런 건 없어요.
+The pocket moved.	포켓이 움직였어요.
+The ball flew. It happens. A lot.	공이 날아갔네요. 그럴 수 있죠. 자주요.
+Power wins again! BOOM!	또 힘이 이겼어요! 쾅!
+Fine, finesse works too. Sometimes.	좋아요, 섬세함도 통하네요. 가끔은요.
+Take your time. I have all day.	천천히 하세요. 시간은 많아요.
+Acceptable.	봐줄 만하네요.
+Enjoy it while it lasts.	지금을 즐기세요. 오래가진 않을 테니까요.
+Patience is a virtue. Not yours, apparently.	인내는 미덕이죠. 그쪽 미덕은 아닌가 봐요.
+Thank you.	고마워요.
+Sloppy.	엉성하네요.
+Steady wins.	꾸준함이 이겨요.
+One at a time.	하나씩요.
+Hm. I'll leave you nothing anyway.	흠. 어차피 아무것도 안 남겨 드릴 거예요.
+Intentional. Probably.	일부러 그런 거예요. 아마도요.
+Unacceptable. Of me.	용납할 수 없네요. 제 실수가요.
+As I said: patience.	말했잖아요. 인내라고요.
+You got through the wall. I'm impressed.	철벽을 뚫었네요. 인상적이에요.
+I've been playing since before these balls were plastic.	이 공들이 플라스틱이 되기 전부터 쳤어요.
+Good stroke. Reminds me of a fellow in '78.	좋은 스트로크예요. 78년에 만난 친구가 생각나네요.
+Smooth. Very smooth.	부드럽네요. 아주 부드러워요.
+Keep your head down, kid.	고개 숙이고 쳐요, 젊은이.
+The cue ball doesn't lie.	수구는 거짓말을 안 해요.
+Ah, a little present. Thank you kindly.	아, 작은 선물이네요. 정말 고마워요.
+Like riding a bicycle.	자전거 타는 거랑 같죠.
+Still got it.	아직 녹슬지 않았어요.
+The eyes aren't what they used to be.	눈이 예전 같지 않네요.
+In my day the pockets were bigger.	제가 젊을 땐 포켓이 더 컸어요.
+Even old pros slip.	노장도 실수는 하죠.
+Experience, my friend. Experience.	경험이에요, 친구. 경험.
+You've got a future in this game.	앞날이 창창하네요.
+Me? Oh, I hardly ever play...	저요? 아, 저 거의 안 쳐요...
+Lucky! Do it again, I dare you.	운이 좋았네요! 한 번 더 해 보시든가요.
+Ooh, someone's been practising.	오, 누가 연습 좀 했나 봐요.
+Aw, so close! Bless.	어머, 아까워요! 귀엽네요.
+Want me to show you how?	어떻게 하는지 보여 드릴까요?
+Thank you, sweetie.	고마워요, 자기.
+Oops, did I do that?	어머, 제가 그랬어요?
+Must be beginner's luck. Again.	초심자의 행운인가 봐요. 또요.
+Missed on purpose. Keeps it interesting.	일부러 놓친 거예요. 그래야 재밌잖아요.
+Just warming up.	이제 몸 푸는 중이에요.
+Oh dear, how clumsy of me. Wink.	어머, 제가 덤벙댔네요. 윙크.
+Hardly ever play, I said. Hardly.	거의 안 친다고 했죠. ‘거의’요.
+Fine, you got me. This time.	좋아요, 제가 졌어요. 이번엔요.
+Friction, momentum, spin. Let us begin.	마찰, 운동량, 회전. 시작해 볼까요.
+A fine cut. About thirty degrees, I'd say.	훌륭한 컷이네요. 30도 정도예요.
+Textbook.	교과서적이네요.
+You underestimated the throw.	스로 효과를 과소평가했네요.
+Interesting. Statistically expected.	흥미롭네요. 통계적으로 예상된 결과예요.
+The cue ball followed the laws of physics, not your plan.	수구는 그쪽 계획이 아니라 물리 법칙을 따랐어요.
+As calculated.	계산대로예요.
+Elastic collision, elegant result.	탄성 충돌, 우아한 결과.
+An error in my measurement.	측정 오차네요.
+I'll revise the model.	모델을 수정해야겠어요.
+Hm. Unexpected spin.	흠. 예상 밖의 회전이네요.
+The numbers were on my side.	숫자는 제 편이었어요.
+A result outside my predictions. Well done.	제 예측을 벗어난 결과네요. 잘했어요.
+Focus.	집중.
+Clean.	깔끔하네요.
+Not bad.	나쁘지 않네요.
+Half a millimetre.	0.5밀리.
+Breathe before you shoot.	치기 전에 숨을 고르세요.
+Careless.	부주의했네요.
+Target down.	목표 제거.
+Centre pocket.	포켓 정중앙.
+Hm. Recalibrating.	흠. 재조정 중.
+That never happens.	이런 일은 없는데요.
+Unacceptable.	용납 불가.
+Precision wins.	정확함이 이겨요.
+Good shooting.	좋은 샷이에요.
+Welcome to my table. Enjoy the show.	제 테이블에 오신 걸 환영해요. 쇼를 즐기세요.
+Very good. You've done your homework.	아주 좋아요. 준비를 단단히 했네요.
+Applause for the challenger!	도전자에게 박수를!
+Pressure. It gets to everyone.	압박감. 누구에게나 찾아오죠.
+Thank you for the table.	테이블을 내줘서 고마워요.
+A champion never refuses a gift.	챔피언은 선물을 거절하지 않아요.
+Naturally.	당연하죠.
+That's how it's done.	이렇게 하는 거예요.
+Even champions give the crowd a chance.	챔피언도 관중에게 기회를 주는 법이죠.
+Leaving you something, out of courtesy.	예의상 조금 남겨 드릴게요.
+A rare sight. Remember it.	보기 드문 장면이에요. 기억해 두세요.
+The title stays with me. Good game.	타이틀은 제 거예요. 좋은 게임이었어요.
+Remarkable. You've earned my respect.	대단해요. 존경을 표할게요.
+Calibration complete. Good luck, human.	보정 완료. 행운을 빌어요, 인간.
+Shot registered: successful.	샷 기록: 성공.
+Probability of my victory: increasing.	제 승리 확률: 상승 중.
+Foul detected. Processing penalty.	파울 감지. 페널티 처리 중.
+Executed as planned.	계획대로 실행 완료.
+Error. Recalculating.	오류. 재계산 중.
+Malfunction. Please disregard.	오작동. 무시해 주세요.
+Game complete. Thank you for playing.	게임 종료. 플레이해 주셔서 감사해요.
+Defeat acknowledged. Well played.	패배 확인. 잘했어요.
+Drills	훈련
+Exercises with stars	별을 모으는 연습 과제
+{s} / {max} stars	별 {s} / {max}
+Stars at {a}, {b} and {c}	별 기준: {a}, {b}, {c}
+Your best: {n} of {total}	최고 기록: {n}/{total}
+Not tried yet.	아직 도전하지 않았어요.
+Start the drill	훈련 시작
+Sign in to keep your stars in your account.	로그인하면 계정에 별이 저장돼요.
+{n} of {total}	{n}/{total}
+{drill}: try {k} of {n} · {made} made	{drill}: 시도 {k}/{n} · {made}개 성공
+Made it! {n} of {total}	성공! {n}/{total}
+Missed.	실패.
+Sending to the server…	서버로 보내는 중…
+Not signed in: this session is not ranked.	로그인하지 않음: 이번 세션은 순위에 반영되지 않아요.
+Kept in your account.	계정에 저장됐어요.
+The session could not be counted.	이번 세션을 집계하지 못했어요.
+Back to the drills	훈련으로 돌아가기
+Straight in	직선 샷
+A long straight pot into the corner. Five tries.	코너 포켓으로 길게 치는 직선 샷. 5번 시도.
+The cut	컷 샷
+A half-ball cut into the corner. Five tries.	코너 포켓으로 하프볼 컷. 5번 시도.
+Draw it back	끌어치기
+Pot the ball and draw the cue ball back into the circle. Five tries.	공을 넣고 수구를 끌어서 원 안으로 돌아오게 하세요. 5번 시도.
+Follow through	밀어치기
+Pot the ball and leave the cue ball in the circle past it. Five tries.	공을 넣고 수구를 밀어서 그 너머의 원 안에 멈추게 하세요. 5번 시도.
+Bank shot	뱅크샷
+Off one cushion into the side pocket. Five tries.	원 쿠션으로 사이드 포켓에 넣으세요. 5번 시도.
+Snooker escape	스누커 탈출
+Hit the 1 first: it hides behind other balls. Five tries.	1번 공을 먼저 맞히세요. 다른 공 뒤에 숨어 있어요. 5번 시도.
+Ten in a row	10연속
+Ten different pots, one after another: a miss ends the session.	서로 다른 샷 10개를 연달아 성공하세요. 한 번이라도 실패하면 세션이 끝나요.
+The far corner	반대편 코너
+A cut back up the table into the corner behind you. Five tries.	테이블 위쪽으로 되돌려 치는 컷으로 뒤쪽 코너 포켓에 넣으세요. 5번 시도.
+Long into the side	롱 사이드
+From the far end of the table into the side pocket. Five tries.	테이블 반대쪽 끝에서 사이드 포켓으로. 5번 시도.
+Cue ball on the cushion	쿠션에 붙은 수구
+The cue ball touches the cushion: pot the ball into the corner all the same. Five tries.	수구가 쿠션에 붙어 있어요. 그래도 공을 코너에 넣으세요. 5번 시도.
+The plant	플랜트
+The 2 touches the 1 and points at the pocket: hit the 2 and the 1 goes in. Five tries.	2번 공이 1번 공에 붙어서 포켓을 향하고 있어요. 2번 공을 치면 1번 공이 들어가요. 5번 시도.
+The carom	캐롬
+The 2 is in the way: glance off it and send the 1 into the corner. Five tries.	2번 공이 길을 막고 있어요. 수구가 2번 공을 스치고 나가 1번 공을 코너에 넣게 하세요. 5번 시도.
+The long draw	긴 끌어치기
+Pot the ball and draw the cue ball all the way back into the circle. Five tries.	공을 넣고 수구를 멀리 끌어서 원 안까지 돌아오게 하세요. 5번 시도.
+On the tangent line	접선 따라가기
+Pot the ball in the side and let the cue ball run on into the circle. Five tries.	공을 사이드 포켓에 넣고 수구가 원 안까지 굴러가게 하세요. 5번 시도.
+Two-cushion bank	투 쿠션 뱅크샷
+Off two cushions and into the corner. Five tries.	투 쿠션으로 코너 포켓에 넣으세요. 5번 시도.
+Fifteen in a row	15연속
+Fifteen different pots, one after another: a miss ends the session.	서로 다른 샷 15개를 연달아 성공하세요. 한 번이라도 실패하면 세션이 끝나요.
+Take back the shot (Z)	샷 되돌리기 (Z)
+Shot taken back.	샷을 되돌렸어요.
+Solids	솔리드
+Stripes	스트라이프
+Hide the history	기록 숨기기
+New username	새 사용자 이름
+Click again to confirm	한 번 더 클릭하면 확정돼요
+{n} of {total} name changes left	이름 변경 {total}회 중 {n}회 남음
+You can't change your username again.	더 이상 사용자 이름을 바꿀 수 없어요.
+That is already your username.	지금 쓰고 있는 사용자 이름이에요.
+Finish your game before changing your username.	사용자 이름을 바꾸기 전에 게임을 끝내세요.
+Leave your table or the queue before changing your username.	사용자 이름을 바꾸기 전에 테이블이나 대기열에서 나가세요.
+Leave your tournament before changing your username.	사용자 이름을 바꾸기 전에 토너먼트에서 나가세요.
+Username changed.	사용자 이름을 바꿨어요.
+The server is still being updated to the new version. Try again in a few minutes.	서버가 아직 새 버전으로 업데이트 중이에요. 몇 분 후 다시 시도하세요.
+{shooter} made an opponent's ball: {next} to shoot.	{shooter} 님이 상대 공을 넣었어요. {next} 님 차례예요.
+# Five more computer opponents: Tito, Inês, Diego, Amara and Yuri.
+The Gambler	도박사
+Bets on every shot: as hard as the cue allows, with all the spin he can find. Safe play bores him.	샷마다 승부를 걸어요. 큐가 허락하는 한 세게, 줄 수 있는 회전은 전부 줘요. 안전한 플레이는 지루해해요.
+The Soft Touch	부드러운 손
+Never hits harder than she must: the balls die at the pocket's edge and the cue ball stops where she wants it.	필요 이상으로 세게 치는 법이 없어요. 공은 포켓 입구에서 겨우 떨어지고, 수구는 원하는 자리에 멈춰요.
+The Showman	쇼맨
+Plays to the crowd: a raised cue, swerving spin and a bank whenever there's one. It works more often than it should.	관중을 위해 쳐요. 높이 든 큐, 휘어 가는 회전, 기회만 되면 뱅크샷. 생각보다 자주 통해요.
+The Tactician	전략가
+Plans the whole rack: snookers you when the pot isn't sure, and runs out when it is.	랙 전체를 계획해요. 확실하지 않으면 스누커를 걸고, 확실하면 끝까지 런아웃해요.
+The Machine	기계
+No nerves, no flair: centre ball, measured pace, the same perfect stroke every time.	긴장도 멋 부림도 없어요. 중앙 당점, 일정한 힘, 매번 똑같은 완벽한 스트로크.
+Place your bets! Mine's on me.	베팅하세요! 저는 저한테 걸게요.
+Lucky roll. Let it ride!	운이 따르네요. 계속 가 보죠!
+Okay, okay. Double or nothing?	알았어요, 알았어요. 두 배 아니면 꽝?
+The house always wins!	하우스는 항상 이겨요!
+Free chips! Thank you!	공짜 칩이다! 고마워요!
+All in, and it paid!	올인했는데 터졌어요!
+That's how you play the odds!	확률은 이렇게 타는 거예요!
+Bad beat. Next hand.	배드 빗이네요. 다음 판.
+Too much spin? There's no such thing.	회전이 너무 많다고요? 그런 건 없어요.
+Busted. Worth the risk!	망했네요. 그래도 해 볼 만했어요!
+Jackpot! Same stakes again?	잭팟! 같은 판돈으로 한 번 더?
+You beat the odds. Respect.	확률을 이겼네요. 인정해요.
+Softly, now. The table likes a gentle hand.	살살요. 테이블은 부드러운 손길을 좋아해요.
+Nicely done.	잘했어요.
+A little hard, but it went in.	조금 세긴 했지만 들어갔네요.
+Less power, more feel.	힘은 줄이고 감각은 살리고요.
+Oh dear. A free ball for me.	어머나. 저한테 프리볼이네요.
+Just enough to drop.	딱 떨어질 만큼만요.
+See? No need to hit it hard.	봤죠? 세게 칠 필요 없어요.
+A touch too soft.	살짝 약했네요.
+Clumsy of me. Sorry.	제가 서툴렀네요. 미안해요.
+Slow and steady. Thank you for the game.	천천히, 꾸준히. 게임 고마웠어요.
+Beautifully played. Well deserved.	멋진 플레이였어요. 이길 만했어요.
+Ladies and gentlemen... the show begins!	신사 숙녀 여러분... 쇼 타임이에요!
+Not bad! Bow to the crowd!	나쁘지 않네요! 관중에게 인사하세요!
+You stole my applause!	제 박수를 훔쳐 갔네요!
+The crowd wanted more!	관중이 더 보고 싶어 했어요!
+Ooh, a plot twist!	오, 반전이네요!
+Ta-da!	짜잔!
+And for my next trick...	다음 마술은...
+Even magicians have off nights.	마술사도 안 풀리는 밤이 있죠.
+That was... part of the act.	그건... 연출이었어요.
+Thank you, thank you! Encore?	감사해요, 감사해요! 앙코르?
+Take a bow, champion. You earned it.	인사하세요, 챔피언. 그럴 자격이 있어요.
+Every rack is a puzzle. Let's solve this one.	모든 랙은 퍼즐이에요. 이번 것도 풀어 보죠.
+Good. Now where is your cue ball?	좋아요. 그런데 수구는 어디 있죠?
+I saw that coming.	그럴 줄 알았어요.
+That left me something. Thank you.	덕분에 칠 게 생겼네요. 고마워요.
+As planned.	계획대로예요.
+Exactly as I calculated.	정확히 계산한 대로예요.
+Three moves ahead.	세 수 앞을 봤죠.
+A variable I missed.	놓친 변수가 있었네요.
+Hm. Recalculating.	흠. 다시 계산 중.
+Checkmate.	체크메이트.
+You out-thought me. That's rare.	수 싸움에서 졌네요. 드문 일이에요.
+Game initialised.	게임 초기화 완료.
+Noted.	기록 완료.
+Error margin exceeded.	오차 범위 초과.
+Penalty applied.	페널티 적용.
+As expected.	예상대로.
+Next.	다음.
+Deviation logged.	편차 기록.
+Malfunction. It will not repeat.	오작동. 반복되지 않을 거예요.
+Result: win. Thank you for the data.	결과: 승리. 데이터 고마워요.
+Unexpected outcome. Impressive.	예상 밖의 결과. 인상적이에요.
+Opponents' remarks	상대의 한마디
+The computer opponents comment on the game in speech bubbles.	컴퓨터 상대가 말풍선으로 게임에 한마디씩 해요.
+Top view only	탑뷰만
+The table is always seen from above: no 3D view, no turning.	테이블을 항상 위에서 봐요. 3D 시점도, 회전도 없어요.
+Not with the top view only.	탑뷰 고정 시에는 사용할 수 없어요.
+Wheel	마우스 휠
+Rules	규칙
+Rules of the game	게임 규칙
+Level	수평
+Drag the cue: jump & massé	큐 드래그: 점프 & 마세
+Drag to raise or lower the cue	드래그해서 큐를 올리거나 내리기
+Drag the cue · {keys}	큐 드래그 · {keys}
+Profile picture	프로필 사진
+Shown by your name at the table and in your profile.	테이블과 프로필에서 이름 옆에 표시돼요.
+No picture	사진 없음
+Change your picture	사진 변경
+{name} sank the 8 together with another ball	{name} 님이 8번 공을 다른 공과 함께 넣었어요
+the opponent sank the 8 with another ball	상대가 8번 공을 다른 공과 함께 넣음
+sank the 8 with another ball	8번 공을 다른 공과 함께 넣음
+opponent pocketed the 8-ball together with another ball	상대가 8번 공을 다른 공과 함께 넣음
+Penalty: {balls} off the table for {name}.	페널티: {balls}이 {name} 님 몫으로 테이블에서 빠져요.
+{name} had fewer balls left than the foul gives: the 8 pays the rest, and the foul loses the game.	{name} 님의 남은 공이 파울로 줘야 할 공보다 적어요. 모자란 만큼 8번 공이 대신 빠지고, 파울한 쪽이 져요.
+Shadows	그림자
+The shadows of the balls and of the cue on the table.	테이블 위 공과 큐의 그림자.
+Sixteen players: knockout or arena	16명: 녹아웃 또는 아레나
+New knockout	새 녹아웃
+New arena	새 아레나
+Knockout: sixteen players, four rounds. Lose a game and you are out.	녹아웃: 16명, 4라운드. 한 게임이라도 지면 탈락이에요.
+Arena: seven rounds for everyone. A win is 2 points, 3 from the third win in a row. The most points wins.	아레나: 모두 7라운드를 치러요. 승리는 2점, 3연승째부터는 3점. 점수가 가장 높은 사람이 우승해요.
+The games between the other players are decided by their strength and a draw.	다른 플레이어끼리의 게임은 실력과 추첨으로 결정돼요.
+You won the tournament!	토너먼트에서 우승했어요!
+{name} won the tournament.	{name} 님이 토너먼트에서 우승했어요.
+You finished in place {n}.	{n}위로 마쳤어요.
+Round of 16	16강
+Quarter-finals	8강
+Round {n} of {total}	라운드 {n}/{total}
+Play {name}	{name} 님과 대전
+Abandon the tournament	토너먼트 포기
+W - L	승 - 패
+Points	점수
+The tournament is over.	토너먼트가 끝났어요.
+The round is over: see who you play next.	라운드가 끝났어요. 다음 상대를 확인하세요.
+You are out of the tournament.	토너먼트에서 탈락했어요.
+Side pocket	사이드 포켓
+A cut into the side pocket, where the angle is tight. Five tries.	각도가 좁은 사이드 포켓으로 컷. 5번 시도.
+The long cut	롱 컷
+A cut from the far end of the table into the corner. Five tries.	테이블 반대쪽 끝에서 코너 포켓으로 컷. 5번 시도.
+Thin cut	얇은 컷
+Barely graze the ball: a thin cut into the corner. Five tries.	공을 살짝 스치듯 얇게 쳐서 코너 포켓에 넣으세요. 5번 시도.
+Along the cushion	쿠션 따라
+The ball sits by the cushion: run it along into the corner. Five tries.	공이 쿠션 옆에 있어요. 쿠션을 따라 굴려 코너에 넣으세요. 5번 시도.
+Stop shot	스톱샷
+Pot the ball and stop the cue ball dead where the ball was. Five tries.	공을 넣고 수구를 공이 있던 자리에 딱 멈추게 하세요. 5번 시도.
+The combination	콤비네이션
+Pot the 1 by playing the 2 into it. Five tries.	2번 공으로 1번 공을 맞혀 넣으세요. 5번 시도.
+Cross-corner bank	크로스 코너 뱅크샷
+Off the long cushion and across the table into the corner. Five tries.	긴 쿠션을 맞고 테이블을 가로질러 코너 포켓으로. 5번 시도.
+Kick shot	킥샷
+The 1 is walled off: send the cue ball off a cushion to hit it first. Five tries.	1번 공이 가려져 있어요. 수구를 쿠션에 맞혀 1번 공을 먼저 맞히세요. 5번 시도.
+Only the cue ball went down on the break: the balls are racked again and {next} breaks.	브레이크에서 수구만 들어갔어요. 공을 다시 랙하고 {next} 님이 브레이크해요.
+Golden break	골든 브레이크
+Win a rated game by sinking only the 8-ball on the break.	브레이크에서 8번 공만 넣어 레이팅 게임에서 승리하세요.
+Half a year	반년
+Have an account for six months.	계정을 6개월 동안 유지하세요.
+First anniversary	1주년
+Second anniversary	2주년
+Have an account for two years.	계정을 2년 동안 유지하세요.
+Third anniversary	3주년
+Have an account for three years.	계정을 3년 동안 유지하세요.
+Five years at the table	테이블 앞 5년
+Have an account for five years.	계정을 5년 동안 유지하세요.
+Back to the tournament	토너먼트로 돌아가기
+Continue against {name}	{name} 님과 계속하기
+You left your game: it counts as a loss.	게임을 나갔어요. 패배로 처리돼요.
+new level	새 레벨
+Level {n} brings: {item}	레벨 {n} 보상: {item}
+Level 5	레벨 5
+Reach level 5.	레벨 5에 도달하세요.
+Level 10	레벨 10
+Reach level 10.	레벨 10에 도달하세요.
+Level 15	레벨 15
+Reach level 15.	레벨 15에 도달하세요.
+Level 20	레벨 20
+Reach level 20.	레벨 20에 도달하세요.
+Level 30	레벨 30
+Reach level 30.	레벨 30에 도달하세요.
+Level 40	레벨 40
+Reach level 40.	레벨 40에 도달하세요.
+Level 50	레벨 50
+Reach level 50.	레벨 50에 도달하세요.
+Regular's teal	단골의 틸
+Veteran's plum	베테랑의 플럼
+Old hand	노련한 손
+Lifer	평생 당구인
+Apprentice's chalk	견습생의 초크
+Journeyman's chalk	숙련공의 초크
+Achievements	업적
+Leagues and levels	리그와 레벨
+Next league: {tier}	다음 리그: {tier}
+The top league.	최고 리그예요.
+Every prize of the levels is won.	레벨 보상을 모두 받았어요.
+None yet: the first is one game away.	아직 없어요. 한 게임만 더 하면 첫 보상이에요.
+{coins} and {item}	{coins} + {item}
+Leagues	리그
+Levels	레벨
+By playing. Every level pays {n} coins.	플레이하면 올라요. 레벨마다 {n} 코인을 받아요.
+where everyone starts	모두가 시작하는 곳
+from {n}	{n}부터
+The top level.	최고 레벨이에요.
+{n} XP to level {next}	레벨 {next}까지 {n} XP
+{n} levels to go	{n}레벨 남음
+new league	새 리그
+Old-timer's black	고참의 블랙
+Expert league blue	전문가 리그 블루
+Master league violet	마스터 리그 바이올렛
+Legend league gold	레전드 리그 골드
+Skilled league chalk	숙련자 리그 초크
+By rating. Each league pays once.	레이팅으로 올라요. 리그마다 보상은 한 번만 받아요.
+cue	큐
+cloth	테이블 천
+chalk	초크
+Always show the head string	헤드 스트링 항상 표시
+The line the break is played from, always on the table (off: only while placing the cue ball behind it).	브레이크를 치는 기준선을 항상 테이블에 표시해요(끄면 수구를 그 뒤에 놓을 때만 표시).
+{who} ran out of time: the turn passes.	{who} 님 시간 초과: 차례가 넘어가요.
+{who} ran out of time with no ball left to give {other}: the 8 pays, and {who} loses.	{who} 님 시간 초과, {other} 님에게 줄 공이 남아 있지 않아요. 8번 공으로 대신하고 {who} 님이 패배해요.
+{who} ran out of time: the cue ball goes back to the head spot and the turn passes.	{who} 님 시간 초과: 수구가 헤드 스폿으로 돌아가고 차례가 넘어가요.
+{who} ran out of time: {balls} off the table for {other}, and the cue ball goes back to the head spot.	{who} 님 시간 초과: {balls}이 {other} 님 몫으로 테이블에서 빠지고, 수구는 헤드 스폿으로 돌아가요.
+You were muted for {n} minutes: {r}	{n}분 동안 채팅이 금지됐어요: {r}
+Your account was suspended for {n} hours: {r}	계정이 {n}시간 동안 정지됐어요: {r}
+The server restarts in {minutes} min for an update. Games in progress go on; new games start right after.	업데이트를 위해 {minutes}분 후 서버가 다시 시작돼요. 진행 중인 게임은 계속되고, 새 게임은 그 직후에 시작할 수 있어요.
+The {cup} was called off: not enough players signed up.	{cup}이 취소됐어요. 참가 신청자가 부족했어요.
+The {cup} is open for sign-up: it starts soon in Tournaments.	{cup} 참가 신청을 받고 있어요. 곧 토너먼트에서 시작돼요.
+{display} won the tournament “{name}”!	{display} 님이 “{name}” 토너먼트에서 우승했어요!
+Sunday Cup	일요일 컵
+Monday Cup	월요일 컵
+Tuesday Cup	화요일 컵
+Wednesday Cup	수요일 컵
+Thursday Cup	목요일 컵
+Friday Cup	금요일 컵
+Saturday Cup	토요일 컵
+{name} · rating {r}	{name} · 레이팅 {r}
+Something went wrong. Try again.	문제가 생겼어요. 다시 시도하세요.
+member for 1 day	가입 1일째
+Game in progress: 1 ball left	진행 중인 게임: 공 1개 남음
+1 level to go	1레벨 남음
+1 more online win with this cue for level {n}. Levels only add marks to the cue.	레벨 {n}까지 이 큐로 온라인 1승이 더 필요해요. 레벨은 큐에 마크만 추가해요.
+Home	Home
+End	End
+PgUp	PgUp
+PgDn	PgDn
+Ins	Ins
+Could not join the LAN game	LAN 게임에 참가할 수 없어요
+LAN game · others join at {address}	LAN 게임 · 다른 사람은 {address}로 참가
+Click to copy	클릭해서 복사
+Copied.	복사했어요.
+Start a new game?	새 게임을 시작할까요?
+You have a game in progress against the computer, with 1 ball left. A new game takes its place.	컴퓨터와 진행 중인 게임이 있어요(공 1개 남음). 새 게임을 시작하면 그 게임은 사라져요.
+You have a game in progress against the computer, with {n} balls left. A new game takes its place.	컴퓨터와 진행 중인 게임이 있어요(공 {n}개 남음). 새 게임을 시작하면 그 게임은 사라져요.
+Continue that game	그 게임 계속하기
+Start a new one	새로 시작
+Click again to close the game: {n} will be disconnected	한 번 더 클릭하면 게임을 닫아요. {n}명의 연결이 끊겨요
+{name} cleared the table in one visit!	{name} 님이 한 차례에 테이블을 비웠어요!
+{name}: {n} in a row!	{name} 님: {n}연속!
+Watch the deciding shot again	결정적인 샷 다시 보기
+Next: {name}	다음: {name}
+Drag on the table to aim, or click a ball	테이블을 드래그해서 조준하거나 공을 클릭하세요
+Set the power	파워를 정하세요
+Let go of {key} to shoot · Esc cancels	{key}에서 손을 떼면 샷 · Esc 취소
+Staff accounts can't change their username.	운영진 계정은 사용자 이름을 바꿀 수 없어요.
+That password can't be used. Choose another one.	사용할 수 없는 비밀번호예요. 다른 비밀번호를 고르세요.
+That tournament is full.	인원이 다 찬 토너먼트예요.
+The server is restarting: your tournament was called off.	서버를 다시 시작하는 중이라 토너먼트가 취소됐어요.
+Too many sign-ins. Wait a minute and try again.	로그인 시도가 너무 많아요. 1분 후 다시 시도하세요.
+Too many wrong passwords. Try again in a few minutes.	잘못된 비밀번호를 너무 많이 입력했어요. 몇 분 후 다시 시도하세요.
+Your VIP subscription could not be cancelled. Try again in a moment.	VIP 구독을 해지하지 못했어요. 잠시 후 다시 시도하세요.
+Balls of both groups on the break: the turn passes to {next}, the table is open.	브레이크에서 두 그룹의 공이 모두 들어갔어요. {next} 님에게 차례가 넘어가고, 오픈 테이블이에요.
+Only a final started while signed in counts: play the last stage again signed in.	로그인한 상태로 시작한 결승만 인정돼요. 로그인하고 마지막 스테이지를 다시 플레이하세요.
+The server didn't deal the final: this game won't earn the reward.	서버가 결승을 준비하지 않았어요. 이 게임으로는 보상을 받을 수 없어요.
+The server didn't answer: this session won't be ranked.	서버가 응답하지 않았어요. 이번 세션은 순위에 반영되지 않아요.
+The server is dealing the final…	서버가 결승을 준비하는 중…
+The server is setting up the drill…	서버가 훈련을 준비하는 중…
+Not signed in: a win in this final won't earn the reward.	로그인하지 않음: 이번 결승에서 이겨도 보상을 받을 수 없어요.
+Not kept: sessions count when started signed in.	저장 안 됨: 로그인한 상태로 시작한 세션만 기록돼요.
+Warning from the staff: {text}	운영진 경고: {text}
+The staff changed your username to {name}. Sign in again.	운영진이 사용자 이름을 변경했어요: {name}. 다시 로그인하세요.
+The staff called off the tournament you were in.	운영진이 참가 중이던 토너먼트를 취소했어요.
+Experience ×{n}	경험치 ×{n}
+Coins from games ×{n}	게임 코인 ×{n}
+Themed tournament	테마 토너먼트
+Event	이벤트
+Events	이벤트
+Warning from the staff	운영진 경고
+Esc to cancel	Esc로 취소
+Will be sent when you're back online.	다시 온라인이 되면 전송돼요.
+Your strokes will be sent when you're back online.	다시 온라인이 되면 샷이 전송돼요.
+The final you won was dealt to {name}: sign in as {name} to claim the reward.	이긴 결승은 {name} 님에게 준비된 것이었어요. 보상을 받으려면 {name} 계정으로 로그인하세요.
+Type your password to confirm it's you.	본인 확인을 위해 비밀번호를 입력하세요.
+The cue ball is back on the head spot: {next} plays from there.	수구가 헤드 스폿으로 돌아갔어요. {next} 님이 그 자리에서 쳐요.
+{name} came online	{name} 님이 접속했어요
+Online now: {names}	지금 접속 중: {names}
+Nobody else is online right now.	지금은 접속 중인 다른 사람이 없어요.
+Focus mode	집중 모드
+No invitations while you play: they are turned away until the game is over.	플레이 중에는 초대를 받지 않아요. 게임이 끝날 때까지 초대가 거절돼요.
+in focus mode	집중 모드
+In focus mode: no invitations until their game is over.	집중 모드: 게임이 끝날 때까지 초대를 받지 않아요.
+That player is in focus mode and isn't taking invitations until their game is over.	그 플레이어는 집중 모드라서 게임이 끝날 때까지 초대를 받지 않아요.
+Look at it closely	자세히 보기
+Sign in to buy	로그인하고 구매
+Sign in to use	로그인하고 사용
+Back to the shop (Esc)	상점으로 돌아가기 (Esc)
+Show the interface (H)	인터페이스 표시 (H)
+Hide the interface (H)	인터페이스 숨기기 (H)
+Turn (Space)	회전 (스페이스)
+Stop turning (Space)	회전 정지 (스페이스)
+Zoom in (+)	확대 (+)
+Zoom out (−)	축소 (−)
+Back to the start (R)	처음 시점으로 (R)
+Previous setting ([)	이전 배경 ([)
+Next setting (])	다음 배경 (])
+Setting	배경
+Studio	스튜디오
+Your table	내 테이블
+Drag with the right button to turn · wheel to zoom · double-click to look closer	오른쪽 버튼 드래그로 회전 · 휠로 확대 · 더블클릭으로 자세히 보기
+Drag with the right button to turn · wheel to zoom · click a ball to look at it	오른쪽 버튼 드래그로 회전 · 휠로 확대 · 공을 클릭해서 보기
+The set	세트 전체
+From above	위에서
+Low angle	낮은 각도
+Cue ball	수구
+Ball {n}	{n}번 공
+Whole	전체
+Tip	팁
+Joint	조인트
+Butt	버트
+Top	윗면
+Cue	큐
+Table	테이블
+Hall	홀
+Corner	코너 포켓
+Side	사이드 포켓
+Leg	다리
+Close-up	클로즈업
+Cushion	쿠션
+Phenolic resin under a bright clear coat	투명 광택 코팅 아래의 페놀 수지
+A pearly sheen that shifts with the light	빛에 따라 달라지는 진주빛 광택
+Brushed metal, bright as a mirror	거울처럼 빛나는 브러시드 메탈
+Old ivory: soft, warm and matte	오래된 상아: 부드럽고 따뜻한 무광
+A full-size cue, tip to butt: turn it, come close to its joint and its butt	팁부터 버트까지 실제 크기의 큐: 돌려 보고 조인트와 버트에 가까이 다가가 보세요
+A cube of chalk, and the colour it leaves on the tip	초크 한 조각, 그리고 팁에 남는 색
+The cloth on the table: come close to see its weave	테이블 위의 천: 가까이 다가가 결을 확인해 보세요
+Dark mahogany, turned legs and brass castings	짙은 마호가니, 선반 가공 다리, 황동 장식
+Light teak, square legs and chrome castings	밝은 티크, 사각 다리, 크롬 장식
+Deep mahogany, carved legs and leather pocket nets	깊은 마호가니, 조각 다리, 가죽 포켓 네트
+Black lacquer and brushed aluminium on two slab legs	두 개의 판형 다리 위에 검은 래커와 브러시드 알루미늄
+Black ebony with gold castings and inlays	금 장식과 상감을 더한 흑단
+Reclaimed oak rails on a riveted black steel frame	리벳 박은 검은 강철 프레임 위의 재생 오크 레일
+A pro tournament table: charcoal rails, block legs, chrome	프로 토너먼트 테이블: 차콜 레일, 블록 다리, 크롬
+Figured walnut on barley-twist legs, brass and leather	꽈배기 다리 위의 무늬 월넛, 황동과 가죽
+Ivory lacquer and gold on fluted columns	세로 홈 기둥 위의 아이보리 래커와 금
+Panelling, the bar, cue racks, posters and neon	벽 패널, 바, 큐 거치대, 포스터, 네온
+A deck at sunset, open windows, palms and string lights	해 질 녘 데크, 열린 창문, 야자수와 전구 장식
+Panelling, bookshelves, leather sofas and a fireplace	벽 패널, 책장, 가죽 소파, 벽난로
+Brick, steel windows over the city and Edison bulbs	벽돌, 도시가 내려다보이는 철제 창, 에디슨 전구
+Log walls, a stone fireplace and snowy peaks outside	통나무 벽, 돌 벽난로, 창밖의 눈 덮인 봉우리
+A black mirror floor, neon tubes and arcade cabinets	검은 거울 바닥, 네온관, 아케이드 게임기
+A marble chessboard floor, gold, velvet and mirrors	체스판 무늬 대리석 바닥, 금, 벨벳, 거울
+Glass walls on the city at night, pale marble and oak	밤의 도시를 향한 유리 벽, 밝은 대리석과 오크
+A gold medal!	금메달!
+A silver medal!	은메달!
+A bronze medal!	동메달!
+Silver medal	은메달
+Bronze medal	동메달
+Your medals	내 메달
+Kept in your account the next time you're online.	다음에 온라인이 되면 계정에 저장돼요.
+Sign in to keep them in your account.	로그인하면 계정에 저장돼요.
+18 or older	18세 이상
+Under 18	18세 미만
+Creating an account means accepting the	계정을 만들면 다음에 동의하게 돼요:
+For a parent or guardian…	부모님 또는 보호자용…
+A parent or guardian turned the chat on for this account. They can turn it off here at any time.	부모님 또는 보호자가 이 계정의 채팅을 켰어요. 여기에서 언제든 끌 수 있어요.
+This account belongs to someone under 18. By law, the chat with other players (messages in the lounge and in games, notes, status and gift messages) stays off until their mother, father or legal guardian turns it on.	이 계정은 18세 미만 사용자의 계정이에요. 법에 따라 다른 플레이어와의 채팅(라운지와 게임의 메시지, 모집글, 상태 메시지, 선물 메시지)은 부모님 또는 법정 보호자가 켤 때까지 꺼져 있어요.
+I am this player's mother, father or legal guardian, I have read the terms of use and I allow them to chat with other players.	저는 이 플레이어의 부모 또는 법정 보호자이며, 이용 약관을 읽었고, 다른 플레이어와 채팅하는 것을 허락해요.
+Chat for players under 18	18세 미만 플레이어의 채팅
+Turn the chat off	채팅 끄기
+{n} more invitations	초대 {n}개 더
+Invitation	초대
+Turn the chat on	채팅 켜기
+Chat off: under 18. A parent or guardian can turn it on.	채팅 꺼짐: 18세 미만. 부모님 또는 보호자가 켤 수 있어요.
+The chat with other players is off until you turn it on.	다른 플레이어와의 채팅은 직접 켤 때까지 꺼져 있어요.
+Write to turn the chat on…	입력하면 채팅이 켜져요…
+Chat with other players	다른 플레이어와 채팅
+The chat with other players is off until you turn it on. To turn it on, tell us your age group: it can't be changed from the game afterwards.	다른 플레이어와의 채팅은 직접 켤 때까지 꺼져 있어요. 켜려면 연령대를 알려 주세요. 나중에 게임에서 바꿀 수 없어요.
+Under 18: a parent or guardian must agree to the terms with you and turn the chat on.	18세 미만: 부모님 또는 보호자가 함께 약관에 동의하고 채팅을 켜야 해요.
+Not now	나중에
+Terms of use	이용 약관
+Privacy policy	개인정보 처리방침
+You have 7 days to change your mind and get your money back.	7일 이내에는 마음이 바뀌면 환불받을 수 있어요.
+Under 18: buy only with a parent's or guardian's permission.	18세 미만은 부모님 또는 보호자의 허락을 받은 경우에만 구매하세요.
+Renews every month until you cancel. 7 days to change your mind.	해지할 때까지 매달 갱신돼요. 7일 이내 청약 철회 가능.
+About	정보
+Accounts, purchases and refunds, the rules of the online game.	계정, 구매와 환불, 온라인 게임의 규칙.
+What the game keeps, and your rights.	게임이 보관하는 정보와 사용자의 권리.
+Open	열기
+Credits	크레딧
+Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	글꼴: DejaVu, Noto (OFL). 국기: flag-icons (MIT). 리액션과 이모지: Twemoji (CC-BY 4.0). 국가 이름: iso-codes (LGPL-2.1). 게임 코드는 오픈 소스예요 (MIT).
+The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	18세 미만 플레이어는 채팅이 꺼져 있어요. 부모님 또는 보호자가 라운지 채팅 아래에서 켤 수 있어요.
+No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	브레이크에서 공을 하나도 맞히지 못했어요. {next} 님이 헤드 스트링 뒤 볼 인 핸드로 브레이크해요.
+The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	브레이크에서 공을 넣지 못하고 수구가 들어갔어요. {next} 님이 헤드 스트링 뒤 볼 인 핸드로 브레이크해요.
+Users online	접속 중인 사용자
+ping {ms} ms	핑 {ms} ms
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks, with the cue ball in hand behind the head string.	브레이크에서 수구가 두 그룹의 공과 함께 들어갔어요. 페널티 없이 오픈 테이블이 유지되고, {next} 님이 헤드 스트링 뒤 볼 인 핸드로 브레이크해요.
+Brazilian	브라질
+Official	공식
+Brazilian rules	브라질 규칙
+Official rules	공식 규칙
+Brazilian rules (inside a sentence)	브라질 규칙
+Official rules (inside a sentence)	공식 규칙
+Brazilian (inside a sentence)	브라질
+Official (inside a sentence)	공식
+As played in Brazil's bars	브라질 바에서 치는 방식
+As played in tournaments (WPA)	토너먼트 방식 (WPA)
+on the Brazilian rules	브라질 규칙
+on the official rules	공식 규칙
+A ball left the table on the break.	브레이크에서 공이 테이블 밖으로 나갔어요.
+A ball off the table on the break	브레이크에서 테이블 밖으로 나간 공
+A safety calls nothing: whatever goes in stays down, and the turn passes.	세이프티는 아무것도 지정하지 않아요. 들어간 공은 그대로 두고 차례가 넘어가요.
+Break yourself	직접 브레이크
+CALLED POCKET	지정 포켓
+Choose	선택
+Choose how play goes on	진행 방법 선택
+Choose the rules of your games. You can switch them any time, in the main menu.	게임 규칙을 선택하세요. 메인 메뉴에서 언제든 바꿀 수 있어요.
+Click a pocket on the table to call it; click it again to follow your aim.	테이블의 포켓을 클릭하면 지정돼요. 다시 클릭하면 조준을 따라가요.
+Cue ball in hand	볼 인 핸드
+Each of the rules has its own rating: these games don't change your {rating} under the {other}.	규칙마다 레이팅이 따로 있어요. 이 게임들은 {other}의 레이팅 {rating}에 영향을 주지 않아요.
+Find an opponent of your level automatically ({rules})	실력이 비슷한 상대를 자동으로 찾아요 ({rules})
+How do you like to play?	어떤 방식으로 플레이할까요?
+How does play go on? Choose one:	어떻게 진행할까요? 하나를 선택하세요:
+Illegal break: no ball made and fewer than four balls reached a cushion.	불법 브레이크: 들어간 공이 없고, 쿠션에 닿은 공이 4개 미만이에요.
+Invite {name}	{name} 님 초대
+No ball went in the called pocket ({pocket}): {next} to shoot.	지정 포켓({pocket})에 들어간 공이 없어요. {next} 님 차례예요.
+No pocket was called (a safety): {next} to shoot.	포켓을 지정하지 않았어요(세이프티). {next} 님 차례예요.
+Not sure what changes?	무엇이 다른지 궁금하세요?
+Place it anywhere behind the head string.	헤드 스트링 뒤 아무 곳에나 놓으세요.
+Play on	그대로 진행
+Players against the computer under these rules	이 규칙으로 컴퓨터와 게임 중인 플레이어
+Players online under these rules (the lounge and online games)	이 규칙으로 온라인에 있는 플레이어 (라운지와 온라인 게임)
+RULES OF YOUR GAMES	내 게임 규칙
+Read both rules	두 규칙 모두 보기
+Rules of your games	내 게임 규칙
+Safety	세이프티
+Safety: no pocket	세이프티: 지정 포켓 없음
+Show the {rules}: the rank, the league and the chart	{rules} 보기: 순위, 리그, 그래프
+The 8 is spotted and you keep shooting.	8번 공을 다시 놓고 계속 쳐요.
+The 8 is spotted; the cue ball in hand behind the head string.	8번 공을 다시 놓고, 헤드 스트링 뒤 볼 인 핸드.
+The 8 on a break with a foul	파울이 있는 브레이크에서 들어간 8번 공
+The 8 on the break	브레이크에서 들어간 8번 공
+The 8 went down on a break with a foul: it is spotted.	파울이 있는 브레이크에서 8번 공이 들어갔어요. 8번 공을 다시 놓아요.
+The 8 went down on the break: it is spotted.	브레이크에서 8번 공이 들어갔어요. 8번 공을 다시 놓아요.
+The balls are racked again and you break.	공을 다시 랙하고 내가 브레이크해요.
+The balls are racked again and {name} breaks.	공을 다시 랙하고 {name} 님이 브레이크해요.
+The balls are racked again: {name} breaks.	공을 다시 랙해요. {name} 님이 브레이크해요.
+The balls are racked again: {other} breaks.	공을 다시 랙해요. {other} 님이 브레이크해요.
+The rules of this game: click to read them	이 게임의 규칙: 클릭해서 읽기
+The rules of your games: click to switch	내 게임 규칙: 클릭해서 변경
+The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	메인 메뉴와 같은 전환 스위치예요: 온라인, 컴퓨터 대전, 2인 플레이. 규칙마다 레이팅이 따로 있어요.
+The table as it lies.	현재 배치 그대로.
+The top 100 of each rules · rated games	규칙별 톱 100 · 레이팅 게임
+The {ball} lay behind the head string and the cue ball hit it without crossing the line first	{ball}이 헤드 스트링 뒤에 있었는데, 수구가 먼저 라인을 넘지 않고 맞혔어요
+What changes between the rules: click to read them	규칙별 차이: 클릭해서 읽기
+With the cue ball in hand behind the head string.	헤드 스트링 뒤 볼 인 핸드로.
+follows your aim	조준을 따라감
+no rated games yet	레이팅 게임 없음
+open table: the called ball you make sets your group	오픈 테이블: 지정해서 넣은 공이 내 그룹이 돼요
+peak {n} · {games} games	최고 {n} · {games}게임
+playing now	지금 게임 중
+your call	내가 지정
+{name} breaks again	{name} 님이 다시 브레이크
+{name} chooses: play on, or rack the balls and break again.	{name} 님이 선택해요: 그대로 진행, 또는 공을 다시 랙하고 다시 브레이크.
+{name} chooses: play the table as it lies, or take the cue ball in hand behind the head string.	{name} 님이 선택해요: 현재 배치 그대로 진행, 또는 헤드 스트링 뒤 볼 인 핸드.
+{name} chooses: play the table as it lies, rack the balls and break, or have {breaker} break again.	{name} 님이 선택해요: 현재 배치 그대로 진행, 공을 다시 랙하고 직접 브레이크, 또는 {breaker} 님이 다시 브레이크.
+{name} chooses: play the table as it lies, take the cue ball in hand behind the head string, rack the balls and break, or have {breaker} break again.	{name} 님이 선택해요: 현재 배치 그대로 진행, 헤드 스트링 뒤 볼 인 핸드, 공을 다시 랙하고 직접 브레이크, 또는 {breaker} 님이 다시 브레이크.
+{name} chooses: the cue ball in hand behind the head string, or rack the balls and break.	{name} 님이 선택해요: 헤드 스트링 뒤 볼 인 핸드, 또는 공을 다시 랙하고 직접 브레이크.
+{name} is choosing how play goes on…	{name} 님이 진행 방법을 고르는 중…
+{name} plays on (the 8 is spotted).	{name} 님이 그대로 진행해요(8번 공을 다시 놓아요).
+{name} plays the table as it lies.	{name} 님이 현재 배치 그대로 진행해요.
+{name} plays the {theirs} now; yours are the {mine}.	이제 {name} 님은 {theirs}, 나는 {mine}예요.
+{name} takes the cue ball in hand.	{name} 님이 볼 인 핸드를 선택했어요.
+{next} has the cue ball in hand behind the head string.	{next} 님이 헤드 스트링 뒤 볼 인 핸드를 얻었어요.
+{next} has the cue ball in hand: anywhere on the table.	{next} 님이 볼 인 핸드를 얻었어요: 테이블 어디든 놓을 수 있어요.
+{n} points to {tier} ({rules})	{tier}까지 {n}점 ({rules})
+{n} waiting	{n}명 대기 중
+A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	파울하면 상대가 자기 그룹의 공을 받아요. 볼 인 핸드는 브레이크 때만 있고, 8번 공의 포켓만 지정해요.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	파울하면 상대가 볼 인 핸드로 테이블 어디든 수구를 놓아요. 모든 샷은 포켓을 지정하고, 브레이크에서는 공 4개가 쿠션에 닿아야 해요.
+A foul gives balls to the opponent	파울하면 상대에게 공을 줌
+Ball in hand on the break only	볼 인 핸드는 브레이크 때만
+Only the 8's pocket is called	8번 공의 포켓만 지정
+The most played in Brazil	브라질에서 가장 많이 치는 방식
+A foul gives ball in hand	파울하면 볼 인 핸드
+The break drives four balls to a cushion	브레이크에서 공 4개가 쿠션에 닿아야 함
+Every shot is called	모든 샷에 포켓 지정
+The same all over the world	전 세계 공통
+Game type	게임 유형
+called: {pocket}	지정: {pocket}
+no call: a safety	지정 없음: 세이프티
+A safety: nothing called. Click again to call the pocket you aim at.	세이프티: 지정 없음. 다시 클릭하면 조준한 포켓을 지정해요.
+A safety calls nothing: whatever goes in stays down, and the turn passes. To call another pocket, click it on the table.	세이프티는 아무것도 지정하지 않아요. 들어간 공은 그대로 두고 차례가 넘어가요. 다른 포켓을 지정하려면 테이블에서 클릭하세요.
+{games} games · {pct}% won	{games}게임 · 승률 {pct}%
+Each of the rules has its own rating; the level, coins and achievements are shared.	규칙마다 레이팅이 따로 있어요. 레벨, 코인, 업적은 공유돼요.
+You already have a VIP subscription: manage it with Manage subscription.	이미 VIP 구독 중이에요. 구독 관리에서 관리하세요.
+Your opponent can't start another game yet.	상대가 아직 다른 게임을 시작할 수 없어요.
+A tournament's name is shown to everyone: with your chat off, you can join tournaments but not create one.	토너먼트 이름은 모두에게 보여요. 채팅이 꺼져 있으면 토너먼트에 참가는 할 수 있지만 만들 수는 없어요.
+The connection dropped: check your coins before trying again.	연결이 끊겼어요. 다시 시도하기 전에 코인을 확인하세요.
+Sign in to buy coins.	코인을 구매하려면 로그인하세요.
+Sign in to become VIP.	VIP가 되려면 로그인하세요.
+how play goes on after the break is undecided	브레이크 후 진행 방법이 아직 정해지지 않았어요
+Finish your game, and leave your table, the queue or your tournament first.	먼저 게임을 끝내고 테이블, 대기열, 토너먼트에서 나가세요.
+That choice can't be made now.	지금은 그 선택을 할 수 없어요.
+That medal can't be.	존재할 수 없는 메달이에요.
+{name}'s tournament	{name} 님의 토너먼트
+When time runs out, it's a foul: your opponent gets a ball and the cue ball goes back to the head spot.	시간이 다 되면 파울이에요. 상대가 공을 하나 받고, 수구는 헤드 스폿으로 돌아가요.
+When time runs out, it's a foul: your opponent gets the cue ball in hand.	시간이 다 되면 파울이에요. 상대가 볼 인 핸드를 얻어요.
+Your username was changed. Sign in again.	사용자 이름이 변경됐어요. 다시 로그인하세요.
+You have your tournament game in progress. A new game takes its place, and the tournament game counts as lost.	진행 중인 토너먼트 게임이 있어요. 새 게임을 시작하면 그 게임을 대신하고, 토너먼트 게임은 패배로 처리돼요.
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks again, from the head spot.	브레이크에서 수구가 두 그룹의 공과 함께 들어갔어요. 페널티 없이 오픈 테이블이 유지되고, {next} 님이 헤드 스폿에서 다시 브레이크해요.
+The cue ball went down on the break with no ball made: {next} breaks again, from the head spot.	브레이크에서 공을 넣지 못하고 수구가 들어갔어요. {next} 님이 헤드 스폿에서 다시 브레이크해요.
+{who} ran out of time: {other} breaks, from the head spot.	{who} 님 시간 초과: {other} 님이 헤드 스폿에서 브레이크해요.
+Congratulations!	축하해요!
+You earned a new item: {title}	새 아이템을 얻었어요: {title}
+You earned a new item!	새 아이템을 얻었어요!

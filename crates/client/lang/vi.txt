@@ -1,0 +1,2056 @@
+# Snook Legend: Brazilian Portuguese.
+# One text per line: the English text (as written in the code), a tab, the translation.
+# Placeholders like {name} must stay as they are; \n is a new line.
+{name} is on the 8: called pocket {pocket}	{name} chỉ còn bi số 8: lỗ chỉ định {pocket}
+On the 8-ball: {pocket} pocket	Bi số 8: lỗ {pocket}
+Show ping	Hiện ping
+Your connection's delay, in online games.	Độ trễ kết nối của bạn trong các ván trực tuyến.
+Reactions	Biểu cảm
+Shop	Cửa hàng
+Cloth	Nỉ
+Cues	Cơ
+Chalk	Phấn
+Balls	Bi
+Coins	Xu
+coins	xu
+Sign in to buy and use items. Here is what there is:	Đăng nhập để mua và dùng vật phẩm. Đây là những gì đang có:
+In use	Đang dùng
+Use	Dùng
+Buy	Mua
+{n} short	thiếu {n}
+{n} coins	{n} xu
+Not enough coins: get more in the Coins tab.	Không đủ xu: hãy mua thêm ở thẻ Xu.
+VIP only	Chỉ VIP
+free	miễn phí
+yours	của bạn
+achievement	thành tích
+Coins can't be bought on this server yet.	Máy chủ này chưa bán xu.
++{n} bonus	+{n} tặng thêm
+Payment opens in your browser (card, Pix…), on Stripe's secure page.	Thanh toán mở trong trình duyệt của bạn (thẻ, Pix…), trên trang bảo mật của Stripe.
+Coins arrive in a moment; they are only used for items in the game.	Xu sẽ đến ngay; xu chỉ dùng cho vật phẩm trong game.
+Exclusive items: {list}	Vật phẩm độc quyền: {list}
+{n} coins every month	{n} xu mỗi tháng
+Cancel whenever you want: VIP lasts until the end of the paid month	Hủy bất cứ lúc nào: VIP kéo dài đến hết tháng đã thanh toán
+You are VIP until {d}.	Bạn là VIP đến {d}.
+Manage subscription	Quản lý gói đăng ký
+Become VIP · {p}	Trở thành VIP · {p}
+VIP can't be bought on this server yet.	Máy chủ này chưa bán VIP.
+The payment page opened in your browser.	Trang thanh toán đã mở trong trình duyệt của bạn.
+Could not open the browser.	Không mở được trình duyệt.
+Tournament green	Xanh giải đấu
+Electric blue	Xanh điện
+Burgundy	Đỏ rượu vang
+Charcoal	Xám than
+Teal	Xanh mòng két
+Royal purple	Tím hoàng gia
+Camel	Nâu lạc đà
+Midnight	Nửa đêm
+Champion's red	Đỏ nhà vô địch
+Classic	Cổ điển
+Rosewood	Gỗ hồng mộc
+Ebony & silver	Gỗ mun và bạc
+Carbon	Carbon
+Ivory inlay	Khảm ngà
+Crown	Vương miện
+Jewels	Đá quý
+Blue chalk	Phấn xanh dương
+Green chalk	Phấn xanh lá
+Red chalk	Phấn đỏ
+Purple chalk	Phấn tím
+Gold chalk	Phấn vàng kim
+Vintage	Hoài cổ
+Pastel	Pastel
+Neon	Neon
+You already have this item.	Bạn đã có vật phẩm này.
+Not enough coins.	Không đủ xu.
+The purchase failed; no coins were taken.	Mua không thành công; bạn không bị trừ xu.
+No such item.	Không có vật phẩm này.
+This item can't be bought with coins.	Không thể mua vật phẩm này bằng xu.
+You don't have this item.	Bạn chưa có vật phẩm này.
+Purchases are not available.	Hiện chưa thể mua hàng.
+This pack is not on sale.	Gói này không được bán.
+The payment page could not be opened. Try again in a moment.	Không mở được trang thanh toán. Hãy thử lại sau giây lát.
+You are already VIP.	Bạn đã là VIP.
+There is no subscription to manage.	Không có gói đăng ký nào để quản lý.
+The page could not be opened. Try again in a moment.	Không mở được trang. Hãy thử lại sau giây lát.
+Coins added to your wallet.	Đã thêm xu vào ví của bạn.
+Welcome to VIP!	Chào mừng bạn đến với VIP!
+Slow down a little.	Chậm lại một chút.
+You can't do that.	Bạn không thể làm vậy.
+There are too many notes right now. Try again in a few minutes.	Hiện có quá nhiều ghi chú. Hãy thử lại sau vài phút.
+A moderator took down your note.	Một điều hành viên đã gỡ ghi chú của bạn.
+A moderator cleared your status message.	Một điều hành viên đã xóa dòng trạng thái của bạn.
+Status message cleared.	Đã xóa dòng trạng thái.
+VIP	VIP
+Play now	Chơi ngay
+Find an opponent of your level automatically	Tự động tìm đối thủ cùng trình độ
+Looking for an opponent… {t}	Đang tìm đối thủ… {t}
+any rating	mọi mức điểm
+rating ±{n} · {mode}	điểm ±{n} · {mode}
+Potting success	Tỉ lệ ăn bi
+Balls made	Bi đã ăn
+Best run	Chuỗi dài nhất
+Fouls	Lỗi
+seen just now	truy cập vừa xong
+seen {n} min ago	truy cập {n} phút trước
+seen {n} h ago	truy cập {n} giờ trước
+seen yesterday	truy cập hôm qua
+seen {n} days ago	truy cập {n} ngày trước
+seen {n} months ago	truy cập {n} tháng trước
+just now	vừa xong
+{n} min ago	{n} phút trước
+{n} h ago	{n} giờ trước
+yesterday	hôm qua
+{n} days ago	{n} ngày trước
+Game history	Diễn biến ván
+Nothing yet.	Chưa có gì.
+Fine aim: click the arrows, or drag here	Ngắm tinh: bấm các mũi tên hoặc kéo tại đây
+{n} watching	{n} người xem
+Watching {name}	Đang xem {name}
+Your reactions reach the table quietly.	Biểu cảm của bạn hiện trên bàn một cách kín đáo.
+Stop watching	Ngừng xem
+If they play again, you keep watching.	Nếu họ chơi tiếp, bạn vẫn tiếp tục xem.
+Your friend left the table.	Người bạn này đã rời bàn.
+Your friend isn't playing right now.	Người bạn này hiện không chơi.
+You can only watch your friends.	Bạn chỉ có thể xem bạn bè của mình.
+You can't watch this game.	Bạn không thể xem ván này.
+{n} points to {tier}	Còn {n} điểm lên {tier}
+Top tier	Hạng cao nhất
+Reactions {n}/{total}	Biểu cảm {n}/{total}
+Haunted table	Bàn ma ám
+Win a rated game during Halloween (Oct 24 – Nov 2).	Thắng một ván xếp hạng dịp Halloween (24/10 – 2/11).
+Winter league	Giải mùa đông
+Win a rated game over the holidays (Dec 15 – Jan 6).	Thắng một ván xếp hạng dịp lễ cuối năm (15/12 – 6/1).
+Fireworks	Pháo hoa
+Win a rated game at the turn of the year (Dec 31 – Jan 1).	Thắng một ván xếp hạng lúc giao thừa (31/12 – 1/1).
+Shows where the object ball and the cue ball go (only in free games and practice).	Hiện hướng đi của bi mục tiêu và bi cái (chỉ trong ván tự do và luyện tập).
+{n} online · ping {ms} ms	{n} trực tuyến · ping {ms} ms
+Right-drag · Wheel	Kéo chuột phải · Con lăn
+Win %	% thắng
+Reset the camera: top view, no zoom	Đặt lại camera: nhìn từ trên xuống, không thu phóng
+{name} sank the 8-ball	{name} đưa bi số 8 vào lỗ
+{name} sank the 8 too early	{name} đưa bi số 8 vào lỗ quá sớm
+{name} sank the 8 in the wrong pocket	{name} đưa bi số 8 vào sai lỗ
+{name} fouled on the 8	{name} phạm lỗi ở bi số 8
+{name} knocked the 8 off the table	{name} đánh bi số 8 văng khỏi bàn
+{name} resigned	{name} đã xin thua
+{name} left the game	{name} đã rời ván
+{winner} wins! ({how})	{winner} thắng! ({how})
+#{n} in the world	#{n} thế giới
+3–16 letters, digits or underscores.	3–16 chữ cái, chữ số hoặc dấu gạch dưới.
+No lines on the table: aim by eye, along the cue.	Không có đường kẻ trên bàn: ngắm bằng mắt, dọc theo cây cơ.
+No guide	Không đường ngắm
+Only a short line from the cue ball.	Chỉ một đường ngắn từ bi cái.
+Accept friend	Chấp nhận kết bạn
+Achievement unlocked: {title}	Mở khóa thành tích: {title}
+Achievements {n}/{total}	Thành tích {n}/{total}
+Add	Thêm
+Add a friend by username	Thêm bạn bằng tên người dùng
+Add friend	Kết bạn
+Against the computer	Đấu với máy
+All tournaments	Tất cả giải đấu
+Amateur	Nghiệp dư
+At least 8 characters. Use a password you don't use elsewhere.	Ít nhất 8 ký tự. Hãy dùng mật khẩu bạn không dùng ở nơi khác.
+At least two players are needed.	Cần ít nhất hai người chơi.
+Back	Quay lại
+Black ball	Bi đen
+Block	Chặn
+Break and run	Phá bi dọn bàn
+Break and run 10 times.	Phá bi dọn bàn 10 lần.
+Can't listen for games here: join by address below.	Không thể dò tìm ván ở đây: hãy tham gia bằng địa chỉ bên dưới.
+Cancel request	Hủy lời mời
+Cancel tournament	Hủy giải đấu
+Casual	Giao hữu
+Centurion	Bách thắng
+Champion	Nhà vô địch
+Champion: {name}	Vô địch: {name}
+Change country	Đổi quốc gia
+Add a status message	Thêm dòng trạng thái
+A line about you	Một dòng về bạn
+Save (Enter)	Lưu (Enter)
+Cancel (Esc)	Hủy (Esc)
+Change your status message	Đổi dòng trạng thái
+Clear the status message	Xóa dòng trạng thái
+Cheating or abuse	Gian lận hoặc lạm dụng
+Choose…	Chọn…
+Click again to block	Bấm lần nữa để chặn
+Close	Đóng
+Closer	Tay chốt hạ
+Competitor	Đấu thủ
+Connecting to the server…	Đang kết nối máy chủ…
+Could not host a game: {e}	Không thể tạo ván: {e}
+Country	Quốc gia
+Create	Tạo
+Create a tournament	Tạo giải đấu
+Don't show a flag	Không hiện cờ
+No country found.	Không tìm thấy quốc gia.
+Dynasty	Triều đại
+Eight is enough	Số 8 là đủ
+Executioner	Đao phủ
+Expert	Chuyên gia
+Familiar face	Gương mặt quen thuộc
+Final	Chung kết
+Finish your game first.	Hãy chơi xong ván của bạn trước.
+First blood	Chiến công đầu
+First break	Cú phá đầu tiên
+Friend request sent.	Đã gửi lời mời kết bạn.
+Friends	Bạn bè
+# Daily (correspondence) games.
+daily game	ván hằng ngày
+Daily	Hằng ngày
+Daily game	Ván hằng ngày
+Daily games	Ván hằng ngày
+Challenge a player by username	Thách đấu người chơi bằng tên người dùng
+Challenge to a daily game	Thách đấu một ván hằng ngày
+3 days for each turn	3 ngày cho mỗi lượt
+No daily games yet. Challenge a friend: each of you plays a turn whenever you can.	Chưa có ván hằng ngày nào. Hãy thách đấu một người bạn: mỗi người đánh lượt của mình khi rảnh.
+challenges you · {kind}	thách đấu bạn · {kind}
+waiting for an answer · {kind} · {time} left	đang chờ trả lời · {kind} · còn {time}
+your turn · {time} left	lượt của bạn · còn {time}
+their turn · {time} left	lượt đối thủ · còn {time}
+won · {how}	thắng · {how}
+lost · {how}	thua · {how}
+ran out of time	bạn hết giờ
+the opponent ran out of time	đối thủ hết giờ
+open table	bàn mở
+You: {mine}, {a} left · {name}: {theirs}, {b} left	Bạn: {mine}, còn {a} · {name}: {theirs}, còn {b}
+Look	Xem
+Skip	Bỏ qua
+Replaying {name}'s turn	Đang phát lại lượt của {name}
+Stroke {n} of {total}	Cú đánh {n}/{total}
+Turn sent	Đã gửi lượt
+Turn sent.	Đã gửi lượt.
+Waiting for {name} to play	Đang chờ {name} đánh
+{name} has {time} to play. You'll be told when it's your turn.	{name} có {time} để đánh. Bạn sẽ được báo khi đến lượt mình.
+{time} left to play. You'll be told when it's your turn.	Còn {time} để đánh. Bạn sẽ được báo khi đến lượt mình.
+Back to daily games	Về các ván hằng ngày
+Your game is saved: come back whenever you like.	Ván của bạn đã được lưu: quay lại bất cứ lúc nào bạn muốn.
+{d} d {h} h	{d} ngày {h} giờ
+{name} ran out of time	{name} hết giờ
+This game can't be shown.	Không thể hiển thị ván này.
+A daily game is waiting for you	Có một ván hằng ngày đang chờ bạn
+{n} daily games are waiting for you	{n} ván hằng ngày đang chờ bạn
+{name} challenges you to a rated daily game.	{name} thách đấu bạn một ván hằng ngày xếp hạng.
+{name} challenges you to a casual daily game.	{name} thách đấu bạn một ván hằng ngày giao hữu.
+{name} accepted your daily game.	{name} đã nhận lời thách đấu ván hằng ngày của bạn.
+{name} declined your daily game.	{name} đã từ chối lời thách đấu ván hằng ngày của bạn.
+{name} withdrew their daily game challenge.	{name} đã rút lại lời thách đấu ván hằng ngày.
+Your turn in the daily game against {name}.	Đến lượt bạn trong ván hằng ngày với {name}.
+{name} ran out of time: you won the daily game.	{name} hết giờ: bạn thắng ván hằng ngày.
+You won the daily game against {name}!	Bạn đã thắng ván hằng ngày với {name}!
+You ran out of time in the daily game against {name}.	Bạn đã hết giờ trong ván hằng ngày với {name}.
+You lost the daily game against {name}.	Bạn đã thua ván hằng ngày với {name}.
+Challenge sent.	Đã gửi lời thách đấu.
+Daily games need an account.	Cần có tài khoản để chơi ván hằng ngày.
+No such game.	Không có ván này.
+That challenge is no longer valid.	Lời thách đấu đó không còn hiệu lực.
+That player already challenged you: answer their challenge.	Người chơi đó đã thách đấu bạn: hãy trả lời lời thách đấu của họ.
+That player has too many challenges waiting.	Người chơi đó có quá nhiều lời thách đấu đang chờ.
+That player has too many daily games going on.	Người chơi đó đang có quá nhiều ván hằng ngày.
+That player is not accepting challenges.	Người chơi đó không nhận lời thách đấu.
+This game can't be played right now.	Hiện không thể chơi ván này.
+This game changed meanwhile: open it again.	Ván này vừa thay đổi: hãy mở lại.
+This game is over.	Ván này đã kết thúc.
+You already challenged that player.	Bạn đã thách đấu người chơi đó rồi.
+You already have a game going on against that player.	Bạn đã có một ván đang diễn ra với người chơi đó.
+You blocked that player.	Bạn đã chặn người chơi đó.
+You can't challenge yourself.	Bạn không thể tự thách đấu chính mình.
+You have as many daily games as you can play at once.	Bạn đã có số ván hằng ngày tối đa cùng lúc.
+You have too many challenges waiting for an answer.	Bạn có quá nhiều lời thách đấu đang chờ trả lời.
+You're sending challenges too quickly.	Bạn gửi lời thách đấu quá nhanh.
+Your time for this turn ran out.	Bạn đã hết giờ cho lượt này.
+Games	Ván đấu
+Games on your network	Ván đấu trong mạng của bạn
+Give the tournament a name (at least 3 characters).	Hãy đặt tên cho giải đấu (ít nhất 3 ký tự).
+Good company	Bạn đồng hành
+Grandmaster	Đại cao thủ
+Guests can only join LAN games. Create an account.	Khách chỉ có thể tham gia ván LAN. Hãy tạo tài khoản.
+Guests can't play rated tournaments.	Khách không thể chơi giải đấu xếp hạng.
+Guests don't have this.	Khách không có mục này.
+Harassment	Quấy rối
+Hat trick	Hat-trick
+Have 10 friends.	Có 10 bạn bè.
+Have an account for 30 days.	Có tài khoản được 30 ngày.
+Have an account for a year.	Có tài khoản được một năm.
+Host a game on this computer	Tạo ván trên máy tính này
+Host {host} · {n}/{size} players · {kind}	Chủ phòng {host} · {n}/{size} người chơi · {kind}
+Hot hand	Nóng tay
+Hustler	Tay chơi
+Invalid shot.	Cú đánh không hợp lệ.
+Join	Tham gia
+Joining the LAN game…	Đang tham gia ván LAN…
+Just for fun	Chơi cho vui
+L	B
+LAN game	Ván LAN
+LAN game hosted by {name}.	Ván LAN do {name} tạo.
+LAN games don't change ratings.	Ván LAN không làm thay đổi điểm xếp hạng.
+Legend	Huyền thoại
+Lives at the table	Ăn ngủ bên bàn bi-a
+Loading the profile…	Đang tải hồ sơ…
+Loading…	Đang tải…
+Local network	Mạng nội bộ
+Locked	Chưa mở khóa
+Looking for games	Đang tìm ván
+Make a friend.	Kết bạn với một người.
+Master	Cao thủ
+Name	Tên
+Names have 3–16 letters, digits or underscores.	Tên gồm 3–16 chữ cái, chữ số hoặc dấu gạch dưới.
+New account	Tài khoản mới
+I have an account	Tôi đã có tài khoản
+New here? Choose “New account”: it takes ten seconds.	Lần đầu đến đây? Chọn “Tài khoản mới”: chỉ mất mười giây.
+New tournament	Giải đấu mới
+No friends yet. Add someone you played with!	Chưa có bạn bè. Hãy kết bạn với người từng chơi cùng bạn!
+No games yet.	Chưa có ván nào.
+No limit	Không giới hạn
+No open tables. Open one and others can sit down.	Không có bàn nào đang mở. Hãy mở một bàn để người khác vào ngồi.
+No other open tables right now.	Hiện không có bàn nào khác đang mở.
+No such player.	Không có người chơi này.
+No tournaments right now. Create one!	Hiện không có giải đấu nào. Hãy tạo một giải!
+Offensive name	Tên phản cảm
+On a roll	Vào guồng
+On fire	Rực lửa
+Only the host can start the tournament.	Chỉ người tạo giải mới có thể bắt đầu giải đấu.
+Open a table	Mở bàn
+Or join by address	Hoặc tham gia bằng địa chỉ
+Other	Khác
+Others can join at {ip}:{port}	Người khác có thể tham gia tại {ip}:{port}
+Passwords need at least 8 characters (not only digits).	Mật khẩu cần ít nhất 8 ký tự (không chỉ gồm chữ số).
+Play 1,000 rated games.	Chơi 1.000 ván xếp hạng.
+Play 10 rated games.	Chơi 10 ván xếp hạng.
+Play 100 rated games.	Chơi 100 ván xếp hạng.
+Play 25 casual games.	Chơi 25 ván giao hữu.
+Play 500 rated games.	Chơi 500 ván xếp hạng.
+Play in a tournament.	Tham gia một giải đấu.
+Play online	Chơi trực tuyến
+Play with friends on the same network	Chơi với bạn bè trong cùng mạng
+Play your first rated game.	Chơi ván xếp hạng đầu tiên.
+Player 1	Người chơi 1
+Players	Người chơi
+Players in a tournament can't start other games.	Người chơi trong giải đấu không thể bắt đầu ván khác.
+Please don't repeat the same message.	Vui lòng không gửi lặp lại cùng một tin nhắn.
+Pool hall legend	Huyền thoại quán bi-a
+Popular	Được yêu mến
+Private	Riêng tư
+for your friends to sit down	để bạn bè của bạn vào ngồi
+Profile	Hồ sơ
+{key}: watch the last shot again	{key}: xem lại cú đánh vừa rồi
+REPLAY	PHÁT LẠI
+Rated	Xếp hạng
+Rated games, tables, tournaments and friends	Ván xếp hạng, bàn chơi, giải đấu và bạn bè
+Reach a rating of 1300.	Đạt 1300 điểm xếp hạng.
+Reach a rating of 1500.	Đạt 1500 điểm xếp hạng.
+Reach a rating of 1700.	Đạt 1700 điểm xếp hạng.
+Reach a rating of 1900.	Đạt 1900 điểm xếp hạng.
+Reach a rating of 2100.	Đạt 2100 điểm xếp hạng.
+Refresh	Làm mới
+Regular	Khách quen
+Remove friend	Hủy kết bạn
+Replay	Phát lại
+Report	Báo cáo
+Report {name}	Báo cáo {name}
+Request sent	Đã gửi lời mời
+Friend	Bạn bè
+Recent	Gần đây
+Nobody yet. The people you play online will show up here.	Chưa có ai. Những người bạn chơi cùng trực tuyến sẽ hiện ở đây.
+{n} games	{n} ván
+Rookie	Tân binh
+Round {n}	Vòng {n}
+Search…	Tìm kiếm…
+Semi-finals	Bán kết
+Send report	Gửi báo cáo
+This game goes with the report, so the moderators can watch it.	Ván này được gửi kèm báo cáo để điều hành viên có thể xem lại.
+Your game with {name} ({date}) goes with the report, so the moderators can watch it.	Ván của bạn với {name} ({date}) được gửi kèm báo cáo để điều hành viên có thể xem lại.
+You haven't played {name} in the last day: the moderators see the recent chat.	Bạn chưa chơi với {name} trong ngày qua: điều hành viên sẽ xem đoạn chat gần đây.
+Shark	Cá mập
+Shows the contact point; judging the cut is up to you.	Hiện điểm chạm; độ cắt do bạn tự phán đoán.
+Shutout	Thắng trắng
+Sign in	Đăng nhập
+Sign in or create an account	Đăng nhập hoặc tạo tài khoản
+Sign out	Đăng xuất
+Sit down	Vào bàn
+Skilled	Lành nghề
+Someone with that name is already here.	Đã có người dùng tên đó ở đây.
+Spam	Spam
+Start now	Bắt đầu ngay
+Stop the replay	Dừng phát lại
+Table runner	Vua dọn bàn
+Tables	Bàn chơi
+Take turns on this computer	Thay phiên nhau trên máy tính này
+Thank you. The moderators will look into it.	Cảm ơn bạn. Điều hành viên sẽ xem xét.
+Thank you. The moderators will look into it, with your game attached.	Cảm ơn bạn. Điều hành viên sẽ xem xét, kèm theo ván đấu của bạn.
+That player is not accepting invitations.	Người chơi đó không nhận lời mời.
+That shot was for an earlier turn.	Cú đánh đó thuộc về một lượt trước.
+That table is no longer open.	Bàn đó không còn mở.
+That tournament has already started.	Giải đấu đó đã bắt đầu.
+That tournament no longer exists.	Giải đấu đó không còn tồn tại.
+The first connection of the day can take up to a minute while the server wakes up.	Lần kết nối đầu tiên trong ngày có thể mất đến một phút trong lúc máy chủ khởi động.
+The first time, allow Snook Legend through the firewall when asked.	Lần đầu tiên, hãy cho phép Snook Legend qua tường lửa khi được hỏi.
+The server could not play that shot.	Máy chủ không thể thực hiện cú đánh đó.
+The server is busy. Try again in a moment.	Máy chủ đang bận. Hãy thử lại sau giây lát.
+The tournament starts when it is full (the host can start it earlier).	Giải đấu bắt đầu khi đủ người (người tạo giải có thể bắt đầu sớm hơn).
+There are too many tournaments right now. Join one!	Hiện có quá nhiều giải đấu. Hãy tham gia một giải!
+This is a LAN server: join as a guest.	Đây là máy chủ LAN: hãy tham gia với tư cách khách.
+Fifteen rivals, a tour and ghosts of real players	Mười lăm đối thủ, một hành trình và bóng ma của người chơi thật
+Tier	Hạng
+Time per shot	Thời gian mỗi cú đánh
+Too many failed attempts. Wait a few minutes and try again.	Quá nhiều lần thử không thành công. Hãy đợi vài phút rồi thử lại.
+Too many messages.	Quá nhiều tin nhắn.
+Too many new accounts from this network. Try again later.	Quá nhiều tài khoản mới từ mạng này. Hãy thử lại sau.
+Top 100 · rated games	Top 100 · ván xếp hạng
+Tournament game: the next round starts from the lounge.	Ván giải đấu: vòng tiếp theo bắt đầu từ sảnh.
+Tournament games have no rematch.	Ván giải đấu không có tái đấu.
+Tournaments	Giải đấu
+Tournaments have 4, 8 or 16 players.	Giải đấu có 4, 8 hoặc 16 người chơi.
+Two players	Hai người chơi
+Unblock	Bỏ chặn
+Unlocked {date}	Mở khóa ngày {date}
+Unstoppable	Không thể cản phá
+W	T
+Watch the last shot again	Xem lại cú đánh vừa rồi
+What happened? (optional)	Đã xảy ra chuyện gì? (không bắt buộc)
+When time runs out, the turn passes.	Khi hết giờ, lượt sẽ chuyển sang đối thủ.
+Whitewash	Quét sạch
+Win 10 rated games on the 8-ball.	Thắng 10 ván xếp hạng bằng bi số 8.
+Win 10 rated games in a row.	Thắng 10 ván xếp hạng liên tiếp.
+Win 10 rated games.	Thắng 10 ván xếp hạng.
+Win 10 rated shutouts.	Thắng trắng 10 ván xếp hạng.
+Win 100 rated games on the 8-ball.	Thắng 100 ván xếp hạng bằng bi số 8.
+Win 100 rated games.	Thắng 100 ván xếp hạng.
+Win 250 rated games on the 8-ball.	Thắng 250 ván xếp hạng bằng bi số 8.
+Win 3 rated games in a row.	Thắng 3 ván xếp hạng liên tiếp.
+Win 5 rated games in a row.	Thắng 5 ván xếp hạng liên tiếp.
+Win 5 tournaments.	Vô địch 5 giải đấu.
+Win 50 rated games on the 8-ball.	Thắng 50 ván xếp hạng bằng bi số 8.
+Win 50 rated games.	Thắng 50 ván xếp hạng.
+Win 500 rated games.	Thắng 500 ván xếp hạng.
+Win a rated game.	Thắng một ván xếp hạng.
+Win a tournament.	Vô địch một giải đấu.
+Win a rated game before your opponent sinks a ball of their group.	Thắng một ván xếp hạng trước khi đối thủ đưa được bi nào của nhóm họ vào lỗ.
+Win a rated game from the break without your opponent getting a shot.	Thắng một ván xếp hạng ngay từ cú phá bi mà đối thủ không được đánh cú nào.
+Withdraw	Rút lui
+World ranking	Bảng xếp hạng thế giới
+Wrong table password.	Sai mật khẩu bàn.
+Wrong tournament password.	Sai mật khẩu giải đấu.
+You are already in a tournament.	Bạn đã ở trong một giải đấu.
+You are hosting a game	Bạn đang mở một ván
+You can't join this table.	Bạn không thể vào bàn này.
+You signed in from another place.	Bạn đã đăng nhập từ nơi khác.
+You're sending invitations too quickly.	Bạn gửi lời mời quá nhanh.
+You're sending messages too quickly.	Bạn gửi tin nhắn quá nhanh.
+You've sent many reports. Please wait before sending more.	Bạn đã gửi nhiều báo cáo. Vui lòng đợi rồi mới gửi thêm.
+Your friend list is full.	Danh sách bạn bè của bạn đã đầy.
+Your next match starts by itself when both players are free.	Trận tiếp theo của bạn sẽ tự bắt đầu khi cả hai người chơi đều rảnh.
+Your profile	Hồ sơ của bạn
+Your table is open	Bàn của bạn đang mở
+Zoom in	Phóng to
+Zoom out	Thu nhỏ
+at a table	đang ở một bàn
+best streak	chuỗi thắng dài nhất
+by {host} · {n}/{size} players	của {host} · {n}/{size} người chơi
+casual games	ván giao hữu
+casual · private	giao hữu · riêng tư
+casual · public	giao hữu · công khai
+connecting to the server	đang kết nối máy chủ
+eight-ball pool	bi-a 8 bi
+finished	đã kết thúc
+guest	khách
+invites you to {kind}	mời bạn chơi {kind}
+joined today	tham gia hôm nay
+member for {n} days	thành viên {n} ngày
+member for {n} months	thành viên {n} tháng
+member for {n} years	thành viên {n} năm
+offline	ngoại tuyến
+open	đang mở
+optional: only friends with it can join	không bắt buộc: chỉ bạn bè biết mật khẩu mới vào được
+password	mật khẩu
+peak {n}	cao nhất {n}
+playing	đang chơi
+playing the computer	đang chơi với máy
+away	vắng mặt
+this game is saved	ván này đã được lưu
+rated games	ván xếp hạng
+rated · private	xếp hạng · riêng tư
+rated · public	xếp hạng · công khai
+request sent	đã gửi lời mời
+the connection dropped	mất kết nối
+to play online	để chơi trực tuyến
+tournament	giải đấu
+tournaments won	giải đã vô địch
+waiting for an opponent…	đang chờ đối thủ…
+win rate	tỉ lệ thắng
+wins	trận thắng
+won on the 8	thắng bằng bi số 8
+{host}'s game	ván của {host}
+{name} wants to be friends	{name} muốn kết bạn
+{name} wants to be your friend.	{name} muốn kết bạn với bạn.
+{n} online	{n} trực tuyến
+sank the 8-ball	đưa bi số 8 vào lỗ
+the opponent sank the 8-ball	đối thủ đưa bi số 8 vào lỗ
+the opponent sank the 8 too early	đối thủ đưa bi số 8 vào lỗ quá sớm
+sank the 8 too early	đưa bi số 8 vào lỗ quá sớm
+the opponent sank the 8 in the wrong pocket	đối thủ đưa bi số 8 vào sai lỗ
+sank the 8 in the wrong pocket	đưa bi số 8 vào sai lỗ
+the opponent fouled on the 8	đối thủ phạm lỗi ở bi số 8
+fouled on the 8	phạm lỗi ở bi số 8
+the opponent knocked the 8 off the table	đối thủ đánh bi số 8 văng khỏi bàn
+knocked the 8 off the table	đánh bi số 8 văng khỏi bàn
+the opponent resigned	đối thủ xin thua
+resigned	xin thua
+the opponent left	đối thủ đã rời đi
+left the game	rời ván
+You are muted for {n} more minutes.	Bạn bị cấm chat thêm {n} phút.
+This account is suspended for {n} more day(s). Reason: {reason}.	Tài khoản này bị tạm khóa thêm {n} ngày. Lý do: {reason}.
+This account is banned. Reason: {reason}.	Tài khoản này đã bị cấm. Lý do: {reason}.
+You were muted: {r}	Bạn đã bị cấm chat: {r}
+Your account was suspended: {r}	Tài khoản của bạn đã bị tạm khóa: {r}
+Your account was banned: {r}	Tài khoản của bạn đã bị cấm: {r}
+You were disconnected by a moderator: {r}	Bạn đã bị điều hành viên ngắt kết nối: {r}
+You were disconnected by a moderator.	Bạn đã bị điều hành viên ngắt kết nối.
+Please sign in again.	Vui lòng đăng nhập lại.
+Your password was changed. Sign in again.	Mật khẩu của bạn đã được đổi. Hãy đăng nhập lại.
+Accept rematch	Chấp nhận tái đấu
+Accept	Chấp nhận
+Aim	Ngắm
+Aiming guide	Đường ngắm
+Aiming	Ngắm bi
+Anti-aliasing	Khử răng cưa
+Smooths the jagged edges of lines and balls.	Làm mịn các cạnh răng cưa của đường kẻ và bi.
+Back to lounge	Về sảnh
+Balanced: smooth on most laptops.	Cân bằng: mượt trên hầu hết laptop.
+Ball in hand	Bi cái tự do
+Break the rack	Phá bi
+Camera pulls back to watch each shot	Camera lùi ra để theo dõi mỗi cú đánh
+Camera	Camera
+Cancel	Hủy
+Casual game: ratings unchanged	Ván giao hữu: điểm xếp hạng không đổi
+Center	Giữa
+Chat	Trò chuyện
+Click a ball or a spot	Bấm vào một bi hoặc một điểm
+Click to chat, Enter to send	Bấm để chat, Enter để gửi
+Controls	Điều khiển
+Create account	Tạo tài khoản
+Cue ball contact	Điểm chạm bi cái
+Decline	Từ chối
+Done	Xong
+Drag the cue ball	Kéo bi cái
+Elevation	Độ nâng cơ
+Everything, with reflections in polished floors: for gaming PCs.	Mọi hiệu ứng, có phản chiếu trên sàn bóng loáng: dành cho PC chơi game.
+Fine aim	Ngắm tinh
+Finish this match first.	Hãy chơi xong trận này trước.
+For old or very slow computers.	Cho máy tính cũ hoặc rất chậm.
+Full screen	Toàn màn hình
+Also with {key}.	Cũng có thể dùng {key}.
+Full	Đầy đủ
+Game server	Máy chủ game
+Change it only to play on another server.	Chỉ đổi khi muốn chơi trên máy chủ khác.
+Advanced	Nâng cao
+Custom server	Máy chủ khác
+Graphics quality	Chất lượng đồ họa
+Quality	Chất lượng
+Display	Hiển thị
+High	Cao
+Invite	Mời
+Leave to the lounge	Rời về sảnh
+Leave	Rời đi
+Leaving now counts as a loss.	Rời đi lúc này sẽ bị tính là thua.
+Lounge chat	Chat sảnh
+Low	Thấp
+Main menu	Menu chính
+Medium	Trung bình
+Menu / help	Menu / trợ giúp
+Next game starts in a moment…	Ván tiếp theo sắp bắt đầu…
+No rated games yet. Be the first!	Chưa có ván xếp hạng nào. Hãy là người đầu tiên!
+Nobody else is here right now.	Hiện không có ai khác ở đây.
+Looking for a game?	Đang tìm ván?
+Looking for a game	Tìm ván đấu
+Post a note	Đăng ghi chú
+Everyone in the lounge sees it for 30 minutes	Mọi người trong sảnh sẽ thấy trong 30 phút
+What are you after? ({kind})	Bạn đang tìm gì? ({kind})
+Post	Đăng
+Your note: {text}	Ghi chú của bạn: {text}
+{mode} · {left} left	{mode} · còn {left}
+Take down	Gỡ
+Challenge	Thách đấu
+Take the note down	Gỡ ghi chú
+Off	Tắt
+On the 8-ball: call a pocket	Bi số 8: hãy chỉ định lỗ
+On the 8-ball	Đến bi số 8
+Open table	Bàn mở
+Password	Mật khẩu
+Paused	Tạm dừng
+Play	Chơi
+Player 2	Người chơi 2
+Player	Người chơi
+Quick aim	Ngắm nhanh
+Quit	Thoát
+Reconnected.	Đã kết nối lại.
+Rematch	Tái đấu
+Resign this game	Xin thua ván này
+Restart the game to apply this change.	Khởi động lại game để áp dụng thay đổi này.
+Resume	Tiếp tục
+Retry	Thử lại
+Saving the result…	Đang lưu kết quả…
+Say hello… (Enter to send)	Gửi lời chào… (Enter để gửi)
+Send	Gửi
+Settings	Cài đặt
+{key} + drag	{key} + kéo
+{key}: 3D / top view	{key}: 3D / nhìn từ trên
+{keys}: zoom	{keys}: thu phóng
+View	Góc nhìn
+Aim left	Ngắm sang trái
+Aim right	Ngắm sang phải
+Fine aim (hold)	Ngắm tinh (giữ)
+Shoot (hold, release)	Đánh (giữ, thả)
+Top spin	Xoáy tiến
+Back spin	Xoáy lùi
+Left spin	Xoáy trái
+Right spin	Xoáy phải
+Raise the cue	Nâng cơ
+Lower the cue	Hạ cơ
+Pick up the cue ball in hand	Nhấc bi cái tự do
+3D / top view	3D / nhìn từ trên
+Reset the camera	Đặt lại camera
+Replay the last shot	Phát lại cú đánh vừa rồi
+List of controls	Danh sách phím điều khiển
+Keys can be changed in Settings → Controls.	Có thể đổi phím trong Cài đặt → Điều khiển.
+Space	Space
+Right Shift	Shift phải
+Right Ctrl	Ctrl phải
+Right Alt	Alt phải
+Aiming and shooting	Ngắm và đánh
+Spin and elevation	Xoáy và độ nâng cơ
+Fixed keys	Phím cố định
+Menu, back and cancel	Menu, quay lại và hủy
+Confirm (forms, the cue ball in hand)	Xác nhận (biểu mẫu, bi cái tự do)
+This key can't be changed.	Không thể đổi phím này.
+Press a key · Esc cancels · Backspace clears	Nhấn một phím · Esc để hủy · Backspace để xóa
+Press a key…	Nhấn một phím…
+Click to change	Bấm để đổi
+Click to add a key	Bấm để thêm phím
+Back to no key	Về không gán phím
+Back to {keys}	Về {keys}
+Swapped: {action} is now on {key}.	Đã hoán đổi: {action} giờ dùng {key}.
+Taken from {action}, which now has no key.	Đã lấy từ {action}, thao tác đó giờ không có phím.
+Taken from {action}.	Đã lấy từ {action}.
+That key can't be used: try another.	Không thể dùng phím đó: hãy thử phím khác.
+Shoot	Đánh
+Short	Ngắn
+Signing in…	Đang đăng nhập…
+Signing in	Đang đăng nhập
+Soft shadows from every lamp, glossy halls, halos.	Bóng đổ mềm từ mọi ngọn đèn, phòng chơi bóng loáng, quầng sáng.
+Solids (1–7)	Bi trơn (1–7)
+Spin ball	Bi chỉnh xoáy
+Spin	Xoáy
+Standard	Tiêu chuẩn
+Stay	Ở lại
+Stripes (9–15)	Bi sọc (9–15)
+The game goes on while this is open.	Ván đấu vẫn tiếp diễn khi mục này đang mở.
+Use default	Dùng mặc định
+Username	Tên người dùng
+Usernames have 3–16 letters, digits or underscores.	Tên người dùng gồm 3–16 chữ cái, chữ số hoặc dấu gạch dưới.
+{keys} (jump & massé)	{keys} (nhảy bi & massé)
+You win!	Bạn thắng!
+Your name	Tên của bạn
+Your opponent went back to the lounge.	Đối thủ của bạn đã quay về sảnh.
+Your turn	Lượt của bạn
+open table: the next ball you make sets your group	bàn mở: bi tiếp theo bạn đưa vào lỗ sẽ quyết định nhóm của bạn
+draw	xoáy lùi
+follow	xoáy tiến
+stun	đánh dừng
+solids	bi trơn
+stripes	bi sọc
+lounge	sảnh
+ · left english	 · xoáy trái
+ · right english	 · xoáy phải
+Language	Ngôn ngữ
+General	Chung
+Graphics	Đồ họa
+Game	Trò chơi
+Sound	Âm thanh
+Reset to defaults	Khôi phục mặc định
+Reset all keys	Đặt lại tất cả phím
+Reset every key?	Đặt lại tất cả phím?
+Click again to put every key back	Bấm lần nữa để khôi phục tất cả phím
+Updates	Cập nhật
+Update automatically	Tự động cập nhật
+New versions download in the background and install when you restart.	Phiên bản mới được tải xuống ngầm và cài đặt khi bạn khởi động lại.
+Version {v}	Phiên bản {v}
+What's new	Có gì mới
+What's new in version {v}	Có gì mới trong phiên bản {v}
+No notes for this version.	Không có ghi chú cho phiên bản này.
+Got it	Đã hiểu
+Restart now	Khởi động lại ngay
+After the game, from the main menu.	Sau ván đấu, từ menu chính.
+Download	Tải xuống
+Check now	Kiểm tra ngay
+Couldn't reach the update server.	Không kết nối được máy chủ cập nhật.
+The download was damaged. It will be tried again later.	Bản tải xuống bị hỏng. Sẽ thử lại sau.
+The new version couldn't be installed. This one stays.	Không thể cài đặt phiên bản mới. Vẫn giữ phiên bản này.
+Downloading… {p}%	Đang tải xuống… {p}%
+Updating…	Đang cập nhật…
+The Microsoft Store keeps the game up to date.	Microsoft Store giữ cho game luôn được cập nhật.
+Development build: no automatic updates.	Bản phát triển: không tự động cập nhật.
+Looking for a new version…	Đang tìm phiên bản mới…
+This is the latest version.	Đây là phiên bản mới nhất.
+Downloading version {v}… {p}%	Đang tải phiên bản {v}… {p}%
+Installing version {v}…	Đang cài đặt phiên bản {v}…
+Version {v} is ready: restart the game to use it.	Phiên bản {v} đã sẵn sàng: khởi động lại game để dùng.
+Version {v} is out: download it from the releases page.	Đã có phiên bản {v}: hãy tải từ trang phát hành.
+Version {v} is ready	Phiên bản {v} đã sẵn sàng
+Restart to play it; nothing is lost.	Khởi động lại để chơi; không mất gì cả.
+Version {v} is out	Đã có phiên bản {v}
+Get it from the releases page.	Tải từ trang phát hành.
+Reset everything?	Đặt lại tất cả?
+Click again to reset every setting	Bấm lần nữa để đặt lại mọi cài đặt
+Online	Trực tuyến
+Menu	Menu
+Rating	Điểm
+Ultra	Ultra
+hold {key} and release	giữ {key} rồi thả
+Change	Đổi
+Mouse aim sensitivity	Độ nhạy ngắm bằng chuột
+How fast the cue turns with the mouse.	Tốc độ xoay cơ khi di chuột.
+Vignette	Làm tối viền
+Darkens the edges of the picture, like a film.	Làm tối các mép hình ảnh, như trong phim.
+Show FPS	Hiện FPS
+Frames per second, in a corner of the screen.	Số khung hình mỗi giây, ở một góc màn hình.
+Call a pocket for the 8-ball first: click a pocket.	Hãy chỉ định lỗ cho bi số 8 trước: bấm vào một lỗ.
+Reconnecting	Đang kết nối lại
+the game is over	ván đấu đã kết thúc
+the cue ball cannot be placed there	không thể đặt bi cái ở đó
+call a pocket for the 8-ball	hãy chỉ định lỗ cho bi số 8
+That username is taken.	Tên người dùng đó đã có người dùng.
+Wrong username or password.	Sai tên người dùng hoặc mật khẩu.
+Your session expired. Please log in again.	Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.
+This version of Snook Legend is out of date. Please update the game.	Phiên bản Snook Legend này đã cũ. Vui lòng cập nhật game.
+It's not your turn.	Chưa đến lượt bạn.
+That player is not online.	Người chơi đó không trực tuyến.
+That player is in a game.	Người chơi đó đang trong một ván.
+You can't invite yourself.	Bạn không thể tự mời chính mình.
+That invitation is no longer valid.	Lời mời đó không còn hiệu lực.
+That player is no longer available.	Người chơi đó không còn sẵn sàng.
+Resign first to leave a game in progress.	Hãy xin thua trước để rời ván đang diễn ra.
+Malformed message.	Tin nhắn không đúng định dạng.
+Please log in first.	Vui lòng đăng nhập trước.
+Could not create the account.	Không thể tạo tài khoản.
+The cue ball can't be placed there.	Không thể đặt bi cái ở đó.
+Disconnected.	Đã ngắt kết nối.
+Lost contact with the server.	Mất liên lạc với máy chủ.
+The server closed the connection.	Máy chủ đã đóng kết nối.
+The server took too long to answer.	Máy chủ phản hồi quá lâu.
+The server is not answering (connection refused).	Máy chủ không phản hồi (kết nối bị từ chối).
+The server address is not valid (example: wss://snook-legend.example.com/ws).	Địa chỉ máy chủ không hợp lệ (ví dụ: wss://snook-legend.example.com/ws).
+The server address has no host name.	Địa chỉ máy chủ không có tên host.
+Welcome to Snook Legend! Be kind, play fair.	Chào mừng bạn đến với Snook Legend! Hãy hòa nhã và chơi đẹp.
+Ball in hand: drag the cue ball{zone} to move it	Bi cái tự do: kéo bi cái{zone} để di chuyển
+ behind the line	 sau vạch
+Ball in hand  ·  {group}	Bi cái tự do  ·  {group}
+Can't shoot: {e}.	Không thể đánh: {e}.
+Chat ({n})	Trò chuyện ({n})
+Computer ({level})	Máy ({level})
+Computer	Máy
+Each opponent has a style of their own	Mỗi đối thủ có một phong cách riêng
+Free game	Ván tự do
+Tour	Hành trình
+Tour: {n} of {total} beaten	Hành trình: đã thắng {n}/{total}
+Strength {n}/5	Sức mạnh {n}/5
+Ghost	Bóng ma
+Accuracy	Độ chính xác
+Safeties	Đánh an toàn
+Banks	Đánh băng
+Position	Đi bi
+Ghost of {name}	Bóng ma của {name}
+A player's ghost	Bóng ma của một người chơi
+Plays like a real player	Chơi như người chơi thật
+The computer plays in the style of a real player, measured on their online games.	Máy chơi theo phong cách của một người chơi thật, được đo từ các ván trực tuyến của họ.
+Sign in to play the ghost of a real player.	Đăng nhập để đấu với bóng ma của một người chơi thật.
+Load	Tải
+Friends:	Bạn bè:
+Type a username or pick a friend, then Load.	Nhập tên người dùng hoặc chọn một người bạn, rồi bấm Tải.
+Measuring how {name} plays…	Đang đo cách {name} chơi…
+Pots {pots}% · safeties {safe}% · banks {banks}% · {shots} shots	Ăn bi {pots}% · an toàn {safe}% · đánh băng {banks}% · {shots} cú đánh
+{name} has only {shots} recorded shots; a ghost needs {needed}. More online games will do it.	{name} mới có {shots} cú đánh được ghi lại; một bóng ma cần {needed}. Chơi thêm vài ván trực tuyến là đủ.
+There is no player called {name}.	Không có người chơi nào tên {name}.
+The server can't be reached right now. Try again later.	Hiện không kết nối được máy chủ. Hãy thử lại sau.
+Wait a moment before asking again.	Hãy đợi một chút trước khi yêu cầu lại.
+Something went wrong on the server. Try again later.	Máy chủ gặp sự cố. Hãy thử lại sau.
+Play your ghost	Đấu với bóng ma của bạn
+Play their ghost	Đấu với bóng ma của họ
+Beaten	Đã thắng
+Next	Tiếp theo
+Win the previous stage to unlock this one.	Thắng chặng trước để mở khóa chặng này.
+Stage {n} of {total}	Chặng {n}/{total}
+Challenge {name}	Thách đấu {name}
+Stage {n} won! Next on the tour: {name}.	Đã thắng chặng {n}! Tiếp theo trong hành trình: {name}.
+You won the whole tour!	Bạn đã chinh phục toàn bộ hành trình!
+Reward	Phần thưởng
+{item} cue · exclusive	Cơ {item} · độc quyền
+Yours: find it in the shop, under Cues.	Đã là của bạn: tìm trong cửa hàng, mục Cơ.
+Win the last stage again while signed in to claim it.	Thắng lại chặng cuối khi đã đăng nhập để nhận phần thưởng.
+Beat all fifteen opponents to earn it. It is sold nowhere.	Đánh bại cả mười lăm đối thủ để nhận. Không bán ở bất cứ đâu.
+You won the tour! Sign in to claim your reward.	Bạn đã chinh phục hành trình! Đăng nhập để nhận phần thưởng.
+The server is checking your final game…	Máy chủ đang kiểm tra ván cuối của bạn…
+Try again	Thử lại
+The server did not answer. Try again in a moment.	Máy chủ không phản hồi. Hãy thử lại sau giây lát.
+The server is busy checking other games. Try again in a moment.	Máy chủ đang bận kiểm tra các ván khác. Hãy thử lại sau giây lát.
+Wait a minute before trying again.	Hãy đợi một phút rồi thử lại.
+That game is too long to be checked.	Ván đó quá dài để kiểm tra.
+That game has a move the rules don't allow.	Ván đó có một cú đánh mà luật không cho phép.
+That game was not played to the end.	Ván đó chưa được chơi đến cuối.
+That game was not a win.	Ván đó không phải là một trận thắng.
+The computer's shots in that game don't match how it plays (another version of the game?).	Các cú đánh của máy trong ván đó không khớp với cách nó chơi (phiên bản game khác?).
+The Rookie	Tân binh
+Still learning: aims at the nearest pocket, centre ball, and hopes. Never plays safe.	Vẫn đang học: ngắm lỗ gần nhất, đánh giữa bi rồi cầu may. Không bao giờ đánh an toàn.
+The Weekend Player	Người chơi cuối tuần
+Knows the basics and drops the easy ones, but rarely thinks about where the cue ball goes.	Nắm được cơ bản và ăn những bi dễ, nhưng hiếm khi nghĩ xem bi cái sẽ đi đâu.
+The Bank Artist	Nghệ sĩ đánh băng
+Sees angles nobody else does: whenever a ball can go off a cushion and in, she banks it.	Thấy những góc không ai thấy: hễ bi nào có thể dội băng vào lỗ, cô ấy sẽ đánh băng.
+The Cannon	Đại bác
+Goes for everything, as hard as he can: long pots, thunderous breaks, hardly ever a safety.	Đánh mọi bi, mạnh hết sức: những cú ăn bi xa, những cú phá bi như sấm, hầu như không bao giờ đánh an toàn.
+The Wall	Bức tường
+Only shoots when the pot is on. Otherwise she tucks the cue ball away and waits for your mistake.	Chỉ tấn công khi chắc ăn. Nếu không, cô ấy giấu bi cái đi và chờ bạn mắc lỗi.
+The Old Pro	Lão làng
+Forty years at the table: a smooth stroke, a raised cue, side spin, and never in a hurry.	Bốn mươi năm bên bàn bi-a: cú đánh mượt mà, cơ nâng cao, xoáy ngang, và không bao giờ vội vàng.
+The Hustler	Cáo già
+Plays just well enough to win, then a little better. Balanced, sharp and hard to read.	Chơi vừa đủ để thắng, rồi hay hơn một chút. Cân bằng, sắc sảo và khó đoán.
+The Professor	Giáo sư
+Thinks three balls ahead: every shot leaves the cue ball where the next one is easy.	Tính trước ba bi: mỗi cú đánh đều để bi cái ở chỗ cú tiếp theo thật dễ.
+The Sharpshooter	Xạ thủ
+Pots from anywhere, at any angle. Her safeties are an afterthought: she doesn't need them.	Ăn bi từ mọi vị trí, ở mọi góc độ. Đánh an toàn chỉ là chuyện phụ: cô ấy không cần đến.
+The Champion	Nhà vô địch
+Unbeaten for years. Precise, patient and merciless: the last stage of the tour.	Bất bại nhiều năm liền. Chính xác, kiên nhẫn và không khoan nhượng: chặng cuối của hành trình.
+Tour champion	Vô địch hành trình
+Champion of the tour	Nhà vô địch hành trình
+Beat all fifteen opponents of the computer tour.	Đánh bại cả mười lăm đối thủ trong hành trình đấu với máy.
+Connection lost. Reconnecting (attempt {n})…	Mất kết nối. Đang kết nối lại (lần {n})…
+Connection lost. Reconnecting…	Mất kết nối. Đang kết nối lại…
+Foul by {shooter}: {foul}.	{shooter} phạm lỗi: {foul}.
+Graphics set to {q} for smooth play. You can change this in Settings.	Đồ họa được đặt ở mức {q} để chơi mượt. Bạn có thể đổi trong Cài đặt.
+Rating {r} ({d})	Điểm {r} ({d})
+The {ball} was spotted.	Đã đặt {ball} trở lại bàn.
+Waiting for {to} ({kind})…	Đang chờ {to} ({kind})…
+rated	xếp hạng
+casual	giao hữu
+Waiting for {name}…	Đang chờ {name}…
+{by} declined your invitation.	{by} đã từ chối lời mời của bạn.
+a rated game	một ván xếp hạng
+a casual game	một ván giao hữu
+{name} calls the 8-ball in the {pocket} pocket.	{name} chỉ định bi số 8 vào lỗ {pocket}.
+{name} has ball in hand…	{name} được đặt bi cái tự do…
+{name} is aiming…	{name} đang ngắm…
+{name} is on the 8: click a pocket to call it	{name} chỉ còn bi số 8: bấm vào một lỗ để chỉ định
+{name} is thinking…	{name} đang suy nghĩ…
+{name} left the game.	{name} đã rời ván.
+{name} resigned.	{name} đã xin thua.
+{name} to break	{name} phá bi
+{name} to shoot ({target})	{name} đánh ({target})
+{name}'s turn	Lượt của {name}
+{next} has ball in hand{where}.	{next} được đặt bi cái tự do{where}.
+ behind the head string	 sau vạch đầu bàn
+{opponent} is back.	{opponent} đã quay lại.
+{opponent} lost the connection. Waiting up to {secs} s…	{opponent} mất kết nối. Đang chờ tối đa {secs} giây…
+{opponent} wants a rematch.	{opponent} muốn tái đấu.
+{opponent} went back to the lounge.	{opponent} đã quay về sảnh.
+{shooter} pocketed {balls}.	{shooter} đưa {balls} vào lỗ.
+{shooter} takes {group}.	{shooter} nhận nhóm {group}.
+{who} ran out of time: ball in hand for the opponent.	{who} hết giờ: đối thủ được đặt bi cái tự do.
+{name} wants a rematch!	{name} muốn tái đấu!
+{name} wins!	{name} thắng!
+{name} wins	{name} thắng
+Volume	Âm lượng
+The cue, the balls, the cushions and the pockets.	Tiếng cơ, bi, băng và lỗ.
+Notifications	Thông báo
+Could not find the server “{host}”.	Không tìm thấy máy chủ “{host}”.
+Network error: {e}.	Lỗi mạng: {e}.
+Secure connection failed: {e}.	Kết nối bảo mật thất bại: {e}.
+The server refused the connection (HTTP {code}).	Máy chủ từ chối kết nối (HTTP {code}).
+Connection error: {e}.	Lỗi kết nối: {e}.
+cue ball	bi cái
+{n}-ball	bi số {n}
+Scratch: the cue ball was pocketed	Lỗi: bi cái rơi vào lỗ
+The cue ball left the table	Bi cái văng khỏi bàn
+The cue ball didn't hit any ball	Bi cái không chạm bi nào
+Wrong ball hit first ({ball})	Chạm sai bi trước ({ball})
+No ball reached a cushion after contact	Không bi nào chạm băng sau va chạm
+The {ball} left the table	{ball} văng khỏi bàn
+Illegal break	Phá bi không hợp lệ
+pocketed the 8-ball	đưa bi số 8 vào lỗ
+opponent pocketed the 8-ball too early	đối thủ đưa bi số 8 vào lỗ quá sớm
+opponent sank the 8-ball in the wrong pocket	đối thủ đưa bi số 8 vào sai lỗ
+opponent fouled on the 8-ball	đối thủ phạm lỗi ở bi số 8
+opponent knocked the 8-ball off the table	đối thủ đánh bi số 8 văng khỏi bàn
+opponent resigned	đối thủ xin thua
+opponent left the game	đối thủ rời ván
+head left corner	góc trái đầu bàn
+head right corner	góc phải đầu bàn
+left side	giữa bên trái
+right side	giữa bên phải
+foot left corner	góc trái cuối bàn
+foot right corner	góc phải cuối bàn
+Easy	Dễ
+Hard	Khó
+Normal	Thường
+Power	Lực
+No messages yet.	Chưa có tin nhắn nào.
+▼ newer messages	▼ tin nhắn mới hơn
+Camera follows the cue	Camera theo cơ
+Off: it stays where you put it.	Tắt: camera đứng yên ở chỗ bạn đặt.
+Pull back for shots	Lùi ra khi đánh
+Only when the camera follows the cue.	Chỉ khi camera theo cơ.
+Drag the cue · click a spot	Kéo cơ · bấm vào một điểm
+Time's up: {name}'s shot was played at full power.	Hết giờ: cú đánh của {name} được thực hiện với lực tối đa.
+Dark room	Phòng tối
+A spotlight on the table, the room in shadow.	Đèn chiếu trên bàn, căn phòng chìm trong bóng tối.
+Hide	Ẩn
+Interface size	Cỡ giao diện
+Text, buttons and panels.	Chữ, nút và bảng.
+Drag to set the power	Kéo để chỉnh lực
+Shoot!	Đánh!
+Set the power, then press the green button	Chỉnh lực rồi bấm nút xanh
++{n} coins · {why}	+{n} xu · {why}
+16-player tournaments, and first place on the waiting list of a full one	Giải đấu 16 người, và vị trí đầu tiên trong danh sách chờ của giải đã đầy
+30 minutes: play as many games as you can. A win is 2 points, 4 from the third win in a row.	30 phút: chơi càng nhiều ván càng tốt. Mỗi trận thắng được 2 điểm, từ trận thắng thứ ba liên tiếp được 4 điểm.
+A crown by your name, everywhere (lounge, profile, ranking)	Vương miện cạnh tên bạn ở mọi nơi (sảnh, hồ sơ, bảng xếp hạng)
+Account	Tài khoản
+Add friends to give them items.	Thêm bạn bè để tặng vật phẩm cho họ.
+Arena	Đấu trường
+Arena · host {host} · {n} players · {kind}	Đấu trường · chủ phòng {host} · {n} người chơi · {kind}
+Buy now	Mua ngay
+Buying…	Đang mua…
+Change password	Đổi mật khẩu
+Click again to delete	Bấm lần nữa để xóa
+Got a code? Type it here	Có mã? Nhập vào đây
+Confirm purchase	Xác nhận mua
+Copied: send it to a friend.	Đã sao chép: hãy gửi cho một người bạn.
+Copy	Sao chép
+Current	Hiện tại
+Delete account	Xóa tài khoản
+Entry	Phí tham gia
+Entry {n} coins	Phí tham gia {n} xu
+Every replay kept (free players keep their last 10 games)	Lưu mọi bản phát lại (người chơi miễn phí chỉ lưu 10 ván gần nhất)
+For {name}	Tặng {name}
+Add a message (optional)	Thêm lời nhắn (không bắt buộc)
+Format	Thể thức
+Frames	Khung
+Free	Miễn phí
+Get coins	Nhận xu
+Gift sent!	Đã gửi quà!
+Give as a gift	Tặng làm quà
+Give it	Tặng
+Give to a friend	Tặng bạn bè
+Great!	Tuyệt!
+If you forget your password, we confirm it's you by this e-mail.	Nếu bạn quên mật khẩu, chúng tôi sẽ xác minh bạn qua email này.
+Invite with a code	Mời bằng mã
+It goes on right away. Items only change the look, never the game.	Được dùng ngay. Vật phẩm chỉ thay đổi giao diện, không bao giờ ảnh hưởng đến lối chơi.
+Join my table in Snook Legend:	Vào bàn của tôi trong Snook Legend:
+Join the waiting list	Vào danh sách chờ
+Join · {n} coins	Tham gia · {n} xu
+Knockout	Loại trực tiếp
+Name colour	Màu tên
+Name colours for the lounge and exclusive frames, cloth, cues, balls and effects	Màu tên trong sảnh cùng khung, nỉ, cơ, bi và hiệu ứng độc quyền
+New	Mới
+No, thanks	Không, cảm ơn
+Nothing that wins games: VIP only changes the look	Không có gì giúp thắng ván: VIP chỉ thay đổi giao diện
+Numbers	Số liệu
+ON TV	TRÊN TV
+Play rated games to see your rating here.	Chơi ván xếp hạng để xem điểm xếp hạng của bạn ở đây.
+No rated games yet.	Chưa có ván xếp hạng nào.
+Price	Giá
+Prizes {a} + {b}	Giải thưởng {a} + {b}
+Protect your purchases	Bảo vệ các giao dịch mua của bạn
+Purchase complete!	Mua thành công!
+Recovery e-mail	Email khôi phục
+Save	Lưu
+The fees make the prize: 70% to the champion, 20% to the runner-up.	Phí tham gia tạo nên giải thưởng: 70% cho nhà vô địch, 20% cho á quân.
+The server restarts in {m}:{s} for an update. Games in progress go on.	Máy chủ sẽ khởi động lại sau {m}:{s} để cập nhật. Các ván đang diễn ra vẫn tiếp tục.
+Use this e-mail	Dùng email này
+Use {email} to recover your account if you ever forget your password?	Dùng {email} để khôi phục tài khoản nếu có lúc bạn quên mật khẩu?
+Watch	Xem
+Watch again	Xem lại
+Winning effects	Hiệu ứng chiến thắng
+Halls	Phòng chơi
+You are paired as soon as you and an opponent are free.	Bạn sẽ được ghép cặp ngay khi bạn và một đối thủ đều rảnh.
+You can change it any time in your profile (Account).	Bạn có thể đổi bất cứ lúc nào trong hồ sơ (Tài khoản).
+You need {n} more coins.	Bạn cần thêm {n} xu.
+Your account	Tài khoản của bạn
+Your account was deleted.	Tài khoản của bạn đã bị xóa.
+Your coins	Xu của bạn
+Your friend gets it right away.	Người bạn đó sẽ nhận được ngay.
+Your game against {name} is starting.	Ván đấu của bạn với {name} đang bắt đầu.
+Your name, e-mail, friends and items are erased for good. Your opponents keep the games you played (without your name).	Tên, email, bạn bè và vật phẩm của bạn sẽ bị xóa vĩnh viễn. Đối thủ vẫn giữ các ván đã chơi với bạn (không kèm tên bạn).
+balls per game	bi mỗi ván
+best run ever	chuỗi dài nhất từ trước đến nay
+daily bonus	thưởng hằng ngày
+entry fee back	hoàn phí tham gia
+for the game	cho ván đấu
+for the win	cho trận thắng
+games counted	ván được tính
+Analysis	Phân tích
+The shot analysis isn't available on this server yet.	Máy chủ này chưa có phân tích cú đánh.
+Only online accounts have a shot analysis.	Chỉ tài khoản trực tuyến mới có phân tích cú đánh.
+Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Chơi trực tuyến để xem bạn ăn bi thế nào: phân tích sẽ hiện sau {n} cú nhắm lỗ nữa.
+{name} hasn't played enough online games for an analysis yet.	{name} chưa chơi đủ ván trực tuyến để phân tích.
+1 game	1 ván
+{pct}% of {n} shots at a pocket potted · {games}	Ăn {pct}% trong {n} cú nhắm lỗ · {games}
+{made} of {n} potted ({pct})	Ăn {made}/{n} ({pct})
+By kind of shot	Theo loại cú đánh
+shots	cú đánh
+Straight	Thẳng
+Cut 8–25°	Cắt 8–25°
+Cut 25–45°	Cắt 25–45°
+Thin cut 45°+	Cắt mỏng 45°+
+Bank	Đánh băng
+Kick	Bi cái đi băng
+Combination	Đánh ghép
+Jump	Nhảy bi
+Massé	Massé
+Break	Phá bi
+By distance	Theo khoảng cách
+Short (under 0.75 m)	Ngắn (dưới 0,75 m)
+Medium (to 1.5 m)	Trung bình (đến 1,5 m)
+Long (over 1.5 m)	Dài (trên 1,5 m)
+left the opponent nothing	không để lại gì cho đối thủ
+Breaks	Phá bi
+made a ball	ăn được bi
+Potted	Đã ăn
+Missed	Trượt
+Where and in which pocket	Vị trí và lỗ
+{pocket}: {made} of {n} potted	{pocket}: ăn {made}/{n}
+Where the potted balls were	Vị trí các bi đã ăn
+Where the missed balls were	Vị trí các bi đánh trượt
+few	ít
+many	nhiều
+{made} potted · {missed} missed ({pct})	ăn {made} · trượt {missed} ({pct})
+Top left corner	Góc trên bên trái
+Bottom left corner	Góc dưới bên trái
+Top side pocket	Lỗ giữa phía trên
+Bottom side pocket	Lỗ giữa phía dưới
+Top right corner	Góc trên bên phải
+Bottom right corner	Góc dưới bên phải
+games left unfinished	ván bỏ dở
+potting success	tỉ lệ ăn bi
+shots with a foul	cú đánh phạm lỗi
+starts in {n} min	bắt đầu sau {n} phút
+tournament prize	giải thưởng giải đấu
+The dark room hides the hall around the table.	Phòng tối ẩn phòng chơi xung quanh bàn.
+Show the hall	Hiện phòng chơi
+Level {n} · 1 win	Cấp {n} · 1 trận thắng
+Level {n} · {w} wins	Cấp {n} · {w} trận thắng
+{left} more online wins with this cue for level {n}. Levels only add marks to the cue.	Cần thêm {left} trận thắng trực tuyến với cây cơ này để lên cấp {n}. Cấp chỉ thêm dấu ấn lên cơ.
+The top level: this cue has every mark.	Cấp cao nhất: cây cơ này đã có mọi dấu ấn.
+Your cue {cue} reached level {n}!	Cây cơ {cue} của bạn đã lên cấp {n}!
+Most wins: {cue} (level {n})	Thắng nhiều nhất: {cue} (cấp {n})
+{games} games · {rate}% won · {balls} balls made	{games} ván · thắng {rate}% · ăn {balls} bi
+vs	vs
+{from} gave you {item}!	{from} đã tặng bạn {item}!
+You received a gift!	Bạn nhận được một món quà!
+From	Từ
+To	Gửi
+someone	ai đó
+A month of VIP	Một tháng VIP
+Thank	Cảm ơn
+Thanked	Đã cảm ơn
+They thanked you	Họ đã cảm ơn bạn
+Use it now	Dùng ngay
+Later	Để sau
+OK	OK
+Next ({n} more)	Tiếp ({n} nữa)
+{from} gave you {item}! It's waiting for you in the lounge.	{from} đã tặng bạn {item}! Quà đang chờ bạn ở sảnh.
+{name} thanked you for {item}.	{name} đã cảm ơn bạn vì {item}.
+Gifts	Quà tặng
+No gifts yet. Friends can give you items from the shop.	Chưa có quà nào. Bạn bè có thể tặng bạn vật phẩm từ cửa hàng.
+{item} is yours and already in use.	{item} đã là của bạn và đang được dùng.
+{m}:{s} left	còn {m}:{s}
+{name} invites you to play.	{name} mời bạn chơi.
+{name} is online.	{name} đang trực tuyến.
+{name} ran out of time.	{name} đã hết giờ.
+{name} received {item}.	{name} đã nhận được {item}.
+{n} pts · {g} games	{n} điểm · {g} ván
+{n} watching · avg {r}	{n} người xem · TB {r}
+{title}: {how}	{title}: {how}
+Olive	Ô liu
+Navy	Xanh hải quân
+Forest	Xanh rừng
+Slate grey	Xám đá phiến
+Red wine	Đỏ vang
+Burnt orange	Cam cháy
+Dusty rose	Hồng phai
+Sand	Cát
+Ice blue	Xanh băng tuyết
+Lime	Xanh chanh
+Black tie	Dạ tiệc
+Cobalt	Coban
+Emerald	Ngọc lục bảo
+Natural maple	Gỗ thích tự nhiên
+Beach bar	Quán bar bãi biển
+Modern	Hiện đại
+English club	Câu lạc bộ Anh
+Ebony & gold	Gỗ mun và vàng
+Pool hall	Quán bi-a
+Industrial loft	Gác xép công nghiệp
+Steel & oak	Thép và gỗ sồi
+Tournament	Giải đấu
+Victorian walnut	Gỗ óc chó Victoria
+Ivory deco	Ngà Art Deco
+Mountain lodge	Nhà gỗ trên núi
+Neon arcade	Khu trò chơi neon
+Art deco lounge	Sảnh Art Deco
+Skyline penthouse	Penthouse ngắm phố
+Walnut	Gỗ óc chó
+Zebrawood	Gỗ vằn
+Bocote	Gỗ bocote
+Deep ocean	Đại dương sâu thẳm
+Cherry	Gỗ anh đào
+Jade	Ngọc bích
+Tiger	Hổ
+Amethyst	Thạch anh tím
+Arctic carbon	Carbon Bắc Cực
+Inferno	Hỏa ngục
+Obsidian gold	Hắc thạch và vàng
+Tan chalk	Phấn nâu nhạt
+Grey chalk	Phấn xám
+Orange chalk	Phấn cam
+Pink chalk	Phấn hồng
+Teal chalk	Phấn xanh mòng két
+Yellow chalk	Phấn vàng
+Black chalk	Phấn đen
+White chalk	Phấn trắng
+Silver chalk	Phấn bạc
+TV set	Bộ bi TV
+Earth tones	Tông đất
+Ocean	Đại dương
+Sunset	Hoàng hôn
+Candy	Kẹo ngọt
+Pearl	Ngọc trai
+Monochrome	Đơn sắc
+Chrome	Crôm
+Gold rush	Cơn sốt vàng
+No frame	Không khung
+Bronze	Đồng
+Silver	Bạc
+Gold	Vàng
+Green felt	Nỉ xanh
+Mahogany	Gỗ gụ
+Ice	Băng giá
+Fire	Lửa
+Diamond	Kim cương
+VIP crown	Vương miện VIP
+Rose gold	Vàng hồng
+Aqua	Xanh ngọc
+Violet	Tím violet
+Ember	Than hồng
+Mint	Bạc hà
+Frost	Sương giá
+No effect	Không hiệu ứng
+Sparks	Tia lửa
+Confetti	Pháo giấy
+Shockwave	Sóng xung kích
+Coin shower	Mưa xu
+Flames	Ngọn lửa
+Royal sparks	Tia lửa hoàng gia
+Tier colour	Màu theo hạng
+16-player tournaments are for VIP members.	Giải đấu 16 người chỉ dành cho thành viên VIP.
+A seat opened: you are in the tournament!	Có một chỗ trống: bạn đã vào giải đấu!
+Entry fees go up to 1000 coins.	Phí tham gia tối đa 1000 xu.
+Guests can't play for coins.	Khách không thể chơi ăn xu.
+Only items sold for coins can be given.	Chỉ vật phẩm bán bằng xu mới có thể tặng.
+Password changed.	Đã đổi mật khẩu.
+Passwords need 8 or more characters, not only digits.	Mật khẩu cần từ 8 ký tự trở lên, không chỉ gồm chữ số.
+Recovery e-mail removed.	Đã xóa email khôi phục.
+Recovery e-mail saved.	Đã lưu email khôi phục.
+Something went wrong. Please try again.	Đã có lỗi xảy ra. Vui lòng thử lại.
+That code is not valid (or the table was closed).	Mã đó không hợp lệ (hoặc bàn đã đóng).
+That doesn't look like an e-mail address.	Đó có vẻ không phải là địa chỉ email.
+That game is over.	Ván đó đã kết thúc.
+The current password is wrong.	Mật khẩu hiện tại không đúng.
+The server is restarting.	Máy chủ đang khởi động lại.
+The server is restarting: new games start in a moment.	Máy chủ đang khởi động lại: các ván mới sẽ bắt đầu trong giây lát.
+The tournament is full: you are on the waiting list.	Giải đấu đã đầy: bạn đang trong danh sách chờ.
+This replay is not available.	Bản phát lại này không khả dụng.
+You can only give items to your friends.	Bạn chỉ có thể tặng vật phẩm cho bạn bè.
+Your friend already has this item.	Người bạn đó đã có vật phẩm này.
+16 (VIP)	16 (VIP)
+VIP isn't sold in this version of the game.	Phiên bản game này không bán VIP.
+In this version of the game, coins are earned by playing:	Trong phiên bản game này, xu kiếm được bằng cách chơi:
+rated games, and a bonus every day you play.	ván xếp hạng, và phần thưởng mỗi ngày bạn chơi.
+Coins are earned by playing:	Xu kiếm được bằng cách chơi:
+If you like, you can also buy them:	Nếu muốn, bạn cũng có thể mua:
+one month	một tháng
+already VIP	đã là VIP
+Give a month to a friend · {p}	Tặng bạn bè một tháng · {p}
+{from} gave you a month of VIP!	{from} đã tặng bạn một tháng VIP!
+{name} received a month of VIP.	{name} đã nhận được một tháng VIP.
+Your friend is already VIP.	Người bạn đó đã là VIP.
+Game in progress: {n} balls left	Ván đang diễn ra: còn {n} bi
+Continue	Tiếp tục
+Missions	Nhiệm vụ
+Board	Bảng tin
+Today	Hôm nay
+This week	Tuần này
+new missions in {t}	nhiệm vụ mới sau {t}
+ends in {t}	kết thúc sau {t}
+{n} days	{n} ngày
+{n} h	{n} giờ
+{n} min	{n} phút
+mission complete	đã hoàn thành nhiệm vụ
+Missions count rated games played to the end. The coins arrive as soon as one is complete.	Nhiệm vụ tính các ván xếp hạng được chơi đến cuối. Xu sẽ đến ngay khi bạn hoàn thành một nhiệm vụ.
+Nothing on the board right now.	Bảng tin hiện chưa có gì.
+Open tournaments	Giải đấu đang mở
+{n}/{size} players	{n}/{size} người chơi
+starts in {t}	bắt đầu sau {t}
+entry {n} coins	phí tham gia {n} xu
+See	Xem
+Play {n} rated games	Chơi {n} ván xếp hạng
+Win {n} rated games	Thắng {n} ván xếp hạng
+Pot {n} balls	Ăn {n} bi
+Pot {n} balls with spin	Ăn {n} bi có xoáy
+Pot 3 balls in a row in one visit	Ăn 3 bi liên tiếp trong một lượt
+Win a game without a foul	Thắng một ván mà không phạm lỗi
+Pot 3 balls in a row {n} times	Ăn 3 bi liên tiếp {n} lần
+Win {n} games without a foul	Thắng {n} ván mà không phạm lỗi
+TV camera when watching	Camera truyền hình khi xem
+Broadcast angles for other players' games and replays.	Góc quay kiểu truyền hình khi xem ván của người khác và bản phát lại.
+System notifications	Thông báo hệ thống
+Invites, friends coming online and games starting, while you're away.	Lời mời, bạn bè vừa trực tuyến và ván đấu bắt đầu, trong lúc bạn vắng mặt.
+{name} starts in a few minutes: get ready!	{name} bắt đầu sau vài phút: hãy chuẩn bị!
+{name} starts in a few minutes: there is still room.	{name} bắt đầu sau vài phút: vẫn còn chỗ.
+{name} has started!	{name} đã bắt đầu!
+Momentum	Thế trận
+Shot map	Bản đồ cú đánh
+No shots yet.	Chưa có cú đánh nào.
+made	ăn
+missed	trượt
+foul	lỗi
+See the tournaments	Xem các giải đấu
+Open the shop	Mở cửa hàng
+See VIP	Xem VIP
+See the missions	Xem nhiệm vụ
+A new version of the game is out: update to play online.	Đã có phiên bản game mới: hãy cập nhật để chơi trực tuyến.
+Update in the Microsoft Store	Cập nhật trên Microsoft Store
+Update now	Cập nhật ngay
+Download the new version	Tải phiên bản mới
+New version out	Đã có phiên bản mới
+Get the new version to play online	Tải phiên bản mới để chơi trực tuyến
+Cheer for {name}	Cổ vũ {name}
+Crowd: {a} for {p0}, {b} for {p1}	Khán giả: {a} cổ vũ {p0}, {b} cổ vũ {p1}
+welcome pack	gói chào mừng
+Welcome pack	Gói chào mừng
+Cue “{cue}”, cloth “{cloth}” and {n} coins · only once, sold nowhere else	Cơ “{cue}”, nỉ “{cloth}” và {n} xu · chỉ một lần, không bán ở nơi khác
+Lagoon	Đầm phá
+You already have the welcome pack.	Bạn đã có gói chào mừng.
+Your welcome pack is here!	Gói chào mừng của bạn đã đến!
+Previous shot (←)	Cú trước (←)
+Next shot (→)	Cú sau (→)
+Play (Space)	Phát (Space)
+Pause (Space)	Tạm dừng (Space)
+Speed	Tốc độ
+Shot {n} of {total}	Cú đánh {n}/{total}
+For VIP members	Dành cho thành viên VIP
+{n} reactions of your own to send during games	{n} biểu cảm riêng để gửi trong ván đấu
+Items {a}–{b} of {n}	Vật phẩm {a}–{b} / {n}
+(message deleted by its author)	(tin nhắn đã bị người gửi xóa)
+(message deleted by an administrator)	(tin nhắn đã bị quản trị viên xóa)
+Delete (it shows as deleted)	Xóa (hiện là đã xóa)
+Remove without a trace	Xóa không để lại dấu vết
+The chat was cleared by {name}.	Đoạn chat đã được {name} xóa sạch.
+Click again to clear	Bấm lần nữa để xóa sạch
+Clear the chat	Xóa sạch đoạn chat
+Players' chat (administrator)	Chat của người chơi (quản trị viên)
+Play the computer while you wait	Đấu với máy trong lúc chờ
+Looking for an opponent… {t} · the game starts as soon as one is found	Đang tìm đối thủ… {t} · ván đấu bắt đầu ngay khi tìm thấy
+Stop	Dừng
+# Coin packs and months of VIP bought in the Microsoft Store (the Store build).
+The Microsoft Store couldn't complete the purchase.	Microsoft Store không thể hoàn tất giao dịch.
+The Microsoft Store couldn't confirm the purchase right now. Its coins arrive the next time you open the shop.	Microsoft Store hiện không thể xác nhận giao dịch. Xu sẽ đến vào lần tới bạn mở cửa hàng.
+{n} coins added to your wallet.	Đã thêm {n} xu vào ví của bạn.
+Microsoft is confirming your purchase: the coins arrive in a moment.	Microsoft đang xác nhận giao dịch của bạn: xu sẽ đến trong giây lát.
+The purchase hasn't reached us yet. Its coins arrive the next time you open the shop.	Chúng tôi chưa nhận được giao dịch. Xu sẽ đến vào lần tới bạn mở cửa hàng.
+Loading prices from the Microsoft Store…	Đang tải giá từ Microsoft Store…
+Coins can't be bought in this version yet.	Phiên bản này chưa thể mua xu.
+Finish the purchase in the Microsoft Store window…	Hãy hoàn tất giao dịch trong cửa sổ Microsoft Store…
+Confirming your purchase…	Đang xác nhận giao dịch…
+Paid in the Microsoft Store, with your Microsoft account.	Thanh toán trên Microsoft Store, bằng tài khoản Microsoft của bạn.
+The Microsoft Store can't be reached right now. Try again in a moment.	Hiện không kết nối được Microsoft Store. Hãy thử lại sau giây lát.
+The Microsoft Store could not confirm the purchase.	Microsoft Store không thể xác nhận giao dịch.
+Sign in to the Microsoft Store with your Microsoft account, then open the shop again.	Hãy đăng nhập Microsoft Store bằng tài khoản Microsoft của bạn, rồi mở lại cửa hàng.
+The Microsoft Store couldn't confirm the purchase right now. Your VIP month starts the next time you open the shop.	Microsoft Store hiện không thể xác nhận giao dịch. Tháng VIP của bạn sẽ bắt đầu vào lần tới bạn mở cửa hàng.
+You are VIP until {d}, and {n} coins were added to your wallet.	Bạn là VIP đến {d}, và {n} xu đã được thêm vào ví của bạn.
+Microsoft is confirming your purchase: your VIP month starts in a moment.	Microsoft đang xác nhận giao dịch của bạn: tháng VIP sẽ bắt đầu trong giây lát.
+The purchase hasn't reached us yet. Your VIP month starts the next time you open the shop.	Chúng tôi chưa nhận được giao dịch. Tháng VIP của bạn sẽ bắt đầu vào lần tới bạn mở cửa hàng.
+A month at a time: nothing renews by itself	Từng tháng một: không tự động gia hạn
+Add a month · {p}	Thêm một tháng · {p}
+A month of VIP · {p}	Một tháng VIP · {p}
+The new month starts when this one ends.	Tháng mới bắt đầu khi tháng này kết thúc.
+Trophies	Cúp
+No trophies yet.	Chưa có cúp nào.
+Tournament won · {n} players	Vô địch giải đấu · {n} người chơi
+The computer tour	Hành trình đấu với máy
+All fifteen opponents beaten	Đã đánh bại cả mười lăm đối thủ
+Daily challenge	Thử thách hằng ngày
+First of {n} players	Hạng nhất trong {n} người chơi
+Easy shot	Cú dễ
+Fair shot	Cú vừa
+Hard shot	Cú khó
+Very hard shot	Cú rất khó
+~{n}% chance	~{n}% khả năng
+No ball goes down as aimed	Không bi nào vào lỗ theo hướng ngắm này
+straight in	thẳng vào lỗ
+{n}° cut	cắt {n}°
+off one cushion	dội một băng
+off {n} cushions	dội {n} băng
+Make as many balls as you can in one visit: a miss or a foul ends the attempt.	Ăn càng nhiều bi càng tốt trong một lượt: đánh trượt hoặc phạm lỗi sẽ kết thúc lượt thử.
+The same table for everyone, all day	Cùng một bàn cho mọi người, suốt cả ngày
+{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	{n} lượt thử mỗi ngày. Dọn sạch bàn để nhận {coins} xu; người thắng trong ngày được nhận cúp.
+A new table in {h} h {m} min	Bàn mới sau {h} giờ {m} phút
+Sign in to take part: the server keeps the day's table.	Đăng nhập để tham gia: máy chủ lưu bảng xếp hạng trong ngày.
+Balls on today's table	Số bi trên bàn hôm nay
+Attempts left	Lượt thử còn lại
+{n} balls · #{rank}	{n} bi · #{rank}
+{n} balls	{n} bi
+not yet	chưa có
+Your best today	Thành tích tốt nhất hôm nay
+No attempts left today: come back tomorrow.	Hôm nay bạn đã hết lượt thử: hãy quay lại vào ngày mai.
+The attempt could not be counted.	Không thể tính lượt thử này.
+Setting up the table…	Đang chuẩn bị bàn…
+Start an attempt	Bắt đầu một lượt thử
+Starting uses an attempt, even if you leave the table.	Bắt đầu là mất một lượt thử, kể cả khi bạn rời bàn.
+Loading today's table…	Đang tải bàn hôm nay…
+Today's table	Bảng xếp hạng hôm nay
+{n} players	{n} người chơi
+Nobody has played today's table yet. Be the first!	Chưa ai chơi bàn hôm nay. Hãy là người đầu tiên!
+Table cleared!	Đã dọn sạch bàn!
+{n} of {total} balls	{n}/{total} bi
+Sending your attempt to the server…	Đang gửi lượt thử của bạn đến máy chủ…
+Counted: {n} balls · +{coins} coins	Đã tính: {n} bi · +{coins} xu
+Counted: {n} balls	Đã tính: {n} bi
+See today's table	Xem bảng xếp hạng hôm nay
+Table cleared! +{n} coins	Đã dọn sạch bàn! +{n} xu
+Daily challenge: {n} of {total} balls made	Thử thách hằng ngày: ăn {n}/{total} bi
+1 player	1 người chơi
+Phoenix	Phượng hoàng
+Carrara marble	Cẩm thạch Carrara
+Dragon scale	Vảy rồng
+Galaxy	Thiên hà
+Ruby throne	Ngai hồng ngọc
+Closing the game now is leaving it: extra rating lost and a wait to play again.	Đóng game lúc này là bỏ ván: bị trừ thêm điểm xếp hạng và phải chờ mới được chơi lại.
+You left a game in progress: you can play online again in {n} min.	Bạn đã bỏ một ván đang diễn ra: bạn có thể chơi trực tuyến lại sau {n} phút.
+Quick phrases	Câu nói nhanh
+Good luck, have fun!	Chúc may mắn, chơi vui nhé!
+Nice shot!	Cú đánh đẹp!
+Great safety!	Đánh an toàn hay lắm!
+Unlucky!	Xui quá!
+Oops!	Ối!
+Wow!	Wow!
+That was close!	Suýt nữa thì!
+Take your time.	Cứ từ từ.
+Sorry!	Xin lỗi!
+Thanks!	Cảm ơn!
+Well played!	Chơi hay lắm!
+Good game!	Ván hay!
+Rematch?	Tái đấu không?
+I have to go, thanks for the game!	Mình phải đi rồi, cảm ơn ván đấu nhé!
+Practise while you wait	Luyện tập trong lúc chờ
+A new rack.	Một giàn bi mới.
+Level {n}! (+{xp} XP)	Cấp {n}! (+{xp} XP)
++{xp} XP	+{xp} XP
+Level {n} · {into} / {span} XP to the next	Cấp {n} · {into} / {span} XP đến cấp tiếp theo
+Level {n}	Cấp {n}
+Hi! I watched a lot of videos, I'm ready!	Chào! Mình xem cả đống video rồi, sẵn sàng lắm!
+Be gentle, okay?	Nương tay nhé, được không?
+Whoa, how did you do that?	Ồ, bạn làm thế nào vậy?
+Teach me that one later!	Lát nữa dạy mình cú đó nhé!
+Phew! My turn!	Phù! Đến lượt mình!
+Even you miss? Good to know.	Bạn cũng đánh trượt à? Biết vậy cũng mừng.
+A free ball! What do I do with it?	Được cho không một bi! Giờ mình làm gì với nó đây?
+Did you see that?! It went in!	Bạn thấy không?! Vào rồi!
+Beginner's luck counts too!	May mắn của người mới cũng tính chứ!
+Oops. That was a practice shot.	Ối. Cú đó là đánh thử thôi.
+Aim, Leo, aim...	Ngắm đi, Leo, ngắm đi...
+Sorry! I touched the wrong one again.	Xin lỗi! Mình lại chạm nhầm bi rồi.
+I WON? I'm calling my mum!	MÌNH THẮNG Á? Phải gọi cho mẹ mới được!
+Good game! I'm getting better, right?	Ván hay! Mình đang tiến bộ, đúng không?
+Saturday, a table and good company. Let's play!	Thứ Bảy, một bàn bi-a và bạn tốt. Chơi thôi!
+Nice one!	Hay đấy!
+Oh, you're good. I'll pay attention now.	Ồ, bạn giỏi đấy. Giờ mình phải tập trung rồi.
+Happens to the best of us.	Cao thủ cũng có lúc vậy mà.
+Don't worry, it's just a game!	Đừng lo, chỉ là trò chơi thôi!
+Thanks for the gift!	Cảm ơn món quà nhé!
+Yes! Weekend skills!	Tuyệt! Tay nghề cuối tuần đấy!
+Lucky me!	Mình may ghê!
+Hm, where was I aiming?	Hừm, nãy mình ngắm đi đâu nhỉ?
+Too much chatting, not enough aiming.	Tán chuyện thì nhiều, ngắm thì ít.
+Oops, my bad!	Ối, lỗi tại mình!
+That was fun! Same time next weekend?	Vui thật! Cuối tuần sau cùng giờ nhé?
+Well played! Rematch over a lemonade?	Chơi hay lắm! Tái đấu bên ly nước chanh nhé?
+Four cushions, endless possibilities.	Bốn băng, vô vàn khả năng.
+Straight in? So... direct.	Thẳng vào lỗ à? Thật là... thẳng thắn.
+Nice, but a bank would have been prettier.	Đẹp, nhưng đánh băng thì còn đẹp hơn.
+You should have used the cushion.	Lẽ ra bạn nên dùng băng.
+The rail was right there, asking for it.	Băng ở ngay đó, như đang mời gọi.
+The table didn't like that.	Bàn không thích cú đó.
+Off the rail and in. Art!	Dội băng và vào lỗ. Nghệ thuật!
+Geometry never lies.	Hình học không bao giờ nói dối.
+The angle was right. The cushion disagreed.	Góc thì đúng. Băng thì không đồng ý.
+One diamond off. Just one!	Lệch một điểm kim cương. Chỉ một thôi!
+Too much imagination, not enough contact.	Tưởng tượng quá nhiều, tiếp xúc quá ít.
+A masterpiece, if I may say so.	Một kiệt tác, nếu tôi được phép nói vậy.
+Well played. Now try it off two rails.	Chơi hay. Giờ thử dội hai băng xem.
+I hope these balls are made of steel.	Mong là mấy quả bi này làm bằng thép.
+Soft touch, huh? Not my style.	Đánh nhẹ hả? Không phải phong cách của tôi.
+Hit it harder next time!	Lần sau đánh mạnh hơn vào!
+Too gentle! Power solves everything.	Nhẹ quá! Sức mạnh giải quyết tất cả.
+HA!	HA!
+My table now. Cover your ears.	Giờ bàn là của tôi. Bịt tai lại đi.
+BOOM!	BÙM!
+Did you hear that pocket?	Nghe tiếng lỗ đó chưa?
+Too much power? No such thing.	Mạnh quá ư? Làm gì có chuyện đó.
+The pocket moved.	Cái lỗ nó tự dịch đi.
+The ball flew. It happens. A lot.	Bi bay rồi. Chuyện thường. Rất thường.
+Power wins again! BOOM!	Sức mạnh lại thắng! BÙM!
+Fine, finesse works too. Sometimes.	Thôi được, khéo léo cũng hiệu quả. Đôi khi.
+Take your time. I have all day.	Cứ từ từ. Tôi có cả ngày mà.
+Acceptable.	Chấp nhận được.
+Enjoy it while it lasts.	Tận hưởng đi khi còn có thể.
+Patience is a virtue. Not yours, apparently.	Kiên nhẫn là một đức tính. Có vẻ không phải của bạn.
+Thank you.	Cảm ơn.
+Sloppy.	Cẩu thả.
+Steady wins.	Vững vàng sẽ thắng.
+One at a time.	Từng bi một.
+Hm. I'll leave you nothing anyway.	Hừm. Dù sao tôi cũng sẽ không để lại gì cho bạn.
+Intentional. Probably.	Cố ý đấy. Chắc vậy.
+Unacceptable. Of me.	Không thể chấp nhận. Lỗi của tôi.
+As I said: patience.	Như tôi đã nói: kiên nhẫn.
+You got through the wall. I'm impressed.	Bạn đã vượt qua bức tường. Tôi rất ấn tượng.
+I've been playing since before these balls were plastic.	Tôi chơi từ hồi bi còn chưa làm bằng nhựa.
+Good stroke. Reminds me of a fellow in '78.	Cú đánh đẹp. Làm tôi nhớ một anh chàng hồi năm 78.
+Smooth. Very smooth.	Mượt. Rất mượt.
+Keep your head down, kid.	Cúi đầu xuống, nhóc.
+The cue ball doesn't lie.	Bi cái không biết nói dối.
+Ah, a little present. Thank you kindly.	À, một món quà nhỏ. Cảm ơn nhiều nhé.
+Like riding a bicycle.	Như đi xe đạp thôi.
+Still got it.	Vẫn còn phong độ.
+The eyes aren't what they used to be.	Mắt không còn như xưa nữa.
+In my day the pockets were bigger.	Thời của tôi, lỗ còn to hơn.
+Even old pros slip.	Lão làng cũng có lúc trượt chân.
+Experience, my friend. Experience.	Kinh nghiệm, bạn tôi ạ. Kinh nghiệm.
+You've got a future in this game.	Bạn có tương lai trong môn này đấy.
+Me? Oh, I hardly ever play...	Tôi á? Ôi, tôi hiếm khi chơi lắm...
+Lucky! Do it again, I dare you.	Ăn may! Làm lại xem nào, tôi thách đấy.
+Ooh, someone's been practising.	Ồ, có người đã luyện tập rồi nha.
+Aw, so close! Bless.	Ôi, suýt nữa! Tội nghiệp.
+Want me to show you how?	Muốn tôi chỉ cho cách làm không?
+Thank you, sweetie.	Cảm ơn nhé, cưng.
+Oops, did I do that?	Ối, tôi làm thế à?
+Must be beginner's luck. Again.	Chắc lại là may mắn của người mới. Lần nữa.
+Missed on purpose. Keeps it interesting.	Cố tình trượt đấy. Cho thêm phần thú vị.
+Just warming up.	Mới khởi động thôi.
+Oh dear, how clumsy of me. Wink.	Trời ạ, tôi vụng quá. Nháy mắt.
+Hardly ever play, I said. Hardly.	Tôi đã nói là hiếm khi chơi. Hiếm thôi.
+Fine, you got me. This time.	Được rồi, bạn thắng. Lần này.
+Friction, momentum, spin. Let us begin.	Ma sát, động lượng, độ xoáy. Chúng ta bắt đầu.
+A fine cut. About thirty degrees, I'd say.	Một cú cắt đẹp. Khoảng ba mươi độ, tôi đoán vậy.
+Textbook.	Chuẩn sách giáo khoa.
+You underestimated the throw.	Bạn đã đánh giá thấp độ lệch do ma sát.
+Interesting. Statistically expected.	Thú vị. Đúng như thống kê dự đoán.
+The cue ball followed the laws of physics, not your plan.	Bi cái tuân theo định luật vật lý, không theo kế hoạch của bạn.
+As calculated.	Đúng như tính toán.
+Elastic collision, elegant result.	Va chạm đàn hồi, kết quả thanh lịch.
+An error in my measurement.	Sai số trong phép đo của tôi.
+I'll revise the model.	Tôi sẽ xem lại mô hình.
+Hm. Unexpected spin.	Hừm. Độ xoáy ngoài dự kiến.
+The numbers were on my side.	Các con số đứng về phía tôi.
+A result outside my predictions. Well done.	Một kết quả ngoài dự đoán của tôi. Làm tốt lắm.
+Focus.	Tập trung.
+Clean.	Gọn.
+Not bad.	Không tệ.
+Half a millimetre.	Nửa milimét.
+Breathe before you shoot.	Hít thở trước khi đánh.
+Careless.	Bất cẩn.
+Target down.	Mục tiêu đã hạ.
+Centre pocket.	Chính giữa lỗ.
+Hm. Recalibrating.	Hừm. Đang hiệu chỉnh lại.
+That never happens.	Chuyện đó không bao giờ xảy ra.
+Unacceptable.	Không thể chấp nhận.
+Precision wins.	Chính xác sẽ thắng.
+Good shooting.	Ngắm tốt đấy.
+Welcome to my table. Enjoy the show.	Chào mừng đến bàn của tôi. Hãy thưởng thức màn trình diễn.
+Very good. You've done your homework.	Rất tốt. Bạn đã làm bài tập về nhà.
+Applause for the challenger!	Một tràng pháo tay cho người thách đấu!
+Pressure. It gets to everyone.	Áp lực. Ai rồi cũng bị.
+Thank you for the table.	Cảm ơn vì đã nhường bàn.
+A champion never refuses a gift.	Nhà vô địch không bao giờ từ chối một món quà.
+Naturally.	Đương nhiên.
+That's how it's done.	Phải đánh như thế.
+Even champions give the crowd a chance.	Nhà vô địch cũng cho khán giả một cơ hội.
+Leaving you something, out of courtesy.	Để lại cho bạn chút gì, gọi là lịch sự.
+A rare sight. Remember it.	Cảnh hiếm thấy. Hãy nhớ lấy.
+The title stays with me. Good game.	Danh hiệu vẫn ở lại với tôi. Ván hay.
+Remarkable. You've earned my respect.	Đáng nể. Bạn đã giành được sự tôn trọng của tôi.
+Calibration complete. Good luck, human.	Hiệu chỉnh hoàn tất. Chúc may mắn, con người.
+Shot registered: successful.	Đã ghi nhận cú đánh: thành công.
+Probability of my victory: increasing.	Xác suất chiến thắng của tôi: đang tăng.
+Foul detected. Processing penalty.	Phát hiện lỗi. Đang xử lý hình phạt.
+Executed as planned.	Thực hiện đúng kế hoạch.
+Error. Recalculating.	Lỗi. Đang tính toán lại.
+Malfunction. Please disregard.	Trục trặc. Vui lòng bỏ qua.
+Game complete. Thank you for playing.	Ván đấu hoàn tất. Cảm ơn bạn đã chơi.
+Defeat acknowledged. Well played.	Ghi nhận thất bại. Chơi hay lắm.
+Drills	Bài tập
+Exercises with stars	Bài tập có sao
+{s} / {max} stars	{s} / {max} sao
+Stars at {a}, {b} and {c}	Sao ở mức {a}, {b} và {c}
+Your best: {n} of {total}	Tốt nhất: {n}/{total}
+Not tried yet.	Chưa thử.
+Start the drill	Bắt đầu bài tập
+Sign in to keep your stars in your account.	Đăng nhập để lưu sao vào tài khoản của bạn.
+{n} of {total}	{n}/{total}
+{drill}: try {k} of {n} · {made} made	{drill}: lần thử {k}/{n} · thành công {made}
+Made it! {n} of {total}	Thành công! {n}/{total}
+Missed.	Trượt.
+Sending to the server…	Đang gửi đến máy chủ…
+Not signed in: this session is not ranked.	Chưa đăng nhập: lượt tập này không được xếp hạng.
+Kept in your account.	Đã lưu vào tài khoản của bạn.
+The session could not be counted.	Không thể tính lượt tập này.
+Back to the drills	Về danh sách bài tập
+Straight in	Thẳng vào lỗ
+A long straight pot into the corner. Five tries.	Một cú ăn bi thẳng và xa vào lỗ góc. Năm lần thử.
+The cut	Cú cắt
+A half-ball cut into the corner. Five tries.	Cắt nửa bi vào lỗ góc. Năm lần thử.
+Draw it back	Kéo bi về
+Pot the ball and draw the cue ball back into the circle. Five tries.	Ăn bi và kéo bi cái lùi về vòng tròn. Năm lần thử.
+Follow through	Đẩy theo
+Pot the ball and leave the cue ball in the circle past it. Five tries.	Ăn bi và để bi cái chạy theo vào vòng tròn phía sau. Năm lần thử.
+Bank shot	Đánh băng
+Off one cushion into the side pocket. Five tries.	Dội một băng vào lỗ giữa. Năm lần thử.
+Snooker escape	Gỡ bi bị khóa
+Hit the 1 first: it hides behind other balls. Five tries.	Chạm bi số 1 trước: nó bị che sau các bi khác. Năm lần thử.
+Ten in a row	Mười cú liên tiếp
+Ten different pots, one after another: a miss ends the session.	Mười cú ăn bi khác nhau, liên tiếp: đánh trượt là kết thúc lượt tập.
+The far corner	Lỗ góc phía sau
+A cut back up the table into the corner behind you. Five tries.	Cắt ngược lên bàn vào lỗ góc phía sau bạn. Năm lần thử.
+Long into the side	Từ xa vào lỗ giữa
+From the far end of the table into the side pocket. Five tries.	Từ đầu kia của bàn vào lỗ giữa. Năm lần thử.
+Cue ball on the cushion	Bi cái sát băng
+The cue ball touches the cushion: pot the ball into the corner all the same. Five tries.	Bi cái chạm băng: vẫn phải đưa bi vào lỗ góc. Năm lần thử.
+The plant	Hai bi kề nhau
+The 2 touches the 1 and points at the pocket: hit the 2 and the 1 goes in. Five tries.	Bi số 2 chạm bi số 1 và hướng vào lỗ: đánh bi số 2 thì bi số 1 vào lỗ. Năm lần thử.
+The carom	Cú dội bi
+The 2 is in the way: glance off it and send the 1 into the corner. Five tries.	Bi số 2 cản đường: cho bi cái sượt qua nó để đưa bi số 1 vào lỗ góc. Năm lần thử.
+The long draw	Kéo bi xa
+Pot the ball and draw the cue ball all the way back into the circle. Five tries.	Ăn bi và kéo bi cái lùi hết cỡ về vòng tròn. Năm lần thử.
+On the tangent line	Theo đường tiếp tuyến
+Pot the ball in the side and let the cue ball run on into the circle. Five tries.	Ăn bi vào lỗ giữa và để bi cái lăn tiếp vào vòng tròn. Năm lần thử.
+Two-cushion bank	Dội hai băng
+Off two cushions and into the corner. Five tries.	Dội hai băng rồi vào lỗ góc. Năm lần thử.
+Fifteen in a row	Mười lăm cú liên tiếp
+Fifteen different pots, one after another: a miss ends the session.	Mười lăm cú ăn bi khác nhau, liên tiếp: đánh trượt là kết thúc lượt tập.
+Take back the shot (Z)	Hoàn tác cú đánh (Z)
+Shot taken back.	Đã hoàn tác cú đánh.
+Solids	Bi trơn
+Stripes	Bi sọc
+Hide the history	Ẩn diễn biến
+New username	Tên người dùng mới
+Click again to confirm	Bấm lần nữa để xác nhận
+{n} of {total} name changes left	Còn {n}/{total} lần đổi tên
+You can't change your username again.	Bạn không thể đổi tên người dùng nữa.
+That is already your username.	Đó đã là tên người dùng của bạn.
+Finish your game before changing your username.	Hãy chơi xong ván trước khi đổi tên người dùng.
+Leave your table or the queue before changing your username.	Hãy rời bàn hoặc hàng chờ trước khi đổi tên người dùng.
+Leave your tournament before changing your username.	Hãy rời giải đấu trước khi đổi tên người dùng.
+Username changed.	Đã đổi tên người dùng.
+The server is still being updated to the new version. Try again in a few minutes.	Máy chủ vẫn đang cập nhật lên phiên bản mới. Hãy thử lại sau vài phút.
+{shooter} made an opponent's ball: {next} to shoot.	{shooter} đưa bi của đối thủ vào lỗ: đến lượt {next}.
+# Five more computer opponents: Tito, Inês, Diego, Amara and Yuri.
+The Gambler	Con bạc
+Bets on every shot: as hard as the cue allows, with all the spin he can find. Safe play bores him.	Đặt cược vào mọi cú đánh: mạnh hết mức cây cơ cho phép, với mọi độ xoáy có thể. Lối chơi an toàn làm anh ta chán ngắt.
+The Soft Touch	Bàn tay mềm
+Never hits harder than she must: the balls die at the pocket's edge and the cue ball stops where she wants it.	Không bao giờ đánh mạnh hơn mức cần thiết: bi lăn vừa đủ rơi xuống miệng lỗ và bi cái dừng đúng chỗ cô ấy muốn.
+The Showman	Nghệ sĩ trình diễn
+Plays to the crowd: a raised cue, swerving spin and a bank whenever there's one. It works more often than it should.	Chơi cho khán giả xem: cơ nâng cao, xoáy cong và đánh băng mỗi khi có thể. Thành công thường xuyên hơn mức đáng lẽ.
+The Tactician	Nhà chiến thuật
+Plans the whole rack: snookers you when the pot isn't sure, and runs out when it is.	Tính trước cả giàn bi: khóa bạn khi cú ăn bi chưa chắc, và dọn bàn khi đã chắc.
+The Machine	Cỗ máy
+No nerves, no flair: centre ball, measured pace, the same perfect stroke every time.	Không run tay, không phô trương: đánh giữa bi, lực vừa đủ, cùng một cú đánh hoàn hảo mọi lần.
+Place your bets! Mine's on me.	Đặt cược đi nào! Tôi cược vào chính mình.
+Lucky roll. Let it ride!	Ăn may. Cứ thế mà tới!
+Okay, okay. Double or nothing?	Được rồi, được rồi. Gấp đôi hay mất trắng?
+The house always wins!	Nhà cái luôn thắng!
+Free chips! Thank you!	Phỉnh miễn phí! Cảm ơn nhé!
+All in, and it paid!	Tất tay, và trúng lớn!
+That's how you play the odds!	Chơi xác suất là phải thế!
+Bad beat. Next hand.	Xui thôi. Ván sau.
+Too much spin? There's no such thing.	Xoáy quá nhiều ư? Làm gì có chuyện đó.
+Busted. Worth the risk!	Cháy túi rồi. Nhưng đáng để liều!
+Jackpot! Same stakes again?	Trúng độc đắc! Cược y như cũ nhé?
+You beat the odds. Respect.	Bạn đã thắng cả xác suất. Nể thật.
+Softly, now. The table likes a gentle hand.	Nhẹ nhàng thôi. Bàn bi-a thích bàn tay mềm mại.
+Nicely done.	Làm tốt lắm.
+A little hard, but it went in.	Hơi mạnh một chút, nhưng vào rồi.
+Less power, more feel.	Bớt lực, thêm cảm giác.
+Oh dear. A free ball for me.	Ôi trời. Được cho không một bi.
+Just enough to drop.	Vừa đủ để rơi.
+See? No need to hit it hard.	Thấy chưa? Đâu cần đánh mạnh.
+A touch too soft.	Nhẹ quá một chút.
+Clumsy of me. Sorry.	Tôi vụng quá. Xin lỗi.
+Slow and steady. Thank you for the game.	Chậm mà chắc. Cảm ơn ván đấu nhé.
+Beautifully played. Well deserved.	Chơi rất đẹp. Xứng đáng lắm.
+Ladies and gentlemen... the show begins!	Thưa quý vị... màn trình diễn bắt đầu!
+Not bad! Bow to the crowd!	Không tệ! Cúi chào khán giả đi!
+You stole my applause!	Bạn cướp mất tràng pháo tay của tôi rồi!
+The crowd wanted more!	Khán giả còn muốn xem nữa!
+Ooh, a plot twist!	Ồ, một cú bẻ lái!
+Ta-da!	Ta-da!
+And for my next trick...	Và tiết mục tiếp theo của tôi...
+Even magicians have off nights.	Ảo thuật gia cũng có đêm diễn hỏng.
+That was... part of the act.	Đó là... một phần của tiết mục.
+Thank you, thank you! Encore?	Cảm ơn, cảm ơn! Thêm một màn nữa nhé?
+Take a bow, champion. You earned it.	Cúi chào đi, nhà vô địch. Bạn xứng đáng mà.
+Every rack is a puzzle. Let's solve this one.	Mỗi giàn bi là một câu đố. Hãy giải câu này.
+Good. Now where is your cue ball?	Tốt. Giờ bi cái của bạn đâu rồi?
+I saw that coming.	Tôi đoán trước rồi.
+That left me something. Thank you.	Cú đó để lại cho tôi chút cơ hội. Cảm ơn.
+As planned.	Đúng như kế hoạch.
+Exactly as I calculated.	Chính xác như tôi đã tính.
+Three moves ahead.	Đi trước ba nước.
+A variable I missed.	Một biến số tôi đã bỏ sót.
+Hm. Recalculating.	Hừm. Đang tính lại.
+Checkmate.	Chiếu hết.
+You out-thought me. That's rare.	Bạn đã tính hơn tôi. Hiếm đấy.
+Game initialised.	Ván đấu đã khởi tạo.
+Noted.	Đã ghi nhận.
+Error margin exceeded.	Vượt quá biên độ sai số.
+Penalty applied.	Đã áp dụng hình phạt.
+As expected.	Như dự kiến.
+Next.	Tiếp theo.
+Deviation logged.	Đã ghi lại sai lệch.
+Malfunction. It will not repeat.	Trục trặc. Sẽ không lặp lại.
+Result: win. Thank you for the data.	Kết quả: thắng. Cảm ơn vì dữ liệu.
+Unexpected outcome. Impressive.	Kết quả ngoài dự kiến. Ấn tượng.
+Opponents' remarks	Lời bình của đối thủ
+The computer opponents comment on the game in speech bubbles.	Đối thủ máy bình luận về ván đấu trong bong bóng thoại.
+Top view only	Chỉ nhìn từ trên
+The table is always seen from above: no 3D view, no turning.	Bàn luôn được nhìn từ trên xuống: không có góc nhìn 3D, không xoay.
+Not with the top view only.	Không dùng được khi chỉ nhìn từ trên.
+Wheel	Con lăn chuột
+Rules	Luật
+Rules of the game	Luật chơi
+Level	Phẳng
+Drag the cue: jump & massé	Kéo cơ: nhảy bi & massé
+Drag to raise or lower the cue	Kéo để nâng hoặc hạ cơ
+Drag the cue · {keys}	Kéo cơ · {keys}
+Profile picture	Ảnh đại diện
+Shown by your name at the table and in your profile.	Hiện cạnh tên bạn tại bàn và trong hồ sơ.
+No picture	Không có ảnh
+Change your picture	Đổi ảnh đại diện
+{name} sank the 8 together with another ball	{name} đưa bi số 8 vào lỗ cùng với bi khác
+the opponent sank the 8 with another ball	đối thủ đưa bi số 8 vào lỗ cùng với bi khác
+sank the 8 with another ball	đưa bi số 8 vào lỗ cùng với bi khác
+opponent pocketed the 8-ball together with another ball	đối thủ đưa bi số 8 vào lỗ cùng với bi khác
+Penalty: {balls} off the table for {name}.	Phạt: {balls} được lấy khỏi bàn cho {name}.
+{name} had fewer balls left than the foul gives: the 8 pays the rest, and the foul loses the game.	{name} còn ít bi hơn số bi lỗi này phải trả: bi số 8 bù phần còn lại, và lỗi này khiến thua ván.
+Shadows	Bóng đổ
+The shadows of the balls and of the cue on the table.	Bóng của bi và cơ trên bàn.
+Sixteen players: knockout or arena	Mười sáu người chơi: loại trực tiếp hoặc đấu trường
+New knockout	Giải loại trực tiếp mới
+New arena	Đấu trường mới
+Knockout: sixteen players, four rounds. Lose a game and you are out.	Loại trực tiếp: mười sáu người chơi, bốn vòng. Thua một ván là bị loại.
+Arena: seven rounds for everyone. A win is 2 points, 3 from the third win in a row. The most points wins.	Đấu trường: bảy vòng cho tất cả. Mỗi trận thắng được 2 điểm, từ trận thắng thứ ba liên tiếp được 3 điểm. Ai nhiều điểm nhất sẽ thắng.
+The games between the other players are decided by their strength and a draw.	Các ván giữa những người chơi khác được quyết định theo sức mạnh của họ và bốc thăm.
+You won the tournament!	Bạn đã vô địch giải đấu!
+{name} won the tournament.	{name} đã vô địch giải đấu.
+You finished in place {n}.	Bạn về đích ở vị trí thứ {n}.
+Round of 16	Vòng 16
+Quarter-finals	Tứ kết
+Round {n} of {total}	Vòng {n}/{total}
+Play {name}	Đấu với {name}
+Abandon the tournament	Bỏ giải đấu
+W - L	T - B
+Points	Điểm
+The tournament is over.	Giải đấu đã kết thúc.
+The round is over: see who you play next.	Vòng đấu đã kết thúc: xem đối thủ tiếp theo của bạn.
+You are out of the tournament.	Bạn đã bị loại khỏi giải đấu.
+Side pocket	Lỗ giữa
+A cut into the side pocket, where the angle is tight. Five tries.	Cắt bi vào lỗ giữa, nơi góc vào hẹp. Năm lần thử.
+The long cut	Cắt xa
+A cut from the far end of the table into the corner. Five tries.	Cắt bi từ đầu kia của bàn vào lỗ góc. Năm lần thử.
+Thin cut	Cắt mỏng
+Barely graze the ball: a thin cut into the corner. Five tries.	Chỉ sượt nhẹ bi: một cú cắt mỏng vào lỗ góc. Năm lần thử.
+Along the cushion	Dọc theo băng
+The ball sits by the cushion: run it along into the corner. Five tries.	Bi nằm sát băng: đưa nó chạy dọc băng vào lỗ góc. Năm lần thử.
+Stop shot	Đánh dừng
+Pot the ball and stop the cue ball dead where the ball was. Five tries.	Ăn bi và để bi cái dừng ngay tại chỗ bi mục tiêu. Năm lần thử.
+The combination	Đánh ghép
+Pot the 1 by playing the 2 into it. Five tries.	Ăn bi số 1 bằng cách đánh bi số 2 vào nó. Năm lần thử.
+Cross-corner bank	Băng chéo góc
+Off the long cushion and across the table into the corner. Five tries.	Dội băng dài rồi chéo qua bàn vào lỗ góc. Năm lần thử.
+Kick shot	Bi cái đi băng
+The 1 is walled off: send the cue ball off a cushion to hit it first. Five tries.	Bi số 1 bị chắn: cho bi cái dội băng để chạm nó trước. Năm lần thử.
+Only the cue ball went down on the break: the balls are racked again and {next} breaks.	Chỉ bi cái rơi lỗ khi phá bi: bi được xếp lại và {next} phá bi.
+Golden break	Cú phá vàng
+Win a rated game by sinking only the 8-ball on the break.	Thắng một ván xếp hạng nhờ chỉ đưa bi số 8 vào lỗ khi phá bi.
+Half a year	Nửa năm
+Have an account for six months.	Có tài khoản được sáu tháng.
+First anniversary	Tròn một năm
+Second anniversary	Tròn hai năm
+Have an account for two years.	Có tài khoản được hai năm.
+Third anniversary	Tròn ba năm
+Have an account for three years.	Có tài khoản được ba năm.
+Five years at the table	Năm năm bên bàn bi-a
+Have an account for five years.	Có tài khoản được năm năm.
+Back to the tournament	Về giải đấu
+Continue against {name}	Tiếp tục đấu với {name}
+You left your game: it counts as a loss.	Bạn đã rời ván: bị tính là thua.
+new level	cấp mới
+Level {n} brings: {item}	Cấp {n} mang đến: {item}
+Level 5	Cấp 5
+Reach level 5.	Đạt cấp 5.
+Level 10	Cấp 10
+Reach level 10.	Đạt cấp 10.
+Level 15	Cấp 15
+Reach level 15.	Đạt cấp 15.
+Level 20	Cấp 20
+Reach level 20.	Đạt cấp 20.
+Level 30	Cấp 30
+Reach level 30.	Đạt cấp 30.
+Level 40	Cấp 40
+Reach level 40.	Đạt cấp 40.
+Level 50	Cấp 50
+Reach level 50.	Đạt cấp 50.
+Regular's teal	Xanh mòng két khách quen
+Veteran's plum	Tím mận kỳ cựu
+Old hand	Tay lão luyện
+Lifer	Trọn đời
+Apprentice's chalk	Phấn học việc
+Journeyman's chalk	Phấn thợ lành nghề
+Achievements	Thành tích
+Leagues and levels	Hạng và cấp
+Next league: {tier}	Hạng tiếp theo: {tier}
+The top league.	Hạng cao nhất.
+Every prize of the levels is won.	Đã nhận mọi phần thưởng cấp độ.
+None yet: the first is one game away.	Chưa có: phần thưởng đầu tiên chỉ còn cách một ván.
+{coins} and {item}	{coins} và {item}
+Leagues	Hạng
+Levels	Cấp
+By playing. Every level pays {n} coins.	Bằng cách chơi. Mỗi cấp thưởng {n} xu.
+where everyone starts	nơi mọi người bắt đầu
+from {n}	từ {n}
+The top level.	Cấp cao nhất.
+{n} XP to level {next}	{n} XP để lên cấp {next}
+{n} levels to go	còn {n} cấp
+new league	hạng mới
+Old-timer's black	Đen lão làng
+Expert league blue	Xanh hạng Chuyên gia
+Master league violet	Tím hạng Cao thủ
+Legend league gold	Vàng hạng Huyền thoại
+Skilled league chalk	Phấn hạng Lành nghề
+By rating. Each league pays once.	Theo điểm xếp hạng. Mỗi hạng thưởng một lần.
+cue	cơ
+cloth	nỉ
+chalk	phấn
+Always show the head string	Luôn hiện vạch đầu bàn
+The line the break is played from, always on the table (off: only while placing the cue ball behind it).	Vạch dùng để phá bi, luôn hiện trên bàn (tắt: chỉ hiện khi đặt bi cái sau vạch).
+{who} ran out of time: the turn passes.	{who} hết giờ: lượt chuyển sang đối thủ.
+{who} ran out of time with no ball left to give {other}: the 8 pays, and {who} loses.	{who} hết giờ khi {other} không còn bi để nhận: bi số 8 bù vào, và {who} thua.
+{who} ran out of time: the cue ball goes back to the head spot and the turn passes.	{who} hết giờ: bi cái về điểm đầu bàn và lượt chuyển sang đối thủ.
+{who} ran out of time: {balls} off the table for {other}, and the cue ball goes back to the head spot.	{who} hết giờ: {balls} được lấy khỏi bàn cho {other}, và bi cái về điểm đầu bàn.
+You were muted for {n} minutes: {r}	Bạn bị cấm chat {n} phút: {r}
+Your account was suspended for {n} hours: {r}	Tài khoản của bạn bị tạm khóa {n} giờ: {r}
+The server restarts in {minutes} min for an update. Games in progress go on; new games start right after.	Máy chủ sẽ khởi động lại sau {minutes} phút để cập nhật. Các ván đang diễn ra vẫn tiếp tục; ván mới bắt đầu ngay sau đó.
+The {cup} was called off: not enough players signed up.	{cup} đã bị hủy: không đủ người đăng ký.
+The {cup} is open for sign-up: it starts soon in Tournaments.	{cup} đang mở đăng ký: sắp bắt đầu trong mục Giải đấu.
+{display} won the tournament “{name}”!	{display} đã vô địch giải “{name}”!
+Sunday Cup	Cúp Chủ Nhật
+Monday Cup	Cúp Thứ Hai
+Tuesday Cup	Cúp Thứ Ba
+Wednesday Cup	Cúp Thứ Tư
+Thursday Cup	Cúp Thứ Năm
+Friday Cup	Cúp Thứ Sáu
+Saturday Cup	Cúp Thứ Bảy
+{name} · rating {r}	{name} · điểm {r}
+Something went wrong. Try again.	Đã có lỗi xảy ra. Hãy thử lại.
+member for 1 day	thành viên 1 ngày
+Game in progress: 1 ball left	Ván đang diễn ra: còn 1 bi
+1 level to go	còn 1 cấp
+1 more online win with this cue for level {n}. Levels only add marks to the cue.	Cần thêm 1 trận thắng trực tuyến với cây cơ này để lên cấp {n}. Cấp chỉ thêm dấu ấn lên cơ.
+Home	Home
+End	End
+PgUp	PgUp
+PgDn	PgDn
+Ins	Ins
+Could not join the LAN game	Không thể tham gia ván LAN
+LAN game · others join at {address}	Ván LAN · người khác tham gia tại {address}
+Click to copy	Bấm để sao chép
+Copied.	Đã sao chép.
+Start a new game?	Bắt đầu ván mới?
+You have a game in progress against the computer, with 1 ball left. A new game takes its place.	Bạn có một ván đang chơi dở với máy, còn 1 bi. Ván mới sẽ thay thế ván đó.
+You have a game in progress against the computer, with {n} balls left. A new game takes its place.	Bạn có một ván đang chơi dở với máy, còn {n} bi. Ván mới sẽ thay thế ván đó.
+Continue that game	Tiếp tục ván đó
+Start a new one	Bắt đầu ván mới
+Click again to close the game: {n} will be disconnected	Bấm lần nữa để đóng ván: {n} người sẽ bị ngắt kết nối
+{name} cleared the table in one visit!	{name} dọn sạch bàn trong một lượt!
+{name}: {n} in a row!	{name}: {n} bi liên tiếp!
+Watch the deciding shot again	Xem lại cú đánh quyết định
+Next: {name}	Tiếp theo: {name}
+Drag on the table to aim, or click a ball	Kéo trên bàn để ngắm, hoặc bấm vào một bi
+Set the power	Chỉnh lực
+Let go of {key} to shoot · Esc cancels	Thả {key} để đánh · Esc để hủy
+Staff accounts can't change their username.	Tài khoản nhân viên không thể đổi tên người dùng.
+That password can't be used. Choose another one.	Không thể dùng mật khẩu đó. Hãy chọn mật khẩu khác.
+That tournament is full.	Giải đấu đó đã đầy.
+The server is restarting: your tournament was called off.	Máy chủ đang khởi động lại: giải đấu của bạn đã bị hủy.
+Too many sign-ins. Wait a minute and try again.	Đăng nhập quá nhiều lần. Hãy đợi một phút rồi thử lại.
+Too many wrong passwords. Try again in a few minutes.	Nhập sai mật khẩu quá nhiều lần. Hãy thử lại sau vài phút.
+Your VIP subscription could not be cancelled. Try again in a moment.	Không thể hủy gói VIP của bạn. Hãy thử lại sau giây lát.
+Balls of both groups on the break: the turn passes to {next}, the table is open.	Bi của cả hai nhóm rơi lỗ khi phá bi: lượt chuyển sang {next}, bàn vẫn mở.
+Only a final started while signed in counts: play the last stage again signed in.	Chỉ trận chung kết bắt đầu khi đã đăng nhập mới được tính: hãy đăng nhập và chơi lại chặng cuối.
+The server didn't deal the final: this game won't earn the reward.	Máy chủ chưa chuẩn bị trận chung kết: ván này sẽ không nhận được phần thưởng.
+The server didn't answer: this session won't be ranked.	Máy chủ không phản hồi: lượt tập này sẽ không được xếp hạng.
+The server is dealing the final…	Máy chủ đang chuẩn bị trận chung kết…
+The server is setting up the drill…	Máy chủ đang chuẩn bị bài tập…
+Not signed in: a win in this final won't earn the reward.	Chưa đăng nhập: thắng trận chung kết này sẽ không nhận được phần thưởng.
+Not kept: sessions count when started signed in.	Không được lưu: lượt tập chỉ được tính khi bắt đầu lúc đã đăng nhập.
+Warning from the staff: {text}	Cảnh báo từ ban quản trị: {text}
+The staff changed your username to {name}. Sign in again.	Ban quản trị đã đổi tên người dùng của bạn thành {name}. Hãy đăng nhập lại.
+The staff called off the tournament you were in.	Ban quản trị đã hủy giải đấu bạn đang tham gia.
+Experience ×{n}	Kinh nghiệm ×{n}
+Coins from games ×{n}	Xu từ ván đấu ×{n}
+Themed tournament	Giải đấu chủ đề
+Event	Sự kiện
+Events	Sự kiện
+Warning from the staff	Cảnh báo từ ban quản trị
+Esc to cancel	Esc để hủy
+Will be sent when you're back online.	Sẽ được gửi khi bạn trực tuyến trở lại.
+Your strokes will be sent when you're back online.	Các cú đánh của bạn sẽ được gửi khi bạn trực tuyến trở lại.
+The final you won was dealt to {name}: sign in as {name} to claim the reward.	Trận chung kết bạn thắng được chuẩn bị cho {name}: hãy đăng nhập bằng {name} để nhận phần thưởng.
+Type your password to confirm it's you.	Nhập mật khẩu để xác nhận đó là bạn.
+The cue ball is back on the head spot: {next} plays from there.	Bi cái được đặt lại ở điểm đầu bàn: {next} đánh từ đó.
+{name} came online	{name} vừa trực tuyến
+Online now: {names}	Đang trực tuyến: {names}
+Nobody else is online right now.	Hiện không có ai khác trực tuyến.
+Focus mode	Chế độ tập trung
+No invitations while you play: they are turned away until the game is over.	Không nhận lời mời khi đang chơi: lời mời sẽ bị từ chối cho đến khi ván đấu kết thúc.
+in focus mode	đang ở chế độ tập trung
+In focus mode: no invitations until their game is over.	Đang ở chế độ tập trung: không nhận lời mời cho đến khi ván đấu kết thúc.
+That player is in focus mode and isn't taking invitations until their game is over.	Người chơi đó đang ở chế độ tập trung và không nhận lời mời cho đến khi ván đấu kết thúc.
+Look at it closely	Xem cận cảnh
+Sign in to buy	Đăng nhập để mua
+Sign in to use	Đăng nhập để dùng
+Back to the shop (Esc)	Về cửa hàng (Esc)
+Show the interface (H)	Hiện giao diện (H)
+Hide the interface (H)	Ẩn giao diện (H)
+Turn (Space)	Xoay (Space)
+Stop turning (Space)	Dừng xoay (Space)
+Zoom in (+)	Phóng to (+)
+Zoom out (−)	Thu nhỏ (−)
+Back to the start (R)	Về ban đầu (R)
+Previous setting ([)	Bối cảnh trước ([)
+Next setting (])	Bối cảnh sau (])
+Setting	Bối cảnh
+Studio	Studio
+Your table	Bàn của bạn
+Drag with the right button to turn · wheel to zoom · double-click to look closer	Kéo chuột phải để xoay · con lăn để thu phóng · nhấp đúp để xem gần hơn
+Drag with the right button to turn · wheel to zoom · click a ball to look at it	Kéo chuột phải để xoay · con lăn để thu phóng · bấm vào một bi để xem
+The set	Cả bộ
+From above	Từ trên xuống
+Low angle	Góc thấp
+Cue ball	Bi cái
+Ball {n}	Bi số {n}
+Whole	Toàn bộ
+Tip	Đầu cơ
+Joint	Khớp nối
+Butt	Chuôi cơ
+Top	Mặt trên
+Cue	Cơ
+Table	Bàn
+Hall	Phòng chơi
+Corner	Lỗ góc
+Side	Lỗ giữa
+Leg	Chân bàn
+Close-up	Cận cảnh
+Cushion	Băng
+Phenolic resin under a bright clear coat	Nhựa phenolic dưới lớp phủ bóng trong suốt
+A pearly sheen that shifts with the light	Ánh xà cừ thay đổi theo ánh sáng
+Brushed metal, bright as a mirror	Kim loại xước, sáng bóng như gương
+Old ivory: soft, warm and matte	Ngà cổ: mềm mại, ấm áp và mờ
+A full-size cue, tip to butt: turn it, come close to its joint and its butt	Cây cơ kích thước thật, từ đầu đến chuôi: xoay nó, lại gần khớp nối và chuôi cơ
+A cube of chalk, and the colour it leaves on the tip	Một viên phấn, và màu nó để lại trên đầu cơ
+The cloth on the table: come close to see its weave	Nỉ trên bàn: lại gần để xem đường dệt
+Dark mahogany, turned legs and brass castings	Gỗ gụ sẫm, chân tiện và các góc đồng thau
+Light teak, square legs and chrome castings	Gỗ tếch sáng, chân vuông và các góc mạ crôm
+Deep mahogany, carved legs and leather pocket nets	Gỗ gụ đậm, chân chạm khắc và lưới lỗ bằng da
+Black lacquer and brushed aluminium on two slab legs	Sơn mài đen và nhôm xước trên hai chân dạng tấm
+Black ebony with gold castings and inlays	Gỗ mun đen với các góc và chi tiết khảm vàng
+Reclaimed oak rails on a riveted black steel frame	Thành bàn gỗ sồi tái chế trên khung thép đen tán đinh
+A pro tournament table: charcoal rails, block legs, chrome	Bàn thi đấu chuyên nghiệp: thành bàn màu than chì, chân khối, crôm
+Figured walnut on barley-twist legs, brass and leather	Gỗ óc chó vân đẹp trên chân xoắn, đồng thau và da
+Ivory lacquer and gold on fluted columns	Sơn mài màu ngà và vàng trên các cột có rãnh
+Panelling, the bar, cue racks, posters and neon	Ốp gỗ, quầy bar, giá cơ, áp phích và đèn neon
+A deck at sunset, open windows, palms and string lights	Sàn hiên lúc hoàng hôn, cửa sổ mở, hàng cọ và dây đèn
+Panelling, bookshelves, leather sofas and a fireplace	Ốp gỗ, kệ sách, sofa da và lò sưởi
+Brick, steel windows over the city and Edison bulbs	Tường gạch, cửa sổ khung thép nhìn ra thành phố và bóng đèn Edison
+Log walls, a stone fireplace and snowy peaks outside	Tường gỗ súc, lò sưởi bằng đá và những đỉnh núi tuyết bên ngoài
+A black mirror floor, neon tubes and arcade cabinets	Sàn đen bóng như gương, ống đèn neon và máy arcade
+A marble chessboard floor, gold, velvet and mirrors	Sàn đá cẩm thạch ô cờ, vàng, nhung và gương
+Glass walls on the city at night, pale marble and oak	Tường kính nhìn ra thành phố về đêm, đá cẩm thạch nhạt và gỗ sồi
+A gold medal!	Huy chương vàng!
+A silver medal!	Huy chương bạc!
+A bronze medal!	Huy chương đồng!
+Silver medal	Huy chương bạc
+Bronze medal	Huy chương đồng
+Your medals	Huy chương của bạn
+Kept in your account the next time you're online.	Sẽ được lưu vào tài khoản lần tới bạn trực tuyến.
+Sign in to keep them in your account.	Đăng nhập để lưu chúng vào tài khoản.
+18 or older	Từ 18 tuổi trở lên
+Under 18	Dưới 18 tuổi
+Creating an account means accepting the	Tạo tài khoản đồng nghĩa với việc chấp nhận
+For a parent or guardian…	Dành cho cha mẹ hoặc người giám hộ…
+A parent or guardian turned the chat on for this account. They can turn it off here at any time.	Cha mẹ hoặc người giám hộ đã bật chat cho tài khoản này. Họ có thể tắt tại đây bất cứ lúc nào.
+This account belongs to someone under 18. By law, the chat with other players (messages in the lounge and in games, notes, status and gift messages) stays off until their mother, father or legal guardian turns it on.	Tài khoản này thuộc về người dưới 18 tuổi. Theo luật, chat với người chơi khác (tin nhắn ở sảnh và trong ván đấu, ghi chú, dòng trạng thái và lời nhắn kèm quà) sẽ tắt cho đến khi mẹ, cha hoặc người giám hộ hợp pháp của họ bật lên.
+I am this player's mother, father or legal guardian, I have read the terms of use and I allow them to chat with other players.	Tôi là mẹ, cha hoặc người giám hộ hợp pháp của người chơi này, tôi đã đọc điều khoản sử dụng và cho phép họ chat với người chơi khác.
+Chat for players under 18	Chat cho người chơi dưới 18 tuổi
+Turn the chat off	Tắt chat
+{n} more invitations	{n} lời mời khác
+Invitation	Lời mời
+Turn the chat on	Bật chat
+Chat off: under 18. A parent or guardian can turn it on.	Chat đã tắt: dưới 18 tuổi. Cha mẹ hoặc người giám hộ có thể bật lên.
+The chat with other players is off until you turn it on.	Chat với người chơi khác đang tắt cho đến khi bạn bật lên.
+Write to turn the chat on…	Viết để bật chat…
+Chat with other players	Chat với người chơi khác
+The chat with other players is off until you turn it on. To turn it on, tell us your age group: it can't be changed from the game afterwards.	Chat với người chơi khác đang tắt cho đến khi bạn bật lên. Để bật, hãy cho chúng tôi biết nhóm tuổi của bạn: sau đó không thể thay đổi trong game.
+Under 18: a parent or guardian must agree to the terms with you and turn the chat on.	Dưới 18 tuổi: cha mẹ hoặc người giám hộ phải cùng bạn đồng ý với điều khoản và bật chat.
+Not now	Để sau
+Terms of use	Điều khoản sử dụng
+Privacy policy	Chính sách quyền riêng tư
+You have 7 days to change your mind and get your money back.	Bạn có 7 ngày để đổi ý và được hoàn tiền.
+Under 18: buy only with a parent's or guardian's permission.	Dưới 18 tuổi: chỉ mua khi có sự cho phép của cha mẹ hoặc người giám hộ.
+Renews every month until you cancel. 7 days to change your mind.	Tự động gia hạn hằng tháng cho đến khi bạn hủy. 7 ngày để đổi ý.
+About	Giới thiệu
+Accounts, purchases and refunds, the rules of the online game.	Tài khoản, mua hàng và hoàn tiền, quy định của game trực tuyến.
+What the game keeps, and your rights.	Những gì game lưu giữ, và quyền của bạn.
+Open	Mở
+Credits	Ghi công
+Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Phông chữ: DejaVu và Noto (OFL). Cờ: flag-icons (MIT). Biểu cảm và emoji: Twemoji (CC-BY 4.0). Tên quốc gia: iso-codes (LGPL-2.1). Mã nguồn của game là mã mở (MIT).
+The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	Chat bị tắt với người chơi dưới 18 tuổi. Cha mẹ hoặc người giám hộ có thể bật ở bên dưới khung chat của sảnh.
+No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	Cú phá bi không chạm bi nào: {next} phá bi, với bi cái tự do sau vạch đầu bàn.
+The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	Bi cái rơi lỗ khi phá bi mà không có bi nào vào: {next} phá bi, với bi cái tự do sau vạch đầu bàn.
+Users online	Người dùng trực tuyến
+ping {ms} ms	ping {ms} ms
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks, with the cue ball in hand behind the head string.	Bi cái rơi lỗ khi phá bi cùng với bi của cả hai nhóm: không bị phạt, bàn vẫn mở và {next} phá bi, với bi cái tự do sau vạch đầu bàn.
+Brazilian	Brazil
+Official	Chính thức
+Brazilian rules	Luật Brazil
+Official rules	Luật chính thức
+Brazilian rules (inside a sentence)	luật Brazil
+Official rules (inside a sentence)	luật chính thức
+Brazilian (inside a sentence)	Brazil
+Official (inside a sentence)	chính thức
+As played in Brazil's bars	Như ở các quán bar Brazil
+As played in tournaments (WPA)	Như trong các giải đấu (WPA)
+on the Brazilian rules	theo luật Brazil
+on the official rules	theo luật chính thức
+A ball left the table on the break.	Một bi văng khỏi bàn khi phá bi.
+A ball off the table on the break	Bi văng khỏi bàn khi phá bi
+A safety calls nothing: whatever goes in stays down, and the turn passes.	Đánh an toàn thì không chỉ định gì: bi nào vào lỗ thì nằm luôn dưới lỗ, và lượt chuyển sang đối thủ.
+Break yourself	Tự phá bi
+CALLED POCKET	LỖ CHỈ ĐỊNH
+Choose	Chọn
+Choose how play goes on	Chọn cách tiếp tục ván đấu
+Choose the rules of your games. You can switch them any time, in the main menu.	Chọn luật cho các ván của bạn. Bạn có thể đổi bất cứ lúc nào, trong menu chính.
+Click a pocket on the table to call it; click it again to follow your aim.	Bấm vào một lỗ trên bàn để chỉ định; bấm lại để theo hướng ngắm của bạn.
+Cue ball in hand	Bi cái tự do
+Each of the rules has its own rating: these games don't change your {rating} under the {other}.	Mỗi luật có điểm xếp hạng riêng: các ván này không làm thay đổi mức {rating} điểm của bạn theo {other}.
+Find an opponent of your level automatically ({rules})	Tự động tìm đối thủ cùng trình độ ({rules})
+How do you like to play?	Bạn thích chơi theo kiểu nào?
+How does play go on? Choose one:	Ván đấu tiếp tục thế nào? Chọn một:
+Illegal break: no ball made and fewer than four balls reached a cushion.	Phá bi không hợp lệ: không bi nào vào lỗ và chưa đến bốn bi chạm băng.
+Invite {name}	Mời {name}
+No ball went in the called pocket ({pocket}): {next} to shoot.	Không bi nào vào lỗ chỉ định ({pocket}): đến lượt {next}.
+No pocket was called (a safety): {next} to shoot.	Không chỉ định lỗ nào (đánh an toàn): đến lượt {next}.
+Not sure what changes?	Chưa rõ có gì khác?
+Place it anywhere behind the head string.	Đặt ở bất cứ đâu sau vạch đầu bàn.
+Play on	Đánh tiếp
+Players against the computer under these rules	Người chơi đấu với máy theo luật này
+Players online under these rules (the lounge and online games)	Người chơi trực tuyến theo luật này (sảnh và các ván trực tuyến)
+RULES OF YOUR GAMES	LUẬT CỦA CÁC VÁN
+Read both rules	Đọc cả hai luật
+Rules of your games	Luật của các ván
+Safety	Đánh an toàn
+Safety: no pocket	Đánh an toàn: không chỉ định lỗ
+Show the {rules}: the rank, the league and the chart	Hiện {rules}: thứ hạng, hạng và biểu đồ
+The 8 is spotted and you keep shooting.	Bi số 8 được đặt lại lên bàn và bạn đánh tiếp.
+The 8 is spotted; the cue ball in hand behind the head string.	Bi số 8 được đặt lại lên bàn; bi cái tự do sau vạch đầu bàn.
+The 8 on a break with a foul	Bi số 8 vào lỗ khi phá bi có lỗi
+The 8 on the break	Bi số 8 khi phá bi
+The 8 went down on a break with a foul: it is spotted.	Bi số 8 vào lỗ khi phá bi có lỗi: bi được đặt lại lên bàn.
+The 8 went down on the break: it is spotted.	Bi số 8 vào lỗ khi phá bi: bi được đặt lại lên bàn.
+The balls are racked again and you break.	Bi được xếp lại và bạn phá bi.
+The balls are racked again and {name} breaks.	Bi được xếp lại và {name} phá bi.
+The balls are racked again: {name} breaks.	Bi được xếp lại: {name} phá bi.
+The balls are racked again: {other} breaks.	Bi được xếp lại: {other} phá bi.
+The rules of this game: click to read them	Luật của ván này: bấm để đọc
+The rules of your games: click to switch	Luật của các ván: bấm để đổi
+The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	Công tắc ở menu chính: trực tuyến, đấu với máy và hai người chơi. Mỗi luật có điểm xếp hạng riêng.
+The table as it lies.	Giữ nguyên thế bàn.
+The top 100 of each rules · rated games	Top 100 của mỗi luật · ván xếp hạng
+The {ball} lay behind the head string and the cue ball hit it without crossing the line first	{ball} nằm sau vạch đầu bàn và bi cái chạm vào nó mà chưa qua vạch trước
+What changes between the rules: click to read them	Những điểm khác nhau giữa hai luật: bấm để đọc
+With the cue ball in hand behind the head string.	Với bi cái tự do sau vạch đầu bàn.
+follows your aim	theo hướng ngắm
+no rated games yet	chưa có ván xếp hạng
+open table: the called ball you make sets your group	bàn mở: bi chỉ định bạn đưa vào lỗ sẽ quyết định nhóm của bạn
+peak {n} · {games} games	cao nhất {n} · {games} ván
+playing now	đang chơi
+your call	bạn chỉ định
+{name} breaks again	{name} phá bi lại
+{name} chooses: play on, or rack the balls and break again.	{name} chọn: đánh tiếp, hoặc xếp lại bi và phá bi lại.
+{name} chooses: play the table as it lies, or take the cue ball in hand behind the head string.	{name} chọn: đánh tiếp với thế bàn hiện tại, hoặc lấy bi cái tự do sau vạch đầu bàn.
+{name} chooses: play the table as it lies, rack the balls and break, or have {breaker} break again.	{name} chọn: đánh tiếp với thế bàn hiện tại, xếp lại bi và tự phá bi, hoặc để {breaker} phá bi lại.
+{name} chooses: play the table as it lies, take the cue ball in hand behind the head string, rack the balls and break, or have {breaker} break again.	{name} chọn: đánh tiếp với thế bàn hiện tại, lấy bi cái tự do sau vạch đầu bàn, xếp lại bi và tự phá bi, hoặc để {breaker} phá bi lại.
+{name} chooses: the cue ball in hand behind the head string, or rack the balls and break.	{name} chọn: bi cái tự do sau vạch đầu bàn, hoặc xếp lại bi và tự phá bi.
+{name} is choosing how play goes on…	{name} đang chọn cách tiếp tục ván đấu…
+{name} plays on (the 8 is spotted).	{name} đánh tiếp (bi số 8 được đặt lại lên bàn).
+{name} plays the table as it lies.	{name} đánh tiếp với thế bàn hiện tại.
+{name} plays the {theirs} now; yours are the {mine}.	{name} hiện chơi theo {theirs}; bạn chơi theo {mine}.
+{name} takes the cue ball in hand.	{name} lấy bi cái tự do.
+{next} has the cue ball in hand behind the head string.	{next} được đặt bi cái tự do sau vạch đầu bàn.
+{next} has the cue ball in hand: anywhere on the table.	{next} được đặt bi cái tự do: ở bất cứ đâu trên bàn.
+{n} points to {tier} ({rules})	Còn {n} điểm lên {tier} ({rules})
+{n} waiting	{n} đang chờ
+A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Phạm lỗi thì đối thủ được tặng bi của nhóm họ. Bi cái chỉ được đặt tự do khi phá bi, và chỉ phải chỉ định lỗ cho bi số 8.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	Phạm lỗi thì đối thủ được đặt bi cái tự do ở bất cứ đâu trên bàn. Mọi cú đánh đều phải chỉ định lỗ, và cú phá bi phải đưa bốn bi chạm băng.
+A foul gives balls to the opponent	Phạm lỗi thì đối thủ được bi
+Ball in hand on the break only	Bi cái tự do chỉ khi phá bi
+Only the 8's pocket is called	Chỉ chỉ định lỗ cho bi số 8
+The most played in Brazil	Phổ biến nhất ở Brazil
+A foul gives ball in hand	Phạm lỗi thì đối thủ được bi cái tự do
+The break drives four balls to a cushion	Phá bi phải đưa bốn bi chạm băng
+Every shot is called	Mọi cú đánh đều phải chỉ định lỗ
+The same all over the world	Giống nhau trên toàn thế giới
+Game type	Loại ván
+called: {pocket}	chỉ định: {pocket}
+no call: a safety	không chỉ định: đánh an toàn
+A safety: nothing called. Click again to call the pocket you aim at.	Đánh an toàn: không chỉ định gì. Bấm lại để chỉ định lỗ bạn đang ngắm.
+A safety calls nothing: whatever goes in stays down, and the turn passes. To call another pocket, click it on the table.	Đánh an toàn thì không chỉ định gì: bi nào vào lỗ thì nằm luôn dưới lỗ, và lượt chuyển sang đối thủ. Để chỉ định lỗ khác, hãy bấm vào lỗ đó trên bàn.
+{games} games · {pct}% won	{games} ván · thắng {pct}%
+Each of the rules has its own rating; the level, coins and achievements are shared.	Mỗi luật có điểm xếp hạng riêng; cấp, xu và thành tích thì dùng chung.
+You already have a VIP subscription: manage it with Manage subscription.	Bạn đã có gói VIP: hãy quản lý ở mục Quản lý gói đăng ký.
+Your opponent can't start another game yet.	Đối thủ của bạn chưa thể bắt đầu ván khác.
+A tournament's name is shown to everyone: with your chat off, you can join tournaments but not create one.	Tên giải đấu hiện với mọi người: khi chat của bạn đang tắt, bạn có thể tham gia giải đấu nhưng không thể tạo giải.
+The connection dropped: check your coins before trying again.	Mất kết nối: hãy kiểm tra số xu của bạn trước khi thử lại.
+Sign in to buy coins.	Đăng nhập để mua xu.
+Sign in to become VIP.	Đăng nhập để trở thành VIP.
+how play goes on after the break is undecided	chưa quyết định cách tiếp tục ván sau cú phá bi
+Finish your game, and leave your table, the queue or your tournament first.	Hãy chơi xong ván, và rời bàn, hàng chờ hoặc giải đấu trước.
+That choice can't be made now.	Hiện không thể chọn như vậy.
+That medal can't be.	Huy chương đó không tồn tại.
+{name}'s tournament	Giải đấu của {name}
+When time runs out, it's a foul: your opponent gets a ball and the cue ball goes back to the head spot.	Khi hết giờ là phạm lỗi: đối thủ được một bi và bi cái về điểm đầu bàn.
+When time runs out, it's a foul: your opponent gets the cue ball in hand.	Khi hết giờ là phạm lỗi: đối thủ được đặt bi cái tự do.
+Your username was changed. Sign in again.	Tên người dùng của bạn đã được đổi. Hãy đăng nhập lại.
+You have your tournament game in progress. A new game takes its place, and the tournament game counts as lost.	Bạn đang có ván giải đấu dở dang. Ván mới sẽ thay thế, và ván giải đấu bị tính là thua.
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks again, from the head spot.	Bi cái rơi lỗ khi phá bi cùng với bi của cả hai nhóm: không bị phạt, bàn vẫn mở và {next} phá bi lại, từ điểm đầu bàn.
+The cue ball went down on the break with no ball made: {next} breaks again, from the head spot.	Bi cái rơi lỗ khi phá bi mà không có bi nào vào: {next} phá bi lại, từ điểm đầu bàn.
+{who} ran out of time: {other} breaks, from the head spot.	{who} hết giờ: {other} phá bi, từ điểm đầu bàn.
+Congratulations!	Chúc mừng!
+You earned a new item: {title}	Bạn nhận được vật phẩm mới: {title}
+You earned a new item!	Bạn nhận được vật phẩm mới!

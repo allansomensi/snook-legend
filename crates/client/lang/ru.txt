@@ -1,0 +1,2056 @@
+# Snook Legend: Brazilian Portuguese.
+# One text per line: the English text (as written in the code), a tab, the translation.
+# Placeholders like {name} must stay as they are; \n is a new line.
+{name} is on the 8: called pocket {pocket}	{name} на восьмёрке: заказана {pocket}
+On the 8-ball: {pocket} pocket	На восьмёрке: {pocket}
+Show ping	Показывать пинг
+Your connection's delay, in online games.	Задержка вашего соединения в онлайн-партиях.
+Reactions	Реакции
+Shop	Магазин
+Cloth	Сукно
+Cues	Кии
+Chalk	Мел
+Balls	Шары
+Coins	Монеты
+coins	монет
+Sign in to buy and use items. Here is what there is:	Войдите, чтобы покупать и использовать предметы. Вот что есть:
+In use	Выбрано
+Use	Выбрать
+Buy	Купить
+{n} short	не хватает {n}
+{n} coins	{n} мон.
+Not enough coins: get more in the Coins tab.	Недостаточно монет: получите их на вкладке «Монеты».
+VIP only	Только VIP
+free	бесплатно
+yours	ваш
+achievement	достижение
+Coins can't be bought on this server yet.	На этом сервере пока нельзя купить монеты.
++{n} bonus	+{n} в подарок
+Payment opens in your browser (card, Pix…), on Stripe's secure page.	Оплата откроется в браузере (карта, Pix…) на защищённой странице Stripe.
+Coins arrive in a moment; they are only used for items in the game.	Монеты придут через мгновение; их можно тратить только на предметы в игре.
+Exclusive items: {list}	Эксклюзивные предметы: {list}
+{n} coins every month	{n} мон. каждый месяц
+Cancel whenever you want: VIP lasts until the end of the paid month	Отмена в любой момент: VIP действует до конца оплаченного месяца
+You are VIP until {d}.	Вы VIP до {d}.
+Manage subscription	Управление подпиской
+Become VIP · {p}	Стать VIP · {p}
+VIP can't be bought on this server yet.	На этом сервере пока нельзя купить VIP.
+The payment page opened in your browser.	Страница оплаты открылась в браузере.
+Could not open the browser.	Не удалось открыть браузер.
+Tournament green	Турнирный зелёный
+Electric blue	Электрик
+Burgundy	Бордо
+Charcoal	Угольный
+Teal	Морская волна
+Royal purple	Королевский пурпур
+Camel	Верблюжий
+Midnight	Полночь
+Champion's red	Красный чемпиона
+Classic	Классика
+Rosewood	Палисандр
+Ebony & silver	Эбен и серебро
+Carbon	Карбон
+Ivory inlay	Слоновая кость
+Crown	Корона
+Jewels	Самоцветы
+Blue chalk	Синий мел
+Green chalk	Зелёный мел
+Red chalk	Красный мел
+Purple chalk	Фиолетовый мел
+Gold chalk	Золотой мел
+Vintage	Винтаж
+Pastel	Пастель
+Neon	Неон
+You already have this item.	У вас уже есть этот предмет.
+Not enough coins.	Недостаточно монет.
+The purchase failed; no coins were taken.	Покупка не удалась; монеты не списаны.
+No such item.	Такого предмета нет.
+This item can't be bought with coins.	Этот предмет нельзя купить за монеты.
+You don't have this item.	У вас нет этого предмета.
+Purchases are not available.	Покупки недоступны.
+This pack is not on sale.	Этот набор не продаётся.
+The payment page could not be opened. Try again in a moment.	Не удалось открыть страницу оплаты. Повторите попытку чуть позже.
+You are already VIP.	Вы уже VIP.
+There is no subscription to manage.	Нет подписки, которой можно управлять.
+The page could not be opened. Try again in a moment.	Не удалось открыть страницу. Повторите попытку чуть позже.
+Coins added to your wallet.	Монеты добавлены в ваш кошелёк.
+Welcome to VIP!	Добро пожаловать в VIP!
+Slow down a little.	Не так быстро.
+You can't do that.	Вам это недоступно.
+There are too many notes right now. Try again in a few minutes.	Сейчас слишком много объявлений. Попробуйте через несколько минут.
+A moderator took down your note.	Модератор удалил ваше объявление.
+A moderator cleared your status message.	Модератор удалил ваш статус.
+Status message cleared.	Статус удалён.
+VIP	VIP
+Play now	Играть сейчас
+Find an opponent of your level automatically	Автоматический подбор соперника вашего уровня
+Looking for an opponent… {t}	Поиск соперника… {t}
+any rating	любой рейтинг
+rating ±{n} · {mode}	рейтинг ±{n} · {mode}
+Potting success	Реализация
+Balls made	Забито шаров
+Best run	Лучшая серия
+Fouls	Фолы
+seen just now	в сети только что
+seen {n} min ago	в сети {n} мин назад
+seen {n} h ago	в сети {n} ч назад
+seen yesterday	в сети вчера
+seen {n} days ago	в сети {n} дн. назад
+seen {n} months ago	в сети {n} мес. назад
+just now	только что
+{n} min ago	{n} мин назад
+{n} h ago	{n} ч назад
+yesterday	вчера
+{n} days ago	{n} дн. назад
+Game history	История партии
+Nothing yet.	Пока ничего.
+Fine aim: click the arrows, or drag here	Точный прицел: нажимайте стрелки или тяните здесь
+{n} watching	Зрители: {n}
+Watching {name}	Наблюдение: {name}
+Your reactions reach the table quietly.	Ваши реакции приходят за стол без звука.
+Stop watching	Прекратить просмотр
+If they play again, you keep watching.	Если они сыграют снова, вы продолжите смотреть.
+Your friend left the table.	Ваш друг ушёл из-за стола.
+Your friend isn't playing right now.	Ваш друг сейчас не играет.
+You can only watch your friends.	Смотреть можно только партии друзей.
+You can't watch this game.	Эту партию нельзя смотреть.
+{n} points to {tier}	{n} очк. до лиги «{tier}»
+Top tier	Высшая лига
+Reactions {n}/{total}	Реакции {n}/{total}
+Haunted table	Стол с привидениями
+Win a rated game during Halloween (Oct 24 – Nov 2).	Выиграйте рейтинговую партию на Хеллоуин (24 окт. – 2 нояб.).
+Winter league	Зимняя лига
+Win a rated game over the holidays (Dec 15 – Jan 6).	Выиграйте рейтинговую партию в праздники (15 дек. – 6 янв.).
+Fireworks	Фейерверк
+Win a rated game at the turn of the year (Dec 31 – Jan 1).	Выиграйте рейтинговую партию в новогоднюю ночь (31 дек. – 1 янв.).
+Shows where the object ball and the cue ball go (only in free games and practice).	Показывает, куда пойдут прицельный шар и биток (только в свободных партиях и на тренировке).
+{n} online · ping {ms} ms	В сети: {n} · пинг {ms} мс
+Right-drag · Wheel	Тянуть ПКМ · колесо
+Win %	% побед
+Reset the camera: top view, no zoom	Сбросить камеру: вид сверху, без зума
+{name} sank the 8-ball	{name} забивает восьмёрку
+{name} sank the 8 too early	{name} забивает восьмёрку раньше времени
+{name} sank the 8 in the wrong pocket	{name} забивает восьмёрку не в ту лузу
+{name} fouled on the 8	{name}: фол на восьмёрке
+{name} knocked the 8 off the table	{name} выбивает восьмёрку со стола
+{name} resigned	{name} сдаётся
+{name} left the game	{name} покидает партию
+{winner} wins! ({how})	{winner} побеждает! ({how})
+#{n} in the world	№{n} в мире
+3–16 letters, digits or underscores.	3–16 букв, цифр или знаков подчёркивания.
+No lines on the table: aim by eye, along the cue.	Никаких линий на столе: цельтесь на глаз, по кию.
+No guide	Без линии
+Only a short line from the cue ball.	Только короткая линия от битка.
+Accept friend	Принять в друзья
+Achievement unlocked: {title}	Достижение получено: {title}
+Achievements {n}/{total}	Достижения {n}/{total}
+Add	Добавить
+Add a friend by username	Добавьте друга по имени пользователя
+Add friend	Добавить в друзья
+Against the computer	Против компьютера
+All tournaments	Все турниры
+Amateur	Любитель
+At least 8 characters. Use a password you don't use elsewhere.	Не менее 8 символов. Не используйте пароль, который где-то уже используете.
+At least two players are needed.	Нужно минимум два игрока.
+Back	Назад
+Black ball	Чёрный шар
+Block	Заблокировать
+Break and run	С кия
+Break and run 10 times.	Выиграйте партию с кия 10 раз.
+Can't listen for games here: join by address below.	Здесь не получается искать партии: подключитесь по адресу ниже.
+Cancel request	Отменить заявку
+Cancel tournament	Отменить турнир
+Casual	Товарищеская
+Centurion	Центурион
+Champion	Чемпион
+Champion: {name}	Чемпион: {name}
+Change country	Сменить страну
+Add a status message	Добавить статус
+A line about you	Пара слов о себе
+Save (Enter)	Сохранить (Enter)
+Cancel (Esc)	Отмена (Esc)
+Change your status message	Изменить статус
+Clear the status message	Удалить статус
+Cheating or abuse	Читерство или злоупотребления
+Choose…	Выбрать…
+Click again to block	Нажмите ещё раз, чтобы заблокировать
+Close	Закрыть
+Closer	Финишёр
+Competitor	Участник
+Connecting to the server…	Подключение к серверу…
+Could not host a game: {e}	Не удалось создать партию: {e}
+Country	Страна
+Create	Создать
+Create a tournament	Создать турнир
+Don't show a flag	Не показывать флаг
+No country found.	Страна не найдена.
+Dynasty	Династия
+Eight is enough	Восьмёрки хватит
+Executioner	Палач
+Expert	Эксперт
+Familiar face	Знакомое лицо
+Final	Финал
+Finish your game first.	Сначала доиграйте партию.
+First blood	Первая кровь
+First break	Первый разбой
+Friend request sent.	Заявка в друзья отправлена.
+Friends	Друзья
+# Daily (correspondence) games.
+daily game	заочная партия
+Daily	Заочные
+Daily game	Заочная партия
+Daily games	Заочные партии
+Challenge a player by username	Вызовите игрока по имени пользователя
+Challenge to a daily game	Вызвать на заочную партию
+3 days for each turn	3 дня на каждый ход
+No daily games yet. Challenge a friend: each of you plays a turn whenever you can.	Заочных партий пока нет. Вызовите друга: каждый делает ход, когда ему удобно.
+challenges you · {kind}	вызывает вас · {kind}
+waiting for an answer · {kind} · {time} left	ждём ответа · {kind} · осталось {time}
+your turn · {time} left	ваш ход · осталось {time}
+their turn · {time} left	ход соперника · осталось {time}
+won · {how}	победа · {how}
+lost · {how}	поражение · {how}
+ran out of time	время вышло
+the opponent ran out of time	у соперника вышло время
+open table	открытый стол
+You: {mine}, {a} left · {name}: {theirs}, {b} left	Вы: {mine}, осталось {a} · {name}: {theirs}, осталось {b}
+Look	Смотреть
+Skip	Пропустить
+Replaying {name}'s turn	Повтор хода игрока {name}
+Stroke {n} of {total}	Удар {n} из {total}
+Turn sent	Ход отправлен
+Turn sent.	Ход отправлен.
+Waiting for {name} to play	Ждём, пока сыграет {name}
+{name} has {time} to play. You'll be told when it's your turn.	Время на ход игрока {name}: {time}. Мы сообщим, когда настанет ваш ход.
+{time} left to play. You'll be told when it's your turn.	На ход осталось {time}. Мы сообщим, когда настанет ваш ход.
+Back to daily games	К заочным партиям
+Your game is saved: come back whenever you like.	Партия сохранена: возвращайтесь когда угодно.
+{d} d {h} h	{d} д {h} ч
+{name} ran out of time	{name}: время вышло
+This game can't be shown.	Эту партию нельзя показать.
+A daily game is waiting for you	Вас ждёт заочная партия
+{n} daily games are waiting for you	Вас ждут заочные партии: {n}
+{name} challenges you to a rated daily game.	{name} вызывает вас на рейтинговую заочную партию.
+{name} challenges you to a casual daily game.	{name} вызывает вас на товарищескую заочную партию.
+{name} accepted your daily game.	{name} принимает ваш вызов на заочную партию.
+{name} declined your daily game.	{name} отклоняет ваш вызов на заочную партию.
+{name} withdrew their daily game challenge.	{name} отзывает вызов на заочную партию.
+Your turn in the daily game against {name}.	Ваш ход в заочной партии против игрока {name}.
+{name} ran out of time: you won the daily game.	{name}: время вышло — вы выиграли заочную партию.
+You won the daily game against {name}!	Вы выиграли заочную партию против игрока {name}!
+You ran out of time in the daily game against {name}.	У вас вышло время в заочной партии против игрока {name}.
+You lost the daily game against {name}.	Вы проиграли заочную партию против игрока {name}.
+Challenge sent.	Вызов отправлен.
+Daily games need an account.	Для заочных партий нужен аккаунт.
+No such game.	Такой партии нет.
+That challenge is no longer valid.	Этот вызов больше не действителен.
+That player already challenged you: answer their challenge.	Этот игрок уже вызвал вас: ответьте на его вызов.
+That player has too many challenges waiting.	У этого игрока слишком много вызовов без ответа.
+That player has too many daily games going on.	У этого игрока слишком много текущих заочных партий.
+That player is not accepting challenges.	Этот игрок не принимает вызовы.
+This game can't be played right now.	Эту партию сейчас нельзя играть.
+This game changed meanwhile: open it again.	Партия тем временем изменилась: откройте её снова.
+This game is over.	Эта партия окончена.
+You already challenged that player.	Вы уже вызвали этого игрока.
+You already have a game going on against that player.	У вас уже идёт партия с этим игроком.
+You blocked that player.	Вы заблокировали этого игрока.
+You can't challenge yourself.	Нельзя вызвать самого себя.
+You have as many daily games as you can play at once.	У вас уже максимум одновременных заочных партий.
+You have too many challenges waiting for an answer.	У вас слишком много вызовов без ответа.
+You're sending challenges too quickly.	Вы слишком часто отправляете вызовы.
+Your time for this turn ran out.	Ваше время на этот ход истекло.
+Games	Партии
+Games on your network	Партии в вашей сети
+Give the tournament a name (at least 3 characters).	Дайте турниру название (не менее 3 символов).
+Good company	Хорошая компания
+Grandmaster	Гроссмейстер
+Guests can only join LAN games. Create an account.	Гости могут играть только по LAN. Создайте аккаунт.
+Guests can't play rated tournaments.	Гости не могут играть в рейтинговых турнирах.
+Guests don't have this.	Гостям это недоступно.
+Harassment	Оскорбления
+Hat trick	Хет-трик
+Have 10 friends.	Заведите 10 друзей.
+Have an account for 30 days.	Будьте с нами 30 дней.
+Have an account for a year.	Будьте с нами год.
+Host a game on this computer	Создать партию на этом компьютере
+Host {host} · {n}/{size} players · {kind}	Организатор: {host} · игроки: {n}/{size} · {kind}
+Hot hand	Горячая рука
+Hustler	Катала
+Invalid shot.	Недопустимый удар.
+Join	Присоединиться
+Joining the LAN game…	Подключение к LAN-партии…
+Just for fun	Просто для души
+L	П
+LAN game	LAN-партия
+LAN game hosted by {name}.	LAN-партия игрока {name}.
+LAN games don't change ratings.	LAN-партии не влияют на рейтинг.
+Legend	Легенда
+Lives at the table	Живёт за столом
+Loading the profile…	Загрузка профиля…
+Loading…	Загрузка…
+Local network	Локальная сеть
+Locked	Закрыто
+Looking for games	Поиск партий
+Make a friend.	Заведите друга.
+Master	Мастер
+Name	Название
+Names have 3–16 letters, digits or underscores.	Имя: 3–16 букв, цифр или знаков подчёркивания.
+New account	Новый аккаунт
+I have an account	У меня есть аккаунт
+New here? Choose “New account”: it takes ten seconds.	Впервые здесь? Выберите «Новый аккаунт»: это займёт десять секунд.
+New tournament	Новый турнир
+No friends yet. Add someone you played with!	Друзей пока нет. Добавьте тех, с кем играли!
+No games yet.	Партий пока нет.
+No limit	Без ограничений
+No open tables. Open one and others can sit down.	Открытых столов нет. Откройте свой, и к вам смогут подсесть.
+No other open tables right now.	Других открытых столов сейчас нет.
+No such player.	Такого игрока нет.
+No tournaments right now. Create one!	Турниров сейчас нет. Создайте свой!
+Offensive name	Оскорбительное имя
+On a roll	В ударе
+On fire	В огне
+Only the host can start the tournament.	Начать турнир может только организатор.
+Open a table	Открыть стол
+Or join by address	Или подключитесь по адресу
+Other	Другое
+Others can join at {ip}:{port}	Другие могут подключиться по адресу {ip}:{port}
+Passwords need at least 8 characters (not only digits).	Пароль: не менее 8 символов (не только цифры).
+Play 1,000 rated games.	Сыграйте 1000 рейтинговых партий.
+Play 10 rated games.	Сыграйте 10 рейтинговых партий.
+Play 100 rated games.	Сыграйте 100 рейтинговых партий.
+Play 25 casual games.	Сыграйте 25 товарищеских партий.
+Play 500 rated games.	Сыграйте 500 рейтинговых партий.
+Play in a tournament.	Сыграйте в турнире.
+Play online	Играть онлайн
+Play with friends on the same network	Играйте с друзьями в одной сети
+Play your first rated game.	Сыграйте первую рейтинговую партию.
+Player 1	Игрок 1
+Players	Игроки
+Players in a tournament can't start other games.	Участники турнира не могут начинать другие партии.
+Please don't repeat the same message.	Пожалуйста, не повторяйте одно и то же сообщение.
+Pool hall legend	Легенда бильярдной
+Popular	Душа компании
+Private	Закрытый
+for your friends to sit down	чтобы за стол сели ваши друзья
+Profile	Профиль
+{key}: watch the last shot again	{key}: посмотреть последний удар ещё раз
+REPLAY	ПОВТОР
+Rated	Рейтинговая
+Rated games, tables, tournaments and friends	Рейтинговые партии, столы, турниры и друзья
+Reach a rating of 1300.	Достигните рейтинга 1300.
+Reach a rating of 1500.	Достигните рейтинга 1500.
+Reach a rating of 1700.	Достигните рейтинга 1700.
+Reach a rating of 1900.	Достигните рейтинга 1900.
+Reach a rating of 2100.	Достигните рейтинга 2100.
+Refresh	Обновить
+Regular	Завсегдатай
+Remove friend	Удалить из друзей
+Replay	Повтор
+Report	Пожаловаться
+Report {name}	Пожаловаться на игрока {name}
+Request sent	Заявка отправлена
+Friend	Друг
+Recent	Недавние
+Nobody yet. The people you play online will show up here.	Пока никого. Здесь появятся те, с кем вы играете онлайн.
+{n} games	партий: {n}
+Rookie	Новичок
+Round {n}	Раунд {n}
+Search…	Поиск…
+Semi-finals	Полуфинал
+Send report	Отправить жалобу
+This game goes with the report, so the moderators can watch it.	Эта партия будет приложена к жалобе, чтобы модераторы могли её посмотреть.
+Your game with {name} ({date}) goes with the report, so the moderators can watch it.	Ваша партия с игроком {name} ({date}) будет приложена к жалобе, чтобы модераторы могли её посмотреть.
+You haven't played {name} in the last day: the moderators see the recent chat.	Вы не играли с игроком {name} за последние сутки: модераторы увидят недавний чат.
+Shark	Акула
+Shows the contact point; judging the cut is up to you.	Показывает точку соударения; резку оценивайте сами.
+Shutout	Всухую
+Sign in	Войти
+Sign in or create an account	Войдите или создайте аккаунт
+Sign out	Выйти
+Sit down	Сесть за стол
+Skilled	Опытный
+Someone with that name is already here.	Игрок с таким именем уже здесь.
+Spam	Спам
+Start now	Начать сейчас
+Stop the replay	Остановить повтор
+Table runner	Чистильщик
+Tables	Столы
+Take turns on this computer	По очереди на этом компьютере
+Thank you. The moderators will look into it.	Спасибо. Модераторы разберутся.
+Thank you. The moderators will look into it, with your game attached.	Спасибо. Модераторы разберутся — ваша партия приложена.
+That player is not accepting invitations.	Этот игрок не принимает приглашения.
+That shot was for an earlier turn.	Этот удар относился к прошлому ходу.
+That table is no longer open.	Этот стол уже закрыт.
+That tournament has already started.	Этот турнир уже начался.
+That tournament no longer exists.	Этого турнира больше нет.
+The first connection of the day can take up to a minute while the server wakes up.	Первое подключение за день может занять до минуты, пока сервер просыпается.
+The first time, allow Snook Legend through the firewall when asked.	В первый раз разрешите Snook Legend доступ через брандмауэр, когда появится запрос.
+The server could not play that shot.	Сервер не смог выполнить этот удар.
+The server is busy. Try again in a moment.	Сервер занят. Повторите попытку чуть позже.
+The tournament starts when it is full (the host can start it earlier).	Турнир начнётся, когда наберётся полный состав (организатор может начать раньше).
+There are too many tournaments right now. Join one!	Сейчас слишком много турниров. Присоединяйтесь к одному из них!
+This is a LAN server: join as a guest.	Это LAN-сервер: войдите как гость.
+Fifteen rivals, a tour and ghosts of real players	Пятнадцать соперников, тур и призраки реальных игроков
+Tier	Лига
+Time per shot	Время на удар
+Too many failed attempts. Wait a few minutes and try again.	Слишком много неудачных попыток. Подождите несколько минут и попробуйте снова.
+Too many messages.	Слишком много сообщений.
+Too many new accounts from this network. Try again later.	Слишком много новых аккаунтов из этой сети. Попробуйте позже.
+Top 100 · rated games	Топ-100 · рейтинговые партии
+Tournament game: the next round starts from the lounge.	Турнирная партия: следующий раунд начинается из лобби.
+Tournament games have no rematch.	В турнирных партиях нет реванша.
+Tournaments	Турниры
+Tournaments have 4, 8 or 16 players.	В турнирах 4, 8 или 16 игроков.
+Two players	Два игрока
+Unblock	Разблокировать
+Unlocked {date}	Получено {date}
+Unstoppable	Неудержимый
+W	В
+Watch the last shot again	Посмотреть последний удар ещё раз
+What happened? (optional)	Что случилось? (необязательно)
+When time runs out, the turn passes.	Когда время истекает, ход переходит к сопернику.
+Whitewash	Разгром
+Win 10 rated games on the 8-ball.	Выиграйте 10 рейтинговых партий, забив восьмёрку.
+Win 10 rated games in a row.	Выиграйте 10 рейтинговых партий подряд.
+Win 10 rated games.	Выиграйте 10 рейтинговых партий.
+Win 10 rated shutouts.	Одержите 10 сухих побед в рейтинговых партиях.
+Win 100 rated games on the 8-ball.	Выиграйте 100 рейтинговых партий, забив восьмёрку.
+Win 100 rated games.	Выиграйте 100 рейтинговых партий.
+Win 250 rated games on the 8-ball.	Выиграйте 250 рейтинговых партий, забив восьмёрку.
+Win 3 rated games in a row.	Выиграйте 3 рейтинговые партии подряд.
+Win 5 rated games in a row.	Выиграйте 5 рейтинговых партий подряд.
+Win 5 tournaments.	Выиграйте 5 турниров.
+Win 50 rated games on the 8-ball.	Выиграйте 50 рейтинговых партий, забив восьмёрку.
+Win 50 rated games.	Выиграйте 50 рейтинговых партий.
+Win 500 rated games.	Выиграйте 500 рейтинговых партий.
+Win a rated game.	Выиграйте рейтинговую партию.
+Win a tournament.	Выиграйте турнир.
+Win a rated game before your opponent sinks a ball of their group.	Выиграйте рейтинговую партию, прежде чем соперник забьёт шар своей группы.
+Win a rated game from the break without your opponent getting a shot.	Выиграйте рейтинговую партию с разбоя, не дав сопернику сделать ни одного удара.
+Withdraw	Сняться
+World ranking	Мировой рейтинг
+Wrong table password.	Неверный пароль стола.
+Wrong tournament password.	Неверный пароль турнира.
+You are already in a tournament.	Вы уже участвуете в турнире.
+You are hosting a game	Вы создали партию
+You can't join this table.	Вы не можете сесть за этот стол.
+You signed in from another place.	Выполнен вход с другого устройства.
+You're sending invitations too quickly.	Вы слишком часто отправляете приглашения.
+You're sending messages too quickly.	Вы слишком часто отправляете сообщения.
+You've sent many reports. Please wait before sending more.	Вы отправили много жалоб. Подождите, прежде чем отправлять новые.
+Your friend list is full.	Ваш список друзей заполнен.
+Your next match starts by itself when both players are free.	Ваш следующий матч начнётся сам, когда оба игрока освободятся.
+Your profile	Ваш профиль
+Your table is open	Ваш стол открыт
+Zoom in	Приблизить
+Zoom out	Отдалить
+at a table	за столом
+best streak	лучшая серия
+by {host} · {n}/{size} players	организатор {host} · игроки: {n}/{size}
+casual games	товарищеские партии
+casual · private	товарищеская · закрытая
+casual · public	товарищеская · открытая
+connecting to the server	подключение к серверу
+eight-ball pool	пул «восьмёрка»
+finished	завершён
+guest	гость
+invites you to {kind}	приглашает вас на {kind}
+joined today	аккаунт создан сегодня
+member for {n} days	с нами {n} дн.
+member for {n} months	с нами {n} мес.
+member for {n} years	с нами {n} г.
+offline	не в сети
+open	открыт
+optional: only friends with it can join	необязательно: подсесть смогут только друзья, знающие пароль
+password	пароль
+peak {n}	пик {n}
+playing	в игре
+playing the computer	играет с компьютером
+away	нет на месте
+this game is saved	эта партия сохранена
+rated games	рейтинговые партии
+rated · private	рейтинговая · закрытая
+rated · public	рейтинговая · открытая
+request sent	заявка отправлена
+the connection dropped	соединение прервано
+to play online	чтобы играть онлайн
+tournament	турнир
+tournaments won	турнирные победы
+waiting for an opponent…	ждём соперника…
+win rate	% побед
+wins	победы
+won on the 8	победы на восьмёрке
+{host}'s game	партия игрока {host}
+{name} wants to be friends	{name} хочет добавить вас в друзья
+{name} wants to be your friend.	{name} хочет добавить вас в друзья.
+{n} online	В сети: {n}
+sank the 8-ball	восьмёрка забита
+the opponent sank the 8-ball	соперник забил восьмёрку
+the opponent sank the 8 too early	соперник забил восьмёрку раньше времени
+sank the 8 too early	восьмёрка забита раньше времени
+the opponent sank the 8 in the wrong pocket	соперник забил восьмёрку не в ту лузу
+sank the 8 in the wrong pocket	восьмёрка забита не в ту лузу
+the opponent fouled on the 8	фол соперника на восьмёрке
+fouled on the 8	фол на восьмёрке
+the opponent knocked the 8 off the table	соперник выбил восьмёрку со стола
+knocked the 8 off the table	восьмёрка выбита со стола
+the opponent resigned	соперник сдался
+resigned	партия сдана
+the opponent left	соперник ушёл
+left the game	выход из партии
+You are muted for {n} more minutes.	Вам запрещено писать в чат ещё {n} мин.
+This account is suspended for {n} more day(s). Reason: {reason}.	Этот аккаунт заблокирован ещё на {n} дн. Причина: {reason}.
+This account is banned. Reason: {reason}.	Этот аккаунт заблокирован навсегда. Причина: {reason}.
+You were muted: {r}	Вам запретили писать в чат: {r}
+Your account was suspended: {r}	Ваш аккаунт временно заблокирован: {r}
+Your account was banned: {r}	Ваш аккаунт заблокирован навсегда: {r}
+You were disconnected by a moderator: {r}	Модератор отключил вас: {r}
+You were disconnected by a moderator.	Модератор отключил вас.
+Please sign in again.	Войдите снова.
+Your password was changed. Sign in again.	Ваш пароль изменён. Войдите снова.
+Accept rematch	Принять реванш
+Accept	Принять
+Aim	Прицел
+Aiming guide	Прицельная линия
+Aiming	Прицеливание
+Anti-aliasing	Сглаживание
+Smooths the jagged edges of lines and balls.	Сглаживает зубчатые края линий и шаров.
+Back to lounge	В лобби
+Balanced: smooth on most laptops.	Баланс: плавная игра на большинстве ноутбуков.
+Ball in hand	Шар с руки
+Break the rack	Разбейте пирамиду
+Camera pulls back to watch each shot	Камера отъезжает, чтобы показать каждый удар
+Camera	Камера
+Cancel	Отмена
+Casual game: ratings unchanged	Товарищеская партия: рейтинг не меняется
+Center	Центр
+Chat	Чат
+Click a ball or a spot	Нажмите на шар или точку
+Click to chat, Enter to send	Нажмите, чтобы писать в чат; Enter — отправить
+Controls	Управление
+Create account	Создать аккаунт
+Cue ball contact	Точка удара по битку
+Decline	Отклонить
+Done	Готово
+Drag the cue ball	Перетащите биток
+Elevation	Наклон кия
+Everything, with reflections in polished floors: for gaming PCs.	Всё, включая отражения в полированных полах: для игровых ПК.
+Fine aim	Точный прицел
+Finish this match first.	Сначала доиграйте этот матч.
+For old or very slow computers.	Для старых или очень медленных компьютеров.
+Full screen	Полный экран
+Also with {key}.	Также клавишей {key}.
+Full	Полная
+Game server	Игровой сервер
+Change it only to play on another server.	Меняйте, только чтобы играть на другом сервере.
+Advanced	Дополнительно
+Custom server	Другой сервер
+Graphics quality	Качество графики
+Quality	Качество
+Display	Экран
+High	Высокое
+Invite	Пригласить
+Leave to the lounge	Выйти в лобби
+Leave	Выйти
+Leaving now counts as a loss.	Выход сейчас засчитывается как поражение.
+Lounge chat	Чат лобби
+Low	Низкое
+Main menu	Главное меню
+Medium	Среднее
+Menu / help	Меню / справка
+Next game starts in a moment…	Следующая партия начнётся через мгновение…
+No rated games yet. Be the first!	Рейтинговых партий пока нет. Сыграйте первую!
+Nobody else is here right now.	Сейчас здесь больше никого нет.
+Looking for a game?	Ищете партию?
+Looking for a game	Ищу партию
+Post a note	Разместить объявление
+Everyone in the lounge sees it for 30 minutes	Все в лобби увидят его в течение 30 минут
+What are you after? ({kind})	Что ищете? ({kind})
+Post	Опубликовать
+Your note: {text}	Ваше объявление: {text}
+{mode} · {left} left	{mode} · осталось {left}
+Take down	Снять
+Challenge	Вызвать
+Take the note down	Снять объявление
+Off	Выкл.
+On the 8-ball: call a pocket	На восьмёрке: закажите лузу
+On the 8-ball	На восьмёрке
+Open table	Открытый стол
+Password	Пароль
+Paused	Пауза
+Play	Играть
+Player 2	Игрок 2
+Player	Игрок
+Quick aim	Быстрый прицел
+Quit	Выход
+Reconnected.	Соединение восстановлено.
+Rematch	Реванш
+Resign this game	Сдать партию
+Restart the game to apply this change.	Перезапустите игру, чтобы применить изменение.
+Resume	Продолжить
+Retry	Повторить
+Saving the result…	Сохранение результата…
+Say hello… (Enter to send)	Поздоровайтесь… (Enter — отправить)
+Send	Отправить
+Settings	Настройки
+{key} + drag	{key} + перетаскивание
+{key}: 3D / top view	{key}: 3D / вид сверху
+{keys}: zoom	{keys}: зум
+View	Вид
+Aim left	Прицел влево
+Aim right	Прицел вправо
+Fine aim (hold)	Точный прицел (удерживать)
+Shoot (hold, release)	Удар (удерживать, отпустить)
+Top spin	Верхний винт
+Back spin	Нижний винт
+Left spin	Левый винт
+Right spin	Правый винт
+Raise the cue	Поднять кий
+Lower the cue	Опустить кий
+Pick up the cue ball in hand	Взять биток (шар с руки)
+3D / top view	3D / вид сверху
+Reset the camera	Сбросить камеру
+Replay the last shot	Повтор последнего удара
+List of controls	Список клавиш
+Keys can be changed in Settings → Controls.	Клавиши можно изменить в разделе «Настройки → Управление».
+Space	Пробел
+Right Shift	Правый Shift
+Right Ctrl	Правый Ctrl
+Right Alt	Правый Alt
+Aiming and shooting	Прицел и удар
+Spin and elevation	Винт и наклон кия
+Fixed keys	Фиксированные клавиши
+Menu, back and cancel	Меню, назад и отмена
+Confirm (forms, the cue ball in hand)	Подтвердить (формы, биток с руки)
+This key can't be changed.	Эту клавишу нельзя изменить.
+Press a key · Esc cancels · Backspace clears	Нажмите клавишу · Esc — отмена · Backspace — очистить
+Press a key…	Нажмите клавишу…
+Click to change	Нажмите, чтобы изменить
+Click to add a key	Нажмите, чтобы добавить клавишу
+Back to no key	Снова без клавиши
+Back to {keys}	Вернуть {keys}
+Swapped: {action} is now on {key}.	Обмен: действие «{action}» теперь на клавише {key}.
+Taken from {action}, which now has no key.	Снята с действия «{action}», у него теперь нет клавиши.
+Taken from {action}.	Снята с действия «{action}».
+That key can't be used: try another.	Эту клавишу нельзя использовать: выберите другую.
+Shoot	Удар
+Short	Короткая
+Signing in…	Вход…
+Signing in	Вход
+Soft shadows from every lamp, glossy halls, halos.	Мягкие тени от каждой лампы, глянцевые залы, ореолы.
+Solids (1–7)	Сплошные (1–7)
+Spin ball	Шарик винта
+Spin	Винт
+Standard	Стандартная
+Stay	Остаться
+Stripes (9–15)	Полосатые (9–15)
+The game goes on while this is open.	Пока это окно открыто, игра продолжается.
+Use default	Вернуть по умолчанию
+Username	Имя пользователя
+Usernames have 3–16 letters, digits or underscores.	Имя пользователя: 3–16 букв, цифр или знаков подчёркивания.
+{keys} (jump & massé)	{keys} (прыжок и массе)
+You win!	Вы победили!
+Your name	Ваше имя
+Your opponent went back to the lounge.	Ваш соперник вернулся в лобби.
+Your turn	Ваш ход
+open table: the next ball you make sets your group	открытый стол: следующий забитый шар определит вашу группу
+draw	оттяжка
+follow	накат
+stun	клапштос
+solids	сплошные
+stripes	полосатые
+lounge	лобби
+ · left english	 · левый винт
+ · right english	 · правый винт
+Language	Язык
+General	Общие
+Graphics	Графика
+Game	Игра
+Sound	Звук
+Reset to defaults	Сбросить настройки
+Reset all keys	Сбросить все клавиши
+Reset every key?	Сбросить все клавиши?
+Click again to put every key back	Нажмите ещё раз, чтобы вернуть все клавиши
+Updates	Обновления
+Update automatically	Обновлять автоматически
+New versions download in the background and install when you restart.	Новые версии скачиваются в фоне и устанавливаются при перезапуске.
+Version {v}	Версия {v}
+What's new	Что нового
+What's new in version {v}	Что нового в версии {v}
+No notes for this version.	Для этой версии нет заметок.
+Got it	Понятно
+Restart now	Перезапустить
+After the game, from the main menu.	После партии, из главного меню.
+Download	Скачать
+Check now	Проверить
+Couldn't reach the update server.	Не удалось связаться с сервером обновлений.
+The download was damaged. It will be tried again later.	Загрузка повреждена. Попробуем ещё раз позже.
+The new version couldn't be installed. This one stays.	Не удалось установить новую версию. Остаётся текущая.
+Downloading… {p}%	Загрузка… {p}%
+Updating…	Обновление…
+The Microsoft Store keeps the game up to date.	Игру обновляет Microsoft Store.
+Development build: no automatic updates.	Сборка для разработки: без автообновлений.
+Looking for a new version…	Поиск новой версии…
+This is the latest version.	У вас последняя версия.
+Downloading version {v}… {p}%	Загрузка версии {v}… {p}%
+Installing version {v}…	Установка версии {v}…
+Version {v} is ready: restart the game to use it.	Версия {v} готова: перезапустите игру, чтобы перейти на неё.
+Version {v} is out: download it from the releases page.	Вышла версия {v}: скачайте её со страницы релизов.
+Version {v} is ready	Версия {v} готова
+Restart to play it; nothing is lost.	Перезапустите игру, чтобы перейти на неё; ничего не потеряется.
+Version {v} is out	Вышла версия {v}
+Get it from the releases page.	Скачайте её со страницы релизов.
+Reset everything?	Сбросить всё?
+Click again to reset every setting	Нажмите ещё раз, чтобы сбросить все настройки
+Online	Онлайн
+Menu	Меню
+Rating	Рейтинг
+Ultra	Ультра
+hold {key} and release	зажмите {key} и отпустите
+Change	Изменить
+Mouse aim sensitivity	Чувствительность прицела мышью
+How fast the cue turns with the mouse.	Как быстро кий поворачивается мышью.
+Vignette	Виньетка
+Darkens the edges of the picture, like a film.	Затемняет края изображения, как в кино.
+Show FPS	Показывать FPS
+Frames per second, in a corner of the screen.	Кадры в секунду, в углу экрана.
+Call a pocket for the 8-ball first: click a pocket.	Сначала закажите лузу для восьмёрки: нажмите на лузу.
+Reconnecting	Переподключение
+the game is over	партия окончена
+the cue ball cannot be placed there	сюда нельзя поставить биток
+call a pocket for the 8-ball	закажите лузу для восьмёрки
+That username is taken.	Это имя пользователя уже занято.
+Wrong username or password.	Неверное имя пользователя или пароль.
+Your session expired. Please log in again.	Сессия истекла. Войдите снова.
+This version of Snook Legend is out of date. Please update the game.	Эта версия Snook Legend устарела. Обновите игру.
+It's not your turn.	Сейчас не ваш ход.
+That player is not online.	Этот игрок не в сети.
+That player is in a game.	Этот игрок сейчас в партии.
+You can't invite yourself.	Нельзя пригласить самого себя.
+That invitation is no longer valid.	Это приглашение больше не действительно.
+That player is no longer available.	Этот игрок больше недоступен.
+Resign first to leave a game in progress.	Чтобы выйти из идущей партии, сначала сдайте её.
+Malformed message.	Неверный формат сообщения.
+Please log in first.	Сначала войдите.
+Could not create the account.	Не удалось создать аккаунт.
+The cue ball can't be placed there.	Сюда нельзя поставить биток.
+Disconnected.	Отключено.
+Lost contact with the server.	Связь с сервером потеряна.
+The server closed the connection.	Сервер закрыл соединение.
+The server took too long to answer.	Сервер слишком долго не отвечал.
+The server is not answering (connection refused).	Сервер не отвечает (в соединении отказано).
+The server address is not valid (example: wss://snook-legend.example.com/ws).	Неверный адрес сервера (пример: wss://snook-legend.example.com/ws).
+The server address has no host name.	В адресе сервера нет имени хоста.
+Welcome to Snook Legend! Be kind, play fair.	Добро пожаловать в Snook Legend! Будьте вежливы и играйте честно.
+Ball in hand: drag the cue ball{zone} to move it	Шар с руки: перетаскивайте биток{zone}
+ behind the line	 в пределах дома
+Ball in hand  ·  {group}	Шар с руки  ·  {group}
+Can't shoot: {e}.	Удар невозможен: {e}.
+Chat ({n})	Чат ({n})
+Computer ({level})	Компьютер ({level})
+Computer	Компьютер
+Each opponent has a style of their own	У каждого соперника свой стиль
+Free game	Свободная игра
+Tour	Тур
+Tour: {n} of {total} beaten	Тур: побеждено {n} из {total}
+Strength {n}/5	Сила {n}/5
+Ghost	Призрак
+Accuracy	Точность
+Safeties	Отыгрыши
+Banks	Дуплеты
+Position	Позиция
+Ghost of {name}	Призрак игрока {name}
+A player's ghost	Призрак игрока
+Plays like a real player	Играет как реальный игрок
+The computer plays in the style of a real player, measured on their online games.	Компьютер играет в стиле реального игрока, изученном по его онлайн-партиям.
+Sign in to play the ghost of a real player.	Войдите, чтобы сыграть с призраком реального игрока.
+Load	Загрузить
+Friends:	Друзья:
+Type a username or pick a friend, then Load.	Введите имя пользователя или выберите друга и нажмите «Загрузить».
+Measuring how {name} plays…	Изучаем, как играет {name}…
+Pots {pots}% · safeties {safe}% · banks {banks}% · {shots} shots	Забивает {pots}% · отыгрыши {safe}% · дуплеты {banks}% · ударов: {shots}
+{name} has only {shots} recorded shots; a ghost needs {needed}. More online games will do it.	У игрока {name} записано ударов: {shots}; для призрака нужно {needed}. Ещё несколько онлайн-партий — и всё получится.
+There is no player called {name}.	Игрока с именем {name} нет.
+The server can't be reached right now. Try again later.	Сервер сейчас недоступен. Попробуйте позже.
+Wait a moment before asking again.	Подождите немного, прежде чем запрашивать снова.
+Something went wrong on the server. Try again later.	На сервере что-то пошло не так. Попробуйте позже.
+Play your ghost	Сыграть со своим призраком
+Play their ghost	Сыграть с призраком
+Beaten	Пройден
+Next	Далее
+Win the previous stage to unlock this one.	Выиграйте предыдущий этап, чтобы открыть этот.
+Stage {n} of {total}	Этап {n} из {total}
+Challenge {name}	Бросить вызов: {name}
+Stage {n} won! Next on the tour: {name}.	Этап {n} пройден! Следующий соперник тура: {name}.
+You won the whole tour!	Вы прошли весь тур!
+Reward	Награда
+{item} cue · exclusive	Кий «{item}» · эксклюзив
+Yours: find it in the shop, under Cues.	Он ваш: ищите его в магазине, в разделе «Кии».
+Win the last stage again while signed in to claim it.	Чтобы получить его, выиграйте последний этап ещё раз, войдя в аккаунт.
+Beat all fifteen opponents to earn it. It is sold nowhere.	Победите всех пятнадцать соперников, чтобы получить его. Он нигде не продаётся.
+You won the tour! Sign in to claim your reward.	Вы прошли тур! Войдите, чтобы забрать награду.
+The server is checking your final game…	Сервер проверяет вашу финальную партию…
+Try again	Ещё раз
+The server did not answer. Try again in a moment.	Сервер не ответил. Повторите попытку чуть позже.
+The server is busy checking other games. Try again in a moment.	Сервер занят проверкой других партий. Повторите попытку чуть позже.
+Wait a minute before trying again.	Подождите минуту, прежде чем пробовать снова.
+That game is too long to be checked.	Эта партия слишком длинная для проверки.
+That game has a move the rules don't allow.	В этой партии есть ход, запрещённый правилами.
+That game was not played to the end.	Эта партия не доиграна до конца.
+That game was not a win.	Эта партия не была выиграна.
+The computer's shots in that game don't match how it plays (another version of the game?).	Удары компьютера в этой партии не соответствуют его манере игры (другая версия игры?).
+The Rookie	Новичок
+Still learning: aims at the nearest pocket, centre ball, and hopes. Never plays safe.	Ещё учится: целится в ближайшую лузу, бьёт в центр и надеется на лучшее. Никогда не играет на отыгрыш.
+The Weekend Player	Игрок выходного дня
+Knows the basics and drops the easy ones, but rarely thinks about where the cue ball goes.	Знает основы и забивает простые шары, но редко думает, куда пойдёт биток.
+The Bank Artist	Мастер дуплетов
+Sees angles nobody else does: whenever a ball can go off a cushion and in, she banks it.	Видит углы, которых не видит никто: если шар можно забить от борта, она играет дуплет.
+The Cannon	Пушка
+Goes for everything, as hard as he can: long pots, thunderous breaks, hardly ever a safety.	Бьёт по всему изо всех сил: дальние удары, громовые разбои и почти никаких отыгрышей.
+The Wall	Стена
+Only shoots when the pot is on. Otherwise she tucks the cue ball away and waits for your mistake.	Бьёт, только когда шар точно идёт. Иначе прячет биток и ждёт вашей ошибки.
+The Old Pro	Старый профи
+Forty years at the table: a smooth stroke, a raised cue, side spin, and never in a hurry.	Сорок лет за столом: мягкий удар, приподнятый кий, боковой винт и никакой спешки.
+The Hustler	Хитрюга
+Plays just well enough to win, then a little better. Balanced, sharp and hard to read.	Играет ровно настолько, чтобы выиграть, а потом чуть лучше. Ровная, острая и непредсказуемая.
+The Professor	Профессор
+Thinks three balls ahead: every shot leaves the cue ball where the next one is easy.	Думает на три шара вперёд: после каждого удара биток стоит там, откуда следующий шар забить легко.
+The Sharpshooter	Снайпер
+Pots from anywhere, at any angle. Her safeties are an afterthought: she doesn't need them.	Забивает откуда угодно и под любым углом. Отыгрыши для неё — дело десятое: они ей не нужны.
+The Champion	Чемпион
+Unbeaten for years. Precise, patient and merciless: the last stage of the tour.	Непобедим уже много лет. Точный, терпеливый и беспощадный: последний этап тура.
+Tour champion	Чемпион тура
+Champion of the tour	Чемпион тура
+Beat all fifteen opponents of the computer tour.	Победите всех пятнадцать соперников тура против компьютера.
+Connection lost. Reconnecting (attempt {n})…	Соединение потеряно. Переподключение (попытка {n})…
+Connection lost. Reconnecting…	Соединение потеряно. Переподключение…
+Foul by {shooter}: {foul}.	Фол игрока {shooter}: {foul}.
+Graphics set to {q} for smooth play. You can change this in Settings.	Графика переключена на «{q}» для плавной игры. Это можно изменить в настройках.
+Rating {r} ({d})	Рейтинг {r} ({d})
+The {ball} was spotted.	На стол возвращён {ball}.
+Waiting for {to} ({kind})…	Ждём ответа: {to} ({kind})…
+rated	рейтинговая
+casual	товарищеская
+Waiting for {name}…	Ждём игрока {name}…
+{by} declined your invitation.	{by} отклоняет ваше приглашение.
+a rated game	рейтинговую партию
+a casual game	товарищескую партию
+{name} calls the 8-ball in the {pocket} pocket.	{name} заказывает восьмёрку: {pocket}.
+{name} has ball in hand…	{name}: шар с руки…
+{name} is aiming…	{name} целится…
+{name} is on the 8: click a pocket to call it	{name} на восьмёрке: нажмите на лузу, чтобы заказать её
+{name} is thinking…	{name} думает…
+{name} left the game.	{name} покидает партию.
+{name} resigned.	{name} сдаётся.
+{name} to break	Разбивает {name}
+{name} to shoot ({target})	Бьёт {name} ({target})
+{name}'s turn	Ход игрока {name}
+{next} has ball in hand{where}.	{next}: шар с руки{where}.
+ behind the head string	 из дома
+{opponent} is back.	{opponent} снова в игре.
+{opponent} lost the connection. Waiting up to {secs} s…	У игрока {opponent} пропало соединение. Ждём до {secs} с…
+{opponent} wants a rematch.	{opponent} хочет реванша.
+{opponent} went back to the lounge.	{opponent} возвращается в лобби.
+{shooter} pocketed {balls}.	{shooter} забивает: {balls}.
+{shooter} takes {group}.	{shooter} берёт {group}.
+{who} ran out of time: ball in hand for the opponent.	{who}: время вышло — шар с руки у соперника.
+{name} wants a rematch!	{name} хочет реванша!
+{name} wins!	{name} побеждает!
+{name} wins	{name} побеждает
+Volume	Громкость
+The cue, the balls, the cushions and the pockets.	Кий, шары, борта и лузы.
+Notifications	Уведомления
+Could not find the server “{host}”.	Не удалось найти сервер «{host}».
+Network error: {e}.	Ошибка сети: {e}.
+Secure connection failed: {e}.	Ошибка защищённого соединения: {e}.
+The server refused the connection (HTTP {code}).	Сервер отклонил соединение (HTTP {code}).
+Connection error: {e}.	Ошибка соединения: {e}.
+cue ball	биток
+{n}-ball	шар {n}
+Scratch: the cue ball was pocketed	Биток в лузе
+The cue ball left the table	Биток вылетел со стола
+The cue ball didn't hit any ball	Биток не коснулся ни одного шара
+Wrong ball hit first ({ball})	Первым задет не тот шар ({ball})
+No ball reached a cushion after contact	После соударения ни один шар не коснулся борта
+The {ball} left the table	Со стола вылетел {ball}
+Illegal break	Неправильный разбой
+pocketed the 8-ball	восьмёрка забита
+opponent pocketed the 8-ball too early	соперник забил восьмёрку раньше времени
+opponent sank the 8-ball in the wrong pocket	соперник забил восьмёрку не в ту лузу
+opponent fouled on the 8-ball	фол соперника на восьмёрке
+opponent knocked the 8-ball off the table	соперник выбил восьмёрку со стола
+opponent resigned	соперник сдался
+opponent left the game	соперник покинул партию
+head left corner	левая у дома
+head right corner	правая у дома
+left side	левая средняя
+right side	правая средняя
+foot left corner	дальняя левая
+foot right corner	дальняя правая
+Easy	Лёгкий
+Hard	Сложный
+Normal	Обычный
+Power	Сила
+No messages yet.	Сообщений пока нет.
+▼ newer messages	▼ новые сообщения
+Camera follows the cue	Камера следует за кием
+Off: it stays where you put it.	Выкл.: камера остаётся там, где вы её поставили.
+Pull back for shots	Отъезд при ударе
+Only when the camera follows the cue.	Только когда камера следует за кием.
+Drag the cue · click a spot	Тяните кий · нажмите на точку
+Time's up: {name}'s shot was played at full power.	Время вышло: удар игрока {name} выполнен в полную силу.
+Dark room	Тёмный зал
+A spotlight on the table, the room in shadow.	Свет только над столом, зал в тени.
+Hide	Скрыть
+Interface size	Размер интерфейса
+Text, buttons and panels.	Текст, кнопки и панели.
+Drag to set the power	Тяните, чтобы задать силу
+Shoot!	Удар!
+Set the power, then press the green button	Задайте силу и нажмите зелёную кнопку
++{n} coins · {why}	+{n} мон. · {why}
+16-player tournaments, and first place on the waiting list of a full one	Турниры на 16 игроков и первое место в листе ожидания заполненного турнира
+30 minutes: play as many games as you can. A win is 2 points, 4 from the third win in a row.	30 минут: сыграйте столько партий, сколько успеете. Победа — 2 очка, а начиная с третьей победы подряд — 4.
+A crown by your name, everywhere (lounge, profile, ranking)	Корона рядом с вашим именем повсюду (лобби, профиль, рейтинг)
+Account	Аккаунт
+Add friends to give them items.	Добавьте друзей, чтобы дарить им предметы.
+Arena	Арена
+Arena · host {host} · {n} players · {kind}	Арена · организатор {host} · игроки: {n} · {kind}
+Buy now	Купить сейчас
+Buying…	Покупка…
+Change password	Сменить пароль
+Click again to delete	Нажмите ещё раз, чтобы удалить
+Got a code? Type it here	Есть код? Введите его здесь
+Confirm purchase	Подтвердить покупку
+Copied: send it to a friend.	Скопировано: отправьте другу.
+Copy	Копировать
+Current	Текущий
+Delete account	Удалить аккаунт
+Entry	Взнос
+Entry {n} coins	Взнос: {n} мон.
+Every replay kept (free players keep their last 10 games)	Все повторы сохраняются (без VIP хранятся последние 10 партий)
+For {name}	Получатель: {name}
+Add a message (optional)	Добавьте сообщение (необязательно)
+Format	Формат
+Frames	Рамки
+Free	Бесплатно
+Get coins	Получить монеты
+Gift sent!	Подарок отправлен!
+Give as a gift	Подарить
+Give it	Подарить
+Give to a friend	Подарить другу
+Great!	Отлично!
+If you forget your password, we confirm it's you by this e-mail.	Если вы забудете пароль, мы подтвердим, что это вы, по этому адресу.
+Invite with a code	Пригласить по коду
+It goes on right away. Items only change the look, never the game.	Применяется сразу. Предметы меняют только внешний вид, но не игру.
+Join my table in Snook Legend:	Присоединяйтесь к моему столу в Snook Legend:
+Join the waiting list	Встать в лист ожидания
+Join · {n} coins	Участвовать · {n} мон.
+Knockout	На вылет
+Name colour	Цвет имени
+Name colours for the lounge and exclusive frames, cloth, cues, balls and effects	Цвета имени в лобби и эксклюзивные рамки, сукно, кии, шары и эффекты
+New	Новый
+No, thanks	Нет, спасибо
+Nothing that wins games: VIP only changes the look	Ничего, что даёт преимущество: VIP меняет только внешний вид
+Numbers	Цифры
+ON TV	В ЭФИРЕ
+Play rated games to see your rating here.	Играйте рейтинговые партии, чтобы увидеть здесь свой рейтинг.
+No rated games yet.	Рейтинговых партий пока нет.
+Price	Цена
+Prizes {a} + {b}	Призы {a} + {b}
+Protect your purchases	Защитите свои покупки
+Purchase complete!	Покупка завершена!
+Recovery e-mail	Почта для восстановления
+Save	Сохранить
+The fees make the prize: 70% to the champion, 20% to the runner-up.	Взносы составляют призовой фонд: 70% — чемпиону, 20% — финалисту.
+The server restarts in {m}:{s} for an update. Games in progress go on.	Сервер перезапустится через {m}:{s} для обновления. Текущие партии продолжатся.
+Use this e-mail	Использовать эту почту
+Use {email} to recover your account if you ever forget your password?	Использовать {email} для восстановления аккаунта, если вы забудете пароль?
+Watch	Смотреть
+Watch again	Посмотреть снова
+Winning effects	Победные эффекты
+Halls	Залы
+You are paired as soon as you and an opponent are free.	Пара составляется, как только вы и соперник освободитесь.
+You can change it any time in your profile (Account).	Это можно изменить в любой момент в профиле (Аккаунт).
+You need {n} more coins.	Не хватает монет: {n}.
+Your account	Ваш аккаунт
+Your account was deleted.	Ваш аккаунт удалён.
+Your coins	Ваши монеты
+Your friend gets it right away.	Ваш друг получит его сразу.
+Your game against {name} is starting.	Начинается ваша партия против игрока {name}.
+Your name, e-mail, friends and items are erased for good. Your opponents keep the games you played (without your name).	Ваше имя, почта, друзья и предметы будут удалены навсегда. У соперников останутся сыгранные с вами партии (без вашего имени).
+balls per game	шаров за партию
+best run ever	лучшая серия за всё время
+daily bonus	ежедневный бонус
+entry fee back	возврат взноса
+for the game	за партию
+for the win	за победу
+games counted	учтённые партии
+Analysis	Анализ
+The shot analysis isn't available on this server yet.	Анализ ударов пока недоступен на этом сервере.
+Only online accounts have a shot analysis.	Анализ ударов есть только у онлайн-аккаунтов.
+Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Играйте онлайн, чтобы увидеть, как вы забиваете: до анализа осталось ударов по лузе — {n}.
+{name} hasn't played enough online games for an analysis yet.	У игрока {name} пока мало онлайн-партий для анализа.
+1 game	1 партия
+{pct}% of {n} shots at a pocket potted · {games}	Удары по лузе: {n}, забито {pct}% · {games}
+{made} of {n} potted ({pct})	Забито {made} из {n} ({pct})
+By kind of shot	По типу удара
+shots	удары
+Straight	Прямой
+Cut 8–25°	Резка 8–25°
+Cut 25–45°	Резка 25–45°
+Thin cut 45°+	Тонкая резка 45°+
+Bank	Дуплет
+Kick	Абриколь
+Combination	Комбинация
+Jump	Прыжок
+Massé	Массе
+Break	Разбой
+By distance	По дистанции
+Short (under 0.75 m)	Короткие (до 0,75 м)
+Medium (to 1.5 m)	Средние (до 1,5 м)
+Long (over 1.5 m)	Дальние (более 1,5 м)
+left the opponent nothing	сопернику ничего не оставлено
+Breaks	Разбои
+made a ball	забит шар
+Potted	Забитые
+Missed	Промахи
+Where and in which pocket	Где и в какую лузу
+{pocket}: {made} of {n} potted	{pocket}: забито {made} из {n}
+Where the potted balls were	Где стояли забитые шары
+Where the missed balls were	Где стояли незабитые шары
+few	мало
+many	много
+{made} potted · {missed} missed ({pct})	забито: {made} · мимо: {missed} ({pct})
+Top left corner	Левая верхняя угловая
+Bottom left corner	Левая нижняя угловая
+Top side pocket	Верхняя средняя
+Bottom side pocket	Нижняя средняя
+Top right corner	Правая верхняя угловая
+Bottom right corner	Правая нижняя угловая
+games left unfinished	незаконченные партии
+potting success	реализация
+shots with a foul	удары с фолом
+starts in {n} min	начало через {n} мин
+tournament prize	турнирный приз
+The dark room hides the hall around the table.	Тёмный зал скрывает интерьер вокруг стола.
+Show the hall	Показать зал
+Level {n} · 1 win	Уровень {n} · 1 победа
+Level {n} · {w} wins	Уровень {n} · побед: {w}
+{left} more online wins with this cue for level {n}. Levels only add marks to the cue.	Побед онлайн с этим кием до уровня {n}: ещё {left}. Уровни лишь добавляют на кий отметки.
+The top level: this cue has every mark.	Высший уровень: на этом кие есть все отметки.
+Your cue {cue} reached level {n}!	Ваш кий «{cue}» достиг уровня {n}!
+Most wins: {cue} (level {n})	Больше всего побед: {cue} (уровень {n})
+{games} games · {rate}% won · {balls} balls made	Партии: {games} · побед {rate}% · забито шаров: {balls}
+vs	vs
+{from} gave you {item}!	{from} дарит вам {item}!
+You received a gift!	Вам подарок!
+From	От
+To	Кому
+someone	кто-то
+A month of VIP	Месяц VIP
+Thank	Поблагодарить
+Thanked	Поблагодарили
+They thanked you	Вас поблагодарили
+Use it now	Выбрать сейчас
+Later	Позже
+OK	OK
+Next ({n} more)	Далее (ещё {n})
+{from} gave you {item}! It's waiting for you in the lounge.	{from} дарит вам {item}! Подарок ждёт вас в лобби.
+{name} thanked you for {item}.	{name} благодарит вас за {item}.
+Gifts	Подарки
+No gifts yet. Friends can give you items from the shop.	Подарков пока нет. Друзья могут дарить вам предметы из магазина.
+{item} is yours and already in use.	Предмет «{item}» ваш и уже выбран.
+{m}:{s} left	осталось {m}:{s}
+{name} invites you to play.	{name} приглашает вас сыграть.
+{name} is online.	{name} в сети.
+{name} ran out of time.	{name}: время вышло.
+{name} received {item}.	{name} получает {item}.
+{n} pts · {g} games	{n} очк. · партий: {g}
+{n} watching · avg {r}	Зрители: {n} · средний {r}
+{title}: {how}	{title}: {how}
+Olive	Оливковый
+Navy	Тёмно-синий
+Forest	Лесной
+Slate grey	Сланцево-серый
+Red wine	Красное вино
+Burnt orange	Жжёный апельсин
+Dusty rose	Пыльная роза
+Sand	Песок
+Ice blue	Ледяной голубой
+Lime	Лайм
+Black tie	Чёрный галстук
+Cobalt	Кобальт
+Emerald	Изумруд
+Natural maple	Натуральный клён
+Beach bar	Пляжный бар
+Modern	Модерн
+English club	Английский клуб
+Ebony & gold	Эбен и золото
+Pool hall	Бильярдная
+Industrial loft	Индустриальный лофт
+Steel & oak	Сталь и дуб
+Tournament	Турнир
+Victorian walnut	Викторианский орех
+Ivory deco	Айвори деко
+Mountain lodge	Горное шале
+Neon arcade	Неоновая аркада
+Art deco lounge	Лаунж ар-деко
+Skyline penthouse	Пентхаус с видом на город
+Walnut	Орех
+Zebrawood	Зебрано
+Bocote	Бокоте
+Deep ocean	Глубокий океан
+Cherry	Вишня
+Jade	Нефрит
+Tiger	Тигр
+Amethyst	Аметист
+Arctic carbon	Арктический карбон
+Inferno	Инферно
+Obsidian gold	Обсидиан и золото
+Tan chalk	Бежевый мел
+Grey chalk	Серый мел
+Orange chalk	Оранжевый мел
+Pink chalk	Розовый мел
+Teal chalk	Мел цвета морской волны
+Yellow chalk	Жёлтый мел
+Black chalk	Чёрный мел
+White chalk	Белый мел
+Silver chalk	Серебристый мел
+TV set	ТВ-набор
+Earth tones	Земляные тона
+Ocean	Океан
+Sunset	Закат
+Candy	Леденец
+Pearl	Жемчуг
+Monochrome	Монохром
+Chrome	Хром
+Gold rush	Золотая лихорадка
+No frame	Без рамки
+Bronze	Бронза
+Silver	Серебро
+Gold	Золото
+Green felt	Зелёное сукно
+Mahogany	Красное дерево
+Ice	Лёд
+Fire	Огонь
+Diamond	Бриллиант
+VIP crown	Корона VIP
+Rose gold	Розовое золото
+Aqua	Аква
+Violet	Фиалка
+Ember	Уголёк
+Mint	Мята
+Frost	Иней
+No effect	Без эффекта
+Sparks	Искры
+Confetti	Конфетти
+Shockwave	Ударная волна
+Coin shower	Монетный дождь
+Flames	Пламя
+Royal sparks	Королевские искры
+Tier colour	Цвет лиги
+16-player tournaments are for VIP members.	Турниры на 16 игроков — только для VIP.
+A seat opened: you are in the tournament!	Освободилось место: вы в турнире!
+Entry fees go up to 1000 coins.	Взнос — до 1000 монет.
+Guests can't play for coins.	Гости не могут играть на монеты.
+Only items sold for coins can be given.	Дарить можно только предметы, которые продаются за монеты.
+Password changed.	Пароль изменён.
+Passwords need 8 or more characters, not only digits.	Пароль: 8 символов или больше, не только цифры.
+Recovery e-mail removed.	Почта для восстановления удалена.
+Recovery e-mail saved.	Почта для восстановления сохранена.
+Something went wrong. Please try again.	Что-то пошло не так. Попробуйте ещё раз.
+That code is not valid (or the table was closed).	Неверный код (или стол уже закрыт).
+That doesn't look like an e-mail address.	Это не похоже на адрес электронной почты.
+That game is over.	Эта партия окончена.
+The current password is wrong.	Неверный текущий пароль.
+The server is restarting.	Сервер перезапускается.
+The server is restarting: new games start in a moment.	Сервер перезапускается: новые партии начнутся через мгновение.
+The tournament is full: you are on the waiting list.	Турнир заполнен: вы в листе ожидания.
+This replay is not available.	Этот повтор недоступен.
+You can only give items to your friends.	Дарить предметы можно только друзьям.
+Your friend already has this item.	У вашего друга уже есть этот предмет.
+16 (VIP)	16 (VIP)
+VIP isn't sold in this version of the game.	VIP не продаётся в этой версии игры.
+In this version of the game, coins are earned by playing:	В этой версии игры монеты зарабатываются в игре:
+rated games, and a bonus every day you play.	рейтинговые партии и бонус за каждый день игры.
+Coins are earned by playing:	Монеты зарабатываются в игре:
+If you like, you can also buy them:	При желании их можно и купить:
+one month	один месяц
+already VIP	уже VIP
+Give a month to a friend · {p}	Подарить месяц другу · {p}
+{from} gave you a month of VIP!	{from} дарит вам месяц VIP!
+{name} received a month of VIP.	{name} получает месяц VIP.
+Your friend is already VIP.	Ваш друг уже VIP.
+Game in progress: {n} balls left	Идёт партия: осталось шаров — {n}
+Continue	Продолжить
+Missions	Задания
+Board	Объявления
+Today	Сегодня
+This week	На этой неделе
+new missions in {t}	новые задания через {t}
+ends in {t}	закончится через {t}
+{n} days	{n} дн.
+{n} h	{n} ч
+{n} min	{n} мин
+mission complete	задание выполнено
+Missions count rated games played to the end. The coins arrive as soon as one is complete.	В заданиях учитываются рейтинговые партии, сыгранные до конца. Монеты начисляются сразу после выполнения задания.
+Nothing on the board right now.	Объявлений пока нет.
+Open tournaments	Открытые турниры
+{n}/{size} players	Игроки: {n}/{size}
+starts in {t}	начало через {t}
+entry {n} coins	взнос {n} мон.
+See	Смотреть
+Play {n} rated games	Сыграйте рейтинговые партии: {n}
+Win {n} rated games	Выиграйте рейтинговые партии: {n}
+Pot {n} balls	Забейте шары: {n}
+Pot {n} balls with spin	Забейте шары с винтом: {n}
+Pot 3 balls in a row in one visit	Забейте 3 шара подряд за один подход
+Win a game without a foul	Выиграйте партию без фолов
+Pot 3 balls in a row {n} times	Серии из 3 забитых шаров подряд: {n}
+Win {n} games without a foul	Выиграйте партии без фолов: {n}
+TV camera when watching	ТВ-камера при просмотре
+Broadcast angles for other players' games and replays.	Телевизионные ракурсы в чужих партиях и повторах.
+System notifications	Системные уведомления
+Invites, friends coming online and games starting, while you're away.	Приглашения, друзья в сети и начало партий, пока вас нет у экрана.
+{name} starts in a few minutes: get ready!	Турнир «{name}» начнётся через несколько минут: приготовьтесь!
+{name} starts in a few minutes: there is still room.	Турнир «{name}» начнётся через несколько минут: ещё есть места.
+{name} has started!	Турнир «{name}» начался!
+Momentum	Динамика
+Shot map	Карта ударов
+No shots yet.	Ударов пока нет.
+made	забит
+missed	промах
+foul	фол
+See the tournaments	К турнирам
+Open the shop	Открыть магазин
+See VIP	Подробнее о VIP
+See the missions	К заданиям
+A new version of the game is out: update to play online.	Вышла новая версия игры: обновитесь, чтобы играть онлайн.
+Update in the Microsoft Store	Обновить в Microsoft Store
+Update now	Обновить сейчас
+Download the new version	Скачать новую версию
+New version out	Вышла новая версия
+Get the new version to play online	Установите новую версию, чтобы играть онлайн
+Cheer for {name}	Болеть за игрока {name}
+Crowd: {a} for {p0}, {b} for {p1}	Болельщики: {a} за {p0}, {b} за {p1}
+welcome pack	приветственный набор
+Welcome pack	Приветственный набор
+Cue “{cue}”, cloth “{cloth}” and {n} coins · only once, sold nowhere else	Кий «{cue}», сукно «{cloth}» и {n} мон. · только один раз, больше нигде не продаётся
+Lagoon	Лагуна
+You already have the welcome pack.	У вас уже есть приветственный набор.
+Your welcome pack is here!	Ваш приветственный набор здесь!
+Previous shot (←)	Предыдущий удар (←)
+Next shot (→)	Следующий удар (→)
+Play (Space)	Воспроизвести (Пробел)
+Pause (Space)	Пауза (Пробел)
+Speed	Скорость
+Shot {n} of {total}	Удар {n} из {total}
+For VIP members	Для VIP
+{n} reactions of your own to send during games	Собственные реакции для партий: {n}
+Items {a}–{b} of {n}	Предметы {a}–{b} из {n}
+(message deleted by its author)	(сообщение удалено автором)
+(message deleted by an administrator)	(сообщение удалено администратором)
+Delete (it shows as deleted)	Удалить (останется пометка)
+Remove without a trace	Удалить бесследно
+The chat was cleared by {name}.	{name} очищает чат.
+Click again to clear	Нажмите ещё раз, чтобы очистить
+Clear the chat	Очистить чат
+Players' chat (administrator)	Чат игроков (администратор)
+Play the computer while you wait	Сыграть с компьютером, пока ждёте
+Looking for an opponent… {t} · the game starts as soon as one is found	Поиск соперника… {t} · партия начнётся, как только он найдётся
+Stop	Стоп
+# Coin packs and months of VIP bought in the Microsoft Store (the Store build).
+The Microsoft Store couldn't complete the purchase.	Microsoft Store не удалось завершить покупку.
+The Microsoft Store couldn't confirm the purchase right now. Its coins arrive the next time you open the shop.	Microsoft Store сейчас не может подтвердить покупку. Монеты придут, когда вы в следующий раз откроете магазин.
+{n} coins added to your wallet.	Монеты добавлены в ваш кошелёк: {n}.
+Microsoft is confirming your purchase: the coins arrive in a moment.	Microsoft подтверждает вашу покупку: монеты придут через мгновение.
+The purchase hasn't reached us yet. Its coins arrive the next time you open the shop.	Покупка ещё не дошла до нас. Монеты придут, когда вы в следующий раз откроете магазин.
+Loading prices from the Microsoft Store…	Загрузка цен из Microsoft Store…
+Coins can't be bought in this version yet.	В этой версии пока нельзя купить монеты.
+Finish the purchase in the Microsoft Store window…	Завершите покупку в окне Microsoft Store…
+Confirming your purchase…	Подтверждаем покупку…
+Paid in the Microsoft Store, with your Microsoft account.	Оплата в Microsoft Store с вашей учётной записью Microsoft.
+The Microsoft Store can't be reached right now. Try again in a moment.	Microsoft Store сейчас недоступен. Повторите попытку чуть позже.
+The Microsoft Store could not confirm the purchase.	Microsoft Store не смог подтвердить покупку.
+Sign in to the Microsoft Store with your Microsoft account, then open the shop again.	Войдите в Microsoft Store с учётной записью Microsoft и снова откройте магазин.
+The Microsoft Store couldn't confirm the purchase right now. Your VIP month starts the next time you open the shop.	Microsoft Store сейчас не может подтвердить покупку. Ваш месяц VIP начнётся, когда вы в следующий раз откроете магазин.
+You are VIP until {d}, and {n} coins were added to your wallet.	Вы VIP до {d}, а в ваш кошелёк добавлено монет: {n}.
+Microsoft is confirming your purchase: your VIP month starts in a moment.	Microsoft подтверждает вашу покупку: ваш месяц VIP начнётся через мгновение.
+The purchase hasn't reached us yet. Your VIP month starts the next time you open the shop.	Покупка ещё не дошла до нас. Ваш месяц VIP начнётся, когда вы в следующий раз откроете магазин.
+A month at a time: nothing renews by itself	По месяцу за раз: ничего не продлевается само
+Add a month · {p}	Ещё месяц · {p}
+A month of VIP · {p}	Месяц VIP · {p}
+The new month starts when this one ends.	Новый месяц начнётся, когда закончится текущий.
+Trophies	Трофеи
+No trophies yet.	Трофеев пока нет.
+Tournament won · {n} players	Турнир выигран · игроков: {n}
+The computer tour	Тур против компьютера
+All fifteen opponents beaten	Все пятнадцать соперников побеждены
+Daily challenge	Испытание дня
+First of {n} players	1-е место · игроков: {n}
+Easy shot	Лёгкий удар
+Fair shot	Средний удар
+Hard shot	Сложный удар
+Very hard shot	Очень сложный удар
+~{n}% chance	шанс ~{n}%
+No ball goes down as aimed	Так ни один шар не забивается
+straight in	прямой
+{n}° cut	резка {n}°
+off one cushion	от одного борта
+off {n} cushions	от бортов: {n}
+Make as many balls as you can in one visit: a miss or a foul ends the attempt.	Забейте как можно больше шаров за один подход: промах или фол завершают попытку.
+The same table for everyone, all day	Один стол для всех, на весь день
+{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	Попыток в день: {n}. Очистите стол — получите {coins} мон.; победитель дня получает трофей.
+A new table in {h} h {m} min	Новый стол через {h} ч {m} мин
+Sign in to take part: the server keeps the day's table.	Войдите, чтобы участвовать: сервер ведёт таблицу дня.
+Balls on today's table	Шары на сегодняшнем столе
+Attempts left	Осталось попыток
+{n} balls · #{rank}	шаров: {n} · №{rank}
+{n} balls	шаров: {n}
+not yet	пока нет
+Your best today	Ваш лучший результат сегодня
+No attempts left today: come back tomorrow.	Попытки на сегодня закончились: возвращайтесь завтра.
+The attempt could not be counted.	Попытку не удалось засчитать.
+Setting up the table…	Готовим стол…
+Start an attempt	Начать попытку
+Starting uses an attempt, even if you leave the table.	Старт расходует попытку, даже если вы уйдёте из-за стола.
+Loading today's table…	Загрузка сегодняшнего стола…
+Today's table	Таблица дня
+{n} players	Игроков: {n}
+Nobody has played today's table yet. Be the first!	Сегодня ещё никто не играл. Откройте счёт!
+Table cleared!	Стол очищен!
+{n} of {total} balls	Шары: {n} из {total}
+Sending your attempt to the server…	Отправка попытки на сервер…
+Counted: {n} balls · +{coins} coins	Засчитано: шаров {n} · +{coins} мон.
+Counted: {n} balls	Засчитано: шаров {n}
+See today's table	Смотреть таблицу дня
+Table cleared! +{n} coins	Стол очищен! +{n} мон.
+Daily challenge: {n} of {total} balls made	Испытание дня: забито {n} из {total}
+1 player	1 игрок
+Phoenix	Феникс
+Carrara marble	Каррарский мрамор
+Dragon scale	Драконья чешуя
+Galaxy	Галактика
+Ruby throne	Рубиновый трон
+Closing the game now is leaving it: extra rating lost and a wait to play again.	Закрыть игру сейчас — значит покинуть партию: дополнительная потеря рейтинга и ожидание перед следующей игрой.
+You left a game in progress: you can play online again in {n} min.	Вы покинули идущую партию: играть онлайн снова можно будет через {n} мин.
+Quick phrases	Быстрые фразы
+Good luck, have fun!	Удачи и приятной игры!
+Nice shot!	Отличный удар!
+Great safety!	Отличный отыгрыш!
+Unlucky!	Не повезло!
+Oops!	Ой!
+Wow!	Ого!
+That was close!	Чуть-чуть!
+Take your time.	Не торопитесь.
+Sorry!	Извините!
+Thanks!	Спасибо!
+Well played!	Хорошо сыграно!
+Good game!	Хорошая партия!
+Rematch?	Реванш?
+I have to go, thanks for the game!	Мне пора, спасибо за партию!
+Practise while you wait	Потренироваться, пока ждёте
+A new rack.	Новая расстановка.
+Level {n}! (+{xp} XP)	Уровень {n}! (+{xp} опыта)
++{xp} XP	+{xp} опыта
+Level {n} · {into} / {span} XP to the next	Уровень {n} · {into} / {span} опыта до следующего
+Level {n}	Уровень {n}
+Hi! I watched a lot of videos, I'm ready!	Привет! Я посмотрел кучу видео, я готов!
+Be gentle, okay?	Только не жёстко, ладно?
+Whoa, how did you do that?	Ого, как у вас это получилось?
+Teach me that one later!	Потом научите меня такому!
+Phew! My turn!	Фух! Мой ход!
+Even you miss? Good to know.	Даже вы промахиваетесь? Буду знать.
+A free ball! What do I do with it?	Халявный шар! И что мне с ним делать?
+Did you see that?! It went in!	Вы видели?! Залетел!
+Beginner's luck counts too!	Новичкам тоже везёт!
+Oops. That was a practice shot.	Ой. Это был пробный удар.
+Aim, Leo, aim...	Целься, Лео, целься...
+Sorry! I touched the wrong one again.	Простите! Опять задел не тот шар.
+I WON? I'm calling my mum!	Я ВЫИГРАЛ? Звоню маме!
+Good game! I'm getting better, right?	Хорошая партия! Я ведь становлюсь лучше, правда?
+Saturday, a table and good company. Let's play!	Суббота, стол и хорошая компания. Играем!
+Nice one!	Красиво!
+Oh, you're good. I'll pay attention now.	О, да вы умеете. Теперь буду внимательнее.
+Happens to the best of us.	С лучшими тоже бывает.
+Don't worry, it's just a game!	Не переживайте, это всего лишь игра!
+Thanks for the gift!	Спасибо за подарок!
+Yes! Weekend skills!	Да! Мастерство выходного дня!
+Lucky me!	Вот повезло!
+Hm, where was I aiming?	Хм, куда я целилась?
+Too much chatting, not enough aiming.	Слишком много болтовни, слишком мало прицела.
+Oops, my bad!	Ой, моя вина!
+That was fun! Same time next weekend?	Было весело! В то же время в следующие выходные?
+Well played! Rematch over a lemonade?	Хорошо сыграно! Реванш за лимонадом?
+Four cushions, endless possibilities.	Четыре борта — бесконечные возможности.
+Straight in? So... direct.	Прямой? Как-то... прямолинейно.
+Nice, but a bank would have been prettier.	Неплохо, но дуплетом было бы красивее.
+You should have used the cushion.	Надо было играть от борта.
+The rail was right there, asking for it.	Борт был совсем рядом, прямо напрашивался.
+The table didn't like that.	Столу это не понравилось.
+Off the rail and in. Art!	От борта — и в лузу. Искусство!
+Geometry never lies.	Геометрия не лжёт.
+The angle was right. The cushion disagreed.	Угол был верный. Борт не согласился.
+One diamond off. Just one!	Промах на одну метку. Всего на одну!
+Too much imagination, not enough contact.	Слишком много фантазии, слишком мало контакта.
+A masterpiece, if I may say so.	Шедевр, если позволите.
+Well played. Now try it off two rails.	Хорошо сыграно. Теперь попробуйте от двух бортов.
+I hope these balls are made of steel.	Надеюсь, эти шары стальные.
+Soft touch, huh? Not my style.	Мягкий удар, да? Не мой стиль.
+Hit it harder next time!	В следующий раз бейте сильнее!
+Too gentle! Power solves everything.	Слишком нежно! Сила решает всё.
+HA!	ХА!
+My table now. Cover your ears.	Теперь стол мой. Закройте уши.
+BOOM!	БУМ!
+Did you hear that pocket?	Слышали, как хлопнула луза?
+Too much power? No such thing.	Слишком сильно? Так не бывает.
+The pocket moved.	Луза сдвинулась.
+The ball flew. It happens. A lot.	Шар улетел. Бывает. Часто.
+Power wins again! BOOM!	Сила снова побеждает! БУМ!
+Fine, finesse works too. Sometimes.	Ладно, тонкость тоже работает. Иногда.
+Take your time. I have all day.	Не торопитесь. У меня весь день впереди.
+Acceptable.	Приемлемо.
+Enjoy it while it lasts.	Наслаждайтесь, пока можете.
+Patience is a virtue. Not yours, apparently.	Терпение — добродетель. Видимо, не ваша.
+Thank you.	Спасибо.
+Sloppy.	Небрежно.
+Steady wins.	Тише едешь — дальше будешь.
+One at a time.	По одному.
+Hm. I'll leave you nothing anyway.	Хм. Всё равно ничего вам не оставлю.
+Intentional. Probably.	Намеренно. Наверное.
+Unacceptable. Of me.	Непростительно. С моей стороны.
+As I said: patience.	Как я и говорила: терпение.
+You got through the wall. I'm impressed.	Вы прошли сквозь стену. Я впечатлена.
+I've been playing since before these balls were plastic.	Я играю с тех времён, когда шары ещё не были пластиковыми.
+Good stroke. Reminds me of a fellow in '78.	Хороший удар. Напоминает одного парня в 78-м.
+Smooth. Very smooth.	Мягко. Очень мягко.
+Keep your head down, kid.	Голову ниже, малыш.
+The cue ball doesn't lie.	Биток не врёт.
+Ah, a little present. Thank you kindly.	А, маленький подарок. Премного благодарен.
+Like riding a bicycle.	Как на велосипеде.
+Still got it.	Есть ещё порох в пороховницах.
+The eyes aren't what they used to be.	Глаза уже не те.
+In my day the pockets were bigger.	В мои времена лузы были шире.
+Even old pros slip.	И старые профи ошибаются.
+Experience, my friend. Experience.	Опыт, друг мой. Опыт.
+You've got a future in this game.	У вас большое будущее в этой игре.
+Me? Oh, I hardly ever play...	Я? Ой, да я почти не играю...
+Lucky! Do it again, I dare you.	Повезло! А ну-ка, повторите.
+Ooh, someone's been practising.	О, кто-то тренировался.
+Aw, so close! Bless.	Ой, почти! Как мило.
+Want me to show you how?	Показать, как надо?
+Thank you, sweetie.	Спасибо, дорогуша.
+Oops, did I do that?	Ой, это я сделала?
+Must be beginner's luck. Again.	Наверное, новичкам везёт. Опять.
+Missed on purpose. Keeps it interesting.	Промазала нарочно. Так интереснее.
+Just warming up.	Я только разогреваюсь.
+Oh dear, how clumsy of me. Wink.	Ах, какая я неуклюжая. Подмигиваю.
+Hardly ever play, I said. Hardly.	Я сказала: почти не играю. Почти.
+Fine, you got me. This time.	Ладно, вы меня раскусили. На этот раз.
+Friction, momentum, spin. Let us begin.	Трение, импульс, вращение. Приступим.
+A fine cut. About thirty degrees, I'd say.	Хорошая резка. Градусов тридцать, я бы сказал.
+Textbook.	Как по учебнику.
+You underestimated the throw.	Вы недооценили отброс шара.
+Interesting. Statistically expected.	Интересно. Статистически ожидаемо.
+The cue ball followed the laws of physics, not your plan.	Биток подчинился законам физики, а не вашему плану.
+As calculated.	Как и рассчитано.
+Elastic collision, elegant result.	Упругое соударение, изящный результат.
+An error in my measurement.	Погрешность измерения.
+I'll revise the model.	Пересмотрю модель.
+Hm. Unexpected spin.	Хм. Неожиданное вращение.
+The numbers were on my side.	Цифры были на моей стороне.
+A result outside my predictions. Well done.	Результат вне моих прогнозов. Отлично сыграно.
+Focus.	Фокус.
+Clean.	Чисто.
+Not bad.	Неплохо.
+Half a millimetre.	Полмиллиметра.
+Breathe before you shoot.	Дышите перед ударом.
+Careless.	Небрежно.
+Target down.	Цель поражена.
+Centre pocket.	Точно в центр лузы.
+Hm. Recalibrating.	Хм. Перекалибровка.
+That never happens.	Такого не бывает.
+Unacceptable.	Недопустимо.
+Precision wins.	Точность побеждает.
+Good shooting.	Хорошая стрельба.
+Welcome to my table. Enjoy the show.	Добро пожаловать за мой стол. Наслаждайтесь шоу.
+Very good. You've done your homework.	Очень хорошо. Вы подготовились.
+Applause for the challenger!	Аплодисменты претенденту!
+Pressure. It gets to everyone.	Давление. Оно достаёт всех.
+Thank you for the table.	Спасибо за стол.
+A champion never refuses a gift.	Чемпион никогда не отказывается от подарка.
+Naturally.	Естественно.
+That's how it's done.	Вот как это делается.
+Even champions give the crowd a chance.	Даже чемпионы дают публике шанс.
+Leaving you something, out of courtesy.	Оставляю вам кое-что — из вежливости.
+A rare sight. Remember it.	Редкое зрелище. Запомните его.
+The title stays with me. Good game.	Титул остаётся у меня. Хорошая партия.
+Remarkable. You've earned my respect.	Впечатляет. Вы заслужили моё уважение.
+Calibration complete. Good luck, human.	Калибровка завершена. Удачи, человек.
+Shot registered: successful.	Удар зарегистрирован: успешно.
+Probability of my victory: increasing.	Вероятность моей победы: растёт.
+Foul detected. Processing penalty.	Обнаружен фол. Обработка штрафа.
+Executed as planned.	Выполнено по плану.
+Error. Recalculating.	Ошибка. Пересчёт.
+Malfunction. Please disregard.	Сбой. Пожалуйста, не обращайте внимания.
+Game complete. Thank you for playing.	Партия завершена. Спасибо за игру.
+Defeat acknowledged. Well played.	Поражение принято. Хорошо сыграно.
+Drills	Упражнения
+Exercises with stars	Упражнения со звёздами
+{s} / {max} stars	Звёзды: {s} / {max}
+Stars at {a}, {b} and {c}	Звёзды за {a}, {b} и {c}
+Your best: {n} of {total}	Ваш рекорд: {n} из {total}
+Not tried yet.	Ещё не пробовали.
+Start the drill	Начать упражнение
+Sign in to keep your stars in your account.	Войдите, чтобы звёзды сохранялись в аккаунте.
+{n} of {total}	{n} из {total}
+{drill}: try {k} of {n} · {made} made	{drill}: попытка {k} из {n} · забито {made}
+Made it! {n} of {total}	Получилось! {n} из {total}
+Missed.	Мимо.
+Sending to the server…	Отправка на сервер…
+Not signed in: this session is not ranked.	Вы не вошли: эта сессия не попадёт в рейтинг.
+Kept in your account.	Сохранено в аккаунте.
+The session could not be counted.	Сессию не удалось засчитать.
+Back to the drills	К упражнениям
+Straight in	Прямой удар
+A long straight pot into the corner. Five tries.	Длинный прямой удар в угловую лузу. Пять попыток.
+The cut	Резка
+A half-ball cut into the corner. Five tries.	Резка в пол-шара в угловую лузу. Пять попыток.
+Draw it back	Оттяжка
+Pot the ball and draw the cue ball back into the circle. Five tries.	Забейте шар и оттяните биток назад в круг. Пять попыток.
+Follow through	Накат
+Pot the ball and leave the cue ball in the circle past it. Five tries.	Забейте шар и оставьте биток в круге за ним. Пять попыток.
+Bank shot	Дуплет
+Off one cushion into the side pocket. Five tries.	От одного борта в среднюю лузу. Пять попыток.
+Snooker escape	Выход из снукера
+Hit the 1 first: it hides behind other balls. Five tries.	Первым коснитесь шара 1: он спрятан за другими шарами. Пять попыток.
+Ten in a row	Десять подряд
+Ten different pots, one after another: a miss ends the session.	Десять разных ударов один за другим: промах завершает сессию.
+The far corner	Дальний угол
+A cut back up the table into the corner behind you. Five tries.	Резка назад, вверх по столу, в угловую лузу за вашей спиной. Пять попыток.
+Long into the side	Издалека в среднюю
+From the far end of the table into the side pocket. Five tries.	С дальнего конца стола в среднюю лузу. Пять попыток.
+Cue ball on the cushion	Биток у борта
+The cue ball touches the cushion: pot the ball into the corner all the same. Five tries.	Биток касается борта: всё равно забейте шар в угловую лузу. Пять попыток.
+The plant	Шары вплотную
+The 2 touches the 1 and points at the pocket: hit the 2 and the 1 goes in. Five tries.	Шар 2 касается шара 1 и смотрит на лузу: ударьте по 2 — и 1 упадёт в лузу. Пять попыток.
+The carom	Карамболь
+The 2 is in the way: glance off it and send the 1 into the corner. Five tries.	Шар 2 мешает: скользните по нему битком и отправьте шар 1 в угловую лузу. Пять попыток.
+The long draw	Длинная оттяжка
+Pot the ball and draw the cue ball all the way back into the circle. Five tries.	Забейте шар и оттяните биток далеко назад, до самого круга. Пять попыток.
+On the tangent line	По касательной
+Pot the ball in the side and let the cue ball run on into the circle. Five tries.	Забейте шар в среднюю лузу и дайте битку прокатиться в круг. Пять попыток.
+Two-cushion bank	Дуплет от двух бортов
+Off two cushions and into the corner. Five tries.	От двух бортов в угловую лузу. Пять попыток.
+Fifteen in a row	Пятнадцать подряд
+Fifteen different pots, one after another: a miss ends the session.	Пятнадцать разных ударов один за другим: промах завершает сессию.
+Take back the shot (Z)	Отменить удар (Z)
+Shot taken back.	Удар отменён.
+Solids	Сплошные
+Stripes	Полосатые
+Hide the history	Скрыть историю
+New username	Новое имя пользователя
+Click again to confirm	Нажмите ещё раз для подтверждения
+{n} of {total} name changes left	Осталось смен имени: {n} из {total}
+You can't change your username again.	Больше нельзя сменить имя пользователя.
+That is already your username.	Это уже ваше имя пользователя.
+Finish your game before changing your username.	Доиграйте партию, прежде чем менять имя пользователя.
+Leave your table or the queue before changing your username.	Покиньте стол или очередь, прежде чем менять имя пользователя.
+Leave your tournament before changing your username.	Покиньте турнир, прежде чем менять имя пользователя.
+Username changed.	Имя пользователя изменено.
+The server is still being updated to the new version. Try again in a few minutes.	Сервер ещё обновляется до новой версии. Попробуйте через несколько минут.
+{shooter} made an opponent's ball: {next} to shoot.	{shooter} забивает шар соперника: бьёт {next}.
+# Five more computer opponents: Tito, Inês, Diego, Amara and Yuri.
+The Gambler	Авантюрист
+Bets on every shot: as hard as the cue allows, with all the spin he can find. Safe play bores him.	Ставит на каждый удар: бьёт так сильно, как позволяет кий, и с максимальным винтом. Осторожная игра ему скучна.
+The Soft Touch	Мягкая рука
+Never hits harder than she must: the balls die at the pocket's edge and the cue ball stops where she wants it.	Никогда не бьёт сильнее, чем нужно: шары замирают у края лузы, а биток останавливается там, где она хочет.
+The Showman	Шоумен
+Plays to the crowd: a raised cue, swerving spin and a bank whenever there's one. It works more often than it should.	Играет на публику: приподнятый кий, закрученный винт и дуплет при любой возможности. И это срабатывает чаще, чем должно бы.
+The Tactician	Тактик
+Plans the whole rack: snookers you when the pot isn't sure, and runs out when it is.	Планирует всю партию: ставит вам снукер, когда шар не наверняка, и забивает всё подряд, когда наверняка.
+The Machine	Машина
+No nerves, no flair: centre ball, measured pace, the same perfect stroke every time.	Без нервов и без изысков: удар в центр, выверенная сила, один и тот же идеальный удар каждый раз.
+Place your bets! Mine's on me.	Делайте ставки! Я ставлю на себя.
+Lucky roll. Let it ride!	Удачный бросок. Ставка остаётся!
+Okay, okay. Double or nothing?	Ладно, ладно. Удваиваем?
+The house always wins!	Казино всегда в выигрыше!
+Free chips! Thank you!	Бесплатные фишки! Спасибо!
+All in, and it paid!	Ва-банк — и сыграло!
+That's how you play the odds!	Вот как играют на вероятностях!
+Bad beat. Next hand.	Не повезло. Следующая раздача.
+Too much spin? There's no such thing.	Слишком много винта? Такого не бывает.
+Busted. Worth the risk!	Перебор. Но риск того стоил!
+Jackpot! Same stakes again?	Джекпот! Повторим с той же ставкой?
+You beat the odds. Respect.	Вы обыграли вероятность. Уважаю.
+Softly, now. The table likes a gentle hand.	Мягче. Стол любит нежную руку.
+Nicely done.	Хорошо сделано.
+A little hard, but it went in.	Немного сильно, но зашёл.
+Less power, more feel.	Меньше силы, больше чувства.
+Oh dear. A free ball for me.	Ой. Бесплатный шар для меня.
+Just enough to drop.	Ровно столько, чтобы упал.
+See? No need to hit it hard.	Видите? Не нужно бить сильно.
+A touch too soft.	Чуть-чуть слабовато.
+Clumsy of me. Sorry.	Как неловко с моей стороны. Простите.
+Slow and steady. Thank you for the game.	Тихо и спокойно. Спасибо за партию.
+Beautifully played. Well deserved.	Прекрасно сыграно. Заслуженно.
+Ladies and gentlemen... the show begins!	Дамы и господа... шоу начинается!
+Not bad! Bow to the crowd!	Неплохо! Поклонитесь публике!
+You stole my applause!	Вы украли мои аплодисменты!
+The crowd wanted more!	Публика хотела большего!
+Ooh, a plot twist!	О, неожиданный поворот!
+Ta-da!	Та-дам!
+And for my next trick...	А теперь следующий фокус...
+Even magicians have off nights.	Даже у фокусников бывают неудачные вечера.
+That was... part of the act.	Это было... частью номера.
+Thank you, thank you! Encore?	Спасибо, спасибо! На бис?
+Take a bow, champion. You earned it.	Поклонитесь, чемпион. Вы это заслужили.
+Every rack is a puzzle. Let's solve this one.	Каждая расстановка — головоломка. Решим эту.
+Good. Now where is your cue ball?	Хорошо. А где теперь ваш биток?
+I saw that coming.	Я это предвидела.
+That left me something. Thank you.	Мне кое-что осталось. Спасибо.
+As planned.	Как и планировалось.
+Exactly as I calculated.	Точно как я рассчитала.
+Three moves ahead.	На три хода вперёд.
+A variable I missed.	Переменная, которую я упустила.
+Hm. Recalculating.	Хм. Пересчитываю.
+Checkmate.	Шах и мат.
+You out-thought me. That's rare.	Вы меня переиграли. Такое бывает редко.
+Game initialised.	Партия инициализирована.
+Noted.	Принято к сведению.
+Error margin exceeded.	Погрешность превышена.
+Penalty applied.	Штраф применён.
+As expected.	Ожидаемо.
+Next.	Следующий.
+Deviation logged.	Отклонение зафиксировано.
+Malfunction. It will not repeat.	Сбой. Не повторится.
+Result: win. Thank you for the data.	Результат: победа. Спасибо за данные.
+Unexpected outcome. Impressive.	Неожиданный исход. Впечатляет.
+Opponents' remarks	Реплики соперников
+The computer opponents comment on the game in speech bubbles.	Компьютерные соперники комментируют игру в облачках.
+Top view only	Только вид сверху
+The table is always seen from above: no 3D view, no turning.	Стол всегда виден сверху: без 3D-вида и без поворота.
+Not with the top view only.	Недоступно в режиме «Только вид сверху».
+Wheel	Колесо мыши
+Rules	Правила
+Rules of the game	Правила игры
+Level	Выровнять
+Drag the cue: jump & massé	Тяните кий: прыжок и массе
+Drag to raise or lower the cue	Тяните, чтобы поднять или опустить кий
+Drag the cue · {keys}	Тяните кий · {keys}
+Profile picture	Аватар
+Shown by your name at the table and in your profile.	Показывается рядом с вашим именем за столом и в профиле.
+No picture	Без аватара
+Change your picture	Сменить аватар
+{name} sank the 8 together with another ball	{name} забивает восьмёрку вместе с другим шаром
+the opponent sank the 8 with another ball	соперник забил восьмёрку вместе с другим шаром
+sank the 8 with another ball	восьмёрка забита вместе с другим шаром
+opponent pocketed the 8-ball together with another ball	соперник забил восьмёрку вместе с другим шаром
+Penalty: {balls} off the table for {name}.	Штраф в пользу игрока {name}: {balls}.
+{name} had fewer balls left than the foul gives: the 8 pays the rest, and the foul loses the game.	У игрока {name} осталось меньше шаров, чем даёт фол: восьмёрка идёт в счёт остатка, и фол стоит партии.
+Shadows	Тени
+The shadows of the balls and of the cue on the table.	Тени шаров и кия на столе.
+Sixteen players: knockout or arena	Шестнадцать игроков: на вылет или арена
+New knockout	Новый турнир на вылет
+New arena	Новая арена
+Knockout: sixteen players, four rounds. Lose a game and you are out.	На вылет: шестнадцать игроков, четыре раунда. Проиграли партию — выбыли.
+Arena: seven rounds for everyone. A win is 2 points, 3 from the third win in a row. The most points wins.	Арена: семь раундов для всех. Победа — 2 очка, а начиная с третьей победы подряд — 3. Побеждает тот, кто наберёт больше очков.
+The games between the other players are decided by their strength and a draw.	Партии между остальными игроками решаются по их силе и жребию.
+You won the tournament!	Вы выиграли турнир!
+{name} won the tournament.	{name} выигрывает турнир.
+You finished in place {n}.	Ваше место: {n}.
+Round of 16	1/8 финала
+Quarter-finals	Четвертьфинал
+Round {n} of {total}	Раунд {n} из {total}
+Play {name}	Играть с игроком {name}
+Abandon the tournament	Покинуть турнир
+W - L	В - П
+Points	Очки
+The tournament is over.	Турнир окончен.
+The round is over: see who you play next.	Раунд окончен: смотрите, с кем играете дальше.
+You are out of the tournament.	Вы выбыли из турнира.
+Side pocket	Средняя луза
+A cut into the side pocket, where the angle is tight. Five tries.	Резка в среднюю лузу, где угол узкий. Пять попыток.
+The long cut	Длинная резка
+A cut from the far end of the table into the corner. Five tries.	Резка с дальнего конца стола в угловую лузу. Пять попыток.
+Thin cut	Тонкая резка
+Barely graze the ball: a thin cut into the corner. Five tries.	Еле заденьте шар: тонкая резка в угловую лузу. Пять попыток.
+Along the cushion	Вдоль борта
+The ball sits by the cushion: run it along into the corner. Five tries.	Шар стоит у борта: проведите его вдоль борта в угловую лузу. Пять попыток.
+Stop shot	Клапштос
+Pot the ball and stop the cue ball dead where the ball was. Five tries.	Забейте шар и остановите биток на месте прицельного шара. Пять попыток.
+The combination	Комбинация
+Pot the 1 by playing the 2 into it. Five tries.	Забейте шар 1, направив в него шар 2. Пять попыток.
+Cross-corner bank	Дуплет в угол через стол
+Off the long cushion and across the table into the corner. Five tries.	От длинного борта через весь стол в угловую лузу. Пять попыток.
+Kick shot	Абриколь
+The 1 is walled off: send the cue ball off a cushion to hit it first. Five tries.	Шар 1 закрыт: отправьте биток от борта, чтобы попасть в него первым. Пять попыток.
+Only the cue ball went down on the break: the balls are racked again and {next} breaks.	На разбое в лузу упал только биток: шары расставляют заново, и разбивает {next}.
+Golden break	Золотой разбой
+Win a rated game by sinking only the 8-ball on the break.	Выиграйте рейтинговую партию, забив на разбое только восьмёрку.
+Half a year	Полгода
+Have an account for six months.	Будьте с нами полгода.
+First anniversary	Первая годовщина
+Second anniversary	Вторая годовщина
+Have an account for two years.	Будьте с нами два года.
+Third anniversary	Третья годовщина
+Have an account for three years.	Будьте с нами три года.
+Five years at the table	Пять лет за столом
+Have an account for five years.	Будьте с нами пять лет.
+Back to the tournament	К турниру
+Continue against {name}	Продолжить против игрока {name}
+You left your game: it counts as a loss.	Вы покинули партию: засчитано поражение.
+new level	новый уровень
+Level {n} brings: {item}	Уровень {n} даст: {item}
+Level 5	Уровень 5
+Reach level 5.	Достигните 5-го уровня.
+Level 10	Уровень 10
+Reach level 10.	Достигните 10-го уровня.
+Level 15	Уровень 15
+Reach level 15.	Достигните 15-го уровня.
+Level 20	Уровень 20
+Reach level 20.	Достигните 20-го уровня.
+Level 30	Уровень 30
+Reach level 30.	Достигните 30-го уровня.
+Level 40	Уровень 40
+Reach level 40.	Достигните 40-го уровня.
+Level 50	Уровень 50
+Reach level 50.	Достигните 50-го уровня.
+Regular's teal	Морская волна завсегдатая
+Veteran's plum	Слива ветерана
+Old hand	Бывалый
+Lifer	Старожил
+Apprentice's chalk	Мел ученика
+Journeyman's chalk	Мел подмастерья
+Achievements	Достижения
+Leagues and levels	Лиги и уровни
+Next league: {tier}	Следующая лига: {tier}
+The top league.	Высшая лига.
+Every prize of the levels is won.	Все призы за уровни получены.
+None yet: the first is one game away.	Пока нет: первый — через одну партию.
+{coins} and {item}	{coins} и {item}
+Leagues	Лиги
+Levels	Уровни
+By playing. Every level pays {n} coins.	За игру. Каждый уровень приносит {n} мон.
+where everyone starts	здесь начинают все
+from {n}	от {n}
+The top level.	Высший уровень.
+{n} XP to level {next}	До уровня {next}: {n} опыта
+{n} levels to go	осталось уровней: {n}
+new league	новая лига
+Old-timer's black	Чёрный старожила
+Expert league blue	Синий лиги «Эксперт»
+Master league violet	Фиолетовый лиги «Мастер»
+Legend league gold	Золотой лиги «Легенда»
+Skilled league chalk	Мел лиги «Опытный»
+By rating. Each league pays once.	По рейтингу. Каждая лига награждает один раз.
+cue	кий
+cloth	сукно
+chalk	мел
+Always show the head string	Всегда показывать линию дома
+The line the break is played from, always on the table (off: only while placing the cue ball behind it).	Линия, из-за которой выполняется разбой, всегда на столе (выкл.: только пока вы ставите биток в дом).
+{who} ran out of time: the turn passes.	{who}: время вышло — ход переходит к сопернику.
+{who} ran out of time with no ball left to give {other}: the 8 pays, and {who} loses.	{who}: время вышло, а у игрока {other} не осталось шаров для штрафа: восьмёрка идёт в счёт, и {who} проигрывает.
+{who} ran out of time: the cue ball goes back to the head spot and the turn passes.	{who}: время вышло — биток возвращается на переднюю отметку, ход переходит к сопернику.
+{who} ran out of time: {balls} off the table for {other}, and the cue ball goes back to the head spot.	{who}: время вышло — штраф в пользу игрока {other}: {balls}; биток возвращается на переднюю отметку.
+You were muted for {n} minutes: {r}	Вам запрещено писать в чат на {n} мин: {r}
+Your account was suspended for {n} hours: {r}	Ваш аккаунт заблокирован на {n} ч: {r}
+The server restarts in {minutes} min for an update. Games in progress go on; new games start right after.	Сервер перезапустится через {minutes} мин для обновления. Текущие партии продолжатся; новые начнутся сразу после.
+The {cup} was called off: not enough players signed up.	Турнир «{cup}» отменён: записалось недостаточно игроков.
+The {cup} is open for sign-up: it starts soon in Tournaments.	Открыта запись на турнир «{cup}»: скоро старт в разделе «Турниры».
+{display} won the tournament “{name}”!	{display} выигрывает турнир «{name}»!
+Sunday Cup	Кубок воскресенья
+Monday Cup	Кубок понедельника
+Tuesday Cup	Кубок вторника
+Wednesday Cup	Кубок среды
+Thursday Cup	Кубок четверга
+Friday Cup	Кубок пятницы
+Saturday Cup	Кубок субботы
+{name} · rating {r}	{name} · рейтинг {r}
+Something went wrong. Try again.	Что-то пошло не так. Попробуйте ещё раз.
+member for 1 day	с нами 1 день
+Game in progress: 1 ball left	Идёт партия: остался 1 шар
+1 level to go	остался 1 уровень
+1 more online win with this cue for level {n}. Levels only add marks to the cue.	Ещё 1 победа онлайн с этим кием до уровня {n}. Уровни лишь добавляют на кий отметки.
+Home	Home
+End	End
+PgUp	PgUp
+PgDn	PgDn
+Ins	Ins
+Could not join the LAN game	Не удалось подключиться к LAN-партии
+LAN game · others join at {address}	LAN-партия · подключение по адресу {address}
+Click to copy	Нажмите, чтобы скопировать
+Copied.	Скопировано.
+Start a new game?	Начать новую партию?
+You have a game in progress against the computer, with 1 ball left. A new game takes its place.	У вас есть незаконченная партия против компьютера, на столе остался 1 шар. Новая партия её заменит.
+You have a game in progress against the computer, with {n} balls left. A new game takes its place.	У вас есть незаконченная партия против компьютера, шаров на столе: {n}. Новая партия её заменит.
+Continue that game	Продолжить ту партию
+Start a new one	Начать новую
+Click again to close the game: {n} will be disconnected	Нажмите ещё раз, чтобы закрыть партию: отключатся игроки ({n})
+{name} cleared the table in one visit!	{name} очищает стол за один подход!
+{name}: {n} in a row!	{name}: {n} подряд!
+Watch the deciding shot again	Посмотреть решающий удар ещё раз
+Next: {name}	Далее: {name}
+Drag on the table to aim, or click a ball	Тяните по столу, чтобы прицелиться, или нажмите на шар
+Set the power	Задайте силу
+Let go of {key} to shoot · Esc cancels	Отпустите {key} для удара · Esc — отмена
+Staff accounts can't change their username.	Служебные аккаунты не могут менять имя пользователя.
+That password can't be used. Choose another one.	Этот пароль нельзя использовать. Выберите другой.
+That tournament is full.	Этот турнир заполнен.
+The server is restarting: your tournament was called off.	Сервер перезапускается: ваш турнир отменён.
+Too many sign-ins. Wait a minute and try again.	Слишком много входов. Подождите минуту и попробуйте снова.
+Too many wrong passwords. Try again in a few minutes.	Слишком много неверных паролей. Попробуйте через несколько минут.
+Your VIP subscription could not be cancelled. Try again in a moment.	Не удалось отменить подписку VIP. Повторите попытку чуть позже.
+Balls of both groups on the break: the turn passes to {next}, the table is open.	На разбое забиты шары обеих групп: ход переходит к игроку {next}, стол открыт.
+Only a final started while signed in counts: play the last stage again signed in.	Засчитывается только финал, начатый после входа в аккаунт: сыграйте последний этап снова, войдя в аккаунт.
+The server didn't deal the final: this game won't earn the reward.	Сервер не подготовил финал: эта партия не принесёт награду.
+The server didn't answer: this session won't be ranked.	Сервер не ответил: эта сессия не попадёт в рейтинг.
+The server is dealing the final…	Сервер готовит финал…
+The server is setting up the drill…	Сервер готовит упражнение…
+Not signed in: a win in this final won't earn the reward.	Вы не вошли: победа в этом финале не принесёт награду.
+Not kept: sessions count when started signed in.	Не сохранено: сессии засчитываются, если начаты после входа в аккаунт.
+Warning from the staff: {text}	Предупреждение от администрации: {text}
+The staff changed your username to {name}. Sign in again.	Администрация изменила ваше имя пользователя на {name}. Войдите снова.
+The staff called off the tournament you were in.	Администрация отменила турнир, в котором вы участвовали.
+Experience ×{n}	Опыт ×{n}
+Coins from games ×{n}	Монеты за партии ×{n}
+Themed tournament	Тематический турнир
+Event	Событие
+Events	События
+Warning from the staff	Предупреждение от администрации
+Esc to cancel	Esc — отмена
+Will be sent when you're back online.	Отправится, когда вы снова будете в сети.
+Your strokes will be sent when you're back online.	Ваши удары отправятся, когда вы снова будете в сети.
+The final you won was dealt to {name}: sign in as {name} to claim the reward.	Выигранный вами финал был подготовлен для игрока {name}: войдите как {name}, чтобы получить награду.
+Type your password to confirm it's you.	Введите пароль, чтобы подтвердить, что это вы.
+The cue ball is back on the head spot: {next} plays from there.	Биток возвращается на переднюю отметку: оттуда бьёт {next}.
+{name} came online	{name} теперь в сети
+Online now: {names}	Сейчас в сети: {names}
+Nobody else is online right now.	Сейчас больше никого нет в сети.
+Focus mode	Режим концентрации
+No invitations while you play: they are turned away until the game is over.	Никаких приглашений во время игры: они отклоняются до конца партии.
+in focus mode	в режиме концентрации
+In focus mode: no invitations until their game is over.	Режим концентрации: без приглашений до конца партии.
+That player is in focus mode and isn't taking invitations until their game is over.	Этот игрок в режиме концентрации и не принимает приглашения до конца своей партии.
+Look at it closely	Рассмотреть поближе
+Sign in to buy	Войдите, чтобы купить
+Sign in to use	Войдите, чтобы выбрать
+Back to the shop (Esc)	Назад в магазин (Esc)
+Show the interface (H)	Показать интерфейс (H)
+Hide the interface (H)	Скрыть интерфейс (H)
+Turn (Space)	Вращать (Пробел)
+Stop turning (Space)	Остановить вращение (Пробел)
+Zoom in (+)	Приблизить (+)
+Zoom out (−)	Отдалить (−)
+Back to the start (R)	В начало (R)
+Previous setting ([)	Предыдущая сцена ([)
+Next setting (])	Следующая сцена (])
+Setting	Сцена
+Studio	Студия
+Your table	Ваш стол
+Drag with the right button to turn · wheel to zoom · double-click to look closer	Правая кнопка — вращать · колесо — зум · двойной щелчок — рассмотреть ближе
+Drag with the right button to turn · wheel to zoom · click a ball to look at it	Правая кнопка — вращать · колесо — зум · нажмите на шар, чтобы рассмотреть его
+The set	Набор
+From above	Сверху
+Low angle	Низкий ракурс
+Cue ball	Биток
+Ball {n}	Шар {n}
+Whole	Целиком
+Tip	Наклейка
+Joint	Соединение
+Butt	Турняк
+Top	Сверху
+Cue	Кий
+Table	Стол
+Hall	Зал
+Corner	Угловая луза
+Side	Средняя луза
+Leg	Ножка
+Close-up	Крупный план
+Cushion	Борт
+Phenolic resin under a bright clear coat	Фенольная смола под ярким прозрачным лаком
+A pearly sheen that shifts with the light	Перламутровый блеск, меняющийся на свету
+Brushed metal, bright as a mirror	Шлифованный металл, блестящий как зеркало
+Old ivory: soft, warm and matte	Старая слоновая кость: мягкая, тёплая и матовая
+A full-size cue, tip to butt: turn it, come close to its joint and its butt	Кий в натуральную величину, от наклейки до турняка: вращайте его, рассмотрите соединение и турняк
+A cube of chalk, and the colour it leaves on the tip	Кубик мела и цвет, который он оставляет на наклейке
+The cloth on the table: come close to see its weave	Сукно на столе: подойдите ближе, чтобы рассмотреть плетение
+Dark mahogany, turned legs and brass castings	Тёмное красное дерево, точёные ножки и латунные накладки
+Light teak, square legs and chrome castings	Светлый тик, квадратные ножки и хромированные накладки
+Deep mahogany, carved legs and leather pocket nets	Насыщенное красное дерево, резные ножки и кожаные сетки луз
+Black lacquer and brushed aluminium on two slab legs	Чёрный лак и шлифованный алюминий на двух ножках-плитах
+Black ebony with gold castings and inlays	Чёрное эбеновое дерево с золотыми накладками и инкрустацией
+Reclaimed oak rails on a riveted black steel frame	Борта из старого дуба на клёпаной раме из чёрной стали
+A pro tournament table: charcoal rails, block legs, chrome	Профессиональный турнирный стол: графитовые борта, ножки-блоки, хром
+Figured walnut on barley-twist legs, brass and leather	Узорчатый орех на витых ножках, латунь и кожа
+Ivory lacquer and gold on fluted columns	Лак цвета слоновой кости и золото на колоннах с каннелюрами
+Panelling, the bar, cue racks, posters and neon	Деревянные панели, барная стойка, стойки для киев, постеры и неон
+A deck at sunset, open windows, palms and string lights	Терраса на закате, открытые окна, пальмы и гирлянды
+Panelling, bookshelves, leather sofas and a fireplace	Деревянные панели, книжные полки, кожаные диваны и камин
+Brick, steel windows over the city and Edison bulbs	Кирпич, стальные окна с видом на город и лампы Эдисона
+Log walls, a stone fireplace and snowy peaks outside	Бревенчатые стены, каменный камин и заснеженные вершины за окном
+A black mirror floor, neon tubes and arcade cabinets	Чёрный зеркальный пол, неоновые трубки и игровые автоматы
+A marble chessboard floor, gold, velvet and mirrors	Мраморный пол в шахматную клетку, золото, бархат и зеркала
+Glass walls on the city at night, pale marble and oak	Стеклянные стены с видом на ночной город, светлый мрамор и дуб
+A gold medal!	Золотая медаль!
+A silver medal!	Серебряная медаль!
+A bronze medal!	Бронзовая медаль!
+Silver medal	Серебряная медаль
+Bronze medal	Бронзовая медаль
+Your medals	Ваши медали
+Kept in your account the next time you're online.	Сохранятся в аккаунте, когда вы будете в сети.
+Sign in to keep them in your account.	Войдите, чтобы сохранить их в аккаунте.
+18 or older	18 лет или старше
+Under 18	Младше 18 лет
+Creating an account means accepting the	Создавая аккаунт, вы принимаете
+For a parent or guardian…	Для родителя или опекуна…
+A parent or guardian turned the chat on for this account. They can turn it off here at any time.	Родитель или опекун включил чат для этого аккаунта. Здесь его можно выключить в любой момент.
+This account belongs to someone under 18. By law, the chat with other players (messages in the lounge and in games, notes, status and gift messages) stays off until their mother, father or legal guardian turns it on.	Этот аккаунт принадлежит человеку младше 18 лет. По закону чат с другими игроками (сообщения в лобби и в партиях, объявления, статус и сообщения к подаркам) отключён, пока его мать, отец или законный опекун не включит его.
+I am this player's mother, father or legal guardian, I have read the terms of use and I allow them to chat with other players.	Я — мать, отец или законный опекун этого игрока. Условия использования прочитаны, и я разрешаю ему общаться с другими игроками.
+Chat for players under 18	Чат для игроков младше 18 лет
+Turn the chat off	Выключить чат
+{n} more invitations	Ещё приглашений: {n}
+Invitation	Приглашение
+Turn the chat on	Включить чат
+Chat off: under 18. A parent or guardian can turn it on.	Чат выключен: младше 18 лет. Его может включить родитель или опекун.
+The chat with other players is off until you turn it on.	Чат с другими игроками выключен, пока вы его не включите.
+Write to turn the chat on…	Напишите, чтобы включить чат…
+Chat with other players	Чат с другими игроками
+The chat with other players is off until you turn it on. To turn it on, tell us your age group: it can't be changed from the game afterwards.	Чат с другими игроками выключен, пока вы его не включите. Чтобы включить его, укажите свою возрастную группу: потом изменить её в игре будет нельзя.
+Under 18: a parent or guardian must agree to the terms with you and turn the chat on.	Младше 18 лет: родитель или опекун должен принять условия вместе с вами и включить чат.
+Not now	Не сейчас
+Terms of use	Условия использования
+Privacy policy	Политика конфиденциальности
+You have 7 days to change your mind and get your money back.	У вас есть 7 дней, чтобы передумать и вернуть деньги.
+Under 18: buy only with a parent's or guardian's permission.	Младше 18 лет: покупайте только с разрешения родителя или опекуна.
+Renews every month until you cancel. 7 days to change your mind.	Продлевается каждый месяц, пока вы не отмените подписку. 7 дней, чтобы передумать.
+About	Об игре
+Accounts, purchases and refunds, the rules of the online game.	Аккаунты, покупки и возвраты, правила онлайн-игры.
+What the game keeps, and your rights.	Что хранит игра и ваши права.
+Open	Открыть
+Credits	Авторы
+Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Шрифты: DejaVu и Noto (OFL). Флаги: flag-icons (MIT). Реакции и эмодзи: Twemoji (CC-BY 4.0). Названия стран: iso-codes (LGPL-2.1). Код игры открыт (MIT).
+The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	Чат выключен для игроков младше 18 лет. Родитель или опекун может включить его под чатом лобби.
+No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	На разбое биток не коснулся ни одного шара: разбивает {next}, биток с руки из дома.
+The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	На разбое в лузу упал только биток: разбивает {next}, биток с руки из дома.
+Users online	Пользователи в сети
+ping {ms} ms	пинг {ms} мс
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks, with the cue ball in hand behind the head string.	На разбое биток упал в лузу вместе с шарами обеих групп: штрафа нет, стол остаётся открытым, разбивает {next}, биток с руки из дома.
+Brazilian	Бразильские
+Official	Официальные
+Brazilian rules	Бразильские правила
+Official rules	Официальные правила
+Brazilian rules (inside a sentence)	бразильские правила
+Official rules (inside a sentence)	официальные правила
+Brazilian (inside a sentence)	бразильские
+Official (inside a sentence)	официальные
+As played in Brazil's bars	Как в барах Бразилии
+As played in tournaments (WPA)	Как на турнирах (WPA)
+on the Brazilian rules	по бразильским правилам
+on the official rules	по официальным правилам
+A ball left the table on the break.	На разбое шар вылетел со стола.
+A ball off the table on the break	Шар вылетел со стола на разбое
+A safety calls nothing: whatever goes in stays down, and the turn passes.	Отыгрыш ничего не заказывает: всё забитое остаётся в лузах, а ход переходит к сопернику.
+Break yourself	Разбить самостоятельно
+CALLED POCKET	ЗАКАЗАННАЯ ЛУЗА
+Choose	Выбрать
+Choose how play goes on	Выберите, как продолжить игру
+Choose the rules of your games. You can switch them any time, in the main menu.	Выберите правила для своих партий. Их можно поменять в любой момент в главном меню.
+Click a pocket on the table to call it; click it again to follow your aim.	Нажмите на лузу на столе, чтобы заказать её; нажмите ещё раз, чтобы вернуть заказ по прицелу.
+Cue ball in hand	Биток с руки
+Each of the rules has its own rating: these games don't change your {rating} under the {other}.	У каждых правил свой рейтинг: эти партии не меняют ваш рейтинг {rating} ({other}).
+Find an opponent of your level automatically ({rules})	Подобрать соперника вашего уровня автоматически ({rules})
+How do you like to play?	Как вы любите играть?
+How does play go on? Choose one:	Как продолжится игра? Выберите вариант:
+Illegal break: no ball made and fewer than four balls reached a cushion.	Неправильный разбой: ни один шар не забит, и меньше четырёх шаров коснулись борта.
+Invite {name}	Пригласить игрока {name}
+No ball went in the called pocket ({pocket}): {next} to shoot.	В заказанную лузу ({pocket}) ничего не забито: бьёт {next}.
+No pocket was called (a safety): {next} to shoot.	Луза не заказана (отыгрыш): бьёт {next}.
+Not sure what changes?	Не знаете, что меняется?
+Place it anywhere behind the head string.	Поставьте его в любое место в доме.
+Play on	Продолжить игру
+Players against the computer under these rules	Игроки против компьютера по этим правилам
+Players online under these rules (the lounge and online games)	Игроки в сети по этим правилам (лобби и онлайн-партии)
+RULES OF YOUR GAMES	ПРАВИЛА ВАШИХ ПАРТИЙ
+Read both rules	Прочитать оба свода правил
+Rules of your games	Правила ваших партий
+Safety	Отыгрыш
+Safety: no pocket	Отыгрыш: без заказа
+Show the {rules}: the rank, the league and the chart	Показать рейтинг ({rules}): место, лигу и график
+The 8 is spotted and you keep shooting.	Восьмёрка возвращается на стол, и вы продолжаете бить.
+The 8 is spotted; the cue ball in hand behind the head string.	Восьмёрка возвращается на стол; биток с руки из дома.
+The 8 on a break with a foul	Восьмёрка на разбое с фолом
+The 8 on the break	Восьмёрка на разбое
+The 8 went down on a break with a foul: it is spotted.	Восьмёрка упала в лузу на разбое с фолом: её возвращают на стол.
+The 8 went down on the break: it is spotted.	Восьмёрка упала в лузу на разбое: её возвращают на стол.
+The balls are racked again and you break.	Шары расставляют заново, и разбиваете вы.
+The balls are racked again and {name} breaks.	Шары расставляют заново, и разбивает {name}.
+The balls are racked again: {name} breaks.	Шары расставляют заново: разбивает {name}.
+The balls are racked again: {other} breaks.	Шары расставляют заново: разбивает {other}.
+The rules of this game: click to read them	Правила этой партии: нажмите, чтобы прочитать
+The rules of your games: click to switch	Правила ваших партий: нажмите, чтобы сменить
+The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	Тот же переключатель, что в главном меню: онлайн, против компьютера и на двоих. У каждых правил свой рейтинг.
+The table as it lies.	Стол как есть.
+The top 100 of each rules · rated games	Топ-100 по каждым правилам · рейтинговые партии
+The {ball} lay behind the head string and the cue ball hit it without crossing the line first	Биток попал в {ball} в доме, не выйдя сначала за линию дома
+What changes between the rules: click to read them	Чем отличаются правила: нажмите, чтобы прочитать
+With the cue ball in hand behind the head string.	Биток с руки из дома.
+follows your aim	по прицелу
+no rated games yet	рейтинговых партий пока нет
+open table: the called ball you make sets your group	открытый стол: забитый в заказанную лузу шар определит вашу группу
+peak {n} · {games} games	пик {n} · партий: {games}
+playing now	играет сейчас
+your call	ваш заказ
+{name} breaks again	{name} разбивает снова
+{name} chooses: play on, or rack the balls and break again.	{name} выбирает: продолжить игру или расставить шары и разбить заново.
+{name} chooses: play the table as it lies, or take the cue ball in hand behind the head string.	{name} выбирает: играть стол как есть или взять биток с руки из дома.
+{name} chooses: play the table as it lies, rack the balls and break, or have {breaker} break again.	{name} выбирает: играть стол как есть, расставить шары и разбить, или пусть {breaker} разбивает снова.
+{name} chooses: play the table as it lies, take the cue ball in hand behind the head string, rack the balls and break, or have {breaker} break again.	{name} выбирает: играть стол как есть, взять биток с руки из дома, расставить шары и разбить, или пусть {breaker} разбивает снова.
+{name} chooses: the cue ball in hand behind the head string, or rack the balls and break.	{name} выбирает: биток с руки из дома или расставить шары и разбить.
+{name} is choosing how play goes on…	{name} выбирает, как продолжить игру…
+{name} plays on (the 8 is spotted).	{name} продолжает игру (восьмёрка возвращена на стол).
+{name} plays the table as it lies.	{name} играет стол как есть.
+{name} plays the {theirs} now; yours are the {mine}.	{name}: сейчас {theirs}; у вас — {mine}.
+{name} takes the cue ball in hand.	{name} берёт биток с руки.
+{next} has the cue ball in hand behind the head string.	{next}: биток с руки из дома.
+{next} has the cue ball in hand: anywhere on the table.	{next}: биток с руки, в любое место стола.
+{n} points to {tier} ({rules})	{n} очк. до лиги «{tier}» ({rules})
+{n} waiting	Ждут: {n}
+A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Фол отдаёт сопернику шары его группы. Биток с руки только на разбое, а заказывается только луза для восьмёрки.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	Фол даёт сопернику биток с руки в любое место стола. Каждый удар заказывается, а на разбое четыре шара должны коснуться борта.
+A foul gives balls to the opponent	Фол отдаёт шары сопернику
+Ball in hand on the break only	Шар с руки только на разбое
+Only the 8's pocket is called	Заказ только на восьмёрку
+The most played in Brazil	Самые популярные в Бразилии
+A foul gives ball in hand	Фол даёт шар с руки
+The break drives four balls to a cushion	На разбое — четыре шара к бортам
+Every shot is called	Каждый удар заказывается
+The same all over the world	Единые во всём мире
+Game type	Тип игры
+called: {pocket}	заказ: {pocket}
+no call: a safety	без заказа: отыгрыш
+A safety: nothing called. Click again to call the pocket you aim at.	Отыгрыш: ничего не заказано. Нажмите ещё раз, чтобы заказать лузу по прицелу.
+A safety calls nothing: whatever goes in stays down, and the turn passes. To call another pocket, click it on the table.	Отыгрыш ничего не заказывает: всё забитое остаётся в лузах, а ход переходит к сопернику. Чтобы заказать другую лузу, нажмите на неё на столе.
+{games} games · {pct}% won	Партии: {games} · побед {pct}%
+Each of the rules has its own rating; the level, coins and achievements are shared.	У каждых правил свой рейтинг; уровень, монеты и достижения общие.
+You already have a VIP subscription: manage it with Manage subscription.	У вас уже есть подписка VIP: управляйте ею через «Управление подпиской».
+Your opponent can't start another game yet.	Ваш соперник пока не может начать новую партию.
+A tournament's name is shown to everyone: with your chat off, you can join tournaments but not create one.	Название турнира видят все: с выключенным чатом можно участвовать в турнирах, но не создавать их.
+The connection dropped: check your coins before trying again.	Соединение прервалось: проверьте монеты, прежде чем пробовать снова.
+Sign in to buy coins.	Войдите, чтобы купить монеты.
+Sign in to become VIP.	Войдите, чтобы стать VIP.
+how play goes on after the break is undecided	ещё не решено, как продолжится игра после разбоя
+Finish your game, and leave your table, the queue or your tournament first.	Сначала доиграйте партию и покиньте стол, очередь или турнир.
+That choice can't be made now.	Этот выбор сейчас недоступен.
+That medal can't be.	Такой медали не существует.
+{name}'s tournament	Турнир игрока {name}
+When time runs out, it's a foul: your opponent gets a ball and the cue ball goes back to the head spot.	Когда время истекает, это фол: соперник получает шар, а биток возвращается на переднюю отметку.
+When time runs out, it's a foul: your opponent gets the cue ball in hand.	Когда время истекает, это фол: соперник получает биток с руки.
+Your username was changed. Sign in again.	Ваше имя пользователя изменено. Войдите снова.
+You have your tournament game in progress. A new game takes its place, and the tournament game counts as lost.	У вас идёт турнирная партия. Новая партия займёт её место, а турнирная будет засчитана как проигранная.
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks again, from the head spot.	На разбое биток упал в лузу вместе с шарами обеих групп: штрафа нет, стол остаётся открытым, {next} разбивает снова с передней отметки.
+The cue ball went down on the break with no ball made: {next} breaks again, from the head spot.	На разбое в лузу упал только биток: {next} разбивает снова с передней отметки.
+{who} ran out of time: {other} breaks, from the head spot.	{who}: время вышло — разбивает {other} с передней отметки.
+Congratulations!	Поздравляем!
+You earned a new item: {title}	Вы получили новый предмет: {title}
+You earned a new item!	Вы получили новый предмет!

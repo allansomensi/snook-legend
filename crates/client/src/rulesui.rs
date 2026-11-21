@@ -357,7 +357,7 @@ mod tests {
     #[test]
     fn every_text_is_translated() {
         use crate::i18n::{Lang, has_translation};
-        for lang in [Lang::Portuguese, Lang::Spanish] {
+        for lang in Lang::translated() {
             for text in SUMMARY.iter().chain(POINTS.iter().flatten()) {
                 assert!(has_translation(lang, text), "{lang:?}: {text}");
             }

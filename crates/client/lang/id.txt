@@ -1,0 +1,2056 @@
+# Snook Legend: Brazilian Portuguese.
+# One text per line: the English text (as written in the code), a tab, the translation.
+# Placeholders like {name} must stay as they are; \n is a new line.
+{name} is on the 8: called pocket {pocket}	{name} di bola 8: lubang pilihan {pocket}
+On the 8-ball: {pocket} pocket	Di bola 8: lubang {pocket}
+Show ping	Tampilkan ping
+Your connection's delay, in online games.	Jeda koneksimu dalam game online.
+Reactions	Reaksi
+Shop	Toko
+Cloth	Kain
+Cues	Stik
+Chalk	Kapur
+Balls	Bola
+Coins	Koin
+coins	koin
+Sign in to buy and use items. Here is what there is:	Masuk untuk membeli dan memakai item. Ini isinya:
+In use	Dipakai
+Use	Pakai
+Buy	Beli
+{n} short	kurang {n}
+{n} coins	{n} koin
+Not enough coins: get more in the Coins tab.	Koin tidak cukup: dapatkan lagi di tab Koin.
+VIP only	Khusus VIP
+free	gratis
+yours	milikmu
+achievement	pencapaian
+Coins can't be bought on this server yet.	Koin belum bisa dibeli di server ini.
++{n} bonus	+{n} bonus
+Payment opens in your browser (card, Pix…), on Stripe's secure page.	Pembayaran dibuka di browser (kartu, Pix…), di halaman aman Stripe.
+Coins arrive in a moment; they are only used for items in the game.	Koin akan masuk sebentar lagi; koin hanya dipakai untuk item di dalam game.
+Exclusive items: {list}	Item eksklusif: {list}
+{n} coins every month	{n} koin setiap bulan
+Cancel whenever you want: VIP lasts until the end of the paid month	Batalkan kapan saja: VIP berlaku sampai akhir bulan yang sudah dibayar
+You are VIP until {d}.	Kamu VIP sampai {d}.
+Manage subscription	Kelola langganan
+Become VIP · {p}	Jadi VIP · {p}
+VIP can't be bought on this server yet.	VIP belum bisa dibeli di server ini.
+The payment page opened in your browser.	Halaman pembayaran sudah terbuka di browser.
+Could not open the browser.	Tidak bisa membuka browser.
+Tournament green	Hijau turnamen
+Electric blue	Biru elektrik
+Burgundy	Burgundi
+Charcoal	Arang
+Teal	Hijau toska
+Royal purple	Ungu royal
+Camel	Cokelat unta
+Midnight	Tengah malam
+Champion's red	Merah juara
+Classic	Klasik
+Rosewood	Sonokeling
+Ebony & silver	Eboni & perak
+Carbon	Karbon
+Ivory inlay	Tatahan gading
+Crown	Mahkota
+Jewels	Permata
+Blue chalk	Kapur biru
+Green chalk	Kapur hijau
+Red chalk	Kapur merah
+Purple chalk	Kapur ungu
+Gold chalk	Kapur emas
+Vintage	Vintage
+Pastel	Pastel
+Neon	Neon
+You already have this item.	Kamu sudah punya item ini.
+Not enough coins.	Koin tidak cukup.
+The purchase failed; no coins were taken.	Pembelian gagal; tidak ada koin yang terpakai.
+No such item.	Item tidak ditemukan.
+This item can't be bought with coins.	Item ini tidak bisa dibeli dengan koin.
+You don't have this item.	Kamu tidak punya item ini.
+Purchases are not available.	Pembelian tidak tersedia.
+This pack is not on sale.	Paket ini tidak dijual.
+The payment page could not be opened. Try again in a moment.	Halaman pembayaran tidak bisa dibuka. Coba lagi sebentar lagi.
+You are already VIP.	Kamu sudah VIP.
+There is no subscription to manage.	Tidak ada langganan untuk dikelola.
+The page could not be opened. Try again in a moment.	Halaman tidak bisa dibuka. Coba lagi sebentar lagi.
+Coins added to your wallet.	Koin ditambahkan ke dompetmu.
+Welcome to VIP!	Selamat datang di VIP!
+Slow down a little.	Pelan-pelan sedikit.
+You can't do that.	Kamu tidak bisa melakukan itu.
+There are too many notes right now. Try again in a few minutes.	Terlalu banyak catatan saat ini. Coba lagi beberapa menit lagi.
+A moderator took down your note.	Moderator menghapus catatanmu.
+A moderator cleared your status message.	Moderator menghapus pesan statusmu.
+Status message cleared.	Pesan status dihapus.
+VIP	VIP
+Play now	Main sekarang
+Find an opponent of your level automatically	Cari lawan selevel secara otomatis
+Looking for an opponent… {t}	Mencari lawan… {t}
+any rating	rating berapa pun
+rating ±{n} · {mode}	rating ±{n} · {mode}
+Potting success	Akurasi
+Balls made	Bola masuk
+Best run	Rentetan terbaik
+Fouls	Foul
+seen just now	terlihat baru saja
+seen {n} min ago	terlihat {n} mnt lalu
+seen {n} h ago	terlihat {n} jam lalu
+seen yesterday	terlihat kemarin
+seen {n} days ago	terlihat {n} hari lalu
+seen {n} months ago	terlihat {n} bulan lalu
+just now	baru saja
+{n} min ago	{n} mnt lalu
+{n} h ago	{n} jam lalu
+yesterday	kemarin
+{n} days ago	{n} hari lalu
+Game history	Riwayat game
+Nothing yet.	Belum ada apa-apa.
+Fine aim: click the arrows, or drag here	Bidikan halus: klik panah, atau seret di sini
+{n} watching	{n} menonton
+Watching {name}	Menonton {name}
+Your reactions reach the table quietly.	Reaksimu sampai ke meja tanpa suara.
+Stop watching	Berhenti menonton
+If they play again, you keep watching.	Kalau mereka main lagi, kamu tetap menonton.
+Your friend left the table.	Temanmu meninggalkan meja.
+Your friend isn't playing right now.	Temanmu sedang tidak bermain.
+You can only watch your friends.	Kamu hanya bisa menonton temanmu.
+You can't watch this game.	Kamu tidak bisa menonton game ini.
+{n} points to {tier}	{n} poin lagi ke {tier}
+Top tier	Tingkat tertinggi
+Reactions {n}/{total}	Reaksi {n}/{total}
+Haunted table	Meja berhantu
+Win a rated game during Halloween (Oct 24 – Nov 2).	Menangkan game ranked saat Halloween (24 Okt – 2 Nov).
+Winter league	Liga musim dingin
+Win a rated game over the holidays (Dec 15 – Jan 6).	Menangkan game ranked saat musim liburan (15 Des – 6 Jan).
+Fireworks	Kembang api
+Win a rated game at the turn of the year (Dec 31 – Jan 1).	Menangkan game ranked saat pergantian tahun (31 Des – 1 Jan).
+Shows where the object ball and the cue ball go (only in free games and practice).	Menunjukkan arah bola sasaran dan bola putih (hanya di game bebas dan latihan).
+{n} online · ping {ms} ms	{n} online · ping {ms} ms
+Right-drag · Wheel	Seret kanan · Roda mouse
+Win %	% menang
+Reset the camera: top view, no zoom	Atur ulang kamera: tampak atas, tanpa zoom
+{name} sank the 8-ball	{name} memasukkan bola 8
+{name} sank the 8 too early	{name} memasukkan bola 8 terlalu cepat
+{name} sank the 8 in the wrong pocket	{name} memasukkan bola 8 ke lubang yang salah
+{name} fouled on the 8	{name} foul di bola 8
+{name} knocked the 8 off the table	{name} membuat bola 8 keluar meja
+{name} resigned	{name} menyerah
+{name} left the game	{name} keluar dari game
+{winner} wins! ({how})	{winner} menang! ({how})
+#{n} in the world	#{n} di dunia
+3–16 letters, digits or underscores.	3–16 huruf, angka, atau garis bawah.
+No lines on the table: aim by eye, along the cue.	Tanpa garis di meja: bidik dengan mata, mengikuti arah stik.
+No guide	Tanpa panduan
+Only a short line from the cue ball.	Hanya garis pendek dari bola putih.
+Accept friend	Terima teman
+Achievement unlocked: {title}	Pencapaian terbuka: {title}
+Achievements {n}/{total}	Pencapaian {n}/{total}
+Add	Tambah
+Add a friend by username	Tambah teman lewat nama pengguna
+Add friend	Tambah teman
+Against the computer	Lawan komputer
+All tournaments	Semua turnamen
+Amateur	Amatir
+At least 8 characters. Use a password you don't use elsewhere.	Minimal 8 karakter. Pakai kata sandi yang tidak kamu pakai di tempat lain.
+At least two players are needed.	Butuh minimal dua pemain.
+Back	Kembali
+Black ball	Bola hitam
+Block	Blokir
+Break and run	Break dan habiskan
+Break and run 10 times.	Break lalu habiskan meja 10 kali.
+Can't listen for games here: join by address below.	Tidak bisa mencari game di sini: gabung lewat alamat di bawah.
+Cancel request	Batalkan permintaan
+Cancel tournament	Batalkan turnamen
+Casual	Santai
+Centurion	Centurion
+Champion	Juara
+Champion: {name}	Juara: {name}
+Change country	Ganti negara
+Add a status message	Tambah pesan status
+A line about you	Satu kalimat tentang kamu
+Save (Enter)	Simpan (Enter)
+Cancel (Esc)	Batal (Esc)
+Change your status message	Ubah pesan statusmu
+Clear the status message	Hapus pesan status
+Cheating or abuse	Curang atau penyalahgunaan
+Choose…	Pilih…
+Click again to block	Klik lagi untuk memblokir
+Close	Tutup
+Closer	Penuntas
+Competitor	Pesaing
+Connecting to the server…	Menghubungkan ke server…
+Could not host a game: {e}	Tidak bisa membuat game: {e}
+Country	Negara
+Create	Buat
+Create a tournament	Buat turnamen
+Don't show a flag	Jangan tampilkan bendera
+No country found.	Negara tidak ditemukan.
+Dynasty	Dinasti
+Eight is enough	Delapan sudah cukup
+Executioner	Algojo
+Expert	Ahli
+Familiar face	Wajah tak asing
+Final	Final
+Finish your game first.	Selesaikan dulu game kamu.
+First blood	Darah pertama
+First break	Break pertama
+Friend request sent.	Permintaan pertemanan terkirim.
+Friends	Teman
+# Daily (correspondence) games.
+daily game	game harian
+Daily	Harian
+Daily game	Game harian
+Daily games	Game harian
+Challenge a player by username	Tantang pemain lewat nama pengguna
+Challenge to a daily game	Tantang ke game harian
+3 days for each turn	3 hari untuk setiap giliran
+No daily games yet. Challenge a friend: each of you plays a turn whenever you can.	Belum ada game harian. Tantang teman: masing-masing main gilirannya kapan pun sempat.
+challenges you · {kind}	menantangmu · {kind}
+waiting for an answer · {kind} · {time} left	menunggu jawaban · {kind} · sisa {time}
+your turn · {time} left	giliranmu · sisa {time}
+their turn · {time} left	giliran lawan · sisa {time}
+won · {how}	menang · {how}
+lost · {how}	kalah · {how}
+ran out of time	waktumu habis
+the opponent ran out of time	waktu lawan habis
+open table	meja terbuka
+You: {mine}, {a} left · {name}: {theirs}, {b} left	Kamu: {mine}, sisa {a} · {name}: {theirs}, sisa {b}
+Look	Lihat
+Skip	Lewati
+Replaying {name}'s turn	Memutar ulang giliran {name}
+Stroke {n} of {total}	Pukulan {n} dari {total}
+Turn sent	Giliran terkirim
+Turn sent.	Giliran terkirim.
+Waiting for {name} to play	Menunggu {name} bermain
+{name} has {time} to play. You'll be told when it's your turn.	{name} punya waktu {time} untuk bermain. Kamu akan diberi tahu saat giliranmu tiba.
+{time} left to play. You'll be told when it's your turn.	Sisa waktu {time} untuk bermain. Kamu akan diberi tahu saat giliranmu tiba.
+Back to daily games	Kembali ke game harian
+Your game is saved: come back whenever you like.	Game kamu tersimpan: kembali kapan saja.
+{d} d {h} h	{d} hr {h} j
+{name} ran out of time	waktu {name} habis
+This game can't be shown.	Game ini tidak bisa ditampilkan.
+A daily game is waiting for you	Satu game harian menunggumu
+{n} daily games are waiting for you	{n} game harian menunggumu
+{name} challenges you to a rated daily game.	{name} menantangmu main game harian ranked.
+{name} challenges you to a casual daily game.	{name} menantangmu main game harian santai.
+{name} accepted your daily game.	{name} menerima game harianmu.
+{name} declined your daily game.	{name} menolak game harianmu.
+{name} withdrew their daily game challenge.	{name} menarik tantangan game hariannya.
+Your turn in the daily game against {name}.	Giliranmu di game harian melawan {name}.
+{name} ran out of time: you won the daily game.	Waktu {name} habis: kamu memenangkan game harian.
+You won the daily game against {name}!	Kamu menang di game harian melawan {name}!
+You ran out of time in the daily game against {name}.	Waktumu habis di game harian melawan {name}.
+You lost the daily game against {name}.	Kamu kalah di game harian melawan {name}.
+Challenge sent.	Tantangan terkirim.
+Daily games need an account.	Game harian butuh akun.
+No such game.	Game tidak ditemukan.
+That challenge is no longer valid.	Tantangan itu sudah tidak berlaku.
+That player already challenged you: answer their challenge.	Pemain itu sudah menantangmu: jawab tantangannya.
+That player has too many challenges waiting.	Pemain itu punya terlalu banyak tantangan yang menunggu.
+That player has too many daily games going on.	Pemain itu punya terlalu banyak game harian yang sedang berjalan.
+That player is not accepting challenges.	Pemain itu tidak menerima tantangan.
+This game can't be played right now.	Game ini tidak bisa dimainkan sekarang.
+This game changed meanwhile: open it again.	Game ini sudah berubah: buka lagi.
+This game is over.	Game ini sudah selesai.
+You already challenged that player.	Kamu sudah menantang pemain itu.
+You already have a game going on against that player.	Kamu sudah punya game yang berjalan melawan pemain itu.
+You blocked that player.	Kamu memblokir pemain itu.
+You can't challenge yourself.	Kamu tidak bisa menantang diri sendiri.
+You have as many daily games as you can play at once.	Game harianmu sudah mencapai batas yang bisa dimainkan sekaligus.
+You have too many challenges waiting for an answer.	Terlalu banyak tantanganmu yang menunggu jawaban.
+You're sending challenges too quickly.	Kamu mengirim tantangan terlalu cepat.
+Your time for this turn ran out.	Waktumu untuk giliran ini habis.
+Games	Game
+Games on your network	Game di jaringanmu
+Give the tournament a name (at least 3 characters).	Beri nama turnamen (minimal 3 karakter).
+Good company	Kawan baik
+Grandmaster	Grandmaster
+Guests can only join LAN games. Create an account.	Tamu hanya bisa ikut game LAN. Buat akun.
+Guests can't play rated tournaments.	Tamu tidak bisa main turnamen ranked.
+Guests don't have this.	Tamu tidak punya fitur ini.
+Harassment	Pelecehan
+Hat trick	Hat-trick
+Have 10 friends.	Punya 10 teman.
+Have an account for 30 days.	Punya akun selama 30 hari.
+Have an account for a year.	Punya akun selama setahun.
+Host a game on this computer	Buat game di komputer ini
+Host {host} · {n}/{size} players · {kind}	Host {host} · {n}/{size} pemain · {kind}
+Hot hand	Tangan panas
+Hustler	Jagoan meja
+Invalid shot.	Pukulan tidak sah.
+Join	Gabung
+Joining the LAN game…	Bergabung ke game LAN…
+Just for fun	Sekadar bersenang-senang
+L	K
+LAN game	Game LAN
+LAN game hosted by {name}.	Game LAN yang dibuat {name}.
+LAN games don't change ratings.	Game LAN tidak mengubah rating.
+Legend	Legenda
+Lives at the table	Tinggal di meja
+Loading the profile…	Memuat profil…
+Loading…	Memuat…
+Local network	Jaringan lokal
+Locked	Terkunci
+Looking for games	Mencari game
+Make a friend.	Dapatkan satu teman.
+Master	Master
+Name	Nama
+Names have 3–16 letters, digits or underscores.	Nama terdiri dari 3–16 huruf, angka, atau garis bawah.
+New account	Akun baru
+I have an account	Sudah punya akun
+New here? Choose “New account”: it takes ten seconds.	Baru di sini? Pilih “Akun baru”: cuma sepuluh detik.
+New tournament	Turnamen baru
+No friends yet. Add someone you played with!	Belum ada teman. Tambahkan orang yang pernah bermain denganmu!
+No games yet.	Belum ada game.
+No limit	Tanpa batas
+No open tables. Open one and others can sit down.	Tidak ada meja terbuka. Buka satu agar pemain lain bisa duduk.
+No other open tables right now.	Tidak ada meja terbuka lain saat ini.
+No such player.	Pemain tidak ditemukan.
+No tournaments right now. Create one!	Belum ada turnamen saat ini. Buat satu!
+Offensive name	Nama yang menyinggung
+On a roll	Sedang jaya
+On fire	Membara
+Only the host can start the tournament.	Hanya host yang bisa memulai turnamen.
+Open a table	Buka meja
+Or join by address	Atau gabung lewat alamat
+Other	Lainnya
+Others can join at {ip}:{port}	Pemain lain bisa gabung di {ip}:{port}
+Passwords need at least 8 characters (not only digits).	Kata sandi minimal 8 karakter (tidak hanya angka).
+Play 1,000 rated games.	Mainkan 1.000 game ranked.
+Play 10 rated games.	Mainkan 10 game ranked.
+Play 100 rated games.	Mainkan 100 game ranked.
+Play 25 casual games.	Mainkan 25 game santai.
+Play 500 rated games.	Mainkan 500 game ranked.
+Play in a tournament.	Ikuti sebuah turnamen.
+Play online	Main online
+Play with friends on the same network	Main bersama teman di jaringan yang sama
+Play your first rated game.	Mainkan game ranked pertamamu.
+Player 1	Pemain 1
+Players	Pemain
+Players in a tournament can't start other games.	Pemain turnamen tidak bisa memulai game lain.
+Please don't repeat the same message.	Tolong jangan ulangi pesan yang sama.
+Pool hall legend	Legenda biliar
+Popular	Populer
+Private	Privat
+for your friends to sit down	agar temanmu bisa duduk
+Profile	Profil
+{key}: watch the last shot again	{key}: tonton lagi pukulan terakhir
+REPLAY	REPLAY
+Rated	Ranked
+Rated games, tables, tournaments and friends	Game ranked, meja, turnamen, dan teman
+Reach a rating of 1300.	Capai rating 1300.
+Reach a rating of 1500.	Capai rating 1500.
+Reach a rating of 1700.	Capai rating 1700.
+Reach a rating of 1900.	Capai rating 1900.
+Reach a rating of 2100.	Capai rating 2100.
+Refresh	Muat ulang
+Regular	Pemain tetap
+Remove friend	Hapus teman
+Replay	Replay
+Report	Laporkan
+Report {name}	Laporkan {name}
+Request sent	Permintaan terkirim
+Friend	Teman
+Recent	Terbaru
+Nobody yet. The people you play online will show up here.	Belum ada. Orang yang kamu lawan secara online akan muncul di sini.
+{n} games	{n} game
+Rookie	Pemula
+Round {n}	Babak {n}
+Search…	Cari…
+Semi-finals	Semifinal
+Send report	Kirim laporan
+This game goes with the report, so the moderators can watch it.	Game ini disertakan dalam laporan, agar moderator bisa menontonnya.
+Your game with {name} ({date}) goes with the report, so the moderators can watch it.	Game kamu dengan {name} ({date}) disertakan dalam laporan, agar moderator bisa menontonnya.
+You haven't played {name} in the last day: the moderators see the recent chat.	Kamu belum bermain melawan {name} dalam sehari terakhir: moderator melihat chat terbaru.
+Shark	Hiu
+Shows the contact point; judging the cut is up to you.	Menunjukkan titik sentuh; sudut potongnya kamu perkirakan sendiri.
+Shutout	Tanpa balas
+Sign in	Masuk
+Sign in or create an account	Masuk atau buat akun
+Sign out	Keluar
+Sit down	Duduk
+Skilled	Terampil
+Someone with that name is already here.	Sudah ada yang memakai nama itu di sini.
+Spam	Spam
+Start now	Mulai sekarang
+Stop the replay	Hentikan replay
+Table runner	Penyapu meja
+Tables	Meja
+Take turns on this computer	Bergantian di komputer ini
+Thank you. The moderators will look into it.	Terima kasih. Moderator akan memeriksanya.
+Thank you. The moderators will look into it, with your game attached.	Terima kasih. Moderator akan memeriksanya, dengan game kamu terlampir.
+That player is not accepting invitations.	Pemain itu tidak menerima undangan.
+That shot was for an earlier turn.	Pukulan itu untuk giliran sebelumnya.
+That table is no longer open.	Meja itu sudah tidak terbuka.
+That tournament has already started.	Turnamen itu sudah dimulai.
+That tournament no longer exists.	Turnamen itu sudah tidak ada.
+The first connection of the day can take up to a minute while the server wakes up.	Koneksi pertama hari ini bisa memakan waktu hingga satu menit selagi server bangun.
+The first time, allow Snook Legend through the firewall when asked.	Saat pertama kali, izinkan Snook Legend melewati firewall saat diminta.
+The server could not play that shot.	Server tidak bisa menjalankan pukulan itu.
+The server is busy. Try again in a moment.	Server sedang sibuk. Coba lagi sebentar lagi.
+The tournament starts when it is full (the host can start it earlier).	Turnamen dimulai saat penuh (host bisa memulainya lebih awal).
+There are too many tournaments right now. Join one!	Terlalu banyak turnamen saat ini. Ikuti salah satunya!
+This is a LAN server: join as a guest.	Ini server LAN: gabung sebagai tamu.
+Fifteen rivals, a tour and ghosts of real players	Lima belas rival, sebuah tur, dan hantu pemain sungguhan
+Tier	Tingkat
+Time per shot	Waktu per pukulan
+Too many failed attempts. Wait a few minutes and try again.	Terlalu banyak percobaan gagal. Tunggu beberapa menit lalu coba lagi.
+Too many messages.	Terlalu banyak pesan.
+Too many new accounts from this network. Try again later.	Terlalu banyak akun baru dari jaringan ini. Coba lagi nanti.
+Top 100 · rated games	Top 100 · game ranked
+Tournament game: the next round starts from the lounge.	Game turnamen: babak berikutnya dimulai dari lobi.
+Tournament games have no rematch.	Game turnamen tidak ada tanding ulang.
+Tournaments	Turnamen
+Tournaments have 4, 8 or 16 players.	Turnamen berisi 4, 8, atau 16 pemain.
+Two players	Dua pemain
+Unblock	Buka blokir
+Unlocked {date}	Terbuka {date}
+Unstoppable	Tak terbendung
+W	M
+Watch the last shot again	Tonton lagi pukulan terakhir
+What happened? (optional)	Apa yang terjadi? (opsional)
+When time runs out, the turn passes.	Saat waktu habis, giliran berpindah.
+Whitewash	Sapu bersih
+Win 10 rated games on the 8-ball.	Menangkan 10 game ranked di bola 8.
+Win 10 rated games in a row.	Menangkan 10 game ranked berturut-turut.
+Win 10 rated games.	Menangkan 10 game ranked.
+Win 10 rated shutouts.	Menangkan 10 game ranked tanpa balas.
+Win 100 rated games on the 8-ball.	Menangkan 100 game ranked di bola 8.
+Win 100 rated games.	Menangkan 100 game ranked.
+Win 250 rated games on the 8-ball.	Menangkan 250 game ranked di bola 8.
+Win 3 rated games in a row.	Menangkan 3 game ranked berturut-turut.
+Win 5 rated games in a row.	Menangkan 5 game ranked berturut-turut.
+Win 5 tournaments.	Menangkan 5 turnamen.
+Win 50 rated games on the 8-ball.	Menangkan 50 game ranked di bola 8.
+Win 50 rated games.	Menangkan 50 game ranked.
+Win 500 rated games.	Menangkan 500 game ranked.
+Win a rated game.	Menangkan satu game ranked.
+Win a tournament.	Menangkan satu turnamen.
+Win a rated game before your opponent sinks a ball of their group.	Menangkan game ranked sebelum lawan memasukkan satu pun bola grupnya.
+Win a rated game from the break without your opponent getting a shot.	Menangkan game ranked dari break tanpa lawan sempat memukul.
+Withdraw	Mundur
+World ranking	Peringkat dunia
+Wrong table password.	Kata sandi meja salah.
+Wrong tournament password.	Kata sandi turnamen salah.
+You are already in a tournament.	Kamu sudah ikut turnamen.
+You are hosting a game	Kamu sedang menjadi host game
+You can't join this table.	Kamu tidak bisa bergabung ke meja ini.
+You signed in from another place.	Kamu masuk dari tempat lain.
+You're sending invitations too quickly.	Kamu mengirim undangan terlalu cepat.
+You're sending messages too quickly.	Kamu mengirim pesan terlalu cepat.
+You've sent many reports. Please wait before sending more.	Kamu sudah mengirim banyak laporan. Tunggu dulu sebelum mengirim lagi.
+Your friend list is full.	Daftar temanmu sudah penuh.
+Your next match starts by itself when both players are free.	Pertandingan berikutnya dimulai otomatis saat kedua pemain siap.
+Your profile	Profilmu
+Your table is open	Mejamu terbuka
+Zoom in	Perbesar
+Zoom out	Perkecil
+at a table	di meja
+best streak	rekor beruntun
+by {host} · {n}/{size} players	oleh {host} · {n}/{size} pemain
+casual games	game santai
+casual · private	santai · privat
+casual · public	santai · publik
+connecting to the server	menghubungkan ke server
+eight-ball pool	biliar bola 8
+finished	selesai
+guest	tamu
+invites you to {kind}	mengundangmu ke {kind}
+joined today	bergabung hari ini
+member for {n} days	anggota selama {n} hari
+member for {n} months	anggota selama {n} bulan
+member for {n} years	anggota selama {n} tahun
+offline	offline
+open	terbuka
+optional: only friends with it can join	opsional: hanya teman yang tahu sandinya bisa gabung
+password	kata sandi
+peak {n}	puncak {n}
+playing	bermain
+playing the computer	melawan komputer
+away	tidak di tempat
+this game is saved	game ini tersimpan
+rated games	game ranked
+rated · private	ranked · privat
+rated · public	ranked · publik
+request sent	permintaan terkirim
+the connection dropped	koneksi terputus
+to play online	untuk main online
+tournament	turnamen
+tournaments won	turnamen dimenangkan
+waiting for an opponent…	menunggu lawan…
+win rate	rasio menang
+wins	menang
+won on the 8	menang di bola 8
+{host}'s game	game {host}
+{name} wants to be friends	{name} ingin berteman
+{name} wants to be your friend.	{name} ingin berteman denganmu.
+{n} online	{n} online
+sank the 8-ball	memasukkan bola 8
+the opponent sank the 8-ball	lawan memasukkan bola 8
+the opponent sank the 8 too early	lawan memasukkan bola 8 terlalu cepat
+sank the 8 too early	memasukkan bola 8 terlalu cepat
+the opponent sank the 8 in the wrong pocket	lawan memasukkan bola 8 ke lubang yang salah
+sank the 8 in the wrong pocket	memasukkan bola 8 ke lubang yang salah
+the opponent fouled on the 8	lawan foul di bola 8
+fouled on the 8	foul di bola 8
+the opponent knocked the 8 off the table	lawan membuat bola 8 keluar meja
+knocked the 8 off the table	membuat bola 8 keluar meja
+the opponent resigned	lawan menyerah
+resigned	menyerah
+the opponent left	lawan pergi
+left the game	keluar dari game
+You are muted for {n} more minutes.	Kamu dibisukan selama {n} menit lagi.
+This account is suspended for {n} more day(s). Reason: {reason}.	Akun ini ditangguhkan selama {n} hari lagi. Alasan: {reason}.
+This account is banned. Reason: {reason}.	Akun ini diblokir. Alasan: {reason}.
+You were muted: {r}	Kamu dibisukan: {r}
+Your account was suspended: {r}	Akunmu ditangguhkan: {r}
+Your account was banned: {r}	Akunmu diblokir: {r}
+You were disconnected by a moderator: {r}	Koneksimu diputus oleh moderator: {r}
+You were disconnected by a moderator.	Koneksimu diputus oleh moderator.
+Please sign in again.	Silakan masuk lagi.
+Your password was changed. Sign in again.	Kata sandimu telah diubah. Masuk lagi.
+Accept rematch	Terima tanding ulang
+Accept	Terima
+Aim	Bidik
+Aiming guide	Panduan bidikan
+Aiming	Bidikan
+Anti-aliasing	Anti-aliasing
+Smooths the jagged edges of lines and balls.	Menghaluskan tepi bergerigi pada garis dan bola.
+Back to lounge	Kembali ke lobi
+Balanced: smooth on most laptops.	Seimbang: lancar di sebagian besar laptop.
+Ball in hand	Bola di tangan
+Break the rack	Lakukan break
+Camera pulls back to watch each shot	Kamera mundur untuk melihat setiap pukulan
+Camera	Kamera
+Cancel	Batal
+Casual game: ratings unchanged	Game santai: rating tidak berubah
+Center	Tengah
+Chat	Chat
+Click a ball or a spot	Klik bola atau titik
+Click to chat, Enter to send	Klik untuk chat, Enter untuk kirim
+Controls	Kontrol
+Create account	Buat akun
+Cue ball contact	Titik pukul bola putih
+Decline	Tolak
+Done	Selesai
+Drag the cue ball	Seret bola putih
+Elevation	Elevasi
+Everything, with reflections in polished floors: for gaming PCs.	Semuanya, dengan pantulan di lantai mengilap: untuk PC gaming.
+Fine aim	Bidikan halus
+Finish this match first.	Selesaikan dulu pertandingan ini.
+For old or very slow computers.	Untuk komputer lama atau sangat lambat.
+Full screen	Layar penuh
+Also with {key}.	Juga dengan {key}.
+Full	Lengkap
+Game server	Server game
+Change it only to play on another server.	Ubah hanya jika ingin main di server lain.
+Advanced	Lanjutan
+Custom server	Server lain
+Graphics quality	Kualitas grafis
+Quality	Kualitas
+Display	Tampilan
+High	Tinggi
+Invite	Undang
+Leave to the lounge	Keluar ke lobi
+Leave	Keluar
+Leaving now counts as a loss.	Keluar sekarang dihitung kalah.
+Lounge chat	Chat lobi
+Low	Rendah
+Main menu	Menu utama
+Medium	Sedang
+Menu / help	Menu / bantuan
+Next game starts in a moment…	Game berikutnya segera dimulai…
+No rated games yet. Be the first!	Belum ada game ranked. Jadilah yang pertama!
+Nobody else is here right now.	Tidak ada orang lain di sini saat ini.
+Looking for a game?	Cari lawan main?
+Looking for a game	Cari lawan main
+Post a note	Pasang catatan
+Everyone in the lounge sees it for 30 minutes	Semua orang di lobi melihatnya selama 30 menit
+What are you after? ({kind})	Kamu cari apa? ({kind})
+Post	Pasang
+Your note: {text}	Catatanmu: {text}
+{mode} · {left} left	{mode} · sisa {left}
+Take down	Turunkan
+Challenge	Tantang
+Take the note down	Turunkan catatan
+Off	Mati
+On the 8-ball: call a pocket	Di bola 8: pilih lubang
+On the 8-ball	Di bola 8
+Open table	Meja terbuka
+Password	Kata sandi
+Paused	Dijeda
+Play	Main
+Player 2	Pemain 2
+Player	Pemain
+Quick aim	Bidikan cepat
+Quit	Keluar
+Reconnected.	Terhubung kembali.
+Rematch	Tanding ulang
+Resign this game	Menyerah di game ini
+Restart the game to apply this change.	Mulai ulang game untuk menerapkan perubahan ini.
+Resume	Lanjutkan
+Retry	Coba lagi
+Saving the result…	Menyimpan hasil…
+Say hello… (Enter to send)	Sapa… (Enter untuk kirim)
+Send	Kirim
+Settings	Pengaturan
+{key} + drag	{key} + seret
+{key}: 3D / top view	{key}: 3D / tampak atas
+{keys}: zoom	{keys}: zoom
+View	Sudut pandang
+Aim left	Bidik ke kiri
+Aim right	Bidik ke kanan
+Fine aim (hold)	Bidikan halus (tahan)
+Shoot (hold, release)	Pukul (tahan, lepas)
+Top spin	Efek atas
+Back spin	Efek bawah
+Left spin	Efek kiri
+Right spin	Efek kanan
+Raise the cue	Angkat stik
+Lower the cue	Turunkan stik
+Pick up the cue ball in hand	Ambil bola putih (bola di tangan)
+3D / top view	3D / tampak atas
+Reset the camera	Atur ulang kamera
+Replay the last shot	Putar ulang pukulan terakhir
+List of controls	Daftar kontrol
+Keys can be changed in Settings → Controls.	Tombol bisa diubah di Pengaturan → Kontrol.
+Space	Spasi
+Right Shift	Shift kanan
+Right Ctrl	Ctrl kanan
+Right Alt	Alt kanan
+Aiming and shooting	Membidik dan memukul
+Spin and elevation	Efek dan elevasi
+Fixed keys	Tombol tetap
+Menu, back and cancel	Menu, kembali, dan batal
+Confirm (forms, the cue ball in hand)	Konfirmasi (formulir, bola putih di tangan)
+This key can't be changed.	Tombol ini tidak bisa diubah.
+Press a key · Esc cancels · Backspace clears	Tekan tombol · Esc membatalkan · Backspace menghapus
+Press a key…	Tekan tombol…
+Click to change	Klik untuk mengubah
+Click to add a key	Klik untuk menambah tombol
+Back to no key	Kembali ke tanpa tombol
+Back to {keys}	Kembali ke {keys}
+Swapped: {action} is now on {key}.	Ditukar: {action} sekarang di {key}.
+Taken from {action}, which now has no key.	Diambil dari {action}, yang kini tanpa tombol.
+Taken from {action}.	Diambil dari {action}.
+That key can't be used: try another.	Tombol itu tidak bisa dipakai: coba yang lain.
+Shoot	Pukul
+Short	Pendek
+Signing in…	Sedang masuk…
+Signing in	Sedang masuk
+Soft shadows from every lamp, glossy halls, halos.	Bayangan lembut dari setiap lampu, ruangan mengilap, halo.
+Solids (1–7)	Polos (1–7)
+Spin ball	Bola efek
+Spin	Efek
+Standard	Standar
+Stay	Tetap di sini
+Stripes (9–15)	Belang (9–15)
+The game goes on while this is open.	Game tetap berjalan selama ini terbuka.
+Use default	Pakai bawaan
+Username	Nama pengguna
+Usernames have 3–16 letters, digits or underscores.	Nama pengguna terdiri dari 3–16 huruf, angka, atau garis bawah.
+{keys} (jump & massé)	{keys} (jump & massé)
+You win!	Kamu menang!
+Your name	Namamu
+Your opponent went back to the lounge.	Lawanmu kembali ke lobi.
+Your turn	Giliranmu
+open table: the next ball you make sets your group	meja terbuka: bola berikutnya yang kamu masukkan menentukan grupmu
+draw	tarik
+follow	dorong
+stun	stop
+solids	polos
+stripes	belang
+lounge	lobi
+ · left english	 · efek kiri
+ · right english	 · efek kanan
+Language	Bahasa
+General	Umum
+Graphics	Grafis
+Game	Game
+Sound	Suara
+Reset to defaults	Kembalikan ke bawaan
+Reset all keys	Atur ulang semua tombol
+Reset every key?	Atur ulang semua tombol?
+Click again to put every key back	Klik lagi untuk mengembalikan semua tombol
+Updates	Pembaruan
+Update automatically	Perbarui otomatis
+New versions download in the background and install when you restart.	Versi baru diunduh di latar belakang dan dipasang saat kamu memulai ulang.
+Version {v}	Versi {v}
+What's new	Yang baru
+What's new in version {v}	Yang baru di versi {v}
+No notes for this version.	Tidak ada catatan untuk versi ini.
+Got it	Oke
+Restart now	Mulai ulang sekarang
+After the game, from the main menu.	Setelah game, dari menu utama.
+Download	Unduh
+Check now	Periksa sekarang
+Couldn't reach the update server.	Tidak bisa menghubungi server pembaruan.
+The download was damaged. It will be tried again later.	Unduhan rusak. Akan dicoba lagi nanti.
+The new version couldn't be installed. This one stays.	Versi baru tidak bisa dipasang. Versi ini tetap dipakai.
+Downloading… {p}%	Mengunduh… {p}%
+Updating…	Memperbarui…
+The Microsoft Store keeps the game up to date.	Microsoft Store menjaga game tetap terbaru.
+Development build: no automatic updates.	Versi pengembangan: tanpa pembaruan otomatis.
+Looking for a new version…	Mencari versi baru…
+This is the latest version.	Ini versi terbaru.
+Downloading version {v}… {p}%	Mengunduh versi {v}… {p}%
+Installing version {v}…	Memasang versi {v}…
+Version {v} is ready: restart the game to use it.	Versi {v} siap: mulai ulang game untuk memakainya.
+Version {v} is out: download it from the releases page.	Versi {v} sudah rilis: unduh dari halaman rilis.
+Version {v} is ready	Versi {v} siap
+Restart to play it; nothing is lost.	Mulai ulang untuk memainkannya; tidak ada yang hilang.
+Version {v} is out	Versi {v} sudah rilis
+Get it from the releases page.	Unduh dari halaman rilis.
+Reset everything?	Atur ulang semuanya?
+Click again to reset every setting	Klik lagi untuk mengatur ulang semua pengaturan
+Online	Online
+Menu	Menu
+Rating	Rating
+Ultra	Ultra
+hold {key} and release	tahan {key} lalu lepas
+Change	Ubah
+Mouse aim sensitivity	Sensitivitas bidikan mouse
+How fast the cue turns with the mouse.	Seberapa cepat stik berputar saat mouse digerakkan.
+Vignette	Vinyet
+Darkens the edges of the picture, like a film.	Menggelapkan tepi gambar, seperti film.
+Show FPS	Tampilkan FPS
+Frames per second, in a corner of the screen.	Frame per detik, di sudut layar.
+Call a pocket for the 8-ball first: click a pocket.	Pilih dulu lubang untuk bola 8: klik sebuah lubang.
+Reconnecting	Menyambung ulang
+the game is over	game sudah selesai
+the cue ball cannot be placed there	bola putih tidak bisa diletakkan di situ
+call a pocket for the 8-ball	pilih lubang untuk bola 8
+That username is taken.	Nama pengguna itu sudah dipakai.
+Wrong username or password.	Nama pengguna atau kata sandi salah.
+Your session expired. Please log in again.	Sesimu berakhir. Silakan masuk lagi.
+This version of Snook Legend is out of date. Please update the game.	Versi Snook Legend ini sudah usang. Silakan perbarui game.
+It's not your turn.	Bukan giliranmu.
+That player is not online.	Pemain itu tidak online.
+That player is in a game.	Pemain itu sedang bermain.
+You can't invite yourself.	Kamu tidak bisa mengundang diri sendiri.
+That invitation is no longer valid.	Undangan itu sudah tidak berlaku.
+That player is no longer available.	Pemain itu sudah tidak tersedia.
+Resign first to leave a game in progress.	Menyerahlah dulu untuk keluar dari game yang sedang berjalan.
+Malformed message.	Pesan tidak valid.
+Please log in first.	Silakan masuk dulu.
+Could not create the account.	Tidak bisa membuat akun.
+The cue ball can't be placed there.	Bola putih tidak bisa diletakkan di situ.
+Disconnected.	Terputus.
+Lost contact with the server.	Kontak dengan server terputus.
+The server closed the connection.	Server menutup koneksi.
+The server took too long to answer.	Server terlalu lama merespons.
+The server is not answering (connection refused).	Server tidak merespons (koneksi ditolak).
+The server address is not valid (example: wss://snook-legend.example.com/ws).	Alamat server tidak valid (contoh: wss://snook-legend.example.com/ws).
+The server address has no host name.	Alamat server tidak punya nama host.
+Welcome to Snook Legend! Be kind, play fair.	Selamat datang di Snook Legend! Bersikaplah baik, main sportif.
+Ball in hand: drag the cue ball{zone} to move it	Bola di tangan: seret bola putih{zone} untuk memindahkannya
+ behind the line	 di belakang garis
+Ball in hand  ·  {group}	Bola di tangan  ·  {group}
+Can't shoot: {e}.	Tidak bisa memukul: {e}.
+Chat ({n})	Chat ({n})
+Computer ({level})	Komputer ({level})
+Computer	Komputer
+Each opponent has a style of their own	Setiap lawan punya gaya sendiri
+Free game	Game bebas
+Tour	Tur
+Tour: {n} of {total} beaten	Tur: {n} dari {total} dikalahkan
+Strength {n}/5	Kekuatan {n}/5
+Ghost	Hantu
+Accuracy	Akurasi
+Safeties	Safety
+Banks	Pantulan
+Position	Posisi
+Ghost of {name}	Hantu {name}
+A player's ghost	Hantu seorang pemain
+Plays like a real player	Bermain seperti pemain sungguhan
+The computer plays in the style of a real player, measured on their online games.	Komputer bermain dengan gaya pemain sungguhan, diukur dari game online-nya.
+Sign in to play the ghost of a real player.	Masuk untuk melawan hantu pemain sungguhan.
+Load	Muat
+Friends:	Teman:
+Type a username or pick a friend, then Load.	Ketik nama pengguna atau pilih teman, lalu Muat.
+Measuring how {name} plays…	Mengukur cara {name} bermain…
+Pots {pots}% · safeties {safe}% · banks {banks}% · {shots} shots	Masuk {pots}% · safety {safe}% · pantulan {banks}% · {shots} pukulan
+{name} has only {shots} recorded shots; a ghost needs {needed}. More online games will do it.	{name} baru punya {shots} pukulan terekam; hantu butuh {needed}. Lebih banyak game online akan mencukupinya.
+There is no player called {name}.	Tidak ada pemain bernama {name}.
+The server can't be reached right now. Try again later.	Server tidak bisa dihubungi saat ini. Coba lagi nanti.
+Wait a moment before asking again.	Tunggu sebentar sebelum meminta lagi.
+Something went wrong on the server. Try again later.	Terjadi masalah di server. Coba lagi nanti.
+Play your ghost	Lawan hantumu
+Play their ghost	Lawan hantunya
+Beaten	Dikalahkan
+Next	Berikutnya
+Win the previous stage to unlock this one.	Menangkan tahap sebelumnya untuk membuka tahap ini.
+Stage {n} of {total}	Tahap {n} dari {total}
+Challenge {name}	Tantang {name}
+Stage {n} won! Next on the tour: {name}.	Tahap {n} dimenangkan! Berikutnya di tur: {name}.
+You won the whole tour!	Kamu memenangkan seluruh tur!
+Reward	Hadiah
+{item} cue · exclusive	Stik {item} · eksklusif
+Yours: find it in the shop, under Cues.	Milikmu: temukan di toko, di bagian Stik.
+Win the last stage again while signed in to claim it.	Menangkan lagi tahap terakhir dalam keadaan masuk untuk mengklaimnya.
+Beat all fifteen opponents to earn it. It is sold nowhere.	Kalahkan kelima belas lawan untuk mendapatkannya. Tidak dijual di mana pun.
+You won the tour! Sign in to claim your reward.	Kamu memenangkan tur! Masuk untuk mengklaim hadiahmu.
+The server is checking your final game…	Server sedang memeriksa game terakhirmu…
+Try again	Coba lagi
+The server did not answer. Try again in a moment.	Server tidak merespons. Coba lagi sebentar lagi.
+The server is busy checking other games. Try again in a moment.	Server sedang sibuk memeriksa game lain. Coba lagi sebentar lagi.
+Wait a minute before trying again.	Tunggu satu menit sebelum mencoba lagi.
+That game is too long to be checked.	Game itu terlalu panjang untuk diperiksa.
+That game has a move the rules don't allow.	Game itu berisi langkah yang tidak diizinkan aturan.
+That game was not played to the end.	Game itu tidak dimainkan sampai selesai.
+That game was not a win.	Game itu bukan kemenangan.
+The computer's shots in that game don't match how it plays (another version of the game?).	Pukulan komputer di game itu tidak cocok dengan cara bermainnya (versi game yang lain?).
+The Rookie	Si Pemula
+Still learning: aims at the nearest pocket, centre ball, and hopes. Never plays safe.	Masih belajar: membidik lubang terdekat, pukul tengah, lalu berharap. Tidak pernah main safety.
+The Weekend Player	Si Pemain Akhir Pekan
+Knows the basics and drops the easy ones, but rarely thinks about where the cue ball goes.	Paham dasar-dasarnya dan memasukkan bola yang mudah, tapi jarang memikirkan ke mana bola putih pergi.
+The Bank Artist	Si Seniman Pantulan
+Sees angles nobody else does: whenever a ball can go off a cushion and in, she banks it.	Melihat sudut yang tak terlihat orang lain: setiap kali bola bisa masuk lewat pantulan bantalan, dia memainkannya.
+The Cannon	Si Meriam
+Goes for everything, as hard as he can: long pots, thunderous breaks, hardly ever a safety.	Menyerang semua bola sekeras mungkin: pukulan jauh, break menggelegar, hampir tak pernah safety.
+The Wall	Si Tembok
+Only shoots when the pot is on. Otherwise she tucks the cue ball away and waits for your mistake.	Hanya menyerang saat bola pasti masuk. Selain itu, dia menyembunyikan bola putih dan menunggu kesalahanmu.
+The Old Pro	Si Veteran
+Forty years at the table: a smooth stroke, a raised cue, side spin, and never in a hurry.	Empat puluh tahun di meja: pukulan halus, stik terangkat, efek samping, dan tak pernah terburu-buru.
+The Hustler	Si Licik
+Plays just well enough to win, then a little better. Balanced, sharp and hard to read.	Bermain cukup baik untuk menang, lalu sedikit lebih baik. Seimbang, tajam, dan sulit ditebak.
+The Professor	Si Profesor
+Thinks three balls ahead: every shot leaves the cue ball where the next one is easy.	Berpikir tiga bola ke depan: setiap pukulan menaruh bola putih di posisi yang memudahkan pukulan berikutnya.
+The Sharpshooter	Si Penembak Jitu
+Pots from anywhere, at any angle. Her safeties are an afterthought: she doesn't need them.	Memasukkan bola dari mana saja, di sudut apa pun. Safety bukan urusannya: dia tidak butuh.
+The Champion	Sang Juara
+Unbeaten for years. Precise, patient and merciless: the last stage of the tour.	Tak terkalahkan selama bertahun-tahun. Presisi, sabar, dan tanpa ampun: tahap terakhir tur.
+Tour champion	Juara tur
+Champion of the tour	Juara tur
+Beat all fifteen opponents of the computer tour.	Kalahkan kelima belas lawan di tur melawan komputer.
+Connection lost. Reconnecting (attempt {n})…	Koneksi terputus. Menyambung ulang (percobaan {n})…
+Connection lost. Reconnecting…	Koneksi terputus. Menyambung ulang…
+Foul by {shooter}: {foul}.	Foul oleh {shooter}: {foul}.
+Graphics set to {q} for smooth play. You can change this in Settings.	Grafis diatur ke {q} agar permainan lancar. Kamu bisa mengubahnya di Pengaturan.
+Rating {r} ({d})	Rating {r} ({d})
+The {ball} was spotted.	Dikembalikan ke meja: {ball}.
+Waiting for {to} ({kind})…	Menunggu {to} ({kind})…
+rated	ranked
+casual	santai
+Waiting for {name}…	Menunggu {name}…
+{by} declined your invitation.	{by} menolak undanganmu.
+a rated game	game ranked
+a casual game	game santai
+{name} calls the 8-ball in the {pocket} pocket.	{name} memilih lubang {pocket} untuk bola 8.
+{name} has ball in hand…	{name} mendapat bola di tangan…
+{name} is aiming…	{name} sedang membidik…
+{name} is on the 8: click a pocket to call it	{name} di bola 8: klik lubang untuk memilihnya
+{name} is thinking…	{name} sedang berpikir…
+{name} left the game.	{name} keluar dari game.
+{name} resigned.	{name} menyerah.
+{name} to break	Giliran {name} break
+{name} to shoot ({target})	Giliran {name} memukul ({target})
+{name}'s turn	Giliran {name}
+{next} has ball in hand{where}.	{next} mendapat bola di tangan{where}.
+ behind the head string	 di belakang garis kepala
+{opponent} is back.	{opponent} sudah kembali.
+{opponent} lost the connection. Waiting up to {secs} s…	Koneksi {opponent} terputus. Menunggu hingga {secs} dtk…
+{opponent} wants a rematch.	{opponent} ingin tanding ulang.
+{opponent} went back to the lounge.	{opponent} kembali ke lobi.
+{shooter} pocketed {balls}.	{shooter} memasukkan {balls}.
+{shooter} takes {group}.	{shooter} dapat bola {group}.
+{who} ran out of time: ball in hand for the opponent.	Waktu {who} habis: bola di tangan untuk lawan.
+{name} wants a rematch!	{name} ingin tanding ulang!
+{name} wins!	{name} menang!
+{name} wins	{name} menang
+Volume	Volume
+The cue, the balls, the cushions and the pockets.	Stik, bola, bantalan, dan lubang.
+Notifications	Notifikasi
+Could not find the server “{host}”.	Server “{host}” tidak ditemukan.
+Network error: {e}.	Kesalahan jaringan: {e}.
+Secure connection failed: {e}.	Koneksi aman gagal: {e}.
+The server refused the connection (HTTP {code}).	Server menolak koneksi (HTTP {code}).
+Connection error: {e}.	Kesalahan koneksi: {e}.
+cue ball	bola putih
+{n}-ball	bola {n}
+Scratch: the cue ball was pocketed	Bola putih masuk lubang
+The cue ball left the table	Bola putih keluar dari meja
+The cue ball didn't hit any ball	Bola putih tidak mengenai bola apa pun
+Wrong ball hit first ({ball})	Bola yang salah kena duluan ({ball})
+No ball reached a cushion after contact	Tidak ada bola yang menyentuh bantalan setelah kontak
+The {ball} left the table	Bola keluar dari meja ({ball})
+Illegal break	Break tidak sah
+pocketed the 8-ball	memasukkan bola 8
+opponent pocketed the 8-ball too early	lawan memasukkan bola 8 terlalu cepat
+opponent sank the 8-ball in the wrong pocket	lawan memasukkan bola 8 ke lubang yang salah
+opponent fouled on the 8-ball	lawan foul di bola 8
+opponent knocked the 8-ball off the table	lawan membuat bola 8 keluar meja
+opponent resigned	lawan menyerah
+opponent left the game	lawan keluar dari game
+head left corner	pojok kiri kepala
+head right corner	pojok kanan kepala
+left side	tengah kiri
+right side	tengah kanan
+foot left corner	pojok kiri kaki
+foot right corner	pojok kanan kaki
+Easy	Mudah
+Hard	Sulit
+Normal	Normal
+Power	Tenaga
+No messages yet.	Belum ada pesan.
+▼ newer messages	▼ pesan baru
+Camera follows the cue	Kamera mengikuti stik
+Off: it stays where you put it.	Mati: kamera tetap di posisi yang kamu atur.
+Pull back for shots	Mundur saat memukul
+Only when the camera follows the cue.	Hanya saat kamera mengikuti stik.
+Drag the cue · click a spot	Seret stik · klik sebuah titik
+Time's up: {name}'s shot was played at full power.	Waktu habis: pukulan {name} dimainkan dengan tenaga penuh.
+Dark room	Ruangan gelap
+A spotlight on the table, the room in shadow.	Sorot lampu di meja, ruangan dalam bayang-bayang.
+Hide	Sembunyikan
+Interface size	Ukuran antarmuka
+Text, buttons and panels.	Teks, tombol, dan panel.
+Drag to set the power	Seret untuk mengatur tenaga
+Shoot!	Pukul!
+Set the power, then press the green button	Atur tenaga, lalu tekan tombol hijau
++{n} coins · {why}	+{n} koin · {why}
+16-player tournaments, and first place on the waiting list of a full one	Turnamen 16 pemain, dan urutan pertama di daftar tunggu turnamen yang penuh
+30 minutes: play as many games as you can. A win is 2 points, 4 from the third win in a row.	30 menit: mainkan game sebanyak mungkin. Menang bernilai 2 poin, 4 poin mulai kemenangan ketiga berturut-turut.
+A crown by your name, everywhere (lounge, profile, ranking)	Mahkota di samping namamu, di mana saja (lobi, profil, peringkat)
+Account	Akun
+Add friends to give them items.	Tambah teman untuk memberi mereka item.
+Arena	Arena
+Arena · host {host} · {n} players · {kind}	Arena · host {host} · {n} pemain · {kind}
+Buy now	Beli sekarang
+Buying…	Membeli…
+Change password	Ganti kata sandi
+Click again to delete	Klik lagi untuk menghapus
+Got a code? Type it here	Punya kode? Ketik di sini
+Confirm purchase	Konfirmasi pembelian
+Copied: send it to a friend.	Disalin: kirim ke teman.
+Copy	Salin
+Current	Saat ini
+Delete account	Hapus akun
+Entry	Biaya masuk
+Entry {n} coins	Biaya masuk {n} koin
+Every replay kept (free players keep their last 10 games)	Semua replay disimpan (pemain gratis menyimpan 10 game terakhir)
+For {name}	Untuk {name}
+Add a message (optional)	Tambah pesan (opsional)
+Format	Format
+Frames	Bingkai
+Free	Gratis
+Get coins	Dapatkan koin
+Gift sent!	Hadiah terkirim!
+Give as a gift	Jadikan hadiah
+Give it	Berikan
+Give to a friend	Berikan ke teman
+Great!	Mantap!
+If you forget your password, we confirm it's you by this e-mail.	Jika kamu lupa kata sandi, kami memastikan itu kamu lewat e-mail ini.
+Invite with a code	Undang dengan kode
+It goes on right away. Items only change the look, never the game.	Langsung dipakai. Item hanya mengubah tampilan, tidak pernah memengaruhi permainan.
+Join my table in Snook Legend:	Gabung ke mejaku di Snook Legend:
+Join the waiting list	Masuk daftar tunggu
+Join · {n} coins	Gabung · {n} koin
+Knockout	Sistem gugur
+Name colour	Warna nama
+Name colours for the lounge and exclusive frames, cloth, cues, balls and effects	Warna nama di lobi serta bingkai, kain, stik, bola, dan efek eksklusif
+New	Baru
+No, thanks	Tidak, terima kasih
+Nothing that wins games: VIP only changes the look	Tidak ada yang membuatmu menang: VIP hanya mengubah tampilan
+Numbers	Angka
+ON TV	DI TV
+Play rated games to see your rating here.	Mainkan game ranked untuk melihat rating kamu di sini.
+No rated games yet.	Belum ada game ranked.
+Price	Harga
+Prizes {a} + {b}	Hadiah {a} + {b}
+Protect your purchases	Lindungi pembelianmu
+Purchase complete!	Pembelian selesai!
+Recovery e-mail	E-mail pemulihan
+Save	Simpan
+The fees make the prize: 70% to the champion, 20% to the runner-up.	Biaya masuk menjadi hadiah: 70% untuk juara, 20% untuk runner-up.
+The server restarts in {m}:{s} for an update. Games in progress go on.	Server dimulai ulang dalam {m}:{s} untuk pembaruan. Game yang sedang berjalan tetap lanjut.
+Use this e-mail	Pakai e-mail ini
+Use {email} to recover your account if you ever forget your password?	Pakai {email} untuk memulihkan akunmu jika suatu saat kamu lupa kata sandi?
+Watch	Tonton
+Watch again	Tonton lagi
+Winning effects	Efek kemenangan
+Halls	Ruangan
+You are paired as soon as you and an opponent are free.	Kamu dipasangkan begitu kamu dan lawan sama-sama siap.
+You can change it any time in your profile (Account).	Kamu bisa mengubahnya kapan saja di profilmu (Akun).
+You need {n} more coins.	Kamu butuh {n} koin lagi.
+Your account	Akunmu
+Your account was deleted.	Akunmu telah dihapus.
+Your coins	Koinmu
+Your friend gets it right away.	Temanmu langsung menerimanya.
+Your game against {name} is starting.	Game kamu melawan {name} segera dimulai.
+Your name, e-mail, friends and items are erased for good. Your opponents keep the games you played (without your name).	Nama, e-mail, teman, dan itemmu dihapus selamanya. Lawanmu tetap menyimpan game yang kamu mainkan (tanpa namamu).
+balls per game	bola per game
+best run ever	rentetan terbaik
+daily bonus	bonus harian
+entry fee back	biaya masuk dikembalikan
+for the game	untuk game
+for the win	untuk kemenangan
+games counted	game dihitung
+Analysis	Analisis
+The shot analysis isn't available on this server yet.	Analisis pukulan belum tersedia di server ini.
+Only online accounts have a shot analysis.	Hanya akun online yang punya analisis pukulan.
+Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Main online untuk melihat cara kamu memasukkan bola: analisis muncul setelah {n} pukulan lagi ke lubang.
+{name} hasn't played enough online games for an analysis yet.	{name} belum memainkan cukup game online untuk dianalisis.
+1 game	1 game
+{pct}% of {n} shots at a pocket potted · {games}	{pct}% dari {n} pukulan ke lubang masuk · {games}
+{made} of {n} potted ({pct})	{made} dari {n} masuk ({pct})
+By kind of shot	Menurut jenis pukulan
+shots	pukulan
+Straight	Lurus
+Cut 8–25°	Potong 8–25°
+Cut 25–45°	Potong 25–45°
+Thin cut 45°+	Potong tipis 45°+
+Bank	Pantulan
+Kick	Kick
+Combination	Kombinasi
+Jump	Jump
+Massé	Massé
+Break	Break
+By distance	Menurut jarak
+Short (under 0.75 m)	Pendek (di bawah 0,75 m)
+Medium (to 1.5 m)	Sedang (hingga 1,5 m)
+Long (over 1.5 m)	Jauh (di atas 1,5 m)
+left the opponent nothing	lawan tak dapat peluang
+Breaks	Break
+made a ball	ada bola masuk
+Potted	Masuk
+Missed	Meleset
+Where and in which pocket	Di mana dan ke lubang mana
+{pocket}: {made} of {n} potted	{pocket}: {made} dari {n} masuk
+Where the potted balls were	Posisi bola yang masuk
+Where the missed balls were	Posisi bola yang meleset
+few	sedikit
+many	banyak
+{made} potted · {missed} missed ({pct})	{made} masuk · {missed} meleset ({pct})
+Top left corner	Pojok kiri atas
+Bottom left corner	Pojok kiri bawah
+Top side pocket	Lubang tengah atas
+Bottom side pocket	Lubang tengah bawah
+Top right corner	Pojok kanan atas
+Bottom right corner	Pojok kanan bawah
+games left unfinished	game ditinggalkan
+potting success	akurasi
+shots with a foul	pukulan dengan foul
+starts in {n} min	mulai dalam {n} mnt
+tournament prize	hadiah turnamen
+The dark room hides the hall around the table.	Dengan ruangan gelap, ruangan di sekitar meja tidak terlihat.
+Show the hall	Tampilkan ruangan
+Level {n} · 1 win	Level {n} · 1 kemenangan
+Level {n} · {w} wins	Level {n} · {w} kemenangan
+{left} more online wins with this cue for level {n}. Levels only add marks to the cue.	{left} kemenangan online lagi dengan stik ini untuk level {n}. Level hanya menambah tanda pada stik.
+The top level: this cue has every mark.	Level tertinggi: stik ini punya semua tanda.
+Your cue {cue} reached level {n}!	Stik {cue} milikmu mencapai level {n}!
+Most wins: {cue} (level {n})	Kemenangan terbanyak: {cue} (level {n})
+{games} games · {rate}% won · {balls} balls made	{games} game · {rate}% menang · {balls} bola masuk
+vs	vs
+{from} gave you {item}!	{from} memberimu {item}!
+You received a gift!	Kamu menerima hadiah!
+From	Dari
+To	Untuk
+someone	seseorang
+A month of VIP	Sebulan VIP
+Thank	Terima kasih
+Thanked	Sudah berterima kasih
+They thanked you	Dia berterima kasih padamu
+Use it now	Pakai sekarang
+Later	Nanti
+OK	OK
+Next ({n} more)	Berikutnya ({n} lagi)
+{from} gave you {item}! It's waiting for you in the lounge.	{from} memberimu {item}! Hadiahnya menunggumu di lobi.
+{name} thanked you for {item}.	{name} berterima kasih atas {item}.
+Gifts	Hadiah
+No gifts yet. Friends can give you items from the shop.	Belum ada hadiah. Teman bisa memberimu item dari toko.
+{item} is yours and already in use.	{item} kini milikmu dan sudah dipakai.
+{m}:{s} left	sisa {m}:{s}
+{name} invites you to play.	{name} mengajakmu bermain.
+{name} is online.	{name} sedang online.
+{name} ran out of time.	Waktu {name} habis.
+{name} received {item}.	{name} menerima {item}.
+{n} pts · {g} games	{n} poin · {g} game
+{n} watching · avg {r}	{n} menonton · rata-rata {r}
+{title}: {how}	{title}: {how}
+Olive	Zaitun
+Navy	Biru dongker
+Forest	Hijau hutan
+Slate grey	Abu-abu batu
+Red wine	Merah anggur
+Burnt orange	Jingga bakar
+Dusty rose	Merah muda pudar
+Sand	Pasir
+Ice blue	Biru es
+Lime	Limau
+Black tie	Dasi hitam
+Cobalt	Kobalt
+Emerald	Zamrud
+Natural maple	Maple alami
+Beach bar	Bar pantai
+Modern	Modern
+English club	Klub Inggris
+Ebony & gold	Eboni & emas
+Pool hall	Rumah biliar
+Industrial loft	Loteng industrial
+Steel & oak	Baja & ek
+Tournament	Turnamen
+Victorian walnut	Walnut Victoria
+Ivory deco	Deco gading
+Mountain lodge	Pondok gunung
+Neon arcade	Arkade neon
+Art deco lounge	Lounge art deco
+Skyline penthouse	Penthouse kota
+Walnut	Walnut
+Zebrawood	Kayu zebra
+Bocote	Bocote
+Deep ocean	Samudra dalam
+Cherry	Ceri
+Jade	Giok
+Tiger	Harimau
+Amethyst	Kecubung
+Arctic carbon	Karbon arktik
+Inferno	Inferno
+Obsidian gold	Obsidian emas
+Tan chalk	Kapur cokelat muda
+Grey chalk	Kapur abu-abu
+Orange chalk	Kapur oranye
+Pink chalk	Kapur merah muda
+Teal chalk	Kapur toska
+Yellow chalk	Kapur kuning
+Black chalk	Kapur hitam
+White chalk	Kapur putih
+Silver chalk	Kapur perak
+TV set	Set TV
+Earth tones	Warna tanah
+Ocean	Samudra
+Sunset	Senja
+Candy	Permen
+Pearl	Mutiara
+Monochrome	Monokrom
+Chrome	Krom
+Gold rush	Demam emas
+No frame	Tanpa bingkai
+Bronze	Perunggu
+Silver	Perak
+Gold	Emas
+Green felt	Kain hijau
+Mahogany	Mahoni
+Ice	Es
+Fire	Api
+Diamond	Berlian
+VIP crown	Mahkota VIP
+Rose gold	Emas mawar
+Aqua	Aqua
+Violet	Violet
+Ember	Bara
+Mint	Mint
+Frost	Embun beku
+No effect	Tanpa efek
+Sparks	Percikan
+Confetti	Konfeti
+Shockwave	Gelombang kejut
+Coin shower	Hujan koin
+Flames	Kobaran api
+Royal sparks	Percikan agung
+Tier colour	Warna tingkat
+16-player tournaments are for VIP members.	Turnamen 16 pemain khusus anggota VIP.
+A seat opened: you are in the tournament!	Ada kursi kosong: kamu masuk turnamen!
+Entry fees go up to 1000 coins.	Biaya masuk maksimal 1000 koin.
+Guests can't play for coins.	Tamu tidak bisa bermain untuk koin.
+Only items sold for coins can be given.	Hanya item yang dijual dengan koin yang bisa diberikan.
+Password changed.	Kata sandi diubah.
+Passwords need 8 or more characters, not only digits.	Kata sandi minimal 8 karakter, tidak hanya angka.
+Recovery e-mail removed.	E-mail pemulihan dihapus.
+Recovery e-mail saved.	E-mail pemulihan disimpan.
+Something went wrong. Please try again.	Terjadi kesalahan. Silakan coba lagi.
+That code is not valid (or the table was closed).	Kode itu tidak valid (atau mejanya sudah ditutup).
+That doesn't look like an e-mail address.	Itu tidak terlihat seperti alamat e-mail.
+That game is over.	Game itu sudah selesai.
+The current password is wrong.	Kata sandi saat ini salah.
+The server is restarting.	Server sedang dimulai ulang.
+The server is restarting: new games start in a moment.	Server sedang dimulai ulang: game baru segera dimulai.
+The tournament is full: you are on the waiting list.	Turnamen penuh: kamu masuk daftar tunggu.
+This replay is not available.	Replay ini tidak tersedia.
+You can only give items to your friends.	Kamu hanya bisa memberi item ke temanmu.
+Your friend already has this item.	Temanmu sudah punya item ini.
+16 (VIP)	16 (VIP)
+VIP isn't sold in this version of the game.	VIP tidak dijual di versi game ini.
+In this version of the game, coins are earned by playing:	Di versi game ini, koin didapat dengan bermain:
+rated games, and a bonus every day you play.	game ranked, dan bonus setiap hari kamu bermain.
+Coins are earned by playing:	Koin didapat dengan bermain:
+If you like, you can also buy them:	Kalau mau, kamu juga bisa membelinya:
+one month	satu bulan
+already VIP	sudah VIP
+Give a month to a friend · {p}	Hadiahkan sebulan ke teman · {p}
+{from} gave you a month of VIP!	{from} memberimu sebulan VIP!
+{name} received a month of VIP.	{name} menerima sebulan VIP.
+Your friend is already VIP.	Temanmu sudah VIP.
+Game in progress: {n} balls left	Game berjalan: sisa {n} bola
+Continue	Lanjutkan
+Missions	Misi
+Board	Papan
+Today	Hari ini
+This week	Minggu ini
+new missions in {t}	misi baru dalam {t}
+ends in {t}	berakhir dalam {t}
+{n} days	{n} hari
+{n} h	{n} jam
+{n} min	{n} mnt
+mission complete	misi selesai
+Missions count rated games played to the end. The coins arrive as soon as one is complete.	Misi menghitung game ranked yang dimainkan sampai selesai. Koin langsung masuk begitu satu misi selesai.
+Nothing on the board right now.	Papan masih kosong saat ini.
+Open tournaments	Turnamen terbuka
+{n}/{size} players	{n}/{size} pemain
+starts in {t}	mulai dalam {t}
+entry {n} coins	biaya masuk {n} koin
+See	Lihat
+Play {n} rated games	Mainkan {n} game ranked
+Win {n} rated games	Menangkan {n} game ranked
+Pot {n} balls	Masukkan {n} bola
+Pot {n} balls with spin	Masukkan {n} bola dengan efek
+Pot 3 balls in a row in one visit	Masukkan 3 bola beruntun dalam satu giliran
+Win a game without a foul	Menangkan game tanpa foul
+Pot 3 balls in a row {n} times	Masukkan 3 bola beruntun sebanyak {n} kali
+Win {n} games without a foul	Menangkan {n} game tanpa foul
+TV camera when watching	Kamera TV saat menonton
+Broadcast angles for other players' games and replays.	Sudut siaran untuk game pemain lain dan replay.
+System notifications	Notifikasi sistem
+Invites, friends coming online and games starting, while you're away.	Undangan, teman yang online, dan game yang dimulai, saat kamu sedang tidak di layar.
+{name} starts in a few minutes: get ready!	{name} dimulai beberapa menit lagi: bersiaplah!
+{name} starts in a few minutes: there is still room.	{name} dimulai beberapa menit lagi: masih ada tempat.
+{name} has started!	{name} sudah dimulai!
+Momentum	Momentum
+Shot map	Peta pukulan
+No shots yet.	Belum ada pukulan.
+made	masuk
+missed	meleset
+foul	foul
+See the tournaments	Lihat turnamen
+Open the shop	Buka toko
+See VIP	Lihat VIP
+See the missions	Lihat misi
+A new version of the game is out: update to play online.	Versi baru game sudah rilis: perbarui untuk main online.
+Update in the Microsoft Store	Perbarui di Microsoft Store
+Update now	Perbarui sekarang
+Download the new version	Unduh versi baru
+New version out	Versi baru tersedia
+Get the new version to play online	Dapatkan versi baru untuk main online
+Cheer for {name}	Dukung {name}
+Crowd: {a} for {p0}, {b} for {p1}	Penonton: {a} untuk {p0}, {b} untuk {p1}
+welcome pack	paket sambutan
+Welcome pack	Paket sambutan
+Cue “{cue}”, cloth “{cloth}” and {n} coins · only once, sold nowhere else	Stik “{cue}”, kain “{cloth}”, dan {n} koin · hanya sekali, tidak dijual di tempat lain
+Lagoon	Laguna
+You already have the welcome pack.	Kamu sudah punya paket sambutan.
+Your welcome pack is here!	Paket sambutanmu sudah tiba!
+Previous shot (←)	Pukulan sebelumnya (←)
+Next shot (→)	Pukulan berikutnya (→)
+Play (Space)	Putar (Spasi)
+Pause (Space)	Jeda (Spasi)
+Speed	Kecepatan
+Shot {n} of {total}	Pukulan {n} dari {total}
+For VIP members	Untuk anggota VIP
+{n} reactions of your own to send during games	{n} reaksi eksklusif untuk dikirim saat bermain
+Items {a}–{b} of {n}	Item {a}–{b} dari {n}
+(message deleted by its author)	(pesan dihapus oleh pengirimnya)
+(message deleted by an administrator)	(pesan dihapus oleh administrator)
+Delete (it shows as deleted)	Hapus (tampil sebagai dihapus)
+Remove without a trace	Hapus tanpa jejak
+The chat was cleared by {name}.	Chat dibersihkan oleh {name}.
+Click again to clear	Klik lagi untuk membersihkan
+Clear the chat	Bersihkan chat
+Players' chat (administrator)	Chat pemain (administrator)
+Play the computer while you wait	Lawan komputer sambil menunggu
+Looking for an opponent… {t} · the game starts as soon as one is found	Mencari lawan… {t} · game dimulai begitu lawan ditemukan
+Stop	Berhenti
+# Coin packs and months of VIP bought in the Microsoft Store (the Store build).
+The Microsoft Store couldn't complete the purchase.	Microsoft Store tidak bisa menyelesaikan pembelian.
+The Microsoft Store couldn't confirm the purchase right now. Its coins arrive the next time you open the shop.	Microsoft Store belum bisa mengonfirmasi pembelian saat ini. Koinnya akan masuk saat kamu membuka toko lagi.
+{n} coins added to your wallet.	{n} koin ditambahkan ke dompetmu.
+Microsoft is confirming your purchase: the coins arrive in a moment.	Microsoft sedang mengonfirmasi pembelianmu: koin akan masuk sebentar lagi.
+The purchase hasn't reached us yet. Its coins arrive the next time you open the shop.	Pembelian belum sampai ke kami. Koinnya akan masuk saat kamu membuka toko lagi.
+Loading prices from the Microsoft Store…	Memuat harga dari Microsoft Store…
+Coins can't be bought in this version yet.	Koin belum bisa dibeli di versi ini.
+Finish the purchase in the Microsoft Store window…	Selesaikan pembelian di jendela Microsoft Store…
+Confirming your purchase…	Mengonfirmasi pembelianmu…
+Paid in the Microsoft Store, with your Microsoft account.	Dibayar di Microsoft Store, dengan akun Microsoft kamu.
+The Microsoft Store can't be reached right now. Try again in a moment.	Microsoft Store tidak bisa dihubungi saat ini. Coba lagi sebentar lagi.
+The Microsoft Store could not confirm the purchase.	Microsoft Store tidak bisa mengonfirmasi pembelian.
+Sign in to the Microsoft Store with your Microsoft account, then open the shop again.	Masuk ke Microsoft Store dengan akun Microsoft kamu, lalu buka toko lagi.
+The Microsoft Store couldn't confirm the purchase right now. Your VIP month starts the next time you open the shop.	Microsoft Store belum bisa mengonfirmasi pembelian saat ini. Bulan VIP-mu dimulai saat kamu membuka toko lagi.
+You are VIP until {d}, and {n} coins were added to your wallet.	Kamu VIP sampai {d}, dan {n} koin ditambahkan ke dompetmu.
+Microsoft is confirming your purchase: your VIP month starts in a moment.	Microsoft sedang mengonfirmasi pembelianmu: bulan VIP-mu segera dimulai.
+The purchase hasn't reached us yet. Your VIP month starts the next time you open the shop.	Pembelian belum sampai ke kami. Bulan VIP-mu dimulai saat kamu membuka toko lagi.
+A month at a time: nothing renews by itself	Bayar per bulan: tidak ada perpanjangan otomatis
+Add a month · {p}	Tambah sebulan · {p}
+A month of VIP · {p}	Sebulan VIP · {p}
+The new month starts when this one ends.	Bulan baru dimulai saat bulan ini berakhir.
+Trophies	Trofi
+No trophies yet.	Belum ada trofi.
+Tournament won · {n} players	Juara turnamen · {n} pemain
+The computer tour	Tur melawan komputer
+All fifteen opponents beaten	Kelima belas lawan dikalahkan
+Daily challenge	Tantangan harian
+First of {n} players	Pertama dari {n} pemain
+Easy shot	Pukulan mudah
+Fair shot	Pukulan sedang
+Hard shot	Pukulan sulit
+Very hard shot	Pukulan sangat sulit
+~{n}% chance	peluang ~{n}%
+No ball goes down as aimed	Tidak ada bola yang masuk dengan bidikan ini
+straight in	lurus
+{n}° cut	potong {n}°
+off one cushion	lewat satu bantalan
+off {n} cushions	lewat {n} bantalan
+Make as many balls as you can in one visit: a miss or a foul ends the attempt.	Masukkan bola sebanyak mungkin dalam satu giliran: meleset atau foul mengakhiri percobaan.
+The same table for everyone, all day	Meja yang sama untuk semua orang, sepanjang hari
+{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	{n} percobaan sehari. Bersihkan meja untuk {coins} koin; pemenang hari itu mendapat trofi.
+A new table in {h} h {m} min	Meja baru dalam {h} jam {m} mnt
+Sign in to take part: the server keeps the day's table.	Masuk untuk ikut serta: server menyimpan klasemen hari ini.
+Balls on today's table	Bola di meja hari ini
+Attempts left	Sisa percobaan
+{n} balls · #{rank}	{n} bola · #{rank}
+{n} balls	{n} bola
+not yet	belum
+Your best today	Terbaikmu hari ini
+No attempts left today: come back tomorrow.	Percobaan hari ini sudah habis: kembali lagi besok.
+The attempt could not be counted.	Percobaan tidak bisa dihitung.
+Setting up the table…	Menyiapkan meja…
+Start an attempt	Mulai percobaan
+Starting uses an attempt, even if you leave the table.	Memulai memakai satu percobaan, meski kamu meninggalkan meja.
+Loading today's table…	Memuat meja hari ini…
+Today's table	Klasemen hari ini
+{n} players	{n} pemain
+Nobody has played today's table yet. Be the first!	Belum ada yang memainkan meja hari ini. Jadilah yang pertama!
+Table cleared!	Meja bersih!
+{n} of {total} balls	{n} dari {total} bola
+Sending your attempt to the server…	Mengirim percobaanmu ke server…
+Counted: {n} balls · +{coins} coins	Tercatat: {n} bola · +{coins} koin
+Counted: {n} balls	Tercatat: {n} bola
+See today's table	Lihat klasemen
+Table cleared! +{n} coins	Meja bersih! +{n} koin
+Daily challenge: {n} of {total} balls made	Tantangan harian: {n} dari {total} bola masuk
+1 player	1 pemain
+Phoenix	Feniks
+Carrara marble	Marmer Carrara
+Dragon scale	Sisik naga
+Galaxy	Galaksi
+Ruby throne	Takhta rubi
+Closing the game now is leaving it: extra rating lost and a wait to play again.	Menutup game sekarang sama dengan keluar: rating ekstra hilang dan kamu harus menunggu untuk main lagi.
+You left a game in progress: you can play online again in {n} min.	Kamu keluar dari game yang sedang berjalan: kamu bisa main online lagi dalam {n} mnt.
+Quick phrases	Frasa cepat
+Good luck, have fun!	Semoga beruntung, selamat bermain!
+Nice shot!	Pukulan bagus!
+Great safety!	Safety yang hebat!
+Unlucky!	Sayang sekali!
+Oops!	Ups!
+Wow!	Wah!
+That was close!	Nyaris!
+Take your time.	Santai saja.
+Sorry!	Maaf!
+Thanks!	Terima kasih!
+Well played!	Main bagus!
+Good game!	Game yang seru!
+Rematch?	Tanding ulang?
+I have to go, thanks for the game!	Aku harus pergi, terima kasih untuk game-nya!
+Practise while you wait	Berlatih sambil menunggu
+A new rack.	Rak baru.
+Level {n}! (+{xp} XP)	Level {n}! (+{xp} XP)
++{xp} XP	+{xp} XP
+Level {n} · {into} / {span} XP to the next	Level {n} · {into} / {span} XP ke level berikutnya
+Level {n}	Level {n}
+Hi! I watched a lot of videos, I'm ready!	Hai! Aku sudah nonton banyak video, aku siap!
+Be gentle, okay?	Jangan galak-galak, ya?
+Whoa, how did you do that?	Wah, kok kamu bisa begitu?
+Teach me that one later!	Nanti ajari aku yang itu, ya!
+Phew! My turn!	Fiuh! Giliranku!
+Even you miss? Good to know.	Kamu juga bisa meleset? Bagus, jadi tahu.
+A free ball! What do I do with it?	Bola gratis! Terus aku harus apa?
+Did you see that?! It went in!	Kamu lihat itu?! Masuk!
+Beginner's luck counts too!	Keberuntungan pemula juga dihitung!
+Oops. That was a practice shot.	Ups. Itu tadi pukulan latihan.
+Aim, Leo, aim...	Bidik, Leo, bidik...
+Sorry! I touched the wrong one again.	Maaf! Aku kena bola yang salah lagi.
+I WON? I'm calling my mum!	AKU MENANG? Aku mau telepon ibuku!
+Good game! I'm getting better, right?	Game yang seru! Aku makin jago, kan?
+Saturday, a table and good company. Let's play!	Sabtu, meja biliar, dan teman yang asyik. Ayo main!
+Nice one!	Bagus!
+Oh, you're good. I'll pay attention now.	Wah, kamu jago. Sekarang aku harus serius.
+Happens to the best of us.	Pemain terbaik pun pernah begitu.
+Don't worry, it's just a game!	Tenang, cuma permainan kok!
+Thanks for the gift!	Terima kasih atas hadiahnya!
+Yes! Weekend skills!	Asyik! Jago akhir pekan!
+Lucky me!	Untung banget!
+Hm, where was I aiming?	Hmm, tadi aku membidik ke mana, ya?
+Too much chatting, not enough aiming.	Kebanyakan ngobrol, kurang membidik.
+Oops, my bad!	Ups, salahku!
+That was fun! Same time next weekend?	Seru banget! Jam yang sama akhir pekan depan?
+Well played! Rematch over a lemonade?	Main bagus! Tanding ulang sambil minum limun?
+Four cushions, endless possibilities.	Empat bantalan, kemungkinan tanpa batas.
+Straight in? So... direct.	Langsung masuk? Begitu... lugas.
+Nice, but a bank would have been prettier.	Bagus, tapi lewat pantulan pasti lebih indah.
+You should have used the cushion.	Harusnya kamu pakai bantalan.
+The rail was right there, asking for it.	Bantalannya ada di situ, menunggu dipakai.
+The table didn't like that.	Mejanya tidak suka itu.
+Off the rail and in. Art!	Memantul di bantalan lalu masuk. Seni!
+Geometry never lies.	Geometri tidak pernah bohong.
+The angle was right. The cushion disagreed.	Sudutnya benar. Bantalannya tidak setuju.
+One diamond off. Just one!	Meleset satu diamond. Cuma satu!
+Too much imagination, not enough contact.	Terlalu banyak imajinasi, kurang kontak.
+A masterpiece, if I may say so.	Sebuah mahakarya, kalau boleh kubilang.
+Well played. Now try it off two rails.	Main bagus. Sekarang coba lewat dua bantalan.
+I hope these balls are made of steel.	Semoga bola-bola ini terbuat dari baja.
+Soft touch, huh? Not my style.	Pukulan halus, ya? Bukan gayaku.
+Hit it harder next time!	Lain kali pukul lebih keras!
+Too gentle! Power solves everything.	Terlalu pelan! Tenaga menyelesaikan segalanya.
+HA!	HA!
+My table now. Cover your ears.	Sekarang meja ini milikku. Tutup telingamu.
+BOOM!	DUAR!
+Did you hear that pocket?	Dengar suara lubang itu?
+Too much power? No such thing.	Tenaga terlalu besar? Tidak ada istilah itu.
+The pocket moved.	Lubangnya bergeser.
+The ball flew. It happens. A lot.	Bolanya terbang. Biasa. Sering malah.
+Power wins again! BOOM!	Tenaga menang lagi! DUAR!
+Fine, finesse works too. Sometimes.	Oke, kehalusan juga bisa berhasil. Kadang-kadang.
+Take your time. I have all day.	Santai saja. Aku punya waktu seharian.
+Acceptable.	Boleh juga.
+Enjoy it while it lasts.	Nikmati selagi bisa.
+Patience is a virtue. Not yours, apparently.	Sabar itu kebajikan. Tampaknya bukan kebajikanmu.
+Thank you.	Terima kasih.
+Sloppy.	Ceroboh.
+Steady wins.	Yang tenang yang menang.
+One at a time.	Satu per satu.
+Hm. I'll leave you nothing anyway.	Hmm. Tetap saja tak akan kusisakan apa-apa untukmu.
+Intentional. Probably.	Disengaja. Mungkin.
+Unacceptable. Of me.	Tidak bisa diterima. Kesalahanku sendiri.
+As I said: patience.	Seperti kubilang: sabar.
+You got through the wall. I'm impressed.	Kamu berhasil menembus tembok. Aku terkesan.
+I've been playing since before these balls were plastic.	Aku sudah main sejak bola-bola ini belum terbuat dari plastik.
+Good stroke. Reminds me of a fellow in '78.	Pukulan bagus. Mengingatkanku pada seseorang di tahun '78.
+Smooth. Very smooth.	Halus. Halus sekali.
+Keep your head down, kid.	Tetap tundukkan kepalamu, Nak.
+The cue ball doesn't lie.	Bola putih tidak pernah bohong.
+Ah, a little present. Thank you kindly.	Ah, hadiah kecil. Terima kasih banyak.
+Like riding a bicycle.	Seperti naik sepeda.
+Still got it.	Masih jago.
+The eyes aren't what they used to be.	Mata ini sudah tidak seperti dulu.
+In my day the pockets were bigger.	Di zamanku lubangnya lebih besar.
+Even old pros slip.	Pemain veteran pun bisa terpeleset.
+Experience, my friend. Experience.	Pengalaman, kawan. Pengalaman.
+You've got a future in this game.	Kamu punya masa depan di permainan ini.
+Me? Oh, I hardly ever play...	Aku? Ah, aku jarang sekali main...
+Lucky! Do it again, I dare you.	Beruntung! Coba ulangi kalau berani.
+Ooh, someone's been practising.	Ooh, ada yang rajin latihan nih.
+Aw, so close! Bless.	Aduh, nyaris! Kasihan.
+Want me to show you how?	Mau kutunjukkan caranya?
+Thank you, sweetie.	Makasih, sayang.
+Oops, did I do that?	Ups, aku yang melakukan itu?
+Must be beginner's luck. Again.	Pasti keberuntungan pemula. Lagi.
+Missed on purpose. Keeps it interesting.	Sengaja meleset. Biar seru.
+Just warming up.	Baru pemanasan.
+Oh dear, how clumsy of me. Wink.	Aduh, cerobohnya aku. Kedip.
+Hardly ever play, I said. Hardly.	Jarang main, kataku. Jarang.
+Fine, you got me. This time.	Oke, kamu menang. Kali ini.
+Friction, momentum, spin. Let us begin.	Gesekan, momentum, efek. Mari kita mulai.
+A fine cut. About thirty degrees, I'd say.	Potongan yang bagus. Sekitar tiga puluh derajat, menurut saya.
+Textbook.	Sesuai buku teks.
+You underestimated the throw.	Kamu meremehkan pembelokan bolanya.
+Interesting. Statistically expected.	Menarik. Sesuai perkiraan statistik.
+The cue ball followed the laws of physics, not your plan.	Bola putih mengikuti hukum fisika, bukan rencanamu.
+As calculated.	Sesuai perhitungan.
+Elastic collision, elegant result.	Tumbukan lenting, hasil yang elegan.
+An error in my measurement.	Ada kesalahan dalam pengukuran saya.
+I'll revise the model.	Saya akan merevisi modelnya.
+Hm. Unexpected spin.	Hmm. Efek yang tak terduga.
+The numbers were on my side.	Angka-angka berpihak pada saya.
+A result outside my predictions. Well done.	Hasil di luar prediksi saya. Bagus sekali.
+Focus.	Fokus.
+Clean.	Bersih.
+Not bad.	Lumayan.
+Half a millimetre.	Setengah milimeter.
+Breathe before you shoot.	Tarik napas sebelum memukul.
+Careless.	Lengah.
+Target down.	Sasaran kena.
+Centre pocket.	Tepat di tengah lubang.
+Hm. Recalibrating.	Hmm. Kalibrasi ulang.
+That never happens.	Itu tidak pernah terjadi.
+Unacceptable.	Tidak bisa diterima.
+Precision wins.	Presisi yang menang.
+Good shooting.	Bidikan bagus.
+Welcome to my table. Enjoy the show.	Selamat datang di meja saya. Nikmati pertunjukannya.
+Very good. You've done your homework.	Bagus sekali. Kamu sudah mengerjakan PR-mu.
+Applause for the challenger!	Tepuk tangan untuk sang penantang!
+Pressure. It gets to everyone.	Tekanan. Semua orang bisa kena.
+Thank you for the table.	Terima kasih atas mejanya.
+A champion never refuses a gift.	Juara tidak pernah menolak hadiah.
+Naturally.	Tentu saja.
+That's how it's done.	Begitulah caranya.
+Even champions give the crowd a chance.	Juara pun memberi penonton kesempatan.
+Leaving you something, out of courtesy.	Saya sisakan sesuatu untukmu, sebagai sopan santun.
+A rare sight. Remember it.	Pemandangan langka. Ingat baik-baik.
+The title stays with me. Good game.	Gelar tetap milik saya. Game yang seru.
+Remarkable. You've earned my respect.	Luar biasa. Kamu pantas mendapat rasa hormat saya.
+Calibration complete. Good luck, human.	Kalibrasi selesai. Semoga beruntung, manusia.
+Shot registered: successful.	Pukulan tercatat: berhasil.
+Probability of my victory: increasing.	Probabilitas kemenangan saya: meningkat.
+Foul detected. Processing penalty.	Foul terdeteksi. Memproses penalti.
+Executed as planned.	Dieksekusi sesuai rencana.
+Error. Recalculating.	Kesalahan. Menghitung ulang.
+Malfunction. Please disregard.	Malfungsi. Harap abaikan.
+Game complete. Thank you for playing.	Game selesai. Terima kasih telah bermain.
+Defeat acknowledged. Well played.	Kekalahan diakui. Permainan bagus.
+Drills	Latihan
+Exercises with stars	Latihan dengan bintang
+{s} / {max} stars	{s} / {max} bintang
+Stars at {a}, {b} and {c}	Bintang di {a}, {b}, dan {c}
+Your best: {n} of {total}	Terbaikmu: {n} dari {total}
+Not tried yet.	Belum dicoba.
+Start the drill	Mulai latihan
+Sign in to keep your stars in your account.	Masuk untuk menyimpan bintangmu di akun.
+{n} of {total}	{n} dari {total}
+{drill}: try {k} of {n} · {made} made	{drill}: percobaan {k} dari {n} · {made} masuk
+Made it! {n} of {total}	Berhasil! {n} dari {total}
+Missed.	Meleset.
+Sending to the server…	Mengirim ke server…
+Not signed in: this session is not ranked.	Belum masuk: sesi ini tidak masuk peringkat.
+Kept in your account.	Tersimpan di akunmu.
+The session could not be counted.	Sesi ini tidak bisa dihitung.
+Back to the drills	Kembali ke latihan
+Straight in	Lurus masuk
+A long straight pot into the corner. Five tries.	Pukulan lurus jauh ke lubang pojok. Lima percobaan.
+The cut	Potongan
+A half-ball cut into the corner. Five tries.	Potongan setengah bola ke lubang pojok. Lima percobaan.
+Draw it back	Tarik mundur
+Pot the ball and draw the cue ball back into the circle. Five tries.	Masukkan bola lalu tarik bola putih mundur ke dalam lingkaran. Lima percobaan.
+Follow through	Dorong maju
+Pot the ball and leave the cue ball in the circle past it. Five tries.	Masukkan bola lalu biarkan bola putih berhenti di lingkaran di belakangnya. Lima percobaan.
+Bank shot	Pantulan
+Off one cushion into the side pocket. Five tries.	Lewat satu bantalan ke lubang tengah. Lima percobaan.
+Snooker escape	Lolos dari snooker
+Hit the 1 first: it hides behind other balls. Five tries.	Kenai bola 1 lebih dulu: bola itu tersembunyi di balik bola lain. Lima percobaan.
+Ten in a row	Sepuluh beruntun
+Ten different pots, one after another: a miss ends the session.	Sepuluh bola berbeda, satu demi satu: sekali meleset, sesi berakhir.
+The far corner	Pojok jauh
+A cut back up the table into the corner behind you. Five tries.	Potongan balik ke arah lubang pojok di belakangmu. Lima percobaan.
+Long into the side	Jauh ke tengah
+From the far end of the table into the side pocket. Five tries.	Dari ujung meja ke lubang tengah. Lima percobaan.
+Cue ball on the cushion	Bola putih menempel bantalan
+The cue ball touches the cushion: pot the ball into the corner all the same. Five tries.	Bola putih menempel di bantalan: tetap masukkan bola ke lubang pojok. Lima percobaan.
+The plant	Bola tempel
+The 2 touches the 1 and points at the pocket: hit the 2 and the 1 goes in. Five tries.	Bola 2 menempel bola 1 dan mengarah ke lubang: pukul bola 2 dan bola 1 masuk. Lima percobaan.
+The carom	Karambol
+The 2 is in the way: glance off it and send the 1 into the corner. Five tries.	Bola 2 menghalangi: serempet bola itu dan kirim bola 1 ke lubang pojok. Lima percobaan.
+The long draw	Tarikan jauh
+Pot the ball and draw the cue ball all the way back into the circle. Five tries.	Masukkan bola lalu tarik bola putih jauh ke belakang hingga ke lingkaran. Lima percobaan.
+On the tangent line	Di garis singgung
+Pot the ball in the side and let the cue ball run on into the circle. Five tries.	Masukkan bola ke lubang tengah dan biarkan bola putih terus melaju ke lingkaran. Lima percobaan.
+Two-cushion bank	Pantulan dua bantalan
+Off two cushions and into the corner. Five tries.	Lewat dua bantalan lalu masuk ke lubang pojok. Lima percobaan.
+Fifteen in a row	Lima belas beruntun
+Fifteen different pots, one after another: a miss ends the session.	Lima belas bola berbeda, satu demi satu: sekali meleset, sesi berakhir.
+Take back the shot (Z)	Batalkan pukulan (Z)
+Shot taken back.	Pukulan dibatalkan.
+Solids	Polos
+Stripes	Belang
+Hide the history	Sembunyikan riwayat
+New username	Nama pengguna baru
+Click again to confirm	Klik lagi untuk konfirmasi
+{n} of {total} name changes left	Sisa {n} dari {total} kali ganti nama
+You can't change your username again.	Kamu tidak bisa mengganti nama pengguna lagi.
+That is already your username.	Itu sudah nama penggunamu.
+Finish your game before changing your username.	Selesaikan game kamu sebelum mengganti nama pengguna.
+Leave your table or the queue before changing your username.	Tinggalkan mejamu atau antrean sebelum mengganti nama pengguna.
+Leave your tournament before changing your username.	Tinggalkan turnamenmu sebelum mengganti nama pengguna.
+Username changed.	Nama pengguna diganti.
+The server is still being updated to the new version. Try again in a few minutes.	Server masih diperbarui ke versi baru. Coba lagi beberapa menit lagi.
+{shooter} made an opponent's ball: {next} to shoot.	{shooter} memasukkan bola lawan: giliran {next}.
+# Five more computer opponents: Tito, Inês, Diego, Amara and Yuri.
+The Gambler	Si Penjudi
+Bets on every shot: as hard as the cue allows, with all the spin he can find. Safe play bores him.	Bertaruh di setiap pukulan: sekeras yang dimungkinkan stik, dengan efek sebanyak mungkin. Main aman membuatnya bosan.
+The Soft Touch	Si Tangan Lembut
+Never hits harder than she must: the balls die at the pocket's edge and the cue ball stops where she wants it.	Tak pernah memukul lebih keras dari yang perlu: bola jatuh pelan di bibir lubang dan bola putih berhenti di tempat yang dia mau.
+The Showman	Si Penghibur
+Plays to the crowd: a raised cue, swerving spin and a bank whenever there's one. It works more often than it should.	Bermain untuk penonton: stik terangkat, efek melengkung, dan pantulan setiap ada kesempatan. Anehnya, lebih sering berhasil daripada seharusnya.
+The Tactician	Si Ahli Taktik
+Plans the whole rack: snookers you when the pot isn't sure, and runs out when it is.	Merencanakan seluruh rak: membuatmu kena snooker saat bola belum pasti masuk, dan menghabiskan meja saat sudah pasti.
+The Machine	Si Mesin
+No nerves, no flair: centre ball, measured pace, the same perfect stroke every time.	Tanpa gugup, tanpa gaya: pukul tengah, tenaga terukur, pukulan sempurna yang sama setiap kali.
+Place your bets! Mine's on me.	Pasang taruhanmu! Aku bertaruh untuk diriku sendiri.
+Lucky roll. Let it ride!	Lagi hoki. Gas terus!
+Okay, okay. Double or nothing?	Oke, oke. Dobel atau kosong?
+The house always wins!	Bandar selalu menang!
+Free chips! Thank you!	Chip gratis! Terima kasih!
+All in, and it paid!	All in, dan berhasil!
+That's how you play the odds!	Begitulah cara bermain dengan peluang!
+Bad beat. Next hand.	Apes. Ronde berikutnya.
+Too much spin? There's no such thing.	Efek terlalu banyak? Tidak ada istilah itu.
+Busted. Worth the risk!	Kalah. Tapi risikonya sepadan!
+Jackpot! Same stakes again?	Jackpot! Taruhan yang sama lagi?
+You beat the odds. Respect.	Kamu mengalahkan peluang. Salut.
+Softly, now. The table likes a gentle hand.	Pelan-pelan saja. Meja suka tangan yang lembut.
+Nicely done.	Bagus sekali.
+A little hard, but it went in.	Agak keras, tapi masuk.
+Less power, more feel.	Kurangi tenaga, tambah rasa.
+Oh dear. A free ball for me.	Aduh. Bola gratis untukku.
+Just enough to drop.	Pas sekali untuk jatuh.
+See? No need to hit it hard.	Lihat? Tidak perlu memukul keras.
+A touch too soft.	Sedikit terlalu pelan.
+Clumsy of me. Sorry.	Aku ceroboh. Maaf.
+Slow and steady. Thank you for the game.	Pelan tapi pasti. Terima kasih untuk game-nya.
+Beautifully played. Well deserved.	Permainan yang indah. Pantas menang.
+Ladies and gentlemen... the show begins!	Hadirin sekalian... pertunjukan dimulai!
+Not bad! Bow to the crowd!	Lumayan! Beri hormat ke penonton!
+You stole my applause!	Kamu mencuri tepuk tanganku!
+The crowd wanted more!	Penonton ingin lebih!
+Ooh, a plot twist!	Ooh, ada kejutan!
+Ta-da!	Ta-da!
+And for my next trick...	Dan untuk trik berikutnya...
+Even magicians have off nights.	Pesulap pun punya malam yang buruk.
+That was... part of the act.	Itu tadi... bagian dari pertunjukan.
+Thank you, thank you! Encore?	Terima kasih, terima kasih! Lagi?
+Take a bow, champion. You earned it.	Silakan membungkuk, juara. Kamu pantas mendapatkannya.
+Every rack is a puzzle. Let's solve this one.	Setiap rak adalah teka-teki. Ayo pecahkan yang ini.
+Good. Now where is your cue ball?	Bagus. Sekarang, bola putihmu di mana?
+I saw that coming.	Sudah kuduga.
+That left me something. Thank you.	Itu menyisakan peluang untukku. Terima kasih.
+As planned.	Sesuai rencana.
+Exactly as I calculated.	Persis seperti perhitunganku.
+Three moves ahead.	Tiga langkah di depan.
+A variable I missed.	Ada variabel yang terlewat.
+Hm. Recalculating.	Hmm. Menghitung ulang.
+Checkmate.	Skakmat.
+You out-thought me. That's rare.	Pemikiranmu lebih unggul dariku. Itu jarang terjadi.
+Game initialised.	Game dimulai.
+Noted.	Dicatat.
+Error margin exceeded.	Batas galat terlampaui.
+Penalty applied.	Penalti diterapkan.
+As expected.	Sesuai perkiraan.
+Next.	Berikutnya.
+Deviation logged.	Penyimpangan dicatat.
+Malfunction. It will not repeat.	Malfungsi. Tidak akan terulang.
+Result: win. Thank you for the data.	Hasil: menang. Terima kasih atas datanya.
+Unexpected outcome. Impressive.	Hasil tak terduga. Mengesankan.
+Opponents' remarks	Komentar lawan
+The computer opponents comment on the game in speech bubbles.	Lawan komputer mengomentari game lewat balon kata.
+Top view only	Hanya tampak atas
+The table is always seen from above: no 3D view, no turning.	Meja selalu terlihat dari atas: tanpa tampilan 3D, tanpa memutar.
+Not with the top view only.	Tidak tersedia dengan mode hanya tampak atas.
+Wheel	Roda mouse
+Rules	Aturan
+Rules of the game	Aturan permainan
+Level	Datar
+Drag the cue: jump & massé	Seret stik: jump & massé
+Drag to raise or lower the cue	Seret untuk menaikkan atau menurunkan stik
+Drag the cue · {keys}	Seret stik · {keys}
+Profile picture	Foto profil
+Shown by your name at the table and in your profile.	Ditampilkan di samping namamu di meja dan di profilmu.
+No picture	Tanpa foto
+Change your picture	Ganti fotomu
+{name} sank the 8 together with another ball	{name} memasukkan bola 8 bersama bola lain
+the opponent sank the 8 with another ball	lawan memasukkan bola 8 bersama bola lain
+sank the 8 with another ball	memasukkan bola 8 bersama bola lain
+opponent pocketed the 8-ball together with another ball	lawan memasukkan bola 8 bersama bola lain
+Penalty: {balls} off the table for {name}.	Penalti: {balls} diangkat dari meja untuk {name}.
+{name} had fewer balls left than the foul gives: the 8 pays the rest, and the foul loses the game.	Sisa bola {name} lebih sedikit daripada yang diberikan foul: bola 8 membayar sisanya, dan pelaku foul kalah.
+Shadows	Bayangan
+The shadows of the balls and of the cue on the table.	Bayangan bola dan stik di meja.
+Sixteen players: knockout or arena	Enam belas pemain: sistem gugur atau arena
+New knockout	Turnamen gugur baru
+New arena	Arena baru
+Knockout: sixteen players, four rounds. Lose a game and you are out.	Sistem gugur: enam belas pemain, empat babak. Kalah sekali, kamu tersingkir.
+Arena: seven rounds for everyone. A win is 2 points, 3 from the third win in a row. The most points wins.	Arena: tujuh babak untuk semua. Menang bernilai 2 poin, 3 poin mulai kemenangan ketiga berturut-turut. Poin terbanyak yang menang.
+The games between the other players are decided by their strength and a draw.	Game antarpemain lain ditentukan oleh kekuatan mereka dan undian.
+You won the tournament!	Kamu memenangkan turnamen!
+{name} won the tournament.	{name} memenangkan turnamen.
+You finished in place {n}.	Kamu finis di posisi {n}.
+Round of 16	Babak 16 besar
+Quarter-finals	Perempat final
+Round {n} of {total}	Babak {n} dari {total}
+Play {name}	Lawan {name}
+Abandon the tournament	Tinggalkan turnamen
+W - L	M - K
+Points	Poin
+The tournament is over.	Turnamen sudah selesai.
+The round is over: see who you play next.	Babak selesai: lihat siapa lawanmu berikutnya.
+You are out of the tournament.	Kamu tersingkir dari turnamen.
+Side pocket	Lubang tengah
+A cut into the side pocket, where the angle is tight. Five tries.	Potongan ke lubang tengah, dengan sudut yang sempit. Lima percobaan.
+The long cut	Potongan jauh
+A cut from the far end of the table into the corner. Five tries.	Potongan dari ujung meja ke lubang pojok. Lima percobaan.
+Thin cut	Potongan tipis
+Barely graze the ball: a thin cut into the corner. Five tries.	Serempet bolanya tipis-tipis: potongan tipis ke lubang pojok. Lima percobaan.
+Along the cushion	Menyusuri bantalan
+The ball sits by the cushion: run it along into the corner. Five tries.	Bola menempel di bantalan: susurkan ke lubang pojok. Lima percobaan.
+Stop shot	Pukulan stop
+Pot the ball and stop the cue ball dead where the ball was. Five tries.	Masukkan bola dan hentikan bola putih tepat di posisi bola tadi. Lima percobaan.
+The combination	Kombinasi
+Pot the 1 by playing the 2 into it. Five tries.	Masukkan bola 1 dengan memukul bola 2 ke arahnya. Lima percobaan.
+Cross-corner bank	Pantulan silang
+Off the long cushion and across the table into the corner. Five tries.	Memantul di bantalan panjang lalu menyeberangi meja ke lubang pojok. Lima percobaan.
+Kick shot	Kick
+The 1 is walled off: send the cue ball off a cushion to hit it first. Five tries.	Bola 1 terhalang: pantulkan bola putih ke bantalan agar mengenainya lebih dulu. Lima percobaan.
+Only the cue ball went down on the break: the balls are racked again and {next} breaks.	Hanya bola putih yang masuk saat break: bola disusun ulang dan {next} melakukan break.
+Golden break	Break emas
+Win a rated game by sinking only the 8-ball on the break.	Menangkan game ranked dengan memasukkan hanya bola 8 saat break.
+Half a year	Setengah tahun
+Have an account for six months.	Punya akun selama enam bulan.
+First anniversary	Ulang tahun pertama
+Second anniversary	Ulang tahun kedua
+Have an account for two years.	Punya akun selama dua tahun.
+Third anniversary	Ulang tahun ketiga
+Have an account for three years.	Punya akun selama tiga tahun.
+Five years at the table	Lima tahun di meja
+Have an account for five years.	Punya akun selama lima tahun.
+Back to the tournament	Kembali ke turnamen
+Continue against {name}	Lanjut melawan {name}
+You left your game: it counts as a loss.	Kamu keluar dari game: dihitung kalah.
+new level	level baru
+Level {n} brings: {item}	Level {n} memberi: {item}
+Level 5	Level 5
+Reach level 5.	Capai level 5.
+Level 10	Level 10
+Reach level 10.	Capai level 10.
+Level 15	Level 15
+Reach level 15.	Capai level 15.
+Level 20	Level 20
+Reach level 20.	Capai level 20.
+Level 30	Level 30
+Reach level 30.	Capai level 30.
+Level 40	Level 40
+Reach level 40.	Capai level 40.
+Level 50	Level 50
+Reach level 50.	Capai level 50.
+Regular's teal	Toska pemain tetap
+Veteran's plum	Plum veteran
+Old hand	Kawakan
+Lifer	Seumur hidup
+Apprentice's chalk	Kapur murid
+Journeyman's chalk	Kapur pengrajin
+Achievements	Pencapaian
+Leagues and levels	Liga dan level
+Next league: {tier}	Liga berikutnya: {tier}
+The top league.	Liga tertinggi.
+Every prize of the levels is won.	Semua hadiah level sudah didapat.
+None yet: the first is one game away.	Belum ada: yang pertama tinggal satu game lagi.
+{coins} and {item}	{coins} dan {item}
+Leagues	Liga
+Levels	Level
+By playing. Every level pays {n} coins.	Dengan bermain. Setiap level memberi {n} koin.
+where everyone starts	tempat semua orang memulai
+from {n}	mulai {n}
+The top level.	Level tertinggi.
+{n} XP to level {next}	{n} XP lagi ke level {next}
+{n} levels to go	{n} level lagi
+new league	liga baru
+Old-timer's black	Hitam kawakan
+Expert league blue	Biru liga Ahli
+Master league violet	Violet liga Master
+Legend league gold	Emas liga Legenda
+Skilled league chalk	Kapur liga Terampil
+By rating. Each league pays once.	Berdasarkan rating. Setiap liga memberi hadiah sekali.
+cue	stik
+cloth	kain
+chalk	kapur
+Always show the head string	Selalu tampilkan garis kepala
+The line the break is played from, always on the table (off: only while placing the cue ball behind it).	Garis tempat break dimulai, selalu tampil di meja (mati: hanya saat menaruh bola putih di belakangnya).
+{who} ran out of time: the turn passes.	Waktu {who} habis: giliran berpindah.
+{who} ran out of time with no ball left to give {other}: the 8 pays, and {who} loses.	Waktu {who} habis dan tak ada lagi bola untuk diberikan ke {other}: bola 8 yang membayar, dan {who} kalah.
+{who} ran out of time: the cue ball goes back to the head spot and the turn passes.	Waktu {who} habis: bola putih kembali ke titik kepala dan giliran berpindah.
+{who} ran out of time: {balls} off the table for {other}, and the cue ball goes back to the head spot.	Waktu {who} habis: {balls} diangkat dari meja untuk {other}, dan bola putih kembali ke titik kepala.
+You were muted for {n} minutes: {r}	Kamu dibisukan selama {n} menit: {r}
+Your account was suspended for {n} hours: {r}	Akunmu ditangguhkan selama {n} jam: {r}
+The server restarts in {minutes} min for an update. Games in progress go on; new games start right after.	Server dimulai ulang dalam {minutes} mnt untuk pembaruan. Game yang sedang berjalan tetap lanjut; game baru dimulai sesudahnya.
+The {cup} was called off: not enough players signed up.	{cup} dibatalkan: pendaftarnya kurang.
+The {cup} is open for sign-up: it starts soon in Tournaments.	Pendaftaran {cup} sudah dibuka: segera dimulai di Turnamen.
+{display} won the tournament “{name}”!	{display} memenangkan turnamen “{name}”!
+Sunday Cup	Piala Minggu
+Monday Cup	Piala Senin
+Tuesday Cup	Piala Selasa
+Wednesday Cup	Piala Rabu
+Thursday Cup	Piala Kamis
+Friday Cup	Piala Jumat
+Saturday Cup	Piala Sabtu
+{name} · rating {r}	{name} · rating {r}
+Something went wrong. Try again.	Terjadi kesalahan. Coba lagi.
+member for 1 day	anggota selama 1 hari
+Game in progress: 1 ball left	Game berjalan: sisa 1 bola
+1 level to go	1 level lagi
+1 more online win with this cue for level {n}. Levels only add marks to the cue.	1 kemenangan online lagi dengan stik ini untuk level {n}. Level hanya menambah tanda pada stik.
+Home	Home
+End	End
+PgUp	PgUp
+PgDn	PgDn
+Ins	Ins
+Could not join the LAN game	Tidak bisa bergabung ke game LAN
+LAN game · others join at {address}	Game LAN · pemain lain gabung di {address}
+Click to copy	Klik untuk menyalin
+Copied.	Disalin.
+Start a new game?	Mulai game baru?
+You have a game in progress against the computer, with 1 ball left. A new game takes its place.	Kamu punya game yang sedang berjalan melawan komputer, dengan sisa 1 bola. Game baru akan menggantikannya.
+You have a game in progress against the computer, with {n} balls left. A new game takes its place.	Kamu punya game yang sedang berjalan melawan komputer, dengan sisa {n} bola. Game baru akan menggantikannya.
+Continue that game	Lanjutkan game itu
+Start a new one	Mulai yang baru
+Click again to close the game: {n} will be disconnected	Klik lagi untuk menutup game: {n} akan terputus
+{name} cleared the table in one visit!	{name} membersihkan meja dalam satu giliran!
+{name}: {n} in a row!	{name}: {n} beruntun!
+Watch the deciding shot again	Tonton lagi pukulan penentu
+Next: {name}	Berikutnya: {name}
+Drag on the table to aim, or click a ball	Seret di meja untuk membidik, atau klik bola
+Set the power	Atur tenaga
+Let go of {key} to shoot · Esc cancels	Lepas {key} untuk memukul · Esc membatalkan
+Staff accounts can't change their username.	Akun staf tidak bisa mengganti nama pengguna.
+That password can't be used. Choose another one.	Kata sandi itu tidak bisa dipakai. Pilih yang lain.
+That tournament is full.	Turnamen itu sudah penuh.
+The server is restarting: your tournament was called off.	Server sedang dimulai ulang: turnamenmu dibatalkan.
+Too many sign-ins. Wait a minute and try again.	Terlalu banyak upaya masuk. Tunggu satu menit lalu coba lagi.
+Too many wrong passwords. Try again in a few minutes.	Terlalu banyak kata sandi salah. Coba lagi beberapa menit lagi.
+Your VIP subscription could not be cancelled. Try again in a moment.	Langganan VIP-mu tidak bisa dibatalkan. Coba lagi sebentar lagi.
+Balls of both groups on the break: the turn passes to {next}, the table is open.	Bola dari kedua grup masuk saat break: giliran pindah ke {next}, meja terbuka.
+Only a final started while signed in counts: play the last stage again signed in.	Hanya final yang dimulai dalam keadaan masuk yang dihitung: mainkan lagi tahap terakhir dalam keadaan masuk.
+The server didn't deal the final: this game won't earn the reward.	Server tidak menyiapkan final: game ini tidak akan mendapat hadiah.
+The server didn't answer: this session won't be ranked.	Server tidak merespons: sesi ini tidak masuk peringkat.
+The server is dealing the final…	Server sedang menyiapkan final…
+The server is setting up the drill…	Server sedang menyiapkan latihan…
+Not signed in: a win in this final won't earn the reward.	Belum masuk: kemenangan di final ini tidak akan mendapat hadiah.
+Not kept: sessions count when started signed in.	Tidak disimpan: sesi hanya dihitung jika dimulai dalam keadaan masuk.
+Warning from the staff: {text}	Peringatan dari staf: {text}
+The staff changed your username to {name}. Sign in again.	Staf mengganti nama penggunamu menjadi {name}. Masuk lagi.
+The staff called off the tournament you were in.	Staf membatalkan turnamen yang kamu ikuti.
+Experience ×{n}	Pengalaman ×{n}
+Coins from games ×{n}	Koin dari game ×{n}
+Themed tournament	Turnamen bertema
+Event	Event
+Events	Event
+Warning from the staff	Peringatan dari staf
+Esc to cancel	Esc untuk batal
+Will be sent when you're back online.	Akan dikirim saat kamu online lagi.
+Your strokes will be sent when you're back online.	Pukulanmu akan dikirim saat kamu online lagi.
+The final you won was dealt to {name}: sign in as {name} to claim the reward.	Final yang kamu menangkan disiapkan untuk {name}: masuk sebagai {name} untuk mengklaim hadiah.
+Type your password to confirm it's you.	Ketik kata sandimu untuk memastikan itu kamu.
+The cue ball is back on the head spot: {next} plays from there.	Bola putih kembali ke titik kepala: {next} memukul dari sana.
+{name} came online	{name} baru online
+Online now: {names}	Sedang online: {names}
+Nobody else is online right now.	Tidak ada orang lain yang online saat ini.
+Focus mode	Mode fokus
+No invitations while you play: they are turned away until the game is over.	Tanpa undangan saat kamu bermain: undangan ditolak sampai game selesai.
+in focus mode	dalam mode fokus
+In focus mode: no invitations until their game is over.	Dalam mode fokus: tidak menerima undangan sampai game-nya selesai.
+That player is in focus mode and isn't taking invitations until their game is over.	Pemain itu dalam mode fokus dan tidak menerima undangan sampai game-nya selesai.
+Look at it closely	Lihat lebih dekat
+Sign in to buy	Masuk untuk membeli
+Sign in to use	Masuk untuk memakai
+Back to the shop (Esc)	Kembali ke toko (Esc)
+Show the interface (H)	Tampilkan antarmuka (H)
+Hide the interface (H)	Sembunyikan antarmuka (H)
+Turn (Space)	Putar (Spasi)
+Stop turning (Space)	Berhenti memutar (Spasi)
+Zoom in (+)	Perbesar (+)
+Zoom out (−)	Perkecil (−)
+Back to the start (R)	Kembali ke awal (R)
+Previous setting ([)	Latar sebelumnya ([)
+Next setting (])	Latar berikutnya (])
+Setting	Latar
+Studio	Studio
+Your table	Di mejamu
+Drag with the right button to turn · wheel to zoom · double-click to look closer	Seret dengan tombol kanan untuk memutar · roda mouse untuk zoom · klik dua kali untuk melihat lebih dekat
+Drag with the right button to turn · wheel to zoom · click a ball to look at it	Seret dengan tombol kanan untuk memutar · roda mouse untuk zoom · klik bola untuk melihatnya
+The set	Satu set
+From above	Dari atas
+Low angle	Sudut rendah
+Cue ball	Bola putih
+Ball {n}	Bola {n}
+Whole	Utuh
+Tip	Ujung
+Joint	Sambungan
+Butt	Pangkal
+Top	Atas
+Cue	Stik
+Table	Meja
+Hall	Ruangan
+Corner	Lubang pojok
+Side	Lubang tengah
+Leg	Kaki meja
+Close-up	Dari dekat
+Cushion	Bantalan
+Phenolic resin under a bright clear coat	Resin fenolik di bawah lapisan bening mengilap
+A pearly sheen that shifts with the light	Kilau mutiara yang berubah mengikuti cahaya
+Brushed metal, bright as a mirror	Logam sikat, mengilap seperti cermin
+Old ivory: soft, warm and matte	Gading tua: lembut, hangat, dan doff
+A full-size cue, tip to butt: turn it, come close to its joint and its butt	Stik ukuran asli, dari ujung ke pangkal: putar, dekati sambungan dan pangkalnya
+A cube of chalk, and the colour it leaves on the tip	Sebongkah kapur, dan warna yang ditinggalkannya di ujung stik
+The cloth on the table: come close to see its weave	Kain di meja: dekati untuk melihat anyamannya
+Dark mahogany, turned legs and brass castings	Mahoni gelap, kaki bubut, dan hiasan kuningan
+Light teak, square legs and chrome castings	Jati terang, kaki persegi, dan hiasan krom
+Deep mahogany, carved legs and leather pocket nets	Mahoni pekat, kaki berukir, dan jaring lubang dari kulit
+Black lacquer and brushed aluminium on two slab legs	Pernis hitam dan aluminium sikat di atas dua kaki pelat
+Black ebony with gold castings and inlays	Eboni hitam dengan hiasan dan tatahan emas
+Reclaimed oak rails on a riveted black steel frame	Tepian kayu ek daur ulang di atas rangka baja hitam berpaku keling
+A pro tournament table: charcoal rails, block legs, chrome	Meja turnamen pro: tepian abu-abu arang, kaki balok, krom
+Figured walnut on barley-twist legs, brass and leather	Walnut bercorak di atas kaki ulir, kuningan, dan kulit
+Ivory lacquer and gold on fluted columns	Pernis gading dan emas di atas pilar beralur
+Panelling, the bar, cue racks, posters and neon	Panel kayu, bar, rak stik, poster, dan neon
+A deck at sunset, open windows, palms and string lights	Dek saat senja, jendela terbuka, pohon palem, dan lampu untai
+Panelling, bookshelves, leather sofas and a fireplace	Panel kayu, rak buku, sofa kulit, dan perapian
+Brick, steel windows over the city and Edison bulbs	Bata, jendela baja menghadap kota, dan bohlam Edison
+Log walls, a stone fireplace and snowy peaks outside	Dinding kayu gelondongan, perapian batu, dan puncak bersalju di luar
+A black mirror floor, neon tubes and arcade cabinets	Lantai hitam mengilap seperti cermin, lampu neon, dan mesin arkade
+A marble chessboard floor, gold, velvet and mirrors	Lantai marmer bermotif papan catur, emas, beludru, dan cermin
+Glass walls on the city at night, pale marble and oak	Dinding kaca menghadap kota di malam hari, marmer pucat, dan kayu ek
+A gold medal!	Medali emas!
+A silver medal!	Medali perak!
+A bronze medal!	Medali perunggu!
+Silver medal	Medali perak
+Bronze medal	Medali perunggu
+Your medals	Medalimu
+Kept in your account the next time you're online.	Disimpan di akunmu saat kamu online lagi.
+Sign in to keep them in your account.	Masuk untuk menyimpannya di akunmu.
+18 or older	18 tahun ke atas
+Under 18	Di bawah 18 tahun
+Creating an account means accepting the	Dengan membuat akun, kamu menyetujui
+For a parent or guardian…	Untuk orang tua atau wali…
+A parent or guardian turned the chat on for this account. They can turn it off here at any time.	Orang tua atau wali telah menyalakan chat untuk akun ini. Mereka bisa mematikannya di sini kapan saja.
+This account belongs to someone under 18. By law, the chat with other players (messages in the lounge and in games, notes, status and gift messages) stays off until their mother, father or legal guardian turns it on.	Akun ini milik seseorang yang berusia di bawah 18 tahun. Menurut hukum, chat dengan pemain lain (pesan di lobi dan di game, catatan, status, dan pesan hadiah) tetap mati sampai ibu, ayah, atau wali sahnya menyalakannya.
+I am this player's mother, father or legal guardian, I have read the terms of use and I allow them to chat with other players.	Saya ibu, ayah, atau wali sah pemain ini, saya telah membaca ketentuan penggunaan dan saya mengizinkannya chat dengan pemain lain.
+Chat for players under 18	Chat untuk pemain di bawah 18 tahun
+Turn the chat off	Matikan chat
+{n} more invitations	{n} undangan lagi
+Invitation	Undangan
+Turn the chat on	Nyalakan chat
+Chat off: under 18. A parent or guardian can turn it on.	Chat mati: di bawah 18 tahun. Orang tua atau wali bisa menyalakannya.
+The chat with other players is off until you turn it on.	Chat dengan pemain lain mati sampai kamu menyalakannya.
+Write to turn the chat on…	Tulis untuk menyalakan chat…
+Chat with other players	Chat dengan pemain lain
+The chat with other players is off until you turn it on. To turn it on, tell us your age group: it can't be changed from the game afterwards.	Chat dengan pemain lain mati sampai kamu menyalakannya. Untuk menyalakannya, beri tahu kelompok usiamu: setelah itu tidak bisa diubah dari game.
+Under 18: a parent or guardian must agree to the terms with you and turn the chat on.	Di bawah 18 tahun: orang tua atau wali harus menyetujui ketentuan bersamamu dan menyalakan chat.
+Not now	Nanti saja
+Terms of use	Ketentuan penggunaan
+Privacy policy	Kebijakan privasi
+You have 7 days to change your mind and get your money back.	Kamu punya 7 hari untuk berubah pikiran dan mendapatkan uangmu kembali.
+Under 18: buy only with a parent's or guardian's permission.	Di bawah 18 tahun: beli hanya dengan izin orang tua atau wali.
+Renews every month until you cancel. 7 days to change your mind.	Diperpanjang setiap bulan sampai kamu membatalkan. 7 hari untuk berubah pikiran.
+About	Tentang
+Accounts, purchases and refunds, the rules of the online game.	Akun, pembelian dan pengembalian dana, aturan game online.
+What the game keeps, and your rights.	Data yang disimpan game, dan hak-hakmu.
+Open	Buka
+Credits	Kredit
+Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Font: DejaVu dan Noto (OFL). Bendera: flag-icons (MIT). Reaksi dan emoji: Twemoji (CC-BY 4.0). Nama negara: iso-codes (LGPL-2.1). Kode game ini terbuka (MIT).
+The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	Chat dimatikan untuk pemain di bawah 18 tahun. Orang tua atau wali bisa menyalakannya di bawah chat lobi.
+No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	Break tidak mengenai bola apa pun: {next} yang break, dengan bola putih di tangan di belakang garis kepala.
+The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	Bola putih masuk saat break tanpa ada bola lain yang masuk: {next} yang break, dengan bola putih di tangan di belakang garis kepala.
+Users online	Pengguna online
+ping {ms} ms	ping {ms} ms
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks, with the cue ball in hand behind the head string.	Bola putih masuk saat break bersama bola dari kedua grup: tanpa penalti, meja tetap terbuka dan {next} yang break, dengan bola putih di tangan di belakang garis kepala.
+Brazilian	Brasil
+Official	Resmi
+Brazilian rules	Aturan Brasil
+Official rules	Aturan resmi
+Brazilian rules (inside a sentence)	aturan Brasil
+Official rules (inside a sentence)	aturan resmi
+Brazilian (inside a sentence)	Brasil
+Official (inside a sentence)	resmi
+As played in Brazil's bars	Seperti di bar-bar Brasil
+As played in tournaments (WPA)	Seperti di turnamen (WPA)
+on the Brazilian rules	dengan aturan Brasil
+on the official rules	dengan aturan resmi
+A ball left the table on the break.	Ada bola keluar meja saat break.
+A ball off the table on the break	Bola keluar meja saat break
+A safety calls nothing: whatever goes in stays down, and the turn passes.	Safety tidak memilih lubang: bola apa pun yang masuk tetap di dalam, dan giliran berpindah.
+Break yourself	Break sendiri
+CALLED POCKET	LUBANG PILIHAN
+Choose	Pilih
+Choose how play goes on	Pilih kelanjutan permainan
+Choose the rules of your games. You can switch them any time, in the main menu.	Pilih aturan untuk game kamu. Kamu bisa menggantinya kapan saja di menu utama.
+Click a pocket on the table to call it; click it again to follow your aim.	Klik lubang di meja untuk memilihnya; klik lagi untuk mengikuti bidikanmu.
+Cue ball in hand	Bola putih di tangan
+Each of the rules has its own rating: these games don't change your {rating} under the {other}.	Setiap aturan punya rating sendiri: game ini tidak mengubah rating {rating} milikmu di {other}.
+Find an opponent of your level automatically ({rules})	Cari lawan selevel secara otomatis ({rules})
+How do you like to play?	Kamu suka bermain seperti apa?
+How does play go on? Choose one:	Bagaimana permainan dilanjutkan? Pilih salah satu:
+Illegal break: no ball made and fewer than four balls reached a cushion.	Break tidak sah: tidak ada bola masuk dan kurang dari empat bola menyentuh bantalan.
+Invite {name}	Undang {name}
+No ball went in the called pocket ({pocket}): {next} to shoot.	Tidak ada bola yang masuk ke lubang pilihan ({pocket}): giliran {next}.
+No pocket was called (a safety): {next} to shoot.	Tidak ada lubang yang dipilih (safety): giliran {next}.
+Not sure what changes?	Tidak yakin apa bedanya?
+Place it anywhere behind the head string.	Letakkan di mana saja di belakang garis kepala.
+Play on	Lanjut main
+Players against the computer under these rules	Pemain melawan komputer dengan aturan ini
+Players online under these rules (the lounge and online games)	Pemain online dengan aturan ini (lobi dan game online)
+RULES OF YOUR GAMES	ATURAN GAME KAMU
+Read both rules	Baca kedua aturan
+Rules of your games	Aturan game kamu
+Safety	Safety
+Safety: no pocket	Safety: tanpa lubang
+Show the {rules}: the rank, the league and the chart	Tampilkan data {rules}: peringkat, liga, dan grafik
+The 8 is spotted and you keep shooting.	Bola 8 dikembalikan ke meja dan kamu lanjut memukul.
+The 8 is spotted; the cue ball in hand behind the head string.	Bola 8 dikembalikan ke meja; bola putih di tangan di belakang garis kepala.
+The 8 on a break with a foul	Bola 8 saat break dengan foul
+The 8 on the break	Bola 8 saat break
+The 8 went down on a break with a foul: it is spotted.	Bola 8 masuk saat break disertai foul: bola 8 dikembalikan ke meja.
+The 8 went down on the break: it is spotted.	Bola 8 masuk saat break: bola 8 dikembalikan ke meja.
+The balls are racked again and you break.	Bola disusun ulang dan kamu yang break.
+The balls are racked again and {name} breaks.	Bola disusun ulang dan {name} yang break.
+The balls are racked again: {name} breaks.	Bola disusun ulang: {name} yang break.
+The balls are racked again: {other} breaks.	Bola disusun ulang: {other} yang break.
+The rules of this game: click to read them	Aturan game ini: klik untuk membacanya
+The rules of your games: click to switch	Aturan game kamu: klik untuk mengganti
+The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	Sakelar yang sama dengan di menu utama: online, melawan komputer, dan dua pemain. Setiap aturan punya rating sendiri.
+The table as it lies.	Meja apa adanya.
+The top 100 of each rules · rated games	Top 100 tiap aturan · game ranked
+The {ball} lay behind the head string and the cue ball hit it without crossing the line first	Bola sasaran ({ball}) berada di belakang garis kepala dan bola putih mengenainya tanpa melewati garis lebih dulu
+What changes between the rules: click to read them	Perbedaan antaraturan: klik untuk membacanya
+With the cue ball in hand behind the head string.	Dengan bola putih di tangan di belakang garis kepala.
+follows your aim	mengikuti bidikanmu
+no rated games yet	belum ada game ranked
+open table: the called ball you make sets your group	meja terbuka: bola yang kamu masukkan ke lubang pilihan menentukan grupmu
+peak {n} · {games} games	puncak {n} · {games} game
+playing now	sedang bermain
+your call	pilihanmu
+{name} breaks again	{name} break lagi
+{name} chooses: play on, or rack the balls and break again.	{name} memilih: lanjut main, atau menyusun ulang bola dan break lagi.
+{name} chooses: play the table as it lies, or take the cue ball in hand behind the head string.	{name} memilih: main dengan meja apa adanya, atau ambil bola putih di tangan di belakang garis kepala.
+{name} chooses: play the table as it lies, rack the balls and break, or have {breaker} break again.	{name} memilih: main dengan meja apa adanya, menyusun ulang bola dan break, atau menyuruh {breaker} break lagi.
+{name} chooses: play the table as it lies, take the cue ball in hand behind the head string, rack the balls and break, or have {breaker} break again.	{name} memilih: main dengan meja apa adanya, ambil bola putih di tangan di belakang garis kepala, menyusun ulang bola dan break, atau menyuruh {breaker} break lagi.
+{name} chooses: the cue ball in hand behind the head string, or rack the balls and break.	{name} memilih: bola putih di tangan di belakang garis kepala, atau menyusun ulang bola dan break.
+{name} is choosing how play goes on…	{name} sedang memilih kelanjutan permainan…
+{name} plays on (the 8 is spotted).	{name} lanjut main (bola 8 dikembalikan ke meja).
+{name} plays the table as it lies.	{name} main dengan meja apa adanya.
+{name} plays the {theirs} now; yours are the {mine}.	{name} sekarang main bola {theirs}; bolamu {mine}.
+{name} takes the cue ball in hand.	{name} mengambil bola putih di tangan.
+{next} has the cue ball in hand behind the head string.	{next} mendapat bola putih di tangan di belakang garis kepala.
+{next} has the cue ball in hand: anywhere on the table.	{next} mendapat bola putih di tangan: di mana saja di meja.
+{n} points to {tier} ({rules})	{n} poin lagi ke {tier} ({rules})
+{n} waiting	{n} menunggu
+A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Foul memberi lawan bola dari grupnya. Bola putih di tangan hanya saat break, dan hanya lubang bola 8 yang dipilih.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	Foul memberi lawan bola putih di tangan, di mana saja di meja. Lubang dipilih di setiap pukulan, dan break harus membawa empat bola ke bantalan.
+A foul gives balls to the opponent	Foul memberi bola ke lawan
+Ball in hand on the break only	Bola di tangan hanya saat break
+Only the 8's pocket is called	Hanya lubang bola 8 yang dipilih
+The most played in Brazil	Paling banyak dimainkan di Brasil
+A foul gives ball in hand	Foul memberi bola di tangan
+The break drives four balls to a cushion	Break membawa empat bola ke bantalan
+Every shot is called	Lubang dipilih di setiap pukulan
+The same all over the world	Sama di seluruh dunia
+Game type	Jenis game
+called: {pocket}	pilihan: {pocket}
+no call: a safety	tanpa pilihan: safety
+A safety: nothing called. Click again to call the pocket you aim at.	Safety: tidak ada lubang dipilih. Klik lagi untuk memilih lubang yang kamu bidik.
+A safety calls nothing: whatever goes in stays down, and the turn passes. To call another pocket, click it on the table.	Safety tidak memilih lubang: bola apa pun yang masuk tetap di dalam, dan giliran berpindah. Untuk memilih lubang lain, klik lubang itu di meja.
+{games} games · {pct}% won	{games} game · {pct}% menang
+Each of the rules has its own rating; the level, coins and achievements are shared.	Setiap aturan punya rating sendiri; level, koin, dan pencapaian dipakai bersama.
+You already have a VIP subscription: manage it with Manage subscription.	Kamu sudah punya langganan VIP: kelola lewat Kelola langganan.
+Your opponent can't start another game yet.	Lawanmu belum bisa memulai game lain.
+A tournament's name is shown to everyone: with your chat off, you can join tournaments but not create one.	Nama turnamen terlihat oleh semua orang: dengan chat mati, kamu bisa ikut turnamen tapi tidak bisa membuatnya.
+The connection dropped: check your coins before trying again.	Koneksi terputus: periksa koinmu sebelum mencoba lagi.
+Sign in to buy coins.	Masuk untuk membeli koin.
+Sign in to become VIP.	Masuk untuk menjadi VIP.
+how play goes on after the break is undecided	kelanjutan permainan setelah break belum dipilih
+Finish your game, and leave your table, the queue or your tournament first.	Selesaikan dulu game kamu, lalu tinggalkan meja, antrean, atau turnamenmu.
+That choice can't be made now.	Pilihan itu tidak bisa dibuat sekarang.
+That medal can't be.	Medali itu tidak ada.
+{name}'s tournament	Turnamen {name}
+When time runs out, it's a foul: your opponent gets a ball and the cue ball goes back to the head spot.	Saat waktu habis, itu foul: lawanmu mendapat satu bola dan bola putih kembali ke titik kepala.
+When time runs out, it's a foul: your opponent gets the cue ball in hand.	Saat waktu habis, itu foul: lawanmu mendapat bola putih di tangan.
+Your username was changed. Sign in again.	Nama penggunamu telah diganti. Masuk lagi.
+You have your tournament game in progress. A new game takes its place, and the tournament game counts as lost.	Game turnamenmu sedang berjalan. Game baru akan menggantikannya, dan game turnamen dihitung kalah.
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks again, from the head spot.	Bola putih masuk saat break bersama bola dari kedua grup: tanpa penalti, meja tetap terbuka dan {next} break lagi dari titik kepala.
+The cue ball went down on the break with no ball made: {next} breaks again, from the head spot.	Bola putih masuk saat break tanpa ada bola lain yang masuk: {next} break lagi dari titik kepala.
+{who} ran out of time: {other} breaks, from the head spot.	Waktu {who} habis: {other} yang break, dari titik kepala.
+Congratulations!	Selamat!
+You earned a new item: {title}	Kamu mendapat item baru: {title}
+You earned a new item!	Kamu mendapat item baru!

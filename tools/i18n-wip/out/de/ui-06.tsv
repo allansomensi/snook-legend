@@ -1,0 +1,300 @@
+1501	{n} von {total}
+1502	{drill}: Versuch {k} von {n} · {made} geschafft
+1503	Geschafft! {n} von {total}
+1504	Daneben.
+1505	Sende an den Server…
+1506	Nicht angemeldet: Dieser Durchgang zählt nicht für die Rangliste.
+1507	In deinem Konto gespeichert.
+1508	Der Durchgang konnte nicht gezählt werden.
+1509	Zurück zu den Übungen
+1510	Gerade rein
+1511	Eine lange, gerade Kugel in die Ecke. Fünf Versuche.
+1512	Der Schnitt
+1513	Ein Schnitt mit halber Kugel in die Ecke. Fünf Versuche.
+1514	Rückläufer
+1515	Versenke die Kugel und zieh den Spielball zurück in den Kreis. Fünf Versuche.
+1516	Nachläufer
+1517	Versenke die Kugel und lass den Spielball in den Kreis dahinter laufen. Fünf Versuche.
+1518	Bandenstoß
+1519	Über eine Bande in die Mitteltasche. Fünf Versuche.
+1520	Aus dem Snooker
+1521	Triff zuerst die 1: Sie versteckt sich hinter anderen Kugeln. Fünf Versuche.
+1522	Zehn in Folge
+1523	Zehn verschiedene Kugeln nacheinander: Ein Fehlstoß beendet den Durchgang.
+1524	Die ferne Ecke
+1525	Ein Schnitt zurück in die Ecke hinter dir. Fünf Versuche.
+1526	Lang in die Mitte
+1527	Vom anderen Ende des Tisches in die Mitteltasche. Fünf Versuche.
+1528	Spielball an der Bande
+1529	Der Spielball liegt an der Bande: Versenke die Kugel trotzdem in der Ecke. Fünf Versuche.
+1530	Kontaktkugeln
+1531	Die 2 berührt die 1 und zeigt auf die Tasche: Triff die 2, und die 1 fällt. Fünf Versuche.
+1532	Die Karambolage
+1533	Die 2 ist im Weg: Streif sie an und schick die 1 in die Ecke. Fünf Versuche.
+1534	Langer Rückläufer
+1535	Versenke die Kugel und zieh den Spielball ganz zurück bis in den Kreis. Fünf Versuche.
+1536	Auf der Tangente
+1537	Versenke die Kugel in der Mitteltasche und lass den Spielball weiter in den Kreis laufen. Fünf Versuche.
+1538	Zwei Banden
+1539	Über zwei Banden in die Ecke. Fünf Versuche.
+1540	Fünfzehn in Folge
+1541	Fünfzehn verschiedene Kugeln nacheinander: Ein Fehlstoß beendet den Durchgang.
+1542	Stoß zurücknehmen (Z)
+1543	Stoß zurückgenommen.
+1544	Volle
+1545	Halbe
+1546	Verlauf ausblenden
+1547	Neuer Benutzername
+1548	Zum Bestätigen erneut klicken
+1549	Noch {n} von {total} Namensänderungen
+1550	Du kannst deinen Benutzernamen nicht noch einmal ändern.
+1551	Das ist schon dein Benutzername.
+1552	Beende deine Partie, bevor du deinen Benutzernamen änderst.
+1553	Verlass deinen Tisch oder die Warteschlange, bevor du deinen Benutzernamen änderst.
+1554	Verlass dein Turnier, bevor du deinen Benutzernamen änderst.
+1555	Benutzername geändert.
+1556	Der Server wird noch auf die neue Version aktualisiert. Versuch es in ein paar Minuten noch einmal.
+1557	{shooter} hat eine gegnerische Kugel versenkt: {next} ist am Stoß.
+1558	Der Zocker
+1559	Setzt auf jeden Stoß: so hart, wie das Queue es zulässt, mit allem Effet, den er finden kann. Sicheres Spiel langweilt ihn.
+1560	Die Samtpfote
+1561	Stößt nie härter als nötig: Die Kugeln sterben an der Taschenkante, und der Spielball bleibt stehen, wo sie ihn haben will.
+1562	Der Entertainer
+1563	Spielt fürs Publikum: angehobenes Queue, Kurven-Effet und Banden, wann immer es geht. Es klappt öfter, als es sollte.
+1564	Die Taktikerin
+1565	Plant den ganzen Tisch: Legt dir einen Snooker, wenn die Kugel nicht sicher ist, und räumt ab, wenn sie es ist.
+1566	Die Maschine
+1567	Keine Nerven, kein Schnickschnack: mittig getroffen, dosiertes Tempo, jedes Mal derselbe perfekte Stoß.
+1568	Macht eure Einsätze! Meiner geht auf mich.
+1569	Glückswurf. Lass laufen!
+1570	Okay, okay. Doppelt oder nichts?
+1571	Die Bank gewinnt immer!
+1572	Gratis-Chips! Danke!
+1573	All-in, und es hat sich gelohnt!
+1574	So spielt man die Quoten!
+1575	Bad Beat. Nächste Hand.
+1576	Zu viel Effet? Gibt's nicht.
+1577	Verzockt. Das Risiko war's wert!
+1578	Jackpot! Noch mal mit demselben Einsatz?
+1579	Du hast die Quoten geschlagen. Respekt.
+1580	Schön sachte. Der Tisch mag eine sanfte Hand.
+1581	Schön gemacht.
+1582	Etwas hart, aber sie ist drin.
+1583	Weniger Kraft, mehr Gefühl.
+1584	Ach je. Eine Kugel geschenkt für mich.
+1585	Gerade genug, um zu fallen.
+1586	Siehst du? Man muss nicht fest stoßen.
+1587	Einen Hauch zu sanft.
+1588	Ungeschickt von mir. Entschuldige.
+1589	Langsam und stetig. Danke für die Partie.
+1590	Wunderschön gespielt. Verdient.
+1591	Meine Damen und Herren... die Show beginnt!
+1592	Nicht schlecht! Verbeug dich vor dem Publikum!
+1593	Du hast mir den Applaus geklaut!
+1594	Das Publikum wollte mehr!
+1595	Oh, eine überraschende Wendung!
+1596	Tadaa!
+1597	Und als nächsten Trick...
+1598	Auch Zauberer haben mal einen schlechten Abend.
+1599	Das war... Teil der Nummer.
+1600	Danke, danke! Zugabe?
+1601	Verbeug dich, Champion. Das hast du dir verdient.
+1602	Jeder Aufbau ist ein Rätsel. Lösen wir dieses.
+1603	Gut. Und wo liegt jetzt dein Spielball?
+1604	Das hab ich kommen sehen.
+1605	Damit bleibt mir etwas. Danke.
+1606	Wie geplant.
+1607	Genau wie berechnet.
+1608	Drei Züge voraus.
+1609	Eine Variable, die ich übersehen habe.
+1610	Hm. Ich rechne neu.
+1611	Schachmatt.
+1612	Du warst mir gedanklich voraus. Das ist selten.
+1613	Partie initialisiert.
+1614	Notiert.
+1615	Fehlertoleranz überschritten.
+1616	Strafe angewendet.
+1617	Wie erwartet.
+1618	Nächste.
+1619	Abweichung protokolliert.
+1620	Fehlfunktion. Wird sich nicht wiederholen.
+1621	Ergebnis: Sieg. Danke für die Daten.
+1622	Unerwartetes Ergebnis. Beeindruckend.
+1623	Sprüche der Gegner
+1624	Die Computergegner kommentieren die Partie in Sprechblasen.
+1625	Nur Draufsicht
+1626	Der Tisch ist immer von oben zu sehen: keine 3D-Ansicht, kein Drehen.
+1627	Nicht mit „Nur Draufsicht“.
+1628	Mausrad
+1629	Regeln
+1630	Spielregeln
+1631	Flach
+1632	Queue ziehen: Sprung & Massé
+1633	Ziehen, um das Queue anzuheben oder abzusenken
+1634	Queue ziehen · {keys}
+1635	Profilbild
+1636	Wird neben deinem Namen am Tisch und in deinem Profil angezeigt.
+1637	Kein Bild
+1638	Bild ändern
+1639	{name} hat die 8 zusammen mit einer anderen Kugel versenkt
+1640	Gegner hat die 8 mit einer anderen Kugel versenkt
+1641	die 8 mit einer anderen Kugel versenkt
+1642	Gegner hat die 8 zusammen mit einer anderen Kugel versenkt
+1643	Strafe: {balls} vom Tisch für {name}.
+1644	{name} hatte weniger Kugeln übrig, als das Foul bringt: Die 8 zahlt den Rest, und das Foul verliert die Partie.
+1645	Schatten
+1646	Die Schatten der Kugeln und des Queues auf dem Tisch.
+1647	Sechzehn Spieler: K.-o.-System oder Arena
+1648	Neues K.-o.-Turnier
+1649	Neue Arena
+1650	K.-o.-System: sechzehn Spieler, vier Runden. Wer eine Partie verliert, ist raus.
+1651	Arena: sieben Runden für alle. Ein Sieg bringt 2 Punkte, ab dem dritten Sieg in Folge 3. Die meisten Punkte gewinnen.
+1652	Die Partien zwischen den anderen Spielern werden nach Spielstärke und per Los entschieden.
+1653	Du hast das Turnier gewonnen!
+1654	{name} hat das Turnier gewonnen.
+1655	Du bist auf Platz {n} gelandet.
+1656	Achtelfinale
+1657	Viertelfinale
+1658	Runde {n} von {total}
+1659	Gegen {name} spielen
+1660	Turnier verlassen
+1661	S - N
+1662	Punkte
+1663	Das Turnier ist vorbei.
+1664	Die Runde ist vorbei: Sieh nach, gegen wen du als Nächstes spielst.
+1665	Du bist aus dem Turnier ausgeschieden.
+1666	Mitteltasche
+1667	Ein Schnitt in die Mitteltasche, wo der Winkel eng ist. Fünf Versuche.
+1668	Der lange Schnitt
+1669	Ein Schnitt vom anderen Ende des Tisches in die Ecke. Fünf Versuche.
+1670	Dünner Schnitt
+1671	Streif die Kugel nur ganz leicht: ein dünner Schnitt in die Ecke. Fünf Versuche.
+1672	Entlang der Bande
+1673	Die Kugel liegt an der Bande: Spiel sie an der Bande entlang in die Ecke. Fünf Versuche.
+1674	Stoppball
+1675	Versenke die Kugel und lass den Spielball genau dort stehen, wo die Kugel lag. Fünf Versuche.
+1676	Die Kombination
+1677	Versenke die 1, indem du die 2 auf sie spielst. Fünf Versuche.
+1678	Bande über Kreuz
+1679	Über die lange Bande quer über den Tisch in die Ecke. Fünf Versuche.
+1680	Vorbande
+1681	Die 1 ist verdeckt: Schick den Spielball über eine Bande, um sie zuerst zu treffen. Fünf Versuche.
+1682	Beim Anstoß fiel nur der Spielball: Die Kugeln werden neu aufgebaut, und {next} stößt an.
+1683	Goldener Anstoß
+1684	Gewinne eine gewertete Partie, indem du beim Anstoß nur die 8 versenkst.
+1685	Ein halbes Jahr
+1686	Habe seit sechs Monaten ein Konto.
+1687	Erster Jahrestag
+1688	Zweiter Jahrestag
+1689	Habe seit zwei Jahren ein Konto.
+1690	Dritter Jahrestag
+1691	Habe seit drei Jahren ein Konto.
+1692	Fünf Jahre am Tisch
+1693	Habe seit fünf Jahren ein Konto.
+1694	Zurück zum Turnier
+1695	Weiter gegen {name}
+1696	Du hast deine Partie verlassen: Sie zählt als Niederlage.
+1697	neues Level
+1698	Level {n} bringt: {item}
+1699	Level 5
+1700	Erreiche Level 5.
+1701	Level 10
+1702	Erreiche Level 10.
+1703	Level 15
+1704	Erreiche Level 15.
+1705	Level 20
+1706	Erreiche Level 20.
+1707	Level 30
+1708	Erreiche Level 30.
+1709	Level 40
+1710	Erreiche Level 40.
+1711	Level 50
+1712	Erreiche Level 50.
+1713	Stammgast-Petrol
+1714	Veteranen-Pflaume
+1715	Alter Hase
+1716	Lebenslang
+1717	Lehrlingskreide
+1718	Gesellenkreide
+1719	Erfolge
+1720	Ligen und Level
+1721	Nächste Liga: {tier}
+1722	Die höchste Liga.
+1723	Alle Level-Preise gewonnen.
+1724	Noch keine: Die erste ist nur eine Partie entfernt.
+1725	{coins} und {item}
+1726	Ligen
+1727	Level
+1728	Durchs Spielen. Jedes Level bringt {n} Münzen.
+1729	hier starten alle
+1730	ab {n}
+1731	Das höchste Level.
+1732	{n} XP bis Level {next}
+1733	noch {n} Level
+1734	neue Liga
+1735	Veteranen-Schwarz
+1736	Blau der Expertenliga
+1737	Violett der Meisterliga
+1738	Gold der Legendenliga
+1739	Kreide der Könnerliga
+1740	Nach Wertung. Jede Liga zahlt einmal aus.
+1741	Queue
+1742	Tuch
+1743	Kreide
+1744	Kopflinie immer zeigen
+1745	Die Linie, von der aus angestoßen wird, immer auf dem Tisch (aus: nur beim Platzieren des Spielballs dahinter).
+1746	Zeit von {who} abgelaufen: Der Gegner ist am Zug.
+1747	Zeit von {who} abgelaufen, und es bleibt keine Kugel mehr für {other}: Die 8 zahlt, und {who} verliert.
+1748	Zeit von {who} abgelaufen: Der Spielball kommt zurück auf den Kopfpunkt, und der Gegner ist am Zug.
+1749	Zeit von {who} abgelaufen: {balls} vom Tisch für {other}, und der Spielball kommt zurück auf den Kopfpunkt.
+1750	Du wurdest für {n} Minuten stummgeschaltet: {r}
+1751	Dein Konto wurde für {n} Stunden gesperrt: {r}
+1752	Der Server startet in {minutes} Min. für ein Update neu. Laufende Partien gehen weiter; neue beginnen gleich danach.
+1753	Der {cup} wurde abgesagt: Es haben sich nicht genug Spieler angemeldet.
+1754	Für den {cup} kann man sich jetzt anmelden: Er beginnt bald unter „Turniere“.
+1755	{display} hat das Turnier „{name}“ gewonnen!
+1756	Sonntagspokal
+1757	Montagspokal
+1758	Dienstagspokal
+1759	Mittwochspokal
+1760	Donnerstagspokal
+1761	Freitagspokal
+1762	Samstagspokal
+1763	{name} · Wertung {r}
+1764	Etwas ist schiefgelaufen. Versuch es noch einmal.
+1765	seit 1 Tag dabei
+1766	Laufende Partie: noch 1 Kugel
+1767	noch 1 Level
+1768	Noch 1 Online-Sieg mit diesem Queue bis Level {n}. Level fügen dem Queue nur Markierungen hinzu.
+1769	Pos1
+1770	Ende
+1771	Bild↑
+1772	Bild↓
+1773	Einfg
+1774	Beitritt zur LAN-Partie fehlgeschlagen
+1775	LAN-Partie · andere treten unter {address} bei
+1776	Zum Kopieren klicken
+1777	Kopiert.
+1778	Neue Partie starten?
+1779	Du hast eine laufende Partie gegen den Computer, mit noch 1 Kugel. Eine neue Partie ersetzt sie.
+1780	Du hast eine laufende Partie gegen den Computer, mit noch {n} Kugeln. Eine neue Partie ersetzt sie.
+1781	Diese Partie fortsetzen
+1782	Neue starten
+1783	Erneut klicken, um die Partie zu schließen: {n} werden getrennt
+1784	{name} hat den Tisch in einer Aufnahme abgeräumt!
+1785	{name}: {n} in Folge!
+1786	Entscheidenden Stoß noch mal ansehen
+1787	Als Nächstes: {name}
+1788	Zum Zielen auf dem Tisch ziehen oder eine Kugel anklicken
+1789	Stell die Kraft ein
+1790	{key} loslassen zum Stoßen · Esc bricht ab
+1791	Team-Konten können ihren Benutzernamen nicht ändern.
+1792	Dieses Passwort ist nicht erlaubt. Wähle ein anderes.
+1793	Dieses Turnier ist voll.
+1794	Der Server startet neu: Dein Turnier wurde abgesagt.
+1795	Zu viele Anmeldungen. Warte eine Minute und versuch es noch einmal.
+1796	Zu viele falsche Passwörter. Versuch es in ein paar Minuten noch einmal.
+1797	Dein VIP-Abo konnte nicht gekündigt werden. Versuch es gleich noch einmal.
+1798	Kugeln beider Gruppen beim Anstoß: {next} ist am Zug, der Tisch ist offen.
+1799	Nur ein Finale, das angemeldet begonnen wurde, zählt: Spiel die letzte Etappe noch einmal angemeldet.
+1800	Der Server hat das Finale nicht vorbereitet: Diese Partie bringt keine Belohnung.

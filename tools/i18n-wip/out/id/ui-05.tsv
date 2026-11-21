@@ -1,0 +1,300 @@
+1201	Masukkan {n} bola
+1202	Masukkan {n} bola dengan efek
+1203	Masukkan 3 bola beruntun dalam satu giliran
+1204	Menangkan game tanpa foul
+1205	Masukkan 3 bola beruntun sebanyak {n} kali
+1206	Menangkan {n} game tanpa foul
+1207	Kamera TV saat menonton
+1208	Sudut siaran untuk game pemain lain dan replay.
+1209	Notifikasi sistem
+1210	Undangan, teman yang online, dan game yang dimulai, saat kamu sedang tidak di layar.
+1211	{name} dimulai beberapa menit lagi: bersiaplah!
+1212	{name} dimulai beberapa menit lagi: masih ada tempat.
+1213	{name} sudah dimulai!
+1214	Momentum
+1215	Peta pukulan
+1216	Belum ada pukulan.
+1217	masuk
+1218	meleset
+1219	foul
+1220	Lihat turnamen
+1221	Buka toko
+1222	Lihat VIP
+1223	Lihat misi
+1224	Versi baru game sudah rilis: perbarui untuk main online.
+1225	Perbarui di Microsoft Store
+1226	Perbarui sekarang
+1227	Unduh versi baru
+1228	Versi baru tersedia
+1229	Dapatkan versi baru untuk main online
+1230	Dukung {name}
+1231	Penonton: {a} untuk {p0}, {b} untuk {p1}
+1232	paket sambutan
+1233	Paket sambutan
+1234	Stik “{cue}”, kain “{cloth}”, dan {n} koin · hanya sekali, tidak dijual di tempat lain
+1235	Laguna
+1236	Kamu sudah punya paket sambutan.
+1237	Paket sambutanmu sudah tiba!
+1238	Pukulan sebelumnya (←)
+1239	Pukulan berikutnya (→)
+1240	Putar (Spasi)
+1241	Jeda (Spasi)
+1242	Kecepatan
+1243	Pukulan {n} dari {total}
+1244	Untuk anggota VIP
+1245	{n} reaksi eksklusif untuk dikirim saat bermain
+1246	Item {a}–{b} dari {n}
+1247	(pesan dihapus oleh pengirimnya)
+1248	(pesan dihapus oleh administrator)
+1249	Hapus (tampil sebagai dihapus)
+1250	Hapus tanpa jejak
+1251	Chat dibersihkan oleh {name}.
+1252	Klik lagi untuk membersihkan
+1253	Bersihkan chat
+1254	Chat pemain (administrator)
+1255	Lawan komputer sambil menunggu
+1256	Mencari lawan… {t} · game dimulai begitu lawan ditemukan
+1257	Berhenti
+1258	Microsoft Store tidak bisa menyelesaikan pembelian.
+1259	Microsoft Store belum bisa mengonfirmasi pembelian saat ini. Koinnya akan masuk saat kamu membuka toko lagi.
+1260	{n} koin ditambahkan ke dompetmu.
+1261	Microsoft sedang mengonfirmasi pembelianmu: koin akan masuk sebentar lagi.
+1262	Pembelian belum sampai ke kami. Koinnya akan masuk saat kamu membuka toko lagi.
+1263	Memuat harga dari Microsoft Store…
+1264	Koin belum bisa dibeli di versi ini.
+1265	Selesaikan pembelian di jendela Microsoft Store…
+1266	Mengonfirmasi pembelianmu…
+1267	Dibayar di Microsoft Store, dengan akun Microsoft kamu.
+1268	Microsoft Store tidak bisa dihubungi saat ini. Coba lagi sebentar lagi.
+1269	Microsoft Store tidak bisa mengonfirmasi pembelian.
+1270	Masuk ke Microsoft Store dengan akun Microsoft kamu, lalu buka toko lagi.
+1271	Microsoft Store belum bisa mengonfirmasi pembelian saat ini. Bulan VIP-mu dimulai saat kamu membuka toko lagi.
+1272	Kamu VIP sampai {d}, dan {n} koin ditambahkan ke dompetmu.
+1273	Microsoft sedang mengonfirmasi pembelianmu: bulan VIP-mu segera dimulai.
+1274	Pembelian belum sampai ke kami. Bulan VIP-mu dimulai saat kamu membuka toko lagi.
+1275	Bayar per bulan: tidak ada perpanjangan otomatis
+1276	Tambah sebulan · {p}
+1277	Sebulan VIP · {p}
+1278	Bulan baru dimulai saat bulan ini berakhir.
+1279	Trofi
+1280	Belum ada trofi.
+1281	Juara turnamen · {n} pemain
+1282	Tur melawan komputer
+1283	Kelima belas lawan dikalahkan
+1284	Tantangan harian
+1285	Pertama dari {n} pemain
+1286	Pukulan mudah
+1287	Pukulan sedang
+1288	Pukulan sulit
+1289	Pukulan sangat sulit
+1290	peluang ~{n}%
+1291	Tidak ada bola yang masuk dengan bidikan ini
+1292	lurus
+1293	potong {n}°
+1294	lewat satu bantalan
+1295	lewat {n} bantalan
+1296	Masukkan bola sebanyak mungkin dalam satu giliran: meleset atau foul mengakhiri percobaan.
+1297	Meja yang sama untuk semua orang, sepanjang hari
+1298	{n} percobaan sehari. Bersihkan meja untuk {coins} koin; pemenang hari itu mendapat trofi.
+1299	Meja baru dalam {h} jam {m} mnt
+1300	Masuk untuk ikut serta: server menyimpan klasemen hari ini.
+1301	Bola di meja hari ini
+1302	Sisa percobaan
+1303	{n} bola · #{rank}
+1304	{n} bola
+1305	belum
+1306	Terbaikmu hari ini
+1307	Percobaan hari ini sudah habis: kembali lagi besok.
+1308	Percobaan tidak bisa dihitung.
+1309	Menyiapkan meja…
+1310	Mulai percobaan
+1311	Memulai memakai satu percobaan, meski kamu meninggalkan meja.
+1312	Memuat meja hari ini…
+1313	Klasemen hari ini
+1314	{n} pemain
+1315	Belum ada yang memainkan meja hari ini. Jadilah yang pertama!
+1316	Meja bersih!
+1317	{n} dari {total} bola
+1318	Mengirim percobaanmu ke server…
+1319	Tercatat: {n} bola · +{coins} koin
+1320	Tercatat: {n} bola
+1321	Lihat klasemen
+1322	Meja bersih! +{n} koin
+1323	Tantangan harian: {n} dari {total} bola masuk
+1324	1 pemain
+1325	Feniks
+1326	Marmer Carrara
+1327	Sisik naga
+1328	Galaksi
+1329	Takhta rubi
+1330	Menutup game sekarang sama dengan keluar: rating ekstra hilang dan kamu harus menunggu untuk main lagi.
+1331	Kamu keluar dari game yang sedang berjalan: kamu bisa main online lagi dalam {n} mnt.
+1332	Frasa cepat
+1333	Semoga beruntung, selamat bermain!
+1334	Pukulan bagus!
+1335	Safety yang hebat!
+1336	Sayang sekali!
+1337	Ups!
+1338	Wah!
+1339	Nyaris!
+1340	Santai saja.
+1341	Maaf!
+1342	Terima kasih!
+1343	Main bagus!
+1344	Game yang seru!
+1345	Tanding ulang?
+1346	Aku harus pergi, terima kasih untuk game-nya!
+1347	Berlatih sambil menunggu
+1348	Rak baru.
+1349	Level {n}! (+{xp} XP)
+1350	+{xp} XP
+1351	Level {n} · {into} / {span} XP ke level berikutnya
+1352	Level {n}
+1353	Hai! Aku sudah nonton banyak video, aku siap!
+1354	Jangan galak-galak, ya?
+1355	Wah, kok kamu bisa begitu?
+1356	Nanti ajari aku yang itu, ya!
+1357	Fiuh! Giliranku!
+1358	Kamu juga bisa meleset? Bagus, jadi tahu.
+1359	Bola gratis! Terus aku harus apa?
+1360	Kamu lihat itu?! Masuk!
+1361	Keberuntungan pemula juga dihitung!
+1362	Ups. Itu tadi pukulan latihan.
+1363	Bidik, Leo, bidik...
+1364	Maaf! Aku kena bola yang salah lagi.
+1365	AKU MENANG? Aku mau telepon ibuku!
+1366	Game yang seru! Aku makin jago, kan?
+1367	Sabtu, meja biliar, dan teman yang asyik. Ayo main!
+1368	Bagus!
+1369	Wah, kamu jago. Sekarang aku harus serius.
+1370	Pemain terbaik pun pernah begitu.
+1371	Tenang, cuma permainan kok!
+1372	Terima kasih atas hadiahnya!
+1373	Asyik! Jago akhir pekan!
+1374	Untung banget!
+1375	Hmm, tadi aku membidik ke mana, ya?
+1376	Kebanyakan ngobrol, kurang membidik.
+1377	Ups, salahku!
+1378	Seru banget! Jam yang sama akhir pekan depan?
+1379	Main bagus! Tanding ulang sambil minum limun?
+1380	Empat bantalan, kemungkinan tanpa batas.
+1381	Langsung masuk? Begitu... lugas.
+1382	Bagus, tapi lewat pantulan pasti lebih indah.
+1383	Harusnya kamu pakai bantalan.
+1384	Bantalannya ada di situ, menunggu dipakai.
+1385	Mejanya tidak suka itu.
+1386	Memantul di bantalan lalu masuk. Seni!
+1387	Geometri tidak pernah bohong.
+1388	Sudutnya benar. Bantalannya tidak setuju.
+1389	Meleset satu diamond. Cuma satu!
+1390	Terlalu banyak imajinasi, kurang kontak.
+1391	Sebuah mahakarya, kalau boleh kubilang.
+1392	Main bagus. Sekarang coba lewat dua bantalan.
+1393	Semoga bola-bola ini terbuat dari baja.
+1394	Pukulan halus, ya? Bukan gayaku.
+1395	Lain kali pukul lebih keras!
+1396	Terlalu pelan! Tenaga menyelesaikan segalanya.
+1397	HA!
+1398	Sekarang meja ini milikku. Tutup telingamu.
+1399	DUAR!
+1400	Dengar suara lubang itu?
+1401	Tenaga terlalu besar? Tidak ada istilah itu.
+1402	Lubangnya bergeser.
+1403	Bolanya terbang. Biasa. Sering malah.
+1404	Tenaga menang lagi! DUAR!
+1405	Oke, kehalusan juga bisa berhasil. Kadang-kadang.
+1406	Santai saja. Aku punya waktu seharian.
+1407	Boleh juga.
+1408	Nikmati selagi bisa.
+1409	Sabar itu kebajikan. Tampaknya bukan kebajikanmu.
+1410	Terima kasih.
+1411	Ceroboh.
+1412	Yang tenang yang menang.
+1413	Satu per satu.
+1414	Hmm. Tetap saja tak akan kusisakan apa-apa untukmu.
+1415	Disengaja. Mungkin.
+1416	Tidak bisa diterima. Kesalahanku sendiri.
+1417	Seperti kubilang: sabar.
+1418	Kamu berhasil menembus tembok. Aku terkesan.
+1419	Aku sudah main sejak bola-bola ini belum terbuat dari plastik.
+1420	Pukulan bagus. Mengingatkanku pada seseorang di tahun '78.
+1421	Halus. Halus sekali.
+1422	Tetap tundukkan kepalamu, Nak.
+1423	Bola putih tidak pernah bohong.
+1424	Ah, hadiah kecil. Terima kasih banyak.
+1425	Seperti naik sepeda.
+1426	Masih jago.
+1427	Mata ini sudah tidak seperti dulu.
+1428	Di zamanku lubangnya lebih besar.
+1429	Pemain veteran pun bisa terpeleset.
+1430	Pengalaman, kawan. Pengalaman.
+1431	Kamu punya masa depan di permainan ini.
+1432	Aku? Ah, aku jarang sekali main...
+1433	Beruntung! Coba ulangi kalau berani.
+1434	Ooh, ada yang rajin latihan nih.
+1435	Aduh, nyaris! Kasihan.
+1436	Mau kutunjukkan caranya?
+1437	Makasih, sayang.
+1438	Ups, aku yang melakukan itu?
+1439	Pasti keberuntungan pemula. Lagi.
+1440	Sengaja meleset. Biar seru.
+1441	Baru pemanasan.
+1442	Aduh, cerobohnya aku. Kedip.
+1443	Jarang main, kataku. Jarang.
+1444	Oke, kamu menang. Kali ini.
+1445	Gesekan, momentum, efek. Mari kita mulai.
+1446	Potongan yang bagus. Sekitar tiga puluh derajat, menurut saya.
+1447	Sesuai buku teks.
+1448	Kamu meremehkan pembelokan bolanya.
+1449	Menarik. Sesuai perkiraan statistik.
+1450	Bola putih mengikuti hukum fisika, bukan rencanamu.
+1451	Sesuai perhitungan.
+1452	Tumbukan lenting, hasil yang elegan.
+1453	Ada kesalahan dalam pengukuran saya.
+1454	Saya akan merevisi modelnya.
+1455	Hmm. Efek yang tak terduga.
+1456	Angka-angka berpihak pada saya.
+1457	Hasil di luar prediksi saya. Bagus sekali.
+1458	Fokus.
+1459	Bersih.
+1460	Lumayan.
+1461	Setengah milimeter.
+1462	Tarik napas sebelum memukul.
+1463	Lengah.
+1464	Sasaran kena.
+1465	Tepat di tengah lubang.
+1466	Hmm. Kalibrasi ulang.
+1467	Itu tidak pernah terjadi.
+1468	Tidak bisa diterima.
+1469	Presisi yang menang.
+1470	Bidikan bagus.
+1471	Selamat datang di meja saya. Nikmati pertunjukannya.
+1472	Bagus sekali. Kamu sudah mengerjakan PR-mu.
+1473	Tepuk tangan untuk sang penantang!
+1474	Tekanan. Semua orang bisa kena.
+1475	Terima kasih atas mejanya.
+1476	Juara tidak pernah menolak hadiah.
+1477	Tentu saja.
+1478	Begitulah caranya.
+1479	Juara pun memberi penonton kesempatan.
+1480	Saya sisakan sesuatu untukmu, sebagai sopan santun.
+1481	Pemandangan langka. Ingat baik-baik.
+1482	Gelar tetap milik saya. Game yang seru.
+1483	Luar biasa. Kamu pantas mendapat rasa hormat saya.
+1484	Kalibrasi selesai. Semoga beruntung, manusia.
+1485	Pukulan tercatat: berhasil.
+1486	Probabilitas kemenangan saya: meningkat.
+1487	Foul terdeteksi. Memproses penalti.
+1488	Dieksekusi sesuai rencana.
+1489	Kesalahan. Menghitung ulang.
+1490	Malfungsi. Harap abaikan.
+1491	Game selesai. Terima kasih telah bermain.
+1492	Kekalahan diakui. Permainan bagus.
+1493	Latihan
+1494	Latihan dengan bintang
+1495	{s} / {max} bintang
+1496	Bintang di {a}, {b}, dan {c}
+1497	Terbaikmu: {n} dari {total}
+1498	Belum dicoba.
+1499	Mulai latihan
+1500	Masuk untuk menyimpan bintangmu di akun.

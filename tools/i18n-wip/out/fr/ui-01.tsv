@@ -1,0 +1,300 @@
+1	{name} est sur la 8 : poche annoncée {pocket}
+2	Sur la 8 : poche {pocket}
+3	Afficher le ping
+4	La latence de votre connexion, dans les parties en ligne.
+5	Réactions
+6	Boutique
+7	Tapis
+8	Queues
+9	Craie
+10	Billes
+11	Pièces
+12	pièces
+13	Connectez-vous pour acheter et utiliser des objets. Voici ce qu'il y a :
+14	Équipé
+15	Équiper
+16	Acheter
+17	il manque {n}
+18	{n} pièces
+19	Pas assez de pièces : obtenez-en dans l'onglet Pièces.
+20	Réservé VIP
+21	gratuit
+22	à vous
+23	succès
+24	Les pièces ne peuvent pas encore être achetées sur ce serveur.
+25	+{n} en bonus
+26	Le paiement s'ouvre dans votre navigateur (carte, Pix…), sur la page sécurisée de Stripe.
+27	Les pièces arrivent dans un instant ; elles servent uniquement aux objets du jeu.
+28	Objets exclusifs : {list}
+29	{n} pièces chaque mois
+30	Résiliez quand vous voulez : le VIP dure jusqu'à la fin du mois payé
+31	Vous êtes VIP jusqu'au {d}.
+32	Gérer l'abonnement
+33	Devenir VIP · {p}
+34	Le VIP ne peut pas encore être acheté sur ce serveur.
+35	La page de paiement s'est ouverte dans votre navigateur.
+36	Impossible d'ouvrir le navigateur.
+37	Vert tournoi
+38	Bleu électrique
+39	Bordeaux
+40	Anthracite
+41	Bleu canard
+42	Violet royal
+43	Camel
+44	Minuit
+45	Rouge champion
+46	Classique
+47	Palissandre
+48	Ébène et argent
+49	Carbone
+50	Incrustations d'ivoire
+51	Couronne
+52	Joyaux
+53	Craie bleue
+54	Craie verte
+55	Craie rouge
+56	Craie violette
+57	Craie dorée
+58	Vintage
+59	Pastel
+60	Néon
+61	Vous avez déjà cet objet.
+62	Pas assez de pièces.
+63	L'achat a échoué ; aucune pièce n'a été prélevée.
+64	Cet objet n'existe pas.
+65	Cet objet ne peut pas être acheté avec des pièces.
+66	Vous n'avez pas cet objet.
+67	Les achats ne sont pas disponibles.
+68	Ce pack n'est pas en vente.
+69	La page de paiement n'a pas pu s'ouvrir. Réessayez dans un instant.
+70	Vous êtes déjà VIP.
+71	Il n'y a aucun abonnement à gérer.
+72	La page n'a pas pu s'ouvrir. Réessayez dans un instant.
+73	Pièces ajoutées à votre portefeuille.
+74	Bienvenue parmi les VIP !
+75	Ralentissez un peu.
+76	Vous ne pouvez pas faire ça.
+77	Il y a trop de notes en ce moment. Réessayez dans quelques minutes.
+78	Un modérateur a retiré votre note.
+79	Un modérateur a effacé votre message de statut.
+80	Message de statut effacé.
+81	VIP
+82	Jouer maintenant
+83	Trouvez automatiquement un adversaire de votre niveau
+84	Recherche d'un adversaire… {t}
+85	tout classement
+86	classement ±{n} · {mode}
+87	Réussite
+88	Billes empochées
+89	Meilleure série
+90	Fautes
+91	vu à l'instant
+92	vu il y a {n} min
+93	vu il y a {n} h
+94	vu hier
+95	vu il y a {n} jours
+96	vu il y a {n} mois
+97	à l'instant
+98	il y a {n} min
+99	il y a {n} h
+100	hier
+101	il y a {n} jours
+102	Historique de la partie
+103	Rien pour l'instant.
+104	Visée fine : cliquez sur les flèches ou faites glisser ici
+105	Spectateurs : {n}
+106	Vous regardez {name}
+107	Vos réactions arrivent discrètement à la table.
+108	Arrêter de regarder
+109	S'ils rejouent, vous continuez à regarder.
+110	Votre ami a quitté la table.
+111	Votre ami ne joue pas en ce moment.
+112	Vous ne pouvez regarder que vos amis.
+113	Vous ne pouvez pas regarder cette partie.
+114	{n} points avant {tier}
+115	Rang maximal
+116	Réactions {n}/{total}
+117	Table hantée
+118	Gagnez une partie classée pendant Halloween (24 oct. – 2 nov.).
+119	Ligue d'hiver
+120	Gagnez une partie classée pendant les fêtes (15 déc. – 6 janv.).
+121	Feux d'artifice
+122	Gagnez une partie classée au Nouvel An (31 déc. – 1er janv.).
+123	Montre où vont la bille visée et la blanche (seulement en parties libres et à l'entraînement).
+124	{n} en ligne · ping {ms} ms
+125	Glisser clic droit · Molette
+126	% victoires
+127	Réinitialiser la caméra : vue de dessus, sans zoom
+128	{name} a empoché la 8
+129	{name} a empoché la 8 trop tôt
+130	{name} a empoché la 8 dans la mauvaise poche
+131	{name} a commis une faute sur la 8
+132	{name} a fait sortir la 8 de la table
+133	{name} a abandonné
+134	{name} a quitté la partie
+135	{winner} gagne ! ({how})
+136	#{n} mondial
+137	3–16 lettres, chiffres ou tirets bas.
+138	Aucune ligne sur la table : visez à l'œil, dans l'axe de la queue.
+139	Sans guide
+140	Seulement une courte ligne depuis la blanche.
+141	Accepter l'ami
+142	Succès débloqué : {title}
+143	Succès {n}/{total}
+144	Ajouter
+145	Ajoutez un ami par son nom d'utilisateur
+146	Ajouter un ami
+147	Contre l'ordinateur
+148	Tous les tournois
+149	Amateur
+150	Au moins 8 caractères. Choisissez un mot de passe que vous n'utilisez nulle part ailleurs.
+151	Il faut au moins deux joueurs.
+152	Retour
+153	Bille noire
+154	Bloquer
+155	Casse et nettoie
+156	Cassez et nettoyez la table 10 fois.
+157	Impossible de chercher des parties ici : rejoignez-en une par adresse ci-dessous.
+158	Annuler la demande
+159	Annuler le tournoi
+160	Amicale
+161	Centurion
+162	Champion
+163	Champion : {name}
+164	Changer de pays
+165	Ajouter un message de statut
+166	Une phrase sur vous
+167	Enregistrer (Enter)
+168	Annuler (Esc)
+169	Modifier votre message de statut
+170	Effacer le message de statut
+171	Triche ou abus
+172	Choisir…
+173	Cliquez à nouveau pour bloquer
+174	Fermer
+175	Finisseur
+176	Compétiteur
+177	Connexion au serveur…
+178	Impossible d'héberger une partie : {e}
+179	Pays
+180	Créer
+181	Créer un tournoi
+182	Ne pas afficher de drapeau
+183	Aucun pays trouvé.
+184	Dynastie
+185	La 8 suffit
+186	Bourreau
+187	Expert
+188	Visage familier
+189	Finale
+190	Terminez d'abord votre partie.
+191	Premier sang
+192	Première casse
+193	Demande d'ami envoyée.
+194	Amis
+195	partie quotidienne
+196	Quotidiennes
+197	Partie quotidienne
+198	Parties quotidiennes
+199	Défiez un joueur par son nom d'utilisateur
+200	Défier en partie quotidienne
+201	3 jours par tour
+202	Aucune partie quotidienne pour l'instant. Défiez un ami : chacun joue son tour quand il peut.
+203	vous défie · {kind}
+204	en attente de réponse · {kind} · reste {time}
+205	à vous · reste {time}
+206	à l'adversaire · reste {time}
+207	gagnée · {how}
+208	perdue · {how}
+209	temps écoulé
+210	temps écoulé pour l'adversaire
+211	table ouverte
+212	Vous : {mine}, reste {a} · {name} : {theirs}, reste {b}
+213	Voir
+214	Passer
+215	Revoir le tour de {name}
+216	Coup {n} sur {total}
+217	Tour envoyé
+218	Tour envoyé.
+219	En attente du coup de {name}
+220	{name} a {time} pour jouer. On vous préviendra quand ce sera votre tour.
+221	Il reste {time} pour jouer. On vous préviendra quand ce sera votre tour.
+222	Retour aux parties quotidiennes
+223	Votre partie est sauvegardée : revenez quand vous voulez.
+224	{d} j {h} h
+225	temps écoulé pour {name}
+226	Impossible d'afficher cette partie.
+227	Une partie quotidienne vous attend
+228	{n} parties quotidiennes vous attendent
+229	{name} vous défie en partie quotidienne classée.
+230	{name} vous défie en partie quotidienne amicale.
+231	{name} a accepté votre partie quotidienne.
+232	{name} a refusé votre partie quotidienne.
+233	{name} a retiré son défi en partie quotidienne.
+234	À vous de jouer dans la partie quotidienne contre {name}.
+235	Temps écoulé pour {name} : vous gagnez la partie quotidienne.
+236	Vous avez gagné la partie quotidienne contre {name} !
+237	Votre temps est écoulé dans la partie quotidienne contre {name}.
+238	Vous avez perdu la partie quotidienne contre {name}.
+239	Défi envoyé.
+240	Les parties quotidiennes nécessitent un compte.
+241	Cette partie n'existe pas.
+242	Ce défi n'est plus valable.
+243	Ce joueur vous a déjà défié : répondez à son défi.
+244	Ce joueur a trop de défis en attente.
+245	Ce joueur a trop de parties quotidiennes en cours.
+246	Ce joueur n'accepte pas les défis.
+247	Cette partie ne peut pas être jouée pour le moment.
+248	Cette partie a changé entre-temps : rouvrez-la.
+249	Cette partie est terminée.
+250	Vous avez déjà défié ce joueur.
+251	Vous avez déjà une partie en cours contre ce joueur.
+252	Vous avez bloqué ce joueur.
+253	Vous ne pouvez pas vous défier vous-même.
+254	Vous avez déjà le maximum de parties quotidiennes simultanées.
+255	Vous avez trop de défis en attente de réponse.
+256	Vous envoyez des défis trop vite.
+257	Votre temps pour ce tour est écoulé.
+258	Parties
+259	Parties sur votre réseau
+260	Donnez un nom au tournoi (au moins 3 caractères).
+261	Bonne compagnie
+262	Grand maître
+263	Les invités ne peuvent rejoindre que des parties LAN. Créez un compte.
+264	Les invités ne peuvent pas jouer de tournois classés.
+265	Les invités n'y ont pas accès.
+266	Harcèlement
+267	Coup du chapeau
+268	Ayez 10 amis.
+269	Ayez un compte depuis 30 jours.
+270	Ayez un compte depuis un an.
+271	Héberger une partie sur cet ordinateur
+272	Hôte {host} · {n}/{size} joueurs · {kind}
+273	Main chaude
+274	Arnaqueur
+275	Coup non valide.
+276	Rejoindre
+277	Connexion à la partie LAN…
+278	Juste pour le plaisir
+279	D
+280	Partie LAN
+281	Partie LAN hébergée par {name}.
+282	Les parties LAN ne changent pas le classement.
+283	Légende
+284	Vit à la table
+285	Chargement du profil…
+286	Chargement…
+287	Réseau local
+288	Verrouillé
+289	Recherche de parties
+290	Faites-vous un ami.
+291	Maître
+292	Nom
+293	Les noms ont 3–16 lettres, chiffres ou tirets bas.
+294	Nouveau compte
+295	J'ai un compte
+296	Nouveau ? Choisissez « Nouveau compte » : ça prend dix secondes.
+297	Nouveau tournoi
+298	Pas encore d'amis. Ajoutez quelqu'un avec qui vous avez joué !
+299	Aucune partie pour l'instant.
+300	Sans limite

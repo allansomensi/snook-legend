@@ -1,0 +1,300 @@
+901|Rozmiar interfejsu
+902|Teksty, przyciski i panele.
+903|Przeciągnij, aby ustawić siłę
+904|Uderz!
+905|Ustaw siłę i naciśnij zielony przycisk
+906|Monety: +{n} · {why}
+907|Turnieje dla 16 graczy i pierwsze miejsce na liście oczekujących, gdy turniej jest pełny
+908|30 minut: rozegraj jak najwięcej partii. Wygrana to 2 punkty, a od trzeciej wygranej z rzędu – 4.
+909|Korona przy twojej nazwie wszędzie (lobby, profil, ranking)
+910|Konto
+911|Dodaj znajomych, aby dawać im przedmioty w prezencie.
+912|Arena
+913|Arena · gospodarz {host} · gracze: {n} · {kind}
+914|Kup teraz
+915|Kupowanie…
+916|Zmień hasło
+917|Kliknij ponownie, aby usunąć
+918|Masz kod? Wpisz go tutaj
+919|Potwierdź zakup
+920|Skopiowano: wyślij go znajomemu.
+921|Kopiuj
+922|Obecne
+923|Usuń konto
+924|Wpisowe
+925|Wpisowe: {n} monet
+926|Wszystkie powtórki zachowane (gracze bez VIP mają ostatnie 10 partii)
+927|Dla: {name}
+928|Dodaj wiadomość (opcjonalnie)
+929|Format
+930|Ramki
+931|Za darmo
+932|Zdobądź monety
+933|Prezent wysłany!
+934|Podaruj
+935|Wyślij prezent
+936|Podaruj znajomemu
+937|Super!
+938|Jeśli zapomnisz hasła, potwierdzimy twoją tożsamość przez ten adres e-mail.
+939|Zaproś kodem
+940|Zostanie użyty od razu. Przedmioty zmieniają tylko wygląd, nigdy rozgrywkę.
+941|Dosiądź się do mojego stołu w Snook Legend:
+942|Zapisz się na listę oczekujących
+943|Dołącz · {n} monet
+944|Pucharowy
+945|Kolor nazwy
+946|Kolory nazwy w lobby oraz ekskluzywne ramki, sukna, kije, bile i efekty
+947|Nowe
+948|Nie, dziękuję
+949|Nic, co wygrywa partie: VIP zmienia tylko wygląd
+950|Liczby
+951|W TV
+952|Graj partie rankingowe, aby zobaczyć tu swój ranking.
+953|Nie ma jeszcze partii rankingowych.
+954|Cena
+955|Nagrody {a} + {b}
+956|Chroń swoje zakupy
+957|Zakup zakończony!
+958|E-mail do odzyskiwania
+959|Zapisz
+960|Wpisowe tworzy pulę nagród: 70% dla zwycięzcy, 20% dla finalisty.
+961|Serwer zostanie zrestartowany za {m}:{s} z powodu aktualizacji. Trwające partie toczą się dalej.
+962|Użyj tego adresu
+963|Używać adresu {email} do odzyskania konta, jeśli kiedyś zapomnisz hasła?
+964|Oglądaj
+965|Obejrzyj ponownie
+966|Efekty zwycięstwa
+967|Sale
+968|Dobierzemy ci przeciwnika, gdy tylko ty i przeciwnik będziecie wolni.
+969|Możesz to zmienić w dowolnej chwili w profilu (Konto).
+970|Brakuje ci monet: {n}.
+971|Twoje konto
+972|Twoje konto zostało usunięte.
+973|Twoje monety
+974|Znajomy dostanie go od razu.
+975|Zaczyna się twoja partia z graczem {name}.
+976|Twoja nazwa, e-mail, znajomi i przedmioty zostaną trwale usunięte. Twoi przeciwnicy zachowają rozegrane z tobą partie (bez twojej nazwy).
+977|bile na partię
+978|najlepsza seria w historii
+979|dzienny bonus
+980|zwrot wpisowego
+981|za partię
+982|za wygraną
+983|policzone partie
+984|Analiza
+985|Analiza uderzeń nie jest jeszcze dostępna na tym serwerze.
+986|Analiza uderzeń jest dostępna tylko dla kont online.
+987|Graj online, aby zobaczyć swoją skuteczność. Do analizy brakuje jeszcze uderzeń do łuzy: {n}.
+988|{name} nie ma jeszcze dość partii online do analizy.
+989|1 partia
+990|{pct}% wbitych (uderzenia do łuzy: {n}) · {games}
+991|Wbite: {made} z {n} ({pct})
+992|Według rodzaju uderzenia
+993|uderzenia
+994|Proste
+995|Cięcie 8–25°
+996|Cięcie 25–45°
+997|Cienkie cięcie 45°+
+998|Od bandy
+999|Biała od bandy
+1000|Kombinacja
+1001|Skok
+1002|Massé
+1003|Rozbicie
+1004|Według odległości
+1005|Krótkie (do 0,75 m)
+1006|Średnie (do 1,5 m)
+1007|Długie (ponad 1,5 m)
+1008|nie zostawiło przeciwnikowi szans
+1009|Rozbicia
+1010|z wbitą bilą
+1011|Wbite
+1012|Chybione
+1013|Gdzie i do której łuzy
+1014|{pocket}: wbite {made} z {n}
+1015|Gdzie leżały wbite bile
+1016|Gdzie leżały chybione bile
+1017|mało
+1018|dużo
+1019|wbite: {made} · chybione: {missed} ({pct})
+1020|Lewa górna narożna
+1021|Lewa dolna narożna
+1022|Górna środkowa
+1023|Dolna środkowa
+1024|Prawa górna narożna
+1025|Prawa dolna narożna
+1026|porzucone partie
+1027|skuteczność wbić
+1028|uderzenia z faulem
+1029|start za {n} min
+1030|nagroda turniejowa
+1031|Ciemna sala ukrywa wnętrze wokół stołu.
+1032|Pokaż salę
+1033|Poziom {n} · 1 wygrana
+1034|Poziom {n} · wygrane: {w}
+1035|Wygrane online tym kijem potrzebne do poziomu {n}: {left}. Poziomy dodają kijowi tylko zdobienia.
+1036|Najwyższy poziom: ten kij ma wszystkie zdobienia.
+1037|Twój kij {cue} osiąga poziom {n}!
+1038|Najwięcej wygranych: {cue} (poziom {n})
+1039|partie: {games} · wygrane: {rate}% · wbite bile: {balls}
+1040|vs
+1041|Prezent od gracza {from}: {item}!
+1042|Masz prezent!
+1043|Od
+1044|Dla
+1045|ktoś
+1046|Miesiąc VIP
+1047|Podziękuj
+1048|Podziękowano
+1049|Podziękowanie otrzymane
+1050|Użyj teraz
+1051|Później
+1052|OK
+1053|Dalej (jeszcze {n})
+1054|Prezent od gracza {from}: {item}! Czeka na ciebie w lobby.
+1055|{name} dziękuje ci za prezent: {item}.
+1056|Prezenty
+1057|Nie masz jeszcze prezentów. Znajomi mogą dawać ci przedmioty ze sklepu.
+1058|Przedmiot {item} należy do ciebie i jest już w użyciu.
+1059|zostało {m}:{s}
+1060|{name} zaprasza cię do gry.
+1061|{name} jest online.
+1062|{name}: koniec czasu.
+1063|{name} otrzymuje: {item}.
+1064|{n} pkt · partie: {g}
+1065|oglądający: {n} · średnia {r}
+1066|{title}: {how}
+1067|Oliwka
+1068|Granat
+1069|Leśna zieleń
+1070|Łupkowa szarość
+1071|Czerwone wino
+1072|Palony oranż
+1073|Pudrowy róż
+1074|Piasek
+1075|Lodowy błękit
+1076|Limonka
+1077|Smokingowa czerń
+1078|Kobalt
+1079|Szmaragd
+1080|Naturalny klon
+1081|Bar na plaży
+1082|Nowoczesny
+1083|Klub angielski
+1084|Heban i złoto
+1085|Sala bilardowa
+1086|Loft industrialny
+1087|Stal i dąb
+1088|Turniej
+1089|Wiktoriański orzech
+1090|Kość słoniowa w stylu deco
+1091|Górskie schronisko
+1092|Neonowy salon gier
+1093|Salon art déco
+1094|Penthouse z widokiem
+1095|Orzech
+1096|Zebrano
+1097|Bocote
+1098|Głęboki ocean
+1099|Wiśnia
+1100|Jadeit
+1101|Tygrys
+1102|Ametyst
+1103|Arktyczny karbon
+1104|Inferno
+1105|Obsydian i złoto
+1106|Beżowa kreda
+1107|Szara kreda
+1108|Pomarańczowa kreda
+1109|Różowa kreda
+1110|Morska kreda
+1111|Żółta kreda
+1112|Czarna kreda
+1113|Biała kreda
+1114|Srebrna kreda
+1115|Zestaw TV
+1116|Odcienie ziemi
+1117|Ocean
+1118|Zachód słońca
+1119|Cukierki
+1120|Perła
+1121|Monochrom
+1122|Chrom
+1123|Gorączka złota
+1124|Bez ramki
+1125|Brąz
+1126|Srebro
+1127|Złoto
+1128|Zielony filc
+1129|Mahoń
+1130|Lód
+1131|Ogień
+1132|Diament
+1133|Korona VIP
+1134|Różowe złoto
+1135|Akwamaryna
+1136|Fiolet
+1137|Żar
+1138|Mięta
+1139|Szron
+1140|Bez efektu
+1141|Iskry
+1142|Konfetti
+1143|Fala uderzeniowa
+1144|Deszcz monet
+1145|Płomienie
+1146|Królewskie iskry
+1147|Kolor ligi
+1148|Turnieje dla 16 graczy są dostępne dla VIP.
+1149|Zwolniło się miejsce: grasz w turnieju!
+1150|Wpisowe może wynosić maksymalnie 1000 monet.
+1151|Goście nie mogą grać o monety.
+1152|Podarować można tylko przedmioty kupowane za monety.
+1153|Hasło zmienione.
+1154|Hasło musi mieć co najmniej 8 znaków i nie może składać się z samych cyfr.
+1155|Usunięto e-mail do odzyskiwania.
+1156|Zapisano e-mail do odzyskiwania.
+1157|Coś poszło nie tak. Spróbuj ponownie.
+1158|Ten kod jest nieprawidłowy (albo stół został zamknięty).
+1159|To nie wygląda na adres e-mail.
+1160|Ta partia już się zakończyła.
+1161|Obecne hasło jest błędne.
+1162|Serwer jest restartowany.
+1163|Serwer jest restartowany: nowe partie zaczną się za chwilę.
+1164|Turniej jest pełny: jesteś na liście oczekujących.
+1165|Ta powtórka jest niedostępna.
+1166|Przedmioty możesz dawać tylko znajomym.
+1167|Twój znajomy ma już ten przedmiot.
+1168|16 (VIP)
+1169|W tej wersji gry VIP nie jest w sprzedaży.
+1170|W tej wersji gry monety zdobywa się, grając:
+1171|partie rankingowe i bonus za każdy dzień gry.
+1172|Monety zdobywa się, grając:
+1173|Jeśli chcesz, możesz je też kupić:
+1174|jeden miesiąc
+1175|ma już VIP
+1176|Podaruj miesiąc znajomemu · {p}
+1177|Prezent od gracza {from}: miesiąc VIP!
+1178|{name} otrzymuje miesiąc VIP.
+1179|Twój znajomy ma już VIP.
+1180|Trwająca partia · bile na stole: {n}
+1181|Kontynuuj
+1182|Misje
+1183|Tablica
+1184|Dzisiaj
+1185|W tym tygodniu
+1186|nowe misje za {t}
+1187|koniec za {t}
+1188|{n} dni
+1189|{n} godz.
+1190|{n} min
+1191|misja wykonana
+1192|Misje liczą partie rankingowe rozegrane do końca. Monety trafiają do ciebie, gdy tylko misja zostanie wykonana.
+1193|Na tablicy nic teraz nie ma.
+1194|Otwarte turnieje
+1195|gracze: {n}/{size}
+1196|start za {t}
+1197|wpisowe {n} monet
+1198|Zobacz
+1199|Rozegraj partie rankingowe: {n}
+1200|Wygraj partie rankingowe: {n}

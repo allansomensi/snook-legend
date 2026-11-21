@@ -1,0 +1,300 @@
+301	Nicio masă deschisă. Deschide una și alții se pot așeza.
+302	Nicio altă masă deschisă acum.
+303	Jucătorul nu există.
+304	Niciun turneu acum. Creează unul!
+305	Nume ofensator
+306	Pe val
+307	În flăcări
+308	Doar gazda poate începe turneul.
+309	Deschide o masă
+310	Sau intră după adresă
+311	Altceva
+312	Alții pot intra la {ip}:{port}
+313	Parola trebuie să aibă cel puțin 8 caractere (nu doar cifre).
+314	Joacă 1.000 de partide cu rating.
+315	Joacă 10 partide cu rating.
+316	Joacă 100 de partide cu rating.
+317	Joacă 25 de partide amicale.
+318	Joacă 500 de partide cu rating.
+319	Joacă într-un turneu.
+320	Joacă online
+321	Joacă cu prietenii în aceeași rețea
+322	Joacă prima ta partidă cu rating.
+323	Jucătorul 1
+324	Jucători
+325	Jucătorii dintr-un turneu nu pot începe alte partide.
+326	Te rugăm să nu repeți același mesaj.
+327	Legenda sălii
+328	Popular
+329	Privată
+330	ca să se așeze prietenii tăi
+331	Profil
+332	{key}: revezi ultima lovitură
+333	RELUARE
+334	Cu rating
+335	Partide cu rating, mese, turnee și prieteni
+336	Atinge un rating de 1300.
+337	Atinge un rating de 1500.
+338	Atinge un rating de 1700.
+339	Atinge un rating de 1900.
+340	Atinge un rating de 2100.
+341	Reîmprospătează
+342	Client fidel
+343	Elimină prietenul
+344	Reluare
+345	Raportează
+346	Raportează jucătorul {name}
+347	Cerere trimisă
+348	Prieten
+349	Recenți
+350	Nimeni deocamdată. Aici vor apărea cei cu care joci online.
+351	partide: {n}
+352	Începător
+353	Runda {n}
+354	Caută…
+355	Semifinale
+356	Trimite raportul
+357	Partida aceasta se trimite odată cu raportul, ca moderatorii să o poată vedea.
+358	Partida ta cu {name} ({date}) se trimite odată cu raportul, ca moderatorii să o poată vedea.
+359	Nu ai jucat cu {name} în ultima zi: moderatorii văd chatul recent.
+360	Rechin
+361	Arată punctul de contact; tăietura o apreciezi tu.
+362	La zero
+363	Conectare
+364	Conectează-te sau creează un cont
+365	Deconectare
+366	Așază-te
+367	Priceput
+368	Cineva cu acest nume e deja aici.
+369	Spam
+370	Începe acum
+371	Oprește reluarea
+372	Stăpânul mesei
+373	Mese
+374	Jucați pe rând la acest computer
+375	Mulțumim. Moderatorii vor analiza situația.
+376	Mulțumim. Moderatorii vor analiza situația, cu partida ta atașată.
+377	Jucătorul nu acceptă invitații.
+378	Lovitura era pentru o tură anterioară.
+379	Masa nu mai este deschisă.
+380	Turneul a început deja.
+381	Turneul nu mai există.
+382	Prima conectare din zi poate dura până la un minut, cât timp serverul pornește.
+383	Prima dată, permite accesul pentru Snook Legend în firewall când ți se cere.
+384	Serverul nu a putut juca lovitura.
+385	Serverul e ocupat. Încearcă din nou peste puțin timp.
+386	Turneul începe când e complet (gazda îl poate începe mai devreme).
+387	Sunt prea multe turnee acum. Intră într-unul!
+388	Acesta e un server LAN: intră ca invitat.
+389	Cincisprezece adversari, un circuit și fantomele unor jucători reali
+390	Ligă
+391	Timp pe lovitură
+392	Prea multe încercări eșuate. Așteaptă câteva minute și încearcă din nou.
+393	Prea multe mesaje.
+394	Prea multe conturi noi din această rețea. Încearcă mai târziu.
+395	Top 100 · partide cu rating
+396	Partidă de turneu: runda următoare începe din salon.
+397	Partidele de turneu nu au revanșă.
+398	Turnee
+399	Turneele au 4, 8 sau 16 jucători.
+400	Doi jucători
+401	Deblochează
+402	Deblocată pe {date}
+403	De neoprit
+404	V
+405	Revezi ultima lovitură
+406	Ce s-a întâmplat? (opțional)
+407	Când expiră timpul, tura trece la adversar.
+408	Fără milă
+409	Câștigă 10 partide cu rating băgând bila 8.
+410	Câștigă 10 partide cu rating la rând.
+411	Câștigă 10 partide cu rating.
+412	Câștigă la zero 10 partide cu rating.
+413	Câștigă 100 de partide cu rating băgând bila 8.
+414	Câștigă 100 de partide cu rating.
+415	Câștigă 250 de partide cu rating băgând bila 8.
+416	Câștigă 3 partide cu rating la rând.
+417	Câștigă 5 partide cu rating la rând.
+418	Câștigă 5 turnee.
+419	Câștigă 50 de partide cu rating băgând bila 8.
+420	Câștigă 50 de partide cu rating.
+421	Câștigă 500 de partide cu rating.
+422	Câștigă o partidă cu rating.
+423	Câștigă un turneu.
+424	Câștigă o partidă cu rating înainte ca adversarul să bage o bilă din grupa lui.
+425	Câștigă o partidă cu rating din spargere, fără ca adversarul să ajungă la masă.
+426	Retrage-te
+427	Clasament mondial
+428	Parolă de masă greșită.
+429	Parolă de turneu greșită.
+430	Ești deja într-un turneu.
+431	Găzduiești o partidă
+432	Nu poți intra la această masă.
+433	Te-ai conectat din alt loc.
+434	Trimiți invitații prea repede.
+435	Trimiți mesaje prea repede.
+436	Ai trimis multe rapoarte. Așteaptă puțin înainte să trimiți altele.
+437	Lista ta de prieteni e plină.
+438	Următorul tău meci începe automat când ambii jucători sunt liberi.
+439	Profilul tău
+440	Masa ta e deschisă
+441	Apropie
+442	Depărtează
+443	la o masă
+444	record de victorii la rând
+445	de {host} · {n}/{size} jucători
+446	partide amicale
+447	amicală · privată
+448	amicală · publică
+449	conectare la server
+450	biliard 8-ball
+451	încheiat
+452	invitat
+453	te invită la {kind}
+454	s-a înscris azi
+455	membru de {n} zile
+456	membru de {n} luni
+457	membru de {n} ani
+458	offline
+459	deschis
+460	opțional: doar prietenii care o au pot intra
+461	parolă
+462	maxim {n}
+463	joacă
+464	joacă cu computerul
+465	absent
+466	partida e salvată
+467	partide cu rating
+468	cu rating · privată
+469	cu rating · publică
+470	cerere trimisă
+471	conexiunea s-a întrerupt
+472	ca să joci online
+473	turneu
+474	turnee câștigate
+475	se așteaptă un adversar…
+476	% victorii
+477	victorii
+478	câștigate la bila 8
+479	partida lui {host}
+480	{name} vrea să fiți prieteni
+481	{name} vrea să fiți prieteni.
+482	{n} online
+483	a băgat bila 8
+484	adversarul a băgat bila 8
+485	adversarul a băgat bila 8 prea devreme
+486	a băgat bila 8 prea devreme
+487	adversarul a băgat bila 8 în buzunarul greșit
+488	a băgat bila 8 în buzunarul greșit
+489	adversarul a făcut fault la bila 8
+490	a făcut fault la bila 8
+491	adversarul a scos bila 8 de pe masă
+492	a scos bila 8 de pe masă
+493	adversarul a cedat
+494	a cedat
+495	adversarul a plecat
+496	a părăsit partida
+497	Chatul tău e blocat încă {n} min.
+498	Acest cont e suspendat încă {n} zi(le). Motiv: {reason}.
+499	Acest cont e blocat definitiv. Motiv: {reason}.
+500	Chatul tău a fost blocat: {r}
+501	Contul tău a fost suspendat: {r}
+502	Contul tău a fost blocat definitiv: {r}
+503	Un moderator te-a deconectat: {r}
+504	Un moderator te-a deconectat.
+505	Conectează-te din nou.
+506	Parola ta a fost schimbată. Conectează-te din nou.
+507	Acceptă revanșa
+508	Acceptă
+509	Țintește
+510	Ghidaj de țintire
+511	Țintire
+512	Anti-aliasing
+513	Netezește marginile zimțate ale liniilor și bilelor.
+514	Înapoi în salon
+515	Echilibrat: fluid pe majoritatea laptopurilor.
+516	Bila în mână
+517	Fă spargerea
+518	Camera se retrage ca să urmărească fiecare lovitură
+519	Cameră
+520	Anulează
+521	Partidă amicală: ratingul nu se schimbă
+522	Centru
+523	Chat
+524	Dă clic pe o bilă sau pe un punct
+525	Dă clic ca să scrii, Enter ca să trimiți
+526	Comenzi
+527	Creează cont
+528	Punctul de lovire pe bila albă
+529	Refuză
+530	Gata
+531	Trage bila albă
+532	Elevație
+533	Totul, cu reflexii în podelele lustruite: pentru PC-uri de gaming.
+534	Țintire fină
+535	Termină mai întâi acest meci.
+536	Pentru computere vechi sau foarte lente.
+537	Ecran complet
+538	Și cu {key}.
+539	Complet
+540	Server de joc
+541	Schimbă-l doar ca să joci pe alt server.
+542	Avansat
+543	Server personalizat
+544	Calitate grafică
+545	Calitate
+546	Afișaj
+547	Ridicată
+548	Invită
+549	Ieși în salon
+550	Ieși
+551	Dacă ieși acum, pierzi partida.
+552	Chatul salonului
+553	Scăzută
+554	Meniu principal
+555	Medie
+556	Meniu / ajutor
+557	Următoarea partidă începe imediat…
+558	Încă nu există partide cu rating. Fii primul!
+559	Nu mai e nimeni aici acum.
+560	Cauți o partidă?
+561	Caut partidă
+562	Publică un anunț
+563	Toți cei din salon îl văd timp de 30 de minute
+564	Ce cauți? ({kind})
+565	Publică
+566	Anunțul tău: {text}
+567	{mode} · mai sunt {left}
+568	Retrage
+569	Provoacă
+570	Retrage anunțul
+571	Oprit
+572	La bila 8: anunță un buzunar
+573	La bila 8
+574	Masă deschisă
+575	Parolă
+576	În pauză
+577	Joacă
+578	Jucătorul 2
+579	Jucător
+580	Țintire rapidă
+581	Ieșire
+582	Reconectat.
+583	Revanșă
+584	Cedează partida
+585	Repornește jocul ca să aplici schimbarea.
+586	Continuă
+587	Reîncearcă
+588	Se salvează rezultatul…
+589	Salută… (Enter ca să trimiți)
+590	Trimite
+591	Setări
+592	{key} + trage
+593	{key}: 3D / vedere de sus
+594	{keys}: zoom
+595	Vedere
+596	Țintește la stânga
+597	Țintește la dreapta
+598	Țintire fină (ține apăsat)
+599	Lovește (ține apăsat, apoi eliberează)
+600	Efect sus

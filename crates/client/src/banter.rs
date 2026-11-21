@@ -264,7 +264,7 @@ mod tests {
     fn every_line_is_translated() {
         use crate::i18n::Lang;
         for line in all_lines() {
-            for lang in [Lang::Portuguese, Lang::Spanish] {
+            for lang in Lang::translated() {
                 assert!(crate::i18n::has_translation(lang, line), "{lang:?}: {line}");
             }
         }

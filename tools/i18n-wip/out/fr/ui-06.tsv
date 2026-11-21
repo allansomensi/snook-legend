@@ -1,0 +1,300 @@
+1501	{n} sur {total}
+1502	{drill} : essai {k} sur {n} · {made} réussis
+1503	Réussi ! {n} sur {total}
+1504	Raté.
+1505	Envoi au serveur…
+1506	Non connecté : cette session n'est pas classée.
+1507	Enregistré dans votre compte.
+1508	La session n'a pas pu être comptée.
+1509	Retour aux exercices
+1510	Dans l'axe
+1511	Une longue bille dans l'axe, dans la poche de coin. Cinq essais.
+1512	L'angle
+1513	Une demi-bille dans la poche de coin. Cinq essais.
+1514	Rétro
+1515	Empochez la bille et ramenez la blanche dans le cercle en rétro. Cinq essais.
+1516	Coulé
+1517	Empochez la bille et laissez la blanche dans le cercle situé au-delà. Cinq essais.
+1518	Par la bande
+1519	Par une bande, dans la poche du milieu. Cinq essais.
+1520	Bille cachée
+1521	Touchez d'abord la 1 : elle est cachée derrière d'autres billes. Cinq essais.
+1522	Dix d'affilée
+1523	Dix coups différents, l'un après l'autre : un raté met fin à la session.
+1524	Le coin opposé
+1525	Un angle en remontant la table, dans le coin derrière vous. Cinq essais.
+1526	De loin au milieu
+1527	Depuis le bout de la table, dans la poche du milieu. Cinq essais.
+1528	Blanche collée à la bande
+1529	La blanche touche la bande : empochez quand même la bille dans le coin. Cinq essais.
+1530	Billes collées
+1531	La 2 touche la 1 et vise la poche : frappez la 2 et la 1 rentre. Cinq essais.
+1532	Le carambolage
+1533	La 2 gêne : frôlez-la avec la blanche et envoyez la 1 dans le coin. Cinq essais.
+1534	Le long rétro
+1535	Empochez la bille et ramenez la blanche jusqu'au cercle, tout au fond. Cinq essais.
+1536	Sur la tangente
+1537	Empochez la bille au milieu et laissez la blanche filer jusqu'au cercle. Cinq essais.
+1538	Deux bandes
+1539	Par deux bandes, dans le coin. Cinq essais.
+1540	Quinze d'affilée
+1541	Quinze coups différents, l'un après l'autre : un raté met fin à la session.
+1542	Annuler le coup (Z)
+1543	Coup annulé.
+1544	Pleines
+1545	Rayées
+1546	Masquer l'historique
+1547	Nouveau nom d'utilisateur
+1548	Cliquez à nouveau pour confirmer
+1549	Il vous reste {n} changements de nom sur {total}
+1550	Vous ne pouvez plus changer de nom d'utilisateur.
+1551	C'est déjà votre nom d'utilisateur.
+1552	Terminez votre partie avant de changer de nom d'utilisateur.
+1553	Quittez votre table ou la file d'attente avant de changer de nom d'utilisateur.
+1554	Quittez votre tournoi avant de changer de nom d'utilisateur.
+1555	Nom d'utilisateur modifié.
+1556	Le serveur est encore en cours de mise à jour vers la nouvelle version. Réessayez dans quelques minutes.
+1557	{shooter} a empoché une bille adverse : à {next} de jouer.
+1558	Le Flambeur
+1559	Mise sur chaque coup : aussi fort que la queue le permet, avec tout l'effet possible. Jouer la sécurité l'ennuie.
+1560	La Main de velours
+1561	Ne frappe jamais plus fort que nécessaire : les billes meurent au bord de la poche et la blanche s'arrête où elle veut.
+1562	Le Showman
+1563	Joue pour le public : queue relevée, effets qui courbent et une bande dès que possible. Ça marche plus souvent que ça ne devrait.
+1564	La Tacticienne
+1565	Planifie toute la table : vous cache la blanche quand la bille n'est pas sûre, et nettoie la table quand elle l'est.
+1566	La Machine
+1567	Ni nerfs ni fioritures : frappe au centre, dosage mesuré, le même coup parfait à chaque fois.
+1568	Faites vos jeux ! Moi, je mise sur moi.
+1569	Coup de chance. On laisse courir !
+1570	D'accord, d'accord. Quitte ou double ?
+1571	La maison gagne toujours !
+1572	Des jetons gratuits ! Merci !
+1573	Tapis, et ça a payé !
+1574	Voilà comment on joue les probabilités !
+1575	Pas de bol. Main suivante.
+1576	Trop d'effet ? Ça n'existe pas.
+1577	Perdu. Ça valait le risque !
+1578	Jackpot ! On remet la même mise ?
+1579	Vous avez déjoué les probabilités. Respect.
+1580	Doucement. La table aime les mains délicates.
+1581	Joliment fait.
+1582	Un peu fort, mais elle est rentrée.
+1583	Moins de puissance, plus de toucher.
+1584	Oh là là. Une bille offerte pour moi.
+1585	Juste assez pour tomber.
+1586	Vous voyez ? Pas besoin de taper fort.
+1587	Un poil trop doux.
+1588	Maladroite que je suis. Pardon.
+1589	Doucement mais sûrement. Merci pour la partie.
+1590	Superbement joué. Bien mérité.
+1591	Mesdames et messieurs... que le spectacle commence !
+1592	Pas mal ! Saluez le public !
+1593	Vous m'avez volé mes applaudissements !
+1594	Le public en voulait plus !
+1595	Oh, un rebondissement !
+1596	Tadam !
+1597	Et pour mon prochain tour...
+1598	Même les magiciens ont leurs soirs sans.
+1599	C'était... prévu dans le numéro.
+1600	Merci, merci ! Un rappel ?
+1601	Saluez, l'artiste. Vous l'avez bien mérité.
+1602	Chaque table est un casse-tête. Résolvons celui-ci.
+1603	Bien. Et maintenant, où est votre blanche ?
+1604	Je l'avais vu venir.
+1605	Ça m'a laissé quelque chose. Merci.
+1606	Comme prévu.
+1607	Exactement comme je l'avais calculé.
+1608	Trois coups d'avance.
+1609	Une variable qui m'a échappé.
+1610	Hum. Je recalcule.
+1611	Échec et mat.
+1612	Vous m'avez devancée. C'est rare.
+1613	Partie initialisée.
+1614	Noté.
+1615	Marge d'erreur dépassée.
+1616	Pénalité appliquée.
+1617	Conforme aux attentes.
+1618	Suivant.
+1619	Écart enregistré.
+1620	Dysfonctionnement. Cela ne se reproduira pas.
+1621	Résultat : victoire. Merci pour les données.
+1622	Résultat inattendu. Impressionnant.
+1623	Remarques des adversaires
+1624	Les adversaires gérés par l'ordinateur commentent la partie dans des bulles.
+1625	Vue de dessus uniquement
+1626	La table est toujours vue d'en haut : pas de vue 3D, pas de rotation.
+1627	Pas avec la vue de dessus uniquement.
+1628	Molette
+1629	Règles
+1630	Règles du jeu
+1631	À plat
+1632	Faites glisser la queue : sauté et massé
+1633	Faites glisser pour lever ou baisser la queue
+1634	Faites glisser la queue · {keys}
+1635	Photo de profil
+1636	Affichée à côté de votre nom à la table et dans votre profil.
+1637	Sans photo
+1638	Changer votre photo
+1639	{name} a empoché la 8 avec une autre bille
+1640	l'adversaire a empoché la 8 avec une autre bille
+1641	a empoché la 8 avec une autre bille
+1642	l'adversaire a empoché la 8 avec une autre bille
+1643	Pénalité : {balls} hors de la table, pour {name}.
+1644	{name} avait moins de billes que la faute n'en donne : la 8 paie le reste, et la faute perd la partie.
+1645	Ombres
+1646	Les ombres des billes et de la queue sur la table.
+1647	Seize joueurs : élimination directe ou arène
+1648	Nouvelle élimination directe
+1649	Nouvelle arène
+1650	Élimination directe : seize joueurs, quatre tours. Une partie perdue et vous êtes éliminé.
+1651	Arène : sept tours pour tout le monde. Une victoire vaut 2 points, 3 à partir de la troisième d'affilée. Le plus de points l'emporte.
+1652	Les parties entre les autres joueurs sont décidées selon leur force et un tirage au sort.
+1653	Vous avez gagné le tournoi !
+1654	{name} a gagné le tournoi.
+1655	Vous avez terminé à la {n}e place.
+1656	Huitièmes de finale
+1657	Quarts de finale
+1658	Tour {n} sur {total}
+1659	Affronter {name}
+1660	Abandonner le tournoi
+1661	V - D
+1662	Points
+1663	Le tournoi est terminé.
+1664	Le tour est terminé : voyez qui vous affrontez ensuite.
+1665	Vous êtes éliminé du tournoi.
+1666	Poche du milieu
+1667	Un angle dans la poche du milieu, où l'ouverture est étroite. Cinq essais.
+1668	L'angle long
+1669	Un angle depuis l'autre bout de la table, dans le coin. Cinq essais.
+1670	Coup fin
+1671	Effleurez à peine la bille : un coup fin dans le coin. Cinq essais.
+1672	Le long de la bande
+1673	La bille est près de la bande : faites-la longer la bande jusqu'au coin. Cinq essais.
+1674	Coup d'arrêt
+1675	Empochez la bille et arrêtez net la blanche à la place de la bille. Cinq essais.
+1676	La combinaison
+1677	Empochez la 1 en jouant la 2 sur elle. Cinq essais.
+1678	Bande croisée
+1679	Par la grande bande, en traversant la table jusqu'au coin. Cinq essais.
+1680	Bricole
+1681	La 1 est masquée : envoyez la blanche sur une bande pour la toucher en premier. Cinq essais.
+1682	Seule la blanche est tombée à la casse : les billes sont remises en triangle et {next} casse.
+1683	Casse en or
+1684	Gagnez une partie classée en empochant seulement la 8 à la casse.
+1685	Six mois
+1686	Ayez un compte depuis six mois.
+1687	Premier anniversaire
+1688	Deuxième anniversaire
+1689	Ayez un compte depuis deux ans.
+1690	Troisième anniversaire
+1691	Ayez un compte depuis trois ans.
+1692	Cinq ans à la table
+1693	Ayez un compte depuis cinq ans.
+1694	Retour au tournoi
+1695	Continuer contre {name}
+1696	Vous avez quitté votre partie : elle compte comme une défaite.
+1697	nouveau niveau
+1698	Le niveau {n} apporte : {item}
+1699	Niveau 5
+1700	Atteignez le niveau 5.
+1701	Niveau 10
+1702	Atteignez le niveau 10.
+1703	Niveau 15
+1704	Atteignez le niveau 15.
+1705	Niveau 20
+1706	Atteignez le niveau 20.
+1707	Niveau 30
+1708	Atteignez le niveau 30.
+1709	Niveau 40
+1710	Atteignez le niveau 40.
+1711	Niveau 50
+1712	Atteignez le niveau 50.
+1713	Bleu canard de l'habitué
+1714	Prune du vétéran
+1715	Vieux routier
+1716	Pilier
+1717	Craie de l'apprenti
+1718	Craie du compagnon
+1719	Succès
+1720	Ligues et niveaux
+1721	Ligue suivante : {tier}
+1722	La plus haute ligue.
+1723	Toutes les récompenses des niveaux sont gagnées.
+1724	Aucune pour l'instant : la première est à une partie.
+1725	{coins} et {item}
+1726	Ligues
+1727	Niveaux
+1728	En jouant. Chaque niveau rapporte {n} pièces.
+1729	là où tout le monde commence
+1730	dès {n}
+1731	Niveau maximal.
+1732	{n} XP avant le niveau {next}
+1733	encore {n} niveaux
+1734	nouvelle ligue
+1735	Noir de l'ancien
+1736	Bleu de la ligue Expert
+1737	Violet de la ligue Maître
+1738	Or de la ligue Légende
+1739	Craie de la ligue Confirmé
+1740	Selon le classement. Chaque ligue rapporte une fois.
+1741	queue
+1742	tapis
+1743	craie
+1744	Toujours afficher la ligne de tête
+1745	La ligne d'où se joue la casse, toujours sur la table (désactivé : seulement en plaçant la blanche derrière).
+1746	Temps écoulé pour {who} : le tour passe.
+1747	Temps écoulé pour {who}, sans bille à donner à {other} : la 8 paie, et {who} perd.
+1748	Temps écoulé pour {who} : la blanche revient sur le point de tête et le tour passe.
+1749	Temps écoulé pour {who} : {balls} hors de la table pour {other}, et la blanche revient sur le point de tête.
+1750	Votre chat a été coupé pour {n} minutes : {r}
+1751	Votre compte a été suspendu pour {n} heures : {r}
+1752	Le serveur redémarre dans {minutes} min pour une mise à jour. Les parties en cours continuent ; les nouvelles commencent juste après.
+1753	La {cup} a été annulée : pas assez d'inscrits.
+1754	Les inscriptions à la {cup} sont ouvertes : elle commence bientôt, dans Tournois.
+1755	{display} a remporté le tournoi « {name} » !
+1756	Coupe du dimanche
+1757	Coupe du lundi
+1758	Coupe du mardi
+1759	Coupe du mercredi
+1760	Coupe du jeudi
+1761	Coupe du vendredi
+1762	Coupe du samedi
+1763	{name} · classement {r}
+1764	Une erreur s'est produite. Réessayez.
+1765	membre depuis 1 jour
+1766	Partie en cours : 1 bille restante
+1767	encore 1 niveau
+1768	Encore 1 victoire en ligne avec cette queue pour le niveau {n}. Les niveaux ajoutent seulement des marques à la queue.
+1769	Début
+1770	Fin
+1771	Pg préc
+1772	Pg suiv
+1773	Inser
+1774	Impossible de rejoindre la partie LAN
+1775	Partie LAN · les autres rejoignent sur {address}
+1776	Cliquez pour copier
+1777	Copié.
+1778	Commencer une nouvelle partie ?
+1779	Vous avez une partie en cours contre l'ordinateur, avec 1 bille restante. Une nouvelle partie la remplacera.
+1780	Vous avez une partie en cours contre l'ordinateur, avec {n} billes restantes. Une nouvelle partie la remplacera.
+1781	Continuer celle-là
+1782	En commencer une nouvelle
+1783	Cliquez à nouveau pour fermer la partie : {n} seront déconnectés
+1784	{name} a vidé la table en une seule série !
+1785	{name} : {n} d'affilée !
+1786	Revoir le coup décisif
+1787	Suivant : {name}
+1788	Faites glisser sur la table pour viser, ou cliquez sur une bille
+1789	Réglez la puissance
+1790	Relâchez {key} pour tirer · Esc annule
+1791	Les comptes de l'équipe ne peuvent pas changer de nom d'utilisateur.
+1792	Ce mot de passe ne peut pas être utilisé. Choisissez-en un autre.
+1793	Ce tournoi est complet.
+1794	Le serveur redémarre : votre tournoi a été annulé.
+1795	Trop de connexions. Attendez une minute et réessayez.
+1796	Trop de mots de passe incorrects. Réessayez dans quelques minutes.
+1797	Votre abonnement VIP n'a pas pu être résilié. Réessayez dans un instant.
+1798	Billes des deux groupes à la casse : le tour passe à {next}, la table est ouverte.
+1799	Seule une finale commencée en étant connecté compte : rejouez la dernière étape en étant connecté.
+1800	Le serveur n'a pas préparé la finale : cette partie ne donnera pas la récompense.

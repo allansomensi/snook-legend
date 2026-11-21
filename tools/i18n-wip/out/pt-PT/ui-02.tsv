@@ -1,0 +1,300 @@
+301	Não há mesas abertas. Abre uma e outros podem sentar-se.
+302	Não há outras mesas abertas neste momento.
+303	Jogador inexistente.
+304	Não há torneios neste momento. Cria um!
+305	Nome ofensivo
+306	Lançado
+307	Em chamas
+308	Só o anfitrião pode iniciar o torneio.
+309	Abrir uma mesa
+310	Ou entra pelo endereço
+311	Outro
+312	Os outros podem entrar em {ip}:{port}
+313	A palavra-passe precisa de pelo menos 8 caracteres (não só algarismos).
+314	Joga 1000 partidas com rating.
+315	Joga 10 partidas com rating.
+316	Joga 100 partidas com rating.
+317	Joga 25 partidas amigáveis.
+318	Joga 500 partidas com rating.
+319	Joga um torneio.
+320	Jogar online
+321	Joga com amigos na mesma rede
+322	Joga a tua primeira partida com rating.
+323	Jogador 1
+324	Jogadores
+325	Os jogadores de um torneio não podem começar outras partidas.
+326	Por favor, não repitas a mesma mensagem.
+327	Lenda do salão
+328	Popular
+329	Privada
+330	para os teus amigos se sentarem
+331	Perfil
+332	{key}: rever a última jogada
+333	REPETIÇÃO
+334	Com rating
+335	Partidas com rating, mesas, torneios e amigos
+336	Atinge um rating de 1300.
+337	Atinge um rating de 1500.
+338	Atinge um rating de 1700.
+339	Atinge um rating de 1900.
+340	Atinge um rating de 2100.
+341	Atualizar
+342	Habitual
+343	Remover amigo
+344	Repetição
+345	Denunciar
+346	Denunciar {name}
+347	Pedido enviado
+348	Amigo
+349	Recentes
+350	Ainda ninguém. As pessoas com quem jogares online aparecem aqui.
+351	{n} partidas
+352	Novato
+353	Ronda {n}
+354	Pesquisar…
+355	Meias-finais
+356	Enviar denúncia
+357	Esta partida segue com a denúncia, para os moderadores a poderem ver.
+358	A tua partida com {name} ({date}) segue com a denúncia, para os moderadores a poderem ver.
+359	Não jogaste com {name} no último dia: os moderadores veem o chat recente.
+360	Tubarão
+361	Mostra o ponto de contacto; o corte fica por tua conta.
+362	Em branco
+363	Iniciar sessão
+364	Inicia sessão ou cria uma conta
+365	Terminar sessão
+366	Sentar
+367	Habilidoso
+368	Já há alguém com esse nome aqui.
+369	Spam
+370	Começar já
+371	Parar a repetição
+372	Limpa-mesas
+373	Mesas
+374	Joguem à vez neste computador
+375	Obrigado. Os moderadores vão analisar.
+376	Obrigado. Os moderadores vão analisar, com a tua partida em anexo.
+377	Esse jogador não está a aceitar convites.
+378	Essa jogada era de uma vez anterior.
+379	Essa mesa já não está aberta.
+380	Esse torneio já começou.
+381	Esse torneio já não existe.
+382	A primeira ligação do dia pode demorar até um minuto enquanto o servidor acorda.
+383	Da primeira vez, permite o Snook Legend na firewall quando te for pedido.
+384	O servidor não conseguiu executar essa jogada.
+385	O servidor está ocupado. Tenta novamente daqui a pouco.
+386	O torneio começa quando estiver cheio (o anfitrião pode iniciá-lo antes).
+387	Há demasiados torneios neste momento. Entra num!
+388	Este é um servidor LAN: entra como convidado.
+389	Quinze rivais, um circuito e fantasmas de jogadores reais
+390	Escalão
+391	Tempo por jogada
+392	Demasiadas tentativas falhadas. Espera uns minutos e tenta novamente.
+393	Demasiadas mensagens.
+394	Demasiadas contas novas a partir desta rede. Tenta novamente mais tarde.
+395	Top 100 · partidas com rating
+396	Partida de torneio: a próxima ronda começa a partir do salão.
+397	As partidas de torneio não têm desforra.
+398	Torneios
+399	Os torneios têm 4, 8 ou 16 jogadores.
+400	Dois jogadores
+401	Desbloquear
+402	Desbloqueado a {date}
+403	Imparável
+404	V
+405	Rever a última jogada
+406	O que aconteceu? (opcional)
+407	Quando o tempo acaba, a vez passa.
+408	Cabazada
+409	Vence 10 partidas com rating na bola 8.
+410	Vence 10 partidas com rating seguidas.
+411	Vence 10 partidas com rating.
+412	Vence 10 partidas com rating sem o adversário meter uma bola.
+413	Vence 100 partidas com rating na bola 8.
+414	Vence 100 partidas com rating.
+415	Vence 250 partidas com rating na bola 8.
+416	Vence 3 partidas com rating seguidas.
+417	Vence 5 partidas com rating seguidas.
+418	Vence 5 torneios.
+419	Vence 50 partidas com rating na bola 8.
+420	Vence 50 partidas com rating.
+421	Vence 500 partidas com rating.
+422	Vence uma partida com rating.
+423	Vence um torneio.
+424	Vence uma partida com rating antes de o adversário meter uma bola do grupo dele.
+425	Vence uma partida com rating desde a abertura, sem o adversário chegar a jogar.
+426	Desistir
+427	Ranking mundial
+428	Palavra-passe da mesa errada.
+429	Palavra-passe do torneio errada.
+430	Já estás num torneio.
+431	És o anfitrião de uma partida
+432	Não podes entrar nesta mesa.
+433	Iniciaste sessão noutro local.
+434	Estás a enviar convites depressa demais.
+435	Estás a enviar mensagens depressa demais.
+436	Enviaste muitas denúncias. Espera um pouco antes de enviares mais.
+437	A tua lista de amigos está cheia.
+438	A tua próxima partida começa sozinha quando os dois jogadores estiverem livres.
+439	O teu perfil
+440	A tua mesa está aberta
+441	Aproximar
+442	Afastar
+443	numa mesa
+444	melhor série
+445	de {host} · {n}/{size} jogadores
+446	partidas amigáveis
+447	amigável · privada
+448	amigável · pública
+449	a ligar ao servidor
+450	bilhar bola 8
+451	terminado
+452	convidado
+453	convida-te para {kind}
+454	membro desde hoje
+455	membro há {n} dias
+456	membro há {n} meses
+457	membro há {n} anos
+458	offline
+459	aberto
+460	opcional: só entram os amigos que a souberem
+461	palavra-passe
+462	máximo {n}
+463	a jogar
+464	a jogar contra o computador
+465	ausente
+466	esta partida fica guardada
+467	partidas com rating
+468	com rating · privada
+469	com rating · pública
+470	pedido enviado
+471	a ligação caiu
+472	para jogar online
+473	torneio
+474	torneios ganhos
+475	à espera de um adversário…
+476	% de vitórias
+477	vitórias
+478	vitórias na bola 8
+479	Partida de {host}
+480	{name} quer ser teu amigo
+481	{name} quer ser teu amigo.
+482	{n} online
+483	meteu a bola 8
+484	o adversário meteu a bola 8
+485	o adversário meteu a 8 antes do tempo
+486	meteu a 8 antes do tempo
+487	o adversário meteu a 8 no buraco errado
+488	meteu a 8 no buraco errado
+489	o adversário fez falta na 8
+490	fez falta na 8
+491	o adversário atirou a 8 para fora da mesa
+492	atirou a 8 para fora da mesa
+493	o adversário desistiu
+494	desistiu
+495	o adversário saiu
+496	saiu da partida
+497	Estás silenciado durante mais {n} minutos.
+498	Esta conta está suspensa durante mais {n} dia(s). Motivo: {reason}.
+499	Esta conta está banida. Motivo: {reason}.
+500	Foste silenciado: {r}
+501	A tua conta foi suspensa: {r}
+502	A tua conta foi banida: {r}
+503	Foste desligado por um moderador: {r}
+504	Foste desligado por um moderador.
+505	Inicia sessão novamente.
+506	A tua palavra-passe foi alterada. Inicia sessão novamente.
+507	Aceitar desforra
+508	Aceitar
+509	Apontar
+510	Guia de mira
+511	Mira
+512	Antialiasing
+513	Suaviza as arestas serrilhadas das linhas e das bolas.
+514	Voltar ao salão
+515	Equilibrado: fluido na maioria dos portáteis.
+516	Bola na mão
+517	Faz a abertura
+518	A câmara afasta-se para mostrar cada jogada
+519	Câmara
+520	Cancelar
+521	Partida amigável: o rating não muda
+522	Centrar
+523	Chat
+524	Clica numa bola ou num ponto
+525	Clica para conversar, Enter para enviar
+526	Controlos
+527	Criar conta
+528	Contacto na bola branca
+529	Recusar
+530	Concluído
+531	Arrasta a bola branca
+532	Elevação
+533	Tudo no máximo, com reflexos no chão polido: para PCs de gaming.
+534	Mira fina
+535	Termina primeiro esta partida.
+536	Para computadores antigos ou muito lentos.
+537	Ecrã inteiro
+538	Também com {key}.
+539	Completa
+540	Servidor de jogo
+541	Muda-o só para jogar noutro servidor.
+542	Avançado
+543	Outro servidor
+544	Qualidade gráfica
+545	Qualidade
+546	Ecrã
+547	Alta
+548	Convidar
+549	Sair para o salão
+550	Sair
+551	Sair agora conta como derrota.
+552	Chat do salão
+553	Baixa
+554	Menu principal
+555	Média
+556	Menu / ajuda
+557	A próxima partida começa daqui a pouco…
+558	Ainda não há partidas com rating. Sê o primeiro!
+559	Não está mais ninguém aqui neste momento.
+560	À procura de partida?
+561	À procura de partida
+562	Publicar recado
+563	Todos no salão o veem durante 30 minutos
+564	O que procuras? ({kind})
+565	Publicar
+566	O teu recado: {text}
+567	{mode} · faltam {left}
+568	Retirar
+569	Desafiar
+570	Retirar o recado
+571	Não
+572	Na bola 8: canta um buraco
+573	Na bola 8
+574	Mesa aberta
+575	Palavra-passe
+576	Em pausa
+577	Jogar
+578	Jogador 2
+579	Jogador
+580	Mira rápida
+581	Sair
+582	Ligação restabelecida.
+583	Desforra
+584	Desistir desta partida
+585	Reinicia o jogo para aplicar esta alteração.
+586	Continuar
+587	Tentar de novo
+588	A guardar o resultado…
+589	Diz olá… (Enter para enviar)
+590	Enviar
+591	Definições
+592	{key} + arrastar
+593	{key}: 3D / vista de cima
+594	{keys}: zoom
+595	Vista
+596	Apontar à esquerda
+597	Apontar à direita
+598	Mira fina (manter)
+599	Jogar (manter e soltar)
+600	Efeito alto

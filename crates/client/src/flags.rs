@@ -53,13 +53,22 @@ pub fn width(h: f32) -> f32 {
 
 /// The country's name in the interface language.
 pub fn name(code: &str) -> &'static str {
-    match country_index(code) {
-        Some(i) => match crate::i18n::lang() {
-            crate::i18n::Lang::Portuguese => COUNTRIES[i].2,
-            crate::i18n::Lang::Spanish => spanish(COUNTRIES[i].0).unwrap_or(COUNTRIES[i].1),
-            crate::i18n::Lang::English => COUNTRIES[i].1,
-        },
-        None => "",
+    use crate::i18n::Lang;
+    let Some(i) = country_index(code) else { return "" };
+    let lang = crate::i18n::lang();
+    match lang {
+        Lang::English => COUNTRIES[i].1,
+        Lang::Portuguese => COUNTRIES[i].2,
+        Lang::Spanish if spanish(COUNTRIES[i].0).is_some() => {
+            spanish(COUNTRIES[i].0).unwrap_or(COUNTRIES[i].1)
+        }
+        _ => crate::country_names::NAMES
+            .iter()
+            .find(|(l, _)| *l == lang.code())
+            .and_then(|(_, names)| names.get(i))
+            .filter(|n| !n.is_empty())
+            .copied()
+            .unwrap_or(COUNTRIES[i].1),
     }
 }
 

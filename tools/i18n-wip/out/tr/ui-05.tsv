@@ -1,0 +1,300 @@
+1201	{n} top sok
+1202	Falsoyla {n} top sok
+1203	Tek sırada üst üste 3 top sok
+1204	Faul yapmadan bir oyun kazan
+1205	{n} kez üst üste 3 top sok
+1206	Faul yapmadan {n} oyun kazan
+1207	İzlerken TV kamerası
+1208	Başka oyuncuların oyunlarında ve tekrarlarda yayın açıları.
+1209	Sistem bildirimleri
+1210	Sen yokken gelen davetler, çevrim içi olan arkadaşlar ve başlayan oyunlar.
+1211	{name} birkaç dakika içinde başlıyor: hazırlan!
+1212	{name} birkaç dakika içinde başlıyor: hâlâ yer var.
+1213	{name} başladı!
+1214	Üstünlük
+1215	Vuruş haritası
+1216	Henüz vuruş yok.
+1217	girdi
+1218	kaçtı
+1219	faul
+1220	Turnuvaları gör
+1221	Mağazayı aç
+1222	VIP'yi gör
+1223	Görevleri gör
+1224	Oyunun yeni bir sürümü çıktı: çevrim içi oynamak için güncelle.
+1225	Microsoft Store'da güncelle
+1226	Şimdi güncelle
+1227	Yeni sürümü indir
+1228	Yeni sürüm çıktı
+1229	Çevrim içi oynamak için yeni sürümü edin
+1230	Destekle: {name}
+1231	Seyirci: {p0} için {a}, {p1} için {b}
+1232	hoş geldin paketi
+1233	Hoş geldin paketi
+1234	“{cue}” istekası, “{cloth}” çuhası ve {n} jeton · yalnızca bir kez, başka yerde satılmaz
+1235	Lagün
+1236	Hoş geldin paketi zaten sende var.
+1237	Hoş geldin paketin geldi!
+1238	Önceki vuruş (←)
+1239	Sonraki vuruş (→)
+1240	Oynat (Boşluk)
+1241	Duraklat (Boşluk)
+1242	Hız
+1243	Vuruş {n}/{total}
+1244	VIP üyeler için
+1245	Oyunlarda gönderebileceğin {n} özel tepki
+1246	Eşyalar {a}–{b} / {n}
+1247	(mesaj, yazarı tarafından silindi)
+1248	(mesaj bir yönetici tarafından silindi)
+1249	Sil (silindi olarak görünür)
+1250	İz bırakmadan kaldır
+1251	Sohbeti {name} temizledi.
+1252	Temizlemek için tekrar tıkla
+1253	Sohbeti temizle
+1254	Oyuncuların sohbeti (yönetici)
+1255	Beklerken bilgisayara karşı oyna
+1256	Rakip aranıyor… {t} · biri bulunur bulunmaz oyun başlar
+1257	Durdur
+1258	Microsoft Store satın almayı tamamlayamadı.
+1259	Microsoft Store satın almayı şu anda onaylayamadı. Jetonlar, mağazayı bir sonraki açışında gelir.
+1260	{n} jeton cüzdanına eklendi.
+1261	Microsoft satın alımını onaylıyor: jetonlar birazdan gelir.
+1262	Satın alma bize henüz ulaşmadı. Jetonlar, mağazayı bir sonraki açışında gelir.
+1263	Fiyatlar Microsoft Store'dan yükleniyor…
+1264	Bu sürümde henüz jeton satın alınamıyor.
+1265	Satın almayı Microsoft Store penceresinde tamamla…
+1266	Satın alma onaylanıyor…
+1267	Ödeme, Microsoft hesabınla Microsoft Store'da yapılır.
+1268	Microsoft Store'a şu anda ulaşılamıyor. Birazdan tekrar dene.
+1269	Microsoft Store satın almayı onaylayamadı.
+1270	Microsoft hesabınla Microsoft Store'a giriş yap, sonra mağazayı yeniden aç.
+1271	Microsoft Store satın almayı şu anda onaylayamadı. VIP ayın, mağazayı bir sonraki açışında başlar.
+1272	{d} tarihine kadar VIP'sin ve cüzdanına {n} jeton eklendi.
+1273	Microsoft satın alımını onaylıyor: VIP ayın birazdan başlıyor.
+1274	Satın alma bize henüz ulaşmadı. VIP ayın, mağazayı bir sonraki açışında başlar.
+1275	Her seferinde bir ay: hiçbir şey kendiliğinden yenilenmez
+1276	Bir ay ekle · {p}
+1277	Bir aylık VIP · {p}
+1278	Yeni ay, bu ay bittiğinde başlar.
+1279	Kupalar
+1280	Henüz kupa yok.
+1281	Kazanılan turnuva · {n} oyuncu
+1282	Bilgisayar turnesi
+1283	On beş rakibin hepsi yenildi
+1284	Günün mücadelesi
+1285	{n} oyuncu arasında birinci
+1286	Kolay vuruş
+1287	Orta vuruş
+1288	Zor vuruş
+1289	Çok zor vuruş
+1290	~%{n} ihtimal
+1291	Bu nişanla hiçbir top girmez
+1292	düz
+1293	{n}° kesme
+1294	tek bantlı
+1295	{n} bantlı
+1296	Tek sırada olabildiğince çok top sok: kaçan bir top ya da faul denemeyi bitirir.
+1297	Herkes için aynı masa, bütün gün
+1298	Günde {n} deneme. Masayı bitir, {coins} jeton kazan; günün birincisi kupa alır.
+1299	{h} sa {m} dk sonra yeni masa
+1300	Katılmak için giriş yap: günün sıralamasını sunucu tutar.
+1301	Bugünkü masadaki toplar
+1302	Kalan deneme
+1303	{n} top · #{rank}
+1304	{n} top
+1305	henüz yok
+1306	Bugünkü en iyin
+1307	Bugün deneme hakkın kalmadı: yarın tekrar gel.
+1308	Deneme sayılamadı.
+1309	Masa hazırlanıyor…
+1310	Denemeye başla
+1311	Başlamak bir deneme hakkı harcar, masadan ayrılsan bile.
+1312	Bugünün masası yükleniyor…
+1313	Bugünün sıralaması
+1314	{n} oyuncu
+1315	Bugünün masasını henüz kimse oynamadı. İlk sen ol!
+1316	Masa bitti!
+1317	{n}/{total} top
+1318	Denemen sunucuya gönderiliyor…
+1319	Sayıldı: {n} top · +{coins} jeton
+1320	Sayıldı: {n} top
+1321	Sıralamayı gör
+1322	Masa bitti! +{n} jeton
+1323	Günün mücadelesi: {n}/{total} top sokuldu
+1324	1 oyuncu
+1325	Anka kuşu
+1326	Carrara mermeri
+1327	Ejderha pulu
+1328	Galaksi
+1329	Yakut taht
+1330	Oyunu şimdi kapatmak, oyunu terk etmek demek: fazladan puan kaybedersin ve tekrar oynamak için beklemen gerekir.
+1331	Süren bir oyunu terk ettin: {n} dk sonra tekrar çevrim içi oynayabilirsin.
+1332	Hızlı mesajlar
+1333	İyi şanslar, iyi eğlenceler!
+1334	Güzel vuruş!
+1335	Harika savunma!
+1336	Şanssızlık!
+1337	Hay aksi!
+1338	Vay!
+1339	Az kalsın!
+1340	Acele etme.
+1341	Pardon!
+1342	Teşekkürler!
+1343	İyi oynadın!
+1344	İyi oyundu!
+1345	Rövanş?
+1346	Gitmem lazım, oyun için teşekkürler!
+1347	Beklerken antrenman yap
+1348	Toplar yeniden dizildi.
+1349	Seviye {n}! (+{xp} XP)
+1350	+{xp} XP
+1351	Seviye {n} · sonrakine {into} / {span} XP
+1352	Seviye {n}
+1353	Selam! Bir sürü video izledim, hazırım!
+1354	Bana acı, tamam mı?
+1355	Vay, bunu nasıl yaptın?
+1356	Bunu sonra bana da öğret!
+1357	Oh be! Sıra bende!
+1358	Sen de mi kaçırıyorsun? Bunu bildiğim iyi oldu.
+1359	Bedava top! Bununla ne yapıyordum?
+1360	Gördün mü?! Girdi!
+1361	Acemi şansı da sayılır!
+1362	Hop. O deneme vuruşuydu.
+1363	Nişan al Leo, nişan al...
+1364	Pardon! Yine yanlış topa değdim.
+1365	KAZANDIM MI? Annemi arıyorum!
+1366	İyi oyundu! Gelişiyorum, değil mi?
+1367	Cumartesi, bir masa ve güzel arkadaşlar. Hadi oynayalım!
+1368	Güzeldi!
+1369	Vay, iyisin. Artık dikkat edeceğim.
+1370	En iyilerin bile başına gelir.
+1371	Dert etme, sadece bir oyun!
+1372	Hediye için teşekkürler!
+1373	Evet! Hafta sonu yetenekleri!
+1374	Şansa bak!
+1375	Hmm, nereye nişan alıyordum?
+1376	Çok muhabbet, az nişan.
+1377	Hay aksi, benim hatam!
+1378	Çok eğlenceliydi! Haftaya aynı saatte?
+1379	İyi oynadın! Bir limonata eşliğinde rövanş?
+1380	Dört bant, sonsuz olasılık.
+1381	Düz mü? Ne kadar da... dolaysız.
+1382	Güzel, ama banttan çok daha zarif olurdu.
+1383	Bandı kullanmalıydın.
+1384	Bant oradaydı, resmen yalvarıyordu.
+1385	Masa bundan hoşlanmadı.
+1386	Banttan dönüp girdi. Sanat!
+1387	Geometri asla yalan söylemez.
+1388	Açı doğruydu. Bant aynı fikirde değildi.
+1389	Bir elmas farkla kaçtı. Sadece bir!
+1390	Fazla hayal gücü, az temas.
+1391	Bir başyapıt, kendi adıma söylemem gerekirse.
+1392	İyi oynadın. Şimdi iki banttan dene.
+1393	Umarım bu toplar çeliktendir.
+1394	Yumuşak dokunuş, ha? Benim tarzım değil.
+1395	Bir dahakine daha sert vur!
+1396	Çok yumuşak! Güç her şeyi çözer.
+1397	HA!
+1398	Masa artık benim. Kulaklarını tıka.
+1399	BUM!
+1400	O cebin sesini duydun mu?
+1401	Fazla güç mü? Öyle bir şey yok.
+1402	Cep yer değiştirdi.
+1403	Top uçtu. Olur. Hem de sık sık.
+1404	Güç yine kazandı! BUM!
+1405	Peki, incelik de işe yarıyor. Bazen.
+1406	Acele etme. Bütün günüm var.
+1407	Kabul edilebilir.
+1408	Sürerken tadını çıkar.
+1409	Sabır bir erdemdir. Seninki değil, anlaşılan.
+1410	Teşekkür ederim.
+1411	Özensiz.
+1412	İstikrar kazanır.
+1413	Teker teker.
+1414	Hmm. Yine de sana bir şey bırakmayacağım.
+1415	Kasıtlıydı. Muhtemelen.
+1416	Kabul edilemez. Benim açımdan.
+1417	Dediğim gibi: sabır.
+1418	Duvarı aştın. Etkilendim.
+1419	Bu toplar plastik olmadan önce de oynuyordum.
+1420	Güzel vuruş. Bana '78'deki bir delikanlıyı hatırlattı.
+1421	Yumuşak. Çok yumuşak.
+1422	Başını eğik tut, evlat.
+1423	Beyaz top yalan söylemez.
+1424	Ah, küçük bir hediye. Çok naziksin.
+1425	Bisiklet sürmek gibi.
+1426	Hâlâ formdayım.
+1427	Gözler eskisi gibi değil.
+1428	Bizim zamanımızda cepler daha büyüktü.
+1429	Eski ustalar da hata yapar.
+1430	Tecrübe, dostum. Tecrübe.
+1431	Bu oyunda bir geleceğin var.
+1432	Ben mi? Aa, neredeyse hiç oynamam...
+1433	Şans! Hadi bir daha yap da görelim.
+1434	Ooo, birileri antrenman yapmış.
+1435	Ah, az kalsın! Tatlım.
+1436	Nasıl yapıldığını göstereyim mi?
+1437	Teşekkürler, şekerim.
+1438	Hay aksi, bunu ben mi yaptım?
+1439	Acemi şansı olmalı. Yine.
+1440	Bilerek kaçırdım. Heyecan olsun.
+1441	Daha ısınıyorum.
+1442	Of, ne sakarım. Göz kırpma.
+1443	Neredeyse hiç oynamam, dedim. Neredeyse.
+1444	Peki, yakaladın beni. Bu seferlik.
+1445	Sürtünme, momentum, falso. Başlayalım.
+1446	Güzel bir kesme. Yaklaşık otuz derece, derdim.
+1447	Ders kitabı gibi.
+1448	Sapmayı hafife aldın.
+1449	İlginç. İstatistiksel olarak beklenen.
+1450	Beyaz top senin planına değil, fizik kurallarına uydu.
+1451	Hesapladığım gibi.
+1452	Esnek çarpışma, zarif sonuç.
+1453	Ölçümümde bir hata.
+1454	Modeli gözden geçireceğim.
+1455	Hmm. Beklenmedik falso.
+1456	Sayılar benden yanaydı.
+1457	Tahminlerimin dışında bir sonuç. Tebrikler.
+1458	Odaklan.
+1459	Temiz.
+1460	Fena değil.
+1461	Yarım milimetre.
+1462	Vurmadan önce nefes al.
+1463	Dikkatsizlik.
+1464	Hedef vuruldu.
+1465	Cebin tam ortası.
+1466	Hmm. Yeniden kalibre ediliyor.
+1467	Bu asla olmaz.
+1468	Kabul edilemez.
+1469	Hassasiyet kazanır.
+1470	İyi nişan.
+1471	Masama hoş geldin. Gösterinin tadını çıkar.
+1472	Çok iyi. Ödevini yapmışsın.
+1473	Meydan okuyana alkış!
+1474	Baskı. Herkesi etkiler.
+1475	Masa için teşekkürler.
+1476	Bir şampiyon hediyeyi asla geri çevirmez.
+1477	Doğal olarak.
+1478	İşte böyle yapılır.
+1479	Şampiyonlar bile seyirciye bir şans tanır.
+1480	Nezaketen sana bir şey bırakıyorum.
+1481	Nadir bir manzara. Aklında tut.
+1482	Unvan bende kalıyor. İyi oyundu.
+1483	Olağanüstü. Saygımı kazandın.
+1484	Kalibrasyon tamamlandı. İyi şanslar, insan.
+1485	Vuruş kaydedildi: başarılı.
+1486	Zafer olasılığım: artıyor.
+1487	Faul algılandı. Ceza işleniyor.
+1488	Planlandığı gibi uygulandı.
+1489	Hata. Yeniden hesaplanıyor.
+1490	Arıza. Lütfen yok say.
+1491	Oyun tamamlandı. Oynadığın için teşekkürler.
+1492	Yenilgi kabul edildi. İyi oynadın.
+1493	Alıştırmalar
+1494	Yıldızlı alıştırmalar
+1495	{s} / {max} yıldız
+1496	Yıldızlar: {a}, {b} ve {c}
+1497	En iyin: {n}/{total}
+1498	Henüz denemedin.
+1499	Alıştırmaya başla
+1500	Yıldızlarını hesabında saklamak için giriş yap.

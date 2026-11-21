@@ -1,0 +1,2056 @@
+# Snook Legend: Simplified Chinese.
+# One text per line: the English text (as written in the code), a tab, the translation.
+# Placeholders like {name} must stay as they are; \n is a new line.
+{name} is on the 8: called pocket {pocket}	{name}打8号球：指定{pocket}
+On the 8-ball: {pocket} pocket	打8号球：{pocket}
+Show ping	显示延迟
+Your connection's delay, in online games.	在线对局中你的网络延迟。
+Reactions	表情
+Shop	商店
+Cloth	台呢
+Cues	球杆
+Chalk	巧粉
+Balls	球
+Coins	金币
+coins	金币
+Sign in to buy and use items. Here is what there is:	登录后即可购买和使用物品。商品一览：
+In use	使用中
+Use	使用
+Buy	购买
+{n} short	还差{n}
+{n} coins	{n}金币
+Not enough coins: get more in the Coins tab.	金币不足：可在“金币”页获取更多。
+VIP only	VIP专享
+free	免费
+yours	已拥有
+achievement	成就奖励
+Coins can't be bought on this server yet.	此服务器暂不支持购买金币。
++{n} bonus	加赠{n}
+Payment opens in your browser (card, Pix…), on Stripe's secure page.	将在浏览器中打开Stripe安全支付页面（银行卡、Pix…）。
+Coins arrive in a moment; they are only used for items in the game.	金币稍后到账，仅可用于游戏内物品。
+Exclusive items: {list}	专属物品：{list}
+{n} coins every month	每月{n}金币
+Cancel whenever you want: VIP lasts until the end of the paid month	可随时取消：VIP有效期持续到已付费月份结束
+You are VIP until {d}.	你的VIP有效期至{d}。
+Manage subscription	管理订阅
+Become VIP · {p}	成为VIP · {p}
+VIP can't be bought on this server yet.	此服务器暂不支持购买VIP。
+The payment page opened in your browser.	支付页面已在浏览器中打开。
+Could not open the browser.	无法打开浏览器。
+Tournament green	赛事绿
+Electric blue	电光蓝
+Burgundy	酒红
+Charcoal	炭灰
+Teal	青绿
+Royal purple	皇家紫
+Camel	驼色
+Midnight	午夜蓝
+Champion's red	冠军红
+Classic	经典
+Rosewood	玫瑰木
+Ebony & silver	乌木银饰
+Carbon	碳纤维
+Ivory inlay	象牙镶嵌
+Crown	王冠
+Jewels	珠宝
+Blue chalk	蓝色巧粉
+Green chalk	绿色巧粉
+Red chalk	红色巧粉
+Purple chalk	紫色巧粉
+Gold chalk	金色巧粉
+Vintage	复古
+Pastel	粉彩
+Neon	霓虹
+You already have this item.	你已拥有此物品。
+Not enough coins.	金币不足。
+The purchase failed; no coins were taken.	购买失败，未扣除金币。
+No such item.	物品不存在。
+This item can't be bought with coins.	此物品无法用金币购买。
+You don't have this item.	你没有此物品。
+Purchases are not available.	暂不支持购买。
+This pack is not on sale.	此礼包未在售。
+The payment page could not be opened. Try again in a moment.	无法打开支付页面，请稍后重试。
+You are already VIP.	你已经是VIP。
+There is no subscription to manage.	没有可管理的订阅。
+The page could not be opened. Try again in a moment.	无法打开页面，请稍后重试。
+Coins added to your wallet.	金币已存入钱包。
+Welcome to VIP!	欢迎成为VIP！
+Slow down a little.	请慢一点。
+You can't do that.	你无法执行此操作。
+There are too many notes right now. Try again in a few minutes.	当前留言过多，请几分钟后再试。
+A moderator took down your note.	管理员撤下了你的留言。
+A moderator cleared your status message.	管理员清除了你的签名。
+Status message cleared.	签名已清除。
+VIP	VIP
+Play now	快速开始
+Find an opponent of your level automatically	自动匹配与你水平相当的对手
+Looking for an opponent… {t}	正在匹配对手…{t}
+any rating	不限积分
+rating ±{n} · {mode}	积分±{n} · {mode}
+Potting success	进球率
+Balls made	进球数
+Best run	最佳单杆
+Fouls	犯规
+seen just now	刚刚在线
+seen {n} min ago	{n}分钟前在线
+seen {n} h ago	{n}小时前在线
+seen yesterday	昨天在线
+seen {n} days ago	{n}天前在线
+seen {n} months ago	{n}个月前在线
+just now	刚刚
+{n} min ago	{n}分钟前
+{n} h ago	{n}小时前
+yesterday	昨天
+{n} days ago	{n}天前
+Game history	本局记录
+Nothing yet.	暂无记录。
+Fine aim: click the arrows, or drag here	微调瞄准：点击箭头或在此拖动
+{n} watching	{n}人观战
+Watching {name}	正在观战：{name}
+Your reactions reach the table quietly.	你的表情会悄悄传到球台上。
+Stop watching	退出观战
+If they play again, you keep watching.	如果他们再来一局，你会继续观战。
+Your friend left the table.	你的好友已离开球台。
+Your friend isn't playing right now.	你的好友当前不在对局中。
+You can only watch your friends.	你只能观看好友的对局。
+You can't watch this game.	你无法观看此对局。
+{n} points to {tier}	距离{tier}还差{n}分
+Top tier	最高段位
+Reactions {n}/{total}	表情{n}/{total}
+Haunted table	闹鬼球台
+Win a rated game during Halloween (Oct 24 – Nov 2).	在万圣节期间（10月24日–11月2日）赢得一局积分赛。
+Winter league	冬季联赛
+Win a rated game over the holidays (Dec 15 – Jan 6).	在节日期间（12月15日–1月6日）赢得一局积分赛。
+Fireworks	烟花
+Win a rated game at the turn of the year (Dec 31 – Jan 1).	在跨年之际（12月31日–1月1日）赢得一局积分赛。
+Shows where the object ball and the cue ball go (only in free games and practice).	显示目标球和母球的走向（仅限自由对局和练习）。
+{n} online · ping {ms} ms	{n}人在线 · 延迟{ms}ms
+Right-drag · Wheel	右键拖动 · 滚轮
+Win %	胜率
+Reset the camera: top view, no zoom	重置视角：俯视，无缩放
+{name} sank the 8-ball	{name}打进了8号球
+{name} sank the 8 too early	{name}过早打进8号球
+{name} sank the 8 in the wrong pocket	{name}将8号球打进了错误的球袋
+{name} fouled on the 8	{name}打8号球时犯规
+{name} knocked the 8 off the table	{name}将8号球打出台面
+{name} resigned	{name}认输
+{name} left the game	{name}离开了对局
+{winner} wins! ({how})	{winner}获胜！（{how}）
+#{n} in the world	世界排名第{n}
+3–16 letters, digits or underscores.	3–16个字母、数字或下划线。
+No lines on the table: aim by eye, along the cue.	球台上不显示瞄准线：沿球杆凭目测瞄准。
+No guide	无辅助线
+Only a short line from the cue ball.	仅显示母球前方的一小段线。
+Accept friend	接受好友
+Achievement unlocked: {title}	成就解锁：{title}
+Achievements {n}/{total}	成就{n}/{total}
+Add	添加
+Add a friend by username	通过用户名添加好友
+Add friend	添加好友
+Against the computer	人机对战
+All tournaments	全部锦标赛
+Amateur	业余
+At least 8 characters. Use a password you don't use elsewhere.	至少8个字符。请使用未在其他地方用过的密码。
+At least two players are needed.	至少需要两名玩家。
+Back	返回
+Black ball	黑八
+Block	屏蔽
+Break and run	炸清
+Break and run 10 times.	炸清10次。
+Can't listen for games here: join by address below.	无法在此搜索对局：请在下方通过地址加入。
+Cancel request	取消请求
+Cancel tournament	取消锦标赛
+Casual	休闲
+Centurion	百胜
+Champion	冠军
+Champion: {name}	冠军：{name}
+Change country	更改国家/地区
+Add a status message	添加签名
+A line about you	一句话介绍自己
+Save (Enter)	保存（Enter）
+Cancel (Esc)	取消（Esc）
+Change your status message	修改签名
+Clear the status message	清除签名
+Cheating or abuse	作弊或恶意行为
+Choose…	选择…
+Click again to block	再次点击以屏蔽
+Close	关闭
+Closer	终结者
+Competitor	参赛者
+Connecting to the server…	正在连接服务器…
+Could not host a game: {e}	无法创建对局：{e}
+Country	国家/地区
+Create	创建
+Create a tournament	创建锦标赛
+Don't show a flag	不显示旗帜
+No country found.	未找到国家/地区。
+Dynasty	王朝
+Eight is enough	黑八制胜
+Executioner	处刑者
+Expert	专家
+Familiar face	熟面孔
+Final	决赛
+Finish your game first.	请先完成当前对局。
+First blood	首胜
+First break	首次开球
+Friend request sent.	好友请求已发送。
+Friends	好友
+# Daily (correspondence) games.
+daily game	每日对局
+Daily	每日
+Daily game	每日对局
+Daily games	每日对局
+Challenge a player by username	通过用户名挑战玩家
+Challenge to a daily game	发起每日对局挑战
+3 days for each turn	每回合3天
+No daily games yet. Challenge a friend: each of you plays a turn whenever you can.	还没有每日对局。挑战一位好友吧：双方都可以在有空时完成自己的回合。
+challenges you · {kind}	向你发起挑战 · {kind}
+waiting for an answer · {kind} · {time} left	等待回应 · {kind} · 剩余{time}
+your turn · {time} left	轮到你 · 剩余{time}
+their turn · {time} left	轮到对手 · 剩余{time}
+won · {how}	胜 · {how}
+lost · {how}	负 · {how}
+ran out of time	超时
+the opponent ran out of time	对手超时
+open table	开放球台
+You: {mine}, {a} left · {name}: {theirs}, {b} left	你：{mine}，剩{a}颗 · {name}：{theirs}，剩{b}颗
+Look	查看
+Skip	跳过
+Replaying {name}'s turn	正在回放{name}的回合
+Stroke {n} of {total}	第{n}/{total}杆
+Turn sent	回合已提交
+Turn sent.	回合已提交。
+Waiting for {name} to play	等待{name}击球
+{name} has {time} to play. You'll be told when it's your turn.	{name}有{time}的时间击球。轮到你时会通知你。
+{time} left to play. You'll be told when it's your turn.	还剩{time}击球时间。轮到你时会通知你。
+Back to daily games	返回每日对局
+Your game is saved: come back whenever you like.	对局已保存：随时可以回来继续。
+{d} d {h} h	{d}天{h}小时
+{name} ran out of time	{name}超时
+This game can't be shown.	无法显示此对局。
+A daily game is waiting for you	有一局每日对局在等你
+{n} daily games are waiting for you	有{n}局每日对局在等你
+{name} challenges you to a rated daily game.	{name}向你发起每日对局挑战（积分）。
+{name} challenges you to a casual daily game.	{name}向你发起每日对局挑战（休闲）。
+{name} accepted your daily game.	{name}接受了你的每日对局。
+{name} declined your daily game.	{name}拒绝了你的每日对局。
+{name} withdrew their daily game challenge.	{name}撤回了每日对局挑战。
+Your turn in the daily game against {name}.	你与{name}的每日对局轮到你了。
+{name} ran out of time: you won the daily game.	{name}超时：你赢得了这局每日对局。
+You won the daily game against {name}!	你赢得了与{name}的每日对局！
+You ran out of time in the daily game against {name}.	你在与{name}的每日对局中超时了。
+You lost the daily game against {name}.	你输掉了与{name}的每日对局。
+Challenge sent.	挑战已发送。
+Daily games need an account.	每日对局需要账号。
+No such game.	对局不存在。
+That challenge is no longer valid.	该挑战已失效。
+That player already challenged you: answer their challenge.	该玩家已向你发起挑战：请回应其挑战。
+That player has too many challenges waiting.	该玩家待处理的挑战过多。
+That player has too many daily games going on.	该玩家进行中的每日对局过多。
+That player is not accepting challenges.	该玩家不接受挑战。
+This game can't be played right now.	此对局当前无法进行。
+This game changed meanwhile: open it again.	对局已发生变化：请重新打开。
+This game is over.	此对局已结束。
+You already challenged that player.	你已向该玩家发起过挑战。
+You already have a game going on against that player.	你与该玩家已有进行中的对局。
+You blocked that player.	你已屏蔽该玩家。
+You can't challenge yourself.	你不能挑战自己。
+You have as many daily games as you can play at once.	你的每日对局数量已达上限。
+You have too many challenges waiting for an answer.	你有太多挑战在等待回应。
+You're sending challenges too quickly.	你发送挑战的速度太快了。
+Your time for this turn ran out.	你本回合的时间已用完。
+Games	对局
+Games on your network	局域网中的对局
+Give the tournament a name (at least 3 characters).	请为锦标赛命名（至少3个字符）。
+Good company	以球会友
+Grandmaster	宗师
+Guests can only join LAN games. Create an account.	游客只能加入LAN对局。请注册账号。
+Guests can't play rated tournaments.	游客无法参加积分锦标赛。
+Guests don't have this.	游客无法使用此功能。
+Harassment	骚扰
+Hat trick	帽子戏法
+Have 10 friends.	拥有10位好友。
+Have an account for 30 days.	注册账号满30天。
+Have an account for a year.	注册账号满一年。
+Host a game on this computer	在这台电脑上创建对局
+Host {host} · {n}/{size} players · {kind}	房主{host} · {n}/{size}名玩家 · {kind}
+Hot hand	手感火热
+Hustler	球房老手
+Invalid shot.	无效击球。
+Join	加入
+Joining the LAN game…	正在加入LAN对局…
+Just for fun	纯属娱乐
+L	负
+LAN game	LAN对局
+LAN game hosted by {name}.	{name}创建的LAN对局。
+LAN games don't change ratings.	LAN对局不影响积分。
+Legend	传奇
+Lives at the table	以台为家
+Loading the profile…	正在加载资料…
+Loading…	加载中…
+Local network	局域网
+Locked	未解锁
+Looking for games	正在搜索对局
+Make a friend.	结交一位好友。
+Master	大师
+Name	名称
+Names have 3–16 letters, digits or underscores.	名称须为3–16个字母、数字或下划线。
+New account	注册账号
+I have an account	已有账号
+New here? Choose “New account”: it takes ten seconds.	新玩家？选择“注册账号”，只需十秒钟。
+New tournament	新建锦标赛
+No friends yet. Add someone you played with!	还没有好友。添加一位和你打过球的玩家吧！
+No games yet.	还没有对局。
+No limit	不限
+No open tables. Open one and others can sit down.	暂无开放的球台。开一张球台，其他人就能入座。
+No other open tables right now.	目前没有其他开放的球台。
+No such player.	玩家不存在。
+No tournaments right now. Create one!	目前没有锦标赛。创建一个吧！
+Offensive name	名称不当
+On a roll	势如破竹
+On fire	火力全开
+Only the host can start the tournament.	只有创建者可以开始锦标赛。
+Open a table	开设球台
+Or join by address	或通过地址加入
+Other	其他
+Others can join at {ip}:{port}	其他人可通过{ip}:{port}加入
+Passwords need at least 8 characters (not only digits).	密码至少需要8个字符（不能全是数字）。
+Play 1,000 rated games.	进行1000局积分赛。
+Play 10 rated games.	进行10局积分赛。
+Play 100 rated games.	进行100局积分赛。
+Play 25 casual games.	进行25局休闲赛。
+Play 500 rated games.	进行500局积分赛。
+Play in a tournament.	参加一次锦标赛。
+Play online	在线对战
+Play with friends on the same network	与同一网络中的好友对战
+Play your first rated game.	进行你的第一局积分赛。
+Player 1	玩家1
+Players	玩家
+Players in a tournament can't start other games.	锦标赛中的玩家无法开始其他对局。
+Please don't repeat the same message.	请勿重复发送相同的消息。
+Pool hall legend	球房传奇
+Popular	人气王
+Private	私密
+for your friends to sit down	供好友入座使用
+Profile	个人资料
+{key}: watch the last shot again	{key}：重看上一杆
+REPLAY	回放
+Rated	积分
+Rated games, tables, tournaments and friends	积分赛、球台、锦标赛和好友
+Reach a rating of 1300.	积分达到1300。
+Reach a rating of 1500.	积分达到1500。
+Reach a rating of 1700.	积分达到1700。
+Reach a rating of 1900.	积分达到1900。
+Reach a rating of 2100.	积分达到2100。
+Refresh	刷新
+Regular	常客
+Remove friend	删除好友
+Replay	回放
+Report	举报
+Report {name}	举报{name}
+Request sent	请求已发送
+Friend	好友
+Recent	最近
+Nobody yet. The people you play online will show up here.	暂无。你在线对战过的玩家会显示在这里。
+{n} games	{n}局
+Rookie	新手
+Round {n}	第{n}轮
+Search…	搜索…
+Semi-finals	半决赛
+Send report	提交举报
+This game goes with the report, so the moderators can watch it.	本局将随举报一并提交，以便管理员查看。
+Your game with {name} ({date}) goes with the report, so the moderators can watch it.	你与{name}的对局（{date}）将随举报一并提交，以便管理员查看。
+You haven't played {name} in the last day: the moderators see the recent chat.	过去一天内你没有与{name}对局：管理员会查看最近的聊天记录。
+Shark	高手
+Shows the contact point; judging the cut is up to you.	显示接触点；切球角度由你自己判断。
+Shutout	完封
+Sign in	登录
+Sign in or create an account	登录或注册账号
+Sign out	退出登录
+Sit down	入座
+Skilled	熟练
+Someone with that name is already here.	已有人使用这个名字。
+Spam	垃圾信息
+Start now	立即开始
+Stop the replay	停止回放
+Table runner	清台高手
+Tables	球台
+Take turns on this computer	在这台电脑上轮流击球
+Thank you. The moderators will look into it.	谢谢。管理员会进行处理。
+Thank you. The moderators will look into it, with your game attached.	谢谢。管理员会结合附上的对局进行处理。
+That player is not accepting invitations.	该玩家不接受邀请。
+That shot was for an earlier turn.	该击球属于之前的回合。
+That table is no longer open.	该球台已关闭。
+That tournament has already started.	该锦标赛已经开始。
+That tournament no longer exists.	该锦标赛已不存在。
+The first connection of the day can take up to a minute while the server wakes up.	每天首次连接时，服务器需要启动，可能最多要等一分钟。
+The first time, allow Snook Legend through the firewall when asked.	首次使用时，请在提示时允许Snook Legend通过防火墙。
+The server could not play that shot.	服务器无法执行该击球。
+The server is busy. Try again in a moment.	服务器繁忙，请稍后重试。
+The tournament starts when it is full (the host can start it earlier).	人满后锦标赛即开始（创建者可提前开始）。
+There are too many tournaments right now. Join one!	当前锦标赛过多。加入一个吧！
+This is a LAN server: join as a guest.	这是LAN服务器：请以游客身份加入。
+Fifteen rivals, a tour and ghosts of real players	十五位对手、巡回赛和真实玩家的幽灵
+Tier	段位
+Time per shot	每杆限时
+Too many failed attempts. Wait a few minutes and try again.	失败次数过多。请等待几分钟后重试。
+Too many messages.	消息过多。
+Too many new accounts from this network. Try again later.	此网络注册的新账号过多，请稍后再试。
+Top 100 · rated games	前100名 · 积分赛
+Tournament game: the next round starts from the lounge.	锦标赛对局：下一轮将从大厅开始。
+Tournament games have no rematch.	锦标赛对局不能再来一局。
+Tournaments	锦标赛
+Tournaments have 4, 8 or 16 players.	锦标赛人数为4、8或16人。
+Two players	双人对战
+Unblock	取消屏蔽
+Unlocked {date}	{date}解锁
+Unstoppable	势不可挡
+W	胜
+Watch the last shot again	重看上一杆
+What happened? (optional)	发生了什么？（选填）
+When time runs out, the turn passes.	时间用完后，球权交给对手。
+Whitewash	横扫
+Win 10 rated games on the 8-ball.	通过打进8号球赢得10局积分赛。
+Win 10 rated games in a row.	连续赢得10局积分赛。
+Win 10 rated games.	赢得10局积分赛。
+Win 10 rated shutouts.	在积分赛中完封对手10次。
+Win 100 rated games on the 8-ball.	通过打进8号球赢得100局积分赛。
+Win 100 rated games.	赢得100局积分赛。
+Win 250 rated games on the 8-ball.	通过打进8号球赢得250局积分赛。
+Win 3 rated games in a row.	连续赢得3局积分赛。
+Win 5 rated games in a row.	连续赢得5局积分赛。
+Win 5 tournaments.	赢得5次锦标赛。
+Win 50 rated games on the 8-ball.	通过打进8号球赢得50局积分赛。
+Win 50 rated games.	赢得50局积分赛。
+Win 500 rated games.	赢得500局积分赛。
+Win a rated game.	赢得一局积分赛。
+Win a tournament.	赢得一次锦标赛。
+Win a rated game before your opponent sinks a ball of their group.	在对手打进任何一颗本组球之前赢得一局积分赛。
+Win a rated game from the break without your opponent getting a shot.	开球后不让对手出杆，赢得一局积分赛。
+Withdraw	退出
+World ranking	世界排名
+Wrong table password.	球台密码错误。
+Wrong tournament password.	锦标赛密码错误。
+You are already in a tournament.	你已在一场锦标赛中。
+You are hosting a game	你正在主持对局
+You can't join this table.	你无法加入此球台。
+You signed in from another place.	你的账号已在其他地方登录。
+You're sending invitations too quickly.	你发送邀请的速度太快了。
+You're sending messages too quickly.	你发送消息的速度太快了。
+You've sent many reports. Please wait before sending more.	你已提交了很多举报，请稍后再提交。
+Your friend list is full.	你的好友列表已满。
+Your next match starts by itself when both players are free.	双方都空闲时，你的下一场比赛将自动开始。
+Your profile	你的资料
+Your table is open	你的球台已开放
+Zoom in	放大
+Zoom out	缩小
+at a table	在球台旁
+best streak	最佳连胜
+by {host} · {n}/{size} players	由{host}创建 · {n}/{size}名玩家
+casual games	休闲赛
+casual · private	休闲 · 私密
+casual · public	休闲 · 公开
+connecting to the server	正在连接服务器
+eight-ball pool	八球台球
+finished	已结束
+guest	游客
+invites you to {kind}	邀请你进行{kind}
+joined today	今天加入
+member for {n} days	已加入{n}天
+member for {n} months	已加入{n}个月
+member for {n} years	已加入{n}年
+offline	离线
+open	报名中
+optional: only friends with it can join	选填：只有知道密码的好友才能加入
+password	密码
+peak {n}	最高{n}
+playing	对局中
+playing the computer	人机对战中
+away	离开
+this game is saved	本局已保存
+rated games	积分赛
+rated · private	积分 · 私密
+rated · public	积分 · 公开
+request sent	请求已发送
+the connection dropped	连接已断开
+to play online	登录后即可在线对战
+tournament	锦标赛
+tournaments won	锦标赛夺冠
+waiting for an opponent…	等待对手…
+win rate	胜率
+wins	胜场
+won on the 8	打进8号球获胜
+{host}'s game	{host}的对局
+{name} wants to be friends	{name}想加你为好友
+{name} wants to be your friend.	{name}想加你为好友。
+{n} online	{n}人在线
+sank the 8-ball	打进8号球
+the opponent sank the 8-ball	对手打进8号球
+the opponent sank the 8 too early	对手过早打进8号球
+sank the 8 too early	过早打进8号球
+the opponent sank the 8 in the wrong pocket	对手将8号球打进错误球袋
+sank the 8 in the wrong pocket	将8号球打进错误球袋
+the opponent fouled on the 8	对手打8号球时犯规
+fouled on the 8	打8号球时犯规
+the opponent knocked the 8 off the table	对手将8号球打出台面
+knocked the 8 off the table	将8号球打出台面
+the opponent resigned	对手认输
+resigned	认输
+the opponent left	对手离开
+left the game	离开对局
+You are muted for {n} more minutes.	你已被禁言，还剩{n}分钟。
+This account is suspended for {n} more day(s). Reason: {reason}.	此账号已被暂停使用，还剩{n}天。原因：{reason}。
+This account is banned. Reason: {reason}.	此账号已被封禁。原因：{reason}。
+You were muted: {r}	你已被禁言：{r}
+Your account was suspended: {r}	你的账号已被暂停使用：{r}
+Your account was banned: {r}	你的账号已被封禁：{r}
+You were disconnected by a moderator: {r}	你已被管理员断开连接：{r}
+You were disconnected by a moderator.	你已被管理员断开连接。
+Please sign in again.	请重新登录。
+Your password was changed. Sign in again.	你的密码已更改，请重新登录。
+Accept rematch	接受再战
+Accept	接受
+Aim	瞄准
+Aiming guide	瞄准辅助线
+Aiming	瞄准
+Anti-aliasing	抗锯齿
+Smooths the jagged edges of lines and balls.	平滑线条和球体的锯齿边缘。
+Back to lounge	返回大厅
+Balanced: smooth on most laptops.	均衡：在大多数笔记本电脑上流畅运行。
+Ball in hand	自由球
+Break the rack	开球
+Camera pulls back to watch each shot	每次击球时镜头拉远观看
+Camera	镜头
+Cancel	取消
+Casual game: ratings unchanged	休闲赛：积分不变
+Center	居中
+Chat	聊天
+Click a ball or a spot	点击一颗球或一个位置
+Click to chat, Enter to send	点击聊天，按Enter发送
+Controls	操作
+Create account	注册账号
+Cue ball contact	母球击打点
+Decline	拒绝
+Done	完成
+Drag the cue ball	拖动母球
+Elevation	抬杆角度
+Everything, with reflections in polished floors: for gaming PCs.	全部特效，包括抛光地板上的倒影：适合游戏电脑。
+Fine aim	微调瞄准
+Finish this match first.	请先完成这场对局。
+For old or very slow computers.	适合老旧或性能很低的电脑。
+Full screen	全屏
+Also with {key}.	也可按{key}。
+Full	完整
+Game server	游戏服务器
+Change it only to play on another server.	仅在需要连接其他服务器时更改。
+Advanced	高级
+Custom server	自定义服务器
+Graphics quality	画质
+Quality	画质
+Display	显示
+High	高
+Invite	邀请
+Leave to the lounge	离开并返回大厅
+Leave	离开
+Leaving now counts as a loss.	现在离开将判负。
+Lounge chat	大厅聊天
+Low	低
+Main menu	主菜单
+Medium	中
+Menu / help	菜单/帮助
+Next game starts in a moment…	下一局即将开始…
+No rated games yet. Be the first!	还没有积分赛。来当第一个吧！
+Nobody else is here right now.	目前这里没有其他人。
+Looking for a game?	想找人对局？
+Looking for a game	寻找对局
+Post a note	发布留言
+Everyone in the lounge sees it for 30 minutes	大厅里所有人在30分钟内都能看到
+What are you after? ({kind})	你想找什么样的对局？（{kind}）
+Post	发布
+Your note: {text}	你的留言：{text}
+{mode} · {left} left	{mode} · 剩余{left}
+Take down	撤下
+Challenge	挑战
+Take the note down	撤下留言
+Off	关
+On the 8-ball: call a pocket	打8号球：请指定球袋
+On the 8-ball	打8号球
+Open table	开放球台
+Password	密码
+Paused	已暂停
+Play	开始
+Player 2	玩家2
+Player	玩家
+Quick aim	快速瞄准
+Quit	退出
+Reconnected.	已重新连接。
+Rematch	再来一局
+Resign this game	认输本局
+Restart the game to apply this change.	重启游戏后生效。
+Resume	继续
+Retry	重试
+Saving the result…	正在保存结果…
+Say hello… (Enter to send)	打个招呼…（按Enter发送）
+Send	发送
+Settings	设置
+{key} + drag	{key}+拖动
+{key}: 3D / top view	{key}：3D/俯视
+{keys}: zoom	{keys}：缩放
+View	视角
+Aim left	向左瞄准
+Aim right	向右瞄准
+Fine aim (hold)	微调瞄准（按住）
+Shoot (hold, release)	击球（按住后松开）
+Top spin	高杆
+Back spin	低杆
+Left spin	左塞
+Right spin	右塞
+Raise the cue	抬高球杆
+Lower the cue	放低球杆
+Pick up the cue ball in hand	拿起自由球
+3D / top view	3D/俯视
+Reset the camera	重置镜头
+Replay the last shot	回放上一杆
+List of controls	操作列表
+Keys can be changed in Settings → Controls.	可在“设置→操作”中更改按键。
+Space	空格
+Right Shift	右Shift
+Right Ctrl	右Ctrl
+Right Alt	右Alt
+Aiming and shooting	瞄准与击球
+Spin and elevation	杆法与抬杆
+Fixed keys	固定按键
+Menu, back and cancel	菜单、返回和取消
+Confirm (forms, the cue ball in hand)	确认（表单、自由球）
+This key can't be changed.	此按键无法更改。
+Press a key · Esc cancels · Backspace clears	按下按键 · Esc取消 · Backspace清除
+Press a key…	请按下按键…
+Click to change	点击更改
+Click to add a key	点击添加按键
+Back to no key	恢复为无按键
+Back to {keys}	恢复为{keys}
+Swapped: {action} is now on {key}.	已交换：{action}现在使用{key}。
+Taken from {action}, which now has no key.	已从{action}取用，该操作现在没有按键。
+Taken from {action}.	已从{action}取用。
+That key can't be used: try another.	该按键无法使用：请换一个。
+Shoot	击球
+Short	简短
+Signing in…	正在登录…
+Signing in	正在登录
+Soft shadows from every lamp, glossy halls, halos.	每盏灯的柔和阴影、光泽场馆、光晕。
+Solids (1–7)	全色球（1–7）
+Spin ball	击球点图
+Spin	杆法
+Standard	标准
+Stay	留下
+Stripes (9–15)	花色球（9–15）
+The game goes on while this is open.	打开此菜单时，对局仍在继续。
+Use default	使用默认
+Username	用户名
+Usernames have 3–16 letters, digits or underscores.	用户名须为3–16个字母、数字或下划线。
+{keys} (jump & massé)	{keys}（跳球和扎杆）
+You win!	你赢了！
+Your name	你的名字
+Your opponent went back to the lounge.	你的对手已返回大厅。
+Your turn	轮到你
+open table: the next ball you make sets your group	开放球台：你打进的下一颗球将决定你的球组
+draw	低杆
+follow	高杆
+stun	定杆
+solids	全色球
+stripes	花色球
+lounge	大厅
+ · left english	 · 左塞
+ · right english	 · 右塞
+Language	语言
+General	通用
+Graphics	画面
+Game	游戏
+Sound	声音
+Reset to defaults	恢复默认
+Reset all keys	重置所有按键
+Reset every key?	重置所有按键？
+Click again to put every key back	再次点击以恢复所有按键
+Updates	更新
+Update automatically	自动更新
+New versions download in the background and install when you restart.	新版本会在后台下载，并在重启时安装。
+Version {v}	版本{v}
+What's new	更新内容
+What's new in version {v}	{v}版本更新内容
+No notes for this version.	此版本没有更新说明。
+Got it	知道了
+Restart now	立即重启
+After the game, from the main menu.	对局结束后，从主菜单重启。
+Download	下载
+Check now	立即检查
+Couldn't reach the update server.	无法连接更新服务器。
+The download was damaged. It will be tried again later.	下载的文件已损坏，稍后将重试。
+The new version couldn't be installed. This one stays.	新版本安装失败，将继续使用当前版本。
+Downloading… {p}%	正在下载…{p}%
+Updating…	正在更新…
+The Microsoft Store keeps the game up to date.	Microsoft Store会自动更新本游戏。
+Development build: no automatic updates.	开发版本：不自动更新。
+Looking for a new version…	正在检查新版本…
+This is the latest version.	已是最新版本。
+Downloading version {v}… {p}%	正在下载{v}版本…{p}%
+Installing version {v}…	正在安装{v}版本…
+Version {v} is ready: restart the game to use it.	{v}版本已就绪：重启游戏即可使用。
+Version {v} is out: download it from the releases page.	{v}版本已发布：请从发布页面下载。
+Version {v} is ready	{v}版本已就绪
+Restart to play it; nothing is lost.	重启即可体验，不会丢失任何内容。
+Version {v} is out	{v}版本已发布
+Get it from the releases page.	请从发布页面下载。
+Reset everything?	全部重置？
+Click again to reset every setting	再次点击以重置所有设置
+Online	在线
+Menu	菜单
+Rating	积分
+Ultra	极高
+hold {key} and release	按住{key}后松开
+Change	更改
+Mouse aim sensitivity	鼠标瞄准灵敏度
+How fast the cue turns with the mouse.	移动鼠标时球杆转动的速度。
+Vignette	暗角
+Darkens the edges of the picture, like a film.	像电影一样压暗画面边缘。
+Show FPS	显示FPS
+Frames per second, in a corner of the screen.	在屏幕角落显示每秒帧数。
+Call a pocket for the 8-ball first: click a pocket.	请先为8号球指定球袋：点击一个球袋。
+Reconnecting	正在重新连接
+the game is over	对局已结束
+the cue ball cannot be placed there	母球不能放在那里
+call a pocket for the 8-ball	请为8号球指定球袋
+That username is taken.	该用户名已被占用。
+Wrong username or password.	用户名或密码错误。
+Your session expired. Please log in again.	登录已过期，请重新登录。
+This version of Snook Legend is out of date. Please update the game.	此版本的Snook Legend已过时，请更新游戏。
+It's not your turn.	还没轮到你。
+That player is not online.	该玩家不在线。
+That player is in a game.	该玩家正在对局中。
+You can't invite yourself.	你不能邀请自己。
+That invitation is no longer valid.	该邀请已失效。
+That player is no longer available.	该玩家当前无法对局。
+Resign first to leave a game in progress.	要离开进行中的对局，请先认输。
+Malformed message.	消息格式错误。
+Please log in first.	请先登录。
+Could not create the account.	无法创建账号。
+The cue ball can't be placed there.	母球不能放在那里。
+Disconnected.	已断开连接。
+Lost contact with the server.	与服务器失去联系。
+The server closed the connection.	服务器关闭了连接。
+The server took too long to answer.	服务器响应超时。
+The server is not answering (connection refused).	服务器无响应（连接被拒绝）。
+The server address is not valid (example: wss://snook-legend.example.com/ws).	服务器地址无效（示例：wss://snook-legend.example.com/ws）。
+The server address has no host name.	服务器地址缺少主机名。
+Welcome to Snook Legend! Be kind, play fair.	欢迎来到Snook Legend！友善待人，公平竞技。
+Ball in hand: drag the cue ball{zone} to move it	自由球：拖动母球来摆放{zone}
+ behind the line	 · 限开球线后
+Ball in hand  ·  {group}	自由球  ·  {group}
+Can't shoot: {e}.	无法击球：{e}。
+Chat ({n})	聊天（{n}）
+Computer ({level})	电脑（{level}）
+Computer	电脑
+Each opponent has a style of their own	每位对手都有自己的风格
+Free game	自由对局
+Tour	巡回赛
+Tour: {n} of {total} beaten	巡回赛：已击败{n}/{total}
+Strength {n}/5	实力{n}/5
+Ghost	幽灵
+Accuracy	准度
+Safeties	防守
+Banks	翻袋
+Position	走位
+Ghost of {name}	{name}的幽灵
+A player's ghost	玩家幽灵
+Plays like a real player	打法与真实玩家一样
+The computer plays in the style of a real player, measured on their online games.	电脑会模仿真实玩家的风格击球，风格依据其在线对局数据测算。
+Sign in to play the ghost of a real player.	登录后即可挑战真实玩家的幽灵。
+Load	加载
+Friends:	好友：
+Type a username or pick a friend, then Load.	输入用户名或选择一位好友，然后点击“加载”。
+Measuring how {name} plays…	正在分析{name}的打法…
+Pots {pots}% · safeties {safe}% · banks {banks}% · {shots} shots	进球{pots}% · 防守{safe}% · 翻袋{banks}% · {shots}杆
+{name} has only {shots} recorded shots; a ghost needs {needed}. More online games will do it.	{name}只有{shots}杆击球记录，生成幽灵需要{needed}杆。多打几局在线对局就够了。
+There is no player called {name}.	没有名为{name}的玩家。
+The server can't be reached right now. Try again later.	当前无法连接服务器，请稍后再试。
+Wait a moment before asking again.	请稍等片刻再试。
+Something went wrong on the server. Try again later.	服务器出错了，请稍后再试。
+Play your ghost	挑战你的幽灵
+Play their ghost	挑战其幽灵
+Beaten	已击败
+Next	下一个
+Win the previous stage to unlock this one.	赢下上一关即可解锁本关。
+Stage {n} of {total}	第{n}/{total}关
+Challenge {name}	挑战{name}
+Stage {n} won! Next on the tour: {name}.	第{n}关胜利！巡回赛下一位对手：{name}。
+You won the whole tour!	你赢得了整个巡回赛！
+Reward	奖励
+{item} cue · exclusive	{item}球杆 · 专属
+Yours: find it in the shop, under Cues.	已归你所有：可在商店的“球杆”中找到。
+Win the last stage again while signed in to claim it.	登录后再次赢下最后一关即可领取。
+Beat all fifteen opponents to earn it. It is sold nowhere.	击败全部十五位对手即可获得。任何地方都买不到。
+You won the tour! Sign in to claim your reward.	你赢得了巡回赛！登录即可领取奖励。
+The server is checking your final game…	服务器正在核验你的最后一局…
+Try again	重试
+The server did not answer. Try again in a moment.	服务器无响应，请稍后重试。
+The server is busy checking other games. Try again in a moment.	服务器正忙于核验其他对局，请稍后重试。
+Wait a minute before trying again.	请等待一分钟再重试。
+That game is too long to be checked.	该对局过长，无法核验。
+That game has a move the rules don't allow.	该对局中有规则不允许的操作。
+That game was not played to the end.	该对局没有打完。
+That game was not a win.	该对局并未获胜。
+The computer's shots in that game don't match how it plays (another version of the game?).	该对局中电脑的击球与其打法不符（是否为其他版本的游戏？）。
+The Rookie	菜鸟
+Still learning: aims at the nearest pocket, centre ball, and hopes. Never plays safe.	还在学习中：瞄准最近的球袋，打中杆，然后听天由命。从不打防守。
+The Weekend Player	周末球手
+Knows the basics and drops the easy ones, but rarely thinks about where the cue ball goes.	懂基本功，简单球都能打进，但很少考虑母球走位。
+The Bank Artist	翻袋艺术家
+Sees angles nobody else does: whenever a ball can go off a cushion and in, she banks it.	能看到别人看不到的角度：只要能吃库进袋，她就打翻袋。
+The Cannon	大炮
+Goes for everything, as hard as he can: long pots, thunderous breaks, hardly ever a safety.	什么球都敢打，还用尽全力：长台进攻、雷霆开球，几乎从不防守。
+The Wall	铜墙铁壁
+Only shoots when the pot is on. Otherwise she tucks the cue ball away and waits for your mistake.	只在有把握时才进攻。否则她就把母球藏好，等你犯错。
+The Old Pro	老将
+Forty years at the table: a smooth stroke, a raised cue, side spin, and never in a hurry.	在球台前打了四十年：出杆顺滑，常抬杆加塞，从不着急。
+The Hustler	老江湖
+Plays just well enough to win, then a little better. Balanced, sharp and hard to read.	只打出刚好能赢的水平，然后再好那么一点。打法均衡、犀利，难以捉摸。
+The Professor	教授
+Thinks three balls ahead: every shot leaves the cue ball where the next one is easy.	提前想好三颗球：每一杆都把母球留在下一颗容易打的位置。
+The Sharpshooter	神枪手
+Pots from anywhere, at any angle. Her safeties are an afterthought: she doesn't need them.	任何位置、任何角度都能进球。防守对她来说可有可无：她根本用不上。
+The Champion	冠军
+Unbeaten for years. Precise, patient and merciless: the last stage of the tour.	多年未尝败绩。精准、耐心、冷酷无情：巡回赛的最后一关。
+Tour champion	巡回赛冠军
+Champion of the tour	巡回赛冠军
+Beat all fifteen opponents of the computer tour.	击败人机巡回赛的全部十五位对手。
+Connection lost. Reconnecting (attempt {n})…	连接已断开。正在重新连接（第{n}次尝试）…
+Connection lost. Reconnecting…	连接已断开。正在重新连接…
+Foul by {shooter}: {foul}.	{shooter}犯规：{foul}。
+Graphics set to {q} for smooth play. You can change this in Settings.	为保证流畅，画质已设为{q}。可在设置中更改。
+Rating {r} ({d})	积分{r}（{d}）
+The {ball} was spotted.	{ball}已放回台面。
+Waiting for {to} ({kind})…	等待{to}回应（{kind}）…
+rated	积分
+casual	休闲
+Waiting for {name}…	等待{name}…
+{by} declined your invitation.	{by}拒绝了你的邀请。
+a rated game	一局积分赛
+a casual game	一局休闲赛
+{name} calls the 8-ball in the {pocket} pocket.	{name}指定8号球打进{pocket}。
+{name} has ball in hand…	{name}获得自由球…
+{name} is aiming…	{name}正在瞄准…
+{name} is on the 8: click a pocket to call it	{name}打8号球：点击球袋进行指定
+{name} is thinking…	{name}正在思考…
+{name} left the game.	{name}离开了对局。
+{name} resigned.	{name}认输了。
+{name} to break	{name}开球
+{name} to shoot ({target})	{name}击球（{target}）
+{name}'s turn	轮到{name}
+{next} has ball in hand{where}.	{next}获得自由球{where}。
+ behind the head string	 · 限开球线后
+{opponent} is back.	{opponent}回来了。
+{opponent} lost the connection. Waiting up to {secs} s…	{opponent}断线了。最多等待{secs}秒…
+{opponent} wants a rematch.	{opponent}想再来一局。
+{opponent} went back to the lounge.	{opponent}已返回大厅。
+{shooter} pocketed {balls}.	{shooter}打进了{balls}。
+{shooter} takes {group}.	{shooter}打{group}。
+{who} ran out of time: ball in hand for the opponent.	{who}超时：对手获得自由球。
+{name} wants a rematch!	{name}想再来一局！
+{name} wins!	{name}获胜！
+{name} wins	{name}获胜
+Volume	音量
+The cue, the balls, the cushions and the pockets.	球杆、球、库边和球袋的音效。
+Notifications	通知
+Could not find the server “{host}”.	找不到服务器“{host}”。
+Network error: {e}.	网络错误：{e}。
+Secure connection failed: {e}.	安全连接失败：{e}。
+The server refused the connection (HTTP {code}).	服务器拒绝了连接（HTTP {code}）。
+Connection error: {e}.	连接错误：{e}。
+cue ball	母球
+{n}-ball	{n}号球
+Scratch: the cue ball was pocketed	母球落袋
+The cue ball left the table	母球飞出台面
+The cue ball didn't hit any ball	母球未碰到任何球
+Wrong ball hit first ({ball})	首先碰到错误的球（{ball}）
+No ball reached a cushion after contact	碰球后没有球碰库
+The {ball} left the table	{ball}飞出台面
+Illegal break	违规开球
+pocketed the 8-ball	打进8号球
+opponent pocketed the 8-ball too early	对手过早打进8号球
+opponent sank the 8-ball in the wrong pocket	对手将8号球打进错误球袋
+opponent fouled on the 8-ball	对手打8号球时犯规
+opponent knocked the 8-ball off the table	对手将8号球打出台面
+opponent resigned	对手认输
+opponent left the game	对手离开对局
+head left corner	左底袋
+head right corner	右底袋
+left side	左中袋
+right side	右中袋
+foot left corner	左顶袋
+foot right corner	右顶袋
+Easy	简单
+Hard	困难
+Normal	普通
+Power	力度
+No messages yet.	还没有消息。
+▼ newer messages	▼ 新消息
+Camera follows the cue	镜头跟随球杆
+Off: it stays where you put it.	关闭时：镜头保持在你放置的位置。
+Pull back for shots	击球时拉远镜头
+Only when the camera follows the cue.	仅在镜头跟随球杆时有效。
+Drag the cue · click a spot	拖动球杆 · 点击某个位置
+Time's up: {name}'s shot was played at full power.	时间到：{name}的击球以最大力度自动打出。
+Dark room	暗室
+A spotlight on the table, the room in shadow.	灯光只照在球台上，四周笼罩在阴影中。
+Hide	隐藏
+Interface size	界面大小
+Text, buttons and panels.	文字、按钮和面板。
+Drag to set the power	拖动以调整力度
+Shoot!	击球！
+Set the power, then press the green button	调整力度后按下绿色按钮
++{n} coins · {why}	+{n}金币 · {why}
+16-player tournaments, and first place on the waiting list of a full one	16人锦标赛，以及满员锦标赛候补名单的首位
+30 minutes: play as many games as you can. A win is 2 points, 4 from the third win in a row.	30分钟内尽可能多打几局。每胜一局得2分，从第三连胜起每胜得4分。
+A crown by your name, everywhere (lounge, profile, ranking)	你的名字旁随处显示王冠（大厅、资料、排行榜）
+Account	账号
+Add friends to give them items.	添加好友即可赠送物品。
+Arena	竞技场
+Arena · host {host} · {n} players · {kind}	竞技场 · 创建者{host} · {n}名玩家 · {kind}
+Buy now	立即购买
+Buying…	正在购买…
+Change password	修改密码
+Click again to delete	再次点击以删除
+Got a code? Type it here	有邀请码？在此输入
+Confirm purchase	确认购买
+Copied: send it to a friend.	已复制：发送给好友吧。
+Copy	复制
+Current	当前密码
+Delete account	删除账号
+Entry	报名费
+Entry {n} coins	报名费{n}金币
+Every replay kept (free players keep their last 10 games)	保留所有回放（免费玩家仅保留最近10局）
+For {name}	赠予{name}
+Add a message (optional)	添加留言（选填）
+Format	赛制
+Frames	头像框
+Free	免费
+Get coins	获取金币
+Gift sent!	礼物已送出！
+Give as a gift	作为礼物赠送
+Give it	赠送
+Give to a friend	赠送给好友
+Great!	太好了！
+If you forget your password, we confirm it's you by this e-mail.	如果你忘记密码，我们将通过此邮箱确认你的身份。
+Invite with a code	用邀请码邀请
+It goes on right away. Items only change the look, never the game.	立即生效。物品只改变外观，不影响游戏。
+Join my table in Snook Legend:	来Snook Legend加入我的球台：
+Join the waiting list	加入候补名单
+Join · {n} coins	加入 · {n}金币
+Knockout	淘汰赛
+Name colour	名字颜色
+Name colours for the lounge and exclusive frames, cloth, cues, balls and effects	大厅中的名字颜色，以及专属头像框、台呢、球杆、球和特效
+New	新密码
+No, thanks	不用了，谢谢
+Nothing that wins games: VIP only changes the look	不会影响胜负：VIP只改变外观
+Numbers	数据
+ON TV	直播中
+Play rated games to see your rating here.	进行积分赛后，你的积分会显示在这里。
+No rated games yet.	还没有积分赛记录。
+Price	价格
+Prizes {a} + {b}	奖金{a}+{b}
+Protect your purchases	保护你的购买
+Purchase complete!	购买成功！
+Recovery e-mail	找回邮箱
+Save	保存
+The fees make the prize: 70% to the champion, 20% to the runner-up.	报名费汇成奖金：冠军得70%，亚军得20%。
+The server restarts in {m}:{s} for an update. Games in progress go on.	服务器将在{m}:{s}后重启更新。进行中的对局不受影响。
+Use this e-mail	使用此邮箱
+Use {email} to recover your account if you ever forget your password?	是否使用{email}，以便忘记密码时找回账号？
+Watch	观战
+Watch again	再看一遍
+Winning effects	胜利特效
+Halls	场馆
+You are paired as soon as you and an opponent are free.	你和对手都空闲时即会配对。
+You can change it any time in your profile (Account).	你可以随时在个人资料（账号）中更改。
+You need {n} more coins.	你还需要{n}金币。
+Your account	你的账号
+Your account was deleted.	你的账号已删除。
+Your coins	你的金币
+Your friend gets it right away.	好友会立即收到。
+Your game against {name} is starting.	你与{name}的对局即将开始。
+Your name, e-mail, friends and items are erased for good. Your opponents keep the games you played (without your name).	你的名字、邮箱、好友和物品将被永久删除。你的对手仍会保留与你的对局（不显示你的名字）。
+balls per game	每局进球
+best run ever	历史最佳单杆
+daily bonus	每日奖励
+entry fee back	退还报名费
+for the game	对局奖励
+for the win	胜利奖励
+games counted	统计局数
+Analysis	分析
+The shot analysis isn't available on this server yet.	此服务器暂不支持击球分析。
+Only online accounts have a shot analysis.	只有在线账号才有击球分析。
+Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	在线对战即可了解你的进球表现：再进攻{n}杆后即可查看分析。
+{name} hasn't played enough online games for an analysis yet.	{name}的在线对局数还不足以生成分析。
+1 game	1局
+{pct}% of {n} shots at a pocket potted · {games}	{n}次进攻进球率{pct}% · {games}
+{made} of {n} potted ({pct})	{n}次进{made}球（{pct}）
+By kind of shot	按击球类型
+shots	杆
+Straight	直线球
+Cut 8–25°	切球8–25°
+Cut 25–45°	切球25–45°
+Thin cut 45°+	薄切45°+
+Bank	翻袋
+Kick	借库
+Combination	组合球
+Jump	跳球
+Massé	扎杆
+Break	开球
+By distance	按距离
+Short (under 0.75 m)	短距离（0.75米以下）
+Medium (to 1.5 m)	中距离（1.5米以内）
+Long (over 1.5 m)	长距离（1.5米以上）
+left the opponent nothing	未给对手留下机会
+Breaks	开球
+made a ball	有球落袋
+Potted	打进
+Missed	未进
+Where and in which pocket	位置与球袋
+{pocket}: {made} of {n} potted	{pocket}：{n}次进{made}球
+Where the potted balls were	打进的球所在位置
+Where the missed balls were	未进的球所在位置
+few	少
+many	多
+{made} potted · {missed} missed ({pct})	进{made} · 失{missed}（{pct}）
+Top left corner	左上角袋
+Bottom left corner	左下角袋
+Top side pocket	上中袋
+Bottom side pocket	下中袋
+Top right corner	右上角袋
+Bottom right corner	右下角袋
+games left unfinished	未完成对局
+potting success	进球率
+shots with a foul	犯规击球
+starts in {n} min	{n}分钟后开始
+tournament prize	锦标赛奖金
+The dark room hides the hall around the table.	暗室模式会隐藏球台周围的场馆。
+Show the hall	显示场馆
+Level {n} · 1 win	等级{n} · 1胜
+Level {n} · {w} wins	等级{n} · {w}胜
+{left} more online wins with this cue for level {n}. Levels only add marks to the cue.	用这支球杆再赢{left}局在线对局即可升到{n}级。等级只会为球杆添加标记。
+The top level: this cue has every mark.	已达最高等级：这支球杆已拥有全部标记。
+Your cue {cue} reached level {n}!	你的球杆{cue}已达到{n}级！
+Most wins: {cue} (level {n})	胜场最多：{cue}（{n}级）
+{games} games · {rate}% won · {balls} balls made	{games}局 · 胜率{rate}% · 进{balls}球
+vs	vs
+{from} gave you {item}!	{from}送给你{item}！
+You received a gift!	你收到了一份礼物！
+From	来自
+To	赠予
+someone	某位玩家
+A month of VIP	一个月VIP
+Thank	致谢
+Thanked	已致谢
+They thanked you	对方已向你致谢
+Use it now	立即使用
+Later	稍后
+OK	确定
+Next ({n} more)	下一个（还有{n}个）
+{from} gave you {item}! It's waiting for you in the lounge.	{from}送给你{item}！快去大厅看看吧。
+{name} thanked you for {item}.	{name}感谢你赠送的{item}。
+Gifts	礼物
+No gifts yet. Friends can give you items from the shop.	还没有礼物。好友可以从商店赠送物品给你。
+{item} is yours and already in use.	{item}已归你所有，并已开始使用。
+{m}:{s} left	剩余{m}:{s}
+{name} invites you to play.	{name}邀请你对局。
+{name} is online.	{name}上线了。
+{name} ran out of time.	{name}超时。
+{name} received {item}.	{name}收到了{item}。
+{n} pts · {g} games	{n}分 · {g}局
+{n} watching · avg {r}	{n}人观战 · 平均积分{r}
+{title}: {how}	{title}：{how}
+Olive	橄榄绿
+Navy	海军蓝
+Forest	森林绿
+Slate grey	石板灰
+Red wine	红酒色
+Burnt orange	焦橙
+Dusty rose	灰玫瑰
+Sand	沙色
+Ice blue	冰蓝
+Lime	青柠
+Black tie	礼服黑
+Cobalt	钴蓝
+Emerald	祖母绿
+Natural maple	原色枫木
+Beach bar	海滩酒吧
+Modern	现代
+English club	英式俱乐部
+Ebony & gold	乌木金饰
+Pool hall	台球厅
+Industrial loft	工业风阁楼
+Steel & oak	钢与橡木
+Tournament	锦标赛
+Victorian walnut	维多利亚胡桃木
+Ivory deco	象牙装饰艺术
+Mountain lodge	山间小屋
+Neon arcade	霓虹游戏厅
+Art deco lounge	装饰艺术酒廊
+Skyline penthouse	天际顶层公寓
+Walnut	胡桃木
+Zebrawood	斑马木
+Bocote	波科特木
+Deep ocean	深海
+Cherry	樱桃木
+Jade	翡翠
+Tiger	虎纹
+Amethyst	紫水晶
+Arctic carbon	极地碳纤维
+Inferno	炼狱
+Obsidian gold	黑曜金
+Tan chalk	棕褐色巧粉
+Grey chalk	灰色巧粉
+Orange chalk	橙色巧粉
+Pink chalk	粉色巧粉
+Teal chalk	青绿色巧粉
+Yellow chalk	黄色巧粉
+Black chalk	黑色巧粉
+White chalk	白色巧粉
+Silver chalk	银色巧粉
+TV set	电视转播
+Earth tones	大地色
+Ocean	海洋
+Sunset	日落
+Candy	糖果
+Pearl	珍珠
+Monochrome	黑白
+Chrome	镀铬
+Gold rush	淘金热
+No frame	无头像框
+Bronze	青铜
+Silver	白银
+Gold	黄金
+Green felt	绿呢
+Mahogany	桃花心木
+Ice	寒冰
+Fire	烈焰
+Diamond	钻石
+VIP crown	VIP王冠
+Rose gold	玫瑰金
+Aqua	水蓝
+Violet	紫罗兰
+Ember	余烬
+Mint	薄荷
+Frost	霜白
+No effect	无特效
+Sparks	火花
+Confetti	彩纸
+Shockwave	冲击波
+Coin shower	金币雨
+Flames	火焰
+Royal sparks	皇家火花
+Tier colour	段位颜色
+16-player tournaments are for VIP members.	16人锦标赛仅限VIP会员。
+A seat opened: you are in the tournament!	有空位了：你已进入锦标赛！
+Entry fees go up to 1000 coins.	报名费最高为1000金币。
+Guests can't play for coins.	游客无法参加金币赛。
+Only items sold for coins can be given.	只能赠送用金币出售的物品。
+Password changed.	密码已修改。
+Passwords need 8 or more characters, not only digits.	密码至少需要8个字符，且不能全是数字。
+Recovery e-mail removed.	找回邮箱已移除。
+Recovery e-mail saved.	找回邮箱已保存。
+Something went wrong. Please try again.	出错了，请重试。
+That code is not valid (or the table was closed).	该邀请码无效（或球台已关闭）。
+That doesn't look like an e-mail address.	这似乎不是有效的邮箱地址。
+That game is over.	该对局已结束。
+The current password is wrong.	当前密码错误。
+The server is restarting.	服务器正在重启。
+The server is restarting: new games start in a moment.	服务器正在重启：新对局稍后即可开始。
+The tournament is full: you are on the waiting list.	锦标赛已满员：你已进入候补名单。
+This replay is not available.	此回放不可用。
+You can only give items to your friends.	你只能向好友赠送物品。
+Your friend already has this item.	你的好友已拥有此物品。
+16 (VIP)	16（VIP）
+VIP isn't sold in this version of the game.	此版本游戏不出售VIP。
+In this version of the game, coins are earned by playing:	在此版本游戏中，金币通过游戏获得：
+rated games, and a bonus every day you play.	积分赛，以及每天游戏的奖励。
+Coins are earned by playing:	金币通过游戏获得：
+If you like, you can also buy them:	你也可以选择购买：
+one month	一个月
+already VIP	已是VIP
+Give a month to a friend · {p}	赠送好友一个月 · {p}
+{from} gave you a month of VIP!	{from}送给你一个月VIP！
+{name} received a month of VIP.	{name}收到了一个月VIP。
+Your friend is already VIP.	你的好友已经是VIP。
+Game in progress: {n} balls left	对局进行中：剩余{n}颗球
+Continue	继续
+Missions	任务
+Board	留言板
+Today	今日
+This week	本周
+new missions in {t}	{t}后刷新任务
+ends in {t}	{t}后结束
+{n} days	{n}天
+{n} h	{n}小时
+{n} min	{n}分钟
+mission complete	任务完成
+Missions count rated games played to the end. The coins arrive as soon as one is complete.	任务只统计打完的积分赛。完成任务后金币会立即到账。
+Nothing on the board right now.	留言板上暂时没有内容。
+Open tournaments	报名中的锦标赛
+{n}/{size} players	{n}/{size}名玩家
+starts in {t}	{t}后开始
+entry {n} coins	报名费{n}金币
+See	查看
+Play {n} rated games	进行{n}局积分赛
+Win {n} rated games	赢得{n}局积分赛
+Pot {n} balls	打进{n}颗球
+Pot {n} balls with spin	使用杆法打进{n}颗球
+Pot 3 balls in a row in one visit	一杆内连续打进3颗球
+Win a game without a foul	无犯规赢得一局
+Pot 3 balls in a row {n} times	一杆连进3球{n}次
+Win {n} games without a foul	无犯规赢得{n}局
+TV camera when watching	观战时使用转播镜头
+Broadcast angles for other players' games and replays.	观看他人对局和回放时使用转播视角。
+System notifications	系统通知
+Invites, friends coming online and games starting, while you're away.	你不在时，接收邀请、好友上线和对局开始的通知。
+{name} starts in a few minutes: get ready!	{name}几分钟后开始：做好准备！
+{name} starts in a few minutes: there is still room.	{name}几分钟后开始：还有空位。
+{name} has started!	{name}已经开始！
+Momentum	局势
+Shot map	击球图
+No shots yet.	还没有击球。
+made	进球
+missed	未进
+foul	犯规
+See the tournaments	查看锦标赛
+Open the shop	打开商店
+See VIP	查看VIP
+See the missions	查看任务
+A new version of the game is out: update to play online.	游戏有新版本：更新后才能在线对战。
+Update in the Microsoft Store	在Microsoft Store中更新
+Update now	立即更新
+Download the new version	下载新版本
+New version out	新版本已发布
+Get the new version to play online	获取新版本以在线对战
+Cheer for {name}	为{name}加油
+Crowd: {a} for {p0}, {b} for {p1}	观众：{a}人支持{p0}，{b}人支持{p1}
+welcome pack	新手礼包
+Welcome pack	新手礼包
+Cue “{cue}”, cloth “{cloth}” and {n} coins · only once, sold nowhere else	球杆“{cue}”、台呢“{cloth}”和{n}金币 · 限购一次，别处无售
+Lagoon	泻湖
+You already have the welcome pack.	你已拥有新手礼包。
+Your welcome pack is here!	你的新手礼包到了！
+Previous shot (←)	上一杆（←）
+Next shot (→)	下一杆（→）
+Play (Space)	播放（空格）
+Pause (Space)	暂停（空格）
+Speed	速度
+Shot {n} of {total}	第{n}/{total}杆
+For VIP members	VIP会员专享
+{n} reactions of your own to send during games	{n}个专属表情，可在对局中发送
+Items {a}–{b} of {n}	第{a}–{b}件，共{n}件
+(message deleted by its author)	（消息已被发送者删除）
+(message deleted by an administrator)	（消息已被管理员删除）
+Delete (it shows as deleted)	删除（显示为已删除）
+Remove without a trace	彻底移除
+The chat was cleared by {name}.	{name}清空了聊天。
+Click again to clear	再次点击以清空
+Clear the chat	清空聊天
+Players' chat (administrator)	玩家聊天（管理员）
+Play the computer while you wait	等待时与电脑对战
+Looking for an opponent… {t} · the game starts as soon as one is found	正在匹配对手…{t} · 找到对手后对局立即开始
+Stop	停止
+# Coin packs and months of VIP bought in the Microsoft Store (the Store build).
+The Microsoft Store couldn't complete the purchase.	Microsoft Store无法完成购买。
+The Microsoft Store couldn't confirm the purchase right now. Its coins arrive the next time you open the shop.	Microsoft Store暂时无法确认购买。金币将在你下次打开商店时到账。
+{n} coins added to your wallet.	{n}金币已存入钱包。
+Microsoft is confirming your purchase: the coins arrive in a moment.	Microsoft正在确认你的购买：金币稍后到账。
+The purchase hasn't reached us yet. Its coins arrive the next time you open the shop.	我们尚未收到这笔购买。金币将在你下次打开商店时到账。
+Loading prices from the Microsoft Store…	正在从Microsoft Store加载价格…
+Coins can't be bought in this version yet.	此版本暂不支持购买金币。
+Finish the purchase in the Microsoft Store window…	请在Microsoft Store窗口中完成购买…
+Confirming your purchase…	正在确认购买…
+Paid in the Microsoft Store, with your Microsoft account.	通过Microsoft Store使用你的Microsoft账户付款。
+The Microsoft Store can't be reached right now. Try again in a moment.	当前无法连接Microsoft Store，请稍后重试。
+The Microsoft Store could not confirm the purchase.	Microsoft Store无法确认此次购买。
+Sign in to the Microsoft Store with your Microsoft account, then open the shop again.	请用你的Microsoft账户登录Microsoft Store，然后重新打开商店。
+The Microsoft Store couldn't confirm the purchase right now. Your VIP month starts the next time you open the shop.	Microsoft Store暂时无法确认购买。你的VIP月卡将在你下次打开商店时生效。
+You are VIP until {d}, and {n} coins were added to your wallet.	你的VIP有效期至{d}，{n}金币已存入钱包。
+Microsoft is confirming your purchase: your VIP month starts in a moment.	Microsoft正在确认你的购买：VIP月卡稍后生效。
+The purchase hasn't reached us yet. Your VIP month starts the next time you open the shop.	我们尚未收到这笔购买。VIP月卡将在你下次打开商店时生效。
+A month at a time: nothing renews by itself	按月购买：不会自动续费
+Add a month · {p}	续一个月 · {p}
+A month of VIP · {p}	一个月VIP · {p}
+The new month starts when this one ends.	新的一个月将在当前月份结束后开始。
+Trophies	奖杯
+No trophies yet.	还没有奖杯。
+Tournament won · {n} players	锦标赛冠军 · {n}名玩家
+The computer tour	人机巡回赛
+All fifteen opponents beaten	击败全部十五位对手
+Daily challenge	每日挑战
+First of {n} players	{n}名玩家中排名第一
+Easy shot	简单球
+Fair shot	普通球
+Hard shot	难球
+Very hard shot	极难球
+~{n}% chance	约{n}%把握
+No ball goes down as aimed	按当前瞄准无法进球
+straight in	直线进袋
+{n}° cut	{n}°切球
+off one cushion	吃一库
+off {n} cushions	吃{n}库
+Make as many balls as you can in one visit: a miss or a foul ends the attempt.	一杆内尽可能多地进球：失误或犯规即结束本次挑战。
+The same table for everyone, all day	全天所有人挑战同一张球台
+{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	每天{n}次机会。清台可得{coins}金币；当日第一名获得奖杯。
+A new table in {h} h {m} min	{h}小时{m}分钟后更换新球台
+Sign in to take part: the server keeps the day's table.	登录后即可参加：服务器会记录当日排行。
+Balls on today's table	今日球台上的球数
+Attempts left	剩余次数
+{n} balls · #{rank}	{n}球 · 第{rank}名
+{n} balls	{n}球
+not yet	尚未挑战
+Your best today	今日最佳
+No attempts left today: come back tomorrow.	今天的次数已用完：明天再来吧。
+The attempt could not be counted.	本次挑战未能计入成绩。
+Setting up the table…	正在摆球…
+Start an attempt	开始挑战
+Starting uses an attempt, even if you leave the table.	开始即消耗一次机会，即使中途离开也一样。
+Loading today's table…	正在加载今日挑战…
+Today's table	今日排行
+{n} players	{n}名玩家
+Nobody has played today's table yet. Be the first!	今天还没有人挑战过。来当第一个吧！
+Table cleared!	清台成功！
+{n} of {total} balls	{n}/{total}球
+Sending your attempt to the server…	正在向服务器提交成绩…
+Counted: {n} balls · +{coins} coins	成绩已计入：{n}球 · +{coins}金币
+Counted: {n} balls	成绩已计入：{n}球
+See today's table	查看今日排行
+Table cleared! +{n} coins	清台成功！+{n}金币
+Daily challenge: {n} of {total} balls made	每日挑战：打进{n}/{total}球
+1 player	1名玩家
+Phoenix	凤凰
+Carrara marble	卡拉拉大理石
+Dragon scale	龙鳞
+Galaxy	星河
+Ruby throne	红宝石王座
+Closing the game now is leaving it: extra rating lost and a wait to play again.	现在关闭游戏视为逃跑：将额外扣除积分，并需等待一段时间才能再次对战。
+You left a game in progress: you can play online again in {n} min.	你中途离开了对局：{n}分钟后才能再次在线对战。
+Quick phrases	快捷短语
+Good luck, have fun!	祝你好运，玩得开心！
+Nice shot!	好球！
+Great safety!	漂亮的防守！
+Unlucky!	可惜！
+Oops!	哎呀！
+Wow!	哇！
+That was close!	差一点！
+Take your time.	慢慢来。
+Sorry!	抱歉！
+Thanks!	谢谢！
+Well played!	打得好！
+Good game!	精彩的对局！
+Rematch?	再来一局？
+I have to go, thanks for the game!	我得走了，谢谢你陪我打球！
+Practise while you wait	等待时练习
+A new rack.	重新摆球。
+Level {n}! (+{xp} XP)	升至{n}级！（+{xp}经验）
++{xp} XP	+{xp}经验
+Level {n} · {into} / {span} XP to the next	等级{n} · 距下一级{into}/{span}经验
+Level {n}	等级{n}
+Hi! I watched a lot of videos, I'm ready!	嗨！我看了好多教学视频，准备好了！
+Be gentle, okay?	手下留情哦？
+Whoa, how did you do that?	哇，你怎么做到的？
+Teach me that one later!	待会儿教教我这招！
+Phew! My turn!	呼！轮到我了！
+Even you miss? Good to know.	你也会失误？好的，记住了。
+A free ball! What do I do with it?	自由球！这球该怎么用？
+Did you see that?! It went in!	你看到了吗？！进了！
+Beginner's luck counts too!	新手的运气也算数！
+Oops. That was a practice shot.	哎呀，刚才那杆是练习。
+Aim, Leo, aim...	瞄准，Leo，瞄准……
+Sorry! I touched the wrong one again.	抱歉！我又碰错球了。
+I WON? I'm calling my mum!	我赢了？我要给我妈打电话！
+Good game! I'm getting better, right?	打得真好！我有进步吧？
+Saturday, a table and good company. Let's play!	周六、球台、好伙伴。开打吧！
+Nice one!	漂亮！
+Oh, you're good. I'll pay attention now.	哦，你挺厉害的。我得认真点了。
+Happens to the best of us.	高手也有失手的时候。
+Don't worry, it's just a game!	别在意，只是个游戏！
+Thanks for the gift!	谢谢你的礼物！
+Yes! Weekend skills!	耶！周末球技！
+Lucky me!	运气真好！
+Hm, where was I aiming?	嗯，我刚才瞄哪儿来着？
+Too much chatting, not enough aiming.	光顾着聊天，忘了瞄准。
+Oops, my bad!	哎呀，我的错！
+That was fun! Same time next weekend?	真好玩！下周末老时间？
+Well played! Rematch over a lemonade?	打得好！喝杯柠檬水再来一局？
+Four cushions, endless possibilities.	四条库边，无限可能。
+Straight in? So... direct.	直接打进？真是……直接。
+Nice, but a bank would have been prettier.	不错，但打翻袋会更漂亮。
+You should have used the cushion.	你应该借库的。
+The rail was right there, asking for it.	库边就在那儿，等着你用呢。
+The table didn't like that.	球台不喜欢这一杆。
+Off the rail and in. Art!	吃库进袋。艺术！
+Geometry never lies.	几何从不说谎。
+The angle was right. The cushion disagreed.	角度没错，是库边不同意。
+One diamond off. Just one!	差了一个库点。就一个！
+Too much imagination, not enough contact.	想象太丰富，击球太薄了。
+A masterpiece, if I may say so.	容我自夸一句：杰作。
+Well played. Now try it off two rails.	打得好。现在试试两库。
+I hope these balls are made of steel.	希望这些球是钢做的。
+Soft touch, huh? Not my style.	轻推？不是我的风格。
+Hit it harder next time!	下次用点力！
+Too gentle! Power solves everything.	太温柔了！力量解决一切。
+HA!	哈！
+My table now. Cover your ears.	现在是我的球台了。捂好耳朵。
+BOOM!	轰！
+Did you hear that pocket?	听到球袋的响声了吗？
+Too much power? No such thing.	力量太大？不存在的。
+The pocket moved.	球袋自己动了。
+The ball flew. It happens. A lot.	球飞了。常有的事。经常有。
+Power wins again! BOOM!	力量又赢了！轰！
+Fine, finesse works too. Sometimes.	好吧，技巧也有用。偶尔。
+Take your time. I have all day.	慢慢来。我有一整天。
+Acceptable.	还行。
+Enjoy it while it lasts.	趁现在好好享受吧。
+Patience is a virtue. Not yours, apparently.	耐心是种美德。看来你没有。
+Thank you.	谢谢。
+Sloppy.	草率。
+Steady wins.	稳者胜。
+One at a time.	一颗一颗来。
+Hm. I'll leave you nothing anyway.	嗯。反正我也不会给你留机会。
+Intentional. Probably.	故意的。大概吧。
+Unacceptable. Of me.	不可原谅。说的是我自己。
+As I said: patience.	我说过：耐心。
+You got through the wall. I'm impressed.	你突破了这堵墙。佩服。
+I've been playing since before these balls were plastic.	这些球还不是塑料做的时候，我就在打球了。
+Good stroke. Reminds me of a fellow in '78.	好杆法。让我想起78年的一个小伙子。
+Smooth. Very smooth.	顺滑。非常顺滑。
+Keep your head down, kid.	头压低，孩子。
+The cue ball doesn't lie.	母球不会说谎。
+Ah, a little present. Thank you kindly.	啊，一份小礼物。多谢了。
+Like riding a bicycle.	就像骑自行车一样。
+Still got it.	宝刀未老。
+The eyes aren't what they used to be.	眼神大不如前了。
+In my day the pockets were bigger.	我年轻那会儿，球袋可比这大。
+Even old pros slip.	老手也有失手的时候。
+Experience, my friend. Experience.	经验，朋友。是经验。
+You've got a future in this game.	你在这项运动上大有前途。
+Me? Oh, I hardly ever play...	我？哦，我很少打球的……
+Lucky! Do it again, I dare you.	运气好！有本事再来一次。
+Ooh, someone's been practising.	哟，有人偷偷练过嘛。
+Aw, so close! Bless.	哎呀，就差一点！真可爱。
+Want me to show you how?	要我教你吗？
+Thank you, sweetie.	谢啦，亲爱的。
+Oops, did I do that?	哎呀，是我干的吗？
+Must be beginner's luck. Again.	一定是新手运气。又一次。
+Missed on purpose. Keeps it interesting.	故意打丢的。这样才有意思。
+Just warming up.	只是在热身。
+Oh dear, how clumsy of me. Wink.	哎呀，我真笨手笨脚。眨眼。
+Hardly ever play, I said. Hardly.	我说的是“很少”打球。很少。
+Fine, you got me. This time.	好吧，你赢了。这次而已。
+Friction, momentum, spin. Let us begin.	摩擦、动量、旋转。我们开始吧。
+A fine cut. About thirty degrees, I'd say.	漂亮的切球。我估计大约三十度。
+Textbook.	教科书级。
+You underestimated the throw.	你低估了目标球的偏移。
+Interesting. Statistically expected.	有意思。符合统计预期。
+The cue ball followed the laws of physics, not your plan.	母球遵循的是物理定律，而不是你的计划。
+As calculated.	一切尽在计算之中。
+Elastic collision, elegant result.	弹性碰撞，优雅的结果。
+An error in my measurement.	我的测量出了误差。
+I'll revise the model.	我会修正模型。
+Hm. Unexpected spin.	嗯。意料之外的旋转。
+The numbers were on my side.	数字站在我这边。
+A result outside my predictions. Well done.	结果超出了我的预测。干得好。
+Focus.	专注。
+Clean.	干净。
+Not bad.	不错。
+Half a millimetre.	半毫米。
+Breathe before you shoot.	出杆前先呼吸。
+Careless.	大意了。
+Target down.	目标击落。
+Centre pocket.	正中袋心。
+Hm. Recalibrating.	嗯。重新校准。
+That never happens.	这种事从不发生。
+Unacceptable.	不可接受。
+Precision wins.	精准制胜。
+Good shooting.	打得准。
+Welcome to my table. Enjoy the show.	欢迎来到我的球台。好好欣赏表演吧。
+Very good. You've done your homework.	很好。你做足了功课。
+Applause for the challenger!	为挑战者鼓掌！
+Pressure. It gets to everyone.	压力。谁都躲不过。
+Thank you for the table.	谢谢你把球台让给我。
+A champion never refuses a gift.	冠军从不拒绝礼物。
+Naturally.	理所当然。
+That's how it's done.	就该这么打。
+Even champions give the crowd a chance.	冠军也会给观众留点悬念。
+Leaving you something, out of courtesy.	出于礼貌，给你留点机会。
+A rare sight. Remember it.	难得一见。记住这一幕。
+The title stays with me. Good game.	冠军头衔还是我的。精彩的对局。
+Remarkable. You've earned my respect.	了不起。你赢得了我的尊重。
+Calibration complete. Good luck, human.	校准完成。祝你好运，人类。
+Shot registered: successful.	击球已记录：成功。
+Probability of my victory: increasing.	我的获胜概率：正在上升。
+Foul detected. Processing penalty.	检测到犯规。正在处理罚则。
+Executed as planned.	按计划执行。
+Error. Recalculating.	错误。重新计算中。
+Malfunction. Please disregard.	故障。请忽略。
+Game complete. Thank you for playing.	对局结束。感谢参与。
+Defeat acknowledged. Well played.	确认失败。打得好。
+Drills	训练
+Exercises with stars	星级练习
+{s} / {max} stars	{s}/{max}星
+Stars at {a}, {b} and {c}	达到{a}、{b}、{c}可得星
+Your best: {n} of {total}	最佳成绩：{n}/{total}
+Not tried yet.	尚未挑战。
+Start the drill	开始训练
+Sign in to keep your stars in your account.	登录后即可将星星保存到账号中。
+{n} of {total}	{n}/{total}
+{drill}: try {k} of {n} · {made} made	{drill}：第{k}/{n}次 · 成功{made}次
+Made it! {n} of {total}	成功！{n}/{total}
+Missed.	没进。
+Sending to the server…	正在发送到服务器…
+Not signed in: this session is not ranked.	未登录：本次训练不计入排名。
+Kept in your account.	已保存到你的账号。
+The session could not be counted.	本次训练未能计入。
+Back to the drills	返回训练
+Straight in	直线球
+A long straight pot into the corner. Five tries.	长距离直线球打进角袋。共五次机会。
+The cut	切球
+A half-ball cut into the corner. Five tries.	半球切打进角袋。共五次机会。
+Draw it back	低杆回拉
+Pot the ball and draw the cue ball back into the circle. Five tries.	打进目标球，并用低杆将母球拉回圆圈内。共五次机会。
+Follow through	高杆跟进
+Pot the ball and leave the cue ball in the circle past it. Five tries.	打进目标球，并让母球跟进停在后方的圆圈内。共五次机会。
+Bank shot	翻袋
+Off one cushion into the side pocket. Five tries.	吃一库翻进中袋。共五次机会。
+Snooker escape	解球
+Hit the 1 first: it hides behind other balls. Five tries.	先击中1号球：它藏在其他球后面。共五次机会。
+Ten in a row	十连进
+Ten different pots, one after another: a miss ends the session.	连续十个不同的进球练习：一次失误即结束训练。
+The far corner	远角袋
+A cut back up the table into the corner behind you. Five tries.	向后切球，打进你身后的角袋。共五次机会。
+Long into the side	长台打中袋
+From the far end of the table into the side pocket. Five tries.	从球台远端打进中袋。共五次机会。
+Cue ball on the cushion	贴库母球
+The cue ball touches the cushion: pot the ball into the corner all the same. Five tries.	母球贴着库边：照样把球打进角袋。共五次机会。
+The plant	贴球
+The 2 touches the 1 and points at the pocket: hit the 2 and the 1 goes in. Five tries.	2号球贴着1号球并对准球袋：击打2号球，1号球就会入袋。共五次机会。
+The carom	借球
+The 2 is in the way: glance off it and send the 1 into the corner. Five tries.	2号球挡在中间：擦过2号球，把1号球送进角袋。共五次机会。
+The long draw	长距离低杆
+Pot the ball and draw the cue ball all the way back into the circle. Five tries.	打进目标球，并用低杆将母球远远拉回圆圈内。共五次机会。
+On the tangent line	沿切线走位
+Pot the ball in the side and let the cue ball run on into the circle. Five tries.	将球打进中袋，并让母球继续滚进圆圈内。共五次机会。
+Two-cushion bank	两库翻袋
+Off two cushions and into the corner. Five tries.	吃两库后打进角袋。共五次机会。
+Fifteen in a row	十五连进
+Fifteen different pots, one after another: a miss ends the session.	连续十五个不同的进球练习：一次失误即结束训练。
+Take back the shot (Z)	撤销这一杆（Z）
+Shot taken back.	已撤销这一杆。
+Solids	全色球
+Stripes	花色球
+Hide the history	隐藏记录
+New username	新用户名
+Click again to confirm	再次点击以确认
+{n} of {total} name changes left	还可改名{n}/{total}次
+You can't change your username again.	你无法再修改用户名。
+That is already your username.	这已经是你的用户名。
+Finish your game before changing your username.	请先完成对局再修改用户名。
+Leave your table or the queue before changing your username.	请先离开球台或退出匹配队列再修改用户名。
+Leave your tournament before changing your username.	请先退出锦标赛再修改用户名。
+Username changed.	用户名已修改。
+The server is still being updated to the new version. Try again in a few minutes.	服务器仍在更新到新版本，请几分钟后再试。
+{shooter} made an opponent's ball: {next} to shoot.	{shooter}打进了对手的球：轮到{next}击球。
+# Five more computer opponents: Tito, Inês, Diego, Amara and Yuri.
+The Gambler	赌徒
+Bets on every shot: as hard as the cue allows, with all the spin he can find. Safe play bores him.	每一杆都是豪赌：力度拉满，杆法加足。防守让他觉得无聊。
+The Soft Touch	柔手
+Never hits harder than she must: the balls die at the pocket's edge and the cue ball stops where she wants it.	从不多用一分力：球在袋口轻轻落下，母球停在她想要的位置。
+The Showman	表演家
+Plays to the crowd: a raised cue, swerving spin and a bank whenever there's one. It works more often than it should.	专为观众而打：抬杆、弧线球，能翻袋就翻袋。成功的次数比想象中还多。
+The Tactician	战术家
+Plans the whole rack: snookers you when the pot isn't sure, and runs out when it is.	规划整局球：没把握时给你做斯诺克，有把握时一杆清台。
+The Machine	机器
+No nerves, no flair: centre ball, measured pace, the same perfect stroke every time.	没有紧张，也没有花哨：中杆、精准力度，每一杆都一样完美。
+Place your bets! Mine's on me.	下注吧！我押我自己。
+Lucky roll. Let it ride!	手气不错。继续押！
+Okay, okay. Double or nothing?	好吧好吧。加倍还是归零？
+The house always wins!	庄家永远是赢家！
+Free chips! Thank you!	白送的筹码！谢啦！
+All in, and it paid!	全押，赢了！
+That's how you play the odds!	这才叫会算赔率！
+Bad beat. Next hand.	输得冤。下一把。
+Too much spin? There's no such thing.	杆法太多？不存在的。
+Busted. Worth the risk!	爆了。但值得一搏！
+Jackpot! Same stakes again?	中大奖了！同样的赌注再来一局？
+You beat the odds. Respect.	你赢过了概率。佩服。
+Softly, now. The table likes a gentle hand.	轻一点。球台喜欢温柔的手。
+Nicely done.	打得漂亮。
+A little hard, but it went in.	有点重，不过进了。
+Less power, more feel.	少用力，多用手感。
+Oh dear. A free ball for me.	哎呀。白送我一颗球。
+Just enough to drop.	刚好够落袋。
+See? No need to hit it hard.	看到了吗？不用打那么重。
+A touch too soft.	轻了一点点。
+Clumsy of me. Sorry.	我太笨手笨脚了。抱歉。
+Slow and steady. Thank you for the game.	慢工出细活。谢谢你陪我打球。
+Beautifully played. Well deserved.	打得太漂亮了。实至名归。
+Ladies and gentlemen... the show begins!	女士们，先生们……表演开始！
+Not bad! Bow to the crowd!	不错嘛！向观众鞠个躬吧！
+You stole my applause!	你抢走了我的掌声！
+The crowd wanted more!	观众还想看更多！
+Ooh, a plot twist!	哦，剧情反转！
+Ta-da!	当当当当！
+And for my next trick...	接下来我要表演的是……
+Even magicians have off nights.	魔术师也有失手的夜晚。
+That was... part of the act.	那是……表演的一部分。
+Thank you, thank you! Encore?	谢谢，谢谢！要不要返场？
+Take a bow, champion. You earned it.	鞠个躬吧，冠军。这是你应得的。
+Every rack is a puzzle. Let's solve this one.	每一局都是一道谜题。来解开这一道吧。
+Good. Now where is your cue ball?	不错。那你的母球现在在哪儿？
+I saw that coming.	我早料到了。
+That left me something. Thank you.	给我留了机会。谢谢。
+As planned.	正如计划。
+Exactly as I calculated.	和我算的一模一样。
+Three moves ahead.	领先三步。
+A variable I missed.	漏算了一个变量。
+Hm. Recalculating.	嗯。重新计算。
+Checkmate.	将军。
+You out-thought me. That's rare.	你算得比我还深。这很少见。
+Game initialised.	对局已初始化。
+Noted.	已记录。
+Error margin exceeded.	超出误差范围。
+Penalty applied.	已执行处罚。
+As expected.	符合预期。
+Next.	下一个。
+Deviation logged.	偏差已记录。
+Malfunction. It will not repeat.	故障。不会再发生。
+Result: win. Thank you for the data.	结果：胜利。感谢提供数据。
+Unexpected outcome. Impressive.	意外的结果。令人印象深刻。
+Opponents' remarks	对手台词
+The computer opponents comment on the game in speech bubbles.	电脑对手会用对话气泡点评对局。
+Top view only	仅俯视视角
+The table is always seen from above: no 3D view, no turning.	始终从上方俯视球台：无3D视角，不能旋转。
+Not with the top view only.	仅俯视视角下不可用。
+Wheel	滚轮
+Rules	规则
+Rules of the game	游戏规则
+Level	放平
+Drag the cue: jump & massé	拖动球杆：跳球和扎杆
+Drag to raise or lower the cue	拖动以抬高或放低球杆
+Drag the cue · {keys}	拖动球杆 · {keys}
+Profile picture	头像
+Shown by your name at the table and in your profile.	显示在球台上你的名字旁和你的个人资料中。
+No picture	无头像
+Change your picture	更换头像
+{name} sank the 8 together with another ball	{name}将8号球与其他球一同打进
+the opponent sank the 8 with another ball	对手将8号球与其他球一同打进
+sank the 8 with another ball	将8号球与其他球一同打进
+opponent pocketed the 8-ball together with another ball	对手将8号球与其他球一同打进
+Penalty: {balls} off the table for {name}.	罚球：{balls}移出台面，归{name}。
+{name} had fewer balls left than the foul gives: the 8 pays the rest, and the foul loses the game.	{name}剩余的球少于罚球数：不足部分由8号球抵偿，此次犯规判负。
+Shadows	阴影
+The shadows of the balls and of the cue on the table.	球和球杆在球台上的阴影。
+Sixteen players: knockout or arena	十六名玩家：淘汰赛或竞技场
+New knockout	新建淘汰赛
+New arena	新建竞技场
+Knockout: sixteen players, four rounds. Lose a game and you are out.	淘汰赛：十六名玩家，共四轮。输一局即被淘汰。
+Arena: seven rounds for everyone. A win is 2 points, 3 from the third win in a row. The most points wins.	竞技场：所有人都打七轮。每胜一局得2分，从第三连胜起每胜得3分。得分最高者获胜。
+The games between the other players are decided by their strength and a draw.	其他玩家之间的对局根据各自实力并抽签决定胜负。
+You won the tournament!	你赢得了锦标赛！
+{name} won the tournament.	{name}赢得了锦标赛。
+You finished in place {n}.	你获得了第{n}名。
+Round of 16	16强赛
+Quarter-finals	四分之一决赛
+Round {n} of {total}	第{n}/{total}轮
+Play {name}	对战{name}
+Abandon the tournament	放弃锦标赛
+W - L	胜 - 负
+Points	得分
+The tournament is over.	锦标赛已结束。
+The round is over: see who you play next.	本轮结束：看看你的下一个对手是谁。
+You are out of the tournament.	你已被淘汰出锦标赛。
+Side pocket	中袋
+A cut into the side pocket, where the angle is tight. Five tries.	切球打进角度刁钻的中袋。共五次机会。
+The long cut	长距离切球
+A cut from the far end of the table into the corner. Five tries.	从球台远端切球打进角袋。共五次机会。
+Thin cut	薄切
+Barely graze the ball: a thin cut into the corner. Five tries.	轻轻擦过目标球：薄切打进角袋。共五次机会。
+Along the cushion	贴库球
+The ball sits by the cushion: run it along into the corner. Five tries.	目标球贴着库边：沿库边将它打进角袋。共五次机会。
+Stop shot	定杆
+Pot the ball and stop the cue ball dead where the ball was. Five tries.	打进目标球，让母球停在目标球原来的位置。共五次机会。
+The combination	组合球
+Pot the 1 by playing the 2 into it. Five tries.	击打2号球撞击1号球，将1号球打进。共五次机会。
+Cross-corner bank	对角翻袋
+Off the long cushion and across the table into the corner. Five tries.	吃长库后横穿球台打进角袋。共五次机会。
+Kick shot	借库解球
+The 1 is walled off: send the cue ball off a cushion to hit it first. Five tries.	1号球被挡住了：让母球先吃库再击中它。共五次机会。
+Only the cue ball went down on the break: the balls are racked again and {next} breaks.	开球时只有母球落袋：重新摆球，由{next}开球。
+Golden break	黄金开球
+Win a rated game by sinking only the 8-ball on the break.	开球时只打进8号球，赢得一局积分赛。
+Half a year	半年
+Have an account for six months.	注册账号满六个月。
+First anniversary	一周年
+Second anniversary	两周年
+Have an account for two years.	注册账号满两年。
+Third anniversary	三周年
+Have an account for three years.	注册账号满三年。
+Five years at the table	球台五年
+Have an account for five years.	注册账号满五年。
+Back to the tournament	返回锦标赛
+Continue against {name}	继续对战{name}
+You left your game: it counts as a loss.	你离开了对局：判负。
+new level	新等级
+Level {n} brings: {item}	{n}级奖励：{item}
+Level 5	5级
+Reach level 5.	达到5级。
+Level 10	10级
+Reach level 10.	达到10级。
+Level 15	15级
+Reach level 15.	达到15级。
+Level 20	20级
+Reach level 20.	达到20级。
+Level 30	30级
+Reach level 30.	达到30级。
+Level 40	40级
+Reach level 40.	达到40级。
+Level 50	50级
+Reach level 50.	达到50级。
+Regular's teal	常客青绿
+Veteran's plum	老将梅紫
+Old hand	老手
+Lifer	终身球友
+Apprentice's chalk	学徒巧粉
+Journeyman's chalk	熟手巧粉
+Achievements	成就
+Leagues and levels	段位与等级
+Next league: {tier}	下一段位：{tier}
+The top league.	已是最高段位。
+Every prize of the levels is won.	所有等级奖励均已获得。
+None yet: the first is one game away.	还没有：再打一局就能获得第一个。
+{coins} and {item}	{coins}和{item}
+Leagues	段位
+Levels	等级
+By playing. Every level pays {n} coins.	通过对局获得。每升一级奖励{n}金币。
+where everyone starts	所有人的起点
+from {n}	{n}起
+The top level.	已是最高等级。
+{n} XP to level {next}	距{next}级还差{n}经验
+{n} levels to go	还差{n}级
+new league	新段位
+Old-timer's black	元老黑
+Expert league blue	专家段位蓝
+Master league violet	大师段位紫
+Legend league gold	传奇段位金
+Skilled league chalk	熟练段位巧粉
+By rating. Each league pays once.	根据积分。每个段位奖励一次。
+cue	球杆
+cloth	台呢
+chalk	巧粉
+Always show the head string	始终显示开球线
+The line the break is played from, always on the table (off: only while placing the cue ball behind it).	开球线始终显示在球台上（关闭时：仅在开球线后摆放母球时显示）。
+{who} ran out of time: the turn passes.	{who}超时：交换球权。
+{who} ran out of time with no ball left to give {other}: the 8 pays, and {who} loses.	{who}超时，且已没有球可以罚给{other}：由8号球抵偿，{who}判负。
+{who} ran out of time: the cue ball goes back to the head spot and the turn passes.	{who}超时：母球放回开球点，交换球权。
+{who} ran out of time: {balls} off the table for {other}, and the cue ball goes back to the head spot.	{who}超时：{balls}移出台面，归{other}，母球放回开球点。
+You were muted for {n} minutes: {r}	你被禁言{n}分钟：{r}
+Your account was suspended for {n} hours: {r}	你的账号被暂停使用{n}小时：{r}
+The server restarts in {minutes} min for an update. Games in progress go on; new games start right after.	服务器将在{minutes}分钟后重启更新。进行中的对局不受影响；新对局将在重启后立即开始。
+The {cup} was called off: not enough players signed up.	{cup}已取消：报名人数不足。
+The {cup} is open for sign-up: it starts soon in Tournaments.	{cup}开放报名：即将在“锦标赛”中开赛。
+{display} won the tournament “{name}”!	{display}赢得了锦标赛“{name}”！
+Sunday Cup	周日杯
+Monday Cup	周一杯
+Tuesday Cup	周二杯
+Wednesday Cup	周三杯
+Thursday Cup	周四杯
+Friday Cup	周五杯
+Saturday Cup	周六杯
+{name} · rating {r}	{name} · 积分{r}
+Something went wrong. Try again.	出错了，请重试。
+member for 1 day	已加入1天
+Game in progress: 1 ball left	对局进行中：剩余1颗球
+1 level to go	还差1级
+1 more online win with this cue for level {n}. Levels only add marks to the cue.	用这支球杆再赢1局在线对局即可升到{n}级。等级只会为球杆添加标记。
+Home	Home
+End	End
+PgUp	PgUp
+PgDn	PgDn
+Ins	Ins
+Could not join the LAN game	无法加入LAN对局
+LAN game · others join at {address}	LAN对局 · 其他人可通过{address}加入
+Click to copy	点击复制
+Copied.	已复制。
+Start a new game?	开始新对局？
+You have a game in progress against the computer, with 1 ball left. A new game takes its place.	你有一局进行中的人机对局，还剩1颗球。新对局将取而代之。
+You have a game in progress against the computer, with {n} balls left. A new game takes its place.	你有一局进行中的人机对局，还剩{n}颗球。新对局将取而代之。
+Continue that game	继续那局
+Start a new one	开始新对局
+Click again to close the game: {n} will be disconnected	再次点击以关闭对局：{n}名玩家将断开连接
+{name} cleared the table in one visit!	{name}一杆清台！
+{name}: {n} in a row!	{name}：连进{n}球！
+Watch the deciding shot again	重看制胜一杆
+Next: {name}	下一位：{name}
+Drag on the table to aim, or click a ball	在球台上拖动瞄准，或点击一颗球
+Set the power	调整力度
+Let go of {key} to shoot · Esc cancels	松开{key}击球 · Esc取消
+Staff accounts can't change their username.	工作人员账号无法修改用户名。
+That password can't be used. Choose another one.	该密码无法使用，请换一个。
+That tournament is full.	该锦标赛已满员。
+The server is restarting: your tournament was called off.	服务器正在重启：你的锦标赛已取消。
+Too many sign-ins. Wait a minute and try again.	登录次数过多，请等待一分钟后重试。
+Too many wrong passwords. Try again in a few minutes.	密码错误次数过多，请几分钟后再试。
+Your VIP subscription could not be cancelled. Try again in a moment.	无法取消你的VIP订阅，请稍后重试。
+Balls of both groups on the break: the turn passes to {next}, the table is open.	开球时两组球都有落袋：球权交给{next}，球台保持开放。
+Only a final started while signed in counts: play the last stage again signed in.	只有在登录状态下开始的决赛才算数：请登录后重打最后一关。
+The server didn't deal the final: this game won't earn the reward.	服务器未分配这场决赛：本局无法获得奖励。
+The server didn't answer: this session won't be ranked.	服务器无响应：本次训练不计入排名。
+The server is dealing the final…	服务器正在准备决赛…
+The server is setting up the drill…	服务器正在准备训练…
+Not signed in: a win in this final won't earn the reward.	未登录：赢下这场决赛也无法获得奖励。
+Not kept: sessions count when started signed in.	未保存：只有登录后开始的训练才会计入。
+Warning from the staff: {text}	工作人员警告：{text}
+The staff changed your username to {name}. Sign in again.	工作人员已将你的用户名改为{name}。请重新登录。
+The staff called off the tournament you were in.	工作人员取消了你参加的锦标赛。
+Experience ×{n}	经验×{n}
+Coins from games ×{n}	对局金币×{n}
+Themed tournament	主题锦标赛
+Event	活动
+Events	活动
+Warning from the staff	工作人员警告
+Esc to cancel	按Esc取消
+Will be sent when you're back online.	将在你重新上线后发送。
+Your strokes will be sent when you're back online.	你的击球将在你重新上线后发送。
+The final you won was dealt to {name}: sign in as {name} to claim the reward.	你赢下的决赛属于{name}：请以{name}的身份登录领取奖励。
+Type your password to confirm it's you.	请输入密码以确认身份。
+The cue ball is back on the head spot: {next} plays from there.	母球已放回开球点：{next}从那里击球。
+{name} came online	{name}上线了
+Online now: {names}	当前在线：{names}
+Nobody else is online right now.	目前没有其他人在线。
+Focus mode	专注模式
+No invitations while you play: they are turned away until the game is over.	对局时不接收邀请：对局结束前的邀请都会被拒绝。
+in focus mode	专注模式中
+In focus mode: no invitations until their game is over.	专注模式：对局结束前不接收邀请。
+That player is in focus mode and isn't taking invitations until their game is over.	该玩家处于专注模式，对局结束前不接收邀请。
+Look at it closely	近距离查看
+Sign in to buy	登录后购买
+Sign in to use	登录后使用
+Back to the shop (Esc)	返回商店（Esc）
+Show the interface (H)	显示界面（H）
+Hide the interface (H)	隐藏界面（H）
+Turn (Space)	旋转（空格）
+Stop turning (Space)	停止旋转（空格）
+Zoom in (+)	放大（+）
+Zoom out (−)	缩小（−）
+Back to the start (R)	回到初始视角（R）
+Previous setting ([)	上一个场景（[）
+Next setting (])	下一个场景（]）
+Setting	场景
+Studio	摄影棚
+Your table	你的球台
+Drag with the right button to turn · wheel to zoom · double-click to look closer	按住右键拖动旋转 · 滚轮缩放 · 双击近看
+Drag with the right button to turn · wheel to zoom · click a ball to look at it	按住右键拖动旋转 · 滚轮缩放 · 点击球可近看
+The set	整套
+From above	俯视
+Low angle	低角度
+Cue ball	母球
+Ball {n}	{n}号球
+Whole	整支
+Tip	杆头
+Joint	接口
+Butt	杆尾
+Top	顶面
+Cue	球杆
+Table	球台
+Hall	场馆
+Corner	角袋
+Side	中袋
+Leg	台腿
+Close-up	特写
+Cushion	库边
+Phenolic resin under a bright clear coat	酚醛树脂，外覆亮光清漆
+A pearly sheen that shifts with the light	珍珠般的光泽，随光线变幻
+Brushed metal, bright as a mirror	拉丝金属，亮如镜面
+Old ivory: soft, warm and matte	老象牙色：柔和、温暖、哑光
+A full-size cue, tip to butt: turn it, come close to its joint and its butt	全尺寸球杆，从杆头到杆尾：可旋转，可近看接口和杆尾
+A cube of chalk, and the colour it leaves on the tip	一块巧粉，以及它在杆头留下的颜色
+The cloth on the table: come close to see its weave	铺在球台上的台呢：凑近看看它的纹理
+Dark mahogany, turned legs and brass castings	深色桃花心木、车削台腿和黄铜配件
+Light teak, square legs and chrome castings	浅色柚木、方形台腿和镀铬配件
+Deep mahogany, carved legs and leather pocket nets	深红桃花心木、雕花台腿和皮革袋网
+Black lacquer and brushed aluminium on two slab legs	黑漆与拉丝铝，配两块板式台腿
+Black ebony with gold castings and inlays	黑檀木配金色配件和镶嵌
+Reclaimed oak rails on a riveted black steel frame	回收橡木台边，配铆接黑钢框架
+A pro tournament table: charcoal rails, block legs, chrome	职业比赛球台：炭灰台边、方块台腿、镀铬
+Figured walnut on barley-twist legs, brass and leather	花纹胡桃木、麻花台腿、黄铜与皮革
+Ivory lacquer and gold on fluted columns	象牙色漆与金饰，配凹槽立柱
+Panelling, the bar, cue racks, posters and neon	护墙板、吧台、球杆架、海报和霓虹灯
+A deck at sunset, open windows, palms and string lights	日落时的露台、敞开的窗户、棕榈树和串灯
+Panelling, bookshelves, leather sofas and a fireplace	护墙板、书架、皮沙发和壁炉
+Brick, steel windows over the city and Edison bulbs	砖墙、俯瞰城市的钢框窗和爱迪生灯泡
+Log walls, a stone fireplace and snowy peaks outside	原木墙、石砌壁炉和窗外的雪峰
+A black mirror floor, neon tubes and arcade cabinets	黑色镜面地板、霓虹灯管和街机
+A marble chessboard floor, gold, velvet and mirrors	棋盘格大理石地板、金饰、天鹅绒和镜子
+Glass walls on the city at night, pale marble and oak	面向城市夜景的玻璃墙、浅色大理石和橡木
+A gold medal!	金牌！
+A silver medal!	银牌！
+A bronze medal!	铜牌！
+Silver medal	银牌
+Bronze medal	铜牌
+Your medals	你的奖牌
+Kept in your account the next time you're online.	下次上线时将保存到你的账号。
+Sign in to keep them in your account.	登录后即可保存到你的账号。
+18 or older	18岁及以上
+Under 18	未满18岁
+Creating an account means accepting the	注册账号即表示你同意
+For a parent or guardian…	家长或监护人专用…
+A parent or guardian turned the chat on for this account. They can turn it off here at any time.	家长或监护人已为此账号开启聊天。可随时在此关闭。
+This account belongs to someone under 18. By law, the chat with other players (messages in the lounge and in games, notes, status and gift messages) stays off until their mother, father or legal guardian turns it on.	此账号属于未满18岁的玩家。根据法律规定，与其他玩家的聊天（大厅和对局中的消息、留言、签名和礼物留言）将保持关闭，直至其父母或法定监护人开启。
+I am this player's mother, father or legal guardian, I have read the terms of use and I allow them to chat with other players.	我是该玩家的父母或法定监护人，我已阅读使用条款，并允许其与其他玩家聊天。
+Chat for players under 18	未满18岁玩家的聊天
+Turn the chat off	关闭聊天
+{n} more invitations	还有{n}个邀请
+Invitation	邀请
+Turn the chat on	开启聊天
+Chat off: under 18. A parent or guardian can turn it on.	聊天已关闭：未满18岁。家长或监护人可开启。
+The chat with other players is off until you turn it on.	与其他玩家的聊天处于关闭状态，需由你开启。
+Write to turn the chat on…	输入文字以开启聊天…
+Chat with other players	与其他玩家聊天
+The chat with other players is off until you turn it on. To turn it on, tell us your age group: it can't be changed from the game afterwards.	与其他玩家的聊天处于关闭状态，需由你开启。开启前请告诉我们你的年龄段：选择后无法在游戏中更改。
+Under 18: a parent or guardian must agree to the terms with you and turn the chat on.	未满18岁：须由家长或监护人与你一起同意条款并开启聊天。
+Not now	暂不
+Terms of use	使用条款
+Privacy policy	隐私政策
+You have 7 days to change your mind and get your money back.	你有7天的冷静期，可申请退款。
+Under 18: buy only with a parent's or guardian's permission.	未满18岁：请在家长或监护人许可后再购买。
+Renews every month until you cancel. 7 days to change your mind.	每月自动续订，直至你取消。7天冷静期。
+About	关于
+Accounts, purchases and refunds, the rules of the online game.	账号、购买与退款，以及在线游戏规则。
+What the game keeps, and your rights.	游戏保存哪些数据，以及你的权利。
+Open	打开
+Credits	鸣谢
+Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	字体：DejaVu和Noto（OFL）。旗帜：flag-icons（MIT）。表情和emoji：Twemoji（CC-BY 4.0）。国家/地区名称：iso-codes（LGPL-2.1）。游戏代码开源（MIT）。
+The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	未满18岁玩家的聊天处于关闭状态。家长或监护人可在大厅聊天下方开启。
+No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	开球未击中任何球：由{next}开球，可在开球线后自由摆放母球。
+The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	开球时母球落袋且无球进袋：由{next}开球，可在开球线后自由摆放母球。
+Users online	在线用户
+ping {ms} ms	延迟{ms}ms
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks, with the cue ball in hand behind the head string.	开球时母球与两组球一同落袋：不罚球，球台保持开放，由{next}开球，可在开球线后自由摆放母球。
+Brazilian	巴西
+Official	官方
+Brazilian rules	巴西规则
+Official rules	官方规则
+Brazilian rules (inside a sentence)	巴西规则
+Official rules (inside a sentence)	官方规则
+Brazilian (inside a sentence)	巴西
+Official (inside a sentence)	官方
+As played in Brazil's bars	巴西酒吧里的打法
+As played in tournaments (WPA)	国际赛事打法（WPA）
+on the Brazilian rules	巴西规则
+on the official rules	官方规则
+A ball left the table on the break.	开球时有球飞出台面。
+A ball off the table on the break	开球时球飞出台面
+A safety calls nothing: whatever goes in stays down, and the turn passes.	防守不指定球袋：打进的球不再拿出，球权交给对手。
+Break yourself	自己开球
+CALLED POCKET	指定球袋
+Choose	选择
+Choose how play goes on	选择如何继续
+Choose the rules of your games. You can switch them any time, in the main menu.	选择你的对局规则。可随时在主菜单中切换。
+Click a pocket on the table to call it; click it again to follow your aim.	点击球台上的球袋进行指定；再次点击则改为跟随瞄准方向。
+Cue ball in hand	自由球
+Each of the rules has its own rating: these games don't change your {rating} under the {other}.	每种规则都有独立的积分：这些对局不会影响你在{other}下的积分（{rating}）。
+Find an opponent of your level automatically ({rules})	自动匹配与你水平相当的对手（{rules}）
+How do you like to play?	你喜欢哪种玩法？
+How does play go on? Choose one:	如何继续？请选择：
+Illegal break: no ball made and fewer than four balls reached a cushion.	违规开球：没有球进袋，且碰库的球少于四颗。
+Invite {name}	邀请{name}
+No ball went in the called pocket ({pocket}): {next} to shoot.	指定球袋（{pocket}）没有球进：轮到{next}击球。
+No pocket was called (a safety): {next} to shoot.	未指定球袋（防守）：轮到{next}击球。
+Not sure what changes?	不确定有什么区别？
+Place it anywhere behind the head string.	可将母球放在开球线后的任意位置。
+Play on	继续击球
+Players against the computer under these rules	使用此规则进行人机对战的玩家
+Players online under these rules (the lounge and online games)	使用此规则的在线玩家（大厅和在线对局）
+RULES OF YOUR GAMES	对局规则
+Read both rules	查看两种规则
+Rules of your games	对局规则
+Safety	防守
+Safety: no pocket	防守：不指定球袋
+Show the {rules}: the rank, the league and the chart	显示{rules}的排名、段位和图表
+The 8 is spotted and you keep shooting.	8号球放回置球点，你继续击球。
+The 8 is spotted; the cue ball in hand behind the head string.	8号球放回置球点；在开球线后获得自由球。
+The 8 on a break with a foul	犯规开球打进8号球
+The 8 on the break	开球打进8号球
+The 8 went down on a break with a foul: it is spotted.	犯规开球时8号球落袋：将其放回置球点。
+The 8 went down on the break: it is spotted.	开球时8号球落袋：将其放回置球点。
+The balls are racked again and you break.	重新摆球，由你开球。
+The balls are racked again and {name} breaks.	重新摆球，由{name}开球。
+The balls are racked again: {name} breaks.	重新摆球：由{name}开球。
+The balls are racked again: {other} breaks.	重新摆球：由{other}开球。
+The rules of this game: click to read them	本局规则：点击查看
+The rules of your games: click to switch	你的对局规则：点击切换
+The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	与主菜单中的切换相同：适用于在线、人机和双人对战。每种规则都有独立的积分。
+The table as it lies.	按现有球局继续。
+The top 100 of each rules · rated games	每种规则的前100名 · 积分赛
+The {ball} lay behind the head string and the cue ball hit it without crossing the line first	{ball}位于开球线后，母球未先越过开球线就击中了它
+What changes between the rules: click to read them	规则之间的区别：点击查看
+With the cue ball in hand behind the head string.	在开球线后获得自由球。
+follows your aim	跟随瞄准
+no rated games yet	还没有积分赛
+open table: the called ball you make sets your group	开放球台：打进指定球袋的球决定你的球组
+peak {n} · {games} games	最高{n} · {games}局
+playing now	正在对局
+your call	你的指定
+{name} breaks again	{name}重新开球
+{name} chooses: play on, or rack the balls and break again.	由{name}选择：继续击球，或重新摆球并再次开球。
+{name} chooses: play the table as it lies, or take the cue ball in hand behind the head string.	由{name}选择：按现有球局继续，或在开球线后获得自由球。
+{name} chooses: play the table as it lies, rack the balls and break, or have {breaker} break again.	由{name}选择：按现有球局继续，重新摆球并自己开球，或让{breaker}再次开球。
+{name} chooses: play the table as it lies, take the cue ball in hand behind the head string, rack the balls and break, or have {breaker} break again.	由{name}选择：按现有球局继续，在开球线后获得自由球，重新摆球并自己开球，或让{breaker}再次开球。
+{name} chooses: the cue ball in hand behind the head string, or rack the balls and break.	由{name}选择：在开球线后获得自由球，或重新摆球并自己开球。
+{name} is choosing how play goes on…	{name}正在选择如何继续…
+{name} plays on (the 8 is spotted).	{name}继续击球（8号球放回置球点）。
+{name} plays the table as it lies.	{name}按现有球局继续。
+{name} plays the {theirs} now; yours are the {mine}.	{name}现在使用{theirs}；你使用的是{mine}。
+{name} takes the cue ball in hand.	{name}选择自由球。
+{next} has the cue ball in hand behind the head string.	{next}在开球线后获得自由球。
+{next} has the cue ball in hand: anywhere on the table.	{next}获得自由球：可放在球台任意位置。
+{n} points to {tier} ({rules})	距离{tier}还差{n}分（{rules}）
+{n} waiting	{n}人等待中
+A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	犯规时对手获得其球组的球。仅开球时有自由球，且只需为8号球指定球袋。
+A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	犯规时对手获得自由球，可放在球台任意位置。每一杆都需指定球袋，开球须至少让四颗球碰库。
+A foul gives balls to the opponent	犯规罚球给对手
+Ball in hand on the break only	仅开球时有自由球
+Only the 8's pocket is called	仅8号球需指定球袋
+The most played in Brazil	巴西最流行的玩法
+A foul gives ball in hand	犯规给予自由球
+The break drives four balls to a cushion	开球须让四颗球碰库
+Every shot is called	每杆都需指定球袋
+The same all over the world	全球通用
+Game type	对局类型
+called: {pocket}	指定：{pocket}
+no call: a safety	未指定：防守
+A safety: nothing called. Click again to call the pocket you aim at.	防守：未指定球袋。再次点击可指定瞄准的球袋。
+A safety calls nothing: whatever goes in stays down, and the turn passes. To call another pocket, click it on the table.	防守不指定球袋：打进的球不再拿出，球权交给对手。如需指定其他球袋，请在球台上点击该球袋。
+{games} games · {pct}% won	{games}局 · 胜率{pct}%
+Each of the rules has its own rating; the level, coins and achievements are shared.	每种规则都有独立的积分；等级、金币和成就则是共用的。
+You already have a VIP subscription: manage it with Manage subscription.	你已订阅VIP：可通过“管理订阅”进行管理。
+Your opponent can't start another game yet.	你的对手暂时无法开始新对局。
+A tournament's name is shown to everyone: with your chat off, you can join tournaments but not create one.	锦标赛名称对所有人可见：聊天关闭时，你可以加入锦标赛，但不能创建。
+The connection dropped: check your coins before trying again.	连接已断开：重试前请先检查你的金币。
+Sign in to buy coins.	登录后即可购买金币。
+Sign in to become VIP.	登录后即可成为VIP。
+how play goes on after the break is undecided	开球后如何继续尚未决定
+Finish your game, and leave your table, the queue or your tournament first.	请先完成对局，并离开球台、匹配队列或锦标赛。
+That choice can't be made now.	现在无法做出该选择。
+That medal can't be.	该奖牌不存在。
+{name}'s tournament	{name}的锦标赛
+When time runs out, it's a foul: your opponent gets a ball and the cue ball goes back to the head spot.	超时即犯规：对手获得一颗罚球，母球放回开球点。
+When time runs out, it's a foul: your opponent gets the cue ball in hand.	超时即犯规：对手获得自由球。
+Your username was changed. Sign in again.	你的用户名已更改，请重新登录。
+You have your tournament game in progress. A new game takes its place, and the tournament game counts as lost.	你有一局进行中的锦标赛对局。开始新对局将取而代之，且锦标赛对局判负。
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks again, from the head spot.	开球时母球与两组球一同落袋：不罚球，球台保持开放，由{next}从开球点重新开球。
+The cue ball went down on the break with no ball made: {next} breaks again, from the head spot.	开球时母球落袋且无球进袋：由{next}从开球点重新开球。
+{who} ran out of time: {other} breaks, from the head spot.	{who}超时：由{other}从开球点开球。
+Congratulations!	恭喜！
+You earned a new item: {title}	你获得了新物品：{title}
+You earned a new item!	你获得了新物品！

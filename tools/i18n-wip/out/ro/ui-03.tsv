@@ -1,0 +1,300 @@
+601	Efect jos
+602	Efect stânga
+603	Efect dreapta
+604	Ridică tacul
+605	Coboară tacul
+606	Ia bila albă în mână
+607	3D / vedere de sus
+608	Resetează camera
+609	Revezi ultima lovitură
+610	Lista comenzilor
+611	Tastele se pot schimba în Setări → Comenzi.
+612	Spațiu
+613	Shift dreapta
+614	Ctrl dreapta
+615	Alt dreapta
+616	Țintire și lovire
+617	Efect și elevație
+618	Taste fixe
+619	Meniu, înapoi și anulare
+620	Confirmă (formulare, bila albă în mână)
+621	Această tastă nu poate fi schimbată.
+622	Apasă o tastă · Esc anulează · Backspace șterge
+623	Apasă o tastă…
+624	Dă clic ca să schimbi
+625	Dă clic ca să adaugi o tastă
+626	Revino la: fără tastă
+627	Revino la {keys}
+628	Inversate: {action} e acum pe {key}.
+629	Luată de la {action}, care acum nu mai are tastă.
+630	Luată de la {action}.
+631	Tasta nu poate fi folosită: încearcă alta.
+632	Lovește
+633	Scurt
+634	Conectare…
+635	Conectare
+636	Umbre fine de la fiecare lampă, săli lucioase, halouri.
+637	Pline (1–7)
+638	Bila de efect
+639	Efect
+640	Standard
+641	Rămâi
+642	Dungate (9–15)
+643	Jocul continuă cât timp fereastra e deschisă.
+644	Valoare implicită
+645	Nume de utilizator
+646	Numele de utilizator au 3–16 litere, cifre sau caractere „_”.
+647	{keys} (salt și massé)
+648	Ai câștigat!
+649	Numele tău
+650	Adversarul tău s-a întors în salon.
+651	Rândul tău
+652	masă deschisă: următoarea bilă pe care o bagi îți stabilește grupa
+653	efect jos
+654	efect sus
+655	stop
+656	pline
+657	dungate
+658	salon
+659	 · efect stânga
+660	 · efect dreapta
+661	Limbă
+662	General
+663	Grafică
+664	Joc
+665	Sunet
+666	Valori implicite
+667	Resetează toate tastele
+668	Resetezi toate tastele?
+669	Dă clic din nou ca să readuci toate tastele la valorile implicite
+670	Actualizări
+671	Actualizează automat
+672	Versiunile noi se descarcă în fundal și se instalează la repornire.
+673	Versiunea {v}
+674	Noutăți
+675	Noutăți în versiunea {v}
+676	Nicio notă pentru această versiune.
+677	Am înțeles
+678	Repornește acum
+679	După partidă, din meniul principal.
+680	Descarcă
+681	Verifică acum
+682	Serverul de actualizări nu a putut fi contactat.
+683	Descărcarea s-a corupt. Se va reîncerca mai târziu.
+684	Versiunea nouă nu a putut fi instalată. Rămâne cea actuală.
+685	Se descarcă… {p}%
+686	Se actualizează…
+687	Microsoft Store ține jocul la zi.
+688	Versiune de dezvoltare: fără actualizări automate.
+689	Se caută o versiune nouă…
+690	Aceasta e cea mai recentă versiune.
+691	Se descarcă versiunea {v}… {p}%
+692	Se instalează versiunea {v}…
+693	Versiunea {v} e gata: repornește jocul ca s-o folosești.
+694	A apărut versiunea {v}: descarc-o de pe pagina de versiuni.
+695	Versiunea {v} e gata
+696	Repornește ca s-o joci; nu se pierde nimic.
+697	A apărut versiunea {v}
+698	Descarc-o de pe pagina de versiuni.
+699	Resetezi tot?
+700	Dă clic din nou ca să resetezi toate setările
+701	Online
+702	Meniu
+703	Rating
+704	Ultra
+705	ține apăsat {key} și eliberează
+706	Schimbă
+707	Sensibilitatea mouse-ului la țintire
+708	Cât de repede se rotește tacul cu mouse-ul.
+709	Vignetare
+710	Întunecă marginile imaginii, ca într-un film.
+711	Afișează FPS
+712	Cadre pe secundă, într-un colț al ecranului.
+713	Mai întâi anunță un buzunar pentru bila 8: dă clic pe un buzunar.
+714	Reconectare
+715	partida s-a încheiat
+716	bila albă nu poate fi pusă acolo
+717	anunță un buzunar pentru bila 8
+718	Numele de utilizator e deja luat.
+719	Nume de utilizator sau parolă greșite.
+720	Sesiunea a expirat. Conectează-te din nou.
+721	Această versiune de Snook Legend e învechită. Actualizează jocul.
+722	Nu e rândul tău.
+723	Jucătorul nu e online.
+724	Jucătorul e într-o partidă.
+725	Nu te poți invita singur.
+726	Invitația nu mai este valabilă.
+727	Jucătorul nu mai este disponibil.
+728	Cedează mai întâi ca să părăsești o partidă în desfășurare.
+729	Mesaj invalid.
+730	Conectează-te mai întâi.
+731	Contul nu a putut fi creat.
+732	Bila albă nu poate fi pusă acolo.
+733	Deconectat.
+734	S-a pierdut legătura cu serverul.
+735	Serverul a închis conexiunea.
+736	Serverul a întârziat prea mult cu răspunsul.
+737	Serverul nu răspunde (conexiune refuzată).
+738	Adresa serverului nu e validă (exemplu: wss://snook-legend.example.com/ws).
+739	Adresa serverului nu are nume de gazdă.
+740	Bine ai venit în Snook Legend! Respectă-i pe ceilalți și joacă cinstit.
+741	Bila în mână: trage bila albă{zone} ca s-o muți
+742	 în spatele liniei
+743	Bila în mână  ·  {group}
+744	Nu poți lovi: {e}.
+745	Chat ({n})
+746	Computer ({level})
+747	Computer
+748	Fiecare adversar are stilul lui
+749	Partidă liberă
+750	Circuit
+751	Circuit: {n} din {total} învinși
+752	Nivel {n}/5
+753	Fantomă
+754	Precizie
+755	Siguranță
+756	Mante
+757	Poziționare
+758	Fantoma lui {name}
+759	Fantoma unui jucător
+760	Joacă precum un jucător real
+761	Computerul joacă în stilul unui jucător real, măsurat din partidele lui online.
+762	Conectează-te ca să joci cu fantoma unui jucător real.
+763	Încarcă
+764	Prieteni:
+765	Scrie un nume de utilizator sau alege un prieten, apoi Încarcă.
+766	Se măsoară cum joacă {name}…
+767	Bile băgate {pots}% · siguranță {safe}% · mante {banks}% · lovituri: {shots}
+768	{name} are prea puține lovituri înregistrate ({shots}); o fantomă are nevoie de {needed}. Mai multe partide online vor rezolva asta.
+769	Nu există niciun jucător numit {name}.
+770	Serverul nu poate fi contactat acum. Încearcă mai târziu.
+771	Așteaptă puțin înainte să ceri din nou.
+772	Ceva n-a mers bine pe server. Încearcă mai târziu.
+773	Joacă cu fantoma ta
+774	Joacă cu fantoma jucătorului
+775	Învins
+776	Următorul
+777	Câștigă etapa anterioară ca s-o deblochezi pe aceasta.
+778	Etapa {n} din {total}
+779	Joacă cu {name}
+780	Etapa {n} câștigată! Urmează în circuit: {name}.
+781	Ai câștigat tot circuitul!
+782	Recompensă
+783	Tacul {item} · exclusiv
+784	E al tău: îl găsești în magazin, la Tacuri.
+785	Câștigă din nou ultima etapă cu contul conectat ca să-l primești.
+786	Învinge-i pe toți cei cincisprezece adversari ca să-l obții. Nu se vinde nicăieri.
+787	Ai câștigat circuitul! Conectează-te ca să-ți primești recompensa.
+788	Serverul îți verifică partida finală…
+789	Încearcă din nou
+790	Serverul nu a răspuns. Încearcă din nou peste puțin timp.
+791	Serverul e ocupat cu verificarea altor partide. Încearcă din nou peste puțin timp.
+792	Așteaptă un minut înainte să încerci din nou.
+793	Partida e prea lungă ca să fie verificată.
+794	Partida are o mutare pe care regulile nu o permit.
+795	Partida nu a fost jucată până la capăt.
+796	Partida nu a fost o victorie.
+797	Loviturile computerului din partidă nu se potrivesc cu felul în care joacă (altă versiune a jocului?).
+798	Începătorul
+799	Încă învață: țintește spre cel mai apropiat buzunar, lovește bila albă la centru și speră. Nu joacă niciodată la siguranță.
+800	Jucătoarea de weekend
+801	Știe elementele de bază și bagă bilele ușoare, dar rareori se gândește unde ajunge bila albă.
+802	Artista mantelor
+803	Vede unghiuri pe care nu le vede nimeni: ori de câte ori o bilă poate intra din manta, o joacă din manta.
+804	Tunul
+805	Atacă orice, cât de tare poate: lovituri lungi, spargeri asurzitoare și aproape niciodată o lovitură de siguranță.
+806	Zidul
+807	Atacă doar când bila e sigură. Altfel, ascunde bila albă și așteaptă să greșești.
+808	Veteranul
+809	Patruzeci de ani la masă: lovitură lină, tac ridicat, efect lateral și nicio grabă.
+810	Șireata
+811	Joacă exact cât să câștige, apoi puțin mai bine. Echilibrată, ageră și greu de citit.
+812	Profesorul
+813	Gândește cu trei bile înainte: fiecare lovitură lasă bila albă acolo unde următoarea e ușoară.
+814	Lunetista
+815	Bagă bile de oriunde, din orice unghi. Loviturile de siguranță nu o preocupă: nu are nevoie de ele.
+816	Campionul
+817	Neînvins de ani de zile. Precis, răbdător și necruțător: ultima etapă a circuitului.
+818	Campionul circuitului
+819	Campion al circuitului
+820	Învinge-i pe toți cei cincisprezece adversari din circuitul contra computerului.
+821	Conexiune pierdută. Reconectare (încercarea {n})…
+822	Conexiune pierdută. Reconectare…
+823	Fault comis de {shooter}: {foul}.
+824	Calitate grafică setată la „{q}” pentru un joc fluid. O poți schimba în Setări.
+825	Rating {r} ({d})
+826	A fost repusă pe masă {ball}.
+827	Se așteaptă răspunsul lui {to} ({kind})…
+828	cu rating
+829	amicală
+830	În așteptarea lui {name}…
+831	{by} ți-a refuzat invitația.
+832	o partidă cu rating
+833	o partidă amicală
+834	{name} anunță bila 8 în {pocket}.
+835	{name} are bila în mână…
+836	{name} țintește…
+837	{name} e la bila 8: dă clic pe un buzunar ca să-l anunți
+838	{name} se gândește…
+839	{name} a părăsit partida.
+840	{name} a cedat.
+841	{name} sparge
+842	{name} joacă ({target})
+843	Rândul lui {name}
+844	{next} are bila în mână{where}.
+845	 în spatele liniei de start
+846	{opponent} a revenit.
+847	{opponent} a pierdut conexiunea. Se așteaptă până la {secs} s…
+848	{opponent} vrea revanșa.
+849	{opponent} s-a întors în salon.
+850	{shooter} a băgat {balls}.
+851	{shooter} ia bilele {group}.
+852	{who} a rămas fără timp: bila în mână pentru adversar.
+853	{name} vrea revanșa!
+854	{name} câștigă!
+855	{name} câștigă
+856	Volum
+857	Tacul, bilele, mantele și buzunarele.
+858	Notificări
+859	Serverul „{host}” nu a fost găsit.
+860	Eroare de rețea: {e}.
+861	Conexiunea securizată a eșuat: {e}.
+862	Serverul a refuzat conexiunea (HTTP {code}).
+863	Eroare de conexiune: {e}.
+864	bila albă
+865	bila {n}
+866	Bila albă a intrat în buzunar
+867	Bila albă a ieșit de pe masă
+868	Bila albă n-a atins nicio bilă
+869	Prima bilă atinsă e greșită ({ball})
+870	Nicio bilă n-a atins o manta după contact
+871	A ieșit de pe masă {ball}
+872	Spargere neregulamentară
+873	a băgat bila 8
+874	adversarul a băgat bila 8 prea devreme
+875	adversarul a băgat bila 8 în buzunarul greșit
+876	adversarul a făcut fault la bila 8
+877	adversarul a scos bila 8 de pe masă
+878	adversarul a cedat
+879	adversarul a părăsit partida
+880	colțul stâng de la start
+881	colțul drept de la start
+882	buzunarul lateral stâng
+883	buzunarul lateral drept
+884	colțul stâng din fund
+885	colțul drept din fund
+886	Ușor
+887	Greu
+888	Normal
+889	Forță
+890	Încă nu sunt mesaje.
+891	▼ mesaje noi
+892	Camera urmărește tacul
+893	Oprit: camera rămâne unde o lași.
+894	Depărtare la lovituri
+895	Doar când camera urmărește tacul.
+896	Trage tacul · dă clic pe un punct
+897	Timpul a expirat: lovitura lui {name} s-a jucat cu forță maximă.
+898	Sală întunecată
+899	Un reflector pe masă, sala în umbră.
+900	Ascunde

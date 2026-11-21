@@ -1,0 +1,1206 @@
+# Snook Legend: Brazilian Portuguese.
+# One text per line: the English text (as written in the code), a tab, the translation.
+# Placeholders like {name} must stay as they are; \n is a new line.
+{name} is on the 8: called pocket {pocket}	{name} на вісімці: замовлена {pocket} луза
+On the 8-ball: {pocket} pocket	На вісімці: {pocket} луза
+Show ping	Показувати пінг
+Your connection's delay, in online games.	Затримка вашого з’єднання в онлайн-партіях.
+Reactions	Реакції
+Shop	Крамниця
+Cloth	Сукно
+Cues	Киї
+Chalk	Крейда
+Balls	Кулі
+Coins	Монети
+coins	монет
+Sign in to buy and use items. Here is what there is:	Увійдіть, щоб купувати й використовувати предмети. Ось що тут є:
+In use	Обрано
+Use	Обрати
+Buy	Купити
+{n} short	бракує {n}
+{n} coins	{n} монет
+Not enough coins: get more in the Coins tab.	Недостатньо монет: отримайте більше на вкладці «Монети».
+VIP only	Лише VIP
+free	безкоштовно
+yours	ваше
+achievement	досягнення
+Coins can't be bought on this server yet.	На цьому сервері поки не можна купити монети.
++{n} bonus	+{n} у подарунок
+Payment opens in your browser (card, Pix…), on Stripe's secure page.	Оплата відкриється у вашому браузері (картка, Pix…), на захищеній сторінці Stripe.
+Coins arrive in a moment; they are only used for items in the game.	Монети надійдуть за мить; їх можна витратити лише на предмети в грі.
+Exclusive items: {list}	Ексклюзивні предмети: {list}
+{n} coins every month	Монети щомісяця: {n}
+Cancel whenever you want: VIP lasts until the end of the paid month	Скасуйте будь-коли: VIP діє до кінця оплаченого місяця
+You are VIP until {d}.	Ви VIP до {d}.
+Manage subscription	Керувати підпискою
+Become VIP · {p}	Стати VIP · {p}
+VIP can't be bought on this server yet.	На цьому сервері поки не можна купити VIP.
+The payment page opened in your browser.	Сторінка оплати відкрилася у вашому браузері.
+Could not open the browser.	Не вдалося відкрити браузер.
+Tournament green	Турнірний зелений
+Electric blue	Електрик
+Burgundy	Бордо
+Charcoal	Графіт
+Teal	Бірюзовий
+Royal purple	Королівський пурпур
+Camel	Кемел
+Midnight	Опівнічний синій
+Champion's red	Червоний чемпіона
+Classic	Класика
+Rosewood	Палісандр
+Ebony & silver	Чорне дерево і срібло
+Carbon	Карбон
+Ivory inlay	Інкрустація з кістки
+Crown	Корона
+Jewels	Коштовності
+Blue chalk	Синя крейда
+Green chalk	Зелена крейда
+Red chalk	Червона крейда
+Purple chalk	Фіолетова крейда
+Gold chalk	Золота крейда
+Vintage	Вінтаж
+Pastel	Пастель
+Neon	Неон
+You already have this item.	У вас уже є цей предмет.
+Not enough coins.	Недостатньо монет.
+The purchase failed; no coins were taken.	Покупка не вдалася; монети не списано.
+No such item.	Такого предмета немає.
+This item can't be bought with coins.	Цей предмет не можна купити за монети.
+You don't have this item.	У вас немає цього предмета.
+Purchases are not available.	Покупки недоступні.
+This pack is not on sale.	Цей набір не продається.
+The payment page could not be opened. Try again in a moment.	Не вдалося відкрити сторінку оплати. Спробуйте ще раз за мить.
+You are already VIP.	Ви вже VIP.
+There is no subscription to manage.	Немає підписки, якою можна керувати.
+The page could not be opened. Try again in a moment.	Не вдалося відкрити сторінку. Спробуйте ще раз за мить.
+Coins added to your wallet.	Монети додано до вашого гаманця.
+Welcome to VIP!	Ласкаво просимо до VIP!
+Slow down a little.	Трохи повільніше.
+You can't do that.	Ви не можете цього зробити.
+There are too many notes right now. Try again in a few minutes.	Зараз забагато оголошень. Спробуйте ще раз за кілька хвилин.
+A moderator took down your note.	Модератор зняв ваше оголошення.
+A moderator cleared your status message.	Модератор видалив ваш статус.
+Status message cleared.	Статус видалено.
+VIP	VIP
+Play now	Грати зараз
+Find an opponent of your level automatically	Автоматично знайти суперника вашого рівня
+Looking for an opponent… {t}	Пошук суперника… {t}
+any rating	будь-який рейтинг
+rating ±{n} · {mode}	рейтинг ±{n} · {mode}
+Potting success	Влучність
+Balls made	Забито куль
+Best run	Найкраща серія
+Fouls	Фоли
+seen just now	в мережі щойно
+seen {n} min ago	в мережі {n} хв тому
+seen {n} h ago	в мережі {n} год тому
+seen yesterday	в мережі вчора
+seen {n} days ago	в мережі {n} дн. тому
+seen {n} months ago	в мережі {n} міс. тому
+just now	щойно
+{n} min ago	{n} хв тому
+{n} h ago	{n} год тому
+yesterday	вчора
+{n} days ago	{n} дн. тому
+Game history	Історія партії
+Nothing yet.	Поки нічого.
+Fine aim: click the arrows, or drag here	Точне прицілювання: клацайте стрілки або тягніть тут
+{n} watching	Глядачі: {n}
+Watching {name}	Перегляд: {name}
+Your reactions reach the table quietly.	Ваші реакції з’являються за столом без звуку.
+Stop watching	Припинити перегляд
+If they play again, you keep watching.	Якщо вони зіграють знову, ви й далі дивитиметеся.
+Your friend left the table.	Ваш друг пішов з-за столу.
+Your friend isn't playing right now.	Ваш друг зараз не грає.
+You can only watch your friends.	Дивитися можна лише партії друзів.
+You can't watch this game.	Ви не можете дивитися цю партію.
+{n} points to {tier}	Ще {n} оч. до ліги «{tier}»
+Top tier	Найвища ліга
+Reactions {n}/{total}	Реакції {n}/{total}
+Haunted table	Стіл із привидами
+Win a rated game during Halloween (Oct 24 – Nov 2).	Виграйте рейтингову партію на Гелловін (24 жовт. – 2 листоп.).
+Winter league	Зимова ліга
+Win a rated game over the holidays (Dec 15 – Jan 6).	Виграйте рейтингову партію у свята (15 груд. – 6 січ.).
+Fireworks	Феєрверк
+Win a rated game at the turn of the year (Dec 31 – Jan 1).	Виграйте рейтингову партію на Новий рік (31 груд. – 1 січ.).
+Shows where the object ball and the cue ball go (only in free games and practice).	Показує, куди підуть прицільна куля і биток (лише у вільних партіях і на тренуванні).
+{n} online · ping {ms} ms	{n} онлайн · пінг {ms} мс
+Right-drag · Wheel	Перетягування ПКМ · Коліщатко
+Win %	% перемог
+Reset the camera: top view, no zoom	Скинути камеру: вид згори, без наближення
+{name} sank the 8-ball	{name} забиває вісімку
+{name} sank the 8 too early	{name} забиває вісімку зарано
+{name} sank the 8 in the wrong pocket	{name} забиває вісімку не в ту лузу
+{name} fouled on the 8	{name} робить фол на вісімці
+{name} knocked the 8 off the table	{name} викидає вісімку зі столу
+{name} resigned	{name} здається
+{name} left the game	{name} виходить із партії
+{winner} wins! ({how})	{winner} перемагає! ({how})
+#{n} in the world	#{n} у світі
+3–16 letters, digits or underscores.	Від 3 до 16 літер, цифр або підкреслень.
+No lines on the table: aim by eye, along the cue.	Жодних ліній на столі: цільтеся на око, вздовж кия.
+No guide	Без підказки
+Only a short line from the cue ball.	Лише коротка лінія від битка.
+Accept friend	Прийняти в друзі
+Achievement unlocked: {title}	Досягнення відкрито: {title}
+Achievements {n}/{total}	Досягнення {n}/{total}
+Add	Додати
+Add a friend by username	Додайте друга за ім’ям користувача
+Add friend	Додати в друзі
+Against the computer	Проти комп’ютера
+All tournaments	Усі турніри
+Amateur	Аматор
+At least 8 characters. Use a password you don't use elsewhere.	Щонайменше 8 символів. Оберіть пароль, якого ви ніде більше не використовуєте.
+At least two players are needed.	Потрібно щонайменше двоє гравців.
+Back	Назад
+Black ball	Чорна куля
+Block	Заблокувати
+Break and run	Партія з кия
+Break and run 10 times.	Виграйте партію з кия 10 разів.
+Can't listen for games here: join by address below.	Тут не вдається шукати ігри в мережі: приєднайтеся за адресою нижче.
+Cancel request	Скасувати запит
+Cancel tournament	Скасувати турнір
+Casual	Товариська
+Centurion	Центуріон
+Champion	Чемпіон
+Champion: {name}	Чемпіон: {name}
+Change country	Змінити країну
+Add a status message	Додати статус
+A line about you	Кілька слів про вас
+Save (Enter)	Зберегти (Enter)
+Cancel (Esc)	Скасувати (Esc)
+Change your status message	Змінити статус
+Clear the status message	Видалити статус
+Cheating or abuse	Шахрайство або зловживання
+Choose…	Вибрати…
+Click again to block	Клацніть ще раз, щоб заблокувати
+Close	Закрити
+Closer	Фінішер
+Competitor	Учасник
+Connecting to the server…	Підключення до сервера…
+Could not host a game: {e}	Не вдалося створити гру: {e}
+Country	Країна
+Create	Створити
+Create a tournament	Створити турнір
+Don't show a flag	Не показувати прапор
+No country found.	Країну не знайдено.
+Dynasty	Династія
+Eight is enough	Вісімки досить
+Executioner	Кат
+Expert	Експерт
+Familiar face	Знайоме обличчя
+Final	Фінал
+Finish your game first.	Спершу завершіть свою партію.
+First blood	Перша кров
+First break	Перше розбиття
+Friend request sent.	Запит у друзі надіслано.
+Friends	Друзі
+# Daily (correspondence) games.
+daily game	щоденна партія
+Daily	Щоденні
+Daily game	Щоденна партія
+Daily games	Щоденні партії
+Challenge a player by username	Викликати гравця за ім’ям користувача
+Challenge to a daily game	Викликати на щоденну партію
+3 days for each turn	3 дні на кожен хід
+No daily games yet. Challenge a friend: each of you plays a turn whenever you can.	Щоденних партій поки немає. Викличте друга: кожен робить свій хід, коли має час.
+challenges you · {kind}	викликає вас · {kind}
+waiting for an answer · {kind} · {time} left	очікування відповіді · {kind} · лишилося {time}
+your turn · {time} left	ваш хід · лишилося {time}
+their turn · {time} left	хід суперника · лишилося {time}
+won · {how}	перемога · {how}
+lost · {how}	поразка · {how}
+ran out of time	час вичерпано
+the opponent ran out of time	у суперника скінчився час
+open table	відкритий стіл
+You: {mine}, {a} left · {name}: {theirs}, {b} left	Ви: {mine}, лишилося {a} · {name}: {theirs}, лишилося {b}
+Look	Дивитися
+Skip	Пропустити
+Replaying {name}'s turn	Повтор ходу: {name}
+Stroke {n} of {total}	Удар {n} з {total}
+Turn sent	Хід надіслано
+Turn sent.	Хід надіслано.
+Waiting for {name} to play	Чекаємо, поки {name} зробить хід
+{name} has {time} to play. You'll be told when it's your turn.	{name} має {time} на хід. Ми повідомимо, коли настане ваша черга.
+{time} left to play. You'll be told when it's your turn.	На хід лишилося {time}. Ми повідомимо, коли настане ваша черга.
+Back to daily games	До щоденних партій
+Your game is saved: come back whenever you like.	Вашу партію збережено: повертайтеся, коли захочете.
+{d} d {h} h	{d} д {h} год
+{name} ran out of time	{name}: час вичерпано
+This game can't be shown.	Цю партію неможливо показати.
+A daily game is waiting for you	На вас чекає щоденна партія
+{n} daily games are waiting for you	На вас чекають щоденні партії: {n}
+{name} challenges you to a rated daily game.	{name} викликає вас на рейтингову щоденну партію.
+{name} challenges you to a casual daily game.	{name} викликає вас на товариську щоденну партію.
+{name} accepted your daily game.	{name}: виклик на щоденну партію прийнято.
+{name} declined your daily game.	{name}: виклик на щоденну партію відхилено.
+{name} withdrew their daily game challenge.	{name}: виклик на щоденну партію скасовано.
+Your turn in the daily game against {name}.	Ваш хід у щоденній партії проти {name}.
+{name} ran out of time: you won the daily game.	{name}: час вичерпано, ви виграли щоденну партію.
+You won the daily game against {name}!	Ви виграли щоденну партію проти {name}!
+You ran out of time in the daily game against {name}.	Ваш час у щоденній партії проти {name} вичерпано.
+You lost the daily game against {name}.	Ви програли щоденну партію проти {name}.
+Challenge sent.	Виклик надіслано.
+Daily games need an account.	Для щоденних партій потрібен обліковий запис.
+No such game.	Такої партії немає.
+That challenge is no longer valid.	Цей виклик уже недійсний.
+That player already challenged you: answer their challenge.	Цей гравець уже викликав вас: дайте відповідь на його виклик.
+That player has too many challenges waiting.	У цього гравця забагато викликів в очікуванні.
+That player has too many daily games going on.	У цього гравця забагато поточних щоденних партій.
+That player is not accepting challenges.	Цей гравець не приймає викликів.
+This game can't be played right now.	Зараз у цю партію грати неможливо.
+This game changed meanwhile: open it again.	Тим часом партія змінилася: відкрийте її знову.
+This game is over.	Ця партія завершилася.
+You already challenged that player.	Ви вже викликали цього гравця.
+You already have a game going on against that player.	У вас уже є поточна партія з цим гравцем.
+You blocked that player.	Ви заблокували цього гравця.
+You can't challenge yourself.	Не можна викликати самого себе.
+You have as many daily games as you can play at once.	У вас уже максимум одночасних щоденних партій.
+You have too many challenges waiting for an answer.	У вас забагато викликів, що чекають на відповідь.
+You're sending challenges too quickly.	Ви надсилаєте виклики надто швидко.
+Your time for this turn ran out.	Ваш час на цей хід вичерпано.
+Games	Партії
+Games on your network	Партії у вашій мережі
+Give the tournament a name (at least 3 characters).	Дайте турніру назву (щонайменше 3 символи).
+Good company	Добра компанія
+Grandmaster	Гросмейстер
+Guests can only join LAN games. Create an account.	Гості можуть приєднуватися лише до партій у LAN. Створіть обліковий запис.
+Guests can't play rated tournaments.	Гості не можуть грати в рейтингових турнірах.
+Guests don't have this.	Гостям це недоступно.
+Harassment	Цькування
+Hat trick	Хет-трик
+Have 10 friends.	Знайдіть 10 друзів.
+Have an account for 30 days.	Будьте з нами 30 днів.
+Have an account for a year.	Будьте з нами рік.
+Host a game on this computer	Створити гру на цьому комп’ютері
+Host {host} · {n}/{size} players · {kind}	Організатор: {host} · гравці {n}/{size} · {kind}
+Hot hand	Гаряча рука
+Hustler	Пройдисвіт
+Invalid shot.	Недопустимий удар.
+Join	Приєднатися
+Joining the LAN game…	Приєднання до партії в LAN…
+Just for fun	Для розваги
+L	П
+LAN game	Партія в LAN
+LAN game hosted by {name}.	Партія в локальній мережі, організатор: {name}.
+LAN games don't change ratings.	Партії в LAN не змінюють рейтинг.
+Legend	Легенда
+Lives at the table	Живе за столом
+Loading the profile…	Завантаження профілю…
+Loading…	Завантаження…
+Local network	Локальна мережа
+Locked	Заблоковано
+Looking for games	Пошук партій
+Make a friend.	Знайдіть друга.
+Master	Майстер
+Name	Ім’я
+Names have 3–16 letters, digits or underscores.	Імена мають від 3 до 16 літер, цифр або підкреслень.
+New account	Реєстрація
+I have an account	Вхід
+New here? Choose “New account”: it takes ten seconds.	Уперше тут? Оберіть «Реєстрація»: це займе десять секунд.
+New tournament	Новий турнір
+No friends yet. Add someone you played with!	Друзів поки немає. Додайте когось, з ким ви грали!
+No games yet.	Партій поки немає.
+No limit	Без обмежень
+No open tables. Open one and others can sit down.	Немає відкритих столів. Відкрийте свій, і інші зможуть сісти.
+No other open tables right now.	Зараз немає інших відкритих столів.
+No such player.	Такого гравця немає.
+No tournaments right now. Create one!	Зараз немає турнірів. Створіть свій!
+Offensive name	Образливе ім’я
+On a roll	На хвилі
+On fire	У ударі
+Only the host can start the tournament.	Лише організатор може розпочати турнір.
+Open a table	Відкрити стіл
+Or join by address	Або приєднайтеся за адресою
+Other	Інше
+Others can join at {ip}:{port}	Інші можуть приєднатися за адресою {ip}:{port}
+Passwords need at least 8 characters (not only digits).	Пароль має містити щонайменше 8 символів (не лише цифри).
+Play 1,000 rated games.	Зіграйте 1000 рейтингових партій.
+Play 10 rated games.	Зіграйте 10 рейтингових партій.
+Play 100 rated games.	Зіграйте 100 рейтингових партій.
+Play 25 casual games.	Зіграйте 25 товариських партій.
+Play 500 rated games.	Зіграйте 500 рейтингових партій.
+Play in a tournament.	Зіграйте в турнірі.
+Play online	Грати онлайн
+Play with friends on the same network	Грайте з друзями в одній мережі
+Play your first rated game.	Зіграйте свою першу рейтингову партію.
+Player 1	Гравець 1
+Players	Гравці
+Players in a tournament can't start other games.	Учасники турніру не можуть починати інші партії.
+Please don't repeat the same message.	Будь ласка, не повторюйте те саме повідомлення.
+Pool hall legend	Легенда більярдної
+Popular	Душа компанії
+Private	Приватний
+for your friends to sit down	щоб ваші друзі могли сісти
+Profile	Профіль
+{key}: watch the last shot again	{key}: переглянути останній удар ще раз
+REPLAY	ПОВТОР
+Rated	Рейтингова
+Rated games, tables, tournaments and friends	Рейтингові партії, столи, турніри й друзі
+Reach a rating of 1300.	Досягніть рейтингу 1300.
+Reach a rating of 1500.	Досягніть рейтингу 1500.
+Reach a rating of 1700.	Досягніть рейтингу 1700.
+Reach a rating of 1900.	Досягніть рейтингу 1900.
+Reach a rating of 2100.	Досягніть рейтингу 2100.
+Refresh	Оновити
+Regular	Завсідник
+Remove friend	Видалити з друзів
+Replay	Повтор
+Report	Поскаржитися
+Report {name}	Поскаржитися на {name}
+Request sent	Запит надіслано
+Friend	Друг
+Recent	Нещодавні
+Nobody yet. The people you play online will show up here.	Поки нікого. Тут з’являться люди, з якими ви граєте онлайн.
+{n} games	партій: {n}
+Rookie	Новачок
+Round {n}	Раунд {n}
+Search…	Пошук…
+Semi-finals	Півфінали
+Send report	Надіслати скаргу
+This game goes with the report, so the moderators can watch it.	Цю партію буде додано до скарги, щоб модератори могли її переглянути.
+Your game with {name} ({date}) goes with the report, so the moderators can watch it.	Вашу партію з {name} ({date}) буде додано до скарги, щоб модератори могли її переглянути.
+You haven't played {name} in the last day: the moderators see the recent chat.	Ви не грали з {name} за останню добу: модератори побачать нещодавній чат.
+Shark	Акула
+Shows the contact point; judging the cut is up to you.	Показує точку контакту, а кут різання визначаєте ви.
+Shutout	Суха перемога
+Sign in	Увійти
+Sign in or create an account	Увійдіть або створіть обліковий запис
+Sign out	Вийти
+Sit down	Сісти
+Skilled	Вправний
+Someone with that name is already here.	Тут уже є хтось із таким ім’ям.
+Spam	Спам
+Start now	Почати зараз
+Stop the replay	Зупинити повтор
+Table runner	Господар столу
+Tables	Столи
+Take turns on this computer	Грайте по черзі на цьому комп’ютері
+Thank you. The moderators will look into it.	Дякуємо. Модератори розглянуть скаргу.
+Thank you. The moderators will look into it, with your game attached.	Дякуємо. Модератори розглянуть скаргу разом із вашою партією.
+That player is not accepting invitations.	Цей гравець не приймає запрошень.
+That shot was for an earlier turn.	Цей удар був для попереднього ходу.
+That table is no longer open.	Цей стіл уже закрито.
+That tournament has already started.	Цей турнір уже почався.
+That tournament no longer exists.	Цього турніру більше не існує.
+The first connection of the day can take up to a minute while the server wakes up.	Перше з’єднання за день може тривати до хвилини, поки сервер прокидається.
+The first time, allow Snook Legend through the firewall when asked.	Першого разу, коли з’явиться запит, дозвольте Snook Legend доступ через брандмауер.
+The server could not play that shot.	Сервер не зміг виконати цей удар.
+The server is busy. Try again in a moment.	Сервер зайнятий. Спробуйте ще раз за мить.
+The tournament starts when it is full (the host can start it earlier).	Турнір почнеться, коли збереться повний склад (організатор може почати раніше).
+There are too many tournaments right now. Join one!	Зараз забагато турнірів. Приєднайтеся до одного з них!
+This is a LAN server: join as a guest.	Це LAN-сервер: приєднуйтеся як гість.
+Fifteen rivals, a tour and ghosts of real players	П’ятнадцять суперників, тур і привиди справжніх гравців
+Tier	Ліга
+Time per shot	Час на удар
+Too many failed attempts. Wait a few minutes and try again.	Забагато невдалих спроб. Зачекайте кілька хвилин і спробуйте ще раз.
+Too many messages.	Забагато повідомлень.
+Too many new accounts from this network. Try again later.	Забагато нових облікових записів із цієї мережі. Спробуйте пізніше.
+Top 100 · rated games	Топ-100 · рейтингові партії
+Tournament game: the next round starts from the lounge.	Турнірна партія: наступний раунд починається з лобі.
+Tournament games have no rematch.	У турнірних партіях немає реваншу.
+Tournaments	Турніри
+Tournaments have 4, 8 or 16 players.	У турнірах 4, 8 або 16 гравців.
+Two players	Двоє гравців
+Unblock	Розблокувати
+Unlocked {date}	Відкрито {date}
+Unstoppable	Нестримний
+W	В
+Watch the last shot again	Переглянути останній удар ще раз
+What happened? (optional)	Що сталося? (необов’язково)
+When time runs out, the turn passes.	Коли час спливає, хід переходить до суперника.
+Whitewash	Розгром
+Win 10 rated games on the 8-ball.	Виграйте 10 рейтингових партій, забивши вісімку.
+Win 10 rated games in a row.	Виграйте 10 рейтингових партій поспіль.
+Win 10 rated games.	Виграйте 10 рейтингових партій.
+Win 10 rated shutouts.	Здобудьте 10 сухих перемог у рейтингових партіях.
+Win 100 rated games on the 8-ball.	Виграйте 100 рейтингових партій, забивши вісімку.
+Win 100 rated games.	Виграйте 100 рейтингових партій.
+Win 250 rated games on the 8-ball.	Виграйте 250 рейтингових партій, забивши вісімку.
+Win 3 rated games in a row.	Виграйте 3 рейтингові партії поспіль.
+Win 5 rated games in a row.	Виграйте 5 рейтингових партій поспіль.
+Win 5 tournaments.	Виграйте 5 турнірів.
+Win 50 rated games on the 8-ball.	Виграйте 50 рейтингових партій, забивши вісімку.
+Win 50 rated games.	Виграйте 50 рейтингових партій.
+Win 500 rated games.	Виграйте 500 рейтингових партій.
+Win a rated game.	Виграйте рейтингову партію.
+Win a tournament.	Виграйте турнір.
+Win a rated game before your opponent sinks a ball of their group.	Виграйте рейтингову партію, поки суперник не забив жодної кулі своєї групи.
+Win a rated game from the break without your opponent getting a shot.	Виграйте рейтингову партію з розбиття, не давши суперникові жодного удару.
+Withdraw	Знятися
+World ranking	Світовий рейтинг
+Wrong table password.	Неправильний пароль столу.
+Wrong tournament password.	Неправильний пароль турніру.
+You are already in a tournament.	Ви вже берете участь у турнірі.
+You are hosting a game	Ви організували гру
+You can't join this table.	Ви не можете сісти за цей стіл.
+You signed in from another place.	Ви увійшли з іншого місця.
+You're sending invitations too quickly.	Ви надсилаєте запрошення надто швидко.
+You're sending messages too quickly.	Ви надсилаєте повідомлення надто швидко.
+You've sent many reports. Please wait before sending more.	Ви надіслали багато скарг. Зачекайте, перш ніж надсилати нові.
+Your friend list is full.	Ваш список друзів заповнено.
+Your next match starts by itself when both players are free.	Ваш наступний матч почнеться сам, щойно обидва гравці будуть вільні.
+Your profile	Ваш профіль
+Your table is open	Ваш стіл відкрито
+Zoom in	Наблизити
+Zoom out	Віддалити
+at a table	за столом
+best streak	найкраща серія перемог
+by {host} · {n}/{size} players	організатор {host} · гравці {n}/{size}
+casual games	товариські партії
+casual · private	товариська · приватна
+casual · public	товариська · публічна
+connecting to the server	підключення до сервера
+eight-ball pool	пул «вісімка»
+finished	завершений
+guest	гість
+invites you to {kind}	запрошує вас на {kind}
+joined today	з нами від сьогодні
+member for {n} days	з нами {n} дн.
+member for {n} months	з нами {n} міс.
+member for {n} years	з нами {n} р.
+offline	не в мережі
+open	відкритий
+optional: only friends with it can join	необов’язково: приєднатися зможуть лише друзі, які знають пароль
+password	пароль
+peak {n}	пік {n}
+playing	грає
+playing the computer	грає з комп’ютером
+away	немає на місці
+this game is saved	цю партію збережено
+rated games	рейтингові партії
+rated · private	рейтингова · приватна
+rated · public	рейтингова · публічна
+request sent	запит надіслано
+the connection dropped	з’єднання розірвано
+to play online	щоб грати онлайн
+tournament	турнір
+tournaments won	виграно турнірів
+waiting for an opponent…	очікування суперника…
+win rate	% перемог
+wins	перемоги
+won on the 8	перемоги вісімкою
+{host}'s game	гра {host}
+{name} wants to be friends	{name} хоче додати вас у друзі
+{name} wants to be your friend.	{name} хоче додати вас у друзі.
+{n} online	{n} онлайн
+sank the 8-ball	вісімку забито
+the opponent sank the 8-ball	суперник забив вісімку
+the opponent sank the 8 too early	суперник забив вісімку зарано
+sank the 8 too early	вісімку забито зарано
+the opponent sank the 8 in the wrong pocket	суперник забив вісімку не в ту лузу
+sank the 8 in the wrong pocket	вісімку забито не в ту лузу
+the opponent fouled on the 8	фол суперника на вісімці
+fouled on the 8	фол на вісімці
+the opponent knocked the 8 off the table	суперник викинув вісімку зі столу
+knocked the 8 off the table	вісімку викинуто зі столу
+the opponent resigned	суперник здався
+resigned	партію здано
+the opponent left	суперник вийшов
+left the game	вихід із партії
+You are muted for {n} more minutes.	Чат для вас вимкнено ще на {n} хв.
+This account is suspended for {n} more day(s). Reason: {reason}.	Цей обліковий запис призупинено ще на {n} дн. Причина: {reason}.
+This account is banned. Reason: {reason}.	Цей обліковий запис заблоковано. Причина: {reason}.
+You were muted: {r}	Чат для вас вимкнено: {r}
+Your account was suspended: {r}	Ваш обліковий запис призупинено: {r}
+Your account was banned: {r}	Ваш обліковий запис заблоковано: {r}
+You were disconnected by a moderator: {r}	Модератор від’єднав вас: {r}
+You were disconnected by a moderator.	Модератор від’єднав вас.
+Please sign in again.	Будь ласка, увійдіть знову.
+Your password was changed. Sign in again.	Ваш пароль змінено. Увійдіть знову.
+Accept rematch	Прийняти реванш
+Accept	Прийняти
+Aim	Прицілювання
+Aiming guide	Підказка прицілу
+Aiming	Прицілювання
+Anti-aliasing	Згладжування
+Smooths the jagged edges of lines and balls.	Згладжує зубчасті краї ліній і куль.
+Back to lounge	До лобі
+Balanced: smooth on most laptops.	Збалансована: плавно на більшості ноутбуків.
+Ball in hand	Биток з руки
+Break the rack	Розбийте піраміду
+Camera pulls back to watch each shot	Камера віддаляється, щоб показати кожен удар
+Camera	Камера
+Cancel	Скасувати
+Casual game: ratings unchanged	Товариська партія: рейтинг не змінюється
+Center	Центр
+Chat	Чат
+Click a ball or a spot	Клацніть кулю або точку
+Click to chat, Enter to send	Клацніть, щоб писати в чат, Enter — надіслати
+Controls	Керування
+Create account	Створити обліковий запис
+Cue ball contact	Точка удару по битку
+Decline	Відхилити
+Done	Готово
+Drag the cue ball	Перетягніть биток
+Elevation	Нахил кия
+Everything, with reflections in polished floors: for gaming PCs.	Усе, з відблисками на полірованій підлозі: для ігрових ПК.
+Fine aim	Точне прицілювання
+Finish this match first.	Спершу завершіть цей матч.
+For old or very slow computers.	Для старих або дуже повільних комп’ютерів.
+Full screen	Повний екран
+Also with {key}.	Також клавішею {key}.
+Full	Повна
+Game server	Ігровий сервер
+Change it only to play on another server.	Змінюйте його, лише щоб грати на іншому сервері.
+Advanced	Додатково
+Custom server	Інший сервер
+Graphics quality	Якість графіки
+Quality	Якість
+Display	Екран
+High	Висока
+Invite	Запросити
+Leave to the lounge	Вийти в лобі
+Leave	Вийти
+Leaving now counts as a loss.	Вихід зараз зарахується як поразка.
+Lounge chat	Чат лобі
+Low	Низька
+Main menu	Головне меню
+Medium	Середня
+Menu / help	Меню / довідка
+Next game starts in a moment…	Наступна партія почнеться за мить…
+No rated games yet. Be the first!	Рейтингових партій поки немає. Будьте першими!
+Nobody else is here right now.	Зараз тут більше нікого немає.
+Looking for a game?	Шукаєте партію?
+Looking for a game	Шукаю партію
+Post a note	Розмістити оголошення
+Everyone in the lounge sees it for 30 minutes	Усі в лобі бачитимуть його 30 хвилин
+What are you after? ({kind})	Що шукаєте? ({kind})
+Post	Опублікувати
+Your note: {text}	Ваше оголошення: {text}
+{mode} · {left} left	{mode} · лишилося {left}
+Take down	Зняти
+Challenge	Викликати
+Take the note down	Зняти оголошення
+Off	Вимк.
+On the 8-ball: call a pocket	На вісімці: замовте лузу
+On the 8-ball	На вісімці
+Open table	Відкритий стіл
+Password	Пароль
+Paused	Пауза
+Play	Грати
+Player 2	Гравець 2
+Player	Гравець
+Quick aim	Швидке прицілювання
+Quit	Вийти з гри
+Reconnected.	З’єднання відновлено.
+Rematch	Реванш
+Resign this game	Здати партію
+Restart the game to apply this change.	Перезапустіть гру, щоб застосувати цю зміну.
+Resume	Продовжити
+Retry	Повторити
+Saving the result…	Збереження результату…
+Say hello… (Enter to send)	Привітайтеся… (Enter — надіслати)
+Send	Надіслати
+Settings	Налаштування
+{key} + drag	{key} + перетягування
+{key}: 3D / top view	{key}: 3D / вид згори
+{keys}: zoom	{keys}: масштаб
+View	Вигляд
+Aim left	Прицілитися лівіше
+Aim right	Прицілитися правіше
+Fine aim (hold)	Точне прицілювання (утримувати)
+Shoot (hold, release)	Удар (утримати й відпустити)
+Top spin	Верхній гвинт
+Back spin	Нижній гвинт
+Left spin	Лівий гвинт
+Right spin	Правий гвинт
+Raise the cue	Підняти кий
+Lower the cue	Опустити кий
+Pick up the cue ball in hand	Взяти биток у руку
+3D / top view	3D / вид згори
+Reset the camera	Скинути камеру
+Replay the last shot	Повторити останній удар
+List of controls	Список клавіш
+Keys can be changed in Settings → Controls.	Клавіші можна змінити в «Налаштування» → «Керування».
+Space	Пробіл
+Right Shift	Правий Shift
+Right Ctrl	Правий Ctrl
+Right Alt	Правий Alt
+Aiming and shooting	Прицілювання й удар
+Spin and elevation	Гвинт і нахил
+Fixed keys	Фіксовані клавіші
+Menu, back and cancel	Меню, назад і скасування
+Confirm (forms, the cue ball in hand)	Підтвердження (форми, биток з руки)
+This key can't be changed.	Цю клавішу не можна змінити.
+Press a key · Esc cancels · Backspace clears	Натисніть клавішу · Esc — скасувати · Backspace — очистити
+Press a key…	Натисніть клавішу…
+Click to change	Клацніть, щоб змінити
+Click to add a key	Клацніть, щоб додати клавішу
+Back to no key	Повернути: без клавіші
+Back to {keys}	Повернути: {keys}
+Swapped: {action} is now on {key}.	Обмін: «{action}» тепер на клавіші {key}.
+Taken from {action}, which now has no key.	Забрано з дії «{action}», тепер вона без клавіші.
+Taken from {action}.	Забрано з дії «{action}».
+That key can't be used: try another.	Цю клавішу не можна використати: спробуйте іншу.
+Shoot	Удар
+Short	Коротка
+Signing in…	Вхід…
+Signing in	Вхід
+Soft shadows from every lamp, glossy halls, halos.	М’які тіні від кожної лампи, глянцеві зали, ореоли.
+Solids (1–7)	Суцільні (1–7)
+Spin ball	Кулька гвинта
+Spin	Гвинт
+Standard	Стандартна
+Stay	Залишитися
+Stripes (9–15)	Смугасті (9–15)
+The game goes on while this is open.	Поки це відкрито, гра триває.
+Use default	За замовчуванням
+Username	Ім’я користувача
+Usernames have 3–16 letters, digits or underscores.	Ім’я користувача має від 3 до 16 літер, цифр або підкреслень.
+{keys} (jump & massé)	{keys} (стрибок і массе)
+You win!	Ви перемогли!
+Your name	Ваше ім’я
+Your opponent went back to the lounge.	Ваш суперник повернувся в лобі.
+Your turn	Ваш хід
+open table: the next ball you make sets your group	відкритий стіл: наступна забита куля визначить вашу групу
+draw	відтяжка
+follow	накат
+stun	стоп
+solids	суцільні
+stripes	смугасті
+lounge	лобі
+ · left english	 · лівий гвинт
+ · right english	 · правий гвинт
+Language	Мова
+General	Загальні
+Graphics	Графіка
+Game	Гра
+Sound	Звук
+Reset to defaults	Відновити типові
+Reset all keys	Скинути всі клавіші
+Reset every key?	Скинути всі клавіші?
+Click again to put every key back	Клацніть ще раз, щоб повернути всі клавіші
+Updates	Оновлення
+Update automatically	Оновлювати автоматично
+New versions download in the background and install when you restart.	Нові версії завантажуються у фоні й установлюються після перезапуску.
+Version {v}	Версія {v}
+What's new	Що нового
+What's new in version {v}	Що нового у версії {v}
+No notes for this version.	Для цієї версії немає приміток.
+Got it	Зрозуміло
+Restart now	Перезапустити зараз
+After the game, from the main menu.	Після партії, з головного меню.
+Download	Завантажити
+Check now	Перевірити зараз
+Couldn't reach the update server.	Не вдалося зв’язатися із сервером оновлень.
+The download was damaged. It will be tried again later.	Завантажений файл пошкоджено. Згодом буде ще одна спроба.
+The new version couldn't be installed. This one stays.	Не вдалося встановити нову версію. Лишається поточна.
+Downloading… {p}%	Завантаження… {p}%
+Updating…	Оновлення…
+The Microsoft Store keeps the game up to date.	Microsoft Store оновлює гру автоматично.
+Development build: no automatic updates.	Версія для розробки: без автоматичних оновлень.
+Looking for a new version…	Пошук нової версії…
+This is the latest version.	Це найновіша версія.
+Downloading version {v}… {p}%	Завантаження версії {v}… {p}%
+Installing version {v}…	Встановлення версії {v}…
+Version {v} is ready: restart the game to use it.	Версія {v} готова: перезапустіть гру, щоб нею користуватися.
+Version {v} is out: download it from the releases page.	Вийшла версія {v}: завантажте її зі сторінки релізів.
+Version {v} is ready	Версія {v} готова
+Restart to play it; nothing is lost.	Перезапустіть, щоб грати в неї; нічого не втратиться.
+Version {v} is out	Вийшла версія {v}
+Get it from the releases page.	Завантажте її зі сторінки релізів.
+Reset everything?	Скинути все?
+Click again to reset every setting	Клацніть ще раз, щоб скинути всі налаштування
+Online	Онлайн
+Menu	Меню
+Rating	Рейтинг
+Ultra	Ультра
+hold {key} and release	утримуйте {key} і відпустіть
+Change	Змінити
+Mouse aim sensitivity	Чутливість миші під час прицілювання
+How fast the cue turns with the mouse.	Як швидко кий повертається за мишею.
+Vignette	Віньєтка
+Darkens the edges of the picture, like a film.	Затемнює краї зображення, як у кіно.
+Show FPS	Показувати FPS
+Frames per second, in a corner of the screen.	Кадри за секунду, у кутку екрана.
+Call a pocket for the 8-ball first: click a pocket.	Спершу замовте лузу для вісімки: клацніть лузу.
+Reconnecting	Повторне підключення
+the game is over	партію завершено
+the cue ball cannot be placed there	биток не можна поставити туди
+call a pocket for the 8-ball	замовте лузу для вісімки
+That username is taken.	Це ім’я користувача вже зайняте.
+Wrong username or password.	Неправильне ім’я користувача або пароль.
+Your session expired. Please log in again.	Ваш сеанс завершився. Увійдіть знову.
+This version of Snook Legend is out of date. Please update the game.	Ця версія Snook Legend застаріла. Будь ласка, оновіть гру.
+It's not your turn.	Зараз не ваш хід.
+That player is not online.	Цей гравець не в мережі.
+That player is in a game.	Цей гравець зараз у партії.
+You can't invite yourself.	Не можна запросити самого себе.
+That invitation is no longer valid.	Це запрошення вже недійсне.
+That player is no longer available.	Цей гравець уже недоступний.
+Resign first to leave a game in progress.	Щоб вийти з поточної партії, спершу здайте її.
+Malformed message.	Неправильно сформоване повідомлення.
+Please log in first.	Спершу увійдіть.
+Could not create the account.	Не вдалося створити обліковий запис.
+The cue ball can't be placed there.	Биток не можна поставити туди.
+Disconnected.	Від’єднано.
+Lost contact with the server.	Втрачено зв’язок із сервером.
+The server closed the connection.	Сервер закрив з’єднання.
+The server took too long to answer.	Сервер надто довго не відповідав.
+The server is not answering (connection refused).	Сервер не відповідає (з’єднання відхилено).
+The server address is not valid (example: wss://snook-legend.example.com/ws).	Адреса сервера недійсна (приклад: wss://snook-legend.example.com/ws).
+The server address has no host name.	В адресі сервера немає імені хоста.
+Welcome to Snook Legend! Be kind, play fair.	Ласкаво просимо до Snook Legend! Будьте ввічливі, грайте чесно.
+Ball in hand: drag the cue ball{zone} to move it	Биток з руки: перетягуйте биток{zone}, щоб перемістити його
+ behind the line	 за лінією
+Ball in hand  ·  {group}	Биток з руки  ·  {group}
+Can't shoot: {e}.	Удар неможливий: {e}.
+Chat ({n})	Чат ({n})
+Computer ({level})	Комп’ютер ({level})
+Computer	Комп’ютер
+Each opponent has a style of their own	Кожен суперник має власний стиль
+Free game	Вільна партія
+Tour	Тур
+Tour: {n} of {total} beaten	Тур: переможено {n} з {total}
+Strength {n}/5	Рівень {n}/5
+Ghost	Привид
+Accuracy	Точність
+Safeties	Відіграші
+Banks	Дуплети
+Position	Позиція
+Ghost of {name}	Привид: {name}
+A player's ghost	Привид гравця
+Plays like a real player	Грає як справжній гравець
+The computer plays in the style of a real player, measured on their online games.	Комп’ютер грає в стилі справжнього гравця, виміряному за його онлайн-партіями.
+Sign in to play the ghost of a real player.	Увійдіть, щоб зіграти з привидом справжнього гравця.
+Load	Завантажити
+Friends:	Друзі:
+Type a username or pick a friend, then Load.	Введіть ім’я користувача або виберіть друга, а потім натисніть «Завантажити».
+Measuring how {name} plays…	Аналізуємо, як грає {name}…
+Pots {pots}% · safeties {safe}% · banks {banks}% · {shots} shots	Забиває {pots}% · відіграші {safe}% · дуплети {banks}% · ударів: {shots}
+{name} has only {shots} recorded shots; a ghost needs {needed}. More online games will do it.	{name}: записаних ударів лише {shots}, а привиду потрібно {needed}. Більше онлайн-партій — і все вийде.
+There is no player called {name}.	Гравця з ім’ям {name} немає.
+The server can't be reached right now. Try again later.	Зараз не вдається зв’язатися із сервером. Спробуйте пізніше.
+Wait a moment before asking again.	Зачекайте трохи, перш ніж запитувати знову.
+Something went wrong on the server. Try again later.	На сервері щось пішло не так. Спробуйте пізніше.
+Play your ghost	Зіграти зі своїм привидом
+Play their ghost	Зіграти з привидом гравця
+Beaten	Переможено
+Next	Далі
+Win the previous stage to unlock this one.	Виграйте попередній етап, щоб відкрити цей.
+Stage {n} of {total}	Етап {n} з {total}
+Challenge {name}	Кинути виклик: {name}
+Stage {n} won! Next on the tour: {name}.	Етап {n} пройдено! Далі в турі: {name}.
+You won the whole tour!	Ви виграли весь тур!
+Reward	Нагорода
+{item} cue · exclusive	Кий «{item}» · ексклюзив
+Yours: find it in the shop, under Cues.	Тепер він ваш: шукайте його в крамниці, у розділі «Киї».
+Win the last stage again while signed in to claim it.	Щоб отримати його, ще раз виграйте останній етап, увійшовши в обліковий запис.
+Beat all fifteen opponents to earn it. It is sold nowhere.	Переможіть усіх п’ятнадцятьох суперників, щоб заробити його. Він ніде не продається.
+You won the tour! Sign in to claim your reward.	Ви виграли тур! Увійдіть, щоб отримати нагороду.
+The server is checking your final game…	Сервер перевіряє вашу фінальну партію…
+Try again	Спробувати знову
+The server did not answer. Try again in a moment.	Сервер не відповів. Спробуйте ще раз за мить.
+The server is busy checking other games. Try again in a moment.	Сервер зайнятий перевіркою інших партій. Спробуйте ще раз за мить.
+Wait a minute before trying again.	Зачекайте хвилину, перш ніж пробувати знову.
+That game is too long to be checked.	Ця партія задовга для перевірки.
+That game has a move the rules don't allow.	У цій партії є хід, заборонений правилами.
+That game was not played to the end.	Цю партію не дограно до кінця.
+That game was not a win.	Ця партія не була перемогою.
+The computer's shots in that game don't match how it plays (another version of the game?).	Удари комп’ютера в цій партії не відповідають його стилю гри (інша версія гри?).
+The Rookie	Новачок
+Still learning: aims at the nearest pocket, centre ball, and hopes. Never plays safe.	Ще вчиться: цілиться в найближчу лузу, б’є по центру і сподівається на краще. Ніколи не грає на відіграш.
+The Weekend Player	Гравчиня вихідного дня
+Knows the basics and drops the easy ones, but rarely thinks about where the cue ball goes.	Знає основи й забиває легкі кулі, але рідко думає, куди піде биток.
+The Bank Artist	Майстриня дуплетів
+Sees angles nobody else does: whenever a ball can go off a cushion and in, she banks it.	Бачить кути, яких не бачить ніхто: щойно кулю можна забити від борту, вона б’є дуплетом.
+The Cannon	Гармата
+Goes for everything, as hard as he can: long pots, thunderous breaks, hardly ever a safety.	Іде на все й б’є щосили: довгі удари, громові розбиття, майже ніколи не відіграється.
+The Wall	Стіна
+Only shoots when the pot is on. Otherwise she tucks the cue ball away and waits for your mistake.	Б’є, лише коли куля точно заходить. Інакше ховає биток і чекає на вашу помилку.
+The Old Pro	Ветеран
+Forty years at the table: a smooth stroke, a raised cue, side spin, and never in a hurry.	Сорок років за столом: плавний удар, піднятий кий, бічний гвинт і жодного поспіху.
+The Hustler	Хитрунка
+Plays just well enough to win, then a little better. Balanced, sharp and hard to read.	Грає рівно настільки добре, щоб перемогти, а потім трохи краще. Збалансована, гостра й непередбачувана.
+The Professor	Професор
+Thinks three balls ahead: every shot leaves the cue ball where the next one is easy.	Думає на три кулі вперед: кожен удар лишає биток там, звідки наступний буде легким.
+The Sharpshooter	Снайперка
+Pots from anywhere, at any angle. Her safeties are an afterthought: she doesn't need them.	Забиває звідусіль і під будь-яким кутом. Про відіграші згадує в останню чергу: вони їй не потрібні.
+The Champion	Чемпіон
+Unbeaten for years. Precise, patient and merciless: the last stage of the tour.	Непереможний роками. Точний, терплячий і безжальний: останній етап туру.
+Tour champion	Чемпіон туру
+Champion of the tour	Чемпіон туру
+Beat all fifteen opponents of the computer tour.	Переможіть усіх п’ятнадцятьох суперників комп’ютерного туру.
+Connection lost. Reconnecting (attempt {n})…	З’єднання втрачено. Повторне підключення (спроба {n})…
+Connection lost. Reconnecting…	З’єднання втрачено. Повторне підключення…
+Foul by {shooter}: {foul}.	Фол ({shooter}): {foul}.
+Graphics set to {q} for smooth play. You can change this in Settings.	Графіку встановлено на «{q}» для плавної гри. Це можна змінити в налаштуваннях.
+Rating {r} ({d})	Рейтинг {r} ({d})
+The {ball} was spotted.	На стіл повернулася {ball}.
+Waiting for {to} ({kind})…	Очікування відповіді: {to} ({kind})…
+rated	рейтингова
+casual	товариська
+Waiting for {name}…	Очікування: {name}…
+{by} declined your invitation.	{by}: запрошення відхилено.
+a rated game	рейтингову партію
+a casual game	товариську партію
+{name} calls the 8-ball in the {pocket} pocket.	{name} замовляє вісімку: {pocket} луза.
+{name} has ball in hand…	{name}: биток з руки…
+{name} is aiming…	{name} цілиться…
+{name} is on the 8: click a pocket to call it	{name} на вісімці: клацніть лузу, щоб замовити її
+{name} is thinking…	{name} думає…
+{name} left the game.	{name} виходить із партії.
+{name} resigned.	{name} здається.
+{name} to break	Розбиває {name}
+{name} to shoot ({target})	Б’є {name} ({target})
+{name}'s turn	Хід: {name}
+{next} has ball in hand{where}.	{next}: биток з руки{where}.
+ behind the head string	 за лінією дому
+{opponent} is back.	{opponent} знову тут.
+{opponent} lost the connection. Waiting up to {secs} s…	{opponent}: з’єднання втрачено. Чекаємо до {secs} с…
+{opponent} wants a rematch.	{opponent} хоче реваншу.
+{opponent} went back to the lounge.	{opponent} повертається в лобі.
+{shooter} pocketed {balls}.	{shooter} забиває: {balls}.
+{shooter} takes {group}.	{shooter} грає {group}.
+{who} ran out of time: ball in hand for the opponent.	{who}: час вичерпано, биток з руки в суперника.
+{name} wants a rematch!	{name} хоче реваншу!
+{name} wins!	{name} перемагає!
+{name} wins	{name} перемагає
+Volume	Гучність
+The cue, the balls, the cushions and the pockets.	Кий, кулі, борти й лузи.
+Notifications	Сповіщення
+Could not find the server “{host}”.	Не вдалося знайти сервер «{host}».
+Network error: {e}.	Помилка мережі: {e}.
+Secure connection failed: {e}.	Не вдалося встановити захищене з’єднання: {e}.
+The server refused the connection (HTTP {code}).	Сервер відхилив з’єднання (HTTP {code}).
+Connection error: {e}.	Помилка з’єднання: {e}.
+cue ball	биток
+{n}-ball	куля {n}
+Scratch: the cue ball was pocketed	Биток у лузі
+The cue ball left the table	Биток вилетів зі столу
+The cue ball didn't hit any ball	Биток не влучив у жодну кулю
+Wrong ball hit first ({ball})	Спершу зачеплено не ту кулю ({ball})
+No ball reached a cushion after contact	Після зіткнення жодна куля не дійшла до борту
+The {ball} left the table	Зі столу вилетіла {ball}
+Illegal break	Неправильне розбиття
+pocketed the 8-ball	вісімку забито
+opponent pocketed the 8-ball too early	суперник забив вісімку зарано
+opponent sank the 8-ball in the wrong pocket	суперник забив вісімку не в ту лузу
+opponent fouled on the 8-ball	фол суперника на вісімці
+opponent knocked the 8-ball off the table	суперник викинув вісімку зі столу
+opponent resigned	суперник здався
+opponent left the game	суперник вийшов із партії
+head left corner	ліва ближня кутова
+head right corner	права ближня кутова
+left side	ліва середня
+right side	права середня
+foot left corner	ліва дальня кутова
+foot right corner	права дальня кутова
+Easy	Легкий
+Hard	Складний
+Normal	Звичайний
+Power	Сила
+No messages yet.	Повідомлень поки немає.
+▼ newer messages	▼ нові повідомлення
+Camera follows the cue	Камера стежить за києм
+Off: it stays where you put it.	Вимкнено: камера лишається там, де ви її поставили.
+Pull back for shots	Віддалення під час удару
+Only when the camera follows the cue.	Лише коли камера стежить за києм.
+Drag the cue · click a spot	Тягніть кий · клацніть точку
+Time's up: {name}'s shot was played at full power.	Час вийшов: {name} б’є на повну силу.
+Dark room	Темна зала
+A spotlight on the table, the room in shadow.	Світло лише на столі, решта зали в тіні.
+Hide	Сховати
+Interface size	Розмір інтерфейсу
+Text, buttons and panels.	Текст, кнопки й панелі.
+Drag to set the power	Тягніть, щоб задати силу
+Shoot!	Удар!
+Set the power, then press the green button	Задайте силу, потім натисніть зелену кнопку
++{n} coins · {why}	Монети: +{n} · {why}
+16-player tournaments, and first place on the waiting list of a full one	Турніри на 16 гравців і перше місце в черзі на заповнений турнір
+30 minutes: play as many games as you can. A win is 2 points, 4 from the third win in a row.	30 хвилин: зіграйте якомога більше партій. Перемога дає 2 очки, а з третьої поспіль — 4.
+A crown by your name, everywhere (lounge, profile, ranking)	Корона біля вашого імені всюди (лобі, профіль, рейтинг)
+Account	Обліковий запис
+Add friends to give them items.	Додайте друзів, щоб дарувати їм предмети.
+Arena	Арена
+Arena · host {host} · {n} players · {kind}	Арена · організатор {host} · гравці: {n} · {kind}
+Buy now	Купити зараз
+Buying…	Купівля…
+Change password	Змінити пароль
+Click again to delete	Клацніть ще раз, щоб видалити
+Got a code? Type it here	Маєте код? Введіть його тут
+Confirm purchase	Підтвердити покупку
+Copied: send it to a friend.	Скопійовано: надішліть другові.
+Copy	Копіювати
+Current	Поточний
+Delete account	Видалити обліковий запис
+Entry	Внесок
+Entry {n} coins	Внесок: {n} монет
+Every replay kept (free players keep their last 10 games)	Усі повтори зберігаються (безкоштовні гравці зберігають останні 10 партій)
+For {name}	Для {name}
+Add a message (optional)	Додайте повідомлення (необов’язково)
+Format	Формат
+Frames	Рамки
+Free	Безкоштовно
+Get coins	Отримати монети
+Gift sent!	Подарунок надіслано!
+Give as a gift	Подарувати
+Give it	Подарувати
+Give to a friend	Подарувати другові
+Great!	Чудово!
+If you forget your password, we confirm it's you by this e-mail.	Якщо ви забудете пароль, ми підтвердимо, що це ви, через цю пошту.
+Invite with a code	Запросити за кодом
+It goes on right away. Items only change the look, never the game.	Застосовується одразу. Предмети змінюють лише вигляд, а не гру.
+Join my table in Snook Legend:	Приєднуйтеся до мого столу в Snook Legend:
+Join the waiting list	Стати в чергу
+Join · {n} coins	Приєднатися · {n} монет
+Knockout	На вибування
+Name colour	Колір імені
+Name colours for the lounge and exclusive frames, cloth, cues, balls and effects	Кольори імені в лобі та ексклюзивні рамки, сукна, киї, кулі й ефекти
+New	Новий
+No, thanks	Ні, дякую
+Nothing that wins games: VIP only changes the look	Нічого, що виграє партії: VIP змінює лише вигляд
+Numbers	Цифри
+ON TV	У ЕФІРІ
+Play rated games to see your rating here.	Грайте рейтингові партії, щоб побачити тут свій рейтинг.
+No rated games yet.	Рейтингових партій поки немає.
+Price	Ціна
+Prizes {a} + {b}	Призи {a} + {b}
+Protect your purchases	Захистіть свої покупки
+Purchase complete!	Покупку завершено!
+Recovery e-mail	Пошта для відновлення
+Save	Зберегти
+The fees make the prize: 70% to the champion, 20% to the runner-up.	Внески формують призовий фонд: 70% — чемпіонові, 20% — срібному призерові.
+The server restarts in {m}:{s} for an update. Games in progress go on.	Сервер перезапуститься через {m}:{s} для оновлення. Поточні партії триватимуть.
+Use this e-mail	Використати цю пошту
+Use {email} to recover your account if you ever forget your password?	Використовувати {email}, щоб відновити обліковий запис, якщо ви забудете пароль?
+Watch	Дивитися
+Watch again	Дивитися ще раз
+Winning effects	Ефекти перемоги
+Halls	Зали
+You are paired as soon as you and an opponent are free.	Вам підберуть пару, щойно ви й суперник будете вільні.
+You can change it any time in your profile (Account).	Це можна будь-коли змінити у профілі (Обліковий запис).
+You need {n} more coins.	Бракує монет: {n}.
+Your account	Ваш обліковий запис
+Your account was deleted.	Ваш обліковий запис видалено.
+Your coins	Ваші монети
+Your friend gets it right away.	Ваш друг отримає його одразу.
+Your game against {name} is starting.	Ваша партія проти {name} починається.
+Your name, e-mail, friends and items are erased for good. Your opponents keep the games you played (without your name).	Ваше ім’я, пошту, друзів і предмети буде видалено назавжди. Суперники збережуть зіграні з вами партії (без вашого імені).
+balls per game	куль за партію
+best run ever	найкраща серія за весь час
+daily bonus	щоденний бонус
+entry fee back	повернення внеску
+for the game	за партію
+for the win	за перемогу
+games counted	зараховано партій
+Analysis	Аналіз
+The shot analysis isn't available on this server yet.	Аналіз ударів на цьому сервері поки недоступний.
+Only online accounts have a shot analysis.	Аналіз ударів доступний лише для онлайн-облікових записів.
+Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Грайте онлайн, щоб побачити, як ви забиваєте: аналіз з’явиться після ще кількох ударів по лузі ({n}).
+{name} hasn't played enough online games for an analysis yet.	{name}: поки замало онлайн-партій для аналізу.
+1 game	1 партія
+{pct}% of {n} shots at a pocket potted · {games}	Забито {pct}% ударів по лузі (усього {n}) · {games}
+{made} of {n} potted ({pct})	забито {made} з {n} ({pct})
+By kind of shot	За типом удару
+shots	удари
+Straight	Прямий
+Cut 8–25°	Різання 8–25°
+Cut 25–45°	Різання 25–45°
+Thin cut 45°+	Тонке різання 45°+
+Bank	Дуплет
+Kick	Від борту
+Combination	Комбінація
+Jump	Стрибок
+Massé	Массе
+Break	Розбиття
+By distance	За відстанню
+Short (under 0.75 m)	Короткі (до 0,75 м)
+Medium (to 1.5 m)	Середні (до 1,5 м)
+Long (over 1.5 m)	Довгі (понад 1,5 м)
+left the opponent nothing	не лишили суперникові шансів
+Breaks	Розбиття
+made a ball	із забитою кулею
+Potted	Забито
+Missed	Промахи
+Where and in which pocket	Звідки і в яку лузу
+{pocket}: {made} of {n} potted	{pocket}: забито {made} з {n}
+Where the potted balls were	Де стояли забиті кулі
+Where the missed balls were	Де стояли незабиті кулі
+few	мало
+many	багато
+{made} potted · {missed} missed ({pct})	забито: {made} · промахи: {missed} ({pct})
+Top left corner	Верхня ліва кутова
+Bottom left corner	Нижня ліва кутова
+Top side pocket	Верхня середня
+Bottom side pocket	Нижня середня
+Top right corner	Верхня права кутова
+Bottom right corner	Нижня права кутова
+games left unfinished	недограні партії
+potting success	влучність
+shots with a foul	удари з фолом
+starts in {n} min	почнеться через {n} хв
+tournament prize	приз турніру
+The dark room hides the hall around the table.	Темна зала ховає інтер’єр навколо столу.
+Show the hall	Показувати залу
+Level {n} · 1 win	Рівень {n} · 1 перемога
+Level {n} · {w} wins	Рівень {n} · перемоги: {w}
+{left} more online wins with this cue for level {n}. Levels only add marks to the cue.	Ще онлайн-перемог цим києм до рівня {n}: {left}. Рівні лише додають на кий позначки.
+The top level: this cue has every mark.	Найвищий рівень: на цьому киї є всі позначки.
+Your cue {cue} reached level {n}!	Ваш кий «{cue}» досяг рівня {n}!
+Most wins: {cue} (level {n})	Найбільше перемог: «{cue}» (рівень {n})
+{games} games · {rate}% won · {balls} balls made	Партії: {games} · виграно {rate}% · забито куль: {balls}
+vs	vs
+{from} gave you {item}!	{from} надсилає вам подарунок: {item}!
+You received a gift!	Ви отримали подарунок!
+From	Від
+To	Кому
+someone	хтось
+A month of VIP	Місяць VIP
+Thank	Подякувати
+Thanked	Подяковано
+They thanked you	Вам подякували
+Use it now	Обрати зараз
+Later	Пізніше
+OK	OK
+Next ({n} more)	Далі (ще {n})
+{from} gave you {item}! It's waiting for you in the lounge.	{from} надсилає вам подарунок: {item}! Він чекає на вас у лобі.
+{name} thanked you for {item}.	{name} дякує вам за подарунок: {item}.
+Gifts	Подарунки
+No gifts yet. Friends can give you items from the shop.	Подарунків поки немає. Друзі можуть дарувати вам предмети з крамниці.
+{item} is yours and already in use.	Предмет «{item}» тепер ваш і вже обраний.
+{m}:{s} left	лишилося {m}:{s}
+{name} invites you to play.	{name} запрошує вас зіграти.
+{name} is online.	{name} у мережі.
+{name} ran out of time.	{name}: час вичерпано.
+{name} received {item}.	{name}: подарунок «{item}» доставлено.
+{n} pts · {g} games	{n} оч. · партії: {g}
+{n} watching · avg {r}	глядачі: {n} · сер. {r}
+{title}: {how}	{title}: {how}
+Olive	Оливковий
+Navy	Темно-синій
+Forest	Ліс
+Slate grey	Сланцевий сірий
+Red wine	Червоне вино
+Burnt orange	Палений помаранчевий
+Dusty rose	Пильна троянда
+Sand	Пісок
+Ice blue	Крижаний блакитний
+Lime	Лайм
+Black tie	Чорна краватка
+Cobalt	Кобальт
+Emerald	Смарагд
+Natural maple	Натуральний клен
+Beach bar	Пляжний бар
+Modern	Модерн
+English club	Англійський клуб
+Ebony & gold	Чорне дерево і золото
+Pool hall	Більярдна
+Industrial loft	Індустріальний лофт
+Steel & oak	Сталь і дуб
+Tournament	Турнір
+Victorian walnut	Вікторіанський горіх
+Ivory deco	Деко зі слонової кістки
+Mountain lodge	Гірське шале
+Neon arcade	Неонова аркада
+Art deco lounge	Зала ар-деко
+Skyline penthouse	Пентхаус із краєвидом
+Walnut	Горіх
+Zebrawood	Зебрано
+Bocote	Бокоте
+Deep ocean	Глибокий океан
+Cherry	Вишня
+Jade	Нефрит
+Tiger	Тигр
+Amethyst	Аметист
+Arctic carbon	Арктичний карбон
+Inferno	Пекло
+Obsidian gold	Обсидіан і золото
+Tan chalk	Бежева крейда
+Grey chalk	Сіра крейда
+Orange chalk	Помаранчева крейда
+Pink chalk	Рожева крейда
+Teal chalk	Бірюзова крейда
+Yellow chalk	Жовта крейда
+Black chalk	Чорна крейда
+White chalk	Біла крейда
+Silver chalk	Срібна крейда
+TV set	Телевізійний набір
+Earth tones	Земляні тони
+Ocean	Океан
+Sunset	Захід сонця
+Candy	Цукерки
+Pearl	Перли
+Monochrome	Монохром
+Chrome	Хром
+Gold rush	Золота лихоманка
+No frame	Без рамки
+Bronze	Бронза
+Silver	Срібло
+Gold	Золото
+Green felt	Зелене сукно
+Mahogany	Червоне дерево
+Ice	Лід
+Fire	Вогонь
+Diamond	Діамант
+VIP crown	Корона VIP
+Rose gold	Рожеве золото
+Aqua	Аквамарин
+Violet	Фіалковий
+Ember	Жар
+Mint	М’ята
+Frost	Іній
+No effect	Без ефекту
+Sparks	Іскри
+Confetti	Конфеті
+Shockwave	Ударна хвиля
+Coin shower	Дощ із монет
+Flames	Полум’я
+Royal sparks	Королівські іскри
+Tier colour	Колір ліги
+16-player tournaments are for VIP members.	Турніри на 16 гравців — лише для учасників VIP.
+A seat opened: you are in the tournament!	Звільнилося місце: ви в турнірі!
+Entry fees go up to 1000 coins.	Внесок — до 1000 монет.
+Guests can't play for coins.	Гості не можуть грати на монети.
+Only items sold for coins can be given.	Дарувати можна лише предмети, що продаються за монети.
+Password changed.	Пароль змінено.
+Passwords need 8 or more characters, not only digits.	Пароль має містити 8 або більше символів, не лише цифри.
+Recovery e-mail removed.	Пошту для відновлення видалено.
+Recovery e-mail saved.	Пошту для відновлення збережено.
+Something went wrong. Please try again.	Щось пішло не так. Спробуйте ще раз.
+That code is not valid (or the table was closed).	Цей код недійсний (або стіл закрито).
+That doesn't look like an e-mail address.	Це не схоже на адресу електронної пошти.
+That game is over.	Ця партія завершилася.
+The current password is wrong.	Поточний пароль неправильний.
+The server is restarting.	Сервер перезапускається.
+The server is restarting: new games start in a moment.	Сервер перезапускається: нові партії почнуться за мить.
+The tournament is full: you are on the waiting list.	Турнір заповнено: ви в черзі.
+This replay is not available.	Цей повтор недоступний.
+You can only give items to your friends.	Дарувати предмети можна лише друзям.
+Your friend already has this item.	У вашого друга вже є цей предмет.
+16 (VIP)	16 (VIP)
+VIP isn't sold in this version of the game.	У цій версії гри VIP не продається.
+In this version of the game, coins are earned by playing:	У цій версії гри монети заробляють грою:
+rated games, and a bonus every day you play.	рейтингові партії та бонус за кожен день гри.
+Coins are earned by playing:	Монети заробляють грою:
+If you like, you can also buy them:	За бажання їх також можна купити:
+one month	один місяць
+already VIP	уже VIP
+Give a month to a friend · {p}	Подарувати місяць другові · {p}
+{from} gave you a month of VIP!	{from} дарує вам місяць VIP!
+{name} received a month of VIP.	{name} отримує місяць VIP.
+Your friend is already VIP.	Ваш друг уже VIP.
+Game in progress: {n} balls left	Партія триває · лишилося куль: {n}
+Continue	Продовжити
+Missions	Місії
+Board	Дошка
+Today	Сьогодні
+This week	Цей тиждень
+new missions in {t}	нові місії через {t}
+ends in {t}	закінчиться через {t}
+{n} days	{n} дн.
+{n} h	{n} год
+{n} min	{n} хв
+mission complete	місію виконано
+Missions count rated games played to the end. The coins arrive as soon as one is complete.	Місії зараховують рейтингові партії, зіграні до кінця. Монети надходять, щойно місію виконано.
+Nothing on the board right now.	На дошці поки нічого.
+Open tournaments	Відкриті турніри
+{n}/{size} players	гравці: {n}/{size}
+starts in {t}	почнеться через {t}
+entry {n} coins	внесок {n} монет
+See	Переглянути
+Play {n} rated games	Зіграйте рейтингові партії: {n}
+Win {n} rated games	Виграйте рейтингові партії: {n}
+# Coin packs and months of VIP bought in the Microsoft Store (the Store build).
+# Five more computer opponents: Tito, Inês, Diego, Amara and Yuri.

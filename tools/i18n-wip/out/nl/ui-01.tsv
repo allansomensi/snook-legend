@@ -1,0 +1,300 @@
+1	{name} speelt op de 8, aangegeven: {pocket}
+2	Op de 8-bal: {pocket}
+3	Ping tonen
+4	De vertraging van je verbinding in online partijen.
+5	Reacties
+6	Winkel
+7	Laken
+8	Keus
+9	Krijt
+10	Ballen
+11	Munten
+12	munten
+13	Log in om items te kopen en te gebruiken. Dit is het aanbod:
+14	In gebruik
+15	Gebruiken
+16	Kopen
+17	{n} tekort
+18	{n} munten
+19	Niet genoeg munten: koop er meer op het tabblad Munten.
+20	Alleen VIP
+21	gratis
+22	van jou
+23	prestatie
+24	Op deze server kun je nog geen munten kopen.
+25	+{n} bonus
+26	De betaling opent in je browser (kaart, Pix…), op de beveiligde pagina van Stripe.
+27	De munten komen zo binnen; ze zijn alleen voor items in het spel.
+28	Exclusieve items: {list}
+29	{n} munten per maand
+30	Opzeggen wanneer je wilt: VIP loopt door tot het einde van de betaalde maand
+31	Je bent VIP tot {d}.
+32	Abonnement beheren
+33	Word VIP · {p}
+34	Op deze server kun je nog geen VIP kopen.
+35	De betaalpagina is geopend in je browser.
+36	De browser kon niet worden geopend.
+37	Toernooigroen
+38	Elektrisch blauw
+39	Bordeaux
+40	Antraciet
+41	Petrol
+42	Koningspaars
+43	Camel
+44	Middernacht
+45	Kampioensrood
+46	Klassiek
+47	Rozenhout
+48	Ebbenhout & zilver
+49	Carbon
+50	Ivoren inleg
+51	Kroon
+52	Juwelen
+53	Blauw krijt
+54	Groen krijt
+55	Rood krijt
+56	Paars krijt
+57	Gouden krijt
+58	Vintage
+59	Pastel
+60	Neon
+61	Je hebt dit item al.
+62	Niet genoeg munten.
+63	De aankoop is mislukt; er zijn geen munten afgeschreven.
+64	Dit item bestaat niet.
+65	Dit item kun je niet met munten kopen.
+66	Je hebt dit item niet.
+67	Aankopen zijn niet beschikbaar.
+68	Dit pakket is niet te koop.
+69	De betaalpagina kon niet worden geopend. Probeer het zo opnieuw.
+70	Je bent al VIP.
+71	Er is geen abonnement om te beheren.
+72	De pagina kon niet worden geopend. Probeer het zo opnieuw.
+73	Munten toegevoegd aan je portemonnee.
+74	Welkom bij VIP!
+75	Iets rustiger aan.
+76	Dat kun je niet doen.
+77	Er zijn nu te veel oproepen. Probeer het over een paar minuten opnieuw.
+78	Een moderator heeft je oproep verwijderd.
+79	Een moderator heeft je statusbericht gewist.
+80	Statusbericht gewist.
+81	VIP
+82	Nu spelen
+83	Vind automatisch een tegenstander van jouw niveau
+84	Tegenstander zoeken… {t}
+85	elke rating
+86	rating ±{n} · {mode}
+87	Trefzekerheid
+88	Gepotte ballen
+89	Hoogste serie
+90	Fouten
+91	zojuist gezien
+92	{n} min geleden gezien
+93	{n} u geleden gezien
+94	gisteren gezien
+95	{n} dagen geleden gezien
+96	{n} maanden geleden gezien
+97	zojuist
+98	{n} min geleden
+99	{n} u geleden
+100	gisteren
+101	{n} dagen geleden
+102	Partijverloop
+103	Nog niets.
+104	Fijn richten: klik op de pijlen of sleep hier
+105	{n} kijken mee
+106	Je kijkt mee met {name}
+107	Je reacties verschijnen stilletjes aan tafel.
+108	Stoppen met kijken
+109	Als ze opnieuw spelen, blijf je kijken.
+110	Je vriend heeft de tafel verlaten.
+111	Je vriend speelt nu niet.
+112	Je kunt alleen bij je vrienden meekijken.
+113	Je kunt deze partij niet bekijken.
+114	Nog {n} punten tot {tier}
+115	Hoogste klasse
+116	Reacties {n}/{total}
+117	Spooktafel
+118	Win een ratingpartij tijdens Halloween (24 okt – 2 nov).
+119	Wintercompetitie
+120	Win een ratingpartij tijdens de feestdagen (15 dec – 6 jan).
+121	Vuurwerk
+122	Win een ratingpartij rond de jaarwisseling (31 dec – 1 jan).
+123	Laat zien waar de objectbal en de speelbal heen gaan (alleen in vrije partijen en bij het oefenen).
+124	{n} online · ping {ms} ms
+125	Rechts slepen · Scrollwiel
+126	Winst %
+127	Camera resetten: bovenaanzicht, geen zoom
+128	{name} heeft de 8-bal gepot
+129	{name} heeft de 8 te vroeg gepot
+130	{name} heeft de 8 in de verkeerde pocket gepot
+131	{name} maakte een fout op de 8
+132	{name} heeft de 8 van tafel gespeeld
+133	{name} heeft opgegeven
+134	{name} heeft de partij verlaten
+135	{winner} wint! ({how})
+136	#{n} ter wereld
+137	3–16 letters, cijfers of underscores.
+138	Geen lijnen op tafel: richt op het oog, langs de keu.
+139	Geen richthulp
+140	Alleen een korte lijn vanaf de speelbal.
+141	Vriend accepteren
+142	Prestatie ontgrendeld: {title}
+143	Prestaties {n}/{total}
+144	Toevoegen
+145	Voeg een vriend toe via gebruikersnaam
+146	Vriend toevoegen
+147	Tegen de computer
+148	Alle toernooien
+149	Amateur
+150	Minstens 8 tekens. Gebruik een wachtwoord dat je nergens anders gebruikt.
+151	Er zijn minstens twee spelers nodig.
+152	Terug
+153	Zwarte bal
+154	Blokkeren
+155	Afstoot en uit
+156	Speel 10 keer de tafel uit vanaf je afstoot.
+157	Hier kan niet naar partijen worden gezocht: doe mee via het adres hieronder.
+158	Verzoek annuleren
+159	Toernooi annuleren
+160	Vriendschappelijk
+161	Centurion
+162	Kampioen
+163	Kampioen: {name}
+164	Land wijzigen
+165	Statusbericht toevoegen
+166	Iets over jezelf
+167	Opslaan (Enter)
+168	Annuleren (Esc)
+169	Statusbericht wijzigen
+170	Statusbericht wissen
+171	Valsspelen of misbruik
+172	Kiezen…
+173	Klik nogmaals om te blokkeren
+174	Sluiten
+175	Afmaker
+176	Deelnemer
+177	Verbinden met de server…
+178	Kan geen partij hosten: {e}
+179	Land
+180	Aanmaken
+181	Toernooi aanmaken
+182	Geen vlag tonen
+183	Geen land gevonden.
+184	Dynastie
+185	Acht is genoeg
+186	Beul
+187	Expert
+188	Bekend gezicht
+189	Finale
+190	Maak eerst je partij af.
+191	Eerste bloed
+192	Eerste afstoot
+193	Vriendschapsverzoek verstuurd.
+194	Vrienden
+195	dagelijkse partij
+196	Dagelijks
+197	Dagelijkse partij
+198	Dagelijkse partijen
+199	Daag een speler uit via gebruikersnaam
+200	Uitdagen voor een dagelijkse partij
+201	3 dagen per beurt
+202	Nog geen dagelijkse partijen. Daag een vriend uit: jullie spelen elk een beurt wanneer het jullie uitkomt.
+203	daagt je uit · {kind}
+204	wacht op antwoord · {kind} · nog {time}
+205	jouw beurt · nog {time}
+206	beurt tegenstander · nog {time}
+207	gewonnen · {how}
+208	verloren · {how}
+209	je tijd was op
+210	de tijd van je tegenstander was op
+211	open tafel
+212	Jij: {mine}, nog {a} · {name}: {theirs}, nog {b}
+213	Bekijken
+214	Overslaan
+215	Herhaling van de beurt van {name}
+216	Stoot {n} van {total}
+217	Beurt verstuurd
+218	Beurt verstuurd.
+219	Wachten tot {name} speelt
+220	{name} heeft {time} om te spelen. Je krijgt bericht als je aan de beurt bent.
+221	Nog {time} om te spelen. Je krijgt bericht als je aan de beurt bent.
+222	Terug naar dagelijkse partijen
+223	Je partij is opgeslagen: kom terug wanneer je wilt.
+224	{d} d {h} u
+225	de tijd van {name} was op
+226	Deze partij kan niet worden getoond.
+227	Er wacht een dagelijkse partij op je
+228	Er wachten {n} dagelijkse partijen op je
+229	{name} daagt je uit voor een dagelijkse ratingpartij.
+230	{name} daagt je uit voor een vriendschappelijke dagelijkse partij.
+231	{name} heeft je dagelijkse partij geaccepteerd.
+232	{name} heeft je dagelijkse partij afgewezen.
+233	{name} heeft de uitdaging voor een dagelijkse partij ingetrokken.
+234	Jouw beurt in de dagelijkse partij tegen {name}.
+235	De tijd van {name} is op: je hebt de dagelijkse partij gewonnen.
+236	Je hebt de dagelijkse partij tegen {name} gewonnen!
+237	Je tijd is op in de dagelijkse partij tegen {name}.
+238	Je hebt de dagelijkse partij tegen {name} verloren.
+239	Uitdaging verstuurd.
+240	Voor dagelijkse partijen heb je een account nodig.
+241	Deze partij bestaat niet.
+242	Die uitdaging is niet meer geldig.
+243	Die speler heeft jou al uitgedaagd: beantwoord die uitdaging.
+244	Die speler heeft te veel openstaande uitdagingen.
+245	Die speler heeft te veel lopende dagelijkse partijen.
+246	Die speler accepteert geen uitdagingen.
+247	Deze partij kan nu niet worden gespeeld.
+248	Deze partij is intussen veranderd: open hem opnieuw.
+249	Deze partij is afgelopen.
+250	Je hebt die speler al uitgedaagd.
+251	Je speelt al een partij tegen die speler.
+252	Je hebt die speler geblokkeerd.
+253	Je kunt jezelf niet uitdagen.
+254	Je speelt al het maximale aantal dagelijkse partijen tegelijk.
+255	Je hebt te veel uitdagingen die op antwoord wachten.
+256	Je verstuurt te snel uitdagingen.
+257	Je tijd voor deze beurt is op.
+258	Partijen
+259	Partijen op je netwerk
+260	Geef het toernooi een naam (minstens 3 tekens).
+261	Goed gezelschap
+262	Grootmeester
+263	Gasten kunnen alleen aan LAN-partijen meedoen. Maak een account aan.
+264	Gasten kunnen geen ratingtoernooien spelen.
+265	Niet beschikbaar voor gasten.
+266	Intimidatie
+267	Hattrick
+268	Heb 10 vrienden.
+269	Heb 30 dagen een account.
+270	Heb een jaar een account.
+271	Een partij hosten op deze computer
+272	Host {host} · {n}/{size} spelers · {kind}
+273	In vorm
+274	Hustler
+275	Ongeldige stoot.
+276	Meedoen
+277	Verbinden met de LAN-partij…
+278	Gewoon voor de lol
+279	V
+280	LAN-partij
+281	LAN-partij van {name}.
+282	LAN-partijen veranderen de rating niet.
+283	Legende
+284	Woont aan de tafel
+285	Profiel laden…
+286	Laden…
+287	Lokaal netwerk
+288	Vergrendeld
+289	Partijen zoeken
+290	Voeg een vriend toe.
+291	Meester
+292	Naam
+293	Namen hebben 3–16 letters, cijfers of underscores.
+294	Nieuw account
+295	Ik heb een account
+296	Nieuw hier? Kies ‘Nieuw account’: het duurt tien seconden.
+297	Nieuw toernooi
+298	Nog geen vrienden. Voeg iemand toe met wie je hebt gespeeld!
+299	Nog geen partijen.
+300	Geen limiet

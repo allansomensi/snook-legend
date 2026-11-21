@@ -1,0 +1,300 @@
+1	{name} chỉ còn bi số 8: lỗ chỉ định {pocket}
+2	Bi số 8: lỗ {pocket}
+3	Hiện ping
+4	Độ trễ kết nối của bạn trong các ván trực tuyến.
+5	Biểu cảm
+6	Cửa hàng
+7	Nỉ
+8	Cơ
+9	Phấn
+10	Bi
+11	Xu
+12	xu
+13	Đăng nhập để mua và dùng vật phẩm. Đây là những gì đang có:
+14	Đang dùng
+15	Dùng
+16	Mua
+17	thiếu {n}
+18	{n} xu
+19	Không đủ xu: hãy mua thêm ở thẻ Xu.
+20	Chỉ VIP
+21	miễn phí
+22	của bạn
+23	thành tích
+24	Máy chủ này chưa bán xu.
+25	+{n} tặng thêm
+26	Thanh toán mở trong trình duyệt của bạn (thẻ, Pix…), trên trang bảo mật của Stripe.
+27	Xu sẽ đến ngay; xu chỉ dùng cho vật phẩm trong game.
+28	Vật phẩm độc quyền: {list}
+29	{n} xu mỗi tháng
+30	Hủy bất cứ lúc nào: VIP kéo dài đến hết tháng đã thanh toán
+31	Bạn là VIP đến {d}.
+32	Quản lý gói đăng ký
+33	Trở thành VIP · {p}
+34	Máy chủ này chưa bán VIP.
+35	Trang thanh toán đã mở trong trình duyệt của bạn.
+36	Không mở được trình duyệt.
+37	Xanh giải đấu
+38	Xanh điện
+39	Đỏ rượu vang
+40	Xám than
+41	Xanh mòng két
+42	Tím hoàng gia
+43	Nâu lạc đà
+44	Nửa đêm
+45	Đỏ nhà vô địch
+46	Cổ điển
+47	Gỗ hồng mộc
+48	Gỗ mun và bạc
+49	Carbon
+50	Khảm ngà
+51	Vương miện
+52	Đá quý
+53	Phấn xanh dương
+54	Phấn xanh lá
+55	Phấn đỏ
+56	Phấn tím
+57	Phấn vàng kim
+58	Hoài cổ
+59	Pastel
+60	Neon
+61	Bạn đã có vật phẩm này.
+62	Không đủ xu.
+63	Mua không thành công; bạn không bị trừ xu.
+64	Không có vật phẩm này.
+65	Không thể mua vật phẩm này bằng xu.
+66	Bạn chưa có vật phẩm này.
+67	Hiện chưa thể mua hàng.
+68	Gói này không được bán.
+69	Không mở được trang thanh toán. Hãy thử lại sau giây lát.
+70	Bạn đã là VIP.
+71	Không có gói đăng ký nào để quản lý.
+72	Không mở được trang. Hãy thử lại sau giây lát.
+73	Đã thêm xu vào ví của bạn.
+74	Chào mừng bạn đến với VIP!
+75	Chậm lại một chút.
+76	Bạn không thể làm vậy.
+77	Hiện có quá nhiều ghi chú. Hãy thử lại sau vài phút.
+78	Một điều hành viên đã gỡ ghi chú của bạn.
+79	Một điều hành viên đã xóa dòng trạng thái của bạn.
+80	Đã xóa dòng trạng thái.
+81	VIP
+82	Chơi ngay
+83	Tự động tìm đối thủ cùng trình độ
+84	Đang tìm đối thủ… {t}
+85	mọi mức điểm
+86	điểm ±{n} · {mode}
+87	Tỉ lệ ăn bi
+88	Bi đã ăn
+89	Chuỗi dài nhất
+90	Lỗi
+91	truy cập vừa xong
+92	truy cập {n} phút trước
+93	truy cập {n} giờ trước
+94	truy cập hôm qua
+95	truy cập {n} ngày trước
+96	truy cập {n} tháng trước
+97	vừa xong
+98	{n} phút trước
+99	{n} giờ trước
+100	hôm qua
+101	{n} ngày trước
+102	Diễn biến ván
+103	Chưa có gì.
+104	Ngắm tinh: bấm các mũi tên hoặc kéo tại đây
+105	{n} người xem
+106	Đang xem {name}
+107	Biểu cảm của bạn hiện trên bàn một cách kín đáo.
+108	Ngừng xem
+109	Nếu họ chơi tiếp, bạn vẫn tiếp tục xem.
+110	Người bạn này đã rời bàn.
+111	Người bạn này hiện không chơi.
+112	Bạn chỉ có thể xem bạn bè của mình.
+113	Bạn không thể xem ván này.
+114	Còn {n} điểm lên {tier}
+115	Hạng cao nhất
+116	Biểu cảm {n}/{total}
+117	Bàn ma ám
+118	Thắng một ván xếp hạng dịp Halloween (24/10 – 2/11).
+119	Giải mùa đông
+120	Thắng một ván xếp hạng dịp lễ cuối năm (15/12 – 6/1).
+121	Pháo hoa
+122	Thắng một ván xếp hạng lúc giao thừa (31/12 – 1/1).
+123	Hiện hướng đi của bi mục tiêu và bi cái (chỉ trong ván tự do và luyện tập).
+124	{n} trực tuyến · ping {ms} ms
+125	Kéo chuột phải · Con lăn
+126	% thắng
+127	Đặt lại camera: nhìn từ trên xuống, không thu phóng
+128	{name} đưa bi số 8 vào lỗ
+129	{name} đưa bi số 8 vào lỗ quá sớm
+130	{name} đưa bi số 8 vào sai lỗ
+131	{name} phạm lỗi ở bi số 8
+132	{name} đánh bi số 8 văng khỏi bàn
+133	{name} đã xin thua
+134	{name} đã rời ván
+135	{winner} thắng! ({how})
+136	#{n} thế giới
+137	3–16 chữ cái, chữ số hoặc dấu gạch dưới.
+138	Không có đường kẻ trên bàn: ngắm bằng mắt, dọc theo cây cơ.
+139	Không đường ngắm
+140	Chỉ một đường ngắn từ bi cái.
+141	Chấp nhận kết bạn
+142	Mở khóa thành tích: {title}
+143	Thành tích {n}/{total}
+144	Thêm
+145	Thêm bạn bằng tên người dùng
+146	Kết bạn
+147	Đấu với máy
+148	Tất cả giải đấu
+149	Nghiệp dư
+150	Ít nhất 8 ký tự. Hãy dùng mật khẩu bạn không dùng ở nơi khác.
+151	Cần ít nhất hai người chơi.
+152	Quay lại
+153	Bi đen
+154	Chặn
+155	Phá bi dọn bàn
+156	Phá bi dọn bàn 10 lần.
+157	Không thể dò tìm ván ở đây: hãy tham gia bằng địa chỉ bên dưới.
+158	Hủy lời mời
+159	Hủy giải đấu
+160	Giao hữu
+161	Bách thắng
+162	Nhà vô địch
+163	Vô địch: {name}
+164	Đổi quốc gia
+165	Thêm dòng trạng thái
+166	Một dòng về bạn
+167	Lưu (Enter)
+168	Hủy (Esc)
+169	Đổi dòng trạng thái
+170	Xóa dòng trạng thái
+171	Gian lận hoặc lạm dụng
+172	Chọn…
+173	Bấm lần nữa để chặn
+174	Đóng
+175	Tay chốt hạ
+176	Đấu thủ
+177	Đang kết nối máy chủ…
+178	Không thể tạo ván: {e}
+179	Quốc gia
+180	Tạo
+181	Tạo giải đấu
+182	Không hiện cờ
+183	Không tìm thấy quốc gia.
+184	Triều đại
+185	Số 8 là đủ
+186	Đao phủ
+187	Chuyên gia
+188	Gương mặt quen thuộc
+189	Chung kết
+190	Hãy chơi xong ván của bạn trước.
+191	Chiến công đầu
+192	Cú phá đầu tiên
+193	Đã gửi lời mời kết bạn.
+194	Bạn bè
+195	ván hằng ngày
+196	Hằng ngày
+197	Ván hằng ngày
+198	Ván hằng ngày
+199	Thách đấu người chơi bằng tên người dùng
+200	Thách đấu một ván hằng ngày
+201	3 ngày cho mỗi lượt
+202	Chưa có ván hằng ngày nào. Hãy thách đấu một người bạn: mỗi người đánh lượt của mình khi rảnh.
+203	thách đấu bạn · {kind}
+204	đang chờ trả lời · {kind} · còn {time}
+205	lượt của bạn · còn {time}
+206	lượt đối thủ · còn {time}
+207	thắng · {how}
+208	thua · {how}
+209	bạn hết giờ
+210	đối thủ hết giờ
+211	bàn mở
+212	Bạn: {mine}, còn {a} · {name}: {theirs}, còn {b}
+213	Xem
+214	Bỏ qua
+215	Đang phát lại lượt của {name}
+216	Cú đánh {n}/{total}
+217	Đã gửi lượt
+218	Đã gửi lượt.
+219	Đang chờ {name} đánh
+220	{name} có {time} để đánh. Bạn sẽ được báo khi đến lượt mình.
+221	Còn {time} để đánh. Bạn sẽ được báo khi đến lượt mình.
+222	Về các ván hằng ngày
+223	Ván của bạn đã được lưu: quay lại bất cứ lúc nào bạn muốn.
+224	{d} ngày {h} giờ
+225	{name} hết giờ
+226	Không thể hiển thị ván này.
+227	Có một ván hằng ngày đang chờ bạn
+228	{n} ván hằng ngày đang chờ bạn
+229	{name} thách đấu bạn một ván hằng ngày xếp hạng.
+230	{name} thách đấu bạn một ván hằng ngày giao hữu.
+231	{name} đã nhận lời thách đấu ván hằng ngày của bạn.
+232	{name} đã từ chối lời thách đấu ván hằng ngày của bạn.
+233	{name} đã rút lại lời thách đấu ván hằng ngày.
+234	Đến lượt bạn trong ván hằng ngày với {name}.
+235	{name} hết giờ: bạn thắng ván hằng ngày.
+236	Bạn đã thắng ván hằng ngày với {name}!
+237	Bạn đã hết giờ trong ván hằng ngày với {name}.
+238	Bạn đã thua ván hằng ngày với {name}.
+239	Đã gửi lời thách đấu.
+240	Cần có tài khoản để chơi ván hằng ngày.
+241	Không có ván này.
+242	Lời thách đấu đó không còn hiệu lực.
+243	Người chơi đó đã thách đấu bạn: hãy trả lời lời thách đấu của họ.
+244	Người chơi đó có quá nhiều lời thách đấu đang chờ.
+245	Người chơi đó đang có quá nhiều ván hằng ngày.
+246	Người chơi đó không nhận lời thách đấu.
+247	Hiện không thể chơi ván này.
+248	Ván này vừa thay đổi: hãy mở lại.
+249	Ván này đã kết thúc.
+250	Bạn đã thách đấu người chơi đó rồi.
+251	Bạn đã có một ván đang diễn ra với người chơi đó.
+252	Bạn đã chặn người chơi đó.
+253	Bạn không thể tự thách đấu chính mình.
+254	Bạn đã có số ván hằng ngày tối đa cùng lúc.
+255	Bạn có quá nhiều lời thách đấu đang chờ trả lời.
+256	Bạn gửi lời thách đấu quá nhanh.
+257	Bạn đã hết giờ cho lượt này.
+258	Ván đấu
+259	Ván đấu trong mạng của bạn
+260	Hãy đặt tên cho giải đấu (ít nhất 3 ký tự).
+261	Bạn đồng hành
+262	Đại cao thủ
+263	Khách chỉ có thể tham gia ván LAN. Hãy tạo tài khoản.
+264	Khách không thể chơi giải đấu xếp hạng.
+265	Khách không có mục này.
+266	Quấy rối
+267	Hat-trick
+268	Có 10 bạn bè.
+269	Có tài khoản được 30 ngày.
+270	Có tài khoản được một năm.
+271	Tạo ván trên máy tính này
+272	Chủ phòng {host} · {n}/{size} người chơi · {kind}
+273	Nóng tay
+274	Tay chơi
+275	Cú đánh không hợp lệ.
+276	Tham gia
+277	Đang tham gia ván LAN…
+278	Chơi cho vui
+279	B
+280	Ván LAN
+281	Ván LAN do {name} tạo.
+282	Ván LAN không làm thay đổi điểm xếp hạng.
+283	Huyền thoại
+284	Ăn ngủ bên bàn bi-a
+285	Đang tải hồ sơ…
+286	Đang tải…
+287	Mạng nội bộ
+288	Chưa mở khóa
+289	Đang tìm ván
+290	Kết bạn với một người.
+291	Cao thủ
+292	Tên
+293	Tên gồm 3–16 chữ cái, chữ số hoặc dấu gạch dưới.
+294	Tài khoản mới
+295	Tôi đã có tài khoản
+296	Lần đầu đến đây? Chọn “Tài khoản mới”: chỉ mất mười giây.
+297	Giải đấu mới
+298	Chưa có bạn bè. Hãy kết bạn với người từng chơi cùng bạn!
+299	Chưa có ván nào.
+300	Không giới hạn

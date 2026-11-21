@@ -1,0 +1,300 @@
+901	Taille de l'interface
+902	Textes, boutons et panneaux.
+903	Faites glisser pour régler la puissance
+904	Tirer !
+905	Réglez la puissance, puis appuyez sur le bouton vert
+906	+{n} pièces · {why}
+907	Tournois à 16 joueurs, et la première place sur la liste d'attente d'un tournoi complet
+908	30 minutes : jouez autant de parties que possible. Une victoire vaut 2 points, 4 à partir de la troisième d'affilée.
+909	Une couronne à côté de votre nom, partout (salon, profil, classement)
+910	Compte
+911	Ajoutez des amis pour leur offrir des objets.
+912	Arène
+913	Arène · hôte {host} · {n} joueurs · {kind}
+914	Acheter maintenant
+915	Achat…
+916	Changer de mot de passe
+917	Cliquez à nouveau pour supprimer
+918	Vous avez un code ? Saisissez-le ici
+919	Confirmer l'achat
+920	Copié : envoyez-le à un ami.
+921	Copier
+922	Actuel
+923	Supprimer le compte
+924	Inscription
+925	Inscription {n} pièces
+926	Tous les replays conservés (les joueurs gratuits gardent leurs 10 dernières parties)
+927	Pour {name}
+928	Ajoutez un message (facultatif)
+929	Format
+930	Cadres
+931	Gratuit
+932	Obtenir des pièces
+933	Cadeau envoyé !
+934	Offrir
+935	L'offrir
+936	Offrir à un ami
+937	Super !
+938	Si vous oubliez votre mot de passe, nous vérifierons votre identité avec cette adresse e-mail.
+939	Inviter avec un code
+940	Il est équipé tout de suite. Les objets ne changent que l'apparence, jamais le jeu.
+941	Rejoignez ma table sur Snook Legend :
+942	S'inscrire sur la liste d'attente
+943	Rejoindre · {n} pièces
+944	Élimination directe
+945	Couleur du nom
+946	Couleurs de nom dans le salon et cadres, tapis, queues, billes et effets exclusifs
+947	Nouveau
+948	Non merci
+949	Rien qui fasse gagner : le VIP ne change que l'apparence
+950	Chiffres
+951	À LA TÉLÉ
+952	Jouez des parties classées pour voir votre classement ici.
+953	Aucune partie classée pour l'instant.
+954	Prix
+955	Gains {a} + {b}
+956	Protégez vos achats
+957	Achat terminé !
+958	E-mail de récupération
+959	Enregistrer
+960	Les inscriptions font la cagnotte : 70 % pour le champion, 20 % pour le finaliste.
+961	Le serveur redémarre dans {m}:{s} pour une mise à jour. Les parties en cours continuent.
+962	Utiliser cette adresse
+963	Utiliser {email} pour récupérer votre compte si vous oubliez votre mot de passe ?
+964	Regarder
+965	Revoir
+966	Effets de victoire
+967	Salles
+968	Vous affrontez un adversaire dès que vous êtes tous les deux libres.
+969	Vous pouvez la changer à tout moment dans votre profil (Compte).
+970	Il vous manque {n} pièces.
+971	Votre compte
+972	Votre compte a été supprimé.
+973	Vos pièces
+974	Votre ami le reçoit tout de suite.
+975	Votre partie contre {name} commence.
+976	Votre nom, votre e-mail, vos amis et vos objets sont effacés définitivement. Vos adversaires gardent les parties jouées (sans votre nom).
+977	billes par partie
+978	meilleure série
+979	bonus quotidien
+980	inscription remboursée
+981	pour la partie
+982	pour la victoire
+983	parties comptées
+984	Analyse
+985	L'analyse des coups n'est pas encore disponible sur ce serveur.
+986	Seuls les comptes en ligne ont une analyse des coups.
+987	Jouez en ligne pour voir comment vous empochez : l'analyse apparaît après encore {n} coups vers une poche.
+988	{name} n'a pas encore joué assez de parties en ligne pour une analyse.
+989	1 partie
+990	{pct} % de {n} coups vers une poche réussis · {games}
+991	{made} sur {n} empochées ({pct})
+992	Par type de coup
+993	coups
+994	Dans l'axe
+995	Angle 8–25°
+996	Angle 25–45°
+997	Angle fin 45°+
+998	Bande
+999	Bricole
+1000	Combinaison
+1001	Sauté
+1002	Massé
+1003	Casse
+1004	Par distance
+1005	Court (moins de 0,75 m)
+1006	Moyen (jusqu'à 1,5 m)
+1007	Long (plus de 1,5 m)
+1008	n'ont rien laissé à l'adversaire
+1009	Casses
+1010	ont empoché une bille
+1011	Empochées
+1012	Manquées
+1013	Où et dans quelle poche
+1014	{pocket} : {made} sur {n} empochées
+1015	Où étaient les billes empochées
+1016	Où étaient les billes manquées
+1017	peu
+1018	beaucoup
+1019	{made} empochées · {missed} manquées ({pct})
+1020	Coin supérieur gauche
+1021	Coin inférieur gauche
+1022	Poche du milieu en haut
+1023	Poche du milieu en bas
+1024	Coin supérieur droit
+1025	Coin inférieur droit
+1026	parties abandonnées
+1027	réussite
+1028	coups avec faute
+1029	commence dans {n} min
+1030	gain de tournoi
+1031	La salle sombre masque le décor autour de la table.
+1032	Afficher la salle
+1033	Niveau {n} · 1 victoire
+1034	Niveau {n} · {w} victoires
+1035	Encore {left} victoires en ligne avec cette queue pour le niveau {n}. Les niveaux ajoutent seulement des marques à la queue.
+1036	Niveau maximal : cette queue a toutes les marques.
+1037	Votre queue {cue} a atteint le niveau {n} !
+1038	Plus de victoires : {cue} (niveau {n})
+1039	{games} parties · {rate} % gagnées · {balls} billes empochées
+1040	vs
+1041	{from} vous a offert {item} !
+1042	Vous avez reçu un cadeau !
+1043	De
+1044	Pour
+1045	quelqu'un
+1046	Un mois de VIP
+1047	Remercier
+1048	Remercié
+1049	Vous a remercié
+1050	Équiper maintenant
+1051	Plus tard
+1052	OK
+1053	Suivant ({n} de plus)
+1054	{from} vous a offert {item} ! Votre cadeau vous attend dans le salon.
+1055	{name} vous remercie pour {item}.
+1056	Cadeaux
+1057	Pas encore de cadeaux. Vos amis peuvent vous offrir des objets de la boutique.
+1058	{item} est à vous, et déjà en place.
+1059	reste {m}:{s}
+1060	{name} vous invite à jouer.
+1061	{name} est en ligne.
+1062	Temps écoulé pour {name}.
+1063	{name} a reçu {item}.
+1064	{n} pts · {g} parties
+1065	spectateurs : {n} · moy. {r}
+1066	{title} : {how}
+1067	Olive
+1068	Bleu marine
+1069	Forêt
+1070	Gris ardoise
+1071	Lie-de-vin
+1072	Orange brûlé
+1073	Vieux rose
+1074	Sable
+1075	Bleu glacier
+1076	Citron vert
+1077	Smoking
+1078	Cobalt
+1079	Émeraude
+1080	Érable naturel
+1081	Bar de plage
+1082	Moderne
+1083	Club anglais
+1084	Ébène et or
+1085	Salle de billard
+1086	Loft industriel
+1087	Acier et chêne
+1088	Tournoi
+1089	Noyer victorien
+1090	Ivoire déco
+1091	Chalet de montagne
+1092	Arcade néon
+1093	Salon Art déco
+1094	Penthouse panoramique
+1095	Noyer
+1096	Zebrano
+1097	Bocote
+1098	Océan profond
+1099	Cerisier
+1100	Jade
+1101	Tigre
+1102	Améthyste
+1103	Carbone arctique
+1104	Enfer
+1105	Obsidienne et or
+1106	Craie beige
+1107	Craie grise
+1108	Craie orange
+1109	Craie rose
+1110	Craie bleu canard
+1111	Craie jaune
+1112	Craie noire
+1113	Craie blanche
+1114	Craie argentée
+1115	Jeu TV
+1116	Tons terre
+1117	Océan
+1118	Coucher de soleil
+1119	Bonbon
+1120	Perle
+1121	Monochrome
+1122	Chrome
+1123	Ruée vers l'or
+1124	Sans cadre
+1125	Bronze
+1126	Argent
+1127	Or
+1128	Feutre vert
+1129	Acajou
+1130	Glace
+1131	Feu
+1132	Diamant
+1133	Couronne VIP
+1134	Or rose
+1135	Aqua
+1136	Violet
+1137	Braise
+1138	Menthe
+1139	Givre
+1140	Sans effet
+1141	Étincelles
+1142	Confettis
+1143	Onde de choc
+1144	Pluie de pièces
+1145	Flammes
+1146	Étincelles royales
+1147	Couleur du rang
+1148	Les tournois à 16 joueurs sont réservés aux membres VIP.
+1149	Une place s'est libérée : vous êtes dans le tournoi !
+1150	L'inscription peut aller jusqu'à 1000 pièces.
+1151	Les invités ne peuvent pas jouer de pièces.
+1152	Seuls les objets vendus contre des pièces peuvent être offerts.
+1153	Mot de passe modifié.
+1154	Le mot de passe doit avoir au moins 8 caractères, pas seulement des chiffres.
+1155	E-mail de récupération supprimé.
+1156	E-mail de récupération enregistré.
+1157	Une erreur s'est produite. Veuillez réessayer.
+1158	Ce code n'est pas valide (ou la table a été fermée).
+1159	Cela ne ressemble pas à une adresse e-mail.
+1160	Cette partie est terminée.
+1161	Le mot de passe actuel est incorrect.
+1162	Le serveur redémarre.
+1163	Le serveur redémarre : les nouvelles parties commencent dans un instant.
+1164	Le tournoi est complet : vous êtes sur la liste d'attente.
+1165	Ce replay n'est pas disponible.
+1166	Vous ne pouvez offrir des objets qu'à vos amis.
+1167	Votre ami a déjà cet objet.
+1168	16 (VIP)
+1169	Le VIP n'est pas vendu dans cette version du jeu.
+1170	Dans cette version du jeu, les pièces se gagnent en jouant :
+1171	parties classées, et un bonus chaque jour où vous jouez.
+1172	Les pièces se gagnent en jouant :
+1173	Si vous voulez, vous pouvez aussi en acheter :
+1174	un mois
+1175	déjà VIP
+1176	Offrir un mois à un ami · {p}
+1177	{from} vous a offert un mois de VIP !
+1178	{name} a reçu un mois de VIP.
+1179	Votre ami est déjà VIP.
+1180	Partie en cours : {n} billes restantes
+1181	Continuer
+1182	Missions
+1183	Tableau
+1184	Aujourd'hui
+1185	Cette semaine
+1186	nouvelles missions dans {t}
+1187	se termine dans {t}
+1188	{n} jours
+1189	{n} h
+1190	{n} min
+1191	mission accomplie
+1192	Les missions comptent les parties classées jouées jusqu'au bout. Les pièces arrivent dès qu'une mission est accomplie.
+1193	Rien au tableau pour le moment.
+1194	Tournois ouverts
+1195	{n}/{size} joueurs
+1196	commence dans {t}
+1197	inscription {n} pièces
+1198	Voir
+1199	Jouez {n} parties classées
+1200	Gagnez {n} parties classées

@@ -1,0 +1,300 @@
+601	Back spin
+602	Kaliwang spin
+603	Kanang spin
+604	Itaas ang cue
+605	Ibaba ang cue
+606	Damputin ang cue ball (ball in hand)
+607	3D / view mula sa itaas
+608	I-reset ang camera
+609	I-replay ang huling tira
+610	Listahan ng controls
+611	Mapapalitan ang mga key sa Settings → Controls.
+612	Space
+613	Right Shift
+614	Right Ctrl
+615	Right Alt
+616	Pag-asinta at pagtira
+617	Spin at elevation
+618	Mga nakapirming key
+619	Menu, bumalik at kanselahin
+620	Kumpirmahin (mga form, ang cue ball sa ball in hand)
+621	Hindi mapapalitan ang key na ito.
+622	Pumindot ng key · Esc para kanselahin · Backspace para burahin
+623	Pumindot ng key…
+624	I-click para palitan
+625	I-click para magdagdag ng key
+626	Ibalik sa walang key
+627	Ibalik sa {keys}
+628	Pinagpalit: nasa {key} na ang {action}.
+629	Kinuha mula sa {action}, na wala nang key ngayon.
+630	Kinuha mula sa {action}.
+631	Hindi magagamit ang key na iyan: sumubok ng iba.
+632	Tumira
+633	Maikli
+634	Nagsa-sign in…
+635	Nagsa-sign in
+636	Malalambot na anino mula sa bawat lampara, makikinang na hall, halo.
+637	Solids (1–7)
+638	Bola ng spin
+639	Spin
+640	Standard
+641	Manatili
+642	Stripes (9–15)
+643	Tuloy ang laro habang bukas ito.
+644	Gamitin ang default
+645	Username
+646	3–16 na letra, numero o underscore ang mga username.
+647	{keys} (jump at massé)
+648	Panalo ka!
+649	Pangalan mo
+650	Bumalik sa lounge ang kalaban mo.
+651	Turn mo
+652	open table: ang susunod na bolang maipasok mo ang magtatakda ng grupo mo
+653	draw
+654	follow
+655	stun
+656	solids
+657	stripes
+658	lounge
+659	 · kaliwang spin
+660	 · kanang spin
+661	Wika
+662	Pangkalahatan
+663	Graphics
+664	Laro
+665	Tunog
+666	I-reset sa default
+667	I-reset ang lahat ng key
+668	I-reset ang lahat ng key?
+669	I-click ulit para ibalik ang lahat ng key
+670	Mga update
+671	Awtomatikong mag-update
+672	Nada-download sa background ang mga bagong bersiyon at nai-install kapag nag-restart ka.
+673	Bersiyon {v}
+674	Ano'ng bago
+675	Ano'ng bago sa bersiyon {v}
+676	Walang notes para sa bersiyong ito.
+677	Sige
+678	I-restart ngayon
+679	Pagkatapos ng laro, mula sa main menu.
+680	I-download
+681	Tingnan ngayon
+682	Hindi maabot ang update server.
+683	Nasira ang download. Susubukan ulit mamaya.
+684	Hindi ma-install ang bagong bersiyon. Mananatili ang bersiyong ito.
+685	Nagda-download… {p}%
+686	Nag-a-update…
+687	Ang Microsoft Store ang nagpapanatiling updated sa laro.
+688	Development build: walang awtomatikong update.
+689	Naghahanap ng bagong bersiyon…
+690	Ito na ang pinakabagong bersiyon.
+691	Dina-download ang bersiyon {v}… {p}%
+692	Ini-install ang bersiyon {v}…
+693	Handa na ang bersiyon {v}: i-restart ang laro para magamit ito.
+694	Labas na ang bersiyon {v}: i-download ito sa releases page.
+695	Handa na ang bersiyon {v}
+696	I-restart para malaro ito; walang mawawala.
+697	Labas na ang bersiyon {v}
+698	Kunin ito sa releases page.
+699	I-reset ang lahat?
+700	I-click ulit para i-reset ang lahat ng setting
+701	Online
+702	Menu
+703	Rating
+704	Ultra
+705	pindutin nang matagal ang {key} at bitawan
+706	Palitan
+707	Sensitivity ng asinta sa mouse
+708	Gaano kabilis umikot ang cue sa mouse.
+709	Vignette
+710	Pinadidilim ang mga gilid ng larawan, parang pelikula.
+711	Ipakita ang FPS
+712	Frames per second, sa isang sulok ng screen.
+713	Mag-call muna ng pocket para sa 8-ball: i-click ang isang pocket.
+714	Kumokonekta ulit
+715	tapos na ang laro
+716	hindi puwedeng ilagay doon ang cue ball
+717	mag-call ng pocket para sa 8-ball
+718	May gumagamit na ng username na iyan.
+719	Maling username o password.
+720	Nag-expire ang session mo. Mag-log in ulit.
+721	Luma na ang bersiyong ito ng Snook Legend. I-update ang laro.
+722	Hindi mo pa turn.
+723	Hindi online ang manlalarong iyan.
+724	Nasa isang laro ang manlalarong iyan.
+725	Hindi mo puwedeng imbitahan ang sarili mo.
+726	Hindi na valid ang imbitasyong iyan.
+727	Hindi na available ang manlalarong iyan.
+728	Sumuko muna para makaalis sa kasalukuyang laro.
+729	Maling format ng mensahe.
+730	Mag-log in muna.
+731	Hindi magawa ang account.
+732	Hindi puwedeng ilagay doon ang cue ball.
+733	Na-disconnect.
+734	Nawala ang koneksiyon sa server.
+735	Isinara ng server ang koneksiyon.
+736	Masyadong natagalan sumagot ang server.
+737	Hindi sumasagot ang server (tinanggihan ang koneksiyon).
+738	Hindi valid ang address ng server (halimbawa: wss://snook-legend.example.com/ws).
+739	Walang host name ang address ng server.
+740	Maligayang pagdating sa Snook Legend! Maging mabait, maglaro nang patas.
+741	Ball in hand: i-drag ang cue ball{zone} para ilipat ito
+742	 sa likod ng linya
+743	Ball in hand  ·  {group}
+744	Hindi makatira: {e}.
+745	Chat ({n})
+746	Computer ({level})
+747	Computer
+748	May sariling istilo ang bawat kalaban
+749	Malayang laro
+750	Tour
+751	Tour: natalo mo ang {n} sa {total}
+752	Lakas {n}/5
+753	Ghost
+754	Katumpakan
+755	Mga safety
+756	Mga bank
+757	Posisyon
+758	Ghost ni {name}
+759	Ghost ng isang manlalaro
+760	Naglalaro na parang totoong manlalaro
+761	Naglalaro ang computer sa istilo ng isang totoong manlalaro, batay sa mga online na laro niya.
+762	Mag-sign in para makalaban ang ghost ng isang totoong manlalaro.
+763	I-load
+764	Mga kaibigan:
+765	Mag-type ng username o pumili ng kaibigan, saka pindutin ang I-load.
+766	Sinusukat kung paano maglaro si {name}…
+767	Pasok {pots}% · safety {safe}% · bank {banks}% · {shots} tira
+768	{shots} tira pa lang ang naitala ni {name}; kailangan ng ghost ng {needed}. Mabubuo ito sa mas maraming online na laro.
+769	Walang manlalarong {name} ang pangalan.
+770	Hindi maabot ang server ngayon. Subukan ulit mamaya.
+771	Maghintay sandali bago humiling ulit.
+772	Nagkaproblema sa server. Subukan ulit mamaya.
+773	Kalabanin ang ghost mo
+774	Kalabanin ang ghost niya
+775	Natalo na
+776	Susunod
+777	Ipanalo ang naunang stage para ma-unlock ito.
+778	Stage {n} sa {total}
+779	Hamunin si {name}
+780	Panalo sa stage {n}! Susunod sa tour: si {name}.
+781	Napanalunan mo ang buong tour!
+782	Gantimpala
+783	Cue na {item} · eksklusibo
+784	Sa iyo na: nasa shop ito, sa Cue.
+785	Ipanalo ulit ang huling stage habang naka-sign in para makuha ito.
+786	Talunin ang labinlimang kalaban para makuha ito. Hindi ito ibinebenta kahit saan.
+787	Napanalunan mo ang tour! Mag-sign in para makuha ang gantimpala mo.
+788	Sinusuri ng server ang final mong laro…
+789	Subukan ulit
+790	Hindi sumagot ang server. Subukan ulit maya-maya.
+791	Busy ang server sa pagsusuri ng ibang laro. Subukan ulit maya-maya.
+792	Maghintay ng isang minuto bago sumubok ulit.
+793	Masyadong mahaba ang larong iyan para masuri.
+794	May galaw sa larong iyan na hindi pinapayagan ng patakaran.
+795	Hindi natapos ang larong iyan.
+796	Hindi panalo ang larong iyan.
+797	Hindi tugma ang mga tira ng computer sa larong iyan sa paraan nito ng paglalaro (ibang bersiyon ng laro?).
+798	Ang Baguhan
+799	Nag-aaral pa: umaasinta sa pinakamalapit na pocket, tinatamaan sa gitna ang bola, at umaasa. Hindi kailanman nagse-safety.
+800	Ang Pang-weekend
+801	Alam ang basics at naipapasok ang madadali, pero bihirang isipin kung saan mapupunta ang cue ball.
+802	Ang Reyna ng Bank
+803	Nakikita ang mga anggulong hindi nakikita ng iba: kapag puwedeng pumasok ang bola mula sa cushion, ibina-bank niya ito.
+804	Ang Kanyon
+805	Lahat tinitira, nang buong lakas: malalayong tira, dumadagundong na break, halos walang safety.
+806	Ang Pader
+807	Tumitira lang kapag sigurado ang pasok. Kung hindi, itinatago niya ang cue ball at hinihintay ang pagkakamali mo.
+808	Ang Beterano
+809	Apatnapung taon sa mesa: malambot na stroke, nakaangat na cue, side spin, at hindi kailanman nagmamadali.
+810	Ang Tuso
+811	Naglalaro nang sapat lang para manalo, tapos medyo mas magaling pa. Balanse, matalas at mahirap basahin.
+812	Ang Propesor
+813	Tatlong bola ang iniisip nang pauna: bawat tira ay nag-iiwan ng cue ball kung saan madali ang susunod.
+814	Ang Asintada
+815	Nakakapasok mula kahit saan, sa kahit anong anggulo. Pahabol lang ang mga safety niya: hindi niya kailangan ang mga iyon.
+816	Ang Kampeon
+817	Ilang taon nang walang talo. Tumpak, matiyaga at walang awa: ang huling stage ng tour.
+818	Kampeon ng Tour
+819	Kampeon ng Tour
+820	Talunin ang labinlimang kalaban ng computer tour.
+821	Nawala ang koneksiyon. Kumokonekta ulit (subok {n})…
+822	Nawala ang koneksiyon. Kumokonekta ulit…
+823	Foul ni {shooter}: {foul}.
+824	Itinakda sa {q} ang graphics para sa smooth na laro. Mapapalitan mo ito sa Settings.
+825	Rating {r} ({d})
+826	Ibinalik sa mesa ang {ball}.
+827	Hinihintay si {to} ({kind})…
+828	rated
+829	casual
+830	Hinihintay si {name}…
+831	Tinanggihan ni {by} ang imbitasyon mo.
+832	isang rated na laro
+833	isang casual na laro
+834	Ini-call ni {name} ang 8-ball sa {pocket}.
+835	May ball in hand si {name}…
+836	Umaasinta si {name}…
+837	Nasa 8 na si {name}: i-click ang isang pocket para i-call ito
+838	Nag-iisip si {name}…
+839	Umalis si {name} sa laro.
+840	Sumuko si {name}.
+841	Magbe-break si {name}
+842	Titira si {name} ({target})
+843	Turn ni {name}
+844	May ball in hand si {next}{where}.
+845	 sa likod ng head string
+846	Bumalik na si {opponent}.
+847	Nawalan ng koneksiyon si {opponent}. Naghihintay nang hanggang {secs} s…
+848	Gusto ni {opponent} ng rematch.
+849	Bumalik sa lounge si {opponent}.
+850	Naipasok ni {shooter} ang {balls}.
+851	Kay {shooter} ang {group}.
+852	Naubusan ng oras si {who}: ball in hand para sa kalaban.
+853	Gusto ni {name} ng rematch!
+854	Panalo si {name}!
+855	Panalo si {name}
+856	Volume
+857	Ang cue, ang mga bola, ang mga cushion at ang mga pocket.
+858	Mga notification
+859	Hindi mahanap ang server na “{host}”.
+860	Error sa network: {e}.
+861	Pumalya ang secure na koneksiyon: {e}.
+862	Tinanggihan ng server ang koneksiyon (HTTP {code}).
+863	Error sa koneksiyon: {e}.
+864	cue ball
+865	{n}-ball
+866	Scratch: pumasok ang cue ball
+867	Lumabas sa mesa ang cue ball
+868	Walang tinamaang bola ang cue ball
+869	Maling bola ang unang natamaan ({ball})
+870	Walang bolang umabot sa cushion pagkatapos ng tama
+871	Lumabas sa mesa ang {ball}
+872	Ilegal na break
+873	naipasok ang 8-ball
+874	masyadong maagang naipasok ng kalaban ang 8-ball
+875	naipasok ng kalaban ang 8-ball sa maling pocket
+876	nag-foul ang kalaban sa 8-ball
+877	napalabas ng kalaban sa mesa ang 8-ball
+878	sumuko ang kalaban
+879	umalis sa laro ang kalaban
+880	kaliwang sulok sa ulunan
+881	kanang sulok sa ulunan
+882	kaliwang gitna
+883	kanang gitna
+884	kaliwang sulok sa paanan
+885	kanang sulok sa paanan
+886	Madali
+887	Mahirap
+888	Normal
+889	Lakas
+890	Wala pang mensahe.
+891	▼ mas bagong mensahe
+892	Sinusundan ng camera ang cue
+893	Off: mananatili ito kung saan mo inilagay.
+894	Umatras para sa mga tira
+895	Kapag sinusundan lang ng camera ang cue.
+896	I-drag ang cue · i-click ang isang puwesto
+897	Ubos na ang oras: nilaro nang buong lakas ang tira ni {name}.
+898	Madilim na kuwarto
+899	Spotlight sa mesa, nasa dilim ang kuwarto.
+900	Itago

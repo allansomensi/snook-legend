@@ -1,0 +1,300 @@
+1201|Wbij bile: {n}
+1202|Wbij bile z rotacją: {n}
+1203|Wbij 3 bile z rzędu w jednym podejściu
+1204|Wygraj partię bez faulu
+1205|Wbij 3 bile z rzędu {n} razy
+1206|Wygraj partie bez faulu: {n}
+1207|Kamera TV podczas oglądania
+1208|Ujęcia jak w transmisji przy partiach innych graczy i powtórkach.
+1209|Powiadomienia systemowe
+1210|Zaproszenia, znajomi pojawiający się online i rozpoczynające się partie, gdy cię nie ma.
+1211|{name} zaczyna się za kilka minut: przygotuj się!
+1212|{name} zaczyna się za kilka minut: są jeszcze wolne miejsca.
+1213|{name} właśnie się zaczyna!
+1214|Przewaga
+1215|Mapa uderzeń
+1216|Nie ma jeszcze uderzeń.
+1217|wbicie
+1218|pudło
+1219|faul
+1220|Zobacz turnieje
+1221|Otwórz sklep
+1222|Zobacz VIP
+1223|Zobacz misje
+1224|Wyszła nowa wersja gry: zaktualizuj ją, aby grać online.
+1225|Zaktualizuj w Microsoft Store
+1226|Aktualizuj teraz
+1227|Pobierz nową wersję
+1228|Nowa wersja dostępna
+1229|Pobierz nową wersję, aby grać online
+1230|Kibicuj: {name}
+1231|Publiczność: {p0} – {a}, {p1} – {b}
+1232|pakiet powitalny
+1233|Pakiet powitalny
+1234|Kij „{cue}”, sukno „{cloth}” i {n} monet · jednorazowo, tylko tutaj
+1235|Laguna
+1236|Masz już pakiet powitalny.
+1237|Twój pakiet powitalny już jest!
+1238|Poprzednie uderzenie (←)
+1239|Następne uderzenie (→)
+1240|Odtwórz (Spacja)
+1241|Pauza (Spacja)
+1242|Prędkość
+1243|Uderzenie {n} z {total}
+1244|Dla członków VIP
+1245|Własne reakcje do wysyłania w trakcie partii: {n}
+1246|Przedmioty {a}–{b} z {n}
+1247|(wiadomość usunięta przez autora)
+1248|(wiadomość usunięta przez administratora)
+1249|Usuń (będzie widać, że usunięto)
+1250|Usuń bez śladu
+1251|Czat wyczyszczony przez: {name}.
+1252|Kliknij ponownie, aby wyczyścić
+1253|Wyczyść czat
+1254|Czat graczy (administrator)
+1255|Zagraj z komputerem, czekając
+1256|Szukanie przeciwnika… {t} · partia zacznie się, gdy tylko się znajdzie
+1257|Zatrzymaj
+1258|Microsoft Store nie mógł dokończyć zakupu.
+1259|Microsoft Store nie mógł teraz potwierdzić zakupu. Monety dotrą, gdy następnym razem otworzysz sklep.
+1260|Dodano monety do portfela: {n}.
+1261|Microsoft potwierdza twój zakup: monety dotrą za chwilę.
+1262|Zakup jeszcze do nas nie dotarł. Monety dotrą, gdy następnym razem otworzysz sklep.
+1263|Wczytywanie cen z Microsoft Store…
+1264|W tej wersji nie można jeszcze kupować monet.
+1265|Dokończ zakup w oknie Microsoft Store…
+1266|Potwierdzanie zakupu…
+1267|Płatność w Microsoft Store, z twojego konta Microsoft.
+1268|Nie można teraz połączyć się z Microsoft Store. Spróbuj ponownie za chwilę.
+1269|Microsoft Store nie potwierdził zakupu.
+1270|Zaloguj się do Microsoft Store kontem Microsoft, a potem ponownie otwórz sklep.
+1271|Microsoft Store nie mógł teraz potwierdzić zakupu. Twój miesiąc VIP zacznie się, gdy następnym razem otworzysz sklep.
+1272|Masz VIP do {d}, a do portfela dodano monety: {n}.
+1273|Microsoft potwierdza twój zakup: twój miesiąc VIP zacznie się za chwilę.
+1274|Zakup jeszcze do nas nie dotarł. Twój miesiąc VIP zacznie się, gdy następnym razem otworzysz sklep.
+1275|Miesiąc za miesiącem: nic nie odnawia się samo
+1276|Dodaj miesiąc · {p}
+1277|Miesiąc VIP · {p}
+1278|Nowy miesiąc zacznie się, gdy skończy się obecny.
+1279|Trofea
+1280|Nie masz jeszcze trofeów.
+1281|Wygrany turniej · gracze: {n}
+1282|Trasa z komputerem
+1283|Pokonano wszystkich piętnastu przeciwników
+1284|Wyzwanie dnia
+1285|1. miejsce na {n} graczy
+1286|Łatwe uderzenie
+1287|Średnie uderzenie
+1288|Trudne uderzenie
+1289|Bardzo trudne uderzenie
+1290|szansa ~{n}%
+1291|Przy tym celowaniu żadna bila nie wpadnie
+1292|prosto
+1293|cięcie {n}°
+1294|od jednej bandy
+1295|od {n} band
+1296|Wbij jak najwięcej bil w jednym podejściu: pudło lub faul kończy próbę.
+1297|Ten sam stół dla wszystkich, przez cały dzień
+1298|Liczba prób dziennie: {n}. Wyczyść stół, a zdobędziesz {coins} monet; zwycięzca dnia dostaje trofeum.
+1299|Nowy stół za {h} godz. {m} min
+1300|Zaloguj się, aby wziąć udział: serwer prowadzi tabelę dnia.
+1301|Bile na dzisiejszym stole
+1302|Pozostałe próby
+1303|bile: {n} · #{rank}
+1304|bile: {n}
+1305|jeszcze nie
+1306|Twój najlepszy wynik dzisiaj
+1307|Na dziś nie masz już prób: wróć jutro.
+1308|Nie udało się zaliczyć próby.
+1309|Przygotowywanie stołu…
+1310|Rozpocznij próbę
+1311|Rozpoczęcie zużywa próbę, nawet jeśli odejdziesz od stołu.
+1312|Wczytywanie dzisiejszego stołu…
+1313|Tabela dnia
+1314|gracze: {n}
+1315|Nikt jeszcze dziś nie grał. Zagraj i otwórz tabelę!
+1316|Stół wyczyszczony!
+1317|{n} z {total} bil
+1318|Wysyłanie próby na serwer…
+1319|Zaliczono bile: {n} · monety: +{coins}
+1320|Zaliczono bile: {n}
+1321|Zobacz tabelę dnia
+1322|Stół wyczyszczony! Monety: +{n}
+1323|Wyzwanie dnia: wbito {n} z {total} bil
+1324|1 gracz
+1325|Feniks
+1326|Marmur karraryjski
+1327|Smocza łuska
+1328|Galaktyka
+1329|Rubinowy tron
+1330|Zamknięcie gry teraz oznacza opuszczenie partii: dodatkowa strata rankingu i przerwa przed kolejną grą.
+1331|Opuszczono trwającą partię: możesz znów grać online za {n} min.
+1332|Szybkie zwroty
+1333|Powodzenia i dobrej zabawy!
+1334|Ładne uderzenie!
+1335|Świetna odstawna!
+1336|Pech!
+1337|Ups!
+1338|Wow!
+1339|Było blisko!
+1340|Nie spiesz się.
+1341|Przepraszam!
+1342|Dzięki!
+1343|Dobrze zagrane!
+1344|Dobra partia!
+1345|Rewanż?
+1346|Muszę lecieć, dzięki za grę!
+1347|Poćwicz, czekając
+1348|Bile ustawione od nowa.
+1349|Poziom {n}! (+{xp} XP)
+1350|+{xp} XP
+1351|Poziom {n} · {into} / {span} XP do następnego
+1352|Poziom {n}
+1353|Cześć! Obejrzałem mnóstwo filmików, jestem gotowy!
+1354|Tylko delikatnie, dobra?
+1355|Ojej, jak ci się to udało?
+1356|Potem mnie tego naucz!
+1357|Uff! Moja kolej!
+1358|Nawet ty pudłujesz? Dobrze wiedzieć.
+1359|Darmowa bila! Co mam z nią zrobić?
+1360|Widzisz?! Wpadła!
+1361|Szczęście początkującego też się liczy!
+1362|Ups. To było uderzenie próbne.
+1363|Celuj, Leo, celuj...
+1364|Przepraszam! Znowu trafiłem nie tę bilę.
+1365|WYGRAŁEM? Dzwonię do mamy!
+1366|Dobra partia! Robię postępy, prawda?
+1367|Sobota, stół i dobre towarzystwo. Gramy!
+1368|Ładne!
+1369|Oho, umiesz grać. Teraz będę uważać.
+1370|Najlepszym się zdarza.
+1371|Nie przejmuj się, to tylko gra!
+1372|Dzięki za prezent!
+1373|Tak! Weekendowa forma!
+1374|Ale mam szczęście!
+1375|Hm, gdzie ja celowałam?
+1376|Za dużo gadania, za mało celowania.
+1377|Ups, moja wina!
+1378|Było super! O tej samej porze w następny weekend?
+1379|Dobrze zagrane! Rewanż przy lemoniadzie?
+1380|Cztery bandy, nieskończone możliwości.
+1381|Prosto do łuzy? Jakie to... bezpośrednie.
+1382|Ładnie, ale od bandy byłoby piękniej.
+1383|Trzeba było zagrać od bandy.
+1384|Banda była tuż obok i aż się prosiła.
+1385|Stołowi to się nie spodobało.
+1386|Od bandy i do łuzy. Sztuka!
+1387|Geometria nigdy nie kłamie.
+1388|Kąt był dobry. Banda miała inne zdanie.
+1389|O jeden diament za daleko. Tylko jeden!
+1390|Za dużo wyobraźni, za mało kontaktu.
+1391|Arcydzieło, jeśli wolno mi tak powiedzieć.
+1392|Dobrze zagrane. A teraz spróbuj od dwóch band.
+1393|Mam nadzieję, że te bile są ze stali.
+1394|Delikatnie, co? Nie w moim stylu.
+1395|Następnym razem uderz mocniej!
+1396|Za lekko! Siła rozwiązuje wszystko.
+1397|HA!
+1398|Teraz to mój stół. Zatkaj uszy.
+1399|BUM!
+1400|Ale huknęło w łuzie, co?
+1401|Za dużo siły? Nie ma czegoś takiego.
+1402|Łuza się przesunęła.
+1403|Bila odleciała. Zdarza się. Często.
+1404|Siła znowu wygrywa! BUM!
+1405|No dobra, finezja też działa. Czasami.
+1406|Nie spiesz się. Mam cały dzień.
+1407|Do przyjęcia.
+1408|Ciesz się, póki możesz.
+1409|Cierpliwość to cnota. Najwyraźniej nie twoja.
+1410|Dziękuję.
+1411|Niedbale.
+1412|Spokój wygrywa.
+1413|Po jednej.
+1414|Hm. I tak nic ci nie zostawię.
+1415|Celowo. Chyba.
+1416|Niedopuszczalne. Z mojej strony.
+1417|Mówiłam: cierpliwość.
+1418|Mur przebity. Jestem pod wrażeniem.
+1419|Gram od czasów, gdy te bile nie były jeszcze z plastiku.
+1420|Dobre uderzenie. Przypomina mi pewnego gościa z '78.
+1421|Gładko. Bardzo gładko.
+1422|Głowa nisko, dzieciaku.
+1423|Biała nie kłamie.
+1424|O, mały prezent. Uprzejmie dziękuję.
+1425|Jak jazda na rowerze.
+1426|Wciąż to mam.
+1427|Oczy już nie te.
+1428|Za moich czasów łuzy były większe.
+1429|Nawet starym wygom się zdarza.
+1430|Doświadczenie, przyjacielu. Doświadczenie.
+1431|Masz przyszłość w tej grze.
+1432|Ja? Och, ja prawie nie gram...
+1433|Fart! Powtórz to, jeśli potrafisz.
+1434|Oho, ktoś tu trenował.
+1435|Ojej, tak blisko! Słodkie.
+1436|Pokazać ci, jak to się robi?
+1437|Dziękuję, skarbie.
+1438|Ups, to ja zrobiłam?
+1439|To pewnie szczęście początkującej. Znowu.
+1440|Chybiłam celowo. Żeby było ciekawiej.
+1441|Dopiero się rozgrzewam.
+1442|Ojej, ale ze mnie niezdara. Mrug.
+1443|Mówiłam, że prawie nie gram. Prawie.
+1444|No dobrze, masz mnie. Tym razem.
+1445|Tarcie, pęd, rotacja. Zaczynajmy.
+1446|Ładne cięcie. Jakieś trzydzieści stopni, powiedziałbym.
+1447|Podręcznikowo.
+1448|Zabrakło poprawki na odrzut.
+1449|Ciekawe. Statystycznie przewidywalne.
+1450|Biała poszła za prawami fizyki, nie za twoim planem.
+1451|Zgodnie z obliczeniami.
+1452|Zderzenie sprężyste, elegancki wynik.
+1453|Błąd w moim pomiarze.
+1454|Zrewiduję model.
+1455|Hm. Nieoczekiwana rotacja.
+1456|Liczby były po mojej stronie.
+1457|Wynik spoza moich przewidywań. Brawo.
+1458|Skupienie.
+1459|Czysto.
+1460|Nieźle.
+1461|Pół milimetra.
+1462|Oddychaj przed uderzeniem.
+1463|Niestarannie.
+1464|Cel trafiony.
+1465|W sam środek łuzy.
+1466|Hm. Rekalibracja.
+1467|To się nigdy nie zdarza.
+1468|Niedopuszczalne.
+1469|Precyzja wygrywa.
+1470|Celnie grasz.
+1471|Witaj przy moim stole. Miłego oglądania.
+1472|Bardzo dobrze. Widać, że ktoś odrobił lekcje.
+1473|Brawa dla pretendenta!
+1474|Presja. Dopada każdego.
+1475|Dziękuję za stół.
+1476|Mistrz nigdy nie odmawia prezentu.
+1477|Naturalnie.
+1478|Tak to się robi.
+1479|Nawet mistrzowie dają publiczności szansę.
+1480|Zostawiam ci coś, z uprzejmości.
+1481|Rzadki widok. Zapamiętaj go.
+1482|Tytuł zostaje przy mnie. Dobra partia.
+1483|Niezwykłe. Masz mój szacunek.
+1484|Kalibracja zakończona. Powodzenia, człowieku.
+1485|Uderzenie zarejestrowane: udane.
+1486|Prawdopodobieństwo mojej wygranej: rośnie.
+1487|Wykryto faul. Przetwarzanie kary.
+1488|Wykonano zgodnie z planem.
+1489|Błąd. Ponowne obliczenia.
+1490|Usterka. Proszę zignorować.
+1491|Partia zakończona. Dziękuję za grę.
+1492|Porażka przyjęta do wiadomości. Dobrze zagrane.
+1493|Ćwiczenia
+1494|Ćwiczenia z gwiazdkami
+1495|Gwiazdki: {s} / {max}
+1496|Gwiazdki za {a}, {b} i {c}
+1497|Twój rekord: {n} z {total}
+1498|Jeszcze bez próby.
+1499|Rozpocznij ćwiczenie
+1500|Zaloguj się, aby zapisać gwiazdki na swoim koncie.

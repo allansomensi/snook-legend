@@ -38,8 +38,32 @@ pub struct Notes {
 fn source(lang: Lang) -> &'static str {
     match lang {
         Lang::English => include_str!("../whatsnew/en.md"),
-        Lang::Portuguese => include_str!("../whatsnew/pt-BR.md"),
         Lang::Spanish => include_str!("../whatsnew/es.md"),
+        Lang::Portuguese => include_str!("../whatsnew/pt-BR.md"),
+        Lang::EuropeanPortuguese => include_str!("../whatsnew/pt-PT.md"),
+        Lang::French => include_str!("../whatsnew/fr.md"),
+        Lang::German => include_str!("../whatsnew/de.md"),
+        Lang::Italian => include_str!("../whatsnew/it.md"),
+        Lang::Dutch => include_str!("../whatsnew/nl.md"),
+        Lang::Swedish => include_str!("../whatsnew/sv.md"),
+        Lang::Polish => include_str!("../whatsnew/pl.md"),
+        Lang::Czech => include_str!("../whatsnew/cs.md"),
+        Lang::Hungarian => include_str!("../whatsnew/hu.md"),
+        Lang::Romanian => include_str!("../whatsnew/ro.md"),
+        Lang::Greek => include_str!("../whatsnew/el.md"),
+        Lang::Russian => include_str!("../whatsnew/ru.md"),
+        Lang::Ukrainian => include_str!("../whatsnew/uk.md"),
+        Lang::Turkish => include_str!("../whatsnew/tr.md"),
+        Lang::Indonesian => include_str!("../whatsnew/id.md"),
+        Lang::Filipino => include_str!("../whatsnew/fil.md"),
+        Lang::Vietnamese => include_str!("../whatsnew/vi.md"),
+        Lang::Thai => include_str!("../whatsnew/th.md"),
+        Lang::Hindi => include_str!("../whatsnew/hi.md"),
+        Lang::Bengali => include_str!("../whatsnew/bn.md"),
+        Lang::Arabic => include_str!("../whatsnew/ar.md"),
+        Lang::Chinese => include_str!("../whatsnew/zh-CN.md"),
+        Lang::Japanese => include_str!("../whatsnew/ja.md"),
+        Lang::Korean => include_str!("../whatsnew/ko.md"),
     }
 }
 
@@ -66,25 +90,79 @@ pub fn parse(text: &str) -> Vec<Notes> {
 }
 
 fn rules_source(rules: Rules, lang: Lang) -> &'static str {
-    match (rules, lang) {
-        (Rules::Brazilian, Lang::English) => include_str!("../rules/brazilian/en.md"),
-        (Rules::Brazilian, Lang::Portuguese) => include_str!("../rules/brazilian/pt-BR.md"),
-        (Rules::Brazilian, Lang::Spanish) => include_str!("../rules/brazilian/es.md"),
-        (Rules::Official, Lang::English) => include_str!("../rules/official/en.md"),
-        (Rules::Official, Lang::Portuguese) => include_str!("../rules/official/pt-BR.md"),
-        (Rules::Official, Lang::Spanish) => include_str!("../rules/official/es.md"),
+    match rules {
+        Rules::Brazilian => match lang {
+            Lang::English => include_str!("../rules/brazilian/en.md"),
+            Lang::Spanish => include_str!("../rules/brazilian/es.md"),
+            Lang::Portuguese => include_str!("../rules/brazilian/pt-BR.md"),
+            Lang::EuropeanPortuguese => include_str!("../rules/brazilian/pt-PT.md"),
+            Lang::French => include_str!("../rules/brazilian/fr.md"),
+            Lang::German => include_str!("../rules/brazilian/de.md"),
+            Lang::Italian => include_str!("../rules/brazilian/it.md"),
+            Lang::Dutch => include_str!("../rules/brazilian/nl.md"),
+            Lang::Swedish => include_str!("../rules/brazilian/sv.md"),
+            Lang::Polish => include_str!("../rules/brazilian/pl.md"),
+            Lang::Czech => include_str!("../rules/brazilian/cs.md"),
+            Lang::Hungarian => include_str!("../rules/brazilian/hu.md"),
+            Lang::Romanian => include_str!("../rules/brazilian/ro.md"),
+            Lang::Greek => include_str!("../rules/brazilian/el.md"),
+            Lang::Russian => include_str!("../rules/brazilian/ru.md"),
+            Lang::Ukrainian => include_str!("../rules/brazilian/uk.md"),
+            Lang::Turkish => include_str!("../rules/brazilian/tr.md"),
+            Lang::Indonesian => include_str!("../rules/brazilian/id.md"),
+            Lang::Filipino => include_str!("../rules/brazilian/fil.md"),
+            Lang::Vietnamese => include_str!("../rules/brazilian/vi.md"),
+            Lang::Thai => include_str!("../rules/brazilian/th.md"),
+            Lang::Hindi => include_str!("../rules/brazilian/hi.md"),
+            Lang::Bengali => include_str!("../rules/brazilian/bn.md"),
+            Lang::Arabic => include_str!("../rules/brazilian/ar.md"),
+            Lang::Chinese => include_str!("../rules/brazilian/zh-CN.md"),
+            Lang::Japanese => include_str!("../rules/brazilian/ja.md"),
+            Lang::Korean => include_str!("../rules/brazilian/ko.md"),
+        },
+        Rules::Official => match lang {
+            Lang::English => include_str!("../rules/official/en.md"),
+            Lang::Spanish => include_str!("../rules/official/es.md"),
+            Lang::Portuguese => include_str!("../rules/official/pt-BR.md"),
+            Lang::EuropeanPortuguese => include_str!("../rules/official/pt-PT.md"),
+            Lang::French => include_str!("../rules/official/fr.md"),
+            Lang::German => include_str!("../rules/official/de.md"),
+            Lang::Italian => include_str!("../rules/official/it.md"),
+            Lang::Dutch => include_str!("../rules/official/nl.md"),
+            Lang::Swedish => include_str!("../rules/official/sv.md"),
+            Lang::Polish => include_str!("../rules/official/pl.md"),
+            Lang::Czech => include_str!("../rules/official/cs.md"),
+            Lang::Hungarian => include_str!("../rules/official/hu.md"),
+            Lang::Romanian => include_str!("../rules/official/ro.md"),
+            Lang::Greek => include_str!("../rules/official/el.md"),
+            Lang::Russian => include_str!("../rules/official/ru.md"),
+            Lang::Ukrainian => include_str!("../rules/official/uk.md"),
+            Lang::Turkish => include_str!("../rules/official/tr.md"),
+            Lang::Indonesian => include_str!("../rules/official/id.md"),
+            Lang::Filipino => include_str!("../rules/official/fil.md"),
+            Lang::Vietnamese => include_str!("../rules/official/vi.md"),
+            Lang::Thai => include_str!("../rules/official/th.md"),
+            Lang::Hindi => include_str!("../rules/official/hi.md"),
+            Lang::Bengali => include_str!("../rules/official/bn.md"),
+            Lang::Arabic => include_str!("../rules/official/ar.md"),
+            Lang::Chinese => include_str!("../rules/official/zh-CN.md"),
+            Lang::Japanese => include_str!("../rules/official/ja.md"),
+            Lang::Korean => include_str!("../rules/official/ko.md"),
+        },
     }
 }
 
 /// The `rules` in `lang`, part by part.
 fn rules_book(rules: Rules, lang: Lang) -> &'static [Notes] {
-    static CACHE: [OnceLock<Vec<Notes>>; 6] = [const { OnceLock::new() }; 6];
-    CACHE[rules.index() * 3 + lang as usize].get_or_init(|| parse(rules_source(rules, lang)))
+    const N: usize = Lang::ALL.len();
+    static CACHE: [OnceLock<Vec<Notes>>; 2 * N] = [const { OnceLock::new() }; 2 * N];
+    CACHE[rules.index() * N + lang as usize].get_or_init(|| parse(rules_source(rules, lang)))
 }
 
 /// Every version's notes in `lang`, newest first.
 fn notes(lang: Lang) -> &'static [Notes] {
-    static CACHE: [OnceLock<Vec<Notes>>; 3] = [OnceLock::new(), OnceLock::new(), OnceLock::new()];
+    static CACHE: [OnceLock<Vec<Notes>>; Lang::ALL.len()] =
+        [const { OnceLock::new() }; Lang::ALL.len()];
     CACHE[lang as usize].get_or_init(|| parse(source(lang)))
 }
 
@@ -353,7 +431,11 @@ mod tests {
                 assert!(!a.items.is_empty(), "{lang:?} {}: no highlights", a.version);
                 for item in &a.items {
                     assert!(!item.title.is_empty() && !item.text.is_empty(), "{lang:?}: {item:?}");
-                    assert!(item.text.len() < 400, "{lang:?}: keep it short: {}", item.title);
+                    assert!(
+                        item.text.chars().count() < 400,
+                        "{lang:?}: keep it short: {}",
+                        item.title
+                    );
                 }
             }
             // Newest first.

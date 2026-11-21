@@ -1,0 +1,300 @@
+601	Efeito baixo
+602	Efeito à esquerda
+603	Efeito à direita
+604	Levantar o taco
+605	Baixar o taco
+606	Pegar na bola branca (bola na mão)
+607	3D / vista de cima
+608	Repor a câmara
+609	Rever a última jogada
+610	Lista de controlos
+611	As teclas podem ser alteradas em Definições → Controlos.
+612	Espaço
+613	Shift direito
+614	Ctrl direito
+615	Alt direito
+616	Apontar e jogar
+617	Efeito e elevação
+618	Teclas fixas
+619	Menu, voltar e cancelar
+620	Confirmar (formulários, bola branca na mão)
+621	Esta tecla não pode ser alterada.
+622	Prime uma tecla · Esc cancela · Backspace apaga
+623	Prime uma tecla…
+624	Clica para mudar
+625	Clica para adicionar uma tecla
+626	Voltar a ficar sem tecla
+627	Voltar a {keys}
+628	Trocadas: {action} está agora em {key}.
+629	Retirada de {action}, que fica sem tecla.
+630	Retirada de {action}.
+631	Essa tecla não pode ser usada: experimenta outra.
+632	Jogar
+633	Curta
+634	A iniciar sessão…
+635	A iniciar sessão
+636	Sombras suaves de cada candeeiro, salões com brilho, halos.
+637	Lisas (1–7)
+638	Bola de efeito
+639	Efeito
+640	Normal
+641	Ficar
+642	Riscadas (9–15)
+643	A partida continua enquanto isto estiver aberto.
+644	Usar predefinição
+645	Nome de utilizador
+646	Os nomes de utilizador têm 3 a 16 letras, algarismos ou sublinhados.
+647	{keys} (salto e massé)
+648	Ganhaste!
+649	O teu nome
+650	O teu adversário voltou ao salão.
+651	A tua vez
+652	mesa aberta: a próxima bola que meteres define o teu grupo
+653	retrocesso
+654	seguimento
+655	pancada seca
+656	lisas
+657	riscadas
+658	salão
+659	 · efeito à esquerda
+660	 · efeito à direita
+661	Idioma
+662	Geral
+663	Gráficos
+664	Jogo
+665	Som
+666	Repor predefinições
+667	Repor todas as teclas
+668	Repor todas as teclas?
+669	Clica outra vez para repor todas as teclas
+670	Atualizações
+671	Atualizar automaticamente
+672	As novas versões são transferidas em segundo plano e instaladas quando reinicias.
+673	Versão {v}
+674	Novidades
+675	Novidades da versão {v}
+676	Não há notas para esta versão.
+677	Entendido
+678	Reiniciar agora
+679	Depois da partida, a partir do menu principal.
+680	Transferir
+681	Verificar agora
+682	Não foi possível contactar o servidor de atualizações.
+683	A transferência chegou danificada. Será tentada novamente mais tarde.
+684	Não foi possível instalar a nova versão. Fica esta.
+685	A transferir… {p}%
+686	A atualizar…
+687	A Microsoft Store mantém o jogo atualizado.
+688	Versão de desenvolvimento: sem atualizações automáticas.
+689	À procura de uma nova versão…
+690	Esta é a versão mais recente.
+691	A transferir a versão {v}… {p}%
+692	A instalar a versão {v}…
+693	A versão {v} está pronta: reinicia o jogo para a usares.
+694	Saiu a versão {v}: transfere-a na página de versões.
+695	A versão {v} está pronta
+696	Reinicia para a jogares; não se perde nada.
+697	Saiu a versão {v}
+698	Transfere-a na página de versões.
+699	Repor tudo?
+700	Clica outra vez para repor todas as definições
+701	Online
+702	Menu
+703	Rating
+704	Ultra
+705	mantém {key} premida e solta
+706	Mudar
+707	Sensibilidade da mira (rato)
+708	A velocidade a que o taco roda com o rato.
+709	Vinheta
+710	Escurece as margens da imagem, como num filme.
+711	Mostrar FPS
+712	Imagens por segundo, num canto do ecrã.
+713	Primeiro canta um buraco para a bola 8: clica num buraco.
+714	A restabelecer a ligação
+715	a partida terminou
+716	a bola branca não pode ficar aí
+717	canta um buraco para a bola 8
+718	Esse nome de utilizador já existe.
+719	Nome de utilizador ou palavra-passe errados.
+720	A tua sessão expirou. Inicia sessão novamente.
+721	Esta versão do Snook Legend está desatualizada. Atualiza o jogo.
+722	Não é a tua vez.
+723	Esse jogador não está online.
+724	Esse jogador está numa partida.
+725	Não te podes convidar a ti próprio.
+726	Esse convite já não é válido.
+727	Esse jogador já não está disponível.
+728	Desiste primeiro para saíres de uma partida a decorrer.
+729	Mensagem mal formada.
+730	Inicia sessão primeiro.
+731	Não foi possível criar a conta.
+732	A bola branca não pode ficar aí.
+733	Desligado.
+734	Perdeu-se o contacto com o servidor.
+735	O servidor fechou a ligação.
+736	O servidor demorou demasiado a responder.
+737	O servidor não está a responder (ligação recusada).
+738	O endereço do servidor não é válido (exemplo: wss://snook-legend.example.com/ws).
+739	O endereço do servidor não tem nome de anfitrião.
+740	Bem-vindo ao Snook Legend! Sê simpático, joga limpo.
+741	Bola na mão: arrasta a bola branca{zone} para a mover
+742	 atrás da linha
+743	Bola na mão  ·  {group}
+744	Não é possível jogar: {e}.
+745	Chat ({n})
+746	Computador ({level})
+747	Computador
+748	Cada adversário tem o seu próprio estilo
+749	Partida livre
+750	Circuito
+751	Circuito: {n} de {total} vencidos
+752	Nível {n}/5
+753	Fantasma
+754	Precisão
+755	Defesas
+756	Tabelas
+757	Posição
+758	Fantasma de {name}
+759	Fantasma de um jogador
+760	Joga como um jogador real
+761	O computador joga no estilo de um jogador real, medido nas partidas online dele.
+762	Inicia sessão para jogar contra o fantasma de um jogador real.
+763	Carregar
+764	Amigos:
+765	Escreve um nome de utilizador ou escolhe um amigo e carrega em Carregar.
+766	A medir como {name} joga…
+767	Mete {pots}% · defesas {safe}% · tabelas {banks}% · {shots} jogadas
+768	{name} só tem {shots} jogadas registadas; um fantasma precisa de {needed}. Mais partidas online resolvem isso.
+769	Não há nenhum jogador chamado {name}.
+770	Não é possível contactar o servidor neste momento. Tenta novamente mais tarde.
+771	Espera um pouco antes de voltares a pedir.
+772	Algo correu mal no servidor. Tenta novamente mais tarde.
+773	Jogar contra o teu fantasma
+774	Jogar contra o fantasma
+775	Vencido
+776	Próximo
+777	Vence a etapa anterior para desbloqueares esta.
+778	Etapa {n} de {total}
+779	Desafiar {name}
+780	Etapa {n} ganha! A seguir no circuito: {name}.
+781	Ganhaste o circuito inteiro!
+782	Prémio
+783	Taco {item} · exclusivo
+784	É teu: encontra-o na loja, em Tacos.
+785	Vence de novo a última etapa com sessão iniciada para o receberes.
+786	Vence os quinze adversários para o ganhares. Não se vende em lado nenhum.
+787	Ganhaste o circuito! Inicia sessão para receberes o teu prémio.
+788	O servidor está a verificar a tua partida final…
+789	Tentar de novo
+790	O servidor não respondeu. Tenta novamente daqui a pouco.
+791	O servidor está ocupado a verificar outras partidas. Tenta novamente daqui a pouco.
+792	Espera um minuto antes de tentares de novo.
+793	Essa partida é demasiado longa para ser verificada.
+794	Essa partida tem uma jogada que as regras não permitem.
+795	Essa partida não foi jogada até ao fim.
+796	Essa partida não foi uma vitória.
+797	As jogadas do computador nessa partida não correspondem à forma como ele joga (outra versão do jogo?).
+798	O Novato
+799	Ainda a aprender: aponta ao buraco mais próximo, bate ao centro e reza. Nunca joga à defesa.
+800	A Jogadora de Fim de Semana
+801	Sabe o básico e mete as fáceis, mas raramente pensa para onde vai a bola branca.
+802	A Artista da Tabela
+803	Vê ângulos que mais ninguém vê: sempre que uma bola pode entrar de tabela, ela joga de tabela.
+804	O Canhão
+805	Vai a tudo, com toda a força: bolas compridas, aberturas estrondosas, quase nunca uma defesa.
+806	A Muralha
+807	Só ataca quando a bola está feita. Caso contrário, esconde a branca e espera pelo teu erro.
+808	O Veterano
+809	Quarenta anos de mesa: pancada suave, taco levantado, efeito lateral e nunca com pressa.
+810	A Astuta
+811	Joga só o suficiente para ganhar, e depois um pouco melhor. Equilibrada, perspicaz e difícil de ler.
+812	O Professor
+813	Pensa três bolas à frente: cada jogada deixa a branca onde a seguinte é fácil.
+814	A Atiradora de Elite
+815	Mete de qualquer lado, em qualquer ângulo. As defesas são o menos: não precisa delas.
+816	O Campeão
+817	Invicto há anos. Preciso, paciente e implacável: a última etapa do circuito.
+818	Campeão do circuito
+819	Campeão do circuito
+820	Vence os quinze adversários do circuito contra o computador.
+821	Ligação perdida. A restabelecer (tentativa {n})…
+822	Ligação perdida. A restabelecer…
+823	Falta de {shooter}: {foul}.
+824	Gráficos ajustados para {q} para o jogo correr bem. Podes mudar isto nas Definições.
+825	Rating {r} ({d})
+826	A {ball} voltou à mesa.
+827	À espera de {to} ({kind})…
+828	com rating
+829	amigável
+830	À espera de {name}…
+831	{by} recusou o teu convite.
+832	uma partida com rating
+833	uma partida amigável
+834	{name} canta a bola 8 no buraco {pocket}.
+835	{name} tem bola na mão…
+836	{name} está a apontar…
+837	{name} está na bola 8: clica num buraco para o cantar
+838	{name} está a pensar…
+839	{name} saiu da partida.
+840	{name} desistiu.
+841	{name} faz a abertura
+842	Vez de {name} ({target})
+843	Vez de {name}
+844	{next} tem bola na mão{where}.
+845	 atrás da linha de cabeceira
+846	{opponent} voltou.
+847	{opponent} perdeu a ligação. À espera até {secs} s…
+848	{opponent} quer a desforra.
+849	{opponent} voltou ao salão.
+850	{shooter} meteu {balls}.
+851	{shooter} fica com as {group}.
+852	O tempo de {who} acabou: bola na mão para o adversário.
+853	{name} quer a desforra!
+854	{name} ganha!
+855	{name} ganha
+856	Volume
+857	O taco, as bolas, as tabelas e os buracos.
+858	Notificações
+859	Não foi possível encontrar o servidor “{host}”.
+860	Erro de rede: {e}.
+861	Falha na ligação segura: {e}.
+862	O servidor recusou a ligação (HTTP {code}).
+863	Erro de ligação: {e}.
+864	bola branca
+865	bola {n}
+866	A bola branca entrou num buraco
+867	A bola branca saiu da mesa
+868	A bola branca não tocou em nenhuma bola
+869	Tocou primeiro na bola errada ({ball})
+870	Nenhuma bola chegou a uma tabela depois do contacto
+871	A {ball} saiu da mesa
+872	Abertura ilegal
+873	meteu a bola 8
+874	o adversário meteu a bola 8 antes do tempo
+875	o adversário meteu a bola 8 no buraco errado
+876	o adversário fez falta na bola 8
+877	o adversário atirou a bola 8 para fora da mesa
+878	o adversário desistiu
+879	o adversário saiu da partida
+880	esquerdo da cabeceira
+881	direito da cabeceira
+882	lateral esquerdo
+883	lateral direito
+884	esquerdo do fundo
+885	direito do fundo
+886	Fácil
+887	Difícil
+888	Normal
+889	Força
+890	Ainda não há mensagens.
+891	▼ mensagens novas
+892	A câmara segue o taco
+893	Desligada: fica onde a deixares.
+894	Afastar nas jogadas
+895	Só quando a câmara segue o taco.
+896	Arrasta o taco · clica num ponto
+897	Tempo esgotado: a jogada de {name} foi feita com força máxima.
+898	Sala escura
+899	Um foco na mesa, a sala na sombra.
+900	Ocultar

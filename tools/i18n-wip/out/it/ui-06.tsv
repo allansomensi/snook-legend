@@ -1,0 +1,300 @@
+1501	{n} di {total}
+1502	{drill}: tentativo {k} di {n} · {made} riusciti
+1503	Riuscito! {n} di {total}
+1504	Sbagliato.
+1505	Invio al server…
+1506	Accesso non effettuato: questa sessione non entra in classifica.
+1507	Salvato nel tuo account.
+1508	Impossibile conteggiare la sessione.
+1509	Torna agli esercizi
+1510	Dritto in buca
+1511	Un tiro dritto e lungo nella buca d'angolo. Cinque tentativi.
+1512	Il taglio
+1513	Un taglio a mezza palla nella buca d'angolo. Cinque tentativi.
+1514	Effetto retro
+1515	Imbuca la palla e fai tornare la bianca nel cerchio. Cinque tentativi.
+1516	Colpo a seguire
+1517	Imbuca la palla e lascia la bianca nel cerchio più avanti. Cinque tentativi.
+1518	Tiro di sponda
+1519	Di sponda nella buca centrale. Cinque tentativi.
+1520	Palla coperta
+1521	Colpisci prima la 1: è nascosta dietro altre palle. Cinque tentativi.
+1522	Dieci di fila
+1523	Dieci imbucate diverse, una dopo l'altra: un errore chiude la sessione.
+1524	L'angolo alle spalle
+1525	Un taglio all'indietro verso la buca d'angolo alle tue spalle. Cinque tentativi.
+1526	Lungo in centrale
+1527	Dal fondo del tavolo nella buca centrale. Cinque tentativi.
+1528	Bianca sulla sponda
+1529	La bianca tocca la sponda: imbuca comunque la palla nell'angolo. Cinque tentativi.
+1530	Palle a contatto
+1531	La 2 tocca la 1 e punta verso la buca: colpisci la 2 e la 1 entra. Cinque tentativi.
+1532	La carambola
+1533	La 2 è d'intralcio: sfiorala e manda la 1 nell'angolo. Cinque tentativi.
+1534	Retro lungo
+1535	Imbuca la palla e fai tornare la bianca fino in fondo, nel cerchio. Cinque tentativi.
+1536	Sulla tangente
+1537	Imbuca la palla in centrale e lascia scorrere la bianca fino al cerchio. Cinque tentativi.
+1538	Due sponde
+1539	A due sponde nella buca d'angolo. Cinque tentativi.
+1540	Quindici di fila
+1541	Quindici imbucate diverse, una dopo l'altra: un errore chiude la sessione.
+1542	Annulla il tiro (Z)
+1543	Tiro annullato.
+1544	Piene
+1545	Rigate
+1546	Nascondi la cronologia
+1547	Nuovo nome utente
+1548	Clicca di nuovo per confermare
+1549	Ti restano {n} cambi di nome su {total}
+1550	Non puoi più cambiare il tuo nome utente.
+1551	Questo è già il tuo nome utente.
+1552	Finisci la partita prima di cambiare il nome utente.
+1553	Lascia il tavolo o la coda prima di cambiare il nome utente.
+1554	Lascia il torneo prima di cambiare il nome utente.
+1555	Nome utente cambiato.
+1556	Il server si sta ancora aggiornando alla nuova versione. Riprova tra qualche minuto.
+1557	{shooter} ha imbucato una palla dell'avversario: tira {next}.
+1558	Lo Scommettitore
+1559	Scommette su ogni tiro: forte quanto la stecca consente, con tutto l'effetto che trova. Il gioco sicuro lo annoia.
+1560	La Mano di Velluto
+1561	Non colpisce mai più forte del necessario: le palle muoiono sul bordo della buca e la bianca si ferma dove vuole lei.
+1562	Lo Showman
+1563	Gioca per il pubblico: stecca alzata, effetti a curva e una sponda ogni volta che c'è. Funziona più spesso di quanto dovrebbe.
+1564	La Stratega
+1565	Pianifica tutto il tavolo: ti lascia senza tiro quando l'imbucata non è sicura e ripulisce il tavolo quando lo è.
+1566	La Macchina
+1567	Niente nervi, niente fronzoli: colpo al centro, velocità misurata, lo stesso colpo perfetto ogni volta.
+1568	Fate il vostro gioco! Io punto su di me.
+1569	Bel colpo di fortuna. Lascio tutto in gioco!
+1570	Va bene, va bene. Lascia o raddoppia?
+1571	Il banco vince sempre!
+1572	Fiches gratis! Grazie!
+1573	Tutto su un colpo, e ha pagato!
+1574	Così si giocano le probabilità!
+1575	Che sfortuna. Prossima mano.
+1576	Troppo effetto? Non esiste.
+1577	Sballato. Ne valeva la pena!
+1578	Jackpot! Stessa posta?
+1579	Hai battuto le probabilità. Rispetto.
+1580	Piano, adesso. Il tavolo ama una mano gentile.
+1581	Ben fatto.
+1582	Un po' forte, ma è entrata.
+1583	Meno forza, più sensibilità.
+1584	Oh cielo. Una palla gratis per me.
+1585	Quanto basta per cadere.
+1586	Visto? Non serve colpire forte.
+1587	Un filo troppo piano.
+1588	Che goffa. Scusa.
+1589	Piano e con costanza. Grazie per la partita.
+1590	Giocato benissimo. Meritato.
+1591	Signore e signori... lo spettacolo ha inizio!
+1592	Niente male! Inchinati al pubblico!
+1593	Mi hai rubato gli applausi!
+1594	Il pubblico voleva di più!
+1595	Ooh, colpo di scena!
+1596	Tadà!
+1597	E per il mio prossimo numero...
+1598	Anche i maghi hanno le serate storte.
+1599	Quello era... parte del numero.
+1600	Grazie, grazie! Bis?
+1601	Fai un inchino, fuoriclasse. Te lo sei guadagnato.
+1602	Ogni tavolo è un rompicapo. Risolviamo questo.
+1603	Bene. E adesso dov'è finita la tua bianca?
+1604	Me l'aspettavo.
+1605	Questo mi ha lasciato qualcosa. Grazie.
+1606	Come previsto.
+1607	Esattamente come avevo calcolato.
+1608	Tre mosse avanti.
+1609	Una variabile che mi era sfuggita.
+1610	Mmh. Ricalcolo.
+1611	Scacco matto.
+1612	Mi hai battuta in astuzia. Succede di rado.
+1613	Partita inizializzata.
+1614	Annotato.
+1615	Margine di errore superato.
+1616	Penalità applicata.
+1617	Come da previsioni.
+1618	Avanti.
+1619	Deviazione registrata.
+1620	Malfunzionamento. Non si ripeterà.
+1621	Risultato: vittoria. Grazie per i dati.
+1622	Esito inatteso. Notevole.
+1623	Commenti degli avversari
+1624	Gli avversari del computer commentano la partita con dei fumetti.
+1625	Solo vista dall'alto
+1626	Il tavolo si vede sempre dall'alto: niente vista 3D, niente rotazione.
+1627	Non con la sola vista dall'alto.
+1628	Rotella
+1629	Regole
+1630	Regole del gioco
+1631	Livella
+1632	Trascina la stecca: salto e massé
+1633	Trascina per alzare o abbassare la stecca
+1634	Trascina la stecca · {keys}
+1635	Immagine del profilo
+1636	Compare accanto al tuo nome al tavolo e nel tuo profilo.
+1637	Nessuna immagine
+1638	Cambia la tua immagine
+1639	{name} ha imbucato la 8 insieme a un'altra palla
+1640	l'avversario ha imbucato la 8 con un'altra palla
+1641	ha imbucato la 8 con un'altra palla
+1642	l'avversario ha imbucato la palla 8 insieme a un'altra palla
+1643	Penalità: {balls} fuori dal tavolo a favore di {name}.
+1644	{name} aveva meno palle di quante ne dia il fallo: la 8 paga il resto e il fallo fa perdere la partita.
+1645	Ombre
+1646	Le ombre delle palle e della stecca sul tavolo.
+1647	Sedici giocatori: eliminazione diretta o arena
+1648	Nuova eliminazione diretta
+1649	Nuova arena
+1650	Eliminazione diretta: sedici giocatori, quattro round. Perdi una partita e sei fuori.
+1651	Arena: sette round per tutti. Una vittoria vale 2 punti, 3 dalla terza vittoria di fila. Vince chi fa più punti.
+1652	Le partite tra gli altri giocatori sono decise dalla loro forza e da un sorteggio.
+1653	Hai vinto il torneo!
+1654	{name} ha vinto il torneo.
+1655	Hai finito al {n}° posto.
+1656	Ottavi di finale
+1657	Quarti di finale
+1658	Round {n} di {total}
+1659	Gioca contro {name}
+1660	Abbandona il torneo
+1661	V - S
+1662	Punti
+1663	Il torneo è finito.
+1664	Il round è finito: guarda contro chi giochi ora.
+1665	Sei fuori dal torneo.
+1666	Buca centrale
+1667	Un taglio nella buca centrale, dove l'angolo è stretto. Cinque tentativi.
+1668	Il taglio lungo
+1669	Un taglio dal fondo del tavolo nella buca d'angolo. Cinque tentativi.
+1670	Taglio fino
+1671	Sfiora appena la palla: un taglio fino nella buca d'angolo. Cinque tentativi.
+1672	Lungo la sponda
+1673	La palla è accanto alla sponda: falla scorrere lungo la sponda fino all'angolo. Cinque tentativi.
+1674	Lo stop
+1675	Imbuca la palla e ferma la bianca dove si trovava la palla. Cinque tentativi.
+1676	La combinazione
+1677	Imbuca la 1 mandandoci contro la 2. Cinque tentativi.
+1678	Sponda incrociata
+1679	Sulla sponda lunga e attraverso il tavolo nella buca d'angolo. Cinque tentativi.
+1680	Tiro di rimbalzo
+1681	La 1 è coperta: manda la bianca su una sponda per colpirla per prima. Cinque tentativi.
+1682	Alla spaccata è entrata solo la bianca: si rifà il triangolo e spacca {next}.
+1683	Spaccata d'oro
+1684	Vinci una partita classificata imbucando solo la palla 8 alla spaccata.
+1685	Mezzo anno
+1686	Possiedi un account da sei mesi.
+1687	Primo anniversario
+1688	Secondo anniversario
+1689	Possiedi un account da due anni.
+1690	Terzo anniversario
+1691	Possiedi un account da tre anni.
+1692	Cinque anni al tavolo
+1693	Possiedi un account da cinque anni.
+1694	Torna al torneo
+1695	Continua contro {name}
+1696	Hai lasciato la partita: vale come sconfitta.
+1697	nuovo livello
+1698	Il livello {n} porta: {item}
+1699	Livello 5
+1700	Raggiungi il livello 5.
+1701	Livello 10
+1702	Raggiungi il livello 10.
+1703	Livello 15
+1704	Raggiungi il livello 15.
+1705	Livello 20
+1706	Raggiungi il livello 20.
+1707	Livello 30
+1708	Raggiungi il livello 30.
+1709	Livello 40
+1710	Raggiungi il livello 40.
+1711	Livello 50
+1712	Raggiungi il livello 50.
+1713	Verde petrolio dell'habitué
+1714	Prugna del veterano
+1715	Vecchia volpe
+1716	Da una vita
+1717	Gesso dell'apprendista
+1718	Gesso del mestierante
+1719	Obiettivi
+1720	Leghe e livelli
+1721	Prossima lega: {tier}
+1722	La lega più alta.
+1723	Tutti i premi dei livelli sono stati vinti.
+1724	Ancora nessuno: il primo è a una partita di distanza.
+1725	{coins} e {item}
+1726	Leghe
+1727	Livelli
+1728	Giocando. Ogni livello dà {n} monete.
+1729	dove iniziano tutti
+1730	da {n}
+1731	Il livello massimo.
+1732	{n} XP al livello {next}
+1733	mancano {n} livelli
+1734	nuova lega
+1735	Nero della vecchia guardia
+1736	Blu della lega Esperto
+1737	Viola della lega Maestro
+1738	Oro della lega Leggenda
+1739	Gesso della lega Abile
+1740	In base al punteggio. Ogni lega paga una sola volta.
+1741	stecca
+1742	panno
+1743	gesso
+1744	Mostra sempre la linea di testa
+1745	La linea da cui si spacca, sempre visibile sul tavolo (disattivata: solo mentre metti la bianca dietro di essa).
+1746	{who} ha esaurito il tempo: il turno passa.
+1747	{who} ha esaurito il tempo e a {other} non restano palle da ricevere: la 8 paga e {who} perde.
+1748	{who} ha esaurito il tempo: la bianca torna sul punto di testa e il turno passa.
+1749	{who} ha esaurito il tempo: {balls} fuori dal tavolo a favore di {other}, e la bianca torna sul punto di testa.
+1750	La tua chat è stata disattivata per {n} minuti: {r}
+1751	Il tuo account è stato sospeso per {n} ore: {r}
+1752	Il server si riavvia tra {minutes} min per un aggiornamento. Le partite in corso continuano; le nuove iniziano subito dopo.
+1753	La {cup} è stata annullata: non si sono iscritti abbastanza giocatori.
+1754	Le iscrizioni alla {cup} sono aperte: inizia presto, in Tornei.
+1755	{display} ha vinto il torneo «{name}»!
+1756	Coppa della Domenica
+1757	Coppa del Lunedì
+1758	Coppa del Martedì
+1759	Coppa del Mercoledì
+1760	Coppa del Giovedì
+1761	Coppa del Venerdì
+1762	Coppa del Sabato
+1763	{name} · punteggio {r}
+1764	Qualcosa è andato storto. Riprova.
+1765	membro da 1 giorno
+1766	Partita in corso: resta 1 palla
+1767	manca 1 livello
+1768	Ancora 1 vittoria online con questa stecca per il livello {n}. I livelli aggiungono solo tacche alla stecca.
+1769	Inizio
+1770	Fine
+1771	Pag↑
+1772	Pag↓
+1773	Ins
+1774	Impossibile entrare nella partita LAN
+1775	Partita LAN · gli altri entrano su {address}
+1776	Clicca per copiare
+1777	Copiato.
+1778	Iniziare una nuova partita?
+1779	Hai una partita in corso contro il computer, con 1 palla ancora sul tavolo. Una nuova partita la sostituirà.
+1780	Hai una partita in corso contro il computer, con {n} palle ancora sul tavolo. Una nuova partita la sostituirà.
+1781	Continua quella partita
+1782	Iniziane una nuova
+1783	Clicca di nuovo per chiudere la partita: i giocatori connessi ({n}) verranno disconnessi
+1784	{name} ha ripulito il tavolo in un solo turno!
+1785	{name}: {n} di fila!
+1786	Rivedi il tiro decisivo
+1787	Prossimo: {name}
+1788	Trascina sul tavolo per mirare o clicca una palla
+1789	Regola la potenza
+1790	Rilascia {key} per tirare · Esc annulla
+1791	Gli account dello staff non possono cambiare nome utente.
+1792	Questa password non si può usare. Scegline un'altra.
+1793	Quel torneo è al completo.
+1794	Il server si sta riavviando: il tuo torneo è stato annullato.
+1795	Troppi accessi. Attendi un minuto e riprova.
+1796	Troppe password errate. Riprova tra qualche minuto.
+1797	Impossibile annullare il tuo abbonamento VIP. Riprova tra un attimo.
+1798	Palle di entrambi i gruppi alla spaccata: il turno passa a {next}, il tavolo è aperto.
+1799	Conta solo una finale iniziata dopo aver effettuato l'accesso: rigioca l'ultima tappa dopo aver effettuato l'accesso.
+1800	Il server non ha preparato la finale: questa partita non dà il premio.

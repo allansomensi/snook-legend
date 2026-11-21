@@ -1,0 +1,300 @@
+1501	{n}/{total}
+1502	{drill}: lần thử {k}/{n} · thành công {made}
+1503	Thành công! {n}/{total}
+1504	Trượt.
+1505	Đang gửi đến máy chủ…
+1506	Chưa đăng nhập: lượt tập này không được xếp hạng.
+1507	Đã lưu vào tài khoản của bạn.
+1508	Không thể tính lượt tập này.
+1509	Về danh sách bài tập
+1510	Thẳng vào lỗ
+1511	Một cú ăn bi thẳng và xa vào lỗ góc. Năm lần thử.
+1512	Cú cắt
+1513	Cắt nửa bi vào lỗ góc. Năm lần thử.
+1514	Kéo bi về
+1515	Ăn bi và kéo bi cái lùi về vòng tròn. Năm lần thử.
+1516	Đẩy theo
+1517	Ăn bi và để bi cái chạy theo vào vòng tròn phía sau. Năm lần thử.
+1518	Đánh băng
+1519	Dội một băng vào lỗ giữa. Năm lần thử.
+1520	Gỡ bi bị khóa
+1521	Chạm bi số 1 trước: nó bị che sau các bi khác. Năm lần thử.
+1522	Mười cú liên tiếp
+1523	Mười cú ăn bi khác nhau, liên tiếp: đánh trượt là kết thúc lượt tập.
+1524	Lỗ góc phía sau
+1525	Cắt ngược lên bàn vào lỗ góc phía sau bạn. Năm lần thử.
+1526	Từ xa vào lỗ giữa
+1527	Từ đầu kia của bàn vào lỗ giữa. Năm lần thử.
+1528	Bi cái sát băng
+1529	Bi cái chạm băng: vẫn phải đưa bi vào lỗ góc. Năm lần thử.
+1530	Hai bi kề nhau
+1531	Bi số 2 chạm bi số 1 và hướng vào lỗ: đánh bi số 2 thì bi số 1 vào lỗ. Năm lần thử.
+1532	Cú dội bi
+1533	Bi số 2 cản đường: cho bi cái sượt qua nó để đưa bi số 1 vào lỗ góc. Năm lần thử.
+1534	Kéo bi xa
+1535	Ăn bi và kéo bi cái lùi hết cỡ về vòng tròn. Năm lần thử.
+1536	Theo đường tiếp tuyến
+1537	Ăn bi vào lỗ giữa và để bi cái lăn tiếp vào vòng tròn. Năm lần thử.
+1538	Dội hai băng
+1539	Dội hai băng rồi vào lỗ góc. Năm lần thử.
+1540	Mười lăm cú liên tiếp
+1541	Mười lăm cú ăn bi khác nhau, liên tiếp: đánh trượt là kết thúc lượt tập.
+1542	Hoàn tác cú đánh (Z)
+1543	Đã hoàn tác cú đánh.
+1544	Bi trơn
+1545	Bi sọc
+1546	Ẩn diễn biến
+1547	Tên người dùng mới
+1548	Bấm lần nữa để xác nhận
+1549	Còn {n}/{total} lần đổi tên
+1550	Bạn không thể đổi tên người dùng nữa.
+1551	Đó đã là tên người dùng của bạn.
+1552	Hãy chơi xong ván trước khi đổi tên người dùng.
+1553	Hãy rời bàn hoặc hàng chờ trước khi đổi tên người dùng.
+1554	Hãy rời giải đấu trước khi đổi tên người dùng.
+1555	Đã đổi tên người dùng.
+1556	Máy chủ vẫn đang cập nhật lên phiên bản mới. Hãy thử lại sau vài phút.
+1557	{shooter} đưa bi của đối thủ vào lỗ: đến lượt {next}.
+1558	Con bạc
+1559	Đặt cược vào mọi cú đánh: mạnh hết mức cây cơ cho phép, với mọi độ xoáy có thể. Lối chơi an toàn làm anh ta chán ngắt.
+1560	Bàn tay mềm
+1561	Không bao giờ đánh mạnh hơn mức cần thiết: bi lăn vừa đủ rơi xuống miệng lỗ và bi cái dừng đúng chỗ cô ấy muốn.
+1562	Nghệ sĩ trình diễn
+1563	Chơi cho khán giả xem: cơ nâng cao, xoáy cong và đánh băng mỗi khi có thể. Thành công thường xuyên hơn mức đáng lẽ.
+1564	Nhà chiến thuật
+1565	Tính trước cả giàn bi: khóa bạn khi cú ăn bi chưa chắc, và dọn bàn khi đã chắc.
+1566	Cỗ máy
+1567	Không run tay, không phô trương: đánh giữa bi, lực vừa đủ, cùng một cú đánh hoàn hảo mọi lần.
+1568	Đặt cược đi nào! Tôi cược vào chính mình.
+1569	Ăn may. Cứ thế mà tới!
+1570	Được rồi, được rồi. Gấp đôi hay mất trắng?
+1571	Nhà cái luôn thắng!
+1572	Phỉnh miễn phí! Cảm ơn nhé!
+1573	Tất tay, và trúng lớn!
+1574	Chơi xác suất là phải thế!
+1575	Xui thôi. Ván sau.
+1576	Xoáy quá nhiều ư? Làm gì có chuyện đó.
+1577	Cháy túi rồi. Nhưng đáng để liều!
+1578	Trúng độc đắc! Cược y như cũ nhé?
+1579	Bạn đã thắng cả xác suất. Nể thật.
+1580	Nhẹ nhàng thôi. Bàn bi-a thích bàn tay mềm mại.
+1581	Làm tốt lắm.
+1582	Hơi mạnh một chút, nhưng vào rồi.
+1583	Bớt lực, thêm cảm giác.
+1584	Ôi trời. Được cho không một bi.
+1585	Vừa đủ để rơi.
+1586	Thấy chưa? Đâu cần đánh mạnh.
+1587	Nhẹ quá một chút.
+1588	Tôi vụng quá. Xin lỗi.
+1589	Chậm mà chắc. Cảm ơn ván đấu nhé.
+1590	Chơi rất đẹp. Xứng đáng lắm.
+1591	Thưa quý vị... màn trình diễn bắt đầu!
+1592	Không tệ! Cúi chào khán giả đi!
+1593	Bạn cướp mất tràng pháo tay của tôi rồi!
+1594	Khán giả còn muốn xem nữa!
+1595	Ồ, một cú bẻ lái!
+1596	Ta-da!
+1597	Và tiết mục tiếp theo của tôi...
+1598	Ảo thuật gia cũng có đêm diễn hỏng.
+1599	Đó là... một phần của tiết mục.
+1600	Cảm ơn, cảm ơn! Thêm một màn nữa nhé?
+1601	Cúi chào đi, nhà vô địch. Bạn xứng đáng mà.
+1602	Mỗi giàn bi là một câu đố. Hãy giải câu này.
+1603	Tốt. Giờ bi cái của bạn đâu rồi?
+1604	Tôi đoán trước rồi.
+1605	Cú đó để lại cho tôi chút cơ hội. Cảm ơn.
+1606	Đúng như kế hoạch.
+1607	Chính xác như tôi đã tính.
+1608	Đi trước ba nước.
+1609	Một biến số tôi đã bỏ sót.
+1610	Hừm. Đang tính lại.
+1611	Chiếu hết.
+1612	Bạn đã tính hơn tôi. Hiếm đấy.
+1613	Ván đấu đã khởi tạo.
+1614	Đã ghi nhận.
+1615	Vượt quá biên độ sai số.
+1616	Đã áp dụng hình phạt.
+1617	Như dự kiến.
+1618	Tiếp theo.
+1619	Đã ghi lại sai lệch.
+1620	Trục trặc. Sẽ không lặp lại.
+1621	Kết quả: thắng. Cảm ơn vì dữ liệu.
+1622	Kết quả ngoài dự kiến. Ấn tượng.
+1623	Lời bình của đối thủ
+1624	Đối thủ máy bình luận về ván đấu trong bong bóng thoại.
+1625	Chỉ nhìn từ trên
+1626	Bàn luôn được nhìn từ trên xuống: không có góc nhìn 3D, không xoay.
+1627	Không dùng được khi chỉ nhìn từ trên.
+1628	Con lăn chuột
+1629	Luật
+1630	Luật chơi
+1631	Phẳng
+1632	Kéo cơ: nhảy bi & massé
+1633	Kéo để nâng hoặc hạ cơ
+1634	Kéo cơ · {keys}
+1635	Ảnh đại diện
+1636	Hiện cạnh tên bạn tại bàn và trong hồ sơ.
+1637	Không có ảnh
+1638	Đổi ảnh đại diện
+1639	{name} đưa bi số 8 vào lỗ cùng với bi khác
+1640	đối thủ đưa bi số 8 vào lỗ cùng với bi khác
+1641	đưa bi số 8 vào lỗ cùng với bi khác
+1642	đối thủ đưa bi số 8 vào lỗ cùng với bi khác
+1643	Phạt: {balls} được lấy khỏi bàn cho {name}.
+1644	{name} còn ít bi hơn số bi lỗi này phải trả: bi số 8 bù phần còn lại, và lỗi này khiến thua ván.
+1645	Bóng đổ
+1646	Bóng của bi và cơ trên bàn.
+1647	Mười sáu người chơi: loại trực tiếp hoặc đấu trường
+1648	Giải loại trực tiếp mới
+1649	Đấu trường mới
+1650	Loại trực tiếp: mười sáu người chơi, bốn vòng. Thua một ván là bị loại.
+1651	Đấu trường: bảy vòng cho tất cả. Mỗi trận thắng được 2 điểm, từ trận thắng thứ ba liên tiếp được 3 điểm. Ai nhiều điểm nhất sẽ thắng.
+1652	Các ván giữa những người chơi khác được quyết định theo sức mạnh của họ và bốc thăm.
+1653	Bạn đã vô địch giải đấu!
+1654	{name} đã vô địch giải đấu.
+1655	Bạn về đích ở vị trí thứ {n}.
+1656	Vòng 16
+1657	Tứ kết
+1658	Vòng {n}/{total}
+1659	Đấu với {name}
+1660	Bỏ giải đấu
+1661	T - B
+1662	Điểm
+1663	Giải đấu đã kết thúc.
+1664	Vòng đấu đã kết thúc: xem đối thủ tiếp theo của bạn.
+1665	Bạn đã bị loại khỏi giải đấu.
+1666	Lỗ giữa
+1667	Cắt bi vào lỗ giữa, nơi góc vào hẹp. Năm lần thử.
+1668	Cắt xa
+1669	Cắt bi từ đầu kia của bàn vào lỗ góc. Năm lần thử.
+1670	Cắt mỏng
+1671	Chỉ sượt nhẹ bi: một cú cắt mỏng vào lỗ góc. Năm lần thử.
+1672	Dọc theo băng
+1673	Bi nằm sát băng: đưa nó chạy dọc băng vào lỗ góc. Năm lần thử.
+1674	Đánh dừng
+1675	Ăn bi và để bi cái dừng ngay tại chỗ bi mục tiêu. Năm lần thử.
+1676	Đánh ghép
+1677	Ăn bi số 1 bằng cách đánh bi số 2 vào nó. Năm lần thử.
+1678	Băng chéo góc
+1679	Dội băng dài rồi chéo qua bàn vào lỗ góc. Năm lần thử.
+1680	Bi cái đi băng
+1681	Bi số 1 bị chắn: cho bi cái dội băng để chạm nó trước. Năm lần thử.
+1682	Chỉ bi cái rơi lỗ khi phá bi: bi được xếp lại và {next} phá bi.
+1683	Cú phá vàng
+1684	Thắng một ván xếp hạng nhờ chỉ đưa bi số 8 vào lỗ khi phá bi.
+1685	Nửa năm
+1686	Có tài khoản được sáu tháng.
+1687	Tròn một năm
+1688	Tròn hai năm
+1689	Có tài khoản được hai năm.
+1690	Tròn ba năm
+1691	Có tài khoản được ba năm.
+1692	Năm năm bên bàn bi-a
+1693	Có tài khoản được năm năm.
+1694	Về giải đấu
+1695	Tiếp tục đấu với {name}
+1696	Bạn đã rời ván: bị tính là thua.
+1697	cấp mới
+1698	Cấp {n} mang đến: {item}
+1699	Cấp 5
+1700	Đạt cấp 5.
+1701	Cấp 10
+1702	Đạt cấp 10.
+1703	Cấp 15
+1704	Đạt cấp 15.
+1705	Cấp 20
+1706	Đạt cấp 20.
+1707	Cấp 30
+1708	Đạt cấp 30.
+1709	Cấp 40
+1710	Đạt cấp 40.
+1711	Cấp 50
+1712	Đạt cấp 50.
+1713	Xanh mòng két khách quen
+1714	Tím mận kỳ cựu
+1715	Tay lão luyện
+1716	Trọn đời
+1717	Phấn học việc
+1718	Phấn thợ lành nghề
+1719	Thành tích
+1720	Hạng và cấp
+1721	Hạng tiếp theo: {tier}
+1722	Hạng cao nhất.
+1723	Đã nhận mọi phần thưởng cấp độ.
+1724	Chưa có: phần thưởng đầu tiên chỉ còn cách một ván.
+1725	{coins} và {item}
+1726	Hạng
+1727	Cấp
+1728	Bằng cách chơi. Mỗi cấp thưởng {n} xu.
+1729	nơi mọi người bắt đầu
+1730	từ {n}
+1731	Cấp cao nhất.
+1732	{n} XP để lên cấp {next}
+1733	còn {n} cấp
+1734	hạng mới
+1735	Đen lão làng
+1736	Xanh hạng Chuyên gia
+1737	Tím hạng Cao thủ
+1738	Vàng hạng Huyền thoại
+1739	Phấn hạng Lành nghề
+1740	Theo điểm xếp hạng. Mỗi hạng thưởng một lần.
+1741	cơ
+1742	nỉ
+1743	phấn
+1744	Luôn hiện vạch đầu bàn
+1745	Vạch dùng để phá bi, luôn hiện trên bàn (tắt: chỉ hiện khi đặt bi cái sau vạch).
+1746	{who} hết giờ: lượt chuyển sang đối thủ.
+1747	{who} hết giờ khi {other} không còn bi để nhận: bi số 8 bù vào, và {who} thua.
+1748	{who} hết giờ: bi cái về điểm đầu bàn và lượt chuyển sang đối thủ.
+1749	{who} hết giờ: {balls} được lấy khỏi bàn cho {other}, và bi cái về điểm đầu bàn.
+1750	Bạn bị cấm chat {n} phút: {r}
+1751	Tài khoản của bạn bị tạm khóa {n} giờ: {r}
+1752	Máy chủ sẽ khởi động lại sau {minutes} phút để cập nhật. Các ván đang diễn ra vẫn tiếp tục; ván mới bắt đầu ngay sau đó.
+1753	{cup} đã bị hủy: không đủ người đăng ký.
+1754	{cup} đang mở đăng ký: sắp bắt đầu trong mục Giải đấu.
+1755	{display} đã vô địch giải “{name}”!
+1756	Cúp Chủ Nhật
+1757	Cúp Thứ Hai
+1758	Cúp Thứ Ba
+1759	Cúp Thứ Tư
+1760	Cúp Thứ Năm
+1761	Cúp Thứ Sáu
+1762	Cúp Thứ Bảy
+1763	{name} · điểm {r}
+1764	Đã có lỗi xảy ra. Hãy thử lại.
+1765	thành viên 1 ngày
+1766	Ván đang diễn ra: còn 1 bi
+1767	còn 1 cấp
+1768	Cần thêm 1 trận thắng trực tuyến với cây cơ này để lên cấp {n}. Cấp chỉ thêm dấu ấn lên cơ.
+1769	Home
+1770	End
+1771	PgUp
+1772	PgDn
+1773	Ins
+1774	Không thể tham gia ván LAN
+1775	Ván LAN · người khác tham gia tại {address}
+1776	Bấm để sao chép
+1777	Đã sao chép.
+1778	Bắt đầu ván mới?
+1779	Bạn có một ván đang chơi dở với máy, còn 1 bi. Ván mới sẽ thay thế ván đó.
+1780	Bạn có một ván đang chơi dở với máy, còn {n} bi. Ván mới sẽ thay thế ván đó.
+1781	Tiếp tục ván đó
+1782	Bắt đầu ván mới
+1783	Bấm lần nữa để đóng ván: {n} người sẽ bị ngắt kết nối
+1784	{name} dọn sạch bàn trong một lượt!
+1785	{name}: {n} bi liên tiếp!
+1786	Xem lại cú đánh quyết định
+1787	Tiếp theo: {name}
+1788	Kéo trên bàn để ngắm, hoặc bấm vào một bi
+1789	Chỉnh lực
+1790	Thả {key} để đánh · Esc để hủy
+1791	Tài khoản nhân viên không thể đổi tên người dùng.
+1792	Không thể dùng mật khẩu đó. Hãy chọn mật khẩu khác.
+1793	Giải đấu đó đã đầy.
+1794	Máy chủ đang khởi động lại: giải đấu của bạn đã bị hủy.
+1795	Đăng nhập quá nhiều lần. Hãy đợi một phút rồi thử lại.
+1796	Nhập sai mật khẩu quá nhiều lần. Hãy thử lại sau vài phút.
+1797	Không thể hủy gói VIP của bạn. Hãy thử lại sau giây lát.
+1798	Bi của cả hai nhóm rơi lỗ khi phá bi: lượt chuyển sang {next}, bàn vẫn mở.
+1799	Chỉ trận chung kết bắt đầu khi đã đăng nhập mới được tính: hãy đăng nhập và chơi lại chặng cuối.
+1800	Máy chủ chưa chuẩn bị trận chung kết: ván này sẽ không nhận được phần thưởng.

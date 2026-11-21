@@ -1,66 +1,66 @@
-# Snook Legend: the official rules of eight-ball (the World Pool-Billiard
-# Association's Rules of Play), shown in the game.
-# "## <part>" starts a part, "### <title>" a rule, and the lines after it
-# are its text. The same parts and rules, in the same order, in every
-# language.
+# Snook Legend: القواعد الرسمية لبلياردو الكرة 8 (قواعد اللعب
+# الصادرة عن الاتحاد العالمي للبلياردو WPA)، كما تظهر في اللعبة.
+# "## <part>" يبدأ قسما، و"### <title>" يبدأ قاعدة، والأسطر التي تليه
+# هي نصها. الأقسام والقواعد نفسها، بالترتيب نفسه، في كل
+# اللغات.
 
-## The game
+## اللعبة
 
-### The official rules (WPA)
-The eight-ball of international tournaments, as the World Pool-Billiard Association plays it. Snook Legend has the Brazilian rules too: choose the rules of your games in the main menu. If you play the Brazilian rules, read the break, the calls and the fouls below, because they differ a lot.
+### القواعد الرسمية (WPA)
+بلياردو الكرة 8 في البطولات الدولية، كما يلعبه الاتحاد العالمي للبلياردو (WPA). وفي Snook Legend القواعد البرازيلية أيضا: اختر قواعد مبارياتك من القائمة الرئيسية. إذا كنت تلعب بالقواعد البرازيلية، فاقرأ فقرات الافتتاحية والإعلان والأخطاء أدناه، لأنها تختلف كثيرا.
 
-### The aim
-Each player has a group of seven balls: solids (1 to 7) or stripes (9 to 15). Pocket all of yours and then the 8-ball, in the pocket you call, before your opponent does.
+### الهدف
+لكل لاعب مجموعة من سبع كرات: الكرات الصلبة (من 1 إلى 7) أو الكرات المخططة (من 9 إلى 15). أدخل كل كراتك ثم الكرة 8، في الجيب الذي تعلنه، قبل أن يفعل خصمك ذلك.
 
-### Your turn
-You keep shooting while you make a ball of your group in the pocket you called, on a shot without a foul. Otherwise the turn passes, and the balls that went in stay down.
+### دورك
+تواصل اللعب ما دمت تدخل كرة من مجموعتك في الجيب الذي أعلنته، في ضربة دون خطأ. وإلا ينتقل الدور، وتبقى الكرات التي دخلت في الجيوب.
 
-## The break
+## الافتتاحية
 
-### The break shot
-The cue ball is in your hand: place it anywhere behind the head string. Nothing is called on the break. For it to be legal you must make a ball or drive at least four object balls to a cushion.
+### الضربة الافتتاحية
+الكرة البيضاء في يدك: ضعها في أي مكان خلف خط الرأس. لا يعلن شيء في الافتتاحية. ولكي تكون قانونية يجب أن تدخل كرة أو أن توصل أربع كرات على الأقل إلى الحواف.
 
-### An illegal break
-If no ball goes in and fewer than four reach a cushion, your opponent chooses: play the table as it lies, have the balls racked and break themselves, or have you break again.
+### افتتاحية غير قانونية
+إذا لم تدخل أي كرة ووصلت أقل من أربع كرات إلى الحواف، يختار خصمك: لعب الطاولة كما هي، أو إعادة ترتيب الكرات والافتتاح بنفسه، أو أن تفتتح أنت مرة أخرى.
 
-### After the break
-A ball made on a legal break keeps the table, but the table stays open: the break never decides the groups. If the cue ball goes in or leaves the table on a legal break, your opponent has it in hand behind the head string.
+### بعد الافتتاحية
+الكرة التي تدخل في افتتاحية قانونية تبقيك على الطاولة، لكن الطاولة تبقى مفتوحة: الافتتاحية لا تحدد المجموعات أبدا. إذا دخلت الكرة البيضاء الجيب أو خرجت من الطاولة في افتتاحية قانونية، يحصل خصمك على الكرة في اليد خلف خط الرأس.
 
-### The 8-ball on the break
-Pocketing the 8 on the break neither wins nor loses: it comes back to the foot spot, and you play on or have the balls racked and break again. If you also fouled, your opponent chooses: the cue ball in hand behind the head string, or the balls racked again and they break.
+### الكرة 8 في الافتتاحية
+إدخال الكرة 8 في الافتتاحية لا يمنحك الفوز ولا الخسارة: تعاد إلى نقطة القدم، وتواصل اللعب أو يعاد ترتيب الكرات وتفتتح من جديد. إذا ارتكبت خطأ أيضا، يختار خصمك: الكرة البيضاء في اليد خلف خط الرأس، أو إعادة ترتيب الكرات والافتتاح بنفسه.
 
-### A ball off the table on the break
-It is a foul, and the ball stays off (only the 8 comes back). Your opponent plays the table as it lies or takes the cue ball in hand behind the head string. If the break was illegal too, they may also have the balls racked again, as above.
+### كرة خارج الطاولة في الافتتاحية
+إنه خطأ، وتبقى الكرة خارج الطاولة (الكرة 8 وحدها تعاد). يلعب خصمك الطاولة كما هي أو يأخذ الكرة البيضاء في اليد خلف خط الرأس. وإذا كانت الافتتاحية غير قانونية أيضا، يمكنه كذلك طلب إعادة ترتيب الكرات، كما ورد أعلاه.
 
-## Calling and playing
+## الإعلان واللعب
 
-### Open table
-While the groups are not decided, the table is open: you may hit any ball first except the 8. The group of the ball you make in the called pocket becomes yours. If one group is already off the table, you may play the 8.
+### الطاولة المفتوحة
+ما دامت المجموعات لم تتحدد، تكون الطاولة مفتوحة: يمكنك أن تلمس أولا أي كرة باستثناء الكرة 8. مجموعة الكرة التي تدخلها في الجيب المعلن تصبح مجموعتك. إذا خرجت إحدى المجموعتين من الطاولة بالكامل، يمكنك لعب الكرة 8.
 
-### Calling your shot
-Every shot except the break is called. In the game you call a pocket: following your aim, it calls the pocket the ball you hit is heading for (the ring on the pocket). Click another pocket to call it, or play a safety. A ball of your group (or the 8, when you are on it) made in the called pocket keeps the table, also off a cushion or another ball.
+### إعلان ضربتك
+كل ضربة ما عدا الافتتاحية تعلن. في اللعبة تعلن جيبا: يتبع الإعلان تصويبك ويحدد الجيب الذي تتجه إليه الكرة التي تضربها (الحلقة على الجيب). انقر على جيب آخر لإعلانه، أو العب ضربة دفاعية. الكرة من مجموعتك (أو الكرة 8، عندما تكون عليها) التي تدخل في الجيب المعلن تبقيك على الطاولة، حتى لو دخلت بعد ارتدادها عن حافة أو كرة أخرى.
 
-### Safety
-A shot with no pocket called is a safety: whatever goes in stays down, and the turn passes to your opponent.
+### الضربة الدفاعية
+الضربة التي لا يعلن فيها أي جيب هي ضربة دفاعية: كل ما يدخل يبقى في الجيب، وينتقل الدور إلى خصمك.
 
-### The cue ball behind the head string
-With the cue ball in hand behind the head string, you can't hit a ball that also lies behind it unless the cue ball crosses the head string first. If every ball you may hit lies behind it, the one nearest to the head string comes back to the foot spot.
+### الكرة البيضاء خلف خط الرأس
+عندما تكون الكرة البيضاء في يدك خلف خط الرأس، لا يمكنك لمس كرة موجودة خلفه أيضا إلا إذا عبرت الكرة البيضاء خط الرأس أولا. إذا كانت كل الكرات التي يحق لك لمسها خلفه، تعاد أقربها إلى خط الرأس إلى نقطة القدم.
 
-## Fouls
+## الأخطاء
 
-### Ball in hand
-After any foul, your opponent has the cue ball in hand: they place it anywhere on the table. No ball comes off the table as a penalty.
+### الكرة في اليد
+بعد أي خطأ، يحصل خصمك على الكرة البيضاء في اليد: يضعها في أي مكان على الطاولة. لا تخرج أي كرة من الطاولة كعقوبة.
 
-### What is a foul
-The cue ball in a pocket or off the table; hitting no ball, or the wrong ball first (one of your opponent's, or the 8 too soon); after the contact, no ball made and no ball reaching a cushion (a ball lying against a cushion only reaches it by leaving it and coming back); an object ball off the table (it stays off).
+### ما هو الخطأ
+دخول الكرة البيضاء في جيب أو خروجها من الطاولة؛ عدم لمس أي كرة، أو لمس الكرة الخطأ أولا (إحدى كرات خصمك، أو الكرة 8 قبل أوانها)؛ عدم دخول أي كرة وعدم وصول أي كرة إلى الحافة بعد التلامس (الكرة الملاصقة للحافة لا تصل إليها إلا إذا ابتعدت عنها ثم عادت)؛ خروج كرة مستهدفة من الطاولة (وتبقى خارجها).
 
-### The shot clock
-When the game has a shot clock and it runs out, it is a foul: your opponent has the cue ball in hand. A choice after the break that isn't made in time takes its first option.
+### مؤقت الضربة
+عندما يكون للمباراة مؤقت للضربة وينتهي الوقت، يحتسب خطأ: يحصل خصمك على الكرة البيضاء في اليد. والاختيار بعد الافتتاحية الذي لا يتم في الوقت المحدد يأخذ الخيار الأول.
 
-## The 8-ball
+## الكرة 8
 
-### Winning
-Once your group is off the table, pocket the 8 in the pocket you called, on a shot without a foul.
+### الفوز
+ما إن تخرج مجموعتك من الطاولة، أدخل الكرة 8 في الجيب الذي أعلنته، في ضربة دون خطأ.
 
-### Losing on the 8
-You lose by pocketing the 8 on a foul, before your group is off the table or in a pocket you didn't call, and by knocking the 8 off the table. None of this applies to the break.
+### الخسارة على الكرة 8
+تخسر إذا أدخلت الكرة 8 بخطأ، أو قبل أن تخرج مجموعتك من الطاولة، أو في جيب لم تعلنه، وكذلك إذا أخرجت الكرة 8 من الطاولة. لا ينطبق أي من ذلك على الافتتاحية.

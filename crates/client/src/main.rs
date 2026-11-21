@@ -31,6 +31,7 @@ mod hud;
 mod i18n;
 mod icon;
 mod icons;
+mod instance;
 mod keys;
 mod ladder;
 mod lan;
@@ -190,6 +191,10 @@ fn window_conf() -> macroquad::conf::Conf {
     // to make sure it works (see update.rs). Keep this answer as it is.
     if std::env::args().skip(1).any(|a| a == "--version" || a == "-V") {
         println!("snook-legend {}", env!("CARGO_PKG_VERSION"));
+        std::process::exit(0);
+    }
+    // One game at a time: a second start shows the first and ends.
+    if !instance::claim() {
         std::process::exit(0);
     }
     update::init();

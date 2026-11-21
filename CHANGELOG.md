@@ -381,6 +381,16 @@ The server:
   atlas (`/admin/flags.png`, `/admin/flags.css`): the flag emoji aren't in
   every system's fonts, and Windows showed two letters.
 
+### One game at a time
+- **A second start of the game doesn't open another one**: it brings the
+  window of the game that is running to the front (Windows) and ends.
+  Two games on one computer shared the settings, the saved game and the
+  account's session, each writing over the other's. The game holds a lock
+  on `instance.lock` in its settings folder while it runs (the system
+  frees it however the game ends); a start right after an update waits a
+  few seconds for the old game to close. Development builds can still run
+  side by side with `SNOOK_LEGEND_MANY=1`.
+
 ### A fifth review
 - A private arena asks for its password once it is running too (joining
   it was refused, each try counting as a wrong password).

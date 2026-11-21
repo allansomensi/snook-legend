@@ -1008,6 +1008,11 @@ impl Match {
             coach: false,
         };
         m.begin_turn();
+        if m.game.game_over().is_some() {
+            // A table joined after its game ended (back from a lost
+            // connection, say): the end, not a turn nobody can play.
+            m.phase = Phase::GameOver;
+        }
         if let Some(o) = m.online.as_mut() {
             o.clock_left = clock_left;
         }
@@ -1027,6 +1032,21 @@ impl Match {
         let log = std::mem::take(&mut self.log);
         let guide = self.guide;
         let swapped = next.names[0] != self.names[0];
+        // (A stroke made for a table that has changed since isn't played on
+        // the one that came back.)
+        let moved = next.game != self.game;
+        let outbox: Vec<ClientMsg> = outbox
+            .into_iter()
+            .filter(|c| {
+                !(moved
+                    && matches!(
+                        c,
+                        ClientMsg::Shoot { .. }
+                            | ClientMsg::PlaceCueBall { .. }
+                            | ClientMsg::Choose { .. }
+                    ))
+            })
+            .collect();
         *self = next;
         self.wins = if swapped { [wins[1], wins[0]] } else { wins };
         self.games_played = games;
@@ -2665,7 +2685,19 @@ impl Match {
             }
             ServerMsg::TimeFoul { seat, game, clock_left } => {
                 o.next_clock = clock_left;
+                // A shot of ours that left as the clock ran out was never
+                // played: it isn't the last shot to watch again.
+                let unplayed = o.predicted.take().is_some();
+                if unplayed {
+                    o.sim_turn = None;
+                    o.turn_start = None;
+                    o.pending_end = None;
+                }
                 self.fast_forward();
+                if unplayed {
+                    self.replay = None;
+                    self.last_shot = None;
+                }
                 let before = std::mem::replace(&mut self.game, game);
                 if !self.tell_time_foul(&before, seat) {
                     self.begin_turn();
@@ -2712,6 +2744,9 @@ impl Match {
             ServerMsg::OpponentConnection { connected, grace_secs } => {
                 o.opponent_connected = connected;
                 if connected {
+                    // (Both back after the server restarted: its wait is
+                    // over and the shot clock starts afresh.)
+                    o.clock_left = o.clock_left.min(o.shot_clock);
                     self.notify(tw("{opponent} is back.", &[("opponent", &opponent)]), false);
                 } else {
                     self.notify(
@@ -2757,6 +2792,13 @@ impl Match {
                     && let Some(o) = self.online.as_mut()
                 {
                     o.choice_sent = None;
+                }
+                // A rematch the server refused isn't being waited for: the
+                // button comes back (to ask again, or to accept theirs).
+                if self.game.game_over().is_some()
+                    && let Some(o) = self.online.as_mut()
+                {
+                    o.rematch_requested = false;
                 }
                 self.notify(crate::i18n::server_text(&message), true);
             }

@@ -72,10 +72,10 @@ Gdy gra jest za innym oknem lub zminimalizowana, Windows pokazuje zaproszenie od
 Jeśli rozbicie nie trafi żadnej bili albo wpadnie biała (do łuzy lub poza stół) bez żadnej wbitej bili, rozbicie przechodzi na przeciwnika, z białą z ręki za linią startową. Wbita bila ustala grupy, nawet jeśli wpadnie też biała. A biała poza stołem kosztuje bilę, tak jak jej wbicie.
 
 ### Więcej ćwiczeń, bez rankingu
-Jest teraz 24 ćwiczeń, w tym dziewięć nowych: daleki narożnik, z daleka na środek, biała przy bandzie, bile na styk, karambol, długie cofnięcie, po linii stycznej, od dwóch band i piętnaście z rzędu. Każde pokazuje swój układ, a twoje gwiazdki są zapisywane na koncie. Ranking ćwiczeń zniknął.
+Są teraz 24 ćwiczenia, w tym dziewięć nowych: daleki narożnik, z daleka na środek, biała przy bandzie, bile na styk, karambol, długie cofnięcie, po linii stycznej, od dwóch band i piętnaście z rzędu. Każde pokazuje swój układ, a twoje gwiazdki są zapisywane na koncie. Ranking ćwiczeń zniknął.
 
 ### Nowe obrazki
-Portrety zostały narysowane od nowa, staranniej, i są nowe obrazki bilardowych rzeczy. Twoje zdjęcie pojawia się teraz na karcie w rogu ekranu startowego, gdy jesteś zalogowany.
+Portrety zostały narysowane od nowa, staranniej, i są nowe obrazki bilardowych rzeczy. Twoje zdjęcie pojawia się teraz na karcie w rogu ekranu startowego, po zalogowaniu.
 
 ### Regulamin i prywatność
 Regulamin i polityka prywatności są na wyciągnięcie ręki: przy rejestracji, w sklepie oraz w Ustawienia → Gra → Informacje. Przy zakupach za pieniądze masz 7 dni na rozmyślenie się i odzyskanie pieniędzy.
@@ -277,7 +277,7 @@ Komputer uczy się stylu prawdziwego gracza z jego partii online. Wyzwij ducha z
 Wyzwij kogoś i wykonuj ruch, kiedy możesz: każdy gracz ma do 3 dni na ruch. Dostaniesz powiadomienie, gdy przyjdzie twoja kolej, a naraz możesz prowadzić kilka partii.
 
 ### Znajomi i prezenty
-Zobacz, z kim ostatnio grałeś, ustaw status w profilu i dodaj ogłoszenie na tablicy „szukam partii” w lobby. Prezenty od znajomych przychodzą teraz z powiadomieniem, wiadomością i „dziękuję”.
+Zobacz ostatnich przeciwników, ustaw status w profilu i dodaj ogłoszenie na tablicy „szukam partii” w lobby. Prezenty od znajomych przychodzą teraz z powiadomieniem, wiadomością i „dziękuję”.
 
 ### Kije, stoły i sale
 Twój kij zdobywa paski i intarsje, gdy nim wygrywasz. W sklepie tematyczne stoły i sale: bar na plaży, loft industrialny i klub angielski.

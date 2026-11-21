@@ -5,303 +5,303 @@
 
 ## 0.8.3
 
-### What you earn is shown
-An item that comes with an achievement, such as a level reached, now arrives with a "Congratulations!" window that shows it and lets you use it at once.
+### Kazandığın şey gösteriliyor
+Ulaşılan bir seviye gibi bir başarımla gelen eşya artık bir "Tebrikler!" penceresiyle geliyor; pencere eşyayı gösteriyor ve onu hemen kullanmanı sağlıyor.
 
-### One game at a time
-Starting the game while it is already open brings its window to the front instead of opening a second one. Two games on one computer wrote over each other's settings and saved game.
+### Aynı anda tek oyun
+Oyun zaten açıkken yeniden başlatmak, ikinci bir pencere açmak yerine mevcut pencereyi öne getiriyor. Aynı bilgisayardaki iki oyun birbirinin ayarlarının ve kayıtlı oyununun üzerine yazıyordu.
 
-### The 8 on a break handed over
-Under the Brazilian rule, a break handed over after the cue ball was lost, with the balls already scattered, no longer wins by potting the 8: hitting it first is a foul and pocketing it loses, as on any shot. Only the break of the rack has the 8 alone winning.
+### Devredilen açılışta 8
+Brezilya kurallarında, beyaz top kaybedildikten sonra toplar zaten dağılmışken devredilen bir açılış, artık 8'i sokarak kazandırmıyor: önce 8'e vurmak faul, onu sokmak ise her vuruşta olduğu gibi kaybettiriyor. 8'i tek başına sokmak yalnızca dizili topların açılışında kazandırıyor.
 
-### Cleaner pockets, a steadier camera, and many fixes
-The pockets are finished without rough edges, and going from the overhead view to 3D keeps your zoom. Two more reviews of the whole game fixed many bugs: a rematch keeps the break alternating, a private arena asks for its password while it runs, a table rejoined after its game ended shows the result, and more.
+### Daha temiz cepler, daha sakin kamera ve birçok düzeltme
+Cepler pürüzsüz kenarlarla tamamlandı ve üstten görünümden 3D'ye geçmek yakınlaştırmanı koruyor. Oyunun baştan sona iki incelemesi daha birçok hatayı düzeltti: rövanş açılış sırasını koruyor, özel bir arena sürerken şifresini soruyor, oyunu bittikten sonra yeniden katılınan masa sonucu gösteriyor ve daha fazlası.
 
 ## 0.8.2
 
-### The shot clock gives a ball
-Under the Brazilian rule, running out of time is a foul: your opponent's lowest ball comes off (if they are on the 8 already, the 8 pays and you lose), the cue ball goes back to the head spot, not in hand, and the turn passes.
+### Vuruş süresi top veriyor
+Brezilya kurallarında süre dolması faul: rakibinin en küçük numaralı topu masadan alınıyor (zaten 8'e kaldıysa 8 öder ve kaybedersin), beyaz top elde değil baş noktasına dönüyor ve sıra rakibe geçiyor.
 
-### The break, one each
-Under the Brazilian rule the players break in turn, one break each. A break that loses the cue ball with no ball made, or with balls of both groups, passes the break: your opponent breaks again from the head spot, with the balls where they stopped.
+### Açılış, sırayla birer kez
+Brezilya kurallarında oyuncular sırayla birer açılış yapıyor. Hiç top girmeden ya da iki gruptan toplarla birlikte beyaz topu kaybeden açılış, açılışı devrediyor: rakibin, toplar durdukları yerdeyken baş noktasından yeniden açılış yapıyor.
 
-### Grab the cue anywhere
-Click and drag the cue anywhere along it, from the tip to the butt, even drawn back or raised over the rail: it follows the pointer as it swings.
+### İstekayı her yerinden tut
+İstekayı uçtan dibe, geri çekilmiş ya da bandın üstüne kaldırılmış olsa bile, herhangi bir yerinden tıklayıp sürükle: dönerken imleci takip ediyor.
 
-### Seven rounds in the arena, and many fixes
-The arena against the computer is seven rounds for everyone, and the shop has a new icon. Three reviews of the whole game fixed many bugs: leaving while the balls roll no longer undoes a shot against the computer, the first ball hit is the one the cue ball really touched first, and more.
+### Arenada yedi tur ve birçok düzeltme
+Bilgisayara karşı arena herkes için yedi tur ve mağazanın yeni bir simgesi var. Oyunun baştan sona üç incelemesi birçok hatayı düzeltti: toplar yuvarlanırken ayrılmak artık bilgisayara karşı bir vuruşu geri almıyor, ilk vurulan top beyaz topun gerçekten ilk değdiği top oluyor ve daha fazlası.
 
 ## 0.8.1
 
-### The 8 pays the penalty
-Under the Brazilian rule, a foul that gives more balls than your opponent has left loses the game: their balls come off and the 8 pays the rest. Once your opponent is on the 8, any foul that gives a ball loses: missing every ball, pocketing the cue ball or knocking it off the table.
+### Cezayı 8 öder
+Brezilya kurallarında, rakibinin kalan topundan fazlasını veren faul oyunu kaybettiriyor: rakibin topları alınıyor ve kalanı 8 ödüyor. Rakibin 8'e kaldığında, top veren her faul kaybettiriyor: hiçbir topa değmemek, beyaz topu cebe sokmak ya da masadan düşürmek.
 
-### Click outside to close
-The match's chat, the game history and the spin and elevation panels close when you click outside them, and the click still counts on the table. Menus and dialogs close with a click outside them too, like Cancel.
+### Kapatmak için dışarı tıkla
+Maç sohbeti, oyun geçmişi ve falso ile yükseklik panelleri dışlarına tıklayınca kapanıyor ve tıklama masada da geçerli oluyor. Menüler ve pencereler de, İptal gibi, dışarıya bir tıklamayla kapanıyor.
 
 ## 0.8.0
 
-### The official rules
-You can now also play the official rules of the WPA, the eight-ball of international tournaments: every shot is called, a foul gives ball in hand anywhere and no ball comes off as a penalty. Choose your rules in the main menu. The Brazilian rule is still there, just as it was.
+### Resmî kurallar
+Artık WPA'nın resmî kurallarıyla, yani uluslararası turnuvaların 8 topuyla da oynayabilirsin: her vuruşta cep söyleniyor, faul her yerde elde top veriyor ve ceza olarak hiç top alınmıyor. Kurallarını ana menüden seç. Brezilya kuralları da hâlâ eskisi gibi duruyor.
 
-### A rating for each rules
-Each rules has its own rating, tier and world ranking: the ranking has a tab for each and your profile a card for each. Your level, coins and achievements are shared.
+### Her kural için ayrı puan
+Her kuralın kendi puanı, kademesi ve dünya sıralaması var: sıralamada her biri için bir sekme, profilinde de her biri için bir kart var. Seviyen, jetonların ve başarımların ortak.
 
-### Calling your shots
-Under the official rules the pocket you aim at is called (a ring shows it). Click another pocket to call it, or Safety to call none. After some breaks you choose how the game goes on, with the buttons or 1, 2 and 3.
+### Vuruşlarını söylemek
+Resmî kurallarda nişan aldığın cep söyleniyor (bir halka gösteriyor). Söylemek için başka bir cebe tıkla ya da hiçbirini söylememek için Savunma'ya. Bazı açılışlardan sonra oyunun nasıl devam edeceğini düğmelerle ya da 1, 2 ve 3 ile seçiyorsun.
 
-### Online, by rules
-Invitations, tables, Play now, tournaments and daily games all say their rules, and Play now pairs you with players of yours. The menu shows how many people play each.
+### Çevrim içi, kurallara göre
+Davetler, masalar, Hemen oyna, turnuvalar ve günlük oyunlar kurallarını belirtiyor ve Hemen oyna seni aynı kurallarla oynayanlarla eşleştiriyor. Menü her birini kaç kişinin oynadığını gösteriyor.
 
-### The break, Brazilian rule
-If the break loses the cue ball together with balls of both groups, the break now passes to your opponent, with the cue ball in hand behind the head string and no penalty ball.
+### Açılış, Brezilya kuralları
+Açılışta beyaz top iki gruptan toplarla birlikte kaybedilirse, açılış artık rakibine geçiyor; beyaz top baş çizgisinin gerisinde elde ve ceza topu yok.
 
 ## 0.7.4
 
-### The chat, when you want it
-No more age question when signing up. The chat with other players starts off and asks only the first time you write: 18 or older turns it on at once, and under 18 a parent or guardian turns it on. Whoever doesn't chat is never asked.
+### İstediğinde sohbet
+Kaydolurken artık yaş sorusu yok. Diğer oyuncularla sohbet kapalı başlıyor ve yalnızca ilk yazdığında soruyor: 18 yaş veya üstü hemen açıyor, 18 yaş altında ise bir ebeveyn veya vasi açıyor. Sohbet etmeyene hiç sorulmuyor.
 
-### Invitations in the corner
-An invitation now shows as a card in the top right corner on every screen and over any game, with the player's picture, the buttons to accept or decline and a soft chime. Accept it from the menu and the game starts right away.
+### Köşede davetler
+Davet artık her ekranda ve her oyunun üstünde, sağ üst köşede bir kart olarak görünüyor: oyuncunun resmi, kabul ve ret düğmeleri ve yumuşak bir zil sesiyle. Menüden kabul et, oyun hemen başlasın.
 
-### Windows tells you at once
-With the game behind another window or minimised, Windows shows the invitation at once (it used to wait a few seconds).
+### Windows hemen haber veriyor
+Oyun başka bir pencerenin arkasındayken ya da simge durumundayken, Windows daveti hemen gösteriyor (eskiden birkaç saniye bekliyordu).
 
 ## 0.7.3
 
-### New rules
-If the break hits no ball, or loses the cue ball (down or off the table) with no ball made, the break passes to your opponent, with the cue ball in hand behind the head string. With a ball made, it decides the groups even if the cue ball goes down too. And the cue ball off the table costs a ball, as a scratch does.
+### Yeni kurallar
+Açılış hiçbir topa değmezse ya da hiç top girmeden beyaz topu kaybederse (cebe ya da masa dışına), açılış rakibine geçiyor; beyaz top baş çizgisinin gerisinde elde. Bir top girdiyse, beyaz top da girse grupları o belirliyor. Beyaz topun masadan çıkması da, cebe girmesi gibi bir top kaybettiriyor.
 
-### More drills, no ranking
-There are 24 drills now, nine of them new: the far corner, long into the side, cue ball on the cushion, the plant, the carom, the long draw, on the tangent line, two-cushion bank and fifteen in a row. Each shows its position, and your stars are kept in your account. The drills' ranking is gone.
+### Daha çok alıştırma, sıralama yok
+Artık 24 alıştırma var, dokuzu yeni: arkadaki köşe, uzaktan orta cebe, banda yapışık beyaz, bitişik toplar, karambol, uzun geri falso, teğet çizgisinde, çift bant ve üst üste on beş. Her biri pozisyonunu gösteriyor ve yıldızların hesabında saklanıyor. Alıştırma sıralaması kaldırıldı.
 
-### New pictures
-The portraits were drawn again, with more care, and there are new pictures of pool things. Your picture now shows on the card in the corner of the start screen when you're signed in.
+### Yeni resimler
+Portreler daha özenle yeniden çizildi ve bilardoyla ilgili yeni resimler var. Giriş yaptığında resmin artık başlangıç ekranının köşesindeki kartta görünüyor.
 
-### Terms and privacy
-The terms of use and the privacy policy are a click away: when you sign up, in the shop and in Settings → Game → About. Purchases with money give you 7 days to change your mind and get your money back.
+### Koşullar ve gizlilik
+Kullanım koşulları ve gizlilik politikası bir tık uzağında: kaydolurken, mağazada ve Ayarlar → Oyun → Hakkında bölümünde. Parayla yapılan satın almalarda fikrini değiştirip paranı geri almak için 7 günün var.
 
-### Age and chat
-The game asks your age group (once). Under 18, the chat with other players stays off until a parent or guardian turns it on, below the lounge's chat, as Brazilian law asks.
+### Yaş ve sohbet
+Oyun yaş grubunu (bir kez) soruyor. 18 yaş altında, Brezilya yasalarının istediği gibi, diğer oyuncularla sohbet bir ebeveyn veya vasi lobi sohbetinin altından açana kadar kapalı kalıyor.
 
-### Emoji in the chat
-Emoji now show as pictures in the chat, notes and statuses, flags and all. Tabs have all their names at one size, and the count of who is online is smaller: the green dot, a person and the number.
+### Sohbette emoji
+Emojiler artık sohbette, notlarda ve durumlarda bayraklarıyla birlikte resim olarak görünüyor. Sekmelerin bütün adları aynı boyutta ve çevrim içi sayısı daha küçük: yeşil nokta, bir kişi ve sayı.
 
 ## 0.7.2
 
-### A harder tour
-Each stage of the tour is harder than before, and more so the further up: opponents miss less, look at every shot and play for position. The final against Viktor, for the cue, is very hard now: he barely misses and plays safe more often. Tournaments against the computer stay as they were.
+### Daha zor bir turne
+Turnenin her etabı eskisinden daha zor, yukarı çıktıkça daha da zor: rakipler daha az kaçırıyor, her vuruşa bakıyor ve pozisyon oynuyor. İsteka için Viktor'a karşı oynanan final artık çok zor: neredeyse hiç kaçırmıyor ve daha sık savunma oynuyor. Bilgisayara karşı turnuvalar olduğu gibi kalıyor.
 
-### Tournament medals
-Play a tournament against the computer to its end and finish in the first three for a gold, silver or bronze medal. The Tournament tab counts them, knockout and arena apart; they are kept in your account the next time you're online.
+### Turnuva madalyaları
+Bilgisayara karşı bir turnuvayı sonuna kadar oyna ve ilk üçe girerek altın, gümüş veya bronz madalya kazan. Turnuva sekmesi bunları eleme ve arena için ayrı sayıyor; madalyalar bir sonraki çevrim içi oluşunda hesabında saklanıyor.
 
-### A camera like the table's
-In the shop's showroom the camera turns with the right button, as at the table, smoothly, and never goes under the floor or the table. The wheel brings you closer.
+### Masadaki gibi bir kamera
+Mağazanın vitrininde kamera, masada olduğu gibi sağ tuşla akıcı biçimde dönüyor ve asla zeminin ya da masanın altına girmiyor. Tekerlek seni yaklaştırıyor.
 
 ## 0.7.1
 
-### The first ball decides
-On the break, the first ball that goes down decides your group, even if others go down after it: the 3 and then the 13, and you take the solids. The 13 is your opponent's, so it stays down for them and the turn passes.
+### İlk top belirler
+Açılışta, ondan sonra başka toplar girse bile, ilk giren top grubunu belirliyor: önce 3, sonra 13 girerse düzleri sen alırsın. 13 rakibine ait, o yüzden onun hesabına içeride kalıyor ve sıra rakibe geçiyor.
 
-### Ball in hand on the break only
-The cue ball is in hand on the break only, behind the head string. If it goes down or leaves the table, it comes back to the head spot (right behind a ball lying there), without ball in hand, with the usual penalties. A break that makes only the cue ball is no longer racked again: your opponent plays on from there.
+### Elde top yalnızca açılışta
+Beyaz top yalnızca açılışta, baş çizgisinin gerisinde elde. Cebe girer ya da masadan çıkarsa, her zamanki cezalarla, elde top olmadan baş noktasına (ya da orada duran bir topun hemen gerisine) dönüyor. Yalnızca beyaz topun girdiği açılışta toplar artık yeniden dizilmiyor: rakibin oradan devam ediyor.
 
-### Who is online
-Playing the computer (in a tournament, on the tour or in a drill), a discreet corner shows how many people are online and says when someone comes: time to go and invite them. Invitations show over the game.
+### Kim çevrim içi
+Bilgisayara karşı oynarken (turnuvada, turnede ya da bir alıştırmada) göze batmayan bir köşe kaç kişinin çevrim içi olduğunu gösteriyor ve biri geldiğinde haber veriyor: onu davet etme zamanı. Davetler oyunun üstünde görünüyor.
 
-### The shop's showroom
-"Look at it closely" opens a showroom: the item alone in a dark studio, turning. Drag to turn it, use the wheel to come close and pause it at will. Ready views show a cue's tip and joint or a table's pockets; click a ball to see it float close up, and see tables and cloths in any hall.
+### Mağazanın vitrini
+"Yakından bak" bir vitrin açıyor: eşya karanlık bir stüdyoda tek başına dönüyor. Döndürmek için sürükle, yaklaşmak için tekerleği kullan ve istediğinde durdur. Hazır görünümler bir istekanın ucunu ve ek yerini ya da bir masanın ceplerini gösteriyor; bir topun yakında süzüldüğünü görmek için ona tıkla, masaları ve çuhaları istediğin salonda gör.
 
-### Truly brown
-The 7 and the 15 are now brown, no longer a dark red easily taken for the 3 and the 11. The shop's sets where they looked alike are put right too.
+### Gerçekten kahverengi
+7 ve 15 artık kahverengi; 3 ve 11 ile kolayca karıştırılan koyu kırmızı değil. Mağazada bunların benzer göründüğü takımlar da düzeltildi.
 
-### Focus mode
-Settings → Game → "Focus mode": no invitations while you play. Whoever tries to invite you is told you're in focus mode. It comes off.
+### Odak modu
+Ayarlar → Oyun → "Odak modu": oynarken davet yok. Seni davet etmeye çalışana odak modunda olduğun söyleniyor. Kapatılabilir.
 
 ## 0.7.0
 
-### One kind on the break
-A new house rule: if the break makes balls of both groups (the 3 and the 14, say), the turn passes and the table stays open. Balls of one kind only and you shoot again, as before. The rules in the menu explain it, with a few rare cases now put right, and the computer plays a little better.
+### Açılışta tek tür
+Yeni bir salon kuralı: açılışta iki gruptan da top girerse (örneğin 3 ve 14), sıra rakibe geçiyor ve masa açık kalıyor. Yalnızca tek türden top girerse, eskisi gibi yeniden vuruyorsun. Menüdeki kurallar bunu, düzeltilen birkaç nadir durumla birlikte açıklıyor ve bilgisayar biraz daha iyi oynuyor.
 
-### Every ball counts
-The balls you make in a row show by your picture with a little flame, and three, five and seven in a row are cheered (and a table cleared in one visit). The clock's last seconds tick, a chime says when your turn comes back online, and the rating counts up at the end of a game.
+### Her top önemli
+Üst üste soktuğun toplar resminin yanında küçük bir alevle görünüyor; üst üste üç, beş ve yedi top (ve tek sırada bitirilen masa) alkışlanıyor. Sürenin son saniyeleri tıkırdıyor, çevrim içi oyunda sıra sana döndüğünde bir zil çalıyor ve oyun sonunda puan sayarak artıyor.
 
-### Events
-Now and then the staff run events: a weekend of double (or triple) experience, coins from games counting double, or a themed tournament the server organises, sometimes with a prize from the house on top of the entry fees. The main menu and the lounge show what is on and what is coming.
+### Etkinlikler
+Ekip zaman zaman etkinlikler düzenliyor: çift (ya da üç kat) deneyimli bir hafta sonu, oyunlardan gelen jetonların iki kat sayılması ya da sunucunun düzenlediği, bazen giriş ücretlerinin üstüne kasadan bir ödülün de eklendiği temalı bir turnuva. Ana menü ve lobi neler olduğunu ve neler geleceğini gösteriyor.
 
-### On to the next one
-After a win on the tour, "Next" takes you straight to the next opponent; after a drill, "Try again". The deciding shot can be watched again from the end panel, and a first game points out where to aim, set the power and shoot.
+### Sıradakine geç
+Turnede bir galibiyetten sonra "Sonraki" seni doğrudan bir sonraki rakibe götürüyor; bir alıştırmadan sonra "Tekrar dene". Belirleyici vuruş bitiş panelinden yeniden izlenebiliyor ve ilk oyun nereye nişan alınacağını, gücün nasıl ayarlanacağını ve nasıl vurulacağını gösteriyor.
 
-### The head string, if you want it
-Settings → Game → "Always show the head string" keeps the line the break is played from on the table. Off by default: it shows only while you place the cue ball behind it.
+### İstersen baş çizgisi
+Ayarlar → Oyun → "Baş çizgisini hep göster", açılışın yapıldığı çizgiyi masada tutuyor. Varsayılan olarak kapalı: yalnızca beyaz topu gerisine yerleştirirken görünüyor.
 
-### Fair rewards, softer light
-The tour's final and the ranked drills are now set up by the server, so their cue and their tables are earned the same way by everyone (play them signed in). A dropped connection no longer closes the game, a game against the computer is never replaced without asking, and the light under the lamps falls softly, without hard edges.
+### Adil ödüller, daha yumuşak ışık
+Turnenin finali ve sıralamalı alıştırmalar artık sunucu tarafından hazırlanıyor; böylece istekaları ve masaları herkes aynı şekilde kazanıyor (giriş yapmış olarak oyna). Kopan bir bağlantı artık oyunu kapatmıyor, bilgisayara karşı bir oyun sorulmadan asla değiştirilmiyor ve lambaların altındaki ışık sert kenarlar olmadan yumuşakça düşüyor.
 
 ## 0.6.2
 
-### Leagues and levels on one page
-In the profile, the "Leagues and levels" tab shows every league, from which rating and what it pays, and every level that brings an item. Reaching a league for the first time now pays coins and, from Skilled up, an item of the league's own.
+### Ligler ve seviyeler tek sayfada
+Profildeki "Ligler ve seviyeler" sekmesi her ligi, hangi puandan başladığını ve ne kazandırdığını, ayrıca eşya getiren her seviyeyi gösteriyor. Bir lige ilk kez ulaşmak artık jeton ve Yetenekli liginden itibaren o lige özel bir eşya kazandırıyor.
 
-### A cleaner profile
-On the left, just what matters: your level, the next prize, and the achievements and reactions already won. Every medal and reaction has a tab of its own, and nothing runs off the screen.
+### Daha sade bir profil
+Solda yalnızca önemli olanlar: seviyen, sonraki ödül ve şimdiden kazanılan başarımlar ve tepkiler. Her madalya ve tepkinin kendi sekmesi var ve hiçbir şey ekrandan taşmıyor.
 
-### The view from above as it was, with round balls
-The table has its depth and its usual light again, and the camera no longer jumps when it leaves the view from above.
+### Eskisi gibi üstten görünüm, yuvarlak toplarla
+Masa yeniden derinliğine ve her zamanki ışığına kavuştu; kamera da üstten görünümden çıkarken artık sıçramıyor.
 
 ## 0.6.1
 
-### A view from above without distortion
-The table is now seen from high up, almost without perspective: balls stay round out to the corners, and the cue, the aiming line and the ghost ball always line up. The light on the balls is softer, so the number shows.
+### Bozulmasız üstten görünüm
+Masa artık yukarıdan, neredeyse perspektifsiz görünüyor: toplar köşelere kadar yuvarlak kalıyor; isteka, nişan çizgisi ve hayalet top her zaman aynı hizada. Toplardaki ışık daha yumuşak, böylece numaralar okunuyor.
 
-### A tournament and a tour that mean it
-In a tournament against the computer a game counts once: leaving half way doesn't wipe it (it goes on from where it was) and there is no rematch. The champion gets a gold medal. And the tour is hard: every opponent plays at their best.
+### Ciddi bir turnuva ve turne
+Bilgisayara karşı turnuvada bir oyun bir kez sayılıyor: yarıda ayrılmak onu silmiyor (kaldığı yerden devam ediyor) ve rövanş yok. Şampiyon altın madalya alıyor. Turne de zor: her rakip en iyi oyununu oynuyor.
 
-### New achievements, pictures and sounds
-Shutout, Golden break and account anniversaries. Faces that look like people and twelve profile pictures that are not faces (the 8-ball, a trophy, a crown…). New sounds for the balls, the cue, the cushions and the pockets.
+### Yeni başarımlar, resimler ve sesler
+Sıfır çektir, Altın açılış ve hesap yıl dönümleri. İnsana benzeyen yüzler ve yüz olmayan on iki profil resmi (8 numaralı top, bir kupa, bir taç…). Toplar, isteka, bantlar ve cepler için yeni sesler.
 
-### Leagues, levels that pay and scarce coins
-Other players are shown by their league (the rating is on the profile and in the ranking). Every account level pays coins and levels 5 to 50 bring items of their own, but the climb is long. Coins are scarcer: everything in the shop takes time to earn.
+### Ligler, jeton kazandıran seviyeler ve kıt jetonlar
+Diğer oyuncular ligleriyle gösteriliyor (puan profilde ve sıralamada). Her hesap seviyesi jeton kazandırıyor ve 5'ten 50'ye kadar seviyeler kendine özgü eşyalar getiriyor, ama tırmanış uzun. Jetonlar daha kıt: mağazadaki her şeyi kazanmak zaman alıyor.
 
 ## 0.6.0
 
-### A Brazilian rule, with penalty balls
-The game now plays the regional Brazilian rule of eight-ball, the one of bars and pool halls (not the official tournament rule). A foul passes the turn and takes your opponent's lowest balls off the table, only a pocketed cue ball gives ball in hand, and the 8 alone on the break wins. The full rules are in the menu.
+### Ceza toplu Brezilya kuralları
+Oyun artık 8 topun bölgesel Brezilya kurallarıyla, yani barların ve bilardo salonlarının kurallarıyla oynanıyor (resmî turnuva kurallarıyla değil). Faul sırayı rakibe geçiriyor ve rakibin en küçük numaralı toplarını masadan alıyor; yalnızca cebe giren beyaz top elde top veriyor ve açılışta tek başına giren 8 kazandırıyor. Kuralların tamamı menüde.
 
-### Heavier balls
-The cloth holds the ball more and the break is less violent: the balls no longer scatter all over the table.
+### Daha ağır toplar
+Çuha topu daha çok tutuyor ve açılış daha az şiddetli: toplar artık masanın her yerine saçılmıyor.
 
-### Tournaments against the computer and more drills
-Play a knockout of sixteen or an arena on points against the fifteen opponents. And there are eight new drills, fifteen in all.
+### Bilgisayara karşı turnuvalar ve daha çok alıştırma
+On beş rakibe karşı on altı kişilik bir eleme ya da puanlı bir arena oyna. Bir de sekiz yeni alıştırma var, toplam on beş.
 
-### Aiming and the cue
-The cue's elevation can be set by dragging with the mouse, the aiming line points at the centre of the ghost ball, faint arrows show when the cue ball can be moved, and the shadows can be turned off.
+### Nişan ve isteka
+İstekanın yüksekliği fareyle sürükleyerek ayarlanabiliyor, nişan çizgisi hayalet topun merkezini gösteriyor, silik oklar beyaz topun ne zaman hareket ettirilebileceğini gösteriyor ve gölgeler kapatılabiliyor.
 
 ## 0.5.1
 
-### Cleaner balls
-The pale disc on top of every ball is gone: a ball is lit as one round thing and shows the lamp as a single clean dot. Castings, rugs and Low quality look better too.
+### Daha temiz toplar
+Her topun üstündeki soluk disk gitti: top tek bir yuvarlak nesne gibi aydınlanıyor ve lambayı tek, temiz bir nokta olarak yansıtıyor. Köşelikler, halılar ve Düşük kalite de daha iyi görünüyor.
 
-### The power bar keeps no memory
-No more mark for your last stroke, and every turn starts from the middle of the bar: judging the pace is part of the game.
+### Güç çubuğu hafıza tutmuyor
+Son vuruşun için işaret artık yok ve her sıra çubuğun ortasından başlıyor: hızı ayarlamak oyunun bir parçası.
 
-### Nothing over the table
-Whose turn it is now reads in the top bar, beside the score panel, so the side pocket is always in sight. Aiming lines are smooth, and the rings round the pockets are whole.
+### Masanın üstünde hiçbir şey yok
+Sıranın kimde olduğu artık üst çubukta, skor panelinin yanında yazıyor; böylece orta cep hep görünüyor. Nişan çizgileri pürüzsüz ve ceplerin etrafındaki halkalar tam.
 
 ## 0.5.0
 
-### Tournament-table physics
-The balls weigh what they do on a real table: the power bar goes up to a hard stroke (only the break uses full power), cushions give back less the harder they are hit, and a ball made falls into the pocket at the pace it arrived with.
+### Turnuva masası fiziği
+Toplar gerçek bir masadaki ağırlıkta: güç çubuğu sert bir vuruşa kadar çıkıyor (tam gücü yalnızca açılış kullanıyor), bantlar ne kadar sert vurulursa o kadar az geri veriyor ve giren top cebe geldiği hızla düşüyor.
 
-### An official tournament table
-The table is the regulation 8-foot one, measure for measure: balls, corner and side pockets with the official mouths and angles. The cloth is a deep green under the lamps and the balls shine like polished ones, their numbers crisp.
+### Resmî bir turnuva masası
+Masa, ölçüsü ölçüsüne nizami 8 fitlik masa: toplar, resmî ağız ve açılarıyla köşe ve orta cepler. Çuha lambaların altında koyu yeşil ve toplar cilalı gibi parlıyor, numaraları net.
 
-### A truer guide, or none
-The ghost ball now stops where the cue ball really would, the mouths of the pockets included. And a new choice: play with no aiming guide at all.
+### Daha doğru bir kılavuz ya da hiç
+Hayalet top artık beyaz topun gerçekten duracağı yerde duruyor, cep ağızları dahil. Bir de yeni seçenek: hiç nişan kılavuzu olmadan oyna.
 
 ## 0.4.0
 
-### A new name: Snook Legend
-The game is now called Snook Legend. Your account, coins, items, settings and progress are all here, as before.
+### Yeni bir ad: Snook Legend
+Oyunun adı artık Snook Legend. Hesabın, jetonların, eşyaların, ayarların ve ilerlemen eskisi gibi burada.
 
-### 8-foot table, open side pockets
-A smaller table (8 feet) and side pockets that forgive a ball off the centre or rolling in at an angle. The balls roll a little more freely.
+### 8 fitlik masa, geniş orta cepler
+Daha küçük bir masa (8 fit) ve merkezden kayan ya da açılı gelen topu affeden orta cepler. Toplar biraz daha serbest yuvarlanıyor.
 
-### New rule: the opponent's ball
-Making one of your opponent's balls passes the turn, even if one of yours went down too. It is not a foul: no ball in hand.
+### Yeni kural: rakibin topu
+Rakibinin toplarından birini sokmak, kendi toplarından biri de girse sırayı rakibe geçiriyor. Bu bir faul değil: elde top yok.
 
-### Easier to see
-The cloth is lit evenly, the balls have a soft sheen so their numbers read, shadows are lighter, and nothing of the hall gets in the way of the view from above. Whose turn it is stands out on the score cards.
+### Daha kolay görünüyor
+Çuha eşit aydınlatılıyor, toplarda numaraları okunsun diye yumuşak bir parlaklık var, gölgeler daha açık ve salondan hiçbir şey üstten görünümü engellemiyor. Sıranın kimde olduğu skor kartlarında öne çıkıyor.
 
-### Fifteen opponents
-Tito, Inês, Diego, Amara and Yuri join the computer opponents, each with a style and a voice of their own. The Tour now has fifteen stages; your wins so far are kept.
+### On beş rakip
+Tito, Inês, Diego, Amara ve Yuri, her biri kendine özgü tarzı ve sesiyle bilgisayar rakiplerine katılıyor. Turne artık on beş etaptan oluşuyor; şimdiye kadarki galibiyetlerin saklanıyor.
 
-### Quieter opponents
-Settings → Game → Opponents' remarks turns their speech bubbles off.
+### Daha sessiz rakipler
+Ayarlar → Oyun → Rakiplerin yorumları, konuşma balonlarını kapatıyor.
 
-### A new score panel
-Pictures and names in boxes, and the balls each player made rolling into place along their rail, in the order they went down.
+### Yeni skor paneli
+Kutularda resimler ve adlar; her oyuncunun soktuğu toplar, girdikleri sırayla kendi rayı boyunca yuvarlanıp yerine oturuyor.
 
-### Aim by eye
-Raise the cue by dragging it in a side view of the shot. No more numbers on the power or the elevation: judge them by eye. Prefer it flat? Settings → Game → Top view only.
+### Gözle nişan
+İstekayı, vuruşun yandan görünümünde sürükleyerek kaldır. Güç ve yükseklikte artık sayı yok: gözle karar ver. Düz mü tercih edersin? Ayarlar → Oyun → Yalnızca üstten görünüm.
 
-### Rules and pictures
-The rules of the game are a click away (the book on the main menu, or Rules in the pause menu). Pick one of 32 profile pictures in your profile.
+### Kurallar ve resimler
+Oyunun kuralları bir tık uzağında (ana menüdeki kitap ya da duraklatma menüsünde Kurallar). Profilinde 32 profil resminden birini seç.
 
-### Your games are safe
-Replays and daily games that started before this update keep the old table and rules until they end.
+### Oyunların güvende
+Bu güncellemeden önce başlayan tekrarlar ve günlük oyunlar, bitene kadar eski masayı ve kuralları koruyor.
 
 ## 0.3.0
 
-### A regulation 9-foot table
-The table is now tournament size (100" × 50"), with the balls, pockets, cushions and cue to official measurements. The balls are heavier and bounce less, like real ones.
+### Nizami 9 fitlik masa
+Masa artık turnuva boyutunda (100" × 50"); toplar, cepler, bantlar ve isteka resmî ölçülerde. Toplar daha ağır ve gerçekleri gibi daha az sekiyor.
 
-### A new break rule
-On the break, the first ball you pocket sets your group: solids or stripes. A foul on the break leaves the table open.
+### Yeni bir açılış kuralı
+Açılışta soktuğun ilk top grubunu belirliyor: düzler ya da çizgililer. Açılıştaki faul masayı açık bırakıyor.
 
-### New halls, tables and cues
-Four new halls and four new tables, and every old one reworked. Premium cues that look nothing alike. On Ultra, floors that reflect the hall.
+### Yeni salonlar, masalar ve istekalar
+Dört yeni salon ve dört yeni masa; eskilerin hepsi de yenilendi. Birbirine hiç benzemeyen özel istekalar. Ultra'da salonu yansıtan zeminler.
 
-### Daily challenge
-A new position every day, the same for everyone, with a ranking of the day: three attempts to make as many balls as you can.
+### Günün mücadelesi
+Her gün herkes için aynı yeni bir pozisyon ve günün sıralaması: olabildiğince çok top sokmak için üç deneme.
 
-### Drills with stars
-Seven drills on potting, spin, banks and escaping snookers, up to three stars each, with rankings and a challenge rating that shows your level.
+### Yıldızlı alıştırmalar
+Top sokma, falso, bant ve kapalı toptan kurtulma üzerine yedi alıştırma; her biri üç yıldıza kadar, sıralamalar ve seviyeni gösteren bir puanla.
 
-### Account level
-Earn experience in every game, won or lost, and in drills, the daily challenge and achievements. Your level shows on your profile.
+### Hesap seviyesi
+Kazan ya da kaybet her oyunda, ayrıca alıştırmalarda, günün mücadelesinde ve başarımlarda deneyim kazan. Seviyen profilinde görünüyor.
 
-### The Tour
-The old ladder is now the Tour: ten stages, one opponent each. The opponents have new portraits and talk during the game.
+### Turne
+Eski merdiven artık Turne: on etap, her birinde bir rakip. Rakiplerin yeni portreleri var ve oyun sırasında konuşuyorlar.
 
-### Fair play
-Leaving a game costs more than losing it. The full aiming guide is for free games against the computer and practice only: never online, in the Tour, the daily challenge or drills.
+### Adil oyun
+Oyundan ayrılmak kaybetmekten daha pahalıya patlıyor. Tam nişan kılavuzu yalnızca bilgisayara karşı serbest oyunlar ve antrenman için: asla çevrim içi, Turne'de, günün mücadelesinde ya da alıştırmalarda değil.
 
-### Your profile
-A trophy shelf and statistics for each cue: games, wins and balls made with it. You can now change your username up to three times.
+### Profilin
+Bir kupa rafı ve her isteka için istatistikler: onunla oynanan oyunlar, galibiyetler ve sokulan toplar. Artık kullanıcı adını üç kereye kadar değiştirebilirsin.
 
-### In the lounge
-An "away" status, quick phrases translated into your opponent's language and a practice table while the search for an opponent goes on.
+### Lobide
+"Uzakta" durumu, rakibinin diline çevrilen hızlı mesajlar ve rakip aranırken bir antrenman masası.
 
 ## 0.2.0
 
-### Ten opponents with personality
-Choose who to play: from Leo, still learning, to Marta, who lives on safeties, and Lola, who banks everything. Each has their own style, portrait and strength.
+### Kişilik sahibi on rakip
+Kime karşı oynayacağını seç: henüz öğrenen Leo'dan savunmayla yaşayan Marta'ya ve her şeyi banttan oynayan Lola'ya kadar. Her birinin kendi tarzı, portresi ve gücü var.
 
-### The ladder
-Beat the ten opponents one by one, up to the last. Reach the top to earn the exclusive "Ladder king" cue and a new achievement.
+### Merdiven
+On rakibi tek tek, sonuncusuna kadar yen. Zirveye ulaşarak özel "Merdiven kralı" istekasını ve yeni bir başarımı kazan.
 
-### Play the ghost
-The computer learns a real player's style from their online games. Challenge a friend's ghost, or your own, from the profile or the vs-computer screen.
+### Hayalete karşı oyna
+Bilgisayar, gerçek bir oyuncunun tarzını çevrim içi oyunlarından öğreniyor. Profilden ya da bilgisayara karşı ekranından bir arkadaşının hayaletine ya da kendi hayaletine meydan oku.
 
-### Daily games
-Challenge someone and play your turn when you can: each player has up to 3 days per turn. You are told when it's your turn, and you can have several games at once.
+### Günlük oyunlar
+Birine meydan oku ve fırsat buldukça sıranı oyna: her oyuncunun sıra başına 3 güne kadar süresi var. Sıra sana gelince haber veriliyor ve aynı anda birkaç oyunun olabilir.
 
-### Friends and gifts
-See who you played recently, write a status on your profile and post on the lounge's "looking for a game" board. Gifts from friends now arrive with a notice, a message and a "thank you".
+### Arkadaşlar ve hediyeler
+Son oynadıklarını gör, profiline bir durum yaz ve lobinin "oyun arıyor" panosuna not bırak. Arkadaşlardan gelen hediyeler artık bir bildirim, bir mesaj ve bir "teşekkürler" ile geliyor.
 
-### Cues, tables and halls
-Your cue earns bands and inlays as you win with it. In the shop, themed tables and halls: beach bar, industrial loft and English club.
+### İstekalar, masalar ve salonlar
+İstekan, onunla kazandıkça şeritler ve kakmalar kazanıyor. Mağazada temalı masalar ve salonlar: plaj barı, endüstriyel loft ve İngiliz kulübü.
 
-### Your game, analysed
-The profile's new Analysis tab shows your potting by pocket, distance and kind of shot, with a heat map of the table.
+### Oyunun, analiz edildi
+Profilin yeni Analiz sekmesi, top sokmanı cebe, mesafeye ve vuruş türüne göre, masanın bir ısı haritasıyla birlikte gösteriyor.
 
-### Your keys
-Every shortcut can be changed in Settings → Controls, and the game's hints follow your choices.
+### Tuşların
+Her kısayol Ayarlar → Kontroller bölümünden değiştirilebiliyor ve oyunun ipuçları seçimlerini takip ediyor.
 
-### Automatic updates
-New versions download in the background and install when you restart, never during a game. This window tells you what changed.
+### Otomatik güncellemeler
+Yeni sürümler arka planda iniyor ve oyunu yeniden başlattığında kuruluyor, asla oyun sırasında değil. Bu pencere neyin değiştiğini anlatıyor.
 
-### A reviewed interface
-Every screen was reviewed in the three languages and at every window size. Fixes: Esc opens the menu at the table, the computer sinks the 8 in its called pocket more reliably, and the overhead view no longer goes black.
+### Gözden geçirilmiş arayüz
+Her ekran üç dilde ve her pencere boyutunda gözden geçirildi. Düzeltmeler: Esc masada menüyü açıyor, bilgisayar 8'i söylediği cebe daha güvenilir şekilde sokuyor ve üstten görünüm artık kararmıyor.
 
 ## 0.1.4
 
-### A game while you wait
-After half a minute of "Play now" without an opponent, you can play the computer while the search goes on.
+### Beklerken bir oyun
+Yarım dakika boyunca "Hemen oyna" ile rakip bulunamazsa, arama sürerken bilgisayara karşı oynayabilirsin.
 
-### Chat moderation
-You can delete your own chat lines, and moderators can remove abuse.
+### Sohbet moderasyonu
+Kendi sohbet satırlarını silebilirsin ve moderatörler kötüye kullanımı kaldırabilir.
 
-### Cues you can see
-Opponents see the pattern of the cue you bought, and VIP members have reactions of their own.
+### Görünen istekalar
+Rakipler satın aldığın istekanın desenini görüyor ve VIP üyelerin kendilerine özel tepkileri var.

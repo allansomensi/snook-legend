@@ -181,3 +181,127 @@ On beş rakibe karşı on altı kişilik bir eleme ya da puanlı bir arena oyna.
 
 ### Daha temiz toplar
 Her topun üstündeki soluk disk gitti: top tek bir yuvarlak nesne gibi aydınlanıyor ve lambayı tek, temiz bir nokta olarak yansıtıyor. Köşelikler, halılar ve Düşük kalite de daha iyi görünüyor.
+
+### Güç çubuğu hafıza tutmuyor
+Son vuruşun için işaret artık yok ve her sıra çubuğun ortasından başlıyor: hızı ayarlamak oyunun bir parçası.
+
+### Masanın üstünde hiçbir şey yok
+Sıranın kimde olduğu artık üst çubukta, skor panelinin yanında yazıyor; böylece orta cep hep görünüyor. Nişan çizgileri pürüzsüz ve ceplerin etrafındaki halkalar tam.
+
+## 0.5.0
+
+### Turnuva masası fiziği
+Toplar gerçek bir masadaki ağırlıkta: güç çubuğu sert bir vuruşa kadar çıkıyor (tam gücü yalnızca açılış kullanıyor), bantlar ne kadar sert vurulursa o kadar az geri veriyor ve giren top cebe geldiği hızla düşüyor.
+
+### Resmî bir turnuva masası
+Masa, ölçüsü ölçüsüne nizami 8 fitlik masa: toplar, resmî ağız ve açılarıyla köşe ve orta cepler. Çuha lambaların altında koyu yeşil ve toplar cilalı gibi parlıyor, numaraları net.
+
+### Daha doğru bir kılavuz ya da hiç
+Hayalet top artık beyaz topun gerçekten duracağı yerde duruyor, cep ağızları dahil. Bir de yeni seçenek: hiç nişan kılavuzu olmadan oyna.
+
+## 0.4.0
+
+### Yeni bir ad: Snook Legend
+Oyunun adı artık Snook Legend. Hesabın, jetonların, eşyaların, ayarların ve ilerlemen eskisi gibi burada.
+
+### 8 fitlik masa, geniş orta cepler
+Daha küçük bir masa (8 fit) ve merkezden kayan ya da açılı gelen topu affeden orta cepler. Toplar biraz daha serbest yuvarlanıyor.
+
+### Yeni kural: rakibin topu
+Rakibinin toplarından birini sokmak, kendi toplarından biri de girse sırayı rakibe geçiriyor. Bu bir faul değil: elde top yok.
+
+### Daha kolay görünüyor
+Çuha eşit aydınlatılıyor, toplarda numaraları okunsun diye yumuşak bir parlaklık var, gölgeler daha açık ve salondan hiçbir şey üstten görünümü engellemiyor. Sıranın kimde olduğu skor kartlarında öne çıkıyor.
+
+### On beş rakip
+Tito, Inês, Diego, Amara ve Yuri, her biri kendine özgü tarzı ve sesiyle bilgisayar rakiplerine katılıyor. Turne artık on beş etaptan oluşuyor; şimdiye kadarki galibiyetlerin saklanıyor.
+
+### Daha sessiz rakipler
+Ayarlar → Oyun → Rakiplerin yorumları, konuşma balonlarını kapatıyor.
+
+### Yeni skor paneli
+Kutularda resimler ve adlar; her oyuncunun soktuğu toplar, girdikleri sırayla kendi rayı boyunca yuvarlanıp yerine oturuyor.
+
+### Gözle nişan
+İstekayı, vuruşun yandan görünümünde sürükleyerek kaldır. Güç ve yükseklikte artık sayı yok: gözle karar ver. Düz mü tercih edersin? Ayarlar → Oyun → Yalnızca üstten görünüm.
+
+### Kurallar ve resimler
+Oyunun kuralları bir tık uzağında (ana menüdeki kitap ya da duraklatma menüsünde Kurallar). Profilinde 32 profil resminden birini seç.
+
+### Oyunların güvende
+Bu güncellemeden önce başlayan tekrarlar ve günlük oyunlar, bitene kadar eski masayı ve kuralları koruyor.
+
+## 0.3.0
+
+### Nizami 9 fitlik masa
+Masa artık turnuva boyutunda (100" × 50"); toplar, cepler, bantlar ve isteka resmî ölçülerde. Toplar daha ağır ve gerçekleri gibi daha az sekiyor.
+
+### Yeni bir açılış kuralı
+Açılışta soktuğun ilk top grubunu belirliyor: düzler ya da çizgililer. Açılıştaki faul masayı açık bırakıyor.
+
+### Yeni salonlar, masalar ve istekalar
+Dört yeni salon ve dört yeni masa; eskilerin hepsi de yenilendi. Birbirine hiç benzemeyen özel istekalar. Ultra'da salonu yansıtan zeminler.
+
+### Günün mücadelesi
+Her gün herkes için aynı yeni bir pozisyon ve günün sıralaması: olabildiğince çok top sokmak için üç deneme.
+
+### Yıldızlı alıştırmalar
+Top sokma, falso, bant ve kapalı toptan kurtulma üzerine yedi alıştırma; her biri üç yıldıza kadar, sıralamalar ve seviyeni gösteren bir puanla.
+
+### Hesap seviyesi
+Kazan ya da kaybet her oyunda, ayrıca alıştırmalarda, günün mücadelesinde ve başarımlarda deneyim kazan. Seviyen profilinde görünüyor.
+
+### Turne
+Eski merdiven artık Turne: on etap, her birinde bir rakip. Rakiplerin yeni portreleri var ve oyun sırasında konuşuyorlar.
+
+### Adil oyun
+Oyundan ayrılmak kaybetmekten daha pahalıya patlıyor. Tam nişan kılavuzu yalnızca bilgisayara karşı serbest oyunlar ve antrenman için: asla çevrim içi, Turne'de, günün mücadelesinde ya da alıştırmalarda değil.
+
+### Profilin
+Bir kupa rafı ve her isteka için istatistikler: onunla oynanan oyunlar, galibiyetler ve sokulan toplar. Artık kullanıcı adını üç kereye kadar değiştirebilirsin.
+
+### Lobide
+"Uzakta" durumu, rakibinin diline çevrilen hızlı mesajlar ve rakip aranırken bir antrenman masası.
+
+## 0.2.0
+
+### Kişilik sahibi on rakip
+Kime karşı oynayacağını seç: henüz öğrenen Leo'dan savunmayla yaşayan Marta'ya ve her şeyi banttan oynayan Lola'ya kadar. Her birinin kendi tarzı, portresi ve gücü var.
+
+### Merdiven
+On rakibi tek tek, sonuncusuna kadar yen. Zirveye ulaşarak özel "Merdiven kralı" istekasını ve yeni bir başarımı kazan.
+
+### Hayalete karşı oyna
+Bilgisayar, gerçek bir oyuncunun tarzını çevrim içi oyunlarından öğreniyor. Profilden ya da bilgisayara karşı ekranından bir arkadaşının hayaletine ya da kendi hayaletine meydan oku.
+
+### Günlük oyunlar
+Birine meydan oku ve fırsat buldukça sıranı oyna: her oyuncunun sıra başına 3 güne kadar süresi var. Sıra sana gelince haber veriliyor ve aynı anda birkaç oyunun olabilir.
+
+### Arkadaşlar ve hediyeler
+Son oynadıklarını gör, profiline bir durum yaz ve lobinin "oyun arıyor" panosuna not bırak. Arkadaşlardan gelen hediyeler artık bir bildirim, bir mesaj ve bir "teşekkürler" ile geliyor.
+
+### İstekalar, masalar ve salonlar
+İstekan, onunla kazandıkça şeritler ve kakmalar kazanıyor. Mağazada temalı masalar ve salonlar: plaj barı, endüstriyel loft ve İngiliz kulübü.
+
+### Oyunun, analiz edildi
+Profilin yeni Analiz sekmesi, top sokmanı cebe, mesafeye ve vuruş türüne göre, masanın bir ısı haritasıyla birlikte gösteriyor.
+
+### Tuşların
+Her kısayol Ayarlar → Kontroller bölümünden değiştirilebiliyor ve oyunun ipuçları seçimlerini takip ediyor.
+
+### Otomatik güncellemeler
+Yeni sürümler arka planda iniyor ve oyunu yeniden başlattığında kuruluyor, asla oyun sırasında değil. Bu pencere neyin değiştiğini anlatıyor.
+
+### Gözden geçirilmiş arayüz
+Her ekran üç dilde ve her pencere boyutunda gözden geçirildi. Düzeltmeler: Esc masada menüyü açıyor, bilgisayar 8'i söylediği cebe daha güvenilir şekilde sokuyor ve üstten görünüm artık kararmıyor.
+
+## 0.1.4
+
+### Beklerken bir oyun
+Yarım dakika boyunca "Hemen oyna" ile rakip bulunamazsa, arama sürerken bilgisayara karşı oynayabilirsin.
+
+### Sohbet moderasyonu
+Kendi sohbet satırlarını silebilirsin ve moderatörler kötüye kullanımı kaldırabilir.
+
+### Görünen istekalar
+Rakipler satın aldığın istekanın desenini görüyor ve VIP üyelerin kendilerine özel tepkileri var.

@@ -1,4 +1,4 @@
-# Snook Legend: Brazilian Portuguese.
+# Snook Legend: Turkish.
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} 8'e kaldı: söylenen cep {pocket}
@@ -1503,4 +1503,554 @@ Your best: {n} of {total}	En iyin: {n}/{total}
 Not tried yet.	Henüz denemedin.
 Start the drill	Alıştırmaya başla
 Sign in to keep your stars in your account.	Yıldızlarını hesabında saklamak için giriş yap.
+{n} of {total}	{n}/{total}
+{drill}: try {k} of {n} · {made} made	{drill}: deneme {k}/{n} · {made} başarılı
+Made it! {n} of {total}	Başardın! {n}/{total}
+Missed.	Kaçtı.
+Sending to the server…	Sunucuya gönderiliyor…
+Not signed in: this session is not ranked.	Giriş yapılmadı: bu seans sıralamaya girmez.
+Kept in your account.	Hesabında saklandı.
+The session could not be counted.	Seans sayılamadı.
+Back to the drills	Alıştırmalara dön
+Straight in	Düz vuruş
+A long straight pot into the corner. Five tries.	Köşe cebe uzun, düz bir vuruş. Beş deneme.
+The cut	Kesme vuruş
+A half-ball cut into the corner. Five tries.	Köşe cebe yarım top kesme. Beş deneme.
+Draw it back	Geri falso
+Pot the ball and draw the cue ball back into the circle. Five tries.	Topu sok ve beyaz topu geri çekerek daireye getir. Beş deneme.
+Follow through	İleri falso
+Pot the ball and leave the cue ball in the circle past it. Five tries.	Topu sok ve beyaz topu ilerideki dairede bırak. Beş deneme.
+Bank shot	Bant vuruşu
+Off one cushion into the side pocket. Five tries.	Tek banttan orta cebe. Beş deneme.
+Snooker escape	Kapalı top
+Hit the 1 first: it hides behind other balls. Five tries.	Önce 1'e değ: diğer topların arkasına saklanmış. Beş deneme.
+Ten in a row	Üst üste on
+Ten different pots, one after another: a miss ends the session.	Art arda on farklı vuruş: bir top kaçarsa seans biter.
+The far corner	Arkadaki köşe
+A cut back up the table into the corner behind you. Five tries.	Masanın gerisine doğru, arkandaki köşe cebe bir kesme. Beş deneme.
+Long into the side	Uzaktan orta cebe
+From the far end of the table into the side pocket. Five tries.	Masanın öbür ucundan orta cebe. Beş deneme.
+Cue ball on the cushion	Banda yapışık beyaz
+The cue ball touches the cushion: pot the ball into the corner all the same. Five tries.	Beyaz top banda değiyor: yine de topu köşe cebe sok. Beş deneme.
+The plant	Bitişik toplar
+The 2 touches the 1 and points at the pocket: hit the 2 and the 1 goes in. Five tries.	2, 1'e değiyor ve cebi gösteriyor: 2'ye vur, 1 girsin. Beş deneme.
+The carom	Karambol
+The 2 is in the way: glance off it and send the 1 into the corner. Five tries.	2 yolda duruyor: ona sürterek geç ve 1'i köşe cebe gönder. Beş deneme.
+The long draw	Uzun geri falso
+Pot the ball and draw the cue ball all the way back into the circle. Five tries.	Topu sok ve beyaz topu en geriye, daireye kadar çek. Beş deneme.
+On the tangent line	Teğet çizgisinde
+Pot the ball in the side and let the cue ball run on into the circle. Five tries.	Topu orta cebe sok ve beyaz topun daireye kadar ilerlemesine izin ver. Beş deneme.
+Two-cushion bank	Çift bant
+Off two cushions and into the corner. Five tries.	İki banttan köşe cebe. Beş deneme.
+Fifteen in a row	Üst üste on beş
+Fifteen different pots, one after another: a miss ends the session.	Art arda on beş farklı vuruş: bir top kaçarsa seans biter.
+Take back the shot (Z)	Vuruşu geri al (Z)
+Shot taken back.	Vuruş geri alındı.
+Solids	Düzler
+Stripes	Çizgililer
+Hide the history	Geçmişi gizle
+New username	Yeni kullanıcı adı
+Click again to confirm	Onaylamak için tekrar tıkla
+{n} of {total} name changes left	{total} ad değişikliğinden {n} tane kaldı
+You can't change your username again.	Kullanıcı adını artık değiştiremezsin.
+That is already your username.	Bu zaten senin kullanıcı adın.
+Finish your game before changing your username.	Kullanıcı adını değiştirmeden önce oyununu bitir.
+Leave your table or the queue before changing your username.	Kullanıcı adını değiştirmeden önce masandan veya sıradan çık.
+Leave your tournament before changing your username.	Kullanıcı adını değiştirmeden önce turnuvandan çık.
+Username changed.	Kullanıcı adı değiştirildi.
+The server is still being updated to the new version. Try again in a few minutes.	Sunucu hâlâ yeni sürüme güncelleniyor. Birkaç dakika sonra tekrar dene.
+{shooter} made an opponent's ball: {next} to shoot.	{shooter} rakibin topunu soktu: sıra {next} oyuncusunda.
 # Five more computer opponents: Tito, Inês, Diego, Amara and Yuri.
+The Gambler	Kumarbaz
+Bets on every shot: as hard as the cue allows, with all the spin he can find. Safe play bores him.	Her vuruşa oynar: isteka ne kadar izin verirse o kadar sert ve bulabildiği bütün falsoyla. Savunma oynamak onu sıkar.
+The Soft Touch	Kadife Dokunuş
+Never hits harder than she must: the balls die at the pocket's edge and the cue ball stops where she wants it.	Gerekenden sert asla vurmaz: toplar cebin ağzında ölür, beyaz top da tam istediği yerde durur.
+The Showman	Şovmen
+Plays to the crowd: a raised cue, swerving spin and a bank whenever there's one. It works more often than it should.	Seyirciye oynar: kalkık isteka, kavisli falsolar ve fırsat buldukça bant. Olması gerekenden daha sık işe yarıyor.
+The Tactician	Taktisyen
+Plans the whole rack: snookers you when the pot isn't sure, and runs out when it is.	Tüm masayı planlar: top garanti değilse seni kapatır, garantiyse masayı bitirir.
+The Machine	Makine
+No nerves, no flair: centre ball, measured pace, the same perfect stroke every time.	Ne sinir ne gösteriş: topa ortadan, ölçülü güçle, her seferinde aynı kusursuz vuruş.
+Place your bets! Mine's on me.	Bahisler açık! Benimki kendime.
+Lucky roll. Let it ride!	Şanslı zar. Devam!
+Okay, okay. Double or nothing?	Tamam, tamam. Ya hep ya hiç?
+The house always wins!	Kasa her zaman kazanır!
+Free chips! Thank you!	Bedava fiş! Teşekkürler!
+All in, and it paid!	Hepsini ortaya koydum ve tuttu!
+That's how you play the odds!	İhtimallerle işte böyle oynanır!
+Bad beat. Next hand.	Kötü el. Sıradaki.
+Too much spin? There's no such thing.	Fazla falso mu? Öyle bir şey yok.
+Busted. Worth the risk!	Battım. Ama riske değdi!
+Jackpot! Same stakes again?	Büyük ikramiye! Aynı bahisle bir daha?
+You beat the odds. Respect.	İhtimalleri yendin. Saygılar.
+Softly, now. The table likes a gentle hand.	Yavaşça. Masa nazik bir el sever.
+Nicely done.	Güzel yaptın.
+A little hard, but it went in.	Biraz sertti, ama girdi.
+Less power, more feel.	Daha az güç, daha çok his.
+Oh dear. A free ball for me.	Aman. Bana bedava bir top.
+Just enough to drop.	Düşecek kadar, fazlası değil.
+See? No need to hit it hard.	Gördün mü? Sert vurmaya gerek yok.
+A touch too soft.	Bir tık fazla yumuşak.
+Clumsy of me. Sorry.	Ne sakarlık. Kusura bakma.
+Slow and steady. Thank you for the game.	Yavaş ve sakin. Oyun için teşekkürler.
+Beautifully played. Well deserved.	Harika oynadın. Hak ettin.
+Ladies and gentlemen... the show begins!	Bayanlar baylar... gösteri başlıyor!
+Not bad! Bow to the crowd!	Fena değil! Seyirciyi selamla!
+You stole my applause!	Alkışlarımı çaldın!
+The crowd wanted more!	Seyirci daha fazlasını istiyordu!
+Ooh, a plot twist!	Ooo, beklenmedik bir dönüş!
+Ta-da!	Ta-taaa!
+And for my next trick...	Ve bir sonraki numaram...
+Even magicians have off nights.	Sihirbazların da kötü geceleri olur.
+That was... part of the act.	O... gösterinin bir parçasıydı.
+Thank you, thank you! Encore?	Teşekkürler, teşekkürler! Bir daha?
+Take a bow, champion. You earned it.	Selam ver şampiyon. Hak ettin.
+Every rack is a puzzle. Let's solve this one.	Her masa bir bulmacadır. Bunu çözelim.
+Good. Now where is your cue ball?	Güzel. Peki beyaz topun şimdi nerede?
+I saw that coming.	Bunu bekliyordum.
+That left me something. Thank you.	Bu bana bir şey bıraktı. Teşekkürler.
+As planned.	Planladığım gibi.
+Exactly as I calculated.	Tam hesapladığım gibi.
+Three moves ahead.	Üç hamle ileride.
+A variable I missed.	Gözden kaçırdığım bir değişken.
+Hm. Recalculating.	Hmm. Yeniden hesaplıyorum.
+Checkmate.	Şah mat.
+You out-thought me. That's rare.	Benden iyi düşündün. Bu nadir olur.
+Game initialised.	Oyun başlatıldı.
+Noted.	Not edildi.
+Error margin exceeded.	Hata payı aşıldı.
+Penalty applied.	Ceza uygulandı.
+As expected.	Beklendiği gibi.
+Next.	Sıradaki.
+Deviation logged.	Sapma kaydedildi.
+Malfunction. It will not repeat.	Arıza. Tekrarlanmayacak.
+Result: win. Thank you for the data.	Sonuç: galibiyet. Veriler için teşekkürler.
+Unexpected outcome. Impressive.	Beklenmedik sonuç. Etkileyici.
+Opponents' remarks	Rakiplerin yorumları
+The computer opponents comment on the game in speech bubbles.	Bilgisayar rakipler oyunu konuşma balonlarıyla yorumlar.
+Top view only	Yalnızca üstten görünüm
+The table is always seen from above: no 3D view, no turning.	Masa hep yukarıdan görünür: 3D görünüm yok, döndürme yok.
+Not with the top view only.	Yalnızca üstten görünümde olmaz.
+Wheel	Fare tekerleği
+Rules	Kurallar
+Rules of the game	Oyunun kuralları
+Level	Düzle
+Drag the cue: jump & massé	İstekayı sürükle: zıplatma ve masse
+Drag to raise or lower the cue	İstekayı kaldırmak veya indirmek için sürükle
+Drag the cue · {keys}	İstekayı sürükle · {keys}
+Profile picture	Profil resmi
+Shown by your name at the table and in your profile.	Masada ve profilinde adının yanında görünür.
+No picture	Resim yok
+Change your picture	Resmini değiştir
+{name} sank the 8 together with another ball	{name} 8'i başka bir topla birlikte soktu
+the opponent sank the 8 with another ball	rakip 8'i başka bir topla birlikte soktu
+sank the 8 with another ball	8'i başka bir topla birlikte soktu
+opponent pocketed the 8-ball together with another ball	rakip 8 numaralı topu başka bir topla birlikte soktu
+Penalty: {balls} off the table for {name}.	Ceza: {balls} masadan alındı ({name} lehine).
+{name} had fewer balls left than the foul gives: the 8 pays the rest, and the foul loses the game.	{name} için faulün verdiğinden daha az top kalmıştı: kalanı 8 öder ve faul oyunu kaybettirir.
+Shadows	Gölgeler
+The shadows of the balls and of the cue on the table.	Topların ve istekanın masadaki gölgeleri.
+Sixteen players: knockout or arena	On altı oyuncu: eleme veya arena
+New knockout	Yeni eleme
+New arena	Yeni arena
+Knockout: sixteen players, four rounds. Lose a game and you are out.	Eleme: on altı oyuncu, dört tur. Bir oyun kaybeden elenir.
+Arena: seven rounds for everyone. A win is 2 points, 3 from the third win in a row. The most points wins.	Arena: herkes için yedi tur. Galibiyet 2 puan, üst üste üçüncü galibiyetten itibaren 3 puan. En çok puanı toplayan kazanır.
+The games between the other players are decided by their strength and a draw.	Diğer oyuncular arasındaki oyunlar güçlerine ve kuraya göre belirlenir.
+You won the tournament!	Turnuvayı kazandın!
+{name} won the tournament.	{name} turnuvayı kazandı.
+You finished in place {n}.	Turnuvayı {n}. sırada bitirdin.
+Round of 16	Son 16
+Quarter-finals	Çeyrek final
+Round {n} of {total}	Tur {n}/{total}
+Play {name}	Oyna: {name}
+Abandon the tournament	Turnuvayı bırak
+W - L	G - M
+Points	Puan
+The tournament is over.	Turnuva bitti.
+The round is over: see who you play next.	Tur bitti: sıradaki rakibini gör.
+You are out of the tournament.	Turnuvadan elendin.
+Side pocket	Orta cep
+A cut into the side pocket, where the angle is tight. Five tries.	Açının dar olduğu orta cebe bir kesme. Beş deneme.
+The long cut	Uzun kesme
+A cut from the far end of the table into the corner. Five tries.	Masanın öbür ucundan köşe cebe bir kesme. Beş deneme.
+Thin cut	İnce kesme
+Barely graze the ball: a thin cut into the corner. Five tries.	Topa zar zor değ: köşe cebe ince bir kesme. Beş deneme.
+Along the cushion	Bant boyunca
+The ball sits by the cushion: run it along into the corner. Five tries.	Top bandın dibinde: bant boyunca köşe cebe gönder. Beş deneme.
+Stop shot	Stop vuruşu
+Pot the ball and stop the cue ball dead where the ball was. Five tries.	Topu sok ve beyaz topu, topun olduğu yerde durdur. Beş deneme.
+The combination	Kombinasyon
+Pot the 1 by playing the 2 into it. Five tries.	2'yi 1'e çarptırarak 1'i sok. Beş deneme.
+Cross-corner bank	Çapraz bant
+Off the long cushion and across the table into the corner. Five tries.	Uzun banttan, masayı çaprazlama geçip köşe cebe. Beş deneme.
+Kick shot	Önce bant
+The 1 is walled off: send the cue ball off a cushion to hit it first. Five tries.	1'in önü kapalı: önce ona değmesi için beyaz topu banda gönder. Beş deneme.
+Only the cue ball went down on the break: the balls are racked again and {next} breaks.	Açılışta yalnızca beyaz top girdi: toplar yeniden dizilir ve açılışı {next} yapar.
+Golden break	Altın açılış
+Win a rated game by sinking only the 8-ball on the break.	Açılışta yalnızca 8 numaralı topu sokarak puanlı bir oyun kazan.
+Half a year	Yarım yıl
+Have an account for six months.	Altı aydır hesabın olsun.
+First anniversary	Birinci yıl dönümü
+Second anniversary	İkinci yıl dönümü
+Have an account for two years.	İki yıldır hesabın olsun.
+Third anniversary	Üçüncü yıl dönümü
+Have an account for three years.	Üç yıldır hesabın olsun.
+Five years at the table	Masada beş yıl
+Have an account for five years.	Beş yıldır hesabın olsun.
+Back to the tournament	Turnuvaya dön
+Continue against {name}	Devam et: {name}
+You left your game: it counts as a loss.	Oyundan ayrıldın: mağlubiyet sayılır.
+new level	yeni seviye
+Level {n} brings: {item}	Seviye {n} ödülü: {item}
+Level 5	Seviye 5
+Reach level 5.	5. seviyeye ulaş.
+Level 10	Seviye 10
+Reach level 10.	10. seviyeye ulaş.
+Level 15	Seviye 15
+Reach level 15.	15. seviyeye ulaş.
+Level 20	Seviye 20
+Reach level 20.	20. seviyeye ulaş.
+Level 30	Seviye 30
+Reach level 30.	30. seviyeye ulaş.
+Level 40	Seviye 40
+Reach level 40.	40. seviyeye ulaş.
+Level 50	Seviye 50
+Reach level 50.	50. seviyeye ulaş.
+Regular's teal	Müdavim petrol yeşili
+Veteran's plum	Emektar mürdüm eriği
+Old hand	Eski kurt
+Lifer	Ömür boyu
+Apprentice's chalk	Çırak tebeşiri
+Journeyman's chalk	Kalfa tebeşiri
+Achievements	Başarımlar
+Leagues and levels	Ligler ve seviyeler
+Next league: {tier}	Sonraki lig: {tier}
+The top league.	En üst lig.
+Every prize of the levels is won.	Seviyelerin tüm ödülleri kazanıldı.
+None yet: the first is one game away.	Henüz yok: ilki bir oyun uzakta.
+{coins} and {item}	{coins} ve {item}
+Leagues	Ligler
+Levels	Seviyeler
+By playing. Every level pays {n} coins.	Oynayarak. Her seviye {n} jeton kazandırır.
+where everyone starts	herkesin başladığı yer
+from {n}	{n} puandan itibaren
+The top level.	En üst seviye.
+{n} XP to level {next}	Seviye {next} için {n} XP
+{n} levels to go	{n} seviye kaldı
+new league	yeni lig
+Old-timer's black	Emektar siyahı
+Expert league blue	Uzman ligi mavisi
+Master league violet	Usta ligi menekşesi
+Legend league gold	Efsane ligi altını
+Skilled league chalk	Yetenekli ligi tebeşiri
+By rating. Each league pays once.	Puana göre. Her lig bir kez ödeme yapar.
+cue	isteka
+cloth	çuha
+chalk	tebeşir
+Always show the head string	Baş çizgisini hep göster
+The line the break is played from, always on the table (off: only while placing the cue ball behind it).	Açılışın yapıldığı çizgi, hep masada (kapalıyken: yalnızca beyaz topu gerisine yerleştirirken).
+{who} ran out of time: the turn passes.	{who} için süre doldu: sıra rakibe geçer.
+{who} ran out of time with no ball left to give {other}: the 8 pays, and {who} loses.	{who} için süre doldu ve {other} için verilecek top kalmadı: 8 öder ve {who} kaybeder.
+{who} ran out of time: the cue ball goes back to the head spot and the turn passes.	{who} için süre doldu: beyaz top baş noktasına döner ve sıra rakibe geçer.
+{who} ran out of time: {balls} off the table for {other}, and the cue ball goes back to the head spot.	{who} için süre doldu: {balls} masadan alınır ({other} lehine) ve beyaz top baş noktasına döner.
+You were muted for {n} minutes: {r}	{n} dakika susturuldun: {r}
+Your account was suspended for {n} hours: {r}	Hesabın {n} saat askıya alındı: {r}
+The server restarts in {minutes} min for an update. Games in progress go on; new games start right after.	Sunucu bir güncelleme için {minutes} dk sonra yeniden başlayacak. Süren oyunlar devam eder; yeni oyunlar hemen ardından başlar.
+The {cup} was called off: not enough players signed up.	{cup} iptal edildi: yeterli oyuncu kaydolmadı.
+The {cup} is open for sign-up: it starts soon in Tournaments.	{cup} için kayıtlar açık: yakında Turnuvalar'da başlıyor.
+{display} won the tournament “{name}”!	{display} “{name}” turnuvasını kazandı!
+Sunday Cup	Pazar Kupası
+Monday Cup	Pazartesi Kupası
+Tuesday Cup	Salı Kupası
+Wednesday Cup	Çarşamba Kupası
+Thursday Cup	Perşembe Kupası
+Friday Cup	Cuma Kupası
+Saturday Cup	Cumartesi Kupası
+{name} · rating {r}	{name} · puan {r}
+Something went wrong. Try again.	Bir sorun oluştu. Tekrar dene.
+member for 1 day	1 gündür üye
+Game in progress: 1 ball left	Süren oyun: 1 top kaldı
+1 level to go	1 seviye kaldı
+1 more online win with this cue for level {n}. Levels only add marks to the cue.	Seviye {n} için bu istekayla 1 çevrim içi galibiyet daha. Seviyeler istekaya yalnızca işaret ekler.
+Home	Home
+End	End
+PgUp	PgUp
+PgDn	PgDn
+Ins	Ins
+Could not join the LAN game	LAN oyununa katılınamadı
+LAN game · others join at {address}	LAN oyunu · diğerleri şu adresten katılır: {address}
+Click to copy	Kopyalamak için tıkla
+Copied.	Kopyalandı.
+Start a new game?	Yeni bir oyun başlatılsın mı?
+You have a game in progress against the computer, with 1 ball left. A new game takes its place.	Bilgisayara karşı süren, 1 topu kalmış bir oyunun var. Yeni oyun onun yerini alır.
+You have a game in progress against the computer, with {n} balls left. A new game takes its place.	Bilgisayara karşı süren, {n} topu kalmış bir oyunun var. Yeni oyun onun yerini alır.
+Continue that game	O oyuna devam et
+Start a new one	Yenisini başlat
+Click again to close the game: {n} will be disconnected	Oyunu kapatmak için tekrar tıkla: {n} kişinin bağlantısı kesilecek
+{name} cleared the table in one visit!	{name} masayı tek sırada bitirdi!
+{name}: {n} in a row!	{name}: üst üste {n}!
+Watch the deciding shot again	Belirleyici vuruşu tekrar izle
+Next: {name}	Sıradaki: {name}
+Drag on the table to aim, or click a ball	Nişan almak için masada sürükle ya da bir topa tıkla
+Set the power	Gücü ayarla
+Let go of {key} to shoot · Esc cancels	Vurmak için {key} tuşunu bırak · Esc iptal eder
+Staff accounts can't change their username.	Ekip hesapları kullanıcı adını değiştiremez.
+That password can't be used. Choose another one.	Bu şifre kullanılamaz. Başka bir şifre seç.
+That tournament is full.	Bu turnuva dolu.
+The server is restarting: your tournament was called off.	Sunucu yeniden başlatılıyor: turnuvan iptal edildi.
+Too many sign-ins. Wait a minute and try again.	Çok fazla giriş denemesi. Bir dakika bekleyip tekrar dene.
+Too many wrong passwords. Try again in a few minutes.	Çok fazla yanlış şifre. Birkaç dakika sonra tekrar dene.
+Your VIP subscription could not be cancelled. Try again in a moment.	VIP aboneliğin iptal edilemedi. Birazdan tekrar dene.
+Balls of both groups on the break: the turn passes to {next}, the table is open.	Açılışta iki gruptan da top girdi: sıra {next} oyuncusuna geçer, masa açık.
+Only a final started while signed in counts: play the last stage again signed in.	Yalnızca giriş yapmışken başlatılan final sayılır: son etabı giriş yapmış olarak tekrar oyna.
+The server didn't deal the final: this game won't earn the reward.	Sunucu finali hazırlamadı: bu oyun ödül kazandırmaz.
+The server didn't answer: this session won't be ranked.	Sunucu yanıt vermedi: bu seans sıralamaya girmez.
+The server is dealing the final…	Sunucu finali hazırlıyor…
+The server is setting up the drill…	Sunucu alıştırmayı hazırlıyor…
+Not signed in: a win in this final won't earn the reward.	Giriş yapılmadı: bu finalde kazanmak ödül getirmez.
+Not kept: sessions count when started signed in.	Saklanmadı: seanslar, giriş yapmışken başlatılınca sayılır.
+Warning from the staff: {text}	Ekipten uyarı: {text}
+The staff changed your username to {name}. Sign in again.	Ekip kullanıcı adını {name} olarak değiştirdi. Tekrar giriş yap.
+The staff called off the tournament you were in.	Ekip, içinde olduğun turnuvayı iptal etti.
+Experience ×{n}	Deneyim ×{n}
+Coins from games ×{n}	Oyunlardan jeton ×{n}
+Themed tournament	Temalı turnuva
+Event	Etkinlik
+Events	Etkinlikler
+Warning from the staff	Ekipten uyarı
+Esc to cancel	İptal için Esc
+Will be sent when you're back online.	Yeniden çevrim içi olduğunda gönderilecek.
+Your strokes will be sent when you're back online.	Vuruşların, yeniden çevrim içi olduğunda gönderilecek.
+The final you won was dealt to {name}: sign in as {name} to claim the reward.	Kazandığın final {name} için hazırlanmıştı: ödülü almak için {name} olarak giriş yap.
+Type your password to confirm it's you.	Sen olduğunu doğrulamak için şifreni yaz.
+The cue ball is back on the head spot: {next} plays from there.	Beyaz top baş noktasına döndü: {next} oradan oynar.
+{name} came online	{name} çevrim içi oldu
+Online now: {names}	Şu an çevrim içi: {names}
+Nobody else is online right now.	Şu anda çevrim içi başka kimse yok.
+Focus mode	Odak modu
+No invitations while you play: they are turned away until the game is over.	Oynarken davet yok: oyun bitene kadar davetler geri çevrilir.
+in focus mode	odak modunda
+In focus mode: no invitations until their game is over.	Odak modunda: oyunu bitene kadar davet yok.
+That player is in focus mode and isn't taking invitations until their game is over.	Bu oyuncu odak modunda ve oyunu bitene kadar davet kabul etmiyor.
+Look at it closely	Yakından bak
+Sign in to buy	Satın almak için giriş yap
+Sign in to use	Kullanmak için giriş yap
+Back to the shop (Esc)	Mağazaya dön (Esc)
+Show the interface (H)	Arayüzü göster (H)
+Hide the interface (H)	Arayüzü gizle (H)
+Turn (Space)	Döndür (Boşluk)
+Stop turning (Space)	Döndürmeyi durdur (Boşluk)
+Zoom in (+)	Yakınlaştır (+)
+Zoom out (−)	Uzaklaştır (−)
+Back to the start (R)	Başa dön (R)
+Previous setting ([)	Önceki ortam ([)
+Next setting (])	Sonraki ortam (])
+Setting	Ortam
+Studio	Stüdyo
+Your table	Masan
+Drag with the right button to turn · wheel to zoom · double-click to look closer	Döndürmek için sağ tuşla sürükle · yakınlaştırmak için tekerlek · yakından bakmak için çift tıkla
+Drag with the right button to turn · wheel to zoom · click a ball to look at it	Döndürmek için sağ tuşla sürükle · yakınlaştırmak için tekerlek · bakmak için bir topa tıkla
+The set	Takım
+From above	Yukarıdan
+Low angle	Alçak açı
+Cue ball	Beyaz top
+Ball {n}	Top {n}
+Whole	Tamamı
+Tip	Uç
+Joint	Ek yeri
+Butt	Dip
+Top	Üst
+Cue	İsteka
+Table	Masa
+Hall	Salon
+Corner	Köşe cebi
+Side	Orta cep
+Leg	Ayak
+Close-up	Yakın plan
+Cushion	Bant
+Phenolic resin under a bright clear coat	Parlak şeffaf vernik altında fenolik reçine
+A pearly sheen that shifts with the light	Işıkla değişen inci gibi bir parıltı
+Brushed metal, bright as a mirror	Ayna gibi parlayan fırçalanmış metal
+Old ivory: soft, warm and matte	Eski fildişi: yumuşak, sıcak ve mat
+A full-size cue, tip to butt: turn it, come close to its joint and its butt	Uçtan dibe gerçek boyutta bir isteka: döndür, ek yerine ve dibine yakından bak
+A cube of chalk, and the colour it leaves on the tip	Bir küp tebeşir ve uçta bıraktığı renk
+The cloth on the table: come close to see its weave	Masadaki çuha: dokusunu görmek için yaklaş
+Dark mahogany, turned legs and brass castings	Koyu maun, torna ayaklar ve pirinç köşelikler
+Light teak, square legs and chrome castings	Açık tik, kare ayaklar ve krom köşelikler
+Deep mahogany, carved legs and leather pocket nets	Derin maun, oymalı ayaklar ve deri cep fileleri
+Black lacquer and brushed aluminium on two slab legs	İki levha ayak üzerinde siyah lake ve fırçalanmış alüminyum
+Black ebony with gold castings and inlays	Altın köşelikler ve kakmalarla siyah abanoz
+Reclaimed oak rails on a riveted black steel frame	Perçinli siyah çelik bir şasi üzerinde geri dönüştürülmüş meşe bantlar
+A pro tournament table: charcoal rails, block legs, chrome	Profesyonel turnuva masası: antrasit bantlar, blok ayaklar, krom
+Figured walnut on barley-twist legs, brass and leather	Burgu ayaklar üzerinde damarlı ceviz, pirinç ve deri
+Ivory lacquer and gold on fluted columns	Yivli sütunlar üzerinde fildişi lake ve altın
+Panelling, the bar, cue racks, posters and neon	Ahşap paneller, bar, isteka rafları, posterler ve neon
+A deck at sunset, open windows, palms and string lights	Gün batımında bir teras, açık pencereler, palmiyeler ve ışık zincirleri
+Panelling, bookshelves, leather sofas and a fireplace	Ahşap paneller, kitaplıklar, deri koltuklar ve bir şömine
+Brick, steel windows over the city and Edison bulbs	Tuğla, şehre bakan çelik pencereler ve Edison ampulleri
+Log walls, a stone fireplace and snowy peaks outside	Kütük duvarlar, taş bir şömine ve dışarıda karlı zirveler
+A black mirror floor, neon tubes and arcade cabinets	Siyah ayna gibi bir zemin, neon tüpler ve atari makineleri
+A marble chessboard floor, gold, velvet and mirrors	Satranç tahtası desenli mermer zemin, altın, kadife ve aynalar
+Glass walls on the city at night, pale marble and oak	Gece şehre bakan cam duvarlar, açık renk mermer ve meşe
+A gold medal!	Altın madalya!
+A silver medal!	Gümüş madalya!
+A bronze medal!	Bronz madalya!
+Silver medal	Gümüş madalya
+Bronze medal	Bronz madalya
+Your medals	Madalyaların
+Kept in your account the next time you're online.	Bir sonraki çevrim içi oluşunda hesabında saklanır.
+Sign in to keep them in your account.	Hesabında saklamak için giriş yap.
+18 or older	18 yaş veya üstü
+Under 18	18 yaş altı
+Creating an account means accepting the	Hesap oluşturarak şunları kabul etmiş olursun:
+For a parent or guardian…	Ebeveyn veya vasi için…
+A parent or guardian turned the chat on for this account. They can turn it off here at any time.	Bu hesabın sohbetini bir ebeveyn veya vasi açtı. İstediği zaman buradan kapatabilir.
+This account belongs to someone under 18. By law, the chat with other players (messages in the lounge and in games, notes, status and gift messages) stays off until their mother, father or legal guardian turns it on.	Bu hesap 18 yaşından küçük birine ait. Yasa gereği, diğer oyuncularla sohbet (lobideki ve oyunlardaki mesajlar, notlar, durum ve hediye mesajları) annesi, babası veya yasal vasisi açana kadar kapalı kalır.
+I am this player's mother, father or legal guardian, I have read the terms of use and I allow them to chat with other players.	Bu oyuncunun annesi, babası veya yasal vasisiyim; kullanım koşullarını okudum ve diğer oyuncularla sohbet etmesine izin veriyorum.
+Chat for players under 18	18 yaş altı oyuncular için sohbet
+Turn the chat off	Sohbeti kapat
+{n} more invitations	{n} davet daha
+Invitation	Davet
+Turn the chat on	Sohbeti aç
+Chat off: under 18. A parent or guardian can turn it on.	Sohbet kapalı: 18 yaş altı. Bir ebeveyn veya vasi açabilir.
+The chat with other players is off until you turn it on.	Diğer oyuncularla sohbet, sen açana kadar kapalı.
+Write to turn the chat on…	Sohbeti açmak için yaz…
+Chat with other players	Diğer oyuncularla sohbet
+The chat with other players is off until you turn it on. To turn it on, tell us your age group: it can't be changed from the game afterwards.	Diğer oyuncularla sohbet, sen açana kadar kapalı. Açmak için yaş grubunu belirt: daha sonra oyundan değiştirilemez.
+Under 18: a parent or guardian must agree to the terms with you and turn the chat on.	18 yaş altı: bir ebeveyn veya vasi koşulları seninle birlikte kabul etmeli ve sohbeti açmalı.
+Not now	Şimdi değil
+Terms of use	Kullanım koşulları
+Privacy policy	Gizlilik politikası
+You have 7 days to change your mind and get your money back.	Fikrini değiştirip paranı geri almak için 7 günün var.
+Under 18: buy only with a parent's or guardian's permission.	18 yaş altı: yalnızca ebeveyninin veya vasinin izniyle satın al.
+Renews every month until you cancel. 7 days to change your mind.	İptal edene kadar her ay yenilenir. Fikrini değiştirmek için 7 gün.
+About	Hakkında
+Accounts, purchases and refunds, the rules of the online game.	Hesaplar, satın almalar ve iadeler, çevrim içi oyunun kuralları.
+What the game keeps, and your rights.	Oyunun neleri sakladığı ve hakların.
+Open	Aç
+Credits	Emeği geçenler
+Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Yazı tipleri: DejaVu ve Noto (OFL). Bayraklar: flag-icons (MIT). Tepkiler ve emojiler: Twemoji (CC-BY 4.0). Ülke adları: iso-codes (LGPL-2.1). Oyunun kodu açıktır (MIT).
+The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	18 yaş altı oyuncular için sohbet kapalı. Bir ebeveyn veya vasi, lobi sohbetinin altından açabilir.
+No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	Açılışta beyaz top hiçbir topa değmedi: açılışı {next} yapar, beyaz top baş çizgisinin gerisinde elde.
+The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	Açılışta hiç top girmeden beyaz top cebe girdi: açılışı {next} yapar, beyaz top baş çizgisinin gerisinde elde.
+Users online	Çevrim içi kullanıcılar
+ping {ms} ms	ping {ms} ms
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks, with the cue ball in hand behind the head string.	Açılışta beyaz top iki gruptan toplarla birlikte cebe girdi: ceza yok, masa açık kalır ve açılışı {next} yapar, beyaz top baş çizgisinin gerisinde elde.
+Brazilian	Brezilya
+Official	Resmî
+Brazilian rules	Brezilya kuralları
+Official rules	Resmî kurallar
+Brazilian rules (inside a sentence)	Brezilya kuralları
+Official rules (inside a sentence)	resmî kurallar
+Brazilian (inside a sentence)	Brezilya
+Official (inside a sentence)	resmî
+As played in Brazil's bars	Brezilya'nın barlarında oynandığı gibi
+As played in tournaments (WPA)	Turnuvalarda oynandığı gibi (WPA)
+on the Brazilian rules	Brezilya kurallarıyla
+on the official rules	resmî kurallarla
+A ball left the table on the break.	Açılışta bir top masadan çıktı.
+A ball off the table on the break	Açılışta masadan çıkan top
+A safety calls nothing: whatever goes in stays down, and the turn passes.	Savunma vuruşunda cep söylenmez: giren top içeride kalır ve sıra rakibe geçer.
+Break yourself	Açılışı sen yap
+CALLED POCKET	SÖYLENEN CEP
+Choose	Seç
+Choose how play goes on	Oyunun nasıl devam edeceğini seç
+Choose the rules of your games. You can switch them any time, in the main menu.	Oyunlarının kurallarını seç. İstediğin zaman ana menüden değiştirebilirsin.
+Click a pocket on the table to call it; click it again to follow your aim.	Söylemek için masadaki bir cebe tıkla; nişanını takip etmesi için tekrar tıkla.
+Cue ball in hand	Elde top
+Each of the rules has its own rating: these games don't change your {rating} under the {other}.	Her kuralın kendi puanı var: bu oyunlar {other} için geçerli {rating} puanını değiştirmez.
+Find an opponent of your level automatically ({rules})	Seviyene uygun bir rakibi otomatik olarak bul ({rules})
+How do you like to play?	Nasıl oynamayı seversin?
+How does play go on? Choose one:	Oyun nasıl devam etsin? Birini seç:
+Illegal break: no ball made and fewer than four balls reached a cushion.	Geçersiz açılış: hiç top girmedi ve dörtten az top banda ulaştı.
+Invite {name}	Davet et: {name}
+No ball went in the called pocket ({pocket}): {next} to shoot.	Söylenen cebe ({pocket}) hiç top girmedi: sıra {next} oyuncusunda.
+No pocket was called (a safety): {next} to shoot.	Cep söylenmedi (savunma): sıra {next} oyuncusunda.
+Not sure what changes?	Neyin değiştiğinden emin değil misin?
+Place it anywhere behind the head string.	Baş çizgisinin gerisinde istediğin yere koy.
+Play on	Devam et
+Players against the computer under these rules	Bu kurallarla bilgisayara karşı oynayanlar
+Players online under these rules (the lounge and online games)	Bu kurallarla çevrim içi oyuncular (lobi ve çevrim içi oyunlar)
+RULES OF YOUR GAMES	OYUNLARININ KURALLARI
+Read both rules	İki kuralı da oku
+Rules of your games	Oyunlarının kuralları
+Safety	Savunma
+Safety: no pocket	Savunma: cep yok
+Show the {rules}: the rank, the league and the chart	{rules}: sıralamayı, ligi ve grafiği göster
+The 8 is spotted and you keep shooting.	8 masaya geri konur ve vurmaya devam edersin.
+The 8 is spotted; the cue ball in hand behind the head string.	8 masaya geri konur; beyaz top baş çizgisinin gerisinde elde.
+The 8 on a break with a foul	Faullü açılışta 8
+The 8 on the break	Açılışta 8
+The 8 went down on a break with a foul: it is spotted.	Faullü bir açılışta 8 cebe girdi: masaya geri konur.
+The 8 went down on the break: it is spotted.	Açılışta 8 cebe girdi: masaya geri konur.
+The balls are racked again and you break.	Toplar yeniden dizilir ve açılışı sen yaparsın.
+The balls are racked again and {name} breaks.	Toplar yeniden dizilir ve açılışı {name} yapar.
+The balls are racked again: {name} breaks.	Toplar yeniden dizilir: açılışı {name} yapar.
+The balls are racked again: {other} breaks.	Toplar yeniden dizilir: açılışı {other} yapar.
+The rules of this game: click to read them	Bu oyunun kuralları: okumak için tıkla
+The rules of your games: click to switch	Oyunlarının kuralları: değiştirmek için tıkla
+The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	Ana menüdeki seçimin aynısı: çevrim içi, bilgisayara karşı ve iki oyuncu. Her kuralın kendi puanı var.
+The table as it lies.	Masa olduğu gibi.
+The top 100 of each rules · rated games	Her kuralın ilk 100'ü · puanlı oyunlar
+The {ball} lay behind the head string and the cue ball hit it without crossing the line first	{ball} baş çizgisinin gerisindeydi ve beyaz top önce çizgiyi geçmeden ona değdi
+What changes between the rules: click to read them	Kurallar arasında neler değişiyor: okumak için tıkla
+With the cue ball in hand behind the head string.	Beyaz top baş çizgisinin gerisinde elde.
+follows your aim	nişanını takip eder
+no rated games yet	henüz puanlı oyun yok
+open table: the called ball you make sets your group	açık masa: söylenen cebe soktuğun top grubunu belirler
+peak {n} · {games} games	zirve {n} · {games} oyun
+playing now	şu an oynuyor
+your call	senin seçimin
+{name} breaks again	{name} yeniden açılış yapsın
+{name} chooses: play on, or rack the balls and break again.	{name} seçiyor: devam etmek ya da topları dizip yeniden açılış yapmak.
+{name} chooses: play the table as it lies, or take the cue ball in hand behind the head string.	{name} seçiyor: masayı olduğu gibi oynamak ya da beyaz topu baş çizgisinin gerisinde elde almak.
+{name} chooses: play the table as it lies, rack the balls and break, or have {breaker} break again.	{name} seçiyor: masayı olduğu gibi oynamak, topları dizip açılış yapmak ya da açılışı yeniden {breaker} oyuncusuna yaptırmak.
+{name} chooses: play the table as it lies, take the cue ball in hand behind the head string, rack the balls and break, or have {breaker} break again.	{name} seçiyor: masayı olduğu gibi oynamak, beyaz topu baş çizgisinin gerisinde elde almak, topları dizip açılış yapmak ya da açılışı yeniden {breaker} oyuncusuna yaptırmak.
+{name} chooses: the cue ball in hand behind the head string, or rack the balls and break.	{name} seçiyor: beyaz top baş çizgisinin gerisinde elde ya da toplar dizilip açılışı kendisi yapar.
+{name} is choosing how play goes on…	{name} oyunun nasıl devam edeceğini seçiyor…
+{name} plays on (the 8 is spotted).	{name} devam ediyor (8 masaya geri kondu).
+{name} plays the table as it lies.	{name} masayı olduğu gibi oynuyor.
+{name} plays the {theirs} now; yours are the {mine}.	{name} şu an {theirs} ile oynuyor; seninkiler: {mine}.
+{name} takes the cue ball in hand.	{name} beyaz topu elde alıyor.
+{next} has the cue ball in hand behind the head string.	{next} için elde top, baş çizgisinin gerisinde.
+{next} has the cue ball in hand: anywhere on the table.	{next} için elde top: masanın herhangi bir yerinde.
+{n} points to {tier} ({rules})	{tier} için {n} puan ({rules})
+{n} waiting	{n} bekliyor
+A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Faul, rakibe kendi grubundan top verir. Elde top yalnızca açılışta olur ve yalnızca 8'in cebi söylenir.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	Faul, rakibe masanın herhangi bir yerinde elde top verir. Her vuruşta cep söylenir ve açılışta dört top banda ulaşmalıdır.
+A foul gives balls to the opponent	Faul rakibe top verir
+Ball in hand on the break only	Elde top yalnızca açılışta
+Only the 8's pocket is called	Yalnızca 8'in cebi söylenir
+The most played in Brazil	Brezilya'da en çok oynanan
+A foul gives ball in hand	Faul elde top verir
+The break drives four balls to a cushion	Açılışta dört top banda ulaşır
+Every shot is called	Her vuruşta cep söylenir
+The same all over the world	Tüm dünyada aynı
+Game type	Oyun türü
+called: {pocket}	söylenen: {pocket}
+no call: a safety	söylenmedi: savunma
+A safety: nothing called. Click again to call the pocket you aim at.	Savunma: cep söylenmedi. Nişan aldığın cebi söylemek için tekrar tıkla.
+A safety calls nothing: whatever goes in stays down, and the turn passes. To call another pocket, click it on the table.	Savunma vuruşunda cep söylenmez: giren top içeride kalır ve sıra rakibe geçer. Başka bir cep söylemek için masada ona tıkla.
+{games} games · {pct}% won	{games} oyun · %{pct} galibiyet
+Each of the rules has its own rating; the level, coins and achievements are shared.	Her kuralın kendi puanı var; seviye, jetonlar ve başarımlar ortaktır.
+You already have a VIP subscription: manage it with Manage subscription.	Zaten bir VIP aboneliğin var: Aboneliği yönet ile yönetebilirsin.
+Your opponent can't start another game yet.	Rakibin henüz yeni bir oyun başlatamıyor.
+A tournament's name is shown to everyone: with your chat off, you can join tournaments but not create one.	Turnuva adını herkes görür: sohbetin kapalıyken turnuvalara katılabilirsin ama turnuva oluşturamazsın.
+The connection dropped: check your coins before trying again.	Bağlantı koptu: tekrar denemeden önce jetonlarını kontrol et.
+Sign in to buy coins.	Jeton satın almak için giriş yap.
+Sign in to become VIP.	VIP olmak için giriş yap.
+how play goes on after the break is undecided	açılıştan sonra oyunun nasıl devam edeceğine henüz karar verilmedi
+Finish your game, and leave your table, the queue or your tournament first.	Önce oyununu bitir; masandan, sıradan veya turnuvandan çık.
+That choice can't be made now.	Bu seçim şu anda yapılamaz.
+That medal can't be.	Böyle bir madalya olamaz.
+{name}'s tournament	Turnuva: {name}
+When time runs out, it's a foul: your opponent gets a ball and the cue ball goes back to the head spot.	Süre dolunca faul olur: rakibin bir top kazanır ve beyaz top baş noktasına döner.
+When time runs out, it's a foul: your opponent gets the cue ball in hand.	Süre dolunca faul olur: rakibin elde top alır.
+Your username was changed. Sign in again.	Kullanıcı adın değiştirildi. Tekrar giriş yap.
+You have your tournament game in progress. A new game takes its place, and the tournament game counts as lost.	Süren bir turnuva oyunun var. Yeni oyun onun yerini alır ve turnuva oyunu kaybedilmiş sayılır.
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks again, from the head spot.	Açılışta beyaz top iki gruptan toplarla birlikte cebe girdi: ceza yok, masa açık kalır ve {next} baş noktasından yeniden açılış yapar.
+The cue ball went down on the break with no ball made: {next} breaks again, from the head spot.	Açılışta hiç top girmeden beyaz top cebe girdi: {next} baş noktasından yeniden açılış yapar.
+{who} ran out of time: {other} breaks, from the head spot.	{who} için süre doldu: açılışı baş noktasından {other} yapar.
+Congratulations!	Tebrikler!
+You earned a new item: {title}	Yeni bir eşya kazandın: {title}
+You earned a new item!	Yeni bir eşya kazandın!

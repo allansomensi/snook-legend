@@ -1,0 +1,300 @@
+601	Alsó csavar
+602	Bal csavar
+603	Jobb csavar
+604	Dákó emelése
+605	Dákó leengedése
+606	A kézben lévő fehér golyó felvétele
+607	3D / felülnézet
+608	Kamera visszaállítása
+609	Az utolsó lökés visszajátszása
+610	Irányítás listája
+611	A billentyűk a Beállítások → Irányítás menüben módosíthatók.
+612	Szóköz
+613	Jobb Shift
+614	Jobb Ctrl
+615	Jobb Alt
+616	Célzás és lökés
+617	Csavar és dőlésszög
+618	Rögzített billentyűk
+619	Menü, vissza és mégse
+620	Megerősítés (űrlapok, kézben lévő fehér golyó)
+621	Ez a billentyű nem módosítható.
+622	Nyomj meg egy billentyűt · Esc: mégse · Backspace: törlés
+623	Nyomj meg egy billentyűt…
+624	Kattints a módosításhoz
+625	Kattints billentyű hozzáadásához
+626	Vissza: nincs billentyű
+627	Vissza: {keys}
+628	Felcserélve: {action} most ezen van: {key}.
+629	Elvéve innen: {action}; annak most nincs billentyűje.
+630	Elvéve innen: {action}.
+631	Ez a billentyű nem használható: próbálj másikat.
+632	Lökés
+633	Rövid
+634	Bejelentkezés…
+635	Bejelentkezés
+636	Lágy árnyékok minden lámpától, fényes termek, fényudvarok.
+637	Teli (1–7)
+638	Csavarválasztó
+639	Csavar
+640	Normál
+641	Maradok
+642	Csíkos (9–15)
+643	A játék közben folytatódik.
+644	Alapértelmezett
+645	Felhasználónév
+646	A felhasználónév 3–16 betűből, számjegyből vagy aláhúzásjelből áll.
+647	{keys} (ugratás és massé)
+648	Nyertél!
+649	A neved
+650	Az ellenfeled visszament a társalgóba.
+651	Te jössz
+652	nyitott asztal: a következő elrakott golyód dönti el a csoportodat
+653	alsó
+654	felső
+655	stop
+656	teli
+657	csíkos
+658	társalgó
+659	 · bal csavar
+660	 · jobb csavar
+661	Nyelv
+662	Általános
+663	Grafika
+664	Játék
+665	Hang
+666	Alapértékek visszaállítása
+667	Minden billentyű visszaállítása
+668	Minden billentyűt visszaállítasz?
+669	Kattints újra az összes billentyű visszaállításához
+670	Frissítések
+671	Automatikus frissítés
+672	Az új verziók a háttérben töltődnek le, és újraindításkor települnek.
+673	{v}. verzió
+674	Újdonságok
+675	Újdonságok – {v}. verzió
+676	Ehhez a verzióhoz nincsenek jegyzetek.
+677	Értem
+678	Újraindítás most
+679	A játszma után, a főmenüből.
+680	Letöltés
+681	Ellenőrzés most
+682	Nem sikerült elérni a frissítési szervert.
+683	A letöltés megsérült. Később újra megpróbáljuk.
+684	Az új verziót nem sikerült telepíteni. Marad a mostani.
+685	Letöltés… {p}%
+686	Frissítés…
+687	A játékot a Microsoft Store tartja naprakészen.
+688	Fejlesztői változat: nincs automatikus frissítés.
+689	Új verzió keresése…
+690	Ez a legújabb verzió.
+691	A(z) {v} verzió letöltése… {p}%
+692	A(z) {v} verzió telepítése…
+693	A(z) {v} verzió kész: indítsd újra a játékot a használatához.
+694	Megjelent a(z) {v} verzió: töltsd le a kiadások oldaláról.
+695	A(z) {v} verzió kész
+696	Indítsd újra a játékhoz; semmi sem vész el.
+697	Megjelent a(z) {v} verzió
+698	Töltsd le a kiadások oldaláról.
+699	Mindent visszaállítasz?
+700	Kattints újra az összes beállítás visszaállításához
+701	Online
+702	Menü
+703	Értékszám
+704	Ultra
+705	tartsd nyomva: {key}, majd engedd el
+706	Módosítás
+707	Egérrel célzás érzékenysége
+708	Milyen gyorsan fordul a dákó az egérrel.
+709	Vignetta
+710	Elsötétíti a kép széleit, mint egy filmen.
+711	FPS mutatása
+712	Képkocka másodpercenként, a képernyő egyik sarkában.
+713	Előbb mondj be egy lyukat a 8-as golyóhoz: kattints egy lyukra.
+714	Újracsatlakozás
+715	a játszma véget ért
+716	a fehér golyó nem tehető oda
+717	mondj be egy lyukat a 8-as golyóhoz
+718	Ez a felhasználónév foglalt.
+719	Hibás felhasználónév vagy jelszó.
+720	A munkameneted lejárt. Jelentkezz be újra.
+721	A Snook Legend ezen verziója elavult. Frissítsd a játékot.
+722	Nem te jössz.
+723	Ez a játékos nincs online.
+724	Ez a játékos éppen játszik.
+725	Saját magadat nem hívhatod meg.
+726	Ez a meghívás már nem érvényes.
+727	Ez a játékos már nem elérhető.
+728	Folyamatban lévő játszmából csak feladással léphetsz ki.
+729	Hibás formátumú üzenet.
+730	Előbb jelentkezz be.
+731	Nem sikerült létrehozni a fiókot.
+732	A fehér golyó nem tehető oda.
+733	Kapcsolat bontva.
+734	Megszakadt a kapcsolat a szerverrel.
+735	A szerver bontotta a kapcsolatot.
+736	A szerver túl lassan válaszolt.
+737	A szerver nem válaszol (kapcsolat elutasítva).
+738	A szerver címe érvénytelen (például: wss://snook-legend.example.com/ws).
+739	A szerver címében nincs gépnév.
+740	Üdv a Snook Legendben! Légy kedves, játssz sportszerűen.
+741	Golyó kézben: húzd a fehér golyót{zone} a mozgatáshoz
+742	 a vonal mögé
+743	Golyó kézben  ·  {group}
+744	Nem lehet lökni: {e}.
+745	Csevegés ({n})
+746	Gép ({level})
+747	Gép
+748	Minden ellenfélnek saját stílusa van
+749	Szabad játszma
+750	Körverseny
+751	Körverseny: {n}/{total} legyőzve
+752	Erősség: {n}/5
+753	Szellem
+754	Pontosság
+755	Biztonsági lökések
+756	Falszél-lökések
+757	Pozíció
+758	Szellem: {name}
+759	Egy játékos szelleme
+760	Úgy játszik, mint egy valódi játékos
+761	A gép egy valódi játékos stílusában játszik, az online játszmái alapján.
+762	Jelentkezz be, hogy egy valódi játékos szelleme ellen játszhass.
+763	Betöltés
+764	Barátok:
+765	Írj be egy felhasználónevet, vagy válassz egy barátot, majd Betöltés.
+766	Játékstílus felmérése: {name}…
+767	Elrakás {pots}% · biztonsági {safe}% · falszél {banks}% · {shots} lökés
+768	{name} még csak {shots} rögzített lökéssel rendelkezik; egy szellemhez {needed} kell. Több online játszmával meglesz.
+769	Nincs ilyen nevű játékos: {name}.
+770	A szerver most nem érhető el. Próbáld újra később.
+771	Várj egy kicsit, mielőtt újra kéred.
+772	Hiba történt a szerveren. Próbáld újra később.
+773	Játék a saját szellemed ellen
+774	Játék a szelleme ellen
+775	Legyőzve
+776	Következő
+777	Ennek feloldásához nyerd meg az előző szakaszt.
+778	{n}/{total}. szakasz
+779	Kihívás: {name}
+780	{n}. szakasz megnyerve! A körverseny következő ellenfele: {name}.
+781	Megnyerted az egész körversenyt!
+782	Jutalom
+783	{item} dákó · exkluzív
+784	A tiéd: a boltban találod, a Dákók között.
+785	Bejelentkezve nyerd meg újra az utolsó szakaszt, hogy megkapd.
+786	Győzd le mind a tizenöt ellenfelet, hogy megszerezd. Sehol nem kapható.
+787	Megnyerted a körversenyt! Jelentkezz be, hogy megkapd a jutalmadat.
+788	A szerver ellenőrzi a döntő játszmádat…
+789	Újra
+790	A szerver nem válaszolt. Próbáld újra egy kicsit később.
+791	A szerver más játszmák ellenőrzésével van elfoglalva. Próbáld újra egy kicsit később.
+792	Várj egy percet, mielőtt újra próbálkozol.
+793	Ez a játszma túl hosszú az ellenőrzéshez.
+794	Ebben a játszmában van egy, a szabályok által nem engedett lépés.
+795	Ezt a játszmát nem játszották végig.
+796	Ez a játszma nem győzelem volt.
+797	A gép lökései ebben a játszmában nem egyeznek a játékstílusával (a játék egy másik verziója?).
+798	Az Újonc
+799	Még tanul: a legközelebbi lyukra céloz, középen lök, és reménykedik. Soha nem játszik biztonságira.
+800	A Hétvégi Játékos
+801	Ismeri az alapokat és elrakja a könnyűeket, de ritkán gondol arra, hová kerül a fehér golyó.
+802	A Falszél Művésze
+803	Olyan szögeket lát, amilyeneket senki más: ha egy golyó falszélről beférhet, ő bele is teszi.
+804	Az Ágyú
+805	Mindent megpróbál, teljes erőből: hosszú lökések, mennydörgő kezdőlökések, biztonsági lökés szinte soha.
+806	A Fal
+807	Csak akkor lök, ha az elrakás biztos. Különben elbújtatja a fehér golyót, és a hibádra vár.
+808	Az Öreg Profi
+809	Negyven év az asztalnál: sima lökés, megemelt dákó, oldalcsavar, és soha nem siet.
+810	A Cápa
+811	Épp csak annyira jól játszik, hogy nyerjen, aztán egy kicsit jobban. Kiegyensúlyozott, éles eszű és kiszámíthatatlan.
+812	A Professzor
+813	Három golyóval előre gondolkodik: minden lökés után ott áll a fehér, ahonnan a következő könnyű.
+814	A Mesterlövész
+815	Bárhonnan, bármilyen szögből elrakja. A biztonsági lökésekkel nem törődik: nincs rájuk szüksége.
+816	A Bajnok
+817	Évek óta veretlen. Pontos, türelmes és kíméletlen: a körverseny utolsó szakasza.
+818	Körversenybajnok
+819	A körverseny bajnoka
+820	Győzd le a gép elleni körverseny mind a tizenöt ellenfelét.
+821	Megszakadt a kapcsolat. Újracsatlakozás ({n}. próbálkozás)…
+822	Megszakadt a kapcsolat. Újracsatlakozás…
+823	Szabálytalanság – {shooter}: {foul}.
+824	A grafika beállítása: {q}, a gördülékeny játékért. A Beállításokban módosíthatod.
+825	Értékszám: {r} ({d})
+826	Visszakerült az asztalra: {ball}.
+827	Várakozás: {to} ({kind})…
+828	értékelt
+829	barátságos
+830	Várakozás: {name}…
+831	{by} elutasította a meghívásodat.
+832	értékelt játszma
+833	barátságos játszma
+834	{name} bemondja a 8-ast: {pocket}.
+835	{name}: golyó kézben…
+836	{name} céloz…
+837	{name} a 8-asra jön: kattints egy lyukra a bemondáshoz
+838	{name} gondolkodik…
+839	{name} kilépett a játszmából.
+840	{name} feladta.
+841	Kezdőlökés: {name}
+842	{name} lök ({target})
+843	{name} jön
+844	{next}: golyó kézben{where}.
+845	 a kezdővonal mögött
+846	{opponent} visszatért.
+847	{opponent} kapcsolata megszakadt. Várakozás legfeljebb {secs} mp-ig…
+848	{opponent} visszavágót szeretne.
+849	{opponent} visszament a társalgóba.
+850	{shooter} elrakta: {balls}.
+851	{shooter} golyói: {group}.
+852	{who} ideje lejárt: golyó kézben az ellenfélnek.
+853	{name} visszavágót szeretne!
+854	{name} nyert!
+855	{name} nyert
+856	Hangerő
+857	A dákó, a golyók, a falszélek és a lyukak.
+858	Értesítések
+859	Nem található a szerver: „{host}”.
+860	Hálózati hiba: {e}.
+861	A biztonságos kapcsolat sikertelen: {e}.
+862	A szerver elutasította a kapcsolatot (HTTP {code}).
+863	Kapcsolódási hiba: {e}.
+864	fehér golyó
+865	{n}. számú golyó
+866	Beesett a fehér golyó
+867	A fehér golyó leesett az asztalról
+868	A fehér golyó nem talált el egy golyót sem
+869	Először rossz golyót talált el ({ball})
+870	Az érintés után egy golyó sem ért falszélt
+871	Leesett az asztalról: {ball}
+872	Szabálytalan kezdőlökés
+873	elrakta a 8-as golyót
+874	az ellenfél túl korán rakta el a 8-as golyót
+875	az ellenfél rossz lyukba rakta el a 8-as golyót
+876	az ellenfél szabálytalanságot követett el a 8-as golyónál
+877	az ellenfél leütötte a 8-as golyót az asztalról
+878	az ellenfél feladta
+879	az ellenfél kilépett a játszmából
+880	kezdőoldali bal sarok
+881	kezdőoldali jobb sarok
+882	bal középső
+883	jobb középső
+884	hátsó bal sarok
+885	hátsó jobb sarok
+886	Könnyű
+887	Nehéz
+888	Normál
+889	Erő
+890	Még nincsenek üzenetek.
+891	▼ újabb üzenetek
+892	A kamera követi a dákót
+893	Ki: ott marad, ahová teszed.
+894	Hátrahúzódás lökéskor
+895	Csak ha a kamera követi a dákót.
+896	Húzd a dákót · kattints egy pontra
+897	Lejárt az idő: {name} lökése teljes erővel ment el.
+898	Sötét terem
+899	Reflektor az asztalon, a terem árnyékban.
+900	Elrejtés

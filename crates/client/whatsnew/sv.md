@@ -1,307 +1,305 @@
-# Snook Legend: what's new, shown in the game after an update.
-# "## <version>" starts a version (newest first), "### <title>" a highlight,
-# and the lines after it are its text. Keep it short and about what players
-# see; every language has the same versions and the same number of highlights.
+# Snook Legend: nyheter, som visas i spelet efter en uppdatering.
+# "## <version>" inleder en version (nyast först), "### <rubrik>" en nyhet,
+# och raderna efter den är dess text. Håll det kort och om det spelarna
+# ser; alla språk har samma versioner och samma antal nyheter.
 
 ## 0.8.3
 
-### What you earn is shown
-An item that comes with an achievement, such as a level reached, now arrives with a "Congratulations!" window that shows it and lets you use it at once.
+### Det du tjänar visas
+Ett föremål som följer med en prestation, till exempel en uppnådd nivå, kommer nu med ett ”Grattis!”-fönster som visar det och låter dig använda det direkt.
 
-### One game at a time
-Starting the game while it is already open brings its window to the front instead of opening a second one. Two games on one computer wrote over each other's settings and saved game.
+### Ett spel i taget
+Om du startar spelet när det redan är öppet hamnar dess fönster överst i stället för att ett andra öppnas. Två spel på samma dator skrev över varandras inställningar och sparade parti.
 
-### The 8 on a break handed over
-Under the Brazilian rule, a break handed over after the cue ball was lost, with the balls already scattered, no longer wins by potting the 8: hitting it first is a foul and pocketing it loses, as on any shot. Only the break of the rack has the 8 alone winning.
+### 8-bollen på ett överlämnat utslag
+Med brasilianska regler vinner ett utslag som lämnats över efter att vita bollen gått förlorad, med bollarna redan utspridda, inte längre genom att sänka 8-bollen: att träffa den först är foul och att sänka den förlorar, som vid vilken stöt som helst. Bara utslaget mot uppställningen ger vinst med 8-bollen ensam.
 
-### Cleaner pockets, a steadier camera, and many fixes
-The pockets are finished without rough edges, and going from the overhead view to 3D keeps your zoom. Two more reviews of the whole game fixed many bugs: a rematch keeps the break alternating, a private arena asks for its password while it runs, a table rejoined after its game ended shows the result, and more.
+### Snyggare hål, stadigare kamera och många rättningar
+Hålen är färdigställda utan ojämna kanter, och när du går från vyn ovanifrån till 3D behålls din zoom. Ytterligare två genomgångar av hela spelet rättade många buggar: en revansch behåller turordningen för utslag, en privat arena frågar efter sitt lösenord medan den pågår, ett bord du återvänder till efter att partiet tagit slut visar resultatet, med mera.
 
 ## 0.8.2
 
-### The shot clock gives a ball
-Under the Brazilian rule, running out of time is a foul: your opponent's lowest ball comes off (if they are on the 8 already, the 8 pays and you lose), the cue ball goes back to the head spot, not in hand, and the turn passes.
+### Stöttimern ger en boll
+Med brasilianska regler är det foul när tiden tar slut: motståndarens lägsta boll tas av (är motståndaren redan på 8-bollen betalar 8-bollen och du förlorar), vita bollen går tillbaka till huvudpunkten, inte i hand, och turen går över.
 
-### The break, one each
-Under the Brazilian rule the players break in turn, one break each. A break that loses the cue ball with no ball made, or with balls of both groups, passes the break: your opponent breaks again from the head spot, with the balls where they stopped.
+### Utslaget, ett var
+Med brasilianska regler slår spelarna ut i tur och ordning, ett utslag var. Ett utslag som tappar vita bollen utan att någon boll sänks, eller med bollar ur båda grupperna, lämnar över utslaget: motståndaren slår ut igen från huvudpunkten, med bollarna där de stannade.
 
-### Grab the cue anywhere
-Click and drag the cue anywhere along it, from the tip to the butt, even drawn back or raised over the rail: it follows the pointer as it swings.
+### Ta tag i kön var som helst
+Klicka och dra kön var som helst längs den, från spetsen till handtaget, även tillbakadragen eller höjd över vallen: den följer pekaren när den svänger.
 
-### Seven rounds in the arena, and many fixes
-The arena against the computer is seven rounds for everyone, and the shop has a new icon. Three reviews of the whole game fixed many bugs: leaving while the balls roll no longer undoes a shot against the computer, the first ball hit is the one the cue ball really touched first, and more.
+### Sju omgångar i arenan, och många rättningar
+Arenan mot datorn har sju omgångar för alla, och butiken har en ny ikon. Tre genomgångar av hela spelet rättade många buggar: att lämna medan bollarna rullar ångrar inte längre en stöt mot datorn, den första bollen som träffas är den som vita bollen verkligen rörde först, med mera.
 
 ## 0.8.1
 
-### The 8 pays the penalty
-Under the Brazilian rule, a foul that gives more balls than your opponent has left loses the game: their balls come off and the 8 pays the rest. Once your opponent is on the 8, any foul that gives a ball loses: missing every ball, pocketing the cue ball or knocking it off the table.
+### 8-bollen betalar straffet
+Med brasilianska regler förlorar en foul som ger fler bollar än motståndaren har kvar partiet: motståndarens bollar tas av och 8-bollen betalar resten. När motståndaren är på 8-bollen förlorar varje foul som ger en boll: att missa alla bollar, sänka vita bollen eller slå den av bordet.
 
-### Click outside to close
-The match's chat, the game history and the spin and elevation panels close when you click outside them, and the click still counts on the table. Menus and dialogs close with a click outside them too, like Cancel.
+### Klicka utanför för att stänga
+Matchens chatt, partihistoriken och panelerna för skruv och höjd stängs när du klickar utanför dem, och klicket räknas ändå på bordet. Menyer och dialogrutor stängs också med ett klick utanför, som Avbryt.
 
 ## 0.8.0
 
-### The official rules
-You can now also play the official rules of the WPA, the eight-ball of international tournaments: every shot is called, a foul gives ball in hand anywhere and no ball comes off as a penalty. Choose your rules in the main menu. The Brazilian rule is still there, just as it was.
+### De officiella reglerna
+Du kan nu också spela efter WPA:s officiella regler, 8-ball som i internationella turneringar: varje stöt anmäls, en foul ger boll i hand var som helst och ingen boll tas av som straff. Välj regler i huvudmenyn. De brasilianska reglerna finns kvar, precis som förut.
 
-### A rating for each rules
-Each rules has its own rating, tier and world ranking: the ranking has a tab for each and your profile a card for each. Your level, coins and achievements are shared.
+### En rating för varje regelvariant
+Varje regelvariant har sin egen rating, liga och världsranking: rankingen har en flik för var och en och din profil ett kort för var och en. Din nivå, dina mynt och prestationer är gemensamma.
 
-### Calling your shots
-Under the official rules the pocket you aim at is called (a ring shows it). Click another pocket to call it, or Safety to call none. After some breaks you choose how the game goes on, with the buttons or 1, 2 and 3.
+### Anmäl dina stötar
+Med officiella regler anmäls hålet du siktar på (en ring visar det). Klicka på ett annat hål för att anmäla det, eller på Safety för att inte anmäla något. Efter vissa utslag väljer du hur spelet fortsätter, med knapparna eller 1, 2 och 3.
 
-### Online, by rules
-Invitations, tables, Play now, tournaments and daily games all say their rules, and Play now pairs you with players of yours. The menu shows how many people play each.
+### Online, efter regler
+Inbjudningar, bord, Spela nu, turneringar och dagliga partier visar alla sina regler, och Spela nu parar ihop dig med spelare som har samma. Menyn visar hur många som spelar varje variant.
 
-### The break, Brazilian rule
-If the break loses the cue ball together with balls of both groups, the break now passes to your opponent, with the cue ball in hand behind the head string and no penalty ball.
+### Utslaget, brasilianska regler
+Om utslaget tappar vita bollen tillsammans med bollar ur båda grupperna går utslaget nu över till motståndaren, med vita bollen i hand bakom huvudlinjen och ingen straffboll.
 
 ## 0.7.4
 
-### The chat, when you want it
-No more age question when signing up. The chat with other players starts off and asks only the first time you write: 18 or older turns it on at once, and under 18 a parent or guardian turns it on. Whoever doesn't chat is never asked.
+### Chatten, när du vill ha den
+Ingen åldersfråga längre när du registrerar dig. Chatten med andra spelare är avstängd från början och frågar bara första gången du skriver: 18 år eller äldre slår på den direkt, och under 18 år slår en förälder eller vårdnadshavare på den. Den som inte chattar blir aldrig tillfrågad.
 
-### Invitations in the corner
-An invitation now shows as a card in the top right corner on every screen and over any game, with the player's picture, the buttons to accept or decline and a soft chime. Accept it from the menu and the game starts right away.
+### Inbjudningar i hörnet
+En inbjudan visas nu som ett kort i övre högra hörnet på alla skärmar och över alla partier, med spelarens bild, knapparna för att anta eller avböja och en mjuk ljudsignal. Anta den från menyn så börjar partiet direkt.
 
-### Windows tells you at once
-With the game behind another window or minimised, Windows shows the invitation at once (it used to wait a few seconds).
+### Windows säger till direkt
+När spelet ligger bakom ett annat fönster eller är minimerat visar Windows inbjudan direkt (förut dröjde det några sekunder).
 
 ## 0.7.3
 
-### New rules
-If the break hits no ball, or loses the cue ball (down or off the table) with no ball made, the break passes to your opponent, with the cue ball in hand behind the head string. With a ball made, it decides the groups even if the cue ball goes down too. And the cue ball off the table costs a ball, as a scratch does.
+### Nya regler
+Om utslaget inte träffar någon boll, eller tappar vita bollen (i hål eller av bordet) utan att någon boll sänks, går utslaget över till motståndaren, med vita bollen i hand bakom huvudlinjen. Om en boll sänks avgör den grupperna även om vita bollen också går i. Och vita bollen av bordet kostar en boll, precis som vita i hål.
 
-### More drills, no ranking
-There are 24 drills now, nine of them new: the far corner, long into the side, cue ball on the cushion, the plant, the carom, the long draw, on the tangent line, two-cushion bank and fifteen in a row. Each shows its position, and your stars are kept in your account. The drills' ranking is gone.
+### Fler övningar, ingen ranking
+Det finns nu 24 övningar, varav nio nya: bortre hörnet, långt i mitten, vita mot vallen, fast kombination, karambolen, lång dragboll, på tangentlinjen, dubblé via två vallar och femton i rad. Varje övning visar sin position, och dina stjärnor sparas på ditt konto. Övningarnas ranking är borta.
 
-### New pictures
-The portraits were drawn again, with more care, and there are new pictures of pool things. Your picture now shows on the card in the corner of the start screen when you're signed in.
+### Nya bilder
+Porträtten har ritats om, med mer omsorg, och det finns nya bilder på biljardsaker. Din bild visas nu på kortet i hörnet av startskärmen när du är inloggad.
+### Villkor och integritet
+Användarvillkoren och integritetspolicyn finns ett klick bort: när du registrerar dig, i butiken och under Inställningar → Spel → Om. Köp med riktiga pengar ger dig 7 dagars ångerrätt med pengarna tillbaka.
 
-### Terms and privacy
-The terms of use and the privacy policy are a click away: when you sign up, in the shop and in Settings → Game → About. Purchases with money give you 7 days to change your mind and get your money back.
+### Ålder och chatt
+Spelet frågar efter din åldersgrupp (en gång). Under 18 år är chatten med andra spelare avstängd tills en förälder eller vårdnadshavare slår på den, under loungens chatt, som brasiliansk lag kräver.
 
-### Age and chat
-The game asks your age group (once). Under 18, the chat with other players stays off until a parent or guardian turns it on, below the lounge's chat, as Brazilian law asks.
-
-### Emoji in the chat
-Emoji now show as pictures in the chat, notes and statuses, flags and all. Tabs have all their names at one size, and the count of who is online is smaller: the green dot, a person and the number.
+### Emoji i chatten
+Emoji visas nu som bilder i chatten, lappar och statusar, flaggor och allt. Flikarna har alla sina namn i samma storlek, och räknaren för vilka som är online är mindre: den gröna pricken, en person och siffran.
 
 ## 0.7.2
 
-### A harder tour
-Each stage of the tour is harder than before, and more so the further up: opponents miss less, look at every shot and play for position. The final against Viktor, for the cue, is very hard now: he barely misses and plays safe more often. Tournaments against the computer stay as they were.
+### En svårare turné
+Varje etapp i turnén är svårare än förut, och mer ju längre upp du kommer: motståndarna missar mindre, ser över varje stöt och spelar för position. Finalen mot Viktor, om kön, är nu mycket svår: han missar knappt och spelar safety oftare. Turneringar mot datorn är som de var.
 
-### Tournament medals
-Play a tournament against the computer to its end and finish in the first three for a gold, silver or bronze medal. The Tournament tab counts them, knockout and arena apart; they are kept in your account the next time you're online.
+### Turneringsmedaljer
+Spela en turnering mot datorn till slut och kom bland de tre första för en guld-, silver- eller bronsmedalj. Fliken Turnering räknar dem, utslagning och arena var för sig; de sparas på ditt konto nästa gång du är online.
 
-### A camera like the table's
-In the shop's showroom the camera turns with the right button, as at the table, smoothly, and never goes under the floor or the table. The wheel brings you closer.
+### En kamera som vid bordet
+I butikens visningsrum vrids kameran med höger knapp, som vid bordet, mjukt, och den går aldrig under golvet eller bordet. Hjulet tar dig närmare.
 
 ## 0.7.1
 
-### The first ball decides
-On the break, the first ball that goes down decides your group, even if others go down after it: the 3 and then the 13, and you take the solids. The 13 is your opponent's, so it stays down for them and the turn passes.
+### Första bollen avgör
+På utslaget avgör den första bollen som går i din grupp, även om andra går i efter den: 3:an och sedan 13:an, och du får hela. 13:an är motståndarens, så den stannar nere till motståndarens fördel och turen går över.
 
-### Ball in hand on the break only
-The cue ball is in hand on the break only, behind the head string. If it goes down or leaves the table, it comes back to the head spot (right behind a ball lying there), without ball in hand, with the usual penalties. A break that makes only the cue ball is no longer racked again: your opponent plays on from there.
+### Boll i hand bara på utslaget
+Vita bollen är i hand bara på utslaget, bakom huvudlinjen. Om den går i eller lämnar bordet kommer den tillbaka till huvudpunkten (precis bakom en boll som ligger där), utan boll i hand, med de vanliga straffen. Ett utslag där bara vita bollen går i ställs inte längre upp igen: motståndaren spelar vidare därifrån.
 
-### Who is online
-Playing the computer (in a tournament, on the tour or in a drill), a discreet corner shows how many people are online and says when someone comes: time to go and invite them. Invitations show over the game.
+### Vem som är online
+När du spelar mot datorn (i en turnering, på turnén eller i en övning) visar ett diskret hörn hur många som är online och säger till när någon dyker upp: dags att bjuda in dem. Inbjudningar visas över partiet.
 
-### The shop's showroom
-"Look at it closely" opens a showroom: the item alone in a dark studio, turning. Drag to turn it, use the wheel to come close and pause it at will. Ready views show a cue's tip and joint or a table's pockets; click a ball to see it float close up, and see tables and cloths in any hall.
+### Butikens visningsrum
+”Titta närmare” öppnar ett visningsrum: föremålet ensamt i en mörk studio, roterande. Dra för att vrida det, använd hjulet för att komma nära och pausa det när du vill. Färdiga vyer visar en kös spets och skarv eller ett bords hål; klicka på en boll för att se den sväva i närbild, och se bord och dukar i vilken hall som helst.
 
-### Truly brown
-The 7 and the 15 are now brown, no longer a dark red easily taken for the 3 and the 11. The shop's sets where they looked alike are put right too.
+### Riktigt bruna
+7:an och 15:an är nu bruna, inte längre en mörkröd som lätt förväxlades med 3:an och 11:an. Butikens set där de liknade varandra är också rättade.
 
-### Focus mode
-Settings → Game → "Focus mode": no invitations while you play. Whoever tries to invite you is told you're in focus mode. It comes off.
+### Fokusläge
+Inställningar → Spel → ”Fokusläge”: inga inbjudningar medan du spelar. Den som försöker bjuda in dig får veta att du är i fokusläge. Det går att stänga av.
 
 ## 0.7.0
 
-### One kind on the break
-A new house rule: if the break makes balls of both groups (the 3 and the 14, say), the turn passes and the table stays open. Balls of one kind only and you shoot again, as before. The rules in the menu explain it, with a few rare cases now put right, and the computer plays a little better.
+### En sort på utslaget
+En ny husregel: om utslaget sänker bollar ur båda grupperna (säg 3:an och 14:an) går turen över och bordet förblir öppet. Bollar av bara en sort och du stöter igen, som förut. Reglerna i menyn förklarar det, några sällsynta fall är nu rättade, och datorn spelar lite bättre.
 
-### Every ball counts
-The balls you make in a row show by your picture with a little flame, and three, five and seven in a row are cheered (and a table cleared in one visit). The clock's last seconds tick, a chime says when your turn comes back online, and the rating counts up at the end of a game.
+### Varje boll räknas
+Bollarna du sänker i rad visas vid din bild med en liten låga, och tre, fem och sju i rad får jubel (liksom ett bord rensat på en tur). Klockans sista sekunder tickar, en ljudsignal säger till när det är din tur igen online, och ratingen räknas upp i slutet av ett parti.
 
-### Events
-Now and then the staff run events: a weekend of double (or triple) experience, coins from games counting double, or a themed tournament the server organises, sometimes with a prize from the house on top of the entry fees. The main menu and the lounge show what is on and what is coming.
+### Evenemang
+Då och då ordnar personalen evenemang: en helg med dubbel (eller trippel) erfarenhet, mynt från partier som räknas dubbelt, eller en tematurnering som servern arrangerar, ibland med ett pris från huset utöver insatserna. Huvudmenyn och loungen visar vad som pågår och vad som är på väg.
 
-### On to the next one
-After a win on the tour, "Next" takes you straight to the next opponent; after a drill, "Try again". The deciding shot can be watched again from the end panel, and a first game points out where to aim, set the power and shoot.
+### Vidare till nästa
+Efter en vinst på turnén tar ”Nästa” dig direkt till nästa motståndare; efter en övning, ”Försök igen”. Den avgörande stöten kan ses igen från slutpanelen, och ett första parti visar var du siktar, ställer in kraften och stöter.
 
-### The head string, if you want it
-Settings → Game → "Always show the head string" keeps the line the break is played from on the table. Off by default: it shows only while you place the cue ball behind it.
+### Huvudlinjen, om du vill
+Inställningar → Spel → ”Visa alltid huvudlinjen” håller linjen som utslaget spelas från kvar på bordet. Av som standard: den visas bara medan du placerar vita bollen bakom den.
 
-### Fair rewards, softer light
-The tour's final and the ranked drills are now set up by the server, so their cue and their tables are earned the same way by everyone (play them signed in). A dropped connection no longer closes the game, a game against the computer is never replaced without asking, and the light under the lamps falls softly, without hard edges.
+### Rättvisa belöningar, mjukare ljus
+Turnéns final och de rankade övningarna förbereds nu av servern, så deras kö och bord förtjänas på samma sätt av alla (spela dem inloggad). En bruten anslutning stänger inte längre spelet, ett parti mot datorn ersätts aldrig utan att du tillfrågas, och ljuset under lamporna faller mjukt, utan hårda kanter.
 
 ## 0.6.2
 
-### Leagues and levels on one page
-In the profile, the "Leagues and levels" tab shows every league, from which rating and what it pays, and every level that brings an item. Reaching a league for the first time now pays coins and, from Skilled up, an item of the league's own.
+### Ligor och nivåer på en sida
+I profilen visar fliken ”Ligor och nivåer” varje liga, från vilken rating och vad den ger, och varje nivå som ger ett föremål. Att nå en liga för första gången ger nu mynt och, från Skicklig och uppåt, ett eget föremål för ligan.
 
-### A cleaner profile
-On the left, just what matters: your level, the next prize, and the achievements and reactions already won. Every medal and reaction has a tab of its own, and nothing runs off the screen.
+### En renare profil
+Till vänster bara det viktiga: din nivå, nästa pris, och de prestationer och reaktioner du redan vunnit. Varje medalj och reaktion har en egen flik, och inget hamnar utanför skärmen.
 
-### The view from above as it was, with round balls
-The table has its depth and its usual light again, and the camera no longer jumps when it leaves the view from above.
+### Vyn ovanifrån som förut, med runda bollar
+Bordet har sitt djup och sitt vanliga ljus igen, och kameran hoppar inte längre när den lämnar vyn ovanifrån.
 
 ## 0.6.1
 
-### A view from above without distortion
-The table is now seen from high up, almost without perspective: balls stay round out to the corners, and the cue, the aiming line and the ghost ball always line up. The light on the balls is softer, so the number shows.
+### En vy ovanifrån utan förvrängning
+Bordet ses nu högt uppifrån, nästan utan perspektiv: bollarna förblir runda ända ut i hörnen, och kön, siktlinjen och spökbollen linjerar alltid. Ljuset på bollarna är mjukare, så att numret syns.
 
-### A tournament and a tour that mean it
-In a tournament against the computer a game counts once: leaving half way doesn't wipe it (it goes on from where it was) and there is no rematch. The champion gets a gold medal. And the tour is hard: every opponent plays at their best.
+### En turnering och en turné på allvar
+I en turnering mot datorn räknas ett parti en gång: att lämna halvvägs suddar inte ut det (det fortsätter där det var) och det finns ingen revansch. Mästaren får en guldmedalj. Och turnén är tuff: varje motståndare spelar sitt bästa.
 
-### New achievements, pictures and sounds
-Shutout, Golden break and account anniversaries. Faces that look like people and twelve profile pictures that are not faces (the 8-ball, a trophy, a crown…). New sounds for the balls, the cue, the cushions and the pockets.
+### Nya prestationer, bilder och ljud
+Nolla, Gyllene utslag och kontots årsdagar. Ansikten som ser ut som människor och tolv profilbilder som inte är ansikten (8-bollen, en trofé, en krona…). Nya ljud för bollarna, kön, vallarna och hålen.
 
-### Leagues, levels that pay and scarce coins
-Other players are shown by their league (the rating is on the profile and in the ranking). Every account level pays coins and levels 5 to 50 bring items of their own, but the climb is long. Coins are scarcer: everything in the shop takes time to earn.
+### Ligor, nivåer som ger mynt och knappa mynt
+Andra spelare visas med sin liga (ratingen finns i profilen och i rankingen). Varje kontonivå ger mynt och nivå 5 till 50 ger egna föremål, men klättringen är lång. Mynten är knappare: allt i butiken tar tid att tjäna ihop.
 
 ## 0.6.0
 
-### A Brazilian rule, with penalty balls
-The game now plays the regional Brazilian rule of eight-ball, the one of bars and pool halls (not the official tournament rule). A foul passes the turn and takes your opponent's lowest balls off the table, only a pocketed cue ball gives ball in hand, and the 8 alone on the break wins. The full rules are in the menu.
+### En brasiliansk regel, med straffbollar
+Spelet spelar nu den regionala brasilianska regeln för 8-ball, den från barer och biljardhallar (inte den officiella turneringsregeln). En foul lämnar över turen och tar motståndarens lägsta bollar av bordet, bara en sänkt vit boll ger boll i hand, och 8-bollen ensam på utslaget vinner. Alla regler finns i menyn.
 
-### Heavier balls
-The cloth holds the ball more and the break is less violent: the balls no longer scatter all over the table.
+### Tyngre bollar
+Duken håller emot bollen mer och utslaget är mindre våldsamt: bollarna sprids inte längre över hela bordet.
 
-### Tournaments against the computer and more drills
-Play a knockout of sixteen or an arena on points against the fifteen opponents. And there are eight new drills, fifteen in all.
+### Turneringar mot datorn och fler övningar
+Spela en utslagning med sexton spelare eller en arena på poäng mot de femton motståndarna. Och det finns åtta nya övningar, femton totalt.
 
-### Aiming and the cue
-The cue's elevation can be set by dragging with the mouse, the aiming line points at the centre of the ghost ball, faint arrows show when the cue ball can be moved, and the shadows can be turned off.
+### Sikte och kö
+Köns höjd kan ställas in genom att dra med musen, siktlinjen pekar mot spökbollens mitt, svaga pilar visar när vita bollen kan flyttas, och skuggorna kan stängas av.
 
 ## 0.5.1
 
-### Cleaner balls
-The pale disc on top of every ball is gone: a ball is lit as one round thing and shows the lamp as a single clean dot. Castings, rugs and Low quality look better too.
+### Renare bollar
+Den bleka skivan ovanpå varje boll är borta: en boll belyses som en rund helhet och visar lampan som en enda ren prick. Beslag, mattor och kvaliteten Låg ser också bättre ut.
 
-### The power bar keeps no memory
-No more mark for your last stroke, and every turn starts from the middle of the bar: judging the pace is part of the game.
+### Kraftmätaren minns inget
+Inget märke längre för din senaste stöt, och varje tur börjar från mitten av mätaren: att bedöma tempot är en del av spelet.
 
-### Nothing over the table
-Whose turn it is now reads in the top bar, beside the score panel, so the side pocket is always in sight. Aiming lines are smooth, and the rings round the pockets are whole.
-
+### Inget över bordet
+Vems tur det är står nu i den övre raden, bredvid poängpanelen, så att mitthålet alltid syns. Siktlinjerna är jämna, och ringarna runt hålen är hela.
 ## 0.5.0
 
-### Tournament-table physics
-The balls weigh what they do on a real table: the power bar goes up to a hard stroke (only the break uses full power), cushions give back less the harder they are hit, and a ball made falls into the pocket at the pace it arrived with.
+### Fysik som på ett turneringsbord
+Bollarna väger vad de gör på ett riktigt bord: kraftmätaren går upp till en hård stöt (bara utslaget använder full kraft), vallarna ger tillbaka mindre ju hårdare de träffas, och en sänkt boll faller ner i hålet i den fart den kom.
 
-### An official tournament table
-The table is the regulation 8-foot one, measure for measure: balls, corner and side pockets with the official mouths and angles. The cloth is a deep green under the lamps and the balls shine like polished ones, their numbers crisp.
+### Ett officiellt turneringsbord
+Bordet är det reglementsenliga 8-fotsbordet, mått för mått: bollar, hörnhål och mitthål med de officiella mynningarna och vinklarna. Duken är djupt grön under lamporna och bollarna glänser som polerade, med skarpa nummer.
 
-### A truer guide, or none
-The ghost ball now stops where the cue ball really would, the mouths of the pockets included. And a new choice: play with no aiming guide at all.
+### En sannare guide, eller ingen
+Spökbollen stannar nu där vita bollen verkligen skulle stanna, hålens mynningar inräknade. Och ett nytt val: spela helt utan siktguide.
 
 ## 0.4.0
 
-### A new name: Snook Legend
-The game is now called Snook Legend. Your account, coins, items, settings and progress are all here, as before.
+### Ett nytt namn: Snook Legend
+Spelet heter nu Snook Legend. Ditt konto, mynt, föremål, inställningar och framsteg finns kvar, precis som förut.
 
-### 8-foot table, open side pockets
-A smaller table (8 feet) and side pockets that forgive a ball off the centre or rolling in at an angle. The balls roll a little more freely.
+### 8-fotsbord, öppna mitthål
+Ett mindre bord (8 fot) och mitthål som förlåter en boll som inte är mitt i eller som rullar in i vinkel. Bollarna rullar lite friare.
 
-### New rule: the opponent's ball
-Making one of your opponent's balls passes the turn, even if one of yours went down too. It is not a foul: no ball in hand.
+### Ny regel: motståndarens boll
+Sänker du en av motståndarens bollar går turen över, även om en av dina också gick i. Det är inte foul: ingen boll i hand.
 
-### Easier to see
-The cloth is lit evenly, the balls have a soft sheen so their numbers read, shadows are lighter, and nothing of the hall gets in the way of the view from above. Whose turn it is stands out on the score cards.
+### Lättare att se
+Duken är jämnt belyst, bollarna har en mjuk glans så att numren går att läsa, skuggorna är ljusare, och inget av hallen skymmer vyn ovanifrån. Vems tur det är syns tydligt på poängkorten.
 
-### Fifteen opponents
-Tito, Inês, Diego, Amara and Yuri join the computer opponents, each with a style and a voice of their own. The Tour now has fifteen stages; your wins so far are kept.
+### Femton motståndare
+Tito, Inês, Diego, Amara och Yuri ansluter till datormotståndarna, var och en med sin egen stil och röst. Turnén har nu femton etapper; dina vinster hittills behålls.
 
-### Quieter opponents
-Settings → Game → Opponents' remarks turns their speech bubbles off.
+### Tystare motståndare
+Inställningar → Spel → Motståndarnas kommentarer stänger av deras pratbubblor.
 
-### A new score panel
-Pictures and names in boxes, and the balls each player made rolling into place along their rail, in the order they went down.
+### En ny poängpanel
+Bilder och namn i rutor, och bollarna varje spelare har sänkt rullar på plats längs deras vall, i den ordning de gick i.
 
-### Aim by eye
-Raise the cue by dragging it in a side view of the shot. No more numbers on the power or the elevation: judge them by eye. Prefer it flat? Settings → Game → Top view only.
+### Sikta på känn
+Höj kön genom att dra den i en sidovy av stöten. Inga fler siffror för kraft eller höjd: bedöm dem på känn. Föredrar du det platt? Inställningar → Spel → Bara vy ovanifrån.
 
-### Rules and pictures
-The rules of the game are a click away (the book on the main menu, or Rules in the pause menu). Pick one of 32 profile pictures in your profile.
+### Regler och bilder
+Spelets regler finns ett klick bort (boken i huvudmenyn, eller Regler i pausmenyn). Välj en av 32 profilbilder i din profil.
 
-### Your games are safe
-Replays and daily games that started before this update keep the old table and rules until they end.
+### Dina partier är säkra
+Repriser och dagliga partier som började före den här uppdateringen behåller det gamla bordet och de gamla reglerna tills de är slut.
 
 ## 0.3.0
 
-### A regulation 9-foot table
-The table is now tournament size (100" × 50"), with the balls, pockets, cushions and cue to official measurements. The balls are heavier and bounce less, like real ones.
+### Ett reglementsenligt 9-fotsbord
+Bordet har nu turneringsstorlek (100" × 50"), med bollar, hål, vallar och kö efter officiella mått. Bollarna är tyngre och studsar mindre, som riktiga.
 
-### A new break rule
-On the break, the first ball you pocket sets your group: solids or stripes. A foul on the break leaves the table open.
+### En ny utslagsregel
+På utslaget avgör den första bollen du sänker din grupp: hela eller halva. En foul på utslaget lämnar bordet öppet.
 
-### New halls, tables and cues
-Four new halls and four new tables, and every old one reworked. Premium cues that look nothing alike. On Ultra, floors that reflect the hall.
+### Nya hallar, bord och köer
+Fyra nya hallar och fyra nya bord, och alla gamla omarbetade. Premiumköer som inte liknar varandra alls. På Ultra: golv som speglar hallen.
 
-### Daily challenge
-A new position every day, the same for everyone, with a ranking of the day: three attempts to make as many balls as you can.
+### Dagens utmaning
+En ny position varje dag, samma för alla, med en topplista för dagen: tre försök att sänka så många bollar du kan.
 
-### Drills with stars
-Seven drills on potting, spin, banks and escaping snookers, up to three stars each, with rankings and a challenge rating that shows your level.
+### Övningar med stjärnor
+Sju övningar i att sänka, skruv, dubbléer och att ta sig ur snooker, upp till tre stjärnor var, med topplistor och en utmaningsrating som visar din nivå.
 
-### Account level
-Earn experience in every game, won or lost, and in drills, the daily challenge and achievements. Your level shows on your profile.
+### Kontonivå
+Tjäna erfarenhet i varje parti, vunnet eller förlorat, och i övningar, dagens utmaning och prestationer. Din nivå visas i din profil.
 
-### The Tour
-The old ladder is now the Tour: ten stages, one opponent each. The opponents have new portraits and talk during the game.
+### Turnén
+Den gamla stegen är nu Turnén: tio etapper, en motståndare var. Motståndarna har nya porträtt och pratar under partiet.
 
-### Fair play
-Leaving a game costs more than losing it. The full aiming guide is for free games against the computer and practice only: never online, in the Tour, the daily challenge or drills.
+### Schysst spel
+Att lämna ett parti kostar mer än att förlora det. Den fullständiga siktguiden finns bara i fria partier mot datorn och i träning: aldrig online, i Turnén, dagens utmaning eller övningar.
 
-### Your profile
-A trophy shelf and statistics for each cue: games, wins and balls made with it. You can now change your username up to three times.
+### Din profil
+En troféhylla och statistik för varje kö: partier, vinster och bollar sänkta med den. Du kan nu byta användarnamn upp till tre gånger.
 
-### In the lounge
-An "away" status, quick phrases translated into your opponent's language and a practice table while the search for an opponent goes on.
+### I loungen
+Statusen ”borta”, snabbfraser översatta till motståndarens språk och ett träningsbord medan sökningen efter en motståndare pågår.
 
 ## 0.2.0
 
-### Ten opponents with personality
-Choose who to play: from Leo, still learning, to Marta, who lives on safeties, and Lola, who banks everything. Each has their own style, portrait and strength.
+### Tio motståndare med personlighet
+Välj vem du vill spela mot: från Leo, som fortfarande lär sig, till Marta, som lever på safety, och Lola, som spelar dubblé på allt. Var och en har sin egen stil, sitt porträtt och sin styrka.
 
-### The ladder
-Beat the ten opponents one by one, up to the last. Reach the top to earn the exclusive "Ladder king" cue and a new achievement.
+### Stegen
+Besegra de tio motståndarna en efter en, ända upp till den sista. Nå toppen för att vinna den exklusiva kön ”Stegens kung” och en ny prestation.
 
-### Play the ghost
-The computer learns a real player's style from their online games. Challenge a friend's ghost, or your own, from the profile or the vs-computer screen.
+### Spela mot spöket
+Datorn lär sig en riktig spelares stil från hens onlinepartier. Utmana en väns spöke, eller ditt eget, från profilen eller skärmen för spel mot datorn.
 
-### Daily games
-Challenge someone and play your turn when you can: each player has up to 3 days per turn. You are told when it's your turn, and you can have several games at once.
+### Dagliga partier
+Utmana någon och spela din tur när du kan: varje spelare har upp till 3 dagar per tur. Du får besked när det är din tur, och du kan ha flera partier samtidigt.
 
-### Friends and gifts
-See who you played recently, write a status on your profile and post on the lounge's "looking for a game" board. Gifts from friends now arrive with a notice, a message and a "thank you".
+### Vänner och gåvor
+Se vilka du spelat med nyligen, skriv en status i din profil och sätt upp en lapp på loungens tavla ”söker parti”. Gåvor från vänner kommer nu med ett meddelande, en hälsning och ett ”tack”.
 
-### Cues, tables and halls
-Your cue earns bands and inlays as you win with it. In the shop, themed tables and halls: beach bar, industrial loft and English club.
+### Köer, bord och hallar
+Din kö får ringar och inläggningar när du vinner med den. I butiken: tematiska bord och hallar, som strandbar, industriloft och engelsk klubb.
 
-### Your game, analysed
-The profile's new Analysis tab shows your potting by pocket, distance and kind of shot, with a heat map of the table.
+### Ditt spel, analyserat
+Profilens nya flik Analys visar hur du sänker per hål, avstånd och stöttyp, med en värmekarta över bordet.
 
-### Your keys
-Every shortcut can be changed in Settings → Controls, and the game's hints follow your choices.
+### Dina tangenter
+Varje kortkommando kan ändras under Inställningar → Kontroller, och spelets tips följer dina val.
 
-### Automatic updates
-New versions download in the background and install when you restart, never during a game. This window tells you what changed.
+### Automatiska uppdateringar
+Nya versioner laddas ner i bakgrunden och installeras när du startar om, aldrig under ett parti. Det här fönstret berättar vad som har ändrats.
 
-### A reviewed interface
-Every screen was reviewed in the three languages and at every window size. Fixes: Esc opens the menu at the table, the computer sinks the 8 in its called pocket more reliably, and the overhead view no longer goes black.
+### Ett genomgånget gränssnitt
+Varje skärm gicks igenom på de tre språken och i alla fönsterstorlekar. Rättningar: Esc öppnar menyn vid bordet, datorn sänker 8-bollen i sitt anmälda hål mer pålitligt, och vyn ovanifrån blir inte längre svart.
 
 ## 0.1.4
 
-### A game while you wait
-After half a minute of "Play now" without an opponent, you can play the computer while the search goes on.
+### Ett parti medan du väntar
+Efter en halv minut av ”Spela nu” utan motståndare kan du spela mot datorn medan sökningen pågår.
 
-### Chat moderation
-You can delete your own chat lines, and moderators can remove abuse.
+### Chattmoderering
+Du kan radera dina egna chattrader, och moderatorer kan ta bort missbruk.
 
-### Cues you can see
-Opponents see the pattern of the cue you bought, and VIP members have reactions of their own.
+### Köer som syns
+Motståndarna ser mönstret på kön du köpt, och VIP-medlemmar har egna reaktioner.

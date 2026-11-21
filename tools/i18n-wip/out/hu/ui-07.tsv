@@ -1,0 +1,250 @@
+1801	A szerver nem válaszolt: ez a menet nem kerül a ranglistára.
+1802	A szerver előkészíti a döntőt…
+1803	A szerver előkészíti a gyakorlatot…
+1804	Nem vagy bejelentkezve: a győzelem ebben a döntőben nem ad jutalmat.
+1805	Nincs mentve: csak a bejelentkezve elkezdett menetek számítanak.
+1806	Figyelmeztetés a stábtól: {text}
+1807	A stáb módosította a felhasználónevedet, az új név: {name}. Jelentkezz be újra.
+1808	A stáb törölte a versenyt, amelyben részt vettél.
+1809	Tapasztalat ×{n}
+1810	Érmék a játszmákból ×{n}
+1811	Tematikus verseny
+1812	Esemény
+1813	Események
+1814	Figyelmeztetés a stábtól
+1815	Esc: mégse
+1816	Elküldjük, amikor újra online leszel.
+1817	A lökéseidet elküldjük, amikor újra online leszel.
+1818	A megnyert döntőt ennek a fióknak készítettük elő: {name}. Jelentkezz be ezzel a névvel ({name}) a jutalomért.
+1819	Írd be a jelszavad, hogy megerősítsd, te vagy az.
+1820	A fehér golyó visszakerült a kezdőpontra: {next} onnan lök.
+1821	{name} bejelentkezett
+1822	Most online: {names}
+1823	Most senki más nincs online.
+1824	Fókusz mód
+1825	Nincsenek meghívások játék közben: a játszma végéig elutasítjuk őket.
+1826	fókusz módban
+1827	Fókusz módban: nincsenek meghívások, amíg a játszmája tart.
+1828	Ez a játékos fókusz módban van, és a játszmája végéig nem fogad meghívásokat.
+1829	Nézd meg közelről
+1830	Jelentkezz be a vásárláshoz
+1831	Jelentkezz be a használathoz
+1832	Vissza a boltba (Esc)
+1833	Felület mutatása (H)
+1834	Felület elrejtése (H)
+1835	Forgatás (Szóköz)
+1836	Forgatás leállítása (Szóköz)
+1837	Nagyítás (+)
+1838	Kicsinyítés (−)
+1839	Vissza az elejére (R)
+1840	Előző helyszín ([)
+1841	Következő helyszín (])
+1842	Helyszín
+1843	Stúdió
+1844	A te asztalodon
+1845	Húzd a jobb gombbal a forgatáshoz · görgő: nagyítás · dupla kattintás: közelebbről
+1846	Húzd a jobb gombbal a forgatáshoz · görgő: nagyítás · kattints egy golyóra a megnézéséhez
+1847	A készlet
+1848	Felülről
+1849	Alacsony szögből
+1850	Fehér golyó
+1851	{n}. számú golyó
+1852	Egész
+1853	Hegy
+1854	Csatlakozás
+1855	Végsúly
+1856	Felső rész
+1857	Dákó
+1858	Asztal
+1859	Terem
+1860	Sarok lyuk
+1861	Középső lyuk
+1862	Láb
+1863	Közelkép
+1864	Falszél
+1865	Fenolgyanta fényes, átlátszó lakkréteg alatt
+1866	Gyöngyházfény, amely a fénnyel változik
+1867	Csiszolt fém, tükörfényes
+1868	Régi elefántcsont: puha, meleg és matt
+1869	Teljes méretű dákó, a hegyétől a végéig: forgasd meg, nézd meg közelről a csatlakozást és a végsúlyt
+1870	Egy kocka kréta, és a szín, amelyet a dákó hegyén hagy
+1871	A posztó az asztalon: menj közelebb, hogy lásd a szövését
+1872	Sötét mahagóni, esztergált lábak és sárgaréz díszek
+1873	Világos teak, szögletes lábak és krómdíszek
+1874	Mély mahagóni, faragott lábak és bőr lyukhálók
+1875	Fekete lakk és csiszolt alumínium két tömör lábon
+1876	Fekete ében arany díszekkel és berakásokkal
+1877	Újrahasznosított tölgy falszélek szegecselt fekete acélvázon
+1878	Profi versenyasztal: grafitszürke falszélek, tömb lábak, króm
+1879	Erezett dió csavart lábakon, sárgaréz és bőr
+1880	Elefántcsont lakk és arany hornyolt oszlopokon
+1881	Faburkolat, a bárpult, dákótartók, poszterek és neon
+1882	Terasz naplementében, nyitott ablakok, pálmák és fényfüzérek
+1883	Faburkolat, könyvespolcok, bőrkanapék és kandalló
+1884	Tégla, acélkeretes ablakok a város fölött és Edison-izzók
+1885	Gerendafalak, kőkandalló és havas csúcsok odakint
+1886	Fekete tükörpadló, neoncsövek és játékgépek
+1887	Sakktábla-mintás márványpadló, arany, bársony és tükrök
+1888	Üvegfalak az éjszakai városra, világos márvány és tölgy
+1889	Aranyérem!
+1890	Ezüstérem!
+1891	Bronzérem!
+1892	Ezüstérem
+1893	Bronzérem
+1894	Az érmeid
+1895	A fiókodba kerülnek, amikor legközelebb online leszel.
+1896	Jelentkezz be, hogy a fiókodban maradjanak.
+1897	18 éves vagy idősebb
+1898	18 év alatti
+1899	A fiók létrehozásával elfogadod a következőt:
+1900	Szülőnek vagy gyámnak…
+1901	Egy szülő vagy gyám bekapcsolta a csevegést ennél a fióknál. Itt bármikor kikapcsolhatja.
+1902	Ez a fiók egy 18 év alatti személyé. A törvény szerint a csevegés más játékosokkal (üzenetek a társalgóban és a játszmákban, hirdetések, állapot- és ajándéküzenetek) addig ki van kapcsolva, amíg az édesanyja, édesapja vagy törvényes gyámja be nem kapcsolja.
+1903	Ennek a játékosnak az édesanyja, édesapja vagy törvényes gyámja vagyok, elolvastam a felhasználási feltételeket, és engedélyezem, hogy más játékosokkal csevegjen.
+1904	Csevegés 18 év alatti játékosoknak
+1905	Csevegés kikapcsolása
+1906	Még {n} meghívás
+1907	Meghívás
+1908	Csevegés bekapcsolása
+1909	Csevegés kikapcsolva: 18 év alatti. Egy szülő vagy gyám bekapcsolhatja.
+1910	A csevegés más játékosokkal ki van kapcsolva, amíg be nem kapcsolod.
+1911	Írj a csevegés bekapcsolásához…
+1912	Csevegés más játékosokkal
+1913	A csevegés más játékosokkal ki van kapcsolva, amíg be nem kapcsolod. A bekapcsoláshoz add meg a korcsoportodat: ezt később a játékból nem lehet módosítani.
+1914	18 év alatt: egy szülőnek vagy gyámnak veled együtt el kell fogadnia a feltételeket, és be kell kapcsolnia a csevegést.
+1915	Most nem
+1916	Felhasználási feltételek
+1917	Adatvédelmi irányelvek
+1918	7 napod van meggondolni magad és visszakapni a pénzed.
+1919	18 év alatt: csak szülői vagy gyámi engedéllyel vásárolj.
+1920	Minden hónapban megújul, amíg le nem mondod. 7 nap a meggondolásra.
+1921	Névjegy
+1922	Fiókok, vásárlások és visszatérítések, az online játék szabályai.
+1923	Mit tárol a játék, és milyen jogaid vannak.
+1924	Megnyitás
+1925	Közreműködők
+1926	Betűtípusok: DejaVu és Noto (OFL). Zászlók: flag-icons (MIT). Reakciók és emojik: Twemoji (CC-BY 4.0). Országnevek: iso-codes (LGPL-2.1). A játék kódja nyílt (MIT).
+1927	A csevegés ki van kapcsolva a 18 év alatti játékosoknak. Egy szülő vagy gyám a társalgó csevegése alatt bekapcsolhatja.
+1928	A kezdőlökés nem talált el egy golyót sem: {next} végzi a kezdőlökést, golyó kézben a kezdővonal mögött.
+1929	A kezdőlökésnél beesett a fehér golyó, és egy golyó sem esett be: {next} végzi a kezdőlökést, golyó kézben a kezdővonal mögött.
+1930	Online felhasználók
+1931	ping {ms} ms
+1932	A kezdőlökésnél a fehér golyó mindkét csoport golyóival együtt esett be: nincs büntetés, az asztal nyitott marad, és {next} végzi a kezdőlökést, golyó kézben a kezdővonal mögött.
+1933	Brazil
+1934	Hivatalos
+1935	Brazil szabályok
+1936	Hivatalos szabályok
+1937	brazil szabályok
+1938	hivatalos szabályok
+1939	brazil
+1940	hivatalos
+1941	Ahogy a brazil bárokban játsszák
+1942	Ahogy a versenyeken játsszák (WPA)
+1943	brazil szabályok szerint
+1944	hivatalos szabályok szerint
+1945	Egy golyó leesett az asztalról a kezdőlökésnél.
+1946	Leesett golyó a kezdőlökésnél
+1947	A biztonsági lökés nem mond be semmit: ami beesik, bent marad, és a kör átszáll az ellenfélre.
+1948	Kezdőlökés tőled
+1949	BEMONDOTT LYUK
+1950	Választás
+1951	Válaszd ki, hogyan folytatódjon a játék
+1952	Válaszd ki a játszmáid szabályait. Bármikor módosíthatod a főmenüben.
+1953	Kattints egy lyukra az asztalon a bemondáshoz; kattints rá újra, hogy a célzásodat kövesse.
+1954	Fehér golyó kézben
+1955	Mindkét szabályrendszernek saját értékszáma van: ezek a játszmák nem módosítják a {other} szerinti értékszámodat ({rating}).
+1956	Találj automatikusan a szintednek megfelelő ellenfelet ({rules})
+1957	Hogyan szeretsz játszani?
+1958	Hogyan folytatódjon a játék? Válassz:
+1959	Szabálytalan kezdőlökés: egy golyó sem esett be, és négynél kevesebb golyó ért falszélt.
+1960	Meghívás: {name}
+1961	A bemondott lyukba ({pocket}) nem esett golyó: {next} jön.
+1962	Nem volt bemondott lyuk (biztonsági lökés): {next} jön.
+1963	Nem tudod, mi változik?
+1964	Tedd bárhová a kezdővonal mögött.
+1965	Játék folytatása
+1966	A gép ellen játszók ezekkel a szabályokkal
+1967	Online játékosok ezekkel a szabályokkal (társalgó és online játszmák)
+1968	A JÁTSZMÁID SZABÁLYAI
+1969	Mindkét szabályrendszer elolvasása
+1970	A játszmáid szabályai
+1971	Biztonsági
+1972	Biztonsági: nincs lyuk
+1973	Mutasd ({rules}): helyezés, liga és grafikon
+1974	A 8-ast visszahelyezzük, és te lökhetsz tovább.
+1975	A 8-ast visszahelyezzük; golyó kézben a kezdővonal mögött.
+1976	A 8-as szabálytalan kezdőlökésnél
+1977	A 8-as a kezdőlökésnél
+1978	A 8-as szabálytalan kezdőlökésnél esett be: visszahelyezzük.
+1979	A 8-as a kezdőlökésnél esett be: visszahelyezzük.
+1980	A golyókat újra felrakjuk, és te végzed a kezdőlökést.
+1981	A golyókat újra felrakjuk, és {name} végzi a kezdőlökést.
+1982	A golyókat újra felrakjuk: {name} végzi a kezdőlökést.
+1983	A golyókat újra felrakjuk: {other} végzi a kezdőlökést.
+1984	A játszma szabályai: kattints az elolvasásukhoz
+1985	A játszmáid szabályai: kattints a váltáshoz
+1986	Ugyanaz a kapcsoló, mint a főmenüben: online, a gép ellen és két játékos. Minden szabályrendszernek saját értékszáma van.
+1987	Az asztal úgy, ahogy van.
+1988	Mindkét szabályrendszer top 100-a · értékelt játszmák
+1989	A(z) {ball} a kezdővonal mögött állt, és a fehér golyó úgy találta el, hogy előbb nem lépte át a vonalat
+1990	Mi a különbség a szabályok között: kattints az elolvasásukhoz
+1991	Golyó kézben a kezdővonal mögött.
+1992	a célzásodat követi
+1993	még nincs értékelt játszma
+1994	nyitott asztal: az elrakott bemondott golyó dönti el a csoportodat
+1995	csúcs: {n} · {games} játszma
+1996	most játszik
+1997	a te bemondásod
+1998	{name} újra kezd
+1999	{name} választ: folytatja a játékot, vagy újra felrakja a golyókat és újra kezd.
+2000	{name} választ: az asztalt úgy játssza, ahogy van, vagy golyó kézben a kezdővonal mögül.
+2001	{name} választ: az asztalt úgy játssza, ahogy van, felrakja a golyókat és kezd, vagy {breaker} újra kezd.
+2002	{name} választ: az asztalt úgy játssza, ahogy van, golyó kézben a kezdővonal mögül, felrakja a golyókat és kezd, vagy {breaker} újra kezd.
+2003	{name} választ: golyó kézben a kezdővonal mögül, vagy felrakja a golyókat és kezd.
+2004	{name} választja ki, hogyan folytatódjon a játék…
+2005	{name} folytatja a játékot (a 8-ast visszahelyezzük).
+2006	{name} úgy játssza az asztalt, ahogy van.
+2007	{name} golyói most: {theirs}; a tieid: {mine}.
+2008	{name} kézbe veszi a fehér golyót.
+2009	{next}: golyó kézben a kezdővonal mögött.
+2010	{next}: golyó kézben, bárhol az asztalon.
+2011	Még {n} pont: {tier} ({rules})
+2012	{n} vár
+2013	A szabálytalanságért az ellenfél a csoportjából golyókat kap. Golyó kézben csak a kezdőlökésnél van, és csak a 8-as lyukát kell bemondani.
+2014	A szabálytalanságért az ellenfél golyót kap kézbe, bárhová az asztalon. Minden lökést be kell mondani, és a kezdőlökésnek négy golyót falszélig kell juttatnia.
+2015	A szabálytalanság golyókat ad az ellenfélnek
+2016	Golyó kézben csak a kezdőlökésnél
+2017	Csak a 8-as lyukát kell bemondani
+2018	Brazíliában ezt játsszák a legtöbben
+2019	A szabálytalanság golyót ad kézbe
+2020	A kezdőlökés négy golyót juttat falszélig
+2021	Minden lökést be kell mondani
+2022	Az egész világon ugyanaz
+2023	Játéktípus
+2024	bemondva: {pocket}
+2025	nincs bemondás: biztonsági
+2026	Biztonsági lökés: nincs bemondás. Kattints újra, hogy bemondd a lyukat, amelyre célzol.
+2027	A biztonsági lökés nem mond be semmit: ami beesik, bent marad, és a kör átszáll az ellenfélre. Másik lyuk bemondásához kattints rá az asztalon.
+2028	{games} játszma · {pct}% győzelem
+2029	Minden szabályrendszernek saját értékszáma van; a szint, az érmék és a teljesítmények közösek.
+2030	Már van VIP-előfizetésed: az Előfizetés kezelése gombbal kezelheted.
+2031	Az ellenfeled még nem kezdhet új játszmát.
+2032	A verseny nevét mindenki látja: kikapcsolt csevegéssel csatlakozhatsz versenyekhez, de nem hozhatsz létre egyet.
+2033	Megszakadt a kapcsolat: ellenőrizd az érméidet, mielőtt újra próbálkozol.
+2034	Jelentkezz be az érmevásárláshoz.
+2035	Jelentkezz be, hogy VIP lehess.
+2036	még nem dőlt el, hogyan folytatódik a játék a kezdőlökés után
+2037	Előbb fejezd be a játszmádat, és hagyd el az asztalodat, a várakozási sort vagy a versenyedet.
+2038	Ez a választás most nem lehetséges.
+2039	Ilyen érem nem létezik.
+2040	{name} versenye
+2041	Ha lejár az idő, az szabálytalanság: az ellenfeled kap egy golyót, a fehér golyó pedig visszakerül a kezdőpontra.
+2042	Ha lejár az idő, az szabálytalanság: az ellenfeled golyót kap kézbe.
+2043	A felhasználóneved megváltozott. Jelentkezz be újra.
+2044	Folyamatban van a versenyjátszmád. Az új játszma a helyére lép, a versenyjátszma pedig vereségnek számít.
+2045	A kezdőlökésnél a fehér golyó mindkét csoport golyóival együtt esett be: nincs büntetés, az asztal nyitott marad, és {next} újra kezd a kezdőpontról.
+2046	A kezdőlökésnél beesett a fehér golyó, és egy golyó sem esett be: {next} újra kezd a kezdőpontról.
+2047	{who} ideje lejárt: {other} végzi a kezdőlökést a kezdőpontról.
+2048	Gratulálunk!
+2049	Új tárgyat szereztél: {title}
+2050	Új tárgyat szereztél!

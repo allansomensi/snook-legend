@@ -1,1 +1,2056 @@
-# placeholder
+# Snook Legend: Swedish.
+# One text per line: the English text (as written in the code), a tab, the translation.
+# Placeholders like {name} must stay as they are; \n is a new line.
+{name} is on the 8: called pocket {pocket}	{name} är på 8-bollen: anmält hål {pocket}
+On the 8-ball: {pocket} pocket	På 8-bollen: {pocket}
+Show ping	Visa ping
+Your connection's delay, in online games.	Din anslutnings fördröjning i onlinepartier.
+Reactions	Reaktioner
+Shop	Butik
+Cloth	Duk
+Cues	Köer
+Chalk	Krita
+Balls	Bollar
+Coins	Mynt
+coins	mynt
+Sign in to buy and use items. Here is what there is:	Logga in för att köpa och använda föremål. Det här finns:
+In use	Används
+Use	Använd
+Buy	Köp
+{n} short	{n} saknas
+{n} coins	{n} mynt
+Not enough coins: get more in the Coins tab.	Inte tillräckligt med mynt: skaffa fler under fliken Mynt.
+VIP only	Endast VIP
+free	gratis
+yours	din
+achievement	prestation
+Coins can't be bought on this server yet.	Mynt kan inte köpas på den här servern än.
++{n} bonus	+{n} i bonus
+Payment opens in your browser (card, Pix…), on Stripe's secure page.	Betalningen öppnas i din webbläsare (kort, Pix…) på Stripes säkra sida.
+Coins arrive in a moment; they are only used for items in the game.	Mynten kommer om en stund; de används bara till föremål i spelet.
+Exclusive items: {list}	Exklusiva föremål: {list}
+{n} coins every month	{n} mynt varje månad
+Cancel whenever you want: VIP lasts until the end of the paid month	Avsluta när du vill: VIP gäller till slutet av den betalda månaden
+You are VIP until {d}.	Du är VIP till {d}.
+Manage subscription	Hantera prenumeration
+Become VIP · {p}	Bli VIP · {p}
+VIP can't be bought on this server yet.	VIP kan inte köpas på den här servern än.
+The payment page opened in your browser.	Betalningssidan öppnades i din webbläsare.
+Could not open the browser.	Kunde inte öppna webbläsaren.
+Tournament green	Turneringsgrön
+Electric blue	Elektrisk blå
+Burgundy	Vinröd
+Charcoal	Kolgrå
+Teal	Blågrön
+Royal purple	Kunglig lila
+Camel	Kamel
+Midnight	Midnatt
+Champion's red	Mästarröd
+Classic	Klassisk
+Rosewood	Rosenträ
+Ebony & silver	Ebenholts och silver
+Carbon	Kolfiber
+Ivory inlay	Elfenbensinläggning
+Crown	Krona
+Jewels	Juveler
+Blue chalk	Blå krita
+Green chalk	Grön krita
+Red chalk	Röd krita
+Purple chalk	Lila krita
+Gold chalk	Guldkrita
+Vintage	Vintage
+Pastel	Pastell
+Neon	Neon
+You already have this item.	Du har redan det här föremålet.
+Not enough coins.	Inte tillräckligt med mynt.
+The purchase failed; no coins were taken.	Köpet misslyckades; inga mynt drogs.
+No such item.	Föremålet finns inte.
+This item can't be bought with coins.	Det här föremålet kan inte köpas med mynt.
+You don't have this item.	Du har inte det här föremålet.
+Purchases are not available.	Köp är inte tillgängliga.
+This pack is not on sale.	Det här paketet är inte till salu.
+The payment page could not be opened. Try again in a moment.	Betalningssidan kunde inte öppnas. Försök igen om en stund.
+You are already VIP.	Du är redan VIP.
+There is no subscription to manage.	Det finns ingen prenumeration att hantera.
+The page could not be opened. Try again in a moment.	Sidan kunde inte öppnas. Försök igen om en stund.
+Coins added to your wallet.	Mynten har lagts i din plånbok.
+Welcome to VIP!	Välkommen till VIP!
+Slow down a little.	Ta det lite lugnare.
+You can't do that.	Det kan du inte göra.
+There are too many notes right now. Try again in a few minutes.	Det finns för många lappar just nu. Försök igen om några minuter.
+A moderator took down your note.	En moderator tog ner din lapp.
+A moderator cleared your status message.	En moderator rensade ditt statusmeddelande.
+Status message cleared.	Statusmeddelandet rensat.
+VIP	VIP
+Play now	Spela nu
+Find an opponent of your level automatically	Hitta automatiskt en motståndare på din nivå
+Looking for an opponent… {t}	Söker motståndare… {t}
+any rating	valfri rating
+rating ±{n} · {mode}	rating ±{n} · {mode}
+Potting success	Träffsäkerhet
+Balls made	Sänkta bollar
+Best run	Bästa serie
+Fouls	Fouls
+seen just now	sågs nyss
+seen {n} min ago	sågs för {n} min sedan
+seen {n} h ago	sågs för {n} h sedan
+seen yesterday	sågs i går
+seen {n} days ago	sågs för {n} dagar sedan
+seen {n} months ago	sågs för {n} månader sedan
+just now	nyss
+{n} min ago	för {n} min sedan
+{n} h ago	för {n} h sedan
+yesterday	i går
+{n} days ago	för {n} dagar sedan
+Game history	Partihistorik
+Nothing yet.	Inget än.
+Fine aim: click the arrows, or drag here	Finsikte: klicka på pilarna eller dra här
+{n} watching	{n} tittar
+Watching {name}	Tittar på {name}
+Your reactions reach the table quietly.	Dina reaktioner når bordet diskret.
+Stop watching	Sluta titta
+If they play again, you keep watching.	Om de spelar igen fortsätter du att titta.
+Your friend left the table.	Din vän lämnade bordet.
+Your friend isn't playing right now.	Din vän spelar inte just nu.
+You can only watch your friends.	Du kan bara titta på dina vänner.
+You can't watch this game.	Du kan inte titta på det här partiet.
+{n} points to {tier}	{n} poäng till {tier}
+Top tier	Högsta ligan
+Reactions {n}/{total}	Reaktioner {n}/{total}
+Haunted table	Spökbordet
+Win a rated game during Halloween (Oct 24 – Nov 2).	Vinn ett rankat parti under halloween (24 okt – 2 nov).
+Winter league	Vinterligan
+Win a rated game over the holidays (Dec 15 – Jan 6).	Vinn ett rankat parti under helgerna (15 dec – 6 jan).
+Fireworks	Fyrverkerier
+Win a rated game at the turn of the year (Dec 31 – Jan 1).	Vinn ett rankat parti vid årsskiftet (31 dec – 1 jan).
+Shows where the object ball and the cue ball go (only in free games and practice).	Visar vart objektbollen och vita bollen tar vägen (bara i fria partier och träning).
+{n} online · ping {ms} ms	{n} online · ping {ms} ms
+Right-drag · Wheel	Högerdrag · Hjul
+Win %	Vinst-%
+Reset the camera: top view, no zoom	Återställ kameran: vy ovanifrån, ingen zoom
+{name} sank the 8-ball	{name} sänkte 8-bollen
+{name} sank the 8 too early	{name} sänkte 8-bollen för tidigt
+{name} sank the 8 in the wrong pocket	{name} sänkte 8-bollen i fel hål
+{name} fouled on the 8	{name} gjorde foul på 8-bollen
+{name} knocked the 8 off the table	{name} slog 8-bollen av bordet
+{name} resigned	{name} gav upp
+{name} left the game	{name} lämnade partiet
+{winner} wins! ({how})	{winner} vinner! ({how})
+#{n} in the world	#{n} i världen
+3–16 letters, digits or underscores.	3–16 bokstäver, siffror eller understreck.
+No lines on the table: aim by eye, along the cue.	Inga linjer på bordet: sikta på känn, längs kön.
+No guide	Ingen guide
+Only a short line from the cue ball.	Bara en kort linje från vita bollen.
+Accept friend	Godkänn vän
+Achievement unlocked: {title}	Prestation upplåst: {title}
+Achievements {n}/{total}	Prestationer {n}/{total}
+Add	Lägg till
+Add a friend by username	Lägg till en vän via användarnamn
+Add friend	Lägg till vän
+Against the computer	Mot datorn
+All tournaments	Alla turneringar
+Amateur	Amatör
+At least 8 characters. Use a password you don't use elsewhere.	Minst 8 tecken. Använd ett lösenord som du inte använder någon annanstans.
+At least two players are needed.	Det behövs minst två spelare.
+Back	Tillbaka
+Black ball	Svart boll
+Block	Blockera
+Break and run	Utslag och rensning
+Break and run 10 times.	Slå ut och rensa bordet 10 gånger.
+Can't listen for games here: join by address below.	Kan inte söka efter partier här: anslut via adress nedan.
+Cancel request	Avbryt förfrågan
+Cancel tournament	Ställ in turneringen
+Casual	Vänskaplig
+Centurion	Centurion
+Champion	Mästare
+Champion: {name}	Mästare: {name}
+Change country	Byt land
+Add a status message	Lägg till ett statusmeddelande
+A line about you	En rad om dig
+Save (Enter)	Spara (Enter)
+Cancel (Esc)	Avbryt (Esc)
+Change your status message	Ändra ditt statusmeddelande
+Clear the status message	Rensa statusmeddelandet
+Cheating or abuse	Fusk eller missbruk
+Choose…	Välj…
+Click again to block	Klicka igen för att blockera
+Close	Stäng
+Closer	Avslutaren
+Competitor	Tävlande
+Connecting to the server…	Ansluter till servern…
+Could not host a game: {e}	Kunde inte skapa ett parti: {e}
+Country	Land
+Create	Skapa
+Create a tournament	Skapa en turnering
+Don't show a flag	Visa ingen flagga
+No country found.	Inget land hittades.
+Dynasty	Dynasti
+Eight is enough	Åttan räcker
+Executioner	Bödeln
+Expert	Expert
+Familiar face	Bekant ansikte
+Final	Final
+Finish your game first.	Avsluta ditt parti först.
+First blood	Första blodet
+First break	Första utslaget
+Friend request sent.	Vänförfrågan skickad.
+Friends	Vänner
+# Daily (correspondence) games.
+daily game	dagligt parti
+Daily	Dagliga
+Daily game	Dagligt parti
+Daily games	Dagliga partier
+Challenge a player by username	Utmana en spelare via användarnamn
+Challenge to a daily game	Utmana till ett dagligt parti
+3 days for each turn	3 dagar per tur
+No daily games yet. Challenge a friend: each of you plays a turn whenever you can.	Inga dagliga partier än. Utmana en vän: ni spelar var sin tur när ni har tid.
+challenges you · {kind}	utmanar dig · {kind}
+waiting for an answer · {kind} · {time} left	väntar på svar · {kind} · {time} kvar
+your turn · {time} left	din tur · {time} kvar
+their turn · {time} left	motståndarens tur · {time} kvar
+won · {how}	vinst · {how}
+lost · {how}	förlust · {how}
+ran out of time	tiden tog slut
+the opponent ran out of time	motståndarens tid tog slut
+open table	öppet bord
+You: {mine}, {a} left · {name}: {theirs}, {b} left	Du: {mine}, {a} kvar · {name}: {theirs}, {b} kvar
+Look	Titta
+Skip	Hoppa över
+Replaying {name}'s turn	Spelar upp {name}s tur
+Stroke {n} of {total}	Stöt {n} av {total}
+Turn sent	Turen skickad
+Turn sent.	Turen skickad.
+Waiting for {name} to play	Väntar på att {name} ska spela
+{name} has {time} to play. You'll be told when it's your turn.	{name} har {time} på sig att spela. Du får besked när det är din tur.
+{time} left to play. You'll be told when it's your turn.	{time} kvar att spela. Du får besked när det är din tur.
+Back to daily games	Tillbaka till dagliga partier
+Your game is saved: come back whenever you like.	Ditt parti är sparat: kom tillbaka när du vill.
+{d} d {h} h	{d} d {h} h
+{name} ran out of time	{name}s tid tog slut
+This game can't be shown.	Det här partiet kan inte visas.
+A daily game is waiting for you	Ett dagligt parti väntar på dig
+{n} daily games are waiting for you	{n} dagliga partier väntar på dig
+{name} challenges you to a rated daily game.	{name} utmanar dig till ett rankat dagligt parti.
+{name} challenges you to a casual daily game.	{name} utmanar dig till ett vänskapligt dagligt parti.
+{name} accepted your daily game.	{name} antog ditt dagliga parti.
+{name} declined your daily game.	{name} tackade nej till ditt dagliga parti.
+{name} withdrew their daily game challenge.	{name} drog tillbaka sin utmaning till ett dagligt parti.
+Your turn in the daily game against {name}.	Din tur i det dagliga partiet mot {name}.
+{name} ran out of time: you won the daily game.	{name}s tid tog slut: du vann det dagliga partiet.
+You won the daily game against {name}!	Du vann det dagliga partiet mot {name}!
+You ran out of time in the daily game against {name}.	Din tid tog slut i det dagliga partiet mot {name}.
+You lost the daily game against {name}.	Du förlorade det dagliga partiet mot {name}.
+Challenge sent.	Utmaningen skickad.
+Daily games need an account.	Dagliga partier kräver ett konto.
+No such game.	Partiet finns inte.
+That challenge is no longer valid.	Den utmaningen gäller inte längre.
+That player already challenged you: answer their challenge.	Den spelaren har redan utmanat dig: svara på utmaningen.
+That player has too many challenges waiting.	Den spelaren har för många väntande utmaningar.
+That player has too many daily games going on.	Den spelaren har för många pågående dagliga partier.
+That player is not accepting challenges.	Den spelaren tar inte emot utmaningar.
+This game can't be played right now.	Det här partiet kan inte spelas just nu.
+This game changed meanwhile: open it again.	Partiet har ändrats under tiden: öppna det igen.
+This game is over.	Det här partiet är slut.
+You already challenged that player.	Du har redan utmanat den spelaren.
+You already have a game going on against that player.	Du har redan ett pågående parti mot den spelaren.
+You blocked that player.	Du har blockerat den spelaren.
+You can't challenge yourself.	Du kan inte utmana dig själv.
+You have as many daily games as you can play at once.	Du har redan så många dagliga partier som du kan spela samtidigt.
+You have too many challenges waiting for an answer.	Du har för många utmaningar som väntar på svar.
+You're sending challenges too quickly.	Du skickar utmaningar för snabbt.
+Your time for this turn ran out.	Din tid för den här turen tog slut.
+Games	Partier
+Games on your network	Partier i ditt nätverk
+Give the tournament a name (at least 3 characters).	Ge turneringen ett namn (minst 3 tecken).
+Good company	Gott sällskap
+Grandmaster	Stormästare
+Guests can only join LAN games. Create an account.	Gäster kan bara gå med i LAN-partier. Skapa ett konto.
+Guests can't play rated tournaments.	Gäster kan inte spela rankade turneringar.
+Guests don't have this.	Gäster har inte det här.
+Harassment	Trakasserier
+Hat trick	Hattrick
+Have 10 friends.	Ha 10 vänner.
+Have an account for 30 days.	Ha haft ett konto i 30 dagar.
+Have an account for a year.	Ha haft ett konto i ett år.
+Host a game on this computer	Skapa ett parti på den här datorn
+Host {host} · {n}/{size} players · {kind}	Värd {host} · {n}/{size} spelare · {kind}
+Hot hand	Het hand
+Hustler	Hustlern
+Invalid shot.	Ogiltig stöt.
+Join	Gå med
+Joining the LAN game…	Går med i LAN-partiet…
+Just for fun	Bara för skojs skull
+L	F
+LAN game	LAN-parti
+LAN game hosted by {name}.	LAN-parti med {name} som värd.
+LAN games don't change ratings.	LAN-partier påverkar inte ratingen.
+Legend	Legend
+Lives at the table	Bor vid bordet
+Loading the profile…	Laddar profilen…
+Loading…	Laddar…
+Local network	Lokalt nätverk
+Locked	Låst
+Looking for games	Söker partier
+Make a friend.	Skaffa en vän.
+Master	Mästare
+Name	Namn
+Names have 3–16 letters, digits or underscores.	Namn har 3–16 bokstäver, siffror eller understreck.
+New account	Nytt konto
+I have an account	Jag har ett konto
+New here? Choose “New account”: it takes ten seconds.	Ny här? Välj ”Nytt konto”: det tar tio sekunder.
+New tournament	Ny turnering
+No friends yet. Add someone you played with!	Inga vänner än. Lägg till någon du har spelat med!
+No games yet.	Inga partier än.
+No limit	Ingen gräns
+No open tables. Open one and others can sit down.	Inga öppna bord. Öppna ett så kan andra slå sig ner.
+No other open tables right now.	Inga andra öppna bord just nu.
+No such player.	Spelaren finns inte.
+No tournaments right now. Create one!	Inga turneringar just nu. Skapa en!
+Offensive name	Stötande namn
+On a roll	I farten
+On fire	Het
+Only the host can start the tournament.	Bara värden kan starta turneringen.
+Open a table	Öppna ett bord
+Or join by address	Eller anslut via adress
+Other	Annat
+Others can join at {ip}:{port}	Andra kan ansluta på {ip}:{port}
+Passwords need at least 8 characters (not only digits).	Lösenord behöver minst 8 tecken (inte bara siffror).
+Play 1,000 rated games.	Spela 1 000 rankade partier.
+Play 10 rated games.	Spela 10 rankade partier.
+Play 100 rated games.	Spela 100 rankade partier.
+Play 25 casual games.	Spela 25 vänskapliga partier.
+Play 500 rated games.	Spela 500 rankade partier.
+Play in a tournament.	Spela i en turnering.
+Play online	Spela online
+Play with friends on the same network	Spela med vänner i samma nätverk
+Play your first rated game.	Spela ditt första rankade parti.
+Player 1	Spelare 1
+Players	Spelare
+Players in a tournament can't start other games.	Spelare i en turnering kan inte starta andra partier.
+Please don't repeat the same message.	Upprepa inte samma meddelande.
+Pool hall legend	Biljardhallens legend
+Popular	Populär
+Private	Privat
+for your friends to sit down	så att dina vänner kan slå sig ner
+Profile	Profil
+{key}: watch the last shot again	{key}: se senaste stöten igen
+REPLAY	REPRIS
+Rated	Rankad
+Rated games, tables, tournaments and friends	Rankade partier, bord, turneringar och vänner
+Reach a rating of 1300.	Nå en rating på 1300.
+Reach a rating of 1500.	Nå en rating på 1500.
+Reach a rating of 1700.	Nå en rating på 1700.
+Reach a rating of 1900.	Nå en rating på 1900.
+Reach a rating of 2100.	Nå en rating på 2100.
+Refresh	Uppdatera
+Regular	Stammis
+Remove friend	Ta bort vän
+Replay	Repris
+Report	Anmäl
+Report {name}	Anmäl {name}
+Request sent	Förfrågan skickad
+Friend	Vän
+Recent	Senaste
+Nobody yet. The people you play online will show up here.	Ingen än. De du spelar med online visas här.
+{n} games	{n} partier
+Rookie	Nybörjare
+Round {n}	Omgång {n}
+Search…	Sök…
+Semi-finals	Semifinaler
+Send report	Skicka anmälan
+This game goes with the report, so the moderators can watch it.	Det här partiet skickas med anmälan så att moderatorerna kan se det.
+Your game with {name} ({date}) goes with the report, so the moderators can watch it.	Ditt parti mot {name} ({date}) skickas med anmälan så att moderatorerna kan se det.
+You haven't played {name} in the last day: the moderators see the recent chat.	Du har inte spelat mot {name} det senaste dygnet: moderatorerna ser den senaste chatten.
+Shark	Hajen
+Shows the contact point; judging the cut is up to you.	Visar träffpunkten; vinkeln bedömer du själv.
+Shutout	Nolla
+Sign in	Logga in
+Sign in or create an account	Logga in eller skapa ett konto
+Sign out	Logga ut
+Sit down	Slå dig ner
+Skilled	Skicklig
+Someone with that name is already here.	Någon med det namnet är redan här.
+Spam	Spam
+Start now	Starta nu
+Stop the replay	Stoppa reprisen
+Table runner	Bordsrensaren
+Tables	Bord
+Take turns on this computer	Turas om på den här datorn
+Thank you. The moderators will look into it.	Tack. Moderatorerna tittar på det.
+Thank you. The moderators will look into it, with your game attached.	Tack. Moderatorerna tittar på det, med ditt parti bifogat.
+That player is not accepting invitations.	Den spelaren tar inte emot inbjudningar.
+That shot was for an earlier turn.	Den stöten gällde en tidigare tur.
+That table is no longer open.	Det bordet är inte längre öppet.
+That tournament has already started.	Den turneringen har redan börjat.
+That tournament no longer exists.	Den turneringen finns inte längre.
+The first connection of the day can take up to a minute while the server wakes up.	Dagens första anslutning kan ta upp till en minut medan servern vaknar.
+The first time, allow Snook Legend through the firewall when asked.	Första gången: tillåt Snook Legend i brandväggen när du blir tillfrågad.
+The server could not play that shot.	Servern kunde inte spela den stöten.
+The server is busy. Try again in a moment.	Servern är upptagen. Försök igen om en stund.
+The tournament starts when it is full (the host can start it earlier).	Turneringen startar när den är full (värden kan starta den tidigare).
+There are too many tournaments right now. Join one!	Det finns för många turneringar just nu. Gå med i en!
+This is a LAN server: join as a guest.	Det här är en LAN-server: gå med som gäst.
+Fifteen rivals, a tour and ghosts of real players	Femton rivaler, en turné och spöken av riktiga spelare
+Tier	Liga
+Time per shot	Tid per stöt
+Too many failed attempts. Wait a few minutes and try again.	För många misslyckade försök. Vänta några minuter och försök igen.
+Too many messages.	För många meddelanden.
+Too many new accounts from this network. Try again later.	För många nya konton från det här nätverket. Försök igen senare.
+Top 100 · rated games	Topp 100 · rankade partier
+Tournament game: the next round starts from the lounge.	Turneringsparti: nästa omgång startar från loungen.
+Tournament games have no rematch.	Turneringspartier har ingen revansch.
+Tournaments	Turneringar
+Tournaments have 4, 8 or 16 players.	Turneringar har 4, 8 eller 16 spelare.
+Two players	Två spelare
+Unblock	Avblockera
+Unlocked {date}	Upplåst {date}
+Unstoppable	Ostoppbar
+W	V
+Watch the last shot again	Se senaste stöten igen
+What happened? (optional)	Vad hände? (valfritt)
+When time runs out, the turn passes.	När tiden tar slut går turen över.
+Whitewash	Utklassning
+Win 10 rated games on the 8-ball.	Vinn 10 rankade partier på 8-bollen.
+Win 10 rated games in a row.	Vinn 10 rankade partier i rad.
+Win 10 rated games.	Vinn 10 rankade partier.
+Win 10 rated shutouts.	Vinn 10 rankade partier med nolla.
+Win 100 rated games on the 8-ball.	Vinn 100 rankade partier på 8-bollen.
+Win 100 rated games.	Vinn 100 rankade partier.
+Win 250 rated games on the 8-ball.	Vinn 250 rankade partier på 8-bollen.
+Win 3 rated games in a row.	Vinn 3 rankade partier i rad.
+Win 5 rated games in a row.	Vinn 5 rankade partier i rad.
+Win 5 tournaments.	Vinn 5 turneringar.
+Win 50 rated games on the 8-ball.	Vinn 50 rankade partier på 8-bollen.
+Win 50 rated games.	Vinn 50 rankade partier.
+Win 500 rated games.	Vinn 500 rankade partier.
+Win a rated game.	Vinn ett rankat parti.
+Win a tournament.	Vinn en turnering.
+Win a rated game before your opponent sinks a ball of their group.	Vinn ett rankat parti innan motståndaren har sänkt en boll ur sin grupp.
+Win a rated game from the break without your opponent getting a shot.	Vinn ett rankat parti direkt från utslaget utan att motståndaren får en stöt.
+Withdraw	Dra dig ur
+World ranking	Världsranking
+Wrong table password.	Fel lösenord till bordet.
+Wrong tournament password.	Fel lösenord till turneringen.
+You are already in a tournament.	Du är redan med i en turnering.
+You are hosting a game	Du är värd för ett parti
+You can't join this table.	Du kan inte gå med vid det här bordet.
+You signed in from another place.	Du loggade in från en annan plats.
+You're sending invitations too quickly.	Du skickar inbjudningar för snabbt.
+You're sending messages too quickly.	Du skickar meddelanden för snabbt.
+You've sent many reports. Please wait before sending more.	Du har skickat många anmälningar. Vänta innan du skickar fler.
+Your friend list is full.	Din vänlista är full.
+Your next match starts by itself when both players are free.	Din nästa match startar av sig själv när båda spelarna är lediga.
+Your profile	Din profil
+Your table is open	Ditt bord är öppet
+Zoom in	Zooma in
+Zoom out	Zooma ut
+at a table	vid ett bord
+best streak	bästa svit
+by {host} · {n}/{size} players	av {host} · {n}/{size} spelare
+casual games	vänskapliga partier
+casual · private	vänskaplig · privat
+casual · public	vänskaplig · offentlig
+connecting to the server	ansluter till servern
+eight-ball pool	8-ball
+finished	avslutad
+guest	gäst
+invites you to {kind}	bjuder in dig till {kind}
+joined today	gick med i dag
+member for {n} days	medlem i {n} dagar
+member for {n} months	medlem i {n} månader
+member for {n} years	medlem i {n} år
+offline	offline
+open	öppet
+optional: only friends with it can join	valfritt: bara vänner som har det kan gå med
+password	lösenord
+peak {n}	toppnotering {n}
+playing	spelar
+playing the computer	spelar mot datorn
+away	borta
+this game is saved	det här partiet är sparat
+rated games	rankade partier
+rated · private	rankad · privat
+rated · public	rankad · offentlig
+request sent	förfrågan skickad
+the connection dropped	anslutningen bröts
+to play online	för att spela online
+tournament	turnering
+tournaments won	vunna turneringar
+waiting for an opponent…	väntar på en motståndare…
+win rate	vinstandel
+wins	vinster
+won on the 8	vunna på 8-bollen
+{host}'s game	{host}s parti
+{name} wants to be friends	{name} vill bli vänner
+{name} wants to be your friend.	{name} vill bli din vän.
+{n} online	{n} online
+sank the 8-ball	sänkte 8-bollen
+the opponent sank the 8-ball	motståndaren sänkte 8-bollen
+the opponent sank the 8 too early	motståndaren sänkte 8-bollen för tidigt
+sank the 8 too early	sänkte 8-bollen för tidigt
+the opponent sank the 8 in the wrong pocket	motståndaren sänkte 8-bollen i fel hål
+sank the 8 in the wrong pocket	sänkte 8-bollen i fel hål
+the opponent fouled on the 8	motståndaren gjorde foul på 8-bollen
+fouled on the 8	gjorde foul på 8-bollen
+the opponent knocked the 8 off the table	motståndaren slog 8-bollen av bordet
+knocked the 8 off the table	slog 8-bollen av bordet
+the opponent resigned	motståndaren gav upp
+resigned	gav upp
+the opponent left	motståndaren lämnade
+left the game	lämnade partiet
+You are muted for {n} more minutes.	Du är tystad i {n} minuter till.
+This account is suspended for {n} more day(s). Reason: {reason}.	Det här kontot är avstängt i {n} dag(ar) till. Orsak: {reason}.
+This account is banned. Reason: {reason}.	Det här kontot är bannlyst. Orsak: {reason}.
+You were muted: {r}	Du har tystats: {r}
+Your account was suspended: {r}	Ditt konto har stängts av: {r}
+Your account was banned: {r}	Ditt konto har bannlysts: {r}
+You were disconnected by a moderator: {r}	En moderator kopplade bort dig: {r}
+You were disconnected by a moderator.	En moderator kopplade bort dig.
+Please sign in again.	Logga in igen.
+Your password was changed. Sign in again.	Ditt lösenord har ändrats. Logga in igen.
+Accept rematch	Anta revansch
+Accept	Anta
+Aim	Sikta
+Aiming guide	Siktguide
+Aiming	Sikte
+Anti-aliasing	Kantutjämning
+Smooths the jagged edges of lines and balls.	Jämnar ut taggiga kanter på linjer och bollar.
+Back to lounge	Tillbaka till loungen
+Balanced: smooth on most laptops.	Balanserad: flyter på de flesta bärbara datorer.
+Ball in hand	Boll i hand
+Break the rack	Gör utslaget
+Camera pulls back to watch each shot	Kameran drar sig bakåt för att se varje stöt
+Camera	Kamera
+Cancel	Avbryt
+Casual game: ratings unchanged	Vänskapligt parti: ratingen påverkas inte
+Center	Mitten
+Chat	Chatt
+Click a ball or a spot	Klicka på en boll eller en punkt
+Click to chat, Enter to send	Klicka för att chatta, Enter för att skicka
+Controls	Kontroller
+Create account	Skapa konto
+Cue ball contact	Träffpunkt på vita bollen
+Decline	Avböj
+Done	Klar
+Drag the cue ball	Dra vita bollen
+Elevation	Höjd
+Everything, with reflections in polished floors: for gaming PCs.	Allt, med reflexer i blanka golv: för speldatorer.
+Fine aim	Finsikte
+Finish this match first.	Avsluta den här matchen först.
+For old or very slow computers.	För gamla eller mycket långsamma datorer.
+Full screen	Helskärm
+Also with {key}.	Även med {key}.
+Full	Full
+Game server	Spelserver
+Change it only to play on another server.	Ändra bara för att spela på en annan server.
+Advanced	Avancerat
+Custom server	Annan server
+Graphics quality	Grafikkvalitet
+Quality	Kvalitet
+Display	Skärm
+High	Hög
+Invite	Bjud in
+Leave to the lounge	Gå till loungen
+Leave	Lämna
+Leaving now counts as a loss.	Att lämna nu räknas som förlust.
+Lounge chat	Loungechatt
+Low	Låg
+Main menu	Huvudmeny
+Medium	Medel
+Menu / help	Meny / hjälp
+Next game starts in a moment…	Nästa parti börjar om en stund…
+No rated games yet. Be the first!	Inga rankade partier än. Bli först!
+Nobody else is here right now.	Ingen annan är här just nu.
+Looking for a game?	Söker du ett parti?
+Looking for a game	Söker parti
+Post a note	Sätt upp en lapp
+Everyone in the lounge sees it for 30 minutes	Alla i loungen ser den i 30 minuter
+What are you after? ({kind})	Vad söker du? ({kind})
+Post	Publicera
+Your note: {text}	Din lapp: {text}
+{mode} · {left} left	{mode} · {left} kvar
+Take down	Ta ner
+Challenge	Utmana
+Take the note down	Ta ner lappen
+Off	Av
+On the 8-ball: call a pocket	På 8-bollen: anmäl ett hål
+On the 8-ball	På 8-bollen
+Open table	Öppet bord
+Password	Lösenord
+Paused	Pausat
+Play	Spela
+Player 2	Spelare 2
+Player	Spelare
+Quick aim	Snabbsikte
+Quit	Avsluta
+Reconnected.	Återansluten.
+Rematch	Revansch
+Resign this game	Ge upp partiet
+Restart the game to apply this change.	Starta om spelet för att tillämpa ändringen.
+Resume	Fortsätt
+Retry	Försök igen
+Saving the result…	Sparar resultatet…
+Say hello… (Enter to send)	Säg hej… (Enter för att skicka)
+Send	Skicka
+Settings	Inställningar
+{key} + drag	{key} + dra
+{key}: 3D / top view	{key}: 3D / vy ovanifrån
+{keys}: zoom	{keys}: zoom
+View	Vy
+Aim left	Sikta åt vänster
+Aim right	Sikta åt höger
+Fine aim (hold)	Finsikte (håll)
+Shoot (hold, release)	Stöt (håll, släpp)
+Top spin	Överskruv
+Back spin	Underskruv
+Left spin	Vänsterskruv
+Right spin	Högerskruv
+Raise the cue	Höj kön
+Lower the cue	Sänk kön
+Pick up the cue ball in hand	Ta vita bollen i hand
+3D / top view	3D / vy ovanifrån
+Reset the camera	Återställ kameran
+Replay the last shot	Spela upp senaste stöten igen
+List of controls	Lista över kontroller
+Keys can be changed in Settings → Controls.	Tangenterna kan ändras i Inställningar → Kontroller.
+Space	Mellanslag
+Right Shift	Höger Shift
+Right Ctrl	Höger Ctrl
+Right Alt	Höger Alt
+Aiming and shooting	Sikte och stöt
+Spin and elevation	Skruv och höjd
+Fixed keys	Fasta tangenter
+Menu, back and cancel	Meny, tillbaka och avbryt
+Confirm (forms, the cue ball in hand)	Bekräfta (formulär, vita bollen i hand)
+This key can't be changed.	Den här tangenten kan inte ändras.
+Press a key · Esc cancels · Backspace clears	Tryck på en tangent · Esc avbryter · Backsteg rensar
+Press a key…	Tryck på en tangent…
+Click to change	Klicka för att ändra
+Click to add a key	Klicka för att lägga till en tangent
+Back to no key	Tillbaka till ingen tangent
+Back to {keys}	Tillbaka till {keys}
+Swapped: {action} is now on {key}.	Bytt: {action} ligger nu på {key}.
+Taken from {action}, which now has no key.	Togs från {action}, som nu saknar tangent.
+Taken from {action}.	Togs från {action}.
+That key can't be used: try another.	Den tangenten kan inte användas: prova en annan.
+Shoot	Stöt
+Short	Kort
+Signing in…	Loggar in…
+Signing in	Loggar in
+Soft shadows from every lamp, glossy halls, halos.	Mjuka skuggor från varje lampa, glansiga hallar, glorior.
+Solids (1–7)	Hela (1–7)
+Spin ball	Skruvboll
+Spin	Skruv
+Standard	Standard
+Stay	Stanna
+Stripes (9–15)	Halva (9–15)
+The game goes on while this is open.	Spelet fortsätter medan det här är öppet.
+Use default	Använd standard
+Username	Användarnamn
+Usernames have 3–16 letters, digits or underscores.	Användarnamn har 3–16 bokstäver, siffror eller understreck.
+{keys} (jump & massé)	{keys} (hopp och massé)
+You win!	Du vann!
+Your name	Ditt namn
+Your opponent went back to the lounge.	Din motståndare gick tillbaka till loungen.
+Your turn	Din tur
+open table: the next ball you make sets your group	öppet bord: nästa boll du sänker avgör din grupp
+draw	dragboll
+follow	följboll
+stun	stoppboll
+solids	hela
+stripes	halva
+lounge	lounge
+ · left english	 · vänsterskruv
+ · right english	 · högerskruv
+Language	Språk
+General	Allmänt
+Graphics	Grafik
+Game	Spel
+Sound	Ljud
+Reset to defaults	Återställ standard
+Reset all keys	Återställ alla tangenter
+Reset every key?	Återställa alla tangenter?
+Click again to put every key back	Klicka igen för att återställa alla tangenter
+Updates	Uppdateringar
+Update automatically	Uppdatera automatiskt
+New versions download in the background and install when you restart.	Nya versioner laddas ner i bakgrunden och installeras när du startar om.
+Version {v}	Version {v}
+What's new	Nyheter
+What's new in version {v}	Nyheter i version {v}
+No notes for this version.	Inga anteckningar för den här versionen.
+Got it	Uppfattat
+Restart now	Starta om nu
+After the game, from the main menu.	Efter partiet, från huvudmenyn.
+Download	Ladda ner
+Check now	Sök nu
+Couldn't reach the update server.	Kunde inte nå uppdateringsservern.
+The download was damaged. It will be tried again later.	Nedladdningen var skadad. Ett nytt försök görs senare.
+The new version couldn't be installed. This one stays.	Den nya versionen kunde inte installeras. Den här versionen behålls.
+Downloading… {p}%	Laddar ner… {p}%
+Updating…	Uppdaterar…
+The Microsoft Store keeps the game up to date.	Microsoft Store håller spelet uppdaterat.
+Development build: no automatic updates.	Utvecklingsversion: inga automatiska uppdateringar.
+Looking for a new version…	Söker efter en ny version…
+This is the latest version.	Det här är den senaste versionen.
+Downloading version {v}… {p}%	Laddar ner version {v}… {p}%
+Installing version {v}…	Installerar version {v}…
+Version {v} is ready: restart the game to use it.	Version {v} är klar: starta om spelet för att använda den.
+Version {v} is out: download it from the releases page.	Version {v} har släppts: ladda ner den från versionssidan.
+Version {v} is ready	Version {v} är klar
+Restart to play it; nothing is lost.	Starta om för att spela den; inget går förlorat.
+Version {v} is out	Version {v} har släppts
+Get it from the releases page.	Hämta den från versionssidan.
+Reset everything?	Återställa allt?
+Click again to reset every setting	Klicka igen för att återställa alla inställningar
+Online	Online
+Menu	Meny
+Rating	Rating
+Ultra	Ultra
+hold {key} and release	håll {key} och släpp
+Change	Ändra
+Mouse aim sensitivity	Muskänslighet för sikte
+How fast the cue turns with the mouse.	Hur snabbt kön vrids med musen.
+Vignette	Vinjett
+Darkens the edges of the picture, like a film.	Gör bildens kanter mörkare, som på film.
+Show FPS	Visa FPS
+Frames per second, in a corner of the screen.	Bilder per sekund, i ett hörn av skärmen.
+Call a pocket for the 8-ball first: click a pocket.	Anmäl först ett hål för 8-bollen: klicka på ett hål.
+Reconnecting	Återansluter
+the game is over	partiet är slut
+the cue ball cannot be placed there	vita bollen kan inte placeras där
+call a pocket for the 8-ball	anmäl ett hål för 8-bollen
+That username is taken.	Det användarnamnet är upptaget.
+Wrong username or password.	Fel användarnamn eller lösenord.
+Your session expired. Please log in again.	Din session har gått ut. Logga in igen.
+This version of Snook Legend is out of date. Please update the game.	Den här versionen av Snook Legend är föråldrad. Uppdatera spelet.
+It's not your turn.	Det är inte din tur.
+That player is not online.	Den spelaren är inte online.
+That player is in a game.	Den spelaren är mitt i ett parti.
+You can't invite yourself.	Du kan inte bjuda in dig själv.
+That invitation is no longer valid.	Den inbjudan gäller inte längre.
+That player is no longer available.	Den spelaren är inte längre tillgänglig.
+Resign first to leave a game in progress.	Ge upp först för att lämna ett pågående parti.
+Malformed message.	Felaktigt meddelande.
+Please log in first.	Logga in först.
+Could not create the account.	Kunde inte skapa kontot.
+The cue ball can't be placed there.	Vita bollen kan inte placeras där.
+Disconnected.	Frånkopplad.
+Lost contact with the server.	Tappade kontakten med servern.
+The server closed the connection.	Servern stängde anslutningen.
+The server took too long to answer.	Servern tog för lång tid på sig att svara.
+The server is not answering (connection refused).	Servern svarar inte (anslutningen nekades).
+The server address is not valid (example: wss://snook-legend.example.com/ws).	Serveradressen är inte giltig (exempel: wss://snook-legend.example.com/ws).
+The server address has no host name.	Serveradressen saknar värdnamn.
+Welcome to Snook Legend! Be kind, play fair.	Välkommen till Snook Legend! Var schysst och spela just.
+Ball in hand: drag the cue ball{zone} to move it	Boll i hand: dra vita bollen{zone} för att flytta den
+ behind the line	 bakom linjen
+Ball in hand  ·  {group}	Boll i hand  ·  {group}
+Can't shoot: {e}.	Kan inte stöta: {e}.
+Chat ({n})	Chatt ({n})
+Computer ({level})	Dator ({level})
+Computer	Dator
+Each opponent has a style of their own	Varje motståndare har sin egen stil
+Free game	Fritt parti
+Tour	Turné
+Tour: {n} of {total} beaten	Turné: {n} av {total} besegrade
+Strength {n}/5	Styrka {n}/5
+Ghost	Spöke
+Accuracy	Precision
+Safeties	Safety
+Banks	Dubbléer
+Position	Positionsspel
+Ghost of {name}	{name}s spöke
+A player's ghost	En spelares spöke
+Plays like a real player	Spelar som en riktig spelare
+The computer plays in the style of a real player, measured on their online games.	Datorn spelar i en riktig spelares stil, uppmätt från hens onlinepartier.
+Sign in to play the ghost of a real player.	Logga in för att spela mot en riktig spelares spöke.
+Load	Ladda
+Friends:	Vänner:
+Type a username or pick a friend, then Load.	Skriv ett användarnamn eller välj en vän och tryck på Ladda.
+Measuring how {name} plays…	Mäter hur {name} spelar…
+Pots {pots}% · safeties {safe}% · banks {banks}% · {shots} shots	Sänker {pots}% · safety {safe}% · dubbléer {banks}% · {shots} stötar
+{name} has only {shots} recorded shots; a ghost needs {needed}. More online games will do it.	{name} har bara {shots} registrerade stötar; ett spöke behöver {needed}. Fler onlinepartier löser det.
+There is no player called {name}.	Det finns ingen spelare som heter {name}.
+The server can't be reached right now. Try again later.	Servern kan inte nås just nu. Försök igen senare.
+Wait a moment before asking again.	Vänta en stund innan du frågar igen.
+Something went wrong on the server. Try again later.	Något gick fel på servern. Försök igen senare.
+Play your ghost	Spela mot ditt spöke
+Play their ghost	Spela mot hens spöke
+Beaten	Besegrad
+Next	Nästa
+Win the previous stage to unlock this one.	Vinn föregående etapp för att låsa upp den här.
+Stage {n} of {total}	Etapp {n} av {total}
+Challenge {name}	Utmana {name}
+Stage {n} won! Next on the tour: {name}.	Etapp {n} vunnen! Näst på turnén: {name}.
+You won the whole tour!	Du vann hela turnén!
+Reward	Belöning
+{item} cue · exclusive	Kön {item} · exklusiv
+Yours: find it in the shop, under Cues.	Din: du hittar den i butiken, under Köer.
+Win the last stage again while signed in to claim it.	Vinn sista etappen igen när du är inloggad för att få den.
+Beat all fifteen opponents to earn it. It is sold nowhere.	Besegra alla femton motståndare för att vinna den. Den säljs ingenstans.
+You won the tour! Sign in to claim your reward.	Du vann turnén! Logga in för att få din belöning.
+The server is checking your final game…	Servern kontrollerar ditt sista parti…
+Try again	Försök igen
+The server did not answer. Try again in a moment.	Servern svarade inte. Försök igen om en stund.
+The server is busy checking other games. Try again in a moment.	Servern är upptagen med att kontrollera andra partier. Försök igen om en stund.
+Wait a minute before trying again.	Vänta en minut innan du försöker igen.
+That game is too long to be checked.	Det partiet är för långt för att kontrolleras.
+That game has a move the rules don't allow.	Det partiet innehåller ett drag som reglerna inte tillåter.
+That game was not played to the end.	Det partiet spelades inte till slut.
+That game was not a win.	Det partiet var ingen vinst.
+The computer's shots in that game don't match how it plays (another version of the game?).	Datorns stötar i det partiet stämmer inte med hur den spelar (en annan version av spelet?).
+The Rookie	Nybörjaren
+Still learning: aims at the nearest pocket, centre ball, and hopes. Never plays safe.	Lär sig fortfarande: siktar på närmaste hål, träffar mitt på vita och hoppas. Spelar aldrig safety.
+The Weekend Player	Helgspelaren
+Knows the basics and drops the easy ones, but rarely thinks about where the cue ball goes.	Kan grunderna och sänker de enkla, men tänker sällan på vart vita bollen tar vägen.
+The Bank Artist	Vallkonstnären
+Sees angles nobody else does: whenever a ball can go off a cushion and in, she banks it.	Ser vinklar ingen annan ser: kan en boll gå via vallen och i, så spelar hon den så.
+The Cannon	Kanonen
+Goes for everything, as hard as he can: long pots, thunderous breaks, hardly ever a safety.	Går på allt, så hårt han kan: långa stötar, dånande utslag och nästan aldrig en safety.
+The Wall	Muren
+Only shoots when the pot is on. Otherwise she tucks the cue ball away and waits for your mistake.	Stöter bara när bollen går att sänka. Annars gömmer hon vita bollen och väntar på ditt misstag.
+The Old Pro	Veteranen
+Forty years at the table: a smooth stroke, a raised cue, side spin, and never in a hurry.	Fyrtio år vid bordet: mjuk stöt, höjd kö, sidoskruv och aldrig bråttom.
+The Hustler	Hustlern
+Plays just well enough to win, then a little better. Balanced, sharp and hard to read.	Spelar precis tillräckligt bra för att vinna, sedan lite bättre. Balanserad, vass och svår att läsa.
+The Professor	Professorn
+Thinks three balls ahead: every shot leaves the cue ball where the next one is easy.	Tänker tre bollar framåt: varje stöt lämnar vita bollen där nästa blir enkel.
+The Sharpshooter	Prickskytten
+Pots from anywhere, at any angle. Her safeties are an afterthought: she doesn't need them.	Sänker från var som helst, i vilken vinkel som helst. Safety bryr hon sig knappt om: hon behöver det inte.
+The Champion	Mästaren
+Unbeaten for years. Precise, patient and merciless: the last stage of the tour.	Obesegrad i åratal. Exakt, tålmodig och skoningslös: turnéns sista etapp.
+Tour champion	Turnémästare
+Champion of the tour	Turnéns mästare
+Beat all fifteen opponents of the computer tour.	Besegra alla femton motståndare i datorturnén.
+Connection lost. Reconnecting (attempt {n})…	Anslutningen bröts. Återansluter (försök {n})…
+Connection lost. Reconnecting…	Anslutningen bröts. Återansluter…
+Foul by {shooter}: {foul}.	Foul av {shooter}: {foul}.
+Graphics set to {q} for smooth play. You can change this in Settings.	Grafiken är inställd på {q} för jämnt spel. Du kan ändra det i Inställningar.
+Rating {r} ({d})	Rating {r} ({d})
+The {ball} was spotted.	Tillbaka på bordet: {ball}.
+Waiting for {to} ({kind})…	Väntar på {to} ({kind})…
+rated	rankat
+casual	vänskapligt
+Waiting for {name}…	Väntar på {name}…
+{by} declined your invitation.	{by} tackade nej till din inbjudan.
+a rated game	ett rankat parti
+a casual game	ett vänskapligt parti
+{name} calls the 8-ball in the {pocket} pocket.	{name} anmäler 8-bollen i {pocket}.
+{name} has ball in hand…	{name} har boll i hand…
+{name} is aiming…	{name} siktar…
+{name} is on the 8: click a pocket to call it	{name} är på 8-bollen: klicka på ett hål för att anmäla det
+{name} is thinking…	{name} tänker…
+{name} left the game.	{name} lämnade partiet.
+{name} resigned.	{name} gav upp.
+{name} to break	{name} slår ut
+{name} to shoot ({target})	{name} stöter ({target})
+{name}'s turn	{name}s tur
+{next} has ball in hand{where}.	{next} har boll i hand{where}.
+ behind the head string	 bakom huvudlinjen
+{opponent} is back.	{opponent} är tillbaka.
+{opponent} lost the connection. Waiting up to {secs} s…	{opponent} tappade anslutningen. Väntar i upp till {secs} s…
+{opponent} wants a rematch.	{opponent} vill ha revansch.
+{opponent} went back to the lounge.	{opponent} gick tillbaka till loungen.
+{shooter} pocketed {balls}.	{shooter} sänkte {balls}.
+{shooter} takes {group}.	{shooter} tar {group}.
+{who} ran out of time: ball in hand for the opponent.	{who} fick slut på tid: boll i hand för motståndaren.
+{name} wants a rematch!	{name} vill ha revansch!
+{name} wins!	{name} vinner!
+{name} wins	{name} vinner
+Volume	Volym
+The cue, the balls, the cushions and the pockets.	Kön, bollarna, vallarna och hålen.
+Notifications	Aviseringar
+Could not find the server “{host}”.	Kunde inte hitta servern ”{host}”.
+Network error: {e}.	Nätverksfel: {e}.
+Secure connection failed: {e}.	Säker anslutning misslyckades: {e}.
+The server refused the connection (HTTP {code}).	Servern nekade anslutningen (HTTP {code}).
+Connection error: {e}.	Anslutningsfel: {e}.
+cue ball	vita bollen
+{n}-ball	{n}-bollen
+Scratch: the cue ball was pocketed	Vita i hål: vita bollen sänktes
+The cue ball left the table	Vita bollen lämnade bordet
+The cue ball didn't hit any ball	Vita bollen träffade ingen boll
+Wrong ball hit first ({ball})	Fel boll träffades först ({ball})
+No ball reached a cushion after contact	Ingen boll nådde en vall efter träffen
+The {ball} left the table	Av bordet: {ball}
+Illegal break	Ogiltigt utslag
+pocketed the 8-ball	sänkte 8-bollen
+opponent pocketed the 8-ball too early	motståndaren sänkte 8-bollen för tidigt
+opponent sank the 8-ball in the wrong pocket	motståndaren sänkte 8-bollen i fel hål
+opponent fouled on the 8-ball	motståndaren gjorde foul på 8-bollen
+opponent knocked the 8-ball off the table	motståndaren slog 8-bollen av bordet
+opponent resigned	motståndaren gav upp
+opponent left the game	motståndaren lämnade partiet
+head left corner	vänster hörn vid huvudet
+head right corner	höger hörn vid huvudet
+left side	vänster mitthål
+right side	höger mitthål
+foot left corner	vänster hörn vid foten
+foot right corner	höger hörn vid foten
+Easy	Lätt
+Hard	Svår
+Normal	Normal
+Power	Kraft
+No messages yet.	Inga meddelanden än.
+▼ newer messages	▼ nyare meddelanden
+Camera follows the cue	Kameran följer kön
+Off: it stays where you put it.	Av: den stannar där du placerar den.
+Pull back for shots	Dra tillbaka vid stötar
+Only when the camera follows the cue.	Bara när kameran följer kön.
+Drag the cue · click a spot	Dra kön · klicka på en punkt
+Time's up: {name}'s shot was played at full power.	Tiden är ute: {name}s stöt spelades med full kraft.
+Dark room	Mörkt rum
+A spotlight on the table, the room in shadow.	En spotlight på bordet, rummet i skugga.
+Hide	Dölj
+Interface size	Gränssnittets storlek
+Text, buttons and panels.	Text, knappar och paneler.
+Drag to set the power	Dra för att ställa in kraften
+Shoot!	Stöt!
+Set the power, then press the green button	Ställ in kraften och tryck sedan på den gröna knappen
++{n} coins · {why}	+{n} mynt · {why}
+16-player tournaments, and first place on the waiting list of a full one	Turneringar med 16 spelare och första plats i kön till en full turnering
+30 minutes: play as many games as you can. A win is 2 points, 4 from the third win in a row.	30 minuter: spela så många partier du kan. En vinst ger 2 poäng, 4 från tredje vinsten i rad.
+A crown by your name, everywhere (lounge, profile, ranking)	En krona vid ditt namn, överallt (lounge, profil, ranking)
+Account	Konto
+Add friends to give them items.	Lägg till vänner för att ge dem föremål.
+Arena	Arena
+Arena · host {host} · {n} players · {kind}	Arena · värd {host} · {n} spelare · {kind}
+Buy now	Köp nu
+Buying…	Köper…
+Change password	Byt lösenord
+Click again to delete	Klicka igen för att radera
+Got a code? Type it here	Har du en kod? Skriv den här
+Confirm purchase	Bekräfta köp
+Copied: send it to a friend.	Kopierat: skicka den till en vän.
+Copy	Kopiera
+Current	Nuvarande
+Delete account	Radera konto
+Entry	Insats
+Entry {n} coins	Insats {n} mynt
+Every replay kept (free players keep their last 10 games)	Alla repriser sparas (gratisspelare sparar sina senaste 10 partier)
+For {name}	Till {name}
+Add a message (optional)	Lägg till ett meddelande (valfritt)
+Format	Format
+Frames	Ramar
+Free	Gratis
+Get coins	Skaffa mynt
+Gift sent!	Gåvan skickad!
+Give as a gift	Ge som gåva
+Give it	Ge bort
+Give to a friend	Ge till en vän
+Great!	Toppen!
+If you forget your password, we confirm it's you by this e-mail.	Om du glömmer ditt lösenord bekräftar vi att det är du via den här e-postadressen.
+Invite with a code	Bjud in med en kod
+It goes on right away. Items only change the look, never the game.	Det används direkt. Föremål ändrar bara utseendet, aldrig spelet.
+Join my table in Snook Legend:	Kom till mitt bord i Snook Legend:
+Join the waiting list	Ställ dig i kön
+Join · {n} coins	Gå med · {n} mynt
+Knockout	Utslagning
+Name colour	Namnfärg
+Name colours for the lounge and exclusive frames, cloth, cues, balls and effects	Namnfärger i loungen och exklusiva ramar, dukar, köer, bollar och effekter
+New	Ny
+No, thanks	Nej tack
+Nothing that wins games: VIP only changes the look	Inget som vinner partier: VIP ändrar bara utseendet
+Numbers	Siffror
+ON TV	PÅ TV
+Play rated games to see your rating here.	Spela rankade partier för att se din rating här.
+No rated games yet.	Inga rankade partier än.
+Price	Pris
+Prizes {a} + {b}	Priser {a} + {b}
+Protect your purchases	Skydda dina köp
+Purchase complete!	Köpet är klart!
+Recovery e-mail	E-post för återställning
+Save	Spara
+The fees make the prize: 70% to the champion, 20% to the runner-up.	Insatserna blir prispotten: 70 % till vinnaren, 20 % till tvåan.
+The server restarts in {m}:{s} for an update. Games in progress go on.	Servern startar om om {m}:{s} för en uppdatering. Pågående partier fortsätter.
+Use this e-mail	Använd den här e-postadressen
+Use {email} to recover your account if you ever forget your password?	Använda {email} för att återställa ditt konto om du någon gång glömmer lösenordet?
+Watch	Titta
+Watch again	Titta igen
+Winning effects	Vinsteffekter
+Halls	Hallar
+You are paired as soon as you and an opponent are free.	Du paras ihop så fort du och en motståndare är lediga.
+You can change it any time in your profile (Account).	Du kan ändra det när som helst i din profil (Konto).
+You need {n} more coins.	Du behöver {n} mynt till.
+Your account	Ditt konto
+Your account was deleted.	Ditt konto har raderats.
+Your coins	Dina mynt
+Your friend gets it right away.	Din vän får den direkt.
+Your game against {name} is starting.	Ditt parti mot {name} börjar.
+Your name, e-mail, friends and items are erased for good. Your opponents keep the games you played (without your name).	Ditt namn, din e-post, dina vänner och föremål raderas för gott. Dina motståndare behåller partierna ni spelat (utan ditt namn).
+balls per game	bollar per parti
+best run ever	bästa serie någonsin
+daily bonus	daglig bonus
+entry fee back	insatsen tillbaka
+for the game	för partiet
+for the win	för vinsten
+games counted	räknade partier
+Analysis	Analys
+The shot analysis isn't available on this server yet.	Stötanalysen är inte tillgänglig på den här servern än.
+Only online accounts have a shot analysis.	Bara onlinekonton har stötanalys.
+Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Spela online för att se hur du sänker: analysen visas efter {n} stötar till mot ett hål.
+{name} hasn't played enough online games for an analysis yet.	{name} har inte spelat tillräckligt många onlinepartier för en analys än.
+1 game	1 parti
+{pct}% of {n} shots at a pocket potted · {games}	{pct}% av {n} stötar mot ett hål sänkta · {games}
+{made} of {n} potted ({pct})	{made} av {n} sänkta ({pct})
+By kind of shot	Per stöttyp
+shots	stötar
+Straight	Rak
+Cut 8–25°	Snitt 8–25°
+Cut 25–45°	Snitt 25–45°
+Thin cut 45°+	Tunt snitt 45°+
+Bank	Dubblé
+Kick	Vallstöt
+Combination	Kombination
+Jump	Hopp
+Massé	Massé
+Break	Utslag
+By distance	Per avstånd
+Short (under 0.75 m)	Kort (under 0,75 m)
+Medium (to 1.5 m)	Medel (upp till 1,5 m)
+Long (over 1.5 m)	Lång (över 1,5 m)
+left the opponent nothing	lämnade motståndaren inget
+Breaks	Utslag
+made a ball	sänkte en boll
+Potted	Sänkta
+Missed	Missade
+Where and in which pocket	Var och i vilket hål
+{pocket}: {made} of {n} potted	{pocket}: {made} av {n} sänkta
+Where the potted balls were	Var de sänkta bollarna låg
+Where the missed balls were	Var de missade bollarna låg
+few	få
+many	många
+{made} potted · {missed} missed ({pct})	{made} sänkta · {missed} missade ({pct})
+Top left corner	Övre vänstra hörnet
+Bottom left corner	Nedre vänstra hörnet
+Top side pocket	Övre mitthålet
+Bottom side pocket	Nedre mitthålet
+Top right corner	Övre högra hörnet
+Bottom right corner	Nedre högra hörnet
+games left unfinished	partier lämnade ofullbordade
+potting success	träffsäkerhet
+shots with a foul	stötar med foul
+starts in {n} min	börjar om {n} min
+tournament prize	turneringspris
+The dark room hides the hall around the table.	Det mörka rummet döljer hallen runt bordet.
+Show the hall	Visa hallen
+Level {n} · 1 win	Nivå {n} · 1 vinst
+Level {n} · {w} wins	Nivå {n} · {w} vinster
+{left} more online wins with this cue for level {n}. Levels only add marks to the cue.	{left} onlinevinster till med den här kön för nivå {n}. Nivåer lägger bara till märken på kön.
+The top level: this cue has every mark.	Högsta nivån: den här kön har alla märken.
+Your cue {cue} reached level {n}!	Din kö {cue} nådde nivå {n}!
+Most wins: {cue} (level {n})	Flest vinster: {cue} (nivå {n})
+{games} games · {rate}% won · {balls} balls made	{games} partier · {rate}% vunna · {balls} sänkta bollar
+vs	mot
+{from} gave you {item}!	{from} gav dig {item}!
+You received a gift!	Du har fått en gåva!
+From	Från
+To	Till
+someone	någon
+A month of VIP	En månad VIP
+Thank	Tacka
+Thanked	Tackat
+They thanked you	Hen tackade dig
+Use it now	Använd nu
+Later	Senare
+OK	OK
+Next ({n} more)	Nästa ({n} till)
+{from} gave you {item}! It's waiting for you in the lounge.	{from} gav dig {item}! Den väntar på dig i loungen.
+{name} thanked you for {item}.	{name} tackade dig för {item}.
+Gifts	Gåvor
+No gifts yet. Friends can give you items from the shop.	Inga gåvor än. Vänner kan ge dig föremål från butiken.
+{item} is yours and already in use.	{item} är din och används redan.
+{m}:{s} left	{m}:{s} kvar
+{name} invites you to play.	{name} bjuder in dig att spela.
+{name} is online.	{name} är online.
+{name} ran out of time.	{name} fick slut på tid.
+{name} received {item}.	{name} fick {item}.
+{n} pts · {g} games	{n} p · {g} partier
+{n} watching · avg {r}	{n} tittar · snitt {r}
+{title}: {how}	{title}: {how}
+Olive	Oliv
+Navy	Marinblå
+Forest	Skog
+Slate grey	Skiffergrå
+Red wine	Rödvin
+Burnt orange	Bränd orange
+Dusty rose	Gammelrosa
+Sand	Sand
+Ice blue	Isblå
+Lime	Lime
+Black tie	Smoking
+Cobalt	Kobolt
+Emerald	Smaragd
+Natural maple	Naturlig lönn
+Beach bar	Strandbar
+Modern	Modern
+English club	Engelsk klubb
+Ebony & gold	Ebenholts och guld
+Pool hall	Biljardhall
+Industrial loft	Industriloft
+Steel & oak	Stål och ek
+Tournament	Turnering
+Victorian walnut	Viktoriansk valnöt
+Ivory deco	Elfenbensdeco
+Mountain lodge	Fjällstuga
+Neon arcade	Neonarkad
+Art deco lounge	Art deco-lounge
+Skyline penthouse	Takvåning med utsikt
+Walnut	Valnöt
+Zebrawood	Zebrano
+Bocote	Bocote
+Deep ocean	Djuphav
+Cherry	Körsbär
+Jade	Jade
+Tiger	Tiger
+Amethyst	Ametist
+Arctic carbon	Arktisk kolfiber
+Inferno	Inferno
+Obsidian gold	Obsidian och guld
+Tan chalk	Beige krita
+Grey chalk	Grå krita
+Orange chalk	Orange krita
+Pink chalk	Rosa krita
+Teal chalk	Blågrön krita
+Yellow chalk	Gul krita
+Black chalk	Svart krita
+White chalk	Vit krita
+Silver chalk	Silverkrita
+TV set	TV-set
+Earth tones	Jordtoner
+Ocean	Hav
+Sunset	Solnedgång
+Candy	Godis
+Pearl	Pärla
+Monochrome	Monokrom
+Chrome	Krom
+Gold rush	Guldfeber
+No frame	Ingen ram
+Bronze	Brons
+Silver	Silver
+Gold	Guld
+Green felt	Grön filt
+Mahogany	Mahogny
+Ice	Is
+Fire	Eld
+Diamond	Diamant
+VIP crown	VIP-krona
+Rose gold	Roséguld
+Aqua	Aqua
+Violet	Violett
+Ember	Glöd
+Mint	Mint
+Frost	Frost
+No effect	Ingen effekt
+Sparks	Gnistor
+Confetti	Konfetti
+Shockwave	Tryckvåg
+Coin shower	Myntregn
+Flames	Lågor
+Royal sparks	Kungliga gnistor
+Tier colour	Ligans färg
+16-player tournaments are for VIP members.	Turneringar med 16 spelare är för VIP-medlemmar.
+A seat opened: you are in the tournament!	En plats blev ledig: du är med i turneringen!
+Entry fees go up to 1000 coins.	Insatsen kan vara upp till 1000 mynt.
+Guests can't play for coins.	Gäster kan inte spela om mynt.
+Only items sold for coins can be given.	Bara föremål som säljs för mynt kan ges bort.
+Password changed.	Lösenordet har ändrats.
+Passwords need 8 or more characters, not only digits.	Lösenord behöver 8 eller fler tecken, inte bara siffror.
+Recovery e-mail removed.	E-post för återställning borttagen.
+Recovery e-mail saved.	E-post för återställning sparad.
+Something went wrong. Please try again.	Något gick fel. Försök igen.
+That code is not valid (or the table was closed).	Koden är inte giltig (eller så har bordet stängts).
+That doesn't look like an e-mail address.	Det ser inte ut som en e-postadress.
+That game is over.	Det partiet är slut.
+The current password is wrong.	Det nuvarande lösenordet är fel.
+The server is restarting.	Servern startar om.
+The server is restarting: new games start in a moment.	Servern startar om: nya partier börjar om en stund.
+The tournament is full: you are on the waiting list.	Turneringen är full: du står i kön.
+This replay is not available.	Den här reprisen är inte tillgänglig.
+You can only give items to your friends.	Du kan bara ge föremål till dina vänner.
+Your friend already has this item.	Din vän har redan det här föremålet.
+16 (VIP)	16 (VIP)
+VIP isn't sold in this version of the game.	VIP säljs inte i den här versionen av spelet.
+In this version of the game, coins are earned by playing:	I den här versionen av spelet tjänar du mynt genom att spela:
+rated games, and a bonus every day you play.	rankade partier och en bonus varje dag du spelar.
+Coins are earned by playing:	Mynt tjänar du genom att spela:
+If you like, you can also buy them:	Om du vill kan du också köpa dem:
+one month	en månad
+already VIP	redan VIP
+Give a month to a friend · {p}	Ge en månad till en vän · {p}
+{from} gave you a month of VIP!	{from} gav dig en månad VIP!
+{name} received a month of VIP.	{name} fick en månad VIP.
+Your friend is already VIP.	Din vän är redan VIP.
+Game in progress: {n} balls left	Pågående parti: {n} bollar kvar
+Continue	Fortsätt
+Missions	Uppdrag
+Board	Tavlan
+Today	I dag
+This week	Den här veckan
+new missions in {t}	nya uppdrag om {t}
+ends in {t}	slutar om {t}
+{n} days	{n} dagar
+{n} h	{n} h
+{n} min	{n} min
+mission complete	uppdrag klart
+Missions count rated games played to the end. The coins arrive as soon as one is complete.	Uppdrag räknar rankade partier som spelats till slut. Mynten kommer så fort ett är klart.
+Nothing on the board right now.	Inget på tavlan just nu.
+Open tournaments	Öppna turneringar
+{n}/{size} players	{n}/{size} spelare
+starts in {t}	börjar om {t}
+entry {n} coins	insats {n} mynt
+See	Visa
+Play {n} rated games	Spela {n} rankade partier
+Win {n} rated games	Vinn {n} rankade partier
+Pot {n} balls	Sänk {n} bollar
+Pot {n} balls with spin	Sänk {n} bollar med skruv
+Pot 3 balls in a row in one visit	Sänk 3 bollar i rad under samma tur
+Win a game without a foul	Vinn ett parti utan foul
+Pot 3 balls in a row {n} times	Sänk 3 bollar i rad {n} gånger
+Win {n} games without a foul	Vinn {n} partier utan foul
+TV camera when watching	TV-kamera när du tittar
+Broadcast angles for other players' games and replays.	Sändningsvinklar för andras partier och repriser.
+System notifications	Systemaviseringar
+Invites, friends coming online and games starting, while you're away.	Inbjudningar, vänner som loggar in och partier som börjar medan du är borta.
+{name} starts in a few minutes: get ready!	{name} börjar om några minuter: gör dig redo!
+{name} starts in a few minutes: there is still room.	{name} börjar om några minuter: det finns fortfarande plats.
+{name} has started!	{name} har börjat!
+Momentum	Momentum
+Shot map	Stötkarta
+No shots yet.	Inga stötar än.
+made	sänkt
+missed	miss
+foul	foul
+See the tournaments	Visa turneringarna
+Open the shop	Öppna butiken
+See VIP	Visa VIP
+See the missions	Visa uppdragen
+A new version of the game is out: update to play online.	En ny version av spelet har släppts: uppdatera för att spela online.
+Update in the Microsoft Store	Uppdatera i Microsoft Store
+Update now	Uppdatera nu
+Download the new version	Ladda ner den nya versionen
+New version out	Ny version ute
+Get the new version to play online	Skaffa den nya versionen för att spela online
+Cheer for {name}	Heja på {name}
+Crowd: {a} for {p0}, {b} for {p1}	Publiken: {a} för {p0}, {b} för {p1}
+welcome pack	välkomstpaket
+Welcome pack	Välkomstpaket
+Cue “{cue}”, cloth “{cloth}” and {n} coins · only once, sold nowhere else	Kön ”{cue}”, duken ”{cloth}” och {n} mynt · bara en gång, säljs ingen annanstans
+Lagoon	Lagun
+You already have the welcome pack.	Du har redan välkomstpaketet.
+Your welcome pack is here!	Ditt välkomstpaket är här!
+Previous shot (←)	Föregående stöt (←)
+Next shot (→)	Nästa stöt (→)
+Play (Space)	Spela (Mellanslag)
+Pause (Space)	Pausa (Mellanslag)
+Speed	Hastighet
+Shot {n} of {total}	Stöt {n} av {total}
+For VIP members	För VIP-medlemmar
+{n} reactions of your own to send during games	{n} egna reaktioner att skicka under partier
+Items {a}–{b} of {n}	Föremål {a}–{b} av {n}
+(message deleted by its author)	(meddelandet raderat av skribenten)
+(message deleted by an administrator)	(meddelandet raderat av en administratör)
+Delete (it shows as deleted)	Radera (visas som raderat)
+Remove without a trace	Ta bort spårlöst
+The chat was cleared by {name}.	Chatten rensades av {name}.
+Click again to clear	Klicka igen för att rensa
+Clear the chat	Rensa chatten
+Players' chat (administrator)	Spelarnas chatt (administratör)
+Play the computer while you wait	Spela mot datorn medan du väntar
+Looking for an opponent… {t} · the game starts as soon as one is found	Söker motståndare… {t} · partiet börjar så fort någon hittas
+Stop	Stoppa
+# Coin packs and months of VIP bought in the Microsoft Store (the Store build).
+The Microsoft Store couldn't complete the purchase.	Microsoft Store kunde inte slutföra köpet.
+The Microsoft Store couldn't confirm the purchase right now. Its coins arrive the next time you open the shop.	Microsoft Store kunde inte bekräfta köpet just nu. Mynten kommer nästa gång du öppnar butiken.
+{n} coins added to your wallet.	{n} mynt har lagts i din plånbok.
+Microsoft is confirming your purchase: the coins arrive in a moment.	Microsoft bekräftar ditt köp: mynten kommer om en stund.
+The purchase hasn't reached us yet. Its coins arrive the next time you open the shop.	Köpet har inte nått oss än. Mynten kommer nästa gång du öppnar butiken.
+Loading prices from the Microsoft Store…	Laddar priser från Microsoft Store…
+Coins can't be bought in this version yet.	Mynt kan inte köpas i den här versionen än.
+Finish the purchase in the Microsoft Store window…	Slutför köpet i Microsoft Store-fönstret…
+Confirming your purchase…	Bekräftar ditt köp…
+Paid in the Microsoft Store, with your Microsoft account.	Betalas i Microsoft Store med ditt Microsoft-konto.
+The Microsoft Store can't be reached right now. Try again in a moment.	Microsoft Store kan inte nås just nu. Försök igen om en stund.
+The Microsoft Store could not confirm the purchase.	Microsoft Store kunde inte bekräfta köpet.
+Sign in to the Microsoft Store with your Microsoft account, then open the shop again.	Logga in i Microsoft Store med ditt Microsoft-konto och öppna sedan butiken igen.
+The Microsoft Store couldn't confirm the purchase right now. Your VIP month starts the next time you open the shop.	Microsoft Store kunde inte bekräfta köpet just nu. Din VIP-månad börjar nästa gång du öppnar butiken.
+You are VIP until {d}, and {n} coins were added to your wallet.	Du är VIP till {d}, och {n} mynt har lagts i din plånbok.
+Microsoft is confirming your purchase: your VIP month starts in a moment.	Microsoft bekräftar ditt köp: din VIP-månad börjar om en stund.
+The purchase hasn't reached us yet. Your VIP month starts the next time you open the shop.	Köpet har inte nått oss än. Din VIP-månad börjar nästa gång du öppnar butiken.
+A month at a time: nothing renews by itself	En månad i taget: inget förnyas automatiskt
+Add a month · {p}	Lägg till en månad · {p}
+A month of VIP · {p}	En månad VIP · {p}
+The new month starts when this one ends.	Den nya månaden börjar när den här tar slut.
+Trophies	Troféer
+No trophies yet.	Inga troféer än.
+Tournament won · {n} players	Vunnen turnering · {n} spelare
+The computer tour	Datorturnén
+All fifteen opponents beaten	Alla femton motståndare besegrade
+Daily challenge	Dagens utmaning
+First of {n} players	Etta av {n} spelare
+Easy shot	Lätt stöt
+Fair shot	Medelsvår stöt
+Hard shot	Svår stöt
+Very hard shot	Mycket svår stöt
+~{n}% chance	~{n}% chans
+No ball goes down as aimed	Ingen boll går i som du siktar
+straight in	rak
+{n}° cut	{n}° snitt
+off one cushion	via en vall
+off {n} cushions	via {n} vallar
+Make as many balls as you can in one visit: a miss or a foul ends the attempt.	Sänk så många bollar du kan under en tur: en miss eller en foul avslutar försöket.
+The same table for everyone, all day	Samma bord för alla, hela dagen
+{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	{n} försök per dag. Rensa bordet för {coins} mynt; dagens vinnare får en trofé.
+A new table in {h} h {m} min	Nytt bord om {h} h {m} min
+Sign in to take part: the server keeps the day's table.	Logga in för att delta: servern håller dagens topplista.
+Balls on today's table	Bollar på dagens bord
+Attempts left	Försök kvar
+{n} balls · #{rank}	{n} bollar · #{rank}
+{n} balls	{n} bollar
+not yet	inte än
+Your best today	Ditt bästa i dag
+No attempts left today: come back tomorrow.	Inga försök kvar i dag: kom tillbaka i morgon.
+The attempt could not be counted.	Försöket kunde inte räknas.
+Setting up the table…	Förbereder bordet…
+Start an attempt	Starta ett försök
+Starting uses an attempt, even if you leave the table.	Att starta förbrukar ett försök, även om du lämnar bordet.
+Loading today's table…	Laddar dagens bord…
+Today's table	Dagens topplista
+{n} players	{n} spelare
+Nobody has played today's table yet. Be the first!	Ingen har spelat dagens bord än. Bli först!
+Table cleared!	Bordet rensat!
+{n} of {total} balls	{n} av {total} bollar
+Sending your attempt to the server…	Skickar ditt försök till servern…
+Counted: {n} balls · +{coins} coins	Räknat: {n} bollar · +{coins} mynt
+Counted: {n} balls	Räknat: {n} bollar
+See today's table	Visa dagens topplista
+Table cleared! +{n} coins	Bordet rensat! +{n} mynt
+Daily challenge: {n} of {total} balls made	Dagens utmaning: {n} av {total} bollar sänkta
+1 player	1 spelare
+Phoenix	Fenix
+Carrara marble	Carraramarmor
+Dragon scale	Drakfjäll
+Galaxy	Galax
+Ruby throne	Rubintronen
+Closing the game now is leaving it: extra rating lost and a wait to play again.	Att stänga spelet nu räknas som att lämna: extra ratingförlust och väntetid innan du kan spela igen.
+You left a game in progress: you can play online again in {n} min.	Du lämnade ett pågående parti: du kan spela online igen om {n} min.
+Quick phrases	Snabbfraser
+Good luck, have fun!	Lycka till och ha kul!
+Nice shot!	Snygg stöt!
+Great safety!	Grym safety!
+Unlucky!	Otur!
+Oops!	Hoppsan!
+Wow!	Wow!
+That was close!	Det var nära!
+Take your time.	Ta den tid du behöver.
+Sorry!	Förlåt!
+Thanks!	Tack!
+Well played!	Bra spelat!
+Good game!	Bra parti!
+Rematch?	Revansch?
+I have to go, thanks for the game!	Jag måste gå, tack för partiet!
+Practise while you wait	Träna medan du väntar
+A new rack.	En ny uppställning.
+Level {n}! (+{xp} XP)	Nivå {n}! (+{xp} XP)
++{xp} XP	+{xp} XP
+Level {n} · {into} / {span} XP to the next	Nivå {n} · {into} / {span} XP till nästa
+Level {n}	Nivå {n}
+Hi! I watched a lot of videos, I'm ready!	Hej! Jag har kollat på massor av videor, jag är redo!
+Be gentle, okay?	Var snäll, okej?
+Whoa, how did you do that?	Oj, hur gjorde du det där?
+Teach me that one later!	Lär mig den där sen!
+Phew! My turn!	Puh! Min tur!
+Even you miss? Good to know.	Missar till och med du? Bra att veta.
+A free ball! What do I do with it?	En gratisboll! Vad gör jag med den?
+Did you see that?! It went in!	Såg du?! Den gick i!
+Beginner's luck counts too!	Nybörjartur räknas också!
+Oops. That was a practice shot.	Hoppsan. Det var en provstöt.
+Aim, Leo, aim...	Sikta, Leo, sikta...
+Sorry! I touched the wrong one again.	Förlåt! Jag träffade fel boll igen.
+I WON? I'm calling my mum!	VANN JAG? Jag ringer mamma!
+Good game! I'm getting better, right?	Bra parti! Jag blir bättre, va?
+Saturday, a table and good company. Let's play!	Lördag, ett bord och gott sällskap. Nu kör vi!
+Nice one!	Snyggt!
+Oh, you're good. I'll pay attention now.	Oj, du är bra. Nu ska jag skärpa mig.
+Happens to the best of us.	Det händer de bästa.
+Don't worry, it's just a game!	Ingen fara, det är bara ett spel!
+Thanks for the gift!	Tack för gåvan!
+Yes! Weekend skills!	Ja! Helgformen sitter!
+Lucky me!	Vilken tur jag har!
+Hm, where was I aiming?	Hm, vart siktade jag nu?
+Too much chatting, not enough aiming.	För mycket snack, för lite siktande.
+Oops, my bad!	Hoppsan, mitt fel!
+That was fun! Same time next weekend?	Det var kul! Samma tid nästa helg?
+Well played! Rematch over a lemonade?	Bra spelat! Revansch över en lemonad?
+Four cushions, endless possibilities.	Fyra vallar, oändliga möjligheter.
+Straight in? So... direct.	Rakt i? Så... rakt på sak.
+Nice, but a bank would have been prettier.	Snyggt, men en dubblé hade varit vackrare.
+You should have used the cushion.	Du borde ha använt vallen.
+The rail was right there, asking for it.	Vallen låg ju där och bad om det.
+The table didn't like that.	Det gillade inte bordet.
+Off the rail and in. Art!	Via vallen och i. Konst!
+Geometry never lies.	Geometri ljuger aldrig.
+The angle was right. The cushion disagreed.	Vinkeln var rätt. Vallen höll inte med.
+One diamond off. Just one!	En diamant fel. Bara en!
+Too much imagination, not enough contact.	För mycket fantasi, för lite träff.
+A masterpiece, if I may say so.	Ett mästerverk, om jag får säga det själv.
+Well played. Now try it off two rails.	Bra spelat. Prova nu via två vallar.
+I hope these balls are made of steel.	Jag hoppas att de här bollarna är gjorda av stål.
+Soft touch, huh? Not my style.	Mjuk touch, va? Inte min stil.
+Hit it harder next time!	Slå hårdare nästa gång!
+Too gentle! Power solves everything.	För mjukt! Kraft löser allt.
+HA!	HA!
+My table now. Cover your ears.	Mitt bord nu. Håll för öronen.
+BOOM!	PANG!
+Did you hear that pocket?	Hörde du det hålet?
+Too much power? No such thing.	För mycket kraft? Finns inte.
+The pocket moved.	Hålet flyttade sig.
+The ball flew. It happens. A lot.	Bollen flög. Det händer. Ofta.
+Power wins again! BOOM!	Kraften vinner igen! PANG!
+Fine, finesse works too. Sometimes.	Okej, finess funkar också. Ibland.
+Take your time. I have all day.	Ta den tid du behöver. Jag har hela dagen.
+Acceptable.	Godtagbart.
+Enjoy it while it lasts.	Njut medan det varar.
+Patience is a virtue. Not yours, apparently.	Tålamod är en dygd. Inte din, tydligen.
+Thank you.	Tack.
+Sloppy.	Slarvigt.
+Steady wins.	Stadighet vinner.
+One at a time.	En i taget.
+Hm. I'll leave you nothing anyway.	Hm. Jag lämnar dig inget i alla fall.
+Intentional. Probably.	Avsiktligt. Förmodligen.
+Unacceptable. Of me.	Oacceptabelt. Av mig.
+As I said: patience.	Som sagt: tålamod.
+You got through the wall. I'm impressed.	Du tog dig igenom muren. Jag är imponerad.
+I've been playing since before these balls were plastic.	Jag har spelat sedan innan de här bollarna var av plast.
+Good stroke. Reminds me of a fellow in '78.	Fin stöt. Påminner om en grabb jag mötte -78.
+Smooth. Very smooth.	Mjukt. Väldigt mjukt.
+Keep your head down, kid.	Håll huvudet nere, grabben.
+The cue ball doesn't lie.	Vita bollen ljuger inte.
+Ah, a little present. Thank you kindly.	Ah, en liten present. Tack så mycket.
+Like riding a bicycle.	Som att cykla.
+Still got it.	Har det fortfarande.
+The eyes aren't what they used to be.	Ögonen är inte vad de har varit.
+In my day the pockets were bigger.	På min tid var hålen större.
+Even old pros slip.	Även gamla proffs slinter.
+Experience, my friend. Experience.	Erfarenhet, min vän. Erfarenhet.
+You've got a future in this game.	Du har en framtid i det här spelet.
+Me? Oh, I hardly ever play...	Jag? Åh, jag spelar nästan aldrig...
+Lucky! Do it again, I dare you.	Tur! Gör om det, om du törs.
+Ooh, someone's been practising.	Oj, någon har visst tränat.
+Aw, so close! Bless.	Åh, så nära! Gulligt.
+Want me to show you how?	Ska jag visa hur man gör?
+Thank you, sweetie.	Tack, raring.
+Oops, did I do that?	Hoppsan, var det jag?
+Must be beginner's luck. Again.	Måste vara nybörjartur. Igen.
+Missed on purpose. Keeps it interesting.	Missade med flit. Det håller det spännande.
+Just warming up.	Värmer bara upp.
+Oh dear, how clumsy of me. Wink.	Oj då, vad klumpigt av mig. Blink.
+Hardly ever play, I said. Hardly.	Nästan aldrig, sa jag. Nästan.
+Fine, you got me. This time.	Okej, du fick mig. Den här gången.
+Friction, momentum, spin. Let us begin.	Friktion, rörelsemängd, skruv. Låt oss börja.
+A fine cut. About thirty degrees, I'd say.	Ett fint snitt. Runt trettio grader, skulle jag säga.
+Textbook.	Som i läroboken.
+You underestimated the throw.	Du underskattade kastet.
+Interesting. Statistically expected.	Intressant. Statistiskt väntat.
+The cue ball followed the laws of physics, not your plan.	Vita bollen följde fysikens lagar, inte din plan.
+As calculated.	Som beräknat.
+Elastic collision, elegant result.	Elastisk stöt, elegant resultat.
+An error in my measurement.	Ett fel i min mätning.
+I'll revise the model.	Jag reviderar modellen.
+Hm. Unexpected spin.	Hm. Oväntad skruv.
+The numbers were on my side.	Siffrorna var på min sida.
+A result outside my predictions. Well done.	Ett resultat utanför mina prognoser. Bra gjort.
+Focus.	Fokus.
+Clean.	Rent.
+Not bad.	Inte illa.
+Half a millimetre.	En halv millimeter.
+Breathe before you shoot.	Andas innan du stöter.
+Careless.	Slarvigt.
+Target down.	Målet nedlagt.
+Centre pocket.	Mitt i hålet.
+Hm. Recalibrating.	Hm. Omkalibrerar.
+That never happens.	Det händer aldrig.
+Unacceptable.	Oacceptabelt.
+Precision wins.	Precision vinner.
+Good shooting.	Bra skjutet.
+Welcome to my table. Enjoy the show.	Välkommen till mitt bord. Njut av showen.
+Very good. You've done your homework.	Mycket bra. Du har gjort din läxa.
+Applause for the challenger!	En applåd för utmanaren!
+Pressure. It gets to everyone.	Pressen. Den når alla.
+Thank you for the table.	Tack för bordet.
+A champion never refuses a gift.	En mästare tackar aldrig nej till en gåva.
+Naturally.	Naturligtvis.
+That's how it's done.	Så gör man.
+Even champions give the crowd a chance.	Även mästare ger publiken en chans.
+Leaving you something, out of courtesy.	Jag lämnar dig något, av artighet.
+A rare sight. Remember it.	En sällsynt syn. Kom ihåg den.
+The title stays with me. Good game.	Titeln stannar hos mig. Bra parti.
+Remarkable. You've earned my respect.	Anmärkningsvärt. Du har förtjänat min respekt.
+Calibration complete. Good luck, human.	Kalibrering klar. Lycka till, människa.
+Shot registered: successful.	Stöt registrerad: lyckad.
+Probability of my victory: increasing.	Sannolikhet för min seger: ökande.
+Foul detected. Processing penalty.	Foul upptäckt. Behandlar straff.
+Executed as planned.	Utfört enligt plan.
+Error. Recalculating.	Fel. Räknar om.
+Malfunction. Please disregard.	Funktionsfel. Vänligen bortse.
+Game complete. Thank you for playing.	Partiet slutfört. Tack för att du spelade.
+Defeat acknowledged. Well played.	Förlust bekräftad. Bra spelat.
+Drills	Övningar
+Exercises with stars	Övningar med stjärnor
+{s} / {max} stars	{s} / {max} stjärnor
+Stars at {a}, {b} and {c}	Stjärnor vid {a}, {b} och {c}
+Your best: {n} of {total}	Ditt bästa: {n} av {total}
+Not tried yet.	Inte försökt än.
+Start the drill	Starta övningen
+Sign in to keep your stars in your account.	Logga in för att spara dina stjärnor på ditt konto.
+{n} of {total}	{n} av {total}
+{drill}: try {k} of {n} · {made} made	{drill}: försök {k} av {n} · {made} lyckade
+Made it! {n} of {total}	Klart! {n} av {total}
+Missed.	Miss.
+Sending to the server…	Skickar till servern…
+Not signed in: this session is not ranked.	Inte inloggad: den här omgången rankas inte.
+Kept in your account.	Sparat på ditt konto.
+The session could not be counted.	Omgången kunde inte räknas.
+Back to the drills	Tillbaka till övningarna
+Straight in	Rakt i
+A long straight pot into the corner. Five tries.	En lång rak stöt i hörnhålet. Fem försök.
+The cut	Snittet
+A half-ball cut into the corner. Five tries.	Ett halvbollssnitt i hörnhålet. Fem försök.
+Draw it back	Dra tillbaka
+Pot the ball and draw the cue ball back into the circle. Five tries.	Sänk bollen och dra tillbaka vita bollen in i cirkeln. Fem försök.
+Follow through	Följ efter
+Pot the ball and leave the cue ball in the circle past it. Five tries.	Sänk bollen och lämna vita bollen i cirkeln bortom den. Fem försök.
+Bank shot	Dubblé
+Off one cushion into the side pocket. Five tries.	Via en vall i mitthålet. Fem försök.
+Snooker escape	Ta sig ur snooker
+Hit the 1 first: it hides behind other balls. Five tries.	Träffa 1:an först: den gömmer sig bakom andra bollar. Fem försök.
+Ten in a row	Tio i rad
+Ten different pots, one after another: a miss ends the session.	Tio olika stötar, den ena efter den andra: en miss avslutar omgången.
+The far corner	Bortre hörnet
+A cut back up the table into the corner behind you. Five tries.	Ett snitt tillbaka upp mot hörnhålet bakom dig. Fem försök.
+Long into the side	Långt i mitten
+From the far end of the table into the side pocket. Five tries.	Från bordets bortre ände i mitthålet. Fem försök.
+Cue ball on the cushion	Vita mot vallen
+The cue ball touches the cushion: pot the ball into the corner all the same. Five tries.	Vita bollen ligger mot vallen: sänk bollen i hörnet ändå. Fem försök.
+The plant	Fast kombination
+The 2 touches the 1 and points at the pocket: hit the 2 and the 1 goes in. Five tries.	2:an ligger an mot 1:an och pekar mot hålet: träffa 2:an så går 1:an i. Fem försök.
+The carom	Karambolen
+The 2 is in the way: glance off it and send the 1 into the corner. Five tries.	2:an är i vägen: snudda den och skicka 1:an i hörnet. Fem försök.
+The long draw	Lång dragboll
+Pot the ball and draw the cue ball all the way back into the circle. Five tries.	Sänk bollen och dra tillbaka vita bollen hela vägen in i cirkeln. Fem försök.
+On the tangent line	På tangentlinjen
+Pot the ball in the side and let the cue ball run on into the circle. Five tries.	Sänk bollen i mitthålet och låt vita bollen rulla vidare in i cirkeln. Fem försök.
+Two-cushion bank	Dubblé via två vallar
+Off two cushions and into the corner. Five tries.	Via två vallar och i hörnet. Fem försök.
+Fifteen in a row	Femton i rad
+Fifteen different pots, one after another: a miss ends the session.	Femton olika stötar, den ena efter den andra: en miss avslutar omgången.
+Take back the shot (Z)	Ångra stöten (Z)
+Shot taken back.	Stöten ångrad.
+Solids	Hela
+Stripes	Halva
+Hide the history	Dölj historiken
+New username	Nytt användarnamn
+Click again to confirm	Klicka igen för att bekräfta
+{n} of {total} name changes left	{n} av {total} namnbyten kvar
+You can't change your username again.	Du kan inte byta användarnamn igen.
+That is already your username.	Det är redan ditt användarnamn.
+Finish your game before changing your username.	Avsluta ditt parti innan du byter användarnamn.
+Leave your table or the queue before changing your username.	Lämna ditt bord eller kön innan du byter användarnamn.
+Leave your tournament before changing your username.	Lämna din turnering innan du byter användarnamn.
+Username changed.	Användarnamnet har ändrats.
+The server is still being updated to the new version. Try again in a few minutes.	Servern uppdateras fortfarande till den nya versionen. Försök igen om några minuter.
+{shooter} made an opponent's ball: {next} to shoot.	{shooter} sänkte en av motståndarens bollar: {next} stöter.
+# Five more computer opponents: Tito, Inês, Diego, Amara and Yuri.
+The Gambler	Hasardören
+Bets on every shot: as hard as the cue allows, with all the spin he can find. Safe play bores him.	Satsar på varje stöt: så hårt kön tillåter, med all skruv han kan hitta. Safetyspel tråkar ut honom.
+The Soft Touch	Mjukisen
+Never hits harder than she must: the balls die at the pocket's edge and the cue ball stops where she wants it.	Slår aldrig hårdare än hon måste: bollarna dör vid hålets kant och vita bollen stannar där hon vill.
+The Showman	Showmannen
+Plays to the crowd: a raised cue, swerving spin and a bank whenever there's one. It works more often than it should.	Spelar för publiken: höjd kö, böjande skruv och en dubblé när det finns en. Det funkar oftare än det borde.
+The Tactician	Taktikern
+Plans the whole rack: snookers you when the pot isn't sure, and runs out when it is.	Planerar hela uppställningen: snookrar dig när sänkningen är osäker och rensar bordet när den är säker.
+The Machine	Maskinen
+No nerves, no flair: centre ball, measured pace, the same perfect stroke every time.	Inga nerver, ingen stil: mitt på bollen, avvägd kraft, samma perfekta stöt varje gång.
+Place your bets! Mine's on me.	Placera era insatser! Mina ligger på mig.
+Lucky roll. Let it ride!	Tur i tärningen. Kör vidare!
+Okay, okay. Double or nothing?	Okej, okej. Dubbelt eller kvitt?
+The house always wins!	Banken vinner alltid!
+Free chips! Thank you!	Gratismarker! Tack!
+All in, and it paid!	All in, och det lönade sig!
+That's how you play the odds!	Så spelar man på oddsen!
+Bad beat. Next hand.	Bad beat. Nästa giv.
+Too much spin? There's no such thing.	För mycket skruv? Finns inte.
+Busted. Worth the risk!	Sprack. Värt risken!
+Jackpot! Same stakes again?	Jackpott! Samma insats igen?
+You beat the odds. Respect.	Du slog oddsen. Respekt.
+Softly, now. The table likes a gentle hand.	Mjukt nu. Bordet gillar en lätt hand.
+Nicely done.	Snyggt gjort.
+A little hard, but it went in.	Lite hårt, men den gick i.
+Less power, more feel.	Mindre kraft, mer känsla.
+Oh dear. A free ball for me.	Oj då. En gratisboll till mig.
+Just enough to drop.	Precis tillräckligt för att trilla i.
+See? No need to hit it hard.	Ser du? Man behöver inte slå hårt.
+A touch too soft.	En aning för löst.
+Clumsy of me. Sorry.	Klumpigt av mig. Förlåt.
+Slow and steady. Thank you for the game.	Lugnt och stadigt. Tack för partiet.
+Beautifully played. Well deserved.	Vackert spelat. Välförtjänt.
+Ladies and gentlemen... the show begins!	Mina damer och herrar... showen börjar!
+Not bad! Bow to the crowd!	Inte illa! Buga för publiken!
+You stole my applause!	Du stal mina applåder!
+The crowd wanted more!	Publiken ville ha mer!
+Ooh, a plot twist!	Oj, en oväntad vändning!
+Ta-da!	Ta-da!
+And for my next trick...	Och som nästa trick...
+Even magicians have off nights.	Även trollkarlar har dåliga kvällar.
+That was... part of the act.	Det där var... en del av numret.
+Thank you, thank you! Encore?	Tack, tack! Extranummer?
+Take a bow, champion. You earned it.	Buga, mästare. Du har förtjänat det.
+Every rack is a puzzle. Let's solve this one.	Varje uppställning är ett pussel. Vi löser det här.
+Good. Now where is your cue ball?	Bra. Men var hamnade vita bollen?
+I saw that coming.	Det såg jag komma.
+That left me something. Thank you.	Det lämnade något åt mig. Tack.
+As planned.	Som planerat.
+Exactly as I calculated.	Precis som jag räknade.
+Three moves ahead.	Tre drag före.
+A variable I missed.	En variabel jag missade.
+Hm. Recalculating.	Hm. Räknar om.
+Checkmate.	Schack matt.
+You out-thought me. That's rare.	Du tänkte bättre än jag. Det är sällsynt.
+Game initialised.	Partiet initierat.
+Noted.	Noterat.
+Error margin exceeded.	Felmarginalen överskriden.
+Penalty applied.	Straff tillämpat.
+As expected.	Som väntat.
+Next.	Nästa.
+Deviation logged.	Avvikelse loggad.
+Malfunction. It will not repeat.	Funktionsfel. Det upprepas inte.
+Result: win. Thank you for the data.	Resultat: vinst. Tack för datan.
+Unexpected outcome. Impressive.	Oväntat utfall. Imponerande.
+Opponents' remarks	Motståndarnas kommentarer
+The computer opponents comment on the game in speech bubbles.	Datormotståndarna kommenterar partiet i pratbubblor.
+Top view only	Bara vy ovanifrån
+The table is always seen from above: no 3D view, no turning.	Bordet syns alltid ovanifrån: ingen 3D-vy, ingen vridning.
+Not with the top view only.	Inte med bara vy ovanifrån.
+Wheel	Mushjul
+Rules	Regler
+Rules of the game	Spelets regler
+Level	Plant
+Drag the cue: jump & massé	Dra kön: hopp och massé
+Drag to raise or lower the cue	Dra för att höja eller sänka kön
+Drag the cue · {keys}	Dra kön · {keys}
+Profile picture	Profilbild
+Shown by your name at the table and in your profile.	Visas vid ditt namn vid bordet och i din profil.
+No picture	Ingen bild
+Change your picture	Byt din bild
+{name} sank the 8 together with another ball	{name} sänkte 8-bollen tillsammans med en annan boll
+the opponent sank the 8 with another ball	motståndaren sänkte 8-bollen med en annan boll
+sank the 8 with another ball	sänkte 8-bollen med en annan boll
+opponent pocketed the 8-ball together with another ball	motståndaren sänkte 8-bollen tillsammans med en annan boll
+Penalty: {balls} off the table for {name}.	Straff: {balls} tas av bordet till förmån för {name}.
+{name} had fewer balls left than the foul gives: the 8 pays the rest, and the foul loses the game.	{name} hade färre bollar kvar än foulen ger: 8-bollen betalar resten, och foulen förlorar partiet.
+Shadows	Skuggor
+The shadows of the balls and of the cue on the table.	Bollarnas och köns skuggor på bordet.
+Sixteen players: knockout or arena	Sexton spelare: utslagning eller arena
+New knockout	Ny utslagning
+New arena	Ny arena
+Knockout: sixteen players, four rounds. Lose a game and you are out.	Utslagning: sexton spelare, fyra omgångar. Förlorar du ett parti är du ute.
+Arena: seven rounds for everyone. A win is 2 points, 3 from the third win in a row. The most points wins.	Arena: sju omgångar för alla. En vinst ger 2 poäng, 3 från tredje vinsten i rad. Flest poäng vinner.
+The games between the other players are decided by their strength and a draw.	Partierna mellan de andra spelarna avgörs av deras styrka och lottning.
+You won the tournament!	Du vann turneringen!
+{name} won the tournament.	{name} vann turneringen.
+You finished in place {n}.	Du slutade på plats {n}.
+Round of 16	Åttondelsfinal
+Quarter-finals	Kvartsfinaler
+Round {n} of {total}	Omgång {n} av {total}
+Play {name}	Spela mot {name}
+Abandon the tournament	Lämna turneringen
+W - L	V - F
+Points	Poäng
+The tournament is over.	Turneringen är slut.
+The round is over: see who you play next.	Omgången är slut: se vem du möter härnäst.
+You are out of the tournament.	Du är utslagen ur turneringen.
+Side pocket	Mitthål
+A cut into the side pocket, where the angle is tight. Five tries.	Ett snitt i mitthålet, där vinkeln är snäv. Fem försök.
+The long cut	Det långa snittet
+A cut from the far end of the table into the corner. Five tries.	Ett snitt från bordets bortre ände i hörnet. Fem försök.
+Thin cut	Tunt snitt
+Barely graze the ball: a thin cut into the corner. Five tries.	Snudda knappt bollen: ett tunt snitt i hörnet. Fem försök.
+Along the cushion	Längs vallen
+The ball sits by the cushion: run it along into the corner. Five tries.	Bollen ligger vid vallen: rulla den längs vallen in i hörnet. Fem försök.
+Stop shot	Stoppboll
+Pot the ball and stop the cue ball dead where the ball was. Five tries.	Sänk bollen och stoppa vita bollen tvärt där bollen låg. Fem försök.
+The combination	Kombinationen
+Pot the 1 by playing the 2 into it. Five tries.	Sänk 1:an genom att spela 2:an på den. Fem försök.
+Cross-corner bank	Korsdubblé
+Off the long cushion and across the table into the corner. Five tries.	Via långvallen och tvärs över bordet in i hörnet. Fem försök.
+Kick shot	Vallstöt
+The 1 is walled off: send the cue ball off a cushion to hit it first. Five tries.	1:an är blockerad: skicka vita bollen via en vall så att den träffas först. Fem försök.
+Only the cue ball went down on the break: the balls are racked again and {next} breaks.	Bara vita bollen gick i på utslaget: bollarna ställs upp igen och {next} slår ut.
+Golden break	Gyllene utslag
+Win a rated game by sinking only the 8-ball on the break.	Vinn ett rankat parti genom att bara sänka 8-bollen på utslaget.
+Half a year	Ett halvår
+Have an account for six months.	Ha haft ett konto i sex månader.
+First anniversary	Första årsdagen
+Second anniversary	Andra årsdagen
+Have an account for two years.	Ha haft ett konto i två år.
+Third anniversary	Tredje årsdagen
+Have an account for three years.	Ha haft ett konto i tre år.
+Five years at the table	Fem år vid bordet
+Have an account for five years.	Ha haft ett konto i fem år.
+Back to the tournament	Tillbaka till turneringen
+Continue against {name}	Fortsätt mot {name}
+You left your game: it counts as a loss.	Du lämnade ditt parti: det räknas som förlust.
+new level	ny nivå
+Level {n} brings: {item}	Nivå {n} ger: {item}
+Level 5	Nivå 5
+Reach level 5.	Nå nivå 5.
+Level 10	Nivå 10
+Reach level 10.	Nå nivå 10.
+Level 15	Nivå 15
+Reach level 15.	Nå nivå 15.
+Level 20	Nivå 20
+Reach level 20.	Nå nivå 20.
+Level 30	Nivå 30
+Reach level 30.	Nå nivå 30.
+Level 40	Nivå 40
+Reach level 40.	Nå nivå 40.
+Level 50	Nivå 50
+Reach level 50.	Nå nivå 50.
+Regular's teal	Stammisens blågröna
+Veteran's plum	Veteranens plommon
+Old hand	Gammal räv
+Lifer	Trotjänare
+Apprentice's chalk	Lärlingens krita
+Journeyman's chalk	Gesällens krita
+Achievements	Prestationer
+Leagues and levels	Ligor och nivåer
+Next league: {tier}	Nästa liga: {tier}
+The top league.	Den högsta ligan.
+Every prize of the levels is won.	Alla nivåpriser är vunna.
+None yet: the first is one game away.	Inga än: det första är ett parti bort.
+{coins} and {item}	{coins} och {item}
+Leagues	Ligor
+Levels	Nivåer
+By playing. Every level pays {n} coins.	Genom att spela. Varje nivå ger {n} mynt.
+where everyone starts	där alla börjar
+from {n}	från {n}
+The top level.	Högsta nivån.
+{n} XP to level {next}	{n} XP till nivå {next}
+{n} levels to go	{n} nivåer kvar
+new league	ny liga
+Old-timer's black	Veteranens svarta
+Expert league blue	Expertligans blå
+Master league violet	Mästarligans violetta
+Legend league gold	Legendligans guld
+Skilled league chalk	Skickligligans krita
+By rating. Each league pays once.	Genom rating. Varje liga ger en gång.
+cue	kö
+cloth	duk
+chalk	krita
+Always show the head string	Visa alltid huvudlinjen
+The line the break is played from, always on the table (off: only while placing the cue ball behind it).	Linjen som utslaget spelas från, alltid på bordet (av: bara när du placerar vita bollen bakom den).
+{who} ran out of time: the turn passes.	{who} fick slut på tid: turen går över.
+{who} ran out of time with no ball left to give {other}: the 8 pays, and {who} loses.	{who} fick slut på tid och {other} har inga bollar kvar att få: 8-bollen betalar, och {who} förlorar.
+{who} ran out of time: the cue ball goes back to the head spot and the turn passes.	{who} fick slut på tid: vita bollen går tillbaka till huvudpunkten och turen går över.
+{who} ran out of time: {balls} off the table for {other}, and the cue ball goes back to the head spot.	{who} fick slut på tid: {balls} tas av bordet till förmån för {other}, och vita bollen går tillbaka till huvudpunkten.
+You were muted for {n} minutes: {r}	Du har tystats i {n} minuter: {r}
+Your account was suspended for {n} hours: {r}	Ditt konto har stängts av i {n} timmar: {r}
+The server restarts in {minutes} min for an update. Games in progress go on; new games start right after.	Servern startar om om {minutes} min för en uppdatering. Pågående partier fortsätter; nya partier börjar direkt efter.
+The {cup} was called off: not enough players signed up.	{cup} ställdes in: för få spelare anmälde sig.
+The {cup} is open for sign-up: it starts soon in Tournaments.	Anmälan till {cup} är öppen: den börjar snart under Turneringar.
+{display} won the tournament “{name}”!	{display} vann turneringen ”{name}”!
+Sunday Cup	Söndagscupen
+Monday Cup	Måndagscupen
+Tuesday Cup	Tisdagscupen
+Wednesday Cup	Onsdagscupen
+Thursday Cup	Torsdagscupen
+Friday Cup	Fredagscupen
+Saturday Cup	Lördagscupen
+{name} · rating {r}	{name} · rating {r}
+Something went wrong. Try again.	Något gick fel. Försök igen.
+member for 1 day	medlem i 1 dag
+Game in progress: 1 ball left	Pågående parti: 1 boll kvar
+1 level to go	1 nivå kvar
+1 more online win with this cue for level {n}. Levels only add marks to the cue.	1 onlinevinst till med den här kön för nivå {n}. Nivåer lägger bara till märken på kön.
+Home	Home
+End	End
+PgUp	PgUp
+PgDn	PgDn
+Ins	Insert
+Could not join the LAN game	Kunde inte gå med i LAN-partiet
+LAN game · others join at {address}	LAN-parti · andra ansluter på {address}
+Click to copy	Klicka för att kopiera
+Copied.	Kopierat.
+Start a new game?	Starta ett nytt parti?
+You have a game in progress against the computer, with 1 ball left. A new game takes its place.	Du har ett pågående parti mot datorn med 1 boll kvar. Ett nytt parti ersätter det.
+You have a game in progress against the computer, with {n} balls left. A new game takes its place.	Du har ett pågående parti mot datorn med {n} bollar kvar. Ett nytt parti ersätter det.
+Continue that game	Fortsätt det partiet
+Start a new one	Starta ett nytt
+Click again to close the game: {n} will be disconnected	Klicka igen för att stänga partiet: {n} kopplas bort
+{name} cleared the table in one visit!	{name} rensade bordet på en tur!
+{name}: {n} in a row!	{name}: {n} i rad!
+Watch the deciding shot again	Se den avgörande stöten igen
+Next: {name}	Nästa: {name}
+Drag on the table to aim, or click a ball	Dra på bordet för att sikta, eller klicka på en boll
+Set the power	Ställ in kraften
+Let go of {key} to shoot · Esc cancels	Släpp {key} för att stöta · Esc avbryter
+Staff accounts can't change their username.	Personalkonton kan inte byta användarnamn.
+That password can't be used. Choose another one.	Det lösenordet kan inte användas. Välj ett annat.
+That tournament is full.	Den turneringen är full.
+The server is restarting: your tournament was called off.	Servern startar om: din turnering ställdes in.
+Too many sign-ins. Wait a minute and try again.	För många inloggningar. Vänta en minut och försök igen.
+Too many wrong passwords. Try again in a few minutes.	För många felaktiga lösenord. Försök igen om några minuter.
+Your VIP subscription could not be cancelled. Try again in a moment.	Din VIP-prenumeration kunde inte avslutas. Försök igen om en stund.
+Balls of both groups on the break: the turn passes to {next}, the table is open.	Bollar från båda grupperna på utslaget: turen går till {next}, bordet är öppet.
+Only a final started while signed in counts: play the last stage again signed in.	Bara en final som startats inloggad räknas: spela sista etappen igen inloggad.
+The server didn't deal the final: this game won't earn the reward.	Servern delade inte ut finalen: det här partiet ger ingen belöning.
+The server didn't answer: this session won't be ranked.	Servern svarade inte: den här omgången rankas inte.
+The server is dealing the final…	Servern delar ut finalen…
+The server is setting up the drill…	Servern förbereder övningen…
+Not signed in: a win in this final won't earn the reward.	Inte inloggad: en vinst i den här finalen ger ingen belöning.
+Not kept: sessions count when started signed in.	Inte sparat: omgångar räknas när de startas inloggad.
+Warning from the staff: {text}	Varning från personalen: {text}
+The staff changed your username to {name}. Sign in again.	Personalen har ändrat ditt användarnamn till {name}. Logga in igen.
+The staff called off the tournament you were in.	Personalen ställde in turneringen du var med i.
+Experience ×{n}	Erfarenhet ×{n}
+Coins from games ×{n}	Mynt från partier ×{n}
+Themed tournament	Tematurnering
+Event	Evenemang
+Events	Evenemang
+Warning from the staff	Varning från personalen
+Esc to cancel	Esc för att avbryta
+Will be sent when you're back online.	Skickas när du är online igen.
+Your strokes will be sent when you're back online.	Dina stötar skickas när du är online igen.
+The final you won was dealt to {name}: sign in as {name} to claim the reward.	Finalen du vann delades ut till {name}: logga in som {name} för att få belöningen.
+Type your password to confirm it's you.	Skriv ditt lösenord för att bekräfta att det är du.
+The cue ball is back on the head spot: {next} plays from there.	Vita bollen är tillbaka på huvudpunkten: {next} spelar därifrån.
+{name} came online	{name} loggade in
+Online now: {names}	Online nu: {names}
+Nobody else is online right now.	Ingen annan är online just nu.
+Focus mode	Fokusläge
+No invitations while you play: they are turned away until the game is over.	Inga inbjudningar medan du spelar: de avvisas tills partiet är slut.
+in focus mode	i fokusläge
+In focus mode: no invitations until their game is over.	I fokusläge: inga inbjudningar förrän partiet är slut.
+That player is in focus mode and isn't taking invitations until their game is over.	Den spelaren är i fokusläge och tar inte emot inbjudningar förrän partiet är slut.
+Look at it closely	Titta närmare
+Sign in to buy	Logga in för att köpa
+Sign in to use	Logga in för att använda
+Back to the shop (Esc)	Tillbaka till butiken (Esc)
+Show the interface (H)	Visa gränssnittet (H)
+Hide the interface (H)	Dölj gränssnittet (H)
+Turn (Space)	Vrid (Mellanslag)
+Stop turning (Space)	Sluta vrida (Mellanslag)
+Zoom in (+)	Zooma in (+)
+Zoom out (−)	Zooma ut (−)
+Back to the start (R)	Tillbaka till början (R)
+Previous setting ([)	Föregående miljö ([)
+Next setting (])	Nästa miljö (])
+Setting	Miljö
+Studio	Studio
+Your table	Ditt bord
+Drag with the right button to turn · wheel to zoom · double-click to look closer	Dra med höger knapp för att vrida · hjulet för att zooma · dubbelklicka för att titta närmare
+Drag with the right button to turn · wheel to zoom · click a ball to look at it	Dra med höger knapp för att vrida · hjulet för att zooma · klicka på en boll för att titta på den
+The set	Setet
+From above	Ovanifrån
+Low angle	Låg vinkel
+Cue ball	Vita bollen
+Ball {n}	Boll {n}
+Whole	Helhet
+Tip	Spets
+Joint	Skarv
+Butt	Handtag
+Top	Topp
+Cue	Kö
+Table	Bord
+Hall	Hall
+Corner	Hörnhål
+Side	Mitthål
+Leg	Ben
+Close-up	Närbild
+Cushion	Vall
+Phenolic resin under a bright clear coat	Fenolharts under en blank klarlack
+A pearly sheen that shifts with the light	En pärlemorglans som skiftar med ljuset
+Brushed metal, bright as a mirror	Borstad metall, blank som en spegel
+Old ivory: soft, warm and matte	Gammalt elfenben: mjukt, varmt och matt
+A full-size cue, tip to butt: turn it, come close to its joint and its butt	En kö i full storlek, från spets till handtag: vrid den, gå nära skarven och handtaget
+A cube of chalk, and the colour it leaves on the tip	En kub krita och färgen den lämnar på spetsen
+The cloth on the table: come close to see its weave	Duken på bordet: gå nära för att se vävnaden
+Dark mahogany, turned legs and brass castings	Mörk mahogny, svarvade ben och mässingsbeslag
+Light teak, square legs and chrome castings	Ljus teak, fyrkantiga ben och krombeslag
+Deep mahogany, carved legs and leather pocket nets	Djup mahogny, snidade ben och hålnät av läder
+Black lacquer and brushed aluminium on two slab legs	Svart lack och borstad aluminium på två skivben
+Black ebony with gold castings and inlays	Svart ebenholts med beslag och inläggningar i guld
+Reclaimed oak rails on a riveted black steel frame	Vallar av återvunnen ek på en nitad ram av svart stål
+A pro tournament table: charcoal rails, block legs, chrome	Ett proffsigt turneringsbord: grafitgrå vallar, blockben, krom
+Figured walnut on barley-twist legs, brass and leather	Ådrig valnöt på spiralsvarvade ben, mässing och läder
+Ivory lacquer and gold on fluted columns	Elfenbenslack och guld på räfflade pelare
+Panelling, the bar, cue racks, posters and neon	Panel, baren, köställ, affischer och neon
+A deck at sunset, open windows, palms and string lights	Ett trädäck i solnedgången, öppna fönster, palmer och ljusslingor
+Panelling, bookshelves, leather sofas and a fireplace	Panel, bokhyllor, lädersoffor och en öppen spis
+Brick, steel windows over the city and Edison bulbs	Tegel, stålfönster över staden och glödlampor av Edison-typ
+Log walls, a stone fireplace and snowy peaks outside	Timmerväggar, en öppen spis av sten och snöklädda toppar utanför
+A black mirror floor, neon tubes and arcade cabinets	Ett svart spegelgolv, neonrör och arkadmaskiner
+A marble chessboard floor, gold, velvet and mirrors	Ett schackrutigt marmorgolv, guld, sammet och speglar
+Glass walls on the city at night, pale marble and oak	Glasväggar mot staden om natten, ljus marmor och ek
+A gold medal!	En guldmedalj!
+A silver medal!	En silvermedalj!
+A bronze medal!	En bronsmedalj!
+Silver medal	Silvermedalj
+Bronze medal	Bronsmedalj
+Your medals	Dina medaljer
+Kept in your account the next time you're online.	Sparas på ditt konto nästa gång du är online.
+Sign in to keep them in your account.	Logga in för att spara dem på ditt konto.
+18 or older	18 år eller äldre
+Under 18	Under 18 år
+Creating an account means accepting the	Att skapa ett konto innebär att du godkänner
+For a parent or guardian…	För en förälder eller vårdnadshavare…
+A parent or guardian turned the chat on for this account. They can turn it off here at any time.	En förälder eller vårdnadshavare har slagit på chatten för det här kontot. Den kan stängas av här när som helst.
+This account belongs to someone under 18. By law, the chat with other players (messages in the lounge and in games, notes, status and gift messages) stays off until their mother, father or legal guardian turns it on.	Det här kontot tillhör någon under 18 år. Enligt lag är chatten med andra spelare (meddelanden i loungen och i partier, lappar, status och gåvomeddelanden) avstängd tills en förälder eller vårdnadshavare slår på den.
+I am this player's mother, father or legal guardian, I have read the terms of use and I allow them to chat with other players.	Jag är den här spelarens förälder eller vårdnadshavare, jag har läst användarvillkoren och jag tillåter att hen chattar med andra spelare.
+Chat for players under 18	Chatt för spelare under 18 år
+Turn the chat off	Stäng av chatten
+{n} more invitations	{n} inbjudningar till
+Invitation	Inbjudan
+Turn the chat on	Slå på chatten
+Chat off: under 18. A parent or guardian can turn it on.	Chatten av: under 18 år. En förälder eller vårdnadshavare kan slå på den.
+The chat with other players is off until you turn it on.	Chatten med andra spelare är avstängd tills du slår på den.
+Write to turn the chat on…	Skriv för att slå på chatten…
+Chat with other players	Chatt med andra spelare
+The chat with other players is off until you turn it on. To turn it on, tell us your age group: it can't be changed from the game afterwards.	Chatten med andra spelare är avstängd tills du slår på den. Ange din åldersgrupp för att slå på den: den kan inte ändras i spelet efteråt.
+Under 18: a parent or guardian must agree to the terms with you and turn the chat on.	Under 18 år: en förälder eller vårdnadshavare måste godkänna villkoren med dig och slå på chatten.
+Not now	Inte nu
+Terms of use	Användarvillkor
+Privacy policy	Integritetspolicy
+You have 7 days to change your mind and get your money back.	Du har 7 dagars ångerrätt och får pengarna tillbaka.
+Under 18: buy only with a parent's or guardian's permission.	Under 18 år: köp bara med tillåtelse från en förälder eller vårdnadshavare.
+Renews every month until you cancel. 7 days to change your mind.	Förnyas varje månad tills du avslutar. 7 dagars ångerrätt.
+About	Om
+Accounts, purchases and refunds, the rules of the online game.	Konton, köp och återbetalningar, reglerna för onlinespelet.
+What the game keeps, and your rights.	Vad spelet sparar, och dina rättigheter.
+Open	Öppna
+Credits	Tack till
+Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Typsnitt: DejaVu och Noto (OFL). Flaggor: flag-icons (MIT). Reaktioner och emoji: Twemoji (CC-BY 4.0). Landsnamn: iso-codes (LGPL-2.1). Spelets kod är öppen (MIT).
+The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	Chatten är avstängd för spelare under 18 år. En förälder eller vårdnadshavare kan slå på den under loungens chatt.
+No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	Ingen boll träffades på utslaget: {next} slår ut, med vita bollen i hand bakom huvudlinjen.
+The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	Vita bollen gick i på utslaget utan att någon boll sänktes: {next} slår ut, med vita bollen i hand bakom huvudlinjen.
+Users online	Användare online
+ping {ms} ms	ping {ms} ms
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks, with the cue ball in hand behind the head string.	Vita bollen gick i på utslaget tillsammans med bollar ur båda grupperna: inget straff, bordet förblir öppet och {next} slår ut, med vita bollen i hand bakom huvudlinjen.
+Brazilian	Brasilianska
+Official	Officiella
+Brazilian rules	Brasilianska regler
+Official rules	Officiella regler
+Brazilian rules (inside a sentence)	brasilianska regler
+Official rules (inside a sentence)	officiella regler
+Brazilian (inside a sentence)	brasilianska
+Official (inside a sentence)	officiella
+As played in Brazil's bars	Som på barerna i Brasilien
+As played in tournaments (WPA)	Som i turneringar (WPA)
+on the Brazilian rules	med brasilianska regler
+on the official rules	med officiella regler
+A ball left the table on the break.	En boll lämnade bordet på utslaget.
+A ball off the table on the break	En boll av bordet på utslaget
+A safety calls nothing: whatever goes in stays down, and the turn passes.	En safety anmäler inget: det som går i stannar nere, och turen går över.
+Break yourself	Slå ut själv
+CALLED POCKET	ANMÄLT HÅL
+Choose	Välj
+Choose how play goes on	Välj hur spelet fortsätter
+Choose the rules of your games. You can switch them any time, in the main menu.	Välj regler för dina partier. Du kan byta när som helst i huvudmenyn.
+Click a pocket on the table to call it; click it again to follow your aim.	Klicka på ett hål på bordet för att anmäla det; klicka igen för att följa ditt sikte.
+Cue ball in hand	Vita bollen i hand
+Each of the rules has its own rating: these games don't change your {rating} under the {other}.	Varje regelvariant har sin egen rating: de här partierna påverkar inte din rating {rating} med {other}.
+Find an opponent of your level automatically ({rules})	Hitta automatiskt en motståndare på din nivå ({rules})
+How do you like to play?	Hur vill du spela?
+How does play go on? Choose one:	Hur fortsätter spelet? Välj ett alternativ:
+Illegal break: no ball made and fewer than four balls reached a cushion.	Ogiltigt utslag: ingen boll sänktes och färre än fyra bollar nådde en vall.
+Invite {name}	Bjud in {name}
+No ball went in the called pocket ({pocket}): {next} to shoot.	Ingen boll gick i det anmälda hålet ({pocket}): {next} stöter.
+No pocket was called (a safety): {next} to shoot.	Inget hål anmäldes (en safety): {next} stöter.
+Not sure what changes?	Osäker på vad som skiljer?
+Place it anywhere behind the head string.	Placera den var som helst bakom huvudlinjen.
+Play on	Spela vidare
+Players against the computer under these rules	Spelare mot datorn med de här reglerna
+Players online under these rules (the lounge and online games)	Spelare online med de här reglerna (loungen och onlinepartier)
+RULES OF YOUR GAMES	REGLER FÖR DINA PARTIER
+Read both rules	Läs båda reglerna
+Rules of your games	Regler för dina partier
+Safety	Safety
+Safety: no pocket	Safety: inget hål
+Show the {rules}: the rank, the league and the chart	Visa {rules}: placering, liga och diagram
+The 8 is spotted and you keep shooting.	8-bollen placeras på fotpunkten och du fortsätter stöta.
+The 8 is spotted; the cue ball in hand behind the head string.	8-bollen placeras på fotpunkten; vita bollen i hand bakom huvudlinjen.
+The 8 on a break with a foul	8-bollen på ett utslag med foul
+The 8 on the break	8-bollen på utslaget
+The 8 went down on a break with a foul: it is spotted.	8-bollen gick i på ett utslag med foul: den placeras på fotpunkten.
+The 8 went down on the break: it is spotted.	8-bollen gick i på utslaget: den placeras på fotpunkten.
+The balls are racked again and you break.	Bollarna ställs upp igen och du slår ut.
+The balls are racked again and {name} breaks.	Bollarna ställs upp igen och {name} slår ut.
+The balls are racked again: {name} breaks.	Bollarna ställs upp igen: {name} slår ut.
+The balls are racked again: {other} breaks.	Bollarna ställs upp igen: {other} slår ut.
+The rules of this game: click to read them	Reglerna för det här partiet: klicka för att läsa dem
+The rules of your games: click to switch	Reglerna för dina partier: klicka för att byta
+The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	Samma val som i huvudmenyn: online, mot datorn och två spelare. Varje regelvariant har sin egen rating.
+The table as it lies.	Bordet som det ligger.
+The top 100 of each rules · rated games	Topp 100 för varje regelvariant · rankade partier
+The {ball} lay behind the head string and the cue ball hit it without crossing the line first	{ball} låg bakom huvudlinjen och vita bollen träffade den utan att först passera linjen
+What changes between the rules: click to read them	Vad som skiljer reglerna: klicka för att läsa dem
+With the cue ball in hand behind the head string.	Med vita bollen i hand bakom huvudlinjen.
+follows your aim	följer ditt sikte
+no rated games yet	inga rankade partier än
+open table: the called ball you make sets your group	öppet bord: den anmälda boll du sänker avgör din grupp
+peak {n} · {games} games	toppnotering {n} · {games} partier
+playing now	spelar nu
+your call	ditt val
+{name} breaks again	{name} slår ut igen
+{name} chooses: play on, or rack the balls and break again.	{name} väljer: spela vidare, eller ställa upp bollarna och slå ut igen.
+{name} chooses: play the table as it lies, or take the cue ball in hand behind the head string.	{name} väljer: spela bordet som det ligger, eller ta vita bollen i hand bakom huvudlinjen.
+{name} chooses: play the table as it lies, rack the balls and break, or have {breaker} break again.	{name} väljer: spela bordet som det ligger, ställa upp bollarna och slå ut, eller låta {breaker} slå ut igen.
+{name} chooses: play the table as it lies, take the cue ball in hand behind the head string, rack the balls and break, or have {breaker} break again.	{name} väljer: spela bordet som det ligger, ta vita bollen i hand bakom huvudlinjen, ställa upp bollarna och slå ut, eller låta {breaker} slå ut igen.
+{name} chooses: the cue ball in hand behind the head string, or rack the balls and break.	{name} väljer: vita bollen i hand bakom huvudlinjen, eller ställa upp bollarna och slå ut.
+{name} is choosing how play goes on…	{name} väljer hur spelet fortsätter…
+{name} plays on (the 8 is spotted).	{name} spelar vidare (8-bollen placeras på fotpunkten).
+{name} plays the table as it lies.	{name} spelar bordet som det ligger.
+{name} plays the {theirs} now; yours are the {mine}.	{name} spelar nu med {theirs}; du har {mine}.
+{name} takes the cue ball in hand.	{name} tar vita bollen i hand.
+{next} has the cue ball in hand behind the head string.	{next} har vita bollen i hand bakom huvudlinjen.
+{next} has the cue ball in hand: anywhere on the table.	{next} har vita bollen i hand: var som helst på bordet.
+{n} points to {tier} ({rules})	{n} poäng till {tier} ({rules})
+{n} waiting	{n} väntar
+A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	En foul ger motståndaren bollar ur sin grupp. Vita bollen i hand bara på utslaget, och bara 8-bollens hål anmäls.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	En foul ger motståndaren vita bollen i hand, var som helst på bordet. Varje stöt anmäls, och utslaget måste driva fyra bollar till en vall.
+A foul gives balls to the opponent	En foul ger bollar till motståndaren
+Ball in hand on the break only	Boll i hand bara på utslaget
+Only the 8's pocket is called	Bara 8-bollens hål anmäls
+The most played in Brazil	Mest spelad i Brasilien
+A foul gives ball in hand	En foul ger boll i hand
+The break drives four balls to a cushion	Utslaget driver fyra bollar till en vall
+Every shot is called	Varje stöt anmäls
+The same all over the world	Samma i hela världen
+Game type	Partityp
+called: {pocket}	anmält: {pocket}
+no call: a safety	inget anmält: safety
+A safety: nothing called. Click again to call the pocket you aim at.	En safety: inget anmält. Klicka igen för att anmäla hålet du siktar på.
+A safety calls nothing: whatever goes in stays down, and the turn passes. To call another pocket, click it on the table.	En safety anmäler inget: det som går i stannar nere, och turen går över. Klicka på ett annat hål på bordet för att anmäla det.
+{games} games · {pct}% won	{games} partier · {pct}% vunna
+Each of the rules has its own rating; the level, coins and achievements are shared.	Varje regelvariant har sin egen rating; nivå, mynt och prestationer är gemensamma.
+You already have a VIP subscription: manage it with Manage subscription.	Du har redan en VIP-prenumeration: hantera den med Hantera prenumeration.
+Your opponent can't start another game yet.	Din motståndare kan inte starta ett nytt parti än.
+A tournament's name is shown to everyone: with your chat off, you can join tournaments but not create one.	En turnerings namn syns för alla: med chatten avstängd kan du gå med i turneringar men inte skapa en.
+The connection dropped: check your coins before trying again.	Anslutningen bröts: kontrollera dina mynt innan du försöker igen.
+Sign in to buy coins.	Logga in för att köpa mynt.
+Sign in to become VIP.	Logga in för att bli VIP.
+how play goes on after the break is undecided	hur spelet fortsätter efter utslaget är inte bestämt än
+Finish your game, and leave your table, the queue or your tournament first.	Avsluta ditt parti och lämna först ditt bord, kön eller din turnering.
+That choice can't be made now.	Det valet kan inte göras nu.
+That medal can't be.	Den medaljen finns inte.
+{name}'s tournament	{name}s turnering
+When time runs out, it's a foul: your opponent gets a ball and the cue ball goes back to the head spot.	När tiden tar slut är det foul: motståndaren får en boll och vita bollen går tillbaka till huvudpunkten.
+When time runs out, it's a foul: your opponent gets the cue ball in hand.	När tiden tar slut är det foul: motståndaren får vita bollen i hand.
+Your username was changed. Sign in again.	Ditt användarnamn har ändrats. Logga in igen.
+You have your tournament game in progress. A new game takes its place, and the tournament game counts as lost.	Du har ett pågående turneringsparti. Ett nytt parti ersätter det, och turneringspartiet räknas som förlorat.
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks again, from the head spot.	Vita bollen gick i på utslaget tillsammans med bollar ur båda grupperna: inget straff, bordet förblir öppet och {next} slår ut igen, från huvudpunkten.
+The cue ball went down on the break with no ball made: {next} breaks again, from the head spot.	Vita bollen gick i på utslaget utan att någon boll sänktes: {next} slår ut igen, från huvudpunkten.
+{who} ran out of time: {other} breaks, from the head spot.	{who} fick slut på tid: {other} slår ut, från huvudpunkten.
+Congratulations!	Grattis!
+You earned a new item: {title}	Du har fått ett nytt föremål: {title}
+You earned a new item!	Du har fått ett nytt föremål!

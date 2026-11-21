@@ -271,6 +271,9 @@ struct Room {
     finished: bool,
     rematch: [bool; 2],
     present: [bool; 2],
+    /// How the game ended (told again to who comes back to the table, or
+    /// starts watching it, after the end).
+    result: Option<MatchResult>,
     breaker: usize,
     /// The shot being simulated (no other shot or aim is accepted meanwhile).
     busy: Option<u32>,
@@ -364,6 +367,9 @@ pub struct Lounge {
     /// Games between two players (sorted keys) recently, rated and casual
     /// apart.
     pair_games: HashMap<(String, String, bool), VecDeque<Instant>>,
+    /// Who broke the last game under the Brazilian rules between two
+    /// players (sorted keys), and when it began: the other breaks the next.
+    last_break: HashMap<(String, String), (String, Instant)>,
     /// When each player last left games in progress (the last day's).
     abandoned: HashMap<String, VecDeque<Instant>>,
     /// Waits in the "Play now" queue (seconds), for the staff panel.
@@ -787,8 +793,16 @@ impl Lounge {
         }
         let opponent = room.keys[1 - seat].clone();
         let msg = room.started_msg(seat, &self.sessions, clock, false);
+        let result = room.result.clone();
         self.send(k, msg);
-        self.send(&opponent, ServerMsg::OpponentConnection { connected: true, grace_secs: 0 });
+        // The game ended while they were away: its end, too.
+        if let Some(result) = result {
+            self.send(k, ServerMsg::MatchEnded { result });
+        }
+        // (An opponent who left the table for another isn't told.)
+        if self.sessions.get(&opponent).is_some_and(|s| s.room == Some(id)) {
+            self.send(&opponent, ServerMsg::OpponentConnection { connected: true, grace_secs: 0 });
+        }
     }
 
     /// Connection `conn_id` closed.
@@ -946,6 +960,15 @@ impl Lounge {
                     pair.sort();
                     let [a, b] = pair;
                     ((a, b, rated), list)
+                })
+                .collect();
+            self.last_break = std::mem::take(&mut self.last_break)
+                .into_iter()
+                .map(|((a, b), (last, at))| {
+                    let mut pair = [swap(&a), swap(&b)];
+                    pair.sort();
+                    let [a, b] = pair;
+                    ((a, b), (swap(&last), at))
                 })
                 .collect();
             for (a, b, _) in &mut self.recent_pairs {
@@ -1925,6 +1948,9 @@ impl Lounge {
         if let Some(room) = self.rooms.get(&id) {
             let clock = self.settings.shot_clock.as_secs() as u32;
             self.send(w, room.started_msg(seat, &self.sessions, clock, true));
+            if let Some(result) = room.result.clone() {
+                self.send(w, ServerMsg::MatchEnded { result });
+            }
             // An administrator also gets what the players said so far.
             if self.sessions.get(w).is_some_and(|s| s.user.role == snook_legend_proto::Role::Admin)
             {
@@ -2295,9 +2321,14 @@ impl Lounge {
         if rules != Rules::Brazilian {
             return 0;
         }
-        let played = self.pair_games_today(keys, true) + self.pair_games_today(keys, false);
-        let first = usize::from(keys[0] > keys[1]);
-        if played.is_multiple_of(2) { first } else { 1 - first }
+        // (Not by counting their games: a game under the other rules, or
+        // one that leaves the day's count as another enters it, would give
+        // the same player two breaks running.)
+        let (a, b, _) = pair_key(keys, false);
+        match self.last_break.get(&(a, b)) {
+            Some((last, at)) if at.elapsed() < PAIR_WINDOW => usize::from(*last == keys[0]),
+            _ => usize::from(keys[0] > keys[1]),
+        }
     }
 
     /// The cloth and ball set `host` brings to the table.
@@ -2322,6 +2353,10 @@ impl Lounge {
         private: bool,
     ) {
         let Game { seed, breaker, rules } = game;
+        if rules == Rules::Brazilian {
+            let (a, b, _) = pair_key(&keys, false);
+            self.last_break.insert((a, b), (keys[breaker % 2].clone(), Instant::now()));
+        }
         let mut turns = [0, 0];
         turns[breaker] = 1;
         let room = Room {
@@ -2336,6 +2371,7 @@ impl Lounge {
             finished: false,
             rematch: [false, false],
             present: [true, true],
+            result: None,
             breaker,
             busy: None,
             idle: [0, 0],
@@ -2840,6 +2876,7 @@ impl Lounge {
         };
         let room = self.rooms.get_mut(&id).expect("room");
         room.finished = true;
+        room.result = Some(result.clone());
         room.ended = Some(Instant::now());
         self.finished_rooms.insert(id, Instant::now());
         room.rematch = [false, false];
@@ -2986,6 +3023,7 @@ impl Lounge {
         let nowi = Instant::now();
         // A saved game is gone from the database within a day at most.
         self.finished_rooms.retain(|_, at| nowi.duration_since(*at) < Duration::from_secs(86_400));
+        self.last_break.retain(|_, (_, at)| nowi.duration_since(*at) < PAIR_WINDOW);
         let grace = self.settings.reconnect_grace;
         let mut finished = Vec::new();
         let mut timeouts = Vec::new();
@@ -3017,6 +3055,8 @@ impl Lounge {
         for id in dropped {
             if let Some(room) = self.rooms.remove(&id) {
                 tracing::info!(room = id, "game dropped: both players gone");
+                // (Its saved copy, not deleted yet, isn't rebuilt.)
+                self.finished_rooms.insert(id, Instant::now());
                 for k in &room.keys {
                     if let Some(s) = self.sessions.get_mut(k)
                         && s.room == Some(id)
@@ -3358,6 +3398,7 @@ impl Lounge {
             finished: false,
             rematch: [false, false],
             present: [true, true],
+            result: None,
             breaker: live.replay.breaker,
             busy: None,
             idle: [0, 0],
@@ -3636,5 +3677,23 @@ mod tests {
         assert_eq!(l.pair_games_today(&ab, true), 0);
         assert_eq!(l.count_pair_game(&ba, true), 0);
         assert_eq!(l.pair_games_today(&ab, true), 1);
+    }
+
+    /// The Brazilian break goes by who broke last, whatever else the two
+    /// played in between and whichever way round their names come.
+    #[test]
+    fn the_break_follows_the_last_one() {
+        let (tx, _effects) = tokio::sync::mpsc::unbounded_channel();
+        let mut l = Lounge::new(Settings::default(), tx);
+        let ab = ["ana".to_string(), "bob".to_string()];
+        let ba = ["bob".to_string(), "ana".to_string()];
+        assert_eq!(l.first_breaker(&ab, Rules::Brazilian), 0, "the first name, the first game");
+        assert_eq!(l.first_breaker(&ba, Rules::Brazilian), 1);
+        l.last_break.insert(("ana".into(), "bob".into()), ("ana".into(), Instant::now()));
+        // A game under the other rules in between changes nothing.
+        l.count_pair_game(&ab, true);
+        assert_eq!(l.first_breaker(&ab, Rules::Brazilian), 1, "bob's turn");
+        assert_eq!(l.first_breaker(&ba, Rules::Brazilian), 0);
+        assert_eq!(l.first_breaker(&ab, Rules::Official), 0);
     }
 }

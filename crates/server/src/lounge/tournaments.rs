@@ -914,6 +914,9 @@ impl Lounge {
             t.bracket = Some(Bracket::new(&seeded));
         }
         t.state = TournamentState::Running;
+        // (How long the host was away while it filled up isn't time they
+        // kept an opponent waiting.)
+        t.missing_since.clear();
         // Open tables, invitations and places in the queue of the players
         // are withdrawn.
         for p in seeded {

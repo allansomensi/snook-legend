@@ -308,6 +308,54 @@ The server:
   and "the plant" balls touching; a try that knocks the 8 in doesn't count.
 - The ghost's style counts ordinary strokes at their own top speed.
 
+### A fourth review
+The game:
+- **A break that hits nothing and loses the cue ball** was told as "cue
+  ball in hand behind the head string": it is played from the head spot,
+  and the table says so.
+- **A rematch moves the alternating break on**: after a rematch at this
+  computer, the next game started was broken by the same side again.
+- **A click on the cue** aims at the ball, or calls the pocket, lying under
+  the stick (it was swallowed along the whole stick); on bare cloth it does
+  nothing. No cue is grabbed while a decision after the break is pending
+  (none is drawn).
+- **A five-round arena that ended before 0.8.2** stays ended: it reopened
+  at "round 6 of 7" (`cup.json` now says how many rounds its arena has).
+- **A tournament game left while its last shot rolls** counts as that shot
+  ends it, not as a game lost.
+- A game saved by 0.8.1 resumes with the breaker it had.
+
+Online, in the game:
+- **A table joined after its game ended** (back from a lost connection,
+  or watching a friend at the end panel) shows the end and its result, not
+  a turn nobody can play: the server sends the result again.
+- **Both back after the server restarted**: the first one back saw a shot
+  clock of minutes, and lost a ball with time apparently left. The clock
+  shown starts afresh when the opponent is back, as the server's does.
+- **A rematch the server refused** (it is closing, a cooldown) left
+  "Waiting for…" for ever, with no way to accept the opponent's.
+- A shot that left as the clock ran out isn't kept as the last shot, and a
+  stroke queued while reconnecting isn't sent to a table that changed
+  meanwhile.
+
+The server:
+- **The break alternates by who broke last** between two players (within a
+  day), not by the parity of their games: a game under the official rules,
+  a correspondence game ending or the day's count rolling over gave the
+  same player two breaks running.
+- **A knockout's host away while it filled up** lost the first round at
+  once: the time away before the start no longer counts.
+- A game dropped with both players gone can't be rebuilt from its saved
+  copy; a player back at a finished table doesn't announce it to an
+  opponent who is already elsewhere.
+- **A month of VIP given** counts from the payment, not from when the
+  payment page was opened (a boleto paid three days later gave 28 days). A
+  delivery that stopped half way still records and announces the present
+  (and the welcome to VIP) when it comes again.
+- Friendships accepted and removed at the same moment no longer end up
+  one-way (PostgreSQL); a moderator can't act on a listed administrator
+  who hasn't signed in yet.
+
 ### Notes
 - What's new in the game (three languages) and the Store listing's notes
   for 0.8.2: the shot clock and the break under the Brazilian rule, the cue

@@ -260,7 +260,8 @@ async fn a_vip_month_given_to_a_friend_is_theirs_once_and_taken_back_on_refund()
     apply_event(&server, &gift).await.unwrap(); // delivered twice
     let month = snook_legend_proto::shop::VIP_GIFT_SECS;
     let w = server.store.wallet(friend).await.unwrap();
-    assert_eq!(w.vip_until, paid_at + month, "one month, once");
+    // (From the payment, as the server's clock had it.)
+    assert!((0..=5).contains(&(w.vip_until - paid_at - month)), "one month, once");
     assert_eq!(w.coins, VIP_MONTHLY_COINS as i64);
     let mine = server.store.wallet(giver).await.unwrap();
     assert_eq!((mine.coins, mine.vip_until), (0, 0), "the giver gets nothing");

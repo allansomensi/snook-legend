@@ -718,7 +718,9 @@ async fn user_action(
     // Moderators can't act on other staff. Nobody bans, mutes or changes the
     // role of their own account; an administrator may change their own
     // wallet (coins, items, VIP), which is in the audit log like any other.
-    if target.role.is_staff() && s.user.role != Role::Admin {
+    // (A listed administrator who hasn't signed in since is staff already.)
+    let staff_target = target.role.is_staff() || server.is_admin_name(&target.username);
+    if staff_target && s.user.role != Role::Admin {
         return Err(err(StatusCode::FORBIDDEN, "Only administrators can act on staff."));
     }
     let own_wallet = matches!(action.as_str(), "coins" | "item" | "vip" | "revoke" | "note");

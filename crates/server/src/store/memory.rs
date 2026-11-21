@@ -489,7 +489,11 @@ impl MemoryStore {
 
     pub fn replay(&self, match_id: i64) -> StoreResult<Option<StoredReplay>> {
         let s = self.lock();
-        let Some(m) = usize::try_from(match_id - 1).ok().and_then(|i| s.matches.get(i)) else {
+        let Some(m) = match_id
+            .checked_sub(1)
+            .and_then(|i| usize::try_from(i).ok())
+            .and_then(|i| s.matches.get(i))
+        else {
             return Ok(None);
         };
         let Some(replay) = m.replay.clone() else { return Ok(None) };

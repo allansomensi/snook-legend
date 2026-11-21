@@ -551,12 +551,14 @@ async fn vip_paid(
     let coins = if amount > 0 { VIP_MONTHLY_COINS as i64 } else { 0 };
     let secs = (end - start).clamp(0, 40 * 86_400);
     let vip = crate::store::VipChange::Add { from: start + VIP_GRACE, secs };
-    server
+    // (A delivery that stopped after the payment was noted gives the month
+    // when it comes again: the welcome goes with whichever gave it.)
+    let applied = server
         .store
         .credit_vip(user.id, coins, "vip month", &format!("vip:{invoice}"), now(), vip)
         .await
         .map_err(err)?;
-    if first {
+    if first || applied {
         tracing::info!(user = user.id, until = end, "VIP paid");
         notify(server, user, "Welcome to VIP!").await;
         offer_email(server, user).await;
@@ -615,8 +617,10 @@ async fn vip_gift_paid(
     // repeated delivery only makes sure the month is there.
     // The time and the coins go in one step, once: a delivery that stopped
     // half way gives both when it comes again.
-    let from = obj["created"].as_i64().unwrap_or(now());
-    server
+    // (Not from when the payment page was opened: a boleto is paid days
+    // later.)
+    let from = now();
+    let applied = server
         .store
         .credit_vip(
             friend.id,
@@ -628,7 +632,9 @@ async fn vip_gift_paid(
         )
         .await
         .map_err(err)?;
-    if first {
+    // (A delivery that stopped after the payment was noted: the present is
+    // recorded and told when the month is given.)
+    if first || applied {
         tracing::info!(from = giver.id, to = friend.id, "VIP given");
         let msg = ServerMsg::VipGift { from: giver.username.clone(), to: friend.username.clone() };
         server.with(|l| l.notify(&giver.username, msg.clone()));

@@ -1599,11 +1599,7 @@ impl PgStore {
         // One request between two players at a time: two sent to each other
         // at once make friends (not two requests waiting), and the same one
         // sent twice is sent once.
-        let (lo, hi) = (from.min(to), from.max(to));
-        query("SELECT pg_advisory_xact_lock($1)")
-            .bind(lo.wrapping_mul(0x9E37_79B9_7F4A_7C15_u64 as i64) ^ hi)
-            .execute(&mut *tx)
-            .await?;
+        friend_lock(&mut tx, from, to).await?;
         let mine: Option<bool> =
             query("SELECT accepted FROM friendships WHERE user_id = $1 AND friend_id = $2")
                 .bind(from)
@@ -1656,6 +1652,9 @@ impl PgStore {
 
     pub async fn friend_accept(&self, me: i64, from: i64) -> StoreResult<bool> {
         let mut tx = self.pool.begin().await?;
+        // (With the pair's lock: accepted and removed at the same moment,
+        // one happens after the other, never half of each.)
+        friend_lock(&mut tx, me, from).await?;
         let updated = query(
             "UPDATE friendships SET accepted = TRUE WHERE user_id = $1 AND friend_id = $2 AND NOT accepted",
         )
@@ -1681,13 +1680,16 @@ impl PgStore {
     }
 
     pub async fn friend_remove(&self, a: i64, b: i64) -> StoreResult<()> {
+        let mut tx = self.pool.begin().await?;
+        friend_lock(&mut tx, a, b).await?;
         query(
             "DELETE FROM friendships WHERE (user_id = $1 AND friend_id = $2) OR (user_id = $2 AND friend_id = $1)",
         )
         .bind(a)
         .bind(b)
-        .execute(&self.pool)
+        .execute(&mut *tx)
         .await?;
+        tx.commit().await?;
         Ok(())
     }
 
@@ -3163,5 +3165,20 @@ async fn move_audit(
     .bind(super::AUDIT_NOT_PLAYERS)
     .execute(&mut **tx)
     .await?;
+    Ok(())
+}
+
+/// One change to the friendship of two players at a time (for the rest of
+/// the transaction).
+async fn friend_lock(
+    tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
+    a: i64,
+    b: i64,
+) -> StoreResult<()> {
+    let (lo, hi) = (a.min(b), a.max(b));
+    query("SELECT pg_advisory_xact_lock($1)")
+        .bind(lo.wrapping_mul(0x9E37_79B9_7F4A_7C15_u64 as i64) ^ hi)
+        .execute(&mut **tx)
+        .await?;
     Ok(())
 }

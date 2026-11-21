@@ -5,303 +5,303 @@
 
 ## 0.8.3
 
-### What you earn is shown
-An item that comes with an achievement, such as a level reached, now arrives with a "Congratulations!" window that shows it and lets you use it at once.
+### आप जो जीतते हैं, वह दिखता है
+किसी उपलब्धि के साथ मिलने वाला आइटम, जैसे कोई लेवल पूरा होने पर, अब “बधाई हो!” विंडो के साथ आता है, जो उसे दिखाती है और आप उसे तुरंत इस्तेमाल कर सकते हैं।
 
-### One game at a time
-Starting the game while it is already open brings its window to the front instead of opening a second one. Two games on one computer wrote over each other's settings and saved game.
+### एक बार में एक गेम
+गेम पहले से खुला हो और आप उसे फिर से शुरू करें, तो दूसरी विंडो खुलने के बजाय वही विंडो सामने आ जाती है। एक ही कंप्यूटर पर दो गेम एक-दूसरे की सेटिंग्स और सेव किए गए गेम को मिटा देते थे।
 
-### The 8 on a break handed over
-Under the Brazilian rule, a break handed over after the cue ball was lost, with the balls already scattered, no longer wins by potting the 8: hitting it first is a foul and pocketing it loses, as on any shot. Only the break of the rack has the 8 alone winning.
+### विरोधी को मिले ब्रेक पर 8 बॉल
+ब्राज़ीलियाई नियमों में, क्यू बॉल गिरने के बाद विरोधी को मिला ब्रेक, जब बॉल पहले से बिखरी हों, अब 8 बॉल पॉट करके नहीं जीता जाता: उसे पहले हिट करना फ़ाउल है और पॉट करने पर हार होती है, जैसे किसी भी शॉट में। सिर्फ़ रैक के ब्रेक पर ही अकेली 8 बॉल जिताती है।
 
-### Cleaner pockets, a steadier camera, and many fixes
-The pockets are finished without rough edges, and going from the overhead view to 3D keeps your zoom. Two more reviews of the whole game fixed many bugs: a rematch keeps the break alternating, a private arena asks for its password while it runs, a table rejoined after its game ended shows the result, and more.
+### साफ़ पॉकेट, स्थिर कैमरा और कई सुधार
+पॉकेट अब खुरदुरे किनारों के बिना बने हैं, और ऊपर वाले व्यू से 3D में जाने पर आपका ज़ूम बना रहता है। पूरे गेम की दो और समीक्षाओं में कई बग ठीक हुए: रीमैच में ब्रेक बारी-बारी से होता रहता है, प्राइवेट एरीना चलते समय भी पासवर्ड माँगता है, गेम ख़त्म होने के बाद दोबारा जुड़ी टेबल नतीजा दिखाती है, और भी बहुत कुछ।
 
 ## 0.8.2
 
-### The shot clock gives a ball
-Under the Brazilian rule, running out of time is a foul: your opponent's lowest ball comes off (if they are on the 8 already, the 8 pays and you lose), the cue ball goes back to the head spot, not in hand, and the turn passes.
+### शॉट क्लॉक से बॉल मिलती है
+ब्राज़ीलियाई नियमों में, समय ख़त्म होना फ़ाउल है: विरोधी की सबसे छोटे नंबर वाली बॉल हटती है (अगर वे पहले से 8 बॉल पर हैं, तो भरपाई 8 बॉल से होती है और आप हार जाते हैं), क्यू बॉल हेड स्पॉट पर वापस जाती है, बॉल इन हैंड नहीं, और बारी बदल जाती है।
 
-### The break, one each
-Under the Brazilian rule the players break in turn, one break each. A break that loses the cue ball with no ball made, or with balls of both groups, passes the break: your opponent breaks again from the head spot, with the balls where they stopped.
+### ब्रेक, एक-एक करके
+ब्राज़ीलियाई नियमों में खिलाड़ी बारी-बारी से ब्रेक करते हैं, एक-एक ब्रेक। जिस ब्रेक में कोई बॉल पॉट हुए बिना, या दोनों ग्रुप की बॉल के साथ, क्यू बॉल गिर जाए, उसमें ब्रेक विरोधी को मिल जाता है: वे हेड स्पॉट से फिर ब्रेक करते हैं, बॉल जहाँ रुकी थीं वहीं रहती हैं।
 
-### Grab the cue anywhere
-Click and drag the cue anywhere along it, from the tip to the butt, even drawn back or raised over the rail: it follows the pointer as it swings.
+### क्यू को कहीं से भी पकड़ें
+क्यू को टिप से बट तक कहीं से भी क्लिक करके खींचें, पीछे खिंचा हो या कुशन के ऊपर उठा हो तब भी: घूमते हुए वह पॉइंटर के साथ चलता है।
 
-### Seven rounds in the arena, and many fixes
-The arena against the computer is seven rounds for everyone, and the shop has a new icon. Three reviews of the whole game fixed many bugs: leaving while the balls roll no longer undoes a shot against the computer, the first ball hit is the one the cue ball really touched first, and more.
+### एरीना में सात राउंड, और कई सुधार
+कंप्यूटर के ख़िलाफ़ एरीना अब सबके लिए सात राउंड का है, और शॉप का आइकन नया है। पूरे गेम की तीन समीक्षाओं में कई बग ठीक हुए: बॉल लुढ़कते समय छोड़ने से अब कंप्यूटर के ख़िलाफ़ शॉट वापस नहीं होता, पहली हिट बॉल वही है जिसे क्यू बॉल ने सच में पहले छुआ, और भी बहुत कुछ।
 
 ## 0.8.1
 
-### The 8 pays the penalty
-Under the Brazilian rule, a foul that gives more balls than your opponent has left loses the game: their balls come off and the 8 pays the rest. Once your opponent is on the 8, any foul that gives a ball loses: missing every ball, pocketing the cue ball or knocking it off the table.
+### पेनल्टी की भरपाई 8 बॉल से
+ब्राज़ीलियाई नियमों में, जो फ़ाउल विरोधी की बची बॉल से ज़्यादा बॉल देता है, उससे गेम की हार होती है: उनकी बॉल हटती हैं और बाक़ी की भरपाई 8 बॉल से होती है। विरोधी के 8 बॉल पर आते ही, बॉल देने वाला हर फ़ाउल हरा देता है: सारी बॉल मिस करना, क्यू बॉल पॉट करना या उसे टेबल से बाहर गिराना।
 
-### Click outside to close
-The match's chat, the game history and the spin and elevation panels close when you click outside them, and the click still counts on the table. Menus and dialogs close with a click outside them too, like Cancel.
+### बंद करने के लिए बाहर क्लिक करें
+मैच की चैट, गेम का इतिहास और स्पिन व ऊँचाई के पैनल बाहर क्लिक करने पर बंद हो जाते हैं, और वह क्लिक टेबल पर भी गिना जाता है। मेन्यू और डायलॉग भी बाहर क्लिक करने पर बंद होते हैं, रद्द करने की तरह।
 
 ## 0.8.0
 
-### The official rules
-You can now also play the official rules of the WPA, the eight-ball of international tournaments: every shot is called, a foul gives ball in hand anywhere and no ball comes off as a penalty. Choose your rules in the main menu. The Brazilian rule is still there, just as it was.
+### आधिकारिक नियम
+अब आप WPA के आधिकारिक नियमों से भी खेल सकते हैं, अंतरराष्ट्रीय टूर्नामेंट वाला 8 बॉल: हर शॉट कॉल होता है, फ़ाउल पर कहीं भी बॉल इन हैंड मिलता है और पेनल्टी में कोई बॉल नहीं हटती। मेन मेन्यू में अपने नियम चुनें। ब्राज़ीलियाई नियम भी पहले की तरह मौजूद हैं।
 
-### A rating for each rules
-Each rules has its own rating, tier and world ranking: the ranking has a tab for each and your profile a card for each. Your level, coins and achievements are shared.
+### हर नियम की अपनी रेटिंग
+हर नियम की अपनी रेटिंग, टियर और वर्ल्ड रैंकिंग है: रैंकिंग में हर नियम का टैब है और आपकी प्रोफ़ाइल में हर नियम का कार्ड। आपका लेवल, कॉइन और उपलब्धियाँ दोनों में एक ही हैं।
 
-### Calling your shots
-Under the official rules the pocket you aim at is called (a ring shows it). Click another pocket to call it, or Safety to call none. After some breaks you choose how the game goes on, with the buttons or 1, 2 and 3.
+### अपने शॉट कॉल करना
+आधिकारिक नियमों में, आप जिस पॉकेट पर निशाना लगाते हैं, वह कॉल हो जाता है (एक घेरा उसे दिखाता है)। कोई और पॉकेट कॉल करने के लिए उस पर क्लिक करें, या कुछ भी कॉल न करने के लिए सेफ़्टी। कुछ ब्रेक के बाद आप चुनते हैं कि खेल कैसे आगे बढ़े, बटनों से या 1, 2 और 3 से।
 
-### Online, by rules
-Invitations, tables, Play now, tournaments and daily games all say their rules, and Play now pairs you with players of yours. The menu shows how many people play each.
+### ऑनलाइन, नियमों के हिसाब से
+इनवाइट, टेबल, अभी खेलें, टूर्नामेंट और डेली गेम, सब अपने नियम बताते हैं, और अभी खेलें आपको आपके नियमों वाले खिलाड़ियों से मिलाता है। मेन्यू दिखाता है कि हर नियम से कितने लोग खेल रहे हैं।
 
-### The break, Brazilian rule
-If the break loses the cue ball together with balls of both groups, the break now passes to your opponent, with the cue ball in hand behind the head string and no penalty ball.
+### ब्रेक, ब्राज़ीलियाई नियम
+अगर ब्रेक में क्यू बॉल दोनों ग्रुप की बॉल के साथ गिर जाए, तो ब्रेक अब विरोधी को मिलता है, हेड स्ट्रिंग के पीछे बॉल इन हैंड के साथ और कोई पेनल्टी बॉल नहीं।
 
 ## 0.7.4
 
-### The chat, when you want it
-No more age question when signing up. The chat with other players starts off and asks only the first time you write: 18 or older turns it on at once, and under 18 a parent or guardian turns it on. Whoever doesn't chat is never asked.
+### चैट, जब आप चाहें
+साइन अप करते समय अब उम्र का सवाल नहीं। दूसरे खिलाड़ियों के साथ चैट बंद से शुरू होती है और सिर्फ़ पहली बार लिखने पर पूछती है: 18 या उससे ज़्यादा हो तो तुरंत चालू, और 18 से कम हो तो माता-पिता या अभिभावक इसे चालू करते हैं। जो चैट नहीं करता, उससे कभी नहीं पूछा जाता।
 
-### Invitations in the corner
-An invitation now shows as a card in the top right corner on every screen and over any game, with the player's picture, the buttons to accept or decline and a soft chime. Accept it from the menu and the game starts right away.
+### कोने में इनवाइट
+इनवाइट अब हर स्क्रीन पर और किसी भी गेम के ऊपर, ऊपर दाएँ कोने में एक कार्ड के रूप में दिखता है, खिलाड़ी की फ़ोटो, स्वीकारने या मना करने के बटन और एक हल्की घंटी के साथ। मेन्यू से स्वीकार करें और गेम तुरंत शुरू हो जाता है।
 
-### Windows tells you at once
-With the game behind another window or minimised, Windows shows the invitation at once (it used to wait a few seconds).
+### Windows तुरंत बताता है
+जब गेम किसी दूसरी विंडो के पीछे हो या मिनिमाइज़ हो, तो Windows इनवाइट तुरंत दिखाता है (पहले कुछ सेकंड रुकता था)।
 
 ## 0.7.3
 
-### New rules
-If the break hits no ball, or loses the cue ball (down or off the table) with no ball made, the break passes to your opponent, with the cue ball in hand behind the head string. With a ball made, it decides the groups even if the cue ball goes down too. And the cue ball off the table costs a ball, as a scratch does.
+### नए नियम
+अगर ब्रेक किसी बॉल को हिट नहीं करता, या कोई बॉल पॉट हुए बिना क्यू बॉल गिर जाती है (पॉकेट में या टेबल से बाहर), तो ब्रेक विरोधी को मिलता है, हेड स्ट्रिंग के पीछे बॉल इन हैंड के साथ। कोई बॉल पॉट हो, तो वही ग्रुप तय करती है, भले ही क्यू बॉल भी गिर जाए। और क्यू बॉल टेबल से बाहर जाने पर भी एक बॉल की पेनल्टी है, जैसे स्क्रैच पर।
 
-### More drills, no ranking
-There are 24 drills now, nine of them new: the far corner, long into the side, cue ball on the cushion, the plant, the carom, the long draw, on the tangent line, two-cushion bank and fifteen in a row. Each shows its position, and your stars are kept in your account. The drills' ranking is gone.
+### ज़्यादा ड्रिल, रैंकिंग नहीं
+अब 24 ड्रिल हैं, जिनमें नौ नई हैं: दूर का कोना, दूर से साइड में, कुशन से सटी क्यू बॉल, प्लांट, कैरम, लंबा ड्रॉ, टैंजेंट लाइन पर, दो कुशन बैंक और लगातार पंद्रह। हर ड्रिल अपनी पोज़िशन दिखाती है, और आपके स्टार आपके अकाउंट में सेव रहते हैं। ड्रिल की रैंकिंग हटा दी गई है।
 
-### New pictures
-The portraits were drawn again, with more care, and there are new pictures of pool things. Your picture now shows on the card in the corner of the start screen when you're signed in.
+### नई तस्वीरें
+पोर्ट्रेट और ज़्यादा ध्यान से फिर से बनाए गए हैं, और पूल से जुड़ी नई तस्वीरें हैं। साइन इन होने पर आपकी फ़ोटो अब स्टार्ट स्क्रीन के कोने वाले कार्ड पर दिखती है।
 
-### Terms and privacy
-The terms of use and the privacy policy are a click away: when you sign up, in the shop and in Settings → Game → About. Purchases with money give you 7 days to change your mind and get your money back.
+### शर्तें और गोपनीयता
+उपयोग की शर्तें और गोपनीयता नीति बस एक क्लिक दूर हैं: साइन अप करते समय, शॉप में और सेटिंग्स → गेम → जानकारी में। पैसे से की गई ख़रीदारी पर आपके पास फ़ैसला बदलने और पैसे वापस पाने के लिए 7 दिन हैं।
 
-### Age and chat
-The game asks your age group (once). Under 18, the chat with other players stays off until a parent or guardian turns it on, below the lounge's chat, as Brazilian law asks.
+### उम्र और चैट
+गेम आपका आयु वर्ग पूछता है (एक बार)। 18 से कम होने पर, दूसरे खिलाड़ियों के साथ चैट तब तक बंद रहती है, जब तक माता-पिता या अभिभावक इसे लाउंज की चैट के नीचे चालू नहीं करते, जैसा ब्राज़ील का क़ानून कहता है।
 
-### Emoji in the chat
-Emoji now show as pictures in the chat, notes and statuses, flags and all. Tabs have all their names at one size, and the count of who is online is smaller: the green dot, a person and the number.
+### चैट में इमोजी
+चैट, नोट और स्टेटस में इमोजी अब तस्वीरों के रूप में दिखते हैं, झंडों समेत। टैब के सभी नाम एक ही आकार के हैं, और ऑनलाइन लोगों की गिनती छोटी हो गई है: हरा बिंदु, एक व्यक्ति और संख्या।
 
 ## 0.7.2
 
-### A harder tour
-Each stage of the tour is harder than before, and more so the further up: opponents miss less, look at every shot and play for position. The final against Viktor, for the cue, is very hard now: he barely misses and plays safe more often. Tournaments against the computer stay as they were.
+### और मुश्किल टूर
+टूर का हर स्टेज पहले से मुश्किल है, और आगे बढ़ने पर और भी: विरोधी कम मिस करते हैं, हर शॉट पर ग़ौर करते हैं और पोज़िशन के लिए खेलते हैं। क्यू के लिए Viktor के ख़िलाफ़ फ़ाइनल अब बहुत मुश्किल है: वह मुश्किल से मिस करता है और ज़्यादा सेफ़्टी खेलता है। कंप्यूटर के ख़िलाफ़ टूर्नामेंट पहले जैसे ही हैं।
 
-### Tournament medals
-Play a tournament against the computer to its end and finish in the first three for a gold, silver or bronze medal. The Tournament tab counts them, knockout and arena apart; they are kept in your account the next time you're online.
+### टूर्नामेंट मेडल
+कंप्यूटर के ख़िलाफ़ टूर्नामेंट अंत तक खेलें और पहले तीन में आकर गोल्ड, सिल्वर या ब्रॉन्ज़ मेडल पाएँ। टूर्नामेंट टैब इन्हें गिनता है, नॉकआउट और एरीना अलग-अलग; अगली बार ऑनलाइन आने पर ये आपके अकाउंट में सेव हो जाते हैं।
 
-### A camera like the table's
-In the shop's showroom the camera turns with the right button, as at the table, smoothly, and never goes under the floor or the table. The wheel brings you closer.
+### टेबल जैसा कैमरा
+शॉप के शोरूम में कैमरा राइट बटन से घूमता है, टेबल की तरह, आराम से, और कभी फ़र्श या टेबल के नीचे नहीं जाता। व्हील से आप पास आते हैं।
 
 ## 0.7.1
 
-### The first ball decides
-On the break, the first ball that goes down decides your group, even if others go down after it: the 3 and then the 13, and you take the solids. The 13 is your opponent's, so it stays down for them and the turn passes.
+### पहली बॉल तय करती है
+ब्रेक पर, पॉकेट में जाने वाली पहली बॉल आपका ग्रुप तय करती है, भले ही उसके बाद दूसरी भी जाएँ: पहले 3 और फिर 13, और आपको सॉलिड मिलते हैं। 13 विरोधी की है, इसलिए वह उनके खाते में अंदर ही रहती है और बारी बदल जाती है।
 
-### Ball in hand on the break only
-The cue ball is in hand on the break only, behind the head string. If it goes down or leaves the table, it comes back to the head spot (right behind a ball lying there), without ball in hand, with the usual penalties. A break that makes only the cue ball is no longer racked again: your opponent plays on from there.
+### बॉल इन हैंड सिर्फ़ ब्रेक पर
+क्यू बॉल सिर्फ़ ब्रेक पर हाथ में होती है, हेड स्ट्रिंग के पीछे। अगर वह पॉकेट में या टेबल से बाहर जाए, तो हेड स्पॉट पर वापस आती है (वहाँ पड़ी किसी बॉल के ठीक पीछे), बिना बॉल इन हैंड के, सामान्य पेनल्टी के साथ। जिस ब्रेक में सिर्फ़ क्यू बॉल पॉकेट में जाए, उसमें बॉल अब फिर से रैक नहीं होतीं: विरोधी वहीं से खेलता है।
 
-### Who is online
-Playing the computer (in a tournament, on the tour or in a drill), a discreet corner shows how many people are online and says when someone comes: time to go and invite them. Invitations show over the game.
+### कौन ऑनलाइन है
+कंप्यूटर से खेलते समय (टूर्नामेंट, टूर या ड्रिल में), एक छोटा-सा कोना दिखाता है कि कितने लोग ऑनलाइन हैं और बताता है कि कोई आया है: उन्हें इनवाइट करने का समय। इनवाइट गेम के ऊपर दिखते हैं।
 
-### The shop's showroom
-"Look at it closely" opens a showroom: the item alone in a dark studio, turning. Drag to turn it, use the wheel to come close and pause it at will. Ready views show a cue's tip and joint or a table's pockets; click a ball to see it float close up, and see tables and cloths in any hall.
+### शॉप का शोरूम
+“पास से देखें” एक शोरूम खोलता है: अँधेरे स्टूडियो में अकेला, घूमता हुआ आइटम। घुमाने के लिए खींचें, पास आने के लिए व्हील इस्तेमाल करें और जब चाहें रोकें। तैयार व्यू क्यू की टिप और जोड़ या टेबल के पॉकेट दिखाते हैं; किसी बॉल पर क्लिक करें और उसे पास तैरता देखें, और टेबल व क्लॉथ किसी भी हॉल में देखें।
 
-### Truly brown
-The 7 and the 15 are now brown, no longer a dark red easily taken for the 3 and the 11. The shop's sets where they looked alike are put right too.
+### सच में भूरी
+7 और 15 अब भूरी हैं, गहरी लाल नहीं जो आसानी से 3 और 11 जैसी लगती थीं। शॉप के जिन सेट में ये एक जैसी लगती थीं, वे भी ठीक कर दिए गए हैं।
 
-### Focus mode
-Settings → Game → "Focus mode": no invitations while you play. Whoever tries to invite you is told you're in focus mode. It comes off.
+### फ़ोकस मोड
+सेटिंग्स → गेम → “फ़ोकस मोड”: खेलते समय कोई इनवाइट नहीं। जो आपको इनवाइट करने की कोशिश करता है, उसे बताया जाता है कि आप फ़ोकस मोड में हैं। इसे बंद भी किया जा सकता है।
 
 ## 0.7.0
 
-### One kind on the break
-A new house rule: if the break makes balls of both groups (the 3 and the 14, say), the turn passes and the table stays open. Balls of one kind only and you shoot again, as before. The rules in the menu explain it, with a few rare cases now put right, and the computer plays a little better.
+### ब्रेक पर एक ही तरह की बॉल
+एक नया हाउस रूल: अगर ब्रेक में दोनों ग्रुप की बॉल पॉट हों (मान लीजिए 3 और 14), तो बारी बदल जाती है और टेबल ओपन रहती है। सिर्फ़ एक ही तरह की बॉल हों, तो आप फिर से खेलते हैं, पहले की तरह। मेन्यू के नियम इसे समझाते हैं, कुछ दुर्लभ मामले अब ठीक कर दिए गए हैं, और कंप्यूटर थोड़ा बेहतर खेलता है।
 
-### Every ball counts
-The balls you make in a row show by your picture with a little flame, and three, five and seven in a row are cheered (and a table cleared in one visit). The clock's last seconds tick, a chime says when your turn comes back online, and the rating counts up at the end of a game.
+### हर बॉल गिनी जाती है
+लगातार पॉट की गई बॉल आपकी फ़ोटो के पास एक छोटी लौ के साथ दिखती हैं, और लगातार तीन, पाँच और सात पर तालियाँ बजती हैं (और एक ही बारी में टेबल साफ़ करने पर भी)। घड़ी के आख़िरी सेकंड टिक-टिक करते हैं, ऑनलाइन आपकी बारी लौटने पर घंटी बजती है, और गेम के अंत में रेटिंग गिनती हुई बढ़ती है।
 
-### Events
-Now and then the staff run events: a weekend of double (or triple) experience, coins from games counting double, or a themed tournament the server organises, sometimes with a prize from the house on top of the entry fees. The main menu and the lounge show what is on and what is coming.
+### इवेंट
+कभी-कभी स्टाफ़ इवेंट चलाता है: डबल (या ट्रिपल) अनुभव वाला वीकेंड, गेम से डबल कॉइन, या सर्वर का आयोजित थीम टूर्नामेंट, कभी-कभी एंट्री फ़ीस के ऊपर हाउस की ओर से इनाम के साथ। मेन मेन्यू और लाउंज दिखाते हैं कि अभी क्या चल रहा है और आगे क्या आने वाला है।
 
-### On to the next one
-After a win on the tour, "Next" takes you straight to the next opponent; after a drill, "Try again". The deciding shot can be watched again from the end panel, and a first game points out where to aim, set the power and shoot.
+### अगले की ओर
+टूर में जीत के बाद, “अगला” आपको सीधे अगले विरोधी तक ले जाता है; ड्रिल के बाद, “फिर कोशिश करें”। निर्णायक शॉट को आख़िरी पैनल से फिर से देखा जा सकता है, और पहला गेम बताता है कि कहाँ निशाना लगाएँ, पावर सेट करें और शॉट मारें।
 
-### The head string, if you want it
-Settings → Game → "Always show the head string" keeps the line the break is played from on the table. Off by default: it shows only while you place the cue ball behind it.
+### हेड स्ट्रिंग, अगर आप चाहें
+सेटिंग्स → गेम → “हेड स्ट्रिंग हमेशा दिखाएँ” उस लाइन को टेबल पर बनाए रखता है जहाँ से ब्रेक खेला जाता है। डिफ़ॉल्ट रूप से बंद: यह सिर्फ़ तब दिखती है जब आप क्यू बॉल उसके पीछे रखते हैं।
 
-### Fair rewards, softer light
-The tour's final and the ranked drills are now set up by the server, so their cue and their tables are earned the same way by everyone (play them signed in). A dropped connection no longer closes the game, a game against the computer is never replaced without asking, and the light under the lamps falls softly, without hard edges.
+### सही इनाम, नरम रोशनी
+टूर का फ़ाइनल और रैंक वाली ड्रिल अब सर्वर तैयार करता है, इसलिए उनका क्यू और उनकी टेबल हर किसी को एक ही तरह से मिलती हैं (इन्हें साइन इन करके खेलें)। कनेक्शन टूटने से अब गेम बंद नहीं होता, कंप्यूटर के ख़िलाफ़ गेम बिना पूछे कभी नहीं बदला जाता, और लैंप के नीचे रोशनी बिना सख़्त किनारों के, नरमी से गिरती है।
 
 ## 0.6.2
 
-### Leagues and levels on one page
-In the profile, the "Leagues and levels" tab shows every league, from which rating and what it pays, and every level that brings an item. Reaching a league for the first time now pays coins and, from Skilled up, an item of the league's own.
+### लीग और लेवल एक ही पेज पर
+प्रोफ़ाइल में, “लीग और लेवल” टैब हर लीग दिखाता है, किस रेटिंग से और उस पर क्या मिलता है, और हर वह लेवल जो कोई आइटम देता है। पहली बार किसी लीग में पहुँचने पर अब कॉइन मिलते हैं और, कुशल से ऊपर, उस लीग का अपना एक आइटम भी।
 
-### A cleaner profile
-On the left, just what matters: your level, the next prize, and the achievements and reactions already won. Every medal and reaction has a tab of its own, and nothing runs off the screen.
+### साफ़-सुथरी प्रोफ़ाइल
+बाईं ओर, सिर्फ़ ज़रूरी चीज़ें: आपका लेवल, अगला इनाम, और पहले से जीती गई उपलब्धियाँ और रिएक्शन। हर मेडल और रिएक्शन का अपना टैब है, और कुछ भी स्क्रीन से बाहर नहीं जाता।
 
-### The view from above as it was, with round balls
-The table has its depth and its usual light again, and the camera no longer jumps when it leaves the view from above.
+### ऊपर से व्यू पहले जैसा, गोल बॉल के साथ
+टेबल को उसकी गहराई और सामान्य रोशनी फिर से मिल गई है, और ऊपर वाले व्यू से निकलते समय कैमरा अब झटका नहीं खाता।
 
 ## 0.6.1
 
-### A view from above without distortion
-The table is now seen from high up, almost without perspective: balls stay round out to the corners, and the cue, the aiming line and the ghost ball always line up. The light on the balls is softer, so the number shows.
+### बिना खिंचाव के ऊपर से व्यू
+टेबल अब काफ़ी ऊँचाई से, लगभग बिना पर्सपेक्टिव के दिखती है: बॉल कोनों तक गोल रहती हैं, और क्यू, निशाने की लाइन और घोस्ट बॉल हमेशा एक सीध में रहते हैं। बॉल पर रोशनी नरम है, ताकि नंबर दिखें।
 
-### A tournament and a tour that mean it
-In a tournament against the computer a game counts once: leaving half way doesn't wipe it (it goes on from where it was) and there is no rematch. The champion gets a gold medal. And the tour is hard: every opponent plays at their best.
+### सच्चे टूर्नामेंट और टूर
+कंप्यूटर के ख़िलाफ़ टूर्नामेंट में गेम एक ही बार गिना जाता है: बीच में छोड़ने से वह मिटता नहीं (वहीं से जारी रहता है) और रीमैच नहीं होता। चैंपियन को गोल्ड मेडल मिलता है। और टूर मुश्किल है: हर विरोधी अपना सबसे अच्छा खेल खेलता है।
 
-### New achievements, pictures and sounds
-Shutout, Golden break and account anniversaries. Faces that look like people and twelve profile pictures that are not faces (the 8-ball, a trophy, a crown…). New sounds for the balls, the cue, the cushions and the pockets.
+### नई उपलब्धियाँ, तस्वीरें और आवाज़ें
+एकतरफ़ा जीत, गोल्डन ब्रेक और अकाउंट की सालगिरह। लोगों जैसे दिखने वाले चेहरे और बारह प्रोफ़ाइल फ़ोटो जो चेहरे नहीं हैं (8 बॉल, एक ट्रॉफ़ी, एक ताज…)। बॉल, क्यू, कुशन और पॉकेट की नई आवाज़ें।
 
-### Leagues, levels that pay and scarce coins
-Other players are shown by their league (the rating is on the profile and in the ranking). Every account level pays coins and levels 5 to 50 bring items of their own, but the climb is long. Coins are scarcer: everything in the shop takes time to earn.
+### लीग, कॉइन देने वाले लेवल और कम कॉइन
+दूसरे खिलाड़ी अपनी लीग से दिखते हैं (रेटिंग प्रोफ़ाइल और रैंकिंग में है)। अकाउंट का हर लेवल कॉइन देता है और लेवल 5 से 50 अपने आइटम देते हैं, पर चढ़ाई लंबी है। कॉइन अब कम मिलते हैं: शॉप की हर चीज़ कमाने में समय लगता है।
 
 ## 0.6.0
 
-### A Brazilian rule, with penalty balls
-The game now plays the regional Brazilian rule of eight-ball, the one of bars and pool halls (not the official tournament rule). A foul passes the turn and takes your opponent's lowest balls off the table, only a pocketed cue ball gives ball in hand, and the 8 alone on the break wins. The full rules are in the menu.
+### ब्राज़ीलियाई नियम, पेनल्टी बॉल के साथ
+गेम अब 8 बॉल के क्षेत्रीय ब्राज़ीलियाई नियमों से खेलता है, बार और पूल हॉल वाले (आधिकारिक टूर्नामेंट नियम नहीं)। फ़ाउल से बारी बदलती है और विरोधी की सबसे छोटे नंबर वाली बॉल टेबल से हटती हैं, सिर्फ़ पॉट हुई क्यू बॉल पर बॉल इन हैंड मिलता है, और ब्रेक पर अकेली 8 बॉल जिताती है। पूरे नियम मेन्यू में हैं।
 
-### Heavier balls
-The cloth holds the ball more and the break is less violent: the balls no longer scatter all over the table.
+### भारी बॉल
+क्लॉथ बॉल को ज़्यादा पकड़ता है और ब्रेक कम ज़ोरदार है: बॉल अब पूरी टेबल पर नहीं बिखरतीं।
 
-### Tournaments against the computer and more drills
-Play a knockout of sixteen or an arena on points against the fifteen opponents. And there are eight new drills, fifteen in all.
+### कंप्यूटर के ख़िलाफ़ टूर्नामेंट और ज़्यादा ड्रिल
+पंद्रह विरोधियों के ख़िलाफ़ सोलह खिलाड़ियों का नॉकआउट या पॉइंट वाला एरीना खेलें। और आठ नई ड्रिल हैं, कुल पंद्रह।
 
-### Aiming and the cue
-The cue's elevation can be set by dragging with the mouse, the aiming line points at the centre of the ghost ball, faint arrows show when the cue ball can be moved, and the shadows can be turned off.
+### निशाना और क्यू
+क्यू की ऊँचाई माउस से खींचकर सेट की जा सकती है, निशाने की लाइन घोस्ट बॉल के बीच की ओर इशारा करती है, क्यू बॉल हिलाई जा सके तो हल्के तीर दिखते हैं, और परछाइयाँ बंद की जा सकती हैं।
 
 ## 0.5.1
 
-### Cleaner balls
-The pale disc on top of every ball is gone: a ball is lit as one round thing and shows the lamp as a single clean dot. Castings, rugs and Low quality look better too.
+### साफ़ बॉल
+हर बॉल के ऊपर का हल्का गोला हट गया है: बॉल एक गोल चीज़ की तरह रोशन होती है और लैंप को एक साफ़ बिंदु की तरह दिखाती है। फ़िटिंग, कालीन और लो क्वालिटी भी बेहतर दिखते हैं।
 
-### The power bar keeps no memory
-No more mark for your last stroke, and every turn starts from the middle of the bar: judging the pace is part of the game.
+### पावर बार कुछ याद नहीं रखता
+आपके पिछले स्ट्रोक का निशान अब नहीं, और हर बारी बार के बीच से शुरू होती है: रफ़्तार का अंदाज़ा लगाना गेम का हिस्सा है।
 
-### Nothing over the table
-Whose turn it is now reads in the top bar, beside the score panel, so the side pocket is always in sight. Aiming lines are smooth, and the rings round the pockets are whole.
+### टेबल के ऊपर कुछ नहीं
+किसकी बारी है, यह अब ऊपर की पट्टी में, स्कोर पैनल के पास दिखता है, ताकि साइड पॉकेट हमेशा नज़र में रहे। निशाने की लाइनें स्मूद हैं, और पॉकेट के चारों ओर के घेरे पूरे हैं।
 
 ## 0.5.0
 
-### Tournament-table physics
-The balls weigh what they do on a real table: the power bar goes up to a hard stroke (only the break uses full power), cushions give back less the harder they are hit, and a ball made falls into the pocket at the pace it arrived with.
+### टूर्नामेंट टेबल वाली फ़िज़िक्स
+बॉल का वज़न असली टेबल जितना है: पावर बार एक ज़ोरदार स्ट्रोक तक जाता है (पूरी पावर सिर्फ़ ब्रेक में), कुशन जितनी ज़ोर से लगें उतना कम लौटाते हैं, और पॉट हुई बॉल उसी रफ़्तार से पॉकेट में गिरती है जिससे वह आई थी।
 
-### An official tournament table
-The table is the regulation 8-foot one, measure for measure: balls, corner and side pockets with the official mouths and angles. The cloth is a deep green under the lamps and the balls shine like polished ones, their numbers crisp.
+### आधिकारिक टूर्नामेंट टेबल
+टेबल नियम के मुताबिक़ 8 फ़ुट की है, नाप-नाप से: बॉल, कॉर्नर और साइड पॉकेट, आधिकारिक मुँह और एंगल के साथ। लैंप के नीचे क्लॉथ गहरा हरा है और बॉल पॉलिश की हुई बॉल की तरह चमकती हैं, उनके नंबर साफ़।
 
-### A truer guide, or none
-The ghost ball now stops where the cue ball really would, the mouths of the pockets included. And a new choice: play with no aiming guide at all.
+### ज़्यादा सटीक गाइड, या कोई नहीं
+घोस्ट बॉल अब वहीं रुकती है जहाँ क्यू बॉल सच में रुकती, पॉकेट के मुँह समेत। और एक नया विकल्प: बिना किसी निशाना गाइड के खेलें।
 
 ## 0.4.0
 
-### A new name: Snook Legend
-The game is now called Snook Legend. Your account, coins, items, settings and progress are all here, as before.
+### नया नाम: Snook Legend
+गेम का नाम अब Snook Legend है। आपका अकाउंट, कॉइन, आइटम, सेटिंग्स और प्रगति, सब यहीं हैं, पहले की तरह।
 
-### 8-foot table, open side pockets
-A smaller table (8 feet) and side pockets that forgive a ball off the centre or rolling in at an angle. The balls roll a little more freely.
+### 8 फ़ुट की टेबल, खुले साइड पॉकेट
+एक छोटी टेबल (8 फ़ुट) और ऐसे साइड पॉकेट जो बीच से हटकर या तिरछी आती बॉल को भी माफ़ कर देते हैं। बॉल थोड़ा और खुलकर लुढ़कती हैं।
 
-### New rule: the opponent's ball
-Making one of your opponent's balls passes the turn, even if one of yours went down too. It is not a foul: no ball in hand.
+### नया नियम: विरोधी की बॉल
+विरोधी की कोई बॉल पॉट करने पर बारी बदल जाती है, भले ही आपकी कोई बॉल भी पॉकेट में गई हो। यह फ़ाउल नहीं है: बॉल इन हैंड नहीं।
 
-### Easier to see
-The cloth is lit evenly, the balls have a soft sheen so their numbers read, shadows are lighter, and nothing of the hall gets in the way of the view from above. Whose turn it is stands out on the score cards.
+### देखने में आसान
+क्लॉथ पर एक जैसी रोशनी है, बॉल पर हल्की चमक है ताकि उनके नंबर पढ़े जा सकें, परछाइयाँ हल्की हैं, और ऊपर से व्यू में हॉल की कोई चीज़ बीच में नहीं आती। किसकी बारी है, यह स्कोर कार्ड पर साफ़ दिखता है।
 
-### Fifteen opponents
-Tito, Inês, Diego, Amara and Yuri join the computer opponents, each with a style and a voice of their own. The Tour now has fifteen stages; your wins so far are kept.
+### पंद्रह विरोधी
+Tito, Inês, Diego, Amara और Yuri कंप्यूटर विरोधियों में शामिल हुए हैं, हर एक का अपना अंदाज़ और अपनी आवाज़। टूर में अब पंद्रह स्टेज हैं; अब तक की आपकी जीत सुरक्षित हैं।
 
-### Quieter opponents
-Settings → Game → Opponents' remarks turns their speech bubbles off.
+### शांत विरोधी
+सेटिंग्स → गेम → विरोधियों की टिप्पणियाँ से उनके स्पीच बबल बंद होते हैं।
 
-### A new score panel
-Pictures and names in boxes, and the balls each player made rolling into place along their rail, in the order they went down.
+### नया स्कोर पैनल
+बॉक्स में फ़ोटो और नाम, और हर खिलाड़ी की पॉट की गई बॉल उनकी पट्टी में अपनी जगह तक लुढ़कती हुई, जिस क्रम में वे पॉकेट में गईं।
 
-### Aim by eye
-Raise the cue by dragging it in a side view of the shot. No more numbers on the power or the elevation: judge them by eye. Prefer it flat? Settings → Game → Top view only.
+### अंदाज़े से निशाना
+शॉट के साइड व्यू में क्यू को खींचकर ऊपर उठाएँ। पावर या ऊँचाई पर अब कोई नंबर नहीं: इनका अंदाज़ा आँखों से लगाएँ। सपाट पसंद है? सेटिंग्स → गेम → सिर्फ़ ऊपर से व्यू।
 
-### Rules and pictures
-The rules of the game are a click away (the book on the main menu, or Rules in the pause menu). Pick one of 32 profile pictures in your profile.
+### नियम और तस्वीरें
+गेम के नियम बस एक क्लिक दूर हैं (मेन मेन्यू में किताब, या पॉज़ मेन्यू में नियम)। अपनी प्रोफ़ाइल में 32 प्रोफ़ाइल फ़ोटो में से एक चुनें।
 
-### Your games are safe
-Replays and daily games that started before this update keep the old table and rules until they end.
+### आपके गेम सुरक्षित हैं
+इस अपडेट से पहले शुरू हुए रीप्ले और डेली गेम ख़त्म होने तक पुरानी टेबल और पुराने नियम ही रखते हैं।
 
 ## 0.3.0
 
-### A regulation 9-foot table
-The table is now tournament size (100" × 50"), with the balls, pockets, cushions and cue to official measurements. The balls are heavier and bounce less, like real ones.
+### नियम के मुताबिक़ 9 फ़ुट की टेबल
+टेबल अब टूर्नामेंट आकार की है (100" × 50"), बॉल, पॉकेट, कुशन और क्यू आधिकारिक नाप के। बॉल ज़्यादा भारी हैं और कम उछलती हैं, असली बॉल की तरह।
 
-### A new break rule
-On the break, the first ball you pocket sets your group: solids or stripes. A foul on the break leaves the table open.
+### ब्रेक का नया नियम
+ब्रेक पर, आप जो पहली बॉल पॉट करते हैं, वह आपका ग्रुप तय करती है: सॉलिड या स्ट्राइप। ब्रेक पर फ़ाउल होने से टेबल ओपन रहती है।
 
-### New halls, tables and cues
-Four new halls and four new tables, and every old one reworked. Premium cues that look nothing alike. On Ultra, floors that reflect the hall.
+### नए हॉल, टेबल और क्यू
+चार नए हॉल और चार नई टेबल, और हर पुरानी चीज़ नए सिरे से बनी। प्रीमियम क्यू जो एक-दूसरे से बिल्कुल अलग दिखते हैं। अल्ट्रा पर, हॉल को दिखाने वाले चमकदार फ़र्श।
 
-### Daily challenge
-A new position every day, the same for everyone, with a ranking of the day: three attempts to make as many balls as you can.
+### आज की चुनौती
+हर दिन एक नई पोज़िशन, सबके लिए एक ही, दिन की रैंकिंग के साथ: जितनी हो सकें उतनी बॉल पॉट करने के लिए तीन कोशिशें।
 
-### Drills with stars
-Seven drills on potting, spin, banks and escaping snookers, up to three stars each, with rankings and a challenge rating that shows your level.
+### स्टार वाली ड्रिल
+पॉटिंग, स्पिन, बैंक और स्नूकर से बचाव पर सात ड्रिल, हर एक में तीन स्टार तक, रैंकिंग और चैलेंज रेटिंग के साथ जो आपका लेवल दिखाती है।
 
-### Account level
-Earn experience in every game, won or lost, and in drills, the daily challenge and achievements. Your level shows on your profile.
+### अकाउंट लेवल
+हर गेम में अनुभव कमाएँ, जीतें या हारें, और ड्रिल, आज की चुनौती और उपलब्धियों में भी। आपका लेवल आपकी प्रोफ़ाइल पर दिखता है।
 
-### The Tour
-The old ladder is now the Tour: ten stages, one opponent each. The opponents have new portraits and talk during the game.
+### टूर
+पुरानी लैडर अब टूर है: दस स्टेज, हर एक में एक विरोधी। विरोधियों के नए पोर्ट्रेट हैं और वे गेम के दौरान बातें करते हैं।
 
-### Fair play
-Leaving a game costs more than losing it. The full aiming guide is for free games against the computer and practice only: never online, in the Tour, the daily challenge or drills.
+### फ़ेयर प्ले
+गेम छोड़ना हारने से ज़्यादा महँगा पड़ता है। पूरी निशाना गाइड सिर्फ़ कंप्यूटर के साथ आम गेम और प्रैक्टिस के लिए है: ऑनलाइन, टूर, आज की चुनौती या ड्रिल में कभी नहीं।
 
-### Your profile
-A trophy shelf and statistics for each cue: games, wins and balls made with it. You can now change your username up to three times.
+### आपकी प्रोफ़ाइल
+एक ट्रॉफ़ी शेल्फ़ और हर क्यू के आँकड़े: उससे खेले गए गेम, जीत और पॉट की गई बॉल। अब आप अपना यूज़रनेम तीन बार तक बदल सकते हैं।
 
-### In the lounge
-An "away" status, quick phrases translated into your opponent's language and a practice table while the search for an opponent goes on.
+### लाउंज में
+“दूर” स्टेटस, विरोधी की भाषा में अनुवाद होने वाले झटपट मैसेज और विरोधी की तलाश के दौरान एक प्रैक्टिस टेबल।
 
 ## 0.2.0
 
-### Ten opponents with personality
-Choose who to play: from Leo, still learning, to Marta, who lives on safeties, and Lola, who banks everything. Each has their own style, portrait and strength.
+### दस विरोधी, अपने-अपने अंदाज़ वाले
+चुनें किससे खेलना है: अभी सीख रहे Leo से लेकर सेफ़्टी पर जीने वाली Marta और हर बॉल बैंक करने वाली Lola तक। हर एक का अपना अंदाज़, पोर्ट्रेट और ताक़त है।
 
-### The ladder
-Beat the ten opponents one by one, up to the last. Reach the top to earn the exclusive "Ladder king" cue and a new achievement.
+### लैडर
+दस विरोधियों को एक-एक करके हराएँ, आख़िरी तक। शिखर पर पहुँचकर ख़ास “Ladder king” क्यू और एक नई उपलब्धि पाएँ।
 
-### Play the ghost
-The computer learns a real player's style from their online games. Challenge a friend's ghost, or your own, from the profile or the vs-computer screen.
+### घोस्ट से खेलें
+कंप्यूटर किसी असली खिलाड़ी के ऑनलाइन गेम से उसका अंदाज़ सीखता है। प्रोफ़ाइल या कंप्यूटर वाली स्क्रीन से किसी दोस्त के घोस्ट को, या अपने घोस्ट को चुनौती दें।
 
-### Daily games
-Challenge someone and play your turn when you can: each player has up to 3 days per turn. You are told when it's your turn, and you can have several games at once.
+### डेली गेम
+किसी को चुनौती दें और जब समय मिले, अपनी बारी खेलें: हर खिलाड़ी के पास हर बारी के लिए 3 दिन तक हैं। आपकी बारी आने पर आपको बताया जाता है, और आप एक साथ कई गेम खेल सकते हैं।
 
-### Friends and gifts
-See who you played recently, write a status on your profile and post on the lounge's "looking for a game" board. Gifts from friends now arrive with a notice, a message and a "thank you".
+### दोस्त और गिफ़्ट
+देखें कि आपने हाल में किसके साथ खेला, अपनी प्रोफ़ाइल पर स्टेटस लिखें और लाउंज के “गेम की तलाश” बोर्ड पर पोस्ट करें। दोस्तों के गिफ़्ट अब एक सूचना, एक मैसेज और “शुक्रिया” के साथ आते हैं।
 
-### Cues, tables and halls
-Your cue earns bands and inlays as you win with it. In the shop, themed tables and halls: beach bar, industrial loft and English club.
+### क्यू, टेबल और हॉल
+आपका क्यू उससे जीतने पर पट्टियाँ और जड़ाई कमाता है। शॉप में थीम वाली टेबल और हॉल: बीच बार, इंडस्ट्रियल लॉफ़्ट और इंग्लिश क्लब।
 
-### Your game, analysed
-The profile's new Analysis tab shows your potting by pocket, distance and kind of shot, with a heat map of the table.
+### आपके गेम का विश्लेषण
+प्रोफ़ाइल का नया विश्लेषण टैब पॉकेट, दूरी और शॉट के प्रकार के हिसाब से आपकी पॉटिंग दिखाता है, टेबल के हीट मैप के साथ।
 
-### Your keys
-Every shortcut can be changed in Settings → Controls, and the game's hints follow your choices.
+### आपकी कीज़
+हर शॉर्टकट सेटिंग्स → कंट्रोल में बदला जा सकता है, और गेम के संकेत आपकी पसंद के हिसाब से चलते हैं।
 
-### Automatic updates
-New versions download in the background and install when you restart, never during a game. This window tells you what changed.
+### अपने-आप अपडेट
+नए वर्ज़न बैकग्राउंड में डाउनलोड होते हैं और रीस्टार्ट करने पर इंस्टॉल होते हैं, गेम के दौरान कभी नहीं। यह विंडो बताती है कि क्या बदला।
 
-### A reviewed interface
-Every screen was reviewed in the three languages and at every window size. Fixes: Esc opens the menu at the table, the computer sinks the 8 in its called pocket more reliably, and the overhead view no longer goes black.
+### समीक्षा किया गया इंटरफ़ेस
+हर स्क्रीन की तीनों भाषाओं में और हर विंडो आकार पर समीक्षा हुई। सुधार: टेबल पर Esc मेन्यू खोलता है, कंप्यूटर 8 बॉल को अपने कॉल किए गए पॉकेट में ज़्यादा भरोसे से डालता है, और ऊपर वाला व्यू अब काला नहीं होता।
 
 ## 0.1.4
 
-### A game while you wait
-After half a minute of "Play now" without an opponent, you can play the computer while the search goes on.
+### इंतज़ार में एक गेम
+“अभी खेलें” में आधे मिनट तक विरोधी न मिले, तो तलाश जारी रहते हुए आप कंप्यूटर से खेल सकते हैं।
 
-### Chat moderation
-You can delete your own chat lines, and moderators can remove abuse.
+### चैट मॉडरेशन
+आप चैट में अपनी लाइनें डिलीट कर सकते हैं, और मॉडरेटर दुर्व्यवहार हटा सकते हैं।
 
-### Cues you can see
-Opponents see the pattern of the cue you bought, and VIP members have reactions of their own.
+### दिखने वाले क्यू
+विरोधी आपके ख़रीदे क्यू का डिज़ाइन देखते हैं, और VIP सदस्यों के अपने रिएक्शन हैं।

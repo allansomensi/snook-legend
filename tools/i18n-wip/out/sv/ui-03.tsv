@@ -1,0 +1,300 @@
+601	Underskruv
+602	Vänsterskruv
+603	Högerskruv
+604	Höj kön
+605	Sänk kön
+606	Ta vita bollen i hand
+607	3D / vy ovanifrån
+608	Återställ kameran
+609	Spela upp senaste stöten igen
+610	Lista över kontroller
+611	Tangenterna kan ändras i Inställningar → Kontroller.
+612	Mellanslag
+613	Höger Shift
+614	Höger Ctrl
+615	Höger Alt
+616	Sikte och stöt
+617	Skruv och höjd
+618	Fasta tangenter
+619	Meny, tillbaka och avbryt
+620	Bekräfta (formulär, vita bollen i hand)
+621	Den här tangenten kan inte ändras.
+622	Tryck på en tangent · Esc avbryter · Backsteg rensar
+623	Tryck på en tangent…
+624	Klicka för att ändra
+625	Klicka för att lägga till en tangent
+626	Tillbaka till ingen tangent
+627	Tillbaka till {keys}
+628	Bytt: {action} ligger nu på {key}.
+629	Togs från {action}, som nu saknar tangent.
+630	Togs från {action}.
+631	Den tangenten kan inte användas: prova en annan.
+632	Stöt
+633	Kort
+634	Loggar in…
+635	Loggar in
+636	Mjuka skuggor från varje lampa, glansiga hallar, glorior.
+637	Hela (1–7)
+638	Skruvboll
+639	Skruv
+640	Standard
+641	Stanna
+642	Halva (9–15)
+643	Spelet fortsätter medan det här är öppet.
+644	Använd standard
+645	Användarnamn
+646	Användarnamn har 3–16 bokstäver, siffror eller understreck.
+647	{keys} (hopp och massé)
+648	Du vann!
+649	Ditt namn
+650	Din motståndare gick tillbaka till loungen.
+651	Din tur
+652	öppet bord: nästa boll du sänker avgör din grupp
+653	dragboll
+654	följboll
+655	stoppboll
+656	hela
+657	halva
+658	lounge
+659	 · vänsterskruv
+660	 · högerskruv
+661	Språk
+662	Allmänt
+663	Grafik
+664	Spel
+665	Ljud
+666	Återställ standard
+667	Återställ alla tangenter
+668	Återställa alla tangenter?
+669	Klicka igen för att återställa alla tangenter
+670	Uppdateringar
+671	Uppdatera automatiskt
+672	Nya versioner laddas ner i bakgrunden och installeras när du startar om.
+673	Version {v}
+674	Nyheter
+675	Nyheter i version {v}
+676	Inga anteckningar för den här versionen.
+677	Uppfattat
+678	Starta om nu
+679	Efter partiet, från huvudmenyn.
+680	Ladda ner
+681	Sök nu
+682	Kunde inte nå uppdateringsservern.
+683	Nedladdningen var skadad. Ett nytt försök görs senare.
+684	Den nya versionen kunde inte installeras. Den här versionen behålls.
+685	Laddar ner… {p}%
+686	Uppdaterar…
+687	Microsoft Store håller spelet uppdaterat.
+688	Utvecklingsversion: inga automatiska uppdateringar.
+689	Söker efter en ny version…
+690	Det här är den senaste versionen.
+691	Laddar ner version {v}… {p}%
+692	Installerar version {v}…
+693	Version {v} är klar: starta om spelet för att använda den.
+694	Version {v} har släppts: ladda ner den från versionssidan.
+695	Version {v} är klar
+696	Starta om för att spela den; inget går förlorat.
+697	Version {v} har släppts
+698	Hämta den från versionssidan.
+699	Återställa allt?
+700	Klicka igen för att återställa alla inställningar
+701	Online
+702	Meny
+703	Rating
+704	Ultra
+705	håll {key} och släpp
+706	Ändra
+707	Muskänslighet för sikte
+708	Hur snabbt kön vrids med musen.
+709	Vinjett
+710	Gör bildens kanter mörkare, som på film.
+711	Visa FPS
+712	Bilder per sekund, i ett hörn av skärmen.
+713	Anmäl först ett hål för 8-bollen: klicka på ett hål.
+714	Återansluter
+715	partiet är slut
+716	vita bollen kan inte placeras där
+717	anmäl ett hål för 8-bollen
+718	Det användarnamnet är upptaget.
+719	Fel användarnamn eller lösenord.
+720	Din session har gått ut. Logga in igen.
+721	Den här versionen av Snook Legend är föråldrad. Uppdatera spelet.
+722	Det är inte din tur.
+723	Den spelaren är inte online.
+724	Den spelaren är mitt i ett parti.
+725	Du kan inte bjuda in dig själv.
+726	Den inbjudan gäller inte längre.
+727	Den spelaren är inte längre tillgänglig.
+728	Ge upp först för att lämna ett pågående parti.
+729	Felaktigt meddelande.
+730	Logga in först.
+731	Kunde inte skapa kontot.
+732	Vita bollen kan inte placeras där.
+733	Frånkopplad.
+734	Tappade kontakten med servern.
+735	Servern stängde anslutningen.
+736	Servern tog för lång tid på sig att svara.
+737	Servern svarar inte (anslutningen nekades).
+738	Serveradressen är inte giltig (exempel: wss://snook-legend.example.com/ws).
+739	Serveradressen saknar värdnamn.
+740	Välkommen till Snook Legend! Var schysst och spela just.
+741	Boll i hand: dra vita bollen{zone} för att flytta den
+742	 bakom linjen
+743	Boll i hand  ·  {group}
+744	Kan inte stöta: {e}.
+745	Chatt ({n})
+746	Dator ({level})
+747	Dator
+748	Varje motståndare har sin egen stil
+749	Fritt parti
+750	Turné
+751	Turné: {n} av {total} besegrade
+752	Styrka {n}/5
+753	Spöke
+754	Precision
+755	Safety
+756	Vallstötar
+757	Positionsspel
+758	{name}s spöke
+759	En spelares spöke
+760	Spelar som en riktig spelare
+761	Datorn spelar i en riktig spelares stil, uppmätt från hens onlinepartier.
+762	Logga in för att spela mot en riktig spelares spöke.
+763	Ladda
+764	Vänner:
+765	Skriv ett användarnamn eller välj en vän och tryck på Ladda.
+766	Mäter hur {name} spelar…
+767	Sänker {pots}% · safety {safe}% · vallstötar {banks}% · {shots} stötar
+768	{name} har bara {shots} registrerade stötar; ett spöke behöver {needed}. Fler onlinepartier löser det.
+769	Det finns ingen spelare som heter {name}.
+770	Servern kan inte nås just nu. Försök igen senare.
+771	Vänta en stund innan du frågar igen.
+772	Något gick fel på servern. Försök igen senare.
+773	Spela mot ditt spöke
+774	Spela mot hens spöke
+775	Besegrad
+776	Nästa
+777	Vinn föregående etapp för att låsa upp den här.
+778	Etapp {n} av {total}
+779	Utmana {name}
+780	Etapp {n} vunnen! Näst på turnén: {name}.
+781	Du vann hela turnén!
+782	Belöning
+783	Kön {item} · exklusiv
+784	Din: du hittar den i butiken, under Köer.
+785	Vinn sista etappen igen när du är inloggad för att få den.
+786	Besegra alla femton motståndare för att vinna den. Den säljs ingenstans.
+787	Du vann turnén! Logga in för att få din belöning.
+788	Servern kontrollerar ditt sista parti…
+789	Försök igen
+790	Servern svarade inte. Försök igen om en stund.
+791	Servern är upptagen med att kontrollera andra partier. Försök igen om en stund.
+792	Vänta en minut innan du försöker igen.
+793	Det partiet är för långt för att kontrolleras.
+794	Det partiet innehåller ett drag som reglerna inte tillåter.
+795	Det partiet spelades inte till slut.
+796	Det partiet var ingen vinst.
+797	Datorns stötar i det partiet stämmer inte med hur den spelar (en annan version av spelet?).
+798	Nybörjaren
+799	Lär sig fortfarande: siktar på närmaste hål, träffar mitt på vita och hoppas. Spelar aldrig safety.
+800	Helgspelaren
+801	Kan grunderna och sänker de enkla, men tänker sällan på vart vita bollen tar vägen.
+802	Vallkonstnären
+803	Ser vinklar ingen annan ser: kan en boll gå via vallen och i, så spelar hon den så.
+804	Kanonen
+805	Går på allt, så hårt han kan: långa stötar, dånande utslag och nästan aldrig en safety.
+806	Muren
+807	Stöter bara när bollen går att sänka. Annars gömmer hon vita bollen och väntar på ditt misstag.
+808	Veteranen
+809	Fyrtio år vid bordet: mjuk stöt, höjd kö, sidoskruv och aldrig bråttom.
+810	Hustlern
+811	Spelar precis tillräckligt bra för att vinna, sedan lite bättre. Balanserad, vass och svår att läsa.
+812	Professorn
+813	Tänker tre bollar framåt: varje stöt lämnar vita bollen där nästa blir enkel.
+814	Prickskytten
+815	Sänker från var som helst, i vilken vinkel som helst. Safety bryr hon sig knappt om: hon behöver det inte.
+816	Mästaren
+817	Obesegrad i åratal. Exakt, tålmodig och skoningslös: turnéns sista etapp.
+818	Turnémästare
+819	Turnéns mästare
+820	Besegra alla femton motståndare i datorturnén.
+821	Anslutningen bröts. Återansluter (försök {n})…
+822	Anslutningen bröts. Återansluter…
+823	Foul av {shooter}: {foul}.
+824	Grafiken är inställd på {q} för jämnt spel. Du kan ändra det i Inställningar.
+825	Rating {r} ({d})
+826	{ball} placerades tillbaka på bordet.
+827	Väntar på {to} ({kind})…
+828	rankat
+829	vänskapligt
+830	Väntar på {name}…
+831	{by} tackade nej till din inbjudan.
+832	ett rankat parti
+833	ett vänskapligt parti
+834	{name} anmäler 8-bollen i {pocket}.
+835	{name} har boll i hand…
+836	{name} siktar…
+837	{name} är på 8-bollen: klicka på ett hål för att anmäla det
+838	{name} tänker…
+839	{name} lämnade partiet.
+840	{name} gav upp.
+841	{name} slår ut
+842	{name} stöter ({target})
+843	{name}s tur
+844	{next} har boll i hand{where}.
+845	 bakom huvudlinjen
+846	{opponent} är tillbaka.
+847	{opponent} tappade anslutningen. Väntar i upp till {secs} s…
+848	{opponent} vill ha revansch.
+849	{opponent} gick tillbaka till loungen.
+850	{shooter} sänkte {balls}.
+851	{shooter} tar {group}.
+852	{who} fick slut på tid: boll i hand för motståndaren.
+853	{name} vill ha revansch!
+854	{name} vinner!
+855	{name} vinner
+856	Volym
+857	Kön, bollarna, vallarna och hålen.
+858	Aviseringar
+859	Kunde inte hitta servern ”{host}”.
+860	Nätverksfel: {e}.
+861	Säker anslutning misslyckades: {e}.
+862	Servern nekade anslutningen (HTTP {code}).
+863	Anslutningsfel: {e}.
+864	vita bollen
+865	{n}-bollen
+866	Vita i hål: vita bollen sänktes
+867	Vita bollen lämnade bordet
+868	Vita bollen träffade ingen boll
+869	Fel boll träffades först ({ball})
+870	Ingen boll nådde en vall efter träffen
+871	{ball} lämnade bordet
+872	Ogiltigt utslag
+873	sänkte 8-bollen
+874	motståndaren sänkte 8-bollen för tidigt
+875	motståndaren sänkte 8-bollen i fel hål
+876	motståndaren gjorde foul på 8-bollen
+877	motståndaren slog 8-bollen av bordet
+878	motståndaren gav upp
+879	motståndaren lämnade partiet
+880	vänster hörn vid huvudet
+881	höger hörn vid huvudet
+882	vänster mitthål
+883	höger mitthål
+884	vänster hörn vid foten
+885	höger hörn vid foten
+886	Lätt
+887	Svår
+888	Normal
+889	Kraft
+890	Inga meddelanden än.
+891	▼ nyare meddelanden
+892	Kameran följer kön
+893	Av: den stannar där du placerar den.
+894	Dra tillbaka vid stötar
+895	Bara när kameran följer kön.
+896	Dra kön · klicka på en punkt
+897	Tiden är ute: {name}s stöt spelades med full kraft.
+898	Mörkt rum
+899	En spotlight på bordet, rummet i skugga.
+900	Dölj

@@ -1,4 +1,4 @@
-1	{name} e la bila 8: buzunar anunțat {pocket}
+1	{name} e la bila 8: a anunțat {pocket}
 2	La bila 8: {pocket}
 3	Afișează pingul
 4	Întârzierea conexiunii tale în partidele online.
@@ -84,7 +84,7 @@
 84	Se caută adversar… {t}
 85	orice rating
 86	rating ±{n} · {mode}
-87	Precizie
+87	Rată de reușită
 88	Bile băgate
 89	Cea mai bună serie
 90	Faulturi
@@ -112,7 +112,7 @@
 112	Poți urmări doar partidele prietenilor.
 113	Nu poți urmări această partidă.
 114	{n} pct. până la {tier}
-115	Categoria maximă
+115	Liga maximă
 116	Reacții {n}/{total}
 117	Masa bântuită
 118	Câștigă o partidă cu rating de Halloween (24 oct. – 2 nov.).

@@ -4,63 +4,63 @@
 # are its text. The same parts and rules, in the same order, in every
 # language.
 
-## The game
+## गेम
 
-### The official rules (WPA)
-The eight-ball of international tournaments, as the World Pool-Billiard Association plays it. Snook Legend has the Brazilian rules too: choose the rules of your games in the main menu. If you play the Brazilian rules, read the break, the calls and the fouls below, because they differ a lot.
+### आधिकारिक नियम (WPA)
+अंतरराष्ट्रीय टूर्नामेंट वाला 8 बॉल, जैसा वर्ल्ड पूल-बिलियर्ड एसोसिएशन इसे खेलता है। Snook Legend में ब्राज़ीलियाई नियम भी हैं: मेन मेन्यू में अपने गेम के नियम चुनें। अगर आप ब्राज़ीलियाई नियमों से खेलते हैं, तो नीचे ब्रेक, कॉल और फ़ाउल वाले हिस्से ज़रूर पढ़ें, क्योंकि इनमें काफ़ी फ़र्क़ है।
 
-### The aim
-Each player has a group of seven balls: solids (1 to 7) or stripes (9 to 15). Pocket all of yours and then the 8-ball, in the pocket you call, before your opponent does.
+### लक्ष्य
+हर खिलाड़ी के पास सात बॉल का एक ग्रुप होता है: सॉलिड (1 से 7) या स्ट्राइप (9 से 15)। विरोधी से पहले अपनी सारी बॉल और फिर 8 बॉल को कॉल किए गए पॉकेट में पॉट करें।
 
-### Your turn
-You keep shooting while you make a ball of your group in the pocket you called, on a shot without a foul. Otherwise the turn passes, and the balls that went in stay down.
+### आपकी बारी
+जब तक आप बिना फ़ाउल वाले शॉट पर अपने ग्रुप की बॉल कॉल किए गए पॉकेट में पॉट करते रहते हैं, आप खेलते रहते हैं। वरना बारी बदल जाती है, और जो बॉल पॉकेट में गईं, वे अंदर ही रहती हैं।
 
-## The break
+## ब्रेक
 
-### The break shot
-The cue ball is in your hand: place it anywhere behind the head string. Nothing is called on the break. For it to be legal you must make a ball or drive at least four object balls to a cushion.
+### ब्रेक शॉट
+क्यू बॉल आपके हाथ में है: इसे हेड स्ट्रिंग के पीछे कहीं भी रखें। ब्रेक पर कुछ भी कॉल नहीं किया जाता। ब्रेक वैध होने के लिए आपको कोई बॉल पॉट करनी होगी या कम से कम चार ऑब्जेक्ट बॉल कुशन तक पहुँचानी होंगी।
 
-### An illegal break
-If no ball goes in and fewer than four reach a cushion, your opponent chooses: play the table as it lies, have the balls racked and break themselves, or have you break again.
+### अवैध ब्रेक
+अगर कोई बॉल पॉकेट में नहीं जाती और चार से कम बॉल कुशन तक पहुँचती हैं, तो विरोधी चुनता है: टेबल जैसी है वैसी खेले, बॉल फिर से रैक करवाकर ख़ुद ब्रेक करे, या आपसे फिर से ब्रेक करवाए।
 
-### After the break
-A ball made on a legal break keeps the table, but the table stays open: the break never decides the groups. If the cue ball goes in or leaves the table on a legal break, your opponent has it in hand behind the head string.
+### ब्रेक के बाद
+वैध ब्रेक पर पॉट हुई बॉल से बारी आपके पास रहती है, पर टेबल ओपन रहती है: ब्रेक से ग्रुप कभी तय नहीं होते। अगर वैध ब्रेक पर क्यू बॉल पॉकेट में या टेबल से बाहर चली जाए, तो विरोधी को हेड स्ट्रिंग के पीछे बॉल इन हैंड मिलता है।
 
-### The 8-ball on the break
-Pocketing the 8 on the break neither wins nor loses: it comes back to the foot spot, and you play on or have the balls racked and break again. If you also fouled, your opponent chooses: the cue ball in hand behind the head string, or the balls racked again and they break.
+### ब्रेक पर 8 बॉल
+ब्रेक पर 8 बॉल पॉट करने से न जीत होती है, न हार: वह फ़ुट स्पॉट पर वापस आती है, और आप खेल जारी रखते हैं या बॉल फिर से रैक करवाकर दोबारा ब्रेक करते हैं। अगर आपने फ़ाउल भी किया, तो विरोधी चुनता है: हेड स्ट्रिंग के पीछे बॉल इन हैंड, या बॉल फिर से रैक करवाकर ख़ुद ब्रेक।
 
-### A ball off the table on the break
-It is a foul, and the ball stays off (only the 8 comes back). Your opponent plays the table as it lies or takes the cue ball in hand behind the head string. If the break was illegal too, they may also have the balls racked again, as above.
+### ब्रेक पर टेबल से बाहर बॉल
+यह फ़ाउल है, और बॉल बाहर ही रहती है (सिर्फ़ 8 बॉल वापस आती है)। विरोधी टेबल जैसी है वैसी खेलता है या हेड स्ट्रिंग के पीछे बॉल इन हैंड लेता है। अगर ब्रेक अवैध भी था, तो वे ऊपर बताए अनुसार बॉल फिर से रैक भी करवा सकते हैं।
 
-## Calling and playing
+## कॉल करना और खेलना
 
-### Open table
-While the groups are not decided, the table is open: you may hit any ball first except the 8. The group of the ball you make in the called pocket becomes yours. If one group is already off the table, you may play the 8.
+### ओपन टेबल
+जब तक ग्रुप तय नहीं होते, टेबल ओपन रहती है: आप 8 बॉल को छोड़कर किसी भी बॉल को पहले हिट कर सकते हैं। कॉल किए गए पॉकेट में आप जो बॉल पॉट करते हैं, उसका ग्रुप आपका हो जाता है। अगर एक ग्रुप पहले ही टेबल से साफ़ हो चुका है, तो आप 8 बॉल खेल सकते हैं।
 
-### Calling your shot
-Every shot except the break is called. In the game you call a pocket: following your aim, it calls the pocket the ball you hit is heading for (the ring on the pocket). Click another pocket to call it, or play a safety. A ball of your group (or the 8, when you are on it) made in the called pocket keeps the table, also off a cushion or another ball.
+### अपना शॉट कॉल करना
+ब्रेक को छोड़कर हर शॉट कॉल किया जाता है। गेम में आप एक पॉकेट कॉल करते हैं: आपके निशाने के हिसाब से, जिस बॉल को आप हिट करेंगे वह जिस पॉकेट की ओर जा रही है, वही कॉल होता है (पॉकेट पर घेरा)। कोई और पॉकेट कॉल करने के लिए उस पर क्लिक करें, या सेफ़्टी खेलें। कॉल किए गए पॉकेट में पॉट हुई आपके ग्रुप की बॉल (या 8 बॉल, जब आप उस पर हों) से बारी आपके पास रहती है, चाहे वह कुशन या किसी दूसरी बॉल से लगकर जाए।
 
-### Safety
-A shot with no pocket called is a safety: whatever goes in stays down, and the turn passes to your opponent.
+### सेफ़्टी
+बिना पॉकेट कॉल किए खेला गया शॉट सेफ़्टी है: जो भी पॉकेट में जाए, वहीं रहता है, और बारी विरोधी को चली जाती है।
 
-### The cue ball behind the head string
-With the cue ball in hand behind the head string, you can't hit a ball that also lies behind it unless the cue ball crosses the head string first. If every ball you may hit lies behind it, the one nearest to the head string comes back to the foot spot.
+### हेड स्ट्रिंग के पीछे क्यू बॉल
+जब हेड स्ट्रिंग के पीछे बॉल इन हैंड हो, तो आप ऐसी बॉल को हिट नहीं कर सकते जो ख़ुद भी उसके पीछे हो, जब तक क्यू बॉल पहले हेड स्ट्रिंग पार न करे। अगर हिट की जा सकने वाली सारी बॉल उसके पीछे हों, तो हेड स्ट्रिंग के सबसे पास वाली बॉल फ़ुट स्पॉट पर वापस रखी जाती है।
 
-## Fouls
+## फ़ाउल
 
-### Ball in hand
-After any foul, your opponent has the cue ball in hand: they place it anywhere on the table. No ball comes off the table as a penalty.
+### बॉल इन हैंड
+किसी भी फ़ाउल के बाद विरोधी को बॉल इन हैंड मिलता है: वे क्यू बॉल को टेबल पर कहीं भी रखते हैं। पेनल्टी के तौर पर कोई बॉल टेबल से नहीं हटती।
 
-### What is a foul
-The cue ball in a pocket or off the table; hitting no ball, or the wrong ball first (one of your opponent's, or the 8 too soon); after the contact, no ball made and no ball reaching a cushion (a ball lying against a cushion only reaches it by leaving it and coming back); an object ball off the table (it stays off).
+### फ़ाउल क्या है
+क्यू बॉल पॉकेट में या टेबल से बाहर; किसी बॉल को हिट न करना, या पहले ग़लत बॉल को हिट करना (विरोधी की कोई बॉल, या समय से पहले 8 बॉल); टक्कर के बाद न कोई बॉल पॉट हो और न कोई बॉल कुशन तक पहुँचे (कुशन से सटी बॉल उस तक तभी पहुँचती है, जब वह उससे हटकर वापस आए); कोई ऑब्जेक्ट बॉल टेबल से बाहर (वह बाहर ही रहती है)।
 
-### The shot clock
-When the game has a shot clock and it runs out, it is a foul: your opponent has the cue ball in hand. A choice after the break that isn't made in time takes its first option.
+### शॉट क्लॉक
+जब गेम में शॉट क्लॉक हो और समय ख़त्म हो जाए, तो यह फ़ाउल है: विरोधी को बॉल इन हैंड मिलता है। ब्रेक के बाद का कोई विकल्प समय पर न चुना जाए, तो पहला विकल्प लागू हो जाता है।
 
-## The 8-ball
+## 8 बॉल
 
-### Winning
-Once your group is off the table, pocket the 8 in the pocket you called, on a shot without a foul.
+### जीत
+जब आपका ग्रुप टेबल से साफ़ हो जाए, तो 8 बॉल को कॉल किए गए पॉकेट में, बिना फ़ाउल वाले शॉट पर पॉट करें।
 
-### Losing on the 8
-You lose by pocketing the 8 on a foul, before your group is off the table or in a pocket you didn't call, and by knocking the 8 off the table. None of this applies to the break.
+### 8 बॉल पर हार
+आप हार जाते हैं, अगर आप फ़ाउल पर 8 बॉल पॉट करें, अपना ग्रुप टेबल से साफ़ होने से पहले या बिना कॉल किए पॉकेट में पॉट करें, या 8 बॉल को टेबल से बाहर गिरा दें। इनमें से कुछ भी ब्रेक पर लागू नहीं होता।

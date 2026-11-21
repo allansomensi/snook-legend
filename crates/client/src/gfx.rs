@@ -1403,27 +1403,6 @@ impl MeshBuilder {
         }
     }
 
-    /// Flat ring facing up.
-    pub fn ring(&mut self, center: Vec3, inner: f32, outer: f32, segments: u32, color: Color) {
-        for k in 0..segments {
-            let a0 = k as f32 / segments as f32 * std::f32::consts::TAU;
-            let a1 = (k + 1) as f32 / segments as f32 * std::f32::consts::TAU;
-            let d0 = vec3(a0.cos(), 0.0, a0.sin());
-            let d1 = vec3(a1.cos(), 0.0, a1.sin());
-            // Counter-clockwise seen from above, so the face looks up.
-            self.quad(
-                [
-                    center + d0 * inner,
-                    center + d1 * inner,
-                    center + d1 * outer,
-                    center + d0 * outer,
-                ],
-                [Vec2::ZERO; 4],
-                color,
-            );
-        }
-    }
-
     /// Frustum along +Y from `y0` (radius `r0`) to `y1` (radius `r1`).
     /// A frustum along +Y like [`MeshBuilder::frustum`], placed at `at`.
     #[allow(clippy::too_many_arguments)]
@@ -1807,15 +1786,6 @@ mod orientation_tests {
                 ((p0 + p1 + p2) / 3.0, n, geometric)
             })
             .collect()
-    }
-
-    #[test]
-    fn ring_faces_up() {
-        let mut b = MeshBuilder::default();
-        b.ring(Vec3::ZERO, 0.05, 0.06, 24, WHITE);
-        for (_, n, _) in faces(&b) {
-            assert!(n.y > 0.99, "ring normal {n}");
-        }
     }
 
     #[test]

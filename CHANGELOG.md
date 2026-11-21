@@ -364,6 +364,36 @@ The server:
   one-way (PostgreSQL); a moderator can't act on a listed administrator
   who hasn't signed in yet.
 
+### Things asked for
+- **An item earned is shown**: one that comes with an achievement (a level
+  reached, say) only turned up in the shop. A dialog now says
+  "Congratulations!", shows it and offers to use it at once (after the
+  game, one after another when there are several).
+- **The pockets are finished cleanly**: the facing of a jaw follows the
+  rubber's cut-back under its nose (it stood out in front of the cushion
+  like a fin), and the hole's wall and its leather lip stop with the
+  casting (they ran on over the rubber, a centimetre proud of it).
+- **From the overhead view to 3D the zoom stays**: dragging into 3D jumped
+  back to the whole table.
+- **The profile's note on the two ratings** takes the room the buttons
+  leave: it ran under "Daily game".
+- **The staff portal draws the countries' flags** from the game's own
+  atlas (`/admin/flags.png`, `/admin/flags.css`): the flag emoji aren't in
+  every system's fonts, and Windows showed two letters.
+
+### A fifth review
+- A private arena asks for its password once it is running too (joining
+  it was refused, each try counting as a wrong password).
+- Signed out after changing the game server in the settings, the game
+  signs in to the server chosen.
+- Microsoft Store build: no purchase begins while the Store is still
+  being asked what was bought (the click was swallowed).
+- The shop's dialogs leave Enter and Esc to a dialog drawn over them (a
+  present arriving bought the item underneath).
+- The wheel at the zoom bar's far end no longer zooms in; a size dragged as
+  the settings close isn't shown as chosen; a LAN address pasted with
+  "http://" in front connects.
+
 ### Notes
 - What's new in the game (three languages) and the Store listing's notes
   for 0.8.2: the shot clock and the break under the Brazilian rule, the cue

@@ -14,8 +14,8 @@ use crate::config::Quality;
 use crate::coords::{TABLE_HEIGHT, surface};
 use crate::gfx::{Kit, Layer, MeshBuilder, Surface};
 use crate::scene::{
-    CAST_H, CUSHION_DEPTH, RAIL_TOP, jaw_lines, jaw_wall, pocket_center_of, pocket_radius_of,
-    rounded_loop,
+    CAST_H, CUSHION_DEPTH, CUSHION_TOP, RAIL_TOP, jaw_lines, jaw_wall, pocket_center_of,
+    pocket_radius_of, rounded_loop,
 };
 use crate::textures::{self, Pixels, fbm, hash, image, lerp3, noise};
 
@@ -1102,9 +1102,43 @@ fn pockets(kit: &mut Kit, st: &Style, table: &Table) {
         let r = pocket_radius_of(table, id);
         let center = surface(pocket_center_of(table, id), 0.0);
         let top = RAIL_TOP + cast_h + 0.0008;
+        // The wall of the hole stands as high as what it is cut through:
+        // the casting on the rail, the rubber where the hole reaches under
+        // a cushion (it stood a centimetre proud of the rubber there, with
+        // the lip hanging over it past the end of the casting).
+        const ARC: u32 = 144;
+        let (hl, hw) = ((table.spec.length / 2.0) as f32, (table.spec.width / 2.0) as f32);
+        let on_rail = |k: u32| {
+            let a = (k as f32 + 0.5) / ARC as f32 * std::f32::consts::TAU;
+            let (x, z) = (center.x + a.cos() * r, center.z + a.sin() * r);
+            (x.abs() - hl).max(z.abs() - hw) >= CUSHION_DEPTH - 0.0005
+        };
+        let wall = |inside: &mut MeshBuilder, y0: f32, color: Color| {
+            for k in 0..ARC {
+                let h = if on_rail(k) { top } else { CUSHION_TOP };
+                let at = |y: f32, k: u32| {
+                    let a = k as f32 / ARC as f32 * std::f32::consts::TAU;
+                    center + vec3(a.cos() * r, y, a.sin() * r)
+                };
+                let quad = [at(y0, k), at(y0, k + 1), at(h, k + 1), at(h, k)];
+                inside.quad(quad, [Vec2::ZERO; 4], color);
+            }
+        };
+        let lip = |lips: &mut MeshBuilder, width: f32| {
+            let c = center + Vec3::Y * (top + 0.0004);
+            for k in (0..ARC).filter(|k| on_rail(*k)) {
+                let d = |k: u32| {
+                    let a = k as f32 / ARC as f32 * std::f32::consts::TAU;
+                    vec3(a.cos(), 0.0, a.sin())
+                };
+                let (d0, d1) = (d(k), d(k + 1));
+                let quad = [c + d0 * r, c + d1 * r, c + d1 * (r + width), c + d0 * (r + width)];
+                lips.quad(quad, [Vec2::ZERO; 4], st.lip);
+            }
+        };
         if nets {
             // A short well, then the net: a basket of cord seen from above.
-            inside.tube_inside(center, r, top, 48, rgb(30, 18, 11));
+            wall(&mut inside, 0.0, rgb(30, 18, 11));
             let depth = 0.12;
             let first = net.len();
             let rings = 6;
@@ -1134,21 +1168,17 @@ fn pockets(kit: &mut Kit, st: &Style, table: &Table) {
             let _ = first;
             inside.disc(center - Vec3::Y * depth, r * 0.66, 32, rgb(6, 4, 3));
             // A wide leather lip.
-            lips.ring(center + Vec3::Y * (top + 0.0004), r, r + 0.016, 48, st.lip);
+            lip(&mut lips, 0.016);
         } else {
-            let bands = [
-                (top, rgb(36, 24, 17)),
-                (0.0, rgb(24, 16, 11)),
-                (-0.04, rgb(9, 7, 6)),
-                (-0.11, rgb(4, 3, 3)),
-            ];
+            wall(&mut inside, 0.0, rgb(36, 24, 17));
+            let bands = [(0.0, rgb(24, 16, 11)), (-0.04, rgb(9, 7, 6)), (-0.11, rgb(4, 3, 3))];
             for w in bands.windows(2) {
                 let (y0, c0) = w[0];
                 let (y1, _) = w[1];
                 inside.tube_inside(center + Vec3::Y * y1, r, y0 - y1, 48, c0);
             }
             inside.disc(center - Vec3::Y * 0.11, r, 48, rgb(3, 3, 3));
-            lips.ring(center + Vec3::Y * (top + 0.0004), r, r + 0.011, 48, st.lip);
+            lip(&mut lips, 0.011);
         }
     }
     kit.add(inside, None, Surface::UNLIT.cut(3.0), Layer::Inside);

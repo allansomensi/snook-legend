@@ -1648,7 +1648,14 @@ pub(crate) fn jaw_wall(
     };
     // Samples along the jaw, with a step where the rail starts.
     let d_end = len * rate;
-    let mut ds: Vec<f64> = vec![0.0, 0.004, 0.008];
+    // Under its nose the rubber is cut back (as the cushion's own profile
+    // is): the facing follows it down to the cloth, and goes on down into
+    // the pocket only behind that. (Straight down from the nose, it stood
+    // out in front of the cushion like a fin.)
+    const UNDERCUT: f64 = 0.010;
+    let foot =
+        |d: f64| -> f32 { if d < UNDERCUT { nose * (1.0 - d / UNDERCUT) as f32 } else { -0.06 } };
+    let mut ds: Vec<f64> = vec![0.0, 0.004, 0.008, UNDERCUT - 1e-4, UNDERCUT + 1e-4];
     let rail_d = CUSHION_DEPTH as f64;
     ds.extend([rail_d - 1e-4, rail_d + 1e-4]);
     let mut k = 0.012;
@@ -1675,7 +1682,7 @@ pub(crate) fn jaw_wall(
         let in_rail = d0 >= rail_d - 1e-6;
         let (target, color) = if in_rail { (&mut *rail, cast) } else { (&mut *mb, felt) };
         // The facing goes on down into the pocket (seen where the mouth opens).
-        let quad = [surface(p0, -0.06), surface(p1, -0.06), surface(p1, h1), surface(p0, h0)];
+        let quad = [surface(p0, foot(d0)), surface(p1, foot(d1)), surface(p1, h1), surface(p0, h0)];
         let i: Vec<u16> = quad.iter().map(|q| target.push(*q, Vec2::ZERO, n, color)).collect();
         target.indices.extend_from_slice(&[i[0], i[1], i[2], i[0], i[2], i[3]]);
     }

@@ -3,64 +3,64 @@
 # are its text. The same parts and rules, in the same order, in every
 # language.
 
-## The game
+## খেলা
 
-### The Brazilian rules
-The eight-ball of Brazil's bars and pool halls, with penalty balls. Snook Legend has the official (WPA) rules too: choose the rules of your games in the main menu. If you know the official rules, read the fouls and the 8-ball below, because they differ a lot.
+### ব্রাজিলীয় নিয়ম
+ব্রাজিলের বার ও পুল হলের এইট বল, পেনাল্টি বলসহ। Snook Legend-এ অফিসিয়াল (WPA) নিয়মও আছে: মূল মেনুতে আপনার গেমের নিয়ম বেছে নিন। অফিসিয়াল নিয়ম জানা থাকলে নিচের ফাউল ও 8 নম্বর বলের অংশ পড়ে নিন, কারণ এগুলোতে অনেক পার্থক্য আছে।
 
-### The aim
-Each player has a group of seven balls: solids (1 to 7) or stripes (9 to 15). Pocket all of yours and then the 8-ball, before your opponent does.
+### লক্ষ্য
+প্রত্যেক খেলোয়াড়ের সাতটি বলের একটি গ্রুপ থাকে: সলিড (1 থেকে 7) বা স্ট্রাইপ (9 থেকে 15)। প্রতিপক্ষের আগে নিজের সব বল, তারপর 8 নম্বর বল পকেট করুন।
 
-### Your turn
-You keep shooting as long as you pocket a ball of your group without a foul. If you miss, foul or pocket one of your opponent's balls, the turn passes.
+### আপনার পালা
+ফাউল ছাড়া নিজের গ্রুপের একটি করে বল পকেট করতে থাকলে আপনি শট নিতে থাকবেন। মিস করলে, ফাউল করলে বা প্রতিপক্ষের কোনো বল পকেট করলে পালা বদলে যায়।
 
-## The break
+## ব্রেক
 
-### The break shot
-On the break, and only then, the cue ball is in hand: you may place it anywhere behind the head string, even against a cushion, but never in a pocket's mouth (a break handed over after the cue ball was lost is played from the head spot: see below). No ball has to go down or reach a cushion, but the cue ball must hit a ball (see below). The break alternates: in a series of games each player breaks in turn, one break each.
+### ব্রেক শট
+ব্রেকে, এবং শুধু তখনই, কিউ বল আপনার হাতে থাকে: হেড স্ট্রিংয়ের পেছনে যেকোনো জায়গায় রাখতে পারেন, এমনকি কুশন ঘেঁষেও, তবে কখনও পকেটের মুখে নয় (কিউ বল হারানোর পরে হাতবদল হওয়া ব্রেক খেলা হয় হেড স্পট থেকে: নিচে দেখুন)। কোনো বল পকেটে যাওয়া বা কুশনে পৌঁছানো জরুরি নয়, তবে কিউ বলকে একটি বলে লাগতেই হবে (নিচে দেখুন)। ব্রেক পালাক্রমে হয়: পরপর কয়েকটি গেমে প্রত্যেক খেলোয়াড় একবার করে ব্রেক করেন।
 
-### The 8-ball on the break
-Pocketing only the 8 on the break wins the game on the spot. Pocketing the 8 together with any other ball (the cue ball or any other) loses the game. If the 8 leaves the table on the break, it goes back on the table where the front ball of the rack stood (or as near as there is room) and you lose the turn: it's a foul.
+### ব্রেকে 8 নম্বর বল
+ব্রেকে শুধু 8 পকেট হলে সঙ্গে সঙ্গে গেম জয়। অন্য কোনো বলের সঙ্গে (কিউ বল বা অন্য যেকোনো বল) 8 পকেট হলে গেম হার। ব্রেকে 8 টেবিলের বাইরে গেলে সেটি টেবিলে ফিরে আসে, সাজানো বলের একেবারে সামনের বলটি যেখানে ছিল সেখানে (বা জায়গা থাকলে যত কাছে সম্ভব), আর আপনি পালা হারান: এটি ফাউল।
 
-### Only the cue ball on the break
-If the cue ball goes down or leaves the table on the break and no ball is made, you lose the turn and the break passes to your opponent. The balls stay where they stopped, and they put the cue ball on the head spot and play from there (not in hand): their shot counts as a new break. The 8 is not a ball to go for on it, though: with the balls already scattered, hitting the 8 first is a foul and pocketing it loses the game, as on any other shot (only on the break of the rack does the 8 alone win). The same goes if the cue ball goes down with balls of both groups (a solid and a stripe, in any order): the break passes to your opponent, with the cue ball on the head spot and no penalty ball; the balls made stay down and the table stays open. If one ball (or balls of one group only) goes down along with the cue ball, the first one down still decides the groups, and it's an ordinary foul: your opponent's lowest ball comes off, the cue ball goes back to the head spot and they play from there, without ball in hand.
+### ব্রেকে শুধু কিউ বল
+ব্রেকে কোনো বল পকেট না হয়ে কিউ বল পকেটে গেলে বা টেবিলের বাইরে গেলে আপনি পালা হারান এবং ব্রেক যায় প্রতিপক্ষের কাছে। বলগুলো যেখানে থেমেছে সেখানেই থাকে, আর প্রতিপক্ষ কিউ বল হেড স্পটে রেখে সেখান থেকে খেলেন (হাতে নয়): তাঁর শট নতুন ব্রেক হিসেবে গণ্য হয়। তবে এই শটে 8 লক্ষ্য করার বল নয়: বলগুলো আগেই ছড়িয়ে থাকায় প্রথমে 8-এ লাগালে ফাউল এবং 8 পকেট করলে গেম হার, অন্য যেকোনো শটের মতোই (শুধু সাজানো বলের ব্রেকেই একা 8 পকেট করে জেতা যায়)। কিউ বল দুই গ্রুপের বলের সঙ্গে পকেটে গেলেও একই কথা (একটি সলিড ও একটি স্ট্রাইপ, যেকোনো ক্রমে): ব্রেক যায় প্রতিপক্ষের কাছে, কিউ বল হেড স্পটে, কোনো পেনাল্টি বল ছাড়া; পকেট হওয়া বলগুলো পকেটেই থাকে আর টেবিল ওপেন থাকে। কিউ বলের সঙ্গে একটি বল (বা শুধু এক গ্রুপের বল) পকেটে গেলে প্রথমে পকেট হওয়া বলটিই গ্রুপ ঠিক করে, আর এটি একটি সাধারণ ফাউল: প্রতিপক্ষের সবচেয়ে কম নম্বরের বলটি টেবিল থেকে তুলে নেওয়া হয়, কিউ বল হেড স্পটে ফিরে যায় এবং প্রতিপক্ষ সেখান থেকে খেলেন, হাতে বল ছাড়া।
 
-### A break that hits no ball
-If the break hits no ball, you lose the turn and the break passes to your opponent: the balls are still racked, and they place the cue ball anywhere behind the head string.
+### যে ব্রেক কোনো বলে লাগে না
+ব্রেকে কোনো বলে না লাগলে আপনি পালা হারান এবং ব্রেক যায় প্রতিপক্ষের কাছে: বলগুলো তখনও সাজানো থাকে, আর প্রতিপক্ষ হেড স্ট্রিংয়ের পেছনে যেকোনো জায়গায় কিউ বল রাখেন।
 
-### After the break
-On the break, the first ball that goes down decides your group, even if the cue ball goes down too (unless balls of both groups go down with the cue ball: see above). If only balls of your group go down, you shoot again. If one of your opponent's goes down too (the 3 and then the 13, say: you take the solids), it stays down, for them, and the turn passes.
+### ব্রেকের পরে
+ব্রেকে প্রথম যে বল পকেটে যায়, সেটিই আপনার গ্রুপ ঠিক করে, কিউ বল পকেটে গেলেও (যদি না কিউ বলের সঙ্গে দুই গ্রুপের বলই পকেটে যায়: ওপরে দেখুন)। শুধু আপনার গ্রুপের বল পকেট হলে আপনি আবার শট নেন। প্রতিপক্ষের কোনো বলও পকেট হলে (ধরুন আগে 3, তারপর 13: আপনি সলিড পান), সেটি পকেটেই থাকে, প্রতিপক্ষের হিসাবে, আর পালা বদলে যায়।
 
-### Open table
-Until the groups are decided the table is open: you may hit any ball first except the 8. The first ball you pocket on a shot without a foul gives you its group, and your opponent the other. On an open table there is no opponent's ball yet: a foul costs only the turn. If no ball of either group is left on an open table, both players are on the 8, and any foul that would give a ball loses the game (the 8 pays).
+### ওপেন টেবিল
+গ্রুপ ঠিক না হওয়া পর্যন্ত টেবিল ওপেন থাকে: 8 ছাড়া যেকোনো বলে প্রথমে লাগাতে পারেন। ফাউল ছাড়া কোনো শটে প্রথম যে বল পকেট করেন, সেটির গ্রুপ আপনার, অন্যটি প্রতিপক্ষের। ওপেন টেবিলে এখনও প্রতিপক্ষের কোনো বল নেই: ফাউলে শুধু পালা হারান। ওপেন টেবিলে কোনো গ্রুপের একটি বলও বাকি না থাকলে দুজন খেলোয়াড়ই 8-এ থাকেন, আর বল দেওয়ার মতো যেকোনো ফাউলে গেম হার (8 দিয়ে শোধ)।
 
-## Fouls and penalties
+## ফাউল ও পেনাল্টি
 
-### Penalty balls
-Every foul passes the turn, and most of them give your opponent balls: the lowest numbers of their group still on the table come off it, as if they had pocketed them. Penalties add up. If your opponent has fewer balls left than the foul gives them, the 8 pays the rest and you lose the game: two penalty balls with only one on the table, that one and the 8 come off. Once they are on the 8 (no balls of their group left), any foul that gives a ball loses: missing every ball, pocketing the cue ball, knocking it off the table or hitting the wrong ball first. The same goes when only the 8 is left on the table. If you are on the 8 and your opponent still has balls, a foul gives them balls as usual (a miss, their lowest one) and passes the turn; you lose only if it gives more than they have.
+### পেনাল্টি বল
+প্রতিটি ফাউলে পালা বদলে যায়, আর বেশিরভাগ ফাউলে প্রতিপক্ষ বল পান: টেবিলে থাকা তাঁর গ্রুপের সবচেয়ে কম নম্বরের বলগুলো টেবিল থেকে তুলে নেওয়া হয়, যেন তিনিই সেগুলো পকেট করেছেন। পেনাল্টি যোগ হতে থাকে। ফাউলে যত বল দেওয়ার কথা, প্রতিপক্ষের তার চেয়ে কম বল বাকি থাকলে বাকিটা 8 দিয়ে শোধ হয় এবং আপনি গেম হারেন: দুটি পেনাল্টি বল অথচ টেবিলে মাত্র একটি, তাহলে সেটি আর 8 দুটোই তুলে নেওয়া হয়। প্রতিপক্ষ একবার 8-এ পৌঁছালে (তাঁর গ্রুপের আর কোনো বল নেই), বল দেওয়ার মতো যেকোনো ফাউলেই হার: সব বল মিস করা, কিউ বল পকেট করা, সেটিকে টেবিলের বাইরে ফেলা বা প্রথমে ভুল বলে লাগানো। টেবিলে শুধু 8 বাকি থাকলেও একই কথা। আপনি 8-এ থাকলে এবং প্রতিপক্ষের তখনও বল থাকলে, ফাউলে তিনি যথারীতি বল পান (মিস হলে তাঁর সবচেয়ে কম নম্বরের বলটি) এবং পালা বদলে যায়; তাঁর যত বল আছে তার চেয়ে বেশি দেওয়ার কথা হলে তবেই আপনি হারেন।
 
-### Missing the ball
-Hitting none of your balls: your opponent's lowest ball on the table comes off (it counts for them), and you lose the turn. Hitting the 8 first before your group is cleared costs the same. Missing and pocketing the cue ball as well: your opponent's two lowest balls.
+### বল মিস করা
+আপনার কোনো বলেই না লাগলে: টেবিলে থাকা প্রতিপক্ষের সবচেয়ে কম নম্বরের বলটি তুলে নেওয়া হয় (তাঁর হিসাবে গণ্য), আর আপনি পালা হারান। আপনার গ্রুপ সাফ হওয়ার আগে প্রথমে 8-এ লাগালেও একই শাস্তি। মিস করার সঙ্গে কিউ বলও পকেট করলে: প্রতিপক্ষের সবচেয়ে কম নম্বরের দুটি বল।
 
-### Hitting your opponent's ball
-Hitting one of your opponent's balls first, directly: their two lowest balls come off, and you lose the turn. If the ball you hit goes down, it stays down and the two come off all the same. If the cue ball went to a cushion first: one ball (not the cushion it lay against). Hitting your opponent's ball directly and pocketing the cue ball as well: their three lowest.
+### প্রতিপক্ষের বলে লাগানো
+সরাসরি প্রথমে প্রতিপক্ষের কোনো বলে লাগালে: তাঁর সবচেয়ে কম নম্বরের দুটি বল তুলে নেওয়া হয়, আর আপনি পালা হারান। যে বলে লাগিয়েছেন সেটি পকেটে গেলে সেটি পকেটেই থাকে, আর দুটি বল তবুও তুলে নেওয়া হয়। কিউ বল আগে কুশনে গেলে: একটি বল (কিউ বল যে কুশনের গায়ে লেগে ছিল, সেটি গণ্য নয়)। সরাসরি প্রতিপক্ষের বলে লাগানোর সঙ্গে কিউ বলও পকেট করলে: তাঁর সবচেয়ে কম নম্বরের তিনটি বল।
 
-### Pocketing the cue ball
-One ball to your opponent, and the cue ball goes back to the head spot, where the break is played from (or right behind a ball lying there). There is no ball in hand: your opponent plays from there. The cue ball is in hand on the break only; after any other foul it is played from where it stopped.
+### কিউ বল পকেট করা
+প্রতিপক্ষ একটি বল পান, আর কিউ বল হেড স্পটে ফিরে যায়, যেখান থেকে ব্রেক খেলা হয় (বা সেখানে কোনো বল থাকলে তার ঠিক পেছনে)। হাতে বল নেই: প্রতিপক্ষ সেখান থেকেই খেলেন। কিউ বল শুধু ব্রেকেই হাতে থাকে; অন্য যেকোনো ফাউলের পরে কিউ বল যেখানে থেমেছে সেখান থেকেই খেলা হয়।
 
-### Balls off the table
-The cue ball off the table costs the same as pocketing it: your opponent's lowest ball comes off (it counts for them), you lose the turn and the cue ball goes back to the head spot. A ball of your group off the table comes back to the table, and you lose the turn. One of your opponent's balls off the table is out (it counts for them), and you lose the turn.
+### টেবিলের বাইরে বল
+কিউ বল টেবিলের বাইরে গেলে শাস্তি পকেট করার মতোই: প্রতিপক্ষের সবচেয়ে কম নম্বরের বলটি তুলে নেওয়া হয় (তাঁর হিসাবে গণ্য), আপনি পালা হারান এবং কিউ বল হেড স্পটে ফিরে যায়। আপনার গ্রুপের কোনো বল টেবিলের বাইরে গেলে সেটি টেবিলে ফিরে আসে, আর আপনি পালা হারান। প্রতিপক্ষের কোনো বল টেবিলের বাইরে গেলে সেটি বাইরেই থাকে (তাঁর হিসাবে গণ্য), আর আপনি পালা হারান।
 
-### Your opponent's ball
-Pocketing one of your opponent's balls passes the turn, even if one of yours went down too. It stays down, for them.
+### প্রতিপক্ষের বল
+প্রতিপক্ষের কোনো বল পকেট করলে পালা বদলে যায়, আপনার কোনো বল পকেটে গেলেও। সেটি পকেটেই থাকে, প্রতিপক্ষের হিসাবে।
 
-### The shot clock
-When a game has a shot clock and it runs out, it is a foul: the cue ball goes back to the head spot (not in hand), your opponent gets a ball (their lowest on the table; if they are on the 8 already, the 8 pays and you lose) and the turn passes. While the table is open, no ball is owed (unless only the 8 is left: then the clock loses the game). On the break, the break passes to your opponent, with the cue ball on the head spot (not in hand) and no ball owed.
+### শট ক্লক
+গেমে শট ক্লক থাকলে এবং সময় শেষ হলে সেটি ফাউল: কিউ বল হেড স্পটে ফিরে যায় (হাতে নয়), প্রতিপক্ষ একটি বল পান (টেবিলে থাকা তাঁর সবচেয়ে কম নম্বরের বল; তিনি আগেই 8-এ থাকলে 8 দিয়ে শোধ হয় এবং আপনি হারেন) আর পালা বদলে যায়। টেবিল ওপেন থাকাকালীন কোনো বল দিতে হয় না (যদি না শুধু 8 বাকি থাকে: তখন সময় শেষ হলেই গেম হার)। ব্রেকে সময় শেষ হলে ব্রেক যায় প্রতিপক্ষের কাছে, কিউ বল হেড স্পটে (হাতে নয়), কোনো বল দিতে হয় না।
 
-## The 8-ball
+## 8 নম্বর বল
 
-### Calling the pocket
-When your group is cleared, choose a pocket for the 8 before you shoot. Pocket only the 8 there, without a foul, and you win. The pocket you call stands from your first shot on the 8 to the end of the game, even if that shot is a safety or a miss: you can't change it.
+### পকেট ঘোষণা
+আপনার গ্রুপ সাফ হলে শট নেওয়ার আগে 8-এর জন্য একটি পকেট বেছে নিন। ফাউল ছাড়া শুধু 8 সেখানে পকেট করুন, আপনি জিতবেন। 8-এ আপনার প্রথম শট থেকে গেমের শেষ পর্যন্ত ঘোষিত পকেট বহাল থাকে, সেই শট সেফটি বা মিস হলেও: আপনি এটি বদলাতে পারবেন না।
 
-### Losing on the 8
-You lose if you pocket the 8 before your group is cleared, in a pocket other than the one you called, together with the cue ball or one of your opponent's balls, on a foul, or if you knock it off the table after the break. You also lose with a foul that gives more balls than your opponent has: the 8 pays the rest (see penalty balls).
+### 8-এ হার
+আপনি হারবেন যদি আপনার গ্রুপ সাফ হওয়ার আগে 8 পকেট করেন, ঘোষিত পকেট ছাড়া অন্য পকেটে ফেলেন, কিউ বল বা প্রতিপক্ষের কোনো বলের সঙ্গে পকেট করেন, ফাউলে পকেট করেন, অথবা ব্রেকের পরে 8 টেবিলের বাইরে ফেলেন। যে ফাউলে প্রতিপক্ষের যত বল আছে তার চেয়ে বেশি দিতে হয়, তাতেও আপনি হারেন: বাকিটা 8 দিয়ে শোধ হয় (পেনাল্টি বল দেখুন)।

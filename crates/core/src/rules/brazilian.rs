@@ -35,7 +35,9 @@
 //! - A ball of the shooter's knocked off the table comes back to it; one of
 //!   the opponent's stays off, made for them.
 //! - The 8 alone on the break wins; the 8 on the break with any other ball
-//!   loses. At the end, the 8 loses if the cue ball or one of the
+//!   loses. (The break of the rack: on a break handed over with the balls
+//!   scattered, the 8 hit first is a foul and the 8 made loses, as on any
+//!   shot.) At the end, the 8 loses if the cue ball or one of the
 //!   opponent's balls goes down with it. The pocket called for the 8 is
 //!   binding from the first shot taken with it.
 //! - Nothing has to reach a cushion, on the break or after a contact.
@@ -50,9 +52,13 @@ impl EightBallGame {
         let shooter = self.current;
         let opponent = 1 - shooter;
         let was_break = self.is_break;
+        // The 8's rules on the break are for the break of the rack: on one
+        // handed over with the balls scattered it is hit and made as on any
+        // other shot (first is a foul; down early loses).
+        let rack_break = self.break_on_rack();
         let on_eight = self.is_on_eight(shooter);
         let open_table = self.groups[shooter].is_none();
-        if on_eight && !was_break && pending.called_pocket.is_some() {
+        if on_eight && !rack_break && pending.called_pocket.is_some() {
             self.called[shooter] = pending.called_pocket;
         }
         let events = sim.events();
@@ -88,7 +94,7 @@ impl EightBallGame {
                 owed += 1;
             }
             Some(hit) => {
-                let legal = if was_break {
+                let legal = if rack_break {
                     true
                 } else if on_eight {
                     hit == BallId::EIGHT
@@ -121,7 +127,7 @@ impl EightBallGame {
         let mut game_over = None;
         let mut group_assigned = None;
         let mut spotted = Vec::new();
-        if was_break {
+        if rack_break {
             if eight_pocket.is_some() {
                 game_over = if facts.pocketed.len() > 1 {
                     lost(GameOverReason::EightWithAnotherBall)
@@ -263,7 +269,7 @@ impl EightBallGame {
             group_assigned,
             continues,
             game_over,
-            called: pending.called_pocket.filter(|_| on_eight && !was_break),
+            called: pending.called_pocket.filter(|_| on_eight && !rack_break),
             opponent_ball,
             penalty,
             break_again,

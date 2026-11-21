@@ -742,7 +742,9 @@ impl EightBallGame {
     pub fn legal_targets(&self) -> Vec<BallId> {
         let player = self.current;
         let in_play = |id: BallId| self.ball(id).in_play();
-        if self.is_break {
+        // (A Brazilian break handed over on scattered balls: the table is
+        // open as on any shot, and the 8 isn't to be hit first.)
+        if self.is_break && (self.rules == Rules::Official || self.break_on_rack()) {
             return BallId::all().filter(|id| id.is_object() && in_play(*id)).collect();
         }
         let open_balls =
@@ -807,7 +809,7 @@ impl EightBallGame {
     /// The Brazilian rules: the shooter must call a pocket for this shot
     /// (the 8's).
     pub fn needs_called_pocket(&self) -> bool {
-        self.rules == Rules::Brazilian && !self.is_break && self.is_on_eight(self.current)
+        self.rules == Rules::Brazilian && !self.break_on_rack() && self.is_on_eight(self.current)
     }
 
     /// The official rules: this shot is called (every shot but the break;
@@ -949,6 +951,15 @@ impl EightBallGame {
         }
         self.apply_choice(choice, option);
         Ok(())
+    }
+
+    /// The break to come is on the rack: the game's first shot, or a break
+    /// passed over with the balls still racked. (Not one handed over with
+    /// the balls lying where a break that lost the cue ball left them: the
+    /// Brazilian rules play that one from the head spot, but the 8 is then
+    /// a ball like on any other shot.)
+    pub fn break_on_rack(&self) -> bool {
+        self.is_break && (self.shots_taken == 0 || self.rack_untouched())
     }
 
     /// The balls are still racked as the game began (the break to come is

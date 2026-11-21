@@ -1494,6 +1494,56 @@ fn a_break_that_hits_nothing_passes_the_break() {
     assert!(report.was_break && report.first_contact.is_some());
 }
 
+/// A break handed over with the balls scattered: the 8 is no longer the
+/// break's 8. Hit first it is a foul, made it loses, and the computer
+/// doesn't go for it.
+#[test]
+fn the_eight_on_a_break_handed_over_is_the_eight_of_any_shot() {
+    let handed = || {
+        let mut g = EightBallGame::new(3, 0, Rules::Brazilian);
+        let aim = g.table.pocket(PocketId::FootLeft).aim_point();
+        // The cue ball goes straight down: the break passes to player 1.
+        on_break_with(
+            &mut g,
+            &[
+                (0, aim + (DVec2::ZERO - aim).normalize() * 0.4),
+                (8, DVec2::new(0.5, 0.0)),
+                (5, DVec2::new(-0.3, 0.3)),
+                (12, DVec2::new(-0.3, -0.3)),
+            ],
+        );
+        let d = aim - g.ball(BallId::CUE).xy();
+        let report = g.play_shot(&Shot::new(d.y.atan2(d.x), 2.0), None).unwrap();
+        assert!(report.break_again, "{report:?}");
+        assert!(g.is_break() && !g.break_on_rack() && g.current_player() == 1);
+        g
+    };
+    let g = handed();
+    assert!(!g.legal_targets().contains(&BallId::EIGHT));
+    for seed in 0..4 {
+        let decision = crate::ai::decide(&g, crate::ai::Difficulty::Hard, seed);
+        let mut trial = g.clone();
+        let report = trial.play_shot(&decision.shot, decision.called_pocket).unwrap();
+        assert_ne!(report.first_contact, Some(BallId::EIGHT), "seed {seed}");
+    }
+    // The 8 hit first: a foul.
+    let mut g = handed();
+    let d = g.ball(BallId::EIGHT).xy() - g.ball(BallId::CUE).xy();
+    let report = g.play_shot(&Shot::new(d.y.atan2(d.x), 0.8), None).unwrap();
+    assert!(report.fouls.contains(&Foul::WrongBallFirst(BallId::EIGHT)), "{report:?}");
+    // The 8 made: the game is lost, not won.
+    let mut g = handed();
+    let pocket = PocketId::FootLeft;
+    let aim = g.table.pocket(pocket).aim_point();
+    let cue = g.ball(BallId::CUE).xy();
+    let r = g.table.spec.ball_radius;
+    g.balls[8] = Ball::at_rest(BallId::EIGHT, cue + (aim - cue) * 0.6, r);
+    let d = aim - cue;
+    let report = g.play_shot(&Shot::new(d.y.atan2(d.x), 2.5), None).unwrap();
+    let over = report.game_over.expect("the 8 went down");
+    assert_eq!((over.winner, over.reason), (0, GameOverReason::EightPocketedEarly), "{report:?}");
+}
+
 /// The computer breaks a full rack hard, and plays a break handed over
 /// on scattered balls like any shot (the cue ball behind the head string).
 #[test]

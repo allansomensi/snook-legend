@@ -648,14 +648,6 @@ impl ProfileScreen {
         // The actions on the right of one row; on its left, what the two
         // ratings mean (the rest of the account is the same under both).
         let row_mid = r.y + 294.0;
-        if !player.guest {
-            let note = t(
-                "Each of the rules has its own rating; the level, coins and achievements are shared.",
-            );
-            let (note, size) = ui.fitted(note, 12.0, r.w * 0.5, false);
-            ui.text(&note, r.x + PAD, text_y(row_mid, size), size, MUTED, false);
-        }
-
         let line_y = r.y + BODY_TOP - 14.0;
         draw_line(r.x + PAD, line_y, r.x + r.w - PAD, line_y, 1.0, BORDER);
         // Actions, from the right: the main one is green.
@@ -674,10 +666,9 @@ impl ProfileScreen {
             hit
         };
         let name = player.username.clone();
-        if player.guest || online.lan {
-            return;
-        }
+        let actions = !(player.guest || online.lan);
         match p.relation {
+            _ if !actions => {}
             Relation::Me => {
                 if button(ui, t("Account"), true, false) {
                     self.account = Some(AccountForm::default());
@@ -740,6 +731,15 @@ impl ProfileScreen {
                     crate::correspondence::challenge(online, &name);
                 }
             }
+        }
+        // The note takes the room the buttons leave (never under them).
+        let room = bx - (r.x + PAD) - 8.0;
+        if !player.guest && room > 140.0 {
+            let note = t(
+                "Each of the rules has its own rating; the level, coins and achievements are shared.",
+            );
+            let (note, size) = ui.fitted(note, 12.0, room, false);
+            ui.text(&note, r.x + PAD, text_y(row_mid, size), size, MUTED, false);
         }
     }
 

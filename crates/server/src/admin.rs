@@ -31,6 +31,34 @@ const INDEX: &str = include_str!("../admin/index.html");
 const SCRIPT: &str = include_str!("../admin/app.js");
 const WORDS: &str = include_str!("../admin/i18n.js");
 const STYLE: &str = include_str!("../admin/app.css");
+/// The game's atlas of country flags: the panel draws them from it (the
+/// flag emoji aren't in every system's fonts: Windows shows two letters).
+const FLAGS: &[u8] = include_bytes!("../../client/assets/flags.png");
+
+/// A style sheet with each country's place in the atlas (`.fl-br`), for a
+/// flag 20 pixels wide.
+fn flags_css() -> &'static str {
+    use snook_legend_proto::{COUNTRIES, FLAG_COLUMNS};
+    static CSS: std::sync::OnceLock<String> = std::sync::OnceLock::new();
+    CSS.get_or_init(|| {
+        let (w, h) = (20, 15);
+        let mut css = format!(
+            ".fl {{ display: inline-block; width: {w}px; height: {h}px; vertical-align: -2px; \
+             border-radius: 2px; background-repeat: no-repeat; background-size: {}px auto; }}\n",
+            FLAG_COLUMNS * w
+        );
+        for (i, (code, _, _)) in COUNTRIES.iter().enumerate() {
+            let (col, row) = (i as u32 % FLAG_COLUMNS, i as u32 / FLAG_COLUMNS);
+            css.push_str(&format!(
+                ".fl-{} {{ background-image: url(/admin/flags.png); background-position: -{}px -{}px; }}\n",
+                code.to_ascii_lowercase(),
+                col * w,
+                row * h
+            ));
+        }
+        css
+    })
+}
 
 pub fn router() -> Router<Arc<Server>> {
     Router::new()
@@ -39,6 +67,11 @@ pub fn router() -> Router<Arc<Server>> {
         .route("/admin/app.js", get(|| async { page(SCRIPT, "text/javascript; charset=utf-8") }))
         .route("/admin/app.css", get(|| async { page(STYLE, "text/css; charset=utf-8") }))
         .route("/admin/i18n.js", get(|| async { page(WORDS, "text/javascript; charset=utf-8") }))
+        .route("/admin/flags.css", get(|| async { page(flags_css(), "text/css; charset=utf-8") }))
+        .route(
+            "/admin/flags.png",
+            get(|| async { ([(header::CONTENT_TYPE, "image/png")], FLAGS).into_response() }),
+        )
         .route("/admin/api/login", post(login))
         .route("/admin/api/logout", post(logout))
         .route("/admin/api/me", get(me))

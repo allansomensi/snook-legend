@@ -222,9 +222,11 @@ function money(cents, currency) {
   try { return new Intl.NumberFormat(lang, { style: "currency", currency: currency.toUpperCase() }).format(cents / 100); }
   catch (_) { return (cents / 100).toFixed(2) + " " + currency.toUpperCase(); }
 }
-function flagOf(code) {
-  if (!/^[A-Za-z]{2}$/.test(code || "")) return "";
-  return String.fromCodePoint(...code.toUpperCase().split("").map((c) => 0x1f1e6 + c.charCodeAt(0) - 65));
+/** A country's flag, from the game's own atlas (see /admin/flags.css): the
+ *  flag emoji aren't drawn everywhere (Windows shows the two letters). */
+function flagOf(code, cls = "") {
+  if (!/^[A-Za-z]{2}$/.test(code || "")) return null;
+  return el("span", { class: ("fl fl-" + code.toLowerCase() + " " + cls).trim(), "aria-hidden": "true" });
 }
 function countryName(code) {
   if (!code) return t("No country");
@@ -233,7 +235,7 @@ function countryName(code) {
 }
 function country(code) {
   return el("span", { class: "nowrap", title: code || "" },
-    code ? el("span", { class: "flag" }, flagOf(code)) : null, code ? " " : null, countryName(code));
+    flagOf(code), code ? " " : null, countryName(code));
 }
 function hue(name) {
   let h = 0;
@@ -277,7 +279,7 @@ const rulesName = (r) => (r === "official" ? t("Official rules") : t("Brazilian 
 const rulesShort = (r) => (r === "official" ? t("Official") : t("Brazilian"));
 /** The rules' mark, as in the game: Brazil's flag, or a globe. */
 function rulesMark(r) {
-  return r === "official" ? icon("globe", "rules-mark") : el("span", { class: "rules-mark flag", "aria-hidden": "true" }, flagOf("BR"));
+  return r === "official" ? icon("globe", "rules-mark") : flagOf("BR", "rules-mark");
 }
 function rulesBadge(r, long = false) {
   const k = r === "official" ? "official" : "brazilian";

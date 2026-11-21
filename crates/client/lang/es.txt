@@ -2047,3 +2047,6 @@ You have your tournament game in progress. A new game takes its place, and the t
 The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks again, from the head spot.	La blanca entró en el saque junto con bolas de los dos grupos: sin penalización, la mesa sigue abierta y {next} saca de nuevo, desde el punto de salida.
 The cue ball went down on the break with no ball made: {next} breaks again, from the head spot.	La blanca entró en el saque sin meter ninguna bola: {next} saca de nuevo, desde el punto de salida.
 {who} ran out of time: {other} breaks, from the head spot.	A {who} se le acabó el tiempo: {other} saca, desde el punto de salida.
+Congratulations!	¡Felicidades!
+You earned a new item: {title}	Ganaste un artículo nuevo: {title}
+You earned a new item!	Ganaste un artículo nuevo!

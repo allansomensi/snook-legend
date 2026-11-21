@@ -172,14 +172,25 @@ impl CameraRig {
     }
 
     /// From the overhead view to the 3D view, seen from the same side, so a
-    /// drag can turn the table straight away.
+    /// drag can turn the table straight away. The zoom stays: a table seen
+    /// close from above is seen as close in 3D, around the same spot (the
+    /// view jumped back to the whole table).
     pub fn enter_3d(&mut self) {
         if self.mode == CameraMode::Top && !self.top_only {
             self.mode = CameraMode::Aim;
             if !self.follow_cue {
                 self.orbit = -std::f32::consts::FRAC_PI_2;
                 self.pitch = 1.15;
-                self.distance = FIXED_DISTANCE;
+                // (The overhead view frames by the same distance, within
+                // its own limits.)
+                let zoom = (self.distance / FIXED_DISTANCE).clamp(0.25, 1.3);
+                // The whole table is seen from the usual distance; the
+                // closer it was, the nearer the 3D view comes to showing
+                // what was in the picture (its lens is wider than the one
+                // overhead: at the same distance things look a third
+                // smaller).
+                let close = ((1.0 - zoom) / 0.75).clamp(0.0, 1.0);
+                self.distance = (zoom * FIXED_DISTANCE * (1.0 - 0.35 * close)).max(0.55);
             }
         }
     }
@@ -502,6 +513,25 @@ mod tests {
         let outside = CameraRig::constrain(vec3(2.0, 1.0, 0.0));
         assert_eq!(outside.y, 1.0);
         assert!(CameraRig::constrain(vec3(0.0, -3.0, 0.0)).y >= 0.9);
+    }
+
+    /// Zoomed in from above, the 3D view stays close, around the same spot.
+    #[test]
+    fn the_zoom_is_kept_into_the_3d_view() {
+        let mut rig = CameraRig::default();
+        rig.reset();
+        rig.enter_3d();
+        assert_eq!(rig.distance, FIXED_DISTANCE, "the whole table, as ever");
+        let mut rig = CameraRig::default();
+        rig.reset();
+        for _ in 0..6 {
+            rig.zoom(0.88, Some(vec3(0.6, TABLE_HEIGHT, 0.2)));
+        }
+        let (zoomed, focus) = (rig.distance, rig.focus);
+        rig.enter_3d();
+        assert_eq!(rig.mode, CameraMode::Aim);
+        assert!(rig.distance <= zoomed && rig.distance >= 0.55, "{}", rig.distance);
+        assert_eq!(rig.focus, focus);
     }
 
     #[test]

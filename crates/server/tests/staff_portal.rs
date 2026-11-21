@@ -467,7 +467,8 @@ async fn the_portal_shows_the_economy_and_the_server() {
         assert_eq!(code, 401, "{path}");
     }
     // And the portal's pages are served.
-    for path in ["/admin", "/admin/app.js", "/admin/app.css", "/admin/i18n.js"] {
+    for path in ["/admin", "/admin/app.js", "/admin/app.css", "/admin/i18n.js", "/admin/flags.css"]
+    {
         use tokio::io::{AsyncReadExt, AsyncWriteExt};
         let mut c = TcpStream::connect(&s.host).await.unwrap();
         c.write_all(format!("GET {path} HTTP/1.0\r\nHost: x\r\n\r\n").as_bytes()).await.unwrap();

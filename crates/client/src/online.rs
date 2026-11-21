@@ -1420,8 +1420,15 @@ impl Online {
                     .iter()
                     .find(|a| a.code == code)
                     .map(|a| t(a.title).to_string())
-                    .unwrap_or(code);
+                    .unwrap_or(code.clone());
                 self.toast(tw("Achievement unlocked: {title}", &[("title", &title)]), true);
+                // Known at once (what it unlocks can be used straight away),
+                // and what comes with it is shown.
+                let mine = self.me.as_ref().is_some_and(|me| me.username == self.achievements_of);
+                if mine && !self.achievements.contains(&code) {
+                    self.achievements.push(code.clone());
+                }
+                self.earned(&code);
             }
             // A warning from the staff waits in a dialog until it is read
             // (a toast could be cut, pushed out by others or missed).

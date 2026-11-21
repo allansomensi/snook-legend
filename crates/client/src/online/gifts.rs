@@ -31,6 +31,11 @@ pub(super) struct Gifts {
     /// The present the dialog shows, and since when (a key or a click meant
     /// for something else just then doesn't close it unseen).
     shown: Option<(i64, f64)>,
+    /// Items earned and not shown yet (a level reached, an achievement):
+    /// the item's code and the achievement it came with, oldest first.
+    pub(super) rewards: Vec<(&'static str, &'static str)>,
+    /// Since when the first of them is on screen.
+    reward_shown: Option<f64>,
 }
 
 impl Gifts {
@@ -83,7 +88,98 @@ impl Online {
 
     /// The gift dialog is on screen (the screen under it ignores Esc).
     pub fn gift_dialog_open(&self) -> bool {
-        !self.gifts.new.is_empty() && !self.gifts.later && self.signed_in()
+        ((!self.gifts.new.is_empty() && !self.gifts.later) || !self.gifts.rewards.is_empty())
+            && self.signed_in()
+    }
+
+    /// An achievement was unlocked: the items that come with it are shown
+    /// to the player (they only turned up in the shop, unannounced).
+    pub(super) fn earned(&mut self, achievement: &str) {
+        for item in shop::ITEMS {
+            if let shop::Price::Achievement(code) = item.price
+                && code == achievement
+                && !self.gifts.rewards.iter().any(|(i, _)| *i == item.code)
+            {
+                self.gifts.rewards.push((item.code, code));
+            }
+        }
+    }
+
+    /// "Congratulations!": the first item earned and not seen yet.
+    fn draw_reward_dialog(&mut self, ui: &mut Ui) {
+        let (code, achievement) = self.gifts.rewards[0];
+        let more = self.gifts.rewards.len() - 1;
+        let Some(item) = shop::item(code) else {
+            self.gifts.rewards.remove(0);
+            return;
+        };
+        let (sw, sh) = (crate::ui::vw(), crate::ui::vh());
+        let w = 460.0f32.min(sw - 32.0);
+        let pad = 24.0;
+        let inner = w - pad * 2.0;
+        let usable = self.can_use(item)
+            && self.wallet.as_ref().is_some_and(|w| self.effective(w, item.category) != item.code);
+        let pic_h = (sh * 0.2).clamp(80.0, 130.0);
+        let h = pad + 32.0 + 10.0 + 22.0 + 14.0 + pic_h + 12.0 + 26.0 + 20.0 + 18.0 + 38.0 + pad;
+        let r = Rect::new((sw - w) / 2.0, ((sh - h) / 2.0).max(8.0), w, h);
+        draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.6));
+        ui.panel(r);
+        rrect_lines(r, 8.0, 2.0, GOLD);
+        ui.block(Rect::new(0.0, 0.0, sw, sh));
+        let cx = r.x + w / 2.0;
+        let mut y = r.y + pad;
+        let title = t("Congratulations!");
+        let (title, size) = ui.fitted(title, 24.0, inner - 34.0, true);
+        let tw_ = ui.text_size(&title, size, true).x + 34.0;
+        crate::icons::draw(Icon::Trophy, vec2(cx - tw_ / 2.0 + 12.0, y + 16.0), 24.0, GOLD);
+        ui.text(&title, cx - tw_ / 2.0 + 34.0, text_y(y + 16.0, size), size, GOLD, true);
+        y += 32.0 + 10.0;
+        // What it came with: "You earned a new item: Level 10".
+        let reason = snook_legend_proto::ACHIEVEMENTS
+            .iter()
+            .find(|a| a.code == achievement)
+            .map(|a| t(a.title).to_string());
+        let line = match reason {
+            Some(title) => tw("You earned a new item: {title}", &[("title", &title)]),
+            None => t("You earned a new item!").to_string(),
+        };
+        let (line, size) = ui.fitted(&line, 15.0, inner, false);
+        ui.text_centered(&line, cx, y + 2.0, size, MUTED, false);
+        y += 22.0 + 14.0;
+        picture(ui, code, Rect::new(r.x + pad + 20.0, y, inner - 40.0, pic_h));
+        y += pic_h + 12.0;
+        let name = gift_name(code);
+        let (name, size) = ui.fitted(&name, 20.0, inner, true);
+        ui.text_centered(&name, cx, y, size, CREAM, true);
+        y += 26.0;
+        ui.text_centered(crate::shop::category_name(item.category), cx, y, 13.0, MUTED, false);
+        y += 20.0 + 18.0;
+        let gap = 12.0;
+        let half = (inner - gap) / 2.0;
+        let mut seen = false;
+        let ok_r = if usable {
+            if ui.button(Rect::new(r.x + pad, y, half, 38.0), t("Use it now"), true) {
+                self.send(ClientMsg::Equip { code: code.to_string() });
+                seen = true;
+            }
+            Rect::new(r.x + pad + half + gap, y, half, 38.0)
+        } else {
+            Rect::new(r.x + pad, y, inner, 38.0)
+        };
+        let ok_label =
+            if more > 0 { tw("Next ({n} more)", &[("n", &more)]) } else { t("OK").to_string() };
+        let ok = ui.primary_button(ok_r, &ok_label);
+        let now = get_time();
+        let since = *self.gifts.reward_shown.get_or_insert(now);
+        // (As for a present: a key or a press meant for what was there
+        // before isn't taken for OK.)
+        let settled = now - since > 1.0;
+        let enter = is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::KpEnter);
+        let away = ui.dismissed(r);
+        if ok || seen || (settled && (enter || is_key_pressed(KeyCode::Escape) || away)) {
+            self.gifts.rewards.remove(0);
+            self.gifts.reward_shown = None;
+        }
     }
 
     /// Shows the presents put off with "Later" again (the own profile).
@@ -113,6 +209,11 @@ impl Online {
     pub fn draw_gift_dialog(&mut self, ui: &mut Ui) -> bool {
         if !self.gift_dialog_open() {
             return false;
+        }
+        // What was earned first; then the presents.
+        if !self.gifts.rewards.is_empty() {
+            self.draw_reward_dialog(ui);
+            return true;
         }
         let g = self.gifts.new[0].clone();
         let more = self.gifts.new.len() - 1;

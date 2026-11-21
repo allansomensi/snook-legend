@@ -1,66 +1,66 @@
-# Snook Legend: the rules of eight-ball, shown in the game.
-# "## <part>" starts a part, "### <title>" a rule, and the lines after it
-# are its text. The same parts and rules, in the same order, in every
-# language.
+# Snook Legend: a nyolcas pool szabályai, ahogy a játékban látszanak.
+# A "## <rész>" egy részt kezd, a "### <cím>" egy szabályt, az utána
+# következő sorok pedig a szövegét. Minden nyelvben ugyanazok a részek és
+# szabályok, ugyanabban a sorrendben.
 
-## The game
+## A játék
 
-### The Brazilian rules
-The eight-ball of Brazil's bars and pool halls, with penalty balls. Snook Legend has the official (WPA) rules too: choose the rules of your games in the main menu. If you know the official rules, read the fouls and the 8-ball below, because they differ a lot.
+### A brazil szabályok
+A brazil bárok és biliárdtermek nyolcas poolja, büntetőgolyókkal. A Snook Legendben a hivatalos (WPA) szabályok is megvannak: a játszmáid szabályait a főmenüben választhatod ki. Ha ismered a hivatalos szabályokat, olvasd el lent a szabálytalanságokat és a 8-as golyót, mert sokban különböznek.
 
-### The aim
-Each player has a group of seven balls: solids (1 to 7) or stripes (9 to 15). Pocket all of yours and then the 8-ball, before your opponent does.
+### A cél
+Mindkét játékosnak hétgolyós csoportja van: teli (1–7) vagy csíkos (9–15). Rakd el az összes golyódat, aztán a 8-as golyót, mielőtt az ellenfeled megtenné.
 
-### Your turn
-You keep shooting as long as you pocket a ball of your group without a foul. If you miss, foul or pocket one of your opponent's balls, the turn passes.
+### A te köröd
+Addig lökhetsz, amíg szabálytalanság nélkül elrakod a csoportod egy golyóját. Ha hibázol, szabálytalanságot követsz el, vagy az ellenfeled egyik golyóját rakod el, a kör átszáll az ellenfélre.
 
-## The break
+## A kezdőlökés
 
-### The break shot
-On the break, and only then, the cue ball is in hand: you may place it anywhere behind the head string, even against a cushion, but never in a pocket's mouth (a break handed over after the cue ball was lost is played from the head spot: see below). No ball has to go down or reach a cushion, but the cue ball must hit a ball (see below). The break alternates: in a series of games each player breaks in turn, one break each.
+### A kezdőlökés
+A kezdőlökésnél, és csak ekkor, a fehér golyó kézben van: bárhová teheted a kezdővonal mögött, akár egy falszélhez is, de soha nem egy lyuk szájába (a fehér golyó elvesztése után átadott kezdőlökést a kezdőpontról kell elvégezni: lásd lent). Egy golyónak sem kell beesnie vagy falszélt érnie, de a fehérnek el kell találnia egy golyót (lásd lent). A kezdőlökés váltakozik: egy játszmasorozatban a játékosok felváltva kezdenek, egyszer-egyszer.
 
-### The 8-ball on the break
-Pocketing only the 8 on the break wins the game on the spot. Pocketing the 8 together with any other ball (the cue ball or any other) loses the game. If the 8 leaves the table on the break, it goes back on the table where the front ball of the rack stood (or as near as there is room) and you lose the turn: it's a foul.
+### A 8-as golyó a kezdőlökésnél
+Ha a kezdőlökésnél csak a 8-ast rakod el, azonnal megnyered a játszmát. Ha a 8-ast bármely más golyóval együtt rakod el (a fehérrel vagy bármelyik mással), elveszíted a játszmát. Ha a 8-as leesik az asztalról a kezdőlökésnél, visszakerül oda, ahol a felrakás elülső golyója állt (vagy ahhoz a lehető legközelebb), és elveszíted a kört: ez szabálytalanság.
 
-### Only the cue ball on the break
-If the cue ball goes down or leaves the table on the break and no ball is made, you lose the turn and the break passes to your opponent. The balls stay where they stopped, and they put the cue ball on the head spot and play from there (not in hand): their shot counts as a new break. The 8 is not a ball to go for on it, though: with the balls already scattered, hitting the 8 first is a foul and pocketing it loses the game, as on any other shot (only on the break of the rack does the 8 alone win). The same goes if the cue ball goes down with balls of both groups (a solid and a stripe, in any order): the break passes to your opponent, with the cue ball on the head spot and no penalty ball; the balls made stay down and the table stays open. If one ball (or balls of one group only) goes down along with the cue ball, the first one down still decides the groups, and it's an ordinary foul: your opponent's lowest ball comes off, the cue ball goes back to the head spot and they play from there, without ball in hand.
+### Csak a fehér golyó a kezdőlökésnél
+Ha a kezdőlökésnél a fehér golyó beesik vagy leesik az asztalról, és egy golyót sem raksz el, elveszíted a kört, és a kezdőlökés átszáll az ellenfeledre. A golyók ott maradnak, ahol megálltak, ő pedig a fehér golyót a kezdőpontra teszi, és onnan lök (nem kézből): a lökése új kezdőlökésnek számít. A 8-asra azonban nem szabad menni vele: a már szétszórt golyók mellett a 8-as első eltalálása szabálytalanság, elrakása pedig elveszíti a játszmát, mint bármely más lökésnél (a 8-as egyedül csak a felrakás kezdőlökésénél nyer). Ugyanez történik, ha a fehér golyó mindkét csoport golyóival együtt esik be (egy telivel és egy csíkossal, bármilyen sorrendben): a kezdőlökés átszáll az ellenfeledre, a fehér golyó a kezdőponton, büntetőgolyó nélkül; az elrakott golyók bent maradnak, és az asztal nyitott marad. Ha egy golyó (vagy csak az egyik csoport golyói) esik be a fehérrel együtt, az elsőként beeső golyó így is eldönti a csoportokat, és ez közönséges szabálytalanság: az ellenfeled legkisebb golyója lekerül, a fehér golyó visszakerül a kezdőpontra, és ő onnan lök, nem kézből.
 
-### A break that hits no ball
-If the break hits no ball, you lose the turn and the break passes to your opponent: the balls are still racked, and they place the cue ball anywhere behind the head string.
+### Kezdőlökés, amely nem talál el golyót
+Ha a kezdőlökés egy golyót sem talál el, elveszíted a kört, és a kezdőlökés átszáll az ellenfeledre: a golyók még felrakva állnak, ő pedig a fehér golyót bárhová teheti a kezdővonal mögött.
 
-### After the break
-On the break, the first ball that goes down decides your group, even if the cue ball goes down too (unless balls of both groups go down with the cue ball: see above). If only balls of your group go down, you shoot again. If one of your opponent's goes down too (the 3 and then the 13, say: you take the solids), it stays down, for them, and the turn passes.
+### A kezdőlökés után
+A kezdőlökésnél az elsőként beeső golyó dönti el a csoportodat, akkor is, ha a fehér golyó is beesik (kivéve, ha mindkét csoport golyói beesnek a fehérrel együtt: lásd fent). Ha csak a csoportod golyói esnek be, újra löksz. Ha az ellenfeledé közül is beesik egy (mondjuk a 3-as, aztán a 13-as: tiéd a teli), az bent marad, neki, és a kör átszáll rá.
 
-### Open table
-Until the groups are decided the table is open: you may hit any ball first except the 8. The first ball you pocket on a shot without a foul gives you its group, and your opponent the other. On an open table there is no opponent's ball yet: a foul costs only the turn. If no ball of either group is left on an open table, both players are on the 8, and any foul that would give a ball loses the game (the 8 pays).
+### Nyitott asztal
+Amíg a csoportok nem dőltek el, az asztal nyitott: a 8-as kivételével bármelyik golyót eltalálhatod először. Az első golyó, amelyet egy szabálytalanság nélküli lökéssel elraksz, neked adja a csoportját, az ellenfelednek pedig a másikat. Nyitott asztalon még nincs ellenfélgolyó: a szabálytalanság csak a körbe kerül. Ha nyitott asztalon egyik csoportból sem maradt golyó, mindkét játékos a 8-asra jön, és minden szabálytalanság, amely golyót adna, elveszíti a játszmát (a 8-as fizet).
 
-## Fouls and penalties
+## Szabálytalanságok és büntetések
 
-### Penalty balls
-Every foul passes the turn, and most of them give your opponent balls: the lowest numbers of their group still on the table come off it, as if they had pocketed them. Penalties add up. If your opponent has fewer balls left than the foul gives them, the 8 pays the rest and you lose the game: two penalty balls with only one on the table, that one and the 8 come off. Once they are on the 8 (no balls of their group left), any foul that gives a ball loses: missing every ball, pocketing the cue ball, knocking it off the table or hitting the wrong ball first. The same goes when only the 8 is left on the table. If you are on the 8 and your opponent still has balls, a foul gives them balls as usual (a miss, their lowest one) and passes the turn; you lose only if it gives more than they have.
+### Büntetőgolyók
+Minden szabálytalanság után a kör átszáll az ellenfélre, és a legtöbb golyót is ad neki: a csoportjának az asztalon maradt legkisebb számú golyói lekerülnek, mintha ő rakta volna el őket. A büntetések összeadódnak. Ha az ellenfelednek kevesebb golyója maradt, mint amennyit a szabálytalanság ad neki, a 8-as fizeti a többit, és elveszíted a játszmát: két büntetőgolyónál, ha csak egy van az asztalon, az az egy és a 8-as is lekerül. Ha már a 8-asra jön (nem maradt golyó a csoportjából), minden golyót adó szabálytalanság vereséget jelent: minden golyó kihagyása, a fehér golyó elrakása vagy leütése az asztalról, vagy rossz golyó első eltalálása. Ugyanez a helyzet, ha már csak a 8-as maradt az asztalon. Ha te jössz a 8-asra, és az ellenfelednek még vannak golyói, a szabálytalanság a szokásos módon ad neki golyókat (kihagyásnál a legkisebbet), és a kör átszáll rá; csak akkor veszítesz, ha több golyót adna, mint amennyi neki van.
 
-### Missing the ball
-Hitting none of your balls: your opponent's lowest ball on the table comes off (it counts for them), and you lose the turn. Hitting the 8 first before your group is cleared costs the same. Missing and pocketing the cue ball as well: your opponent's two lowest balls.
+### A golyó kihagyása
+Ha egyik golyódat sem találod el: az ellenfeled legkisebb golyója lekerül az asztalról (neki számít), és elveszíted a kört. Ugyanennyibe kerül, ha a 8-ast találod el először, mielőtt a csoportod elfogyott. Ha kihagyod, és a fehér golyót is elrakod: az ellenfeled két legkisebb golyója.
 
-### Hitting your opponent's ball
-Hitting one of your opponent's balls first, directly: their two lowest balls come off, and you lose the turn. If the ball you hit goes down, it stays down and the two come off all the same. If the cue ball went to a cushion first: one ball (not the cushion it lay against). Hitting your opponent's ball directly and pocketing the cue ball as well: their three lowest.
+### Az ellenfél golyójának eltalálása
+Ha az ellenfeled egyik golyóját találod el először, közvetlenül: a két legkisebb golyója lekerül, és elveszíted a kört. Ha az eltalált golyó beesik, bent marad, és a kettő így is lekerül. Ha a fehér golyó előbb falszélt ért: egy golyó (nem számít az a falszél, amelyhez hozzásimult). Ha közvetlenül az ellenfeled golyóját találod el, és a fehér golyót is elrakod: a három legkisebb golyója.
 
-### Pocketing the cue ball
-One ball to your opponent, and the cue ball goes back to the head spot, where the break is played from (or right behind a ball lying there). There is no ball in hand: your opponent plays from there. The cue ball is in hand on the break only; after any other foul it is played from where it stopped.
+### A fehér golyó elrakása
+Egy golyó az ellenfelednek, a fehér golyó pedig visszakerül a kezdőpontra, ahonnan a kezdőlökést végzik (vagy közvetlenül egy ott álló golyó mögé). Nincs golyó kézben: az ellenfeled onnan lök. A fehér golyó csak a kezdőlökésnél van kézben; minden más szabálytalanság után onnan kell lökni, ahol megállt.
 
-### Balls off the table
-The cue ball off the table costs the same as pocketing it: your opponent's lowest ball comes off (it counts for them), you lose the turn and the cue ball goes back to the head spot. A ball of your group off the table comes back to the table, and you lose the turn. One of your opponent's balls off the table is out (it counts for them), and you lose the turn.
+### Leesett golyók
+Ha a fehér golyó leesik az asztalról, az ugyanannyiba kerül, mint az elrakása: az ellenfeled legkisebb golyója lekerül (neki számít), elveszíted a kört, és a fehér golyó visszakerül a kezdőpontra. Ha a csoportod egyik golyója esik le az asztalról, visszakerül az asztalra, és elveszíted a kört. Ha az ellenfeled egyik golyója esik le, az kiesett (neki számít), és elveszíted a kört.
 
-### Your opponent's ball
-Pocketing one of your opponent's balls passes the turn, even if one of yours went down too. It stays down, for them.
+### Az ellenfél golyója
+Ha az ellenfeled egyik golyóját rakod el, a kör átszáll rá, akkor is, ha a tieid közül is beesett egy. Az a golyó bent marad, neki.
 
-### The shot clock
-When a game has a shot clock and it runs out, it is a foul: the cue ball goes back to the head spot (not in hand), your opponent gets a ball (their lowest on the table; if they are on the 8 already, the 8 pays and you lose) and the turn passes. While the table is open, no ball is owed (unless only the 8 is left: then the clock loses the game). On the break, the break passes to your opponent, with the cue ball on the head spot (not in hand) and no ball owed.
+### A lökésóra
+Ha a játszmában lökésóra van, és lejár, az szabálytalanság: a fehér golyó visszakerül a kezdőpontra (nem kézbe), az ellenfeled kap egy golyót (az asztalon lévő legkisebbet; ha már a 8-asra jön, a 8-as fizet, és veszítesz), és a kör átszáll rá. Amíg az asztal nyitott, golyó nem jár (hacsak nem csak a 8-as maradt: ilyenkor a lejárt idő elveszíti a játszmát). A kezdőlökésnél a kezdőlökés átszáll az ellenfeledre, a fehér golyó a kezdőponton (nem kézben), és golyó nem jár.
 
-## The 8-ball
+## A 8-as golyó
 
-### Calling the pocket
-When your group is cleared, choose a pocket for the 8 before you shoot. Pocket only the 8 there, without a foul, and you win. The pocket you call stands from your first shot on the 8 to the end of the game, even if that shot is a safety or a miss: you can't change it.
+### A lyuk bemondása
+Ha a csoportod elfogyott, lökés előtt válassz egy lyukat a 8-asnak. Ha csak a 8-ast rakod el oda, szabálytalanság nélkül, nyertél. A bemondott lyuk a 8-asra mért első lökésedtől a játszma végéig érvényes, akkor is, ha az a lökés biztonsági lökés vagy kihagyás: nem változtathatod meg.
 
-### Losing on the 8
-You lose if you pocket the 8 before your group is cleared, in a pocket other than the one you called, together with the cue ball or one of your opponent's balls, on a foul, or if you knock it off the table after the break. You also lose with a foul that gives more balls than your opponent has: the 8 pays the rest (see penalty balls).
+### Vereség a 8-asnál
+Veszítesz, ha a 8-ast azelőtt rakod el, hogy a csoportod elfogyott, ha nem a bemondott lyukba rakod el, ha a fehér golyóval vagy az ellenfeled egyik golyójával együtt rakod el, ha szabálytalan lökéssel rakod el, vagy ha a kezdőlökés után leütöd az asztalról. Akkor is veszítesz, ha olyan szabálytalanságot követsz el, amely több golyót ad, mint amennyi az ellenfelednek van: a 8-as fizeti a többit (lásd: büntetőgolyók).

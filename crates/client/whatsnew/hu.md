@@ -1,307 +1,306 @@
-# Snook Legend: what's new, shown in the game after an update.
-# "## <version>" starts a version (newest first), "### <title>" a highlight,
-# and the lines after it are its text. Keep it short and about what players
-# see; every language has the same versions and the same number of highlights.
+# Snook Legend: újdonságok, amelyeket a játék egy frissítés után mutat.
+# A "## <verzió>" egy verziót kezd (a legújabb elöl), a "### <cím>" egy
+# kiemelést, az utána következő sorok pedig a szövegét.
 
 ## 0.8.3
 
-### What you earn is shown
-An item that comes with an achievement, such as a level reached, now arrives with a "Congratulations!" window that shows it and lets you use it at once.
+### Látod, mit szereztél
+Egy teljesítménnyel járó tárgy, például egy elért szintért, most egy „Gratulálunk!” ablakkal érkezik, amely megmutatja, és rögtön használatba is veheted.
 
-### One game at a time
-Starting the game while it is already open brings its window to the front instead of opening a second one. Two games on one computer wrote over each other's settings and saved game.
+### Egyszerre egy játék
+Ha a játékot akkor indítod el, amikor már nyitva van, a meglévő ablaka kerül előtérbe, és nem nyílik meg egy második. Két játék egy gépen felülírta egymás beállításait és mentett játszmáját.
 
-### The 8 on a break handed over
-Under the Brazilian rule, a break handed over after the cue ball was lost, with the balls already scattered, no longer wins by potting the 8: hitting it first is a foul and pocketing it loses, as on any shot. Only the break of the rack has the 8 alone winning.
+### A 8-as átadott kezdőlökésnél
+A brazil szabályok szerint a fehér golyó elvesztése után átadott kezdőlökés, amikor a golyók már szét vannak szóródva, többé nem nyer a 8-as elrakásával: az első eltalálása szabálytalanság, az elrakása pedig vereség, mint bármely lökésnél. A 8-as egyedül csak a felrakás kezdőlökésénél nyer.
 
-### Cleaner pockets, a steadier camera, and many fixes
-The pockets are finished without rough edges, and going from the overhead view to 3D keeps your zoom. Two more reviews of the whole game fixed many bugs: a rematch keeps the break alternating, a private arena asks for its password while it runs, a table rejoined after its game ended shows the result, and more.
+### Tisztább lyukak, nyugodtabb kamera és sok javítás
+A lyukak durva szélek nélkül készültek el, és a felülnézetből 3D-be váltva megmarad a nagyítás. Az egész játék további két átnézése sok hibát javított: a visszavágóban is váltakozik a kezdőlökés, a privát aréna futás közben is kéri a jelszavát, a játszma vége után újra elfoglalt asztal mutatja az eredményt, és így tovább.
 
 ## 0.8.2
 
-### The shot clock gives a ball
-Under the Brazilian rule, running out of time is a foul: your opponent's lowest ball comes off (if they are on the 8 already, the 8 pays and you lose), the cue ball goes back to the head spot, not in hand, and the turn passes.
+### A lökésóra golyót ad
+A brazil szabályok szerint az idő lejárta szabálytalanság: az ellenfeled legkisebb golyója lekerül (ha már a 8-asra jön, a 8-as fizet, és veszítesz), a fehér golyó visszakerül a kezdőpontra, nem kézbe, és a kör átszáll az ellenfélre.
 
-### The break, one each
-Under the Brazilian rule the players break in turn, one break each. A break that loses the cue ball with no ball made, or with balls of both groups, passes the break: your opponent breaks again from the head spot, with the balls where they stopped.
+### Kezdőlökés, felváltva
+A brazil szabályok szerint a játékosok felváltva végzik a kezdőlökést, egyszer-egyszer. Az a kezdőlökés, amelynél a fehér golyó elveszik, és egy golyó sem esik be, vagy mindkét csoport golyói beesnek, átadja a kezdőlökést: az ellenfeled újra kezd a kezdőpontról, a golyók ott maradnak, ahol megálltak.
 
-### Grab the cue anywhere
-Click and drag the cue anywhere along it, from the tip to the butt, even drawn back or raised over the rail: it follows the pointer as it swings.
+### Fogd meg a dákót bárhol
+Kattints a dákóra bárhol a hossza mentén, a hegyétől a végéig, akár hátrahúzva vagy a falszél fölé emelve is, és húzd: lendülés közben követi az egérmutatót.
 
-### Seven rounds in the arena, and many fixes
-The arena against the computer is seven rounds for everyone, and the shop has a new icon. Three reviews of the whole game fixed many bugs: leaving while the balls roll no longer undoes a shot against the computer, the first ball hit is the one the cue ball really touched first, and more.
+### Hét forduló az arénában, és sok javítás
+A gép elleni aréna mindenkinek hét fordulós, a boltnak pedig új ikonja van. Az egész játék három átnézése sok hibát javított: ha a golyók gurulása közben lépsz ki, az már nem vonja vissza a gép elleni lökést, az elsőként eltalált golyó az, amelyet a fehér valóban először érintett, és így tovább.
 
 ## 0.8.1
 
-### The 8 pays the penalty
-Under the Brazilian rule, a foul that gives more balls than your opponent has left loses the game: their balls come off and the 8 pays the rest. Once your opponent is on the 8, any foul that gives a ball loses: missing every ball, pocketing the cue ball or knocking it off the table.
+### A 8-as fizeti a büntetést
+A brazil szabályok szerint az a szabálytalanság, amely több golyót ad, mint amennyi az ellenfelednek maradt, elveszíti a játszmát: a golyói lekerülnek, a többit pedig a 8-as fizeti. Ha az ellenfeled már a 8-asra jön, minden golyót adó szabálytalanság vereség: minden golyó kihagyása, a fehér golyó elrakása vagy leütése az asztalról.
 
-### Click outside to close
-The match's chat, the game history and the spin and elevation panels close when you click outside them, and the click still counts on the table. Menus and dialogs close with a click outside them too, like Cancel.
+### Kattints mellé a bezáráshoz
+A meccs csevegése, a játszma története, valamint a csavar- és dőlésszögpanel bezárul, ha mellé kattintasz, és a kattintás az asztalon is érvényes. A menük és párbeszédablakok is bezárulnak egy mellé kattintással, mint a Mégse gombbal.
 
 ## 0.8.0
 
-### The official rules
-You can now also play the official rules of the WPA, the eight-ball of international tournaments: every shot is called, a foul gives ball in hand anywhere and no ball comes off as a penalty. Choose your rules in the main menu. The Brazilian rule is still there, just as it was.
+### A hivatalos szabályok
+Mostantól a WPA hivatalos szabályai szerint is játszhatsz, a nemzetközi versenyek nyolcas pooljában: minden lökést be kell mondani, a szabálytalanság után golyó kézben jár bárhová, és büntetésként egy golyó sem kerül le. A szabályokat a főmenüben választhatod ki. A brazil szabályok is megmaradtak, pontosan úgy, ahogy voltak.
 
-### A rating for each rules
-Each rules has its own rating, tier and world ranking: the ranking has a tab for each and your profile a card for each. Your level, coins and achievements are shared.
+### Értékszám minden szabályrendszerhez
+Minden szabályrendszernek saját értékszáma, szintje és világranglistája van: a ranglistán mindegyiknek külön lapja, a profilodban külön kártyája van. A szinted, az érméid és a teljesítményeid közösek.
 
-### Calling your shots
-Under the official rules the pocket you aim at is called (a ring shows it). Click another pocket to call it, or Safety to call none. After some breaks you choose how the game goes on, with the buttons or 1, 2 and 3.
+### A lökések bemondása
+A hivatalos szabályok szerint a lyuk, amelyre célzol, bemondottnak számít (egy gyűrű mutatja). Kattints egy másik lyukra a bemondásához, vagy a Biztonsági gombra, ha egyiket sem mondod be. Egyes kezdőlökések után te döntöd el, hogyan folytatódjon a játék, a gombokkal vagy az 1, 2 és 3 billentyűvel.
 
-### Online, by rules
-Invitations, tables, Play now, tournaments and daily games all say their rules, and Play now pairs you with players of yours. The menu shows how many people play each.
+### Online, szabályok szerint
+A meghívások, asztalok, a Játék most, a versenyek és a napi játszmák mind jelzik a szabályaikat, a Játék most pedig a te szabályaid szerint játszó játékosokkal párosít. A menü mutatja, hányan játszanak mindegyikkel.
 
-### The break, Brazilian rule
-If the break loses the cue ball together with balls of both groups, the break now passes to your opponent, with the cue ball in hand behind the head string and no penalty ball.
+### A kezdőlökés, brazil szabályok
+Ha a kezdőlökésnél a fehér golyó mindkét csoport golyóival együtt vész el, a kezdőlökés most átszáll az ellenfeledre, golyó kézben a kezdővonal mögött, büntetőgolyó nélkül.
 
 ## 0.7.4
 
-### The chat, when you want it
-No more age question when signing up. The chat with other players starts off and asks only the first time you write: 18 or older turns it on at once, and under 18 a parent or guardian turns it on. Whoever doesn't chat is never asked.
+### Csevegés, amikor szeretnéd
+Regisztrációkor már nincs kérdés az életkorról. A csevegés más játékosokkal kikapcsolva indul, és csak az első írásodkor kérdez: 18 évesen vagy idősebben azonnal bekapcsol, 18 év alatt pedig egy szülő vagy gyám kapcsolja be. Aki nem cseveg, attól soha nem kérdezzük meg.
 
-### Invitations in the corner
-An invitation now shows as a card in the top right corner on every screen and over any game, with the player's picture, the buttons to accept or decline and a soft chime. Accept it from the menu and the game starts right away.
+### Meghívások a sarokban
+A meghívás most kártyaként jelenik meg a jobb felső sarokban, minden képernyőn és minden játszma fölött, a játékos képével, az elfogadás és elutasítás gombjaival és egy halk csengéssel. Fogadd el a menüből, és a játszma azonnal indul.
 
-### Windows tells you at once
-With the game behind another window or minimised, Windows shows the invitation at once (it used to wait a few seconds).
+### A Windows azonnal szól
+Ha a játék egy másik ablak mögött van vagy kis méretre van téve, a Windows azonnal megmutatja a meghívást (korábban várt néhány másodpercet).
 
 ## 0.7.3
 
-### New rules
-If the break hits no ball, or loses the cue ball (down or off the table) with no ball made, the break passes to your opponent, with the cue ball in hand behind the head string. With a ball made, it decides the groups even if the cue ball goes down too. And the cue ball off the table costs a ball, as a scratch does.
+### Új szabályok
+Ha a kezdőlökés egy golyót sem talál el, vagy elveszíti a fehér golyót (beesik vagy leesik az asztalról), és egy golyó sem esik be, a kezdőlökés átszáll az ellenfeledre, golyó kézben a kezdővonal mögött. Ha egy golyó beesik, az eldönti a csoportokat, akkor is, ha a fehér golyó is beesik. Az asztalról leesett fehér golyó pedig egy golyóba kerül, ahogy a beesett fehér is.
 
-### More drills, no ranking
-There are 24 drills now, nine of them new: the far corner, long into the side, cue ball on the cushion, the plant, the carom, the long draw, on the tangent line, two-cushion bank and fifteen in a row. Each shows its position, and your stars are kept in your account. The drills' ranking is gone.
+### Több gyakorlat, ranglista nélkül
+Most már 24 gyakorlat van, ebből kilenc új: a távoli sarok, messziről középre, fehér a falszélen, a telepítés, a karambol, a hosszú visszahúzás, az érintővonalon, kétfalszéles lökés és tizenöt egymás után. Mindegyik mutatja a felállását, a csillagaid pedig a fiókodban maradnak. A gyakorlatok ranglistája megszűnt.
 
-### New pictures
-The portraits were drawn again, with more care, and there are new pictures of pool things. Your picture now shows on the card in the corner of the start screen when you're signed in.
+### Új képek
+A portrékat gondosabban újrarajzoltuk, és új, poolos témájú képek is vannak. A képed most a kezdőképernyő sarkában lévő kártyán is látszik, ha be vagy jelentkezve.
 
-### Terms and privacy
-The terms of use and the privacy policy are a click away: when you sign up, in the shop and in Settings → Game → About. Purchases with money give you 7 days to change your mind and get your money back.
+### Feltételek és adatvédelem
+A felhasználási feltételek és az adatvédelmi irányelvek egy kattintásnyira vannak: regisztrációkor, a boltban és a Beállítások → Játék → Névjegy menüben. Pénzes vásárlásoknál 7 napod van meggondolni magad és visszakapni a pénzed.
 
-### Age and chat
-The game asks your age group (once). Under 18, the chat with other players stays off until a parent or guardian turns it on, below the lounge's chat, as Brazilian law asks.
+### Életkor és csevegés
+A játék (egyszer) megkérdezi a korcsoportodat. 18 év alatt a csevegés más játékosokkal kikapcsolva marad, amíg egy szülő vagy gyám be nem kapcsolja a társalgó csevegése alatt, ahogy a brazil törvény előírja.
 
-### Emoji in the chat
-Emoji now show as pictures in the chat, notes and statuses, flags and all. Tabs have all their names at one size, and the count of who is online is smaller: the green dot, a person and the number.
+### Emojik a csevegésben
+Az emojik most képként jelennek meg a csevegésben, a hirdetésekben és az állapotüzenetekben, zászlókkal együtt. A lapok nevei egyforma méretűek, és az online lévők száma kisebb lett: a zöld pont, egy ember és a szám.
 
 ## 0.7.2
 
-### A harder tour
-Each stage of the tour is harder than before, and more so the further up: opponents miss less, look at every shot and play for position. The final against Viktor, for the cue, is very hard now: he barely misses and plays safe more often. Tournaments against the computer stay as they were.
+### Nehezebb körverseny
+A körverseny minden szakasza nehezebb, mint korábban, és minél feljebb, annál inkább: az ellenfelek kevesebbet hibáznak, minden lökést megfontolnak, és pozícióra játszanak. A Viktor elleni döntő, a dákóért, most nagyon nehéz: alig hibázik, és gyakrabban játszik biztonságira. A gép elleni versenyek nem változtak.
 
-### Tournament medals
-Play a tournament against the computer to its end and finish in the first three for a gold, silver or bronze medal. The Tournament tab counts them, knockout and arena apart; they are kept in your account the next time you're online.
+### Versenyérmek
+Játssz végig egy versenyt a gép ellen, és végezz az első háromban egy arany-, ezüst- vagy bronzéremért. A Verseny lap számolja őket, külön a kieséses és az aréna versenyeket; a fiókodba kerülnek, amikor legközelebb online leszel.
 
-### A camera like the table's
-In the shop's showroom the camera turns with the right button, as at the table, smoothly, and never goes under the floor or the table. The wheel brings you closer.
+### Kamera, mint az asztalnál
+A bolt bemutatótermében a kamera a jobb gombbal fordul, mint az asztalnál, simán, és soha nem megy a padló vagy az asztal alá. A görgővel közelebb mehetsz.
 
 ## 0.7.1
 
-### The first ball decides
-On the break, the first ball that goes down decides your group, even if others go down after it: the 3 and then the 13, and you take the solids. The 13 is your opponent's, so it stays down for them and the turn passes.
+### Az első golyó dönt
+A kezdőlökésnél az elsőként beeső golyó dönti el a csoportodat, akkor is, ha utána mások is beesnek: a 3-as, aztán a 13-as, és tiéd a teli. A 13-as az ellenfeledé, így bent marad neki, és a kör átszáll rá.
 
-### Ball in hand on the break only
-The cue ball is in hand on the break only, behind the head string. If it goes down or leaves the table, it comes back to the head spot (right behind a ball lying there), without ball in hand, with the usual penalties. A break that makes only the cue ball is no longer racked again: your opponent plays on from there.
+### Golyó kézben csak a kezdőlökésnél
+A fehér golyó csak a kezdőlökésnél van kézben, a kezdővonal mögött. Ha beesik vagy leesik az asztalról, visszakerül a kezdőpontra (közvetlenül egy ott álló golyó mögé), nem kézbe, a szokásos büntetésekkel. Ha a kezdőlökésnél csak a fehér esik be, már nem rakjuk fel újra a golyókat: az ellenfeled onnan folytatja.
 
-### Who is online
-Playing the computer (in a tournament, on the tour or in a drill), a discreet corner shows how many people are online and says when someone comes: time to go and invite them. Invitations show over the game.
+### Ki van online
+Ha a gép ellen játszol (versenyen, a körversenyen vagy egy gyakorlatban), egy diszkrét sarok mutatja, hányan vannak online, és szól, ha valaki belép: ideje meghívni. A meghívások a játszma fölött jelennek meg.
 
-### The shop's showroom
-"Look at it closely" opens a showroom: the item alone in a dark studio, turning. Drag to turn it, use the wheel to come close and pause it at will. Ready views show a cue's tip and joint or a table's pockets; click a ball to see it float close up, and see tables and cloths in any hall.
+### A bolt bemutatóterme
+A „Nézd meg közelről” megnyit egy bemutatótermet: a tárgy egyedül, egy sötét stúdióban forog. Húzd a forgatáshoz, a görgővel menj közelebb, és tetszés szerint állítsd meg. Kész nézetek mutatják a dákó hegyét és csatlakozását vagy az asztal lyukait; kattints egy golyóra, hogy közelről lebegni lásd, és nézd meg az asztalokat és posztókat bármelyik teremben.
 
-### Truly brown
-The 7 and the 15 are now brown, no longer a dark red easily taken for the 3 and the 11. The shop's sets where they looked alike are put right too.
+### Valóban barna
+A 7-es és a 15-ös most barna, nem pedig sötétvörös, amely könnyen összetéveszthető volt a 3-assal és a 11-essel. A bolt azon készleteit is kijavítottuk, ahol hasonlítottak.
 
-### Focus mode
-Settings → Game → "Focus mode": no invitations while you play. Whoever tries to invite you is told you're in focus mode. It comes off.
+### Fókusz mód
+Beállítások → Játék → „Fókusz mód”: nincsenek meghívások, amíg játszol. Aki meg akar hívni, azt megtudja, hogy fókusz módban vagy. Ki is kapcsolható.
 
 ## 0.7.0
 
-### One kind on the break
-A new house rule: if the break makes balls of both groups (the 3 and the 14, say), the turn passes and the table stays open. Balls of one kind only and you shoot again, as before. The rules in the menu explain it, with a few rare cases now put right, and the computer plays a little better.
+### Egyfajta a kezdőlökésnél
+Új házszabály: ha a kezdőlökésnél mindkét csoport golyói beesnek (mondjuk a 3-as és a 14-es), a kör átszáll az ellenfélre, és az asztal nyitott marad. Ha csak egyfajta golyók esnek be, újra löksz, mint eddig. A menüben lévő szabályok elmagyarázzák, néhány ritka esetet most kijavítottunk, és a gép is kicsit jobban játszik.
 
-### Every ball counts
-The balls you make in a row show by your picture with a little flame, and three, five and seven in a row are cheered (and a table cleared in one visit). The clock's last seconds tick, a chime says when your turn comes back online, and the rating counts up at the end of a game.
+### Minden golyó számít
+Az egymás után elrakott golyók egy kis lánggal látszanak a képed mellett, a három, öt és hét egymás utáni elrakást pedig ünneplés kíséri (és az egy sorozatban kipucolt asztalt is). Az óra utolsó másodpercei ketyegnek, egy csengés jelzi, ha online újra te jössz, és a játszma végén az értékszám felfelé számol.
 
-### Events
-Now and then the staff run events: a weekend of double (or triple) experience, coins from games counting double, or a themed tournament the server organises, sometimes with a prize from the house on top of the entry fees. The main menu and the lounge show what is on and what is coming.
+### Események
+Időnként a stáb eseményeket rendez: egy hétvégét dupla (vagy tripla) tapasztalattal, duplán számító érmékkel a játszmákból, vagy a szerver által szervezett tematikus versenyt, néha a ház nyereményével a nevezési díjakon felül. A főmenü és a társalgó mutatja, mi zajlik és mi következik.
 
-### On to the next one
-After a win on the tour, "Next" takes you straight to the next opponent; after a drill, "Try again". The deciding shot can be watched again from the end panel, and a first game points out where to aim, set the power and shoot.
+### Irány a következő
+Egy körversenyes győzelem után a „Következő” egyenesen a következő ellenfélhez visz; egy gyakorlat után az „Újra”. A döntő lökés újranézhető a záró panelről, az első játszma pedig megmutatja, hová célozz, hogyan állítsd be az erőt és hogyan lökj.
 
-### The head string, if you want it
-Settings → Game → "Always show the head string" keeps the line the break is played from on the table. Off by default: it shows only while you place the cue ball behind it.
+### A kezdővonal, ha szeretnéd
+A Beállítások → Játék → „A kezdővonal mindig látszik” az asztalon tartja a vonalat, ahonnan a kezdőlökést végzik. Alapból ki van kapcsolva: csak akkor látszik, amikor mögé helyezed a fehér golyót.
 
-### Fair rewards, softer light
-The tour's final and the ranked drills are now set up by the server, so their cue and their tables are earned the same way by everyone (play them signed in). A dropped connection no longer closes the game, a game against the computer is never replaced without asking, and the light under the lamps falls softly, without hard edges.
+### Igazságos jutalmak, lágyabb fény
+A körverseny döntőjét és a ranglistás gyakorlatokat most a szerver állítja össze, így a dákójukat és az asztalaikat mindenki ugyanúgy szerzi meg (játszd őket bejelentkezve). A megszakadt kapcsolat már nem zárja be a játszmát, a gép elleni játszmát soha nem cseréljük le kérdezés nélkül, a lámpák alatti fény pedig lágyan, éles szélek nélkül esik.
 
 ## 0.6.2
 
-### Leagues and levels on one page
-In the profile, the "Leagues and levels" tab shows every league, from which rating and what it pays, and every level that brings an item. Reaching a league for the first time now pays coins and, from Skilled up, an item of the league's own.
+### Ligák és szintek egy oldalon
+A profilban a „Ligák és szintek” lap mutat minden ligát, hogy melyik értékszámtól kezdődik és mit fizet, valamint minden szintet, amely tárgyat hoz. Ha először érsz el egy ligát, most érméket kapsz, az Ügyes ligától felfelé pedig a liga saját tárgyát is.
 
-### A cleaner profile
-On the left, just what matters: your level, the next prize, and the achievements and reactions already won. Every medal and reaction has a tab of its own, and nothing runs off the screen.
+### Letisztultabb profil
+Bal oldalon csak a lényeg: a szinted, a következő jutalom, és a már megszerzett teljesítmények és reakciók. Minden éremnek és reakciónak saját lapja van, és semmi sem lóg le a képernyőről.
 
-### The view from above as it was, with round balls
-The table has its depth and its usual light again, and the camera no longer jumps when it leaves the view from above.
+### A felülnézet a régi, kerek golyókkal
+Az asztal visszakapta a mélységét és a megszokott fényét, és a kamera már nem ugrik, amikor elhagyja a felülnézetet.
 
 ## 0.6.1
 
-### A view from above without distortion
-The table is now seen from high up, almost without perspective: balls stay round out to the corners, and the cue, the aiming line and the ghost ball always line up. The light on the balls is softer, so the number shows.
+### Felülnézet torzítás nélkül
+Az asztal most magasról látszik, szinte perspektíva nélkül: a golyók a sarkokig kerekek maradnak, a dákó, a célzóvonal és a szellemgolyó pedig mindig egy vonalba esik. A golyókon lágyabb a fény, így látszik a szám.
 
-### A tournament and a tour that mean it
-In a tournament against the computer a game counts once: leaving half way doesn't wipe it (it goes on from where it was) and there is no rematch. The champion gets a gold medal. And the tour is hard: every opponent plays at their best.
+### Komoly verseny és körverseny
+A gép elleni versenyen egy játszma egyszer számít: ha félúton kilépsz, nem törlődik (onnan folytatódik, ahol volt), és nincs visszavágó. A bajnok aranyérmet kap. A körverseny pedig nehéz: minden ellenfél a legjobb formáját hozza.
 
-### New achievements, pictures and sounds
-Shutout, Golden break and account anniversaries. Faces that look like people and twelve profile pictures that are not faces (the 8-ball, a trophy, a crown…). New sounds for the balls, the cue, the cushions and the pockets.
+### Új teljesítmények, képek és hangok
+Kiütés, Arany kezdőlökés és fiókévfordulók. Emberinek látszó arcok és tizenkét profilkép, amely nem arc (a 8-as golyó, egy trófea, egy korona…). Új hangok a golyóknak, a dákónak, a falszéleknek és a lyukaknak.
 
-### Leagues, levels that pay and scarce coins
-Other players are shown by their league (the rating is on the profile and in the ranking). Every account level pays coins and levels 5 to 50 bring items of their own, but the climb is long. Coins are scarcer: everything in the shop takes time to earn.
+### Ligák, fizető szintek és kevés érme
+A többi játékost a ligájuk szerint látod (az értékszám a profilban és a ranglistán van). Minden fiókszint érmét fizet, az 5. és 50. szint között pedig saját tárgyakat is hoz, de hosszú a felfelé vezető út. Kevesebb az érme: a boltban mindenre időbe telik összegyűjteni.
 
 ## 0.6.0
 
-### A Brazilian rule, with penalty balls
-The game now plays the regional Brazilian rule of eight-ball, the one of bars and pool halls (not the official tournament rule). A foul passes the turn and takes your opponent's lowest balls off the table, only a pocketed cue ball gives ball in hand, and the 8 alone on the break wins. The full rules are in the menu.
+### Brazil szabályok, büntetőgolyókkal
+A játék most a nyolcas pool regionális brazil szabályai szerint játszik, a bárok és biliárdtermek szabályai szerint (nem a hivatalos versenyszabályok szerint). A szabálytalanság után a kör átszáll az ellenfélre, és az ellenfeled legkisebb golyói lekerülnek az asztalról; csak a beesett fehér golyó után jár golyó kézben, és a kezdőlökésnél egyedül elrakott 8-as nyer. A teljes szabályok a menüben vannak.
 
-### Heavier balls
-The cloth holds the ball more and the break is less violent: the balls no longer scatter all over the table.
+### Nehezebb golyók
+A posztó jobban fogja a golyót, és a kezdőlökés kevésbé heves: a golyók már nem szóródnak szét az egész asztalon.
 
-### Tournaments against the computer and more drills
-Play a knockout of sixteen or an arena on points against the fifteen opponents. And there are eight new drills, fifteen in all.
+### Versenyek a gép ellen és több gyakorlat
+Játssz tizenhat fős kieséses versenyt vagy pontozásos arénát a tizenöt ellenfél ellen. És van nyolc új gyakorlat, összesen tizenöt.
 
-### Aiming and the cue
-The cue's elevation can be set by dragging with the mouse, the aiming line points at the centre of the ghost ball, faint arrows show when the cue ball can be moved, and the shadows can be turned off.
+### Célzás és a dákó
+A dákó dőlésszöge egérrel húzva is beállítható, a célzóvonal a szellemgolyó közepére mutat, halvány nyilak jelzik, mikor mozgatható a fehér golyó, és az árnyékok kikapcsolhatók.
 
 ## 0.5.1
 
-### Cleaner balls
-The pale disc on top of every ball is gone: a ball is lit as one round thing and shows the lamp as a single clean dot. Castings, rugs and Low quality look better too.
+### Tisztább golyók
+Eltűnt a halvány korong minden golyó tetejéről: a golyó egyetlen kerek tárgyként kap fényt, és a lámpát egyetlen tiszta pontként tükrözi. A díszek, a szőnyegek és az Alacsony minőség is jobban néz ki.
 
-### The power bar keeps no memory
-No more mark for your last stroke, and every turn starts from the middle of the bar: judging the pace is part of the game.
+### Az erősáv nem emlékszik
+Nincs többé jel az előző lökésed helyén, és minden kör a sáv közepéről indul: az erő megítélése a játék része.
 
-### Nothing over the table
-Whose turn it is now reads in the top bar, beside the score panel, so the side pocket is always in sight. Aiming lines are smooth, and the rings round the pockets are whole.
+### Semmi az asztal fölött
+Hogy ki jön, most a felső sávban olvasható, a pontjelző mellett, így a középső lyuk mindig látszik. A célzóvonalak simák, a lyukak körüli gyűrűk pedig teljesek.
 
 ## 0.5.0
 
-### Tournament-table physics
-The balls weigh what they do on a real table: the power bar goes up to a hard stroke (only the break uses full power), cushions give back less the harder they are hit, and a ball made falls into the pocket at the pace it arrived with.
+### Versenyasztal-fizika
+A golyók annyit nyomnak, mint egy valódi asztalon: az erősáv egy erős lökésig megy (teljes erőt csak a kezdőlökés használ), a falszélek annál kevesebbet adnak vissza, minél erősebben érik őket, az elrakott golyó pedig azzal a sebességgel esik a lyukba, amellyel érkezett.
 
-### An official tournament table
-The table is the regulation 8-foot one, measure for measure: balls, corner and side pockets with the official mouths and angles. The cloth is a deep green under the lamps and the balls shine like polished ones, their numbers crisp.
+### Hivatalos versenyasztal
+Az asztal a szabványos 8 lábas, centire pontosan: a golyók, a sarok- és középső lyukak a hivatalos nyílással és szögekkel. A posztó mélyzöld a lámpák alatt, a golyók pedig políroztként csillognak, éles számokkal.
 
-### A truer guide, or none
-The ghost ball now stops where the cue ball really would, the mouths of the pockets included. And a new choice: play with no aiming guide at all.
+### Pontosabb segédvonal, vagy semmi
+A szellemgolyó most ott áll meg, ahol a fehér golyó valóban megállna, a lyukak nyílását is beleértve. És egy új lehetőség: játék célzósegéd nélkül.
 
 ## 0.4.0
 
-### A new name: Snook Legend
-The game is now called Snook Legend. Your account, coins, items, settings and progress are all here, as before.
+### Új név: Snook Legend
+A játék neve mostantól Snook Legend. A fiókod, az érméid, a tárgyaid, a beállításaid és az előrehaladásod mind megvannak, mint eddig.
 
-### 8-foot table, open side pockets
-A smaller table (8 feet) and side pockets that forgive a ball off the centre or rolling in at an angle. The balls roll a little more freely.
+### 8 lábas asztal, nyitott középső lyukak
+Kisebb asztal (8 láb) és olyan középső lyukak, amelyek megbocsátják a középről eltérő vagy ferdén érkező golyót. A golyók kicsit szabadabban gurulnak.
 
-### New rule: the opponent's ball
-Making one of your opponent's balls passes the turn, even if one of yours went down too. It is not a foul: no ball in hand.
+### Új szabály: az ellenfél golyója
+Ha az ellenfeled egyik golyóját rakod el, a kör átszáll rá, akkor is, ha a tieid közül is beesett egy. Ez nem szabálytalanság: nincs golyó kézben.
 
-### Easier to see
-The cloth is lit evenly, the balls have a soft sheen so their numbers read, shadows are lighter, and nothing of the hall gets in the way of the view from above. Whose turn it is stands out on the score cards.
+### Jobban látható
+A posztó egyenletes fényt kap, a golyóknak lágy fényük van, így a számaik olvashatók, az árnyékok világosabbak, és a teremből semmi sem zavarja a felülnézetet. A pontjelző kártyákon jól kitűnik, ki jön.
 
-### Fifteen opponents
-Tito, Inês, Diego, Amara and Yuri join the computer opponents, each with a style and a voice of their own. The Tour now has fifteen stages; your wins so far are kept.
+### Tizenöt ellenfél
+Tito, Inês, Diego, Amara és Yuri csatlakozik a gépi ellenfelekhez, mindegyik saját stílussal és hanggal. A körverseny most tizenöt szakaszos; az eddigi győzelmeid megmaradnak.
 
-### Quieter opponents
-Settings → Game → Opponents' remarks turns their speech bubbles off.
+### Csendesebb ellenfelek
+A Beállítások → Játék → Az ellenfelek megjegyzései kikapcsolja a szövegbuborékaikat.
 
-### A new score panel
-Pictures and names in boxes, and the balls each player made rolling into place along their rail, in the order they went down.
+### Új pontjelző
+Képek és nevek keretben, és az egyes játékosok által elrakott golyók a saját sávjukon gurulnak a helyükre, abban a sorrendben, ahogy beestek.
 
-### Aim by eye
-Raise the cue by dragging it in a side view of the shot. No more numbers on the power or the elevation: judge them by eye. Prefer it flat? Settings → Game → Top view only.
+### Célzás szemre
+Emeld a dákót úgy, hogy a lökés oldalnézetében húzod. Nincsenek többé számok az erőn és a dőlésszögön: ítéld meg szemre. Inkább laposan szereted? Beállítások → Játék → Csak felülnézet.
 
-### Rules and pictures
-The rules of the game are a click away (the book on the main menu, or Rules in the pause menu). Pick one of 32 profile pictures in your profile.
+### Szabályok és képek
+A játék szabályai egy kattintásnyira vannak (a könyv a főmenüben, vagy a Szabályok a szünet menüben). Válassz a 32 profilkép közül a profilodban.
 
-### Your games are safe
-Replays and daily games that started before this update keep the old table and rules until they end.
+### A játszmáid biztonságban
+A frissítés előtt indult visszajátszások és napi játszmák a végükig megtartják a régi asztalt és szabályokat.
 
 ## 0.3.0
 
-### A regulation 9-foot table
-The table is now tournament size (100" × 50"), with the balls, pockets, cushions and cue to official measurements. The balls are heavier and bounce less, like real ones.
+### Szabványos 9 lábas asztal
+Az asztal most versenyméretű (100" × 50"), a golyók, a lyukak, a falszélek és a dákó a hivatalos méretek szerint. A golyók nehezebbek és kevésbé pattognak, mint a valódiak.
 
-### A new break rule
-On the break, the first ball you pocket sets your group: solids or stripes. A foul on the break leaves the table open.
+### Új kezdőlökés-szabály
+A kezdőlökésnél az első elrakott golyód dönti el a csoportodat: teli vagy csíkos. A kezdőlökésnél elkövetett szabálytalanság után az asztal nyitott marad.
 
-### New halls, tables and cues
-Four new halls and four new tables, and every old one reworked. Premium cues that look nothing alike. On Ultra, floors that reflect the hall.
+### Új termek, asztalok és dákók
+Négy új terem és négy új asztal, és minden régit átdolgoztunk. Prémium dákók, amelyek egyáltalán nem hasonlítanak egymásra. Ultra minőségen a padló tükrözi a termet.
 
-### Daily challenge
-A new position every day, the same for everyone, with a ranking of the day: three attempts to make as many balls as you can.
+### Napi kihívás
+Minden nap új felállás, mindenkinek ugyanaz, napi ranglistával: három próbálkozás, hogy minél több golyót rakj el.
 
-### Drills with stars
-Seven drills on potting, spin, banks and escaping snookers, up to three stars each, with rankings and a challenge rating that shows your level.
+### Gyakorlatok csillagokkal
+Hét gyakorlat elrakásra, csavarra, falszéles lökésekre és takarásból való kiszabadulásra, mindegyikben legfeljebb három csillag, ranglistákkal és egy kihívási értékszámmal, amely a szintedet mutatja.
 
-### Account level
-Earn experience in every game, won or lost, and in drills, the daily challenge and achievements. Your level shows on your profile.
+### Fiókszint
+Szerezz tapasztalatot minden játszmában, akár nyersz, akár veszítesz, valamint a gyakorlatokban, a napi kihívásban és a teljesítményekkel. A szinted a profilodban látszik.
 
-### The Tour
-The old ladder is now the Tour: ten stages, one opponent each. The opponents have new portraits and talk during the game.
+### A körverseny
+A régi létra most körverseny: tíz szakasz, mindegyikben egy ellenfél. Az ellenfeleknek új portréjuk van, és játék közben beszélnek.
 
-### Fair play
-Leaving a game costs more than losing it. The full aiming guide is for free games against the computer and practice only: never online, in the Tour, the daily challenge or drills.
+### Sportszerű játék
+Egy játszma elhagyása többe kerül, mint az elvesztése. A teljes célzósegéd csak a gép elleni szabad játszmákban és gyakorlásban érhető el: soha nem online, a körversenyen, a napi kihívásban vagy a gyakorlatokban.
 
-### Your profile
-A trophy shelf and statistics for each cue: games, wins and balls made with it. You can now change your username up to three times.
+### A profilod
+Trófeapolc és statisztikák minden dákóhoz: játszmák, győzelmek és vele elrakott golyók. A felhasználónevedet most legfeljebb háromszor változtathatod meg.
 
-### In the lounge
-An "away" status, quick phrases translated into your opponent's language and a practice table while the search for an opponent goes on.
+### A társalgóban
+„Távol” állapot, az ellenfeled nyelvére fordított gyors üzenetek és egy gyakorlóasztal, amíg az ellenfélkeresés tart.
 
 ## 0.2.0
 
-### Ten opponents with personality
-Choose who to play: from Leo, still learning, to Marta, who lives on safeties, and Lola, who banks everything. Each has their own style, portrait and strength.
+### Tíz ellenfél, egyéniséggel
+Válaszd ki, ki ellen játszol: a még tanuló Leótól Martáig, aki a biztonsági lökésekből él, és Loláig, aki mindent falszélről játszik. Mindegyiknek saját stílusa, portréja és erőssége van.
 
-### The ladder
-Beat the ten opponents one by one, up to the last. Reach the top to earn the exclusive "Ladder king" cue and a new achievement.
+### A létra
+Győzd le a tíz ellenfelet egyenként, egészen az utolsóig. Érj fel a csúcsra, hogy megszerezd az exkluzív „Létrakirály” dákót és egy új teljesítményt.
 
-### Play the ghost
-The computer learns a real player's style from their online games. Challenge a friend's ghost, or your own, from the profile or the vs-computer screen.
+### Játék a szellem ellen
+A gép egy valódi játékos stílusát tanulja meg az online játszmáiból. Hívd ki egy barátod szellemét vagy a sajátodat a profilból vagy a gép elleni képernyőről.
 
-### Daily games
-Challenge someone and play your turn when you can: each player has up to 3 days per turn. You are told when it's your turn, and you can have several games at once.
+### Napi játszmák
+Hívj ki valakit, és akkor lökj, amikor ráérsz: mindkét játékosnak legfeljebb 3 napja van egy körre. Szólunk, ha te jössz, és egyszerre több játszmád is lehet.
 
-### Friends and gifts
-See who you played recently, write a status on your profile and post on the lounge's "looking for a game" board. Gifts from friends now arrive with a notice, a message and a "thank you".
+### Barátok és ajándékok
+Lásd, kivel játszottál legutóbb, írj állapotüzenetet a profilodba, és adj fel hirdetést a társalgó „Játszmát keres” tábláján. A barátoktól kapott ajándékok most értesítéssel, üzenettel és egy „köszönöm”-mel érkeznek.
 
-### Cues, tables and halls
-Your cue earns bands and inlays as you win with it. In the shop, themed tables and halls: beach bar, industrial loft and English club.
+### Dákók, asztalok és termek
+A dákód gyűrűket és berakásokat kap, ahogy nyersz vele. A boltban tematikus asztalok és termek: strandbár, ipari loft és angol klub.
 
-### Your game, analysed
-The profile's new Analysis tab shows your potting by pocket, distance and kind of shot, with a heat map of the table.
+### A játékod elemezve
+A profil új Elemzés lapja megmutatja az elrakásaidat lyuk, távolság és lökéstípus szerint, az asztal hőtérképével.
 
-### Your keys
-Every shortcut can be changed in Settings → Controls, and the game's hints follow your choices.
+### A billentyűid
+Minden gyorsbillentyű módosítható a Beállítások → Irányítás menüben, és a játék tippjei követik a választásaidat.
 
-### Automatic updates
-New versions download in the background and install when you restart, never during a game. This window tells you what changed.
+### Automatikus frissítések
+Az új verziók a háttérben töltődnek le, és újraindításkor települnek, soha nem játszma közben. Ez az ablak elmondja, mi változott.
 
-### A reviewed interface
-Every screen was reviewed in the three languages and at every window size. Fixes: Esc opens the menu at the table, the computer sinks the 8 in its called pocket more reliably, and the overhead view no longer goes black.
+### Átnézett felület
+Minden képernyőt átnéztünk a három nyelven és minden ablakméretben. Javítások: az Esc megnyitja a menüt az asztalnál, a gép megbízhatóbban rakja el a 8-ast a bemondott lyukba, és a felülnézet már nem lesz fekete.
 
 ## 0.1.4
 
-### A game while you wait
-After half a minute of "Play now" without an opponent, you can play the computer while the search goes on.
+### Játszma, amíg vársz
+Ha fél percig nincs ellenfél a „Játék most” keresésben, játszhatsz a gép ellen, amíg a keresés folytatódik.
 
-### Chat moderation
-You can delete your own chat lines, and moderators can remove abuse.
+### Csevegésmoderálás
+Törölheted a saját csevegősoraidat, a moderátorok pedig eltávolíthatják a visszaéléseket.
 
-### Cues you can see
-Opponents see the pattern of the cue you bought, and VIP members have reactions of their own.
+### Látható dákók
+Az ellenfelek látják a megvásárolt dákód mintáját, a VIP-tagoknak pedig saját reakcióik vannak.

@@ -1,1 +1,2056 @@
-# placeholder
+# Snook Legend: Hungarian.
+# One text per line: the English text (as written in the code), a tab, the translation.
+# Placeholders like {name} must stay as they are; \n is a new line.
+{name} is on the 8: called pocket {pocket}	{name} a 8-asra jön: bemondott lyuk: {pocket}
+On the 8-ball: {pocket} pocket	A 8-as jön: {pocket}
+Show ping	Ping mutatása
+Your connection's delay, in online games.	A kapcsolatod késleltetése online játszmákban.
+Reactions	Reakciók
+Shop	Bolt
+Cloth	Posztó
+Cues	Dákók
+Chalk	Kréta
+Balls	Golyók
+Coins	Érmék
+coins	érme
+Sign in to buy and use items. Here is what there is:	Jelentkezz be a tárgyak vásárlásához és használatához. Ez a kínálat:
+In use	Használatban
+Use	Használat
+Buy	Vásárlás
+{n} short	még {n} kell
+{n} coins	{n} érme
+Not enough coins: get more in the Coins tab.	Nincs elég érméd: szerezz többet az Érmék lapon.
+VIP only	Csak VIP
+free	ingyenes
+yours	a tiéd
+achievement	teljesítmény
+Coins can't be bought on this server yet.	Ezen a szerveren még nem lehet érmét vásárolni.
++{n} bonus	+{n} ajándék
+Payment opens in your browser (card, Pix…), on Stripe's secure page.	A fizetés a böngésződben nyílik meg (kártya, Pix…), a Stripe biztonságos oldalán.
+Coins arrive in a moment; they are only used for items in the game.	Az érmék pillanatokon belül megérkeznek; csak a játék tárgyaira költhetők.
+Exclusive items: {list}	Exkluzív tárgyak: {list}
+{n} coins every month	Havonta {n} érme
+Cancel whenever you want: VIP lasts until the end of the paid month	Bármikor lemondhatod: a VIP a kifizetett hónap végéig tart
+You are VIP until {d}.	VIP vagy eddig: {d}.
+Manage subscription	Előfizetés kezelése
+Become VIP · {p}	Legyél VIP · {p}
+VIP can't be bought on this server yet.	Ezen a szerveren még nem lehet VIP-et vásárolni.
+The payment page opened in your browser.	A fizetési oldal megnyílt a böngésződben.
+Could not open the browser.	Nem sikerült megnyitni a böngészőt.
+Tournament green	Versenyzöld
+Electric blue	Elektromos kék
+Burgundy	Bordó
+Charcoal	Szénszürke
+Teal	Kékeszöld
+Royal purple	Királylila
+Camel	Teveszín
+Midnight	Éjfél
+Champion's red	Bajnoki vörös
+Classic	Klasszikus
+Rosewood	Paliszander
+Ebony & silver	Ében és ezüst
+Carbon	Karbon
+Ivory inlay	Elefántcsont berakás
+Crown	Korona
+Jewels	Ékkövek
+Blue chalk	Kék kréta
+Green chalk	Zöld kréta
+Red chalk	Piros kréta
+Purple chalk	Lila kréta
+Gold chalk	Arany kréta
+Vintage	Vintage
+Pastel	Pasztell
+Neon	Neon
+You already have this item.	Ez a tárgy már a tiéd.
+Not enough coins.	Nincs elég érméd.
+The purchase failed; no coins were taken.	A vásárlás nem sikerült; nem vontunk le érmét.
+No such item.	Nincs ilyen tárgy.
+This item can't be bought with coins.	Ez a tárgy nem vehető meg érmékért.
+You don't have this item.	Nincs meg neked ez a tárgy.
+Purchases are not available.	A vásárlás nem érhető el.
+This pack is not on sale.	Ez a csomag nem kapható.
+The payment page could not be opened. Try again in a moment.	Nem sikerült megnyitni a fizetési oldalt. Próbáld újra egy kicsit később.
+You are already VIP.	Már VIP vagy.
+There is no subscription to manage.	Nincs kezelhető előfizetés.
+The page could not be opened. Try again in a moment.	Nem sikerült megnyitni az oldalt. Próbáld újra egy kicsit később.
+Coins added to your wallet.	Az érmék bekerültek a pénztárcádba.
+Welcome to VIP!	Üdv a VIP-ben!
+Slow down a little.	Lassíts egy kicsit.
+You can't do that.	Ezt nem teheted meg.
+There are too many notes right now. Try again in a few minutes.	Most túl sok hirdetés van. Próbáld újra pár perc múlva.
+A moderator took down your note.	Egy moderátor levette a hirdetésedet.
+A moderator cleared your status message.	Egy moderátor törölte az állapotüzenetedet.
+Status message cleared.	Állapotüzenet törölve.
+VIP	VIP
+Play now	Játék most
+Find an opponent of your level automatically	Találj automatikusan a szintednek megfelelő ellenfelet
+Looking for an opponent… {t}	Ellenfél keresése… {t}
+any rating	bármilyen értékszám
+rating ±{n} · {mode}	értékszám ±{n} · {mode}
+Potting success	Lökéspontosság
+Balls made	Elrakott golyók
+Best run	Legjobb sorozat
+Fouls	Szabálytalanságok
+seen just now	épp most láttuk
+seen {n} min ago	{n} perce láttuk
+seen {n} h ago	{n} órája láttuk
+seen yesterday	tegnap láttuk
+seen {n} days ago	{n} napja láttuk
+seen {n} months ago	{n} hónapja láttuk
+just now	épp most
+{n} min ago	{n} perce
+{n} h ago	{n} órája
+yesterday	tegnap
+{n} days ago	{n} napja
+Game history	A játszma története
+Nothing yet.	Még semmi.
+Fine aim: click the arrows, or drag here	Finom célzás: kattints a nyilakra, vagy húzd itt
+{n} watching	{n} néző
+Watching {name}	Nézed: {name}
+Your reactions reach the table quietly.	A reakcióid csendben jutnak el az asztalhoz.
+Stop watching	Nézés befejezése
+If they play again, you keep watching.	Ha újra játszanak, tovább nézheted.
+Your friend left the table.	A barátod elhagyta az asztalt.
+Your friend isn't playing right now.	A barátod most nem játszik.
+You can only watch your friends.	Csak a barátaidat nézheted.
+You can't watch this game.	Ezt a játszmát nem nézheted.
+{n} points to {tier}	Még {n} pont: {tier}
+Top tier	Legfelső szint
+Reactions {n}/{total}	Reakciók {n}/{total}
+Haunted table	Kísértetjárta asztal
+Win a rated game during Halloween (Oct 24 – Nov 2).	Nyerj egy értékelt játszmát halloweenkor (okt. 24. – nov. 2.).
+Winter league	Téli liga
+Win a rated game over the holidays (Dec 15 – Jan 6).	Nyerj egy értékelt játszmát az ünnepek alatt (dec. 15. – jan. 6.).
+Fireworks	Tűzijáték
+Win a rated game at the turn of the year (Dec 31 – Jan 1).	Nyerj egy értékelt játszmát az évfordulón (dec. 31. – jan. 1.).
+Shows where the object ball and the cue ball go (only in free games and practice).	Megmutatja, merre megy a célgolyó és a fehér golyó (csak szabad játszmákban és gyakorlásban).
+{n} online · ping {ms} ms	{n} online · ping {ms} ms
+Right-drag · Wheel	Jobb gombos húzás · Görgő
+Win %	Győzelem %
+Reset the camera: top view, no zoom	Kamera visszaállítása: felülnézet, nagyítás nélkül
+{name} sank the 8-ball	{name} elrakta a 8-as golyót
+{name} sank the 8 too early	{name} túl korán rakta el a 8-ast
+{name} sank the 8 in the wrong pocket	{name} rossz lyukba rakta el a 8-ast
+{name} fouled on the 8	{name} szabálytalanságot követett el a 8-asnál
+{name} knocked the 8 off the table	{name} leütötte a 8-ast az asztalról
+{name} resigned	{name} feladta
+{name} left the game	{name} kilépett a játszmából
+{winner} wins! ({how})	Győztes: {winner}! ({how})
+#{n} in the world	#{n} a világon
+3–16 letters, digits or underscores.	3–16 betű, számjegy vagy aláhúzásjel.
+No lines on the table: aim by eye, along the cue.	Nincsenek vonalak az asztalon: célozz szemre, a dákó mentén.
+No guide	Nincs segédvonal
+Only a short line from the cue ball.	Csak egy rövid vonal a fehér golyótól.
+Accept friend	Barátság elfogadása
+Achievement unlocked: {title}	Teljesítmény feloldva: {title}
+Achievements {n}/{total}	Teljesítmények {n}/{total}
+Add	Hozzáadás
+Add a friend by username	Barát hozzáadása felhasználónév alapján
+Add friend	Barát hozzáadása
+Against the computer	A gép ellen
+All tournaments	Minden verseny
+Amateur	Amatőr
+At least 8 characters. Use a password you don't use elsewhere.	Legalább 8 karakter. Olyan jelszót használj, amelyet máshol nem.
+At least two players are needed.	Legalább két játékos kell.
+Back	Vissza
+Black ball	Fekete golyó
+Block	Letiltás
+Break and run	Kezdés és kipucolás
+Break and run 10 times.	Kezdőlökés után pucold ki az asztalt 10-szer.
+Can't listen for games here: join by address below.	Itt nem lehet játszmákat keresni: csatlakozz lent cím alapján.
+Cancel request	Kérés visszavonása
+Cancel tournament	Verseny törlése
+Casual	Barátságos
+Centurion	Centurió
+Champion	Bajnok
+Champion: {name}	Bajnok: {name}
+Change country	Ország módosítása
+Add a status message	Állapotüzenet hozzáadása
+A line about you	Egy mondat rólad
+Save (Enter)	Mentés (Enter)
+Cancel (Esc)	Mégse (Esc)
+Change your status message	Állapotüzenet módosítása
+Clear the status message	Állapotüzenet törlése
+Cheating or abuse	Csalás vagy visszaélés
+Choose…	Válassz…
+Click again to block	Kattints újra a letiltáshoz
+Close	Bezárás
+Closer	Befejező
+Competitor	Versenyző
+Connecting to the server…	Csatlakozás a szerverhez…
+Could not host a game: {e}	Nem sikerült létrehozni a játszmát: {e}
+Country	Ország
+Create	Létrehozás
+Create a tournament	Verseny létrehozása
+Don't show a flag	Ne mutasson zászlót
+No country found.	Nincs ilyen ország.
+Dynasty	Dinasztia
+Eight is enough	A 8-as elég
+Executioner	Hóhér
+Expert	Szakértő
+Familiar face	Ismerős arc
+Final	Döntő
+Finish your game first.	Előbb fejezd be a játszmádat.
+First blood	Első vér
+First break	Első kezdőlökés
+Friend request sent.	Barátkérés elküldve.
+Friends	Barátok
+# Daily (correspondence) games.
+daily game	napi játszma
+Daily	Napi
+Daily game	Napi játszma
+Daily games	Napi játszmák
+Challenge a player by username	Hívj ki egy játékost felhasználónév alapján
+Challenge to a daily game	Kihívás napi játszmára
+3 days for each turn	Körönként 3 nap
+No daily games yet. Challenge a friend: each of you plays a turn whenever you can.	Még nincs napi játszmád. Hívj ki egy barátot: mindketten akkor lökhettek, amikor ráértek.
+challenges you · {kind}	kihív · {kind}
+waiting for an answer · {kind} · {time} left	válaszra vár · {kind} · még {time}
+your turn · {time} left	te jössz · még {time}
+their turn · {time} left	az ellenfél jön · még {time}
+won · {how}	győzelem · {how}
+lost · {how}	vereség · {how}
+ran out of time	lejárt az időd
+the opponent ran out of time	lejárt az ellenfél ideje
+open table	nyitott asztal
+You: {mine}, {a} left · {name}: {theirs}, {b} left	Te: {mine}, még {a} · {name}: {theirs}, még {b}
+Look	Megtekintés
+Skip	Kihagyás
+Replaying {name}'s turn	{name} körének visszajátszása
+Stroke {n} of {total}	{n}. lökés / {total}
+Turn sent	Kör elküldve
+Turn sent.	Kör elküldve.
+Waiting for {name} to play	Várakozás az ellenfélre: {name}
+{name} has {time} to play. You'll be told when it's your turn.	{name} ennyi időt kapott a lökésre: {time}. Szólunk, ha te jössz.
+{time} left to play. You'll be told when it's your turn.	Még {time} a lökésre. Szólunk, ha te jössz.
+Back to daily games	Vissza a napi játszmákhoz
+Your game is saved: come back whenever you like.	A játszmád el van mentve: térj vissza, amikor csak szeretnél.
+{d} d {h} h	{d} n {h} ó
+{name} ran out of time	{name} ideje lejárt
+This game can't be shown.	Ez a játszma nem jeleníthető meg.
+A daily game is waiting for you	Egy napi játszma vár rád
+{n} daily games are waiting for you	{n} napi játszma vár rád
+{name} challenges you to a rated daily game.	{name} kihív egy értékelt napi játszmára.
+{name} challenges you to a casual daily game.	{name} kihív egy barátságos napi játszmára.
+{name} accepted your daily game.	{name} elfogadta a napi játszmádat.
+{name} declined your daily game.	{name} elutasította a napi játszmádat.
+{name} withdrew their daily game challenge.	{name} visszavonta a napi játszmára szóló kihívását.
+Your turn in the daily game against {name}.	Te jössz a napi játszmában. Ellenfél: {name}.
+{name} ran out of time: you won the daily game.	{name} ideje lejárt: megnyerted a napi játszmát.
+You won the daily game against {name}!	Megnyerted a napi játszmát! Ellenfél: {name}.
+You ran out of time in the daily game against {name}.	Lejárt az időd a napi játszmában. Ellenfél: {name}.
+You lost the daily game against {name}.	Elvesztetted a napi játszmát. Ellenfél: {name}.
+Challenge sent.	Kihívás elküldve.
+Daily games need an account.	A napi játszmákhoz fiók kell.
+No such game.	Nincs ilyen játszma.
+That challenge is no longer valid.	Ez a kihívás már nem érvényes.
+That player already challenged you: answer their challenge.	Ez a játékos már kihívott téged: válaszolj a kihívására.
+That player has too many challenges waiting.	Ennek a játékosnak túl sok kihívása vár.
+That player has too many daily games going on.	Ennek a játékosnak túl sok napi játszmája van folyamatban.
+That player is not accepting challenges.	Ez a játékos nem fogad kihívásokat.
+This game can't be played right now.	Ez a játszma most nem játszható.
+This game changed meanwhile: open it again.	A játszma közben megváltozott: nyisd meg újra.
+This game is over.	Ez a játszma véget ért.
+You already challenged that player.	Ezt a játékost már kihívtad.
+You already have a game going on against that player.	Már folyik egy játszmád ez ellen a játékos ellen.
+You blocked that player.	Letiltottad ezt a játékost.
+You can't challenge yourself.	Saját magadat nem hívhatod ki.
+You have as many daily games as you can play at once.	Elérted az egyszerre játszható napi játszmák számának maximumát.
+You have too many challenges waiting for an answer.	Túl sok kihívásod vár válaszra.
+You're sending challenges too quickly.	Túl gyorsan küldöd a kihívásokat.
+Your time for this turn ran out.	Lejárt az időd ebben a körben.
+Games	Játszmák
+Games on your network	Játszmák a hálózatodon
+Give the tournament a name (at least 3 characters).	Adj nevet a versenynek (legalább 3 karakter).
+Good company	Jó társaság
+Grandmaster	Nagymester
+Guests can only join LAN games. Create an account.	Vendégek csak LAN-játszmákhoz csatlakozhatnak. Hozz létre fiókot.
+Guests can't play rated tournaments.	Vendégek nem játszhatnak értékelt versenyeken.
+Guests don't have this.	Vendégeknek ez nem elérhető.
+Harassment	Zaklatás
+Hat trick	Mesterhármas
+Have 10 friends.	Legyen 10 barátod.
+Have an account for 30 days.	Legyen 30 napos fiókod.
+Have an account for a year.	Legyen egyéves fiókod.
+Host a game on this computer	Játszma indítása ezen a gépen
+Host {host} · {n}/{size} players · {kind}	Házigazda: {host} · {n}/{size} játékos · {kind}
+Hot hand	Forró kéz
+Hustler	Cápa
+Invalid shot.	Érvénytelen lökés.
+Join	Csatlakozás
+Joining the LAN game…	Csatlakozás a LAN-játszmához…
+Just for fun	Csak szórakozásból
+L	V
+LAN game	LAN-játszma
+LAN game hosted by {name}.	Helyi hálózati játszma. Házigazda: {name}.
+LAN games don't change ratings.	A LAN-játszmák nem változtatják az értékszámot.
+Legend	Legenda
+Lives at the table	Az asztalnál él
+Loading the profile…	Profil betöltése…
+Loading…	Betöltés…
+Local network	Helyi hálózat
+Locked	Zárolva
+Looking for games	Játszmák keresése
+Make a friend.	Szerezz egy barátot.
+Master	Mester
+Name	Név
+Names have 3–16 letters, digits or underscores.	A név 3–16 betűből, számjegyből vagy aláhúzásjelből áll.
+New account	Új fiók
+I have an account	Van már fiókom
+New here? Choose “New account”: it takes ten seconds.	Új vagy itt? Válaszd az „Új fiók” lehetőséget: tíz másodperc az egész.
+New tournament	Új verseny
+No friends yet. Add someone you played with!	Még nincsenek barátaid. Adj hozzá valakit, akivel játszottál!
+No games yet.	Még nincsenek játszmák.
+No limit	Nincs korlát
+No open tables. Open one and others can sit down.	Nincs nyitott asztal. Nyiss egyet, és mások is leülhetnek.
+No other open tables right now.	Most nincs más nyitott asztal.
+No such player.	Nincs ilyen játékos.
+No tournaments right now. Create one!	Most nincs verseny. Hozz létre egyet!
+Offensive name	Sértő név
+On a roll	Lendületben
+On fire	Tűzben
+Only the host can start the tournament.	Csak a házigazda indíthatja el a versenyt.
+Open a table	Asztal nyitása
+Or join by address	Vagy csatlakozz cím alapján
+Other	Egyéb
+Others can join at {ip}:{port}	Mások itt csatlakozhatnak: {ip}:{port}
+Passwords need at least 8 characters (not only digits).	A jelszó legalább 8 karakter legyen (ne csak számjegy).
+Play 1,000 rated games.	Játssz 1000 értékelt játszmát.
+Play 10 rated games.	Játssz 10 értékelt játszmát.
+Play 100 rated games.	Játssz 100 értékelt játszmát.
+Play 25 casual games.	Játssz 25 barátságos játszmát.
+Play 500 rated games.	Játssz 500 értékelt játszmát.
+Play in a tournament.	Játssz egy versenyen.
+Play online	Online játék
+Play with friends on the same network	Játssz barátokkal ugyanazon a hálózaton
+Play your first rated game.	Játszd le az első értékelt játszmádat.
+Player 1	1. játékos
+Players	Játékosok
+Players in a tournament can't start other games.	A verseny játékosai nem kezdhetnek más játszmát.
+Please don't repeat the same message.	Kérjük, ne ismételd ugyanazt az üzenetet.
+Pool hall legend	A biliárdterem legendája
+Popular	Népszerű
+Private	Privát
+for your friends to sit down	hogy a barátaid leülhessenek
+Profile	Profil
+{key}: watch the last shot again	{key}: az utolsó lökés újranézése
+REPLAY	VISSZAJÁTSZÁS
+Rated	Értékelt
+Rated games, tables, tournaments and friends	Értékelt játszmák, asztalok, versenyek és barátok
+Reach a rating of 1300.	Érj el 1300-as értékszámot.
+Reach a rating of 1500.	Érj el 1500-as értékszámot.
+Reach a rating of 1700.	Érj el 1700-as értékszámot.
+Reach a rating of 1900.	Érj el 1900-as értékszámot.
+Reach a rating of 2100.	Érj el 2100-as értékszámot.
+Refresh	Frissítés
+Regular	Törzsvendég
+Remove friend	Barát eltávolítása
+Replay	Visszajátszás
+Report	Jelentés
+Report {name}	Játékos jelentése: {name}
+Request sent	Kérés elküldve
+Friend	Barát
+Recent	Legutóbbiak
+Nobody yet. The people you play online will show up here.	Még senki. Akikkel online játszol, itt jelennek meg.
+{n} games	{n} játszma
+Rookie	Újonc
+Round {n}	{n}. forduló
+Search…	Keresés…
+Semi-finals	Elődöntők
+Send report	Jelentés küldése
+This game goes with the report, so the moderators can watch it.	Ez a játszma a jelentéshez csatolva lesz, hogy a moderátorok megnézhessék.
+Your game with {name} ({date}) goes with the report, so the moderators can watch it.	A játszmád ({name}, {date}) a jelentéshez csatolva lesz, hogy a moderátorok megnézhessék.
+You haven't played {name} in the last day: the moderators see the recent chat.	Az elmúlt napban nem játszottál vele: {name}. A moderátorok a legutóbbi csevegést látják.
+Shark	Cápa
+Shows the contact point; judging the cut is up to you.	Megmutatja az érintkezési pontot; a vágást neked kell megítélned.
+Shutout	Kiütés
+Sign in	Bejelentkezés
+Sign in or create an account	Jelentkezz be, vagy hozz létre fiókot
+Sign out	Kijelentkezés
+Sit down	Leülés
+Skilled	Ügyes
+Someone with that name is already here.	Ilyen nevű játékos már van itt.
+Spam	Spam
+Start now	Indítás most
+Stop the replay	Visszajátszás leállítása
+Table runner	Asztaltakarító
+Tables	Asztalok
+Take turns on this computer	Felváltva ezen a gépen
+Thank you. The moderators will look into it.	Köszönjük. A moderátorok megvizsgálják.
+Thank you. The moderators will look into it, with your game attached.	Köszönjük. A moderátorok megvizsgálják, a játszmád csatolva.
+That player is not accepting invitations.	Ez a játékos nem fogad meghívásokat.
+That shot was for an earlier turn.	Ez a lökés egy korábbi körhöz tartozott.
+That table is no longer open.	Ez az asztal már nincs nyitva.
+That tournament has already started.	Ez a verseny már elkezdődött.
+That tournament no longer exists.	Ez a verseny már nem létezik.
+The first connection of the day can take up to a minute while the server wakes up.	A nap első csatlakozása akár egy percig is tarthat, amíg a szerver felébred.
+The first time, allow Snook Legend through the firewall when asked.	Első alkalommal engedélyezd a Snook Legendet a tűzfalon, amikor rákérdez.
+The server could not play that shot.	A szerver nem tudta lejátszani ezt a lökést.
+The server is busy. Try again in a moment.	A szerver foglalt. Próbáld újra egy kicsit később.
+The tournament starts when it is full (the host can start it earlier).	A verseny akkor indul, amikor betelik (a házigazda korábban is elindíthatja).
+There are too many tournaments right now. Join one!	Most túl sok verseny van. Csatlakozz egyhez!
+This is a LAN server: join as a guest.	Ez egy LAN-szerver: csatlakozz vendégként.
+Fifteen rivals, a tour and ghosts of real players	Tizenöt rivális, egy körverseny és valódi játékosok szellemei
+Tier	Szint
+Time per shot	Idő lökésenként
+Too many failed attempts. Wait a few minutes and try again.	Túl sok sikertelen próbálkozás. Várj néhány percet, és próbáld újra.
+Too many messages.	Túl sok üzenet.
+Too many new accounts from this network. Try again later.	Túl sok új fiók erről a hálózatról. Próbáld újra később.
+Top 100 · rated games	Top 100 · értékelt játszmák
+Tournament game: the next round starts from the lounge.	Versenyjátszma: a következő forduló a társalgóból indul.
+Tournament games have no rematch.	A versenyjátszmáknak nincs visszavágója.
+Tournaments	Versenyek
+Tournaments have 4, 8 or 16 players.	A versenyek 4, 8 vagy 16 játékososak.
+Two players	Két játékos
+Unblock	Feloldás
+Unlocked {date}	Feloldva: {date}
+Unstoppable	Megállíthatatlan
+W	Gy
+Watch the last shot again	Az utolsó lökés újranézése
+What happened? (optional)	Mi történt? (nem kötelező)
+When time runs out, the turn passes.	Ha lejár az idő, a kör átszáll az ellenfélre.
+Whitewash	Lehengerlés
+Win 10 rated games on the 8-ball.	Nyerj 10 értékelt játszmát a 8-as golyóval.
+Win 10 rated games in a row.	Nyerj 10 értékelt játszmát egymás után.
+Win 10 rated games.	Nyerj 10 értékelt játszmát.
+Win 10 rated shutouts.	Nyerj 10 értékelt játszmát kiütéssel.
+Win 100 rated games on the 8-ball.	Nyerj 100 értékelt játszmát a 8-as golyóval.
+Win 100 rated games.	Nyerj 100 értékelt játszmát.
+Win 250 rated games on the 8-ball.	Nyerj 250 értékelt játszmát a 8-as golyóval.
+Win 3 rated games in a row.	Nyerj 3 értékelt játszmát egymás után.
+Win 5 rated games in a row.	Nyerj 5 értékelt játszmát egymás után.
+Win 5 tournaments.	Nyerj 5 versenyt.
+Win 50 rated games on the 8-ball.	Nyerj 50 értékelt játszmát a 8-as golyóval.
+Win 50 rated games.	Nyerj 50 értékelt játszmát.
+Win 500 rated games.	Nyerj 500 értékelt játszmát.
+Win a rated game.	Nyerj egy értékelt játszmát.
+Win a tournament.	Nyerj egy versenyt.
+Win a rated game before your opponent sinks a ball of their group.	Nyerj egy értékelt játszmát, mielőtt az ellenfeled elrakna egy golyót a csoportjából.
+Win a rated game from the break without your opponent getting a shot.	Nyerj egy értékelt játszmát a kezdőlökéstől úgy, hogy az ellenfeled nem lök.
+Withdraw	Visszalépés
+World ranking	Világranglista
+Wrong table password.	Hibás asztaljelszó.
+Wrong tournament password.	Hibás versenyjelszó.
+You are already in a tournament.	Már egy versenyben vagy.
+You are hosting a game	Játszmát indítottál
+You can't join this table.	Ehhez az asztalhoz nem csatlakozhatsz.
+You signed in from another place.	Máshonnan jelentkeztél be.
+You're sending invitations too quickly.	Túl gyorsan küldöd a meghívásokat.
+You're sending messages too quickly.	Túl gyorsan küldöd az üzeneteket.
+You've sent many reports. Please wait before sending more.	Sok jelentést küldtél. Várj egy kicsit, mielőtt újabbat küldesz.
+Your friend list is full.	A barátlistád megtelt.
+Your next match starts by itself when both players are free.	A következő meccsed magától indul, amikor mindkét játékos szabad.
+Your profile	A profilod
+Your table is open	Az asztalod nyitva van
+Zoom in	Nagyítás
+Zoom out	Kicsinyítés
+at a table	asztalnál
+best streak	legjobb széria
+by {host} · {n}/{size} players	házigazda: {host} · {n}/{size} játékos
+casual games	barátságos játszmák
+casual · private	barátságos · privát
+casual · public	barátságos · nyilvános
+connecting to the server	csatlakozás a szerverhez
+eight-ball pool	nyolcas pool
+finished	befejezve
+guest	vendég
+invites you to {kind}	meghív · {kind}
+joined today	ma csatlakozott
+member for {n} days	{n} napja tag
+member for {n} months	{n} hónapja tag
+member for {n} years	{n} éve tag
+offline	offline
+open	nyitott
+optional: only friends with it can join	nem kötelező: csak az ezt ismerő barátok csatlakozhatnak
+password	jelszó
+peak {n}	csúcs: {n}
+playing	játszik
+playing the computer	a gép ellen játszik
+away	távol
+this game is saved	ez a játszma el van mentve
+rated games	értékelt játszmák
+rated · private	értékelt · privát
+rated · public	értékelt · nyilvános
+request sent	kérés elküldve
+the connection dropped	megszakadt a kapcsolat
+to play online	az online játékhoz
+tournament	verseny
+tournaments won	megnyert versenyek
+waiting for an opponent…	várakozás ellenfélre…
+win rate	győzelmi arány
+wins	győzelem
+won on the 8	8-assal nyert
+{host}'s game	Házigazda: {host}
+{name} wants to be friends	{name} barátkozni szeretne
+{name} wants to be your friend.	{name} szeretne a barátod lenni.
+{n} online	{n} online
+sank the 8-ball	elrakta a 8-as golyót
+the opponent sank the 8-ball	az ellenfél elrakta a 8-as golyót
+the opponent sank the 8 too early	az ellenfél túl korán rakta el a 8-ast
+sank the 8 too early	túl korán rakta el a 8-ast
+the opponent sank the 8 in the wrong pocket	az ellenfél rossz lyukba rakta el a 8-ast
+sank the 8 in the wrong pocket	rossz lyukba rakta el a 8-ast
+the opponent fouled on the 8	az ellenfél szabálytalanságot követett el a 8-asnál
+fouled on the 8	szabálytalanság a 8-asnál
+the opponent knocked the 8 off the table	az ellenfél leütötte a 8-ast az asztalról
+knocked the 8 off the table	leütötte a 8-ast az asztalról
+the opponent resigned	az ellenfél feladta
+resigned	feladta
+the opponent left	az ellenfél kilépett
+left the game	kilépett a játszmából
+You are muted for {n} more minutes.	Még {n} percig némítva vagy.
+This account is suspended for {n} more day(s). Reason: {reason}.	Ez a fiók még {n} napig fel van függesztve. Ok: {reason}.
+This account is banned. Reason: {reason}.	Ez a fiók ki van tiltva. Ok: {reason}.
+You were muted: {r}	Némítottak: {r}
+Your account was suspended: {r}	A fiókodat felfüggesztették: {r}
+Your account was banned: {r}	A fiókodat kitiltották: {r}
+You were disconnected by a moderator: {r}	Egy moderátor bontotta a kapcsolatodat: {r}
+You were disconnected by a moderator.	Egy moderátor bontotta a kapcsolatodat.
+Please sign in again.	Jelentkezz be újra.
+Your password was changed. Sign in again.	A jelszavad megváltozott. Jelentkezz be újra.
+Accept rematch	Visszavágó elfogadása
+Accept	Elfogadás
+Aim	Célzás
+Aiming guide	Célzósegéd
+Aiming	Célzás
+Anti-aliasing	Élsimítás
+Smooths the jagged edges of lines and balls.	Kisimítja a vonalak és golyók recés széleit.
+Back to lounge	Vissza a társalgóba
+Balanced: smooth on most laptops.	Kiegyensúlyozott: a legtöbb laptopon gördülékeny.
+Ball in hand	Golyó kézben
+Break the rack	Végezd el a kezdőlökést
+Camera pulls back to watch each shot	A kamera hátrébb húzódik minden lökésnél
+Camera	Kamera
+Cancel	Mégse
+Casual game: ratings unchanged	Barátságos játszma: az értékszám nem változik
+Center	Közép
+Chat	Csevegés
+Click a ball or a spot	Kattints egy golyóra vagy egy pontra
+Click to chat, Enter to send	Kattints a csevegéshez, Enter a küldéshez
+Controls	Irányítás
+Create account	Fiók létrehozása
+Cue ball contact	Találati pont a fehér golyón
+Decline	Elutasítás
+Done	Kész
+Drag the cue ball	Húzd a fehér golyót
+Elevation	Dőlésszög
+Everything, with reflections in polished floors: for gaming PCs.	Minden, tükröződéssel a fényes padlón: gamer PC-khez.
+Fine aim	Finom célzás
+Finish this match first.	Előbb fejezd be ezt a meccset.
+For old or very slow computers.	Régi vagy nagyon lassú gépekhez.
+Full screen	Teljes képernyő
+Also with {key}.	{key} billentyűvel is.
+Full	Teljes
+Game server	Játékszerver
+Change it only to play on another server.	Csak akkor módosítsd, ha másik szerveren játszanál.
+Advanced	Haladó
+Custom server	Egyéni szerver
+Graphics quality	Grafikai minőség
+Quality	Minőség
+Display	Megjelenítés
+High	Magas
+Invite	Meghívás
+Leave to the lounge	Kilépés a társalgóba
+Leave	Kilépés
+Leaving now counts as a loss.	Ha most kilépsz, vereségnek számít.
+Lounge chat	Társalgó csevegés
+Low	Alacsony
+Main menu	Főmenü
+Medium	Közepes
+Menu / help	Menü / súgó
+Next game starts in a moment…	A következő játszma mindjárt indul…
+No rated games yet. Be the first!	Még nincs értékelt játszma. Legyél te az első!
+Nobody else is here right now.	Most senki más nincs itt.
+Looking for a game?	Játszmát keresel?
+Looking for a game	Játszmát keres
+Post a note	Hirdetés feladása
+Everyone in the lounge sees it for 30 minutes	A társalgóban mindenki látja 30 percig
+What are you after? ({kind})	Mit keresel? ({kind})
+Post	Feladás
+Your note: {text}	A hirdetésed: {text}
+{mode} · {left} left	{mode} · még {left}
+Take down	Levétel
+Challenge	Kihívás
+Take the note down	Hirdetés levétele
+Off	Ki
+On the 8-ball: call a pocket	A 8-as jön: mondj be egy lyukat
+On the 8-ball	A 8-as jön
+Open table	Nyitott asztal
+Password	Jelszó
+Paused	Szünet
+Play	Játék
+Player 2	2. játékos
+Player	Játékos
+Quick aim	Gyors célzás
+Quit	Kilépés
+Reconnected.	Újracsatlakozva.
+Rematch	Visszavágó
+Resign this game	Játszma feladása
+Restart the game to apply this change.	A módosítás érvényesítéséhez indítsd újra a játékot.
+Resume	Folytatás
+Retry	Újra
+Saving the result…	Eredmény mentése…
+Say hello… (Enter to send)	Köszönj… (Enter a küldéshez)
+Send	Küldés
+Settings	Beállítások
+{key} + drag	{key} + húzás
+{key}: 3D / top view	{key}: 3D / felülnézet
+{keys}: zoom	{keys}: nagyítás
+View	Nézet
+Aim left	Célzás balra
+Aim right	Célzás jobbra
+Fine aim (hold)	Finom célzás (nyomva tartva)
+Shoot (hold, release)	Lökés (nyomd, majd engedd el)
+Top spin	Felső csavar
+Back spin	Alsó csavar
+Left spin	Bal csavar
+Right spin	Jobb csavar
+Raise the cue	Dákó emelése
+Lower the cue	Dákó leengedése
+Pick up the cue ball in hand	A kézben lévő fehér golyó felvétele
+3D / top view	3D / felülnézet
+Reset the camera	Kamera visszaállítása
+Replay the last shot	Az utolsó lökés visszajátszása
+List of controls	Irányítás listája
+Keys can be changed in Settings → Controls.	A billentyűk a Beállítások → Irányítás menüben módosíthatók.
+Space	Szóköz
+Right Shift	Jobb Shift
+Right Ctrl	Jobb Ctrl
+Right Alt	Jobb Alt
+Aiming and shooting	Célzás és lökés
+Spin and elevation	Csavar és dőlésszög
+Fixed keys	Rögzített billentyűk
+Menu, back and cancel	Menü, vissza és mégse
+Confirm (forms, the cue ball in hand)	Megerősítés (űrlapok, kézben lévő fehér golyó)
+This key can't be changed.	Ez a billentyű nem módosítható.
+Press a key · Esc cancels · Backspace clears	Nyomj meg egy billentyűt · Esc: mégse · Backspace: törlés
+Press a key…	Nyomj meg egy billentyűt…
+Click to change	Kattints a módosításhoz
+Click to add a key	Kattints billentyű hozzáadásához
+Back to no key	Vissza: nincs billentyű
+Back to {keys}	Vissza: {keys}
+Swapped: {action} is now on {key}.	Felcserélve: {action} most ezen van: {key}.
+Taken from {action}, which now has no key.	Elvéve innen: {action}; annak most nincs billentyűje.
+Taken from {action}.	Elvéve innen: {action}.
+That key can't be used: try another.	Ez a billentyű nem használható: próbálj másikat.
+Shoot	Lökés
+Short	Rövid
+Signing in…	Bejelentkezés…
+Signing in	Bejelentkezés
+Soft shadows from every lamp, glossy halls, halos.	Lágy árnyékok minden lámpától, fényes termek, fényudvarok.
+Solids (1–7)	Teli (1–7)
+Spin ball	Csavarválasztó
+Spin	Csavar
+Standard	Normál
+Stay	Maradok
+Stripes (9–15)	Csíkos (9–15)
+The game goes on while this is open.	A játék közben folytatódik.
+Use default	Alapértelmezett
+Username	Felhasználónév
+Usernames have 3–16 letters, digits or underscores.	A felhasználónév 3–16 betűből, számjegyből vagy aláhúzásjelből áll.
+{keys} (jump & massé)	{keys} (ugratás és massé)
+You win!	Nyertél!
+Your name	A neved
+Your opponent went back to the lounge.	Az ellenfeled visszament a társalgóba.
+Your turn	Te jössz
+open table: the next ball you make sets your group	nyitott asztal: a következő elrakott golyód dönti el a csoportodat
+draw	alsó
+follow	felső
+stun	stop
+solids	teli
+stripes	csíkos
+lounge	társalgó
+ · left english	 · bal csavar
+ · right english	 · jobb csavar
+Language	Nyelv
+General	Általános
+Graphics	Grafika
+Game	Játék
+Sound	Hang
+Reset to defaults	Alapértékek visszaállítása
+Reset all keys	Minden billentyű visszaállítása
+Reset every key?	Minden billentyűt visszaállítasz?
+Click again to put every key back	Kattints újra az összes billentyű visszaállításához
+Updates	Frissítések
+Update automatically	Automatikus frissítés
+New versions download in the background and install when you restart.	Az új verziók a háttérben töltődnek le, és újraindításkor települnek.
+Version {v}	Verzió: {v}
+What's new	Újdonságok
+What's new in version {v}	A(z) {v} verzió újdonságai
+No notes for this version.	Ehhez a verzióhoz nincsenek jegyzetek.
+Got it	Értem
+Restart now	Újraindítás most
+After the game, from the main menu.	A játszma után, a főmenüből.
+Download	Letöltés
+Check now	Ellenőrzés most
+Couldn't reach the update server.	Nem sikerült elérni a frissítési szervert.
+The download was damaged. It will be tried again later.	A letöltés megsérült. Később újra megpróbáljuk.
+The new version couldn't be installed. This one stays.	Az új verziót nem sikerült telepíteni. Marad a mostani.
+Downloading… {p}%	Letöltés… {p}%
+Updating…	Frissítés…
+The Microsoft Store keeps the game up to date.	A játékot a Microsoft Store tartja naprakészen.
+Development build: no automatic updates.	Fejlesztői változat: nincs automatikus frissítés.
+Looking for a new version…	Új verzió keresése…
+This is the latest version.	Ez a legújabb verzió.
+Downloading version {v}… {p}%	A(z) {v} verzió letöltése… {p}%
+Installing version {v}…	A(z) {v} verzió telepítése…
+Version {v} is ready: restart the game to use it.	A(z) {v} verzió kész: indítsd újra a játékot a használatához.
+Version {v} is out: download it from the releases page.	Megjelent a(z) {v} verzió: töltsd le a kiadások oldaláról.
+Version {v} is ready	A(z) {v} verzió kész
+Restart to play it; nothing is lost.	Indítsd újra a játékhoz; semmi sem vész el.
+Version {v} is out	Megjelent a(z) {v} verzió
+Get it from the releases page.	Töltsd le a kiadások oldaláról.
+Reset everything?	Mindent visszaállítasz?
+Click again to reset every setting	Kattints újra az összes beállítás visszaállításához
+Online	Online
+Menu	Menü
+Rating	Értékszám
+Ultra	Ultra
+hold {key} and release	tartsd nyomva: {key}, majd engedd el
+Change	Módosítás
+Mouse aim sensitivity	Egérrel célzás érzékenysége
+How fast the cue turns with the mouse.	Milyen gyorsan fordul a dákó az egérrel.
+Vignette	Vignetta
+Darkens the edges of the picture, like a film.	Elsötétíti a kép széleit, mint egy filmen.
+Show FPS	FPS mutatása
+Frames per second, in a corner of the screen.	Képkocka másodpercenként, a képernyő egyik sarkában.
+Call a pocket for the 8-ball first: click a pocket.	Előbb mondj be egy lyukat a 8-as golyóhoz: kattints egy lyukra.
+Reconnecting	Újracsatlakozás
+the game is over	a játszma véget ért
+the cue ball cannot be placed there	a fehér golyó nem tehető oda
+call a pocket for the 8-ball	mondj be egy lyukat a 8-as golyóhoz
+That username is taken.	Ez a felhasználónév foglalt.
+Wrong username or password.	Hibás felhasználónév vagy jelszó.
+Your session expired. Please log in again.	A munkameneted lejárt. Jelentkezz be újra.
+This version of Snook Legend is out of date. Please update the game.	A Snook Legend ezen verziója elavult. Frissítsd a játékot.
+It's not your turn.	Nem te jössz.
+That player is not online.	Ez a játékos nincs online.
+That player is in a game.	Ez a játékos éppen játszik.
+You can't invite yourself.	Saját magadat nem hívhatod meg.
+That invitation is no longer valid.	Ez a meghívás már nem érvényes.
+That player is no longer available.	Ez a játékos már nem elérhető.
+Resign first to leave a game in progress.	Folyamatban lévő játszmából csak feladással léphetsz ki.
+Malformed message.	Hibás formátumú üzenet.
+Please log in first.	Előbb jelentkezz be.
+Could not create the account.	Nem sikerült létrehozni a fiókot.
+The cue ball can't be placed there.	A fehér golyó nem tehető oda.
+Disconnected.	Kapcsolat bontva.
+Lost contact with the server.	Megszakadt a kapcsolat a szerverrel.
+The server closed the connection.	A szerver bontotta a kapcsolatot.
+The server took too long to answer.	A szerver túl lassan válaszolt.
+The server is not answering (connection refused).	A szerver nem válaszol (kapcsolat elutasítva).
+The server address is not valid (example: wss://snook-legend.example.com/ws).	A szerver címe érvénytelen (például: wss://snook-legend.example.com/ws).
+The server address has no host name.	A szerver címében nincs gépnév.
+Welcome to Snook Legend! Be kind, play fair.	Üdv a Snook Legendben! Légy kedves, játssz sportszerűen.
+Ball in hand: drag the cue ball{zone} to move it	Golyó kézben: húzd a fehér golyót{zone} a mozgatáshoz
+ behind the line	 a vonal mögé
+Ball in hand  ·  {group}	Golyó kézben  ·  {group}
+Can't shoot: {e}.	Nem lehet lökni: {e}.
+Chat ({n})	Csevegés ({n})
+Computer ({level})	Gép ({level})
+Computer	Gép
+Each opponent has a style of their own	Minden ellenfélnek saját stílusa van
+Free game	Szabad játszma
+Tour	Körverseny
+Tour: {n} of {total} beaten	Körverseny: {n}/{total} legyőzve
+Strength {n}/5	Erősség: {n}/5
+Ghost	Szellem
+Accuracy	Pontosság
+Safeties	Biztonsági lökések
+Banks	Falszél-lökések
+Position	Pozíció
+Ghost of {name}	Szellem: {name}
+A player's ghost	Egy játékos szelleme
+Plays like a real player	Úgy játszik, mint egy valódi játékos
+The computer plays in the style of a real player, measured on their online games.	A gép egy valódi játékos stílusában játszik, az online játszmái alapján.
+Sign in to play the ghost of a real player.	Jelentkezz be, hogy egy valódi játékos szelleme ellen játszhass.
+Load	Betöltés
+Friends:	Barátok:
+Type a username or pick a friend, then Load.	Írj be egy felhasználónevet, vagy válassz egy barátot, majd Betöltés.
+Measuring how {name} plays…	Játékstílus felmérése: {name}…
+Pots {pots}% · safeties {safe}% · banks {banks}% · {shots} shots	Elrakás {pots}% · biztonsági {safe}% · falszél {banks}% · {shots} lökés
+{name} has only {shots} recorded shots; a ghost needs {needed}. More online games will do it.	{name} még csak {shots} rögzített lökéssel rendelkezik; egy szellemhez {needed} kell. Több online játszmával meglesz.
+There is no player called {name}.	Nincs ilyen nevű játékos: {name}.
+The server can't be reached right now. Try again later.	A szerver most nem érhető el. Próbáld újra később.
+Wait a moment before asking again.	Várj egy kicsit, mielőtt újra kéred.
+Something went wrong on the server. Try again later.	Hiba történt a szerveren. Próbáld újra később.
+Play your ghost	Játék a saját szellemed ellen
+Play their ghost	Játék a szelleme ellen
+Beaten	Legyőzve
+Next	Következő
+Win the previous stage to unlock this one.	Ennek feloldásához nyerd meg az előző szakaszt.
+Stage {n} of {total}	{n}. szakasz / {total}
+Challenge {name}	Kihívás: {name}
+Stage {n} won! Next on the tour: {name}.	{n}. szakasz megnyerve! A körverseny következő ellenfele: {name}.
+You won the whole tour!	Megnyerted az egész körversenyt!
+Reward	Jutalom
+{item} cue · exclusive	{item} dákó · exkluzív
+Yours: find it in the shop, under Cues.	A tiéd: a boltban találod, a Dákók között.
+Win the last stage again while signed in to claim it.	Bejelentkezve nyerd meg újra az utolsó szakaszt, hogy megkapd.
+Beat all fifteen opponents to earn it. It is sold nowhere.	Győzd le mind a tizenöt ellenfelet, hogy megszerezd. Sehol nem kapható.
+You won the tour! Sign in to claim your reward.	Megnyerted a körversenyt! Jelentkezz be, hogy megkapd a jutalmadat.
+The server is checking your final game…	A szerver ellenőrzi a döntő játszmádat…
+Try again	Újra
+The server did not answer. Try again in a moment.	A szerver nem válaszolt. Próbáld újra egy kicsit később.
+The server is busy checking other games. Try again in a moment.	A szerver más játszmák ellenőrzésével van elfoglalva. Próbáld újra egy kicsit később.
+Wait a minute before trying again.	Várj egy percet, mielőtt újra próbálkozol.
+That game is too long to be checked.	Ez a játszma túl hosszú az ellenőrzéshez.
+That game has a move the rules don't allow.	Ebben a játszmában van egy, a szabályok által nem engedett lépés.
+That game was not played to the end.	Ezt a játszmát nem játszották végig.
+That game was not a win.	Ez a játszma nem győzelem volt.
+The computer's shots in that game don't match how it plays (another version of the game?).	A gép lökései ebben a játszmában nem egyeznek a játékstílusával (a játék egy másik verziója?).
+The Rookie	Az Újonc
+Still learning: aims at the nearest pocket, centre ball, and hopes. Never plays safe.	Még tanul: a legközelebbi lyukra céloz, középen lök, és reménykedik. Soha nem játszik biztonságira.
+The Weekend Player	A Hétvégi Játékos
+Knows the basics and drops the easy ones, but rarely thinks about where the cue ball goes.	Ismeri az alapokat és elrakja a könnyűeket, de ritkán gondol arra, hová kerül a fehér golyó.
+The Bank Artist	A Falszél Művésze
+Sees angles nobody else does: whenever a ball can go off a cushion and in, she banks it.	Olyan szögeket lát, amilyeneket senki más: ha egy golyó falszélről beférhet, ő bele is teszi.
+The Cannon	Az Ágyú
+Goes for everything, as hard as he can: long pots, thunderous breaks, hardly ever a safety.	Mindent megpróbál, teljes erőből: hosszú lökések, mennydörgő kezdőlökések, biztonsági lökés szinte soha.
+The Wall	A Fal
+Only shoots when the pot is on. Otherwise she tucks the cue ball away and waits for your mistake.	Csak akkor lök, ha az elrakás biztos. Különben elbújtatja a fehér golyót, és a hibádra vár.
+The Old Pro	Az Öreg Profi
+Forty years at the table: a smooth stroke, a raised cue, side spin, and never in a hurry.	Negyven év az asztalnál: sima lökés, megemelt dákó, oldalcsavar, és soha nem siet.
+The Hustler	A Cápa
+Plays just well enough to win, then a little better. Balanced, sharp and hard to read.	Épp csak annyira jól játszik, hogy nyerjen, aztán egy kicsit jobban. Kiegyensúlyozott, éles eszű és kiszámíthatatlan.
+The Professor	A Professzor
+Thinks three balls ahead: every shot leaves the cue ball where the next one is easy.	Három golyóval előre gondolkodik: minden lökés után ott áll a fehér, ahonnan a következő könnyű.
+The Sharpshooter	A Mesterlövész
+Pots from anywhere, at any angle. Her safeties are an afterthought: she doesn't need them.	Bárhonnan, bármilyen szögből elrakja. A biztonsági lökésekkel nem törődik: nincs rájuk szüksége.
+The Champion	A Bajnok
+Unbeaten for years. Precise, patient and merciless: the last stage of the tour.	Évek óta veretlen. Pontos, türelmes és kíméletlen: a körverseny utolsó szakasza.
+Tour champion	Körversenybajnok
+Champion of the tour	A körverseny bajnoka
+Beat all fifteen opponents of the computer tour.	Győzd le a gép elleni körverseny mind a tizenöt ellenfelét.
+Connection lost. Reconnecting (attempt {n})…	Megszakadt a kapcsolat. Újracsatlakozás ({n}. próbálkozás)…
+Connection lost. Reconnecting…	Megszakadt a kapcsolat. Újracsatlakozás…
+Foul by {shooter}: {foul}.	Szabálytalanság – {shooter}: {foul}.
+Graphics set to {q} for smooth play. You can change this in Settings.	A grafika beállítása: {q}, a gördülékeny játékért. A Beállításokban módosíthatod.
+Rating {r} ({d})	Értékszám: {r} ({d})
+The {ball} was spotted.	Visszakerült az asztalra: {ball}.
+Waiting for {to} ({kind})…	Várakozás: {to} ({kind})…
+rated	értékelt
+casual	barátságos
+Waiting for {name}…	Várakozás: {name}…
+{by} declined your invitation.	{by} elutasította a meghívásodat.
+a rated game	értékelt játszma
+a casual game	barátságos játszma
+{name} calls the 8-ball in the {pocket} pocket.	{name} bemondja a 8-ast: {pocket}.
+{name} has ball in hand…	{name}: golyó kézben…
+{name} is aiming…	{name} céloz…
+{name} is on the 8: click a pocket to call it	{name} a 8-asra jön: kattints egy lyukra a bemondáshoz
+{name} is thinking…	{name} gondolkodik…
+{name} left the game.	{name} kilépett a játszmából.
+{name} resigned.	{name} feladta.
+{name} to break	Kezdőlökés: {name}
+{name} to shoot ({target})	{name} lök ({target})
+{name}'s turn	{name} jön
+{next} has ball in hand{where}.	{next}: golyó kézben{where}.
+ behind the head string	 a kezdővonal mögött
+{opponent} is back.	{opponent} visszatért.
+{opponent} lost the connection. Waiting up to {secs} s…	{opponent} kapcsolata megszakadt. Várakozás legfeljebb {secs} mp-ig…
+{opponent} wants a rematch.	{opponent} visszavágót szeretne.
+{opponent} went back to the lounge.	{opponent} visszament a társalgóba.
+{shooter} pocketed {balls}.	{shooter} elrakta: {balls}.
+{shooter} takes {group}.	{shooter} golyói: {group}.
+{who} ran out of time: ball in hand for the opponent.	{who} ideje lejárt: golyó kézben az ellenfélnek.
+{name} wants a rematch!	{name} visszavágót szeretne!
+{name} wins!	{name} nyert!
+{name} wins	{name} nyert
+Volume	Hangerő
+The cue, the balls, the cushions and the pockets.	A dákó, a golyók, a falszélek és a lyukak.
+Notifications	Értesítések
+Could not find the server “{host}”.	Nem található a szerver: „{host}”.
+Network error: {e}.	Hálózati hiba: {e}.
+Secure connection failed: {e}.	A biztonságos kapcsolat sikertelen: {e}.
+The server refused the connection (HTTP {code}).	A szerver elutasította a kapcsolatot (HTTP {code}).
+Connection error: {e}.	Kapcsolódási hiba: {e}.
+cue ball	fehér golyó
+{n}-ball	{n}. számú golyó
+Scratch: the cue ball was pocketed	Beesett a fehér golyó
+The cue ball left the table	A fehér golyó leesett az asztalról
+The cue ball didn't hit any ball	A fehér golyó nem talált el egy golyót sem
+Wrong ball hit first ({ball})	Először rossz golyót talált el ({ball})
+No ball reached a cushion after contact	Az érintés után egy golyó sem ért falszélt
+The {ball} left the table	Leesett az asztalról: {ball}
+Illegal break	Szabálytalan kezdőlökés
+pocketed the 8-ball	elrakta a 8-as golyót
+opponent pocketed the 8-ball too early	az ellenfél túl korán rakta el a 8-as golyót
+opponent sank the 8-ball in the wrong pocket	az ellenfél rossz lyukba rakta el a 8-as golyót
+opponent fouled on the 8-ball	az ellenfél szabálytalanságot követett el a 8-as golyónál
+opponent knocked the 8-ball off the table	az ellenfél leütötte a 8-as golyót az asztalról
+opponent resigned	az ellenfél feladta
+opponent left the game	az ellenfél kilépett a játszmából
+head left corner	kezdőoldali bal sarok
+head right corner	kezdőoldali jobb sarok
+left side	bal középső lyuk
+right side	jobb középső lyuk
+foot left corner	hátsó bal sarok
+foot right corner	hátsó jobb sarok
+Easy	Könnyű
+Hard	Nehéz
+Normal	Normál
+Power	Erő
+No messages yet.	Még nincsenek üzenetek.
+▼ newer messages	▼ újabb üzenetek
+Camera follows the cue	A kamera követi a dákót
+Off: it stays where you put it.	Ki: ott marad, ahová teszed.
+Pull back for shots	Hátrahúzódás lökéskor
+Only when the camera follows the cue.	Csak ha a kamera követi a dákót.
+Drag the cue · click a spot	Húzd a dákót · kattints egy pontra
+Time's up: {name}'s shot was played at full power.	Lejárt az idő: {name} lökése teljes erővel ment el.
+Dark room	Sötét terem
+A spotlight on the table, the room in shadow.	Reflektor az asztalon, a terem árnyékban.
+Hide	Elrejtés
+Interface size	Felület mérete
+Text, buttons and panels.	Szövegek, gombok és panelek.
+Drag to set the power	Húzd az erő beállításához
+Shoot!	Lökés!
+Set the power, then press the green button	Állítsd be az erőt, majd nyomd meg a zöld gombot
++{n} coins · {why}	+{n} érme · {why}
+16-player tournaments, and first place on the waiting list of a full one	16 fős versenyek, és első hely a betelt versenyek várólistáján
+30 minutes: play as many games as you can. A win is 2 points, 4 from the third win in a row.	30 perc: játssz annyi játszmát, amennyit csak tudsz. A győzelem 2 pont, a sorozatban harmadiktól 4.
+A crown by your name, everywhere (lounge, profile, ranking)	Korona a neved mellett mindenhol (társalgó, profil, ranglista)
+Account	Fiók
+Add friends to give them items.	Adj hozzá barátokat, hogy tárgyakat ajándékozhass nekik.
+Arena	Aréna
+Arena · host {host} · {n} players · {kind}	Aréna · házigazda: {host} · {n} játékos · {kind}
+Buy now	Megveszem
+Buying…	Vásárlás…
+Change password	Jelszó módosítása
+Click again to delete	Kattints újra a törléshez
+Got a code? Type it here	Van kódod? Írd be ide
+Confirm purchase	Vásárlás megerősítése
+Copied: send it to a friend.	Kimásolva: küldd el egy barátodnak.
+Copy	Másolás
+Current	Jelenlegi
+Delete account	Fiók törlése
+Entry	Nevezési díj
+Entry {n} coins	Nevezési díj: {n} érme
+Every replay kept (free players keep their last 10 games)	Minden visszajátszás megmarad (ingyenes játékosoknál az utolsó 10 játszma)
+For {name}	Neki: {name}
+Add a message (optional)	Írj üzenetet (nem kötelező)
+Format	Formátum
+Frames	Keretek
+Free	Ingyenes
+Get coins	Érmék szerzése
+Gift sent!	Ajándék elküldve!
+Give as a gift	Ajándékozás
+Give it	Odaadom
+Give to a friend	Ajándék egy barátnak
+Great!	Szuper!
+If you forget your password, we confirm it's you by this e-mail.	Ha elfelejted a jelszavad, ezen az e-mail-címen ellenőrizzük, hogy te vagy-e az.
+Invite with a code	Meghívás kóddal
+It goes on right away. Items only change the look, never the game.	Azonnal használatba kerül. A tárgyak csak a kinézetet változtatják, a játékot soha.
+Join my table in Snook Legend:	Ülj le az asztalomhoz a Snook Legendben:
+Join the waiting list	Feliratkozás a várólistára
+Join · {n} coins	Csatlakozás · {n} érme
+Knockout	Kieséses
+Name colour	Névszín
+Name colours for the lounge and exclusive frames, cloth, cues, balls and effects	Névszínek a társalgóban, valamint exkluzív keretek, posztók, dákók, golyók és effektek
+New	Új
+No, thanks	Nem, köszönöm
+Nothing that wins games: VIP only changes the look	Semmi, amivel játszmát lehet nyerni: a VIP csak a kinézetet változtatja
+Numbers	Számok
+ON TV	A TV-BEN
+Play rated games to see your rating here.	Játssz értékelt játszmákat, hogy itt lásd az értékszámodat.
+No rated games yet.	Még nincs értékelt játszma.
+Price	Ár
+Prizes {a} + {b}	Nyeremény: {a} + {b}
+Protect your purchases	Védd meg a vásárlásaidat
+Purchase complete!	Sikeres vásárlás!
+Recovery e-mail	Helyreállítási e-mail
+Save	Mentés
+The fees make the prize: 70% to the champion, 20% to the runner-up.	A nevezési díjakból áll össze a nyeremény: 70% a bajnoké, 20% a második helyezetté.
+The server restarts in {m}:{s} for an update. Games in progress go on.	A szerver {m}:{s} múlva újraindul egy frissítés miatt. A folyamatban lévő játszmák folytatódnak.
+Use this e-mail	Ezt az e-mailt használom
+Use {email} to recover your account if you ever forget your password?	Használjuk a(z) {email} címet a fiókod helyreállításához, ha egyszer elfelejtenéd a jelszavad?
+Watch	Nézés
+Watch again	Újranézés
+Winning effects	Győzelmi effektek
+Halls	Termek
+You are paired as soon as you and an opponent are free.	Amint te és egy ellenfél is szabadok vagytok, párba állítunk.
+You can change it any time in your profile (Account).	Bármikor módosíthatod a profilodban (Fiók).
+You need {n} more coins.	Még {n} érme kell.
+Your account	A fiókod
+Your account was deleted.	A fiókod törölve.
+Your coins	Az érméid
+Your friend gets it right away.	A barátod azonnal megkapja.
+Your game against {name} is starting.	Indul a játszmád. Ellenfél: {name}.
+Your name, e-mail, friends and items are erased for good. Your opponents keep the games you played (without your name).	A neved, e-mail-címed, barátaid és tárgyaid végleg törlődnek. Az ellenfeleid megtartják a veled játszott játszmákat (a neved nélkül).
+balls per game	golyó játszmánként
+best run ever	valaha volt legjobb sorozat
+daily bonus	napi bónusz
+entry fee back	nevezési díj vissza
+for the game	a játszmáért
+for the win	a győzelemért
+games counted	beszámított játszmák
+Analysis	Elemzés
+The shot analysis isn't available on this server yet.	A lökéselemzés ezen a szerveren még nem érhető el.
+Only online accounts have a shot analysis.	Lökéselemzés csak online fiókokhoz van.
+Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Játssz online, hogy lásd, hogyan rakod el a golyókat: az elemzés még {n} lyukra mért lökés után jelenik meg.
+{name} hasn't played enough online games for an analysis yet.	{name} még nem játszott elég online játszmát egy elemzéshez.
+1 game	1 játszma
+{pct}% of {n} shots at a pocket potted · {games}	{pct}% elrakva {n} lyukra mért lökésből · {games}
+{made} of {n} potted ({pct})	{made}/{n} elrakva ({pct})
+By kind of shot	Lökéstípus szerint
+shots	lökés
+Straight	Egyenes
+Cut 8–25°	Vágás 8–25°
+Cut 25–45°	Vágás 25–45°
+Thin cut 45°+	Vékony vágás 45°+
+Bank	Falszél
+Kick	Falszéles találat
+Combination	Kombináció
+Jump	Ugratás
+Massé	Massé
+Break	Kezdőlökés
+By distance	Távolság szerint
+Short (under 0.75 m)	Rövid (0,75 m alatt)
+Medium (to 1.5 m)	Közepes (1,5 m-ig)
+Long (over 1.5 m)	Hosszú (1,5 m felett)
+left the opponent nothing	semmit sem hagyott az ellenfélnek
+Breaks	Kezdőlökések
+made a ball	golyót rakott el
+Potted	Elrakva
+Missed	Kihagyva
+Where and in which pocket	Hol és melyik lyukba
+{pocket}: {made} of {n} potted	{pocket}: {made}/{n} elrakva
+Where the potted balls were	Hol voltak az elrakott golyók
+Where the missed balls were	Hol voltak a kihagyott golyók
+few	kevés
+many	sok
+{made} potted · {missed} missed ({pct})	{made} elrakva · {missed} kihagyva ({pct})
+Top left corner	Bal felső sarok
+Bottom left corner	Bal alsó sarok
+Top side pocket	Felső középső lyuk
+Bottom side pocket	Alsó középső lyuk
+Top right corner	Jobb felső sarok
+Bottom right corner	Jobb alsó sarok
+games left unfinished	félbehagyott játszmák
+potting success	lökéspontosság
+shots with a foul	szabálytalan lökések
+starts in {n} min	{n} perc múlva kezdődik
+tournament prize	versenynyeremény
+The dark room hides the hall around the table.	A sötét terem elrejti az asztal körüli termet.
+Show the hall	A terem mutatása
+Level {n} · 1 win	{n}. szint · 1 győzelem
+Level {n} · {w} wins	{n}. szint · {w} győzelem
+{left} more online wins with this cue for level {n}. Levels only add marks to the cue.	Még {left} online győzelem ezzel a dákóval a(z) {n}. szinthez. A szintek csak jeleket tesznek a dákóra.
+The top level: this cue has every mark.	A legmagasabb szint: ezen a dákón minden jel megvan.
+Your cue {cue} reached level {n}!	A dákód szintet lépett: {cue} · {n}. szint!
+Most wins: {cue} (level {n})	Legtöbb győzelem: {cue} ({n}. szint)
+{games} games · {rate}% won · {balls} balls made	{games} játszma · {rate}% győzelem · {balls} elrakott golyó
+vs	vs
+{from} gave you {item}!	{from} megajándékozott: {item}!
+You received a gift!	Ajándékot kaptál!
+From	Feladó
+To	Címzett
+someone	valaki
+A month of VIP	Egy hónap VIP
+Thank	Megköszönöm
+Thanked	Megköszönve
+They thanked you	Megköszönte
+Use it now	Használom most
+Later	Később
+OK	OK
+Next ({n} more)	Következő (még {n})
+{from} gave you {item}! It's waiting for you in the lounge.	{from} megajándékozott: {item}! A társalgóban vár rád.
+{name} thanked you for {item}.	{name} megköszönte az ajándékot: {item}.
+Gifts	Ajándékok
+No gifts yet. Friends can give you items from the shop.	Még nincs ajándékod. A barátaid ajándékozhatnak neked tárgyakat a boltból.
+{item} is yours and already in use.	A tiéd, és már használatban is van: {item}.
+{m}:{s} left	még {m}:{s}
+{name} invites you to play.	{name} meghív egy játszmára.
+{name} is online.	{name} online.
+{name} ran out of time.	{name} ideje lejárt.
+{name} received {item}.	{name} megkapta: {item}.
+{n} pts · {g} games	{n} pont · {g} játszma
+{n} watching · avg {r}	{n} néző · átlag {r}
+{title}: {how}	{title}: {how}
+Olive	Olíva
+Navy	Tengerészkék
+Forest	Erdő
+Slate grey	Palaszürke
+Red wine	Vörösbor
+Burnt orange	Égetett narancs
+Dusty rose	Fakó rózsa
+Sand	Homok
+Ice blue	Jégkék
+Lime	Lime
+Black tie	Szmoking
+Cobalt	Kobalt
+Emerald	Smaragd
+Natural maple	Natúr juhar
+Beach bar	Strandbár
+Modern	Modern
+English club	Angol klub
+Ebony & gold	Ében és arany
+Pool hall	Biliárdterem
+Industrial loft	Ipari loft
+Steel & oak	Acél és tölgy
+Tournament	Verseny
+Victorian walnut	Viktoriánus dió
+Ivory deco	Elefántcsont deco
+Mountain lodge	Hegyi menedékház
+Neon arcade	Neon játékterem
+Art deco lounge	Art deco szalon
+Skyline penthouse	Panorámás penthouse
+Walnut	Dió
+Zebrawood	Zebrafa
+Bocote	Bocote
+Deep ocean	Mélytenger
+Cherry	Cseresznye
+Jade	Jade
+Tiger	Tigris
+Amethyst	Ametiszt
+Arctic carbon	Sarki karbon
+Inferno	Pokol
+Obsidian gold	Obszidián és arany
+Tan chalk	Bézs kréta
+Grey chalk	Szürke kréta
+Orange chalk	Narancs kréta
+Pink chalk	Rózsaszín kréta
+Teal chalk	Kékeszöld kréta
+Yellow chalk	Sárga kréta
+Black chalk	Fekete kréta
+White chalk	Fehér kréta
+Silver chalk	Ezüst kréta
+TV set	TV-szett
+Earth tones	Földszínek
+Ocean	Óceán
+Sunset	Naplemente
+Candy	Cukorka
+Pearl	Gyöngy
+Monochrome	Monokróm
+Chrome	Króm
+Gold rush	Aranyláz
+No frame	Nincs keret
+Bronze	Bronz
+Silver	Ezüst
+Gold	Arany
+Green felt	Zöld posztó
+Mahogany	Mahagóni
+Ice	Jég
+Fire	Tűz
+Diamond	Gyémánt
+VIP crown	VIP korona
+Rose gold	Rozéarany
+Aqua	Akvamarin
+Violet	Ibolya
+Ember	Parázs
+Mint	Menta
+Frost	Dér
+No effect	Nincs effekt
+Sparks	Szikrák
+Confetti	Konfetti
+Shockwave	Lökéshullám
+Coin shower	Érmeeső
+Flames	Lángok
+Royal sparks	Királyi szikrák
+Tier colour	Szint színe
+16-player tournaments are for VIP members.	A 16 fős versenyek VIP-tagoknak szólnak.
+A seat opened: you are in the tournament!	Felszabadult egy hely: bekerültél a versenybe!
+Entry fees go up to 1000 coins.	A nevezési díj legfeljebb 1000 érme lehet.
+Guests can't play for coins.	Vendégek nem játszhatnak érmékért.
+Only items sold for coins can be given.	Csak érmékért kapható tárgyakat lehet ajándékozni.
+Password changed.	Jelszó módosítva.
+Passwords need 8 or more characters, not only digits.	A jelszó legalább 8 karakter legyen, ne csak számjegy.
+Recovery e-mail removed.	Helyreállítási e-mail eltávolítva.
+Recovery e-mail saved.	Helyreállítási e-mail mentve.
+Something went wrong. Please try again.	Hiba történt. Próbáld újra.
+That code is not valid (or the table was closed).	Ez a kód érvénytelen (vagy az asztalt bezárták).
+That doesn't look like an e-mail address.	Ez nem tűnik e-mail-címnek.
+That game is over.	Ez a játszma véget ért.
+The current password is wrong.	A jelenlegi jelszó hibás.
+The server is restarting.	A szerver újraindul.
+The server is restarting: new games start in a moment.	A szerver újraindul: az új játszmák mindjárt indulnak.
+The tournament is full: you are on the waiting list.	A verseny megtelt: felkerültél a várólistára.
+This replay is not available.	Ez a visszajátszás nem érhető el.
+You can only give items to your friends.	Csak a barátaidnak ajándékozhatsz tárgyakat.
+Your friend already has this item.	A barátodnak már megvan ez a tárgy.
+16 (VIP)	16 (VIP)
+VIP isn't sold in this version of the game.	A VIP a játék ezen verziójában nem vásárolható meg.
+In this version of the game, coins are earned by playing:	A játék ezen verziójában érméket játékkal lehet szerezni:
+rated games, and a bonus every day you play.	értékelt játszmákkal, és bónusszal minden nap, amikor játszol.
+Coins are earned by playing:	Érméket játékkal lehet szerezni:
+If you like, you can also buy them:	Ha szeretnéd, vásárolhatsz is:
+one month	egy hónap
+already VIP	már VIP
+Give a month to a friend · {p}	Egy hónap ajándékba egy barátnak · {p}
+{from} gave you a month of VIP!	{from} egy hónap VIP-et ajándékozott neked!
+{name} received a month of VIP.	{name} egy hónap VIP-et kapott.
+Your friend is already VIP.	A barátod már VIP.
+Game in progress: {n} balls left	Folyamatban lévő játszma: még {n} golyó
+Continue	Folytatás
+Missions	Küldetések
+Board	Hirdetőtábla
+Today	Ma
+This week	Ezen a héten
+new missions in {t}	új küldetések: {t} múlva
+ends in {t}	vége: {t} múlva
+{n} days	{n} nap
+{n} h	{n} ó
+{n} min	{n} perc
+mission complete	küldetés teljesítve
+Missions count rated games played to the end. The coins arrive as soon as one is complete.	A küldetések a végigjátszott értékelt játszmákat számolják. Az érmék azonnal megérkeznek, amint egy teljesül.
+Nothing on the board right now.	Most nincs semmi a hirdetőtáblán.
+Open tournaments	Nyitott versenyek
+{n}/{size} players	{n}/{size} játékos
+starts in {t}	kezdés: {t} múlva
+entry {n} coins	nevezési díj: {n} érme
+See	Megnézem
+Play {n} rated games	Játssz {n} értékelt játszmát
+Win {n} rated games	Nyerj {n} értékelt játszmát
+Pot {n} balls	Rakj el {n} golyót
+Pot {n} balls with spin	Rakj el {n} golyót csavarral
+Pot 3 balls in a row in one visit	Rakj el 3 golyót egymás után egy körben
+Win a game without a foul	Nyerj egy játszmát szabálytalanság nélkül
+Pot 3 balls in a row {n} times	Rakj el 3 golyót egymás után, {n} alkalommal
+Win {n} games without a foul	Nyerj {n} játszmát szabálytalanság nélkül
+TV camera when watching	TV-kamera nézéskor
+Broadcast angles for other players' games and replays.	Közvetítési nézőpontok mások játszmáihoz és a visszajátszásokhoz.
+System notifications	Rendszerértesítések
+Invites, friends coming online and games starting, while you're away.	Meghívások, online belépő barátok és induló játszmák, amíg nem vagy itt.
+{name} starts in a few minutes: get ready!	{name}: néhány perc múlva kezdődik, készülj!
+{name} starts in a few minutes: there is still room.	{name}: néhány perc múlva kezdődik, még van hely.
+{name} has started!	{name}: elkezdődött!
+Momentum	Lendület
+Shot map	Lökéstérkép
+No shots yet.	Még nincs lökés.
+made	elrakva
+missed	kihagyva
+foul	szabálytalanság
+See the tournaments	Versenyek megtekintése
+Open the shop	Bolt megnyitása
+See VIP	VIP megtekintése
+See the missions	Küldetések megtekintése
+A new version of the game is out: update to play online.	Megjelent a játék új verziója: frissíts az online játékhoz.
+Update in the Microsoft Store	Frissítés a Microsoft Store-ban
+Update now	Frissítés most
+Download the new version	Új verzió letöltése
+New version out	Új verzió érhető el
+Get the new version to play online	Töltsd le az új verziót az online játékhoz
+Cheer for {name}	Szurkolás: {name}
+Crowd: {a} for {p0}, {b} for {p1}	Közönség: {p0} – {a}, {p1} – {b}
+welcome pack	üdvözlőcsomag
+Welcome pack	Üdvözlőcsomag
+Cue “{cue}”, cloth “{cloth}” and {n} coins · only once, sold nowhere else	„{cue}” dákó, „{cloth}” posztó és {n} érme · csak egyszer, máshol nem kapható
+Lagoon	Lagúna
+You already have the welcome pack.	Az üdvözlőcsomag már a tiéd.
+Your welcome pack is here!	Megérkezett az üdvözlőcsomagod!
+Previous shot (←)	Előző lökés (←)
+Next shot (→)	Következő lökés (→)
+Play (Space)	Lejátszás (Szóköz)
+Pause (Space)	Szünet (Szóköz)
+Speed	Sebesség
+Shot {n} of {total}	{n}. lökés / {total}
+For VIP members	VIP-tagoknak
+{n} reactions of your own to send during games	{n} saját reakció, amelyet játszma közben küldhetsz
+Items {a}–{b} of {n}	Tárgyak: {a}–{b} / {n}
+(message deleted by its author)	(az üzenetet a szerzője törölte)
+(message deleted by an administrator)	(az üzenetet egy adminisztrátor törölte)
+Delete (it shows as deleted)	Törlés (töröltként jelenik meg)
+Remove without a trace	Eltávolítás nyomtalanul
+The chat was cleared by {name}.	A csevegést törölte: {name}.
+Click again to clear	Kattints újra a törléshez
+Clear the chat	Csevegés törlése
+Players' chat (administrator)	Játékosok csevegése (adminisztrátor)
+Play the computer while you wait	Játssz a gép ellen, amíg vársz
+Looking for an opponent… {t} · the game starts as soon as one is found	Ellenfél keresése… {t} · a játszma azonnal indul, amint találunk valakit
+Stop	Leállítás
+# Coin packs and months of VIP bought in the Microsoft Store (the Store build).
+The Microsoft Store couldn't complete the purchase.	A Microsoft Store nem tudta befejezni a vásárlást.
+The Microsoft Store couldn't confirm the purchase right now. Its coins arrive the next time you open the shop.	A Microsoft Store most nem tudta megerősíteni a vásárlást. Az érmék a bolt következő megnyitásakor érkeznek meg.
+{n} coins added to your wallet.	{n} érme bekerült a pénztárcádba.
+Microsoft is confirming your purchase: the coins arrive in a moment.	A Microsoft megerősíti a vásárlásodat: az érmék mindjárt megérkeznek.
+The purchase hasn't reached us yet. Its coins arrive the next time you open the shop.	A vásárlás még nem jutott el hozzánk. Az érmék a bolt következő megnyitásakor érkeznek meg.
+Loading prices from the Microsoft Store…	Árak betöltése a Microsoft Store-ból…
+Coins can't be bought in this version yet.	Ebben a verzióban még nem lehet érmét vásárolni.
+Finish the purchase in the Microsoft Store window…	Fejezd be a vásárlást a Microsoft Store ablakában…
+Confirming your purchase…	Vásárlás megerősítése…
+Paid in the Microsoft Store, with your Microsoft account.	Fizetés a Microsoft Store-ban, a Microsoft-fiókoddal.
+The Microsoft Store can't be reached right now. Try again in a moment.	A Microsoft Store most nem érhető el. Próbáld újra egy kicsit később.
+The Microsoft Store could not confirm the purchase.	A Microsoft Store nem tudta megerősíteni a vásárlást.
+Sign in to the Microsoft Store with your Microsoft account, then open the shop again.	Jelentkezz be a Microsoft Store-ba a Microsoft-fiókoddal, majd nyisd meg újra a boltot.
+The Microsoft Store couldn't confirm the purchase right now. Your VIP month starts the next time you open the shop.	A Microsoft Store most nem tudta megerősíteni a vásárlást. A VIP-hónapod a bolt következő megnyitásakor indul.
+You are VIP until {d}, and {n} coins were added to your wallet.	VIP vagy eddig: {d}, és {n} érme bekerült a pénztárcádba.
+Microsoft is confirming your purchase: your VIP month starts in a moment.	A Microsoft megerősíti a vásárlásodat: a VIP-hónapod mindjárt indul.
+The purchase hasn't reached us yet. Your VIP month starts the next time you open the shop.	A vásárlás még nem jutott el hozzánk. A VIP-hónapod a bolt következő megnyitásakor indul.
+A month at a time: nothing renews by itself	Egyszerre egy hónap: semmi sem újul meg magától
+Add a month · {p}	Még egy hónap · {p}
+A month of VIP · {p}	Egy hónap VIP · {p}
+The new month starts when this one ends.	Az új hónap akkor kezdődik, amikor ez véget ér.
+Trophies	Trófeák
+No trophies yet.	Még nincsenek trófeák.
+Tournament won · {n} players	Megnyert verseny · {n} játékos
+The computer tour	A gép elleni körverseny
+All fifteen opponents beaten	Mind a tizenöt ellenfél legyőzve
+Daily challenge	Napi kihívás
+First of {n} players	Első lett {n} játékosból
+Easy shot	Könnyű lökés
+Fair shot	Közepes lökés
+Hard shot	Nehéz lökés
+Very hard shot	Nagyon nehéz lökés
+~{n}% chance	~{n}% esély
+No ball goes down as aimed	Így egy golyó sem esik be
+straight in	egyenesen
+{n}° cut	{n}°-os vágás
+off one cushion	egy falszélről
+off {n} cushions	{n} falszélről
+Make as many balls as you can in one visit: a miss or a foul ends the attempt.	Rakj el annyi golyót, amennyit csak tudsz egy sorozatban: egy kihagyás vagy szabálytalanság véget vet a próbálkozásnak.
+The same table for everyone, all day	Ugyanaz az asztal mindenkinek, egész nap
+{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	Napi {n} próbálkozás. Pucold ki az asztalt {coins} érméért; a nap győztese trófeát kap.
+A new table in {h} h {m} min	Új asztal {h} ó {m} perc múlva
+Sign in to take part: the server keeps the day's table.	Jelentkezz be a részvételhez: a szerver tárolja a napi ranglistát.
+Balls on today's table	Golyók a mai asztalon
+Attempts left	Hátralévő próbálkozások
+{n} balls · #{rank}	{n} golyó · #{rank}
+{n} balls	{n} golyó
+not yet	még nincs
+Your best today	Mai legjobb eredményed
+No attempts left today: come back tomorrow.	Mára elfogytak a próbálkozásaid: gyere vissza holnap.
+The attempt could not be counted.	A próbálkozást nem sikerült beszámítani.
+Setting up the table…	Az asztal előkészítése…
+Start an attempt	Próbálkozás indítása
+Starting uses an attempt, even if you leave the table.	Az indítás elhasznál egy próbálkozást, akkor is, ha elhagyod az asztalt.
+Loading today's table…	A mai asztal betöltése…
+Today's table	Mai ranglista
+{n} players	{n} játékos
+Nobody has played today's table yet. Be the first!	Még senki sem játszott a mai asztalon. Legyél te az első!
+Table cleared!	Kipucolt asztal!
+{n} of {total} balls	{n}/{total} golyó
+Sending your attempt to the server…	A próbálkozás elküldése a szervernek…
+Counted: {n} balls · +{coins} coins	Beszámítva: {n} golyó · +{coins} érme
+Counted: {n} balls	Beszámítva: {n} golyó
+See today's table	A ranglista megtekintése
+Table cleared! +{n} coins	Kipucolt asztal! +{n} érme
+Daily challenge: {n} of {total} balls made	Napi kihívás: {n}/{total} golyó elrakva
+1 player	1 játékos
+Phoenix	Főnix
+Carrara marble	Carrarai márvány
+Dragon scale	Sárkánypikkely
+Galaxy	Galaxis
+Ruby throne	Rubintrón
+Closing the game now is leaving it: extra rating lost and a wait to play again.	Ha most bezárod a játékot, az kilépésnek számít: extra értékszámot veszítesz, és várnod kell a következő játékig.
+You left a game in progress: you can play online again in {n} min.	Kiléptél egy folyamatban lévő játszmából: {n} perc múlva játszhatsz újra online.
+Quick phrases	Gyors üzenetek
+Good luck, have fun!	Sok sikert, jó szórakozást!
+Nice shot!	Szép lökés!
+Great safety!	Remek biztonsági!
+Unlucky!	Ez nem jött össze!
+Oops!	Hoppá!
+Wow!	Hűha!
+That was close!	Ez meleg volt!
+Take your time.	Nyugodtan, ráérsz.
+Sorry!	Bocsi!
+Thanks!	Köszi!
+Well played!	Szépen játszottál!
+Good game!	Jó játszma volt!
+Rematch?	Visszavágó?
+I have to go, thanks for the game!	Mennem kell, köszi a játszmát!
+Practise while you wait	Gyakorolj, amíg vársz
+A new rack.	Új felrakás.
+Level {n}! (+{xp} XP)	{n}. szint! (+{xp} XP)
++{xp} XP	+{xp} XP
+Level {n} · {into} / {span} XP to the next	{n}. szint · {into} / {span} XP a következőig
+Level {n}	{n}. szint
+Hi! I watched a lot of videos, I'm ready!	Szia! Egy csomó videót megnéztem, készen állok!
+Be gentle, okay?	Kíméletesen, jó?
+Whoa, how did you do that?	Hűha, ezt hogy csináltad?
+Teach me that one later!	Ezt majd tanítsd meg nekem!
+Phew! My turn!	Huh! Én jövök!
+Even you miss? Good to know.	Még te is hibázol? Jó tudni.
+A free ball! What do I do with it?	Egy ingyen golyó! Mit kezdjek vele?
+Did you see that?! It went in!	Láttad?! Bement!
+Beginner's luck counts too!	A kezdők szerencséje is számít!
+Oops. That was a practice shot.	Hoppá. Ez csak gyakorló lökés volt.
+Aim, Leo, aim...	Célozz, Leo, célozz...
+Sorry! I touched the wrong one again.	Bocsi! Megint rossz golyót találtam el.
+I WON? I'm calling my mum!	NYERTEM? Felhívom anyát!
+Good game! I'm getting better, right?	Jó játszma volt! Ugye egyre jobb vagyok?
+Saturday, a table and good company. Let's play!	Szombat, egy asztal és jó társaság. Játsszunk!
+Nice one!	Ez szép volt!
+Oh, you're good. I'll pay attention now.	Ó, te jó vagy. Most már figyelni fogok.
+Happens to the best of us.	A legjobbakkal is megesik.
+Don't worry, it's just a game!	Semmi gond, ez csak játék!
+Thanks for the gift!	Köszi az ajándékot!
+Yes! Weekend skills!	Igen! Hétvégi tehetség!
+Lucky me!	Mázlim van!
+Hm, where was I aiming?	Hm, hová is céloztam?
+Too much chatting, not enough aiming.	Túl sok duma, túl kevés célzás.
+Oops, my bad!	Hoppá, az én hibám!
+That was fun! Same time next weekend?	Jó móka volt! Jövő hétvégén ugyanekkor?
+Well played! Rematch over a lemonade?	Szépen játszottál! Visszavágó egy limonádé mellett?
+Four cushions, endless possibilities.	Négy falszél, végtelen lehetőség.
+Straight in? So... direct.	Egyenesen? Milyen... direkt.
+Nice, but a bank would have been prettier.	Szép, de falszélről csinosabb lett volna.
+You should have used the cushion.	A falszélt kellett volna használnod.
+The rail was right there, asking for it.	Ott volt a falszél, csak kérte.
+The table didn't like that.	Ez nem tetszett az asztalnak.
+Off the rail and in. Art!	Falszélről és be. Művészet!
+Geometry never lies.	A geometria sosem hazudik.
+The angle was right. The cushion disagreed.	A szög jó volt. A falszél nem értett egyet.
+One diamond off. Just one!	Egy gyémántnyival mellé. Csak eggyel!
+Too much imagination, not enough contact.	Túl sok képzelet, túl kevés érintés.
+A masterpiece, if I may say so.	Mestermű, ha szabad így mondanom.
+Well played. Now try it off two rails.	Szépen játszottál. Most próbáld meg két falszélről.
+I hope these balls are made of steel.	Remélem, ezek a golyók acélból vannak.
+Soft touch, huh? Not my style.	Finom érintés, mi? Nem az én stílusom.
+Hit it harder next time!	Legközelebb üsd meg erősebben!
+Too gentle! Power solves everything.	Túl gyenge! Az erő mindent megold.
+HA!	HA!
+My table now. Cover your ears.	Mostantól az enyém az asztal. Fogd be a füled.
+BOOM!	BUMM!
+Did you hear that pocket?	Hallottad azt a lyukat?
+Too much power? No such thing.	Túl nagy erő? Olyan nincs.
+The pocket moved.	Elmozdult a lyuk.
+The ball flew. It happens. A lot.	Elrepült a golyó. Előfordul. Gyakran.
+Power wins again! BOOM!	Az erő megint nyer! BUMM!
+Fine, finesse works too. Sometimes.	Jó, a finomság is működik. Néha.
+Take your time. I have all day.	Nyugodtan. Ráérek egész nap.
+Acceptable.	Elfogadható.
+Enjoy it while it lasts.	Élvezd, amíg tart.
+Patience is a virtue. Not yours, apparently.	A türelem erény. Úgy látszik, nem a tiéd.
+Thank you.	Köszönöm.
+Sloppy.	Hanyag.
+Steady wins.	A kitartás nyer.
+One at a time.	Egyszerre csak egyet.
+Hm. I'll leave you nothing anyway.	Hm. Úgyis semmit sem hagyok neked.
+Intentional. Probably.	Szándékos volt. Valószínűleg.
+Unacceptable. Of me.	Elfogadhatatlan. Tőlem.
+As I said: patience.	Ahogy mondtam: türelem.
+You got through the wall. I'm impressed.	Átjutottál a falon. Lenyűgöző.
+I've been playing since before these balls were plastic.	Már akkor játszottam, amikor ezek a golyók még nem műanyagból voltak.
+Good stroke. Reminds me of a fellow in '78.	Jó lökés. Egy '78-as fickóra emlékeztet.
+Smooth. Very smooth.	Sima. Nagyon sima.
+Keep your head down, kid.	Fejet lent tartani, fiam.
+The cue ball doesn't lie.	A fehér golyó nem hazudik.
+Ah, a little present. Thank you kindly.	Ó, egy kis ajándék. Igazán kedves.
+Like riding a bicycle.	Mint a biciklizés.
+Still got it.	Még mindig megy.
+The eyes aren't what they used to be.	A szemem már nem a régi.
+In my day the pockets were bigger.	Az én időmben nagyobbak voltak a lyukak.
+Even old pros slip.	Még az öreg profik is hibáznak.
+Experience, my friend. Experience.	Tapasztalat, barátom. Tapasztalat.
+You've got a future in this game.	Van jövőd ebben a játékban.
+Me? Oh, I hardly ever play...	Én? Ó, alig játszom...
+Lucky! Do it again, I dare you.	Mázli! Csináld meg még egyszer, ha mered.
+Ooh, someone's been practising.	Nocsak, valaki gyakorolt.
+Aw, so close! Bless.	Jaj, majdnem! Aranyos.
+Want me to show you how?	Megmutassam, hogyan kell?
+Thank you, sweetie.	Köszönöm, drágám.
+Oops, did I do that?	Hoppá, ezt én csináltam?
+Must be beginner's luck. Again.	Biztos a kezdők szerencséje. Megint.
+Missed on purpose. Keeps it interesting.	Szándékosan hibáztam. Így izgalmasabb.
+Just warming up.	Csak bemelegítek.
+Oh dear, how clumsy of me. Wink.	Jaj, de ügyetlen vagyok. Kacsintás.
+Hardly ever play, I said. Hardly.	Alig játszom, mondtam. Alig.
+Fine, you got me. This time.	Jó, elkaptál. Most az egyszer.
+Friction, momentum, spin. Let us begin.	Súrlódás, lendület, csavar. Kezdjük.
+A fine cut. About thirty degrees, I'd say.	Szép vágás. Úgy harminc fok, mondanám.
+Textbook.	Tankönyvi.
+You underestimated the throw.	Alábecsülted az elhúzást.
+Interesting. Statistically expected.	Érdekes. Statisztikailag várható.
+The cue ball followed the laws of physics, not your plan.	A fehér golyó a fizika törvényeit követte, nem a tervedet.
+As calculated.	Ahogy kiszámoltam.
+Elastic collision, elegant result.	Rugalmas ütközés, elegáns eredmény.
+An error in my measurement.	Mérési hiba a részemről.
+I'll revise the model.	Átdolgozom a modellt.
+Hm. Unexpected spin.	Hm. Váratlan csavar.
+The numbers were on my side.	A számok mellettem álltak.
+A result outside my predictions. Well done.	A jóslataimon kívül eső eredmény. Szép munka.
+Focus.	Összpontosíts.
+Clean.	Tiszta.
+Not bad.	Nem rossz.
+Half a millimetre.	Fél milliméter.
+Breathe before you shoot.	Lélegezz, mielőtt lököl.
+Careless.	Figyelmetlen.
+Target down.	Célpont leszedve.
+Centre pocket.	Lyuk közepe.
+Hm. Recalibrating.	Hm. Újrakalibrálás.
+That never happens.	Ez sosem fordul elő.
+Unacceptable.	Elfogadhatatlan.
+Precision wins.	A pontosság nyer.
+Good shooting.	Jó célzás.
+Welcome to my table. Enjoy the show.	Üdv az asztalomnál. Élvezd a műsort.
+Very good. You've done your homework.	Nagyon jó. Megcsináltad a házi feladatot.
+Applause for the challenger!	Tapsot a kihívónak!
+Pressure. It gets to everyone.	Nyomás. Mindenkit utolér.
+Thank you for the table.	Köszönöm az asztalt.
+A champion never refuses a gift.	Egy bajnok sosem utasít vissza egy ajándékot.
+Naturally.	Természetesen.
+That's how it's done.	Így kell ezt csinálni.
+Even champions give the crowd a chance.	Még a bajnokok is adnak esélyt a közönségnek.
+Leaving you something, out of courtesy.	Hagyok neked valamit, udvariasságból.
+A rare sight. Remember it.	Ritka látvány. Jegyezd meg.
+The title stays with me. Good game.	A cím nálam marad. Jó játszma volt.
+Remarkable. You've earned my respect.	Figyelemre méltó. Kivívtad a tiszteletemet.
+Calibration complete. Good luck, human.	Kalibrálás kész. Sok sikert, ember.
+Shot registered: successful.	Lökés regisztrálva: sikeres.
+Probability of my victory: increasing.	Győzelmem valószínűsége: növekszik.
+Foul detected. Processing penalty.	Szabálytalanság észlelve. Büntetés feldolgozása.
+Executed as planned.	Végrehajtva a terv szerint.
+Error. Recalculating.	Hiba. Újraszámolás.
+Malfunction. Please disregard.	Üzemzavar. Kérem, hagyja figyelmen kívül.
+Game complete. Thank you for playing.	Játszma vége. Köszönöm a játékot.
+Defeat acknowledged. Well played.	Vereség nyugtázva. Szépen játszott.
+Drills	Gyakorlatok
+Exercises with stars	Gyakorlatok csillagokkal
+{s} / {max} stars	{s} / {max} csillag
+Stars at {a}, {b} and {c}	Csillagok: {a}, {b} és {c}
+Your best: {n} of {total}	Legjobb eredményed: {n}/{total}
+Not tried yet.	Még nem próbáltad.
+Start the drill	Gyakorlat indítása
+Sign in to keep your stars in your account.	Jelentkezz be, hogy a csillagaid a fiókodban maradjanak.
+{n} of {total}	{n}/{total}
+{drill}: try {k} of {n} · {made} made	{drill}: {k}/{n}. próbálkozás · {made} sikeres
+Made it! {n} of {total}	Sikerült! {n}/{total}
+Missed.	Nem sikerült.
+Sending to the server…	Küldés a szervernek…
+Not signed in: this session is not ranked.	Nem vagy bejelentkezve: ez a menet nem kerül a ranglistára.
+Kept in your account.	Elmentve a fiókodba.
+The session could not be counted.	A menetet nem sikerült beszámítani.
+Back to the drills	Vissza a gyakorlatokhoz
+Straight in	Egyenes lökés
+A long straight pot into the corner. Five tries.	Hosszú, egyenes elrakás a sarokba. Öt próbálkozás.
+The cut	A vágás
+A half-ball cut into the corner. Five tries.	Félgolyós vágás a sarokba. Öt próbálkozás.
+Draw it back	Visszahúzás
+Pot the ball and draw the cue ball back into the circle. Five tries.	Rakd el a golyót, és húzd vissza a fehéret a körbe. Öt próbálkozás.
+Follow through	Utánfutás
+Pot the ball and leave the cue ball in the circle past it. Five tries.	Rakd el a golyót, és hagyd a fehéret a mögötte lévő körben. Öt próbálkozás.
+Bank shot	Falszéles lökés
+Off one cushion into the side pocket. Five tries.	Egy falszélről a középső lyukba. Öt próbálkozás.
+Snooker escape	Kiszabadulás a takarásból
+Hit the 1 first: it hides behind other balls. Five tries.	Először az 1-est találd el: más golyók mögött bújik. Öt próbálkozás.
+Ten in a row	Tíz egymás után
+Ten different pots, one after another: a miss ends the session.	Tíz különböző elrakás egymás után: egy kihagyás véget vet a menetnek.
+The far corner	A távoli sarok
+A cut back up the table into the corner behind you. Five tries.	Vágás visszafelé az asztalon, a mögötted lévő sarokba. Öt próbálkozás.
+Long into the side	Messziről középre
+From the far end of the table into the side pocket. Five tries.	Az asztal túlsó végéből a középső lyukba. Öt próbálkozás.
+Cue ball on the cushion	Fehér a falszélen
+The cue ball touches the cushion: pot the ball into the corner all the same. Five tries.	A fehér golyó a falszélhez ér: rakd el így is a golyót a sarokba. Öt próbálkozás.
+The plant	A telepítés
+The 2 touches the 1 and points at the pocket: hit the 2 and the 1 goes in. Five tries.	A 2-es érinti az 1-est, és a lyuk felé mutat: lökd meg a 2-est, és az 1-es beesik. Öt próbálkozás.
+The carom	A karambol
+The 2 is in the way: glance off it and send the 1 into the corner. Five tries.	A 2-es útban van: súrold, és küldd az 1-est a sarokba. Öt próbálkozás.
+The long draw	A hosszú visszahúzás
+Pot the ball and draw the cue ball all the way back into the circle. Five tries.	Rakd el a golyót, és húzd vissza a fehéret egészen a körig. Öt próbálkozás.
+On the tangent line	Az érintővonalon
+Pot the ball in the side and let the cue ball run on into the circle. Five tries.	Rakd el a golyót középre, és engedd a fehéret tovább futni a körbe. Öt próbálkozás.
+Two-cushion bank	Kétfalszéles lökés
+Off two cushions and into the corner. Five tries.	Két falszélről a sarokba. Öt próbálkozás.
+Fifteen in a row	Tizenöt egymás után
+Fifteen different pots, one after another: a miss ends the session.	Tizenöt különböző elrakás egymás után: egy kihagyás véget vet a menetnek.
+Take back the shot (Z)	Lökés visszavonása (Z)
+Shot taken back.	Lökés visszavonva.
+Solids	Teli
+Stripes	Csíkos
+Hide the history	Előzmények elrejtése
+New username	Új felhasználónév
+Click again to confirm	Kattints újra a megerősítéshez
+{n} of {total} name changes left	Névváltoztatások: még {n} / {total}
+You can't change your username again.	A felhasználónevedet már nem változtathatod meg.
+That is already your username.	Ez már most is a felhasználóneved.
+Finish your game before changing your username.	A felhasználónév módosítása előtt fejezd be a játszmádat.
+Leave your table or the queue before changing your username.	A felhasználónév módosítása előtt hagyd el az asztalodat vagy a várakozási sort.
+Leave your tournament before changing your username.	A felhasználónév módosítása előtt lépj ki a versenyből.
+Username changed.	Felhasználónév módosítva.
+The server is still being updated to the new version. Try again in a few minutes.	A szerver frissítése még folyamatban van. Próbáld újra néhány perc múlva.
+{shooter} made an opponent's ball: {next} to shoot.	{shooter} az ellenfél golyóját rakta el: {next} jön.
+# Five more computer opponents: Tito, Inês, Diego, Amara and Yuri.
+The Gambler	A Szerencsejátékos
+Bets on every shot: as hard as the cue allows, with all the spin he can find. Safe play bores him.	Minden lökésre fogad: olyan erősen, ahogy a dákó engedi, és annyi csavarral, amennyit csak talál. A biztonsági játék untatja.
+The Soft Touch	A Finom Kéz
+Never hits harder than she must: the balls die at the pocket's edge and the cue ball stops where she wants it.	Soha nem lök erősebben a kelleténél: a golyók a lyuk szélén halnak el, a fehér pedig ott áll meg, ahol ő akarja.
+The Showman	A Showman
+Plays to the crowd: a raised cue, swerving spin and a bank whenever there's one. It works more often than it should.	A közönségnek játszik: megemelt dákó, ívelő csavar, és falszél, ahol csak lehet. Gyakrabban jön be, mint kellene.
+The Tactician	A Taktikus
+Plans the whole rack: snookers you when the pot isn't sure, and runs out when it is.	Az egész felrakást megtervezi: takarásba tesz, ha az elrakás nem biztos, és kipucol, ha az.
+The Machine	A Gép
+No nerves, no flair: centre ball, measured pace, the same perfect stroke every time.	Se idegesség, se cifraság: középen eltalált fehér, kimért erő, minden alkalommal ugyanaz a tökéletes lökés.
+Place your bets! Mine's on me.	Tegyék meg tétjeiket! Én magamra fogadok.
+Lucky roll. Let it ride!	Szerencsés gurítás. Mehet tovább!
+Okay, okay. Double or nothing?	Jó, jó. Duplán vagy semmi?
+The house always wins!	A bank mindig nyer!
+Free chips! Thank you!	Ingyen zseton! Köszönöm!
+All in, and it paid!	All in, és bejött!
+That's how you play the odds!	Így kell játszani az esélyekkel!
+Bad beat. Next hand.	Rossz leosztás. Jöhet a következő.
+Too much spin? There's no such thing.	Túl sok csavar? Olyan nincs.
+Busted. Worth the risk!	Bebuktam. Megérte a kockázatot!
+Jackpot! Same stakes again?	Főnyeremény! Még egyet ugyanekkora tétben?
+You beat the odds. Respect.	Legyőzted az esélyeket. Le a kalappal.
+Softly, now. The table likes a gentle hand.	Csak finoman. Az asztal szereti a gyengéd kezet.
+Nicely done.	Szép munka.
+A little hard, but it went in.	Kicsit erős volt, de bement.
+Less power, more feel.	Kevesebb erő, több érzék.
+Oh dear. A free ball for me.	Jaj. Egy ingyen golyó nekem.
+Just enough to drop.	Épp annyi, hogy beessen.
+See? No need to hit it hard.	Látod? Nem kell erősen megütni.
+A touch too soft.	Egy hajszállal túl gyenge.
+Clumsy of me. Sorry.	Ügyetlen voltam. Bocsánat.
+Slow and steady. Thank you for the game.	Lassan és kitartóan. Köszönöm a játszmát.
+Beautifully played. Well deserved.	Gyönyörűen játszottál. Megérdemelted.
+Ladies and gentlemen... the show begins!	Hölgyeim és uraim... kezdődik a műsor!
+Not bad! Bow to the crowd!	Nem rossz! Hajolj meg a közönség előtt!
+You stole my applause!	Elloptad a tapsomat!
+The crowd wanted more!	A közönség többet akart!
+Ooh, a plot twist!	Ó, egy csavar a történetben!
+Ta-da!	Tádám!
+And for my next trick...	És következő trükkömhöz...
+Even magicians have off nights.	A bűvészeknek is vannak rossz estéik.
+That was... part of the act.	Ez... a műsor része volt.
+Thank you, thank you! Encore?	Köszönöm, köszönöm! Ráadás?
+Take a bow, champion. You earned it.	Hajolj meg, bajnok. Megérdemelted.
+Every rack is a puzzle. Let's solve this one.	Minden felrakás egy rejtvény. Fejtsük meg ezt is.
+Good. Now where is your cue ball?	Jó. És most hol a fehéred?
+I saw that coming.	Számítottam rá.
+That left me something. Thank you.	Ez hagyott nekem valamit. Köszönöm.
+As planned.	Ahogy terveztem.
+Exactly as I calculated.	Pontosan úgy, ahogy kiszámoltam.
+Three moves ahead.	Három lépéssel előrébb.
+A variable I missed.	Egy változó, ami elkerülte a figyelmemet.
+Hm. Recalculating.	Hm. Újraszámolás.
+Checkmate.	Sakk-matt.
+You out-thought me. That's rare.	Túljártál az eszemen. Ez ritka.
+Game initialised.	Játszma inicializálva.
+Noted.	Feljegyezve.
+Error margin exceeded.	Hibahatár túllépve.
+Penalty applied.	Büntetés alkalmazva.
+As expected.	A várakozásnak megfelelően.
+Next.	Következő.
+Deviation logged.	Eltérés naplózva.
+Malfunction. It will not repeat.	Üzemzavar. Nem fog megismétlődni.
+Result: win. Thank you for the data.	Eredmény: győzelem. Köszönöm az adatokat.
+Unexpected outcome. Impressive.	Váratlan kimenetel. Lenyűgöző.
+Opponents' remarks	Az ellenfelek megjegyzései
+The computer opponents comment on the game in speech bubbles.	A gépi ellenfelek szövegbuborékokban kommentálják a játszmát.
+Top view only	Csak felülnézet
+The table is always seen from above: no 3D view, no turning.	Az asztal mindig felülről látszik: nincs 3D nézet, nincs forgatás.
+Not with the top view only.	Csak felülnézetben nem.
+Wheel	Görgő
+Rules	Szabályok
+Rules of the game	A játék szabályai
+Level	Vízszintbe
+Drag the cue: jump & massé	Húzd a dákót: ugratás és massé
+Drag to raise or lower the cue	Húzd a dákó emeléséhez vagy leengedéséhez
+Drag the cue · {keys}	Húzd a dákót · {keys}
+Profile picture	Profilkép
+Shown by your name at the table and in your profile.	A neved mellett látszik az asztalnál és a profilodban.
+No picture	Nincs kép
+Change your picture	Profilkép módosítása
+{name} sank the 8 together with another ball	{name} egy másik golyóval együtt rakta el a 8-ast
+the opponent sank the 8 with another ball	az ellenfél egy másik golyóval együtt rakta el a 8-ast
+sank the 8 with another ball	egy másik golyóval együtt rakta el a 8-ast
+opponent pocketed the 8-ball together with another ball	az ellenfél egy másik golyóval együtt rakta el a 8-as golyót
+Penalty: {balls} off the table for {name}.	Büntetés: {balls} lekerül az asztalról, a kedvezményezett: {name}.
+{name} had fewer balls left than the foul gives: the 8 pays the rest, and the foul loses the game.	{name}: kevesebb golyója maradt, mint amennyit a szabálytalanság ad: a 8-as fizeti a többit, és a szabálytalanság elveszíti a játszmát.
+Shadows	Árnyékok
+The shadows of the balls and of the cue on the table.	A golyók és a dákó árnyéka az asztalon.
+Sixteen players: knockout or arena	Tizenhat játékos: kieséses vagy aréna
+New knockout	Új kieséses verseny
+New arena	Új aréna
+Knockout: sixteen players, four rounds. Lose a game and you are out.	Kieséses: tizenhat játékos, négy forduló. Ha elveszítesz egy játszmát, kiesel.
+Arena: seven rounds for everyone. A win is 2 points, 3 from the third win in a row. The most points wins.	Aréna: hét forduló mindenkinek. A győzelem 2 pont, a sorozatban harmadiktól 3. A legtöbb pontot szerző nyer.
+The games between the other players are decided by their strength and a draw.	A többi játékos közötti játszmákat az erősségük és a sorsolás dönti el.
+You won the tournament!	Megnyerted a versenyt!
+{name} won the tournament.	{name} megnyerte a versenyt.
+You finished in place {n}.	Helyezésed: {n}.
+Round of 16	Nyolcaddöntő
+Quarter-finals	Negyeddöntő
+Round {n} of {total}	{n}. forduló / {total}
+Play {name}	Játék ellene: {name}
+Abandon the tournament	Kilépés a versenyből
+W - L	Gy - V
+Points	Pontok
+The tournament is over.	A verseny véget ért.
+The round is over: see who you play next.	A forduló véget ért: nézd meg, ki a következő ellenfeled.
+You are out of the tournament.	Kiestél a versenyből.
+Side pocket	Középső lyuk
+A cut into the side pocket, where the angle is tight. Five tries.	Vágás a középső lyukba, ahol szűk a szög. Öt próbálkozás.
+The long cut	A hosszú vágás
+A cut from the far end of the table into the corner. Five tries.	Vágás az asztal túlsó végéből a sarokba. Öt próbálkozás.
+Thin cut	Vékony vágás
+Barely graze the ball: a thin cut into the corner. Five tries.	Épp csak súrold a golyót: vékony vágás a sarokba. Öt próbálkozás.
+Along the cushion	A falszél mentén
+The ball sits by the cushion: run it along into the corner. Five tries.	A golyó a falszél mellett áll: vidd végig a falszél mentén a sarokba. Öt próbálkozás.
+Stop shot	Stoplökés
+Pot the ball and stop the cue ball dead where the ball was. Five tries.	Rakd el a golyót, és állítsd meg a fehéret ott, ahol a golyó volt. Öt próbálkozás.
+The combination	A kombináció
+Pot the 1 by playing the 2 into it. Five tries.	Rakd el az 1-est úgy, hogy a 2-est lököd rá. Öt próbálkozás.
+Cross-corner bank	Keresztbe falszélről
+Off the long cushion and across the table into the corner. Five tries.	A hosszú falszélről, keresztben az asztalon át a sarokba. Öt próbálkozás.
+Kick shot	Falszéles találat
+The 1 is walled off: send the cue ball off a cushion to hit it first. Five tries.	Az 1-es el van zárva: küldd a fehéret egy falszélre, hogy először azt találd el. Öt próbálkozás.
+Only the cue ball went down on the break: the balls are racked again and {next} breaks.	A kezdőlökésnél csak a fehér golyó esett be: újra felrakjuk a golyókat, és {next} végzi a kezdőlökést.
+Golden break	Arany kezdőlökés
+Win a rated game by sinking only the 8-ball on the break.	Nyerj egy értékelt játszmát úgy, hogy a kezdőlökésnél csak a 8-as golyót rakod el.
+Half a year	Fél év
+Have an account for six months.	Legyen hat hónapos fiókod.
+First anniversary	Első évforduló
+Second anniversary	Második évforduló
+Have an account for two years.	Legyen kétéves fiókod.
+Third anniversary	Harmadik évforduló
+Have an account for three years.	Legyen hároméves fiókod.
+Five years at the table	Öt év az asztalnál
+Have an account for five years.	Legyen ötéves fiókod.
+Back to the tournament	Vissza a versenyhez
+Continue against {name}	Folytatás ellene: {name}
+You left your game: it counts as a loss.	Elhagytad a játszmádat: vereségnek számít.
+new level	új szint
+Level {n} brings: {item}	A(z) {n}. szint jutalma: {item}
+Level 5	5. szint
+Reach level 5.	Érd el az 5. szintet.
+Level 10	10. szint
+Reach level 10.	Érd el a 10. szintet.
+Level 15	15. szint
+Reach level 15.	Érd el a 15. szintet.
+Level 20	20. szint
+Reach level 20.	Érd el a 20. szintet.
+Level 30	30. szint
+Reach level 30.	Érd el a 30. szintet.
+Level 40	40. szint
+Reach level 40.	Érd el a 40. szintet.
+Level 50	50. szint
+Reach level 50.	Érd el az 50. szintet.
+Regular's teal	Törzsvendég-kékeszöld
+Veteran's plum	Veteránszilva
+Old hand	Rutinos róka
+Lifer	Egy életen át
+Apprentice's chalk	Tanonckréta
+Journeyman's chalk	Mesterlegény-kréta
+Achievements	Teljesítmények
+Leagues and levels	Ligák és szintek
+Next league: {tier}	Következő liga: {tier}
+The top league.	A legfelső liga.
+Every prize of the levels is won.	Minden szintjutalmat megszereztél.
+None yet: the first is one game away.	Még egy sincs: az első egy játszmányira van.
+{coins} and {item}	{coins} és {item}
+Leagues	Ligák
+Levels	Szintek
+By playing. Every level pays {n} coins.	Játékkal. Minden szint {n} érmét ér.
+where everyone starts	ahol mindenki kezd
+from {n}	{n} ponttól
+The top level.	A legmagasabb szint.
+{n} XP to level {next}	{n} XP a(z) {next}. szintig
+{n} levels to go	még {n} szint
+new league	új liga
+Old-timer's black	Öreg motoros fekete
+Expert league blue	Szakértő liga kék
+Master league violet	Mester liga ibolya
+Legend league gold	Legenda liga arany
+Skilled league chalk	Ügyes liga kréta
+By rating. Each league pays once.	Értékszám alapján. Minden liga egyszer fizet.
+cue	dákó
+cloth	posztó
+chalk	kréta
+Always show the head string	A kezdővonal mindig látszik
+The line the break is played from, always on the table (off: only while placing the cue ball behind it).	A vonal, ahonnan a kezdőlökést végzik, mindig látszik az asztalon (ki: csak amikor mögé helyezed a fehér golyót).
+{who} ran out of time: the turn passes.	{who} ideje lejárt: a kör átszáll az ellenfélre.
+{who} ran out of time with no ball left to give {other}: the 8 pays, and {who} loses.	{who} ideje lejárt, és {other} már nem kaphatott több golyót: a 8-as fizet, és {who} veszít.
+{who} ran out of time: the cue ball goes back to the head spot and the turn passes.	{who} ideje lejárt: a fehér golyó visszakerül a kezdőpontra, és a kör átszáll az ellenfélre.
+{who} ran out of time: {balls} off the table for {other}, and the cue ball goes back to the head spot.	{who} ideje lejárt: {balls} lekerül az asztalról (a kedvezményezett: {other}), a fehér golyó pedig visszakerül a kezdőpontra.
+You were muted for {n} minutes: {r}	{n} percre némítottak: {r}
+Your account was suspended for {n} hours: {r}	A fiókodat {n} órára felfüggesztették: {r}
+The server restarts in {minutes} min for an update. Games in progress go on; new games start right after.	A szerver {minutes} perc múlva újraindul egy frissítés miatt. A folyamatban lévő játszmák folytatódnak; az újak rögtön utána indulnak.
+The {cup} was called off: not enough players signed up.	Elmarad: {cup}. Nem jelentkezett elég játékos.
+The {cup} is open for sign-up: it starts soon in Tournaments.	Megnyílt a jelentkezés: {cup}. Hamarosan kezdődik a Versenyek között.
+{display} won the tournament “{name}”!	{display} megnyerte a versenyt: „{name}”!
+Sunday Cup	Vasárnapi Kupa
+Monday Cup	Hétfői Kupa
+Tuesday Cup	Keddi Kupa
+Wednesday Cup	Szerdai Kupa
+Thursday Cup	Csütörtöki Kupa
+Friday Cup	Pénteki Kupa
+Saturday Cup	Szombati Kupa
+{name} · rating {r}	{name} · értékszám {r}
+Something went wrong. Try again.	Hiba történt. Próbáld újra.
+member for 1 day	1 napja tag
+Game in progress: 1 ball left	Folyamatban lévő játszma: még 1 golyó
+1 level to go	még 1 szint
+1 more online win with this cue for level {n}. Levels only add marks to the cue.	Még 1 online győzelem ezzel a dákóval a(z) {n}. szinthez. A szintek csak jeleket tesznek a dákóra.
+Home	Home
+End	End
+PgUp	PgUp
+PgDn	PgDn
+Ins	Ins
+Could not join the LAN game	Nem sikerült csatlakozni a LAN-játszmához
+LAN game · others join at {address}	LAN-játszma · mások itt csatlakozhatnak: {address}
+Click to copy	Kattints a másoláshoz
+Copied.	Kimásolva.
+Start a new game?	Új játszmát kezdesz?
+You have a game in progress against the computer, with 1 ball left. A new game takes its place.	Folyamatban van egy játszmád a gép ellen, 1 golyó van még hátra. Az új játszma a helyére lép.
+You have a game in progress against the computer, with {n} balls left. A new game takes its place.	Folyamatban van egy játszmád a gép ellen, {n} golyó van még hátra. Az új játszma a helyére lép.
+Continue that game	Azt folytatom
+Start a new one	Újat kezdek
+Click again to close the game: {n} will be disconnected	Kattints újra a játszma bezárásához: {n} játékos kapcsolata megszakad
+{name} cleared the table in one visit!	{name} egy sorozatban kipucolta az asztalt!
+{name}: {n} in a row!	{name}: {n} egymás után!
+Watch the deciding shot again	A döntő lökés újranézése
+Next: {name}	Következő: {name}
+Drag on the table to aim, or click a ball	Húzz az asztalon a célzáshoz, vagy kattints egy golyóra
+Set the power	Állítsd be az erőt
+Let go of {key} to shoot · Esc cancels	Engedd el a lökéshez: {key} · Esc: mégse
+Staff accounts can't change their username.	A stábtagok fiókjai nem módosíthatják a felhasználónevüket.
+That password can't be used. Choose another one.	Ez a jelszó nem használható. Válassz másikat.
+That tournament is full.	Ez a verseny megtelt.
+The server is restarting: your tournament was called off.	A szerver újraindul: a versenyedet törölték.
+Too many sign-ins. Wait a minute and try again.	Túl sok bejelentkezés. Várj egy percet, és próbáld újra.
+Too many wrong passwords. Try again in a few minutes.	Túl sok hibás jelszó. Próbáld újra néhány perc múlva.
+Your VIP subscription could not be cancelled. Try again in a moment.	A VIP-előfizetésedet nem sikerült lemondani. Próbáld újra egy kicsit később.
+Balls of both groups on the break: the turn passes to {next}, the table is open.	Mindkét csoport golyói beestek a kezdőlökésnél: {next} jön, az asztal nyitott.
+Only a final started while signed in counts: play the last stage again signed in.	Csak a bejelentkezve elkezdett döntő számít: játszd újra az utolsó szakaszt bejelentkezve.
+The server didn't deal the final: this game won't earn the reward.	A szerver nem készítette elő a döntőt: ez a játszma nem ad jutalmat.
+The server didn't answer: this session won't be ranked.	A szerver nem válaszolt: ez a menet nem kerül a ranglistára.
+The server is dealing the final…	A szerver előkészíti a döntőt…
+The server is setting up the drill…	A szerver előkészíti a gyakorlatot…
+Not signed in: a win in this final won't earn the reward.	Nem vagy bejelentkezve: a győzelem ebben a döntőben nem ad jutalmat.
+Not kept: sessions count when started signed in.	Nincs mentve: csak a bejelentkezve elkezdett menetek számítanak.
+Warning from the staff: {text}	Figyelmeztetés a stábtól: {text}
+The staff changed your username to {name}. Sign in again.	A stáb módosította a felhasználónevedet, az új név: {name}. Jelentkezz be újra.
+The staff called off the tournament you were in.	A stáb törölte a versenyt, amelyben részt vettél.
+Experience ×{n}	Tapasztalat ×{n}
+Coins from games ×{n}	Érmék a játszmákból ×{n}
+Themed tournament	Tematikus verseny
+Event	Esemény
+Events	Események
+Warning from the staff	Figyelmeztetés a stábtól
+Esc to cancel	Esc: mégse
+Will be sent when you're back online.	Elküldjük, amikor újra online leszel.
+Your strokes will be sent when you're back online.	A lökéseidet elküldjük, amikor újra online leszel.
+The final you won was dealt to {name}: sign in as {name} to claim the reward.	A megnyert döntőt ennek a fióknak készítettük elő: {name}. Jelentkezz be ezzel a névvel ({name}) a jutalomért.
+Type your password to confirm it's you.	Írd be a jelszavad, hogy megerősítsd, te vagy az.
+The cue ball is back on the head spot: {next} plays from there.	A fehér golyó visszakerült a kezdőpontra: {next} onnan lök.
+{name} came online	{name} bejelentkezett
+Online now: {names}	Most online: {names}
+Nobody else is online right now.	Most senki más nincs online.
+Focus mode	Fókusz mód
+No invitations while you play: they are turned away until the game is over.	Nincsenek meghívások játék közben: a játszma végéig elutasítjuk őket.
+in focus mode	fókusz módban
+In focus mode: no invitations until their game is over.	Fókusz módban: nincsenek meghívások, amíg a játszmája tart.
+That player is in focus mode and isn't taking invitations until their game is over.	Ez a játékos fókusz módban van, és a játszmája végéig nem fogad meghívásokat.
+Look at it closely	Nézd meg közelről
+Sign in to buy	Jelentkezz be a vásárláshoz
+Sign in to use	Jelentkezz be a használathoz
+Back to the shop (Esc)	Vissza a boltba (Esc)
+Show the interface (H)	Felület mutatása (H)
+Hide the interface (H)	Felület elrejtése (H)
+Turn (Space)	Forgatás (Szóköz)
+Stop turning (Space)	Forgatás leállítása (Szóköz)
+Zoom in (+)	Nagyítás (+)
+Zoom out (−)	Kicsinyítés (−)
+Back to the start (R)	Vissza az elejére (R)
+Previous setting ([)	Előző helyszín ([)
+Next setting (])	Következő helyszín (])
+Setting	Helyszín
+Studio	Stúdió
+Your table	A te asztalodon
+Drag with the right button to turn · wheel to zoom · double-click to look closer	Húzd a jobb gombbal a forgatáshoz · görgő: nagyítás · dupla kattintás: közelebbről
+Drag with the right button to turn · wheel to zoom · click a ball to look at it	Húzd a jobb gombbal a forgatáshoz · görgő: nagyítás · kattints egy golyóra a megnézéséhez
+The set	A készlet
+From above	Felülről
+Low angle	Alacsony szögből
+Cue ball	Fehér golyó
+Ball {n}	{n}. számú golyó
+Whole	Egész
+Tip	Hegy
+Joint	Csatlakozás
+Butt	Nyél
+Top	Teteje
+Cue	Dákó
+Table	Asztal
+Hall	Terem
+Corner	Sarok lyuk
+Side	Középső lyuk
+Leg	Láb
+Close-up	Közelkép
+Cushion	Falszél
+Phenolic resin under a bright clear coat	Fenolgyanta fényes, átlátszó lakkréteg alatt
+A pearly sheen that shifts with the light	Gyöngyházfény, amely a fénnyel változik
+Brushed metal, bright as a mirror	Csiszolt fém, tükörfényes
+Old ivory: soft, warm and matte	Régi elefántcsont: puha, meleg és matt
+A full-size cue, tip to butt: turn it, come close to its joint and its butt	Teljes méretű dákó, a hegyétől a végéig: forgasd meg, nézd meg közelről a csatlakozást és a nyelet
+A cube of chalk, and the colour it leaves on the tip	Egy kocka kréta, és a szín, amelyet a dákó hegyén hagy
+The cloth on the table: come close to see its weave	A posztó az asztalon: menj közelebb, hogy lásd a szövését
+Dark mahogany, turned legs and brass castings	Sötét mahagóni, esztergált lábak és sárgaréz díszek
+Light teak, square legs and chrome castings	Világos teak, szögletes lábak és krómdíszek
+Deep mahogany, carved legs and leather pocket nets	Mély mahagóni, faragott lábak és bőr lyukhálók
+Black lacquer and brushed aluminium on two slab legs	Fekete lakk és csiszolt alumínium két tömör lábon
+Black ebony with gold castings and inlays	Fekete ében arany díszekkel és berakásokkal
+Reclaimed oak rails on a riveted black steel frame	Újrahasznosított tölgy falszélek szegecselt fekete acélvázon
+A pro tournament table: charcoal rails, block legs, chrome	Profi versenyasztal: grafitszürke falszélek, tömb lábak, króm
+Figured walnut on barley-twist legs, brass and leather	Erezett dió csavart lábakon, sárgaréz és bőr
+Ivory lacquer and gold on fluted columns	Elefántcsont lakk és arany hornyolt oszlopokon
+Panelling, the bar, cue racks, posters and neon	Faburkolat, a bárpult, dákótartók, poszterek és neon
+A deck at sunset, open windows, palms and string lights	Terasz naplementében, nyitott ablakok, pálmák és fényfüzérek
+Panelling, bookshelves, leather sofas and a fireplace	Faburkolat, könyvespolcok, bőrkanapék és kandalló
+Brick, steel windows over the city and Edison bulbs	Tégla, acélkeretes ablakok a város fölött és Edison-izzók
+Log walls, a stone fireplace and snowy peaks outside	Gerendafalak, kőkandalló és havas csúcsok odakint
+A black mirror floor, neon tubes and arcade cabinets	Fekete tükörpadló, neoncsövek és játékgépek
+A marble chessboard floor, gold, velvet and mirrors	Sakktábla-mintás márványpadló, arany, bársony és tükrök
+Glass walls on the city at night, pale marble and oak	Üvegfalak az éjszakai városra, világos márvány és tölgy
+A gold medal!	Aranyérem!
+A silver medal!	Ezüstérem!
+A bronze medal!	Bronzérem!
+Silver medal	Ezüstérem
+Bronze medal	Bronzérem
+Your medals	Az érmeid
+Kept in your account the next time you're online.	A fiókodba kerülnek, amikor legközelebb online leszel.
+Sign in to keep them in your account.	Jelentkezz be, hogy a fiókodban maradjanak.
+18 or older	18 éves vagy idősebb
+Under 18	18 év alatti
+Creating an account means accepting the	A fiók létrehozásával elfogadod a következőt:
+For a parent or guardian…	Szülőnek vagy gyámnak…
+A parent or guardian turned the chat on for this account. They can turn it off here at any time.	Egy szülő vagy gyám bekapcsolta a csevegést ennél a fióknál. Itt bármikor kikapcsolhatja.
+This account belongs to someone under 18. By law, the chat with other players (messages in the lounge and in games, notes, status and gift messages) stays off until their mother, father or legal guardian turns it on.	Ez a fiók egy 18 év alatti személyé. A törvény szerint a csevegés más játékosokkal (üzenetek a társalgóban és a játszmákban, hirdetések, állapot- és ajándéküzenetek) addig ki van kapcsolva, amíg az édesanyja, édesapja vagy törvényes gyámja be nem kapcsolja.
+I am this player's mother, father or legal guardian, I have read the terms of use and I allow them to chat with other players.	Ennek a játékosnak az édesanyja, édesapja vagy törvényes gyámja vagyok, elolvastam a felhasználási feltételeket, és engedélyezem, hogy más játékosokkal csevegjen.
+Chat for players under 18	Csevegés 18 év alatti játékosoknak
+Turn the chat off	Csevegés kikapcsolása
+{n} more invitations	Még {n} meghívás
+Invitation	Meghívás
+Turn the chat on	Csevegés bekapcsolása
+Chat off: under 18. A parent or guardian can turn it on.	Csevegés kikapcsolva: 18 év alatti. Egy szülő vagy gyám bekapcsolhatja.
+The chat with other players is off until you turn it on.	A csevegés más játékosokkal ki van kapcsolva, amíg be nem kapcsolod.
+Write to turn the chat on…	Írj a csevegés bekapcsolásához…
+Chat with other players	Csevegés más játékosokkal
+The chat with other players is off until you turn it on. To turn it on, tell us your age group: it can't be changed from the game afterwards.	A csevegés más játékosokkal ki van kapcsolva, amíg be nem kapcsolod. A bekapcsoláshoz add meg a korcsoportodat: ezt később a játékból nem lehet módosítani.
+Under 18: a parent or guardian must agree to the terms with you and turn the chat on.	18 év alatt: egy szülőnek vagy gyámnak veled együtt el kell fogadnia a feltételeket, és be kell kapcsolnia a csevegést.
+Not now	Most nem
+Terms of use	Felhasználási feltételek
+Privacy policy	Adatvédelmi irányelvek
+You have 7 days to change your mind and get your money back.	7 napod van meggondolni magad és visszakapni a pénzed.
+Under 18: buy only with a parent's or guardian's permission.	18 év alatt: csak szülői vagy gyámi engedéllyel vásárolj.
+Renews every month until you cancel. 7 days to change your mind.	Minden hónapban megújul, amíg le nem mondod. 7 nap a meggondolásra.
+About	Névjegy
+Accounts, purchases and refunds, the rules of the online game.	Fiókok, vásárlások és visszatérítések, az online játék szabályai.
+What the game keeps, and your rights.	Mit tárol a játék, és milyen jogaid vannak.
+Open	Megnyitás
+Credits	Közreműködők
+Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Betűtípusok: DejaVu és Noto (OFL). Zászlók: flag-icons (MIT). Reakciók és emojik: Twemoji (CC-BY 4.0). Országnevek: iso-codes (LGPL-2.1). A játék kódja nyílt (MIT).
+The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	A csevegés ki van kapcsolva a 18 év alatti játékosoknak. Egy szülő vagy gyám a társalgó csevegése alatt bekapcsolhatja.
+No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	A kezdőlökés nem talált el egy golyót sem: {next} végzi a kezdőlökést, golyó kézben a kezdővonal mögött.
+The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	A kezdőlökésnél beesett a fehér golyó, és egy golyó sem esett be: {next} végzi a kezdőlökést, golyó kézben a kezdővonal mögött.
+Users online	Online felhasználók
+ping {ms} ms	ping {ms} ms
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks, with the cue ball in hand behind the head string.	A kezdőlökésnél a fehér golyó mindkét csoport golyóival együtt esett be: nincs büntetés, az asztal nyitott marad, és {next} végzi a kezdőlökést, golyó kézben a kezdővonal mögött.
+Brazilian	Brazil
+Official	Hivatalos
+Brazilian rules	Brazil szabályok
+Official rules	Hivatalos szabályok
+Brazilian rules (inside a sentence)	brazil szabályok
+Official rules (inside a sentence)	hivatalos szabályok
+Brazilian (inside a sentence)	brazil
+Official (inside a sentence)	hivatalos
+As played in Brazil's bars	Ahogy a brazil bárokban játsszák
+As played in tournaments (WPA)	Ahogy a versenyeken játsszák (WPA)
+on the Brazilian rules	brazil szabályok szerint
+on the official rules	hivatalos szabályok szerint
+A ball left the table on the break.	Egy golyó leesett az asztalról a kezdőlökésnél.
+A ball off the table on the break	Leesett golyó a kezdőlökésnél
+A safety calls nothing: whatever goes in stays down, and the turn passes.	A biztonsági lökés nem mond be semmit: ami beesik, bent marad, és a kör átszáll az ellenfélre.
+Break yourself	Kezdőlökés tőled
+CALLED POCKET	BEMONDOTT LYUK
+Choose	Választás
+Choose how play goes on	Válaszd ki, hogyan folytatódjon a játék
+Choose the rules of your games. You can switch them any time, in the main menu.	Válaszd ki a játszmáid szabályait. Bármikor módosíthatod a főmenüben.
+Click a pocket on the table to call it; click it again to follow your aim.	Kattints egy lyukra az asztalon a bemondáshoz; kattints rá újra, hogy a célzásodat kövesse.
+Cue ball in hand	Fehér golyó kézben
+Each of the rules has its own rating: these games don't change your {rating} under the {other}.	Mindkét szabályrendszernek saját értékszáma van: ezek a játszmák nem módosítják a {other} szerinti értékszámodat ({rating}).
+Find an opponent of your level automatically ({rules})	Találj automatikusan a szintednek megfelelő ellenfelet ({rules})
+How do you like to play?	Hogyan szeretsz játszani?
+How does play go on? Choose one:	Hogyan folytatódjon a játék? Válassz:
+Illegal break: no ball made and fewer than four balls reached a cushion.	Szabálytalan kezdőlökés: egy golyó sem esett be, és négynél kevesebb golyó ért falszélt.
+Invite {name}	Meghívás: {name}
+No ball went in the called pocket ({pocket}): {next} to shoot.	A bemondott lyukba ({pocket}) nem esett golyó: {next} jön.
+No pocket was called (a safety): {next} to shoot.	Nem volt bemondott lyuk (biztonsági lökés): {next} jön.
+Not sure what changes?	Nem tudod, mi változik?
+Place it anywhere behind the head string.	Tedd bárhová a kezdővonal mögött.
+Play on	Játék folytatása
+Players against the computer under these rules	A gép ellen játszók ezekkel a szabályokkal
+Players online under these rules (the lounge and online games)	Online játékosok ezekkel a szabályokkal (társalgó és online játszmák)
+RULES OF YOUR GAMES	A JÁTSZMÁID SZABÁLYAI
+Read both rules	Mindkét szabályrendszer elolvasása
+Rules of your games	A játszmáid szabályai
+Safety	Biztonsági
+Safety: no pocket	Biztonsági: nincs lyuk
+Show the {rules}: the rank, the league and the chart	Mutasd ({rules}): helyezés, liga és grafikon
+The 8 is spotted and you keep shooting.	A 8-ast visszahelyezzük, és te lökhetsz tovább.
+The 8 is spotted; the cue ball in hand behind the head string.	A 8-ast visszahelyezzük; golyó kézben a kezdővonal mögött.
+The 8 on a break with a foul	A 8-as szabálytalan kezdőlökésnél
+The 8 on the break	A 8-as a kezdőlökésnél
+The 8 went down on a break with a foul: it is spotted.	A 8-as szabálytalan kezdőlökésnél esett be: visszahelyezzük.
+The 8 went down on the break: it is spotted.	A 8-as a kezdőlökésnél esett be: visszahelyezzük.
+The balls are racked again and you break.	A golyókat újra felrakjuk, és te végzed a kezdőlökést.
+The balls are racked again and {name} breaks.	A golyókat újra felrakjuk, és {name} végzi a kezdőlökést.
+The balls are racked again: {name} breaks.	A golyókat újra felrakjuk: {name} végzi a kezdőlökést.
+The balls are racked again: {other} breaks.	A golyókat újra felrakjuk: {other} végzi a kezdőlökést.
+The rules of this game: click to read them	A játszma szabályai: kattints az elolvasásukhoz
+The rules of your games: click to switch	A játszmáid szabályai: kattints a váltáshoz
+The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	Ugyanaz a kapcsoló, mint a főmenüben: online, a gép ellen és két játékos. Minden szabályrendszernek saját értékszáma van.
+The table as it lies.	Az asztal úgy, ahogy van.
+The top 100 of each rules · rated games	Mindkét szabályrendszer top 100-a · értékelt játszmák
+The {ball} lay behind the head string and the cue ball hit it without crossing the line first	A(z) {ball} a kezdővonal mögött állt, és a fehér golyó úgy találta el, hogy előbb nem lépte át a vonalat
+What changes between the rules: click to read them	Mi a különbség a szabályok között: kattints az elolvasásukhoz
+With the cue ball in hand behind the head string.	Golyó kézben a kezdővonal mögött.
+follows your aim	a célzásodat követi
+no rated games yet	még nincs értékelt játszma
+open table: the called ball you make sets your group	nyitott asztal: az elrakott bemondott golyó dönti el a csoportodat
+peak {n} · {games} games	csúcs: {n} · {games} játszma
+playing now	most játszik
+your call	a te bemondásod
+{name} breaks again	{name} újra kezd
+{name} chooses: play on, or rack the balls and break again.	{name} választ: folytatja a játékot, vagy újra felrakja a golyókat és újra kezd.
+{name} chooses: play the table as it lies, or take the cue ball in hand behind the head string.	{name} választ: az asztalt úgy játssza, ahogy van, vagy golyó kézben a kezdővonal mögül.
+{name} chooses: play the table as it lies, rack the balls and break, or have {breaker} break again.	{name} választ: az asztalt úgy játssza, ahogy van, felrakja a golyókat és kezd, vagy {breaker} újra kezd.
+{name} chooses: play the table as it lies, take the cue ball in hand behind the head string, rack the balls and break, or have {breaker} break again.	{name} választ: az asztalt úgy játssza, ahogy van, golyó kézben a kezdővonal mögül, felrakja a golyókat és kezd, vagy {breaker} újra kezd.
+{name} chooses: the cue ball in hand behind the head string, or rack the balls and break.	{name} választ: golyó kézben a kezdővonal mögül, vagy felrakja a golyókat és kezd.
+{name} is choosing how play goes on…	{name} választja ki, hogyan folytatódjon a játék…
+{name} plays on (the 8 is spotted).	{name} folytatja a játékot (a 8-ast visszahelyezzük).
+{name} plays the table as it lies.	{name} úgy játssza az asztalt, ahogy van.
+{name} plays the {theirs} now; yours are the {mine}.	{name} golyói most: {theirs}; a tieid: {mine}.
+{name} takes the cue ball in hand.	{name} kézbe veszi a fehér golyót.
+{next} has the cue ball in hand behind the head string.	{next}: golyó kézben a kezdővonal mögött.
+{next} has the cue ball in hand: anywhere on the table.	{next}: golyó kézben, bárhol az asztalon.
+{n} points to {tier} ({rules})	Még {n} pont: {tier} ({rules})
+{n} waiting	{n} vár
+A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	A szabálytalanságért az ellenfél a csoportjából golyókat kap. Golyó kézben csak a kezdőlökésnél van, és csak a 8-as lyukát kell bemondani.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	A szabálytalanságért az ellenfél golyót kap kézbe, bárhová az asztalon. Minden lökést be kell mondani, és a kezdőlökésnek négy golyót falszélig kell juttatnia.
+A foul gives balls to the opponent	A szabálytalanság golyókat ad az ellenfélnek
+Ball in hand on the break only	Golyó kézben csak a kezdőlökésnél
+Only the 8's pocket is called	Csak a 8-as lyukát kell bemondani
+The most played in Brazil	Brazíliában ezt játsszák a legtöbben
+A foul gives ball in hand	A szabálytalanság golyót ad kézbe
+The break drives four balls to a cushion	A kezdőlökés négy golyót juttat falszélig
+Every shot is called	Minden lökést be kell mondani
+The same all over the world	Az egész világon ugyanaz
+Game type	Játéktípus
+called: {pocket}	bemondva: {pocket}
+no call: a safety	nincs bemondás: biztonsági
+A safety: nothing called. Click again to call the pocket you aim at.	Biztonsági lökés: nincs bemondás. Kattints újra, hogy bemondd a lyukat, amelyre célzol.
+A safety calls nothing: whatever goes in stays down, and the turn passes. To call another pocket, click it on the table.	A biztonsági lökés nem mond be semmit: ami beesik, bent marad, és a kör átszáll az ellenfélre. Másik lyuk bemondásához kattints rá az asztalon.
+{games} games · {pct}% won	{games} játszma · {pct}% győzelem
+Each of the rules has its own rating; the level, coins and achievements are shared.	Minden szabályrendszernek saját értékszáma van; a szint, az érmék és a teljesítmények közösek.
+You already have a VIP subscription: manage it with Manage subscription.	Már van VIP-előfizetésed: az Előfizetés kezelése gombbal kezelheted.
+Your opponent can't start another game yet.	Az ellenfeled még nem kezdhet új játszmát.
+A tournament's name is shown to everyone: with your chat off, you can join tournaments but not create one.	A verseny nevét mindenki látja: kikapcsolt csevegéssel csatlakozhatsz versenyekhez, de nem hozhatsz létre egyet.
+The connection dropped: check your coins before trying again.	Megszakadt a kapcsolat: ellenőrizd az érméidet, mielőtt újra próbálkozol.
+Sign in to buy coins.	Jelentkezz be az érmevásárláshoz.
+Sign in to become VIP.	Jelentkezz be, hogy VIP lehess.
+how play goes on after the break is undecided	még nem dőlt el, hogyan folytatódik a játék a kezdőlökés után
+Finish your game, and leave your table, the queue or your tournament first.	Előbb fejezd be a játszmádat, és hagyd el az asztalodat, a várakozási sort vagy a versenyedet.
+That choice can't be made now.	Ez a választás most nem lehetséges.
+That medal can't be.	Ilyen érem nem létezik.
+{name}'s tournament	{name} versenye
+When time runs out, it's a foul: your opponent gets a ball and the cue ball goes back to the head spot.	Ha lejár az idő, az szabálytalanság: az ellenfeled kap egy golyót, a fehér golyó pedig visszakerül a kezdőpontra.
+When time runs out, it's a foul: your opponent gets the cue ball in hand.	Ha lejár az idő, az szabálytalanság: az ellenfeled golyót kap kézbe.
+Your username was changed. Sign in again.	A felhasználóneved megváltozott. Jelentkezz be újra.
+You have your tournament game in progress. A new game takes its place, and the tournament game counts as lost.	Folyamatban van a versenyjátszmád. Az új játszma a helyére lép, a versenyjátszma pedig vereségnek számít.
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks again, from the head spot.	A kezdőlökésnél a fehér golyó mindkét csoport golyóival együtt esett be: nincs büntetés, az asztal nyitott marad, és {next} újra kezd a kezdőpontról.
+The cue ball went down on the break with no ball made: {next} breaks again, from the head spot.	A kezdőlökésnél beesett a fehér golyó, és egy golyó sem esett be: {next} újra kezd a kezdőpontról.
+{who} ran out of time: {other} breaks, from the head spot.	{who} ideje lejárt: {other} végzi a kezdőlökést a kezdőpontról.
+Congratulations!	Gratulálunk!
+You earned a new item: {title}	Új tárgyat szereztél: {title}
+You earned a new item!	Új tárgyat szereztél!

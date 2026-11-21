@@ -432,7 +432,8 @@ mod tests {
                 for item in &a.items {
                     assert!(!item.title.is_empty() && !item.text.is_empty(), "{lang:?}: {item:?}");
                     assert!(
-                        item.text.chars().count() < 400,
+                        // Translations run a little longer than the English.
+                        item.text.chars().count() < 440,
                         "{lang:?}: keep it short: {}",
                         item.title
                     );

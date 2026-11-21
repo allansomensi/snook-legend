@@ -394,6 +394,27 @@ The server:
   the settings close isn't shown as chosen; a LAN address pasted with
   "http://" in front connects.
 
+The server and what it shares with the game (the same review):
+- **An account deleted while it signed in from another place** left that
+  connection online under a name that was free again, out of the staff's
+  reach: it is closed, with any session made meanwhile, and a session of
+  a deleted account can't be resumed.
+- **Watching a friend's games ends with the friendship** (only a block
+  ended it), and a minor's status message and note on the board go when
+  their chat is turned off.
+- The address of a player behind a proxy is read from every line of the
+  forwarding header (a proxy adding its own line left the client's word
+  first); profiles asked for before signing in count per address; a
+  trusted-proxy entry that can't be read is said at startup.
+- **The tour's achievement gives its experience**, as every other does.
+- A flag emoji can't carry a long run of invisible tag characters past
+  the chat's filters; drill sessions are scored a couple at a time; a
+  first drill with nothing made is no place on the challenge table.
+- The shot analysis, the ghost's style and a shot's difficulty count a
+  break handed over on scattered balls as the ordinary shot it now is.
+- The staff portal's report counts work for a player called
+  "constructor".
+
 ### Notes
 - What's new in the game (three languages) and the Store listing's notes
   for 0.8.2: the shot clock and the break under the Brazilian rule, the cue

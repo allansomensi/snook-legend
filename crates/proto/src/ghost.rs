@@ -209,7 +209,7 @@ impl Tally {
         // As the game struck it: an ordinary stroke has a lower top speed
         // than the break.
         let shot = shot.sanitized_for(before.params(), report.was_break);
-        if report.was_break {
+        if report.was_break && before.break_on_rack() {
             self.breaks += 1;
             self.break_speed += shot.speed;
             return;

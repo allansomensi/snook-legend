@@ -150,7 +150,7 @@ pub fn shot_difficulty(
     shot: &Shot,
     report: &ShotReport,
 ) -> Option<(usize, bool)> {
-    if report.was_break {
+    if report.was_break && before.break_on_rack() {
         return None;
     }
     let target = report.first_contact?;

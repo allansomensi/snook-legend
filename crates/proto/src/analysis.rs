@@ -490,7 +490,9 @@ fn aimed_pocket(
 fn judge(before: &EightBallGame, shot: &Shot, t: &Trace, report: &ShotReport) -> Verdict {
     let shooter = before.current_player();
     let legal_pot = !report.is_foul() && report.pocketed.iter().any(|(b, _)| b.is_object());
-    if report.was_break {
+    // (The break of the rack: one handed over with the balls scattered is
+    // a shot like any other.)
+    if report.was_break && before.break_on_rack() {
         return Verdict::Break { made: legal_pot };
     }
     let Some((target, target_dir)) = t.first else { return Verdict::Other };

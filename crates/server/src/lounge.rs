@@ -2017,6 +2017,34 @@ impl Lounge {
         }
     }
 
+    /// Two players are no longer friends: neither goes on watching the
+    /// other's games (watching is for friends; the lounge's featured game
+    /// is everyone's).
+    pub fn unfriended(&mut self, a: &str, b: &str) {
+        let (a, b) = (key(a), key(b));
+        for (w, p) in [(&a, &b), (&b, &a)] {
+            let watches = self
+                .sessions
+                .get(w)
+                .is_some_and(|s| !s.watching_tv && s.watching.as_deref() == Some(p.as_str()));
+            if watches {
+                self.end_spectating(w, "You can't watch this game.");
+            }
+        }
+    }
+
+    /// A minor's chat was turned off: their status message and their note
+    /// on the board are no longer shown.
+    pub fn silenced(&mut self, name: &str) {
+        let k = key(name);
+        self.drop_seek(&k);
+        if let Some(u) = self.session_user(name) {
+            let mut u = u.clone();
+            u.status_message.clear();
+            self.refresh_user(u);
+        }
+    }
+
     /// `k` stops watching (if they were).
     pub fn stop_watching(&mut self, k: &str) {
         let Some(friend) = self.sessions.get_mut(k).and_then(|s| {

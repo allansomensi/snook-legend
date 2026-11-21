@@ -286,6 +286,12 @@ pub fn clean_text(text: &str, max: usize) -> String {
         if is_invisible(c) && !in_emoji(out.last().copied(), c, chars.peek().copied()) {
             continue;
         }
+        // A flag's tags are a few letters and the tag that ends them: a
+        // longer run is text nobody sees (it would pass under any filter).
+        let is_tag = |c: &char| ('\u{E0020}'..='\u{E007E}').contains(c);
+        if is_tag(&c) && out.iter().rev().take_while(|c| is_tag(c)).count() >= 6 {
+            continue;
+        }
         let space = c.is_whitespace();
         if space && last_space {
             continue;

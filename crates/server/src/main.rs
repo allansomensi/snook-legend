@@ -87,8 +87,20 @@ async fn main() {
             .unwrap_or_default(),
         client_ip_header: env("SNOOK_LEGEND_CLIENT_IP_HEADER").map(|h| h.to_lowercase()),
         proxy_hops: env("SNOOK_LEGEND_PROXY_HOPS").and_then(|v| v.parse().ok()).unwrap_or(1),
-        trusted_proxies: env("SNOOK_LEGEND_TRUSTED_PROXIES")
-            .map(|v| snook_legend_server::parse_networks(&v)),
+        trusted_proxies: env("SNOOK_LEGEND_TRUSTED_PROXIES").map(|v| {
+            let networks = snook_legend_server::parse_networks(&v);
+            // An entry that can't be read is a proxy not trusted: with none
+            // left, every player would share the proxy's address (and its
+            // limits). Said out loud, not left to be found out.
+            let asked = v.split(',').filter(|s| !s.trim().is_empty()).count();
+            if networks.len() < asked {
+                eprintln!(
+                    "warning: SNOOK_LEGEND_TRUSTED_PROXIES: {} of {asked} entries could not be read",
+                    asked - networks.len()
+                );
+            }
+            networks
+        }),
         stripe: snook_legend_server::payments::StripeConfig::from_env(),
         msstore: snook_legend_server::msstore::MsStoreConfig::from_env(),
         privacy: {

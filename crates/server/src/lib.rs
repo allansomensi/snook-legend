@@ -390,7 +390,15 @@ impl Server {
             return peer.ip();
         }
         for name in names.split(',').map(str::trim).filter(|n| !n.is_empty()) {
-            let Some(value) = headers.get(name).and_then(|v| v.to_str().ok()) else { continue };
+            // Every line of the header, in order (a proxy may add its own
+            // line instead of adding to the one it was sent: the client's
+            // line alone would be the client's word for its address).
+            let lines: Vec<&str> =
+                headers.get_all(name).iter().filter_map(|v| v.to_str().ok()).collect();
+            if lines.is_empty() {
+                continue;
+            }
+            let value = lines.join(",");
             let parts: Vec<&str> = value.split(',').map(str::trim).collect();
             let pick = if name.eq_ignore_ascii_case("x-forwarded-for") {
                 parts.len().checked_sub(self.config.proxy_hops.max(1)).and_then(|i| parts.get(i))
@@ -1064,6 +1072,9 @@ async fn authenticate(server: &Arc<Server>, msg: ClientMsg, ip: &str) -> Auth {
             let hash = token_hash(&token);
             match server.store.session_user(&hash, SessionKind::Game, now()).await {
                 Ok(Some((user, created))) => {
+                    if user.deleted_at.is_some() {
+                        return fail("Your session expired. Please log in again.");
+                    }
                     if user.is_banned(now()) {
                         return Auth::Failed(ban_message(&user));
                     }
@@ -1323,7 +1334,11 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                     send(ServerMsg::Leaderboard { rules, entries: server.leaderboard(rules).await })
                 }
                 ClientMsg::Profile { username } => {
-                    if let Some(mut msg) = profile_msg(&server, None, &username).await {
+                    // (Counted per address, as sign-ins are: a profile is a
+                    // dozen queries, and a new connection has a full bucket.)
+                    if !server.auth().try_sign_in(&ip_text) {
+                        send(ServerMsg::Error { message: "Slow down a little.".into() });
+                    } else if let Some(mut msg) = profile_msg(&server, None, &username).await {
                         analysis::attach(&server, &mut msg).await;
                         send(msg);
                     }
@@ -1382,9 +1397,21 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
             | ClientMsg::ChangePassword { .. }
             | ClientMsg::SetRecoveryEmail { .. }
             | ClientMsg::DeleteAccount { .. }) => {
+                let deleting = matches!(msg, ClientMsg::DeleteAccount { .. });
                 if account::handle(&server, &me, token_in_use.as_deref(), &ip_text, msg, &send)
                     .await
                 {
+                    if deleting {
+                        // Signed in from another place while it was being
+                        // deleted: that connection goes too, with any
+                        // session made meanwhile (it would stay online
+                        // under a name that is free again).
+                        server.with(|l| {
+                            l.leave(&me.username, conn_id);
+                            l.kick(&me.username, "This account was deleted.");
+                        });
+                        let _ = server.store.delete_user_sessions(me.id).await;
+                    }
                     break;
                 }
             }
@@ -1429,6 +1456,14 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                             let mut fresh = me.clone();
                             fresh.chat_allowed_at = at;
                             server.with(|l| l.set_age(&me.username, fresh.minor, at));
+                            // Chat turned off: what they wrote for others
+                            // to read (the status on their card, a note on
+                            // the board) goes as well.
+                            if !allowed {
+                                let _ = server.store.set_status_message(me.id, "").await;
+                                fresh.status_message.clear();
+                                server.with(|l| l.silenced(&me.username));
+                            }
                             tracing::info!(player = %me.username, allowed, "chat for a minor");
                             send(age_msg(&fresh));
                             user = Some((fresh, guest));
@@ -1600,6 +1635,7 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                         }
                     } else {
                         let _ = server.store.friend_remove(me.id, other.id).await;
+                        server.with(|l| l.unfriended(&me.username, &other.username));
                     }
                     refresh_friends(&server, &me).await;
                 }
@@ -1607,6 +1643,7 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
             ClientMsg::FriendRemove { username } => {
                 if let Ok(Some(other)) = server.store.user_by_name(&username).await {
                     let _ = server.store.friend_remove(me.id, other.id).await;
+                    server.with(|l| l.unfriended(&me.username, &other.username));
                     refresh_friends(&server, &me).await;
                     refresh_friends(&server, &other).await;
                 }

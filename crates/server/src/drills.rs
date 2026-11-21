@@ -119,6 +119,8 @@ async fn submit(
         return Err(Refused::BadStroke);
     }
     let checked = code.to_string();
+    // A couple at a time: a session is up to fifteen shots to simulate.
+    let _permit = server.computer.drills.acquire().await.map_err(|_| Refused::Other)?;
     let score =
         tokio::task::spawn_blocking(move || drills::score_session(&checked, session, &strokes))
             .await
@@ -133,7 +135,10 @@ async fn submit(
         // experience.
         if let Ok(bests) = server.store.drill_bests(me.id).await {
             let rating = drills::challenge_rating(&bests);
-            let _ = server.store.set_challenge_rating(me.id, rating, stars_of(&bests), t).await;
+            // (Nothing made yet is no place on the table.)
+            if rating > 0 {
+                let _ = server.store.set_challenge_rating(me.id, rating, stars_of(&bests), t).await;
+            }
         }
         let gained =
             drills::stars(d, score).saturating_sub(before.map_or(0, |b| drills::stars(d, b)));

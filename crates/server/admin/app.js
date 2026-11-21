@@ -1798,7 +1798,8 @@ PAGES.reports = async (route) => {
   const who = route.query.get("q") || "";
   const d = await api("/reports?" + new URLSearchParams({ status }));
   if (status === "open") { counts.reports = d.reports.length; renderSidebar(); }
-  const about = {};
+  // (No inherited names: a player may be called "constructor".)
+  const about = Object.create(null);
   for (const r of d.reports) about[r.target] = (about[r.target] || 0) + 1;
   const shown = d.reports.filter((r) => (!reason || r.reason === reason)
     && (!who || r.target.toLowerCase().includes(who.toLowerCase()) || r.reporter.toLowerCase().includes(who.toLowerCase())));

@@ -37,6 +37,8 @@ const GHOST_CACHE_SIZE: usize = 500;
 pub struct Computer {
     claims: Semaphore,
     styles: Semaphore,
+    /// Drill sessions being scored (each simulates up to fifteen shots).
+    pub(crate) drills: Semaphore,
     last_claim: Mutex<HashMap<i64, Instant>>,
     ghost_limits: Mutex<HashMap<i64, crate::limits::Bucket>>,
     /// user -> (when, their latest match then, the style).
@@ -54,6 +56,7 @@ impl Default for Computer {
             // One game checked at a time: a claim is seconds of CPU time.
             claims: Semaphore::new(1),
             styles: Semaphore::new(2),
+            drills: Semaphore::new(2),
             last_claim: Mutex::new(HashMap::new()),
             ghost_limits: Mutex::new(HashMap::new()),
             cache: Mutex::new(HashMap::new()),
@@ -220,20 +223,9 @@ pub async fn ticket(server: &Server, me: &User) -> ServerMsg {
 /// Unlocks the ladder's achievement (which brings the item) and tells the
 /// player, as [`Server::check_achievements`] does.
 async fn award(server: &Server, me: &User) {
-    match server.store.add_achievements(me.id, &[ladder::ACHIEVEMENT], now()).await {
-        Ok(new) => {
-            let all = server.store.achievements(me.id).await.unwrap_or_default();
-            let codes: Vec<String> = all.into_iter().map(|(code, _)| code).collect();
-            server.with(|l| {
-                for code in new {
-                    l.notify(&me.username, ServerMsg::AchievementUnlocked { code });
-                }
-                l.set_achievements(&me.username, codes);
-            });
-            crate::shop::push_wallet(server, me).await;
-        }
-        Err(e) => tracing::error!("the ladder achievement of {}: {e}", me.username),
-    }
+    // (With the experience an achievement gives, as any other.)
+    server.award_achievement(me, ladder::ACHIEVEMENT).await;
+    crate::shop::push_wallet(server, me).await;
 }
 
 /// How `username` plays, for `me` to play against their ghost.

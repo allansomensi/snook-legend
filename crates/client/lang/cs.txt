@@ -1,1 +1,2056 @@
-# placeholder
+# Snook Legend: Czech.
+# One text per line: the English text (as written in the code), a tab, the translation.
+# Placeholders like {name} must stay as they are; \n is a new line.
+{name} is on the 8: called pocket {pocket}	{name} hraje na osmičku: ohlášená díra {pocket}
+On the 8-ball: {pocket} pocket	Na osmičku: díra {pocket}
+Show ping	Zobrazit ping
+Your connection's delay, in online games.	Zpoždění tvého připojení v online hrách.
+Reactions	Reakce
+Shop	Obchod
+Cloth	Sukno
+Cues	Tága
+Chalk	Křída
+Balls	Koule
+Coins	Mince
+coins	mince
+Sign in to buy and use items. Here is what there is:	Přihlas se a můžeš kupovat a používat předměty. Tohle tu je:
+In use	Používáš
+Use	Použít
+Buy	Koupit
+{n} short	chybí {n}
+{n} coins	Mince: {n}
+Not enough coins: get more in the Coins tab.	Nemáš dost mincí: další získáš na kartě Mince.
+VIP only	Jen pro VIP
+free	zdarma
+yours	tvoje
+achievement	úspěch
+Coins can't be bought on this server yet.	Na tomto serveru zatím nejde mince koupit.
++{n} bonus	+{n} navíc
+Payment opens in your browser (card, Pix…), on Stripe's secure page.	Platba se otevře v prohlížeči (karta, Pix…) na zabezpečené stránce Stripe.
+Coins arrive in a moment; they are only used for items in the game.	Mince dorazí za chvilku; slouží jen na předměty ve hře.
+Exclusive items: {list}	Exkluzivní předměty: {list}
+{n} coins every month	Mince každý měsíc: {n}
+Cancel whenever you want: VIP lasts until the end of the paid month	Zrušit můžeš kdykoli: VIP platí do konce zaplaceného měsíce
+You are VIP until {d}.	VIP máš do {d}.
+Manage subscription	Spravovat předplatné
+Become VIP · {p}	Získat VIP · {p}
+VIP can't be bought on this server yet.	Na tomto serveru zatím nejde VIP koupit.
+The payment page opened in your browser.	Platební stránka se otevřela v prohlížeči.
+Could not open the browser.	Prohlížeč se nepodařilo otevřít.
+Tournament green	Turnajová zelená
+Electric blue	Elektrická modrá
+Burgundy	Burgundská
+Charcoal	Uhlová
+Teal	Modrozelená
+Royal purple	Královská fialová
+Camel	Velbloudí
+Midnight	Půlnoc
+Champion's red	Šampionská červená
+Classic	Klasické
+Rosewood	Palisandr
+Ebony & silver	Eben a stříbro
+Carbon	Karbon
+Ivory inlay	Slonovinová intarzie
+Crown	Koruna
+Jewels	Drahokamy
+Blue chalk	Modrá křída
+Green chalk	Zelená křída
+Red chalk	Červená křída
+Purple chalk	Fialová křída
+Gold chalk	Zlatá křída
+Vintage	Vintage
+Pastel	Pastel
+Neon	Neon
+You already have this item.	Tento předmět už máš.
+Not enough coins.	Nemáš dost mincí.
+The purchase failed; no coins were taken.	Nákup se nezdařil; žádné mince se nestrhly.
+No such item.	Takový předmět neexistuje.
+This item can't be bought with coins.	Tento předmět nejde koupit za mince.
+You don't have this item.	Tento předmět nemáš.
+Purchases are not available.	Nákupy nejsou k dispozici.
+This pack is not on sale.	Tento balíček se neprodává.
+The payment page could not be opened. Try again in a moment.	Platební stránku se nepodařilo otevřít. Zkus to za chvilku znovu.
+You are already VIP.	VIP už máš.
+There is no subscription to manage.	Nemáš žádné předplatné ke správě.
+The page could not be opened. Try again in a moment.	Stránku se nepodařilo otevřít. Zkus to za chvilku znovu.
+Coins added to your wallet.	Mince byly přidány do tvé peněženky.
+Welcome to VIP!	Vítej mezi VIP!
+Slow down a little.	Trochu zpomal.
+You can't do that.	To nemůžeš udělat.
+There are too many notes right now. Try again in a few minutes.	Právě je tu příliš mnoho vzkazů. Zkus to znovu za pár minut.
+A moderator took down your note.	Moderátor odstranil tvůj vzkaz.
+A moderator cleared your status message.	Moderátor smazal tvůj status.
+Status message cleared.	Status smazán.
+VIP	VIP
+Play now	Hrát hned
+Find an opponent of your level automatically	Automaticky najdi soupeře na své úrovni
+Looking for an opponent… {t}	Hledám soupeře… {t}
+any rating	jakýkoli rating
+rating ±{n} · {mode}	rating ±{n} · {mode}
+Potting success	Úspěšnost
+Balls made	Potopené koule
+Best run	Nejlepší série
+Fouls	Fauly
+seen just now	viděn právě teď
+seen {n} min ago	viděn před {n} min
+seen {n} h ago	viděn před {n} h
+seen yesterday	viděn včera
+seen {n} days ago	viděn před {n} dny
+seen {n} months ago	viděn před {n} měs.
+just now	právě teď
+{n} min ago	před {n} min
+{n} h ago	před {n} h
+yesterday	včera
+{n} days ago	před {n} dny
+Game history	Průběh hry
+Nothing yet.	Zatím nic.
+Fine aim: click the arrows, or drag here	Jemné míření: klikej na šipky, nebo táhni tady
+{n} watching	Diváci: {n}
+Watching {name}	Sleduješ hráče {name}
+Your reactions reach the table quietly.	Tvoje reakce dorazí ke stolu potichu.
+Stop watching	Přestat sledovat
+If they play again, you keep watching.	Když budou hrát znovu, sleduješ dál.
+Your friend left the table.	Tvůj přítel odešel od stolu.
+Your friend isn't playing right now.	Tvůj přítel teď nehraje.
+You can only watch your friends.	Sledovat můžeš jen své přátele.
+You can't watch this game.	Tuto hru nemůžeš sledovat.
+{n} points to {tier}	Do úrovně {tier} zbývá bodů: {n}
+Top tier	Nejvyšší úroveň
+Reactions {n}/{total}	Reakce {n}/{total}
+Haunted table	Strašidelný stůl
+Win a rated game during Halloween (Oct 24 – Nov 2).	Vyhraj hodnocenou hru o Halloweenu (24. 10. – 2. 11.).
+Winter league	Zimní liga
+Win a rated game over the holidays (Dec 15 – Jan 6).	Vyhraj hodnocenou hru o svátcích (15. 12. – 6. 1.).
+Fireworks	Ohňostroj
+Win a rated game at the turn of the year (Dec 31 – Jan 1).	Vyhraj hodnocenou hru na přelomu roku (31. 12. – 1. 1.).
+Shows where the object ball and the cue ball go (only in free games and practice).	Ukazuje, kam půjde cílová koule a bílá (jen ve volných hrách a v tréninku).
+{n} online · ping {ms} ms	Online: {n} · ping {ms} ms
+Right-drag · Wheel	Tažení pravým · Kolečko
+Win %	% výher
+Reset the camera: top view, no zoom	Obnovit kameru: pohled shora, bez přiblížení
+{name} sank the 8-ball	{name} potopil(a) osmičku
+{name} sank the 8 too early	{name} potopil(a) osmičku předčasně
+{name} sank the 8 in the wrong pocket	{name} potopil(a) osmičku do špatné díry
+{name} fouled on the 8	{name} fauloval(a) na osmičce
+{name} knocked the 8 off the table	{name} vyrazil(a) osmičku ze stolu
+{name} resigned	{name} se vzdal(a)
+{name} left the game	{name} opustil(a) hru
+{winner} wins! ({how})	{winner} vyhrává! ({how})
+#{n} in the world	#{n} na světě
+3–16 letters, digits or underscores.	3–16 písmen, číslic nebo podtržítek.
+No lines on the table: aim by eye, along the cue.	Žádné čáry na stole: miř od oka, podél tága.
+No guide	Bez vodítka
+Only a short line from the cue ball.	Jen krátká čára od bílé.
+Accept friend	Přijmout přátelství
+Achievement unlocked: {title}	Úspěch odemčen: {title}
+Achievements {n}/{total}	Úspěchy {n}/{total}
+Add	Přidat
+Add a friend by username	Přidej přítele podle uživatelského jména
+Add friend	Přidat přítele
+Against the computer	Proti počítači
+All tournaments	Všechny turnaje
+Amateur	Amatér
+At least 8 characters. Use a password you don't use elsewhere.	Aspoň 8 znaků. Použij heslo, které nepoužíváš jinde.
+At least two players are needed.	Jsou potřeba aspoň dva hráči.
+Back	Zpět
+Black ball	Černá koule
+Block	Blokovat
+Break and run	Z rozstřelu do konce
+Break and run 10 times.	Desetkrát vyčisti stůl hned z rozstřelu.
+Can't listen for games here: join by address below.	Tady nejde hledat hry: připoj se níže přes adresu.
+Cancel request	Zrušit žádost
+Cancel tournament	Zrušit turnaj
+Casual	Přátelská
+Centurion	Centurion
+Champion	Šampion
+Champion: {name}	Šampion: {name}
+Change country	Změnit zemi
+Add a status message	Přidat status
+A line about you	Pár slov o tobě
+Save (Enter)	Uložit (Enter)
+Cancel (Esc)	Zrušit (Esc)
+Change your status message	Změnit status
+Clear the status message	Smazat status
+Cheating or abuse	Podvádění nebo zneužívání
+Choose…	Vybrat…
+Click again to block	Klikni znovu pro zablokování
+Close	Zavřít
+Closer	Zakončovač
+Competitor	Soutěživý
+Connecting to the server…	Připojuji se k serveru…
+Could not host a game: {e}	Hru se nepodařilo založit: {e}
+Country	Země
+Create	Vytvořit
+Create a tournament	Vytvořit turnaj
+Don't show a flag	Nezobrazovat vlajku
+No country found.	Žádná země nenalezena.
+Dynasty	Dynastie
+Eight is enough	Osmička stačí
+Executioner	Kat
+Expert	Expert
+Familiar face	Známá tvář
+Final	Finále
+Finish your game first.	Nejdřív dohraj svou hru.
+First blood	První krev
+First break	První rozstřel
+Friend request sent.	Žádost o přátelství odeslána.
+Friends	Přátelé
+# Daily (correspondence) games.
+daily game	denní hra
+Daily	Denní
+Daily game	Denní hra
+Daily games	Denní hry
+Challenge a player by username	Vyzvi hráče podle uživatelského jména
+Challenge to a daily game	Vyzvat na denní hru
+3 days for each turn	3 dny na každý tah
+No daily games yet. Challenge a friend: each of you plays a turn whenever you can.	Zatím žádné denní hry. Vyzvi přítele: každý zahraje svůj tah, kdy se mu to hodí.
+challenges you · {kind}	tě vyzývá · {kind}
+waiting for an answer · {kind} · {time} left	čeká na odpověď · {kind} · zbývá {time}
+your turn · {time} left	jsi na tahu · zbývá {time}
+their turn · {time} left	hraje soupeř · zbývá {time}
+won · {how}	výhra · {how}
+lost · {how}	prohra · {how}
+ran out of time	došel ti čas
+the opponent ran out of time	soupeři došel čas
+open table	otevřený stůl
+You: {mine}, {a} left · {name}: {theirs}, {b} left	Ty: {mine}, zbývá {a} · {name}: {theirs}, zbývá {b}
+Look	Podívat se
+Skip	Přeskočit
+Replaying {name}'s turn	Přehrávám tah hráče {name}
+Stroke {n} of {total}	Šťouch {n} z {total}
+Turn sent	Tah odeslán
+Turn sent.	Tah odeslán.
+Waiting for {name} to play	Čeká se, až zahraje {name}
+{name} has {time} to play. You'll be told when it's your turn.	{name} má na tah {time}. Dáme ti vědět, až budeš na tahu.
+{time} left to play. You'll be told when it's your turn.	Na tah zbývá {time}. Dáme ti vědět, až budeš na tahu.
+Back to daily games	Zpět na denní hry
+Your game is saved: come back whenever you like.	Tvoje hra je uložená: vrať se, kdy chceš.
+{d} d {h} h	{d} d {h} h
+{name} ran out of time	{name}: došel čas
+This game can't be shown.	Tuto hru nejde zobrazit.
+A daily game is waiting for you	Čeká na tebe denní hra
+{n} daily games are waiting for you	Denní hry, které na tebe čekají: {n}
+{name} challenges you to a rated daily game.	{name} tě vyzývá na hodnocenou denní hru.
+{name} challenges you to a casual daily game.	{name} tě vyzývá na přátelskou denní hru.
+{name} accepted your daily game.	{name} přijal(a) tvou denní hru.
+{name} declined your daily game.	{name} odmítl(a) tvou denní hru.
+{name} withdrew their daily game challenge.	{name} stáhl(a) svou výzvu na denní hru.
+Your turn in the daily game against {name}.	Jsi na tahu v denní hře proti hráči {name}.
+{name} ran out of time: you won the daily game.	{name}: došel čas, denní hra je tvoje.
+You won the daily game against {name}!	Denní hra proti hráči {name} je tvoje!
+You ran out of time in the daily game against {name}.	V denní hře proti hráči {name} ti došel čas.
+You lost the daily game against {name}.	Denní hru proti hráči {name} jsi prohrál(a).
+Challenge sent.	Výzva odeslána.
+Daily games need an account.	Denní hry vyžadují účet.
+No such game.	Taková hra neexistuje.
+That challenge is no longer valid.	Tato výzva už neplatí.
+That player already challenged you: answer their challenge.	Tento hráč už vyzval tebe: odpověz na jeho výzvu.
+That player has too many challenges waiting.	Tento hráč má příliš mnoho čekajících výzev.
+That player has too many daily games going on.	Tento hráč hraje příliš mnoho denních her.
+That player is not accepting challenges.	Tento hráč nepřijímá výzvy.
+This game can't be played right now.	Tuto hru teď nejde hrát.
+This game changed meanwhile: open it again.	Hra se mezitím změnila: otevři ji znovu.
+This game is over.	Tato hra skončila.
+You already challenged that player.	Tohoto hráče už vyzýváš.
+You already have a game going on against that player.	S tímto hráčem už rozehranou hru máš.
+You blocked that player.	Tohoto hráče máš zablokovaného.
+You can't challenge yourself.	Nemůžeš vyzvat sám sebe.
+You have as many daily games as you can play at once.	Máš tolik denních her, kolik najednou můžeš hrát.
+You have too many challenges waiting for an answer.	Máš příliš mnoho výzev, které čekají na odpověď.
+You're sending challenges too quickly.	Posíláš výzvy příliš rychle.
+Your time for this turn ran out.	Čas na tento tah ti vypršel.
+Games	Hry
+Games on your network	Hry ve tvé síti
+Give the tournament a name (at least 3 characters).	Pojmenuj turnaj (aspoň 3 znaky).
+Good company	Dobrá společnost
+Grandmaster	Velmistr
+Guests can only join LAN games. Create an account.	Hosté se můžou připojit jen k LAN hrám. Vytvoř si účet.
+Guests can't play rated tournaments.	Hosté nemůžou hrát hodnocené turnaje.
+Guests don't have this.	Hosté tohle nemají.
+Harassment	Obtěžování
+Hat trick	Hattrick
+Have 10 friends.	Měj 10 přátel.
+Have an account for 30 days.	Měj účet 30 dní.
+Have an account for a year.	Měj účet rok.
+Host a game on this computer	Založit hru na tomto počítači
+Host {host} · {n}/{size} players · {kind}	Hostitel {host} · hráči {n}/{size} · {kind}
+Hot hand	Horká ruka
+Hustler	Hustler
+Invalid shot.	Neplatný šťouch.
+Join	Připojit se
+Joining the LAN game…	Připojuji se k LAN hře…
+Just for fun	Jen pro zábavu
+L	P
+LAN game	LAN hra
+LAN game hosted by {name}.	LAN hra hráče {name}.
+LAN games don't change ratings.	LAN hry nemění rating.
+Legend	Legenda
+Lives at the table	Žije u stolu
+Loading the profile…	Načítám profil…
+Loading…	Načítání…
+Local network	Místní síť
+Locked	Zamčeno
+Looking for games	Hledám hry
+Make a friend.	Najdi si přítele.
+Master	Mistr
+Name	Jméno
+Names have 3–16 letters, digits or underscores.	Jména mají 3–16 písmen, číslic nebo podtržítek.
+New account	Nový účet
+I have an account	Mám účet
+New here? Choose “New account”: it takes ten seconds.	Jsi tu nový? Zvol „Nový účet“: zabere to deset sekund.
+New tournament	Nový turnaj
+No friends yet. Add someone you played with!	Zatím žádní přátelé. Přidej někoho ze svých soupeřů!
+No games yet.	Zatím žádné hry.
+No limit	Bez limitu
+No open tables. Open one and others can sit down.	Žádné otevřené stoly. Otevři jeden a ostatní si můžou přisednout.
+No other open tables right now.	Teď tu nejsou žádné další otevřené stoly.
+No such player.	Takový hráč neexistuje.
+No tournaments right now. Create one!	Teď neběží žádné turnaje. Vytvoř jeden!
+Offensive name	Urážlivé jméno
+On a roll	V ráži
+On fire	V plamenech
+Only the host can start the tournament.	Turnaj může spustit jen hostitel.
+Open a table	Otevřít stůl
+Or join by address	Nebo se připoj přes adresu
+Other	Jiné
+Others can join at {ip}:{port}	Ostatní se můžou připojit na {ip}:{port}
+Passwords need at least 8 characters (not only digits).	Heslo musí mít aspoň 8 znaků (ne jen číslice).
+Play 1,000 rated games.	Odehraj 1 000 hodnocených her.
+Play 10 rated games.	Odehraj 10 hodnocených her.
+Play 100 rated games.	Odehraj 100 hodnocených her.
+Play 25 casual games.	Odehraj 25 přátelských her.
+Play 500 rated games.	Odehraj 500 hodnocených her.
+Play in a tournament.	Zahraj si turnaj.
+Play online	Hrát online
+Play with friends on the same network	Hraj s přáteli ve stejné síti
+Play your first rated game.	Odehraj svou první hodnocenou hru.
+Player 1	Hráč 1
+Players	Hráči
+Players in a tournament can't start other games.	Hráči v turnaji nemůžou začínat jiné hry.
+Please don't repeat the same message.	Neopakuj prosím stejnou zprávu.
+Pool hall legend	Legenda herny
+Popular	Oblíbené
+Private	Soukromá
+for your friends to sit down	aby si tví přátelé mohli přisednout
+Profile	Profil
+{key}: watch the last shot again	{key}: znovu přehrát poslední šťouch
+REPLAY	ZÁZNAM
+Rated	Hodnocená
+Rated games, tables, tournaments and friends	Hodnocené hry, stoly, turnaje a přátelé
+Reach a rating of 1300.	Dosáhni ratingu 1300.
+Reach a rating of 1500.	Dosáhni ratingu 1500.
+Reach a rating of 1700.	Dosáhni ratingu 1700.
+Reach a rating of 1900.	Dosáhni ratingu 1900.
+Reach a rating of 2100.	Dosáhni ratingu 2100.
+Refresh	Obnovit
+Regular	Štamgast
+Remove friend	Odebrat přítele
+Replay	Záznam
+Report	Nahlásit
+Report {name}	Nahlásit hráče {name}
+Request sent	Žádost odeslána
+Friend	Přítel
+Recent	Nedávní
+Nobody yet. The people you play online will show up here.	Zatím nikdo. Objeví se tu lidé, se kterými budeš hrát online.
+{n} games	Hry: {n}
+Rookie	Nováček
+Round {n}	{n}. kolo
+Search…	Hledat…
+Semi-finals	Semifinále
+Send report	Odeslat hlášení
+This game goes with the report, so the moderators can watch it.	Tato hra se přiloží k hlášení, aby ji moderátoři mohli zhlédnout.
+Your game with {name} ({date}) goes with the report, so the moderators can watch it.	Tvoje hra s hráčem {name} ({date}) se přiloží k hlášení, aby ji moderátoři mohli zhlédnout.
+You haven't played {name} in the last day: the moderators see the recent chat.	S hráčem {name} jsi za poslední den nehrál(a): moderátoři uvidí nedávný chat.
+Shark	Žralok
+Shows the contact point; judging the cut is up to you.	Ukazuje bod dotyku; odhad úhlu je na tobě.
+Shutout	Čisté konto
+Sign in	Přihlásit se
+Sign in or create an account	Přihlas se nebo si vytvoř účet
+Sign out	Odhlásit se
+Sit down	Přisednout
+Skilled	Zručný
+Someone with that name is already here.	Někdo s tímto jménem už tu je.
+Spam	Spam
+Start now	Začít hned
+Stop the replay	Zastavit záznam
+Table runner	Čistič stolů
+Tables	Stoly
+Take turns on this computer	Střídejte se na tomto počítači
+Thank you. The moderators will look into it.	Děkujeme. Moderátoři se na to podívají.
+Thank you. The moderators will look into it, with your game attached.	Děkujeme. Moderátoři se na to podívají, tvoje hra je přiložená.
+That player is not accepting invitations.	Tento hráč nepřijímá pozvánky.
+That shot was for an earlier turn.	Ten šťouch patřil k dřívějšímu tahu.
+That table is no longer open.	Ten stůl už není otevřený.
+That tournament has already started.	Ten turnaj už začal.
+That tournament no longer exists.	Ten turnaj už neexistuje.
+The first connection of the day can take up to a minute while the server wakes up.	První připojení dne může trvat až minutu, než se server probudí.
+The first time, allow Snook Legend through the firewall when asked.	Napoprvé povol Snook Legend ve firewallu, až se zeptá.
+The server could not play that shot.	Server nemohl ten šťouch zahrát.
+The server is busy. Try again in a moment.	Server je vytížený. Zkus to za chvilku znovu.
+The tournament starts when it is full (the host can start it earlier).	Turnaj začne, jakmile se zaplní (hostitel ho může spustit dřív).
+There are too many tournaments right now. Join one!	Právě běží příliš mnoho turnajů. Připoj se k některému!
+This is a LAN server: join as a guest.	Tohle je LAN server: připoj se jako host.
+Fifteen rivals, a tour and ghosts of real players	Patnáct soupeřů, turné a duchové skutečných hráčů
+Tier	Úroveň
+Time per shot	Čas na šťouch
+Too many failed attempts. Wait a few minutes and try again.	Příliš mnoho neúspěšných pokusů. Počkej pár minut a zkus to znovu.
+Too many messages.	Příliš mnoho zpráv.
+Too many new accounts from this network. Try again later.	Z této sítě vzniklo příliš mnoho nových účtů. Zkus to později.
+Top 100 · rated games	Top 100 · hodnocené hry
+Tournament game: the next round starts from the lounge.	Turnajová hra: další kolo začíná z herny.
+Tournament games have no rematch.	Turnajové hry nemají odvetu.
+Tournaments	Turnaje
+Tournaments have 4, 8 or 16 players.	Turnaje mají 4, 8 nebo 16 hráčů.
+Two players	Dva hráči
+Unblock	Odblokovat
+Unlocked {date}	Odemčeno {date}
+Unstoppable	Nezastavitelný
+W	V
+Watch the last shot again	Znovu přehrát poslední šťouch
+What happened? (optional)	Co se stalo? (nepovinné)
+When time runs out, the turn passes.	Když dojde čas, tah přechází na soupeře.
+Whitewash	Debakl
+Win 10 rated games on the 8-ball.	Vyhraj 10 hodnocených her potopením osmičky.
+Win 10 rated games in a row.	Vyhraj 10 hodnocených her v řadě.
+Win 10 rated games.	Vyhraj 10 hodnocených her.
+Win 10 rated shutouts.	Vyhraj 10 hodnocených her s čistým kontem.
+Win 100 rated games on the 8-ball.	Vyhraj 100 hodnocených her potopením osmičky.
+Win 100 rated games.	Vyhraj 100 hodnocených her.
+Win 250 rated games on the 8-ball.	Vyhraj 250 hodnocených her potopením osmičky.
+Win 3 rated games in a row.	Vyhraj 3 hodnocené hry v řadě.
+Win 5 rated games in a row.	Vyhraj 5 hodnocených her v řadě.
+Win 5 tournaments.	Vyhraj 5 turnajů.
+Win 50 rated games on the 8-ball.	Vyhraj 50 hodnocených her potopením osmičky.
+Win 50 rated games.	Vyhraj 50 hodnocených her.
+Win 500 rated games.	Vyhraj 500 hodnocených her.
+Win a rated game.	Vyhraj hodnocenou hru.
+Win a tournament.	Vyhraj turnaj.
+Win a rated game before your opponent sinks a ball of their group.	Vyhraj hodnocenou hru dřív, než soupeř potopí kouli ze své skupiny.
+Win a rated game from the break without your opponent getting a shot.	Vyhraj hodnocenou hru z rozstřelu, aniž by soupeř šel ke stolu.
+Withdraw	Odstoupit
+World ranking	Světový žebříček
+Wrong table password.	Špatné heslo ke stolu.
+Wrong tournament password.	Špatné heslo k turnaji.
+You are already in a tournament.	Už jsi v turnaji.
+You are hosting a game	Hostíš hru
+You can't join this table.	K tomuto stolu se nemůžeš připojit.
+You signed in from another place.	Přihlásil(a) ses odjinud.
+You're sending invitations too quickly.	Posíláš pozvánky příliš rychle.
+You're sending messages too quickly.	Posíláš zprávy příliš rychle.
+You've sent many reports. Please wait before sending more.	Poslal(a) jsi hodně hlášení. Než pošleš další, chvíli počkej.
+Your friend list is full.	Tvůj seznam přátel je plný.
+Your next match starts by itself when both players are free.	Tvůj další zápas začne sám, jakmile budou oba hráči volní.
+Your profile	Tvůj profil
+Your table is open	Tvůj stůl je otevřený
+Zoom in	Přiblížit
+Zoom out	Oddálit
+at a table	u stolu
+best streak	nejlepší série
+by {host} · {n}/{size} players	hostí {host} · hráči {n}/{size}
+casual games	přátelské hry
+casual · private	přátelská · soukromá
+casual · public	přátelská · veřejná
+connecting to the server	připojuji se k serveru
+eight-ball pool	osmičkový pool
+finished	skončil
+guest	host
+invites you to {kind}	tě zve na {kind}
+joined today	připojil(a) se dnes
+member for {n} days	členem {n} d
+member for {n} months	členem {n} měs.
+member for {n} years	členem {n} r.
+offline	offline
+open	otevřený
+optional: only friends with it can join	nepovinné: připojit se můžou jen přátelé, kteří ho znají
+password	heslo
+peak {n}	maximum {n}
+playing	hraje
+playing the computer	hraje proti počítači
+away	pryč
+this game is saved	tato hra se ukládá
+rated games	hodnocené hry
+rated · private	hodnocená · soukromá
+rated · public	hodnocená · veřejná
+request sent	žádost odeslána
+the connection dropped	spojení spadlo
+to play online	pro hraní online
+tournament	turnaj
+tournaments won	vyhrané turnaje
+waiting for an opponent…	čekám na soupeře…
+win rate	podíl výher
+wins	výhry
+won on the 8	výhry na osmičce
+{host}'s game	hra hráče {host}
+{name} wants to be friends	{name} si tě chce přidat do přátel
+{name} wants to be your friend.	{name} si tě chce přidat do přátel.
+{n} online	Online: {n}
+sank the 8-ball	potopil(a) osmičku
+the opponent sank the 8-ball	soupeř potopil osmičku
+the opponent sank the 8 too early	soupeř potopil osmičku předčasně
+sank the 8 too early	potopil(a) osmičku předčasně
+the opponent sank the 8 in the wrong pocket	soupeř potopil osmičku do špatné díry
+sank the 8 in the wrong pocket	potopil(a) osmičku do špatné díry
+the opponent fouled on the 8	soupeř fauloval na osmičce
+fouled on the 8	fauloval(a) na osmičce
+the opponent knocked the 8 off the table	soupeř vyrazil osmičku ze stolu
+knocked the 8 off the table	vyrazil(a) osmičku ze stolu
+the opponent resigned	soupeř se vzdal
+resigned	vzdal(a) se
+the opponent left	soupeř odešel
+left the game	opustil(a) hru
+You are muted for {n} more minutes.	Máš ztlumený chat ještě na {n} min.
+This account is suspended for {n} more day(s). Reason: {reason}.	Tento účet je pozastavený ještě na {n} d. Důvod: {reason}.
+This account is banned. Reason: {reason}.	Tento účet je zablokovaný. Důvod: {reason}.
+You were muted: {r}	Byl ti ztlumen chat: {r}
+Your account was suspended: {r}	Tvůj účet byl pozastaven: {r}
+Your account was banned: {r}	Tvůj účet byl zablokován: {r}
+You were disconnected by a moderator: {r}	Moderátor tě odpojil: {r}
+You were disconnected by a moderator.	Moderátor tě odpojil.
+Please sign in again.	Přihlas se prosím znovu.
+Your password was changed. Sign in again.	Tvoje heslo se změnilo. Přihlas se znovu.
+Accept rematch	Přijmout odvetu
+Accept	Přijmout
+Aim	Mířit
+Aiming guide	Vodítko míření
+Aiming	Míření
+Anti-aliasing	Vyhlazování hran
+Smooths the jagged edges of lines and balls.	Vyhlazuje zubaté okraje čar a koulí.
+Back to lounge	Zpět do herny
+Balanced: smooth on most laptops.	Vyvážená: plynulá na většině notebooků.
+Ball in hand	Bílá v ruce
+Break the rack	Rozstřel
+Camera pulls back to watch each shot	Kamera se při každém šťouchu oddálí
+Camera	Kamera
+Cancel	Zrušit
+Casual game: ratings unchanged	Přátelská hra: rating se nemění
+Center	Střed
+Chat	Chat
+Click a ball or a spot	Klikni na kouli nebo na místo
+Click to chat, Enter to send	Klikni pro chat, Enter odešle
+Controls	Ovládání
+Create account	Vytvořit účet
+Cue ball contact	Bod dotyku na bílé
+Decline	Odmítnout
+Done	Hotovo
+Drag the cue ball	Přetáhni bílou
+Elevation	Náklon tága
+Everything, with reflections in polished floors: for gaming PCs.	Všechno, včetně odrazů na lesklých podlahách: pro herní PC.
+Fine aim	Jemné míření
+Finish this match first.	Nejdřív dohraj tento zápas.
+For old or very slow computers.	Pro staré nebo hodně pomalé počítače.
+Full screen	Celá obrazovka
+Also with {key}.	Také klávesou {key}.
+Full	Plné
+Game server	Herní server
+Change it only to play on another server.	Měň jen, pokud chceš hrát na jiném serveru.
+Advanced	Pokročilé
+Custom server	Vlastní server
+Graphics quality	Kvalita grafiky
+Quality	Kvalita
+Display	Obrazovka
+High	Vysoká
+Invite	Pozvat
+Leave to the lounge	Odejít do herny
+Leave	Odejít
+Leaving now counts as a loss.	Odchod teď se počítá jako prohra.
+Lounge chat	Chat herny
+Low	Nízká
+Main menu	Hlavní menu
+Medium	Střední
+Menu / help	Menu / nápověda
+Next game starts in a moment…	Další hra začne za chvilku…
+No rated games yet. Be the first!	Zatím žádné hodnocené hry. Buď první!
+Nobody else is here right now.	Nikdo další tu teď není.
+Looking for a game?	Hledáš hru?
+Looking for a game	Hledám hru
+Post a note	Přidat vzkaz
+Everyone in the lounge sees it for 30 minutes	Všichni v herně ho uvidí 30 minut
+What are you after? ({kind})	Co hledáš? ({kind})
+Post	Zveřejnit
+Your note: {text}	Tvůj vzkaz: {text}
+{mode} · {left} left	{mode} · zbývá {left}
+Take down	Stáhnout
+Challenge	Vyzvat
+Take the note down	Stáhnout vzkaz
+Off	Vyp.
+On the 8-ball: call a pocket	Na osmičku: ohlas díru
+On the 8-ball	Na osmičku
+Open table	Otevřený stůl
+Password	Heslo
+Paused	Pozastaveno
+Play	Hrát
+Player 2	Hráč 2
+Player	Hráč
+Quick aim	Rychlé míření
+Quit	Ukončit
+Reconnected.	Znovu připojeno.
+Rematch	Odveta
+Resign this game	Vzdát tuto hru
+Restart the game to apply this change.	Změna se projeví po restartu hry.
+Resume	Pokračovat
+Retry	Zkusit znovu
+Saving the result…	Ukládám výsledek…
+Say hello… (Enter to send)	Pozdrav ostatní… (Enter odešle)
+Send	Odeslat
+Settings	Nastavení
+{key} + drag	{key} + tažení
+{key}: 3D / top view	{key}: 3D / pohled shora
+{keys}: zoom	{keys}: přiblížení
+View	Pohled
+Aim left	Mířit doleva
+Aim right	Mířit doprava
+Fine aim (hold)	Jemné míření (držet)
+Shoot (hold, release)	Šťouch (držet, pustit)
+Top spin	Horní falš
+Back spin	Spodní falš
+Left spin	Levý falš
+Right spin	Pravý falš
+Raise the cue	Zvednout tágo
+Lower the cue	Sklopit tágo
+Pick up the cue ball in hand	Vzít bílou do ruky
+3D / top view	3D / pohled shora
+Reset the camera	Obnovit kameru
+Replay the last shot	Znovu přehrát poslední šťouch
+List of controls	Seznam ovládání
+Keys can be changed in Settings → Controls.	Klávesy můžeš změnit v Nastavení → Ovládání.
+Space	Mezerník
+Right Shift	Pravý Shift
+Right Ctrl	Pravý Ctrl
+Right Alt	Pravý Alt
+Aiming and shooting	Míření a šťouch
+Spin and elevation	Falš a náklon
+Fixed keys	Pevné klávesy
+Menu, back and cancel	Menu, zpět a zrušit
+Confirm (forms, the cue ball in hand)	Potvrdit (formuláře, bílá v ruce)
+This key can't be changed.	Tuto klávesu nejde změnit.
+Press a key · Esc cancels · Backspace clears	Stiskni klávesu · Esc zruší · Backspace smaže
+Press a key…	Stiskni klávesu…
+Click to change	Klikni pro změnu
+Click to add a key	Klikni pro přidání klávesy
+Back to no key	Zpět na žádnou klávesu
+Back to {keys}	Zpět na {keys}
+Swapped: {action} is now on {key}.	Prohozeno: {action} je teď na {key}.
+Taken from {action}, which now has no key.	Převzato z akce {action}, která teď nemá klávesu.
+Taken from {action}.	Převzato z akce {action}.
+That key can't be used: try another.	Tuto klávesu nejde použít: zkus jinou.
+Shoot	Šťouch
+Short	Krátké
+Signing in…	Přihlašuji…
+Signing in	Přihlašování
+Soft shadows from every lamp, glossy halls, halos.	Měkké stíny od každé lampy, lesklé sály, svatozáře.
+Solids (1–7)	Plné (1–7)
+Spin ball	Koule falše
+Spin	Falš
+Standard	Standardní
+Stay	Zůstat
+Stripes (9–15)	Půlené (9–15)
+The game goes on while this is open.	Hra mezitím běží dál.
+Use default	Použít výchozí
+Username	Uživatelské jméno
+Usernames have 3–16 letters, digits or underscores.	Uživatelská jména mají 3–16 písmen, číslic nebo podtržítek.
+{keys} (jump & massé)	{keys} (skok a massé)
+You win!	Vyhráváš!
+Your name	Tvoje jméno
+Your opponent went back to the lounge.	Soupeř se vrátil do herny.
+Your turn	Jsi na tahu
+open table: the next ball you make sets your group	otevřený stůl: další potopená koule určí tvou skupinu
+draw	spodek
+follow	vrch
+stun	stop
+solids	plné
+stripes	půlené
+lounge	herna
+ · left english	 · levý falš
+ · right english	 · pravý falš
+Language	Jazyk
+General	Obecné
+Graphics	Grafika
+Game	Hra
+Sound	Zvuk
+Reset to defaults	Obnovit výchozí
+Reset all keys	Obnovit všechny klávesy
+Reset every key?	Obnovit všechny klávesy?
+Click again to put every key back	Klikni znovu a vrátíš všechny klávesy
+Updates	Aktualizace
+Update automatically	Aktualizovat automaticky
+New versions download in the background and install when you restart.	Nové verze se stahují na pozadí a nainstalují se při restartu.
+Version {v}	Verze {v}
+What's new	Novinky
+What's new in version {v}	Novinky ve verzi {v}
+No notes for this version.	K této verzi nejsou žádné poznámky.
+Got it	Rozumím
+Restart now	Restartovat
+After the game, from the main menu.	Po hře, z hlavního menu.
+Download	Stáhnout
+Check now	Zkontrolovat
+Couldn't reach the update server.	Nepodařilo se spojit se serverem aktualizací.
+The download was damaged. It will be tried again later.	Stažený soubor je poškozený. Zkusí se to znovu později.
+The new version couldn't be installed. This one stays.	Novou verzi se nepodařilo nainstalovat. Zůstává tato.
+Downloading… {p}%	Stahuji… {p} %
+Updating…	Aktualizuji…
+The Microsoft Store keeps the game up to date.	O aktualizace hry se stará Microsoft Store.
+Development build: no automatic updates.	Vývojové sestavení: bez automatických aktualizací.
+Looking for a new version…	Hledám novou verzi…
+This is the latest version.	Tohle je nejnovější verze.
+Downloading version {v}… {p}%	Stahuji verzi {v}… {p} %
+Installing version {v}…	Instaluji verzi {v}…
+Version {v} is ready: restart the game to use it.	Verze {v} je připravená: restartuj hru a můžeš ji používat.
+Version {v} is out: download it from the releases page.	Vyšla verze {v}: stáhni si ji ze stránky s vydáními.
+Version {v} is ready	Verze {v} je připravená
+Restart to play it; nothing is lost.	Restartuj a hraj; nic se neztratí.
+Version {v} is out	Vyšla verze {v}
+Get it from the releases page.	Stáhni si ji ze stránky s vydáními.
+Reset everything?	Obnovit vše?
+Click again to reset every setting	Klikni znovu a obnovíš všechna nastavení
+Online	Online
+Menu	Menu
+Rating	Rating
+Ultra	Ultra
+hold {key} and release	drž {key} a pusť
+Change	Změnit
+Mouse aim sensitivity	Citlivost míření myší
+How fast the cue turns with the mouse.	Jak rychle se tágo otáčí s myší.
+Vignette	Vinětace
+Darkens the edges of the picture, like a film.	Ztmaví okraje obrazu jako ve filmu.
+Show FPS	Zobrazit FPS
+Frames per second, in a corner of the screen.	Snímky za sekundu, v rohu obrazovky.
+Call a pocket for the 8-ball first: click a pocket.	Nejdřív ohlas díru pro osmičku: klikni na díru.
+Reconnecting	Znovu se připojuji
+the game is over	hra skončila
+the cue ball cannot be placed there	bílou sem nejde položit
+call a pocket for the 8-ball	ohlas díru pro osmičku
+That username is taken.	Toto uživatelské jméno je obsazené.
+Wrong username or password.	Špatné uživatelské jméno nebo heslo.
+Your session expired. Please log in again.	Tvoje relace vypršela. Přihlas se prosím znovu.
+This version of Snook Legend is out of date. Please update the game.	Tato verze Snook Legend je zastaralá. Aktualizuj prosím hru.
+It's not your turn.	Nejsi na tahu.
+That player is not online.	Tento hráč není online.
+That player is in a game.	Tento hráč právě hraje.
+You can't invite yourself.	Nemůžeš pozvat sám sebe.
+That invitation is no longer valid.	Tato pozvánka už neplatí.
+That player is no longer available.	Tento hráč už není k dispozici.
+Resign first to leave a game in progress.	Abys mohl(a) odejít z rozehrané hry, musíš se nejdřív vzdát.
+Malformed message.	Poškozená zpráva.
+Please log in first.	Nejdřív se prosím přihlas.
+Could not create the account.	Účet se nepodařilo vytvořit.
+The cue ball can't be placed there.	Bílou sem nejde položit.
+Disconnected.	Odpojeno.
+Lost contact with the server.	Spojení se serverem se ztratilo.
+The server closed the connection.	Server ukončil spojení.
+The server took too long to answer.	Server odpovídal příliš dlouho.
+The server is not answering (connection refused).	Server neodpovídá (spojení odmítnuto).
+The server address is not valid (example: wss://snook-legend.example.com/ws).	Adresa serveru není platná (příklad: wss://snook-legend.example.com/ws).
+The server address has no host name.	Adresa serveru nemá název hostitele.
+Welcome to Snook Legend! Be kind, play fair.	Vítej ve Snook Legend! Buď milý a hraj fér.
+Ball in hand: drag the cue ball{zone} to move it	Bílá v ruce: přetažením posuň bílou{zone}
+ behind the line	 za čárou
+Ball in hand  ·  {group}	Bílá v ruce  ·  {group}
+Can't shoot: {e}.	Nelze hrát: {e}.
+Chat ({n})	Chat ({n})
+Computer ({level})	Počítač ({level})
+Computer	Počítač
+Each opponent has a style of their own	Každý soupeř má vlastní styl
+Free game	Volná hra
+Tour	Turné
+Tour: {n} of {total} beaten	Turné: poraženo {n} z {total}
+Strength {n}/5	Síla {n}/5
+Ghost	Duch
+Accuracy	Přesnost
+Safeties	Safety
+Banks	Od mantinelu
+Position	Pozice
+Ghost of {name}	Duch hráče {name}
+A player's ghost	Duch hráče
+Plays like a real player	Hraje jako skutečný hráč
+The computer plays in the style of a real player, measured on their online games.	Počítač hraje ve stylu skutečného hráče, změřeném podle jeho online her.
+Sign in to play the ghost of a real player.	Přihlas se a hraj proti duchovi skutečného hráče.
+Load	Načíst
+Friends:	Přátelé:
+Type a username or pick a friend, then Load.	Napiš uživatelské jméno nebo vyber přítele a dej Načíst.
+Measuring how {name} plays…	Měřím, jak hraje {name}…
+Pots {pots}% · safeties {safe}% · banks {banks}% · {shots} shots	Potopení {pots} % · safety {safe} % · od mantinelu {banks} % · šťouchů: {shots}
+{name} has only {shots} recorded shots; a ghost needs {needed}. More online games will do it.	{name} má zaznamenaných jen {shots} šťouchů; duch jich potřebuje {needed}. Pomůže víc online her.
+There is no player called {name}.	Hráč {name} neexistuje.
+The server can't be reached right now. Try again later.	Server je teď nedostupný. Zkus to později.
+Wait a moment before asking again.	Chvilku počkej, než se zeptáš znovu.
+Something went wrong on the server. Try again later.	Na serveru se něco pokazilo. Zkus to později.
+Play your ghost	Hrát proti svému duchovi
+Play their ghost	Hrát proti jeho duchovi
+Beaten	Poražen
+Next	Další
+Win the previous stage to unlock this one.	Vyhraj předchozí etapu a tahle se odemkne.
+Stage {n} of {total}	Etapa {n} z {total}
+Challenge {name}	Vyzvat: {name}
+Stage {n} won! Next on the tour: {name}.	Etapa {n} vyhrána! Další na turné: {name}.
+You won the whole tour!	Vyhrál(a) jsi celé turné!
+Reward	Odměna
+{item} cue · exclusive	Tágo {item} · exkluzivní
+Yours: find it in the shop, under Cues.	Je tvoje: najdeš ho v obchodě v sekci Tága.
+Win the last stage again while signed in to claim it.	Vyhraj poslední etapu znovu, přihlášený, a získáš ho.
+Beat all fifteen opponents to earn it. It is sold nowhere.	Poraz všech patnáct soupeřů a získáš ho. Nikde se neprodává.
+You won the tour! Sign in to claim your reward.	Turné je tvoje! Přihlas se a vyzvedni si odměnu.
+The server is checking your final game…	Server kontroluje tvou poslední hru…
+Try again	Zkusit znovu
+The server did not answer. Try again in a moment.	Server neodpověděl. Zkus to za chvilku znovu.
+The server is busy checking other games. Try again in a moment.	Server zrovna kontroluje jiné hry. Zkus to za chvilku znovu.
+Wait a minute before trying again.	Než to zkusíš znovu, počkej minutu.
+That game is too long to be checked.	Ta hra je příliš dlouhá na kontrolu.
+That game has a move the rules don't allow.	V té hře je tah, který pravidla nepovolují.
+That game was not played to the end.	Ta hra nebyla dohrána do konce.
+That game was not a win.	Ta hra nebyla výhra.
+The computer's shots in that game don't match how it plays (another version of the game?).	Šťouchy počítače v té hře neodpovídají tomu, jak hraje (jiná verze hry?).
+The Rookie	Nováček
+Still learning: aims at the nearest pocket, centre ball, and hopes. Never plays safe.	Pořád se učí: míří na nejbližší díru, hraje středem a doufá. Nikdy nehraje safety.
+The Weekend Player	Víkendová hráčka
+Knows the basics and drops the easy ones, but rarely thinks about where the cue ball goes.	Zná základy a lehké koule potopí, ale málokdy myslí na to, kam půjde bílá.
+The Bank Artist	Mistryně mantinelů
+Sees angles nobody else does: whenever a ball can go off a cushion and in, she banks it.	Vidí úhly, které nikdo jiný nevidí: kdykoli jde koule potopit od mantinelu, zahraje ji od mantinelu.
+The Cannon	Kanón
+Goes for everything, as hard as he can: long pots, thunderous breaks, hardly ever a safety.	Jde po všem, co nejsilněji: dlouhé koule, hromové rozstřely, safety skoro nikdy.
+The Wall	Zeď
+Only shoots when the pot is on. Otherwise she tucks the cue ball away and waits for your mistake.	Hraje jen jistotu. Jinak schová bílou a čeká na tvou chybu.
+The Old Pro	Starý profík
+Forty years at the table: a smooth stroke, a raised cue, side spin, and never in a hurry.	Čtyřicet let u stolu: plynulý šťouch, zvednuté tágo, boční falš a nikdy žádný spěch.
+The Hustler	Hustlerka
+Plays just well enough to win, then a little better. Balanced, sharp and hard to read.	Hraje přesně tak dobře, aby vyhrála, a pak ještě o kousek líp. Vyvážená, ostrá a těžko čitelná.
+The Professor	Profesor
+Thinks three balls ahead: every shot leaves the cue ball where the next one is easy.	Myslí tři koule dopředu: každý šťouch nechá bílou tam, kde je další snadný.
+The Sharpshooter	Ostrostřelkyně
+Pots from anywhere, at any angle. Her safeties are an afterthought: she doesn't need them.	Potápí odkudkoli a pod jakýmkoli úhlem. Na safety moc nemyslí: nepotřebuje je.
+The Champion	Šampion
+Unbeaten for years. Precise, patient and merciless: the last stage of the tour.	Léta neporažený. Přesný, trpělivý a nemilosrdný: poslední etapa turné.
+Tour champion	Šampion turné
+Champion of the tour	Šampion turné
+Beat all fifteen opponents of the computer tour.	Poraz všech patnáct soupeřů turné proti počítači.
+Connection lost. Reconnecting (attempt {n})…	Spojení ztraceno. Znovu se připojuji (pokus {n})…
+Connection lost. Reconnecting…	Spojení ztraceno. Znovu se připojuji…
+Foul by {shooter}: {foul}.	Faul hráče {shooter}: {foul}.
+Graphics set to {q} for smooth play. You can change this in Settings.	Grafika nastavena na {q} kvůli plynulé hře. Změnit to můžeš v Nastavení.
+Rating {r} ({d})	Rating {r} ({d})
+The {ball} was spotted.	{ball} se vrací na stůl.
+Waiting for {to} ({kind})…	Čekám na hráče {to} ({kind})…
+rated	hodnocená
+casual	přátelská
+Waiting for {name}…	Čekám na hráče {name}…
+{by} declined your invitation.	{by} odmítl(a) tvou pozvánku.
+a rated game	hodnocenou hru
+a casual game	přátelskou hru
+{name} calls the 8-ball in the {pocket} pocket.	{name} ohlašuje osmičku do díry {pocket}.
+{name} has ball in hand…	{name} má bílou v ruce…
+{name} is aiming…	{name} míří…
+{name} is on the 8: click a pocket to call it	{name} hraje na osmičku: kliknutím na díru ji ohlásíš
+{name} is thinking…	{name} přemýšlí…
+{name} left the game.	{name} opustil(a) hru.
+{name} resigned.	{name} se vzdal(a).
+{name} to break	Rozstřeluje {name}
+{name} to shoot ({target})	Hraje {name} ({target})
+{name}'s turn	Na tahu: {name}
+{next} has ball in hand{where}.	{next} má bílou v ruce{where}.
+ behind the head string	 za čárou rozstřelu
+{opponent} is back.	{opponent} je zpět.
+{opponent} lost the connection. Waiting up to {secs} s…	{opponent} ztratil(a) spojení. Čekám až {secs} s…
+{opponent} wants a rematch.	{opponent} chce odvetu.
+{opponent} went back to the lounge.	{opponent} se vrátil(a) do herny.
+{shooter} pocketed {balls}.	{shooter} potápí: {balls}.
+{shooter} takes {group}.	{shooter} hraje {group}.
+{who} ran out of time: ball in hand for the opponent.	{who}: došel čas, bílá v ruce pro soupeře.
+{name} wants a rematch!	{name} chce odvetu!
+{name} wins!	{name} vyhrává!
+{name} wins	{name} vyhrává
+Volume	Hlasitost
+The cue, the balls, the cushions and the pockets.	Tágo, koule, mantinely a díry.
+Notifications	Oznámení
+Could not find the server “{host}”.	Server „{host}“ nebyl nalezen.
+Network error: {e}.	Chyba sítě: {e}.
+Secure connection failed: {e}.	Zabezpečené spojení selhalo: {e}.
+The server refused the connection (HTTP {code}).	Server odmítl spojení (HTTP {code}).
+Connection error: {e}.	Chyba spojení: {e}.
+cue ball	bílá
+{n}-ball	koule {n}
+Scratch: the cue ball was pocketed	Bílá v díře
+The cue ball left the table	Bílá vyletěla ze stolu
+The cue ball didn't hit any ball	Bílá netrefila žádnou kouli
+Wrong ball hit first ({ball})	Jako první zasažena špatná koule ({ball})
+No ball reached a cushion after contact	Po dotyku žádná koule nedojela k mantinelu
+The {ball} left the table	{ball} vyletěla ze stolu
+Illegal break	Neplatný rozstřel
+pocketed the 8-ball	potopil(a) osmičku
+opponent pocketed the 8-ball too early	soupeř potopil osmičku předčasně
+opponent sank the 8-ball in the wrong pocket	soupeř potopil osmičku do špatné díry
+opponent fouled on the 8-ball	soupeř fauloval na osmičce
+opponent knocked the 8-ball off the table	soupeř vyrazil osmičku ze stolu
+opponent resigned	soupeř se vzdal
+opponent left the game	soupeř opustil hru
+head left corner	levá horní
+head right corner	pravá horní
+left side	levá prostřední
+right side	pravá prostřední
+foot left corner	levá dolní
+foot right corner	pravá dolní
+Easy	Lehký
+Hard	Těžký
+Normal	Normální
+Power	Síla
+No messages yet.	Zatím žádné zprávy.
+▼ newer messages	▼ novější zprávy
+Camera follows the cue	Kamera sleduje tágo
+Off: it stays where you put it.	Vypnuto: zůstane, kam ji dáš.
+Pull back for shots	Oddálit při šťouchu
+Only when the camera follows the cue.	Jen když kamera sleduje tágo.
+Drag the cue · click a spot	Táhni tágo · klikni na místo
+Time's up: {name}'s shot was played at full power.	Čas vypršel: šťouch hráče {name} se zahrál plnou silou.
+Dark room	Tmavá místnost
+A spotlight on the table, the room in shadow.	Reflektor na stole, místnost ve stínu.
+Hide	Skrýt
+Interface size	Velikost rozhraní
+Text, buttons and panels.	Texty, tlačítka a panely.
+Drag to set the power	Tažením nastavíš sílu
+Shoot!	Šťouch!
+Set the power, then press the green button	Nastav sílu a stiskni zelené tlačítko
++{n} coins · {why}	Mince +{n} · {why}
+16-player tournaments, and first place on the waiting list of a full one	Turnaje pro 16 hráčů a první místo v pořadníku u plného turnaje
+30 minutes: play as many games as you can. A win is 2 points, 4 from the third win in a row.	30 minut: odehraj co nejvíc her. Výhra má 2 body, od třetí výhry v řadě 4.
+A crown by your name, everywhere (lounge, profile, ranking)	Korunka u tvého jména všude (herna, profil, žebříček)
+Account	Účet
+Add friends to give them items.	Přidej si přátele a můžeš jim darovat předměty.
+Arena	Aréna
+Arena · host {host} · {n} players · {kind}	Aréna · hostitel {host} · hráči: {n} · {kind}
+Buy now	Koupit hned
+Buying…	Kupuji…
+Change password	Změnit heslo
+Click again to delete	Klikni znovu pro smazání
+Got a code? Type it here	Máš kód? Napiš ho sem
+Confirm purchase	Potvrdit nákup
+Copied: send it to a friend.	Zkopírováno: pošli ho příteli.
+Copy	Kopírovat
+Current	Aktuální
+Delete account	Smazat účet
+Entry	Vstupné
+Entry {n} coins	Vstupné: {n} mincí
+Every replay kept (free players keep their last 10 games)	Všechny záznamy uložené (hráči zdarma mají posledních 10 her)
+For {name}	Pro: {name}
+Add a message (optional)	Přidej vzkaz (nepovinné)
+Format	Formát
+Frames	Rámečky
+Free	Zdarma
+Get coins	Získat mince
+Gift sent!	Dárek odeslán!
+Give as a gift	Darovat
+Give it	Darovat
+Give to a friend	Darovat příteli
+Great!	Skvělé!
+If you forget your password, we confirm it's you by this e-mail.	Když zapomeneš heslo, tímto e-mailem ověříme, že jsi to ty.
+Invite with a code	Pozvat kódem
+It goes on right away. Items only change the look, never the game.	Nasadí se hned. Předměty mění jen vzhled, nikdy hru.
+Join my table in Snook Legend:	Přidej se k mému stolu ve Snook Legend:
+Join the waiting list	Zapsat se do pořadníku
+Join · {n} coins	Připojit se · {n} mincí
+Knockout	Vyřazovací
+Name colour	Barva jména
+Name colours for the lounge and exclusive frames, cloth, cues, balls and effects	Barvy jména v herně a exkluzivní rámečky, sukna, tága, koule a efekty
+New	Nový
+No, thanks	Ne, díky
+Nothing that wins games: VIP only changes the look	Nic, co vyhrává hry: VIP mění jen vzhled
+Numbers	Čísla
+ON TV	V TV
+Play rated games to see your rating here.	Hraj hodnocené hry a uvidíš tu svůj rating.
+No rated games yet.	Zatím žádné hodnocené hry.
+Price	Cena
+Prizes {a} + {b}	Ceny {a} + {b}
+Protect your purchases	Ochraň své nákupy
+Purchase complete!	Nákup dokončen!
+Recovery e-mail	E-mail pro obnovení
+Save	Uložit
+The fees make the prize: 70% to the champion, 20% to the runner-up.	Vstupné tvoří výhru: 70 % pro šampiona, 20 % pro druhého.
+The server restarts in {m}:{s} for an update. Games in progress go on.	Server se kvůli aktualizaci restartuje za {m}:{s}. Rozehrané hry pokračují.
+Use this e-mail	Použít tento e-mail
+Use {email} to recover your account if you ever forget your password?	Použít {email} k obnovení účtu, kdybys někdy zapomněl(a) heslo?
+Watch	Sledovat
+Watch again	Přehrát znovu
+Winning effects	Vítězné efekty
+Halls	Sály
+You are paired as soon as you and an opponent are free.	Spárujeme tě, jakmile budete ty i soupeř volní.
+You can change it any time in your profile (Account).	Změnit to můžeš kdykoli ve svém profilu (Účet).
+You need {n} more coins.	Chybí ti ještě mince: {n}.
+Your account	Tvůj účet
+Your account was deleted.	Tvůj účet byl smazán.
+Your coins	Tvoje mince
+Your friend gets it right away.	Tvůj přítel ho dostane hned.
+Your game against {name} is starting.	Tvoje hra proti hráči {name} začíná.
+Your name, e-mail, friends and items are erased for good. Your opponents keep the games you played (without your name).	Tvoje jméno, e-mail, přátelé a předměty se nenávratně smažou. Soupeři si odehrané hry ponechají (bez tvého jména).
+balls per game	koulí na hru
+best run ever	nejlepší série vůbec
+daily bonus	denní bonus
+entry fee back	vrácené vstupné
+for the game	za hru
+for the win	za výhru
+games counted	započítané hry
+Analysis	Analýza
+The shot analysis isn't available on this server yet.	Analýza šťouchů zatím na tomto serveru není k dispozici.
+Only online accounts have a shot analysis.	Analýzu šťouchů mají jen online účty.
+Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Hraj online a uvidíš, jak potápíš: analýza se objeví po dalších šťouších na díru (zbývá {n}).
+{name} hasn't played enough online games for an analysis yet.	{name} zatím neodehrál(a) dost online her pro analýzu.
+1 game	1 hra
+{pct}% of {n} shots at a pocket potted · {games}	Potopeno {pct} % z {n} šťouchů na díru · {games}
+{made} of {n} potted ({pct})	Potopeno {made} z {n} ({pct})
+By kind of shot	Podle druhu šťouchu
+shots	šťouchy
+Straight	Rovně
+Cut 8–25°	Řez 8–25°
+Cut 25–45°	Řez 25–45°
+Thin cut 45°+	Tenký řez 45°+
+Bank	Od mantinelu
+Kick	Kick
+Combination	Kombinace
+Jump	Skok
+Massé	Massé
+Break	Rozstřel
+By distance	Podle vzdálenosti
+Short (under 0.75 m)	Krátké (do 0,75 m)
+Medium (to 1.5 m)	Střední (do 1,5 m)
+Long (over 1.5 m)	Dlouhé (přes 1,5 m)
+left the opponent nothing	soupeři nenechaly nic
+Breaks	Rozstřely
+made a ball	potopily kouli
+Potted	Potopené
+Missed	Minuté
+Where and in which pocket	Odkud a do které díry
+{pocket}: {made} of {n} potted	{pocket}: potopeno {made} z {n}
+Where the potted balls were	Kde ležely potopené koule
+Where the missed balls were	Kde ležely minuté koule
+few	málo
+many	hodně
+{made} potted · {missed} missed ({pct})	Potopeno {made} · minuto {missed} ({pct})
+Top left corner	Levý horní roh
+Bottom left corner	Levý dolní roh
+Top side pocket	Horní prostřední díra
+Bottom side pocket	Dolní prostřední díra
+Top right corner	Pravý horní roh
+Bottom right corner	Pravý dolní roh
+games left unfinished	nedohrané hry
+potting success	úspěšnost
+shots with a foul	šťouchy s faulem
+starts in {n} min	začíná za {n} min
+tournament prize	turnajová výhra
+The dark room hides the hall around the table.	Tmavá místnost skryje sál kolem stolu.
+Show the hall	Zobrazit sál
+Level {n} · 1 win	Úroveň {n} · 1 výhra
+Level {n} · {w} wins	Úroveň {n} · výhry: {w}
+{left} more online wins with this cue for level {n}. Levels only add marks to the cue.	Do úrovně {n} zbývá online výher s tímto tágem: {left}. Úrovně tágu jen přidávají značky.
+The top level: this cue has every mark.	Nejvyšší úroveň: toto tágo má všechny značky.
+Your cue {cue} reached level {n}!	Tvoje tágo {cue} dosáhlo úrovně {n}!
+Most wins: {cue} (level {n})	Nejvíc výher: {cue} (úroveň {n})
+{games} games · {rate}% won · {balls} balls made	Hry: {games} · vyhráno {rate} % · potopené koule: {balls}
+vs	vs
+{from} gave you {item}!	{from} ti daroval(a) {item}!
+You received a gift!	Dostal(a) jsi dárek!
+From	Od
+To	Pro
+someone	někdo
+A month of VIP	Měsíc VIP
+Thank	Poděkovat
+Thanked	Poděkováno
+They thanked you	Poděkoval(a) ti
+Use it now	Použít hned
+Later	Později
+OK	OK
+Next ({n} more)	Další (ještě {n})
+{from} gave you {item}! It's waiting for you in the lounge.	{from} ti daroval(a) {item}! Čeká na tebe v herně.
+{name} thanked you for {item}.	{name} ti děkuje za {item}.
+Gifts	Dárky
+No gifts yet. Friends can give you items from the shop.	Zatím žádné dárky. Přátelé ti můžou darovat předměty z obchodu.
+{item} is yours and already in use.	{item} je tvoje a už ho používáš.
+{m}:{s} left	zbývá {m}:{s}
+{name} invites you to play.	{name} tě zve ke hře.
+{name} is online.	{name} je online.
+{name} ran out of time.	{name}: došel čas.
+{name} received {item}.	{name} dostal(a) {item}.
+{n} pts · {g} games	{n} b. · hry: {g}
+{n} watching · avg {r}	Diváci: {n} · průměr {r}
+{title}: {how}	{title}: {how}
+Olive	Olivová
+Navy	Námořnická modrá
+Forest	Lesní
+Slate grey	Břidlicově šedá
+Red wine	Červené víno
+Burnt orange	Pálená oranžová
+Dusty rose	Pudrově růžová
+Sand	Písková
+Ice blue	Ledově modrá
+Lime	Limetková
+Black tie	Black tie
+Cobalt	Kobalt
+Emerald	Smaragd
+Natural maple	Přírodní javor
+Beach bar	Plážový bar
+Modern	Moderní
+English club	Anglický klub
+Ebony & gold	Eben a zlato
+Pool hall	Kulečníková herna
+Industrial loft	Industriální loft
+Steel & oak	Ocel a dub
+Tournament	Turnajový
+Victorian walnut	Viktoriánský ořech
+Ivory deco	Slonovinové art deco
+Mountain lodge	Horská chata
+Neon arcade	Neonová herna
+Art deco lounge	Art deco salon
+Skyline penthouse	Penthouse s výhledem
+Walnut	Ořech
+Zebrawood	Zebrano
+Bocote	Bocote
+Deep ocean	Hlubina oceánu
+Cherry	Třešeň
+Jade	Nefrit
+Tiger	Tygr
+Amethyst	Ametyst
+Arctic carbon	Arktický karbon
+Inferno	Peklo
+Obsidian gold	Obsidián a zlato
+Tan chalk	Béžová křída
+Grey chalk	Šedá křída
+Orange chalk	Oranžová křída
+Pink chalk	Růžová křída
+Teal chalk	Modrozelená křída
+Yellow chalk	Žlutá křída
+Black chalk	Černá křída
+White chalk	Bílá křída
+Silver chalk	Stříbrná křída
+TV set	Televizní sada
+Earth tones	Zemité tóny
+Ocean	Oceán
+Sunset	Západ slunce
+Candy	Bonbony
+Pearl	Perla
+Monochrome	Černobílé
+Chrome	Chrom
+Gold rush	Zlatá horečka
+No frame	Bez rámečku
+Bronze	Bronz
+Silver	Stříbro
+Gold	Zlato
+Green felt	Zelená plsť
+Mahogany	Mahagon
+Ice	Led
+Fire	Oheň
+Diamond	Diamant
+VIP crown	VIP koruna
+Rose gold	Růžové zlato
+Aqua	Akvamarín
+Violet	Fialka
+Ember	Žhavé uhlíky
+Mint	Máta
+Frost	Jinovatka
+No effect	Bez efektu
+Sparks	Jiskry
+Confetti	Konfety
+Shockwave	Tlaková vlna
+Coin shower	Déšť mincí
+Flames	Plameny
+Royal sparks	Královské jiskry
+Tier colour	Barva úrovně
+16-player tournaments are for VIP members.	Turnaje pro 16 hráčů jsou pro členy VIP.
+A seat opened: you are in the tournament!	Uvolnilo se místo: jsi v turnaji!
+Entry fees go up to 1000 coins.	Vstupné může být až 1000 mincí.
+Guests can't play for coins.	Hosté nemůžou hrát o mince.
+Only items sold for coins can be given.	Darovat jde jen předměty, které se prodávají za mince.
+Password changed.	Heslo změněno.
+Passwords need 8 or more characters, not only digits.	Heslo musí mít aspoň 8 znaků, ne jen číslice.
+Recovery e-mail removed.	E-mail pro obnovení odstraněn.
+Recovery e-mail saved.	E-mail pro obnovení uložen.
+Something went wrong. Please try again.	Něco se pokazilo. Zkus to prosím znovu.
+That code is not valid (or the table was closed).	Ten kód není platný (nebo byl stůl zavřen).
+That doesn't look like an e-mail address.	Tohle nevypadá jako e-mailová adresa.
+That game is over.	Ta hra skončila.
+The current password is wrong.	Současné heslo je špatně.
+The server is restarting.	Server se restartuje.
+The server is restarting: new games start in a moment.	Server se restartuje: nové hry začnou za chvilku.
+The tournament is full: you are on the waiting list.	Turnaj je plný: jsi v pořadníku.
+This replay is not available.	Tento záznam není k dispozici.
+You can only give items to your friends.	Darovat předměty můžeš jen přátelům.
+Your friend already has this item.	Tvůj přítel už tento předmět má.
+16 (VIP)	16 (VIP)
+VIP isn't sold in this version of the game.	VIP se v této verzi hry neprodává.
+In this version of the game, coins are earned by playing:	V této verzi hry se mince získávají hraním:
+rated games, and a bonus every day you play.	hodnocené hry a bonus za každý den, kdy hraješ.
+Coins are earned by playing:	Mince se získávají hraním:
+If you like, you can also buy them:	Jestli chceš, můžeš si je i koupit:
+one month	jeden měsíc
+already VIP	už má VIP
+Give a month to a friend · {p}	Darovat příteli měsíc · {p}
+{from} gave you a month of VIP!	{from} ti daroval(a) měsíc VIP!
+{name} received a month of VIP.	{name} dostal(a) měsíc VIP.
+Your friend is already VIP.	Tvůj přítel už VIP má.
+Game in progress: {n} balls left	Rozehraná hra: zbývá koulí: {n}
+Continue	Pokračovat
+Missions	Mise
+Board	Nástěnka
+Today	Dnes
+This week	Tento týden
+new missions in {t}	nové mise za {t}
+ends in {t}	končí za {t}
+{n} days	{n} d
+{n} h	{n} h
+{n} min	{n} min
+mission complete	mise splněna
+Missions count rated games played to the end. The coins arrive as soon as one is complete.	Mise počítají hodnocené hry dohrané do konce. Mince dorazí, jakmile je mise splněná.
+Nothing on the board right now.	Na nástěnce teď nic není.
+Open tournaments	Otevřené turnaje
+{n}/{size} players	Hráči {n}/{size}
+starts in {t}	začíná za {t}
+entry {n} coins	vstupné: {n} mincí
+See	Zobrazit
+Play {n} rated games	Odehraj {n}× hodnocenou hru
+Win {n} rated games	Vyhraj {n}× hodnocenou hru
+Pot {n} balls	Potop koule: {n}
+Pot {n} balls with spin	Potop koule s falší: {n}
+Pot 3 balls in a row in one visit	Potop 3 koule v řadě v jednom náběhu
+Win a game without a foul	Vyhraj hru bez faulu
+Pot 3 balls in a row {n} times	Potop 3 koule v řadě, {n}×
+Win {n} games without a foul	Vyhraj {n}× hru bez faulu
+TV camera when watching	TV kamera při sledování
+Broadcast angles for other players' games and replays.	Televizní záběry u her ostatních hráčů a záznamů.
+System notifications	Systémová oznámení
+Invites, friends coming online and games starting, while you're away.	Pozvánky, přátelé, kteří se připojí, a začínající hry, když nejsi u hry.
+{name} starts in a few minutes: get ready!	{name} začíná za pár minut: připrav se!
+{name} starts in a few minutes: there is still room.	{name} začíná za pár minut: ještě jsou volná místa.
+{name} has started!	Start! {name} začíná.
+Momentum	Převaha
+Shot map	Mapa šťouchů
+No shots yet.	Zatím žádné šťouchy.
+made	potopeno
+missed	minuto
+foul	faul
+See the tournaments	Zobrazit turnaje
+Open the shop	Otevřít obchod
+See VIP	Zobrazit VIP
+See the missions	Zobrazit mise
+A new version of the game is out: update to play online.	Vyšla nová verze hry: pro hraní online aktualizuj.
+Update in the Microsoft Store	Aktualizovat v Microsoft Store
+Update now	Aktualizovat
+Download the new version	Stáhnout novou verzi
+New version out	Vyšla nová verze
+Get the new version to play online	Pro hraní online si stáhni novou verzi
+Cheer for {name}	Fandit: {name}
+Crowd: {a} for {p0}, {b} for {p1}	Publikum: {a} pro {p0}, {b} pro {p1}
+welcome pack	uvítací balíček
+Welcome pack	Uvítací balíček
+Cue “{cue}”, cloth “{cloth}” and {n} coins · only once, sold nowhere else	Tágo „{cue}“, sukno „{cloth}“ a mince ({n}) · jen jednou, nikde jinde se neprodává
+Lagoon	Laguna
+You already have the welcome pack.	Uvítací balíček už máš.
+Your welcome pack is here!	Tvůj uvítací balíček je tady!
+Previous shot (←)	Předchozí šťouch (←)
+Next shot (→)	Další šťouch (→)
+Play (Space)	Přehrát (mezerník)
+Pause (Space)	Pauza (mezerník)
+Speed	Rychlost
+Shot {n} of {total}	Šťouch {n} z {total}
+For VIP members	Pro členy VIP
+{n} reactions of your own to send during games	Vlastní reakce do her: {n}
+Items {a}–{b} of {n}	Předměty {a}–{b} z {n}
+(message deleted by its author)	(zprávu smazal autor)
+(message deleted by an administrator)	(zprávu smazal administrátor)
+Delete (it shows as deleted)	Smazat (zobrazí se jako smazaná)
+Remove without a trace	Odstranit beze stopy
+The chat was cleared by {name}.	Chat vyčistil(a) {name}.
+Click again to clear	Klikni znovu pro vyčištění
+Clear the chat	Vyčistit chat
+Players' chat (administrator)	Chat hráčů (administrátor)
+Play the computer while you wait	Zahraj si proti počítači, zatímco čekáš
+Looking for an opponent… {t} · the game starts as soon as one is found	Hledám soupeře… {t} · hra začne, jakmile se někdo najde
+Stop	Zastavit
+# Coin packs and months of VIP bought in the Microsoft Store (the Store build).
+The Microsoft Store couldn't complete the purchase.	Microsoft Store nákup nedokončil.
+The Microsoft Store couldn't confirm the purchase right now. Its coins arrive the next time you open the shop.	Microsoft Store teď nákup nepotvrdil. Mince dorazí, až příště otevřeš obchod.
+{n} coins added to your wallet.	Mince přidány do tvé peněženky: {n}.
+Microsoft is confirming your purchase: the coins arrive in a moment.	Microsoft potvrzuje tvůj nákup: mince dorazí za chvilku.
+The purchase hasn't reached us yet. Its coins arrive the next time you open the shop.	Nákup k nám zatím nedorazil. Mince dorazí, až příště otevřeš obchod.
+Loading prices from the Microsoft Store…	Načítám ceny z Microsoft Store…
+Coins can't be bought in this version yet.	V této verzi zatím nejde mince koupit.
+Finish the purchase in the Microsoft Store window…	Dokonči nákup v okně Microsoft Store…
+Confirming your purchase…	Potvrzuji tvůj nákup…
+Paid in the Microsoft Store, with your Microsoft account.	Platí se v Microsoft Store tvým účtem Microsoft.
+The Microsoft Store can't be reached right now. Try again in a moment.	Microsoft Store je teď nedostupný. Zkus to za chvilku znovu.
+The Microsoft Store could not confirm the purchase.	Microsoft Store nákup nepotvrdil.
+Sign in to the Microsoft Store with your Microsoft account, then open the shop again.	Přihlas se do Microsoft Store svým účtem Microsoft a pak znovu otevři obchod.
+The Microsoft Store couldn't confirm the purchase right now. Your VIP month starts the next time you open the shop.	Microsoft Store teď nákup nepotvrdil. Tvůj měsíc VIP začne, až příště otevřeš obchod.
+You are VIP until {d}, and {n} coins were added to your wallet.	VIP máš do {d} a do peněženky ti přibyly mince: {n}.
+Microsoft is confirming your purchase: your VIP month starts in a moment.	Microsoft potvrzuje tvůj nákup: tvůj měsíc VIP začne za chvilku.
+The purchase hasn't reached us yet. Your VIP month starts the next time you open the shop.	Nákup k nám zatím nedorazil. Tvůj měsíc VIP začne, až příště otevřeš obchod.
+A month at a time: nothing renews by itself	Vždy na měsíc: nic se samo neobnovuje
+Add a month · {p}	Přidat měsíc · {p}
+A month of VIP · {p}	Měsíc VIP · {p}
+The new month starts when this one ends.	Nový měsíc začne, až tento skončí.
+Trophies	Trofeje
+No trophies yet.	Zatím žádné trofeje.
+Tournament won · {n} players	Vyhraný turnaj · hráči: {n}
+The computer tour	Turné proti počítači
+All fifteen opponents beaten	Všech patnáct soupeřů poraženo
+Daily challenge	Denní výzva
+First of {n} players	První z hráčů: {n}
+Easy shot	Snadný šťouch
+Fair shot	Středně těžký šťouch
+Hard shot	Těžký šťouch
+Very hard shot	Velmi těžký šťouch
+~{n}% chance	šance ~{n} %
+No ball goes down as aimed	Takhle žádná koule nespadne
+straight in	rovně
+{n}° cut	řez {n}°
+off one cushion	od jednoho mantinelu
+off {n} cushions	mantinely: {n}
+Make as many balls as you can in one visit: a miss or a foul ends the attempt.	Potop co nejvíc koulí v jednom náběhu: chyba nebo faul pokus ukončí.
+The same table for everyone, all day	Stejný stůl pro všechny, celý den
+{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	Pokusy za den: {n}. Vyčisti stůl a získáš mince ({coins}); vítěz dne dostane trofej.
+A new table in {h} h {m} min	Nový stůl za {h} h {m} min
+Sign in to take part: the server keeps the day's table.	Přihlas se a zapoj se: server vede denní pořadí.
+Balls on today's table	Koule na dnešním stole
+Attempts left	Zbývající pokusy
+{n} balls · #{rank}	Koule: {n} · {rank}.
+{n} balls	Koule: {n}
+not yet	zatím ne
+Your best today	Tvůj dnešní nejlepší
+No attempts left today: come back tomorrow.	Dnes už nemáš žádné pokusy: vrať se zítra.
+The attempt could not be counted.	Pokus se nepodařilo započítat.
+Setting up the table…	Připravuji stůl…
+Start an attempt	Začít pokus
+Starting uses an attempt, even if you leave the table.	Začátek stojí pokus, i když od stolu odejdeš.
+Loading today's table…	Načítám dnešní pořadí…
+Today's table	Dnešní pořadí
+{n} players	Hráči: {n}
+Nobody has played today's table yet. Be the first!	Dnešní stůl zatím nikdo nehrál. Buď první!
+Table cleared!	Stůl vyčištěn!
+{n} of {total} balls	Koule: {n} z {total}
+Sending your attempt to the server…	Posílám tvůj pokus na server…
+Counted: {n} balls · +{coins} coins	Započteno: koule {n} · mince +{coins}
+Counted: {n} balls	Započteno: koule {n}
+See today's table	Zobrazit dnešní pořadí
+Table cleared! +{n} coins	Stůl vyčištěn! Mince +{n}
+Daily challenge: {n} of {total} balls made	Denní výzva: potopeno {n} z {total} koulí
+1 player	1 hráč
+Phoenix	Fénix
+Carrara marble	Carrarský mramor
+Dragon scale	Dračí šupiny
+Galaxy	Galaxie
+Ruby throne	Rubínový trůn
+Closing the game now is leaving it: extra rating lost and a wait to play again.	Zavřít hru teď znamená ji opustit: ztratíš rating navíc a budeš muset čekat na další hru.
+You left a game in progress: you can play online again in {n} min.	Opustil(a) jsi rozehranou hru: online můžeš znovu hrát za {n} min.
+Quick phrases	Rychlé fráze
+Good luck, have fun!	Hodně štěstí a zábavy!
+Nice shot!	Pěkný šťouch!
+Great safety!	Skvělé safety!
+Unlucky!	Smůla!
+Oops!	Jejda!
+Wow!	Páni!
+That was close!	To bylo těsně!
+Take your time.	Nespěchej.
+Sorry!	Promiň!
+Thanks!	Díky!
+Well played!	Dobře zahráno!
+Good game!	Dobrá hra!
+Rematch?	Odveta?
+I have to go, thanks for the game!	Musím jít, díky za hru!
+Practise while you wait	Trénuj, zatímco čekáš
+A new rack.	Nová sestava.
+Level {n}! (+{xp} XP)	Úroveň {n}! (+{xp} XP)
++{xp} XP	+{xp} XP
+Level {n} · {into} / {span} XP to the next	Úroveň {n} · {into} / {span} XP do další
+Level {n}	Úroveň {n}
+Hi! I watched a lot of videos, I'm ready!	Ahoj! Viděl jsem spoustu videí, jsem připravený!
+Be gentle, okay?	Buď na mě hodný, jo?
+Whoa, how did you do that?	Páni, jak se ti to povedlo?
+Teach me that one later!	Tohle mě pak nauč!
+Phew! My turn!	Uf! Jsem na řadě!
+Even you miss? Good to know.	I ty mineš? Dobré vědět.
+A free ball! What do I do with it?	Volná koule! Co s ní mám dělat?
+Did you see that?! It went in!	Vidíš to?! Spadla!
+Beginner's luck counts too!	Štěstí začátečníka se taky počítá!
+Oops. That was a practice shot.	Jejda. To byl zkušební šťouch.
+Aim, Leo, aim...	Miř, Leo, miř...
+Sorry! I touched the wrong one again.	Promiň! Zase jsem trefil tu špatnou.
+I WON? I'm calling my mum!	JÁ VYHRÁL? Volám mámě!
+Good game! I'm getting better, right?	Dobrá hra! Zlepšuju se, ne?
+Saturday, a table and good company. Let's play!	Sobota, stůl a dobrá společnost. Jdeme hrát!
+Nice one!	Pěkná!
+Oh, you're good. I'll pay attention now.	Tak ty to umíš. Teď budu dávat pozor.
+Happens to the best of us.	To se stane i nejlepším.
+Don't worry, it's just a game!	Neboj, je to jen hra!
+Thanks for the gift!	Díky za dárek!
+Yes! Weekend skills!	Jo! Víkendový talent!
+Lucky me!	To mám ale štěstí!
+Hm, where was I aiming?	Hm, kam jsem to mířila?
+Too much chatting, not enough aiming.	Moc povídání, málo míření.
+Oops, my bad!	Jejda, moje chyba!
+That was fun! Same time next weekend?	To byla zábava! Příští víkend ve stejnou dobu?
+Well played! Rematch over a lemonade?	Dobře zahráno! Odveta u limonády?
+Four cushions, endless possibilities.	Čtyři mantinely, nekonečné možnosti.
+Straight in? So... direct.	Rovnou? Jak... přímočaré.
+Nice, but a bank would have been prettier.	Pěkné, ale od mantinelu by to bylo hezčí.
+You should have used the cushion.	Měl(a) jsi použít mantinel.
+The rail was right there, asking for it.	Mantinel byl přímo tam a přímo si o to říkal.
+The table didn't like that.	Stolu se to nelíbilo.
+Off the rail and in. Art!	Od mantinelu a dovnitř. Umění!
+Geometry never lies.	Geometrie nikdy nelže.
+The angle was right. The cushion disagreed.	Úhel byl správně. Mantinel nesouhlasil.
+One diamond off. Just one!	Vedle o jeden diamant. Jen o jeden!
+Too much imagination, not enough contact.	Moc fantazie, málo kontaktu.
+A masterpiece, if I may say so.	Mistrovské dílo, smím-li to říct.
+Well played. Now try it off two rails.	Dobře zahráno. Teď to zkus přes dva mantinely.
+I hope these balls are made of steel.	Doufám, že ty koule jsou z oceli.
+Soft touch, huh? Not my style.	Jemný dotek, jo? To není můj styl.
+Hit it harder next time!	Příště to napal víc!
+Too gentle! Power solves everything.	Moc jemně! Síla vyřeší všechno.
+HA!	HA!
+My table now. Cover your ears.	Teď je stůl můj. Zacpi si uši.
+BOOM!	BUM!
+Did you hear that pocket?	Tu díru bylo slyšet, co?
+Too much power? No such thing.	Moc síly? Nic takového neexistuje.
+The pocket moved.	Díra se pohnula.
+The ball flew. It happens. A lot.	Koule letěla. Stává se. Často.
+Power wins again! BOOM!	Síla zase vítězí! BUM!
+Fine, finesse works too. Sometimes.	No dobře, jemnost funguje taky. Občas.
+Take your time. I have all day.	Nespěchej. Mám na to celý den.
+Acceptable.	Přijatelné.
+Enjoy it while it lasts.	Užij si to, dokud to trvá.
+Patience is a virtue. Not yours, apparently.	Trpělivost je ctnost. Zjevně ne tvoje.
+Thank you.	Děkuji.
+Sloppy.	Ledabylé.
+Steady wins.	Vytrvalost vítězí.
+One at a time.	Jednu po druhé.
+Hm. I'll leave you nothing anyway.	Hm. Stejně ti nic nenechám.
+Intentional. Probably.	Záměrně. Asi.
+Unacceptable. Of me.	Nepřijatelné. Z mé strany.
+As I said: patience.	Jak jsem řekla: trpělivost.
+You got through the wall. I'm impressed.	Prorazil(a) jsi zeď. Jsem ohromená.
+I've been playing since before these balls were plastic.	Hraju už od dob, kdy tyhle koule ještě nebyly z plastu.
+Good stroke. Reminds me of a fellow in '78.	Dobrý šťouch. Připomíná mi jednoho chlapíka v roce 78.
+Smooth. Very smooth.	Plynulé. Velmi plynulé.
+Keep your head down, kid.	Hlavu dolů, mladej.
+The cue ball doesn't lie.	Bílá nelže.
+Ah, a little present. Thank you kindly.	Á, malý dárek. Srdečně děkuji.
+Like riding a bicycle.	Jako jízda na kole.
+Still got it.	Pořád to umím.
+The eyes aren't what they used to be.	Oči už nejsou, co bývaly.
+In my day the pockets were bigger.	Za mých časů byly díry větší.
+Even old pros slip.	I staří profíci uklouznou.
+Experience, my friend. Experience.	Zkušenost, příteli. Zkušenost.
+You've got a future in this game.	V téhle hře máš budoucnost.
+Me? Oh, I hardly ever play...	Já? Ale, já skoro nehraju...
+Lucky! Do it again, I dare you.	Štěstí! Zopakuj to, jestli si troufneš.
+Ooh, someone's been practising.	Ó, někdo trénoval.
+Aw, so close! Bless.	Ach, takový kousek! Chudinka.
+Want me to show you how?	Mám ti ukázat, jak na to?
+Thank you, sweetie.	Děkuju, zlato.
+Oops, did I do that?	Jejda, to jsem udělala já?
+Must be beginner's luck. Again.	To bude štěstí začátečníka. Zase.
+Missed on purpose. Keeps it interesting.	Minula jsem schválně. Ať je to napínavé.
+Just warming up.	Jen se rozehrávám.
+Oh dear, how clumsy of me. Wink.	Ach jo, já jsem ale nešika. Mrk.
+Hardly ever play, I said. Hardly.	Říkala jsem, že skoro nehraju. Skoro.
+Fine, you got me. This time.	No dobře, dostal(a) jsi mě. Tentokrát.
+Friction, momentum, spin. Let us begin.	Tření, hybnost, rotace. Začněme.
+A fine cut. About thirty degrees, I'd say.	Pěkný řez. Tak třicet stupňů, řekl bych.
+Textbook.	Jak z učebnice.
+You underestimated the throw.	Podcenil(a) jsi strhávání.
+Interesting. Statistically expected.	Zajímavé. Statisticky očekávané.
+The cue ball followed the laws of physics, not your plan.	Bílá se řídila fyzikálními zákony, ne tvým plánem.
+As calculated.	Jak bylo spočítáno.
+Elastic collision, elegant result.	Pružná srážka, elegantní výsledek.
+An error in my measurement.	Chyba v mém měření.
+I'll revise the model.	Upravím model.
+Hm. Unexpected spin.	Hm. Nečekaná rotace.
+The numbers were on my side.	Čísla byla na mé straně.
+A result outside my predictions. Well done.	Výsledek mimo mé předpovědi. Výborně.
+Focus.	Soustředění.
+Clean.	Čisté.
+Not bad.	Ujde to.
+Half a millimetre.	Půl milimetru.
+Breathe before you shoot.	Před šťouchem se nadechni.
+Careless.	Nedbalost.
+Target down.	Cíl zasažen.
+Centre pocket.	Přímo do středu díry.
+Hm. Recalibrating.	Hm. Překalibrovávám.
+That never happens.	Tohle se nikdy nestává.
+Unacceptable.	Nepřijatelné.
+Precision wins.	Přesnost vítězí.
+Good shooting.	Dobrá muška.
+Welcome to my table. Enjoy the show.	Vítej u mého stolu. Užij si představení.
+Very good. You've done your homework.	Velmi dobře. Máš to nastudované.
+Applause for the challenger!	Potlesk pro vyzyvatele!
+Pressure. It gets to everyone.	Tlak. Dostane každého.
+Thank you for the table.	Děkuji za stůl.
+A champion never refuses a gift.	Šampion nikdy neodmítá dárek.
+Naturally.	Pochopitelně.
+That's how it's done.	Takhle se to dělá.
+Even champions give the crowd a chance.	I šampioni dají publiku šanci.
+Leaving you something, out of courtesy.	Něco ti nechám, ze zdvořilosti.
+A rare sight. Remember it.	Vzácný pohled. Zapamatuj si ho.
+The title stays with me. Good game.	Titul zůstává u mě. Dobrá hra.
+Remarkable. You've earned my respect.	Pozoruhodné. Získal(a) sis můj respekt.
+Calibration complete. Good luck, human.	Kalibrace dokončena. Hodně štěstí, člověče.
+Shot registered: successful.	Šťouch zaznamenán: úspěšný.
+Probability of my victory: increasing.	Pravděpodobnost mého vítězství: roste.
+Foul detected. Processing penalty.	Zjištěn faul. Zpracovávám trest.
+Executed as planned.	Provedeno podle plánu.
+Error. Recalculating.	Chyba. Přepočítávám.
+Malfunction. Please disregard.	Porucha. Prosím ignorujte.
+Game complete. Thank you for playing.	Hra dokončena. Děkuji za hru.
+Defeat acknowledged. Well played.	Porážka potvrzena. Dobře zahráno.
+Drills	Cvičení
+Exercises with stars	Cvičení s hvězdami
+{s} / {max} stars	Hvězdy {s} / {max}
+Stars at {a}, {b} and {c}	Hvězdy za {a}, {b} a {c}
+Your best: {n} of {total}	Tvůj nejlepší: {n} z {total}
+Not tried yet.	Zatím nezkoušeno.
+Start the drill	Začít cvičení
+Sign in to keep your stars in your account.	Přihlas se a hvězdy se ti uloží do účtu.
+{n} of {total}	{n} z {total}
+{drill}: try {k} of {n} · {made} made	{drill}: pokus {k} z {n} · povedeno {made}
+Made it! {n} of {total}	Povedlo se! {n} z {total}
+Missed.	Vedle.
+Sending to the server…	Odesílám na server…
+Not signed in: this session is not ranked.	Bez přihlášení: tato série se nezapočítá do žebříčku.
+Kept in your account.	Uloženo do tvého účtu.
+The session could not be counted.	Sérii se nepodařilo započítat.
+Back to the drills	Zpět na cvičení
+Straight in	Rovně
+A long straight pot into the corner. Five tries.	Dlouhá rovná koule do rohu. Pět pokusů.
+The cut	Řez
+A half-ball cut into the corner. Five tries.	Řez na půl koule do rohu. Pět pokusů.
+Draw it back	Spodek
+Pot the ball and draw the cue ball back into the circle. Five tries.	Potop kouli a stáhni bílou zpět do kruhu. Pět pokusů.
+Follow through	Vrch
+Pot the ball and leave the cue ball in the circle past it. Five tries.	Potop kouli a nech bílou v kruhu za ní. Pět pokusů.
+Bank shot	Od mantinelu
+Off one cushion into the side pocket. Five tries.	Od jednoho mantinelu do prostřední díry. Pět pokusů.
+Snooker escape	Únik ze snookeru
+Hit the 1 first: it hides behind other balls. Five tries.	Traf jako první jedničku: schovává se za jinými koulemi. Pět pokusů.
+Ten in a row	Deset v řadě
+Ten different pots, one after another: a miss ends the session.	Deset různých koulí, jedna po druhé: chyba sérii ukončí.
+The far corner	Vzdálený roh
+A cut back up the table into the corner behind you. Five tries.	Řez zpátky nahoru do rohu za tebou. Pět pokusů.
+Long into the side	Zdaleka do prostřední
+From the far end of the table into the side pocket. Five tries.	Z druhého konce stolu do prostřední díry. Pět pokusů.
+Cue ball on the cushion	Bílá u mantinelu
+The cue ball touches the cushion: pot the ball into the corner all the same. Five tries.	Bílá se dotýká mantinelu: i tak potop kouli do rohu. Pět pokusů.
+The plant	Nahrávka
+The 2 touches the 1 and points at the pocket: hit the 2 and the 1 goes in. Five tries.	Dvojka se dotýká jedničky a míří na díru: traf dvojku a jednička spadne. Pět pokusů.
+The carom	Karambol
+The 2 is in the way: glance off it and send the 1 into the corner. Five tries.	Dvojka stojí v cestě: ťukni o ni a pošli jedničku do rohu. Pět pokusů.
+The long draw	Dlouhý spodek
+Pot the ball and draw the cue ball all the way back into the circle. Five tries.	Potop kouli a stáhni bílou až zpátky do kruhu. Pět pokusů.
+On the tangent line	Po tečně
+Pot the ball in the side and let the cue ball run on into the circle. Five tries.	Potop kouli do prostřední díry a nech bílou dojet do kruhu. Pět pokusů.
+Two-cushion bank	Přes dva mantinely
+Off two cushions and into the corner. Five tries.	Přes dva mantinely do rohu. Pět pokusů.
+Fifteen in a row	Patnáct v řadě
+Fifteen different pots, one after another: a miss ends the session.	Patnáct různých koulí, jedna po druhé: chyba sérii ukončí.
+Take back the shot (Z)	Vrátit šťouch (Z)
+Shot taken back.	Šťouch vrácen.
+Solids	Plné
+Stripes	Půlené
+Hide the history	Skrýt průběh
+New username	Nové uživatelské jméno
+Click again to confirm	Klikni znovu pro potvrzení
+{n} of {total} name changes left	Zbývající změny jména: {n} z {total}
+You can't change your username again.	Uživatelské jméno už znovu změnit nemůžeš.
+That is already your username.	Tohle už je tvoje uživatelské jméno.
+Finish your game before changing your username.	Než změníš uživatelské jméno, dohraj svou hru.
+Leave your table or the queue before changing your username.	Než změníš uživatelské jméno, opusť svůj stůl nebo frontu.
+Leave your tournament before changing your username.	Než změníš uživatelské jméno, opusť svůj turnaj.
+Username changed.	Uživatelské jméno změněno.
+The server is still being updated to the new version. Try again in a few minutes.	Server se ještě aktualizuje na novou verzi. Zkus to znovu za pár minut.
+{shooter} made an opponent's ball: {next} to shoot.	{shooter} potopil(a) soupeřovu kouli: hraje {next}.
+# Five more computer opponents: Tito, Inês, Diego, Amara and Yuri.
+The Gambler	Hazardér
+Bets on every shot: as hard as the cue allows, with all the spin he can find. Safe play bores him.	Sází na každý šťouch: tak silně, jak tágo dovolí, a s veškerou falší, kterou najde. Safety ho nudí.
+The Soft Touch	Jemná ruka
+Never hits harder than she must: the balls die at the pocket's edge and the cue ball stops where she wants it.	Nikdy nehraje silněji, než musí: koule dojedou na hranu díry a bílá zastaví, kde chce.
+The Showman	Šoumen
+Plays to the crowd: a raised cue, swerving spin and a bank whenever there's one. It works more often than it should.	Hraje pro publikum: zvednuté tágo, zatáčející falš a mantinel, kdykoli to jde. Vychází mu to častěji, než by mělo.
+The Tactician	Taktička
+Plans the whole rack: snookers you when the pot isn't sure, and runs out when it is.	Plánuje celou sestavu: když koule není jistá, zaleze ti do snookeru, a když je, dočistí stůl.
+The Machine	Stroj
+No nerves, no flair: centre ball, measured pace, the same perfect stroke every time.	Žádné nervy, žádná fantazie: středem koule, odměřená síla, pokaždé stejně dokonalý šťouch.
+Place your bets! Mine's on me.	Sázky, prosím! Já sázím na sebe.
+Lucky roll. Let it ride!	Šťastný hod. Jedeme dál!
+Okay, okay. Double or nothing?	Dobře, dobře. Všechno, nebo nic?
+The house always wins!	Bank vždycky vyhraje!
+Free chips! Thank you!	Žetony zdarma! Díky!
+All in, and it paid!	Všechno na jednu kartu, a vyšlo to!
+That's how you play the odds!	Takhle se hraje s pravděpodobností!
+Bad beat. Next hand.	Smůla. Další kolo.
+Too much spin? There's no such thing.	Moc falše? Nic takového neexistuje.
+Busted. Worth the risk!	Přepálil jsem to. Stálo to za to!
+Jackpot! Same stakes again?	Jackpot! Ještě jednou o stejnou sázku?
+You beat the odds. Respect.	Porazil(a) jsi pravděpodobnost. Respekt.
+Softly, now. The table likes a gentle hand.	Pěkně zlehka. Stůl má rád jemnou ruku.
+Nicely done.	Pěkně provedeno.
+A little hard, but it went in.	Trochu silně, ale spadla.
+Less power, more feel.	Méně síly, více citu.
+Oh dear. A free ball for me.	Ale ale. Volná koule pro mě.
+Just enough to drop.	Akorát tak, aby spadla.
+See? No need to hit it hard.	Vidíš? Není třeba to napálit.
+A touch too soft.	Maličko slabě.
+Clumsy of me. Sorry.	To jsem ale nešika. Promiň.
+Slow and steady. Thank you for the game.	Pomalu a jistě. Děkuji za hru.
+Beautifully played. Well deserved.	Krásně zahráno. Zasloužené.
+Ladies and gentlemen... the show begins!	Dámy a pánové... představení začíná!
+Not bad! Bow to the crowd!	Není to zlé! Pokloň se publiku!
+You stole my applause!	Ukradl(a) jsi mi potlesk!
+The crowd wanted more!	Publikum chtělo víc!
+Ooh, a plot twist!	Ó, nečekaný zvrat!
+Ta-da!	Tadá!
+And for my next trick...	A můj další trik...
+Even magicians have off nights.	I kouzelníci mají špatné večery.
+That was... part of the act.	To bylo... součástí čísla.
+Thank you, thank you! Encore?	Děkuji, děkuji! Přídavek?
+Take a bow, champion. You earned it.	Pokloň se, šampione. Zasloužíš si to.
+Every rack is a puzzle. Let's solve this one.	Každá sestava je hádanka. Vyřešme tuhle.
+Good. Now where is your cue ball?	Dobře. A kde máš teď bílou?
+I saw that coming.	To jsem čekala.
+That left me something. Thank you.	Tím jsi mi něco nechal(a). Děkuji.
+As planned.	Jak bylo v plánu.
+Exactly as I calculated.	Přesně jak jsem spočítala.
+Three moves ahead.	Tři tahy dopředu.
+A variable I missed.	Proměnná, kterou jsem přehlédla.
+Hm. Recalculating.	Hm. Přepočítávám.
+Checkmate.	Šach mat.
+You out-thought me. That's rare.	Přechytračil(a) jsi mě. To se nestává.
+Game initialised.	Hra inicializována.
+Noted.	Zaznamenáno.
+Error margin exceeded.	Překročena mez chyby.
+Penalty applied.	Trest uplatněn.
+As expected.	Dle očekávání.
+Next.	Další.
+Deviation logged.	Odchylka zaznamenána.
+Malfunction. It will not repeat.	Porucha. Nebude se opakovat.
+Result: win. Thank you for the data.	Výsledek: výhra. Děkuji za data.
+Unexpected outcome. Impressive.	Nečekaný výsledek. Působivé.
+Opponents' remarks	Poznámky soupeřů
+The computer opponents comment on the game in speech bubbles.	Soupeři z počítače komentují hru v bublinách.
+Top view only	Jen pohled shora
+The table is always seen from above: no 3D view, no turning.	Stůl je vždy vidět shora: žádný 3D pohled, žádné otáčení.
+Not with the top view only.	Ne s pevným pohledem shora.
+Wheel	Kolečko myši
+Rules	Pravidla
+Rules of the game	Pravidla hry
+Level	Vodorovně
+Drag the cue: jump & massé	Táhni tágo: skok a massé
+Drag to raise or lower the cue	Tažením zvedneš nebo sklopíš tágo
+Drag the cue · {keys}	Táhni tágo · {keys}
+Profile picture	Profilový obrázek
+Shown by your name at the table and in your profile.	Zobrazuje se u tvého jména u stolu a v profilu.
+No picture	Bez obrázku
+Change your picture	Změnit obrázek
+{name} sank the 8 together with another ball	{name} potopil(a) osmičku spolu s jinou koulí
+the opponent sank the 8 with another ball	soupeř potopil osmičku spolu s jinou koulí
+sank the 8 with another ball	potopil(a) osmičku spolu s jinou koulí
+opponent pocketed the 8-ball together with another ball	soupeř potopil osmičku spolu s jinou koulí
+Penalty: {balls} off the table for {name}.	Trest: {balls} ze stolu ve prospěch hráče {name}.
+{name} had fewer balls left than the foul gives: the 8 pays the rest, and the foul loses the game.	{name} měl(a) míň koulí, než faul dává: zbytek zaplatí osmička a faul znamená prohru.
+Shadows	Stíny
+The shadows of the balls and of the cue on the table.	Stíny koulí a tága na stole.
+Sixteen players: knockout or arena	Šestnáct hráčů: vyřazovací turnaj nebo aréna
+New knockout	Nový vyřazovací
+New arena	Nová aréna
+Knockout: sixteen players, four rounds. Lose a game and you are out.	Vyřazovací turnaj: šestnáct hráčů, čtyři kola. Prohraješ hru a jsi venku.
+Arena: seven rounds for everyone. A win is 2 points, 3 from the third win in a row. The most points wins.	Aréna: sedm kol pro všechny. Výhra má 2 body, od třetí výhry v řadě 3. Vyhrává nejvíc bodů.
+The games between the other players are decided by their strength and a draw.	Hry mezi ostatními hráči rozhoduje jejich síla a los.
+You won the tournament!	Vyhrál(a) jsi turnaj!
+{name} won the tournament.	{name} vyhrává turnaj.
+You finished in place {n}.	Skončil(a) jsi na {n}. místě.
+Round of 16	Osmifinále
+Quarter-finals	Čtvrtfinále
+Round {n} of {total}	{n}. kolo z {total}
+Play {name}	Hrát proti hráči {name}
+Abandon the tournament	Opustit turnaj
+W - L	V - P
+Points	Body
+The tournament is over.	Turnaj skončil.
+The round is over: see who you play next.	Kolo skončilo: podívej se, s kým hraješ dál.
+You are out of the tournament.	Vypadl(a) jsi z turnaje.
+Side pocket	Prostřední díra
+A cut into the side pocket, where the angle is tight. Five tries.	Řez do prostřední díry, kde je úhel těsný. Pět pokusů.
+The long cut	Dlouhý řez
+A cut from the far end of the table into the corner. Five tries.	Řez z druhého konce stolu do rohu. Pět pokusů.
+Thin cut	Tenký řez
+Barely graze the ball: a thin cut into the corner. Five tries.	Kouli jen lehce otři: tenký řez do rohu. Pět pokusů.
+Along the cushion	Podél mantinelu
+The ball sits by the cushion: run it along into the corner. Five tries.	Koule leží u mantinelu: pošli ji podél něj do rohu. Pět pokusů.
+Stop shot	Stop
+Pot the ball and stop the cue ball dead where the ball was. Five tries.	Potop kouli a zastav bílou na místě, kde koule stála. Pět pokusů.
+The combination	Kombinace
+Pot the 1 by playing the 2 into it. Five tries.	Potop jedničku tak, že do ní pošleš dvojku. Pět pokusů.
+Cross-corner bank	Křížem do rohu
+Off the long cushion and across the table into the corner. Five tries.	Od dlouhého mantinelu přes stůl do rohu. Pět pokusů.
+Kick shot	Kick
+The 1 is walled off: send the cue ball off a cushion to hit it first. Five tries.	Jednička je zakrytá: pošli bílou od mantinelu, ať ji trefí první. Pět pokusů.
+Only the cue ball went down on the break: the balls are racked again and {next} breaks.	Při rozstřelu spadla jen bílá: koule se znovu sestaví a rozstřeluje {next}.
+Golden break	Zlatý rozstřel
+Win a rated game by sinking only the 8-ball on the break.	Vyhraj hodnocenou hru tím, že při rozstřelu potopíš jen osmičku.
+Half a year	Půl roku
+Have an account for six months.	Měj účet šest měsíců.
+First anniversary	První výročí
+Second anniversary	Druhé výročí
+Have an account for two years.	Měj účet dva roky.
+Third anniversary	Třetí výročí
+Have an account for three years.	Měj účet tři roky.
+Five years at the table	Pět let u stolu
+Have an account for five years.	Měj účet pět let.
+Back to the tournament	Zpět do turnaje
+Continue against {name}	Pokračovat proti hráči {name}
+You left your game: it counts as a loss.	Opustil(a) jsi hru: počítá se jako prohra.
+new level	nová úroveň
+Level {n} brings: {item}	Úroveň {n} přináší: {item}
+Level 5	Úroveň 5
+Reach level 5.	Dosáhni úrovně 5.
+Level 10	Úroveň 10
+Reach level 10.	Dosáhni úrovně 10.
+Level 15	Úroveň 15
+Reach level 15.	Dosáhni úrovně 15.
+Level 20	Úroveň 20
+Reach level 20.	Dosáhni úrovně 20.
+Level 30	Úroveň 30
+Reach level 30.	Dosáhni úrovně 30.
+Level 40	Úroveň 40
+Reach level 40.	Dosáhni úrovně 40.
+Level 50	Úroveň 50
+Reach level 50.	Dosáhni úrovně 50.
+Regular's teal	Štamgastova modrozelená
+Veteran's plum	Veteránova švestková
+Old hand	Starý mazák
+Lifer	Doživotně
+Apprentice's chalk	Učňovská křída
+Journeyman's chalk	Tovaryšská křída
+Achievements	Úspěchy
+Leagues and levels	Ligy a úrovně
+Next league: {tier}	Další liga: {tier}
+The top league.	Nejvyšší liga.
+Every prize of the levels is won.	Všechny odměny za úrovně jsou získané.
+None yet: the first is one game away.	Zatím žádné: první je jen jednu hru daleko.
+{coins} and {item}	{coins} a {item}
+Leagues	Ligy
+Levels	Úrovně
+By playing. Every level pays {n} coins.	Hraním. Každá úroveň dává mince: {n}.
+where everyone starts	tady všichni začínají
+from {n}	od {n}
+The top level.	Nejvyšší úroveň.
+{n} XP to level {next}	{n} XP do úrovně {next}
+{n} levels to go	zbývá úrovní: {n}
+new league	nová liga
+Old-timer's black	Veteránova černá
+Expert league blue	Modrá ligy Expert
+Master league violet	Fialová ligy Mistr
+Legend league gold	Zlatá ligy Legenda
+Skilled league chalk	Křída ligy Zručný
+By rating. Each league pays once.	Podle ratingu. Každá liga odmění jednou.
+cue	tágo
+cloth	sukno
+chalk	křída
+Always show the head string	Vždy zobrazovat čáru rozstřelu
+The line the break is played from, always on the table (off: only while placing the cue ball behind it).	Čára, ze které se rozstřeluje, stále na stole (vypnuto: jen když za ni pokládáš bílou).
+{who} ran out of time: the turn passes.	{who}: došel čas, tah přechází na soupeře.
+{who} ran out of time with no ball left to give {other}: the 8 pays, and {who} loses.	{who}: došel čas a {other} už nemá žádné koule k dostání: platí osmička a {who} prohrává.
+{who} ran out of time: the cue ball goes back to the head spot and the turn passes.	{who}: došel čas, bílá se vrací na horní bod a tah přechází na soupeře.
+{who} ran out of time: {balls} off the table for {other}, and the cue ball goes back to the head spot.	{who}: došel čas, {balls} ze stolu pro hráče {other} a bílá se vrací na horní bod.
+You were muted for {n} minutes: {r}	Byl ti ztlumen chat na {n} min: {r}
+Your account was suspended for {n} hours: {r}	Tvůj účet byl pozastaven na {n} h: {r}
+The server restarts in {minutes} min for an update. Games in progress go on; new games start right after.	Server se kvůli aktualizaci restartuje za {minutes} min. Rozehrané hry pokračují; nové začnou hned potom.
+The {cup} was called off: not enough players signed up.	{cup} byl zrušen: nepřihlásilo se dost hráčů.
+The {cup} is open for sign-up: it starts soon in Tournaments.	Přihlášky do turnaje {cup} jsou otevřené: brzy začíná v sekci Turnaje.
+{display} won the tournament “{name}”!	{display} vyhrává turnaj „{name}“!
+Sunday Cup	Nedělní pohár
+Monday Cup	Pondělní pohár
+Tuesday Cup	Úterní pohár
+Wednesday Cup	Středeční pohár
+Thursday Cup	Čtvrteční pohár
+Friday Cup	Páteční pohár
+Saturday Cup	Sobotní pohár
+{name} · rating {r}	{name} · rating {r}
+Something went wrong. Try again.	Něco se pokazilo. Zkus to znovu.
+member for 1 day	členem 1 den
+Game in progress: 1 ball left	Rozehraná hra: zbývá 1 koule
+1 level to go	zbývá 1 úroveň
+1 more online win with this cue for level {n}. Levels only add marks to the cue.	Do úrovně {n} zbývá 1 online výhra s tímto tágem. Úrovně tágu jen přidávají značky.
+Home	Home
+End	End
+PgUp	PgUp
+PgDn	PgDn
+Ins	Ins
+Could not join the LAN game	K LAN hře se nepodařilo připojit
+LAN game · others join at {address}	LAN hra · ostatní se připojí na {address}
+Click to copy	Klikni pro zkopírování
+Copied.	Zkopírováno.
+Start a new game?	Začít novou hru?
+You have a game in progress against the computer, with 1 ball left. A new game takes its place.	Máš rozehranou hru proti počítači a zbývá v ní 1 koule. Nová hra ji nahradí.
+You have a game in progress against the computer, with {n} balls left. A new game takes its place.	Máš rozehranou hru proti počítači a zbývá v ní koulí: {n}. Nová hra ji nahradí.
+Continue that game	Pokračovat v ní
+Start a new one	Začít novou
+Click again to close the game: {n} will be disconnected	Klikni znovu a hra se zavře: odpojí se hráči ({n})
+{name} cleared the table in one visit!	{name} vyčistil(a) stůl v jednom náběhu!
+{name}: {n} in a row!	{name}: {n} v řadě!
+Watch the deciding shot again	Znovu přehrát rozhodující šťouch
+Next: {name}	Další: {name}
+Drag on the table to aim, or click a ball	Miř tažením po stole, nebo klikni na kouli
+Set the power	Nastav sílu
+Let go of {key} to shoot · Esc cancels	Pusť {key} a šťouchni · Esc zruší
+Staff accounts can't change their username.	Účty týmu nemůžou měnit uživatelské jméno.
+That password can't be used. Choose another one.	Toto heslo nejde použít. Zvol jiné.
+That tournament is full.	Ten turnaj je plný.
+The server is restarting: your tournament was called off.	Server se restartuje: tvůj turnaj byl zrušen.
+Too many sign-ins. Wait a minute and try again.	Příliš mnoho přihlášení. Počkej minutu a zkus to znovu.
+Too many wrong passwords. Try again in a few minutes.	Příliš mnoho špatných hesel. Zkus to znovu za pár minut.
+Your VIP subscription could not be cancelled. Try again in a moment.	Tvoje předplatné VIP se nepodařilo zrušit. Zkus to za chvilku znovu.
+Balls of both groups on the break: the turn passes to {next}, the table is open.	Při rozstřelu spadly koule obou skupin: na tahu je {next}, stůl je otevřený.
+Only a final started while signed in counts: play the last stage again signed in.	Počítá se jen finále začaté po přihlášení: zahraj poslední etapu znovu po přihlášení.
+The server didn't deal the final: this game won't earn the reward.	Server finále nepřipravil: tato hra odměnu nezíská.
+The server didn't answer: this session won't be ranked.	Server neodpověděl: tato série se nezapočítá do žebříčku.
+The server is dealing the final…	Server připravuje finále…
+The server is setting up the drill…	Server připravuje cvičení…
+Not signed in: a win in this final won't earn the reward.	Bez přihlášení: výhra v tomto finále odměnu nezíská.
+Not kept: sessions count when started signed in.	Neuloženo: série se počítají, jen když začnou po přihlášení.
+Warning from the staff: {text}	Varování od týmu: {text}
+The staff changed your username to {name}. Sign in again.	Tým změnil tvoje uživatelské jméno na {name}. Přihlas se znovu.
+The staff called off the tournament you were in.	Tým zrušil tvůj turnaj.
+Experience ×{n}	Zkušenosti ×{n}
+Coins from games ×{n}	Mince ze hry ×{n}
+Themed tournament	Tematický turnaj
+Event	Událost
+Events	Události
+Warning from the staff	Varování od týmu
+Esc to cancel	Esc pro zrušení
+Will be sent when you're back online.	Odešle se, až budeš zase online.
+Your strokes will be sent when you're back online.	Tvoje šťouchy se odešlou, až budeš zase online.
+The final you won was dealt to {name}: sign in as {name} to claim the reward.	Vyhrané finále bylo připraveno pro účet {name}: přihlas se jako {name} a vyzvedni si odměnu.
+Type your password to confirm it's you.	Zadej heslo a potvrď, že jsi to ty.
+The cue ball is back on the head spot: {next} plays from there.	Bílá je zpět na horním bodě: {next} hraje odtamtud.
+{name} came online	{name} je online
+Online now: {names}	Teď online: {names}
+Nobody else is online right now.	Nikdo další teď není online.
+Focus mode	Režim soustředění
+No invitations while you play: they are turned away until the game is over.	Během hry žádné pozvánky: odmítají se, dokud hra neskončí.
+in focus mode	v režimu soustředění
+In focus mode: no invitations until their game is over.	V režimu soustředění: žádné pozvánky, dokud nedohraje.
+That player is in focus mode and isn't taking invitations until their game is over.	Tento hráč je v režimu soustředění a nepřijímá pozvánky, dokud nedohraje.
+Look at it closely	Prohlédnout zblízka
+Sign in to buy	Přihlas se a kupuj
+Sign in to use	Přihlas se a používej
+Back to the shop (Esc)	Zpět do obchodu (Esc)
+Show the interface (H)	Zobrazit rozhraní (H)
+Hide the interface (H)	Skrýt rozhraní (H)
+Turn (Space)	Otáčet (mezerník)
+Stop turning (Space)	Zastavit otáčení (mezerník)
+Zoom in (+)	Přiblížit (+)
+Zoom out (−)	Oddálit (−)
+Back to the start (R)	Zpět na začátek (R)
+Previous setting ([)	Předchozí prostředí ([)
+Next setting (])	Další prostředí (])
+Setting	Prostředí
+Studio	Studio
+Your table	Tvůj stůl
+Drag with the right button to turn · wheel to zoom · double-click to look closer	Pravým tlačítkem otáčíš · kolečkem přibližuješ · dvojklikem se podíváš zblízka
+Drag with the right button to turn · wheel to zoom · click a ball to look at it	Pravým tlačítkem otáčíš · kolečkem přibližuješ · kliknutím na kouli si ji prohlédneš
+The set	Sada
+From above	Shora
+Low angle	Zespodu
+Cue ball	Bílá koule
+Ball {n}	Koule {n}
+Whole	Celé
+Tip	Kůže
+Joint	Spoj
+Butt	Násada
+Top	Shora
+Cue	Tágo
+Table	Stůl
+Hall	Sál
+Corner	Rohová díra
+Side	Prostřední díra
+Leg	Noha
+Close-up	Zblízka
+Cushion	Mantinel
+Phenolic resin under a bright clear coat	Fenolová pryskyřice pod lesklým čirým lakem
+A pearly sheen that shifts with the light	Perleťový lesk, který se mění se světlem
+Brushed metal, bright as a mirror	Broušený kov, lesklý jako zrcadlo
+Old ivory: soft, warm and matte	Stará slonovina: jemná, teplá a matná
+A full-size cue, tip to butt: turn it, come close to its joint and its butt	Tágo ve skutečné velikosti, od kůže po násadu: otoč ho a prohlédni si zblízka spoj i násadu
+A cube of chalk, and the colour it leaves on the tip	Kostka křídy a barva, kterou nechá na kůži
+The cloth on the table: come close to see its weave	Sukno na stole: přibliž se a uvidíš jeho vazbu
+Dark mahogany, turned legs and brass castings	Tmavý mahagon, soustružené nohy a mosazné kování
+Light teak, square legs and chrome castings	Světlý teak, hranaté nohy a chromované kování
+Deep mahogany, carved legs and leather pocket nets	Sytý mahagon, vyřezávané nohy a kožené síťky v dírách
+Black lacquer and brushed aluminium on two slab legs	Černý lak a broušený hliník na dvou deskových nohách
+Black ebony with gold castings and inlays	Černý eben se zlatým kováním a intarziemi
+Reclaimed oak rails on a riveted black steel frame	Mantinely z recyklovaného dubu na nýtovaném rámu z černé oceli
+A pro tournament table: charcoal rails, block legs, chrome	Profesionální turnajový stůl: grafitové mantinely, hranolové nohy, chrom
+Figured walnut on barley-twist legs, brass and leather	Žíhaný ořech na točených nohách, mosaz a kůže
+Ivory lacquer and gold on fluted columns	Slonovinový lak a zlato na kanelovaných sloupech
+Panelling, the bar, cue racks, posters and neon	Obložení, bar, stojany na tága, plakáty a neony
+A deck at sunset, open windows, palms and string lights	Terasa při západu slunce, otevřená okna, palmy a světelné řetězy
+Panelling, bookshelves, leather sofas and a fireplace	Obložení, knihovny, kožené pohovky a krb
+Brick, steel windows over the city and Edison bulbs	Cihly, ocelová okna s výhledem na město a Edisonovy žárovky
+Log walls, a stone fireplace and snowy peaks outside	Roubené stěny, kamenný krb a venku zasněžené vrcholky
+A black mirror floor, neon tubes and arcade cabinets	Černá zrcadlová podlaha, neonové trubice a arkádové automaty
+A marble chessboard floor, gold, velvet and mirrors	Mramorová šachovnicová podlaha, zlato, samet a zrcadla
+Glass walls on the city at night, pale marble and oak	Skleněné stěny s nočním městem, světlý mramor a dub
+A gold medal!	Zlatá medaile!
+A silver medal!	Stříbrná medaile!
+A bronze medal!	Bronzová medaile!
+Silver medal	Stříbrná medaile
+Bronze medal	Bronzová medaile
+Your medals	Tvoje medaile
+Kept in your account the next time you're online.	Uloží se do tvého účtu, až budeš příště online.
+Sign in to keep them in your account.	Přihlas se a uložíš si je do účtu.
+18 or older	18 let a víc
+Under 18	Méně než 18 let
+Creating an account means accepting the	Vytvořením účtu přijímáš
+For a parent or guardian…	Pro rodiče nebo zákonného zástupce…
+A parent or guardian turned the chat on for this account. They can turn it off here at any time.	Rodič nebo zákonný zástupce zapnul pro tento účet chat. Tady ho může kdykoli vypnout.
+This account belongs to someone under 18. By law, the chat with other players (messages in the lounge and in games, notes, status and gift messages) stays off until their mother, father or legal guardian turns it on.	Tento účet patří někomu mladšímu 18 let. Ze zákona zůstává chat s ostatními hráči (zprávy v herně a ve hrách, vzkazy, status a zprávy u dárků) vypnutý, dokud ho nezapne matka, otec nebo zákonný zástupce.
+I am this player's mother, father or legal guardian, I have read the terms of use and I allow them to chat with other players.	Jsem matka, otec nebo zákonný zástupce tohoto hráče, přečetl(a) jsem si podmínky použití a povoluji mu chatovat s ostatními hráči.
+Chat for players under 18	Chat pro hráče mladší 18 let
+Turn the chat off	Vypnout chat
+{n} more invitations	Další pozvánky: {n}
+Invitation	Pozvánka
+Turn the chat on	Zapnout chat
+Chat off: under 18. A parent or guardian can turn it on.	Chat vypnutý: méně než 18 let. Zapnout ho může rodič nebo zákonný zástupce.
+The chat with other players is off until you turn it on.	Chat s ostatními hráči je vypnutý, dokud ho nezapneš.
+Write to turn the chat on…	Napiš něco a zapni chat…
+Chat with other players	Chat s ostatními hráči
+The chat with other players is off until you turn it on. To turn it on, tell us your age group: it can't be changed from the game afterwards.	Chat s ostatními hráči je vypnutý, dokud ho nezapneš. Pro zapnutí nám řekni svou věkovou skupinu: později ji ve hře změnit nejde.
+Under 18: a parent or guardian must agree to the terms with you and turn the chat on.	Méně než 18 let: rodič nebo zákonný zástupce musí s tebou přijmout podmínky a zapnout chat.
+Not now	Teď ne
+Terms of use	Podmínky použití
+Privacy policy	Zásady ochrany soukromí
+You have 7 days to change your mind and get your money back.	Do 7 dní si to můžeš rozmyslet a dostat peníze zpět.
+Under 18: buy only with a parent's or guardian's permission.	Méně než 18 let: nakupuj jen se svolením rodiče nebo zákonného zástupce.
+Renews every month until you cancel. 7 days to change your mind.	Obnovuje se každý měsíc, dokud nezrušíš. 7 dní na rozmyšlenou.
+About	O hře
+Accounts, purchases and refunds, the rules of the online game.	Účty, nákupy a vrácení peněz, pravidla online hry.
+What the game keeps, and your rights.	Co hra uchovává a jaká máš práva.
+Open	Otevřít
+Credits	Autoři
+Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Písma: DejaVu a Noto (OFL). Vlajky: flag-icons (MIT). Reakce a emoji: Twemoji (CC-BY 4.0). Názvy zemí: iso-codes (LGPL-2.1). Kód hry je otevřený (MIT).
+The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	Hráčům mladším 18 let je chat vypnutý. Rodič nebo zákonný zástupce ho může zapnout pod chatem herny.
+No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	Při rozstřelu nebyla trefena žádná koule: rozstřeluje {next}, s bílou v ruce za čárou rozstřelu.
+The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	Při rozstřelu spadla bílá a žádná jiná koule: rozstřeluje {next}, s bílou v ruce za čárou rozstřelu.
+Users online	Uživatelé online
+ping {ms} ms	ping {ms} ms
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks, with the cue ball in hand behind the head string.	Při rozstřelu spadla bílá spolu s koulemi obou skupin: bez trestu, stůl zůstává otevřený a rozstřeluje {next}, s bílou v ruce za čárou rozstřelu.
+Brazilian	Brazilská
+Official	Oficiální
+Brazilian rules	Brazilská pravidla
+Official rules	Oficiální pravidla
+Brazilian rules (inside a sentence)	brazilská pravidla
+Official rules (inside a sentence)	oficiální pravidla
+Brazilian (inside a sentence)	brazilská
+Official (inside a sentence)	oficiální
+As played in Brazil's bars	Jak se hrají v brazilských barech
+As played in tournaments (WPA)	Jak se hrají na turnajích (WPA)
+on the Brazilian rules	podle brazilských pravidel
+on the official rules	podle oficiálních pravidel
+A ball left the table on the break.	Při rozstřelu vyletěla koule ze stolu.
+A ball off the table on the break	Koule ze stolu při rozstřelu
+A safety calls nothing: whatever goes in stays down, and the turn passes.	Safety nic nehlásí: co spadne, zůstane v díře, a tah přechází na soupeře.
+Break yourself	Rozstřelit sám
+CALLED POCKET	OHLÁŠENÁ DÍRA
+Choose	Vybrat
+Choose how play goes on	Vyber, jak hra pokračuje
+Choose the rules of your games. You can switch them any time, in the main menu.	Vyber pravidla svých her. Změnit je můžeš kdykoli v hlavním menu.
+Click a pocket on the table to call it; click it again to follow your aim.	Kliknutím na díru na stole ji ohlásíš; dalším kliknutím se vrátíš k díře podle míření.
+Cue ball in hand	Bílá v ruce
+Each of the rules has its own rating: these games don't change your {rating} under the {other}.	Každá pravidla mají vlastní rating: tyto hry nemění tvůj {rating} pro {other}.
+Find an opponent of your level automatically ({rules})	Automaticky najdi soupeře na své úrovni ({rules})
+How do you like to play?	Jak chceš hrát?
+How does play go on? Choose one:	Jak hra pokračuje? Vyber jednu možnost:
+Illegal break: no ball made and fewer than four balls reached a cushion.	Neplatný rozstřel: nespadla žádná koule a k mantinelu dojely méně než čtyři koule.
+Invite {name}	Pozvat hráče {name}
+No ball went in the called pocket ({pocket}): {next} to shoot.	Do ohlášené díry ({pocket}) nespadla žádná koule: hraje {next}.
+No pocket was called (a safety): {next} to shoot.	Nebyla ohlášena žádná díra (safety): hraje {next}.
+Not sure what changes?	Nevíš, co se mění?
+Place it anywhere behind the head string.	Polož ji kamkoli za čáru rozstřelu.
+Play on	Hrát dál
+Players against the computer under these rules	Hráči proti počítači podle těchto pravidel
+Players online under these rules (the lounge and online games)	Hráči online podle těchto pravidel (herna a online hry)
+RULES OF YOUR GAMES	PRAVIDLA TVÝCH HER
+Read both rules	Přečíst obě pravidla
+Rules of your games	Pravidla tvých her
+Safety	Safety
+Safety: no pocket	Safety: žádná díra
+Show the {rules}: the rank, the league and the chart	Zobrazit {rules}: pořadí, ligu a graf
+The 8 is spotted and you keep shooting.	Osmička se vrací na stůl a hraješ dál.
+The 8 is spotted; the cue ball in hand behind the head string.	Osmička se vrací na stůl; bílá v ruce za čárou rozstřelu.
+The 8 on a break with a foul	Osmička při rozstřelu s faulem
+The 8 on the break	Osmička při rozstřelu
+The 8 went down on a break with a foul: it is spotted.	Osmička spadla při rozstřelu s faulem: vrací se na stůl.
+The 8 went down on the break: it is spotted.	Osmička spadla při rozstřelu: vrací se na stůl.
+The balls are racked again and you break.	Koule se znovu sestaví a rozstřeluješ ty.
+The balls are racked again and {name} breaks.	Koule se znovu sestaví a rozstřeluje {name}.
+The balls are racked again: {name} breaks.	Koule se znovu sestaví: rozstřeluje {name}.
+The balls are racked again: {other} breaks.	Koule se znovu sestaví: rozstřeluje {other}.
+The rules of this game: click to read them	Pravidla této hry: kliknutím si je přečteš
+The rules of your games: click to switch	Pravidla tvých her: kliknutím je změníš
+The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	Stejný přepínač jako v hlavním menu: online, proti počítači a dva hráči. Každá pravidla mají vlastní rating.
+The table as it lies.	Stůl, jak leží.
+The top 100 of each rules · rated games	Top 100 pro každá pravidla · hodnocené hry
+The {ball} lay behind the head string and the cue ball hit it without crossing the line first	{ball} ležela za čárou rozstřelu a bílá ji trefila, aniž by nejdřív přejela čáru
+What changes between the rules: click to read them	Co se mezi pravidly mění: kliknutím si je přečteš
+With the cue ball in hand behind the head string.	S bílou v ruce za čárou rozstřelu.
+follows your aim	podle míření
+no rated games yet	zatím žádné hodnocené hry
+open table: the called ball you make sets your group	otevřený stůl: potopená ohlášená koule určí tvou skupinu
+peak {n} · {games} games	maximum {n} · hry: {games}
+playing now	právě hraje
+your call	tvoje ohlášení
+{name} breaks again	{name} rozstřeluje znovu
+{name} chooses: play on, or rack the balls and break again.	{name} vybírá: hrát dál, nebo sestavit koule a rozstřelit znovu.
+{name} chooses: play the table as it lies, or take the cue ball in hand behind the head string.	{name} vybírá: hrát stůl, jak leží, nebo vzít bílou do ruky za čárou rozstřelu.
+{name} chooses: play the table as it lies, rack the balls and break, or have {breaker} break again.	{name} vybírá: hrát stůl, jak leží, sestavit koule a rozstřelit, nebo nechat znovu rozstřelit hráče {breaker}.
+{name} chooses: play the table as it lies, take the cue ball in hand behind the head string, rack the balls and break, or have {breaker} break again.	{name} vybírá: hrát stůl, jak leží, vzít bílou do ruky za čárou rozstřelu, sestavit koule a rozstřelit, nebo nechat znovu rozstřelit hráče {breaker}.
+{name} chooses: the cue ball in hand behind the head string, or rack the balls and break.	{name} vybírá: bílá v ruce za čárou rozstřelu, nebo sestavit koule a rozstřelit.
+{name} is choosing how play goes on…	{name} vybírá, jak hra pokračuje…
+{name} plays on (the 8 is spotted).	{name} hraje dál (osmička se vrací na stůl).
+{name} plays the table as it lies.	{name} hraje stůl, jak leží.
+{name} plays the {theirs} now; yours are the {mine}.	{name} teď hraje {theirs}; ty hraješ {mine}.
+{name} takes the cue ball in hand.	{name} bere bílou do ruky.
+{next} has the cue ball in hand behind the head string.	{next} má bílou v ruce za čárou rozstřelu.
+{next} has the cue ball in hand: anywhere on the table.	{next} má bílou v ruce: kdekoli na stole.
+{n} points to {tier} ({rules})	Do úrovně {tier} zbývá bodů: {n} ({rules})
+{n} waiting	Čeká: {n}
+A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Faul dává soupeři koule z jeho skupiny. Bílá v ruce je jen při rozstřelu a ohlašuje se jen díra pro osmičku.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	Faul dává soupeři bílou v ruce kdekoli na stole. Každý šťouch se ohlašuje a rozstřel musí dostat čtyři koule k mantinelu.
+A foul gives balls to the opponent	Faul dává soupeři koule
+Ball in hand on the break only	Bílá v ruce jen při rozstřelu
+Only the 8's pocket is called	Ohlašuje se jen díra pro osmičku
+The most played in Brazil	Nejhranější v Brazílii
+A foul gives ball in hand	Faul dává bílou v ruce
+The break drives four balls to a cushion	Rozstřel dostane čtyři koule k mantinelu
+Every shot is called	Každý šťouch se ohlašuje
+The same all over the world	Stejná po celém světě
+Game type	Typ hry
+called: {pocket}	ohlášeno: {pocket}
+no call: a safety	bez ohlášení: safety
+A safety: nothing called. Click again to call the pocket you aim at.	Safety: nic ohlášeno. Dalším kliknutím ohlásíš díru, na kterou míříš.
+A safety calls nothing: whatever goes in stays down, and the turn passes. To call another pocket, click it on the table.	Safety nic nehlásí: co spadne, zůstane v díře, a tah přechází na soupeře. Jinou díru ohlásíš kliknutím na ni na stole.
+{games} games · {pct}% won	Hry: {games} · vyhráno {pct} %
+Each of the rules has its own rating; the level, coins and achievements are shared.	Každá pravidla mají vlastní rating; úroveň, mince a úspěchy jsou společné.
+You already have a VIP subscription: manage it with Manage subscription.	Předplatné VIP už máš: spravuj ho přes Spravovat předplatné.
+Your opponent can't start another game yet.	Soupeř zatím nemůže začít další hru.
+A tournament's name is shown to everyone: with your chat off, you can join tournaments but not create one.	Název turnaje vidí všichni: s vypnutým chatem se můžeš do turnajů přihlašovat, ale nemůžeš je zakládat.
+The connection dropped: check your coins before trying again.	Spojení spadlo: než to zkusíš znovu, zkontroluj své mince.
+Sign in to buy coins.	Pro nákup mincí se přihlas.
+Sign in to become VIP.	Pro získání VIP se přihlas.
+how play goes on after the break is undecided	ještě není rozhodnuto, jak hra po rozstřelu pokračuje
+Finish your game, and leave your table, the queue or your tournament first.	Nejdřív dohraj hru a opusť svůj stůl, frontu nebo turnaj.
+That choice can't be made now.	Tuto volbu teď nejde provést.
+That medal can't be.	Taková medaile neexistuje.
+{name}'s tournament	Turnaj hráče {name}
+When time runs out, it's a foul: your opponent gets a ball and the cue ball goes back to the head spot.	Když dojde čas, je to faul: soupeř dostane kouli a bílá se vrací na horní bod.
+When time runs out, it's a foul: your opponent gets the cue ball in hand.	Když dojde čas, je to faul: soupeř dostane bílou do ruky.
+Your username was changed. Sign in again.	Tvoje uživatelské jméno bylo změněno. Přihlas se znovu.
+You have your tournament game in progress. A new game takes its place, and the tournament game counts as lost.	Máš rozehranou turnajovou hru. Nová hra ji nahradí a turnajová hra se počítá jako prohraná.
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks again, from the head spot.	Při rozstřelu spadla bílá spolu s koulemi obou skupin: bez trestu, stůl zůstává otevřený a {next} rozstřeluje znovu, z horního bodu.
+The cue ball went down on the break with no ball made: {next} breaks again, from the head spot.	Při rozstřelu spadla bílá a žádná jiná koule: {next} rozstřeluje znovu, z horního bodu.
+{who} ran out of time: {other} breaks, from the head spot.	{who}: došel čas, rozstřeluje {other}, z horního bodu.
+Congratulations!	Gratulujeme!
+You earned a new item: {title}	Máš nový předmět: {title}
+You earned a new item!	Máš nový předmět!

@@ -1,66 +1,66 @@
-# Snook Legend: the rules of eight-ball, shown in the game.
-# "## <part>" starts a part, "### <title>" a rule, and the lines after it
-# are its text. The same parts and rules, in the same order, in every
-# language.
+# Snook Legend: pravidla osmičkového poolu, jak je ukazuje hra.
+# "## <část>" začíná část, "### <název>" pravidlo a řádky za ním
+# jsou jeho text. Stejné části a pravidla ve stejném pořadí
+# ve všech jazycích.
 
-## The game
+## Hra
 
-### The Brazilian rules
-The eight-ball of Brazil's bars and pool halls, with penalty balls. Snook Legend has the official (WPA) rules too: choose the rules of your games in the main menu. If you know the official rules, read the fouls and the 8-ball below, because they differ a lot.
+### Brazilská pravidla
+Osmička z brazilských barů a heren, s trestnými koulemi. Snook Legend má i oficiální pravidla (WPA): pravidla svých her si vybereš v hlavním menu. Pokud znáš oficiální pravidla, přečti si níže fauly a osmičku, protože se hodně liší.
 
-### The aim
-Each player has a group of seven balls: solids (1 to 7) or stripes (9 to 15). Pocket all of yours and then the 8-ball, before your opponent does.
+### Cíl
+Každý hráč má skupinu sedmi koulí: plné (1 až 7) nebo půlené (9 až 15). Potop všechny své a pak osmičku dřív než soupeř.
 
-### Your turn
-You keep shooting as long as you pocket a ball of your group without a foul. If you miss, foul or pocket one of your opponent's balls, the turn passes.
+### Tvůj tah
+Hraješ dál, dokud bez faulu potápíš koule své skupiny. Když mineš, uděláš faul nebo potopíš soupeřovu kouli, tah přechází na soupeře.
 
-## The break
+## Rozstřel
 
-### The break shot
-On the break, and only then, the cue ball is in hand: you may place it anywhere behind the head string, even against a cushion, but never in a pocket's mouth (a break handed over after the cue ball was lost is played from the head spot: see below). No ball has to go down or reach a cushion, but the cue ball must hit a ball (see below). The break alternates: in a series of games each player breaks in turn, one break each.
+### Rozstřel
+Při rozstřelu, a jen tehdy, máš bílou v ruce: můžeš ji položit kamkoli za čáru rozstřelu, i k mantinelu, ale nikdy do ústí díry (rozstřel předaný poté, co spadla bílá, se hraje z horního bodu: viz níže). Žádná koule nemusí spadnout ani dojet k mantinelu, ale bílá musí trefit kouli (viz níže). Rozstřel se střídá: v sérii her rozstřelují hráči postupně, každý jednou.
 
-### The 8-ball on the break
-Pocketing only the 8 on the break wins the game on the spot. Pocketing the 8 together with any other ball (the cue ball or any other) loses the game. If the 8 leaves the table on the break, it goes back on the table where the front ball of the rack stood (or as near as there is room) and you lose the turn: it's a foul.
+### Osmička při rozstřelu
+Když při rozstřelu potopíš jen osmičku, hru hned vyhráváš. Když osmičku potopíš spolu s jakoukoli jinou koulí (bílou nebo kteroukoli jinou), hru prohráváš. Když osmička při rozstřelu vyletí ze stolu, vrací se na stůl tam, kde stála přední koule sestavy (nebo co nejblíž, kde je místo), a tah přechází na soupeře: je to faul.
 
-### Only the cue ball on the break
-If the cue ball goes down or leaves the table on the break and no ball is made, you lose the turn and the break passes to your opponent. The balls stay where they stopped, and they put the cue ball on the head spot and play from there (not in hand): their shot counts as a new break. The 8 is not a ball to go for on it, though: with the balls already scattered, hitting the 8 first is a foul and pocketing it loses the game, as on any other shot (only on the break of the rack does the 8 alone win). The same goes if the cue ball goes down with balls of both groups (a solid and a stripe, in any order): the break passes to your opponent, with the cue ball on the head spot and no penalty ball; the balls made stay down and the table stays open. If one ball (or balls of one group only) goes down along with the cue ball, the first one down still decides the groups, and it's an ordinary foul: your opponent's lowest ball comes off, the cue ball goes back to the head spot and they play from there, without ball in hand.
+### Jen bílá při rozstřelu
+Když bílá při rozstřelu spadne nebo vyletí ze stolu a žádná koule nespadne, tah i rozstřel přecházejí na soupeře. Koule zůstanou, kde se zastavily, a soupeř položí bílou na horní bod a hraje odtamtud (ne z ruky): jeho šťouch se počítá jako nový rozstřel. Osmička ale není koule, na kterou by se při něm smělo hrát: koule už jsou rozházené, takže trefit osmičku jako první je faul a potopit ji znamená prohru, jako při každém jiném šťouchu (jen při rozstřelu ze sestavy osmička sama vyhrává). Totéž platí, když bílá spadne spolu s koulemi obou skupin (plnou i půlenou, v libovolném pořadí): rozstřel přechází na soupeře, s bílou na horním bodě a bez trestné koule; potopené koule zůstávají v dírách a stůl zůstává otevřený. Když spolu s bílou spadne jedna koule (nebo koule jen jedné skupiny), první potopená koule i tak určí skupiny a je to běžný faul: soupeřova nejnižší koule jde ze stolu, bílá se vrací na horní bod a soupeř hraje odtamtud, bez bílé v ruce.
 
-### A break that hits no ball
-If the break hits no ball, you lose the turn and the break passes to your opponent: the balls are still racked, and they place the cue ball anywhere behind the head string.
+### Rozstřel, který netrefí žádnou kouli
+Když rozstřel netrefí žádnou kouli, tah i rozstřel přecházejí na soupeře: koule jsou pořád sestavené a soupeř položí bílou kamkoli za čáru rozstřelu.
 
-### After the break
-On the break, the first ball that goes down decides your group, even if the cue ball goes down too (unless balls of both groups go down with the cue ball: see above). If only balls of your group go down, you shoot again. If one of your opponent's goes down too (the 3 and then the 13, say: you take the solids), it stays down, for them, and the turn passes.
+### Po rozstřelu
+Při rozstřelu určí tvou skupinu první koule, která spadne, i když spadne i bílá (pokud s bílou nespadnou koule obou skupin: viz výše). Když spadnou jen koule tvé skupiny, hraješ znovu. Když spadne i některá soupeřova (třeba trojka a pak třináctka: bereš plné), zůstane v díře, pro soupeře, a tah přechází na něj.
 
-### Open table
-Until the groups are decided the table is open: you may hit any ball first except the 8. The first ball you pocket on a shot without a foul gives you its group, and your opponent the other. On an open table there is no opponent's ball yet: a foul costs only the turn. If no ball of either group is left on an open table, both players are on the 8, and any foul that would give a ball loses the game (the 8 pays).
+### Otevřený stůl
+Dokud nejsou skupiny určené, stůl je otevřený: jako první můžeš trefit kteroukoli kouli kromě osmičky. První koule, kterou bez faulu potopíš, ti dá svou skupinu a soupeři tu druhou. Na otevřeném stole ještě nejsou soupeřovy koule: faul stojí jen tah. Když na otevřeném stole nezbude žádná koule ani jedné skupiny, oba hráči hrají na osmičku a každý faul, který by dával kouli, znamená prohru (platí osmička).
 
-## Fouls and penalties
+## Fauly a tresty
 
-### Penalty balls
-Every foul passes the turn, and most of them give your opponent balls: the lowest numbers of their group still on the table come off it, as if they had pocketed them. Penalties add up. If your opponent has fewer balls left than the foul gives them, the 8 pays the rest and you lose the game: two penalty balls with only one on the table, that one and the 8 come off. Once they are on the 8 (no balls of their group left), any foul that gives a ball loses: missing every ball, pocketing the cue ball, knocking it off the table or hitting the wrong ball first. The same goes when only the 8 is left on the table. If you are on the 8 and your opponent still has balls, a foul gives them balls as usual (a miss, their lowest one) and passes the turn; you lose only if it gives more than they have.
+### Trestné koule
+Každý faul předává tah a většina z nich dává soupeři koule: z jeho skupiny jdou ze stolu koule s nejnižšími čísly, které na něm ještě jsou, jako by je potopil. Tresty se sčítají. Když má soupeř méně koulí, než mu faul dává, zbytek zaplatí osmička a ty prohráváš: dvě trestné koule a na stole jen jedna, ze stolu jde ta jedna i osmička. Jakmile soupeř hraje na osmičku (nezbývají mu žádné koule jeho skupiny), každý faul, který dává kouli, znamená prohru: minutí všech koulí, potopení bílé, vyražení bílé ze stolu nebo trefení špatné koule jako první. Totéž platí, když na stole zbývá jen osmička. Když hraješ na osmičku ty a soupeř ještě koule má, faul mu dává koule jako obvykle (za minutí jeho nejnižší) a předává tah; prohráváš, jen když mu dává víc, než má.
 
-### Missing the ball
-Hitting none of your balls: your opponent's lowest ball on the table comes off (it counts for them), and you lose the turn. Hitting the 8 first before your group is cleared costs the same. Missing and pocketing the cue ball as well: your opponent's two lowest balls.
+### Minutí koule
+Netrefíš žádnou ze svých koulí: soupeřova nejnižší koule na stole jde ze stolu (počítá se jemu) a tah přechází na soupeře. Stejně stojí, když trefíš jako první osmičku dřív, než dočistíš svou skupinu. Minutí a k tomu potopená bílá: soupeřovy dvě nejnižší koule.
 
-### Hitting your opponent's ball
-Hitting one of your opponent's balls first, directly: their two lowest balls come off, and you lose the turn. If the ball you hit goes down, it stays down and the two come off all the same. If the cue ball went to a cushion first: one ball (not the cushion it lay against). Hitting your opponent's ball directly and pocketing the cue ball as well: their three lowest.
+### Trefení soupeřovy koule
+Trefíš jako první přímo některou ze soupeřových koulí: jeho dvě nejnižší koule jdou ze stolu a tah přechází na soupeře. Když trefená koule spadne, zůstane v díře a ty dvě jdou ze stolu i tak. Když bílá šla nejdřív k mantinelu: jedna koule (nepočítá se mantinel, u kterého ležela). Trefení soupeřovy koule přímo a k tomu potopená bílá: jeho tři nejnižší.
 
-### Pocketing the cue ball
-One ball to your opponent, and the cue ball goes back to the head spot, where the break is played from (or right behind a ball lying there). There is no ball in hand: your opponent plays from there. The cue ball is in hand on the break only; after any other foul it is played from where it stopped.
+### Potopení bílé
+Jedna koule pro soupeře a bílá se vrací na horní bod, odkud se rozstřeluje (nebo těsně za kouli, která tam leží). Bílá v ruce není: soupeř hraje odtamtud. Bílá v ruce je jen při rozstřelu; po každém jiném faulu se hraje z místa, kde se zastavila.
 
-### Balls off the table
-The cue ball off the table costs the same as pocketing it: your opponent's lowest ball comes off (it counts for them), you lose the turn and the cue ball goes back to the head spot. A ball of your group off the table comes back to the table, and you lose the turn. One of your opponent's balls off the table is out (it counts for them), and you lose the turn.
+### Koule ze stolu
+Bílá ze stolu stojí totéž jako její potopení: soupeřova nejnižší koule jde ze stolu (počítá se jemu), tah přechází na soupeře a bílá se vrací na horní bod. Koule tvé skupiny, která vyletí ze stolu, se vrací na stůl a tah přechází na soupeře. Soupeřova koule, která vyletí ze stolu, je venku (počítá se jemu) a tah přechází na soupeře.
 
-### Your opponent's ball
-Pocketing one of your opponent's balls passes the turn, even if one of yours went down too. It stays down, for them.
+### Soupeřova koule
+Potopení soupeřovy koule předává tah, i když spadla i některá tvoje. Zůstane v díře, pro soupeře.
 
-### The shot clock
-When a game has a shot clock and it runs out, it is a foul: the cue ball goes back to the head spot (not in hand), your opponent gets a ball (their lowest on the table; if they are on the 8 already, the 8 pays and you lose) and the turn passes. While the table is open, no ball is owed (unless only the 8 is left: then the clock loses the game). On the break, the break passes to your opponent, with the cue ball on the head spot (not in hand) and no ball owed.
+### Čas na šťouch
+Když má hra čas na šťouch a ten vyprší, je to faul: bílá se vrací na horní bod (ne do ruky), soupeř dostane kouli (svou nejnižší na stole; pokud už hraje na osmičku, platí osmička a ty prohráváš) a tah přechází na soupeře. Dokud je stůl otevřený, nedává se žádná koule (pokud nezbývá jen osmička: pak vypršený čas znamená prohru). Při rozstřelu přechází rozstřel na soupeře, s bílou na horním bodě (ne v ruce) a bez trestné koule.
 
-## The 8-ball
+## Osmička
 
-### Calling the pocket
-When your group is cleared, choose a pocket for the 8 before you shoot. Pocket only the 8 there, without a foul, and you win. The pocket you call stands from your first shot on the 8 to the end of the game, even if that shot is a safety or a miss: you can't change it.
+### Ohlášení díry
+Když dočistíš svou skupinu, vyber před šťouchem díru pro osmičku. Potop tam jen osmičku, bez faulu, a vyhráváš. Ohlášená díra platí od tvého prvního šťouchu na osmičku až do konce hry, i když je ten šťouch safety nebo minutí: změnit ji nemůžeš.
 
-### Losing on the 8
-You lose if you pocket the 8 before your group is cleared, in a pocket other than the one you called, together with the cue ball or one of your opponent's balls, on a foul, or if you knock it off the table after the break. You also lose with a foul that gives more balls than your opponent has: the 8 pays the rest (see penalty balls).
+### Prohra na osmičce
+Prohráváš, když potopíš osmičku dřív, než dočistíš svou skupinu, do jiné než ohlášené díry, spolu s bílou nebo se soupeřovou koulí, s faulem, nebo když ji po rozstřelu vyrazíš ze stolu. Prohráváš i faulem, který dává víc koulí, než soupeř má: zbytek zaplatí osmička (viz trestné koule).

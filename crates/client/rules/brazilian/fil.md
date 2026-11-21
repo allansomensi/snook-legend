@@ -1,66 +1,66 @@
-# Snook Legend: the rules of eight-ball, shown in the game.
-# "## <part>" starts a part, "### <title>" a rule, and the lines after it
-# are its text. The same parts and rules, in the same order, in every
-# language.
+# Snook Legend: ang mga patakaran ng 8-ball, ipinapakita sa laro.
+# "## <bahagi>" ang simula ng isang bahagi, "### <pamagat>" ng isang patakaran,
+# at ang mga linya pagkatapos nito ang teksto nito. Pareho ang mga bahagi at
+# patakaran, sa parehong pagkakasunod, sa bawat wika.
 
-## The game
+## Ang laro
 
-### The Brazilian rules
-The eight-ball of Brazil's bars and pool halls, with penalty balls. Snook Legend has the official (WPA) rules too: choose the rules of your games in the main menu. If you know the official rules, read the fouls and the 8-ball below, because they differ a lot.
+### Ang patakarang Brazilian
+Ang 8-ball ng mga bar at bilyaran sa Brazil, na may mga penalty ball. May patakarang opisyal (WPA) din ang Snook Legend: piliin ang patakaran ng mga laro mo sa main menu. Kung alam mo ang patakarang opisyal, basahin ang mga foul at ang 8-ball sa ibaba, dahil malaki ang pagkakaiba.
 
-### The aim
-Each player has a group of seven balls: solids (1 to 7) or stripes (9 to 15). Pocket all of yours and then the 8-ball, before your opponent does.
+### Ang layunin
+May grupo ng pitong bola ang bawat manlalaro: solids (1 hanggang 7) o stripes (9 hanggang 15). Ipasok ang lahat ng sa iyo at saka ang 8-ball, bago ito magawa ng kalaban mo.
 
-### Your turn
-You keep shooting as long as you pocket a ball of your group without a foul. If you miss, foul or pocket one of your opponent's balls, the turn passes.
+### Ang turn mo
+Tuloy ang pagtira mo habang nakakapasok ka ng bola ng grupo mo nang walang foul. Kapag nagmintis ka, nag-foul o nakapasok ng bola ng kalaban, lilipat ang turn.
 
-## The break
+## Ang break
 
-### The break shot
-On the break, and only then, the cue ball is in hand: you may place it anywhere behind the head string, even against a cushion, but never in a pocket's mouth (a break handed over after the cue ball was lost is played from the head spot: see below). No ball has to go down or reach a cushion, but the cue ball must hit a ball (see below). The break alternates: in a series of games each player breaks in turn, one break each.
+### Ang tira sa break
+Sa break, at doon lang, ball in hand ang cue ball: puwede mo itong ilagay kahit saan sa likod ng head string, kahit nakadikit sa cushion, pero hindi kailanman sa bibig ng pocket (ang break na ipinasa pagkatapos mawala ang cue ball ay tinitira mula sa head spot: tingnan sa ibaba). Walang bolang kailangang pumasok o umabot sa cushion, pero dapat may matamaang bola ang cue ball (tingnan sa ibaba). Salitan ang break: sa serye ng mga laro, tig-isang break ang bawat manlalaro, sunod-sunod.
 
-### The 8-ball on the break
-Pocketing only the 8 on the break wins the game on the spot. Pocketing the 8 together with any other ball (the cue ball or any other) loses the game. If the 8 leaves the table on the break, it goes back on the table where the front ball of the rack stood (or as near as there is room) and you lose the turn: it's a foul.
+### Ang 8-ball sa break
+Kapag 8 lang ang naipasok mo sa break, panalo ka agad. Kapag naipasok mo ang 8 kasabay ng ibang bola (ang cue ball o kahit anong bola), talo ka. Kapag lumabas sa mesa ang 8 sa break, ibabalik ito sa mesa kung saan nakapuwesto ang unahang bola ng rack (o kasinlapit nito hangga't may puwang) at mawawala ang turn mo: foul ito.
 
-### Only the cue ball on the break
-If the cue ball goes down or leaves the table on the break and no ball is made, you lose the turn and the break passes to your opponent. The balls stay where they stopped, and they put the cue ball on the head spot and play from there (not in hand): their shot counts as a new break. The 8 is not a ball to go for on it, though: with the balls already scattered, hitting the 8 first is a foul and pocketing it loses the game, as on any other shot (only on the break of the rack does the 8 alone win). The same goes if the cue ball goes down with balls of both groups (a solid and a stripe, in any order): the break passes to your opponent, with the cue ball on the head spot and no penalty ball; the balls made stay down and the table stays open. If one ball (or balls of one group only) goes down along with the cue ball, the first one down still decides the groups, and it's an ordinary foul: your opponent's lowest ball comes off, the cue ball goes back to the head spot and they play from there, without ball in hand.
+### Cue ball lang sa break
+Kapag pumasok o lumabas sa mesa ang cue ball sa break at walang bolang naipasok, mawawala ang turn mo at mapupunta ang break sa kalaban mo. Mananatili ang mga bola kung saan sila huminto, at ilalagay ng kalaban ang cue ball sa head spot at titira mula roon (hindi ball in hand): bilang na bagong break ang tira niya. Pero hindi dapat puntiryahin ang 8 dito: dahil kalat na ang mga bola, foul ang unang tamaan ang 8 at talo ang pagpasok nito, gaya ng sa kahit anong tira (sa break lang ng rack nananalo ang 8 nang mag-isa). Ganoon din kapag pumasok ang cue ball kasama ng mga bola ng dalawang grupo (isang solid at isang stripe, kahit anong pagkakasunod): mapupunta ang break sa kalaban mo, nasa head spot ang cue ball at walang penalty ball; mananatili sa loob ang mga naipasok na bola at open table pa rin. Kapag isang bola (o mga bola ng iisang grupo lang) ang pumasok kasabay ng cue ball, ang unang pumasok pa rin ang magtatakda ng mga grupo, at karaniwang foul ito: aalisin ang pinakamababang bola ng kalaban mo, babalik sa head spot ang cue ball at doon siya titira, nang walang ball in hand.
 
-### A break that hits no ball
-If the break hits no ball, you lose the turn and the break passes to your opponent: the balls are still racked, and they place the cue ball anywhere behind the head string.
+### Break na walang natamaang bola
+Kapag walang natamaang bola ang break, mawawala ang turn mo at mapupunta ang break sa kalaban mo: naka-rack pa rin ang mga bola, at ilalagay niya ang cue ball kahit saan sa likod ng head string.
 
-### After the break
-On the break, the first ball that goes down decides your group, even if the cue ball goes down too (unless balls of both groups go down with the cue ball: see above). If only balls of your group go down, you shoot again. If one of your opponent's goes down too (the 3 and then the 13, say: you take the solids), it stays down, for them, and the turn passes.
+### Pagkatapos ng break
+Sa break, ang unang bolang pumasok ang magtatakda ng grupo mo, kahit pumasok din ang cue ball (maliban kung mga bola ng dalawang grupo ang pumasok kasabay ng cue ball: tingnan sa itaas). Kapag mga bola lang ng grupo mo ang pumasok, titira ka ulit. Kapag may pumasok ding bola ng kalaban mo (halimbawa, ang 3 at saka ang 13: sa iyo ang solids), mananatili ito sa loob, para sa kanya, at lilipat ang turn.
 
 ### Open table
-Until the groups are decided the table is open: you may hit any ball first except the 8. The first ball you pocket on a shot without a foul gives you its group, and your opponent the other. On an open table there is no opponent's ball yet: a foul costs only the turn. If no ball of either group is left on an open table, both players are on the 8, and any foul that would give a ball loses the game (the 8 pays).
+Hangga't hindi pa natatakda ang mga grupo, open table: puwede mong unang tamaan ang kahit anong bola maliban sa 8. Ang unang bolang maipasok mo sa tirang walang foul ang magbibigay sa iyo ng grupo nito, at sa kalaban mo ang isa pa. Sa open table, wala pang bola ang kalaban: turn lang ang nawawala sa foul. Kapag wala nang bola ng kahit anong grupo sa open table, nasa 8 na ang dalawang manlalaro, at talo ang anumang foul na magbibigay ng bola (ang 8 ang magbabayad).
 
-## Fouls and penalties
+## Mga foul at parusa
 
-### Penalty balls
-Every foul passes the turn, and most of them give your opponent balls: the lowest numbers of their group still on the table come off it, as if they had pocketed them. Penalties add up. If your opponent has fewer balls left than the foul gives them, the 8 pays the rest and you lose the game: two penalty balls with only one on the table, that one and the 8 come off. Once they are on the 8 (no balls of their group left), any foul that gives a ball loses: missing every ball, pocketing the cue ball, knocking it off the table or hitting the wrong ball first. The same goes when only the 8 is left on the table. If you are on the 8 and your opponent still has balls, a foul gives them balls as usual (a miss, their lowest one) and passes the turn; you lose only if it gives more than they have.
+### Mga penalty ball
+Inililipat ng bawat foul ang turn, at karamihan sa mga ito ay nagbibigay ng bola sa kalaban mo: aalisin sa mesa ang mga pinakamababang numero ng grupo niya na nasa mesa pa, na parang naipasok niya ang mga iyon. Nagdadagdagan ang mga parusa. Kapag mas kaunti ang natitirang bola ng kalaban mo kaysa ibinibigay ng foul, ang 8 ang magbabayad ng kulang at talo ka: dalawang penalty ball pero iisa lang ang nasa mesa, aalisin ang isang iyon at ang 8. Kapag nasa 8 na siya (wala nang bola ng grupo niya), talo ang anumang foul na nagbibigay ng bola: ang hindi pagtama sa kahit anong bola, ang pagpasok ng cue ball, ang pagpapalabas nito sa mesa o ang maling bola ang unang matamaan. Ganoon din kapag 8 na lang ang nasa mesa. Kapag ikaw ang nasa 8 at may bola pa ang kalaban mo, bibigyan siya ng foul ng mga bola gaya ng dati (sa mintis, ang pinakamababa niya) at lilipat ang turn; matatalo ka lang kapag mas marami ang ibinibigay kaysa sa mayroon siya.
 
-### Missing the ball
-Hitting none of your balls: your opponent's lowest ball on the table comes off (it counts for them), and you lose the turn. Hitting the 8 first before your group is cleared costs the same. Missing and pocketing the cue ball as well: your opponent's two lowest balls.
+### Pagmintis sa bola
+Walang natamaang bola mo: aalisin ang pinakamababang bola ng kalaban mo sa mesa (bilang ito para sa kanya), at mawawala ang turn mo. Ganoon din ang parusa kapag unang tinamaan ang 8 bago maubos ang grupo mo. Nagmintis at naipasok pa ang cue ball: ang dalawang pinakamababang bola ng kalaban mo.
 
-### Hitting your opponent's ball
-Hitting one of your opponent's balls first, directly: their two lowest balls come off, and you lose the turn. If the ball you hit goes down, it stays down and the two come off all the same. If the cue ball went to a cushion first: one ball (not the cushion it lay against). Hitting your opponent's ball directly and pocketing the cue ball as well: their three lowest.
+### Pagtama sa bola ng kalaban
+Unang tinamaan nang direkta ang isa sa mga bola ng kalaban mo: aalisin ang dalawang pinakamababang bola niya, at mawawala ang turn mo. Kapag pumasok ang natamaang bola, mananatili ito sa loob at aalisin pa rin ang dalawa. Kapag tumama muna sa cushion ang cue ball: isang bola (hindi ang cushion na kinadidikitan nito). Tinamaan nang direkta ang bola ng kalaban at naipasok pa ang cue ball: ang tatlong pinakamababa niya.
 
-### Pocketing the cue ball
-One ball to your opponent, and the cue ball goes back to the head spot, where the break is played from (or right behind a ball lying there). There is no ball in hand: your opponent plays from there. The cue ball is in hand on the break only; after any other foul it is played from where it stopped.
+### Pagpasok ng cue ball
+Isang bola para sa kalaban mo, at babalik ang cue ball sa head spot, kung saan tinitira ang break (o sa likod mismo ng bolang nakapuwesto roon). Walang ball in hand: doon titira ang kalaban mo. Sa break lang ball in hand ang cue ball; pagkatapos ng ibang foul, tinitira ito mula sa kung saan ito huminto.
 
-### Balls off the table
-The cue ball off the table costs the same as pocketing it: your opponent's lowest ball comes off (it counts for them), you lose the turn and the cue ball goes back to the head spot. A ball of your group off the table comes back to the table, and you lose the turn. One of your opponent's balls off the table is out (it counts for them), and you lose the turn.
+### Mga bolang lumabas sa mesa
+Ang cue ball na lumabas sa mesa ay kapareho ng pagpasok nito: aalisin ang pinakamababang bola ng kalaban mo (bilang ito para sa kanya), mawawala ang turn mo at babalik sa head spot ang cue ball. Ang bola ng grupo mo na lumabas sa mesa ay ibabalik sa mesa, at mawawala ang turn mo. Ang bola ng kalaban mo na lumabas sa mesa ay labas na (bilang ito para sa kanya), at mawawala ang turn mo.
 
-### Your opponent's ball
-Pocketing one of your opponent's balls passes the turn, even if one of yours went down too. It stays down, for them.
+### Ang bola ng kalaban
+Inililipat ang turn kapag nakapasok ka ng bola ng kalaban mo, kahit may pumasok ding bola mo. Mananatili ito sa loob, para sa kanya.
 
-### The shot clock
-When a game has a shot clock and it runs out, it is a foul: the cue ball goes back to the head spot (not in hand), your opponent gets a ball (their lowest on the table; if they are on the 8 already, the 8 pays and you lose) and the turn passes. While the table is open, no ball is owed (unless only the 8 is left: then the clock loses the game). On the break, the break passes to your opponent, with the cue ball on the head spot (not in hand) and no ball owed.
+### Ang shot clock
+Kapag may shot clock ang laro at naubos ito, foul ito: babalik ang cue ball sa head spot (hindi ball in hand), may makukuhang bola ang kalaban mo (ang pinakamababa niya sa mesa; kung nasa 8 na siya, ang 8 ang magbabayad at talo ka) at lilipat ang turn. Habang open table, walang bolang ibinibigay (maliban kung 8 na lang ang natitira: talo ka kapag naubos ang oras). Sa break, mapupunta ang break sa kalaban mo, nasa head spot ang cue ball (hindi ball in hand) at walang bolang ibinibigay.
 
-## The 8-ball
+## Ang 8-ball
 
-### Calling the pocket
-When your group is cleared, choose a pocket for the 8 before you shoot. Pocket only the 8 there, without a foul, and you win. The pocket you call stands from your first shot on the 8 to the end of the game, even if that shot is a safety or a miss: you can't change it.
+### Pag-call ng pocket
+Kapag naubos mo na ang grupo mo, pumili ng pocket para sa 8 bago tumira. Ipasok lang ang 8 doon, nang walang foul, at panalo ka. Mananatili ang naka-call na pocket mula sa una mong tira sa 8 hanggang matapos ang laro, kahit safety o mintis ang tirang iyon: hindi mo na ito mapapalitan.
 
-### Losing on the 8
-You lose if you pocket the 8 before your group is cleared, in a pocket other than the one you called, together with the cue ball or one of your opponent's balls, on a foul, or if you knock it off the table after the break. You also lose with a foul that gives more balls than your opponent has: the 8 pays the rest (see penalty balls).
+### Pagkatalo sa 8
+Talo ka kapag naipasok mo ang 8 bago maubos ang grupo mo, sa pocket na hindi mo ini-call, kasabay ng cue ball o ng bola ng kalaban mo, sa isang foul, o kapag napalabas mo ito sa mesa pagkatapos ng break. Talo ka rin sa foul na nagbibigay ng mas maraming bola kaysa sa mayroon ang kalaban mo: ang 8 ang magbabayad ng kulang (tingnan ang mga penalty ball).

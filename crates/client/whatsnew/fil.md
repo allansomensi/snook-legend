@@ -1,307 +1,306 @@
-# Snook Legend: what's new, shown in the game after an update.
-# "## <version>" starts a version (newest first), "### <title>" a highlight,
-# and the lines after it are its text. Keep it short and about what players
-# see; every language has the same versions and the same number of highlights.
+# Snook Legend: ano'ng bago, ipinapakita sa laro pagkatapos ng update.
+# "## <bersiyon>" ang simula ng isang bersiyon (pinakabago muna), "### <pamagat>"
+# ng isang highlight, at ang mga linya pagkatapos nito ang teksto nito.
 
 ## 0.8.3
 
-### What you earn is shown
-An item that comes with an achievement, such as a level reached, now arrives with a "Congratulations!" window that shows it and lets you use it at once.
+### Ipinapakita ang napanalunan mo
+Ang item na kasama ng isang achievement, gaya ng naabot na level, ay dumarating na ngayon sa window na "Binabati kita!" na nagpapakita nito at hinahayaan kang gamitin ito agad.
 
-### One game at a time
-Starting the game while it is already open brings its window to the front instead of opening a second one. Two games on one computer wrote over each other's settings and saved game.
+### Isang laro lang bawat pagkakataon
+Kapag binuksan ang laro habang bukas na ito, iniaangat ang window nito sa harap sa halip na magbukas ng pangalawa. Nagsasapawan ang settings at naka-save na laro ng dalawang laro sa iisang computer.
 
-### The 8 on a break handed over
-Under the Brazilian rule, a break handed over after the cue ball was lost, with the balls already scattered, no longer wins by potting the 8: hitting it first is a foul and pocketing it loses, as on any shot. Only the break of the rack has the 8 alone winning.
+### Ang 8 sa break na ipinasa
+Sa patakarang Brazilian, ang break na ipinasa pagkatapos mawala ang cue ball, na kalat na ang mga bola, ay hindi na nananalo sa pagpasok ng 8: foul ang unang tamaan ito at talo ang pagpasok nito, gaya ng sa kahit anong tira. Sa break lang ng rack nananalo ang 8 nang mag-isa.
 
-### Cleaner pockets, a steadier camera, and many fixes
-The pockets are finished without rough edges, and going from the overhead view to 3D keeps your zoom. Two more reviews of the whole game fixed many bugs: a rematch keeps the break alternating, a private arena asks for its password while it runs, a table rejoined after its game ended shows the result, and more.
+### Mas malinis na pocket, mas matatag na camera, at maraming ayos
+Wala nang magaspang na gilid ang mga pocket, at nananatili ang zoom mo kapag lumipat mula sa view mula sa itaas papuntang 3D. Dalawa pang pagsusuri sa buong laro ang nag-ayos ng maraming bug: salitan pa rin ang break sa rematch, humihingi ng password ang pribadong arena habang tumatakbo ito, ipinapakita ang resulta ng mesang binalikan pagkatapos matapos ang laro nito, at marami pa.
 
 ## 0.8.2
 
-### The shot clock gives a ball
-Under the Brazilian rule, running out of time is a foul: your opponent's lowest ball comes off (if they are on the 8 already, the 8 pays and you lose), the cue ball goes back to the head spot, not in hand, and the turn passes.
+### May bola sa shot clock
+Sa patakarang Brazilian, foul ang maubusan ng oras: aalisin ang pinakamababang bola ng kalaban mo (kung nasa 8 na siya, ang 8 ang magbabayad at talo ka), babalik sa head spot ang cue ball, hindi ball in hand, at lilipat ang turn.
 
-### The break, one each
-Under the Brazilian rule the players break in turn, one break each. A break that loses the cue ball with no ball made, or with balls of both groups, passes the break: your opponent breaks again from the head spot, with the balls where they stopped.
+### Ang break, tig-isa
+Sa patakarang Brazilian, nagsasalitan ng break ang mga manlalaro, tig-isang break. Ang break na nawalan ng cue ball nang walang bolang naipasok, o kasama ng mga bola ng dalawang grupo, ay ipinapasa: magbe-break ulit ang kalaban mo mula sa head spot, kung saan huminto ang mga bola.
 
-### Grab the cue anywhere
-Click and drag the cue anywhere along it, from the tip to the butt, even drawn back or raised over the rail: it follows the pointer as it swings.
+### Hawakan ang cue kahit saan
+I-click at i-drag ang cue kahit saan sa haba nito, mula tip hanggang butt, kahit nakaatras o nakaangat sa ibabaw ng rail: sinusundan nito ang pointer habang umiikot.
 
-### Seven rounds in the arena, and many fixes
-The arena against the computer is seven rounds for everyone, and the shop has a new icon. Three reviews of the whole game fixed many bugs: leaving while the balls roll no longer undoes a shot against the computer, the first ball hit is the one the cue ball really touched first, and more.
+### Pitong round sa arena, at maraming ayos
+Pitong round para sa lahat ang arena laban sa computer, at may bagong icon ang shop. Tatlong pagsusuri sa buong laro ang nag-ayos ng maraming bug: hindi na binabawi ang tira laban sa computer kapag umalis habang gumugulong ang mga bola, ang unang natamaang bola ay ang talagang unang tinamaan ng cue ball, at marami pa.
 
 ## 0.8.1
 
-### The 8 pays the penalty
-Under the Brazilian rule, a foul that gives more balls than your opponent has left loses the game: their balls come off and the 8 pays the rest. Once your opponent is on the 8, any foul that gives a ball loses: missing every ball, pocketing the cue ball or knocking it off the table.
+### Ang 8 ang nagbabayad ng parusa
+Sa patakarang Brazilian, talo sa laro ang foul na nagbibigay ng mas maraming bola kaysa natitira sa kalaban mo: aalisin ang mga bola niya at ang 8 ang magbabayad ng kulang. Kapag nasa 8 na ang kalaban mo, talo ang anumang foul na nagbibigay ng bola: ang hindi pagtama sa kahit anong bola, ang pagpasok ng cue ball o ang pagpapalabas nito sa mesa.
 
-### Click outside to close
-The match's chat, the game history and the spin and elevation panels close when you click outside them, and the click still counts on the table. Menus and dialogs close with a click outside them too, like Cancel.
+### I-click sa labas para isara
+Nagsasara ang chat ng laban, ang history ng laro at ang mga panel ng spin at elevation kapag nag-click ka sa labas ng mga ito, at bilang pa rin ang click sa mesa. Nagsasara rin ang mga menu at dialog sa click sa labas, gaya ng Kanselahin.
 
 ## 0.8.0
 
-### The official rules
-You can now also play the official rules of the WPA, the eight-ball of international tournaments: every shot is called, a foul gives ball in hand anywhere and no ball comes off as a penalty. Choose your rules in the main menu. The Brazilian rule is still there, just as it was.
+### Ang patakarang opisyal
+Puwede mo na ring laruin ang patakarang opisyal ng WPA, ang 8-ball ng mga internasyonal na torneo: kino-call ang bawat tira, nagbibigay ang foul ng ball in hand kahit saan at walang bolang inaalis bilang parusa. Piliin ang patakaran mo sa main menu. Nandiyan pa rin ang patakarang Brazilian, gaya ng dati.
 
-### A rating for each rules
-Each rules has its own rating, tier and world ranking: the ranking has a tab for each and your profile a card for each. Your level, coins and achievements are shared.
+### Rating para sa bawat patakaran
+May sariling rating, tier at ranking sa mundo ang bawat patakaran: may tab para sa bawat isa ang ranking at may card para sa bawat isa ang profile mo. Pareho ang level, coins at achievement mo.
 
-### Calling your shots
-Under the official rules the pocket you aim at is called (a ring shows it). Click another pocket to call it, or Safety to call none. After some breaks you choose how the game goes on, with the buttons or 1, 2 and 3.
+### Pag-call ng tira
+Sa patakarang opisyal, kino-call ang pocket na inaasinta mo (may bilog na nagpapakita nito). I-click ang ibang pocket para i-call ito, o ang Safety para walang i-call. Pagkatapos ng ilang break, ikaw ang pipili kung paano magpapatuloy ang laro, gamit ang mga button o ang 1, 2 at 3.
 
-### Online, by rules
-Invitations, tables, Play now, tournaments and daily games all say their rules, and Play now pairs you with players of yours. The menu shows how many people play each.
+### Online, ayon sa patakaran
+Nakasaad ang patakaran ng mga imbitasyon, mesa, Maglaro na, torneo at daily game, at ipinapares ka ng Maglaro na sa mga manlalaro ng patakaran mo. Ipinapakita ng menu kung ilan ang naglalaro sa bawat isa.
 
-### The break, Brazilian rule
-If the break loses the cue ball together with balls of both groups, the break now passes to your opponent, with the cue ball in hand behind the head string and no penalty ball.
+### Ang break, patakarang Brazilian
+Kapag nawala ang cue ball sa break kasabay ng mga bola ng dalawang grupo, mapupunta na ngayon ang break sa kalaban mo, na may ball in hand sa likod ng head string at walang penalty ball.
 
 ## 0.7.4
 
-### The chat, when you want it
-No more age question when signing up. The chat with other players starts off and asks only the first time you write: 18 or older turns it on at once, and under 18 a parent or guardian turns it on. Whoever doesn't chat is never asked.
+### Ang chat, kapag gusto mo
+Wala nang tanong tungkol sa edad sa pag-sign up. Nakapatay sa simula ang chat sa ibang manlalaro at nagtatanong lang sa unang beses na magsulat ka: binubuksan ito agad ng 18 pataas, at sa wala pang 18, binubuksan ito ng magulang o guardian. Hindi kailanman tinatanong ang hindi nagcha-chat.
 
-### Invitations in the corner
-An invitation now shows as a card in the top right corner on every screen and over any game, with the player's picture, the buttons to accept or decline and a soft chime. Accept it from the menu and the game starts right away.
+### Mga imbitasyon sa sulok
+Lumalabas na ngayon ang imbitasyon bilang card sa kanang itaas na sulok sa bawat screen at sa ibabaw ng kahit anong laro, kasama ang larawan ng manlalaro, ang mga button para tanggapin o tanggihan at isang malambot na tunog. Tanggapin ito mula sa menu at magsisimula agad ang laro.
 
-### Windows tells you at once
-With the game behind another window or minimised, Windows shows the invitation at once (it used to wait a few seconds).
+### Agad kang sinasabihan ng Windows
+Kapag nasa likod ng ibang window o naka-minimize ang laro, ipinapakita agad ng Windows ang imbitasyon (dati, naghihintay ito ng ilang segundo).
 
 ## 0.7.3
 
-### New rules
-If the break hits no ball, or loses the cue ball (down or off the table) with no ball made, the break passes to your opponent, with the cue ball in hand behind the head string. With a ball made, it decides the groups even if the cue ball goes down too. And the cue ball off the table costs a ball, as a scratch does.
+### Mga bagong patakaran
+Kapag walang natamaang bola ang break, o nawala ang cue ball (pumasok o lumabas sa mesa) nang walang bolang naipasok, mapupunta ang break sa kalaban mo, na may ball in hand sa likod ng head string. Kapag may bolang naipasok, itinatakda nito ang mga grupo kahit pumasok din ang cue ball. At ang cue ball na lumabas sa mesa ay may kapalit na bola, gaya ng scratch.
 
-### More drills, no ranking
-There are 24 drills now, nine of them new: the far corner, long into the side, cue ball on the cushion, the plant, the carom, the long draw, on the tangent line, two-cushion bank and fifteen in a row. Each shows its position, and your stars are kept in your account. The drills' ranking is gone.
+### Mas maraming drill, walang ranking
+24 na ang drill ngayon, siyam sa mga ito ay bago: ang malayong sulok, malayo papunta sa gitna, cue ball sa cushion, ang plant, ang carom, ang mahabang draw, sa tangent line, bank sa dalawang cushion at labinlimang sunod-sunod. Ipinapakita ng bawat isa ang posisyon nito, at naitatabi ang mga bituin mo sa account mo. Wala na ang ranking ng mga drill.
 
-### New pictures
-The portraits were drawn again, with more care, and there are new pictures of pool things. Your picture now shows on the card in the corner of the start screen when you're signed in.
+### Mga bagong larawan
+Iginuhit ulit ang mga portrait, nang mas maingat, at may mga bagong larawan ng mga bagay sa bilyar. Lumalabas na ngayon ang larawan mo sa card sa sulok ng start screen kapag naka-sign in ka.
 
-### Terms and privacy
-The terms of use and the privacy policy are a click away: when you sign up, in the shop and in Settings → Game → About. Purchases with money give you 7 days to change your mind and get your money back.
+### Terms at privacy
+Isang click lang ang terms of use at ang privacy policy: sa pag-sign up, sa shop at sa Settings → Laro → Tungkol sa. Sa mga binili gamit ang pera, may 7 araw ka para magbago ng isip at maibalik ang pera mo.
 
-### Age and chat
-The game asks your age group (once). Under 18, the chat with other players stays off until a parent or guardian turns it on, below the lounge's chat, as Brazilian law asks.
+### Edad at chat
+Tinatanong ng laro ang age group mo (isang beses). Kung wala pang 18, nakapatay ang chat sa ibang manlalaro hanggang buksan ito ng magulang o guardian, sa ilalim ng chat ng lounge, gaya ng hinihingi ng batas ng Brazil.
 
-### Emoji in the chat
-Emoji now show as pictures in the chat, notes and statuses, flags and all. Tabs have all their names at one size, and the count of who is online is smaller: the green dot, a person and the number.
+### Emoji sa chat
+Lumalabas na ngayon bilang larawan ang emoji sa chat, mga note at status, pati mga watawat. Iisang laki na ang lahat ng pangalan ng mga tab, at mas maliit na ang bilang ng mga online: ang berdeng tuldok, isang tao at ang numero.
 
 ## 0.7.2
 
-### A harder tour
-Each stage of the tour is harder than before, and more so the further up: opponents miss less, look at every shot and play for position. The final against Viktor, for the cue, is very hard now: he barely misses and plays safe more often. Tournaments against the computer stay as they were.
+### Mas mahirap na tour
+Mas mahirap ang bawat stage ng tour kaysa dati, at lalo pa habang tumataas: mas bihirang magmintis ang mga kalaban, tinitingnan ang bawat tira at naglalaro para sa posisyon. Napakahirap na ngayon ng final laban kay Viktor, para sa cue: halos hindi siya nagmimintis at mas madalas mag-safety. Walang binago sa mga torneo laban sa computer.
 
-### Tournament medals
-Play a tournament against the computer to its end and finish in the first three for a gold, silver or bronze medal. The Tournament tab counts them, knockout and arena apart; they are kept in your account the next time you're online.
+### Mga medalya sa torneo
+Maglaro ng torneo laban sa computer hanggang matapos at pumasok sa unang tatlo para sa gintong, pilak o tansong medalya. Binibilang ang mga ito sa tab na Torneo, magkahiwalay ang knockout at arena; naitatabi ang mga ito sa account mo sa susunod na online ka.
 
-### A camera like the table's
-In the shop's showroom the camera turns with the right button, as at the table, smoothly, and never goes under the floor or the table. The wheel brings you closer.
+### Camera na gaya ng sa mesa
+Sa showroom ng shop, umiikot ang camera gamit ang kanang button, gaya sa mesa, nang swabe, at hindi kailanman bumababa sa ilalim ng sahig o ng mesa. Inilalapit ka ng scroll wheel.
 
 ## 0.7.1
 
-### The first ball decides
-On the break, the first ball that goes down decides your group, even if others go down after it: the 3 and then the 13, and you take the solids. The 13 is your opponent's, so it stays down for them and the turn passes.
+### Ang unang bola ang nagtatakda
+Sa break, ang unang bolang pumasok ang magtatakda ng grupo mo, kahit may pumasok pang iba pagkatapos nito: ang 3 at saka ang 13, at sa iyo ang solids. Sa kalaban mo ang 13, kaya mananatili ito sa loob para sa kanya at lilipat ang turn.
 
-### Ball in hand on the break only
-The cue ball is in hand on the break only, behind the head string. If it goes down or leaves the table, it comes back to the head spot (right behind a ball lying there), without ball in hand, with the usual penalties. A break that makes only the cue ball is no longer racked again: your opponent plays on from there.
+### Ball in hand sa break lang
+Sa break lang ball in hand ang cue ball, sa likod ng head string. Kapag pumasok ito o lumabas sa mesa, babalik ito sa head spot (sa likod mismo ng bolang nakapuwesto roon), nang walang ball in hand, kasama ang karaniwang parusa. Hindi na nire-rack ulit ang break na cue ball lang ang pumasok: doon na itutuloy ng kalaban mo ang laro.
 
-### Who is online
-Playing the computer (in a tournament, on the tour or in a drill), a discreet corner shows how many people are online and says when someone comes: time to go and invite them. Invitations show over the game.
+### Sino ang online
+Habang kalaban mo ang computer (sa torneo, sa tour o sa drill), ipinapakita ng isang maliit na sulok kung ilan ang online at sinasabi kapag may dumating: oras na para imbitahan sila. Lumalabas sa ibabaw ng laro ang mga imbitasyon.
 
-### The shop's showroom
-"Look at it closely" opens a showroom: the item alone in a dark studio, turning. Drag to turn it, use the wheel to come close and pause it at will. Ready views show a cue's tip and joint or a table's pockets; click a ball to see it float close up, and see tables and cloths in any hall.
+### Ang showroom ng shop
+Binubuksan ng "Tingnan nang malapitan" ang isang showroom: ang item lang sa isang madilim na studio, umiikot. I-drag para paikutin ito, gamitin ang scroll wheel para lumapit at i-pause ito kahit kailan. May mga nakahandang view para sa tip at joint ng cue o sa mga pocket ng mesa; i-click ang isang bola para makita itong lumutang nang malapitan, at tingnan ang mga mesa at tela sa kahit anong hall.
 
-### Truly brown
-The 7 and the 15 are now brown, no longer a dark red easily taken for the 3 and the 11. The shop's sets where they looked alike are put right too.
+### Talagang kayumanggi
+Kayumanggi na ngayon ang 7 at ang 15, hindi na madilim na pula na madaling mapagkamalang 3 at 11. Inayos din ang mga set sa shop kung saan magkamukha sila.
 
 ### Focus mode
-Settings → Game → "Focus mode": no invitations while you play. Whoever tries to invite you is told you're in focus mode. It comes off.
+Settings → Laro → "Focus mode": walang imbitasyon habang naglalaro ka. Sinasabihan ang sinumang mag-imbita sa iyo na naka-focus mode ka. Kusa itong namamatay.
 
 ## 0.7.0
 
-### One kind on the break
-A new house rule: if the break makes balls of both groups (the 3 and the 14, say), the turn passes and the table stays open. Balls of one kind only and you shoot again, as before. The rules in the menu explain it, with a few rare cases now put right, and the computer plays a little better.
+### Iisang uri sa break
+Bagong house rule: kapag pumasok sa break ang mga bola ng dalawang grupo (halimbawa, ang 3 at ang 14), lilipat ang turn at open table pa rin. Kapag mga bola lang ng iisang uri, titira ka ulit, gaya ng dati. Ipinapaliwanag ito ng patakaran sa menu, inayos ang ilang bihirang kaso, at medyo gumaling ang laro ng computer.
 
-### Every ball counts
-The balls you make in a row show by your picture with a little flame, and three, five and seven in a row are cheered (and a table cleared in one visit). The clock's last seconds tick, a chime says when your turn comes back online, and the rating counts up at the end of a game.
+### Bilang ang bawat bola
+Lumalabas sa tabi ng larawan mo ang mga bolang sunod-sunod mong naipasok, may maliit na apoy, at pinapalakpakan ang tatlo, lima at pitong sunod-sunod (at ang mesang inubos sa iisang turn). Tumutunog ang huling mga segundo ng orasan, may chime kapag bumalik ang turn mo online, at umaakyat ang bilang ng rating sa pagtatapos ng laro.
 
-### Events
-Now and then the staff run events: a weekend of double (or triple) experience, coins from games counting double, or a themed tournament the server organises, sometimes with a prize from the house on top of the entry fees. The main menu and the lounge show what is on and what is coming.
+### Mga event
+Paminsan-minsan, may mga event ang staff: isang weekend ng dobleng (o tripleng) experience, dobleng coins mula sa mga laro, o espesyal na torneong inoorganisa ng server, minsan may dagdag na premyo mula sa bahay bukod sa mga entry fee. Ipinapakita ng main menu at ng lounge kung ano ang meron at ano ang darating.
 
-### On to the next one
-After a win on the tour, "Next" takes you straight to the next opponent; after a drill, "Try again". The deciding shot can be watched again from the end panel, and a first game points out where to aim, set the power and shoot.
+### Diretso sa susunod
+Pagkatapos ng panalo sa tour, dadalhin ka agad ng "Susunod" sa susunod na kalaban; pagkatapos ng drill, "Subukan ulit". Mapapanood ulit ang tirang nagpasya mula sa panel sa dulo, at itinuturo ng unang laro kung saan uumasinta, paano itakda ang lakas at tumira.
 
-### The head string, if you want it
-Settings → Game → "Always show the head string" keeps the line the break is played from on the table. Off by default: it shows only while you place the cue ball behind it.
+### Ang head string, kung gusto mo
+Pinapanatili ng Settings → Laro → "Laging ipakita ang head string" sa mesa ang linya kung saan tinitira ang break. Off sa default: lumalabas lang ito habang inilalagay mo ang cue ball sa likod nito.
 
-### Fair rewards, softer light
-The tour's final and the ranked drills are now set up by the server, so their cue and their tables are earned the same way by everyone (play them signed in). A dropped connection no longer closes the game, a game against the computer is never replaced without asking, and the light under the lamps falls softly, without hard edges.
+### Patas na gantimpala, mas malambot na liwanag
+Inihahanda na ngayon ng server ang final ng tour at ang mga drill na may ranking, kaya pare-pareho ang paraan ng pagkuha ng lahat sa cue at mga mesa nila (laruin ang mga ito nang naka-sign in). Hindi na isinasara ng naputol na koneksiyon ang laro, hindi kailanman pinapalitan ang laro laban sa computer nang hindi nagtatanong, at malambot na ang pagbagsak ng liwanag sa ilalim ng mga lampara, walang matigas na gilid.
 
 ## 0.6.2
 
-### Leagues and levels on one page
-In the profile, the "Leagues and levels" tab shows every league, from which rating and what it pays, and every level that brings an item. Reaching a league for the first time now pays coins and, from Skilled up, an item of the league's own.
+### Mga liga at level sa iisang page
+Sa profile, ipinapakita ng tab na "Mga liga at level" ang bawat liga, mula sa anong rating at ano ang ibinabayad nito, at ang bawat level na may kasamang item. Nagbabayad na ngayon ng coins ang pag-abot sa isang liga sa unang beses at, mula Bihasa pataas, ng sariling item ng liga.
 
-### A cleaner profile
-On the left, just what matters: your level, the next prize, and the achievements and reactions already won. Every medal and reaction has a tab of its own, and nothing runs off the screen.
+### Mas malinis na profile
+Sa kaliwa, ang mahalaga lang: ang level mo, ang susunod na premyo, at ang mga achievement at reaksyong napanalunan na. May sariling tab ang bawat medalya at reaksyon, at walang lumalampas sa screen.
 
-### The view from above as it was, with round balls
-The table has its depth and its usual light again, and the camera no longer jumps when it leaves the view from above.
+### Ang view mula sa itaas gaya ng dati, may bilog na bola
+Bumalik ang lalim at karaniwang liwanag ng mesa, at hindi na tumatalon ang camera kapag umalis sa view mula sa itaas.
 
 ## 0.6.1
 
-### A view from above without distortion
-The table is now seen from high up, almost without perspective: balls stay round out to the corners, and the cue, the aiming line and the ghost ball always line up. The light on the balls is softer, so the number shows.
+### View mula sa itaas nang walang distortion
+Tinitingnan na ngayon ang mesa mula sa mataas, halos walang perspective: bilog pa rin ang mga bola hanggang sa mga sulok, at laging magkakahanay ang cue, ang aiming line at ang ghost ball. Mas malambot ang liwanag sa mga bola, kaya kita ang numero.
 
-### A tournament and a tour that mean it
-In a tournament against the computer a game counts once: leaving half way doesn't wipe it (it goes on from where it was) and there is no rematch. The champion gets a gold medal. And the tour is hard: every opponent plays at their best.
+### Torneo at tour na seryoso
+Sa torneo laban sa computer, minsan lang binibilang ang isang laro: hindi ito nabubura kapag umalis sa gitna (itinutuloy ito mula sa kung saan ito naiwan) at walang rematch. Gintong medalya ang para sa kampeon. At mahirap ang tour: buong husay na naglalaro ang bawat kalaban.
 
-### New achievements, pictures and sounds
-Shutout, Golden break and account anniversaries. Faces that look like people and twelve profile pictures that are not faces (the 8-ball, a trophy, a crown…). New sounds for the balls, the cue, the cushions and the pockets.
+### Mga bagong achievement, larawan at tunog
+Bokya, Golden break at mga anibersaryo ng account. Mga mukhang parang tao at labindalawang profile picture na hindi mukha (ang 8-ball, isang tropeo, isang korona…). Mga bagong tunog para sa mga bola, cue, cushion at pocket.
 
-### Leagues, levels that pay and scarce coins
-Other players are shown by their league (the rating is on the profile and in the ranking). Every account level pays coins and levels 5 to 50 bring items of their own, but the climb is long. Coins are scarcer: everything in the shop takes time to earn.
+### Mga liga, level na nagbabayad at kakaunting coins
+Ipinapakita ang ibang manlalaro ayon sa liga nila (nasa profile at sa ranking ang rating). Nagbabayad ng coins ang bawat level ng account at may sariling item ang level 5 hanggang 50, pero mahaba ang pag-akyat. Mas kakaunti ang coins: matagal bago makuha ang lahat sa shop.
 
 ## 0.6.0
 
-### A Brazilian rule, with penalty balls
-The game now plays the regional Brazilian rule of eight-ball, the one of bars and pool halls (not the official tournament rule). A foul passes the turn and takes your opponent's lowest balls off the table, only a pocketed cue ball gives ball in hand, and the 8 alone on the break wins. The full rules are in the menu.
+### Patakarang Brazilian, may mga penalty ball
+Nilalaro na ngayon ng laro ang rehiyonal na patakarang Brazilian ng 8-ball, ang sa mga bar at bilyaran (hindi ang opisyal na patakaran ng torneo). Inililipat ng foul ang turn at inaalis sa mesa ang mga pinakamababang bola ng kalaban mo, ang naipasok na cue ball lang ang nagbibigay ng ball in hand, at panalo ang 8 nang mag-isa sa break. Nasa menu ang buong patakaran.
 
-### Heavier balls
-The cloth holds the ball more and the break is less violent: the balls no longer scatter all over the table.
+### Mas mabibigat na bola
+Mas pinipigilan ng tela ang bola at hindi na kasinlakas ang break: hindi na nagkakalat ang mga bola sa buong mesa.
 
-### Tournaments against the computer and more drills
-Play a knockout of sixteen or an arena on points against the fifteen opponents. And there are eight new drills, fifteen in all.
+### Mga torneo laban sa computer at mas maraming drill
+Maglaro ng knockout ng labing-anim o arena sa puntos laban sa labinlimang kalaban. At may walong bagong drill, labinlima lahat.
 
-### Aiming and the cue
-The cue's elevation can be set by dragging with the mouse, the aiming line points at the centre of the ghost ball, faint arrows show when the cue ball can be moved, and the shadows can be turned off.
+### Pag-asinta at ang cue
+Naitatakda ang elevation ng cue sa pag-drag gamit ang mouse, nakatutok ang aiming line sa gitna ng ghost ball, ipinapakita ng malalabong arrow kapag puwedeng ilipat ang cue ball, at puwedeng patayin ang mga anino.
 
 ## 0.5.1
 
-### Cleaner balls
-The pale disc on top of every ball is gone: a ball is lit as one round thing and shows the lamp as a single clean dot. Castings, rugs and Low quality look better too.
+### Mas malinis na bola
+Wala na ang maputlang bilog sa ibabaw ng bawat bola: iniilawan ang bola bilang iisang bilog na bagay at ipinapakita ang lampara bilang iisang malinis na tuldok. Mas maganda na rin ang castings, mga alpombra at ang kalidad na Mababa.
 
-### The power bar keeps no memory
-No more mark for your last stroke, and every turn starts from the middle of the bar: judging the pace is part of the game.
+### Walang alaala ang power bar
+Wala nang marka para sa huli mong stroke, at nagsisimula sa gitna ng bar ang bawat turn: bahagi ng laro ang pagtantiya ng lakas.
 
-### Nothing over the table
-Whose turn it is now reads in the top bar, beside the score panel, so the side pocket is always in sight. Aiming lines are smooth, and the rings round the pockets are whole.
+### Walang nakaharang sa mesa
+Nasa itaas na bar na ngayon kung kaninong turn, katabi ng score panel, kaya laging kita ang gitnang pocket. Makinis ang mga aiming line, at buo ang mga bilog sa paligid ng mga pocket.
 
 ## 0.5.0
 
-### Tournament-table physics
-The balls weigh what they do on a real table: the power bar goes up to a hard stroke (only the break uses full power), cushions give back less the harder they are hit, and a ball made falls into the pocket at the pace it arrived with.
+### Physics ng mesang pantorneo
+Kasimbigat ng sa totoong mesa ang mga bola: umaabot ang power bar hanggang sa malakas na stroke (ang break lang ang gumagamit ng buong lakas), mas kaunti ang ibinabalik ng cushion habang mas malakas ang tama, at nahuhulog sa pocket ang naipasok na bola sa bilis na dala nito.
 
-### An official tournament table
-The table is the regulation 8-foot one, measure for measure: balls, corner and side pockets with the official mouths and angles. The cloth is a deep green under the lamps and the balls shine like polished ones, their numbers crisp.
+### Opisyal na mesang pantorneo
+Ang mesa ay ang regulation na 8-foot, eksakto ang sukat: mga bola, sulok at gitnang pocket na may opisyal na bibig at anggulo. Malalim na berde ang tela sa ilalim ng mga lampara at kumikinang ang mga bola na parang pinakintab, malinaw ang mga numero.
 
-### A truer guide, or none
-The ghost ball now stops where the cue ball really would, the mouths of the pockets included. And a new choice: play with no aiming guide at all.
+### Mas tapat na gabay, o wala
+Humihinto na ngayon ang ghost ball kung saan talaga hihinto ang cue ball, kasama ang mga bibig ng pocket. At may bagong pagpipilian: maglaro nang walang kahit anong aiming guide.
 
 ## 0.4.0
 
-### A new name: Snook Legend
-The game is now called Snook Legend. Your account, coins, items, settings and progress are all here, as before.
+### Bagong pangalan: Snook Legend
+Snook Legend na ngayon ang pangalan ng laro. Nandito pa rin ang account, coins, item, settings at progreso mo, gaya ng dati.
 
-### 8-foot table, open side pockets
-A smaller table (8 feet) and side pockets that forgive a ball off the centre or rolling in at an angle. The balls roll a little more freely.
+### 8-foot na mesa, bukas na gitnang pocket
+Mas maliit na mesa (8 feet) at mga gitnang pocket na mapagpatawad sa bolang wala sa gitna o pumapasok nang pahilis. Mas malayang gumulong ang mga bola.
 
-### New rule: the opponent's ball
-Making one of your opponent's balls passes the turn, even if one of yours went down too. It is not a foul: no ball in hand.
+### Bagong patakaran: ang bola ng kalaban
+Inililipat ang turn kapag naipasok mo ang bola ng kalaban mo, kahit may pumasok ding bola mo. Hindi ito foul: walang ball in hand.
 
-### Easier to see
-The cloth is lit evenly, the balls have a soft sheen so their numbers read, shadows are lighter, and nothing of the hall gets in the way of the view from above. Whose turn it is stands out on the score cards.
+### Mas madaling makita
+Pantay ang ilaw sa tela, may malambot na kinang ang mga bola para mabasa ang mga numero, mas magaan ang mga anino, at walang bahagi ng hall na nakaharang sa view mula sa itaas. Litaw sa mga score card kung kaninong turn.
 
-### Fifteen opponents
-Tito, Inês, Diego, Amara and Yuri join the computer opponents, each with a style and a voice of their own. The Tour now has fifteen stages; your wins so far are kept.
+### Labinlimang kalaban
+Sumali sina Tito, Inês, Diego, Amara at Yuri sa mga kalabang computer, bawat isa may sariling istilo at boses. May labinlimang stage na ngayon ang Tour; naitabi ang mga panalo mo hanggang ngayon.
 
-### Quieter opponents
-Settings → Game → Opponents' remarks turns their speech bubbles off.
+### Mas tahimik na kalaban
+Pinapatay ng Settings → Laro → Mga komento ng kalaban ang mga speech bubble nila.
 
-### A new score panel
-Pictures and names in boxes, and the balls each player made rolling into place along their rail, in the order they went down.
+### Bagong score panel
+Mga larawan at pangalan sa mga kahon, at ang mga bolang naipasok ng bawat manlalaro na gumugulong papunta sa puwesto sa rail nila, ayon sa pagkakasunod ng pagpasok.
 
-### Aim by eye
-Raise the cue by dragging it in a side view of the shot. No more numbers on the power or the elevation: judge them by eye. Prefer it flat? Settings → Game → Top view only.
+### Umasinta gamit ang mata
+Itaas ang cue sa pag-drag nito sa side view ng tira. Wala nang numero sa lakas o sa elevation: tantiyahin ang mga ito gamit ang mata. Mas gusto mo ng patag? Settings → Laro → View mula sa itaas lang.
 
-### Rules and pictures
-The rules of the game are a click away (the book on the main menu, or Rules in the pause menu). Pick one of 32 profile pictures in your profile.
+### Patakaran at mga larawan
+Isang click lang ang mga patakaran ng laro (ang libro sa main menu, o ang Patakaran sa pause menu). Pumili ng isa sa 32 profile picture sa profile mo.
 
-### Your games are safe
-Replays and daily games that started before this update keep the old table and rules until they end.
+### Ligtas ang mga laro mo
+Ang mga replay at daily game na nagsimula bago ang update na ito ay mananatili sa lumang mesa at patakaran hanggang matapos.
 
 ## 0.3.0
 
-### A regulation 9-foot table
-The table is now tournament size (100" × 50"), with the balls, pockets, cushions and cue to official measurements. The balls are heavier and bounce less, like real ones.
+### Regulation na 9-foot na mesa
+Pang-torneo na ang laki ng mesa ngayon (100" × 50"), at opisyal ang sukat ng mga bola, pocket, cushion at cue. Mas mabigat ang mga bola at mas kaunti ang talbog, gaya ng totoo.
 
-### A new break rule
-On the break, the first ball you pocket sets your group: solids or stripes. A foul on the break leaves the table open.
+### Bagong patakaran sa break
+Sa break, ang unang bolang maipasok mo ang magtatakda ng grupo mo: solids o stripes. Ang foul sa break ay nag-iiwan ng open table.
 
-### New halls, tables and cues
-Four new halls and four new tables, and every old one reworked. Premium cues that look nothing alike. On Ultra, floors that reflect the hall.
+### Mga bagong hall, mesa at cue
+Apat na bagong hall at apat na bagong mesa, at inayos ulit ang bawat luma. Mga premium na cue na walang pagkakahawig. Sa Ultra, mga sahig na nagre-reflect ng hall.
 
 ### Daily challenge
-A new position every day, the same for everyone, with a ranking of the day: three attempts to make as many balls as you can.
+Bagong posisyon araw-araw, pareho para sa lahat, may ranking ng araw: tatlong pagtatangka para magpasok ng pinakamaraming bola na kaya mo.
 
-### Drills with stars
-Seven drills on potting, spin, banks and escaping snookers, up to three stars each, with rankings and a challenge rating that shows your level.
+### Mga drill na may bituin
+Pitong drill sa pagpasok, spin, bank at paglusot sa snooker, hanggang tatlong bituin bawat isa, may ranking at challenge rating na nagpapakita ng level mo.
 
-### Account level
-Earn experience in every game, won or lost, and in drills, the daily challenge and achievements. Your level shows on your profile.
+### Level ng account
+Kumita ng experience sa bawat laro, panalo man o talo, at sa mga drill, daily challenge at achievement. Lumalabas ang level mo sa profile mo.
 
-### The Tour
-The old ladder is now the Tour: ten stages, one opponent each. The opponents have new portraits and talk during the game.
+### Ang Tour
+Tour na ngayon ang dating ladder: sampung stage, tig-isang kalaban. May mga bagong portrait ang mga kalaban at nagsasalita sila habang naglalaro.
 
-### Fair play
-Leaving a game costs more than losing it. The full aiming guide is for free games against the computer and practice only: never online, in the Tour, the daily challenge or drills.
+### Patas na laro
+Mas mabigat ang parusa sa pag-alis sa laro kaysa sa pagkatalo. Para lang sa malayang laro laban sa computer at practice ang buong aiming guide: hindi kailanman online, sa Tour, sa daily challenge o sa mga drill.
 
-### Your profile
-A trophy shelf and statistics for each cue: games, wins and balls made with it. You can now change your username up to three times.
+### Ang profile mo
+Isang estante ng tropeo at statistics para sa bawat cue: mga laro, panalo at bolang naipasok gamit ito. Mapapalitan mo na ang username mo hanggang tatlong beses.
 
-### In the lounge
-An "away" status, quick phrases translated into your opponent's language and a practice table while the search for an opponent goes on.
+### Sa lounge
+Status na "wala muna", mga mabilisang mensahe na isinasalin sa wika ng kalaban mo at isang practice table habang naghahanap ng kalaban.
 
 ## 0.2.0
 
-### Ten opponents with personality
-Choose who to play: from Leo, still learning, to Marta, who lives on safeties, and Lola, who banks everything. Each has their own style, portrait and strength.
+### Sampung kalabang may personalidad
+Piliin kung sino ang kalaban: mula kay Leo, na nag-aaral pa, hanggang kay Marta, na nabubuhay sa safety, at kay Lola, na ibina-bank ang lahat. May sariling istilo, portrait at lakas ang bawat isa.
 
-### The ladder
-Beat the ten opponents one by one, up to the last. Reach the top to earn the exclusive "Ladder king" cue and a new achievement.
+### Ang ladder
+Talunin isa-isa ang sampung kalaban, hanggang sa huli. Abutin ang tuktok para makuha ang eksklusibong cue na "Ladder king" at isang bagong achievement.
 
-### Play the ghost
-The computer learns a real player's style from their online games. Challenge a friend's ghost, or your own, from the profile or the vs-computer screen.
+### Kalabanin ang ghost
+Natututunan ng computer ang istilo ng isang totoong manlalaro mula sa mga online na laro niya. Hamunin ang ghost ng kaibigan, o ang sa iyo, mula sa profile o sa screen ng laban sa computer.
 
-### Daily games
-Challenge someone and play your turn when you can: each player has up to 3 days per turn. You are told when it's your turn, and you can have several games at once.
+### Mga daily game
+Hamunin ang isang tao at tumira kapag may oras ka: may hanggang 3 araw bawat turn ang bawat manlalaro. Sasabihan ka kapag turn mo na, at puwede kang magkaroon ng ilang laro nang sabay-sabay.
 
-### Friends and gifts
-See who you played recently, write a status on your profile and post on the lounge's "looking for a game" board. Gifts from friends now arrive with a notice, a message and a "thank you".
+### Mga kaibigan at regalo
+Tingnan kung sino ang mga nakalaro mo kamakailan, magsulat ng status sa profile mo at mag-post sa board na "naghahanap ng laro" ng lounge. Dumarating na ngayon ang mga regalo mula sa kaibigan na may abiso, mensahe at "salamat".
 
-### Cues, tables and halls
-Your cue earns bands and inlays as you win with it. In the shop, themed tables and halls: beach bar, industrial loft and English club.
+### Mga cue, mesa at hall
+Nagkakaroon ng mga band at inlay ang cue mo habang nananalo ka gamit ito. Sa shop, mga themed na mesa at hall: beach bar, industrial loft at English club.
 
-### Your game, analysed
-The profile's new Analysis tab shows your potting by pocket, distance and kind of shot, with a heat map of the table.
+### Sinuri ang laro mo
+Ipinapakita ng bagong tab na Pagsusuri sa profile ang pagpasok mo ayon sa pocket, layo at uri ng tira, kasama ang heat map ng mesa.
 
-### Your keys
-Every shortcut can be changed in Settings → Controls, and the game's hints follow your choices.
+### Mga key mo
+Mapapalitan ang bawat shortcut sa Settings → Controls, at sinusunod ng mga hint ng laro ang mga pinili mo.
 
-### Automatic updates
-New versions download in the background and install when you restart, never during a game. This window tells you what changed.
+### Awtomatikong update
+Nada-download sa background ang mga bagong bersiyon at nai-install kapag nag-restart ka, hindi kailanman habang may laro. Sinasabi sa iyo ng window na ito kung ano ang nagbago.
 
-### A reviewed interface
-Every screen was reviewed in the three languages and at every window size. Fixes: Esc opens the menu at the table, the computer sinks the 8 in its called pocket more reliably, and the overhead view no longer goes black.
+### Sinuring interface
+Sinuri ang bawat screen sa tatlong wika at sa bawat laki ng window. Mga ayos: binubuksan ng Esc ang menu sa mesa, mas maaasahang naipapasok ng computer ang 8 sa ini-call nitong pocket, at hindi na nagiging itim ang view mula sa itaas.
 
 ## 0.1.4
 
-### A game while you wait
-After half a minute of "Play now" without an opponent, you can play the computer while the search goes on.
+### Laro habang naghihintay
+Pagkalipas ng kalahating minuto sa "Maglaro na" nang walang kalaban, puwede mong kalabanin ang computer habang tuloy ang paghahanap.
 
-### Chat moderation
-You can delete your own chat lines, and moderators can remove abuse.
+### Moderation ng chat
+Puwede mong burahin ang sarili mong mga linya sa chat, at puwedeng mag-alis ng pang-aabuso ang mga moderator.
 
-### Cues you can see
-Opponents see the pattern of the cue you bought, and VIP members have reactions of their own.
+### Mga cue na nakikita
+Nakikita ng mga kalaban ang disenyo ng cue na binili mo, at may sariling reaksyon ang mga VIP member.

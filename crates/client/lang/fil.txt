@@ -1,4 +1,4 @@
-# Snook Legend: Brazilian Portuguese.
+# Snook Legend: Filipino.
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	Nasa 8 na si {name}: naka-call ang {pocket}
@@ -902,5 +902,1155 @@ Time's up: {name}'s shot was played at full power.	Ubos na ang oras: nilaro nang
 Dark room	Madilim na kuwarto
 A spotlight on the table, the room in shadow.	Spotlight sa mesa, nasa dilim ang kuwarto.
 Hide	Itago
+Interface size	Laki ng interface
+Text, buttons and panels.	Text, mga button at panel.
+Drag to set the power	I-drag para itakda ang lakas
+Shoot!	Tira!
+Set the power, then press the green button	Itakda ang lakas, saka pindutin ang berdeng button
++{n} coins · {why}	+{n} coins · {why}
+16-player tournaments, and first place on the waiting list of a full one	Mga torneong may 16 na manlalaro, at unang puwesto sa waiting list ng punong torneo
+30 minutes: play as many games as you can. A win is 2 points, 4 from the third win in a row.	30 minuto: maglaro ng pinakamaraming laro na kaya mo. 2 puntos ang panalo, 4 mula sa ikatlong sunod-sunod na panalo.
+A crown by your name, everywhere (lounge, profile, ranking)	Korona sa tabi ng pangalan mo, kahit saan (lounge, profile, ranking)
+Account	Account
+Add friends to give them items.	Magdagdag ng kaibigan para mabigyan sila ng item.
+Arena	Arena
+Arena · host {host} · {n} players · {kind}	Arena · host {host} · {n} manlalaro · {kind}
+Buy now	Bilhin na
+Buying…	Binibili…
+Change password	Palitan ang password
+Click again to delete	I-click ulit para burahin
+Got a code? Type it here	May code ka? I-type dito
+Confirm purchase	Kumpirmahin ang pagbili
+Copied: send it to a friend.	Nakopya: ipadala sa isang kaibigan.
+Copy	Kopyahin
+Current	Kasalukuyan
+Delete account	Burahin ang account
+Entry	Entry fee
+Entry {n} coins	Entry fee {n} coins
+Every replay kept (free players keep their last 10 games)	Naka-save ang lahat ng replay (ang huling 10 laro lang ang naka-save sa mga libreng manlalaro)
+For {name}	Para kay {name}
+Add a message (optional)	Magdagdag ng mensahe (opsiyonal)
+Format	Format
+Frames	Mga Frame
+Free	Libre
+Get coins	Kumuha ng coins
+Gift sent!	Naipadala ang regalo!
+Give as a gift	Iregalo
+Give it	Iregalo ito
+Give to a friend	Iregalo sa kaibigan
+Great!	Ayos!
+If you forget your password, we confirm it's you by this e-mail.	Kung makalimutan mo ang password mo, kukumpirmahin naming ikaw iyan gamit ang e-mail na ito.
+Invite with a code	Mag-imbita gamit ang code
+It goes on right away. Items only change the look, never the game.	Gagamitin agad ito. Itsura lang ang binabago ng mga item, hindi kailanman ang laro.
+Join my table in Snook Legend:	Sumali sa mesa ko sa Snook Legend:
+Join the waiting list	Sumali sa waiting list
+Join · {n} coins	Sumali · {n} coins
+Knockout	Knockout
+Name colour	Kulay ng pangalan
+Name colours for the lounge and exclusive frames, cloth, cues, balls and effects	Mga kulay ng pangalan para sa lounge at mga eksklusibong frame, tela, cue, bola at effect
+New	Bago
+No, thanks	Hindi, salamat
+Nothing that wins games: VIP only changes the look	Walang nakakapagpanalo ng laro: itsura lang ang binabago ng VIP
+Numbers	Mga numero
+ON TV	NASA TV
+Play rated games to see your rating here.	Maglaro ng rated na laro para makita rito ang rating mo.
+No rated games yet.	Wala pang rated na laro.
+Price	Presyo
+Prizes {a} + {b}	Premyo {a} + {b}
+Protect your purchases	Protektahan ang mga binili mo
+Purchase complete!	Kumpleto na ang pagbili!
+Recovery e-mail	Recovery e-mail
+Save	I-save
+The fees make the prize: 70% to the champion, 20% to the runner-up.	Ang mga entry fee ang bumubuo sa premyo: 70% sa kampeon, 20% sa pumangalawa.
+The server restarts in {m}:{s} for an update. Games in progress go on.	Magre-restart ang server sa loob ng {m}:{s} para sa update. Tuloy ang mga kasalukuyang laro.
+Use this e-mail	Gamitin ang e-mail na ito
+Use {email} to recover your account if you ever forget your password?	Gamitin ang {email} para ma-recover ang account mo kung sakaling makalimutan mo ang password mo?
+Watch	Panoorin
+Watch again	Panoorin ulit
+Winning effects	Mga effect ng panalo
+Halls	Mga Hall
+You are paired as soon as you and an opponent are free.	Ipapares ka agad kapag libre na kayo ng isang kalaban.
+You can change it any time in your profile (Account).	Mapapalitan mo ito kahit kailan sa profile mo (Account).
+You need {n} more coins.	Kailangan mo pa ng {n} coins.
+Your account	Account mo
+Your account was deleted.	Nabura na ang account mo.
+Your coins	Coins mo
+Your friend gets it right away.	Matatanggap agad ito ng kaibigan mo.
+Your game against {name} is starting.	Magsisimula na ang laro mo laban kay {name}.
+Your name, e-mail, friends and items are erased for good. Your opponents keep the games you played (without your name).	Permanenteng mabubura ang pangalan, e-mail, mga kaibigan at item mo. Mananatili sa mga kalaban mo ang mga larong nilaro ninyo (nang wala ang pangalan mo).
+balls per game	bola bawat laro
+best run ever	pinakamahabang run kailanman
+daily bonus	daily bonus
+entry fee back	ibinalik ang entry fee
+for the game	para sa laro
+for the win	para sa panalo
+games counted	larong binilang
+Analysis	Pagsusuri
+The shot analysis isn't available on this server yet.	Hindi pa available ang pagsusuri ng tira sa server na ito.
+Only online accounts have a shot analysis.	Ang mga online account lang ang may pagsusuri ng tira.
+Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Maglaro online para makita kung paano ka magpasok: lalabas ang pagsusuri pagkatapos ng {n} pang tira sa pocket.
+{name} hasn't played enough online games for an analysis yet.	Hindi pa sapat ang online na laro ni {name} para sa pagsusuri.
+1 game	1 laro
+{pct}% of {n} shots at a pocket potted · {games}	{pct}% ng {n} tira sa pocket ang pumasok · {games}
+{made} of {n} potted ({pct})	{made} sa {n} ang pumasok ({pct})
+By kind of shot	Ayon sa uri ng tira
+shots	tira
+Straight	Diretso
+Cut 8–25°	Cut 8–25°
+Cut 25–45°	Cut 25–45°
+Thin cut 45°+	Manipis na cut 45°+
+Bank	Bank
+Kick	Kick
+Combination	Combination
+Jump	Jump
+Massé	Massé
+Break	Break
+By distance	Ayon sa layo
+Short (under 0.75 m)	Maikli (wala pang 0.75 m)
+Medium (to 1.5 m)	Katamtaman (hanggang 1.5 m)
+Long (over 1.5 m)	Mahaba (lampas 1.5 m)
+left the opponent nothing	walang naiwang tira sa kalaban
+Breaks	Mga break
+made a ball	nakapasok ng bola
+Potted	Pumasok
+Missed	Mintis
+Where and in which pocket	Saan at sa aling pocket
+{pocket}: {made} of {n} potted	{pocket}: {made} sa {n} ang pumasok
+Where the potted balls were	Kung nasaan ang mga bolang pumasok
+Where the missed balls were	Kung nasaan ang mga bolang hindi pumasok
+few	kaunti
+many	marami
+{made} potted · {missed} missed ({pct})	{made} pasok · {missed} mintis ({pct})
+Top left corner	Kaliwang sulok sa itaas
+Bottom left corner	Kaliwang sulok sa ibaba
+Top side pocket	Gitnang pocket sa itaas
+Bottom side pocket	Gitnang pocket sa ibaba
+Top right corner	Kanang sulok sa itaas
+Bottom right corner	Kanang sulok sa ibaba
+games left unfinished	larong iniwang hindi tapos
+potting success	pasok na tira
+shots with a foul	tirang may foul
+starts in {n} min	magsisimula sa loob ng {n} min
+tournament prize	premyo sa torneo
+The dark room hides the hall around the table.	Itinatago ng madilim na kuwarto ang hall sa paligid ng mesa.
+Show the hall	Ipakita ang hall
+Level {n} · 1 win	Level {n} · 1 panalo
+Level {n} · {w} wins	Level {n} · {w} panalo
+{left} more online wins with this cue for level {n}. Levels only add marks to the cue.	{left} pang online na panalo gamit ang cue na ito para sa level {n}. Marka lang sa cue ang idinadagdag ng mga level.
+The top level: this cue has every mark.	Pinakamataas na level: nasa cue na ito ang lahat ng marka.
+Your cue {cue} reached level {n}!	Umabot sa level {n} ang cue mong {cue}!
+Most wins: {cue} (level {n})	Pinakamaraming panalo: {cue} (level {n})
+{games} games · {rate}% won · {balls} balls made	{games} laro · {rate}% panalo · {balls} bolang naipasok
+vs	vs
+{from} gave you {item}!	Binigyan ka ni {from} ng {item}!
+You received a gift!	May natanggap kang regalo!
+From	Mula kay
+To	Para kay
+someone	di-kilala
+A month of VIP	Isang buwan ng VIP
+Thank	Magpasalamat
+Thanked	Napasalamatan na
+They thanked you	Nagpasalamat siya sa iyo
+Use it now	Gamitin ngayon
+Later	Mamaya
+OK	OK
+Next ({n} more)	Susunod ({n} pa)
+{from} gave you {item}! It's waiting for you in the lounge.	Binigyan ka ni {from} ng {item}! Naghihintay ito sa iyo sa lounge.
+{name} thanked you for {item}.	Nagpasalamat si {name} para sa {item}.
+Gifts	Mga Regalo
+No gifts yet. Friends can give you items from the shop.	Wala pang regalo. Puwede kang bigyan ng mga kaibigan mo ng item mula sa shop.
+{item} is yours and already in use.	Sa iyo na ang {item} at ginagamit mo na ito.
+{m}:{s} left	{m}:{s} pa
+{name} invites you to play.	Iniimbitahan ka ni {name} na maglaro.
+{name} is online.	Online si {name}.
+{name} ran out of time.	Naubusan ng oras si {name}.
+{name} received {item}.	Natanggap ni {name} ang {item}.
+{n} pts · {g} games	{n} pts · {g} laro
+{n} watching · avg {r}	{n} nanonood · average {r}
+{title}: {how}	{title}: {how}
+Olive	Olive
+Navy	Navy blue
+Forest	Gubat
+Slate grey	Slate gray
+Red wine	Red wine
+Burnt orange	Burnt orange
+Dusty rose	Dusty rose
+Sand	Buhangin
+Ice blue	Ice blue
+Lime	Lime
+Black tie	Black tie
+Cobalt	Cobalt
+Emerald	Esmeralda
+Natural maple	Natural na maple
+Beach bar	Beach bar
+Modern	Moderno
+English club	English club
+Ebony & gold	Ebony at ginto
+Pool hall	Bilyaran
+Industrial loft	Industrial loft
+Steel & oak	Bakal at oak
+Tournament	Torneo
+Victorian walnut	Victorian walnut
+Ivory deco	Ivory deco
+Mountain lodge	Mountain lodge
+Neon arcade	Neon arcade
+Art deco lounge	Art deco lounge
+Skyline penthouse	Skyline penthouse
+Walnut	Walnut
+Zebrawood	Zebrawood
+Bocote	Bocote
+Deep ocean	Malalim na karagatan
+Cherry	Cherry
+Jade	Jade
+Tiger	Tigre
+Amethyst	Amethyst
+Arctic carbon	Arctic carbon
+Inferno	Inferno
+Obsidian gold	Obsidian at ginto
+Tan chalk	Tan na chalk
+Grey chalk	Abong chalk
+Orange chalk	Orange na chalk
+Pink chalk	Pink na chalk
+Teal chalk	Teal na chalk
+Yellow chalk	Dilaw na chalk
+Black chalk	Itim na chalk
+White chalk	Puting chalk
+Silver chalk	Pilak na chalk
+TV set	TV set
+Earth tones	Kulay-lupa
+Ocean	Karagatan
+Sunset	Paglubog ng araw
+Candy	Kendi
+Pearl	Perlas
+Monochrome	Monochrome
+Chrome	Chrome
+Gold rush	Gold rush
+No frame	Walang frame
+Bronze	Tanso
+Silver	Pilak
+Gold	Ginto
+Green felt	Berdeng felt
+Mahogany	Mahogany
+Ice	Yelo
+Fire	Apoy
+Diamond	Diyamante
+VIP crown	Koronang VIP
+Rose gold	Rose gold
+Aqua	Aqua
+Violet	Violet
+Ember	Baga
+Mint	Mint
+Frost	Frost
+No effect	Walang effect
+Sparks	Mga kislap
+Confetti	Confetti
+Shockwave	Shockwave
+Coin shower	Ulan ng coins
+Flames	Liyab
+Royal sparks	Maharlikang kislap
+Tier colour	Kulay ng tier
+16-player tournaments are for VIP members.	Para sa mga VIP member ang mga torneong may 16 na manlalaro.
+A seat opened: you are in the tournament!	May nabakanteng puwesto: kasali ka na sa torneo!
+Entry fees go up to 1000 coins.	Umaabot nang 1000 coins ang entry fee.
+Guests can't play for coins.	Hindi puwedeng maglaro para sa coins ang mga guest.
+Only items sold for coins can be given.	Ang mga item lang na ibinebenta sa coins ang puwedeng iregalo.
+Password changed.	Napalitan ang password.
+Passwords need 8 or more characters, not only digits.	Kailangan ng password na may 8 o higit pang character, hindi puro numero.
+Recovery e-mail removed.	Inalis ang recovery e-mail.
+Recovery e-mail saved.	Na-save ang recovery e-mail.
+Something went wrong. Please try again.	Nagkaproblema. Subukan ulit.
+That code is not valid (or the table was closed).	Hindi valid ang code na iyan (o isinara na ang mesa).
+That doesn't look like an e-mail address.	Mukhang hindi e-mail address iyan.
+That game is over.	Tapos na ang larong iyan.
+The current password is wrong.	Mali ang kasalukuyang password.
+The server is restarting.	Nagre-restart ang server.
+The server is restarting: new games start in a moment.	Nagre-restart ang server: magsisimula ang mga bagong laro maya-maya.
+The tournament is full: you are on the waiting list.	Puno na ang torneo: nasa waiting list ka.
+This replay is not available.	Hindi available ang replay na ito.
+You can only give items to your friends.	Sa mga kaibigan mo lang puwedeng magregalo ng item.
+Your friend already has this item.	Mayroon na ng item na ito ang kaibigan mo.
+16 (VIP)	16 (VIP)
+VIP isn't sold in this version of the game.	Hindi ibinebenta ang VIP sa bersiyong ito ng laro.
+In this version of the game, coins are earned by playing:	Sa bersiyong ito ng laro, nakukuha ang coins sa paglalaro:
+rated games, and a bonus every day you play.	rated na laro, at bonus bawat araw na naglalaro ka.
+Coins are earned by playing:	Nakukuha ang coins sa paglalaro:
+If you like, you can also buy them:	Kung gusto mo, puwede mo rin itong bilhin:
+one month	isang buwan
+already VIP	VIP na
+Give a month to a friend · {p}	Iregalo ang isang buwan sa kaibigan · {p}
+{from} gave you a month of VIP!	Binigyan ka ni {from} ng isang buwan ng VIP!
+{name} received a month of VIP.	Nakatanggap si {name} ng isang buwan ng VIP.
+Your friend is already VIP.	VIP na ang kaibigan mo.
+Game in progress: {n} balls left	Kasalukuyang laro: {n} bola pa
+Continue	Magpatuloy
+Missions	Mga Misyon
+Board	Board
+Today	Ngayon
+This week	Ngayong linggo
+new missions in {t}	mga bagong misyon sa loob ng {t}
+ends in {t}	matatapos sa loob ng {t}
+{n} days	{n} araw
+{n} h	{n} oras
+{n} min	{n} min
+mission complete	natapos ang misyon
+Missions count rated games played to the end. The coins arrive as soon as one is complete.	Binibilang ng mga misyon ang mga rated na larong tinapos. Darating ang coins kapag natapos ang isa.
+Nothing on the board right now.	Walang laman ang board ngayon.
+Open tournaments	Mga bukas na torneo
+{n}/{size} players	{n}/{size} manlalaro
+starts in {t}	magsisimula sa loob ng {t}
+entry {n} coins	entry fee {n} coins
+See	Tingnan
+Play {n} rated games	Maglaro ng {n} rated na laro
+Win {n} rated games	Manalo ng {n} rated na laro
+Pot {n} balls	Magpasok ng {n} bola
+Pot {n} balls with spin	Magpasok ng {n} bola nang may spin
+Pot 3 balls in a row in one visit	Magpasok ng 3 sunod-sunod na bola sa iisang turn
+Win a game without a foul	Manalo ng laro nang walang foul
+Pot 3 balls in a row {n} times	Magpasok ng 3 sunod-sunod na bola nang {n} beses
+Win {n} games without a foul	Manalo ng {n} laro nang walang foul
+TV camera when watching	TV camera kapag nanonood
+Broadcast angles for other players' games and replays.	Mga anggulong pang-broadcast sa laro ng ibang manlalaro at sa mga replay.
+System notifications	Mga notification ng system
+Invites, friends coming online and games starting, while you're away.	Mga imbitasyon, kaibigang nag-o-online at larong nagsisimula, habang wala ka.
+{name} starts in a few minutes: get ready!	Magsisimula ang {name} sa loob ng ilang minuto: maghanda!
+{name} starts in a few minutes: there is still room.	Magsisimula ang {name} sa loob ng ilang minuto: may puwesto pa.
+{name} has started!	Nagsimula na ang {name}!
+Momentum	Momentum
+Shot map	Mapa ng tira
+No shots yet.	Wala pang tira.
+made	pumasok
+missed	mintis
+foul	foul
+See the tournaments	Tingnan ang mga torneo
+Open the shop	Buksan ang shop
+See VIP	Tingnan ang VIP
+See the missions	Tingnan ang mga misyon
+A new version of the game is out: update to play online.	May bagong bersiyon ng laro: mag-update para makapaglaro online.
+Update in the Microsoft Store	I-update sa Microsoft Store
+Update now	I-update ngayon
+Download the new version	I-download ang bagong bersiyon
+New version out	May bagong bersiyon
+Get the new version to play online	Kunin ang bagong bersiyon para makapaglaro online
+Cheer for {name}	I-cheer si {name}
+Crowd: {a} for {p0}, {b} for {p1}	Manonood: {a} kay {p0}, {b} kay {p1}
+welcome pack	welcome pack
+Welcome pack	Welcome pack
+Cue “{cue}”, cloth “{cloth}” and {n} coins · only once, sold nowhere else	Cue na “{cue}”, tela na “{cloth}” at {n} coins · isang beses lang, hindi mabibili kahit saan
+Lagoon	Lagoon
+You already have the welcome pack.	Mayroon ka na ng welcome pack.
+Your welcome pack is here!	Narito na ang welcome pack mo!
+Previous shot (←)	Naunang tira (←)
+Next shot (→)	Susunod na tira (→)
+Play (Space)	I-play (Space)
+Pause (Space)	I-pause (Space)
+Speed	Bilis
+Shot {n} of {total}	Tira {n} sa {total}
+For VIP members	Para sa mga VIP member
+{n} reactions of your own to send during games	{n} sariling reaksyon na maipapadala habang naglalaro
+Items {a}–{b} of {n}	Mga item {a}–{b} sa {n}
+(message deleted by its author)	(binura ng sumulat ang mensahe)
+(message deleted by an administrator)	(binura ng isang administrator ang mensahe)
+Delete (it shows as deleted)	Burahin (lalabas na binura)
+Remove without a trace	Alisin nang walang bakas
+The chat was cleared by {name}.	Nilinis ni {name} ang chat.
+Click again to clear	I-click ulit para linisin
+Clear the chat	Linisin ang chat
+Players' chat (administrator)	Chat ng mga manlalaro (administrator)
+Play the computer while you wait	Kalabanin ang computer habang naghihintay
+Looking for an opponent… {t} · the game starts as soon as one is found	Naghahanap ng kalaban… {t} · magsisimula ang laro kapag may nahanap
+Stop	Ihinto
 # Coin packs and months of VIP bought in the Microsoft Store (the Store build).
+The Microsoft Store couldn't complete the purchase.	Hindi nakumpleto ng Microsoft Store ang pagbili.
+The Microsoft Store couldn't confirm the purchase right now. Its coins arrive the next time you open the shop.	Hindi makumpirma ng Microsoft Store ang pagbili ngayon. Darating ang coins nito sa susunod na pagbukas mo ng shop.
+{n} coins added to your wallet.	Naidagdag sa wallet mo ang {n} coins.
+Microsoft is confirming your purchase: the coins arrive in a moment.	Kinukumpirma ng Microsoft ang pagbili mo: darating ang coins maya-maya.
+The purchase hasn't reached us yet. Its coins arrive the next time you open the shop.	Hindi pa umaabot sa amin ang pagbili. Darating ang coins nito sa susunod na pagbukas mo ng shop.
+Loading prices from the Microsoft Store…	Nilo-load ang mga presyo mula sa Microsoft Store…
+Coins can't be bought in this version yet.	Hindi pa mabibili ang coins sa bersiyong ito.
+Finish the purchase in the Microsoft Store window…	Tapusin ang pagbili sa window ng Microsoft Store…
+Confirming your purchase…	Kinukumpirma ang pagbili mo…
+Paid in the Microsoft Store, with your Microsoft account.	Babayaran sa Microsoft Store, gamit ang Microsoft account mo.
+The Microsoft Store can't be reached right now. Try again in a moment.	Hindi maabot ang Microsoft Store ngayon. Subukan ulit maya-maya.
+The Microsoft Store could not confirm the purchase.	Hindi makumpirma ng Microsoft Store ang pagbili.
+Sign in to the Microsoft Store with your Microsoft account, then open the shop again.	Mag-sign in sa Microsoft Store gamit ang Microsoft account mo, saka buksan ulit ang shop.
+The Microsoft Store couldn't confirm the purchase right now. Your VIP month starts the next time you open the shop.	Hindi makumpirma ng Microsoft Store ang pagbili ngayon. Magsisimula ang buwan mo ng VIP sa susunod na pagbukas mo ng shop.
+You are VIP until {d}, and {n} coins were added to your wallet.	VIP ka hanggang {d}, at naidagdag sa wallet mo ang {n} coins.
+Microsoft is confirming your purchase: your VIP month starts in a moment.	Kinukumpirma ng Microsoft ang pagbili mo: magsisimula maya-maya ang buwan mo ng VIP.
+The purchase hasn't reached us yet. Your VIP month starts the next time you open the shop.	Hindi pa umaabot sa amin ang pagbili. Magsisimula ang buwan mo ng VIP sa susunod na pagbukas mo ng shop.
+A month at a time: nothing renews by itself	Isang buwan bawat bili: walang kusang nagre-renew
+Add a month · {p}	Magdagdag ng isang buwan · {p}
+A month of VIP · {p}	Isang buwan ng VIP · {p}
+The new month starts when this one ends.	Magsisimula ang bagong buwan pagkatapos ng kasalukuyan.
+Trophies	Mga Tropeo
+No trophies yet.	Wala pang tropeo.
+Tournament won · {n} players	Napanalunang torneo · {n} manlalaro
+The computer tour	Ang computer tour
+All fifteen opponents beaten	Natalo ang labinlimang kalaban
+Daily challenge	Daily challenge
+First of {n} players	Una sa {n} manlalaro
+Easy shot	Madaling tira
+Fair shot	Katamtamang tira
+Hard shot	Mahirap na tira
+Very hard shot	Napakahirap na tira
+~{n}% chance	~{n}% tsansa
+No ball goes down as aimed	Walang bolang papasok sa asintang ito
+straight in	diretso
+{n}° cut	{n}° na cut
+off one cushion	sa isang cushion
+off {n} cushions	sa {n} cushion
+Make as many balls as you can in one visit: a miss or a foul ends the attempt.	Magpasok ng pinakamaraming bola na kaya mo sa iisang turn: tapos ang pagtatangka kapag nagmintis o nag-foul ka.
+The same table for everyone, all day	Iisang mesa para sa lahat, buong araw
+{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	{n} pagtatangka bawat araw. Ubusin ang mesa para sa {coins} coins; may tropeo ang panalo sa araw na iyon.
+A new table in {h} h {m} min	Bagong mesa sa loob ng {h} oras {m} min
+Sign in to take part: the server keeps the day's table.	Mag-sign in para makasali: itinatabi ng server ang ranking ng araw.
+Balls on today's table	Mga bola sa mesa ngayon
+Attempts left	Natitirang pagtatangka
+{n} balls · #{rank}	{n} bola · #{rank}
+{n} balls	{n} bola
+not yet	hindi pa
+Your best today	Pinakamagaling mo ngayon
+No attempts left today: come back tomorrow.	Wala ka nang pagtatangka ngayon: bumalik bukas.
+The attempt could not be counted.	Hindi mabilang ang pagtatangka.
+Setting up the table…	Inihahanda ang mesa…
+Start an attempt	Magsimula ng pagtatangka
+Starting uses an attempt, even if you leave the table.	Mababawasan ka ng isang pagtatangka kapag nagsimula ka, kahit umalis ka sa mesa.
+Loading today's table…	Nilo-load ang mesa ngayong araw…
+Today's table	Ranking ngayong araw
+{n} players	{n} manlalaro
+Nobody has played today's table yet. Be the first!	Wala pang naglaro sa mesa ngayong araw. Ikaw na ang mauna!
+Table cleared!	Ubos ang mesa!
+{n} of {total} balls	{n} sa {total} bola
+Sending your attempt to the server…	Ipinapadala ang pagtatangka mo sa server…
+Counted: {n} balls · +{coins} coins	Nabilang: {n} bola · +{coins} coins
+Counted: {n} balls	Nabilang: {n} bola
+See today's table	Tingnan ang ranking ngayong araw
+Table cleared! +{n} coins	Ubos ang mesa! +{n} coins
+Daily challenge: {n} of {total} balls made	Daily challenge: {n} sa {total} bola ang naipasok
+1 player	1 manlalaro
+Phoenix	Phoenix
+Carrara marble	Marmol na Carrara
+Dragon scale	Kaliskis ng dragon
+Galaxy	Kalawakan
+Ruby throne	Trono ng rubi
+Closing the game now is leaving it: extra rating lost and a wait to play again.	Ang pagsara ng laro ngayon ay pag-alis dito: mawawalan ka ng dagdag na rating at maghihintay ka bago makapaglaro ulit.
+You left a game in progress: you can play online again in {n} min.	Umalis ka sa kasalukuyang laro: makakapaglaro ka ulit online sa loob ng {n} min.
+Quick phrases	Mga mabilisang mensahe
+Good luck, have fun!	Good luck, enjoy lang!
+Nice shot!	Ganda ng tira!
+Great safety!	Galing ng safety!
+Unlucky!	Malas!
+Oops!	Ay!
+Wow!	Wow!
+That was close!	Muntik na!
+Take your time.	Huwag kang magmadali.
+Sorry!	Sorry!
+Thanks!	Salamat!
+Well played!	Ang galing!
+Good game!	Magandang laro!
+Rematch?	Rematch?
+I have to go, thanks for the game!	Kailangan ko nang umalis, salamat sa laro!
+Practise while you wait	Mag-practice habang naghihintay
+A new rack.	Bagong rack.
+Level {n}! (+{xp} XP)	Level {n}! (+{xp} XP)
++{xp} XP	+{xp} XP
+Level {n} · {into} / {span} XP to the next	Level {n} · {into} / {span} XP papunta sa susunod
+Level {n}	Level {n}
+Hi! I watched a lot of videos, I'm ready!	Hi! Ang dami kong napanood na video, handa na ako!
+Be gentle, okay?	Dahan-dahan lang sa akin, ha?
+Whoa, how did you do that?	Wow, paano mo nagawa 'yon?
+Teach me that one later!	Turuan mo ako niyan mamaya!
+Phew! My turn!	Hay! Turn ko na!
+Even you miss? Good to know.	Pati ikaw, nagmimintis? Mabuti at alam ko na.
+A free ball! What do I do with it?	Libreng bola! Ano'ng gagawin ko rito?
+Did you see that?! It went in!	Nakita mo 'yon?! Pumasok!
+Beginner's luck counts too!	Bilang din ang swerte ng baguhan!
+Oops. That was a practice shot.	Ay. Practice shot lang 'yon.
+Aim, Leo, aim...	Asinta, Leo, asinta...
+Sorry! I touched the wrong one again.	Sorry! Maling bola na naman ang natamaan ko.
+I WON? I'm calling my mum!	PANALO AKO? Tatawagan ko si Mama!
+Good game! I'm getting better, right?	Magandang laro! Gumagaling na ako, 'di ba?
+Saturday, a table and good company. Let's play!	Sabado, isang mesa at mabuting kasama. Laro na tayo!
+Nice one!	Ayos 'yan!
+Oh, you're good. I'll pay attention now.	Uy, magaling ka. Magfo-focus na ako.
+Happens to the best of us.	Nangyayari 'yan kahit sa pinakamagagaling.
+Don't worry, it's just a game!	Huwag kang mag-alala, laro lang 'to!
+Thanks for the gift!	Salamat sa regalo!
+Yes! Weekend skills!	Yes! Galing pang-weekend!
+Lucky me!	Ang swerte ko!
+Hm, where was I aiming?	Hmm, saan ba ako umaasinta?
+Too much chatting, not enough aiming.	Sobrang daldal, kulang sa asinta.
+Oops, my bad!	Ay, kasalanan ko!
+That was fun! Same time next weekend?	Ang saya! Parehong oras sa susunod na weekend?
+Well played! Rematch over a lemonade?	Ang galing! Rematch tayo, may kasamang lemonade?
+Four cushions, endless possibilities.	Apat na cushion, walang katapusang posibilidad.
+Straight in? So... direct.	Diretso? Ang... direkta naman.
+Nice, but a bank would have been prettier.	Ayos, pero mas maganda sana kung bank.
+You should have used the cushion.	Dapat ginamit mo ang cushion.
+The rail was right there, asking for it.	Nandoon lang ang cushion, nag-aabang.
+The table didn't like that.	Hindi 'yon nagustuhan ng mesa.
+Off the rail and in. Art!	Tumama sa cushion at pumasok. Sining!
+Geometry never lies.	Hindi nagsisinungaling ang geometry.
+The angle was right. The cushion disagreed.	Tama ang anggulo. Hindi sumang-ayon ang cushion.
+One diamond off. Just one!	Kulang ng isang diamond. Isa lang!
+Too much imagination, not enough contact.	Sobra sa imahinasyon, kulang sa tama.
+A masterpiece, if I may say so.	Isang obra maestra, kung puwede kong sabihin.
+Well played. Now try it off two rails.	Magaling. Ngayon, subukan mo sa dalawang cushion.
+I hope these balls are made of steel.	Sana gawa sa bakal ang mga bolang 'to.
+Soft touch, huh? Not my style.	Malumanay na tira, ha? Hindi ko istilo 'yan.
+Hit it harder next time!	Lakasan mo pa sa susunod!
+Too gentle! Power solves everything.	Masyadong mahina! Lakas ang sagot sa lahat.
+HA!	HA!
+My table now. Cover your ears.	Akin na ang mesa. Takpan mo ang tainga mo.
+BOOM!	BOOM!
+Did you hear that pocket?	Narinig mo ba ang pocket na 'yon?
+Too much power? No such thing.	Sobrang lakas? Walang ganoon.
+The pocket moved.	Gumalaw ang pocket.
+The ball flew. It happens. A lot.	Lumipad ang bola. Nangyayari 'yan. Madalas.
+Power wins again! BOOM!	Panalo na naman ang lakas! BOOM!
+Fine, finesse works too. Sometimes.	Sige na nga, gumagana rin ang pino. Minsan.
+Take your time. I have all day.	Huwag kang magmadali. Buong araw ako rito.
+Acceptable.	Puwede na.
+Enjoy it while it lasts.	I-enjoy mo habang tumatagal.
+Patience is a virtue. Not yours, apparently.	Birtud ang pasensya. Pero mukhang wala ka nito.
+Thank you.	Salamat.
+Sloppy.	Pabaya.
+Steady wins.	Panalo ang tiyaga.
+One at a time.	Isa-isa lang.
+Hm. I'll leave you nothing anyway.	Hmm. Wala pa rin akong iiwan sa iyo.
+Intentional. Probably.	Sinadya 'yon. Siguro.
+Unacceptable. Of me.	Hindi katanggap-tanggap. Sa akin.
+As I said: patience.	Gaya ng sinabi ko: pasensya.
+You got through the wall. I'm impressed.	Nalusutan mo ang pader. Humanga ako.
+I've been playing since before these balls were plastic.	Naglalaro na ako bago pa naging plastik ang mga bolang 'to.
+Good stroke. Reminds me of a fellow in '78.	Magandang stroke. Naaalala ko ang isang binata noong '78.
+Smooth. Very smooth.	Swabe. Napakaswabe.
+Keep your head down, kid.	Yuko lang ang ulo, iho.
+The cue ball doesn't lie.	Hindi nagsisinungaling ang cue ball.
+Ah, a little present. Thank you kindly.	Ah, munting regalo. Maraming salamat.
+Like riding a bicycle.	Parang pagbibisikleta lang.
+Still got it.	Kaya ko pa rin.
+The eyes aren't what they used to be.	Hindi na tulad ng dati ang mata ko.
+In my day the pockets were bigger.	Noong panahon ko, mas malalaki ang mga pocket.
+Even old pros slip.	Pati mga beterano, nadudulas.
+Experience, my friend. Experience.	Karanasan, kaibigan. Karanasan.
+You've got a future in this game.	May kinabukasan ka sa larong ito.
+Me? Oh, I hardly ever play...	Ako? Naku, bihira lang akong maglaro...
+Lucky! Do it again, I dare you.	Swerte! Ulitin mo nga, hinahamon kita.
+Ooh, someone's been practising.	Uy, may nag-practice pala.
+Aw, so close! Bless.	Ay, muntik na! Kawawa naman.
+Want me to show you how?	Gusto mong ituro ko sa iyo?
+Thank you, sweetie.	Salamat, darling.
+Oops, did I do that?	Ay, ako ba ang may gawa niyan?
+Must be beginner's luck. Again.	Siguro swerte ng baguhan. Ulit.
+Missed on purpose. Keeps it interesting.	Sinadya kong magmintis. Para may thrill.
+Just warming up.	Nagwa-warm up pa lang.
+Oh dear, how clumsy of me. Wink.	Naku, ang lampa ko. Kindat.
+Hardly ever play, I said. Hardly.	Bihira lang akong maglaro, sabi ko. Bihira.
+Fine, you got me. This time.	Sige na, nahuli mo ako. Ngayon lang.
+Friction, momentum, spin. Let us begin.	Friction, momentum, spin. Simulan na natin.
+A fine cut. About thirty degrees, I'd say.	Magandang cut. Mga tatlumpung degree, sa tingin ko.
+Textbook.	Pang-textbook.
+You underestimated the throw.	Minaliit mo ang throw.
+Interesting. Statistically expected.	Kawili-wili. Inaasahan ayon sa estadistika.
+The cue ball followed the laws of physics, not your plan.	Sumunod ang cue ball sa batas ng physics, hindi sa plano mo.
+As calculated.	Ayon sa kalkulasyon.
+Elastic collision, elegant result.	Elastic na banggaan, eleganteng resulta.
+An error in my measurement.	Mali sa sukat ko.
+I'll revise the model.	Rerebisahin ko ang modelo.
+Hm. Unexpected spin.	Hmm. Hindi inaasahang spin.
+The numbers were on my side.	Nasa panig ko ang mga numero.
+A result outside my predictions. Well done.	Resultang labas sa mga hula ko. Magaling.
+Focus.	Focus.
+Clean.	Malinis.
+Not bad.	Hindi masama.
+Half a millimetre.	Kalahating milimetro.
+Breathe before you shoot.	Huminga bago tumira.
+Careless.	Walang ingat.
+Target down.	Tinamaan ang target.
+Centre pocket.	Gitna ng pocket.
+Hm. Recalibrating.	Hmm. Nagre-recalibrate.
+That never happens.	Hindi 'yan nangyayari.
+Unacceptable.	Hindi katanggap-tanggap.
+Precision wins.	Panalo ang katumpakan.
+Good shooting.	Magandang asinta.
+Welcome to my table. Enjoy the show.	Maligayang pagdating sa mesa ko. I-enjoy ang palabas.
+Very good. You've done your homework.	Napakagaling. Nag-homework ka.
+Applause for the challenger!	Palakpakan ang challenger!
+Pressure. It gets to everyone.	Pressure. Tinatamaan ang lahat.
+Thank you for the table.	Salamat sa mesa.
+A champion never refuses a gift.	Hindi tumatanggi ang kampeon sa regalo.
+Naturally.	Natural.
+That's how it's done.	Ganyan ang tamang paggawa.
+Even champions give the crowd a chance.	Pati mga kampeon, nagbibigay ng pagkakataon sa manonood.
+Leaving you something, out of courtesy.	May iiwan ako sa iyo, bilang paggalang.
+A rare sight. Remember it.	Bihirang tanawin. Tandaan mo.
+The title stays with me. Good game.	Sa akin pa rin ang titulo. Magandang laro.
+Remarkable. You've earned my respect.	Kahanga-hanga. Nakuha mo ang respeto ko.
+Calibration complete. Good luck, human.	Kumpleto ang calibration. Good luck, tao.
+Shot registered: successful.	Naitala ang tira: matagumpay.
+Probability of my victory: increasing.	Tsansa ng panalo ko: tumataas.
+Foul detected. Processing penalty.	May natukoy na foul. Pinoproseso ang parusa.
+Executed as planned.	Naisagawa ayon sa plano.
+Error. Recalculating.	Error. Muling kinakalkula.
+Malfunction. Please disregard.	Malfunction. Pakibalewala.
+Game complete. Thank you for playing.	Tapos ang laro. Salamat sa paglalaro.
+Defeat acknowledged. Well played.	Kinikilala ang pagkatalo. Magaling ang laro mo.
+Drills	Mga Drill
+Exercises with stars	Mga ehersisyong may bituin
+{s} / {max} stars	{s} / {max} bituin
+Stars at {a}, {b} and {c}	Bituin sa {a}, {b} at {c}
+Your best: {n} of {total}	Pinakamagaling mo: {n} sa {total}
+Not tried yet.	Hindi pa nasusubukan.
+Start the drill	Simulan ang drill
+Sign in to keep your stars in your account.	Mag-sign in para maitabi ang mga bituin mo sa account mo.
+{n} of {total}	{n} sa {total}
+{drill}: try {k} of {n} · {made} made	{drill}: subok {k} sa {n} · {made} pasok
+Made it! {n} of {total}	Nagawa mo! {n} sa {total}
+Missed.	Mintis.
+Sending to the server…	Ipinapadala sa server…
+Not signed in: this session is not ranked.	Hindi naka-sign in: hindi kasali sa ranking ang session na ito.
+Kept in your account.	Naitabi sa account mo.
+The session could not be counted.	Hindi mabilang ang session.
+Back to the drills	Bumalik sa mga drill
+Straight in	Diretso
+A long straight pot into the corner. Five tries.	Isang mahabang diretsong tira papunta sa sulok. Limang subok.
+The cut	Ang cut
+A half-ball cut into the corner. Five tries.	Half-ball na cut papunta sa sulok. Limang subok.
+Draw it back	Draw
+Pot the ball and draw the cue ball back into the circle. Five tries.	Ipasok ang bola at i-draw pabalik ang cue ball sa loob ng bilog. Limang subok.
+Follow through	Follow through
+Pot the ball and leave the cue ball in the circle past it. Five tries.	Ipasok ang bola at iwan ang cue ball sa bilog na lampas dito. Limang subok.
+Bank shot	Bank shot
+Off one cushion into the side pocket. Five tries.	Tatama sa isang cushion papunta sa gitnang pocket. Limang subok.
+Snooker escape	Paglusot sa snooker
+Hit the 1 first: it hides behind other balls. Five tries.	Tamaan muna ang 1: nakatago ito sa likod ng ibang bola. Limang subok.
+Ten in a row	Sampung sunod-sunod
+Ten different pots, one after another: a miss ends the session.	Sampung magkakaibang tira, sunod-sunod: tapos ang session sa isang mintis.
+The far corner	Ang malayong sulok
+A cut back up the table into the corner behind you. Five tries.	Cut pabalik sa mesa papunta sa sulok sa likod mo. Limang subok.
+Long into the side	Malayo papunta sa gitna
+From the far end of the table into the side pocket. Five tries.	Mula sa dulo ng mesa papunta sa gitnang pocket. Limang subok.
+Cue ball on the cushion	Cue ball sa cushion
+The cue ball touches the cushion: pot the ball into the corner all the same. Five tries.	Nakadikit sa cushion ang cue ball: ipasok pa rin ang bola sa sulok. Limang subok.
+The plant	Ang plant
+The 2 touches the 1 and points at the pocket: hit the 2 and the 1 goes in. Five tries.	Nakadikit ang 2 sa 1 at nakatutok sa pocket: tamaan ang 2 at papasok ang 1. Limang subok.
+The carom	Ang carom
+The 2 is in the way: glance off it and send the 1 into the corner. Five tries.	Nakaharang ang 2: sumagi rito at ipasok ang 1 sa sulok. Limang subok.
+The long draw	Ang mahabang draw
+Pot the ball and draw the cue ball all the way back into the circle. Five tries.	Ipasok ang bola at i-draw ang cue ball pabalik hanggang sa bilog. Limang subok.
+On the tangent line	Sa tangent line
+Pot the ball in the side and let the cue ball run on into the circle. Five tries.	Ipasok ang bola sa gitna at hayaang tumuloy ang cue ball hanggang sa bilog. Limang subok.
+Two-cushion bank	Bank sa dalawang cushion
+Off two cushions and into the corner. Five tries.	Sa dalawang cushion at papasok sa sulok. Limang subok.
+Fifteen in a row	Labinlimang sunod-sunod
+Fifteen different pots, one after another: a miss ends the session.	Labinlimang magkakaibang tira, sunod-sunod: tapos ang session sa isang mintis.
+Take back the shot (Z)	Bawiin ang tira (Z)
+Shot taken back.	Binawi ang tira.
+Solids	Solids
+Stripes	Stripes
+Hide the history	Itago ang history
+New username	Bagong username
+Click again to confirm	I-click ulit para kumpirmahin
+{n} of {total} name changes left	{n} sa {total} na pagpapalit ng pangalan ang natitira
+You can't change your username again.	Hindi mo na mapapalitan ulit ang username mo.
+That is already your username.	Iyan na ang username mo.
+Finish your game before changing your username.	Tapusin ang laro mo bago palitan ang username mo.
+Leave your table or the queue before changing your username.	Umalis sa mesa mo o sa pila bago palitan ang username mo.
+Leave your tournament before changing your username.	Umalis sa torneo mo bago palitan ang username mo.
+Username changed.	Napalitan ang username.
+The server is still being updated to the new version. Try again in a few minutes.	Ina-update pa ang server sa bagong bersiyon. Subukan ulit pagkalipas ng ilang minuto.
+{shooter} made an opponent's ball: {next} to shoot.	Naipasok ni {shooter} ang bola ng kalaban: si {next} ang titira.
 # Five more computer opponents: Tito, Inês, Diego, Amara and Yuri.
+The Gambler	Ang Sugarol
+Bets on every shot: as hard as the cue allows, with all the spin he can find. Safe play bores him.	Pumupusta sa bawat tira: kasinlakas ng kaya ng cue, at kasindami ng spin na mahahanap niya. Naiinip siya sa safety.
+The Soft Touch	Ang Malumanay
+Never hits harder than she must: the balls die at the pocket's edge and the cue ball stops where she wants it.	Hindi tumitira nang mas malakas kaysa kailangan: namamatay ang mga bola sa bibig ng pocket at humihinto ang cue ball kung saan niya gusto.
+The Showman	Ang Showman
+Plays to the crowd: a raised cue, swerving spin and a bank whenever there's one. It works more often than it should.	Naglalaro para sa manonood: nakaangat na cue, kurbadong spin at bank tuwing may pagkakataon. Mas madalas itong gumagana kaysa dapat.
+The Tactician	Ang Estratehista
+Plans the whole rack: snookers you when the pot isn't sure, and runs out when it is.	Pinaplano ang buong rack: sino-snooker ka kapag hindi sigurado ang pasok, at inuubos ang mesa kapag sigurado.
+The Machine	Ang Makina
+No nerves, no flair: centre ball, measured pace, the same perfect stroke every time.	Walang kaba, walang palabas: gitna ng bola, sukat na lakas, parehong perpektong stroke sa bawat tira.
+Place your bets! Mine's on me.	Pumusta na kayo! Sa akin ang taya ko.
+Lucky roll. Let it ride!	Swerteng tira. Ituloy lang!
+Okay, okay. Double or nothing?	Sige, sige. Doble o wala?
+The house always wins!	Laging panalo ang bangka!
+Free chips! Thank you!	Libreng chips! Salamat!
+All in, and it paid!	All in, at nagbayad!
+That's how you play the odds!	Ganyan maglaro sa tsansa!
+Bad beat. Next hand.	Malas na baraha. Susunod na kamay.
+Too much spin? There's no such thing.	Sobrang spin? Walang ganoon.
+Busted. Worth the risk!	Talo. Sulit ang panganib!
+Jackpot! Same stakes again?	Jackpot! Parehong taya ulit?
+You beat the odds. Respect.	Tinalo mo ang tsansa. Respeto.
+Softly, now. The table likes a gentle hand.	Dahan-dahan lang. Gusto ng mesa ang malumanay na kamay.
+Nicely done.	Magaling.
+A little hard, but it went in.	Medyo malakas, pero pumasok.
+Less power, more feel.	Bawas lakas, dagdag pakiramdam.
+Oh dear. A free ball for me.	Naku. Libreng bola para sa akin.
+Just enough to drop.	Sakto lang para mahulog.
+See? No need to hit it hard.	Kita mo? Hindi kailangang lakasan.
+A touch too soft.	Medyo mahina.
+Clumsy of me. Sorry.	Ang lampa ko. Pasensya na.
+Slow and steady. Thank you for the game.	Dahan-dahan pero sigurado. Salamat sa laro.
+Beautifully played. Well deserved.	Napakagandang laro. Karapat-dapat.
+Ladies and gentlemen... the show begins!	Mga binibini at ginoo... magsisimula na ang palabas!
+Not bad! Bow to the crowd!	Hindi masama! Yumuko ka sa manonood!
+You stole my applause!	Inagaw mo ang palakpak ko!
+The crowd wanted more!	Gusto pa ng manonood!
+Ooh, a plot twist!	Uy, plot twist!
+Ta-da!	Ta-da!
+And for my next trick...	At para sa susunod kong trick...
+Even magicians have off nights.	Pati mga salamangkero, may malas na gabi.
+That was... part of the act.	'Yon ay... bahagi ng palabas.
+Thank you, thank you! Encore?	Salamat, salamat! Encore?
+Take a bow, champion. You earned it.	Yumuko ka, kampeon. Pinaghirapan mo 'yan.
+Every rack is a puzzle. Let's solve this one.	Puzzle ang bawat rack. Lutasin natin ito.
+Good. Now where is your cue ball?	Mabuti. Pero nasaan na ang cue ball mo?
+I saw that coming.	Inaasahan ko 'yan.
+That left me something. Thank you.	May naiwan sa akin 'yan. Salamat.
+As planned.	Gaya ng plano.
+Exactly as I calculated.	Eksaktong gaya ng kalkulasyon ko.
+Three moves ahead.	Tatlong galaw ang lamang.
+A variable I missed.	Isang variable na hindi ko napansin.
+Hm. Recalculating.	Hmm. Muling kinakalkula.
+Checkmate.	Checkmate.
+You out-thought me. That's rare.	Naisahan mo ako. Bihira 'yan.
+Game initialised.	Nasimulan ang laro.
+Noted.	Naitala.
+Error margin exceeded.	Nalampasan ang margin of error.
+Penalty applied.	Naipataw ang parusa.
+As expected.	Gaya ng inaasahan.
+Next.	Susunod.
+Deviation logged.	Naitala ang paglihis.
+Malfunction. It will not repeat.	Malfunction. Hindi na mauulit.
+Result: win. Thank you for the data.	Resulta: panalo. Salamat sa data.
+Unexpected outcome. Impressive.	Hindi inaasahang resulta. Kahanga-hanga.
+Opponents' remarks	Mga komento ng kalaban
+The computer opponents comment on the game in speech bubbles.	Nagkokomento sa laro ang mga kalabang computer sa mga speech bubble.
+Top view only	View mula sa itaas lang
+The table is always seen from above: no 3D view, no turning.	Laging mula sa itaas ang tingin sa mesa: walang 3D view, walang pag-ikot.
+Not with the top view only.	Hindi kapag view mula sa itaas lang.
+Wheel	Scroll wheel
+Rules	Patakaran
+Rules of the game	Mga patakaran ng laro
+Level	Ipantay
+Drag the cue: jump & massé	I-drag ang cue: jump at massé
+Drag to raise or lower the cue	I-drag para itaas o ibaba ang cue
+Drag the cue · {keys}	I-drag ang cue · {keys}
+Profile picture	Profile picture
+Shown by your name at the table and in your profile.	Makikita sa tabi ng pangalan mo sa mesa at sa profile mo.
+No picture	Walang larawan
+Change your picture	Palitan ang larawan mo
+{name} sank the 8 together with another ball	Naipasok ni {name} ang 8 kasabay ng ibang bola
+the opponent sank the 8 with another ball	naipasok ng kalaban ang 8 kasabay ng ibang bola
+sank the 8 with another ball	naipasok ang 8 kasabay ng ibang bola
+opponent pocketed the 8-ball together with another ball	naipasok ng kalaban ang 8-ball kasabay ng ibang bola
+Penalty: {balls} off the table for {name}.	Parusa: {balls} inalis sa mesa para kay {name}.
+{name} had fewer balls left than the foul gives: the 8 pays the rest, and the foul loses the game.	Mas kaunti ang natitirang bola ni {name} kaysa ibinibigay ng foul: ang 8 ang magbabayad ng kulang, at talo sa laro ang nag-foul.
+Shadows	Mga anino
+The shadows of the balls and of the cue on the table.	Ang mga anino ng mga bola at ng cue sa mesa.
+Sixteen players: knockout or arena	Labing-anim na manlalaro: knockout o arena
+New knockout	Bagong knockout
+New arena	Bagong arena
+Knockout: sixteen players, four rounds. Lose a game and you are out.	Knockout: labing-anim na manlalaro, apat na round. Kapag natalo ka sa isang laro, labas ka na.
+Arena: seven rounds for everyone. A win is 2 points, 3 from the third win in a row. The most points wins.	Arena: pitong round para sa lahat. 2 puntos ang panalo, 3 mula sa ikatlong sunod-sunod na panalo. Panalo ang may pinakamaraming puntos.
+The games between the other players are decided by their strength and a draw.	Ang mga laro ng ibang manlalaro ay pinagpapasyahan ng lakas nila at ng bunutan.
+You won the tournament!	Napanalunan mo ang torneo!
+{name} won the tournament.	Napanalunan ni {name} ang torneo.
+You finished in place {n}.	Nagtapos ka sa ika-{n} puwesto.
+Round of 16	Round of 16
+Quarter-finals	Quarterfinals
+Round {n} of {total}	Round {n} sa {total}
+Play {name}	Kalabanin si {name}
+Abandon the tournament	Iwanan ang torneo
+W - L	P - T
+Points	Puntos
+The tournament is over.	Tapos na ang torneo.
+The round is over: see who you play next.	Tapos na ang round: tingnan kung sino ang susunod mong kalaban.
+You are out of the tournament.	Tanggal ka na sa torneo.
+Side pocket	Gitnang pocket
+A cut into the side pocket, where the angle is tight. Five tries.	Cut papunta sa gitnang pocket, kung saan masikip ang anggulo. Limang subok.
+The long cut	Ang mahabang cut
+A cut from the far end of the table into the corner. Five tries.	Cut mula sa kabilang dulo ng mesa papunta sa sulok. Limang subok.
+Thin cut	Manipis na cut
+Barely graze the ball: a thin cut into the corner. Five tries.	Halos sagiin lang ang bola: manipis na cut papunta sa sulok. Limang subok.
+Along the cushion	Sa gilid ng cushion
+The ball sits by the cushion: run it along into the corner. Five tries.	Nakadikit sa cushion ang bola: padaanin ito sa gilid papunta sa sulok. Limang subok.
+Stop shot	Stop shot
+Pot the ball and stop the cue ball dead where the ball was. Five tries.	Ipasok ang bola at patigilin ang cue ball kung saan naroon ang bola. Limang subok.
+The combination	Ang combination
+Pot the 1 by playing the 2 into it. Five tries.	Ipasok ang 1 sa pamamagitan ng pagtira sa 2 papunta rito. Limang subok.
+Cross-corner bank	Cross-corner bank
+Off the long cushion and across the table into the corner. Five tries.	Tatama sa mahabang cushion at tatawid sa mesa papunta sa sulok. Limang subok.
+Kick shot	Kick shot
+The 1 is walled off: send the cue ball off a cushion to hit it first. Five tries.	Natatakpan ang 1: patamain ang cue ball sa cushion para tamaan muna ito. Limang subok.
+Only the cue ball went down on the break: the balls are racked again and {next} breaks.	Cue ball lang ang pumasok sa break: ire-rack ulit ang mga bola at si {next} ang magbe-break.
+Golden break	Golden break
+Win a rated game by sinking only the 8-ball on the break.	Manalo ng rated na laro sa pagpasok ng 8-ball lang sa break.
+Half a year	Kalahating taon
+Have an account for six months.	Magkaroon ng account nang anim na buwan.
+First anniversary	Unang anibersaryo
+Second anniversary	Ikalawang anibersaryo
+Have an account for two years.	Magkaroon ng account nang dalawang taon.
+Third anniversary	Ikatlong anibersaryo
+Have an account for three years.	Magkaroon ng account nang tatlong taon.
+Five years at the table	Limang taon sa mesa
+Have an account for five years.	Magkaroon ng account nang limang taon.
+Back to the tournament	Bumalik sa torneo
+Continue against {name}	Ituloy laban kay {name}
+You left your game: it counts as a loss.	Iniwan mo ang laro mo: bilang itong talo.
+new level	bagong level
+Level {n} brings: {item}	Dala ng level {n}: {item}
+Level 5	Level 5
+Reach level 5.	Umabot sa level 5.
+Level 10	Level 10
+Reach level 10.	Umabot sa level 10.
+Level 15	Level 15
+Reach level 15.	Umabot sa level 15.
+Level 20	Level 20
+Reach level 20.	Umabot sa level 20.
+Level 30	Level 30
+Reach level 30.	Umabot sa level 30.
+Level 40	Level 40
+Reach level 40.	Umabot sa level 40.
+Level 50	Level 50
+Reach level 50.	Umabot sa level 50.
+Regular's teal	Teal ng suki
+Veteran's plum	Plum ng beterano
+Old hand	Batikan
+Lifer	Habambuhay
+Apprentice's chalk	Chalk ng aprentis
+Journeyman's chalk	Chalk ng sanay
+Achievements	Mga Achievement
+Leagues and levels	Mga liga at level
+Next league: {tier}	Susunod na liga: {tier}
+The top league.	Pinakamataas na liga.
+Every prize of the levels is won.	Napanalunan na ang lahat ng premyo ng mga level.
+None yet: the first is one game away.	Wala pa: isang laro na lang ang una.
+{coins} and {item}	{coins} at {item}
+Leagues	Mga Liga
+Levels	Mga Level
+By playing. Every level pays {n} coins.	Sa paglalaro. Nagbabayad ng {n} coins ang bawat level.
+where everyone starts	kung saan nagsisimula ang lahat
+from {n}	mula {n}
+The top level.	Pinakamataas na level.
+{n} XP to level {next}	{n} XP papunta sa level {next}
+{n} levels to go	{n} level pa
+new league	bagong liga
+Old-timer's black	Itim ng datihan
+Expert league blue	Asul ng ligang Eksperto
+Master league violet	Violet ng ligang Maestro
+Legend league gold	Ginto ng ligang Alamat
+Skilled league chalk	Chalk ng ligang Bihasa
+By rating. Each league pays once.	Sa rating. Isang beses nagbabayad ang bawat liga.
+cue	cue
+cloth	tela
+chalk	chalk
+Always show the head string	Laging ipakita ang head string
+The line the break is played from, always on the table (off: only while placing the cue ball behind it).	Ang linya kung saan tinitira ang break, laging nasa mesa (off: habang inilalagay lang ang cue ball sa likod nito).
+{who} ran out of time: the turn passes.	Naubusan ng oras si {who}: lilipat ang turn.
+{who} ran out of time with no ball left to give {other}: the 8 pays, and {who} loses.	Naubusan ng oras si {who} at wala nang bolang maibibigay kay {other}: ang 8 ang magbabayad, at talo si {who}.
+{who} ran out of time: the cue ball goes back to the head spot and the turn passes.	Naubusan ng oras si {who}: babalik sa head spot ang cue ball at lilipat ang turn.
+{who} ran out of time: {balls} off the table for {other}, and the cue ball goes back to the head spot.	Naubusan ng oras si {who}: {balls} inalis sa mesa para kay {other}, at babalik sa head spot ang cue ball.
+You were muted for {n} minutes: {r}	Na-mute ka nang {n} minuto: {r}
+Your account was suspended for {n} hours: {r}	Na-suspend ang account mo nang {n} oras: {r}
+The server restarts in {minutes} min for an update. Games in progress go on; new games start right after.	Magre-restart ang server sa loob ng {minutes} min para sa update. Tuloy ang mga kasalukuyang laro; magsisimula agad pagkatapos ang mga bago.
+The {cup} was called off: not enough players signed up.	Kinansela ang {cup}: kulang ang nag-sign up.
+The {cup} is open for sign-up: it starts soon in Tournaments.	Bukas na ang sign-up sa {cup}: magsisimula na ito sa Mga Torneo.
+{display} won the tournament “{name}”!	Napanalunan ni {display} ang torneong “{name}”!
+Sunday Cup	Cup ng Linggo
+Monday Cup	Cup ng Lunes
+Tuesday Cup	Cup ng Martes
+Wednesday Cup	Cup ng Miyerkoles
+Thursday Cup	Cup ng Huwebes
+Friday Cup	Cup ng Biyernes
+Saturday Cup	Cup ng Sabado
+{name} · rating {r}	{name} · rating {r}
+Something went wrong. Try again.	Nagkaproblema. Subukan ulit.
+member for 1 day	miyembro nang 1 araw
+Game in progress: 1 ball left	Kasalukuyang laro: 1 bola pa
+1 level to go	1 level pa
+1 more online win with this cue for level {n}. Levels only add marks to the cue.	1 pang online na panalo gamit ang cue na ito para sa level {n}. Marka lang sa cue ang idinadagdag ng mga level.
+Home	Home
+End	End
+PgUp	PgUp
+PgDn	PgDn
+Ins	Ins
+Could not join the LAN game	Hindi makasali sa LAN game
+LAN game · others join at {address}	LAN game · sumasali ang iba sa {address}
+Click to copy	I-click para kopyahin
+Copied.	Nakopya.
+Start a new game?	Magsimula ng bagong laro?
+You have a game in progress against the computer, with 1 ball left. A new game takes its place.	May kasalukuyan kang laro laban sa computer, na may 1 bola pang natitira. Papalitan ito ng bagong laro.
+You have a game in progress against the computer, with {n} balls left. A new game takes its place.	May kasalukuyan kang laro laban sa computer, na may {n} bola pang natitira. Papalitan ito ng bagong laro.
+Continue that game	Ituloy ang larong iyon
+Start a new one	Magsimula ng bago
+Click again to close the game: {n} will be disconnected	I-click ulit para isara ang laro: madi-disconnect ang {n} manlalaro
+{name} cleared the table in one visit!	Inubos ni {name} ang mesa sa iisang turn!
+{name}: {n} in a row!	{name}: {n} sunod-sunod!
+Watch the deciding shot again	Panoorin ulit ang tirang nagpasya
+Next: {name}	Susunod: {name}
+Drag on the table to aim, or click a ball	I-drag sa mesa para umasinta, o i-click ang isang bola
+Set the power	Itakda ang lakas
+Let go of {key} to shoot · Esc cancels	Bitawan ang {key} para tumira · Esc para kanselahin
+Staff accounts can't change their username.	Hindi puwedeng magpalit ng username ang mga staff account.
+That password can't be used. Choose another one.	Hindi puwedeng gamitin ang password na iyan. Pumili ng iba.
+That tournament is full.	Puno na ang torneong iyan.
+The server is restarting: your tournament was called off.	Nagre-restart ang server: kinansela ang torneo mo.
+Too many sign-ins. Wait a minute and try again.	Masyadong maraming sign-in. Maghintay ng isang minuto at subukan ulit.
+Too many wrong passwords. Try again in a few minutes.	Masyadong maraming maling password. Subukan ulit pagkalipas ng ilang minuto.
+Your VIP subscription could not be cancelled. Try again in a moment.	Hindi makansela ang VIP subscription mo. Subukan ulit maya-maya.
+Balls of both groups on the break: the turn passes to {next}, the table is open.	May bola ng dalawang grupo sa break: lilipat ang turn kay {next}, open table.
+Only a final started while signed in counts: play the last stage again signed in.	Ang final lang na sinimulan habang naka-sign in ang bilang: laruin ulit ang huling stage nang naka-sign in.
+The server didn't deal the final: this game won't earn the reward.	Hindi inihanda ng server ang final: hindi makukuha ng larong ito ang gantimpala.
+The server didn't answer: this session won't be ranked.	Hindi sumagot ang server: hindi kasali sa ranking ang session na ito.
+The server is dealing the final…	Inihahanda ng server ang final…
+The server is setting up the drill…	Inihahanda ng server ang drill…
+Not signed in: a win in this final won't earn the reward.	Hindi naka-sign in: hindi makukuha ang gantimpala kahit manalo ka sa final na ito.
+Not kept: sessions count when started signed in.	Hindi naitabi: bilang lang ang mga session na sinimulan nang naka-sign in.
+Warning from the staff: {text}	Babala mula sa staff: {text}
+The staff changed your username to {name}. Sign in again.	Pinalitan ng staff ang username mo ng {name}. Mag-sign in ulit.
+The staff called off the tournament you were in.	Kinansela ng staff ang torneong sinalihan mo.
+Experience ×{n}	Experience ×{n}
+Coins from games ×{n}	Coins mula sa laro ×{n}
+Themed tournament	Espesyal na torneo
+Event	Event
+Events	Mga Event
+Warning from the staff	Babala mula sa staff
+Esc to cancel	Esc para kanselahin
+Will be sent when you're back online.	Ipapadala kapag online ka na ulit.
+Your strokes will be sent when you're back online.	Ipapadala ang mga tira mo kapag online ka na ulit.
+The final you won was dealt to {name}: sign in as {name} to claim the reward.	Ang final na napanalunan mo ay inihanda para kay {name}: mag-sign in bilang {name} para makuha ang gantimpala.
+Type your password to confirm it's you.	I-type ang password mo para makumpirmang ikaw iyan.
+The cue ball is back on the head spot: {next} plays from there.	Nasa head spot ulit ang cue ball: doon titira si {next}.
+{name} came online	Nag-online si {name}
+Online now: {names}	Online ngayon: {names}
+Nobody else is online right now.	Walang ibang online ngayon.
+Focus mode	Focus mode
+No invitations while you play: they are turned away until the game is over.	Walang imbitasyon habang naglalaro ka: tatanggihan ang mga ito hanggang matapos ang laro.
+in focus mode	naka-focus mode
+In focus mode: no invitations until their game is over.	Naka-focus mode: walang imbitasyon hanggang matapos ang laro niya.
+That player is in focus mode and isn't taking invitations until their game is over.	Naka-focus mode ang manlalarong iyan at hindi tumatanggap ng imbitasyon hanggang matapos ang laro niya.
+Look at it closely	Tingnan nang malapitan
+Sign in to buy	Mag-sign in para makabili
+Sign in to use	Mag-sign in para magamit
+Back to the shop (Esc)	Bumalik sa shop (Esc)
+Show the interface (H)	Ipakita ang interface (H)
+Hide the interface (H)	Itago ang interface (H)
+Turn (Space)	Paikutin (Space)
+Stop turning (Space)	Ihinto ang pag-ikot (Space)
+Zoom in (+)	Mag-zoom in (+)
+Zoom out (−)	Mag-zoom out (−)
+Back to the start (R)	Bumalik sa simula (R)
+Previous setting ([)	Naunang lugar ([)
+Next setting (])	Susunod na lugar (])
+Setting	Lugar
+Studio	Studio
+Your table	Mesa mo
+Drag with the right button to turn · wheel to zoom · double-click to look closer	I-drag gamit ang kanang button para paikutin · scroll wheel para mag-zoom · i-double click para tingnan nang malapitan
+Drag with the right button to turn · wheel to zoom · click a ball to look at it	I-drag gamit ang kanang button para paikutin · scroll wheel para mag-zoom · i-click ang isang bola para tingnan ito
+The set	Ang set
+From above	Mula sa itaas
+Low angle	Mababang anggulo
+Cue ball	Cue ball
+Ball {n}	Bola {n}
+Whole	Buo
+Tip	Tip
+Joint	Joint
+Butt	Butt
+Top	Itaas
+Cue	Cue
+Table	Mesa
+Hall	Hall
+Corner	Sulok
+Side	Gitna
+Leg	Paa
+Close-up	Malapitan
+Cushion	Cushion
+Phenolic resin under a bright clear coat	Phenolic resin sa ilalim ng makintab na clear coat
+A pearly sheen that shifts with the light	Kinang na parang perlas na nagbabago sa liwanag
+Brushed metal, bright as a mirror	Brushed metal, makinang na parang salamin
+Old ivory: soft, warm and matte	Lumang garing: malambot, mainit at matte
+A full-size cue, tip to butt: turn it, come close to its joint and its butt	Isang full-size na cue, mula tip hanggang butt: paikutin ito, lapitan ang joint at ang butt nito
+A cube of chalk, and the colour it leaves on the tip	Isang cube ng chalk, at ang kulay na iniiwan nito sa tip
+The cloth on the table: come close to see its weave	Ang tela sa mesa: lumapit para makita ang habi nito
+Dark mahogany, turned legs and brass castings	Madilim na mahogany, inukit na paa at tansong castings
+Light teak, square legs and chrome castings	Mapusyaw na teak, kuwadradong paa at chrome na castings
+Deep mahogany, carved legs and leather pocket nets	Malalim na mahogany, inukit na paa at leather na net sa mga pocket
+Black lacquer and brushed aluminium on two slab legs	Itim na lacquer at brushed aluminum sa dalawang slab na paa
+Black ebony with gold castings and inlays	Itim na ebony na may gintong castings at inlay
+Reclaimed oak rails on a riveted black steel frame	Mga rail na recycled oak sa riveted na frame na itim na bakal
+A pro tournament table: charcoal rails, block legs, chrome	Mesa ng propesyonal na torneo: charcoal na rail, block na paa, chrome
+Figured walnut on barley-twist legs, brass and leather	Figured walnut sa barley-twist na paa, tanso at leather
+Ivory lacquer and gold on fluted columns	Ivory na lacquer at ginto sa mga fluted na haligi
+Panelling, the bar, cue racks, posters and neon	Mga panel, ang bar, cue rack, poster at neon
+A deck at sunset, open windows, palms and string lights	Isang deck sa paglubog ng araw, bukas na bintana, mga palma at string lights
+Panelling, bookshelves, leather sofas and a fireplace	Mga panel, bookshelf, leather na sofa at fireplace
+Brick, steel windows over the city and Edison bulbs	Brick, bakal na bintana sa ibabaw ng siyudad at Edison bulb
+Log walls, a stone fireplace and snowy peaks outside	Pader na troso, batong fireplace at mga tuktok na may niyebe sa labas
+A black mirror floor, neon tubes and arcade cabinets	Itim na sahig na parang salamin, neon tube at arcade cabinet
+A marble chessboard floor, gold, velvet and mirrors	Sahig na marmol na parang chessboard, ginto, velvet at salamin
+Glass walls on the city at night, pale marble and oak	Pader na salamin sa siyudad sa gabi, maputlang marmol at oak
+A gold medal!	Gintong medalya!
+A silver medal!	Pilak na medalya!
+A bronze medal!	Tansong medalya!
+Silver medal	Pilak na medalya
+Bronze medal	Tansong medalya
+Your medals	Mga medalya mo
+Kept in your account the next time you're online.	Maitatabi sa account mo sa susunod na online ka.
+Sign in to keep them in your account.	Mag-sign in para maitabi ang mga ito sa account mo.
+18 or older	18 pataas
+Under 18	Wala pang 18
+Creating an account means accepting the	Sa paggawa ng account, tinatanggap mo ang
+For a parent or guardian…	Para sa magulang o guardian…
+A parent or guardian turned the chat on for this account. They can turn it off here at any time.	Binuksan ng isang magulang o guardian ang chat para sa account na ito. Puwede nila itong patayin dito anumang oras.
+This account belongs to someone under 18. By law, the chat with other players (messages in the lounge and in games, notes, status and gift messages) stays off until their mother, father or legal guardian turns it on.	Pag-aari ng isang wala pang 18 ang account na ito. Ayon sa batas, nakapatay ang chat sa ibang manlalaro (mga mensahe sa lounge at sa laro, note, status at mensahe ng regalo) hanggang buksan ito ng nanay, tatay o legal na guardian niya.
+I am this player's mother, father or legal guardian, I have read the terms of use and I allow them to chat with other players.	Ako ang nanay, tatay o legal na guardian ng manlalarong ito, nabasa ko ang terms of use at pinapayagan ko siyang makipag-chat sa ibang manlalaro.
+Chat for players under 18	Chat para sa mga manlalarong wala pang 18
+Turn the chat off	Patayin ang chat
+{n} more invitations	{n} pang imbitasyon
+Invitation	Imbitasyon
+Turn the chat on	Buksan ang chat
+Chat off: under 18. A parent or guardian can turn it on.	Nakapatay ang chat: wala pang 18. Puwede itong buksan ng magulang o guardian.
+The chat with other players is off until you turn it on.	Nakapatay ang chat sa ibang manlalaro hanggang buksan mo ito.
+Write to turn the chat on…	Magsulat para buksan ang chat…
+Chat with other players	Chat sa ibang manlalaro
+The chat with other players is off until you turn it on. To turn it on, tell us your age group: it can't be changed from the game afterwards.	Nakapatay ang chat sa ibang manlalaro hanggang buksan mo ito. Para buksan ito, sabihin sa amin ang age group mo: hindi na ito mababago mula sa laro pagkatapos.
+Under 18: a parent or guardian must agree to the terms with you and turn the chat on.	Wala pang 18: kailangang sumang-ayon sa terms kasama mo ang isang magulang o guardian at buksan ang chat.
+Not now	Hindi muna
+Terms of use	Terms of use
+Privacy policy	Privacy policy
+You have 7 days to change your mind and get your money back.	May 7 araw ka para magbago ng isip at maibalik ang pera mo.
+Under 18: buy only with a parent's or guardian's permission.	Wala pang 18: bumili lang nang may pahintulot ng magulang o guardian.
+Renews every month until you cancel. 7 days to change your mind.	Nagre-renew bawat buwan hanggang mag-cancel ka. 7 araw para magbago ng isip.
+About	Tungkol sa
+Accounts, purchases and refunds, the rules of the online game.	Mga account, pagbili at refund, ang mga patakaran ng online na laro.
+What the game keeps, and your rights.	Ano ang itinatabi ng laro, at ang mga karapatan mo.
+Open	Buksan
+Credits	Credits
+Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Fonts: DejaVu at Noto (OFL). Mga watawat: flag-icons (MIT). Mga reaksyon at emoji: Twemoji (CC-BY 4.0). Mga pangalan ng bansa: iso-codes (LGPL-2.1). Bukas ang code ng laro (MIT).
+The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	Nakapatay ang chat para sa mga manlalarong wala pang 18. Puwede itong buksan ng magulang o guardian sa ilalim ng chat ng lounge.
+No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	Walang natamaang bola sa break: si {next} ang magbe-break, na may ball in hand sa likod ng head string.
+The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	Pumasok ang cue ball sa break nang walang bolang naipasok: si {next} ang magbe-break, na may ball in hand sa likod ng head string.
+Users online	Mga user na online
+ping {ms} ms	ping {ms} ms
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks, with the cue ball in hand behind the head string.	Pumasok ang cue ball sa break kasama ng mga bola ng dalawang grupo: walang parusa, open table pa rin at si {next} ang magbe-break, na may ball in hand sa likod ng head string.
+Brazilian	Brazilian
+Official	Opisyal
+Brazilian rules	Patakarang Brazilian
+Official rules	Patakarang Opisyal
+Brazilian rules (inside a sentence)	patakarang Brazilian
+Official rules (inside a sentence)	patakarang opisyal
+Brazilian (inside a sentence)	Brazilian
+Official (inside a sentence)	opisyal
+As played in Brazil's bars	Gaya sa mga bar ng Brazil
+As played in tournaments (WPA)	Gaya sa mga torneo (WPA)
+on the Brazilian rules	sa patakarang Brazilian
+on the official rules	sa patakarang opisyal
+A ball left the table on the break.	May bolang lumabas sa mesa sa break.
+A ball off the table on the break	Bolang lumabas sa mesa sa break
+A safety calls nothing: whatever goes in stays down, and the turn passes.	Walang naka-call sa safety: mananatili sa loob ang anumang pumasok, at lilipat ang turn.
+Break yourself	Ikaw ang mag-break
+CALLED POCKET	NAKA-CALL NA POCKET
+Choose	Pumili
+Choose how play goes on	Piliin kung paano magpapatuloy ang laro
+Choose the rules of your games. You can switch them any time, in the main menu.	Piliin ang patakaran ng mga laro mo. Mapapalitan mo ito kahit kailan, sa main menu.
+Click a pocket on the table to call it; click it again to follow your aim.	I-click ang isang pocket sa mesa para i-call ito; i-click ulit para sundan ang asinta mo.
+Cue ball in hand	Ball in hand
+Each of the rules has its own rating: these games don't change your {rating} under the {other}.	May sariling rating ang bawat patakaran: hindi binabago ng mga larong ito ang rating mong {rating} sa {other}.
+Find an opponent of your level automatically ({rules})	Awtomatikong maghanap ng kalabang kasing-level mo ({rules})
+How do you like to play?	Paano mo gustong maglaro?
+How does play go on? Choose one:	Paano magpapatuloy ang laro? Pumili ng isa:
+Illegal break: no ball made and fewer than four balls reached a cushion.	Ilegal na break: walang bolang pumasok at wala pang apat na bola ang umabot sa cushion.
+Invite {name}	Imbitahan si {name}
+No ball went in the called pocket ({pocket}): {next} to shoot.	Walang bolang pumasok sa naka-call na pocket ({pocket}): si {next} ang titira.
+No pocket was called (a safety): {next} to shoot.	Walang naka-call na pocket (safety): si {next} ang titira.
+Not sure what changes?	Hindi sigurado kung ano ang nagbabago?
+Place it anywhere behind the head string.	Ilagay ito kahit saan sa likod ng head string.
+Play on	Ituloy ang laro
+Players against the computer under these rules	Mga manlalarong kalaban ang computer sa patakarang ito
+Players online under these rules (the lounge and online games)	Mga manlalarong online sa patakarang ito (ang lounge at mga online na laro)
+RULES OF YOUR GAMES	PATAKARAN NG MGA LARO MO
+Read both rules	Basahin ang dalawang patakaran
+Rules of your games	Patakaran ng mga laro mo
+Safety	Safety
+Safety: no pocket	Safety: walang pocket
+Show the {rules}: the rank, the league and the chart	Ipakita ang {rules}: ang puwesto, ang liga at ang chart
+The 8 is spotted and you keep shooting.	Ibabalik sa mesa ang 8 at titira ka ulit.
+The 8 is spotted; the cue ball in hand behind the head string.	Ibabalik sa mesa ang 8; ball in hand sa likod ng head string.
+The 8 on a break with a foul	Ang 8 sa break na may foul
+The 8 on the break	Ang 8 sa break
+The 8 went down on a break with a foul: it is spotted.	Pumasok ang 8 sa break na may foul: ibabalik ito sa mesa.
+The 8 went down on the break: it is spotted.	Pumasok ang 8 sa break: ibabalik ito sa mesa.
+The balls are racked again and you break.	Ire-rack ulit ang mga bola at ikaw ang magbe-break.
+The balls are racked again and {name} breaks.	Ire-rack ulit ang mga bola at si {name} ang magbe-break.
+The balls are racked again: {name} breaks.	Ire-rack ulit ang mga bola: si {name} ang magbe-break.
+The balls are racked again: {other} breaks.	Ire-rack ulit ang mga bola: si {other} ang magbe-break.
+The rules of this game: click to read them	Ang patakaran ng larong ito: i-click para basahin
+The rules of your games: click to switch	Ang patakaran ng mga laro mo: i-click para palitan
+The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	Ang switch sa main menu: online, laban sa computer at dalawang manlalaro. May sariling rating ang bawat patakaran.
+The table as it lies.	Ang mesa gaya ng ayos nito.
+The top 100 of each rules · rated games	Ang top 100 ng bawat patakaran · rated na laro
+The {ball} lay behind the head string and the cue ball hit it without crossing the line first	Nasa likod ng head string ang {ball} at tinamaan ito ng cue ball nang hindi muna tumatawid sa linya
+What changes between the rules: click to read them	Ano ang nagbabago sa pagitan ng mga patakaran: i-click para basahin
+With the cue ball in hand behind the head string.	May ball in hand sa likod ng head string.
+follows your aim	sinusundan ang asinta mo
+no rated games yet	wala pang rated na laro
+open table: the called ball you make sets your group	open table: ang naka-call na bolang maipasok mo ang magtatakda ng grupo mo
+peak {n} · {games} games	pinakamataas: {n} · {games} laro
+playing now	naglalaro ngayon
+your call	call mo
+{name} breaks again	Magbe-break ulit si {name}
+{name} chooses: play on, or rack the balls and break again.	Pipili si {name}: ituloy ang laro, o i-rack ang mga bola at mag-break ulit.
+{name} chooses: play the table as it lies, or take the cue ball in hand behind the head string.	Pipili si {name}: laruin ang mesa gaya ng ayos nito, o kunin ang ball in hand sa likod ng head string.
+{name} chooses: play the table as it lies, rack the balls and break, or have {breaker} break again.	Pipili si {name}: laruin ang mesa gaya ng ayos nito, i-rack ang mga bola at mag-break, o pag-break-in ulit si {breaker}.
+{name} chooses: play the table as it lies, take the cue ball in hand behind the head string, rack the balls and break, or have {breaker} break again.	Pipili si {name}: laruin ang mesa gaya ng ayos nito, kunin ang ball in hand sa likod ng head string, i-rack ang mga bola at mag-break, o pag-break-in ulit si {breaker}.
+{name} chooses: the cue ball in hand behind the head string, or rack the balls and break.	Pipili si {name}: ball in hand sa likod ng head string, o i-rack ang mga bola at mag-break.
+{name} is choosing how play goes on…	Pumipili si {name} kung paano magpapatuloy ang laro…
+{name} plays on (the 8 is spotted).	Itutuloy ni {name} ang laro (ibinalik sa mesa ang 8).
+{name} plays the table as it lies.	Lalaruin ni {name} ang mesa gaya ng ayos nito.
+{name} plays the {theirs} now; yours are the {mine}.	Sa {theirs} naglalaro ngayon si {name}; {mine} ang sa iyo.
+{name} takes the cue ball in hand.	Kinuha ni {name} ang ball in hand.
+{next} has the cue ball in hand behind the head string.	May ball in hand si {next} sa likod ng head string.
+{next} has the cue ball in hand: anywhere on the table.	May ball in hand si {next}: kahit saan sa mesa.
+{n} points to {tier} ({rules})	{n} puntos para sa {tier} ({rules})
+{n} waiting	{n} naghihintay
+A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Ang foul ay nagbibigay sa kalaban ng mga bola ng grupo niya. Sa break lang may ball in hand, at ang pocket lang ng 8 ang kino-call.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	Ang foul ay nagbibigay sa kalaban ng ball in hand, kahit saan sa mesa. Kino-call ang bawat tira, at dapat magpaabot ng apat na bola sa cushion ang break.
+A foul gives balls to the opponent	Nagbibigay ng bola sa kalaban ang foul
+Ball in hand on the break only	Ball in hand sa break lang
+Only the 8's pocket is called	Pocket lang ng 8 ang kino-call
+The most played in Brazil	Pinakanilalaro sa Brazil
+A foul gives ball in hand	Nagbibigay ng ball in hand ang foul
+The break drives four balls to a cushion	Apat na bola sa cushion sa break
+Every shot is called	Kino-call ang bawat tira
+The same all over the world	Pareho sa buong mundo
+Game type	Uri ng laro
+called: {pocket}	naka-call: {pocket}
+no call: a safety	walang call: safety
+A safety: nothing called. Click again to call the pocket you aim at.	Safety: walang naka-call. I-click ulit para i-call ang pocket na inaasinta mo.
+A safety calls nothing: whatever goes in stays down, and the turn passes. To call another pocket, click it on the table.	Walang naka-call sa safety: mananatili sa loob ang anumang pumasok, at lilipat ang turn. Para mag-call ng ibang pocket, i-click ito sa mesa.
+{games} games · {pct}% won	{games} laro · {pct}% panalo
+Each of the rules has its own rating; the level, coins and achievements are shared.	May sariling rating ang bawat patakaran; pareho ang level, coins at achievement.
+You already have a VIP subscription: manage it with Manage subscription.	May VIP subscription ka na: pamahalaan ito sa Pamahalaan ang subscription.
+Your opponent can't start another game yet.	Hindi pa makakapagsimula ng ibang laro ang kalaban mo.
+A tournament's name is shown to everyone: with your chat off, you can join tournaments but not create one.	Nakikita ng lahat ang pangalan ng torneo: habang nakapatay ang chat mo, puwede kang sumali sa torneo pero hindi gumawa.
+The connection dropped: check your coins before trying again.	Naputol ang koneksiyon: tingnan ang coins mo bago sumubok ulit.
+Sign in to buy coins.	Mag-sign in para makabili ng coins.
+Sign in to become VIP.	Mag-sign in para maging VIP.
+how play goes on after the break is undecided	hindi pa napagpapasyahan kung paano magpapatuloy ang laro pagkatapos ng break
+Finish your game, and leave your table, the queue or your tournament first.	Tapusin muna ang laro mo, at umalis sa mesa mo, sa pila o sa torneo mo.
+That choice can't be made now.	Hindi puwedeng gawin ang pagpiling iyan ngayon.
+That medal can't be.	Walang ganoong medalya.
+{name}'s tournament	Torneo ni {name}
+When time runs out, it's a foul: your opponent gets a ball and the cue ball goes back to the head spot.	Kapag naubos ang oras, foul ito: may makukuhang bola ang kalaban mo at babalik sa head spot ang cue ball.
+When time runs out, it's a foul: your opponent gets the cue ball in hand.	Kapag naubos ang oras, foul ito: may ball in hand ang kalaban mo.
+Your username was changed. Sign in again.	Napalitan ang username mo. Mag-sign in ulit.
+You have your tournament game in progress. A new game takes its place, and the tournament game counts as lost.	May kasalukuyan kang laro sa torneo. Papalitan ito ng bagong laro, at bibilangin na talo ang laro sa torneo.
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks again, from the head spot.	Pumasok ang cue ball sa break kasama ng mga bola ng dalawang grupo: walang parusa, open table pa rin at magbe-break ulit si {next}, mula sa head spot.
+The cue ball went down on the break with no ball made: {next} breaks again, from the head spot.	Pumasok ang cue ball sa break nang walang bolang naipasok: magbe-break ulit si {next}, mula sa head spot.
+{who} ran out of time: {other} breaks, from the head spot.	Naubusan ng oras si {who}: si {other} ang magbe-break, mula sa head spot.
+Congratulations!	Binabati kita!
+You earned a new item: {title}	May bago kang item: {title}
+You earned a new item!	May bago kang item!

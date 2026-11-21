@@ -2,6 +2,11 @@
 # "## <bersiyon>" ang simula ng isang bersiyon (pinakabago muna), "### <pamagat>"
 # ng isang highlight, at ang mga linya pagkatapos nito ang teksto nito.
 
+## 0.9.0
+
+### Nagsasalita na ang Snook Legend ng wika mo
+Nasa 27 wika na ang laro, mula Chinese, Hindi at Arabic hanggang French, Russian at Japanese, kasama ang mga patakaran at pangalan ng mga bansa. Bubukas ito sa wika ng system mo; palitan ito sa Settings → Laro.
+
 ## 0.8.3
 
 ### Ipinapakita ang napanalunan mo

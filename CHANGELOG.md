@@ -1,6 +1,9 @@
 # Changelog
 
-## Unreleased
+## 0.9.0 (protocol 24)
+
+The game in 27 languages, with every script drawn as it is written.
+The protocol and the server are unchanged: 0.8.3 and 0.9.0 play together.
 
 ### The game in 27 languages
 - **24 new interface languages**, for the world's most spoken languages and

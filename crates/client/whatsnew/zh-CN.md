@@ -3,6 +3,11 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.9.0
+
+### Snook Legend 说你的语言
+游戏现已支持 27 种语言，从中文、印地语、阿拉伯语到法语、俄语和日语，规则和国家名称也一并翻译。游戏会以你的系统语言打开；可在“设置 → 游戏”中更改。
+
 ## 0.8.3
 
 ### 获得的奖励一目了然

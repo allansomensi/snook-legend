@@ -2,6 +2,11 @@
 # "## <versiune>" începe o versiune (cea mai nouă prima), "### <titlu>" o noutate,
 # iar rândurile de după sunt textul ei.
 
+## 0.9.0
+
+### Snook Legend vorbește limba ta
+Jocul este acum în 27 de limbi, de la chineză, hindi și arabă la franceză, rusă și japoneză, cu tot cu regulile și numele țărilor. Pornește în limba sistemului tău; o poți schimba din Setări → Joc.
+
 ## 0.8.3
 
 ### Vezi ce câștigi

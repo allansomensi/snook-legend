@@ -2,6 +2,11 @@
 # "## <phiên bản>" mở đầu một phiên bản (mới nhất trước), "### <tiêu đề>" là một điểm nổi bật,
 # và các dòng sau đó là nội dung. Mọi ngôn ngữ có cùng các phiên bản và cùng số điểm nổi bật.
 
+## 0.9.0
+
+### Snook Legend nói ngôn ngữ của bạn
+Trò chơi giờ có 27 ngôn ngữ, từ tiếng Trung, tiếng Hindi và tiếng Ả Rập đến tiếng Pháp, tiếng Nga và tiếng Nhật, kèm cả luật chơi và tên các quốc gia. Trò chơi mở theo ngôn ngữ của hệ thống; bạn có thể đổi trong Cài đặt → Trò chơi.
+
 ## 0.8.3
 
 ### Hiện rõ những gì bạn nhận được

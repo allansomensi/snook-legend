@@ -2,6 +2,11 @@
 # A "## <verzió>" egy verziót kezd (a legújabb elöl), a "### <cím>" egy
 # kiemelést, az utána következő sorok pedig a szövegét.
 
+## 0.9.0
+
+### A Snook Legend a te nyelveden beszél
+A játék mostantól 27 nyelven érhető el, a kínaitól, a hinditől és az arabtól a franciáig, az oroszig és a japánig, a szabályokkal és az országnevekkel együtt. A rendszered nyelvén indul; itt módosíthatod: Beállítások → Játék.
+
 ## 0.8.3
 
 ### Látod, mit szereztél

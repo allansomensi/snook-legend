@@ -2,6 +2,11 @@
 # "## <wersja>" zaczyna wersję (najnowsze najpierw), "### <tytuł>" nowość,
 # a kolejne wiersze to jej tekst. Każdy język ma te same wersje i tyle samo nowości.
 
+## 0.9.0
+
+### Snook Legend mówi w twoim języku
+Gra jest teraz dostępna w 27 językach, od chińskiego, hindi i arabskiego po francuski, rosyjski i japoński, razem z zasadami i nazwami krajów. Uruchamia się w języku systemu; zmienisz go w Ustawienia → Gra.
+
 ## 0.8.3
 
 ### Widać, co zdobywasz

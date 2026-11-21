@@ -3,6 +3,11 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.9.0
+
+### Snook Legend senin dilini konuşuyor
+Oyun artık Çince, Hintçe ve Arapçadan Fransızca, Rusça ve Japoncaya kadar 27 dilde; kurallar ve ülke adları da dahil. Sisteminin dilinde açılır; Ayarlar → Oyun bölümünden değiştirebilirsin.
+
 ## 0.8.3
 
 ### Kazandığın şey gösteriliyor

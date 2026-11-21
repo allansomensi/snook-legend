@@ -3,6 +3,11 @@
 # a řádky za ním jsou její text. Krátce a o tom, co hráči vidí; všechny
 # jazyky mají stejné verze a stejný počet novinek.
 
+## 0.9.0
+
+### Snook Legend mluví tvým jazykem
+Hra je teď ve 27 jazycích, od čínštiny, hindštiny a arabštiny po francouzštinu, ruštinu a japonštinu, včetně pravidel a názvů zemí. Spustí se v jazyce tvého systému; změníš ho v Nastavení → Hra.
+
 ## 0.8.3
 
 ### Vidíš, co získáš

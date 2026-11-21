@@ -3,6 +3,11 @@
 # och raderna efter den är dess text. Håll det kort och om det spelarna
 # ser; alla språk har samma versioner och samma antal nyheter.
 
+## 0.9.0
+
+### Snook Legend talar ditt språk
+Spelet finns nu på 27 språk, från kinesiska, hindi och arabiska till franska, ryska och japanska, med reglerna och ländernas namn också. Det startar på ditt systems språk; byt under Inställningar → Spel.
+
 ## 0.8.3
 
 ### Det du tjänar visas

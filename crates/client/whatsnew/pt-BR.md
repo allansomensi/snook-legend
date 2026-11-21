@@ -3,6 +3,11 @@
 # destaque, e as linhas seguintes são o texto dele. Mesmas versões e mesmo
 # número de destaques em todas as línguas.
 
+## 0.9.0
+
+### O Snook Legend fala a sua língua
+O jogo agora está em 27 idiomas, do chinês, hindi e árabe ao francês, russo e japonês, com as regras e os nomes dos países também. Ele abre no idioma do seu sistema; troque em Configurações → Jogo.
+
 ## 0.8.3
 
 ### O que você ganha aparece

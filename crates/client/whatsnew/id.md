@@ -3,6 +3,11 @@
 # dan baris sesudahnya adalah teksnya. Singkat dan tentang apa yang dilihat
 # pemain; setiap bahasa punya versi yang sama dan jumlah sorotan yang sama.
 
+## 0.9.0
+
+### Snook Legend bicara dalam bahasamu
+Game ini sekarang tersedia dalam 27 bahasa, dari Mandarin, Hindi, dan Arab hingga Prancis, Rusia, dan Jepang, lengkap dengan aturan dan nama negara. Game dibuka dalam bahasa sistemmu; ubah di Pengaturan → Game.
+
 ## 0.8.3
 
 ### Hadiahmu ditampilkan

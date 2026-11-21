@@ -3,6 +3,11 @@
 # en de regels erna zijn de tekst ervan. Elke taal heeft dezelfde versies en
 # hetzelfde aantal hoogtepunten.
 
+## 0.9.0
+
+### Snook Legend spreekt jouw taal
+Het spel is nu in 27 talen, van Chinees, Hindi en Arabisch tot Frans, Russisch en Japans, met de regels en de landnamen erbij. Het start in de taal van je systeem; wijzig die bij Instellingen → Spel.
+
 ## 0.8.3
 
 ### Je ziet wat je verdient

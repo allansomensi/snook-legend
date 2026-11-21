@@ -3,6 +3,11 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.9.0
+
+### Snook Legend এখন আপনার ভাষায়
+গেমটি এখন 27টি ভাষায়, চীনা, হিন্দি ও আরবি থেকে ফরাসি, রুশ ও জাপানি পর্যন্ত, নিয়ম আর দেশের নামসহ। এটি আপনার সিস্টেমের ভাষায় খোলে; সেটিংস → গেম থেকে বদলাতে পারবেন।
+
 ## 0.8.3
 
 ### যা অর্জন করেন, তা দেখানো হয়

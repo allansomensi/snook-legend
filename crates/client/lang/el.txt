@@ -1,4 +1,4 @@
-# Snook Legend: Brazilian Portuguese.
+# Snook Legend: Greek.
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	Ο/Η {name} είναι στην 8: δηλωμένη τρύπα {pocket}
@@ -128,7 +128,7 @@ Shows where the object ball and the cue ball go (only in free games and practice
 Right-drag · Wheel	Δεξί σύρσιμο · Ροδέλα
 Win %	% νικών
 Reset the camera: top view, no zoom	Επαναφορά κάμερας: κάτοψη, χωρίς ζουμ
-{name} sank the 8-ball	Ο/Η {name} έβαλε τη μπάλα 8
+{name} sank the 8-ball	Ο/Η {name} έβαλε την μπάλα 8
 {name} sank the 8 too early	Ο/Η {name} έβαλε την 8 πολύ νωρίς
 {name} sank the 8 in the wrong pocket	Ο/Η {name} έβαλε την 8 σε λάθος τρύπα
 {name} fouled on the 8	Ο/Η {name} έκανε φάουλ στην 8
@@ -302,5 +302,1755 @@ New tournament	Νέο τουρνουά
 No friends yet. Add someone you played with!	Δεν έχεις ακόμα φίλους. Πρόσθεσε κάποιον με τον οποίο έπαιξες!
 No games yet.	Δεν υπάρχουν ακόμα παρτίδες.
 No limit	Χωρίς όριο
+No open tables. Open one and others can sit down.	Δεν υπάρχουν ανοιχτά τραπέζια. Άνοιξε ένα και θα κάτσουν κι άλλοι.
+No other open tables right now.	Δεν υπάρχουν άλλα ανοιχτά τραπέζια αυτή τη στιγμή.
+No such player.	Αυτός ο παίκτης δεν υπάρχει.
+No tournaments right now. Create one!	Δεν υπάρχουν τουρνουά αυτή τη στιγμή. Φτιάξε ένα!
+Offensive name	Προσβλητικό όνομα
+On a roll	Σε φόρμα
+On fire	Φωτιά
+Only the host can start the tournament.	Μόνο ο οικοδεσπότης μπορεί να ξεκινήσει το τουρνουά.
+Open a table	Άνοιξε τραπέζι
+Or join by address	Ή μπες με διεύθυνση
+Other	Άλλο
+Others can join at {ip}:{port}	Άλλοι μπορούν να μπουν στο {ip}:{port}
+Passwords need at least 8 characters (not only digits).	Ο κωδικός χρειάζεται τουλάχιστον 8 χαρακτήρες (όχι μόνο ψηφία).
+Play 1,000 rated games.	Παίξε 1.000 βαθμολογημένες παρτίδες.
+Play 10 rated games.	Παίξε 10 βαθμολογημένες παρτίδες.
+Play 100 rated games.	Παίξε 100 βαθμολογημένες παρτίδες.
+Play 25 casual games.	Παίξε 25 φιλικές παρτίδες.
+Play 500 rated games.	Παίξε 500 βαθμολογημένες παρτίδες.
+Play in a tournament.	Παίξε σε ένα τουρνουά.
+Play online	Παίξε online
+Play with friends on the same network	Παίξε με φίλους στο ίδιο δίκτυο
+Play your first rated game.	Παίξε την πρώτη σου βαθμολογημένη παρτίδα.
+Player 1	Παίκτης 1
+Players	Παίκτες
+Players in a tournament can't start other games.	Οι παίκτες ενός τουρνουά δεν μπορούν να ξεκινήσουν άλλες παρτίδες.
+Please don't repeat the same message.	Μην επαναλαμβάνεις το ίδιο μήνυμα.
+Pool hall legend	Θρύλος της αίθουσας
+Popular	Δημοφιλής
+Private	Ιδιωτική
+for your friends to sit down	για να κάτσουν οι φίλοι σου
+Profile	Προφίλ
+{key}: watch the last shot again	{key}: δες ξανά το τελευταίο χτύπημα
+REPLAY	ΕΠΑΝΑΛΗΨΗ
+Rated	Βαθμολογημένη
+Rated games, tables, tournaments and friends	Βαθμολογημένες παρτίδες, τραπέζια, τουρνουά και φίλοι
+Reach a rating of 1300.	Φτάσε βαθμολογία 1300.
+Reach a rating of 1500.	Φτάσε βαθμολογία 1500.
+Reach a rating of 1700.	Φτάσε βαθμολογία 1700.
+Reach a rating of 1900.	Φτάσε βαθμολογία 1900.
+Reach a rating of 2100.	Φτάσε βαθμολογία 2100.
+Refresh	Ανανέωση
+Regular	Θαμώνας
+Remove friend	Αφαίρεση φίλου
+Replay	Επανάληψη
+Report	Αναφορά
+Report {name}	Αναφορά του/της {name}
+Request sent	Το αίτημα στάλθηκε
+Friend	Φίλος
+Recent	Πρόσφατοι
+Nobody yet. The people you play online will show up here.	Κανείς ακόμα. Όσοι παίζεις μαζί τους online θα εμφανίζονται εδώ.
+{n} games	Παρτίδες: {n}
+Rookie	Πρωτάρης
+Round {n}	Γύρος {n}
+Search…	Αναζήτηση…
+Semi-finals	Ημιτελικοί
+Send report	Αποστολή αναφοράς
+This game goes with the report, so the moderators can watch it.	Αυτή η παρτίδα επισυνάπτεται στην αναφορά, για να τη δουν οι συντονιστές.
+Your game with {name} ({date}) goes with the report, so the moderators can watch it.	Η παρτίδα σου με {name} ({date}) επισυνάπτεται στην αναφορά, για να τη δουν οι συντονιστές.
+You haven't played {name} in the last day: the moderators see the recent chat.	Δεν έπαιξες με {name} το τελευταίο 24ωρο: οι συντονιστές βλέπουν τη πρόσφατη συνομιλία.
+Shark	Καρχαρίας
+Shows the contact point; judging the cut is up to you.	Δείχνει το σημείο επαφής· τη γωνία την υπολογίζεις εσύ.
+Shutout	Λευκό σκορ
+Sign in	Σύνδεση
+Sign in or create an account	Συνδέσου ή φτιάξε λογαριασμό
+Sign out	Αποσύνδεση
+Sit down	Κάτσε
+Skilled	Ικανός
+Someone with that name is already here.	Υπάρχει ήδη κάποιος με αυτό το όνομα.
+Spam	Spam
+Start now	Έναρξη τώρα
+Stop the replay	Διακοπή επανάληψης
+Table runner	Καθαριστής
+Tables	Τραπέζια
+Take turns on this computer	Παίξτε εναλλάξ σε αυτόν τον υπολογιστή
+Thank you. The moderators will look into it.	Ευχαριστούμε. Οι συντονιστές θα το εξετάσουν.
+Thank you. The moderators will look into it, with your game attached.	Ευχαριστούμε. Οι συντονιστές θα το εξετάσουν, μαζί με την παρτίδα σου.
+That player is not accepting invitations.	Αυτός ο παίκτης δεν δέχεται προσκλήσεις.
+That shot was for an earlier turn.	Αυτό το χτύπημα ήταν για προηγούμενη σειρά.
+That table is no longer open.	Αυτό το τραπέζι δεν είναι πια ανοιχτό.
+That tournament has already started.	Αυτό το τουρνουά έχει ήδη ξεκινήσει.
+That tournament no longer exists.	Αυτό το τουρνουά δεν υπάρχει πια.
+The first connection of the day can take up to a minute while the server wakes up.	Η πρώτη σύνδεση της ημέρας μπορεί να πάρει έως ένα λεπτό, όσο ξυπνά ο διακομιστής.
+The first time, allow Snook Legend through the firewall when asked.	Την πρώτη φορά, επίτρεψε το Snook Legend στο τείχος προστασίας όταν σου ζητηθεί.
+The server could not play that shot.	Ο διακομιστής δεν μπόρεσε να παίξει αυτό το χτύπημα.
+The server is busy. Try again in a moment.	Ο διακομιστής είναι απασχολημένος. Δοκίμασε ξανά σε λίγο.
+The tournament starts when it is full (the host can start it earlier).	Το τουρνουά ξεκινά όταν γεμίσει (ο οικοδεσπότης μπορεί να το ξεκινήσει νωρίτερα).
+There are too many tournaments right now. Join one!	Υπάρχουν πάρα πολλά τουρνουά αυτή τη στιγμή. Μπες σε ένα!
+This is a LAN server: join as a guest.	Αυτός είναι διακομιστής LAN: μπες ως επισκέπτης.
+Fifteen rivals, a tour and ghosts of real players	Δεκαπέντε αντίπαλοι, ένα τουρ και φαντάσματα πραγματικών παικτών
+Tier	Κατηγορία
+Time per shot	Χρόνος ανά χτύπημα
+Too many failed attempts. Wait a few minutes and try again.	Πάρα πολλές αποτυχημένες προσπάθειες. Περίμενε λίγα λεπτά και δοκίμασε ξανά.
+Too many messages.	Πάρα πολλά μηνύματα.
+Too many new accounts from this network. Try again later.	Πάρα πολλοί νέοι λογαριασμοί από αυτό το δίκτυο. Δοκίμασε αργότερα.
+Top 100 · rated games	Top 100 · βαθμολογημένες παρτίδες
+Tournament game: the next round starts from the lounge.	Παρτίδα τουρνουά: ο επόμενος γύρος ξεκινά από το σαλόνι.
+Tournament games have no rematch.	Οι παρτίδες τουρνουά δεν έχουν ρεβάνς.
+Tournaments	Τουρνουά
+Tournaments have 4, 8 or 16 players.	Τα τουρνουά έχουν 4, 8 ή 16 παίκτες.
+Two players	Δύο παίκτες
+Unblock	Άρση αποκλεισμού
+Unlocked {date}	Ξεκλειδώθηκε: {date}
+Unstoppable	Ασταμάτητος
+W	Ν
+Watch the last shot again	Δες ξανά το τελευταίο χτύπημα
+What happened? (optional)	Τι συνέβη; (προαιρετικό)
+When time runs out, the turn passes.	Όταν τελειώσει ο χρόνος, η σειρά περνά στον αντίπαλο.
+Whitewash	Σαρωτική νίκη
+Win 10 rated games on the 8-ball.	Κέρδισε 10 βαθμολογημένες παρτίδες βάζοντας την 8.
+Win 10 rated games in a row.	Κέρδισε 10 βαθμολογημένες παρτίδες στη σειρά.
+Win 10 rated games.	Κέρδισε 10 βαθμολογημένες παρτίδες.
+Win 10 rated shutouts.	Κέρδισε 10 βαθμολογημένες παρτίδες με λευκό σκορ.
+Win 100 rated games on the 8-ball.	Κέρδισε 100 βαθμολογημένες παρτίδες βάζοντας την 8.
+Win 100 rated games.	Κέρδισε 100 βαθμολογημένες παρτίδες.
+Win 250 rated games on the 8-ball.	Κέρδισε 250 βαθμολογημένες παρτίδες βάζοντας την 8.
+Win 3 rated games in a row.	Κέρδισε 3 βαθμολογημένες παρτίδες στη σειρά.
+Win 5 rated games in a row.	Κέρδισε 5 βαθμολογημένες παρτίδες στη σειρά.
+Win 5 tournaments.	Κέρδισε 5 τουρνουά.
+Win 50 rated games on the 8-ball.	Κέρδισε 50 βαθμολογημένες παρτίδες βάζοντας την 8.
+Win 50 rated games.	Κέρδισε 50 βαθμολογημένες παρτίδες.
+Win 500 rated games.	Κέρδισε 500 βαθμολογημένες παρτίδες.
+Win a rated game.	Κέρδισε μια βαθμολογημένη παρτίδα.
+Win a tournament.	Κέρδισε ένα τουρνουά.
+Win a rated game before your opponent sinks a ball of their group.	Κέρδισε μια βαθμολογημένη παρτίδα πριν ο αντίπαλος βάλει μπάλα της ομάδας του.
+Win a rated game from the break without your opponent getting a shot.	Κέρδισε μια βαθμολογημένη παρτίδα από το σπάσιμο χωρίς να χτυπήσει ο αντίπαλος.
+Withdraw	Αποχώρηση
+World ranking	Παγκόσμια κατάταξη
+Wrong table password.	Λάθος κωδικός τραπεζιού.
+Wrong tournament password.	Λάθος κωδικός τουρνουά.
+You are already in a tournament.	Είσαι ήδη σε τουρνουά.
+You are hosting a game	Φιλοξενείς μια παρτίδα
+You can't join this table.	Δεν μπορείς να μπεις σε αυτό το τραπέζι.
+You signed in from another place.	Συνδέθηκες από άλλη τοποθεσία.
+You're sending invitations too quickly.	Στέλνεις προσκλήσεις πολύ γρήγορα.
+You're sending messages too quickly.	Στέλνεις μηνύματα πολύ γρήγορα.
+You've sent many reports. Please wait before sending more.	Έχεις στείλει πολλές αναφορές. Περίμενε πριν στείλεις κι άλλες.
+Your friend list is full.	Η λίστα φίλων σου είναι γεμάτη.
+Your next match starts by itself when both players are free.	Η επόμενη παρτίδα σου ξεκινά αυτόματα όταν είναι ελεύθεροι και οι δύο παίκτες.
+Your profile	Το προφίλ σου
+Your table is open	Το τραπέζι σου είναι ανοιχτό
+Zoom in	Μεγέθυνση
+Zoom out	Σμίκρυνση
+at a table	σε τραπέζι
+best streak	καλύτερο σερί
+by {host} · {n}/{size} players	από {host} · {n}/{size} παίκτες
+casual games	φιλικές παρτίδες
+casual · private	φιλική · ιδιωτική
+casual · public	φιλική · δημόσια
+connecting to the server	σύνδεση με τον διακομιστή
+eight-ball pool	μπιλιάρδο 8 μπάλας
+finished	ολοκληρώθηκε
+guest	επισκέπτης
+invites you to {kind}	σε προσκαλεί σε {kind}
+joined today	μπήκε σήμερα
+member for {n} days	μέλος εδώ και {n} ημ.
+member for {n} months	μέλος εδώ και {n} μήν.
+member for {n} years	μέλος εδώ και {n} έτη
+offline	εκτός σύνδεσης
+open	ανοιχτό
+optional: only friends with it can join	προαιρετικό: μπαίνουν μόνο οι φίλοι που τον ξέρουν
+password	κωδικός
+peak {n}	κορυφή {n}
+playing	παίζει
+playing the computer	παίζει με τον υπολογιστή
+away	λείπει
+this game is saved	αυτή η παρτίδα αποθηκεύτηκε
+rated games	βαθμολογημένες παρτίδες
+rated · private	βαθμολογημένη · ιδιωτική
+rated · public	βαθμολογημένη · δημόσια
+request sent	το αίτημα στάλθηκε
+the connection dropped	η σύνδεση χάθηκε
+to play online	για να παίξεις online
+tournament	τουρνουά
+tournaments won	τουρνουά που κέρδισε
+waiting for an opponent…	αναμονή για αντίπαλο…
+win rate	ποσοστό νικών
+wins	νίκες
+won on the 8	νίκες με την 8
+{host}'s game	παρτίδα του/της {host}
+{name} wants to be friends	Ο/Η {name} θέλει να γίνετε φίλοι
+{name} wants to be your friend.	Ο/Η {name} θέλει να γίνετε φίλοι.
+{n} online	Online: {n}
+sank the 8-ball	έβαλε την μπάλα 8
+the opponent sank the 8-ball	ο αντίπαλος έβαλε την μπάλα 8
+the opponent sank the 8 too early	ο αντίπαλος έβαλε την 8 πολύ νωρίς
+sank the 8 too early	έβαλε την 8 πολύ νωρίς
+the opponent sank the 8 in the wrong pocket	ο αντίπαλος έβαλε την 8 σε λάθος τρύπα
+sank the 8 in the wrong pocket	έβαλε την 8 σε λάθος τρύπα
+the opponent fouled on the 8	ο αντίπαλος έκανε φάουλ στην 8
+fouled on the 8	έκανε φάουλ στην 8
+the opponent knocked the 8 off the table	ο αντίπαλος έβγαλε την 8 εκτός τραπεζιού
+knocked the 8 off the table	έβγαλε την 8 εκτός τραπεζιού
+the opponent resigned	ο αντίπαλος παραιτήθηκε
+resigned	παραιτήθηκε
+the opponent left	ο αντίπαλος έφυγε
+left the game	αποχώρησε από την παρτίδα
+You are muted for {n} more minutes.	Είσαι σε σίγαση για ακόμα {n} λεπτά.
+This account is suspended for {n} more day(s). Reason: {reason}.	Αυτός ο λογαριασμός έχει ανασταλεί για ακόμα {n} ημέρα(ες). Λόγος: {reason}.
+This account is banned. Reason: {reason}.	Αυτός ο λογαριασμός έχει αποκλειστεί. Λόγος: {reason}.
+You were muted: {r}	Τέθηκες σε σίγαση: {r}
+Your account was suspended: {r}	Ο λογαριασμός σου ανεστάλη: {r}
+Your account was banned: {r}	Ο λογαριασμός σου αποκλείστηκε: {r}
+You were disconnected by a moderator: {r}	Ένας συντονιστής σε αποσύνδεσε: {r}
+You were disconnected by a moderator.	Ένας συντονιστής σε αποσύνδεσε.
+Please sign in again.	Συνδέσου ξανά.
+Your password was changed. Sign in again.	Ο κωδικός σου άλλαξε. Συνδέσου ξανά.
+Accept rematch	Αποδοχή ρεβάνς
+Accept	Αποδοχή
+Aim	Σκόπευση
+Aiming guide	Οδηγός σκόπευσης
+Aiming	Σκόπευση
+Anti-aliasing	Εξομάλυνση
+Smooths the jagged edges of lines and balls.	Εξομαλύνει τις οδοντωτές άκρες των γραμμών και των μπαλών.
+Back to lounge	Πίσω στο σαλόνι
+Balanced: smooth on most laptops.	Ισορροπημένη: ομαλή στα περισσότερα laptop.
+Ball in hand	Μπάλα στο χέρι
+Break the rack	Κάνε το σπάσιμο
+Camera pulls back to watch each shot	Η κάμερα απομακρύνεται για να δεις κάθε χτύπημα
+Camera	Κάμερα
+Cancel	Ακύρωση
+Casual game: ratings unchanged	Φιλική παρτίδα: η βαθμολογία δεν αλλάζει
+Center	Κέντρο
+Chat	Συνομιλία
+Click a ball or a spot	Κάνε κλικ σε μπάλα ή σημείο
+Click to chat, Enter to send	Κλικ για συνομιλία, Enter για αποστολή
+Controls	Χειρισμός
+Create account	Δημιουργία λογαριασμού
+Cue ball contact	Σημείο χτυπήματος στη λευκή
+Decline	Απόρριψη
+Done	Έτοιμο
+Drag the cue ball	Σύρε τη λευκή
+Elevation	Ανύψωση
+Everything, with reflections in polished floors: for gaming PCs.	Τα πάντα, με αντανακλάσεις στα γυαλισμένα δάπεδα: για gaming PC.
+Fine aim	Λεπτή σκόπευση
+Finish this match first.	Τελείωσε πρώτα αυτόν τον αγώνα.
+For old or very slow computers.	Για παλιούς ή πολύ αργούς υπολογιστές.
+Full screen	Πλήρης οθόνη
+Also with {key}.	Επίσης με {key}.
+Full	Πλήρης
+Game server	Διακομιστής παιχνιδιού
+Change it only to play on another server.	Άλλαξέ τον μόνο για να παίξεις σε άλλο διακομιστή.
+Advanced	Για προχωρημένους
+Custom server	Άλλος διακομιστής
+Graphics quality	Ποιότητα γραφικών
+Quality	Ποιότητα
+Display	Οθόνη
+High	Υψηλή
+Invite	Πρόσκληση
+Leave to the lounge	Έξοδος στο σαλόνι
+Leave	Έξοδος
+Leaving now counts as a loss.	Αν φύγεις τώρα, μετράει ως ήττα.
+Lounge chat	Συνομιλία σαλονιού
+Low	Χαμηλή
+Main menu	Κύριο μενού
+Medium	Μεσαία
+Menu / help	Μενού / βοήθεια
+Next game starts in a moment…	Η επόμενη παρτίδα ξεκινά σε λίγο…
+No rated games yet. Be the first!	Δεν υπάρχουν ακόμα βαθμολογημένες παρτίδες. Γίνε ο πρώτος!
+Nobody else is here right now.	Δεν είναι κανείς άλλος εδώ αυτή τη στιγμή.
+Looking for a game?	Ψάχνεις παρτίδα;
+Looking for a game	Ψάχνει παρτίδα
+Post a note	Δημοσίευση σημείωσης
+Everyone in the lounge sees it for 30 minutes	Όλοι στο σαλόνι τη βλέπουν για 30 λεπτά
+What are you after? ({kind})	Τι ψάχνεις; ({kind})
+Post	Δημοσίευση
+Your note: {text}	Η σημείωσή σου: {text}
+{mode} · {left} left	{mode} · απομένουν {left}
+Take down	Αφαίρεση
+Challenge	Πρόκληση
+Take the note down	Αφαίρεση σημείωσης
+Off	Όχι
+On the 8-ball: call a pocket	Στη μπάλα 8: δήλωσε τρύπα
+On the 8-ball	Στη μπάλα 8
+Open table	Ανοιχτό τραπέζι
+Password	Κωδικός
+Paused	Σε παύση
+Play	Παίξε
+Player 2	Παίκτης 2
+Player	Παίκτης
+Quick aim	Γρήγορη σκόπευση
+Quit	Έξοδος
+Reconnected.	Επανασυνδέθηκες.
+Rematch	Ρεβάνς
+Resign this game	Παραίτηση από την παρτίδα
+Restart the game to apply this change.	Επανεκκίνησε το παιχνίδι για να εφαρμοστεί η αλλαγή.
+Resume	Συνέχεια
+Retry	Ξανά
+Saving the result…	Αποθήκευση αποτελέσματος…
+Say hello… (Enter to send)	Πες γεια… (Enter για αποστολή)
+Send	Αποστολή
+Settings	Ρυθμίσεις
+{key} + drag	{key} + σύρσιμο
+{key}: 3D / top view	{key}: 3D / κάτοψη
+{keys}: zoom	{keys}: ζουμ
+View	Προβολή
+Aim left	Σκόπευση αριστερά
+Aim right	Σκόπευση δεξιά
+Fine aim (hold)	Λεπτή σκόπευση (κράτα)
+Shoot (hold, release)	Χτύπημα (κράτα, άφησε)
+Top spin	Φάλτσο εμπρός
+Back spin	Κόντρα
+Left spin	Αριστερό φάλτσο
+Right spin	Δεξί φάλτσο
+Raise the cue	Ανύψωση στέκας
+Lower the cue	Χαμήλωμα στέκας
+Pick up the cue ball in hand	Πιάσε τη λευκή (μπάλα στο χέρι)
+3D / top view	3D / κάτοψη
+Reset the camera	Επαναφορά κάμερας
+Replay the last shot	Επανάληψη τελευταίου χτυπήματος
+List of controls	Λίστα χειριστηρίων
+Keys can be changed in Settings → Controls.	Μπορείς να αλλάξεις τα πλήκτρα στις Ρυθμίσεις → Χειρισμός.
+Space	Διάστημα
+Right Shift	Δεξί Shift
+Right Ctrl	Δεξί Ctrl
+Right Alt	Δεξί Alt
+Aiming and shooting	Σκόπευση και χτύπημα
+Spin and elevation	Φάλτσο και ανύψωση
+Fixed keys	Σταθερά πλήκτρα
+Menu, back and cancel	Μενού, πίσω και ακύρωση
+Confirm (forms, the cue ball in hand)	Επιβεβαίωση (φόρμες, μπάλα στο χέρι)
+This key can't be changed.	Αυτό το πλήκτρο δεν αλλάζει.
+Press a key · Esc cancels · Backspace clears	Πάτα ένα πλήκτρο · Esc ακύρωση · Backspace διαγραφή
+Press a key…	Πάτα ένα πλήκτρο…
+Click to change	Κλικ για αλλαγή
+Click to add a key	Κλικ για προσθήκη πλήκτρου
+Back to no key	Επαναφορά σε κανένα πλήκτρο
+Back to {keys}	Επαναφορά σε {keys}
+Swapped: {action} is now on {key}.	Αντάλλαξαν: η ενέργεια {action} είναι τώρα στο {key}.
+Taken from {action}, which now has no key.	Αφαιρέθηκε από την ενέργεια {action}, που τώρα δεν έχει πλήκτρο.
+Taken from {action}.	Αφαιρέθηκε από την ενέργεια {action}.
+That key can't be used: try another.	Αυτό το πλήκτρο δεν μπορεί να χρησιμοποιηθεί: δοκίμασε άλλο.
+Shoot	Χτύπημα
+Short	Κοντή
+Signing in…	Σύνδεση…
+Signing in	Σύνδεση
+Soft shadows from every lamp, glossy halls, halos.	Απαλές σκιές από κάθε λάμπα, γυαλιστερές αίθουσες, φωτοστέφανα.
+Solids (1–7)	Γεμάτες (1–7)
+Spin ball	Μπάλα φάλτσου
+Spin	Φάλτσο
+Standard	Κανονική
+Stay	Παραμονή
+Stripes (9–15)	Ριγέ (9–15)
+The game goes on while this is open.	Το παιχνίδι συνεχίζεται όσο είναι ανοιχτό αυτό.
+Use default	Προεπιλογή
+Username	Όνομα χρήστη
+Usernames have 3–16 letters, digits or underscores.	Τα ονόματα χρήστη έχουν 3–16 γράμματα, ψηφία ή κάτω παύλες.
+{keys} (jump & massé)	{keys} (άλμα και massé)
+You win!	Κέρδισες!
+Your name	Το όνομά σου
+Your opponent went back to the lounge.	Ο αντίπαλός σου γύρισε στο σαλόνι.
+Your turn	Σειρά σου
+open table: the next ball you make sets your group	ανοιχτό τραπέζι: η επόμενη μπάλα που θα βάλεις ορίζει την ομάδα σου
+draw	κόντρα
+follow	φάλτσο εμπρός
+stun	στοπ
+solids	γεμάτες
+stripes	ριγέ
+lounge	σαλόνι
+ · left english	 · αριστερό φάλτσο
+ · right english	 · δεξί φάλτσο
+Language	Γλώσσα
+General	Γενικά
+Graphics	Γραφικά
+Game	Παιχνίδι
+Sound	Ήχος
+Reset to defaults	Επαναφορά προεπιλογών
+Reset all keys	Επαναφορά όλων των πλήκτρων
+Reset every key?	Επαναφορά όλων των πλήκτρων;
+Click again to put every key back	Κάνε ξανά κλικ για επαναφορά όλων των πλήκτρων
+Updates	Ενημερώσεις
+Update automatically	Αυτόματη ενημέρωση
+New versions download in the background and install when you restart.	Οι νέες εκδόσεις κατεβαίνουν στο παρασκήνιο και εγκαθίστανται στην επανεκκίνηση.
+Version {v}	Έκδοση {v}
+What's new	Τι νέο υπάρχει
+What's new in version {v}	Τι νέο υπάρχει στην έκδοση {v}
+No notes for this version.	Δεν υπάρχουν σημειώσεις για αυτή την έκδοση.
+Got it	Εντάξει
+Restart now	Επανεκκίνηση τώρα
+After the game, from the main menu.	Μετά την παρτίδα, από το κύριο μενού.
+Download	Λήψη
+Check now	Έλεγχος τώρα
+Couldn't reach the update server.	Δεν ήταν δυνατή η σύνδεση με τον διακομιστή ενημερώσεων.
+The download was damaged. It will be tried again later.	Η λήψη ήταν κατεστραμμένη. Θα ξαναδοκιμαστεί αργότερα.
+The new version couldn't be installed. This one stays.	Η νέα έκδοση δεν εγκαταστάθηκε. Παραμένει η τρέχουσα.
+Downloading… {p}%	Λήψη… {p}%
+Updating…	Ενημέρωση…
+The Microsoft Store keeps the game up to date.	Το Microsoft Store κρατά το παιχνίδι ενημερωμένο.
+Development build: no automatic updates.	Έκδοση ανάπτυξης: χωρίς αυτόματες ενημερώσεις.
+Looking for a new version…	Αναζήτηση νέας έκδοσης…
+This is the latest version.	Αυτή είναι η πιο πρόσφατη έκδοση.
+Downloading version {v}… {p}%	Λήψη έκδοσης {v}… {p}%
+Installing version {v}…	Εγκατάσταση έκδοσης {v}…
+Version {v} is ready: restart the game to use it.	Η έκδοση {v} είναι έτοιμη: κάνε επανεκκίνηση του παιχνιδιού για να τη χρησιμοποιήσεις.
+Version {v} is out: download it from the releases page.	Κυκλοφόρησε η έκδοση {v}: κατέβασέ την από τη σελίδα εκδόσεων.
+Version {v} is ready	Η έκδοση {v} είναι έτοιμη
+Restart to play it; nothing is lost.	Κάνε επανεκκίνηση για να την παίξεις· δεν χάνεται τίποτα.
+Version {v} is out	Κυκλοφόρησε η έκδοση {v}
+Get it from the releases page.	Κατέβασέ την από τη σελίδα εκδόσεων.
+Reset everything?	Επαναφορά όλων;
+Click again to reset every setting	Κάνε ξανά κλικ για επαναφορά όλων των ρυθμίσεων
+Online	Online
+Menu	Μενού
+Rating	Βαθμολογία
+Ultra	Ultra
+hold {key} and release	κράτα το {key} και άφησε
+Change	Αλλαγή
+Mouse aim sensitivity	Ευαισθησία σκόπευσης ποντικιού
+How fast the cue turns with the mouse.	Πόσο γρήγορα στρίβει η στέκα με το ποντίκι.
+Vignette	Βινιέτα
+Darkens the edges of the picture, like a film.	Σκουραίνει τις άκρες της εικόνας, σαν σε ταινία.
+Show FPS	Εμφάνιση FPS
+Frames per second, in a corner of the screen.	Καρέ ανά δευτερόλεπτο, σε μια γωνία της οθόνης.
+Call a pocket for the 8-ball first: click a pocket.	Δήλωσε πρώτα τρύπα για την μπάλα 8: κάνε κλικ σε μια τρύπα.
+Reconnecting	Επανασύνδεση
+the game is over	η παρτίδα τελείωσε
+the cue ball cannot be placed there	η λευκή δεν μπορεί να μπει εκεί
+call a pocket for the 8-ball	δήλωσε τρύπα για την μπάλα 8
+That username is taken.	Αυτό το όνομα χρήστη είναι πιασμένο.
+Wrong username or password.	Λάθος όνομα χρήστη ή κωδικός.
+Your session expired. Please log in again.	Η σύνδεσή σου έληξε. Συνδέσου ξανά.
+This version of Snook Legend is out of date. Please update the game.	Αυτή η έκδοση του Snook Legend είναι παλιά. Ενημέρωσε το παιχνίδι.
+It's not your turn.	Δεν είναι η σειρά σου.
+That player is not online.	Αυτός ο παίκτης δεν είναι online.
+That player is in a game.	Αυτός ο παίκτης είναι σε παρτίδα.
+You can't invite yourself.	Δεν μπορείς να προσκαλέσεις τον εαυτό σου.
+That invitation is no longer valid.	Αυτή η πρόσκληση δεν ισχύει πια.
+That player is no longer available.	Αυτός ο παίκτης δεν είναι πια διαθέσιμος.
+Resign first to leave a game in progress.	Παραιτήσου πρώτα για να φύγεις από παρτίδα σε εξέλιξη.
+Malformed message.	Μη έγκυρο μήνυμα.
+Please log in first.	Συνδέσου πρώτα.
+Could not create the account.	Δεν ήταν δυνατή η δημιουργία λογαριασμού.
+The cue ball can't be placed there.	Η λευκή δεν μπορεί να μπει εκεί.
+Disconnected.	Αποσυνδέθηκες.
+Lost contact with the server.	Χάθηκε η επαφή με τον διακομιστή.
+The server closed the connection.	Ο διακομιστής έκλεισε τη σύνδεση.
+The server took too long to answer.	Ο διακομιστής άργησε πολύ να απαντήσει.
+The server is not answering (connection refused).	Ο διακομιστής δεν απαντά (η σύνδεση απορρίφθηκε).
+The server address is not valid (example: wss://snook-legend.example.com/ws).	Η διεύθυνση του διακομιστή δεν είναι έγκυρη (παράδειγμα: wss://snook-legend.example.com/ws).
+The server address has no host name.	Η διεύθυνση του διακομιστή δεν έχει όνομα host.
+Welcome to Snook Legend! Be kind, play fair.	Καλώς ήρθες στο Snook Legend! Να είσαι ευγενικός, παίξε τίμια.
+Ball in hand: drag the cue ball{zone} to move it	Μπάλα στο χέρι: σύρε τη λευκή{zone} για να τη μετακινήσεις
+ behind the line	 πίσω από τη γραμμή
+Ball in hand  ·  {group}	Μπάλα στο χέρι  ·  {group}
+Can't shoot: {e}.	Δεν γίνεται χτύπημα: {e}.
+Chat ({n})	Συνομιλία ({n})
+Computer ({level})	Υπολογιστής ({level})
+Computer	Υπολογιστής
+Each opponent has a style of their own	Κάθε αντίπαλος έχει το δικό του στιλ
+Free game	Ελεύθερη παρτίδα
+Tour	Τουρ
+Tour: {n} of {total} beaten	Τουρ: {n} από {total} νικήθηκαν
+Strength {n}/5	Δύναμη {n}/5
+Ghost	Φάντασμα
+Accuracy	Ακρίβεια
+Safeties	Άμυνες
+Banks	Μπάντες
+Position	Θέση
+Ghost of {name}	Φάντασμα: {name}
+A player's ghost	Φάντασμα παίκτη
+Plays like a real player	Παίζει σαν πραγματικός παίκτης
+The computer plays in the style of a real player, measured on their online games.	Ο υπολογιστής παίζει με το στιλ ενός πραγματικού παίκτη, μετρημένο στις online παρτίδες του.
+Sign in to play the ghost of a real player.	Συνδέσου για να παίξεις με το φάντασμα ενός πραγματικού παίκτη.
+Load	Φόρτωση
+Friends:	Φίλοι:
+Type a username or pick a friend, then Load.	Γράψε όνομα χρήστη ή διάλεξε φίλο και πάτα Φόρτωση.
+Measuring how {name} plays…	Μετράμε πώς παίζει ο/η {name}…
+Pots {pots}% · safeties {safe}% · banks {banks}% · {shots} shots	Μπάλες μέσα {pots}% · άμυνες {safe}% · μπάντες {banks}% · χτυπήματα: {shots}
+{name} has only {shots} recorded shots; a ghost needs {needed}. More online games will do it.	Ο/Η {name} έχει μόνο {shots} καταγεγραμμένα χτυπήματα· ένα φάντασμα χρειάζεται {needed}. Με περισσότερες online παρτίδες θα γίνει.
+There is no player called {name}.	Δεν υπάρχει παίκτης με όνομα {name}.
+The server can't be reached right now. Try again later.	Ο διακομιστής δεν είναι προσβάσιμος αυτή τη στιγμή. Δοκίμασε αργότερα.
+Wait a moment before asking again.	Περίμενε λίγο πριν ζητήσεις ξανά.
+Something went wrong on the server. Try again later.	Κάτι πήγε στραβά στον διακομιστή. Δοκίμασε αργότερα.
+Play your ghost	Παίξε με το φάντασμά σου
+Play their ghost	Παίξε με το φάντασμά του
+Beaten	Νικήθηκε
+Next	Επόμενο
+Win the previous stage to unlock this one.	Κέρδισε το προηγούμενο στάδιο για να ξεκλειδώσεις αυτό.
+Stage {n} of {total}	Στάδιο {n} από {total}
+Challenge {name}	Πρόκληση: {name}
+Stage {n} won! Next on the tour: {name}.	Το στάδιο {n} κερδήθηκε! Επόμενος στο τουρ: {name}.
+You won the whole tour!	Κέρδισες όλο το τουρ!
+Reward	Έπαθλο
+{item} cue · exclusive	Στέκα {item} · αποκλειστική
+Yours: find it in the shop, under Cues.	Δική σου: θα τη βρεις στο κατάστημα, στις Στέκες.
+Win the last stage again while signed in to claim it.	Κέρδισε ξανά το τελευταίο στάδιο συνδεδεμένος για να την παραλάβεις.
+Beat all fifteen opponents to earn it. It is sold nowhere.	Νίκησε και τους δεκαπέντε αντιπάλους για να την κερδίσεις. Δεν πωλείται πουθενά.
+You won the tour! Sign in to claim your reward.	Κέρδισες το τουρ! Συνδέσου για να παραλάβεις το έπαθλό σου.
+The server is checking your final game…	Ο διακομιστής ελέγχει την τελική παρτίδα σου…
+Try again	Ξανά
+The server did not answer. Try again in a moment.	Ο διακομιστής δεν απάντησε. Δοκίμασε ξανά σε λίγο.
+The server is busy checking other games. Try again in a moment.	Ο διακομιστής ελέγχει άλλες παρτίδες. Δοκίμασε ξανά σε λίγο.
+Wait a minute before trying again.	Περίμενε ένα λεπτό πριν δοκιμάσεις ξανά.
+That game is too long to be checked.	Αυτή η παρτίδα είναι πολύ μεγάλη για να ελεγχθεί.
+That game has a move the rules don't allow.	Αυτή η παρτίδα έχει κίνηση που δεν επιτρέπουν οι κανόνες.
+That game was not played to the end.	Αυτή η παρτίδα δεν παίχτηκε ως το τέλος.
+That game was not a win.	Αυτή η παρτίδα δεν ήταν νίκη.
+The computer's shots in that game don't match how it plays (another version of the game?).	Τα χτυπήματα του υπολογιστή σε αυτή την παρτίδα δεν ταιριάζουν με τον τρόπο που παίζει (άλλη έκδοση του παιχνιδιού;).
+The Rookie	Ο Πρωτάρης
+Still learning: aims at the nearest pocket, centre ball, and hopes. Never plays safe.	Ακόμα μαθαίνει: σημαδεύει την πιο κοντινή τρύπα, χτυπά στο κέντρο και ελπίζει. Δεν παίζει ποτέ άμυνα.
+The Weekend Player	Η Παίκτρια του Σαββατοκύριακου
+Knows the basics and drops the easy ones, but rarely thinks about where the cue ball goes.	Ξέρει τα βασικά και βάζει τις εύκολες, αλλά σπάνια σκέφτεται πού θα πάει η λευκή.
+The Bank Artist	Η Καλλιτέχνις της Μπάντας
+Sees angles nobody else does: whenever a ball can go off a cushion and in, she banks it.	Βλέπει γωνίες που δεν βλέπει κανείς: όποτε μια μπάλα μπορεί να μπει από μπάντα, την παίζει από μπάντα.
+The Cannon	Το Κανόνι
+Goes for everything, as hard as he can: long pots, thunderous breaks, hardly ever a safety.	Τα παίζει όλα, όσο πιο δυνατά μπορεί: μακρινά χτυπήματα, βροντερά σπασίματα, σχεδόν ποτέ άμυνα.
+The Wall	Το Τείχος
+Only shoots when the pot is on. Otherwise she tucks the cue ball away and waits for your mistake.	Χτυπά μόνο όταν η μπάλα μπαίνει σίγουρα. Αλλιώς κρύβει τη λευκή και περιμένει το λάθος σου.
+The Old Pro	Ο Βετεράνος
+Forty years at the table: a smooth stroke, a raised cue, side spin, and never in a hurry.	Σαράντα χρόνια στο τραπέζι: ομαλό χτύπημα, σηκωμένη στέκα, πλάγιο φάλτσο και καμία βιασύνη.
+The Hustler	Η Πονηρή
+Plays just well enough to win, then a little better. Balanced, sharp and hard to read.	Παίζει ίσα-ίσα για να κερδίσει, και μετά λίγο καλύτερα. Ισορροπημένη, κοφτερή και δύσκολο να τη διαβάσεις.
+The Professor	Ο Καθηγητής
+Thinks three balls ahead: every shot leaves the cue ball where the next one is easy.	Σκέφτεται τρεις μπάλες μπροστά: κάθε χτύπημα αφήνει τη λευκή εκεί που το επόμενο είναι εύκολο.
+The Sharpshooter	Η Ελεύθερη Σκοπεύτρια
+Pots from anywhere, at any angle. Her safeties are an afterthought: she doesn't need them.	Βάζει από παντού, με κάθε γωνία. Οι άμυνες είναι δευτερεύουσες γι' αυτήν: δεν τις χρειάζεται.
+The Champion	Ο Πρωταθλητής
+Unbeaten for years. Precise, patient and merciless: the last stage of the tour.	Αήττητος εδώ και χρόνια. Ακριβής, υπομονετικός και αμείλικτος: το τελευταίο στάδιο του τουρ.
+Tour champion	Πρωταθλητής του τουρ
+Champion of the tour	Πρωταθλητής του τουρ
+Beat all fifteen opponents of the computer tour.	Νίκησε και τους δεκαπέντε αντιπάλους του τουρ με τον υπολογιστή.
+Connection lost. Reconnecting (attempt {n})…	Η σύνδεση χάθηκε. Επανασύνδεση (προσπάθεια {n})…
+Connection lost. Reconnecting…	Η σύνδεση χάθηκε. Επανασύνδεση…
+Foul by {shooter}: {foul}.	Φάουλ από {shooter}: {foul}.
+Graphics set to {q} for smooth play. You can change this in Settings.	Γραφικά σε {q} για ομαλό παιχνίδι. Μπορείς να το αλλάξεις στις Ρυθμίσεις.
+Rating {r} ({d})	Βαθμολογία {r} ({d})
+The {ball} was spotted.	Η {ball} επανατοποθετήθηκε.
+Waiting for {to} ({kind})…	Αναμονή για {to} ({kind})…
+rated	βαθμολογημένη
+casual	φιλική
+Waiting for {name}…	Αναμονή για {name}…
+{by} declined your invitation.	Ο/Η {by} απέρριψε την πρόσκλησή σου.
+a rated game	μια βαθμολογημένη παρτίδα
+a casual game	μια φιλική παρτίδα
+{name} calls the 8-ball in the {pocket} pocket.	Ο/Η {name} δηλώνει την μπάλα 8 στην τρύπα: {pocket}.
+{name} has ball in hand…	Ο/Η {name} έχει μπάλα στο χέρι…
+{name} is aiming…	Ο/Η {name} σημαδεύει…
+{name} is on the 8: click a pocket to call it	Ο/Η {name} είναι στην 8: κάνε κλικ σε τρύπα για να τη δηλώσεις
+{name} is thinking…	Ο/Η {name} σκέφτεται…
+{name} left the game.	Ο/Η {name} αποχώρησε από την παρτίδα.
+{name} resigned.	Ο/Η {name} παραιτήθηκε.
+{name} to break	Σπάει: {name}
+{name} to shoot ({target})	Χτυπά: {name} ({target})
+{name}'s turn	Σειρά: {name}
+{next} has ball in hand{where}.	Ο/Η {next} έχει μπάλα στο χέρι{where}.
+ behind the head string	 πίσω από τη γραμμή κεφαλής
+{opponent} is back.	Ο/Η {opponent} επέστρεψε.
+{opponent} lost the connection. Waiting up to {secs} s…	Ο/Η {opponent} έχασε τη σύνδεση. Αναμονή έως {secs} δ…
+{opponent} wants a rematch.	Ο/Η {opponent} θέλει ρεβάνς.
+{opponent} went back to the lounge.	Ο/Η {opponent} γύρισε στο σαλόνι.
+{shooter} pocketed {balls}.	Ο/Η {shooter} έβαλε: {balls}.
+{shooter} takes {group}.	Ο/Η {shooter} παίρνει τις {group}.
+{who} ran out of time: ball in hand for the opponent.	Τελείωσε ο χρόνος του/της {who}: μπάλα στο χέρι για τον αντίπαλο.
+{name} wants a rematch!	Ο/Η {name} θέλει ρεβάνς!
+{name} wins!	Νίκη για {name}!
+{name} wins	Νίκη για {name}
+Volume	Ένταση
+The cue, the balls, the cushions and the pockets.	Η στέκα, οι μπάλες, οι μπάντες και οι τρύπες.
+Notifications	Ειδοποιήσεις
+Could not find the server “{host}”.	Δεν βρέθηκε ο διακομιστής «{host}».
+Network error: {e}.	Σφάλμα δικτύου: {e}.
+Secure connection failed: {e}.	Η ασφαλής σύνδεση απέτυχε: {e}.
+The server refused the connection (HTTP {code}).	Ο διακομιστής απέρριψε τη σύνδεση (HTTP {code}).
+Connection error: {e}.	Σφάλμα σύνδεσης: {e}.
+cue ball	λευκή
+{n}-ball	μπάλα {n}
+Scratch: the cue ball was pocketed	Η λευκή μπήκε στην τρύπα
+The cue ball left the table	Η λευκή βγήκε από το τραπέζι
+The cue ball didn't hit any ball	Η λευκή δεν χτύπησε καμία μπάλα
+Wrong ball hit first ({ball})	Χτυπήθηκε πρώτα λάθος μπάλα ({ball})
+No ball reached a cushion after contact	Καμία μπάλα δεν άγγιξε μπάντα μετά την επαφή
+The {ball} left the table	Η {ball} βγήκε από το τραπέζι
+Illegal break	Αντικανονικό σπάσιμο
+pocketed the 8-ball	έβαλε την μπάλα 8
+opponent pocketed the 8-ball too early	ο αντίπαλος έβαλε την μπάλα 8 πολύ νωρίς
+opponent sank the 8-ball in the wrong pocket	ο αντίπαλος έβαλε την μπάλα 8 σε λάθος τρύπα
+opponent fouled on the 8-ball	ο αντίπαλος έκανε φάουλ στην μπάλα 8
+opponent knocked the 8-ball off the table	ο αντίπαλος έβγαλε την μπάλα 8 εκτός τραπεζιού
+opponent resigned	ο αντίπαλος παραιτήθηκε
+opponent left the game	ο αντίπαλος αποχώρησε από την παρτίδα
+head left corner	κάτω αριστερή γωνία
+head right corner	κάτω δεξιά γωνία
+left side	αριστερή μεσαία
+right side	δεξιά μεσαία
+foot left corner	πάνω αριστερή γωνία
+foot right corner	πάνω δεξιά γωνία
+Easy	Εύκολο
+Hard	Δύσκολο
+Normal	Κανονικό
+Power	Δύναμη
+No messages yet.	Δεν υπάρχουν ακόμα μηνύματα.
+▼ newer messages	▼ νεότερα μηνύματα
+Camera follows the cue	Η κάμερα ακολουθεί τη στέκα
+Off: it stays where you put it.	Ανενεργό: μένει όπου την αφήσεις.
+Pull back for shots	Απομάκρυνση στα χτυπήματα
+Only when the camera follows the cue.	Μόνο όταν η κάμερα ακολουθεί τη στέκα.
+Drag the cue · click a spot	Σύρε τη στέκα · κάνε κλικ σε σημείο
+Time's up: {name}'s shot was played at full power.	Τέλος χρόνου: το χτύπημα του/της {name} παίχτηκε με πλήρη δύναμη.
+Dark room	Σκοτεινή αίθουσα
+A spotlight on the table, the room in shadow.	Ένας προβολέας στο τραπέζι, η αίθουσα στη σκιά.
+Hide	Απόκρυψη
+Interface size	Μέγεθος διεπαφής
+Text, buttons and panels.	Κείμενα, κουμπιά και πάνελ.
+Drag to set the power	Σύρε για να ρυθμίσεις τη δύναμη
+Shoot!	Χτύπα!
+Set the power, then press the green button	Ρύθμισε τη δύναμη και πάτα το πράσινο κουμπί
++{n} coins · {why}	+{n} νομίσματα · {why}
+16-player tournaments, and first place on the waiting list of a full one	Τουρνουά 16 παικτών και πρώτη θέση στη λίστα αναμονής ενός γεμάτου τουρνουά
+30 minutes: play as many games as you can. A win is 2 points, 4 from the third win in a row.	30 λεπτά: παίξε όσες παρτίδες μπορείς. Μια νίκη δίνει 2 πόντους, 4 από την τρίτη συνεχόμενη νίκη.
+A crown by your name, everywhere (lounge, profile, ranking)	Ένα στέμμα δίπλα στο όνομά σου, παντού (σαλόνι, προφίλ, κατάταξη)
+Account	Λογαριασμός
+Add friends to give them items.	Πρόσθεσε φίλους για να τους κάνεις δώρα.
+Arena	Αρένα
+Arena · host {host} · {n} players · {kind}	Αρένα · οικοδεσπότης {host} · {n} παίκτες · {kind}
+Buy now	Αγορά τώρα
+Buying…	Αγορά…
+Change password	Αλλαγή κωδικού
+Click again to delete	Κάνε ξανά κλικ για διαγραφή
+Got a code? Type it here	Έχεις κωδικό; Γράψ' τον εδώ
+Confirm purchase	Επιβεβαίωση αγοράς
+Copied: send it to a friend.	Αντιγράφηκε: στείλ' τον σε έναν φίλο.
+Copy	Αντιγραφή
+Current	Τρέχον
+Delete account	Διαγραφή λογαριασμού
+Entry	Συμμετοχή
+Entry {n} coins	Συμμετοχή: {n} νομίσματα
+Every replay kept (free players keep their last 10 games)	Όλες οι επαναλήψεις αποθηκεύονται (οι δωρεάν παίκτες κρατούν τις τελευταίες 10 παρτίδες)
+For {name}	Για: {name}
+Add a message (optional)	Πρόσθεσε μήνυμα (προαιρετικό)
+Format	Μορφή
+Frames	Πλαίσια
+Free	Δωρεάν
+Get coins	Πάρε νομίσματα
+Gift sent!	Το δώρο στάλθηκε!
+Give as a gift	Κάνε δώρο
+Give it	Δώσ' το
+Give to a friend	Δώρο σε φίλο
+Great!	Τέλεια!
+If you forget your password, we confirm it's you by this e-mail.	Αν ξεχάσεις τον κωδικό σου, επιβεβαιώνουμε ότι είσαι εσύ μέσω αυτού του email.
+Invite with a code	Πρόσκληση με κωδικό
+It goes on right away. Items only change the look, never the game.	Μπαίνει σε χρήση αμέσως. Τα αντικείμενα αλλάζουν μόνο την εμφάνιση, ποτέ το παιχνίδι.
+Join my table in Snook Legend:	Έλα στο τραπέζι μου στο Snook Legend:
+Join the waiting list	Μπες στη λίστα αναμονής
+Join · {n} coins	Συμμετοχή · {n} νομίσματα
+Knockout	Νοκ άουτ
+Name colour	Χρώμα ονόματος
+Name colours for the lounge and exclusive frames, cloth, cues, balls and effects	Χρώματα ονόματος για το σαλόνι και αποκλειστικά πλαίσια, τσόχες, στέκες, μπάλες και εφέ
+New	Νέα
+No, thanks	Όχι, ευχαριστώ
+Nothing that wins games: VIP only changes the look	Τίποτα που κερδίζει παρτίδες: το VIP αλλάζει μόνο την εμφάνιση
+Numbers	Αριθμοί
+ON TV	ΣΤΗΝ TV
+Play rated games to see your rating here.	Παίξε βαθμολογημένες παρτίδες για να δεις εδώ τη βαθμολογία σου.
+No rated games yet.	Δεν υπάρχουν ακόμα βαθμολογημένες παρτίδες.
+Price	Τιμή
+Prizes {a} + {b}	Έπαθλα {a} + {b}
+Protect your purchases	Προστάτεψε τις αγορές σου
+Purchase complete!	Η αγορά ολοκληρώθηκε!
+Recovery e-mail	Email ανάκτησης
+Save	Αποθήκευση
+The fees make the prize: 70% to the champion, 20% to the runner-up.	Οι συμμετοχές σχηματίζουν το έπαθλο: 70% στον πρωταθλητή, 20% στον φιναλίστ.
+The server restarts in {m}:{s} for an update. Games in progress go on.	Ο διακομιστής κάνει επανεκκίνηση σε {m}:{s} για ενημέρωση. Οι παρτίδες σε εξέλιξη συνεχίζονται.
+Use this e-mail	Χρήση αυτού του email
+Use {email} to recover your account if you ever forget your password?	Να χρησιμοποιηθεί το {email} για την ανάκτηση του λογαριασμού σου, αν ξεχάσεις ποτέ τον κωδικό σου;
+Watch	Παρακολούθηση
+Watch again	Δες ξανά
+Winning effects	Εφέ νίκης
+Halls	Αίθουσες
+You are paired as soon as you and an opponent are free.	Γίνεται ζευγάρωμα μόλις εσύ και ένας αντίπαλος είστε ελεύθεροι.
+You can change it any time in your profile (Account).	Μπορείς να το αλλάξεις όποτε θέλεις στο προφίλ σου (Λογαριασμός).
+You need {n} more coins.	Χρειάζεσαι ακόμα {n} νομίσματα.
+Your account	Ο λογαριασμός σου
+Your account was deleted.	Ο λογαριασμός σου διαγράφηκε.
+Your coins	Τα νομίσματά σου
+Your friend gets it right away.	Ο φίλος σου το παίρνει αμέσως.
+Your game against {name} is starting.	Η παρτίδα σου με {name} ξεκινά.
+Your name, e-mail, friends and items are erased for good. Your opponents keep the games you played (without your name).	Το όνομα, το email, οι φίλοι και τα αντικείμενά σου διαγράφονται οριστικά. Οι αντίπαλοί σου κρατούν τις παρτίδες που παίξατε (χωρίς το όνομά σου).
+balls per game	μπάλες ανά παρτίδα
+best run ever	καλύτερο σερί όλων των εποχών
+daily bonus	ημερήσιο μπόνους
+entry fee back	επιστροφή συμμετοχής
+for the game	για την παρτίδα
+for the win	για τη νίκη
+games counted	μετρημένες παρτίδες
+Analysis	Ανάλυση
+The shot analysis isn't available on this server yet.	Η ανάλυση χτυπημάτων δεν είναι ακόμα διαθέσιμη σε αυτόν τον διακομιστή.
+Only online accounts have a shot analysis.	Μόνο οι online λογαριασμοί έχουν ανάλυση χτυπημάτων.
+Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Παίξε online για να δεις πώς βάζεις μπάλες: η ανάλυση εμφανίζεται μετά από ακόμα {n} χτυπήματα σε τρύπα.
+{name} hasn't played enough online games for an analysis yet.	Ο/Η {name} δεν έχει παίξει ακόμα αρκετές online παρτίδες για ανάλυση.
+1 game	1 παρτίδα
+{pct}% of {n} shots at a pocket potted · {games}	{pct}% από {n} χτυπήματα σε τρύπα μπήκαν · {games}
+{made} of {n} potted ({pct})	{made} από {n} μπήκαν ({pct})
+By kind of shot	Ανά είδος χτυπήματος
+shots	χτυπήματα
+Straight	Ευθεία
+Cut 8–25°	Κόψιμο 8–25°
+Cut 25–45°	Κόψιμο 25–45°
+Thin cut 45°+	Λεπτό κόψιμο 45°+
+Bank	Μπάντα
+Kick	Κικ
+Combination	Συνδυασμός
+Jump	Άλμα
+Massé	Massé
+Break	Σπάσιμο
+By distance	Ανά απόσταση
+Short (under 0.75 m)	Κοντή (κάτω από 0,75 m)
+Medium (to 1.5 m)	Μεσαία (έως 1,5 m)
+Long (over 1.5 m)	Μακριά (πάνω από 1,5 m)
+left the opponent nothing	δεν άφησαν τίποτα στον αντίπαλο
+Breaks	Σπασίματα
+made a ball	έβαλαν μπάλα
+Potted	Μέσα
+Missed	Άστοχα
+Where and in which pocket	Πού και σε ποια τρύπα
+{pocket}: {made} of {n} potted	{pocket}: {made} από {n} μέσα
+Where the potted balls were	Πού ήταν οι μπάλες που μπήκαν
+Where the missed balls were	Πού ήταν οι μπάλες που αστόχησαν
+few	λίγες
+many	πολλές
+{made} potted · {missed} missed ({pct})	{made} μέσα · {missed} άστοχα ({pct})
+Top left corner	Πάνω αριστερή γωνία
+Bottom left corner	Κάτω αριστερή γωνία
+Top side pocket	Πάνω μεσαία τρύπα
+Bottom side pocket	Κάτω μεσαία τρύπα
+Top right corner	Πάνω δεξιά γωνία
+Bottom right corner	Κάτω δεξιά γωνία
+games left unfinished	παρτίδες που έμειναν ημιτελείς
+potting success	ποσοστό επιτυχίας
+shots with a foul	χτυπήματα με φάουλ
+starts in {n} min	ξεκινά σε {n} λ.
+tournament prize	έπαθλο τουρνουά
+The dark room hides the hall around the table.	Η σκοτεινή αίθουσα κρύβει τον χώρο γύρω από το τραπέζι.
+Show the hall	Εμφάνιση αίθουσας
+Level {n} · 1 win	Επίπεδο {n} · 1 νίκη
+Level {n} · {w} wins	Επίπεδο {n} · νίκες: {w}
+{left} more online wins with this cue for level {n}. Levels only add marks to the cue.	Ακόμα {left} online νίκες με αυτή τη στέκα για το επίπεδο {n}. Τα επίπεδα απλώς προσθέτουν σημάδια στη στέκα.
+The top level: this cue has every mark.	Το ανώτατο επίπεδο: αυτή η στέκα έχει όλα τα σημάδια.
+Your cue {cue} reached level {n}!	Η στέκα σου {cue} έφτασε στο επίπεδο {n}!
+Most wins: {cue} (level {n})	Περισσότερες νίκες: {cue} (επίπεδο {n})
+{games} games · {rate}% won · {balls} balls made	Παρτίδες: {games} · {rate}% νίκες · μπάλες μέσα: {balls}
+vs	vs
+{from} gave you {item}!	Ο/Η {from} σου έκανε δώρο: {item}!
+You received a gift!	Έλαβες δώρο!
+From	Από
+To	Προς
+someone	κάποιος
+A month of VIP	Ένας μήνας VIP
+Thank	Ευχαρίστησε
+Thanked	Ευχαρίστησες
+They thanked you	Σε ευχαρίστησε
+Use it now	Χρήση τώρα
+Later	Αργότερα
+OK	OK
+Next ({n} more)	Επόμενο (ακόμα {n})
+{from} gave you {item}! It's waiting for you in the lounge.	Ο/Η {from} σου έκανε δώρο: {item}! Σε περιμένει στο σαλόνι.
+{name} thanked you for {item}.	Ο/Η {name} σε ευχαρίστησε για: {item}.
+Gifts	Δώρα
+No gifts yet. Friends can give you items from the shop.	Δεν υπάρχουν ακόμα δώρα. Οι φίλοι σου μπορούν να σου κάνουν δώρα από το κατάστημα.
+{item} is yours and already in use.	Το {item} είναι δικό σου και ήδη σε χρήση.
+{m}:{s} left	απομένουν {m}:{s}
+{name} invites you to play.	Ο/Η {name} σε προσκαλεί να παίξετε.
+{name} is online.	Ο/Η {name} είναι online.
+{name} ran out of time.	Τελείωσε ο χρόνος του/της {name}.
+{name} received {item}.	Ο/Η {name} έλαβε: {item}.
+{n} pts · {g} games	{n} πόντοι · παρτίδες: {g}
+{n} watching · avg {r}	Θεατές: {n} · μ.ό. {r}
+{title}: {how}	{title}: {how}
+Olive	Λαδί
+Navy	Μπλε μαρέν
+Forest	Δάσος
+Slate grey	Γκρι σχιστόλιθου
+Red wine	Κόκκινο κρασί
+Burnt orange	Καμένο πορτοκαλί
+Dusty rose	Παλ ροζ
+Sand	Άμμος
+Ice blue	Παγωμένο μπλε
+Lime	Λάιμ
+Black tie	Black tie
+Cobalt	Κοβάλτιο
+Emerald	Σμαράγδι
+Natural maple	Φυσικό σφεντάμι
+Beach bar	Beach bar
+Modern	Μοντέρνα
+English club	Αγγλική λέσχη
+Ebony & gold	Έβενος και χρυσός
+Pool hall	Αίθουσα μπιλιάρδου
+Industrial loft	Βιομηχανικό loft
+Steel & oak	Ατσάλι και δρυς
+Tournament	Τουρνουά
+Victorian walnut	Βικτωριανή καρυδιά
+Ivory deco	Ντεκό ελεφαντόδοντο
+Mountain lodge	Ορεινό καταφύγιο
+Neon arcade	Νέον ηλεκτρονικά
+Art deco lounge	Σαλόνι art deco
+Skyline penthouse	Ρετιρέ με θέα
+Walnut	Καρυδιά
+Zebrawood	Ζεμπρανό
+Bocote	Bocote
+Deep ocean	Βαθύς ωκεανός
+Cherry	Κερασιά
+Jade	Νεφρίτης
+Tiger	Τίγρη
+Amethyst	Αμέθυστος
+Arctic carbon	Αρκτικός άνθρακας
+Inferno	Κόλαση
+Obsidian gold	Οψιδιανός και χρυσός
+Tan chalk	Μπεζ κιμωλία
+Grey chalk	Γκρι κιμωλία
+Orange chalk	Πορτοκαλί κιμωλία
+Pink chalk	Ροζ κιμωλία
+Teal chalk	Κιμωλία πετρόλ
+Yellow chalk	Κίτρινη κιμωλία
+Black chalk	Μαύρη κιμωλία
+White chalk	Λευκή κιμωλία
+Silver chalk	Ασημί κιμωλία
+TV set	Σετ TV
+Earth tones	Γήινοι τόνοι
+Ocean	Ωκεανός
+Sunset	Ηλιοβασίλεμα
+Candy	Καραμέλα
+Pearl	Μαργαριτάρι
+Monochrome	Μονόχρωμο
+Chrome	Χρώμιο
+Gold rush	Πυρετός του χρυσού
+No frame	Χωρίς πλαίσιο
+Bronze	Χάλκινο
+Silver	Ασημένιο
+Gold	Χρυσό
+Green felt	Πράσινη τσόχα
+Mahogany	Μαόνι
+Ice	Πάγος
+Fire	Φωτιά
+Diamond	Διαμάντι
+VIP crown	Στέμμα VIP
+Rose gold	Ροζ χρυσό
+Aqua	Γαλαζοπράσινο
+Violet	Βιολετί
+Ember	Θράκα
+Mint	Μέντα
+Frost	Πάχνη
+No effect	Χωρίς εφέ
+Sparks	Σπίθες
+Confetti	Κομφετί
+Shockwave	Κρουστικό κύμα
+Coin shower	Βροχή νομισμάτων
+Flames	Φλόγες
+Royal sparks	Βασιλικές σπίθες
+Tier colour	Χρώμα κατηγορίας
+16-player tournaments are for VIP members.	Τα τουρνουά 16 παικτών είναι για μέλη VIP.
+A seat opened: you are in the tournament!	Άνοιξε μια θέση: είσαι στο τουρνουά!
+Entry fees go up to 1000 coins.	Η συμμετοχή φτάνει έως 1000 νομίσματα.
+Guests can't play for coins.	Οι επισκέπτες δεν μπορούν να παίξουν για νομίσματα.
+Only items sold for coins can be given.	Μόνο αντικείμενα που πωλούνται με νομίσματα μπορούν να γίνουν δώρο.
+Password changed.	Ο κωδικός άλλαξε.
+Passwords need 8 or more characters, not only digits.	Ο κωδικός χρειάζεται 8 ή περισσότερους χαρακτήρες, όχι μόνο ψηφία.
+Recovery e-mail removed.	Το email ανάκτησης αφαιρέθηκε.
+Recovery e-mail saved.	Το email ανάκτησης αποθηκεύτηκε.
+Something went wrong. Please try again.	Κάτι πήγε στραβά. Δοκίμασε ξανά.
+That code is not valid (or the table was closed).	Αυτός ο κωδικός δεν είναι έγκυρος (ή το τραπέζι έκλεισε).
+That doesn't look like an e-mail address.	Αυτό δεν μοιάζει με διεύθυνση email.
+That game is over.	Αυτή η παρτίδα έχει τελειώσει.
+The current password is wrong.	Ο τρέχων κωδικός είναι λάθος.
+The server is restarting.	Ο διακομιστής κάνει επανεκκίνηση.
+The server is restarting: new games start in a moment.	Ο διακομιστής κάνει επανεκκίνηση: οι νέες παρτίδες ξεκινούν σε λίγο.
+The tournament is full: you are on the waiting list.	Το τουρνουά είναι γεμάτο: είσαι στη λίστα αναμονής.
+This replay is not available.	Αυτή η επανάληψη δεν είναι διαθέσιμη.
+You can only give items to your friends.	Μπορείς να κάνεις δώρα μόνο στους φίλους σου.
+Your friend already has this item.	Ο φίλος σου έχει ήδη αυτό το αντικείμενο.
+16 (VIP)	16 (VIP)
+VIP isn't sold in this version of the game.	Το VIP δεν πωλείται σε αυτή την έκδοση του παιχνιδιού.
+In this version of the game, coins are earned by playing:	Σε αυτή την έκδοση του παιχνιδιού, τα νομίσματα κερδίζονται παίζοντας:
+rated games, and a bonus every day you play.	βαθμολογημένες παρτίδες και ένα μπόνους κάθε μέρα που παίζεις.
+Coins are earned by playing:	Τα νομίσματα κερδίζονται παίζοντας:
+If you like, you can also buy them:	Αν θέλεις, μπορείς και να τα αγοράσεις:
+one month	ένας μήνας
+already VIP	ήδη VIP
+Give a month to a friend · {p}	Δώρισε έναν μήνα σε φίλο · {p}
+{from} gave you a month of VIP!	Ο/Η {from} σου έκανε δώρο έναν μήνα VIP!
+{name} received a month of VIP.	Ο/Η {name} έλαβε έναν μήνα VIP.
+Your friend is already VIP.	Ο φίλος σου είναι ήδη VIP.
+Game in progress: {n} balls left	Παρτίδα σε εξέλιξη: απομένουν {n} μπάλες
+Continue	Συνέχεια
+Missions	Αποστολές
+Board	Πίνακας
+Today	Σήμερα
+This week	Αυτή την εβδομάδα
+new missions in {t}	νέες αποστολές σε {t}
+ends in {t}	λήγει σε {t}
+{n} days	{n} ημ.
+{n} h	{n} ώ.
+{n} min	{n} λ.
+mission complete	αποστολή ολοκληρώθηκε
+Missions count rated games played to the end. The coins arrive as soon as one is complete.	Οι αποστολές μετρούν βαθμολογημένες παρτίδες που παίχτηκαν ως το τέλος. Τα νομίσματα έρχονται μόλις ολοκληρωθεί μία.
+Nothing on the board right now.	Τίποτα στον πίνακα αυτή τη στιγμή.
+Open tournaments	Ανοιχτά τουρνουά
+{n}/{size} players	{n}/{size} παίκτες
+starts in {t}	ξεκινά σε {t}
+entry {n} coins	συμμετοχή {n} νομίσματα
+See	Δες
+Play {n} rated games	Παίξε βαθμολογημένες παρτίδες: {n}
+Win {n} rated games	Κέρδισε βαθμολογημένες παρτίδες: {n}
+Pot {n} balls	Βάλε μπάλες: {n}
+Pot {n} balls with spin	Βάλε μπάλες με φάλτσο: {n}
+Pot 3 balls in a row in one visit	Βάλε 3 μπάλες στη σειρά σε μία επίσκεψη
+Win a game without a foul	Κέρδισε μια παρτίδα χωρίς φάουλ
+Pot 3 balls in a row {n} times	Βάλε 3 μπάλες στη σειρά, φορές: {n}
+Win {n} games without a foul	Κέρδισε παρτίδες χωρίς φάουλ: {n}
+TV camera when watching	Τηλεοπτική κάμερα στην παρακολούθηση
+Broadcast angles for other players' games and replays.	Τηλεοπτικές γωνίες για τις παρτίδες άλλων και τις επαναλήψεις.
+System notifications	Ειδοποιήσεις συστήματος
+Invites, friends coming online and games starting, while you're away.	Προσκλήσεις, φίλοι που συνδέονται και παρτίδες που ξεκινούν, όσο λείπεις.
+{name} starts in a few minutes: get ready!	Το τουρνουά «{name}» ξεκινά σε λίγα λεπτά: ετοιμάσου!
+{name} starts in a few minutes: there is still room.	Το τουρνουά «{name}» ξεκινά σε λίγα λεπτά: υπάρχουν ακόμα θέσεις.
+{name} has started!	Το τουρνουά «{name}» ξεκίνησε!
+Momentum	Ροή
+Shot map	Χάρτης χτυπημάτων
+No shots yet.	Δεν υπάρχουν ακόμα χτυπήματα.
+made	μέσα
+missed	άστοχο
+foul	φάουλ
+See the tournaments	Δες τα τουρνουά
+Open the shop	Άνοιξε το κατάστημα
+See VIP	Δες το VIP
+See the missions	Δες τις αποστολές
+A new version of the game is out: update to play online.	Κυκλοφόρησε νέα έκδοση του παιχνιδιού: ενημέρωσε για να παίξεις online.
+Update in the Microsoft Store	Ενημέρωση στο Microsoft Store
+Update now	Ενημέρωση τώρα
+Download the new version	Λήψη της νέας έκδοσης
+New version out	Νέα έκδοση διαθέσιμη
+Get the new version to play online	Πάρε τη νέα έκδοση για να παίξεις online
+Cheer for {name}	Υποστήριξε: {name}
+Crowd: {a} for {p0}, {b} for {p1}	Κοινό: {a} με {p0}, {b} με {p1}
+welcome pack	πακέτο καλωσορίσματος
+Welcome pack	Πακέτο καλωσορίσματος
+Cue “{cue}”, cloth “{cloth}” and {n} coins · only once, sold nowhere else	Στέκα «{cue}», τσόχα «{cloth}» και {n} νομίσματα · μόνο μία φορά, δεν πωλείται αλλού
+Lagoon	Λιμνοθάλασσα
+You already have the welcome pack.	Έχεις ήδη το πακέτο καλωσορίσματος.
+Your welcome pack is here!	Το πακέτο καλωσορίσματος έφτασε!
+Previous shot (←)	Προηγούμενο χτύπημα (←)
+Next shot (→)	Επόμενο χτύπημα (→)
+Play (Space)	Αναπαραγωγή (Διάστημα)
+Pause (Space)	Παύση (Διάστημα)
+Speed	Ταχύτητα
+Shot {n} of {total}	Χτύπημα {n} από {total}
+For VIP members	Για μέλη VIP
+{n} reactions of your own to send during games	{n} δικές σου αντιδράσεις για να στέλνεις στις παρτίδες
+Items {a}–{b} of {n}	Αντικείμενα {a}–{b} από {n}
+(message deleted by its author)	(το μήνυμα διαγράφηκε από τον συντάκτη του)
+(message deleted by an administrator)	(το μήνυμα διαγράφηκε από διαχειριστή)
+Delete (it shows as deleted)	Διαγραφή (φαίνεται ως διαγραμμένο)
+Remove without a trace	Αφαίρεση χωρίς ίχνος
+The chat was cleared by {name}.	Η συνομιλία καθαρίστηκε από τον/την {name}.
+Click again to clear	Κάνε ξανά κλικ για καθαρισμό
+Clear the chat	Καθαρισμός συνομιλίας
+Players' chat (administrator)	Συνομιλία παικτών (διαχειριστής)
+Play the computer while you wait	Παίξε με τον υπολογιστή όσο περιμένεις
+Looking for an opponent… {t} · the game starts as soon as one is found	Αναζήτηση αντιπάλου… {t} · η παρτίδα ξεκινά μόλις βρεθεί κάποιος
+Stop	Διακοπή
 # Coin packs and months of VIP bought in the Microsoft Store (the Store build).
+The Microsoft Store couldn't complete the purchase.	Το Microsoft Store δεν μπόρεσε να ολοκληρώσει την αγορά.
+The Microsoft Store couldn't confirm the purchase right now. Its coins arrive the next time you open the shop.	Το Microsoft Store δεν μπόρεσε να επιβεβαιώσει την αγορά αυτή τη στιγμή. Τα νομίσματα θα έρθουν την επόμενη φορά που θα ανοίξεις το κατάστημα.
+{n} coins added to your wallet.	Προστέθηκαν {n} νομίσματα στο πορτοφόλι σου.
+Microsoft is confirming your purchase: the coins arrive in a moment.	Η Microsoft επιβεβαιώνει την αγορά σου: τα νομίσματα έρχονται σε λίγο.
+The purchase hasn't reached us yet. Its coins arrive the next time you open the shop.	Η αγορά δεν μας έχει φτάσει ακόμα. Τα νομίσματα θα έρθουν την επόμενη φορά που θα ανοίξεις το κατάστημα.
+Loading prices from the Microsoft Store…	Φόρτωση τιμών από το Microsoft Store…
+Coins can't be bought in this version yet.	Δεν μπορείς ακόμα να αγοράσεις νομίσματα σε αυτή την έκδοση.
+Finish the purchase in the Microsoft Store window…	Ολοκλήρωσε την αγορά στο παράθυρο του Microsoft Store…
+Confirming your purchase…	Επιβεβαίωση αγοράς…
+Paid in the Microsoft Store, with your Microsoft account.	Πληρώνεται στο Microsoft Store, με τον λογαριασμό σου Microsoft.
+The Microsoft Store can't be reached right now. Try again in a moment.	Το Microsoft Store δεν είναι προσβάσιμο αυτή τη στιγμή. Δοκίμασε ξανά σε λίγο.
+The Microsoft Store could not confirm the purchase.	Το Microsoft Store δεν μπόρεσε να επιβεβαιώσει την αγορά.
+Sign in to the Microsoft Store with your Microsoft account, then open the shop again.	Συνδέσου στο Microsoft Store με τον λογαριασμό σου Microsoft και άνοιξε ξανά το κατάστημα.
+The Microsoft Store couldn't confirm the purchase right now. Your VIP month starts the next time you open the shop.	Το Microsoft Store δεν μπόρεσε να επιβεβαιώσει την αγορά αυτή τη στιγμή. Ο μήνας VIP σου ξεκινά την επόμενη φορά που θα ανοίξεις το κατάστημα.
+You are VIP until {d}, and {n} coins were added to your wallet.	Είσαι VIP έως {d} και προστέθηκαν {n} νομίσματα στο πορτοφόλι σου.
+Microsoft is confirming your purchase: your VIP month starts in a moment.	Η Microsoft επιβεβαιώνει την αγορά σου: ο μήνας VIP σου ξεκινά σε λίγο.
+The purchase hasn't reached us yet. Your VIP month starts the next time you open the shop.	Η αγορά δεν μας έχει φτάσει ακόμα. Ο μήνας VIP σου ξεκινά την επόμενη φορά που θα ανοίξεις το κατάστημα.
+A month at a time: nothing renews by itself	Έναν μήνα τη φορά: τίποτα δεν ανανεώνεται αυτόματα
+Add a month · {p}	Ακόμα ένας μήνας · {p}
+A month of VIP · {p}	Ένας μήνας VIP · {p}
+The new month starts when this one ends.	Ο νέος μήνας ξεκινά όταν τελειώσει ο τρέχων.
+Trophies	Τρόπαια
+No trophies yet.	Δεν υπάρχουν ακόμα τρόπαια.
+Tournament won · {n} players	Νίκη σε τουρνουά · {n} παίκτες
+The computer tour	Το τουρ με τον υπολογιστή
+All fifteen opponents beaten	Νικήθηκαν και οι δεκαπέντε αντίπαλοι
+Daily challenge	Πρόκληση της ημέρας
+First of {n} players	Πρώτη θέση από {n} παίκτες
+Easy shot	Εύκολο χτύπημα
+Fair shot	Μέτριο χτύπημα
+Hard shot	Δύσκολο χτύπημα
+Very hard shot	Πολύ δύσκολο χτύπημα
+~{n}% chance	~{n}% πιθανότητα
+No ball goes down as aimed	Καμία μπάλα δεν μπαίνει έτσι
+straight in	ευθεία
+{n}° cut	κόψιμο {n}°
+off one cushion	με μία μπάντα
+off {n} cushions	με μπάντες: {n}
+Make as many balls as you can in one visit: a miss or a foul ends the attempt.	Βάλε όσες περισσότερες μπάλες μπορείς σε μία επίσκεψη: μια αστοχία ή ένα φάουλ τερματίζει την προσπάθεια.
+The same table for everyone, all day	Το ίδιο τραπέζι για όλους, όλη μέρα
+{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	{n} προσπάθειες την ημέρα. Καθάρισε το τραπέζι για {coins} νομίσματα· ο νικητής της ημέρας παίρνει τρόπαιο.
+A new table in {h} h {m} min	Νέο τραπέζι σε {h} ώ. {m} λ.
+Sign in to take part: the server keeps the day's table.	Συνδέσου για να συμμετάσχεις: ο διακομιστής κρατά την κατάταξη της ημέρας.
+Balls on today's table	Μπάλες στο σημερινό τραπέζι
+Attempts left	Προσπάθειες που απομένουν
+{n} balls · #{rank}	{n} μπάλες · #{rank}
+{n} balls	Μπάλες: {n}
+not yet	όχι ακόμα
+Your best today	Το καλύτερό σου σήμερα
+No attempts left today: come back tomorrow.	Δεν σου έμειναν προσπάθειες σήμερα: έλα ξανά αύριο.
+The attempt could not be counted.	Η προσπάθεια δεν μπόρεσε να μετρηθεί.
+Setting up the table…	Στήσιμο τραπεζιού…
+Start an attempt	Ξεκίνα μια προσπάθεια
+Starting uses an attempt, even if you leave the table.	Το ξεκίνημα χρησιμοποιεί μία προσπάθεια, ακόμα κι αν φύγεις από το τραπέζι.
+Loading today's table…	Φόρτωση σημερινού τραπεζιού…
+Today's table	Κατάταξη ημέρας
+{n} players	Παίκτες: {n}
+Nobody has played today's table yet. Be the first!	Κανείς δεν έχει παίξει ακόμα το σημερινό τραπέζι. Γίνε ο πρώτος!
+Table cleared!	Το τραπέζι καθάρισε!
+{n} of {total} balls	{n} από {total} μπάλες
+Sending your attempt to the server…	Αποστολή της προσπάθειάς σου στον διακομιστή…
+Counted: {n} balls · +{coins} coins	Μετρήθηκε: {n} μπάλες · +{coins} νομίσματα
+Counted: {n} balls	Μετρήθηκε: {n} μπάλες
+See today's table	Δες την κατάταξη
+Table cleared! +{n} coins	Το τραπέζι καθάρισε! +{n} νομίσματα
+Daily challenge: {n} of {total} balls made	Πρόκληση της ημέρας: {n} από {total} μπάλες μέσα
+1 player	1 παίκτης
+Phoenix	Φοίνικας
+Carrara marble	Μάρμαρο Καρράρας
+Dragon scale	Λέπι δράκου
+Galaxy	Γαλαξίας
+Ruby throne	Θρόνος από ρουμπίνι
+Closing the game now is leaving it: extra rating lost and a wait to play again.	Αν κλείσεις τώρα το παιχνίδι, είναι αποχώρηση: χάνεις επιπλέον βαθμολογία και περιμένεις για να ξαναπαίξεις.
+You left a game in progress: you can play online again in {n} min.	Αποχώρησες από παρτίδα σε εξέλιξη: μπορείς να ξαναπαίξεις online σε {n} λ.
+Quick phrases	Γρήγορες φράσεις
+Good luck, have fun!	Καλή επιτυχία, καλή διασκέδαση!
+Nice shot!	Ωραίο χτύπημα!
+Great safety!	Τέλεια άμυνα!
+Unlucky!	Ατυχία!
+Oops!	Ουπς!
+Wow!	Ουάου!
+That was close!	Παρά λίγο!
+Take your time.	Με την ησυχία σου.
+Sorry!	Συγγνώμη!
+Thanks!	Ευχαριστώ!
+Well played!	Μπράβο, ωραία παίχτηκε!
+Good game!	Καλή παρτίδα!
+Rematch?	Ρεβάνς;
+I have to go, thanks for the game!	Πρέπει να φύγω, ευχαριστώ για την παρτίδα!
+Practise while you wait	Εξάσκηση όσο περιμένεις
+A new rack.	Νέο στήσιμο.
+Level {n}! (+{xp} XP)	Επίπεδο {n}! (+{xp} XP)
++{xp} XP	+{xp} XP
+Level {n} · {into} / {span} XP to the next	Επίπεδο {n} · {into} / {span} XP για το επόμενο
+Level {n}	Επίπεδο {n}
+Hi! I watched a lot of videos, I'm ready!	Γεια! Είδα πολλά βίντεο, είμαι έτοιμος!
+Be gentle, okay?	Με το μαλακό, εντάξει;
+Whoa, how did you do that?	Ουάου, πώς το έκανες αυτό;
+Teach me that one later!	Αυτό θα μου το μάθεις μετά!
+Phew! My turn!	Φιου! Σειρά μου!
+Even you miss? Good to know.	Ακόμα κι εσύ αστοχείς; Καλό να το ξέρω.
+A free ball! What do I do with it?	Μια δωρεάν μπάλα! Τι την κάνω τώρα;
+Did you see that?! It went in!	Το είδες;! Μπήκε!
+Beginner's luck counts too!	Μετράει και η τύχη του πρωτάρη!
+Oops. That was a practice shot.	Ουπς. Αυτό ήταν για εξάσκηση.
+Aim, Leo, aim...	Σημάδεψε, Leo, σημάδεψε...
+Sorry! I touched the wrong one again.	Συγγνώμη! Πάλι άγγιξα λάθος μπάλα.
+I WON? I'm calling my mum!	ΚΕΡΔΙΣΑ; Παίρνω τη μαμά μου τηλέφωνο!
+Good game! I'm getting better, right?	Καλή παρτίδα! Βελτιώνομαι, ε;
+Saturday, a table and good company. Let's play!	Σάββατο, ένα τραπέζι και καλή παρέα. Πάμε!
+Nice one!	Ωραίο!
+Oh, you're good. I'll pay attention now.	Α, είσαι καλός. Τώρα θα προσέχω.
+Happens to the best of us.	Συμβαίνει και στους καλύτερους.
+Don't worry, it's just a game!	Μην ανησυχείς, παιχνίδι είναι!
+Thanks for the gift!	Ευχαριστώ για το δώρο!
+Yes! Weekend skills!	Ναι! Ταλέντο Σαββατοκύριακου!
+Lucky me!	Τυχερή μου μέρα!
+Hm, where was I aiming?	Χμ, πού σημάδευα;
+Too much chatting, not enough aiming.	Πολλή κουβέντα, λίγο σημάδι.
+Oops, my bad!	Ουπς, δικό μου λάθος!
+That was fun! Same time next weekend?	Περάσαμε ωραία! Ίδια ώρα το επόμενο Σαββατοκύριακο;
+Well played! Rematch over a lemonade?	Ωραία παίχτηκε! Ρεβάνς με μια λεμονάδα;
+Four cushions, endless possibilities.	Τέσσερις μπάντες, ατελείωτες δυνατότητες.
+Straight in? So... direct.	Ευθεία; Τόσο... απλό.
+Nice, but a bank would have been prettier.	Ωραίο, αλλά με μπάντα θα ήταν πιο όμορφο.
+You should have used the cushion.	Έπρεπε να χρησιμοποιήσεις την μπάντα.
+The rail was right there, asking for it.	Η μπάντα ήταν εκεί και το ζητούσε.
+The table didn't like that.	Στο τραπέζι δεν άρεσε αυτό.
+Off the rail and in. Art!	Από μπάντα και μέσα. Τέχνη!
+Geometry never lies.	Η γεωμετρία δεν λέει ποτέ ψέματα.
+The angle was right. The cushion disagreed.	Η γωνία ήταν σωστή. Η μπάντα διαφώνησε.
+One diamond off. Just one!	Ένα διαμάντι έξω. Μόνο ένα!
+Too much imagination, not enough contact.	Πολλή φαντασία, λίγη επαφή.
+A masterpiece, if I may say so.	Ένα αριστούργημα, αν μου επιτρέπεις.
+Well played. Now try it off two rails.	Ωραία παίχτηκε. Τώρα δοκίμασέ το με δύο μπάντες.
+I hope these balls are made of steel.	Ελπίζω αυτές οι μπάλες να είναι ατσάλινες.
+Soft touch, huh? Not my style.	Απαλό άγγιγμα, ε; Δεν είναι το στιλ μου.
+Hit it harder next time!	Την επόμενη φορά χτύπα πιο δυνατά!
+Too gentle! Power solves everything.	Πολύ απαλά! Η δύναμη τα λύνει όλα.
+HA!	ΧΑ!
+My table now. Cover your ears.	Το τραπέζι είναι δικό μου τώρα. Κλείσε τα αυτιά σου.
+BOOM!	ΜΠΟΥΜ!
+Did you hear that pocket?	Άκουσες αυτή την τρύπα;
+Too much power? No such thing.	Πολλή δύναμη; Δεν υπάρχει τέτοιο πράγμα.
+The pocket moved.	Η τρύπα μετακινήθηκε.
+The ball flew. It happens. A lot.	Η μπάλα πέταξε. Συμβαίνει. Συχνά.
+Power wins again! BOOM!	Η δύναμη κερδίζει ξανά! ΜΠΟΥΜ!
+Fine, finesse works too. Sometimes.	Εντάξει, και η φινέτσα πιάνει. Μερικές φορές.
+Take your time. I have all day.	Με την ησυχία σου. Έχω όλη τη μέρα.
+Acceptable.	Αποδεκτό.
+Enjoy it while it lasts.	Χάρη του όσο κρατάει.
+Patience is a virtue. Not yours, apparently.	Η υπομονή είναι αρετή. Όχι δική σου, προφανώς.
+Thank you.	Ευχαριστώ.
+Sloppy.	Πρόχειρο.
+Steady wins.	Η σταθερότητα κερδίζει.
+One at a time.	Μία τη φορά.
+Hm. I'll leave you nothing anyway.	Χμ. Έτσι κι αλλιώς δεν θα σου αφήσω τίποτα.
+Intentional. Probably.	Σκόπιμο. Μάλλον.
+Unacceptable. Of me.	Απαράδεκτο. Εκ μέρους μου.
+As I said: patience.	Όπως είπα: υπομονή.
+You got through the wall. I'm impressed.	Πέρασες το τείχος. Είμαι εντυπωσιασμένη.
+I've been playing since before these balls were plastic.	Παίζω από τότε που αυτές οι μπάλες δεν ήταν πλαστικές.
+Good stroke. Reminds me of a fellow in '78.	Ωραίο χτύπημα. Μου θυμίζει έναν τύπο το '78.
+Smooth. Very smooth.	Ομαλό. Πολύ ομαλό.
+Keep your head down, kid.	Κάτω το κεφάλι, μικρέ.
+The cue ball doesn't lie.	Η λευκή δεν λέει ψέματα.
+Ah, a little present. Thank you kindly.	Α, ένα δωράκι. Σε ευχαριστώ πολύ.
+Like riding a bicycle.	Όπως το ποδήλατο.
+Still got it.	Το έχω ακόμα.
+The eyes aren't what they used to be.	Τα μάτια δεν είναι πια όπως παλιά.
+In my day the pockets were bigger.	Στην εποχή μου οι τρύπες ήταν μεγαλύτερες.
+Even old pros slip.	Ακόμα και οι παλιοί επαγγελματίες σκοντάφτουν.
+Experience, my friend. Experience.	Εμπειρία, φίλε μου. Εμπειρία.
+You've got a future in this game.	Έχεις μέλλον σε αυτό το παιχνίδι.
+Me? Oh, I hardly ever play...	Εγώ; Α, σχεδόν ποτέ δεν παίζω...
+Lucky! Do it again, I dare you.	Τύχη! Κάν' το ξανά, αν τολμάς.
+Ooh, someone's been practising.	Ωχ, κάποιος έκανε εξάσκηση.
+Aw, so close! Bless.	Αχ, παρά λίγο! Κρίμα.
+Want me to show you how?	Θες να σου δείξω πώς;
+Thank you, sweetie.	Ευχαριστώ, γλυκέ μου.
+Oops, did I do that?	Ουπς, εγώ το έκανα αυτό;
+Must be beginner's luck. Again.	Θα είναι η τύχη του πρωτάρη. Πάλι.
+Missed on purpose. Keeps it interesting.	Αστόχησα επίτηδες. Για να έχει ενδιαφέρον.
+Just warming up.	Απλώς ζεσταίνομαι.
+Oh dear, how clumsy of me. Wink.	Αχ, τι αδέξια που είμαι. Κλείνω το μάτι.
+Hardly ever play, I said. Hardly.	Σχεδόν ποτέ δεν παίζω, είπα. Σχεδόν.
+Fine, you got me. This time.	Εντάξει, με έπιασες. Αυτή τη φορά.
+Friction, momentum, spin. Let us begin.	Τριβή, ορμή, φάλτσο. Ας αρχίσουμε.
+A fine cut. About thirty degrees, I'd say.	Ωραίο κόψιμο. Γύρω στις τριάντα μοίρες, θα έλεγα.
+Textbook.	Σαν από εγχειρίδιο.
+You underestimated the throw.	Υποτίμησες την εκτροπή.
+Interesting. Statistically expected.	Ενδιαφέρον. Στατιστικά αναμενόμενο.
+The cue ball followed the laws of physics, not your plan.	Η λευκή ακολούθησε τους νόμους της φυσικής, όχι το σχέδιό σου.
+As calculated.	Όπως υπολογίστηκε.
+Elastic collision, elegant result.	Ελαστική κρούση, κομψό αποτέλεσμα.
+An error in my measurement.	Σφάλμα στη μέτρησή μου.
+I'll revise the model.	Θα αναθεωρήσω το μοντέλο.
+Hm. Unexpected spin.	Χμ. Απρόσμενο φάλτσο.
+The numbers were on my side.	Οι αριθμοί ήταν με το μέρος μου.
+A result outside my predictions. Well done.	Αποτέλεσμα εκτός των προβλέψεών μου. Μπράβο.
+Focus.	Συγκέντρωση.
+Clean.	Καθαρό.
+Not bad.	Όχι άσχημα.
+Half a millimetre.	Μισό χιλιοστό.
+Breathe before you shoot.	Ανάπνευσε πριν χτυπήσεις.
+Careless.	Απρόσεκτο.
+Target down.	Ο στόχος έπεσε.
+Centre pocket.	Στο κέντρο της τρύπας.
+Hm. Recalibrating.	Χμ. Επαναβαθμονόμηση.
+That never happens.	Αυτό δεν συμβαίνει ποτέ.
+Unacceptable.	Απαράδεκτο.
+Precision wins.	Η ακρίβεια κερδίζει.
+Good shooting.	Ωραίο σημάδι.
+Welcome to my table. Enjoy the show.	Καλώς ήρθες στο τραπέζι μου. Απόλαυσε το θέαμα.
+Very good. You've done your homework.	Πολύ καλά. Έκανες τα μαθήματά σου.
+Applause for the challenger!	Ένα χειροκρότημα για τον διεκδικητή!
+Pressure. It gets to everyone.	Η πίεση. Επηρεάζει όλους.
+Thank you for the table.	Ευχαριστώ για το τραπέζι.
+A champion never refuses a gift.	Ένας πρωταθλητής δεν αρνείται ποτέ ένα δώρο.
+Naturally.	Φυσικά.
+That's how it's done.	Έτσι γίνεται.
+Even champions give the crowd a chance.	Ακόμα και οι πρωταθλητές δίνουν μια ευκαιρία στο κοινό.
+Leaving you something, out of courtesy.	Σου αφήνω κάτι, από ευγένεια.
+A rare sight. Remember it.	Σπάνιο θέαμα. Να το θυμάσαι.
+The title stays with me. Good game.	Ο τίτλος μένει σε μένα. Καλή παρτίδα.
+Remarkable. You've earned my respect.	Αξιοσημείωτο. Κέρδισες τον σεβασμό μου.
+Calibration complete. Good luck, human.	Η βαθμονόμηση ολοκληρώθηκε. Καλή τύχη, άνθρωπε.
+Shot registered: successful.	Χτύπημα καταχωρίστηκε: επιτυχές.
+Probability of my victory: increasing.	Πιθανότητα νίκης μου: αυξάνεται.
+Foul detected. Processing penalty.	Εντοπίστηκε φάουλ. Επεξεργασία ποινής.
+Executed as planned.	Εκτελέστηκε όπως σχεδιάστηκε.
+Error. Recalculating.	Σφάλμα. Επανυπολογισμός.
+Malfunction. Please disregard.	Δυσλειτουργία. Παρακαλώ αγνοήστε.
+Game complete. Thank you for playing.	Η παρτίδα ολοκληρώθηκε. Ευχαριστώ που έπαιξες.
+Defeat acknowledged. Well played.	Η ήττα καταγράφηκε. Ωραία παίχτηκε.
+Drills	Ασκήσεις
+Exercises with stars	Ασκήσεις με αστέρια
+{s} / {max} stars	{s} / {max} αστέρια
+Stars at {a}, {b} and {c}	Αστέρια στα {a}, {b} και {c}
+Your best: {n} of {total}	Το καλύτερό σου: {n} από {total}
+Not tried yet.	Δεν δοκιμάστηκε ακόμα.
+Start the drill	Ξεκίνα την άσκηση
+Sign in to keep your stars in your account.	Συνδέσου για να κρατάς τα αστέρια σου στον λογαριασμό σου.
+{n} of {total}	{n} από {total}
+{drill}: try {k} of {n} · {made} made	{drill}: προσπάθεια {k} από {n} · επιτυχίες: {made}
+Made it! {n} of {total}	Τα κατάφερες! {n} από {total}
+Missed.	Αστόχησες.
+Sending to the server…	Αποστολή στον διακομιστή…
+Not signed in: this session is not ranked.	Δεν έχεις συνδεθεί: αυτή η συνεδρία δεν μπαίνει στην κατάταξη.
+Kept in your account.	Αποθηκεύτηκε στον λογαριασμό σου.
+The session could not be counted.	Η συνεδρία δεν μπόρεσε να μετρηθεί.
+Back to the drills	Πίσω στις ασκήσεις
+Straight in	Ευθεία
+A long straight pot into the corner. Five tries.	Ένα μακρύ ευθύ χτύπημα στη γωνιακή τρύπα. Πέντε προσπάθειες.
+The cut	Το κόψιμο
+A half-ball cut into the corner. Five tries.	Κόψιμο μισής μπάλας στη γωνιακή τρύπα. Πέντε προσπάθειες.
+Draw it back	Κόντρα πίσω
+Pot the ball and draw the cue ball back into the circle. Five tries.	Βάλε την μπάλα και φέρε τη λευκή πίσω στον κύκλο με κόντρα. Πέντε προσπάθειες.
+Follow through	Φάλτσο εμπρός
+Pot the ball and leave the cue ball in the circle past it. Five tries.	Βάλε την μπάλα και άφησε τη λευκή στον κύκλο πιο πέρα. Πέντε προσπάθειες.
+Bank shot	Χτύπημα από μπάντα
+Off one cushion into the side pocket. Five tries.	Από μία μπάντα στη μεσαία τρύπα. Πέντε προσπάθειες.
+Snooker escape	Απόδραση από σνούκερ
+Hit the 1 first: it hides behind other balls. Five tries.	Χτύπα πρώτα την 1: κρύβεται πίσω από άλλες μπάλες. Πέντε προσπάθειες.
+Ten in a row	Δέκα στη σειρά
+Ten different pots, one after another: a miss ends the session.	Δέκα διαφορετικά χτυπήματα, το ένα μετά το άλλο: μια αστοχία τερματίζει τη συνεδρία.
+The far corner	Η μακρινή γωνία
+A cut back up the table into the corner behind you. Five tries.	Κόψιμο προς τα πίσω, στη γωνιακή τρύπα πίσω σου. Πέντε προσπάθειες.
+Long into the side	Μακριά στη μεσαία
+From the far end of the table into the side pocket. Five tries.	Από την άλλη άκρη του τραπεζιού στη μεσαία τρύπα. Πέντε προσπάθειες.
+Cue ball on the cushion	Λευκή στην μπάντα
+The cue ball touches the cushion: pot the ball into the corner all the same. Five tries.	Η λευκή ακουμπά την μπάντα: βάλε την μπάλα στη γωνία παρ' όλα αυτά. Πέντε προσπάθειες.
+The plant	Κολλητές μπάλες
+The 2 touches the 1 and points at the pocket: hit the 2 and the 1 goes in. Five tries.	Η 2 ακουμπά την 1 και δείχνει την τρύπα: χτύπα τη 2 και η 1 μπαίνει. Πέντε προσπάθειες.
+The carom	Το καρόμ
+The 2 is in the way: glance off it and send the 1 into the corner. Five tries.	Η 2 είναι στη μέση: γλίστρησε πάνω της και στείλε την 1 στη γωνία. Πέντε προσπάθειες.
+The long draw	Η μακριά κόντρα
+Pot the ball and draw the cue ball all the way back into the circle. Five tries.	Βάλε την μπάλα και φέρε τη λευκή με κόντρα μέχρι πίσω στον κύκλο. Πέντε προσπάθειες.
+On the tangent line	Στην εφαπτομένη
+Pot the ball in the side and let the cue ball run on into the circle. Five tries.	Βάλε την μπάλα στη μεσαία και άφησε τη λευκή να συνεχίσει ως τον κύκλο. Πέντε προσπάθειες.
+Two-cushion bank	Δύο μπάντες
+Off two cushions and into the corner. Five tries.	Από δύο μπάντες στη γωνιακή τρύπα. Πέντε προσπάθειες.
+Fifteen in a row	Δεκαπέντε στη σειρά
+Fifteen different pots, one after another: a miss ends the session.	Δεκαπέντε διαφορετικά χτυπήματα, το ένα μετά το άλλο: μια αστοχία τερματίζει τη συνεδρία.
+Take back the shot (Z)	Αναίρεση χτυπήματος (Z)
+Shot taken back.	Το χτύπημα αναιρέθηκε.
+Solids	Γεμάτες
+Stripes	Ριγέ
+Hide the history	Απόκρυψη ιστορικού
+New username	Νέο όνομα χρήστη
+Click again to confirm	Κάνε ξανά κλικ για επιβεβαίωση
+{n} of {total} name changes left	Αλλαγές ονόματος που απομένουν: {n} από {total}
+You can't change your username again.	Δεν μπορείς να αλλάξεις ξανά το όνομα χρήστη.
+That is already your username.	Αυτό είναι ήδη το όνομα χρήστη σου.
+Finish your game before changing your username.	Τελείωσε την παρτίδα σου πριν αλλάξεις όνομα χρήστη.
+Leave your table or the queue before changing your username.	Φύγε από το τραπέζι ή την ουρά πριν αλλάξεις όνομα χρήστη.
+Leave your tournament before changing your username.	Φύγε από το τουρνουά πριν αλλάξεις όνομα χρήστη.
+Username changed.	Το όνομα χρήστη άλλαξε.
+The server is still being updated to the new version. Try again in a few minutes.	Ο διακομιστής ενημερώνεται ακόμα στη νέα έκδοση. Δοκίμασε ξανά σε λίγα λεπτά.
+{shooter} made an opponent's ball: {next} to shoot.	Ο/Η {shooter} έβαλε μπάλα του αντιπάλου: χτυπά ο/η {next}.
 # Five more computer opponents: Tito, Inês, Diego, Amara and Yuri.
+The Gambler	Ο Τζογαδόρος
+Bets on every shot: as hard as the cue allows, with all the spin he can find. Safe play bores him.	Ποντάρει σε κάθε χτύπημα: όσο πιο δυνατά αντέχει η στέκα, με όσο φάλτσο βρει. Η άμυνα τον βαριέται.
+The Soft Touch	Το Απαλό Χέρι
+Never hits harder than she must: the balls die at the pocket's edge and the cue ball stops where she wants it.	Δεν χτυπά ποτέ πιο δυνατά απ' όσο χρειάζεται: οι μπάλες σβήνουν στο χείλος της τρύπας και η λευκή σταματά όπου θέλει εκείνη.
+The Showman	Ο Σόουμαν
+Plays to the crowd: a raised cue, swerving spin and a bank whenever there's one. It works more often than it should.	Παίζει για το κοινό: σηκωμένη στέκα, φάλτσα που καμπυλώνουν και μπάντα όποτε γίνεται. Πετυχαίνει πιο συχνά απ' όσο θα έπρεπε.
+The Tactician	Η Στρατηγός
+Plans the whole rack: snookers you when the pot isn't sure, and runs out when it is.	Σχεδιάζει όλο το στήσιμο: σε αφήνει σε σνούκερ όταν η μπάλα δεν είναι σίγουρη, και καθαρίζει όταν είναι.
+The Machine	Η Μηχανή
+No nerves, no flair: centre ball, measured pace, the same perfect stroke every time.	Χωρίς νεύρα, χωρίς φιοριτούρες: κέντρο μπάλας, μετρημένη δύναμη, το ίδιο τέλειο χτύπημα κάθε φορά.
+Place your bets! Mine's on me.	Κάντε τα στοιχήματά σας! Εγώ ποντάρω σε μένα.
+Lucky roll. Let it ride!	Τυχερή ζαριά. Συνεχίζουμε!
+Okay, okay. Double or nothing?	Καλά, καλά. Διπλά ή τίποτα;
+The house always wins!	Η μάνα πάντα κερδίζει!
+Free chips! Thank you!	Δωρεάν μάρκες! Ευχαριστώ!
+All in, and it paid!	Όλα μέσα, και βγήκε!
+That's how you play the odds!	Έτσι παίζονται οι πιθανότητες!
+Bad beat. Next hand.	Κακή φάση. Επόμενο χέρι.
+Too much spin? There's no such thing.	Πολύ φάλτσο; Δεν υπάρχει τέτοιο πράγμα.
+Busted. Worth the risk!	Κάηκα. Άξιζε το ρίσκο!
+Jackpot! Same stakes again?	Τζακπότ! Πάλι με το ίδιο ποντάρισμα;
+You beat the odds. Respect.	Νίκησες τις πιθανότητες. Σέβας.
+Softly, now. The table likes a gentle hand.	Απαλά, τώρα. Το τραπέζι θέλει ελαφρύ χέρι.
+Nicely done.	Ωραία έγινε.
+A little hard, but it went in.	Λίγο δυνατά, αλλά μπήκε.
+Less power, more feel.	Λιγότερη δύναμη, περισσότερη αίσθηση.
+Oh dear. A free ball for me.	Αχ. Μια δωρεάν μπάλα για μένα.
+Just enough to drop.	Ίσα-ίσα για να πέσει.
+See? No need to hit it hard.	Βλέπεις; Δεν χρειάζεται να τη χτυπάς δυνατά.
+A touch too soft.	Λιγάκι πιο απαλά απ' όσο έπρεπε.
+Clumsy of me. Sorry.	Αδέξιο εκ μέρους μου. Συγγνώμη.
+Slow and steady. Thank you for the game.	Σιγά και σταθερά. Ευχαριστώ για την παρτίδα.
+Beautifully played. Well deserved.	Υπέροχα παιγμένο. Άξια.
+Ladies and gentlemen... the show begins!	Κυρίες και κύριοι... η παράσταση αρχίζει!
+Not bad! Bow to the crowd!	Όχι άσχημα! Υποκλίσου στο κοινό!
+You stole my applause!	Μου έκλεψες το χειροκρότημα!
+The crowd wanted more!	Το κοινό ήθελε κι άλλο!
+Ooh, a plot twist!	Ωχ, ανατροπή!
+Ta-da!	Τα-ντα!
+And for my next trick...	Και για το επόμενο κόλπο μου...
+Even magicians have off nights.	Ακόμα και οι μάγοι έχουν κακές βραδιές.
+That was... part of the act.	Αυτό ήταν... μέρος του νούμερου.
+Thank you, thank you! Encore?	Ευχαριστώ, ευχαριστώ! Μπιζ;
+Take a bow, champion. You earned it.	Υποκλίσου, πρωταθλητή. Το κέρδισες.
+Every rack is a puzzle. Let's solve this one.	Κάθε στήσιμο είναι γρίφος. Ας λύσουμε αυτόν.
+Good. Now where is your cue ball?	Ωραία. Και τώρα πού είναι η λευκή σου;
+I saw that coming.	Το περίμενα.
+That left me something. Thank you.	Αυτό μου άφησε κάτι. Ευχαριστώ.
+As planned.	Όπως το σχεδίασα.
+Exactly as I calculated.	Ακριβώς όπως το υπολόγισα.
+Three moves ahead.	Τρεις κινήσεις μπροστά.
+A variable I missed.	Μια μεταβλητή που μου ξέφυγε.
+Hm. Recalculating.	Χμ. Επανυπολογισμός.
+Checkmate.	Ματ.
+You out-thought me. That's rare.	Με ξεπέρασες σε σκέψη. Σπάνιο.
+Game initialised.	Η παρτίδα αρχικοποιήθηκε.
+Noted.	Σημειώθηκε.
+Error margin exceeded.	Το περιθώριο σφάλματος ξεπεράστηκε.
+Penalty applied.	Η ποινή εφαρμόστηκε.
+As expected.	Όπως αναμενόταν.
+Next.	Επόμενο.
+Deviation logged.	Η απόκλιση καταγράφηκε.
+Malfunction. It will not repeat.	Δυσλειτουργία. Δεν θα επαναληφθεί.
+Result: win. Thank you for the data.	Αποτέλεσμα: νίκη. Ευχαριστώ για τα δεδομένα.
+Unexpected outcome. Impressive.	Απρόσμενη έκβαση. Εντυπωσιακό.
+Opponents' remarks	Σχόλια αντιπάλων
+The computer opponents comment on the game in speech bubbles.	Οι αντίπαλοι του υπολογιστή σχολιάζουν την παρτίδα σε συννεφάκια.
+Top view only	Μόνο κάτοψη
+The table is always seen from above: no 3D view, no turning.	Το τραπέζι φαίνεται πάντα από πάνω: χωρίς 3D προβολή, χωρίς περιστροφή.
+Not with the top view only.	Όχι με τη σταθερή κάτοψη.
+Wheel	Ροδέλα ποντικιού
+Rules	Κανόνες
+Rules of the game	Κανόνες του παιχνιδιού
+Level	Οριζόντια
+Drag the cue: jump & massé	Σύρε τη στέκα: άλμα και massé
+Drag to raise or lower the cue	Σύρε για να σηκώσεις ή να χαμηλώσεις τη στέκα
+Drag the cue · {keys}	Σύρε τη στέκα · {keys}
+Profile picture	Εικόνα προφίλ
+Shown by your name at the table and in your profile.	Εμφανίζεται δίπλα στο όνομά σου στο τραπέζι και στο προφίλ σου.
+No picture	Χωρίς εικόνα
+Change your picture	Άλλαξε την εικόνα σου
+{name} sank the 8 together with another ball	Ο/Η {name} έβαλε την 8 μαζί με άλλη μπάλα
+the opponent sank the 8 with another ball	ο αντίπαλος έβαλε την 8 μαζί με άλλη μπάλα
+sank the 8 with another ball	έβαλε την 8 μαζί με άλλη μπάλα
+opponent pocketed the 8-ball together with another ball	ο αντίπαλος έβαλε την μπάλα 8 μαζί με άλλη μπάλα
+Penalty: {balls} off the table for {name}.	Ποινή: {balls} εκτός τραπεζιού υπέρ του/της {name}.
+{name} had fewer balls left than the foul gives: the 8 pays the rest, and the foul loses the game.	Ο/Η {name} είχε λιγότερες μπάλες απ' όσες δίνει το φάουλ: η 8 πληρώνει τα υπόλοιπα, και το φάουλ χάνει την παρτίδα.
+Shadows	Σκιές
+The shadows of the balls and of the cue on the table.	Οι σκιές των μπαλών και της στέκας στο τραπέζι.
+Sixteen players: knockout or arena	Δεκαέξι παίκτες: νοκ άουτ ή αρένα
+New knockout	Νέο νοκ άουτ
+New arena	Νέα αρένα
+Knockout: sixteen players, four rounds. Lose a game and you are out.	Νοκ άουτ: δεκαέξι παίκτες, τέσσερις γύροι. Χάνεις μια παρτίδα και αποκλείεσαι.
+Arena: seven rounds for everyone. A win is 2 points, 3 from the third win in a row. The most points wins.	Αρένα: επτά γύροι για όλους. Μια νίκη δίνει 2 πόντους, 3 από την τρίτη συνεχόμενη νίκη. Κερδίζει όποιος μαζέψει τους περισσότερους πόντους.
+The games between the other players are decided by their strength and a draw.	Οι παρτίδες μεταξύ των άλλων παικτών κρίνονται από τη δύναμή τους και από κλήρωση.
+You won the tournament!	Κέρδισες το τουρνουά!
+{name} won the tournament.	Ο/Η {name} κέρδισε το τουρνουά.
+You finished in place {n}.	Τερμάτισες στη θέση {n}.
+Round of 16	Φάση των 16
+Quarter-finals	Προημιτελικοί
+Round {n} of {total}	Γύρος {n} από {total}
+Play {name}	Παίξε με {name}
+Abandon the tournament	Αποχώρηση από το τουρνουά
+W - L	Ν - Η
+Points	Πόντοι
+The tournament is over.	Το τουρνουά τελείωσε.
+The round is over: see who you play next.	Ο γύρος τελείωσε: δες με ποιον παίζεις μετά.
+You are out of the tournament.	Αποκλείστηκες από το τουρνουά.
+Side pocket	Μεσαία τρύπα
+A cut into the side pocket, where the angle is tight. Five tries.	Κόψιμο στη μεσαία τρύπα, όπου η γωνία είναι κλειστή. Πέντε προσπάθειες.
+The long cut	Το μακρύ κόψιμο
+A cut from the far end of the table into the corner. Five tries.	Κόψιμο από την άλλη άκρη του τραπεζιού στη γωνιακή τρύπα. Πέντε προσπάθειες.
+Thin cut	Λεπτό κόψιμο
+Barely graze the ball: a thin cut into the corner. Five tries.	Μόλις που ακουμπάς την μπάλα: λεπτό κόψιμο στη γωνιακή τρύπα. Πέντε προσπάθειες.
+Along the cushion	Κατά μήκος της μπάντας
+The ball sits by the cushion: run it along into the corner. Five tries.	Η μπάλα είναι δίπλα στην μπάντα: στείλ' την κατά μήκος ως τη γωνιακή τρύπα. Πέντε προσπάθειες.
+Stop shot	Στοπ
+Pot the ball and stop the cue ball dead where the ball was. Five tries.	Βάλε την μπάλα και σταμάτα τη λευκή εκεί που ήταν η μπάλα. Πέντε προσπάθειες.
+The combination	Ο συνδυασμός
+Pot the 1 by playing the 2 into it. Five tries.	Βάλε την 1 παίζοντας τη 2 πάνω της. Πέντε προσπάθειες.
+Cross-corner bank	Χιαστή μπάντα
+Off the long cushion and across the table into the corner. Five tries.	Από τη μακριά μπάντα, διασχίζοντας το τραπέζι, στη γωνιακή τρύπα. Πέντε προσπάθειες.
+Kick shot	Κικ
+The 1 is walled off: send the cue ball off a cushion to hit it first. Five tries.	Η 1 είναι κρυμμένη: στείλε τη λευκή σε μπάντα για να τη χτυπήσεις πρώτη. Πέντε προσπάθειες.
+Only the cue ball went down on the break: the balls are racked again and {next} breaks.	Στο σπάσιμο μπήκε μόνο η λευκή: οι μπάλες ξαναστήνονται και σπάει ο/η {next}.
+Golden break	Χρυσό σπάσιμο
+Win a rated game by sinking only the 8-ball on the break.	Κέρδισε μια βαθμολογημένη παρτίδα βάζοντας μόνο την μπάλα 8 στο σπάσιμο.
+Half a year	Μισός χρόνος
+Have an account for six months.	Έχε λογαριασμό για έξι μήνες.
+First anniversary	Πρώτη επέτειος
+Second anniversary	Δεύτερη επέτειος
+Have an account for two years.	Έχε λογαριασμό για δύο χρόνια.
+Third anniversary	Τρίτη επέτειος
+Have an account for three years.	Έχε λογαριασμό για τρία χρόνια.
+Five years at the table	Πέντε χρόνια στο τραπέζι
+Have an account for five years.	Έχε λογαριασμό για πέντε χρόνια.
+Back to the tournament	Πίσω στο τουρνουά
+Continue against {name}	Συνέχεια με {name}
+You left your game: it counts as a loss.	Έφυγες από την παρτίδα: μετράει ως ήττα.
+new level	νέο επίπεδο
+Level {n} brings: {item}	Το επίπεδο {n} φέρνει: {item}
+Level 5	Επίπεδο 5
+Reach level 5.	Φτάσε στο επίπεδο 5.
+Level 10	Επίπεδο 10
+Reach level 10.	Φτάσε στο επίπεδο 10.
+Level 15	Επίπεδο 15
+Reach level 15.	Φτάσε στο επίπεδο 15.
+Level 20	Επίπεδο 20
+Reach level 20.	Φτάσε στο επίπεδο 20.
+Level 30	Επίπεδο 30
+Reach level 30.	Φτάσε στο επίπεδο 30.
+Level 40	Επίπεδο 40
+Reach level 40.	Φτάσε στο επίπεδο 40.
+Level 50	Επίπεδο 50
+Reach level 50.	Φτάσε στο επίπεδο 50.
+Regular's teal	Πετρόλ του θαμώνα
+Veteran's plum	Δαμασκηνί του βετεράνου
+Old hand	Παλιά καραβάνα
+Lifer	Μια ζωή στο τραπέζι
+Apprentice's chalk	Κιμωλία του μαθητευόμενου
+Journeyman's chalk	Κιμωλία του τεχνίτη
+Achievements	Επιτεύγματα
+Leagues and levels	Λίγκες και επίπεδα
+Next league: {tier}	Επόμενη λίγκα: {tier}
+The top league.	Η κορυφαία λίγκα.
+Every prize of the levels is won.	Όλα τα έπαθλα των επιπέδων κερδήθηκαν.
+None yet: the first is one game away.	Κανένα ακόμα: το πρώτο απέχει μία παρτίδα.
+{coins} and {item}	{coins} και {item}
+Leagues	Λίγκες
+Levels	Επίπεδα
+By playing. Every level pays {n} coins.	Παίζοντας. Κάθε επίπεδο δίνει {n} νομίσματα.
+where everyone starts	εκεί που ξεκινούν όλοι
+from {n}	από {n}
+The top level.	Το ανώτατο επίπεδο.
+{n} XP to level {next}	{n} XP για το επίπεδο {next}
+{n} levels to go	Επίπεδα που απομένουν: {n}
+new league	νέα λίγκα
+Old-timer's black	Μαύρο του παλιού
+Expert league blue	Μπλε της λίγκας Ειδήμων
+Master league violet	Βιολετί της λίγκας Μάστερ
+Legend league gold	Χρυσό της λίγκας Θρύλος
+Skilled league chalk	Κιμωλία της λίγκας Ικανός
+By rating. Each league pays once.	Με βάση τη βαθμολογία. Κάθε λίγκα δίνει έπαθλο μία φορά.
+cue	στέκα
+cloth	τσόχα
+chalk	κιμωλία
+Always show the head string	Πάντα εμφάνιση γραμμής κεφαλής
+The line the break is played from, always on the table (off: only while placing the cue ball behind it).	Η γραμμή από την οποία γίνεται το σπάσιμο, πάντα στο τραπέζι (ανενεργό: μόνο όταν τοποθετείς τη λευκή πίσω της).
+{who} ran out of time: the turn passes.	Τελείωσε ο χρόνος του/της {who}: η σειρά περνά στον αντίπαλο.
+{who} ran out of time with no ball left to give {other}: the 8 pays, and {who} loses.	Τελείωσε ο χρόνος του/της {who} χωρίς να μένει μπάλα για τον/την {other}: η 8 πληρώνει και ο/η {who} χάνει.
+{who} ran out of time: the cue ball goes back to the head spot and the turn passes.	Τελείωσε ο χρόνος του/της {who}: η λευκή επιστρέφει στο σημείο κεφαλής και η σειρά περνά στον αντίπαλο.
+{who} ran out of time: {balls} off the table for {other}, and the cue ball goes back to the head spot.	Τελείωσε ο χρόνος του/της {who}: {balls} εκτός τραπεζιού υπέρ του/της {other}, και η λευκή επιστρέφει στο σημείο κεφαλής.
+You were muted for {n} minutes: {r}	Τέθηκες σε σίγαση για {n} λεπτά: {r}
+Your account was suspended for {n} hours: {r}	Ο λογαριασμός σου ανεστάλη για {n} ώρες: {r}
+The server restarts in {minutes} min for an update. Games in progress go on; new games start right after.	Ο διακομιστής κάνει επανεκκίνηση σε {minutes} λ. για ενημέρωση. Οι παρτίδες σε εξέλιξη συνεχίζονται· οι νέες ξεκινούν αμέσως μετά.
+The {cup} was called off: not enough players signed up.	Το {cup} ακυρώθηκε: δεν γράφτηκαν αρκετοί παίκτες.
+The {cup} is open for sign-up: it starts soon in Tournaments.	Οι εγγραφές για το {cup} άνοιξαν: ξεκινά σύντομα στα Τουρνουά.
+{display} won the tournament “{name}”!	Ο/Η {display} κέρδισε το τουρνουά «{name}»!
+Sunday Cup	Κύπελλο Κυριακής
+Monday Cup	Κύπελλο Δευτέρας
+Tuesday Cup	Κύπελλο Τρίτης
+Wednesday Cup	Κύπελλο Τετάρτης
+Thursday Cup	Κύπελλο Πέμπτης
+Friday Cup	Κύπελλο Παρασκευής
+Saturday Cup	Κύπελλο Σαββάτου
+{name} · rating {r}	{name} · βαθμολογία {r}
+Something went wrong. Try again.	Κάτι πήγε στραβά. Δοκίμασε ξανά.
+member for 1 day	μέλος εδώ και 1 ημέρα
+Game in progress: 1 ball left	Παρτίδα σε εξέλιξη: απομένει 1 μπάλα
+1 level to go	απομένει 1 επίπεδο
+1 more online win with this cue for level {n}. Levels only add marks to the cue.	Ακόμα 1 online νίκη με αυτή τη στέκα για το επίπεδο {n}. Τα επίπεδα απλώς προσθέτουν σημάδια στη στέκα.
+Home	Home
+End	End
+PgUp	PgUp
+PgDn	PgDn
+Ins	Ins
+Could not join the LAN game	Δεν ήταν δυνατή η είσοδος στην παρτίδα LAN
+LAN game · others join at {address}	Παρτίδα LAN · οι άλλοι μπαίνουν στο {address}
+Click to copy	Κλικ για αντιγραφή
+Copied.	Αντιγράφηκε.
+Start a new game?	Νέα παρτίδα;
+You have a game in progress against the computer, with 1 ball left. A new game takes its place.	Έχεις παρτίδα σε εξέλιξη με τον υπολογιστή, με 1 μπάλα να απομένει. Μια νέα παρτίδα θα πάρει τη θέση της.
+You have a game in progress against the computer, with {n} balls left. A new game takes its place.	Έχεις παρτίδα σε εξέλιξη με τον υπολογιστή, με {n} μπάλες να απομένουν. Μια νέα παρτίδα θα πάρει τη θέση της.
+Continue that game	Συνέχισε εκείνη
+Start a new one	Ξεκίνα νέα
+Click again to close the game: {n} will be disconnected	Κάνε ξανά κλικ για να κλείσεις την παρτίδα: θα αποσυνδεθούν {n}
+{name} cleared the table in one visit!	Ο/Η {name} καθάρισε το τραπέζι σε μία επίσκεψη!
+{name}: {n} in a row!	{name}: {n} στη σειρά!
+Watch the deciding shot again	Δες ξανά το καθοριστικό χτύπημα
+Next: {name}	Επόμενος: {name}
+Drag on the table to aim, or click a ball	Σύρε στο τραπέζι για να σημαδέψεις ή κάνε κλικ σε μπάλα
+Set the power	Ρύθμισε τη δύναμη
+Let go of {key} to shoot · Esc cancels	Άφησε το {key} για να χτυπήσεις · Esc ακύρωση
+Staff accounts can't change their username.	Οι λογαριασμοί της ομάδας δεν μπορούν να αλλάξουν όνομα χρήστη.
+That password can't be used. Choose another one.	Αυτός ο κωδικός δεν μπορεί να χρησιμοποιηθεί. Διάλεξε άλλον.
+That tournament is full.	Αυτό το τουρνουά είναι γεμάτο.
+The server is restarting: your tournament was called off.	Ο διακομιστής κάνει επανεκκίνηση: το τουρνουά σου ακυρώθηκε.
+Too many sign-ins. Wait a minute and try again.	Πάρα πολλές συνδέσεις. Περίμενε ένα λεπτό και δοκίμασε ξανά.
+Too many wrong passwords. Try again in a few minutes.	Πάρα πολλοί λάθος κωδικοί. Δοκίμασε ξανά σε λίγα λεπτά.
+Your VIP subscription could not be cancelled. Try again in a moment.	Δεν ήταν δυνατή η ακύρωση της συνδρομής VIP. Δοκίμασε ξανά σε λίγο.
+Balls of both groups on the break: the turn passes to {next}, the table is open.	Μπάλες και των δύο ομάδων στο σπάσιμο: η σειρά περνά στον/στην {next}, το τραπέζι είναι ανοιχτό.
+Only a final started while signed in counts: play the last stage again signed in.	Μετράει μόνο τελικός που ξεκίνησε ενώ ήσουν συνδεδεμένος: παίξε ξανά το τελευταίο στάδιο συνδεδεμένος.
+The server didn't deal the final: this game won't earn the reward.	Ο διακομιστής δεν έστησε τον τελικό: αυτή η παρτίδα δεν δίνει το έπαθλο.
+The server didn't answer: this session won't be ranked.	Ο διακομιστής δεν απάντησε: αυτή η συνεδρία δεν μπαίνει στην κατάταξη.
+The server is dealing the final…	Ο διακομιστής στήνει τον τελικό…
+The server is setting up the drill…	Ο διακομιστής ετοιμάζει την άσκηση…
+Not signed in: a win in this final won't earn the reward.	Δεν έχεις συνδεθεί: μια νίκη σε αυτόν τον τελικό δεν δίνει το έπαθλο.
+Not kept: sessions count when started signed in.	Δεν αποθηκεύτηκε: οι συνεδρίες μετρούν όταν ξεκινούν ενώ είσαι συνδεδεμένος.
+Warning from the staff: {text}	Προειδοποίηση από την ομάδα: {text}
+The staff changed your username to {name}. Sign in again.	Η ομάδα άλλαξε το όνομα χρήστη σου σε {name}. Συνδέσου ξανά.
+The staff called off the tournament you were in.	Η ομάδα ακύρωσε το τουρνουά στο οποίο συμμετείχες.
+Experience ×{n}	Εμπειρία ×{n}
+Coins from games ×{n}	Νομίσματα από παρτίδες ×{n}
+Themed tournament	Θεματικό τουρνουά
+Event	Εκδήλωση
+Events	Εκδηλώσεις
+Warning from the staff	Προειδοποίηση από την ομάδα
+Esc to cancel	Esc για ακύρωση
+Will be sent when you're back online.	Θα σταλεί όταν ξανασυνδεθείς.
+Your strokes will be sent when you're back online.	Τα χτυπήματά σου θα σταλούν όταν ξανασυνδεθείς.
+The final you won was dealt to {name}: sign in as {name} to claim the reward.	Ο τελικός που κέρδισες στήθηκε για τον/την {name}: συνδέσου ως {name} για να παραλάβεις το έπαθλο.
+Type your password to confirm it's you.	Γράψε τον κωδικό σου για να επιβεβαιώσεις ότι είσαι εσύ.
+The cue ball is back on the head spot: {next} plays from there.	Η λευκή επιστρέφει στο σημείο κεφαλής: ο/η {next} παίζει από εκεί.
+{name} came online	Ο/Η {name} συνδέθηκε
+Online now: {names}	Online τώρα: {names}
+Nobody else is online right now.	Δεν είναι κανείς άλλος online αυτή τη στιγμή.
+Focus mode	Λειτουργία συγκέντρωσης
+No invitations while you play: they are turned away until the game is over.	Χωρίς προσκλήσεις όσο παίζεις: απορρίπτονται μέχρι να τελειώσει η παρτίδα.
+in focus mode	σε λειτουργία συγκέντρωσης
+In focus mode: no invitations until their game is over.	Σε λειτουργία συγκέντρωσης: χωρίς προσκλήσεις μέχρι να τελειώσει η παρτίδα του.
+That player is in focus mode and isn't taking invitations until their game is over.	Αυτός ο παίκτης είναι σε λειτουργία συγκέντρωσης και δεν δέχεται προσκλήσεις μέχρι να τελειώσει η παρτίδα του.
+Look at it closely	Δες το από κοντά
+Sign in to buy	Συνδέσου για αγορά
+Sign in to use	Συνδέσου για χρήση
+Back to the shop (Esc)	Πίσω στο κατάστημα (Esc)
+Show the interface (H)	Εμφάνιση διεπαφής (H)
+Hide the interface (H)	Απόκρυψη διεπαφής (H)
+Turn (Space)	Περιστροφή (Διάστημα)
+Stop turning (Space)	Διακοπή περιστροφής (Διάστημα)
+Zoom in (+)	Μεγέθυνση (+)
+Zoom out (−)	Σμίκρυνση (−)
+Back to the start (R)	Πίσω στην αρχή (R)
+Previous setting ([)	Προηγούμενο σκηνικό ([)
+Next setting (])	Επόμενο σκηνικό (])
+Setting	Σκηνικό
+Studio	Στούντιο
+Your table	Στο τραπέζι σου
+Drag with the right button to turn · wheel to zoom · double-click to look closer	Σύρε με το δεξί κουμπί για περιστροφή · ροδέλα για ζουμ · διπλό κλικ για να δεις από κοντά
+Drag with the right button to turn · wheel to zoom · click a ball to look at it	Σύρε με το δεξί κουμπί για περιστροφή · ροδέλα για ζουμ · κλικ σε μπάλα για να τη δεις
+The set	Το σετ
+From above	Από πάνω
+Low angle	Χαμηλή γωνία
+Cue ball	Λευκή μπάλα
+Ball {n}	Μπάλα {n}
+Whole	Ολόκληρη
+Tip	Μύτη
+Joint	Ένωση
+Butt	Λαβή
+Top	Πάνω
+Cue	Στέκα
+Table	Τραπέζι
+Hall	Αίθουσα
+Corner	Γωνιακή τρύπα
+Side	Μεσαία τρύπα
+Leg	Πόδι
+Close-up	Από κοντά
+Cushion	Μπάντα
+Phenolic resin under a bright clear coat	Φαινολική ρητίνη κάτω από γυαλιστερό βερνίκι
+A pearly sheen that shifts with the light	Μια σεντεφένια λάμψη που αλλάζει με το φως
+Brushed metal, bright as a mirror	Βουρτσισμένο μέταλλο, γυαλιστερό σαν καθρέφτης
+Old ivory: soft, warm and matte	Παλιό ελεφαντόδοντο: απαλό, ζεστό και ματ
+A full-size cue, tip to butt: turn it, come close to its joint and its butt	Μια στέκα σε πραγματικό μέγεθος, από τη μύτη ως τη λαβή: γύρισέ τη, πλησίασε την ένωση και τη λαβή της
+A cube of chalk, and the colour it leaves on the tip	Ένας κύβος κιμωλίας, και το χρώμα που αφήνει στη μύτη
+The cloth on the table: come close to see its weave	Η τσόχα στο τραπέζι: πλησίασε για να δεις την ύφανσή της
+Dark mahogany, turned legs and brass castings	Σκούρο μαόνι, τορνευτά πόδια και μπρούτζινες γωνίες
+Light teak, square legs and chrome castings	Ανοιχτόχρωμο τικ, τετράγωνα πόδια και χρωμιωμένες γωνίες
+Deep mahogany, carved legs and leather pocket nets	Βαθύ μαόνι, σκαλιστά πόδια και δερμάτινα διχτάκια στις τρύπες
+Black lacquer and brushed aluminium on two slab legs	Μαύρη λάκα και βουρτσισμένο αλουμίνιο σε δύο πόδια-πλάκες
+Black ebony with gold castings and inlays	Μαύρος έβενος με χρυσές γωνίες και ένθετα
+Reclaimed oak rails on a riveted black steel frame	Μπάντες από ανακυκλωμένη δρυ σε σκελετό από μαύρο καρφωτό ατσάλι
+A pro tournament table: charcoal rails, block legs, chrome	Επαγγελματικό τραπέζι τουρνουά: ανθρακί μπάντες, συμπαγή πόδια, χρώμιο
+Figured walnut on barley-twist legs, brass and leather	Νερωτή καρυδιά σε στριφτά πόδια, μπρούτζος και δέρμα
+Ivory lacquer and gold on fluted columns	Λάκα σε χρώμα ελεφαντόδοντου και χρυσός σε αυλακωτές κολόνες
+Panelling, the bar, cue racks, posters and neon	Ξυλοεπένδυση, το μπαρ, θήκες για στέκες, αφίσες και νέον
+A deck at sunset, open windows, palms and string lights	Μια βεράντα στο ηλιοβασίλεμα, ανοιχτά παράθυρα, φοίνικες και γιρλάντες με λαμπάκια
+Panelling, bookshelves, leather sofas and a fireplace	Ξυλοεπένδυση, βιβλιοθήκες, δερμάτινοι καναπέδες και τζάκι
+Brick, steel windows over the city and Edison bulbs	Τούβλο, ατσάλινα παράθυρα με θέα την πόλη και λάμπες Edison
+Log walls, a stone fireplace and snowy peaks outside	Τοίχοι από κορμούς, πέτρινο τζάκι και χιονισμένες κορυφές απέξω
+A black mirror floor, neon tubes and arcade cabinets	Μαύρο δάπεδο-καθρέφτης, σωλήνες νέον και μηχανήματα arcade
+A marble chessboard floor, gold, velvet and mirrors	Μαρμάρινο δάπεδο σαν σκακιέρα, χρυσός, βελούδο και καθρέφτες
+Glass walls on the city at night, pale marble and oak	Γυάλινοι τοίχοι με θέα τη νυχτερινή πόλη, ανοιχτόχρωμο μάρμαρο και δρυς
+A gold medal!	Χρυσό μετάλλιο!
+A silver medal!	Ασημένιο μετάλλιο!
+A bronze medal!	Χάλκινο μετάλλιο!
+Silver medal	Ασημένιο μετάλλιο
+Bronze medal	Χάλκινο μετάλλιο
+Your medals	Τα μετάλλιά σου
+Kept in your account the next time you're online.	Θα αποθηκευτούν στον λογαριασμό σου την επόμενη φορά που θα είσαι online.
+Sign in to keep them in your account.	Συνδέσου για να τα κρατήσεις στον λογαριασμό σου.
+18 or older	18 ετών και άνω
+Under 18	Κάτω των 18
+Creating an account means accepting the	Δημιουργώντας λογαριασμό αποδέχεσαι τους
+For a parent or guardian…	Για γονέα ή κηδεμόνα…
+A parent or guardian turned the chat on for this account. They can turn it off here at any time.	Ένας γονέας ή κηδεμόνας ενεργοποίησε τη συνομιλία για αυτόν τον λογαριασμό. Μπορεί να την απενεργοποιήσει εδώ οποιαδήποτε στιγμή.
+This account belongs to someone under 18. By law, the chat with other players (messages in the lounge and in games, notes, status and gift messages) stays off until their mother, father or legal guardian turns it on.	Αυτός ο λογαριασμός ανήκει σε άτομο κάτω των 18. Σύμφωνα με τον νόμο, η συνομιλία με άλλους παίκτες (μηνύματα στο σαλόνι και στις παρτίδες, σημειώσεις, μηνύματα κατάστασης και δώρων) μένει απενεργοποιημένη μέχρι να την ενεργοποιήσει η μητέρα, ο πατέρας ή ο νόμιμος κηδεμόνας του.
+I am this player's mother, father or legal guardian, I have read the terms of use and I allow them to chat with other players.	Είμαι η μητέρα, ο πατέρας ή ο νόμιμος κηδεμόνας αυτού του παίκτη, διάβασα τους όρους χρήσης και του επιτρέπω να συνομιλεί με άλλους παίκτες.
+Chat for players under 18	Συνομιλία για παίκτες κάτω των 18
+Turn the chat off	Απενεργοποίηση συνομιλίας
+{n} more invitations	Ακόμα {n} προσκλήσεις
+Invitation	Πρόσκληση
+Turn the chat on	Ενεργοποίηση συνομιλίας
+Chat off: under 18. A parent or guardian can turn it on.	Συνομιλία ανενεργή: κάτω των 18. Ένας γονέας ή κηδεμόνας μπορεί να την ενεργοποιήσει.
+The chat with other players is off until you turn it on.	Η συνομιλία με άλλους παίκτες είναι ανενεργή μέχρι να την ενεργοποιήσεις.
+Write to turn the chat on…	Γράψε για να ενεργοποιήσεις τη συνομιλία…
+Chat with other players	Συνομιλία με άλλους παίκτες
+The chat with other players is off until you turn it on. To turn it on, tell us your age group: it can't be changed from the game afterwards.	Η συνομιλία με άλλους παίκτες είναι ανενεργή μέχρι να την ενεργοποιήσεις. Για να την ενεργοποιήσεις, πες μας την ηλικιακή σου ομάδα: δεν μπορεί να αλλάξει αργότερα από το παιχνίδι.
+Under 18: a parent or guardian must agree to the terms with you and turn the chat on.	Κάτω των 18: ένας γονέας ή κηδεμόνας πρέπει να αποδεχτεί τους όρους μαζί σου και να ενεργοποιήσει τη συνομιλία.
+Not now	Όχι τώρα
+Terms of use	Όροι χρήσης
+Privacy policy	Πολιτική απορρήτου
+You have 7 days to change your mind and get your money back.	Έχεις 7 ημέρες για να το μετανιώσεις και να πάρεις πίσω τα χρήματά σου.
+Under 18: buy only with a parent's or guardian's permission.	Κάτω των 18: αγόρασε μόνο με την άδεια γονέα ή κηδεμόνα.
+Renews every month until you cancel. 7 days to change your mind.	Ανανεώνεται κάθε μήνα μέχρι να ακυρώσεις. 7 ημέρες για να το μετανιώσεις.
+About	Σχετικά
+Accounts, purchases and refunds, the rules of the online game.	Λογαριασμοί, αγορές και επιστροφές χρημάτων, οι κανόνες του online παιχνιδιού.
+What the game keeps, and your rights.	Τι κρατά το παιχνίδι και τα δικαιώματά σου.
+Open	Άνοιγμα
+Credits	Συντελεστές
+Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Γραμματοσειρές: DejaVu και Noto (OFL). Σημαίες: flag-icons (MIT). Αντιδράσεις και emoji: Twemoji (CC-BY 4.0). Ονόματα χωρών: iso-codes (LGPL-2.1). Ο κώδικας του παιχνιδιού είναι ανοιχτός (MIT).
+The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	Η συνομιλία είναι ανενεργή για παίκτες κάτω των 18. Ένας γονέας ή κηδεμόνας μπορεί να την ενεργοποιήσει κάτω από τη συνομιλία του σαλονιού.
+No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	Καμία μπάλα δεν χτυπήθηκε στο σπάσιμο: σπάει ο/η {next}, με τη λευκή στο χέρι πίσω από τη γραμμή κεφαλής.
+The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	Η λευκή μπήκε στο σπάσιμο χωρίς να μπει άλλη μπάλα: σπάει ο/η {next}, με τη λευκή στο χέρι πίσω από τη γραμμή κεφαλής.
+Users online	Χρήστες online
+ping {ms} ms	ping {ms} ms
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks, with the cue ball in hand behind the head string.	Η λευκή μπήκε στο σπάσιμο μαζί με μπάλες και των δύο ομάδων: χωρίς ποινή, το τραπέζι μένει ανοιχτό και σπάει ο/η {next}, με τη λευκή στο χέρι πίσω από τη γραμμή κεφαλής.
+Brazilian	Βραζιλιάνικοι
+Official	Επίσημοι
+Brazilian rules	Βραζιλιάνικοι κανόνες
+Official rules	Επίσημοι κανόνες
+Brazilian rules (inside a sentence)	βραζιλιάνικοι κανόνες
+Official rules (inside a sentence)	επίσημοι κανόνες
+Brazilian (inside a sentence)	βραζιλιάνικοι
+Official (inside a sentence)	επίσημοι
+As played in Brazil's bars	Όπως παίζεται στα μπαρ της Βραζιλίας
+As played in tournaments (WPA)	Όπως παίζεται στα τουρνουά (WPA)
+on the Brazilian rules	με βραζιλιάνικους κανόνες
+on the official rules	με επίσημους κανόνες
+A ball left the table on the break.	Μια μπάλα βγήκε από το τραπέζι στο σπάσιμο.
+A ball off the table on the break	Μπάλα εκτός τραπεζιού στο σπάσιμο
+A safety calls nothing: whatever goes in stays down, and the turn passes.	Η άμυνα δεν δηλώνει τίποτα: ό,τι μπει μένει μέσα και η σειρά περνά στον αντίπαλο.
+Break yourself	Σπάσε εσύ
+CALLED POCKET	ΔΗΛΩΜΕΝΗ ΤΡΥΠΑ
+Choose	Επιλογή
+Choose how play goes on	Διάλεξε πώς συνεχίζει το παιχνίδι
+Choose the rules of your games. You can switch them any time, in the main menu.	Διάλεξε τους κανόνες των παρτίδων σου. Μπορείς να τους αλλάξεις όποτε θέλεις, στο κύριο μενού.
+Click a pocket on the table to call it; click it again to follow your aim.	Κάνε κλικ σε μια τρύπα στο τραπέζι για να τη δηλώσεις· κάνε ξανά κλικ για να ακολουθεί τη σκόπευσή σου.
+Cue ball in hand	Λευκή στο χέρι
+Each of the rules has its own rating: these games don't change your {rating} under the {other}.	Κάθε σύνολο κανόνων έχει δική του βαθμολογία: αυτές οι παρτίδες δεν αλλάζουν τη βαθμολογία σου στο άλλο ({other}: {rating}).
+Find an opponent of your level automatically ({rules})	Βρες αυτόματα αντίπαλο του επιπέδου σου ({rules})
+How do you like to play?	Πώς σου αρέσει να παίζεις;
+How does play go on? Choose one:	Πώς συνεχίζει το παιχνίδι; Διάλεξε ένα:
+Illegal break: no ball made and fewer than four balls reached a cushion.	Αντικανονικό σπάσιμο: δεν μπήκε μπάλα και λιγότερες από τέσσερις μπάλες έφτασαν σε μπάντα.
+Invite {name}	Πρόσκληση σε {name}
+No ball went in the called pocket ({pocket}): {next} to shoot.	Καμία μπάλα δεν μπήκε στη δηλωμένη τρύπα ({pocket}): χτυπά ο/η {next}.
+No pocket was called (a safety): {next} to shoot.	Δεν δηλώθηκε τρύπα (άμυνα): χτυπά ο/η {next}.
+Not sure what changes?	Δεν είσαι σίγουρος τι αλλάζει;
+Place it anywhere behind the head string.	Τοποθέτησέ τη οπουδήποτε πίσω από τη γραμμή κεφαλής.
+Play on	Συνέχισε να παίζεις
+Players against the computer under these rules	Παίκτες με τον υπολογιστή με αυτούς τους κανόνες
+Players online under these rules (the lounge and online games)	Παίκτες online με αυτούς τους κανόνες (σαλόνι και online παρτίδες)
+RULES OF YOUR GAMES	ΚΑΝΟΝΕΣ ΤΩΝ ΠΑΡΤΙΔΩΝ ΣΟΥ
+Read both rules	Διάβασε και τους δύο κανονισμούς
+Rules of your games	Κανόνες των παρτίδων σου
+Safety	Άμυνα
+Safety: no pocket	Άμυνα: χωρίς τρύπα
+Show the {rules}: the rank, the league and the chart	Εμφάνιση ({rules}): θέση, λίγκα και γράφημα
+The 8 is spotted and you keep shooting.	Η 8 επανατοποθετείται και συνεχίζεις να χτυπάς.
+The 8 is spotted; the cue ball in hand behind the head string.	Η 8 επανατοποθετείται· η λευκή στο χέρι πίσω από τη γραμμή κεφαλής.
+The 8 on a break with a foul	Η 8 σε σπάσιμο με φάουλ
+The 8 on the break	Η 8 στο σπάσιμο
+The 8 went down on a break with a foul: it is spotted.	Η 8 μπήκε σε σπάσιμο με φάουλ: επανατοποθετείται.
+The 8 went down on the break: it is spotted.	Η 8 μπήκε στο σπάσιμο: επανατοποθετείται.
+The balls are racked again and you break.	Οι μπάλες ξαναστήνονται και σπας εσύ.
+The balls are racked again and {name} breaks.	Οι μπάλες ξαναστήνονται και σπάει ο/η {name}.
+The balls are racked again: {name} breaks.	Οι μπάλες ξαναστήνονται: σπάει ο/η {name}.
+The balls are racked again: {other} breaks.	Οι μπάλες ξαναστήνονται: σπάει ο/η {other}.
+The rules of this game: click to read them	Οι κανόνες αυτής της παρτίδας: κλικ για να τους διαβάσεις
+The rules of your games: click to switch	Οι κανόνες των παρτίδων σου: κλικ για αλλαγή
+The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	Ο διακόπτης του κύριου μενού: online, με τον υπολογιστή και δύο παίκτες. Κάθε σύνολο κανόνων έχει δική του βαθμολογία.
+The table as it lies.	Το τραπέζι όπως είναι.
+The top 100 of each rules · rated games	Οι 100 κορυφαίοι σε κάθε σύνολο κανόνων · βαθμολογημένες παρτίδες
+The {ball} lay behind the head string and the cue ball hit it without crossing the line first	Η {ball} ήταν πίσω από τη γραμμή κεφαλής και η λευκή τη χτύπησε χωρίς να περάσει πρώτα τη γραμμή
+What changes between the rules: click to read them	Τι αλλάζει μεταξύ των κανόνων: κλικ για να τους διαβάσεις
+With the cue ball in hand behind the head string.	Με τη λευκή στο χέρι πίσω από τη γραμμή κεφαλής.
+follows your aim	ακολουθεί τη σκόπευσή σου
+no rated games yet	καμία βαθμολογημένη παρτίδα ακόμα
+open table: the called ball you make sets your group	ανοιχτό τραπέζι: η δηλωμένη μπάλα που θα βάλεις ορίζει την ομάδα σου
+peak {n} · {games} games	κορυφή {n} · παρτίδες: {games}
+playing now	παίζει τώρα
+your call	δική σου δήλωση
+{name} breaks again	Ο/Η {name} σπάει ξανά
+{name} chooses: play on, or rack the balls and break again.	Ο/Η {name} διαλέγει: συνέχεια του παιχνιδιού ή ξαναστήσιμο και νέο σπάσιμο.
+{name} chooses: play the table as it lies, or take the cue ball in hand behind the head string.	Ο/Η {name} διαλέγει: να παίξει το τραπέζι όπως είναι ή να πάρει τη λευκή στο χέρι πίσω από τη γραμμή κεφαλής.
+{name} chooses: play the table as it lies, rack the balls and break, or have {breaker} break again.	Ο/Η {name} διαλέγει: να παίξει το τραπέζι όπως είναι, να ξαναστήσει και να σπάσει ή να ξανασπάσει ο/η {breaker}.
+{name} chooses: play the table as it lies, take the cue ball in hand behind the head string, rack the balls and break, or have {breaker} break again.	Ο/Η {name} διαλέγει: να παίξει το τραπέζι όπως είναι, να πάρει τη λευκή στο χέρι πίσω από τη γραμμή κεφαλής, να ξαναστήσει και να σπάσει ή να ξανασπάσει ο/η {breaker}.
+{name} chooses: the cue ball in hand behind the head string, or rack the balls and break.	Ο/Η {name} διαλέγει: τη λευκή στο χέρι πίσω από τη γραμμή κεφαλής ή ξαναστήσιμο και σπάσιμο.
+{name} is choosing how play goes on…	Ο/Η {name} διαλέγει πώς συνεχίζει το παιχνίδι…
+{name} plays on (the 8 is spotted).	Ο/Η {name} συνεχίζει να παίζει (η 8 επανατοποθετείται).
+{name} plays the table as it lies.	Ο/Η {name} παίζει το τραπέζι όπως είναι.
+{name} plays the {theirs} now; yours are the {mine}.	Ο/Η {name} παίζει τώρα: {theirs}· εσύ: {mine}.
+{name} takes the cue ball in hand.	Ο/Η {name} παίρνει τη λευκή στο χέρι.
+{next} has the cue ball in hand behind the head string.	Ο/Η {next} έχει τη λευκή στο χέρι πίσω από τη γραμμή κεφαλής.
+{next} has the cue ball in hand: anywhere on the table.	Ο/Η {next} έχει τη λευκή στο χέρι: οπουδήποτε στο τραπέζι.
+{n} points to {tier} ({rules})	{n} πόντοι για {tier} ({rules})
+{n} waiting	Σε αναμονή: {n}
+A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Ένα φάουλ δίνει στον αντίπαλο μπάλες της ομάδας του. Μπάλα στο χέρι υπάρχει μόνο στο σπάσιμο, και δηλώνεται μόνο η τρύπα της 8.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	Ένα φάουλ δίνει στον αντίπαλο μπάλα στο χέρι, οπουδήποτε στο τραπέζι. Κάθε χτύπημα δηλώνεται, και το σπάσιμο πρέπει να στείλει τέσσερις μπάλες σε μπάντα.
+A foul gives balls to the opponent	Το φάουλ δίνει μπάλες στον αντίπαλο
+Ball in hand on the break only	Μπάλα στο χέρι μόνο στο σπάσιμο
+Only the 8's pocket is called	Δηλώνεται μόνο η τρύπα της 8
+The most played in Brazil	Το πιο δημοφιλές στη Βραζιλία
+A foul gives ball in hand	Το φάουλ δίνει μπάλα στο χέρι
+The break drives four balls to a cushion	Το σπάσιμο στέλνει τέσσερις μπάλες σε μπάντα
+Every shot is called	Κάθε χτύπημα δηλώνεται
+The same all over the world	Ίδιοι σε όλο τον κόσμο
+Game type	Είδος παρτίδας
+called: {pocket}	δήλωση: {pocket}
+no call: a safety	χωρίς δήλωση: άμυνα
+A safety: nothing called. Click again to call the pocket you aim at.	Άμυνα: δεν δηλώθηκε τίποτα. Κάνε ξανά κλικ για να δηλώσεις την τρύπα που σημαδεύεις.
+A safety calls nothing: whatever goes in stays down, and the turn passes. To call another pocket, click it on the table.	Η άμυνα δεν δηλώνει τίποτα: ό,τι μπει μένει μέσα και η σειρά περνά στον αντίπαλο. Για να δηλώσεις άλλη τρύπα, κάνε κλικ πάνω της στο τραπέζι.
+{games} games · {pct}% won	Παρτίδες: {games} · {pct}% νίκες
+Each of the rules has its own rating; the level, coins and achievements are shared.	Κάθε σύνολο κανόνων έχει δική του βαθμολογία· το επίπεδο, τα νομίσματα και τα επιτεύγματα είναι κοινά.
+You already have a VIP subscription: manage it with Manage subscription.	Έχεις ήδη συνδρομή VIP: διαχειρίσου τη με τη Διαχείριση συνδρομής.
+Your opponent can't start another game yet.	Ο αντίπαλός σου δεν μπορεί ακόμα να ξεκινήσει άλλη παρτίδα.
+A tournament's name is shown to everyone: with your chat off, you can join tournaments but not create one.	Το όνομα ενός τουρνουά το βλέπουν όλοι: με τη συνομιλία σου ανενεργή, μπορείς να μπαίνεις σε τουρνουά αλλά όχι να φτιάξεις.
+The connection dropped: check your coins before trying again.	Η σύνδεση χάθηκε: έλεγξε τα νομίσματά σου πριν δοκιμάσεις ξανά.
+Sign in to buy coins.	Συνδέσου για να αγοράσεις νομίσματα.
+Sign in to become VIP.	Συνδέσου για να γίνεις VIP.
+how play goes on after the break is undecided	δεν έχει αποφασιστεί ακόμα πώς συνεχίζει το παιχνίδι μετά το σπάσιμο
+Finish your game, and leave your table, the queue or your tournament first.	Τελείωσε πρώτα την παρτίδα σου και φύγε από το τραπέζι, την ουρά ή το τουρνουά σου.
+That choice can't be made now.	Αυτή η επιλογή δεν μπορεί να γίνει τώρα.
+That medal can't be.	Αυτό το μετάλλιο δεν υπάρχει.
+{name}'s tournament	Τουρνουά του/της {name}
+When time runs out, it's a foul: your opponent gets a ball and the cue ball goes back to the head spot.	Όταν τελειώσει ο χρόνος, είναι φάουλ: ο αντίπαλός σου παίρνει μια μπάλα και η λευκή επιστρέφει στο σημείο κεφαλής.
+When time runs out, it's a foul: your opponent gets the cue ball in hand.	Όταν τελειώσει ο χρόνος, είναι φάουλ: ο αντίπαλός σου παίρνει μπάλα στο χέρι.
+Your username was changed. Sign in again.	Το όνομα χρήστη σου άλλαξε. Συνδέσου ξανά.
+You have your tournament game in progress. A new game takes its place, and the tournament game counts as lost.	Έχεις την παρτίδα του τουρνουά σε εξέλιξη. Μια νέα παρτίδα θα πάρει τη θέση της και η παρτίδα του τουρνουά θα μετρήσει ως ήττα.
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks again, from the head spot.	Η λευκή μπήκε στο σπάσιμο μαζί με μπάλες και των δύο ομάδων: χωρίς ποινή, το τραπέζι μένει ανοιχτό και ο/η {next} σπάει ξανά, από το σημείο κεφαλής.
+The cue ball went down on the break with no ball made: {next} breaks again, from the head spot.	Η λευκή μπήκε στο σπάσιμο χωρίς να μπει άλλη μπάλα: ο/η {next} σπάει ξανά, από το σημείο κεφαλής.
+{who} ran out of time: {other} breaks, from the head spot.	Τελείωσε ο χρόνος του/της {who}: σπάει ο/η {other}, από το σημείο κεφαλής.
+Congratulations!	Συγχαρητήρια!
+You earned a new item: {title}	Κέρδισες νέο αντικείμενο: {title}
+You earned a new item!	Κέρδισες νέο αντικείμενο!

@@ -1,66 +1,66 @@
-# Snook Legend: the official rules of eight-ball (the World Pool-Billiard
-# Association's Rules of Play), shown in the game.
-# "## <part>" starts a part, "### <title>" a rule, and the lines after it
-# are its text. The same parts and rules, in the same order, in every
-# language.
+# Snook Legend: οι επίσημοι κανόνες της μπάλας 8 (οι κανόνες της World Pool-Billiard
+# Association), όπως εμφανίζονται στο παιχνίδι.
+# Το "## <μέρος>" ξεκινά ένα μέρος, το "### <τίτλος>" έναν κανόνα, και οι γραμμές μετά
+# είναι το κείμενό του. Τα ίδια μέρη και οι ίδιοι κανόνες, με την ίδια σειρά, σε κάθε
+# γλώσσα.
 
-## The game
+## Το παιχνίδι
 
-### The official rules (WPA)
-The eight-ball of international tournaments, as the World Pool-Billiard Association plays it. Snook Legend has the Brazilian rules too: choose the rules of your games in the main menu. If you play the Brazilian rules, read the break, the calls and the fouls below, because they differ a lot.
+### Οι επίσημοι κανόνες (WPA)
+Η μπάλα 8 των διεθνών τουρνουά, όπως την παίζει η World Pool-Billiard Association. Το Snook Legend έχει και τους βραζιλιάνικους κανόνες: διάλεξε τους κανόνες των παρτίδων σου στο κύριο μενού. Αν παίζεις με βραζιλιάνικους κανόνες, διάβασε το σπάσιμο, τις δηλώσεις και τα φάουλ παρακάτω, γιατί διαφέρουν πολύ.
 
-### The aim
-Each player has a group of seven balls: solids (1 to 7) or stripes (9 to 15). Pocket all of yours and then the 8-ball, in the pocket you call, before your opponent does.
+### Ο στόχος
+Κάθε παίκτης έχει μια ομάδα επτά μπαλών: γεμάτες (1 έως 7) ή ριγέ (9 έως 15). Βάλε όλες τις δικές σου και μετά την μπάλα 8, στην τρύπα που δηλώνεις, πριν από τον αντίπαλό σου.
 
-### Your turn
-You keep shooting while you make a ball of your group in the pocket you called, on a shot without a foul. Otherwise the turn passes, and the balls that went in stay down.
+### Η σειρά σου
+Συνεχίζεις να χτυπάς όσο βάζεις μπάλα της ομάδας σου στην τρύπα που δήλωσες, σε χτύπημα χωρίς φάουλ. Αλλιώς η σειρά περνά στον αντίπαλο, και οι μπάλες που μπήκαν μένουν μέσα.
 
-## The break
+## Το σπάσιμο
 
-### The break shot
-The cue ball is in your hand: place it anywhere behind the head string. Nothing is called on the break. For it to be legal you must make a ball or drive at least four object balls to a cushion.
+### Το χτύπημα του σπασίματος
+Η λευκή είναι στο χέρι σου: τοποθέτησέ τη οπουδήποτε πίσω από τη γραμμή κεφαλής. Στο σπάσιμο δεν δηλώνεται τίποτα. Για να είναι έγκυρο, πρέπει να βάλεις μια μπάλα ή να στείλεις τουλάχιστον τέσσερις μπάλες σε μπάντα.
 
-### An illegal break
-If no ball goes in and fewer than four reach a cushion, your opponent chooses: play the table as it lies, have the balls racked and break themselves, or have you break again.
+### Αντικανονικό σπάσιμο
+Αν δεν μπει καμία μπάλα και λιγότερες από τέσσερις φτάσουν σε μπάντα, ο αντίπαλος διαλέγει: να παίξει το τραπέζι όπως είναι, να ξαναστηθούν οι μπάλες και να σπάσει ο ίδιος ή να ξανασπάσεις εσύ.
 
-### After the break
-A ball made on a legal break keeps the table, but the table stays open: the break never decides the groups. If the cue ball goes in or leaves the table on a legal break, your opponent has it in hand behind the head string.
+### Μετά το σπάσιμο
+Μια μπάλα που μπαίνει σε έγκυρο σπάσιμο σού κρατά τη σειρά, αλλά το τραπέζι μένει ανοιχτό: το σπάσιμο δεν ορίζει ποτέ τις ομάδες. Αν η λευκή μπει ή βγει από το τραπέζι σε έγκυρο σπάσιμο, ο αντίπαλος την έχει στο χέρι πίσω από τη γραμμή κεφαλής.
 
-### The 8-ball on the break
-Pocketing the 8 on the break neither wins nor loses: it comes back to the foot spot, and you play on or have the balls racked and break again. If you also fouled, your opponent chooses: the cue ball in hand behind the head string, or the balls racked again and they break.
+### Η μπάλα 8 στο σπάσιμο
+Αν βάλεις την 8 στο σπάσιμο, ούτε κερδίζεις ούτε χάνεις: επιστρέφει στο σημείο τριγώνου, και συνεχίζεις να παίζεις ή ξαναστήνονται οι μπάλες και σπας ξανά. Αν έκανες και φάουλ, ο αντίπαλος διαλέγει: τη λευκή στο χέρι πίσω από τη γραμμή κεφαλής ή να ξαναστηθούν οι μπάλες και να σπάσει ο ίδιος.
 
-### A ball off the table on the break
-It is a foul, and the ball stays off (only the 8 comes back). Your opponent plays the table as it lies or takes the cue ball in hand behind the head string. If the break was illegal too, they may also have the balls racked again, as above.
+### Μπάλα εκτός τραπεζιού στο σπάσιμο
+Είναι φάουλ, και η μπάλα μένει έξω (μόνο η 8 επιστρέφει). Ο αντίπαλος παίζει το τραπέζι όπως είναι ή παίρνει τη λευκή στο χέρι πίσω από τη γραμμή κεφαλής. Αν το σπάσιμο ήταν και αντικανονικό, μπορεί επίσης να ζητήσει να ξαναστηθούν οι μπάλες, όπως παραπάνω.
 
-## Calling and playing
+## Δήλωση και παιχνίδι
 
-### Open table
-While the groups are not decided, the table is open: you may hit any ball first except the 8. The group of the ball you make in the called pocket becomes yours. If one group is already off the table, you may play the 8.
+### Ανοιχτό τραπέζι
+Όσο δεν έχουν οριστεί οι ομάδες, το τραπέζι είναι ανοιχτό: μπορείς να χτυπήσεις πρώτα οποιαδήποτε μπάλα εκτός από την 8. Η ομάδα της μπάλας που βάζεις στη δηλωμένη τρύπα γίνεται δική σου. Αν μια ομάδα έχει ήδη φύγει από το τραπέζι, μπορείς να παίξεις την 8.
 
-### Calling your shot
-Every shot except the break is called. In the game you call a pocket: following your aim, it calls the pocket the ball you hit is heading for (the ring on the pocket). Click another pocket to call it, or play a safety. A ball of your group (or the 8, when you are on it) made in the called pocket keeps the table, also off a cushion or another ball.
+### Δήλωση χτυπήματος
+Κάθε χτύπημα εκτός από το σπάσιμο δηλώνεται. Στο παιχνίδι δηλώνεις μια τρύπα: ακολουθώντας τη σκόπευσή σου, δηλώνεται η τρύπα προς την οποία πηγαίνει η μπάλα που χτυπάς (ο δακτύλιος στην τρύπα). Κάνε κλικ σε άλλη τρύπα για να τη δηλώσεις ή παίξε άμυνα. Μια μπάλα της ομάδας σου (ή η 8, όταν είσαι σε αυτήν) που μπαίνει στη δηλωμένη τρύπα σού κρατά τη σειρά, ακόμα και από μπάντα ή από άλλη μπάλα.
 
-### Safety
-A shot with no pocket called is a safety: whatever goes in stays down, and the turn passes to your opponent.
+### Άμυνα
+Ένα χτύπημα χωρίς δηλωμένη τρύπα είναι άμυνα: ό,τι μπει μένει μέσα, και η σειρά περνά στον αντίπαλο.
 
-### The cue ball behind the head string
-With the cue ball in hand behind the head string, you can't hit a ball that also lies behind it unless the cue ball crosses the head string first. If every ball you may hit lies behind it, the one nearest to the head string comes back to the foot spot.
+### Η λευκή πίσω από τη γραμμή κεφαλής
+Με τη λευκή στο χέρι πίσω από τη γραμμή κεφαλής, δεν μπορείς να χτυπήσεις μπάλα που βρίσκεται κι αυτή πίσω από τη γραμμή, εκτός αν η λευκή περάσει πρώτα τη γραμμή κεφαλής. Αν όλες οι μπάλες που μπορείς να χτυπήσεις βρίσκονται πίσω από αυτήν, αυτή που είναι πιο κοντά στη γραμμή κεφαλής επιστρέφει στο σημείο τριγώνου.
 
-## Fouls
+## Φάουλ
 
-### Ball in hand
-After any foul, your opponent has the cue ball in hand: they place it anywhere on the table. No ball comes off the table as a penalty.
+### Μπάλα στο χέρι
+Μετά από κάθε φάουλ, ο αντίπαλος έχει τη λευκή στο χέρι: την τοποθετεί οπουδήποτε στο τραπέζι. Καμία μπάλα δεν βγαίνει από το τραπέζι ως ποινή.
 
-### What is a foul
-The cue ball in a pocket or off the table; hitting no ball, or the wrong ball first (one of your opponent's, or the 8 too soon); after the contact, no ball made and no ball reaching a cushion (a ball lying against a cushion only reaches it by leaving it and coming back); an object ball off the table (it stays off).
+### Τι είναι φάουλ
+Η λευκή σε τρύπα ή εκτός τραπεζιού· να μη χτυπήσεις καμία μπάλα ή να χτυπήσεις πρώτα λάθος μπάλα (του αντιπάλου ή την 8 πολύ νωρίς)· μετά την επαφή, να μην μπει καμία μπάλα και καμία να μη φτάσει σε μπάντα (μια μπάλα που ακουμπά σε μπάντα τη φτάνει μόνο αν απομακρυνθεί και ξαναγυρίσει)· μια μπάλα εκτός τραπεζιού (μένει έξω).
 
-### The shot clock
-When the game has a shot clock and it runs out, it is a foul: your opponent has the cue ball in hand. A choice after the break that isn't made in time takes its first option.
+### Ο χρόνος χτυπήματος
+Όταν η παρτίδα έχει χρόνο χτυπήματος και αυτός τελειώσει, είναι φάουλ: ο αντίπαλος έχει τη λευκή στο χέρι. Μια επιλογή μετά το σπάσιμο που δεν γίνεται εγκαίρως παίρνει την πρώτη της επιλογή.
 
-## The 8-ball
+## Η μπάλα 8
 
-### Winning
-Once your group is off the table, pocket the 8 in the pocket you called, on a shot without a foul.
+### Νίκη
+Μόλις η ομάδα σου φύγει από το τραπέζι, βάλε την 8 στην τρύπα που δήλωσες, σε χτύπημα χωρίς φάουλ.
 
-### Losing on the 8
-You lose by pocketing the 8 on a foul, before your group is off the table or in a pocket you didn't call, and by knocking the 8 off the table. None of this applies to the break.
+### Ήττα στην 8
+Χάνεις αν βάλεις την 8 με φάουλ, πριν φύγει η ομάδα σου από το τραπέζι ή σε τρύπα που δεν δήλωσες, και αν βγάλεις την 8 εκτός τραπεζιού. Τίποτα από αυτά δεν ισχύει στο σπάσιμο.

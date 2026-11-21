@@ -1,0 +1,300 @@
+301	Inga öppna bord. Öppna ett så kan andra slå sig ner.
+302	Inga andra öppna bord just nu.
+303	Spelaren finns inte.
+304	Inga turneringar just nu. Skapa en!
+305	Stötande namn
+306	I farten
+307	Het
+308	Bara värden kan starta turneringen.
+309	Öppna ett bord
+310	Eller anslut via adress
+311	Annat
+312	Andra kan ansluta på {ip}:{port}
+313	Lösenord behöver minst 8 tecken (inte bara siffror).
+314	Spela 1 000 rankade partier.
+315	Spela 10 rankade partier.
+316	Spela 100 rankade partier.
+317	Spela 25 vänskapliga partier.
+318	Spela 500 rankade partier.
+319	Spela i en turnering.
+320	Spela online
+321	Spela med vänner i samma nätverk
+322	Spela ditt första rankade parti.
+323	Spelare 1
+324	Spelare
+325	Spelare i en turnering kan inte starta andra partier.
+326	Upprepa inte samma meddelande.
+327	Biljardhallens legend
+328	Populär
+329	Privat
+330	så att dina vänner kan slå sig ner
+331	Profil
+332	{key}: se senaste stöten igen
+333	REPRIS
+334	Rankad
+335	Rankade partier, bord, turneringar och vänner
+336	Nå en rating på 1300.
+337	Nå en rating på 1500.
+338	Nå en rating på 1700.
+339	Nå en rating på 1900.
+340	Nå en rating på 2100.
+341	Uppdatera
+342	Stammis
+343	Ta bort vän
+344	Repris
+345	Anmäl
+346	Anmäl {name}
+347	Förfrågan skickad
+348	Vän
+349	Senaste
+350	Ingen än. De du spelar med online visas här.
+351	{n} partier
+352	Nybörjare
+353	Omgång {n}
+354	Sök…
+355	Semifinaler
+356	Skicka anmälan
+357	Det här partiet skickas med anmälan så att moderatorerna kan se det.
+358	Ditt parti mot {name} ({date}) skickas med anmälan så att moderatorerna kan se det.
+359	Du har inte spelat mot {name} det senaste dygnet: moderatorerna ser den senaste chatten.
+360	Hajen
+361	Visar träffpunkten; vinkeln bedömer du själv.
+362	Nolla
+363	Logga in
+364	Logga in eller skapa ett konto
+365	Logga ut
+366	Slå dig ner
+367	Skicklig
+368	Någon med det namnet är redan här.
+369	Spam
+370	Starta nu
+371	Stoppa reprisen
+372	Bordsrensaren
+373	Bord
+374	Turas om på den här datorn
+375	Tack. Moderatorerna tittar på det.
+376	Tack. Moderatorerna tittar på det, med ditt parti bifogat.
+377	Den spelaren tar inte emot inbjudningar.
+378	Den stöten gällde en tidigare tur.
+379	Det bordet är inte längre öppet.
+380	Den turneringen har redan börjat.
+381	Den turneringen finns inte längre.
+382	Dagens första anslutning kan ta upp till en minut medan servern vaknar.
+383	Första gången: tillåt Snook Legend i brandväggen när du blir tillfrågad.
+384	Servern kunde inte spela den stöten.
+385	Servern är upptagen. Försök igen om en stund.
+386	Turneringen startar när den är full (värden kan starta den tidigare).
+387	Det finns för många turneringar just nu. Gå med i en!
+388	Det här är en LAN-server: gå med som gäst.
+389	Femton rivaler, en turné och spöken av riktiga spelare
+390	Nivå
+391	Tid per stöt
+392	För många misslyckade försök. Vänta några minuter och försök igen.
+393	För många meddelanden.
+394	För många nya konton från det här nätverket. Försök igen senare.
+395	Topp 100 · rankade partier
+396	Turneringsparti: nästa omgång startar från loungen.
+397	Turneringspartier har ingen revansch.
+398	Turneringar
+399	Turneringar har 4, 8 eller 16 spelare.
+400	Två spelare
+401	Avblockera
+402	Upplåst {date}
+403	Ostoppbar
+404	V
+405	Se senaste stöten igen
+406	Vad hände? (valfritt)
+407	När tiden tar slut går turen över.
+408	Utklassning
+409	Vinn 10 rankade partier på 8-bollen.
+410	Vinn 10 rankade partier i rad.
+411	Vinn 10 rankade partier.
+412	Vinn 10 rankade partier med nolla.
+413	Vinn 100 rankade partier på 8-bollen.
+414	Vinn 100 rankade partier.
+415	Vinn 250 rankade partier på 8-bollen.
+416	Vinn 3 rankade partier i rad.
+417	Vinn 5 rankade partier i rad.
+418	Vinn 5 turneringar.
+419	Vinn 50 rankade partier på 8-bollen.
+420	Vinn 50 rankade partier.
+421	Vinn 500 rankade partier.
+422	Vinn ett rankat parti.
+423	Vinn en turnering.
+424	Vinn ett rankat parti innan motståndaren har sänkt en boll ur sin grupp.
+425	Vinn ett rankat parti direkt från utslaget utan att motståndaren får en stöt.
+426	Dra dig ur
+427	Världsranking
+428	Fel lösenord till bordet.
+429	Fel lösenord till turneringen.
+430	Du är redan med i en turnering.
+431	Du är värd för ett parti
+432	Du kan inte gå med vid det här bordet.
+433	Du loggade in från en annan plats.
+434	Du skickar inbjudningar för snabbt.
+435	Du skickar meddelanden för snabbt.
+436	Du har skickat många anmälningar. Vänta innan du skickar fler.
+437	Din vänlista är full.
+438	Din nästa match startar av sig själv när båda spelarna är lediga.
+439	Din profil
+440	Ditt bord är öppet
+441	Zooma in
+442	Zooma ut
+443	vid ett bord
+444	bästa svit
+445	av {host} · {n}/{size} spelare
+446	vänskapliga partier
+447	vänskaplig · privat
+448	vänskaplig · offentlig
+449	ansluter till servern
+450	8-ball
+451	avslutad
+452	gäst
+453	bjuder in dig till {kind}
+454	gick med i dag
+455	medlem i {n} dagar
+456	medlem i {n} månader
+457	medlem i {n} år
+458	offline
+459	öppet
+460	valfritt: bara vänner som har det kan gå med
+461	lösenord
+462	toppnotering {n}
+463	spelar
+464	spelar mot datorn
+465	borta
+466	det här partiet är sparat
+467	rankade partier
+468	rankad · privat
+469	rankad · offentlig
+470	förfrågan skickad
+471	anslutningen bröts
+472	för att spela online
+473	turnering
+474	vunna turneringar
+475	väntar på en motståndare…
+476	vinstandel
+477	vinster
+478	vunna på 8-bollen
+479	{host}s parti
+480	{name} vill bli vänner
+481	{name} vill bli din vän.
+482	{n} online
+483	sänkte 8-bollen
+484	motståndaren sänkte 8-bollen
+485	motståndaren sänkte 8-bollen för tidigt
+486	sänkte 8-bollen för tidigt
+487	motståndaren sänkte 8-bollen i fel hål
+488	sänkte 8-bollen i fel hål
+489	motståndaren gjorde foul på 8-bollen
+490	gjorde foul på 8-bollen
+491	motståndaren slog 8-bollen av bordet
+492	slog 8-bollen av bordet
+493	motståndaren gav upp
+494	gav upp
+495	motståndaren lämnade
+496	lämnade partiet
+497	Du är tystad i {n} minuter till.
+498	Det här kontot är avstängt i {n} dag(ar) till. Orsak: {reason}.
+499	Det här kontot är bannlyst. Orsak: {reason}.
+500	Du har tystats: {r}
+501	Ditt konto har stängts av: {r}
+502	Ditt konto har bannlysts: {r}
+503	En moderator kopplade bort dig: {r}
+504	En moderator kopplade bort dig.
+505	Logga in igen.
+506	Ditt lösenord har ändrats. Logga in igen.
+507	Anta revansch
+508	Anta
+509	Sikta
+510	Siktguide
+511	Sikte
+512	Kantutjämning
+513	Jämnar ut taggiga kanter på linjer och bollar.
+514	Tillbaka till loungen
+515	Balanserad: flyter på de flesta bärbara datorer.
+516	Boll i hand
+517	Gör utslaget
+518	Kameran drar sig bakåt för att se varje stöt
+519	Kamera
+520	Avbryt
+521	Vänskapligt parti: ratingen påverkas inte
+522	Mitten
+523	Chatt
+524	Klicka på en boll eller en punkt
+525	Klicka för att chatta, Enter för att skicka
+526	Kontroller
+527	Skapa konto
+528	Träffpunkt på vita bollen
+529	Avböj
+530	Klar
+531	Dra vita bollen
+532	Höjd
+533	Allt, med reflexer i blanka golv: för speldatorer.
+534	Finsikte
+535	Avsluta den här matchen först.
+536	För gamla eller mycket långsamma datorer.
+537	Helskärm
+538	Även med {key}.
+539	Full
+540	Spelserver
+541	Ändra bara för att spela på en annan server.
+542	Avancerat
+543	Annan server
+544	Grafikkvalitet
+545	Kvalitet
+546	Skärm
+547	Hög
+548	Bjud in
+549	Gå till loungen
+550	Lämna
+551	Att lämna nu räknas som förlust.
+552	Loungechatt
+553	Låg
+554	Huvudmeny
+555	Medel
+556	Meny / hjälp
+557	Nästa parti börjar om en stund…
+558	Inga rankade partier än. Bli först!
+559	Ingen annan är här just nu.
+560	Söker du ett parti?
+561	Söker parti
+562	Sätt upp en lapp
+563	Alla i loungen ser den i 30 minuter
+564	Vad söker du? ({kind})
+565	Publicera
+566	Din lapp: {text}
+567	{mode} · {left} kvar
+568	Ta ner
+569	Utmana
+570	Ta ner lappen
+571	Av
+572	På 8-bollen: anmäl ett hål
+573	På 8-bollen
+574	Öppet bord
+575	Lösenord
+576	Pausat
+577	Spela
+578	Spelare 2
+579	Spelare
+580	Snabbsikte
+581	Avsluta
+582	Återansluten.
+583	Revansch
+584	Ge upp partiet
+585	Starta om spelet för att tillämpa ändringen.
+586	Fortsätt
+587	Försök igen
+588	Sparar resultatet…
+589	Säg hej… (Enter för att skicka)
+590	Skicka
+591	Inställningar
+592	{key} + dra
+593	{key}: 3D / vy ovanifrån
+594	{keys}: zoom
+595	Vy
+596	Sikta åt vänster
+597	Sikta åt höger
+598	Finsikte (håll)
+599	Stöt (håll, släpp)
+600	Överskruv

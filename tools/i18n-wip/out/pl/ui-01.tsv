@@ -1,300 +1,300 @@
-1|{name} gra na ósemkę – zadeklarowana łuza: {pocket}
-2|Na ósemkę: łuza {pocket}
-3|Pokaż ping
-4|Opóźnienie twojego połączenia w partiach online.
-5|Reakcje
-6|Sklep
-7|Sukno
-8|Kije
-9|Kreda
-10|Bile
-11|Monety
-12|monet
-13|Zaloguj się, aby kupować i używać przedmiotów. Oto, co jest w sklepie:
-14|W użyciu
-15|Użyj
-16|Kup
-17|brakuje {n}
-18|{n} monet
-19|Za mało monet: zdobądź więcej w zakładce Monety.
-20|Tylko VIP
-21|za darmo
-22|posiadane
-23|osiągnięcie
-24|Na tym serwerze nie można jeszcze kupować monet.
-25|+{n} gratis
-26|Płatność otworzy się w przeglądarce (karta, Pix…), na bezpiecznej stronie Stripe.
-27|Monety dotrą za chwilę; służą tylko do kupowania przedmiotów w grze.
-28|Ekskluzywne przedmioty: {list}
-29|{n} monet co miesiąc
-30|Anuluj, kiedy chcesz: VIP trwa do końca opłaconego miesiąca
-31|Masz VIP do {d}.
-32|Zarządzaj subskrypcją
-33|Zostań VIP · {p}
-34|Na tym serwerze nie można jeszcze kupić VIP.
-35|Strona płatności otworzyła się w przeglądarce.
-36|Nie udało się otworzyć przeglądarki.
-37|Turniejowa zieleń
-38|Elektryczny błękit
-39|Burgund
-40|Grafit
-41|Morski
-42|Królewska purpura
-43|Karmel
-44|Nocny granat
-45|Czerwień mistrza
-46|Klasyczny
-47|Palisander
-48|Heban i srebro
-49|Karbon
-50|Intarsja z kości słoniowej
-51|Korona
-52|Klejnoty
-53|Niebieska kreda
-54|Zielona kreda
-55|Czerwona kreda
-56|Fioletowa kreda
-57|Złota kreda
-58|Vintage
-59|Pastele
-60|Neon
-61|Masz już ten przedmiot.
-62|Za mało monet.
-63|Zakup się nie udał; nie pobrano monet.
-64|Nie ma takiego przedmiotu.
-65|Tego przedmiotu nie można kupić za monety.
-66|Nie masz tego przedmiotu.
-67|Zakupy są niedostępne.
-68|Ten pakiet nie jest w sprzedaży.
-69|Nie udało się otworzyć strony płatności. Spróbuj ponownie za chwilę.
-70|Masz już VIP.
-71|Nie masz subskrypcji, którą można zarządzać.
-72|Nie udało się otworzyć strony. Spróbuj ponownie za chwilę.
-73|Monety dodane do portfela.
-74|Witaj w VIP!
-75|Trochę zwolnij.
-76|Nie możesz tego zrobić.
-77|Jest teraz za dużo ogłoszeń. Spróbuj ponownie za kilka minut.
-78|Moderator usunął twoje ogłoszenie.
-79|Moderator wyczyścił twój status.
-80|Status wyczyszczony.
-81|VIP
-82|Graj teraz
-83|Automatycznie znajdź przeciwnika na twoim poziomie
-84|Szukanie przeciwnika… {t}
-85|dowolny ranking
-86|ranking ±{n} · {mode}
-87|Skuteczność wbić
-88|Wbite bile
-89|Najlepsza seria
-90|Faule
-91|online przed chwilą
-92|online {n} min temu
-93|online {n} godz. temu
-94|online wczoraj
-95|online {n} dni temu
-96|online {n} mies. temu
-97|przed chwilą
-98|{n} min temu
-99|{n} godz. temu
-100|wczoraj
-101|{n} dni temu
-102|Historia partii
-103|Na razie nic.
-104|Precyzyjne celowanie: klikaj strzałki lub przeciągnij tutaj
-105|Oglądający: {n}
-106|Oglądasz: {name}
-107|Twoje reakcje trafiają do stołu po cichu.
-108|Przestań oglądać
-109|Jeśli zagrają ponownie, nadal będziesz oglądać.
-110|Twój znajomy odszedł od stołu.
-111|Twój znajomy teraz nie gra.
-112|Możesz oglądać tylko znajomych.
-113|Nie możesz oglądać tej partii.
-114|Do ligi {tier}: {n} pkt
-115|Najwyższa liga
-116|Reakcje {n}/{total}
-117|Nawiedzony stół
-118|Wygraj partię rankingową w Halloween (24 paź – 2 lis).
-119|Liga zimowa
-120|Wygraj partię rankingową w okresie świątecznym (15 gru – 6 sty).
-121|Fajerwerki
-122|Wygraj partię rankingową na przełomie roku (31 gru – 1 sty).
-123|Pokazuje, dokąd potoczą się bila zagrywana i biała (tylko w partiach swobodnych i na treningu).
-124|Online: {n} · ping {ms} ms
-125|Przeciągnij prawym · Kółko
-126|% wygranych
-127|Zresetuj kamerę: widok z góry, bez przybliżenia
-128|{name} wbija ósemkę
-129|{name} wbija ósemkę za wcześnie
-130|{name} wbija ósemkę do złej łuzy
-131|{name} fauluje na ósemce
-132|{name} wybija ósemkę ze stołu
-133|{name} poddaje partię
-134|{name} opuszcza partię
-135|{winner} wygrywa! ({how})
-136|#{n} na świecie
-137|3–16 liter, cyfr lub podkreślników.
-138|Bez linii na stole: celuj na oko, wzdłuż kija.
-139|Bez pomocy
-140|Tylko krótka linia od białej bili.
-141|Przyjmij do znajomych
-142|Odblokowano osiągnięcie: {title}
-143|Osiągnięcia {n}/{total}
-144|Dodaj
-145|Dodaj znajomego po nazwie użytkownika
-146|Dodaj znajomego
-147|Z komputerem
-148|Wszystkie turnieje
-149|Amator
-150|Co najmniej 8 znaków. Użyj hasła, którego nie używasz nigdzie indziej.
-151|Potrzeba co najmniej dwóch graczy.
-152|Wróć
-153|Czarna bila
-154|Zablokuj
-155|Rozbij i wyczyść
-156|Wyczyść stół od rozbicia 10 razy.
-157|Nie można tu wyszukiwać gier: dołącz przez adres poniżej.
-158|Anuluj zaproszenie
-159|Anuluj turniej
-160|Towarzyska
-161|Centurion
-162|Czempion
-163|Zwycięzca: {name}
-164|Zmień kraj
-165|Dodaj status
-166|Kilka słów o sobie
-167|Zapisz (Enter)
-168|Anuluj (Esc)
-169|Zmień swój status
-170|Wyczyść status
-171|Oszustwo lub nadużycie
-172|Wybierz…
-173|Kliknij ponownie, aby zablokować
-174|Zamknij
-175|Finiszer
-176|Zawodnik
-177|Łączenie z serwerem…
-178|Nie udało się utworzyć gry: {e}
-179|Kraj
-180|Utwórz
-181|Utwórz turniej
-182|Nie pokazuj flagi
-183|Nie znaleziono kraju.
-184|Dynastia
-185|Ósemka wystarczy
-186|Kat
-187|Ekspert
-188|Znajoma twarz
-189|Finał
-190|Najpierw dokończ partię.
-191|Pierwsza krew
-192|Pierwsze rozbicie
-193|Zaproszenie do znajomych wysłane.
-194|Znajomi
-195|partia korespondencyjna
-196|Korespondencja
-197|Partia korespondencyjna
-198|Partie korespondencyjne
-199|Wyzwij gracza po nazwie użytkownika
-200|Wyzwij na partię korespondencyjną
-201|3 dni na każdy ruch
-202|Nie masz jeszcze partii korespondencyjnych. Wyzwij znajomego: każde z was wykonuje ruch, kiedy może.
-203|wyzywa cię · {kind}
-204|czeka na odpowiedź · {kind} · zostało {time}
-205|twój ruch · zostało {time}
-206|ruch przeciwnika · zostało {time}
-207|wygrana · {how}
-208|przegrana · {how}
-209|koniec czasu
-210|przeciwnikowi skończył się czas
-211|stół otwarty
-212|Ty: {mine}, zostało: {a} · {name}: {theirs}, zostało: {b}
-213|Zobacz
-214|Pomiń
-215|Powtórka ruchu gracza {name}
-216|Uderzenie {n} z {total}
-217|Ruch wysłany
-218|Ruch wysłany.
-219|Czekamy na ruch gracza {name}
-220|{name} ma {time} na ruch. Damy ci znać, gdy przyjdzie twoja kolej.
-221|Na ruch zostało {time}. Damy ci znać, gdy przyjdzie twoja kolej.
-222|Wróć do partii korespondencyjnych
-223|Partia jest zapisana: wróć, kiedy zechcesz.
-224|{d} d {h} h
-225|{name}: koniec czasu
-226|Nie można wyświetlić tej partii.
-227|Czeka na ciebie partia korespondencyjna
-228|Czekające na ciebie partie korespondencyjne: {n}
-229|{name} wyzywa cię na rankingową partię korespondencyjną.
-230|{name} wyzywa cię na towarzyską partię korespondencyjną.
-231|{name} przyjmuje twoje wyzwanie na partię korespondencyjną.
-232|{name} odrzuca twoje wyzwanie na partię korespondencyjną.
-233|{name} wycofuje wyzwanie na partię korespondencyjną.
-234|Twój ruch w partii korespondencyjnej z graczem {name}.
-235|{name}: koniec czasu – wygrywasz partię korespondencyjną.
-236|Wygrywasz partię korespondencyjną z graczem {name}!
-237|Skończył ci się czas w partii korespondencyjnej z graczem {name}.
-238|Przegrywasz partię korespondencyjną z graczem {name}.
-239|Wyzwanie wysłane.
-240|Partie korespondencyjne wymagają konta.
-241|Nie ma takiej partii.
-242|To wyzwanie jest już nieaktualne.
-243|Ten gracz już cię wyzwał: odpowiedz na jego wyzwanie.
-244|Ten gracz ma za dużo oczekujących wyzwań.
-245|Ten gracz ma za dużo trwających partii korespondencyjnych.
-246|Ten gracz nie przyjmuje wyzwań.
-247|Tej partii nie można teraz rozegrać.
-248|Partia zmieniła się w międzyczasie: otwórz ją ponownie.
-249|Ta partia już się zakończyła.
-250|Ten gracz ma już od ciebie wyzwanie.
-251|Masz już trwającą partię z tym graczem.
-252|Ten gracz jest przez ciebie zablokowany.
-253|Nie możesz wyzwać samego siebie.
-254|Masz już tyle partii korespondencyjnych, ile można grać naraz.
-255|Masz za dużo wyzwań czekających na odpowiedź.
-256|Wysyłasz wyzwania za szybko.
-257|Skończył ci się czas na ten ruch.
-258|Partie
-259|Gry w twojej sieci
-260|Nadaj turniejowi nazwę (co najmniej 3 znaki).
-261|Dobre towarzystwo
-262|Arcymistrz
-263|Goście mogą dołączać tylko do gier LAN. Utwórz konto.
-264|Goście nie mogą grać w turniejach rankingowych.
-265|Niedostępne dla gości.
-266|Nękanie
-267|Hat-trick
-268|Miej 10 znajomych.
-269|Miej konto od 30 dni.
-270|Miej konto od roku.
-271|Utwórz grę na tym komputerze
-272|Gospodarz {host} · gracze: {n}/{size} · {kind}
-273|Gorąca ręka
-274|Cwaniak
-275|Nieprawidłowe uderzenie.
-276|Dołącz
-277|Dołączanie do gry LAN…
-278|Dla zabawy
-279|P
-280|Gra LAN
-281|Gra LAN, gospodarz: {name}.
-282|Gry LAN nie zmieniają rankingu.
-283|Legenda
-284|Mieszka przy stole
-285|Wczytywanie profilu…
-286|Wczytywanie…
-287|Sieć lokalna
-288|Zablokowane
-289|Szukanie gier
-290|Zdobądź znajomego.
-291|Mistrz
-292|Nazwa
-293|Nazwy mają 3–16 liter, cyfr lub podkreślników.
-294|Nowe konto
-295|Mam konto
-296|Pierwszy raz tutaj? Wybierz „Nowe konto”: to zajmie dziesięć sekund.
-297|Nowy turniej
-298|Nie masz jeszcze znajomych. Dodaj kogoś ze swoich przeciwników!
-299|Na razie brak partii.
-300|Bez limitu
+1	{name} gra na ósemkę – zadeklarowana łuza: {pocket}
+2	Na ósemkę: łuza {pocket}
+3	Pokaż ping
+4	Opóźnienie twojego połączenia w partiach online.
+5	Reakcje
+6	Sklep
+7	Sukno
+8	Kije
+9	Kreda
+10	Bile
+11	Monety
+12	monet
+13	Zaloguj się, aby kupować i używać przedmiotów. Oto, co jest w sklepie:
+14	W użyciu
+15	Użyj
+16	Kup
+17	brakuje {n}
+18	{n} monet
+19	Za mało monet: zdobądź więcej w zakładce Monety.
+20	Tylko VIP
+21	za darmo
+22	posiadane
+23	osiągnięcie
+24	Na tym serwerze nie można jeszcze kupować monet.
+25	+{n} gratis
+26	Płatność otworzy się w przeglądarce (karta, Pix…), na bezpiecznej stronie Stripe.
+27	Monety dotrą za chwilę; służą tylko do kupowania przedmiotów w grze.
+28	Ekskluzywne przedmioty: {list}
+29	{n} monet co miesiąc
+30	Anuluj, kiedy chcesz: VIP trwa do końca opłaconego miesiąca
+31	Masz VIP do {d}.
+32	Zarządzaj subskrypcją
+33	Zostań VIP · {p}
+34	Na tym serwerze nie można jeszcze kupić VIP.
+35	Strona płatności otworzyła się w przeglądarce.
+36	Nie udało się otworzyć przeglądarki.
+37	Turniejowa zieleń
+38	Elektryczny błękit
+39	Burgund
+40	Grafit
+41	Morski
+42	Królewska purpura
+43	Karmel
+44	Nocny granat
+45	Czerwień mistrza
+46	Klasyczny
+47	Palisander
+48	Heban i srebro
+49	Karbon
+50	Intarsja z kości słoniowej
+51	Korona
+52	Klejnoty
+53	Niebieska kreda
+54	Zielona kreda
+55	Czerwona kreda
+56	Fioletowa kreda
+57	Złota kreda
+58	Vintage
+59	Pastele
+60	Neon
+61	Masz już ten przedmiot.
+62	Za mało monet.
+63	Zakup się nie udał; nie pobrano monet.
+64	Nie ma takiego przedmiotu.
+65	Tego przedmiotu nie można kupić za monety.
+66	Nie masz tego przedmiotu.
+67	Zakupy są niedostępne.
+68	Ten pakiet nie jest w sprzedaży.
+69	Nie udało się otworzyć strony płatności. Spróbuj ponownie za chwilę.
+70	Masz już VIP.
+71	Nie masz subskrypcji, którą można zarządzać.
+72	Nie udało się otworzyć strony. Spróbuj ponownie za chwilę.
+73	Monety dodane do portfela.
+74	Witaj w VIP!
+75	Trochę zwolnij.
+76	Nie możesz tego zrobić.
+77	Jest teraz za dużo ogłoszeń. Spróbuj ponownie za kilka minut.
+78	Moderator usunął twoje ogłoszenie.
+79	Moderator wyczyścił twój status.
+80	Status wyczyszczony.
+81	VIP
+82	Graj teraz
+83	Automatycznie znajdź przeciwnika na twoim poziomie
+84	Szukanie przeciwnika… {t}
+85	dowolny ranking
+86	ranking ±{n} · {mode}
+87	Skuteczność wbić
+88	Wbite bile
+89	Najlepsza seria
+90	Faule
+91	online przed chwilą
+92	online {n} min temu
+93	online {n} godz. temu
+94	online wczoraj
+95	online {n} dni temu
+96	online {n} mies. temu
+97	przed chwilą
+98	{n} min temu
+99	{n} godz. temu
+100	wczoraj
+101	{n} dni temu
+102	Historia partii
+103	Na razie nic.
+104	Precyzyjne celowanie: klikaj strzałki lub przeciągnij tutaj
+105	Oglądający: {n}
+106	Oglądasz: {name}
+107	Twoje reakcje trafiają do stołu po cichu.
+108	Przestań oglądać
+109	Jeśli zagrają ponownie, nadal będziesz oglądać.
+110	Twój znajomy odszedł od stołu.
+111	Twój znajomy teraz nie gra.
+112	Możesz oglądać tylko znajomych.
+113	Nie możesz oglądać tej partii.
+114	Do ligi {tier}: {n} pkt
+115	Najwyższa liga
+116	Reakcje {n}/{total}
+117	Nawiedzony stół
+118	Wygraj partię rankingową w Halloween (24 paź – 2 lis).
+119	Liga zimowa
+120	Wygraj partię rankingową w okresie świątecznym (15 gru – 6 sty).
+121	Fajerwerki
+122	Wygraj partię rankingową na przełomie roku (31 gru – 1 sty).
+123	Pokazuje, dokąd potoczą się bila zagrywana i biała (tylko w wolnej grze i na treningu).
+124	Online: {n} · ping {ms} ms
+125	Przeciągnij prawym · Kółko
+126	% wygranych
+127	Zresetuj kamerę: widok z góry, bez przybliżenia
+128	{name} wbija ósemkę
+129	{name} wbija ósemkę za wcześnie
+130	{name} wbija ósemkę do złej łuzy
+131	{name} fauluje na ósemce
+132	{name} wybija ósemkę ze stołu
+133	{name} poddaje partię
+134	{name} opuszcza partię
+135	{winner} wygrywa! ({how})
+136	#{n} na świecie
+137	3–16 liter, cyfr lub podkreślników.
+138	Bez linii na stole: celuj na oko, wzdłuż kija.
+139	Bez pomocy
+140	Tylko krótka linia od białej bili.
+141	Przyjmij do znajomych
+142	Odblokowano osiągnięcie: {title}
+143	Osiągnięcia {n}/{total}
+144	Dodaj
+145	Dodaj znajomego po nazwie użytkownika
+146	Dodaj znajomego
+147	Z komputerem
+148	Wszystkie turnieje
+149	Amator
+150	Co najmniej 8 znaków. Użyj hasła, którego nie używasz nigdzie indziej.
+151	Potrzeba co najmniej dwóch graczy.
+152	Wróć
+153	Czarna bila
+154	Zablokuj
+155	Rozbij i wyczyść
+156	Wyczyść stół od rozbicia 10 razy.
+157	Nie można tu wyszukiwać gier: dołącz przez adres poniżej.
+158	Anuluj zaproszenie
+159	Anuluj turniej
+160	Towarzyska
+161	Centurion
+162	Czempion
+163	Zwycięzca: {name}
+164	Zmień kraj
+165	Dodaj status
+166	Kilka słów o sobie
+167	Zapisz (Enter)
+168	Anuluj (Esc)
+169	Zmień swój status
+170	Wyczyść status
+171	Oszustwo lub nadużycie
+172	Wybierz…
+173	Kliknij ponownie, aby zablokować
+174	Zamknij
+175	Finiszer
+176	Zawodnik
+177	Łączenie z serwerem…
+178	Nie udało się utworzyć gry: {e}
+179	Kraj
+180	Utwórz
+181	Utwórz turniej
+182	Nie pokazuj flagi
+183	Nie znaleziono kraju.
+184	Dynastia
+185	Ósemka wystarczy
+186	Kat
+187	Ekspert
+188	Znajoma twarz
+189	Finał
+190	Najpierw dokończ partię.
+191	Pierwsza krew
+192	Pierwsze rozbicie
+193	Zaproszenie do znajomych wysłane.
+194	Znajomi
+195	partia korespondencyjna
+196	Korespondencja
+197	Partia korespondencyjna
+198	Partie korespondencyjne
+199	Wyzwij gracza po nazwie użytkownika
+200	Wyzwij na partię korespondencyjną
+201	3 dni na każdy ruch
+202	Nie masz jeszcze partii korespondencyjnych. Wyzwij znajomego: każde z was wykonuje ruch, kiedy może.
+203	wyzywa cię · {kind}
+204	czeka na odpowiedź · {kind} · zostało {time}
+205	twój ruch · zostało {time}
+206	ruch przeciwnika · zostało {time}
+207	wygrana · {how}
+208	przegrana · {how}
+209	koniec czasu
+210	przeciwnikowi skończył się czas
+211	stół otwarty
+212	Ty: {mine}, zostało: {a} · {name}: {theirs}, zostało: {b}
+213	Zobacz
+214	Pomiń
+215	Powtórka ruchu gracza {name}
+216	Uderzenie {n} z {total}
+217	Ruch wysłany
+218	Ruch wysłany.
+219	Czekamy na ruch gracza {name}
+220	{name} ma {time} na ruch. Damy ci znać, gdy przyjdzie twoja kolej.
+221	Na ruch zostało {time}. Damy ci znać, gdy przyjdzie twoja kolej.
+222	Wróć do partii korespondencyjnych
+223	Partia jest zapisana: wróć, kiedy zechcesz.
+224	{d} d {h} h
+225	{name}: koniec czasu
+226	Nie można wyświetlić tej partii.
+227	Czeka na ciebie partia korespondencyjna
+228	Czekające na ciebie partie korespondencyjne: {n}
+229	{name} wyzywa cię na rankingową partię korespondencyjną.
+230	{name} wyzywa cię na towarzyską partię korespondencyjną.
+231	{name} przyjmuje twoje wyzwanie na partię korespondencyjną.
+232	{name} odrzuca twoje wyzwanie na partię korespondencyjną.
+233	{name} wycofuje wyzwanie na partię korespondencyjną.
+234	Twój ruch w partii korespondencyjnej z graczem {name}.
+235	{name}: koniec czasu – wygrywasz partię korespondencyjną.
+236	Wygrywasz partię korespondencyjną z graczem {name}!
+237	Skończył ci się czas w partii korespondencyjnej z graczem {name}.
+238	Przegrywasz partię korespondencyjną z graczem {name}.
+239	Wyzwanie wysłane.
+240	Partie korespondencyjne wymagają konta.
+241	Nie ma takiej partii.
+242	To wyzwanie jest już nieaktualne.
+243	Ten gracz już cię wyzwał: odpowiedz na jego wyzwanie.
+244	Ten gracz ma za dużo oczekujących wyzwań.
+245	Ten gracz ma za dużo trwających partii korespondencyjnych.
+246	Ten gracz nie przyjmuje wyzwań.
+247	Tej partii nie można teraz rozegrać.
+248	Partia zmieniła się w międzyczasie: otwórz ją ponownie.
+249	Ta partia już się zakończyła.
+250	Ten gracz ma już od ciebie wyzwanie.
+251	Masz już trwającą partię z tym graczem.
+252	Ten gracz jest przez ciebie zablokowany.
+253	Nie możesz wyzwać siebie.
+254	Masz już tyle partii korespondencyjnych, ile można grać naraz.
+255	Masz za dużo wyzwań czekających na odpowiedź.
+256	Wysyłasz wyzwania za szybko.
+257	Skończył ci się czas na ten ruch.
+258	Partie
+259	Gry w twojej sieci
+260	Nadaj turniejowi nazwę (co najmniej 3 znaki).
+261	Dobre towarzystwo
+262	Arcymistrz
+263	Goście mogą dołączać tylko do gier LAN. Utwórz konto.
+264	Goście nie mogą grać w turniejach rankingowych.
+265	Niedostępne dla gości.
+266	Nękanie
+267	Hat-trick
+268	Miej 10 znajomych.
+269	Miej konto od 30 dni.
+270	Miej konto od roku.
+271	Utwórz grę na tym komputerze
+272	Gospodarz {host} · gracze: {n}/{size} · {kind}
+273	Gorąca ręka
+274	Cwaniak
+275	Nieprawidłowe uderzenie.
+276	Dołącz
+277	Dołączanie do gry LAN…
+278	Dla zabawy
+279	P
+280	Gra LAN
+281	Gra LAN, gospodarz: {name}.
+282	Gry LAN nie zmieniają rankingu.
+283	Legenda
+284	Mieszka przy stole
+285	Wczytywanie profilu…
+286	Wczytywanie…
+287	Sieć lokalna
+288	Zablokowane
+289	Szukanie gier
+290	Zdobądź znajomego.
+291	Mistrz
+292	Nazwa
+293	Nazwy mają 3–16 liter, cyfr lub podkreślników.
+294	Nowe konto
+295	Mam konto
+296	Pierwszy raz tutaj? Wybierz „Nowe konto”: to zajmie dziesięć sekund.
+297	Nowy turniej
+298	Nie masz jeszcze znajomych. Dodaj kogoś ze swoich przeciwników!
+299	Na razie brak partii.
+300	Bez limitu

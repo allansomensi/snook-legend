@@ -1,307 +1,306 @@
-# Snook Legend: what's new, shown in the game after an update.
-# "## <version>" starts a version (newest first), "### <title>" a highlight,
-# and the lines after it are its text. Keep it short and about what players
-# see; every language has the same versions and the same number of highlights.
+# Snook Legend：アップデート後にゲーム内で表示される更新内容。
+# 「## <バージョン>」でバージョンが始まり（新しい順）、「### <見出し>」で項目が始まり、その後の行が本文です。
+# どの言語でも、同じバージョンと同じ数の項目を並べます。
 
 ## 0.8.3
 
-### What you earn is shown
-An item that comes with an achievement, such as a level reached, now arrives with a "Congratulations!" window that shows it and lets you use it at once.
+### 獲得したものを表示
+レベル到達など、実績に付いてくるアイテムが「おめでとうございます！」ウィンドウとともに届くようになりました。アイテムを確認して、すぐに使えます。
 
-### One game at a time
-Starting the game while it is already open brings its window to the front instead of opening a second one. Two games on one computer wrote over each other's settings and saved game.
+### ゲームは1つずつ
+ゲームがすでに起動しているときにもう一度起動すると、2つ目を開く代わりに、今のウィンドウが前面に出ます。1台のコンピューターで2つのゲームを動かすと、設定や保存したゲームが互いに上書きされていました。
 
-### The 8 on a break handed over
-Under the Brazilian rule, a break handed over after the cue ball was lost, with the balls already scattered, no longer wins by potting the 8: hitting it first is a foul and pocketing it loses, as on any shot. Only the break of the rack has the 8 alone winning.
+### 相手に移ったブレイクでの8番
+ブラジルルールで、手球を落として相手に移ったブレイク（球はすでに散らばっています）では、8番を入れても勝ちにならなくなりました：ほかのショットと同じく、8番に最初に当てるとファウル、入れると負けです。8番だけで勝てるのは、ラックを崩す最初のブレイクだけです。
 
-### Cleaner pockets, a steadier camera, and many fixes
-The pockets are finished without rough edges, and going from the overhead view to 3D keeps your zoom. Two more reviews of the whole game fixed many bugs: a rematch keeps the break alternating, a private arena asks for its password while it runs, a table rejoined after its game ended shows the result, and more.
+### きれいなポケット、安定したカメラ、多数の修正
+ポケットの縁のギザギザがなくなり、トップビューから3Dに切り替えてもズームが保たれます。ゲーム全体を2回見直し、多くの不具合を修正しました：再戦でもブレイクが交互になる、非公開アリーナの進行中にパスワードを求められる、ゲーム終了後に戻ったテーブルで結果が表示される、など。
 
 ## 0.8.2
 
-### The shot clock gives a ball
-Under the Brazilian rule, running out of time is a foul: your opponent's lowest ball comes off (if they are on the 8 already, the 8 pays and you lose), the cue ball goes back to the head spot, not in hand, and the turn passes.
+### 時間切れで球が渡る
+ブラジルルールで、時間切れはファウルになりました：相手のいちばん小さい番号の球が取り除かれ（相手がすでに8番狙いなら、8番で支払ってあなたの負け）、手球はフリーボールではなくヘッドスポットに戻り、相手の番になります。
 
-### The break, one each
-Under the Brazilian rule the players break in turn, one break each. A break that loses the cue ball with no ball made, or with balls of both groups, passes the break: your opponent breaks again from the head spot, with the balls where they stopped.
+### ブレイクは1回ずつ交互に
+ブラジルルールでは、プレイヤーが1回ずつ交互にブレイクします。的球が入らずに手球を落としたブレイク、または両グループの球と一緒に手球を落としたブレイクは、ブレイクが相手に移ります：相手は球が止まった位置のまま、ヘッドスポットから再びブレイクします。
 
-### Grab the cue anywhere
-Click and drag the cue anywhere along it, from the tip to the butt, even drawn back or raised over the rail: it follows the pointer as it swings.
+### キューのどこでもつかめる
+タップからバットまで、キューのどこをクリックしてもドラッグできます。引いた状態やクッションの上に立てた状態でもつかめ、振るとポインターに追従します。
 
-### Seven rounds in the arena, and many fixes
-The arena against the computer is seven rounds for everyone, and the shop has a new icon. Three reviews of the whole game fixed many bugs: leaving while the balls roll no longer undoes a shot against the computer, the first ball hit is the one the cue ball really touched first, and more.
+### アリーナは7ラウンドに、多数の修正
+コンピューターとのアリーナは全員7ラウンドになり、ショップのアイコンが新しくなりました。ゲーム全体を3回見直し、多くの不具合を修正しました：球が転がっている間に退出してもコンピューター戦のショットが取り消されない、最初に当たった球が手球が実際に最初に触れた球になる、など。
 
 ## 0.8.1
 
-### The 8 pays the penalty
-Under the Brazilian rule, a foul that gives more balls than your opponent has left loses the game: their balls come off and the 8 pays the rest. Once your opponent is on the 8, any foul that gives a ball loses: missing every ball, pocketing the cue ball or knocking it off the table.
+### 8番でペナルティを支払う
+ブラジルルールで、相手の残り球より多くの球を与えるファウルは負けになりました：相手の球が取り除かれ、残りは8番で支払われます。相手が8番狙いになったら、球を与えるファウルはすべて負けです：どの球にも当たらない、手球を入れる、手球をテーブルの外に出す、のいずれもです。
 
-### Click outside to close
-The match's chat, the game history and the spin and elevation panels close when you click outside them, and the click still counts on the table. Menus and dialogs close with a click outside them too, like Cancel.
+### 外側をクリックして閉じる
+試合のチャット、ゲーム履歴、スピンとキューの角度のパネルは、外側をクリックすると閉じ、そのクリックはテーブル上の操作としても有効です。メニューやダイアログも、キャンセルと同じように外側をクリックすると閉じます。
 
 ## 0.8.0
 
-### The official rules
-You can now also play the official rules of the WPA, the eight-ball of international tournaments: every shot is called, a foul gives ball in hand anywhere and no ball comes off as a penalty. Choose your rules in the main menu. The Brazilian rule is still there, just as it was.
+### 公式ルール
+国際トーナメントのエイトボールである、WPAの公式ルールでも遊べるようになりました：すべてのショットでコールし、ファウルするとテーブルのどこでもフリーボールになり、ペナルティで球が取り除かれることはありません。ルールはメインメニューで選べます。ブラジルルールも、これまでどおり遊べます。
 
-### A rating for each rules
-Each rules has its own rating, tier and world ranking: the ranking has a tab for each and your profile a card for each. Your level, coins and achievements are shared.
+### ルールごとのレート
+ルールごとに、レート、リーグ、世界ランキングが別々になりました：ランキングにはルールごとのタブが、プロフィールにはルールごとのカードがあります。レベル、コイン、実績は共通です。
 
-### Calling your shots
-Under the official rules the pocket you aim at is called (a ring shows it). Click another pocket to call it, or Safety to call none. After some breaks you choose how the game goes on, with the buttons or 1, 2 and 3.
+### ショットのコール
+公式ルールでは、狙っているポケットがコールされます（輪で表示）。別のポケットをクリックしてコールするか、「セーフティ」で何もコールしないこともできます。一部のブレイクの後は、ボタンか1、2、3キーでゲームの続け方を選びます。
 
-### Online, by rules
-Invitations, tables, Play now, tournaments and daily games all say their rules, and Play now pairs you with players of yours. The menu shows how many people play each.
+### オンラインもルール別に
+招待、テーブル、今すぐ対戦、トーナメント、デイリー対戦のすべてにルールが表示され、今すぐ対戦では同じルールのプレイヤーと組み合わされます。メニューには、それぞれのルールで遊んでいる人数が表示されます。
 
-### The break, Brazilian rule
-If the break loses the cue ball together with balls of both groups, the break now passes to your opponent, with the cue ball in hand behind the head string and no penalty ball.
+### ブレイク（ブラジルルール）
+ブレイクで両グループの球と一緒に手球を落とした場合、ブレイクが相手に移るようになりました。相手はヘッドストリングの後ろからフリーボールで、ペナルティボールはありません。
 
 ## 0.7.4
 
-### The chat, when you want it
-No more age question when signing up. The chat with other players starts off and asks only the first time you write: 18 or older turns it on at once, and under 18 a parent or guardian turns it on. Whoever doesn't chat is never asked.
+### チャットは使いたいときに
+登録時に年齢を聞かれなくなりました。ほかのプレイヤーとのチャットは最初はオフで、初めて書き込むときにだけ確認されます：18歳以上ならすぐにオンになり、18歳未満なら保護者がオンにします。チャットしない人が聞かれることはありません。
 
-### Invitations in the corner
-An invitation now shows as a card in the top right corner on every screen and over any game, with the player's picture, the buttons to accept or decline and a soft chime. Accept it from the menu and the game starts right away.
+### 招待は画面の隅に
+招待はどの画面でも、ゲーム中でも、右上にカードで表示されるようになりました。プレイヤーの画像、承諾と拒否のボタンが付き、控えめなチャイムが鳴ります。メニューから承諾すると、すぐにゲームが始まります。
 
-### Windows tells you at once
-With the game behind another window or minimised, Windows shows the invitation at once (it used to wait a few seconds).
+### Windowsがすぐにお知らせ
+ゲームがほかのウィンドウの後ろにあるときや最小化されているときも、Windowsがすぐに招待を表示します（以前は数秒待っていました）。
 
 ## 0.7.3
 
-### New rules
-If the break hits no ball, or loses the cue ball (down or off the table) with no ball made, the break passes to your opponent, with the cue ball in hand behind the head string. With a ball made, it decides the groups even if the cue ball goes down too. And the cue ball off the table costs a ball, as a scratch does.
+### 新しいルール
+ブレイクでどの球にも当たらなかった場合や、的球が入らずに手球を落とした（ポケットに入るかテーブルの外に出た）場合は、ブレイクが相手に移り、相手はヘッドストリングの後ろからフリーボールになります。的球が入っていれば、手球が落ちてもその球でグループが決まります。また、手球がテーブルの外に出た場合も、スクラッチと同じく球1つのペナルティです。
 
-### More drills, no ranking
-There are 24 drills now, nine of them new: the far corner, long into the side, cue ball on the cushion, the plant, the carom, the long draw, on the tangent line, two-cushion bank and fifteen in a row. Each shows its position, and your stars are kept in your account. The drills' ranking is gone.
+### ドリルが増え、ランキングは廃止
+ドリルは全24種になり、そのうち9種が新しく加わりました：背後のコーナー、遠くからサイドへ、クッション際の手球、セットボール、キャノン、ロングの引き球、タンジェントライン、ツークッションのバンク、15連続です。それぞれ配置が表示され、星はアカウントに保存されます。ドリルのランキングはなくなりました。
 
-### New pictures
-The portraits were drawn again, with more care, and there are new pictures of pool things. Your picture now shows on the card in the corner of the start screen when you're signed in.
+### 新しい画像
+肖像画をより丁寧に描き直し、ビリヤードにちなんだ新しい画像も加わりました。ログイン中は、スタート画面の隅のカードにあなたの画像が表示されます。
 
-### Terms and privacy
-The terms of use and the privacy policy are a click away: when you sign up, in the shop and in Settings → Game → About. Purchases with money give you 7 days to change your mind and get your money back.
+### 規約とプライバシー
+利用規約とプライバシーポリシーをワンクリックで見られます：登録時、ショップ、「設定 → ゲーム → このゲームについて」から。お金での購入は、7日以内であれば取り消して返金を受けられます。
 
-### Age and chat
-The game asks your age group (once). Under 18, the chat with other players stays off until a parent or guardian turns it on, below the lounge's chat, as Brazilian law asks.
+### 年齢とチャット
+ゲームが年齢層を（1回だけ）確認します。18歳未満の場合、ブラジルの法律に従い、ほかのプレイヤーとのチャットは保護者がロビーチャットの下からオンにするまでオフです。
 
-### Emoji in the chat
-Emoji now show as pictures in the chat, notes and statuses, flags and all. Tabs have all their names at one size, and the count of who is online is smaller: the green dot, a person and the number.
+### チャットに絵文字
+チャット、書き込み、ひとことで、国旗も含めて絵文字が画像で表示されるようになりました。タブの名前はすべて同じ大きさになり、オンライン人数の表示は小さくなりました：緑の点、人のアイコン、人数です。
 
 ## 0.7.2
 
-### A harder tour
-Each stage of the tour is harder than before, and more so the further up: opponents miss less, look at every shot and play for position. The final against Viktor, for the cue, is very hard now: he barely misses and plays safe more often. Tournaments against the computer stay as they were.
+### より手ごわいツアー
+ツアーの各ステージが以前より難しくなり、上に進むほど難しくなります：相手はミスが減り、毎ショットをよく見て、ポジションを考えてプレイします。キューをかけたViktorとの最終戦はとても難しくなりました：ほとんどミスせず、セーフティも増えます。コンピューターとのトーナメントはこれまでどおりです。
 
-### Tournament medals
-Play a tournament against the computer to its end and finish in the first three for a gold, silver or bronze medal. The Tournament tab counts them, knockout and arena apart; they are kept in your account the next time you're online.
+### トーナメントのメダル
+コンピューターとのトーナメントを最後までプレイして3位以内に入ると、金、銀、銅のメダルを獲得できます。トーナメントタブで、ノックアウトとアリーナ別に数えられます。メダルは次にオンラインになったときにアカウントに保存されます。
 
-### A camera like the table's
-In the shop's showroom the camera turns with the right button, as at the table, smoothly, and never goes under the floor or the table. The wheel brings you closer.
+### テーブルと同じカメラ
+ショップのショールームで、テーブルと同じように右ボタンでなめらかにカメラを回せるようになり、床やテーブルの下に入り込むことはありません。ホイールで近づけます。
 
 ## 0.7.1
 
-### The first ball decides
-On the break, the first ball that goes down decides your group, even if others go down after it: the 3 and then the 13, and you take the solids. The 13 is your opponent's, so it stays down for them and the turn passes.
+### 最初の球で決まる
+ブレイクでは、あとからほかの球が入っても、最初に入った球であなたのグループが決まります：3番の次に13番が入れば、あなたはソリッドです。13番は相手の球なので、相手の分として入ったままになり、相手の番になります。
 
-### Ball in hand on the break only
-The cue ball is in hand on the break only, behind the head string. If it goes down or leaves the table, it comes back to the head spot (right behind a ball lying there), without ball in hand, with the usual penalties. A break that makes only the cue ball is no longer racked again: your opponent plays on from there.
+### フリーボールはブレイク時のみ
+手球がフリーボールになるのはブレイクのときだけで、ヘッドストリングの後ろに置きます。手球が落ちるかテーブルの外に出たら、通常のペナルティに加えて、手球はフリーボールではなくヘッドスポット（そこに球があればそのすぐ後ろ）に戻ります。ブレイクで手球だけが落ちても、ラックし直すことはなくなりました：相手がそこから続けます。
 
-### Who is online
-Playing the computer (in a tournament, on the tour or in a drill), a discreet corner shows how many people are online and says when someone comes: time to go and invite them. Invitations show over the game.
+### オンライン中の人
+コンピューターと対戦中（トーナメント、ツアー、ドリル）も、画面の隅にオンライン人数が控えめに表示され、誰かが来るとお知らせします：招待するチャンスです。招待はゲームの上に表示されます。
 
-### The shop's showroom
-"Look at it closely" opens a showroom: the item alone in a dark studio, turning. Drag to turn it, use the wheel to come close and pause it at will. Ready views show a cue's tip and joint or a table's pockets; click a ball to see it float close up, and see tables and cloths in any hall.
+### ショップのショールーム
+「じっくり見る」でショールームが開きます：暗いスタジオでアイテムだけが回転します。ドラッグで回し、ホイールで近づき、好きなときに止められます。キューのタップやジョイント、テーブルのポケットを見るための視点が用意されています。ボールをクリックすると目の前に浮かび上がり、テーブルやラシャはどのホールでも見られます。
 
-### Truly brown
-The 7 and the 15 are now brown, no longer a dark red easily taken for the 3 and the 11. The shop's sets where they looked alike are put right too.
+### 本当に茶色に
+7番と15番は茶色になり、3番や11番と見間違えやすい暗い赤ではなくなりました。似て見えていたショップのセットも修正しました。
 
-### Focus mode
-Settings → Game → "Focus mode": no invitations while you play. Whoever tries to invite you is told you're in focus mode. It comes off.
+### 集中モード
+「設定 → ゲーム → 集中モード」：プレイ中は招待を受け付けません。招待しようとした人には、あなたが集中モード中であることが伝わります。オフにもできます。
 
 ## 0.7.0
 
-### One kind on the break
-A new house rule: if the break makes balls of both groups (the 3 and the 14, say), the turn passes and the table stays open. Balls of one kind only and you shoot again, as before. The rules in the menu explain it, with a few rare cases now put right, and the computer plays a little better.
+### ブレイクは1種類で
+新しいハウスルール：ブレイクで両グループの球が入った場合（たとえば3番と14番）、相手の番になり、テーブルはオープンのままです。片方のグループの球だけなら、これまでどおり続けて撞きます。メニューのルールで説明しています。まれなケースもいくつか修正し、コンピューターも少し上手になりました。
 
-### Every ball counts
-The balls you make in a row show by your picture with a little flame, and three, five and seven in a row are cheered (and a table cleared in one visit). The clock's last seconds tick, a chime says when your turn comes back online, and the rating counts up at the end of a game.
+### すべての球が大切
+連続で入れた球は、あなたの画像の横に小さな炎で表示され、3、5、7連続（そして1回の番での取り切り）では歓声が上がります。時計の最後の数秒はカチカチと鳴り、オンラインで自分の番が戻るとチャイムが鳴り、ゲーム終了時にはレートがカウントアップされます。
 
-### Events
-Now and then the staff run events: a weekend of double (or triple) experience, coins from games counting double, or a themed tournament the server organises, sometimes with a prize from the house on top of the entry fees. The main menu and the lounge show what is on and what is coming.
+### イベント
+運営がときどきイベントを開催します：経験値2倍（または3倍）の週末、ゲームで獲得するコインが2倍、サーバーが主催する特別トーナメントなどで、参加費に運営からの賞金が上乗せされることもあります。開催中や予定のイベントは、メインメニューとロビーに表示されます。
 
-### On to the next one
-After a win on the tour, "Next" takes you straight to the next opponent; after a drill, "Try again". The deciding shot can be watched again from the end panel, and a first game points out where to aim, set the power and shoot.
+### 次へ進もう
+ツアーで勝つと「次へ」ですぐに次の相手へ、ドリルの後は「もう一度」で再挑戦できます。終了パネルから決着のショットをもう一度見られます。また、最初のゲームでは、狙い方、パワーの調整、ショットの仕方を案内します。
 
-### The head string, if you want it
-Settings → Game → "Always show the head string" keeps the line the break is played from on the table. Off by default: it shows only while you place the cue ball behind it.
+### お好みでヘッドストリングを
+「設定 → ゲーム → ヘッドストリングを常に表示」で、ブレイクを撞くラインを常にテーブルに表示できます。初期設定はオフで、手球をその後ろに置くときだけ表示されます。
 
-### Fair rewards, softer light
-The tour's final and the ranked drills are now set up by the server, so their cue and their tables are earned the same way by everyone (play them signed in). A dropped connection no longer closes the game, a game against the computer is never replaced without asking, and the light under the lamps falls softly, without hard edges.
+### 公平な報酬、やわらかな光
+ツアーの最終戦とランキング対象のドリルはサーバーが用意するようになり、そのキューやテーブルは誰もが同じ条件で獲得します（ログインしてプレイしてください）。接続が切れてもゲームが閉じなくなり、コンピューターとのゲームが確認なしに置き換えられることもなくなりました。ランプの下の光は、くっきりした縁のないやわらかな光になりました。
 
 ## 0.6.2
 
-### Leagues and levels on one page
-In the profile, the "Leagues and levels" tab shows every league, from which rating and what it pays, and every level that brings an item. Reaching a league for the first time now pays coins and, from Skilled up, an item of the league's own.
+### リーグとレベルを1ページに
+プロフィールの「リーグとレベル」タブに、すべてのリーグ（どのレートからか、何がもらえるか）と、アイテムがもらえるすべてのレベルが表示されます。初めてリーグに到達するとコインがもらえ、熟練者リーグ以上ではそのリーグ専用のアイテムももらえます。
 
-### A cleaner profile
-On the left, just what matters: your level, the next prize, and the achievements and reactions already won. Every medal and reaction has a tab of its own, and nothing runs off the screen.
+### すっきりしたプロフィール
+左側には大事なものだけ：あなたのレベル、次の報酬、獲得済みの実績とリアクション。メダルとリアクションにはそれぞれ専用のタブがあり、画面からはみ出すものはありません。
 
-### The view from above as it was, with round balls
-The table has its depth and its usual light again, and the camera no longer jumps when it leaves the view from above.
+### 元に戻ったトップビュー、丸いボール
+テーブルに奥行きといつもの光が戻り、トップビューから切り替えるときにカメラが飛ばなくなりました。
 
 ## 0.6.1
 
-### A view from above without distortion
-The table is now seen from high up, almost without perspective: balls stay round out to the corners, and the cue, the aiming line and the ghost ball always line up. The light on the balls is softer, so the number shows.
+### ゆがみのないトップビュー
+テーブルをほぼ遠近感のない高い位置から見るようになりました：隅までボールは丸いままで、キュー、照準ライン、ゴーストボールが常にそろいます。ボールに当たる光がやわらかくなり、番号が見やすくなりました。
 
-### A tournament and a tour that mean it
-In a tournament against the computer a game counts once: leaving half way doesn't wipe it (it goes on from where it was) and there is no rematch. The champion gets a gold medal. And the tour is hard: every opponent plays at their best.
+### 本気のトーナメントとツアー
+コンピューターとのトーナメントでは、ゲームは1回だけ数えられます：途中で退出しても消えず（中断したところから続きます）、再戦はありません。優勝者には金メダルが贈られます。そしてツアーは手ごわくなりました：どの相手も全力でプレイします。
 
-### New achievements, pictures and sounds
-Shutout, Golden break and account anniversaries. Faces that look like people and twelve profile pictures that are not faces (the 8-ball, a trophy, a crown…). New sounds for the balls, the cue, the cushions and the pockets.
+### 新しい実績、画像、サウンド
+完封、ゴールデンブレイク、アカウントの周年記念。人らしく見える顔と、顔ではない12種類のプロフィール画像（8番ボール、トロフィー、王冠など）。ボール、キュー、クッション、ポケットの新しいサウンド。
 
-### Leagues, levels that pay and scarce coins
-Other players are shown by their league (the rating is on the profile and in the ranking). Every account level pays coins and levels 5 to 50 bring items of their own, but the climb is long. Coins are scarcer: everything in the shop takes time to earn.
+### リーグ、報酬のあるレベル、貴重なコイン
+ほかのプレイヤーはリーグで表示されます（レートはプロフィールとランキングで確認できます）。アカウントのレベルが上がるたびにコインがもらえ、レベル5から50では専用アイテムももらえますが、道のりは長めです。コインは手に入りにくくなりました：ショップのどのアイテムも、獲得するには時間がかかります。
 
 ## 0.6.0
 
-### A Brazilian rule, with penalty balls
-The game now plays the regional Brazilian rule of eight-ball, the one of bars and pool halls (not the official tournament rule). A foul passes the turn and takes your opponent's lowest balls off the table, only a pocketed cue ball gives ball in hand, and the 8 alone on the break wins. The full rules are in the menu.
+### ペナルティボールのあるブラジルルール
+バーやビリヤード場で遊ばれている、ブラジルの地域ルールのエイトボールになりました（公式トーナメントのルールではありません）。ファウルすると相手の番になり、相手のいちばん小さい番号の球がテーブルから取り除かれます。フリーボールになるのは手球を入れたときだけで、ブレイクで8番だけを入れると勝ちです。ルールの詳細はメニューにあります。
 
-### Heavier balls
-The cloth holds the ball more and the break is less violent: the balls no longer scatter all over the table.
+### 重くなったボール
+ラシャが球をしっかり受け止め、ブレイクの勢いが穏やかになりました：球がテーブル中に散らばることはなくなりました。
 
-### Tournaments against the computer and more drills
-Play a knockout of sixteen or an arena on points against the fifteen opponents. And there are eight new drills, fifteen in all.
+### コンピューターとのトーナメントとドリルの追加
+15人の相手と、16人のノックアウトか、ポイント制のアリーナで対戦できます。さらにドリルが8種類加わり、全部で15種類になりました。
 
-### Aiming and the cue
-The cue's elevation can be set by dragging with the mouse, the aiming line points at the centre of the ghost ball, faint arrows show when the cue ball can be moved, and the shadows can be turned off.
+### 照準とキュー
+マウスのドラッグでキューの角度を調整できるようになり、照準ラインはゴーストボールの中心を指し、手球を動かせるときは薄い矢印が表示されます。影をオフにすることもできます。
 
 ## 0.5.1
 
-### Cleaner balls
-The pale disc on top of every ball is gone: a ball is lit as one round thing and shows the lamp as a single clean dot. Castings, rugs and Low quality look better too.
+### きれいなボール
+ボールの上に出ていた白っぽい円がなくなりました：ボールは1つの丸い物体として照らされ、ランプは1つのきれいな点として映ります。金具、ラグ、品質「低」の見た目も良くなりました。
 
-### The power bar keeps no memory
-No more mark for your last stroke, and every turn starts from the middle of the bar: judging the pace is part of the game.
+### パワーバーは記憶しない
+前回のショットの目印はなくなり、毎回バーの中央から始まります：強さの判断もゲームのうちです。
 
-### Nothing over the table
-Whose turn it is now reads in the top bar, beside the score panel, so the side pocket is always in sight. Aiming lines are smooth, and the rings round the pockets are whole.
+### テーブルの上には何もなし
+誰の番かは上部のバーのスコアパネルの横に表示されるようになり、サイドポケットが常に見えます。照準ラインはなめらかになり、ポケットの周りの輪も欠けなくなりました。
 
 ## 0.5.0
 
-### Tournament-table physics
-The balls weigh what they do on a real table: the power bar goes up to a hard stroke (only the break uses full power), cushions give back less the harder they are hit, and a ball made falls into the pocket at the pace it arrived with.
+### トーナメント台の物理
+ボールの重さは本物のテーブルと同じです：パワーバーは強いストロークまで（最大パワーを使うのはブレイクだけ）、クッションは強く当たるほど跳ね返りが弱くなり、入った球は届いたときの速さでポケットに落ちます。
 
-### An official tournament table
-The table is the regulation 8-foot one, measure for measure: balls, corner and side pockets with the official mouths and angles. The cloth is a deep green under the lamps and the balls shine like polished ones, their numbers crisp.
+### 公式のトーナメント台
+テーブルは規定の8フィート台で、寸法もすべて規定どおりです：ボール、コーナーポケット、サイドポケットは公式の入り口と角度です。ラシャはランプの下で深い緑に、ボールは磨かれたように輝き、番号もくっきりしています。
 
-### A truer guide, or none
-The ghost ball now stops where the cue ball really would, the mouths of the pockets included. And a new choice: play with no aiming guide at all.
+### より正確なガイド、またはガイドなし
+ゴーストボールは、ポケットの入り口も含めて、手球が実際に止まる位置に表示されるようになりました。そして新しい選択肢：照準ガイドなしでのプレイ。
 
 ## 0.4.0
 
-### A new name: Snook Legend
-The game is now called Snook Legend. Your account, coins, items, settings and progress are all here, as before.
+### 新しい名前：Snook Legend
+ゲームの名前がSnook Legendになりました。アカウント、コイン、アイテム、設定、進行状況は、これまでどおりすべて引き継がれます。
 
-### 8-foot table, open side pockets
-A smaller table (8 feet) and side pockets that forgive a ball off the centre or rolling in at an angle. The balls roll a little more freely.
+### 8フィート台、広いサイドポケット
+テーブルが小さく（8フィート）なり、サイドポケットは中心から外れた球や角度をつけて転がる球も受け入れやすくなりました。ボールが少しだけよく転がります。
 
-### New rule: the opponent's ball
-Making one of your opponent's balls passes the turn, even if one of yours went down too. It is not a foul: no ball in hand.
+### 新ルール：相手の球
+相手の球を入れると、自分の球も一緒に入っていても相手の番になります。ファウルではないので、フリーボールにはなりません。
 
-### Easier to see
-The cloth is lit evenly, the balls have a soft sheen so their numbers read, shadows are lighter, and nothing of the hall gets in the way of the view from above. Whose turn it is stands out on the score cards.
+### 見やすさを向上
+ラシャは均一に照らされ、ボールにはやわらかな光沢があって番号が読みやすく、影は薄くなり、トップビューではホールのものが視界を邪魔しなくなりました。誰の番かがスコアカードではっきりわかります。
 
-### Fifteen opponents
-Tito, Inês, Diego, Amara and Yuri join the computer opponents, each with a style and a voice of their own. The Tour now has fifteen stages; your wins so far are kept.
+### 15人の相手
+Tito、Inês、Diego、Amara、Yuriがコンピューターの相手に加わりました。それぞれ独自のスタイルと声を持っています。ツアーは15ステージになり、これまでの勝利は引き継がれます。
 
-### Quieter opponents
-Settings → Game → Opponents' remarks turns their speech bubbles off.
+### 静かな相手
+「設定 → ゲーム → 対戦相手のセリフ」で、吹き出しをオフにできます。
 
-### A new score panel
-Pictures and names in boxes, and the balls each player made rolling into place along their rail, in the order they went down.
+### 新しいスコアパネル
+画像と名前が枠に収まり、各プレイヤーが入れた球が、入った順にレールに沿って転がって並びます。
 
-### Aim by eye
-Raise the cue by dragging it in a side view of the shot. No more numbers on the power or the elevation: judge them by eye. Prefer it flat? Settings → Game → Top view only.
+### 目で狙う
+ショットを横から見た図でキューをドラッグして立てます。パワーやキューの角度の数値はなくなりました：目で判断してください。平らなほうがいい？「設定 → ゲーム → トップビューのみ」。
 
-### Rules and pictures
-The rules of the game are a click away (the book on the main menu, or Rules in the pause menu). Pick one of 32 profile pictures in your profile.
+### ルールと画像
+ゲームのルールはワンクリックで見られます（メインメニューの本、または一時停止メニューの「ルール」）。プロフィールで32種類のプロフィール画像から選べます。
 
-### Your games are safe
-Replays and daily games that started before this update keep the old table and rules until they end.
+### あなたのゲームは安全
+このアップデート前に始まったリプレイとデイリー対戦は、終わるまで以前のテーブルとルールのままです。
 
 ## 0.3.0
 
-### A regulation 9-foot table
-The table is now tournament size (100" × 50"), with the balls, pockets, cushions and cue to official measurements. The balls are heavier and bounce less, like real ones.
+### 規定の9フィート台
+テーブルがトーナメントサイズ（100インチ×50インチ）になり、ボール、ポケット、クッション、キューも公式の寸法になりました。ボールは重くなり、本物のように跳ねにくくなりました。
 
-### A new break rule
-On the break, the first ball you pocket sets your group: solids or stripes. A foul on the break leaves the table open.
+### 新しいブレイクのルール
+ブレイクでは、最初に入れた球でグループ（ソリッドかストライプ）が決まります。ブレイクでのファウルでは、テーブルはオープンのままです。
 
-### New halls, tables and cues
-Four new halls and four new tables, and every old one reworked. Premium cues that look nothing alike. On Ultra, floors that reflect the hall.
+### 新しいホール、テーブル、キュー
+新しいホールとテーブルがそれぞれ4つ加わり、既存のものもすべて作り直しました。まったく異なる見た目のプレミアムキュー。品質「ウルトラ」では、床にホールが映り込みます。
 
-### Daily challenge
-A new position every day, the same for everyone, with a ranking of the day: three attempts to make as many balls as you can.
+### デイリーチャレンジ
+毎日新しい配置が登場し、全員が同じ配置に挑戦して、その日の順位を競います：3回の挑戦で、できるだけ多くの球を入れてください。
 
-### Drills with stars
-Seven drills on potting, spin, banks and escaping snookers, up to three stars each, with rankings and a challenge rating that shows your level.
+### 星を集めるドリル
+ポケット、スピン、バンク、スヌーカー脱出の7種類のドリル。それぞれ最大3つの星があり、ランキングと、あなたの実力を示すチャレンジレートがあります。
 
-### Account level
-Earn experience in every game, won or lost, and in drills, the daily challenge and achievements. Your level shows on your profile.
+### アカウントレベル
+勝っても負けてもすべてのゲームで、さらにドリル、デイリーチャレンジ、実績でも経験値を獲得できます。レベルはプロフィールに表示されます。
 
-### The Tour
-The old ladder is now the Tour: ten stages, one opponent each. The opponents have new portraits and talk during the game.
+### ツアー
+これまでの勝ち抜き戦が「ツアー」になりました：10ステージで、各ステージに相手が1人。相手の肖像画が新しくなり、ゲーム中に話すようになりました。
 
-### Fair play
-Leaving a game costs more than losing it. The full aiming guide is for free games against the computer and practice only: never online, in the Tour, the daily challenge or drills.
+### フェアプレイ
+ゲームからの退出は、負けるよりも重いペナルティになりました。フルの照準ガイドは、コンピューターとのフリー対戦と練習でのみ使えます：オンライン、ツアー、デイリーチャレンジ、ドリルでは使えません。
 
-### Your profile
-A trophy shelf and statistics for each cue: games, wins and balls made with it. You can now change your username up to three times.
+### プロフィール
+トロフィー棚と、キューごとの統計（ゲーム数、勝利数、そのキューで入れた球数）。ユーザー名を3回まで変更できるようになりました。
 
-### In the lounge
-An "away" status, quick phrases translated into your opponent's language and a practice table while the search for an opponent goes on.
+### ロビーで
+「離席中」ステータス、相手の言語に翻訳される定型文、そして相手を探している間に使える練習用テーブル。
 
 ## 0.2.0
 
-### Ten opponents with personality
-Choose who to play: from Leo, still learning, to Marta, who lives on safeties, and Lola, who banks everything. Each has their own style, portrait and strength.
+### 個性豊かな10人の相手
+対戦する相手を選べます：まだ勉強中のLeoから、セーフティが得意なMarta、なんでもバンクで狙うLolaまで。それぞれ独自のスタイル、肖像画、強さを持っています。
 
-### The ladder
-Beat the ten opponents one by one, up to the last. Reach the top to earn the exclusive "Ladder king" cue and a new achievement.
+### 勝ち抜き戦
+10人の相手を1人ずつ倒して、最後の1人まで進みましょう。頂点に立つと、限定キュー「Ladder king」と新しい実績を獲得できます。
 
-### Play the ghost
-The computer learns a real player's style from their online games. Challenge a friend's ghost, or your own, from the profile or the vs-computer screen.
+### ゴーストと対戦
+コンピューターが、実在のプレイヤーのオンライン対戦からそのスタイルを学びます。プロフィールやコンピューター対戦の画面から、フレンドのゴーストや自分のゴーストに挑戦しましょう。
 
-### Daily games
-Challenge someone and play your turn when you can: each player has up to 3 days per turn. You are told when it's your turn, and you can have several games at once.
+### デイリー対戦
+誰かに挑戦して、都合のよいときに自分の番をプレイします：1回の番につき最大3日です。自分の番になるとお知らせが届き、複数のゲームを同時に進められます。
 
-### Friends and gifts
-See who you played recently, write a status on your profile and post on the lounge's "looking for a game" board. Gifts from friends now arrive with a notice, a message and a "thank you".
+### フレンドとプレゼント
+最近対戦した人を確認したり、プロフィールにひとことを書いたり、ロビーの「対戦相手募集」掲示板に書き込んだりできます。フレンドからのプレゼントは、お知らせ、メッセージ、「お礼」とともに届くようになりました。
 
-### Cues, tables and halls
-Your cue earns bands and inlays as you win with it. In the shop, themed tables and halls: beach bar, industrial loft and English club.
+### キュー、テーブル、ホール
+キューは勝つたびにバンドや象嵌が増えていきます。ショップにはテーマのあるテーブルとホール：ビーチバー、インダストリアルロフト、イングリッシュクラブ。
 
-### Your game, analysed
-The profile's new Analysis tab shows your potting by pocket, distance and kind of shot, with a heat map of the table.
+### あなたのプレイを分析
+プロフィールの新しい「分析」タブで、ポケット、距離、ショットの種類ごとのポケット成功率と、テーブルのヒートマップを確認できます。
 
-### Your keys
-Every shortcut can be changed in Settings → Controls, and the game's hints follow your choices.
+### キー設定
+すべてのショートカットを「設定 → 操作」で変更でき、ゲーム内のヒントもあなたの設定に合わせて表示されます。
 
-### Automatic updates
-New versions download in the background and install when you restart, never during a game. This window tells you what changed.
+### 自動アップデート
+新しいバージョンはバックグラウンドでダウンロードされ、再起動時にインストールされます。ゲーム中に行われることはありません。変更点はこのウィンドウでお知らせします。
 
-### A reviewed interface
-Every screen was reviewed in the three languages and at every window size. Fixes: Esc opens the menu at the table, the computer sinks the 8 in its called pocket more reliably, and the overhead view no longer goes black.
+### インターフェースを見直し
+すべての画面を、3つの言語とあらゆるウィンドウサイズで見直しました。修正点：テーブルでEscを押すとメニューが開く、コンピューターがコールしたポケットに8番をより確実に入れる、トップビューで画面が真っ暗にならない。
 
 ## 0.1.4
 
-### A game while you wait
-After half a minute of "Play now" without an opponent, you can play the computer while the search goes on.
+### 待ち時間にゲームを
+「今すぐ対戦」で30秒たっても相手が見つからないときは、検索を続けたままコンピューターと対戦できます。
 
-### Chat moderation
-You can delete your own chat lines, and moderators can remove abuse.
+### チャットのモデレーション
+自分のチャットの発言を削除でき、モデレーターは迷惑な発言を削除できます。
 
-### Cues you can see
-Opponents see the pattern of the cue you bought, and VIP members have reactions of their own.
+### 見えるキュー
+購入したキューの模様が相手にも見えるようになり、VIPメンバーには専用のリアクションがあります。

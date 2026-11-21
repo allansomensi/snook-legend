@@ -1,300 +1,300 @@
-301|Brak otwartych stołów. Otwórz stół, a inni będą mogli się dosiąść.
-302|Teraz nie ma innych otwartych stołów.
-303|Nie ma takiego gracza.
-304|Teraz nie ma żadnych turniejów. Utwórz własny!
-305|Obraźliwa nazwa
-306|Dobra passa
-307|W gazie
-308|Tylko gospodarz może rozpocząć turniej.
-309|Otwórz stół
-310|Lub dołącz przez adres
-311|Inne
-312|Inni mogą dołączyć pod adresem {ip}:{port}
-313|Hasło musi mieć co najmniej 8 znaków (nie same cyfry).
-314|Rozegraj 1000 partii rankingowych.
-315|Rozegraj 10 partii rankingowych.
-316|Rozegraj 100 partii rankingowych.
-317|Rozegraj 25 partii towarzyskich.
-318|Rozegraj 500 partii rankingowych.
-319|Zagraj w turnieju.
-320|Graj online
-321|Graj ze znajomymi w tej samej sieci
-322|Rozegraj pierwszą partię rankingową.
-323|Gracz 1
-324|Gracze
-325|Uczestnicy turnieju nie mogą zaczynać innych partii.
-326|Nie powtarzaj tej samej wiadomości.
-327|Legenda klubu
-328|Dusza towarzystwa
-329|Prywatny
-330|dla znajomych, żeby mogli się dosiąść
-331|Profil
-332|{key}: obejrzyj ponownie ostatnie uderzenie
-333|POWTÓRKA
-334|Rankingowa
-335|Partie rankingowe, stoły, turnieje i znajomi
-336|Osiągnij ranking 1300.
-337|Osiągnij ranking 1500.
-338|Osiągnij ranking 1700.
-339|Osiągnij ranking 1900.
-340|Osiągnij ranking 2100.
-341|Odśwież
-342|Stały bywalec
-343|Usuń ze znajomych
-344|Powtórka
-345|Zgłoś
-346|Zgłoś gracza {name}
-347|Zaproszenie wysłane
-348|Znajomy
-349|Ostatnio
-350|Na razie nikogo. Pojawią się tu osoby, z którymi grasz online.
-351|partie: {n}
-352|Nowicjusz
-353|Runda {n}
-354|Szukaj…
-355|Półfinały
-356|Wyślij zgłoszenie
-357|Ta partia zostanie dołączona do zgłoszenia, żeby moderatorzy mogli ją obejrzeć.
-358|Twoja partia z graczem {name} ({date}) zostanie dołączona do zgłoszenia, żeby moderatorzy mogli ją obejrzeć.
-359|W ciągu ostatniej doby nie było partii z graczem {name}: moderatorzy zobaczą ostatnie wiadomości z czatu.
-360|Rekin
-361|Pokazuje punkt styku; ocena cięcia należy do ciebie.
-362|Do zera
-363|Zaloguj się
-364|Zaloguj się lub utwórz konto
-365|Wyloguj się
-366|Dosiądź się
-367|Zaawansowany
-368|Ktoś o tej nazwie już tu jest.
-369|Spam
-370|Zacznij teraz
-371|Zatrzymaj powtórkę
-372|Czyściciel stołów
-373|Stoły
-374|Grajcie na zmianę na tym komputerze
-375|Dziękujemy. Moderatorzy się tym zajmą.
-376|Dziękujemy. Moderatorzy się tym zajmą – twoja partia została dołączona.
-377|Ten gracz nie przyjmuje zaproszeń.
-378|To uderzenie dotyczyło wcześniejszej kolejki.
-379|Ten stół nie jest już otwarty.
-380|Ten turniej już się rozpoczął.
-381|Ten turniej już nie istnieje.
-382|Pierwsze połączenie danego dnia może potrwać do minuty, zanim serwer się obudzi.
-383|Za pierwszym razem zezwól Snook Legend na dostęp przez zaporę, gdy pojawi się pytanie.
-384|Serwer nie mógł wykonać tego uderzenia.
-385|Serwer jest zajęty. Spróbuj ponownie za chwilę.
-386|Turniej zacznie się, gdy będzie komplet (gospodarz może go rozpocząć wcześniej).
-387|Jest teraz za dużo turniejów. Dołącz do któregoś!
-388|To serwer LAN: dołącz jako gość.
-389|Piętnastu rywali, trasa i duchy prawdziwych graczy
-390|Liga
-391|Czas na uderzenie
-392|Za dużo nieudanych prób. Odczekaj kilka minut i spróbuj ponownie.
-393|Za dużo wiadomości.
-394|Za dużo nowych kont z tej sieci. Spróbuj ponownie później.
-395|Top 100 · partie rankingowe
-396|Partia turniejowa: następna runda zaczyna się z lobby.
-397|W partiach turniejowych nie ma rewanżu.
-398|Turnieje
-399|Turnieje są dla 4, 8 lub 16 graczy.
-400|Dwóch graczy
-401|Odblokuj
-402|Odblokowano {date}
-403|Nie do zatrzymania
-404|W
-405|Obejrzyj ponownie ostatnie uderzenie
-406|Co się stało? (opcjonalnie)
-407|Gdy skończy się czas, kolej przechodzi na przeciwnika.
-408|Pogrom
-409|Wygraj 10 partii rankingowych wbiciem ósemki.
-410|Wygraj 10 partii rankingowych z rzędu.
-411|Wygraj 10 partii rankingowych.
-412|Wygraj do zera 10 partii rankingowych.
-413|Wygraj 100 partii rankingowych wbiciem ósemki.
-414|Wygraj 100 partii rankingowych.
-415|Wygraj 250 partii rankingowych wbiciem ósemki.
-416|Wygraj 3 partie rankingowe z rzędu.
-417|Wygraj 5 partii rankingowych z rzędu.
-418|Wygraj 5 turniejów.
-419|Wygraj 50 partii rankingowych wbiciem ósemki.
-420|Wygraj 50 partii rankingowych.
-421|Wygraj 500 partii rankingowych.
-422|Wygraj partię rankingową.
-423|Wygraj turniej.
-424|Wygraj partię rankingową, zanim przeciwnik wbije bilę ze swojej grupy.
-425|Wygraj partię rankingową od rozbicia, nie dając przeciwnikowi wykonać uderzenia.
-426|Wycofaj się
-427|Ranking światowy
-428|Błędne hasło do stołu.
-429|Błędne hasło do turnieju.
-430|Już bierzesz udział w turnieju.
-431|Udostępniasz grę
-432|Nie możesz dosiąść się do tego stołu.
-433|Zalogowano się na twoje konto w innym miejscu.
-434|Wysyłasz zaproszenia za szybko.
-435|Wysyłasz wiadomości za szybko.
-436|Wysłano już wiele zgłoszeń. Odczekaj chwilę, zanim wyślesz kolejne.
-437|Twoja lista znajomych jest pełna.
-438|Twój następny mecz zacznie się sam, gdy obie strony będą wolne.
-439|Twój profil
-440|Twój stół jest otwarty
-441|Przybliż
-442|Oddal
-443|przy stole
-444|najdłuższa seria wygranych
-445|gospodarz: {host} · gracze: {n}/{size}
-446|partie towarzyskie
-447|towarzyska · prywatna
-448|towarzyska · publiczna
-449|łączenie z serwerem
-450|bilard: ósemka
-451|zakończony
-452|gość
-453|zaprasza cię na {kind}
-454|z nami od dzisiaj
-455|z nami od {n} dni
-456|z nami od {n} miesięcy
-457|z nami od {n} lat
-458|offline
-459|otwarty
-460|opcjonalne: dołączyć mogą tylko znajomi, którzy je znają
-461|hasło
-462|rekord {n}
-463|w grze
-464|gra z komputerem
-465|zaraz wracam
-466|ta partia jest zapisana
-467|partie rankingowe
-468|rankingowa · prywatna
-469|rankingowa · publiczna
-470|zaproszenie wysłane
-471|połączenie zostało przerwane
-472|aby grać online
-473|turniej
-474|wygrane turnieje
-475|czekanie na przeciwnika…
-476|% wygranych
-477|wygrane
-478|wygrane ósemką
-479|Gra gracza {host}
-480|{name} chce dodać cię do znajomych
-481|{name} chce dodać cię do znajomych.
-482|online: {n}
-483|wbicie ósemki
-484|przeciwnik wbił ósemkę
-485|przeciwnik wbił ósemkę za wcześnie
-486|ósemka wbita za wcześnie
-487|przeciwnik wbił ósemkę do złej łuzy
-488|ósemka w złej łuzie
-489|przeciwnik sfaulował na ósemce
-490|faul na ósemce
-491|przeciwnik wybił ósemkę ze stołu
-492|ósemka wybita ze stołu
-493|przeciwnik się poddał
-494|poddanie partii
-495|przeciwnik wyszedł
-496|opuszczenie partii
-497|Twój czat jest wyciszony jeszcze przez {n} min.
-498|Konto zawieszone – pozostałe dni: {n}. Powód: {reason}.
-499|To konto jest zbanowane. Powód: {reason}.
-500|Wyciszono cię: {r}
-501|Twoje konto zostało zawieszone: {r}
-502|Twoje konto zostało zbanowane: {r}
-503|Moderator rozłączył cię: {r}
-504|Moderator rozłączył cię.
-505|Zaloguj się ponownie.
-506|Twoje hasło zostało zmienione. Zaloguj się ponownie.
-507|Przyjmij rewanż
-508|Akceptuj
-509|Celowanie
-510|Pomoc w celowaniu
-511|Celowanie
-512|Wygładzanie krawędzi
-513|Wygładza poszarpane krawędzie linii i bil.
-514|Wróć do lobby
-515|Zrównoważona: płynnie na większości laptopów.
-516|Bila z ręki
-517|Rozbij bile
-518|Kamera oddala się przy każdym uderzeniu
-519|Kamera
-520|Anuluj
-521|Partia towarzyska: ranking bez zmian
-522|Środek
-523|Czat
-524|Kliknij bilę lub punkt
-525|Kliknij, aby pisać, Enter wysyła
-526|Sterowanie
-527|Utwórz konto
-528|Punkt uderzenia białej
-529|Odrzuć
-530|Gotowe
-531|Przeciągnij białą
-532|Uniesienie kija
-533|Wszystko, z odbiciami na wypolerowanych podłogach: dla komputerów do gier.
-534|Precyzyjne celowanie
-535|Najpierw dokończ ten mecz.
-536|Dla starych lub bardzo wolnych komputerów.
-537|Pełny ekran
-538|Również klawiszem {key}.
-539|Pełna
-540|Serwer gry
-541|Zmieniaj tylko, jeśli chcesz grać na innym serwerze.
-542|Zaawansowane
-543|Inny serwer
-544|Jakość grafiki
-545|Jakość
-546|Ekran
-547|Wysoka
-548|Zaproś
-549|Wyjdź do lobby
-550|Wyjdź
-551|Wyjście teraz liczy się jako porażka.
-552|Czat lobby
-553|Niska
-554|Menu główne
-555|Średnia
-556|Menu / pomoc
-557|Następna partia zacznie się za chwilę…
-558|Nie ma jeszcze partii rankingowych. Zagraj pierwszą!
-559|Nikogo innego tu teraz nie ma.
-560|Szukasz partii?
-561|Szukam partii
-562|Dodaj ogłoszenie
-563|Wszyscy w lobby widzą je przez 30 minut
-564|Czego szukasz? ({kind})
-565|Opublikuj
-566|Twoje ogłoszenie: {text}
-567|{mode} · zostało {left}
-568|Usuń
-569|Wyzwij
-570|Usuń ogłoszenie
-571|Wył.
-572|Na ósemkę: zadeklaruj łuzę
-573|Na ósemkę
-574|Stół otwarty
-575|Hasło
-576|Pauza
-577|Graj
-578|Gracz 2
-579|Gracz
-580|Szybkie celowanie
-581|Zakończ
-582|Połączono ponownie.
-583|Rewanż
-584|Poddaj tę partię
-585|Uruchom grę ponownie, aby zastosować tę zmianę.
-586|Wznów
-587|Ponów
-588|Zapisywanie wyniku…
-589|Przywitaj się… (Enter wysyła)
-590|Wyślij
-591|Ustawienia
-592|{key} + przeciągnij
-593|{key}: 3D / widok z góry
-594|{keys}: przybliżenie
-595|Widok
-596|Celuj w lewo
-597|Celuj w prawo
-598|Precyzyjne celowanie (przytrzymaj)
-599|Uderzenie (przytrzymaj, puść)
-600|Rotacja górna
+301	Brak otwartych stołów. Otwórz stół, a inni będą mogli się dosiąść.
+302	Teraz nie ma innych otwartych stołów.
+303	Nie ma takiego gracza.
+304	Teraz nie ma żadnych turniejów. Utwórz własny!
+305	Obraźliwa nazwa
+306	Dobra passa
+307	W gazie
+308	Tylko gospodarz może rozpocząć turniej.
+309	Otwórz stół
+310	Lub dołącz przez adres
+311	Inne
+312	Inni mogą dołączyć pod adresem {ip}:{port}
+313	Hasło musi mieć co najmniej 8 znaków (nie same cyfry).
+314	Rozegraj 1000 partii rankingowych.
+315	Rozegraj 10 partii rankingowych.
+316	Rozegraj 100 partii rankingowych.
+317	Rozegraj 25 partii towarzyskich.
+318	Rozegraj 500 partii rankingowych.
+319	Zagraj w turnieju.
+320	Graj online
+321	Graj ze znajomymi w tej samej sieci
+322	Rozegraj pierwszą partię rankingową.
+323	Gracz 1
+324	Gracze
+325	Uczestnicy turnieju nie mogą zaczynać innych partii.
+326	Nie powtarzaj tej samej wiadomości.
+327	Legenda klubu
+328	Dusza towarzystwa
+329	Prywatny
+330	dla znajomych, żeby mogli się dosiąść
+331	Profil
+332	{key}: obejrzyj ponownie ostatnie uderzenie
+333	POWTÓRKA
+334	Rankingowa
+335	Partie rankingowe, stoły, turnieje i znajomi
+336	Osiągnij ranking 1300.
+337	Osiągnij ranking 1500.
+338	Osiągnij ranking 1700.
+339	Osiągnij ranking 1900.
+340	Osiągnij ranking 2100.
+341	Odśwież
+342	Stały bywalec
+343	Usuń ze znajomych
+344	Powtórka
+345	Zgłoś
+346	Zgłoś gracza {name}
+347	Zaproszenie wysłane
+348	Znajomy
+349	Ostatnio
+350	Na razie nikogo. Pojawią się tu osoby, z którymi grasz online.
+351	partie: {n}
+352	Nowicjusz
+353	Runda {n}
+354	Szukaj…
+355	Półfinały
+356	Wyślij zgłoszenie
+357	Ta partia zostanie dołączona do zgłoszenia, żeby moderatorzy mogli ją obejrzeć.
+358	Twoja partia z graczem {name} ({date}) zostanie dołączona do zgłoszenia, żeby moderatorzy mogli ją obejrzeć.
+359	W ciągu ostatniej doby nie było partii z graczem {name}: moderatorzy zobaczą ostatnie wiadomości z czatu.
+360	Rekin
+361	Pokazuje punkt styku; ocena cięcia należy do ciebie.
+362	Do zera
+363	Zaloguj się
+364	Zaloguj się lub utwórz konto
+365	Wyloguj się
+366	Dosiądź się
+367	Zaawansowany
+368	Ktoś o tej nazwie już tu jest.
+369	Spam
+370	Zacznij teraz
+371	Zatrzymaj powtórkę
+372	Czyściciel stołów
+373	Stoły
+374	Grajcie na zmianę na tym komputerze
+375	Dziękujemy. Moderatorzy się tym zajmą.
+376	Dziękujemy. Moderatorzy się tym zajmą – twoja partia została dołączona.
+377	Ten gracz nie przyjmuje zaproszeń.
+378	To uderzenie dotyczyło wcześniejszej kolejki.
+379	Ten stół nie jest już otwarty.
+380	Ten turniej już się rozpoczął.
+381	Ten turniej już nie istnieje.
+382	Pierwsze połączenie danego dnia może potrwać do minuty, zanim serwer się obudzi.
+383	Za pierwszym razem zezwól Snook Legend na dostęp przez zaporę, gdy pojawi się pytanie.
+384	Serwer nie mógł wykonać tego uderzenia.
+385	Serwer jest zajęty. Spróbuj ponownie za chwilę.
+386	Turniej zacznie się, gdy będzie komplet (gospodarz może go rozpocząć wcześniej).
+387	Jest teraz za dużo turniejów. Dołącz do któregoś!
+388	To serwer LAN: dołącz jako gość.
+389	Piętnastu rywali, trasa i duchy prawdziwych graczy
+390	Liga
+391	Czas na uderzenie
+392	Za dużo nieudanych prób. Odczekaj kilka minut i spróbuj ponownie.
+393	Za dużo wiadomości.
+394	Za dużo nowych kont z tej sieci. Spróbuj ponownie później.
+395	Top 100 · partie rankingowe
+396	Partia turniejowa: następna runda zaczyna się z lobby.
+397	W partiach turniejowych nie ma rewanżu.
+398	Turnieje
+399	Turnieje są dla 4, 8 lub 16 graczy.
+400	Dwóch graczy
+401	Odblokuj
+402	Odblokowano {date}
+403	Nie do zatrzymania
+404	W
+405	Obejrzyj ponownie ostatnie uderzenie
+406	Co się stało? (opcjonalnie)
+407	Gdy skończy się czas, kolej przechodzi na przeciwnika.
+408	Pogrom
+409	Wygraj 10 partii rankingowych wbiciem ósemki.
+410	Wygraj 10 partii rankingowych z rzędu.
+411	Wygraj 10 partii rankingowych.
+412	Wygraj do zera 10 partii rankingowych.
+413	Wygraj 100 partii rankingowych wbiciem ósemki.
+414	Wygraj 100 partii rankingowych.
+415	Wygraj 250 partii rankingowych wbiciem ósemki.
+416	Wygraj 3 partie rankingowe z rzędu.
+417	Wygraj 5 partii rankingowych z rzędu.
+418	Wygraj 5 turniejów.
+419	Wygraj 50 partii rankingowych wbiciem ósemki.
+420	Wygraj 50 partii rankingowych.
+421	Wygraj 500 partii rankingowych.
+422	Wygraj partię rankingową.
+423	Wygraj turniej.
+424	Wygraj partię rankingową, zanim przeciwnik wbije bilę ze swojej grupy.
+425	Wygraj partię rankingową od rozbicia, nie dając przeciwnikowi wykonać uderzenia.
+426	Wycofaj się
+427	Ranking światowy
+428	Błędne hasło do stołu.
+429	Błędne hasło do turnieju.
+430	Już bierzesz udział w turnieju.
+431	Udostępniasz grę
+432	Nie możesz dosiąść się do tego stołu.
+433	Zalogowano się na twoje konto w innym miejscu.
+434	Wysyłasz zaproszenia za szybko.
+435	Wysyłasz wiadomości za szybko.
+436	Wysłano już wiele zgłoszeń. Odczekaj chwilę, zanim wyślesz kolejne.
+437	Twoja lista znajomych jest pełna.
+438	Twój następny mecz zacznie się sam, gdy obie strony będą wolne.
+439	Twój profil
+440	Twój stół jest otwarty
+441	Przybliż
+442	Oddal
+443	przy stole
+444	najdłuższa seria wygranych
+445	gospodarz: {host} · gracze: {n}/{size}
+446	partie towarzyskie
+447	towarzyska · prywatna
+448	towarzyska · publiczna
+449	łączenie z serwerem
+450	bilard: ósemka
+451	zakończony
+452	gość
+453	zaprasza cię na {kind}
+454	z nami od dzisiaj
+455	z nami od {n} dni
+456	z nami od {n} miesięcy
+457	z nami od {n} lat
+458	offline
+459	otwarty
+460	opcjonalne: dołączyć mogą tylko znajomi, którzy je znają
+461	hasło
+462	rekord {n}
+463	w grze
+464	gra z komputerem
+465	zaraz wracam
+466	ta partia jest zapisana
+467	partie rankingowe
+468	rankingowa · prywatna
+469	rankingowa · publiczna
+470	zaproszenie wysłane
+471	połączenie zostało przerwane
+472	aby grać online
+473	turniej
+474	wygrane turnieje
+475	czekanie na przeciwnika…
+476	% wygranych
+477	wygrane
+478	wygrane ósemką
+479	Gra gracza {host}
+480	{name} chce dodać cię do znajomych
+481	{name} chce dodać cię do znajomych.
+482	online: {n}
+483	wbicie ósemki
+484	przeciwnik wbił ósemkę
+485	przeciwnik wbił ósemkę za wcześnie
+486	ósemka wbita za wcześnie
+487	przeciwnik wbił ósemkę do złej łuzy
+488	ósemka w złej łuzie
+489	przeciwnik sfaulował na ósemce
+490	faul na ósemce
+491	przeciwnik wybił ósemkę ze stołu
+492	ósemka wybita ze stołu
+493	przeciwnik się poddał
+494	poddanie partii
+495	przeciwnik wyszedł
+496	opuszczenie partii
+497	Twój czat jest wyciszony jeszcze przez {n} min.
+498	Konto zawieszone – pozostałe dni: {n}. Powód: {reason}.
+499	To konto jest zbanowane. Powód: {reason}.
+500	Wyciszono cię: {r}
+501	Twoje konto zostało zawieszone: {r}
+502	Twoje konto zostało zbanowane: {r}
+503	Moderator rozłączył cię: {r}
+504	Moderator rozłączył cię.
+505	Zaloguj się ponownie.
+506	Twoje hasło zostało zmienione. Zaloguj się ponownie.
+507	Przyjmij rewanż
+508	Akceptuj
+509	Celowanie
+510	Pomoc w celowaniu
+511	Celowanie
+512	Wygładzanie krawędzi
+513	Wygładza poszarpane krawędzie linii i bil.
+514	Wróć do lobby
+515	Zrównoważona: płynnie na większości laptopów.
+516	Bila z ręki
+517	Rozbij bile
+518	Kamera oddala się przy każdym uderzeniu
+519	Kamera
+520	Anuluj
+521	Partia towarzyska: ranking bez zmian
+522	Środek
+523	Czat
+524	Kliknij bilę lub punkt
+525	Kliknij, aby pisać, Enter wysyła
+526	Sterowanie
+527	Utwórz konto
+528	Punkt uderzenia białej
+529	Odrzuć
+530	Gotowe
+531	Przeciągnij białą
+532	Uniesienie kija
+533	Wszystko, z odbiciami na wypolerowanych podłogach: dla komputerów do gier.
+534	Precyzyjne celowanie
+535	Najpierw dokończ ten mecz.
+536	Dla starych lub bardzo wolnych komputerów.
+537	Pełny ekran
+538	Również klawiszem {key}.
+539	Pełna
+540	Serwer gry
+541	Zmieniaj tylko, jeśli chcesz grać na innym serwerze.
+542	Zaawansowane
+543	Inny serwer
+544	Jakość grafiki
+545	Jakość
+546	Ekran
+547	Wysoka
+548	Zaproś
+549	Wyjdź do lobby
+550	Wyjdź
+551	Wyjście teraz liczy się jako porażka.
+552	Czat lobby
+553	Niska
+554	Menu główne
+555	Średnia
+556	Menu / pomoc
+557	Następna partia zacznie się za chwilę…
+558	Nie ma jeszcze partii rankingowych. Zagraj pierwszą!
+559	Nikogo innego tu teraz nie ma.
+560	Szukasz partii?
+561	Szukam partii
+562	Dodaj ogłoszenie
+563	Wszyscy w lobby widzą je przez 30 minut
+564	Czego szukasz? ({kind})
+565	Opublikuj
+566	Twoje ogłoszenie: {text}
+567	{mode} · zostało {left}
+568	Usuń
+569	Wyzwij
+570	Usuń ogłoszenie
+571	Wył.
+572	Na ósemkę: zadeklaruj łuzę
+573	Na ósemkę
+574	Stół otwarty
+575	Hasło
+576	Pauza
+577	Graj
+578	Gracz 2
+579	Gracz
+580	Szybkie celowanie
+581	Zakończ
+582	Połączono ponownie.
+583	Rewanż
+584	Poddaj tę partię
+585	Uruchom grę ponownie, aby zastosować tę zmianę.
+586	Wznów
+587	Ponów
+588	Zapisywanie wyniku…
+589	Przywitaj się… (Enter wysyła)
+590	Wyślij
+591	Ustawienia
+592	{key} + przeciągnij
+593	{key}: 3D / widok z góry
+594	{keys}: przybliżenie
+595	Widok
+596	Celuj w lewo
+597	Celuj w prawo
+598	Precyzyjne celowanie (przytrzymaj)
+599	Uderzenie (przytrzymaj, puść)
+600	Rotacja górna

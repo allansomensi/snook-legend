@@ -325,6 +325,14 @@ The game:
   ends it, not as a game lost.
 - A game saved by 0.8.1 resumes with the breaker it had.
 
+- **The 8 on a break handed over** (the cue ball lost on the break, the
+  balls lying where they stopped) is the 8 of any shot: hit first it is a
+  foul, and made it loses the game. The incoming player could win at once
+  by potting it straight in, and the computer went for it. Only the break
+  of the rack (the game's first shot, or a break passed over with the balls
+  still racked) has the 8 alone winning (`EightBallGame::break_on_rack`).
+  The rules book in three languages says so.
+
 Online, in the game:
 - **A table joined after its game ended** (back from a lost connection,
   or watching a friend at the end panel) shows the end and its result, not

@@ -1,4 +1,4 @@
-# Snook Legend: Brazilian Portuguese.
+# Snook Legend: Russian.
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} на восьмёрке: заказана {pocket}
@@ -1066,7 +1066,7 @@ No gifts yet. Friends can give you items from the shop.	Подарков пок�
 {name} ran out of time.	{name}: время вышло.
 {name} received {item}.	{name} получает {item}.
 {n} pts · {g} games	{n} очк. · партий: {g}
-{n} watching · avg {r}	Зрители: {n} · средний {r}
+{n} watching · avg {r}	Зрители: {n} · ср. рейтинг {r}
 {title}: {how}	{title}: {how}
 Olive	Оливковый
 Navy	Тёмно-синий

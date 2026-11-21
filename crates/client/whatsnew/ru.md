@@ -1,307 +1,307 @@
-# Snook Legend: what's new, shown in the game after an update.
-# "## <version>" starts a version (newest first), "### <title>" a highlight,
-# and the lines after it are its text. Keep it short and about what players
-# see; every language has the same versions and the same number of highlights.
+# Snook Legend: что нового, показывается в игре после обновления.
+# "## <версия>" начинает версию (новые сверху), "### <заголовок>" — новинку,
+# а строки после него — её текст. Коротко и о том, что видят игроки; на всех
+# языках те же версии и то же число новинок.
 
 ## 0.8.3
 
-### What you earn is shown
-An item that comes with an achievement, such as a level reached, now arrives with a "Congratulations!" window that shows it and lets you use it at once.
+### Видно, что вы получили
+Предмет за достижение, например за новый уровень, теперь приходит с окном «Поздравляем!», которое показывает его и позволяет сразу его выбрать.
 
-### One game at a time
-Starting the game while it is already open brings its window to the front instead of opening a second one. Two games on one computer wrote over each other's settings and saved game.
+### Одна игра за раз
+Если запустить игру, когда она уже открыта, её окно выходит на передний план, а второе не открывается. Две копии игры на одном компьютере перезаписывали друг другу настройки и сохранённую партию.
 
-### The 8 on a break handed over
-Under the Brazilian rule, a break handed over after the cue ball was lost, with the balls already scattered, no longer wins by potting the 8: hitting it first is a foul and pocketing it loses, as on any shot. Only the break of the rack has the 8 alone winning.
+### Восьмёрка на переданном разбое
+По бразильским правилам разбой, переданный после потери битка, когда шары уже разбросаны, больше не выигрывается одной восьмёркой: попасть в неё первым — фол, а забить её — проигрыш, как при любом ударе. Одна восьмёрка приносит победу только на разбое пирамиды.
 
-### Cleaner pockets, a steadier camera, and many fixes
-The pockets are finished without rough edges, and going from the overhead view to 3D keeps your zoom. Two more reviews of the whole game fixed many bugs: a rematch keeps the break alternating, a private arena asks for its password while it runs, a table rejoined after its game ended shows the result, and more.
+### Аккуратные лузы, спокойная камера и много исправлений
+Лузы теперь без грубых краёв, а при переходе от вида сверху к 3D сохраняется зум. Ещё две проверки всей игры исправили много ошибок: в реванше разбой по-прежнему чередуется, закрытая арена спрашивает пароль во время игры, стол, к которому вы вернулись после конца партии, показывает результат, и не только.
 
 ## 0.8.2
 
-### The shot clock gives a ball
-Under the Brazilian rule, running out of time is a foul: your opponent's lowest ball comes off (if they are on the 8 already, the 8 pays and you lose), the cue ball goes back to the head spot, not in hand, and the turn passes.
+### Время на удар стоит шара
+По бразильским правилам истёкшее время — это фол: шар соперника с наименьшим номером снимается со стола (если он уже на восьмёрке, платит восьмёрка, и вы проигрываете), биток возвращается на переднюю отметку, не с руки, а ход переходит к сопернику.
 
-### The break, one each
-Under the Brazilian rule the players break in turn, one break each. A break that loses the cue ball with no ball made, or with balls of both groups, passes the break: your opponent breaks again from the head spot, with the balls where they stopped.
+### Разбой по очереди
+По бразильским правилам игроки разбивают по очереди, по одному разу. Разбой, на котором биток потерян без забитых шаров или вместе с шарами обеих групп, передаёт разбой: соперник разбивает снова с передней отметки, а шары стоят там, где остановились.
 
-### Grab the cue anywhere
-Click and drag the cue anywhere along it, from the tip to the butt, even drawn back or raised over the rail: it follows the pointer as it swings.
+### Берите кий где угодно
+Нажмите на кий в любом месте, от наклейки до турняка, даже отведённый назад или поднятый над бортом, и тяните: он следует за указателем.
 
-### Seven rounds in the arena, and many fixes
-The arena against the computer is seven rounds for everyone, and the shop has a new icon. Three reviews of the whole game fixed many bugs: leaving while the balls roll no longer undoes a shot against the computer, the first ball hit is the one the cue ball really touched first, and more.
+### Семь раундов на арене и много исправлений
+Арена против компьютера теперь всегда из семи раундов, а у магазина новый значок. Три проверки всей игры исправили много ошибок: выход, пока катятся шары, больше не отменяет удар против компьютера, первым задетым шаром считается тот, которого биток действительно коснулся первым, и не только.
 
 ## 0.8.1
 
-### The 8 pays the penalty
-Under the Brazilian rule, a foul that gives more balls than your opponent has left loses the game: their balls come off and the 8 pays the rest. Once your opponent is on the 8, any foul that gives a ball loses: missing every ball, pocketing the cue ball or knocking it off the table.
+### Восьмёрка платит штраф
+По бразильским правилам фол, который даёт больше шаров, чем осталось у соперника, проигрывает партию: его шары снимаются, а остаток покрывает восьмёрка. Когда соперник на восьмёрке, любой фол, за который полагается шар, проигрывает: промах по всем шарам, биток в лузе или биток за пределами стола.
 
-### Click outside to close
-The match's chat, the game history and the spin and elevation panels close when you click outside them, and the click still counts on the table. Menus and dialogs close with a click outside them too, like Cancel.
+### Нажмите снаружи, чтобы закрыть
+Чат матча, история партии и панели винта и наклона закрываются нажатием вне их, и это нажатие всё равно срабатывает на столе. Меню и диалоги тоже закрываются нажатием снаружи, как кнопкой «Отмена».
 
 ## 0.8.0
 
-### The official rules
-You can now also play the official rules of the WPA, the eight-ball of international tournaments: every shot is called, a foul gives ball in hand anywhere and no ball comes off as a penalty. Choose your rules in the main menu. The Brazilian rule is still there, just as it was.
+### Официальные правила
+Теперь можно играть и по официальным правилам WPA, правилам восьмёрки международных турниров: каждый удар заказывается, фол даёт шар с руки в любое место, а штрафные шары не снимаются. Выберите правила в главном меню. Бразильские правила остались такими же, как были.
 
-### A rating for each rules
-Each rules has its own rating, tier and world ranking: the ranking has a tab for each and your profile a card for each. Your level, coins and achievements are shared.
+### Рейтинг для каждых правил
+У каждых правил свой рейтинг, лига и мировой рейтинг: в рейтинге для каждых правил своя вкладка, а в профиле — своя карточка. Уровень, монеты и достижения общие.
 
-### Calling your shots
-Under the official rules the pocket you aim at is called (a ring shows it). Click another pocket to call it, or Safety to call none. After some breaks you choose how the game goes on, with the buttons or 1, 2 and 3.
+### Заказ ударов
+По официальным правилам заказывается луза, в которую вы целитесь (её показывает кольцо). Нажмите на другую лузу, чтобы заказать её, или на «Отыгрыш», чтобы ничего не заказывать. После некоторых разбоев вы выбираете, как продолжится игра, кнопками или клавишами 1, 2 и 3.
 
-### Online, by rules
-Invitations, tables, Play now, tournaments and daily games all say their rules, and Play now pairs you with players of yours. The menu shows how many people play each.
+### Онлайн по правилам
+Приглашения, столы, «Играть сейчас», турниры и заочные партии показывают свои правила, а «Играть сейчас» подбирает вам игроков с теми же правилами. Меню показывает, сколько человек играет по каждым.
 
-### The break, Brazilian rule
-If the break loses the cue ball together with balls of both groups, the break now passes to your opponent, with the cue ball in hand behind the head string and no penalty ball.
+### Разбой по бразильским правилам
+Если на разбое биток упал вместе с шарами обеих групп, разбой теперь переходит к сопернику, с битком с руки в доме и без штрафного шара.
 
 ## 0.7.4
 
-### The chat, when you want it
-No more age question when signing up. The chat with other players starts off and asks only the first time you write: 18 or older turns it on at once, and under 18 a parent or guardian turns it on. Whoever doesn't chat is never asked.
+### Чат, когда он вам нужен
+При регистрации больше не спрашивают возраст. Чат с другими игроками сначала выключен и спрашивает только тогда, когда вы впервые пишете: если вам 18 или больше, он сразу включается, а если меньше, его включает родитель или опекун. Кто не пишет в чат, того ни о чём не спрашивают.
 
-### Invitations in the corner
-An invitation now shows as a card in the top right corner on every screen and over any game, with the player's picture, the buttons to accept or decline and a soft chime. Accept it from the menu and the game starts right away.
+### Приглашения в углу
+Приглашение теперь появляется карточкой в правом верхнем углу на любом экране и поверх любой партии, с аватаром игрока, кнопками «Принять» и «Отклонить» и мягким сигналом. Примите его из меню — и партия сразу начнётся.
 
-### Windows tells you at once
-With the game behind another window or minimised, Windows shows the invitation at once (it used to wait a few seconds).
+### Windows сообщает сразу
+Если игра за другим окном или свёрнута, Windows сразу показывает приглашение (раньше оно ждало несколько секунд).
 
 ## 0.7.3
 
-### New rules
-If the break hits no ball, or loses the cue ball (down or off the table) with no ball made, the break passes to your opponent, with the cue ball in hand behind the head string. With a ball made, it decides the groups even if the cue ball goes down too. And the cue ball off the table costs a ball, as a scratch does.
+### Новые правила
+Если на разбое биток не попал ни в один шар или потерян (в лузе или за пределами стола) без забитых шаров, разбой переходит к сопернику, с битком с руки в доме. Если шар забит, он определяет группы, даже если биток тоже упал в лузу. А биток за пределами стола стоит шара, как и биток в лузе.
 
-### More drills, no ranking
-There are 24 drills now, nine of them new: the far corner, long into the side, cue ball on the cushion, the plant, the carom, the long draw, on the tangent line, two-cushion bank and fifteen in a row. Each shows its position, and your stars are kept in your account. The drills' ranking is gone.
+### Больше упражнений, без рейтинга
+Теперь упражнений 24, девять из них новые: дальний угол, издалека в среднюю, биток у борта, шары вплотную, карамболь, длинная оттяжка, по касательной, дуплет от двух бортов и пятнадцать подряд. Каждое показывает свою позицию, а звёзды сохраняются в аккаунте. Рейтинга упражнений больше нет.
 
-### New pictures
-The portraits were drawn again, with more care, and there are new pictures of pool things. Your picture now shows on the card in the corner of the start screen when you're signed in.
+### Новые картинки
+Портреты нарисованы заново, тщательнее, и появились новые картинки на бильярдную тему. Когда вы вошли в аккаунт, ваш аватар виден на карточке в углу стартового экрана.
 
-### Terms and privacy
-The terms of use and the privacy policy are a click away: when you sign up, in the shop and in Settings → Game → About. Purchases with money give you 7 days to change your mind and get your money back.
+### Условия и конфиденциальность
+Условия использования и политика конфиденциальности в одном клике: при регистрации, в магазине и в разделе «Настройки → Игра → Об игре». Покупки за деньги дают 7 дней, чтобы передумать и вернуть деньги.
 
-### Age and chat
-The game asks your age group (once). Under 18, the chat with other players stays off until a parent or guardian turns it on, below the lounge's chat, as Brazilian law asks.
+### Возраст и чат
+Игра спрашивает вашу возрастную группу (один раз). Если вам меньше 18, чат с другими игроками выключен, пока его не включит родитель или опекун под чатом лобби, как того требует закон Бразилии.
 
-### Emoji in the chat
-Emoji now show as pictures in the chat, notes and statuses, flags and all. Tabs have all their names at one size, and the count of who is online is smaller: the green dot, a person and the number.
+### Эмодзи в чате
+Эмодзи теперь показываются картинками в чате, объявлениях и статусах, включая флаги. Все названия вкладок одного размера, а счётчик игроков в сети стал компактнее: зелёная точка, человечек и число.
 
 ## 0.7.2
 
-### A harder tour
-Each stage of the tour is harder than before, and more so the further up: opponents miss less, look at every shot and play for position. The final against Viktor, for the cue, is very hard now: he barely misses and plays safe more often. Tournaments against the computer stay as they were.
+### Тур сложнее
+Каждый этап тура сложнее, чем раньше, и чем выше, тем сильнее: соперники реже промахиваются, обдумывают каждый удар и играют на выход. Финал против Виктора, за кий, теперь очень сложный: он почти не промахивается и чаще играет на отыгрыш. Турниры против компьютера остались прежними.
 
-### Tournament medals
-Play a tournament against the computer to its end and finish in the first three for a gold, silver or bronze medal. The Tournament tab counts them, knockout and arena apart; they are kept in your account the next time you're online.
+### Турнирные медали
+Доиграйте турнир против компьютера до конца и войдите в тройку лучших, чтобы получить золотую, серебряную или бронзовую медаль. Вкладка «Турнир» считает их отдельно для турниров на вылет и арен; они сохраняются в аккаунте, когда вы будете в сети.
 
-### A camera like the table's
-In the shop's showroom the camera turns with the right button, as at the table, smoothly, and never goes under the floor or the table. The wheel brings you closer.
+### Камера как за столом
+В шоуруме магазина камера вращается правой кнопкой, как за столом, плавно, и никогда не уходит под пол или под стол. Колесо приближает.
 
 ## 0.7.1
 
-### The first ball decides
-On the break, the first ball that goes down decides your group, even if others go down after it: the 3 and then the 13, and you take the solids. The 13 is your opponent's, so it stays down for them and the turn passes.
+### Решает первый шар
+На разбое первый забитый шар определяет вашу группу, даже если после него упали другие: сначала 3, затем 13 — и вы берёте сплошные. Шар 13 принадлежит сопернику, поэтому остаётся в лузе в его зачёт, а ход переходит к нему.
 
-### Ball in hand on the break only
-The cue ball is in hand on the break only, behind the head string. If it goes down or leaves the table, it comes back to the head spot (right behind a ball lying there), without ball in hand, with the usual penalties. A break that makes only the cue ball is no longer racked again: your opponent plays on from there.
+### Шар с руки только на разбое
+Биток бывает с руки только на разбое, в доме. Если он упал в лузу или вылетел со стола, его возвращают на переднюю отметку (сразу за шаром, если отметка занята), без шара с руки и с обычными штрафами. Если на разбое упал только биток, шары больше не расставляют заново: соперник продолжает игру с этой позиции.
 
-### Who is online
-Playing the computer (in a tournament, on the tour or in a drill), a discreet corner shows how many people are online and says when someone comes: time to go and invite them. Invitations show over the game.
+### Кто в сети
+Во время игры с компьютером (в турнире, туре или упражнении) в углу ненавязчиво видно, сколько человек в сети, и сообщается, когда кто-то заходит: самое время пригласить. Приглашения показываются поверх партии.
 
-### The shop's showroom
-"Look at it closely" opens a showroom: the item alone in a dark studio, turning. Drag to turn it, use the wheel to come close and pause it at will. Ready views show a cue's tip and joint or a table's pockets; click a ball to see it float close up, and see tables and cloths in any hall.
+### Шоурум магазина
+«Рассмотреть поближе» открывает шоурум: предмет один в тёмной студии, вращается. Тяните, чтобы повернуть его, приближайте колесом и останавливайте, когда хотите. Готовые ракурсы показывают наклейку и соединение кия или лузы стола; нажмите на шар, чтобы рассмотреть его крупным планом, а столы и сукно смотрите в любом зале.
 
-### Truly brown
-The 7 and the 15 are now brown, no longer a dark red easily taken for the 3 and the 11. The shop's sets where they looked alike are put right too.
+### По-настоящему коричневые
+Шары 7 и 15 теперь коричневые, а не тёмно-красные, которые легко спутать с 3 и 11. Наборы в магазине, где они были похожи, тоже исправлены.
 
-### Focus mode
-Settings → Game → "Focus mode": no invitations while you play. Whoever tries to invite you is told you're in focus mode. It comes off.
+### Режим концентрации
+«Настройки → Игра → Режим концентрации»: никаких приглашений во время игры. Тому, кто пытается вас пригласить, сообщают, что вы в режиме концентрации. Его можно выключить.
 
 ## 0.7.0
 
-### One kind on the break
-A new house rule: if the break makes balls of both groups (the 3 and the 14, say), the turn passes and the table stays open. Balls of one kind only and you shoot again, as before. The rules in the menu explain it, with a few rare cases now put right, and the computer plays a little better.
+### Одна группа на разбое
+Новое местное правило: если на разбое забиты шары обеих групп (скажем, 3 и 14), ход переходит к сопернику, а стол остаётся открытым. Если забиты шары только одной группы, вы бьёте снова, как раньше. Правила в меню объясняют это, несколько редких случаев исправлены, а компьютер играет чуть лучше.
 
-### Every ball counts
-The balls you make in a row show by your picture with a little flame, and three, five and seven in a row are cheered (and a table cleared in one visit). The clock's last seconds tick, a chime says when your turn comes back online, and the rating counts up at the end of a game.
+### Каждый шар на счету
+Шары, забитые подряд, отмечаются огоньком у вашего аватара, а серии из трёх, пяти и семи шаров встречают аплодисментами (как и стол, очищенный за один подход). Последние секунды на часах тикают, сигнал сообщает, что в онлайне снова ваш ход, а рейтинг в конце партии отсчитывается на глазах.
 
-### Events
-Now and then the staff run events: a weekend of double (or triple) experience, coins from games counting double, or a themed tournament the server organises, sometimes with a prize from the house on top of the entry fees. The main menu and the lounge show what is on and what is coming.
+### События
+Время от времени администрация проводит события: выходные с двойным (или тройным) опытом, двойные монеты за партии или тематический турнир, который организует сервер, иногда с призом от заведения сверх взносов. Главное меню и лобби показывают, что идёт сейчас и что впереди.
 
-### On to the next one
-After a win on the tour, "Next" takes you straight to the next opponent; after a drill, "Try again". The deciding shot can be watched again from the end panel, and a first game points out where to aim, set the power and shoot.
+### К следующему
+После победы в туре кнопка «Далее» ведёт прямо к следующему сопернику, а после упражнения — «Ещё раз». Решающий удар можно пересмотреть из итоговой панели, а в первой партии игра подскажет, как прицелиться, задать силу и ударить.
 
-### The head string, if you want it
-Settings → Game → "Always show the head string" keeps the line the break is played from on the table. Off by default: it shows only while you place the cue ball behind it.
+### Линия дома, если нужна
+«Настройки → Игра → Всегда показывать линию дома» оставляет на столе линию, из-за которой выполняется разбой. По умолчанию выключено: линия видна, только пока вы ставите биток в дом.
 
-### Fair rewards, softer light
-The tour's final and the ranked drills are now set up by the server, so their cue and their tables are earned the same way by everyone (play them signed in). A dropped connection no longer closes the game, a game against the computer is never replaced without asking, and the light under the lamps falls softly, without hard edges.
+### Честные награды, мягкий свет
+Финал тура и рейтинговые упражнения теперь готовит сервер, так что кий и столы за них все получают одинаково (играйте, войдя в аккаунт). Обрыв соединения больше не закрывает игру, партия против компьютера никогда не заменяется без спроса, а свет под лампами ложится мягко, без резких краёв.
 
 ## 0.6.2
 
-### Leagues and levels on one page
-In the profile, the "Leagues and levels" tab shows every league, from which rating and what it pays, and every level that brings an item. Reaching a league for the first time now pays coins and, from Skilled up, an item of the league's own.
+### Лиги и уровни на одной странице
+В профиле вкладка «Лиги и уровни» показывает все лиги — с какого рейтинга и что они дают — и все уровни, которые приносят предмет. Первое попадание в лигу теперь приносит монеты, а начиная с лиги «Опытный» — ещё и собственный предмет лиги.
 
-### A cleaner profile
-On the left, just what matters: your level, the next prize, and the achievements and reactions already won. Every medal and reaction has a tab of its own, and nothing runs off the screen.
+### Профиль стал чище
+Слева только главное: ваш уровень, следующий приз, полученные достижения и реакции. У каждой медали и реакции своя вкладка, и ничего не вылезает за край экрана.
 
-### The view from above as it was, with round balls
-The table has its depth and its usual light again, and the camera no longer jumps when it leaves the view from above.
+### Вид сверху как раньше, с круглыми шарами
+Столу вернулись глубина и привычный свет, а камера больше не прыгает, когда уходит из вида сверху.
 
 ## 0.6.1
 
-### A view from above without distortion
-The table is now seen from high up, almost without perspective: balls stay round out to the corners, and the cue, the aiming line and the ghost ball always line up. The light on the balls is softer, so the number shows.
+### Вид сверху без искажений
+Теперь стол виден с большой высоты, почти без перспективы: шары остаются круглыми до самых углов, а кий, линия прицела и призрачный шар всегда совпадают. Свет на шарах мягче, поэтому номера хорошо видны.
 
-### A tournament and a tour that mean it
-In a tournament against the computer a game counts once: leaving half way doesn't wipe it (it goes on from where it was) and there is no rematch. The champion gets a gold medal. And the tour is hard: every opponent plays at their best.
+### Турнир и тур всерьёз
+В турнире против компьютера партия засчитывается один раз: выход посередине её не стирает (она продолжается с того же места), и реванша нет. Чемпион получает золотую медаль. А тур стал трудным: каждый соперник играет в полную силу.
 
-### New achievements, pictures and sounds
-Shutout, Golden break and account anniversaries. Faces that look like people and twelve profile pictures that are not faces (the 8-ball, a trophy, a crown…). New sounds for the balls, the cue, the cushions and the pockets.
+### Новые достижения, картинки и звуки
+«Всухую», «Золотой разбой» и годовщины аккаунта. Лица, похожие на людей, и двенадцать аватаров без лиц (восьмёрка, трофей, корона…). Новые звуки шаров, кия, бортов и луз.
 
-### Leagues, levels that pay and scarce coins
-Other players are shown by their league (the rating is on the profile and in the ranking). Every account level pays coins and levels 5 to 50 bring items of their own, but the climb is long. Coins are scarcer: everything in the shop takes time to earn.
+### Лиги, уровни с наградами и дефицит монет
+Других игроков показывают по их лиге (рейтинг — в профиле и в рейтинге). Каждый уровень аккаунта приносит монеты, а уровни с 5 по 50 — собственные предметы, но путь наверх долгий. Монет стало меньше: всё в магазине нужно заработать.
 
 ## 0.6.0
 
-### A Brazilian rule, with penalty balls
-The game now plays the regional Brazilian rule of eight-ball, the one of bars and pool halls (not the official tournament rule). A foul passes the turn and takes your opponent's lowest balls off the table, only a pocketed cue ball gives ball in hand, and the 8 alone on the break wins. The full rules are in the menu.
+### Бразильские правила со штрафными шарами
+Теперь игра идёт по региональным бразильским правилам восьмёрки, правилам баров и бильярдных (не официальным турнирным). Фол передаёт ход и снимает со стола шары соперника с наименьшими номерами, шар с руки даёт только биток в лузе, а одна восьмёрка на разбое приносит победу. Полные правила — в меню.
 
-### Heavier balls
-The cloth holds the ball more and the break is less violent: the balls no longer scatter all over the table.
+### Шары тяжелее
+Сукно сильнее держит шар, а разбой не такой яростный: шары больше не разлетаются по всему столу.
 
-### Tournaments against the computer and more drills
-Play a knockout of sixteen or an arena on points against the fifteen opponents. And there are eight new drills, fifteen in all.
+### Турниры против компьютера и больше упражнений
+Сыграйте турнир на вылет на шестнадцать игроков или арену по очкам против пятнадцати соперников. И восемь новых упражнений, всего пятнадцать.
 
-### Aiming and the cue
-The cue's elevation can be set by dragging with the mouse, the aiming line points at the centre of the ghost ball, faint arrows show when the cue ball can be moved, and the shadows can be turned off.
+### Прицел и кий
+Наклон кия можно задать, перетаскивая мышью, линия прицела указывает в центр призрачного шара, бледные стрелки показывают, когда биток можно передвинуть, а тени можно выключить.
 
 ## 0.5.1
 
-### Cleaner balls
-The pale disc on top of every ball is gone: a ball is lit as one round thing and shows the lamp as a single clean dot. Castings, rugs and Low quality look better too.
+### Чистые шары
+Бледного пятна сверху на каждом шаре больше нет: шар освещён как единое целое, а лампа отражается в нём одной чёткой точкой. Накладки, ковры и низкое качество тоже выглядят лучше.
 
-### The power bar keeps no memory
-No more mark for your last stroke, and every turn starts from the middle of the bar: judging the pace is part of the game.
+### Шкала силы ничего не запоминает
+Больше нет отметки прошлого удара, и каждый ход начинается с середины шкалы: чувствовать силу удара — часть игры.
 
-### Nothing over the table
-Whose turn it is now reads in the top bar, beside the score panel, so the side pocket is always in sight. Aiming lines are smooth, and the rings round the pockets are whole.
+### Ничего над столом
+Чей ход, теперь пишется в верхней панели, рядом со счётом, так что средняя луза всегда на виду. Линии прицела плавные, а кольца вокруг луз целые.
 
 ## 0.5.0
 
-### Tournament-table physics
-The balls weigh what they do on a real table: the power bar goes up to a hard stroke (only the break uses full power), cushions give back less the harder they are hit, and a ball made falls into the pocket at the pace it arrived with.
+### Физика турнирного стола
+Шары весят столько же, сколько на настоящем столе: шкала силы доходит до сильного удара (в полную силу бьют только на разбое), борта отдают тем меньше, чем сильнее по ним ударить, а забитый шар падает в лузу с той скоростью, с какой подкатился.
 
-### An official tournament table
-The table is the regulation 8-foot one, measure for measure: balls, corner and side pockets with the official mouths and angles. The cloth is a deep green under the lamps and the balls shine like polished ones, their numbers crisp.
+### Официальный турнирный стол
+Стол — стандартный восьмифутовый, мерка в мерку: шары, угловые и средние лузы с официальными створами и углами. Сукно насыщенно-зелёное под лампами, а шары блестят, как отполированные, с чёткими номерами.
 
-### A truer guide, or none
-The ghost ball now stops where the cue ball really would, the mouths of the pockets included. And a new choice: play with no aiming guide at all.
+### Подсказка точнее — или никакой
+Призрачный шар теперь останавливается там, где на самом деле остановился бы биток, с учётом створов луз. И новая возможность: играть совсем без линии прицела.
 
 ## 0.4.0
 
-### A new name: Snook Legend
-The game is now called Snook Legend. Your account, coins, items, settings and progress are all here, as before.
+### Новое название: Snook Legend
+Теперь игра называется Snook Legend. Ваш аккаунт, монеты, предметы, настройки и прогресс — всё на месте, как прежде.
 
-### 8-foot table, open side pockets
-A smaller table (8 feet) and side pockets that forgive a ball off the centre or rolling in at an angle. The balls roll a little more freely.
+### Стол 8 футов, открытые средние лузы
+Стол поменьше (8 футов) и средние лузы, которые прощают шар, идущий не по центру или под углом. Шары катятся чуть свободнее.
 
-### New rule: the opponent's ball
-Making one of your opponent's balls passes the turn, even if one of yours went down too. It is not a foul: no ball in hand.
+### Новое правило: шар соперника
+Если вы забили шар соперника, ход переходит к нему, даже если упал и ваш шар. Это не фол: шара с руки нет.
 
-### Easier to see
-The cloth is lit evenly, the balls have a soft sheen so their numbers read, shadows are lighter, and nothing of the hall gets in the way of the view from above. Whose turn it is stands out on the score cards.
+### Лучше видно
+Сукно освещено равномерно, у шаров мягкий блеск, чтобы читались номера, тени светлее, и ничто из интерьера зала не мешает виду сверху. Чей ход, хорошо видно на карточках счёта.
 
-### Fifteen opponents
-Tito, Inês, Diego, Amara and Yuri join the computer opponents, each with a style and a voice of their own. The Tour now has fifteen stages; your wins so far are kept.
+### Пятнадцать соперников
+К компьютерным соперникам присоединились Tito, Inês, Diego, Amara и Yuri, у каждого свой стиль и голос. В туре теперь пятнадцать этапов; ваши победы сохранены.
 
-### Quieter opponents
-Settings → Game → Opponents' remarks turns their speech bubbles off.
+### Соперники потише
+«Настройки → Игра → Реплики соперников» выключает их облачка с репликами.
 
-### A new score panel
-Pictures and names in boxes, and the balls each player made rolling into place along their rail, in the order they went down.
+### Новая панель счёта
+Аватары и имена в рамках, а шары, забитые каждым игроком, вкатываются на место вдоль его борта в том порядке, в каком падали.
 
-### Aim by eye
-Raise the cue by dragging it in a side view of the shot. No more numbers on the power or the elevation: judge them by eye. Prefer it flat? Settings → Game → Top view only.
+### Прицел на глаз
+Поднимайте кий, перетаскивая его на виде удара сбоку. На силе и наклоне больше нет цифр: оценивайте их на глаз. Предпочитаете плоский вид? «Настройки → Игра → Только вид сверху».
 
-### Rules and pictures
-The rules of the game are a click away (the book on the main menu, or Rules in the pause menu). Pick one of 32 profile pictures in your profile.
+### Правила и картинки
+Правила игры в одном клике (книга в главном меню или «Правила» в меню паузы). Выберите один из 32 аватаров в профиле.
 
-### Your games are safe
-Replays and daily games that started before this update keep the old table and rules until they end.
+### Ваши партии в сохранности
+Повторы и заочные партии, начатые до этого обновления, сохраняют старый стол и правила до конца.
 
 ## 0.3.0
 
-### A regulation 9-foot table
-The table is now tournament size (100" × 50"), with the balls, pockets, cushions and cue to official measurements. The balls are heavier and bounce less, like real ones.
+### Стандартный девятифутовый стол
+Теперь стол турнирного размера (100" × 50"), а шары, лузы, борта и кий соответствуют официальным размерам. Шары тяжелее и отскакивают слабее, как настоящие.
 
-### A new break rule
-On the break, the first ball you pocket sets your group: solids or stripes. A foul on the break leaves the table open.
+### Новое правило разбоя
+На разбое первый забитый шар определяет вашу группу: сплошные или полосатые. Фол на разбое оставляет стол открытым.
 
-### New halls, tables and cues
-Four new halls and four new tables, and every old one reworked. Premium cues that look nothing alike. On Ultra, floors that reflect the hall.
+### Новые залы, столы и кии
+Четыре новых зала и четыре новых стола, а все старые переделаны. Премиальные кии, не похожие друг на друга. На «Ультра» — полы, в которых отражается зал.
 
-### Daily challenge
-A new position every day, the same for everyone, with a ranking of the day: three attempts to make as many balls as you can.
+### Испытание дня
+Каждый день новая позиция, одна для всех, с таблицей дня: три попытки, чтобы забить как можно больше шаров.
 
-### Drills with stars
-Seven drills on potting, spin, banks and escaping snookers, up to three stars each, with rankings and a challenge rating that shows your level.
+### Упражнения со звёздами
+Семь упражнений на забивание, винт, дуплеты и выход из снукера, до трёх звёзд за каждое, с рейтингами и оценкой, которая показывает ваш уровень.
 
-### Account level
-Earn experience in every game, won or lost, and in drills, the daily challenge and achievements. Your level shows on your profile.
+### Уровень аккаунта
+Получайте опыт в каждой партии, выигранной или проигранной, а также в упражнениях, испытании дня и за достижения. Ваш уровень виден в профиле.
 
-### The Tour
-The old ladder is now the Tour: ten stages, one opponent each. The opponents have new portraits and talk during the game.
+### Тур
+Старая лестница теперь называется туром: десять этапов, по одному сопернику на каждом. У соперников новые портреты, и они разговаривают во время игры.
 
-### Fair play
-Leaving a game costs more than losing it. The full aiming guide is for free games against the computer and practice only: never online, in the Tour, the daily challenge or drills.
+### Честная игра
+Выйти из партии стоит дороже, чем проиграть её. Полная линия прицела доступна только в свободных партиях против компьютера и на тренировке: никогда онлайн, в туре, в испытании дня или в упражнениях.
 
-### Your profile
-A trophy shelf and statistics for each cue: games, wins and balls made with it. You can now change your username up to three times.
+### Ваш профиль
+Полка трофеев и статистика по каждому кию: партии, победы и забитые им шары. Теперь имя пользователя можно сменить до трёх раз.
 
-### In the lounge
-An "away" status, quick phrases translated into your opponent's language and a practice table while the search for an opponent goes on.
+### В лобби
+Статус «нет на месте», быстрые фразы, переведённые на язык соперника, и тренировочный стол, пока идёт поиск соперника.
 
 ## 0.2.0
 
-### Ten opponents with personality
-Choose who to play: from Leo, still learning, to Marta, who lives on safeties, and Lola, who banks everything. Each has their own style, portrait and strength.
+### Десять соперников с характером
+Выберите, с кем играть: от Leo, который ещё учится, до Marta, живущей отыгрышами, и Lola, играющей всё дуплетом. У каждого свой стиль, портрет и сила.
 
-### The ladder
-Beat the ten opponents one by one, up to the last. Reach the top to earn the exclusive "Ladder king" cue and a new achievement.
+### Лестница
+Побеждайте десять соперников одного за другим, до последнего. Доберитесь до вершины, чтобы получить эксклюзивный кий «Король лестницы» и новое достижение.
 
-### Play the ghost
-The computer learns a real player's style from their online games. Challenge a friend's ghost, or your own, from the profile or the vs-computer screen.
+### Игра с призраком
+Компьютер перенимает стиль реального игрока по его онлайн-партиям. Бросьте вызов призраку друга или своему собственному из профиля или с экрана игры против компьютера.
 
-### Daily games
-Challenge someone and play your turn when you can: each player has up to 3 days per turn. You are told when it's your turn, and you can have several games at once.
+### Заочные партии
+Вызовите кого-нибудь и делайте ход, когда удобно: на каждый ход у игрока до 3 дней. Мы сообщим, когда настанет ваш ход, и можно вести несколько партий сразу.
 
-### Friends and gifts
-See who you played recently, write a status on your profile and post on the lounge's "looking for a game" board. Gifts from friends now arrive with a notice, a message and a "thank you".
+### Друзья и подарки
+Смотрите, с кем вы недавно играли, пишите статус в профиле и размещайте объявления на доске «ищу партию» в лобби. Подарки от друзей теперь приходят с уведомлением, сообщением и «спасибо».
 
-### Cues, tables and halls
-Your cue earns bands and inlays as you win with it. In the shop, themed tables and halls: beach bar, industrial loft and English club.
+### Кии, столы и залы
+Ваш кий получает кольца и инкрустации по мере побед. В магазине — тематические столы и залы: пляжный бар, индустриальный лофт и английский клуб.
 
-### Your game, analysed
-The profile's new Analysis tab shows your potting by pocket, distance and kind of shot, with a heat map of the table.
+### Анализ вашей игры
+Новая вкладка «Анализ» в профиле показывает, как вы забиваете, по лузам, дистанции и типу удара, с тепловой картой стола.
 
-### Your keys
-Every shortcut can be changed in Settings → Controls, and the game's hints follow your choices.
+### Ваши клавиши
+Любое сочетание клавиш можно изменить в разделе «Настройки → Управление», и подсказки игры учитывают ваш выбор.
 
-### Automatic updates
-New versions download in the background and install when you restart, never during a game. This window tells you what changed.
+### Автообновления
+Новые версии скачиваются в фоне и устанавливаются при перезапуске, никогда во время партии. Это окно рассказывает, что изменилось.
 
-### A reviewed interface
-Every screen was reviewed in the three languages and at every window size. Fixes: Esc opens the menu at the table, the computer sinks the 8 in its called pocket more reliably, and the overhead view no longer goes black.
+### Обновлённый интерфейс
+Каждый экран проверен на трёх языках и при любом размере окна. Исправления: Esc открывает меню за столом, компьютер надёжнее забивает восьмёрку в заказанную лузу, а вид сверху больше не становится чёрным.
 
 ## 0.1.4
 
-### A game while you wait
-After half a minute of "Play now" without an opponent, you can play the computer while the search goes on.
+### Партия, пока ждёте
+Если «Играть сейчас» полминуты не находит соперника, можно сыграть с компьютером, пока поиск продолжается.
 
-### Chat moderation
-You can delete your own chat lines, and moderators can remove abuse.
+### Модерация чата
+Вы можете удалять свои сообщения в чате, а модераторы — убирать оскорбления.
 
-### Cues you can see
-Opponents see the pattern of the cue you bought, and VIP members have reactions of their own.
+### Кии, которые видно
+Соперники видят узор купленного вами кия, а у VIP-игроков есть собственные реакции.

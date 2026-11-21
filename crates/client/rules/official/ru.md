@@ -1,66 +1,66 @@
-# Snook Legend: the official rules of eight-ball (the World Pool-Billiard
-# Association's Rules of Play), shown in the game.
-# "## <part>" starts a part, "### <title>" a rule, and the lines after it
-# are its text. The same parts and rules, in the same order, in every
-# language.
+# Snook Legend: официальные правила восьмёрки (правила игры Всемирной
+# ассоциации пула, World Pool-Billiard Association), показанные в игре.
+# "## <часть>" начинает часть, "### <заголовок>" — правило, а строки после
+# него — его текст. Те же части и правила, в том же порядке, на всех
+# языках.
 
-## The game
+## Игра
 
-### The official rules (WPA)
-The eight-ball of international tournaments, as the World Pool-Billiard Association plays it. Snook Legend has the Brazilian rules too: choose the rules of your games in the main menu. If you play the Brazilian rules, read the break, the calls and the fouls below, because they differ a lot.
+### Официальные правила (WPA)
+Восьмёрка международных турниров — так, как в неё играют по правилам Всемирной ассоциации пула (WPA). В Snook Legend есть и бразильские правила: выберите правила своих партий в главном меню. Если вы играете по бразильским правилам, прочитайте ниже о разбое, заказе и фолах: здесь они сильно отличаются.
 
-### The aim
-Each player has a group of seven balls: solids (1 to 7) or stripes (9 to 15). Pocket all of yours and then the 8-ball, in the pocket you call, before your opponent does.
+### Цель
+У каждого игрока группа из семи шаров: сплошные (с 1 по 7) или полосатые (с 9 по 15). Забейте все свои шары, а затем восьмёрку в заказанную лузу — раньше соперника.
 
-### Your turn
-You keep shooting while you make a ball of your group in the pocket you called, on a shot without a foul. Otherwise the turn passes, and the balls that went in stay down.
+### Ваш ход
+Вы продолжаете бить, пока забиваете шар своей группы в заказанную лузу ударом без фола. Иначе ход переходит к сопернику, а забитые шары остаются в лузах.
 
-## The break
+## Разбой
 
-### The break shot
-The cue ball is in your hand: place it anywhere behind the head string. Nothing is called on the break. For it to be legal you must make a ball or drive at least four object balls to a cushion.
+### Как разбивать
+Биток у вас с руки: поставьте его в любое место в доме. На разбое ничего не заказывается. Чтобы разбой был правильным, нужно забить шар или довести до бортов не менее четырёх прицельных шаров.
 
-### An illegal break
-If no ball goes in and fewer than four reach a cushion, your opponent chooses: play the table as it lies, have the balls racked and break themselves, or have you break again.
+### Неправильный разбой
+Если ни один шар не забит и меньше четырёх шаров коснулись борта, выбирает соперник: играть стол как есть, расставить шары и разбить самому или заставить вас разбить снова.
 
-### After the break
-A ball made on a legal break keeps the table, but the table stays open: the break never decides the groups. If the cue ball goes in or leaves the table on a legal break, your opponent has it in hand behind the head string.
+### После разбоя
+Шар, забитый правильным разбоем, сохраняет за вами подход, но стол остаётся открытым: разбой никогда не определяет группы. Если при правильном разбое биток упал в лузу или вылетел со стола, соперник получает биток с руки в доме.
 
-### The 8-ball on the break
-Pocketing the 8 on the break neither wins nor loses: it comes back to the foot spot, and you play on or have the balls racked and break again. If you also fouled, your opponent chooses: the cue ball in hand behind the head string, or the balls racked again and they break.
+### Восьмёрка на разбое
+Забитая на разбое восьмёрка не приносит ни победы, ни поражения: её возвращают на заднюю отметку, а вы продолжаете игру или расставляете шары и разбиваете заново. Если вы вдобавок сфолили, выбирает соперник: биток с руки в доме или новая расстановка, и тогда разбивает он.
 
-### A ball off the table on the break
-It is a foul, and the ball stays off (only the 8 comes back). Your opponent plays the table as it lies or takes the cue ball in hand behind the head string. If the break was illegal too, they may also have the balls racked again, as above.
+### Шар вылетел со стола на разбое
+Это фол, и шар остаётся вне игры (на стол возвращается только восьмёрка). Соперник играет стол как есть или берёт биток с руки в доме. Если разбой к тому же был неправильным, соперник может и потребовать новую расстановку, как описано выше.
 
-## Calling and playing
+## Заказ и игра
 
-### Open table
-While the groups are not decided, the table is open: you may hit any ball first except the 8. The group of the ball you make in the called pocket becomes yours. If one group is already off the table, you may play the 8.
+### Открытый стол
+Пока группы не определены, стол открыт: первым можно попасть в любой шар, кроме восьмёрки. Ваша группа — та, к которой относится шар, забитый в заказанную лузу. Если шаров одной из групп на столе уже не осталось, можно играть восьмёрку.
 
-### Calling your shot
-Every shot except the break is called. In the game you call a pocket: following your aim, it calls the pocket the ball you hit is heading for (the ring on the pocket). Click another pocket to call it, or play a safety. A ball of your group (or the 8, when you are on it) made in the called pocket keeps the table, also off a cushion or another ball.
+### Заказ удара
+Каждый удар, кроме разбоя, заказывается. В игре вы заказываете лузу: по прицелу заказывается та луза, в которую идёт задетый шар (кольцо на лузе). Нажмите на другую лузу, чтобы заказать её, или сыграйте отыгрыш. Шар вашей группы (или восьмёрка, когда вы на ней), забитый в заказанную лузу, сохраняет за вами подход, даже если он зашёл от борта или от другого шара.
 
-### Safety
-A shot with no pocket called is a safety: whatever goes in stays down, and the turn passes to your opponent.
+### Отыгрыш
+Удар без заказанной лузы — это отыгрыш: всё забитое остаётся в лузах, а ход переходит к сопернику.
 
-### The cue ball behind the head string
-With the cue ball in hand behind the head string, you can't hit a ball that also lies behind it unless the cue ball crosses the head string first. If every ball you may hit lies behind it, the one nearest to the head string comes back to the foot spot.
+### Биток в доме
+Когда у вас биток с руки в доме, нельзя попадать в шар, который тоже стоит в доме, если биток сначала не пересёк линию дома. Если все шары, по которым можно бить, стоят в доме, шар, ближайший к линии дома, возвращают на заднюю отметку.
 
-## Fouls
+## Фолы
 
-### Ball in hand
-After any foul, your opponent has the cue ball in hand: they place it anywhere on the table. No ball comes off the table as a penalty.
+### Шар с руки
+После любого фола соперник получает биток с руки: он ставит его в любое место стола. Штрафные шары со стола не снимаются.
 
-### What is a foul
-The cue ball in a pocket or off the table; hitting no ball, or the wrong ball first (one of your opponent's, or the 8 too soon); after the contact, no ball made and no ball reaching a cushion (a ball lying against a cushion only reaches it by leaving it and coming back); an object ball off the table (it stays off).
+### Что такое фол
+Биток в лузе или за пределами стола; биток не задел ни одного шара или первым задел не тот шар (шар соперника или восьмёрку раньше времени); после соударения ни один шар не забит и ни один не коснулся борта (шар, стоящий вплотную к борту, касается его, только если отходит от него и возвращается); прицельный шар вылетел со стола (он остаётся вне игры).
 
-### The shot clock
-When the game has a shot clock and it runs out, it is a foul: your opponent has the cue ball in hand. A choice after the break that isn't made in time takes its first option.
+### Время на удар
+Если в партии ограничено время на удар и оно истекло, это фол: соперник получает биток с руки. Если выбор после разбоя не сделан вовремя, применяется первый вариант.
 
-## The 8-ball
+## Восьмёрка
 
-### Winning
-Once your group is off the table, pocket the 8 in the pocket you called, on a shot without a foul.
+### Победа
+Когда шаров вашей группы на столе не осталось, забейте восьмёрку в заказанную лузу ударом без фола.
 
-### Losing on the 8
-You lose by pocketing the 8 on a foul, before your group is off the table or in a pocket you didn't call, and by knocking the 8 off the table. None of this applies to the break.
+### Проигрыш на восьмёрке
+Вы проигрываете, если забили восьмёрку с фолом, раньше, чем все шары вашей группы, или не в заказанную лузу, а также если выбили восьмёрку со стола. Всё это не относится к разбою.

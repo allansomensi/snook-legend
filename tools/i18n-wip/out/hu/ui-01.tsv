@@ -20,7 +20,7 @@
 20	Csak VIP
 21	ingyenes
 22	a tiéd
-23	trófea
+23	teljesítmény
 24	Ezen a szerveren még nem lehet érmét vásárolni.
 25	+{n} ajándék
 26	A fizetés a böngésződben nyílik meg (kártya, Pix…), a Stripe biztonságos oldalán.
@@ -139,8 +139,8 @@
 139	Nincs segédvonal
 140	Csak egy rövid vonal a fehér golyótól.
 141	Barátság elfogadása
-142	Trófea megszerezve: {title}
-143	Trófeák {n}/{total}
+142	Teljesítmény feloldva: {title}
+143	Teljesítmények {n}/{total}
 144	Hozzáadás
 145	Barát hozzáadása felhasználónév alapján
 146	Barát hozzáadása

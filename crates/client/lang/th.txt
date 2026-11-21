@@ -1,6 +1,2056 @@
-# Snook Legend: Brazilian Portuguese.
+# Snook Legend: Thai.
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
+{name} is on the 8: called pocket {pocket}	{name} เหลือ​ลูก 8: ขาน​หลุม{pocket}
+On the 8-ball: {pocket} pocket	เหลือ​ลูก 8: หลุม{pocket}
+Show ping	แสดงปิง
+Your connection's delay, in online games.	ความหน่วง​ของ​การ​เชื่อมต่อ​ใน​เกม​ออนไลน์
+Reactions	รีแอ็กชัน
+Shop	ร้านค้า
+Cloth	ผ้าโต๊ะ
+Cues	ไม้คิว
+Chalk	ชอล์ก
+Balls	ลูกบอล
+Coins	เหรียญ
+coins	เหรียญ
+Sign in to buy and use items. Here is what there is:	เข้าสู่ระบบ​เพื่อ​ซื้อ​และ​ใช้​ไอเท็ม รายการ​ไอเท็ม​ทั้งหมด:
+In use	ใช้อยู่
+Use	ใช้
+Buy	ซื้อ
+{n} short	ขาดอีก {n}
+{n} coins	{n} เหรียญ
+Not enough coins: get more in the Coins tab.	เหรียญ​ไม่​พอ: รับ​เพิ่ม​ได้ที่​แท็บ​เหรียญ
+VIP only	เฉพาะ VIP
+free	ฟรี
+yours	ของคุณ
+achievement	ความสำเร็จ
+Coins can't be bought on this server yet.	เซิร์ฟเวอร์​นี้​ยัง​ซื้อ​เหรียญ​ไม่​ได้
++{n} bonus	+{n} โบนัส
+Payment opens in your browser (card, Pix…), on Stripe's secure page.	หน้า​ชำระเงิน​จะ​เปิด​ใน​เบราว์เซอร์​ของ​คุณ (บัตร, Pix…) บน​หน้าที่​ปลอดภัย​ของ Stripe
+Coins arrive in a moment; they are only used for items in the game.	เหรียญ​จะ​เข้าบัญชี​ใน​อีกสักครู่ และ​ใช้ได้​กับ​ไอเท็ม​ใน​เกม​เท่านั้น
+Exclusive items: {list}	ไอเท็ม​สุด​พิเศษ: {list}
+{n} coins every month	{n} เหรียญ​ทุก​เดือน
+Cancel whenever you want: VIP lasts until the end of the paid month	ยกเลิก​ได้​ทุกเมื่อ: VIP ยัง​ใช้ได้​จน​สิ้นเดือน​ที่​ชำระ​แล้ว
+You are VIP until {d}.	คุณ​เป็น VIP ถึง {d}
+Manage subscription	จัดการ​การ​สมัครสมาชิก
+Become VIP · {p}	สมัคร VIP · {p}
+VIP can't be bought on this server yet.	เซิร์ฟเวอร์​นี้​ยัง​ซื้อ VIP ไม่​ได้
+The payment page opened in your browser.	หน้า​ชำระเงิน​เปิด​ใน​เบราว์เซอร์​ของ​คุณ​แล้ว
+Could not open the browser.	เปิด​เบราว์เซอร์​ไม่​ได้
+Tournament green	เขียวทัวร์นาเมนต์
+Electric blue	น้ำเงินไฟฟ้า
+Burgundy	เบอร์กันดี
+Charcoal	เทาถ่าน
+Teal	เขียว​หัว​เป็ด
+Royal purple	ม่วงราชวงศ์
+Camel	น้ำตาลอูฐ
+Midnight	เที่ยงคืน
+Champion's red	แดงแชมป์
+Classic	คลาสสิก
+Rosewood	โรสวูด
+Ebony & silver	อีโบนี​และ​เงิน
+Carbon	คาร์บอน
+Ivory inlay	ฝังงาช้าง
+Crown	มงกุฎ
+Jewels	อัญมณี
+Blue chalk	ชอล์กสีน้ำเงิน
+Green chalk	ชอล์ก​สี​เขียว
+Red chalk	ชอล์กสีแดง
+Purple chalk	ชอล์กสีม่วง
+Gold chalk	ชอล์ก​สี​ทอง
+Vintage	วินเทจ
+Pastel	พาสเทล
+Neon	นีออน
+You already have this item.	คุณ​มี​ไอเท็ม​นี้​แล้ว
+Not enough coins.	เหรียญ​ไม่​พอ
+The purchase failed; no coins were taken.	ซื้อ​ไม่​สำเร็จ ไม่​มี​การ​หัก​เหรียญ
+No such item.	ไม่​มี​ไอเท็ม​นี้
+This item can't be bought with coins.	ไอเท็ม​นี้​ซื้อ​ด้วย​เหรียญ​ไม่​ได้
+You don't have this item.	คุณ​ไม่​มี​ไอเท็ม​นี้
+Purchases are not available.	ยัง​ซื้อ​ไอเท็ม​ไม่​ได้​ใน​ขณะนี้
+This pack is not on sale.	แพ็ก​นี้​ไม่​ได้​วางขาย
+The payment page could not be opened. Try again in a moment.	เปิด​หน้า​ชำระเงิน​ไม่​ได้ ลอง​ใหม่​ใน​อีกสักครู่
+You are already VIP.	คุณ​เป็น VIP อยู่แล้ว
+There is no subscription to manage.	ไม่​มี​การ​สมัครสมาชิก​ให้​จัดการ
+The page could not be opened. Try again in a moment.	เปิด​หน้า​นี้​ไม่​ได้ ลอง​ใหม่​ใน​อีกสักครู่
+Coins added to your wallet.	เพิ่ม​เหรียญ​เข้า​กระเป๋า​ของ​คุณ​แล้ว
+Welcome to VIP!	ยินดีต้อนรับสู่ VIP!
+Slow down a little.	ช้า​ลง​อีก​นิด​นะ
+You can't do that.	คุณ​ทำ​แบบ​นั้น​ไม่​ได้
+There are too many notes right now. Try again in a few minutes.	ตอนนี้​มี​โน้ต​มากเกินไป ลอง​ใหม่​ใน​อีก​ไม่​กี่​นาที
+A moderator took down your note.	ผู้ดูแล​ลบ​โน้ต​ของ​คุณ​แล้ว
+A moderator cleared your status message.	ผู้ดูแล​ล้าง​ข้อความ​สถานะ​ของ​คุณ​แล้ว
+Status message cleared.	ล้าง​ข้อความ​สถานะ​แล้ว
+VIP	VIP
+Play now	เล่นเลย
+Find an opponent of your level automatically	หา​คู่แข่ง​ระดับ​เดียว​กับ​คุณ​โดยอัตโนมัติ
+Looking for an opponent… {t}	กำลัง​หา​คู่แข่ง… {t}
+any rating	เรตติ้ง​ใด​ก็ได้
+rating ±{n} · {mode}	เรตติ้ง ±{n} · {mode}
+Potting success	อัตราแทงลง
+Balls made	ลูก​ที่​แทงลง
+Best run	แทง​ต่อเนื่อง​สูงสุด
+Fouls	ฟาวล์
+seen just now	ออนไลน์​ล่าสุด​เมื่อ​สักครู่
+seen {n} min ago	ออนไลน์​ล่าสุด {n} นาที​ที่แล้ว
+seen {n} h ago	ออนไลน์​ล่าสุด {n} ชม. ที่แล้ว
+seen yesterday	ออนไลน์​ล่าสุด​เมื่อวาน
+seen {n} days ago	ออนไลน์​ล่าสุด {n} วัน​ที่แล้ว
+seen {n} months ago	ออนไลน์​ล่าสุด {n} เดือน​ที่แล้ว
+just now	เมื่อสักครู่
+{n} min ago	{n} นาทีที่แล้ว
+{n} h ago	{n} ชม. ที่แล้ว
+yesterday	เมื่อวาน
+{n} days ago	{n} วันที่แล้ว
+Game history	ประวัติเกม
+Nothing yet.	ยัง​ไม่​มี​อะไร
+Fine aim: click the arrows, or drag here	เล็ง​ละเอียด: คลิก​ลูกศร หรือ​ลาก​ตรงนี้
+{n} watching	{n} คน​กำลัง​ดู
+Watching {name}	กำลังดู {name}
+Your reactions reach the table quietly.	รีแอ็กชัน​ของ​คุณ​จะ​ไป​ถึง​โต๊ะ​แบบ​เงียบๆ
+Stop watching	เลิกดู
+If they play again, you keep watching.	ถ้า​พวกเขา​เล่น​ต่อ​อีก​เกม คุณ​จะ​ได้​ดู​ต่อ
+Your friend left the table.	เพื่อน​ของ​คุณ​ออกจาก​โต๊ะ​แล้ว
+Your friend isn't playing right now.	ตอนนี้​เพื่อน​ของ​คุณ​ไม่​ได้​เล่น​อยู่
+You can only watch your friends.	คุณ​ดู​ได้​เฉพาะ​เกม​ของ​เพื่อน​เท่านั้น
+You can't watch this game.	คุณ​ดู​เกม​นี้​ไม่​ได้
+{n} points to {tier}	อีก {n} แต้ม​ถึง {tier}
+Top tier	ระดับสูงสุด
+Reactions {n}/{total}	รีแอ็กชัน {n}/{total}
+Haunted table	โต๊ะผีสิง
+Win a rated game during Halloween (Oct 24 – Nov 2).	ชนะ​เกม​จัดอันดับ​ใน​ช่วง​ฮาโลวีน (24 ต.ค. – 2 พ.ย.)
+Winter league	ลีกฤดูหนาว
+Win a rated game over the holidays (Dec 15 – Jan 6).	ชนะ​เกม​จัดอันดับ​ใน​ช่วง​วันหยุด​เทศกาล (15 ธ.ค. – 6 ม.ค.)
+Fireworks	ดอกไม้ไฟ
+Win a rated game at the turn of the year (Dec 31 – Jan 1).	ชนะ​เกม​จัดอันดับ​ใน​ช่วง​ข้าม​ปี (31 ธ.ค. – 1 ม.ค.)
+Shows where the object ball and the cue ball go (only in free games and practice).	แสดง​ทิศทาง​ของ​ลูกเป้า​และ​ลูกขาว (เฉพาะ​เกม​อิสระ​และ​การฝึกซ้อม)
+{n} online · ping {ms} ms	ออนไลน์ {n} คน · ปิง {ms} ms
+Right-drag · Wheel	ลาก​ปุ่ม​ขวา · ล้อ​เมาส์
+Win %	% ชนะ
+Reset the camera: top view, no zoom	รีเซ็ต​กล้อง: มุมมอง​จาก​ด้านบน ไม่​ซูม
+{name} sank the 8-ball	{name} แทง​ลูก 8 ลง
+{name} sank the 8 too early	{name} แทง​ลูก 8 ลง​เร็ว​เกินไป
+{name} sank the 8 in the wrong pocket	{name} แทง​ลูก 8 ลง​ผิด​หลุม
+{name} fouled on the 8	{name} ฟาวล์​ที่​ลูก 8
+{name} knocked the 8 off the table	{name} ทำ​ลูก 8 ตก​โต๊ะ
+{name} resigned	{name} ยอมแพ้
+{name} left the game	{name} ออกจากเกม
+{winner} wins! ({how})	{winner} ชนะ! ({how})
+#{n} in the world	อันดับ {n} ของ​โลก
+3–16 letters, digits or underscores.	3–16 ตัว: ตัวอักษร ตัวเลข หรือ​ขีด​ล่าง
+No lines on the table: aim by eye, along the cue.	ไม่​มี​เส้น​บน​โต๊ะ: เล็ง​ด้วย​สายตา​ตาม​แนว​ไม้คิว
+No guide	ไม่​มี​เส้น​ช่วย
+Only a short line from the cue ball.	มี​แค่​เส้น​สั้นๆ จาก​ลูกขาว
+Accept friend	รับเป็นเพื่อน
+Achievement unlocked: {title}	ปลดล็อกความสำเร็จ: {title}
+Achievements {n}/{total}	ความสำเร็จ {n}/{total}
+Add	เพิ่ม
+Add a friend by username	เพิ่ม​เพื่อน​ด้วย​ชื่อผู้ใช้
+Add friend	เพิ่มเพื่อน
+Against the computer	เล่น​กับ​คอมพิวเตอร์
+All tournaments	ทัวร์นาเมนต์ทั้งหมด
+Amateur	มือสมัครเล่น
+At least 8 characters. Use a password you don't use elsewhere.	อย่าง​น้อย 8 ตัวอักษร ใช้​รหัสผ่าน​ที่​ไม่​ได้​ใช้​ที่อื่น
+At least two players are needed.	ต้อง​มี​ผู้เล่น​อย่าง​น้อย​สอง​คน
+Back	กลับ
+Black ball	ลูกดำ
+Block	บล็อก
+Break and run	เบรก​เก็บ​เรียบ
+Break and run 10 times.	เบรก​เก็บ​เรียบ 10 ครั้ง
+Can't listen for games here: join by address below.	ค้นหา​เกม​ที่นี่​ไม่​ได้: เข้าร่วม​ด้วย​ที่อยู่​ด้านล่าง
+Cancel request	ยกเลิกคำขอ
+Cancel tournament	ยกเลิกทัวร์นาเมนต์
+Casual	กระชับมิตร
+Centurion	ร้อยชัย
+Champion	แชมป์
+Champion: {name}	แชมป์: {name}
+Change country	เปลี่ยนประเทศ
+Add a status message	เพิ่ม​ข้อความ​สถานะ
+A line about you	หนึ่ง​ประโยค​เกี่ยวกับ​ตัว​คุณ
+Save (Enter)	บันทึก (Enter)
+Cancel (Esc)	ยกเลิก (Esc)
+Change your status message	เปลี่ยน​ข้อความ​สถานะ
+Clear the status message	ล้าง​ข้อความ​สถานะ
+Cheating or abuse	โกง​หรือ​ก่อกวน
+Choose…	เลือก…
+Click again to block	คลิก​อีกครั้ง​เพื่อ​บล็อก
+Close	ปิด
+Closer	มือ​ปิด​เกม
+Competitor	นักแข่ง
+Connecting to the server…	กำลัง​เชื่อมต่อ​เซิร์ฟเวอร์…
+Could not host a game: {e}	สร้าง​เกม​ไม่​ได้: {e}
+Country	ประเทศ
+Create	สร้าง
+Create a tournament	สร้างทัวร์นาเมนต์
+Don't show a flag	ไม่​แสดง​ธง
+No country found.	ไม่​พบ​ประเทศ
+Dynasty	ราชวงศ์
+Eight is enough	แปด​ก็​พอ
+Executioner	เพชฌฆาต
+Expert	ผู้เชี่ยวชาญ
+Familiar face	หน้าคุ้นตา
+Final	รอบชิงชนะเลิศ
+Finish your game first.	จบเกม​ของ​คุณ​ก่อน
+First blood	เลือดแรก
+First break	เบรกแรก
+Friend request sent.	ส่ง​คำขอ​เป็นเพื่อน​แล้ว
+Friends	เพื่อน
 # Daily (correspondence) games.
+daily game	เกมรายวัน
+Daily	รายวัน
+Daily game	เกมรายวัน
+Daily games	เกมรายวัน
+Challenge a player by username	ท้า​ผู้เล่น​ด้วย​ชื่อผู้ใช้
+Challenge to a daily game	ท้า​เล่น​เกม​รายวัน
+3 days for each turn	ตา​ละ 3 วัน
+No daily games yet. Challenge a friend: each of you plays a turn whenever you can.	ยัง​ไม่​มี​เกม​รายวัน ลอง​ท้า​เพื่อน​ดู​สิ: ต่าง​คน​ต่าง​เล่นตา​ของ​ตัวเอง​เมื่อ​สะดวก
+challenges you · {kind}	ท้าคุณ · {kind}
+waiting for an answer · {kind} · {time} left	รอ​คำตอบ · {kind} · เหลือ {time}
+your turn · {time} left	ตา​ของ​คุณ · เหลือ {time}
+their turn · {time} left	ตา​ของ​คู่แข่ง · เหลือ {time}
+won · {how}	ชนะ · {how}
+lost · {how}	แพ้ · {how}
+ran out of time	คุณหมดเวลา
+the opponent ran out of time	คู่แข่งหมดเวลา
+open table	โต๊ะเปิด
+You: {mine}, {a} left · {name}: {theirs}, {b} left	คุณ: {mine} เหลือ {a} · {name}: {theirs} เหลือ {b}
+Look	ดู
+Skip	ข้าม
+Replaying {name}'s turn	กำลัง​เล่นตา​ของ {name} ซ้ำ
+Stroke {n} of {total}	ช็อต​ที่ {n} จาก {total}
+Turn sent	ส่ง​ตา​แล้ว
+Turn sent.	ส่ง​ตา​แล้ว
+Waiting for {name} to play	รอ {name} เล่น
+{name} has {time} to play. You'll be told when it's your turn.	{name} มี​เวลา {time} ใน​การ​เล่น เรา​จะแจ้ง​คุณ​เมื่อ​ถึงตา​ของ​คุณ
+{time} left to play. You'll be told when it's your turn.	เหลือ​เวลาเล่น {time} เรา​จะแจ้ง​คุณ​เมื่อ​ถึงตา​ของ​คุณ
+Back to daily games	กลับ​ไป​ที่​เกม​รายวัน
+Your game is saved: come back whenever you like.	บันทึก​เกม​ของ​คุณ​แล้ว: กลับมา​เล่น​ต่อ​ได้​ทุกเมื่อ
+{d} d {h} h	{d} วัน {h} ชม.
+{name} ran out of time	{name} หมดเวลา
+This game can't be shown.	แสดง​เกม​นี้​ไม่​ได้
+A daily game is waiting for you	มี​เกม​รายวัน​รอ​คุณ​อยู่
+{n} daily games are waiting for you	มี​เกม​รายวัน {n} เกม​รอ​คุณ​อยู่
+{name} challenges you to a rated daily game.	{name} ท้า​คุณ​เล่น​เกม​รายวัน​แบบ​จัดอันดับ
+{name} challenges you to a casual daily game.	{name} ท้า​คุณ​เล่น​เกม​รายวัน​แบบ​กระชับมิตร
+{name} accepted your daily game.	{name} รับคำ​ท้า​เกม​รายวัน​ของ​คุณ​แล้ว
+{name} declined your daily game.	{name} ปฏิเสธ​คำ​ท้า​เกม​รายวัน​ของ​คุณ
+{name} withdrew their daily game challenge.	{name} ถอน​คำ​ท้า​เกม​รายวัน​แล้ว
+Your turn in the daily game against {name}.	ถึงตา​ของ​คุณ​ใน​เกม​รายวัน​กับ {name}
+{name} ran out of time: you won the daily game.	{name} หมดเวลา: คุณ​ชนะ​เกม​รายวัน
+You won the daily game against {name}!	คุณ​ชนะ​เกม​รายวัน​กับ {name}!
+You ran out of time in the daily game against {name}.	คุณ​หมดเวลา​ใน​เกม​รายวัน​กับ {name}
+You lost the daily game against {name}.	คุณ​แพ้​เกม​รายวัน​กับ {name}
+Challenge sent.	ส่ง​คำ​ท้า​แล้ว
+Daily games need an account.	เกม​รายวัน​ต้อง​ใช้​บัญชี
+No such game.	ไม่​มี​เกม​นี้
+That challenge is no longer valid.	คำ​ท้า​นี้​ใช้ไม่ได้​แล้ว
+That player already challenged you: answer their challenge.	ผู้เล่น​คน​นี้​ท้า​คุณ​ไว้​แล้ว: ตอบ​คำ​ท้า​ของ​เขา​ก่อน
+That player has too many challenges waiting.	ผู้เล่น​คน​นี้​มี​คำ​ท้า​รอ​อยู่​มากเกินไป
+That player has too many daily games going on.	ผู้เล่น​คน​นี้​มี​เกม​ราย​วันที่​กำลัง​เล่น​อยู่​มากเกินไป
+That player is not accepting challenges.	ผู้เล่น​คน​นี้​ไม่​รับคำ​ท้า
+This game can't be played right now.	เล่น​เกม​นี้​ไม่​ได้​ใน​ขณะนี้
+This game changed meanwhile: open it again.	เกม​นี้​มี​การเปลี่ยนแปลง​ระหว่าง​นั้น: เปิด​ใหม่​อีกครั้ง
+This game is over.	เกม​นี้​จบ​แล้ว
+You already challenged that player.	คุณ​ท้า​ผู้เล่น​คน​นี้​ไป​แล้ว
+You already have a game going on against that player.	คุณ​มี​เกม​ที่​กำลัง​เล่น​กับ​ผู้เล่น​คน​นี้​อยู่แล้ว
+You blocked that player.	คุณ​บล็อก​ผู้เล่น​คน​นี้​ไว้
+You can't challenge yourself.	คุณ​ท้า​ตัวเอง​ไม่​ได้
+You have as many daily games as you can play at once.	คุณ​มี​เกม​รายวัน​ครบ​จำนวน​สูงสุด​ที่​เล่น​พร้อมกัน​ได้​แล้ว
+You have too many challenges waiting for an answer.	คุณ​มี​คำ​ท้า​ที่​รอ​คำตอบ​อยู่​มากเกินไป
+You're sending challenges too quickly.	คุณ​ส่ง​คำ​ท้า​เร็ว​เกินไป
+Your time for this turn ran out.	เวลา​สำหรับ​ตา​นี้​ของ​คุณ​หมด​แล้ว
+Games	เกม
+Games on your network	เกม​ใน​เครือข่าย​ของ​คุณ
+Give the tournament a name (at least 3 characters).	ตั้งชื่อ​ทัวร์นาเมนต์ (อย่าง​น้อย 3 ตัวอักษร)
+Good company	เพื่อนดี
+Grandmaster	ปรมาจารย์ใหญ่
+Guests can only join LAN games. Create an account.	ผู้เยี่ยมชม​เข้าร่วม​ได้​เฉพาะ​เกม LAN สร้าง​บัญชี​เลย
+Guests can't play rated tournaments.	ผู้เยี่ยมชม​เล่น​ทัวร์นาเมนต์​จัดอันดับ​ไม่​ได้
+Guests don't have this.	ผู้เยี่ยมชม​ไม่​มีส่วน​นี้
+Harassment	คุกคาม
+Hat trick	แฮตทริก
+Have 10 friends.	มี​เพื่อน 10 คน
+Have an account for 30 days.	มี​บัญชี​ครบ 30 วัน
+Have an account for a year.	มี​บัญชี​ครบ​หนึ่ง​ปี
+Host a game on this computer	สร้าง​เกม​บน​คอมพิวเตอร์​เครื่อง​นี้
+Host {host} · {n}/{size} players · {kind}	โฮสต์ {host} · ผู้เล่น {n}/{size} · {kind}
+Hot hand	มือขึ้น
+Hustler	เซียน​โต๊ะ​พูล
+Invalid shot.	ช็อต​ไม่​ถูกต้อง
+Join	เข้าร่วม
+Joining the LAN game…	กำลัง​เข้าร่วม​เกม LAN…
+Just for fun	เล่น​เอา​สนุก
+L	แพ้
+LAN game	เกม LAN
+LAN game hosted by {name}.	เกม​ใน​เครือข่าย​ท้องถิ่น​ของ {name}
+LAN games don't change ratings.	เกม LAN ไม่​มีผลต่อ​เรตติ้ง
+Legend	ตำนาน
+Lives at the table	ชีวิต​ติด​โต๊ะ
+Loading the profile…	กำลัง​โหลด​โปรไฟล์…
+Loading…	กำลังโหลด…
+Local network	เครือข่ายท้องถิ่น
+Locked	ล็อกอยู่
+Looking for games	กำลัง​ค้นหา​เกม
+Make a friend.	มี​เพื่อน​คน​แรก
+Master	ปรมาจารย์
+Name	ชื่อ
+Names have 3–16 letters, digits or underscores.	ชื่อ​ต้อง​มี 3–16 ตัว: ตัวอักษร ตัวเลข หรือ​ขีด​ล่าง
+New account	บัญชีใหม่
+I have an account	ฉัน​มี​บัญชี​แล้ว
+New here? Choose “New account”: it takes ten seconds.	มา​ใหม่​ใช่ไหม? เลือก “บัญชี​ใหม่”: ใช้เวลา​แค่​สิบ​วินาที
+New tournament	ทัวร์นาเมนต์ใหม่
+No friends yet. Add someone you played with!	ยัง​ไม่​มี​เพื่อน เพิ่ม​คน​ที่​คุณ​เคย​เล่น​ด้วย​สิ!
+No games yet.	ยัง​ไม่​มี​เกม
+No limit	ไม่จำกัด
+No open tables. Open one and others can sit down.	ไม่​มี​โต๊ะ​ที่​เปิด​อยู่ เปิด​โต๊ะ​แล้ว​คนอื่น​จะ​เข้ามา​นั่ง​ได้
+No other open tables right now.	ตอนนี้​ไม่​มี​โต๊ะ​อื่น​ที่​เปิด​อยู่
+No such player.	ไม่​มี​ผู้เล่น​นี้
+No tournaments right now. Create one!	ตอนนี้​ไม่​มี​ทัวร์นาเมนต์ สร้าง​เลย​สิ!
+Offensive name	ชื่อ​ไม่​เหมาะสม
+On a roll	ติดลม
+On fire	ไฟลุก
+Only the host can start the tournament.	เฉพาะ​โฮสต์​เท่านั้น​ที่​เริ่ม​ทัวร์นาเมนต์​ได้
+Open a table	เปิดโต๊ะ
+Or join by address	หรือ​เข้าร่วม​ด้วย​ที่อยู่
+Other	อื่นๆ
+Others can join at {ip}:{port}	คนอื่น​เข้าร่วม​ได้ที่ {ip}:{port}
+Passwords need at least 8 characters (not only digits).	รหัสผ่าน​ต้อง​มี​อย่าง​น้อย 8 ตัวอักษร (ไม่​ใช่​ตัวเลข​ล้วน)
+Play 1,000 rated games.	เล่น​เกม​จัดอันดับ 1,000 เกม
+Play 10 rated games.	เล่น​เกม​จัดอันดับ 10 เกม
+Play 100 rated games.	เล่น​เกม​จัดอันดับ 100 เกม
+Play 25 casual games.	เล่น​เกม​กระชับมิตร 25 เกม
+Play 500 rated games.	เล่น​เกม​จัดอันดับ 500 เกม
+Play in a tournament.	ลง​แข่ง​ทัวร์นาเมนต์
+Play online	เล่นออนไลน์
+Play with friends on the same network	เล่น​กับ​เพื่อน​ใน​เครือข่าย​เดียวกัน
+Play your first rated game.	เล่น​เกม​จัดอันดับ​เป็น​เกม​แรก
+Player 1	ผู้เล่น 1
+Players	ผู้เล่น
+Players in a tournament can't start other games.	ผู้เล่น​ใน​ทัวร์นาเมนต์​เริ่ม​เกม​อื่น​ไม่​ได้
+Please don't repeat the same message.	กรุณา​อย่า​ส่ง​ข้อความ​เดิม​ซ้ำ
+Pool hall legend	ตำนาน​โต๊ะ​พูล
+Popular	คนดัง
+Private	ส่วนตัว
+for your friends to sit down	ให้​เพื่อน​ของ​คุณ​เข้ามา​นั่ง
+Profile	โปรไฟล์
+{key}: watch the last shot again	{key}: ดู​ช็อต​ล่าสุด​อีกครั้ง
+REPLAY	รีเพลย์
+Rated	จัดอันดับ
+Rated games, tables, tournaments and friends	เกม​จัดอันดับ โต๊ะ ทัวร์นาเมนต์ และ​เพื่อน
+Reach a rating of 1300.	ไต่​เรตติ้ง​ให้​ถึง 1300
+Reach a rating of 1500.	ไต่​เรตติ้ง​ให้​ถึง 1500
+Reach a rating of 1700.	ไต่​เรตติ้ง​ให้​ถึง 1700
+Reach a rating of 1900.	ไต่​เรตติ้ง​ให้​ถึง 1900
+Reach a rating of 2100.	ไต่​เรตติ้ง​ให้​ถึง 2100
+Refresh	รีเฟรช
+Regular	ขาประจำ
+Remove friend	ลบเพื่อน
+Replay	รีเพลย์
+Report	รายงาน
+Report {name}	รายงาน {name}
+Request sent	ส่ง​คำขอ​แล้ว
+Friend	เพื่อน
+Recent	ล่าสุด
+Nobody yet. The people you play online will show up here.	ยัง​ไม่​มี​ใคร คน​ที่​คุณ​เล่น​ออนไลน์​ด้วย​จะ​แสดง​ที่นี่
+{n} games	{n} เกม
+Rookie	มือใหม่
+Round {n}	รอบที่ {n}
+Search…	ค้นหา…
+Semi-finals	รอบรองชนะเลิศ
+Send report	ส่งรายงาน
+This game goes with the report, so the moderators can watch it.	เกม​นี้​จะ​แนบ​ไป​กับ​รายงาน เพื่อให้​ผู้ดู​แลดู​ได้
+Your game with {name} ({date}) goes with the report, so the moderators can watch it.	เกม​ของ​คุณ​กับ {name} ({date}) จะ​แนบ​ไป​กับ​รายงาน เพื่อให้​ผู้ดู​แลดู​ได้
+You haven't played {name} in the last day: the moderators see the recent chat.	คุณ​ไม่​ได้​เล่น​กับ {name} ใน​วัน​ที่ผ่านมา: ผู้ดูแล​จะ​เห็น​แชท​ล่าสุด
+Shark	เสือพูล
+Shows the contact point; judging the cut is up to you.	แสดง​จุด​กระทบ ส่วน​การ​กะ​มุม​เฉือน​ขึ้นอยู่กับ​คุณ
+Shutout	คลีนชีต
+Sign in	เข้าสู่ระบบ
+Sign in or create an account	เข้าสู่ระบบ​หรือ​สร้าง​บัญชี
+Sign out	ออกจากระบบ
+Sit down	นั่ง​ที่​โต๊ะ
+Skilled	ฝีมือดี
+Someone with that name is already here.	มี​คนใช้​ชื่อ​นี้​อยู่​ที่นี่​แล้ว
+Spam	สแปม
+Start now	เริ่มเลย
+Stop the replay	หยุดรีเพลย์
+Table runner	จอม​เก็บ​โต๊ะ
+Tables	โต๊ะ
+Take turns on this computer	ผลัดกัน​เล่น​บน​คอมพิวเตอร์​เครื่อง​นี้
+Thank you. The moderators will look into it.	ขอบคุณ ผู้ดูแล​จะ​ตรวจสอบ​เรื่อง​นี้
+Thank you. The moderators will look into it, with your game attached.	ขอบคุณ ผู้ดูแล​จะ​ตรวจสอบ​เรื่อง​นี้ โดย​แนบ​เกม​ของ​คุณ​ไป​ด้วย
+That player is not accepting invitations.	ผู้เล่น​คน​นี้​ไม่​รับ​คำเชิญ
+That shot was for an earlier turn.	ช็อต​นั้น​เป็น​ของ​ตา​ก่อนหน้า
+That table is no longer open.	โต๊ะ​นั้น​ไม่​เปิด​แล้ว
+That tournament has already started.	ทัวร์นาเมนต์​นั้น​เริ่ม​ไป​แล้ว
+That tournament no longer exists.	ทัวร์นาเมนต์​นั้น​ไม่​มี​อยู่แล้ว
+The first connection of the day can take up to a minute while the server wakes up.	การ​เชื่อมต่อ​ครั้งแรก​ของ​วัน​อาจ​ใช้เวลา​ถึง​หนึ่ง​นาที ระหว่าง​ที่​เซิร์ฟเวอร์​กำลัง​เริ่ม​ทำงาน
+The first time, allow Snook Legend through the firewall when asked.	ใน​ครั้งแรก ให้​อนุญาต Snook Legend ผ่าน​ไฟร์วอลล์​เมื่อ​ระบบ​ถาม
+The server could not play that shot.	เซิร์ฟเวอร์​เล่น​ช็อต​นั้น​ไม่​ได้
+The server is busy. Try again in a moment.	เซิร์ฟเวอร์​ไม่​ว่าง ลอง​ใหม่​ใน​อีกสักครู่
+The tournament starts when it is full (the host can start it earlier).	ทัวร์นาเมนต์​จะ​เริ่ม​เมื่อ​ผู้เล่น​ครบ (โฮสต์​เริ่ม​ก่อน​ได้)
+There are too many tournaments right now. Join one!	ตอนนี้​มี​ทัวร์นาเมนต์​มากเกินไป เข้าร่วม​สัก​รายการ​สิ!
+This is a LAN server: join as a guest.	นี่​คือ​เซิร์ฟเวอร์ LAN: เข้า​ร่วมใน​ฐานะ​ผู้เยี่ยมชม
+Fifteen rivals, a tour and ghosts of real players	คู่แข่ง​สิบห้า​คน ทัวร์​การแข่งขัน และ​โกสต์​ของ​ผู้เล่น​จริง
+Tier	ระดับ
+Time per shot	เวลา​ต่อ​ช็อต
+Too many failed attempts. Wait a few minutes and try again.	ลอง​ไม่​สำเร็จ​หลายครั้ง​เกินไป รอ​สัก​สอง​สาม​นาที​แล้ว​ลอง​ใหม่
+Too many messages.	ข้อความมากเกินไป
+Too many new accounts from this network. Try again later.	มี​บัญชี​ใหม่​จาก​เครือข่าย​นี้​มากเกินไป ลอง​ใหม่​ภายหลัง
+Top 100 · rated games	100 อันดับ​แรก · เกม​จัดอันดับ
+Tournament game: the next round starts from the lounge.	เกม​ทัวร์นาเมนต์: รอบ​ถัดไป​จะ​เริ่ม​จาก​ล็อบบี้
+Tournament games have no rematch.	เกม​ทัวร์นาเมนต์​ไม่​มี​รีแมตช์
+Tournaments	ทัวร์นาเมนต์
+Tournaments have 4, 8 or 16 players.	ทัวร์นาเมนต์​มี​ผู้เล่น 4, 8 หรือ 16 คน
+Two players	ผู้เล่น​สอง​คน
+Unblock	เลิกบล็อก
+Unlocked {date}	ปลดล็อกเมื่อ {date}
+Unstoppable	หยุด​ไม่​อยู่
+W	ชนะ
+Watch the last shot again	ดู​ช็อต​ล่าสุด​อีกครั้ง
+What happened? (optional)	เกิด​อะไร​ขึ้น? (ไม่​บังคับ)
+When time runs out, the turn passes.	เมื่อ​หมดเวลา จะ​เปลี่ยน​ตา
+Whitewash	ถล่มยับ
+Win 10 rated games on the 8-ball.	ชนะ​เกม​จัดอันดับ 10 เกม​ด้วย​ลูก 8
+Win 10 rated games in a row.	ชนะ​เกม​จัดอันดับ​ติดต่อกัน 10 เกม
+Win 10 rated games.	ชนะ​เกม​จัดอันดับ 10 เกม
+Win 10 rated shutouts.	ชนะ​เกม​จัดอันดับ​แบบ​คลีนชีต 10 ครั้ง
+Win 100 rated games on the 8-ball.	ชนะ​เกม​จัดอันดับ 100 เกม​ด้วย​ลูก 8
+Win 100 rated games.	ชนะ​เกม​จัดอันดับ 100 เกม
+Win 250 rated games on the 8-ball.	ชนะ​เกม​จัดอันดับ 250 เกม​ด้วย​ลูก 8
+Win 3 rated games in a row.	ชนะ​เกม​จัดอันดับ​ติดต่อกัน 3 เกม
+Win 5 rated games in a row.	ชนะ​เกม​จัดอันดับ​ติดต่อกัน 5 เกม
+Win 5 tournaments.	ชนะ​ทัวร์นาเมนต์ 5 รายการ
+Win 50 rated games on the 8-ball.	ชนะ​เกม​จัดอันดับ 50 เกม​ด้วย​ลูก 8
+Win 50 rated games.	ชนะ​เกม​จัดอันดับ 50 เกม
+Win 500 rated games.	ชนะ​เกม​จัดอันดับ 500 เกม
+Win a rated game.	ชนะ​เกม​จัดอันดับ​หนึ่ง​เกม
+Win a tournament.	ชนะ​ทัวร์นาเมนต์​หนึ่ง​รายการ
+Win a rated game before your opponent sinks a ball of their group.	ชนะ​เกม​จัดอันดับ​ก่อนที่​คู่แข่ง​จะ​แทง​ลูก​ใน​กลุ่ม​ของ​ตัวเอง​ลง​ได้​สัก​ลูก
+Win a rated game from the break without your opponent getting a shot.	ชนะ​เกม​จัดอันดับ​ตั้งแต่​เบรก โดยที่​คู่แข่ง​ไม่​ได้​แทง​เลย​สัก​ช็อต
+Withdraw	ถอนตัว
+World ranking	อันดับโลก
+Wrong table password.	รหัสผ่าน​โต๊ะ​ไม่​ถูกต้อง
+Wrong tournament password.	รหัสผ่าน​ทัวร์นาเมนต์​ไม่​ถูกต้อง
+You are already in a tournament.	คุณ​อยู่​ใน​ทัวร์นาเมนต์​แล้ว
+You are hosting a game	คุณ​กำลัง​เป็น​โฮสต์​เกม
+You can't join this table.	คุณ​เข้า​ร่วมโต๊ะ​นี้​ไม่​ได้
+You signed in from another place.	คุณ​เข้าสู่ระบบ​จาก​ที่อื่น
+You're sending invitations too quickly.	คุณ​ส่ง​คำเชิญ​เร็ว​เกินไป
+You're sending messages too quickly.	คุณ​ส่ง​ข้อ​ความเร็ว​เกินไป
+You've sent many reports. Please wait before sending more.	คุณ​ส่ง​รายงาน​ไป​หลายครั้ง​แล้ว โปรด​รอ​สักครู่​ก่อน​ส่ง​เพิ่ม
+Your friend list is full.	รายชื่อ​เพื่อน​ของ​คุณ​เต็ม​แล้ว
+Your next match starts by itself when both players are free.	แมตช์​ถัดไป​ของ​คุณ​จะ​เริ่ม​เอง​เมื่อ​ผู้เล่น​ทั้งสอง​คน​ว่าง
+Your profile	โปรไฟล์​ของ​คุณ
+Your table is open	โต๊ะ​ของ​คุณ​เปิด​อยู่
+Zoom in	ซูมเข้า
+Zoom out	ซูมออก
+at a table	อยู่​ที่​โต๊ะ
+best streak	ชนะ​รวด​สูงสุด
+by {host} · {n}/{size} players	โดย {host} · ผู้เล่น {n}/{size}
+casual games	เกมกระชับมิตร
+casual · private	กระชับมิตร · ส่วนตัว
+casual · public	กระชับมิตร · สาธารณะ
+connecting to the server	กำลัง​เชื่อมต่อ​เซิร์ฟเวอร์
+eight-ball pool	พูล 8 บอล
+finished	จบแล้ว
+guest	ผู้เยี่ยมชม
+invites you to {kind}	ชวน​คุณ​เล่น{kind}
+joined today	เข้าร่วมวันนี้
+member for {n} days	เป็นสมาชิก {n} วัน
+member for {n} months	เป็นสมาชิก {n} เดือน
+member for {n} years	เป็นสมาชิก {n} ปี
+offline	ออฟไลน์
+open	เปิดรับสมัคร
+optional: only friends with it can join	ไม่​บังคับ: เฉพาะ​เพื่อน​ที่​รู้​รหัส​นี้​เท่านั้น​ที่​เข้าร่วม​ได้
+password	รหัสผ่าน
+peak {n}	สูงสุด {n}
+playing	กำลังเล่น
+playing the computer	กำลัง​เล่น​กับ​คอมพิวเตอร์
+away	ไม่อยู่
+this game is saved	บันทึก​เกม​นี้​ไว้​แล้ว
+rated games	เกมจัดอันดับ
+rated · private	จัดอันดับ · ส่วนตัว
+rated · public	จัดอันดับ · สาธารณะ
+request sent	ส่ง​คำขอ​แล้ว
+the connection dropped	การ​เชื่อมต่อ​หลุด
+to play online	เพื่อ​เล่น​ออนไลน์
+tournament	ทัวร์นาเมนต์
+tournaments won	ทัวร์นาเมนต์​ที่​ชนะ
+waiting for an opponent…	กำลัง​รอ​คู่แข่ง…
+win rate	อัตราชนะ
+wins	ชนะ
+won on the 8	ชนะ​ด้วย​ลูก 8
+{host}'s game	เกมของ {host}
+{name} wants to be friends	{name} อยาก​เป็นเพื่อน​กับ​คุณ
+{name} wants to be your friend.	{name} อยาก​เป็นเพื่อน​กับ​คุณ
+{n} online	ออนไลน์ {n} คน
+sank the 8-ball	แทง​ลูก 8 ลง
+the opponent sank the 8-ball	คู่แข่ง​แทง​ลูก 8 ลง
+the opponent sank the 8 too early	คู่แข่ง​แทง​ลูก 8 ลง​เร็ว​เกินไป
+sank the 8 too early	แทง​ลูก 8 ลง​เร็ว​เกินไป
+the opponent sank the 8 in the wrong pocket	คู่แข่ง​แทง​ลูก 8 ลง​ผิด​หลุม
+sank the 8 in the wrong pocket	แทง​ลูก 8 ลง​ผิด​หลุม
+the opponent fouled on the 8	คู่แข่ง​ฟาวล์​ที่​ลูก 8
+fouled on the 8	ฟาวล์​ที่​ลูก 8
+the opponent knocked the 8 off the table	คู่แข่ง​ทำ​ลูก 8 ตก​โต๊ะ
+knocked the 8 off the table	ทำ​ลูก 8 ตก​โต๊ะ
+the opponent resigned	คู่แข่งยอมแพ้
+resigned	ยอมแพ้
+the opponent left	คู่แข่ง​ออก​ไป​แล้ว
+left the game	ออกจากเกม
+You are muted for {n} more minutes.	คุณ​ถูก​ห้าม​แชท​อีก {n} นาที
+This account is suspended for {n} more day(s). Reason: {reason}.	บัญชี​นี้​ถูก​ระงับ​อีก {n} วัน เหตุผล: {reason}
+This account is banned. Reason: {reason}.	บัญชี​นี้​ถูก​แบน เหตุผล: {reason}
+You were muted: {r}	คุณ​ถูก​ห้าม​แชท: {r}
+Your account was suspended: {r}	บัญชี​ของ​คุณ​ถูก​ระงับ: {r}
+Your account was banned: {r}	บัญชี​ของ​คุณ​ถูก​แบน: {r}
+You were disconnected by a moderator: {r}	ผู้ดูแล​ตัด​การ​เชื่อมต่อ​ของ​คุณ: {r}
+You were disconnected by a moderator.	ผู้ดูแล​ตัด​การ​เชื่อมต่อ​ของ​คุณ
+Please sign in again.	โปรด​เข้าสู่ระบบ​อีกครั้ง
+Your password was changed. Sign in again.	รหัสผ่าน​ของ​คุณ​ถูก​เปลี่ยน​แล้ว โปรด​เข้าสู่ระบบ​อีกครั้ง
+Accept rematch	รับรีแมตช์
+Accept	ยอมรับ
+Aim	เล็ง
+Aiming guide	เส้น​ช่วย​เล็ง
+Aiming	การเล็ง
+Anti-aliasing	ลด​รอย​หยัก
+Smooths the jagged edges of lines and balls.	ทำให้​ขอบ​หยัก​ของ​เส้น​และ​ลูกบอล​เรียบ​ขึ้น
+Back to lounge	กลับ​ไป​ล็อบบี้
+Balanced: smooth on most laptops.	สมดุล: ลื่นไหล​บน​แล็ปท็อป​ส่วนใหญ่
+Ball in hand	ลูกในมือ
+Break the rack	เบรกลูก
+Camera pulls back to watch each shot	กล้อง​ถอย​ออกมา​เพื่อ​ดู​แต่ละ​ช็อต
+Camera	กล้อง
+Cancel	ยกเลิก
+Casual game: ratings unchanged	เกม​กระชับมิตร: เรตติ้ง​ไม่​เปลี่ยน
+Center	ตรงกลาง
+Chat	แชท
+Click a ball or a spot	คลิก​ที่​ลูก​หรือ​จุด
+Click to chat, Enter to send	คลิก​เพื่อ​แชท กด Enter เพื่อ​ส่ง
+Controls	การควบคุม
+Create account	สร้างบัญชี
+Cue ball contact	จุด​กระทบ​ลูกขาว
+Decline	ปฏิเสธ
+Done	เสร็จ
+Drag the cue ball	ลากลูกขาว
+Elevation	การ​ยก​ไม้
+Everything, with reflections in polished floors: for gaming PCs.	ครบ​ทุกอย่าง พร้อม​เงา​สะท้อน​บน​พื้น​มันวาว: สำหรับ​พีซี​เกมมิ่ง
+Fine aim	เล็งละเอียด
+Finish this match first.	จบ​แมตช์​นี้​ก่อน
+For old or very slow computers.	สำหรับ​คอมพิวเตอร์​รุ่นเก่า​หรือ​ช้า​มาก
+Full screen	เต็มจอ
+Also with {key}.	ใช้ {key} ได้​ด้วย
+Full	เต็ม
+Game server	เซิร์ฟเวอร์เกม
+Change it only to play on another server.	เปลี่ยน​เฉพาะ​เมื่อ​จะ​เล่น​บน​เซิร์ฟเวอร์​อื่น
+Advanced	ขั้นสูง
+Custom server	เซิร์ฟเวอร์อื่น
+Graphics quality	คุณภาพกราฟิก
+Quality	คุณภาพ
+Display	การแสดงผล
+High	สูง
+Invite	เชิญ
+Leave to the lounge	ออก​ไป​ล็อบบี้
+Leave	ออก
+Leaving now counts as a loss.	ออก​ตอนนี้​จะ​นับว่า​แพ้
+Lounge chat	แชทล็อบบี้
+Low	ต่ำ
+Main menu	เมนูหลัก
+Medium	กลาง
+Menu / help	เมนู / ช่วยเหลือ
+Next game starts in a moment…	เกม​ถัดไป​จะ​เริ่ม​ใน​อีกสักครู่…
+No rated games yet. Be the first!	ยัง​ไม่​มี​เกม​จัดอันดับ มา​เป็น​คน​แรก​สิ!
+Nobody else is here right now.	ตอนนี้​ไม่​มี​ใคร​อื่น​อยู่​ที่นี่
+Looking for a game?	กำลัง​หา​เกม​อยู่​ใช่ไหม?
+Looking for a game	กำลัง​หา​เกม
+Post a note	โพสต์โน้ต
+Everyone in the lounge sees it for 30 minutes	ทุก​คนใน​ล็อบบี้​จะ​เห็น​เป็นเวลา 30 นาที
+What are you after? ({kind})	คุณ​กำลัง​หา​อะไร? ({kind})
+Post	โพสต์
+Your note: {text}	โน้ต​ของ​คุณ: {text}
+{mode} · {left} left	{mode} · เหลือ {left}
+Take down	ลบออก
+Challenge	ท้า
+Take the note down	ลบโน้ต
+Off	ปิด
+On the 8-ball: call a pocket	เหลือ​ลูก 8: ขาน​หลุม
+On the 8-ball	เหลือลูก 8
+Open table	โต๊ะเปิด
+Password	รหัสผ่าน
+Paused	หยุดชั่วคราว
+Play	เล่น
+Player 2	ผู้เล่น 2
+Player	ผู้เล่น
+Quick aim	เล็งเร็ว
+Quit	ออก
+Reconnected.	เชื่อมต่อ​ใหม่​แล้ว
+Rematch	รีแมตช์
+Resign this game	ยอมแพ้​เกม​นี้
+Restart the game to apply this change.	รีสตาร์ท​เกม​เพื่อ​ใช้​การเปลี่ยนแปลง​นี้
+Resume	เล่นต่อ
+Retry	ลองใหม่
+Saving the result…	กำลัง​บันทึก​ผล…
+Say hello… (Enter to send)	ทักทาย​หน่อย… (Enter เพื่อ​ส่ง)
+Send	ส่ง
+Settings	ตั้งค่า
+{key} + drag	{key} + ลาก
+{key}: 3D / top view	{key}: 3D / มุมบน
+{keys}: zoom	{keys}: ซูม
+View	มุมมอง
+Aim left	เล็งซ้าย
+Aim right	เล็งขวา
+Fine aim (hold)	เล็ง​ละเอียด (กด​ค้าง)
+Shoot (hold, release)	แทง (กด​ค้าง แล้ว​ปล่อย)
+Top spin	สปินบน
+Back spin	สปินล่าง
+Left spin	สปินซ้าย
+Right spin	สปินขวา
+Raise the cue	ยก​ไม้คิว​ขึ้น
+Lower the cue	ลด​ไม้คิว​ลง
+Pick up the cue ball in hand	หยิบ​ลูกขาว​ใน​มือ
+3D / top view	3D / มุมบน
+Reset the camera	รีเซ็ตกล้อง
+Replay the last shot	ดู​รีเพลย์​ช็อต​ล่าสุด
+List of controls	รายการ​ปุ่ม​ควบคุม
+Keys can be changed in Settings → Controls.	เปลี่ยน​ปุ่ม​ได้ที่ ตั้งค่า → การควบคุม
+Space	Space
+Right Shift	Shift ขวา
+Right Ctrl	Ctrl ขวา
+Right Alt	Alt ขวา
+Aiming and shooting	การเล็ง​และ​การ​แทง
+Spin and elevation	สปิน​และ​การ​ยก​ไม้
+Fixed keys	ปุ่ม​ที่​ล็อก​ไว้
+Menu, back and cancel	เมนู กลับ และ​ยกเลิก
+Confirm (forms, the cue ball in hand)	ยืนยัน (ฟอร์ม, ลูกขาว​ใน​มือ)
+This key can't be changed.	ปุ่ม​นี้​เปลี่ยน​ไม่​ได้
+Press a key · Esc cancels · Backspace clears	กดปุ่ม · Esc ยกเลิก · Backspace ล้าง
+Press a key…	กดปุ่ม…
+Click to change	คลิก​เพื่อ​เปลี่ยน
+Click to add a key	คลิก​เพื่อ​เพิ่ม​ปุ่ม
+Back to no key	กลับเป็น​ไม่​มี​ปุ่ม
+Back to {keys}	กลับเป็น {keys}
+Swapped: {action} is now on {key}.	สลับ​แล้ว: ตอนนี้ {action} ใช้​ปุ่ม {key}
+Taken from {action}, which now has no key.	ย้าย​มาจาก {action} ซึ่ง​ตอนนี้​ไม่​มี​ปุ่ม​แล้ว
+Taken from {action}.	ย้ายมาจาก {action}
+That key can't be used: try another.	ใช้​ปุ่ม​นั้น​ไม่​ได้: ลอง​ปุ่ม​อื่น
+Shoot	แทง
+Short	สั้น
+Signing in…	กำลังเข้าสู่ระบบ…
+Signing in	กำลังเข้าสู่ระบบ
+Soft shadows from every lamp, glossy halls, halos.	เงา​นุ่มนวล​จาก​โคมไฟ​ทุก​ดวง ห้อง​เงา​งาม และ​แสง​ฟุ้ง
+Solids (1–7)	ลูกทึบ (1–7)
+Spin ball	ลูก​ปรับ​สปิน
+Spin	สปิน
+Standard	มาตรฐาน
+Stay	อยู่ต่อ
+Stripes (9–15)	ลูกลาย (9–15)
+The game goes on while this is open.	เกม​ยัง​ดำเนินต่อไป​ระหว่าง​ที่​หน้า​นี้​เปิด​อยู่
+Use default	ใช้​ค่า​เริ่มต้น
+Username	ชื่อผู้ใช้
+Usernames have 3–16 letters, digits or underscores.	ชื่อผู้ใช้​ต้อง​มี 3–16 ตัว: ตัวอักษร ตัวเลข หรือ​ขีด​ล่าง
+{keys} (jump & massé)	{keys} (ลูกกระโดด​และ​มาสเซ่)
+You win!	คุณชนะ!
+Your name	ชื่อ​ของ​คุณ
+Your opponent went back to the lounge.	คู่แข่ง​ของ​คุณ​กลับ​ไป​ที่​ล็อบบี้​แล้ว
+Your turn	ตา​ของ​คุณ
+open table: the next ball you make sets your group	โต๊ะ​เปิด: ลูก​ถัดไป​ที่​คุณ​แทงลง​จะ​กำหนด​กลุ่ม​ของ​คุณ
+draw	ลูกดึง
+follow	ลูกตาม
+stun	ลูกหยุด
+solids	ลูกทึบ
+stripes	ลูกลาย
+lounge	ล็อบบี้
+ · left english	 · สปินซ้าย
+ · right english	 · สปินขวา
+Language	ภาษา
+General	ทั่วไป
+Graphics	กราฟิก
+Game	เกม
+Sound	เสียง
+Reset to defaults	คืน​ค่า​เริ่มต้น
+Reset all keys	รีเซ็ต​ปุ่ม​ทั้งหมด
+Reset every key?	รีเซ็ต​ปุ่ม​ทั้งหมด​ใช่ไหม?
+Click again to put every key back	คลิก​อีกครั้ง​เพื่อ​คืน​ค่า​ปุ่ม​ทั้งหมด
+Updates	อัปเดต
+Update automatically	อัปเดตอัตโนมัติ
+New versions download in the background and install when you restart.	เวอร์ชัน​ใหม่​จะ​ดาวน์โหลด​ใน​เบื้องหลัง และ​ติดตั้ง​เมื่อ​คุณ​รีสตาร์ท
+Version {v}	เวอร์ชัน {v}
+What's new	มี​อะไร​ใหม่
+What's new in version {v}	มี​อะไร​ใหม่​ใน​เวอร์ชัน {v}
+No notes for this version.	ไม่​มี​บันทึก​สำหรับ​เวอร์ชัน​นี้
+Got it	เข้าใจแล้ว
+Restart now	รีสตาร์ทเลย
+After the game, from the main menu.	หลัง​จบเกม จาก​เมนูหลัก
+Download	ดาวน์โหลด
+Check now	ตรวจสอบเลย
+Couldn't reach the update server.	ติดต่อ​เซิร์ฟเวอร์​อัปเดต​ไม่​ได้
+The download was damaged. It will be tried again later.	ไฟล์​ที่​ดาวน์โหลด​เสียหาย จะ​ลอง​ใหม่​อีกครั้ง​ภายหลัง
+The new version couldn't be installed. This one stays.	ติดตั้ง​เวอร์ชัน​ใหม่​ไม่​ได้ ยังคง​ใช้​เวอร์ชัน​นี้​ต่อไป
+Downloading… {p}%	กำลังดาวน์โหลด… {p}%
+Updating…	กำลังอัปเดต…
+The Microsoft Store keeps the game up to date.	Microsoft Store จะ​อัปเดต​เกม​ให้​เป็น​เวอร์ชัน​ล่าสุด​เสมอ
+Development build: no automatic updates.	บิลด์​สำหรับ​พัฒนา: ไม่​มี​การ​อัปเดต​อัตโนมัติ
+Looking for a new version…	กำลัง​หา​เวอร์ชัน​ใหม่…
+This is the latest version.	นี่​คือ​เวอร์ชัน​ล่าสุด
+Downloading version {v}… {p}%	กำลัง​ดาวน์โหลด​เวอร์ชัน {v}… {p}%
+Installing version {v}…	กำลัง​ติดตั้ง​เวอร์ชัน {v}…
+Version {v} is ready: restart the game to use it.	เวอร์ชัน {v} พร้อม​แล้ว: รีสตาร์ท​เกม​เพื่อ​ใช้งาน
+Version {v} is out: download it from the releases page.	เวอร์ชัน {v} ออก​แล้ว: ดาวน์โหลด​ได้​จาก​หน้า​รีลีส
+Version {v} is ready	เวอร์ชัน {v} พร้อม​แล้ว
+Restart to play it; nothing is lost.	รีสตาร์ท​เพื่อ​เล่น​เวอร์ชัน​ใหม่ ไม่​มี​อะไร​หาย
+Version {v} is out	เวอร์ชัน {v} ออก​แล้ว
+Get it from the releases page.	ดาวน์โหลด​ได้​จาก​หน้า​รีลีส
+Reset everything?	รีเซ็ต​ทั้งหมด​ใช่ไหม?
+Click again to reset every setting	คลิก​อีกครั้ง​เพื่อ​รีเซ็ต​การ​ตั้งค่า​ทั้งหมด
+Online	ออนไลน์
+Menu	เมนู
+Rating	เรตติ้ง
+Ultra	อัลตรา
+hold {key} and release	กด {key} ค้าง​แล้ว​ปล่อย
+Change	เปลี่ยน
+Mouse aim sensitivity	ความ​ไว​ใน​การเล็ง​ด้วย​เมาส์
+How fast the cue turns with the mouse.	ความเร็ว​ที่​ไม้คิว​หมุน​ตาม​เมาส์
+Vignette	ขอบมืด
+Darkens the edges of the picture, like a film.	ทำให้​ขอบ​ภาพ​มืด​ลง เหมือน​ใน​ภาพยนตร์
+Show FPS	แสดง FPS
+Frames per second, in a corner of the screen.	จำนวน​เฟรม​ต่อ​วินาที ที่​มุม​หนึ่ง​ของ​จอ
+Call a pocket for the 8-ball first: click a pocket.	ขาน​หลุม​สำหรับ​ลูก 8 ก่อน: คลิก​ที่​หลุม
+Reconnecting	กำลัง​เชื่อมต่อ​ใหม่
+the game is over	เกม​จบ​แล้ว
+the cue ball cannot be placed there	วาง​ลูกขาว​ตรงนั้น​ไม่​ได้
+call a pocket for the 8-ball	ขาน​หลุม​สำหรับ​ลูก 8
+That username is taken.	ชื่อผู้ใช้​นี้​มี​คน​ใช้แล้ว
+Wrong username or password.	ชื่อผู้ใช้​หรือ​รหัสผ่าน​ไม่​ถูกต้อง
+Your session expired. Please log in again.	เซสชัน​ของ​คุณ​หมดอายุ โปรด​เข้าสู่ระบบ​อีกครั้ง
+This version of Snook Legend is out of date. Please update the game.	Snook Legend เวอร์ชัน​นี้​เก่า​แล้ว โปรด​อัปเดต​เกม
+It's not your turn.	ยัง​ไม่​ถึงตา​ของ​คุณ
+That player is not online.	ผู้เล่น​คน​นี้​ไม่​ได้​ออนไลน์
+That player is in a game.	ผู้เล่น​คน​นี้​กำลัง​เล่น​เกม​อยู่
+You can't invite yourself.	คุณ​เชิญ​ตัวเอง​ไม่​ได้
+That invitation is no longer valid.	คำเชิญ​นี้​ใช้ไม่ได้​แล้ว
+That player is no longer available.	ผู้เล่น​คน​นี้​ไม่​ว่าง​แล้ว
+Resign first to leave a game in progress.	ยอมแพ้​ก่อน​จึง​จะ​ออกจาก​เกม​ที่​กำลัง​เล่น​อยู่​ได้
+Malformed message.	ข้อ​ความผิด​รูปแบบ
+Please log in first.	โปรด​เข้าสู่ระบบ​ก่อน
+Could not create the account.	สร้าง​บัญชี​ไม่​ได้
+The cue ball can't be placed there.	วาง​ลูกขาว​ตรงนั้น​ไม่​ได้
+Disconnected.	ตัด​การ​เชื่อมต่อ​แล้ว
+Lost contact with the server.	ขาดการติดต่อ​กับ​เซิร์ฟเวอร์
+The server closed the connection.	เซิร์ฟเวอร์​ปิด​การ​เชื่อมต่อ
+The server took too long to answer.	เซิร์ฟเวอร์​ใช้เวลา​ตอบ​นาน​เกินไป
+The server is not answering (connection refused).	เซิร์ฟเวอร์​ไม่​ตอบสนอง (การ​เชื่อมต่อ​ถูก​ปฏิเสธ)
+The server address is not valid (example: wss://snook-legend.example.com/ws).	ที่อยู่​เซิร์ฟเวอร์​ไม่​ถูกต้อง (ตัวอย่าง: wss://snook-legend.example.com/ws)
+The server address has no host name.	ที่อยู่​เซิร์ฟเวอร์​ไม่​มีชื่อ​โฮสต์
+Welcome to Snook Legend! Be kind, play fair.	ยินดีต้อนรับ​สู่ Snook Legend! มีน้ำใจ​และ​เล่น​อย่าง​แฟร์
+Ball in hand: drag the cue ball{zone} to move it	ลูกในมือ: ลาก​เพื่อ​วาง​ลูกขาว{zone}
+ behind the line	 หลังเส้น
+Ball in hand  ·  {group}	ลูกในมือ  ·  {group}
+Can't shoot: {e}.	แทง​ไม่​ได้: {e}
+Chat ({n})	แชท ({n})
+Computer ({level})	คอมพิวเตอร์ ({level})
+Computer	คอมพิวเตอร์
+Each opponent has a style of their own	คู่แข่ง​แต่ละคน​มี​สไตล์​เป็น​ของ​ตัวเอง
+Free game	เกมอิสระ
+Tour	ทัวร์
+Tour: {n} of {total} beaten	ทัวร์: ชนะ​แล้ว {n} จาก {total}
+Strength {n}/5	ความเก่ง {n}/5
+Ghost	โกสต์
+Accuracy	ความแม่น
+Safeties	เซฟ
+Banks	ชิ่ง
+Position	เดินลูก
+Ghost of {name}	โกสต์ของ {name}
+A player's ghost	โกสต์​ของ​ผู้เล่น
+Plays like a real player	เล่น​เหมือน​ผู้เล่น​จริง
+The computer plays in the style of a real player, measured on their online games.	คอมพิวเตอร์​จะ​เล่น​ตาม​สไตล์​ของ​ผู้เล่น​จริง โดย​วัด​จาก​เกม​ออนไลน์​ของ​ผู้เล่น​คน​นั้น
+Sign in to play the ghost of a real player.	เข้าสู่ระบบ​เพื่อ​เล่น​กับ​โกสต์​ของ​ผู้เล่น​จริง
+Load	โหลด
+Friends:	เพื่อน:
+Type a username or pick a friend, then Load.	พิมพ์​ชื่อผู้ใช้​หรือ​เลือก​เพื่อน แล้ว​กด​โหลด
+Measuring how {name} plays…	กำลัง​วัด​สไตล์​การ​เล่น​ของ {name}…
+Pots {pots}% · safeties {safe}% · banks {banks}% · {shots} shots	แทงลง {pots}% · เซฟ {safe}% · ชิ่ง {banks}% · {shots} ช็อต
+{name} has only {shots} recorded shots; a ghost needs {needed}. More online games will do it.	{name} มี​ช็อต​ที่​บันทึก​ไว้​แค่ {shots} ช็อต แต่​โกสต์​ต้อง​ใช้ {needed} ช็อต เล่น​เกม​ออนไลน์​เพิ่ม​อีกหน่อย​ก็​พอ
+There is no player called {name}.	ไม่​มี​ผู้เล่น​ชื่อ {name}
+The server can't be reached right now. Try again later.	ตอนนี้​ติดต่อ​เซิร์ฟเวอร์​ไม่​ได้ ลอง​ใหม่​ภายหลัง
+Wait a moment before asking again.	รอ​สักครู่​ก่อน​ขอ​อีกครั้ง
+Something went wrong on the server. Try again later.	เกิด​ข้อผิดพลาด​ที่​เซิร์ฟเวอร์ ลอง​ใหม่​ภายหลัง
+Play your ghost	เล่น​กับ​โกสต์​ของ​คุณ
+Play their ghost	เล่น​กับ​โกสต์​ของ​เขา
+Beaten	ชนะแล้ว
+Next	ถัดไป
+Win the previous stage to unlock this one.	ชนะ​ด่าน​ก่อนหน้า​เพื่อ​ปลดล็อก​ด่าน​นี้
+Stage {n} of {total}	ด่าน {n} จาก {total}
+Challenge {name}	ท้า {name}
+Stage {n} won! Next on the tour: {name}.	ผ่าน​ด่าน {n} แล้ว! คน​ต่อไป​ใน​ทัวร์: {name}
+You won the whole tour!	คุณ​ชนะ​ทั้ง​ทัวร์​แล้ว!
+Reward	รางวัล
+{item} cue · exclusive	ไม้คิว {item} · สุด​พิเศษ
+Yours: find it in the shop, under Cues.	เป็น​ของ​คุณ​แล้ว: ดู​ได้​ใน​ร้านค้า หมวด​ไม้คิว
+Win the last stage again while signed in to claim it.	ชนะ​ด่าน​สุดท้าย​อีกครั้ง​ขณะ​เข้าสู่ระบบ​เพื่อ​รับรางวัล
+Beat all fifteen opponents to earn it. It is sold nowhere.	เอาชนะ​คู่แข่ง​ทั้ง​สิบห้า​คน​เพื่อ​รับรางวัล​นี้ ไม่​มี​ขาย​ที่ไหน
+You won the tour! Sign in to claim your reward.	คุณ​ชนะ​ทัวร์​แล้ว! เข้าสู่ระบบ​เพื่อ​รับรางวัล​ของ​คุณ
+The server is checking your final game…	เซิร์ฟเวอร์​กำลัง​ตรวจสอบ​เกม​สุดท้าย​ของ​คุณ…
+Try again	ลองอีกครั้ง
+The server did not answer. Try again in a moment.	เซิร์ฟเวอร์​ไม่​ตอบ ลอง​ใหม่​ใน​อีกสักครู่
+The server is busy checking other games. Try again in a moment.	เซิร์ฟเวอร์​กำลัง​ตรวจสอบ​เกม​อื่น​อยู่ ลอง​ใหม่​ใน​อีกสักครู่
+Wait a minute before trying again.	รอ​สัก​หนึ่ง​นาที​ก่อน​ลอง​อีกครั้ง
+That game is too long to be checked.	เกม​นั้น​ยาว​เกิน​กว่า​จะ​ตรวจสอบ​ได้
+That game has a move the rules don't allow.	เกม​นั้น​มี​การ​เล่น​ที่​ผิดกติกา
+That game was not played to the end.	เกม​นั้น​ไม่​ได้​เล่น​จน​จบ
+That game was not a win.	เกม​นั้น​ไม่​ได้​ชนะ
+The computer's shots in that game don't match how it plays (another version of the game?).	ช็อต​ของ​คอมพิวเตอร์​ใน​เกม​นั้น​ไม่​ตรง​กับ​วิธี​เล่น​ของ​มัน (เกม​คนละ​เวอร์ชัน​หรือเปล่า?)
+The Rookie	มือใหม่
+Still learning: aims at the nearest pocket, centre ball, and hopes. Never plays safe.	ยังอยู่​ระหว่าง​เรียนรู้: เล็ง​หลุม​ที่​ใกล้​ที่สุด แทง​กลาง​ลูก แล้ว​ลุ้น​เอา ไม่​เคย​เล่น​เซฟ
+The Weekend Player	นัก​เล่น​วันหยุด
+Knows the basics and drops the easy ones, but rarely thinks about where the cue ball goes.	รู้​พื้นฐาน​และ​แทง​ลูก​ง่ายๆ ลง แต่​แทบ​ไม่​เคย​คิด​ว่า​ลูกขาว​จะ​ไป​หยุด​ตรงไหน
+The Bank Artist	ศิลปิน​ลูก​ชิ่ง
+Sees angles nobody else does: whenever a ball can go off a cushion and in, she banks it.	มองเห็น​มุม​ที่​ไม่​มี​ใคร​เห็น: เมื่อไหร่​ที่​ลูก​ชิ่ง​ขอบโต๊ะ​ลง​หลุม​ได้ เธอ​แทงชิ่ง​ทุกครั้ง
+The Cannon	ปืนใหญ่
+Goes for everything, as hard as he can: long pots, thunderous breaks, hardly ever a safety.	ลุย​ทุก​ลูก​ให้แรง​ที่สุด: แทง​ไกล เบรก​สนั่น และ​แทบ​ไม่​เคย​เล่น​เซฟ
+The Wall	กำแพง
+Only shoots when the pot is on. Otherwise she tucks the cue ball away and waits for your mistake.	แทง​เมื่อ​มีลูก​ลง​ชัวร์​เท่านั้น ไม่อย่างนั้น​เธอ​จะ​ซ่อน​ลูกขาว​แล้ว​รอ​ให้​คุณ​พลาด
+The Old Pro	มือเก๋า
+Forty years at the table: a smooth stroke, a raised cue, side spin, and never in a hurry.	สี่​สิบ​ปี​บน​โต๊ะ: แทง​นุ่มนวล ยก​ไม้คิว ใส่​สปิน​ข้าง และ​ไม่​เคย​รีบร้อน
+The Hustler	เซียนเจ้าเล่ห์
+Plays just well enough to win, then a little better. Balanced, sharp and hard to read.	เล่น​แค่​พอให้​ชนะ แล้ว​เก่ง​ขึ้น​อีก​นิด สมดุล เฉียบคม และ​อ่าน​ทาง​ยาก
+The Professor	ศาสตราจารย์
+Thinks three balls ahead: every shot leaves the cue ball where the next one is easy.	คิด​ล่วงหน้า​สาม​ลูก: ทุก​ช็อต​จะ​ทิ้ง​ลูกขาว​ไว้​ใน​จุด​ที่​ลูก​ต่อไป​แทง​ง่าย
+The Sharpshooter	มือ​แม่น​ปืน
+Pots from anywhere, at any angle. Her safeties are an afterthought: she doesn't need them.	แทงลง​ได้​จาก​ทุกที่ ทุก​มุม เธอ​แทบ​ไม่​สน​เรื่อง​เล่น​เซฟ เพราะ​ไม่​จำเป็น​เลย
+The Champion	แชมป์
+Unbeaten for years. Precise, patient and merciless: the last stage of the tour.	ไร้​พ่าย​มา​หลาย​ปี แม่นยำ อดทน และ​ไร้​ความปรานี: ด่าน​สุดท้าย​ของ​ทัวร์
+Tour champion	แชมป์ทัวร์
+Champion of the tour	แชมป์​แห่ง​ทัวร์
+Beat all fifteen opponents of the computer tour.	เอาชนะ​คู่แข่ง​ทั้ง​สิบห้า​คนใน​ทัวร์​คอมพิวเตอร์
+Connection lost. Reconnecting (attempt {n})…	การ​เชื่อมต่อ​ขาดหาย กำลัง​เชื่อมต่อ​ใหม่ (ครั้ง​ที่ {n})…
+Connection lost. Reconnecting…	การ​เชื่อมต่อ​ขาดหาย กำลัง​เชื่อมต่อ​ใหม่…
+Foul by {shooter}: {foul}.	{shooter} ฟาวล์: {foul}
+Graphics set to {q} for smooth play. You can change this in Settings.	ตั้ง​กราฟิก​เป็น {q} เพื่อให้​เล่น​ได้​ลื่นไหล คุณ​เปลี่ยน​ได้​ใน​การ​ตั้งค่า
+Rating {r} ({d})	เรตติ้ง {r} ({d})
+The {ball} was spotted.	วาง{ball} คืน​บน​โต๊ะ​แล้ว
+Waiting for {to} ({kind})…	กำลังรอ {to} ({kind})…
+rated	จัดอันดับ
+casual	กระชับมิตร
+Waiting for {name}…	กำลังรอ {name}…
+{by} declined your invitation.	{by} ปฏิเสธ​คำเชิญ​ของ​คุณ
+a rated game	เกมจัดอันดับ
+a casual game	เกมกระชับมิตร
+{name} calls the 8-ball in the {pocket} pocket.	{name} ขาน​ลูก 8 ลง​หลุม{pocket}
+{name} has ball in hand…	{name} ได้ลูกในมือ…
+{name} is aiming…	{name} กำลังเล็ง…
+{name} is on the 8: click a pocket to call it	{name} เหลือ​ลูก 8: คลิก​ที่​หลุม​เพื่อ​ขาน
+{name} is thinking…	{name} กำลังคิด…
+{name} left the game.	{name} ออกจาก​เกม​แล้ว
+{name} resigned.	{name} ยอมแพ้
+{name} to break	{name} เป็น​ฝ่าย​เบรก
+{name} to shoot ({target})	{name} เป็น​ฝ่าย​แทง ({target})
+{name}'s turn	ตาของ {name}
+{next} has ball in hand{where}.	{next} ได้ลูกในมือ{where}
+ behind the head string	 หลังเส้นหัวโต๊ะ
+{opponent} is back.	{opponent} กลับมาแล้ว
+{opponent} lost the connection. Waiting up to {secs} s…	{opponent} หลุด​การ​เชื่อมต่อ กำลัง​รอ​สูงสุด {secs} วินาที…
+{opponent} wants a rematch.	{opponent} ขอรีแมตช์
+{opponent} went back to the lounge.	{opponent} กลับ​ไป​ที่​ล็อบบี้​แล้ว
+{shooter} pocketed {balls}.	{shooter} แทงลง: {balls}
+{shooter} takes {group}.	{shooter} ได้{group}
+{who} ran out of time: ball in hand for the opponent.	{who} หมดเวลา: คู่แข่ง​ได้​ลูกในมือ
+{name} wants a rematch!	{name} ขอรีแมตช์!
+{name} wins!	{name} ชนะ!
+{name} wins	{name} ชนะ
+Volume	ระดับเสียง
+The cue, the balls, the cushions and the pockets.	ไม้คิว ลูกบอล ขอบโต๊ะ และ​หลุม
+Notifications	การ​แจ้ง​เตือน
+Could not find the server “{host}”.	ไม่​พบ​เซิร์ฟเวอร์ “{host}”
+Network error: {e}.	ข้อผิดพลาดเครือข่าย: {e}
+Secure connection failed: {e}.	การ​เชื่อมต่อ​แบบ​ปลอดภัย​ล้มเหลว: {e}
+The server refused the connection (HTTP {code}).	เซิร์ฟเวอร์​ปฏิเสธ​การ​เชื่อมต่อ (HTTP {code})
+Connection error: {e}.	ข้อผิดพลาด​ใน​การ​เชื่อมต่อ: {e}
+cue ball	ลูกขาว
+{n}-ball	ลูก {n}
+Scratch: the cue ball was pocketed	ลูกขาว​ลง​หลุม
+The cue ball left the table	ลูกขาว​ตก​โต๊ะ
+The cue ball didn't hit any ball	ลูกขาว​ไม่​โดน​ลูก​ใด​เลย
+Wrong ball hit first ({ball})	ชน​ลูก​ผิด​เป็น​ลูก​แรก ({ball})
+No ball reached a cushion after contact	ไม่​มีลูก​ใด​ชน​ขอบโต๊ะ​หลัง​การ​กระทบ
+The {ball} left the table	{ball} ตกโต๊ะ
+Illegal break	เบรกผิดกติกา
+pocketed the 8-ball	แทง​ลูก 8 ลง
+opponent pocketed the 8-ball too early	คู่แข่ง​แทง​ลูก 8 ลง​เร็ว​เกินไป
+opponent sank the 8-ball in the wrong pocket	คู่แข่ง​แทง​ลูก 8 ลง​ผิด​หลุม
+opponent fouled on the 8-ball	คู่แข่ง​ฟาวล์​ที่​ลูก 8
+opponent knocked the 8-ball off the table	คู่แข่ง​ทำ​ลูก 8 ตก​โต๊ะ
+opponent resigned	คู่แข่งยอมแพ้
+opponent left the game	คู่แข่ง​ออกจาก​เกม
+head left corner	มุม​ซ้าย​หัวโต๊ะ
+head right corner	มุม​ขวา​หัวโต๊ะ
+left side	กลางซ้าย
+right side	กลางขวา
+foot left corner	มุม​ซ้าย​ท้ายโต๊ะ
+foot right corner	มุม​ขวา​ท้ายโต๊ะ
+Easy	ง่าย
+Hard	ยาก
+Normal	ปกติ
+Power	แรง
+No messages yet.	ยัง​ไม่​มี​ข้อความ
+▼ newer messages	▼ ข้อความใหม่
+Camera follows the cue	กล้อง​ตาม​ไม้คิว
+Off: it stays where you put it.	ปิด: กล้อง​จะ​อยู่​ตรง​ที่​คุณ​วาง​ไว้
+Pull back for shots	ถอย​กล้อง​ตอน​แทง
+Only when the camera follows the cue.	เฉพาะ​เมื่อ​กล้อง​ตาม​ไม้คิว
+Drag the cue · click a spot	ลาก​ไม้คิว · คลิก​ที่​จุด
+Time's up: {name}'s shot was played at full power.	หมดเวลา: ช็อต​ของ {name} ถูก​แทง​ด้วย​แรง​สูงสุด
+Dark room	ห้องมืด
+A spotlight on the table, the room in shadow.	สปอตไลต์​ส่อง​ที่​โต๊ะ ส่วน​ห้อง​อยู่​ใน​เงามืด
+Hide	ซ่อน
+Interface size	ขนาดอินเทอร์เฟซ
+Text, buttons and panels.	ข้อความ ปุ่ม และ​แผง​ต่างๆ
+Drag to set the power	ลาก​เพื่อ​กำหนด​แรง
+Shoot!	แทง!
+Set the power, then press the green button	กำหนด​แรง แล้ว​กดปุ่ม​สี​เขียว
++{n} coins · {why}	+{n} เหรียญ · {why}
+16-player tournaments, and first place on the waiting list of a full one	ทัวร์นาเมนต์ 16 คน และ​ได้​คิว​แรก​ใน​รายชื่อ​รอ​ของ​ทัวร์นาเมนต์​ที่​เต็ม​แล้ว
+30 minutes: play as many games as you can. A win is 2 points, 4 from the third win in a row.	30 นาที: เล่น​ให้ได้​มาก​เกม​ที่สุด ชนะ​ได้ 2 แต้ม และ​ได้ 4 แต้ม​ตั้งแต่​ชนะ​ติดต่อกัน​เกม​ที่สาม
+A crown by your name, everywhere (lounge, profile, ranking)	มงกุฎ​ข้าง​ชื่อ​ของ​คุณ​ใน​ทุกที่ (ล็อบบี้ โปรไฟล์ อันดับ)
+Account	บัญชี
+Add friends to give them items.	เพิ่ม​เพื่อน​เพื่อ​มอบ​ไอเท็ม​เป็น​ของขวัญ
+Arena	อารีนา
+Arena · host {host} · {n} players · {kind}	อารีนา · โฮสต์ {host} · ผู้เล่น {n} คน · {kind}
+Buy now	ซื้อเลย
+Buying…	กำลังซื้อ…
+Change password	เปลี่ยนรหัสผ่าน
+Click again to delete	คลิก​อีกครั้ง​เพื่อ​ลบ
+Got a code? Type it here	มี​โค้ด​ไหม? พิมพ์​ที่นี่
+Confirm purchase	ยืนยัน​การ​ซื้อ
+Copied: send it to a friend.	คัดลอก​แล้ว: ส่ง​ให้​เพื่อน​ได้​เลย
+Copy	คัดลอก
+Current	ปัจจุบัน
+Delete account	ลบบัญชี
+Entry	ค่าสมัคร
+Entry {n} coins	ค่าสมัคร {n} เหรียญ
+Every replay kept (free players keep their last 10 games)	เก็บ​รีเพลย์​ทุก​เกม (ผู้เล่น​ทั่วไป​เก็บ​ได้ 10 เกม​ล่าสุด)
+For {name}	สำหรับ {name}
+Add a message (optional)	เพิ่ม​ข้อความ (ไม่​บังคับ)
+Format	รูปแบบ
+Frames	กรอบ
+Free	ฟรี
+Get coins	รับเหรียญ
+Gift sent!	ส่ง​ของขวัญ​แล้ว!
+Give as a gift	มอบ​เป็น​ของขวัญ
+Give it	มอบให้
+Give to a friend	มอบให้เพื่อน
+Great!	เยี่ยม!
+If you forget your password, we confirm it's you by this e-mail.	หาก​คุณ​ลืม​รหัสผ่าน เรา​จะ​ยืนยัน​ตัวตน​ของ​คุณ​ผ่าน​อีเมล​นี้
+Invite with a code	เชิญ​ด้วย​โค้ด
+It goes on right away. Items only change the look, never the game.	ใช้งาน​ได้​ทันที ไอเท็ม​เปลี่ยน​แค่​หน้าตา ไม่​มีผลต่อ​การ​เล่น
+Join my table in Snook Legend:	มา​ร่วมโต๊ะ​ของ​ฉัน​ใน Snook Legend:
+Join the waiting list	เข้า​รายชื่อ​รอ
+Join · {n} coins	เข้าร่วม · {n} เหรียญ
+Knockout	น็อกเอาต์
+Name colour	สีชื่อ
+Name colours for the lounge and exclusive frames, cloth, cues, balls and effects	สี​ชื่อ​ใน​ล็อบบี้ พร้อม​กรอบ ผ้าโต๊ะ ไม้คิว ลูกบอล และ​เอฟเฟกต์​สุด​พิเศษ
+New	ใหม่
+No, thanks	ไม่​ล่ะ ขอบคุณ
+Nothing that wins games: VIP only changes the look	ไม่​มี​อะไร​ช่วย​ให้​ชนะ: VIP เปลี่ยน​แค่​หน้าตา
+Numbers	ตัวเลข
+ON TV	ถ่ายทอดสด
+Play rated games to see your rating here.	เล่น​เกม​จัดอันดับ​เพื่อ​ดู​เรตติ้ง​ของ​คุณ​ที่นี่
+No rated games yet.	ยัง​ไม่​มี​เกม​จัดอันดับ
+Price	ราคา
+Prizes {a} + {b}	รางวัล {a} + {b}
+Protect your purchases	ปกป้อง​สิ่ง​ที่​คุณ​ซื้อ
+Purchase complete!	ซื้อสำเร็จ!
+Recovery e-mail	อีเมล​กู้​คืน​บัญชี
+Save	บันทึก
+The fees make the prize: 70% to the champion, 20% to the runner-up.	ค่าสมัคร​รวมกัน​เป็น​รางวัล: 70% ให้​แชมป์ 20% ให้​รอง​แชมป์
+The server restarts in {m}:{s} for an update. Games in progress go on.	เซิร์ฟเวอร์​จะ​รีสตาร์ท​ใน {m}:{s} เพื่อ​อัปเดต เกม​ที่​กำลัง​เล่น​อยู่​จะ​เล่น​ต่อไป​ได้
+Use this e-mail	ใช้​อีเมล​นี้
+Use {email} to recover your account if you ever forget your password?	ใช้ {email} เพื่อ​กู้​คืน​บัญชี​ในกรณีที่​คุณ​ลืม​รหัสผ่าน​ไหม?
+Watch	ดู
+Watch again	ดูอีกครั้ง
+Winning effects	เอฟเฟกต์​ตอน​ชนะ
+Halls	ห้องโถง
+You are paired as soon as you and an opponent are free.	ระบบ​จะ​จับคู่​ให้​ทันทีที่​คุณ​และ​คู่แข่ง​ว่าง
+You can change it any time in your profile (Account).	คุณ​เปลี่ยน​ได้​ทุกเมื่อ​ใน​โปรไฟล์ (บัญชี)
+You need {n} more coins.	คุณ​ต้อง​มี​เหรียญ​อีก {n} เหรียญ
+Your account	บัญชี​ของ​คุณ
+Your account was deleted.	บัญชี​ของ​คุณ​ถูก​ลบ​แล้ว
+Your coins	เหรียญ​ของ​คุณ
+Your friend gets it right away.	เพื่อน​ของ​คุณ​จะ​ได้รับ​ทันที
+Your game against {name} is starting.	เกม​ของ​คุณ​กับ {name} กำลังจะ​เริ่ม
+Your name, e-mail, friends and items are erased for good. Your opponents keep the games you played (without your name).	ชื่อ อีเมล เพื่อน และ​ไอเท็ม​ของ​คุณ​จะ​ถูก​ลบ​ถาวร คู่แข่ง​ของ​คุณ​ยังคง​เก็บ​เกม​ที่​เคย​เล่น​ไว้ (โดย​ไม่​มีชื่อ​ของ​คุณ)
+balls per game	ลูก​ต่อ​เกม
+best run ever	แทง​ต่อเนื่อง​สูงสุด​ตลอดกาล
+daily bonus	โบนัสรายวัน
+entry fee back	คืนค่าสมัคร
+for the game	จาก​การ​เล่น
+for the win	จากการชนะ
+games counted	เกม​ที่​นับ
+Analysis	วิเคราะห์
+The shot analysis isn't available on this server yet.	เซิร์ฟเวอร์​นี้​ยัง​ไม่​มี​การ​วิเคราะห์​ช็อต
+Only online accounts have a shot analysis.	เฉพาะ​บัญชี​ออนไลน์​เท่านั้น​ที่​มี​การ​วิเคราะห์​ช็อต
+Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	เล่น​ออนไลน์​เพื่อ​ดู​ว่า​คุณ​แทงลง​แค่​ไหน: การ​วิเคราะห์​จะ​ปรากฏ​หลังจาก​แทง​ลูก​เข้า​หลุม​อีก {n} ช็อต
+{name} hasn't played enough online games for an analysis yet.	{name} ยัง​เล่น​เกม​ออนไลน์​ไม่​มาก​พอ​สำหรับ​การ​วิเคราะห์
+1 game	1 เกม
+{pct}% of {n} shots at a pocket potted · {games}	แทงลง {pct}% จาก {n} ช็อต​ที่​แทง​เข้า​หลุม · {games}
+{made} of {n} potted ({pct})	ลง {made} จาก {n} ({pct})
+By kind of shot	ตาม​ประเภท​ช็อต
+shots	ช็อต
+Straight	ตรง
+Cut 8–25°	เฉือน 8–25°
+Cut 25–45°	เฉือน 25–45°
+Thin cut 45°+	เฉือนบาง 45°+
+Bank	ชิ่ง
+Kick	ลูกขาวชิ่ง
+Combination	คอมบิเนชัน
+Jump	ลูกกระโดด
+Massé	มาสเซ่
+Break	เบรก
+By distance	ตามระยะ
+Short (under 0.75 m)	ใกล้ (ไม่​ถึง 0.75 ม.)
+Medium (to 1.5 m)	กลาง (ถึง 1.5 ม.)
+Long (over 1.5 m)	ไกล (เกิน 1.5 ม.)
+left the opponent nothing	ไม่​เหลือ​ลูก​ให้​คู่แข่ง
+Breaks	เบรก
+made a ball	มีลูกลง
+Potted	แทงลง
+Missed	พลาด
+Where and in which pocket	ตำแหน่ง​และ​หลุม
+{pocket}: {made} of {n} potted	{pocket}: ลง {made} จาก {n}
+Where the potted balls were	ตำแหน่ง​ของ​ลูก​ที่​แทงลง
+Where the missed balls were	ตำแหน่ง​ของ​ลูก​ที่​แทง​พลาด
+few	น้อย
+many	มาก
+{made} potted · {missed} missed ({pct})	ลง {made} · พลาด {missed} ({pct})
+Top left corner	มุม​บน​ซ้าย
+Bottom left corner	มุม​ล่าง​ซ้าย
+Top side pocket	หลุมกลางบน
+Bottom side pocket	หลุมกลางล่าง
+Top right corner	มุม​บน​ขวา
+Bottom right corner	มุม​ล่าง​ขวา
+games left unfinished	เกม​ที่​ทิ้ง​กลางคัน
+potting success	อัตราแทงลง
+shots with a foul	ช็อต​ที่​ฟาวล์
+starts in {n} min	เริ่ม​ใน {n} นาที
+tournament prize	รางวัลทัวร์นาเมนต์
+The dark room hides the hall around the table.	ห้องมืด​จะ​ซ่อน​ห้องโถง​รอบ​โต๊ะ
+Show the hall	แสดงห้องโถง
+Level {n} · 1 win	เลเวล {n} · ชนะ 1 ครั้ง
+Level {n} · {w} wins	เลเวล {n} · ชนะ {w} ครั้ง
+{left} more online wins with this cue for level {n}. Levels only add marks to the cue.	ชนะ​ออนไลน์​ด้วย​ไม้คิว​นี้​อีก {left} ครั้ง​เพื่อ​ถึง​เลเวล {n} เลเวล​แค่​เพิ่ม​ลวดลาย​บน​ไม้คิว
+The top level: this cue has every mark.	เลเวล​สูงสุด: ไม้คิว​นี้​มี​ลวดลาย​ครบ​ทุก​แบบ
+Your cue {cue} reached level {n}!	ไม้คิว {cue} ของ​คุณ​ถึง​เลเวล {n} แล้ว!
+Most wins: {cue} (level {n})	ชนะ​มาก​ที่สุด: {cue} (เลเวล {n})
+{games} games · {rate}% won · {balls} balls made	{games} เกม · ชนะ {rate}% · แทงลง {balls} ลูก
+vs	vs
+{from} gave you {item}!	{from} มอบ {item} ให้​คุณ!
+You received a gift!	คุณ​ได้รับ​ของขวัญ!
+From	จาก
+To	ถึง
+someone	ใครบางคน
+A month of VIP	VIP หนึ่งเดือน
+Thank	ขอบคุณ
+Thanked	ขอบคุณแล้ว
+They thanked you	อีก​ฝ่าย​ขอบคุณ​คุณ​แล้ว
+Use it now	ใช้เลย
+Later	ไว้ทีหลัง
+OK	ตกลง
+Next ({n} more)	ถัดไป (อีก {n})
+{from} gave you {item}! It's waiting for you in the lounge.	{from} มอบ {item} ให้​คุณ! ของขวัญ​รอ​คุณ​อยู่​ใน​ล็อบบี้
+{name} thanked you for {item}.	{name} ขอบคุณ​คุณ​สำหรับ {item}
+Gifts	ของขวัญ
+No gifts yet. Friends can give you items from the shop.	ยัง​ไม่​มี​ของขวัญ เพื่อน​ของ​คุณ​มอบ​ไอเท็ม​จาก​ร้านค้า​ให้​คุณ​ได้
+{item} is yours and already in use.	{item} เป็น​ของ​คุณ​และ​ใช้​อยู่แล้ว
+{m}:{s} left	เหลือ {m}:{s}
+{name} invites you to play.	{name} ชวน​คุณ​เล่น
+{name} is online.	{name} ออนไลน์อยู่
+{name} ran out of time.	{name} หมดเวลา
+{name} received {item}.	{name} ได้รับ {item} แล้ว
+{n} pts · {g} games	{n} แต้ม · {g} เกม
+{n} watching · avg {r}	{n} คน​กำลัง​ดู · เฉลี่ย {r}
+{title}: {how}	{title}: {how}
+Olive	เขียวมะกอก
+Navy	กรมท่า
+Forest	เขียวป่า
+Slate grey	เทาหินชนวน
+Red wine	แดงไวน์
+Burnt orange	ส้มอิฐ
+Dusty rose	ชมพูหม่น
+Sand	ทราย
+Ice blue	ฟ้าน้ำแข็ง
+Lime	เขียวมะนาว
+Black tie	แบล็กไท
+Cobalt	โคบอลต์
+Emerald	มรกต
+Natural maple	เมเปิลธรรมชาติ
+Beach bar	บาร์ชายหาด
+Modern	โมเดิร์น
+English club	คลับอังกฤษ
+Ebony & gold	อีโบนี​และ​ทอง
+Pool hall	ร้านพูล
+Industrial loft	ลอฟต์อินดัสเทรียล
+Steel & oak	เหล็ก​และ​โอ๊ก
+Tournament	ทัวร์นาเมนต์
+Victorian walnut	วอลนัตวิกตอเรียน
+Ivory deco	ไอวอรีเดโค
+Mountain lodge	กระท่อม​บน​เขา
+Neon arcade	อาร์เคดนีออน
+Art deco lounge	เลานจ์อาร์ตเดโค
+Skyline penthouse	เพนต์เฮาส์​วิว​เมือง
+Walnut	วอลนัต
+Zebrawood	ซีบราวูด
+Bocote	โบโคเต
+Deep ocean	มหาสมุทรลึก
+Cherry	เชอร์รี
+Jade	หยก
+Tiger	เสือ
+Amethyst	อเมทิสต์
+Arctic carbon	คาร์บอนอาร์กติก
+Inferno	อินเฟอร์โน
+Obsidian gold	ออบซิเดียนทอง
+Tan chalk	ชอล์ก​สีน้ำตาล​อ่อน
+Grey chalk	ชอล์กสีเทา
+Orange chalk	ชอล์กสีส้ม
+Pink chalk	ชอล์กสีชมพู
+Teal chalk	ชอล์ก​สี​เขียว​หัว​เป็ด
+Yellow chalk	ชอล์กสีเหลือง
+Black chalk	ชอล์ก​สี​ดำ
+White chalk	ชอล์ก​สี​ขาว
+Silver chalk	ชอล์ก​สี​เงิน
+TV set	ชุดทีวี
+Earth tones	โทน​สี​ดิน
+Ocean	มหาสมุทร
+Sunset	พระอาทิตย์ตก
+Candy	ลูกกวาด
+Pearl	ไข่มุก
+Monochrome	ขาวดำ
+Chrome	โครม
+Gold rush	ตื่นทอง
+No frame	ไม่​มี​กรอบ
+Bronze	บรอนซ์
+Silver	เงิน
+Gold	ทอง
+Green felt	สักหลาดเขียว
+Mahogany	มะฮอกกานี
+Ice	น้ำแข็ง
+Fire	ไฟ
+Diamond	เพชร
+VIP crown	มงกุฎ VIP
+Rose gold	โรสโกลด์
+Aqua	ฟ้าน้ำทะเล
+Violet	ม่วงไวโอเล็ต
+Ember	ถ่านไฟ
+Mint	มินต์
+Frost	น้ำค้างแข็ง
+No effect	ไม่​มี​เอฟเฟกต์
+Sparks	ประกายไฟ
+Confetti	คอนเฟตตี
+Shockwave	คลื่นกระแทก
+Coin shower	ฝนเหรียญ
+Flames	เปลวไฟ
+Royal sparks	ประกายไฟราชวงศ์
+Tier colour	สี​ตาม​ระดับ
+16-player tournaments are for VIP members.	ทัวร์นาเมนต์ 16 คน​สำหรับ​สมาชิก VIP
+A seat opened: you are in the tournament!	มี​ที่ว่าง​แล้ว: คุณ​ได้​เข้า​ทัวร์นาเมนต์!
+Entry fees go up to 1000 coins.	ค่าสมัคร​สูงสุด​ได้​ถึง 1000 เหรียญ
+Guests can't play for coins.	ผู้เยี่ยมชม​เล่น​ชิง​เหรียญ​ไม่​ได้
+Only items sold for coins can be given.	มอบ​เป็น​ของขวัญ​ได้​เฉพาะ​ไอเท็ม​ที่​ขาย​ด้วย​เหรียญ
+Password changed.	เปลี่ยน​รหัสผ่าน​แล้ว
+Passwords need 8 or more characters, not only digits.	รหัสผ่าน​ต้อง​มี 8 ตัวอักษร​ขึ้นไป และ​ไม่​ใช่​ตัวเลข​ล้วน
+Recovery e-mail removed.	ลบ​อีเมล​กู้​คืน​บัญชี​แล้ว
+Recovery e-mail saved.	บันทึก​อีเมล​กู้​คืน​บัญชี​แล้ว
+Something went wrong. Please try again.	เกิด​ข้อผิดพลาด โปรด​ลอง​อีกครั้ง
+That code is not valid (or the table was closed).	โค้ด​นี้​ใช้ไม่ได้ (หรือ​โต๊ะ​ถูก​ปิด​ไป​แล้ว)
+That doesn't look like an e-mail address.	ดู​ไม่​เหมือน​ที่อยู่​อีเมล
+That game is over.	เกม​นั้น​จบ​แล้ว
+The current password is wrong.	รหัสผ่าน​ปัจจุบัน​ไม่​ถูกต้อง
+The server is restarting.	เซิร์ฟเวอร์​กำลัง​รีสตาร์ท
+The server is restarting: new games start in a moment.	เซิร์ฟเวอร์​กำลัง​รีสตาร์ท: เกม​ใหม่​จะ​เริ่ม​ได้​ใน​อีกสักครู่
+The tournament is full: you are on the waiting list.	ทัวร์นาเมนต์​เต็ม​แล้ว: คุณ​อยู่​ใน​รายชื่อ​รอ
+This replay is not available.	รีเพลย์​นี้​ไม่​พร้อม​ใช้งาน
+You can only give items to your friends.	คุณ​มอบ​ไอเท็ม​ได้​เฉพาะ​ให้​เพื่อน​เท่านั้น
+Your friend already has this item.	เพื่อน​ของ​คุณ​มี​ไอเท็ม​นี้​แล้ว
+16 (VIP)	16 (VIP)
+VIP isn't sold in this version of the game.	เกม​เวอร์ชัน​นี้​ไม่​มี​ขาย VIP
+In this version of the game, coins are earned by playing:	ใน​เกม​เวอร์ชัน​นี้ คุณ​ได้​เหรียญ​จาก​การ​เล่น:
+rated games, and a bonus every day you play.	เกม​จัดอันดับ และ​โบนัส​ทุก​วันที่​คุณ​เล่น
+Coins are earned by playing:	คุณ​ได้​เหรียญ​จาก​การ​เล่น:
+If you like, you can also buy them:	ถ้า​ต้องการ คุณ​ซื้อ​เหรียญ​ได้​ด้วย:
+one month	หนึ่งเดือน
+already VIP	เป็น VIP อยู่แล้ว
+Give a month to a friend · {p}	มอบ​หนึ่ง​เดือน​ให้​เพื่อน · {p}
+{from} gave you a month of VIP!	{from} มอบ VIP หนึ่ง​เดือน​ให้​คุณ!
+{name} received a month of VIP.	{name} ได้รับ VIP หนึ่ง​เดือน
+Your friend is already VIP.	เพื่อน​ของ​คุณ​เป็น VIP อยู่แล้ว
+Game in progress: {n} balls left	เกม​ที่​เล่น​ค้าง​ไว้: เหลือ {n} ลูก
+Continue	เล่นต่อ
+Missions	ภารกิจ
+Board	บอร์ด
+Today	วันนี้
+This week	สัปดาห์นี้
+new missions in {t}	ภารกิจ​ใหม่​ใน {t}
+ends in {t}	สิ้นสุดใน {t}
+{n} days	{n} วัน
+{n} h	{n} ชม.
+{n} min	{n} นาที
+mission complete	ภารกิจสำเร็จ
+Missions count rated games played to the end. The coins arrive as soon as one is complete.	ภารกิจ​นับ​เฉพาะ​เกม​จัดอันดับ​ที่​เล่น​จน​จบ คุณ​จะ​ได้​เหรียญ​ทันทีที่​ทำ​ภารกิจ​สำเร็จ
+Nothing on the board right now.	ตอนนี้​ไม่​มี​อะไร​บน​บอร์ด
+Open tournaments	ทัวร์นาเมนต์​ที่​เปิด​อยู่
+{n}/{size} players	ผู้เล่น {n}/{size}
+starts in {t}	เริ่มใน {t}
+entry {n} coins	ค่าสมัคร {n} เหรียญ
+See	ดู
+Play {n} rated games	เล่น​เกม​จัดอันดับ {n} เกม
+Win {n} rated games	ชนะ​เกม​จัดอันดับ {n} เกม
+Pot {n} balls	แทงลง {n} ลูก
+Pot {n} balls with spin	แทงลง {n} ลูก​โดย​ใส่​สปิน
+Pot 3 balls in a row in one visit	แทงลง​ติดต่อกัน 3 ลูก​ใน​ตาเดียว
+Win a game without a foul	ชนะ​หนึ่ง​เกม​โดย​ไม่​ฟาวล์
+Pot 3 balls in a row {n} times	แทงลง​ติดต่อกัน 3 ลูก {n} ครั้ง
+Win {n} games without a foul	ชนะ {n} เกม​โดย​ไม่​ฟาวล์
+TV camera when watching	กล้อง​ทีวี​ตอน​ชม
+Broadcast angles for other players' games and replays.	มุม​กล้อง​แบบ​ถ่ายทอดสด​สำหรับ​เกม​ของ​ผู้เล่น​อื่น​และ​รีเพลย์
+System notifications	การ​แจ้ง​เตือน​ของ​ระบบ
+Invites, friends coming online and games starting, while you're away.	คำเชิญ เพื่อน​ที่​เพิ่ง​ออนไลน์ และ​เกม​ที่​กำลังจะ​เริ่ม ระหว่าง​ที่​คุณ​ไม่​อยู่
+{name} starts in a few minutes: get ready!	{name} จะ​เริ่ม​ใน​อีก​ไม่​กี่​นาที: เตรียมตัว​ให้​พร้อม!
+{name} starts in a few minutes: there is still room.	{name} จะ​เริ่ม​ใน​อีก​ไม่​กี่​นาที: ยังมี​ที่ว่าง
+{name} has started!	{name} เริ่มแล้ว!
+Momentum	โมเมนตัม
+Shot map	แผนที่ช็อต
+No shots yet.	ยัง​ไม่​มี​ช็อต
+made	ลง
+missed	พลาด
+foul	ฟาวล์
+See the tournaments	ดูทัวร์นาเมนต์
+Open the shop	เปิดร้านค้า
+See VIP	ดู VIP
+See the missions	ดูภารกิจ
+A new version of the game is out: update to play online.	เกม​เวอร์ชัน​ใหม่​ออก​แล้ว: อัปเดต​เพื่อ​เล่น​ออนไลน์
+Update in the Microsoft Store	อัปเดตใน Microsoft Store
+Update now	อัปเดตเลย
+Download the new version	ดาวน์โหลด​เวอร์ชัน​ใหม่
+New version out	มี​เวอร์ชัน​ใหม่
+Get the new version to play online	อัปเดต​เป็น​เวอร์ชัน​ใหม่​เพื่อ​เล่น​ออนไลน์
+Cheer for {name}	เชียร์ {name}
+Crowd: {a} for {p0}, {b} for {p1}	ผู้ชม: {a} เชียร์ {p0}, {b} เชียร์ {p1}
+welcome pack	แพ็กต้อนรับ
+Welcome pack	แพ็กต้อนรับ
+Cue “{cue}”, cloth “{cloth}” and {n} coins · only once, sold nowhere else	ไม้คิว “{cue}” ผ้าโต๊ะ “{cloth}” และ {n} เหรียญ · ซื้อ​ได้​ครั้ง​เดียว ไม่​มี​ขาย​ที่อื่น
+Lagoon	ลากูน
+You already have the welcome pack.	คุณ​มี​แพ็ก​ต้อนรับ​แล้ว
+Your welcome pack is here!	แพ็ก​ต้อนรับ​ของ​คุณ​มาถึง​แล้ว!
+Previous shot (←)	ช็อตก่อนหน้า (←)
+Next shot (→)	ช็อตถัดไป (→)
+Play (Space)	เล่น (Space)
+Pause (Space)	หยุดชั่วคราว (Space)
+Speed	ความเร็ว
+Shot {n} of {total}	ช็อต​ที่ {n} จาก {total}
+For VIP members	สำหรับสมาชิก VIP
+{n} reactions of your own to send during games	รีแอ็กชัน​เฉพาะตัว {n} แบบ​ไว้​ส่ง​ระหว่าง​เกม
+Items {a}–{b} of {n}	ไอเท็ม {a}–{b} จาก {n}
+(message deleted by its author)	(ข้อความ​ถูก​ลบ​โดย​ผู้เขียน)
+(message deleted by an administrator)	(ข้อความ​ถูก​ลบ​โดย​ผู้ดูแล​ระบบ)
+Delete (it shows as deleted)	ลบ (แสดงว่า​ถูก​ลบ)
+Remove without a trace	ลบ​ออก​โดย​ไม่​ทิ้งร่องรอย
+The chat was cleared by {name}.	{name} ล้าง​แชท​แล้ว
+Click again to clear	คลิก​อีกครั้ง​เพื่อ​ล้าง
+Clear the chat	ล้างแชท
+Players' chat (administrator)	แชท​ของ​ผู้เล่น (ผู้ดูแล​ระบบ)
+Play the computer while you wait	เล่น​กับ​คอมพิวเตอร์​ระหว่าง​รอ
+Looking for an opponent… {t} · the game starts as soon as one is found	กำลัง​หา​คู่แข่ง… {t} · เกม​จะ​เริ่ม​ทันทีที่​พบ​คู่แข่ง
+Stop	หยุด
 # Coin packs and months of VIP bought in the Microsoft Store (the Store build).
+The Microsoft Store couldn't complete the purchase.	Microsoft Store ทำ​รายการ​ซื้อ​ไม่​สำเร็จ
+The Microsoft Store couldn't confirm the purchase right now. Its coins arrive the next time you open the shop.	ตอนนี้ Microsoft Store ยืนยัน​การ​ซื้อ​ไม่​ได้ เหรียญ​จะ​เข้า​ใน​ครั้ง​ถัดไป​ที่​คุณ​เปิด​ร้านค้า
+{n} coins added to your wallet.	เพิ่ม {n} เหรียญ​เข้า​กระเป๋า​ของ​คุณ​แล้ว
+Microsoft is confirming your purchase: the coins arrive in a moment.	Microsoft กำลัง​ยืนยัน​การ​ซื้อ​ของ​คุณ: เหรียญ​จะ​เข้า​ใน​อีกสักครู่
+The purchase hasn't reached us yet. Its coins arrive the next time you open the shop.	เรา​ยัง​ไม่​ได้รับ​รายการ​ซื้อ เหรียญ​จะ​เข้า​ใน​ครั้ง​ถัดไป​ที่​คุณ​เปิด​ร้านค้า
+Loading prices from the Microsoft Store…	กำลัง​โห​ลดราคา​จาก Microsoft Store…
+Coins can't be bought in this version yet.	เวอร์ชัน​นี้​ยัง​ซื้อ​เหรียญ​ไม่​ได้
+Finish the purchase in the Microsoft Store window…	ทำ​รายการ​ซื้อ​ให้​เสร็จ​ใน​หน้าต่าง Microsoft Store…
+Confirming your purchase…	กำลัง​ยืนยัน​การ​ซื้อ​ของ​คุณ…
+Paid in the Microsoft Store, with your Microsoft account.	ชำระเงิน​ใน Microsoft Store ด้วย​บัญชี Microsoft ของ​คุณ
+The Microsoft Store can't be reached right now. Try again in a moment.	ตอนนี้​ติดต่อ Microsoft Store ไม่​ได้ ลอง​ใหม่​ใน​อีกสักครู่
+The Microsoft Store could not confirm the purchase.	Microsoft Store ยืนยัน​การ​ซื้อ​ไม่​ได้
+Sign in to the Microsoft Store with your Microsoft account, then open the shop again.	เข้าสู่ระบบ Microsoft Store ด้วย​บัญชี Microsoft ของ​คุณ แล้ว​เปิด​ร้านค้า​อีกครั้ง
+The Microsoft Store couldn't confirm the purchase right now. Your VIP month starts the next time you open the shop.	ตอนนี้ Microsoft Store ยืนยัน​การ​ซื้อ​ไม่​ได้ VIP หนึ่ง​เดือน​ของ​คุณ​จะ​เริ่ม​ใน​ครั้ง​ถัดไป​ที่​คุณ​เปิด​ร้านค้า
+You are VIP until {d}, and {n} coins were added to your wallet.	คุณ​เป็น VIP ถึง {d} และ​ได้รับ {n} เหรียญ​เข้า​กระเป๋า​ของ​คุณ​แล้ว
+Microsoft is confirming your purchase: your VIP month starts in a moment.	Microsoft กำลัง​ยืนยัน​การ​ซื้อ​ของ​คุณ: VIP หนึ่ง​เดือน​ของ​คุณ​จะ​เริ่ม​ใน​อีกสักครู่
+The purchase hasn't reached us yet. Your VIP month starts the next time you open the shop.	เรา​ยัง​ไม่​ได้รับ​รายการ​ซื้อ VIP หนึ่ง​เดือน​ของ​คุณ​จะ​เริ่ม​ใน​ครั้ง​ถัดไป​ที่​คุณ​เปิด​ร้านค้า
+A month at a time: nothing renews by itself	ครั้ง​ละ​หนึ่ง​เดือน: ไม่​มี​การ​ต่ออายุ​อัตโนมัติ
+Add a month · {p}	เพิ่ม​หนึ่ง​เดือน · {p}
+A month of VIP · {p}	VIP หนึ่งเดือน · {p}
+The new month starts when this one ends.	เดือน​ใหม่​จะ​เริ่ม​เมื่อ​เดือน​นี้​สิ้นสุด
+Trophies	ถ้วยรางวัล
+No trophies yet.	ยัง​ไม่​มี​ถ้วยรางวัล
+Tournament won · {n} players	ชนะ​ทัวร์นาเมนต์ · ผู้เล่น {n} คน
+The computer tour	ทัวร์คอมพิวเตอร์
+All fifteen opponents beaten	เอาชนะ​คู่แข่ง​ครบ​ทั้ง​สิบห้า​คน
+Daily challenge	ชาเลนจ์ประจำวัน
+First of {n} players	ที่ 1 จาก​ผู้เล่น {n} คน
+Easy shot	ช็อตง่าย
+Fair shot	ช็อตปานกลาง
+Hard shot	ช็อตยาก
+Very hard shot	ช็อต​ยาก​มาก
+~{n}% chance	โอกาส {n}%
+No ball goes down as aimed	เล็ง​แบบนี้​ไม่​มีลูก​ลง
+straight in	ตรง
+{n}° cut	เฉือน {n}°
+off one cushion	ชิ่ง​หนึ่ง​ขอบ
+off {n} cushions	ชิ่ง {n} ขอบ
+Make as many balls as you can in one visit: a miss or a foul ends the attempt.	แทงลง​ให้ได้​มาก​ที่สุด​ใน​ตาเดียว: แทง​พลาด​หรือ​ฟาวล์​จะ​จบ​รอบ​นั้น
+The same table for everyone, all day	โต๊ะ​เดียวกัน​สำหรับ​ทุกคน ตลอด​ทั้งวัน
+{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	วัน​ละ {n} รอบ เคลียร์​โต๊ะ​เพื่อ​รับ {coins} เหรียญ ผู้ชนะ​ประจำวัน​จะ​ได้​ถ้วยรางวัล
+A new table in {h} h {m} min	โต๊ะ​ใหม่​ใน​อีก {h} ชม. {m} นาที
+Sign in to take part: the server keeps the day's table.	เข้าสู่ระบบ​เพื่อ​ร่วม​เล่น: เซิร์ฟเวอร์​จะ​เก็บ​อันดับ​ของ​วัน​ไว้
+Balls on today's table	ลูก​บน​โต๊ะ​วันนี้
+Attempts left	รอบ​ที่​เหลือ
+{n} balls · #{rank}	{n} ลูก · อันดับ {rank}
+{n} balls	{n} ลูก
+not yet	ยัง​ไม่​มี
+Your best today	ผลดี​ที่สุด​ของ​คุณ​วันนี้
+No attempts left today: come back tomorrow.	วันนี้​คุณ​เล่น​ครบ​ทุก​รอบ​แล้ว: กลับมา​ใหม่​พรุ่งนี้
+The attempt could not be counted.	นับ​ผล​รอบ​นี้​ไม่​ได้
+Setting up the table…	กำลัง​เตรียม​โต๊ะ…
+Start an attempt	เริ่ม​รอบ​ใหม่
+Starting uses an attempt, even if you leave the table.	การ​เริ่ม​จะ​ใช้​หนึ่ง​รอบ แม้​คุณ​จะ​ออกจาก​โต๊ะ​กลางคัน
+Loading today's table…	กำลัง​โหลด​โต๊ะ​วันนี้…
+Today's table	อันดับวันนี้
+{n} players	ผู้เล่น {n} คน
+Nobody has played today's table yet. Be the first!	ยัง​ไม่​มี​ใคร​เล่น​โต๊ะ​วันนี้ มา​เป็น​คน​แรก​สิ!
+Table cleared!	เคลียร์​โต๊ะ​แล้ว!
+{n} of {total} balls	{n} จาก {total} ลูก
+Sending your attempt to the server…	กำลัง​ส่งผล​รอบ​นี้​ไป​ยัง​เซิร์ฟเวอร์…
+Counted: {n} balls · +{coins} coins	นับ​แล้ว: {n} ลูก · +{coins} เหรียญ
+Counted: {n} balls	นับ​แล้ว: {n} ลูก
+See today's table	ดู​อันดับ​วันนี้
+Table cleared! +{n} coins	เคลียร์​โต๊ะ​แล้ว! +{n} เหรียญ
+Daily challenge: {n} of {total} balls made	ชาเลนจ์​ประจำวัน: แทงลง {n} จาก {total} ลูก
+1 player	ผู้เล่น 1 คน
+Phoenix	ฟีนิกซ์
+Carrara marble	หินอ่อนคาร์รารา
+Dragon scale	เกล็ดมังกร
+Galaxy	กาแล็กซี
+Ruby throne	บัลลังก์ทับทิม
+Closing the game now is leaving it: extra rating lost and a wait to play again.	การ​ปิด​เกม​ตอนนี้​ถือว่า​ออกจาก​เกม: เสีย​เรตติ้ง​เพิ่ม และ​ต้อง​รอ​ก่อน​จะ​เล่น​ได้​อีก
+You left a game in progress: you can play online again in {n} min.	คุณ​ออกจาก​เกม​ที่​กำลัง​เล่น​อยู่: คุณ​จะ​เล่น​ออนไลน์​ได้​อีกครั้ง​ใน​อีก {n} นาที
+Quick phrases	ข้อความด่วน
+Good luck, have fun!	โชคดี ขอให้​สนุก​นะ!
+Nice shot!	ช็อตสวย!
+Great safety!	เซฟ​ได้​เยี่ยม!
+Unlucky!	โชคไม่ดีเลย!
+Oops!	อุ๊ย!
+Wow!	ว้าว!
+That was close!	เกือบไปแล้ว!
+Take your time.	ค่อยๆ คิดได้​เลย
+Sorry!	ขอโทษ!
+Thanks!	ขอบคุณ!
+Well played!	เล่นได้ดี!
+Good game!	เกมดีมาก!
+Rematch?	รีแมตช์ไหม?
+I have to go, thanks for the game!	ต้อง​ไป​แล้ว ขอบคุณ​สำหรับ​เกม​นะ!
+Practise while you wait	ฝึกซ้อม​ระหว่าง​รอ
+A new rack.	ตั้ง​ลูก​ใหม่
+Level {n}! (+{xp} XP)	เลเวล {n}! (+{xp} XP)
++{xp} XP	+{xp} XP
+Level {n} · {into} / {span} XP to the next	เลเวล {n} · {into} / {span} XP สู่​เลเวล​ถัดไป
+Level {n}	เลเวล {n}
+Hi! I watched a lot of videos, I'm ready!	สวัสดี​ครับ! ผม​ดู​คลิป​มา​เยอะ​แล้ว พร้อม​เต็มที่!
+Be gentle, okay?	เบาๆ กับ​ผม​หน่อย​นะ​ครับ
+Whoa, how did you do that?	โห ทำได้​ยังไง​น่ะ?
+Teach me that one later!	เดี๋ยว​สอน​ท่า​นี้​ให้​ผม​ด้วย​นะ!
+Phew! My turn!	เฮ้อ! ตา​ผม​แล้ว!
+Even you miss? Good to know.	ขนาด​คุณ​ยัง​พลาด​เลย​เหรอ? ดีใจ​ที่​ได้​รู้
+A free ball! What do I do with it?	ได้​ฟรีบอล! แล้ว​ผม​ต้อง​ทำ​ยังไง​กับ​มัน​ล่ะ?
+Did you see that?! It went in!	เห็น​ไหม?! ลง​ด้วย!
+Beginner's luck counts too!	โชค​ของ​มือใหม่​ก็​นับ​นะ!
+Oops. That was a practice shot.	อุ๊ย ไม้​นั้น​แค่​ซ้อม​น่ะ
+Aim, Leo, aim...	เล็ง​ดีๆ สิ Leo เล็ง...
+Sorry! I touched the wrong one again.	ขอโทษ​ครับ! ผม​ไป​โดน​ลูก​ผิด​อีกแล้ว
+I WON? I'm calling my mum!	ผม​ชนะ​เหรอ!? ต้อง​โทร​บอก​แม่​แล้ว!
+Good game! I'm getting better, right?	เกม​ดีมาก! ผม​เก่ง​ขึ้น​แล้ว​ใช่ไหม​ครับ?
+Saturday, a table and good company. Let's play!	วัน​เสาร์ โต๊ะ​พูล และ​เพื่อน​ดีๆ มา​เล่น​กัน!
+Nice one!	สวย!
+Oh, you're good. I'll pay attention now.	โอ้ คุณ​เก่ง​นี่ งั้น​ต้อง​ตั้งใจ​แล้ว​ล่ะ
+Happens to the best of us.	ใครๆ ก็​พลาด​ได้
+Don't worry, it's just a game!	ไม่ต้อง​ห่วง แค่​เกม​เอง!
+Thanks for the gift!	ขอบคุณ​สำหรับ​ของขวัญ​นะ!
+Yes! Weekend skills!	เยส! ฝีมือ​วันหยุด!
+Lucky me!	โชคดีจัง!
+Hm, where was I aiming?	อืม เมื่อกี้​เล็ง​ไป​ตรงไหน​นะ?
+Too much chatting, not enough aiming.	คุย​เยอะ​ไป เล็ง​น้อย​ไป
+Oops, my bad!	อุ๊ย ฉัน​ผิด​เอง!
+That was fun! Same time next weekend?	สนุก​มาก! สุดสัปดาห์​หน้า​เวลา​เดิม​ไหม?
+Well played! Rematch over a lemonade?	เล่น​ได้ดี! รีแมตช์​กัน​พร้อม​น้ำ​มะนาว​สัก​แก้ว​ไหม?
+Four cushions, endless possibilities.	ขอบโต๊ะ​สี่​ด้าน ความเป็นไปได้​ไม่​สิ้นสุด
+Straight in? So... direct.	แทง​ตรง​เหรอ? ช่าง... ตรงไปตรงมา
+Nice, but a bank would have been prettier.	สวย แต่​ถ้า​แทงชิ่ง​จะ​งาม​กว่า​นี้
+You should have used the cushion.	คุณ​น่าจะ​ใช้​ขอบโต๊ะ​นะ
+The rail was right there, asking for it.	ขอบโต๊ะ​อยู่​ตรงนั้น​แท้ๆ รอ​ให้​ใช้​อยู่เลย
+The table didn't like that.	โต๊ะ​ไม่​ชอบ​แบบ​นั้น​เลย
+Off the rail and in. Art!	ชิ่ง​ขอบ​แล้ว​ลง ศิลปะ!
+Geometry never lies.	เรขาคณิต​ไม่​เคย​โกหก
+The angle was right. The cushion disagreed.	มุม​ถูก​แล้ว แต่​ขอบโต๊ะ​ไม่​เห็นด้วย
+One diamond off. Just one!	พลาด​ไป​แค่​ไดมอนด์​เดียว แค่​เดียว​เอง!
+Too much imagination, not enough contact.	จินตนาการ​เยอะ​ไป แต่​โดน​ลูก​น้อย​ไป
+A masterpiece, if I may say so.	ผล​งานชิ้นเอก ถ้า​ให้​ฉัน​พูด​เอง​นะ
+Well played. Now try it off two rails.	เล่น​ได้ดี ทีนี้​ลอง​ชิ่ง​สอง​ขอบ​ดู​สิ
+I hope these balls are made of steel.	หวัง​ว่า​ลูก​พวก​นี้​จะ​ทำ​จาก​เหล็ก​นะ
+Soft touch, huh? Not my style.	แทง​เบาๆ งั้น​เหรอ? ไม่​ใช่​สไตล์​ผม
+Hit it harder next time!	คราวหน้า​แทง​ให้แรง​กว่า​นี้!
+Too gentle! Power solves everything.	เบา​ไป! ใช้​แรง​แก้​ได้​ทุกอย่าง
+HA!	ฮา!
+My table now. Cover your ears.	โต๊ะ​เป็น​ของ​ผม​แล้ว ปิด​หู​ไว้​ได้​เลย
+BOOM!	ตูม!
+Did you hear that pocket?	ได้ยิน​เสียง​หลุม​นั่น​ไหม?
+Too much power? No such thing.	แรง​เกินไป​เหรอ? ไม่​มี​หรอก​คำ​นั้น
+The pocket moved.	หลุม​มัน​ขยับ
+The ball flew. It happens. A lot.	ลูก​บิน​ไป​แล้ว มัน​เกิดขึ้น​ได้ บ่อย​ด้วย
+Power wins again! BOOM!	แรง​ชนะ​อีกแล้ว! ตูม!
+Fine, finesse works too. Sometimes.	ก็ได้ ความนุ่มนวล​ก็​ใช้ได้​เหมือนกัน บางครั้ง​นะ
+Take your time. I have all day.	ค่อยๆ คิด​เถอะ ฉัน​มี​เวลา​ทั้งวัน
+Acceptable.	พอใช้ได้
+Enjoy it while it lasts.	ดีใจ​ไป​ก่อน​เถอะ อีกไม่นาน​หรอก
+Patience is a virtue. Not yours, apparently.	ความอดทน​เป็น​คุณธรรม แต่​ดูเหมือน​คุณ​จะ​ไม่​มี
+Thank you.	ขอบคุณ
+Sloppy.	สะเพร่า
+Steady wins.	มั่นคง​ย่อม​ชนะ
+One at a time.	ทีละลูก
+Hm. I'll leave you nothing anyway.	อืม ยังไง​ฉัน​ก็​ไม่​เหลือ​อะไร​ไว้​ให้​คุณ​หรอก
+Intentional. Probably.	ตั้งใจ​น่ะ มั้ง​นะ
+Unacceptable. Of me.	รับ​ไม่​ได้ กับ​ตัว​ฉัน​เอง
+As I said: patience.	อย่าง​ที่​บอก: อดทน
+You got through the wall. I'm impressed.	คุณ​ฝ่า​กำแพง​มา​ได้ ฉัน​ประทับใจ
+I've been playing since before these balls were plastic.	ลุง​เล่น​มา​ตั้งแต่​ลูก​พวก​นี้​ยัง​ไม่​ได้​ทำ​จาก​พลาสติก
+Good stroke. Reminds me of a fellow in '78.	แทง​ดี ทำให้​นึกถึง​หนุ่ม​คน​หนึ่ง​เมื่อ​ปี '78
+Smooth. Very smooth.	นุ่มนวล นุ่มนวล​มาก
+Keep your head down, kid.	ก้มหัว​ไว้​นะ เจ้า​หนู
+The cue ball doesn't lie.	ลูกขาว​ไม่​เคย​โกหก
+Ah, a little present. Thank you kindly.	อา ของขวัญ​เล็กๆ ขอบใจ​มาก
+Like riding a bicycle.	เหมือน​ขี่​จักรยาน ไม่​มี​วัน​ลืม
+Still got it.	ฝีมือ​ยัง​ไม่​ตก
+The eyes aren't what they used to be.	สายตา​ไม่​เหมือน​เมื่อก่อน​แล้ว
+In my day the pockets were bigger.	สมัย​ลุง​หลุม​ใหญ่​กว่า​นี้​นะ
+Even old pros slip.	มือ​เก๋า​ก็​พลาด​ได้
+Experience, my friend. Experience.	ประสบการณ์ เพื่อน​เอ๋ย ประสบการณ์
+You've got a future in this game.	คุณ​มี​อนาคต​ใน​เกม​นี้​นะ
+Me? Oh, I hardly ever play...	ฉัน​เหรอ? โอ๊ย แทบ​ไม่​ได้​เล่น​เลย...
+Lucky! Do it again, I dare you.	ฟลุก​น่ะ! ลอง​ทำ​อีกที​สิ ท้า​เลย
+Ooh, someone's been practising.	โห มี​คน​แอบ​ไป​ซ้อม​มา​นี่
+Aw, so close! Bless.	อุ๊ย เกือบ​แล้ว! น่าเอ็นดู​จัง
+Want me to show you how?	ให้​ฉัน​สอน​ไหม​ล่ะ?
+Thank you, sweetie.	ขอบใจ​จ้ะ คนดี
+Oops, did I do that?	อุ๊ย ฉัน​ทำ​เหรอ​เนี่ย?
+Must be beginner's luck. Again.	คง​เป็น​โชค​ของ​มือใหม่ อีกแล้ว
+Missed on purpose. Keeps it interesting.	ตั้งใจ​พลาด​น่ะ จะ​ได้​สนุก​ขึ้น
+Just warming up.	แค่​วอร์มอัพ​เอง
+Oh dear, how clumsy of me. Wink.	ตาย​แล้ว ฉัน​นี่​ซุ่มซ่าม​จริงๆ ขยิบตา
+Hardly ever play, I said. Hardly.	บอก​แล้ว​ว่า​แทบ​ไม่​ได้​เล่น แทบ นะ
+Fine, you got me. This time.	ก็ได้ คุณ​ชนะ รอบ​นี้​นะ
+Friction, momentum, spin. Let us begin.	แรงเสียดทาน โมเมนตัม สปิน เริ่ม​กัน​เลย
+A fine cut. About thirty degrees, I'd say.	เฉือน​ได้​สวย ประมาณ​สามสิบ​องศา ผม​ว่า​นะ
+Textbook.	ตามตำราเป๊ะ
+You underestimated the throw.	คุณ​ประเมิน​การ​เบี่ยง​ของ​ลูก​ต่ำ​ไป
+Interesting. Statistically expected.	น่าสนใจ ตรง​ตาม​สถิติ
+The cue ball followed the laws of physics, not your plan.	ลูกขาว​เป็นไปตาม​กฎ​ฟิสิกส์ ไม่​ใช่​ตาม​แผน​ของ​คุณ
+As calculated.	ตามที่​คำนวณ​ไว้
+Elastic collision, elegant result.	การชน​แบบ​ยืดหยุ่น ผลลัพธ์​งดงาม
+An error in my measurement.	ผม​วัด​คลาดเคลื่อน
+I'll revise the model.	ผม​จะ​ปรับ​แบบจำลอง​ใหม่
+Hm. Unexpected spin.	อืม สปิน​ที่​ไม่​คาดคิด
+The numbers were on my side.	ตัวเลข​อยู่​ข้าง​ผม
+A result outside my predictions. Well done.	ผลลัพธ์​นอกเหนือ​การคาดการณ์​ของ​ผม ยอดเยี่ยม
+Focus.	ตั้งสมาธิ
+Clean.	สะอาด
+Not bad.	ไม่เลว
+Half a millimetre.	ครึ่งมิลลิเมตร
+Breathe before you shoot.	หายใจ​ก่อน​แทง
+Careless.	ประมาท
+Target down.	เป้าหมาย​ลง​แล้ว
+Centre pocket.	กลาง​หลุม​พอดี
+Hm. Recalibrating.	อืม ปรับ​ศูนย์​ใหม่
+That never happens.	ไม่​เคย​เกิดขึ้น​มา​ก่อน
+Unacceptable.	รับ​ไม่​ได้
+Precision wins.	ความแม่นยำชนะ
+Good shooting.	แทงแม่น
+Welcome to my table. Enjoy the show.	ยินดีต้อนรับ​สู่​โต๊ะ​ของ​ผม เชิญ​ชม​การแสดง
+Very good. You've done your homework.	ดีมาก คุณ​ทำการบ้าน​มา​ดี
+Applause for the challenger!	ปรบมือให้ผู้ท้าชิง!
+Pressure. It gets to everyone.	แรงกดดัน ไม่​มี​ใคร​รอดพ้น
+Thank you for the table.	ขอบคุณ​ที่​ยก​โต๊ะ​ให้
+A champion never refuses a gift.	แชมป์​ไม่​เคย​ปฏิเสธ​ของขวัญ
+Naturally.	แน่นอนอยู่แล้ว
+That's how it's done.	ต้องแบบนี้
+Even champions give the crowd a chance.	แม้แต่​แชมป์​ก็​ให้โอกาส​ผู้ชม​บ้าง
+Leaving you something, out of courtesy.	เหลือ​ไว้​ให้​นิดหน่อย ตามมารยาท
+A rare sight. Remember it.	ภาพ​ที่​หา​ดู​ยาก จำไว้​ให้​ดี
+The title stays with me. Good game.	ตำแหน่ง​แชมป์​ยังอยู่​กับ​ผม เกม​ดีมาก
+Remarkable. You've earned my respect.	ยอดเยี่ยม คุณ​ได้รับ​ความเคารพ​จาก​ผม​แล้ว
+Calibration complete. Good luck, human.	ปรับ​เทียบ​เสร็จสิ้น โชคดี​นะ มนุษย์
+Shot registered: successful.	บันทึก​ช็อต: สำเร็จ
+Probability of my victory: increasing.	โอกาส​ชนะ​ของ​ระบบ: เพิ่มขึ้น
+Foul detected. Processing penalty.	ตรวจ​พบ​ฟาวล์ กำลัง​ดำเนินการ​ลงโทษ
+Executed as planned.	ดำเนิน​การตาม​แผน
+Error. Recalculating.	ข้อผิดพลาด กำลัง​คำนวณ​ใหม่
+Malfunction. Please disregard.	ทำงาน​ผิดพลาด โปรด​เพิกเฉย
+Game complete. Thank you for playing.	เกม​เสร็จสิ้น ขอบคุณ​ที่​ร่วม​เล่น
+Defeat acknowledged. Well played.	รับทราบ​ความพ่ายแพ้ เล่น​ได้ดี
+Drills	แบบฝึก
+Exercises with stars	แบบ​ฝึก​พร้อม​ดาว
+{s} / {max} stars	{s} / {max} ดาว
+Stars at {a}, {b} and {c}	ได้​ดาว​ที่ {a}, {b} และ {c}
+Your best: {n} of {total}	ดี​ที่สุด​ของ​คุณ: {n} จาก {total}
+Not tried yet.	ยัง​ไม่​ได้​ลอง
+Start the drill	เริ่ม​แบบ​ฝึก
+Sign in to keep your stars in your account.	เข้าสู่ระบบ​เพื่อ​เก็บ​ดาว​ไว้​ใน​บัญชี​ของ​คุณ
+{n} of {total}	{n} จาก {total}
+{drill}: try {k} of {n} · {made} made	{drill}: ครั้ง​ที่ {k} จาก {n} · ลง {made}
+Made it! {n} of {total}	ลง​แล้ว! {n} จาก {total}
+Missed.	พลาด
+Sending to the server…	กำลัง​ส่ง​ไป​ยัง​เซิร์ฟเวอร์…
+Not signed in: this session is not ranked.	ยัง​ไม่​ได้​เข้าสู่ระบบ: รอบ​นี้​ไม่​ถูก​จัดอันดับ
+Kept in your account.	เก็บ​ไว้​ใน​บัญชี​ของ​คุณ​แล้ว
+The session could not be counted.	นับ​ผล​รอบ​นี้​ไม่​ได้
+Back to the drills	กลับ​ไป​ที่​แบบ​ฝึก
+Straight in	แทงตรง
+A long straight pot into the corner. Five tries.	แทง​ตรง​ระยะไกล​ลง​หลุม​มุม ลอง 5 ครั้ง
+The cut	ลูกเฉือน
+A half-ball cut into the corner. Five tries.	เฉือน​ครึ่ง​ลูก​ลง​หลุม​มุม ลอง 5 ครั้ง
+Draw it back	แทงดึง
+Pot the ball and draw the cue ball back into the circle. Five tries.	แทง​ลูก​ลง​แล้ว​ดึง​ลูกขาว​กลับมา​ใน​วงกลม ลอง 5 ครั้ง
+Follow through	แทงตาม
+Pot the ball and leave the cue ball in the circle past it. Five tries.	แทง​ลูก​ลง​แล้ว​ให้​ลูกขาว​ตาม​ไป​หยุด​ใน​วงกลม​ด้านหลัง ลอง 5 ครั้ง
+Bank shot	แทงชิ่ง
+Off one cushion into the side pocket. Five tries.	ชิ่ง​หนึ่ง​ขอบ​ลง​หลุมกลาง ลอง 5 ครั้ง
+Snooker escape	แก้สนุ๊ก
+Hit the 1 first: it hides behind other balls. Five tries.	ต้อง​ชน​ลูก 1 ก่อน: ลูก 1 ถูก​ลูก​อื่น​บัง​อยู่ ลอง 5 ครั้ง
+Ten in a row	สิบลูกติด
+Ten different pots, one after another: a miss ends the session.	แทงลง​สิบ​ลูก​ต่างกัน​ติดต่อกัน: พลาด​เมื่อไหร่​ก็​จบ​รอบ
+The far corner	มุมไกล
+A cut back up the table into the corner behind you. Five tries.	เฉือน​ย้อน​ขึ้นโต๊ะ​ลง​หลุม​มุม​ด้านหลัง​คุณ ลอง 5 ครั้ง
+Long into the side	ยาว​ลง​หลุมกลาง
+From the far end of the table into the side pocket. Five tries.	จาก​ปลาย​โต๊ะ​อีก​ฝั่ง​ลง​หลุมกลาง ลอง 5 ครั้ง
+Cue ball on the cushion	ลูกขาว​ชิด​ขอบ
+The cue ball touches the cushion: pot the ball into the corner all the same. Five tries.	ลูกขาว​ชิด​ขอบโต๊ะ: ยัง​ต้อง​แทง​ลูก​ลง​หลุม​มุม​ให้ได้ ลอง 5 ครั้ง
+The plant	ลูกพ่วง
+The 2 touches the 1 and points at the pocket: hit the 2 and the 1 goes in. Five tries.	ลูก 2 แตะ​ลูก 1 และ​ชี้​ไป​ที่​หลุม: ชน​ลูก 2 แล้ว​ลูก 1 จะ​ลง ลอง 5 ครั้ง
+The carom	ลูกแฉลบ
+The 2 is in the way: glance off it and send the 1 into the corner. Five tries.	ลูก 2 ขวาง​อยู่: แทง​ลูกขาว​เฉียด​ลูก 2 แล้ว​ส่ง​ลูก 1 ลง​หลุม​มุม ลอง 5 ครั้ง
+The long draw	ดึงยาว
+Pot the ball and draw the cue ball all the way back into the circle. Five tries.	แทง​ลูก​ลง​แล้ว​ดึง​ลูกขาว​กลับมา​ไกล​จนถึง​วงกลม ลอง 5 ครั้ง
+On the tangent line	ตามเส้นสัมผัส
+Pot the ball in the side and let the cue ball run on into the circle. Five tries.	แทง​ลูก​ลง​หลุมกลาง​แล้ว​ปล่อย​ให้​ลูกขาว​วิ่ง​ต่อไป​ใน​วงกลม ลอง 5 ครั้ง
+Two-cushion bank	ชิ่ง​สอง​ขอบ
+Off two cushions and into the corner. Five tries.	ชิ่ง​สอง​ขอบ​แล้ว​ลง​หลุม​มุม ลอง 5 ครั้ง
+Fifteen in a row	สิบห้าลูกติด
+Fifteen different pots, one after another: a miss ends the session.	แทงลง​สิบห้า​ลูก​ต่างกัน​ติดต่อกัน: พลาด​เมื่อไหร่​ก็​จบ​รอบ
+Take back the shot (Z)	ย้อนช็อต (Z)
+Shot taken back.	ย้อน​ช็อต​แล้ว
+Solids	ลูกทึบ
+Stripes	ลูกลาย
+Hide the history	ซ่อนประวัติ
+New username	ชื่อผู้ใช้ใหม่
+Click again to confirm	คลิก​อีกครั้ง​เพื่อ​ยืนยัน
+{n} of {total} name changes left	เปลี่ยน​ชื่อ​ได้​อีก {n} จาก {total} ครั้ง
+You can't change your username again.	คุณ​เปลี่ยน​ชื่อผู้ใช้​อีก​ไม่​ได้​แล้ว
+That is already your username.	นี่​คือ​ชื่อผู้ใช้​ของ​คุณ​อยู่แล้ว
+Finish your game before changing your username.	จบเกม​ของ​คุณ​ก่อน​เปลี่ยน​ชื่อผู้ใช้
+Leave your table or the queue before changing your username.	ออกจาก​โต๊ะ​หรือ​คิว​ก่อน​เปลี่ยน​ชื่อผู้ใช้
+Leave your tournament before changing your username.	ออกจาก​ทัวร์นาเมนต์​ก่อน​เปลี่ยน​ชื่อผู้ใช้
+Username changed.	เปลี่ยน​ชื่อผู้ใช้​แล้ว
+The server is still being updated to the new version. Try again in a few minutes.	เซิร์ฟเวอร์​ยัง​อัปเดต​เป็น​เวอร์ชัน​ใหม่​ไม่​เสร็จ ลอง​ใหม่​ใน​อีก​ไม่​กี่​นาที
+{shooter} made an opponent's ball: {next} to shoot.	{shooter} แทง​ลูก​ของ​คู่แข่ง​ลง: {next} เป็น​ฝ่าย​แทง
 # Five more computer opponents: Tito, Inês, Diego, Amara and Yuri.
+The Gambler	นักพนัน
+Bets on every shot: as hard as the cue allows, with all the spin he can find. Safe play bores him.	เดิมพัน​ทุก​ช็อต: แทง​แรง​เท่าที่​ไม้คิว​จะ​ไหว ใส่​สปิน​เท่าที่​หา​ได้ การ​เล่น​เซฟ​ทำให้​เขา​เบื่อ
+The Soft Touch	มือนุ่ม
+Never hits harder than she must: the balls die at the pocket's edge and the cue ball stops where she wants it.	ไม่​เคย​แทง​แรง​เกิน​จำเป็น: ลูก​ไป​หยุด​ที่​ปาก​หลุม​พอดี และ​ลูกขาว​หยุด​ตรง​ที่​เธอ​ต้องการ
+The Showman	นักโชว์
+Plays to the crowd: a raised cue, swerving spin and a bank whenever there's one. It works more often than it should.	เล่น​เอาใจ​ผู้ชม: ยก​ไม้คิว ใส่​สปิน​โค้ง และ​แทงชิ่ง​ทุกครั้งที่​ทำได้ ซึ่ง​ได้ผล​บ่อย​เกินคาด
+The Tactician	นักวางแผน
+Plans the whole rack: snookers you when the pot isn't sure, and runs out when it is.	วางแผน​ทั้ง​เกม: ทำให้​คุณ​ติด​สนุ๊ก​เมื่อ​ลูก​ไม่​ชัวร์ และ​เก็บ​หมด​โต๊ะ​เมื่อ​ชัวร์
+The Machine	จักรกล
+No nerves, no flair: centre ball, measured pace, the same perfect stroke every time.	ไม่​ประหม่า ไม่​หวือหวา: แทง​กลาง​ลูก แรง​พอดี และ​แทง​เป๊ะ​แบบ​เดิม​ทุกครั้ง
+Place your bets! Mine's on me.	วางเดิมพัน​ได้! ผม​แทง​ข้าง​ตัวเอง
+Lucky roll. Let it ride!	ฟลุก​น่ะ แทง​ต่อ​เลย!
+Okay, okay. Double or nothing?	โอเค โอเค สองเท่า​หรือ​หมดตัว?
+The house always wins!	เจ้ามือ​ชนะ​เสมอ!
+Free chips! Thank you!	ชิป​ฟรี! ขอบคุณ!
+All in, and it paid!	หมด​หน้าตัก แล้ว​ได้​ด้วย!
+That's how you play the odds!	นี่แหละ​การ​เล่น​ตาม​โอกาส!
+Bad beat. Next hand.	ซวย​ไป​หน่อย ตา​ต่อไป
+Too much spin? There's no such thing.	สปิน​เยอะ​เกินไป​เหรอ? ไม่​มี​หรอก​คำ​นั้น
+Busted. Worth the risk!	พลาด​จนได้ แต่​คุ้ม​ที่จะ​เสี่ยง!
+Jackpot! Same stakes again?	แจ็กพอต! เดิมพัน​เท่าเดิม​อีก​ตา​ไหม?
+You beat the odds. Respect.	คุณ​ชนะ​ดวง​ได้ นับถือ​เลย
+Softly, now. The table likes a gentle hand.	ค่อยๆ นะ โต๊ะ​ชอบ​มือ​ที่​นุ่มนวล
+Nicely done.	ทำ​ได้ดี​ค่ะ
+A little hard, but it went in.	แรง​ไป​นิด แต่​ก็​ลง
+Less power, more feel.	ลด​แรง เพิ่ม​ความรู้สึก
+Oh dear. A free ball for me.	อุ๊ย ฉัน​ได้​ฟรีบอล​แล้ว​ค่ะ
+Just enough to drop.	พอดี​ให้​ลูก​ตกหลุม
+See? No need to hit it hard.	เห็น​ไหม? ไม่ต้อง​แทง​แรง​เลย
+A touch too soft.	เบา​ไป​นิดเดียว
+Clumsy of me. Sorry.	ฉัน​ซุ่มซ่าม​เอง ขอโทษ​นะคะ
+Slow and steady. Thank you for the game.	ช้า​แต่​มั่นคง ขอบคุณ​สำหรับ​เกม​ค่ะ
+Beautifully played. Well deserved.	เล่น​ได้​สวยงาม สมควร​ชนะ​แล้ว
+Ladies and gentlemen... the show begins!	ท่าน​ผู้ชม​ครับ... การแสดง​เริ่ม​แล้ว!
+Not bad! Bow to the crowd!	ไม่เลว! โค้ง​ให้​ผู้ชม​หน่อย!
+You stole my applause!	คุณ​ขโมย​เสียง​ปรบมือ​ของ​ผม​ไป​แล้ว!
+The crowd wanted more!	ผู้ชม​อยาก​ดู​อีก!
+Ooh, a plot twist!	โอ้ หักมุม​ซะ​แล้ว!
+Ta-da!	ทาด๊า!
+And for my next trick...	และ​มายากล​ต่อไป​ของ​ผม...
+Even magicians have off nights.	นัก​มายากล​ก็​มี​คืน​ที่​พลาด​ได้
+That was... part of the act.	นั่น​คือ... ส่วนหนึ่ง​ของ​การแสดง
+Thank you, thank you! Encore?	ขอบคุณ ขอบคุณ​ครับ! อีก​รอบ​ไหม?
+Take a bow, champion. You earned it.	โค้ง​รับ​เสียง​ปรบมือ​เลย​แชมป์ คุณ​สมควร​ได้
+Every rack is a puzzle. Let's solve this one.	ทุก​เกม​คือ​ปริศนา มา​ไข​เกม​นี้​กัน
+Good. Now where is your cue ball?	ดี แล้ว​ลูกขาว​ของ​คุณ​ไป​อยู่​ไหนล่ะ?
+I saw that coming.	ฉัน​เห็น​มา​แต่แรก​แล้ว
+That left me something. Thank you.	นั่น​เหลือ​โอกาส​ให้​ฉัน ขอบคุณ
+As planned.	ตามแผน
+Exactly as I calculated.	ตรง​ตามที่​ฉัน​คำนวณ​ไว้​เป๊ะ
+Three moves ahead.	คิด​ล่วงหน้า​สามตา
+A variable I missed.	ตัวแปร​ที่​ฉัน​มองข้าม​ไป
+Hm. Recalculating.	อืม คำนวณ​ใหม่
+Checkmate.	รุกฆาต
+You out-thought me. That's rare.	คุณ​คิดได้​เหนือกว่า​ฉัน หา​ได้​ยาก​นะ
+Game initialised.	เริ่มต้นเกม
+Noted.	รับทราบ
+Error margin exceeded.	เกิน​ค่า​ความคลาดเคลื่อน
+Penalty applied.	ใช้​บทลงโทษ​แล้ว
+As expected.	ตามคาด
+Next.	ต่อไป
+Deviation logged.	บันทึกความคลาดเคลื่อน
+Malfunction. It will not repeat.	ทำงาน​ผิดพลาด จะ​ไม่​เกิด​ซ้ำ
+Result: win. Thank you for the data.	ผลลัพธ์: ชนะ ขอบคุณ​สำหรับ​ข้อมูล
+Unexpected outcome. Impressive.	ผลลัพธ์​ไม่​คาดคิด น่าประทับใจ
+Opponents' remarks	คำพูด​ของ​คู่แข่ง
+The computer opponents comment on the game in speech bubbles.	คู่แข่ง​คอมพิวเตอร์​จะ​พูดถึง​เกม​ใน​บอลลูน​คำพูด
+Top view only	มุม​บน​เท่านั้น
+The table is always seen from above: no 3D view, no turning.	มอง​โต๊ะ​จาก​ด้านบน​เสมอ: ไม่​มี​มุมมอง 3D ไม่​หมุน​กล้อง
+Not with the top view only.	ใช้ไม่ได้​เมื่อ​เลือก​มุม​บน​เท่านั้น
+Wheel	ล้อเมาส์
+Rules	กติกา
+Rules of the game	กติกา​ของ​เกม
+Level	เลเวล
+Drag the cue: jump & massé	ลาก​ไม้คิว: ลูกกระโดด​และ​มาสเซ่
+Drag to raise or lower the cue	ลาก​เพื่อ​ยก​หรือ​ลด​ไม้คิว
+Drag the cue · {keys}	ลากไม้คิว · {keys}
+Profile picture	รูปโปรไฟล์
+Shown by your name at the table and in your profile.	แสดง​ข้าง​ชื่อ​ของ​คุณ​ที่​โต๊ะ​และ​ใน​โปรไฟล์
+No picture	ไม่​มี​รูป
+Change your picture	เปลี่ยนรูป​ของ​คุณ
+{name} sank the 8 together with another ball	{name} แทง​ลูก 8 ลง​พร้อม​ลูก​อื่น
+the opponent sank the 8 with another ball	คู่แข่ง​แทง​ลูก 8 ลง​พร้อม​ลูก​อื่น
+sank the 8 with another ball	แทง​ลูก 8 ลง​พร้อม​ลูก​อื่น
+opponent pocketed the 8-ball together with another ball	คู่แข่ง​แทง​ลูก 8 ลง​พร้อม​ลูก​อื่น
+Penalty: {balls} off the table for {name}.	ลูกโทษ: นำ {balls} ออกจาก​โต๊ะ​ให้ {name}
+{name} had fewer balls left than the foul gives: the 8 pays the rest, and the foul loses the game.	{name} เหลือ​ลูก​น้อยกว่า​ที่​ฟาวล์​ต้อง​ให้: ลูก 8 ชดใช้​ส่วนที่เหลือ และ​ฟาวล์​นี้​ทำให้​แพ้​เกม
+Shadows	เงา
+The shadows of the balls and of the cue on the table.	เงา​ของ​ลูกบอล​และ​ไม้คิว​บน​โต๊ะ
+Sixteen players: knockout or arena	ผู้เล่น​สิบ​หก​คน: น็อกเอาต์​หรือ​อารีนา
+New knockout	น็อกเอาต์ใหม่
+New arena	อารีนาใหม่
+Knockout: sixteen players, four rounds. Lose a game and you are out.	น็อกเอาต์: ผู้เล่น​สิบ​หก​คน สี่​รอบ แพ้​หนึ่ง​เกม​ก็​ตกรอบ
+Arena: seven rounds for everyone. A win is 2 points, 3 from the third win in a row. The most points wins.	อารีนา: ทุกคน​เล่น​เจ็ด​รอบ ชนะ​ได้ 2 แต้ม และ​ได้ 3 แต้ม​ตั้งแต่​ชนะ​ติดต่อกัน​เกม​ที่สาม ใคร​ได้แต้ม​มาก​ที่สุด​ชนะ
+The games between the other players are decided by their strength and a draw.	เกม​ระหว่าง​ผู้เล่น​คนอื่น​ตัดสิน​จาก​ฝีมือ​ของ​พวกเขา​และ​การ​สุ่ม
+You won the tournament!	คุณ​ชนะ​ทัวร์นาเมนต์!
+{name} won the tournament.	{name} ชนะทัวร์นาเมนต์
+You finished in place {n}.	คุณ​จบ​ใน​อันดับ​ที่ {n}
+Round of 16	รอบ 16 คน
+Quarter-finals	รอบ​ก่อน​รองชนะเลิศ
+Round {n} of {total}	รอบ​ที่ {n} จาก {total}
+Play {name}	เล่นกับ {name}
+Abandon the tournament	สละสิทธิ์ทัวร์นาเมนต์
+W - L	ชนะ - แพ้
+Points	แต้ม
+The tournament is over.	ทัวร์นาเมนต์​จบ​แล้ว
+The round is over: see who you play next.	รอบ​นี้​จบ​แล้ว: ดู​ว่า​คุณ​จะ​เจอ​ใคร​ต่อไป
+You are out of the tournament.	คุณ​ตกรอบ​ทัวร์นาเมนต์​แล้ว
+Side pocket	หลุมกลาง
+A cut into the side pocket, where the angle is tight. Five tries.	เฉือน​ลง​หลุมกลาง​ใน​มุม​ที่​แคบ ลอง 5 ครั้ง
+The long cut	เฉือนยาว
+A cut from the far end of the table into the corner. Five tries.	เฉือน​จาก​ปลาย​โต๊ะ​อีก​ฝั่ง​ลง​หลุม​มุม ลอง 5 ครั้ง
+Thin cut	เฉือนบาง
+Barely graze the ball: a thin cut into the corner. Five tries.	แทง​เฉียด​ลูก​บางๆ: เฉือน​บาง​ลง​หลุม​มุม ลอง 5 ครั้ง
+Along the cushion	เลียบขอบโต๊ะ
+The ball sits by the cushion: run it along into the corner. Five tries.	ลูก​อยู่​ชิด​ขอบโต๊ะ: แทง​ให้​วิ่ง​เลียบ​ขอบ​ลง​หลุม​มุม ลอง 5 ครั้ง
+Stop shot	แทงหยุด
+Pot the ball and stop the cue ball dead where the ball was. Five tries.	แทง​ลูก​ลง​แล้ว​ให้​ลูกขาว​หยุดนิ่ง​ตรง​ที่​ลูก​เคย​อยู่ ลอง 5 ครั้ง
+The combination	คอมบิเนชัน
+Pot the 1 by playing the 2 into it. Five tries.	แทง​ลูก 1 ลง​โดย​ส่ง​ลูก 2 ไป​ชน ลอง 5 ครั้ง
+Cross-corner bank	ชิ่ง​ข้าม​มุม
+Off the long cushion and across the table into the corner. Five tries.	ชิ่ง​ขอบ​ยาว​ข้าม​โต๊ะ​ลง​หลุม​มุม ลอง 5 ครั้ง
+Kick shot	ลูกขาวชิ่ง
+The 1 is walled off: send the cue ball off a cushion to hit it first. Five tries.	ลูก 1 ถูก​บัง​ไว้: ส่ง​ลูกขาว​ชิ่ง​ขอบ​ไป​ชน​ลูก 1 ก่อน ลอง 5 ครั้ง
+Only the cue ball went down on the break: the balls are racked again and {next} breaks.	มี​แต่​ลูกขาว​ที่​ลง​ตอน​เบรก: ตั้ง​ลูก​ใหม่ และ {next} เป็น​ฝ่าย​เบรก
+Golden break	เบรกทองคำ
+Win a rated game by sinking only the 8-ball on the break.	ชนะ​เกม​จัดอันดับ​ด้วย​การ​เบรก​ให้​ลูก 8 ลง​เพียง​ลูก​เดียว
+Half a year	ครึ่งปี
+Have an account for six months.	มี​บัญชี​ครบ​หก​เดือน
+First anniversary	ครบรอบ​ปี​แรก
+Second anniversary	ครบรอบ​สอง​ปี
+Have an account for two years.	มี​บัญชี​ครบ​สอง​ปี
+Third anniversary	ครบรอบ​สาม​ปี
+Have an account for three years.	มี​บัญชี​ครบ​สาม​ปี
+Five years at the table	ห้า​ปี​บน​โต๊ะ
+Have an account for five years.	มี​บัญชี​ครบ​ห้า​ปี
+Back to the tournament	กลับ​ไป​ที่​ทัวร์นาเมนต์
+Continue against {name}	เล่น​ต่อ​กับ {name}
+You left your game: it counts as a loss.	คุณ​ออกจาก​เกม: นับว่า​แพ้
+new level	เลเวลใหม่
+Level {n} brings: {item}	เลเวล {n} ได้รับ: {item}
+Level 5	เลเวล 5
+Reach level 5.	ไป​ให้​ถึง​เลเวล 5
+Level 10	เลเวล 10
+Reach level 10.	ไป​ให้​ถึง​เลเวล 10
+Level 15	เลเวล 15
+Reach level 15.	ไป​ให้​ถึง​เลเวล 15
+Level 20	เลเวล 20
+Reach level 20.	ไป​ให้​ถึง​เลเวล 20
+Level 30	เลเวล 30
+Reach level 30.	ไป​ให้​ถึง​เลเวล 30
+Level 40	เลเวล 40
+Reach level 40.	ไป​ให้​ถึง​เลเวล 40
+Level 50	เลเวล 50
+Reach level 50.	ไป​ให้​ถึง​เลเวล 50
+Regular's teal	เขียว​หัว​เป็ด​ขาประจำ
+Veteran's plum	ม่วง​พลัม​รุ่น​เก๋า
+Old hand	มือเก่า
+Lifer	ชีวิต​นี้​เพื่อ​พูล
+Apprentice's chalk	ชอล์ก​มือ​ฝึกหัด
+Journeyman's chalk	ชอล์ก​มือ​ชำนาญ
+Achievements	ความสำเร็จ
+Leagues and levels	ลีก​และ​เลเวล
+Next league: {tier}	ลีกถัดไป: {tier}
+The top league.	ลีกสูงสุด
+Every prize of the levels is won.	ได้​รับรางวัล​เลเวล​ครบ​ทุก​รางวัล​แล้ว
+None yet: the first is one game away.	ยัง​ไม่​มี: อีก​แค่​เกม​เดียว​ก็ได้​รางวัล​แรก
+{coins} and {item}	{coins} และ {item}
+Leagues	ลีก
+Levels	เลเวล
+By playing. Every level pays {n} coins.	ได้​จาก​การ​เล่น ทุก​เลเวล​ให้ {n} เหรียญ
+where everyone starts	ทุกคน​เริ่ม​จาก​ตรงนี้
+from {n}	ตั้งแต่ {n}
+The top level.	เลเวลสูงสุด
+{n} XP to level {next}	อีก {n} XP ถึง​เลเวล {next}
+{n} levels to go	อีก {n} เลเวล
+new league	ลีกใหม่
+Old-timer's black	ดำรุ่นเดอะ
+Expert league blue	น้ำเงิน​ลีก​ผู้เชี่ยวชาญ
+Master league violet	ม่วง​ลีก​ปรมาจารย์
+Legend league gold	ทอง​ลีก​ตำนาน
+Skilled league chalk	ชอล์ก​ลีก​ฝีมือดี
+By rating. Each league pays once.	ได้​จาก​เรตติ้ง แต่ละ​ลีก​ให้รางวัล​ครั้ง​เดียว
+cue	ไม้คิว
+cloth	ผ้าโต๊ะ
+chalk	ชอล์ก
+Always show the head string	แสดง​เส้นหัวโต๊ะ​ตลอดเวลา
+The line the break is played from, always on the table (off: only while placing the cue ball behind it).	เส้น​ที่​ใช้​เบรก แสดง​บน​โต๊ะ​ตลอดเวลา (ปิด: แสดง​เฉพาะตอน​วาง​ลูกขาว​หลัง​เส้น)
+{who} ran out of time: the turn passes.	{who} หมดเวลา: เปลี่ยน​ตา
+{who} ran out of time with no ball left to give {other}: the 8 pays, and {who} loses.	{who} หมดเวลา​โดย​ไม่​เหลือ​ลูก​ให้ {other}: ลูก 8 ชดใช้ และ {who} แพ้
+{who} ran out of time: the cue ball goes back to the head spot and the turn passes.	{who} หมดเวลา: ลูกขาว​กลับ​ไป​ที่​จุดหัวโต๊ะ และ​เปลี่ยน​ตา
+{who} ran out of time: {balls} off the table for {other}, and the cue ball goes back to the head spot.	{who} หมดเวลา: นำ {balls} ออกจาก​โต๊ะ​ให้ {other} และ​ลูกขาว​กลับ​ไป​ที่​จุดหัวโต๊ะ
+You were muted for {n} minutes: {r}	คุณ​ถูก​ห้าม​แชท {n} นาที: {r}
+Your account was suspended for {n} hours: {r}	บัญชี​ของ​คุณ​ถูก​ระงับ {n} ชั่วโมง: {r}
+The server restarts in {minutes} min for an update. Games in progress go on; new games start right after.	เซิร์ฟเวอร์​จะ​รีสตาร์ท​ใน​อีก {minutes} นาที​เพื่อ​อัปเดต เกม​ที่​กำลัง​เล่น​อยู่​จะ​เล่น​ต่อ​ได้ ส่วน​เกม​ใหม่​จะ​เริ่ม​ได้​ทันที​หลังจากนั้น
+The {cup} was called off: not enough players signed up.	{cup} ถูก​ยกเลิก: มี​ผู้สมัคร​ไม่​พอ
+The {cup} is open for sign-up: it starts soon in Tournaments.	{cup} เปิด​รับสมัคร​แล้ว: เริ่ม​เร็วๆ นี้​ใน​หน้า​ทัวร์นาเมนต์
+{display} won the tournament “{name}”!	{display} ชนะทัวร์นาเมนต์ “{name}”!
+Sunday Cup	ซันเดย์คัพ
+Monday Cup	มันเดย์คัพ
+Tuesday Cup	ทิวส์เดย์คัพ
+Wednesday Cup	เวนส์เดย์คัพ
+Thursday Cup	เธิร์สเดย์คัพ
+Friday Cup	ฟรายเดย์คัพ
+Saturday Cup	แซตเทอร์เดย์คัพ
+{name} · rating {r}	{name} · เรตติ้ง {r}
+Something went wrong. Try again.	เกิด​ข้อผิดพลาด ลอง​อีกครั้ง
+member for 1 day	เป็นสมาชิก 1 วัน
+Game in progress: 1 ball left	เกม​ที่​เล่น​ค้าง​ไว้: เหลือ 1 ลูก
+1 level to go	อีก 1 เลเวล
+1 more online win with this cue for level {n}. Levels only add marks to the cue.	ชนะ​ออนไลน์​ด้วย​ไม้คิว​นี้​อีก 1 ครั้ง​เพื่อ​ถึง​เลเวล {n} เลเวล​แค่​เพิ่ม​ลวดลาย​บน​ไม้คิว
+Home	Home
+End	End
+PgUp	PgUp
+PgDn	PgDn
+Ins	Ins
+Could not join the LAN game	เข้าร่วม​เกม LAN ไม่​ได้
+LAN game · others join at {address}	เกม LAN · คนอื่น​เข้าร่วม​ได้ที่ {address}
+Click to copy	คลิก​เพื่อ​คัดลอก
+Copied.	คัดลอกแล้ว
+Start a new game?	เริ่ม​เกม​ใหม่​ไหม?
+You have a game in progress against the computer, with 1 ball left. A new game takes its place.	คุณ​มี​เกม​ที่​เล่น​ค้าง​ไว้​กับ​คอมพิวเตอร์ เหลือ 1 ลูก เกม​ใหม่​จะ​มา​แทนที่​เกม​นั้น
+You have a game in progress against the computer, with {n} balls left. A new game takes its place.	คุณ​มี​เกม​ที่​เล่น​ค้าง​ไว้​กับ​คอมพิวเตอร์ เหลือ {n} ลูก เกม​ใหม่​จะ​มา​แทนที่​เกม​นั้น
+Continue that game	เล่น​เกม​นั้น​ต่อ
+Start a new one	เริ่ม​เกม​ใหม่
+Click again to close the game: {n} will be disconnected	คลิก​อีกครั้ง​เพื่อ​ปิด​เกม: {n} จะ​ถูก​ตัด​การ​เชื่อมต่อ
+{name} cleared the table in one visit!	{name} เคลียร์​โต๊ะ​ได้​ใน​ตาเดียว!
+{name}: {n} in a row!	{name}: ติดต่อกัน {n} ลูก!
+Watch the deciding shot again	ดู​ช็อต​ตัดสิน​อีกครั้ง
+Next: {name}	ถัดไป: {name}
+Drag on the table to aim, or click a ball	ลาก​บน​โต๊ะ​เพื่อ​เล็ง หรือ​คลิก​ที่​ลูก
+Set the power	กำหนดแรง
+Let go of {key} to shoot · Esc cancels	ปล่อย {key} เพื่อ​แทง · Esc ยกเลิก
+Staff accounts can't change their username.	บัญชี​ทีมงาน​เปลี่ยน​ชื่อ​ผู้​ใช้ไม่ได้
+That password can't be used. Choose another one.	ใช้​รหัสผ่าน​นั้น​ไม่​ได้ เลือก​รหัส​อื่น
+That tournament is full.	ทัวร์นาเมนต์​นั้น​เต็ม​แล้ว
+The server is restarting: your tournament was called off.	เซิร์ฟเวอร์​กำลัง​รีสตาร์ท: ทัวร์นาเมนต์​ของ​คุณ​ถูก​ยกเลิก
+Too many sign-ins. Wait a minute and try again.	เข้าสู่ระบบ​บ่อย​เกินไป รอ​สัก​หนึ่ง​นาที​แล้ว​ลอง​ใหม่
+Too many wrong passwords. Try again in a few minutes.	ใส่​รหัสผ่าน​ผิด​หลายครั้ง​เกินไป ลอง​ใหม่​ใน​อีก​ไม่​กี่​นาที
+Your VIP subscription could not be cancelled. Try again in a moment.	ยกเลิก​การ​สมัคร VIP ของ​คุณ​ไม่​ได้ ลอง​ใหม่​ใน​อีกสักครู่
+Balls of both groups on the break: the turn passes to {next}, the table is open.	ลูก​ทั้งสอง​กลุ่ม​ลง​ตอน​เบรก: เปลี่ยน​ตา​ให้ {next} และ​เป็น​โต๊ะ​เปิด
+Only a final started while signed in counts: play the last stage again signed in.	นับ​เฉพาะ​รอบ​สุดท้าย​ที่​เริ่ม​ขณะ​เข้าสู่ระบบ: เล่น​ด่าน​สุดท้าย​อีกครั้ง​โดย​เข้าสู่ระบบ​ไว้
+The server didn't deal the final: this game won't earn the reward.	เซิร์ฟเวอร์​ไม่​ได้​เป็น​ผู้​จัด​เกม​รอบ​สุดท้าย: เกม​นี้​จะ​ไม่​ได้​รับรางวัล
+The server didn't answer: this session won't be ranked.	เซิร์ฟเวอร์​ไม่​ตอบ: รอบ​นี้​จะ​ไม่​ถูก​จัดอันดับ
+The server is dealing the final…	เซิร์ฟเวอร์​กำลัง​จัด​เกม​รอบ​สุดท้าย…
+The server is setting up the drill…	เซิร์ฟเวอร์​กำลัง​เตรียม​แบบ​ฝึก…
+Not signed in: a win in this final won't earn the reward.	ยัง​ไม่​ได้​เข้าสู่ระบบ: ชนะ​รอบ​สุดท้ายนี้​จะ​ไม่​ได้​รับรางวัล
+Not kept: sessions count when started signed in.	ไม่​ได้​บันทึก: รอบ​ที่​นับ​คือ​รอบ​ที่​เริ่ม​ขณะ​เข้าสู่ระบบ
+Warning from the staff: {text}	คำเตือน​จาก​ทีมงาน: {text}
+The staff changed your username to {name}. Sign in again.	ทีมงาน​เปลี่ยน​ชื่อผู้ใช้​ของ​คุณ​เป็น {name} โปรด​เข้าสู่ระบบ​อีกครั้ง
+The staff called off the tournament you were in.	ทีมงาน​ยกเลิก​ทัวร์นาเมนต์​ที่​คุณ​เข้าร่วม
+Experience ×{n}	ค่าประสบการณ์ ×{n}
+Coins from games ×{n}	เหรียญ​จาก​เกม ×{n}
+Themed tournament	ทัวร์นาเมนต์​ธีม​พิเศษ
+Event	อีเวนต์
+Events	อีเวนต์
+Warning from the staff	คำเตือน​จาก​ทีมงาน
+Esc to cancel	Esc เพื่อยกเลิก
+Will be sent when you're back online.	จะ​ส่ง​เมื่อ​คุณ​กลับมา​ออนไลน์
+Your strokes will be sent when you're back online.	ช็อต​ของ​คุณ​จะ​ถูก​ส่ง​เมื่อ​คุณ​กลับมา​ออนไลน์
+The final you won was dealt to {name}: sign in as {name} to claim the reward.	รอบ​สุดท้าย​ที่​คุณ​ชนะ​ถูก​จัด​ให้ {name}: เข้าสู่ระบบ​เป็น {name} เพื่อ​รับรางวัล
+Type your password to confirm it's you.	พิมพ์​รหัสผ่าน​เพื่อ​ยืนยัน​ว่า​เป็นคุณ
+The cue ball is back on the head spot: {next} plays from there.	ลูกขาว​กลับ​ไป​ที่​จุดหัวโต๊ะ​แล้ว: {next} แทง​จาก​ตรงนั้น
+{name} came online	{name} ออนไลน์แล้ว
+Online now: {names}	ออนไลน์อยู่: {names}
+Nobody else is online right now.	ตอนนี้​ไม่​มี​ใคร​อื่น​ออนไลน์
+Focus mode	โหมดโฟกัส
+No invitations while you play: they are turned away until the game is over.	ไม่​รับ​คำเชิญ​ระหว่าง​เล่น: คำเชิญ​จะ​ถูก​ปฏิเสธ​จนกว่า​เกม​จะ​จบ
+in focus mode	อยู่​ใน​โหมด​โฟกัส
+In focus mode: no invitations until their game is over.	อยู่​ใน​โหมด​โฟกัส: ไม่​รับ​คำเชิญ​จนกว่า​เกม​ของ​เขา​จะ​จบ
+That player is in focus mode and isn't taking invitations until their game is over.	ผู้เล่น​คน​นี้​อยู่​ใน​โหมด​โฟกัส และ​ไม่​รับ​คำเชิญ​จนกว่า​เกม​ของ​เขา​จะ​จบ
+Look at it closely	ดูใกล้ๆ
+Sign in to buy	เข้าสู่ระบบ​เพื่อ​ซื้อ
+Sign in to use	เข้าสู่ระบบ​เพื่อ​ใช้
+Back to the shop (Esc)	กลับ​ไป​ที่​ร้านค้า (Esc)
+Show the interface (H)	แสดงอินเทอร์เฟซ (H)
+Hide the interface (H)	ซ่อนอินเทอร์เฟซ (H)
+Turn (Space)	หมุน (Space)
+Stop turning (Space)	หยุดหมุน (Space)
+Zoom in (+)	ซูมเข้า (+)
+Zoom out (−)	ซูมออก (−)
+Back to the start (R)	กลับ​ไป​จุดเริ่มต้น (R)
+Previous setting ([)	ฉากก่อนหน้า ([)
+Next setting (])	ฉากถัดไป (])
+Setting	ฉาก
+Studio	สตูดิโอ
+Your table	โต๊ะ​ของ​คุณ
+Drag with the right button to turn · wheel to zoom · double-click to look closer	ลาก​ด้วย​ปุ่ม​ขวา​เพื่อ​หมุน · ล้อ​เมาส์​เพื่อ​ซูม · ดับเบิลคลิก​เพื่อ​ดู​ใกล้ๆ
+Drag with the right button to turn · wheel to zoom · click a ball to look at it	ลาก​ด้วย​ปุ่ม​ขวา​เพื่อ​หมุน · ล้อ​เมาส์​เพื่อ​ซูม · คลิก​ที่​ลูก​เพื่อ​ดู​ลูก​นั้น
+The set	ทั้งชุด
+From above	จากด้านบน
+Low angle	มุมต่ำ
+Cue ball	ลูกขาว
+Ball {n}	ลูก {n}
+Whole	ทั้งไม้
+Tip	หัวคิว
+Joint	ข้อต่อ
+Butt	ด้ามคิว
+Top	ด้านบน
+Cue	ไม้คิว
+Table	โต๊ะ
+Hall	ห้องโถง
+Corner	มุม
+Side	ด้านข้าง
+Leg	ขาโต๊ะ
+Close-up	ระยะใกล้
+Cushion	ขอบโต๊ะ
+Phenolic resin under a bright clear coat	เรซิน​ฟีนอลิก​เคลือบ​เงา​ใส
+A pearly sheen that shifts with the light	ประกาย​มุก​ที่​เปลี่ยนไป​ตาม​แสง
+Brushed metal, bright as a mirror	โลหะ​ขัด​ลาย สว่าง​เงา​ดั่ง​กระจก
+Old ivory: soft, warm and matte	งาช้าง​เก่า: นุ่ม อบอุ่น และ​ด้าน
+A full-size cue, tip to butt: turn it, come close to its joint and its butt	ไม้คิว​ขนาด​จริง ตั้งแต่​หัว​จรด​ด้าม: หมุน​ดู​และ​เข้า​ไปดู​ใกล้ๆ ที่​ข้อต่อ​และ​ด้าม
+A cube of chalk, and the colour it leaves on the tip	ชอล์ก​หนึ่ง​ก้อน และ​สี​ที่​ติด​บน​หัวคิว
+The cloth on the table: come close to see its weave	ผ้า​บน​โต๊ะ: เข้าไป​ใกล้ๆ เพื่อ​ดู​ลาย​ทอ
+Dark mahogany, turned legs and brass castings	มะฮอกกานี​สีเข้ม ขา​กลึง และ​งาน​หล่อ​ทองเหลือง
+Light teak, square legs and chrome castings	ไม้​สัก​สี​อ่อน ขา​เหลี่ยม และ​งาน​หล่อ​โครเมียม
+Deep mahogany, carved legs and leather pocket nets	มะฮอกกานี​สีเข้ม ขา​แกะสลัก และ​ถุง​หลุม​หนัง
+Black lacquer and brushed aluminium on two slab legs	แล็กเกอร์​ดำ​และ​อะลูมิเนียม​ขัด​ลาย บน​ขา​แผ่น​สอง​ขา
+Black ebony with gold castings and inlays	ไม้​อีโบนี​สี​ดำ พร้อม​งาน​หล่อ​และ​งาน​ฝัง​สี​ทอง
+Reclaimed oak rails on a riveted black steel frame	ขอบโต๊ะ​ไม้​โอ๊ก​รีไซเคิล บน​โครง​เหล็ก​ดำ​ย้ำ​หมุด
+A pro tournament table: charcoal rails, block legs, chrome	โต๊ะ​แข่ง​ระดับ​โปร: ขอบโต๊ะ​สีเทา​ถ่าน ขา​ทรง​เหลี่ยม และ​โครเมียม
+Figured walnut on barley-twist legs, brass and leather	ไม้​วอลนัต​ลาย​สวย​บน​ขา​เกลียว ทองเหลือง​และ​หนัง
+Ivory lacquer and gold on fluted columns	แล็กเกอร์​สี​งาช้าง​และ​ทอง​บน​เสา​ร่อง​ลาย
+Panelling, the bar, cue racks, posters and neon	ผนัง​ไม้ บาร์ ชั้น​วาง​ไม้คิว โปสเตอร์ และ​ไฟ​นีออน
+A deck at sunset, open windows, palms and string lights	ระเบียง​ยาม​พระอาทิตย์​ตก หน้าต่าง​เปิด​โล่ง ต้น​ปาล์ม และ​ไฟ​ประดับ
+Panelling, bookshelves, leather sofas and a fireplace	ผนัง​ไม้ ชั้น​หนังสือ โซฟา​หนัง และ​เตาผิง
+Brick, steel windows over the city and Edison bulbs	ผนัง​อิฐ หน้าต่าง​เหล็ก​มองเห็น​เมือง และ​หลอดไฟ​เอดิสัน
+Log walls, a stone fireplace and snowy peaks outside	ผนัง​ซุง เตาผิง​หิน และ​ยอดเขา​หิมะ​ด้านนอก
+A black mirror floor, neon tubes and arcade cabinets	พื้น​กระจก​สี​ดำ หลอดนีออน และ​ตู้เกม​อาร์เคด
+A marble chessboard floor, gold, velvet and mirrors	พื้น​หินอ่อน​ลาย​กระดานหมากรุก ทอง กำมะหยี่ และ​กระจก
+Glass walls on the city at night, pale marble and oak	ผนัง​กระจก​มองเห็น​เมือง​ยามค่ำคืน หินอ่อน​สี​อ่อน และ​ไม้​โอ๊ก
+A gold medal!	เหรียญทอง!
+A silver medal!	เหรียญเงิน!
+A bronze medal!	เหรียญทองแดง!
+Silver medal	เหรียญเงิน
+Bronze medal	เหรียญทองแดง
+Your medals	เหรียญรางวัล​ของ​คุณ
+Kept in your account the next time you're online.	จะ​บันทึก​ไว้​ใน​บัญชี​ของ​คุณ​เมื่อ​คุณ​ออนไลน์​ครั้ง​ถัดไป
+Sign in to keep them in your account.	เข้าสู่ระบบ​เพื่อ​เก็บ​ไว้​ใน​บัญชี​ของ​คุณ
+18 or older	อายุ 18 ปี​ขึ้นไป
+Under 18	อายุ​ต่ำกว่า 18 ปี
+Creating an account means accepting the	การ​สร้าง​บัญชี​ถือว่า​คุณ​ยอมรับ
+For a parent or guardian…	สำหรับผู้ปกครอง…
+A parent or guardian turned the chat on for this account. They can turn it off here at any time.	ผู้ปกครอง​ได้​เปิด​แชท​ให้​บัญชี​นี้​แล้ว และ​ปิด​ได้​ที่นี่​ทุกเมื่อ
+This account belongs to someone under 18. By law, the chat with other players (messages in the lounge and in games, notes, status and gift messages) stays off until their mother, father or legal guardian turns it on.	บัญชี​นี้​เป็น​ของ​ผู้​ที่​อายุ​ต่ำกว่า 18 ปี ตามกฎหมาย แชท​กับ​ผู้เล่น​อื่น (ข้อ​ความใน​ล็อบบี้​และ​ใน​เกม โน้ต ข้อความ​สถานะ และ​ข้อความ​ของขวัญ) จะ​ปิด​อยู่​จนกว่า​แม่ พ่อ หรือ​ผู้ปกครอง​ตามกฎหมาย​จะ​เปิด​ให้
+I am this player's mother, father or legal guardian, I have read the terms of use and I allow them to chat with other players.	ฉัน​เป็น​แม่ พ่อ หรือ​ผู้ปกครอง​ตามกฎหมาย​ของ​ผู้เล่น​คน​นี้ ฉัน​ได้​อ่าน​ข้อกำหนด​การใช้งาน​แล้ว และ​อนุญาต​ให้​เขา​แชท​กับ​ผู้เล่น​อื่น​ได้
+Chat for players under 18	แชท​สำหรับ​ผู้เล่น​อายุ​ต่ำกว่า 18 ปี
+Turn the chat off	ปิดแชท
+{n} more invitations	คำเชิญ​อีก {n} รายการ
+Invitation	คำเชิญ
+Turn the chat on	เปิดแชท
+Chat off: under 18. A parent or guardian can turn it on.	แชท​ปิด​อยู่: อายุ​ต่ำกว่า 18 ปี ผู้ปกครอง​เปิด​ให้ได้
+The chat with other players is off until you turn it on.	แชท​กับ​ผู้เล่น​อื่น​จะ​ปิด​อยู่​จนกว่า​คุณ​จะ​เปิด
+Write to turn the chat on…	พิมพ์​เพื่อ​เปิด​แชท…
+Chat with other players	แชท​กับ​ผู้เล่น​อื่น
+The chat with other players is off until you turn it on. To turn it on, tell us your age group: it can't be changed from the game afterwards.	แชท​กับ​ผู้เล่น​อื่น​จะ​ปิด​อยู่​จนกว่า​คุณ​จะ​เปิด หาก​ต้องการ​เปิด บอก​ช่วงอายุ​ของ​คุณ: เปลี่ยน​จาก​ใน​เกม​ภายหลัง​ไม่​ได้
+Under 18: a parent or guardian must agree to the terms with you and turn the chat on.	อายุ​ต่ำกว่า 18 ปี: ผู้ปกครอง​ต้อง​ยอมรับ​ข้อกำหนด​พร้อมกับ​คุณ​และ​เปิด​แชท​ให้
+Not now	ไว้ทีหลัง
+Terms of use	ข้อกำหนดการใช้งาน
+Privacy policy	นโยบายความเป็นส่วนตัว
+You have 7 days to change your mind and get your money back.	คุณ​มี​เวลา 7 วัน​ใน​การ​เปลี่ยนใจ​และ​ขอ​เงิน​คืน
+Under 18: buy only with a parent's or guardian's permission.	อายุ​ต่ำกว่า 18 ปี: ซื้อ​ได้​เฉพาะ​เมื่อ​ได้รับอนุญาต​จาก​ผู้ปกครอง​เท่านั้น
+Renews every month until you cancel. 7 days to change your mind.	ต่ออายุ​ทุก​เดือน​จนกว่า​คุณ​จะ​ยกเลิก มี​เวลา 7 วัน​ใน​การ​เปลี่ยนใจ
+About	เกี่ยวกับ
+Accounts, purchases and refunds, the rules of the online game.	บัญชี การ​ซื้อ​และ​การ​คืนเงิน และ​กฎ​ของ​เกม​ออนไลน์
+What the game keeps, and your rights.	ข้อมูล​ที่​เกม​เก็บ​ไว้ และ​สิทธิ์​ของ​คุณ
+Open	เปิด
+Credits	เครดิต
+Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	ฟอนต์: DejaVu และ Noto (OFL) ธง: flag-icons (MIT) รีแอ็กชัน​และ​อีโมจิ: Twemoji (CC-BY 4.0) ชื่อ​ประเทศ: iso-codes (LGPL-2.1) โค้ด​ของ​เกม​เป็น​โอเพนซอร์ส (MIT)
+The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	แชท​ปิด​อยู่​สำหรับ​ผู้เล่น​อายุ​ต่ำกว่า 18 ปี ผู้ปกครอง​เปิด​ได้ที่​ด้านล่าง​แชท​ของ​ล็อบบี้
+No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	เบรก​ไม่​โดน​ลูก​ใด​เลย: {next} เป็น​ฝ่าย​เบรก โดย​ได้​ลูกขาว​ใน​มือ​หลัง​เส้นหัวโต๊ะ
+The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	ลูกขาว​ลง​หลุม​ตอน​เบรก​โดย​ไม่​มีลูก​อื่น​ลง: {next} เป็น​ฝ่าย​เบรก โดย​ได้​ลูกขาว​ใน​มือ​หลัง​เส้นหัวโต๊ะ
+Users online	ผู้ใช้​ที่​ออนไลน์
+ping {ms} ms	ปิง {ms} ms
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks, with the cue ball in hand behind the head string.	ลูกขาว​ลง​หลุม​ตอน​เบรก​พร้อม​ลูก​ทั้งสอง​กลุ่ม: ไม่​มีโทษ โต๊ะ​ยัง​เปิด​อยู่ และ {next} เป็น​ฝ่าย​เบรก โดย​ได้​ลูกขาว​ใน​มือ​หลัง​เส้นหัวโต๊ะ
+Brazilian	บราซิล
+Official	สากล
+Brazilian rules	กติกาบราซิล
+Official rules	กติกาสากล
+Brazilian rules (inside a sentence)	กติกาบราซิล
+Official rules (inside a sentence)	กติกาสากล
+Brazilian (inside a sentence)	บราซิล
+Official (inside a sentence)	สากล
+As played in Brazil's bars	แบบ​ที่​เล่น​กัน​ใน​บาร์​ของ​บราซิล
+As played in tournaments (WPA)	แบบ​ที่​ใช้​ใน​ทัวร์นาเมนต์ (WPA)
+on the Brazilian rules	ใน​กติกา​บราซิล
+on the official rules	ใน​กติกา​สากล
+A ball left the table on the break.	มี​ลูกตก​โต๊ะ​ตอน​เบรก
+A ball off the table on the break	ลูกตก​โต๊ะ​ตอน​เบรก
+A safety calls nothing: whatever goes in stays down, and the turn passes.	ลูก​เซฟ​ไม่​ขาน​หลุม: ลูก​ที่​ลง​จะ​อยู่​ใน​หลุม และ​เปลี่ยน​ตา
+Break yourself	เบรกเอง
+CALLED POCKET	หลุม​ที่​ขาน
+Choose	เลือก
+Choose how play goes on	เลือก​วิธี​เล่น​ต่อ
+Choose the rules of your games. You can switch them any time, in the main menu.	เลือก​กติกา​ของ​เกม​คุณ เปลี่ยน​ได้​ทุกเมื่อ​ที่​เมนูหลัก
+Click a pocket on the table to call it; click it again to follow your aim.	คลิก​หลุม​บน​โต๊ะ​เพื่อ​ขาน คลิก​อีกครั้ง​เพื่อให้​ขาน​ตาม​แนว​เล็ง
+Cue ball in hand	ลูกขาว​ใน​มือ
+Each of the rules has its own rating: these games don't change your {rating} under the {other}.	กติกา​แต่ละ​แบบ​มี​เรตติ้ง​ของ​ตัวเอง: เกม​เหล่านี้​ไม่​เปลี่ยน {rating} ของ​คุณ​ใน{other}
+Find an opponent of your level automatically ({rules})	หา​คู่แข่ง​ระดับ​เดียว​กับ​คุณ​โดยอัตโนมัติ ({rules})
+How do you like to play?	คุณ​ชอบ​เล่น​แบบ​ไหน?
+How does play go on? Choose one:	จะ​เล่น​ต่อ​อย่างไร? เลือก​หนึ่ง​อย่าง:
+Illegal break: no ball made and fewer than four balls reached a cushion.	เบรก​ผิดกติกา: ไม่​มีลูก​ลง และ​มีลูก​ชน​ขอบโต๊ะ​น้อยกว่า​สี่​ลูก
+Invite {name}	เชิญ {name}
+No ball went in the called pocket ({pocket}): {next} to shoot.	ไม่​มีลูก​ลง​หลุม​ที่​ขาน ({pocket}): {next} เป็น​ฝ่าย​แทง
+No pocket was called (a safety): {next} to shoot.	ไม่​ได้​ขาน​หลุม (ลูก​เซฟ): {next} เป็น​ฝ่าย​แทง
+Not sure what changes?	ไม่​แน่ใจ​ว่า​อะไร​ต่างกัน?
+Place it anywhere behind the head string.	วาง​ได้​ทุกที่​หลัง​เส้นหัวโต๊ะ
+Play on	เล่นต่อ
+Players against the computer under these rules	ผู้เล่น​ที่​เล่น​กับ​คอมพิวเตอร์​ใน​กติกา​นี้
+Players online under these rules (the lounge and online games)	ผู้เล่น​ที่​ออนไลน์​ใน​กติกา​นี้ (ล็อบบี้​และ​เกม​ออนไลน์)
+RULES OF YOUR GAMES	กติกา​ของ​เกม​คุณ
+Read both rules	อ่าน​กติกา​ทั้งสอง​แบบ
+Rules of your games	กติกา​ของ​เกม​คุณ
+Safety	เซฟ
+Safety: no pocket	เซฟ: ไม่​ขาน​หลุม
+Show the {rules}: the rank, the league and the chart	แสดง{rules}: อันดับ ลีก และ​กราฟ
+The 8 is spotted and you keep shooting.	วาง​ลูก 8 คืน​บน​โต๊ะ และ​คุณ​แทง​ต่อ
+The 8 is spotted; the cue ball in hand behind the head string.	วาง​ลูก 8 คืน​บน​โต๊ะ และ​ได้​ลูกขาว​ใน​มือ​หลัง​เส้นหัวโต๊ะ
+The 8 on a break with a foul	ลูก 8 ลง​ตอน​เบรก​พร้อม​ฟาวล์
+The 8 on the break	ลูก 8 ลง​ตอน​เบรก
+The 8 went down on a break with a foul: it is spotted.	ลูก 8 ลง​ตอน​เบรก​พร้อม​ฟาวล์: วาง​ลูก 8 คืน​บน​โต๊ะ
+The 8 went down on the break: it is spotted.	ลูก 8 ลง​ตอน​เบรก: วาง​ลูก 8 คืน​บน​โต๊ะ
+The balls are racked again and you break.	ตั้ง​ลูก​ใหม่ และ​คุณ​เป็น​ฝ่าย​เบรก
+The balls are racked again and {name} breaks.	ตั้ง​ลูก​ใหม่ และ {name} เป็น​ฝ่าย​เบรก
+The balls are racked again: {name} breaks.	ตั้ง​ลูก​ใหม่: {name} เป็น​ฝ่าย​เบรก
+The balls are racked again: {other} breaks.	ตั้ง​ลูก​ใหม่: {other} เป็น​ฝ่าย​เบรก
+The rules of this game: click to read them	กติกา​ของ​เกม​นี้: คลิก​เพื่อ​อ่าน
+The rules of your games: click to switch	กติกา​ของ​เกม​คุณ: คลิก​เพื่อ​เปลี่ยน
+The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	ปุ่ม​สลับ​ที่​เมนูหลัก: ออนไลน์ เล่น​กับ​คอมพิวเตอร์ และ​สอง​ผู้เล่น กติกา​แต่ละ​แบบ​มี​เรตติ้ง​ของ​ตัวเอง
+The table as it lies.	เล่น​ต่อตาม​ตำแหน่ง​ลูก​ที่​เป็นอยู่
+The top 100 of each rules · rated games	100 อันดับ​แรก​ของ​แต่ละ​กติกา · เกม​จัดอันดับ
+The {ball} lay behind the head string and the cue ball hit it without crossing the line first	{ball} อยู่​หลัง​เส้นหัวโต๊ะ และ​ลูกขาว​ชน​โดย​ไม่​ข้าม​เส้น​ก่อน
+What changes between the rules: click to read them	สิ่ง​ที่​ต่างกัน​ระหว่าง​กติกา: คลิก​เพื่อ​อ่าน
+With the cue ball in hand behind the head string.	ได้​ลูกขาว​ใน​มือ​หลัง​เส้นหัวโต๊ะ
+follows your aim	ตาม​แนว​เล็ง
+no rated games yet	ยัง​ไม่​มี​เกม​จัดอันดับ
+open table: the called ball you make sets your group	โต๊ะ​เปิด: ลูก​ที่​ขาน​และ​แทงลง​จะ​กำหนด​กลุ่ม​ของ​คุณ
+peak {n} · {games} games	สูงสุด {n} · {games} เกม
+playing now	กำลังเล่น
+your call	คุณขาน
+{name} breaks again	{name} เบรกอีกครั้ง
+{name} chooses: play on, or rack the balls and break again.	{name} เลือก: เล่น​ต่อ หรือ​ตั้ง​ลูก​ใหม่​แล้ว​เบรก​อีกครั้ง
+{name} chooses: play the table as it lies, or take the cue ball in hand behind the head string.	{name} เลือก: เล่น​ต่อตาม​ตำแหน่ง​ลูก หรือ​รับ​ลูกขาว​ใน​มือ​หลัง​เส้นหัวโต๊ะ
+{name} chooses: play the table as it lies, rack the balls and break, or have {breaker} break again.	{name} เลือก: เล่น​ต่อตาม​ตำแหน่ง​ลูก ตั้ง​ลูก​ใหม่​แล้ว​เบรก​เอง หรือ​ให้ {breaker} เบรก​อีกครั้ง
+{name} chooses: play the table as it lies, take the cue ball in hand behind the head string, rack the balls and break, or have {breaker} break again.	{name} เลือก: เล่น​ต่อตาม​ตำแหน่ง​ลูก รับ​ลูกขาว​ใน​มือ​หลัง​เส้นหัวโต๊ะ ตั้ง​ลูก​ใหม่​แล้ว​เบรก​เอง หรือ​ให้ {breaker} เบรก​อีกครั้ง
+{name} chooses: the cue ball in hand behind the head string, or rack the balls and break.	{name} เลือก: รับ​ลูกขาว​ใน​มือ​หลัง​เส้นหัวโต๊ะ หรือ​ตั้ง​ลูก​ใหม่​แล้ว​เบรก​เอง
+{name} is choosing how play goes on…	{name} กำลัง​เลือก​วิธี​เล่น​ต่อ…
+{name} plays on (the 8 is spotted).	{name} เล่น​ต่อ (วาง​ลูก 8 คืน​บน​โต๊ะ)
+{name} plays the table as it lies.	{name} เล่น​ต่อตาม​ตำแหน่ง​ลูก​ที่​เป็นอยู่
+{name} plays the {theirs} now; yours are the {mine}.	ตอนนี้ {name} เล่น{theirs} ส่วน​ของ​คุณ​คือ{mine}
+{name} takes the cue ball in hand.	{name} รับ​ลูกขาว​ใน​มือ
+{next} has the cue ball in hand behind the head string.	{next} ได้​ลูกขาว​ใน​มือ​หลัง​เส้นหัวโต๊ะ
+{next} has the cue ball in hand: anywhere on the table.	{next} ได้​ลูกขาว​ใน​มือ: วาง​ได้​ทุกที่​บน​โต๊ะ
+{n} points to {tier} ({rules})	อีก {n} แต้ม​ถึง {tier} ({rules})
+{n} waiting	รอ {n} คน
+A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	ฟาวล์​จะ​ให้​ลูก​ใน​กลุ่ม​ของ​คู่แข่ง​แก่​คู่แข่ง ได้​ลูกขาว​ใน​มือ​เฉพาะตอน​เบรก และ​ขาน​หลุม​เฉพาะ​ลูก 8
+A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	ฟาวล์​จะ​ให้​คู่แข่ง​ได้​ลูกขาว​ใน​มือ วาง​ได้​ทุกที่​บน​โต๊ะ ทุก​ช็อต​ต้อง​ขาน และ​การ​เบรก​ต้อง​ให้​ลูก​ชน​ขอบโต๊ะ​สี่​ลูก
+A foul gives balls to the opponent	ฟาวล์​ให้​ลูก​แก่​คู่แข่ง
+Ball in hand on the break only	ลูกในมือ​เฉพาะตอน​เบรก
+Only the 8's pocket is called	ขาน​หลุม​เฉพาะ​ลูก 8
+The most played in Brazil	เล่น​กัน​มาก​ที่สุด​ใน​บราซิล
+A foul gives ball in hand	ฟาวล์​ให้​ลูกในมือ
+The break drives four balls to a cushion	การ​เบรก​ต้อง​ให้​ลูก​ชน​ขอบโต๊ะ​สี่​ลูก
+Every shot is called	ทุก​ช็อต​ต้อง​ขาน
+The same all over the world	เหมือนกันทั่วโลก
+Game type	ประเภทเกม
+called: {pocket}	ขาน: {pocket}
+no call: a safety	ไม่​ขาน: ลูก​เซฟ
+A safety: nothing called. Click again to call the pocket you aim at.	ลูก​เซฟ: ไม่​ได้​ขาน​อะไร คลิก​อีกครั้ง​เพื่อ​ขาน​หลุม​ที่​คุณ​เล็ง​อยู่
+A safety calls nothing: whatever goes in stays down, and the turn passes. To call another pocket, click it on the table.	ลูก​เซฟ​ไม่​ขาน​หลุม: ลูก​ที่​ลง​จะ​อยู่​ใน​หลุม และ​เปลี่ยน​ตา หาก​ต้อง​การขาน​หลุม​อื่น ให้​คลิก​หลุม​นั้น​บน​โต๊ะ
+{games} games · {pct}% won	{games} เกม · ชนะ {pct}%
+Each of the rules has its own rating; the level, coins and achievements are shared.	กติกา​แต่ละ​แบบ​มี​เรตติ้ง​ของ​ตัวเอง ส่วน​เลเวล เหรียญ และ​ความสำเร็จ​ใช้​ร่วมกัน
+You already have a VIP subscription: manage it with Manage subscription.	คุณ​มี​การ​สมัคร VIP อยู่แล้ว: จัดการ​ได้ที่ “จัดการ​การ​สมัครสมาชิก”
+Your opponent can't start another game yet.	คู่แข่ง​ของ​คุณ​ยัง​เริ่ม​เกม​อื่น​ไม่​ได้
+A tournament's name is shown to everyone: with your chat off, you can join tournaments but not create one.	ชื่อ​ทัวร์นาเมนต์​จะ​แสดง​ให้​ทุกคน​เห็น: เมื่อ​ปิด​แชท คุณ​เข้าร่วม​ทัวร์นาเมนต์​ได้​แต่​สร้าง​เอง​ไม่​ได้
+The connection dropped: check your coins before trying again.	การ​เชื่อมต่อ​หลุด: ตรวจสอบ​เหรียญ​ของ​คุณ​ก่อน​ลอง​อีกครั้ง
+Sign in to buy coins.	เข้าสู่ระบบ​เพื่อ​ซื้อ​เหรียญ
+Sign in to become VIP.	เข้าสู่ระบบ​เพื่อ​สมัคร VIP
+how play goes on after the break is undecided	ยัง​ไม่​ได้​เลือก​วิธี​เล่น​ต่อ​หลัง​การ​เบรก
+Finish your game, and leave your table, the queue or your tournament first.	จบเกม​ของ​คุณ และ​ออกจาก​โต๊ะ คิว หรือ​ทัวร์นาเมนต์​ก่อน
+That choice can't be made now.	ตอนนี้​เลือก​แบบ​นั้น​ไม่​ได้
+That medal can't be.	เหรียญรางวัล​นั้น​เป็นไปไม่ได้
+{name}'s tournament	ทัวร์นาเมนต์ของ {name}
+When time runs out, it's a foul: your opponent gets a ball and the cue ball goes back to the head spot.	เมื่อ​หมดเวลา​จะ​นับ​เป็น​ฟาวล์: คู่แข่ง​ได้​หนึ่ง​ลูก และ​ลูกขาว​กลับ​ไป​ที่​จุดหัวโต๊ะ
+When time runs out, it's a foul: your opponent gets the cue ball in hand.	เมื่อ​หมดเวลา​จะ​นับ​เป็น​ฟาวล์: คู่แข่ง​ได้​ลูกขาว​ใน​มือ
+Your username was changed. Sign in again.	ชื่อผู้ใช้​ของ​คุณ​ถูก​เปลี่ยน​แล้ว โปรด​เข้าสู่ระบบ​อีกครั้ง
+You have your tournament game in progress. A new game takes its place, and the tournament game counts as lost.	คุณ​มี​เกม​ทัวร์นาเมนต์​ที่​กำลัง​เล่น​อยู่ เกม​ใหม่​จะ​มา​แทนที่ และ​เกม​ทัวร์นาเมนต์​จะ​นับว่า​แพ้
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks again, from the head spot.	ลูกขาว​ลง​หลุม​ตอน​เบรก​พร้อม​ลูก​ทั้งสอง​กลุ่ม: ไม่​มีโทษ โต๊ะ​ยัง​เปิด​อยู่ และ {next} เบรก​ใหม่​จาก​จุดหัวโต๊ะ
+The cue ball went down on the break with no ball made: {next} breaks again, from the head spot.	ลูกขาว​ลง​หลุม​ตอน​เบรก​โดย​ไม่​มีลูก​อื่น​ลง: {next} เบรก​ใหม่​จาก​จุดหัวโต๊ะ
+{who} ran out of time: {other} breaks, from the head spot.	{who} หมดเวลา: {other} เป็น​ฝ่าย​เบรก จาก​จุดหัวโต๊ะ
+Congratulations!	ยินดีด้วย!
+You earned a new item: {title}	คุณ​ได้รับ​ไอเท็ม​ใหม่: {title}
+You earned a new item!	คุณ​ได้รับ​ไอเท็ม​ใหม่!

@@ -4,63 +4,64 @@
 # are its text. The same parts and rules, in the same order, in every
 # language.
 
-## The game
+## เกม
 
-### The official rules (WPA)
-The eight-ball of international tournaments, as the World Pool-Billiard Association plays it. Snook Legend has the Brazilian rules too: choose the rules of your games in the main menu. If you play the Brazilian rules, read the break, the calls and the fouls below, because they differ a lot.
+### กติกาสากล (WPA)
+พูล 8 บอล​ของ​ทัวร์นาเมนต์​นานาชาติ ตามที่​สมาคม​พูล​บิลเลียด​โลก (WPA) ใช้ Snook Legend มี​กติกา​บราซิล​ด้วย: เลือก​กติกา​ของ​เกม​คุณ​ได้ที่​เมนูหลัก หาก​คุณ​เล่น​กติกา​บราซิล โปรด​อ่าน​เรื่อง​การ​เบรก การขาน และ​ฟาวล์​ด้านล่าง เพราะ​แตก​ต่างกัน​มาก
 
-### The aim
-Each player has a group of seven balls: solids (1 to 7) or stripes (9 to 15). Pocket all of yours and then the 8-ball, in the pocket you call, before your opponent does.
+### เป้าหมาย
+ผู้เล่น​แต่ละคน​มีลูก​ใน​กลุ่ม​ของ​ตัวเอง​เจ็ด​ลูก: ลูกทึบ (1 ถึง 7) หรือ​ลูกลาย (9 ถึง 15) แทง​ลูก​ใน​กลุ่ม​ของ​คุณ​ลง​ให้​หมด แล้ว​ตาม​ด้วย​ลูก 8 ใน​หลุม​ที่​คุณ​ขาน ก่อนที่​คู่แข่ง​จะ​ทำได้
 
-### Your turn
-You keep shooting while you make a ball of your group in the pocket you called, on a shot without a foul. Otherwise the turn passes, and the balls that went in stay down.
+### ตา​ของ​คุณ
+คุณ​ได้​แทง​ต่อไป​ตราบใดที่​แทง​ลูก​ใน​กลุ่ม​ของ​คุณ​ลง​หลุม​ที่​ขาน​ได้​ใน​ช็อต​ที่​ไม่​ฟาวล์ ไม่อย่างนั้น​จะ​เปลี่ยน​ตา และ​ลูก​ที่​ลง​ไป​แล้ว​ยังอยู่​ใน​หลุม
 
-## The break
+## การเบรก
 
-### The break shot
-The cue ball is in your hand: place it anywhere behind the head string. Nothing is called on the break. For it to be legal you must make a ball or drive at least four object balls to a cushion.
+### ช็อตเบรก
+คุณ​ได้​ลูกขาว​ใน​มือ: วาง​ได้​ทุกที่​หลัง​เส้นหัวโต๊ะ ตอน​เบรก​ไม่ต้อง​ขาน​อะไร การ​เบรก​จะ​ถูก​กติกา​เมื่อ​มีลูก​ลง หรือ​มี​ลูกเป้า​อย่าง​น้อย​สี่​ลูก​ชน​ขอบโต๊ะ
 
-### An illegal break
-If no ball goes in and fewer than four reach a cushion, your opponent chooses: play the table as it lies, have the balls racked and break themselves, or have you break again.
+### เบรกผิดกติกา
+หาก​ไม่​มีลูก​ลง​และ​มีลูก​ชน​ขอบโต๊ะ​ไม่​ถึง​สี่​ลูก คู่แข่ง​จะ​เลือก: เล่น​ต่อตาม​ตำแหน่ง​ลูก​ที่​เป็นอยู่ ตั้ง​ลูก​ใหม่​แล้ว​เบรก​เอง หรือ​ให้​คุณ​เบรก​อีกครั้ง
 
-### After the break
-A ball made on a legal break keeps the table, but the table stays open: the break never decides the groups. If the cue ball goes in or leaves the table on a legal break, your opponent has it in hand behind the head string.
+### หลัง​การ​เบรก
+ลูก​ที่​ลง​จาก​การ​เบรก​ที่​ถูก​กติกา​ทำให้​คุณ​ได้​แทง​ต่อ แต่​โต๊ะ​ยัง​เปิด​อยู่: การ​เบรก​ไม่​เคย​กำหนด​กลุ่ม หาก​ลูกขาว​ลง​หลุม​หรือ​ตก​โต๊ะ​ใน​การ​เบรก​ที่​ถูก​กติกา คู่แข่ง​จะ​ได้​ลูกขาว​ใน​มือ​หลัง​เส้นหัวโต๊ะ
 
-### The 8-ball on the break
-Pocketing the 8 on the break neither wins nor loses: it comes back to the foot spot, and you play on or have the balls racked and break again. If you also fouled, your opponent chooses: the cue ball in hand behind the head string, or the balls racked again and they break.
+### ลูก 8 ตอน​เบรก
+การ​แทง​ลูก 8 ลง​ตอน​เบรก​ไม่​ทำให้​ชนะ​หรือ​แพ้: ลูก 8 จะ​ถูก​วาง​คืน​ที่​จุดท้ายโต๊ะ แล้ว​คุณ​เล่น​ต่อ หรือ​ตั้ง​ลูก​ใหม่​แล้ว​เบรก​อีกครั้ง หาก​คุณ​ฟาวล์​ด้วย คู่แข่ง​จะ​เลือก: รับ​ลูกขาว​ใน​มือ​หลัง​เส้นหัวโต๊ะ หรือ​ตั้ง​ลูก​ใหม่​แล้ว​เบรก​เอง
 
-### A ball off the table on the break
-It is a foul, and the ball stays off (only the 8 comes back). Your opponent plays the table as it lies or takes the cue ball in hand behind the head string. If the break was illegal too, they may also have the balls racked again, as above.
+### ลูกตก​โต๊ะ​ตอน​เบรก
+นับ​เป็น​ฟาวล์ และ​ลูก​นั้น​ไม่​ได้​กลับมา​บน​โต๊ะ (ยกเว้น​ลูก 8) คู่แข่ง​เลือก​เล่น​ต่อตาม​ตำแหน่ง​ลูก​ที่​เป็นอยู่ หรือ​รับ​ลูกขาว​ใน​มือ​หลัง​เส้นหัวโต๊ะ หาก​การ​เบรก​ผิดกติกา​ด้วย คู่แข่ง​ยัง​เลือก​ให้​ตั้ง​ลูก​ใหม่​ได้ เหมือน​ด้านบน
 
-## Calling and playing
+## การขาน​และ​การ​เล่น
 
-### Open table
-While the groups are not decided, the table is open: you may hit any ball first except the 8. The group of the ball you make in the called pocket becomes yours. If one group is already off the table, you may play the 8.
+### โต๊ะเปิด
+ขณะที่​ยัง​ไม่​ได้​กำหนด​กลุ่ม โต๊ะ​จะ​เป็น​โต๊ะ​เปิด: คุณ​ชน​ลูก​ใด​ก่อน​ก็ได้ ยกเว้น​ลูก 8 กลุ่ม​ของ​ลูก​ที่​คุณ​แทงลง​หลุม​ที่​ขาน​จะ​เป็น​ของ​คุณ หาก​ลูก​กลุ่ม​หนึ่ง​ออกจาก​โต๊ะ​หมด​แล้ว คุณ​เล่น​ลูก 8 ได้
 
-### Calling your shot
-Every shot except the break is called. In the game you call a pocket: following your aim, it calls the pocket the ball you hit is heading for (the ring on the pocket). Click another pocket to call it, or play a safety. A ball of your group (or the 8, when you are on it) made in the called pocket keeps the table, also off a cushion or another ball.
+### การขานช็อต
+ทุก​ช็อต​ยกเว้น​การ​เบรก​ต้อง​ขาน ใน​เกม คุณ​ขาน​หลุม: ระบบ​จะ​ขาน​หลุม​ที่​ลูก​ที่​คุณ​จะ​ชน​กำลัง​วิ่ง​ไป​ตาม​แนว​เล็ง​ของ​คุณ (วงแหวน​บน​หลุม) คลิก​หลุม​อื่น​เพื่อ​ขาน​หลุม​นั้น หรือ​เล่น​ลูก​เซฟ ลูก​ใน​กลุ่ม​ของ​คุณ (หรือ​ลูก 8 เมื่อ​คุณ​เหลือ​ลูก 8) ที่​ลง​หลุม​ที่​ขาน​ทำให้​คุณ​ได้​แทง​ต่อ แม้​จะ​ลง​โดย​ชิ่ง​ขอบโต๊ะ​หรือ​ชน​ลูก​อื่น​ก็ตาม
 
-### Safety
-A shot with no pocket called is a safety: whatever goes in stays down, and the turn passes to your opponent.
+### ลูกเซฟ
+ช็อต​ที่​ไม่​ได้​ขาน​หลุม​คือ​ลูก​เซฟ: ลูก​ใด​ที่​ลง​จะ​อยู่​ใน​หลุม และ​เปลี่ยน​ตา​ไป​ที่​คู่แข่ง
 
-### The cue ball behind the head string
-With the cue ball in hand behind the head string, you can't hit a ball that also lies behind it unless the cue ball crosses the head string first. If every ball you may hit lies behind it, the one nearest to the head string comes back to the foot spot.
+### ลูกขาว​หลัง​เส้นหัวโต๊ะ
+เมื่อ​ได้​ลูกขาว​ใน​มือ​หลัง​เส้นหัวโต๊ะ คุณ​ชน​ลูก​ที่อยู่​หลัง​เส้น​นั้น​ไม่​ได้ เว้นแต่​ลูกขาว​จะ​ข้าม​เส้นหัวโต๊ะ​ไป​ก่อน หาก​ลูก​ทุก​ลูก​ที่​คุณ​ชน​ได้​อยู่​หลัง​เส้น​ทั้งหมด ลูก​ที่อยู่​ใกล้​เส้นหัวโต๊ะ​ที่สุด​จะ​ถูก​วาง​คืน​ที่​จุดท้ายโต๊ะ
 
-## Fouls
+## ฟาวล์
 
-### Ball in hand
-After any foul, your opponent has the cue ball in hand: they place it anywhere on the table. No ball comes off the table as a penalty.
+### ลูกในมือ
+หลัง​ฟาวล์​ใด​ก็ตาม คู่แข่ง​จะ​ได้​ลูกขาว​ใน​มือ: วาง​ได้​ทุกที่​บน​โต๊ะ ไม่​มีลูก​ใด​ถูก​นำ​ออกจาก​โต๊ะ​เป็น​บทลงโทษ
 
-### What is a foul
-The cue ball in a pocket or off the table; hitting no ball, or the wrong ball first (one of your opponent's, or the 8 too soon); after the contact, no ball made and no ball reaching a cushion (a ball lying against a cushion only reaches it by leaving it and coming back); an object ball off the table (it stays off).
+### ฟาวล์​มี​อะไร​บ้าง
+ลูกขาว​ลง​หลุม​หรือ​ตก​โต๊ะ ไม่​โดน​ลูก​ใด​เลย หรือ​ชน​ลูก​ผิด​เป็น​ลูก​แรก (ลูก​ของ​คู่แข่ง หรือ​ลูก 8 ก่อนเวลา) หลัง​การ​กระทบ ไม่​มีลูก​ลง​และ​ไม่​มีลูก​ใด​ชน​ขอบโต๊ะ (ลูก​ที่​ชิด​ขอบโต๊ะ​อยู่​จะ​นับว่า​ชน​ขอบ​ได้​ก็ต่อเมื่อ​ออกจาก​ขอบ​แล้ว​กลับมา​ชน) ลูกเป้า​ตก​โต๊ะ (ลูก​นั้น​ไม่​ได้​กลับมา​บน​โต๊ะ)
 
-### The shot clock
-When the game has a shot clock and it runs out, it is a foul: your opponent has the cue ball in hand. A choice after the break that isn't made in time takes its first option.
+### เวลา​ต่อ​ช็อต
+เมื่อ​เกม​มี​เวลา​ต่อ​ช็อต​และ​หมดเวลา จะ​นับ​เป็น​ฟาวล์: คู่แข่ง​ได้​ลูกขาว​ใน​มือ หาก​เลือก​วิธี​เล่น​ต่อ​หลัง​การ​เบรก​ไม่​ทันเวลา ระบบ​จะ​ใช้​ตัวเลือก​แรก
 
-## The 8-ball
+## ลูก 8
 
-### Winning
-Once your group is off the table, pocket the 8 in the pocket you called, on a shot without a foul.
+### การชนะ
+เมื่อ​ลูก​ใน​กลุ่ม​ของ​คุณ​ออกจาก​โต๊ะ​หมด​แล้ว ให้​แทง​ลูก 8 ลง​หลุม​ที่​คุณ​ขาน ใน​ช็อต​ที่​ไม่​ฟาวล์
 
-### Losing on the 8
-You lose by pocketing the 8 on a foul, before your group is off the table or in a pocket you didn't call, and by knocking the 8 off the table. None of this applies to the break.
+### แพ้​ที่​ลูก 8
+คุณ​แพ้​หาก​แทง​ลูก 8 ลง​พร้อม​ฟาวล์ ก่อนที่​กลุ่ม​ของ​คุณ​จะ​ออกจาก​โต๊ะ​หมด หรือ​ลง​หลุม​ที่​คุณ​ไม่​ได้​ขาน และ​หาก​ทำ​ลูก 8 ตก​โต๊ะ ทั้งหมด​นี้​ไม่​ใช้กับ​การ​เบรก
+

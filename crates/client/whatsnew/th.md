@@ -5,303 +5,304 @@
 
 ## 0.8.3
 
-### What you earn is shown
-An item that comes with an achievement, such as a level reached, now arrives with a "Congratulations!" window that shows it and lets you use it at once.
+### แสดง​สิ่ง​ที่​คุณ​ได้รับ
+ไอเท็ม​ที่มา​พร้อม​ความสำเร็จ เช่น เมื่อ​ถึง​เลเวล​ใหม่ ตอนนี้​จะ​มา​พร้อม​หน้าต่าง “ยินดี​ด้วย!” ที่​แสดง​ไอเท็ม​นั้น​และ​ให้​คุณ​ใช้ได้​ทันที
 
-### One game at a time
-Starting the game while it is already open brings its window to the front instead of opening a second one. Two games on one computer wrote over each other's settings and saved game.
+### เปิด​เกม​ได้​ทีละ​เกม
+การ​เปิด​เกม​ขณะที่​เกม​เปิด​อยู่แล้ว จะ​นำ​หน้าต่าง​เดิม​ขึ้น​มา​ด้านหน้า​แทน​การ​เปิด​หน้าต่าง​ที่สอง ก่อนหน้านี้​สอง​เกม​บน​คอมพิวเตอร์​เครื่อง​เดียวกัน​เขียน​ทับ​การ​ตั้งค่า​และ​เกม​ที่​บันทึก​ไว้​ของ​กันและกัน
 
-### The 8 on a break handed over
-Under the Brazilian rule, a break handed over after the cue ball was lost, with the balls already scattered, no longer wins by potting the 8: hitting it first is a foul and pocketing it loses, as on any shot. Only the break of the rack has the 8 alone winning.
+### ลูก 8 ใน​การ​เบรก​ที่​ถูก​ส่งต่อ
+ใน​กติกา​บราซิล การ​เบรก​ที่​ถูก​ส่งต่อ​เพราะ​ลูกขาว​ลง​หลุม เมื่อ​ลูก​กระจาย​แล้ว จะ​ไม่​ชนะ​ด้วย​การ​แทง​ลูก 8 ลง​อีกต่อไป: การชน​ลูก 8 ก่อน​เป็น​ฟาวล์ และ​การ​แทง​ลูก 8 ลง​ทำให้​แพ้ เหมือน​ช็อต​อื่นๆ มี​เพียง​การ​เบรก​ตอน​ตั้ง​ลูก​เท่านั้น​ที่​ลูก 8 ลง​ลูก​เดียว​แล้ว​ชนะ
 
-### Cleaner pockets, a steadier camera, and many fixes
-The pockets are finished without rough edges, and going from the overhead view to 3D keeps your zoom. Two more reviews of the whole game fixed many bugs: a rematch keeps the break alternating, a private arena asks for its password while it runs, a table rejoined after its game ended shows the result, and more.
+### หลุม​เนียน​ขึ้น กล้อง​นิ่ง​ขึ้น และ​แก้ไข​อีก​มาก
+หลุม​ถูก​เก็บงาน​จน​ไม่​มี​ขอบ​หยาบ และ​การสลับ​จาก​มุม​บน​เป็น 3D จะ​คง​ระยะ​ซูม​ของ​คุณ​ไว้ การ​ตรวจ​ทั้ง​เกม​อีก​สอง​รอบ​แก้​บั๊ก​ได้​มากมาย: รีแมตช์​ยังคง​ผลัดกัน​เบรก อารีนา​ส่วนตัว​ขอ​รหัสผ่าน​ระหว่าง​ที่​แข่ง​อยู่ โต๊ะ​ที่​กลับ​เข้ามา​หลัง​เกม​จบ​จะ​แสดงผล​การ​แข่ง และ​อื่นๆ
 
 ## 0.8.2
 
-### The shot clock gives a ball
-Under the Brazilian rule, running out of time is a foul: your opponent's lowest ball comes off (if they are on the 8 already, the 8 pays and you lose), the cue ball goes back to the head spot, not in hand, and the turn passes.
+### หมดเวลา​ต่อ​ช็อต​เสีย​ลูก
+ใน​กติกา​บราซิล การ​หมดเวลา​เป็น​ฟาวล์: ลูก​ที่​เลข​ต่ำสุด​ของ​คู่แข่ง​จะ​ถูก​นำ​ออก (หาก​คู่แข่ง​เหลือ​ลูก 8 แล้ว ลูก 8 จะ​ชดใช้​และ​คุณ​แพ้) ลูกขาว​กลับ​ไป​ที่​จุดหัวโต๊ะ ไม่​ใช่​ลูกในมือ และ​เปลี่ยน​ตา
 
-### The break, one each
-Under the Brazilian rule the players break in turn, one break each. A break that loses the cue ball with no ball made, or with balls of both groups, passes the break: your opponent breaks again from the head spot, with the balls where they stopped.
+### ผลัดกัน​เบรก​คนละ​ครั้ง
+ใน​กติกา​บราซิล ผู้เล่น​ผลัดกัน​เบรก​คนละ​ครั้ง การ​เบรก​ที่​ลูกขาว​ลง​โดย​ไม่​มีลูก​อื่น​ลง หรือ​ลง​พร้อม​ลูก​ทั้งสอง​กลุ่ม จะ​ส่งต่อ​สิทธิ์​เบรก: คู่แข่ง​เบรก​ใหม่​จาก​จุดหัวโต๊ะ โดย​ลูก​อยู่​ตรง​ที่​หยุด
 
-### Grab the cue anywhere
-Click and drag the cue anywhere along it, from the tip to the butt, even drawn back or raised over the rail: it follows the pointer as it swings.
+### จับ​ไม้คิว​ตรงไหน​ก็ได้
+คลิก​แล้ว​ลาก​ไม้คิว​ได้​ทุก​ตำแหน่ง​ตลอดทั้ง​ไม้ ตั้งแต่​หัวคิว​ถึง​ด้าม แม้​ตอน​ดึง​ไม้​กลับ​หรือ​ยก​ไม้​เหนือ​ขอบโต๊ะ: ไม้คิว​จะ​ตาม​เคอร์เซอร์​ขณะที่​แกว่ง
 
-### Seven rounds in the arena, and many fixes
-The arena against the computer is seven rounds for everyone, and the shop has a new icon. Three reviews of the whole game fixed many bugs: leaving while the balls roll no longer undoes a shot against the computer, the first ball hit is the one the cue ball really touched first, and more.
+### อารีนา​เจ็ด​รอบ และ​แก้ไข​อีก​มาก
+อารีนา​กับ​คอมพิวเตอร์​มี​เจ็ด​รอบ​สำหรับ​ทุกคน และ​ร้านค้า​มี​ไอคอน​ใหม่ การ​ตรวจ​ทั้ง​เกม​สาม​รอบ​แก้​บั๊ก​ได้​มากมาย: การ​ออกจาก​เกม​ระหว่าง​ที่​ลูก​ยัง​กลิ้ง​อยู่​ไม่​ยกเลิก​ช็อต​ใน​เกม​กับ​คอมพิวเตอร์​อีกต่อไป ลูก​แรก​ที่​ชน​คือ​ลูก​ที่​ลูกขาว​แตะ​เป็น​ลูก​แรก​จริงๆ และ​อื่นๆ
 
 ## 0.8.1
 
-### The 8 pays the penalty
-Under the Brazilian rule, a foul that gives more balls than your opponent has left loses the game: their balls come off and the 8 pays the rest. Once your opponent is on the 8, any foul that gives a ball loses: missing every ball, pocketing the cue ball or knocking it off the table.
+### ลูก 8 ชดใช้​บทลงโทษ
+ใน​กติกา​บราซิล ฟาวล์​ที่​ต้อง​ให้​ลูก​มากกว่า​ที่​คู่แข่ง​เหลืออยู่​จะ​ทำให้​แพ้​เกม: ลูก​ของ​คู่แข่ง​จะ​ถูก​นำ​ออก และ​ลูก 8 ชดใช้​ส่วนที่เหลือ เมื่อ​คู่แข่ง​เหลือ​ลูก 8 แล้ว ฟาวล์​ใด​ที่​ต้อง​ให้​ลูก​จะ​ทำให้​แพ้: แทง​ไม่​โดน​ลูก​ใด​เลย แทง​ลูกขาว​ลง​หลุม หรือ​ทำ​ลูกขาว​ตก​โต๊ะ
 
-### Click outside to close
-The match's chat, the game history and the spin and elevation panels close when you click outside them, and the click still counts on the table. Menus and dialogs close with a click outside them too, like Cancel.
+### คลิก​ด้านนอก​เพื่อ​ปิด
+แชท​ของ​แมตช์ ประวัติ​เกม และ​แผง​สปิน​กับ​การ​ยก​ไม้​จะ​ปิด​เมื่อ​คุณ​คลิก​ด้านนอก และ​การ​คลิก​นั้น​ยัง​นับ​บน​โต๊ะ​ด้วย เมนู​และ​หน้าต่าง​โต้ตอบ​ก็​ปิด​ได้​ด้วย​การ​คลิก​ด้านนอก​เช่นกัน เหมือน​กด​ยกเลิก
 
 ## 0.8.0
 
-### The official rules
-You can now also play the official rules of the WPA, the eight-ball of international tournaments: every shot is called, a foul gives ball in hand anywhere and no ball comes off as a penalty. Choose your rules in the main menu. The Brazilian rule is still there, just as it was.
+### กติกาสากล
+ตอนนี้​คุณ​เล่น​กติกา​สากล​ของ WPA ได้​ด้วย ซึ่ง​เป็น​พูล 8 บอล​ของ​ทัวร์นาเมนต์​นานาชาติ: ทุก​ช็อต​ต้อง​ขาน ฟาวล์​ให้​ลูกในมือ​วาง​ได้​ทุกที่ และ​ไม่​มีลูก​ถูก​นำ​ออก​เป็น​บทลงโทษ เลือก​กติกา​ได้ที่​เมนูหลัก กติกา​บราซิล​ยังอยู่​เหมือนเดิม​ทุกอย่าง
 
-### A rating for each rules
-Each rules has its own rating, tier and world ranking: the ranking has a tab for each and your profile a card for each. Your level, coins and achievements are shared.
+### เรตติ้ง​แยก​ตาม​กติกา
+กติกา​แต่ละ​แบบ​มี​เรตติ้ง ระดับ และ​อันดับ​โลก​ของ​ตัวเอง: หน้า​อันดับ​มี​แท็บ​แยก​สำหรับ​แต่ละ​กติกา และ​โปรไฟล์​ของ​คุณ​มี​การ์ด​แยก​สำหรับ​แต่ละ​กติกา ส่วน​เลเวล เหรียญ และ​ความสำเร็จ​ใช้​ร่วมกัน
 
-### Calling your shots
-Under the official rules the pocket you aim at is called (a ring shows it). Click another pocket to call it, or Safety to call none. After some breaks you choose how the game goes on, with the buttons or 1, 2 and 3.
+### การขานช็อต
+ใน​กติกา​สากล หลุม​ที่​คุณ​เล็ง​จะ​ถูก​ขาน (มี​วงแหวน​แสดง) คลิก​หลุม​อื่น​เพื่อ​ขาน​หลุม​นั้น หรือ​กด​เซฟ​เพื่อ​ไม่​ขาน​หลุม​ใด หลัง​การ​เบรก​บาง​แบบ คุณ​จะ​เลือก​วิธี​เล่น​ต่อ​ได้​ด้วย​ปุ่ม หรือ​กด 1, 2 และ 3
 
-### Online, by rules
-Invitations, tables, Play now, tournaments and daily games all say their rules, and Play now pairs you with players of yours. The menu shows how many people play each.
+### ออนไลน์ แยก​ตาม​กติกา
+คำเชิญ โต๊ะ เล่น​เลย ทัวร์นาเมนต์ และ​เกม​รายวัน ล้วน​บอก​กติกา​ของ​ตัวเอง และ​เล่น​เลย​จะ​จับคู่​คุณ​กับ​ผู้เล่น​กติกา​เดียวกัน เมนู​แสดง​จำนวน​ผู้เล่น​ของ​แต่ละ​กติกา
 
-### The break, Brazilian rule
-If the break loses the cue ball together with balls of both groups, the break now passes to your opponent, with the cue ball in hand behind the head string and no penalty ball.
+### การ​เบรก กติกา​บราซิล
+หาก​การ​เบรก​ทำให้​ลูกขาว​ลง​พร้อม​ลูก​ทั้งสอง​กลุ่ม ตอนนี้​สิทธิ์​เบรก​จะ​ตกเป็นของ​คู่แข่ง โดย​ได้​ลูกขาว​ใน​มือ​หลัง​เส้นหัวโต๊ะ และ​ไม่​มี​ลูกโทษ
 
 ## 0.7.4
 
-### The chat, when you want it
-No more age question when signing up. The chat with other players starts off and asks only the first time you write: 18 or older turns it on at once, and under 18 a parent or guardian turns it on. Whoever doesn't chat is never asked.
+### แชท เมื่อ​คุณ​ต้องการ
+ไม่​มี​คำถาม​เรื่อง​อายุ​ตอน​สมัคร​อีกแล้ว แชท​กับ​ผู้เล่น​อื่น​จะ​ปิด​อยู่​ตั้งแต่แรก และ​จะ​ถาม​เฉพาะ​ครั้งแรก​ที่​คุณ​พิมพ์: อายุ 18 ปี​ขึ้นไป​จะ​เปิด​ได้​ทันที ส่วน​อายุ​ต่ำกว่า 18 ปี ผู้ปกครอง​จะ​เป็น​ผู้​เปิด​ให้ ใคร​ที่​ไม่​แชท​จะ​ไม่​ถูก​ถาม​เลย
 
-### Invitations in the corner
-An invitation now shows as a card in the top right corner on every screen and over any game, with the player's picture, the buttons to accept or decline and a soft chime. Accept it from the menu and the game starts right away.
+### คำเชิญ​ที่​มุม​จอ
+ตอนนี้​คำเชิญ​จะ​แสดง​เป็น​การ์ด​ที่​มุม​ขวา​บน​ใน​ทุก​หน้าจอ​และ​บน​เกม​ใด​ก็ได้ พร้อม​รูป​ของ​ผู้เล่น ปุ่ม​รับ​หรือ​ปฏิเสธ และ​เสียง​กริ่ง​เบาๆ รับ​คำเชิญ​จาก​เมนู​แล้ว​เกม​จะ​เริ่ม​ทันที
 
-### Windows tells you at once
-With the game behind another window or minimised, Windows shows the invitation at once (it used to wait a few seconds).
+### Windows แจ้งทันที
+เมื่อ​เกม​อยู่​หลัง​หน้าต่าง​อื่น​หรือ​ถูก​ย่อ​ไว้ Windows จะ​แสดง​คำเชิญ​ทันที (เมื่อก่อน​ต้อง​รอ​สอง​สาม​วินาที)
 
 ## 0.7.3
 
-### New rules
-If the break hits no ball, or loses the cue ball (down or off the table) with no ball made, the break passes to your opponent, with the cue ball in hand behind the head string. With a ball made, it decides the groups even if the cue ball goes down too. And the cue ball off the table costs a ball, as a scratch does.
+### กติกาใหม่
+หาก​เบรก​ไม่​โดน​ลูก​ใด​เลย หรือ​ลูกขาว​ลง​หลุม​หรือ​ตก​โต๊ะ​โดย​ไม่​มีลูก​อื่น​ลง สิทธิ์​เบรก​จะ​ตกเป็นของ​คู่แข่ง โดย​ได้​ลูกขาว​ใน​มือ​หลัง​เส้นหัวโต๊ะ หาก​มีลูก​ลง ลูก​นั้น​จะ​กำหนด​กลุ่ม​แม้​ลูกขาว​จะ​ลง​ด้วย​ก็ตาม และ​ลูกขาว​ตก​โต๊ะ​จะ​เสีย​หนึ่ง​ลูก เหมือน​ลูกขาว​ลง​หลุม
 
-### More drills, no ranking
-There are 24 drills now, nine of them new: the far corner, long into the side, cue ball on the cushion, the plant, the carom, the long draw, on the tangent line, two-cushion bank and fifteen in a row. Each shows its position, and your stars are kept in your account. The drills' ranking is gone.
+### แบบ​ฝึก​เพิ่มขึ้น ไม่​มี​อันดับ
+ตอนนี้​มี​แบบ​ฝึก 24 แบบ ใหม่​เก้า​แบบ: มุม​ไกล ยาว​ลง​หลุมกลาง ลูกขาว​ชิด​ขอบ ลูกพ่วง ลูกแฉลบ ดึง​ยาว ตาม​เส้นสัมผัส ชิ่ง​สอง​ขอบ และ​สิบห้า​ลูกติด แต่ละ​แบบ​แสดง​ตำแหน่ง​ลูก และ​ดาว​ของ​คุณ​จะ​เก็บ​ไว้​ใน​บัญชี อันดับ​ของ​แบบ​ฝึก​ถูก​ยกเลิก​แล้ว
 
-### New pictures
-The portraits were drawn again, with more care, and there are new pictures of pool things. Your picture now shows on the card in the corner of the start screen when you're signed in.
+### รูปใหม่
+วาดรูป​โปรไฟล์​ใหม่​อย่าง​พิถีพิถัน​ขึ้น และ​มี​รูป​ใหม่​เกี่ยวกับ​พูล ตอนนี้​รูป​ของ​คุณ​จะ​แสดง​บน​การ์ด​ที่​มุม​หน้าจอ​เริ่มต้น​เมื่อ​คุณ​เข้าสู่ระบบ
 
-### Terms and privacy
-The terms of use and the privacy policy are a click away: when you sign up, in the shop and in Settings → Game → About. Purchases with money give you 7 days to change your mind and get your money back.
+### ข้อกำหนด​และ​ความเป็นส่วนตัว
+ข้อกำหนด​การใช้งาน​และ​นโยบาย​ความเป็นส่วนตัว​อยู่​ห่าง​แค่​คลิก​เดียว: ตอน​สมัคร ใน​ร้านค้า และ​ใน ตั้งค่า → เกม → เกี่ยวกับ การ​ซื้อ​ด้วย​เงิน​จริง​ให้​เวลา​คุณ 7 วัน​ใน​การ​เปลี่ยนใจ​และ​ขอ​เงิน​คืน
 
-### Age and chat
-The game asks your age group (once). Under 18, the chat with other players stays off until a parent or guardian turns it on, below the lounge's chat, as Brazilian law asks.
+### อายุ​และ​แชท
+เกม​จะ​ถาม​ช่วงอายุ​ของ​คุณ (ครั้ง​เดียว) หาก​อายุ​ต่ำกว่า 18 ปี แชท​กับ​ผู้เล่น​อื่น​จะ​ปิด​อยู่​จนกว่า​ผู้ปกครอง​จะ​เปิด​ให้ ที่​ด้านล่าง​แชท​ของ​ล็อบบี้ ตามที่​กฎหมาย​บราซิล​กำหนด
 
-### Emoji in the chat
-Emoji now show as pictures in the chat, notes and statuses, flags and all. Tabs have all their names at one size, and the count of who is online is smaller: the green dot, a person and the number.
+### อีโมจิ​ใน​แชท
+ตอนนี้​อีโมจิ​แสดง​เป็น​รูปภาพ​ใน​แชท โน้ต และ​ข้อความ​สถานะ รวมถึง​ธง​ด้วย ชื่อ​แท็บ​ทั้งหมด​ใช้​ขนาด​เดียวกัน และ​ตัว​นับ​คน​ออนไลน์​เล็ก​ลง: จุด​สี​เขียว รูปคน และ​ตัวเลข
 
 ## 0.7.2
 
-### A harder tour
-Each stage of the tour is harder than before, and more so the further up: opponents miss less, look at every shot and play for position. The final against Viktor, for the cue, is very hard now: he barely misses and plays safe more often. Tournaments against the computer stay as they were.
+### ทัวร์​ที่​ยาก​ขึ้น
+แต่ละ​ด่าน​ของ​ทัวร์​ยาก​ขึ้น​กว่า​เดิม และ​ยิ่ง​สูง​ยิ่ง​ยาก: คู่แข่ง​พลาด​น้อยลง พิจารณา​ทุก​ช็อต และ​เล่น​เพื่อ​เดิน​ลูก รอบ​สุดท้าย​กับ Viktor เพื่อ​ชิง​ไม้คิว ตอนนี้​ยาก​มาก: เขา​แทบ​ไม่​พลาด​และ​เล่น​เซฟ​บ่อย​ขึ้น ทัวร์นาเมนต์​กับ​คอมพิวเตอร์​ยังคง​เหมือนเดิม
 
-### Tournament medals
-Play a tournament against the computer to its end and finish in the first three for a gold, silver or bronze medal. The Tournament tab counts them, knockout and arena apart; they are kept in your account the next time you're online.
+### เหรียญรางวัลทัวร์นาเมนต์
+เล่น​ทัวร์นาเมนต์​กับ​คอมพิวเตอร์​จน​จบ และ​จบ​ใน​สาม​อันดับ​แรก​เพื่อ​รับ​เหรียญทอง เงิน หรือ​ทองแดง แท็บ​ทัวร์นาเมนต์​จะ​นับ​เหรียญ​ไว้ แยก​น็อกเอาต์​กับ​อารีนา และ​เก็บ​ไว้​ใน​บัญชี​ของ​คุณ​เมื่อ​คุณ​ออนไลน์​ครั้ง​ถัดไป
 
-### A camera like the table's
-In the shop's showroom the camera turns with the right button, as at the table, smoothly, and never goes under the floor or the table. The wheel brings you closer.
+### กล้อง​เหมือน​ที่​โต๊ะ
+ใน​โชว์รูม​ของ​ร้านค้า กล้อง​จะ​หมุน​ด้วย​ปุ่ม​ขวา​เหมือน​ที่​โต๊ะ อย่าง​ลื่นไหล และ​ไม่​ลง​ไป​ใต้​พื้น​หรือ​ใต้โต๊ะ ล้อ​เมาส์​จะ​พา​คุณ​เข้าไป​ใกล้​ขึ้น
 
 ## 0.7.1
 
-### The first ball decides
-On the break, the first ball that goes down decides your group, even if others go down after it: the 3 and then the 13, and you take the solids. The 13 is your opponent's, so it stays down for them and the turn passes.
+### ลูก​แรก​เป็น​ตัวกำหนด
+ตอน​เบรก ลูก​แรก​ที่​ลง​จะ​กำหนด​กลุ่ม​ของ​คุณ แม้​จะ​มีลูก​อื่น​ลง​ตามมา: ลูก 3 แล้ว​ตาม​ด้วย​ลูก 13 คุณ​ได้​ลูกทึบ ลูก 13 เป็น​ของ​คู่แข่ง จึง​อยู่​ใน​หลุม​นับ​ให้​คู่แข่ง และ​เปลี่ยน​ตา
 
-### Ball in hand on the break only
-The cue ball is in hand on the break only, behind the head string. If it goes down or leaves the table, it comes back to the head spot (right behind a ball lying there), without ball in hand, with the usual penalties. A break that makes only the cue ball is no longer racked again: your opponent plays on from there.
+### ลูกในมือ​เฉพาะตอน​เบรก
+ลูกขาว​ใน​มือ​มี​เฉพาะตอน​เบรก​เท่านั้น หลัง​เส้นหัวโต๊ะ หาก​ลูกขาว​ลง​หลุม​หรือ​ตก​โต๊ะ จะ​กลับ​ไป​ที่​จุดหัวโต๊ะ (หลัง​ลูก​ที่​วาง​อยู่​ตรงนั้น​พอดี) โดย​ไม่​ได้​ลูกในมือ พร้อม​บทลงโทษ​ตามปกติ การ​เบรก​ที่​มี​แต่​ลูกขาว​ลง​จะ​ไม่​ตั้ง​ลูก​ใหม่​อีกต่อไป: คู่แข่ง​เล่น​ต่อ​จาก​ตรงนั้น
 
-### Who is online
-Playing the computer (in a tournament, on the tour or in a drill), a discreet corner shows how many people are online and says when someone comes: time to go and invite them. Invitations show over the game.
+### ใคร​ออนไลน์​อยู่
+ขณะ​เล่น​กับ​คอมพิวเตอร์ (ใน​ทัวร์นาเมนต์ ใน​ทัวร์ หรือ​ใน​แบบ​ฝึก) มุม​เล็กๆ จะ​แสดง​จำนวน​คน​ที่​ออนไลน์ และ​บอก​เมื่อ​มี​คน​เข้ามา: ถึง​เวลา​ไป​ชวน​เขา​แล้ว คำเชิญ​จะ​แสดง​บน​เกม
 
-### The shop's showroom
-"Look at it closely" opens a showroom: the item alone in a dark studio, turning. Drag to turn it, use the wheel to come close and pause it at will. Ready views show a cue's tip and joint or a table's pockets; click a ball to see it float close up, and see tables and cloths in any hall.
+### โชว์รูม​ของ​ร้านค้า
+“ดู​ใกล้ๆ” จะ​เปิด​โชว์รูม: ไอเท็ม​ชิ้น​เดียว​ใน​สตูดิโอ​มืด หมุน​อยู่ ลาก​เพื่อ​หมุน ใช้​ล้อ​เมาส์​เพื่อ​เข้าใกล้ และ​หยุด​ได้​ตามใจ มุมมอง​สำเร็จรูป​แสดง​หัวคิว​และ​ข้อต่อ​ของ​ไม้คิว หรือ​หลุม​ของ​โต๊ะ คลิก​ที่​ลูก​เพื่อ​ดู​ลูกลอย​มา​ใกล้ๆ และ​ดู​โต๊ะ​กับ​ผ้าโต๊ะ​ใน​ห้องโถง​ใด​ก็ได้
 
-### Truly brown
-The 7 and the 15 are now brown, no longer a dark red easily taken for the 3 and the 11. The shop's sets where they looked alike are put right too.
+### สีน้ำตาลจริงๆ
+ลูก 7 และ​ลูก 15 เป็น​สีน้ำตาล​แล้ว ไม่​ใช่​สี​แดงเข้ม​ที่​สับสน​กับ​ลูก 3 และ​ลูก 11 ได้​ง่าย​อีกต่อไป ชุด​ลูก​ใน​ร้านค้า​ที่​สี​คล้าย​กัน​ก็​ถูก​แก้ไข​ด้วย
 
-### Focus mode
-Settings → Game → "Focus mode": no invitations while you play. Whoever tries to invite you is told you're in focus mode. It comes off.
+### โหมดโฟกัส
+ตั้งค่า → เกม → “โหมด​โฟกัส”: ไม่​รับ​คำเชิญ​ระหว่าง​เล่น ใคร​ที่​พยายาม​เชิญ​คุณ​จะ​ได้รับ​แจ้ง​ว่า​คุณ​อยู่​ใน​โหมด​โฟกัส ปิด​ได้​เสมอ
 
 ## 0.7.0
 
-### One kind on the break
-A new house rule: if the break makes balls of both groups (the 3 and the 14, say), the turn passes and the table stays open. Balls of one kind only and you shoot again, as before. The rules in the menu explain it, with a few rare cases now put right, and the computer plays a little better.
+### กลุ่ม​เดียว​ตอน​เบรก
+กติกา​ใหม่​ของ​บ้าน: หาก​เบรก​แล้ว​ลูก​ทั้งสอง​กลุ่ม​ลง (เช่น ลูก 3 และ​ลูก 14) จะ​เปลี่ยน​ตา​และ​โต๊ะ​ยัง​เปิด​อยู่ หาก​ลง​แต่​ลูก​กลุ่ม​เดียว คุณ​ได้​แทง​ต่อ​เหมือนเดิม กติกา​ใน​เมนู​อธิบาย​ไว้ พร้อม​แก้​กรณี​ที่เกิด​ยาก​บางกรณี และ​คอมพิวเตอร์​เล่น​เก่ง​ขึ้น​เล็กน้อย
 
-### Every ball counts
-The balls you make in a row show by your picture with a little flame, and three, five and seven in a row are cheered (and a table cleared in one visit). The clock's last seconds tick, a chime says when your turn comes back online, and the rating counts up at the end of a game.
+### ทุก​ลูก​มีความหมาย
+ลูก​ที่​คุณ​แทงลง​ติดต่อกัน​จะ​แสดง​ข้าง​รูป​ของ​คุณ​พร้อม​เปลวไฟ​เล็กๆ และ​การ​แทงลง​ติดต่อกัน​สาม ห้า และ​เจ็ด​ลูก​จะ​ได้รับ​เสียง​เชียร์ (รวมถึง​การ​เคลียร์​โต๊ะ​ใน​ตาเดียว) วินาที​สุดท้าย​ของ​นาฬิกา​จะ​มีเสียง​ติ๊ก เสียง​กริ่ง​บอก​เมื่อ​ถึงตา​คุณ​ใน​เกม​ออนไลน์ และ​เรตติ้ง​จะ​นับ​ขึ้น​ตอน​จบเกม
 
-### Events
-Now and then the staff run events: a weekend of double (or triple) experience, coins from games counting double, or a themed tournament the server organises, sometimes with a prize from the house on top of the entry fees. The main menu and the lounge show what is on and what is coming.
+### อีเวนต์
+บางครั้ง​ทีมงาน​จะ​จัด​อีเวนต์: สุดสัปดาห์​ค่า​ประสบการณ์​สองเท่า (หรือ​สาม​เท่า) เหรียญ​จาก​เกม​นับ​สองเท่า หรือ​ทัวร์นาเมนต์​ธีม​พิเศษ​ที่​เซิร์ฟเวอร์​จัด บางครั้ง​มี​รางวัล​จาก​ทาง​เกม​เพิ่ม​จาก​ค่าสมัคร เมนูหลัก​และ​ล็อบบี้​จะ​แสดง​สิ่ง​ที่​กำลัง​จัด​และ​กำลังจะ​มา
 
-### On to the next one
-After a win on the tour, "Next" takes you straight to the next opponent; after a drill, "Try again". The deciding shot can be watched again from the end panel, and a first game points out where to aim, set the power and shoot.
+### ไป​ต่อ​คน​ถัดไป
+หลัง​ชนะ​ใน​ทัวร์ “ถัดไป” จะ​พา​คุณ​ไปหา​คู่แข่ง​คน​ต่อไป​ทันที หลัง​แบบ​ฝึก​จะ​มี “ลอง​อีกครั้ง” ดู​ช็อต​ตัดสิน​อีกครั้ง​ได้​จาก​แผง​ตอนจบ และ​เกม​แรก​จะ​ชี้ให้เห็น​ว่า​จะ​เล็ง กำหนด​แรง และ​แทง​ตรงไหน
 
-### The head string, if you want it
-Settings → Game → "Always show the head string" keeps the line the break is played from on the table. Off by default: it shows only while you place the cue ball behind it.
+### เส้นหัวโต๊ะ ถ้า​คุณ​ต้องการ
+ตั้งค่า → เกม → “แสดง​เส้นหัวโต๊ะ​ตลอดเวลา” จะ​แสดง​เส้น​ที่​ใช้​เบรก​ไว้​บน​โต๊ะ ปิด​ไว้​เป็น​ค่า​เริ่มต้น: เส้น​จะ​แสดง​เฉพาะ​ตอนที่​คุณ​วาง​ลูกขาว​หลัง​เส้น
 
-### Fair rewards, softer light
-The tour's final and the ranked drills are now set up by the server, so their cue and their tables are earned the same way by everyone (play them signed in). A dropped connection no longer closes the game, a game against the computer is never replaced without asking, and the light under the lamps falls softly, without hard edges.
+### รางวัล​ที่​ยุติธรรม แสง​ที่​นุ่มนวล​ขึ้น
+รอบ​สุดท้าย​ของ​ทัวร์​และ​แบบ​ฝึก​ที่​จัดอันดับ ตอนนี้​เซิร์ฟเวอร์​เป็น​ผู้​จัด ทุกคน​จึง​ได้​ไม้คิว​และ​โต๊ะ​ด้วย​วิธี​เดียวกัน (เล่น​ขณะ​เข้าสู่ระบบ) การ​เชื่อมต่อ​หลุด​ไม่​ปิด​เกม​อีกต่อไป เกม​กับ​คอมพิวเตอร์​จะ​ไม่​ถูก​แทนที่​โดย​ไม่​ถาม​ก่อน และ​แสง​ใต้​โคมไฟ​ตก​กระทบ​อย่าง​นุ่มนวล ไม่​มี​ขอบ​แข็ง
 
 ## 0.6.2
 
-### Leagues and levels on one page
-In the profile, the "Leagues and levels" tab shows every league, from which rating and what it pays, and every level that brings an item. Reaching a league for the first time now pays coins and, from Skilled up, an item of the league's own.
+### ลีก​และ​เลเวล​ใน​หน้า​เดียว
+ใน​โปรไฟล์ แท็บ “ลีก​และ​เลเวล” แสดง​ทุก​ลีก ว่า​เริ่ม​ที่​เรตติ้ง​เท่าไหร่​และ​ให้รางวัล​อะไร และ​ทุก​เลเวล​ที่​ให้​ไอเท็ม การ​เข้า​ลีก​ครั้งแรก​ตอนนี้​ให้​เหรียญ และ​ตั้งแต่​ลีก​ฝีมือดี​ขึ้นไป จะ​ได้​ไอเท็ม​ประจำ​ลีก​ด้วย
 
-### A cleaner profile
-On the left, just what matters: your level, the next prize, and the achievements and reactions already won. Every medal and reaction has a tab of its own, and nothing runs off the screen.
+### โปรไฟล์​ที่​สะอาด​ตา​ขึ้น
+ทางซ้าย​มี​แค่​สิ่ง​สำคัญ: เลเวล​ของ​คุณ รางวัล​ถัดไป และ​ความสำเร็จ​กับ​รีแอ็กชัน​ที่​ได้​แล้ว เหรียญรางวัล​และ​รีแอ็กชัน​แต่ละ​อย่าง​มี​แท็บ​ของ​ตัวเอง และ​ไม่​มี​อะไร​ล้น​จอ
 
-### The view from above as it was, with round balls
-The table has its depth and its usual light again, and the camera no longer jumps when it leaves the view from above.
+### มุม​บน​แบบ​เดิม พร้อม​ลูก​กลมๆ
+โต๊ะ​กลับมา​มี​มิติ​และ​แสง​แบบ​เดิม และ​กล้อง​ไม่​กระตุก​เมื่อ​ออกจาก​มุม​บน​อีกต่อไป
 
 ## 0.6.1
 
-### A view from above without distortion
-The table is now seen from high up, almost without perspective: balls stay round out to the corners, and the cue, the aiming line and the ghost ball always line up. The light on the balls is softer, so the number shows.
+### มุม​บน​ไร้​การ​บิดเบี้ยว
+ตอนนี้​มอง​โต๊ะ​จาก​ที่สูง แทบ​ไม่​มี​เปอร์สเปกทีฟ: ลูก​ยัง​กลม​จนถึง​มุม​โต๊ะ และ​ไม้คิว เส้น​เล็ง และ​ลูก​เงา​จะ​ตรง​แนว​กัน​เสมอ แสง​บน​ลูก​นุ่มนวล​ขึ้น จึง​มองเห็น​ตัวเลข​ชัด
 
-### A tournament and a tour that mean it
-In a tournament against the computer a game counts once: leaving half way doesn't wipe it (it goes on from where it was) and there is no rematch. The champion gets a gold medal. And the tour is hard: every opponent plays at their best.
+### ทัวร์นาเมนต์​และ​ทัวร์​ที่​จริงจัง
+ใน​ทัวร์นาเมนต์​กับ​คอมพิวเตอร์ เกม​หนึ่ง​นับ​เพียง​ครั้ง​เดียว: การ​ออก​กลางคัน​ไม่​ได้​ลบ​เกม​นั้น (เกม​จะ​เล่น​ต่อ​จาก​เดิม) และ​ไม่​มี​รีแมตช์ แชมป์​จะ​ได้​เหรียญทอง และ​ทัวร์​ก็​ยาก: คู่แข่ง​ทุกคน​เล่น​เต็ม​ฝีมือ
 
-### New achievements, pictures and sounds
-Shutout, Golden break and account anniversaries. Faces that look like people and twelve profile pictures that are not faces (the 8-ball, a trophy, a crown…). New sounds for the balls, the cue, the cushions and the pockets.
+### ความสำเร็จ รูป และ​เสียง​ใหม่
+คลีนชีต เบรก​ทองคำ และ​วัน​ครบรอบ​บัญชี ใบ​หน้าที่​ดูเหมือน​คนจริง และ​รูป​โปรไฟล์​สิบสอง​รูป​ที่​ไม่​ใช่​ใบหน้า (ลูก 8 ถ้วยรางวัล มงกุฎ…) เสียง​ใหม่​ของ​ลูก ไม้คิว ขอบโต๊ะ และ​หลุม
 
-### Leagues, levels that pay and scarce coins
-Other players are shown by their league (the rating is on the profile and in the ranking). Every account level pays coins and levels 5 to 50 bring items of their own, but the climb is long. Coins are scarcer: everything in the shop takes time to earn.
+### ลีก เลเวล​ที่​ให้รางวัล และ​เหรียญ​ที่​หา​ยาก​ขึ้น
+ผู้เล่น​คนอื่น​จะ​แสดง​ตาม​ลีก (เรตติ้ง​อยู่​ใน​โปรไฟล์​และ​หน้า​อันดับ) ทุก​เลเวล​ของ​บัญชี​ให้​เหรียญ และ​เลเวล 5 ถึง 50 ให้​ไอเท็ม​เฉพาะ แต่​ทาง​ไต่​ยังอีก​ยาว เหรียญ​หา​ยาก​ขึ้น: ทุกอย่าง​ใน​ร้านค้า​ต้อง​ใช้เวลา​สะสม
 
 ## 0.6.0
 
-### A Brazilian rule, with penalty balls
-The game now plays the regional Brazilian rule of eight-ball, the one of bars and pool halls (not the official tournament rule). A foul passes the turn and takes your opponent's lowest balls off the table, only a pocketed cue ball gives ball in hand, and the 8 alone on the break wins. The full rules are in the menu.
+### กติกา​บราซิล พร้อม​ลูกโทษ
+ตอนนี้​เกม​เล่น​พูล 8 บอล​ตาม​กติกา​ท้องถิ่น​ของ​บราซิล แบบ​ที่​เล่น​กัน​ใน​บาร์​และ​ร้าน​พูล (ไม่​ใช่​กติกา​ทัวร์นาเมนต์​อย่าง​เป็นทางการ) ฟาวล์​ทำให้​เปลี่ยน​ตา​และ​นำ​ลูก​ที่​เลข​ต่ำสุด​ของ​คู่แข่ง​ออกจาก​โต๊ะ มี​เพียง​ลูกขาว​ลง​หลุม​ที่​ให้​ลูกในมือ และ​ลูก 8 ลง​ลูก​เดียว​ตอน​เบรก​คือ​ชนะ กติกา​ฉบับ​เต็ม​อยู่​ใน​เมนู
 
-### Heavier balls
-The cloth holds the ball more and the break is less violent: the balls no longer scatter all over the table.
+### ลูก​หนัก​ขึ้น
+ผ้าโต๊ะ​หน่วง​ลูก​มากขึ้น​และ​การ​เบรก​รุนแรง​น้อยลง: ลูก​ไม่​กระจาย​ไป​ทั่ว​โต๊ะ​อีกต่อไป
 
-### Tournaments against the computer and more drills
-Play a knockout of sixteen or an arena on points against the fifteen opponents. And there are eight new drills, fifteen in all.
+### ทัวร์นาเมนต์​กับ​คอมพิวเตอร์​และ​แบบ​ฝึก​เพิ่มเติม
+เล่น​น็อกเอาต์​สิบ​หก​คน หรือ​อารีนา​แบบ​นับ​แต้ม​กับ​คู่แข่ง​ทั้ง​สิบห้า​คน และ​มี​แบบ​ฝึก​ใหม่​แปด​แบบ รวม​เป็น​สิบห้า​แบบ
 
-### Aiming and the cue
-The cue's elevation can be set by dragging with the mouse, the aiming line points at the centre of the ghost ball, faint arrows show when the cue ball can be moved, and the shadows can be turned off.
+### การเล็ง​และ​ไม้คิว
+ปรับ​การ​ยก​ไม้คิว​ได้​ด้วย​การลาก​เมาส์ เส้น​เล็ง​ชี้​ไป​ที่​กลาง​ลูก​เงา ลูกศร​จางๆ แสดง​เมื่อ​ย้าย​ลูกขาว​ได้ และ​ปิด​เงา​ได้
 
 ## 0.5.1
 
-### Cleaner balls
-The pale disc on top of every ball is gone: a ball is lit as one round thing and shows the lamp as a single clean dot. Castings, rugs and Low quality look better too.
+### ลูก​ที่​สะอาด​ตา​ขึ้น
+แผ่น​วงกลม​สีซีด​บน​ลูก​ทุก​ลูก​หาย​ไป​แล้ว: ลูก​ถูก​จัด​แสง​เป็น​ทรงกลม​ชิ้น​เดียว และ​สะท้อน​โคมไฟ​เป็น​จุด​เดียว​ที่​คมชัด งาน​หล่อ พรม และ​คุณภาพต่ำ​ก็​ดู​ดีขึ้น​ด้วย
 
-### The power bar keeps no memory
-No more mark for your last stroke, and every turn starts from the middle of the bar: judging the pace is part of the game.
+### แถบ​แรง​ไม่​จำ​ค่า​เดิม
+ไม่​มี​เครื่องหมาย​แรง​ของ​ช็อต​ก่อน​อีกแล้ว และ​ทุก​ตา​เริ่ม​จาก​กลาง​แถบ: การ​กะ​น้ำหนัก​เป็น​ส่วนหนึ่ง​ของ​เกม
 
-### Nothing over the table
-Whose turn it is now reads in the top bar, beside the score panel, so the side pocket is always in sight. Aiming lines are smooth, and the rings round the pockets are whole.
+### ไม่​มี​อะไร​บัง​โต๊ะ
+ตา​ของ​ใคร​ตอนนี้​แสดง​ที่​แถบ​ด้านบน ข้าง​แผง​คะแนน หลุมกลาง​จึง​มองเห็น​ได้​เสมอ เส้น​เล็ง​เรียบ​เนียน และ​วงแหวน​รอบ​หลุม​ครบ​วง
 
 ## 0.5.0
 
-### Tournament-table physics
-The balls weigh what they do on a real table: the power bar goes up to a hard stroke (only the break uses full power), cushions give back less the harder they are hit, and a ball made falls into the pocket at the pace it arrived with.
+### ฟิสิกส์​โต๊ะ​แข่ง
+ลูก​มี​น้ำหนัก​เท่า​บน​โต๊ะ​จริง: แถบ​แรง​ไป​ได้​ถึง​การ​แทง​แรง (มี​แค่​การ​เบรก​ที่​ใช้​แรง​สูงสุด) ขอบโต๊ะ​สะท้อน​กลับ​น้อยลง​เมื่อ​ถูก​ชน​แรง​ขึ้น และ​ลูก​ที่​ลง​จะ​ตกหลุม​ด้วย​ความเร็ว​ที่​วิ่ง​มา
 
-### An official tournament table
-The table is the regulation 8-foot one, measure for measure: balls, corner and side pockets with the official mouths and angles. The cloth is a deep green under the lamps and the balls shine like polished ones, their numbers crisp.
+### โต๊ะ​แข่ง​มาตรฐาน
+โต๊ะ​เป็น​ขนาด​มาตรฐาน 8 ฟุต ตรง​ทุก​สัดส่วน: ลูก หลุม​มุม และ​หลุมกลาง ด้วย​ปาก​หลุม​และ​มุม​ตาม​มาตรฐาน ผ้าโต๊ะ​เป็น​สี​เขียว​เข้ม​ใต้​โคมไฟ และ​ลูก​เงา​งาม​เหมือน​ขัด​ใหม่ ตัวเลข​คมชัด
 
-### A truer guide, or none
-The ghost ball now stops where the cue ball really would, the mouths of the pockets included. And a new choice: play with no aiming guide at all.
+### เส้น​ช่วย​ที่​แม่น​ขึ้น หรือไม่​มี​เลย
+ตอนนี้​ลูก​เงา​หยุด​ตรง​ที่​ลูกขาว​จะ​หยุด​จริง รวมถึง​ปาก​หลุม​ด้วย และ​มี​ตัวเลือก​ใหม่: เล่น​โดย​ไม่​มี​เส้น​ช่วย​เล็ง​เลย
 
 ## 0.4.0
 
-### A new name: Snook Legend
-The game is now called Snook Legend. Your account, coins, items, settings and progress are all here, as before.
+### ชื่อใหม่: Snook Legend
+ตอนนี้​เกม​ชื่อ Snook Legend บัญชี เหรียญ ไอเท็ม การ​ตั้งค่า และ​ความคืบหน้า​ของ​คุณ​ยังอยู่​ครบ​เหมือนเดิม
 
-### 8-foot table, open side pockets
-A smaller table (8 feet) and side pockets that forgive a ball off the centre or rolling in at an angle. The balls roll a little more freely.
+### โต๊ะ 8 ฟุต หลุมกลาง​กว้าง​ขึ้น
+โต๊ะ​เล็ก​ลง (8 ฟุต) และ​หลุมกลาง​ที่​ให้อภัย​ลูก​ที่​เยื้อง​กลาง​หรือ​วิ่ง​เข้าแบบ​เฉียง ลูกกลิ้ง​ได้​อิสระ​ขึ้น​เล็กน้อย
 
-### New rule: the opponent's ball
-Making one of your opponent's balls passes the turn, even if one of yours went down too. It is not a foul: no ball in hand.
+### กติกา​ใหม่: ลูก​ของ​คู่แข่ง
+การ​แทง​ลูก​ของ​คู่แข่ง​ลง​ทำให้​เปลี่ยน​ตา แม้​ลูก​ของ​คุณ​จะ​ลง​ด้วย​ก็ตาม ไม่​นับ​เป็น​ฟาวล์: ไม่​มี​ลูกในมือ
 
-### Easier to see
-The cloth is lit evenly, the balls have a soft sheen so their numbers read, shadows are lighter, and nothing of the hall gets in the way of the view from above. Whose turn it is stands out on the score cards.
+### มองเห็น​ง่าย​ขึ้น
+ผ้าโต๊ะ​ได้รับ​แสง​สม่ำเสมอ ลูก​มี​ความ​เงา​อ่อนๆ ให้​อ่าน​ตัวเลข​ได้ เงา​จาง​ลง และ​ไม่​มีส่วน​ใด​ของ​ห้องโถง​บัง​มุมมอง​จาก​ด้านบน ตา​ของ​ใคร​เห็นได้ชัด​บน​การ์ด​คะแนน
 
-### Fifteen opponents
-Tito, Inês, Diego, Amara and Yuri join the computer opponents, each with a style and a voice of their own. The Tour now has fifteen stages; your wins so far are kept.
+### คู่แข่ง​สิบห้า​คน
+Tito, Inês, Diego, Amara และ Yuri เข้าร่วม​เป็น​คู่แข่ง​คอมพิวเตอร์ แต่ละคน​มี​สไตล์​และ​น้ำเสียง​เป็น​ของ​ตัวเอง ตอนนี้​ทัวร์​มี​สิบห้า​ด่าน และ​ชัยชนะ​ที่ผ่านมา​ของ​คุณ​ยังอยู่
 
-### Quieter opponents
-Settings → Game → Opponents' remarks turns their speech bubbles off.
+### คู่แข่ง​ที่​เงียบ​ลง
+ตั้งค่า → เกม → คำพูด​ของ​คู่แข่ง ใช้​ปิด​บอลลูน​คำพูด​ของ​พวกเขา
 
-### A new score panel
-Pictures and names in boxes, and the balls each player made rolling into place along their rail, in the order they went down.
+### แผง​คะแนน​ใหม่
+รูป​และ​ชื่อ​ใน​กรอบ และ​ลูก​ที่​ผู้เล่น​แต่ละคน​แทงลง​จะ​กลิ้ง​เข้าที่​ตาม​ราง​ของ​ตัวเอง ตามลำดับ​ที่​ลง
 
-### Aim by eye
-Raise the cue by dragging it in a side view of the shot. No more numbers on the power or the elevation: judge them by eye. Prefer it flat? Settings → Game → Top view only.
+### เล็ง​ด้วย​สายตา
+ยก​ไม้คิว​ด้วย​การลาก​ใน​มุมมอง​ด้าน​ข้าง​ของ​ช็อต ไม่​มี​ตัวเลข​บอก​แรง​หรือ​การ​ยก​ไม้​อีกแล้ว: กะ​ด้วย​สายตา​เอง ชอบ​แบบ​แบน​ราบ​ใช่ไหม? ตั้งค่า → เกม → มุม​บน​เท่านั้น
 
-### Rules and pictures
-The rules of the game are a click away (the book on the main menu, or Rules in the pause menu). Pick one of 32 profile pictures in your profile.
+### กติกา​และ​รูป
+กติกา​ของ​เกม​อยู่​ห่าง​แค่​คลิก​เดียว (รูป​หนังสือ​ใน​เมนูหลัก หรือ​กติกา​ใน​เมนู​หยุดชั่วคราว) เลือก​รูป​โปรไฟล์​ได้ 32 แบบ​ใน​โปรไฟล์​ของ​คุณ
 
-### Your games are safe
-Replays and daily games that started before this update keep the old table and rules until they end.
+### เกม​ของ​คุณ​ปลอดภัย
+รีเพลย์​และ​เกม​ราย​วันที่​เริ่ม​ก่อน​การ​อัปเดต​นี้ จะ​ใช้​โต๊ะ​และ​กติกา​เดิม​จน​จบเกม
 
 ## 0.3.0
 
-### A regulation 9-foot table
-The table is now tournament size (100" × 50"), with the balls, pockets, cushions and cue to official measurements. The balls are heavier and bounce less, like real ones.
+### โต๊ะ​มาตรฐาน 9 ฟุต
+ตอนนี้​โต๊ะ​เป็น​ขนาด​แข่งขัน (100" × 50") พร้อม​ลูก หลุม ขอบโต๊ะ และ​ไม้คิว​ตาม​ขนาด​มาตรฐาน ลูก​หนัก​ขึ้น​และ​เด้ง​น้อยลง เหมือน​ของจริง
 
-### A new break rule
-On the break, the first ball you pocket sets your group: solids or stripes. A foul on the break leaves the table open.
+### กติกา​การ​เบรก​ใหม่
+ตอน​เบรก ลูก​แรก​ที่​คุณ​แทงลง​จะ​กำหนด​กลุ่ม​ของ​คุณ: ลูกทึบ​หรือ​ลูกลาย ฟาวล์​ตอน​เบรก​จะ​ทำให้​โต๊ะ​ยัง​เปิด​อยู่
 
-### New halls, tables and cues
-Four new halls and four new tables, and every old one reworked. Premium cues that look nothing alike. On Ultra, floors that reflect the hall.
+### ห้องโถง โต๊ะ และ​ไม้คิว​ใหม่
+ห้องโถง​ใหม่​สี่​แบบ โต๊ะ​ใหม่​สี่​แบบ และ​ปรับปรุง​ของ​เดิม​ทุก​แบบ ไม้คิว​พรีเมียม​ที่​หน้าตา​ไม่​ซ้ำ​กัน​เลย ใน​ระดับ​อัลตรา พื้น​จะ​สะท้อน​ห้องโถง
 
-### Daily challenge
-A new position every day, the same for everyone, with a ranking of the day: three attempts to make as many balls as you can.
+### ชาเลนจ์ประจำวัน
+ตำแหน่ง​ลูก​ใหม่​ทุกวัน เหมือนกัน​สำหรับ​ทุกคน พร้อม​อันดับ​ประจำวัน: สาม​รอบ​เพื่อ​แทงลง​ให้ได้​มาก​ที่สุด
 
-### Drills with stars
-Seven drills on potting, spin, banks and escaping snookers, up to three stars each, with rankings and a challenge rating that shows your level.
+### แบบ​ฝึก​พร้อม​ดาว
+แบบ​ฝึก​เจ็ด​แบบ​เรื่อง​การ​แทงลง สปิน ลูก​ชิ่ง และ​การ​แก้​สนุ๊ก แต่ละ​แบบ​ได้​สูงสุด​สาม​ดาว พร้อม​อันดับ​และ​เรตติ้ง​ชาเลนจ์​ที่​บอก​ระดับ​ของ​คุณ
 
-### Account level
-Earn experience in every game, won or lost, and in drills, the daily challenge and achievements. Your level shows on your profile.
+### เลเวลบัญชี
+รับ​ค่า​ประสบการณ์​จาก​ทุก​เกม ไม่​ว่า​ชนะ​หรือ​แพ้ รวมถึง​จาก​แบบ​ฝึก ชาเลนจ์​ประจำวัน และ​ความสำเร็จ เลเวล​ของ​คุณ​แสดง​ใน​โปรไฟล์
 
-### The Tour
-The old ladder is now the Tour: ten stages, one opponent each. The opponents have new portraits and talk during the game.
+### ทัวร์
+บันได​แบบ​เดิม​ตอนนี้​กลายเป็น​ทัวร์: สิบ​ด่าน ด่าน​ละ​หนึ่ง​คู่แข่ง คู่แข่ง​มี​รูป​ใหม่​และ​พูดคุย​ระหว่าง​เกม
 
-### Fair play
-Leaving a game costs more than losing it. The full aiming guide is for free games against the computer and practice only: never online, in the Tour, the daily challenge or drills.
+### แฟร์เพลย์
+การ​ออกจาก​เกม​เสีย​มากกว่า​การ​แพ้ เส้น​ช่วย​เล็ง​แบบ​เต็ม​ใช้ได้​เฉพาะ​เกม​อิสระ​กับ​คอมพิวเตอร์​และ​การฝึกซ้อม: ไม่​มี​ใน​เกม​ออนไลน์ ทัวร์ ชาเลนจ์​ประจำวัน หรือ​แบบ​ฝึก
 
-### Your profile
-A trophy shelf and statistics for each cue: games, wins and balls made with it. You can now change your username up to three times.
+### โปรไฟล์​ของ​คุณ
+ชั้น​วาง​ถ้วยรางวัล​และ​สถิติ​ของ​ไม้คิว​แต่ละ​อัน: จำนวน​เกม ชัยชนะ และ​ลูก​ที่​แทงลง​ด้วย​ไม้คิว​นั้น ตอนนี้​คุณ​เปลี่ยน​ชื่อผู้ใช้​ได้​สูงสุด​สาม​ครั้ง
 
-### In the lounge
-An "away" status, quick phrases translated into your opponent's language and a practice table while the search for an opponent goes on.
+### ในล็อบบี้
+สถานะ “ไม่​อยู่” ข้อความ​ด่วน​ที่​แปล​เป็น​ภาษา​ของ​คู่แข่ง และ​โต๊ะ​ฝึกซ้อม​ระหว่าง​ที่​กำลัง​หา​คู่แข่ง
 
 ## 0.2.0
 
-### Ten opponents with personality
-Choose who to play: from Leo, still learning, to Marta, who lives on safeties, and Lola, who banks everything. Each has their own style, portrait and strength.
+### คู่แข่ง​สิบ​คน​ที่​มี​บุคลิก
+เลือก​คน​ที่จะ​เล่น​ด้วย: ตั้งแต่ Leo ที่​ยัง​หัด​เล่น ไป​จนถึง Marta ที่​ชอบ​เล่น​เซฟ และ Lola ที่​แทงชิ่ง​ทุก​ลูก แต่ละคน​มี​สไตล์ รูป และ​ความเก่ง​ของ​ตัวเอง
 
-### The ladder
-Beat the ten opponents one by one, up to the last. Reach the top to earn the exclusive "Ladder king" cue and a new achievement.
+### บันได
+เอาชนะ​คู่แข่ง​ทั้ง​สิบ​คน​ทีละ​คน จนถึง​คน​สุดท้าย ไป​ให้​ถึง​จุดสูงสุด​เพื่อ​รับ​ไม้คิว​สุด​พิเศษ “ราชา​บันได” และ​ความสำเร็จ​ใหม่
 
-### Play the ghost
-The computer learns a real player's style from their online games. Challenge a friend's ghost, or your own, from the profile or the vs-computer screen.
+### เล่น​กับ​โกสต์
+คอมพิวเตอร์​เรียนรู้​สไตล์​ของ​ผู้เล่น​จริง​จาก​เกม​ออนไลน์​ของ​เขา ท้า​โกสต์​ของ​เพื่อน หรือ​ของ​คุณ​เอง ได้​จาก​โปรไฟล์​หรือ​หน้าจอ​เล่น​กับ​คอมพิวเตอร์
 
-### Daily games
-Challenge someone and play your turn when you can: each player has up to 3 days per turn. You are told when it's your turn, and you can have several games at once.
+### เกมรายวัน
+ท้า​ใคร​สัก​คน​แล้ว​เล่นตา​ของ​คุณ​เมื่อ​สะดวก: ผู้เล่น​แต่ละคน​มี​เวลา​สูงสุด 3 วัน​ต่อตา เรา​จะแจ้ง​เมื่อ​ถึงตา​คุณ และ​คุณ​เล่น​หลาย​เกม​พร้อมกัน​ได้
 
-### Friends and gifts
-See who you played recently, write a status on your profile and post on the lounge's "looking for a game" board. Gifts from friends now arrive with a notice, a message and a "thank you".
+### เพื่อน​และ​ของขวัญ
+ดู​ว่า​คุณ​เพิ่ง​เล่น​กับ​ใคร เขียน​สถานะ​ใน​โปรไฟล์ และ​โพสต์​บน​บอร์ด “กำลัง​หา​เกม” ของ​ล็อบบี้ ของขวัญ​จาก​เพื่อน​ตอนนี้​มา​พร้อม​การ​แจ้ง​เตือน ข้อความ และ​ปุ่ม “ขอบคุณ”
 
-### Cues, tables and halls
-Your cue earns bands and inlays as you win with it. In the shop, themed tables and halls: beach bar, industrial loft and English club.
+### ไม้คิว โต๊ะ และ​ห้องโถง
+ไม้คิว​ของ​คุณ​จะ​ได้​ลาย​แถบ​และ​ลาย​ฝัง​เมื่อ​คุณ​ชนะ​ด้วย​ไม้คิว​นั้น ใน​ร้านค้า​มี​โต๊ะ​และ​ห้องโถง​ตาม​ธีม: บาร์​ชายหาด ลอฟต์​อินดัสเทรียล และ​คลับ​อังกฤษ
 
-### Your game, analysed
-The profile's new Analysis tab shows your potting by pocket, distance and kind of shot, with a heat map of the table.
+### วิเคราะห์​เกม​ของ​คุณ
+แท็บ​วิเคราะห์​ใหม่​ใน​โปรไฟล์​แสดง​การ​แทงลง​ของ​คุณ​ตาม​หลุม ระยะ และ​ประเภท​ช็อต พร้อม​แผนที่​ความร้อน​ของ​โต๊ะ
 
-### Your keys
-Every shortcut can be changed in Settings → Controls, and the game's hints follow your choices.
+### ปุ่ม​ของ​คุณ
+เปลี่ยน​ปุ่ม​ลัด​ได้​ทุก​ปุ่ม​ใน ตั้งค่า → การควบคุม และ​คำแนะนำ​ใน​เกม​จะ​เปลี่ยน​ตามที่​คุณ​เลือก
 
-### Automatic updates
-New versions download in the background and install when you restart, never during a game. This window tells you what changed.
+### อัปเดตอัตโนมัติ
+เวอร์ชัน​ใหม่​จะ​ดาวน์โหลด​ใน​เบื้องหลัง​และ​ติดตั้ง​เมื่อ​คุณ​รีสตาร์ท ไม่​ใช่​ระหว่าง​เกม หน้าต่าง​นี้​จะ​บอก​คุณ​ว่า​มี​อะไร​เปลี่ยนไป
 
-### A reviewed interface
-Every screen was reviewed in the three languages and at every window size. Fixes: Esc opens the menu at the table, the computer sinks the 8 in its called pocket more reliably, and the overhead view no longer goes black.
+### อินเทอร์เฟซ​ที่​ตรวจทาน​แล้ว
+ทุก​หน้าจอ​ได้รับ​การ​ตรวจทาน​ใน​ทั้ง​สาม​ภาษา​และ​ทุก​ขนาด​หน้าต่าง สิ่ง​ที่​แก้ไข: Esc เปิด​เมนู​ที่​โต๊ะ คอมพิวเตอร์​แทง​ลูก 8 ลง​หลุม​ที่​ขาน​ได้​แม่นยำ​ขึ้น และ​มุม​บน​ไม่​ดำมืด​อีกต่อไป
 
 ## 0.1.4
 
-### A game while you wait
-After half a minute of "Play now" without an opponent, you can play the computer while the search goes on.
+### เล่น​ระหว่าง​รอ
+หลังจาก​กด “เล่น​เลย” ไป​ครึ่ง​นาที​แล้ว​ยัง​ไม่​พบ​คู่แข่ง คุณ​เล่น​กับ​คอมพิวเตอร์​ระหว่าง​ที่​ระบบ​ค้นหา​ต่อ​ได้
 
-### Chat moderation
-You can delete your own chat lines, and moderators can remove abuse.
+### การ​ดูแล​แชท
+คุณ​ลบ​ข้อความ​แชท​ของ​ตัวเอง​ได้ และ​ผู้ดูแล​ลบ​ข้อความ​ที่​ไม่​เหมาะสม​ได้
 
-### Cues you can see
-Opponents see the pattern of the cue you bought, and VIP members have reactions of their own.
+### ไม้คิว​ที่​มองเห็น​ได้
+คู่แข่ง​จะ​เห็น​ลวดลาย​ของ​ไม้คิว​ที่​คุณ​ซื้อ และ​สมาชิก VIP มี​รีแอ็กชัน​เป็น​ของ​ตัวเอง
+

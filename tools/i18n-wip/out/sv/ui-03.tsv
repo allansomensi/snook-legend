@@ -153,7 +153,7 @@
 753	Spöke
 754	Precision
 755	Safety
-756	Vallstötar
+756	Dubbléer
 757	Positionsspel
 758	{name}s spöke
 759	En spelares spöke
@@ -164,7 +164,7 @@
 764	Vänner:
 765	Skriv ett användarnamn eller välj en vän och tryck på Ladda.
 766	Mäter hur {name} spelar…
-767	Sänker {pots}% · safety {safe}% · vallstötar {banks}% · {shots} stötar
+767	Sänker {pots}% · safety {safe}% · dubbléer {banks}% · {shots} stötar
 768	{name} har bara {shots} registrerade stötar; ett spöke behöver {needed}. Fler onlinepartier löser det.
 769	Det finns ingen spelare som heter {name}.
 770	Servern kan inte nås just nu. Försök igen senare.
@@ -223,7 +223,7 @@
 823	Foul av {shooter}: {foul}.
 824	Grafiken är inställd på {q} för jämnt spel. Du kan ändra det i Inställningar.
 825	Rating {r} ({d})
-826	{ball} placerades tillbaka på bordet.
+826	Tillbaka på bordet: {ball}.
 827	Väntar på {to} ({kind})…
 828	rankat
 829	vänskapligt
@@ -268,7 +268,7 @@
 868	Vita bollen träffade ingen boll
 869	Fel boll träffades först ({ball})
 870	Ingen boll nådde en vall efter träffen
-871	{ball} lämnade bordet
+871	Av bordet: {ball}
 872	Ogiltigt utslag
 873	sänkte 8-bollen
 874	motståndaren sänkte 8-bollen för tidigt

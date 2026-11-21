@@ -1,4 +1,4 @@
-# Snook Legend: Brazilian Portuguese.
+# Snook Legend: German.
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} spielt auf die 8: angesagte Tasche {pocket}
@@ -936,7 +936,7 @@ Free	Gratis
 Get coins	Münzen holen
 Gift sent!	Geschenk gesendet!
 Give as a gift	Verschenken
-Give it	Verschenken
+Give it	Schenken
 Give to a friend	Einem Freund schenken
 Great!	Super!
 If you forget your password, we confirm it's you by this e-mail.	Wenn du dein Passwort vergisst, bestätigen wir über diese E-Mail, dass du es bist.

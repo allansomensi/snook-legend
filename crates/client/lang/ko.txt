@@ -1,4 +1,4 @@
-# Snook Legend: Brazilian Portuguese.
+# Snook Legend: Korean.
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} 님 8번 공 차례: 지정 포켓 {pocket}
@@ -376,8 +376,8 @@ Stop the replay	리플레이 중지
 Table runner	테이블 청소부
 Tables	테이블
 Take turns on this computer	이 컴퓨터에서 번갈아 플레이
-Thank you. The moderators will look into it.	감사합니다. 운영자가 확인할게요.
-Thank you. The moderators will look into it, with your game attached.	감사합니다. 첨부된 게임과 함께 운영자가 확인할게요.
+Thank you. The moderators will look into it.	고마워요. 운영자가 확인할게요.
+Thank you. The moderators will look into it, with your game attached.	고마워요. 첨부된 게임과 함께 운영자가 확인할게요.
 That player is not accepting invitations.	그 플레이어는 초대를 받지 않아요.
 That shot was for an earlier turn.	이전 차례의 샷이었어요.
 That table is no longer open.	더 이상 열려 있지 않은 테이블이에요.

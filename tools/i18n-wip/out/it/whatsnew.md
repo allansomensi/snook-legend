@@ -148,3 +148,160 @@ A sinistra, solo ciò che conta: il tuo livello, il prossimo premio, e gli obiet
 
 ### La vista dall'alto come prima, con palle rotonde
 Il tavolo ha di nuovo la sua profondità e la sua luce abituale, e la visuale non salta più quando lascia la vista dall'alto.
+
+## 0.6.1
+
+### Una vista dall'alto senza distorsioni
+Ora il tavolo si vede dall'alto, quasi senza prospettiva: le palle restano rotonde fino agli angoli, e stecca, linea di mira e palla fantasma sono sempre allineate. La luce sulle palle è più morbida, così il numero si legge.
+
+### Un torneo e un circuito che fanno sul serio
+In un torneo contro il computer una partita conta una volta sola: uscire a metà non la cancella (riprende da dov'era) e non c'è rivincita. Il campione riceve una medaglia d'oro. E il circuito è duro: ogni avversario gioca al meglio.
+
+### Nuovi obiettivi, immagini e suoni
+Cappotto, Spaccata d'oro e gli anniversari dell'account. Volti che sembrano persone e dodici immagini del profilo che non sono volti (la palla 8, un trofeo, una corona…). Nuovi suoni per le palle, la stecca, le sponde e le buche.
+
+### Leghe, livelli che pagano e monete più rare
+Gli altri giocatori sono mostrati con la loro lega (il punteggio è nel profilo e in classifica). Ogni livello dell'account paga monete e i livelli dal 5 al 50 portano oggetti propri, ma la salita è lunga. Le monete sono più rare: tutto nel negozio richiede tempo per essere guadagnato.
+
+## 0.6.0
+
+### Regole brasiliane, con le palle di penalità
+Ora il gioco usa le regole regionali brasiliane della palla 8, quelle dei bar e delle sale da biliardo (non le regole ufficiali dei tornei). Un fallo passa il turno e toglie dal tavolo le palle più basse dell'avversario, solo la bianca in buca dà palla in mano, e la 8 da sola alla spaccata fa vincere. Le regole complete sono nel menu.
+
+### Palle più pesanti
+Il panno frena di più la palla e la spaccata è meno violenta: le palle non si sparpagliano più per tutto il tavolo.
+
+### Tornei contro il computer e più esercizi
+Gioca un'eliminazione diretta a sedici o un'arena a punti contro i quindici avversari. E ci sono otto nuovi esercizi, quindici in tutto.
+
+### La mira e la stecca
+L'inclinazione della stecca si regola trascinando con il mouse, la linea di mira punta al centro della palla fantasma, frecce tenui mostrano quando si può spostare la bianca, e le ombre si possono disattivare.
+
+## 0.5.1
+
+### Palle più pulite
+Il disco chiaro sopra ogni palla è sparito: una palla è illuminata come un unico oggetto rotondo e riflette la lampada come un solo punto netto. Anche angolari, tappeti e la qualità Bassa hanno un aspetto migliore.
+
+### La barra della potenza non ha memoria
+Niente più segno del tuo ultimo tiro, e ogni turno parte dal centro della barra: dosare la potenza fa parte del gioco.
+
+### Niente sopra il tavolo
+Di chi è il turno ora si legge nella barra in alto, accanto al tabellone, così la buca centrale è sempre in vista. Le linee di mira sono fluide e gli anelli attorno alle buche sono interi.
+
+## 0.5.0
+
+### Fisica da tavolo da torneo
+Le palle pesano come su un tavolo vero: la barra della potenza arriva fino a un colpo forte (solo la spaccata usa la potenza massima), le sponde restituiscono meno quanto più forte vengono colpite, e una palla imbucata cade nella buca alla velocità con cui è arrivata.
+
+### Un tavolo da torneo ufficiale
+Il tavolo è quello regolamentare da 8 piedi, misura per misura: palle, buche d'angolo e centrali con imbocchi e angoli ufficiali. Il panno è di un verde intenso sotto le lampade e le palle brillano come lucidate, con i numeri nitidi.
+
+### Una guida più fedele, o nessuna
+La palla fantasma ora si ferma dove si fermerebbe davvero la bianca, compresi gli imbocchi delle buche. E una nuova scelta: giocare senza alcuna guida di mira.
+
+## 0.4.0
+
+### Un nuovo nome: Snook Legend
+Ora il gioco si chiama Snook Legend. Il tuo account, le monete, gli oggetti, le impostazioni e i progressi sono tutti qui, come prima.
+
+### Tavolo da 8 piedi, buche centrali più aperte
+Un tavolo più piccolo (8 piedi) e buche centrali che perdonano una palla fuori centro o che entra di sbieco. Le palle rotolano un po' più libere.
+
+### Nuova regola: la palla dell'avversario
+Imbucare una palla dell'avversario passa il turno, anche se è andata in buca anche una delle tue. Non è fallo: niente palla in mano.
+
+### Più facile da vedere
+Il panno è illuminato in modo uniforme, le palle hanno una lucentezza morbida che lascia leggere i numeri, le ombre sono più chiare e niente dell'ambiente intralcia la vista dall'alto. Di chi è il turno risalta sulle schede del punteggio.
+
+### Quindici avversari
+Tito, Inês, Diego, Amara e Yuri si aggiungono agli avversari del computer, ognuno con il suo stile e la sua voce. Il Circuito ora ha quindici tappe; le vittorie ottenute finora restano.
+
+### Avversari più silenziosi
+Impostazioni → Gioco → Commenti degli avversari disattiva i loro fumetti.
+
+### Un nuovo tabellone
+Immagini e nomi in riquadri, e le palle imbucate da ciascun giocatore che rotolano al loro posto lungo la sua sponda, nell'ordine in cui sono entrate.
+
+### Mira a occhio
+Alza la stecca trascinandola in una vista laterale del tiro. Niente più numeri su potenza e inclinazione: valutale a occhio. La preferisci piatta? Impostazioni → Gioco → Solo vista dall'alto.
+
+### Regole e immagini
+Le regole del gioco sono a un clic (il libro nel menu principale, o Regole nel menu di pausa). Scegli una delle 32 immagini del profilo nel tuo profilo.
+
+### Le tue partite sono al sicuro
+I replay e le partite giornaliere iniziati prima di questo aggiornamento mantengono il vecchio tavolo e le vecchie regole fino alla fine.
+
+## 0.3.0
+
+### Un tavolo regolamentare da 9 piedi
+Ora il tavolo ha la misura da torneo (100" × 50"), con palle, buche, sponde e stecca a misure ufficiali. Le palle sono più pesanti e rimbalzano meno, come quelle vere.
+
+### Una nuova regola della spaccata
+Alla spaccata, la prima palla che imbuchi decide il tuo gruppo: piene o rigate. Un fallo alla spaccata lascia il tavolo aperto.
+
+### Nuovi ambienti, tavoli e stecche
+Quattro nuovi ambienti e quattro nuovi tavoli, e tutti quelli vecchi rifatti. Stecche premium tutte diverse tra loro. In Ultra, pavimenti che riflettono l'ambiente.
+
+### Sfida del giorno
+Una nuova posizione ogni giorno, uguale per tutti, con una classifica del giorno: tre tentativi per imbucare più palle che puoi.
+
+### Esercizi con stelle
+Sette esercizi su imbucate, effetto, sponde e uscite dallo snooker, fino a tre stelle ciascuno, con classifiche e un punteggio di sfida che mostra il tuo livello.
+
+### Livello dell'account
+Guadagna esperienza in ogni partita, vinta o persa, e negli esercizi, nella sfida del giorno e con gli obiettivi. Il tuo livello compare nel profilo.
+
+### Il Circuito
+La vecchia scalata ora è il Circuito: dieci tappe, un avversario ciascuna. Gli avversari hanno nuovi ritratti e parlano durante la partita.
+
+### Fair play
+Lasciare una partita costa più che perderla. La guida di mira completa è solo per le partite libere contro il computer e l'allenamento: mai online, nel Circuito, nella sfida del giorno o negli esercizi.
+
+### Il tuo profilo
+Una bacheca dei trofei e statistiche per ogni stecca: partite, vittorie e palle imbucate con essa. Ora puoi cambiare il nome utente fino a tre volte.
+
+### Nella sala
+Uno stato «assente», frasi rapide tradotte nella lingua dell'avversario e un tavolo di allenamento mentre prosegue la ricerca di un avversario.
+
+## 0.2.0
+
+### Dieci avversari con personalità
+Scegli contro chi giocare: da Leo, che sta ancora imparando, a Marta, che vive di difese, e Lola, che gioca tutto di sponda. Ognuno ha il suo stile, il suo ritratto e la sua forza.
+
+### La scalata
+Batti i dieci avversari uno alla volta, fino all'ultimo. Arriva in cima per ottenere l'esclusiva stecca «Re della scalata» e un nuovo obiettivo.
+
+### Gioca contro il fantasma
+Il computer impara lo stile di un giocatore reale dalle sue partite online. Sfida il fantasma di un amico, o il tuo, dal profilo o dalla schermata contro il computer.
+
+### Partite giornaliere
+Sfida qualcuno e gioca il tuo turno quando puoi: ogni giocatore ha fino a 3 giorni per turno. Ti avvisiamo quando tocca a te, e puoi avere più partite contemporaneamente.
+
+### Amici e regali
+Vedi con chi hai giocato di recente, scrivi uno stato nel tuo profilo e pubblica nella bacheca «cerco partita» della sala. I regali degli amici ora arrivano con un avviso, un messaggio e un «grazie».
+
+### Stecche, tavoli e ambienti
+La tua stecca guadagna fasce e intarsi man mano che vinci con essa. Nel negozio, tavoli e ambienti a tema: bar sulla spiaggia, loft industriale e club inglese.
+
+### Il tuo gioco, analizzato
+La nuova scheda Analisi del profilo mostra le tue imbucate per buca, distanza e tipo di tiro, con una mappa di calore del tavolo.
+
+### I tuoi tasti
+Ogni scorciatoia si può cambiare in Impostazioni → Comandi, e i suggerimenti del gioco seguono le tue scelte.
+
+### Aggiornamenti automatici
+Le nuove versioni si scaricano in background e si installano al riavvio, mai durante una partita. Questa finestra ti dice cosa è cambiato.
+
+### Un'interfaccia rivista
+Ogni schermata è stata rivista nelle tre lingue e a ogni dimensione di finestra. Correzioni: Esc apre il menu al tavolo, il computer imbuca la 8 nella buca chiamata in modo più affidabile, e la vista dall'alto non diventa più nera.
+
+## 0.1.4
+
+### Una partita mentre aspetti
+Dopo mezzo minuto di «Gioca ora» senza avversario, puoi giocare contro il computer mentre la ricerca continua.
+
+### Moderazione della chat
+Puoi eliminare i tuoi messaggi in chat, e i moderatori possono rimuovere gli abusi.
+
+### Stecche che si vedono
+Gli avversari vedono il disegno della stecca che hai comprato, e i membri VIP hanno reazioni esclusive.

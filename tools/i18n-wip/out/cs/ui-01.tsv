@@ -1,0 +1,300 @@
+1	{name} hraje na osmičku: ohlášená díra {pocket}
+2	Na osmičku: díra {pocket}
+3	Zobrazit ping
+4	Zpoždění tvého připojení v online hrách.
+5	Reakce
+6	Obchod
+7	Sukno
+8	Tága
+9	Křída
+10	Koule
+11	Mince
+12	mince
+13	Přihlas se a můžeš kupovat a používat předměty. Tohle tu je:
+14	Používáš
+15	Použít
+16	Koupit
+17	chybí {n}
+18	Mince: {n}
+19	Nemáš dost mincí: další získáš na kartě Mince.
+20	Jen pro VIP
+21	zdarma
+22	tvoje
+23	úspěch
+24	Na tomto serveru zatím nejde mince koupit.
+25	+{n} navíc
+26	Platba se otevře v prohlížeči (karta, Pix…) na zabezpečené stránce Stripe.
+27	Mince dorazí za chvilku; slouží jen na předměty ve hře.
+28	Exkluzivní předměty: {list}
+29	Mince každý měsíc: {n}
+30	Zrušit můžeš kdykoli: VIP platí do konce zaplaceného měsíce
+31	VIP máš do {d}.
+32	Spravovat předplatné
+33	Získat VIP · {p}
+34	Na tomto serveru zatím nejde VIP koupit.
+35	Platební stránka se otevřela v prohlížeči.
+36	Prohlížeč se nepodařilo otevřít.
+37	Turnajová zelená
+38	Elektrická modrá
+39	Burgundská
+40	Uhlová
+41	Modrozelená
+42	Královská fialová
+43	Velbloudí
+44	Půlnoc
+45	Šampionská červená
+46	Klasické
+47	Palisandr
+48	Eben a stříbro
+49	Karbon
+50	Slonovinová intarzie
+51	Koruna
+52	Drahokamy
+53	Modrá křída
+54	Zelená křída
+55	Červená křída
+56	Fialová křída
+57	Zlatá křída
+58	Vintage
+59	Pastel
+60	Neon
+61	Tento předmět už máš.
+62	Nemáš dost mincí.
+63	Nákup se nezdařil; žádné mince se nestrhly.
+64	Takový předmět neexistuje.
+65	Tento předmět nejde koupit za mince.
+66	Tento předmět nemáš.
+67	Nákupy nejsou k dispozici.
+68	Tento balíček se neprodává.
+69	Platební stránku se nepodařilo otevřít. Zkus to za chvilku znovu.
+70	VIP už máš.
+71	Nemáš žádné předplatné ke správě.
+72	Stránku se nepodařilo otevřít. Zkus to za chvilku znovu.
+73	Mince byly přidány do tvé peněženky.
+74	Vítej mezi VIP!
+75	Trochu zpomal.
+76	To nemůžeš udělat.
+77	Právě je tu příliš mnoho vzkazů. Zkus to znovu za pár minut.
+78	Moderátor odstranil tvůj vzkaz.
+79	Moderátor smazal tvůj status.
+80	Status smazán.
+81	VIP
+82	Hrát hned
+83	Automaticky najdi soupeře na své úrovni
+84	Hledám soupeře… {t}
+85	jakýkoli rating
+86	rating ±{n} · {mode}
+87	Úspěšnost
+88	Potopené koule
+89	Nejlepší série
+90	Fauly
+91	viděn právě teď
+92	viděn před {n} min
+93	viděn před {n} h
+94	viděn včera
+95	viděn před {n} dny
+96	viděn před {n} měsíci
+97	právě teď
+98	před {n} min
+99	před {n} h
+100	včera
+101	před {n} dny
+102	Průběh hry
+103	Zatím nic.
+104	Jemné míření: klikej na šipky, nebo táhni tady
+105	Diváci: {n}
+106	Sleduješ hráče {name}
+107	Tvoje reakce dorazí ke stolu potichu.
+108	Přestat sledovat
+109	Když budou hrát znovu, sleduješ dál.
+110	Tvůj přítel odešel od stolu.
+111	Tvůj přítel teď nehraje.
+112	Sledovat můžeš jen své přátele.
+113	Tuto hru nemůžeš sledovat.
+114	Do úrovně {tier} zbývá bodů: {n}
+115	Nejvyšší úroveň
+116	Reakce {n}/{total}
+117	Strašidelný stůl
+118	Vyhraj hodnocenou hru o Halloweenu (24. 10. – 2. 11.).
+119	Zimní liga
+120	Vyhraj hodnocenou hru o svátcích (15. 12. – 6. 1.).
+121	Ohňostroj
+122	Vyhraj hodnocenou hru na přelomu roku (31. 12. – 1. 1.).
+123	Ukazuje, kam půjde cílová koule a bílá (jen ve volných hrách a v tréninku).
+124	Online: {n} · ping {ms} ms
+125	Tažení pravým · Kolečko
+126	% výher
+127	Obnovit kameru: pohled shora, bez přiblížení
+128	{name} potopil(a) osmičku
+129	{name} potopil(a) osmičku předčasně
+130	{name} potopil(a) osmičku do špatné díry
+131	{name} fauloval(a) na osmičce
+132	{name} vyrazil(a) osmičku ze stolu
+133	{name} se vzdal(a)
+134	{name} opustil(a) hru
+135	{winner} vyhrává! ({how})
+136	#{n} na světě
+137	3–16 písmen, číslic nebo podtržítek.
+138	Žádné čáry na stole: miř od oka, podél tága.
+139	Bez vodítka
+140	Jen krátká čára od bílé.
+141	Přijmout přátelství
+142	Úspěch odemčen: {title}
+143	Úspěchy {n}/{total}
+144	Přidat
+145	Přidej přítele podle uživatelského jména
+146	Přidat přítele
+147	Proti počítači
+148	Všechny turnaje
+149	Amatér
+150	Aspoň 8 znaků. Použij heslo, které nepoužíváš jinde.
+151	Jsou potřeba aspoň dva hráči.
+152	Zpět
+153	Černá koule
+154	Blokovat
+155	Z rozstřelu do konce
+156	Desetkrát vyčisti stůl hned z rozstřelu.
+157	Tady nejde hledat hry: připoj se níže přes adresu.
+158	Zrušit žádost
+159	Zrušit turnaj
+160	Přátelská
+161	Centurion
+162	Šampion
+163	Šampion: {name}
+164	Změnit zemi
+165	Přidat status
+166	Pár slov o tobě
+167	Uložit (Enter)
+168	Zrušit (Esc)
+169	Změnit status
+170	Smazat status
+171	Podvádění nebo zneužívání
+172	Vybrat…
+173	Klikni znovu pro zablokování
+174	Zavřít
+175	Zakončovač
+176	Soutěživý
+177	Připojuji se k serveru…
+178	Hru se nepodařilo založit: {e}
+179	Země
+180	Vytvořit
+181	Vytvořit turnaj
+182	Nezobrazovat vlajku
+183	Žádná země nenalezena.
+184	Dynastie
+185	Osmička stačí
+186	Kat
+187	Expert
+188	Známá tvář
+189	Finále
+190	Nejdřív dohraj svou hru.
+191	První krev
+192	První rozstřel
+193	Žádost o přátelství odeslána.
+194	Přátelé
+195	denní hra
+196	Denní
+197	Denní hra
+198	Denní hry
+199	Vyzvi hráče podle uživatelského jména
+200	Vyzvat na denní hru
+201	3 dny na každý tah
+202	Zatím žádné denní hry. Vyzvi přítele: každý zahraje svůj tah, kdy se mu to hodí.
+203	tě vyzývá · {kind}
+204	čeká na odpověď · {kind} · zbývá {time}
+205	jsi na tahu · zbývá {time}
+206	hraje soupeř · zbývá {time}
+207	výhra · {how}
+208	prohra · {how}
+209	došel ti čas
+210	soupeři došel čas
+211	otevřený stůl
+212	Ty: {mine}, zbývá {a} · {name}: {theirs}, zbývá {b}
+213	Podívat se
+214	Přeskočit
+215	Přehrávám tah hráče {name}
+216	Šťouch {n} z {total}
+217	Tah odeslán
+218	Tah odeslán.
+219	Čeká se, až zahraje {name}
+220	{name} má na tah {time}. Dáme ti vědět, až budeš na tahu.
+221	Na tah zbývá {time}. Dáme ti vědět, až budeš na tahu.
+222	Zpět na denní hry
+223	Tvoje hra je uložená: vrať se, kdy chceš.
+224	{d} d {h} h
+225	{name}: došel čas
+226	Tuto hru nejde zobrazit.
+227	Čeká na tebe denní hra
+228	Denní hry, které na tebe čekají: {n}
+229	{name} tě vyzývá na hodnocenou denní hru.
+230	{name} tě vyzývá na přátelskou denní hru.
+231	{name} přijal(a) tvou denní hru.
+232	{name} odmítl(a) tvou denní hru.
+233	{name} stáhl(a) svou výzvu na denní hru.
+234	Jsi na tahu v denní hře proti hráči {name}.
+235	{name}: došel čas, denní hra je tvoje.
+236	Denní hra proti hráči {name} je tvoje!
+237	V denní hře proti hráči {name} ti došel čas.
+238	Denní hru proti hráči {name} jsi prohrál(a).
+239	Výzva odeslána.
+240	Denní hry vyžadují účet.
+241	Taková hra neexistuje.
+242	Tato výzva už neplatí.
+243	Tento hráč už vyzval tebe: odpověz na jeho výzvu.
+244	Tento hráč má příliš mnoho čekajících výzev.
+245	Tento hráč hraje příliš mnoho denních her.
+246	Tento hráč nepřijímá výzvy.
+247	Tuto hru teď nejde hrát.
+248	Hra se mezitím změnila: otevři ji znovu.
+249	Tato hra skončila.
+250	Tohoto hráče už vyzýváš.
+251	S tímto hráčem už rozehranou hru máš.
+252	Tohoto hráče máš zablokovaného.
+253	Nemůžeš vyzvat sám sebe.
+254	Máš tolik denních her, kolik najednou můžeš hrát.
+255	Máš příliš mnoho výzev, které čekají na odpověď.
+256	Posíláš výzvy příliš rychle.
+257	Čas na tento tah ti vypršel.
+258	Hry
+259	Hry ve tvé síti
+260	Pojmenuj turnaj (aspoň 3 znaky).
+261	Dobrá společnost
+262	Velmistr
+263	Hosté se můžou připojit jen k LAN hrám. Vytvoř si účet.
+264	Hosté nemůžou hrát hodnocené turnaje.
+265	Hosté tohle nemají.
+266	Obtěžování
+267	Hattrick
+268	Měj 10 přátel.
+269	Měj účet 30 dní.
+270	Měj účet rok.
+271	Založit hru na tomto počítači
+272	Hostitel {host} · hráči {n}/{size} · {kind}
+273	Horká ruka
+274	Hustler
+275	Neplatný šťouch.
+276	Připojit se
+277	Připojuji se k LAN hře…
+278	Jen pro zábavu
+279	P
+280	LAN hra
+281	LAN hra hráče {name}.
+282	LAN hry nemění rating.
+283	Legenda
+284	Žije u stolu
+285	Načítám profil…
+286	Načítání…
+287	Místní síť
+288	Zamčeno
+289	Hledám hry
+290	Najdi si přítele.
+291	Mistr
+292	Jméno
+293	Jména mají 3–16 písmen, číslic nebo podtržítek.
+294	Nový účet
+295	Mám účet
+296	Jsi tu nový? Zvol „Nový účet“: zabere to deset sekund.
+297	Nový turnaj
+298	Zatím žádní přátelé. Přidej někoho ze svých soupeřů!
+299	Zatím žádné hry.
+300	Bez limitu

@@ -1,66 +1,65 @@
-# Snook Legend: the official rules of eight-ball (the World Pool-Billiard
-# Association's Rules of Play), shown in the game.
-# "## <part>" starts a part, "### <title>" a rule, and the lines after it
-# are its text. The same parts and rules, in the same order, in every
-# language.
+# Snook Legend: 게임에서 보여 주는 8볼 공식 규칙(세계 포켓 당구 협회(WPA)의
+# 경기 규칙).
+# "## <파트>"는 파트를, "### <제목>"은 규칙 하나를 시작하고, 그 아래 줄이
+# 규칙의 내용이에요. 모든 언어에서 같은 파트와 규칙이 같은 순서로 있어요.
 
-## The game
+## 게임
 
-### The official rules (WPA)
-The eight-ball of international tournaments, as the World Pool-Billiard Association plays it. Snook Legend has the Brazilian rules too: choose the rules of your games in the main menu. If you play the Brazilian rules, read the break, the calls and the fouls below, because they differ a lot.
+### 공식 규칙 (WPA)
+국제 토너먼트에서 치는 8볼로, 세계 포켓 당구 협회(WPA)의 방식이에요. Snook Legend에는 브라질 규칙도 있어요. 게임 규칙은 메인 메뉴에서 선택하세요. 브라질 규칙으로 플레이한다면 아래의 브레이크, 지정, 파울 항목을 꼭 읽어 보세요. 많이 달라요.
 
-### The aim
-Each player has a group of seven balls: solids (1 to 7) or stripes (9 to 15). Pocket all of yours and then the 8-ball, in the pocket you call, before your opponent does.
+### 목표
+각 플레이어는 공 7개로 된 그룹을 가져요: 솔리드(1~7번) 또는 스트라이프(9~15번). 상대보다 먼저 내 공을 모두 넣고, 지정한 포켓에 8번 공을 넣으세요.
 
-### Your turn
-You keep shooting while you make a ball of your group in the pocket you called, on a shot without a foul. Otherwise the turn passes, and the balls that went in stay down.
+### 내 차례
+파울 없는 샷으로 지정한 포켓에 내 그룹의 공을 넣는 동안 계속 칠 수 있어요. 그렇지 않으면 차례가 넘어가고, 들어간 공은 그대로 남아요.
 
-## The break
+## 브레이크
 
-### The break shot
-The cue ball is in your hand: place it anywhere behind the head string. Nothing is called on the break. For it to be legal you must make a ball or drive at least four object balls to a cushion.
+### 브레이크 샷
+볼 인 핸드예요. 수구를 헤드 스트링 뒤 어디든 놓으세요. 브레이크에서는 아무것도 지정하지 않아요. 합법적인 브레이크가 되려면 공을 넣거나, 적구 4개 이상을 쿠션에 닿게 해야 해요.
 
-### An illegal break
-If no ball goes in and fewer than four reach a cushion, your opponent chooses: play the table as it lies, have the balls racked and break themselves, or have you break again.
+### 불법 브레이크
+들어간 공이 없고 쿠션에 닿은 공이 4개 미만이면 상대가 선택해요: 현재 배치 그대로 치기, 공을 다시 랙하고 직접 브레이크하기, 또는 나에게 다시 브레이크하게 하기.
 
-### After the break
-A ball made on a legal break keeps the table, but the table stays open: the break never decides the groups. If the cue ball goes in or leaves the table on a legal break, your opponent has it in hand behind the head string.
+### 브레이크 후
+합법적인 브레이크에서 공을 넣으면 계속 치지만, 오픈 테이블은 그대로예요. 브레이크로는 그룹이 정해지지 않아요. 합법적인 브레이크에서 수구가 들어가거나 테이블 밖으로 나가면, 상대가 헤드 스트링 뒤 볼 인 핸드를 얻어요.
 
-### The 8-ball on the break
-Pocketing the 8 on the break neither wins nor loses: it comes back to the foot spot, and you play on or have the balls racked and break again. If you also fouled, your opponent chooses: the cue ball in hand behind the head string, or the balls racked again and they break.
+### 브레이크에서 8번 공
+브레이크에서 8번 공을 넣으면 이기지도 지지도 않아요. 8번 공은 풋 스폿에 다시 놓이고, 계속 치거나 공을 다시 랙하고 다시 브레이크할 수 있어요. 파울도 했다면 상대가 선택해요: 헤드 스트링 뒤 볼 인 핸드, 또는 공을 다시 랙하고 상대가 브레이크.
 
-### A ball off the table on the break
-It is a foul, and the ball stays off (only the 8 comes back). Your opponent plays the table as it lies or takes the cue ball in hand behind the head string. If the break was illegal too, they may also have the balls racked again, as above.
+### 브레이크에서 테이블 밖으로 나간 공
+파울이고, 그 공은 밖에 그대로 둬요(8번 공만 다시 놓아요). 상대는 현재 배치 그대로 치거나 헤드 스트링 뒤 볼 인 핸드를 선택해요. 불법 브레이크이기도 했다면, 위와 같이 공을 다시 랙하게 할 수도 있어요.
 
-## Calling and playing
+## 지정과 플레이
 
-### Open table
-While the groups are not decided, the table is open: you may hit any ball first except the 8. The group of the ball you make in the called pocket becomes yours. If one group is already off the table, you may play the 8.
+### 오픈 테이블
+그룹이 정해지지 않은 동안은 오픈 테이블이에요. 8번 공을 제외한 어떤 공이든 먼저 맞혀도 돼요. 지정한 포켓에 넣은 공의 그룹이 내 그룹이 돼요. 한 그룹의 공이 테이블에 하나도 남지 않았다면 8번 공을 칠 수 있어요.
 
-### Calling your shot
-Every shot except the break is called. In the game you call a pocket: following your aim, it calls the pocket the ball you hit is heading for (the ring on the pocket). Click another pocket to call it, or play a safety. A ball of your group (or the 8, when you are on it) made in the called pocket keeps the table, also off a cushion or another ball.
+### 샷 지정
+브레이크를 제외한 모든 샷은 지정해요. 게임에서는 포켓을 지정해요. 조준에 따라, 맞힐 공이 향하는 포켓이 지정돼요(포켓 위의 링). 다른 포켓을 클릭해 지정하거나 세이프티를 칠 수 있어요. 내 그룹의 공(8번 공 차례라면 8번 공)을 지정한 포켓에 넣으면 계속 쳐요. 쿠션이나 다른 공을 맞고 들어가도 마찬가지예요.
 
-### Safety
-A shot with no pocket called is a safety: whatever goes in stays down, and the turn passes to your opponent.
+### 세이프티
+포켓을 지정하지 않은 샷은 세이프티예요. 들어간 공은 그대로 두고, 차례가 상대에게 넘어가요.
 
-### The cue ball behind the head string
-With the cue ball in hand behind the head string, you can't hit a ball that also lies behind it unless the cue ball crosses the head string first. If every ball you may hit lies behind it, the one nearest to the head string comes back to the foot spot.
+### 헤드 스트링 뒤의 수구
+헤드 스트링 뒤 볼 인 핸드일 때는, 수구가 먼저 헤드 스트링을 넘지 않는 한 헤드 스트링 뒤에 있는 공을 맞힐 수 없어요. 맞힐 수 있는 공이 모두 헤드 스트링 뒤에 있으면, 헤드 스트링에 가장 가까운 공을 풋 스폿에 다시 놓아요.
 
-## Fouls
+## 파울
 
-### Ball in hand
-After any foul, your opponent has the cue ball in hand: they place it anywhere on the table. No ball comes off the table as a penalty.
+### 볼 인 핸드
+파울이 나오면 상대가 볼 인 핸드를 얻어요. 수구를 테이블 어디든 놓을 수 있어요. 페널티로 테이블에서 빠지는 공은 없어요.
 
-### What is a foul
-The cue ball in a pocket or off the table; hitting no ball, or the wrong ball first (one of your opponent's, or the 8 too soon); after the contact, no ball made and no ball reaching a cushion (a ball lying against a cushion only reaches it by leaving it and coming back); an object ball off the table (it stays off).
+### 파울이란
+수구가 포켓에 들어가거나 테이블 밖으로 나감. 아무 공도 맞히지 못하거나 다른 공을 먼저 맞힘(상대의 공, 또는 너무 이른 8번 공). 접촉 후 들어간 공도 없고 쿠션에 닿은 공도 없음(쿠션에 붙어 있던 공은 쿠션에서 떨어졌다가 다시 닿아야 인정돼요). 적구가 테이블 밖으로 나감(밖에 그대로 둬요).
 
-### The shot clock
-When the game has a shot clock and it runs out, it is a foul: your opponent has the cue ball in hand. A choice after the break that isn't made in time takes its first option.
+### 샷 클락
+샷 클락이 있는 게임에서 시간이 다 되면 파울이에요. 상대가 볼 인 핸드를 얻어요. 브레이크 후의 선택을 시간 안에 하지 않으면 첫 번째 선택지가 적용돼요.
 
-## The 8-ball
+## 8번 공
 
-### Winning
-Once your group is off the table, pocket the 8 in the pocket you called, on a shot without a foul.
+### 승리
+내 그룹의 공을 모두 넣었다면, 파울 없는 샷으로 지정한 포켓에 8번 공을 넣으세요.
 
-### Losing on the 8
-You lose by pocketing the 8 on a foul, before your group is off the table or in a pocket you didn't call, and by knocking the 8 off the table. None of this applies to the break.
+### 8번 공으로 패배
+파울과 함께 8번 공을 넣거나, 내 그룹을 다 넣기 전이나 지정하지 않은 포켓에 8번 공을 넣거나, 8번 공을 테이블 밖으로 내보내면 져요. 브레이크에는 이 중 어느 것도 해당하지 않아요.

@@ -1,307 +1,307 @@
-# Snook Legend: what's new, shown in the game after an update.
-# "## <version>" starts a version (newest first), "### <title>" a highlight,
-# and the lines after it are its text. Keep it short and about what players
-# see; every language has the same versions and the same number of highlights.
+# Snook Legend: 새로운 소식. 업데이트 후 게임에서 보여 줘요.
+# "## <버전>"은 버전(최신순)을, "### <제목>"은 주요 변경 사항을 시작하고,
+# 그 아래 줄이 내용이에요. 플레이어가 보는 것 위주로 짧게 써요. 모든 언어에
+# 같은 버전과 같은 수의 항목이 있어요.
 
 ## 0.8.3
 
-### What you earn is shown
-An item that comes with an achievement, such as a level reached, now arrives with a "Congratulations!" window that shows it and lets you use it at once.
+### 받은 보상을 보여 줘요
+도달한 레벨처럼 업적과 함께 주어지는 아이템이 이제 "축하해요!" 창과 함께 도착해요. 창에서 아이템을 보여 주고 바로 사용할 수 있게 해 줘요.
 
-### One game at a time
-Starting the game while it is already open brings its window to the front instead of opening a second one. Two games on one computer wrote over each other's settings and saved game.
+### 한 번에 게임 하나만
+게임이 이미 열려 있을 때 다시 실행하면, 두 번째 창을 여는 대신 기존 창을 앞으로 가져와요. 한 컴퓨터에서 두 게임이 실행되면 서로의 설정과 저장된 게임을 덮어썼어요.
 
-### The 8 on a break handed over
-Under the Brazilian rule, a break handed over after the cue ball was lost, with the balls already scattered, no longer wins by potting the 8: hitting it first is a foul and pocketing it loses, as on any shot. Only the break of the rack has the 8 alone winning.
+### 넘겨받은 브레이크의 8번 공
+브라질 규칙에서 수구가 빠져서 넘겨받은 브레이크는, 공이 이미 흩어져 있으므로 이제 8번 공을 넣어도 이기지 않아요. 다른 샷과 마찬가지로 8번 공을 먼저 맞히면 파울이고, 넣으면 져요. 8번 공만 넣어 이기는 건 랙을 깨는 브레이크뿐이에요.
 
-### Cleaner pockets, a steadier camera, and many fixes
-The pockets are finished without rough edges, and going from the overhead view to 3D keeps your zoom. Two more reviews of the whole game fixed many bugs: a rematch keeps the break alternating, a private arena asks for its password while it runs, a table rejoined after its game ended shows the result, and more.
+### 더 깔끔한 포켓, 더 안정적인 카메라, 그리고 많은 수정
+포켓이 거친 모서리 없이 마감되고, 탑뷰에서 3D로 바꿔도 줌이 유지돼요. 게임 전체를 두 번 더 점검해 많은 버그를 고쳤어요: 재대결에서도 브레이크가 번갈아 이어지고, 비공개 아레나는 진행 중에도 비밀번호를 묻고, 게임이 끝난 뒤 다시 들어간 테이블에 결과가 표시되는 등이에요.
 
 ## 0.8.2
 
-### The shot clock gives a ball
-Under the Brazilian rule, running out of time is a foul: your opponent's lowest ball comes off (if they are on the 8 already, the 8 pays and you lose), the cue ball goes back to the head spot, not in hand, and the turn passes.
+### 샷 클락은 공을 줘요
+브라질 규칙에서 시간이 다 되면 파울이에요. 상대의 가장 낮은 번호의 공이 빠지고(상대가 이미 8번 공 차례라면 8번 공이 대신 빠지고 내가 져요), 수구는 볼 인 핸드 없이 헤드 스폿으로 돌아가며, 차례가 넘어가요.
 
-### The break, one each
-Under the Brazilian rule the players break in turn, one break each. A break that loses the cue ball with no ball made, or with balls of both groups, passes the break: your opponent breaks again from the head spot, with the balls where they stopped.
+### 브레이크는 한 번씩
+브라질 규칙에서는 두 플레이어가 한 번씩 번갈아 브레이크해요. 공을 넣지 못하고 수구가 빠지거나, 두 그룹의 공과 함께 수구가 빠진 브레이크는 브레이크를 넘겨요. 상대가 공이 멈춘 그대로 헤드 스폿에서 다시 브레이크해요.
 
-### Grab the cue anywhere
-Click and drag the cue anywhere along it, from the tip to the butt, even drawn back or raised over the rail: it follows the pointer as it swings.
+### 큐의 어디든 잡기
+큐의 팁부터 버트까지 어디든 클릭해서 드래그할 수 있어요. 뒤로 당겨져 있거나 레일 위로 들려 있어도 돼요. 큐가 휘두르는 대로 포인터를 따라가요.
 
-### Seven rounds in the arena, and many fixes
-The arena against the computer is seven rounds for everyone, and the shop has a new icon. Three reviews of the whole game fixed many bugs: leaving while the balls roll no longer undoes a shot against the computer, the first ball hit is the one the cue ball really touched first, and more.
+### 아레나는 7라운드, 그리고 많은 수정
+컴퓨터와 하는 아레나는 모두 7라운드로 진행되고, 상점에 새 아이콘이 생겼어요. 게임 전체를 세 번 점검해 많은 버그를 고쳤어요: 공이 구르는 중에 나가도 컴퓨터와의 게임에서 샷이 취소되지 않고, 처음 맞힌 공은 수구가 실제로 처음 닿은 공으로 판정되는 등이에요.
 
 ## 0.8.1
 
-### The 8 pays the penalty
-Under the Brazilian rule, a foul that gives more balls than your opponent has left loses the game: their balls come off and the 8 pays the rest. Once your opponent is on the 8, any foul that gives a ball loses: missing every ball, pocketing the cue ball or knocking it off the table.
+### 페널티는 8번 공으로
+브라질 규칙에서 상대에게 남은 공보다 많은 공을 주는 파울은 게임에서 져요. 상대의 공이 빠지고 모자란 만큼 8번 공이 대신 빠져요. 상대가 8번 공 차례가 되면, 공을 주는 파울은 모두 패배예요: 아무 공도 맞히지 못하거나, 수구를 포켓에 넣거나, 테이블 밖으로 내보내는 경우예요.
 
-### Click outside to close
-The match's chat, the game history and the spin and elevation panels close when you click outside them, and the click still counts on the table. Menus and dialogs close with a click outside them too, like Cancel.
+### 바깥을 클릭해서 닫기
+경기 채팅, 게임 기록, 회전과 큐 각도 패널은 바깥을 클릭하면 닫히고, 그 클릭은 테이블에도 그대로 적용돼요. 메뉴와 대화 상자도 취소처럼 바깥을 클릭하면 닫혀요.
 
 ## 0.8.0
 
-### The official rules
-You can now also play the official rules of the WPA, the eight-ball of international tournaments: every shot is called, a foul gives ball in hand anywhere and no ball comes off as a penalty. Choose your rules in the main menu. The Brazilian rule is still there, just as it was.
+### 공식 규칙
+이제 국제 토너먼트의 8볼인 WPA 공식 규칙으로도 플레이할 수 있어요. 모든 샷은 포켓을 지정하고, 파울하면 상대가 테이블 어디든 볼 인 핸드를 얻으며, 페널티로 빠지는 공은 없어요. 규칙은 메인 메뉴에서 선택하세요. 브라질 규칙도 예전 그대로 있어요.
 
-### A rating for each rules
-Each rules has its own rating, tier and world ranking: the ranking has a tab for each and your profile a card for each. Your level, coins and achievements are shared.
+### 규칙마다 레이팅
+규칙마다 레이팅, 티어, 세계 랭킹이 따로 있어요. 랭킹에는 규칙별 탭이, 프로필에는 규칙별 카드가 있어요. 레벨, 코인, 업적은 공유돼요.
 
-### Calling your shots
-Under the official rules the pocket you aim at is called (a ring shows it). Click another pocket to call it, or Safety to call none. After some breaks you choose how the game goes on, with the buttons or 1, 2 and 3.
+### 샷 지정
+공식 규칙에서는 조준하는 포켓이 지정돼요(링으로 표시). 다른 포켓을 클릭해 지정하거나, 세이프티를 눌러 아무것도 지정하지 않을 수 있어요. 일부 브레이크 후에는 버튼이나 1, 2, 3 키로 진행 방법을 선택해요.
 
-### Online, by rules
-Invitations, tables, Play now, tournaments and daily games all say their rules, and Play now pairs you with players of yours. The menu shows how many people play each.
+### 온라인은 규칙별로
+초대, 테이블, 바로 플레이, 토너먼트, 데일리 게임에 모두 규칙이 표시되고, 바로 플레이는 같은 규칙의 플레이어와 매칭해 줘요. 메뉴에서 규칙별로 몇 명이 플레이 중인지 보여 줘요.
 
-### The break, Brazilian rule
-If the break loses the cue ball together with balls of both groups, the break now passes to your opponent, with the cue ball in hand behind the head string and no penalty ball.
+### 브레이크, 브라질 규칙
+브레이크에서 수구가 두 그룹의 공과 함께 빠지면, 이제 브레이크가 상대에게 넘어가요. 헤드 스트링 뒤 볼 인 핸드이고 페널티 볼은 없어요.
 
 ## 0.7.4
 
-### The chat, when you want it
-No more age question when signing up. The chat with other players starts off and asks only the first time you write: 18 or older turns it on at once, and under 18 a parent or guardian turns it on. Whoever doesn't chat is never asked.
+### 채팅은 원할 때
+가입할 때 더 이상 나이를 묻지 않아요. 다른 플레이어와의 채팅은 꺼진 상태로 시작하고, 처음 글을 쓸 때만 물어봐요. 18세 이상이면 바로 켜지고, 18세 미만이면 부모님 또는 보호자가 켜요. 채팅을 하지 않으면 묻지 않아요.
 
-### Invitations in the corner
-An invitation now shows as a card in the top right corner on every screen and over any game, with the player's picture, the buttons to accept or decline and a soft chime. Accept it from the menu and the game starts right away.
+### 구석에 뜨는 초대
+이제 초대가 모든 화면과 게임 위에서 오른쪽 위 구석에 카드로 표시돼요. 플레이어의 사진, 수락과 거절 버튼, 부드러운 알림음이 함께해요. 메뉴에서 수락하면 바로 게임이 시작돼요.
 
-### Windows tells you at once
-With the game behind another window or minimised, Windows shows the invitation at once (it used to wait a few seconds).
+### Windows가 바로 알려 줘요
+게임이 다른 창 뒤에 있거나 최소화되어 있으면, Windows가 초대를 바로 알려 줘요(예전에는 몇 초 기다렸어요).
 
 ## 0.7.3
 
-### New rules
-If the break hits no ball, or loses the cue ball (down or off the table) with no ball made, the break passes to your opponent, with the cue ball in hand behind the head string. With a ball made, it decides the groups even if the cue ball goes down too. And the cue ball off the table costs a ball, as a scratch does.
+### 새 규칙
+브레이크에서 공을 하나도 맞히지 못하거나, 공을 넣지 못하고 수구를 잃으면(포켓에 들어가거나 테이블 밖으로 나가면), 브레이크가 상대에게 넘어가고 헤드 스트링 뒤 볼 인 핸드가 돼요. 공을 넣었다면 수구가 함께 들어가도 그 공으로 그룹이 정해져요. 그리고 수구가 테이블 밖으로 나가면 스크래치처럼 공 하나를 줘요.
 
-### More drills, no ranking
-There are 24 drills now, nine of them new: the far corner, long into the side, cue ball on the cushion, the plant, the carom, the long draw, on the tangent line, two-cushion bank and fifteen in a row. Each shows its position, and your stars are kept in your account. The drills' ranking is gone.
+### 더 많은 훈련, 랭킹은 없음
+이제 훈련이 24개예요. 새 훈련 9개: 반대편 코너, 롱 사이드, 쿠션에 붙은 수구, 플랜트, 캐롬, 긴 끌어치기, 접선 따라가기, 투 쿠션 뱅크샷, 15연속. 각 훈련의 배치를 보여 주고, 별은 계정에 저장돼요. 훈련 랭킹은 없어졌어요.
 
-### New pictures
-The portraits were drawn again, with more care, and there are new pictures of pool things. Your picture now shows on the card in the corner of the start screen when you're signed in.
+### 새 그림
+초상화를 더 정성껏 다시 그렸고, 당구 관련 새 그림도 생겼어요. 로그인하면 시작 화면 구석의 카드에 내 사진이 표시돼요.
 
-### Terms and privacy
-The terms of use and the privacy policy are a click away: when you sign up, in the shop and in Settings → Game → About. Purchases with money give you 7 days to change your mind and get your money back.
+### 약관과 개인정보
+이용 약관과 개인정보 처리방침을 클릭 한 번으로 볼 수 있어요: 가입할 때, 상점에서, 설정 → 게임 → 정보에서요. 돈으로 구매한 경우 7일 이내에 마음이 바뀌면 환불받을 수 있어요.
 
-### Age and chat
-The game asks your age group (once). Under 18, the chat with other players stays off until a parent or guardian turns it on, below the lounge's chat, as Brazilian law asks.
+### 나이와 채팅
+게임에서 연령대를 (한 번) 물어봐요. 18세 미만이면 브라질 법에 따라, 부모님 또는 보호자가 라운지 채팅 아래에서 켤 때까지 다른 플레이어와의 채팅이 꺼져 있어요.
 
-### Emoji in the chat
-Emoji now show as pictures in the chat, notes and statuses, flags and all. Tabs have all their names at one size, and the count of who is online is smaller: the green dot, a person and the number.
+### 채팅 이모지
+이제 채팅, 모집글, 상태 메시지에서 국기를 포함한 이모지가 그림으로 표시돼요. 탭 이름은 모두 같은 크기로 표시되고, 접속자 수 표시는 더 작아졌어요: 초록 점, 사람 아이콘, 숫자.
 
 ## 0.7.2
 
-### A harder tour
-Each stage of the tour is harder than before, and more so the further up: opponents miss less, look at every shot and play for position. The final against Viktor, for the cue, is very hard now: he barely misses and plays safe more often. Tournaments against the computer stay as they were.
+### 더 어려워진 투어
+투어의 각 스테이지가 이전보다 어려워졌고, 위로 갈수록 더 어려워요. 상대가 실수를 덜 하고, 모든 샷을 살피며, 포지션을 생각해서 쳐요. 큐가 걸린 Viktor와의 결승은 이제 매우 어려워요. 거의 실수하지 않고 세이프티를 더 자주 쳐요. 컴퓨터와 하는 토너먼트는 그대로예요.
 
-### Tournament medals
-Play a tournament against the computer to its end and finish in the first three for a gold, silver or bronze medal. The Tournament tab counts them, knockout and arena apart; they are kept in your account the next time you're online.
+### 토너먼트 메달
+컴퓨터와 하는 토너먼트를 끝까지 플레이해 3위 안에 들면 금, 은, 동메달을 받아요. 토너먼트 탭에서 녹아웃과 아레나를 따로 세어 보여 주고, 다음에 온라인이 되면 계정에 저장돼요.
 
-### A camera like the table's
-In the shop's showroom the camera turns with the right button, as at the table, smoothly, and never goes under the floor or the table. The wheel brings you closer.
+### 테이블과 같은 카메라
+상점의 쇼룸에서 카메라가 테이블에서처럼 오른쪽 버튼으로 부드럽게 회전하고, 바닥이나 테이블 아래로 내려가지 않아요. 휠로 가까이 다가갈 수 있어요.
 
 ## 0.7.1
 
-### The first ball decides
-On the break, the first ball that goes down decides your group, even if others go down after it: the 3 and then the 13, and you take the solids. The 13 is your opponent's, so it stays down for them and the turn passes.
+### 첫 공이 정해요
+브레이크에서 처음 들어간 공이 내 그룹을 정해요. 그 뒤에 다른 공이 들어가도 마찬가지예요. 3번 다음 13번이 들어가면 내가 솔리드예요. 13번은 상대의 공이므로 상대 몫으로 들어간 채 남고 차례가 넘어가요.
 
-### Ball in hand on the break only
-The cue ball is in hand on the break only, behind the head string. If it goes down or leaves the table, it comes back to the head spot (right behind a ball lying there), without ball in hand, with the usual penalties. A break that makes only the cue ball is no longer racked again: your opponent plays on from there.
+### 볼 인 핸드는 브레이크 때만
+볼 인 핸드는 브레이크 때만, 헤드 스트링 뒤에서만 있어요. 수구가 포켓에 들어가거나 테이블 밖으로 나가면 헤드 스폿으로 돌아가요(그 자리에 공이 있으면 바로 뒤). 볼 인 핸드는 없고 평소의 페널티가 적용돼요. 브레이크에서 수구만 들어가도 더 이상 다시 랙하지 않아요. 상대가 그 자리에서 이어서 쳐요.
 
-### Who is online
-Playing the computer (in a tournament, on the tour or in a drill), a discreet corner shows how many people are online and says when someone comes: time to go and invite them. Invitations show over the game.
+### 누가 접속 중인지
+컴퓨터와 플레이하는 동안(토너먼트, 투어, 훈련), 구석에 접속자 수가 조용히 표시되고 누가 접속하면 알려 줘요. 초대하러 갈 때예요. 초대는 게임 위에 표시돼요.
 
-### The shop's showroom
-"Look at it closely" opens a showroom: the item alone in a dark studio, turning. Drag to turn it, use the wheel to come close and pause it at will. Ready views show a cue's tip and joint or a table's pockets; click a ball to see it float close up, and see tables and cloths in any hall.
+### 상점 쇼룸
+"자세히 보기"를 누르면 쇼룸이 열려요. 어두운 스튜디오에서 아이템 하나만 돌아가요. 드래그해서 돌리고, 휠로 가까이 다가가고, 원할 때 멈출 수 있어요. 준비된 시점으로 큐의 팁과 조인트, 테이블의 포켓을 볼 수 있어요. 공을 클릭하면 가까이 떠오르는 모습을 볼 수 있고, 테이블과 천은 어느 홀에서든 볼 수 있어요.
 
-### Truly brown
-The 7 and the 15 are now brown, no longer a dark red easily taken for the 3 and the 11. The shop's sets where they looked alike are put right too.
+### 진짜 갈색
+7번과 15번이 이제 갈색이에요. 3번, 11번과 헷갈리기 쉬운 어두운 빨간색이 아니에요. 공이 비슷해 보이던 상점의 세트도 바로잡았어요.
 
-### Focus mode
-Settings → Game → "Focus mode": no invitations while you play. Whoever tries to invite you is told you're in focus mode. It comes off.
+### 집중 모드
+설정 → 게임 → "집중 모드": 플레이하는 동안 초대를 받지 않아요. 초대하려는 사람에게는 집중 모드라고 알려 줘요. 끌 수도 있어요.
 
 ## 0.7.0
 
-### One kind on the break
-A new house rule: if the break makes balls of both groups (the 3 and the 14, say), the turn passes and the table stays open. Balls of one kind only and you shoot again, as before. The rules in the menu explain it, with a few rare cases now put right, and the computer plays a little better.
+### 브레이크에서 한 종류만
+새 하우스 규칙: 브레이크에서 두 그룹의 공이 들어가면(예: 3번과 14번), 차례가 넘어가고 오픈 테이블이 유지돼요. 한 종류의 공만 들어가면 예전처럼 다시 쳐요. 메뉴의 규칙에서 설명하고, 드문 경우 몇 가지를 바로잡았으며, 컴퓨터도 조금 더 잘 쳐요.
 
-### Every ball counts
-The balls you make in a row show by your picture with a little flame, and three, five and seven in a row are cheered (and a table cleared in one visit). The clock's last seconds tick, a chime says when your turn comes back online, and the rating counts up at the end of a game.
+### 공 하나하나가 소중해요
+연속으로 넣은 공이 내 사진 옆에 작은 불꽃으로 표시되고, 3연속, 5연속, 7연속(그리고 한 차례에 테이블을 비우면)에는 환호가 나와요. 시계의 마지막 몇 초는 째깍거리고, 온라인에서 내 차례가 돌아오면 알림음이 울리며, 게임이 끝나면 레이팅이 올라가는 모습을 보여 줘요.
 
-### Events
-Now and then the staff run events: a weekend of double (or triple) experience, coins from games counting double, or a themed tournament the server organises, sometimes with a prize from the house on top of the entry fees. The main menu and the lounge show what is on and what is coming.
+### 이벤트
+운영진이 가끔 이벤트를 열어요: 경험치 2배(또는 3배) 주말, 게임 코인 2배, 또는 서버가 여는 테마 토너먼트. 때로는 참가비에 더해 운영진이 상금을 얹어 줘요. 메인 메뉴와 라운지에서 진행 중인 이벤트와 예정된 이벤트를 보여 줘요.
 
-### On to the next one
-After a win on the tour, "Next" takes you straight to the next opponent; after a drill, "Try again". The deciding shot can be watched again from the end panel, and a first game points out where to aim, set the power and shoot.
+### 다음으로
+투어에서 이기면 "다음"으로 바로 다음 상대에게 가요. 훈련 후에는 "다시 시도"예요. 결정적인 샷은 종료 패널에서 다시 볼 수 있고, 첫 게임에서는 조준, 파워 조절, 샷하는 곳을 알려 줘요.
 
-### The head string, if you want it
-Settings → Game → "Always show the head string" keeps the line the break is played from on the table. Off by default: it shows only while you place the cue ball behind it.
+### 원하면 헤드 스트링 표시
+설정 → 게임 → "헤드 스트링 항상 표시"를 켜면 브레이크를 치는 기준선이 테이블에 계속 표시돼요. 기본값은 꺼짐이며, 수구를 그 뒤에 놓을 때만 표시돼요.
 
-### Fair rewards, softer light
-The tour's final and the ranked drills are now set up by the server, so their cue and their tables are earned the same way by everyone (play them signed in). A dropped connection no longer closes the game, a game against the computer is never replaced without asking, and the light under the lamps falls softly, without hard edges.
+### 공정한 보상, 부드러운 조명
+투어의 결승과 순위가 있는 훈련은 이제 서버가 준비해요. 그래서 큐와 테이블을 모두가 같은 방식으로 얻어요(로그인하고 플레이하세요). 연결이 끊겨도 더 이상 게임이 닫히지 않고, 컴퓨터와의 게임은 묻지 않고 바뀌지 않으며, 램프 아래의 빛이 경계 없이 부드럽게 떨어져요.
 
 ## 0.6.2
 
-### Leagues and levels on one page
-In the profile, the "Leagues and levels" tab shows every league, from which rating and what it pays, and every level that brings an item. Reaching a league for the first time now pays coins and, from Skilled up, an item of the league's own.
+### 리그와 레벨을 한 페이지에
+프로필의 "리그와 레벨" 탭에서 모든 리그가 몇 레이팅부터인지, 어떤 보상을 주는지, 그리고 아이템을 주는 모든 레벨을 보여 줘요. 이제 리그에 처음 도달하면 코인을 받고, 숙련자 리그부터는 리그 전용 아이템도 받아요.
 
-### A cleaner profile
-On the left, just what matters: your level, the next prize, and the achievements and reactions already won. Every medal and reaction has a tab of its own, and nothing runs off the screen.
+### 더 깔끔한 프로필
+왼쪽에는 중요한 것만: 내 레벨, 다음 보상, 이미 얻은 업적과 리액션. 모든 메달과 리액션에 각자의 탭이 있고, 화면 밖으로 넘치는 것도 없어요.
 
-### The view from above as it was, with round balls
-The table has its depth and its usual light again, and the camera no longer jumps when it leaves the view from above.
+### 예전 같은 탑뷰, 둥근 공과 함께
+테이블에 깊이감과 평소의 조명이 돌아왔고, 탑뷰에서 벗어날 때 카메라가 더 이상 튀지 않아요.
 
 ## 0.6.1
 
-### A view from above without distortion
-The table is now seen from high up, almost without perspective: balls stay round out to the corners, and the cue, the aiming line and the ghost ball always line up. The light on the balls is softer, so the number shows.
+### 왜곡 없는 탑뷰
+이제 테이블을 높은 곳에서 원근감 거의 없이 봐요. 공은 구석까지 둥글게 보이고, 큐와 조준선과 고스트 볼이 항상 일직선이 돼요. 공 위의 빛이 부드러워져서 번호가 잘 보여요.
 
-### A tournament and a tour that mean it
-In a tournament against the computer a game counts once: leaving half way doesn't wipe it (it goes on from where it was) and there is no rematch. The champion gets a gold medal. And the tour is hard: every opponent plays at their best.
+### 진지한 토너먼트와 투어
+컴퓨터와 하는 토너먼트에서 게임은 한 번만 인정돼요. 중간에 나가도 사라지지 않고(있던 자리에서 이어져요), 재대결은 없어요. 우승자는 금메달을 받아요. 그리고 투어는 어려워요: 모든 상대가 최선을 다해 쳐요.
 
-### New achievements, pictures and sounds
-Shutout, Golden break and account anniversaries. Faces that look like people and twelve profile pictures that are not faces (the 8-ball, a trophy, a crown…). New sounds for the balls, the cue, the cushions and the pockets.
+### 새 업적, 그림, 소리
+완봉승, 골든 브레이크, 계정 기념일. 사람처럼 보이는 얼굴과, 얼굴이 아닌 프로필 사진 12개(8번 공, 트로피, 왕관…). 공, 큐, 쿠션, 포켓의 새 소리.
 
-### Leagues, levels that pay and scarce coins
-Other players are shown by their league (the rating is on the profile and in the ranking). Every account level pays coins and levels 5 to 50 bring items of their own, but the climb is long. Coins are scarcer: everything in the shop takes time to earn.
+### 리그, 보상을 주는 레벨, 귀해진 코인
+다른 플레이어는 리그로 표시돼요(레이팅은 프로필과 랭킹에 있어요). 계정 레벨마다 코인을 주고 레벨 5부터 50까지는 전용 아이템을 주지만, 오르는 길은 길어요. 코인이 귀해져서 상점의 모든 것을 얻으려면 시간이 걸려요.
 
 ## 0.6.0
 
-### A Brazilian rule, with penalty balls
-The game now plays the regional Brazilian rule of eight-ball, the one of bars and pool halls (not the official tournament rule). A foul passes the turn and takes your opponent's lowest balls off the table, only a pocketed cue ball gives ball in hand, and the 8 alone on the break wins. The full rules are in the menu.
+### 페널티 볼이 있는 브라질 규칙
+이제 바와 당구장에서 치는 브라질 지역 8볼 규칙으로 플레이해요(공식 토너먼트 규칙이 아니에요). 파울하면 차례가 넘어가고 상대의 가장 낮은 번호의 공들이 테이블에서 빠지며, 수구를 포켓에 넣었을 때만 볼 인 핸드가 되고, 브레이크에서 8번 공만 넣으면 이겨요. 전체 규칙은 메뉴에 있어요.
 
-### Heavier balls
-The cloth holds the ball more and the break is less violent: the balls no longer scatter all over the table.
+### 더 무거운 공
+테이블 천이 공을 더 붙잡고 브레이크가 덜 격해져서, 공이 더 이상 테이블 전체로 흩어지지 않아요.
 
-### Tournaments against the computer and more drills
-Play a knockout of sixteen or an arena on points against the fifteen opponents. And there are eight new drills, fifteen in all.
+### 컴퓨터와 하는 토너먼트와 더 많은 훈련
+15명의 상대와 16인 녹아웃이나 점수제 아레나를 플레이하세요. 새 훈련 8개가 추가되어 모두 15개예요.
 
-### Aiming and the cue
-The cue's elevation can be set by dragging with the mouse, the aiming line points at the centre of the ghost ball, faint arrows show when the cue ball can be moved, and the shadows can be turned off.
+### 조준과 큐
+마우스로 드래그해서 큐 각도를 정할 수 있고, 조준선은 고스트 볼의 중심을 가리키며, 수구를 옮길 수 있을 때 희미한 화살표가 표시되고, 그림자를 끌 수 있어요.
 
 ## 0.5.1
 
-### Cleaner balls
-The pale disc on top of every ball is gone: a ball is lit as one round thing and shows the lamp as a single clean dot. Castings, rugs and Low quality look better too.
+### 더 깔끔한 공
+모든 공 위의 흐릿한 원반이 사라졌어요. 공 전체가 하나의 둥근 물체처럼 빛을 받고, 램프는 깔끔한 점 하나로 비쳐요. 장식, 러그, 낮음 품질도 더 좋아 보여요.
 
-### The power bar keeps no memory
-No more mark for your last stroke, and every turn starts from the middle of the bar: judging the pace is part of the game.
+### 파워 바는 기억하지 않아요
+마지막 스트로크 표시가 없어지고, 매 차례 바의 가운데에서 시작해요. 힘 조절도 게임의 일부예요.
 
-### Nothing over the table
-Whose turn it is now reads in the top bar, beside the score panel, so the side pocket is always in sight. Aiming lines are smooth, and the rings round the pockets are whole.
+### 테이블 위에는 아무것도 없이
+누구 차례인지는 이제 위쪽 바의 점수 패널 옆에 표시돼서 사이드 포켓이 항상 보여요. 조준선은 매끄럽고, 포켓 둘레의 링은 끊기지 않아요.
 
 ## 0.5.0
 
-### Tournament-table physics
-The balls weigh what they do on a real table: the power bar goes up to a hard stroke (only the break uses full power), cushions give back less the harder they are hit, and a ball made falls into the pocket at the pace it arrived with.
+### 토너먼트 테이블의 물리
+공의 무게가 실제 테이블과 같아요. 파워 바는 강한 스트로크까지 올라가고(최대 파워는 브레이크만 써요), 쿠션은 세게 맞을수록 덜 튕겨 내며, 들어가는 공은 도착한 속도 그대로 포켓에 떨어져요.
 
-### An official tournament table
-The table is the regulation 8-foot one, measure for measure: balls, corner and side pockets with the official mouths and angles. The cloth is a deep green under the lamps and the balls shine like polished ones, their numbers crisp.
+### 공식 토너먼트 테이블
+테이블은 규격 8피트 테이블 그대로예요: 공, 코너 포켓, 사이드 포켓이 공식 입구 크기와 각도를 따라요. 테이블 천은 램프 아래 짙은 초록이고, 공은 광을 낸 듯 빛나며 번호가 선명해요.
 
-### A truer guide, or none
-The ghost ball now stops where the cue ball really would, the mouths of the pockets included. And a new choice: play with no aiming guide at all.
+### 더 정확한 가이드, 또는 가이드 없이
+고스트 볼이 이제 포켓 입구를 포함해 수구가 실제로 멈출 곳에 멈춰요. 그리고 새 선택지: 조준 가이드 없이 플레이하기.
 
 ## 0.4.0
 
-### A new name: Snook Legend
-The game is now called Snook Legend. Your account, coins, items, settings and progress are all here, as before.
+### 새 이름: Snook Legend
+게임 이름이 이제 Snook Legend예요. 계정, 코인, 아이템, 설정, 진행 상황은 모두 예전 그대로 있어요.
 
-### 8-foot table, open side pockets
-A smaller table (8 feet) and side pockets that forgive a ball off the centre or rolling in at an angle. The balls roll a little more freely.
+### 8피트 테이블, 넓은 사이드 포켓
+더 작은 테이블(8피트)과, 중앙에서 벗어나거나 비스듬히 들어오는 공도 받아 주는 사이드 포켓. 공이 조금 더 자유롭게 굴러요.
 
-### New rule: the opponent's ball
-Making one of your opponent's balls passes the turn, even if one of yours went down too. It is not a foul: no ball in hand.
+### 새 규칙: 상대의 공
+상대의 공을 넣으면 내 공이 함께 들어가도 차례가 넘어가요. 파울은 아니에요: 볼 인 핸드는 없어요.
 
-### Easier to see
-The cloth is lit evenly, the balls have a soft sheen so their numbers read, shadows are lighter, and nothing of the hall gets in the way of the view from above. Whose turn it is stands out on the score cards.
+### 더 잘 보이게
+테이블 천이 고르게 밝혀지고, 공에 부드러운 광택이 있어 번호가 잘 읽히며, 그림자는 옅어지고, 탑뷰를 가리는 홀의 물건도 없어요. 점수 카드에서 누구 차례인지 눈에 잘 띄어요.
 
-### Fifteen opponents
-Tito, Inês, Diego, Amara and Yuri join the computer opponents, each with a style and a voice of their own. The Tour now has fifteen stages; your wins so far are kept.
+### 15명의 상대
+Tito, Inês, Diego, Amara, Yuri가 컴퓨터 상대로 합류했어요. 저마다 고유한 스타일과 말투가 있어요. 투어는 이제 15스테이지이고, 지금까지의 승리는 유지돼요.
 
-### Quieter opponents
-Settings → Game → Opponents' remarks turns their speech bubbles off.
+### 조용한 상대
+설정 → 게임 → 상대의 한마디에서 말풍선을 끌 수 있어요.
 
-### A new score panel
-Pictures and names in boxes, and the balls each player made rolling into place along their rail, in the order they went down.
+### 새 점수 패널
+상자 안의 사진과 이름, 그리고 각 플레이어가 넣은 공이 들어간 순서대로 레일을 따라 굴러와 자리를 잡아요.
 
-### Aim by eye
-Raise the cue by dragging it in a side view of the shot. No more numbers on the power or the elevation: judge them by eye. Prefer it flat? Settings → Game → Top view only.
+### 눈으로 조준
+샷의 측면 화면에서 큐를 드래그해 올려요. 파워와 큐 각도에 더 이상 숫자가 없어요: 눈으로 판단하세요. 평면이 좋다면? 설정 → 게임 → 탑뷰만.
 
-### Rules and pictures
-The rules of the game are a click away (the book on the main menu, or Rules in the pause menu). Pick one of 32 profile pictures in your profile.
+### 규칙과 사진
+게임 규칙을 클릭 한 번으로 볼 수 있어요(메인 메뉴의 책, 또는 일시 정지 메뉴의 규칙). 프로필에서 프로필 사진 32개 중 하나를 고르세요.
 
-### Your games are safe
-Replays and daily games that started before this update keep the old table and rules until they end.
+### 진행 중인 게임은 안전해요
+이번 업데이트 전에 시작한 리플레이와 데일리 게임은 끝날 때까지 예전 테이블과 규칙을 유지해요.
 
 ## 0.3.0
 
-### A regulation 9-foot table
-The table is now tournament size (100" × 50"), with the balls, pockets, cushions and cue to official measurements. The balls are heavier and bounce less, like real ones.
+### 규격 9피트 테이블
+테이블이 이제 토너먼트 크기(100" × 50")이고, 공, 포켓, 쿠션, 큐가 공식 규격을 따라요. 공은 더 무겁고 덜 튀어서 실제 공 같아요.
 
-### A new break rule
-On the break, the first ball you pocket sets your group: solids or stripes. A foul on the break leaves the table open.
+### 새 브레이크 규칙
+브레이크에서 처음 넣은 공이 내 그룹을 정해요: 솔리드 또는 스트라이프. 브레이크에서 파울하면 오픈 테이블이 유지돼요.
 
-### New halls, tables and cues
-Four new halls and four new tables, and every old one reworked. Premium cues that look nothing alike. On Ultra, floors that reflect the hall.
+### 새 홀, 테이블, 큐
+새 홀 4개와 새 테이블 4개, 그리고 기존의 모든 것을 다시 다듬었어요. 전혀 다르게 생긴 프리미엄 큐. 울트라에서는 홀을 비추는 바닥.
 
-### Daily challenge
-A new position every day, the same for everyone, with a ranking of the day: three attempts to make as many balls as you can.
+### 일일 챌린지
+매일 모두에게 같은 새 배치와 그날의 순위: 세 번의 도전으로 최대한 많은 공을 넣으세요.
 
-### Drills with stars
-Seven drills on potting, spin, banks and escaping snookers, up to three stars each, with rankings and a challenge rating that shows your level.
+### 별이 있는 훈련
+포켓, 회전, 뱅크샷, 스누커 탈출을 다루는 훈련 7개. 각각 별 최대 3개, 랭킹과 실력을 보여 주는 도전 레이팅이 있어요.
 
-### Account level
-Earn experience in every game, won or lost, and in drills, the daily challenge and achievements. Your level shows on your profile.
+### 계정 레벨
+이기든 지든 모든 게임에서, 그리고 훈련, 일일 챌린지, 업적으로 경험치를 얻어요. 레벨은 프로필에 표시돼요.
 
-### The Tour
-The old ladder is now the Tour: ten stages, one opponent each. The opponents have new portraits and talk during the game.
+### 투어
+예전의 래더가 이제 투어예요: 10스테이지, 스테이지마다 상대 한 명. 상대들은 새 초상화를 얻었고 게임 중에 말을 해요.
 
-### Fair play
-Leaving a game costs more than losing it. The full aiming guide is for free games against the computer and practice only: never online, in the Tour, the daily challenge or drills.
+### 페어플레이
+게임을 나가면 지는 것보다 더 많이 잃어요. 전체 조준 가이드는 컴퓨터와 하는 자유 게임과 연습에서만 쓸 수 있어요: 온라인, 투어, 일일 챌린지, 훈련에서는 쓸 수 없어요.
 
-### Your profile
-A trophy shelf and statistics for each cue: games, wins and balls made with it. You can now change your username up to three times.
+### 내 프로필
+트로피 진열대와 큐별 통계: 그 큐로 한 게임, 승리, 넣은 공. 이제 사용자 이름을 최대 세 번까지 바꿀 수 있어요.
 
-### In the lounge
-An "away" status, quick phrases translated into your opponent's language and a practice table while the search for an opponent goes on.
+### 라운지에서
+"자리 비움" 상태, 상대의 언어로 번역되는 빠른 메시지, 그리고 상대를 찾는 동안 쓸 수 있는 연습 테이블.
 
 ## 0.2.0
 
-### Ten opponents with personality
-Choose who to play: from Leo, still learning, to Marta, who lives on safeties, and Lola, who banks everything. Each has their own style, portrait and strength.
+### 개성 있는 상대 10명
+상대를 골라 플레이하세요: 아직 배우는 중인 Leo부터, 세이프티로 사는 Marta, 모든 공을 뱅크샷으로 치는 Lola까지. 각자 고유한 스타일, 초상화, 실력이 있어요.
 
-### The ladder
-Beat the ten opponents one by one, up to the last. Reach the top to earn the exclusive "Ladder king" cue and a new achievement.
+### 래더
+10명의 상대를 한 명씩 이기며 마지막까지 올라가세요. 정상에 오르면 전용 큐 "래더 킹"과 새 업적을 얻어요.
 
-### Play the ghost
-The computer learns a real player's style from their online games. Challenge a friend's ghost, or your own, from the profile or the vs-computer screen.
+### 고스트와 대전
+컴퓨터가 실제 플레이어의 온라인 게임에서 스타일을 배워요. 프로필이나 컴퓨터 대전 화면에서 친구의 고스트나 내 고스트에게 도전하세요.
 
-### Daily games
-Challenge someone and play your turn when you can: each player has up to 3 days per turn. You are told when it's your turn, and you can have several games at once.
+### 데일리 게임
+누군가에게 도전하고 시간 날 때 내 차례를 플레이하세요: 차례마다 최대 3일이 주어져요. 내 차례가 되면 알려 주고, 여러 게임을 동시에 할 수 있어요.
 
-### Friends and gifts
-See who you played recently, write a status on your profile and post on the lounge's "looking for a game" board. Gifts from friends now arrive with a notice, a message and a "thank you".
+### 친구와 선물
+최근에 함께 플레이한 사람을 보고, 프로필에 상태 메시지를 쓰고, 라운지의 "게임 상대 구해요" 게시판에 글을 올리세요. 친구의 선물은 이제 알림, 메시지, "고마워요"와 함께 도착해요.
 
-### Cues, tables and halls
-Your cue earns bands and inlays as you win with it. In the shop, themed tables and halls: beach bar, industrial loft and English club.
+### 큐, 테이블, 홀
+내 큐는 그 큐로 이길수록 밴드와 상감 장식을 얻어요. 상점에는 테마 테이블과 홀: 비치 바, 인더스트리얼 로프트, 잉글리시 클럽.
 
-### Your game, analysed
-The profile's new Analysis tab shows your potting by pocket, distance and kind of shot, with a heat map of the table.
+### 내 게임 분석
+프로필의 새 분석 탭에서 포켓, 거리, 샷 종류별 포켓 성공률을 테이블 히트맵과 함께 보여 줘요.
 
-### Your keys
-Every shortcut can be changed in Settings → Controls, and the game's hints follow your choices.
+### 내 키
+모든 단축키를 설정 → 조작에서 바꿀 수 있고, 게임의 안내도 내 설정을 따라요.
 
-### Automatic updates
-New versions download in the background and install when you restart, never during a game. This window tells you what changed.
+### 자동 업데이트
+새 버전은 백그라운드에서 다운로드되고 다시 시작할 때 설치돼요. 게임 중에는 절대 설치되지 않아요. 이 창에서 무엇이 바뀌었는지 알려 줘요.
 
-### A reviewed interface
-Every screen was reviewed in the three languages and at every window size. Fixes: Esc opens the menu at the table, the computer sinks the 8 in its called pocket more reliably, and the overhead view no longer goes black.
+### 다시 점검한 인터페이스
+모든 화면을 세 가지 언어와 모든 창 크기에서 점검했어요. 수정: 테이블에서 Esc로 메뉴가 열리고, 컴퓨터가 지정한 포켓에 8번 공을 더 확실히 넣으며, 탑뷰가 더 이상 검게 변하지 않아요.
 
 ## 0.1.4
 
-### A game while you wait
-After half a minute of "Play now" without an opponent, you can play the computer while the search goes on.
+### 기다리는 동안 한 게임
+"바로 플레이"로 30초 동안 상대를 찾지 못하면, 검색을 계속하는 동안 컴퓨터와 플레이할 수 있어요.
 
-### Chat moderation
-You can delete your own chat lines, and moderators can remove abuse.
+### 채팅 관리
+내 채팅 메시지를 삭제할 수 있고, 운영자는 악성 메시지를 제거할 수 있어요.
 
-### Cues you can see
-Opponents see the pattern of the cue you bought, and VIP members have reactions of their own.
+### 보이는 큐
+상대가 내가 산 큐의 무늬를 볼 수 있고, VIP 회원은 전용 리액션을 가져요.

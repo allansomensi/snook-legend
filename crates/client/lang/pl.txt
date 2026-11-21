@@ -1,6 +1,2056 @@
-# Snook Legend: Brazilian Portuguese.
+# Snook Legend: Polish.
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
+{name} is on the 8: called pocket {pocket}	{name} gra na ósemkę – zadeklarowana łuza: {pocket}
+On the 8-ball: {pocket} pocket	Na ósemkę: łuza {pocket}
+Show ping	Pokaż ping
+Your connection's delay, in online games.	Opóźnienie twojego połączenia w partiach online.
+Reactions	Reakcje
+Shop	Sklep
+Cloth	Sukno
+Cues	Kije
+Chalk	Kreda
+Balls	Bile
+Coins	Monety
+coins	monet
+Sign in to buy and use items. Here is what there is:	Zaloguj się, aby kupować i używać przedmiotów. Oto, co jest w sklepie:
+In use	W użyciu
+Use	Użyj
+Buy	Kup
+{n} short	brakuje {n}
+{n} coins	{n} monet
+Not enough coins: get more in the Coins tab.	Za mało monet: zdobądź więcej w zakładce Monety.
+VIP only	Tylko VIP
+free	za darmo
+yours	posiadane
+achievement	osiągnięcie
+Coins can't be bought on this server yet.	Na tym serwerze nie można jeszcze kupować monet.
++{n} bonus	+{n} gratis
+Payment opens in your browser (card, Pix…), on Stripe's secure page.	Płatność otworzy się w przeglądarce (karta, Pix…), na bezpiecznej stronie Stripe.
+Coins arrive in a moment; they are only used for items in the game.	Monety dotrą za chwilę; służą tylko do kupowania przedmiotów w grze.
+Exclusive items: {list}	Ekskluzywne przedmioty: {list}
+{n} coins every month	{n} monet co miesiąc
+Cancel whenever you want: VIP lasts until the end of the paid month	Anuluj, kiedy chcesz: VIP trwa do końca opłaconego miesiąca
+You are VIP until {d}.	Masz VIP do {d}.
+Manage subscription	Zarządzaj subskrypcją
+Become VIP · {p}	Zostań VIP · {p}
+VIP can't be bought on this server yet.	Na tym serwerze nie można jeszcze kupić VIP.
+The payment page opened in your browser.	Strona płatności otworzyła się w przeglądarce.
+Could not open the browser.	Nie udało się otworzyć przeglądarki.
+Tournament green	Turniejowa zieleń
+Electric blue	Elektryczny błękit
+Burgundy	Burgund
+Charcoal	Grafit
+Teal	Morski
+Royal purple	Królewska purpura
+Camel	Karmel
+Midnight	Nocny granat
+Champion's red	Czerwień mistrza
+Classic	Klasyczny
+Rosewood	Palisander
+Ebony & silver	Heban i srebro
+Carbon	Karbon
+Ivory inlay	Intarsja z kości słoniowej
+Crown	Korona
+Jewels	Klejnoty
+Blue chalk	Niebieska kreda
+Green chalk	Zielona kreda
+Red chalk	Czerwona kreda
+Purple chalk	Fioletowa kreda
+Gold chalk	Złota kreda
+Vintage	Vintage
+Pastel	Pastele
+Neon	Neon
+You already have this item.	Masz już ten przedmiot.
+Not enough coins.	Za mało monet.
+The purchase failed; no coins were taken.	Zakup się nie udał; nie pobrano monet.
+No such item.	Nie ma takiego przedmiotu.
+This item can't be bought with coins.	Tego przedmiotu nie można kupić za monety.
+You don't have this item.	Nie masz tego przedmiotu.
+Purchases are not available.	Zakupy są niedostępne.
+This pack is not on sale.	Ten pakiet nie jest w sprzedaży.
+The payment page could not be opened. Try again in a moment.	Nie udało się otworzyć strony płatności. Spróbuj ponownie za chwilę.
+You are already VIP.	Masz już VIP.
+There is no subscription to manage.	Nie masz subskrypcji, którą można zarządzać.
+The page could not be opened. Try again in a moment.	Nie udało się otworzyć strony. Spróbuj ponownie za chwilę.
+Coins added to your wallet.	Monety dodane do portfela.
+Welcome to VIP!	Witaj w VIP!
+Slow down a little.	Trochę zwolnij.
+You can't do that.	Nie możesz tego zrobić.
+There are too many notes right now. Try again in a few minutes.	Jest teraz za dużo ogłoszeń. Spróbuj ponownie za kilka minut.
+A moderator took down your note.	Moderator usunął twoje ogłoszenie.
+A moderator cleared your status message.	Moderator wyczyścił twój status.
+Status message cleared.	Status wyczyszczony.
+VIP	VIP
+Play now	Graj teraz
+Find an opponent of your level automatically	Automatycznie znajdź przeciwnika na twoim poziomie
+Looking for an opponent… {t}	Szukanie przeciwnika… {t}
+any rating	dowolny ranking
+rating ±{n} · {mode}	ranking ±{n} · {mode}
+Potting success	Skuteczność wbić
+Balls made	Wbite bile
+Best run	Najlepsza seria
+Fouls	Faule
+seen just now	online przed chwilą
+seen {n} min ago	online {n} min temu
+seen {n} h ago	online {n} godz. temu
+seen yesterday	online wczoraj
+seen {n} days ago	online {n} dni temu
+seen {n} months ago	online {n} mies. temu
+just now	przed chwilą
+{n} min ago	{n} min temu
+{n} h ago	{n} godz. temu
+yesterday	wczoraj
+{n} days ago	{n} dni temu
+Game history	Historia partii
+Nothing yet.	Na razie nic.
+Fine aim: click the arrows, or drag here	Precyzyjne celowanie: klikaj strzałki lub przeciągnij tutaj
+{n} watching	Oglądający: {n}
+Watching {name}	Oglądasz: {name}
+Your reactions reach the table quietly.	Twoje reakcje trafiają do stołu po cichu.
+Stop watching	Przestań oglądać
+If they play again, you keep watching.	Jeśli zagrają ponownie, nadal będziesz oglądać.
+Your friend left the table.	Twój znajomy odszedł od stołu.
+Your friend isn't playing right now.	Twój znajomy teraz nie gra.
+You can only watch your friends.	Możesz oglądać tylko znajomych.
+You can't watch this game.	Nie możesz oglądać tej partii.
+{n} points to {tier}	Do ligi {tier}: {n} pkt
+Top tier	Najwyższa liga
+Reactions {n}/{total}	Reakcje {n}/{total}
+Haunted table	Nawiedzony stół
+Win a rated game during Halloween (Oct 24 – Nov 2).	Wygraj partię rankingową w Halloween (24 paź – 2 lis).
+Winter league	Liga zimowa
+Win a rated game over the holidays (Dec 15 – Jan 6).	Wygraj partię rankingową w okresie świątecznym (15 gru – 6 sty).
+Fireworks	Fajerwerki
+Win a rated game at the turn of the year (Dec 31 – Jan 1).	Wygraj partię rankingową na przełomie roku (31 gru – 1 sty).
+Shows where the object ball and the cue ball go (only in free games and practice).	Pokazuje, dokąd potoczą się bila zagrywana i biała (tylko w wolnej grze i na treningu).
+{n} online · ping {ms} ms	Online: {n} · ping {ms} ms
+Right-drag · Wheel	Przeciągnij prawym · Kółko
+Win %	% wygranych
+Reset the camera: top view, no zoom	Zresetuj kamerę: widok z góry, bez przybliżenia
+{name} sank the 8-ball	{name} wbija ósemkę
+{name} sank the 8 too early	{name} wbija ósemkę za wcześnie
+{name} sank the 8 in the wrong pocket	{name} wbija ósemkę do złej łuzy
+{name} fouled on the 8	{name} fauluje na ósemce
+{name} knocked the 8 off the table	{name} wybija ósemkę ze stołu
+{name} resigned	{name} poddaje partię
+{name} left the game	{name} opuszcza partię
+{winner} wins! ({how})	{winner} wygrywa! ({how})
+#{n} in the world	#{n} na świecie
+3–16 letters, digits or underscores.	3–16 liter, cyfr lub podkreślników.
+No lines on the table: aim by eye, along the cue.	Bez linii na stole: celuj na oko, wzdłuż kija.
+No guide	Bez pomocy
+Only a short line from the cue ball.	Tylko krótka linia od białej bili.
+Accept friend	Przyjmij do znajomych
+Achievement unlocked: {title}	Odblokowano osiągnięcie: {title}
+Achievements {n}/{total}	Osiągnięcia {n}/{total}
+Add	Dodaj
+Add a friend by username	Dodaj znajomego po nazwie użytkownika
+Add friend	Dodaj znajomego
+Against the computer	Z komputerem
+All tournaments	Wszystkie turnieje
+Amateur	Amator
+At least 8 characters. Use a password you don't use elsewhere.	Co najmniej 8 znaków. Użyj hasła, którego nie używasz nigdzie indziej.
+At least two players are needed.	Potrzeba co najmniej dwóch graczy.
+Back	Wróć
+Black ball	Czarna bila
+Block	Zablokuj
+Break and run	Rozbij i wyczyść
+Break and run 10 times.	Wyczyść stół od rozbicia 10 razy.
+Can't listen for games here: join by address below.	Nie można tu wyszukiwać gier: dołącz przez adres poniżej.
+Cancel request	Anuluj zaproszenie
+Cancel tournament	Anuluj turniej
+Casual	Towarzyska
+Centurion	Centurion
+Champion	Czempion
+Champion: {name}	Zwycięzca: {name}
+Change country	Zmień kraj
+Add a status message	Dodaj status
+A line about you	Kilka słów o sobie
+Save (Enter)	Zapisz (Enter)
+Cancel (Esc)	Anuluj (Esc)
+Change your status message	Zmień swój status
+Clear the status message	Wyczyść status
+Cheating or abuse	Oszustwo lub nadużycie
+Choose…	Wybierz…
+Click again to block	Kliknij ponownie, aby zablokować
+Close	Zamknij
+Closer	Finiszer
+Competitor	Zawodnik
+Connecting to the server…	Łączenie z serwerem…
+Could not host a game: {e}	Nie udało się utworzyć gry: {e}
+Country	Kraj
+Create	Utwórz
+Create a tournament	Utwórz turniej
+Don't show a flag	Nie pokazuj flagi
+No country found.	Nie znaleziono kraju.
+Dynasty	Dynastia
+Eight is enough	Ósemka wystarczy
+Executioner	Kat
+Expert	Ekspert
+Familiar face	Znajoma twarz
+Final	Finał
+Finish your game first.	Najpierw dokończ partię.
+First blood	Pierwsza krew
+First break	Pierwsze rozbicie
+Friend request sent.	Zaproszenie do znajomych wysłane.
+Friends	Znajomi
 # Daily (correspondence) games.
+daily game	partia korespondencyjna
+Daily	Korespondencja
+Daily game	Partia korespondencyjna
+Daily games	Partie korespondencyjne
+Challenge a player by username	Wyzwij gracza po nazwie użytkownika
+Challenge to a daily game	Wyzwij na partię korespondencyjną
+3 days for each turn	3 dni na każdy ruch
+No daily games yet. Challenge a friend: each of you plays a turn whenever you can.	Nie masz jeszcze partii korespondencyjnych. Wyzwij znajomego: każde z was wykonuje ruch, kiedy może.
+challenges you · {kind}	wyzywa cię · {kind}
+waiting for an answer · {kind} · {time} left	czeka na odpowiedź · {kind} · zostało {time}
+your turn · {time} left	twój ruch · zostało {time}
+their turn · {time} left	ruch przeciwnika · zostało {time}
+won · {how}	wygrana · {how}
+lost · {how}	przegrana · {how}
+ran out of time	koniec czasu
+the opponent ran out of time	przeciwnikowi skończył się czas
+open table	stół otwarty
+You: {mine}, {a} left · {name}: {theirs}, {b} left	Ty: {mine}, zostało: {a} · {name}: {theirs}, zostało: {b}
+Look	Zobacz
+Skip	Pomiń
+Replaying {name}'s turn	Powtórka ruchu gracza {name}
+Stroke {n} of {total}	Uderzenie {n} z {total}
+Turn sent	Ruch wysłany
+Turn sent.	Ruch wysłany.
+Waiting for {name} to play	Czekamy na ruch gracza {name}
+{name} has {time} to play. You'll be told when it's your turn.	{name} ma {time} na ruch. Damy ci znać, gdy przyjdzie twoja kolej.
+{time} left to play. You'll be told when it's your turn.	Na ruch zostało {time}. Damy ci znać, gdy przyjdzie twoja kolej.
+Back to daily games	Wróć do partii korespondencyjnych
+Your game is saved: come back whenever you like.	Partia jest zapisana: wróć, kiedy zechcesz.
+{d} d {h} h	{d} d {h} h
+{name} ran out of time	{name}: koniec czasu
+This game can't be shown.	Nie można wyświetlić tej partii.
+A daily game is waiting for you	Czeka na ciebie partia korespondencyjna
+{n} daily games are waiting for you	Czekające na ciebie partie korespondencyjne: {n}
+{name} challenges you to a rated daily game.	{name} wyzywa cię na rankingową partię korespondencyjną.
+{name} challenges you to a casual daily game.	{name} wyzywa cię na towarzyską partię korespondencyjną.
+{name} accepted your daily game.	{name} przyjmuje twoje wyzwanie na partię korespondencyjną.
+{name} declined your daily game.	{name} odrzuca twoje wyzwanie na partię korespondencyjną.
+{name} withdrew their daily game challenge.	{name} wycofuje wyzwanie na partię korespondencyjną.
+Your turn in the daily game against {name}.	Twój ruch w partii korespondencyjnej z graczem {name}.
+{name} ran out of time: you won the daily game.	{name}: koniec czasu – wygrywasz partię korespondencyjną.
+You won the daily game against {name}!	Wygrywasz partię korespondencyjną z graczem {name}!
+You ran out of time in the daily game against {name}.	Skończył ci się czas w partii korespondencyjnej z graczem {name}.
+You lost the daily game against {name}.	Przegrywasz partię korespondencyjną z graczem {name}.
+Challenge sent.	Wyzwanie wysłane.
+Daily games need an account.	Partie korespondencyjne wymagają konta.
+No such game.	Nie ma takiej partii.
+That challenge is no longer valid.	To wyzwanie jest już nieaktualne.
+That player already challenged you: answer their challenge.	Ten gracz już cię wyzwał: odpowiedz na jego wyzwanie.
+That player has too many challenges waiting.	Ten gracz ma za dużo oczekujących wyzwań.
+That player has too many daily games going on.	Ten gracz ma za dużo trwających partii korespondencyjnych.
+That player is not accepting challenges.	Ten gracz nie przyjmuje wyzwań.
+This game can't be played right now.	Tej partii nie można teraz rozegrać.
+This game changed meanwhile: open it again.	Partia zmieniła się w międzyczasie: otwórz ją ponownie.
+This game is over.	Ta partia już się zakończyła.
+You already challenged that player.	Ten gracz ma już od ciebie wyzwanie.
+You already have a game going on against that player.	Masz już trwającą partię z tym graczem.
+You blocked that player.	Ten gracz jest przez ciebie zablokowany.
+You can't challenge yourself.	Nie możesz wyzwać siebie.
+You have as many daily games as you can play at once.	Masz już tyle partii korespondencyjnych, ile można grać naraz.
+You have too many challenges waiting for an answer.	Masz za dużo wyzwań czekających na odpowiedź.
+You're sending challenges too quickly.	Wysyłasz wyzwania za szybko.
+Your time for this turn ran out.	Skończył ci się czas na ten ruch.
+Games	Partie
+Games on your network	Gry w twojej sieci
+Give the tournament a name (at least 3 characters).	Nadaj turniejowi nazwę (co najmniej 3 znaki).
+Good company	Dobre towarzystwo
+Grandmaster	Arcymistrz
+Guests can only join LAN games. Create an account.	Goście mogą dołączać tylko do gier LAN. Utwórz konto.
+Guests can't play rated tournaments.	Goście nie mogą grać w turniejach rankingowych.
+Guests don't have this.	Niedostępne dla gości.
+Harassment	Nękanie
+Hat trick	Hat-trick
+Have 10 friends.	Miej 10 znajomych.
+Have an account for 30 days.	Miej konto od 30 dni.
+Have an account for a year.	Miej konto od roku.
+Host a game on this computer	Utwórz grę na tym komputerze
+Host {host} · {n}/{size} players · {kind}	Gospodarz {host} · gracze: {n}/{size} · {kind}
+Hot hand	Gorąca ręka
+Hustler	Cwaniak
+Invalid shot.	Nieprawidłowe uderzenie.
+Join	Dołącz
+Joining the LAN game…	Dołączanie do gry LAN…
+Just for fun	Dla zabawy
+L	P
+LAN game	Gra LAN
+LAN game hosted by {name}.	Gra LAN, gospodarz: {name}.
+LAN games don't change ratings.	Gry LAN nie zmieniają rankingu.
+Legend	Legenda
+Lives at the table	Mieszka przy stole
+Loading the profile…	Wczytywanie profilu…
+Loading…	Wczytywanie…
+Local network	Sieć lokalna
+Locked	Zablokowane
+Looking for games	Szukanie gier
+Make a friend.	Zdobądź znajomego.
+Master	Mistrz
+Name	Nazwa
+Names have 3–16 letters, digits or underscores.	Nazwy mają 3–16 liter, cyfr lub podkreślników.
+New account	Nowe konto
+I have an account	Mam konto
+New here? Choose “New account”: it takes ten seconds.	Pierwszy raz tutaj? Wybierz „Nowe konto”: to zajmie dziesięć sekund.
+New tournament	Nowy turniej
+No friends yet. Add someone you played with!	Nie masz jeszcze znajomych. Dodaj kogoś ze swoich przeciwników!
+No games yet.	Na razie brak partii.
+No limit	Bez limitu
+No open tables. Open one and others can sit down.	Brak otwartych stołów. Otwórz stół, a inni będą mogli się dosiąść.
+No other open tables right now.	Teraz nie ma innych otwartych stołów.
+No such player.	Nie ma takiego gracza.
+No tournaments right now. Create one!	Teraz nie ma żadnych turniejów. Utwórz własny!
+Offensive name	Obraźliwa nazwa
+On a roll	Dobra passa
+On fire	W gazie
+Only the host can start the tournament.	Tylko gospodarz może rozpocząć turniej.
+Open a table	Otwórz stół
+Or join by address	Lub dołącz przez adres
+Other	Inne
+Others can join at {ip}:{port}	Inni mogą dołączyć pod adresem {ip}:{port}
+Passwords need at least 8 characters (not only digits).	Hasło musi mieć co najmniej 8 znaków (nie same cyfry).
+Play 1,000 rated games.	Rozegraj 1000 partii rankingowych.
+Play 10 rated games.	Rozegraj 10 partii rankingowych.
+Play 100 rated games.	Rozegraj 100 partii rankingowych.
+Play 25 casual games.	Rozegraj 25 partii towarzyskich.
+Play 500 rated games.	Rozegraj 500 partii rankingowych.
+Play in a tournament.	Zagraj w turnieju.
+Play online	Graj online
+Play with friends on the same network	Graj ze znajomymi w tej samej sieci
+Play your first rated game.	Rozegraj pierwszą partię rankingową.
+Player 1	Gracz 1
+Players	Gracze
+Players in a tournament can't start other games.	Uczestnicy turnieju nie mogą zaczynać innych partii.
+Please don't repeat the same message.	Nie powtarzaj tej samej wiadomości.
+Pool hall legend	Legenda klubu
+Popular	Dusza towarzystwa
+Private	Prywatny
+for your friends to sit down	dla znajomych, żeby mogli się dosiąść
+Profile	Profil
+{key}: watch the last shot again	{key}: obejrzyj ponownie ostatnie uderzenie
+REPLAY	POWTÓRKA
+Rated	Rankingowa
+Rated games, tables, tournaments and friends	Partie rankingowe, stoły, turnieje i znajomi
+Reach a rating of 1300.	Osiągnij ranking 1300.
+Reach a rating of 1500.	Osiągnij ranking 1500.
+Reach a rating of 1700.	Osiągnij ranking 1700.
+Reach a rating of 1900.	Osiągnij ranking 1900.
+Reach a rating of 2100.	Osiągnij ranking 2100.
+Refresh	Odśwież
+Regular	Stały bywalec
+Remove friend	Usuń ze znajomych
+Replay	Powtórka
+Report	Zgłoś
+Report {name}	Zgłoś gracza {name}
+Request sent	Zaproszenie wysłane
+Friend	Znajomy
+Recent	Ostatnio
+Nobody yet. The people you play online will show up here.	Na razie nikogo. Pojawią się tu osoby, z którymi grasz online.
+{n} games	partie: {n}
+Rookie	Nowicjusz
+Round {n}	Runda {n}
+Search…	Szukaj…
+Semi-finals	Półfinały
+Send report	Wyślij zgłoszenie
+This game goes with the report, so the moderators can watch it.	Ta partia zostanie dołączona do zgłoszenia, żeby moderatorzy mogli ją obejrzeć.
+Your game with {name} ({date}) goes with the report, so the moderators can watch it.	Twoja partia z graczem {name} ({date}) zostanie dołączona do zgłoszenia, żeby moderatorzy mogli ją obejrzeć.
+You haven't played {name} in the last day: the moderators see the recent chat.	W ciągu ostatniej doby nie było partii z graczem {name}: moderatorzy zobaczą ostatnie wiadomości z czatu.
+Shark	Rekin
+Shows the contact point; judging the cut is up to you.	Pokazuje punkt styku; ocena cięcia należy do ciebie.
+Shutout	Do zera
+Sign in	Zaloguj się
+Sign in or create an account	Zaloguj się lub utwórz konto
+Sign out	Wyloguj się
+Sit down	Dosiądź się
+Skilled	Zaawansowany
+Someone with that name is already here.	Ktoś o tej nazwie już tu jest.
+Spam	Spam
+Start now	Zacznij teraz
+Stop the replay	Zatrzymaj powtórkę
+Table runner	Czyściciel stołów
+Tables	Stoły
+Take turns on this computer	Grajcie na zmianę na tym komputerze
+Thank you. The moderators will look into it.	Dziękujemy. Moderatorzy się tym zajmą.
+Thank you. The moderators will look into it, with your game attached.	Dziękujemy. Moderatorzy się tym zajmą – twoja partia została dołączona.
+That player is not accepting invitations.	Ten gracz nie przyjmuje zaproszeń.
+That shot was for an earlier turn.	To uderzenie dotyczyło wcześniejszej kolejki.
+That table is no longer open.	Ten stół nie jest już otwarty.
+That tournament has already started.	Ten turniej już się rozpoczął.
+That tournament no longer exists.	Ten turniej już nie istnieje.
+The first connection of the day can take up to a minute while the server wakes up.	Pierwsze połączenie danego dnia może potrwać do minuty, zanim serwer się obudzi.
+The first time, allow Snook Legend through the firewall when asked.	Za pierwszym razem zezwól Snook Legend na dostęp przez zaporę, gdy pojawi się pytanie.
+The server could not play that shot.	Serwer nie mógł wykonać tego uderzenia.
+The server is busy. Try again in a moment.	Serwer jest zajęty. Spróbuj ponownie za chwilę.
+The tournament starts when it is full (the host can start it earlier).	Turniej zacznie się, gdy będzie komplet (gospodarz może go rozpocząć wcześniej).
+There are too many tournaments right now. Join one!	Jest teraz za dużo turniejów. Dołącz do któregoś!
+This is a LAN server: join as a guest.	To serwer LAN: dołącz jako gość.
+Fifteen rivals, a tour and ghosts of real players	Piętnastu rywali, trasa i duchy prawdziwych graczy
+Tier	Liga
+Time per shot	Czas na uderzenie
+Too many failed attempts. Wait a few minutes and try again.	Za dużo nieudanych prób. Odczekaj kilka minut i spróbuj ponownie.
+Too many messages.	Za dużo wiadomości.
+Too many new accounts from this network. Try again later.	Za dużo nowych kont z tej sieci. Spróbuj ponownie później.
+Top 100 · rated games	Top 100 · partie rankingowe
+Tournament game: the next round starts from the lounge.	Partia turniejowa: następna runda zaczyna się z lobby.
+Tournament games have no rematch.	W partiach turniejowych nie ma rewanżu.
+Tournaments	Turnieje
+Tournaments have 4, 8 or 16 players.	Turnieje są dla 4, 8 lub 16 graczy.
+Two players	Dwóch graczy
+Unblock	Odblokuj
+Unlocked {date}	Odblokowano {date}
+Unstoppable	Nie do zatrzymania
+W	W
+Watch the last shot again	Obejrzyj ponownie ostatnie uderzenie
+What happened? (optional)	Co się stało? (opcjonalnie)
+When time runs out, the turn passes.	Gdy skończy się czas, kolej przechodzi na przeciwnika.
+Whitewash	Pogrom
+Win 10 rated games on the 8-ball.	Wygraj 10 partii rankingowych wbiciem ósemki.
+Win 10 rated games in a row.	Wygraj 10 partii rankingowych z rzędu.
+Win 10 rated games.	Wygraj 10 partii rankingowych.
+Win 10 rated shutouts.	Wygraj do zera 10 partii rankingowych.
+Win 100 rated games on the 8-ball.	Wygraj 100 partii rankingowych wbiciem ósemki.
+Win 100 rated games.	Wygraj 100 partii rankingowych.
+Win 250 rated games on the 8-ball.	Wygraj 250 partii rankingowych wbiciem ósemki.
+Win 3 rated games in a row.	Wygraj 3 partie rankingowe z rzędu.
+Win 5 rated games in a row.	Wygraj 5 partii rankingowych z rzędu.
+Win 5 tournaments.	Wygraj 5 turniejów.
+Win 50 rated games on the 8-ball.	Wygraj 50 partii rankingowych wbiciem ósemki.
+Win 50 rated games.	Wygraj 50 partii rankingowych.
+Win 500 rated games.	Wygraj 500 partii rankingowych.
+Win a rated game.	Wygraj partię rankingową.
+Win a tournament.	Wygraj turniej.
+Win a rated game before your opponent sinks a ball of their group.	Wygraj partię rankingową, zanim przeciwnik wbije bilę ze swojej grupy.
+Win a rated game from the break without your opponent getting a shot.	Wygraj partię rankingową od rozbicia, nie dając przeciwnikowi wykonać uderzenia.
+Withdraw	Wycofaj się
+World ranking	Ranking światowy
+Wrong table password.	Błędne hasło do stołu.
+Wrong tournament password.	Błędne hasło do turnieju.
+You are already in a tournament.	Już bierzesz udział w turnieju.
+You are hosting a game	Udostępniasz grę
+You can't join this table.	Nie możesz dosiąść się do tego stołu.
+You signed in from another place.	Zalogowano się na twoje konto w innym miejscu.
+You're sending invitations too quickly.	Wysyłasz zaproszenia za szybko.
+You're sending messages too quickly.	Wysyłasz wiadomości za szybko.
+You've sent many reports. Please wait before sending more.	Wysłano już wiele zgłoszeń. Odczekaj chwilę, zanim wyślesz kolejne.
+Your friend list is full.	Twoja lista znajomych jest pełna.
+Your next match starts by itself when both players are free.	Twój następny mecz zacznie się sam, gdy obie strony będą wolne.
+Your profile	Twój profil
+Your table is open	Twój stół jest otwarty
+Zoom in	Przybliż
+Zoom out	Oddal
+at a table	przy stole
+best streak	najdłuższa seria wygranych
+by {host} · {n}/{size} players	gospodarz: {host} · gracze: {n}/{size}
+casual games	partie towarzyskie
+casual · private	towarzyska · prywatna
+casual · public	towarzyska · publiczna
+connecting to the server	łączenie z serwerem
+eight-ball pool	bilard: ósemka
+finished	zakończony
+guest	gość
+invites you to {kind}	zaprasza cię na {kind}
+joined today	z nami od dzisiaj
+member for {n} days	z nami od {n} dni
+member for {n} months	z nami od {n} miesięcy
+member for {n} years	z nami od {n} lat
+offline	offline
+open	otwarty
+optional: only friends with it can join	opcjonalne: dołączyć mogą tylko znajomi, którzy je znają
+password	hasło
+peak {n}	rekord {n}
+playing	w grze
+playing the computer	gra z komputerem
+away	zaraz wracam
+this game is saved	ta partia jest zapisana
+rated games	partie rankingowe
+rated · private	rankingowa · prywatna
+rated · public	rankingowa · publiczna
+request sent	zaproszenie wysłane
+the connection dropped	połączenie zostało przerwane
+to play online	aby grać online
+tournament	turniej
+tournaments won	wygrane turnieje
+waiting for an opponent…	czekanie na przeciwnika…
+win rate	% wygranych
+wins	wygrane
+won on the 8	wygrane ósemką
+{host}'s game	Gra gracza {host}
+{name} wants to be friends	{name} chce dodać cię do znajomych
+{name} wants to be your friend.	{name} chce dodać cię do znajomych.
+{n} online	online: {n}
+sank the 8-ball	wbicie ósemki
+the opponent sank the 8-ball	przeciwnik wbił ósemkę
+the opponent sank the 8 too early	przeciwnik wbił ósemkę za wcześnie
+sank the 8 too early	ósemka wbita za wcześnie
+the opponent sank the 8 in the wrong pocket	przeciwnik wbił ósemkę do złej łuzy
+sank the 8 in the wrong pocket	ósemka w złej łuzie
+the opponent fouled on the 8	przeciwnik sfaulował na ósemce
+fouled on the 8	faul na ósemce
+the opponent knocked the 8 off the table	przeciwnik wybił ósemkę ze stołu
+knocked the 8 off the table	ósemka wybita ze stołu
+the opponent resigned	przeciwnik się poddał
+resigned	poddanie partii
+the opponent left	przeciwnik wyszedł
+left the game	opuszczenie partii
+You are muted for {n} more minutes.	Twój czat jest wyciszony jeszcze przez {n} min.
+This account is suspended for {n} more day(s). Reason: {reason}.	Konto zawieszone – pozostałe dni: {n}. Powód: {reason}.
+This account is banned. Reason: {reason}.	To konto jest zbanowane. Powód: {reason}.
+You were muted: {r}	Wyciszono cię: {r}
+Your account was suspended: {r}	Twoje konto zostało zawieszone: {r}
+Your account was banned: {r}	Twoje konto zostało zbanowane: {r}
+You were disconnected by a moderator: {r}	Moderator rozłączył cię: {r}
+You were disconnected by a moderator.	Moderator rozłączył cię.
+Please sign in again.	Zaloguj się ponownie.
+Your password was changed. Sign in again.	Twoje hasło zostało zmienione. Zaloguj się ponownie.
+Accept rematch	Przyjmij rewanż
+Accept	Akceptuj
+Aim	Celowanie
+Aiming guide	Pomoc w celowaniu
+Aiming	Celowanie
+Anti-aliasing	Wygładzanie krawędzi
+Smooths the jagged edges of lines and balls.	Wygładza poszarpane krawędzie linii i bil.
+Back to lounge	Wróć do lobby
+Balanced: smooth on most laptops.	Zrównoważona: płynnie na większości laptopów.
+Ball in hand	Bila z ręki
+Break the rack	Rozbij bile
+Camera pulls back to watch each shot	Kamera oddala się przy każdym uderzeniu
+Camera	Kamera
+Cancel	Anuluj
+Casual game: ratings unchanged	Partia towarzyska: ranking bez zmian
+Center	Środek
+Chat	Czat
+Click a ball or a spot	Kliknij bilę lub punkt
+Click to chat, Enter to send	Kliknij, aby pisać, Enter wysyła
+Controls	Sterowanie
+Create account	Utwórz konto
+Cue ball contact	Punkt uderzenia białej
+Decline	Odrzuć
+Done	Gotowe
+Drag the cue ball	Przeciągnij białą
+Elevation	Uniesienie kija
+Everything, with reflections in polished floors: for gaming PCs.	Wszystko, z odbiciami na wypolerowanych podłogach: dla komputerów do gier.
+Fine aim	Precyzyjne celowanie
+Finish this match first.	Najpierw dokończ ten mecz.
+For old or very slow computers.	Dla starych lub bardzo wolnych komputerów.
+Full screen	Pełny ekran
+Also with {key}.	Również klawiszem {key}.
+Full	Pełna
+Game server	Serwer gry
+Change it only to play on another server.	Zmieniaj tylko, jeśli chcesz grać na innym serwerze.
+Advanced	Zaawansowane
+Custom server	Inny serwer
+Graphics quality	Jakość grafiki
+Quality	Jakość
+Display	Ekran
+High	Wysoka
+Invite	Zaproś
+Leave to the lounge	Wyjdź do lobby
+Leave	Wyjdź
+Leaving now counts as a loss.	Wyjście teraz liczy się jako porażka.
+Lounge chat	Czat lobby
+Low	Niska
+Main menu	Menu główne
+Medium	Średnia
+Menu / help	Menu / pomoc
+Next game starts in a moment…	Następna partia zacznie się za chwilę…
+No rated games yet. Be the first!	Nie ma jeszcze partii rankingowych. Zagraj pierwszą!
+Nobody else is here right now.	Nikogo innego tu teraz nie ma.
+Looking for a game?	Szukasz partii?
+Looking for a game	Szukam partii
+Post a note	Dodaj ogłoszenie
+Everyone in the lounge sees it for 30 minutes	Wszyscy w lobby widzą je przez 30 minut
+What are you after? ({kind})	Czego szukasz? ({kind})
+Post	Opublikuj
+Your note: {text}	Twoje ogłoszenie: {text}
+{mode} · {left} left	{mode} · zostało {left}
+Take down	Usuń
+Challenge	Wyzwij
+Take the note down	Usuń ogłoszenie
+Off	Wył.
+On the 8-ball: call a pocket	Na ósemkę: zadeklaruj łuzę
+On the 8-ball	Na ósemkę
+Open table	Stół otwarty
+Password	Hasło
+Paused	Pauza
+Play	Graj
+Player 2	Gracz 2
+Player	Gracz
+Quick aim	Szybkie celowanie
+Quit	Zakończ
+Reconnected.	Połączono ponownie.
+Rematch	Rewanż
+Resign this game	Poddaj tę partię
+Restart the game to apply this change.	Uruchom grę ponownie, aby zastosować tę zmianę.
+Resume	Wznów
+Retry	Ponów
+Saving the result…	Zapisywanie wyniku…
+Say hello… (Enter to send)	Przywitaj się… (Enter wysyła)
+Send	Wyślij
+Settings	Ustawienia
+{key} + drag	{key} + przeciągnij
+{key}: 3D / top view	{key}: 3D / widok z góry
+{keys}: zoom	{keys}: przybliżenie
+View	Widok
+Aim left	Celuj w lewo
+Aim right	Celuj w prawo
+Fine aim (hold)	Precyzyjne celowanie (przytrzymaj)
+Shoot (hold, release)	Uderzenie (przytrzymaj, puść)
+Top spin	Rotacja górna
+Back spin	Rotacja dolna
+Left spin	Lewa rotacja
+Right spin	Prawa rotacja
+Raise the cue	Unieś kij
+Lower the cue	Opuść kij
+Pick up the cue ball in hand	Weź białą do ręki
+3D / top view	3D / widok z góry
+Reset the camera	Zresetuj kamerę
+Replay the last shot	Powtórka ostatniego uderzenia
+List of controls	Lista sterowania
+Keys can be changed in Settings → Controls.	Klawisze można zmienić w Ustawienia → Sterowanie.
+Space	Spacja
+Right Shift	Prawy Shift
+Right Ctrl	Prawy Ctrl
+Right Alt	Prawy Alt
+Aiming and shooting	Celowanie i uderzenie
+Spin and elevation	Rotacja i uniesienie
+Fixed keys	Stałe klawisze
+Menu, back and cancel	Menu, powrót i anulowanie
+Confirm (forms, the cue ball in hand)	Zatwierdź (formularze, biała z ręki)
+This key can't be changed.	Tego klawisza nie można zmienić.
+Press a key · Esc cancels · Backspace clears	Naciśnij klawisz · Esc anuluje · Backspace czyści
+Press a key…	Naciśnij klawisz…
+Click to change	Kliknij, aby zmienić
+Click to add a key	Kliknij, aby dodać klawisz
+Back to no key	Przywróć brak klawisza
+Back to {keys}	Przywróć {keys}
+Swapped: {action} is now on {key}.	Zamieniono: {action} ma teraz klawisz {key}.
+Taken from {action}, which now has no key.	Zabrano z: {action} (teraz bez klawisza).
+Taken from {action}.	Zabrano z: {action}.
+That key can't be used: try another.	Tego klawisza nie można użyć: wybierz inny.
+Shoot	Uderz
+Short	Krótka
+Signing in…	Logowanie…
+Signing in	Logowanie
+Soft shadows from every lamp, glossy halls, halos.	Miękkie cienie od każdej lampy, błyszczące sale, poświaty.
+Solids (1–7)	Pełne (1–7)
+Spin ball	Wskaźnik rotacji
+Spin	Rotacja
+Standard	Standardowa
+Stay	Zostań
+Stripes (9–15)	Połówki (9–15)
+The game goes on while this is open.	Gra toczy się dalej, gdy to okno jest otwarte.
+Use default	Użyj domyślnego
+Username	Nazwa użytkownika
+Usernames have 3–16 letters, digits or underscores.	Nazwy użytkownika mają 3–16 liter, cyfr lub podkreślników.
+{keys} (jump & massé)	{keys} (skok i massé)
+You win!	Wygrywasz!
+Your name	Twoja nazwa
+Your opponent went back to the lounge.	Przeciwnik wrócił do lobby.
+Your turn	Twoja kolej
+open table: the next ball you make sets your group	stół otwarty: następna wbita bila ustali twoją grupę
+draw	cofnięcie
+follow	przebicie
+stun	stop
+solids	pełne
+stripes	połówki
+lounge	lobby
+ · left english	 · lewa rotacja
+ · right english	 · prawa rotacja
+Language	Język
+General	Ogólne
+Graphics	Grafika
+Game	Gra
+Sound	Dźwięk
+Reset to defaults	Przywróć domyślne
+Reset all keys	Zresetuj wszystkie klawisze
+Reset every key?	Zresetować wszystkie klawisze?
+Click again to put every key back	Kliknij ponownie, aby przywrócić wszystkie klawisze
+Updates	Aktualizacje
+Update automatically	Aktualizuj automatycznie
+New versions download in the background and install when you restart.	Nowe wersje pobierają się w tle i instalują po ponownym uruchomieniu.
+Version {v}	Wersja {v}
+What's new	Co nowego
+What's new in version {v}	Co nowego w wersji {v}
+No notes for this version.	Brak informacji o tej wersji.
+Got it	Rozumiem
+Restart now	Uruchom ponownie
+After the game, from the main menu.	Po partii, z menu głównego.
+Download	Pobierz
+Check now	Sprawdź teraz
+Couldn't reach the update server.	Nie udało się połączyć z serwerem aktualizacji.
+The download was damaged. It will be tried again later.	Pobrany plik jest uszkodzony. Spróbujemy ponownie później.
+The new version couldn't be installed. This one stays.	Nie udało się zainstalować nowej wersji. Zostaje obecna.
+Downloading… {p}%	Pobieranie… {p}%
+Updating…	Aktualizowanie…
+The Microsoft Store keeps the game up to date.	Microsoft Store dba o aktualność gry.
+Development build: no automatic updates.	Wersja deweloperska: bez automatycznych aktualizacji.
+Looking for a new version…	Szukanie nowej wersji…
+This is the latest version.	To najnowsza wersja.
+Downloading version {v}… {p}%	Pobieranie wersji {v}… {p}%
+Installing version {v}…	Instalowanie wersji {v}…
+Version {v} is ready: restart the game to use it.	Wersja {v} jest gotowa: uruchom grę ponownie, aby z niej korzystać.
+Version {v} is out: download it from the releases page.	Wyszła wersja {v}: pobierz ją ze strony wydań.
+Version {v} is ready	Wersja {v} jest gotowa
+Restart to play it; nothing is lost.	Uruchom grę ponownie, aby w nią zagrać; nic nie przepadnie.
+Version {v} is out	Wyszła wersja {v}
+Get it from the releases page.	Pobierz ją ze strony wydań.
+Reset everything?	Zresetować wszystko?
+Click again to reset every setting	Kliknij ponownie, aby zresetować wszystkie ustawienia
+Online	Online
+Menu	Menu
+Rating	Ranking
+Ultra	Ultra
+hold {key} and release	przytrzymaj {key} i puść
+Change	Zmień
+Mouse aim sensitivity	Czułość celowania myszą
+How fast the cue turns with the mouse.	Jak szybko kij obraca się za myszą.
+Vignette	Winieta
+Darkens the edges of the picture, like a film.	Przyciemnia krawędzie obrazu, jak w kinie.
+Show FPS	Pokaż FPS
+Frames per second, in a corner of the screen.	Klatki na sekundę w rogu ekranu.
+Call a pocket for the 8-ball first: click a pocket.	Najpierw zadeklaruj łuzę dla ósemki: kliknij łuzę.
+Reconnecting	Ponowne łączenie
+the game is over	partia się zakończyła
+the cue ball cannot be placed there	nie można tam ustawić białej
+call a pocket for the 8-ball	zadeklaruj łuzę dla ósemki
+That username is taken.	Ta nazwa użytkownika jest zajęta.
+Wrong username or password.	Błędna nazwa użytkownika lub hasło.
+Your session expired. Please log in again.	Sesja wygasła. Zaloguj się ponownie.
+This version of Snook Legend is out of date. Please update the game.	Ta wersja Snook Legend jest nieaktualna. Zaktualizuj grę.
+It's not your turn.	To nie twoja kolej.
+That player is not online.	Ten gracz nie jest online.
+That player is in a game.	Ten gracz jest w trakcie partii.
+You can't invite yourself.	Nie możesz zaprosić siebie.
+That invitation is no longer valid.	To zaproszenie jest już nieaktualne.
+That player is no longer available.	Ten gracz jest już niedostępny.
+Resign first to leave a game in progress.	Aby wyjść z trwającej partii, najpierw się poddaj.
+Malformed message.	Nieprawidłowa wiadomość.
+Please log in first.	Najpierw się zaloguj.
+Could not create the account.	Nie udało się utworzyć konta.
+The cue ball can't be placed there.	Nie można tam ustawić białej.
+Disconnected.	Rozłączono.
+Lost contact with the server.	Utracono kontakt z serwerem.
+The server closed the connection.	Serwer zamknął połączenie.
+The server took too long to answer.	Serwer zbyt długo nie odpowiadał.
+The server is not answering (connection refused).	Serwer nie odpowiada (połączenie odrzucone).
+The server address is not valid (example: wss://snook-legend.example.com/ws).	Adres serwera jest nieprawidłowy (przykład: wss://snook-legend.example.com/ws).
+The server address has no host name.	W adresie serwera brakuje nazwy hosta.
+Welcome to Snook Legend! Be kind, play fair.	Witaj w Snook Legend! Szanuj innych i graj fair.
+Ball in hand: drag the cue ball{zone} to move it	Bila z ręki: przeciągnij białą{zone}, aby ją ustawić
+ behind the line	 za linią
+Ball in hand  ·  {group}	Bila z ręki  ·  {group}
+Can't shoot: {e}.	Nie można uderzyć: {e}.
+Chat ({n})	Czat ({n})
+Computer ({level})	Komputer ({level})
+Computer	Komputer
+Each opponent has a style of their own	Każdy przeciwnik ma własny styl
+Free game	Wolna gra
+Tour	Trasa
+Tour: {n} of {total} beaten	Trasa: pokonano {n} z {total}
+Strength {n}/5	Siła {n}/5
+Ghost	Duch
+Accuracy	Celność
+Safeties	Odstawne
+Banks	Bandy
+Position	Pozycja
+Ghost of {name}	Duch gracza {name}
+A player's ghost	Duch gracza
+Plays like a real player	Gra jak prawdziwy gracz
+The computer plays in the style of a real player, measured on their online games.	Komputer gra w stylu prawdziwego gracza, zmierzonym na podstawie jego partii online.
+Sign in to play the ghost of a real player.	Zaloguj się, aby zagrać z duchem prawdziwego gracza.
+Load	Wczytaj
+Friends:	Znajomi:
+Type a username or pick a friend, then Load.	Wpisz nazwę użytkownika lub wybierz znajomego, a potem kliknij Wczytaj.
+Measuring how {name} plays…	Analizujemy grę gracza {name}…
+Pots {pots}% · safeties {safe}% · banks {banks}% · {shots} shots	Wbicia {pots}% · odstawne {safe}% · od bandy {banks}% · uderzenia: {shots}
+{name} has only {shots} recorded shots; a ghost needs {needed}. More online games will do it.	Zapisane uderzenia gracza {name}: {shots}; duch potrzebuje {needed}. Wystarczy rozegrać więcej partii online.
+There is no player called {name}.	Nie ma gracza o nazwie {name}.
+The server can't be reached right now. Try again later.	Nie można teraz połączyć się z serwerem. Spróbuj ponownie później.
+Wait a moment before asking again.	Poczekaj chwilę, zanim spróbujesz ponownie.
+Something went wrong on the server. Try again later.	Na serwerze coś poszło nie tak. Spróbuj ponownie później.
+Play your ghost	Zagraj ze swoim duchem
+Play their ghost	Zagraj z tym duchem
+Beaten	Zaliczony
+Next	Następny
+Win the previous stage to unlock this one.	Wygraj poprzedni etap, aby odblokować ten.
+Stage {n} of {total}	Etap {n} z {total}
+Challenge {name}	Rzuć wyzwanie: {name}
+Stage {n} won! Next on the tour: {name}.	Etap {n} wygrany! Dalej na trasie: {name}.
+You won the whole tour!	Wygrywasz całą trasę!
+Reward	Nagroda
+{item} cue · exclusive	Kij {item} · na wyłączność
+Yours: find it in the shop, under Cues.	Należy do ciebie: znajdziesz go w sklepie, w zakładce Kije.
+Win the last stage again while signed in to claim it.	Wygraj ponownie ostatni etap po zalogowaniu, aby odebrać nagrodę.
+Beat all fifteen opponents to earn it. It is sold nowhere.	Pokonaj wszystkich piętnastu przeciwników, aby go zdobyć. Nie ma go w sprzedaży.
+You won the tour! Sign in to claim your reward.	Wygrywasz trasę! Zaloguj się, aby odebrać nagrodę.
+The server is checking your final game…	Serwer sprawdza twoją partię finałową…
+Try again	Spróbuj ponownie
+The server did not answer. Try again in a moment.	Serwer nie odpowiedział. Spróbuj ponownie za chwilę.
+The server is busy checking other games. Try again in a moment.	Serwer sprawdza teraz inne partie. Spróbuj ponownie za chwilę.
+Wait a minute before trying again.	Odczekaj minutę przed kolejną próbą.
+That game is too long to be checked.	Ta partia jest za długa, by ją sprawdzić.
+That game has a move the rules don't allow.	W tej partii jest zagranie niezgodne z zasadami.
+That game was not played to the end.	Ta partia nie została rozegrana do końca.
+That game was not a win.	Ta partia nie zakończyła się wygraną.
+The computer's shots in that game don't match how it plays (another version of the game?).	Uderzenia komputera w tej partii nie zgadzają się z jego stylem gry (inna wersja gry?).
+The Rookie	Żółtodziób
+Still learning: aims at the nearest pocket, centre ball, and hopes. Never plays safe.	Wciąż się uczy: celuje w najbliższą łuzę, uderza w środek białej i liczy na szczęście. Nigdy nie gra odstawnych.
+The Weekend Player	Weekendowa Amatorka
+Knows the basics and drops the easy ones, but rarely thinks about where the cue ball goes.	Zna podstawy i wbija łatwe bile, ale rzadko myśli o tym, gdzie stanie biała.
+The Bank Artist	Mistrzyni Band
+Sees angles nobody else does: whenever a ball can go off a cushion and in, she banks it.	Widzi kąty, których nie widzi nikt inny: gdy tylko bila może wpaść od bandy, gra ją od bandy.
+The Cannon	Armata
+Goes for everything, as hard as he can: long pots, thunderous breaks, hardly ever a safety.	Gra na wszystko, z całej siły: długie wbicia, grzmiące rozbicia, prawie nigdy odstawna.
+The Wall	Mur
+Only shoots when the pot is on. Otherwise she tucks the cue ball away and waits for your mistake.	Atakuje tylko wtedy, gdy wbicie jest pewne. Inaczej chowa białą i czeka na twój błąd.
+The Old Pro	Stary Wyjadacz
+Forty years at the table: a smooth stroke, a raised cue, side spin, and never in a hurry.	Czterdzieści lat przy stole: płynne uderzenie, uniesiony kij, boczna rotacja i nigdy żadnego pośpiechu.
+The Hustler	Cwaniara
+Plays just well enough to win, then a little better. Balanced, sharp and hard to read.	Gra akurat tak dobrze, żeby wygrać, a potem trochę lepiej. Wyważona, bystra i trudna do rozszyfrowania.
+The Professor	Profesor
+Thinks three balls ahead: every shot leaves the cue ball where the next one is easy.	Myśli trzy bile do przodu: po każdym uderzeniu biała staje tam, skąd następne jest łatwe.
+The Sharpshooter	Snajperka
+Pots from anywhere, at any angle. Her safeties are an afterthought: she doesn't need them.	Wbija z każdego miejsca i pod każdym kątem. Odstawne to dla niej sprawa drugorzędna: nie potrzebuje ich.
+The Champion	Czempion
+Unbeaten for years. Precise, patient and merciless: the last stage of the tour.	Od lat niepokonany. Precyzyjny, cierpliwy i bezlitosny: ostatni etap trasy.
+Tour champion	Zwycięzca trasy
+Champion of the tour	Pogromca trasy
+Beat all fifteen opponents of the computer tour.	Pokonaj wszystkich piętnastu przeciwników z trasy komputerowej.
+Connection lost. Reconnecting (attempt {n})…	Utracono połączenie. Ponowne łączenie (próba {n})…
+Connection lost. Reconnecting…	Utracono połączenie. Ponowne łączenie…
+Foul by {shooter}: {foul}.	Faul gracza {shooter}: {foul}.
+Graphics set to {q} for smooth play. You can change this in Settings.	Ustawiono grafikę na: {q}, aby gra była płynna. Możesz to zmienić w Ustawieniach.
+Rating {r} ({d})	Ranking {r} ({d})
+The {ball} was spotted.	Na stół wraca {ball}.
+Waiting for {to} ({kind})…	Czekamy na gracza {to} ({kind})…
+rated	rankingowa
+casual	towarzyska
+Waiting for {name}…	Czekamy na gracza {name}…
+{by} declined your invitation.	{by} odrzuca twoje zaproszenie.
+a rated game	partię rankingową
+a casual game	partię towarzyską
+{name} calls the 8-ball in the {pocket} pocket.	{name} deklaruje ósemkę do łuzy: {pocket}.
+{name} has ball in hand…	{name} ustawia białą z ręki…
+{name} is aiming…	{name} celuje…
+{name} is on the 8: click a pocket to call it	{name} gra na ósemkę: kliknij łuzę, aby ją zadeklarować
+{name} is thinking…	{name} się zastanawia…
+{name} left the game.	{name} opuszcza partię.
+{name} resigned.	{name} poddaje partię.
+{name} to break	Rozbija: {name}
+{name} to shoot ({target})	Uderza: {name} ({target})
+{name}'s turn	Kolej: {name}
+{next} has ball in hand{where}.	{next} ma białą z ręki{where}.
+ behind the head string	 za linią startową
+{opponent} is back.	{opponent} wraca do gry.
+{opponent} lost the connection. Waiting up to {secs} s…	{opponent} traci połączenie. Czekamy do {secs} s…
+{opponent} wants a rematch.	{opponent} chce rewanżu.
+{opponent} went back to the lounge.	{opponent} wraca do lobby.
+{shooter} pocketed {balls}.	{shooter} wbija: {balls}.
+{shooter} takes {group}.	{shooter} bierze {group}.
+{who} ran out of time: ball in hand for the opponent.	{who}: koniec czasu – bila z ręki dla przeciwnika.
+{name} wants a rematch!	{name} chce rewanżu!
+{name} wins!	{name} wygrywa!
+{name} wins	{name} wygrywa
+Volume	Głośność
+The cue, the balls, the cushions and the pockets.	Kij, bile, bandy i łuzy.
+Notifications	Powiadomienia
+Could not find the server “{host}”.	Nie znaleziono serwera „{host}”.
+Network error: {e}.	Błąd sieci: {e}.
+Secure connection failed: {e}.	Nie udało się nawiązać bezpiecznego połączenia: {e}.
+The server refused the connection (HTTP {code}).	Serwer odrzucił połączenie (HTTP {code}).
+Connection error: {e}.	Błąd połączenia: {e}.
+cue ball	biała bila
+{n}-ball	bila {n}
+Scratch: the cue ball was pocketed	Biała wpadła do łuzy
+The cue ball left the table	Biała wypadła ze stołu
+The cue ball didn't hit any ball	Biała nie trafiła żadnej bili
+Wrong ball hit first ({ball})	Najpierw trafiona niewłaściwa bila ({ball})
+No ball reached a cushion after contact	Po zderzeniu żadna bila nie dotarła do bandy
+The {ball} left the table	Ze stołu wypadła {ball}
+Illegal break	Nieprawidłowe rozbicie
+pocketed the 8-ball	wbicie ósemki
+opponent pocketed the 8-ball too early	przeciwnik wbił ósemkę za wcześnie
+opponent sank the 8-ball in the wrong pocket	przeciwnik wbił ósemkę do złej łuzy
+opponent fouled on the 8-ball	przeciwnik sfaulował na ósemce
+opponent knocked the 8-ball off the table	przeciwnik wybił ósemkę ze stołu
+opponent resigned	przeciwnik się poddał
+opponent left the game	przeciwnik opuścił partię
+head left corner	lewa narożna przy linii startowej
+head right corner	prawa narożna przy linii startowej
+left side	lewa środkowa
+right side	prawa środkowa
+foot left corner	lewa narożna w głębi stołu
+foot right corner	prawa narożna w głębi stołu
+Easy	Łatwy
+Hard	Trudny
+Normal	Normalny
+Power	Siła
+No messages yet.	Nie ma jeszcze wiadomości.
+▼ newer messages	▼ nowsze wiadomości
+Camera follows the cue	Kamera podąża za kijem
+Off: it stays where you put it.	Wyłączone: zostaje tam, gdzie ją ustawisz.
+Pull back for shots	Oddalaj przy uderzeniach
+Only when the camera follows the cue.	Tylko gdy kamera podąża za kijem.
+Drag the cue · click a spot	Przeciągnij kij · kliknij punkt
+Time's up: {name}'s shot was played at full power.	Koniec czasu: uderzenie gracza {name} wykonano z pełną siłą.
+Dark room	Ciemna sala
+A spotlight on the table, the room in shadow.	Światło tylko na stole, reszta sali w cieniu.
+Hide	Ukryj
+Interface size	Rozmiar interfejsu
+Text, buttons and panels.	Teksty, przyciski i panele.
+Drag to set the power	Przeciągnij, aby ustawić siłę
+Shoot!	Uderz!
+Set the power, then press the green button	Ustaw siłę i naciśnij zielony przycisk
++{n} coins · {why}	Monety: +{n} · {why}
+16-player tournaments, and first place on the waiting list of a full one	Turnieje dla 16 graczy i pierwsze miejsce na liście oczekujących, gdy turniej jest pełny
+30 minutes: play as many games as you can. A win is 2 points, 4 from the third win in a row.	30 minut: rozegraj jak najwięcej partii. Wygrana to 2 punkty, a od trzeciej wygranej z rzędu – 4.
+A crown by your name, everywhere (lounge, profile, ranking)	Korona przy twojej nazwie wszędzie (lobby, profil, ranking)
+Account	Konto
+Add friends to give them items.	Dodaj znajomych, aby dawać im przedmioty w prezencie.
+Arena	Arena
+Arena · host {host} · {n} players · {kind}	Arena · gospodarz {host} · gracze: {n} · {kind}
+Buy now	Kup teraz
+Buying…	Kupowanie…
+Change password	Zmień hasło
+Click again to delete	Kliknij ponownie, aby usunąć
+Got a code? Type it here	Masz kod? Wpisz go tutaj
+Confirm purchase	Potwierdź zakup
+Copied: send it to a friend.	Skopiowano: wyślij go znajomemu.
+Copy	Kopiuj
+Current	Obecne
+Delete account	Usuń konto
+Entry	Wpisowe
+Entry {n} coins	Wpisowe: {n} monet
+Every replay kept (free players keep their last 10 games)	Wszystkie powtórki zachowane (gracze bez VIP mają ostatnie 10 partii)
+For {name}	Dla: {name}
+Add a message (optional)	Dodaj wiadomość (opcjonalnie)
+Format	Format
+Frames	Ramki
+Free	Za darmo
+Get coins	Zdobądź monety
+Gift sent!	Prezent wysłany!
+Give as a gift	Podaruj
+Give it	Wyślij prezent
+Give to a friend	Podaruj znajomemu
+Great!	Super!
+If you forget your password, we confirm it's you by this e-mail.	Jeśli zapomnisz hasła, potwierdzimy twoją tożsamość przez ten adres e-mail.
+Invite with a code	Zaproś kodem
+It goes on right away. Items only change the look, never the game.	Zostanie użyty od razu. Przedmioty zmieniają tylko wygląd, nigdy rozgrywkę.
+Join my table in Snook Legend:	Dosiądź się do mojego stołu w Snook Legend:
+Join the waiting list	Zapisz się na listę oczekujących
+Join · {n} coins	Dołącz · {n} monet
+Knockout	Pucharowy
+Name colour	Kolor nazwy
+Name colours for the lounge and exclusive frames, cloth, cues, balls and effects	Kolory nazwy w lobby oraz ekskluzywne ramki, sukna, kije, bile i efekty
+New	Nowe
+No, thanks	Nie, dziękuję
+Nothing that wins games: VIP only changes the look	Nic, co wygrywa partie: VIP zmienia tylko wygląd
+Numbers	Liczby
+ON TV	W TV
+Play rated games to see your rating here.	Graj partie rankingowe, aby zobaczyć tu swój ranking.
+No rated games yet.	Nie ma jeszcze partii rankingowych.
+Price	Cena
+Prizes {a} + {b}	Nagrody {a} + {b}
+Protect your purchases	Chroń swoje zakupy
+Purchase complete!	Zakup zakończony!
+Recovery e-mail	E-mail do odzyskiwania
+Save	Zapisz
+The fees make the prize: 70% to the champion, 20% to the runner-up.	Wpisowe tworzy pulę nagród: 70% dla zwycięzcy, 20% dla finalisty.
+The server restarts in {m}:{s} for an update. Games in progress go on.	Serwer zostanie zrestartowany za {m}:{s} z powodu aktualizacji. Trwające partie toczą się dalej.
+Use this e-mail	Użyj tego adresu
+Use {email} to recover your account if you ever forget your password?	Używać adresu {email} do odzyskania konta, jeśli kiedyś zapomnisz hasła?
+Watch	Oglądaj
+Watch again	Obejrzyj ponownie
+Winning effects	Efekty zwycięstwa
+Halls	Sale
+You are paired as soon as you and an opponent are free.	Dobierzemy ci przeciwnika, gdy tylko ty i przeciwnik będziecie wolni.
+You can change it any time in your profile (Account).	Możesz to zmienić w dowolnej chwili w profilu (Konto).
+You need {n} more coins.	Brakuje ci monet: {n}.
+Your account	Twoje konto
+Your account was deleted.	Twoje konto zostało usunięte.
+Your coins	Twoje monety
+Your friend gets it right away.	Znajomy dostanie go od razu.
+Your game against {name} is starting.	Zaczyna się twoja partia z graczem {name}.
+Your name, e-mail, friends and items are erased for good. Your opponents keep the games you played (without your name).	Twoja nazwa, e-mail, znajomi i przedmioty zostaną trwale usunięte. Twoi przeciwnicy zachowają rozegrane z tobą partie (bez twojej nazwy).
+balls per game	bile na partię
+best run ever	najlepsza seria w historii
+daily bonus	dzienny bonus
+entry fee back	zwrot wpisowego
+for the game	za partię
+for the win	za wygraną
+games counted	policzone partie
+Analysis	Analiza
+The shot analysis isn't available on this server yet.	Analiza uderzeń nie jest jeszcze dostępna na tym serwerze.
+Only online accounts have a shot analysis.	Analiza uderzeń jest dostępna tylko dla kont online.
+Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Graj online, aby zobaczyć swoją skuteczność. Do analizy brakuje jeszcze uderzeń do łuzy: {n}.
+{name} hasn't played enough online games for an analysis yet.	{name} nie ma jeszcze dość partii online do analizy.
+1 game	1 partia
+{pct}% of {n} shots at a pocket potted · {games}	{pct}% wbitych (uderzenia do łuzy: {n}) · {games}
+{made} of {n} potted ({pct})	Wbite: {made} z {n} ({pct})
+By kind of shot	Według rodzaju uderzenia
+shots	uderzenia
+Straight	Proste
+Cut 8–25°	Cięcie 8–25°
+Cut 25–45°	Cięcie 25–45°
+Thin cut 45°+	Cienkie cięcie 45°+
+Bank	Od bandy
+Kick	Biała od bandy
+Combination	Kombinacja
+Jump	Skok
+Massé	Massé
+Break	Rozbicie
+By distance	Według odległości
+Short (under 0.75 m)	Krótkie (do 0,75 m)
+Medium (to 1.5 m)	Średnie (do 1,5 m)
+Long (over 1.5 m)	Długie (ponad 1,5 m)
+left the opponent nothing	nie zostawiło przeciwnikowi szans
+Breaks	Rozbicia
+made a ball	z wbitą bilą
+Potted	Wbite
+Missed	Chybione
+Where and in which pocket	Gdzie i do której łuzy
+{pocket}: {made} of {n} potted	{pocket}: wbite {made} z {n}
+Where the potted balls were	Gdzie leżały wbite bile
+Where the missed balls were	Gdzie leżały chybione bile
+few	mało
+many	dużo
+{made} potted · {missed} missed ({pct})	wbite: {made} · chybione: {missed} ({pct})
+Top left corner	Lewa górna narożna
+Bottom left corner	Lewa dolna narożna
+Top side pocket	Górna środkowa
+Bottom side pocket	Dolna środkowa
+Top right corner	Prawa górna narożna
+Bottom right corner	Prawa dolna narożna
+games left unfinished	porzucone partie
+potting success	skuteczność wbić
+shots with a foul	uderzenia z faulem
+starts in {n} min	start za {n} min
+tournament prize	nagroda turniejowa
+The dark room hides the hall around the table.	Ciemna sala ukrywa wnętrze wokół stołu.
+Show the hall	Pokaż salę
+Level {n} · 1 win	Poziom {n} · 1 wygrana
+Level {n} · {w} wins	Poziom {n} · wygrane: {w}
+{left} more online wins with this cue for level {n}. Levels only add marks to the cue.	Wygrane online tym kijem potrzebne do poziomu {n}: {left}. Poziomy dodają kijowi tylko zdobienia.
+The top level: this cue has every mark.	Najwyższy poziom: ten kij ma wszystkie zdobienia.
+Your cue {cue} reached level {n}!	Twój kij {cue} osiąga poziom {n}!
+Most wins: {cue} (level {n})	Najwięcej wygranych: {cue} (poziom {n})
+{games} games · {rate}% won · {balls} balls made	partie: {games} · wygrane: {rate}% · wbite bile: {balls}
+vs	vs
+{from} gave you {item}!	Prezent od gracza {from}: {item}!
+You received a gift!	Masz prezent!
+From	Od
+To	Dla
+someone	ktoś
+A month of VIP	Miesiąc VIP
+Thank	Podziękuj
+Thanked	Podziękowano
+They thanked you	Podziękowanie otrzymane
+Use it now	Użyj teraz
+Later	Później
+OK	OK
+Next ({n} more)	Dalej (jeszcze {n})
+{from} gave you {item}! It's waiting for you in the lounge.	Prezent od gracza {from}: {item}! Czeka na ciebie w lobby.
+{name} thanked you for {item}.	{name} dziękuje ci za prezent: {item}.
+Gifts	Prezenty
+No gifts yet. Friends can give you items from the shop.	Nie masz jeszcze prezentów. Znajomi mogą dawać ci przedmioty ze sklepu.
+{item} is yours and already in use.	Przedmiot {item} należy do ciebie i jest już w użyciu.
+{m}:{s} left	zostało {m}:{s}
+{name} invites you to play.	{name} zaprasza cię do gry.
+{name} is online.	{name} jest online.
+{name} ran out of time.	{name}: koniec czasu.
+{name} received {item}.	{name} otrzymuje: {item}.
+{n} pts · {g} games	{n} pkt · partie: {g}
+{n} watching · avg {r}	oglądający: {n} · średnia {r}
+{title}: {how}	{title}: {how}
+Olive	Oliwka
+Navy	Granat
+Forest	Leśna zieleń
+Slate grey	Łupkowa szarość
+Red wine	Czerwone wino
+Burnt orange	Palony oranż
+Dusty rose	Pudrowy róż
+Sand	Piasek
+Ice blue	Lodowy błękit
+Lime	Limonka
+Black tie	Smokingowa czerń
+Cobalt	Kobalt
+Emerald	Szmaragd
+Natural maple	Naturalny klon
+Beach bar	Bar na plaży
+Modern	Nowoczesny
+English club	Klub angielski
+Ebony & gold	Heban i złoto
+Pool hall	Sala bilardowa
+Industrial loft	Loft industrialny
+Steel & oak	Stal i dąb
+Tournament	Turniej
+Victorian walnut	Wiktoriański orzech
+Ivory deco	Kość słoniowa w stylu deco
+Mountain lodge	Górskie schronisko
+Neon arcade	Neonowy salon gier
+Art deco lounge	Salon art déco
+Skyline penthouse	Penthouse z widokiem
+Walnut	Orzech
+Zebrawood	Zebrano
+Bocote	Bocote
+Deep ocean	Głęboki ocean
+Cherry	Wiśnia
+Jade	Jadeit
+Tiger	Tygrys
+Amethyst	Ametyst
+Arctic carbon	Arktyczny karbon
+Inferno	Inferno
+Obsidian gold	Obsydian i złoto
+Tan chalk	Beżowa kreda
+Grey chalk	Szara kreda
+Orange chalk	Pomarańczowa kreda
+Pink chalk	Różowa kreda
+Teal chalk	Morska kreda
+Yellow chalk	Żółta kreda
+Black chalk	Czarna kreda
+White chalk	Biała kreda
+Silver chalk	Srebrna kreda
+TV set	Zestaw TV
+Earth tones	Odcienie ziemi
+Ocean	Ocean
+Sunset	Zachód słońca
+Candy	Cukierki
+Pearl	Perła
+Monochrome	Monochrom
+Chrome	Chrom
+Gold rush	Gorączka złota
+No frame	Bez ramki
+Bronze	Brąz
+Silver	Srebro
+Gold	Złoto
+Green felt	Zielony filc
+Mahogany	Mahoń
+Ice	Lód
+Fire	Ogień
+Diamond	Diament
+VIP crown	Korona VIP
+Rose gold	Różowe złoto
+Aqua	Akwamaryna
+Violet	Fiolet
+Ember	Żar
+Mint	Mięta
+Frost	Szron
+No effect	Bez efektu
+Sparks	Iskry
+Confetti	Konfetti
+Shockwave	Fala uderzeniowa
+Coin shower	Deszcz monet
+Flames	Płomienie
+Royal sparks	Królewskie iskry
+Tier colour	Kolor ligi
+16-player tournaments are for VIP members.	Turnieje dla 16 graczy są dostępne dla VIP.
+A seat opened: you are in the tournament!	Zwolniło się miejsce: grasz w turnieju!
+Entry fees go up to 1000 coins.	Wpisowe może wynosić maksymalnie 1000 monet.
+Guests can't play for coins.	Goście nie mogą grać o monety.
+Only items sold for coins can be given.	Podarować można tylko przedmioty kupowane za monety.
+Password changed.	Hasło zmienione.
+Passwords need 8 or more characters, not only digits.	Hasło musi mieć co najmniej 8 znaków i nie może składać się z samych cyfr.
+Recovery e-mail removed.	Usunięto e-mail do odzyskiwania.
+Recovery e-mail saved.	Zapisano e-mail do odzyskiwania.
+Something went wrong. Please try again.	Coś poszło nie tak. Spróbuj ponownie.
+That code is not valid (or the table was closed).	Ten kod jest nieprawidłowy (albo stół został zamknięty).
+That doesn't look like an e-mail address.	To nie wygląda na adres e-mail.
+That game is over.	Ta partia już się zakończyła.
+The current password is wrong.	Obecne hasło jest błędne.
+The server is restarting.	Serwer jest restartowany.
+The server is restarting: new games start in a moment.	Serwer jest restartowany: nowe partie zaczną się za chwilę.
+The tournament is full: you are on the waiting list.	Turniej jest pełny: jesteś na liście oczekujących.
+This replay is not available.	Ta powtórka jest niedostępna.
+You can only give items to your friends.	Przedmioty możesz dawać tylko znajomym.
+Your friend already has this item.	Twój znajomy ma już ten przedmiot.
+16 (VIP)	16 (VIP)
+VIP isn't sold in this version of the game.	W tej wersji gry VIP nie jest w sprzedaży.
+In this version of the game, coins are earned by playing:	W tej wersji gry monety zdobywa się, grając:
+rated games, and a bonus every day you play.	partie rankingowe i bonus za każdy dzień gry.
+Coins are earned by playing:	Monety zdobywa się, grając:
+If you like, you can also buy them:	Jeśli chcesz, możesz je też kupić:
+one month	jeden miesiąc
+already VIP	ma już VIP
+Give a month to a friend · {p}	Podaruj miesiąc znajomemu · {p}
+{from} gave you a month of VIP!	Prezent od gracza {from}: miesiąc VIP!
+{name} received a month of VIP.	{name} otrzymuje miesiąc VIP.
+Your friend is already VIP.	Twój znajomy ma już VIP.
+Game in progress: {n} balls left	Trwająca partia · bile na stole: {n}
+Continue	Kontynuuj
+Missions	Misje
+Board	Tablica
+Today	Dzisiaj
+This week	W tym tygodniu
+new missions in {t}	nowe misje za {t}
+ends in {t}	koniec za {t}
+{n} days	{n} dni
+{n} h	{n} godz.
+{n} min	{n} min
+mission complete	misja wykonana
+Missions count rated games played to the end. The coins arrive as soon as one is complete.	Misje liczą partie rankingowe rozegrane do końca. Monety trafiają do ciebie, gdy tylko misja zostanie wykonana.
+Nothing on the board right now.	Na tablicy nic teraz nie ma.
+Open tournaments	Otwarte turnieje
+{n}/{size} players	gracze: {n}/{size}
+starts in {t}	start za {t}
+entry {n} coins	wpisowe {n} monet
+See	Zobacz
+Play {n} rated games	Rozegraj partie rankingowe: {n}
+Win {n} rated games	Wygraj partie rankingowe: {n}
+Pot {n} balls	Wbij bile: {n}
+Pot {n} balls with spin	Wbij bile z rotacją: {n}
+Pot 3 balls in a row in one visit	Wbij 3 bile z rzędu w jednym podejściu
+Win a game without a foul	Wygraj partię bez faulu
+Pot 3 balls in a row {n} times	Wbij 3 bile z rzędu {n} razy
+Win {n} games without a foul	Wygraj partie bez faulu: {n}
+TV camera when watching	Kamera TV podczas oglądania
+Broadcast angles for other players' games and replays.	Ujęcia jak w transmisji przy partiach innych graczy i powtórkach.
+System notifications	Powiadomienia systemowe
+Invites, friends coming online and games starting, while you're away.	Zaproszenia, znajomi pojawiający się online i rozpoczynające się partie, gdy cię nie ma.
+{name} starts in a few minutes: get ready!	{name} zaczyna się za kilka minut: przygotuj się!
+{name} starts in a few minutes: there is still room.	{name} zaczyna się za kilka minut: są jeszcze wolne miejsca.
+{name} has started!	{name} właśnie się zaczyna!
+Momentum	Przewaga
+Shot map	Mapa uderzeń
+No shots yet.	Nie ma jeszcze uderzeń.
+made	wbicie
+missed	pudło
+foul	faul
+See the tournaments	Zobacz turnieje
+Open the shop	Otwórz sklep
+See VIP	Zobacz VIP
+See the missions	Zobacz misje
+A new version of the game is out: update to play online.	Wyszła nowa wersja gry: zaktualizuj ją, aby grać online.
+Update in the Microsoft Store	Zaktualizuj w Microsoft Store
+Update now	Aktualizuj teraz
+Download the new version	Pobierz nową wersję
+New version out	Nowa wersja dostępna
+Get the new version to play online	Pobierz nową wersję, aby grać online
+Cheer for {name}	Kibicuj: {name}
+Crowd: {a} for {p0}, {b} for {p1}	Publiczność: {p0} – {a}, {p1} – {b}
+welcome pack	pakiet powitalny
+Welcome pack	Pakiet powitalny
+Cue “{cue}”, cloth “{cloth}” and {n} coins · only once, sold nowhere else	Kij „{cue}”, sukno „{cloth}” i {n} monet · jednorazowo, tylko tutaj
+Lagoon	Laguna
+You already have the welcome pack.	Masz już pakiet powitalny.
+Your welcome pack is here!	Twój pakiet powitalny już jest!
+Previous shot (←)	Poprzednie uderzenie (←)
+Next shot (→)	Następne uderzenie (→)
+Play (Space)	Odtwórz (Spacja)
+Pause (Space)	Pauza (Spacja)
+Speed	Prędkość
+Shot {n} of {total}	Uderzenie {n} z {total}
+For VIP members	Dla członków VIP
+{n} reactions of your own to send during games	Własne reakcje do wysyłania w trakcie partii: {n}
+Items {a}–{b} of {n}	Przedmioty {a}–{b} z {n}
+(message deleted by its author)	(wiadomość usunięta przez autora)
+(message deleted by an administrator)	(wiadomość usunięta przez administratora)
+Delete (it shows as deleted)	Usuń (będzie widać, że usunięto)
+Remove without a trace	Usuń bez śladu
+The chat was cleared by {name}.	Czat wyczyszczony przez: {name}.
+Click again to clear	Kliknij ponownie, aby wyczyścić
+Clear the chat	Wyczyść czat
+Players' chat (administrator)	Czat graczy (administrator)
+Play the computer while you wait	Zagraj z komputerem, czekając
+Looking for an opponent… {t} · the game starts as soon as one is found	Szukanie przeciwnika… {t} · partia zacznie się, gdy tylko się znajdzie
+Stop	Zatrzymaj
 # Coin packs and months of VIP bought in the Microsoft Store (the Store build).
+The Microsoft Store couldn't complete the purchase.	Microsoft Store nie mógł dokończyć zakupu.
+The Microsoft Store couldn't confirm the purchase right now. Its coins arrive the next time you open the shop.	Microsoft Store nie mógł teraz potwierdzić zakupu. Monety dotrą, gdy następnym razem otworzysz sklep.
+{n} coins added to your wallet.	Dodano monety do portfela: {n}.
+Microsoft is confirming your purchase: the coins arrive in a moment.	Microsoft potwierdza twój zakup: monety dotrą za chwilę.
+The purchase hasn't reached us yet. Its coins arrive the next time you open the shop.	Zakup jeszcze do nas nie dotarł. Monety dotrą, gdy następnym razem otworzysz sklep.
+Loading prices from the Microsoft Store…	Wczytywanie cen z Microsoft Store…
+Coins can't be bought in this version yet.	W tej wersji nie można jeszcze kupować monet.
+Finish the purchase in the Microsoft Store window…	Dokończ zakup w oknie Microsoft Store…
+Confirming your purchase…	Potwierdzanie zakupu…
+Paid in the Microsoft Store, with your Microsoft account.	Płatność w Microsoft Store, z twojego konta Microsoft.
+The Microsoft Store can't be reached right now. Try again in a moment.	Nie można teraz połączyć się z Microsoft Store. Spróbuj ponownie za chwilę.
+The Microsoft Store could not confirm the purchase.	Microsoft Store nie potwierdził zakupu.
+Sign in to the Microsoft Store with your Microsoft account, then open the shop again.	Zaloguj się do Microsoft Store kontem Microsoft, a potem ponownie otwórz sklep.
+The Microsoft Store couldn't confirm the purchase right now. Your VIP month starts the next time you open the shop.	Microsoft Store nie mógł teraz potwierdzić zakupu. Twój miesiąc VIP zacznie się, gdy następnym razem otworzysz sklep.
+You are VIP until {d}, and {n} coins were added to your wallet.	Masz VIP do {d}, a do portfela dodano monety: {n}.
+Microsoft is confirming your purchase: your VIP month starts in a moment.	Microsoft potwierdza twój zakup: twój miesiąc VIP zacznie się za chwilę.
+The purchase hasn't reached us yet. Your VIP month starts the next time you open the shop.	Zakup jeszcze do nas nie dotarł. Twój miesiąc VIP zacznie się, gdy następnym razem otworzysz sklep.
+A month at a time: nothing renews by itself	Miesiąc za miesiącem: nic nie odnawia się samo
+Add a month · {p}	Dodaj miesiąc · {p}
+A month of VIP · {p}	Miesiąc VIP · {p}
+The new month starts when this one ends.	Nowy miesiąc zacznie się, gdy skończy się obecny.
+Trophies	Trofea
+No trophies yet.	Nie masz jeszcze trofeów.
+Tournament won · {n} players	Wygrany turniej · gracze: {n}
+The computer tour	Trasa z komputerem
+All fifteen opponents beaten	Pokonano wszystkich piętnastu przeciwników
+Daily challenge	Wyzwanie dnia
+First of {n} players	1. miejsce na {n} graczy
+Easy shot	Łatwe uderzenie
+Fair shot	Średnie uderzenie
+Hard shot	Trudne uderzenie
+Very hard shot	Bardzo trudne uderzenie
+~{n}% chance	szansa ~{n}%
+No ball goes down as aimed	Przy tym celowaniu żadna bila nie wpadnie
+straight in	prosto
+{n}° cut	cięcie {n}°
+off one cushion	od jednej bandy
+off {n} cushions	od {n} band
+Make as many balls as you can in one visit: a miss or a foul ends the attempt.	Wbij jak najwięcej bil w jednym podejściu: pudło lub faul kończy próbę.
+The same table for everyone, all day	Ten sam stół dla wszystkich, przez cały dzień
+{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	Liczba prób dziennie: {n}. Wyczyść stół, a zdobędziesz {coins} monet; zwycięzca dnia dostaje trofeum.
+A new table in {h} h {m} min	Nowy stół za {h} godz. {m} min
+Sign in to take part: the server keeps the day's table.	Zaloguj się, aby wziąć udział: serwer prowadzi tabelę dnia.
+Balls on today's table	Bile na dzisiejszym stole
+Attempts left	Pozostałe próby
+{n} balls · #{rank}	bile: {n} · #{rank}
+{n} balls	bile: {n}
+not yet	jeszcze nie
+Your best today	Twój najlepszy wynik dzisiaj
+No attempts left today: come back tomorrow.	Na dziś nie masz już prób: wróć jutro.
+The attempt could not be counted.	Nie udało się zaliczyć próby.
+Setting up the table…	Przygotowywanie stołu…
+Start an attempt	Rozpocznij próbę
+Starting uses an attempt, even if you leave the table.	Rozpoczęcie zużywa próbę, nawet jeśli odejdziesz od stołu.
+Loading today's table…	Wczytywanie dzisiejszego stołu…
+Today's table	Tabela dnia
+{n} players	gracze: {n}
+Nobody has played today's table yet. Be the first!	Nikt jeszcze dziś nie grał. Zagraj i otwórz tabelę!
+Table cleared!	Stół wyczyszczony!
+{n} of {total} balls	{n} z {total} bil
+Sending your attempt to the server…	Wysyłanie próby na serwer…
+Counted: {n} balls · +{coins} coins	Zaliczono bile: {n} · monety: +{coins}
+Counted: {n} balls	Zaliczono bile: {n}
+See today's table	Zobacz tabelę dnia
+Table cleared! +{n} coins	Stół wyczyszczony! Monety: +{n}
+Daily challenge: {n} of {total} balls made	Wyzwanie dnia: wbito {n} z {total} bil
+1 player	1 gracz
+Phoenix	Feniks
+Carrara marble	Marmur karraryjski
+Dragon scale	Smocza łuska
+Galaxy	Galaktyka
+Ruby throne	Rubinowy tron
+Closing the game now is leaving it: extra rating lost and a wait to play again.	Zamknięcie gry teraz oznacza opuszczenie partii: dodatkowa strata rankingu i przerwa przed kolejną grą.
+You left a game in progress: you can play online again in {n} min.	Opuszczono trwającą partię: możesz znów grać online za {n} min.
+Quick phrases	Szybkie zwroty
+Good luck, have fun!	Powodzenia i dobrej zabawy!
+Nice shot!	Ładne uderzenie!
+Great safety!	Świetna odstawna!
+Unlucky!	Pech!
+Oops!	Ups!
+Wow!	Wow!
+That was close!	Było blisko!
+Take your time.	Nie spiesz się.
+Sorry!	Przepraszam!
+Thanks!	Dzięki!
+Well played!	Dobrze zagrane!
+Good game!	Dobra partia!
+Rematch?	Rewanż?
+I have to go, thanks for the game!	Muszę lecieć, dzięki za grę!
+Practise while you wait	Poćwicz, czekając
+A new rack.	Bile ustawione od nowa.
+Level {n}! (+{xp} XP)	Poziom {n}! (+{xp} XP)
++{xp} XP	+{xp} XP
+Level {n} · {into} / {span} XP to the next	Poziom {n} · {into} / {span} XP do następnego
+Level {n}	Poziom {n}
+Hi! I watched a lot of videos, I'm ready!	Cześć! Obejrzałem mnóstwo filmików, jestem gotowy!
+Be gentle, okay?	Tylko delikatnie, dobra?
+Whoa, how did you do that?	Ojej, jak ci się to udało?
+Teach me that one later!	Potem mnie tego naucz!
+Phew! My turn!	Uff! Moja kolej!
+Even you miss? Good to know.	Nawet ty pudłujesz? Dobrze wiedzieć.
+A free ball! What do I do with it?	Darmowa bila! Co mam z nią zrobić?
+Did you see that?! It went in!	Widzisz?! Wpadła!
+Beginner's luck counts too!	Szczęście początkującego też się liczy!
+Oops. That was a practice shot.	Ups. To było uderzenie próbne.
+Aim, Leo, aim...	Celuj, Leo, celuj...
+Sorry! I touched the wrong one again.	Przepraszam! Znowu trafiłem nie tę bilę.
+I WON? I'm calling my mum!	WYGRAŁEM? Dzwonię do mamy!
+Good game! I'm getting better, right?	Dobra partia! Robię postępy, prawda?
+Saturday, a table and good company. Let's play!	Sobota, stół i dobre towarzystwo. Gramy!
+Nice one!	Ładne!
+Oh, you're good. I'll pay attention now.	Oho, umiesz grać. Teraz będę uważać.
+Happens to the best of us.	Najlepszym się zdarza.
+Don't worry, it's just a game!	Nie przejmuj się, to tylko gra!
+Thanks for the gift!	Dzięki za prezent!
+Yes! Weekend skills!	Tak! Weekendowa forma!
+Lucky me!	Ale mam szczęście!
+Hm, where was I aiming?	Hm, gdzie ja celowałam?
+Too much chatting, not enough aiming.	Za dużo gadania, za mało celowania.
+Oops, my bad!	Ups, moja wina!
+That was fun! Same time next weekend?	Było super! O tej samej porze w następny weekend?
+Well played! Rematch over a lemonade?	Dobrze zagrane! Rewanż przy lemoniadzie?
+Four cushions, endless possibilities.	Cztery bandy, nieskończone możliwości.
+Straight in? So... direct.	Prosto do łuzy? Jakie to... bezpośrednie.
+Nice, but a bank would have been prettier.	Ładnie, ale od bandy byłoby piękniej.
+You should have used the cushion.	Trzeba było zagrać od bandy.
+The rail was right there, asking for it.	Banda była tuż obok i aż się prosiła.
+The table didn't like that.	Stołowi to się nie spodobało.
+Off the rail and in. Art!	Od bandy i do łuzy. Sztuka!
+Geometry never lies.	Geometria nigdy nie kłamie.
+The angle was right. The cushion disagreed.	Kąt był dobry. Banda miała inne zdanie.
+One diamond off. Just one!	O jeden diament za daleko. Tylko jeden!
+Too much imagination, not enough contact.	Za dużo wyobraźni, za mało kontaktu.
+A masterpiece, if I may say so.	Arcydzieło, jeśli wolno mi tak powiedzieć.
+Well played. Now try it off two rails.	Dobrze zagrane. A teraz spróbuj od dwóch band.
+I hope these balls are made of steel.	Mam nadzieję, że te bile są ze stali.
+Soft touch, huh? Not my style.	Delikatnie, co? Nie w moim stylu.
+Hit it harder next time!	Następnym razem uderz mocniej!
+Too gentle! Power solves everything.	Za lekko! Siła rozwiązuje wszystko.
+HA!	HA!
+My table now. Cover your ears.	Teraz to mój stół. Zatkaj uszy.
+BOOM!	BUM!
+Did you hear that pocket?	Ale huknęło w łuzie, co?
+Too much power? No such thing.	Za dużo siły? Nie ma czegoś takiego.
+The pocket moved.	Łuza się przesunęła.
+The ball flew. It happens. A lot.	Bila odleciała. Zdarza się. Często.
+Power wins again! BOOM!	Siła znowu wygrywa! BUM!
+Fine, finesse works too. Sometimes.	No dobra, finezja też działa. Czasami.
+Take your time. I have all day.	Nie spiesz się. Mam cały dzień.
+Acceptable.	Do przyjęcia.
+Enjoy it while it lasts.	Ciesz się, póki możesz.
+Patience is a virtue. Not yours, apparently.	Cierpliwość to cnota. Najwyraźniej nie twoja.
+Thank you.	Dziękuję.
+Sloppy.	Niedbale.
+Steady wins.	Spokój wygrywa.
+One at a time.	Po jednej.
+Hm. I'll leave you nothing anyway.	Hm. I tak nic ci nie zostawię.
+Intentional. Probably.	Celowo. Chyba.
+Unacceptable. Of me.	Niedopuszczalne. Z mojej strony.
+As I said: patience.	Mówiłam: cierpliwość.
+You got through the wall. I'm impressed.	Mur przebity. Jestem pod wrażeniem.
+I've been playing since before these balls were plastic.	Gram od czasów, gdy te bile nie były jeszcze z plastiku.
+Good stroke. Reminds me of a fellow in '78.	Dobre uderzenie. Przypomina mi pewnego gościa z '78.
+Smooth. Very smooth.	Gładko. Bardzo gładko.
+Keep your head down, kid.	Głowa nisko, dzieciaku.
+The cue ball doesn't lie.	Biała nie kłamie.
+Ah, a little present. Thank you kindly.	O, mały prezent. Uprzejmie dziękuję.
+Like riding a bicycle.	Jak jazda na rowerze.
+Still got it.	Wciąż to mam.
+The eyes aren't what they used to be.	Oczy już nie te.
+In my day the pockets were bigger.	Za moich czasów łuzy były większe.
+Even old pros slip.	Nawet starym wygom się zdarza.
+Experience, my friend. Experience.	Doświadczenie, przyjacielu. Doświadczenie.
+You've got a future in this game.	Masz przyszłość w tej grze.
+Me? Oh, I hardly ever play...	Ja? Och, ja prawie nie gram...
+Lucky! Do it again, I dare you.	Fart! Powtórz to, jeśli potrafisz.
+Ooh, someone's been practising.	Oho, ktoś tu trenował.
+Aw, so close! Bless.	Ojej, tak blisko! Słodkie.
+Want me to show you how?	Pokazać ci, jak to się robi?
+Thank you, sweetie.	Dziękuję, skarbie.
+Oops, did I do that?	Ups, to ja zrobiłam?
+Must be beginner's luck. Again.	To pewnie szczęście początkującej. Znowu.
+Missed on purpose. Keeps it interesting.	Chybiłam celowo. Żeby było ciekawiej.
+Just warming up.	Dopiero się rozgrzewam.
+Oh dear, how clumsy of me. Wink.	Ojej, ale ze mnie niezdara. Mrug.
+Hardly ever play, I said. Hardly.	Mówiłam, że prawie nie gram. Prawie.
+Fine, you got me. This time.	No dobrze, masz mnie. Tym razem.
+Friction, momentum, spin. Let us begin.	Tarcie, pęd, rotacja. Zaczynajmy.
+A fine cut. About thirty degrees, I'd say.	Ładne cięcie. Jakieś trzydzieści stopni, powiedziałbym.
+Textbook.	Podręcznikowo.
+You underestimated the throw.	Zabrakło poprawki na odrzut.
+Interesting. Statistically expected.	Ciekawe. Statystycznie przewidywalne.
+The cue ball followed the laws of physics, not your plan.	Biała poszła za prawami fizyki, nie za twoim planem.
+As calculated.	Zgodnie z obliczeniami.
+Elastic collision, elegant result.	Zderzenie sprężyste, elegancki wynik.
+An error in my measurement.	Błąd w moim pomiarze.
+I'll revise the model.	Zrewiduję model.
+Hm. Unexpected spin.	Hm. Nieoczekiwana rotacja.
+The numbers were on my side.	Liczby były po mojej stronie.
+A result outside my predictions. Well done.	Wynik spoza moich przewidywań. Brawo.
+Focus.	Skupienie.
+Clean.	Czysto.
+Not bad.	Nieźle.
+Half a millimetre.	Pół milimetra.
+Breathe before you shoot.	Oddychaj przed uderzeniem.
+Careless.	Niestarannie.
+Target down.	Cel trafiony.
+Centre pocket.	W sam środek łuzy.
+Hm. Recalibrating.	Hm. Rekalibracja.
+That never happens.	To się nigdy nie zdarza.
+Unacceptable.	Niedopuszczalne.
+Precision wins.	Precyzja wygrywa.
+Good shooting.	Celnie grasz.
+Welcome to my table. Enjoy the show.	Witaj przy moim stole. Miłego oglądania.
+Very good. You've done your homework.	Bardzo dobrze. Widać, że ktoś odrobił lekcje.
+Applause for the challenger!	Brawa dla pretendenta!
+Pressure. It gets to everyone.	Presja. Dopada każdego.
+Thank you for the table.	Dziękuję za stół.
+A champion never refuses a gift.	Mistrz nigdy nie odmawia prezentu.
+Naturally.	Naturalnie.
+That's how it's done.	Tak to się robi.
+Even champions give the crowd a chance.	Nawet mistrzowie dają publiczności szansę.
+Leaving you something, out of courtesy.	Zostawiam ci coś, z uprzejmości.
+A rare sight. Remember it.	Rzadki widok. Zapamiętaj go.
+The title stays with me. Good game.	Tytuł zostaje przy mnie. Dobra partia.
+Remarkable. You've earned my respect.	Niezwykłe. Masz mój szacunek.
+Calibration complete. Good luck, human.	Kalibracja zakończona. Powodzenia, człowieku.
+Shot registered: successful.	Uderzenie zarejestrowane: udane.
+Probability of my victory: increasing.	Prawdopodobieństwo mojej wygranej: rośnie.
+Foul detected. Processing penalty.	Wykryto faul. Przetwarzanie kary.
+Executed as planned.	Wykonano zgodnie z planem.
+Error. Recalculating.	Błąd. Ponowne obliczenia.
+Malfunction. Please disregard.	Usterka. Proszę zignorować.
+Game complete. Thank you for playing.	Partia zakończona. Dziękuję za grę.
+Defeat acknowledged. Well played.	Porażka przyjęta do wiadomości. Dobrze zagrane.
+Drills	Ćwiczenia
+Exercises with stars	Ćwiczenia z gwiazdkami
+{s} / {max} stars	Gwiazdki: {s} / {max}
+Stars at {a}, {b} and {c}	Gwiazdki za {a}, {b} i {c}
+Your best: {n} of {total}	Twój rekord: {n} z {total}
+Not tried yet.	Jeszcze bez próby.
+Start the drill	Rozpocznij ćwiczenie
+Sign in to keep your stars in your account.	Zaloguj się, aby zapisać gwiazdki na swoim koncie.
+{n} of {total}	{n} z {total}
+{drill}: try {k} of {n} · {made} made	{drill}: próba {k} z {n} · udane: {made}
+Made it! {n} of {total}	Udało się! {n} z {total}
+Missed.	Pudło.
+Sending to the server…	Wysyłanie na serwer…
+Not signed in: this session is not ranked.	Brak logowania: ta sesja nie trafi do rankingu.
+Kept in your account.	Zapisano na twoim koncie.
+The session could not be counted.	Nie udało się zaliczyć sesji.
+Back to the drills	Wróć do ćwiczeń
+Straight in	Prosto
+A long straight pot into the corner. Five tries.	Długie proste wbicie do narożnej łuzy. Pięć prób.
+The cut	Cięcie
+A half-ball cut into the corner. Five tries.	Cięcie na pół bili do narożnej łuzy. Pięć prób.
+Draw it back	Cofnięcie
+Pot the ball and draw the cue ball back into the circle. Five tries.	Wbij bilę i cofnij białą do koła. Pięć prób.
+Follow through	Przebicie
+Pot the ball and leave the cue ball in the circle past it. Five tries.	Wbij bilę i zostaw białą w kole za nią. Pięć prób.
+Bank shot	Od bandy
+Off one cushion into the side pocket. Five tries.	Od jednej bandy do środkowej łuzy. Pięć prób.
+Snooker escape	Wyjście ze snookera
+Hit the 1 first: it hides behind other balls. Five tries.	Trafiaj najpierw bilę 1: jest schowana za innymi bilami. Pięć prób.
+Ten in a row	Dziesięć z rzędu
+Ten different pots, one after another: a miss ends the session.	Dziesięć różnych wbić, jedno po drugim: pudło kończy sesję.
+The far corner	Daleki narożnik
+A cut back up the table into the corner behind you. Five tries.	Cięcie z powrotem w górę stołu do narożnej łuzy za tobą. Pięć prób.
+Long into the side	Z daleka na środek
+From the far end of the table into the side pocket. Five tries.	Z drugiego końca stołu do środkowej łuzy. Pięć prób.
+Cue ball on the cushion	Biała przy bandzie
+The cue ball touches the cushion: pot the ball into the corner all the same. Five tries.	Biała dotyka bandy: mimo to wbij bilę do narożnika. Pięć prób.
+The plant	Bile na styk
+The 2 touches the 1 and points at the pocket: hit the 2 and the 1 goes in. Five tries.	Bila 2 dotyka bili 1 i celuje w łuzę: uderz bilę 2, a 1 wpadnie. Pięć prób.
+The carom	Karambol
+The 2 is in the way: glance off it and send the 1 into the corner. Five tries.	Bila 2 stoi na drodze: musnij ją i poślij bilę 1 do narożnika. Pięć prób.
+The long draw	Długie cofnięcie
+Pot the ball and draw the cue ball all the way back into the circle. Five tries.	Wbij bilę i cofnij białą aż do koła daleko z tyłu. Pięć prób.
+On the tangent line	Po linii stycznej
+Pot the ball in the side and let the cue ball run on into the circle. Five tries.	Wbij bilę do środkowej łuzy i pozwól białej potoczyć się do koła. Pięć prób.
+Two-cushion bank	Od dwóch band
+Off two cushions and into the corner. Five tries.	Od dwóch band do narożnej łuzy. Pięć prób.
+Fifteen in a row	Piętnaście z rzędu
+Fifteen different pots, one after another: a miss ends the session.	Piętnaście różnych wbić, jedno po drugim: pudło kończy sesję.
+Take back the shot (Z)	Cofnij uderzenie (Z)
+Shot taken back.	Uderzenie cofnięte.
+Solids	Pełne
+Stripes	Połówki
+Hide the history	Ukryj historię
+New username	Nowa nazwa użytkownika
+Click again to confirm	Kliknij ponownie, aby potwierdzić
+{n} of {total} name changes left	Pozostałe zmiany nazwy: {n} z {total}
+You can't change your username again.	Nie możesz już zmienić nazwy użytkownika.
+That is already your username.	To już jest twoja nazwa użytkownika.
+Finish your game before changing your username.	Dokończ partię, zanim zmienisz nazwę użytkownika.
+Leave your table or the queue before changing your username.	Odejdź od stołu lub opuść kolejkę, zanim zmienisz nazwę użytkownika.
+Leave your tournament before changing your username.	Opuść turniej, zanim zmienisz nazwę użytkownika.
+Username changed.	Nazwa użytkownika zmieniona.
+The server is still being updated to the new version. Try again in a few minutes.	Serwer wciąż jest aktualizowany do nowej wersji. Spróbuj ponownie za kilka minut.
+{shooter} made an opponent's ball: {next} to shoot.	{shooter} wbija bilę przeciwnika: uderza {next}.
 # Five more computer opponents: Tito, Inês, Diego, Amara and Yuri.
+The Gambler	Hazardzista
+Bets on every shot: as hard as the cue allows, with all the spin he can find. Safe play bores him.	Stawia na każde uderzenie: tak mocno, jak pozwala kij, i z całą rotacją, jaką znajdzie. Bezpieczna gra go nudzi.
+The Soft Touch	Delikatna Dłoń
+Never hits harder than she must: the balls die at the pocket's edge and the cue ball stops where she wants it.	Nigdy nie uderza mocniej, niż musi: bile zamierają na krawędzi łuzy, a biała staje tam, gdzie ona chce.
+The Showman	Showman
+Plays to the crowd: a raised cue, swerving spin and a bank whenever there's one. It works more often than it should.	Gra pod publiczkę: uniesiony kij, podkręcone zagrania i banda, gdy tylko się da. Działa częściej, niż powinno.
+The Tactician	Strateżka
+Plans the whole rack: snookers you when the pot isn't sure, and runs out when it is.	Planuje cały stół: zostawia cię w snookerze, gdy wbicie nie jest pewne, i czyści stół, gdy jest.
+The Machine	Maszyna
+No nerves, no flair: centre ball, measured pace, the same perfect stroke every time.	Bez nerwów i bez fajerwerków: środek białej, wyważona siła, za każdym razem to samo perfekcyjne uderzenie.
+Place your bets! Mine's on me.	Obstawiajcie! Ja stawiam na siebie.
+Lucky roll. Let it ride!	Szczęśliwy rzut. Gramy dalej!
+Okay, okay. Double or nothing?	Dobra, dobra. Podwajamy albo nic?
+The house always wins!	Kasyno zawsze wygrywa!
+Free chips! Thank you!	Darmowe żetony! Dzięki!
+All in, and it paid!	Wszystko na jedną kartę i się opłaciło!
+That's how you play the odds!	Tak się gra z rachunkiem prawdopodobieństwa!
+Bad beat. Next hand.	Pech. Następne rozdanie.
+Too much spin? There's no such thing.	Za dużo rotacji? Nie ma czegoś takiego.
+Busted. Worth the risk!	Przegrałem. Ale warto było ryzykować!
+Jackpot! Same stakes again?	Jackpot! Jeszcze raz o tę samą stawkę?
+You beat the odds. Respect.	Wbrew rachunkowi prawdopodobieństwa. Szacunek.
+Softly, now. The table likes a gentle hand.	Spokojnie. Stół lubi delikatną rękę.
+Nicely done.	Ładnie zagrane.
+A little hard, but it went in.	Trochę za mocno, ale wpadła.
+Less power, more feel.	Mniej siły, więcej czucia.
+Oh dear. A free ball for me.	Ojej. Darmowa bila dla mnie.
+Just enough to drop.	Akurat tyle, żeby wpadła.
+See? No need to hit it hard.	Widzisz? Nie trzeba mocno uderzać.
+A touch too soft.	Odrobinę za słabo.
+Clumsy of me. Sorry.	Ale ze mnie niezdara. Przepraszam.
+Slow and steady. Thank you for the game.	Powoli i spokojnie. Dziękuję za partię.
+Beautifully played. Well deserved.	Pięknie zagrane. Zasłużenie.
+Ladies and gentlemen... the show begins!	Panie i panowie... przedstawienie czas zacząć!
+Not bad! Bow to the crowd!	Nieźle! Ukłoń się publiczności!
+You stole my applause!	Kradniesz mi brawa!
+The crowd wanted more!	Publiczność chciała więcej!
+Ooh, a plot twist!	Oho, zwrot akcji!
+Ta-da!	Ta-dam!
+And for my next trick...	A w następnej sztuczce...
+Even magicians have off nights.	Nawet magikom zdarzają się gorsze wieczory.
+That was... part of the act.	To było... częścią występu.
+Thank you, thank you! Encore?	Dziękuję, dziękuję! Bis?
+Take a bow, champion. You earned it.	Ukłoń się, mistrzu. Zasłużone.
+Every rack is a puzzle. Let's solve this one.	Każdy układ to łamigłówka. Rozwiążmy tę.
+Good. Now where is your cue ball?	Dobrze. A gdzie teraz jest twoja biała?
+I saw that coming.	Spodziewałam się tego.
+That left me something. Thank you.	Coś mi zostawiono. Dziękuję.
+As planned.	Zgodnie z planem.
+Exactly as I calculated.	Dokładnie tak, jak wyliczyłam.
+Three moves ahead.	Trzy ruchy do przodu.
+A variable I missed.	Zmienna, którą przeoczyłam.
+Hm. Recalculating.	Hm. Przeliczam.
+Checkmate.	Szach mat.
+You out-thought me. That's rare.	Przechytrzono mnie. To rzadkość.
+Game initialised.	Partia zainicjowana.
+Noted.	Odnotowano.
+Error margin exceeded.	Przekroczono margines błędu.
+Penalty applied.	Kara naliczona.
+As expected.	Zgodnie z oczekiwaniami.
+Next.	Następna.
+Deviation logged.	Odchylenie zarejestrowane.
+Malfunction. It will not repeat.	Usterka. Nie powtórzy się.
+Result: win. Thank you for the data.	Wynik: wygrana. Dziękuję za dane.
+Unexpected outcome. Impressive.	Nieoczekiwany wynik. Imponujące.
+Opponents' remarks	Komentarze przeciwników
+The computer opponents comment on the game in speech bubbles.	Przeciwnicy komputerowi komentują partię w dymkach.
+Top view only	Tylko widok z góry
+The table is always seen from above: no 3D view, no turning.	Stół zawsze widać z góry: bez widoku 3D i bez obracania.
+Not with the top view only.	Niedostępne przy samym widoku z góry.
+Wheel	Kółko myszy
+Rules	Zasady
+Rules of the game	Zasady gry
+Level	Poziomo
+Drag the cue: jump & massé	Przeciągnij kij: skok i massé
+Drag to raise or lower the cue	Przeciągnij, aby unieść lub opuścić kij
+Drag the cue · {keys}	Przeciągnij kij · {keys}
+Profile picture	Zdjęcie profilowe
+Shown by your name at the table and in your profile.	Widoczne przy twojej nazwie przy stole i w profilu.
+No picture	Bez zdjęcia
+Change your picture	Zmień zdjęcie
+{name} sank the 8 together with another ball	{name} wbija ósemkę razem z inną bilą
+the opponent sank the 8 with another ball	przeciwnik wbił ósemkę razem z inną bilą
+sank the 8 with another ball	ósemka wbita razem z inną bilą
+opponent pocketed the 8-ball together with another ball	przeciwnik wbił ósemkę razem z inną bilą
+Penalty: {balls} off the table for {name}.	Kara: zdjęto ze stołu na konto gracza {name}: {balls}.
+{name} had fewer balls left than the foul gives: the 8 pays the rest, and the foul loses the game.	{name} ma mniej bil, niż daje faul: resztę płaci ósemka, a faul przegrywa partię.
+Shadows	Cienie
+The shadows of the balls and of the cue on the table.	Cienie bil i kija na stole.
+Sixteen players: knockout or arena	Szesnastu graczy: puchar lub arena
+New knockout	Nowy turniej pucharowy
+New arena	Nowa arena
+Knockout: sixteen players, four rounds. Lose a game and you are out.	Puchar: szesnastu graczy, cztery rundy. Przegrana partia oznacza odpadnięcie.
+Arena: seven rounds for everyone. A win is 2 points, 3 from the third win in a row. The most points wins.	Arena: siedem rund dla wszystkich. Wygrana to 2 punkty, a od trzeciej wygranej z rzędu – 3. Wygrywa ten, kto zbierze najwięcej punktów.
+The games between the other players are decided by their strength and a draw.	O partiach między pozostałymi graczami decyduje ich siła i losowanie.
+You won the tournament!	Wygrywasz turniej!
+{name} won the tournament.	{name} wygrywa turniej.
+You finished in place {n}.	Twoje miejsce: {n}.
+Round of 16	1/8 finału
+Quarter-finals	Ćwierćfinały
+Round {n} of {total}	Runda {n} z {total}
+Play {name}	Zagraj z: {name}
+Abandon the tournament	Opuść turniej
+W - L	W - P
+Points	Punkty
+The tournament is over.	Turniej się zakończył.
+The round is over: see who you play next.	Runda się zakończyła: zobacz, z kim grasz dalej.
+You are out of the tournament.	Odpadasz z turnieju.
+Side pocket	Środkowa łuza
+A cut into the side pocket, where the angle is tight. Five tries.	Cięcie do środkowej łuzy, gdzie kąt jest ciasny. Pięć prób.
+The long cut	Długie cięcie
+A cut from the far end of the table into the corner. Five tries.	Cięcie z drugiego końca stołu do narożnej łuzy. Pięć prób.
+Thin cut	Cienkie cięcie
+Barely graze the ball: a thin cut into the corner. Five tries.	Ledwo musnij bilę: cienkie cięcie do narożnej łuzy. Pięć prób.
+Along the cushion	Wzdłuż bandy
+The ball sits by the cushion: run it along into the corner. Five tries.	Bila leży przy bandzie: poprowadź ją wzdłuż bandy do narożnika. Pięć prób.
+Stop shot	Stop
+Pot the ball and stop the cue ball dead where the ball was. Five tries.	Wbij bilę i zatrzymaj białą w miejscu, gdzie leżała bila. Pięć prób.
+The combination	Kombinacja
+Pot the 1 by playing the 2 into it. Five tries.	Wbij bilę 1, wbijając w nią bilę 2. Pięć prób.
+Cross-corner bank	Banda po przekątnej
+Off the long cushion and across the table into the corner. Five tries.	Od długiej bandy w poprzek stołu do narożnika. Pięć prób.
+Kick shot	Biała od bandy
+The 1 is walled off: send the cue ball off a cushion to hit it first. Five tries.	Bila 1 jest zasłonięta: poślij białą od bandy, żeby trafić ją pierwszą. Pięć prób.
+Only the cue ball went down on the break: the balls are racked again and {next} breaks.	Przy rozbiciu wpadła tylko biała: bile są ustawiane ponownie, a rozbija {next}.
+Golden break	Złote rozbicie
+Win a rated game by sinking only the 8-ball on the break.	Wygraj partię rankingową, wbijając przy rozbiciu tylko ósemkę.
+Half a year	Pół roku
+Have an account for six months.	Miej konto od sześciu miesięcy.
+First anniversary	Pierwsza rocznica
+Second anniversary	Druga rocznica
+Have an account for two years.	Miej konto od dwóch lat.
+Third anniversary	Trzecia rocznica
+Have an account for three years.	Miej konto od trzech lat.
+Five years at the table	Pięć lat przy stole
+Have an account for five years.	Miej konto od pięciu lat.
+Back to the tournament	Wróć do turnieju
+Continue against {name}	Graj dalej z: {name}
+You left your game: it counts as a loss.	Opuszczono partię: liczy się jako porażka.
+new level	nowy poziom
+Level {n} brings: {item}	Poziom {n} daje: {item}
+Level 5	Poziom 5
+Reach level 5.	Osiągnij poziom 5.
+Level 10	Poziom 10
+Reach level 10.	Osiągnij poziom 10.
+Level 15	Poziom 15
+Reach level 15.	Osiągnij poziom 15.
+Level 20	Poziom 20
+Reach level 20.	Osiągnij poziom 20.
+Level 30	Poziom 30
+Reach level 30.	Osiągnij poziom 30.
+Level 40	Poziom 40
+Reach level 40.	Osiągnij poziom 40.
+Level 50	Poziom 50
+Reach level 50.	Osiągnij poziom 50.
+Regular's teal	Morska zieleń bywalca
+Veteran's plum	Śliwka weterana
+Old hand	Stary wyga
+Lifer	Na całe życie
+Apprentice's chalk	Kreda ucznia
+Journeyman's chalk	Kreda czeladnika
+Achievements	Osiągnięcia
+Leagues and levels	Ligi i poziomy
+Next league: {tier}	Następna liga: {tier}
+The top league.	Najwyższa liga.
+Every prize of the levels is won.	Zdobyto wszystkie nagrody za poziomy.
+None yet: the first is one game away.	Jeszcze żadnego: pierwsze jest o jedną partię stąd.
+{coins} and {item}	{coins} i {item}
+Leagues	Ligi
+Levels	Poziomy
+By playing. Every level pays {n} coins.	Za grę. Każdy poziom daje monety: {n}.
+where everyone starts	tu wszyscy zaczynają
+from {n}	od {n}
+The top level.	Najwyższy poziom.
+{n} XP to level {next}	{n} XP do poziomu {next}
+{n} levels to go	poziomy do zdobycia: {n}
+new league	nowa liga
+Old-timer's black	Czerń weterana
+Expert league blue	Błękit ligi Ekspert
+Master league violet	Fiolet ligi Mistrz
+Legend league gold	Złoto ligi Legenda
+Skilled league chalk	Kreda ligi Zaawansowany
+By rating. Each league pays once.	Za ranking. Każda liga nagradza raz.
+cue	kij
+cloth	sukno
+chalk	kreda
+Always show the head string	Zawsze pokazuj linię startową
+The line the break is played from, always on the table (off: only while placing the cue ball behind it).	Linia, zza której wykonuje się rozbicie, zawsze widoczna na stole (wyłączone: tylko przy ustawianiu białej za nią).
+{who} ran out of time: the turn passes.	{who}: koniec czasu – kolej przechodzi na przeciwnika.
+{who} ran out of time with no ball left to give {other}: the 8 pays, and {who} loses.	{who}: koniec czasu, a {other} nie ma już bil do otrzymania: płaci ósemka i {who} przegrywa.
+{who} ran out of time: the cue ball goes back to the head spot and the turn passes.	{who}: koniec czasu – biała wraca na punkt startowy, a kolej przechodzi na przeciwnika.
+{who} ran out of time: {balls} off the table for {other}, and the cue ball goes back to the head spot.	{who}: koniec czasu. Zdjęto ze stołu na konto gracza {other}: {balls}; biała wraca na punkt startowy.
+You were muted for {n} minutes: {r}	Wyciszono cię na {n} min: {r}
+Your account was suspended for {n} hours: {r}	Twoje konto zostało zawieszone na {n} godz.: {r}
+The server restarts in {minutes} min for an update. Games in progress go on; new games start right after.	Serwer zostanie zrestartowany za {minutes} min z powodu aktualizacji. Trwające partie toczą się dalej; nowe zaczną się zaraz potem.
+The {cup} was called off: not enough players signed up.	{cup} odwołany: zapisało się za mało graczy.
+The {cup} is open for sign-up: it starts soon in Tournaments.	Trwają zapisy na {cup}: wkrótce start w zakładce Turnieje.
+{display} won the tournament “{name}”!	{display} wygrywa turniej „{name}”!
+Sunday Cup	Puchar Niedzielny
+Monday Cup	Puchar Poniedziałkowy
+Tuesday Cup	Puchar Wtorkowy
+Wednesday Cup	Puchar Środowy
+Thursday Cup	Puchar Czwartkowy
+Friday Cup	Puchar Piątkowy
+Saturday Cup	Puchar Sobotni
+{name} · rating {r}	{name} · ranking {r}
+Something went wrong. Try again.	Coś poszło nie tak. Spróbuj ponownie.
+member for 1 day	z nami od 1 dnia
+Game in progress: 1 ball left	Trwająca partia · na stole została 1 bila
+1 level to go	do zdobycia został 1 poziom
+1 more online win with this cue for level {n}. Levels only add marks to the cue.	Jeszcze 1 wygrana online tym kijem do poziomu {n}. Poziomy dodają kijowi tylko zdobienia.
+Home	Home
+End	End
+PgUp	PgUp
+PgDn	PgDn
+Ins	Ins
+Could not join the LAN game	Nie udało się dołączyć do gry LAN
+LAN game · others join at {address}	Gra LAN · inni dołączają pod adresem {address}
+Click to copy	Kliknij, aby skopiować
+Copied.	Skopiowano.
+Start a new game?	Zacząć nową partię?
+You have a game in progress against the computer, with 1 ball left. A new game takes its place.	Masz trwającą partię z komputerem, z 1 bilą na stole. Nowa partia ją zastąpi.
+You have a game in progress against the computer, with {n} balls left. A new game takes its place.	Masz trwającą partię z komputerem (bile na stole: {n}). Nowa partia ją zastąpi.
+Continue that game	Kontynuuj tamtą
+Start a new one	Zacznij nową
+Click again to close the game: {n} will be disconnected	Kliknij ponownie, aby zamknąć grę (rozłączeni gracze: {n})
+{name} cleared the table in one visit!	{name} czyści stół w jednym podejściu!
+{name}: {n} in a row!	{name}: {n} z rzędu!
+Watch the deciding shot again	Obejrzyj ponownie decydujące uderzenie
+Next: {name}	Następny: {name}
+Drag on the table to aim, or click a ball	Przeciągnij po stole, aby celować, albo kliknij bilę
+Set the power	Ustaw siłę
+Let go of {key} to shoot · Esc cancels	Puść {key}, aby uderzyć · Esc anuluje
+Staff accounts can't change their username.	Konta obsługi nie mogą zmieniać nazwy użytkownika.
+That password can't be used. Choose another one.	Tego hasła nie można użyć. Wybierz inne.
+That tournament is full.	Ten turniej jest pełny.
+The server is restarting: your tournament was called off.	Serwer jest restartowany: twój turniej został odwołany.
+Too many sign-ins. Wait a minute and try again.	Za dużo logowań. Odczekaj minutę i spróbuj ponownie.
+Too many wrong passwords. Try again in a few minutes.	Za dużo błędnych haseł. Spróbuj ponownie za kilka minut.
+Your VIP subscription could not be cancelled. Try again in a moment.	Nie udało się anulować subskrypcji VIP. Spróbuj ponownie za chwilę.
+Balls of both groups on the break: the turn passes to {next}, the table is open.	Przy rozbiciu wpadły bile z obu grup: kolej przechodzi na gracza {next}, stół jest otwarty.
+Only a final started while signed in counts: play the last stage again signed in.	Liczy się tylko finał rozpoczęty po zalogowaniu: zagraj ostatni etap ponownie po zalogowaniu.
+The server didn't deal the final: this game won't earn the reward.	Serwer nie przygotował finału: ta partia nie da nagrody.
+The server didn't answer: this session won't be ranked.	Serwer nie odpowiedział: ta sesja nie trafi do rankingu.
+The server is dealing the final…	Serwer przygotowuje finał…
+The server is setting up the drill…	Serwer przygotowuje ćwiczenie…
+Not signed in: a win in this final won't earn the reward.	Brak logowania: wygrana w tym finale nie da nagrody.
+Not kept: sessions count when started signed in.	Nie zapisano: liczą się sesje rozpoczęte po zalogowaniu.
+Warning from the staff: {text}	Ostrzeżenie od obsługi: {text}
+The staff changed your username to {name}. Sign in again.	Obsługa zmieniła twoją nazwę użytkownika na {name}. Zaloguj się ponownie.
+The staff called off the tournament you were in.	Obsługa odwołała turniej, w którym grasz.
+Experience ×{n}	Doświadczenie ×{n}
+Coins from games ×{n}	Monety z partii ×{n}
+Themed tournament	Turniej tematyczny
+Event	Wydarzenie
+Events	Wydarzenia
+Warning from the staff	Ostrzeżenie od obsługi
+Esc to cancel	Esc, aby anulować
+Will be sent when you're back online.	Zostanie wysłane, gdy wrócisz do sieci.
+Your strokes will be sent when you're back online.	Twoje uderzenia zostaną wysłane, gdy wrócisz do sieci.
+The final you won was dealt to {name}: sign in as {name} to claim the reward.	Wygrany finał został przygotowany dla konta {name}: zaloguj się jako {name}, aby odebrać nagrodę.
+Type your password to confirm it's you.	Wpisz hasło, aby potwierdzić, że to ty.
+The cue ball is back on the head spot: {next} plays from there.	Biała wraca na punkt startowy: {next} gra z tego miejsca.
+{name} came online	{name} jest online
+Online now: {names}	Teraz online: {names}
+Nobody else is online right now.	Nikogo innego nie ma teraz online.
+Focus mode	Tryb skupienia
+No invitations while you play: they are turned away until the game is over.	Bez zaproszeń w trakcie gry: są odrzucane do końca partii.
+in focus mode	w trybie skupienia
+In focus mode: no invitations until their game is over.	W trybie skupienia: bez zaproszeń do końca partii.
+That player is in focus mode and isn't taking invitations until their game is over.	Ten gracz jest w trybie skupienia i nie przyjmuje zaproszeń do końca partii.
+Look at it closely	Obejrzyj z bliska
+Sign in to buy	Zaloguj się, aby kupić
+Sign in to use	Zaloguj się, aby użyć
+Back to the shop (Esc)	Wróć do sklepu (Esc)
+Show the interface (H)	Pokaż interfejs (H)
+Hide the interface (H)	Ukryj interfejs (H)
+Turn (Space)	Obracaj (Spacja)
+Stop turning (Space)	Zatrzymaj obrót (Spacja)
+Zoom in (+)	Przybliż (+)
+Zoom out (−)	Oddal (−)
+Back to the start (R)	Wróć do początku (R)
+Previous setting ([)	Poprzednia sceneria ([)
+Next setting (])	Następna sceneria (])
+Setting	Sceneria
+Studio	Studio
+Your table	Twój stół
+Drag with the right button to turn · wheel to zoom · double-click to look closer	Przeciągnij prawym przyciskiem, aby obracać · kółko przybliża · dwuklik, aby obejrzeć z bliska
+Drag with the right button to turn · wheel to zoom · click a ball to look at it	Przeciągnij prawym przyciskiem, aby obracać · kółko przybliża · kliknij bilę, aby ją obejrzeć
+The set	Komplet
+From above	Z góry
+Low angle	Nisko
+Cue ball	Biała bila
+Ball {n}	Bila {n}
+Whole	Całość
+Tip	Końcówka
+Joint	Złącze
+Butt	Trzon
+Top	Góra
+Cue	Kij
+Table	Stół
+Hall	Sala
+Corner	Narożna łuza
+Side	Środkowa łuza
+Leg	Noga
+Close-up	Zbliżenie
+Cushion	Banda
+Phenolic resin under a bright clear coat	Żywica fenolowa pod lśniącym bezbarwnym lakierem
+A pearly sheen that shifts with the light	Perłowy połysk, który zmienia się ze światłem
+Brushed metal, bright as a mirror	Szczotkowany metal, lśniący jak lustro
+Old ivory: soft, warm and matte	Stara kość słoniowa: miękka, ciepła i matowa
+A full-size cue, tip to butt: turn it, come close to its joint and its butt	Kij w pełnym rozmiarze, od końcówki po trzon: obracaj go, przyjrzyj się złączu i trzonowi
+A cube of chalk, and the colour it leaves on the tip	Kostka kredy i kolor, który zostawia na końcówce
+The cloth on the table: come close to see its weave	Sukno na stole: podejdź bliżej, by zobaczyć splot
+Dark mahogany, turned legs and brass castings	Ciemny mahoń, toczone nogi i mosiężne okucia
+Light teak, square legs and chrome castings	Jasny tek, kwadratowe nogi i chromowane okucia
+Deep mahogany, carved legs and leather pocket nets	Głęboki mahoń, rzeźbione nogi i skórzane siatki łuz
+Black lacquer and brushed aluminium on two slab legs	Czarny lakier i szczotkowane aluminium na dwóch płytowych nogach
+Black ebony with gold castings and inlays	Czarny heban ze złotymi okuciami i intarsjami
+Reclaimed oak rails on a riveted black steel frame	Bandy z odzyskanego dębu na nitowanej ramie z czarnej stali
+A pro tournament table: charcoal rails, block legs, chrome	Profesjonalny stół turniejowy: grafitowe bandy, masywne nogi, chrom
+Figured walnut on barley-twist legs, brass and leather	Słojowany orzech na skręcanych nogach, mosiądz i skóra
+Ivory lacquer and gold on fluted columns	Lakier w kolorze kości słoniowej i złoto na żłobkowanych kolumnach
+Panelling, the bar, cue racks, posters and neon	Boazeria, bar, stojaki na kije, plakaty i neony
+A deck at sunset, open windows, palms and string lights	Taras o zachodzie słońca, otwarte okna, palmy i girlandy lampek
+Panelling, bookshelves, leather sofas and a fireplace	Boazeria, regały z książkami, skórzane sofy i kominek
+Brick, steel windows over the city and Edison bulbs	Cegła, stalowe okna z widokiem na miasto i żarówki Edisona
+Log walls, a stone fireplace and snowy peaks outside	Ściany z bali, kamienny kominek i ośnieżone szczyty za oknem
+A black mirror floor, neon tubes and arcade cabinets	Czarna lustrzana podłoga, neonowe rurki i automaty do gier
+A marble chessboard floor, gold, velvet and mirrors	Marmurowa podłoga w szachownicę, złoto, aksamit i lustra
+Glass walls on the city at night, pale marble and oak	Szklane ściany z widokiem na nocne miasto, jasny marmur i dąb
+A gold medal!	Złoty medal!
+A silver medal!	Srebrny medal!
+A bronze medal!	Brązowy medal!
+Silver medal	Srebrny medal
+Bronze medal	Brązowy medal
+Your medals	Twoje medale
+Kept in your account the next time you're online.	Zostaną zapisane na koncie, gdy następnym razem będziesz online.
+Sign in to keep them in your account.	Zaloguj się, aby zapisać je na swoim koncie.
+18 or older	18 lat lub więcej
+Under 18	Poniżej 18 lat
+Creating an account means accepting the	Tworząc konto, akceptujesz
+For a parent or guardian…	Dla rodzica lub opiekuna…
+A parent or guardian turned the chat on for this account. They can turn it off here at any time.	Rodzic lub opiekun włączył czat na tym koncie. Może go tu wyłączyć w dowolnej chwili.
+This account belongs to someone under 18. By law, the chat with other players (messages in the lounge and in games, notes, status and gift messages) stays off until their mother, father or legal guardian turns it on.	To konto należy do osoby poniżej 18 lat. Zgodnie z prawem czat z innymi graczami (wiadomości w lobby i w partiach, ogłoszenia, status i wiadomości do prezentów) pozostaje wyłączony, dopóki nie włączy go matka, ojciec lub opiekun prawny.
+I am this player's mother, father or legal guardian, I have read the terms of use and I allow them to chat with other players.	Jako matka, ojciec lub opiekun prawny tego gracza oświadczam, że znam regulamin, i zezwalam na czat z innymi graczami.
+Chat for players under 18	Czat dla graczy poniżej 18 lat
+Turn the chat off	Wyłącz czat
+{n} more invitations	Kolejne zaproszenia: {n}
+Invitation	Zaproszenie
+Turn the chat on	Włącz czat
+Chat off: under 18. A parent or guardian can turn it on.	Czat wyłączony: poniżej 18 lat. Rodzic lub opiekun może go włączyć.
+The chat with other players is off until you turn it on.	Czat z innymi graczami jest wyłączony, dopóki go nie włączysz.
+Write to turn the chat on…	Napisz, aby włączyć czat…
+Chat with other players	Czat z innymi graczami
+The chat with other players is off until you turn it on. To turn it on, tell us your age group: it can't be changed from the game afterwards.	Czat z innymi graczami jest wyłączony, dopóki go nie włączysz. Aby go włączyć, podaj swoją grupę wiekową: później nie da się jej zmienić w grze.
+Under 18: a parent or guardian must agree to the terms with you and turn the chat on.	Poniżej 18 lat: rodzic lub opiekun musi zaakceptować regulamin razem z tobą i włączyć czat.
+Not now	Nie teraz
+Terms of use	Regulamin
+Privacy policy	Polityka prywatności
+You have 7 days to change your mind and get your money back.	Masz 7 dni na rozmyślenie się i odzyskanie pieniędzy.
+Under 18: buy only with a parent's or guardian's permission.	Poniżej 18 lat: kupuj tylko za zgodą rodzica lub opiekuna.
+Renews every month until you cancel. 7 days to change your mind.	Odnawia się co miesiąc, dopóki nie anulujesz. 7 dni na rozmyślenie się.
+About	Informacje
+Accounts, purchases and refunds, the rules of the online game.	Konta, zakupy i zwroty, zasady gry online.
+What the game keeps, and your rights.	Co gra przechowuje i jakie masz prawa.
+Open	Otwórz
+Credits	Twórcy
+Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Czcionki: DejaVu i Noto (OFL). Flagi: flag-icons (MIT). Reakcje i emoji: Twemoji (CC-BY 4.0). Nazwy krajów: iso-codes (LGPL-2.1). Kod gry jest otwarty (MIT).
+The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	Czat jest wyłączony dla graczy poniżej 18 lat. Rodzic lub opiekun może go włączyć pod czatem lobby.
+No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	Rozbicie nie trafiło żadnej bili: rozbija {next}, z białą z ręki za linią startową.
+The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	Przy rozbiciu wpadła biała i żadna inna bila: rozbija {next}, z białą z ręki za linią startową.
+Users online	Użytkownicy online
+ping {ms} ms	ping {ms} ms
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks, with the cue ball in hand behind the head string.	Przy rozbiciu wpadła biała razem z bilami obu grup: bez kary, stół zostaje otwarty, a rozbija {next}, z białą z ręki za linią startową.
+Brazilian	Brazylijskie
+Official	Oficjalne
+Brazilian rules	Zasady brazylijskie
+Official rules	Zasady oficjalne
+Brazilian rules (inside a sentence)	zasady brazylijskie
+Official rules (inside a sentence)	zasady oficjalne
+Brazilian (inside a sentence)	brazylijskie
+Official (inside a sentence)	oficjalne
+As played in Brazil's bars	Jak w brazylijskich barach
+As played in tournaments (WPA)	Jak w turniejach (WPA)
+on the Brazilian rules	według zasad brazylijskich
+on the official rules	według zasad oficjalnych
+A ball left the table on the break.	Przy rozbiciu bila wypadła ze stołu.
+A ball off the table on the break	Bila poza stołem przy rozbiciu
+A safety calls nothing: whatever goes in stays down, and the turn passes.	Odstawna niczego nie deklaruje: co wpadnie, zostaje w łuzie, a kolej przechodzi na przeciwnika.
+Break yourself	Rozbijasz ty
+CALLED POCKET	ZADEKLAROWANA ŁUZA
+Choose	Wybierz
+Choose how play goes on	Wybierz, jak toczy się gra
+Choose the rules of your games. You can switch them any time, in the main menu.	Wybierz zasady swoich partii. Możesz je zmienić w każdej chwili w menu głównym.
+Click a pocket on the table to call it; click it again to follow your aim.	Kliknij łuzę na stole, aby ją zadeklarować; kliknij ją ponownie, aby wrócić do łuzy, w którą celujesz.
+Cue ball in hand	Biała z ręki
+Each of the rules has its own rating: these games don't change your {rating} under the {other}.	Każdy zestaw zasad ma własny ranking: te partie nie zmieniają twojego rankingu według innych zasad ({other}: {rating}).
+Find an opponent of your level automatically ({rules})	Automatycznie znajdź przeciwnika na twoim poziomie ({rules})
+How do you like to play?	Jak lubisz grać?
+How does play go on? Choose one:	Jak toczy się gra? Wybierz jedno:
+Illegal break: no ball made and fewer than four balls reached a cushion.	Nieprawidłowe rozbicie: nic nie wpadło, a mniej niż cztery bile dotarły do bandy.
+Invite {name}	Zaproś: {name}
+No ball went in the called pocket ({pocket}): {next} to shoot.	Żadna bila nie wpadła do zadeklarowanej łuzy ({pocket}): uderza {next}.
+No pocket was called (a safety): {next} to shoot.	Nie zadeklarowano łuzy (odstawna): uderza {next}.
+Not sure what changes?	Nie wiesz, co się zmienia?
+Place it anywhere behind the head string.	Ustaw ją w dowolnym miejscu za linią startową.
+Play on	Graj dalej
+Players against the computer under these rules	Gracze grający z komputerem według tych zasad
+Players online under these rules (the lounge and online games)	Gracze online według tych zasad (lobby i partie online)
+RULES OF YOUR GAMES	ZASADY TWOICH PARTII
+Read both rules	Przeczytaj zasady: brazylijskie i oficjalne
+Rules of your games	Zasady twoich partii
+Safety	Odstawna
+Safety: no pocket	Odstawna: bez łuzy
+Show the {rules}: the rank, the league and the chart	Pokaż {rules}: miejsce, ligę i wykres
+The 8 is spotted and you keep shooting.	Ósemka wraca na stół, a ty uderzasz dalej.
+The 8 is spotted; the cue ball in hand behind the head string.	Ósemka wraca na stół; biała z ręki za linią startową.
+The 8 on a break with a foul	Ósemka przy rozbiciu z faulem
+The 8 on the break	Ósemka przy rozbiciu
+The 8 went down on a break with a foul: it is spotted.	Ósemka wpadła przy rozbiciu z faulem: wraca na stół.
+The 8 went down on the break: it is spotted.	Ósemka wpadła przy rozbiciu: wraca na stół.
+The balls are racked again and you break.	Bile są ustawiane ponownie i rozbijasz ty.
+The balls are racked again and {name} breaks.	Bile są ustawiane ponownie i rozbija {name}.
+The balls are racked again: {name} breaks.	Bile są ustawiane ponownie: rozbija {name}.
+The balls are racked again: {other} breaks.	Bile są ustawiane ponownie: rozbija {other}.
+The rules of this game: click to read them	Zasady tej partii: kliknij, aby je przeczytać
+The rules of your games: click to switch	Zasady twoich partii: kliknij, aby je zmienić
+The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	Ten sam przełącznik co w menu głównym: online, z komputerem i dwóch graczy. Każdy zestaw zasad ma własny ranking.
+The table as it lies.	Stół tak, jak stoi.
+The top 100 of each rules · rated games	Top 100 dla każdego zestawu zasad · partie rankingowe
+The {ball} lay behind the head string and the cue ball hit it without crossing the line first	Za linią startową leżała {ball}, a biała trafiła ją, nie przekraczając najpierw linii
+What changes between the rules: click to read them	Co się różni między zasadami: kliknij, aby przeczytać
+With the cue ball in hand behind the head string.	Z białą z ręki za linią startową.
+follows your aim	łuza, w którą celujesz
+no rated games yet	brak partii rankingowych
+open table: the called ball you make sets your group	stół otwarty: wbita zadeklarowana bila ustali twoją grupę
+peak {n} · {games} games	rekord {n} · partie: {games}
+playing now	gra teraz
+your call	twoja deklaracja
+{name} breaks again	{name} rozbija ponownie
+{name} chooses: play on, or rack the balls and break again.	{name} wybiera: grać dalej albo ustawić bile ponownie i znów rozbić.
+{name} chooses: play the table as it lies, or take the cue ball in hand behind the head string.	{name} wybiera: grać ze stołu tak, jak stoi, albo wziąć białą z ręki za linią startową.
+{name} chooses: play the table as it lies, rack the balls and break, or have {breaker} break again.	{name} wybiera: grać ze stołu tak, jak stoi, ustawić bile i rozbić albo kazać rozbić ponownie graczowi {breaker}.
+{name} chooses: play the table as it lies, take the cue ball in hand behind the head string, rack the balls and break, or have {breaker} break again.	{name} wybiera: grać ze stołu tak, jak stoi, wziąć białą z ręki za linią startową, ustawić bile i rozbić albo kazać rozbić ponownie graczowi {breaker}.
+{name} chooses: the cue ball in hand behind the head string, or rack the balls and break.	{name} wybiera: biała z ręki za linią startową albo ustawienie bil i rozbicie.
+{name} is choosing how play goes on…	{name} wybiera, jak toczy się gra…
+{name} plays on (the 8 is spotted).	{name} gra dalej (ósemka wraca na stół).
+{name} plays the table as it lies.	{name} gra ze stołu tak, jak stoi.
+{name} plays the {theirs} now; yours are the {mine}.	Zasady gracza {name}: {theirs}; twoje: {mine}.
+{name} takes the cue ball in hand.	{name} bierze białą z ręki.
+{next} has the cue ball in hand behind the head string.	{next} ma białą z ręki za linią startową.
+{next} has the cue ball in hand: anywhere on the table.	{next} ma białą z ręki: w dowolnym miejscu stołu.
+{n} points to {tier} ({rules})	Do ligi {tier}: {n} pkt ({rules})
+{n} waiting	czekający: {n}
+A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Faul daje przeciwnikowi bile z jego grupy. Biała z ręki tylko przy rozbiciu, a deklaruje się tylko łuzę dla ósemki.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	Faul daje przeciwnikowi białą z ręki w dowolnym miejscu stołu. Każde uderzenie jest deklarowane, a rozbicie musi doprowadzić cztery bile do band.
+A foul gives balls to the opponent	Faul daje bile przeciwnikowi
+Ball in hand on the break only	Biała z ręki tylko przy rozbiciu
+Only the 8's pocket is called	Deklaruje się tylko łuzę dla ósemki
+The most played in Brazil	Najpopularniejsze w Brazylii
+A foul gives ball in hand	Faul daje białą z ręki
+The break drives four balls to a cushion	Rozbicie: cztery bile do band
+Every shot is called	Każde uderzenie jest deklarowane
+The same all over the world	Takie same na całym świecie
+Game type	Rodzaj gry
+called: {pocket}	deklaracja: {pocket}
+no call: a safety	bez deklaracji: odstawna
+A safety: nothing called. Click again to call the pocket you aim at.	Odstawna: nic nie zadeklarowano. Kliknij ponownie, aby zadeklarować łuzę, w którą celujesz.
+A safety calls nothing: whatever goes in stays down, and the turn passes. To call another pocket, click it on the table.	Odstawna niczego nie deklaruje: co wpadnie, zostaje w łuzie, a kolej przechodzi na przeciwnika. Aby zadeklarować inną łuzę, kliknij ją na stole.
+{games} games · {pct}% won	partie: {games} · wygrane: {pct}%
+Each of the rules has its own rating; the level, coins and achievements are shared.	Każdy zestaw zasad ma własny ranking; poziom, monety i osiągnięcia są wspólne.
+You already have a VIP subscription: manage it with Manage subscription.	Masz już subskrypcję VIP: zarządzaj nią przyciskiem Zarządzaj subskrypcją.
+Your opponent can't start another game yet.	Twój przeciwnik nie może jeszcze zacząć kolejnej partii.
+A tournament's name is shown to everyone: with your chat off, you can join tournaments but not create one.	Nazwę turnieju widzą wszyscy: z wyłączonym czatem możesz dołączać do turniejów, ale nie możesz ich tworzyć.
+The connection dropped: check your coins before trying again.	Połączenie zostało przerwane: sprawdź stan monet, zanim spróbujesz ponownie.
+Sign in to buy coins.	Zaloguj się, aby kupić monety.
+Sign in to become VIP.	Zaloguj się, aby zostać VIP.
+how play goes on after the break is undecided	nie wybrano jeszcze, jak toczy się gra po rozbiciu
+Finish your game, and leave your table, the queue or your tournament first.	Najpierw dokończ partię i odejdź od stołu, opuść kolejkę lub turniej.
+That choice can't be made now.	Tego wyboru nie można teraz dokonać.
+That medal can't be.	Taki medal nie istnieje.
+{name}'s tournament	Turniej gracza {name}
+When time runs out, it's a foul: your opponent gets a ball and the cue ball goes back to the head spot.	Gdy skończy się czas, to faul: przeciwnik dostaje bilę, a biała wraca na punkt startowy.
+When time runs out, it's a foul: your opponent gets the cue ball in hand.	Gdy skończy się czas, to faul: przeciwnik dostaje białą z ręki.
+Your username was changed. Sign in again.	Twoja nazwa użytkownika została zmieniona. Zaloguj się ponownie.
+You have your tournament game in progress. A new game takes its place, and the tournament game counts as lost.	Masz trwającą partię turniejową. Nowa partia ją zastąpi, a partia turniejowa zostanie uznana za przegraną.
+The cue ball went down on the break with balls of both groups: no penalty, the table stays open and {next} breaks again, from the head spot.	Przy rozbiciu wpadła biała razem z bilami obu grup: bez kary, stół zostaje otwarty, a {next} rozbija ponownie z punktu startowego.
+The cue ball went down on the break with no ball made: {next} breaks again, from the head spot.	Przy rozbiciu wpadła biała i żadna inna bila: {next} rozbija ponownie z punktu startowego.
+{who} ran out of time: {other} breaks, from the head spot.	{who}: koniec czasu – rozbija {other}, z punktu startowego.
+Congratulations!	Gratulacje!
+You earned a new item: {title}	Nowy przedmiot: {title}
+You earned a new item!	Nowy przedmiot!

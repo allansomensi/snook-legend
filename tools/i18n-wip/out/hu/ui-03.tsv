@@ -70,9 +70,9 @@
 670	Frissítések
 671	Automatikus frissítés
 672	Az új verziók a háttérben töltődnek le, és újraindításkor települnek.
-673	{v}. verzió
+673	Verzió: {v}
 674	Újdonságok
-675	Újdonságok – {v}. verzió
+675	A(z) {v} verzió újdonságai
 676	Ehhez a verzióhoz nincsenek jegyzetek.
 677	Értem
 678	Újraindítás most
@@ -175,7 +175,7 @@
 775	Legyőzve
 776	Következő
 777	Ennek feloldásához nyerd meg az előző szakaszt.
-778	{n}/{total}. szakasz
+778	{n}. szakasz / {total}
 779	Kihívás: {name}
 780	{n}. szakasz megnyerve! A körverseny következő ellenfele: {name}.
 781	Megnyerted az egész körversenyt!
@@ -279,8 +279,8 @@
 879	az ellenfél kilépett a játszmából
 880	kezdőoldali bal sarok
 881	kezdőoldali jobb sarok
-882	bal középső
-883	jobb középső
+882	bal középső lyuk
+883	jobb középső lyuk
 884	hátsó bal sarok
 885	hátsó jobb sarok
 886	Könnyű

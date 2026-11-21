@@ -1,66 +1,66 @@
-# Snook Legend: the official rules of eight-ball (the World Pool-Billiard
-# Association's Rules of Play), shown in the game.
-# "## <part>" starts a part, "### <title>" a rule, and the lines after it
-# are its text. The same parts and rules, in the same order, in every
-# language.
+# Snook Legend: oficjalne zasady ósemki (Rules of Play World Pool-Billiard
+# Association), pokazywane w grze.
+# "## <część>" zaczyna część, "### <tytuł>" zasadę, a kolejne wiersze
+# to jej tekst. Te same części i zasady, w tej samej kolejności, w każdym
+# języku.
 
-## The game
+## Gra
 
-### The official rules (WPA)
-The eight-ball of international tournaments, as the World Pool-Billiard Association plays it. Snook Legend has the Brazilian rules too: choose the rules of your games in the main menu. If you play the Brazilian rules, read the break, the calls and the fouls below, because they differ a lot.
+### Zasady oficjalne (WPA)
+Ósemka z międzynarodowych turniejów, tak jak gra ją World Pool-Billiard Association. Snook Legend ma też zasady brazylijskie: wybierz zasady swoich partii w menu głównym. Jeśli grasz według zasad brazylijskich, przeczytaj poniżej o rozbiciu, deklarowaniu i faulach, bo bardzo się różnią.
 
-### The aim
-Each player has a group of seven balls: solids (1 to 7) or stripes (9 to 15). Pocket all of yours and then the 8-ball, in the pocket you call, before your opponent does.
+### Cel gry
+Każdy gracz ma grupę siedmiu bil: pełne (od 1 do 7) lub połówki (od 9 do 15). Wbij wszystkie swoje, a potem ósemkę do zadeklarowanej łuzy, zanim zrobi to przeciwnik.
 
-### Your turn
-You keep shooting while you make a ball of your group in the pocket you called, on a shot without a foul. Otherwise the turn passes, and the balls that went in stay down.
+### Twoja kolej
+Grasz dalej, dopóki wbijasz bilę ze swojej grupy do zadeklarowanej łuzy, uderzeniem bez faulu. W przeciwnym razie kolej przechodzi na przeciwnika, a wbite bile zostają w łuzach.
 
-## The break
+## Rozbicie
 
-### The break shot
-The cue ball is in your hand: place it anywhere behind the head string. Nothing is called on the break. For it to be legal you must make a ball or drive at least four object balls to a cushion.
+### Uderzenie rozbijające
+Biała jest z ręki: ustaw ją w dowolnym miejscu za linią startową. Przy rozbiciu niczego się nie deklaruje. Aby rozbicie było prawidłowe, musisz wbić bilę albo doprowadzić co najmniej cztery bile zagrywane do bandy.
 
-### An illegal break
-If no ball goes in and fewer than four reach a cushion, your opponent chooses: play the table as it lies, have the balls racked and break themselves, or have you break again.
+### Nieprawidłowe rozbicie
+Jeśli nic nie wpadnie, a mniej niż cztery bile dotrą do bandy, wybiera przeciwnik: gra ze stołu tak, jak stoi, każe ustawić bile i sam rozbija albo każe ci rozbić ponownie.
 
-### After the break
-A ball made on a legal break keeps the table, but the table stays open: the break never decides the groups. If the cue ball goes in or leaves the table on a legal break, your opponent has it in hand behind the head string.
+### Po rozbiciu
+Bila wbita przy prawidłowym rozbiciu daje dalszą grę, ale stół pozostaje otwarty: rozbicie nigdy nie ustala grup. Jeśli przy prawidłowym rozbiciu biała wpadnie do łuzy lub wypadnie ze stołu, przeciwnik ma białą z ręki za linią startową.
 
-### The 8-ball on the break
-Pocketing the 8 on the break neither wins nor loses: it comes back to the foot spot, and you play on or have the balls racked and break again. If you also fouled, your opponent chooses: the cue ball in hand behind the head string, or the balls racked again and they break.
+### Ósemka przy rozbiciu
+Wbicie ósemki przy rozbiciu ani nie wygrywa, ani nie przegrywa: ósemka wraca na punkt główny, a ty grasz dalej albo każesz ustawić bile i rozbijasz ponownie. Jeśli do tego był faul, wybiera przeciwnik: biała z ręki za linią startową albo ponowne ustawienie bil i jego rozbicie.
 
-### A ball off the table on the break
-It is a foul, and the ball stays off (only the 8 comes back). Your opponent plays the table as it lies or takes the cue ball in hand behind the head string. If the break was illegal too, they may also have the balls racked again, as above.
+### Bila poza stołem przy rozbiciu
+To faul, a bila zostaje poza stołem (wraca tylko ósemka). Przeciwnik gra ze stołu tak, jak stoi, albo bierze białą z ręki za linią startową. Jeśli rozbicie było też nieprawidłowe, może też kazać ustawić bile ponownie, jak wyżej.
 
-## Calling and playing
+## Deklarowanie i gra
 
-### Open table
-While the groups are not decided, the table is open: you may hit any ball first except the 8. The group of the ball you make in the called pocket becomes yours. If one group is already off the table, you may play the 8.
+### Stół otwarty
+Dopóki grupy nie są ustalone, stół jest otwarty: możesz najpierw trafić dowolną bilę oprócz ósemki. Twoją grupą staje się grupa bili wbitej do zadeklarowanej łuzy. Jeśli jedna z grup zniknęła już ze stołu, możesz grać na ósemkę.
 
-### Calling your shot
-Every shot except the break is called. In the game you call a pocket: following your aim, it calls the pocket the ball you hit is heading for (the ring on the pocket). Click another pocket to call it, or play a safety. A ball of your group (or the 8, when you are on it) made in the called pocket keeps the table, also off a cushion or another ball.
+### Deklarowanie uderzenia
+Każde uderzenie oprócz rozbicia jest deklarowane. W grze deklarujesz łuzę: zgodnie z twoim celowaniem gra deklaruje łuzę, do której zmierza trafiona bila (pierścień na łuzie). Kliknij inną łuzę, aby ją zadeklarować, albo zagraj odstawną. Bila z twojej grupy (lub ósemka, gdy na nią grasz) wbita do zadeklarowanej łuzy daje dalszą grę, także od bandy lub od innej bili.
 
-### Safety
-A shot with no pocket called is a safety: whatever goes in stays down, and the turn passes to your opponent.
+### Odstawna
+Uderzenie bez zadeklarowanej łuzy to odstawna: co wpadnie, zostaje w łuzie, a kolej przechodzi na przeciwnika.
 
-### The cue ball behind the head string
-With the cue ball in hand behind the head string, you can't hit a ball that also lies behind it unless the cue ball crosses the head string first. If every ball you may hit lies behind it, the one nearest to the head string comes back to the foot spot.
+### Biała za linią startową
+Z białą z ręki za linią startową nie możesz trafić bili, która też leży za tą linią, chyba że biała najpierw przekroczy linię startową. Jeśli wszystkie bile, które możesz trafić, leżą za nią, ta najbliższa linii startowej wraca na punkt główny.
 
-## Fouls
+## Faule
 
-### Ball in hand
-After any foul, your opponent has the cue ball in hand: they place it anywhere on the table. No ball comes off the table as a penalty.
+### Biała z ręki
+Po każdym faulu przeciwnik ma białą z ręki: ustawia ją w dowolnym miejscu stołu. Żadna bila nie schodzi ze stołu jako kara.
 
-### What is a foul
-The cue ball in a pocket or off the table; hitting no ball, or the wrong ball first (one of your opponent's, or the 8 too soon); after the contact, no ball made and no ball reaching a cushion (a ball lying against a cushion only reaches it by leaving it and coming back); an object ball off the table (it stays off).
+### Co jest faulem
+Biała w łuzie lub poza stołem; nietrafienie żadnej bili albo trafienie najpierw niewłaściwej (bili przeciwnika lub ósemki za wcześnie); po zderzeniu żadna bila nie wpadła i żadna nie dotarła do bandy (bila leżąca przy bandzie dociera do niej tylko wtedy, gdy się od niej oddali i wróci); bila zagrywana poza stołem (zostaje poza stołem).
 
-### The shot clock
-When the game has a shot clock and it runs out, it is a foul: your opponent has the cue ball in hand. A choice after the break that isn't made in time takes its first option.
+### Limit czasu
+Gdy partia ma limit czasu na uderzenie i czas się skończy, to faul: przeciwnik ma białą z ręki. Wybór po rozbiciu, którego nie dokonano na czas, przyjmuje pierwszą opcję.
 
-## The 8-ball
+## Ósemka
 
-### Winning
-Once your group is off the table, pocket the 8 in the pocket you called, on a shot without a foul.
+### Wygrana
+Gdy twoja grupa zniknie ze stołu, wbij ósemkę do zadeklarowanej łuzy uderzeniem bez faulu.
 
-### Losing on the 8
-You lose by pocketing the 8 on a foul, before your group is off the table or in a pocket you didn't call, and by knocking the 8 off the table. None of this applies to the break.
+### Przegrana na ósemce
+Przegrywasz, wbijając ósemkę z faulem, zanim twoja grupa zniknie ze stołu albo do niezadeklarowanej łuzy, a także wybijając ósemkę ze stołu. Nic z tego nie dotyczy rozbicia.

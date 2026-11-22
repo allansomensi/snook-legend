@@ -276,6 +276,12 @@ pub struct Ui {
     /// The panels drawn so far this frame: text that starts inside one never
     /// runs past its edge (see [`Ui::text`]).
     panels: std::cell::RefCell<Vec<Rect>>,
+    /// How far each widget has lit up under the pointer (0..1), by where it
+    /// is, and the frame it was last drawn (see [`Ui::hover_anim`]).
+    hover_anims: std::cell::RefCell<std::collections::HashMap<[i32; 4], (f32, u64)>>,
+    frame: u64,
+    /// A button was pressed this frame (the interface's click is played).
+    click: std::cell::Cell<bool>,
 }
 
 impl Ui {
@@ -310,11 +316,18 @@ impl Ui {
             cursor_owner: None,
             overlays: std::cell::RefCell::new(Vec::new()),
             panels: std::cell::RefCell::new(Vec::new()),
+            hover_anims: Default::default(),
+            frame: 0,
+            click: std::cell::Cell::new(false),
         }
     }
 
     /// Call once at the start of each frame.
     pub fn begin(&mut self) {
+        // Widgets not drawn last frame are gone: their hover state with them.
+        let last = self.frame;
+        self.hover_anims.get_mut().retain(|_, (_, seen)| *seen + 1 >= last);
+        self.frame += 1;
         self.overlays.get_mut().clear();
         self.panels.get_mut().clear();
         self.mouse = Vec2::from(mouse_position()) / ui_scale();
@@ -646,6 +659,28 @@ impl Ui {
         self.draw_text_raw(text, cx - w / 2.0, y, size, color, bold);
     }
 
+    /// How far the widget at `r` has lit up under the pointer (0..1): it
+    /// eases in and out over a tenth of a second instead of snapping.
+    pub fn hover_anim(&self, r: Rect, hover: bool) -> f32 {
+        let key = [r.x, r.y, r.w, r.h].map(|v| (v * 4.0).round() as i32);
+        let mut map = self.hover_anims.borrow_mut();
+        let entry = map.entry(key).or_insert((if hover { 1.0 } else { 0.0 }, self.frame));
+        let k = 1.0 - (-get_frame_time() * 18.0).exp();
+        entry.0 += (if hover { 1.0 } else { 0.0 } - entry.0) * k;
+        entry.1 = self.frame;
+        entry.0
+    }
+
+    /// Notes that a button was pressed: the interface's click is played.
+    pub fn note_click(&self) {
+        self.click.set(true);
+    }
+
+    /// Whether a button was pressed since the last call.
+    pub fn take_click(&self) -> bool {
+        self.click.replace(false)
+    }
+
     pub fn panel(&mut self, r: Rect) {
         self.panels.get_mut().push(r);
         self.block(r);
@@ -693,45 +728,47 @@ impl Ui {
             rrect(r, BUTTON_RADIUS, Color::new(0.1, 0.075, 0.055, 0.85));
             rrect_lines(r, BUTTON_RADIUS, 1.0, Color::new(1.0, 1.0, 1.0, 0.04));
         } else {
+            let a = self.hover_anim(r, hover);
             let bg = if hover && self.down {
                 Color::new(0.20, 0.135, 0.08, 1.0)
-            } else if hover {
-                Color::new(0.33, 0.225, 0.125, 1.0)
             } else {
-                Color::new(0.23, 0.155, 0.09, 1.0)
+                mix(Color::new(0.23, 0.155, 0.09, 1.0), Color::new(0.33, 0.225, 0.125, 1.0), a)
             };
-            let edge = if hover { Color { a: 0.8, ..GOLD } } else { HAIRLINE };
+            let edge = mix(HAIRLINE, Color { a: 0.8, ..GOLD }, a);
             raised(r, BUTTON_RADIUS, bg, edge, 1.0);
         }
         let (label, size) = self.fitted(label, (r.h * 0.45).clamp(13.0, 22.0), r.w - 12.0, true);
         let color = if enabled { CREAM } else { Color::new(MUTED.r, MUTED.g, MUTED.b, 0.6) };
         let y = r.y + (r.h - size) / 2.0 + if hover && self.down { 1.0 } else { 0.0 };
         self.text_centered(&label, r.x + r.w / 2.0, y, size, color, true);
-        enabled && hover && self.released_in(r)
+        let clicked = enabled && hover && self.released_in(r);
+        if clicked {
+            self.note_click();
+        }
+        clicked
     }
 
     /// A button styled as the main call to action.
     pub fn primary_button(&mut self, r: Rect, label: &str) -> bool {
         self.block(r);
         let hover = r.contains(self.mouse);
+        let a = self.hover_anim(r, hover);
         let bg = if hover && self.down {
             Color::new(0.10, 0.40, 0.22, 1.0)
-        } else if hover {
-            Color::new(0.18, 0.58, 0.33, 1.0)
         } else {
-            GREEN
+            mix(GREEN, Color::new(0.18, 0.58, 0.33, 1.0), a)
         };
         rrect(Rect::new(r.x, r.y + 2.0, r.w, r.h), BUTTON_RADIUS, Color::new(0.0, 0.0, 0.0, 0.3));
-        let edge = if hover {
-            Color::new(0.62, 0.95, 0.72, 0.85)
-        } else {
-            Color::new(0.45, 0.85, 0.6, 0.45)
-        };
+        let edge = mix(Color::new(0.45, 0.85, 0.6, 0.45), Color::new(0.62, 0.95, 0.72, 0.85), a);
         raised(r, BUTTON_RADIUS, bg, edge, 1.0);
         let (label, size) = self.fitted(label, (r.h * 0.45).clamp(13.0, 24.0), r.w - 12.0, true);
         let y = r.y + (r.h - size) / 2.0 + if hover && self.down { 1.0 } else { 0.0 };
         self.text_centered(&label, r.x + r.w / 2.0, y, size, WHITE, true);
-        hover && self.released_in(r)
+        let clicked = hover && self.released_in(r);
+        if clicked {
+            self.note_click();
+        }
+        clicked
     }
 
     pub fn checkbox(&mut self, x: f32, y: f32, label: &str, value: &mut bool) -> bool {
@@ -1403,7 +1440,11 @@ impl Ui {
             HAIRLINE
         };
         raised(r, BUTTON_RADIUS, bg, edge, if on { 1.6 } else { 1.0 });
-        hover && self.released_in(r)
+        let clicked = hover && self.released_in(r);
+        if clicked {
+            self.note_click();
+        }
+        clicked
     }
 
     /// A tab header; returns true when clicked.
@@ -1489,7 +1530,11 @@ impl Ui {
             color,
             true,
         );
-        hover && self.released_in(r) && !selected
+        let clicked = hover && self.released_in(r) && !selected;
+        if clicked {
+            self.note_click();
+        }
+        clicked
     }
 
     /// Splits `text` into lines no wider than `width`: at spaces, and also
@@ -1795,8 +1840,11 @@ impl Ui {
     ) -> bool {
         self.block(r);
         let hover = enabled && r.contains(self.mouse);
+        let a = self.hover_anim(r, hover);
         let bg = if hover && self.down {
             Color::new(0.20, 0.135, 0.08, 1.0)
+        } else if a > 0.01 && !subtle && enabled {
+            mix(Color::new(0.21, 0.145, 0.085, 0.95), Color::new(0.33, 0.225, 0.125, 0.97), a)
         } else if hover {
             Color::new(0.33, 0.225, 0.125, 0.97)
         } else if subtle {
@@ -1808,10 +1856,8 @@ impl Ui {
         };
         let radius = (r.h * 0.26).min(BUTTON_RADIUS);
         if !subtle || hover {
-            let edge = if hover {
-                Color { a: 0.8, ..GOLD }
-            } else if enabled {
-                HAIRLINE
+            let edge = if enabled {
+                mix(HAIRLINE, Color { a: 0.8, ..GOLD }, a)
             } else {
                 Color::new(1.0, 1.0, 1.0, 0.04)
             };
@@ -1819,19 +1865,17 @@ impl Ui {
         } else {
             rrect(r, radius, bg);
         }
-        let color = if !enabled {
-            Color::new(0.5, 0.45, 0.4, 0.6)
-        } else if hover {
-            GOLD
-        } else {
-            CREAM
-        };
+        let color = if !enabled { Color::new(0.5, 0.45, 0.4, 0.6) } else { mix(CREAM, GOLD, a) };
         crate::icons::draw(icon, vec2(r.x + r.w / 2.0, r.y + r.h / 2.0), r.h * 0.52, color);
         // Also when it can't be used now: what it is, all the same.
         if r.contains(self.mouse) && !tip.is_empty() {
             self.tooltip(tip, r);
         }
-        enabled && hover && self.released_in(r)
+        let clicked = enabled && hover && self.released_in(r);
+        if clicked {
+            self.note_click();
+        }
+        clicked
     }
 
     /// A small dark label under (or above, near the bottom) `anchor`. It is
@@ -2084,6 +2128,7 @@ impl Ui {
             );
             if hover && self.released_in(cell) && i != selected {
                 clicked = Some(i);
+                self.note_click();
             }
         }
         rrect_lines(r, BUTTON_RADIUS, 1.0, HAIRLINE);
@@ -2201,6 +2246,17 @@ pub fn soft_shadow(r: Rect, radius: f32, strength: f32) {
             Color::new(0.0, 0.0, 0.0, alpha * strength),
         );
     }
+}
+
+/// `t` of the way from `a` to `b`.
+pub fn mix(a: Color, b: Color, t: f32) -> Color {
+    let t = t.clamp(0.0, 1.0);
+    Color::new(
+        a.r + (b.r - a.r) * t,
+        a.g + (b.g - a.g) * t,
+        a.b + (b.b - a.b) * t,
+        a.a + (b.a - a.a) * t,
+    )
 }
 
 /// The corners of panels and dialogs.

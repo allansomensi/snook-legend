@@ -158,16 +158,7 @@ impl Metrics {
     }
 }
 
-/// `a` of the way from `from` to `to`.
-fn mix(from: Color, to: Color, a: f32) -> Color {
-    let a = a.clamp(0.0, 1.0);
-    Color::new(
-        from.r + (to.r - from.r) * a,
-        from.g + (to.g - from.g) * a,
-        from.b + (to.b - from.b) * a,
-        from.a + (to.a - from.a) * a,
-    )
-}
+use crate::ui::mix;
 
 /// The surface of a card of the menu: a soft shadow, a body lit from above
 /// with a faint light along its top edge, and an edge that turns gold as
@@ -453,6 +444,7 @@ impl Menu {
                 }
             }
             if hover && ui.clicked(r) && !on_resume {
+                ui.note_click();
                 action = match k {
                     0 => MenuAction::Online,
                     1 => MenuAction::VsComputer,
@@ -527,6 +519,7 @@ impl Menu {
                     ui.tooltip(tip, r);
                 }
                 if ui.clicked(r) {
+                    ui.note_click();
                     action = act;
                 }
             }
@@ -548,6 +541,7 @@ impl Menu {
         if hover {
             ui.tooltip(t("Quit"), q);
             if ui.clicked(q) {
+                ui.note_click();
                 action = MenuAction::Quit;
             }
         }

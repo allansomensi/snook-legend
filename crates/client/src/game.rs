@@ -542,6 +542,8 @@ pub enum ImpactKind {
     Tick,
     /// The turn comes to the player (online, or the computer is done).
     Chime,
+    /// A button of the interface pressed.
+    Click,
 }
 
 /// Whether a stroke made on table `b` can still be played on table `a`:

@@ -18,6 +18,7 @@ pub struct Sounds {
     pocket: Vec<Sound>,
     tick: Vec<Sound>,
     chime: Vec<Sound>,
+    click: Vec<Sound>,
     next: std::cell::Cell<u32>,
     /// The voices started lately: (when, how loud), for the mix's headroom.
     recent: std::cell::RefCell<std::collections::VecDeque<(f64, f32)>>,
@@ -360,6 +361,26 @@ fn chime() -> Vec<f32> {
     out
 }
 
+/// A button pressed: a soft, short, low tap (felt more than heard, like
+/// a key on a good keyboard), so the interface answers without chatter.
+fn click() -> Vec<f32> {
+    let len = (0.045 * RATE as f32) as usize;
+    let mut noise = Noise(4_217);
+    let mut air = Biquad::highpass(1800.0);
+    let mut out: Vec<f32> = (0..len)
+        .map(|i| {
+            let t = i as f32 / RATE as f32;
+            let tau = std::f32::consts::TAU;
+            let attack = (t / 0.0008).min(1.0);
+            let body = (tau * 620.0 * t).sin() * (-t / 0.009).exp()
+                + 0.45 * (tau * 1340.0 * t).sin() * (-t / 0.004).exp();
+            attack * (body + air.run(noise.next()) * (-t / 0.0015).exp() * 0.35)
+        })
+        .collect();
+    normalise(&mut out);
+    out
+}
+
 /// How hard each recorded version of a sound is hit (soft, firm, hard).
 const HARDNESS: [f32; 3] = [0.15, 0.55, 1.0];
 
@@ -376,6 +397,7 @@ impl Sounds {
             pocket: Vec::new(),
             tick: Vec::new(),
             chime: Vec::new(),
+            click: Vec::new(),
             next: std::cell::Cell::new(0),
             recent: Default::default(),
         };
@@ -405,6 +427,9 @@ impl Sounds {
         }
         if let Some(s) = make(chime()).await {
             sounds.chime.push(s);
+        }
+        if let Some(s) = make(click()).await {
+            sounds.click.push(s);
         }
         sounds
     }
@@ -467,6 +492,7 @@ impl Sounds {
                 ImpactKind::Pocket => (&self.pocket, 0.75),
                 ImpactKind::Tick => (&self.tick, 0.32),
                 ImpactKind::Chime => (&self.chime, 0.42),
+                ImpactKind::Click => (&self.click, 0.2),
             };
             let strength = volume.clamp(0.0, 1.0);
             let volume = strength * master.clamp(0.0, 1.0);
@@ -474,7 +500,7 @@ impl Sounds {
                 continue;
             }
             let sound = match impact.kind {
-                ImpactKind::Tick | ImpactKind::Chime => set.first(),
+                ImpactKind::Tick | ImpactKind::Chime | ImpactKind::Click => set.first(),
                 ImpactKind::Pocket => {
                     let k = self.next.get();
                     self.next.set(k.wrapping_add(1));

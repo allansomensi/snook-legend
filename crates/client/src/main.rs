@@ -347,6 +347,8 @@ async fn main() {
     // The online match came from the LAN game (not the global server).
     let mut match_from_lan = false;
     let mut screen = Screen::Menu;
+    // A screen that just opened fades in (0 to 1).
+    let mut screen_fade = 1.0f32;
     // The global server: signs in in the background when a session was saved.
     let mut online = Online::new(&config);
     let mut lan_screen: Option<LanScreen> = None;
@@ -1350,6 +1352,9 @@ async fn main() {
                 }
                 None => {
                     let mut next: Option<Screen> = None;
+                    screen_fade = (screen_fade + get_frame_time() / 0.2).min(1.0);
+                    // Eased out: quick at first, settling gently.
+                    paint::set_screen_fade(1.0 - (1.0 - screen_fade).powi(3));
                     // A gift is on screen (drawn over it below): the screen
                     // gets neither the pointer nor Esc (screens leave Esc
                     // alone while a field has the keyboard).
@@ -1785,8 +1790,10 @@ async fn main() {
                             ui.focus = field;
                         }
                     }
+                    paint::set_screen_fade(1.0);
                     if let Some(n) = next {
                         screen = n;
+                        screen_fade = 0.0;
                     }
                 }
             }
@@ -2047,6 +2054,9 @@ async fn main() {
         }
         if chime && !focus {
             ui_sounds.push(game::ImpactSound { kind: game::ImpactKind::Chime, speed: 1.0 });
+        }
+        if ui.take_click() {
+            ui_sounds.push(game::ImpactSound { kind: game::ImpactKind::Click, speed: 1.0 });
         }
         sounds.play(&mut ui_sounds, config.volume);
         online.draw_toasts(&ui, toast_bottom);

@@ -8,6 +8,8 @@ use macroquad::prelude::{Color, Vec2};
 use macroquad::shapes as mq;
 
 static OPACITY: AtomicU32 = AtomicU32::new(0x3f80_0000);
+/// The fade of a screen coming in (on top of [`OPACITY`]).
+static SCREEN: AtomicU32 = AtomicU32::new(0x3f80_0000);
 
 /// Opacity applied to everything drawn through this module (and the UI text).
 pub fn set_opacity(a: f32) {
@@ -15,7 +17,12 @@ pub fn set_opacity(a: f32) {
 }
 
 pub fn opacity() -> f32 {
-    f32::from_bits(OPACITY.load(Ordering::Relaxed))
+    f32::from_bits(OPACITY.load(Ordering::Relaxed)) * f32::from_bits(SCREEN.load(Ordering::Relaxed))
+}
+
+/// How far a screen that just opened has faded in (1: all there).
+pub fn set_screen_fade(a: f32) {
+    SCREEN.store(a.clamp(0.0, 1.0).to_bits(), Ordering::Relaxed);
 }
 
 pub fn fade(c: Color) -> Color {

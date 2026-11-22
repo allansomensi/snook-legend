@@ -86,13 +86,29 @@ jobs:
       - name: Pack the MSIX
         id: pack
         shell: pwsh
+        env:
+          # Repository *variables*, not secrets: the identity is public (it is
+          # in every package's manifest).
+          IDENTITY_NAME: ${{ vars.MSSTORE_IDENTITY_NAME }}
+          PUBLISHER: ${{ vars.MSSTORE_PUBLISHER }}
+          PUBLISHER_DISPLAY_NAME: ${{ vars.MSSTORE_PUBLISHER_DISPLAY_NAME }}
+          DISPLAY_NAME: ${{ vars.MSSTORE_DISPLAY_NAME }}
+          RELEASE: ${{ startsWith(github.ref, 'refs/tags/v') }}
         run: |
-          # Placeholder identity until Partner Center's is set (enough to
-          # check the packaging; the Store only accepts its own).
-          $id = if ("${{ vars.MSSTORE_IDENTITY_NAME }}") { "${{ vars.MSSTORE_IDENTITY_NAME }}" } else { "SnookLegend.Development" }
-          $pub = if ("${{ vars.MSSTORE_PUBLISHER }}") { "${{ vars.MSSTORE_PUBLISHER }}" } else { "CN=Snook Legend Development" }
-          $pubName = if ("${{ vars.MSSTORE_PUBLISHER_DISPLAY_NAME }}") { "${{ vars.MSSTORE_PUBLISHER_DISPLAY_NAME }}" } else { "Snook Legend" }
-          $name = if ("${{ vars.MSSTORE_DISPLAY_NAME }}") { "${{ vars.MSSTORE_DISPLAY_NAME }}" } else { "Snook Legend" }
+          # A release must carry Partner Center's identity (the Store refuses
+          # any other): fail here, saying what is missing, rather than pack a
+          # package the Store would turn away. Elsewhere a placeholder
+          # identity is enough to check the packaging.
+          $missing = @('IDENTITY_NAME', 'PUBLISHER', 'PUBLISHER_DISPLAY_NAME', 'DISPLAY_NAME') |
+            Where-Object { -not [Environment]::GetEnvironmentVariable($_) } |
+            ForEach-Object { "MSSTORE_$_" }
+          if ($env:RELEASE -eq 'true' -and $missing) {
+            throw "Set these repository variables (Settings -> Secrets and variables -> Actions -> Variables, not Secrets): $($missing -join ', ')"
+          }
+          $id = if ($env:IDENTITY_NAME) { $env:IDENTITY_NAME } else { "SnookLegend.Development" }
+          $pub = if ($env:PUBLISHER) { $env:PUBLISHER } else { "CN=Snook Legend Development" }
+          $pubName = if ($env:PUBLISHER_DISPLAY_NAME) { $env:PUBLISHER_DISPLAY_NAME } else { "Snook Legend" }
+          $name = if ($env:DISPLAY_NAME) { $env:DISPLAY_NAME } else { "Snook Legend" }
           ./tools/msix/make-msix.ps1 -IdentityName $id -Publisher $pub -PublisherDisplayName $pubName -DisplayName $name
       - uses: actions/upload-artifact@v7
         with:

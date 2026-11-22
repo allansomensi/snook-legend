@@ -22,6 +22,15 @@
   beside it. The lounge has the emoji tray and shows your lines at once
   too, and a single line in its field sits in the middle. "Newer
   messages" is a pill that brings them back with a click.
+- **The top of the table, tidier**: each player's rail is just long
+  enough for a group and its 8, with a faint place for each ball still to
+  come (it had room left over even with the 8 down). The shot clock is a
+  ring around the picture of the player at the table, red with the seconds
+  for the last ten; the rails no longer end in the clock or the league.
+  "Open table" shows once, across both rails. The players' boxes are a
+  little wider (names are cut less). The rules' badge is compact (their
+  mark and short name) and says how many are online who play them (a
+  green dot and the number); its hint gives the full name.
 - **The closed chat at the table** is a bubble button as small as the
   tools beside it, the number of new lines on a gold badge at its corner
   ("9+" past nine). The newest line shows above it for 8 seconds, stays

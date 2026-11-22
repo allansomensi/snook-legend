@@ -139,11 +139,42 @@ pub fn pill(
     (r, swap && ui.clicked(r))
 }
 
-/// The width of [`pill`] for `label` at `h`.
-pub fn pill_w(ui: &Ui, h: f32, label: &str, swap: bool) -> f32 {
-    let size = (h * 0.42).clamp(12.0, 17.0);
-    let swap_w = if swap { size + 10.0 } else { 0.0 };
-    10.0 + h * 0.62 + 8.0 + ui.text_size(label, size, true).x + swap_w + 12.0
+/// The rules of a game in the top bar, compactly: the mark, the short name
+/// and, when known, a green dot and how many are online who play them.
+/// Returns its rectangle.
+pub fn badge(ui: &mut Ui, x: f32, y: f32, h: f32, rules: Rules, online: Option<usize>) -> Rect {
+    let w = badge_w(ui, h, rules, online);
+    let r = Rect::new(x, y, w, h);
+    let hover = ui.hovering(r);
+    let a = accent(rules);
+    rrect(r, h / 2.0, Color::new(a.r * 0.4, a.g * 0.4, a.b * 0.4, if hover { 0.85 } else { 0.7 }));
+    rrect_lines(r, h / 2.0, 1.2, Color::new(a.r, a.g, a.b, if hover { 0.95 } else { 0.55 }));
+    let cy = y + h / 2.0;
+    let size = 12.5;
+    mark(rules, vec2(x + 9.0 + h * 0.28, cy), h * 0.56);
+    let label = crate::i18n::rules_short(rules);
+    let tx = x + 9.0 + h * 0.56 + 7.0;
+    let color = if rules == Rules::Brazilian { GOLD } else { CREAM };
+    ui.text(label, tx, crate::ranking::text_y(cy, size), size, color, true);
+    if let Some(n) = online {
+        let nx = tx + ui.text_size(label, size, true).x + 9.0;
+        // A thin divider, then the dot and the number.
+        crate::paint::draw_line(nx, cy - 7.0, nx, cy + 7.0, 1.0, Color::new(a.r, a.g, a.b, 0.35));
+        let dot = vec2(nx + 10.0, cy);
+        crate::paint::draw_circle(dot.x, dot.y, 3.5, Color::new(0.35, 0.85, 0.45, 1.0));
+        let n = n.to_string();
+        ui.text(&n, dot.x + 7.0, crate::ranking::text_y(cy, 12.0), 12.0, CREAM, true);
+    }
+    ui.block(r);
+    r
+}
+
+/// The width of [`badge`].
+pub fn badge_w(ui: &Ui, h: f32, rules: Rules, online: Option<usize>) -> f32 {
+    let label = crate::i18n::rules_short(rules);
+    let count =
+        online.map_or(0.0, |n| 9.0 + 10.0 + 7.0 + ui.text_size(&n.to_string(), 12.0, true).x);
+    9.0 + h * 0.56 + 7.0 + ui.text_size(label, 12.5, true).x + count + 12.0
 }
 
 /// A game's rules in a line of text: the mark and the short name, `size`

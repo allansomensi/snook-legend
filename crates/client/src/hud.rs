@@ -63,6 +63,9 @@ pub struct Hud {
     /// Set by the caller: the opponent can be reported (signed in online,
     /// not on a local network).
     pub can_report: bool,
+    /// Players online under each of the rules (signed in, the lounge's
+    /// list come): the rules' badge says how many play these.
+    pub rule_players: Option<snook_legend_core::PerRules<usize>>,
     /// Reporting the opponent.
     report: Option<crate::report::ReportDialog>,
     /// The rules of the game, opened from the pause menu (or the badge).
@@ -164,6 +167,7 @@ impl Default for Hud {
             history_open: false,
             history_toggle: Rect::new(0.0, 0.0, 0.0, 0.0),
             can_report: false,
+            rule_players: None,
             report: None,
             rules: None,
             rules_from_badge: false,
@@ -443,17 +447,14 @@ impl Hud {
         // drill or the daily challenge, which set their own tables).
         let badge = (m.drill.is_none() && m.daily.is_none()).then(|| {
             let rules = m.game.rules();
-            let label = if sw > 1180.0 {
-                crate::i18n::rules_name(rules)
-            } else {
-                crate::i18n::rules_short(rules)
-            };
-            (rules, label, crate::rulesui::pill_w(ui, 30.0, label, false))
+            let online = self.rule_players.map(|p| *p.get(rules));
+            (rules, online, crate::rulesui::badge_w(ui, 30.0, rules, online))
         });
         let badge_w = badge.map_or(0.0, |(_, _, w)| w + 12.0);
         let buttons_w =
             ui.text_size(t("Menu"), 13.0, true).x + 22.0 + icons * 36.0 + 30.0 + badge_w;
-        let board = crate::scoreboard::Board::layout(sw, buttons_w, 4.0);
+        let board =
+            crate::scoreboard::Board::layout(sw, buttons_w, 4.0, crate::correspondence::is_corr(m));
         let now = get_time();
         self.made.update(m, now);
         crate::scoreboard::draw(ui, m, &self.made, &board, now);
@@ -618,11 +619,16 @@ impl Hud {
                     self.history_open = !self.history_open;
                 }
             }
-            if let Some((rules, label, _)) = badge {
+            if let Some((rules, online, _)) = badge {
                 x += 36.0 + 6.0;
-                let (r, _) = crate::rulesui::pill(ui, x, 12.0, 30.0, rules, label, false);
+                let r = crate::rulesui::badge(ui, x, 12.0, 30.0, rules, online);
                 if ui.hovering(r) {
-                    ui.tooltip(t("The rules of this game: click to read them"), r);
+                    let mut tip = crate::i18n::rules_name(rules).to_string();
+                    if let Some(n) = online {
+                        tip = format!("{tip} · {}", tw("{n} online", &[("n", &n)]));
+                    }
+                    let tip = format!("{tip}. {}", t("The rules of this game: click to read them"));
+                    ui.tooltip(&tip, r);
                     if ui.clicked(r) {
                         self.rules = Some(crate::whatsnew::WhatsNew::rules(rules));
                         self.rules_from_badge = true;

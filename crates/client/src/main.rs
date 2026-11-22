@@ -872,6 +872,7 @@ async fn main() {
         hud.top_view = rig.mode == CameraMode::Top;
         hud.top_only = rig.top_only;
         hud.can_report = !match_from_lan && online.signed_in();
+        hud.rule_players = online.counts().map(|c| c.map(|_, r| r.players));
         hud.camera_default = rig.is_default();
         // Online (not on a local network): "Add friend" after the game.
         hud.opponent_relation = current

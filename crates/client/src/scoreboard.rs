@@ -1,8 +1,10 @@
 //! The score panel at the top of a game: each player's picture and name in a
 //! box at either side, and between them two rails, one per player, holding
 //! the balls of their group they have made, drawn as spheres seen at an
-//! angle, in the order they went down. A ball made rolls along its rail to
-//! its place. The player at the table stands out; the other is dimmed.
+//! angle, in the order they went down. A rail is just long enough for a
+//! group and its 8, with a faint place for each ball still to come. A ball
+//! made rolls along its rail to its place. The player at the table stands
+//! out, the shot clock a ring around their picture; the other is dimmed.
 
 use macroquad::prelude::*;
 use snook_legend_core::{BallId, BallKind, Group};
@@ -26,20 +28,25 @@ pub struct Board {
 /// The height of an avatar box, and of the whole panel.
 pub const AVATAR: f32 = 54.0;
 /// The width of an avatar box (room for a name under the picture).
-const AVATAR_W: f32 = 86.0;
+const AVATAR_W: f32 = 96.0;
 const GAP: f32 = 8.0;
 const RAIL_H: f32 = 24.0;
+/// A ball on a rail, the space from one to the next, the rail's end padding.
+const BALL: f32 = RAIL_H - 2.0;
+const STEP: f32 = BALL + 2.5;
+const PAD: f32 = 4.0;
+/// A daily game's rail ends with the time left to play.
+const DAILY_CLOCK: f32 = 52.0;
 
 impl Board {
     /// The panel centred in a bar `sw` wide, never under `left` pixels of
     /// buttons on the left (nor the same on the right).
-    pub fn layout(sw: f32, left: f32, top: f32) -> Board {
+    /// `daily`: a correspondence game (its rails end with the days left).
+    pub fn layout(sw: f32, left: f32, top: f32, daily: bool) -> Board {
         let room = sw - 2.0 * left;
-        // Just long enough for a group and its 8 (eight balls) plus the
-        // clock at the far end: no empty stretch of rail.
-        let step = RAIL_H - 2.0 + 2.5;
-        let full = 8.0 + 8.0 * step + 40.0;
-        let rail_w = crate::ui::clamp_soft(room - 2.0 * (AVATAR_W + GAP), 190.0, full);
+        // Just long enough for a group and its 8: eight balls.
+        let full = 2.0 * PAD + 8.0 * STEP - 2.5 + if daily { DAILY_CLOCK } else { 0.0 };
+        let rail_w = crate::ui::clamp_soft(room - 2.0 * (AVATAR_W + GAP), 150.0, full);
         let total = rail_w + 2.0 * (AVATAR_W + GAP);
         let x0 = ((sw - total) / 2.0).max(left).min(sw - total - 8.0).max(4.0);
         let rx = x0 + AVATAR_W + GAP;
@@ -137,13 +144,26 @@ pub fn draw(ui: &mut Ui, m: &Match, made: &Made, board: &Board, now: f64) {
             rrect(board.rails[seat], RAIL_H / 2.0, dim);
         }
     }
+    // Neither has a group yet: one quiet label across both rails.
+    if m.game.group_of(0).is_none() && m.game.group_of(1).is_none() && !over {
+        let text = t("Open table");
+        let w = ui.text_size(text, 11.0, true).x + 18.0;
+        let rails = board.rails[0].combine_with(board.rails[1]);
+        let pill = Rect::new(rails.x + (rails.w - w) / 2.0, rails.y + rails.h / 2.0 - 8.5, w, 17.0);
+        rrect(pill, 8.5, Color::new(0.10, 0.08, 0.06, 0.96));
+        rrect_lines(pill, 8.5, 1.0, Color::new(BORDER.r, BORDER.g, BORDER.b, 0.9));
+        ui.text_centered(text, pill.x + pill.w / 2.0, pill.y + 2.5, 11.0, MUTED, true);
+    }
 }
 
 /// A player's box: their picture, their name under it, the games won.
 fn avatar(ui: &mut Ui, m: &Match, seat: usize, r: Rect, active: bool) {
     rrect_gradient(r, 9.0, Color::new(0.20, 0.15, 0.10, 0.96), Color::new(0.08, 0.06, 0.04, 0.96));
     rrect_lines(r, 9.0, if active { 2.0 } else { 1.0 }, if active { GOLD } else { BORDER });
-    let face = vec2(r.x + r.w / 2.0, r.y + 19.0);
+    let face = vec2(r.x + r.w / 2.0, r.y + 18.0);
+    if active {
+        clock_ring(ui, m, face);
+    }
     match m.opponent.as_ref().filter(|_| seat == 1 && m.online.is_none()) {
         // The computer's own portrait.
         Some(o) => crate::opponents::draw_portrait(o, face, 15.0),
@@ -161,7 +181,7 @@ fn avatar(ui: &mut Ui, m: &Match, seat: usize, r: Rect, active: bool) {
     // Whole when it fits (a little smaller if it must), else cut short.
     let (name, size) = ui.fitted(&m.names[seat], 11.0, r.w - 10.0, true);
     let w = ui.text_size(&name, size, true).x;
-    ui.text(&name, r.x + (r.w - w) / 2.0, r.y + r.h - size - 6.5, size, color, true);
+    ui.text(&name, r.x + (r.w - w) / 2.0, r.y + r.h - size - 4.5, size, color, true);
     // Online: the country's flag in the top left corner.
     if let Some(o) = &m.online {
         crate::flags::draw(&o.countries[seat], r.x + 4.0, r.y + 4.0, 10.0);
@@ -219,10 +239,13 @@ fn rail(ui: &mut Ui, m: &Match, made: &Made, seat: usize, r: Rect, active: bool,
         Color::new(1.0, 1.0, 1.0, 0.07),
     );
     rrect_lines(r, r.h / 2.0, if active { 1.8 } else { 1.0 }, if active { GOLD } else { BORDER });
-    let size = r.h - 2.0;
-    let step = size + 2.5;
-    let pad = 4.0;
+    let size = BALL;
+    let step = STEP;
+    let pad = PAD;
     let from_left = seat == 0;
+    // A daily game's clock takes the far end.
+    let daily = crate::correspondence::is_corr(m);
+    let balls_w = r.w - if daily { DAILY_CLOCK } else { 0.0 };
     // Slot k's left edge.
     let slot = |k: usize| {
         if from_left {
@@ -231,89 +254,97 @@ fn rail(ui: &mut Ui, m: &Match, made: &Made, seat: usize, r: Rect, active: bool,
             r.x + r.w - pad - size - k as f32 * step
         }
     };
-    // Where a ball comes in: the far end of the rail.
-    let entry = if from_left { r.x + r.w - pad - size } else { r.x + pad };
+    // Where a ball comes in: the far end of its places.
+    let entry = if from_left { r.x + balls_w - pad - size } else { r.x + r.w - balls_w + pad };
     let cy = r.y + r.h / 2.0;
+    // A faint place for each of the eight balls (seven and the 8).
+    let place = |k: usize| {
+        let c = vec2(slot(k) + size / 2.0, cy);
+        draw_circle(c.x, c.y, size / 2.0 - 1.5, Color::new(1.0, 1.0, 1.0, 0.02));
+        crate::paint::draw_circle_lines(
+            c.x,
+            c.y,
+            size / 2.0 - 1.5,
+            1.0,
+            Color::new(1.0, 1.0, 1.0, if k == 7 { 0.07 } else { 0.04 }),
+        );
+    };
     let mut used = 0;
-    match m.game.group_of(seat) {
-        Some(group) => {
-            for (k, (id, at)) in made.of(group).enumerate() {
-                let end = slot(k);
-                let x = arrival(entry, end, now - at);
-                let alpha = ((now - at) / 0.12).clamp(0.0, 1.0) as f32;
-                // Rolling: the ball turns by the distance still to go.
-                let roll = (x - end) / (size / 2.0);
-                ball(ui, id, vec2(x + size / 2.0, cy), size / 2.0, roll, alpha);
-                used = k + 1;
-            }
-            // On the 8: it waits at the next place, with a soft gold ring.
-            if m.game.remaining(group).is_empty() {
-                let x = slot(used);
-                let c = vec2(x + size / 2.0, cy);
-                let pulse = 0.5 + 0.5 * (now as f32 * 3.0).sin();
-                crate::paint::draw_circle_lines(
-                    c.x,
-                    c.y,
-                    size / 2.0 + 2.0,
-                    1.5,
-                    with_alpha(GOLD, 0.4 + 0.4 * pulse),
-                );
-                ball(ui, BallId::EIGHT, c, size / 2.0, 0.0, 1.0);
-                used += 1;
-                let hit = Rect::new(x - 2.0, r.y, size + 4.0, r.h);
-                if ui.hovering(hit) {
-                    ui.tooltip(t("On the 8-ball"), hit);
-                }
-            }
+    if let Some(group) = m.game.group_of(seat) {
+        for (k, (id, at)) in made.of(group).enumerate() {
+            let end = slot(k);
+            let x = arrival(entry, end, now - at);
+            let alpha = ((now - at) / 0.12).clamp(0.0, 1.0) as f32;
+            // Rolling: the ball turns by the distance still to go.
+            let roll = (x - end) / (size / 2.0);
+            ball(ui, id, vec2(x + size / 2.0, cy), size / 2.0, roll, alpha);
+            used = k + 1;
         }
-        None => {
-            let text = t("Open table");
-            let w = ui.text_size(text, 12.0, false).x;
-            let x = if from_left { r.x + 12.0 } else { r.x + r.w - 12.0 - w };
-            ui.text(text, x, cy - 7.0, 12.0, MUTED, false);
-            used = ((w + 16.0) / step).ceil() as usize;
+        // On the 8: it waits at the next place, with a soft gold ring.
+        if m.game.remaining(group).is_empty() {
+            let x = slot(used);
+            let c = vec2(x + size / 2.0, cy);
+            let pulse = 0.5 + 0.5 * (now as f32 * 3.0).sin();
+            crate::paint::draw_circle_lines(
+                c.x,
+                c.y,
+                size / 2.0 + 2.0,
+                1.5,
+                with_alpha(GOLD, 0.4 + 0.4 * pulse),
+            );
+            ball(ui, BallId::EIGHT, c, size / 2.0, 0.0, 1.0);
+            used += 1;
+            let hit = Rect::new(x - 2.0, r.y, size + 4.0, r.h);
+            if ui.hovering(hit) {
+                ui.tooltip(t("On the 8-ball"), hit);
+            }
         }
     }
-    // The far end: the shot clock while it runs, a daily game's time, or
-    // the league online.
-    let far = |ui: &mut Ui, text: &str, color: Color| {
-        let w = ui.text_size(text, 11.5, true).x;
+    for k in used..8 {
+        place(k);
+    }
+    // A daily game: the time left to play, at the far end.
+    if let Some((left, color)) = crate::correspondence::card_clock(m, seat) {
+        let w = ui.text_size(&left, 11.5, true).x;
         let x = if from_left { r.x + r.w - w - 10.0 } else { r.x + 10.0 };
-        // Not over the balls.
-        let clear = if from_left {
-            x > slot(used.max(1) - 1) + size + 4.0
-        } else {
-            x + w < slot(used.max(1) - 1) - 4.0
-        };
-        if clear || used == 0 {
-            ui.text(text, x, cy - 7.0, 11.5, color, true);
-        }
-    };
-    if let Some((left, total)) = m.shot_clock()
-        && active
-        && matches!(m.phase, Phase::Turn { .. })
-        && m.replay.is_none()
-    {
-        let frac = (left / total.max(1.0)).clamp(0.0, 1.0);
-        // The last ten seconds in red on a thicker bar, the last five
-        // beating with the clock's ticks.
-        let urgent = left < 10.0;
-        let mut color = if urgent { crate::ui::ALERT } else { GOLD };
-        if left < 5.0 {
-            let beat = (left.fract() * std::f32::consts::PI).sin().abs();
-            color.a *= 0.55 + 0.45 * beat;
-        }
-        let thick = if urgent { 3.0 } else { 2.0 };
-        let bar_w = (r.w - r.h) * frac;
-        let bx = if from_left { r.x + r.h / 2.0 } else { r.x + r.w - r.h / 2.0 - bar_w };
-        rrect(Rect::new(bx, r.y + r.h - thick - 1.0, bar_w, thick), thick / 2.0, color);
-        far(ui, &format!("{:.0}s", left.ceil()), color);
-    } else if let Some((left, color)) = crate::correspondence::card_clock(m, seat) {
-        far(ui, &left, color);
-    } else if let Some(o) = &m.online {
-        // The league, not the number (that is on the profile).
-        let league = crate::i18n::t(snook_legend_proto::Tier::of(o.ratings[seat]).name());
-        far(ui, league, MUTED);
+        ui.text(&left, x, cy - 7.0, 11.5, color, true);
+    }
+}
+
+/// The shot clock of the player at the table: a ring around their picture
+/// that empties as the time goes (gold, then red for the last ten seconds,
+/// beating for the last five, with the seconds by it).
+fn clock_ring(ui: &Ui, m: &Match, face: Vec2) {
+    let Some((left, total)) = m.shot_clock() else { return };
+    if !matches!(m.phase, Phase::Turn { .. }) || m.replay.is_some() {
+        return;
+    }
+    let frac = (left / total.max(1.0)).clamp(0.0, 1.0);
+    let urgent = left < 10.0;
+    let mut color = if urgent { crate::ui::ALERT } else { GOLD };
+    if left < 5.0 {
+        let beat = (left.fract() * std::f32::consts::PI).sin().abs();
+        color.a *= 0.55 + 0.45 * beat;
+    }
+    let radius = 17.0;
+    crate::paint::draw_circle_lines(face.x, face.y, radius, 2.0, Color::new(1.0, 1.0, 1.0, 0.08));
+    // From the top, clockwise, what is left.
+    let steps = 48;
+    let start = -std::f32::consts::FRAC_PI_2;
+    let sweep = std::f32::consts::TAU * frac;
+    let mut prev = face + vec2(start.cos(), start.sin()) * radius;
+    for k in 1..=steps {
+        let a = start + sweep * k as f32 / steps as f32;
+        let p = face + vec2(a.cos(), a.sin()) * radius;
+        crate::paint::draw_line(prev.x, prev.y, p.x, p.y, 2.2, color);
+        prev = p;
+    }
+    if urgent {
+        let n = format!("{:.0}", left.ceil());
+        let w = ui.text_size(&n, 10.0, true).x + 8.0;
+        let chip = Rect::new(face.x + radius - w * 0.4, face.y + radius - 11.0, w.max(15.0), 13.0);
+        rrect(chip, 6.5, Color::new(0.55, 0.12, 0.08, 0.95));
+        ui.text_centered(&n, chip.x + chip.w / 2.0, chip.y + 1.5, 10.0, CREAM, true);
     }
 }
 
@@ -524,7 +555,7 @@ mod tests {
     #[test]
     fn the_board_fits_and_keeps_clear_of_the_buttons() {
         for sw in [800.0, 1280.0, 1920.0] {
-            let b = Board::layout(sw, 160.0, 4.0);
+            let b = Board::layout(sw, 160.0, 4.0, false);
             assert!(b.all.x >= 4.0 && b.all.x + b.all.w <= sw - 4.0, "{sw}");
             assert!(b.rails[0].x > b.avatars[0].x + b.avatars[0].w);
             assert!(b.rails[1].y > b.rails[0].y + b.rails[0].h);

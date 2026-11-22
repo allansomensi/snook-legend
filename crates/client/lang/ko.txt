@@ -2056,3 +2056,4 @@ You earned a new item: {title}	새 아이템을 얻었어요: {title}
 You earned a new item!	새 아이템을 얻었어요!
 Ranking	랭킹
 Can't reach the server	서버에 연결할 수 없어요
+offline: click to connect	오프라인: 클릭해서 연결

@@ -605,6 +605,10 @@ pub struct AccountView {
 
 const MAX_RECONNECTS: u32 = 15;
 
+/// What the server answers a saved session it no longer knows (expired, or
+/// signed out everywhere): the only answer that makes the client forget it.
+const SESSION_EXPIRED: &str = "Your session expired. Please log in again.";
+
 impl Online {
     /// The global server. Connects (and signs in) at once if a session was saved.
     pub fn new(config: &Config) -> Online {
@@ -796,14 +800,33 @@ impl Online {
         !self.token.is_empty()
     }
 
+    /// The account of the saved session (its name, as last signed in).
+    pub fn account_name(&self) -> &str {
+        if self.signed_in_as.is_empty() { &self.username } else { &self.signed_in_as }
+    }
+
     /// Opens the connection if it isn't open (for the ranking, a profile or the lounge).
+    ///
+    /// A player who signed in stays so until they sign out: the saved
+    /// session is used whenever the connection opens again (after it
+    /// dropped, the server restarted, or the account was taken by another
+    /// place: then this place takes it back, one place at a time).
     pub fn connect(&mut self) {
+        let resume = !self.lan && !self.token.is_empty() && !self.authed;
+        if resume {
+            self.auto_resume = true;
+        }
         if self.conn.is_none() {
             self.authed = false;
             self.conn = Some(Connection::open(&self.server, self.rules));
             if !matches!(self.stage, Stage::Reconnecting { .. }) {
                 self.stage = Stage::Connecting;
             }
+        } else if resume && matches!(self.stage, Stage::SignIn) {
+            // Connected, at the sign-in form, with a session saved: use it.
+            self.error = None;
+            self.send(ClientMsg::Resume { token: self.token.clone() });
+            self.stage = Stage::Authenticating;
         }
     }
 
@@ -1253,8 +1276,10 @@ impl Online {
                 if self.outdated {
                     self.version_check = Some(server_protocol(&self.server));
                 }
-                if self.auto_resume && !self.token.is_empty() && !self.outdated {
-                    // The saved session expired (or the account was banned).
+                // Only a session the server no longer knows is forgotten: a
+                // passing trouble (the server busy, too many tries, a ban
+                // that ends) keeps it, to try again.
+                if self.auto_resume && reason == SESSION_EXPIRED {
                     self.token.clear();
                     config.token.clear();
                     save = true;
@@ -5099,36 +5124,32 @@ impl Online {
         (self.live() && !self.lan).then_some(self.players.len())
     }
 
-    /// The count of players online, discreet, right-aligned at `x_right`
-    /// (over a game against the computer: someone to invite may have come).
-    /// For a moment after someone comes online it says who, in gold (not
-    /// when `quiet`: in focus mode). Hovering lists who is there. Returns
+    /// Over a game that isn't online (the computer, a drill): for a moment
+    /// after someone comes online, who, in gold, right-aligned at `x_right`
+    /// (someone to invite may have come; not when `quiet`: in focus mode).
+    /// How many are online is in the rules' badge at the top. Returns
     /// whether it was drawn.
-    pub fn draw_online_count(&self, ui: &Ui, x_right: f32, y: f32, quiet: bool) -> bool {
-        if self.online_count().is_none() {
+    pub fn draw_arrival(&self, ui: &Ui, x_right: f32, y: f32, quiet: bool) -> bool {
+        if self.online_count().is_none() || quiet {
             return false;
         }
         let now = get_time();
-        let arrived = self
+        let Some((name, age)) = self
             .arrived
             .as_ref()
             .filter(|(name, at)| {
-                !quiet
-                    && now - at < ARRIVAL_SECS
-                    && self.players.iter().any(|p| p.username == *name)
+                now - at < ARRIVAL_SECS && self.players.iter().any(|p| p.username == *name)
             })
-            .map(|(name, at)| (name.clone(), now - at));
-        // The dot breathes while someone has just come, whose name shows
-        // in gold to the left of the count for a moment.
-        let pulse = arrived.as_ref().map_or(0.0, |(_, age)| (*age as f32 * 5.0).sin().abs());
-        let color =
-            if arrived.is_some() { GOLD } else { Color::new(MUTED.r, MUTED.g, MUTED.b, 0.9) };
-        let r = self.draw_presence(ui, x_right, y + 7.0, 13.0, "", pulse, color);
-        if let Some((name, _)) = &arrived {
-            let came = tw("{name} came online", &[("name", name)]);
-            let w = ui.text_size(&came, 12.0, true).x;
-            ui.text(&came, r.x - 10.0 - w, y + 1.0, 12.0, GOLD, true);
-        }
+            .map(|(name, at)| (name.clone(), now - at))
+        else {
+            return false;
+        };
+        // The dot breathes beside the name for the moment it shows.
+        let pulse = (age as f32 * 5.0).sin().abs();
+        draw_circle(x_right - 5.0, y + 7.0, 4.0 + pulse * 1.5, Color::new(0.35, 0.85, 0.45, 0.95));
+        let came = tw("{name} came online", &[("name", &name)]);
+        let w = ui.text_size(&came, 12.0, true).x;
+        ui.text(&came, x_right - 16.0 - w, y + 1.0, 12.0, GOLD, true);
         true
     }
 

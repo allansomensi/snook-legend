@@ -352,7 +352,7 @@ pub fn draw(cell: u16, x: f32, y: f32, size: f32, alpha: f32) {
         &tex,
         left,
         top,
-        Color::new(1.0, 1.0, 1.0, alpha * crate::paint::opacity()),
+        Color::new(1.0, 1.0, 1.0, alpha * crate::paint::alpha()),
         DrawTextureParams {
             dest_size: Some(vec2(side, side)),
             source: Some(src),

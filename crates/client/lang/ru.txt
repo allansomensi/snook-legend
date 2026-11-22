@@ -2056,3 +2056,4 @@ You earned a new item: {title}	Вы получили новый предмет: 
 You earned a new item!	Вы получили новый предмет!
 Ranking	Рейтинг
 Can't reach the server	Не удаётся связаться с сервером
+offline: click to connect	не в сети: нажмите, чтобы подключиться

@@ -2056,3 +2056,4 @@ You earned a new item: {title}	Você ganhou um item novo: {title}
 You earned a new item!	Você ganhou um item novo!
 Ranking	Ranking
 Can't reach the server	Não foi possível falar com o servidor
+offline: click to connect	offline: clique para conectar

@@ -2056,3 +2056,4 @@ You earned a new item: {title}	你获得了新物品：{title}
 You earned a new item!	你获得了新物品！
 Ranking	排行榜
 Can't reach the server	无法连接到服务器
+offline: click to connect	离线：点击连接

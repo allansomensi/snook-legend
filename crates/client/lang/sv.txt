@@ -2056,3 +2056,4 @@ You earned a new item: {title}	Du har fått ett nytt föremål: {title}
 You earned a new item!	Du har fått ett nytt föremål!
 Ranking	Topplista
 Can't reach the server	Det går inte att nå servern
+offline: click to connect	offline: klicka för att ansluta

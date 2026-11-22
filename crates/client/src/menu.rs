@@ -93,7 +93,7 @@ pub(crate) fn draw_wordmark(x: f32, y: f32, cap: f32) -> f32 {
         &wordmark(),
         x,
         y - WORDMARK_CAP_TOP * k,
-        Color::new(1.0, 1.0, 1.0, crate::paint::opacity()),
+        Color::new(1.0, 1.0, 1.0, crate::paint::alpha()),
         DrawTextureParams {
             dest_size: Some(vec2(w, h)),
             source: Some(WORDMARK),
@@ -754,6 +754,30 @@ impl Menu {
                 ui.text(t("New version out"), text_x, r.y + 13.0, 17.0, GOLD, true);
                 let sub = ui.ellipsize(&crate::online::update_label(), text_w, 12.0);
                 ui.text(&sub, text_x, r.y + 37.0, 12.0, CREAM, false);
+            }
+            // Signed in, the connection closed (it dropped, or the account
+            // was used elsewhere): still this player, a click connects.
+            None if busy.is_none() && online.has_session() && !online.account_name().is_empty() => {
+                if !has_picture {
+                    crate::icons::draw(Icon::Person, avatar, 24.0, CREAM);
+                }
+                // A grey dot on the avatar: not connected.
+                draw_circle(
+                    avatar.x + 15.0,
+                    avatar.y + 15.0,
+                    6.0,
+                    Color::new(0.05, 0.035, 0.025, 1.0),
+                );
+                draw_circle(
+                    avatar.x + 15.0,
+                    avatar.y + 15.0,
+                    4.5,
+                    Color::new(0.55, 0.52, 0.48, 1.0),
+                );
+                let name = ui.ellipsize(online.account_name(), text_w, 17.0);
+                ui.text(&name, text_x, r.y + 13.0, 17.0, CREAM, true);
+                let sub = ui.ellipsize(t("offline: click to connect"), text_w, 12.0);
+                ui.text(&sub, text_x, r.y + 37.0, 12.0, MUTED, false);
             }
             None => {
                 crate::icons::draw(Icon::Person, avatar, 24.0, MUTED);

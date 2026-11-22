@@ -16,8 +16,17 @@ pub fn set_opacity(a: f32) {
     OPACITY.store(a.clamp(0.0, 1.0).to_bits(), Ordering::Relaxed);
 }
 
+/// The opacity set with [`set_opacity`] (a layer's: save it and set it
+/// back, or multiply it, around something drawn fainter).
 pub fn opacity() -> f32 {
-    f32::from_bits(OPACITY.load(Ordering::Relaxed)) * f32::from_bits(SCREEN.load(Ordering::Relaxed))
+    f32::from_bits(OPACITY.load(Ordering::Relaxed))
+}
+
+/// How opaque what is drawn now shows: the layer's opacity and the fade of
+/// a screen coming in. (Never set back with [`set_opacity`]: that would
+/// keep the fade for good.)
+pub fn alpha() -> f32 {
+    opacity() * f32::from_bits(SCREEN.load(Ordering::Relaxed))
 }
 
 /// How far a screen that just opened has faded in (1: all there).
@@ -26,7 +35,7 @@ pub fn set_screen_fade(a: f32) {
 }
 
 pub fn fade(c: Color) -> Color {
-    Color::new(c.r, c.g, c.b, c.a * opacity())
+    Color::new(c.r, c.g, c.b, c.a * alpha())
 }
 
 pub fn draw_rectangle(x: f32, y: f32, w: f32, h: f32, c: Color) {

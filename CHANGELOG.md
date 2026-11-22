@@ -1,5 +1,25 @@
 # Changelog
 
+## Unreleased
+
+### Fixes
+- **The screens no longer go dark**: since 0.10.0, opening the lounge left
+  the interface dimmed, and back in the menu it stayed so. A screen fading
+  in made the drawing opacity that some parts save and set back smaller
+  each frame, for good; the fade now applies to what is drawn only, and
+  every frame starts at full opacity.
+- **Signed in stays signed in**: a passing trouble when the saved session
+  was used (the server busy, too many tries) made the game forget it, and
+  after the connection dropped (or the account was taken by another place)
+  the lounge asked to sign in again. Now the session is forgotten only when
+  the server no longer knows it, or on signing out; whenever the
+  connection opens again it is used. The menu shows the account as offline
+  (a click connects) instead of "Sign in". One place at a time, as before:
+  signing in elsewhere disconnects the other place.
+- **Over a game, no second count of players online**: the rules' badge at
+  the top has it; under the top bar, for a moment, only who just came
+  online.
+
 ## 0.10.0 (protocol 24)
 
 A new look for the whole game, and profile pictures that are things of the

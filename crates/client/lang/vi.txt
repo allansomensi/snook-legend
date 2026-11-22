@@ -2056,3 +2056,4 @@ You earned a new item: {title}	Bạn nhận được vật phẩm mới: {title}
 You earned a new item!	Bạn nhận được vật phẩm mới!
 Ranking	Xếp hạng
 Can't reach the server	Không thể kết nối tới máy chủ
+offline: click to connect	ngoại tuyến: nhấn để kết nối

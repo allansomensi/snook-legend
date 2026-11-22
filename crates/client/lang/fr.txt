@@ -2056,3 +2056,4 @@ You earned a new item: {title}	Vous avez gagné un nouvel objet : {title}
 You earned a new item!	Vous avez gagné un nouvel objet !
 Ranking	Classement
 Can't reach the server	Impossible de joindre le serveur
+offline: click to connect	hors ligne : cliquez pour vous connecter

@@ -1139,7 +1139,7 @@ impl ProfileScreen {
                     area.x + k as f32 * (REACTION + REACTION_GAP) + REACTION / 2.0,
                     y + 28.0 + REACTION / 2.0,
                 );
-                crate::reactions::draw(r.code, c, 24.0, crate::paint::opacity());
+                crate::reactions::draw(r.code, c, 24.0, crate::paint::alpha());
             }
             let row = Rect::new(area.x, y, area.w, 28.0 + REACTION);
             ui.block(row);
@@ -1243,7 +1243,7 @@ impl ProfileScreen {
                 rrect(c, 6.0, Color::new(1.0, 1.0, 1.0, 0.08));
             }
             if r.available(&codes, vip) {
-                crate::reactions::draw(r.code, centre, 24.0, crate::paint::opacity());
+                crate::reactions::draw(r.code, centre, 24.0, crate::paint::alpha());
             } else {
                 crate::reactions::draw_locked(r.code, centre, 22.0);
                 crate::icons::draw(

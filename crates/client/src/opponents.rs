@@ -327,7 +327,7 @@ struct Pen {
 impl Pen {
     fn new(c: Vec2, r: f32) -> Pen {
         let n = ((r * 1.2) as usize).clamp(24, 72);
-        Pen { c, r, u: r, alpha: crate::paint::opacity(), disc: ellipse(c, r, r, n) }
+        Pen { c, r, u: r, alpha: crate::paint::alpha(), disc: ellipse(c, r, r, n) }
     }
 
     /// A pen for the character itself: drawn a little larger than the
@@ -1912,7 +1912,7 @@ fn robot(p: &Pen) {
 
 /// A ghost: a pale floating sheet, its tint from the player's name.
 pub fn draw_ghost(name: &str, c: Vec2, r: f32) {
-    let alpha = crate::paint::opacity();
+    let alpha = crate::paint::alpha();
     let a = |col: Color| with_alpha(col, alpha);
     let hash = name.bytes().fold(2166136261u32, |h, b| (h ^ b as u32).wrapping_mul(16777619));
     let hue = (hash % 360) as f32 / 360.0;

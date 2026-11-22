@@ -498,6 +498,10 @@ async fn main() {
         let frame_start = std::time::Instant::now();
         let dt = get_frame_time().min(0.1);
         ui::update_scale(config.ui_size);
+        // Every frame starts with nothing fading (a screen that opened sets
+        // its fade while it is drawn).
+        paint::set_screen_fade(1.0);
+        paint::set_opacity(1.0);
         ui.begin();
         // The chat's dialog (drawn near the end, over any screen or game)
         // holds the keyboard too: no Esc, Space or arrow reaches the game,
@@ -1334,14 +1338,15 @@ async fn main() {
                             if !m.is_online() {
                                 // Any game here (the computer, a tournament
                                 // or the tour against it, two players, a
-                                // drill, a replay): still in the lounge, so
-                                // how many are online shows, discreet, under
-                                // the top bar on the right (someone to invite
-                                // may have come); the invitations' cards come
+                                // drill, a replay): still in the lounge.
+                                // How many are online is in the rules'
+                                // badge at the top; under the top bar on the
+                                // right, for a moment, who just came (someone
+                                // to invite); the invitations' cards come
                                 // under it (drawn at the end of the frame).
                                 let queue = online.queue_secs().is_some();
                                 let counted =
-                                    online.draw_online_count(&ui, ui::vw() - 14.0, 70.0, focus);
+                                    online.draw_arrival(&ui, ui::vw() - 14.0, 70.0, focus);
                                 invite_top = match (queue, counted) {
                                     (true, _) => 134.0,
                                     (false, true) => 94.0,

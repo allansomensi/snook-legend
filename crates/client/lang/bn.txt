@@ -2056,3 +2056,4 @@ You earned a new item: {title}	আপনি একটি নতুন আইট�
 You earned a new item!	আপনি একটি নতুন আইটেম পেয়েছেন!
 Ranking	র‍্যাঙ্কিং
 Can't reach the server	সার্ভারের সাথে যোগাযোগ করা যাচ্ছে না
+offline: click to connect	অফলাইন: সংযোগ করতে ক্লিক করুন

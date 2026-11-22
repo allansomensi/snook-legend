@@ -2056,3 +2056,4 @@ You earned a new item: {title}	Kamu mendapat item baru: {title}
 You earned a new item!	Kamu mendapat item baru!
 Ranking	Peringkat
 Can't reach the server	Tidak dapat terhubung ke server
+offline: click to connect	offline: klik untuk terhubung

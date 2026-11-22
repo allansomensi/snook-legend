@@ -2056,3 +2056,4 @@ You earned a new item: {title}	Ganhaste um novo artigo: {title}
 You earned a new item!	Ganhaste um novo artigo!
 Ranking	Ranking
 Can't reach the server	Não foi possível contactar o servidor
+offline: click to connect	offline: clique para ligar

@@ -1668,7 +1668,7 @@ impl Hud {
             "thumbs_up",
             vec2(b.x + b.w / 2.0, b.y + b.h / 2.0),
             (b.h * 0.62).min(20.0),
-            crate::paint::opacity() * if hover || self.reactions_open { 1.0 } else { 0.8 },
+            crate::paint::alpha() * if hover || self.reactions_open { 1.0 } else { 0.8 },
         );
         if hover && !self.reactions_open {
             ui.tooltip(t("Reactions"), b);
@@ -1726,7 +1726,7 @@ impl Hud {
                     r.code,
                     center,
                     if hover { 32.0 } else { 28.0 },
-                    crate::paint::opacity(),
+                    crate::paint::alpha(),
                 );
                 if hover && ui.released_in(c) {
                     chosen = Some(r.code);

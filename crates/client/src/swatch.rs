@@ -8,7 +8,7 @@ use std::collections::HashMap;
 
 use macroquad::prelude::*;
 
-use crate::paint::{draw_circle, draw_triangle, opacity};
+use crate::paint::{alpha as opacity, draw_circle, draw_triangle};
 use crate::textures::Pixels;
 
 /// Where the light comes from (the lamp above, a little to the front left).

@@ -2056,3 +2056,4 @@ You earned a new item: {title}	新しいアイテムを獲得しました：{tit
 You earned a new item!	新しいアイテムを獲得しました！
 Ranking	ランキング
 Can't reach the server	サーバーに接続できません
+offline: click to connect	オフライン：クリックで接続

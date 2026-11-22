@@ -2056,3 +2056,4 @@ You earned a new item: {title}	Κέρδισες νέο αντικείμενο: {
 You earned a new item!	Κέρδισες νέο αντικείμενο!
 Ranking	Κατάταξη
 Can't reach the server	Δεν είναι δυνατή η σύνδεση με τον διακομιστή
+offline: click to connect	εκτός σύνδεσης: πάτα για σύνδεση

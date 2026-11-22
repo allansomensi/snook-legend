@@ -28,7 +28,7 @@ pub fn draw(code: &str, x: f32, y: f32, h: f32) -> bool {
     let (col, row) = (i as u32 % FLAG_COLUMNS, i as u32 / FLAG_COLUMNS);
     let src = Rect::new((col * FLAG_W) as f32, (row * FLAG_H) as f32, FLAG_W as f32, FLAG_H as f32);
     let w = h * 4.0 / 3.0;
-    let a = crate::paint::opacity();
+    let a = crate::paint::alpha();
     crate::paint::draw_rectangle(
         x - 0.5,
         y - 0.5,

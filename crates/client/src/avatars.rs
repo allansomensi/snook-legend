@@ -65,7 +65,7 @@ pub fn draw(code: &str, c: Vec2, r: f32) {
         &atlas(),
         c.x - half,
         c.y - half,
-        Color::new(1.0, 1.0, 1.0, crate::paint::opacity()),
+        Color::new(1.0, 1.0, 1.0, crate::paint::alpha()),
         DrawTextureParams {
             dest_size: Some(vec2(2.0 * half, 2.0 * half)),
             source: Some(Rect::new(col as f32 * CELL, row as f32 * CELL, CELL, CELL)),

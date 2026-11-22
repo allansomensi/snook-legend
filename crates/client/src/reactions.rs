@@ -50,7 +50,7 @@ pub fn draw_locked(code: &str, at: Vec2, size: f32) {
     let Some(i) = REACTIONS.iter().position(|r| r.code == code) else { return };
     let (col, row) = (i % COLUMNS, i / COLUMNS);
     let src = Rect::new(col as f32 * SIZE, row as f32 * SIZE, SIZE, SIZE);
-    let a = crate::paint::opacity();
+    let a = crate::paint::alpha();
     draw_texture_ex(
         &atlas(),
         at.x - size / 2.0,

@@ -2056,3 +2056,4 @@ You earned a new item: {title}	Hai ottenuto un nuovo oggetto: {title}
 You earned a new item!	Hai ottenuto un nuovo oggetto!
 Ranking	Classifica
 Can't reach the server	Impossibile raggiungere il server
+offline: click to connect	offline: clicca per connetterti

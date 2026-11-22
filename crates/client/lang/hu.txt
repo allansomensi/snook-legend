@@ -2056,3 +2056,4 @@ You earned a new item: {title}	Új tárgyat szereztél: {title}
 You earned a new item!	Új tárgyat szereztél!
 Ranking	Ranglista
 Can't reach the server	A szerver nem érhető el
+offline: click to connect	offline: kattints a csatlakozáshoz

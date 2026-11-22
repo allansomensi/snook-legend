@@ -212,7 +212,7 @@ pub fn draw(x: f32, y: f32, size: f32) {
         })
         .clone()
     });
-    let alpha = crate::paint::opacity();
+    let alpha = crate::paint::alpha();
     draw_texture_ex(
         &tex,
         x,

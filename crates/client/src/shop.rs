@@ -270,7 +270,7 @@ pub fn preview(ui: &Ui, item: &Item, r: Rect) {
                     &tex,
                     cue_x(r, 0.0),
                     c.y - h / 2.0,
-                    Color::new(1.0, 1.0, 1.0, crate::paint::opacity()),
+                    Color::new(1.0, 1.0, 1.0, crate::paint::alpha()),
                     DrawTextureParams {
                         dest_size: Some(vec2(cue_x(r, span) - cue_x(r, 0.0), h)),
                         ..Default::default()

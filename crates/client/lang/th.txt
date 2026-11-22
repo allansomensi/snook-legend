@@ -2056,3 +2056,4 @@ You earned a new item: {title}	คุณ​ได้รับ​ไอเท็�
 You earned a new item!	คุณ​ได้รับ​ไอเท็ม​ใหม่!
 Ranking	อันดับ
 Can't reach the server	ไม่สามารถติดต่อเซิร์ฟเวอร์ได้
+offline: click to connect	ออฟไลน์: คลิก​เพื่อ​เชื่อมต่อ

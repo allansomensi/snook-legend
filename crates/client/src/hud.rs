@@ -1306,7 +1306,11 @@ impl Hud {
         if !self.chat_open {
             // A bubble button as small as the tools beside it; what's new
             // shows as a number on its corner.
-            let button = Rect::new(12.0, sh - BOTTOM_BAR - 40.0, 32.0, 32.0);
+            // The bubble and the word: the chat is used most, so it is the
+            // widest of the three.
+            let label = t("Chat");
+            let label_w = ui.text_size(label, 13.0, true).x;
+            let button = Rect::new(12.0, sh - BOTTOM_BAR - 40.0, 40.0 + label_w + 12.0, 32.0);
             ui.block(button);
             let hover = ui.hovering(button);
             let unread = o.unread > 0;
@@ -1322,14 +1326,20 @@ impl Hud {
             if hover || unread {
                 crate::ui::rrect_lines(button, 7.0, 1.2, if hover { GOLD } else { BORDER });
             }
+            let ink = if unread || hover { GOLD } else { CREAM };
             crate::online::chat_glyph(
-                vec2(button.x + button.w / 2.0, button.y + button.h / 2.0 - 1.0),
+                vec2(button.x + 20.0, button.y + button.h / 2.0 - 1.0),
                 17.0,
-                if unread || hover { GOLD } else { CREAM },
+                ink,
             );
-            if hover {
-                ui.tooltip(t("Chat"), button);
-            }
+            ui.text(
+                label,
+                button.x + 36.0,
+                crate::ranking::text_y(button.y + button.h / 2.0, 13.0),
+                13.0,
+                ink,
+                true,
+            );
             if hover && ui.released_in(button) {
                 self.chat_open = true;
             }

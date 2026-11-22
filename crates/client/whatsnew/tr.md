@@ -3,6 +3,17 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.10.0
+
+### Yeni bir görünüm
+Tüm arayüz yenilendi: ekranlar için tasarlanmış bir yazı tipi, tek bir keskin simge ailesi, her boyutta pürüzsüz kenarlar, oyunun logosuyla yeni bir menü ve yanıp hafifçe tıklayan düğmeler. Ekranlar açılırken yumuşakça belirir.
+
+### Oyundan profil resimleri
+Yüzler yerini oyunun nesnelerine bıraktı: numaralı toplardan ve 9-ball rakından alevli bir ıstakaya kadar 32 yeni resim. Bir yüz kullanıyorsan artık bunlardan biri oldu; profilinden değiştirebilirsin.
+
+### Mağaza, masadaki gibi
+Çuhalar lambanın altında kendi dokusuyla, top setleri ise çuhanın üstünde üçgende görünür. Giriş yapmadan mağaza, girişin ne işe yaradığını bir kez söyler. Sunucuya ulaşılamazsa net bir mesaj ve "Tekrar dene" düğmesi çıkar.
+
 ## 0.9.1
 
 ### Yenilenen sohbetler

@@ -3,6 +3,17 @@
 # novità, e le righe che seguono sono il suo testo. Ogni lingua ha le stesse
 # versioni e lo stesso numero di novità.
 
+## 0.10.0
+
+### Un aspetto nuovo
+Tutta l'interfaccia è stata rifatta: un carattere pensato per gli schermi, un'unica famiglia di icone nitide, bordi lisci a ogni dimensione, un nuovo menu con il logo del gioco e pulsanti che si illuminano e fanno un clic leggero. Le schermate compaiono in dissolvenza.
+
+### Immagini del profilo dal gioco
+I volti hanno lasciato il posto a cose del gioco: 32 immagini nuove, dalle bilie numerate e dal rack del 9-ball fino a una stecca in fiamme. Se avevi un volto, ora è una di queste; cambiala nel tuo profilo.
+
+### Il negozio, come sul tavolo
+I panni si vedono con la loro trama sotto la lampada, e i set di bilie nel triangolo sul panno. Senza accesso, il negozio dice una volta a cosa serve entrare. Se il server non risponde, un messaggio chiaro e il pulsante «Riprova».
+
 ## 0.9.1
 
 ### Chat rinnovate

@@ -2,6 +2,17 @@
 # A "## <verzió>" egy verziót kezd (a legújabb elöl), a "### <cím>" egy
 # kiemelést, az utána következő sorok pedig a szövegét.
 
+## 0.10.0
+
+### Új külső
+Az egész felület megújult: képernyőre tervezett betűtípus, egyetlen éles ikoncsalád, sima szélek minden méretben, új menü a játék logójával, és gombok, amelyek felragyognak és halkan kattannak. A képernyők finoman úsznak be.
+
+### Profilképek a játékból
+Az arcok helyét a játék tárgyai vették át: 32 új kép, a számozott golyóktól és a 9-ball rácstól egy lángoló dákóig. Ha arcod volt, most ezek egyike lett; a profilodban cserélheted.
+
+### A bolt, mint az asztalon
+A posztók saját textúrájukban látszanak a lámpa alatt, a golyókészletek háromszögben a posztón. Bejelentkezés nélkül a bolt egyszer elmondja, mire jó a belépés. Ha a szerver nem érhető el, világos üzenet és „Újra” gomb jelenik meg.
+
 ## 0.9.1
 
 ### Megújult csevegés

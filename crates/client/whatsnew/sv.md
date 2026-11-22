@@ -3,6 +3,17 @@
 # och raderna efter den är dess text. Håll det kort och om det spelarna
 # ser; alla språk har samma versioner och samma antal nyheter.
 
+## 0.10.0
+
+### Ett nytt utseende
+Hela gränssnittet är omgjort: ett typsnitt gjort för skärmar, en enda familj skarpa ikoner, mjuka kanter i alla storlekar, en ny meny med spelets logotyp och knappar som lyser upp och klickar mjukt. Skärmarna tonar in när de öppnas.
+
+### Profilbilder från spelet
+Ansiktena har ersatts av saker från spelet: 32 nya bilder, från de numrerade bollarna och 9-ball-racket till en brinnande kö. Hade du ett ansikte har det blivit en av dem; byt i din profil.
+
+### Butiken, som på bordet
+Dukar visas i sin egen struktur under lampan, och bollset i triangeln på duken. Utloggad säger butiken en gång vad inloggningen är till för. Når du inte servern får du ett tydligt meddelande och knappen ”Försök igen”.
+
 ## 0.9.1
 
 ### Chattarna i ny form

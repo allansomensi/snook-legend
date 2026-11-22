@@ -3,6 +3,17 @@
 # dan baris sesudahnya adalah teksnya. Singkat dan tentang apa yang dilihat
 # pemain; setiap bahasa punya versi yang sama dan jumlah sorotan yang sama.
 
+## 0.10.0
+
+### Tampilan baru
+Seluruh antarmuka dibuat ulang: huruf yang dirancang untuk layar, satu keluarga ikon yang tajam, tepi halus di ukuran apa pun, menu baru dengan logo game, dan tombol yang menyala serta berbunyi klik lembut. Layar muncul perlahan saat dibuka.
+
+### Foto profil dari game
+Wajah-wajah diganti dengan benda-benda dari game: 32 gambar baru, dari bola bernomor dan rak 9-ball sampai stik yang terbakar. Kalau kamu memakai wajah, kini jadi salah satunya; ganti di profilmu.
+
+### Toko, seperti di meja
+Kain tampil dengan teksturnya sendiri di bawah lampu, dan set bola tersusun di segitiga di atas kain. Tanpa masuk akun, toko menjelaskan sekali gunanya masuk. Jika server tak terjangkau, muncul pesan yang jelas dan tombol "Coba lagi".
+
 ## 0.9.1
 
 ### Chat yang diperbarui

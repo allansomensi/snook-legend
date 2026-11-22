@@ -3,6 +3,17 @@
 # en de regels erna zijn de tekst ervan. Elke taal heeft dezelfde versies en
 # hetzelfde aantal hoogtepunten.
 
+## 0.10.0
+
+### Een nieuwe look
+De hele interface is vernieuwd: een lettertype gemaakt voor schermen, één familie scherpe pictogrammen, gladde randen op elk formaat, een nieuw menu met het logo van het spel en knoppen die oplichten en zacht klikken. Schermen faden in bij het openen.
+
+### Profielfoto's uit het spel
+De gezichten hebben plaatsgemaakt voor dingen uit het spel: 32 nieuwe afbeeldingen, van de genummerde ballen en het 9-ball-rek tot een brandende keu. Had je een gezicht, dan is dat er nu een van; wijzig het in je profiel.
+
+### De winkel, zoals op tafel
+Lakens verschijnen in hun eigen structuur onder de lamp, en ballensets in de driehoek op het laken. Niet ingelogd zegt de winkel één keer waarvoor inloggen dient. Is de server onbereikbaar, dan volgt een duidelijke melding en de knop ‘Opnieuw proberen’.
+
 ## 0.9.1
 
 ### Chats in een nieuw jasje

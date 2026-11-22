@@ -3,6 +3,17 @@
 # Highlight, und die Zeilen danach sind sein Text. Jede Sprache hat dieselben
 # Versionen und dieselbe Anzahl an Highlights.
 
+## 0.10.0
+
+### Ein neuer Look
+Die ganze Oberfläche wurde neu gestaltet: eine Schrift für Bildschirme, eine einheitliche Familie scharfer Symbole, glatte Kanten in jeder Größe, ein neues Menü mit dem Logo des Spiels und Knöpfe, die aufleuchten und leise klicken. Bildschirme blenden sanft ein.
+
+### Profilbilder aus dem Spiel
+Die Gesichter haben Dingen aus dem Spiel Platz gemacht: 32 neue Bilder, von den nummerierten Kugeln und dem 9-Ball-Rack bis zum brennenden Queue. Wer ein Gesicht hatte, hat jetzt eines davon; ändere es in deinem Profil.
+
+### Der Shop, wie auf dem Tisch
+Tücher erscheinen in ihrer eigenen Textur unter der Lampe, Kugelsätze im Dreieck auf dem Tuch. Ohne Anmeldung sagt der Shop einmal, wofür sie gut ist. Ist der Server nicht erreichbar, gibt es eine klare Meldung und den Knopf „Erneut versuchen“.
+
 ## 0.9.1
 
 ### Die Chats, neu gestaltet

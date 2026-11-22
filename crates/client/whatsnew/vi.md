@@ -2,6 +2,17 @@
 # "## <phiên bản>" mở đầu một phiên bản (mới nhất trước), "### <tiêu đề>" là một điểm nổi bật,
 # và các dòng sau đó là nội dung. Mọi ngôn ngữ có cùng các phiên bản và cùng số điểm nổi bật.
 
+## 0.10.0
+
+### Diện mạo mới
+Toàn bộ giao diện được làm lại: phông chữ dành cho màn hình, một bộ biểu tượng sắc nét thống nhất, viền mượt ở mọi kích thước, menu mới có logo của trò chơi và các nút sáng lên kèm tiếng nhấp nhẹ. Các màn hình hiện ra mượt mà.
+
+### Ảnh đại diện từ trò chơi
+Những khuôn mặt nhường chỗ cho đồ vật của trò chơi: 32 ảnh mới, từ các bi đánh số và khung 9-ball đến cây cơ bốc lửa. Nếu bạn đang dùng một khuôn mặt, nó đã thành một trong số đó; đổi trong hồ sơ của bạn.
+
+### Cửa hàng, như trên bàn
+Nỉ hiện với chính chất liệu của nó dưới ánh đèn, còn các bộ bi được xếp trong khung tam giác trên mặt nỉ. Khi chưa đăng nhập, cửa hàng nói một lần đăng nhập để làm gì. Khi không kết nối được máy chủ, có thông báo rõ ràng và nút "Thử lại".
+
 ## 0.9.1
 
 ### Trò chuyện được làm mới

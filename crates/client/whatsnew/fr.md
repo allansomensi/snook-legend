@@ -4,6 +4,17 @@
 # parlez de ce que voient les joueurs ; chaque langue a les mêmes versions et
 # le même nombre de points forts.
 
+## 0.10.0
+
+### Un nouveau look
+Toute l'interface a été refaite : une police conçue pour les écrans, une seule famille d'icônes nettes, des bords lisses à toutes les tailles, un nouveau menu avec le logo du jeu et des boutons qui s'éclairent et font un léger clic. Les écrans apparaissent en fondu.
+
+### Des photos de profil du jeu
+Les visages ont laissé place à des objets du jeu : 32 nouvelles images, des boules numérotées et du rack du 9-ball jusqu'à une queue en flammes. Si vous aviez un visage, il est devenu l'une d'elles ; changez-la dans votre profil.
+
+### La boutique, comme sur la table
+Les tapis s'affichent dans leur propre texture sous la lampe, et les jeux de boules en triangle sur le tapis. Sans connexion au compte, la boutique dit une fois à quoi sert de se connecter. Serveur injoignable : un message clair et un bouton « Réessayer ».
+
 ## 0.9.1
 
 ### Les chats, repensés

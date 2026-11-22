@@ -2,6 +2,17 @@
 # "## <wersja>" zaczyna wersję (najnowsze najpierw), "### <tytuł>" nowość,
 # a kolejne wiersze to jej tekst. Każdy język ma te same wersje i tyle samo nowości.
 
+## 0.10.0
+
+### Nowy wygląd
+Cały interfejs zrobiono od nowa: krój pisma stworzony dla ekranów, jedna rodzina ostrych ikon, gładkie krawędzie w każdym rozmiarze, nowe menu z logo gry i przyciski, które się podświetlają i cicho klikają. Ekrany pojawiają się płynnie.
+
+### Zdjęcia profilowe z gry
+Twarze ustąpiły miejsca rzeczom z gry: 32 nowe obrazki, od numerowanych bil i trójkąta do 9-ball po płonący kij. Jeśli miałeś twarz, zmieniła się w jeden z nich; zmień go w swoim profilu.
+
+### Sklep jak na stole
+Sukna widać w ich własnej fakturze pod lampą, a zestawy bil w trójkącie na suknie. Bez logowania sklep raz mówi, po co się zalogować. Gdy serwer jest niedostępny, pojawia się jasny komunikat i przycisk „Spróbuj ponownie”.
+
 ## 0.9.1
 
 ### Czaty od nowa

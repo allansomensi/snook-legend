@@ -2,6 +2,17 @@
 # "## <bersiyon>" ang simula ng isang bersiyon (pinakabago muna), "### <pamagat>"
 # ng isang highlight, at ang mga linya pagkatapos nito ang teksto nito.
 
+## 0.10.0
+
+### Bagong itsura
+Binago ang buong interface: isang font na ginawa para sa screen, iisang pamilya ng malilinaw na icon, makikinis na gilid sa anumang laki, bagong menu na may logo ng laro, at mga button na umiilaw at may mahinang click. Dahan-dahang lumilitaw ang mga screen.
+
+### Mga profile picture mula sa laro
+Napalitan ang mga mukha ng mga bagay sa laro: 32 bagong larawan, mula sa mga numeradong bola at sa rack ng 9-ball hanggang sa nagliliyab na tako. Kung mukha ang gamit mo, naging isa na ito sa mga iyon; palitan sa iyong profile.
+
+### Ang shop, gaya ng sa mesa
+Makikita ang mga tela sa sarili nilang texture sa ilalim ng ilaw, at ang mga set ng bola na naka-rack sa tela. Kapag hindi naka-sign in, sinasabi ng shop nang isang beses kung para saan ang pag-sign in. Kapag hindi maabot ang server, may malinaw na mensahe at button na "Subukan ulit".
+
 ## 0.9.1
 
 ### Bagong chat

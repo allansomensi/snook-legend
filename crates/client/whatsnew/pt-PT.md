@@ -3,6 +3,17 @@
 # destaque, e as linhas seguintes são o texto dele. Curto e sobre o que os
 # jogadores veem; todas as línguas têm as mesmas versões e o mesmo número de destaques.
 
+## 0.10.0
+
+### Um novo aspeto
+Toda a interface foi refeita: um tipo de letra feito para ecrãs, uma única família de ícones nítidos, contornos suaves em qualquer tamanho, um menu novo com o logótipo do jogo e botões que se iluminam e fazem um clique suave. Os ecrãs surgem com um fade.
+
+### Fotos de perfil do jogo
+Os rostos deram lugar a coisas do jogo: 32 fotos novas, das bolas numeradas e do triângulo do 9-ball a um taco em chamas. Se usava um rosto, passou a ser uma delas; mude-a no seu perfil.
+
+### A loja, como na mesa
+Os panos aparecem com a sua textura sob o candeeiro, e os conjuntos de bolas no triângulo, sobre o pano. Sem sessão iniciada, a loja diz uma vez para que serve entrar. Sem ligação ao servidor, uma mensagem clara e o botão “Tentar de novo”.
+
 ## 0.9.1
 
 ### Chats renovados

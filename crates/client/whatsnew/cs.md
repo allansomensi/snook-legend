@@ -3,6 +3,17 @@
 # a řádky za ním jsou její text. Krátce a o tom, co hráči vidí; všechny
 # jazyky mají stejné verze a stejný počet novinek.
 
+## 0.10.0
+
+### Nový vzhled
+Celé rozhraní je předělané: písmo dělané pro obrazovky, jedna rodina ostrých ikon, hladké okraje v každé velikosti, nové menu s logem hry a tlačítka, která se rozsvítí a tiše cvaknou. Obrazovky se plynule objeví.
+
+### Profilové obrázky ze hry
+Tváře vystřídaly věci ze hry: 32 nových obrázků, od očíslovaných koulí a rámečku na 9-ball po hořící tágo. Pokud jsi měl tvář, stal se z ní jeden z nich; změň ho ve svém profilu.
+
+### Obchod jako na stole
+Sukna se ukazují ve vlastní struktuře pod lampou a sady koulí v trojúhelníku na sukně. Bez přihlášení obchod jednou řekne, k čemu je přihlášení. Když server není dostupný, uvidíš jasnou zprávu a tlačítko „Zkusit znovu“.
+
 ## 0.9.1
 
 ### Chaty v novém

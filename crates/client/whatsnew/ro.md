@@ -2,6 +2,17 @@
 # "## <versiune>" începe o versiune (cea mai nouă prima), "### <titlu>" o noutate,
 # iar rândurile de după sunt textul ei.
 
+## 0.10.0
+
+### Un aspect nou
+Toată interfața a fost refăcută: un font făcut pentru ecrane, o singură familie de pictograme clare, margini netede la orice mărime, un meniu nou cu logoul jocului și butoane care se aprind și fac un clic discret. Ecranele apar treptat.
+
+### Poze de profil din joc
+Fețele au lăsat locul lucrurilor din joc: 32 de poze noi, de la bilele numerotate și triunghiul de 9-ball până la un tac în flăcări. Dacă aveai o față, a devenit una dintre ele; schimb-o în profilul tău.
+
+### Magazinul, ca pe masă
+Postavurile apar cu propria textură sub lampă, iar seturile de bile în triunghi, pe postav. Fără cont conectat, magazinul spune o dată la ce folosește conectarea. Când serverul nu răspunde, apar un mesaj clar și butonul „Încearcă din nou”.
+
 ## 0.9.1
 
 ### Chaturi refăcute

@@ -1,6 +1,10 @@
 # Changelog
 
-## Unreleased
+## 0.10.0 (protocol 24)
+
+A new look for the whole game, and profile pictures that are things of the
+game. The protocol is unchanged: 0.9.x and 0.10.0 play together. Update the
+server with this version: an older server refuses the new profile pictures.
 
 ### A new look
 - **Inter for the interface's text**, a typeface made for screens (cut to

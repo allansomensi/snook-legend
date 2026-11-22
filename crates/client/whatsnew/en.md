@@ -3,6 +3,17 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.10.0
+
+### A new look
+The whole interface was redone: a typeface made for screens, one family of sharp icons, smooth edges at any size, a new menu with the game's logo, and buttons that light up and click softly. Screens fade in as they open.
+
+### Profile pictures from the game
+The faces gave way to things of the game: 32 new pictures, from the numbered balls and the nine-ball rack to a cue on fire. If you had a face, it became one of them; change it in your profile.
+
+### The shop, as on the table
+Cloths show in their own texture under the lamp, and ball sets racked on the cloth. Signed out, the shop says once what signing in is for. When the server can't be reached, a clear message and a "Try again" button.
+
 ## 0.9.1
 
 ### Chats, redone

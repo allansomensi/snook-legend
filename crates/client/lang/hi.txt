@@ -2055,3 +2055,4 @@ Congratulations!	बधाई हो!
 You earned a new item: {title}	आपने एक नया आइटम जीता: {title}
 You earned a new item!	आपने एक नया आइटम जीता!
 Ranking	रैंकिंग
+Can't reach the server	सर्वर से संपर्क नहीं हो पा रहा

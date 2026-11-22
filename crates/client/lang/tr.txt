@@ -2055,3 +2055,4 @@ Congratulations!	Tebrikler!
 You earned a new item: {title}	Yeni bir eşya kazandın: {title}
 You earned a new item!	Yeni bir eşya kazandın!
 Ranking	Sıralama
+Can't reach the server	Sunucuya ulaşılamıyor

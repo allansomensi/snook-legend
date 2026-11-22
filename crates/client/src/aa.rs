@@ -9,9 +9,12 @@ use std::cell::RefCell;
 use macroquad::models::Vertex;
 use macroquad::prelude::*;
 
+/// Vertices, indices, a path and its normals.
+type Buffers = (Vec<Vertex>, Vec<u16>, Vec<Vec2>, Vec<Vec2>);
+
 thread_local! {
     /// Reused buffers (hundreds of shapes are drawn a frame).
-    static BUFFERS: RefCell<(Vec<Vertex>, Vec<u16>, Vec<Vec2>, Vec<Vec2>)> =
+    static BUFFERS: RefCell<Buffers> =
         const { RefCell::new((Vec::new(), Vec::new(), Vec::new(), Vec::new())) };
 }
 

@@ -399,7 +399,12 @@ impl ProfileScreen {
         let Some(mut p) = loaded else {
             let area = Rect::new(r.x, r.y + 40.0, r.w, r.h - 60.0);
             match unreachable(online) {
-                Some(error) => empty_state(ui, area, Icon::Network, &error),
+                Some(error) => {
+                    if crate::ranking::offline_state(ui, area, &error) {
+                        online.error = None;
+                        online.request_profile(&self.name.clone());
+                    }
+                }
                 None => loading(ui, area, t("Loading the profile…")),
             }
             return action;

@@ -2055,3 +2055,4 @@ Congratulations!	Вітаємо!
 You earned a new item: {title}	Ви отримали новий предмет: {title}
 You earned a new item!	Ви отримали новий предмет!
 Ranking	Рейтинг
+Can't reach the server	Не вдається зв’язатися із сервером

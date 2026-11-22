@@ -2055,3 +2055,4 @@ Congratulations!	ยินดีด้วย!
 You earned a new item: {title}	คุณ​ได้รับ​ไอเท็ม​ใหม่: {title}
 You earned a new item!	คุณ​ได้รับ​ไอเท็ม​ใหม่!
 Ranking	อันดับ
+Can't reach the server	ไม่สามารถติดต่อเซิร์ฟเวอร์ได้

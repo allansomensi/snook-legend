@@ -108,6 +108,29 @@ pub(crate) fn empty_state(ui: &Ui, area: Rect, icon: Icon, text: &str) {
     }
 }
 
+/// The server can't be reached: said plainly, what went wrong under it in
+/// small type, and a button to try again (true when it is clicked).
+pub(crate) fn offline_state(ui: &mut Ui, area: Rect, detail: &str) -> bool {
+    let width = (area.w - 32.0).min(420.0);
+    let lines = ui.wrap(detail, width, 13.0);
+    let block = 56.0 + 14.0 + 22.0 + 8.0 + lines.len() as f32 * 18.0 + 18.0 + 38.0;
+    let mut y = area.y + ((area.h - block) / 2.0).max(0.0);
+    let cx = area.x + area.w / 2.0;
+    draw_circle(cx, y + 28.0, 28.0, Color::new(1.0, 0.56, 0.44, 0.1));
+    crate::icons::draw(Icon::WifiSlash, vec2(cx, y + 28.0), 28.0, crate::ui::ALERT);
+    y += 56.0 + 14.0;
+    ui.text_centered(t("Can't reach the server"), cx, y, 17.0, CREAM, true);
+    y += 22.0 + 8.0;
+    for line in &lines {
+        ui.text_centered(line, cx, y, 13.0, MUTED, false);
+        y += 18.0;
+    }
+    y += 18.0;
+    let label = t("Try again");
+    let bw = ui.text_size(label, 15.0, true).x + 48.0;
+    ui.button(Rect::new(cx - bw / 2.0, y, bw, 38.0), label, true)
+}
+
 /// Why the server can't be asked (the connection failed), if it can't:
 /// better said than a spinner turning for ever.
 pub(crate) fn unreachable(online: &Online) -> Option<String> {
@@ -216,7 +239,10 @@ impl Ranking {
             if *online.leaderboard_loaded.get(self.rules) {
                 empty_state(ui, list, Icon::Trophy, t("No rated games yet. Be the first!"));
             } else if let Some(error) = unreachable(online) {
-                empty_state(ui, list, Icon::Network, &error);
+                if offline_state(ui, list, &error) {
+                    online.error = None;
+                    online.request_leaderboard(self.rules);
+                }
             } else {
                 loading(ui, list, t("Loading…"));
             }

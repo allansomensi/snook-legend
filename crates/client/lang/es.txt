@@ -2055,3 +2055,4 @@ Congratulations!	¡Felicidades!
 You earned a new item: {title}	Ganaste un artículo nuevo: {title}
 You earned a new item!	Ganaste un artículo nuevo!
 Ranking	Ranking
+Can't reach the server	No se puede conectar con el servidor

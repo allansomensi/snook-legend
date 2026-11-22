@@ -1734,6 +1734,10 @@ async fn main() {
                             shop::ShopAction::Preview(code) => {
                                 showroom = showroom::Showroom::open(code, &scene.table);
                             }
+                            shop::ShopAction::SignIn => {
+                                online.connect();
+                                next = Some(Screen::Online);
+                            }
                             shop::ShopAction::ShowHall => {
                                 // As in the settings: the room around the table.
                                 config.focused_scene = false;

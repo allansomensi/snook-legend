@@ -2055,3 +2055,4 @@ Congratulations!	Binabati kita!
 You earned a new item: {title}	May bago kang item: {title}
 You earned a new item!	May bago kang item!
 Ranking	Ranking
+Can't reach the server	Hindi maabot ang server

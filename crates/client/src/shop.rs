@@ -41,6 +41,8 @@ pub enum ShopAction {
     Preview(&'static str),
     /// Turn the dark stage off, so the hall shows around the table.
     ShowHall,
+    /// Signed out, a buy or use button was pressed: to the sign-in form.
+    SignIn,
 }
 
 /// A purchase waiting for the player to confirm it.
@@ -52,6 +54,8 @@ struct Confirm {
 }
 
 pub struct ShopScreen {
+    /// Signed out, "Sign in" (or an item's button) was pressed.
+    sign_in: bool,
     tab: Tab,
     /// The page of items shown.
     page: usize,
@@ -77,6 +81,7 @@ pub struct ShopScreen {
 impl Default for ShopScreen {
     fn default() -> Self {
         ShopScreen {
+            sign_in: false,
             tab: Tab::Items(Category::Cloth),
             page: 0,
             focus: None,
@@ -591,6 +596,9 @@ impl ShopScreen {
     }
 
     pub fn draw(&mut self, ui: &mut Ui, online: &mut Online) -> ShopAction {
+        if std::mem::take(&mut self.sign_in) {
+            return ShopAction::SignIn;
+        }
         // Signed in after the screen opened: ask for the wallet now.
         if online.signed_in() && (online.wallet.is_none() || online.offers.is_none()) && !self.asked
         {
@@ -718,9 +726,22 @@ impl ShopScreen {
         let bx = side.x + side.w + 20.0;
         let mut body = Rect::new(bx, top, r.x + r.w - PAD - bx, r.y + r.h - PAD + 4.0 - top);
         if !signed_in {
+            // Once, above the items: what signing in is for, and the way to it
+            // (the items' buttons lead there too).
+            let banner = Rect::new(body.x, body.y, body.w, 46.0);
+            rrect(banner, crate::ui::BUTTON_RADIUS, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.08));
+            rrect_lines(banner, crate::ui::BUTTON_RADIUS, 1.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.25));
+            crate::icons::draw(Icon::Person, vec2(banner.x + 22.0, banner.y + 23.0), 18.0, GOLD);
+            let label = t("Sign in");
+            let bw = ui.text_size(label, 14.0, true).x + 36.0;
+            let b = Rect::new(banner.x + banner.w - bw - 7.0, banner.y + 7.0, bw, 32.0);
             let note = t("Sign in to buy and use items. Here is what there is:");
-            ui.text(note, body.x, body.y + 2.0, 14.0, MUTED, false);
-            body = Rect::new(body.x, body.y + 28.0, body.w, body.h - 28.0);
+            let (note, size) = ui.fitted(note, 14.0, b.x - banner.x - 52.0, false);
+            ui.text(&note, banner.x + 40.0, text_y(banner.y + 23.0, size), size, CREAM, false);
+            if ui.primary_button(b, label) {
+                self.sign_in = true;
+            }
+            body = Rect::new(body.x, body.y + 58.0, body.w, body.h - 58.0);
         }
         match self.tab {
             Tab::Items(c) => {
@@ -901,6 +922,13 @@ impl ShopScreen {
             let size = 14.0;
             if equipped {
                 button(ui, b, Kind::Disabled, Some(Icon::Check), t("In use"), size);
+            } else if !signed_in && matches!(item.price, Price::Coins(_) | Price::Free) {
+                // Signed out: the button leads to signing in (rather than
+                // a row of dead grey buttons).
+                let label = if usable { t("Use") } else { t("Buy") };
+                if button(ui, b, Kind::Normal, None, label, size) {
+                    self.sign_in = true;
+                }
             } else if usable {
                 let kind = if signed_in { Kind::Normal } else { Kind::Disabled };
                 if button(ui, b, kind, None, t("Use"), size) {

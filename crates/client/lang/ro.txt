@@ -2055,3 +2055,4 @@ Congratulations!	Felicitări!
 You earned a new item: {title}	Ai câștigat un obiect nou: {title}
 You earned a new item!	Ai câștigat un obiect nou!
 Ranking	Clasament
+Can't reach the server	Serverul nu poate fi contactat

@@ -2055,3 +2055,4 @@ Congratulations!	تهانينا!
 You earned a new item: {title}	حصلت على عنصر جديد: {title}
 You earned a new item!	حصلت على عنصر جديد!
 Ranking	الترتيب
+Can't reach the server	تعذّر الوصول إلى الخادم

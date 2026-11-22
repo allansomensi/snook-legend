@@ -2055,3 +2055,4 @@ Congratulations!	恭喜！
 You earned a new item: {title}	你获得了新物品：{title}
 You earned a new item!	你获得了新物品！
 Ranking	排行榜
+Can't reach the server	无法连接到服务器

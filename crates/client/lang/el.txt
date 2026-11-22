@@ -2055,3 +2055,4 @@ Congratulations!	Συγχαρητήρια!
 You earned a new item: {title}	Κέρδισες νέο αντικείμενο: {title}
 You earned a new item!	Κέρδισες νέο αντικείμενο!
 Ranking	Κατάταξη
+Can't reach the server	Δεν είναι δυνατή η σύνδεση με τον διακομιστή

@@ -153,8 +153,8 @@ pub fn chars_font(face: Face, bold: bool) -> Option<Font> {
     CHARS.with(|c| {
         c[face.index(bold)]
             .get_or_init(|| load_ttf_font_from_bytes(face.bytes(bold)).ok().map(ManuallyDrop::new))
-            .as_ref()
-            .map(|f| Font::clone(f))
+            .as_deref()
+            .cloned()
     })
 }
 

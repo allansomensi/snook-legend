@@ -2055,3 +2055,4 @@ Congratulations!	Gefeliciteerd!
 You earned a new item: {title}	Je hebt een nieuw item verdiend: {title}
 You earned a new item!	Je hebt een nieuw item verdiend!
 Ranking	Ranglijst
+Can't reach the server	Kan de server niet bereiken

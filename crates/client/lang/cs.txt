@@ -2055,3 +2055,4 @@ Congratulations!	Gratulujeme!
 You earned a new item: {title}	Máš nový předmět: {title}
 You earned a new item!	Máš nový předmět!
 Ranking	Žebříček
+Can't reach the server	Server není dostupný

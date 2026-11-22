@@ -2055,3 +2055,4 @@ Congratulations!	Glückwunsch!
 You earned a new item: {title}	Du hast einen neuen Artikel verdient: {title}
 You earned a new item!	Du hast einen neuen Artikel verdient!
 Ranking	Rangliste
+Can't reach the server	Der Server ist nicht erreichbar

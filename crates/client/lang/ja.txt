@@ -2055,3 +2055,4 @@ Congratulations!	おめでとうございます！
 You earned a new item: {title}	新しいアイテムを獲得しました：{title}
 You earned a new item!	新しいアイテムを獲得しました！
 Ranking	ランキング
+Can't reach the server	サーバーに接続できません

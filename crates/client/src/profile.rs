@@ -1844,8 +1844,10 @@ fn journey(ui: &mut Ui, online: &Online, p: &Profile, rules: Rules, area: Rect) 
             rrect_lines(r, 8.0, 1.2, Color::new(color.r, color.g, color.b, 0.8));
         }
         let mid = r.y + r.h / 2.0;
-        let two = r.h >= 34.0;
-        let name_y = if two { r.y + 5.0 } else { text_y(mid, 14.0) };
+        // The league's name with where it starts under it, its prize at the
+        // right (on one line it was cut short).
+        let two = r.h >= 30.0;
+        let name_y = if two { r.y + (r.h - 30.0) / 2.0 + 1.0 } else { text_y(mid, 14.0) };
         ui.text(
             t(tier.name()),
             r.x + 12.0,
@@ -1863,8 +1865,8 @@ fn journey(ui: &mut Ui, online: &Online, p: &Profile, rules: Rules, area: Rect) 
         let muted = Color::new(MUTED.r, MUTED.g, MUTED.b, fade);
         let cream = Color::new(CREAM.r, CREAM.g, CREAM.b, fade);
         if two {
-            ui.text(&from, r.x + 12.0, r.y + 23.0, 11.5, muted, false);
-            let (prize, size) = ui.fitted(&prize, 13.0, r.w - 150.0, false);
+            ui.text(&from, r.x + 12.0, name_y + 18.0, 11.0, muted, false);
+            let (prize, size) = ui.fitted(&prize, 12.5, r.w - 150.0, false);
             let pw = ui.text_size(&prize, size, false).x;
             ui.text(&prize, r.x + r.w - 34.0 - pw, text_y(mid, size), size, cream, false);
         } else {
@@ -1889,10 +1891,14 @@ fn journey(ui: &mut Ui, online: &Online, p: &Profile, rules: Rules, area: Rect) 
     rrect(card, 8.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.12));
     rrect_lines(card, 8.0, 1.2, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.7));
     let title = tw("Level {n}", &[("n", &level)]);
-    ui.text(&title, card.x + 12.0, card.y + 6.0, 16.0, GOLD, true);
-    let bar = Rect::new(card.x + 12.0, card.y + card.h - 13.0, card.w - 24.0, 5.0);
-    rrect(bar, 2.5, Color::new(1.0, 1.0, 1.0, 0.1));
-    if let Some(xp_now) = online.xp.filter(|_| own) {
+    let xp_known = online.xp.filter(|_| own);
+    // Without the XP (another's profile): the title alone, in the middle.
+    let title_y =
+        if xp_known.is_some() { card.y + 6.0 } else { text_y(card.y + card.h / 2.0, 16.0) };
+    ui.text(&title, card.x + 12.0, title_y, 16.0, GOLD, true);
+    if let Some(xp_now) = xp_known {
+        let bar = Rect::new(card.x + 12.0, card.y + card.h - 13.0, card.w - 24.0, 5.0);
+        rrect(bar, 2.5, Color::new(1.0, 1.0, 1.0, 0.1));
         let (_, into, span) = xp::progress(xp_now);
         let k = if span == 0 { 1.0 } else { into as f32 / span as f32 };
         if k > 0.0 {

@@ -22,6 +22,17 @@
   beside it. The lounge has the emoji tray and shows your lines at once
   too, and a single line in its field sits in the middle. "Newer
   messages" is a pill that brings them back with a click.
+- **The profile, tidier**: on the Rating tab the rules' tag sat over the
+  tabs ("Leagues and levels"); it is in the chart's corner now. The chart
+  has a soft fill, a dot per game, a scale, dashed league lines and the
+  rating now by its last point (one date when all games were the same
+  day). The header no longer repeats the league (the rating cards have
+  it) nor the country's name (the flag says it); both rating cards look
+  alike, the one shown lit in its rules' colour, and the note that was
+  cut short is the hint of that card. Block, report and ending a
+  friendship are quiet words beside the buttons. Another player's level
+  shows no empty XP bar, and the leagues show their whole prize, where
+  they start under their name.
 - **The top of the table, tidier**: each player's rail is just long
   enough for a group and its 8, with a faint place for each ball still to
   come (it had room left over even with the 8 down). The shot clock is a

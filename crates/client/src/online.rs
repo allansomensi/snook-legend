@@ -5271,7 +5271,8 @@ pub(crate) enum Glyph {
 }
 
 /// A speech bubble `s` wide centred on `c`, drawn in outline.
-fn chat_glyph(c: Vec2, s: f32, color: Color) {
+/// A speech bubble with three dots, `s` across, centred on `c`.
+pub(crate) fn chat_glyph(c: Vec2, s: f32, color: Color) {
     let body = Rect::new(c.x - s * 0.5, c.y - s * 0.42, s, s * 0.68);
     rrect_lines(body, s * 0.2, 2.0, color);
     // The tail, bottom left.

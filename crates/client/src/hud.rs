@@ -1304,68 +1304,115 @@ impl Hud {
         let dt = get_frame_time();
         let Some(o) = m.online.as_mut() else { return };
         if !self.chat_open {
-            let button = Rect::new(12.0, sh - BOTTOM_BAR - 40.0, 110.0, 32.0);
-            let label = if o.unread > 0 {
-                tw("Chat ({n})", &[("n", &o.unread)])
-            } else {
-                t("Chat").to_string()
-            };
-            if ui.button(button, &label, true) {
+            // A bubble button as small as the tools beside it; what's new
+            // shows as a number on its corner.
+            let button = Rect::new(12.0, sh - BOTTOM_BAR - 40.0, 32.0, 32.0);
+            ui.block(button);
+            let hover = ui.hovering(button);
+            let unread = o.unread > 0;
+            crate::ui::rrect(
+                button,
+                7.0,
+                if hover {
+                    Color::new(0.38, 0.25, 0.12, 0.95)
+                } else {
+                    Color::new(0.07, 0.045, 0.03, 0.85)
+                },
+            );
+            if hover || unread {
+                crate::ui::rrect_lines(button, 7.0, 1.2, if hover { GOLD } else { BORDER });
+            }
+            crate::online::chat_glyph(
+                vec2(button.x + button.w / 2.0, button.y + button.h / 2.0 - 1.0),
+                17.0,
+                if unread || hover { GOLD } else { CREAM },
+            );
+            if hover {
+                ui.tooltip(t("Chat"), button);
+            }
+            if hover && ui.released_in(button) {
                 self.chat_open = true;
             }
-            if o.unread > 0 {
-                // A dot that pulses while there is something new.
-                let pulse = 0.5 + 0.5 * (get_time() as f32 * 5.0).sin();
-                let c = vec2(button.x + button.w - 4.0, button.y + 4.0);
-                draw_circle(c.x, c.y, 6.0 + pulse * 1.5, Color::new(0.0, 0.0, 0.0, 0.5));
-                draw_circle(c.x, c.y, 5.0 + pulse * 1.5, GOLD);
+            if unread {
+                // The number of new lines, on the corner, with a soft glow
+                // that breathes while they wait.
+                let label = if o.unread > 9 { "9+".to_string() } else { o.unread.to_string() };
+                let lw = ui.text_size(&label, 10.0, true).x;
+                let bw = (lw + 9.0).max(16.0);
+                let badge = Rect::new(button.x + button.w - bw * 0.6, button.y - 6.0, bw, 16.0);
+                let pulse = 0.5 + 0.5 * (get_time() as f32 * 4.0).sin();
+                crate::ui::rrect(
+                    Rect::new(badge.x - 2.0, badge.y - 2.0, badge.w + 4.0, badge.h + 4.0),
+                    10.0,
+                    Color::new(GOLD.r, GOLD.g, GOLD.b, 0.18 + 0.17 * pulse),
+                );
+                crate::ui::rrect(badge, 8.0, GOLD);
+                ui.text_centered(
+                    &label,
+                    badge.x + badge.w / 2.0,
+                    badge.y + 3.0,
+                    10.0,
+                    Color::new(0.12, 0.08, 0.04, 1.0),
+                    true,
+                );
             }
-            // The newest message, for a few seconds, above the button.
+            // The newest message, for a few seconds, above the button: it
+            // stays while the pointer is on it, and a click opens the chat.
+            let mut open_chat = false;
             if let Some((line, age)) = &mut o.preview {
-                *age += dt;
+                let who = line.from.as_ref().map(|(n, _)| format!("{n}: ")).unwrap_or_default();
+                let mut text = line.text.clone();
+                let max_w = 300.0;
+                let who_w = ui.text_size(&who, 13.0, true).x;
+                while !text.is_empty() && who_w + ui.text_size(&text, 13.0, false).x > max_w {
+                    crate::emoji::pop(&mut text);
+                    if ui.text_size(&text, 13.0, false).x + who_w <= max_w - 12.0 {
+                        text.push('…');
+                        break;
+                    }
+                }
+                let w = who_w + ui.text_size(&text, 13.0, false).x + 20.0;
+                let r = Rect::new(button.x, button.y - 34.0, w, 26.0);
+                let held = ui.hovering(r);
+                if held {
+                    // Read at leisure: it waits, fully shown.
+                    *age = age.clamp(0.2, PREVIEW_TIME - 0.6);
+                } else {
+                    *age += dt;
+                }
                 let alpha = (*age / 0.2).min(1.0) * ((PREVIEW_TIME - *age) / 0.6).clamp(0.0, 1.0);
+                if alpha > 0.05 {
+                    ui.block(r);
+                }
+                let c = line.from.as_ref().map_or(GOLD, |(n, _)| crate::ui::author_color(n));
+                // A bubble in the chat's colours (the author's own).
+                crate::ui::rrect(r, 13.0, Color::new(0.06, 0.045, 0.035, 0.9 * alpha));
+                crate::ui::rrect_lines(
+                    r,
+                    13.0,
+                    1.0,
+                    if held {
+                        Color::new(GOLD.r, GOLD.g, GOLD.b, alpha)
+                    } else {
+                        Color::new(BORDER.r, BORDER.g, BORDER.b, 0.8 * alpha)
+                    },
+                );
+                ui.text(&who, r.x + 10.0, r.y + 6.0, 13.0, Color::new(c.r, c.g, c.b, alpha), true);
+                ui.text(
+                    &text,
+                    r.x + 10.0 + who_w,
+                    r.y + 6.0,
+                    13.0,
+                    Color::new(CREAM.r, CREAM.g, CREAM.b, alpha),
+                    false,
+                );
+                open_chat = held && ui.released_in(r);
                 if *age > PREVIEW_TIME {
                     o.preview = None;
-                } else {
-                    let who = line.from.as_ref().map(|(n, _)| format!("{n}: ")).unwrap_or_default();
-                    let mut text = line.text.clone();
-                    let max_w = 300.0;
-                    let who_w = ui.text_size(&who, 13.0, true).x;
-                    while !text.is_empty() && who_w + ui.text_size(&text, 13.0, false).x > max_w {
-                        crate::emoji::pop(&mut text);
-                        if ui.text_size(&text, 13.0, false).x + who_w <= max_w - 12.0 {
-                            text.push('…');
-                            break;
-                        }
-                    }
-                    let w = who_w + ui.text_size(&text, 13.0, false).x + 20.0;
-                    let r = Rect::new(button.x, button.y - 32.0, w, 26.0);
-                    // A bubble in the chat's colours (the author's own).
-                    crate::ui::rrect(r, 13.0, Color::new(0.06, 0.045, 0.035, 0.88 * alpha));
-                    crate::ui::rrect_lines(
-                        r,
-                        13.0,
-                        1.0,
-                        Color::new(BORDER.r, BORDER.g, BORDER.b, 0.8 * alpha),
-                    );
-                    let c = line.from.as_ref().map_or(GOLD, |(n, _)| crate::ui::author_color(n));
-                    ui.text(
-                        &who,
-                        r.x + 10.0,
-                        r.y + 6.0,
-                        13.0,
-                        Color::new(c.r, c.g, c.b, alpha),
-                        true,
-                    );
-                    ui.text(
-                        &text,
-                        r.x + 10.0 + who_w,
-                        r.y + 6.0,
-                        13.0,
-                        Color::new(CREAM.r, CREAM.g, CREAM.b, alpha),
-                        false,
-                    );
                 }
+            }
+            if open_chat {
+                self.chat_open = true;
             }
             let rb = Rect::new(button.x + button.w + 6.0, button.y, 32.0, 32.0);
             self.reaction_button(ui, m, rb, true);
@@ -1947,7 +1994,7 @@ fn draw_video_bar(ui: &mut Ui, m: &mut Match) {
     ui.text(&count, r.x + r.w - cw - 12.0, r.y + 18.0, 13.0, CREAM, true);
 }
 
-const PREVIEW_TIME: f32 = 5.0;
+const PREVIEW_TIME: f32 = 8.0;
 /// Height of the numbers panel under the game-over panel (and the gap).
 const STATS_H: f32 = 196.0;
 

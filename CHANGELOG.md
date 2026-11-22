@@ -22,6 +22,10 @@
   beside it. The lounge has the emoji tray and shows your lines at once
   too, and a single line in its field sits in the middle. "Newer
   messages" is a pill that brings them back with a click.
+- **The closed chat at the table** is a bubble button as small as the
+  tools beside it, the number of new lines on a gold badge at its corner
+  ("9+" past nine). The newest line shows above it for 8 seconds, stays
+  while the pointer is on it, and a click on it opens the chat.
 - **The chat at the table answers at once**: a line shows the moment it is
   sent (dimmed until the server passes it on), not after the round trip to
   the server; a line the server refuses (too fast, repeated, muted) leaves

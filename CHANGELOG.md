@@ -1,6 +1,10 @@
 # Changelog
 
-## Unreleased
+## 0.9.1 (protocol 24)
+
+The chats redone, a cleaner table top and profile, smoother watching, and
+signing out to switch accounts. The protocol is unchanged: 0.9.0 and 0.9.1
+play together; the server has the lounge's TV fix.
 
 - **Signing out, to switch accounts**: on your own profile, the account
   (the gear) has "Sign out" by Close, as a quiet link; the sign-in form

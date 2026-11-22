@@ -2,6 +2,20 @@
 # "## <wersja>" zaczyna wersję (najnowsze najpierw), "### <tytuł>" nowość,
 # a kolejne wiersze to jej tekst. Każdy język ma te same wersje i tyle samo nowości.
 
+## 0.9.1
+
+### Czaty od nowa
+Czaty przy stole i w lobby mają nowy wygląd: każdy gracz we własnym kolorze, panel emoji i pole, które rośnie przy dłuższych wiadomościach. To, co wysyłasz, pojawia się od razu. Przy stole czat jest przezroczysty, gdy nikt z niego nie korzysta, a zamknięty pokazuje na przycisku, ile wiadomości cię ominęło.
+
+### Czystszy stół i profil
+Górna część stołu zajmuje mniej miejsca i pokazuje zasady z liczbą graczy online, którzy według nich grają. Profil jest bardziej uporządkowany: akcje to ikony z podpowiedziami, wykres rankingu jest czytelniejszy, a medale osiągnięć narysowano od nowa.
+
+### Oglądanie bez zacięć
+Podczas oglądania szansa uderzenia już nie miga, a reakcje znów działają. Telewizor w lobby zmienia się, gdy tylko partia się skończy, więc nie proponuje już partii, z której właśnie wyszedłeś.
+
+### Zmiana konta
+Aby zalogować się na inne konto, otwórz swój profil, kliknij zębatkę i wybierz „Wyloguj się”.
+
 ## 0.9.0
 
 ### Snook Legend mówi w twoim języku

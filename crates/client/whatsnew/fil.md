@@ -2,6 +2,20 @@
 # "## <bersiyon>" ang simula ng isang bersiyon (pinakabago muna), "### <pamagat>"
 # ng isang highlight, at ang mga linya pagkatapos nito ang teksto nito.
 
+## 0.9.1
+
+### Bagong chat
+Bagong hitsura ang chat sa mesa at sa lounge: may sariling kulay ang bawat player, may emoji tray, at lumalaki ang field para sa mahahabang mensahe. Agad lumalabas ang ipinadala mo. Sa mesa, see-through ang chat habang walang gumagamit nito, at kapag nakasara, ipinapakita ng button nito kung ilang mensahe ang na-miss mo.
+
+### Mas malinis na mesa at profile
+Mas maliit na ang espasyong kinukuha ng itaas ng mesa, at ipinapakita nito ang patakaran kasama kung ilang player ang online dito. Mas maayos ang profile: icon na may hint ang mga aksyon, mas malinaw ang rating chart, at bagong drawing ang mga medalya ng achievement.
+
+### Panonood nang walang sabit
+Habang nanonood ng laro, hindi na kumikislap ang tsansa ng tira at gumagana na ulit ang mga reaksyon. Nagbabago agad ang TV ng lounge pagkatapos ng laro, kaya hindi na nito inaalok ang larong kaaalis mo lang.
+
+### Pagpapalit ng account
+Para mag-sign in sa ibang account, buksan ang iyong profile, i-click ang gear at piliin ang "Mag-sign out".
+
 ## 0.9.0
 
 ### Nagsasalita na ang Snook Legend ng wika mo

@@ -57,17 +57,16 @@ Em 27 idiomas, entre eles português, inglês, espanhol, francês, alemão, ital
 
 ### Novidades desta versão
 
-Versão 0.9.0: o jogo em 27 idiomas.
+Versão 0.9.1: chats renovados, mesa e perfil mais limpos.
+• Chats da mesa e do salão de cara nova: cada jogador com sua cor, emojis, e um campo que cresce para mensagens longas.
+• Na mesa, o chat fica transparente enquanto ninguém o usa; fechado, mostra quantas mensagens você perdeu.
+• Parte de cima da mesa mais compacta, com a regra e quantos jogadores estão online nela.
+• Perfil mais organizado: ações em ícones, gráfico de rating mais claro e medalhas redesenhadas.
+• Assistir partidas sem engasgos, e trocar de conta pelo perfil (engrenagem → Sair da conta).
+
+Da versão 0.9.0: o jogo em 27 idiomas.
 • Agora em português (do Brasil e de Portugal), inglês, espanhol, francês, alemão, italiano, holandês, sueco, polonês, tcheco, húngaro, romeno, grego, russo, ucraniano, turco, indonésio, filipino, vietnamita, tailandês, hindi, bengali, árabe, chinês, japonês e coreano.
 • Tudo traduzido: as telas, as regras, as novidades e os nomes dos países.
-• O jogo abre no idioma do seu sistema; troque em Configurações → Jogo.
-
-Da versão 0.8.3: o que você ganha aparece, um jogo por vez e caçapas mais limpas.
-• Um item que vem com uma conquista, como ao subir de nível, chega com uma janela de "Parabéns!" e pode ser usado na hora.
-• Abrir o jogo com ele já aberto traz a janela dele para a frente em vez de abrir um segundo.
-• Regra brasileira: na saída repassada com as bolas já espalhadas, acertar a 8 primeiro é falta e encaçapá-la perde; só na saída do triângulo a 8 sozinha vence.
-• Caçapas sem rebarbas, o zoom mantido ao passar da visão de cima para o 3D, e muitos bugs corrigidos.
-
 
 ### Recursos do produto
 
@@ -136,16 +135,16 @@ In 27 languages, including English, Portuguese, Spanish, French, German, Italian
 
 ### What's new in this version
 
-Version 0.9.0: the game in 27 languages.
+Version 0.9.1: the chats redone, a cleaner table and profile.
+• The chats at the table and in the lounge have a new look: each player in their own colour, emoji, and a field that grows for long messages.
+• At the table the chat is see-through while nobody uses it; closed, it shows how many messages you missed.
+• A more compact top of the table, with the rules and how many players are online on them.
+• A tidier profile: actions as icons, a clearer rating chart and redrawn medals.
+• Smoother watching, and switching accounts from the profile (gear → Sign out).
+
+From version 0.9.0: the game in 27 languages.
 • Now in English, Portuguese (Brazil and Portugal), Spanish, French, German, Italian, Dutch, Swedish, Polish, Czech, Hungarian, Romanian, Greek, Russian, Ukrainian, Turkish, Indonesian, Filipino, Vietnamese, Thai, Hindi, Bengali, Arabic, Chinese, Japanese and Korean.
 • Everything translated: the screens, the rules, what's new and the countries' names.
-• The game opens in your system's language; change it in Settings → Game.
-
-From version 0.8.3: what you earn is shown, one game at a time, and cleaner pockets.
-• An item that comes with an achievement, such as a level reached, arrives with a "Congratulations!" window and can be used at once.
-• Starting the game while it is already open brings its window to the front instead of opening a second one.
-• Brazilian rule: on a break handed over with the balls already scattered, hitting the 8 first is a foul and pocketing it loses; only the break of the rack has the 8 alone winning.
-• Pockets without rough edges, the zoom kept from the overhead view into 3D, and many bugs fixed.
 
 ### Product features
 
@@ -214,16 +213,16 @@ En 27 idiomas, entre ellos español, inglés, portugués, francés, alemán, ita
 
 ### Novedades de esta versión
 
-Versión 0.9.0: el juego en 27 idiomas.
+Versión 0.9.1: chats renovados, mesa y perfil más limpios.
+• Los chats de la mesa y del salón tienen un nuevo aspecto: cada jugador con su color, emojis y un campo que crece con los mensajes largos.
+• En la mesa, el chat se ve transparente mientras nadie lo usa; cerrado, muestra cuántos mensajes te perdiste.
+• Parte superior de la mesa más compacta, con la regla y cuántos jugadores hay en línea con ella.
+• Perfil más ordenado: acciones en iconos, gráfico de rating más claro y medallas rediseñadas.
+• Ver partidas sin tropiezos, y cambiar de cuenta desde el perfil (engranaje → Cerrar sesión).
+
+De la versión 0.9.0: el juego en 27 idiomas.
 • Ahora en español, inglés, portugués (de Brasil y de Portugal), francés, alemán, italiano, neerlandés, sueco, polaco, checo, húngaro, rumano, griego, ruso, ucraniano, turco, indonesio, filipino, vietnamita, tailandés, hindi, bengalí, árabe, chino, japonés y coreano.
 • Todo traducido: las pantallas, las reglas, las novedades y los nombres de los países.
-• El juego se abre en el idioma de tu sistema; cámbialo en Ajustes → Juego.
-
-De la versión 0.8.3: lo que ganas se muestra, un juego a la vez y troneras más limpias.
-• Un artículo que viene con un logro, como al subir de nivel, llega con una ventana de "¡Felicidades!" y puede usarse al momento.
-• Abrir el juego cuando ya está abierto trae su ventana al frente en vez de abrir un segundo.
-• Regla brasileña: en el saque traspasado con las bolas ya repartidas, tocar primero la 8 es falta y embocarla pierde; solo en el saque del triángulo la 8 sola gana.
-• Troneras sin rebabas, el zoom mantenido al pasar de la vista superior al 3D, y muchos errores corregidos.
 
 ### Características del producto
 

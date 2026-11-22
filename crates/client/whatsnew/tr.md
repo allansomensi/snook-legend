@@ -3,6 +3,20 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.9.1
+
+### Yenilenen sohbetler
+Masadaki ve lobideki sohbetlerin görünümü yenilendi: her oyuncu kendi renginde, bir emoji paneli ve uzun mesajlarda büyüyen bir yazı alanı. Gönderdiğin şey anında görünür. Masada sohbet, kimse kullanmazken saydam kalır; kapalıyken düğmesi kaç mesajı kaçırdığını gösterir.
+
+### Daha sade masa ve profil
+Masanın üst kısmı daha az yer kaplar ve kuralları, o kurallarla çevrimiçi kaç oyuncu olduğuyla birlikte gösterir. Profil daha düzenli: eylemler ipuçlu simgeler, puan grafiği daha anlaşılır ve başarım madalyaları yeniden çizildi.
+
+### Takılmadan izleme
+Bir maçı izlerken vuruşun şansı artık yanıp sönmüyor ve tepkiler yeniden çalışıyor. Lobideki TV bir maç biter bitmez değişir; böylece az önce çıktığın maçı artık önermez.
+
+### Hesap değiştirme
+Başka bir hesapla girmek için profilini aç, dişli simgesine tıkla ve "Çıkış yap" seçeneğini seç.
+
 ## 0.9.0
 
 ### Snook Legend senin dilini konuşuyor

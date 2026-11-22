@@ -3,6 +3,20 @@
 # destaque, e as linhas seguintes são o texto dele. Curto e sobre o que os
 # jogadores veem; todas as línguas têm as mesmas versões e o mesmo número de destaques.
 
+## 0.9.1
+
+### Chats renovados
+Os chats da mesa e do salão têm um novo aspeto: cada jogador com a sua cor, um painel de emojis e um campo que cresce para mensagens longas. O que envia aparece de imediato. Na mesa, o chat fica transparente enquanto ninguém o usa e, fechado, o botão mostra quantas mensagens perdeu.
+
+### Mesa e perfil mais limpos
+A parte de cima da mesa ocupa menos espaço e mostra a regra com quantos jogadores estão online nela. O perfil está mais arrumado: as ações são ícones com dicas, o gráfico de rating está mais claro e as medalhas das conquistas foram redesenhadas.
+
+### Ver jogos sem soluços
+Ao ver uma partida, a probabilidade da tacada já não pisca e as reações voltaram a funcionar. A TV do salão muda mal a partida acaba, e já não sugere a partida de onde acabou de sair.
+
+### Mudar de conta
+Para entrar com outra conta, abra o seu perfil, clique na roda dentada e escolha “Terminar sessão”.
+
 ## 0.9.0
 
 ### O Snook Legend fala a tua língua

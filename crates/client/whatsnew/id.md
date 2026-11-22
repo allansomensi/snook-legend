@@ -3,6 +3,20 @@
 # dan baris sesudahnya adalah teksnya. Singkat dan tentang apa yang dilihat
 # pemain; setiap bahasa punya versi yang sama dan jumlah sorotan yang sama.
 
+## 0.9.1
+
+### Chat yang diperbarui
+Chat di meja dan di lobi tampil baru: setiap pemain dengan warnanya sendiri, panel emoji, dan kolom yang membesar untuk pesan panjang. Pesan yang kamu kirim langsung muncul. Di meja, chat tetap transparan selama tidak dipakai, dan saat ditutup, tombolnya menunjukkan berapa pesan yang kamu lewatkan.
+
+### Meja dan profil lebih rapi
+Bagian atas meja kini lebih ringkas dan menampilkan aturan beserta jumlah pemain yang sedang online dengan aturan itu. Profil lebih tertata: aksinya berupa ikon dengan petunjuk, grafik rating lebih jelas, dan medali pencapaian digambar ulang.
+
+### Menonton tanpa tersendat
+Saat menonton pertandingan, peluang pukulan tidak lagi berkedip dan reaksi kembali berfungsi. TV di lobi berganti begitu pertandingan selesai, jadi tidak lagi menawarkan pertandingan yang baru saja kamu tinggalkan.
+
+### Ganti akun
+Untuk masuk dengan akun lain, buka profilmu, klik ikon roda gigi, lalu pilih "Keluar".
+
 ## 0.9.0
 
 ### Snook Legend bicara dalam bahasamu

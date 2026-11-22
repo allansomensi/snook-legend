@@ -3,6 +3,20 @@
 # en de regels erna zijn de tekst ervan. Elke taal heeft dezelfde versies en
 # hetzelfde aantal hoogtepunten.
 
+## 0.9.1
+
+### Chats in een nieuw jasje
+De chats aan tafel en in de lounge zien er nieuw uit: elke speler in een eigen kleur, een emojivak en een veld dat meegroeit met lange berichten. Wat je verstuurt, verschijnt meteen. Aan tafel blijft de chat doorzichtig zolang niemand hem gebruikt, en gesloten toont de knop hoeveel berichten je hebt gemist.
+
+### Een rustiger tafel en profiel
+De bovenkant van de tafel neemt minder ruimte in en toont de regels met hoeveel spelers er online mee spelen. Het profiel is overzichtelijker: acties zijn pictogrammen met tips, de ratinggrafiek is duidelijker en de medailles van prestaties zijn opnieuw getekend.
+
+### Kijken zonder haperingen
+Tijdens het kijken knippert de kans van de stoot niet meer en kun je weer reacties sturen. De tv in de lounge wisselt zodra een partij eindigt, dus hij biedt niet meer de partij aan die je net hebt verlaten.
+
+### Van account wisselen
+Om met een ander account in te loggen, open je je profiel, klik je op het tandwiel en kies je ‘Uitloggen’.
+
 ## 0.9.0
 
 ### Snook Legend spreekt jouw taal

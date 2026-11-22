@@ -3,6 +3,20 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.9.1
+
+### Chats, redone
+The chats at the table and in the lounge have a new look: each player in a colour of their own, an emoji tray, and a field that grows for longer messages. What you send shows at once. At the table the chat stays see-through while nobody uses it, and when closed its button shows how many messages you missed.
+
+### A cleaner table and profile
+The top of the table takes less room and shows the rules with how many players are online on them. The profile is tidier: its actions are icons with hints, the rating chart is clearer and the achievement medals are drawn anew.
+
+### Watching without hiccups
+While watching a game, the shot's chance no longer blinks and reactions can be sent again. The lounge's TV changes the moment a game ends, so it no longer offers the game you just left.
+
+### Switching accounts
+To sign in with another account, open your profile, click the gear and choose "Sign out".
+
 ## 0.9.0
 
 ### Snook Legend speaks your language

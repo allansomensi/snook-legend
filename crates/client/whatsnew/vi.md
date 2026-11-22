@@ -2,6 +2,20 @@
 # "## <phiên bản>" mở đầu một phiên bản (mới nhất trước), "### <tiêu đề>" là một điểm nổi bật,
 # và các dòng sau đó là nội dung. Mọi ngôn ngữ có cùng các phiên bản và cùng số điểm nổi bật.
 
+## 0.9.1
+
+### Trò chuyện được làm mới
+Khung trò chuyện ở bàn và ở sảnh có giao diện mới: mỗi người chơi một màu riêng, bảng emoji và ô nhập tự nới rộng cho tin nhắn dài. Tin bạn gửi hiện ra ngay. Ở bàn, khung trò chuyện trong suốt khi không ai dùng, và khi đóng, nút của nó cho biết bạn đã bỏ lỡ bao nhiêu tin nhắn.
+
+### Bàn và hồ sơ gọn gàng hơn
+Phần trên của bàn chiếm ít chỗ hơn và hiển thị luật chơi cùng số người chơi đang trực tuyến với luật đó. Hồ sơ ngăn nắp hơn: các thao tác là biểu tượng có gợi ý, biểu đồ điểm rõ ràng hơn và huy chương thành tích được vẽ lại.
+
+### Xem trận mượt mà
+Khi xem một trận, cơ hội của cú đánh không còn nhấp nháy và biểu cảm lại gửi được. TV ở sảnh đổi ngay khi một trận kết thúc, nên không còn gợi ý trận bạn vừa rời.
+
+### Đổi tài khoản
+Để đăng nhập bằng tài khoản khác, hãy mở hồ sơ của bạn, nhấn vào bánh răng và chọn "Đăng xuất".
+
 ## 0.9.0
 
 ### Snook Legend nói ngôn ngữ của bạn

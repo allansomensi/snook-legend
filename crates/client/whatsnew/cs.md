@@ -3,6 +3,20 @@
 # a řádky za ním jsou její text. Krátce a o tom, co hráči vidí; všechny
 # jazyky mají stejné verze a stejný počet novinek.
 
+## 0.9.1
+
+### Chaty v novém
+Chaty u stolu i v herně mají nový vzhled: každý hráč ve své barvě, panel s emoji a pole, které se u delších zpráv zvětší. Co pošleš, se hned zobrazí. U stolu zůstává chat průhledný, dokud ho nikdo nepoužívá, a zavřený ukazuje na tlačítku, kolik zpráv ti uniklo.
+
+### Čistší stůl a profil
+Horní část stolu zabírá méně místa a ukazuje pravidla s počtem hráčů, kteří podle nich právě hrají online. Profil je přehlednější: akce jsou ikony s nápovědou, graf ratingu je jasnější a medaile úspěchů jsou nakreslené znovu.
+
+### Sledování bez zadrhávání
+Při sledování hry už šance šťouchu nebliká a reakce zase fungují. Televize v herně se přepne, jakmile hra skončí, takže už nenabízí hru, kterou jsi právě opustil.
+
+### Změna účtu
+Pro přihlášení k jinému účtu otevři svůj profil, klikni na ozubené kolečko a zvol „Odhlásit se“.
+
 ## 0.9.0
 
 ### Snook Legend mluví tvým jazykem

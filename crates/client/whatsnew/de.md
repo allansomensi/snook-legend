@@ -3,6 +3,20 @@
 # Highlight, und die Zeilen danach sind sein Text. Jede Sprache hat dieselben
 # Versionen und dieselbe Anzahl an Highlights.
 
+## 0.9.1
+
+### Die Chats, neu gestaltet
+Die Chats am Tisch und in der Lounge sehen neu aus: jeder Spieler in einer eigenen Farbe, eine Emoji-Leiste und ein Feld, das bei langen Nachrichten mitwächst. Was du sendest, erscheint sofort. Am Tisch bleibt der Chat durchsichtig, solange ihn niemand nutzt, und geschlossen zeigt sein Knopf, wie viele Nachrichten du verpasst hast.
+
+### Aufgeräumter Tisch, aufgeräumtes Profil
+Der obere Rand des Tisches braucht weniger Platz und zeigt die Regel samt der Zahl der Spieler, die gerade nach ihr online sind. Das Profil ist übersichtlicher: Seine Aktionen sind Symbole mit Hinweisen, das Wertungsdiagramm ist klarer, und die Medaillen der Erfolge sind neu gezeichnet.
+
+### Zuschauen ohne Ruckeln
+Beim Zuschauen blinkt die Chance des Stoßes nicht mehr, und Reaktionen lassen sich wieder senden. Der Fernseher der Lounge wechselt, sobald eine Partie endet, und bietet nicht mehr die Partie an, die du gerade verlassen hast.
+
+### Konto wechseln
+Um dich mit einem anderen Konto anzumelden, öffne dein Profil, klicke auf das Zahnrad und wähle „Abmelden“.
+
 ## 0.9.0
 
 ### Snook Legend spricht deine Sprache

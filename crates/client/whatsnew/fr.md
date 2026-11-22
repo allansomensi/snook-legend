@@ -4,6 +4,20 @@
 # parlez de ce que voient les joueurs ; chaque langue a les mêmes versions et
 # le même nombre de points forts.
 
+## 0.9.1
+
+### Les chats, repensés
+Les chats de la table et du salon font peau neuve : chaque joueur dans sa propre couleur, un panneau d'emojis et un champ qui s'agrandit pour les longs messages. Ce que vous envoyez s'affiche aussitôt. À la table, le chat reste transparent tant que personne ne s'en sert et, fermé, son bouton indique combien de messages vous avez manqués.
+
+### Une table et un profil plus nets
+Le haut de la table prend moins de place et affiche la règle avec le nombre de joueurs en ligne qui la suivent. Le profil est plus clair : ses actions sont des icônes avec infobulles, le graphique de classement est plus lisible et les médailles des succès ont été redessinées.
+
+### Regarder sans accroc
+En regardant une partie, la chance du coup ne clignote plus et les réactions fonctionnent à nouveau. La télé du salon change dès qu'une partie se termine : elle ne propose plus la partie que vous venez de quitter.
+
+### Changer de compte
+Pour vous connecter avec un autre compte, ouvrez votre profil, cliquez sur l'engrenage et choisissez « Se déconnecter ».
+
 ## 0.9.0
 
 ### Snook Legend parle votre langue

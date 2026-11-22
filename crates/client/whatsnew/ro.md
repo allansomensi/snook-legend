@@ -2,6 +2,20 @@
 # "## <versiune>" începe o versiune (cea mai nouă prima), "### <titlu>" o noutate,
 # iar rândurile de după sunt textul ei.
 
+## 0.9.1
+
+### Chaturi refăcute
+Chaturile de la masă și din salon au un aspect nou: fiecare jucător în culoarea sa, un panou de emoji și un câmp care crește pentru mesajele lungi. Ce trimiți apare imediat. La masă, chatul rămâne transparent cât timp nu îl folosește nimeni, iar închis, butonul său arată câte mesaje ai pierdut.
+
+### Masă și profil mai curate
+Partea de sus a mesei ocupă mai puțin loc și arată regula, cu câți jucători sunt online pe ea. Profilul e mai ordonat: acțiunile sunt pictograme cu indicii, graficul de rating e mai clar, iar medaliile realizărilor au fost redesenate.
+
+### Urmărire fără sacadări
+Când urmărești o partidă, șansa loviturii nu mai clipește, iar reacțiile funcționează din nou. Televizorul din salon se schimbă imediat ce se termină o partidă, așa că nu mai oferă partida pe care tocmai ai părăsit-o.
+
+### Schimbarea contului
+Ca să intri cu alt cont, deschide-ți profilul, apasă pe rotiță și alege „Deconectare”.
+
 ## 0.9.0
 
 ### Snook Legend vorbește limba ta

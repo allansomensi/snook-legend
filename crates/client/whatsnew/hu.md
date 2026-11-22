@@ -2,6 +2,20 @@
 # A "## <verzió>" egy verziót kezd (a legújabb elöl), a "### <cím>" egy
 # kiemelést, az utána következő sorok pedig a szövegét.
 
+## 0.9.1
+
+### Megújult csevegés
+Az asztali és a társalgóbeli csevegés új külsőt kapott: minden játékos saját színnel, emojitálca és hosszabb üzeneteknél növekvő beviteli mező. Amit elküldesz, azonnal megjelenik. Az asztalnál a csevegés áttetsző, amíg senki sem használja, bezárva pedig a gombja mutatja, hány üzenetről maradtál le.
+
+### Letisztultabb asztal és profil
+Az asztal felső része kevesebb helyet foglal, és mutatja a szabályt, valamint hogy hányan játszanak vele éppen online. A profil rendezettebb: a műveletek ikonok tippekkel, az értékszám-grafikon áttekinthetőbb, a teljesítmények érmeit pedig újrarajzoltuk.
+
+### Nézés akadozás nélkül
+Egy játszma nézése közben a lökés esélye már nem villog, és a reakciók ismét működnek. A társalgó tévéje azonnal vált, amint egy játszma véget ér, így már nem kínálja fel azt, amelyikből épp kiléptél.
+
+### Fiókváltás
+Ha másik fiókkal szeretnél belépni, nyisd meg a profilodat, kattints a fogaskerékre, és válaszd a „Kijelentkezés” lehetőséget.
+
 ## 0.9.0
 
 ### A Snook Legend a te nyelveden beszél

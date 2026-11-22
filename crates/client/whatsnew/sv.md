@@ -3,6 +3,20 @@
 # och raderna efter den är dess text. Håll det kort och om det spelarna
 # ser; alla språk har samma versioner och samma antal nyheter.
 
+## 0.9.1
+
+### Chattarna i ny form
+Chattarna vid bordet och i loungen har fått ett nytt utseende: varje spelare i sin egen färg, en emojipanel och ett fält som växer med långa meddelanden. Det du skickar syns direkt. Vid bordet är chatten genomskinlig när ingen använder den, och stängd visar knappen hur många meddelanden du har missat.
+
+### Renare bord och profil
+Bordets överkant tar mindre plats och visar reglerna med hur många spelare som är online med dem. Profilen är snyggare: åtgärderna är ikoner med tips, ratingdiagrammet är tydligare och prestationernas medaljer är omritade.
+
+### Titta utan hack
+När du tittar på ett parti blinkar stötens chans inte längre och reaktioner går att skicka igen. Loungens tv byter så fort ett parti tar slut, så den erbjuder inte längre partiet du nyss lämnade.
+
+### Byta konto
+För att logga in med ett annat konto: öppna din profil, klicka på kugghjulet och välj ”Logga ut”.
+
 ## 0.9.0
 
 ### Snook Legend talar ditt språk

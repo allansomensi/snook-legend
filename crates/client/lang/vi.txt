@@ -1929,7 +1929,7 @@ Accounts, purchases and refunds, the rules of the online game.	Tài khoản, mua
 What the game keeps, and your rights.	Những gì game lưu giữ, và quyền của bạn.
 Open	Mở
 Credits	Ghi công
-Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Phông chữ: DejaVu và Noto (OFL). Cờ: flag-icons (MIT). Biểu cảm và emoji: Twemoji (CC-BY 4.0). Tên quốc gia: iso-codes (LGPL-2.1). Mã nguồn của game là mã mở (MIT).
+Fonts: Inter, DejaVu and Noto (OFL). Icons: Phosphor (MIT). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Phông chữ: Inter, DejaVu và Noto (OFL). Biểu tượng: Phosphor (MIT). Cờ: flag-icons (MIT). Biểu cảm và emoji: Twemoji (CC-BY 4.0). Tên quốc gia: iso-codes (LGPL-2.1). Mã nguồn của game là mã mở (MIT).
 The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	Chat bị tắt với người chơi dưới 18 tuổi. Cha mẹ hoặc người giám hộ có thể bật ở bên dưới khung chat của sảnh.
 No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	Cú phá bi không chạm bi nào: {next} phá bi, với bi cái tự do sau vạch đầu bàn.
 The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	Bi cái rơi lỗ khi phá bi mà không có bi nào vào: {next} phá bi, với bi cái tự do sau vạch đầu bàn.

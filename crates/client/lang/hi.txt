@@ -1929,7 +1929,7 @@ Accounts, purchases and refunds, the rules of the online game.	अकाउं�
 What the game keeps, and your rights.	गेम क्या सेव करता है, और आपके अधिकार।
 Open	खोलें
 Credits	क्रेडिट
-Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	फ़ॉन्ट: DejaVu और Noto (OFL)। झंडे: flag-icons (MIT)। रिएक्शन और इमोजी: Twemoji (CC-BY 4.0)। देशों के नाम: iso-codes (LGPL-2.1)। गेम का कोड ओपन है (MIT)।
+Fonts: Inter, DejaVu and Noto (OFL). Icons: Phosphor (MIT). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	फ़ॉन्ट: Inter, DejaVu और Noto (OFL)। आइकन: Phosphor (MIT)। झंडे: flag-icons (MIT)। रिएक्शन और इमोजी: Twemoji (CC-BY 4.0)। देशों के नाम: iso-codes (LGPL-2.1)। गेम का कोड ओपन है (MIT)।
 The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	18 साल से कम उम्र के खिलाड़ियों के लिए चैट बंद है। माता-पिता या अभिभावक इसे लाउंज की चैट के नीचे चालू कर सकते हैं।
 No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	ब्रेक पर कोई बॉल हिट नहीं हुई: {next} ब्रेक करेंगे, हेड स्ट्रिंग के पीछे बॉल इन हैंड के साथ।
 The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	ब्रेक पर कोई बॉल पॉट हुए बिना क्यू बॉल पॉकेट में चली गई: {next} ब्रेक करेंगे, हेड स्ट्रिंग के पीछे बॉल इन हैंड के साथ।

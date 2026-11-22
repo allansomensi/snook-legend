@@ -1929,7 +1929,7 @@ Accounts, purchases and refunds, the rules of the online game.	账号、购买�
 What the game keeps, and your rights.	游戏保存哪些数据，以及你的权利。
 Open	打开
 Credits	鸣谢
-Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	字体：DejaVu和Noto（OFL）。旗帜：flag-icons（MIT）。表情和emoji：Twemoji（CC-BY 4.0）。国家/地区名称：iso-codes（LGPL-2.1）。游戏代码开源（MIT）。
+Fonts: Inter, DejaVu and Noto (OFL). Icons: Phosphor (MIT). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	字体：Inter、DejaVu和Noto（OFL）。图标：Phosphor（MIT）。旗帜：flag-icons（MIT）。表情和emoji：Twemoji（CC-BY 4.0）。国家/地区名称：iso-codes（LGPL-2.1）。游戏代码开源（MIT）。
 The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	未满18岁玩家的聊天处于关闭状态。家长或监护人可在大厅聊天下方开启。
 No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	开球未击中任何球：由{next}开球，可在开球线后自由摆放母球。
 The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	开球时母球落袋且无球进袋：由{next}开球，可在开球线后自由摆放母球。

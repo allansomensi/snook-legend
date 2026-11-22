@@ -1929,7 +1929,7 @@ Accounts, purchases and refunds, the rules of the online game.	Fiókok, vásárl
 What the game keeps, and your rights.	Mit tárol a játék, és milyen jogaid vannak.
 Open	Megnyitás
 Credits	Közreműködők
-Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Betűtípusok: DejaVu és Noto (OFL). Zászlók: flag-icons (MIT). Reakciók és emojik: Twemoji (CC-BY 4.0). Országnevek: iso-codes (LGPL-2.1). A játék kódja nyílt (MIT).
+Fonts: Inter, DejaVu and Noto (OFL). Icons: Phosphor (MIT). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Betűtípusok: Inter, DejaVu és Noto (OFL). Ikonok: Phosphor (MIT). Zászlók: flag-icons (MIT). Reakciók és emojik: Twemoji (CC-BY 4.0). Országnevek: iso-codes (LGPL-2.1). A játék kódja nyílt (MIT).
 The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	A csevegés ki van kapcsolva a 18 év alatti játékosoknak. Egy szülő vagy gyám a társalgó csevegése alatt bekapcsolhatja.
 No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	A kezdőlökés nem talált el egy golyót sem: {next} végzi a kezdőlökést, golyó kézben a kezdővonal mögött.
 The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	A kezdőlökésnél beesett a fehér golyó, és egy golyó sem esett be: {next} végzi a kezdőlökést, golyó kézben a kezdővonal mögött.

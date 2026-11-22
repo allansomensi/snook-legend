@@ -1929,7 +1929,7 @@ Accounts, purchases and refunds, the rules of the online game.	Аккаунты,
 What the game keeps, and your rights.	Что хранит игра и ваши права.
 Open	Открыть
 Credits	Авторы
-Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Шрифты: DejaVu и Noto (OFL). Флаги: flag-icons (MIT). Реакции и эмодзи: Twemoji (CC-BY 4.0). Названия стран: iso-codes (LGPL-2.1). Код игры открыт (MIT).
+Fonts: Inter, DejaVu and Noto (OFL). Icons: Phosphor (MIT). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Шрифты: Inter, DejaVu и Noto (OFL). Значки: Phosphor (MIT). Флаги: flag-icons (MIT). Реакции и эмодзи: Twemoji (CC-BY 4.0). Названия стран: iso-codes (LGPL-2.1). Код игры открыт (MIT).
 The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	Чат выключен для игроков младше 18 лет. Родитель или опекун может включить его под чатом лобби.
 No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	На разбое биток не коснулся ни одного шара: разбивает {next}, биток с руки из дома.
 The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	На разбое в лузу упал только биток: разбивает {next}, биток с руки из дома.

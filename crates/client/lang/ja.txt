@@ -1929,7 +1929,7 @@ Accounts, purchases and refunds, the rules of the online game.	アカウント�
 What the game keeps, and your rights.	ゲームが保存する情報と、あなたの権利。
 Open	開く
 Credits	クレジット
-Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	フォント：DejaVu、Noto（OFL）。国旗：flag-icons（MIT）。リアクションと絵文字：Twemoji（CC-BY 4.0）。国名：iso-codes（LGPL-2.1）。ゲームのコードはオープンソースです（MIT）。
+Fonts: Inter, DejaVu and Noto (OFL). Icons: Phosphor (MIT). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	フォント：Inter、DejaVu、Noto（OFL）。アイコン：Phosphor（MIT）。国旗：flag-icons（MIT）。リアクションと絵文字：Twemoji（CC-BY 4.0）。国名：iso-codes（LGPL-2.1）。ゲームのコードはオープンソースです（MIT）。
 The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	18歳未満のプレイヤーはチャットがオフです。保護者がロビーチャットの下からオンにできます。
 No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	ブレイクでどの球にも当たりませんでした：{next}がヘッドストリングの後ろからフリーボールでブレイクします。
 The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	ブレイクで的球が入らずに手球が落ちました：{next}がヘッドストリングの後ろからフリーボールでブレイクします。

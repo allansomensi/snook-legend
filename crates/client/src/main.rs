@@ -64,6 +64,7 @@ mod settings;
 mod setup;
 mod shop;
 mod showroom;
+mod swatch;
 mod tables;
 mod tabrow;
 mod textures;

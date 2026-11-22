@@ -1929,7 +1929,7 @@ Accounts, purchases and refunds, the rules of the online game.	الحسابات�
 What the game keeps, and your rights.	ما تحتفظ به اللعبة، وحقوقك.
 Open	فتح
 Credits	الشكر والتقدير
-Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	الخطوط: DejaVu وNoto (OFL). الأعلام: flag-icons (MIT). التفاعلات والرموز التعبيرية: Twemoji (CC-BY 4.0). أسماء الدول: iso-codes (LGPL-2.1). شيفرة اللعبة مفتوحة المصدر (MIT).
+Fonts: Inter, DejaVu and Noto (OFL). Icons: Phosphor (MIT). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	الخطوط: Inter, DejaVu وNoto (OFL). الأيقونات: Phosphor (MIT). الأعلام: flag-icons (MIT). التفاعلات والرموز التعبيرية: Twemoji (CC-BY 4.0). أسماء الدول: iso-codes (LGPL-2.1). شيفرة اللعبة مفتوحة المصدر (MIT).
 The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	الدردشة متوقفة للاعبين دون 18 عاما. يمكن لولي الأمر تفعيلها أسفل دردشة الصالة.
 No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	لم تلمس الافتتاحية أي كرة: يفتتح {next}، والكرة البيضاء في يده خلف خط الرأس.
 The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	دخلت الكرة البيضاء في الافتتاحية دون إدخال أي كرة: يفتتح {next}، والكرة البيضاء في يده خلف خط الرأس.

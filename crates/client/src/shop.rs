@@ -253,40 +253,12 @@ fn draw_styled_name_preview(ui: &Ui, label: &str, c: Vec2, style: Option<([u8; 3
     }
 }
 
-/// A striped ball: ivory, with a band of `color` round its middle.
-fn striped_ball(c: Vec2, rad: f32, color: Color, ivory: Color) {
-    draw_circle(c.x, c.y, rad, ivory);
-    // The band is the part of the disc within ±55% of the radius of its
-    // middle, built from thin slices that follow the edge.
-    let half = rad * 0.55;
-    let steps = 8;
-    let at = |k: usize| {
-        let y = -half + 2.0 * half * k as f32 / steps as f32;
-        (y, (rad * rad - y * y).max(0.0).sqrt())
-    };
-    for k in 0..steps {
-        let ((y0, w0), (y1, w1)) = (at(k), at(k + 1));
-        let (a, b) = (vec2(c.x - w0, c.y + y0), vec2(c.x + w0, c.y + y0));
-        let (d, e) = (vec2(c.x - w1, c.y + y1), vec2(c.x + w1, c.y + y1));
-        crate::paint::draw_triangle(a, b, e, color);
-        crate::paint::draw_triangle(a, e, d, color);
-    }
-}
-
 /// A small picture of an item.
 pub fn preview(ui: &Ui, item: &Item, r: Rect) {
     let c = vec2(r.x + r.w / 2.0, r.y + r.h / 2.0);
     match item.look {
-        Look::Cloth(col) => {
-            // A corner of a table: rail, cushion and cloth.
-            rrect(r, 8.0, Color::new(0.20, 0.09, 0.05, 1.0));
-            let cloth = Rect::new(r.x + 10.0, r.y + 10.0, r.w - 20.0, r.h - 20.0);
-            rrect(cloth, 5.0, rgb(col));
-            let shade = Color::new(0.0, 0.0, 0.0, 0.18);
-            draw_rectangle(cloth.x, cloth.y, cloth.w, 6.0, shade);
-            draw_circle(c.x + cloth.w * 0.18, c.y + 4.0, 9.0, Color::new(0.96, 0.95, 0.9, 1.0));
-            draw_circle(c.x - cloth.w * 0.2, c.y - 6.0, 9.0, Color::new(0.85, 0.12, 0.1, 1.0));
-        }
+        // A corner of a table in this cloth, under the lamp.
+        Look::Cloth(col) => crate::swatch::cloth(r, col),
         Look::Cue { .. } => {
             // The cue, drawn once into a picture (crisp patterns, a
             // varnished cylinder's light): the whole cue, or its butt half
@@ -319,27 +291,27 @@ pub fn preview(ui: &Ui, item: &Item, r: Rect) {
             draw_circle(c.x, c.y - s / 2.0 + 4.0, s * 0.22, Color::new(0.0, 0.0, 0.0, 0.25));
         }
         Look::Balls { colors, eight, ivory, .. } => {
-            // A rack of fifteen, apex up: solids, stripes and the 8 in the
-            // middle of the third row.
+            // A rack of fifteen on the classic cloth, apex up: solids,
+            // stripes and the 8 in the middle of the third row.
+            let felt = crate::swatch::table_corner(r, [24, 96, 48]);
+            let c = vec2(felt.x + felt.w / 2.0, felt.y + felt.h / 2.0);
             const RACK: [&[usize]; 5] =
                 [&[1], &[9, 2], &[10, 8, 3], &[11, 4, 12, 5], &[13, 6, 14, 7, 15]];
-            let rad = (r.w / 11.5).min(r.h / 10.0);
+            let rad = (felt.w / 11.5).min(felt.h / 10.4);
             let (dx, dy) = (rad * 2.04, rad * 1.77);
+            let ivory = rgb(ivory);
             for (i, row) in RACK.iter().enumerate() {
                 for (j, &n) in row.iter().enumerate() {
                     let at = vec2(
                         c.x + (j as f32 - (row.len() - 1) as f32 / 2.0) * dx,
                         c.y + (i as f32 - 2.0) * dy,
                     );
-                    match n {
-                        8 => draw_circle(at.x, at.y, rad, rgb(eight)),
-                        1..=7 => draw_circle(at.x, at.y, rad, rgb(colors[n - 1])),
-                        _ => striped_ball(at, rad, rgb(colors[n - 9]), rgb(ivory)),
-                    }
-                    draw_circle(at.x, at.y, rad * 0.42, rgb(ivory));
-                    // A touch of shine.
-                    let shine = Color::new(1.0, 1.0, 1.0, 0.35);
-                    draw_circle(at.x - rad * 0.4, at.y - rad * 0.45, rad * 0.2, shine);
+                    let (base, stripe) = match n {
+                        8 => (rgb(eight), None),
+                        1..=7 => (rgb(colors[n - 1]), None),
+                        _ => (ivory, Some(rgb(colors[n - 9]))),
+                    };
+                    crate::swatch::ball(at, rad, base, stripe, ivory, true);
                 }
             }
         }
@@ -730,7 +702,12 @@ impl ShopScreen {
             // (the items' buttons lead there too).
             let banner = Rect::new(body.x, body.y, body.w, 46.0);
             rrect(banner, crate::ui::BUTTON_RADIUS, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.08));
-            rrect_lines(banner, crate::ui::BUTTON_RADIUS, 1.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.25));
+            rrect_lines(
+                banner,
+                crate::ui::BUTTON_RADIUS,
+                1.0,
+                Color::new(GOLD.r, GOLD.g, GOLD.b, 0.25),
+            );
             crate::icons::draw(Icon::Person, vec2(banner.x + 22.0, banner.y + 23.0), 18.0, GOLD);
             let label = t("Sign in");
             let bw = ui.text_size(label, 14.0, true).x + 36.0;

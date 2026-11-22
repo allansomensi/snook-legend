@@ -1929,7 +1929,7 @@ Accounts, purchases and refunds, the rules of the online game.	Conturi, achiziț
 What the game keeps, and your rights.	Ce păstrează jocul și drepturile tale.
 Open	Deschide
 Credits	Credite
-Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Fonturi: DejaVu și Noto (OFL). Steaguri: flag-icons (MIT). Reacții și emoji: Twemoji (CC-BY 4.0). Numele țărilor: iso-codes (LGPL-2.1). Codul jocului este deschis (MIT).
+Fonts: Inter, DejaVu and Noto (OFL). Icons: Phosphor (MIT). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Fonturi: Inter, DejaVu și Noto (OFL). Pictograme: Phosphor (MIT). Steaguri: flag-icons (MIT). Reacții și emoji: Twemoji (CC-BY 4.0). Numele țărilor: iso-codes (LGPL-2.1). Codul jocului este deschis (MIT).
 The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	Chatul e dezactivat pentru jucătorii sub 18 ani. Un părinte sau tutore îl poate activa sub chatul salonului.
 No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	Spargerea nu a atins nicio bilă: sparge {next}, cu bila albă în mână în spatele liniei de start.
 The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	Bila albă a intrat la spargere fără nicio bilă băgată: sparge {next}, cu bila albă în mână în spatele liniei de start.

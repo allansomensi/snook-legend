@@ -1929,7 +1929,7 @@ Accounts, purchases and refunds, the rules of the online game.	Akun, pembelian d
 What the game keeps, and your rights.	Data yang disimpan game, dan hak-hakmu.
 Open	Buka
 Credits	Kredit
-Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Font: DejaVu dan Noto (OFL). Bendera: flag-icons (MIT). Reaksi dan emoji: Twemoji (CC-BY 4.0). Nama negara: iso-codes (LGPL-2.1). Kode game ini terbuka (MIT).
+Fonts: Inter, DejaVu and Noto (OFL). Icons: Phosphor (MIT). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Font: Inter, DejaVu dan Noto (OFL). Ikon: Phosphor (MIT). Bendera: flag-icons (MIT). Reaksi dan emoji: Twemoji (CC-BY 4.0). Nama negara: iso-codes (LGPL-2.1). Kode game ini terbuka (MIT).
 The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	Chat dimatikan untuk pemain di bawah 18 tahun. Orang tua atau wali bisa menyalakannya di bawah chat lobi.
 No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	Break tidak mengenai bola apa pun: {next} yang break, dengan bola putih di tangan di belakang garis kepala.
 The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	Bola putih masuk saat break tanpa ada bola lain yang masuk: {next} yang break, dengan bola putih di tangan di belakang garis kepala.

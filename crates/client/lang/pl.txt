@@ -1929,7 +1929,7 @@ Accounts, purchases and refunds, the rules of the online game.	Konta, zakupy i z
 What the game keeps, and your rights.	Co gra przechowuje i jakie masz prawa.
 Open	Otwórz
 Credits	Twórcy
-Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Czcionki: DejaVu i Noto (OFL). Flagi: flag-icons (MIT). Reakcje i emoji: Twemoji (CC-BY 4.0). Nazwy krajów: iso-codes (LGPL-2.1). Kod gry jest otwarty (MIT).
+Fonts: Inter, DejaVu and Noto (OFL). Icons: Phosphor (MIT). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Czcionki: Inter, DejaVu i Noto (OFL). Ikony: Phosphor (MIT). Flagi: flag-icons (MIT). Reakcje i emoji: Twemoji (CC-BY 4.0). Nazwy krajów: iso-codes (LGPL-2.1). Kod gry jest otwarty (MIT).
 The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	Czat jest wyłączony dla graczy poniżej 18 lat. Rodzic lub opiekun może go włączyć pod czatem lobby.
 No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	Rozbicie nie trafiło żadnej bili: rozbija {next}, z białą z ręki za linią startową.
 The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	Przy rozbiciu wpadła biała i żadna inna bila: rozbija {next}, z białą z ręki za linią startową.

@@ -1929,7 +1929,7 @@ Accounts, purchases and refunds, the rules of the online game.	অ্যাক�
 What the game keeps, and your rights.	গেম কী কী তথ্য রাখে, আর আপনার অধিকার।
 Open	খুলুন
 Credits	কৃতজ্ঞতা
-Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	ফন্ট: DejaVu ও Noto (OFL)। পতাকা: flag-icons (MIT)। রিঅ্যাকশন ও ইমোজি: Twemoji (CC-BY 4.0)। দেশের নাম: iso-codes (LGPL-2.1)। গেমের কোড ওপেন সোর্স (MIT)।
+Fonts: Inter, DejaVu and Noto (OFL). Icons: Phosphor (MIT). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	ফন্ট: Inter, DejaVu ও Noto (OFL)। আইকন: Phosphor (MIT)। পতাকা: flag-icons (MIT)। রিঅ্যাকশন ও ইমোজি: Twemoji (CC-BY 4.0)। দেশের নাম: iso-codes (LGPL-2.1)। গেমের কোড ওপেন সোর্স (MIT)।
 The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	18 বছরের কম বয়সী খেলোয়াড়দের জন্য চ্যাট বন্ধ। বাবা-মা বা অভিভাবক লাউঞ্জের চ্যাটের নিচ থেকে এটি চালু করতে পারেন।
 No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	ব্রেকে কোনো বলে লাগেনি: {next} ব্রেক করবেন, হেড স্ট্রিংয়ের পেছনে হাতে কিউ বল নিয়ে।
 The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	ব্রেকে কোনো বল পকেট না হয়ে কিউ বল পকেটে গেছে: {next} ব্রেক করবেন, হেড স্ট্রিংয়ের পেছনে হাতে কিউ বল নিয়ে।

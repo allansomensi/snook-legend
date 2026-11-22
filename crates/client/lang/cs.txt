@@ -1929,7 +1929,7 @@ Accounts, purchases and refunds, the rules of the online game.	Účty, nákupy a
 What the game keeps, and your rights.	Co hra uchovává a jaká máš práva.
 Open	Otevřít
 Credits	Autoři
-Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Písma: DejaVu a Noto (OFL). Vlajky: flag-icons (MIT). Reakce a emoji: Twemoji (CC-BY 4.0). Názvy zemí: iso-codes (LGPL-2.1). Kód hry je otevřený (MIT).
+Fonts: Inter, DejaVu and Noto (OFL). Icons: Phosphor (MIT). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Písma: Inter, DejaVu a Noto (OFL). Ikony: Phosphor (MIT). Vlajky: flag-icons (MIT). Reakce a emoji: Twemoji (CC-BY 4.0). Názvy zemí: iso-codes (LGPL-2.1). Kód hry je otevřený (MIT).
 The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	Hráčům mladším 18 let je chat vypnutý. Rodič nebo zákonný zástupce ho může zapnout pod chatem herny.
 No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	Při rozstřelu nebyla trefena žádná koule: rozstřeluje {next}, s bílou v ruce za čárou rozstřelu.
 The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	Při rozstřelu spadla bílá a žádná jiná koule: rozstřeluje {next}, s bílou v ruce za čárou rozstřelu.

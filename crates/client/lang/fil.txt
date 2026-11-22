@@ -1929,7 +1929,7 @@ Accounts, purchases and refunds, the rules of the online game.	Mga account, pagb
 What the game keeps, and your rights.	Ano ang itinatabi ng laro, at ang mga karapatan mo.
 Open	Buksan
 Credits	Credits
-Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Fonts: DejaVu at Noto (OFL). Mga watawat: flag-icons (MIT). Mga reaksyon at emoji: Twemoji (CC-BY 4.0). Mga pangalan ng bansa: iso-codes (LGPL-2.1). Bukas ang code ng laro (MIT).
+Fonts: Inter, DejaVu and Noto (OFL). Icons: Phosphor (MIT). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Fonts: Inter, DejaVu at Noto (OFL). Mga icon: Phosphor (MIT). Mga watawat: flag-icons (MIT). Mga reaksyon at emoji: Twemoji (CC-BY 4.0). Mga pangalan ng bansa: iso-codes (LGPL-2.1). Bukas ang code ng laro (MIT).
 The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	Nakapatay ang chat para sa mga manlalarong wala pang 18. Puwede itong buksan ng magulang o guardian sa ilalim ng chat ng lounge.
 No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	Walang natamaang bola sa break: si {next} ang magbe-break, na may ball in hand sa likod ng head string.
 The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	Pumasok ang cue ball sa break nang walang bolang naipasok: si {next} ang magbe-break, na may ball in hand sa likod ng head string.

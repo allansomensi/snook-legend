@@ -1929,7 +1929,7 @@ Accounts, purchases and refunds, the rules of the online game.	Konton, köp och 
 What the game keeps, and your rights.	Vad spelet sparar, och dina rättigheter.
 Open	Öppna
 Credits	Tack till
-Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Typsnitt: DejaVu och Noto (OFL). Flaggor: flag-icons (MIT). Reaktioner och emoji: Twemoji (CC-BY 4.0). Landsnamn: iso-codes (LGPL-2.1). Spelets kod är öppen (MIT).
+Fonts: Inter, DejaVu and Noto (OFL). Icons: Phosphor (MIT). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Typsnitt: Inter, DejaVu och Noto (OFL). Ikoner: Phosphor (MIT). Flaggor: flag-icons (MIT). Reaktioner och emoji: Twemoji (CC-BY 4.0). Landsnamn: iso-codes (LGPL-2.1). Spelets kod är öppen (MIT).
 The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	Chatten är avstängd för spelare under 18 år. En förälder eller vårdnadshavare kan slå på den under loungens chatt.
 No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	Ingen boll träffades på utslaget: {next} slår ut, med vita bollen i hand bakom huvudlinjen.
 The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	Vita bollen gick i på utslaget utan att någon boll sänktes: {next} slår ut, med vita bollen i hand bakom huvudlinjen.

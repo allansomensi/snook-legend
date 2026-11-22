@@ -1929,7 +1929,7 @@ Accounts, purchases and refunds, the rules of the online game.	Hesaplar, satın 
 What the game keeps, and your rights.	Oyunun neleri sakladığı ve hakların.
 Open	Aç
 Credits	Emeği geçenler
-Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Yazı tipleri: DejaVu ve Noto (OFL). Bayraklar: flag-icons (MIT). Tepkiler ve emojiler: Twemoji (CC-BY 4.0). Ülke adları: iso-codes (LGPL-2.1). Oyunun kodu açıktır (MIT).
+Fonts: Inter, DejaVu and Noto (OFL). Icons: Phosphor (MIT). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Yazı tipleri: Inter, DejaVu ve Noto (OFL). Simgeler: Phosphor (MIT). Bayraklar: flag-icons (MIT). Tepkiler ve emojiler: Twemoji (CC-BY 4.0). Ülke adları: iso-codes (LGPL-2.1). Oyunun kodu açıktır (MIT).
 The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	18 yaş altı oyuncular için sohbet kapalı. Bir ebeveyn veya vasi, lobi sohbetinin altından açabilir.
 No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	Açılışta beyaz top hiçbir topa değmedi: açılışı {next} yapar, beyaz top baş çizgisinin gerisinde elde.
 The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	Açılışta hiç top girmeden beyaz top cebe girdi: açılışı {next} yapar, beyaz top baş çizgisinin gerisinde elde.

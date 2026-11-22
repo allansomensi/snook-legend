@@ -1929,7 +1929,7 @@ Accounts, purchases and refunds, the rules of the online game.	Accounts, aankope
 What the game keeps, and your rights.	Wat het spel bewaart, en je rechten.
 Open	Openen
 Credits	Credits
-Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Lettertypen: DejaVu en Noto (OFL). Vlaggen: flag-icons (MIT). Reacties en emoji: Twemoji (CC-BY 4.0). Landnamen: iso-codes (LGPL-2.1). De code van het spel is open (MIT).
+Fonts: Inter, DejaVu and Noto (OFL). Icons: Phosphor (MIT). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Lettertypen: Inter, DejaVu en Noto (OFL). Pictogrammen: Phosphor (MIT). Vlaggen: flag-icons (MIT). Reacties en emoji: Twemoji (CC-BY 4.0). Landnamen: iso-codes (LGPL-2.1). De code van het spel is open (MIT).
 The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	De chat staat uit voor spelers jonger dan 18. Een ouder of voogd kan hem aanzetten onder de chat van de lounge.
 No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	De afstoot raakte geen bal: {next} stoot af, met de speelbal in de hand achter de afstootlijn.
 The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	De speelbal viel bij de afstoot zonder gepotte bal: {next} stoot af, met de speelbal in de hand achter de afstootlijn.

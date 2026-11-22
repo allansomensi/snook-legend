@@ -1929,7 +1929,7 @@ Accounts, purchases and refunds, the rules of the online game.	계정, 구매와
 What the game keeps, and your rights.	게임이 보관하는 정보와 사용자의 권리.
 Open	열기
 Credits	크레딧
-Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	글꼴: DejaVu, Noto (OFL). 국기: flag-icons (MIT). 리액션과 이모지: Twemoji (CC-BY 4.0). 국가 이름: iso-codes (LGPL-2.1). 게임 코드는 오픈 소스예요 (MIT).
+Fonts: Inter, DejaVu and Noto (OFL). Icons: Phosphor (MIT). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	글꼴: Inter, DejaVu, Noto (OFL). 아이콘: Phosphor (MIT). 국기: flag-icons (MIT). 리액션과 이모지: Twemoji (CC-BY 4.0). 국가 이름: iso-codes (LGPL-2.1). 게임 코드는 오픈 소스예요 (MIT).
 The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	18세 미만 플레이어는 채팅이 꺼져 있어요. 부모님 또는 보호자가 라운지 채팅 아래에서 켤 수 있어요.
 No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	브레이크에서 공을 하나도 맞히지 못했어요. {next} 님이 헤드 스트링 뒤 볼 인 핸드로 브레이크해요.
 The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	브레이크에서 공을 넣지 못하고 수구가 들어갔어요. {next} 님이 헤드 스트링 뒤 볼 인 핸드로 브레이크해요.

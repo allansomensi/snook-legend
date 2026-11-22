@@ -1929,7 +1929,7 @@ Accounts, purchases and refunds, the rules of the online game.	บัญชี �
 What the game keeps, and your rights.	ข้อมูล​ที่​เกม​เก็บ​ไว้ และ​สิทธิ์​ของ​คุณ
 Open	เปิด
 Credits	เครดิต
-Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	ฟอนต์: DejaVu และ Noto (OFL) ธง: flag-icons (MIT) รีแอ็กชัน​และ​อีโมจิ: Twemoji (CC-BY 4.0) ชื่อ​ประเทศ: iso-codes (LGPL-2.1) โค้ด​ของ​เกม​เป็น​โอเพนซอร์ส (MIT)
+Fonts: Inter, DejaVu and Noto (OFL). Icons: Phosphor (MIT). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	ฟอนต์: Inter, DejaVu และ Noto (OFL) ไอคอน: Phosphor (MIT) ธง: flag-icons (MIT) รีแอ็กชัน​และ​อีโมจิ: Twemoji (CC-BY 4.0) ชื่อ​ประเทศ: iso-codes (LGPL-2.1) โค้ด​ของ​เกม​เป็น​โอเพนซอร์ส (MIT)
 The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	แชท​ปิด​อยู่​สำหรับ​ผู้เล่น​อายุ​ต่ำกว่า 18 ปี ผู้ปกครอง​เปิด​ได้ที่​ด้านล่าง​แชท​ของ​ล็อบบี้
 No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	เบรก​ไม่​โดน​ลูก​ใด​เลย: {next} เป็น​ฝ่าย​เบรก โดย​ได้​ลูกขาว​ใน​มือ​หลัง​เส้นหัวโต๊ะ
 The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	ลูกขาว​ลง​หลุม​ตอน​เบรก​โดย​ไม่​มีลูก​อื่น​ลง: {next} เป็น​ฝ่าย​เบรก โดย​ได้​ลูกขาว​ใน​มือ​หลัง​เส้นหัวโต๊ะ

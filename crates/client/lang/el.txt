@@ -1929,7 +1929,7 @@ Accounts, purchases and refunds, the rules of the online game.	Λογαριασ�
 What the game keeps, and your rights.	Τι κρατά το παιχνίδι και τα δικαιώματά σου.
 Open	Άνοιγμα
 Credits	Συντελεστές
-Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Γραμματοσειρές: DejaVu και Noto (OFL). Σημαίες: flag-icons (MIT). Αντιδράσεις και emoji: Twemoji (CC-BY 4.0). Ονόματα χωρών: iso-codes (LGPL-2.1). Ο κώδικας του παιχνιδιού είναι ανοιχτός (MIT).
+Fonts: Inter, DejaVu and Noto (OFL). Icons: Phosphor (MIT). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Γραμματοσειρές: Inter, DejaVu και Noto (OFL). Εικονίδια: Phosphor (MIT). Σημαίες: flag-icons (MIT). Αντιδράσεις και emoji: Twemoji (CC-BY 4.0). Ονόματα χωρών: iso-codes (LGPL-2.1). Ο κώδικας του παιχνιδιού είναι ανοιχτός (MIT).
 The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	Η συνομιλία είναι ανενεργή για παίκτες κάτω των 18. Ένας γονέας ή κηδεμόνας μπορεί να την ενεργοποιήσει κάτω από τη συνομιλία του σαλονιού.
 No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	Καμία μπάλα δεν χτυπήθηκε στο σπάσιμο: σπάει ο/η {next}, με τη λευκή στο χέρι πίσω από τη γραμμή κεφαλής.
 The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	Η λευκή μπήκε στο σπάσιμο χωρίς να μπει άλλη μπάλα: σπάει ο/η {next}, με τη λευκή στο χέρι πίσω από τη γραμμή κεφαλής.

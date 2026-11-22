@@ -1929,7 +1929,7 @@ Accounts, purchases and refunds, the rules of the online game.	Облікові 
 What the game keeps, and your rights.	Які дані зберігає гра, і ваші права.
 Open	Відкрити
 Credits	Автори
-Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Шрифти: DejaVu і Noto (OFL). Прапори: flag-icons (MIT). Реакції й емодзі: Twemoji (CC-BY 4.0). Назви країн: iso-codes (LGPL-2.1). Код гри відкритий (MIT).
+Fonts: Inter, DejaVu and Noto (OFL). Icons: Phosphor (MIT). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Шрифти: Inter, DejaVu і Noto (OFL). Значки: Phosphor (MIT). Прапори: flag-icons (MIT). Реакції й емодзі: Twemoji (CC-BY 4.0). Назви країн: iso-codes (LGPL-2.1). Код гри відкритий (MIT).
 The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	Для гравців до 18 років чат вимкнено. Батьки або опікун можуть увімкнути його під чатом лобі.
 No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	На розбитті жодної кулі не зачеплено: розбиває {next}, биток з руки за лінією дому.
 The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	На розбитті в лузу зайшов биток і жодної кулі: розбиває {next}, биток з руки за лінією дому.

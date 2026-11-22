@@ -1929,7 +1929,7 @@ Accounts, purchases and refunds, the rules of the online game.	Comptes, achats e
 What the game keeps, and your rights.	Ce que le jeu conserve, et vos droits.
 Open	Ouvrir
 Credits	Crédits
-Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Polices : DejaVu et Noto (OFL). Drapeaux : flag-icons (MIT). Réactions et emoji : Twemoji (CC-BY 4.0). Noms de pays : iso-codes (LGPL-2.1). Le code du jeu est ouvert (MIT).
+Fonts: Inter, DejaVu and Noto (OFL). Icons: Phosphor (MIT). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Polices : Inter, DejaVu et Noto (OFL). Icônes: Phosphor (MIT). Drapeaux : flag-icons (MIT). Réactions et emoji : Twemoji (CC-BY 4.0). Noms de pays : iso-codes (LGPL-2.1). Le code du jeu est ouvert (MIT).
 The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	Le chat est désactivé pour les joueurs de moins de 18 ans. Un parent ou tuteur peut l'activer sous le chat du salon.
 No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	Aucune bille touchée à la casse : {next} casse, avec la blanche en main derrière la ligne de tête.
 The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	La blanche est tombée à la casse sans bille empochée : {next} casse, avec la blanche en main derrière la ligne de tête.

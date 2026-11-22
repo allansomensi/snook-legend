@@ -1929,7 +1929,7 @@ Accounts, purchases and refunds, the rules of the online game.	Konten, Käufe un
 What the game keeps, and your rights.	Was das Spiel speichert, und deine Rechte.
 Open	Öffnen
 Credits	Credits
-Fonts: DejaVu and Noto (OFL). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Schriften: DejaVu und Noto (OFL). Flaggen: flag-icons (MIT). Reaktionen und Emojis: Twemoji (CC-BY 4.0). Ländernamen: iso-codes (LGPL-2.1). Der Code des Spiels ist offen (MIT).
+Fonts: Inter, DejaVu and Noto (OFL). Icons: Phosphor (MIT). Flags: flag-icons (MIT). Reactions and emoji: Twemoji (CC-BY 4.0). Country names: iso-codes (LGPL-2.1). The game's code is open (MIT).	Schriften: Inter, DejaVu und Noto (OFL). Symbole: Phosphor (MIT). Flaggen: flag-icons (MIT). Reaktionen und Emojis: Twemoji (CC-BY 4.0). Ländernamen: iso-codes (LGPL-2.1). Der Code des Spiels ist offen (MIT).
 The chat is off for players under 18. A parent or guardian can turn it on below the lounge's chat.	Für Spieler unter 18 ist der Chat aus. Eltern oder Erziehungsberechtigte können ihn unter dem Lounge-Chat einschalten.
 No ball was hit on the break: {next} breaks, with the cue ball in hand behind the head string.	Beim Anstoß wurde keine Kugel getroffen: {next} stößt an, mit Ball in Hand hinter der Kopflinie.
 The cue ball went down on the break with no ball made: {next} breaks, with the cue ball in hand behind the head string.	Beim Anstoß fiel der Spielball, ohne dass eine Kugel versenkt wurde: {next} stößt an, mit Ball in Hand hinter der Kopflinie.

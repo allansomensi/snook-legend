@@ -2,6 +2,11 @@
 # "## <bersiyon>" ang simula ng isang bersiyon (pinakabago muna), "### <pamagat>"
 # ng isang highlight, at ang mga linya pagkatapos nito ang teksto nito.
 
+## 0.10.3
+
+### Talagang bumabalik na ang napanalunang tour
+Sa 0.10.2, hindi bumalik ang tour para sa lahat kahit nasa kanila ang tako nito. Ngayon, kapag naka-sign in sa account na nanalo sa tour, buo na ulit ito at bukas ang lahat ng kalaban.
+
 ## 0.10.2
 
 ### Nananatiling panalo ang napanalunang tour

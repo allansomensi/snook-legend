@@ -3,6 +3,11 @@
 # en de regels erna zijn de tekst ervan. Elke taal heeft dezelfde versies en
 # hetzelfde aantal hoogtepunten.
 
+## 0.10.3
+
+### Je gewonnen tour komt nu echt terug
+In 0.10.2 kwam de tour niet voor iedereen terug, ook al hadden ze de keu. Nu is hij, ingelogd met het account dat de tour won, weer compleet, alle tegenstanders ontgrendeld.
+
 ## 0.10.2
 
 ### Een gewonnen tour blijft gewonnen

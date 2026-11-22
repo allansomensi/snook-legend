@@ -3,6 +3,11 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.10.3
+
+### Your tour is really back
+In 0.10.2 the tour didn't come back for everyone, though they had its cue. Now, signed in with the account that won the tour, it is complete again, every opponent unlocked.
+
 ## 0.10.2
 
 ### A tour won stays won

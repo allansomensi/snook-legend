@@ -3,6 +3,11 @@
 # destaque, e as linhas seguintes são o texto dele. Mesmas versões e mesmo
 # número de destaques em todas as línguas.
 
+## 0.10.3
+
+### O circuito vencido volta de verdade
+Na 0.10.2 o circuito não voltava para todo mundo, mesmo com o taco. Agora, entrando com a conta que venceu o circuito, ele volta completo, com todos os adversários liberados.
+
 ## 0.10.2
 
 ### Circuito vencido continua vencido

@@ -3,6 +3,11 @@
 # novità, e le righe che seguono sono il suo testo. Ogni lingua ha le stesse
 # versioni e lo stesso numero di novità.
 
+## 0.10.3
+
+### Il circuito vinto torna davvero
+Nella 0.10.2 il circuito non tornava per tutti, anche con la stecca. Ora, entrando con l'account che ha vinto il circuito, torna completo, con tutti gli avversari sbloccati.
+
 ## 0.10.2
 
 ### Il circuito vinto resta vinto

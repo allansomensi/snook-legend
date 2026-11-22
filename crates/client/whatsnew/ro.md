@@ -2,6 +2,11 @@
 # "## <versiune>" începe o versiune (cea mai nouă prima), "### <titlu>" o noutate,
 # iar rândurile de după sunt textul ei.
 
+## 0.10.3
+
+### Circuitul câștigat revine cu adevărat
+În 0.10.2 circuitul nu revenea pentru toată lumea, deși aveau tacul. Acum, conectat cu contul care a câștigat circuitul, este din nou complet, cu toți adversarii deblocați.
+
 ## 0.10.2
 
 ### Circuitul câștigat rămâne câștigat

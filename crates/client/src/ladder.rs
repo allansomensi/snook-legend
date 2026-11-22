@@ -205,15 +205,14 @@ impl Progress {
             .unwrap_or(ladder::RUNGS.len() as u8 - 1)
     }
 
-    /// Rung `k` can be played: every rung before it is beaten (so it is
-    /// beaten already, or the next one).
-    /// The account owns the tour's reward (`owned`: its items), so it beat
-    /// every opponent, though this computer's file may not say so (a new
-    /// install, another computer, the Store's own folder): the tour is
-    /// shown complete. Returns whether the progress changed (save it).
-    pub fn restore_from_reward(&mut self, owned: &[String]) -> bool {
-        if self.won.len() >= ladder::RUNGS.len() || !owned.iter().any(|o| o == ladder::REWARD_ITEM)
-        {
+    /// The account has the tour's reward (`champion`: its achievement,
+    /// `ladder::ACHIEVEMENT`, which is what gives the champion's cue: the
+    /// cue is never among the items bought), so it beat every opponent,
+    /// though this computer's file may not say so (a new install, another
+    /// computer, the Store's own folder): the tour is shown complete.
+    /// Returns whether the progress changed (save it).
+    pub fn restore_from_reward(&mut self, champion: bool) -> bool {
+        if !champion || self.complete() {
             return false;
         }
         self.won = ladder::RUNGS.iter().map(|c| c.to_string()).collect();
@@ -223,6 +222,8 @@ impl Progress {
         true
     }
 
+    /// Rung `k` can be played: every rung before it is beaten (so it is
+    /// beaten already, or the next one).
     pub fn unlocked(&self, k: u8) -> bool {
         (k as usize) < ladder::RUNGS.len() && (0..k).all(|j| self.is_beaten(j))
     }
@@ -508,11 +509,26 @@ mod tests {
     #[test]
     fn the_reward_restores_a_lost_tour() {
         let mut p = Progress::default();
-        assert!(!p.restore_from_reward(&["cue_maple".to_string()]));
+        assert!(!p.restore_from_reward(false));
         assert_eq!(p.beaten, 0);
-        assert!(p.restore_from_reward(&[ladder::REWARD_ITEM.to_string()]));
+        assert!(p.restore_from_reward(true));
         assert_eq!(p.beaten as usize, ladder::RUNGS.len());
+        assert!(p.complete());
         assert!((0..ladder::RUNGS.len() as u8).all(|k| p.unlocked(k)));
-        assert!(!p.restore_from_reward(&[ladder::REWARD_ITEM.to_string()]), "once is enough");
+        assert!(!p.restore_from_reward(true), "once is enough");
+    }
+
+    /// The champion's cue comes with the tour's achievement, never as an
+    /// item bought: the achievement is what proves the tour was won (in
+    /// 0.10.2 the restore looked for the cue among the items bought, which
+    /// it never is, so a lost tour stayed lost).
+    #[test]
+    fn the_reward_is_the_achievement() {
+        let item = snook_legend_proto::shop::item(ladder::REWARD_ITEM).unwrap();
+        assert_eq!(item.price, snook_legend_proto::shop::Price::Achievement(ladder::ACHIEVEMENT));
+        // A file that counts some opponents but not all is completed too.
+        let mut p = Progress { won: vec!["leo".into()], beaten: 1, ..Progress::default() };
+        assert!(p.restore_from_reward(true));
+        assert!(p.complete());
     }
 }

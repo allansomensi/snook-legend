@@ -57,8 +57,10 @@ Em 27 idiomas, entre eles português, inglês, espanhol, francês, alemão, ital
 
 ### Novidades desta versão
 
-Versão 0.10.2: o circuito vencido não se perde mais.
-• Reinstalar o jogo, trocar de computador ou instalar pela Store podia reiniciar o circuito; entrando com a conta que tem o taco do circuito, ele volta completo.
+Versão 0.10.3: o circuito vencido volta de verdade.
+• Entrando com a conta que venceu o circuito, ele volta completo, com todos os adversários liberados (na 0.10.2 isso não acontecia para todos).
+
+Da versão 0.10.2: o circuito vencido não se perde mais ao reinstalar ou trocar de computador.
 
 Da versão 0.10.1: telas sempre claras e a conta conectada até você sair.
 
@@ -137,8 +139,10 @@ In 27 languages, including English, Portuguese, Spanish, French, German, Italian
 
 ### What's new in this version
 
-Version 0.10.2: a tour you won is never lost.
-• Reinstalling the game, moving to another computer or installing it from the Store could start the tour over; signed in with the account that has the tour's cue, it is complete again.
+Version 0.10.3: a tour you won really comes back.
+• Signed in with the account that won the tour, it is complete again, every opponent unlocked (0.10.2 didn't do it for everyone).
+
+From version 0.10.2: a tour you won is no longer lost when reinstalling or moving to another computer.
 
 From version 0.10.1: screens always bright, and signed in until you sign out.
 
@@ -217,8 +221,10 @@ En 27 idiomas, entre ellos español, inglés, portugués, francés, alemán, ita
 
 ### Novedades de esta versión
 
-Versión 0.10.2: el circuito ganado ya no se pierde.
-• Reinstalar el juego, cambiar de computadora o instalarlo desde la Store podía reiniciar el circuito; al entrar con la cuenta que tiene el taco del circuito, vuelve completo.
+Versión 0.10.3: el circuito ganado vuelve de verdad.
+• Al entrar con la cuenta que ganó el circuito, vuelve completo, con todos los rivales desbloqueados (la 0.10.2 no lo hacía para todos).
+
+De la versión 0.10.2: el circuito ganado ya no se pierde al reinstalar o cambiar de computadora.
 
 De la versión 0.10.1: pantallas siempre claras y la sesión abierta hasta que salgas.
 

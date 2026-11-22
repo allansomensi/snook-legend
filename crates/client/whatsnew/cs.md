@@ -3,6 +3,11 @@
 # a řádky za ním jsou její text. Krátce a o tom, co hráči vidí; všechny
 # jazyky mají stejné verze a stejný počet novinek.
 
+## 0.10.3
+
+### Vyhraný okruh se teď opravdu vrátí
+Ve verzi 0.10.2 se okruh nevrátil každému, i když tágo měl. Teď je po přihlášení k účtu, který okruh vyhrál, okruh celý a všichni soupeři odemčení.
+
 ## 0.10.2
 
 ### Vyhraný okruh zůstává vyhraný

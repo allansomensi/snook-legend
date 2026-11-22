@@ -3,6 +3,11 @@
 # och raderna efter den är dess text. Håll det kort och om det spelarna
 # ser; alla språk har samma versioner och samma antal nyheter.
 
+## 0.10.3
+
+### Din vunna turné kommer verkligen tillbaka
+I 0.10.2 kom turnén inte tillbaka för alla, fast de hade kön. Nu är den, inloggad med kontot som vann turnén, komplett igen med alla motståndare upplåsta.
+
 ## 0.10.2
 
 ### En vunnen turné förblir vunnen

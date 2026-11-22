@@ -3,6 +3,11 @@
 # dan baris sesudahnya adalah teksnya. Singkat dan tentang apa yang dilihat
 # pemain; setiap bahasa punya versi yang sama dan jumlah sorotan yang sama.
 
+## 0.10.3
+
+### Tur yang dimenangkan kini benar-benar kembali
+Di 0.10.2, tur tidak kembali untuk semua orang meski stiknya sudah dimiliki. Sekarang, masuk dengan akun yang memenangkan tur, tur kembali lengkap dan semua lawan terbuka.
+
 ## 0.10.2
 
 ### Tur yang dimenangkan tetap menang

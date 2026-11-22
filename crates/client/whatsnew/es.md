@@ -3,6 +3,11 @@
 # un destacado, y las líneas siguientes son su texto. Mismas versiones y
 # mismo número de destacados en todos los idiomas.
 
+## 0.10.3
+
+### El circuito ganado vuelve de verdad
+En la 0.10.2 el circuito no volvía para todos, aunque tuvieran su taco. Ahora, al entrar con la cuenta que ganó el circuito, vuelve completo, con todos los rivales desbloqueados.
+
 ## 0.10.2
 
 ### El circuito ganado sigue ganado

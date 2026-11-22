@@ -1,5 +1,32 @@
 # Changelog
 
+## 0.10.3 (protocol 24)
+
+The tour won is really restored, and the staff portal is a site of its
+own. The protocol is unchanged: 0.10.x games play together.
+
+### Fixes
+- **A tour already won comes back, for real**: 0.10.2 looked for the
+  champion's cue among the items bought, but the cue comes with the tour's
+  achievement (it is never bought), so the tour never came back. Signed in
+  with an account that has the tour's achievement, the tour is complete
+  again (every opponent unlocked), also when the computer's `ladder.json`
+  counted only some of them.
+
+### The staff portal
+- **The staff portal left the server**: it is now a web app of its own
+  (Next.js, TypeScript and React, in the website's repository, `admin/`), at
+  `admin.snooklegend.app`, calling the server's staff API (`/admin/api`)
+  from the browser. Every page, action and language is there, with a
+  strict Content Security Policy with a nonce per page.
+- **Only the portal may call the staff API from a browser** (CORS): its
+  origin is `SNOOK_LEGEND_ADMIN_ORIGIN` (`https://admin.snooklegend.app`),
+  no credentials (the session stays a bearer token). Without it, no
+  browser on another site may call it.
+- **`SNOOK_LEGEND_ADMIN_HOST` is no longer used** (the server warns when it
+  is still set); the server's `/admin` now leads to the portal (not found
+  when no origin is set), and it no longer carries the portal's files.
+
 ## 0.10.2 (protocol 24)
 
 A tour already won is never lost, and the game's own addresses: the game

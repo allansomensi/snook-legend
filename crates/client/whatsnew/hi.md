@@ -3,6 +3,11 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.10.3
+
+### जीता हुआ टूर अब सच में लौट आता है
+0.10.2 में क्यू होने के बावजूद सबका टूर वापस नहीं आता था। अब जिस खाते ने टूर जीता है उससे साइन इन करने पर टूर फिर से पूरा दिखता है, सारे विरोधी खुले।
+
 ## 0.10.2
 
 ### जीता हुआ टूर जीता ही रहता है

@@ -3,6 +3,11 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.10.3
+
+### Kazanılan tur artık gerçekten geri geliyor
+0.10.2'de ıstaka sende olsa bile tur herkes için geri gelmiyordu. Artık turu kazanan hesapla giriş yapınca tur yeniden tamamlanmış olur, tüm rakipler açık.
+
 ## 0.10.2
 
 ### Kazanılan tur kazanılmış kalır

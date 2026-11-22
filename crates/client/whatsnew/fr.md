@@ -4,6 +4,11 @@
 # parlez de ce que voient les joueurs ; chaque langue a les mêmes versions et
 # le même nombre de points forts.
 
+## 0.10.3
+
+### Le circuit gagné revient pour de bon
+En 0.10.2, le circuit ne revenait pas pour tout le monde, même avec sa queue. Désormais, connecté avec le compte qui a gagné le circuit, il est de nouveau complet, tous les adversaires déverrouillés.
+
 ## 0.10.2
 
 ### Un circuit gagné le reste

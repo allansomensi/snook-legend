@@ -3,6 +3,11 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.10.3
+
+### 已通关的巡回赛真的回来了
+在 0.10.2 中，即使已有球杆，巡回赛也并非对所有人都能恢复。现在，用赢得巡回赛的账号登录后，巡回赛会恢复为已通关，所有对手均已解锁。
+
 ## 0.10.2
 
 ### 已通关的巡回赛不会丢失

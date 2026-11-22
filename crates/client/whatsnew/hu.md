@@ -2,6 +2,11 @@
 # A "## <verzió>" egy verziót kezd (a legújabb elöl), a "### <cím>" egy
 # kiemelést, az utána következő sorok pedig a szövegét.
 
+## 0.10.3
+
+### A megnyert túra most tényleg visszajön
+A 0.10.2-ben a túra nem jött vissza mindenkinek, pedig a dákó megvolt. Most azzal a fiókkal belépve, amelyik megnyerte a túrát, ismét teljes, minden ellenfél feloldva.
+
 ## 0.10.2
 
 ### A megnyert túra megnyert marad

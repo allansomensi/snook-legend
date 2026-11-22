@@ -3,6 +3,11 @@
 # Highlight, und die Zeilen danach sind sein Text. Jede Sprache hat dieselben
 # Versionen und dieselbe Anzahl an Highlights.
 
+## 0.10.3
+
+### Die gewonnene Tour kommt jetzt wirklich zurück
+In 0.10.2 kam die Tour nicht bei allen zurück, obwohl sie das Queue hatten. Jetzt ist sie mit dem Konto, das die Tour gewonnen hat, wieder vollständig, alle Gegner freigeschaltet.
+
 ## 0.10.2
 
 ### Eine gewonnene Tour bleibt gewonnen

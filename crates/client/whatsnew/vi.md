@@ -2,6 +2,11 @@
 # "## <phiên bản>" mở đầu một phiên bản (mới nhất trước), "### <tiêu đề>" là một điểm nổi bật,
 # và các dòng sau đó là nội dung. Mọi ngôn ngữ có cùng các phiên bản và cùng số điểm nổi bật.
 
+## 0.10.3
+
+### Giải đã thắng giờ thật sự trở lại
+Ở bản 0.10.2, giải không trở lại với mọi người dù đã có cây cơ. Giờ đây, khi đăng nhập bằng tài khoản đã thắng giải, giải hoàn thành trở lại và mọi đối thủ đều được mở.
+
 ## 0.10.2
 
 ### Giải đã thắng vẫn được giữ

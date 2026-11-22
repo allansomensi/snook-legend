@@ -3,6 +3,11 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.10.3
+
+### ทัวร์​ที่​ชนะ​แล้ว​กลับ​มา​จริง ๆ
+ใน 0.10.2 ทัวร์​ไม่​ได้​กลับ​มา​สำหรับ​ทุก​คน แม้​จะ​มี​ไม้คิว​แล้ว ตอนนี้​เมื่อ​เข้าสู่ระบบ​ด้วย​บัญชี​ที่​ชนะ​ทัวร์ ทัวร์​จะ​กลับ​มา​ครบ​และ​คู่​แข่ง​ทุก​คน​ถูก​ปลด​ล็อก
+
 ## 0.10.2
 
 ### ทัวร์​ที่​ชนะ​แล้ว​ยัง​คง​ชนะ

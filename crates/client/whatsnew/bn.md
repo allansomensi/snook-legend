@@ -3,6 +3,11 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.10.3
+
+### জেতা ট্যুর এবার সত্যিই ফিরে আসে
+0.10.2-এ কিউ থাকা সত্ত্বেও সবার ট্যুর ফিরে আসত না। এখন যে অ্যাকাউন্ট ট্যুর জিতেছে সেটি দিয়ে সাইন ইন করলে ট্যুর সম্পূর্ণ দেখায়, সব প্রতিপক্ষ খোলা।
+
 ## 0.10.2
 
 ### জেতা ট্যুর জেতাই থাকে

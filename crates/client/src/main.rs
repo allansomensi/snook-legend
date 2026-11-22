@@ -844,10 +844,11 @@ async fn main() {
         if claimer.update(&mut ladder_progress, &mut online, get_time()) {
             ladder_progress.save();
         }
-        // The tour's progress lives on this computer; its reward on the
-        // account: an account that won it has the tour complete here too.
-        if let Some(w) = online.wallet.as_ref()
-            && ladder_progress.restore_from_reward(&w.owned)
+        // The tour's progress lives on this computer; its reward (the
+        // achievement that gives the champion's cue) on the account: an
+        // account that won it has the tour complete here too.
+        if ladder_progress
+            .restore_from_reward(online.has_achievement(snook_legend_proto::ladder::ACHIEVEMENT))
         {
             ladder_progress.save();
         }

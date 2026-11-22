@@ -15,10 +15,39 @@ pub const BORDER: Color = Color::new(0.45, 0.31, 0.16, 1.0);
 pub const ALERT: Color = Color::new(1.0, 0.56, 0.44, 1.0);
 pub const GREEN: Color = Color::new(0.12, 0.45, 0.25, 1.0);
 
-/// A wrapped chat row: the coloured prefix (on its first row), the text, the kind.
-/// A line on screen: the name (first row of a message), the text, the kind,
-/// and which message it belongs to.
-type Row = (Option<(String, Color)>, String, FeedKind, usize);
+/// A row of [`Ui::chat_log`]: the author's name (on a message's first
+/// row), the text, where it starts, the line it belongs to, whether it is
+/// a centred notice, and whether a little room goes above it (a new author
+/// or a notice).
+struct LogRow {
+    name: Option<(String, Color)>,
+    text: String,
+    indent: f32,
+    index: usize,
+    centred: bool,
+    gap: bool,
+}
+
+/// An author's colour in the chat: one of a few soft, readable hues on the
+/// dark panel, always the same for the same name.
+pub fn author_color(name: &str) -> Color {
+    const HUES: [(f32, f32, f32); 8] = [
+        (0.55, 0.78, 0.98),
+        (0.62, 0.88, 0.62),
+        (0.96, 0.66, 0.58),
+        (0.80, 0.68, 0.98),
+        (0.98, 0.80, 0.52),
+        (0.52, 0.86, 0.84),
+        (0.96, 0.64, 0.82),
+        (0.78, 0.86, 0.52),
+    ];
+    let h = name
+        .to_lowercase()
+        .bytes()
+        .fold(2_166_136_261u32, |h, b| (h ^ b as u32).wrapping_mul(16_777_619));
+    let (r, g, b) = HUES[h as usize % HUES.len()];
+    Color::new(r, g, b, 1.0)
+}
 
 /// One line of a chat panel.
 #[derive(Debug, Clone, PartialEq, Default)]
@@ -616,6 +645,20 @@ impl Ui {
         rrect_lines(r, 8.0, 1.2, BORDER);
     }
 
+    /// A panel that lets what is under it show through by `clear` (0: as
+    /// [`Ui::panel`]; 1: mostly glass), for one over the table that should
+    /// not hide the game while nobody uses it.
+    pub fn glass_panel(&mut self, r: Rect, clear: f32) {
+        self.panels.get_mut().push(r);
+        self.block(r);
+        let clear = clear.clamp(0.0, 1.0);
+        soft_shadow(r, 8.0, 1.6 * (1.0 - 0.6 * clear));
+        let a = 1.0 - 0.3 * clear;
+        let body = Color::new(PANEL.r, PANEL.g, PANEL.b, a);
+        rrect_gradient(r, 8.0, shade(body, 0.03), shade(body, -0.25));
+        rrect_lines(r, 8.0, 1.2, Color::new(BORDER.r, BORDER.g, BORDER.b, 1.0 - 0.4 * clear));
+    }
+
     pub fn button(&mut self, r: Rect, label: &str, enabled: bool) -> bool {
         self.block(r);
         let hover = enabled && r.contains(self.mouse);
@@ -822,8 +865,12 @@ impl Ui {
         let first_line = (caret_line + 1)
             .saturating_sub(shown_lines)
             .min(lines.len().saturating_sub(shown_lines));
+        // A box taller than its text (a single line in a tall field) holds it
+        // in the middle.
+        let used = lines.len().min(shown_lines) as f32 * AREA_LINE;
+        let top = r.y + AREA_PAD_Y + ((r.h - 2.0 * AREA_PAD_Y) - used).max(0.0) / 2.0;
         let at_mouse = |ui: &Ui| {
-            let k = ((ui.mouse.y - r.y - AREA_PAD_Y) / AREA_LINE).floor().max(0.0) as usize;
+            let k = ((ui.mouse.y - top) / AREA_LINE).floor().max(0.0) as usize;
             let line = (first_line + k).min(lines.len() - 1);
             ui.nearest_in(&chars, lines[line], ui.mouse.x - r.x - AREA_PAD_X)
         };
@@ -877,7 +924,7 @@ impl Ui {
         rrect_lines(r, 5.0, if focused { 1.6 } else { 1.2 }, if focused { GOLD } else { BORDER });
         let selection = if focused { self.selection() } else { None };
         for (k, &(a, b)) in lines.iter().enumerate().skip(first_line).take(shown_lines) {
-            let y = r.y + AREA_PAD_Y + (k - first_line) as f32 * AREA_LINE;
+            let y = top + (k - first_line) as f32 * AREA_LINE;
             if let Some((sa, sb)) = selection {
                 let (sa, sb) = (sa.clamp(a, b), sb.clamp(a, b));
                 if sb > sa {
@@ -905,7 +952,7 @@ impl Ui {
         if focused && ((get_time() - self.caret_at) * 2.0) as i64 % 2 == 0 {
             let (a, _) = lines[caret_line];
             let x = r.x + AREA_PAD_X + 1.0 + self.width_between(&chars, a, caret);
-            let y = r.y + AREA_PAD_Y + (caret_line - first_line) as f32 * AREA_LINE;
+            let y = top + (caret_line - first_line) as f32 * AREA_LINE;
             draw_line(x, y + 2.0, x, y + AREA_LINE - 2.0, 1.5, CREAM);
         }
         submitted
@@ -1426,10 +1473,13 @@ impl Ui {
         format!("{s}…")
     }
 
-    /// A scrollable chat log (newest at the bottom) mixing player messages
-    /// and what happened in the game. `scroll` counts lines up from the
-    /// bottom. `admin`: the reader may delete anyone's lines. Returns the
-    /// new scroll and what the reader asked for.
+    /// A scrollable chat log (newest at the bottom, against the field)
+    /// mixing player messages and what happened in the game. A player's
+    /// lines in a row sit under one name, each author in a colour of their
+    /// own (the reader's gold, administrators red); the game's notices are
+    /// small, quiet and centred. `scroll` counts rows up from the bottom.
+    /// `admin`: the reader may delete anyone's lines. Returns the new scroll
+    /// and what the reader asked for.
     pub fn chat_log(
         &mut self,
         r: Rect,
@@ -1439,31 +1489,26 @@ impl Ui {
         scroll: usize,
     ) -> (usize, Option<ChatAction>) {
         self.block(r);
-        let size = 14.0;
-        let line_h = 19.0;
-        let visible = ((r.h - 8.0) / line_h).floor().max(1.0) as usize;
+        const SIZE: f32 = 14.0;
+        const NOTE: f32 = 12.0;
+        const LINE: f32 = 19.0;
+        const GAP: f32 = 6.0;
+        let inner = Rect::new(r.x + 8.0, r.y + 4.0, r.w - 16.0, r.h - 8.0);
         // Wrap only the newest messages that can be shown (measuring text is
         // the expensive part with a long history).
-        let needed = visible + scroll + 1;
-        let mut rows: Vec<Row> = Vec::new();
+        let budget = (inner.h / LINE).ceil() as usize + scroll + 24;
+        let mut rows: Vec<LogRow> = Vec::new();
         for (index, l) in lines.iter().enumerate().rev() {
-            let (prefix, color) = match (&l.from, l.kind) {
-                (Some((name, rating)), FeedKind::Player) => {
-                    let mine = me.is_some_and(|m| m.eq_ignore_ascii_case(name));
-                    let c = if l.admin {
-                        ADMIN_RED
-                    } else if mine {
-                        GOLD
-                    } else if *rating > 0 {
-                        tier_color(snook_legend_proto::Tier::of(*rating))
-                    } else {
-                        Color::new(0.55, 0.78, 0.95, 1.0)
-                    };
-                    (Some(format!("{name}: ")), c)
-                }
-                (_, FeedKind::Announcement) => (Some("★ ".to_string()), GOLD),
-                _ => (Some("• ".to_string()), MUTED),
-            };
+            let older = index.checked_sub(1).map(|i| &lines[i]);
+            let player = l.kind == FeedKind::Player;
+            let author = l.from.as_ref().map(|(n, _)| n.as_str());
+            // A line under the one before it: same author, nothing between.
+            let follows = player
+                && older.is_some_and(|o| {
+                    o.kind == FeedKind::Player
+                        && o.deleted.is_none()
+                        && o.from.as_ref().map(|(n, _)| n.as_str()) == author
+                });
             let text = match l.deleted {
                 Some(snook_legend_proto::Deleted::Author) => {
                     crate::i18n::t("(message deleted by its author)").to_string()
@@ -1473,28 +1518,67 @@ impl Ui {
                 }
                 None => l.text.clone(),
             };
-            let bold = l.kind == FeedKind::Player;
-            let name_w = prefix.as_ref().map(|p| self.text_size(p, size, bold).x).unwrap_or(0.0);
-            let wrapped = self.wrap(&text, (r.w - 16.0 - name_w).max(60.0), size);
-            let mut block: Vec<Row> = wrapped
-                .into_iter()
-                .enumerate()
-                .map(|(k, w)| {
-                    (
-                        if k == 0 { prefix.clone().map(|p| (p, color)) } else { None },
-                        w,
-                        l.kind,
-                        index,
-                    )
-                })
-                .collect();
+            let mut block: Vec<LogRow> = Vec::new();
+            match (l.kind, &l.from) {
+                (FeedKind::Player, Some((name, _))) => {
+                    let mine = me.is_some_and(|m| m.eq_ignore_ascii_case(name));
+                    let color = if l.admin {
+                        ADMIN_RED
+                    } else if mine {
+                        GOLD
+                    } else {
+                        author_color(name)
+                    };
+                    let label = format!("{name}: ");
+                    let indent = self.text_size(&label, SIZE, true).x;
+                    let room = (inner.w - indent).max(60.0);
+                    for (k, w) in self.wrap(&text, room, SIZE).into_iter().enumerate() {
+                        block.push(LogRow {
+                            name: (k == 0 && !follows).then(|| (label.clone(), color)),
+                            text: w,
+                            indent,
+                            index,
+                            centred: false,
+                            gap: k == 0 && !follows,
+                        });
+                    }
+                }
+                _ => {
+                    let prefix = if l.kind == FeedKind::Announcement { "★ " } else { "" };
+                    let text = format!("{prefix}{text}");
+                    let room = (inner.w - 24.0).max(60.0);
+                    for (k, w) in self.wrap(&text, room, NOTE).into_iter().enumerate() {
+                        block.push(LogRow {
+                            name: None,
+                            text: w,
+                            indent: 0.0,
+                            index,
+                            centred: true,
+                            gap: k == 0,
+                        });
+                    }
+                }
+            }
             block.append(&mut rows);
             rows = block;
-            if rows.len() >= needed + 20 {
+            if rows.len() >= budget {
                 break;
             }
         }
-        let max_scroll = rows.len().saturating_sub(visible);
+        // Heights, from the oldest row kept: the first one needs no gap.
+        let height =
+            |rows: &[LogRow], i: usize| LINE + if rows[i].gap && i > 0 { GAP } else { 0.0 };
+        // How far up the log scrolls: until its first row is at the top.
+        let mut fit = 0.0;
+        let mut top_rows = 0;
+        for i in 0..rows.len() {
+            fit += height(&rows, i);
+            if fit > inner.h {
+                break;
+            }
+            top_rows += 1;
+        }
+        let max_scroll = rows.len().saturating_sub(top_rows.max(1));
         let mut scroll = scroll.min(max_scroll);
         if r.contains(self.mouse) {
             let (_, wheel) = mouse_wheel();
@@ -1504,15 +1588,24 @@ impl Ui {
                 scroll = scroll.saturating_sub(3);
             }
         }
+        // Laid out from the bottom up: the newest against the field.
         let end = rows.len() - scroll;
-        let start = end.saturating_sub(visible);
+        let mut placed: Vec<(usize, f32)> = Vec::new();
+        let mut bottom = inner.y + inner.h;
+        for i in (0..end).rev() {
+            let y = bottom - LINE;
+            if y < inner.y - 0.5 {
+                break;
+            }
+            placed.push((i, y));
+            bottom = y - if rows[i].gap { GAP } else { 0.0 };
+        }
+        placed.reverse();
         // The message under the pointer, if it may be deleted by this reader.
-        let hovered = (r.contains(self.mouse))
-            .then(|| ((self.mouse.y - r.y - 4.0) / line_h).floor())
-            .filter(|k| *k >= 0.0)
-            .map(|k| start + k as usize)
-            .filter(|&k| k < end)
-            .map(|k| rows[k].3)
+        let hovered = placed
+            .iter()
+            .find(|(_, y)| r.contains(self.mouse) && self.mouse.y >= *y && self.mouse.y < y + LINE)
+            .map(|(i, _)| rows[*i].index)
             .filter(|&i| {
                 let l = &lines[i];
                 let mine = me.is_some_and(|m| {
@@ -1520,54 +1613,56 @@ impl Ui {
                 });
                 l.id > 0 && l.deleted.is_none() && l.kind == FeedKind::Player && (mine || admin)
             });
-        let mut indent = 0.0;
         let mut action = None;
         let mut buttons_drawn = false;
-        for (k, (name, text, kind, index)) in rows[start..end].iter().enumerate() {
-            let y = r.y + 4.0 + k as f32 * line_h;
-            let deleted = lines[*index].deleted.is_some();
-            if hovered == Some(*index) {
+        for &(i, y) in &placed {
+            let row = &rows[i];
+            let line = &lines[row.index];
+            let deleted = line.deleted.is_some();
+            let pending = line.pending;
+            let soft = |c: Color| if pending { Color::new(c.r, c.g, c.b, c.a * 0.5) } else { c };
+            if hovered == Some(row.index) {
                 draw_rectangle(
                     r.x + 2.0,
                     y - 1.0,
                     r.w - 4.0,
-                    line_h,
+                    LINE,
                     Color::new(1.0, 1.0, 1.0, 0.05),
                 );
             }
-            let bold = *kind == FeedKind::Player;
-            let pending = lines[*index].pending;
-            let soft = |c: Color| if pending { Color::new(c.r, c.g, c.b, c.a * 0.55) } else { c };
-            if let Some((name, color)) = name {
-                self.text(name, r.x + 8.0, y, size, soft(*color), bold);
-                indent = self.text_size(name, size, bold).x;
+            if row.centred {
+                let color = match line.kind {
+                    FeedKind::Announcement => Color::new(1.0, 0.88, 0.6, 0.95),
+                    FeedKind::Alert => Color::new(0.86, 0.66, 0.56, 0.85),
+                    _ => Color::new(0.68, 0.63, 0.56, 0.8),
+                };
+                self.text_centered(
+                    &row.text,
+                    inner.x + inner.w / 2.0,
+                    y + (SIZE - NOTE) * 0.5 + 1.0,
+                    NOTE,
+                    color,
+                    false,
+                );
+                continue;
             }
-            // Game events are quieter than what people write.
-            let color = match kind {
-                _ if deleted => Color::new(0.62, 0.56, 0.5, 0.8),
-                FeedKind::Player => CREAM,
-                FeedKind::Announcement => Color::new(1.0, 0.9, 0.65, 1.0),
-                FeedKind::Alert => Color::new(0.88, 0.58, 0.48, 0.95),
-                FeedKind::Event => Color::new(0.70, 0.64, 0.56, 0.85),
-            };
-            let color = soft(color);
-            let text_size = if matches!(kind, FeedKind::Event | FeedKind::Alert) || deleted {
-                13.0
-            } else {
-                size
-            };
+            if let Some((name, color)) = &row.name {
+                self.text(name, inner.x, y, SIZE, soft(*color), true);
+            }
+            let color = if deleted { Color::new(0.62, 0.56, 0.5, 0.8) } else { CREAM };
+            let size = if deleted { 13.0 } else { SIZE };
             self.text(
-                text,
-                r.x + 8.0 + indent,
-                y + (size - text_size) * 0.5,
-                text_size,
-                color,
+                &row.text,
+                inner.x + row.indent,
+                y + (SIZE - size) * 0.5,
+                size,
+                soft(color),
                 false,
             );
             // Delete buttons on the hovered message's first row on screen.
-            if hovered == Some(*index) && !buttons_drawn {
+            if hovered == Some(row.index) && !buttons_drawn {
                 buttons_drawn = true;
-                let id = lines[*index].id;
+                let id = line.id;
                 let mut bx = r.x + r.w - 26.0;
                 let b = Rect::new(bx, y - 1.0, 20.0, 18.0);
                 let tip = crate::i18n::t("Delete (it shows as deleted)");
@@ -1584,20 +1679,21 @@ impl Ui {
                 }
             }
         }
+        // Newer lines below: a pill to bring them back.
         if scroll > 0 {
             let label = crate::i18n::t("▼ newer messages");
-            let w = self.text_size(label, 12.0, false).x + 12.0;
-            draw_rectangle(
-                r.x + r.w - w - 6.0,
-                r.y + r.h - 22.0,
-                w,
-                18.0,
-                Color::new(0.0, 0.0, 0.0, 0.7),
-            );
-            self.text(label, r.x + r.w - w, r.y + r.h - 20.0, 12.0, GOLD, false);
+            let w = self.text_size(label, 12.0, true).x + 20.0;
+            let pill = Rect::new(r.x + (r.w - w) / 2.0, r.y + r.h - 26.0, w, 20.0);
+            rrect(pill, 10.0, Color::new(0.12, 0.09, 0.06, 0.95));
+            rrect_lines(pill, 10.0, 1.0, GOLD);
+            self.text_centered(label, pill.x + pill.w / 2.0, pill.y + 4.0, 12.0, GOLD, true);
+            if self.hovering(pill) && self.released_in(pill) {
+                scroll = 0;
+            }
         }
         if rows.is_empty() {
-            self.text(crate::i18n::t("No messages yet."), r.x + 8.0, r.y + 6.0, 14.0, MUTED, false);
+            let msg = crate::i18n::t("No messages yet.");
+            self.text_centered(msg, r.x + r.w / 2.0, r.y + r.h / 2.0 - 7.0, 13.0, MUTED, false);
         }
         (scroll, action)
     }

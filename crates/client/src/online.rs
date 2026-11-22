@@ -183,6 +183,10 @@ pub struct Online {
     pub me: Option<PlayerInfo>,
     players: Vec<PlayerInfo>,
     chat: Vec<FeedLine>,
+    /// The lounge chat's emoji tray, and this player's lines shown before
+    /// the server passed them on (see [`FeedLine::pending`]), oldest first.
+    emoji: crate::emoji_tray::EmojiTray,
+    echoes: Vec<String>,
     chat_input: String,
     chat_scroll: usize,
     /// The world ranking of each of the rules, and whether it came.
@@ -642,6 +646,8 @@ impl Online {
             me: None,
             players: Vec::new(),
             chat: Vec::new(),
+            emoji: crate::emoji_tray::EmojiTray::new(crate::dev::flag("SNOOK_LEGEND_EMOJI_OPEN")),
+            echoes: Vec::new(),
             // Development aid: SNOOK_LEGEND_CHAT_DRAFT="text" starts the field with it.
             chat_input: crate::dev::var("SNOOK_LEGEND_CHAT_DRAFT").unwrap_or_default(),
             chat_scroll: 0,
@@ -1343,6 +1349,17 @@ impl Online {
                 self.chat_scroll = 0;
             }
             ServerMsg::Chat { line } => {
+                // This player's own line, shown already: it takes the
+                // server's (its number, to delete it) in its place.
+                let mine =
+                    self.me.as_ref().is_some_and(|m| m.username.eq_ignore_ascii_case(&line.from));
+                if mine && let Some(e) = self.echoes.iter().position(|e| *e == line.text) {
+                    self.echoes.remove(e);
+                    if let Some(i) = self.chat.iter().position(|l| l.pending) {
+                        self.chat[i] = FeedLine::chat(&line);
+                        return save;
+                    }
+                }
                 if !self.friends.blocked.iter().any(|b| b.eq_ignore_ascii_case(&line.from)) {
                     self.chat.push(FeedLine::chat(&line));
                     if self.chat.len() > 200 {
@@ -1554,7 +1571,21 @@ impl Online {
             }
             ServerMsg::Error { message } => match current.as_mut() {
                 Some(m) if m.is_online() => m.handle_server(ServerMsg::Error { message }),
-                _ => self.toast(crate::i18n::server_text(&message), false),
+                _ => {
+                    // A lounge line refused: it leaves the chat, the notice says why.
+                    let refused = [
+                        "You are muted",
+                        "You're sending messages too quickly",
+                        "Please don't repeat",
+                    ];
+                    if refused.iter().any(|p| message.starts_with(p))
+                        && let Some(text) = self.echoes.pop()
+                        && let Some(i) = self.chat.iter().rposition(|l| l.pending && l.text == text)
+                    {
+                        self.chat.remove(i);
+                    }
+                    self.toast(crate::i18n::server_text(&message), false)
+                }
             },
             ServerMsg::ItemBought { code, gift_to } => {
                 self.buying = None;
@@ -3118,7 +3149,7 @@ impl Online {
         }
         // The field grows with what is typed (up to four lines).
         let input_h = 36.0;
-        let field_w = inner_w - input_h - 8.0;
+        let field_w = inner_w - 2.0 * (input_h + 6.0);
         let field_h = ui.text_area_height(&self.chat_input, field_w, 4).max(input_h);
         let input = Rect::new(inner_x, bottom - field_h, field_w, field_h);
         let log = Rect::new(inner_x, log_top, inner_w, input.y - 10.0 - log_top);
@@ -3184,20 +3215,47 @@ impl Online {
         }
         let sent = ui.text_area(30, input, &mut self.chat_input, MAX_CHAT_LEN);
         crate::ui::chat_counter(ui, &self.chat_input, input);
+        self.emoji.track(ui, 30);
+        let emoji_r =
+            Rect::new(input.x + input.w + 6.0, input.y + input.h - input_h, input_h, input_h);
+        let chat_area = Rect::new(inner_x, log.y, inner_w, input.y + input.h - log.y);
+        self.emoji.draw(ui, emoji_r, input, chat_area, 30, &mut self.chat_input, MAX_CHAT_LEN);
         let hint = if self.chat_off() {
             t("Write to turn the chat on…")
         } else {
             t("Say hello… (Enter to send)")
         };
         placeholder(ui, 30, input, &self.chat_input, hint);
-        let send_r =
-            Rect::new(input.x + input.w + 8.0, input.y + input.h - input_h, input_h, input_h);
+        let send_r = Rect::new(
+            input.x + input.w + 6.0 + input_h + 6.0,
+            input.y + input.h - input_h,
+            input_h,
+            input_h,
+        );
         let can_send = !self.chat_input.trim().is_empty();
         if (ui.icon_button(send_r, Icon::Play, t("Send"), can_send) || sent) && can_send {
             let text = snook_legend_proto::clean_chat(&self.chat_input);
             // With the chat off, it waits for the dialog (and comes back to
             // the field if the player doesn't turn the chat on).
-            let now = self.send_text(ClientMsg::Chat { text });
+            let now = self.send_text(ClientMsg::Chat { text: text.clone() });
+            // Shown at once, dimmed until the server passes it on.
+            if now && let Some(me) = self.me.as_ref() {
+                let line = snook_legend_proto::ChatLine {
+                    from: me.username.clone(),
+                    text: text.clone(),
+                    at: 0,
+                    kind: snook_legend_proto::ChatKind::Player,
+                    rating: me.rating_in(self.rules),
+                    id: 0,
+                    admin: me.role == snook_legend_proto::Role::Admin,
+                    deleted: None,
+                };
+                let mut feed = FeedLine::chat(&line);
+                feed.pending = true;
+                self.echoes.push(text);
+                self.chat.push(feed);
+            }
+            self.emoji.reset();
             self.chat_input.clear();
             self.chat_scroll = 0;
             ui.focus = if now { Some(30) } else { None };

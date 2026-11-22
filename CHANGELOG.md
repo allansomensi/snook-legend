@@ -12,6 +12,16 @@
   stops) and came back a moment later. It now fades in and out, stays put
   while the aim moves (dimmed until the new answer comes), its bar slides
   to the new chance, and a waver of the aim isn't a new shot.
+- **The chats, redone** (the lounge's and the table's, one design):
+  each author in a colour of their own (yours gold), a player's lines in a
+  row under one name, a little room between authors, the newest against
+  the field (no gap down from the top), and the game's notices small,
+  quiet and centred. At the table the chat is glass while nobody uses it
+  (the game shows through) and solid under the pointer or while typing;
+  its tools (quick phrases, reactions, hide) sit in its header instead of
+  beside it. The lounge has the emoji tray and shows your lines at once
+  too, and a single line in its field sits in the middle. "Newer
+  messages" is a pill that brings them back with a click.
 - **The chat at the table answers at once**: a line shows the moment it is
   sent (dimmed until the server passes it on), not after the round trip to
   the server; a line the server refuses (too fast, repeated, muted) leaves

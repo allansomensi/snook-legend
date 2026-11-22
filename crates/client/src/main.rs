@@ -23,6 +23,7 @@ mod cup;
 mod dev;
 mod effects;
 mod emoji;
+mod emoji_tray;
 mod flags;
 mod fonts;
 mod game;

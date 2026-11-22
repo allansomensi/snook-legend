@@ -407,17 +407,17 @@ impl ProfileScreen {
         let standing = p.player.standing(rules);
         let a = crate::rulesui::accent(rules);
         let hover = ui.hovering(c);
-        let fill = if shown {
-            0.13
-        } else if hover {
-            0.08
+        // Both cards alike; the one shown is lit in its rules' colour.
+        rrect(c, 9.0, Color::new(1.0, 1.0, 1.0, if hover && !shown { 0.06 } else { 0.04 }));
+        if shown {
+            rrect(c, 9.0, Color::new(a.r, a.g, a.b, 0.08));
+        }
+        let edge = if shown {
+            a
         } else {
-            0.04
+            Color::new(BORDER.r, BORDER.g, BORDER.b, if hover { 0.9 } else { 0.5 })
         };
-        rrect(c, 9.0, Color::new(a.r * fill * 1.6, a.g * fill * 1.6, a.b * fill * 1.6, 0.92));
-        let edge =
-            if shown { a } else { Color::new(a.r, a.g, a.b, if hover { 0.6 } else { 0.25 }) };
-        rrect_lines(c, 9.0, if shown { 1.8 } else { 1.0 }, edge);
+        rrect_lines(c, 9.0, if shown { 1.6 } else { 1.0 }, edge);
         let x = c.x + 16.0;
         // The rules.
         crate::rulesui::mark(rules, vec2(x + 9.0, c.y + 20.0), 18.0);
@@ -481,11 +481,18 @@ impl ProfileScreen {
                 ui.text(top, right - tw_, c.y + 54.0, 12.0, tier_color(tier), false);
             }
         }
-        if hover && !shown {
-            let tip = tw(
-                "Show the {rules}: the rank, the league and the chart",
-                &[("rules", &crate::i18n::rules_name_inline(rules))],
-            );
+        if hover {
+            // The one shown says what the two ratings mean; the other how
+            // to show it.
+            let tip = if shown {
+                t("Each of the rules has its own rating; the level, coins and achievements are shared.")
+                    .to_string()
+            } else {
+                tw(
+                    "Show the {rules}: the rank, the league and the chart",
+                    &[("rules", &crate::i18n::rules_name_inline(rules))],
+                )
+            };
             ui.tooltip(&tip, c);
         }
         hover && !shown && ui.clicked(c)
@@ -594,9 +601,10 @@ impl ProfileScreen {
         let tier = player.tier_in(rules);
         let info_mid = r.y + 76.0;
         let mut info_x = left;
+        let _ = tier;
         if !player.guest {
-            info_x += tier_pill(ui, t(tier.name()), info_x, info_mid, tier_color(tier)) + 10.0;
-            // The account level (experience, not skill).
+            // The account level (experience, not skill); the league is on
+            // the rating cards.
             if player.level > 0 {
                 let level = tw("Level {n}", &[("n", &player.level)]);
                 info_x += tier_pill(ui, &level, info_x, info_mid, GOLD) + 10.0;
@@ -605,9 +613,6 @@ impl ProfileScreen {
         let mut parts = Vec::new();
         if let Some(rank) = p.ranks.get(rules) {
             parts.push(tw("#{n} in the world", &[("n", rank)]));
-        }
-        if !player.country.is_empty() {
-            parts.push(crate::flags::name(&player.country).to_string());
         }
         if !player.guest {
             parts.push(age(p.created_at));
@@ -650,34 +655,61 @@ impl ProfileScreen {
         // Actions, from the right: the main one is green.
         let mut bx = r.x + r.w - PAD;
         let by = row_mid - 16.0;
-        let mut button = |ui: &mut Ui, label: &str, enabled: bool, primary: bool| -> bool {
-            let w = ui.text_size(label, 14.0, true).x + 32.0;
-            bx -= w;
-            let b = Rect::new(bx, by, w, 32.0);
-            let hit = if primary && enabled {
-                ui.primary_button(b, label)
-            } else {
-                ui.button(b, label, enabled)
+        // `quiet`: a secondary action (block, report, end a friendship), as
+        // a plain word that lights up under the pointer.
+        let mut action_button =
+            |ui: &mut Ui, label: &str, enabled: bool, primary: bool, quiet: bool| -> bool {
+                if quiet {
+                    let w = ui.text_size(label, 13.0, true).x + 20.0;
+                    bx -= w;
+                    let b = Rect::new(bx, by, w, 32.0);
+                    ui.block(b);
+                    let hover = ui.hovering(b);
+                    if hover {
+                        rrect(b, 6.0, Color::new(1.0, 1.0, 1.0, 0.06));
+                    }
+                    let color = if hover { CREAM } else { MUTED };
+                    ui.text_centered(
+                        label,
+                        b.x + b.w / 2.0,
+                        text_y(b.y + 16.0, 13.0),
+                        13.0,
+                        color,
+                        true,
+                    );
+                    bx -= 4.0;
+                    return hover && ui.clicked(b);
+                }
+                let w = ui.text_size(label, 14.0, true).x + 32.0;
+                bx -= w;
+                let b = Rect::new(bx, by, w, 32.0);
+                let hit = if primary && enabled {
+                    ui.primary_button(b, label)
+                } else {
+                    ui.button(b, label, enabled)
+                };
+                bx -= 8.0;
+                hit
             };
-            bx -= 8.0;
-            hit
-        };
+
         let name = player.username.clone();
         let actions = !(player.guest || online.lan);
         match p.relation {
             _ if !actions => {}
             Relation::Me => {
-                if button(ui, t("Account"), true, false) {
+                if action_button(ui, t("Account"), true, false, false) {
                     self.account = Some(AccountForm::default());
                     online.send(ClientMsg::Account);
                 }
-                if button(ui, t("Change country"), true, false) {
+                if action_button(ui, t("Change country"), true, false, false) {
                     crate::countries::open_at(&player.country);
                 }
             }
             _ if online.me.is_none() => {}
             relation => {
-                if relation != Relation::Blocked && button(ui, t("Report"), true, false) {
+                if relation != Relation::Blocked
+                    && action_button(ui, t("Report"), true, false, true)
+                {
                     let me = online.me.as_ref().map(|m| m.username.as_str());
                     self.report = Some(crate::report::ReportDialog::from_profile(p, me, now()));
                 }
@@ -688,7 +720,7 @@ impl ProfileScreen {
                 } else {
                     t("Block")
                 };
-                if button(ui, block_label, true, false) {
+                if action_button(ui, block_label, true, false, !self.confirm_block) {
                     if relation == Relation::Blocked {
                         online.send(ClientMsg::Unblock { username: name.clone() });
                         online.request_profile(&name);
@@ -711,7 +743,8 @@ impl ProfileScreen {
                     let enabled = relation != Relation::RequestSent;
                     // Making friends is the way on; ending it is not.
                     let primary = matches!(relation, Relation::None | Relation::RequestReceived);
-                    if button(ui, label, enabled, primary) {
+                    let quiet = relation == Relation::Friend;
+                    if action_button(ui, label, enabled, primary, quiet) {
                         let msg = match relation {
                             Relation::Friend => ClientMsg::FriendRemove { username: name.clone() },
                             Relation::RequestReceived => {
@@ -724,20 +757,14 @@ impl ProfileScreen {
                     }
                 }
                 // A daily game: one turn at a time, even while they are away.
-                if relation != Relation::Blocked && button(ui, t("Daily game"), true, false) {
+                if relation != Relation::Blocked
+                    && action_button(ui, t("Daily game"), true, false, false)
+                {
                     crate::correspondence::challenge(online, &name);
                 }
             }
         }
-        // The note takes the room the buttons leave (never under them).
-        let room = bx - (r.x + PAD) - 8.0;
-        if !player.guest && room > 140.0 {
-            let note = t(
-                "Each of the rules has its own rating; the level, coins and achievements are shared.",
-            );
-            let (note, size) = ui.fitted(note, 12.0, room, false);
-            ui.text(&note, r.x + PAD, text_y(row_mid, size), size, MUTED, false);
-        }
+        let _ = bx;
     }
 
     /// The status message on the name's line (`x` to `end`, centred on
@@ -860,13 +887,15 @@ impl ProfileScreen {
         // window leaves room for fewer): the rest is in the panes.
         let bottom = area.y + area.h;
         if !player.guest {
-            if y + 84.0 > bottom {
+            // The level: its bar (one's own: the XP is known), and what the
+            // next one with an item brings.
+            let own = p.relation == Relation::Me;
+            let xp = online.xp.filter(|_| own);
+            let card_h = if xp.is_some() { 84.0 } else { 66.0 };
+            if y + card_h > bottom {
                 return go;
             }
-            // The level: its bar (one's own), and what the next one with an
-            // item brings.
-            let own = p.relation == Relation::Me;
-            let card = Rect::new(area.x, y, area.w, 84.0);
+            let card = Rect::new(area.x, y, area.w, card_h);
             rrect(card, 8.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.07));
             let hover = ui.hovering(card);
             if hover {
@@ -874,10 +903,9 @@ impl ProfileScreen {
             }
             let level = tw("Level {n}", &[("n", &player.level.max(1))]);
             ui.text(&level, card.x + 14.0, card.y + 10.0, 20.0, GOLD, true);
-            let xp = online.xp.filter(|_| own);
-            let bar = Rect::new(card.x + 14.0, card.y + 40.0, card.w - 28.0, 6.0);
-            rrect(bar, 3.0, Color::new(1.0, 1.0, 1.0, 0.08));
             if let Some(xp) = xp {
+                let bar = Rect::new(card.x + 14.0, card.y + 40.0, card.w - 28.0, 6.0);
+                rrect(bar, 3.0, Color::new(1.0, 1.0, 1.0, 0.08));
                 let (_, into, span) = snook_legend_proto::xp::progress(xp);
                 let k = if span == 0 { 1.0 } else { into as f32 / span as f32 };
                 if k > 0.0 {
@@ -890,7 +918,7 @@ impl ProfileScreen {
             let next = next_reward(player.level.max(1))
                 .unwrap_or_else(|| t("Every prize of the levels is won.").to_string());
             let (next, size) = ui.fitted(&next, 13.0, card.w - 28.0, false);
-            ui.text(&next, card.x + 14.0, card.y + 56.0, size, CREAM, false);
+            ui.text(&next, card.x + 14.0, card.y + card.h - 28.0, size, CREAM, false);
             ui.block(card);
             if ui.clicked(card) {
                 go = Some(Pane::Journey);
@@ -1541,17 +1569,11 @@ fn tier_pill(ui: &Ui, text: &str, x: f32, mid: f32, color: Color) -> f32 {
     w
 }
 
-/// The rating after each rated game under `rules`, as a line.
+/// The rating after each rated game under `rules`, as a line over a soft
+/// fill, with the leagues it crosses, a scale, and the rating now by its
+/// last point. The rules it is for in its top right corner.
 fn rating_chart(ui: &mut Ui, p: &Profile, rules: Rules, area: Rect) {
     let pts = p.rating_history.get(rules);
-    // Which rules: the cards in the header switch them.
-    crate::rulesui::tag(
-        ui,
-        rules,
-        area.x + area.w - crate::rulesui::tag_w(ui, rules, 12.0),
-        area.y - 12.0,
-        12.0,
-    );
     if pts.len() < 2 {
         let text = if p.relation == Relation::Me {
             t("Play rated games to see your rating here.")
@@ -1561,44 +1583,95 @@ fn rating_chart(ui: &mut Ui, p: &Profile, rules: Rules, area: Rect) {
         empty_state(ui, area, Icon::Trophy, text);
         return;
     }
-    let chart = Rect::new(area.x + 44.0, area.y + 4.0, area.w - 48.0, area.h - 28.0);
+    let frame = Rect::new(area.x, area.y, area.w, area.h - 22.0);
+    rrect(frame, 8.0, Color::new(1.0, 1.0, 1.0, 0.03));
+    // Which rules: inside the chart, in its corner (the cards above switch them).
+    let tag_w = crate::rulesui::tag_w(ui, rules, 12.0);
+    crate::rulesui::tag(ui, rules, frame.x + frame.w - tag_w - 10.0, frame.y + 14.0, 12.0);
+    let chart = Rect::new(frame.x + 44.0, frame.y + 30.0, frame.w - 58.0, frame.h - 44.0);
     let lo = pts.iter().map(|p| p.1).min().unwrap_or(0) - 15;
     let hi = pts.iter().map(|p| p.1).max().unwrap_or(0) + 15;
     let span = (hi - lo).max(1) as f32;
-    let at = |k: usize, r: i32| {
-        vec2(
-            chart.x + chart.w * k as f32 / (pts.len() - 1) as f32,
-            chart.y + chart.h * (1.0 - (r - lo) as f32 / span),
-        )
-    };
-    rrect(chart, 6.0, Color::new(1.0, 1.0, 1.0, 0.03));
-    // Tier lines that fall inside the chart.
+    let y_of = |r: i32| chart.y + chart.h * (1.0 - (r - lo) as f32 / span);
+    let at =
+        |k: usize, r: i32| vec2(chart.x + chart.w * k as f32 / (pts.len() - 1) as f32, y_of(r));
+    // The scale: three faint lines, their ratings by them.
+    for k in 0..3 {
+        let r = lo + ((hi - lo) as f32 * k as f32 / 2.0).round() as i32;
+        let y = y_of(r);
+        draw_line(chart.x, y, chart.x + chart.w, y, 1.0, Color::new(1.0, 1.0, 1.0, 0.05));
+        let label = r.to_string();
+        let lw = ui.text_size(&label, 11.0, false).x;
+        ui.text(&label, chart.x - 8.0 - lw, text_y(y, 11.0), 11.0, MUTED, false);
+    }
+    // The leagues it crosses, dashed, named at the right.
     for tier in snook_legend_proto::Tier::ALL {
         let m = tier.min_rating();
         if m > lo && m < hi {
-            let y = chart.y + chart.h * (1.0 - (m - lo) as f32 / span);
-            draw_line(chart.x, y, chart.x + chart.w, y, 1.0, Color::new(1.0, 1.0, 1.0, 0.08));
-            ui.text(t(tier.name()), chart.x + 6.0, y - 15.0, 11.0, tier_color(tier), false);
+            let y = y_of(m);
+            let c = tier_color(tier);
+            let mut x = chart.x;
+            while x < chart.x + chart.w {
+                let e = (x + 6.0).min(chart.x + chart.w);
+                draw_line(x, y, e, y, 1.0, Color::new(c.r, c.g, c.b, 0.35));
+                x += 10.0;
+            }
+            let name = t(tier.name());
+            let nw = ui.text_size(name, 11.0, true).x;
+            ui.text(name, chart.x + chart.w - nw, y - 15.0, 11.0, c, true);
         }
     }
-    // The scale, right-aligned against the chart.
-    for (y, label) in [(chart.y, hi), (chart.y + chart.h - 12.0, lo)] {
-        let label = label.to_string();
-        let lw = ui.text_size(&label, 11.0, false).x;
-        ui.text(&label, chart.x - 8.0 - lw, y, 11.0, MUTED, false);
+    // A soft fill under the line, then the line, green up and red down.
+    let base = chart.y + chart.h;
+    for k in 1..pts.len() {
+        let (a, b) = (at(k - 1, pts[k - 1].1), at(k, pts[k].1));
+        crate::paint::draw_triangle(
+            a,
+            b,
+            vec2(b.x, base),
+            Color::new(GOLD.r, GOLD.g, GOLD.b, 0.06),
+        );
+        crate::paint::draw_triangle(
+            a,
+            vec2(b.x, base),
+            vec2(a.x, base),
+            Color::new(GOLD.r, GOLD.g, GOLD.b, 0.06),
+        );
     }
     for k in 1..pts.len() {
         let (a, b) = (at(k - 1, pts[k - 1].1), at(k, pts[k].1));
         let color = if pts[k].1 >= pts[k - 1].1 { WIN } else { ALERT };
         draw_line(a.x, a.y, b.x, b.y, 2.0, color);
     }
+    // A dot on each game while there are few.
+    if pts.len() <= 40 {
+        for (k, (_, r)) in pts.iter().enumerate() {
+            let c = at(k, *r);
+            draw_circle(c.x, c.y, 2.5, Color::new(0.85, 0.8, 0.7, 0.9));
+        }
+    }
+    // The rating now, by its point.
     let last = at(pts.len() - 1, pts[pts.len() - 1].1);
-    draw_circle(last.x, last.y, 4.0, GOLD);
+    draw_circle(last.x, last.y, 5.0, GOLD);
+    draw_circle_lines(last.x, last.y, 8.0, 1.5, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.4));
+    let now_r = pts[pts.len() - 1].1.to_string();
+    let nw = ui.text_size(&now_r, 13.0, true).x + 12.0;
+    let chip =
+        Rect::new((last.x - nw - 10.0).max(chart.x), (last.y - 24.0).max(frame.y + 4.0), nw, 18.0);
+    rrect(chip, 9.0, Color::new(0.06, 0.045, 0.035, 0.95));
+    rrect_lines(chip, 9.0, 1.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.6));
+    ui.text_centered(&now_r, chip.x + chip.w / 2.0, chip.y + 2.5, 13.0, GOLD, true);
+    // When: the first game and the last (once, if the same day).
     let first = date(pts[0].0);
     let now = date(pts[pts.len() - 1].0);
-    ui.text(&first, chart.x, chart.y + chart.h + 8.0, 11.0, MUTED, false);
-    let nw = ui.text_size(&now, 11.0, false).x;
-    ui.text(&now, chart.x + chart.w - nw, chart.y + chart.h + 8.0, 11.0, MUTED, false);
+    let y = frame.y + frame.h + 6.0;
+    if first == now {
+        ui.text_centered(&now, chart.x + chart.w / 2.0, y, 11.0, MUTED, false);
+    } else {
+        ui.text(&first, chart.x, y, 11.0, MUTED, false);
+        let w = ui.text_size(&now, 11.0, false).x;
+        ui.text(&now, chart.x + chart.w - w, y, 11.0, MUTED, false);
+    }
 }
 
 /// Lifetime numbers from the games with statistics, and games left unfinished.

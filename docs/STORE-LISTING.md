@@ -53,21 +53,21 @@ Mesa iluminada por igual, bolas com números sempre legíveis e sombras suaves. 
 DUAS REGRAS
 Jogue na regra brasileira, a dos bares e salões, com bolas de penalidade (falta passa a vez e elimina as menores bolas do adversário), ou na regra oficial da WPA, a dos torneios internacionais, com todas as tacadas cantadas e bola na mão em qualquer lugar depois de uma falta. Cada regra tem o seu rating e o seu ranking mundial, e você troca de regra quando quiser. As regras completas ficam a um clique, no menu e durante a partida.
 
-Em português, inglês e espanhol.
+Em 27 idiomas, entre eles português, inglês, espanhol, francês, alemão, italiano, russo, turco, árabe, hindi, chinês, japonês e coreano.
 
 ### Novidades desta versão
 
-Versão 0.8.3: o que você ganha aparece, um jogo por vez e caçapas mais limpas.
+Versão 0.9.0: o jogo em 27 idiomas.
+• Agora em português (do Brasil e de Portugal), inglês, espanhol, francês, alemão, italiano, holandês, sueco, polonês, tcheco, húngaro, romeno, grego, russo, ucraniano, turco, indonésio, filipino, vietnamita, tailandês, hindi, bengali, árabe, chinês, japonês e coreano.
+• Tudo traduzido: as telas, as regras, as novidades e os nomes dos países.
+• O jogo abre no idioma do seu sistema; troque em Configurações → Jogo.
+
+Da versão 0.8.3: o que você ganha aparece, um jogo por vez e caçapas mais limpas.
 • Um item que vem com uma conquista, como ao subir de nível, chega com uma janela de "Parabéns!" e pode ser usado na hora.
 • Abrir o jogo com ele já aberto traz a janela dele para a frente em vez de abrir um segundo.
 • Regra brasileira: na saída repassada com as bolas já espalhadas, acertar a 8 primeiro é falta e encaçapá-la perde; só na saída do triângulo a 8 sozinha vence.
 • Caçapas sem rebarbas, o zoom mantido ao passar da visão de cima para o 3D, e muitos bugs corrigidos.
 
-Da versão 0.8.2: a saída e o tempo de tacada na regra brasileira, e o taco em qualquer parte.
-• Regra brasileira: acabar o tempo de tacada é falta: sai a menor bola do adversário e a branca volta ao ponto inicial, sem bola na mão.
-• Regra brasileira: os jogadores saem alternando, uma vez cada um; a saída que perde a branca sem encaçapar nenhuma bola, ou com bolas dos dois grupos, passa ao adversário, do ponto inicial.
-• Dá para pegar e arrastar o taco em qualquer parte dele, da ponta ao fim.
-• A arena contra a máquina tem sete rodadas, a loja tem um ícone novo e muitos bugs foram corrigidos.
 
 ### Recursos do produto
 
@@ -88,7 +88,7 @@ Da versão 0.8.2: a saída e o tempo de tacada na regra brasileira, e o taco em 
 15. Visual feito para enxergar bem, com opção de jogar só na vista de cima
 16. Gráficos de Baixo a Ultra: roda em PCs antigos e brilha nos novos
 17. Regra brasileira ou oficial (WPA), cada uma com seu rating e ranking, sempre à mão
-18. Em português, inglês e espanhol
+18. Em 27 idiomas, do português ao chinês, árabe e hindi
 
 ### Termos de pesquisa
 
@@ -132,21 +132,20 @@ An evenly lit table, balls whose numbers always read and soft shadows. A score p
 TWO RULES
 Play the Brazilian rule, the one of bars and pool halls, with penalty balls (a foul passes the turn and takes your opponent's lowest balls off the table), or the official WPA rules of international tournaments, with every shot called and ball in hand anywhere after a foul. Each has its own rating and world ranking, and you switch whenever you like. The full rules are a click away, in the menu and during a game.
 
-In English, Portuguese and Spanish.
+In 27 languages, including English, Portuguese, Spanish, French, German, Italian, Russian, Turkish, Arabic, Hindi, Chinese, Japanese and Korean.
 
 ### What's new in this version
 
-Version 0.8.3: what you earn is shown, one game at a time, and cleaner pockets.
+Version 0.9.0: the game in 27 languages.
+• Now in English, Portuguese (Brazil and Portugal), Spanish, French, German, Italian, Dutch, Swedish, Polish, Czech, Hungarian, Romanian, Greek, Russian, Ukrainian, Turkish, Indonesian, Filipino, Vietnamese, Thai, Hindi, Bengali, Arabic, Chinese, Japanese and Korean.
+• Everything translated: the screens, the rules, what's new and the countries' names.
+• The game opens in your system's language; change it in Settings → Game.
+
+From version 0.8.3: what you earn is shown, one game at a time, and cleaner pockets.
 • An item that comes with an achievement, such as a level reached, arrives with a "Congratulations!" window and can be used at once.
 • Starting the game while it is already open brings its window to the front instead of opening a second one.
 • Brazilian rule: on a break handed over with the balls already scattered, hitting the 8 first is a foul and pocketing it loses; only the break of the rack has the 8 alone winning.
 • Pockets without rough edges, the zoom kept from the overhead view into 3D, and many bugs fixed.
-
-From version 0.8.2: the Brazilian break and shot clock, and the cue grabbed anywhere.
-• Brazilian rule: running out of time is a foul: your opponent's lowest ball comes off and the cue ball goes back to the head spot, not in hand.
-• Brazilian rule: the players break in turn, one break each; a break that loses the cue ball with no ball made, or with balls of both groups, passes to your opponent, from the head spot.
-• Grab and drag the cue anywhere along it, from the tip to the butt.
-• The arena against the computer is seven rounds, the shop has a new icon and many bugs are fixed.
 
 ### Product features
 
@@ -167,7 +166,7 @@ From version 0.8.2: the Brazilian break and shot clock, and the cue grabbed anyw
 15. Made to see clearly, with an option to play from the top view only
 16. Graphics from Low to Ultra: runs on old PCs and shines on new ones
 17. The Brazilian or the official (WPA) rules, each with its own rating and ranking, always at hand
-18. In English, Portuguese and Spanish
+18. In 27 languages, from English to Chinese, Arabic and Hindi
 
 ### Search terms
 
@@ -211,21 +210,20 @@ Una mesa iluminada por igual, bolas con números siempre legibles y sombras suav
 DOS REGLAS
 Juega con la regla brasileña, la de los bares y salones, con bolas de penalización (la falta pasa el turno y elimina las bolas más bajas del rival), o con la regla oficial de la WPA, la de los torneos internacionales, con todos los tiros cantados y bola en mano en cualquier lugar tras una falta. Cada regla tiene su rating y su ranking mundial, y cambias de regla cuando quieras. Las reglas completas están a un clic, en el menú y durante la partida.
 
-En español, inglés y portugués.
+En 27 idiomas, entre ellos español, inglés, portugués, francés, alemán, italiano, ruso, turco, árabe, hindi, chino, japonés y coreano.
 
 ### Novedades de esta versión
 
-Versión 0.8.3: lo que ganas se muestra, un juego a la vez y troneras más limpias.
+Versión 0.9.0: el juego en 27 idiomas.
+• Ahora en español, inglés, portugués (de Brasil y de Portugal), francés, alemán, italiano, neerlandés, sueco, polaco, checo, húngaro, rumano, griego, ruso, ucraniano, turco, indonesio, filipino, vietnamita, tailandés, hindi, bengalí, árabe, chino, japonés y coreano.
+• Todo traducido: las pantallas, las reglas, las novedades y los nombres de los países.
+• El juego se abre en el idioma de tu sistema; cámbialo en Ajustes → Juego.
+
+De la versión 0.8.3: lo que ganas se muestra, un juego a la vez y troneras más limpias.
 • Un artículo que viene con un logro, como al subir de nivel, llega con una ventana de "¡Felicidades!" y puede usarse al momento.
 • Abrir el juego cuando ya está abierto trae su ventana al frente en vez de abrir un segundo.
 • Regla brasileña: en el saque traspasado con las bolas ya repartidas, tocar primero la 8 es falta y embocarla pierde; solo en el saque del triángulo la 8 sola gana.
 • Troneras sin rebabas, el zoom mantenido al pasar de la vista superior al 3D, y muchos errores corregidos.
-
-De la versión 0.8.2: el saque y el tiempo de tiro en la regla brasileña, y el taco por cualquier parte.
-• Regla brasileña: quedarse sin tiempo de tiro es falta: sale la menor bola del rival y la blanca vuelve al punto de salida, sin bola en mano.
-• Regla brasileña: los jugadores sacan por turnos, una vez cada uno; el saque que pierde la blanca sin meter ninguna bola, o con bolas de los dos grupos, pasa al rival, desde el punto de salida.
-• Puedes agarrar y arrastrar el taco por cualquier parte, de la punta a la culata.
-• La arena contra la máquina tiene siete rondas, la tienda tiene un icono nuevo y se corrigieron muchos errores.
 
 ### Características del producto
 
@@ -246,7 +244,7 @@ De la versión 0.8.2: el saque y el tiempo de tiro en la regla brasileña, y el 
 15. Hecho para ver bien, con opción de jugar solo en la vista superior
 16. Gráficos de Bajo a Ultra: funciona en PCs antiguos y brilla en los nuevos
 17. Regla brasileña u oficial (WPA), cada una con su rating y ranking, siempre a mano
-18. En español, inglés y portugués
+18. En 27 idiomas, del español al chino, el árabe y el hindi
 
 ### Términos de búsqueda
 

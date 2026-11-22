@@ -12,6 +12,10 @@
   stops) and came back a moment later. It now fades in and out, stays put
   while the aim moves (dimmed until the new answer comes), its bar slides
   to the new chance, and a waver of the aim isn't a new shot.
+- **A game just left isn't offered to watch**: the lounge's TV was picked
+  again only every 4 seconds, so a player back in the lounge saw the game
+  they had just left. It changes the moment a game starts, ends or loses
+  a player, and the lounge never offers a player's own game.
 - **Reactions while watching a game**: the list opened and closed at once
   (a spectator has two reaction buttons, and the second one closed it).
 

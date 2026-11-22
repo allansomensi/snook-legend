@@ -2663,3 +2663,30 @@ async fn http_get(host: &str, path: &str) -> (u16, serde_json::Value) {
     let body = out.split_once("\r\n\r\n").map(|x| x.1).unwrap_or("");
     (code, serde_json::from_str(body).unwrap_or(serde_json::Value::Null))
 }
+
+/// A game that ends leaves the lounge's TV at once, not on its next round
+/// (a player back in the lounge was offered to watch the game they left).
+#[tokio::test]
+async fn the_tv_drops_a_game_the_moment_it_ends() {
+    let url = start(Settings::default()).await;
+    let (mut alice, _) = Client::register(&url, "alice").await;
+    let (mut bob, _) = Client::register(&url, "bob").await;
+    let (mut eve, _) = Client::register(&url, "eve").await;
+    alice.send(ClientMsg::CreateInviteCode { rated: false, rules: Rules::Brazilian }).await;
+    let ServerMsg::InviteCode { code } =
+        alice.expect("code", |m| matches!(m, ServerMsg::InviteCode { .. })).await
+    else {
+        unreachable!()
+    };
+    bob.send(ClientMsg::JoinByCode { code }).await;
+    alice.expect("match", |m| matches!(m, ServerMsg::MatchStarted { .. })).await;
+    eve.expect("on the TV", |m| matches!(m, ServerMsg::Featured { featured: Some(_) })).await;
+    alice.send(ClientMsg::Resign).await;
+    alice.send(ClientMsg::LeaveMatch).await;
+    let off = tokio::time::timeout(
+        std::time::Duration::from_millis(600),
+        eve.expect("off the TV", |m| matches!(m, ServerMsg::Featured { featured: None })),
+    )
+    .await;
+    assert!(off.is_ok(), "the TV still showed the game that ended");
+}

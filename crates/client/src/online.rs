@@ -3057,8 +3057,13 @@ impl Online {
             }
             return action;
         }
-        // The featured game: anyone can watch it.
-        if let Some(f) = self.featured.clone()
+        // The featured game: anyone can watch it. One of this player's own,
+        // seen from the lounge, is a game they just left (the server's word
+        // that the TV changed may still be on its way): not offered.
+        let mine = |f: &snook_legend_proto::FeaturedMatch, me: &Option<PlayerInfo>| {
+            me.as_ref().is_some_and(|m| f.players.iter().any(|p| p.username == m.username))
+        };
+        if let Some(f) = self.featured.clone().filter(|f| !mine(f, &self.me))
             && !self.lan
         {
             let r = Rect::new(inner_x, log_top, inner_w, 58.0);

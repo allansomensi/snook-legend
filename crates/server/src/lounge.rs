@@ -364,6 +364,10 @@ pub struct Lounge {
     /// The game shown on the lounge's "TV".
     featured: Option<FeaturedMatch>,
     last_featured: Option<Instant>,
+    /// A game started, ended or lost a player: the TV is picked again as
+    /// soon as the message (or tick) that did it is handled, not on the
+    /// next round (a game just left was still offered to watch).
+    featured_dirty: bool,
     /// Games between two players (sorted keys) recently, rated and casual
     /// apart.
     pair_games: HashMap<(String, String, bool), VecDeque<Instant>>,
@@ -789,6 +793,7 @@ impl Lounge {
         if room.grace_until.is_some() && room.disconnected.iter().all(Option::is_none) {
             // Both are back after a restart: the clock starts now.
             room.grace_until = None;
+            self.featured_dirty = true;
             room.deadline = Instant::now() + self.settings.shot_clock;
         }
         let opponent = room.keys[1 - seat].clone();
@@ -807,6 +812,11 @@ impl Lounge {
 
     /// Connection `conn_id` closed.
     pub fn leave(&mut self, username: &str, conn_id: u64) {
+        self.leave_conn(username, conn_id);
+        self.flush_featured();
+    }
+
+    fn leave_conn(&mut self, username: &str, conn_id: u64) {
         let k = key(username);
         if self.sessions.get(&k).is_none_or(|s| s.conn_id != conn_id) {
             return; // A newer connection replaced this one.
@@ -1277,11 +1287,24 @@ impl Lounge {
     fn close_room_if_empty(&mut self, id: u64) {
         if self.rooms.get(&id).is_some_and(|r| !r.present[0] && !r.present[1]) {
             self.rooms.remove(&id);
+            self.featured_dirty = true;
         }
     }
 
     /// Handles a message from a signed-in player.
     pub fn handle(&mut self, username: &str, msg: ClientMsg) {
+        self.handle_msg(username, msg);
+        self.flush_featured();
+    }
+
+    /// Picks the TV's game again if something changed it.
+    fn flush_featured(&mut self) {
+        if std::mem::take(&mut self.featured_dirty) {
+            self.update_featured();
+        }
+    }
+
+    fn handle_msg(&mut self, username: &str, msg: ClientMsg) {
         let k = key(username);
         let announced = matches!(
             msg,
@@ -2437,6 +2460,7 @@ impl Lounge {
             self.send(k, msg);
         }
         self.rooms.insert(id, room);
+        self.featured_dirty = true;
         for k in &keys {
             self.announce(k);
         }
@@ -2907,6 +2931,7 @@ impl Lounge {
         room.result = Some(result.clone());
         room.ended = Some(Instant::now());
         self.finished_rooms.insert(id, Instant::now());
+        self.featured_dirty = true;
         room.rematch = [false, false];
         // Show the new numbers at once; the database catches up.
         for (seat, k) in keys.iter().enumerate() {
@@ -2993,6 +3018,7 @@ impl Lounge {
             let table_look = room.table_look.clone();
             let private = room.private;
             self.rooms.remove(&id);
+            self.featured_dirty = true;
             for p in &keys {
                 if let Some(s) = self.sessions.get_mut(p) {
                     s.room = None;
@@ -3044,6 +3070,12 @@ impl Lounge {
 
     /// Called periodically: shot clocks, abandoned games, tournaments.
     pub fn tick(&mut self) {
+        self.tick_inner();
+        // What the tick ended (a clock, a player who didn't come back).
+        self.flush_featured();
+    }
+
+    fn tick_inner(&mut self) {
         if !self.queue.is_empty() {
             self.match_queue();
         }
@@ -3082,6 +3114,7 @@ impl Lounge {
         }
         for id in dropped {
             if let Some(room) = self.rooms.remove(&id) {
+                self.featured_dirty = true;
                 tracing::info!(room = id, "game dropped: both players gone");
                 // (Its saved copy, not deleted yet, isn't rebuilt.)
                 self.finished_rooms.insert(id, Instant::now());
@@ -3126,7 +3159,10 @@ impl Lounge {
                 self.hand_off(id);
             }
         }
-        if self.last_featured.is_none_or(|t| nowi.duration_since(t) > Duration::from_secs(4)) {
+        if self.featured_dirty
+            || self.last_featured.is_none_or(|t| nowi.duration_since(t) > Duration::from_secs(4))
+        {
+            self.featured_dirty = false;
             self.last_featured = Some(nowi);
             self.update_featured();
         }
@@ -3159,6 +3195,7 @@ impl Lounge {
             .collect();
         for id in stale {
             self.rooms.remove(&id);
+            self.featured_dirty = true;
         }
         self.tournaments_tick(nowi);
     }
@@ -3363,8 +3400,10 @@ impl Lounge {
     /// which rebuilds the table) and the room is closed here.
     fn hand_off(&mut self, id: u64) {
         let Some(room) = self.rooms.remove(&id) else { return };
+        self.featured_dirty = true;
         if room.finished || room.guests.iter().any(|g| *g) {
             self.rooms.insert(id, room);
+            self.featured_dirty = true;
             return;
         }
         tracing::info!(room = id, "game handed to the next server");
@@ -3454,6 +3493,7 @@ impl Lounge {
             resigning: None,
         };
         self.rooms.insert(id, room);
+        self.featured_dirty = true;
         self.next_id = self.next_id.max(id + 1);
         // A player online here already is back at the table at once (else
         // they would sit in the lounge, told nothing, and lose the game for

@@ -3,6 +3,14 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.10.1
+
+### Ekranlar yine aydınlık
+0.10.0'da lobiyi açmak tüm arayüzü karartabiliyordu, menüye dönünce bile. Düzeltildi.
+
+### Giriş yapan girişli kalır
+Oyun, "Çıkış yap"ı seçene kadar seni girişli tutar; bağlantı kopsa ya da sunucu yeniden başlasa bile: menü seni çevrimdışı gösterir, bir tık yeniden bağlar. Bir hesap yine aynı anda tek yerde olur: başka yerden giriş öncekinin bağlantısını keser.
+
 ## 0.10.0
 
 ### Yeni bir görünüm

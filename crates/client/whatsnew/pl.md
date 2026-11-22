@@ -2,6 +2,14 @@
 # "## <wersja>" zaczyna wersję (najnowsze najpierw), "### <tytuł>" nowość,
 # a kolejne wiersze to jej tekst. Każdy język ma te same wersje i tyle samo nowości.
 
+## 0.10.1
+
+### Znowu jasne ekrany
+W wersji 0.10.0 otwarcie lobby mogło przyciemnić cały interfejs, nawet po powrocie do menu. Naprawione.
+
+### Zalogowany zostaje zalogowany
+Gra trzyma cię zalogowanym, dopóki nie wybierzesz „Wyloguj się”, nawet gdy połączenie zerwie się albo serwer się zrestartuje: menu pokazuje cię jako offline, a kliknięcie łączy ponownie. Konto nadal jest w jednym miejscu naraz: logowanie gdzie indziej rozłącza poprzednie.
+
 ## 0.10.0
 
 ### Nowy wygląd

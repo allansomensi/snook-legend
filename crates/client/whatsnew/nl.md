@@ -3,6 +3,14 @@
 # en de regels erna zijn de tekst ervan. Elke taal heeft dezelfde versies en
 # hetzelfde aantal hoogtepunten.
 
+## 0.10.1
+
+### Schermen weer helder
+In 0.10.0 kon het openen van de lounge de hele interface verduisterd laten, zelfs terug in het menu. Opgelost.
+
+### Ingelogd blijft ingelogd
+Het spel houdt je ingelogd tot je ‘Uitloggen’ kiest, ook als de verbinding wegvalt of de server herstart: het menu toont je offline en één klik verbindt opnieuw. Een account is nog steeds op één plek tegelijk: elders inloggen verbreekt de andere.
+
 ## 0.10.0
 
 ### Een nieuwe look

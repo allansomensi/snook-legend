@@ -3,6 +3,14 @@
 # destaque, e as linhas seguintes são o texto dele. Curto e sobre o que os
 # jogadores veem; todas as línguas têm as mesmas versões e o mesmo número de destaques.
 
+## 0.10.1
+
+### Ecrãs claros outra vez
+Na 0.10.0, abrir o salão podia deixar toda a interface escurecida, mesmo de volta ao menu. Corrigido.
+
+### Sessão iniciada fica iniciada
+O jogo mantém a sua sessão até escolher “Terminar sessão”, mesmo que a ligação caia ou o servidor reinicie: o menu mostra-o offline e um clique volta a ligar. Uma conta continua num só lugar: entrar noutro lado desliga o anterior.
+
 ## 0.10.0
 
 ### Um novo aspeto

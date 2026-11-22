@@ -3,6 +3,14 @@
 # un destacado, y las líneas siguientes son su texto. Mismas versiones y
 # mismo número de destacados en todos los idiomas.
 
+## 0.10.1
+
+### Pantallas claras otra vez
+En la 0.10.0, abrir el salón podía dejar toda la interfaz oscurecida, incluso de vuelta en el menú. Corregido.
+
+### La sesión sigue abierta
+El juego mantiene tu sesión hasta que elijas "Cerrar sesión", aunque se caiga la conexión o el servidor se reinicie: el menú te muestra sin conexión y un clic vuelve a conectar. Una cuenta sigue en un solo lugar: entrar en otro desconecta el anterior.
+
 ## 0.10.0
 
 ### Un aspecto nuevo

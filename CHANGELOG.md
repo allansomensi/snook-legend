@@ -1,6 +1,9 @@
 # Changelog
 
-## Unreleased
+## 0.10.1 (protocol 24)
+
+Fixes for 0.10.0: screens that stayed dark, and a session that asked to
+sign in again. The protocol and the server are unchanged.
 
 ### Fixes
 - **The screens no longer go dark**: since 0.10.0, opening the lounge left

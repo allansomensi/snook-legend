@@ -2,6 +2,14 @@
 # "## <phiên bản>" mở đầu một phiên bản (mới nhất trước), "### <tiêu đề>" là một điểm nổi bật,
 # và các dòng sau đó là nội dung. Mọi ngôn ngữ có cùng các phiên bản và cùng số điểm nổi bật.
 
+## 0.10.1
+
+### Màn hình sáng trở lại
+Ở 0.10.0, mở sảnh có thể làm toàn bộ giao diện bị tối, kể cả khi quay lại menu. Đã sửa.
+
+### Đã đăng nhập thì vẫn đăng nhập
+Trò chơi giữ bạn đăng nhập cho đến khi bạn chọn "Đăng xuất", kể cả khi mất kết nối hay máy chủ khởi động lại: menu hiện bạn ngoại tuyến và một cú nhấn sẽ kết nối lại. Mỗi tài khoản vẫn chỉ ở một nơi: đăng nhập nơi khác sẽ ngắt nơi trước.
+
 ## 0.10.0
 
 ### Diện mạo mới

@@ -2,6 +2,14 @@
 # A "## <verzió>" egy verziót kezd (a legújabb elöl), a "### <cím>" egy
 # kiemelést, az utána következő sorok pedig a szövegét.
 
+## 0.10.1
+
+### Újra világos képernyők
+A 0.10.0-ban a társalgó megnyitása az egész felületet elsötétíthette, még a menübe visszatérve is. Javítva.
+
+### Aki belépett, bent marad
+A játék bejelentkezve tart, amíg a „Kijelentkezés” lehetőséget nem választod, akkor is, ha megszakad a kapcsolat vagy újraindul a szerver: a menü offline mutat, és egy kattintás újra csatlakoztat. Egy fiók továbbra is egy helyen lehet: máshol belépve a másik lecsatlakozik.
+
 ## 0.10.0
 
 ### Új külső

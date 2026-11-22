@@ -2,6 +2,14 @@
 # "## <bersiyon>" ang simula ng isang bersiyon (pinakabago muna), "### <pamagat>"
 # ng isang highlight, at ang mga linya pagkatapos nito ang teksto nito.
 
+## 0.10.1
+
+### Maliliwanag na ulit ang screen
+Sa 0.10.0, ang pagbukas ng lounge ay puwedeng mag-iwan ng madilim na interface, kahit pagbalik sa menu. Naayos na.
+
+### Nananatiling naka-sign in
+Pinananatili kang naka-sign in ng laro hanggang piliin mo ang "Mag-sign out", kahit maputol ang koneksyon o mag-restart ang server: offline ka sa menu, at isang click lang para kumonekta ulit. Isang lugar lang pa rin ang account: ang pag-sign in sa iba ay nagdi-disconnect sa nauna.
+
 ## 0.10.0
 
 ### Bagong itsura

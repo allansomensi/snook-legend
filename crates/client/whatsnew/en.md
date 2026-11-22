@@ -3,6 +3,14 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.10.1
+
+### Screens bright again
+In 0.10.0, opening the lounge could leave the whole interface dimmed, even back in the menu. Fixed.
+
+### Signed in stays signed in
+The game keeps you signed in until you choose "Sign out", even after the connection drops or the server restarts: the menu shows you offline, and a click connects again. An account is still in one place at a time: signing in elsewhere disconnects the other.
+
 ## 0.10.0
 
 ### A new look

@@ -3,6 +3,14 @@
 # och raderna efter den är dess text. Håll det kort och om det spelarna
 # ser; alla språk har samma versioner och samma antal nyheter.
 
+## 0.10.1
+
+### Ljusa skärmar igen
+I 0.10.0 kunde loungen lämna hela gränssnittet mörklagt, även tillbaka i menyn. Åtgärdat.
+
+### Inloggad förblir inloggad
+Spelet håller dig inloggad tills du väljer ”Logga ut”, även om anslutningen bryts eller servern startar om: menyn visar dig offline och ett klick ansluter igen. Ett konto är fortfarande på ett ställe i taget: att logga in någon annanstans kopplar från det andra.
+
 ## 0.10.0
 
 ### Ett nytt utseende

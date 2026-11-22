@@ -2,6 +2,14 @@
 # "## <versiune>" începe o versiune (cea mai nouă prima), "### <titlu>" o noutate,
 # iar rândurile de după sunt textul ei.
 
+## 0.10.1
+
+### Ecrane din nou luminoase
+În 0.10.0, deschiderea salonului putea lăsa toată interfața întunecată, chiar și înapoi în meniu. Rezolvat.
+
+### Conectat rămâne conectat
+Jocul te ține conectat până alegi „Deconectare”, chiar dacă legătura cade sau serverul repornește: meniul te arată offline, iar un clic te conectează din nou. Un cont rămâne într-un singur loc: conectarea în altă parte îl deconectează pe celălalt.
+
 ## 0.10.0
 
 ### Un aspect nou

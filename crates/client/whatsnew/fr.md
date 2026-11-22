@@ -4,6 +4,14 @@
 # parlez de ce que voient les joueurs ; chaque langue a les mêmes versions et
 # le même nombre de points forts.
 
+## 0.10.1
+
+### Des écrans de nouveau clairs
+Dans la 0.10.0, ouvrir le salon pouvait laisser toute l'interface assombrie, même de retour au menu. Corrigé.
+
+### Connecté, vous le restez
+Le jeu garde votre session jusqu'à ce que vous choisissiez « Se déconnecter », même si la connexion tombe ou que le serveur redémarre : le menu vous montre hors ligne et un clic vous reconnecte. Un compte reste à un seul endroit : se connecter ailleurs déconnecte l'autre.
+
 ## 0.10.0
 
 ### Un nouveau look

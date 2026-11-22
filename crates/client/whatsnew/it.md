@@ -3,6 +3,14 @@
 # novità, e le righe che seguono sono il suo testo. Ogni lingua ha le stesse
 # versioni e lo stesso numero di novità.
 
+## 0.10.1
+
+### Schermate di nuovo chiare
+Nella 0.10.0, aprire la sala poteva lasciare tutta l'interfaccia scurita, anche tornando al menu. Risolto.
+
+### Chi entra resta dentro
+Il gioco ti tiene connesso finché non scegli «Esci», anche se la connessione cade o il server si riavvia: il menu ti mostra offline e un clic ti ricollega. Un account resta in un solo posto: entrare altrove disconnette l'altro.
+
 ## 0.10.0
 
 ### Un aspetto nuovo

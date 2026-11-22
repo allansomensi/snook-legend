@@ -3,6 +3,14 @@
 # dan baris sesudahnya adalah teksnya. Singkat dan tentang apa yang dilihat
 # pemain; setiap bahasa punya versi yang sama dan jumlah sorotan yang sama.
 
+## 0.10.1
+
+### Layar terang lagi
+Di 0.10.0, membuka lobi bisa membuat seluruh antarmuka tetap gelap, bahkan saat kembali ke menu. Sudah diperbaiki.
+
+### Tetap masuk sampai kamu keluar
+Game menjagamu tetap masuk sampai kamu memilih "Keluar", meski koneksi putus atau server dimulai ulang: menu menampilkanmu offline, dan satu klik menyambung lagi. Satu akun tetap hanya di satu tempat: masuk di tempat lain memutus yang lama.
+
 ## 0.10.0
 
 ### Tampilan baru

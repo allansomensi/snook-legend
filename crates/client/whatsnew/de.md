@@ -3,6 +3,14 @@
 # Highlight, und die Zeilen danach sind sein Text. Jede Sprache hat dieselben
 # Versionen und dieselbe Anzahl an Highlights.
 
+## 0.10.1
+
+### Wieder helle Bildschirme
+In 0.10.0 konnte das Öffnen der Lounge die ganze Oberfläche abdunkeln, selbst zurück im Menü. Behoben.
+
+### Angemeldet bleibt angemeldet
+Das Spiel hält dich angemeldet, bis du „Abmelden“ wählst, auch wenn die Verbindung abbricht oder der Server neu startet: Das Menü zeigt dich offline, ein Klick verbindet wieder. Ein Konto ist weiter nur an einem Ort: Anmelden anderswo trennt den anderen.
+
 ## 0.10.0
 
 ### Ein neuer Look

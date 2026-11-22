@@ -3,6 +3,14 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.10.1
+
+### 界面恢复明亮
+在 0.10.0 中，打开大厅后整个界面可能一直变暗，回到菜单也一样。已修复。
+
+### 登录后保持登录
+在你选择“退出登录”之前，游戏会一直保持登录，即使连接中断或服务器重启：菜单会显示你离线，点击一下即可重新连接。一个账号同一时间仍只能在一处登录：在别处登录会断开原来的连接。
+
 ## 0.10.0
 
 ### 全新外观

@@ -3,6 +3,14 @@
 # destaque, e as linhas seguintes são o texto dele. Mesmas versões e mesmo
 # número de destaques em todas as línguas.
 
+## 0.10.1
+
+### Telas claras de novo
+Na 0.10.0, abrir o salão podia deixar a interface inteira escurecida, mesmo de volta ao menu. Corrigido.
+
+### Conectado continua conectado
+O jogo mantém você na conta até você escolher “Sair da conta”, mesmo se a conexão cair ou o servidor reiniciar: o menu mostra você offline, e um clique conecta de novo. Uma conta continua em um lugar só: entrar em outro lugar desconecta o anterior.
+
 ## 0.10.0
 
 ### Um visual novo

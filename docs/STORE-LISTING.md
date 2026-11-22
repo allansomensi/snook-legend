@@ -57,17 +57,17 @@ Em 27 idiomas, entre eles português, inglês, espanhol, francês, alemão, ital
 
 ### Novidades desta versão
 
-Versão 0.10.0: um visual novo e fotos de perfil do jogo.
+Versão 0.10.1: telas sempre claras e a conta conectada até você sair.
+• Corrigido: abrir o salão podia deixar a interface escurecida.
+• O jogo mantém você na conta até você escolher "Sair da conta", mesmo se a conexão cair; uma conta fica em um lugar só.
+
+Da versão 0.10.0: um visual novo e fotos de perfil do jogo.
 • Interface refeita: fonte feita para telas, ícones nítidos, bordas lisas, menu novo com o logotipo e botões com animação e clique suave.
 • 32 fotos de perfil novas com coisas da sinuca, das bolas numeradas ao taco em chamas, no lugar dos rostos.
 • Na loja, panos e bolas aparecem como na mesa, sob a luz da luminária.
 • Mensagens claras quando o servidor não responde, com o botão "Tentar de novo".
 
-Da versão 0.9.1: chats renovados, mesa e perfil mais limpos e troca de conta pelo perfil.
-
-Da versão 0.9.0: o jogo em 27 idiomas.
-• Agora em português (do Brasil e de Portugal), inglês, espanhol, francês, alemão, italiano, holandês, sueco, polonês, tcheco, húngaro, romeno, grego, russo, ucraniano, turco, indonésio, filipino, vietnamita, tailandês, hindi, bengali, árabe, chinês, japonês e coreano.
-• Tudo traduzido: as telas, as regras, as novidades e os nomes dos países.
+Da versão 0.9.0: o jogo em 27 idiomas, com as regras, as novidades e os nomes dos países traduzidos.
 
 ### Recursos do produto
 
@@ -136,17 +136,17 @@ In 27 languages, including English, Portuguese, Spanish, French, German, Italian
 
 ### What's new in this version
 
-Version 0.10.0: a new look and profile pictures from the game.
+Version 0.10.1: screens always bright, and signed in until you sign out.
+• Fixed: opening the lounge could leave the interface dimmed.
+• The game keeps you signed in until you choose "Sign out", even if the connection drops; an account is in one place at a time.
+
+From version 0.10.0: a new look and profile pictures from the game.
 • The interface redone: a typeface made for screens, sharp icons, smooth edges, a new menu with the logo, and buttons that light up and click softly.
 • 32 new profile pictures of pool things, from the numbered balls to a cue on fire, in place of the faces.
 • In the shop, cloths and ball sets look as on the table, under the lamp.
 • Clear messages when the server doesn't answer, with a "Try again" button.
 
-From version 0.9.1: the chats redone, a cleaner table and profile, and switching accounts from the profile.
-
-From version 0.9.0: the game in 27 languages.
-• Now in English, Portuguese (Brazil and Portugal), Spanish, French, German, Italian, Dutch, Swedish, Polish, Czech, Hungarian, Romanian, Greek, Russian, Ukrainian, Turkish, Indonesian, Filipino, Vietnamese, Thai, Hindi, Bengali, Arabic, Chinese, Japanese and Korean.
-• Everything translated: the screens, the rules, what's new and the countries' names.
+From version 0.9.0: the game in 27 languages, with the rules, what's new and the countries' names translated.
 
 ### Product features
 
@@ -215,17 +215,17 @@ En 27 idiomas, entre ellos español, inglés, portugués, francés, alemán, ita
 
 ### Novedades de esta versión
 
-Versión 0.10.0: un aspecto nuevo y fotos de perfil del juego.
+Versión 0.10.1: pantallas siempre claras y la sesión abierta hasta que salgas.
+• Corregido: abrir el salón podía dejar la interfaz oscurecida.
+• El juego mantiene tu sesión hasta que elijas "Cerrar sesión", aunque se caiga la conexión; una cuenta está en un solo lugar.
+
+De la versión 0.10.0: un aspecto nuevo y fotos de perfil del juego.
 • La interfaz rehecha: una tipografía pensada para pantallas, iconos nítidos, bordes suaves, un menú nuevo con el logotipo y botones que se iluminan con un clic suave.
 • 32 fotos de perfil nuevas con cosas del billar, de las bolas numeradas a un taco en llamas, en lugar de las caras.
 • En la tienda, los paños y las bolas se ven como en la mesa, bajo la lámpara.
 • Mensajes claros cuando el servidor no responde, con el botón "Reintentar".
 
-De la versión 0.9.1: chats renovados, mesa y perfil más limpios y cambio de cuenta desde el perfil.
-
-De la versión 0.9.0: el juego en 27 idiomas.
-• Ahora en español, inglés, portugués (de Brasil y de Portugal), francés, alemán, italiano, neerlandés, sueco, polaco, checo, húngaro, rumano, griego, ruso, ucraniano, turco, indonesio, filipino, vietnamita, tailandés, hindi, bengalí, árabe, chino, japonés y coreano.
-• Todo traducido: las pantallas, las reglas, las novedades y los nombres de los países.
+De la versión 0.9.0: el juego en 27 idiomas, con las reglas, las novedades y los nombres de los países traducidos.
 
 ### Características del producto
 

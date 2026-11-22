@@ -3,6 +3,14 @@
 # a řádky za ním jsou její text. Krátce a o tom, co hráči vidí; všechny
 # jazyky mají stejné verze a stejný počet novinek.
 
+## 0.10.1
+
+### Zase jasné obrazovky
+Ve verzi 0.10.0 mohlo otevření herny nechat celé rozhraní ztmavené, i po návratu do menu. Opraveno.
+
+### Přihlášený zůstává přihlášený
+Hra tě nechá přihlášeného, dokud nezvolíš „Odhlásit se“, i když spojení spadne nebo se server restartuje: menu tě ukáže offline a kliknutí znovu připojí. Účet je dál jen na jednom místě: přihlášení jinde odpojí to druhé.
+
 ## 0.10.0
 
 ### Nový vzhled

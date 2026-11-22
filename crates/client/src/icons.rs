@@ -1,10 +1,12 @@
-//! Small vector icons drawn with shapes (no image files), so they stay
-//! sharp at any interface size and fade with the HUD.
+//! The interface's icons: one family (Phosphor, MIT, with the game's own
+//! drawn in its style), in a font made by `tools/gen_icons.py`. They are
+//! drawn as text, rasterised at the size they are shown, so they stay
+//! sharp at any interface size, and fade with the HUD.
+
+use std::cell::OnceCell;
+use std::mem::ManuallyDrop;
 
 use macroquad::prelude::*;
-
-#[allow(unused_imports)]
-use crate::paint::{draw_circle, draw_circle_lines, draw_line, draw_rectangle, draw_triangle};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Icon {
@@ -71,371 +73,84 @@ pub enum Icon {
     SignOut,
 }
 
-fn arc(c: Vec2, r: f32, from: f32, to: f32, w: f32, color: Color) {
-    let steps = 14;
-    let mut prev = c + Vec2::from_angle(from) * r;
-    for k in 1..=steps {
-        let a = from + (to - from) * k as f32 / steps as f32;
-        let p = c + Vec2::from_angle(a) * r;
-        draw_line(prev.x, prev.y, p.x, p.y, w, color);
-        prev = p;
-    }
+thread_local! {
+    // Never dropped: a font freed after the window (at exit) would free its
+    // texture in a dead graphics context.
+    static FONT: OnceCell<ManuallyDrop<Font>> = const { OnceCell::new() };
 }
 
-/// The upper half of a disc centred on `c`.
-fn half_disc(c: Vec2, r: f32, color: Color) {
-    let steps = 12;
-    for k in 0..steps {
-        let a0 = std::f32::consts::PI * (1.0 + k as f32 / steps as f32);
-        let a1 = std::f32::consts::PI * (1.0 + (k + 1) as f32 / steps as f32);
-        draw_triangle(c, c + Vec2::from_angle(a0) * r, c + Vec2::from_angle(a1) * r, color);
-    }
+const FONT_BYTES: &[u8] = include_bytes!("../assets/icons.ttf");
+
+/// How much of `s` the icon's square takes (Phosphor's shapes nearly fill it).
+const SCALE: f32 = 0.92;
+
+/// The felt under [`Icon::Table`]'s rails.
+const TABLE_FELT: char = '\u{E200}';
+const FELT: Color = Color::new(0.13, 0.5, 0.3, 1.0);
+
+fn glyph(icon: Icon, filled: bool) -> char {
+    let base = if filled { 0xE100 } else { 0xE000 };
+    char::from_u32(base + icon as u32).unwrap_or(' ')
 }
 
-fn line(a: Vec2, b: Vec2, w: f32, color: Color) {
-    draw_line(a.x, a.y, b.x, b.y, w, color);
-}
-
-/// Draws `icon` centred on `c`, about `s` units across.
+/// Draws `icon` centred on `c`, about `s` units across, in the outline style.
 pub fn draw(icon: Icon, c: Vec2, s: f32, color: Color) {
-    let h = s / 2.0;
-    let w = (s * 0.1).max(1.4);
-    let p = |x: f32, y: f32| c + vec2(x, y) * h;
-    match icon {
-        Icon::Trophy => {
-            // Cup, handles, stem and base.
-            draw_triangle(p(-0.55, -0.75), p(0.55, -0.75), p(0.0, 0.2), color);
-            draw_rectangle(c.x - 0.55 * h, c.y - 0.85 * h, 1.1 * h, 0.35 * h, color);
-            arc(p(-0.55, -0.45), 0.28 * h, 1.57, 4.71, w * 0.8, color);
-            arc(p(0.55, -0.45), 0.28 * h, -1.57, 1.57, w * 0.8, color);
-            line(p(0.0, 0.1), p(0.0, 0.55), w * 1.4, color);
-            draw_rectangle(c.x - 0.45 * h, c.y + 0.55 * h, 0.9 * h, 0.25 * h, color);
-        }
-        Icon::Person => {
-            draw_circle(c.x, c.y - 0.38 * h, 0.34 * h, color);
-            half_disc(c + vec2(0.0, 0.85 * h), 0.68 * h, color);
-        }
-        Icon::People => {
-            let dim = Color::new(color.r, color.g, color.b, color.a * 0.6);
-            draw_circle(c.x + 0.38 * h, c.y - 0.4 * h, 0.27 * h, dim);
-            half_disc(c + vec2(0.38 * h, 0.6 * h), 0.5 * h, dim);
-            draw_circle(c.x - 0.25 * h, c.y - 0.3 * h, 0.31 * h, color);
-            half_disc(c + vec2(-0.25 * h, 0.85 * h), 0.6 * h, color);
-        }
-        Icon::Gear => {
-            for k in 0..8 {
-                let a = k as f32 * std::f32::consts::TAU / 8.0;
-                let d = Vec2::from_angle(a);
-                line(c + d * 0.45 * h, c + d * 0.85 * h, w * 2.2, color);
-            }
-            draw_circle(c.x, c.y, 0.6 * h, color);
-            draw_circle(c.x, c.y, 0.25 * h, Color::new(0.0, 0.0, 0.0, 0.55));
-        }
-        Icon::Power => {
-            arc(c, 0.65 * h, -1.0, 4.14, w, color);
-            line(p(0.0, -0.95), p(0.0, -0.15), w, color);
-        }
-        Icon::Replay => {
-            arc(c, 0.62 * h, -2.6, 2.2, w, color);
-            let tip = c + Vec2::from_angle(-2.6) * 0.62 * h;
-            draw_triangle(
-                tip + vec2(-0.35, -0.05) * h,
-                tip + vec2(0.25, -0.2) * h,
-                tip + vec2(0.05, 0.38) * h,
-                color,
-            );
-            draw_triangle(p(-0.12, -0.25), p(-0.12, 0.25), p(0.28, 0.0), color);
-        }
-        Icon::CameraReset => {
-            // A camera body with its lens…
-            let body = Rect::new(c.x - 0.78 * h, c.y - 0.42 * h, 1.2 * h, 0.95 * h);
-            crate::ui::rrect(body, 0.16 * h, color);
-            draw_rectangle(c.x - 0.45 * h, c.y - 0.6 * h, 0.4 * h, 0.2 * h, color);
-            let lens = vec2(body.x + body.w / 2.0, body.y + body.h / 2.0);
-            draw_circle(lens.x, lens.y, 0.28 * h, Color::new(0.0, 0.0, 0.0, 0.7));
-            draw_circle(lens.x, lens.y, 0.15 * h, color);
-            // …and a "go back" arrow curling round its corner.
-            let ac = c + vec2(0.55 * h, 0.45 * h);
-            arc(ac, 0.36 * h, -1.2, 2.2, w, color);
-            let tip = ac + Vec2::from_angle(-1.2) * 0.36 * h;
-            draw_triangle(
-                tip + vec2(-0.26, -0.12) * h,
-                tip + vec2(0.18, -0.2) * h,
-                tip + vec2(0.0, 0.24) * h,
-                color,
-            );
-        }
-        Icon::Plus => {
-            line(p(-0.65, 0.0), p(0.65, 0.0), w * 1.3, color);
-            line(p(0.0, -0.65), p(0.0, 0.65), w * 1.3, color);
-        }
-        Icon::Minus => line(p(-0.65, 0.0), p(0.65, 0.0), w * 1.3, color),
-        Icon::Close => {
-            line(p(-0.55, -0.55), p(0.55, 0.55), w * 1.2, color);
-            line(p(-0.55, 0.55), p(0.55, -0.55), w * 1.2, color);
-        }
-        Icon::Back => {
-            line(p(-0.65, 0.0), p(0.65, 0.0), w * 1.2, color);
-            line(p(-0.65, 0.0), p(-0.1, -0.55), w * 1.2, color);
-            line(p(-0.65, 0.0), p(-0.1, 0.55), w * 1.2, color);
-        }
-        Icon::Lock => {
-            arc(
-                p(0.0, -0.25),
-                0.38 * h,
-                std::f32::consts::PI,
-                std::f32::consts::TAU,
-                w * 1.1,
-                color,
-            );
-            line(p(-0.38, -0.25), p(-0.38, 0.05), w * 1.1, color);
-            line(p(0.38, -0.25), p(0.38, 0.05), w * 1.1, color);
-            crate::ui::rrect(Rect::new(c.x - 0.6 * h, c.y, 1.2 * h, 0.85 * h), 0.15 * h, color);
-        }
-        Icon::Globe => {
-            draw_circle_lines(c.x, c.y, 0.8 * h, w, color);
-            line(p(-0.8, 0.0), p(0.8, 0.0), w * 0.8, color);
-            arc(c + vec2(0.9 * h, 0.0), 1.2 * h, 2.43, 3.85, w * 0.8, color);
-            arc(c - vec2(0.9 * h, 0.0), 1.2 * h, -0.71, 0.71, w * 0.8, color);
-        }
-        Icon::Swap => {
-            line(p(-0.7, -0.3), p(0.7, -0.3), w * 1.1, color);
-            line(p(0.7, -0.3), p(0.32, -0.65), w * 1.1, color);
-            line(p(0.7, 0.3), p(-0.7, 0.3), w * 1.1, color);
-            line(p(-0.7, 0.3), p(-0.32, 0.65), w * 1.1, color);
-        }
-        Icon::Network => {
-            crate::ui::rrect(
-                Rect::new(c.x - 0.3 * h, c.y - 0.85 * h, 0.6 * h, 0.45 * h),
-                0.08 * h,
-                color,
-            );
-            for x in [-0.6f32, 0.0, 0.6] {
-                crate::ui::rrect(
-                    Rect::new(c.x + (x - 0.25) * h, c.y + 0.4 * h, 0.5 * h, 0.42 * h),
-                    0.08 * h,
-                    color,
-                );
-                line(p(x, 0.4), p(x, 0.05), w * 0.9, color);
-            }
-            line(p(-0.6, 0.05), p(0.6, 0.05), w * 0.9, color);
-            line(p(0.0, -0.4), p(0.0, 0.05), w * 0.9, color);
-        }
-        Icon::Robot => {
-            crate::ui::rrect(
-                Rect::new(c.x - 0.7 * h, c.y - 0.45 * h, 1.4 * h, 1.1 * h),
-                0.25 * h,
-                color,
-            );
-            let hole = Color::new(0.0, 0.0, 0.0, 0.6);
-            draw_circle(c.x - 0.3 * h, c.y + 0.0, 0.16 * h, hole);
-            draw_circle(c.x + 0.3 * h, c.y + 0.0, 0.16 * h, hole);
-            line(p(0.0, -0.45), p(0.0, -0.8), w, color);
-            draw_circle(c.x, c.y - 0.85 * h, 0.12 * h, color);
-        }
-        Icon::Medal => {
-            draw_triangle(p(-0.45, -0.95), p(-0.05, -0.95), p(0.0, -0.1), color);
-            draw_triangle(p(0.45, -0.95), p(0.05, -0.95), p(0.0, -0.1), color);
-            draw_circle(c.x, c.y + 0.35 * h, 0.5 * h, color);
-            draw_circle_lines(
-                c.x,
-                c.y + 0.35 * h,
-                0.3 * h,
-                w * 0.7,
-                Color::new(0.0, 0.0, 0.0, 0.35),
-            );
-        }
-        Icon::Star => {
-            let pts: Vec<Vec2> = (0..10)
-                .map(|k| {
-                    let r = if k % 2 == 0 { 0.95 } else { 0.42 };
-                    c + Vec2::from_angle(
-                        -std::f32::consts::FRAC_PI_2 + k as f32 * std::f32::consts::PI / 5.0,
-                    ) * r
-                        * h
-                })
-                .collect();
-            for k in 0..10 {
-                draw_triangle(c, pts[k], pts[(k + 1) % 10], color);
+    draw_style(icon, c, s, color, false);
+}
+
+/// Draws `icon` filled (a selected or solid look).
+pub fn draw_filled(icon: Icon, c: Vec2, s: f32, color: Color) {
+    draw_style(icon, c, s, color, true);
+}
+
+fn draw_style(icon: Icon, c: Vec2, s: f32, color: Color, filled: bool) {
+    if icon == Icon::Table {
+        draw_glyph(TABLE_FELT, c, s, Color::new(FELT.r, FELT.g, FELT.b, color.a));
+    }
+    draw_glyph(glyph(icon, filled), c, s, color);
+}
+
+fn draw_glyph(ch: char, c: Vec2, s: f32, color: Color) {
+    let k = crate::ui::ui_scale();
+    // Whole pixels: the glyph's square on the pixel grid.
+    let px = (s * SCALE * k).round().max(1.0);
+    let em = px / k;
+    let x = ((c.x - em / 2.0) * k).round() / k;
+    // The square spans 0.8 em above the baseline and 0.2 below.
+    let baseline = ((c.y - em / 2.0) * k).round() / k + 0.8 * em;
+    let mut buf = [0u8; 4];
+    FONT.with(|f| {
+        let font = f.get_or_init(|| {
+            ManuallyDrop::new(load_ttf_font_from_bytes(FONT_BYTES).expect("the icon font"))
+        });
+        draw_text_ex(
+            ch.encode_utf8(&mut buf),
+            x,
+            baseline,
+            TextParams {
+                font: Some(&**font),
+                font_size: px as u16,
+                font_scale: 1.0 / k,
+                color: crate::paint::fade(color),
+                ..Default::default()
+            },
+        );
+    });
+}
+
+#[cfg(test)]
+mod tests {
+    /// The font has both styles of every icon (tools/gen_icons.py made it
+    /// from this enum: run it again after adding one).
+    #[test]
+    fn every_icon_is_in_the_font() {
+        let face = rustybuzz::Face::from_slice(super::FONT_BYTES, 0).unwrap();
+        for k in 0..=super::Icon::SignOut as u32 {
+            for base in [0xE000, 0xE100] {
+                let c = char::from_u32(base + k).unwrap();
+                assert!(face.glyph_index(c).is_some(), "icon {k} (U+{:04X})", base + k);
             }
         }
-        Icon::Refresh => {
-            arc(c, 0.62 * h, -0.4, 4.6, w, color);
-            let tip = c + Vec2::from_angle(-0.4) * 0.62 * h;
-            draw_triangle(
-                tip + vec2(-0.3, -0.25) * h,
-                tip + vec2(0.32, -0.08) * h,
-                tip + vec2(0.02, 0.35) * h,
-                color,
-            );
-        }
-        Icon::Table => {
-            crate::ui::rrect(
-                Rect::new(c.x - 0.9 * h, c.y - 0.55 * h, 1.8 * h, 1.1 * h),
-                0.18 * h,
-                color,
-            );
-            draw_rectangle(
-                c.x - 0.7 * h,
-                c.y - 0.35 * h,
-                1.4 * h,
-                0.7 * h,
-                Color::new(0.1, 0.45, 0.25, color.a),
-            );
-            for (x, y) in [
-                (-0.7f32, -0.35f32),
-                (0.0, -0.35),
-                (0.7, -0.35),
-                (-0.7, 0.35),
-                (0.0, 0.35),
-                (0.7, 0.35),
-            ] {
-                draw_circle(c.x + x * h, c.y + y * h, 0.1 * h, Color::new(0.0, 0.0, 0.0, color.a));
-            }
-        }
-        Icon::Play => draw_triangle(p(-0.45, -0.7), p(-0.45, 0.7), p(0.7, 0.0), color),
-        Icon::Pause => {
-            for x in [-0.42, 0.18] {
-                crate::ui::rrect(
-                    Rect::new(c.x + x * h, c.y - 0.68 * h, 0.26 * h, 1.36 * h),
-                    0.06 * h,
-                    color,
-                );
-            }
-        }
-        Icon::RemoveFriend => {
-            draw_circle(c.x - 0.2 * h, c.y - 0.38 * h, 0.32 * h, color);
-            half_disc(c + vec2(-0.2 * h, 0.85 * h), 0.62 * h, color);
-            line(p(0.42, -0.2), p(0.98, -0.2), w * 1.2, color);
-        }
-        Icon::Block => {
-            draw_circle_lines(c.x, c.y, 0.72 * h, w * 1.5, color);
-            line(p(-0.5, 0.5), p(0.5, -0.5), w * 1.5, color);
-        }
-        Icon::Flag => {
-            // The pole, and the cloth waving from its top.
-            line(p(-0.58, -0.8), p(-0.58, 0.86), w * 1.4, color);
-            draw_triangle(p(-0.56, -0.8), p(0.7, -0.5), p(-0.56, -0.12), color);
-            draw_triangle(p(-0.56, -0.12), p(0.7, -0.5), p(0.6, 0.02), color);
-        }
-        Icon::SignOut => {
-            // The door frame, open on the right, and the arrow leaving it.
-            line(p(0.1, -0.82), p(-0.62, -0.82), w * 1.4, color);
-            line(p(-0.62, -0.82), p(-0.62, 0.82), w * 1.4, color);
-            line(p(-0.62, 0.82), p(0.1, 0.82), w * 1.4, color);
-            line(p(-0.22, 0.0), p(0.78, 0.0), w * 1.5, color);
-            line(p(0.78, 0.0), p(0.44, -0.34), w * 1.5, color);
-            line(p(0.78, 0.0), p(0.44, 0.34), w * 1.5, color);
-        }
-        Icon::ChevronLeft | Icon::ChevronRight => {
-            let d = if icon == Icon::ChevronLeft { 1.0 } else { -1.0 };
-            line(p(0.3 * d, -0.62), p(-0.3 * d, 0.0), w * 1.4, color);
-            line(p(-0.3 * d, 0.0), p(0.3 * d, 0.62), w * 1.4, color);
-        }
-        Icon::Clean => {
-            for (sx, sy) in [(-1.0, -1.0), (1.0, -1.0), (1.0, 1.0), (-1.0, 1.0)] {
-                let corner = p(0.78 * sx, 0.78 * sy);
-                line(corner, corner + vec2(-0.42 * sx, 0.0) * h, w * 1.3, color);
-                line(corner, corner + vec2(0.0, -0.42 * sy) * h, w * 1.3, color);
-            }
-        }
-        Icon::Shop => {
-            // A shopping cart (a bag with a handle read as a padlock): the
-            // handle and its post, the basket with its slats, the rail and
-            // the wheels.
-            line(p(-0.98, -0.74), p(-0.66, -0.74), w * 1.3, color);
-            line(p(-0.66, -0.74), p(-0.4, 0.36), w * 1.3, color);
-            let (a, b, d, e) = (p(-0.6, -0.5), p(0.96, -0.5), p(0.74, 0.18), p(-0.45, 0.18));
-            draw_triangle(a, b, d, color);
-            draw_triangle(a, d, e, color);
-            let slat = Color::new(0.0, 0.0, 0.0, 0.4 * color.a);
-            line(p(-0.07, -0.44), p(-0.05, 0.12), w * 0.7, slat);
-            line(p(0.42, -0.44), p(0.36, 0.12), w * 0.7, slat);
-            line(p(-0.4, 0.36), p(0.76, 0.36), w * 1.3, color);
-            let wheel = 0.17 * h;
-            draw_circle(c.x - 0.22 * h, c.y + 0.68 * h, wheel, color);
-            draw_circle(c.x + 0.56 * h, c.y + 0.68 * h, wheel, color);
-        }
-        Icon::Coin => {
-            draw_circle(c.x, c.y, 0.82 * h, color);
-            draw_circle(
-                c.x,
-                c.y,
-                0.58 * h,
-                Color::new(color.r * 0.72, color.g * 0.62, color.b * 0.3, color.a),
-            );
-            draw_circle(c.x, c.y, 0.42 * h, color);
-        }
-        Icon::Crown => {
-            let y0 = c.y + 0.45 * h;
-            draw_rectangle(c.x - 0.7 * h, y0 - 0.22 * h, 1.4 * h, 0.3 * h, color);
-            draw_triangle(p(-0.7, 0.25), p(-0.7, -0.55), p(-0.25, 0.25), color);
-            draw_triangle(p(-0.35, 0.25), p(0.0, -0.75), p(0.35, 0.25), color);
-            draw_triangle(p(0.7, 0.25), p(0.7, -0.55), p(0.25, 0.25), color);
-        }
-        Icon::Gift => {
-            draw_rectangle(c.x - 0.7 * h, c.y - 0.2 * h, 1.4 * h, 0.95 * h, color);
-            draw_rectangle(c.x - 0.8 * h, c.y - 0.45 * h, 1.6 * h, 0.3 * h, color);
-            let ribbon = Color::new(color.r * 0.55, color.g * 0.35, color.b * 0.3, color.a);
-            draw_rectangle(c.x - 0.12 * h, c.y - 0.45 * h, 0.24 * h, 1.2 * h, ribbon);
-            arc(p(-0.28, -0.62), 0.24 * h, 0.0, std::f32::consts::TAU, w, color);
-            arc(p(0.28, -0.62), 0.24 * h, 0.0, std::f32::consts::TAU, w, color);
-        }
-        Icon::Hourglass => {
-            // Two frames, glass in outline, sand at the bottom.
-            line(p(-0.6, -0.9), p(0.6, -0.9), w * 1.3, color);
-            line(p(-0.6, 0.9), p(0.6, 0.9), w * 1.3, color);
-            line(p(-0.45, -0.9), p(0.45, 0.9), w, color);
-            line(p(0.45, -0.9), p(-0.45, 0.9), w, color);
-            line(p(-0.45, -0.9), p(-0.45, -0.75), w, color);
-            line(p(0.45, -0.9), p(0.45, -0.75), w, color);
-            draw_triangle(p(0.0, 0.25), p(-0.38, 0.85), p(0.38, 0.85), color);
-            draw_triangle(p(-0.22, -0.48), p(0.22, -0.48), p(0.0, -0.1), color);
-        }
-        Icon::Check => {
-            line(p(-0.62, 0.0), p(-0.18, 0.48), w * 1.5, color);
-            line(p(-0.18, 0.48), p(0.66, -0.52), w * 1.5, color);
-        }
-        Icon::Eye => {
-            // Almond outline (two arcs) and the iris.
-            let r = 1.15 * h;
-            arc(c + vec2(0.0, 0.62 * h), r, -2.10, -1.04, w, color);
-            arc(c - vec2(0.0, 0.62 * h), r, 1.04, 2.10, w, color);
-            draw_circle(c.x, c.y, 0.30 * h, color);
-        }
-        Icon::AddFriend => {
-            draw_circle(c.x - 0.2 * h, c.y - 0.38 * h, 0.32 * h, color);
-            half_disc(c + vec2(-0.2 * h, 0.85 * h), 0.62 * h, color);
-            line(p(0.42, -0.2), p(0.98, -0.2), w * 1.2, color);
-            line(p(0.7, -0.48), p(0.7, 0.08), w * 1.2, color);
-        }
-        Icon::Pencil => {
-            // The body on a diagonal, the tip bottom left.
-            let a = p(-0.62, 0.62);
-            let b = p(0.42, -0.42);
-            line(p(-0.32, 0.32), b, w * 2.6, color);
-            line(b + vec2(0.07, -0.07) * h, p(0.68, -0.68), w * 2.6, color);
-            draw_triangle(a, p(-0.5, 0.18), p(-0.18, 0.5), color);
-        }
-        Icon::List => {
-            for k in [-0.5f32, 0.0, 0.5] {
-                draw_circle(p(-0.6, k).x, p(-0.6, k).y, w * 1.3, color);
-                line(p(-0.3, k), p(0.7, k), w * 1.6, color);
-            }
-        }
-        Icon::Book => {
-            // Two pages opening from the spine, a few lines of text on each.
-            for side in [-1.0f32, 1.0] {
-                let s = side;
-                draw_triangle(p(0.0, -0.55), p(0.92 * s, -0.72), p(0.92 * s, 0.55), color);
-                draw_triangle(p(0.0, -0.55), p(0.92 * s, 0.55), p(0.0, 0.72), color);
-            }
-            let ink = Color::new(0.0, 0.0, 0.0, 0.45 * color.a);
-            line(p(0.0, -0.55), p(0.0, 0.72), w * 0.9, ink);
-            for k in [-0.3f32, 0.0, 0.3] {
-                line(p(-0.72, k - 0.08), p(-0.2, k), w * 0.7, ink);
-                line(p(0.2, k), p(0.72, k - 0.08), w * 0.7, ink);
-            }
-        }
+        assert!(face.glyph_index(super::TABLE_FELT).is_some());
     }
 }

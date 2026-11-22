@@ -212,9 +212,15 @@ struct Overlay {
     draw: Box<dyn FnOnce(&Ui)>,
 }
 
+/// Bold text this size and larger is drawn in the display face (Inter
+/// Display, its letters a little closer, made for titles).
+pub const DISPLAY_SIZE: f32 = 21.0;
+
 pub struct Ui {
     regular: Font,
     bold: Font,
+    /// Big bold titles (see [`DISPLAY_SIZE`]).
+    display: Font,
     mouse: Vec2,
     pressed: bool,
     released: bool,
@@ -270,13 +276,11 @@ pub struct Ui {
 
 impl Ui {
     pub fn new() -> Self {
-        let regular =
-            load_ttf_font_from_bytes(include_bytes!("../assets/DejaVuSans.ttf")).expect("font");
-        let bold = load_ttf_font_from_bytes(include_bytes!("../assets/DejaVuSans-Bold.ttf"))
-            .expect("font");
+        let font = |bytes| load_ttf_font_from_bytes(bytes).expect("a bundled font");
         Ui {
-            regular,
-            bold,
+            regular: font(crate::fonts::INTER_REGULAR),
+            bold: font(crate::fonts::INTER_BOLD),
+            display: font(crate::fonts::INTER_DISPLAY),
             mouse: Vec2::ZERO,
             pressed: false,
             released: false,
@@ -429,6 +433,18 @@ impl Ui {
             .sum()
     }
 
+    /// The interface's own font for text of `size`: big bold titles in the
+    /// display face, made for large sizes.
+    fn main_font(&self, size: f32, bold: bool) -> &Font {
+        if !bold {
+            &self.regular
+        } else if size >= DISPLAY_SIZE {
+            &self.display
+        } else {
+            &self.bold
+        }
+    }
+
     /// The font that draws `face` character by character (None and `Main`:
     /// the interface's own).
     fn chars_font(&self, face: Option<Face>, bold: bool) -> Option<Font> {
@@ -441,7 +457,7 @@ impl Ui {
     /// The width of characters drawn one by one in `face`.
     fn chars_width(&self, text: &str, face: Option<Face>, size: f32, bold: bool) -> f32 {
         let other = self.chars_font(face, bold);
-        let font = other.as_ref().unwrap_or(if bold { &self.bold } else { &self.regular });
+        let font = other.as_ref().unwrap_or(self.main_font(size, bold));
         // Fonts are rasterised at the real pixel size, so text stays sharp at
         // any interface scale.
         let k = ui_scale();
@@ -577,7 +593,7 @@ impl Ui {
         bold: bool,
     ) {
         let other = self.chars_font(face, bold);
-        let font = other.as_ref().unwrap_or(if bold { &self.bold } else { &self.regular });
+        let font = other.as_ref().unwrap_or(self.main_font(size, bold));
         draw_text_ex(
             text,
             (x * ui_scale()).round() / ui_scale(),

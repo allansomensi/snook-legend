@@ -1,9 +1,10 @@
 //! The fonts of every script the game speaks, and how a line of text is
 //! laid out in them.
 //!
-//! DejaVu Sans (the interface's own font, held by [`crate::ui::Ui`]) draws
-//! Latin, Greek and Cyrillic, character by character, as it always did.
-//! What it lacks comes from Noto (subsets made by `tools/gen_fonts.py`):
+//! Inter (the interface's own font, held by [`crate::ui::Ui`]; subsets
+//! made by `tools/gen_ui_fonts.py`) draws Latin, Greek and Cyrillic,
+//! character by character. The symbols it lacks come from DejaVu Sans, and
+//! the other scripts from Noto (subsets made by `tools/gen_fonts.py`):
 //!
 //! - Chinese, Japanese and Korean, also character by character, the font
 //!   of the player's language first (the same character is drawn a little
@@ -20,6 +21,7 @@
 
 use std::cell::{OnceCell, RefCell};
 use std::collections::HashMap;
+use std::mem::ManuallyDrop;
 use std::rc::Rc;
 
 use macroquad::prelude::*;
@@ -28,11 +30,19 @@ use crate::i18n::Lang;
 
 const DEJAVU: &[u8] = include_bytes!("../assets/DejaVuSans.ttf");
 
+/// The interface's text faces (Inter), for [`crate::ui::Ui`].
+pub const INTER_REGULAR: &[u8] = include_bytes!("../assets/inter/Inter-Regular.ttf");
+pub const INTER_BOLD: &[u8] = include_bytes!("../assets/inter/Inter-SemiBold.ttf");
+/// Big bold titles: Inter Display (drawn for large sizes).
+pub const INTER_DISPLAY: &[u8] = include_bytes!("../assets/inter/InterDisplay-Bold.ttf");
+
 /// A font face beyond the interface's own (`Main`).
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum Face {
-    /// DejaVu Sans: the [`crate::ui::Ui`]'s fonts.
+    /// Inter: the [`crate::ui::Ui`]'s fonts.
     Main,
+    /// DejaVu Sans: the symbols Inter lacks.
+    Symbols,
     Chinese,
     Japanese,
     Korean,
@@ -43,8 +53,9 @@ pub enum Face {
 }
 
 impl Face {
-    const ALL: [Face; 8] = [
+    const ALL: [Face; 9] = [
         Face::Main,
+        Face::Symbols,
         Face::Chinese,
         Face::Japanese,
         Face::Korean,
@@ -77,7 +88,9 @@ impl Face {
             };
         }
         match self {
-            Face::Main => {
+            // (Only its coverage is asked for: the Ui draws it.)
+            Face::Main => INTER_REGULAR,
+            Face::Symbols => {
                 if bold {
                     include_bytes!("../assets/DejaVuSans-Bold.ttf")
                 } else {
@@ -106,8 +119,10 @@ struct Parsed {
 }
 
 thread_local! {
-    static PARSED: [OnceCell<Option<Parsed>>; 16] = Default::default();
-    static CHARS: [OnceCell<Option<Font>>; 16] = Default::default();
+    static PARSED: [OnceCell<Option<Parsed>>; 18] = Default::default();
+    // Never dropped: a font freed after the window (at exit) would free its
+    // texture in a dead graphics context.
+    static CHARS: [OnceCell<Option<ManuallyDrop<Font>>>; 18] = Default::default();
     static LAYOUTS: RefCell<HashMap<(String, bool, Lang), Rc<Layout>>> =
         RefCell::new(HashMap::new());
     static ATLAS: RefCell<Option<Atlas>> = const { RefCell::new(None) };
@@ -131,12 +146,15 @@ fn covers(face: Face, c: char) -> bool {
     with_parsed(face, false, |p| p.shaper.glyph_index(c).is_some()).unwrap_or(false)
 }
 
-/// The macroquad font that draws `face` character by character (DejaVu's
+/// The macroquad font that draws `face` character by character (Inter's
 /// are the [`crate::ui::Ui`]'s; these are loaded the first time a line
 /// needs them).
 pub fn chars_font(face: Face, bold: bool) -> Option<Font> {
     CHARS.with(|c| {
-        c[face.index(bold)].get_or_init(|| load_ttf_font_from_bytes(face.bytes(bold)).ok()).clone()
+        c[face.index(bold)]
+            .get_or_init(|| load_ttf_font_from_bytes(face.bytes(bold)).ok().map(ManuallyDrop::new))
+            .as_ref()
+            .map(|f| Font::clone(f))
     })
 }
 
@@ -164,12 +182,14 @@ pub struct Layout {
     pub runs: Vec<Run>,
 }
 
-/// Text DejaVu draws by itself, as it always did (no layout needed):
-/// Latin, Greek, Cyrillic and the common punctuation and symbols.
+/// Text the interface's font draws by itself (no layout needed): Latin,
+/// Greek, Cyrillic and the common punctuation and symbols it has.
 pub fn simple(text: &str) -> bool {
     text.chars().all(|c| {
-        let c = c as u32;
-        c < 0x0590 || (0x1E00..0x200B).contains(&c) || (0x2010..0x2E00).contains(&c)
+        let n = c as u32;
+        n < 0x80
+            || ((n < 0x0590 || (0x1E00..0x200B).contains(&n) || (0x2010..0x2E00).contains(&n))
+                && covers(Face::Main, c))
     })
 }
 
@@ -233,6 +253,9 @@ fn face_for(c: char, current: Option<Face>, lang: Lang) -> Face {
     }
     if covers(Face::Main, c) {
         return Face::Main;
+    }
+    if covers(Face::Symbols, c) {
+        return Face::Symbols;
     }
     cjk_order(lang).into_iter().find(|f| covers(*f, c)).unwrap_or(Face::Main)
 }

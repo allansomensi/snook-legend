@@ -89,7 +89,7 @@ struct AccountForm {
 }
 
 /// Where the content starts under the header (from the panel's top).
-const BODY_TOP: f32 = 326.0;
+const BODY_TOP: f32 = 290.0;
 /// The body's height for the shot analysis (at least).
 const ANALYSIS_H: f32 = 352.0;
 /// The body's height: the summary on the left, a pane on the right.
@@ -162,6 +162,113 @@ pub fn medal_color(level: u8) -> Color {
         1 => Color::new(0.80, 0.82, 0.86, 1.0),
         2 => GOLD,
         _ => Color::new(0.62, 0.90, 0.98, 1.0),
+    }
+}
+
+/// An achievement's medal, drawn: a ribbon in a V (its colour by the
+/// medal's metal, with a light stripe down the middle), and a metal disc
+/// lit from the top left, with a darker rim, an inner ring and an embossed
+/// star (diamond medals sparkle). `locked`: greyed and faint. `size` is
+/// the whole medal's height, centred on `c`.
+pub fn medal_art(c: Vec2, size: f32, level: u8, locked: bool) {
+    let metal = medal_color(level);
+    let ribbon = match level {
+        0 => Color::new(0.52, 0.16, 0.18, 1.0),
+        1 => Color::new(0.16, 0.24, 0.48, 1.0),
+        2 => Color::new(0.62, 0.12, 0.12, 1.0),
+        _ => Color::new(0.10, 0.42, 0.50, 1.0),
+    };
+    // Locked: the colours drained and darkened.
+    let grey = |c: Color, k: f32| {
+        if locked {
+            let l = 0.3 * c.r + 0.59 * c.g + 0.11 * c.b;
+            let v = l * 0.32 + 0.1;
+            Color::new(v, v, v, c.a * 0.7)
+        } else {
+            Color::new((c.r * k).min(1.0), (c.g * k).min(1.0), (c.b * k).min(1.0), c.a)
+        }
+    };
+    let r = size * 0.3;
+    let disc = vec2(c.x, c.y + size * 0.5 - r - 1.0);
+    // The ribbon: two straps from the top meeting behind the disc.
+    let top = c.y - size * 0.5;
+    let w = size * 0.2;
+    for side in [-1.0f32, 1.0] {
+        let a = vec2(c.x + side * size * 0.24, top);
+        let b = vec2(disc.x + side * size * 0.02, disc.y - r * 0.4);
+        let n = vec2(w / 2.0, 0.0);
+        crate::paint::draw_triangle(a - n, a + n, b + n, grey(ribbon, 1.0));
+        crate::paint::draw_triangle(a - n, b + n, b - n, grey(ribbon, 1.0));
+        // The light stripe down its middle.
+        let m = vec2(w * 0.14, 0.0);
+        crate::paint::draw_triangle(a - m, a + m, b + m, grey(ribbon, 1.7));
+        crate::paint::draw_triangle(a - m, b + m, b - m, grey(ribbon, 1.7));
+    }
+    // The disc: a dark rim, then the metal shaded from the top left.
+    draw_circle(disc.x, disc.y + 0.8, r + 1.2, Color::new(0.0, 0.0, 0.0, 0.35));
+    draw_circle(disc.x, disc.y, r, grey(metal, 0.62));
+    let steps = 6;
+    for k in 0..steps {
+        let f = k as f32 / steps as f32;
+        let rr = r * (0.9 - 0.42 * f);
+        let off = vec2(-0.18, -0.2) * r * f;
+        draw_circle(disc.x + off.x, disc.y + off.y, rr, grey(metal, 0.82 + 0.3 * f));
+    }
+    // The inner ring and the star, embossed (a shadow, then the light).
+    draw_circle_lines(disc.x, disc.y, r * 0.74, 1.0, grey(metal, 0.6));
+    let star = |o: Vec2, rad: f32, color: Color| {
+        let pts: Vec<Vec2> = (0..10)
+            .map(|k| {
+                let rk = if k % 2 == 0 { rad } else { rad * 0.45 };
+                disc + o
+                    + Vec2::from_angle(
+                        -std::f32::consts::FRAC_PI_2 + k as f32 * std::f32::consts::PI / 5.0,
+                    ) * rk
+            })
+            .collect();
+        for k in 0..10 {
+            crate::paint::draw_triangle(disc + o, pts[k], pts[(k + 1) % 10], color);
+        }
+    };
+    star(vec2(0.7, 0.9), r * 0.5, grey(metal, 0.42));
+    star(Vec2::ZERO, r * 0.5, grey(metal, 1.38));
+    // A diamond medal sparkles at its edge.
+    if level >= 3 && !locked {
+        let sp = disc + vec2(r * 0.62, -r * 0.62);
+        let l = r * 0.42;
+        let white = Color::new(1.0, 1.0, 1.0, 0.9);
+        crate::paint::draw_line(sp.x - l, sp.y, sp.x + l, sp.y, 1.2, white);
+        crate::paint::draw_line(sp.x, sp.y - l, sp.x, sp.y + l, 1.2, white);
+        draw_circle(sp.x, sp.y, 1.6, white);
+    }
+}
+
+/// An achievement's cell: a soft glow of its metal behind the medal (none
+/// while locked, then a small lock), lit gold under the pointer.
+fn medal_cell(c: Rect, level: u8, unlocked: bool, hover: bool) {
+    let metal = medal_color(level);
+    rrect(c, 9.0, Color::new(1.0, 1.0, 1.0, if hover { 0.07 } else { 0.035 }));
+    let centre = vec2(c.x + c.w / 2.0, c.y + c.h / 2.0);
+    if unlocked {
+        draw_circle(
+            centre.x,
+            centre.y + c.h * 0.1,
+            c.w * 0.36,
+            Color::new(metal.r, metal.g, metal.b, 0.1),
+        );
+        rrect_lines(c, 9.0, 1.0, Color::new(metal.r, metal.g, metal.b, 0.35));
+    }
+    medal_art(centre, c.h * 0.9, level, !unlocked);
+    if !unlocked {
+        crate::icons::draw(
+            Icon::Lock,
+            vec2(c.x + c.w - 8.5, c.y + c.h - 8.5),
+            9.0,
+            Color::new(MUTED.r, MUTED.g, MUTED.b, 0.9),
+        );
+    }
+    if hover {
+        rrect_lines(c, 9.0, 1.5, GOLD);
     }
 }
 
@@ -647,80 +754,82 @@ impl ProfileScreen {
             ui.text_centered(label, c.x + c.w / 2.0, c.y + 37.0, size, MUTED, false);
         }
 
-        // The actions on the right of one row; on its left, what the two
-        // ratings mean (the rest of the account is the same under both).
-        let row_mid = r.y + 294.0;
+        // A line between the header and the tabs.
         let line_y = r.y + BODY_TOP - 14.0;
         draw_line(r.x + PAD, line_y, r.x + r.w - PAD, line_y, 1.0, BORDER);
-        // Actions, from the right: the main one is green.
+
+        // The actions: a row of icons at the top right, under the ghost's
+        // button, each named by its hint. Making friends, the way on, is
+        // green; a block waiting for its second click is red.
+        let size = 32.0;
+        let row_mid = r.y + 77.0;
         let mut bx = r.x + r.w - PAD;
-        let by = row_mid - 16.0;
-        // `quiet`: a secondary action (block, report, end a friendship), as
-        // a plain word that lights up under the pointer.
-        let mut action_button =
-            |ui: &mut Ui, label: &str, enabled: bool, primary: bool, quiet: bool| -> bool {
-                if quiet {
-                    let w = ui.text_size(label, 13.0, true).x + 20.0;
-                    bx -= w;
-                    let b = Rect::new(bx, by, w, 32.0);
+        #[derive(Clone, Copy, PartialEq)]
+        enum Look {
+            Plain,
+            Primary,
+            Armed,
+        }
+        let mut icon_action = |ui: &mut Ui, icon: Icon, tip: &str, enabled: bool, look: Look| {
+            bx -= size;
+            let b = Rect::new(bx, row_mid - size / 2.0, size, size);
+            bx -= 6.0;
+            match look {
+                Look::Plain => ui.icon_button_ex(b, icon, tip, enabled, false),
+                Look::Primary | Look::Armed => {
                     ui.block(b);
                     let hover = ui.hovering(b);
+                    let (fill, edge) = if look == Look::Primary {
+                        (
+                            Color::new(0.16, 0.42, 0.24, if hover { 1.0 } else { 0.92 }),
+                            Color::new(0.45, 0.85, 0.55, if hover { 1.0 } else { 0.7 }),
+                        )
+                    } else {
+                        (
+                            Color::new(0.5, 0.14, 0.1, if hover { 1.0 } else { 0.9 }),
+                            Color::new(ALERT.r, ALERT.g, ALERT.b, 1.0),
+                        )
+                    };
+                    rrect(b, 7.0, fill);
+                    rrect_lines(b, 7.0, 1.2, edge);
+                    crate::icons::draw(icon, vec2(b.x + b.w / 2.0, row_mid), size * 0.52, CREAM);
                     if hover {
-                        rrect(b, 6.0, Color::new(1.0, 1.0, 1.0, 0.06));
+                        ui.tooltip(tip, b);
                     }
-                    let color = if hover { CREAM } else { MUTED };
-                    ui.text_centered(
-                        label,
-                        b.x + b.w / 2.0,
-                        text_y(b.y + 16.0, 13.0),
-                        13.0,
-                        color,
-                        true,
-                    );
-                    bx -= 4.0;
-                    return hover && ui.clicked(b);
+                    hover && ui.released_in(b)
                 }
-                let w = ui.text_size(label, 14.0, true).x + 32.0;
-                bx -= w;
-                let b = Rect::new(bx, by, w, 32.0);
-                let hit = if primary && enabled {
-                    ui.primary_button(b, label)
-                } else {
-                    ui.button(b, label, enabled)
-                };
-                bx -= 8.0;
-                hit
-            };
+            }
+        };
 
         let name = player.username.clone();
         let actions = !(player.guest || online.lan);
         match p.relation {
             _ if !actions => {}
             Relation::Me => {
-                if action_button(ui, t("Account"), true, false, false) {
+                if icon_action(ui, Icon::Gear, t("Account"), true, Look::Plain) {
                     self.account = Some(AccountForm::default());
                     online.send(ClientMsg::Account);
                 }
-                if action_button(ui, t("Change country"), true, false, false) {
+                if icon_action(ui, Icon::Globe, t("Change country"), true, Look::Plain) {
                     crate::countries::open_at(&player.country);
                 }
             }
             _ if online.me.is_none() => {}
             relation => {
                 if relation != Relation::Blocked
-                    && action_button(ui, t("Report"), true, false, true)
+                    && icon_action(ui, Icon::Flag, t("Report"), true, Look::Plain)
                 {
                     let me = online.me.as_ref().map(|m| m.username.as_str());
                     self.report = Some(crate::report::ReportDialog::from_profile(p, me, now()));
                 }
-                let block_label = if relation == Relation::Blocked {
-                    t("Unblock")
+                let (block_tip, block_look) = if relation == Relation::Blocked {
+                    (t("Unblock"), Look::Plain)
                 } else if self.confirm_block {
-                    t("Click again to block")
+                    (t("Click again to block"), Look::Armed)
                 } else {
-                    t("Block")
+                    (t("Block"), Look::Plain)
                 };
-                if action_button(ui, block_label, true, false, !self.confirm_block) {
+                if icon_action(ui, Icon::Block, block_tip, true, block_look) {
                     if relation == Relation::Blocked {
                         online.send(ClientMsg::Unblock { username: name.clone() });
                         online.request_profile(&name);
@@ -733,18 +842,20 @@ impl ProfileScreen {
                     }
                 }
                 let friend = match relation {
-                    Relation::Friend => Some(t("Remove friend")),
-                    Relation::RequestSent => Some(t("Request sent")),
-                    Relation::RequestReceived => Some(t("Accept friend")),
-                    Relation::None => Some(t("Add friend")),
+                    Relation::Friend => Some((Icon::RemoveFriend, t("Remove friend"), Look::Plain)),
+                    Relation::RequestSent => {
+                        Some((Icon::AddFriend, t("Request sent"), Look::Plain))
+                    }
+                    Relation::RequestReceived => {
+                        Some((Icon::AddFriend, t("Accept friend"), Look::Primary))
+                    }
+                    Relation::None => Some((Icon::AddFriend, t("Add friend"), Look::Primary)),
                     _ => None,
                 };
-                if let Some(label) = friend {
+                if let Some((icon, tip, look)) = friend {
                     let enabled = relation != Relation::RequestSent;
-                    // Making friends is the way on; ending it is not.
-                    let primary = matches!(relation, Relation::None | Relation::RequestReceived);
-                    let quiet = relation == Relation::Friend;
-                    if action_button(ui, label, enabled, primary, quiet) {
+                    let look = if enabled { look } else { Look::Plain };
+                    if icon_action(ui, icon, tip, enabled, look) {
                         let msg = match relation {
                             Relation::Friend => ClientMsg::FriendRemove { username: name.clone() },
                             Relation::RequestReceived => {
@@ -758,13 +869,18 @@ impl ProfileScreen {
                 }
                 // A daily game: one turn at a time, even while they are away.
                 if relation != Relation::Blocked
-                    && action_button(ui, t("Daily game"), true, false, false)
+                    && icon_action(
+                        ui,
+                        Icon::Hourglass,
+                        t("Challenge to a daily game"),
+                        true,
+                        Look::Plain,
+                    )
                 {
                     crate::correspondence::challenge(online, &name);
                 }
             }
         }
-        let _ = bx;
     }
 
     /// The status message on the name's line (`x` to `end`, centred on
@@ -982,15 +1098,7 @@ impl ProfileScreen {
         }
         for (k, (a, _)) in won.iter().take(fit).enumerate() {
             let c = Rect::new(area.x + k as f32 * (MEDAL + MEDAL_GAP), y + 26.0, MEDAL, MEDAL);
-            let color = medal_color(a.level);
-            rrect(c, 8.0, Color::new(color.r, color.g, color.b, 0.12));
-            rrect_lines(c, 8.0, 1.2, Color::new(color.r, color.g, color.b, 0.7));
-            crate::icons::draw(
-                Icon::Medal,
-                vec2(c.x + MEDAL / 2.0, c.y + MEDAL / 2.0),
-                MEDAL * 0.62,
-                color,
-            );
+            medal_cell(c, a.level, true, ui.hovering(c));
             if ui.hovering(c) {
                 let tip = format!("{} ({}): {}", t(a.title), medal_tier(a.level), t(a.description));
                 ui.tooltip(&tip, c);
@@ -1050,35 +1158,19 @@ impl ProfileScreen {
                 MEDAL,
                 MEDAL,
             );
-            let unlocked = p.achievements.iter().find(|(code, _)| code == a.code);
-            let color = medal_color(a.level);
+            // Development aid: SNOOK_LEGEND_ALL_MEDALS shows every medal won.
+            let unlocked = p
+                .achievements
+                .iter()
+                .find(|(code, _)| code == a.code)
+                .map(|(_, at)| *at)
+                .or(crate::dev::flag("SNOOK_LEGEND_ALL_MEDALS").then_some(0));
             let hover = ui.hovering(c);
-            let centre = vec2(c.x + MEDAL / 2.0, c.y + MEDAL / 2.0);
-            if unlocked.is_some() {
-                rrect(c, 8.0, Color::new(color.r, color.g, color.b, 0.12));
-                rrect_lines(c, 8.0, 1.2, Color::new(color.r, color.g, color.b, 0.7));
-                crate::icons::draw(Icon::Medal, centre, MEDAL * 0.62, color);
-            } else {
-                // Still to win: a greyed medal (its colour hints at how hard
-                // it is) and a small lock.
-                rrect(c, 8.0, Color::new(1.0, 1.0, 1.0, 0.035));
-                rrect_lines(c, 8.0, 1.0, Color::new(1.0, 1.0, 1.0, 0.07));
-                let grey = |v: f32| v * 0.35 + 0.5 * 0.65;
-                let ghost = Color::new(grey(color.r), grey(color.g), grey(color.b), 0.45);
-                crate::icons::draw(Icon::Medal, centre, MEDAL * 0.55, ghost);
-                crate::icons::draw(
-                    Icon::Lock,
-                    vec2(c.x + c.w - 9.0, c.y + c.h - 9.0),
-                    10.0,
-                    Color::new(MUTED.r, MUTED.g, MUTED.b, 0.8),
-                );
-            }
-            if hover {
-                rrect_lines(c, 8.0, 1.5, GOLD);
-            }
+            // Still to win: greyed, with a small lock.
+            medal_cell(c, a.level, unlocked.is_some(), hover);
             ui.block(c);
             if hover {
-                tip = Some((a, unlocked.map(|(_, at)| *at), c));
+                tip = Some((a, unlocked, c));
             }
         }
         if let Some((a, at, c)) = tip {

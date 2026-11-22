@@ -60,6 +60,12 @@ pub enum Icon {
     /// Chevrons: the previous and the next.
     ChevronLeft,
     ChevronRight,
+    /// A person with a minus: stop being friends.
+    RemoveFriend,
+    /// A circle struck through: block a player.
+    Block,
+    /// A small flag on its pole: report a player.
+    Flag,
 }
 
 fn arc(c: Vec2, r: f32, from: f32, to: f32, w: f32, color: Color) {
@@ -293,6 +299,21 @@ pub fn draw(icon: Icon, c: Vec2, s: f32, color: Color) {
                     color,
                 );
             }
+        }
+        Icon::RemoveFriend => {
+            draw_circle(c.x - 0.2 * h, c.y - 0.38 * h, 0.32 * h, color);
+            half_disc(c + vec2(-0.2 * h, 0.85 * h), 0.62 * h, color);
+            line(p(0.42, -0.2), p(0.98, -0.2), w * 1.2, color);
+        }
+        Icon::Block => {
+            draw_circle_lines(c.x, c.y, 0.72 * h, w * 1.5, color);
+            line(p(-0.5, 0.5), p(0.5, -0.5), w * 1.5, color);
+        }
+        Icon::Flag => {
+            // The pole, and the cloth waving from its top.
+            line(p(-0.58, -0.8), p(-0.58, 0.86), w * 1.4, color);
+            draw_triangle(p(-0.56, -0.8), p(0.7, -0.5), p(-0.56, -0.12), color);
+            draw_triangle(p(-0.56, -0.12), p(0.7, -0.5), p(0.6, 0.02), color);
         }
         Icon::ChevronLeft | Icon::ChevronRight => {
             let d = if icon == Icon::ChevronLeft { 1.0 } else { -1.0 };

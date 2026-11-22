@@ -22,6 +22,16 @@
   beside it. The lounge has the emoji tray and shows your lines at once
   too, and a single line in its field sits in the middle. "Newer
   messages" is a pill that brings them back with a click.
+- **The profile's actions are icons**: a daily game (the hourglass, as in
+  the lounge), add or accept a friend (green), end a friendship, block
+  (red while it waits for the second click) and report (a flag) sit in a
+  row under the ghost's button, each named by its hint; one's own
+  profile has its account (a gear) and country (a globe) there. The row
+  of buttons is gone, and the profile is shorter.
+- **Achievement medals, drawn anew**: a ribbon in a V coloured by the
+  medal's metal, a metal disc lit from the top left with a rim, an inner
+  ring and an embossed star (diamond ones sparkle), on a soft glow of
+  their metal. Medals still to win are grey and faint, with a small lock.
 - **The profile, tidier**: on the Rating tab the rules' tag sat over the
   tabs ("Leagues and levels"); it is in the chart's corner now. The chart
   has a soft fill, a dot per game, a scale, dashed league lines and the

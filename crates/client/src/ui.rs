@@ -2095,13 +2095,8 @@ pub fn rrect(r: Rect, radius: f32, color: Color) {
     if r.w <= 0.0 || r.h <= 0.0 {
         return;
     }
-    let pts = rounded_points(r, radius);
-    let c = vec2(r.x + r.w / 2.0, r.y + r.h / 2.0);
-    for i in 0..pts.len() {
-        let a = pts[i];
-        let b = pts[(i + 1) % pts.len()];
-        draw_triangle(c, a, b, color);
-    }
+    let color = crate::paint::fade(color);
+    crate::aa::fill_convex(&rounded_points(r, radius), |_| color);
 }
 
 /// A rounded rectangle shaded from `top` to `bottom` (a smooth vertical
@@ -2120,25 +2115,7 @@ pub fn rrect_gradient(r: Rect, radius: f32, top: Color, bottom: Color) {
             top.a + (bottom.a - top.a) * k,
         ))
     };
-    let c = vec2(r.x + r.w / 2.0, r.y + r.h / 2.0);
-    // On the stack: panels and buttons draw hundreds of these a frame.
-    let vertex = |p: Vec2| macroquad::models::Vertex::new(p.x, p.y, 0.0, 0.0, 0.0, at(p.y));
-    let mut vertices = [vertex(c); OUTLINE + 1];
-    for (v, p) in vertices[1..].iter_mut().zip(pts) {
-        *v = vertex(p);
-    }
-    let indices: [u16; OUTLINE * 3] = std::array::from_fn(|k| {
-        let (i, corner) = (k / 3, k % 3);
-        match corner {
-            0 => 0,
-            1 => 1 + i as u16,
-            _ => 1 + ((i + 1) % OUTLINE) as u16,
-        }
-    });
-    let gl = unsafe { get_internal_gl() }.quad_gl;
-    gl.texture(None);
-    gl.draw_mode(DrawMode::Triangles);
-    gl.geometry(&vertices, &indices);
+    crate::aa::fill_convex(&pts, |p| at(p.y));
 }
 
 /// Dots going round: something is on its way. One look everywhere (the
@@ -2190,12 +2167,7 @@ fn raised(r: Rect, radius: f32, bg: Color, edge: Color, thickness: f32) {
 
 /// The outline of a rounded rectangle.
 pub fn rrect_lines(r: Rect, radius: f32, thickness: f32, color: Color) {
-    let pts = rounded_points(r, radius);
-    for i in 0..pts.len() {
-        let a = pts[i];
-        let b = pts[(i + 1) % pts.len()];
-        draw_line(a.x, a.y, b.x, b.y, thickness, color);
-    }
+    crate::aa::stroke(&rounded_points(r, radius), true, thickness, crate::paint::fade(color));
 }
 
 /// How much of a chat line is used ("180/200"), at the top right of its

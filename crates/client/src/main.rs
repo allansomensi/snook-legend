@@ -6,6 +6,7 @@
 //! Rendering uses macroquad (OpenGL 2.1 / GLES 2), so the game is small and
 //! runs on practically any PC, including old integrated graphics.
 
+mod aa;
 mod analysis;
 mod assess;
 mod audio;

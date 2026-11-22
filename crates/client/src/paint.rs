@@ -26,16 +26,17 @@ pub fn draw_rectangle(x: f32, y: f32, w: f32, h: f32, c: Color) {
     mq::draw_rectangle(x, y, w, h, fade(c));
 }
 
+/// (Circles, lines and ellipses are anti-aliased: see [`crate::aa`].)
 pub fn draw_circle(x: f32, y: f32, r: f32, c: Color) {
-    mq::draw_circle(x, y, r, fade(c));
+    crate::aa::circle(Vec2::new(x, y), r, fade(c));
 }
 
 pub fn draw_circle_lines(x: f32, y: f32, r: f32, t: f32, c: Color) {
-    mq::draw_circle_lines(x, y, r, t, fade(c));
+    crate::aa::circle_lines(Vec2::new(x, y), r, t, fade(c));
 }
 
 pub fn draw_line(x1: f32, y1: f32, x2: f32, y2: f32, t: f32, c: Color) {
-    mq::draw_line(x1, y1, x2, y2, t, fade(c));
+    crate::aa::line(Vec2::new(x1, y1), Vec2::new(x2, y2), t, fade(c));
 }
 
 pub fn draw_triangle(a: Vec2, b: Vec2, c: Vec2, color: Color) {
@@ -43,5 +44,5 @@ pub fn draw_triangle(a: Vec2, b: Vec2, c: Vec2, color: Color) {
 }
 
 pub fn draw_ellipse(x: f32, y: f32, w: f32, h: f32, c: Color) {
-    mq::draw_ellipse(x, y, w, h, 0.0, fade(c));
+    crate::aa::ellipse(Vec2::new(x, y), w, h, fade(c));
 }

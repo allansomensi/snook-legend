@@ -31,12 +31,18 @@ pub fn url(server: &str, page: Page) -> Option<String> {
 
 fn url_in(server: &str, page: Page, lang: Lang) -> Option<String> {
     let server = server.trim();
-    let (scheme, rest) = if let Some(rest) = server.strip_prefix("wss://") {
-        ("https", rest)
+    // The public server's pages are on the game's website.
+    let base = if crate::config::same_server(server, crate::config::OFFICIAL_SERVER) {
+        crate::config::SITE_URL.to_string()
     } else {
-        ("http", server.strip_prefix("ws://")?)
+        let (scheme, rest) = if let Some(rest) = server.strip_prefix("wss://") {
+            ("https", rest)
+        } else {
+            ("http", server.strip_prefix("ws://")?)
+        };
+        let host = rest.split('/').next().filter(|h| !h.is_empty())?;
+        format!("{scheme}://{host}")
     };
-    let host = rest.split('/').next().filter(|h| !h.is_empty())?;
     // The server has them in Portuguese, Spanish and English (the legal
     // texts are not machine-translated): English for the other languages.
     let path = match (page, lang) {
@@ -47,7 +53,7 @@ fn url_in(server: &str, page: Page, lang: Lang) -> Option<String> {
         (Page::Privacy, Lang::Spanish) => "privacidad",
         (Page::Privacy, _) => "privacy",
     };
-    Some(format!("{scheme}://{host}/{path}"))
+    Some(format!("{base}/{path}"))
 }
 
 /// Opens the page in the browser (only from a server with `https`).
@@ -124,5 +130,21 @@ mod tests {
             Some("https://snook.example.com/terms")
         );
         assert_eq!(url_in("https://example.com", Page::Terms, Lang::English), None);
+    }
+
+    /// The public server's pages are on the game's website, from either of
+    /// its addresses.
+    #[test]
+    fn the_public_servers_pages_are_on_the_website() {
+        for s in [crate::config::OFFICIAL_SERVER, crate::config::LEGACY_SERVER] {
+            assert_eq!(
+                url_in(s, Page::Privacy, Lang::Portuguese).as_deref(),
+                Some("https://snooklegend.app/privacidade")
+            );
+            assert_eq!(
+                url_in(s, Page::Terms, Lang::German).as_deref(),
+                Some("https://snooklegend.app/terms")
+            );
+        }
     }
 }

@@ -276,8 +276,9 @@ ligada, defina todas. O log avisa quando a Stripe está ligada e falta alguma.
 Onde usar os endereços:
 
 - **Stripe → Settings → Business → Public details:** *Terms of service* =
-  `https://snook-server.onrender.com/termos`, *Privacy policy* =
-  `https://snook-server.onrender.com/privacidade`, o e-mail de suporte e a
+  `https://snooklegend.app/termos`, *Privacy policy* =
+  `https://snooklegend.app/privacidade` (com o site do passo 11; antes dele,
+  os mesmos caminhos no endereço do servidor), o e-mail de suporte e a
   política de reembolso (o link dos termos: a seção 8 trata do direito de
   arrependimento de 7 dias). A página de pagamento da Stripe mostra esses
   links.
@@ -288,6 +289,77 @@ Onde usar os endereços:
   (**Payments → o pagamento → Refund**). O servidor recebe o aviso
   `charge.refunded` e tira de volta as moedas, o VIP e os itens do pacote de
   boas-vindas sozinho.
+
+## 11. Domínios próprios: site, API e painel
+
+O jogo usa três endereços, cada um com um papel:
+
+| Endereço | O que serve | Onde roda |
+|---|---|---|
+| `snooklegend.app` | o site: página do jogo, downloads, termos e privacidade | Vercel |
+| `api.snooklegend.app` | o jogo: `/ws`, `/api/...`, webhook da Stripe | Render |
+| `admin.snooklegend.app` | o painel da equipe (`/admin`) | Render (o mesmo serviço) |
+
+A partir da 0.10.2 o jogo se conecta em `wss://api.snooklegend.app/ws`. Uma
+sessão salva no endereço antigo (`snook-server.onrender.com`) vale no novo
+(ninguém precisa entrar de novo), e se o domínio novo não responder o jogo
+usa o antigo sozinho. Mesmo assim, **faça os passos 11.1 a 11.3 antes de
+lançar a 0.10.2**.
+
+### 11.1 DNS (no Vercel)
+
+Em **Vercel → Domains → snooklegend.app → DNS Records**, crie:
+
+| Tipo | Nome | Valor |
+|---|---|---|
+| `CNAME` | `api` | `snook-server.onrender.com` |
+| `CNAME` | `admin` | `snook-server.onrender.com` |
+
+### 11.2 Domínios no Render
+
+Em **Render → o serviço → Settings → Custom Domains**, adicione
+`api.snooklegend.app` e `admin.snooklegend.app`. O Render confere o DNS e
+emite os certificados. O endereço `snook-server.onrender.com` continua
+funcionando (os jogos antigos usam ele).
+
+Depois, em **Environment**, troque `SNOOK_LEGEND_PUBLIC_URL` para
+`https://api.snooklegend.app` (as páginas de volta do pagamento) e, na
+Stripe, o endereço do webhook para `https://api.snooklegend.app/stripe/webhook`
+(o antigo também segue funcionando).
+
+### 11.3 Termos e privacidade no site (Vercel)
+
+Gere as páginas com as mesmas variáveis do servidor (o seu nome, CPF ou
+CNPJ, endereço e e-mail, como no passo 10):
+
+```bash
+SNOOK_LEGEND_PRIVACY_CONTROLLER="..." SNOOK_LEGEND_LEGAL_DOCUMENT="..." \
+SNOOK_LEGEND_LEGAL_ADDRESS="..." SNOOK_LEGEND_PRIVACY_CONTACT="..." \
+cargo run --release -p snook_legend_server -- export-pages paginas
+```
+
+Saem seis arquivos (`privacidade.html`, `privacy.html`, `privacidad.html`,
+`termos.html`, `terms.html`, `terminos.html`). Coloque-os na pasta pública
+do projeto do site (`public/` no Next.js) e, no `vercel.json` do site,
+`"cleanUrls": true`, para que `snooklegend.app/privacidade` sirva
+`privacidade.html`. Gere de novo quando mudar o texto ou a data.
+
+### 11.4 Ligar os redirecionamentos e o painel no endereço dele
+
+Com o site no ar e o DNS funcionando, em **Render → Environment**:
+
+| Variável | Valor | O que faz |
+|---|---|---|
+| `SNOOK_LEGEND_SITE_URL` | `https://snooklegend.app` | `/termos`, `/privacidade` etc. e a raiz `/` do servidor levam ao site (redirecionamento permanente: links antigos, das lojas e da Stripe, continuam valendo) |
+| `SNOOK_LEGEND_ADMIN_HOST` | `admin.snooklegend.app` | o painel só responde em `admin.snooklegend.app/admin` (em qualquer outro endereço, "não encontrado"); a raiz desse endereço abre o painel |
+
+**Confira antes** que `https://admin.snooklegend.app/admin` abre o painel:
+com `SNOOK_LEGEND_ADMIN_HOST` ligado, ele deixa de abrir no endereço do
+Render.
+
+Por fim, atualize os endereços nas lojas: **Microsoft Partner Center**
+(*Privacy policy URL* = `https://snooklegend.app/privacy`) e **Stripe**
+(passo 10).
 
 ## Problemas comuns
 

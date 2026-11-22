@@ -192,6 +192,15 @@ pub struct Config {
     /// Who provides the game, as the terms of use and the privacy policy
     /// name them (see [`pages`]).
     pub privacy: pages::LegalInfo,
+    /// The game's website (`https://snooklegend.app`): the terms of use, the
+    /// privacy policy and this server's root are sent there (permanent
+    /// redirects), so old links keep working. `None`: the server shows the
+    /// pages itself.
+    pub site_url: Option<String>,
+    /// The staff portal's own address (`admin.snooklegend.app`): `/admin`
+    /// answers there only (on any other address, not found), and that
+    /// address's root opens it. `None`: on any address.
+    pub admin_host: Option<String>,
 }
 
 impl Default for Config {
@@ -208,6 +217,8 @@ impl Default for Config {
             stripe: None,
             msstore: None,
             privacy: pages::LegalInfo::default(),
+            site_url: None,
+            admin_host: None,
         }
     }
 }
@@ -522,6 +533,7 @@ impl Server {
 
 pub fn router(server: Arc<Server>) -> Router {
     Router::new()
+        .route("/", get(root))
         .route("/health", get(|| async { "ok" }))
         .route("/ws", get(ws_handler))
         .route("/api/status", get(api_status))
@@ -536,7 +548,50 @@ pub fn router(server: Arc<Server>) -> Router {
         .route("/terms", get(pages::terms_en))
         .route("/terminos", get(pages::terms_es))
         .merge(admin::router())
+        .layer(axum::middleware::from_fn_with_state(server.clone(), hosts))
         .with_state(server)
+}
+
+/// The host a request was sent to, without its port, in lower case.
+fn request_host(headers: &HeaderMap) -> String {
+    let host = headers.get(header::HOST).and_then(|h| h.to_str().ok()).unwrap_or("");
+    host.rsplit_once(':')
+        .filter(|(_, port)| port.chars().all(|c| c.is_ascii_digit()))
+        .map_or(host, |(name, _)| name)
+        .to_ascii_lowercase()
+}
+
+/// The staff portal on its own address only, when one is set (anywhere
+/// else it doesn't exist), and that address's root opens it.
+async fn hosts(
+    State(server): State<Arc<Server>>,
+    req: axum::extract::Request,
+    next: axum::middleware::Next,
+) -> Response {
+    if let Some(admin) = server.config.admin_host.as_deref() {
+        let on_admin = request_host(req.headers()) == admin;
+        let path = req.uri().path();
+        if path.starts_with("/admin") && !on_admin {
+            return axum::http::StatusCode::NOT_FOUND.into_response();
+        }
+        if on_admin && path == "/" {
+            return axum::response::Redirect::permanent("/admin/").into_response();
+        }
+    }
+    next.run(req).await
+}
+
+/// This server's root: the game's website when there is one, else what is
+/// here (the API's name and version).
+async fn root(State(server): State<Arc<Server>>) -> Response {
+    match &server.config.site_url {
+        Some(site) => axum::response::Redirect::permanent(site).into_response(),
+        None => public_json(serde_json::json!({
+            "service": snook_legend_proto::GAME_NAME,
+            "version": env!("CARGO_PKG_VERSION"),
+            "protocol": PROTOCOL_VERSION,
+        })),
+    }
 }
 
 fn public_json(value: serde_json::Value) -> Response {

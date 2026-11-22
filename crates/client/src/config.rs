@@ -90,8 +90,31 @@ impl AimGuide {
 /// isn't set, keeps the public server).
 pub const DEFAULT_SERVER: &str = match option_env!("SNOOK_LEGEND_SERVER") {
     Some(s) if !s.is_empty() => s,
-    _ => "wss://snook-server.onrender.com/ws",
+    _ => OFFICIAL_SERVER,
 };
+
+/// The public server, on the game's own domain.
+pub const OFFICIAL_SERVER: &str = "wss://api.snooklegend.app/ws";
+
+/// The public server's address on its host's domain, from before it had the
+/// game's own: the same server, which still answers there (a session saved
+/// for one is good for the other, and the game falls back to it when the
+/// game's domain doesn't answer: see `Online::connect`).
+pub const LEGACY_SERVER: &str = "wss://snook-server.onrender.com/ws";
+
+/// The game's website (the terms of use, the privacy policy).
+pub const SITE_URL: &str = "https://snooklegend.app";
+
+/// `url`, with the public server's old address read as its new one.
+pub fn canonical_server(url: &str) -> &str {
+    let url = url.trim();
+    if url == LEGACY_SERVER { OFFICIAL_SERVER } else { url }
+}
+
+/// Whether `a` and `b` are the same server (whichever of its addresses).
+pub fn same_server(a: &str, b: &str) -> bool {
+    canonical_server(a) == canonical_server(b)
+}
 
 impl Config {
     /// The saved session, if the server in use is the one that gave it. A
@@ -100,7 +123,7 @@ impl Config {
     pub fn session_token(&self) -> &str {
         let owner =
             if self.token_server.is_empty() { DEFAULT_SERVER } else { self.token_server.trim() };
-        if owner == self.server.trim() { &self.token } else { "" }
+        if same_server(owner, &self.server) { &self.token } else { "" }
     }
 }
 
@@ -399,10 +422,13 @@ impl Config {
                 }
                 "fullscreen" => c.fullscreen = v == "true",
                 "volume" => c.volume = finite(v).map(|x| x.clamp(0.0, 1.0)).unwrap_or(c.volume),
-                "server" if !v.is_empty() && v != OLD_DEFAULT_SERVER => c.server = v.to_string(),
+                // (The public server's old address becomes its new one.)
+                "server" if !v.is_empty() && v != OLD_DEFAULT_SERVER => {
+                    c.server = canonical_server(v).to_string()
+                }
                 "username" => c.username = v.to_string(),
                 "token" => c.token = v.to_string(),
-                "token_server" => c.token_server = v.to_string(),
+                "token_server" => c.token_server = canonical_server(v).to_string(),
                 "difficulty" => c.difficulty = v.parse::<u8>().map(|d| d.min(2)).unwrap_or(1),
                 "opponent" => c.opponent = crate::opponents::chosen(v).code.to_string(),
                 "shot_clock" => {
@@ -610,6 +636,24 @@ mod tests {
         c.server = DEFAULT_SERVER.into();
         assert_eq!(c.session_token(), "");
         assert_eq!(Config::parse(&c.to_text()), c);
+    }
+
+    /// The public server moved to the game's own domain: a file that names
+    /// its old address names the new one, and the session saved for it is
+    /// kept (no one signs in again).
+    #[test]
+    fn the_public_servers_new_address_keeps_the_session() {
+        let old =
+            format!("server = {LEGACY_SERVER}\ntoken = abc\ntoken_server = {LEGACY_SERVER}\n");
+        let c = Config::parse(&old);
+        assert_eq!(c.server, OFFICIAL_SERVER);
+        assert_eq!(c.token_server, OFFICIAL_SERVER);
+        assert_eq!(c.session_token(), "abc");
+        // Saved by an older version under the old address only.
+        let c = Config::parse(&format!("token = abc\ntoken_server = {LEGACY_SERVER}\n"));
+        assert_eq!(c.session_token(), "abc");
+        assert!(same_server(LEGACY_SERVER, OFFICIAL_SERVER));
+        assert!(!same_server(LEGACY_SERVER, "wss://elsewhere.example/ws"));
     }
 
     /// The rules are asked once: none until the player chooses, then kept.

@@ -10,11 +10,12 @@
 //! to them; see `docs/MSSTORE.md`. Who provides the game is filled in from
 //! the server's configuration ([`LegalInfo`]).
 
+use std::path::{Path, PathBuf};
 use std::sync::Arc;
 
 use axum::extract::State;
 use axum::http::{HeaderValue, header};
-use axum::response::{Html, IntoResponse, Response};
+use axum::response::{Html, IntoResponse, Redirect, Response};
 
 use crate::Server;
 
@@ -78,6 +79,32 @@ impl Default for LegalInfo {
             address: String::new(),
             contact: format!("{}/issues", env!("CARGO_PKG_REPOSITORY")),
         }
+    }
+}
+
+impl LegalInfo {
+    /// From `SNOOK_LEGEND_GAME_NAME`, `SNOOK_LEGEND_PRIVACY_CONTROLLER`,
+    /// `SNOOK_LEGEND_LEGAL_DOCUMENT`, `SNOOK_LEGEND_LEGAL_ADDRESS` and
+    /// `SNOOK_LEGEND_PRIVACY_CONTACT` (the defaults for those not set).
+    pub fn from_env() -> LegalInfo {
+        let env = |name: &str| std::env::var(name).ok().filter(|v| !v.trim().is_empty());
+        let mut p = LegalInfo::default();
+        if let Some(v) = env("SNOOK_LEGEND_GAME_NAME") {
+            p.game = v;
+        }
+        if let Some(v) = env("SNOOK_LEGEND_PRIVACY_CONTROLLER") {
+            p.controller = v;
+        }
+        if let Some(v) = env("SNOOK_LEGEND_LEGAL_DOCUMENT") {
+            p.document = v;
+        }
+        if let Some(v) = env("SNOOK_LEGEND_LEGAL_ADDRESS") {
+            p.address = v;
+        }
+        if let Some(v) = env("SNOOK_LEGEND_PRIVACY_CONTACT") {
+            p.contact = v;
+        }
+        p
     }
 }
 
@@ -167,36 +194,66 @@ fn page(html: String) -> Response {
     res
 }
 
-fn privacy(server: &Server, template: &str) -> Response {
-    page(render(template, &server.config.privacy, PRIVACY_UPDATED))
+/// The pages, by their address (`/privacidade` …): the template and the
+/// date it was last changed.
+const PAGES: [(&str, &str, &str); 6] = [
+    ("privacidade", PRIVACY_PT, PRIVACY_UPDATED),
+    ("privacy", PRIVACY_EN, PRIVACY_UPDATED),
+    ("privacidad", PRIVACY_ES, PRIVACY_UPDATED),
+    ("termos", TERMS_PT, TERMS_UPDATED),
+    ("terms", TERMS_EN, TERMS_UPDATED),
+    ("terminos", TERMS_ES, TERMS_UPDATED),
+];
+
+/// The page at `/<path>`: on the game's website when it has one (a
+/// permanent redirect, so old links keep working), else shown here.
+fn serve(server: &Server, path: &str) -> Response {
+    if let Some(site) = &server.config.site_url {
+        let to = format!("{}/{path}", site.trim_end_matches('/'));
+        return Redirect::permanent(&to).into_response();
+    }
+    let Some((_, template, updated)) = PAGES.iter().find(|(p, ..)| *p == path) else {
+        return axum::http::StatusCode::NOT_FOUND.into_response();
+    };
+    page(render(template, &server.config.privacy, updated))
 }
 
-fn terms(server: &Server, template: &str) -> Response {
-    page(render(template, &server.config.privacy, TERMS_UPDATED))
+/// Writes the pages as `<path>.html` files in `dir`, filled in with `info`,
+/// for the game's website (served there as `/privacidade` …: with Vercel,
+/// `"cleanUrls": true`). Returns the files written.
+pub fn export(dir: &Path, info: &LegalInfo) -> std::io::Result<Vec<PathBuf>> {
+    std::fs::create_dir_all(dir)?;
+    let mut written = Vec::new();
+    for (path, template, updated) in PAGES {
+        let file = dir.join(format!("{path}.html"));
+        std::fs::write(&file, render(template, info, updated))?;
+        written.push(file);
+    }
+    Ok(written)
 }
 
 pub async fn privacy_pt(State(server): State<Arc<Server>>) -> Response {
-    privacy(&server, PRIVACY_PT)
+    serve(&server, "privacidade")
 }
 
 pub async fn privacy_en(State(server): State<Arc<Server>>) -> Response {
-    privacy(&server, PRIVACY_EN)
+    serve(&server, "privacy")
 }
 
 pub async fn privacy_es(State(server): State<Arc<Server>>) -> Response {
-    privacy(&server, PRIVACY_ES)
+    serve(&server, "privacidad")
 }
 
 pub async fn terms_pt(State(server): State<Arc<Server>>) -> Response {
-    terms(&server, TERMS_PT)
+    serve(&server, "termos")
 }
 
 pub async fn terms_en(State(server): State<Arc<Server>>) -> Response {
-    terms(&server, TERMS_EN)
+    serve(&server, "terms")
 }
 
 pub async fn terms_es(State(server): State<Arc<Server>>) -> Response {
-    terms(&server, TERMS_ES)
+    serve(&server, "terminos")
 }
 
 #[cfg(test)]

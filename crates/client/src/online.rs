@@ -299,6 +299,11 @@ pub struct Online {
     pub outdated: bool,
     /// Asking the server which version it runs, after it refused this one:
     /// if it is older, it's the server that hasn't been updated yet.
+    /// The connection open now got through (see the fallback in `update`).
+    connected: bool,
+    /// The public server's own domain didn't answer: this session uses its
+    /// host's address ([`crate::config::LEGACY_SERVER`]).
+    fallback: bool,
     version_check: Option<std::sync::mpsc::Receiver<Option<u32>>>,
     /// An administrator clicked "Clear the chat" once (at this time): a
     /// second click clears it.
@@ -733,6 +738,8 @@ impl Online {
             told_starting: Vec::new(),
             outdated: false,
             version_check: None,
+            connected: false,
+            fallback: false,
             clear_armed: None,
             quit_for_update: false,
             form_focused: false,
@@ -818,6 +825,7 @@ impl Online {
         }
         if self.conn.is_none() {
             self.authed = false;
+            self.connected = false;
             self.conn = Some(Connection::open(&self.server, self.rules));
             if !matches!(self.stage, Stage::Reconnecting { .. }) {
                 self.stage = Stage::Connecting;
@@ -981,6 +989,7 @@ impl Online {
             if *wait <= 0.0 && self.conn.is_none() {
                 *attempt += 1;
                 self.authed = false;
+                self.connected = false;
                 self.conn = Some(Connection::open(&self.server, self.rules));
             }
         }
@@ -999,6 +1008,7 @@ impl Online {
         while let Some(event) = self.conn.as_mut().and_then(|c| c.poll()) {
             match event {
                 NetEvent::Connected => {
+                    self.connected = true;
                     self.authed = false;
                     if self.lan {
                         self.send(ClientMsg::Guest { name: self.username.clone() });
@@ -1017,6 +1027,18 @@ impl Online {
                     }
                 }
                 NetEvent::Closed(reason) => {
+                    // The public server's own domain didn't answer at all:
+                    // the same server at its host's address, for this session.
+                    if !self.connected
+                        && !self.lan
+                        && !self.fallback
+                        && self.server.trim() == crate::config::OFFICIAL_SERVER
+                    {
+                        self.fallback = true;
+                        self.server = crate::config::LEGACY_SERVER.to_string();
+                        self.conn = Some(Connection::open(&self.server, self.rules));
+                        continue;
+                    }
                     self.conn = None;
                     self.authed = false;
                     self.queue = None;
@@ -2040,8 +2062,11 @@ impl Online {
         config.save();
         self.stage = Stage::Idle;
         // (The server chosen in the settings meanwhile: signed out, it is
-        // the one to sign in to.)
-        self.server = config.server.clone();
+        // the one to sign in to; the same one stays on the address in use.)
+        if !crate::config::same_server(&self.server, &config.server) {
+            self.server = config.server.clone();
+            self.fallback = false;
+        }
         self.connect();
     }
 
@@ -2737,12 +2762,13 @@ impl Online {
                     && self.password.len() <= snook_legend_proto::MAX_PASSWORD_BYTES
             };
             if !connected {
-                if self.server != config.server {
+                if !crate::config::same_server(&self.server, &config.server) {
                     // Another server: the session of the last one stays home.
                     self.token.clear();
                     self.auto_resume = false;
+                    self.server = config.server.clone();
+                    self.fallback = false;
                 }
-                self.server = config.server.clone();
                 self.connect();
                 self.error = None;
             } else if !name_ok {

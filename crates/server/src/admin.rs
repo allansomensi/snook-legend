@@ -134,6 +134,11 @@ async fn security_headers(req: Request, next: Next) -> Response {
         h.insert(header::X_CONTENT_TYPE_OPTIONS, HeaderValue::from_static("nosniff"));
         h.insert(header::REFERRER_POLICY, HeaderValue::from_static("no-referrer"));
         h.insert(header::CACHE_CONTROL, HeaderValue::from_static("no-store"));
+        // Never in a search engine.
+        h.insert(
+            header::HeaderName::from_static("x-robots-tag"),
+            HeaderValue::from_static("noindex, nofollow"),
+        );
         h.insert(header::STRICT_TRANSPORT_SECURITY, HeaderValue::from_static("max-age=31536000"));
     }
     res

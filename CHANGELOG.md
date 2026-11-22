@@ -10,6 +10,24 @@
   an account that owns the tour's cue, the tour is complete again. (The
   wallet is now asked for on signing in.)
 
+### The game's own addresses
+- **The game connects to `wss://api.snooklegend.app/ws`**, the public
+  server on the game's own domain (the host can change without a new
+  version). A session saved for the old address
+  (`snook-server.onrender.com`) is good for the new one: no one signs in
+  again; and if the new address doesn't answer, the game uses the old one.
+- **The terms and the privacy policy on the website** (`snooklegend.app`):
+  the game links there for the public server. The server sends its own
+  pages and its root there when `SNOOK_LEGEND_SITE_URL` is set (permanent
+  redirects: old links keep working); `snook-legend-server export-pages
+  DIR` writes the pages as HTML files for the site.
+- **The staff portal on its own address**: with `SNOOK_LEGEND_ADMIN_HOST`
+  (`admin.snooklegend.app`), `/admin` answers there only; it is never
+  indexed by search engines.
+- The server's root, with no website set, says what it is (name, version,
+  protocol) instead of "not found". The steps: `docs/DEPLOY.pt-BR.md`,
+  section 11.
+
 ## 0.10.1 (protocol 24)
 
 Fixes for 0.10.0: screens that stayed dark, and a session that asked to

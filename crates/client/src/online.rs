@@ -642,7 +642,8 @@ impl Online {
             me: None,
             players: Vec::new(),
             chat: Vec::new(),
-            chat_input: String::new(),
+            // Development aid: SNOOK_LEGEND_CHAT_DRAFT="text" starts the field with it.
+            chat_input: crate::dev::var("SNOOK_LEGEND_CHAT_DRAFT").unwrap_or_default(),
             chat_scroll: 0,
             leaderboard: PerRules::default(),
             leaderboard_loaded: PerRules::default(),
@@ -3099,8 +3100,11 @@ impl Online {
             }
             log_top += r.h + 8.0;
         }
+        // The field grows with what is typed (up to four lines).
         let input_h = 36.0;
-        let input = Rect::new(inner_x, bottom - input_h, inner_w - input_h - 8.0, input_h);
+        let field_w = inner_w - input_h - 8.0;
+        let field_h = ui.text_area_height(&self.chat_input, field_w, 4).max(input_h);
+        let input = Rect::new(inner_x, bottom - field_h, field_w, field_h);
         let log = Rect::new(inner_x, log_top, inner_w, input.y - 10.0 - log_top);
         // Toasts float above the chat field, not over it.
         self.toast_floor.set(Some(input.y - 10.0));
@@ -3162,14 +3166,16 @@ impl Online {
                 self.open_chat_dialog();
             }
         }
-        let sent = ui.text_input(30, input, &mut self.chat_input, MAX_CHAT_LEN);
+        let sent = ui.text_area(30, input, &mut self.chat_input, MAX_CHAT_LEN);
+        crate::ui::chat_counter(ui, &self.chat_input, input);
         let hint = if self.chat_off() {
             t("Write to turn the chat on…")
         } else {
             t("Say hello… (Enter to send)")
         };
         placeholder(ui, 30, input, &self.chat_input, hint);
-        let send_r = Rect::new(input.x + input.w + 8.0, input.y, input_h, input_h);
+        let send_r =
+            Rect::new(input.x + input.w + 8.0, input.y + input.h - input_h, input_h, input_h);
         let can_send = !self.chat_input.trim().is_empty();
         if (ui.icon_button(send_r, Icon::Play, t("Send"), can_send) || sent) && can_send {
             let text = snook_legend_proto::clean_chat(&self.chat_input);

@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+- **The chat field grows with what you write**: a long line wraps over up
+  to four lines (it used to scroll sideways, out of sight), in the lounge
+  and at the table, with "180/200" at its corner near the limit. Up and
+  Down move between its lines. The chat at the table is a little wider
+  and taller.
+- **Reactions while watching a game**: the list opened and closed at once
+  (a spectator has two reaction buttons, and the second one closed it).
+
 ## 0.9.0 (protocol 24)
 
 The game in 27 languages, with every script drawn as it is written.

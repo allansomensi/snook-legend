@@ -66,6 +66,10 @@ pub struct Hud {
     zoom_drag: bool,
     /// The reaction picker is open.
     reactions_open: bool,
+    /// The reactions button the picker was opened from: a spectator sees
+    /// two (by the chat and in the bottom bar), and only that one draws the
+    /// picker and closes it.
+    reactions_from: Option<Rect>,
     /// Offline: the game history panel is open (it starts folded).
     history_open: bool,
     /// Where the history's icon in the top bar was drawn (pressing it is
@@ -112,7 +116,8 @@ impl Default for Hud {
                 .and_then(|v| v.parse().ok())
                 .unwrap_or(0),
             show_help: false,
-            chat_input: String::new(),
+            // Development aid: SNOOK_LEGEND_CHAT_DRAFT="text" starts the field with it.
+            chat_input: crate::dev::var("SNOOK_LEGEND_CHAT_DRAFT").unwrap_or_default(),
             // Development aid: SNOOK_LEGEND_CHAT_CLOSED starts with the chat folded.
             // Folded at the start (a dot and a preview announce new messages).
             // Development aid: SNOOK_LEGEND_CHAT_OPEN opens it.
@@ -134,6 +139,7 @@ impl Default for Hud {
             zoom_drag: false,
             // Development aid: SNOOK_LEGEND_OPEN_REACTIONS opens the picker.
             reactions_open: crate::dev::flag("SNOOK_LEGEND_OPEN_REACTIONS"),
+            reactions_from: None,
             camera_default: true,
             opponent_relation: None,
             history_open: false,
@@ -1205,11 +1211,11 @@ impl Hud {
 /// The chat (online) or the game history (offline): smaller on small
 /// windows, so it never hides much of the table.
 fn chat_w() -> f32 {
-    (crate::ui::vw() * 0.3).clamp(220.0, 320.0)
+    (crate::ui::vw() * 0.3).clamp(240.0, 360.0)
 }
 
 fn chat_h() -> f32 {
-    ((crate::ui::vh() - TOP_BAR - BOTTOM_BAR) * 0.38).clamp(120.0, 210.0)
+    ((crate::ui::vh() - TOP_BAR - BOTTOM_BAR) * 0.42).clamp(140.0, 250.0)
 }
 
 impl Hud {
@@ -1354,7 +1360,10 @@ impl Hud {
         if ui.icon_button_ex(hide, Icon::Minus, t("Hide"), true, true) {
             self.chat_open = false;
         }
-        let input_h = if watching { 0.0 } else { 40.0 };
+        // The field grows with what is typed (up to four lines): the log
+        // above it gives the room.
+        let field_h = ui.text_area_height(&self.chat_input, r.w - 12.0, 4);
+        let input_h = if watching { 0.0 } else { field_h + 10.0 };
         let log = Rect::new(r.x + 6.0, r.y + 28.0, r.w - 12.0, r.h - 28.0 - input_h);
         let me = m.names[o.seat].clone();
         let me = (!watching).then_some(me.as_str());
@@ -1365,23 +1374,20 @@ impl Hud {
             }
             return;
         }
-        let input = Rect::new(r.x + 6.0, r.y + r.h - 36.0, r.w - 12.0, 30.0);
-        let sent = ui.text_input(
-            CHAT_FIELD,
-            input,
-            &mut self.chat_input,
-            snook_legend_proto::MAX_CHAT_LEN,
-        );
+        let input = Rect::new(r.x + 6.0, r.y + r.h - 6.0 - field_h, r.w - 12.0, field_h);
+        let sent =
+            ui.text_area(CHAT_FIELD, input, &mut self.chat_input, snook_legend_proto::MAX_CHAT_LEN);
         if self.chat_input.is_empty() && ui.focus != Some(CHAT_FIELD) {
             ui.text(
                 t("Click to chat, Enter to send"),
                 input.x + 8.0,
-                input.y + 8.0,
+                input.y + (input.h - 13.0) / 2.0,
                 13.0,
                 MUTED,
                 false,
             );
         }
+        crate::ui::chat_counter(ui, &self.chat_input, input);
         if sent {
             let text = std::mem::take(&mut self.chat_input);
             m.send_chat(&text);
@@ -1524,12 +1530,17 @@ impl Hud {
             ui.tooltip(t("Reactions"), b);
         }
         let clicked_button = hover && ui.released_in(b);
-        if !self.reactions_open {
+        // Open from another button (or opened from none yet): this one
+        // claims it only when clicked; the other draws the list.
+        let mine = self.reactions_from.is_none_or(|from| from == b);
+        if !self.reactions_open || !mine {
             if clicked_button {
                 self.reactions_open = true;
+                self.reactions_from = Some(b);
             }
             return;
         }
+        self.reactions_from = Some(b);
         const COLS: usize = 7;
         const CELL: f32 = 40.0;
         let n = snook_legend_proto::REACTIONS.len();

@@ -759,6 +759,221 @@ impl Ui {
         self.input(id, r, value, max_len, true)
     }
 
+    /// How tall a [`Ui::text_area`] `width` wide is with `value` in it: a
+    /// line more for each line the text wraps to, up to `max_lines`.
+    pub fn text_area_height(&self, value: &str, width: f32, max_lines: usize) -> f32 {
+        let chars: Vec<char> = value.chars().collect();
+        let lines = self.area_lines(&chars, width - 2.0 * AREA_PAD_X).len();
+        AREA_LINE * lines.clamp(1, max_lines.max(1)) as f32 + 2.0 * AREA_PAD_Y
+    }
+
+    /// A text field that wraps its text over as many lines as it takes
+    /// (the caller sizes it with [`Ui::text_area_height`]; past the lines it
+    /// has, it scrolls to the caret). Enter sends, as in a single line.
+    /// Returns true when Enter is pressed.
+    pub fn text_area(&mut self, id: u64, r: Rect, value: &mut String, max_len: usize) -> bool {
+        self.block(r);
+        self.fields.push(id);
+        if self.focus == Some(id) && self.cursor_owner != Some(id) {
+            self.cursor_owner = Some(id);
+            self.cursor = value.chars().count();
+            self.anchor = (self.cursor > 0).then_some(0);
+        }
+        let room = r.w - 2.0 * AREA_PAD_X;
+        let mut submitted = false;
+        if self.focus == Some(id) {
+            // Up and Down move a line (a single line's field sends them to
+            // the start and the end): where the caret stood before.
+            let before: Vec<char> = value.chars().collect();
+            let lines = self.area_lines(&before, room);
+            let (from, shift) =
+                (self.cursor, is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift));
+            let anchor = self.anchor;
+            submitted = self.edit(value, max_len, false);
+            let step: i32 = if self.key_fires(KeyCode::Up) {
+                -1
+            } else if self.key_fires(KeyCode::Down) {
+                1
+            } else {
+                0
+            };
+            if step != 0 && *value == before.iter().collect::<String>() {
+                let line = area_line_of(&lines, from);
+                let target = line as i32 + step;
+                self.anchor = if shift { anchor.or(Some(from)) } else { None };
+                self.cursor = if target < 0 {
+                    0
+                } else if target as usize >= lines.len() {
+                    before.len()
+                } else {
+                    let x = self.width_between(&before, lines[line].0, from);
+                    self.nearest_in(&before, lines[target as usize], x)
+                };
+            }
+        }
+        let chars: Vec<char> = value.chars().collect();
+        let lines = self.area_lines(&chars, room);
+        let shown_lines = (((r.h - 2.0 * AREA_PAD_Y) / AREA_LINE).round() as usize).max(1);
+        let caret = if self.focus == Some(id) { self.cursor.min(chars.len()) } else { chars.len() };
+        let caret_line = area_line_of(&lines, caret);
+        let first_line = (caret_line + 1)
+            .saturating_sub(shown_lines)
+            .min(lines.len().saturating_sub(shown_lines));
+        let at_mouse = |ui: &Ui| {
+            let k = ((ui.mouse.y - r.y - AREA_PAD_Y) / AREA_LINE).floor().max(0.0) as usize;
+            let line = (first_line + k).min(lines.len() - 1);
+            ui.nearest_in(&chars, lines[line], ui.mouse.x - r.x - AREA_PAD_X)
+        };
+        if self.pressed {
+            if r.contains(self.mouse) {
+                if self.focus != Some(id) {
+                    while get_char_pressed().is_some() {}
+                    self.focus = Some(id);
+                    self.cursor_owner = Some(id);
+                }
+                let at = at_mouse(self);
+                let now = get_time();
+                let double = self
+                    .last_click
+                    .is_some_and(|(f, t, c)| f == id && now - t < 0.4 && c.abs_diff(at) <= 1);
+                if double {
+                    let mut a = at.min(chars.len());
+                    while a > 0 && !chars[a - 1].is_whitespace() {
+                        a -= 1;
+                    }
+                    let mut b = at.min(chars.len());
+                    while b < chars.len() && !chars[b].is_whitespace() {
+                        b += 1;
+                    }
+                    self.anchor = (b > a).then_some(a);
+                    self.cursor = b;
+                    self.last_click = None;
+                } else {
+                    if is_key_down(KeyCode::LeftShift) || is_key_down(KeyCode::RightShift) {
+                        self.anchor.get_or_insert(self.cursor);
+                    } else {
+                        self.anchor = None;
+                    }
+                    self.cursor = at;
+                    self.last_click = Some((id, now, at));
+                    self.active = Some(id);
+                }
+            } else if self.focus == Some(id) {
+                self.focus = None;
+                self.anchor = None;
+            }
+        } else if self.down && self.active == Some(id) && self.focus == Some(id) {
+            let at = at_mouse(self);
+            if at != self.cursor {
+                self.anchor.get_or_insert(self.cursor);
+                self.cursor = at;
+            }
+        }
+        let focused = self.focus == Some(id);
+        rrect(r, 5.0, Color::new(0.04, 0.03, 0.02, 1.0));
+        rrect_lines(r, 5.0, if focused { 1.6 } else { 1.2 }, if focused { GOLD } else { BORDER });
+        let selection = if focused { self.selection() } else { None };
+        for (k, &(a, b)) in lines.iter().enumerate().skip(first_line).take(shown_lines) {
+            let y = r.y + AREA_PAD_Y + (k - first_line) as f32 * AREA_LINE;
+            if let Some((sa, sb)) = selection {
+                let (sa, sb) = (sa.clamp(a, b), sb.clamp(a, b));
+                if sb > sa {
+                    let x0 = self.width_between(&chars, a, sa);
+                    let x1 = self.width_between(&chars, a, sb);
+                    draw_rectangle(
+                        r.x + AREA_PAD_X + x0,
+                        y,
+                        x1 - x0 + 1.0,
+                        AREA_LINE,
+                        Color::new(0.75, 0.55, 0.2, 0.45),
+                    );
+                }
+            }
+            let text: String = chars[a..b].iter().collect();
+            self.draw_text_raw(
+                text.trim_end(),
+                r.x + AREA_PAD_X,
+                y + (AREA_LINE - AREA_SIZE) / 2.0,
+                AREA_SIZE,
+                CREAM,
+                false,
+            );
+        }
+        if focused && ((get_time() - self.caret_at) * 2.0) as i64 % 2 == 0 {
+            let (a, _) = lines[caret_line];
+            let x = r.x + AREA_PAD_X + 1.0 + self.width_between(&chars, a, caret);
+            let y = r.y + AREA_PAD_Y + (caret_line - first_line) as f32 * AREA_LINE;
+            draw_line(x, y + 2.0, x, y + AREA_LINE - 2.0, 1.5, CREAM);
+        }
+        submitted
+    }
+
+    /// The lines of a text area's characters `room` wide: (start, end) of
+    /// each, breaking after a space when it can and between characters
+    /// (never inside an emoji) when a word is longer than the line. At
+    /// least one line.
+    fn area_lines(&self, chars: &[char], room: f32) -> Vec<(usize, usize)> {
+        let stops = caret_stops(chars, false);
+        let mut lines = Vec::new();
+        let mut start = 0;
+        while start < chars.len() {
+            let mut end = start;
+            let mut last_space = None;
+            loop {
+                let next = stop_after(&stops, end);
+                if next == end || self.width_between(chars, start, next) > room && end > start {
+                    break;
+                }
+                if chars[end].is_whitespace() || crate::fonts::ZWSP == chars[end] {
+                    last_space = Some(next);
+                }
+                end = next;
+                if end >= chars.len() {
+                    break;
+                }
+            }
+            if end < chars.len() && !chars[end].is_whitespace() {
+                // Break after the last space, if the line has one.
+                if let Some(sp) = last_space.filter(|&sp| sp > start && sp < end) {
+                    end = sp;
+                }
+            }
+            // A space the line ends on stays with it (it takes no room there).
+            while end < chars.len() && chars[end].is_whitespace() {
+                end += 1;
+            }
+            lines.push((start, end));
+            start = end;
+        }
+        if lines.is_empty() || chars.last().is_some_and(|c| *c == '\n') {
+            lines.push((chars.len(), chars.len()));
+        }
+        lines
+    }
+
+    /// The width of `chars[a..b]` in a text area's type.
+    fn width_between(&self, chars: &[char], a: usize, b: usize) -> f32 {
+        self.text_size(&chars[a..b].iter().collect::<String>(), AREA_SIZE, false).x
+    }
+
+    /// The caret stop in `line` of `chars` nearest `x` from its start.
+    fn nearest_in(&self, chars: &[char], line: (usize, usize), x: f32) -> usize {
+        let stops = caret_stops(chars, false);
+        let (a, b) = line;
+        // The end of a wrapped line is the start of the next: stop before it.
+        let b = if b > a && b < chars.len() { stop_before(&stops, b).max(a) } else { b };
+        stops
+            .iter()
+            .copied()
+            .filter(|&i| (a..=b).contains(&i))
+            .min_by(|&i, &j| {
+                let di = (self.width_between(chars, a, i) - x).abs();
+                let dj = (self.width_between(chars, a, j) - x).abs();
+                di.total_cmp(&dj)
+            })
+            .unwrap_or(a)
+    }
+
     /// True when `key` was pressed this frame or is held long enough to
     /// repeat (macroquad reports only the first press).
     fn key_fires(&mut self, key: KeyCode) -> bool {
@@ -1832,6 +2047,42 @@ pub fn rrect_lines(r: Rect, radius: f32, thickness: f32, color: Color) {
         let b = pts[(i + 1) % pts.len()];
         draw_line(a.x, a.y, b.x, b.y, thickness, color);
     }
+}
+
+/// How much of a chat line is used ("180/200"), at the top right of its
+/// field, once it is close to the limit.
+pub fn chat_counter(ui: &Ui, value: &str, field: Rect) {
+    let n = value.chars().count();
+    let max = snook_legend_proto::MAX_CHAT_LEN;
+    if n + 40 < max {
+        return;
+    }
+    let label = format!("{n}/{max}");
+    let w = ui.text_size(&label, 11.0, false).x;
+    let color = if n >= max { Color::new(0.95, 0.45, 0.35, 1.0) } else { MUTED };
+    rrect(
+        Rect::new(field.x + field.w - w - 12.0, field.y - 9.0, w + 8.0, 15.0),
+        4.0,
+        Color::new(0.04, 0.03, 0.02, 1.0),
+    );
+    ui.text(&label, field.x + field.w - w - 8.0, field.y - 8.0, 11.0, color, false);
+}
+
+/// A text area's type, line height and padding.
+const AREA_SIZE: f32 = 14.0;
+const AREA_LINE: f32 = 19.0;
+const AREA_PAD_X: f32 = 8.0;
+const AREA_PAD_Y: f32 = 6.0;
+
+/// The line of a text area's `lines` the caret `at` is on (the end of a
+/// wrapped line belongs to the next one).
+fn area_line_of(lines: &[(usize, usize)], at: usize) -> usize {
+    lines
+        .iter()
+        .position(|&(a, b)| {
+            at >= a && (at < b || (at == b && b == lines.last().map_or(b, |l| l.1)))
+        })
+        .unwrap_or(lines.len().saturating_sub(1))
 }
 
 /// Where the caret may stand in a text field's characters: anywhere but

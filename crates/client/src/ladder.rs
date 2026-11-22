@@ -207,6 +207,22 @@ impl Progress {
 
     /// Rung `k` can be played: every rung before it is beaten (so it is
     /// beaten already, or the next one).
+    /// The account owns the tour's reward (`owned`: its items), so it beat
+    /// every opponent, though this computer's file may not say so (a new
+    /// install, another computer, the Store's own folder): the tour is
+    /// shown complete. Returns whether the progress changed (save it).
+    pub fn restore_from_reward(&mut self, owned: &[String]) -> bool {
+        if self.won.len() >= ladder::RUNGS.len() || !owned.iter().any(|o| o == ladder::REWARD_ITEM)
+        {
+            return false;
+        }
+        self.won = ladder::RUNGS.iter().map(|c| c.to_string()).collect();
+        self.won.sort();
+        self.beaten = self.won.len() as u8;
+        self.claimed = true;
+        true
+    }
+
     pub fn unlocked(&self, k: u8) -> bool {
         (k as usize) < ladder::RUNGS.len() && (0..k).all(|j| self.is_beaten(j))
     }
@@ -485,5 +501,18 @@ mod tests {
         assert!(Failure::Server(ClaimFailure::Busy).retryable());
         assert!(!Failure::Server(ClaimFailure::ComputerMismatch).retryable());
         assert!(!Failure::Server(ClaimFailure::NotWon).retryable());
+    }
+
+    /// An account with the tour's reward has the tour complete here too,
+    /// whatever this computer's file said; one without it keeps its own.
+    #[test]
+    fn the_reward_restores_a_lost_tour() {
+        let mut p = Progress::default();
+        assert!(!p.restore_from_reward(&["cue_maple".to_string()]));
+        assert_eq!(p.beaten, 0);
+        assert!(p.restore_from_reward(&[ladder::REWARD_ITEM.to_string()]));
+        assert_eq!(p.beaten as usize, ladder::RUNGS.len());
+        assert!((0..ladder::RUNGS.len() as u8).all(|k| p.unlocked(k)));
+        assert!(!p.restore_from_reward(&[ladder::REWARD_ITEM.to_string()]), "once is enough");
     }
 }

@@ -1215,6 +1215,9 @@ impl Online {
                     save = true;
                     self.send(ClientMsg::Friends);
                     self.send(ClientMsg::Leaderboard { rules: self.rules });
+                    // The wallet: what the account owns (the tour's reward
+                    // among it: see ladder::Progress::restore_from_reward).
+                    self.send(ClientMsg::Shop);
                     // Development aid: SNOOK_LEGEND_AUTOINVITE=<name> invites that player.
                     if let Some(to) = crate::dev::var("SNOOK_LEGEND_AUTOINVITE") {
                         self.send(ClientMsg::Invite { to, rated: true, rules: self.rules });

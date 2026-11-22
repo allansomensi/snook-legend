@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+### Fixes
+- **A tour already won is never lost**: the tour's progress is kept on the
+  computer (`ladder.json`), its reward (the champion's cue) on the account;
+  a new install, another computer or the Store's own folder started the
+  tour over, every opponent locked, though the cue was won. Signed in with
+  an account that owns the tour's cue, the tour is complete again. (The
+  wallet is now asked for on signing in.)
+
 ## 0.10.1 (protocol 24)
 
 Fixes for 0.10.0: screens that stayed dark, and a session that asked to

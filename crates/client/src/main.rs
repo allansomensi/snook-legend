@@ -844,6 +844,13 @@ async fn main() {
         if claimer.update(&mut ladder_progress, &mut online, get_time()) {
             ladder_progress.save();
         }
+        // The tour's progress lives on this computer; its reward on the
+        // account: an account that won it has the tour complete here too.
+        if let Some(w) = online.wallet.as_ref()
+            && ladder_progress.restore_from_reward(&w.owned)
+        {
+            ladder_progress.save();
+        }
         // A ghost asked for while the game was waiting to sign in.
         if online.signed_in()
             && let Screen::Versus(v) = &mut screen

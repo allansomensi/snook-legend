@@ -1766,6 +1766,11 @@ async fn main() {
                                     &mut online,
                                 )));
                             }
+                            // Signed out: the sign-in form (for another account).
+                            ProfileAction::SignOut => {
+                                online.logout(&mut config);
+                                next = Some(Screen::Online);
+                            }
                             ProfileAction::None => {}
                         },
                     }

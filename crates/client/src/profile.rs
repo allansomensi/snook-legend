@@ -18,6 +18,8 @@ pub enum ProfileAction {
     Back,
     /// Play the computer in this player's style.
     Ghost(String),
+    /// Sign out (one's own profile), to sign in to another account.
+    SignOut,
 }
 
 /// What the right-hand side of the profile shows.
@@ -63,6 +65,8 @@ pub struct ProfileScreen {
     /// The rules whose rating, rank, league and chart are shown (a rating
     /// card each, in the header).
     rules: Rules,
+    /// "Sign out" was clicked (the screen hands it on as its action).
+    sign_out: bool,
 }
 
 /// The account dialog: username, recovery e-mail, password, deletion.
@@ -503,6 +507,9 @@ impl ProfileScreen {
         }
         self.report_dialog(ui, online);
         self.account_dialog(ui, online);
+        if std::mem::take(&mut self.sign_out) {
+            action = ProfileAction::SignOut;
+        }
         action
     }
 
@@ -1626,7 +1633,27 @@ impl ProfileScreen {
         ]
         .iter()
         .any(|f| !f.is_empty());
-        if ui.button(Rect::new(x, y + 34.0 + 24.0, 140.0, 40.0), t("Close"), true)
+        // Signing out (to sign in to another account) is seldom wanted: a
+        // quiet link across from Close, not a button.
+        let row = Rect::new(x, y + 34.0 + 24.0, fw, 40.0);
+        let label = t("Sign out");
+        let size = 14.0;
+        let lw = 10.0 + 18.0 + 7.0 + ui.text_size(label, size, true).x + 12.0;
+        let link = Rect::new(row.x + row.w - lw, row.y, lw, row.h);
+        let hover = ui.hovering(link);
+        if hover {
+            rrect(link, 8.0, Color::new(1.0, 1.0, 1.0, 0.05));
+        }
+        let color = if hover { CREAM } else { MUTED };
+        crate::icons::draw(Icon::SignOut, vec2(link.x + 10.0 + 9.0, link.y + 20.0), 17.0, color);
+        ui.text(label, link.x + 10.0 + 18.0 + 7.0, text_y(link.y + 20.0, size), size, color, true);
+        if hover && ui.clicked(link) {
+            self.sign_out = true;
+            self.account = None;
+            ui.focus = None;
+            return;
+        }
+        if ui.button(Rect::new(x, row.y, 140.0, 40.0), t("Close"), true)
             || ui.escape()
             || (!typed && ui.dismissed(r))
         {

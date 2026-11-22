@@ -66,6 +66,9 @@ pub enum Icon {
     Block,
     /// A small flag on its pole: report a player.
     Flag,
+    /// A door with an arrow going out of it: sign out of the account (the
+    /// power sign is quitting the game).
+    SignOut,
 }
 
 fn arc(c: Vec2, r: f32, from: f32, to: f32, w: f32, color: Color) {
@@ -314,6 +317,15 @@ pub fn draw(icon: Icon, c: Vec2, s: f32, color: Color) {
             line(p(-0.58, -0.8), p(-0.58, 0.86), w * 1.4, color);
             draw_triangle(p(-0.56, -0.8), p(0.7, -0.5), p(-0.56, -0.12), color);
             draw_triangle(p(-0.56, -0.12), p(0.7, -0.5), p(0.6, 0.02), color);
+        }
+        Icon::SignOut => {
+            // The door frame, open on the right, and the arrow leaving it.
+            line(p(0.1, -0.82), p(-0.62, -0.82), w * 1.4, color);
+            line(p(-0.62, -0.82), p(-0.62, 0.82), w * 1.4, color);
+            line(p(-0.62, 0.82), p(0.1, 0.82), w * 1.4, color);
+            line(p(-0.22, 0.0), p(0.78, 0.0), w * 1.5, color);
+            line(p(0.78, 0.0), p(0.44, -0.34), w * 1.5, color);
+            line(p(0.78, 0.0), p(0.44, 0.34), w * 1.5, color);
         }
         Icon::ChevronLeft | Icon::ChevronRight => {
             let d = if icon == Icon::ChevronLeft { 1.0 } else { -1.0 };

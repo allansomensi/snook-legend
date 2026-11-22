@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- **Signing out, to switch accounts**: on your own profile, the account
+  (the gear) has "Sign out" by Close, as a quiet link; the sign-in form
+  comes next, to sign in to another account or make a new one. The
+  lounge's ⏻ button for it is gone (the same sign quits the game in the
+  menu, and signing out is seldom wanted).
 - **The chat field grows with what you write**: a long line wraps over up
   to four lines (it used to scroll sideways, out of sight), in the lounge
   and at the table, with "180/200" at its corner near the limit. Up and

@@ -2862,12 +2862,9 @@ impl Online {
         let online_w = presence_width(ui, self.players.len(), 14.0, &ping);
         let mut right = header.x + header.w - 10.0;
         if !self.lan {
+            // (Signing out is seldom wanted: it is in the account's dialog,
+            // on one's own profile.)
             right -= 36.0;
-            if ui.icon_button(Rect::new(right, by, 36.0, 36.0), Icon::Power, t("Sign out"), true) {
-                self.logout(config);
-                return OnlineAction::Leave;
-            }
-            right -= gap + 36.0;
             if ui.icon_button(
                 Rect::new(right, by, 36.0, 36.0),
                 Icon::Trophy,

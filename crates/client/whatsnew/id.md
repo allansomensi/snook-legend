@@ -3,6 +3,11 @@
 # dan baris sesudahnya adalah teksnya. Singkat dan tentang apa yang dilihat
 # pemain; setiap bahasa punya versi yang sama dan jumlah sorotan yang sama.
 
+## 0.10.2
+
+### Tur yang dimenangkan tetap menang
+Memasang ulang game, pindah komputer, atau memasangnya dari Store bisa membuat tur mulai lagi dengan semua lawan terkunci, padahal stiknya sudah kamu menangkan. Masuk dengan akun yang memiliki stik itu, tur kembali lengkap.
+
 ## 0.10.1
 
 ### Layar terang lagi

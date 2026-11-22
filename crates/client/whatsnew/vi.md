@@ -2,6 +2,11 @@
 # "## <phiên bản>" mở đầu một phiên bản (mới nhất trước), "### <tiêu đề>" là một điểm nổi bật,
 # và các dòng sau đó là nội dung. Mọi ngôn ngữ có cùng các phiên bản và cùng số điểm nổi bật.
 
+## 0.10.2
+
+### Giải đã thắng vẫn được giữ
+Cài lại trò chơi, đổi máy tính hoặc cài từ Store có thể khiến giải bắt đầu lại với mọi đối thủ bị khóa, dù bạn đã giành được cây cơ của giải. Khi đăng nhập bằng tài khoản có cây cơ đó, giải sẽ hoàn thành trở lại.
+
 ## 0.10.1
 
 ### Màn hình sáng trở lại

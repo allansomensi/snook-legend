@@ -2,6 +2,11 @@
 # "## <bersiyon>" ang simula ng isang bersiyon (pinakabago muna), "### <pamagat>"
 # ng isang highlight, at ang mga linya pagkatapos nito ang teksto nito.
 
+## 0.10.2
+
+### Nananatiling panalo ang napanalunang tour
+Ang muling pag-install ng laro, paglipat sa ibang computer, o pag-install mula sa Store ay puwedeng magpasimula ulit sa tour na naka-lock ang lahat ng kalaban, kahit napanalunan mo na ang tako nito. Kapag naka-sign in sa account na may tako, buo na ulit ang tour.
+
 ## 0.10.1
 
 ### Maliliwanag na ulit ang screen

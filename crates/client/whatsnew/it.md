@@ -3,6 +3,11 @@
 # novità, e le righe che seguono sono il suo testo. Ogni lingua ha le stesse
 # versioni e lo stesso numero di novità.
 
+## 0.10.2
+
+### Il circuito vinto resta vinto
+Reinstallare il gioco, cambiare computer o installarlo dallo Store poteva far ripartire il circuito con tutti gli avversari bloccati, anche se avevi già vinto la sua stecca. Entrando con l'account che ha la stecca, il circuito torna completo.
+
 ## 0.10.1
 
 ### Schermate di nuovo chiare

@@ -2,6 +2,11 @@
 # "## <versiune>" începe o versiune (cea mai nouă prima), "### <titlu>" o noutate,
 # iar rândurile de după sunt textul ei.
 
+## 0.10.2
+
+### Circuitul câștigat rămâne câștigat
+Reinstalarea jocului, alt calculator sau instalarea din Store puteau reporni circuitul cu toți adversarii blocați, deși îi câștigaseși deja tacul. Conectat cu contul care are tacul, circuitul este din nou complet.
+
 ## 0.10.1
 
 ### Ecrane din nou luminoase

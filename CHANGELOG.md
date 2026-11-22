@@ -1,6 +1,11 @@
 # Changelog
 
-## Unreleased
+## 0.10.2 (protocol 24)
+
+A tour already won is never lost, and the game's own addresses: the game
+on `api.snooklegend.app`, the terms and the privacy policy on the website,
+the staff portal on `admin.snooklegend.app`. The protocol is unchanged:
+0.10.x games play together.
 
 ### Fixes
 - **A tour already won is never lost**: the tour's progress is kept on the

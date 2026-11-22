@@ -4,6 +4,11 @@
 # parlez de ce que voient les joueurs ; chaque langue a les mêmes versions et
 # le même nombre de points forts.
 
+## 0.10.2
+
+### Un circuit gagné le reste
+Réinstaller le jeu, changer d'ordinateur ou l'installer depuis le Store pouvait recommencer le circuit, tous les adversaires verrouillés, même avec la queue déjà gagnée. Connecté avec le compte qui a la queue, le circuit est de nouveau complet.
+
 ## 0.10.1
 
 ### Des écrans de nouveau clairs

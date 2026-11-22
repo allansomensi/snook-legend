@@ -3,6 +3,11 @@
 # a řádky za ním jsou její text. Krátce a o tom, co hráči vidí; všechny
 # jazyky mají stejné verze a stejný počet novinek.
 
+## 0.10.2
+
+### Vyhraný okruh zůstává vyhraný
+Přeinstalace hry, jiný počítač nebo instalace ze Storu mohly okruh spustit znovu se všemi soupeři zamčenými, i když jsi jeho tágo už vyhrál. Po přihlášení k účtu, který tágo má, je okruh zase celý.
+
 ## 0.10.1
 
 ### Zase jasné obrazovky

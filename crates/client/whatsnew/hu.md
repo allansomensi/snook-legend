@@ -2,6 +2,11 @@
 # A "## <verzió>" egy verziót kezd (a legújabb elöl), a "### <cím>" egy
 # kiemelést, az utána következő sorok pedig a szövegét.
 
+## 0.10.2
+
+### A megnyert túra megnyert marad
+A játék újratelepítése, másik gép vagy a Store-ból telepítés újrakezdhette a túrát, minden ellenfél zárva, pedig a dákót már megnyerted. Azzal a fiókkal belépve, amelyiknél a dákó van, a túra ismét teljes.
+
 ## 0.10.1
 
 ### Újra világos képernyők

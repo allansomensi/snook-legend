@@ -3,6 +3,11 @@
 # un destacado, y las líneas siguientes son su texto. Mismas versiones y
 # mismo número de destacados en todos los idiomas.
 
+## 0.10.2
+
+### El circuito ganado sigue ganado
+Reinstalar el juego, cambiar de computadora o instalarlo desde la Store podía reiniciar el circuito con todos los rivales bloqueados, aunque ya tuvieras su taco. Al entrar con la cuenta que tiene el taco, el circuito vuelve completo.
+
 ## 0.10.1
 
 ### Pantallas claras otra vez

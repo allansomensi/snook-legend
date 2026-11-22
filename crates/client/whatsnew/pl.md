@@ -2,6 +2,11 @@
 # "## <wersja>" zaczyna wersję (najnowsze najpierw), "### <tytuł>" nowość,
 # a kolejne wiersze to jej tekst. Każdy język ma te same wersje i tyle samo nowości.
 
+## 0.10.2
+
+### Wygrany turniej zostaje wygrany
+Ponowna instalacja gry, zmiana komputera albo instalacja ze Store mogły zacząć turniej od nowa, ze wszystkimi rywalami zablokowanymi, choć kij był już zdobyty. Po zalogowaniu na konto, które ma kij, turniej jest znów ukończony.
+
 ## 0.10.1
 
 ### Znowu jasne ekrany

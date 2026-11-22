@@ -3,6 +3,11 @@
 # Highlight, und die Zeilen danach sind sein Text. Jede Sprache hat dieselben
 # Versionen und dieselbe Anzahl an Highlights.
 
+## 0.10.2
+
+### Eine gewonnene Tour bleibt gewonnen
+Eine Neuinstallation, ein anderer Computer oder die Installation aus dem Store konnte die Tour neu beginnen lassen, alle Gegner gesperrt, obwohl du ihr Queue schon gewonnen hattest. Angemeldet mit dem Konto, das das Queue hat, ist die Tour wieder vollständig.
+
 ## 0.10.1
 
 ### Wieder helle Bildschirme

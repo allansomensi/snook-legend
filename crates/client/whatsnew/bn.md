@@ -3,6 +3,11 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.10.2
+
+### জেতা ট্যুর জেতাই থাকে
+গেম আবার ইনস্টল করলে, অন্য কম্পিউটারে গেলে বা Store থেকে ইনস্টল করলে ট্যুর নতুন করে শুরু হতে পারত, সব প্রতিপক্ষ লক অবস্থায়, যদিও আপনি তার কিউ জিতে নিয়েছিলেন। যে অ্যাকাউন্টে কিউটি আছে সেটি দিয়ে সাইন ইন করলে ট্যুর আবার সম্পূর্ণ হয়।
+
 ## 0.10.1
 
 ### আবার উজ্জ্বল স্ক্রিন

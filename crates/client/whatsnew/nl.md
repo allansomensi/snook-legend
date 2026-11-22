@@ -3,6 +3,11 @@
 # en de regels erna zijn de tekst ervan. Elke taal heeft dezelfde versies en
 # hetzelfde aantal hoogtepunten.
 
+## 0.10.2
+
+### Een gewonnen tour blijft gewonnen
+Het spel opnieuw installeren, een andere computer gebruiken of het uit de Store installeren kon de tour opnieuw laten beginnen, alle tegenstanders vergrendeld, ook al had je de keu al gewonnen. Ingelogd met het account dat de keu heeft, is de tour weer compleet.
+
 ## 0.10.1
 
 ### Schermen weer helder

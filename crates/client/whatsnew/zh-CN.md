@@ -3,6 +3,11 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.10.2
+
+### 已通关的巡回赛不会丢失
+重新安装游戏、换电脑或从商店安装后，巡回赛可能会从头开始、所有对手都被锁定，即使你已经赢得了它的球杆。用拥有该球杆的账号登录后，巡回赛会恢复为已通关。
+
 ## 0.10.1
 
 ### 界面恢复明亮

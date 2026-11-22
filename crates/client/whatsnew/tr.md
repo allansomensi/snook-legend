@@ -3,6 +3,11 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.10.2
+
+### Kazanılan tur kazanılmış kalır
+Oyunu yeniden kurmak, başka bilgisayara geçmek ya da Store'dan kurmak, ıstakasını kazanmış olsan bile turu tüm rakipler kilitli şekilde baştan başlatabiliyordu. Istakaya sahip hesapla giriş yapınca tur yeniden tamamlanmış olur.
+
 ## 0.10.1
 
 ### Ekranlar yine aydınlık

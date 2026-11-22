@@ -3,6 +3,11 @@
 # och raderna efter den är dess text. Håll det kort och om det spelarna
 # ser; alla språk har samma versioner och samma antal nyheter.
 
+## 0.10.2
+
+### En vunnen turné förblir vunnen
+Att installera om spelet, byta dator eller installera det från Store kunde starta om turnén med alla motståndare låsta, fast du redan vunnit dess kö. Inloggad med kontot som har kön är turnén komplett igen.
+
 ## 0.10.1
 
 ### Ljusa skärmar igen

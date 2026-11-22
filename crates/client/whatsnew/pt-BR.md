@@ -3,6 +3,11 @@
 # destaque, e as linhas seguintes são o texto dele. Mesmas versões e mesmo
 # número de destaques em todas as línguas.
 
+## 0.10.2
+
+### Circuito vencido continua vencido
+Reinstalar o jogo, trocar de computador ou instalar pela Store podia reiniciar o circuito com todos os adversários bloqueados, mesmo com o taco já conquistado. Entrando com a conta que tem o taco, o circuito volta completo.
+
 ## 0.10.1
 
 ### Telas claras de novo

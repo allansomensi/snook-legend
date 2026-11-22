@@ -3,6 +3,11 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.10.2
+
+### जीता हुआ टूर जीता ही रहता है
+गेम दोबारा इंस्टॉल करने, दूसरे कंप्यूटर पर जाने या Store से इंस्टॉल करने पर टूर फिर से शुरू हो सकता था और सारे विरोधी लॉक हो जाते थे, भले ही आप उसका क्यू जीत चुके हों। जिस खाते में वह क्यू है उससे साइन इन करने पर टूर फिर से पूरा दिखता है।
+
 ## 0.10.1
 
 ### स्क्रीन फिर से साफ़

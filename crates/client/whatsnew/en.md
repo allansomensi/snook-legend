@@ -3,6 +3,11 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.10.2
+
+### A tour won stays won
+Reinstalling the game, moving to another computer or installing it from the Store could start the tour over, every opponent locked, though you had won its cue. Signed in with the account that has the cue, the tour is complete again.
+
 ## 0.10.1
 
 ### Screens bright again

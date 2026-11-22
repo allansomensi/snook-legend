@@ -57,9 +57,10 @@ Em 27 idiomas, entre eles português, inglês, espanhol, francês, alemão, ital
 
 ### Novidades desta versão
 
-Versão 0.10.1: telas sempre claras e a conta conectada até você sair.
-• Corrigido: abrir o salão podia deixar a interface escurecida.
-• O jogo mantém você na conta até você escolher "Sair da conta", mesmo se a conexão cair; uma conta fica em um lugar só.
+Versão 0.10.2: o circuito vencido não se perde mais.
+• Reinstalar o jogo, trocar de computador ou instalar pela Store podia reiniciar o circuito; entrando com a conta que tem o taco do circuito, ele volta completo.
+
+Da versão 0.10.1: telas sempre claras e a conta conectada até você sair.
 
 Da versão 0.10.0: um visual novo e fotos de perfil do jogo.
 • Interface refeita: fonte feita para telas, ícones nítidos, bordas lisas, menu novo com o logotipo e botões com animação e clique suave.
@@ -136,9 +137,10 @@ In 27 languages, including English, Portuguese, Spanish, French, German, Italian
 
 ### What's new in this version
 
-Version 0.10.1: screens always bright, and signed in until you sign out.
-• Fixed: opening the lounge could leave the interface dimmed.
-• The game keeps you signed in until you choose "Sign out", even if the connection drops; an account is in one place at a time.
+Version 0.10.2: a tour you won is never lost.
+• Reinstalling the game, moving to another computer or installing it from the Store could start the tour over; signed in with the account that has the tour's cue, it is complete again.
+
+From version 0.10.1: screens always bright, and signed in until you sign out.
 
 From version 0.10.0: a new look and profile pictures from the game.
 • The interface redone: a typeface made for screens, sharp icons, smooth edges, a new menu with the logo, and buttons that light up and click softly.
@@ -215,9 +217,10 @@ En 27 idiomas, entre ellos español, inglés, portugués, francés, alemán, ita
 
 ### Novedades de esta versión
 
-Versión 0.10.1: pantallas siempre claras y la sesión abierta hasta que salgas.
-• Corregido: abrir el salón podía dejar la interfaz oscurecida.
-• El juego mantiene tu sesión hasta que elijas "Cerrar sesión", aunque se caiga la conexión; una cuenta está en un solo lugar.
+Versión 0.10.2: el circuito ganado ya no se pierde.
+• Reinstalar el juego, cambiar de computadora o instalarlo desde la Store podía reiniciar el circuito; al entrar con la cuenta que tiene el taco del circuito, vuelve completo.
+
+De la versión 0.10.1: pantallas siempre claras y la sesión abierta hasta que salgas.
 
 De la versión 0.10.0: un aspecto nuevo y fotos de perfil del juego.
 • La interfaz rehecha: una tipografía pensada para pantallas, iconos nítidos, bordes suaves, un menú nuevo con el logotipo y botones que se iluminan con un clic suave.

@@ -1332,8 +1332,12 @@ impl Versus {
             let earned = best_of(d.code).map_or(0, |b| drills::stars(d, b));
             for s in 0..3 {
                 let c = vec2(cell.x + cell.w - 12.0 - (2 - s) as f32 * star_step - star / 2.0, mid);
-                let color = if s < earned { GOLD } else { Color::new(1.0, 1.0, 1.0, 0.15) };
-                crate::icons::draw(Icon::Star, c, star, color);
+                // Earned: a solid gold star; still to earn: its outline.
+                if s < earned {
+                    crate::icons::draw_filled(Icon::Star, c, star, GOLD);
+                } else {
+                    crate::icons::draw(Icon::Star, c, star, Color::new(1.0, 1.0, 1.0, 0.22));
+                }
             }
         }
         // The drill picked: what it asks, the player's best, its position.

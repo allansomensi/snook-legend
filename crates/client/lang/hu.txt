@@ -2054,3 +2054,4 @@ The cue ball went down on the break with no ball made: {next} breaks again, from
 Congratulations!	Gratulálunk!
 You earned a new item: {title}	Új tárgyat szereztél: {title}
 You earned a new item!	Új tárgyat szereztél!
+Ranking	Ranglista

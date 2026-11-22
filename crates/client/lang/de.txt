@@ -2054,3 +2054,4 @@ The cue ball went down on the break with no ball made: {next} breaks again, from
 Congratulations!	Glückwunsch!
 You earned a new item: {title}	Du hast einen neuen Artikel verdient: {title}
 You earned a new item!	Du hast einen neuen Artikel verdient!
+Ranking	Rangliste

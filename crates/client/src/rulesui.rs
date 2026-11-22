@@ -11,7 +11,7 @@ use crate::paint::{draw_circle, draw_rectangle};
 
 use crate::i18n::t;
 use crate::icons::Icon;
-use crate::ui::{BORDER, CREAM, GOLD, MUTED, Ui, rrect, rrect_gradient, rrect_lines, shade};
+use crate::ui::{CREAM, GOLD, MUTED, Ui, rrect, rrect_gradient, rrect_lines, shade};
 
 /// The official rules' colour: the blue of the globe.
 pub const OFFICIAL: Color = Color::new(0.45, 0.67, 1.0, 1.0);
@@ -100,7 +100,7 @@ pub fn switch(
             clicked = Some(rules);
         }
     }
-    rrect_lines(r, 8.0, 1.2, BORDER);
+    rrect_lines(r, crate::ui::BUTTON_RADIUS, 1.0, crate::ui::HAIRLINE);
     clicked
 }
 

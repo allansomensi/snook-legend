@@ -107,7 +107,8 @@ pub fn fill_convex(pts: &[Vec2], color: impl Fn(Vec2) -> Color) {
         }
         for i in 0..n {
             let j = (i + 1) % n;
-            let (ii, io, ji, jo) = ((2 * i) as u16, (2 * i + 1) as u16, (2 * j) as u16, (2 * j + 1) as u16);
+            let (ii, io, ji, jo) =
+                ((2 * i) as u16, (2 * i + 1) as u16, (2 * j) as u16, (2 * j + 1) as u16);
             indices.extend([ii, io, jo, ii, jo, ji]);
         }
         submit(vertices, indices);
@@ -126,8 +127,11 @@ pub fn stroke(pts: &[Vec2], closed: bool, width: f32, color: Color) {
         }
         normals(path, closed, norms);
         let px = pixel();
-        let (core, color) =
-            if width >= px { ((width - px) * 0.5, color) } else { (0.0, Color { a: color.a * width / px, ..color }) };
+        let (core, color) = if width >= px {
+            ((width - px) * 0.5, color)
+        } else {
+            (0.0, Color { a: color.a * width / px, ..color })
+        };
         let edge = core + px;
         vertices.clear();
         indices.clear();

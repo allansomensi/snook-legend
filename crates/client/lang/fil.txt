@@ -2054,3 +2054,4 @@ The cue ball went down on the break with no ball made: {next} breaks again, from
 Congratulations!	Binabati kita!
 You earned a new item: {title}	May bago kang item: {title}
 You earned a new item!	May bago kang item!
+Ranking	Ranking

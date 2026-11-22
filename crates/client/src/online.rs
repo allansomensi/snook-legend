@@ -479,7 +479,12 @@ pub fn draw_note(
     // A coloured edge on the left: the kind of note.
     rrect(Rect::new(card.x, card.y + 6.0, 4.0, card.h - 12.0), 2.0, color);
     if n.pinned {
-        crate::icons::draw(Icon::Star, vec2(card.x + card.w - 16.0, card.y + 14.0), 14.0, color);
+        crate::icons::draw_filled(
+            Icon::Star,
+            vec2(card.x + card.w - 16.0, card.y + 14.0),
+            14.0,
+            color,
+        );
     }
     let lines = ui.wrap(&n.text, card.w - 44.0, 14.0);
     for (i, l) in lines.iter().enumerate() {

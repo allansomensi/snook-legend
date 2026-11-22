@@ -683,8 +683,12 @@ impl Hud {
             // The stars: gold for each earned.
             for k in 0..3 {
                 let c = vec2(sw / 2.0 + (k as f32 - 1.0) * 46.0, r.y + 78.0);
-                let color = if (k as u32) < stars { GOLD } else { Color::new(1.0, 1.0, 1.0, 0.15) };
-                crate::icons::draw(crate::icons::Icon::Star, c, 34.0, color);
+                if (k as u32) < stars {
+                    crate::icons::draw_filled(crate::icons::Icon::Star, c, 34.0, GOLD);
+                } else {
+                    let faint = Color::new(1.0, 1.0, 1.0, 0.22);
+                    crate::icons::draw(crate::icons::Icon::Star, c, 34.0, faint);
+                }
             }
             let line = tw("{n} of {total}", &[("n", &score), ("total", &d.tries)]);
             ui.text_centered(&line, sw / 2.0, r.y + 108.0, 20.0, CREAM, true);
@@ -1780,7 +1784,7 @@ impl Hud {
             for (seat, color) in SEAT_COLORS.into_iter().enumerate() {
                 let card = board.seat(seat);
                 if cheering == Some(seat) {
-                    crate::icons::draw(
+                    crate::icons::draw_filled(
                         Icon::Star,
                         vec2(card.x + card.w - 12.0, card.y + 10.0),
                         12.0,

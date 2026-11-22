@@ -11,7 +11,11 @@ pub const GOLD: Color = Color::new(0.91, 0.75, 0.38, 1.0);
 pub const CREAM: Color = Color::new(0.94, 0.89, 0.80, 1.0);
 pub const MUTED: Color = Color::new(0.70, 0.64, 0.56, 1.0);
 pub const PANEL: Color = Color::new(0.09, 0.055, 0.035, 0.96);
-pub const BORDER: Color = Color::new(0.45, 0.31, 0.16, 1.0);
+/// Outlines and separators: warm and quiet (gold is for what is chosen or
+/// under the pointer).
+pub const BORDER: Color = Color::new(0.30, 0.215, 0.135, 1.0);
+/// The faint edge of a button or a field (light, so it reads on any surface).
+pub const HAIRLINE: Color = Color::new(1.0, 0.86, 0.6, 0.13);
 pub const ALERT: Color = Color::new(1.0, 0.56, 0.44, 1.0);
 pub const GREEN: Color = Color::new(0.12, 0.45, 0.25, 1.0);
 
@@ -647,18 +651,19 @@ impl Ui {
         self.block(r);
         // Soft drop shadow, body, a sheen that fades out down the top and a
         // thin gold-brown edge.
-        soft_shadow(r, 8.0, 1.6);
+        soft_shadow(r, PANEL_RADIUS, 1.8);
         // Opaque: a dialog over another panel must not let its text through.
         let body = Color::new(PANEL.r, PANEL.g, PANEL.b, 1.0);
-        rrect_gradient(r, 8.0, shade(body, 0.03), shade(body, -0.25));
-        let sheen = Rect::new(r.x + 1.0, r.y + 1.0, r.w - 2.0, (r.h * 0.5).min(64.0));
+        rrect_gradient(r, PANEL_RADIUS, shade(body, 0.05), shade(body, -0.25));
+        let sheen = Rect::new(r.x + 1.0, r.y + 1.0, r.w - 2.0, (r.h * 0.5).min(72.0));
         rrect_gradient(
             sheen,
-            7.0,
-            Color::new(1.0, 0.85, 0.6, 0.05),
+            PANEL_RADIUS - 1.0,
+            Color::new(1.0, 0.85, 0.6, 0.045),
             Color::new(1.0, 0.85, 0.6, 0.0),
         );
-        rrect_lines(r, 8.0, 1.2, BORDER);
+        top_light(r, PANEL_RADIUS, 0.07);
+        rrect_lines(r, PANEL_RADIUS, 1.0, BORDER);
     }
 
     /// A panel that lets what is under it show through by `clear` (0: as
@@ -668,11 +673,16 @@ impl Ui {
         self.panels.get_mut().push(r);
         self.block(r);
         let clear = clear.clamp(0.0, 1.0);
-        soft_shadow(r, 8.0, 1.6 * (1.0 - 0.6 * clear));
+        soft_shadow(r, PANEL_RADIUS, 1.8 * (1.0 - 0.6 * clear));
         let a = 1.0 - 0.3 * clear;
         let body = Color::new(PANEL.r, PANEL.g, PANEL.b, a);
-        rrect_gradient(r, 8.0, shade(body, 0.03), shade(body, -0.25));
-        rrect_lines(r, 8.0, 1.2, Color::new(BORDER.r, BORDER.g, BORDER.b, 1.0 - 0.4 * clear));
+        rrect_gradient(r, PANEL_RADIUS, shade(body, 0.05), shade(body, -0.25));
+        rrect_lines(
+            r,
+            PANEL_RADIUS,
+            1.0,
+            Color::new(BORDER.r, BORDER.g, BORDER.b, 1.0 - 0.4 * clear),
+        );
     }
 
     pub fn button(&mut self, r: Rect, label: &str, enabled: bool) -> bool {
@@ -680,17 +690,18 @@ impl Ui {
         let hover = enabled && r.contains(self.mouse);
         if !enabled {
             // Flat and quiet: clearly not something to press.
-            rrect(r, 6.0, Color::new(0.11, 0.08, 0.06, 0.9));
-            rrect_lines(r, 6.0, 1.0, Color::new(BORDER.r, BORDER.g, BORDER.b, 0.45));
+            rrect(r, BUTTON_RADIUS, Color::new(0.1, 0.075, 0.055, 0.85));
+            rrect_lines(r, BUTTON_RADIUS, 1.0, Color::new(1.0, 1.0, 1.0, 0.04));
         } else {
             let bg = if hover && self.down {
-                Color::new(0.46, 0.30, 0.14, 1.0)
+                Color::new(0.20, 0.135, 0.08, 1.0)
             } else if hover {
-                Color::new(0.40, 0.27, 0.13, 1.0)
+                Color::new(0.33, 0.225, 0.125, 1.0)
             } else {
-                Color::new(0.28, 0.18, 0.10, 1.0)
+                Color::new(0.23, 0.155, 0.09, 1.0)
             };
-            raised(r, 6.0, bg, if hover { GOLD } else { BORDER }, 1.2);
+            let edge = if hover { Color { a: 0.8, ..GOLD } } else { HAIRLINE };
+            raised(r, BUTTON_RADIUS, bg, edge, 1.0);
         }
         let (label, size) = self.fitted(label, (r.h * 0.45).clamp(13.0, 22.0), r.w - 12.0, true);
         let color = if enabled { CREAM } else { Color::new(MUTED.r, MUTED.g, MUTED.b, 0.6) };
@@ -710,8 +721,13 @@ impl Ui {
         } else {
             GREEN
         };
-        rrect(Rect::new(r.x, r.y + 2.0, r.w, r.h), 7.0, Color::new(0.0, 0.0, 0.0, 0.3));
-        raised(r, 7.0, bg, if hover { GOLD } else { Color::new(0.3, 0.7, 0.45, 1.0) }, 1.2);
+        rrect(Rect::new(r.x, r.y + 2.0, r.w, r.h), BUTTON_RADIUS, Color::new(0.0, 0.0, 0.0, 0.3));
+        let edge = if hover {
+            Color::new(0.62, 0.95, 0.72, 0.85)
+        } else {
+            Color::new(0.45, 0.85, 0.6, 0.45)
+        };
+        raised(r, BUTTON_RADIUS, bg, edge, 1.0);
         let (label, size) = self.fitted(label, (r.h * 0.45).clamp(13.0, 24.0), r.w - 12.0, true);
         let y = r.y + (r.h - size) / 2.0 + if hover && self.down { 1.0 } else { 0.0 };
         self.text_centered(&label, r.x + r.w / 2.0, y, size, WHITE, true);
@@ -723,8 +739,8 @@ impl Ui {
         self.block(r);
         let hover = r.contains(self.mouse);
         let b = Rect::new(x, y, 18.0, 18.0);
-        rrect(b, 4.0, Color::new(0.06, 0.04, 0.03, 1.0));
-        rrect_lines(b, 4.0, 1.2, if hover { GOLD } else { BORDER });
+        rrect(b, 5.0, Color::new(0.06, 0.04, 0.03, 1.0));
+        rrect_lines(b, 5.0, 1.2, if hover { GOLD } else { HAIRLINE });
         if *value {
             // A check mark.
             draw_line(x + 4.0, y + 9.5, x + 7.5, y + 13.0, 2.2, GOLD);
@@ -743,7 +759,7 @@ impl Ui {
         self.block(r);
         let hover = r.contains(self.mouse);
         draw_circle(x + 9.0, y + 9.0, 8.0, Color::new(0.06, 0.04, 0.03, 1.0));
-        draw_circle_lines(x + 9.0, y + 9.0, 8.0, 1.5, if hover { GOLD } else { BORDER });
+        draw_circle_lines(x + 9.0, y + 9.0, 8.0, 1.5, if hover { GOLD } else { HAIRLINE });
         if selected {
             draw_circle(x + 9.0, y + 9.0, 4.5, GOLD);
         }
@@ -936,8 +952,7 @@ impl Ui {
             }
         }
         let focused = self.focus == Some(id);
-        rrect(r, 5.0, Color::new(0.04, 0.03, 0.02, 1.0));
-        rrect_lines(r, 5.0, if focused { 1.6 } else { 1.2 }, if focused { GOLD } else { BORDER });
+        field_frame(r, focused, r.contains(self.mouse));
         let selection = if focused { self.selection() } else { None };
         for (k, &(a, b)) in lines.iter().enumerate().skip(first_line).take(shown_lines) {
             let y = top + (k - first_line) as f32 * AREA_LINE;
@@ -1204,8 +1219,7 @@ impl Ui {
             }
         }
         let focused = self.focus == Some(id);
-        rrect(r, 5.0, Color::new(0.04, 0.03, 0.02, 1.0));
-        rrect_lines(r, 5.0, if focused { 1.6 } else { 1.2 }, if focused { GOLD } else { BORDER });
+        field_frame(r, focused, r.contains(self.mouse));
         let visible: String = shown[first..last].iter().collect();
         if focused && let Some((a, b)) = self.selection() {
             let (a, b) = (a.clamp(first, last), b.clamp(first, last));
@@ -1381,7 +1395,14 @@ impl Ui {
         } else {
             Color::new(0.12, 0.08, 0.05, 1.0)
         };
-        raised(r, 8.0, bg, if hover || on { GOLD } else { BORDER }, if on { 1.8 } else { 1.2 });
+        let edge = if on {
+            GOLD
+        } else if hover {
+            Color { a: 0.7, ..GOLD }
+        } else {
+            HAIRLINE
+        };
+        raised(r, BUTTON_RADIUS, bg, edge, if on { 1.6 } else { 1.0 });
         hover && self.released_in(r)
     }
 
@@ -1393,6 +1414,28 @@ impl Ui {
     /// A tab with a small count at its right end (e.g. "3/14"); the label
     /// keeps clear of it, shrinking if it must.
     pub fn tab_with_count(&mut self, r: Rect, label: &str, count: &str, selected: bool) -> bool {
+        self.tab_full(r, None, label, count, selected)
+    }
+
+    /// A tab with an icon before its label (filled while it is chosen).
+    pub fn tab_with_icon(
+        &mut self,
+        r: Rect,
+        icon: crate::icons::Icon,
+        label: &str,
+        selected: bool,
+    ) -> bool {
+        self.tab_full(r, Some(icon), label, "", selected)
+    }
+
+    fn tab_full(
+        &mut self,
+        r: Rect,
+        icon: Option<crate::icons::Icon>,
+        label: &str,
+        count: &str,
+        selected: bool,
+    ) -> bool {
         self.block(r);
         let hover = r.contains(self.mouse);
         let bg = if selected {
@@ -1403,9 +1446,9 @@ impl Ui {
             Color::new(0.12, 0.08, 0.05, 1.0)
         };
         if selected || hover {
-            rrect_gradient(r, 6.0, shade(bg, 0.06), shade(bg, -0.15));
+            rrect_gradient(r, BUTTON_RADIUS, shade(bg, 0.06), shade(bg, -0.15));
         } else {
-            rrect(r, 6.0, bg);
+            rrect(r, BUTTON_RADIUS, bg);
         }
         if selected {
             rrect(Rect::new(r.x + 8.0, r.y + r.h - 3.0, r.w - 16.0, 3.0), 1.5, GOLD);
@@ -1419,15 +1462,31 @@ impl Ui {
             self.text(count, r.x + r.w - cw - 10.0, r.y + (r.h - 11.0) / 2.0, 11.0, MUTED, false);
             cw + 14.0
         };
-        let (label, size) = self.fitted(label, 15.0, r.w - 16.0 - reserve, true);
-        let width = self.text_size(&label, size, true).x;
+        let icon_w = if icon.is_some() { 24.0 } else { 0.0 };
+        let (label, size) = self.fitted(label, 15.0, r.w - 16.0 - reserve - icon_w, true);
+        let width = self.text_size(&label, size, true).x + icon_w;
         let centre = (r.x + r.w / 2.0).min(r.x + r.w - reserve - 6.0 - width / 2.0);
-        self.text_centered(
+        let color = if selected {
+            GOLD
+        } else if hover {
+            CREAM
+        } else {
+            Color::new(CREAM.r, CREAM.g, CREAM.b, 0.82)
+        };
+        if let Some(icon) = icon {
+            let c = vec2(centre - width / 2.0 + 9.0, r.y + r.h / 2.0);
+            if selected {
+                crate::icons::draw_filled(icon, c, 18.0, color);
+            } else {
+                crate::icons::draw(icon, c, 18.0, color);
+            }
+        }
+        self.text(
             &label,
-            centre,
+            centre - width / 2.0 + icon_w,
             r.y + (r.h - size) / 2.0,
             size,
-            if selected { GOLD } else { CREAM },
+            color,
             true,
         );
         hover && self.released_in(r) && !selected
@@ -1737,26 +1796,26 @@ impl Ui {
         self.block(r);
         let hover = enabled && r.contains(self.mouse);
         let bg = if hover && self.down {
-            Color::new(0.50, 0.33, 0.15, 1.0)
+            Color::new(0.20, 0.135, 0.08, 1.0)
         } else if hover {
-            Color::new(0.38, 0.25, 0.12, 0.95)
+            Color::new(0.33, 0.225, 0.125, 0.97)
         } else if subtle {
             Color::new(0.05, 0.035, 0.025, 0.45)
         } else if !enabled {
-            Color::new(0.11, 0.08, 0.06, 0.9)
+            Color::new(0.1, 0.075, 0.055, 0.85)
         } else {
-            Color::new(0.24, 0.16, 0.09, 0.95)
+            Color::new(0.21, 0.145, 0.085, 0.95)
         };
-        let radius = (r.h * 0.22).min(8.0);
+        let radius = (r.h * 0.26).min(BUTTON_RADIUS);
         if !subtle || hover {
             let edge = if hover {
-                GOLD
+                Color { a: 0.8, ..GOLD }
             } else if enabled {
-                BORDER
+                HAIRLINE
             } else {
-                Color::new(BORDER.r, BORDER.g, BORDER.b, 0.45)
+                Color::new(1.0, 1.0, 1.0, 0.04)
             };
-            raised(r, radius, bg, edge, 1.2);
+            raised(r, radius, bg, edge, 1.0);
         } else {
             rrect(r, radius, bg);
         }
@@ -2000,25 +2059,18 @@ impl Ui {
         self.block(r);
         let n = options.len().max(1) as f32;
         let w = r.w / n;
-        rrect(r, 7.0, Color::new(0.06, 0.04, 0.03, 1.0));
+        rrect(r, BUTTON_RADIUS, Color::new(0.05, 0.035, 0.025, 1.0));
         let mut clicked = None;
         for (i, label) in options.iter().enumerate() {
             let cell = Rect::new(r.x + i as f32 * w, r.y, w, r.h);
             let hover = cell.contains(self.mouse);
+            let inner = Rect::new(cell.x + 3.0, cell.y + 3.0, cell.w - 6.0, cell.h - 6.0);
             if i == selected {
-                let bg = Color::new(0.38, 0.25, 0.12, 1.0);
-                rrect_gradient(
-                    Rect::new(cell.x + 2.0, cell.y + 2.0, cell.w - 4.0, cell.h - 4.0),
-                    6.0,
-                    shade(bg, 0.08),
-                    shade(bg, -0.15),
-                );
+                let bg = Color::new(0.36, 0.245, 0.12, 1.0);
+                rrect_gradient(inner, BUTTON_RADIUS - 2.5, shade(bg, 0.1), shade(bg, -0.15));
+                top_light(inner, BUTTON_RADIUS - 2.5, 0.1);
             } else if hover {
-                rrect(
-                    Rect::new(cell.x + 2.0, cell.y + 2.0, cell.w - 4.0, cell.h - 4.0),
-                    6.0,
-                    Color::new(0.22, 0.15, 0.09, 1.0),
-                );
+                rrect(inner, BUTTON_RADIUS - 2.5, Color::new(1.0, 0.9, 0.75, 0.06));
             }
             let (label, size) = self.fitted(label, (r.h * 0.42).clamp(12.0, 16.0), w - 10.0, true);
             let color = if i == selected { GOLD } else { CREAM };
@@ -2034,7 +2086,7 @@ impl Ui {
                 clicked = Some(i);
             }
         }
-        rrect_lines(r, 7.0, 1.2, BORDER);
+        rrect_lines(r, BUTTON_RADIUS, 1.0, HAIRLINE);
         clicked
     }
 
@@ -2140,12 +2192,55 @@ pub fn shade(c: Color, k: f32) -> Color {
 
 /// A soft drop shadow under a rounded rectangle (a few widening layers).
 pub fn soft_shadow(r: Rect, radius: f32, strength: f32) {
-    for (grow, drop, alpha) in [(6.0, 6.0, 0.08), (3.0, 4.0, 0.12), (1.0, 2.0, 0.16)] {
+    for (grow, drop, alpha) in
+        [(12.0, 10.0, 0.035), (8.0, 7.0, 0.05), (5.0, 5.0, 0.07), (2.5, 3.0, 0.09), (1.0, 1.5, 0.1)]
+    {
         rrect(
             Rect::new(r.x - grow, r.y - grow + drop, r.w + 2.0 * grow, r.h + 2.0 * grow),
             radius + grow,
             Color::new(0.0, 0.0, 0.0, alpha * strength),
         );
+    }
+}
+
+/// The corners of panels and dialogs.
+pub const PANEL_RADIUS: f32 = 12.0;
+/// The corners of buttons, fields, tabs and switches.
+pub const BUTTON_RADIUS: f32 = 8.0;
+
+/// A faint light along the top edge of a surface (it looks lit from above).
+pub fn top_light(r: Rect, radius: f32, alpha: f32) {
+    let inset = radius.min(r.w / 2.0);
+    draw_line(
+        r.x + inset,
+        r.y + 1.0,
+        r.x + r.w - inset,
+        r.y + 1.0,
+        1.0,
+        Color::new(1.0, 0.92, 0.78, alpha),
+    );
+}
+
+/// A text field's frame: dark, a faint edge, gold with a soft glow when it
+/// has the keyboard.
+fn field_frame(r: Rect, focused: bool, hover: bool) {
+    rrect(r, BUTTON_RADIUS, Color::new(0.035, 0.025, 0.018, 1.0));
+    // Sunk in: a little shade along the top inside.
+    draw_line(
+        r.x + BUTTON_RADIUS,
+        r.y + 1.5,
+        r.x + r.w - BUTTON_RADIUS,
+        r.y + 1.5,
+        1.0,
+        Color::new(0.0, 0.0, 0.0, 0.5),
+    );
+    if focused {
+        let glow = Rect::new(r.x - 2.0, r.y - 2.0, r.w + 4.0, r.h + 4.0);
+        rrect_lines(glow, BUTTON_RADIUS + 2.0, 3.0, Color { a: 0.16, ..GOLD });
+        rrect_lines(r, BUTTON_RADIUS, 1.3, GOLD);
+    } else {
+        let edge = if hover { Color { a: 0.22, ..HAIRLINE } } else { HAIRLINE };
+        rrect_lines(r, BUTTON_RADIUS, 1.0, edge);
     }
 }
 

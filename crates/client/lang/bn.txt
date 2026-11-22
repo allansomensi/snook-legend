@@ -2054,3 +2054,4 @@ The cue ball went down on the break with no ball made: {next} breaks again, from
 Congratulations!	অভিনন্দন!
 You earned a new item: {title}	আপনি একটি নতুন আইটেম পেয়েছেন: {title}
 You earned a new item!	আপনি একটি নতুন আইটেম পেয়েছেন!
+Ranking	র‍্যাঙ্কিং

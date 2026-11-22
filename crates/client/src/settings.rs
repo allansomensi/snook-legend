@@ -259,15 +259,15 @@ impl SettingsScreen {
 
         // Tabs.
         let tabs = [
-            (Tab::Graphics, t("Graphics")),
-            (Tab::Game, t("Game")),
-            (Tab::Controls, t("Controls")),
-            (Tab::Sound, t("Sound")),
+            (Tab::Graphics, Icon::Monitor, t("Graphics")),
+            (Tab::Game, Icon::Sliders, t("Game")),
+            (Tab::Controls, Icon::Mouse, t("Controls")),
+            (Tab::Sound, Icon::Speaker, t("Sound")),
         ];
         let tab_w = (inner - 8.0 * (tabs.len() - 1) as f32) / tabs.len() as f32;
-        for (k, (tab, label)) in tabs.into_iter().enumerate() {
+        for (k, (tab, icon, label)) in tabs.into_iter().enumerate() {
             let tr = Rect::new(x + k as f32 * (tab_w + 8.0), r.y + 60.0, tab_w, 34.0);
-            if ui.tab(tr, label, self.tab == tab) && self.tab != tab {
+            if ui.tab_with_icon(tr, icon, label, self.tab == tab) && self.tab != tab {
                 self.tab = tab;
                 self.scroll = 0.0;
                 self.capture = None;

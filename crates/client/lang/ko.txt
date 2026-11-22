@@ -2054,3 +2054,4 @@ The cue ball went down on the break with no ball made: {next} breaks again, from
 Congratulations!	축하해요!
 You earned a new item: {title}	새 아이템을 얻었어요: {title}
 You earned a new item!	새 아이템을 얻었어요!
+Ranking	랭킹

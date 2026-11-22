@@ -46,7 +46,61 @@ pub enum MenuAction {
 pub struct Menu {
     /// Hover animation of each item (0..1).
     hover: [f32; 4],
+    /// And of each place along the bottom.
+    dock_hover: [f32; 5],
     shade: Option<Texture2D>,
+}
+
+/// The game's name, drawn by `tools/gen_wordmark.py` (gold lit from above,
+/// a fine dark edge and a soft shadow), in a 2048 x 256 texture: where the
+/// picture is in it, and where its capitals are in the picture.
+const WORDMARK: Rect = Rect { x: 0.0, y: 0.0, w: 2046.0, h: 227.0 };
+const WORDMARK_CAP_TOP: f32 = 10.7;
+const WORDMARK_CAP_H: f32 = 188.6;
+
+thread_local! {
+    static WORDMARK_TEX: std::cell::OnceCell<Texture2D> = const { std::cell::OnceCell::new() };
+}
+
+fn wordmark() -> Texture2D {
+    WORDMARK_TEX.with(|w| {
+        w.get_or_init(|| {
+            let tex =
+                Texture2D::from_file_with_format(include_bytes!("../assets/wordmark.png"), None);
+            // Mipmapped: drawn at a fraction of its size (its sides are
+            // powers of two, so every driver can).
+            let id = tex.raw_miniquad_id();
+            let ctx = unsafe { get_internal_gl() }.quad_context;
+            ctx.texture_generate_mipmaps(id);
+            ctx.texture_set_min_filter(
+                id,
+                FilterMode::Linear,
+                macroquad::miniquad::MipmapFilterMode::Linear,
+            );
+            ctx.texture_set_mag_filter(id, FilterMode::Linear);
+            tex
+        })
+        .clone()
+    })
+}
+
+/// Draws the wordmark with its capitals `cap` tall, their top-left corner
+/// at (`x`, `y`); returns how wide it is.
+fn draw_wordmark(x: f32, y: f32, cap: f32) -> f32 {
+    let k = cap / WORDMARK_CAP_H;
+    let (w, h) = (WORDMARK.w * k, WORDMARK.h * k);
+    draw_texture_ex(
+        &wordmark(),
+        x,
+        y - WORDMARK_CAP_TOP * k,
+        Color::new(1.0, 1.0, 1.0, crate::paint::opacity()),
+        DrawTextureParams {
+            dest_size: Some(vec2(w, h)),
+            source: Some(WORDMARK),
+            ..Default::default()
+        },
+    );
+    w
 }
 
 /// A smooth left-to-right darkening (a texture, so there is no banding).
@@ -83,7 +137,7 @@ impl Metrics {
                 title: 64.0,
                 card_h: 66.0,
                 gap: 12.0,
-                icon: 46.0,
+                icon: 56.0,
                 switch_h: 46.0,
             }
         } else {
@@ -92,7 +146,7 @@ impl Metrics {
                 title: 50.0,
                 card_h: 58.0,
                 gap: 8.0,
-                icon: 42.0,
+                icon: 48.0,
                 switch_h: 38.0,
             }
         }
@@ -102,6 +156,51 @@ impl Metrics {
     fn rules_block(&self) -> f32 {
         20.0 + self.switch_h + self.gap + 6.0
     }
+}
+
+/// `a` of the way from `from` to `to`.
+fn mix(from: Color, to: Color, a: f32) -> Color {
+    let a = a.clamp(0.0, 1.0);
+    Color::new(
+        from.r + (to.r - from.r) * a,
+        from.g + (to.g - from.g) * a,
+        from.b + (to.b - from.b) * a,
+        from.a + (to.a - from.a) * a,
+    )
+}
+
+/// The surface of a card of the menu: a soft shadow, a body lit from above
+/// with a faint light along its top edge, and an edge that turns gold as
+/// the pointer comes (`a`, 0..1). The first card is green.
+fn card_surface(card: Rect, radius: f32, primary: bool, a: f32, pressed: bool) {
+    crate::ui::soft_shadow(card, radius, if pressed { 0.4 } else { 0.7 + 0.5 * a });
+    let (top, bottom) = if primary {
+        (
+            Color::new(0.15 + 0.05 * a, 0.46 + 0.06 * a, 0.28 + 0.04 * a, 0.98),
+            Color::new(0.07, 0.29, 0.16, 0.98),
+        )
+    } else {
+        (
+            Color::new(0.13 + 0.07 * a, 0.095 + 0.05 * a, 0.07 + 0.03 * a, 0.94),
+            Color::new(0.07, 0.05, 0.037, 0.94),
+        )
+    };
+    let k = if pressed { -0.15 } else { 0.0 };
+    crate::ui::rrect_gradient(card, radius, crate::ui::shade(top, k), crate::ui::shade(bottom, k));
+    draw_line(
+        card.x + radius,
+        card.y + 1.0,
+        card.x + card.w - radius,
+        card.y + 1.0,
+        1.0,
+        Color::new(1.0, 1.0, 1.0, if primary { 0.18 } else { 0.06 }),
+    );
+    let edge = if primary {
+        Color::new(0.5, 0.9, 0.65, 0.3 + 0.45 * a)
+    } else {
+        Color::new(GOLD.r, GOLD.g, GOLD.b, 0.1 + 0.6 * a)
+    };
+    rrect_lines(card, radius, 1.0, edge);
 }
 
 /// Room kept for the player card at the top right.
@@ -139,12 +238,11 @@ impl Menu {
         // player card).
         crate::icon::draw(left - 4.0, top + 2.0, m.emblem);
         let tx = left + m.emblem + 10.0;
-        let name = snook_legend_proto::GAME_NAME.to_uppercase();
+        // The wordmark: as tall as the title's capitals, smaller if it would
+        // run under the player card.
         let room = sw - player_card_w(sw) - EDGE - 24.0 - tx;
-        let size = ui.fit(m.title, &name, room).max(m.title * 0.6);
-        let ty = top + (m.title - size) * 0.5;
-        ui.text(&name, tx + 3.0, ty + 3.0, size, Color::new(0.0, 0.0, 0.0, 0.6), true);
-        ui.text(&name, tx, ty, size, GOLD, true);
+        let cap = (m.title * 0.73).min(room * WORDMARK_CAP_H / WORDMARK.w).max(m.title * 0.4);
+        draw_wordmark(tx, top + (m.title * 0.8 - cap) - 2.0, cap);
         let tagline = top + m.emblem * 0.8;
         ui.text(
             t("eight-ball pool"),
@@ -263,37 +361,18 @@ impl Menu {
             let card = Rect::new(r.x + shift, r.y + if pressed { 1.0 } else { 0.0 }, r.w, r.h);
             ui.block(r);
             let primary = k == 0;
-            let bg = if primary {
-                Color::new(0.10 + 0.06 * a, 0.36 + 0.1 * a, 0.20 + 0.06 * a, 0.98)
+            card_surface(card, 12.0, primary, a, pressed);
+            // The icon in a disc of its own.
+            let ic = vec2(card.x + 38.0, card.y + h / 2.0);
+            let disc = (h * 0.34).min(22.0);
+            let disc_color = if primary {
+                Color::new(1.0, 1.0, 1.0, 0.12 + 0.06 * a)
             } else {
-                Color::new(0.10 + 0.12 * a, 0.065 + 0.08 * a, 0.04 + 0.04 * a, 0.97)
+                Color::new(GOLD.r, GOLD.g, GOLD.b, 0.10 + 0.08 * a)
             };
-            let bg = if pressed { crate::ui::shade(bg, -0.12) } else { bg };
-            rrect(
-                Rect::new(card.x, card.y + 3.0, card.w, card.h),
-                10.0,
-                Color::new(0.0, 0.0, 0.0, if pressed { 0.2 } else { 0.35 }),
-            );
-            crate::ui::rrect_gradient(
-                card,
-                10.0,
-                crate::ui::shade(bg, 0.08),
-                crate::ui::shade(bg, -0.22),
-            );
-            let edge = if hover {
-                GOLD
-            } else if primary {
-                Color::new(0.35, 0.75, 0.5, 1.0)
-            } else {
-                BORDER
-            };
-            rrect_lines(card, 10.0, 1.4, edge);
-            crate::icons::draw(
-                icon,
-                vec2(card.x + 36.0, card.y + h / 2.0),
-                28.0,
-                if hover { GOLD } else { CREAM },
-            );
+            draw_circle(ic.x, ic.y, disc, disc_color);
+            let icon_color = if primary { WHITE } else { mix(CREAM, GOLD, a) };
+            crate::icons::draw(icon, ic, disc * 1.05, icon_color);
             // Players here now under these rules, on the right.
             let count = match (k, mine) {
                 (0, Some(c)) => Some(c.online),
@@ -303,7 +382,9 @@ impl Menu {
             .filter(|_| resume.is_none())
             .map(|n| n.to_string());
             let count_w = count.as_ref().map_or(0.0, |n| ui.text_size(n, 17.0, true).x + 40.0);
-            let text_room = card.w - 70.0 - 16.0 - resume.map_or(0.0, |b| b.w + 12.0) - count_w;
+            let chevron_w = if resume.is_none() { 26.0 } else { 0.0 };
+            let text_room =
+                card.w - 70.0 - 16.0 - resume.map_or(0.0, |b| b.w + 12.0) - count_w - chevron_w;
             let (title, title_size) = ui.fitted(title, 20.0, text_room, true);
             let lines = h / 2.0 - 20.0;
             ui.text(
@@ -325,8 +406,8 @@ impl Menu {
                 false,
             );
             if let Some(n) = &count {
-                // Slides aside for the arrow on hover.
-                let right = card.x + card.w - 18.0 - a * 20.0;
+                // Left of the chevron.
+                let right = card.x + card.w - 44.0;
                 let nw = ui.text_size(n, 17.0, true).x;
                 let cy = card.y + h / 2.0;
                 let nx = right - nw;
@@ -342,12 +423,17 @@ impl Menu {
                     ui.tooltip(tip, Rect::new(nx - 34.0, cy - 14.0, nw + 38.0, 28.0));
                 }
             }
-            // An arrow slides in on hover: this card leads somewhere.
-            if resume.is_none() && a > 0.02 {
-                let c = vec2(card.x + card.w - 22.0 - (1.0 - a) * 6.0, card.y + h / 2.0);
-                let col = Color::new(GOLD.r, GOLD.g, GOLD.b, a);
-                draw_line(c.x - 4.0, c.y - 7.0, c.x + 3.0, c.y, 2.2, col);
-                draw_line(c.x + 3.0, c.y, c.x - 4.0, c.y + 7.0, 2.2, col);
+            // A chevron: this card leads somewhere (it brightens and nudges
+            // on hover).
+            if resume.is_none() {
+                let c = vec2(card.x + card.w - 24.0 + a * 3.0, card.y + h / 2.0);
+                let col = if primary { WHITE } else { mix(MUTED, GOLD, a) };
+                crate::icons::draw(
+                    Icon::ChevronRight,
+                    c,
+                    16.0,
+                    Color { a: 0.45 + 0.55 * a, ..col },
+                );
             }
             // The saved game (or the daily games): a button of its own.
             if let Some(b) = resume {
@@ -377,24 +463,92 @@ impl Menu {
             y += h + m.gap;
         }
 
-        // Icons along the bottom, lined up with the cards.
-        let icons = [
-            (Icon::Trophy, t("World ranking"), MenuAction::Ranking),
-            (Icon::Person, t("Profile"), MenuAction::Profile),
-            (Icon::Shop, t("Shop"), MenuAction::Shop),
-            (Icon::Book, t("Rules of the game"), MenuAction::Rules(rules)),
-            (Icon::Gear, t("Settings"), MenuAction::Settings),
-            (Icon::Power, t("Quit"), MenuAction::Quit),
+        // Along the bottom, lined up with the cards: where else to go, each
+        // with its name; quitting apart, at the end.
+        let dock = [
+            (Icon::Trophy, t("Ranking"), Some(t("World ranking")), MenuAction::Ranking),
+            (Icon::Person, t("Profile"), None, MenuAction::Profile),
+            (Icon::Shop, t("Shop"), None, MenuAction::Shop),
+            (Icon::Book, t("Rules"), Some(t("Rules of the game")), MenuAction::Rules(rules)),
+            (Icon::Gear, t("Settings"), None, MenuAction::Settings),
         ];
-        let by = y - m.gap + 24.0;
-        for (k, (icon, tip, act)) in icons.into_iter().enumerate() {
-            let r = Rect::new(left + k as f32 * (m.icon + 12.0), by, m.icon, m.icon);
-            if ui.icon_button(r, icon, tip, true) {
-                action = act;
+        let by = y - m.gap + 22.0;
+        let dh = m.icon;
+        let gap = 8.0;
+        let quit_w = (dh * 0.8).round();
+        let room = w - quit_w - 14.0 - gap * (dock.len() - 1) as f32;
+        // Each as wide as its name (at least square); the names smaller if
+        // they don't fit, and left out if even that isn't enough.
+        let natural = |size: f32| -> Vec<f32> {
+            dock.iter().map(|d| (ui.text_size(d.1, size, true).x + 22.0).max(dh)).collect()
+        };
+        let mut label = 12.0;
+        let mut widths = natural(label);
+        let total: f32 = widths.iter().sum();
+        if total > room {
+            label = (label * room / total).max(10.0);
+            widths = natural(label);
+        }
+        let show_labels = widths.iter().sum::<f32>() <= room + 0.5;
+        if show_labels {
+            // The room left shared out: the row ends where the cards do.
+            let extra = (room - widths.iter().sum::<f32>()) / widths.len() as f32;
+            widths.iter_mut().for_each(|w| *w += extra);
+        } else {
+            widths = vec![(room / dock.len() as f32).min(dh); dock.len()];
+        }
+        let mut x = left;
+        for (k, ((icon, name, tip, act), iw)) in dock.into_iter().zip(widths).enumerate() {
+            let r = Rect::new(x, by, iw, dh);
+            x += iw + gap;
+            let hover = ui.hovering(r);
+            self.dock_hover[k] +=
+                (if hover { 1.0 } else { 0.0 } - self.dock_hover[k]) * (1.0 - (-dt * 14.0).exp());
+            let a = self.dock_hover[k];
+            let pressed = hover && is_mouse_button_down(MouseButton::Left);
+            ui.block(r);
+            card_surface(r, 10.0, false, a, pressed);
+            let color = mix(CREAM, GOLD, a);
+            if show_labels {
+                crate::icons::draw(icon, vec2(r.x + r.w / 2.0, r.y + dh * 0.38), 21.0, color);
+                ui.text_centered(
+                    name,
+                    r.x + r.w / 2.0,
+                    r.y + dh * 0.64,
+                    label,
+                    mix(MUTED, CREAM, a),
+                    true,
+                );
+            } else {
+                crate::icons::draw(icon, vec2(r.x + r.w / 2.0, r.y + dh / 2.0), 22.0, color);
+            }
+            if hover {
+                if let Some(tip) = tip.or((!show_labels).then_some(name)) {
+                    ui.tooltip(tip, r);
+                }
+                if ui.clicked(r) {
+                    action = act;
+                }
             }
             // Presents waiting: a dot on the profile.
             if k == 1 && online.gift_badge() {
-                draw_circle(r.x + r.w - 7.0, r.y + 7.0, 4.5, crate::ui::ALERT);
+                draw_circle(r.x + r.w - 8.0, r.y + 8.0, 4.5, crate::ui::ALERT);
+            }
+        }
+        // Quitting: plain, apart from the rest.
+        let q = Rect::new(left + w - quit_w, by, quit_w, dh);
+        let hover = ui.hovering(q);
+        ui.block(q);
+        if hover {
+            rrect(q, 10.0, Color::new(1.0, 1.0, 1.0, 0.05));
+        }
+        rrect_lines(q, 10.0, 1.0, Color::new(1.0, 1.0, 1.0, if hover { 0.14 } else { 0.07 }));
+        let quit_color = if hover { Color::new(0.95, 0.55, 0.45, 1.0) } else { MUTED };
+        crate::icons::draw(Icon::Power, vec2(q.x + q.w / 2.0, q.y + dh / 2.0), 20.0, quit_color);
+        if hover {
+            ui.tooltip(t("Quit"), q);
+            if ui.clicked(q) {
+                action = MenuAction::Quit;
             }
         }
 
@@ -496,14 +650,7 @@ impl Menu {
         let r = Rect::new(sw - w - EDGE, EDGE, w, 64.0);
         let hover = ui.hovering(r);
         let pressed = hover && is_mouse_button_down(MouseButton::Left);
-        let bg = Color::new(0.05, 0.035, 0.025, if hover { 0.94 } else { 0.8 });
-        crate::ui::rrect_gradient(
-            r,
-            10.0,
-            crate::ui::shade(bg, if pressed { 0.0 } else { 0.06 }),
-            bg,
-        );
-        rrect_lines(r, 10.0, 1.2, if hover { GOLD } else { BORDER });
+        card_surface(r, 12.0, false, if hover { 1.0 } else { 0.0 }, pressed);
         ui.block(r);
         // The avatar: a disc with the person in it.
         let avatar = vec2(r.x + 34.0, r.y + 32.0);

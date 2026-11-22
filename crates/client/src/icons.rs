@@ -71,6 +71,11 @@ pub enum Icon {
     /// A door with an arrow going out of it: sign out of the account (the
     /// power sign is quitting the game).
     SignOut,
+    /// The settings' tabs: graphics, the game, controls and sound.
+    Monitor,
+    Sliders,
+    Mouse,
+    Speaker,
 }
 
 thread_local! {
@@ -145,7 +150,7 @@ mod tests {
     #[test]
     fn every_icon_is_in_the_font() {
         let face = rustybuzz::Face::from_slice(super::FONT_BYTES, 0).unwrap();
-        for k in 0..=super::Icon::SignOut as u32 {
+        for k in 0..=super::Icon::Speaker as u32 {
             for base in [0xE000, 0xE100] {
                 let c = char::from_u32(base + k).unwrap();
                 assert!(face.glyph_index(c).is_some(), "icon {k} (U+{:04X})", base + k);

@@ -2054,3 +2054,4 @@ The cue ball went down on the break with no ball made: {next} breaks again, from
 Congratulations!	Chúc mừng!
 You earned a new item: {title}	Bạn nhận được vật phẩm mới: {title}
 You earned a new item!	Bạn nhận được vật phẩm mới!
+Ranking	Xếp hạng

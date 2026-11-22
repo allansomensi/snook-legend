@@ -1,5 +1,47 @@
 # Changelog
 
+## Unreleased
+
+### A new look
+- **Inter for the interface's text**, a typeface made for screens (cut to
+  the game's scripts by `tools/gen_ui_fonts.py`), with figures all as wide
+  as each other so clocks and scores don't jiggle, and big titles in Inter
+  Display. DejaVu stays for the symbols Inter lacks, Noto for the other
+  scripts.
+- **One family of icons**: Phosphor's (MIT), with the game's own (the table,
+  a coin, a cue, a ball, chalk) drawn in its style, in a font made by
+  `tools/gen_icons.py`: drawn as text, sharp at any interface size, in an
+  outline and a filled style (the chosen tab, earned stars).
+- **Smooth edges**: rounded corners, outlines, circles and lines get a
+  one-pixel anti-aliased fringe (as Dear ImGui and egui draw), whatever the
+  graphics card's anti-aliasing.
+- **The wordmark**: the name in gold lit from above, with a fine dark edge
+  and a soft shadow (`tools/gen_wordmark.py`), in the menu and the lounge.
+- **The menu**: the ways to play as cards with their icon in a disc, a
+  chevron and an edge that turns gold under the pointer; along the bottom,
+  each place with its name (Ranking, Profile, Shop, Rules, Settings), and
+  quitting apart.
+- **Quieter, rounder surfaces**: panels, buttons, fields, tabs and switches
+  with soft edges (gold is for what is chosen or under the pointer), softer
+  shadows and a faint light along their tops; a field with the keyboard
+  glows gold. The settings' tabs have icons.
+- **Motion and sound**: a screen fades in as it opens; buttons light up and
+  dim under the pointer instead of snapping; pressing one plays a soft,
+  short click.
+- **The shop's pictures**: cloths in their own woven texture on a corner of
+  a table under the lamp; ball sets racked on the cloth, each shaded as a
+  sphere with the lamp's glint and a soft shadow.
+- **Clear states**: the shop signed out says once what signing in is for,
+  and its buttons lead there (no row of dead grey buttons); the ranking and
+  a profile, when the server can't be reached, say so plainly, with the
+  details in small type and a Try again button.
+
+### Fixes
+- The game no longer crashes on the way out after drawing text in Chinese,
+  Japanese, Korean or with the new icons (a font freed after the window).
+- The credits line was never translated (its key had drifted); it is now,
+  and names Inter and Phosphor.
+
 ## 0.9.1 (protocol 24)
 
 The chats redone, a cleaner table top and profile, smoother watching, and

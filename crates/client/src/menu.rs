@@ -86,7 +86,7 @@ fn wordmark() -> Texture2D {
 
 /// Draws the wordmark with its capitals `cap` tall, their top-left corner
 /// at (`x`, `y`); returns how wide it is.
-fn draw_wordmark(x: f32, y: f32, cap: f32) -> f32 {
+pub(crate) fn draw_wordmark(x: f32, y: f32, cap: f32) -> f32 {
     let k = cap / WORDMARK_CAP_H;
     let (w, h) = (WORDMARK.w * k, WORDMARK.h * k);
     draw_texture_ex(
@@ -296,7 +296,9 @@ impl Menu {
                     0 | 1 => count_room,
                     _ => 0.0,
                 };
-                70.0 + text + button + 24.0
+                // (The chevron's room when there is no button.)
+                let chevron = if button > 0.0 && button != count_room { 0.0 } else { 26.0 };
+                70.0 + text + button + chevron + 24.0
             })
             .fold(0.0, f32::max);
         let w = (sw * 0.36).clamp(300.0, 440.0).max(needed).min(sw - left - EDGE);
@@ -476,9 +478,8 @@ impl Menu {
         };
         let mut label = 12.0;
         let mut widths = natural(label);
-        let total: f32 = widths.iter().sum();
-        if total > room {
-            label = (label * room / total).max(10.0);
+        while widths.iter().sum::<f32>() > room && label > 9.6 {
+            label -= 0.5;
             widths = natural(label);
         }
         let show_labels = widths.iter().sum::<f32>() <= room + 0.5;

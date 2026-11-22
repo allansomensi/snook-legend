@@ -2813,10 +2813,10 @@ impl Online {
             ui.tooltip(&back_tip, back_r);
         }
         crate::icon::draw(header.x + 10.0 + 36.0 + 10.0, by, 36.0);
-        let name = snook_legend_proto::GAME_NAME.to_uppercase();
+        // The wordmark, its capitals as tall as a 24-point title's.
         let title_x = header.x + 10.0 + 36.0 + 10.0 + 36.0 + 10.0;
-        ui.text(&name, title_x, header.y + 15.0, 24.0, GOLD, true);
-        let title_w = ui.text_size(&name, 24.0, true).x;
+        let title_w =
+            crate::menu::draw_wordmark(title_x, header.y + 15.0 + 24.0 * 0.073, 24.0 * 0.727);
         // The host of a game on the local network sees where others join
         // (when they don't find it on their own: a firewall, isolated
         // Wi-Fi); a click copies it.

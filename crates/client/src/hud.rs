@@ -15,6 +15,13 @@ use crate::ui::{ADMIN_RED, ALERT, BORDER, CREAM, FeedKind, FeedLine, GOLD, MUTED
 use snook_legend_proto::Relation;
 
 pub struct Hud {
+    /// Watching: the shot assessment on screen (kept while it fades out),
+    /// how much it shows (0 to 1), how bright (dimmed while the aim moves)
+    /// and the chance its bar shows (it slides to a new one).
+    assess_shown: Option<snook_legend_core::assess::ShotAssessment>,
+    assess_fade: f32,
+    assess_bright: f32,
+    assess_chance: f32,
     /// The game whose rating change is being counted up on the end panel,
     /// and since when.
     result_shown: Option<((u64, u32), f64)>,
@@ -140,6 +147,10 @@ impl Default for Hud {
             // Development aid: SNOOK_LEGEND_OPEN_REACTIONS opens the picker.
             reactions_open: crate::dev::flag("SNOOK_LEGEND_OPEN_REACTIONS"),
             reactions_from: None,
+            assess_shown: None,
+            assess_fade: 0.0,
+            assess_bright: 1.0,
+            assess_chance: 0.0,
             camera_default: true,
             opponent_relation: None,
             history_open: false,
@@ -536,7 +547,7 @@ impl Hud {
             if self.draw_spectator_bar(ui, m) {
                 action = HudAction::Lounge;
             }
-            draw_shot_assessment(ui, m);
+            self.draw_shot_assessment(ui, m);
         } else {
             self.draw_bottom_bar(ui, m);
             // A correspondence game: its replay, or the turn sent.
@@ -2991,53 +3002,98 @@ fn shoot_button(ui: &mut Ui, r: Rect, enabled: bool) -> bool {
     clicked
 }
 
-/// Watching: how hard the shot being lined up is, above the bottom bar
-/// (once the shooter's aim settles).
-fn draw_shot_assessment(ui: &mut Ui, m: &Match) {
-    let Some(a) = m.online.as_ref().and_then(|o| o.assessor.current()) else { return };
-    let pct = (a.chance * 100.0).round() as u32;
-    let (word, color) = match pct {
-        80.. => (t("Easy shot"), Color::new(0.45, 0.95, 0.55, 1.0)),
-        50..=79 => (t("Fair shot"), Color::new(0.95, 0.85, 0.35, 1.0)),
-        20..=49 => (t("Hard shot"), Color::new(1.0, 0.6, 0.25, 1.0)),
-        _ => (t("Very hard shot"), Color::new(1.0, 0.4, 0.35, 1.0)),
-    };
-    let headline = if a.pot.is_some() {
-        format!("{word} · {}", tw("~{n}% chance", &[("n", &pct)]))
-    } else {
-        format!("{} · {}", t("No ball goes down as aimed"), tw("~{n}% chance", &[("n", &pct)]))
-    };
-    let mut details = Vec::new();
-    match a.cut_deg {
-        Some(cut) if cut < 3.0 => details.push(t("straight in").to_string()),
-        Some(cut) => details.push(tw("{n}° cut", &[("n", &(cut.round() as u32))])),
-        None => {}
-    }
-    match a.cushions {
-        0 => {}
-        1 => details.push(t("off one cushion").to_string()),
-        n => details.push(tw("off {n} cushions", &[("n", &n)])),
-    }
-    let details = details.join(" · ");
-    let sw = crate::ui::vw();
-    let sh = crate::ui::vh();
-    let w = crate::ui::clamp_soft(
-        ui.text_size(&headline, 14.0, true).x.max(ui.text_size(&details, 12.0, false).x) + 40.0,
-        220.0,
-        sw - 24.0,
-    );
-    let h = if details.is_empty() { 34.0 } else { 52.0 };
-    let r = Rect::new((sw - w) / 2.0, sh - BOTTOM_BAR - h - 10.0, w, h);
-    crate::ui::rrect(r, 8.0, Color::new(0.05, 0.06, 0.05, 0.82));
-    // The chance as a thin bar along the bottom edge.
-    let bar = Rect::new(r.x + 10.0, r.y + r.h - 5.0, r.w - 20.0, 3.0);
-    crate::ui::rrect(bar, 1.5, Color::new(1.0, 1.0, 1.0, 0.12));
-    crate::ui::rrect(Rect::new(bar.x, bar.y, bar.w * a.chance as f32, bar.h), 1.5, color);
-    let (headline, size) = ui.fitted(&headline, 14.0, r.w - 20.0, true);
-    ui.text_centered(&headline, r.x + r.w / 2.0, r.y + 8.0, size, color, true);
-    if !details.is_empty() {
-        let (details, size) = ui.fitted(&details, 12.0, r.w - 20.0, false);
-        ui.text_centered(&details, r.x + r.w / 2.0, r.y + 28.0, size, CREAM, false);
+impl Hud {
+    /// Watching: how hard the shot being lined up is, above the bottom bar
+    /// (once the shooter's aim settles). It fades in and out and stays put
+    /// while the aim moves (dimmed until the new answer comes): the aim
+    /// arrives over the network and never quite stops, and an answer that
+    /// went off at every twitch made the panel blink.
+    fn draw_shot_assessment(&mut self, ui: &mut Ui, m: &Match) {
+        let dt = get_frame_time().min(0.1);
+        let latest = m.online.as_ref().and_then(|o| o.assessor.latest());
+        let ease = |rate: f32| 1.0 - (-dt * rate).exp();
+        match latest {
+            Some((a, fresh)) => {
+                if self.assess_shown.is_none() || self.assess_fade <= 0.0 {
+                    // Appears with its chance (nothing to slide from).
+                    self.assess_chance = a.chance as f32;
+                }
+                self.assess_shown = Some(a);
+                self.assess_fade = (self.assess_fade + dt / 0.2).min(1.0);
+                let bright = if fresh { 1.0 } else { 0.55 };
+                self.assess_bright += (bright - self.assess_bright) * ease(10.0);
+            }
+            None => {
+                self.assess_fade = (self.assess_fade - dt / 0.25).max(0.0);
+                if self.assess_fade <= 0.0 {
+                    self.assess_shown = None;
+                }
+            }
+        }
+        let Some(a) = self.assess_shown else { return };
+        self.assess_chance += (a.chance as f32 - self.assess_chance) * ease(8.0);
+        // Eased in and out.
+        let f = self.assess_fade;
+        let alpha = f * f * (3.0 - 2.0 * f);
+        if alpha <= 0.0 {
+            return;
+        }
+        let opacity = crate::paint::opacity();
+        crate::paint::set_opacity(opacity * alpha);
+
+        let pct = (a.chance * 100.0).round() as u32;
+        let (word, color) = match pct {
+            80.. => (t("Easy shot"), Color::new(0.45, 0.95, 0.55, 1.0)),
+            50..=79 => (t("Fair shot"), Color::new(0.95, 0.85, 0.35, 1.0)),
+            20..=49 => (t("Hard shot"), Color::new(1.0, 0.6, 0.25, 1.0)),
+            _ => (t("Very hard shot"), Color::new(1.0, 0.4, 0.35, 1.0)),
+        };
+        let headline = if a.pot.is_some() {
+            format!("{word} · {}", tw("~{n}% chance", &[("n", &pct)]))
+        } else {
+            format!("{} · {}", t("No ball goes down as aimed"), tw("~{n}% chance", &[("n", &pct)]))
+        };
+        let mut details = Vec::new();
+        match a.cut_deg {
+            Some(cut) if cut < 3.0 => details.push(t("straight in").to_string()),
+            Some(cut) => details.push(tw("{n}° cut", &[("n", &(cut.round() as u32))])),
+            None => {}
+        }
+        match a.cushions {
+            0 => {}
+            1 => details.push(t("off one cushion").to_string()),
+            n => details.push(tw("off {n} cushions", &[("n", &n)])),
+        }
+        let details = details.join(" · ");
+        let sw = crate::ui::vw();
+        let sh = crate::ui::vh();
+        let w = crate::ui::clamp_soft(
+            ui.text_size(&headline, 14.0, true).x.max(ui.text_size(&details, 12.0, false).x) + 40.0,
+            220.0,
+            sw - 24.0,
+        );
+        let h = if details.is_empty() { 34.0 } else { 52.0 };
+        // Rises a few pixels as it fades in.
+        let lift = (1.0 - alpha) * 6.0;
+        let r = Rect::new((sw - w) / 2.0, sh - BOTTOM_BAR - h - 10.0 + lift, w, h);
+        crate::ui::rrect(r, 8.0, Color::new(0.05, 0.06, 0.05, 0.82));
+        // The text dims while a new answer is worked out; the panel stays.
+        let b = self.assess_bright;
+        let dim = |c: Color| Color::new(c.r, c.g, c.b, c.a * b);
+        // The chance as a thin bar along the bottom edge.
+        let bar = Rect::new(r.x + 10.0, r.y + r.h - 5.0, r.w - 20.0, 3.0);
+        crate::ui::rrect(bar, 1.5, Color::new(1.0, 1.0, 1.0, 0.12));
+        let filled = bar.w * self.assess_chance.clamp(0.0, 1.0);
+        if filled > 0.5 {
+            crate::ui::rrect(Rect::new(bar.x, bar.y, filled, bar.h), 1.5, dim(color));
+        }
+        let (headline, size) = ui.fitted(&headline, 14.0, r.w - 20.0, true);
+        ui.text_centered(&headline, r.x + r.w / 2.0, r.y + 8.0, size, dim(color), true);
+        if !details.is_empty() {
+            let (details, size) = ui.fitted(&details, 12.0, r.w - 20.0, false);
+            ui.text_centered(&details, r.x + r.w / 2.0, r.y + 28.0, size, dim(CREAM), false);
+        }
+        crate::paint::set_opacity(opacity);
     }
 }
 

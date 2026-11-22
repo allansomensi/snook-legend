@@ -38,6 +38,22 @@ impl Key {
     }
 }
 
+impl Key {
+    /// The same stroke, give or take a step of the rounding: the aim that
+    /// arrives over the network wavers on a rounding boundary, and must not
+    /// count as a new stroke each time it does.
+    fn near(&self, other: &Key) -> bool {
+        let close = |a: i64, b: i64| a.abs_diff(b) <= 1;
+        self.turn == other.turn
+            && self.called == other.called
+            && close(self.yaw, other.yaw)
+            && close(self.speed, other.speed)
+            && close(self.tip.0, other.tip.0)
+            && close(self.tip.1, other.tip.1)
+            && close(self.elevation, other.elevation)
+    }
+}
+
 /// Where a worker thread leaves its answer.
 type Slot = Arc<Mutex<Option<Option<ShotAssessment>>>>;
 
@@ -67,9 +83,11 @@ impl Assessor {
             self.shown = None;
         }
         match &mut self.aimed {
-            Some((k, t)) if *k == key => *t += dt,
+            Some((k, t)) if k.near(&key) => *t += dt,
             _ => self.aimed = Some((key, 0.0)),
         }
+        // The stroke as it settled (a waver doesn't move it).
+        let key = self.aimed.map_or(key, |(k, _)| k);
         // An answer came back.
         if let Some((k, slot)) = &self.running
             && let Some(answer) = slot.lock().ok().and_then(|mut s| s.take())
@@ -82,8 +100,8 @@ impl Assessor {
             }
         }
         let settled = self.aimed.is_some_and(|(_, t)| t >= SETTLE);
-        let fresh = self.shown.is_some_and(|(k, _)| k == key)
-            || self.running.as_ref().is_some_and(|(k, _)| *k == key);
+        let fresh = self.shown.is_some_and(|(k, _)| k.near(&key))
+            || self.running.as_ref().is_some_and(|(k, _)| k.near(&key));
         if settled && !fresh && self.running.is_none() {
             let slot = Arc::new(Mutex::new(None));
             let out = slot.clone();
@@ -105,10 +123,58 @@ impl Assessor {
         self.shown = None;
     }
 
-    /// The answer for the stroke as it is aimed now (an older one while the
-    /// aim moves would mislead).
-    pub fn current(&self) -> Option<&ShotAssessment> {
+    /// The latest answer for this turn, and whether it is for the stroke as
+    /// it is aimed now (false while the aim moves and a new one is worked
+    /// out: it is shown dimmed meanwhile, rather than blinking off and on).
+    pub fn latest(&self) -> Option<(ShotAssessment, bool)> {
         let (aimed, _) = self.aimed?;
-        self.shown.as_ref().filter(|(k, _)| *k == aimed).map(|(_, a)| a)
+        self.shown.map(|(k, a)| (a, k.near(&aimed)))
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn answer(chance: f64) -> ShotAssessment {
+        ShotAssessment { first_contact: None, cut_deg: Some(20.0), pot: None, cushions: 0, chance }
+    }
+
+    fn shot(yaw: f64) -> Shot {
+        Shot { yaw, speed: 3.0, tip: Default::default(), elevation: 0.0 }
+    }
+
+    /// The aim wavers on a rounding boundary (as the remote aim does): the
+    /// answer stays shown, and stays current.
+    #[test]
+    fn a_wavering_aim_keeps_its_answer() {
+        let game = EightBallGame::new(1, 0, Default::default());
+        let mut a = Assessor::default();
+        let k = Key::of(3, &shot(1.0), None);
+        a.aimed = Some((k, 1.0));
+        a.shown = Some((k, answer(0.7)));
+        for yaw in [1.0007, 0.9993, 1.0008, 0.9992, 1.0] {
+            a.update(&game, 3, shot(yaw), None, 0.05);
+            let (got, fresh) = a.latest().expect("still shown");
+            assert_eq!(got.chance, 0.7);
+            assert!(fresh, "yaw {yaw}");
+        }
+    }
+
+    /// A new aim keeps the last answer on screen, marked as not current,
+    /// until the new one comes; a new turn drops it.
+    #[test]
+    fn a_new_aim_shows_the_last_answer_until_the_next() {
+        let game = EightBallGame::new(1, 0, Default::default());
+        let mut a = Assessor::default();
+        let k = Key::of(3, &shot(1.0), None);
+        a.aimed = Some((k, 1.0));
+        a.shown = Some((k, answer(0.4)));
+        a.update(&game, 3, shot(1.2), None, 0.05);
+        let (got, fresh) = a.latest().expect("kept while the aim moves");
+        assert_eq!(got.chance, 0.4);
+        assert!(!fresh);
+        a.update(&game, 4, shot(1.2), None, 0.05);
+        assert!(a.latest().is_none());
     }
 }

@@ -7,6 +7,11 @@
   and at the table, with "180/200" at its corner near the limit. Up and
   Down move between its lines. The chat at the table is a little wider
   and taller.
+- **The shot's chance, while watching, no longer blinks**: it went off at
+  every twitch of the aim (which arrives over the network and never quite
+  stops) and came back a moment later. It now fades in and out, stays put
+  while the aim moves (dimmed until the new answer comes), its bar slides
+  to the new chance, and a waver of the aim isn't a new shot.
 - **Reactions while watching a game**: the list opened and closed at once
   (a spectator has two reaction buttons, and the second one closed it).
 

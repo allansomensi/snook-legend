@@ -77,6 +77,16 @@ pub struct Hud {
     /// two (by the chat and in the bottom bar), and only that one draws the
     /// picker and closes it.
     reactions_from: Option<Rect>,
+    /// The emoji picker by the chat field is open; the emoji used lately
+    /// (first: the latest); where the caret was in the field (an emoji goes
+    /// there).
+    emoji_open: bool,
+    recent_emoji: Vec<&'static str>,
+    chat_caret: Option<usize>,
+    /// How far the emoji tray has faded in, and the top of the chat field it
+    /// sits above.
+    emoji_fade: f32,
+    emoji_field_top: f32,
     /// Offline: the game history panel is open (it starts folded).
     history_open: bool,
     /// Where the history's icon in the top bar was drawn (pressing it is
@@ -147,6 +157,12 @@ impl Default for Hud {
             // Development aid: SNOOK_LEGEND_OPEN_REACTIONS opens the picker.
             reactions_open: crate::dev::flag("SNOOK_LEGEND_OPEN_REACTIONS"),
             reactions_from: None,
+            // Development aid: SNOOK_LEGEND_EMOJI_OPEN opens the emoji picker.
+            emoji_open: crate::dev::flag("SNOOK_LEGEND_EMOJI_OPEN"),
+            recent_emoji: Vec::new(),
+            chat_caret: None,
+            emoji_fade: 0.0,
+            emoji_field_top: 0.0,
             assess_shown: None,
             assess_fade: 0.0,
             assess_bright: 1.0,
@@ -1221,6 +1237,19 @@ impl Hud {
 
 /// The chat (online) or the game history (offline): smaller on small
 /// windows, so it never hides much of the table.
+/// The emoji button by the chat field (a side).
+const EMOJI_BUTTON: f32 = 28.0;
+
+/// The emoji of the chat's picker (all in the bundled atlas), eight to a
+/// row: faces, hands, then the game's own.
+const CHAT_EMOJI: [&str; 40] = [
+    "😀", "😂", "🤣", "😅", "😊", "😉", "😎", "😍", //
+    "🥳", "🤩", "😏", "😜", "🤔", "😮", "😱", "🤯", //
+    "😬", "😢", "😭", "😡", "🙄", "😴", "👍", "👎", //
+    "👏", "🙌", "🙏", "🤝", "👋", "💪", "✌️", "💯", //
+    "🔥", "✨", "🎯", "🎱", "🏆", "🍀", "🎉", "❤️", //
+];
+
 fn chat_w() -> f32 {
     (crate::ui::vw() * 0.3).clamp(240.0, 360.0)
 }
@@ -1361,7 +1390,7 @@ impl Hud {
         o.preview = None;
         // A list open by the chat (quick phrases, reactions) closes first:
         // the press that closes it leaves the chat open.
-        let list_open = self.quick_open || self.reactions_open;
+        let list_open = self.quick_open || self.reactions_open || self.emoji_open;
         let r = Rect::new(12.0, sh - BOTTOM_BAR - chat_h() - 8.0, chat_w(), chat_h());
         ui.panel(r);
         let watching = o.spectator;
@@ -1373,7 +1402,9 @@ impl Hud {
         }
         // The field grows with what is typed (up to four lines): the log
         // above it gives the room.
-        let field_h = ui.text_area_height(&self.chat_input, r.w - 12.0, 4);
+        // The field, and the emoji button at its right.
+        let field_w = r.w - 12.0 - EMOJI_BUTTON - 4.0;
+        let field_h = ui.text_area_height(&self.chat_input, field_w, 4);
         let input_h = if watching { 0.0 } else { field_h + 10.0 };
         let log = Rect::new(r.x + 6.0, r.y + 28.0, r.w - 12.0, r.h - 28.0 - input_h);
         let me = m.names[o.seat].clone();
@@ -1385,9 +1416,20 @@ impl Hud {
             }
             return;
         }
-        let input = Rect::new(r.x + 6.0, r.y + r.h - 6.0 - field_h, r.w - 12.0, field_h);
+        let input = Rect::new(r.x + 6.0, r.y + r.h - 6.0 - field_h, field_w, field_h);
         let sent =
             ui.text_area(CHAT_FIELD, input, &mut self.chat_input, snook_legend_proto::MAX_CHAT_LEN);
+        if let Some(c) = ui.caret_in(CHAT_FIELD) {
+            self.chat_caret = Some(c);
+        }
+        let emoji_button = Rect::new(
+            input.x + input.w + 4.0,
+            input.y + input.h - EMOJI_BUTTON - 1.0,
+            EMOJI_BUTTON,
+            EMOJI_BUTTON,
+        );
+        self.emoji_field_top = input.y;
+        let picker = self.emoji_picker(ui, emoji_button, r);
         if self.chat_input.is_empty() && ui.focus != Some(CHAT_FIELD) {
             ui.text(
                 t("Click to chat, Enter to send"),
@@ -1403,6 +1445,8 @@ impl Hud {
             let text = std::mem::take(&mut self.chat_input);
             m.send_chat(&text);
             self.chat_scroll = 0;
+            self.chat_caret = None;
+            self.emoji_open = false;
             ui.focus = None;
         }
         let reactions = Rect::new(r.x + r.w + 6.0, r.y + r.h - 34.0, 32.0, 32.0);
@@ -1411,9 +1455,146 @@ impl Hud {
         self.quick_phrases(ui, m, quick);
         // A press anywhere else hides the chat (what was typed stays). The
         // press still reaches the table: a click on a ball hides it and aims.
-        if !list_open && ui.pressed_outside(&[r, reactions, quick]) {
+        let mut keep = vec![r, reactions, quick];
+        keep.extend(picker);
+        if !list_open && ui.pressed_outside(&keep) {
             self.chat_open = false;
         }
+    }
+
+    /// The emoji button by the chat field and, when open, the picker above
+    /// the chat: the ones used lately on top, then the rest. A click puts
+    /// the emoji where the caret was, and the field keeps the keyboard (the
+    /// picker stays open for more). Returns the picker's rectangle.
+    fn emoji_picker(&mut self, ui: &mut Ui, button: Rect, chat: Rect) -> Option<Rect> {
+        ui.block(button);
+        let hover = ui.hovering(button);
+        let lit = hover || self.emoji_open;
+        crate::ui::rrect(
+            button,
+            7.0,
+            if lit {
+                Color::new(0.38, 0.25, 0.12, 0.95)
+            } else {
+                Color::new(0.07, 0.045, 0.03, 0.85)
+            },
+        );
+        crate::ui::rrect_lines(button, 7.0, 1.2, if lit { GOLD } else { BORDER });
+        let face = if lit { 20.0 } else { 18.0 };
+        let opacity = crate::paint::opacity();
+        crate::paint::set_opacity(opacity * if lit { 1.0 } else { 0.85 });
+        ui.text_centered(
+            "😊",
+            button.x + button.w / 2.0,
+            button.y + (button.h - face) / 2.0,
+            face,
+            CREAM,
+            false,
+        );
+        crate::paint::set_opacity(opacity);
+        let clicked_button = hover && ui.released_in(button);
+        if clicked_button {
+            self.emoji_open = !self.emoji_open;
+            self.quick_open = false;
+            self.reactions_open = false;
+            if self.emoji_open {
+                // The field keeps the keyboard, the caret where it was.
+                ui.focus = Some(CHAT_FIELD);
+            }
+        }
+        if !self.emoji_open {
+            self.emoji_fade = 0.0;
+            return None;
+        }
+        const COLS: usize = 8;
+        const CELL: f32 = 28.0;
+        const PAD: f32 = 6.0;
+        let recent: Vec<&'static str> = self.recent_emoji.clone();
+        let rows = CHAT_EMOJI.len().div_ceil(COLS);
+        let recent_h = if recent.is_empty() { 0.0 } else { CELL + 7.0 };
+        let w = COLS as f32 * CELL + 2.0 * PAD;
+        let h = recent_h + rows as f32 * CELL + 2.0 * PAD;
+        // A small tray over the chat's log, right above the field and lined
+        // up with the button: the table stays in view.
+        let x =
+            crate::ui::clamp_soft(button.x + button.w - w, chat.x + 6.0, crate::ui::vw() - w - 8.0);
+        let y = (self.emoji_field_top - h - 4.0).max(8.0);
+        let p = Rect::new(x, y, w, h);
+        // Fades in.
+        self.emoji_fade = (self.emoji_fade + get_frame_time() / 0.12).min(1.0);
+        let opacity = crate::paint::opacity();
+        crate::paint::set_opacity(opacity * self.emoji_fade);
+        crate::ui::rrect(
+            Rect::new(p.x + 1.0, p.y + 2.0, p.w, p.h),
+            9.0,
+            Color::new(0.0, 0.0, 0.0, 0.35),
+        );
+        crate::ui::rrect(p, 9.0, Color::new(0.06, 0.045, 0.035, 0.96));
+        crate::ui::rrect_lines(p, 9.0, 1.0, Color::new(BORDER.r, BORDER.g, BORDER.b, 0.8));
+        ui.block(p);
+        let mut chosen = None;
+        let mut cell = |ui: &mut Ui, e: &'static str, c: Rect| {
+            let hover = ui.hovering(c);
+            if hover {
+                crate::ui::rrect(
+                    Rect::new(c.x + 1.0, c.y + 1.0, c.w - 2.0, c.h - 2.0),
+                    6.0,
+                    Color::new(1.0, 1.0, 1.0, 0.09),
+                );
+            }
+            let size = if hover { 20.0 } else { 17.0 };
+            ui.text_centered(e, c.x + c.w / 2.0, c.y + (c.h - size) / 2.0, size, CREAM, false);
+            if hover && ui.released_in(c) {
+                chosen = Some(e);
+            }
+        };
+        let mut top = p.y + PAD;
+        if !recent.is_empty() {
+            for (k, e) in recent.iter().enumerate() {
+                cell(ui, e, Rect::new(p.x + PAD + k as f32 * CELL, top, CELL, CELL));
+            }
+            top += CELL + 3.0;
+            draw_line(
+                p.x + PAD + 4.0,
+                top,
+                p.x + p.w - PAD - 4.0,
+                top,
+                1.0,
+                Color::new(BORDER.r, BORDER.g, BORDER.b, 0.6),
+            );
+            top += 4.0;
+        }
+        for (k, e) in CHAT_EMOJI.iter().enumerate() {
+            let c = Rect::new(
+                p.x + PAD + (k % COLS) as f32 * CELL,
+                top + (k / COLS) as f32 * CELL,
+                CELL,
+                CELL,
+            );
+            cell(ui, e, c);
+        }
+        if let Some(e) = chosen {
+            let at = ui.insert_into(
+                CHAT_FIELD,
+                &mut self.chat_input,
+                e,
+                snook_legend_proto::MAX_CHAT_LEN,
+                self.chat_caret,
+            );
+            self.chat_caret = Some(at);
+            self.recent_emoji.retain(|r| *r != e);
+            self.recent_emoji.insert(0, e);
+            self.recent_emoji.truncate(COLS);
+        } else if is_key_pressed(KeyCode::Escape)
+            || (is_mouse_button_released(MouseButton::Left)
+                && !ui.hovering(p)
+                && !ui.hovering(button)
+                && !clicked_button)
+        {
+            self.emoji_open = false;
+        }
+        crate::paint::set_opacity(opacity);
+        Some(p)
     }
 
     /// The quick phrases: a button, and the list it opens above it. A phrase
@@ -3155,5 +3336,21 @@ mod chart_tests {
         let v =
             momentum(&[mark(0, 2, false), mark(0, 0, false), mark(1, 1, false), mark(1, 0, true)]);
         assert_eq!(v, vec![0.0, 2.0, 2.0, 1.0, 2.0]);
+    }
+}
+
+#[cfg(test)]
+mod emoji_tests {
+    /// Every emoji of the chat's picker is drawn from the atlas (none falls
+    /// back to the font, which has no emoji).
+    #[test]
+    fn the_chat_emoji_are_all_in_the_atlas() {
+        for e in super::CHAT_EMOJI {
+            let pieces = crate::emoji::pieces(e).unwrap_or_default();
+            assert!(
+                matches!(pieces.as_slice(), [crate::emoji::Piece::Emoji(_)]),
+                "{e}: {pieces:?}"
+            );
+        }
     }
 }

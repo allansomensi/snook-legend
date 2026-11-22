@@ -924,6 +924,17 @@ impl Online {
                         held = Some(msg);
                         continue;
                     }
+                    // A line to the opponent shows at once (not after the
+                    // round trip to the server).
+                    if let ClientMsg::MatchChat { text } = &msg
+                        && o.corr.is_none()
+                    {
+                        let admin = self
+                            .me
+                            .as_ref()
+                            .is_some_and(|me| me.role == snook_legend_proto::Role::Admin);
+                        o.echo_chat(&m.names[o.seat], admin, text);
+                    }
                     c.send(msg);
                 }
             }

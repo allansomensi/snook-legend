@@ -33,6 +33,9 @@ pub struct FeedLine {
     pub admin: bool,
     /// Deleted, and by whom (the text is gone).
     pub deleted: Option<snook_legend_proto::Deleted>,
+    /// This player's own line, shown the moment it is sent and dimmed until
+    /// the server passes it on (it never waits for the round trip).
+    pub pending: bool,
 }
 
 /// What the reader did with a line of [`Ui::chat_log`].
@@ -974,6 +977,37 @@ impl Ui {
             .unwrap_or(a)
     }
 
+    /// Where the caret stands in field `id` while it has the keyboard.
+    pub fn caret_in(&self, id: u64) -> Option<usize> {
+        (self.focus == Some(id) && self.cursor_owner == Some(id)).then_some(self.cursor)
+    }
+
+    /// Puts `text` into field `id`'s `value` at `at` (its end when None), as
+    /// typing it would (within `max_len`, never inside an emoji), and gives
+    /// the field the keyboard with the caret after it: a picker next to a
+    /// field (emoji) types into it.
+    pub fn insert_into(
+        &mut self,
+        id: u64,
+        value: &mut String,
+        text: &str,
+        max_len: usize,
+        at: Option<usize>,
+    ) -> usize {
+        let mut chars: Vec<char> = value.chars().collect();
+        let stops = caret_stops(&chars, false);
+        let at = stop_at(&stops, at.unwrap_or(chars.len()).min(chars.len()));
+        let typed: Vec<char> = text.chars().collect();
+        let cursor = insert_typed(&mut chars, at, &typed, max_len, false);
+        *value = chars.into_iter().collect();
+        self.focus = Some(id);
+        self.cursor_owner = Some(id);
+        self.cursor = cursor;
+        self.anchor = None;
+        self.caret_at = get_time();
+        cursor
+    }
+
     /// True when `key` was pressed this frame or is held long enough to
     /// repeat (macroquad reports only the first press).
     fn key_fires(&mut self, key: KeyCode) -> bool {
@@ -1502,8 +1536,10 @@ impl Ui {
                 );
             }
             let bold = *kind == FeedKind::Player;
+            let pending = lines[*index].pending;
+            let soft = |c: Color| if pending { Color::new(c.r, c.g, c.b, c.a * 0.55) } else { c };
             if let Some((name, color)) = name {
-                self.text(name, r.x + 8.0, y, size, *color, bold);
+                self.text(name, r.x + 8.0, y, size, soft(*color), bold);
                 indent = self.text_size(name, size, bold).x;
             }
             // Game events are quieter than what people write.
@@ -1514,6 +1550,7 @@ impl Ui {
                 FeedKind::Alert => Color::new(0.88, 0.58, 0.48, 0.95),
                 FeedKind::Event => Color::new(0.70, 0.64, 0.56, 0.85),
             };
+            let color = soft(color);
             let text_size = if matches!(kind, FeedKind::Event | FeedKind::Alert) || deleted {
                 13.0
             } else {

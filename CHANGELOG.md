@@ -12,6 +12,14 @@
   stops) and came back a moment later. It now fades in and out, stays put
   while the aim moves (dimmed until the new answer comes), its bar slides
   to the new chance, and a waver of the aim isn't a new shot.
+- **The chat at the table answers at once**: a line shows the moment it is
+  sent (dimmed until the server passes it on), not after the round trip to
+  the server; a line the server refuses (too fast, repeated, muted) leaves
+  the chat and the notice says why.
+- **Emoji in the chat**: a 😊 button by the field opens a small tray over
+  the chat (forty emoji, the ones used lately on top). An emoji goes where
+  the caret is, the field keeps the keyboard, and the tray stays open for
+  more (Esc or a click elsewhere closes it).
 - **A game just left isn't offered to watch**: the lounge's TV was picked
   again only every 4 seconds, so a player back in the lounge saw the game
   they had just left. It changes the moment a game starts, ends or loses

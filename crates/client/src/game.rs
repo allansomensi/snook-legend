@@ -479,6 +479,9 @@ pub struct OnlineMatch {
     /// The newest unread line and how long ago it came (a preview by the
     /// closed chat for a few seconds).
     pub preview: Option<(FeedLine, f32)>,
+    /// This player's lines shown before the server passed them on (see
+    /// [`FeedLine::pending`]), oldest first.
+    pub echoes: Vec<String>,
     /// Achievements of this player (they unlock reactions).
     pub unlocked: Vec<String>,
     /// This player is VIP (the VIP reactions).
@@ -976,6 +979,7 @@ impl Match {
                 feed: Vec::new(),
                 unread: 0,
                 preview: None,
+                echoes: Vec::new(),
                 unlocked: Vec::new(),
                 reactions: Vec::new(),
                 spectator: spectating,
@@ -2448,6 +2452,49 @@ const AIM_INTERVAL: f32 = 0.05;
 const REMOTE_AIM_RATE: f64 = 16.0;
 
 impl OnlineMatch {
+    /// This player's own line, shown at once as it goes to the server.
+    pub fn echo_chat(&mut self, name: &str, admin: bool, text: &str) {
+        let line = ChatLine {
+            from: name.to_string(),
+            text: text.to_string(),
+            at: 0,
+            kind: ChatKind::Player,
+            rating: self.ratings[self.seat],
+            id: 0,
+            admin,
+            deleted: None,
+        };
+        let mut feed = FeedLine::chat(&line);
+        feed.pending = true;
+        self.echoes.push(text.to_string());
+        self.push_feed(feed);
+    }
+
+    /// The server passed this player's `text` on: its line stops being
+    /// pending (and isn't added twice). False if it wasn't shown yet.
+    fn confirm_echo(&mut self, text: &str) -> bool {
+        let Some(i) = self.echoes.iter().position(|e| e == text) else { return false };
+        self.echoes.remove(i);
+        if let Some(l) = self.feed.iter_mut().find(|l| l.pending && l.text == text) {
+            l.pending = false;
+        } else if let Some(l) = self.feed.iter_mut().find(|l| l.pending) {
+            l.pending = false;
+        }
+        true
+    }
+
+    /// The server refused this player's newest line (too fast, repeated,
+    /// muted): it is taken off the chat (the reason shows as a notice).
+    fn refuse_echo(&mut self) {
+        let Some(text) = self.echoes.pop() else { return };
+        // (A quick phrase shows in this player's language: then the newest
+        // pending line is the one.)
+        let i = self.feed.iter().rposition(|l| l.pending && l.text == text);
+        if let Some(i) = i.or_else(|| self.feed.iter().rposition(|l| l.pending)) {
+            self.feed.remove(i);
+        }
+    }
+
     fn push_feed(&mut self, line: FeedLine) {
         self.feed.push(line);
         if self.feed.len() > 150 {
@@ -2788,8 +2835,13 @@ impl Match {
                 }
             }
             ServerMsg::MatchChat { line } => {
+                let mine = line.from.eq_ignore_ascii_case(&self.names[o.seat]);
+                // Shown already, the moment it was sent.
+                if mine && o.confirm_echo(&line.text) {
+                    return;
+                }
                 let feed = FeedLine::chat(&line);
-                if !line.from.eq_ignore_ascii_case(&self.names[o.seat]) {
+                if !mine {
                     o.unread += 1;
                     o.preview = Some((feed.clone(), 0.0));
                 }
@@ -2815,6 +2867,14 @@ impl Match {
             ServerMsg::Spectators { count } => o.spectators = count,
             ServerMsg::Support { counts } => o.support = counts,
             ServerMsg::Error { message } => {
+                // A chat line refused: it leaves the chat, the notice says why.
+                if ["You are muted", "You're sending messages too quickly", "Please don't repeat"]
+                    .iter()
+                    .any(|p| message.starts_with(p))
+                    && let Some(o) = self.online.as_mut()
+                {
+                    o.refuse_echo();
+                }
                 // A choice refused (made too late, say): the buttons come
                 // back rather than wait for the clock.
                 if message == "That choice can't be made now."
@@ -2890,7 +2950,15 @@ impl FeedLine {
             }
             ChatKind::System => (None, crate::i18n::server_text(&line.text), FeedKind::Event),
         };
-        FeedLine { from, text, kind, id: line.id, admin: line.admin, deleted: line.deleted }
+        FeedLine {
+            from,
+            text,
+            kind,
+            id: line.id,
+            admin: line.admin,
+            deleted: line.deleted,
+            pending: false,
+        }
     }
 
     pub fn event(text: &str, important: bool) -> FeedLine {

@@ -36,6 +36,16 @@
   a profile, when the server can't be reached, say so plainly, with the
   details in small type and a Try again button.
 
+- **Profile pictures are things of the game**: the 32 faces are gone, and
+  32 new pictures take their place (the balls from 2 to 14, the nine-ball
+  diamond, the empty rack, the rest, a wall rack of cues, a pocket's net,
+  the score beads, a stopwatch, a bank shot, a massé, a jump, a
+  combination, the ghost ball, a kiss, the table brush, a cue case, a gold
+  8, a winged 8, a podium, the strike, the snooker reds and a cue on fire).
+  A face chosen before is shown as one of them (`RETIRED_AVATARS`), and the
+  server keeps that one when an older client sends a face. Update the
+  server with this version: an older server refuses the new pictures.
+
 ### Fixes
 - The game no longer crashes on the way out after drawing text in Chinese,
   Japanese, Korean or with the new icons (a font freed after the window).

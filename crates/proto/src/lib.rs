@@ -180,39 +180,7 @@ pub fn valid_country(code: &str) -> bool {
 /// The profile pictures a player can choose (the client draws each one;
 /// the empty code is no picture: a plain silhouette).
 pub const AVATARS: [&str; 64] = [
-    "sunny",
-    "marco",
-    "zuri",
-    "kai",
-    "mei",
-    "omar",
-    "lena",
-    "theo",
-    "nia",
-    "raul",
-    "ana",
-    "joe",
-    "iris",
-    "sam",
-    "hugo",
-    "lua",
-    "duda",
-    "bento",
-    "rex",
-    "yuki",
-    "malik",
-    "clara",
-    "dante",
-    "flor",
-    "gus",
-    "tati",
-    "nico",
-    "jade",
-    "beto",
-    "vera",
-    "leon",
-    "kiara",
-    // Things of the game, for anyone who would rather not be a face.
+    // Things of the game (once there were faces too: see RETIRED_AVATARS).
     "pic_eight",
     "pic_cue_ball",
     "pic_stripe",
@@ -225,8 +193,6 @@ pub const AVATARS: [&str; 64] = [
     "pic_table",
     "pic_flame",
     "pic_bolt",
-    // More things of the game. New pictures go at the end: a code, once
-    // chosen, stays.
     "pic_medal",
     "pic_laurel",
     "pic_one",
@@ -247,11 +213,90 @@ pub const AVATARS: [&str; 64] = [
     "pic_comet",
     "pic_break",
     "pic_silver_cup",
+    // More things of the game, in place of the faces. New pictures go at the
+    // end: a code, once chosen, stays.
+    "pic_two",
+    "pic_three",
+    "pic_four",
+    "pic_five",
+    "pic_six",
+    "pic_seven",
+    "pic_nine",
+    "pic_ten",
+    "pic_eleven",
+    "pic_twelve",
+    "pic_thirteen",
+    "pic_fourteen",
+    "pic_triangle",
+    "pic_bridge",
+    "pic_cue_rack",
+    "pic_net",
+    "pic_beads",
+    "pic_stopwatch",
+    "pic_bank",
+    "pic_curve",
+    "pic_jump",
+    "pic_combo",
+    "pic_ghost_ball",
+    "pic_kiss",
+    "pic_brush",
+    "pic_case",
+    "pic_gold_eight",
+    "pic_wings",
+    "pic_podium",
+    "pic_strike",
+    "pic_reds",
+    "pic_fire_cue",
 ];
 
-/// A picture from [`AVATARS`] (or the empty string: none).
+/// The faces the pictures once had: still accepted (an older client may
+/// send one, an account may have one), each shown as one of the things of the
+/// game instead.
+pub const RETIRED_AVATARS: [(&str, &str); 32] = [
+    ("sunny", "pic_two"),
+    ("marco", "pic_three"),
+    ("zuri", "pic_four"),
+    ("kai", "pic_five"),
+    ("mei", "pic_six"),
+    ("omar", "pic_seven"),
+    ("lena", "pic_nine"),
+    ("theo", "pic_ten"),
+    ("nia", "pic_eleven"),
+    ("raul", "pic_twelve"),
+    ("ana", "pic_thirteen"),
+    ("joe", "pic_fourteen"),
+    ("iris", "pic_triangle"),
+    ("sam", "pic_bridge"),
+    ("hugo", "pic_cue_rack"),
+    ("lua", "pic_net"),
+    ("duda", "pic_beads"),
+    ("bento", "pic_stopwatch"),
+    ("rex", "pic_bank"),
+    ("yuki", "pic_curve"),
+    ("malik", "pic_jump"),
+    ("clara", "pic_combo"),
+    ("dante", "pic_ghost_ball"),
+    ("flor", "pic_kiss"),
+    ("gus", "pic_brush"),
+    ("tati", "pic_case"),
+    ("nico", "pic_gold_eight"),
+    ("jade", "pic_wings"),
+    ("beto", "pic_podium"),
+    ("vera", "pic_strike"),
+    ("leon", "pic_reds"),
+    ("kiara", "pic_fire_cue"),
+];
+
+/// A picture from [`AVATARS`] (or the empty string: none), or a retired
+/// one (see [`RETIRED_AVATARS`]).
 pub fn valid_avatar(code: &str) -> bool {
-    code.is_empty() || AVATARS.contains(&code)
+    code.is_empty() || AVATARS.contains(&code) || RETIRED_AVATARS.iter().any(|(r, _)| *r == code)
+}
+
+/// The picture shown for `code`: a retired face's thing of the game, or
+/// the code itself.
+pub fn shown_avatar(code: &str) -> &str {
+    RETIRED_AVATARS.iter().find(|(r, _)| *r == code).map_or(code, |(_, shown)| shown)
 }
 
 /// Position of `code` in [`COUNTRIES`] (and in the flag atlas).

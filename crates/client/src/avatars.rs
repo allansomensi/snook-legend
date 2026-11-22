@@ -53,6 +53,8 @@ fn atlas() -> Texture2D {
 /// Draws picture `code` in a disc of radius `r` at `c` (a plain silhouette
 /// for none, or for a code this version doesn't know).
 pub fn draw(code: &str, c: Vec2, r: f32) {
+    // A retired face is drawn as the thing of the game in its place.
+    let code = snook_legend_proto::shown_avatar(code);
     let Some(i) = snook_legend_proto::AVATARS.iter().position(|a| *a == code) else {
         crate::scoreboard::silhouette(c, r);
         return;
@@ -94,6 +96,7 @@ pub fn mine() -> String {
 
 pub fn set_mine(code: &str) {
     if snook_legend_proto::valid_avatar(code) {
+        let code = snook_legend_proto::shown_avatar(code);
         STATE.with(|s| s.borrow_mut().mine = code.to_string());
     }
 }
@@ -292,11 +295,24 @@ mod tests {
 
     #[test]
     fn only_known_pictures_are_kept() {
-        set_mine("zuri");
-        assert_eq!(mine(), "zuri");
+        set_mine("pic_cues");
+        assert_eq!(mine(), "pic_cues");
         set_mine("no-such-picture");
-        assert_eq!(mine(), "zuri");
+        assert_eq!(mine(), "pic_cues");
         set_mine("");
         assert_eq!(mine(), "");
+    }
+
+    /// A face chosen before the faces were retired becomes the thing of the
+    /// game shown in its place (and every retired face has one).
+    #[test]
+    fn a_retired_face_becomes_a_thing_of_the_game() {
+        set_mine("zuri");
+        assert_eq!(mine(), snook_legend_proto::shown_avatar("zuri"));
+        assert!(mine().starts_with("pic_"));
+        for (face, shown) in snook_legend_proto::RETIRED_AVATARS {
+            assert!(!snook_legend_proto::AVATARS.contains(&face), "{face}");
+            assert!(snook_legend_proto::AVATARS.contains(&shown), "{face} -> {shown}");
+        }
     }
 }

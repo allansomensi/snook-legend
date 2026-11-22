@@ -18,7 +18,8 @@ edges are smooth). The cells go left to right, top to bottom, COLS to a
 row; the client (crates/client/src/avatars.rs) knows CELL, COLS and the
 disc's share of the cell (DISC = R_DISC / (S / 2)), and mipmaps the atlas
 (keep it 8 rows or fewer: sides that are powers of two). A new picture
-gets its code appended to AVATARS and a drawing here (PEOPLE or OBJECTS).
+gets its code appended to AVATARS and a drawing here (OBJECTS; the faces of
+PEOPLE were retired from AVATARS, see RETIRED_AVATARS).
 """
 import argparse
 import math
@@ -1730,9 +1731,10 @@ def shadow(s, x, y, rx, ry, op=0.5):
     s.ellipse(x, y, rx, ry, (0, 0, 0), opacity=op, filter=s.blur(max(2.0, ry * 0.45)))
 
 
-def ball(s, x, y, r, n, spot=None, number=True, shade_op=0.5):
-    """A pool ball, `n` (0: the cue ball), lit from the top left."""
-    c = ball_color(n)
+def ball(s, x, y, r, n, spot=None, number=True, shade_op=0.5, color=None):
+    """A pool ball, `n` (0: the cue ball), lit from the top left (`color`:
+    another colour than the set's)."""
+    c = color or ball_color(n)
     clip = s.clip(f'<circle cx="{fmt(x)}" cy="{fmt(y)}" r="{fmt(r)}"/>')
     stripe = n > 8
     base = IVORY if stripe or n == 0 else c
@@ -2330,6 +2332,334 @@ def obj_break(s):
     ball(s, 88, 168, 26, 0)
 
 
+
+# ------------------------------------------------- more things of the game
+
+
+def big_ball(n):
+    def draw(s):
+        shadow(s, 136, 200, 62, 14)
+        ball(s, 128, 124, 74, n)
+    return draw
+
+
+def dashed(s, pts, c=WHITE, w=4.0, op=0.85, dash="2 11"):
+    dd = "M" + " L".join(f"{fmt(a)} {fmt(b)}" for a, b in pts)
+    s.path(dd, stroke=c, stroke_width=w, stroke_dasharray=dash, stroke_linecap="round",
+           stroke_linejoin="round", opacity=op)
+
+
+def felt_floor(s, c=CLOTH):
+    s.path("M0 0 L256 0 L256 256 L0 256 Z", s.rad(100, 90, 230, [(0, shade(c, 0.22)), (1, shade(c, -0.3))]))
+
+
+def obj_triangle(s):
+    # The empty wooden rack on the cloth, the foot spot inside it.
+    pts = [(128, 30), (222, 192), (34, 192)]
+    shadow(s, 132, 202, 96, 10, 0.4)
+    tri = "M" + " L".join(f"{a} {b}" for a, b in pts) + " Z"
+    s.path(tri, "none", stroke=shade(WOOD, -0.45), stroke_width=22, stroke_linejoin="round",
+           transform="translate(2 4)", opacity=0.6)
+    s.path(tri, "none", stroke=s.lin(30, 30, 222, 200, [(0, shade(WOOD, 0.35)), (0.5, WOOD),
+                                                        (1, shade(WOOD, -0.3))]),
+           stroke_width=18, stroke_linejoin="round")
+    s.path(tri, "none", stroke=shade(WOOD, 0.5), stroke_width=1.6, stroke_linejoin="round",
+           opacity=0.6, transform="translate(-1 -1.5)")
+    for x, y in pts:
+        s.circle(x, y, 6, gold(s, x - 6, y - 6, x + 6, y + 6))
+    s.circle(128, 142, 5, (250, 246, 236))
+
+
+def obj_bridge(s):
+    # The rest: a brass cross on its stick, a cue lying in its notch.
+    s.path("M226 236 L132 120", stroke=(40, 30, 26), stroke_width=13, stroke_linecap="round")
+    s.path("M226 236 L132 120", stroke=WHITE, stroke_width=3, opacity=0.18, stroke_linecap="round",
+           transform="translate(-3 -2)")
+    head = "M80 96 L120 70 L148 94 L176 70 L208 96 L176 122 L148 104 L120 122 Z"
+    s.path(head, shade(GOLD_M, -0.5), transform="translate(3 4)", opacity=0.5, filter=s.blur(3))
+    s.path(head, gold(s, 80, 70, 208, 122), stroke=shade(GOLD_M, -0.55), stroke_width=2.5,
+           stroke_linejoin="round")
+    s.path("M134 112 L162 112 L156 124 L140 124 Z", gold(s, 134, 112, 162, 124, shade(GOLD_M, -0.2)))
+    for x in (120, 148, 176):
+        s.circle(x, 84, 6, shade(GOLD_M, -0.45))
+    cue(s, (226, 74), (-40, 104), 7, 16)
+    shadow(s, 60, 196, 30, 7)
+    ball(s, 56, 182, 22, 0)
+
+
+def obj_cue_rack(s):
+    # Cues standing in a wooden rack on the wall.
+    s.el("rect", x=40.0, y=196.0, width=176.0, height=24.0, rx=5.0,
+         fill=s.lin(0, 196, 0, 220, [(0, shade(WOOD, 0.25)), (1, shade(WOOD, -0.35))]))
+    s.el("rect", x=40.0, y=58.0, width=176.0, height=18.0, rx=5.0,
+         fill=s.lin(0, 58, 0, 76, [(0, shade(WOOD, 0.25)), (1, shade(WOOD, -0.35))]))
+    for k, (x, fore) in enumerate(((70, (84, 38, 24)), (106, (30, 30, 34)), (142, (120, 30, 40)),
+                                   (178, (40, 70, 130)))):
+        cue(s, (x, 30 + (k % 2) * 6), (x, 300), 6, 13, forearm=fore)
+    for x in (70, 106, 142, 178):
+        s.ellipse(x, 67, 9, 4, shade(WOOD, -0.55))
+
+
+def obj_net(s):
+    # A side pocket's net, three balls caught in it.
+    s.path("M36 70 L220 70 L220 92 L36 92 Z", s.lin(0, 70, 0, 92, [(0, shade(WOOD, 0.2)),
+                                                                   (1, shade(WOOD, -0.4))]))
+    bag = "M52 92 C46 160 86 214 128 218 C170 214 210 160 204 92 Z"
+    s.path(bag, (14, 10, 8), opacity=0.55)
+    s.group(clip_path=s.clip(bag))
+    ball(s, 98, 176, 28, 3, number=False)
+    ball(s, 156, 174, 28, 12, number=False)
+    ball(s, 128, 134, 28, 8, number=False)
+    for k in range(-8, 9):
+        s.path(f"M{128 + k * 14} 92 L{128 + k * 14 + 60} 230", stroke=(236, 228, 210), stroke_width=1.8,
+               opacity=0.7)
+        s.path(f"M{128 + k * 14} 92 L{128 + k * 14 - 60} 230", stroke=(236, 228, 210), stroke_width=1.8,
+               opacity=0.7)
+    s.end()
+    s.path(bag, "none", stroke=(236, 228, 210), stroke_width=2.4, opacity=0.8)
+    s.el("rect", x=46.0, y=86.0, width=164.0, height=10.0, rx=4.0, fill=(30, 22, 18))
+
+
+def obj_beads(s):
+    # The score string: wooden beads on two wires, some slid across.
+    for y, n_left, n_right in ((92, 3, 4), (164, 5, 2)):
+        s.path(f"M14 {y} L242 {y}", stroke=(200, 196, 186), stroke_width=3)
+        xs = [44 + k * 26 for k in range(n_left)] + [212 - k * 26 for k in range(n_right)]
+        for x in xs:
+            shadow(s, x + 2, y + 20, 13, 4, 0.35)
+            s.ellipse(x, y, 13, 19, s.rad(x - 4, y - 7, 20, [(0, shade(WOOD, 0.5)), (0.6, WOOD),
+                                                            (1, shade(WOOD, -0.5))]))
+            s.ellipse(x - 4, y - 8, 3, 5, WHITE, opacity=0.45)
+
+
+def obj_stopwatch(s):
+    shadow(s, 132, 210, 70, 12)
+    s.el("rect", x=118.0, y=34.0, width=20.0, height=20.0, rx=4.0, fill=gold(s, 118, 34, 138, 54))
+    s.path("M182 66 L196 52 L206 62 L192 76 Z", gold(s, 182, 52, 206, 76))
+    s.circle(128, 132, 80, gold(s, 48, 52, 208, 212))
+    s.circle(128, 132, 68, s.rad(110, 110, 90, [(0, (252, 250, 244)), (1, (214, 208, 196))]))
+    for k in range(12):
+        a = math.radians(k * 30)
+        r0 = 56 if k % 3 else 50
+        s.path(f"M{fmt(128 + math.cos(a) * r0)} {fmt(132 + math.sin(a) * r0)} "
+               f"L{fmt(128 + math.cos(a) * 62)} {fmt(132 + math.sin(a) * 62)}",
+               stroke=(40, 34, 30), stroke_width=4 if k % 3 == 0 else 2.2, stroke_linecap="round")
+    s.path("M128 132 L128 84", stroke=(200, 40, 36), stroke_width=4.5, stroke_linecap="round")
+    s.path("M128 132 L158 146", stroke=(40, 34, 30), stroke_width=5, stroke_linecap="round")
+    s.circle(128, 132, 6, (40, 34, 30))
+    s.path("M86 90 C96 78 110 72 124 70", stroke=WHITE, stroke_width=5, opacity=0.5, stroke_linecap="round")
+
+
+def obj_bank(s):
+    # A bank shot: off the cushion and back into the corner pocket.
+    felt_floor(s)
+    s.path("M206 0 L256 0 L256 256 L206 256 Z", s.lin(206, 0, 256, 0, [(0, shade(WOOD, 0.2)),
+                                                                       (1, shade(WOOD, -0.3))]))
+    s.path("M192 0 L206 0 L206 256 L192 256 Z", (28, 98, 54))
+    s.circle(40, 40, 30, s.rad(40, 40, 30, [(0, (0, 0, 0)), (0.8, (14, 10, 8)), (1, (40, 30, 22))]))
+    dashed(s, [(84, 200), (186, 120), (62, 60)], c=(255, 236, 160), w=4.5)
+    s.path("M58 56 L74 58 L66 70 Z", (255, 236, 160))
+    shadow(s, 92, 212, 22, 6)
+    ball(s, 84, 200, 22, 0)
+
+
+def obj_curve(s):
+    # A massé: the cue ball curving round a ball in its way.
+    felt_floor(s, (30, 100, 120))
+    s.path("M72 210 C40 130 150 150 168 60", stroke=(255, 236, 160), stroke_width=5,
+           stroke_dasharray="2 12", stroke_linecap="round")
+    s.path("M160 52 L180 50 L172 70 Z", (255, 236, 160))
+    shadow(s, 116, 148, 24, 6)
+    ball(s, 110, 134, 24, 4, number=False)
+    shadow(s, 80, 222, 22, 6)
+    ball(s, 72, 210, 22, 0)
+    cue(s, (60, 236), (-60, 340), 7, 15)
+
+
+def obj_jump(s):
+    # A jump shot: the cue ball in the air over a ball, its shadow below.
+    felt_floor(s, (28, 60, 110))
+    s.path("M44 196 Q128 6 214 196", stroke=(255, 236, 160), stroke_width=4.5, stroke_dasharray="2 12",
+           stroke_linecap="round")
+    shadow(s, 132, 204, 26, 6)
+    ball(s, 128, 186, 24, 2, number=False)
+    shadow(s, 150, 204, 18, 4, 0.3)
+    ball(s, 118, 92, 26, 0)
+    for k in range(3):
+        s.path(f"M{82 - k * 8} {118 + k * 10} l-16 10", stroke=WHITE, stroke_width=3, opacity=0.5,
+               stroke_linecap="round")
+
+
+def obj_combo(s):
+    # A combination: the cue ball sends one ball into another, into the pocket.
+    felt_floor(s, (20, 70, 80))
+    s.circle(214, 42, 30, s.rad(214, 42, 30, [(0, (0, 0, 0)), (0.8, (14, 10, 8)), (1, (40, 30, 22))]))
+    dashed(s, [(54, 206), (110, 150)], w=4)
+    dashed(s, [(140, 120), (196, 62)], w=4)
+    shadow(s, 152, 136, 20, 5)
+    ball(s, 146, 116, 20, 5, number=False)
+    shadow(s, 116, 168, 20, 5)
+    ball(s, 108, 150, 20, 1, number=False)
+    shadow(s, 60, 222, 22, 6)
+    ball(s, 52, 206, 22, 0)
+
+
+def obj_ghost_ball(s):
+    # The ghost ball: where the cue ball must be at the moment it hits.
+    felt_floor(s, (36, 30, 80))
+    dashed(s, [(54, 214), (104, 156)], c=(200, 220, 255), w=4)
+    s.circle(122, 134, 28, (255, 255, 255), opacity=0.12)
+    s.circle(122, 134, 28, "none", stroke=WHITE, stroke_width=3, stroke_dasharray="6 6", opacity=0.85)
+    shadow(s, 168, 106, 26, 6)
+    ball(s, 162, 90, 28, 9, number=False)
+    dashed(s, [(184, 66), (214, 34)], c=(255, 236, 160), w=4)
+    shadow(s, 54, 226, 20, 5)
+    ball(s, 48, 212, 20, 0)
+
+
+def obj_kiss(s):
+    # Two balls meeting, a spark where they touch.
+    shadow(s, 92, 182, 40, 9)
+    shadow(s, 172, 182, 40, 9)
+    ball(s, 88, 136, 44, 0)
+    ball(s, 170, 136, 44, 11, number=False)
+    for k in range(8):
+        a = math.radians(k * 45 + 22)
+        s.path(f"M{fmt(129 + math.cos(a) * 12)} {fmt(128 + math.sin(a) * 12)} "
+               f"L{fmt(129 + math.cos(a) * (34 if k % 2 else 24))} {fmt(128 + math.sin(a) * (34 if k % 2 else 24))}",
+               stroke=(255, 236, 150), stroke_width=4, stroke_linecap="round")
+    sparkle(s, 129, 128, 16, (255, 250, 220))
+
+
+def obj_brush(s):
+    # The table brush on the cloth, a little chalk dust swept up.
+    shadow(s, 132, 176, 88, 14, 0.45)
+    s.path("M40 150 L196 70 L214 100 L58 180 Z", s.lin(40, 70, 214, 180, [(0, shade(WOOD, 0.4)),
+                                                                         (1, shade(WOOD, -0.3))]))
+    s.path("M58 180 L214 100 L222 116 L66 196 Z", (40, 30, 26))
+    for k in range(26):
+        t = k / 25
+        x, y = 66 + (222 - 66) * t, 196 + (116 - 196) * t
+        s.path(f"M{fmt(x)} {fmt(y)} l{fmt(4 + (k % 3))} 16", stroke=(236, 220, 180), stroke_width=2.2,
+               stroke_linecap="round")
+    s.path("M48 154 L196 78", stroke=WHITE, stroke_width=3, opacity=0.3, stroke_linecap="round")
+    for x, y, r in ((70, 220, 4), (96, 228, 3), (120, 222, 3.5), (150, 214, 2.5)):
+        s.circle(x, y, r, (110, 170, 240), opacity=0.7)
+
+
+def obj_case(s):
+    # A leather cue case: a thick tube, brass caps at both ends, its strap.
+    leather = (150, 78, 42)
+    shadow(s, 136, 212, 92, 12)
+    ux, uy = 0.7071, -0.7071
+    nx, ny = 0.7071, 0.7071
+    def quad(t0, t1, w):
+        p = lambda t, side: (60 + ux * 190 * t + nx * side * w, 200 + uy * 190 * t + ny * side * w)
+        pts = [p(t0, -1), p(t1, -1), p(t1, 1), p(t0, 1)]
+        return "M" + " L".join(f"{fmt(a)} {fmt(b)}" for a, b in pts) + " Z"
+    s.path("M70 176 C40 120 120 56 172 92", stroke=(52, 34, 24), stroke_width=7, stroke_linecap="round")
+    s.path(quad(0.0, 1.0, 26), s.lin(60 - nx * 26, 200 - ny * 26, 60 + nx * 26, 200 + ny * 26,
+                                    [(0, shade(leather, 0.45)), (0.45, leather), (1, shade(leather, -0.5))]))
+    for t0, t1 in ((0.0, 0.1), (0.9, 1.0)):
+        s.path(quad(t0, t1, 28), gold(s, 30, 230, 240, 20, (214, 170, 80)))
+    for t in (0.3, 0.62):
+        s.path(quad(t, t + 0.035, 27), (40, 28, 20))
+    s.path(quad(0.12, 0.88, 3), (252, 226, 170), opacity=0.35, transform="translate(-14 -14)")
+
+
+def obj_gold_eight(s):
+    shadow(s, 136, 200, 62, 14)
+    ball(s, 128, 124, 74, 8, color=(222, 172, 50))
+    sparkle(s, 194, 58, 14)
+    sparkle(s, 60, 74, 9, op=0.8)
+    sparkle(s, 204, 170, 7, op=0.7)
+
+
+def wing(s, side):
+    x0 = 128 + side * 40
+    feathers = []
+    for k in range(5):
+        length = 74 - k * 10
+        y = 96 + k * 14
+        feathers.append(
+            f"M{x0} {y} C{x0 + side * length * 0.5} {y - 30 + k * 4} {x0 + side * length} {y - 18 + k * 6} "
+            f"{x0 + side * (length + 6)} {y + 4} C{x0 + side * length * 0.7} {y + 8} {x0 + side * length * 0.3} {y + 12} {x0} {y + 14} Z")
+    for k, dd in enumerate(feathers):
+        s.path(dd, s.lin(x0, 80, x0 + side * 80, 160, [(0, (255, 255, 255)), (1, (206, 214, 226))]),
+               stroke=(170, 180, 196), stroke_width=1.2)
+
+
+def obj_wings(s):
+    shadow(s, 132, 206, 50, 10)
+    wing(s, -1)
+    wing(s, 1)
+    ball(s, 128, 132, 52, 8)
+
+
+def obj_podium(s):
+    # The podium: first, second and third, an 8 on the top step.
+    steps = [(98, 120, 60, (240, 196, 70), "1"), (34, 150, 64, (206, 212, 222), "2"),
+             (158, 168, 64, (214, 140, 80), "3")]
+    shadow(s, 128, 222, 104, 8)
+    for x, y, w, c, n in steps:
+        s.el("rect", x=float(x), y=float(y), width=float(w), height=float(218 - y), rx=4.0,
+             fill=s.lin(x, y, x + w, 218, [(0, shade(c, 0.25)), (1, shade(c, -0.35))]))
+        s.text(x + w / 2, y + 34, n, 26, shade(c, -0.6))
+    shadow(s, 130, 122, 24, 5)
+    ball(s, 128, 94, 26, 8)
+
+
+def obj_strike(s):
+    # The tip meeting the cue ball: a flash of the impact.
+    for k in range(10):
+        a = math.radians(k * 36 + 10)
+        r0, r1 = 46, 70 if k % 2 else 60
+        s.path(f"M{fmt(118 + math.cos(a) * r0)} {fmt(118 + math.sin(a) * r0)} "
+               f"L{fmt(118 + math.cos(a) * r1)} {fmt(118 + math.sin(a) * r1)}",
+               stroke=(255, 230, 140), stroke_width=4.5, stroke_linecap="round", opacity=0.9)
+    shadow(s, 126, 168, 40, 9)
+    ball(s, 118, 118, 40, 0)
+    cue(s, (160, 160), (330, 330), 8, 17)
+    s.circle(156, 156, 14, (255, 250, 220), opacity=0.6, filter=s.blur(5))
+
+
+def obj_reds(s):
+    # The fifteen reds of snooker in their triangle, the black behind.
+    felt_floor(s, (30, 104, 58))
+    r = 15.5
+    for row in range(5):
+        for k in range(row + 1):
+            x = 128 + (k - row / 2) * r * 2.04
+            y = 64 + row * r * 1.77
+            ball(s, x, y, r, 3, number=False, color=(206, 26, 22))
+    shadow(s, 132, 222, 18, 4)
+    ball(s, 128, 208, r, 8, number=False)
+
+
+def obj_nine_rack(s):
+    # Nine-ball: the diamond rack round the balls, the 1 at the front, the
+    # 9 in the middle.
+    r = 18.5
+    diamond = "M128 22 L204 128 L128 234 L52 128 Z"
+    s.path(diamond, "none", stroke=shade(WOOD, -0.45), stroke_width=12, stroke_linejoin="round",
+           transform="translate(2 3)", opacity=0.6)
+    s.path(diamond, "none", stroke=s.lin(52, 22, 204, 234, [(0, shade(WOOD, 0.35)), (0.5, WOOD),
+                                                            (1, shade(WOOD, -0.3))]),
+           stroke_width=9, stroke_linejoin="round")
+    rows = [[1], [2, 3], [4, 9, 5], [6, 7], [8]]
+    for i, row in enumerate(rows):
+        for k, n in enumerate(row):
+            x = 128 + (k - (len(row) - 1) / 2) * r * 2.04
+            y = 128 + (i - 2) * r * 1.77
+            ball(s, x, y, r, n, number=(n in (1, 9)), shade_op=0.55)
+
+
+def obj_fire_cue(s):
+    flames(s, 104, 214, 120, 190, lean=0.15)
+    cue(s, (206, 50), (-10, 266), 8, 18)
+    shadow(s, 214, 74, 18, 4)
+    ball(s, 214, 56, 18, 0)
+
 OBJECTS = {
     "pic_eight": (CLOTH, obj_eight),
     "pic_cue_ball": (CLOTH, obj_cue_ball),
@@ -2363,6 +2693,38 @@ OBJECTS = {
     "pic_comet": ((20, 40, 84), obj_comet),
     "pic_break": ((30, 120, 70), obj_break),
     "pic_silver_cup": ((30, 60, 90), obj_silver_cup),
+    "pic_two": ((196, 140, 56), big_ball(2)),
+    "pic_three": ((20, 110, 120), big_ball(3)),
+    "pic_four": ((40, 84, 60), big_ball(4)),
+    "pic_five": ((30, 62, 120), big_ball(5)),
+    "pic_six": ((120, 32, 44), big_ball(6)),
+    "pic_seven": ((30, 100, 110), big_ball(7)),
+    "pic_nine": ((58, 46, 110), obj_nine_rack),
+    "pic_ten": ((150, 96, 40), big_ball(10)),
+    "pic_eleven": (CLOTH, big_ball(11)),
+    "pic_twelve": ((196, 140, 56), big_ball(12)),
+    "pic_thirteen": ((24, 30, 70), big_ball(13)),
+    "pic_fourteen": ((90, 50, 100), big_ball(14)),
+    "pic_triangle": (CLOTH, obj_triangle),
+    "pic_bridge": ((36, 44, 78), obj_bridge),
+    "pic_cue_rack": ((70, 46, 34), obj_cue_rack),
+    "pic_net": ((26, 90, 52), obj_net),
+    "pic_beads": ((40, 84, 60), obj_beads),
+    "pic_stopwatch": ((120, 32, 44), obj_stopwatch),
+    "pic_bank": (CLOTH, obj_bank),
+    "pic_curve": ((30, 100, 120), obj_curve),
+    "pic_jump": ((28, 60, 110), obj_jump),
+    "pic_combo": ((20, 70, 80), obj_combo),
+    "pic_ghost_ball": ((36, 30, 80), obj_ghost_ball),
+    "pic_kiss": ((58, 46, 110), obj_kiss),
+    "pic_brush": (CLOTH, obj_brush),
+    "pic_case": ((52, 34, 40), obj_case),
+    "pic_gold_eight": ((30, 30, 40), obj_gold_eight),
+    "pic_wings": ((30, 62, 120), obj_wings),
+    "pic_podium": ((36, 58, 110), obj_podium),
+    "pic_strike": ((28, 30, 60), obj_strike),
+    "pic_reds": ((30, 104, 58), obj_reds),
+    "pic_fire_cue": ((50, 26, 30), obj_fire_cue),
 }
 
 

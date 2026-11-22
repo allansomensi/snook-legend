@@ -1574,7 +1574,9 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                 }
             }
             ClientMsg::SetAvatar { avatar } => {
-                let avatar = avatar.trim().to_string();
+                // A retired face (from an older client) is kept as the
+                // thing of the game shown in its place.
+                let avatar = snook_legend_proto::shown_avatar(avatar.trim()).to_string();
                 if valid_avatar(&avatar)
                     && avatar != me.avatar
                     && server.store.set_avatar(me.id, &avatar).await.is_ok()

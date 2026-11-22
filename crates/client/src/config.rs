@@ -383,7 +383,10 @@ impl Config {
                 "shadows" => c.shadows = v != "false",
                 "opponent_talk" => c.opponent_talk = v != "false",
                 "top_view_only" => c.top_view_only = v == "true",
-                "avatar" if snook_legend_proto::valid_avatar(v) => c.avatar = v.to_string(),
+                // (A retired face becomes the thing of the game in its place.)
+                "avatar" if snook_legend_proto::valid_avatar(v) => {
+                    c.avatar = snook_legend_proto::shown_avatar(v).to_string()
+                }
                 "ui_size" => c.ui_size = finite(v).map(|x| x.clamp(0.7, 1.5)).unwrap_or(c.ui_size),
                 "aim_sensitivity" => {
                     c.aim_sensitivity =

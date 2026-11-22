@@ -193,10 +193,12 @@ pub struct Config {
     /// are: this server's old addresses for them and its root lead there
     /// (see [`pages`]).
     pub site_url: String,
-    /// The staff portal's own address (`admin.snooklegend.app`): `/admin`
-    /// answers there only (on any other address, not found), and that
-    /// address's root opens it. `None`: on any address.
-    pub admin_host: Option<String>,
+    /// The staff portal's origin (`https://admin.snooklegend.app`): a web
+    /// app of its own (the `admin/` folder of the website's repository) that
+    /// calls the staff API (`/admin/api`) from there. Only that origin may
+    /// call it from a browser (CORS), and `/admin` here leads to it.
+    /// `None`: no browser may call the staff API from another origin.
+    pub admin_origin: Option<String>,
 }
 
 impl Default for Config {
@@ -213,7 +215,7 @@ impl Default for Config {
             stripe: None,
             msstore: None,
             site_url: pages::SITE_URL.into(),
-            admin_host: None,
+            admin_origin: None,
         }
     }
 }
@@ -536,36 +538,24 @@ pub fn router(server: Arc<Server>) -> Router {
         .route("/shop/thanks", get(shop::thanks))
         .route("/shop/cancelled", get(shop::cancelled))
         .merge(pages::router())
-        .merge(admin::router())
+        .merge(admin::router(server.clone()))
         .layer(axum::middleware::from_fn_with_state(server.clone(), hosts))
         .with_state(server)
 }
 
-/// The host a request was sent to, without its port, in lower case.
-fn request_host(headers: &HeaderMap) -> String {
-    let host = headers.get(header::HOST).and_then(|h| h.to_str().ok()).unwrap_or("");
-    host.rsplit_once(':')
-        .filter(|(_, port)| port.chars().all(|c| c.is_ascii_digit()))
-        .map_or(host, |(name, _)| name)
-        .to_ascii_lowercase()
-}
-
-/// The staff portal on its own address only, when one is set (anywhere
-/// else it doesn't exist), and that address's root opens it.
+/// `/admin` was the staff portal's address on this server: it now leads to
+/// the portal's own site (or is not found when none is set).
 async fn hosts(
     State(server): State<Arc<Server>>,
     req: axum::extract::Request,
     next: axum::middleware::Next,
 ) -> Response {
-    if let Some(admin) = server.config.admin_host.as_deref() {
-        let on_admin = request_host(req.headers()) == admin;
-        let path = req.uri().path();
-        if path.starts_with("/admin") && !on_admin {
-            return axum::http::StatusCode::NOT_FOUND.into_response();
-        }
-        if on_admin && path == "/" {
-            return axum::response::Redirect::permanent("/admin/").into_response();
-        }
+    let path = req.uri().path();
+    if path == "/admin" || path == "/admin/" {
+        return match server.config.admin_origin.as_deref() {
+            Some(origin) => axum::response::Redirect::permanent(origin).into_response(),
+            None => axum::http::StatusCode::NOT_FOUND.into_response(),
+        };
     }
     next.run(req).await
 }

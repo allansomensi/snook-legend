@@ -1,5 +1,5 @@
-//! A whole game as frames for the staff panel's replay viewer: the panel is
-//! plain JavaScript without the physics, so the server replays the strokes
+//! A whole game as frames for the staff portal's replay viewer: the portal
+//! is a web app without the physics, so the server replays the strokes
 //! and sends where every ball was, 30 times a second of play.
 //!
 //! Positions are in millimetres. Each shot has the table at its start and

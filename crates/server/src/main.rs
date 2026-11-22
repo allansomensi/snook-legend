@@ -21,7 +21,7 @@
 //! | `SNOOK_LEGEND_STRIPE_PRICES` | — | `code=price_id\|label;…` for coin packs and `vip_monthly` |
 //! | `SNOOK_LEGEND_PUBLIC_URL` | — | the server's public address (payment return pages) |
 //! | `SNOOK_LEGEND_SITE_URL` | `https://snooklegend.app` | the game's website, with the terms of use and the privacy policy: the server's old addresses for them (`/termos`, `/privacy`…) and `/` lead there |
-//! | `SNOOK_LEGEND_ADMIN_HOST` | — | the staff portal's own address (`admin.snooklegend.app`): `/admin` answers there only |
+//! | `SNOOK_LEGEND_ADMIN_ORIGIN` | — | the staff portal's origin (`https://admin.snooklegend.app`): the only one allowed to call `/admin/api` from a browser; `/admin` leads there |
 //! | `SNOOK_LEGEND_DRAIN_SECS` | `240` | on SIGTERM: how long games in progress may go on before they are handed to the next server |
 //! | `SNOOK_LEGEND_CUP` | — | the weekly cup, e.g. `sat 20:00` (options: `60m`, `fee=100`, `utc-3`, `official` for the official rules) |
 //! | `RUST_LOG` | `info` | log filter |
@@ -110,14 +110,25 @@ async fn main() {
             }
             None => snook_legend_server::pages::SITE_URL.into(),
         },
-        admin_host: env("SNOOK_LEGEND_ADMIN_HOST").map(|v| {
-            let v = v.trim().to_ascii_lowercase();
-            let v = v.trim_start_matches("https://").trim_start_matches("http://");
-            v.split(['/', ':']).next().unwrap_or("").to_string()
-        }),
+        admin_origin: match env("SNOOK_LEGEND_ADMIN_ORIGIN") {
+            Some(v) if v.starts_with("https://") || v.starts_with("http://") => {
+                Some(v.trim().trim_end_matches('/').to_ascii_lowercase())
+            }
+            Some(_) => {
+                eprintln!("warning: SNOOK_LEGEND_ADMIN_ORIGIN must start with https://: ignored");
+                None
+            }
+            None => None,
+        },
     };
-    if let Some(host) = &config.admin_host {
-        tracing::info!("staff portal on {host} only");
+    match &config.admin_origin {
+        Some(origin) => tracing::info!("staff API open to the portal at {origin}"),
+        None => tracing::info!("staff API: no portal origin (SNOOK_LEGEND_ADMIN_ORIGIN not set)"),
+    }
+    if env("SNOOK_LEGEND_ADMIN_HOST").is_some() {
+        tracing::warn!(
+            "SNOOK_LEGEND_ADMIN_HOST is no longer used: the portal is its own site; set SNOOK_LEGEND_ADMIN_ORIGIN"
+        );
     }
     match &config.stripe {
         Some(s) => tracing::info!("payments on ({} prices)", s.prices.len()),

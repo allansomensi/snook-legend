@@ -1,17 +1,21 @@
 # Staff portal
 
-The server serves the staff portal at `/admin`: plain HTML, CSS and
-JavaScript compiled into the server (`crates/server/admin/`), no external
-resources, a strict Content Security Policy (no inline code or styles).
+The staff portal is a web app of its own,
+[admin.snooklegend.app](https://admin.snooklegend.app): Next.js, React and
+TypeScript, in the `admin/` folder of the website's repository
+([snooklegend.app](https://github.com/allansomensi/snooklegend.app/tree/main/admin)),
+published by Vercel. It calls the server's staff API (`/admin/api`,
+`crates/server/src/admin.rs`), which answers browsers only from the portal's
+origin (`SNOOK_LEGEND_ADMIN_ORIGIN`, CORS without credentials); `/admin` on
+the server leads to the portal. The portal has a strict Content Security
+Policy (a nonce per page; the only server it talks to is the API).
 Staff sign in with their game account; the portal's session is separate
 from the game's, is sent as a bearer token (never a cookie, so there is no
-CSRF surface) and lasts 8 hours.
+CSRF surface), is kept for the browser tab only, and lasts 8 hours.
 
-**Why in the server and not a separate site?** One deployment, the same
-origin (no CORS, no API exposed to other sites), the same database
-connection and direct access to the live lounge (who's online, games in
-progress, the chat). A separate site would need a public admin API, CORS and
-a second set of credentials for no gain at this size.
+The server keeps what needs the live lounge (who's online, games in
+progress, the chat, the replays rebuilt with the physics) behind the API;
+everything on screen is the portal's.
 
 ## Using it
 
@@ -24,7 +28,7 @@ a second set of credentials for no gain at this size.
   a recovery e-mail, whole, finds its account too); `#123` opens game 123
   in the replay viewer.
 - **Links:** every page and filter has its own address
-  (`#/players/ana/moderation`, `#/reports?status=open`…): bookmark it, send
+  (`/players/ana/moderation`, `/reports?status=open`…): bookmark it, send
   it to another staff member, use the browser's back button.
 - **Keyboard:** `?` lists the shortcuts; `g` then a letter goes to a page
   (`g d` dashboard, `g p` players, `g r` reports, `g l` live, `g c` chat…);

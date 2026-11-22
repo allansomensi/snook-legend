@@ -7,14 +7,17 @@ e do Neon também servem, com os limites abaixo.
 
 ```
  Jogadores ──wss──▶  Render (servidor Snook Legend, Docker)  ──TLS──▶  Neon (PostgreSQL)
-                         └─ /admin  (painel da equipe)
+                         ▲  /admin/api (API da equipe, CORS)
+ Equipe ──https──▶  Vercel (painel, admin.snooklegend.app)
 ```
 
 - **Render** roda o servidor (o mesmo binário de sempre, em um container).
 - **Neon** guarda contas, ratings, histórico, conquistas, amizades e denúncias.
-- **Vercel não é necessária**: o painel administrativo é servido pelo próprio
-  servidor em `/admin` (mesma origem, sem CORS, um deploy só). Se um dia você
-  quiser um site do jogo, a Vercel é ótima para isso, e o servidor já expõe
+- **Vercel** publica o site (`snooklegend.app`) e o **painel da equipe**
+  (`admin.snooklegend.app`): os dois estão no repositório `snooklegend.app`
+  (o painel na pasta `admin/`, um projeto Vercel próprio). O painel fala com a
+  API da equipe do servidor (`/admin/api`), que só responde ao navegador vindo
+  do endereço do painel (`SNOOK_LEGEND_ADMIN_ORIGIN`). O servidor também expõe
   `GET /api/leaderboard?rules=brazilian|official` (o ranking de cada regra; a
   brasileira quando omitido) e `GET /api/status` (JSON público, com CORS) para o site
   mostrar o ranking e quantos estão online.
@@ -91,8 +94,11 @@ As outras variáveis já vêm no `render.yaml`:
 
 1. Abra o jogo, **Jogar online → Nova conta**, crie a conta com o nome que pôs
    em `SNOOK_LEGEND_ADMINS` (ou entre, se ela já existe). Ao entrar, ela vira admin.
-2. Abra `https://snook-server.onrender.com/admin` e entre com o mesmo usuário e
-   senha.
+2. Abra o painel, `https://admin.snooklegend.app` (passo 11.4), e entre com o
+   mesmo usuário e senha. Para testar antes do domínio, rode o painel na sua
+   máquina (`admin/README.md` no repositório do site) com
+   `NEXT_PUBLIC_API_URL` apontando para o servidor e
+   `SNOOK_LEGEND_ADMIN_ORIGIN=http://localhost:3001` no Render.
 
 No painel: visão geral (online, partidas, contas, denúncias abertas), busca de
 jogadores, ban temporário/permanente, silenciar, desconectar, encerrar todas
@@ -226,7 +232,7 @@ segura da Stripe (cartão, Pix, boleto): o jogo nunca vê dados de cartão.
    O texto depois de `|` é o preço mostrado no jogo: mantenha igual ao da
    Stripe. Salve: o servidor reinicia e o log mostra `payments on (7 prices)`.
 8. No jogo: **Loja → Moedas → Comprar**. Paga no navegador; as moedas
-   chegam em segundos. No painel `/admin`, a ficha do jogador mostra a
+   chegam em segundos. No painel da equipe, a ficha do jogador mostra a
    carteira, os pagamentos e o extrato.
 
 Como funciona por dentro (e por que é seguro):
@@ -306,7 +312,7 @@ O jogo usa três endereços, cada um com um papel:
 |---|---|---|
 | `snooklegend.app` | o site: página do jogo, downloads, termos e privacidade | Vercel |
 | `api.snooklegend.app` | o jogo: `/ws`, `/api/...`, webhook da Stripe | Render |
-| `admin.snooklegend.app` | o painel da equipe (`/admin`) | Render (o mesmo serviço) |
+| `admin.snooklegend.app` | o painel da equipe (fala com `api.snooklegend.app/admin/api`) | Vercel (projeto próprio, pasta `admin/` do repositório do site) |
 
 A partir da 0.10.2 o jogo se conecta em `wss://api.snooklegend.app/ws`. Uma
 sessão salva no endereço antigo (`snook-server.onrender.com`) vale no novo
@@ -327,12 +333,15 @@ Em **Vercel → Domains → snooklegend.app → DNS Records**, crie:
 | Tipo | Nome | Valor |
 |---|---|---|
 | `CNAME` | `api` | `snook-server.onrender.com` |
-| `CNAME` | `admin` | `snook-server.onrender.com` |
+
+(`admin.snooklegend.app` é do próprio Vercel: o passo 11.4 o adiciona ao
+projeto do painel, e o Vercel cria o registro sozinho. Se um `CNAME admin`
+para o Render ficou de antes, apague-o.)
 
 ### 11.3 Domínios no Render
 
 Em **Render → o serviço → Settings → Custom Domains**, adicione
-`api.snooklegend.app` e `admin.snooklegend.app`. O Render confere o DNS e
+`api.snooklegend.app` (e remova `admin.snooklegend.app`, se estiver lá). O Render confere o DNS e
 emite os certificados. O endereço `snook-server.onrender.com` continua
 funcionando (os jogos antigos usam ele).
 
@@ -344,13 +353,24 @@ Stripe, o endereço do webhook para `https://api.snooklegend.app/stripe/webhook`
 `SNOOK_LEGEND_LEGAL_ADDRESS` e `SNOOK_LEGEND_PRIVACY_CONTACT` não são mais
 usadas pelo servidor: apague-as depois de levar os valores para o Vercel.
 
-### 11.4 O painel no endereço dele
+### 11.4 O painel da equipe no Vercel
 
-Com o DNS funcionando, confira que `https://admin.snooklegend.app/admin` abre
-o painel e então, em **Render → Environment**, defina
-`SNOOK_LEGEND_ADMIN_HOST` = `admin.snooklegend.app`: o painel passa a
-responder só nesse endereço (em qualquer outro, "não encontrado"), e a raiz
-desse endereço abre o painel.
+O painel é um app Next.js na pasta `admin/` do repositório `snooklegend.app`,
+com um projeto Vercel só dele:
+
+1. **Vercel → Add New… → Project** → o repositório `snooklegend.app` →
+   **Root Directory: `admin`** (o preset Next.js é detectado).
+2. **Environment Variables:** `NEXT_PUBLIC_API_URL` =
+   `https://api.snooklegend.app`. **Deploy.**
+3. **Settings → Domains:** adicione `admin.snooklegend.app`.
+4. Em **Render → Environment**, defina `SNOOK_LEGEND_ADMIN_ORIGIN` =
+   `https://admin.snooklegend.app` (sem barra no fim) e apague
+   `SNOOK_LEGEND_ADMIN_HOST`, que não é mais usada. A API da equipe passa a
+   responder ao painel, e `api.snooklegend.app/admin` leva até ele.
+
+Confira: `https://admin.snooklegend.app` abre a tela de entrada, e entrar
+mostra o painel. Se aparecer "Não foi possível falar com o servidor", a
+variável do passo 4 está diferente do endereço do painel.
 
 ### 11.5 As lojas
 

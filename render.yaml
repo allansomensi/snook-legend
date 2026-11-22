@@ -31,9 +31,10 @@ services:
         sync: false
       - key: SNOOK_LEGEND_MSSTORE_PRODUCTS
         sync: false
-      # The staff portal's own address: /admin answers there only. Set it once
-      # https://admin.snooklegend.app/admin opens (docs/DEPLOY.pt-BR.md, 11.4).
-      - key: SNOOK_LEGEND_ADMIN_HOST
+      # The staff portal's origin (its own site, on Vercel): the only one a
+      # browser may call the staff API from, https://admin.snooklegend.app
+      # (docs/DEPLOY.pt-BR.md, 11.4).
+      - key: SNOOK_LEGEND_ADMIN_ORIGIN
         sync: false
       # The server's public address (the payment return pages):
       # https://api.snooklegend.app once that domain is set up (11.3).

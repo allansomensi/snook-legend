@@ -466,16 +466,6 @@ async fn the_portal_shows_the_economy_and_the_server() {
         let (code, _) = request(&s.host, "GET", path, "", "").await;
         assert_eq!(code, 401, "{path}");
     }
-    // And the portal's pages are served.
-    for path in ["/admin", "/admin/app.js", "/admin/app.css", "/admin/i18n.js", "/admin/flags.css"]
-    {
-        use tokio::io::{AsyncReadExt, AsyncWriteExt};
-        let mut c = TcpStream::connect(&s.host).await.unwrap();
-        c.write_all(format!("GET {path} HTTP/1.0\r\nHost: x\r\n\r\n").as_bytes()).await.unwrap();
-        let mut out = Vec::new();
-        c.read_to_end(&mut out).await.unwrap();
-        assert!(out.starts_with(b"HTTP/1.0 200") || out.starts_with(b"HTTP/1.1 200"), "{path}");
-    }
     let _ = &s.server;
 }
 
@@ -683,44 +673,4 @@ async fn the_portal_shows_the_record_against_the_computer() {
     assert_eq!(c["drills"][0]["code"], code);
     assert_eq!(c["drills"][0]["stars"].as_u64(), Some(3));
     assert_eq!(c["drill_stars"].as_u64(), Some(3));
-}
-
-/// Every text the portal shows through `t(…)` or `tf(…)` has its Portuguese
-/// and Spanish (a new text without them would show in English).
-#[test]
-fn every_portal_text_is_translated() {
-    let script = include_str!("../admin/app.js");
-    let words = include_str!("../admin/i18n.js");
-    let json = &words[words.find('{').unwrap()..=words.rfind('}').unwrap()];
-    let words: Value = serde_json::from_str(json).unwrap();
-    let mut missing = Vec::new();
-    let mut checked = 0;
-    for call in ["t(\"", "tf(\""] {
-        let mut rest = script;
-        while let Some(at) = rest.find(call) {
-            // A call, not the end of a longer name (`split(`, `fmt(`…).
-            let before = rest[..at].chars().last();
-            rest = &rest[at + call.len()..];
-            if before.is_some_and(|c| c.is_alphanumeric() || c == '_' || c == '.') {
-                continue;
-            }
-            let mut text = String::new();
-            let mut chars = rest.chars();
-            while let Some(c) = chars.next() {
-                match c {
-                    '\\' => text.push(chars.next().unwrap()),
-                    '"' => break,
-                    c => text.push(c),
-                }
-            }
-            checked += 1;
-            for lang in ["pt-BR", "es"] {
-                if words[lang].get(&text).and_then(Value::as_str).is_none_or(str::is_empty) {
-                    missing.push(format!("{lang}: {text}"));
-                }
-            }
-        }
-    }
-    assert!(checked > 400, "only {checked} texts found");
-    assert!(missing.is_empty(), "missing translations:\n{}", missing.join("\n"));
 }

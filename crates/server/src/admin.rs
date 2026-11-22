@@ -1,5 +1,7 @@
-//! The staff panel: a small web app served by the game server at `/admin`,
-//! and the JSON API it uses under `/admin/api`.
+//! The staff API under `/admin/api`, for the staff portal: a web app of its
+//! own (Next.js, the `admin/` folder of the website's repository, at
+//! `admin.snooklegend.app`) that calls it from the browser. Only the
+//! portal's origin may (`SNOOK_LEGEND_ADMIN_ORIGIN`, checked by CORS).
 //!
 //! Staff are ordinary accounts with the moderator or administrator role
 //! (the first administrators come from `SNOOK_LEGEND_ADMINS`). They sign in with
@@ -27,51 +29,8 @@ use crate::store::{SessionKind, User};
 use crate::{Server, new_token, now, token_hash};
 
 const ADMIN_SESSION: i64 = 8 * 60 * 60;
-const INDEX: &str = include_str!("../admin/index.html");
-const SCRIPT: &str = include_str!("../admin/app.js");
-const WORDS: &str = include_str!("../admin/i18n.js");
-const STYLE: &str = include_str!("../admin/app.css");
-/// The game's atlas of country flags: the panel draws them from it (the
-/// flag emoji aren't in every system's fonts: Windows shows two letters).
-const FLAGS: &[u8] = include_bytes!("../../client/assets/flags.png");
-
-/// A style sheet with each country's place in the atlas (`.fl-br`), for a
-/// flag 20 pixels wide.
-fn flags_css() -> &'static str {
-    use snook_legend_proto::{COUNTRIES, FLAG_COLUMNS};
-    static CSS: std::sync::OnceLock<String> = std::sync::OnceLock::new();
-    CSS.get_or_init(|| {
-        let (w, h) = (20, 15);
-        let mut css = format!(
-            ".fl {{ display: inline-block; width: {w}px; height: {h}px; vertical-align: -2px; \
-             border-radius: 2px; background-repeat: no-repeat; background-size: {}px auto; }}\n",
-            FLAG_COLUMNS * w
-        );
-        for (i, (code, _, _)) in COUNTRIES.iter().enumerate() {
-            let (col, row) = (i as u32 % FLAG_COLUMNS, i as u32 / FLAG_COLUMNS);
-            css.push_str(&format!(
-                ".fl-{} {{ background-image: url(/admin/flags.png); background-position: -{}px -{}px; }}\n",
-                code.to_ascii_lowercase(),
-                col * w,
-                row * h
-            ));
-        }
-        css
-    })
-}
-
-pub fn router() -> Router<Arc<Server>> {
+pub fn router(server: Arc<Server>) -> Router<Arc<Server>> {
     Router::new()
-        .route("/admin", get(|| async { page(INDEX, "text/html; charset=utf-8") }))
-        .route("/admin/", get(|| async { page(INDEX, "text/html; charset=utf-8") }))
-        .route("/admin/app.js", get(|| async { page(SCRIPT, "text/javascript; charset=utf-8") }))
-        .route("/admin/app.css", get(|| async { page(STYLE, "text/css; charset=utf-8") }))
-        .route("/admin/i18n.js", get(|| async { page(WORDS, "text/javascript; charset=utf-8") }))
-        .route("/admin/flags.css", get(|| async { page(flags_css(), "text/css; charset=utf-8") }))
-        .route(
-            "/admin/flags.png",
-            get(|| async { ([(header::CONTENT_TYPE, "image/png")], FLAGS).into_response() }),
-        )
         .route("/admin/api/login", post(login))
         .route("/admin/api/logout", post(logout))
         .route("/admin/api/me", get(me))
@@ -108,14 +67,45 @@ pub fn router() -> Router<Arc<Server>> {
         // The panel sends small JSON bodies (the longest a note on the
         // board); anyone can post to the sign-in.
         .layer(DefaultBodyLimit::max(MAX_BODY))
+        .layer(middleware::from_fn_with_state(server, cors))
         .layer(middleware::from_fn(security_headers))
 }
 
 /// The largest request body the panel's API reads, in bytes.
 const MAX_BODY: usize = 16 * 1024;
 
-fn page(body: &'static str, kind: &'static str) -> Response {
-    ([(header::CONTENT_TYPE, kind)], body).into_response()
+/// The staff portal calls the API from its own origin: the browser asks
+/// first (a preflight `OPTIONS`) and is answered only for that origin. The
+/// session is a bearer token, never a cookie, so no credentials are allowed.
+async fn cors(State(server): State<Arc<Server>>, req: Request, next: Next) -> Response {
+    let allowed = server.config.admin_origin.as_deref().and_then(|o| HeaderValue::from_str(o).ok());
+    let from_portal = match (&allowed, req.headers().get(header::ORIGIN)) {
+        (Some(a), Some(o)) => a.as_bytes().eq_ignore_ascii_case(o.as_bytes()),
+        _ => false,
+    };
+    let preflight = req.method() == axum::http::Method::OPTIONS;
+    let mut res = if preflight {
+        if from_portal { StatusCode::NO_CONTENT } else { StatusCode::FORBIDDEN }.into_response()
+    } else {
+        next.run(req).await
+    };
+    let h = res.headers_mut();
+    h.insert(header::VARY, HeaderValue::from_static("Origin"));
+    if let (true, Some(origin)) = (from_portal, allowed) {
+        h.insert(header::ACCESS_CONTROL_ALLOW_ORIGIN, origin);
+        if preflight {
+            h.insert(
+                header::ACCESS_CONTROL_ALLOW_METHODS,
+                HeaderValue::from_static("GET, POST, DELETE"),
+            );
+            h.insert(
+                header::ACCESS_CONTROL_ALLOW_HEADERS,
+                HeaderValue::from_static("authorization, content-type"),
+            );
+            h.insert(header::ACCESS_CONTROL_MAX_AGE, HeaderValue::from_static("600"));
+        }
+    }
+    res
 }
 
 async fn security_headers(req: Request, next: Next) -> Response {
@@ -123,12 +113,10 @@ async fn security_headers(req: Request, next: Next) -> Response {
     let mut res = next.run(req).await;
     if is_admin {
         let h = res.headers_mut();
+        // JSON only: nothing here is ever a page.
         h.insert(
             header::CONTENT_SECURITY_POLICY,
-            HeaderValue::from_static(
-                "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; \
-                 connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'",
-            ),
+            HeaderValue::from_static("default-src 'none'; frame-ancestors 'none'"),
         );
         h.insert(header::X_FRAME_OPTIONS, HeaderValue::from_static("DENY"));
         h.insert(header::X_CONTENT_TYPE_OPTIONS, HeaderValue::from_static("nosniff"));

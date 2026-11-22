@@ -34,7 +34,7 @@ O build da Store usa a feature `store` do jogo (`crates/client/src/channel.rs`):
 | `crates/client/msix/Assets/` | os ícones do pacote (`cargo test --release -p snook-legend export_msix_assets -- --ignored` os refaz a partir do emblema) |
 | `tools/msix/make-msix.ps1` | preenche o manifesto e monta o `.msix` |
 | `.github/workflows/msstore.yml` | gera o MSIX (o envio à Store é manual) |
-| `crates/server/pages/` | os termos de uso (`/termos`, `/terms`, `/terminos`) e a política de privacidade (`/privacidade`, `/privacy`, `/privacidad`) |
+| repositório `snooklegend.app`, `src/content/legal/` | os termos de uso e a política de privacidade, no site |
 
 ## Uma vez só: preparar a Store
 
@@ -55,32 +55,27 @@ Actions → Variables**):
 
 ### 2. Termos de uso e política de privacidade
 
-O servidor publica os termos de uso em `https://<seu-servidor>/termos`
-(português, o texto de referência), `/terms` (inglês) e `/terminos`
-(espanhol), e a política de privacidade em `/privacidade`, `/privacy` e
-`/privacidad`. Antes de usá-los, **leia os textos** em `crates/server/pages/`
-e ajuste o que for preciso. Eles descrevem o jogo como ele é hoje, mas não
-são uma revisão jurídica.
+Ficam no site do jogo (repositório `snooklegend.app`), em três línguas:
 
-Na Render (**Environment**), defina (veja também a seção 10 de
-[DEPLOY.pt-BR.md](DEPLOY.pt-BR.md)):
+| Página | Português | English | Español |
+|---|---|---|---|
+| Termos de uso | `https://snooklegend.app/pt/termos/` | `/terms/` | `/es/terminos/` |
+| Política de privacidade | `https://snooklegend.app/pt/privacidade/` | `/privacy/` | `/es/privacidad/` |
 
-| Variável | Exemplo |
-|---|---|
-| `SNOOK_LEGEND_GAME_NAME` | o nome do jogo na Store |
-| `SNOOK_LEGEND_PRIVACY_CONTROLLER` | seu nome ou o da sua empresa |
-| `SNOOK_LEGEND_LEGAL_DOCUMENT` | o CPF ou o CNPJ |
-| `SNOOK_LEGEND_LEGAL_ADDRESS` | o endereço |
-| `SNOOK_LEGEND_PRIVACY_CONTACT` | o e-mail de atendimento (dúvidas, reembolsos, recursos e privacidade; sem ele, as páginas apontam para as *issues* do GitHub) |
+Antes de usá-los, **leia os textos** (`src/content/legal/` no repositório do
+site) e ajuste o que for preciso: eles descrevem o jogo como ele é hoje, mas
+não são uma revisão jurídica. Quem oferece o jogo (nome, CPF ou CNPJ,
+endereço, e-mail) vem das variáveis `LEGAL_*` do projeto no Vercel (veja o
+README do site e a seção 10 de [DEPLOY.pt-BR.md](DEPLOY.pt-BR.md)).
 
 No Partner Center (**Store listings**, em cada idioma, e **Properties**):
 
 | Campo | Valor |
 |---|---|
-| **Privacy policy URL** | `https://snook-server.onrender.com/privacy` |
-| **Additional license terms** | "Termos de uso: https://snook-server.onrender.com/termos" (em inglês: `/terms`; em espanhol: `/terminos`) |
-| **Support contact info** | o mesmo e-mail de `SNOOK_LEGEND_PRIVACY_CONTACT` |
-| **Website** | a página do jogo (ou o repositório) |
+| **Privacy policy URL** | `https://snooklegend.app/privacy/` (na listagem em português: `/pt/privacidade/`; em espanhol: `/es/privacidad/`) |
+| **Additional license terms** | "Termos de uso: https://snooklegend.app/pt/termos/" (em inglês: `/terms/`; em espanhol: `/es/terminos/`) |
+| **Support contact info** | o mesmo e-mail de `LEGAL_CONTACT` |
+| **Website** | `https://snooklegend.app` |
 
 ### 3. Servidor sempre acordado
 
@@ -349,10 +344,9 @@ O jogo aparece no menu Iniciar como "Snook Legend (teste)". Para remover:
 
 O nome que o jogador vê vem de `snook_legend_proto::GAME_NAME` (janela,
 menu, salão, notificações, instalador, mensagens do servidor, páginas web).
-Fora do código, ele precisa estar igual em três lugares:
+Fora do código, ele precisa estar igual em dois lugares:
 
 | Onde | O que fazer |
 |---|---|
 | Partner Center | **Product management → Product identity → Reserve more names**: reserve "Snook Legend" e use esse nome nas listagens e no pacote. |
 | GitHub (**Settings → Secrets and variables → Actions → Variables**) | `MSSTORE_DISPLAY_NAME` = `Snook Legend`. A identidade do pacote (`MSSTORE_IDENTITY_NAME`, `MSSTORE_PUBLISHER`) **não muda**: é ela que faz a Store atualizar o jogo de quem já o tem. |
-| Render (**Environment**) | `SNOOK_LEGEND_GAME_NAME` = `Snook Legend`, ou não defina a variável (sem ela, vale o nome do código). |

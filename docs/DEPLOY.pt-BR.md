@@ -247,44 +247,52 @@ itch.io e GitHub, a Stripe é permitida.
 
 ## 10. Termos de uso e política de privacidade
 
-O servidor publica as duas páginas, em três línguas:
+Ficam no **site do jogo** (repositório `snooklegend.app`, no Vercel), em três
+línguas:
 
 | Página | Português | English | Español |
 |---|---|---|---|
-| Termos de uso | `/termos` | `/terms` | `/terminos` |
-| Política de privacidade | `/privacidade` | `/privacy` | `/privacidad` |
+| Termos de uso | `/pt/termos/` | `/terms/` | `/es/terminos/` |
+| Política de privacidade | `/pt/privacidade/` | `/privacy/` | `/es/privacidad/` |
 
-O texto fica em `crates/server/pages/` (o português é o texto de referência;
-a data no topo vem de `TERMS_UPDATED` e `PRIVACY_UPDATED` em
-`crates/server/src/pages.rs`: mude a data junto com o texto). **Leia os
-textos antes de usar**: eles descrevem o jogo como ele é hoje, mas não são
-uma revisão jurídica.
+O texto fica em `src/content/legal/` no repositório do site (o português é o
+texto de referência; a data no topo vem de `LEGAL_UPDATED` em
+`src/lib/legal.ts`: mude a data junto com o texto). **Leia os textos antes
+de usar**: eles descrevem o jogo como ele é hoje, mas não são uma revisão
+jurídica.
 
-Quem oferece o jogo vem das variáveis abaixo (**Render → Environment**). O
-Decreto 7.962/2013 (comércio eletrônico) pede que quem vende pela internet
-mostre nome, CPF ou CNPJ, endereço e um contato eletrônico: com a loja
-ligada, defina todas. O log avisa quando a Stripe está ligada e falta alguma.
+Quem oferece o jogo vem das variáveis abaixo, no **Vercel → o projeto →
+Settings → Environment Variables** (Production e Preview), e entra nas
+páginas a cada deploy: nada pessoal fica no repositório. O Decreto
+7.962/2013 (comércio eletrônico) pede que quem vende pela internet mostre
+nome, CPF ou CNPJ, endereço e um contato eletrônico: com a loja ligada,
+defina todas.
 
 | Variável | O que é |
 |---|---|
-| `SNOOK_LEGEND_PRIVACY_CONTROLLER` | seu nome ou o da sua empresa (quem oferece o jogo e controla os dados) |
-| `SNOOK_LEGEND_LEGAL_DOCUMENT` | o CPF ou o CNPJ (sem ela, a linha não aparece) |
-| `SNOOK_LEGEND_LEGAL_ADDRESS` | o endereço (sem ela, a linha não aparece) |
-| `SNOOK_LEGEND_PRIVACY_CONTACT` | o e-mail de atendimento: dúvidas, reembolsos, recursos e pedidos de privacidade (sem ele, as páginas apontam para as *issues* do GitHub) |
-| `SNOOK_LEGEND_GAME_NAME` | o nome do jogo nas páginas (padrão: Snook Legend) |
+| `LEGAL_CONTROLLER` | seu nome ou o da sua empresa (quem oferece o jogo e controla os dados) |
+| `LEGAL_DOCUMENT` | o CPF ou o CNPJ (sem ela, a linha não aparece) |
+| `LEGAL_ADDRESS` | o endereço (sem ela, a linha não aparece) |
+| `LEGAL_CONTACT` | o e-mail de atendimento: dúvidas, reembolsos, recursos e pedidos de privacidade (sem ele, as páginas apontam para as *issues* do GitHub) |
+
+O servidor do jogo não guarda os textos: os endereços antigos dele
+(`/termos`, `/terms`, `/terminos`, `/privacidade`, `/privacy`,
+`/privacidad`) e a raiz `/` levam às páginas do site, com redirecionamento
+permanente. Links antigos (das lojas, da Stripe, de versões antigas do jogo)
+continuam valendo. O site é `https://snooklegend.app`
+(`SNOOK_LEGEND_SITE_URL` troca, para outro servidor).
 
 Onde usar os endereços:
 
 - **Stripe → Settings → Business → Public details:** *Terms of service* =
-  `https://snooklegend.app/termos`, *Privacy policy* =
-  `https://snooklegend.app/privacidade` (com o site do passo 11; antes dele,
-  os mesmos caminhos no endereço do servidor), o e-mail de suporte e a
+  `https://snooklegend.app/pt/termos/`, *Privacy policy* =
+  `https://snooklegend.app/pt/privacidade/`, o e-mail de suporte e a
   política de reembolso (o link dos termos: a seção 8 trata do direito de
   arrependimento de 7 dias). A página de pagamento da Stripe mostra esses
   links.
 - **Microsoft Partner Center** (veja [MSSTORE.md](MSSTORE.md)):
-  *Privacy policy URL* = `/privacy`, *Additional license terms* = o link de
-  `/terms`, e o e-mail em *Support contact info*.
+  *Privacy policy URL* = `https://snooklegend.app/privacy/`, *Additional
+  license terms* = o link de `/terms/`, e o e-mail em *Support contact info*.
 - **Reembolsos:** um pedido de arrependimento (até 7 dias) é feito na Stripe
   (**Payments → o pagamento → Refund**). O servidor recebe o aviso
   `charge.refunded` e tira de volta as moedas, o VIP e os itens do pacote de
@@ -303,10 +311,16 @@ O jogo usa três endereços, cada um com um papel:
 A partir da 0.10.2 o jogo se conecta em `wss://api.snooklegend.app/ws`. Uma
 sessão salva no endereço antigo (`snook-server.onrender.com`) vale no novo
 (ninguém precisa entrar de novo), e se o domínio novo não responder o jogo
-usa o antigo sozinho. Mesmo assim, **faça os passos 11.1 a 11.3 antes de
-lançar a 0.10.2**.
+usa o antigo sozinho. Mesmo assim, **faça os passos abaixo antes de lançar
+a 0.10.2**, nesta ordem.
 
-### 11.1 DNS (no Vercel)
+### 11.1 Os termos e a privacidade no site
+
+Publique o site com as páginas legais (o *merge* da branch no `main` do
+repositório `snooklegend.app`) e defina as variáveis `LEGAL_*` no Vercel
+(passo 10). Confira `https://snooklegend.app/pt/privacidade/`.
+
+### 11.2 DNS (no Vercel)
 
 Em **Vercel → Domains → snooklegend.app → DNS Records**, crie:
 
@@ -315,7 +329,7 @@ Em **Vercel → Domains → snooklegend.app → DNS Records**, crie:
 | `CNAME` | `api` | `snook-server.onrender.com` |
 | `CNAME` | `admin` | `snook-server.onrender.com` |
 
-### 11.2 Domínios no Render
+### 11.3 Domínios no Render
 
 Em **Render → o serviço → Settings → Custom Domains**, adicione
 `api.snooklegend.app` e `admin.snooklegend.app`. O Render confere o DNS e
@@ -325,40 +339,22 @@ funcionando (os jogos antigos usam ele).
 Depois, em **Environment**, troque `SNOOK_LEGEND_PUBLIC_URL` para
 `https://api.snooklegend.app` (as páginas de volta do pagamento) e, na
 Stripe, o endereço do webhook para `https://api.snooklegend.app/stripe/webhook`
-(o antigo também segue funcionando).
+(o antigo também segue funcionando). As variáveis `SNOOK_LEGEND_GAME_NAME`,
+`SNOOK_LEGEND_PRIVACY_CONTROLLER`, `SNOOK_LEGEND_LEGAL_DOCUMENT`,
+`SNOOK_LEGEND_LEGAL_ADDRESS` e `SNOOK_LEGEND_PRIVACY_CONTACT` não são mais
+usadas pelo servidor: apague-as depois de levar os valores para o Vercel.
 
-### 11.3 Termos e privacidade no site (Vercel)
+### 11.4 O painel no endereço dele
 
-Gere as páginas com as mesmas variáveis do servidor (o seu nome, CPF ou
-CNPJ, endereço e e-mail, como no passo 10):
+Com o DNS funcionando, confira que `https://admin.snooklegend.app/admin` abre
+o painel e então, em **Render → Environment**, defina
+`SNOOK_LEGEND_ADMIN_HOST` = `admin.snooklegend.app`: o painel passa a
+responder só nesse endereço (em qualquer outro, "não encontrado"), e a raiz
+desse endereço abre o painel.
 
-```bash
-SNOOK_LEGEND_PRIVACY_CONTROLLER="..." SNOOK_LEGEND_LEGAL_DOCUMENT="..." \
-SNOOK_LEGEND_LEGAL_ADDRESS="..." SNOOK_LEGEND_PRIVACY_CONTACT="..." \
-cargo run --release -p snook_legend_server -- export-pages paginas
-```
+### 11.5 As lojas
 
-Saem seis arquivos (`privacidade.html`, `privacy.html`, `privacidad.html`,
-`termos.html`, `terms.html`, `terminos.html`). Coloque-os na pasta pública
-do projeto do site (`public/` no Next.js) e, no `vercel.json` do site,
-`"cleanUrls": true`, para que `snooklegend.app/privacidade` sirva
-`privacidade.html`. Gere de novo quando mudar o texto ou a data.
-
-### 11.4 Ligar os redirecionamentos e o painel no endereço dele
-
-Com o site no ar e o DNS funcionando, em **Render → Environment**:
-
-| Variável | Valor | O que faz |
-|---|---|---|
-| `SNOOK_LEGEND_SITE_URL` | `https://snooklegend.app` | `/termos`, `/privacidade` etc. e a raiz `/` do servidor levam ao site (redirecionamento permanente: links antigos, das lojas e da Stripe, continuam valendo) |
-| `SNOOK_LEGEND_ADMIN_HOST` | `admin.snooklegend.app` | o painel só responde em `admin.snooklegend.app/admin` (em qualquer outro endereço, "não encontrado"); a raiz desse endereço abre o painel |
-
-**Confira antes** que `https://admin.snooklegend.app/admin` abre o painel:
-com `SNOOK_LEGEND_ADMIN_HOST` ligado, ele deixa de abrir no endereço do
-Render.
-
-Por fim, atualize os endereços nas lojas: **Microsoft Partner Center**
-(*Privacy policy URL* = `https://snooklegend.app/privacy`) e **Stripe**
+Atualize os endereços no **Microsoft Partner Center** e na **Stripe**
 (passo 10).
 
 ## Problemas comuns

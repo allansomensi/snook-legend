@@ -180,12 +180,14 @@ which every desktop installation has. How releases are made is described in
 
 ## Terms of use and privacy
 
-Playing online follows the [terms of use](https://snook-server.onrender.com/termos)
-([English](https://snook-server.onrender.com/terms),
-[español](https://snook-server.onrender.com/terminos)) and the
-[privacy policy](https://snook-server.onrender.com/privacidade)
-([English](https://snook-server.onrender.com/privacy),
-[español](https://snook-server.onrender.com/privacidad)); the game links to
+Playing online follows the [terms of use](https://snooklegend.app/pt/termos/)
+([English](https://snooklegend.app/terms/),
+[español](https://snooklegend.app/es/terminos/)) and the
+[privacy policy](https://snooklegend.app/pt/privacidade/)
+([English](https://snooklegend.app/privacy/),
+[español](https://snooklegend.app/es/privacidad/)), on the game's website
+(the [snooklegend.app](https://github.com/allansomensi/snooklegend.app)
+repository); the game links to
 them when signing up, in the shop and in Settings → Game → About. The chat
 with other players (lounge, games, notes, status and gift messages) starts
 off for everyone, as Brazilian law asks of games that children and

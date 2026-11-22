@@ -96,9 +96,9 @@ sinuca, bilhar, bola 8, snooker, pool, sinuca online, jogo de sinuca
 
 ### Termos e privacidade
 
-- **Privacy policy URL:** https://snook-server.onrender.com/privacidade
-- **Additional license terms:** Termos de uso: https://snook-server.onrender.com/termos
-- **Support contact info:** o e-mail de atendimento (`SNOOK_LEGEND_PRIVACY_CONTACT`)
+- **Privacy policy URL:** https://snooklegend.app/pt/privacidade/
+- **Additional license terms:** Termos de uso: https://snooklegend.app/pt/termos/
+- **Support contact info:** o e-mail de atendimento (`LEGAL_CONTACT` no Vercel)
 
 ---
 
@@ -175,9 +175,9 @@ pool, billiards, 8 ball, eight ball, snooker, pool online, pool game
 
 ### Terms and privacy
 
-- **Privacy policy URL:** https://snook-server.onrender.com/privacy
-- **Additional license terms:** Terms of use: https://snook-server.onrender.com/terms
-- **Support contact info:** the customer service e-mail (`SNOOK_LEGEND_PRIVACY_CONTACT`)
+- **Privacy policy URL:** https://snooklegend.app/privacy/
+- **Additional license terms:** Terms of use: https://snooklegend.app/terms/
+- **Support contact info:** the customer service e-mail (`LEGAL_CONTACT` in Vercel)
 
 ---
 
@@ -254,9 +254,9 @@ pool, billar, bola 8, snooker, pool en línea, juego de pool, billar online
 
 ### Términos y privacidad
 
-- **Privacy policy URL:** https://snook-server.onrender.com/privacidad
-- **Additional license terms:** Términos de uso: https://snook-server.onrender.com/terminos
-- **Support contact info:** el correo de atención (`SNOOK_LEGEND_PRIVACY_CONTACT`)
+- **Privacy policy URL:** https://snooklegend.app/es/privacidad/
+- **Additional license terms:** Términos de uso: https://snooklegend.app/es/terminos/
+- **Support contact info:** el correo de atención (`LEGAL_CONTACT` en Vercel)
 
 ---
 

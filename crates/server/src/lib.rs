@@ -189,14 +189,10 @@ pub struct Config {
     pub stripe: Option<payments::StripeConfig>,
     /// Coin packs sold in the Microsoft Store (none when not configured).
     pub msstore: Option<msstore::MsStoreConfig>,
-    /// Who provides the game, as the terms of use and the privacy policy
-    /// name them (see [`pages`]).
-    pub privacy: pages::LegalInfo,
-    /// The game's website (`https://snooklegend.app`): the terms of use, the
-    /// privacy policy and this server's root are sent there (permanent
-    /// redirects), so old links keep working. `None`: the server shows the
-    /// pages itself.
-    pub site_url: Option<String>,
+    /// The game's website, where the terms of use and the privacy policy
+    /// are: this server's old addresses for them and its root lead there
+    /// (see [`pages`]).
+    pub site_url: String,
     /// The staff portal's own address (`admin.snooklegend.app`): `/admin`
     /// answers there only (on any other address, not found), and that
     /// address's root opens it. `None`: on any address.
@@ -216,8 +212,7 @@ impl Default for Config {
             trusted_proxies: None,
             stripe: None,
             msstore: None,
-            privacy: pages::LegalInfo::default(),
-            site_url: None,
+            site_url: pages::SITE_URL.into(),
             admin_host: None,
         }
     }
@@ -533,7 +528,6 @@ impl Server {
 
 pub fn router(server: Arc<Server>) -> Router {
     Router::new()
-        .route("/", get(root))
         .route("/health", get(|| async { "ok" }))
         .route("/ws", get(ws_handler))
         .route("/api/status", get(api_status))
@@ -541,12 +535,7 @@ pub fn router(server: Arc<Server>) -> Router {
         .route("/stripe/webhook", axum::routing::post(shop::webhook))
         .route("/shop/thanks", get(shop::thanks))
         .route("/shop/cancelled", get(shop::cancelled))
-        .route("/privacidade", get(pages::privacy_pt))
-        .route("/privacy", get(pages::privacy_en))
-        .route("/privacidad", get(pages::privacy_es))
-        .route("/termos", get(pages::terms_pt))
-        .route("/terms", get(pages::terms_en))
-        .route("/terminos", get(pages::terms_es))
+        .merge(pages::router())
         .merge(admin::router())
         .layer(axum::middleware::from_fn_with_state(server.clone(), hosts))
         .with_state(server)
@@ -579,19 +568,6 @@ async fn hosts(
         }
     }
     next.run(req).await
-}
-
-/// This server's root: the game's website when there is one, else what is
-/// here (the API's name and version).
-async fn root(State(server): State<Arc<Server>>) -> Response {
-    match &server.config.site_url {
-        Some(site) => axum::response::Redirect::permanent(site).into_response(),
-        None => public_json(serde_json::json!({
-            "service": snook_legend_proto::GAME_NAME,
-            "version": env!("CARGO_PKG_VERSION"),
-            "protocol": PROTOCOL_VERSION,
-        })),
-    }
 }
 
 fn public_json(value: serde_json::Value) -> Response {

@@ -16,17 +16,19 @@
   version). A session saved for the old address
   (`snook-server.onrender.com`) is good for the new one: no one signs in
   again; and if the new address doesn't answer, the game uses the old one.
-- **The terms and the privacy policy on the website** (`snooklegend.app`):
-  the game links there for the public server. The server sends its own
-  pages and its root there when `SNOOK_LEGEND_SITE_URL` is set (permanent
-  redirects: old links keep working); `snook-legend-server export-pages
-  DIR` writes the pages as HTML files for the site.
+- **The terms and the privacy policy live on the website**
+  (`snooklegend.app/privacy/`, `/pt/privacidade/`, `/es/terminos/`…, in the
+  site's frame; their texts moved to the site's repository, who provides the
+  game filled in from the site's `LEGAL_*` variables). The game opens them
+  there in the player's language; the server keeps no copy: its old
+  addresses (`/termos`, `/privacy`…) and its root redirect there, so old
+  links keep working (`SNOOK_LEGEND_SITE_URL` points elsewhere). The
+  server's `SNOOK_LEGEND_GAME_NAME`, `_PRIVACY_CONTROLLER`,
+  `_LEGAL_DOCUMENT`, `_LEGAL_ADDRESS` and `_PRIVACY_CONTACT` are gone.
 - **The staff portal on its own address**: with `SNOOK_LEGEND_ADMIN_HOST`
   (`admin.snooklegend.app`), `/admin` answers there only; it is never
   indexed by search engines.
-- The server's root, with no website set, says what it is (name, version,
-  protocol) instead of "not found". The steps: `docs/DEPLOY.pt-BR.md`,
-  section 11.
+- The steps, in order: `docs/DEPLOY.pt-BR.md`, section 11.
 
 ## 0.10.1 (protocol 24)
 

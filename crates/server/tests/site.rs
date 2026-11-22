@@ -1,22 +1,16 @@
-//! The server on its own addresses: the legal pages and the root sent to the
-//! game's website, the staff portal on its own address only, and the pages
-//! written out for the website.
+//! The server on its own addresses: the terms of use, the privacy policy and
+//! the root lead to the game's website, and the staff portal answers on its
+//! own address only.
 
 use snook_legend_server::store::Store;
 use snook_legend_server::{Config, Server, serve};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::{TcpListener, TcpStream};
 
-async fn start(site: Option<&str>, admin: Option<&str>) -> String {
+async fn start(config: Config) -> String {
     let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
     let addr = listener.local_addr().unwrap();
-    let config = Config {
-        bind: addr,
-        site_url: site.map(str::to_string),
-        admin_host: admin.map(str::to_string),
-        ..Config::default()
-    };
-    let server = Server::with_store(config, Store::memory()).await;
+    let server = Server::with_store(Config { bind: addr, ..config }, Store::memory()).await;
     tokio::spawn(serve(listener, server));
     addr.to_string()
 }
@@ -38,34 +32,50 @@ async fn get(addr: &str, host: &str, path: &str) -> (u16, String) {
     (code, location)
 }
 
+fn permanent(code: u16) -> bool {
+    code == 301 || code == 308
+}
+
 #[tokio::test]
-async fn the_legal_pages_and_the_root_go_to_the_website() {
-    let addr = start(Some("https://snooklegend.app"), None).await;
-    for path in ["privacidade", "privacy", "privacidad", "termos", "terms", "terminos"] {
-        let (code, to) = get(&addr, "api.snooklegend.app", &format!("/{path}")).await;
-        assert!(code == 301 || code == 308, "{path}: {code}");
-        assert_eq!(to, format!("https://snooklegend.app/{path}"));
+async fn the_legal_pages_and_the_root_lead_to_the_website() {
+    let addr = start(Config::default()).await;
+    for (old, new) in [
+        ("/privacidade", "/pt/privacidade/"),
+        ("/privacy", "/privacy/"),
+        ("/privacidad", "/es/privacidad/"),
+        ("/termos", "/pt/termos/"),
+        ("/terms", "/terms/"),
+        ("/terminos", "/es/terminos/"),
+        ("/", "/"),
+    ] {
+        let (code, to) = get(&addr, "api.snooklegend.app", old).await;
+        assert!(permanent(code), "{old}: {code}");
+        assert_eq!(to, format!("https://snooklegend.app{new}"), "{old}");
     }
-    let (code, to) = get(&addr, "api.snooklegend.app", "/").await;
-    assert!(code == 301 || code == 308);
-    assert_eq!(to, "https://snooklegend.app");
     // What is the API's stays here.
     assert_eq!(get(&addr, "api.snooklegend.app", "/health").await.0, 200);
     assert_eq!(get(&addr, "api.snooklegend.app", "/api/status").await.0, 200);
 }
 
 #[tokio::test]
-async fn without_a_website_the_server_shows_the_pages() {
-    let addr = start(None, None).await;
-    assert_eq!(get(&addr, "x", "/privacidade").await.0, 200);
-    assert_eq!(get(&addr, "x", "/terms").await.0, 200);
-    assert_eq!(get(&addr, "x", "/").await.0, 200);
-    assert_eq!(get(&addr, "x", "/admin").await.0, 200);
+async fn another_website_can_be_set() {
+    let config = Config { site_url: "https://pool.example".into(), ..Config::default() };
+    let addr = start(config).await;
+    let (code, to) = get(&addr, "x", "/termos").await;
+    assert!(permanent(code));
+    assert_eq!(to, "https://pool.example/pt/termos/");
+}
+
+#[tokio::test]
+async fn the_portal_answers_anywhere_when_it_has_no_address() {
+    let addr = start(Config::default()).await;
+    assert_eq!(get(&addr, "snook-server.onrender.com", "/admin").await.0, 200);
 }
 
 #[tokio::test]
 async fn the_portal_answers_on_its_own_address_only() {
-    let addr = start(None, Some("admin.snooklegend.app")).await;
+    let config = Config { admin_host: Some("admin.snooklegend.app".into()), ..Config::default() };
+    let addr = start(config).await;
     for path in ["/admin", "/admin/", "/admin/app.js", "/admin/api/me"] {
         assert_eq!(get(&addr, "api.snooklegend.app", path).await.0, 404, "{path}");
         assert_eq!(get(&addr, "snook-server.onrender.com", path).await.0, 404, "{path}");
@@ -73,28 +83,8 @@ async fn the_portal_answers_on_its_own_address_only() {
     assert_eq!(get(&addr, "admin.snooklegend.app", "/admin").await.0, 200);
     assert_eq!(get(&addr, "ADMIN.snooklegend.app:443", "/admin/app.js").await.0, 200);
     let (code, to) = get(&addr, "admin.snooklegend.app", "/").await;
-    assert!(code == 301 || code == 308);
+    assert!(permanent(code));
     assert_eq!(to, "/admin/");
     // The game's own routes don't care.
     assert_eq!(get(&addr, "api.snooklegend.app", "/health").await.0, 200);
-}
-
-#[test]
-fn the_pages_are_written_for_the_website() {
-    let dir = std::env::temp_dir().join(format!("snook-pages-{}", std::process::id()));
-    let info = snook_legend_server::pages::LegalInfo {
-        controller: "Fulano de Tal".into(),
-        contact: "suporte@example.com".into(),
-        ..Default::default()
-    };
-    let files = snook_legend_server::pages::export(&dir, &info).unwrap();
-    assert_eq!(files.len(), 6);
-    for f in &files {
-        let html = std::fs::read_to_string(f).unwrap();
-        assert!(html.contains("Fulano de Tal"), "{}", f.display());
-        assert!(html.contains("mailto:suporte@example.com"), "{}", f.display());
-        assert!(!html.contains("{{"), "{}: a placeholder left", f.display());
-    }
-    assert!(dir.join("privacidade.html").exists() && dir.join("terminos.html").exists());
-    let _ = std::fs::remove_dir_all(&dir);
 }

@@ -26,12 +26,7 @@ Render and Neon are fine for testing. This page is the reference.
 | `SNOOK_LEGEND_SHOT_CLOCK` | `30` | seconds per shot (10–120) |
 | `SNOOK_LEGEND_STRIPE_*` | — | real-money purchases through Stripe (see `crates/server/src/payments.rs`) |
 | `SNOOK_LEGEND_MSSTORE_*` | — | coin packs bought in the Microsoft Store (see [MSSTORE.md](MSSTORE.md)) |
-| `SNOOK_LEGEND_GAME_NAME` | `Snook Legend` | the game's name on the terms of use and the privacy policy |
-| `SNOOK_LEGEND_PRIVACY_CONTROLLER` | the developer | who provides the game and controls the data (a person or a company) |
-| `SNOOK_LEGEND_LEGAL_DOCUMENT` | — | their CPF or CNPJ (Brazilian law on online sales, Decreto 7.962/2013, asks a seller to show it) |
-| `SNOOK_LEGEND_LEGAL_ADDRESS` | — | their address (as above) |
-| `SNOOK_LEGEND_PRIVACY_CONTACT` | the repository's issues | the e-mail for customer service, refunds, appeals and privacy requests |
-| `SNOOK_LEGEND_SITE_URL` | — | the game's website (`https://snooklegend.app`): the terms, the privacy policy and `/` redirect there, permanently (put the pages there first: `snook-legend-server export-pages DIR` writes them as HTML files) |
+| `SNOOK_LEGEND_SITE_URL` | `https://snooklegend.app` | the game's website, with the terms of use and the privacy policy: the server's old addresses for them (`/termos`, `/privacy`…) and `/` lead there, permanently |
 | `SNOOK_LEGEND_ADMIN_HOST` | — | the staff portal's own address (`admin.snooklegend.app`): `/admin` answers there only, and that address's `/` opens it |
 | `RUST_LOG` | `info` | log filter |
 
@@ -39,13 +34,13 @@ Endpoints: `GET /ws` (the game), `GET /health` (`ok`), `GET /api/status`
 (the version, the protocol and the players online, also by rules) and
 `GET /api/leaderboard?rules=brazilian|official` (the top players under those
 rules, Brazilian when left out; public JSON with CORS, for a website),
-`/admin`, and
-the public pages: the terms of use (`/termos`, `/terms`, `/terminos`) and the
-privacy policy (`/privacidade`, `/privacy`, `/privacidad`), Portuguese being
-the reference text (see [DEPLOY.pt-BR.md](DEPLOY.pt-BR.md), section 10). The
-public server's addresses: the game at `wss://api.snooklegend.app/ws`, the
-pages on `https://snooklegend.app`, the portal on `admin.snooklegend.app`
-(section 11 of the Portuguese guide sets them up).
+`/admin`. The terms of use and the privacy policy are on the game's website
+(the `snooklegend.app` repository): the server's old addresses for them
+(`/termos`, `/terms`, `/terminos`, `/privacidade`, `/privacy`, `/privacidad`)
+and `/` redirect there. The public server's addresses: the game at
+`wss://api.snooklegend.app/ws`, the website on `https://snooklegend.app`, the
+portal on `admin.snooklegend.app` (section 11 of the Portuguese guide sets
+them up).
 
 ## Docker
 

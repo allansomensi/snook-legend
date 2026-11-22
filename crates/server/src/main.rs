@@ -20,12 +20,7 @@
 //! | `SNOOK_LEGEND_MSSTORE_PRODUCTS` | — | `coins_500=9XXXXXXXXXXX;…;vip_month=9XXXXXXXXXXX`: the Store add-on of each coin pack and of the month of VIP |
 //! | `SNOOK_LEGEND_STRIPE_PRICES` | — | `code=price_id\|label;…` for coin packs and `vip_monthly` |
 //! | `SNOOK_LEGEND_PUBLIC_URL` | — | the server's public address (payment return pages) |
-//! | `SNOOK_LEGEND_GAME_NAME` | `Snook Legend` | the game's name on the terms of use (`/termos`, `/terms`, `/terminos`) and the privacy policy (`/privacidade`, `/privacy`, `/privacidad`) |
-//! | `SNOOK_LEGEND_PRIVACY_CONTROLLER` | the developer | who provides the game and controls the data (person or company), on both pages |
-//! | `SNOOK_LEGEND_LEGAL_DOCUMENT` | — | their CPF or CNPJ, on both pages (required in Brazil when selling, Decreto 7.962/2013) |
-//! | `SNOOK_LEGEND_LEGAL_ADDRESS` | — | their address, on both pages (as above) |
-//! | `SNOOK_LEGEND_PRIVACY_CONTACT` | the repository's issues | e-mail or web address for customer service, refunds, appeals and privacy requests |
-//! | `SNOOK_LEGEND_SITE_URL` | — | the game's website (`https://snooklegend.app`): the terms, the privacy policy and `/` redirect there (put the pages there first: `snook-legend-server export-pages DIR`) |
+//! | `SNOOK_LEGEND_SITE_URL` | `https://snooklegend.app` | the game's website, with the terms of use and the privacy policy: the server's old addresses for them (`/termos`, `/privacy`…) and `/` lead there |
 //! | `SNOOK_LEGEND_ADMIN_HOST` | — | the staff portal's own address (`admin.snooklegend.app`): `/admin` answers there only |
 //! | `SNOOK_LEGEND_DRAIN_SECS` | `240` | on SIGTERM: how long games in progress may go on before they are handed to the next server |
 //! | `SNOOK_LEGEND_CUP` | — | the weekly cup, e.g. `sat 20:00` (options: `60m`, `fee=100`, `utc-3`, `official` for the official rules) |
@@ -44,26 +39,6 @@ fn env(name: &str) -> Option<String> {
 
 #[tokio::main]
 async fn main() {
-    // `export-pages DIR`: writes the terms of use and the privacy policy as
-    // HTML files for the game's website, filled in from the same variables
-    // the server reads, and quits.
-    let args: Vec<String> = std::env::args().collect();
-    if let Some(k) = args.iter().position(|a| a == "export-pages") {
-        let dir = std::path::PathBuf::from(args.get(k + 1).map_or("legal-pages", |s| s.as_str()));
-        let info = snook_legend_server::pages::LegalInfo::from_env();
-        match snook_legend_server::pages::export(&dir, &info) {
-            Ok(files) => {
-                for f in files {
-                    println!("{}", f.display());
-                }
-            }
-            Err(e) => {
-                eprintln!("could not write the pages: {e}");
-                std::process::exit(1);
-            }
-        }
-        return;
-    }
     tracing_subscriber::fmt()
         .with_env_filter(
             EnvFilter::try_from_default_env().unwrap_or_else(|_| EnvFilter::new("info")),
@@ -125,25 +100,22 @@ async fn main() {
         }),
         stripe: snook_legend_server::payments::StripeConfig::from_env(),
         msstore: snook_legend_server::msstore::MsStoreConfig::from_env(),
-        privacy: snook_legend_server::pages::LegalInfo::from_env(),
-        site_url: env("SNOOK_LEGEND_SITE_URL").and_then(|v| {
-            let v = v.trim().trim_end_matches('/').to_string();
-            if v.starts_with("https://") || v.starts_with("http://") {
-                Some(v)
-            } else {
-                eprintln!("warning: SNOOK_LEGEND_SITE_URL must start with https://: ignored");
-                None
+        site_url: match env("SNOOK_LEGEND_SITE_URL") {
+            Some(v) if v.starts_with("https://") || v.starts_with("http://") => {
+                v.trim().trim_end_matches('/').to_string()
             }
-        }),
+            Some(_) => {
+                eprintln!("warning: SNOOK_LEGEND_SITE_URL must start with https://: ignored");
+                snook_legend_server::pages::SITE_URL.into()
+            }
+            None => snook_legend_server::pages::SITE_URL.into(),
+        },
         admin_host: env("SNOOK_LEGEND_ADMIN_HOST").map(|v| {
             let v = v.trim().to_ascii_lowercase();
             let v = v.trim_start_matches("https://").trim_start_matches("http://");
             v.split(['/', ':']).next().unwrap_or("").to_string()
         }),
     };
-    if let Some(site) = &config.site_url {
-        tracing::info!("terms and privacy policy on {site}");
-    }
     if let Some(host) = &config.admin_host {
         tracing::info!("staff portal on {host} only");
     }
@@ -158,27 +130,6 @@ async fn main() {
             tracing::info!("Microsoft Store purchases on ({packs} packs{vip})");
         }
         None => tracing::info!("Microsoft Store purchases off (SNOOK_LEGEND_MSSTORE_* not set)"),
-    }
-    // Brazilian law on online sales asks the seller's name, CPF or CNPJ,
-    // address and an electronic contact to be shown (the terms of use do).
-    let legal = &config.privacy;
-    let unset: Vec<&str> = [
-        ("SNOOK_LEGEND_LEGAL_DOCUMENT", legal.document.as_str()),
-        ("SNOOK_LEGEND_LEGAL_ADDRESS", legal.address.as_str()),
-        (
-            "SNOOK_LEGEND_PRIVACY_CONTACT",
-            if env("SNOOK_LEGEND_PRIVACY_CONTACT").is_some() { "set" } else { "" },
-        ),
-    ]
-    .into_iter()
-    .filter(|(_, v)| v.trim().is_empty())
-    .map(|(k, _)| k)
-    .collect();
-    if config.stripe.is_some() && !unset.is_empty() {
-        tracing::warn!(
-            "payments on, but the terms of use can't show who sells: set {}",
-            unset.join(", ")
-        );
     }
     if in_memory {
         tracing::warn!("running in memory: accounts and games are lost when the server stops");

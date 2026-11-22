@@ -23,37 +23,46 @@ impl Page {
     }
 }
 
-/// The page's address on the server at `server` (`wss://host/ws` →
-/// `https://host/termos`), in the game's language.
+/// The page's address for a player of `server`, in the game's language: on
+/// the game's website for the public server; another server's own address
+/// for it (`wss://host/ws` → `https://host/termos`), which says where its
+/// pages are.
 pub fn url(server: &str, page: Page) -> Option<String> {
     url_in(server, page, lang())
 }
 
 fn url_in(server: &str, page: Page, lang: Lang) -> Option<String> {
     let server = server.trim();
-    // The public server's pages are on the game's website.
-    let base = if crate::config::same_server(server, crate::config::OFFICIAL_SERVER) {
-        crate::config::SITE_URL.to_string()
-    } else {
-        let (scheme, rest) = if let Some(rest) = server.strip_prefix("wss://") {
-            ("https", rest)
-        } else {
-            ("http", server.strip_prefix("ws://")?)
-        };
-        let host = rest.split('/').next().filter(|h| !h.is_empty())?;
-        format!("{scheme}://{host}")
-    };
-    // The server has them in Portuguese, Spanish and English (the legal
+    // The website has them in Portuguese, Spanish and English (the legal
     // texts are not machine-translated): English for the other languages.
-    let path = match (page, lang) {
-        (Page::Terms, Lang::Portuguese | Lang::EuropeanPortuguese) => "termos",
-        (Page::Terms, Lang::Spanish) => "terminos",
-        (Page::Terms, _) => "terms",
-        (Page::Privacy, Lang::Portuguese | Lang::EuropeanPortuguese) => "privacidade",
-        (Page::Privacy, Lang::Spanish) => "privacidad",
-        (Page::Privacy, _) => "privacy",
+    let (pt, es) =
+        (matches!(lang, Lang::Portuguese | Lang::EuropeanPortuguese), lang == Lang::Spanish);
+    if crate::config::same_server(server, crate::config::OFFICIAL_SERVER) {
+        let path = match (page, pt, es) {
+            (Page::Terms, true, _) => "/pt/termos/",
+            (Page::Terms, _, true) => "/es/terminos/",
+            (Page::Terms, ..) => "/terms/",
+            (Page::Privacy, true, _) => "/pt/privacidade/",
+            (Page::Privacy, _, true) => "/es/privacidad/",
+            (Page::Privacy, ..) => "/privacy/",
+        };
+        return Some(format!("{}{path}", crate::config::SITE_URL));
+    }
+    let (scheme, rest) = if let Some(rest) = server.strip_prefix("wss://") {
+        ("https", rest)
+    } else {
+        ("http", server.strip_prefix("ws://")?)
     };
-    Some(format!("{base}/{path}"))
+    let host = rest.split('/').next().filter(|h| !h.is_empty())?;
+    let path = match (page, pt, es) {
+        (Page::Terms, true, _) => "termos",
+        (Page::Terms, _, true) => "terminos",
+        (Page::Terms, ..) => "terms",
+        (Page::Privacy, true, _) => "privacidade",
+        (Page::Privacy, _, true) => "privacidad",
+        (Page::Privacy, ..) => "privacy",
+    };
+    Some(format!("{scheme}://{host}/{path}"))
 }
 
 /// Opens the page in the browser (only from a server with `https`).
@@ -132,19 +141,22 @@ mod tests {
         assert_eq!(url_in("https://example.com", Page::Terms, Lang::English), None);
     }
 
-    /// The public server's pages are on the game's website, from either of
-    /// its addresses.
+    /// The public server's pages are on the game's website, in the player's
+    /// language, from either of its addresses.
     #[test]
     fn the_public_servers_pages_are_on_the_website() {
         for s in [crate::config::OFFICIAL_SERVER, crate::config::LEGACY_SERVER] {
+            let at = |page, lang| url_in(s, page, lang).unwrap();
             assert_eq!(
-                url_in(s, Page::Privacy, Lang::Portuguese).as_deref(),
-                Some("https://snooklegend.app/privacidade")
+                at(Page::Privacy, Lang::Portuguese),
+                "https://snooklegend.app/pt/privacidade/"
             );
             assert_eq!(
-                url_in(s, Page::Terms, Lang::German).as_deref(),
-                Some("https://snooklegend.app/terms")
+                at(Page::Terms, Lang::EuropeanPortuguese),
+                "https://snooklegend.app/pt/termos/"
             );
+            assert_eq!(at(Page::Terms, Lang::Spanish), "https://snooklegend.app/es/terminos/");
+            assert_eq!(at(Page::Privacy, Lang::German), "https://snooklegend.app/privacy/");
         }
     }
 }
